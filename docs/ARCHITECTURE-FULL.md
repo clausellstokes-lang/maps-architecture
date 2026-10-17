@@ -6,7 +6,7 @@
 
 | file | sha256 (16) | lines |
 |---|---|---|
-| `docs/ARCHITECTURE.md` | 0773ea8f31c41d7a | 24457 |
+| `docs/ARCHITECTURE.md` | 88451cccb619b059 | 24458 |
 | `docs/volumes/INDEX.md` | e0a9a375c8110601 | 252 |
 | `docs/volumes/V01-neighbourhoods.md` | a59cfac9b27a8886 | 3765 |
 | `docs/volumes/V02-buildings.md` | 574577038e1de304 | 4232 |
@@ -20,8 +20,8 @@
 | `docs/volumes/V10-clerk.md` | 1717fa2eb3dd375a | 3583 |
 | `docs/volumes/V11-content.md` | c698b45421163a1f | 5504 |
 | `docs/volumes/V12-calibration.md` | 1bcb54970016f797 | 3590 |
-| `docs/volumes/V13-world.md` | d08a93e9c32a2fab | 3680 |
-| `docs/volumes/V14-sites.md` | 80196bbad7d64950 | 3199 |
+| `docs/volumes/V13-world.md` | 69654fd2658e1587 | 4217 |
+| `docs/volumes/V14-sites.md` | 255ad0680f7f59c0 | 3209 |
 
 ## Contents
 
@@ -13203,7 +13203,7 @@ doesn't provide, the rest of the map code must compensate. it is one directional
 immutable truth while the rest can be constructed at whim. better if the rest of the map code coherently derives things
 from the dossier and in accordance with our rules").
 
-The **world port** (`@plat/port/world`, one adapter folder per host line, V13 §3.11.6) is the port's second door and §11.4's fifth: it replaces the host's capture of the reference generator, never the host's own frozen spatial record; outbound the simulator feed `canon(world, request)` (integer, versioned per slot, adopted only by the host's receipted re-canonize) and the map feed (`derivedFacts(world, placement) → SettlementMapRecord`, `mapFeed`, `routes`, `pathGeometry`, `borderSegment`, `placeOf`), `charter(world, campaign) → FrameCharter`, `proposals(world, demand) → SitingProposal[]`; inbound recorded inputs, the windowed ones as windowed replaces (`bindSeat`, `unbindSeat`, `importSeats`, `costLaw`, `travelLaw`, `hostRequires`, `genesis`, `network`, `polity`, `events`, `canonized`, `consumed`), and presentation inputs never logged (`clock`, `hostOverlay`, `beliefView`, `audienceKnowledge`); nothing the host simulates calls it inside an advance (file m item 778). The host reads derived facts and never an arena; the map writes no dossier fact except through this door as a derived fact (V13 Part E bar 9). V08's host client carries the messages V13 §3.11.6 lists, each with the canon envelope's version vector, the presentation inputs never logged. Built M-W1 for `canon`, `derivedFacts`, `charter`, `proposals`, `costLaw`, `travelLaw`, `bindSeat`, `unbindSeat`, `importSeats`, `hostRequires`, the `events` windows, `canonized`, `consumed` and the `physicalChange` offer; M-W2 for the rest (V13 §8.2).
+The **world port** (`@plat/port/world`, one adapter folder per host line, V13 §3.11.6) is the port's second door and §11.4's fifth: it replaces the host's capture of the reference generator, never the host's own frozen spatial record; outbound the simulator feed `canon(world, request)` (integer, versioned per slot, adopted only by the host's receipted re-canonize) and the map feed (`derivedFacts(world, placement) → SettlementMapRecord`, `mapFeed`, `routes`, `pathGeometry`, `borderSegment`, `placeOf`), `charter(world, campaign) → FrameCharter`, `proposals(world, demand) → SitingProposal[]`; inbound recorded inputs, the windowed ones as windowed replaces (`bindSeat`, `unbindSeat`, `importSeats`, `costLaw`, `travelLaw`, `hostRequires`, `genesis`, `network`, `polity`, `events`, `canonized`, `consumed`), and presentation inputs never logged (`clock`, `hostOverlay`, `beliefView`, `audienceKnowledge`, and `lensWindow`, kept only as plates in the world document's plate cache, V13 §5.8 (8)); outbound, the map feed also carries the DM-placed site offers (V13 §3.11.6); nothing the host simulates calls it inside an advance (file m item 778). The host reads derived facts and never an arena; the map writes no dossier fact except through this door as a derived fact (V13 Part E bar 9). V08's host client carries the messages V13 §3.11.6 lists, each with the canon envelope's version vector, the presentation inputs never logged. Built M-W1 for `canon`, `derivedFacts`, `charter`, `proposals`, `costLaw`, `travelLaw`, `bindSeat`, `unbindSeat`, `importSeats`, `hostRequires`, the `events` windows, `canonized`, `consumed` and the `physicalChange` offer; M-W2 for the rest but `lensWindow`, M-W5's (V13 §8.2).
 
 9. *Two tiers of fact* (item 20 (h) (i)). Every fact the map holds is either a **dossier fact** — a record or value the
    dossier supplies, carried by the map under its binding key (§7.7 item 12), immutable on the map and changed only by a
@@ -17891,7 +17891,7 @@ result, §3.1).
   the preview reply, V10 §3.17's rows for `brief`, `entity`, `sites`, `why`, `frame` (without `near` and `radiusM`),
   `rule` and `profile`; `measure`, `hit` and `inView` are answered `query.result { error: 'E_HOST_KIND' }` (correlated
   by `re`) — so no length, bearing, extent or coordinate of a frame reaches a host (J86's door 1); a world document's points reach
-it only through door (5)'s canon and map feed. The AI key or relay, the assistant
+  it only through door (5)'s canon and map feed. The AI key or relay, the assistant
   and its model tier follow SettlementForge's own decisions, read as inputs (J121; V10 Q1–Q3). **One way (items 20, 22; J-A20.81).** No PLAT → host message writes,
   patches or proposes a change to the host's dossier: `doc.changed` carries map-document events only, `report.changed` the
   map's report, and the vocabulary has no message that addresses the dossier; a dossier change reaches the map as
@@ -17936,7 +17936,8 @@ it only through door (5)'s canon and map feed. The AI key or relay, the assistan
   `entity.selected`; a command, never a stored key) — and these are commands, never inputs: the map never needs them, and
   no document a dossier makes depends on them (§11.4). **The host's clock (item 67; J-A67.82).** The clock the design calls
   "the simulator's" — the one whose weeks move the map's history — is the host's: its advance reaches the map only as
-  dossier events and epochs, which the port dates and groups by §4.11's week and cadence (§7.7 items 1 and 6; §11.4),
+  dossier events and epochs — and, for a world document, door (5)'s windows — which the port dates and groups by
+  §4.11's week and cadence (§7.7 items 1 and 6; §11.4),
   and a host shows its campaign's current week by `view.set { week }`; the module's `time` key counts hours and never
   moves the map (§10.3). A viewer's `knowledge` defaults from its role — `owner` and `editor`
   `secret`, `viewer` `public` — the host may set any viewer's key by `view.set`, and a client never raises its own tier
@@ -17988,7 +17989,7 @@ check and the record. (5) **For a world document only, the world port** (§7.7's
 recorded inputs — seat bindings and placements, the host's cost and travel laws, its route genesis and changes, its
 political facts and dated events, each a windowed replace keyed by host keys — are logged with provenance `host`, so a
 world replays without its host; its presentation inputs (the week drawn, movers, the DM's believed view, an audience's
-known events) are never logged and read by nothing replayable. Item 125 (a) still holds for every settlement frame,
+known events, the lens facts kept as plates) are never logged and read by nothing replayable. Item 125 (a) still holds for every settlement frame,
 which reads only its dossier and its charter, and T125-3w scans `@plat/port/world` (file m item 779).
 
 **A dossier comes through the port (items 73–87; §14).** For a dossier, door (1)'s blueprint and the log's creation
@@ -73429,6 +73430,17 @@ The integration lane's rulings for this volume (`docs/volumes/_integrate.md`) ar
 > the host's calendar (§2.3); audience, places and edits under the host's decree law (§2.1, §2.2, §4.1); the import of
 > the host's own snapshots (§2.8, §3.15); the host's track as an ordered list (§8.5); J-V13.63 – J-V13.82; Q1, Q2 and Q4.
 
+> **Lens design n — 2026-10-17** (`docs/AMENDMENTS-2026-10-17n.md`, items 780–837; the session's rulings J384 and J385
+> under the owner's "i leave all judgemtn to you"; `research/sf/lens-implications.md` and the six system reads cited as
+> evidence only). Changed: the sway reads prosperity relative to the realm's held median rung, and its size and
+> prosperity factors are log-linear (§2.3, §3.9 (7)); the push between adversaries defers to the host's own strength
+> order (§2.2, §3.9 (8)–(9)); a raid carrying the host's outcome word is a verdict (§3.9 (11)); satellites arrive with the
+> polity facts, drawn at their frozen site points and out of their parent's size (§2.2, §3.9 (12)); the lens mechanism
+> (§5.8) and its eight lenses in the ruled build order, plague first (§5.9), with their records, rule table, plates
+> (a cache of their own, BCR-V13-38), budgets, tests, codes and milestone M-W5; the host-change list made the design's one list and extended by a native
+> world canonized at birth and the lenses' asks (§8.5's H22 – H30); the realm review critic's fifteen gaps closed
+> (§2.2, §3.8, §3.9, §3.11.5, §3.11.6, §8.2, §8.5, §10, §11, §12); J-V13.83 – J-V13.99.
+
 **How to read this volume.** It builds, to implementation depth, the subject the base (`docs/ARCHITECTURE.md`, with files
 f and g applied, and file j's items 131–141 as the owner's rules of 2026-10-16: `docs/AMENDMENTS-2026-10-16j.md`) carries
 nowhere yet: a world regime of its own, the placement of settlement frames in it, and water as a consequence system at
@@ -73437,7 +73449,8 @@ both scales. The implementer holds the base and this volume and nothing else (§
 only, never as an implementer's reference. Every fact the base or another volume states is cited, never restated; every
 new fact is stated once, here. **Citations:** a bare `§n` or `II.n` is the base's; `Vnn §n` is a design volume's
 section, this one included (`V13 §3.4`); `item n` is an amendment item — items below 200 the owner's rules (items
-131–141 file j's), items 200 and above file f's; `J-VI.n` is a volumes-integration decision
+131–141 file j's), items 659–662 likewise the owner's rules (file m's head: the territory rules (T1)–(T3) and J382),
+and every other item 200 and above an amendment file's change item (file f's onward); `J-VI.n` is a volumes-integration decision
 (`docs/volumes/_integrate.md`). Decisions are `J-V13.n` (V13 §9), tests `T-V13-n` (V13 §7), base change requests
 `BCR-V13-n` (V13 §10). The stage names are the spine's — `W0` … `W9` the world pipeline, `P1` … `P5` the placement
 step — and the base's word **site** keeps its base meaning (S1 Site, `@plat/site`); the owner's persistent sites are
@@ -73517,6 +73530,7 @@ world regime, the placement step and the water-state machinery, and the base cha
 | **W-IMPORT** the adapter | `@plat/port`'s adapter folders (§14) | `MapImport`: one existing map read once as data, version-pinned, its loss reported | 3.15 |
 | **W-PORT** the world port | §7.7's port, §11.4's fifth door, V08's host client (BCR-V13-11; 779) | `WorldPort`: the simulator feed (`canon`: the travel, water and sites slots, integer, versioned per slot) the host builds its own frozen record from at its receipted re-canonize; the map feed (the settlement map record, the drawn products, paths, places) for the host's map surfaces; recorded host inputs as windowed replaces; presentation inputs; the charter per campaign | 3.11.6, 5.4 |
 | **W-VIEW** view, labels, exports | §8.1, §8.2, §8.4, §9, §11.1 (BCR-V13-12, BCR-V13-13) | the world map's styles and the glyph levels; the ecosystem-shaped full JSON, GeoJSON with the ecosystem's property names, the 16-bit heightmap image, CSV; the existing picture exports over the world | 5 |
+| **W-LENS** the lenses | §8.4's layers (BCR-V13-13) and the base's live-layer registry; the world port's lens window (V13 §3.11.6) | one `LensLayer` per lens over the facts the host sends of its simulated systems — plague, the sway, patrols, trade, populations, religion, prosperity, alignment — each with its regime banner, legend, audience filter and time scrub; the plates in the world document's plate cache (BCR-V13-38) | 5.8, 5.9 |
 
 ### 1.2 The base hooks this volume consumes (cited, never restated)
 
@@ -73659,15 +73673,31 @@ the words.
   sea as cheap carriage. Obeyed by W8's two partitions (V13 §3.9): W8a the **seat territory**, frozen, the host's own
   meaning of the word and the substrate of its distances; W8b the **sway**, a projection of the host's political facts
   (`PolityFacts`, V13 §2.2) over the terrain, never a fact the map owns — each seat's reach bounded but exponential in
-  tier, size and prosperity, decaying with travel time and capped per tier (T2's limit; V13 §3.9 (6)–(7)); culture
+  tier, size and prosperity (the rung read relative to the realm's median, J384 (1)), decaying with travel time and
+  capped per tier (T2's limit; V13 §3.9 (6)–(7)); culture
   slowing the projection by the host's own culture distance, and water carrying it cheaply only along the host's lit
   water lanes, to a coastal lodgement and never the whole far shore (J382; (6)); neighbours weighed by class with a
-  debatable land between adversaries (T2's dynamics; (8)); a bounded bonus along a continuous chain of vassals, with
+  debatable land between adversaries, the push between them the host's own strength order (T2's dynamics; J384 (3);
+  (8)); a bounded bonus along a continuous chain of vassals, with
   exclaves where the chain breaks (T2's chain; (9)); military strength the tie-breaker inside the debatable land only and
   never above the ceiling, garrisoned sites as held points, armies presence only (T1's "occupied by … military", T3;
   (10)); fights over the debatable land as dated hold bands and a fighting overlay (T3; (11)); occupation an overlay,
   never ownership (T1; (12)); patrols as a derived cadence per route segment and power (T3; (14)); and the encounter crop
   reading all of it at its point and week (T1's encounter clause; V14's E1 (4) and E4 (b)).
+* **The owner's lens requests (2026-10-17; file n).** "can you also make a similar toggle lens regarding religion and
+  religious conversion? what are your thoughts on that?" (J379); "now can you also do the same for alignments; the
+  flow of trade/caravans based on individual imports, exports, production, consumption, of goods and services; and flow
+  of populations?" and "and prosperity" (J380); "and plague" (J381); and "i leave all judgemtn to you" (J384), the
+  owner's answer to the thirteen lens and territory questions, ruled by the session and vetoable. Obeyed by one lens
+  mechanism (V13 §5.8) — a derived layer with its regime banner, its legend, its audience filter and its time scrub over
+  plates — and its eight lenses in the ruled build order (J384 (8); V13 §5.9): plague first, then the sway (the
+  owner's territory) and patrols, trade and populations, religion, prosperity and alignment. No lens invents a fact
+  (four classes of host mark, V13 §5.8 (4)); a lens in its still regime — as the prosperity and religion lenses are on
+  a born campaign — shows still, with the regime and the reason, never hidden (J384 (13)); no
+  player sees derived alignment (J384 (7)); holy places and hidden cult sites enter only as DM-placed world sites
+  (J384 (10); V14 §2.2); the columns the host's own overlay hides are drawn, DM-only (J384 (12)); the scrub reads plates
+  kept in the world document's plate cache (J384 (9)); faith gets no sea carrier (J382 (c)); and the sway takes J384 (1)–(5)
+  and (11) (V13 §3.9).
 
 ### 1.4 Out of scope, with the reason
 
@@ -73680,9 +73710,14 @@ the words.
   economy cycle, lore — are the host's (item 131 (b); item 138 (d)); this volume materializes their spatial footprint
   from the political facts the host sends per advance window (`polity(world, window, PolityFacts)`, V13 §3.11.6: seats
   with tier, size, prosperity and banded military; links in the host's subordinating words; occupations; pairwise
-  relations; held sites; banded culture distances; lit water lanes; road watches) and invents none: no budget, cost
+  relations; held sites; satellites at their frozen site points; its lineage claims while that lane is lit; its strength
+  order; banded culture distances; lit water lanes; road watches) and invents none: no budget, cost
   vector or power key is asked of the host, no allegiance is an entity of the map (one is named only by the DM's
   christening, sent by the host), and on a standalone world the recipe's seats project at their tiers (V13 §3.9).
+* **The host's simulated systems** — its plague, its trade, its populations, its faiths, its prosperity and its
+  settlements' alignment, beside the political facts above — are the host's: this volume simulates none of them and
+  draws them only as lenses over the facts the host sends each advance (V13 §5.8, §5.9), inventing none — no field over
+  land, no motion without a host clock, no effect the host does not apply, no meaning it does not compute (J-V13.89).
 * **Tectonics, erosion over time, fluid dynamics, a sphere, an economy or military simulation** (item 138 (d)): not
   built (J-V13.40 – J-V13.45); a tectonic pass may later be one recipe operation emitting ranges and troughs
   (J-V13.41), and one optional deterministic stream-power pass at world scale is reserved as a recipe operation
@@ -73746,12 +73781,16 @@ listed without a consumer.
 | `SettlementGlyph` (the generalization by level) | W9 for every placed frame; re-made by the frame's commit hook (V13 §3.10) | the world view (V13 §5.2), the exports' world layer, the port's thumbnail | V13 §2.2 |
 | `SitingProposal` (a scored candidate site with its reason and its `WaterAccess`) | W6; V13 §3.9 (16)'s transient border-post proposals | the host (the port), V14's G3, the clerk | V13 §2.2 |
 | `ReasonRecord` (M8; shared with V14) | every stage of this volume, per generated fact; the cascade; V14's stages | the clerk's `why`, `whatCaused`, `whatChanged`, `whatIf` (V13 §4.7); T-V13-10's missing-chain test | V13 §2.2; §2.8 (BCR-V13-17) |
-| `WorldEvent` (a dated host event: battle, plague, fire, siege, raid; a point, or a pair placed by `borderSegment`; its place `WorldWhere`, week, window and resolved audience; SW-07) | the host through `WorldPort.events`, a windowed replace keyed by host keys (a dossier-tier fact), or a user's `addEvent` edit; never a stage | `worldFactsAt.recent` (V14's E1 world crop, the clerk, V09's hover); the view's `events` layer; `MarchHold` (the verdicts) | V13 §2.2 |
+| `WorldEvent` (a dated host event: battle, plague, fire, siege, raid; a point, or a pair placed by `borderSegment`; its place `WorldWhere`, week, window and resolved audience; SW-07) | the host through `WorldPort.events`, a windowed replace keyed by host keys (a dossier-tier fact), or a user's `addEvent` edit; never a stage | `worldFactsAt.recent` (V14's E1 world crop, the clerk, V09's hover); the view's `events` layer; `MarchHold` (the verdicts, a raid's outcome word among them); the lenses, by the lens tags the adapter folder's event table gives each event at fold (V13 §5.8 (1)) | V13 §2.2 |
 | `WorldHeader` (unit, axes, origin, extent, geometry version) | W0; an extent `adjust` | the canon's envelope, the host's scale stamp, the exports' settings block (the world dialog's travel span is the map feed's, never the header's) | V13 §2.2 |
 | `WorldCanon` (the simulator feed: the travel, water and sites slots, the version vector, the input hashes, the causes, the skipped list) | `WorldPort.canon` at a named log head | the host's builder of its own frozen record (its own derivations) | V13 §2.2; never persisted in the world (re-built on request; its hashes logged) |
 | `TravelLaw` (the host's travel law as data) | `WorldPort.travelLaw` (a recorded input, the `world.travel` host slice); the default row standalone | `derivedTime`, the time stations, `timeDelta`, the world dialog's span, W8b's foot and army paces, the patrol cadence | V13 §2.2, §2.3 |
 | `RouteLayRule` (`world.routeLay`) | shipped defaults; `editTable` | W7 | V13 §2.3 |
-| `PolityFacts` (seats, links, relations, held sites, claims, culture bands, water lanes, road watches, christenings per advance window) | `WorldPort.polity` (a recorded input, a windowed replace) | W8b; the patrol cadence; the clerk | V13 §2.2 |
+| `PolityFacts` (seats with their strength bands, links, relations, held sites, satellites, claims, culture bands, water lanes, road watches, christenings per advance window) | `WorldPort.polity` (a recorded input, a windowed replace) | W8b; the patrol cadence; the sway, patrols, populations and prosperity lenses; the clerk | V13 §2.2 |
+| `PolitySatellite` (a satellite of the host: its parent, tier and frozen site point) | `WorldPort.polity` | W8b's claim points (V13 §3.9 (12)); the sway layer's dots; the populations lens | V13 §2.2 |
+| `LensLayer` (one per lens: identity, sources with their gates, regime words, elements with their fact classes, events, legend, refusals, why; V13 §5.8) | `world.lens`'s rows (V13 §2.3) and `@plat/world/lens`'s element functions | `lensAt`, `lensWhy`, the lens picker and the scrub bar (V09), the picture exports of a lens view | V13 §2.2 |
+| `LensFacts` with `HostRegime` and `LensLink` (the host's per-advance lens facts, its resolved regime, each row's resolved audience; the DM's set and the party's believed set) | `WorldPort.lensWindow` (a presentation input kept as plates) | the plate fold; the lenses only — never a stage, the sway, an encounter or the clerk | V13 §2.2 |
+| `LensPlate` (one per host advance: the window's lens facts and polity rungs, delta-coded) | the plate fold at each window; `pinPlate` (the DM's cache command) | `lensAt` at a week (the scrub) | the world document's plate cache (`Document.lensPlates`, beside `derived`: BCR-V13-38), outside every digest (V13 §2.7, §5.8 (8)) |
 | `RouteGenesis`, `NetworkChange` | `WorldPort.genesis`, `WorldPort.network` (recorded inputs) | bound W7; the route layer; the frame's road rows at a week (`roadsAt`) | V13 §2.2 |
 | `WaterAccess`, `SettlementPhysical` | W2–W5 sampled at a seat after the blend | the canon's water slot; the settlement map record; the host's own port verdict (its half) | V13 §2.2 |
 | `WorldWhere` (a typed place) | the fold of a host event or a docket pin | `placeOf`, the hearing card's words, the `events` layer | V13 §2.2 |
@@ -73764,10 +73803,11 @@ listed without a consumer.
 | `waterTableAt(doc, p, when?)` (one function) | the frame's `GroundwaterField` | §2.6's basement gate, V04's wet tests (`hallDryCm`, `flood` admission), V14's G6, the water class test, S12a's well yield | §2.6 *Basements* (BCR-V13-3) |
 | the address namespace segment (item 140 M1) | the document's `namespace` at creation (V13 §2.5) | every address of a world, a frame or a site document; the merge rule (bar 7); V14's `SiteReach` (an access record's reach into a site document, V14 §2.3; SW-21) | §6.3 (BCR-V13-6) |
 | `EditBase.verb` (`happened` · `alwaysSo`) | every terrain and water edit (V13 §4.1) | the fold (traces kept or the base rewritten), undo, the clerk | §7.1 (BCR-V13-9) |
-| the tables `world.sizes`, `world.recipeOps`, `world.climate`, `world.hydro`, `world.groundwater`, `world.biomes`, `world.suitability`, `world.routes` (the host's cost law: a host slice and the default row), `world.routeLay` (the map's lay rules), `world.travel` (the host's travel law: a host slice and the default row), `world.polity`, `world.labels`, `world.glyph`, `place.coherence`, `water.class`, `water.flood` (V13 §2.3) | shipped defaults; `editTable` (§7.6) | the stages named per table in V13 §2.3; V12's register | §7.6; V11's registry (new rows, V13 §2.3) |
-| the stage warnings `W_WORLD_RECIPE_CLAMPED`, `W_WORLD_SINK_UNRESOLVED`, `W_WORLD_LAKE_BREACHED`, `W_PLACE_BENT`, `W_PLACE_NO_LAWFUL`, `W_PLACE_ANOMALY`, `W_BLEND_CLIPPED`, `W_SURFACE_NO_BODY`, `W_GW_PERCHED_IGNORED`, `W_IMPORT_LOSS`, `W_IMPORT_REPAIRED`, `W_CASCADE_TRUNCATED`, `W_TRAVEL_BAND_CROSSED`, `W_HOST_CANON_BEHIND`, `W_EDIT_DOSSIER`, `W_WORLD_HEMISPHERE`, `W_POLITY_CYCLE`, `W_POLITY_TWO_LIEGES`, `W_POLITY_CULTURE_ABSENT`, `W_SWAY_LOCK_CONTRADICTED`, `W_IMPORT_SCALE_ASSUMED`, `W_IMPORT_LEGACY_BURG`, `W_IMPORT_PLACEMENT_UNVERIFIED` | the stages and steps named in V13 §3.16 and §7.5 | the report's `stages[].warnings` (§5.4), V10 | §5.4 (BCR-V13-18) |
+| the tables `world.sizes`, `world.recipeOps`, `world.climate`, `world.hydro`, `world.groundwater`, `world.biomes`, `world.suitability`, `world.routes` (the host's cost law: a host slice and the default row), `world.routeLay` (the map's lay rules), `world.travel` (the host's travel law: a host slice and the default row), `world.polity`, `world.lens` (the lenses' rule), `world.labels`, `world.glyph`, `place.coherence`, `water.class`, `water.flood` (V13 §2.3) | shipped defaults; `editTable` (§7.6) | the stages named per table in V13 §2.3; V12's register | §7.6; V11's registry (new rows, V13 §2.3) |
+| the stage warnings `W_WORLD_RECIPE_CLAMPED`, `W_WORLD_SINK_UNRESOLVED`, `W_WORLD_LAKE_BREACHED`, `W_PLACE_BENT`, `W_PLACE_NO_LAWFUL`, `W_PLACE_ANOMALY`, `W_BLEND_CLIPPED`, `W_SURFACE_NO_BODY`, `W_GW_PERCHED_IGNORED`, `W_IMPORT_LOSS`, `W_IMPORT_REPAIRED`, `W_CASCADE_TRUNCATED`, `W_TRAVEL_BAND_CROSSED`, `W_HOST_CANON_BEHIND`, `W_EDIT_DOSSIER`, `W_WORLD_HEMISPHERE`, `W_POLITY_CYCLE`, `W_POLITY_TWO_LIEGES`, `W_POLITY_CULTURE_ABSENT`, `W_POLITY_STRENGTH_ABSENT`, `W_POLITY_SATELLITE_UNPLACED`, `W_SWAY_LOCK_CONTRADICTED`, `W_IMPORT_SCALE_ASSUMED`, `W_IMPORT_LEGACY_BURG`, `W_IMPORT_PLACEMENT_UNVERIFIED` | the stages and steps named in V13 §3.16 and §7.5 | the report's `stages[].warnings` (§5.4), V10 | §5.4 (BCR-V13-18) |
+| the lens warnings `W_LENS_REGIME_ABSENT`, `W_LENS_PLATE_GAP` | the lens fold and the scrub (V13 §5.8) | the lens legend, V10 — never the report's `stages[].warnings` (a lens is never a stage) | V13 §7.5 |
 | the concerns `world.recipe`, `world.climate`, `world.resources`, `world.siting`, `world.polity` (reserved: W8a and W8b draw nothing), `world.patrol` (the patrol phase hash keyed by (segment, power), V13 §3.9 (14); no stream of draws; its row appended to the kernel's concern registry, BCR-V13-8), `world.labels`, `place.search`; the stage ids `W0` … `W9`, `P1` … `P5`, `WORLD_CASCADE` | the registry (BCR-V13-8) | every draw of V13 §3.17 | §6.1 |
-| the view keys `worldZoom`, `worldLayer`, `showTraces`, `surfaceDate`, `worldUnits` (the display unit of the scale bar and the distance labels; per viewer) | V09's controls | the world view's level (V13 §5.2), the trace projection, the dated surface drawn (V13 §5.1) | §2.9 (BCR-V13-5) |
+| the view keys `worldZoom`, `worldLayer`, `showTraces`, `surfaceDate`, `worldUnits` (the display unit of the scale bar and the distance labels; per viewer), `worldLens` (the lenses open and the picker's collapsed rows) and `lensWeek` (the week the lenses draw) | V09's controls | the world view's level (V13 §5.2), the trace projection, the dated surface drawn (V13 §5.1), the lenses at their week (V13 §5.8 (8)) | §2.9 (BCR-V13-5) |
 | the register entries of this volume's calibratable columns (V12 §2.6's `CalibrationEntry`) | the seat landing each step of V13 §8 | V12's lint at each step's exit; the corpus stage at `M-CAL/world` (V12 §3.10.5) | §13.7, §13.9 |
 
 ### 1b.2 Stage outputs and interfaces
@@ -73789,7 +73829,7 @@ listed without a consumer.
 | `score(cell, ctx, weights, hard?)` over the `terms` registry of `SuitabilityTerm`s, `terms.register(term)` (V13 §2.2, §3.7; SW-01) | `@plat/world/siting` (the slot and V13's eight terms; V14 registers its purpose terms) | W6a, W6b; V14's G3 (purpose weights, hard terms; no jitter, SW-03); the host through the port (its weights) |
 | `RouteCostLaw` (the host's law as data: its values and version, each term tagged `time` or `choice`; the default row ours) and `RouteLayRule` (the map's network formation) | `@plat/tables` (`world.routes`, `world.routeLay`), the host through the port (`costLaw`) | W7; W8a; W8b's travel times; `derivedTime`; V14's E1 (the route at the point) |
 | `TravelLaw` and `derivedTime(effort, mode, week, law)`, `pointAtTime(route, from, fraction, dispatchWeek, law)`, `timeDelta(world, edit)` — an **effort-metre** is one metre of level open ground at the cost law's base rate (effort = Σ step cost under the time terms ÷ (`landBase` × `perM`)); `derivedTime` is, by the law's `basis`, absolute: effort ÷ 1 000 ÷ `kmPerWeek[mode]` weeks; normalized: effort × the canon's `costUnitsPerMetre` × the law's `calibration` (weeks per cost unit); normalizedFrozen: the leg's frozen weeks; then the law's leg rounding, floor and cap and its season factor | `@plat/world/travel` | every time the map shows (labelled, stamped with the law's version); the host's movers and hearing positions (through the map feed); the dry runs |
-| `WorldPort` — the simulator feed `canon(world, request)` → `WorldCanon`, with the optional `routeFacts` and `patrolOffer`; the map feed `derivedFacts(world, placement)` → `SettlementMapRecord`, `mapFeed(world, week, audience)`, `routes(world)`, `pathGeometry`, `borderSegment`, `placeOf`; `charter(world, campaign)`; `proposals(world, demand)`; inbound recorded `bindSeat`, `unbindSeat`, `importSeats`, `costLaw`, `travelLaw`, `hostRequires`, `genesis`, `network`, `polity`, `events`, `canonized`, `consumed`; inbound presentation `clock`, `hostOverlay`, `beliefView`, `audienceKnowledge`; the outbound offer `physicalChange` (V13 §3.11.6) | `@plat/port/world` (one adapter folder per host line, as `@plat/port`'s; its manifest names the closed key list of every recorded input) | the host, one way per message (BCR-V13-11; the base's fifth host door, 779); V08's host client gains the world's messages (V13 §3.11.6) |
+| `WorldPort` — the simulator feed `canon(world, request)` → `WorldCanon`, with the optional `routeFacts` and `patrolOffer`; the map feed `derivedFacts(world, placement)` → `SettlementMapRecord`, `mapFeed(world, week, audience)`, `routes(world)`, `pathGeometry`, `borderSegment`, `placeOf`; `charter(world, campaign)`; `proposals(world, demand)`; inbound recorded `bindSeat`, `unbindSeat`, `importSeats`, `costLaw`, `travelLaw`, `hostRequires`, `genesis`, `network`, `polity`, `events`, `canonized`, `consumed`; inbound presentation `clock`, `hostOverlay`, `beliefView`, `audienceKnowledge` and `lensWindow` (kept as plates); the outbound offers `physicalChange` and the DM-placed site offers of the DM's map feed (V13 §3.11.6) | `@plat/port/world` (one adapter folder per host line, as `@plat/port`'s; its manifest names the closed key list of every recorded input) | the host, one way per message (BCR-V13-11; the base's fifth host door, 779); V08's host client gains the world's messages (V13 §3.11.6) |
 | `MapImportAdapter.read(json | mapFile)` → `MapImport` and `WorldStrategy.fromImport(imp)` | `@plat/port/world/adapters/<ecosystem>/<version>/` | the import command (V09's dialog; the CLI) |
 | the exporters `ecosystemJson`, `ecosystemGeoJson`, `heightmap16`, `worldCsv` | `@plat/export` (the shapes from the adapter folder's schema file; C13-50) | the user; the host's ecosystem tools |
 | the cascade `cascade(doc, dirty, verb)` (V13 §3.14.2) | `@plat/edit` over `@plat/world`'s operators | every terrain and water edit at both scales; V06's `terrainWater` ops; `setSurface`; the placement edits |
@@ -73801,6 +73841,9 @@ listed without a consumer.
 | `@plat/world/sight` — `viewshed(world, at, heightM)`, `intervisible(world, a, b)` (the DEM with the earth's curvature and refraction); `aerialLegs(world, seats)` (straight legs between named seats, fed only to a canon whose envelope names this world) | `@plat/world/sight` | V14's site coverage; V13 §3.9 (14)'s detection; beacon chains; the host's air field |
 | `roadsAt(placement, week)` (the frame's road rows at a week, from the lived network) | `@plat/world` | the frame's views; the charter's re-emission at a growth or a re-placement; the clerk |
 | `patrolAt(world, segment, power, week)` → boolean (a patrol present that week on its fixed phase, V13 §3.9 (14)) | `@plat/world` | `worldFactsAt`, V14's E4, T-V13-42 |
+| `lensAt(world, lens, week, audience)` → the lens's marks at a week: its regime banner, each element's marks with their class labels, its legend, its declared gaps (V13 §5.8) | `@plat/world/lens` | the world view's lens layers, the picture exports of a lens view, T-V13-47 – T-V13-55 |
+| `lensWhy(world, lens, mark, week)` → the host facts a mark reads and the rule that drew it (the sway's `whyCell` generalised) | `@plat/world/lens` | V09's hover and card on a lens mark |
+| `foldLensWindow(world, sets)` → one `LensPlate` in the plate cache (`Document.lensPlates`); `pinPlate(world, seq, pinned)` (a DM's cache command, never an edit) | `@plat/world/lens` | the port's `lensWindow`; V09's scrub bar |
 
 Each stage's output is consumed: W1's rasters by W2–W9 and the charter; W2's surfaces by W4, the water class test and the
 view; W3's climate by W4, W5, W6 and the charter; W4's reaches, watersheds and groundwater by W6, W7, the charter, the
@@ -73826,8 +73869,10 @@ the view and the exports; P1–P5's placement and charter by the frame's S0–S1
 | `fork` / `discardFork` / `commitFork` (the counterfactual fork) | T10 `hold` (Preview-on-a-copy) | V13 §2.6's fork row | a fork is never in the canonical log until committed (V13 §4.5) |
 | `regenerate` on a world stage's scope (`EditScope { kind: 'world'; stage; box? }`, V13 §4.1: New random on W1's noise, W5's thinning, W6a's or W6b's tie-breaks) | T10 `hold` | §7.4's regenerate row | the replaced scope |
 
-`worldZoom`, `worldLayer`, `showTraces` and `surfaceDate` are view keys (§2.9), set by V09's per-viewer controls, never
-edits and never undone.
+`worldZoom`, `worldLayer`, `showTraces`, `surfaceDate`, `worldLens` (the lenses open and the picker's collapsed rows)
+and `lensWeek` (the week the lenses draw; default the document's week) are view keys (§2.9), set by V09's per-viewer
+controls, never edits and never undone; `pinPlate` is the DM's command on the world document's plate cache (V13 §5.8
+(8)) — never an edit, never undone, never in a digest or the log.
 
 ### 1b.4 Entity kinds (each rendered, labelled, exported, persisted)
 
@@ -73842,6 +73887,7 @@ edits and never undone.
 | `Territory` (the seat territory) | the diagnostic `seatTerritory` layer | none | GeoJSON Polygon (on request) | entities block |
 | `Sway`, `Allegiance` | the sway fill, the allegiance and member borders, the tributary band, the exclave halo, the occupation and debatable hatches, the fighting marks (V13 §5.1) | an allegiance at its root's sway's pole: the DM's christening or a descriptive label | GeoJSON MultiPolygon with `status`, `allegiance`, `swayRevision`; the ecosystem-shaped JSON's states and provinces (V13 §5.4) | headers, keyframes and traces in the entities and fields blocks; `Allegiance` derived on load |
 | `PatrolCadence` | the `patrols` tints | none | GeoJSON LineString segments with power and cadence (DM export) | derived on load from the revision |
+| a lens's marks (V13 §5.9) | the lens layers at `lensWeek` (V13 §5.8) | captions only (a realm arc, a hop's week, a derivation label) | the picture exports of the view as drawn; never the ecosystem-shaped exports | never as marks: re-drawn from the plates, the sway's revisions and the events |
 | `SettlementGlyph` | by level | the settlement's name and tier | the ecosystem JSON's settlements (through the port's record), GeoJSON point with `tier` | the world document's `derived` cache, outside the model digest (re-made, see V13 §2.6; C13-21) |
 | `Placement` | the frame's outline on the world; the glyph | none | GeoJSON (`placement` properties on the glyph feature), CSV | the world's entities block |
 | `SitingProposal` | a candidate pin (while shown) | none | CSV, the port | entities block (W6b's last run); a demand proposal never (transient, C13-22) |
@@ -74069,7 +74115,9 @@ interface TerrainTrace { id: Id; kind: 'oldBed'|'oldShore'|'oldGround'; cells: U
 interface SurfaceTrace { id: Id; surface: Id /* the superseded WaterSurface */; event: EditRef; week: Week; reason: Id }
 interface WorldEvent {                       // SW-07 (J-V13.56; J-V13.69): the world's event index — dated host events delivered as facts, stored and indexed, NEVER generated here
   id: Id; kind: string /* the host's word: battle, plague, fire, siege, raid, … */; at?: WorldPointCm /* absent exactly when `pair` is given and no point: placed by `borderSegment` at its week, the placement recorded in its reason */; where?: WorldWhere;
-  pair?: [string, string] /* the two host seats of a fight over their border */; verdict?: string /* the host's outcome word, read only by `MarchHold` and the clerk */; radiusM: number; week: Week; window?: AdvanceWindow;
+  pair?: [string, string] /* the two host seats of a fight over their border */; verdict?: string /* the host's outcome word, read only by `MarchHold` and the clerk (a raid's too, once the host sends one, V13 §3.9 (11)) */;
+  sourceSeat?: string /* the seat the host names as the event's origin — a plague arrival's, a conversion's strongest carrier — only when sent (V13 §8.5); never `source`, the event's author */; deity?: string /* a faith event's deity key, when sent */;
+  seats?: string[] /* the seats a realm-wide event names (a realm arc) */; lenses?: LensId[] /* the lenses it moves, by the adapter folder's event table at fold (V13 §5.8 (1)) */; radiusM: number; week: Week; window?: AdvanceWindow;
   audience: 'public'|'dmOnly'|'local' /* the host's resolved audience (the knowledge paragraph below) */; source: 'host'|'user'; factTier: 'dossier'|'map' /* dossier when the host wrote it */; causedBy?: string[] /* the host's receipt ids */; detail?: string; reason: Id }
 interface PlacementAnomaly { placement: Id; subject: Id /* the locked entity */; kind: 'riverUphill'|'coastInland'|'lockedBelowTable'|'lockedInWater'|'roadToNowhere'|'roadUnmatched'|'windSide'|'sunDiffers'; detail: string; reason: Id }   // derived, V13 §2.4; `roadToNowhere` (a charter road no exit meets) and `roadUnmatched` (a frame exit no charter road meets) are reported readings, never annotations
 // The world port's records (V13 §3.11.6; J-V13.70 – J-V13.72). Host keys are opaque strings; every point a WorldPointCm; every length an integer with its unit.
@@ -74078,7 +74126,7 @@ interface CanonRequest { campaign: string; logHead: number; seats: string[] /* t
 interface WorldCanon { envelope: { schema: string; world: { doc: Uuid; namespace: string; logHead: number; modelDigest: Hash128 }; campaign: string; header: WorldHeader;
     versions: { geometry: { generator: string; inputHash: Hash128 }; costLaw: { host: number; lawHash: Hash64 }; travelLaw: number; vocabulary: { terrainClass: string; climateBand: string }; water: Hash128; sites: Hash128 };
     units: { coord: 'cm'; costUnitsPerMetre: number /* an integer */ }; causes: { seq: number; edit: Id; author: string }[]; skipped: { hostKey: string; reason: 'unbound'|'unplaced'|'phantom'|'offWorld' }[] };
-  travel: { seats: CanonSeat[]; crossings: TravelEdge[] }; water: { candidates: WaterCandidate[]; access: { hostKey: string; access: WaterAccess }[] }; sites: { hostKey: string; ground: WorldPointCm[] /* frozen candidate ground inside the seat's orbit */ }[] }
+  travel: { seats: CanonSeat[]; crossings: TravelEdge[] }; water: { candidates: WaterCandidate[]; access: { hostKey: string; access: WaterAccess }[] }; sites: { hostKey: string; ground: { at: WorldPointCm; terrainClass: string /* the adapter folder's class table */; stepCost: number /* integer, the host's cost units: the step cost at the point under its cost law */ }[] /* frozen candidate ground inside the seat's orbit */ }[] }
 interface CanonSeat { hostKey: string; at: WorldPointCm; landmass: number; terrainClass: string /* the adapter folder's class table */; climateBand: string; elevationM: number }
 interface TravelEdge { a: string; b: string /* host keys, codepoint-sorted */; cost: number /* integer, the host's cost units under its law */; crossStep: number; classA: string; classB: string /* the two crossing cells' classes: the host's receipt inputs */; crossingCm: WorldPointCm; sideA: WorldPointCm; sideB: WorldPointCm; landmass: number }
 interface WaterCandidate { a: string; b: string; via: 'sea'|'lake'|'river'; body: Id; aCm: WorldPointCm; bCm: WorldPointCm; waterM: number }   // geography only: the host prices and adopts lanes under its own law
@@ -74092,30 +74140,71 @@ interface TravelLaw { version: number; baseMode: 'foot'; daysPerWeek: 7 /* a day
   calibration?: { weeks: number; perCost: number } /* integers: one cost unit is weeks ÷ perCost weeks — the host's calibration at its latest canonize (on its normalized arm its anchor weeks over its median tier-1 hop cost); sent at every canonize, on either arm */;
   legWeeks?: { a: string; b: string; weeks: number }[] /* a migrated campaign's frozen leg weeks */ }   // the host's law as data (`world.travel`'s host slice); a standalone world reads the default row (V13 §2.3); nothing derived from a default is ever sent
 interface AdvanceWindow { fromWeek: Week; toWeek: Week; advanceNonce?: string /* when the host's advance epoch is lit */; hostSeq: number /* the host's pulse-history sequence of the window's final record: the window's key while the epoch is dark */; seq: number }
-interface PolityFacts { window: AdvanceWindow; seats: PolitySeat[]; links: PolityLink[]; relations: PolityRelation[]; sites: PolitySite[]; claims: { claimant: string; target: string }[];
-  culture: { a: string; b: string; band: 0|1|2|3|4|5 }[] /* the host's own culture distance between two seats in fifths, in its plain form over its whole vector — no trade tie (J384 (2)) — for every pair within the host's reinforcement band or at its neighbour tier ≤ 2 — pairs the host can name itself; a pair not sent reads 0 (`W_POLITY_CULTURE_ABSENT`); J382 */;
+interface PolityFacts { window: AdvanceWindow; seats: PolitySeat[]; links: PolityLink[]; relations: PolityRelation[]; sites: PolitySite[]; satellites: PolitySatellite[] /* J384 (11) */;
+  claims: { by: string; target: string }[] /* a seat's standing claim on another seat — on the host, its lineage claim of a founding parent on its child or the reverse, a war reason it computes only while its lineage lane is lit (dark in every shipped preset): a DM-view claim outline that moves no cell (V13 §3.9 (12)) */;
+  culture: { a: string; b: string; band: 0|1|2|3|4|5; sampled?: Week /* the week the host sampled the band, where it records one */ }[] /* the host's own culture distance between two seats in fifths, in its plain form over its whole vector — no trade tie (J384 (2)) — for every pair within the host's reinforcement band or at its neighbour tier ≤ 2 — pairs the host can name itself; a pair not sent reads 0 (`W_POLITY_CULTURE_ABSENT`); J382 */;
   waterLanes: { lit: boolean; lanes: { a: string; b: string }[] } /* the host's adopted water lanes and whether its lane system is lit; J382 */;
   roadWatch: { edge: string; power: string; kind: 'closed'|'warden'; since: Week }[]; christened: { root: string; name: string }[] }
-interface PolitySeat { seat: string; tier: Rung; sizeThird: 0|1|2; prosperity: number /* the host's rung, 0 lowest */;
+interface PolitySeat { seat: string; tier: Rung; sizeThird: 0|1|2 /* the third of the tier's population band the seat's own people fall in — its satellites' people never counted (J384 (11)) */;
+  prosperity: number /* the host's rung, 0 lowest; the sway reads it relative to the realm's held median (V13 §3.9 (7); J384 (1)) */;
+  strengthBand?: 0|1|2|3|4 /* the host's own settlement-strength comparator — the one its relationship drift reads to choose a raider and an overlord — in fifths by its own strength banding (the one its envoys read); the adversarial push defers to it (V13 §3.9 (8); J384 (3)); absent until the host sends it */;
   military?: { forceBand: 0|1|2|3|4 /* the host's capacity facets bar the economy facet (manpower, institutions, materiel, logistics, will — prosperity counted once, J384 (4)), renormalised and banded on its existing five latent-strength floors */; garrisonPresent: boolean /* its garrison institution present */ } /* absent until the host sends it (V13 §8.5) */;
   since?: Week /* the week the row's rungs last changed, where the host records it; absent: the window's start */;
-  changes?: { field: 'tier'|'prosperity'|'force'|'garrison'; value: number; week: Week }[] /* optional, the host's choice: the window's dated rung changes (V13 §3.9 (13)) */ }
+  changes?: { field: 'tier'|'prosperity'|'force'|'strength'|'garrison'; value: number; week: Week }[] /* optional, the host's choice: the window's dated rung changes (V13 §3.9 (13)) */ }
 interface PolityLink { from?: string /* absent: an occupation the host records with no occupier */; to: string;
   word: string /* the host's own word — a vassal label of its relationship-state plane (the plane its simulation reads; the regional plane is never sent), a subordinating treaty term's kind (tribute, compelled alliance, puppet seat, a treaty-held occupation) or an occupation's — mapped by the adapter folder's link table */;
   occupationRung?: number; heldByTreaty?: boolean /* an occupation the host holds by a treaty's ceded garrison: an overlay at its rung, never a member link (V13 §3.9 (12)) */; continuous?: boolean /* the host's own reach verdict, when it has one */; covert?: boolean; since: Week }
 interface PolityRelation { a: string; b: string /* sorted */; word: string /* the host's relationship-state label (the plane its simulation reads; the regional plane is never sent), mapped to respect, neutral or adversarial by the adapter folder's class table */; atWar: boolean; stance?: string /* the host's dated trade-stance word, mapped by the adapter folder's stance table; dark until the host sends it */; since: Week }
 interface PolitySite { site: Id; holder?: string; garrisonBand?: 0|1|2|3|4; status: string }
+interface PolitySatellite { key: string; parent: string; tier: Rung; at?: WorldPointCm /* its frozen site's point (the canon's sites slot); absent: an orbit-only satellite, neither drawn nor projected (`W_POLITY_SATELLITE_UNPLACED`) */; since: Week }
 interface Sway { id: Id; seat: string; allegiance: Id; cells: Uint32Array /* fine */; border: WorldPointCm[][]; poleCm: WorldPointCm; neighbours: { sway: Id; class: 'kin'|'respect'|'neutral'|'adversarial' }[]; exclave: boolean; reason: Id }
 interface Allegiance { id: Id; root: string; members: { seat: string; word: string; depth: number; continuous: boolean; verdictSource: 'host'|'map' }[]; name?: NameRef /* the DM's christening only, on a host-bound world */; revision: number }
 interface MarchHold { pair: [string, string]; segment: Id; side: string; band: 0|1|2|3; since: Week }
-interface SwayRevision { rev: number; week: Week; causes: Id[]; dirtyBox: { c0: number; r0: number; c1: number; r1: number }; law: Hash64; keyframe: boolean }
+interface SwayRevision { rev: number; week: Week; causes: Id[]; dirtyBox: { c0: number; r0: number; c1: number; r1: number }; law: Hash64; keyframe: boolean; medianRung: number /* the realm's held median prosperity rung in force (V13 §3.9 (7)) */ }
 interface SwayTrace { rev: number; cells: Uint32Array; former: Uint16Array; formerStatus: Uint8Array }   // between keyframes only (V13 §2.6)
 interface PatrolCadence { route: Id; fromStation: number; toStation: number; power: string; everyWeeks: 1|4|13|null; basis: 'hostWatch'|'garrison'|'debatable'; rev: number }
 interface RouteGenesis { lawVersion: string; edges: { hostKey: string; a: string; b: string; mode: 'land'|'water'; grade: string }[]; week: Week }
-interface NetworkChange { hostKey: string; kind: string /* the host's word, mapped by the adapter folder's network table to chartered, promoted, demoted, abandoned, revived, facet or retract */; grade?: string; facet?: Record<string, string>; via?: WorldPointCm[] /* a charter's course hint */; week: Week; window: AdvanceWindow }
+interface NetworkChange { hostKey: string; kind: string /* the host's word, mapped by the adapter folder's network table to chartered, promoted, demoted, abandoned, revived, facet, bypass or retract */; grade?: string; avoids?: string /* a bypass: the seat the host's detour avoids */; radiusM?: number /* a bypass: the host's avoidance radius, integer metres, the adapter converting the host's unit */; facet?: Record<string, string>; via?: WorldPointCm[] /* a charter's course hint */; week: Week; window: AdvanceWindow }
 interface WorldWhere { kind: 'settlement'|'wall'|'road'|'border'|'supplyLine'|'region'|'point'|'offStage'; seat?: string; edge?: string; mode?: 'land'|'water'; fraction?: { num: number; den: number }; pair?: [string, string]; at?: WorldPointCm }   // resolved at fold, kept as a dated fact
 interface TimeDeltaReceipt { baseline: number /* the canon version the host read (`canonized`) */; legs: { a: string; b: string; foot: [number, number]; army: [number, number]; bandsCrossed: string[]; fragile: boolean }[]; causes: Id[] }
 interface HostGateRef { pairKey: string; cellA: number; cellB: number; atCm: WorldPointCm }   // an imported legacy world's host gates as world points (V13 §3.15 (3))
+// @plat/world/lens — the lenses (V13 §5.8, §5.9; J-V13.87 – J-V13.95): derived layers over the facts the host sends of its simulated systems; never a stage, never in a digest
+type LensId = 'plague'|'sway'|'patrols'|'trade'|'populations'|'religion'|'prosperity'|'alignment';   // `world.lens`'s order (J384 (8)): plague first, then the sway (the owner's territory) and patrols, trade and populations, religion, prosperity and alignment
+type FactClass = 'hostStored'|'hostDerived'|'placement'|'mapDerived'|'dmPlaced';   // the four classes of host mark, and only four, beside the DM's own world sites (V13 §5.8 (4))
+type GateExpr = { lane?: string /* a host lane lit, by the adapter folder's lane table */; canon?: boolean; slot?: 'seaLanes'|'teleport'|'seasonal'; beliefs?: boolean; deity?: boolean /* a deity seated anywhere */; plague?: boolean /* a plague live */;
+  sent?: string /* a port field the host sent non-empty */; all?: GateExpr[]; any?: GateExpr[]; not?: GateExpr };
+interface LensLayer {                         // one per lens: a row of `world.lens` (V13 §2.3) with its element functions; drawn by one code path (V13 §5.8 (1))
+  id: LensId; asked: string /* the owner rule that asked for it */; subject: string /* the host system it draws, by the adapter folder's system table */; order: number;
+  sources: { field: string /* a port field: `LensFacts.plague`, `PolityFacts.seats`, the `WorldEvent` kinds tagged with this lens … */; gate: GateExpr }[];
+  regimes: { word: string; when: GateExpr; reason: string /* the banner's sentence in this volume's words */ }[] /* the first whose `when` holds names the regime; the last is the lens's still word */;
+  elements: LensElement[]; events: string[] /* the event kinds it reads, by the adapter folder's event table */;
+  legend: { vocabulary: string /* the adapter folder's word table for this lens */; polarity?: string /* the polarity table */; notes: string[] /* the bias and authorship notes (V13 §5.8 (3)) */ };
+  refusals: { what: string; reason: string }[] /* V13 §5.9's refusals, enforced: a draw asked for one is refused (`refuse.lens.invented`) */ }
+interface LensElement { key: string; class: FactClass; placed?: boolean /* a host fact positioned by map geometry (a seat area, a likely road, a site point), labelled */; grammar: 'glyph'|'link'|'routeFlow'|'movingMarker'|'catchment'|'areaFill'|'overlay'|'caption'; reads: string[]; gate: GateExpr;
+  audience: 'dm'|'public'|'believed' /* the most it may reach; each row's own resolved audience narrows it */; scrub: 'hostDated'|'plate'|'swayRevision';
+  label?: string /* the derivation label a host-derived, placement, placed, map-derived or DM-placed mark carries: "by the host's law", "likely road", "likely carriage", "projection", "DM-placed" */; style: string /* a `style.world` row */ }
+interface HostRegime { born: boolean /* the campaign runs its birth defaults, no preset applied */; canon: boolean /* the host's canon marker */; slots: { seaLanes: boolean; teleport: boolean; seasonal: boolean } /* its frozen record's */;
+  lanes: Record<string, boolean> /* each host lane, by the adapter folder's lane table */; deitySeated: boolean; plagueLive: boolean; beliefs: boolean /* it records per-observer belief */ }
+type Aud = 'public'|'dmOnly';   // a row's resolved audience; a row the host sends without one is folded dmOnly (V13 §5.8 (7))
+interface LensLink { lens: LensId; a: string; b: string; kind: string /* the host's word, by the adapter folder's link table */; status?: string; weight?: number /* a band the host computed by its own law: a host-derived mark */; deity?: string; since?: Week; audience: Aud }
+interface LensFacts {                         // one set of the lens window (`WorldPort.lensWindow`, V13 §3.11.6): a presentation input kept as plates; the host's words through the adapter folder's tables
+  window: AdvanceWindow; audience: 'dm'|'party' /* the DM's set, or the party's believed set where the host records belief */; regime?: HostRegime /* absent: `W_LENS_REGIME_ABSENT` */;
+  plague?: { seat: string; phase?: string /* the host's phase word: its epidemic ledger's, on the canon only */; band?: 0|1|2|3 /* that ledger's level on the host's own edges */; source?: string; carrier?: string /* only from the host's per-hop receipt (V13 §8.5's H24) */; arrivedWeek?: Week; onsetWeek?: Week; clearWeek?: Week;
+    footprint?: boolean /* a same-week spread (without the canon; on it, the migration and service joins the host keeps): no source, no time */; stage?: string /* a footprint row's stage word */; severity?: number /* a footprint row's band */; audience: Aud }[];
+  faith?: { seat: string; patron?: string /* a deity key */; shares: { deity: string; pct: number }[] /* integers, Σ 100; '' the unaffiliated */; piety?: number; contested?: boolean; rulerDiffers?: boolean; disorder?: number; audience: Aud }[];
+  hierarchy?: { superior: string; member: string; deity?: string; audience: Aud }[]; faithPlaces?: { seat: string; word: string /* the host's held label */; deity?: string; audience: Aud }[];
+  realmPiety?: number /* the host's realm piety, sent where its spread lane is lit */; fracture?: { seat: string; severity: number /* the host's band */; audience: Aud }[] /* its conversion-fracture stressor's affected seats */;
+  links?: LensLink[] /* channels, faith carriers and fronts, the plague forecast, faith pressure and prescription, tolerance pulls */;
+  arrivals?: { consumer: string; source: string; week: Week; load?: number; audience: Aud }[];
+  journeys?: { traveller: string; kind: string; path: string[] /* the host's frozen settlement path */; legs: { from: Week; to: Week }[] /* its leg clock */; audience: Aud }[];
+  transfers?: { from: string; to: string; people: number; kind: string; week: Week; audience: Aud }[];
+  columns?: { id: string; from: string; to: string; people: number; departWeek: Week; arriveWeek: Week; carriage?: 'road'|'sea'|'teleport' /* only when the host stores the dispatched route (H27) */; audience: Aud }[];
+  sizes?: { seat: string; population: number; audience: Aud }[]; trend?: { seat: string; sign: -1|0|1 /* by the host's law */; audience: Aud }[];
+  prosperity?: { seat: string; band: string /* the party's believed band word: rows of the party's set only — the DM's set reads `PolitySeat.prosperity`, whose public audience is the host's printed word (V13 §2.2's knowledge paragraph) */ }[];
+  pulses?: { week: Week; deltas: { seat: string; delta: number }[]; outcomes: { seat: string; severity: number }[]; audience: Aud }[] /* once, at first bind: the host's kept per-advance records, at most its 80 (V13 §5.8 (8)) */;
+  alignment?: { seat: string; law: 0|1|2; malice: 0|1|2 /* the host's own bands of its own reading, normalised by the polarity table */; aggression?: string /* its chip word; absent in the host's neutral band */; causes?: string[] }[] /* the DM's set only (J384 (7)) */ }
+interface LensPlate { seq: number /* the window's */; week: Week /* its toWeek */; sets: LensFacts[] /* the DM's and the party's */; rungs: { seat: string; rung: number }[] /* the window's polity rungs */;
+  key: boolean /* a whole plate; else a delta on the previous kept plate */; pinned: boolean }   // the world document's plate cache (`Document.lensPlates`, BCR-V13-38), outside every digest (V13 §2.7, §5.8 (8))
 ```
 
 **The frame's side** (BCR-V13-2, BCR-V13-3, BCR-V13-5): `Terrain` gains `carveDeltaCm: Map<number, number>` (per hydro
@@ -74191,13 +74280,13 @@ interface RouteCostLaw { version: number /* the host's cost-law version; 0 the d
 interface RouteLayRule { existingRoute: number; portOnly: boolean; classes: { primaryShare: number }; routeToleranceM: number; maxCostFactor: number;
   sea: { trunk: boolean /* every well-ported landmass gets one sea trunk to the largest landmass */; gapFixRatio: number /* a port pair whose sea cost ≤ ratio × its land cost gets the sea leg too */ }; exitRunM: number /* a placed frame's road run through the margin to its gate station */ }   // world.routeLay — the map's own network formation (W7); never the host's, never a time
 interface PolityRule {                                                                                       // world.polity — W8a, W8b (V13 §3.9); every cell {value, unit, provenance, calibratable}
-  reach: { lambda: number; reachTierDays: Record<Rung, number> /* Λ·τTier in foot-days */; capFactor: number /* capTier = capFactor × reachTier */; kSize: [number, number, number]; kProsperity: number[] /* by the host's prosperity rung, lowest first */ };
+  reach: { lambda: number; reachTierDays: Record<Rung, number> /* Λ·τTier in foot-days */; capFactor: number /* capTier = capFactor × reachTier */; kSize: [number, number, number] /* log-linear: 1.15^(third − 1) */; kProsperity: number[] /* by the relative rung −3 … +3 (V13 §3.9 (7)), lowest first; log-linear: 1.1^(relative rung) */ };
   culture: { phi: number /* the step slowing at a culture distance of 1 */; dwellWeeks: number }; water: { lodgementDays: number }; river: { crossingDays: number /* added to t at a step across a reach ≥ navigableM3s: the sway's own resistance, never a route time */ };
-  margins: { civ: number /* L */; mil: number /* bands */; muPerBand: number /* L */ };
+  margins: { civ: number /* L */; mil: number /* bands */; muPerBand: number /* L */; pushPerBand: number /* L per band of the host's strength order (V13 §3.9 (8)) */; strengthDwellWeeks: number };
   military: { tauMilDays: Record<'seat'|'fort'|'watchpost'|'bridgeFort'|'tollhouse'|'tower', number>; garrisonBonus: number /* bands added to a source's force band where a garrison is present */; offRoadFactor: number; dwellWeeks: number };
   chain: { delta: number; depthMax: number; bMax: number; wTier: Record<Rung, number>; wTributary: number; rho: number /* L */ };
-  march: { halfLifeWeeks: number; bands: number; muHoldPerBand: number /* L */; fightingWeeks: number }; prosperityDwellWeeks: number;
-  patrol: { cadenceWeeks: [1, 4, 13]; hostileDays: number; gradeShift: Record<string, -1|0|1> };
+  march: { halfLifeWeeks: number; bands: number; muHoldPerBand: number /* L */; fightingWeeks: number }; prosperityDwellWeeks: number; prosperityClamp: number /* the relative rung's bound (V13 §3.9 (7)) */;
+  patrol: { cadenceWeeks: [1, 4, 13]; hostileDays: number; gradeShift: Record<string, -1|0|1>; forceShift: { denserFromBand: number; sparserToBand: number } };
   normalize: { enclaveMaxCells: number; spikeMaxCells: number; smoothPasses: number }; province: { perSeatCells: number; minCells: number }; polePrecisionM: number;
   retention: { keyframeEvery: number; thinAfterYears: number } }
 interface WorldLabelRule { priority: Record<'sea'|'lake'|'river'|'range'|'territory'|'province'|'settlement'|'site', number>; zoomExtent: Record<string, [number, number]>; spreadPx: number; riverMinKm: number }   // world.labels — W9
@@ -74207,6 +74296,11 @@ interface CoherenceRule { weights: Record<CoherenceCost['terms'][number]['term']
 interface WaterClassRule { dampMarginCm: Cm; wadingMaxCm: Cm; floorSampleM: number; shareSubmerged: number; route: { wadeMaxCm: Cm; swimMinAirCm: Cm; diveMaxM: number } }   // water.class — the shared test (C13-48)
 interface FloodRule { seasonal: { dryShare: number; wetShare: number }; eventStage: Record<'minor'|'moderate'|'major'|'catastrophic', number /* × the bankfull depth */>; barrierKinds: string[]; spreadMaxCells: number }   // water.flood — V13 §3.12.4
 interface WorldStyleRule { riverDrawM3s: [M3s, M3s, M3s, M3s] /* per stop, V13 §5.1 */; ghostDepthCm: Cm /* a submerged ruin's ghost limit */; reliefBandsM: number[]; tableBandsM: number[] }   // style.world — the view (V11 writes the rows; C13-31)
+interface LensRule {                                                                                         // world.lens — the lenses (V13 §5.8, §5.9); every cell {value, unit, provenance, calibratable}
+  lenses: { id: LensId; order: number; asked: string; regimes: { word: string; when: GateExpr; reason: string }[] }[] /* V13 §5.9's regime words per lens, first match; the last the still word */;
+  plates: { fullWeeks: number; compactWeeks: number; keyEvery: number; storeMbGz: number };
+  collisions: { word: string; meanings: string[]; written: string }[]; polarity: { axis: string; high: string }[] /* the convention; the adapter folder's table names each host axis's own sign */;
+  draw: { linksPerSeat: number; markersPerView: number } /* beyond a cap: the strongest by the host's own weight or the latest by week, ties by the lower seat key, then the lower id */ }
 ```
 
 | `WorldSizeRow` | `widthKm × heightKm` | `fineCellM` | `coarseRatio` | `defaultLatBox` | `budgetMs` (V13 §6) | `reliefLimitM` | `docMb` | `exportStride` |
@@ -74326,21 +74420,31 @@ vocabulary and bounds; the idea of a configurable two-axis matrix with overrides
 |---|---|---|
 | `reach.lambda` / `reach.capFactor` | 4 / 1.5 | the floor at L = 0; capTier = 1.5 × the tier's reach |
 | `reach.reachTierDays` THORP / HAMLET / VILLAGE / TOWN / CITY / METROPOLIS | 0.2 / 0.3 / 0.5 / 0.8 / 2.5 / 6 foot-days | a village's market reached in a third of a day; a market town's hinterland about a day's round trip; a city-state's two to three days; a capital's reach limited by days, a realm's by weeks of courier travel (the loss-of-strength gradient; central places) |
-| `reach.kSize` (small, middle, large third of the tier's population band) | 0.85 / 1.00 / 1.15 | — |
-| `reach.kProsperity` (lowest rung first) | 0.70 / 0.80 / 0.90 / 1.00 / 1.10 / 1.20 / 1.30 | — |
+| `reach.kSize` (small, middle, large third of the tier's population band; the seat's own people, J384 (11)) | 0.87 / 1.00 / 1.15 (1.15^(third − 1)) | T2's "exponential to the size" (J385) |
+| `reach.kProsperity` (the relative rung −3 … +3, lowest first; J384 (1)) | 0.75 / 0.83 / 0.91 / 1.00 / 1.10 / 1.21 / 1.33 (1.1^(relative rung)) | T2's "exponential to … prosperity" (J385); relative, so the host's realm-wide upward drift inflates no reach |
 | `culture.phi` / `culture.dwellWeeks` | 0.5 (a step into land of the farthest culture takes 1.5 × the time) / 13 | J382: the host's culture distance, banded in fifths |
 | `water.lodgementDays` | 0.5 | J382: across water a coastal lodgement, never the far shore |
 | `river.crossingDays` | 0.25 | a big river is a border: two equal seats across a navigable river split at the river when one is nearer it by less than this |
-| `margins.civ` / `margins.mil` / `margins.muPerBand` | 0.75 L / 1 band / 1 L | the debatable width 0.75 τ between equal seats (T-V13-41 (e)): about a sixth of a foot-day between two towns, half a day between cities, a day between metropolises |
+| `margins.civ` / `margins.mil` / `margins.muPerBand` / `pushPerBand` / `strengthDwellWeeks` | 0.75 L / 1 band / 1 L / 0.5 L (a band of the host's strength order moves the line a quarter of the smaller τ of the two toward the weaker) / 13 weeks | the debatable width 0.75 τ between equal seats (T-V13-41 (e)): about a sixth of a foot-day between two towns, half a day between cities, a day between metropolises |
 | `military.tauMilDays` seat / fort / watchpost / bridgeFort / tollhouse / tower; `garrisonBonus`; `offRoadFactor`; `dwellWeeks` | 0.5 / 1 / 0.4 / 0.5 / 0.3 / 0.3; 1 band; 2; 4 | a garrison's ride along its roads |
 | `chain.delta` / `depthMax` / `bMax` / `wTributary` / `rho` | 0.25 / 2 / 0.5 / 0.5 / 1 L | diminishing returns on chain length: no snowball |
 | `chain.wTier` THORP … METROPOLIS | 0.02 / 0.04 / 0.06 / 0.1 / 0.2 / 0.3 | — |
 | the reinforcement band Treinf and the realm's cap | the largest seat-to-seat cost whose host hop weeks, run through the host's army arithmetic at neutral readiness, stay within the reinforcement band edge — in cost units under the calibration sent with the travel law; on the normalized arm a multiple of the realm's median tier-1 hop (under three and a half at the host's present values), never a day count; provenance host, never authored or calibrated here | the host's own reach law |
-| `march.halfLifeWeeks` / `bands` / `muHoldPerBand` / `fightingWeeks`; `prosperityDwellWeeks` | 13 / 4 (none, slight, firm, dominant) / 0.5 L / 4; 13 | a season's memory of a won border fight |
-| `patrol.cadenceWeeks` / `hostileDays` / `gradeShift` | 1, 4, 13 / 3 / highway +1, road 0, track −1 (hidden: none) | a garrison's round trip at walking pace |
+| `march.halfLifeWeeks` / `bands` / `muHoldPerBand` / `fightingWeeks`; `prosperityDwellWeeks` / `prosperityClamp` | 13 / 4 (none, slight, firm, dominant) / 0.5 L / 4; 13 / 3 | a season's memory of a won border fight; J384 (1)'s bound on the relative rung |
+| `patrol.cadenceWeeks` / `hostileDays` / `gradeShift` / `forceShift` | 1, 4, 13 / 3 / highway +1, road 0, track −1 (hidden: none) / one rung denser from force band 3, one sparser at band 1 and below | a garrison's round trip at walking pace; T3's "military strenght to enforce" |
 | `normalize` | enclaveMaxCells 12 · spikeMaxCells 3 · smoothPasses 2 (per class) | — |
 | `province.perSeatCells` / `minCells` / `polePrecisionM` | 2 000 / 300 / 200 (standalone provinces) | — |
 | `retention.keyframeEvery` / `thinAfterYears` | 52 revisions / 100 (then one keyframe per decade) | — |
+
+| `LensRule` (own cells PLAUSIBLE, registered in V12 as UNMEASURED until `WORLD-14` and `WORLD-15` measure them) | default | anchor |
+|---|---|---|
+| `lenses` order | plague 1 · sway 2 · patrols 2 · trade 3 · populations 3 · religion 4 · prosperity 5 · alignment 5 | J384 (8): plague the proving lens |
+| `lenses` regimes | V13 §5.9's words per lens, first match; the last the still word | J384 (13): still, never hidden |
+| `plates.fullWeeks` / `compactWeeks` / `keyEvery` | 520 / 13 (the last plate of each host quarter kept) / 13 | J384 (9): ten years at full resolution, a season after |
+| `plates.storeMbGz` | 4 at the realm rung after 300 years (`WORLD-14`) | — |
+| `collisions` | monster threat · gate · toll · besieged · prosperity · temperament · alignment (V13 §5.8 (6)) | one word, one meaning |
+| `polarity` | lawful high · malicious high · lenient high | — |
+| `draw.linksPerSeat` / `markersPerView` | 12 / 2 000 (beyond: the strongest by the host's own weight or the latest by week, ties by the lower seat key, then the lower id, the rest counted in the legend) | — |
 
 | `WorldLabelRule` | default |
 |---|---|
@@ -74465,6 +74569,7 @@ T-V13-30 (b).
 | `WorldRoute`, `Territory`, `SitingProposal` (W6's own) | W7, W8a, W6; on a host-bound world W7 lays only the edges `genesis` and `network` name | the charter, the port, W8b, W9, the view | entities block | standalone: re-derived from their stage (a `setSeats` from W8, a lay-rule change from W7); host-bound: a happened edit re-lays a route from its week as a dated lay version, an always-so edit, a regenerate or an adjust mints a lay version the host adopts by its re-canonize (`W_HOST_CANON_BEHIND` until then), a cost-law change is the host's own re-canonize | the replaced scope | absent: re-derived on load |
 | `SwayRevision`, `SwayTrace`, the keyframes (the full `sway` and `swayStatus` rasters every `retention.keyframeEvery` revisions) | the `polityRevision` fold (V13 §3.9 (13)) | `worldFactsAt` at a week, the view's time scrub, the clerk's `whatChanged` | headers whole; keyframes and traces in the fields and entities blocks; traces only between keyframes, keyframes thinned to one per decade after `thinAfterYears` | a polity-law change replays every revision; a re-canonize replays the revision log over the new W8a | the host's window replace (a rewind drops the later revisions); a `setSwayLock` with its edit | revision 0 at the first polity window |
 | `Allegiance`, `MarchHold`, `PatrolCadence` | W8b at a revision | the view, `worldFactsAt`, the port's `patrolOffer` | derived; rebuilt on load from the revision | with the revision | with the revision | — |
+| `LensPlate` (one per host advance; V13 §5.8 (8)) | the fold of a `lensWindow` at its window | `lensAt` at a week (the scrub) | the world document's plate cache (`Document.lensPlates`, BCR-V13-38: kept across loads and saves, never rebuilt — unlike the glyphs' `derived` cache), outside the model and records digests, delta-coded with a whole plate every `plates.keyEvery` | never re-derived (a plate is what the host sent); a host rewind (a window replace) drops every plate after it, pinned ones included; past `plates.fullWeeks` compacted to one per `plates.compactWeeks`, pinned plates kept, each kept plate re-encoded against the previous kept plate (or whole) | not an event (a cache); `pinPlate` a cache command | absent: the scrub declares the gap (`W_LENS_PLATE_GAP`); the host's quota may drop the store whole |
 | `WorldCanon` as the host adopts it | `canon` at a named log head, on the host's request | the host's builder of its own frozen record; nothing of the map's | never persisted in the world (re-built on request from the inputs its hashes name; the hashes logged) | the same log head re-builds it byte-identically; a later head is a new canon the host adopts only by its receipted re-canonize | the world's undo moves its log head, never an adopted canon | the envelope's version vector; **import:** an imported world's first canon is built only after the DM accepts the import's report; **dark-after-lit:** a host that stops reading canons keeps its last frozen record (absent ⇒ its prior bytes); **death:** a seat's death leaves the travel slot unchanged, a campaign's deletion is the host's; **veil:** the canon carries no audience-bound fact and is never shown to a player |
 | `WorldRoute` on a host-bound world | W7 laying the edges `genesis` names and `network`'s `chartered` changes | the charter's `roads`, `routes`, `routeFacts`, `mapFeed`, the view | entities block, every lay version kept | never silently: a happened edit is a dated lay version; an always-so edit, a regenerate or an adjust a lay version the host adopts by its re-canonize | a host input is never a user's undo target; a user's dated re-lay goes with its edit | the record schema's chain; **import:** a legacy campaign's drawn roads stay presentation and become host routes only through the host's elective genesis; **dark-after-lit:** with the host's route lane dark its genesis still arrives as a presentation call and nothing is laid beyond it; **death:** a dead seat's routes keep the host's grades until the host's `network` demotes or abandons them, and a campaign's deletion takes them with the world; **veil:** a hidden host road is a DM-only ghost, a covert power's patrols omitted |
 | the world document on a host-bound world | the host's new-world request (its seed minted by the host) or the DM's import on request | the module's world view, placement, charter and clerk | the host's per-campaign world record (snapshot, log, backups, quota) under the frames' store pattern (V13 §2.7) | a regenerate or a retcon only as a geometry shift the host adopts by its receipted re-canonize | the world's own undo for user edits; host inputs never | the world schema's chain; **import:** never on load; **dark-after-lit:** a campaign that stops using its world keeps the record read-only, its placed frames falling back to their recorded charter values; **death:** a campaign's deletion deletes the record with the campaign (the host's lifecycle); **veil:** pictures through the gallery's veil, players through the party picture set, a record whose existence is the secret omitted with its geometry |
@@ -74472,7 +74577,7 @@ T-V13-30 (b).
 | `ReasonRecord` | every stage; the cascade; V14 | the clerk's four readers | entities block (records digest only) | re-written by every derivation that re-derives its fact (`supersedes` the old) | the former record | absent on an older document: the generic provider answers from provenance (V10 §2.13) and the clerk says the chain is incomplete |
 | `TerrainTrace`, `SurfaceTrace` | a `happened` edit; V06's water ops | the view, the clerk | entities block | kept | removed with the event; `deleteTrace` removes one alone, its own undo restoring it | kept |
 | `EditBase.verb` | every terrain and water edit (`happened` by default) | the fold (V13 §3.14) | the event | — | — | an older event reads `alwaysSo` (no trace was ever kept) |
-| the view keys `worldZoom`, `worldLayer`, `showTraces`, `surfaceDate` | V09's controls | the world view | the viewer's view state, never a digest | view only | not an event | absent: stop 1, `relief`, `false`, the document's week |
+| the view keys `worldZoom`, `worldLayer`, `showTraces`, `surfaceDate`, `worldLens`, `lensWeek` | V09's controls | the world view; the lenses | the viewer's view state, never a digest | view only | not an event | absent: stop 1, `relief`, `false`, the document's week, no lens open, the document's week |
 
 ### 2.7 The version table, the digests and the storage of the world
 
@@ -74495,7 +74600,9 @@ refuses placement edits.
 **The model digest** (§6.2) gains a layer node `world` for a world document: the fine and coarse raster chunks' content
 hashes (each raster a leaf whose bytes are its typed array in the canonical delta coding of V13 §2.6, so two worlds with
 equal rasters hash alike), the surfaces, reaches, watersheds, routes, territories, W6's proposals, placements and
-traces as leaves in schema order; the glyphs are a `derived` cache outside it (C13-21). **A placement is in the world's
+traces as leaves in schema order; the glyphs are a `derived` cache outside it (C13-21), and the lens plates a cache of their own outside it
+(`Document.lensPlates`, BCR-V13-38; V13 §5.8 (8)) — outside the records digest too, kept across loads and budgeted
+apart (`WORLD-14`). **A placement is in the world's
 digest and in no arena's** (the brief's bar 3): a frame document's model digest reads neither `worldRef` nor
 `Recipe.charter` (the charter is a recorded input in the records digest, as a `DerivationRecord` is, §6.2's *Excluded*;
 the frame's rasters and arenas it refined from the charter are model data and change only when the frame re-derives),
@@ -74969,7 +75076,10 @@ it in **integer metres** (`originCm ÷ 100`, rounded; the continent rung's far c
    host are tombstoned at binding. A campaign whose host has no genesis keeps its drawn roads as presentation only.
 9. **The lived network, mirrored, never computed.** `network(world, window, changes)` folds the host's route changes
    by window: only `chartered` lays new geometry (its course hint honoured, the course correction a recorded geometry);
-   a demotion keeps the polyline; a revival restores the hidden one; a hidden land road is a DM-only ghost and a hidden
+   a demotion keeps the polyline; a revival restores the hidden one; a `bypass` (the host's detour round a seat it
+   avoids: the avoided seat and its radius) re-lays the route round that radius under the cost law as a dated lay
+   version under the same host key, the former lay kept and the hysteresis the host's; a hidden land road is a DM-only
+   ghost and a hidden
    water lane a quiet-quay mark; a grade edit on a host route is refused (`refuse.world.hostRoute`) — the DM charters
    through the host's own command from the world editor, the world offering a read-only path preview. The route layer,
    the frame's road rows (`roadsAt(placement, week)`) and siting read the network at the week; a hidden road counts as no
@@ -75020,8 +75130,9 @@ a fact of the map, never in the canon, and the host's crossings and distances ne
 
 **W8b — the sway** (integer and draw-free; every coefficient a `world.polity` cell, V13 §2.3).
 5. **Inputs.** The latest `PolityFacts` window of a host-bound world (V13 §2.2): seats with tier, size third,
-   prosperity rung, force band and garrison presence; links in the host's subordinating words; pairwise relations;
-   occupations; held sites; banded culture distances; the lit water lanes; the road watches; the DM's christenings. On a
+   prosperity rung, force band, strength band and garrison presence; links in the host's subordinating words;
+   pairwise relations; occupations; held sites; the host's satellites at their frozen site points; its lineage claims
+   while that lane is lit; banded culture distances; the lit water lanes; the road watches; the DM's christenings. On a
    standalone world: the recipe's seats at their tiers, the middle prosperity rung, every pair neutral, links and
    relations only where the recipe gives them. No budget, cost vector or power key is ever asked of the host.
 6. **Travel time, culture and water.** For each projecting seat s, one bounded Dijkstra over the fine raster from its
@@ -75041,9 +75152,17 @@ a fact of the map, never in the canon, and the host's crossings and distances ne
    a **coastal lodgement** — the land within `lodgementDays` of its landing — never the far shore beyond. No water cell is
    ever held.
 7. **Strength and reach (T2: "bounded but exponential").** L(s, c) = Λ − t(s, c) ÷ τ(s), with τ(s) = τTier[tier] ×
-   kSize[size third] × kProsperity[rung] × (1 + B(s)), B the chain bonus of (9) and τTier = `reachTierDays` ÷ Λ. τTier
-   rises by rung by a factor of at least 1.5 (V13 §2.3's cells), so a settlement's reach — where L falls to the floor 0,
-   Λ·τ(s) — grows at least exponentially with its tier, and it is bounded: reach(s) = min(Λ·τ(s), capTier[tier]).
+   kSize[size third] × kProsperity[r(s)] × (1 + B(s)), B the chain bonus of (9) and τTier = `reachTierDays` ÷ Λ. The
+   size third counts the seat's own people only: a satellite projects itself ((12)) and is never counted in its
+   parent's size (J384 (11)). **Prosperity is relative** (J384 (1)): r(s) is the seat's rung minus the realm's median
+   rung (the realm here the campaign's seats on this world, never the `realm` size rung), clamped to ±`prosperityClamp`
+   — the median the lower median of every projecting seat's rung (satellites, which send none, excluded), **held**: it moves
+   only when a new value has stood `prosperityDwellWeeks`, and its move is one whole-world revision ((13)) recorded as
+   `SwayRevision.medianRung`; on a standalone world every seat reads 0. τTier rises by rung by a factor of at least 1.5,
+   kSize by 1.15 per third and kProsperity by 1.1 per relative rung (V13 §2.3's cells), so ln τ — and with it the log
+   of a settlement's reach, where L falls to the floor 0, Λ·τ(s) — rises by at least ln 1.5 per tier rung and linearly
+   in the size third and the relative rung: the reach grows at least exponentially with tier, size and prosperity, and
+   it is bounded: reach(s) = min(Λ·τ(s), capTier[tier]).
    Every comparison is linear in t, in fixed-point
    thousandths; no exponential is evaluated. A cell no seat reaches is **unclaimed** and stays wild: the map never fills
    it.
@@ -75054,9 +75173,18 @@ a fact of the map, never in the canon, and the host's crossings and distances ne
    compelled ally — a live compelled-alliance term); **neutral** (neutral, trade partnership and criminal network, and no
    relation); **adversarial** (rivalry, cold war, hostility and the legacy *tense*, and any pair at war); the vassal
    labels are member links (9), never a class. Kin and respect split at the travel-time
-   midline, each within its own reach, and never push; neutral: the stronger holds; adversarial: the stronger holds when
-   its lead is at least `margins.civ`, else the cell is **debatable** — the contested march, held by neither — unless
-   (10) decides it. A third allegiance never holds a cell where it ranks third; the clerk names it a claimant. **The seat
+   midline, each within its own reach, and never push; neutral: the stronger holds; **adversarial: the push is the
+   host's** (J384 (3)) — at a cell both reach (each with L > 0), the two local seats are compared on travel time alone
+   at the steeper fade, P(x, c) = Λ − t(x, c) ÷ τmin + `margins.pushPerBand` × the host's strength band of x
+   (`PolitySeat.strengthBand`), τmin the smaller of the two τ; the side whose lead in P is at least `margins.civ` holds,
+   else the cell is **debatable** — the contested march, held by neither — unless (10) decides it; a cell only one of
+   them reaches is that one's. So the map's projection keeps each side's reach, floor and ceiling, and the host's own
+   strength order — the comparator its relationship drift reads to choose a raider and an overlord — decides which way
+   the line is pushed: two systems never decide one contest, and the map's vassal reinforcement ((9)) stays out of the
+   push. A strength band counts once it has stood `margins.strengthDwellWeeks`, the pair reading until then the last
+   band it counted, level if none; while the host sends none for a pair, the pair reads level (no push), reported once
+   per window (`W_POLITY_STRENGTH_ABSENT`). A third allegiance never holds a cell where it ranks third; the clerk names
+   it **outranked** (never *claimant*, the host's word for an heir). **The seat
    rule:** a seat's own cell and a placed frame's extent are always held by their seat; only an occupation marks them.
 9. **The continuous chain of vassals (T2).** The allegiance graph is built from the host's links: members are the seats
    the host subordinates as a polity — a vassal (its relationship-state plane's vassal labels), an occupation at its
@@ -75078,8 +75206,10 @@ a fact of the map, never in the canon, and the host's crossings and distances ne
    seat-to-seat cost under the cost law (Treinf's units), the chain bonus B(o) = min(`bMax`, Σ over o's continuous
    members m of wTier[m] × δ^(depth−1) × max(0, 1 − T(o, m) ÷ Treinf)), depth ≤ `depthMax`, each tributary of o, though
    outside the allegiance, counting in B at × `wTributary`; B grows the overlord's own reach and never passes its cap;
-   each continuous member's τ takes (1 + B(root) × δ^depth); in adversarial comparisons only, a continuous member gains
-   its root's reinforcement ρ × δ^(depth−1) × max(0, 1 − T(root, v) ÷ Treinf). No cell beyond Treinf from the root is
+   each continuous member's τ takes (1 + B(root) × δ^depth); a continuous member's reinforcement — its root's
+   ρ × δ^(depth−1) × max(0, 1 − T(root, v) ÷ Treinf) — is read only by (10)'s military tie-break inside debatable
+   cells, added there to that member seat's μ (so it counts only while the host sends force bands), never by (8)'s push
+   (J384 (3)). No cell beyond Treinf from the root is
    held through a bonus or reinforcement: the realm's own cap.
 10. **Military enforcement, the tie-breaker only (T3).** M(a, c) is the greatest, over the allegiance's force sources f,
    of μ_f − t_army(f, c) ÷ τMil[kind_f], at the travel law's army pace, μ_f = `margins.muPerBand` × (the source's force
@@ -75101,7 +75231,10 @@ a fact of the map, never in the canon, and the host's crossings and distances ne
    winner +1 at its contested seat's facing segments; a lifted siege or a liberated occupation, +1 to the relieving side
    at that town's facing segments; a conquest moves no band (it is an occupation, (12)); a sea battle or a blockade
    moves none (no water cell is held); a raid on a settlement is a `WorldEvent` at its victim (its place a settlement),
-   moving no band and marking the victim's facing segments **fighting** for `fightingWeeks` (J384 (5)). A band decays one step per `march.halfLifeWeeks`; it enters (10) on its segment only as μHold per
+   moving no band and marking the victim's facing segments **fighting** for `fightingWeeks` (J384 (5)); once the host sends a raid's outcome
+   word (V13 §8.5's H25), that raid is a verdict — its winner +1 at the victim's facing segments, the fighting mark
+   kept — and only a host verdict ever moves a band; the host's embattlement phases are drawn only through its
+   presentation overlay (`hostOverlay`, V13 §3.11.6), never as a march mover. A band decays one step per `march.halfLifeWeeks`; it enters (10) on its segment only as μHold per
    band, and a band crossing is a revision trigger. While an engagement there stands open, or within `fightingWeeks` of
    its climax, the segment is **fighting** — an overlay that never moves a line.
 12. **Events.** Occupation is an overlay, never ownership, hatched by the host's rung (an occupation the host records
@@ -75113,19 +75246,30 @@ a fact of the map, never in the canon, and the host's crossings and distances ne
    neighbours by (8) or become unclaimed; a death stops the seat projecting (its seat territory
    unchanged; its frame or glyph drawn as a ruin by the host's remnant grade); a resettlement projects again at the
    smallest tier; a sovereignty transfer re-roots the link at its mint, the seller's link kept as a lineage claim (DM
-   view); a satellite is a claim point of its parent's allegiance projecting at its own tier from its site, never a seat.
+   view); a satellite (sent with the polity facts; J384 (11)) is a claim point of its parent's allegiance, drawn at its
+   frozen site's point and projecting its own small reach at its own tier from there — its τ = τTier[its tier] ×
+   kSize[the middle third] × kProsperity[the relative rung 0] (both 1) with B = 0, no size third or rung of its own
+   being sent; it scores inside its parent's allegiance in (8) and, in an adversarial comparison, takes its parent's
+   strength band — never a seat, never a chain member and never in its parent's size third; a satellite the host has
+   not placed at a site point is neither drawn nor projected (`W_POLITY_SATELLITE_UNPLACED`). A host's lineage claim of
+   one seat on another (sent while its lineage lane is lit) is drawn as a DM-view claim outline of the target's sway in
+   the claiming allegiance's colour, and moves no cell.
 13. **Revisions, not ticks (THE TENSION ruled, J-V13.65).** A polity window is the host's end-of-window state, each
    fact with its since-week where the host records one (a link's, a relation's, an occupation's) and the window's start
    where it does not (a seat's rungs, absent the change log of V13 §2.2). The sway moves only on dated host facts — a seat projecting
-   or ceasing, a tier change, a prosperity rung held `prosperityDwellWeeks`, a relation's class changing, a link made,
+   or ceasing, a tier change, a prosperity rung held `prosperityDwellWeeks`, the realm's median rung held as long (a
+   whole-world revision, (7)), a strength band held `margins.strengthDwellWeeks`, a satellite founded, placed,
+   graduated or dropped, a relation's class changing, a link made,
    broken or re-rooted, an occupation rung, a transfer at mint, a force band held `military.dwellWeeks`, a culture
    band held `culture.dwellWeeks`, a water lane lit or darkened, a `MarchHold` band crossing, a host road grade or a map
    route edit that flips a continuity, a DM's `setSwayLock` — the fold minting a revision at each standing fact's
    since-week plus its dwell and at the dated events the events window carries (as far back as the host's news
    retention reaches); a fact that rose and fell inside one window never reaches the sway, and until the host sends its
    per-tick change log a seat's rung dwell is measured at window resolution and declared so in the revision's reason.
+   A trigger waiting on its dwell is shown at once in the `events` layer as a **planting line** — its fact, its week and
+   the week it takes effect if it stands — so a change inside one advance is seen before it moves a border.
    Every trigger of one week is folded into one `polityRevision`, order-free, re-deriving W8b over its dirty box only —
-   the closure of the seats whose τ, M, reinforcement or continuity changed (every continuous member of an allegiance
+   the closure of the seats whose τ, M, reinforcement, strength band or continuity changed (every continuous member of an allegiance
    whose root's B, links or tier changed), their cap discs and every cap disc meeting them, grown to whole
    normalization components — byte-identical to a whole-world W8b over the same facts, receipted as a `SwayRevision` with a sparse `SwayTrace`, on its own revision axis and law
    version. Between revisions the sway holds; a host reader may read it only as an advance-head overlay — fetched at the
@@ -75139,7 +75283,11 @@ a fact of the map, never in the canon, and the host's crossings and distances ne
    host asserts comes first (a road the host closes: its closer every week while it stands; a warden's term: at least
    every four weeks; a road the host grades hidden: none). Elsewhere the cadence is the rung that holds the round trip at
    the travel law's foot pace from the power's nearest garrisoned seat, fort or watchpost along the segment, moved one
-   rung by an adversarial neighbour within `patrol.hostileDays` and by the host's road grade (`gradeShift`); both sides
+   rung by an adversarial neighbour within `patrol.hostileDays`, by the host's road grade (`gradeShift`) and by the
+   force band of the source the round trip is measured from (`forceShift`: a seat's `military.forceBand`; a fort's or
+   watchpost's `garrisonBand` where the host sends one, else its holder seat's force band — a band of `denserFromBand`
+   or more one rung denser, of `sparserToBand` or less one rung sparser; no shift while the host sends none for that
+   source); both sides
    patrol their own side of a debatable segment; an overlord patrols through a continuous chain. Coverage is revisioned
    with the sway, never weekly. A patrol is present in week w exactly when (w + phase) mod everyWeeks = 0, phase the
    `world.patrol` hash of (segment, power) mod everyWeeks — one fixed phase per segment and power, never per week and
@@ -75417,7 +75565,11 @@ BCR-V13-4):
    recorded input, the mode keyed on the stamp from then on, the dossier's facts met bearing first and the world's
    blend second, as P1–P3 meet them), `moveTown` (the nearest lawful origin; not offered when `Placement.hostLocked`),
    `cancel`. No lawful origin leaves an unlocked frame standalone; on a `hostLocked` placement the edit is refused
-   (`refuse.place.hostLocked`) unless the DM takes `keepDossier`.
+   (`refuse.place.hostLocked`) unless the DM takes `keepDossier`. A dossier event that changes a DR1 or DR29 site fact
+   of a placed frame — the host's labelled re-terrain or its world-fact card changing the frame's relief, coast or river
+   — re-runs P1's bearing search at the fixed origin, then P2–P3, under the new fact (bearing first, the blend second;
+   the origin never moved under `hostLocked`), logged as a dated re-blend whose cause is the dossier event; where no
+   blend meets it, `W_PLACE_ANOMALY` is raised with the nearest lawful origin offered.
 2. **Mirror.** `mirrorFrame` sets `Placement.mirrored` (P1's `M` is the reflection about the frame's vertical axis);
    the frame's arenas never change (bar 3: a mirror is presentation of the placement, not an edit of the settlement);
    every world-facing transform (`toWorld`, the glyph, the charter's bearings, the exports) applies `M`; the frame's own
@@ -75470,15 +75622,18 @@ the host's map surfaces, is never written into the host's world state and is nev
   with the host's receipt inputs and integer costs under the host's cost law (V13 §3.9 (1)–(4)); the **water slot** —
   per sailing body (sea or lake) the latent water candidates (a minimum spanning tree plus each eligible seat's K nearest
   by water metres, K the host's; river candidates along reach courses), geography only, and each seat's `WaterAccess`;
-  the **sites slot** — frozen candidate ground per seat inside its orbit, as points (a satellite founded on it never
+  the **sites slot** — frozen candidate ground per seat inside its orbit, as points with their terrain class and step
+  cost under the host's cost law, the slot's input hash covering the cost law's hash (a satellite founded on it never
   joins the travel slot). The envelope carries the world header, the per-slot version vector and input hashes (V13
   §2.7), the cost law as handed in, the causes since the prior canon (the world-log entries, which the host may record as
   the parents of its canonize receipt) and the skipped list (`unbound`, `unplaced`, `phantom`, `offWorld`). The canon is
   a pure function of the inputs its hashes name; no political, overlay, lived-route or belief input enters it (T-V13-7's
   lint). The host keeps its own all-pairs costs, neighbour tiers, candidate routes and water-lane law over it, and one
   fixture in two forms ties its two builders (V13 §8.5's H5).
-- `routeFacts(world)` → per host edge: the host key, integer land effort-metres, the water metres by kind, the per-class
-  effort, the crossings and the 52-week seasonal sets — never `costTotal`. `patrolOffer(world, revision)` → per host
+- `routeFacts(world, request?: { limits?: string[] /* water edge keys */ })` → per host edge: the host key, integer land effort-metres, the water metres by kind, the per-class
+  effort, the crossings and the 52-week seasonal sets — never `costTotal` — and, on request, a water edge's limits (the shallowest navigable depth
+  and the narrowest width along it, and the quarters it freezes), offered for a lane capacity the host does not yet
+  read (its lanes carry one fixed capacity no router consults). `patrolOffer(world, revision)` → per host
   edge and power: the extent (the station span), the basis (`hostWatch`, `garrison` or `debatable`) and the host key of
   the nearest garrisoned seat or site — never a time-derived cadence: the host prices any round trip through its own
   distance reader (V13 §3.9 (14)). Both optional; the host reads either only behind its own
@@ -75501,7 +75656,10 @@ the host's map surfaces, is never written into the host's world state and is nev
   recorded on the host's overlay version axis, its own live occupation, relationship and closure reads overriding it at a
   hop where they disagree; a revision caused inside an advance takes effect from the next advance (V13 §8.5's H16).
   Crossing holders and `patrolOffer` are computed from the sway without the DM's `setSwayLock`s, which are presentation
-  only on a host-bound world. For an imported legacy campaign the holders are given per `HostGateRef`.
+  only on a host-bound world. For an imported legacy campaign the holders are given per `HostGateRef`. The DM-placed
+  devotion sites (V14 §2.2's `SiteDevotion`) ride the DM's map feed as offers — the card's world point, kind, deity
+  key and role — which the host adopts only by its own command, binding the card's host element; never a player's
+  feed while the card is DM-only.
 - `routes(world)` → every `WorldRoute`'s polyline with its host key; `pathGeometry(world, hostPath)` → the path a host
   route takes through the seat territories' crossings, laid on demand under the cost law and frozen at its dispatch week
   (a derived path, never a `WorldRoute`); `borderSegment(world, a, b, week)` → the debatable or shared segment nearest
@@ -75512,7 +75670,9 @@ the host's map surfaces, is never written into the host's world state and is nev
   the fold creates the `Placement` with a pending subject and runs P4; the frame generated from the charter is bound to
   it by `bindPlacement`; a dossier contradiction refuses with `refuse.charter.dossier`, V13 §3.11.4) — the per-campaign
   charter is the frame's one input record, item 140 M5. For a settlement the host founds in a world-first campaign, the
-  host derives its access word from the charter's road and water facts before generation.
+  host derives its access word from the charter's road and water facts, and its terrain word from the charter's relief,
+  biome and water facts by the inverse of DR1's relief-class row (the table the `dossier` term reads), before
+  generation.
 - `proposals(world, demand)` → V13 §3.7 (5), each proposal with its `WaterAccess`.
 
 *Inbound — recorded inputs* (logged and replayable without the host; each a dossier-tier fact keyed by host keys; the
@@ -75547,7 +75707,12 @@ encounter and not the clerk; drawn through the base's live-layer registry): `clo
 for the audience before sending, with no destination and no arrival time); `beliefView(world, view)` (for the DM, where
 the host records belief: the believed standing and danger of places and roads in banded words, "assumed safe" for what
 the observer never heard; forecasts never enter the world); `audienceKnowledge(world, audience, week)` (optional: the
-political event ids an audience knows; the player sway is then re-derived over the known subset).
+political event ids an audience knows; the player sway is then re-derived over the known subset);
+`lensWindow(world, window, sets: LensFacts[])` (after every advance, undo and resume, beside the recorded windows: the
+host's per-advance facts the lenses draw, with its resolved regime and each row's resolved audience — the DM's set,
+and the party's believed set where the host records belief; the one presentation input the world keeps, folded into
+one plate per advance in its plate cache (`Document.lensPlates`) outside every digest, V13 §5.8 (8); read by the lenses
+only).
 
 *Outbound offers* (the host decides): `physicalChange(world, edit)` — a world edit dated at the host's next tick head,
 with the DM's attribution and its durability: `event` (a dated live overlay the host may read at the hop), `permanent`
@@ -75567,7 +75732,10 @@ a phantom of the host is never a seat, never placed, never projecting, patrollin
 failing; (9) one word, one meaning across the seam (J-V13.78): `territory` is the seat territory only; the political
 picture is the **sway** of an **allegiance**, its contested land **debatable** ("the debatable land", never a bare
 *march*), with `heldByForce`, `unclaimed`, `exclave`, `fighting` (never *embattled*), `swayRevision` (never *epoch*),
-`memberForce` (a vassal's force, never *levy* or *contingent*) and "road patrol"; the political boundary on a route is
+`memberForce` (a vassal's force, never *levy* or *contingent*), "road patrol" and `outranked` (a third allegiance at
+a cell, never *claimant*, the host's word for an heir); a lens's per-advance record a *plate* (never *snapshot*, the
+base's document snapshot, nor *frame*, the settlement frame); the lens over the sway the **sway lens**, never a
+*territory lens* (the host's own territory lens stays on the seat territory, V13 §8.5's H19); the political boundary on a route is
 a border crossing, never a *gate*, and a site posted there a **border post**; a sway retention snapshot a *keyframe*
 and a cross-water hold a *lodgement*, never *checkpoint* or *foothold*; the advance's nonce is `advanceNonce`; the water-passage class of a path (V13 §3.13's `routeClass`) is never sent
 as a route's class. **Scale:** the host stamps its own map unit's kilometres from the world header (V13 §2.1), never a default; the
@@ -76120,10 +76288,11 @@ rows of the `world` product (C13-60 (e)) (the view's `worldLayer` key picks the 
 | `traces` (under `showTraces`) | vector | `oldShore` as a dashed line, `oldBed` as a hatched band, `oldGround` as a stippled fill; a `SurfaceTrace` as a dotted level line | the base's "former" style (the dashed grey of V06's history frames) |
 | `routes` | vector | `WorldRoute` by class, or by the host's grade on a host-bound world, at the network in force at the view's week; a hidden host road a DM-only ghost, a hidden water lane a quiet-quay mark; lengths labelled in km (never a travel time on the world view: times are the host's, or `derivedTime` labelled with the law and "on foot") | highway 2 px solid, road 1.2 px, track 0.8 px dashed, trail 0.5 px dotted, sea 1 px dashed blue, river (navigable) a darker water line |
 | `seatTerritory` (thematic, diagnostic) | vector | W8a's seat territories, borders 0.6 px, and the crossings as small ticks | hashed categorical palette |
-| `sway` (with `allegianceBorder`, `memberBorder`) | vector | W8b at the revision in force at the view's week: fills at 18 % alpha in the allegiance's colour (`H32` of the root's key, or the host's colour when sent; stable while the root holds), unclaimed land unfilled; allegiance borders 2 px solid; member borders 0.8 px between member sways (stop ≥ 1); an exclave its own outer border with a 1 px dotted halo; satellites dots only; a tributary its own fill with its border doubled by an inner 1.5 px band in its overlord's colour; lineage claims DM-only as a dashed outline; standalone provinces at stop ≥ 2 as 0.6 px dashed | the allegiance palette |
+| `sway` (with `allegianceBorder`, `memberBorder`) | vector | W8b at the revision in force at the view's `lensWeek` (the document's week unless the scrub sets it): fills at 18 % alpha in the allegiance's colour (`H32` of the root's key, or the host's colour when sent; stable while the root holds), unclaimed land unfilled; allegiance borders 2 px solid; member borders 0.8 px between member sways (stop ≥ 1); an exclave its own outer border with a 1 px dotted halo; satellites dots only, at their frozen site points; a tributary its own fill with its border doubled by an inner 1.5 px band in its overlord's colour; lineage claims — a sale's, and the host's own while its lineage lane is lit — DM-only as a dashed outline; standalone provinces at stop ≥ 2 as 0.6 px dashed | the allegiance palette |
 | `occupation`, `debatable`, `fighting` | vector | occupation: a diagonal hatch in the occupier's colour over the occupied sway, dense to light by the host's rung (neutral ink when the occupier is unrecorded); debatable: a cross-hatch in the two sides' colours, no fill; held by force: the holder's fill with a single hatch in the other side's colour; fighting: a crossed-blades mark at each open engagement and a 2 px edge on its segment — no arrows, no animation | the sides' colours |
-| `patrols` (a toggle) | vector | `PatrolCadence` per route segment: tinted by cadence (weekly, monthly, seasonal), both colours striped on a debatable segment, no arrows or headings; a covert power's DM-only | the powers' colours |
-| `events` (with a "this advance" filter) | pins | `WorldEvent`s by kind at their place, a glyph's lifecycle mark at once (razed, besieged, occupied), DM-only docket pins | the notice style |
+| `patrols` (a toggle) | vector | `PatrolCadence` per route segment at the revision in force at the view's `lensWeek`: tinted by cadence (weekly, monthly, seasonal), both colours striped on a debatable segment, no arrows or headings; a covert power's DM-only | the powers' colours |
+| `events` (with a "this advance" filter) | pins | `WorldEvent`s by kind at their place up to the view's `lensWeek`, a glyph's lifecycle mark at once (razed, besieged, occupied), DM-only docket pins; a pending sway trigger as a planting line until it takes effect or lapses (V13 §3.9 (13)) | the notice style |
+| `lens:<id>` (under `worldLens`, one per open lens) | vector and pins | V13 §5.9's elements at `lensWeek`, the regime banner first in the legend | `style.world`'s lens rows, one per element key (V11 writes them) |
 | `settlements` | vector | every `Glyph` at the stop's level (V13 §5.2): a frame's `SettlementGlyph`; a site's drawn at level 0 by its `glyph` mark's `class` icon at the pin size (SW-08) | the glyph style rows (dot by tier size: 3–9 px; ring 1 px; outline fill at 60 % of the built colour; water, wall and way in the base's colours at world weight) |
 | `resources`, `springs`, `proposals` | pins | W5's resources, W4's springs, W6's proposals (while shown) | the base's pin style, one icon kind per resource (own glyphs) |
 | `placements` | vector | the placed frames' outlines (the arena's outer ring through `toWorld`) and the blend band's outline on hover | 1 px accent; the band dotted |
@@ -76133,11 +76302,14 @@ rows of the `world` product (C13-60 (e)) (the view's `worldLayer` key picks the 
 **The player picture** (J-V13.77): a player audience sees the sway re-derived at the head revision over the host's
 whitelisted political facts — covert links, their exclaves and covert patrols omitted as entities, never greyed — or,
 when the host sends `audienceKnowledge`, over the facts that audience knows (an unknown later fact absent, never
-guessed), cached per (revision, known set); the player picture reads force and culture bands only where the host's
-whitelist admits them (absent, debatable cells stay debatable and culture reads 0: fail-closed, J-V13.77); under an
+guessed), cached per (revision, known set); the player picture reads force, strength and culture bands only where the host's
+whitelist admits them (absent, debatable cells stay debatable, an adversarial pair reads level and culture reads 0, and
+its relative rungs read against the median of the rungs it is shown: fail-closed, J-V13.77); under an
 omniscient preset the picture is the truth; the DM always sees the
-head revision. The layers above are the first rows of one lens mechanism (a derived layer with its legend, its audience
-filter and its time scrub over the revision history).
+head revision. The layers above are the first rows of the lens mechanism (V13 §5.8): `seatTerritory`, `sway`,
+`occupation`, `debatable` and `fighting` are the sway lens (the owner's territory rules) and `patrols` the patrols lens
+(V13 §5.9), their scrub the sway's revision history; every other lens draws under its own layer key (`lens:<id>`), toggled by the view key
+`worldLens`.
 
 The world draws on the base's integer-cm viewport (§8.1) with the world's cm as the arena coordinate — the view's
 transform is the same code with a larger extent; the tile cache is keyed by the world document's digest as a frame's
@@ -76209,14 +76381,275 @@ that view exactly these: the fine DEM draped (the vertical exaggeration a view k
 any hash — M11); every `WaterSurface` a plane at its `elevationCm` (a lake's, the sea's, a reach's stage profile as a
 ruled surface along its course); every trace a plane at its former level (`SurfaceTrace`) or the former ground
 (`TerrainTrace`); the glyph marks at the DEM's height at each point; the routes, the seat territory and sway borders, the occupation and debatable hatches, the patrol tints and the event
-pins draped on the DEM; the labels upright at their anchors' heights. **The world's M9 row** (item 140 M9): every world kind declares base
+pins draped on the DEM, and every lens's marks (V13 §5.9) with them; the labels upright at their anchors' heights. **The world's M9 row** (item 140 M9): every world kind declares base
 = the DEM and top = the DEM (a raster, a route, a border, a glyph mark, a trace) or its surface (a `WaterSurface`: base
 the bed, top the surface); none is flat — as `ZDecl` rows: `{ surface: 'dem' }` for the rasters, routes, borders,
-hatches, patrol tints, event pins, glyph marks and `TerrainTrace`; `{ base: 'bed', top: 'elevationCm' }` for `WaterSurface` and `SurfaceTrace`; `{ flat,
+hatches, patrol tints, event pins, lens marks, glyph marks and `TerrainTrace`; `{ base: 'bed', top: 'elevationCm' }` for `WaterSurface` and `SurfaceTrace`; `{ flat,
 reason: 'furniture' }` for a label candidate. The projection family, the hit test, the per-stop `Lod25Row`s and the
 vertical edit are V14's (R1–R4; V14 §5.6 (10) draws this list); nothing of the world's model changes under any
 projection (bar 14's world half: the same document hashes identically under the flat view and every projection —
 T-V13-40's row, harnessed on T-V14-14's fixture).
+
+### 5.8 The lens mechanism (J379; J384; one derived layer for every host system the map draws)
+
+A **lens** is a derived layer over the facts the host sends of one of its simulated systems — its plague, its politics
+(the sway and patrols lenses, V13 §3.9), its trade, its populations, its faiths, its prosperity and its settlements'
+alignment. Every one of those systems keeps its facts per settlement or per pair of settlements: none
+is a field over land, links decide who is touched — save four places where nearness picks (a supply link's three
+cheapest producers, the column pool's eight nearest, the pilgrim catchment's eight nearest, a satellite's site) — while
+geometry otherwise only attenuates, delays or prices, and the host keeps
+no history of most of them. So a lens draws marks at settlements, links between them, movers placed by a host clock
+and uniform fills over a settlement's own seat area — never a surface interpolated between points — and keeps the
+history it scrubs itself. Nothing of a lens is read by a stage, a sway revision, an encounter or the clerk; a lens draws
+nothing at random, and sends the host nothing but the DM-placed site offers (V13 §3.11.6).
+
+1. **One record.** Every lens is one `LensLayer` (V13 §2.2), a row of `world.lens` (V13 §2.3) with its element
+   functions in `@plat/world/lens`, drawn by one code path: its **identity** (its id, the owner rule that asked for it,
+   the host system it draws); its **sources**, each a port field with the **gate expression** that makes it live (a
+   host lane lit, the canon, a slot of the host's frozen record, a seated deity, a live plague, belief recorded, a field
+   sent); its **regime** words ((2)); its **elements**, each with its fact class ((4)), its drawing grammar (glyph, link,
+   route flow, moving marker, catchment, area fill, overlay, caption), its gate, the most of the audience it may reach
+   ((7)), its scrub source ((8)), its derivation label and its style row; its **events**, the `WorldEvent` kinds it reads
+   — one shared store of dated events, each tagged at fold with the lenses it moves by the adapter folder's event table,
+   so one occupation, conversion, boom or raid moves every lens it touches at one week and the scrub agrees across
+   lenses; its **legend** ((6)); its **refusals** ((4)); and its **why** — `lensWhy` answers per mark with the host facts
+   it read and the rule that drew it, the sway's `whyCell` generalised. A lens is added by a row and its element
+   functions, never by a second mechanism.
+2. **The regime, before the picture.** The legend's first row is the **regime banner**, computed from the regime the
+   host resolves and sends with each lens window (`HostRegime`: whether the campaign runs its birth defaults or an
+   applied preset, the canon marker, its frozen record's sea-lane, teleport and seasonal slots, each of its lanes lit or
+   dark, a deity seated anywhere, a plague live, belief recorded) — never from a preset's name, which over-states what a
+   born campaign runs. A lens's regime is the first of its regime words (V13 §5.9) whose gate holds; every regime
+   word's gate includes its lens's source sent. A window with no regime raises `W_LENS_REGIME_ABSENT`: every banner reads "the host's regime not sent", and a gated element draws only
+   the facts actually sent, labelled "regime unknown" — never a regime guessed from the facts.
+3. **The honesty rule** (J384 (13)). An element whose gate is false draws as **still**; a lens whose every gate is false,
+   or whose regime is its still word, opens in still mode with its banner and its reason in this volume's words ("no creed crosses a border: the host's
+   faith spread is off"; "this band has not moved: the campaign runs no prosperity writer"), listed collapsed in the
+   lens picker (greyed, openable) — **never hidden and never extrapolated**: no motion, trend, forecast or spread drawn
+   beyond the host's facts. **The built bias said:** where a born campaign reads biased by the host's own tables (its
+   alignment reading's malicious and belligerent lean, its prosperity's upward ratchet, its small seats that cannot
+   grow), the legend says it is the host's arithmetic, not the realm's history. **The author said:** at the host's
+   default tuning organic plague is silent and a born world seats no deity, so a lens that shows either shows the DM's
+   authoring, and says so.
+4. **No invented fact: four classes of host mark, and only four, beside the DM's own world sites.** (a)
+   **host-stored** — a fact the host persists, drawn as stored; (b) **host-derived** — a value the host computes by its
+   own law on the same window and sends (in the lens window or on request), labelled "by the host's law": the map never
+   calls or re-implements a host law, whose own copies already disagree; (c) **placement** — the map's geometry used
+   only to place a host fact (a settlement's seat area, W8a, for a uniform fill; a path laid by `pathGeometry` for a
+   link's "likely road"; a frozen site's point), labelled where it is a guess — an element of another class so
+   positioned is marked `placed`; (d) **owner-ruled map derivation** — the sway and the patrol cadence the owner's
+   territory rules asked for, labelled "projection", reaching the host only as offers it may consume and never as its truth. A world site the DM
+   placed (V14) is the map's own fact, class `dmPlaced`, labelled "DM-placed". Everything else is **refused** (`refuse.lens.invented`,
+   with the refusal's reason): a quantity the host discards (a column's losses on the road, the share of a dispersal it
+   loses, a conversion's source it did not send); a field interpolated from point facts; motion without a host clock (a
+   caravan between its ends); an effect the host does not apply (a patrol lowering danger, a border stopping a plague,
+   migrants carrying a faith); a meaning the host does not compute (a plague as a punishment, a god's region).
+5. **Two grammars for movement.** Transfers the host nets within one week draw as **dated links** between the two
+   settlements along the host's own links, never along a road; movers the host clocks draw as **moving markers** placed
+   by that clock along a placed path; never one grammar for the other.
+6. **The legend's words.** **Host vocabulary as data:** the host's band, phase and chip words travel in the adapter
+   folder's vocabulary tables, one per lens, drawn as sent; this volume's own strings are its derivation labels, its
+   still reasons and its notes. **One word, one meaning** (`world.lens`'s collision rows, as V13 §3.11.6's law (9) is
+   for politics): the host's monster-threat word for a place and its colour are never the plague lens's; *gate* is
+   written a border crossing, a route's intermediary settlement or a town gate, never bare; *toll* names which of its
+   meanings it is; *besieged* is the war's, never a stressor's; *prosperity* is the host's rung only, never its economic
+   capacity or a lifecycle's health; *temperament* is never a legend word; *alignment* is the moral reading, never a
+   bloc. **Polarity normalised:** every axis the host sends is turned by the adapter folder's polarity table to one
+   convention — lawful high, malicious high, lenient high — the table naming each host axis's own sign.
+7. **The audience filter** (J-V13.77's rule for every lens). **The DM by default:** every lens opens DM-only; a row
+   the host sends with no resolved audience is folded DM-only; covert links, columns and patrols fail closed — omitted,
+   never greyed. **A player** sees only the rows the host resolved public and, where the regime records belief, the
+   party's believed rows (`LensFacts` of audience `party`); under an omniscient regime the player picture is the public
+   truth or nothing. **No player view of alignment** (J384 (7)): the alignment lens refuses every audience but the DM
+   (`refuse.lens.audience`), and a party set's alignment rows are dropped at fold; the host's public chips stay where
+   the host shows them.
+8. **The time scrub and the plates** (J384 (9)). Every lens draws at the view's `lensWeek` (default the document's week),
+   reading, in order: host-dated facts (event weeks; a row's own weeks — an arrival, an onset, a departure, a founding,
+   an occupation's start); the sway's revision history (the sway and patrols lenses); **plates** for every fact the host
+   keeps no history of (bands, shares, phases, axes, trends); and, before the first plate, the host's own per-advance
+   pulse records where it sends them once at first bind (`LensFacts.pulses`: their population deltas and outcome
+   severities, at most its 80 advances), labelled with their horizon. A **plate** is written when a lens window folds,
+   **one per host advance**: the window's `LensFacts` (both audiences) and its polity facts' seat rungs, delta-coded
+   against the previous plate with a whole plate every `plates.keyEvery`, in the world document's plate cache
+   (`Document.lensPlates`, BCR-V13-38) —
+   outside the model digest, the records digest, the canon and every export's model (V13 §2.7). **The horizon in
+   weeks:** full resolution for `plates.fullWeeks` (520) behind the present; older plates compacted to one per
+   `plates.compactWeeks` (13), the last plate of each host quarter kept; a plate the DM pins (`pinPlate`, a cache
+   command, never an edit) is never compacted, and compaction re-encodes each kept plate against the previous kept plate
+   (or whole). A host rewind (a window replace) drops every plate after the rewound window, pinned ones included. Plates
+   start at the first advance the map observes, and the scrub declares every gap — before the first plate, beyond what
+   the pulse records hold; the interior weeks of a multi-week advance the host did not send; a store the host's quota dropped
+   (`W_LENS_PLATE_GAP`) — and replays a decaying quantity only by the host's arithmetic as sent, never by a designed
+   curve. A cache: dropping it loses only the scrub's past.
+
+### 5.9 The lenses (J384 (8)'s order; each a row set of V13 §5.8's mechanism)
+
+Each lens below gives its regime words (the first whose gate holds names the regime; the last is its still word), its
+elements — *class* **S** host-stored, **D** host-derived, **P** placement, **M** owner-ruled map derivation,
+**DM-placed** the DM's own world site; *placed* marks a host fact positioned by map geometry, labelled —, their
+audience and scrub, and its refusals. Every element reads the port's fields (V13 §2.2); every host word comes from the
+adapter folder's table for the lens.
+
+**1. Plague** (J381; the proving lens, first). *Regimes:* **front** (the canon marker set and a plague live: the
+host's front walks hop by hop along its trade and shipment links, each hop at its own travel time; on the canon the
+host still spreads it within the same week along its migration and service links, drawn as footprint marks beside the
+front), **footprint** (a plague live without the canon and the host's same-week spread lit: the host spreads it within
+the same week along its links, with no source and no time), **still** (no plague live; or, without the canon, the
+host's same-week spread dark: "nothing moves between settlements"). *Notes:* the authorship note of V13 §5.8 (3); "a
+border, a march, a patrol or an army neither stops nor slows it: the host's plague reads none of them"; the lens's hue
+and words never the monster-threat chip's.
+
+| element | reads | drawn | class | regime | audience | scrub |
+|---|---|---|---|---|---|---|
+| phase | `LensFacts.plague[].phase`, `.band` (the host's epidemic ledger, kept on the canon only) | a glyph at the seat in the host's phase words (approaching, active, receding), banded on the host's own edges | S | front | the host's banded fiction public where it so resolves; the truth DM | plate |
+| stage | a footprint row's `.stage` and `.severity` as sent | a glyph by the host's stage word, no phase word | S | footprint; front (its same-week joins) | per row | plate |
+| hop | `.source`, `.carrier`, `.arrivedWeek`; a plague arrival's `WorldEvent.sourceSeat`; with the host's front history (V13 §8.5's H24), each hop's weeks | a link from the source to the seat, its carrier named only when the host sends one (H24's per-hop receipt), never a carrier guessed; no road implied; captioned "arrived week n" | S | front, while the host names the source | DM; a player the arrival only | host-dated |
+| approach | `.onsetWeek` | a ring at the seat with the weeks to onset ("word of plague has reached") | S | front | public where the host so resolves | host-dated |
+| receding | `.clearWeek` | the glyph greyed until the week the seat may be struck again | S | front | DM | host-dated |
+| next hop | the host's onset and care law, evaluated by the host and sent as `LensLink` weights (each carrier link's chance with the destination's onset chance) | dotted links labelled "projection by the host's law" | D | front, only when sent | DM | plate |
+| footprint | `.footprint`, `.severity` | the affected seats as one same-week mark with the host's severity band — no arrow, no time; legend "spread in the same week along links" | S | footprint; front (the same-week joins the host keeps on the canon) | per row | plate |
+| consequences | the host's dated regional-impact arrivals (`WorldEvent`s tagged plague) | the host's arrival rings at their weeks | S | front, footprint | DM | host-dated |
+| aftermath | the host's echo at the origin (a dated event) | a fading ring at the origin | S | any | DM | host-dated |
+| realm arc | the host's named realm arc (a `WorldEvent` with its `seats`) | a dated caption in the lens's timeline and a thin outline on the named seats' marks — never a region | S | any, a plague live | public where the host so resolves | host-dated |
+| heard of plague | the party's believed rows | "heard of plague" at the seat | S | beliefs | party | plate |
+
+*Refusals:* a field, gradient or region of disease; an arrow or a time on a footprint; a phase word on a footprint row;
+a carrier the host did not send; deaths or losses estimated; a quarantine line; a border, march, patrol, army or
+migrant drawn carrying or stopping it; a divine meaning; a merge with the calamity marks; the monster-threat word or
+colour.
+
+**2. Sway** (the owner's territory: J377, J378, J382; V13 §3.9; second, with patrols). Its layers are V13 §5.1's
+`seatTerritory`, `sway`, `occupation`, `debatable` and `fighting`; its scrub is the sway's revision history.
+*Regimes:* **enforced** (a polity window carrying force bands: held by force drawn), **civil** (a polity window
+without them: held by force dark, debatable land stays debatable, and the legend says the host's military reading is
+not yet sent), **provisional** (a host-bound world before its first polity window: each seat projects at its tier with
+the middle rung, V13 §3.9's edges, labelled "before the host's first polity window"), **recipe** (a standalone world:
+the recipe's seats, links and relations, V13 §3.9 (5)), **still** (no seed: nothing to project). Two banner notes per
+window: "the push between adversaries is the host's strength order" or "level: the host's strength order not sent";
+"water carries the sway along the host's lanes" or "water bars the sway: the host's lanes are dark".
+
+| element | reads | drawn | class | regime | audience | scrub |
+|---|---|---|---|---|---|---|
+| seat territory (diagnostic) | `Territory` (W8a) | thin borders and crossing ticks; legend "the host's own partition: total, no wild land" | P | the canon | DM | changes only at a re-canonize |
+| sway | `Sway`, `Allegiance` | fill by allegiance; allegiance and member borders; unclaimed land unfilled | M "projection" | every | DM; V13 §5.1's player picture | revisions |
+| debatable, held by force, fighting | `swayStatus`, `debatableSides`, `MarchHold`, raids and verdicts | V13 §5.1's hatches and marks | M | held by force: enforced | as the sway | revisions |
+| occupation | `PolityLink` occupations at the host's rung | V13 §5.1's hatch on the occupied sway | S, placed | when sent | the host's resolution | revisions |
+| tributary, exclave | links, continuity | the band, the halo | M | — | DM for covert links | revisions |
+| claims | `claims` (the host's lineage claims) | the DM's claim outline of the target's sway | D, placed | while the host's lineage lane is lit | DM | revisions |
+| satellites | `PolityFacts.satellites` | dots at their frozen site points | S, placed | when placed | as the host's | revisions |
+
+Its why is the sway's `whyCell` through `lensWhy` (DM): the candidates, the class, the margins, the host's strength
+order, the deciding rule. *Refusals:* the sway handed to the host as its territory; wild land presented as a host fact;
+a debatable land drawn as a road hazard; a plague's or a caravan's danger drawn as a border's effect; a vassal's band
+added to its overlord's.
+
+**3. Patrols** (J378; second, with the sway). Its layer is V13 §5.1's `patrols`. *Regimes:* **watched** (the host's
+road watches sent and drawn first), **derived** (the cadence from garrisons, hostility, grade and the force band only;
+the garrison input a proxy until force bands are sent), **still** (no route laid, or no seed).
+
+| element | reads | drawn | class | regime | audience | scrub |
+|---|---|---|---|---|---|---|
+| cadence | `PatrolCadence` | tints per segment by cadence, striped on a debatable segment | M "projection" | both | DM; a covert power's DM-only | revisions |
+| a road the host closes | `roadWatch` (`closed`) | a closed-segment mark, legend "cut by the DM: the host names no closer and its caravans do not heed it (until H25)" | S | watched | DM | host-dated |
+| a warden's term | `roadWatch` (`warden`) | the warden's colour on the segment | S | watched | DM | host-dated |
+| a post's sight | `@plat/world/sight` | the post's viewshed on hover | P | — | DM | — |
+
+*Refusals:* a patrol drawn lowering danger or holding a quarantine line; a cadence sent to the host as a time.
+
+**4. Trade** (J380; third, with populations). *Regimes:* **loads** (on the canon, supply links carrying their load),
+**arrivals** (on the canon, supply links carrying an arrival week only), **relations** (no canon: no supply link runs
+between settlements; the channels only); still where the host sends no channel.
+
+| element | reads | drawn | class | regime | audience | scrub |
+|---|---|---|---|---|---|---|
+| channels | `LensFacts.links` of the trade lens | dated links styled as relations by kind and status (each from its `since` week when the host sends one), no road implied | S | every | per channel visibility | plate; host-dated where a week is sent |
+| supply arrival | `.arrivals` | a dated glyph at the consumer with a link from its source, "arrived week n", the load when sent | S | arrivals, loads | DM | host-dated |
+| likely road | `pathGeometry` over the host's edges | a route flow labelled "likely road" | P | arrivals, loads, on the DM's request | DM | — |
+| named traveller | `.journeys` (the frozen settlement path and its leg clock) | a moving marker at its leg's fraction of the leg's weeks along that leg's laid path | S, placed | when sent | DM unless resolved public | host-dated |
+| trade war | dated events and channels | the prize glyph and the primacy link | S | the war lane | public | host-dated |
+| cut and chartered roads | the DM's road events | marks, legend as the patrols lens's | S | — | DM | host-dated |
+
+*Refusals:* a caravan drawn between its ends without a host clock; food, service or channel "flows"; a realm market
+or a price field.
+
+**5. Populations** (J380; third, with trade). *Regimes:* **columns** (on the canon: refugees and emigrants travel as
+columns with departure and arrival weeks), **netted** (no canon: people move between settlements as same-week
+transfers); still where neither moves.
+
+| element | reads | drawn | class | regime | audience | scrub |
+|---|---|---|---|---|---|---|
+| size | the tier label; `.sizes` for the head count | a glyph by tier label | S | every | the label public; numbers DM | plate |
+| trend | `.trend` | an arrow by the sign of the host's recent deltas, labelled "by the host's law" | D | every | DM; the party's believed trend where beliefs | plate |
+| transfers | `.transfers` | dated links along the host's links, styled by kind | S | netted (and beside columns where the host serves both) | DM | host-dated |
+| columns | `.columns` | a moving marker from its departure week toward its arrival along a likely road (labelled), styled by carriage where the host sends it — road; sea along the water lane's laid path; teleport a dashed arc with no path (the host's column between its two ends, never a teleport link of the map's: §1.4's circle marks stay linkless) — and where it does not, by the host's endpoint test (an end at a port or a circle holder), labelled "likely carriage"; port and teleport columns included, which the host's own overlay hides (J384 (12)) | S, placed | columns | DM-only by default | host-dated |
+| satellites | `PolityFacts.satellites` | dots at their frozen site points | S, placed | when placed | as the host's | revisions |
+| ruins and resettlement | dated events | a dimmed glyph; donor links legended "the realm's richest" | S | — | DM | host-dated |
+
+*Refusals:* losses on the road or a column's toll estimated; the share of a dispersal the host loses; migrants drawn
+carrying a faith or a plague; a column's carriage presented as the host's when it did not send one; a density field.
+
+**6. Religion** (J379, J380; fourth). Drawn in this order: **the host's own religious hierarchy first** (superior →
+member links; its pilgrimage-centre, religious-superior and holy-site labels at their settlements), then the mixtures,
+the pressure and the events. *Regimes:* **spread** (a deity seated and the host's faith spread lit; attenuated by
+distance on the canon), **seated** (deities seated, spread dark: "pantheons still: no creed crosses a border (a
+patron's moral prescription and a fracture's unrest still do)"), **none** (no deity seated anywhere: "a creed exists
+only once the DM seats one" — a born world holds none).
+
+| element | reads | drawn | class | regime | audience | scrub |
+|---|---|---|---|---|---|---|
+| hierarchy and places | `.hierarchy`, `.faithPlaces` (the host's derivation of its authored faith-place links) | links and labels at settlement grain | D | every | as the host's | plate |
+| mixture | `.faith[].shares`, `.patron` | a ring at the seat in its shares (Σ 100); the patron's colour filling the seat's area uniformly, labelled "this settlement's patron over its seat area" | S, placed | spread, seated | public where the host has embedded the pantheon; DM else | plate |
+| standing | `.piety`, `.contested` | marks at the seat | S | spread, seated | DM | plate |
+| ruler and people at odds | `.rulerDiffers`, sent by the host | a mark at the seat, labelled "by the host's law" | D | spread, seated | DM | plate |
+| pressure | `LensFacts.links` of the religion lens, with the host's weight | links by carrier kind (alliance, trade, patronage, vassalage, a war front — hostility carries hardest — a garrison, an authority), labelled "pressure by the host's law" | D | spread, only when sent | DM | plate |
+| prescription | `LensFacts.links` of the religion lens of the prescription kind, with the host's weight (a seated patron pressing the moral institutions of carrier-linked neighbours) | links presser → target, labelled "pressure by the host's law" | D | seated, spread (the host's institution lane lit) | DM | plate |
+| institution abolished or founded | dated events (the target; its presser when sent) | a dated glyph at the target, a link from its presser only when sent | S | seated, spread | the headline public where the host so resolves | host-dated |
+| historic front | the same links, of the front kind | a link styled "historic front" (the host never retires one) | S | spread | DM; never on a published map | plate |
+| conversion | a dated event | a glyph at the convert; a link from its source only when the host sends one | S | seated (local), spread | the headline public where the host so resolves | host-dated |
+| fracture | `.fracture` (the host's conversion-fracture stressor: its affected seats and severities) and its parked arrivals (dated events) | a same-week footprint; arrival rings | S | every, its same-week spread lit | DM | plate; arrivals host-dated |
+| crisis disorder | `.faith[].disorder` | shading at the seat, labelled "by the host's law" | D | spread, seated | DM | plate |
+| holy and hidden cult sites | V14's cards with a `devotion` (V14 §2.2) | the site's mark in its deity's colour, labelled "DM-placed" | DM-placed | every | DM-only by default (a hidden cult site until the DM reveals it) | the card's dates |
+| believed faith | the party's believed rows | the believed label | S | beliefs | party | plate |
+| realm piety | `.realmPiety` | a legend figure | S | spread | DM | plate |
+
+*Refusals:* a sea carrier (J382 (c)); pilgrims, missionaries or inquisitors drawn as movers; a holy place or cult site
+the map generates or positions; a god's region or a border of faith; arrows from plague to conversion; a conversion's
+source the host did not send; a latent deity named; suppressed creeds shown to players; realm piety or movement where
+the host's lane is dark.
+
+**7. Prosperity** (J380; fifth). *Regimes:* **booming** (on the canon with the host's booms lit), **moving** (its
+festival and purchase writers lit), **frozen** ("this band has not moved: the campaign runs no prosperity writer").
+*Note (the upward drift):* where its writers are lit the host's band drifts upward realm-wide — the host's ratchet, not
+the realm's history; the sway reads it relative to the realm's median (V13 §3.9 (7)).
+
+| element | reads | drawn | class | regime | audience | scrub |
+|---|---|---|---|---|---|---|
+| the rung | `PolitySeat.prosperity`; the plates' rungs | a glyph in the host's band words, and the seat's area filled uniformly, labelled "this settlement's band over its seat area" | S, placed | every | public (the host prints the word); the party's believed band where beliefs | plate |
+| boom and bust | dated events (mint, bust, the arteries when sent) | a dated marker; artery links ("fragile" under two) | S | booming | public at mint and bust | host-dated |
+| festival stopped | dated events with their source | a mark linked to the overlord or raider | S | moving | DM | host-dated |
+| purchases and ransoms | dated events | dated links | S | moving | the headline public | host-dated |
+| donors | dated events | links legended "the realm's richest" | S | moving | DM | host-dated |
+| a band's cause | the host's band-change receipt (V13 §8.5's H29) | the cause on the glyph | S | when sent | DM | host-dated |
+
+*Refusals:* a wealth field, gradient or "hinterland wealth"; a cause for a band the host did not send; the economic
+capacity or a lifecycle's health drawn as prosperity.
+
+**8. Alignment** (J380; fifth; **DM-only**, J384 (7)). *Regimes:* **lived** (the host's reading sent, and a deity,
+deeds or a war add their terms), **born** (the host's reading sent, resting on archetype, roster and legitimacy only),
+**still** (the host sends no alignment reading, until V13 §8.5's H30). *Notes:* the polarity of V13 §5.8 (6); the
+born-world bias ("on a born world the host's tables lean malicious and belligerent: a fill centred on the middle looks
+tilted on every born world — the host's vocabulary, not the realm's history").
+
+| element | reads | drawn | class | regime | audience | scrub |
+|---|---|---|---|---|---|---|
+| the two axes | `.alignment[].law`, `.malice` | a two-way fill over the seat's area, labelled "by the host's law" | D, placed | lived, born | DM | plate |
+| aggression | `.aggression` | a glyph in the host's chip words, labelled "by the host's law"; none in its neutral band | D | lived, born | DM in the lens | plate |
+| causes | `.causes` | a card of the host's named causes, labelled "by the host's law" | D | when sent | DM | plate |
+| tolerance pull | `LensFacts.links` of the alignment lens | a link partner → seat, with no week (the host keeps none) | S | a deity seated | DM | plate |
+| reckonings | dated events (actor, victim, week) | dated links actor → victim | S | when the host runs them | DM | host-dated |
+
+*Refusals:* any player view (`refuse.lens.audience`); a believed alignment (the host keeps none); alignment flowing
+between settlements; a map-side re-reading of the host's alignment.
 
 ## 6 Performance budgets (§12's form)
 
@@ -76295,7 +76728,10 @@ its disc; `WORLD-11` a one-seat sway revision ≤ 60 ms at the realm rung and a 
 rung; `WORLD-12` the `canon` at the continent rung ≤ 2 s (coarse flood, refined crossings, the water and sites slots;
 PLAUSIBLE until SP-W8); `WORLD-13` the sway's store (a Uint16 raster with an id table, a Uint8 status, keyframes every
 `retention.keyframeEvery` revisions, sparse traces between) inside `docMb` after a 300-year run of B-WORLD-lite under
-B-POLITY (V13 §7). Each has its T-V13 row in §7.
+B-POLITY (V13 §7); `WORLD-14` the lens plate store ≤ `plates.storeMbGz` (4 MB gzipped at the realm rung) after a
+300-year run of B-WORLD-lite under B-POLITY with a lens window per advance — outside `docMb`, a cache the host's quota
+may drop — and a plate's fold ≤ 20 ms; `WORLD-15` a lens drawn at a scrub week ≤ 60 ms at the realm rung (the nearest
+whole plate and its deltas decoded, the marks laid) and one scrub step ≤ 120 ms. Each has its T-V13 row in §7.
 
 ## 7 Tests and acceptance bars
 
@@ -76307,7 +76743,10 @@ the six templates, seed i `H32("bworld/<rung>/<template>/<i>")` by V12 §2.4's c
 extended — emitting 15 600 weekly `PolityFacts` windows (300 years) over B-WORLD-lite's seeds, with foundings, tier
 steps, prosperity booms and busts, vassalage, wars, occupations, sales and razings at declared rates, its script
 versioned with the fixtures; the polity cells of V13 §2.3, `WORLD-13` and T-V13-41 (d) and (n) are measured on
-B-WORLD-lite under B-POLITY.
+B-WORLD-lite under B-POLITY. B-POLITY is extended with a lens window per advance (plague, faith, columns, journeys and
+alignment rows at declared rates; a birth-defaults regime and a canon regime), and the lens fixtures T-V13-47 –
+T-V13-55 name (the lens, all-dark, birth-defaults, audience, polarity, plague, movement and faith fixtures) are our own,
+in `fixtures/world/`.
 
 ### 7.1 Determinism, identity, ladders
 
@@ -76348,7 +76787,7 @@ B-WORLD-lite under B-POLITY.
 | T-V13-12 | the orientation-dependent terms: after a bearing change the sun's azimuth in frame terms, the wind bearing, the sea side and the river directions equal the world's turned by the bearing (mirrored: reflected); the compass rose turns; the arenas are unchanged (T-V13-2); each locked anomaly kind is reported on its fixture | four fixtures, one per anomaly kind |
 | T-V13-14 | F-WORLD's siting, path and seat rungs: a world where no candidate scores places the best cell and reports; two seats on separate landmasses without ports stay unjoined; a seat on water moves to land | three fixtures |
 | T-V13-23 | F-PLACE: a frame larger than the world is refused naming the rung; an unlawful placement keeps the asked one and offers three; an extent overlap is refused and accepted with the warning while a margin overlap is admitted; `nearestLawful` returns placements whose cost ≤ `lawfulMax` sorted by cost then distance; **no placement with a coast-side error is ever `lawful`** (C13-26) | the placement fixtures |
-| T-V13-24 | the blend: after P2 the DEM inside the frame equals the frame's dem re-based within 1 cm, the band's weights are the smoothstep, the band's former values are an `oldGround` trace, the edge RMS is re-measured and reported; the band widens by the rule when the RMS exceeds the reference and the residual is reported | the settlement-first fixture |
+| T-V13-24 | the blend: after P2 the DEM inside the frame equals the frame's dem re-based within 1 cm, the band's weights are the smoothstep, the band's former values are an `oldGround` trace, the edge RMS is re-measured and reported; the band widens by the rule when the RMS exceeds the reference and the residual is reported; a dossier event changing a placed frame's relief (the host's labelled re-terrain) re-runs P1's bearing search at the fixed origin and then P2–P3, logged as a dated re-blend whose cause is the event, the origin unmoved under `hostLocked` (V13 §3.11.5) | the settlement-first fixture; a world-stamped fixture with a re-terrain event |
 | T-V13-36 | P3: after a settlement-first placement, the world's D8 inside the dirty set agrees with the blended DEM, reach ids are kept by anchor, downstream discharge is propagated, nothing outside the dirty set changed | the digest of cells outside the set |
 | T-V13-37 | the port: `canon` is whole or refused, its travel slot byte-identical across every sway revision, death, resettlement and satellite founding and across permuted inputs, with no float, prose, raster index or echo of a host fact (a schema lint); its version vector moves only the slot whose inputs moved; two builders of the host's record agree on one fixture in two forms (ids, crossings, costs, all-pairs costs, tiers); every row names a host key; a land road and a water leg between one pair keep two ids and a re-grade keeps the id; a phantom key is skipped, never a seat; `derivedFacts` returns the settlement map record with no arena field; `charter(world, campaign)` is a `requestCharter` whose charter equals `charterFor` at the recorded placement; `proposals` honours `count`, `withinKm`, `exclude` and merged weights and persists nothing (C13-22); (b) `score` called as V14's G3 calls it (purpose weights, hard terms over V14-registered plug-ins) refuses a cell whose hard term is 0 and is bit-identical across two calls (no draw, SW-03); `clock(world, week)` sets the world's week as a view command (C13-23); the messages carry the format version | a mock host |
 | T-V13-38 | W6's spacing passes: no two capitals within `capitalKm`, no two towns within `townKm` after the passes; the shrink rule triggers on the sparse fixture; ports are promoted on coasts only; stage 2 drops, never adds | B-WORLD-lite statistics |
@@ -76368,12 +76807,21 @@ B-WORLD-lite under B-POLITY.
 | T-V13-27 | undo and redo of every edit kind of V13 §4.1 restores the digests (world and frame) and the undo stacks stay per document | B-EDIT over the world |
 | T-V13-28 | the heightmap round trip reproduces the DEM within one quantum | the `image` op |
 | T-V13-29 | an older frame loads with surfaces built, an empty carve delta reported, the table derived and the diff shown; every older event reads `alwaysSo` | the pre-V13 fixture |
-| T-V13-41 | the sway (the owner's territory rules): (a) determinism and order-freedom — the same facts give a byte-identical sway, permuted inputs the same, batch and one-by-one triggers within a week one revision; (b) partition invariance — every sway revision and every death, resettlement and satellite founding leaves W8a's crossings and costs byte-identical; (c) no flicker — a prosperity rung alternating every 4 weeks for 2 years gives 0 revisions, a change held 13 weeks exactly 1, a military or culture band oscillating inside its dwell 0, armies crossing with no outcome 0; (d) no snowball — 0 to 12 vassals give a monotone reach ≤ capTier, top-band military in uncontested land changes no cell, and in a 300-year soak under B-POLITY no allegiance exceeds its land-share band and no cell beyond Treinf is held through a bonus; (e) the debatable width between equal adversarial towns is 2 · `margins.civ` ÷ (1/τ1 + 1/τ2) ± one cell, equal military stays debatable, a lead ≥ `margins.mil` holds by force, a neutral pair has no debatable cell, allies split at the midline; (f) exclaves — a vassal beyond Treinf is an exclave, a new road within it makes it continuous at the next revision, the host grading that road hidden makes it an exclave again, a host verdict overrides the map's; (g) a satellite on unclaimed land is a claim point of its parent's allegiance and never a seat; (h) events — a razing transfers nothing and the reach follows the host's next tier, an occupation (with or without an occupier, and a treaty-held one) hatches, changes no holder and holds its culture bands, the occupation's vassalized rung changes the allegiance, a sale re-roots at mint, a death leaves W8a unchanged, a resettlement re-projects at the smallest tier; (i) charter invariance — a revision leaves every frame's model and records digests unchanged; (j) belief — a covert link never appears on a player surface, and with `audienceKnowledge` an unknown event is absent; (k) seat cells — no seat cell or placed frame's extent is ever debatable or held by force; (l) J382 — with culture bands sent, a seat's reach into land of the farthest culture is shorter by the `phi` law; with the water lanes dark no sway crosses water, lit a lodgement reaches no farther than `lodgementDays` inland; a culture pair the host did not send reads 0 and is reported; (m) history — a past week's sway from keyframes and traces equals its re-derivation, for revisions whose causes stand in a window or in its events; (n) retention — after 300 years of B-POLITY the store stays within `WORLD-13`; (o) continuity — a member made adjacent only by its own bonus stays an exclave, and the two-pass result is order-free; (p) incremental equals whole — a revision over its dirty box is byte-identical to a whole-world W8b over the same facts, on every fixture and on 1 000 random single-trigger revisions; (q) rivers — two equal seats across a navigable river, one nearer it by less than `river.crossingDays`, split at the river rather than at the travel-time midline | the polity fixtures; B-WORLD-lite under B-POLITY |
-| T-V13-42 | patrols: `patrolAt` is identical across runs and machines and follows the cadence exactly (a monthly patrol is present one week in four, on its fixed phase); coverage moves only at revisions; `patrolOffer` carries no time; a road the host closes is covered by its closer every week; a hidden road has none; both sides patrol a debatable segment | fixtures |
+| T-V13-41 | the sway (the owner's territory rules): (a) determinism and order-freedom — the same facts give a byte-identical sway, permuted inputs the same, batch and one-by-one triggers within a week one revision; (b) partition invariance — every sway revision and every death, resettlement and satellite founding leaves W8a's crossings and costs byte-identical; (c) no flicker — a prosperity rung alternating every 4 weeks for 2 years gives 0 revisions, a change held 13 weeks exactly 1, the realm's median rung moving and held 13 weeks exactly one whole-world revision in which a seat whose rung rose with it keeps its reach, a military or culture band oscillating inside its dwell 0, armies crossing with no outcome 0; (d) no snowball — 0 to 12 vassals give a monotone reach ≤ capTier, top-band military in uncontested land changes no cell, and in a 300-year soak under B-POLITY no allegiance exceeds its land-share band and no cell beyond Treinf is held through a bonus; (e) the debatable width between two adversarial towns of one strength band is `margins.civ` · τmin ± one cell on the travel-time midline (J384 (3)), a strength band one higher on one side moves it toward the other by `margins.pushPerBand` ÷ 2 · τmin and changes no cell beyond either side's reach, a continuous vassal's reinforcement moves no such line (it enters only (10)'s tie-break), a band not yet past its dwell leaves the pair at its last counted band, with no strength band sent the pair reads level and `W_POLITY_STRENGTH_ABSENT` is raised once per window, equal military stays debatable, a lead ≥ `margins.mil` holds by force, a neutral pair has no debatable cell, allies split at the midline; (f) exclaves — a vassal beyond Treinf is an exclave, a new road within it makes it continuous at the next revision, the host grading that road hidden makes it an exclave again, a host verdict overrides the map's; (g) a satellite on unclaimed land is a claim point of its parent's allegiance at its frozen site's point and never a seat, projecting at τTier × 1 × 1 with no bonus, its parent's strength band in an adversarial cell and absent from the held median, its people never in its parent's size third, an orbit-only satellite neither drawn nor projected (J384 (11)); (h) events — a razing transfers nothing and the reach follows the host's next tier, an occupation (with or without an occupier, and a treaty-held one) hatches, changes no holder and holds its culture bands, the occupation's vassalized rung changes the allegiance, a sale re-roots at mint, a death leaves W8a unchanged, a resettlement re-projects at the smallest tier; (i) charter invariance — a revision leaves every frame's model and records digests unchanged; (j) belief — a covert link never appears on a player surface, and with `audienceKnowledge` an unknown event is absent; (k) seat cells — no seat cell or placed frame's extent is ever debatable or held by force; (l) J382 — with culture bands sent, a seat's reach into land of the farthest culture is shorter by the `phi` law; with the water lanes dark no sway crosses water, lit a lodgement reaches no farther than `lodgementDays` inland; a culture pair the host did not send reads 0 and is reported; (m) history — a past week's sway from keyframes and traces equals its re-derivation, for revisions whose causes stand in a window or in its events; (n) retention — after 300 years of B-POLITY the store stays within `WORLD-13`; (o) continuity — a member made adjacent only by its own bonus stays an exclave, and the two-pass result is order-free; (p) incremental equals whole — a revision over its dirty box is byte-identical to a whole-world W8b over the same facts, on every fixture and on 1 000 random single-trigger revisions; (q) rivers — two equal seats across a navigable river, one nearer it by less than `river.crossingDays`, split at the river rather than at the travel-time midline; (r) the factors (J384 (1); J385) — ln reach rises by ln 1.15 per size third and ln 1.1 per relative rung, the relative rung clamped at ±3, a realm whose every rung rises by one changes no reach; (s) raids (J384 (5)) — a raid with no outcome word moves no band and marks its segments fighting for `fightingWeeks`, the same raid with the host's outcome word moves its winner's band by one; (t) a host lineage claim draws a DM-view outline and moves no cell; (u) a bypass — a host `network` change of kind bypass re-lays its route round the avoided seat's radius as a dated lay version under the same host key, the former lay kept; (v) a planting line — a trigger waiting on its dwell shows in the `events` layer in the window its fact arrives, and is gone at its effect week or when it lapses | the polity fixtures; B-WORLD-lite under B-POLITY |
+| T-V13-42 | patrols: `patrolAt` is identical across runs and machines and follows the cadence exactly (a monthly patrol is present one week in four, on its fixed phase); coverage moves only at revisions; `patrolOffer` carries no time; a road the host closes is covered by its closer every week; a hidden road has none; both sides patrol a debatable segment; a patrol whose source (a seat by its force band, a fort or watchpost by its garrison band, else its holder's) is of band 3 or more runs one rung denser and of band 1 or less one rung sparser, and with no band sent for its source no shift | fixtures |
 | T-V13-43 | time: two routes sharing a corridor report equal effort per shared metre whatever their laying order; a site dropped on a host route leaves the leg count unchanged and moves its effort by the detour only; after a seat is added every leg outside the closure keeps identical time fields and every changed leg appears in `timeDelta`; a band crossing raises `W_TRAVEL_BAND_CROSSED`; under every basis (absolute, normalized, normalized-frozen) a vassal drawn continuous passes the host's own band read at the week shown, its Treinf in cost units under the sent calibration | the travel-law fixture |
 | T-V13-44 | the calendar: for every land cell beyond the tropics in the calendar hemisphere the coldest week of its curve lies in the host's winter quarter (39–51) and the hottest in its summer quarter (13–25) | V11's climate rows |
 | T-V13-45 | the import of the host's estate: a synthetic 1.114-shape fixture made by our own script imports; a miles fixture beyond the continent band offers the rescale, crop or coarser cell and never clamps; a custom unit refuses until typed; a fixture whose only coast lies at the file's top edge lands on the world's north edge and its round trip restores the pixel row within one rounding unit; a host-embedded snapshot's states and cultures steer nothing | the import fixtures |
 | T-V13-46 | the windows: (a) an advance, an undo and a re-advance send windows whose fold leaves the world equal to one that saw only the final window; a consumed edit is sealed; an edit while the host is parked is refused; a window keyed by its history sequence while the advance epoch is dark folds as one keyed by its nonce; (b) with the host's per-tick change log present, one lived history advanced weekly and as one year gives an identical revision list; without it, the revisions of facts standing at each window's end agree and the year's reasons declare window resolution | the mock host |
+| T-V13-47 | the lens record and the honesty rule (J384 (13)): every lens of `world.lens` has a `LensLayer` whose sources carry gates, whose regime comes from the window's `HostRegime` and never a preset's name (a fixture named after a lit preset whose regime has every lane dark draws still), and whose legend's first row is the banner; on the all-dark fixture (no canon, every lane dark including relationship drift and stressor spread, no deity, no plague) every lens opens still with its reason, listed collapsed in the picker, none hidden, no element drawn beyond its gate; on the birth-defaults fixture (the host's birth rules, no preset applied, no canon, no deity) the prosperity lens reads frozen and the religion lens none, both in still mode and listed collapsed (a conversion fracture's footprint the host sends still drawn), while the sway reads civil, trade relations and populations netted, and plague reads footprint once a plague is live — none hidden; with no regime sent every banner reads "the host's regime not sent", `W_LENS_REGIME_ABSENT` is raised once and nothing gated draws but the facts sent, labelled | the lens fixtures |
+| T-V13-48 | no invented fact: a lint over every `LensElement` — exactly one class, `placed` where a placement positions a host fact, a label on every host-derived, placement, placed, projection and DM-placed element, the classes as V13 §5.9's tables give them; `@plat/world/lens` computes no host-derived value (a call-graph lint: such a value is only read from the host's rows); every refusal of V13 §5.9 asked as a draw returns `refuse.lens.invented` with its reason; a supply arrival never draws between its ends; a footprint row never draws an arrow or a time; no lens draws an interpolated field | lint; the lens fixtures |
+| T-V13-49 | the words: every word a lens draws is in the adapter folder's tables or this volume's legend strings; the collision lint finds no lens using another meaning's word or colour (the monster-threat chip's above all); every host axis of the polarity fixture lands on the convention (lawful, malicious and lenient high) | lint; the polarity fixture |
+| T-V13-50 | the audience: a row with no resolved audience is DM-only; a player picture holds only the public rows and, where the regime records belief, the party's believed rows — under an omniscient regime none; covert links, columns and patrols are absent from it, not greyed; the alignment lens refuses every audience but the DM (`refuse.lens.audience`) and a party set's alignment rows are dropped at fold (J384 (7)) | the audience fixtures |
+| T-V13-51 | the plates (J384 (9)): one plate per host advance; a rewind drops every later plate; the world's model and records digests are byte-identical with the plate store full, empty or dropped; after 600 weekly advances the plates older than 520 weeks are one per 13 weeks (each quarter's last kept), every pinned plate survives and every kept plate, re-encoded against the previous kept plate, decodes to its former content; a rewind drops every later plate, pinned ones included; a scrub before the first plate or across interior weeks the host did not send declares the gap (`W_LENS_PLATE_GAP`); a host-dated fact scrubs to its exact week; before the first plate the host's pulse records, where sent, scrub with their horizon labelled; a capped draw is byte-identical across runs (ties by the lower seat key, then the lower id); the store stays within `WORLD-14` after 300 years and a lens draws at a scrub week within `WORLD-15` | B-POLITY's scripted host extended with a lens window per advance |
+| T-V13-52 | the plague lens: on the canon fixture the front draws hop by hop, each hop's link from its source captioned with its arrival week and the approach ring with the weeks to onset; on the uncanonized fixture with the same-week spread lit the footprint draws as one same-week mark with no arrow, no time and no phase word, and with that spread dark a live plague reads still; with the canon and the same-week spread lit, a migration-channel join draws as a same-week mark beside the front; a hop names its carrier only when the host sent one; with no plague live the lens is still; a realm arc is a dated caption and an outline on its seats, never a region; no mark uses the monster-threat word or colour | the plague fixtures |
+| T-V13-53 | movement: netted transfers draw as dated links and never as markers; a column draws from its departure week at its clock's fraction along a path labelled "likely road", a sea column along the water lane's laid path, a teleport column as an arc with no path, port and teleport columns DM-only by default (J384 (12)); a column with no sent carriage draws its likely carriage, labelled; a named traveller sits at its leg clock's fraction on its frozen path; a supply link with no clock draws only its arrival | the movement fixtures |
+| T-V13-54 | the religion lens: the host's hierarchy draws before every other mark; a mixture ring sums 100; with spread dark the lens reads seated and draws no spread pressure, a seated patron's prescription still drawn where the host's institution lane is lit; no faith link crosses water as a carrier (J382 (c)); a conversion draws a source link only when the host sent one; a card with a `devotion` draws labelled "DM-placed" and DM-only until revealed; no holy place is generated (J384 (10)) | the faith fixtures; V14's devotion card |
+| T-V13-55 | the prosperity and alignment lenses: the rung fills its seat area uniformly with no gradient across a border; booms and busts draw at their weeks; the upward-drift and born-world bias notes stand where their gates hold; the alignment lens is DM-only and still until the host sends its reading; a party set's alignment rows never draw | the lens fixtures |
 | T-V13-40 | the view: each layer renders at each stop on the vector rung; the water class overlay reads by pattern without colour; the world's first frame ≤ 400 ms at the continent rung | §13.4's render tests |
 
 ### 7.5 The report codes (§5.4's form; BCR-V13-18)
@@ -76391,6 +76839,10 @@ B-WORLD-lite under B-POLITY.
 | `W_POLITY_SEAT_MOVED` | warning | W8a | the seat, from, to |
 | `W_POLITY_CYCLE`, `W_POLITY_TWO_LIEGES` | warning | W8b | the link dropped or drawn as a claim |
 | `W_POLITY_CULTURE_ABSENT` | warning | W8b, once per window | the seat pairs within reach the host sent no culture band for |
+| `W_POLITY_STRENGTH_ABSENT` | warning | W8b, once per window | the adversarial pairs within reach the host sent no strength band for (read level) |
+| `W_POLITY_SATELLITE_UNPLACED` | warning | W8b | the satellites with no frozen site point (neither drawn nor projected) |
+| `W_LENS_REGIME_ABSENT` | warning | a lens window's fold | the window; every lens's banner reads the regime unknown |
+| `W_LENS_PLATE_GAP` | warning | the scrub | the lens and the weeks with no plate (before the first observed advance; interior weeks the host did not send; a dropped store) |
 | `W_SWAY_LOCK_CONTRADICTED` | warning | W8b on a standalone world | the lock, the revision, the facts it contradicts |
 | `W_TRAVEL_BAND_CROSSED` | warning | a dry run, a route-class edit, a fork preview | the legs, their weeks before and after, the bands |
 | `W_HOST_CANON_BEHIND` | warning | a lay version or a seat territory the host has not adopted | the version, the edits |
@@ -76403,6 +76855,7 @@ B-WORLD-lite under B-POLITY.
 | `W_IMPORT_LOSS`, `W_IMPORT_REPAIRED` | warning | the adapter | the key or record, what was done |
 | `W_MIGRATE_NO_CARVE` | warning | load | the document |
 | `refuse.world.recipeOp`, `refuse.world.tier`, `refuse.place.fit`, `refuse.place.worldRef`, `refuse.charter.dossier`, `refuse.surface.date`, `refuse.import.version`, `refuse.import.key`, `refuse.import.extent`, `refuse.import.unit`, `refuse.place.hostLocked`, `refuse.world.hostSeats`, `refuse.world.hostRoute`, `refuse.world.advancing`, `refuse.world.hostRequires`, `refuse.world.hostPolitical` | refusal: a §7.1 outcome key rendered by V09's catalogue, never a `ReportCode` (C13-53) | the dry run, the adapter | the op, the rung, the frame and world, the dossier fact and the nearest lawful origin, the date, the version, the key |
+| `refuse.lens.invented`, `refuse.lens.audience` | refusal: a query outcome rendered by V09's catalogue, never a `ReportCode` | `lensAt`, the lens picker | the lens, the element, the reason |
 | `E_WORLD_SINK`, `E_GW_CAP` | bug abort (§5.1 (8)) | W4, the groundwater step | the cell |
 
 **Bars carried as rows** (SW-33: one owner per bar, the other volume's row its named clause): bar 3 → T-V13-2; bar
@@ -76429,15 +76882,16 @@ scale (one engineer, the reference hardware); estimates are PLAUSIBLE until the 
 |---|---|---|---|
 | **M-W0 spikes** (before M-W1; after M0 closes) | SP-W1 the lifted priority flood and accumulation at 9.2 M cells; SP-W2 the two-tier coherence search's cost; SP-W3 W6's stage-2 iteration count (one or two); SP-W4 the adapter's round trip on the synthetic fixture; SP-W5 the frame's groundwater step against S1's row; SP-W6 W1 over the six templates at 9.2 M cells (C13-10); SP-W7 W7's A\* at the continent rung over B-WORLD-lite (C13-36) | each spike a pass/fail number (V13 §8.4) | 3 pw |
 | **M-W0h the water state at the frame** (after M4, beside M5; before M6-U's U3b; SW-14) | the hydro lift (BCR-V13-1); `carveDeltaCm`, `Terrain.surfaces`, `datumOf` on a standalone frame; the groundwater step and `waterTableAt`; `classifyWater`, `governingSurface`, `routeClass`, `surfaceSetDigest`; the two verbs and the cascade at the frame; the counterfactual fork; `ReasonRecord` and its readers; V04's readers switched (BCR-V13-2, -3, -21, -23); its only new dependency M4's render tier for the overlays | T-V13-4, 6, 8, 9, 10, 20, 22, 25, 27, 29, 33–35 | ≈ 4 pw |
-| **M-W1 the world** (the brief's W1) | `@plat/world` with the lifted hydro core (BCR-V13-1); W0 Blueprint, W1 Terrain recipe, W2 Features and surfaces, W3 Climate, W4 Hydrology with groundwater, W5 Biomes and resources, W6 Suitability (stage 1); the frame-side water state, the verbs, the cascade, the fork and `ReasonRecord` as M-W0h landed them (SW-14), the cascade now at both scales (BCR-V13-9, -10) and the four readers over the world's records (BCR-V13-17, -24); P1–P5 with the charter both ways and S0/S1 reading it (BCR-V13-4, -5); the port's `canon` (the travel, water and sites slots), `derivedFacts`, `charter`, `proposals`, the world header, `costLaw`, `travelLaw`, `bindSeat`, `unbindSeat`, `importSeats`, `hostRequires`, the `events` windows, `canonized` and `consumed`, and the `physicalChange` offer (BCR-V13-11); the world view's raster and water layers and the glyph (BCR-V13-13); the world dialog and the placement tool (BCR-V13-25) | T-V13-1 – T-V13-10, 12, 13, 15, 20 – 25, 27, 29 – 37; bars 3, 4, 5, 9, 10, 13 | 14 pw |
+| **M-W1 the world** (the brief's W1) | `@plat/world` with the lifted hydro core (BCR-V13-1); W0 Blueprint, W1 Terrain recipe, W2 Features and surfaces, W3 Climate, W4 Hydrology with groundwater, W5 Biomes and resources, W6 Suitability (stage 1); the frame-side water state, the verbs, the cascade, the fork and `ReasonRecord` as M-W0h landed them (SW-14), the cascade now at both scales (BCR-V13-9, -10) and the four readers over the world's records (BCR-V13-17, -24); P1–P5 with the charter both ways and S0/S1 reading it (BCR-V13-4, -5); the port's `canon` (the travel, water and sites slots), `derivedFacts`, `charter`, `proposals`, the world header, `costLaw`, `travelLaw`, `bindSeat`, `unbindSeat`, `importSeats`, `hostRequires`, the `events` windows, `canonized` and `consumed`, and the `physicalChange` offer (BCR-V13-11); the world view's raster and water layers and the glyph (BCR-V13-13); the world dialog and the placement tool (BCR-V13-25) | T-V13-1 – T-V13-10, 12, 13, 15, 20 – 25, 27, 29 – 37, 44; bars 3, 4, 5, 9, 10, 13 | 14 pw |
 | **M-W2 routes, polity, siting stage 2** (the brief's W2) | W7 Routes under the host's cost law with the time stations, the genesis lay and the lived network; W8a and W8b with the patrol step and the border-post proposals; W6 stage 2; the port's `routes`, `routeFacts`, `mapFeed`, `patrolOffer`, `pathGeometry`, `borderSegment`, `placeOf`, the recorded `genesis`, `network` and `polity` windows and the presentation inputs `clock`, `hostOverlay`, `beliefView`, `audienceKnowledge`; the routes, seat territory, sway, occupation, debatable, fighting, patrol and event layers; standalone `setSeats` | T-V13-14, 16, 17, 38, 39, 41 – 43, 46; the B-WORLD statistics bars | 8 pw |
-| **M-W3 labels, exports, the adapter** (the brief's W3) | W9 Labels; the world's label placement; the four exporters and the frame's export additions (BCR-V13-12); the map-import adapter with its schema file; the picture exports' world rows; the retirement of the host's reference fork (the host's track, V13 §8.5) | T-V13-11, 18, 19, 26, 28, 40; bar 7's world half | 6 pw |
+| **M-W3 labels, exports, the adapter** (the brief's W3) | W9 Labels; the world's label placement; the four exporters and the frame's export additions (BCR-V13-12); the map-import adapter with its schema file; the picture exports' world rows; the retirement of the host's reference fork (the host's track, V13 §8.5) | T-V13-11, 18, 19, 26, 28, 40, 45; bar 7's world half | 6 pw |
+| **M-W5 the lenses** (after M-W2, beside M-W3; before M-W4, whose gate covers it) | the lens mechanism (`LensLayer`, the regime banner, the four classes and the refusals, the vocabulary, collision and polarity tables, the audience filter, `lensAt`, `lensWhy`, the plate store and the scrub; V13 §5.8); the port's `lensWindow` and the events' lens tags; the lenses in the ruled order, each a step — plague; the sway (territory) and patrols (M-W2's layers reconciled to the record); trade and populations; religion (with V14's devotion cards); prosperity and alignment (V13 §5.9) | T-V13-47 – T-V13-55 | 7 pw |
 | **M-W4 hardening** | the budgets' register rows measured (T-V13-17, 20), the memory test, the low-tier refusal, the migration of older frames at scale, the clean-room lint over the three packages | every T-V13 row green in the nightly tier | 3 pw |
 
-The volume states no total of its own (§16's rule; C13-45): M-W0 – M-W4 is priced as one staged-milestone row in §16
-with the estimate range 30–38 pw, each mechanism widening a named §16 line (BCR-V13-19) — O1 terrain and hydrology:
+The volume states no total of its own (§16's rule; C13-45): M-W0 – M-W5 is priced as one staged-milestone row in §16
+with the estimate range 37–45 pw, each mechanism widening a named §16 line (BCR-V13-19) — O1 terrain and hydrology:
 the lift, the groundwater step, the surfaces, the position-keyed lattice; O9: the verbs, the cascade, the fork, the
-placement edits; O11: the four exporters, the adapter, the port's second door; O12: the world layers and the glyph;
+placement edits; O11: the four exporters, the adapter, the port's second door; O12: the world layers, the glyph and the lenses;
 the rig: B-WORLD and the eighteen drift tests; V11's content line: the fourteen tables' rows and the two climate rows.
 The frame-side water state alone (the part V04 and V14 wait on) is its own milestone M-W0h (≈ 4 pw) after M4, built before M-W1 (SW-14).
 
@@ -76469,9 +76923,19 @@ The frame-side water state alone (the part V04 and V14 wait on) is its own miles
 
 ### 8.5 The host's parallel track (stated, not designed here)
 
-The host implements, in this order (each optional read dark and data-gated — absent ⇒ the prior bytes — with its
-tier line, its degraded arm and its coupling row; the transition for existing campaigns in phases 0–5, of which phases
-0–3 change no byte of a campaign's simulated state):
+This is the design's one host-change list: the realm review's list it was carried from and the proposal's former items
+are superseded by it (items 817, 832). The host implements, in this order (each optional read dark and data-gated —
+absent ⇒ the prior bytes — with its tier line, its degraded arm and its coupling row; each row also carrying its
+first-visible line, or a planting line where its effect waits on a dwell, measured spreads or UNMEASURED for every
+band it mints, and its felt sentence, and landing as a lazy leaf under the host's first-paint ratchet; H22 – H30 carry
+the lenses' asks in their build order, none required for a lens to open (V13 §5.8 (3)); within H22 – H30 the exports
+(the lens window, keys, receipts, news, stored paths) change no simulated byte, while the clauses that change simulated
+behaviour — H22's birth canon (a declared shift for new campaigns only), a raid's outcome word, an arrived plague's
+condition with its loop cap, the missing-settlement latency, the ledger's plague mapping, the one-service crisis fence,
+the further column dispatches, the donor distance term, the town drawing's frozen band, the moral drift fix — are
+offers the host may decline, each a declared shift for new campaigns or behind its own rules flag, and no lens waits on
+any of them; the transition for existing campaigns in phases 0–5, of which phases 0–3 change no byte of a campaign's
+simulated state):
 
 | # | when | the host changes | waits on |
 |---|---|---|---|
@@ -76479,23 +76943,32 @@ tier line, its degraded arm and its coupling row; the transition for existing ca
 | H2 | now | every mover band derived from the realm's measured spectrum or justified, the reinforcement band first | — |
 | H3 | now (documents) | the register rows mirroring this volume's words (V13 §3.11.6 (9)); the world scale's source dated: a world from the map module declares it, the reference generator's scale and unit read only by the import; and, a dated bracket on its own ruling, the absolute distance that ruling lights for new worlds waits, for a world from the map module, on the per-map band census (H2), by its own dead-band law | — |
 | H4 | with M-W1 | the world port's messages in the host client (a seat's removal sent as `unbindSeat`, offered to its re-canonize like an addition); the port consumption law in code (no port call inside a tick; answers baked with their stamps; the client inside the host's own import scan for courts) | M-SF; M-W1 |
-| H5 | with M-W1 | a second builder of its frozen record over the canon, the reader-facing shape unchanged, every sub-record sourced or declared absent; the conformance fixture; its cell-level readers moved to the canon's per-seat queries and points; a satellite's site a world point | M-W1; V13 §11 Q4 (lit only after its answer) |
+| H5 | with M-W1 | a second builder of its frozen record over the canon, the reader-facing shape unchanged, every sub-record sourced or declared absent; the conformance fixture; its cell-level readers moved to the canon's per-seat queries and points; a satellite's site a world point; its satellite-ground reader and that reader's certification row reading each ground point's terrain class and step cost from the sites slot | M-W1; V13 §11 Q4 (lit only after its answer) |
 | H6 | with M-W1 | its cost law 2 in this volume's schema; its cost-units row; an explicit cost-law stamp on every native record; the scale stamped from the header (carried only within one geometry version); one coordinate adapter between this frame and its render frame | M-W1; H4; H5 |
 | H7 | after H2 | a native world's seed minted at its store layer and kept with the campaign's; the first canonize stamps the scale only after H2 (until then the normalized arm over the canon's tier-1 adjacency, its calibration sent with the travel law, H8) | H2; M-W1; H4; H5 |
 | H8 | with M-W1 | the travel law sent as data with its calibration (weeks per cost unit) at every re-canonize, normalized or absolute; `canonized` per re-canonize; the time-delta receipt stored; a migrated campaign's frozen leg weeks | M-W1; H4 |
 | H9 | with M-W1 | the events window after every advance, undo and resume, committed facts only, keyed by the advance nonce when its advance epoch is lit, else by its pulse-history sequence, with the resolved audience (also applied to the conditions a frame draws) | M-W1; H4 |
 | H10 | with M-W1 | a per-campaign world record beside the settlement map records (snapshot, log, backups, quota, lifecycle); the players' world view from its party picture set | M-W1; H4 |
 | H11 | with M-W1 – M-W2 | its port verdict over the canon's water access, returned as a view attribute; its frozen per-settlement water verdicts sent as constraints; its water lanes over the canon's latent candidates under its own law; a lake vocabulary admitting salt and a climate-band version over the settlement's physical record | M-W1; M-W2; H4; H5 |
-| H12 | with M-W2, as its genesis mount at world birth lands (its own schedule puts that after its release) | genesis at world birth over the canon with the founding members placed first, sent as one frozen record (even while dark); its render-tier roads retired; route changes and grades per window; genesis on a member's joining; its charter command reachable from the world editor | M-W2; H4; H5; its genesis mount at world birth |
-| H13 | with M-W2 | the polity facts per window: seats with tier, size third, prosperity rung, its force band (its capacity facets bar the economy facet, renormalised on its existing five floors) and garrison presence; links in the vassal labels of its relationship-state plane (the plane its simulation reads; merging its two planes is its owner's) and its four subordinating treaty terms — tribute and compelled alliance sent as live terms, a treaty-held occupation flagged —, the occupation's two records resolved to their union; relations pairwise in the same plane; held sites; its culture distance in its plain form over its whole vector (no trade tie) for every pair within its reinforcement band or at its neighbour tier ≤ 2, banded in fifths (J382; J384 (2)); whether its water-lane system is lit and its adopted lanes (J382); its road closures and wardens' terms; the DM's christenings; the per-link continuity verdict whenever its sovereignty market is lit (optional while it is dark); optionally, at its choice, a per-tick capture of its political deltas during an advance — the dated rung changes of tier, prosperity and force band — into the window | M-W2; H4; H9 |
-| H14 | with M-W1 – M-W2 | for a settlement generated from a world charter, its access word derived from the charter's road and water facts before generation; existing campaigns' configurations stay canonical | M-W1; M-W2; H4 |
+| H12 | with M-W2, as its genesis mount at world birth lands (its own schedule puts that after its release) | genesis at world birth over the canon with the founding members placed first, sent as one frozen record (even while dark); its render-tier roads retired; route changes and grades per window; genesis on a member's joining, with its ports' totality per evaluation; its charter command reachable from the world editor; the quiet-quay rule for a decayed water lane checked; the move-lock's release named per seat | M-W2; H4; H5; its genesis mount at world birth |
+| H13 | with M-W2 | the polity facts per window: seats with tier, size third (its own people, its satellites' never counted, J384 (11)), prosperity rung, its strength order — its own settlement-strength comparator, banded in fifths by its own strength banding (the one its envoys read), the comparator its relationship drift reads to choose a raider and an overlord (J384 (3)) —, its force band (its capacity facets bar the economy facet, renormalised on its existing five floors) and garrison presence; links in the vassal labels of its relationship-state plane (the plane its simulation reads; merging its two planes is its owner's) and its four subordinating treaty terms — tribute and compelled alliance sent as live terms, a treaty-held occupation flagged —, the occupation's two records resolved to their union; relations pairwise in the same plane; held sites; its standing claims of one seat on another (its lineage claims, while that lane is lit); its satellites with their parent, tier and frozen site point (J384 (11)); its forced tributes as tribute links with their weeks; its culture distance in its plain form over its whole vector (no trade tie) for every pair within its reinforcement band or at its neighbour tier ≤ 2, banded in fifths with the week each band was sampled (J382; J384 (2)); whether its water-lane system is lit and its adopted lanes (J382); its road closures and wardens' terms; the DM's christenings; the per-link continuity verdict whenever its sovereignty market is lit (optional while it is dark); optionally, at its choice, a per-tick capture of its political deltas during an advance — the dated rung changes of tier, prosperity, force band and strength band — into the window | M-W2; H4; H9 |
+| H14 | with M-W1 – M-W2 | for a settlement generated from a world charter, its access word derived from the charter's road and water facts, and its terrain word from the charter's relief, biome and water facts by the inverse of DR1's relief-class row (the table the `dossier` term reads), before generation; its terrain-agreement notice retired, its role taken by `refuse.charter.dossier`; existing campaigns' configurations stay canonical | M-W1; M-W2; H4 |
 | H15 | with M-W2 | world edits held while an advance runs or is parked; `physicalChange` applied at the next tick head with the DM's attribution; `consumed` sent; geometry shifts and lay versions adopted only by its receipted re-canonize, after a dry run of the canon's diff | M-W2; H4; H5 |
-| H16 | each optional | the crossing holder enters its per-gate pipeline only by its owner's re-ruling of who keeps a gate (today the intermediary settlement whose territory the path crosses), with its own register row — until then a map-feed reading only; patrol coverage re-priced through its one distance reader, read by outcome rolls only, any route choice reading it through its belief (the known world), and the crossing holder likewise; the sway as an advance-head overlay (fixed for an advance, at most one advance stale, stamped with its revision on its overlay version axis, its own live occupation, relationship and closure reads overriding it at a hop); the border segment and the typed place as a hearing card's "where" — a field battle placed at the settlement its record names where it names one, and a border segment offered where it names none touching its owner-gated field-battle place question, lit only on its owner's word; the seasonal sets; route facts as overlays; aerial legs; the canon's causes as receipt parents; a hemisphere lag | M-W2; H12; H13 |
+| H16 | each optional | who keeps a gate is ruled (J385; V13 §11): the intermediary settlement whose territory the path crosses keeps it until the sway has passed its soak (T-V13-41 (d)'s 300-year soak under B-POLITY, the polity cells measured), and the crossing holder is then offered as a per-gate policy the host may adopt gate by gate, each with its own register row — until adopted a map-feed reading only; patrol coverage re-priced through its one distance reader, read by outcome rolls only, any route choice reading it through its belief (the known world), and the crossing holder likewise; the sway as an advance-head overlay (fixed for an advance, at most one advance stale, stamped with its revision on its overlay version axis, its own live occupation, relationship and closure reads overriding it at a hop); the border segment and the typed place as a hearing card's "where" — a field battle placed at the settlement its record names where it names one, and a border segment offered where it names none touching its owner-gated field-battle place question, lit only on its owner's word; the seasonal sets; route facts as overlays, with a water edge's limits on request (the shallowest navigable depth, the narrowest width, the freezing quarters; V13 §3.11.6), offered for a lane capacity the host does not yet read (its lanes carry one fixed capacity no router consults); flood exposure for a world from this module (its calamity exposure reading the terrain word H14 derives from the charter — a riverside or coastal word already weights it — and, only if the host chooses a finer reading, the settlement's physical record's wet-season flood share, a declared shift); aerial legs; the canon's causes as receipt parents; a hemisphere lag | M-W2; H12; H13 |
 | H17 | with M-W2 | the presentation messages: movers and embattlement phases, projected for the audience; the DM's believed view where belief is recorded; optionally an audience's known political events | M-W2; H4 |
 | H18 | before the fork retires | phase 1: every saved map's capture frozen with its export (on the owner's next open and by a headless batch to a published deadline, public gallery rows first; verdicts confirmed, absent with a witness, or changed); legacy re-canonize reads the stored capture; satellites' cells translated once to world points under a confirmed verdict | M-W3 (the 1.114 adapter); H1 |
 | H19 | after M-W3 | phase 4: an elective, premium, receipted rebase per campaign with its forecast diff (V13 §11 Q1); share codes gain a geography-source axis; custom-backdrop campaigns an elective trace-a-world path; its map surfaces re-pointed (the territory lens stays on the seat territory, H5, and the sway is drawn by a new lens under its own registered name — the allegiance lens, its owner's choice; roads → the map feed's paths; travel rings → its own bands; travellers → the overlay; the charter road card → its edge's path) | M-W3; H5; H6; H18 |
 | H20 | at H18's deadline | phase 5: the fork, its content-security policy, origin, hash manifests and validation gate retired; blobs and exports kept read-only for a stated retention; every geometry-1 record kept forever | H18 |
-| H21 | any | the audit's unknowns: the modified upstream source, the missing design documents, the production frame size, other snapshot versions | — |
+| H21 | any | the audit's unknowns: the modified upstream source, the missing design documents (among them its reference-map weave volume, its map program's generation specification and fabric charter, and its open-decisions register, none read by the map's reviews), the production frame size, other snapshot versions | — |
+| H22 | with M-W2, for new campaigns only (after H7 and H12) | a world from this module **canonized at the campaign's birth** (J384 (6)): the first canon adopted as the campaign is created, its scale stamped by H7's rule and its genesis network laid at birth (H12), so the canon-gated lanes its rules light run from its first week — on the host's birth defaults the crisis columns, the plague front and the routed supply links; rite adoption, pilgrim catchments and booms only where its rules carry them (an applied preset, never the birth defaults alone); beliefs only where it records belief — and every lens's regime starts on the canon; whether birth canonization follows the host's canonize entitlement or lifts it for a world from this module is the host's choice, stated with this row; every existing campaign untouched (its genesis kept; its own canonize stays the DM's act) | H5; H7; H12; V13 §11 Q4 |
+| H23 | with M-W5 (its first step) | the **lens window** after every advance, undo and resume (`lensWindow`, V13 §3.11.6), beside the events window: per advance, for each lens, the ledger rows it already keeps — its plague records, faith mixtures, carriers, places and hierarchy, its realm piety and its conversion-fracture footprint, channels, supply arrivals, named travellers' journeys, netted transfers, columns and its seats' head counts, and its alignment reading (H30) — and, where it chooses, the values its own laws compute on the window for the lenses' host-derived marks (each live plague node's next-hop chance per carrier link with the destination's onset chance; each carrier link's faith pressure per deity and each prescription's pressure; each settlement's population trend sign, ruler-and-people tension and crisis disorder), each labelled with the law that computed it; each row with its resolved audience (a row without one is folded DM-only), and a party set of believed rows where it records belief; its **resolved regime** with every window (born or applied, the canon marker, its frozen record's sea-lane, teleport and seasonal slots, each lane lit, a deity seated, a plague live, belief recorded), so no lens reads a regime from a preset's name; the interior weeks of a multi-week advance, or a compact per-week delta log; once, at first bind, its kept per-advance pulse records (their population deltas and outcome severities); and, in the events window (H9), the dated events each lens reads — plague arrivals and realm arcs, conversions, booms and busts, stopped festivals, purchases and ransoms, resettlement donors, moral reckonings, column departures and arrivals | M-W5; H4; H9 |
+| H24 | with M-W5's plague step | the plague asks: the source seat's key on each materialized plague record and on its arrival event; a bounded front history (a receipt per hop: source, carrier, weeks, onset outcome); the road season read in its display's weeks-away; an arrived plague writing its condition where it lands (the condition gap closed), with its condition loop capped as its famine loop is; a settlement missing from its frozen record read as "no spatial delay known", never one week; its ledger's plague obligation mapped to its one plague type; each crisis served as netted transfers or as columns, never both | H23 |
+| H25 | with M-W5's sway and patrols step | the sway and patrol asks: its strength order in the polity window (H13) and, where it chooses, per adversarial pair its stronger side or tie by its own comparator; a raid's outcome word and, where known, its place (or its pair, placed by `borderSegment`) — the word that makes a raid a verdict (V13 §3.9 (11)); tier changes as dated facts, and whether a promotion writes the settlement's tier label; patrol coverage given a host meaning (a producer for its road-warden and road-predation pair kinds, or coverage as its embattlement's security input, H16); a DM-cut road's closer named, and its caravans reading the cut or the cut labelled propagation-only in its own interface; whether a DM-confirmed war-front channel can embattle a settlement with its war layer dark; its sea-lanes switch's copy corrected (it governs fleets and blockades, while its caravans, its refugee pricing and its plague latency use the frozen record's lanes whatever the switch says); what its culture distance's "same governing name" term means — a government label or a real overlord — with its header corrected | H13; H16; H23 |
+| H26 | with M-W5's trade and populations step | the trade asks: a shipment's path and departure week stored; caravan arrivals, starvations and entrepôt foundings emitted as news; settlement keys on purchase news (read by the prosperity lens too) | H23 |
+| H27 | with M-W5's trade and populations step | the population asks: each column's dispatched route and its carriage (land, sea lane or circle) and its toll (departures, deaths at the origin and on the road) stored; the origin named on its arrival rows and each population delta's own reason kept in its history; columns dispatched when a queued emigration, a terminal death or a forced abandonment is approved | H23 |
+| H28 | with M-W5's religion step | the faith asks: the deity key and the strongest carrier's source on each faith-front mint and each conversion receipt, and a mint retired when its carrier ends; a share history, or a dated share-change receipt, per settlement pantheon; its faith prescription's rows (presser, target, weight) and its moral institutions' abolition and founding news with the presser named; its own command adopting a DM-placed holy or hidden cult site (V14 §2.2's `devotion`; J384 (10)) | H23; V14 §11 Q2 (its site record) |
+| H29 | with M-W5's prosperity and alignment step | the prosperity asks: a band-change receipt (settlement, from, to, writer, week), a boom's sustained rungs included; a distance term in its resettlement donor pool, or the honest word "the realm's richest" in its own text; the founding band frozen for town drawing (its town layout and district wealth word re-read the live band) | H23 |
+| H30 | with M-W5's prosperity and alignment step | the alignment asks: a per-advance alignment reading in the lens window (both axes and their bands by its own law, the aggression chip word, the top constituent causes), published as its faith projection is; its moral drift's compounding decay, and its freeze outside belief worlds, fixed if the host so chooses (a defect its alignment read found; the lenses replay nothing, they scrub plates, V13 §5.8 (8)); a week on each tolerance offset's causes | H23 |
 
 Phases 2–3 are the map's (the import on request, never on load; a legacy campaign's world view with no write to its
 simulated state, its overlays converted through its stored capture and the import's transform). Its schedule is the
@@ -76582,11 +77055,28 @@ owner's question (V13 §11 Q2).
 | J-V13.75 | chose **the forced-fact precedence by the placement's stamp** (world: dossier > the DM's locks > the charter's boundary facts > tier priors > terrain plausibility > the draw; settlement: dossier > the frame whole > world facts as derived readings), with `W_EDIT_DOSSIER`, over the fabric volume's ladder verbatim (world facts below tier priors break realm coherence) or one ladder for both stamps (existing towns re-derived) |
 | J-V13.76 | chose **politics read once into the charter** (`polityAtCharter`: the culture and the revision only) and the frame's live political context as a derived reading, the coherence term scored once at the placement edit, over a live territory row in the charter (every border revision would stale world-stamped frames) |
 | J-V13.77 | chose **host facts carrying the host's resolved audience** (DM-only withheld with its geometry; hidden never sent; unresolved DM-only) and a player picture re-derived over the whitelisted or known political facts, over a public default (leaks the DM's sieges) or a map-chosen secret default |
-| J-V13.78 | chose **one word, one meaning across the seam** (territory the seat territory; sway, allegiance, debatable, held by force, unclaimed, exclave, fighting, sway revision, member force, road patrol, border post, lodgement, keyframe; no bare march, gate, embattled, epoch, levy, contingent, foothold or checkpoint as a token) over prose qualification (code reads records) or renaming the host's landed words |
+| J-V13.78 | chose **one word, one meaning across the seam** (territory the seat territory; sway, allegiance, debatable, held by force, unclaimed, exclave, fighting, sway revision, member force, road patrol, border post, lodgement, keyframe, outranked, a lens's per-advance record a plate and the lens over the sway the sway lens; no bare march, gate, embattled, epoch, levy, contingent, foothold, checkpoint or claimant as a token, no lens record called a snapshot or a frame, and no territory lens over the sway) over prose qualification (code reads records) or renaming the host's landed words |
 | J-V13.79 | chose **the host owning the genesis network's topology and grades and the world its geometry** — W7 laying exactly the host's genesis edges at world birth and mirroring its lived changes, nothing moving a bound route silently — over W7 as the genesis (a rank law replacing the host's access-graded one) or two selections side by side |
 | J-V13.80 | chose **edits on a host-bound world under the host's decree law** (held while it advances or is parked; dated at its next tick head and offered; sealed when consumed; retcons only as its receipted re-canonize; political and military kinds refused, the host's own command opened, no message proposing one; forks silent) over free retcons under a lived history or a shared undo stack |
 | J-V13.81 | chose **the import reading what the host actually has** — a pinned adapter for the host's fork's own export beside users' files, the unit per file, no silent rescale, one stated y-flip, the host's placements as a recorded import request, the file's states and cultures never steering a host's snapshot — and **the transition in phases** (capture first, import on request, a legacy world view with no write, an elective rebase, retirement with every frozen record kept) over a version floor that refuses the host's whole estate, a clamp, an implicit flip, or forced migration under a geometry change (rewrites lived futures) |
 | J-V13.82 | chose **the seasonal curve on the host's calendar** (the hottest week 23 in the calendar hemisphere, 49 in the other; seasonal states as 52-week sets keyed to the host's week of year, every multiplier the host's) over a January-first phase on a spring-first calendar (frost in the host's spring) or clamping southern cells (falsifies the climate) |
+| J-V13.83 | chose **prosperity relative to the realm's held median rung** — clamped to ±3, read only at revisions with the 13-week dwell, the median itself held by its own dwell and moving the whole world in one revision (J384 (1)) — and **log-linear size and prosperity factors** (1.15 per size third, 1.1 per relative rung), so the reach is exponential in tier, size and prosperity as the owner's words ask (J385), over the absolute rung (the host's band ratchets upward realm-wide, so every reach would inflate together over the years), continuous re-reading (borders move only on dated facts) or arithmetic steps (exponential in tier only) |
+| J-V13.84 | chose **the adversarial push deferring to the host's own strength order** — the two sides compared on travel time at the steeper fade (the smaller τ of the two), the host's stronger side gaining `margins.pushPerBand` per band of its order (its own fifths), level while the host sends none — with the map's projection keeping each side's reach, floor and ceiling and the map's vassal reinforcement moved out of the push into the military tie-break (J384 (3); the host's comparator has no chain term), over the map's τ or its reinforcement deciding the push (two systems deciding one contest, and the map giving a march to the side the host's own raids treat as the weaker) or showing the disagreement only in the cell's why (a pair inside one fifth reads level though the host may still rank it — its own tie margin is narrower; the host may send, per adversarial pair, its stronger side or tie, H25) |
+| J-V13.85 | chose **satellites sent with the polity facts and drawn at their frozen site points**, projecting their own small reach inside their parent's allegiance, never chain members, their people out of their parent's size third (J384 (11)), over counting parent and satellites as one size (a satellite counted twice) or drawing them on an orbit ring (a cosmetic ring slot the host draws by, not the site it sampled) |
+| J-V13.86 | chose **a raid without the host's outcome word as a fighting mark that moves no line, and a raid with one as a verdict** (its winner +1 at the victim's facing segments) (J384 (5)), with the host's embattlement phases drawn only through its presentation overlay, never as a march mover, over reading every raid as won by its aggressor (an outcome the host does not compute) or embattlement as a verdict (a pressure, not an outcome) |
+| J-V13.87 | chose **one `LensLayer` record and one drawing path for every lens** (identity, sources with gates, regime, elements with fact classes, events, legend, scrub, refusals, why), the sway and patrol layers its first rows, over a code path per lens (eight legends, eight audience filters and eight scrubs that would drift apart) |
+| J-V13.88 | chose **the honesty rule** — the regime banner from the host's resolved regime before the picture; a lens whose gates are false shown still with its reason, collapsed in the picker, never hidden or extrapolated; the host's built biases and the DM's authorship said (J384 (13)) — over hiding a dark lens (the DM could not learn why nothing moves) or extrapolating motion the host does not run |
+| J-V13.89 | chose **four classes of host mark and only four** (host-stored; host-derived only as the host computes and sends it by its own law, labelled, never a host function the map calls; placement, labelled where it is a guess; the owner-ruled projections, labelled and offered, never the host's truth), the DM's own world sites beside them, and a refusal for everything else, over map-side recomputation of host laws (a fourth copy of readings whose host copies already disagree) or interpolated fields (every host system is settlement- or pair-grain) |
+| J-V13.90 | chose **the lens window as a presentation input kept as plates** — never logged, never in a digest, the canon or a reason chain, read by no stage, sway, encounter or clerk — over a recorded input (the world's log and digests would move with presentation facts the host revises freely) or live reads only (no scrub: the host keeps no history) |
+| J-V13.91 | chose **plates in a cache of the world document's own** (`Document.lensPlates`, BCR-V13-38) — one per host advance, delta-coded, 520 weeks at full resolution then one per 13 weeks, DM-pinned plates kept, dropped after a host rewind, a cache the host's quota may drop (J384 (9)) — over a store outside the world document (lost with the campaign's world), the base's `derived` caches (rebuilt from base + log on load, which a plate cannot be), every advance forever (unbounded) or plates in the model digest (a picture moving the world's identity) |
+| J-V13.92 | chose **the audience filter fail-closed** (the DM by default; an unresolved row DM-only; a player sees the host's public rows and, only where the host records belief, its believed rows; covert things omitted, never greyed) and **no player view of the alignment lens** (J384 (7)), over a public default (leaks the DM's truth) or a believed view the host does not keep (any player alignment view would leak the truth) |
+| J-V13.93 | chose **the build order plague, the sway (territory) and patrols, trade and populations, religion, prosperity and alignment** (J384 (8)) — plague the proving lens: one sparse ledger with phases, a source, two forward weeks and the host's own player and DM split — over the sway first (its layers exist, but the sway is the map's own projection and exercises the mechanism's honesty, audience and scrub least) |
+| J-V13.94 | chose **two movement grammars** — dated links for netted same-week transfers, moving markers placed by a host clock for clocked movers — and **every column class drawn**, the port and teleport columns the host's own overlay hides included, styled by carriage where the host sends it (else by its endpoint test, labelled "likely carriage") and DM-only by default (J384 (12)), over one grammar for both (teleports drawn as walks, columns as jumps) or the host overlay's shortcuts (hidden classes, re-derived paths, positions by the current season) |
+| J-V13.95 | chose **holy places and hidden cult sites only as DM-placed world sites tagged with a deity** — DM-only by default, offered to the host for adoption — beside the host's own faith-place labels at their settlements, with the host's religious hierarchy drawn first (J384 (10)), over generated holy sites, pilgrims or missionaries (no host fact) or no positioned faith places at all (the DM's campaign wants them, and the deity tag is a map fact the host may adopt) |
+| J-V13.96 | chose, **on who keeps a gate under the sway**, the host's intermediary settlement until the sway has passed its soak, the crossing holder then offered as a per-gate policy the host may adopt (J385), over the crossing holder at once (a gate drives tolls, interception and contraband every tick, and the sway is a projection not yet soaked) or leaving it an open question (the owner's pass-and-trade principle is honoured by the later offer) |
+| J-V13.97 | chose **the patrol cadence moved one rung by the force band of the source its round trip is measured from** (`forceShift`: a seat's force band, a fort's or watchpost's garrison band, else its holder's; none while the host sends none for it), carrying the owner's "military strenght to enforce" into the patrols, over a cadence from garrison distance, hostility and grade only |
+| J-V13.98 | chose **the host's standing claims kept in the polity facts with a reader** (its lineage claims; a DM-view claim outline that moves no cell) and **`outranked` for a third allegiance at a cell**, the host's landed word for an heir left alone, over striking the field (the host computes seat-on-seat lineage claims as a war reason once its lineage lane is lit, and the DM wants to see them) or keeping *claimant* (one word with two meanings across the seam) |
+| J-V13.99 | chose **a bypass mirrored in the lived network** (the host's detour round a seat it avoids, re-laid as a dated lay version under the same host key, the hysteresis the host's) over leaving bypass geometry to the host alone (its detour would have no world path) |
 
 **Deferred decisions** (recorded, not taken): D-V13.1 a second resolution rung for the frame's hydro grid under a
 charter (finer than §2.3's) if T-V13-13's edge RMS bar fails on steep charters; D-V13.2 a world-scale `erode` op if
@@ -76645,8 +77135,10 @@ and `Document` gains, after `nextUndergroundPart`:
 > `namespace: string /* the address namespace segment (V13 §2.5; BCR-V13-6): minted once at creation, kept on clone and save-as (C13-24) */;`
 A world document's `base` holds its rasters as `fields` chunks and its records in the entities block (V13 §2.7); its log
 holds V13 §4.1's events. §2.9's per-viewer view keys gain `worldZoom` (0–3, default 1), `worldLayer` (V13 §5.1's
-thematic layer, default `relief`), `showTraces` (default false) and `surfaceDate` (a `Week`, default the document's
-week); the world document's `week` key is set by the season control or `view.set { week }` (V13 §2.1; SW-24).
+thematic layer, default `relief`), `showTraces` (default false), `surfaceDate` (a `Week`, default the document's
+week), `worldLens` (the lenses open and the picker's collapsed rows, default none open; V13 §5.8) and `lensWeek` (a
+`Week`, default the document's week); the world document's `week` key is set by the season control or `view.set
+{ week }` (V13 §2.1; SW-24).
 
 **BCR-V13-6 — §6.3 Identity: the namespace segment (item 140 M1).**
 *Current text:*
@@ -76709,6 +77201,9 @@ reserved session `world:place` beside `host:port` (C13-34, C13-40, C13-53).
 *Revised 2026-10-17 (file m):* the world port's messages, its two feeds and its consumption law are V13 §3.11.6's; the
 base's port paragraph, its never-read list (scoped to the dossier door) and §11.4's fifth door carry them (file m items
 778, 777, 779).
+*Revised 2026-10-17 (file n):* the lens window joins the port's presentation inputs, kept only as plates (V13 §5.8 (8)),
+and the DM-placed site offers join its map feed (V13 §3.11.6); the base's port paragraph and §11.4's fifth door carry them
+(file n item 837).
 
 **BCR-V13-12 — §11.1 Formats: the world's rows and the frame's water additions.**
 *Current text* (the GeoJSON row's opening):
@@ -76870,7 +77365,25 @@ zoom the scale bar is drawn in the world's display unit (the view key `worldUnit
 **BCR-V13-32 — §15: the fabric volume as evidence, not as this program's decision rule.** A crosswalk row per law of the
 host's settlement-map fabric volume (its terrain-first, forced-fact, morphology, continuity and wall laws, its exit
 bearings, true scale bar, arterial seeds and audience-surviving fork base), each with its status: met; met for the
-host; conflict ruled (V13 J-V13.75, BCR-V13-33, -34, -35); realm seam open; not applicable.
+host; conflict ruled (V13 J-V13.75, BCR-V13-33, -34, -35); realm seam open; not applicable. The rows:
+
+| the fabric volume's law | status |
+|---|---|
+| terrain first | met (S1 inside the charter) |
+| the forced fact | conflict ruled, J-V13.75 |
+| morphology and its founding record | realm seam open (the host's founding record is prose) |
+| the water mode | conflict ruled, BCR-V13-33 |
+| terraforming and visible work | status owed by the base's epochs |
+| the exit bearings and arterial meeting at the edge | met, BCR-V13-30 |
+| neighbour edges on a standalone frame | met, BCR-V13-31 ("standalone, none") |
+| integer-cm frames and the true scale bar | met (integer-cm frames; the base's scale bar, §9.5; the world bar, BCR-V13-31) |
+| the arterial seeds | met for the auto forms, BCR-V13-36 |
+| road drift | met for the host, `roadsAt` |
+| the audience-surviving fork base | met (player views project the stored document, never re-derive behind the audience wall) |
+| relief | conflict ruled, BCR-V13-34 |
+| reroll | conflict ruled, BCR-V13-35 |
+| the razing bearing | met, BCR-V13-36 |
+| the wall trace | status owed |
 
 **BCR-V13-33 — §4.2 S1 (3): a chartered frame whose dossier is not riverside is never bisected.** Its river runs in
 `near` mode (beside the core, never through it); a riverside share is a table tendency; the parity presets keep
@@ -76888,9 +77401,18 @@ campaign's. The kernel is unchanged.
 skeleton is laid before the nuclei (the auto forms only); besiegers' camps and razing scars are oriented by the force's
 direction through the world, a razing's bearing recorded once in its epoch.
 
-**BCR-V13-37 — §16: the world's estimate.** The staged-milestone row for M-W0h and M-W0 – M-W4 reads 30–38 pw (M-W2
-widened by 2 pw for the sway, the patrols and the windows; V13 §8.2), and the staged milestones' total moves by the
-same 2 pw at both ends.
+**BCR-V13-37 — §16: the world's estimate.** The staged-milestone row for M-W0h and M-W0 – M-W5 reads 37–45 pw (M-W2
+widened by 2 pw for the sway, the patrols and the windows; M-W5 the lenses, 7 pw; V13 §8.2), and the staged
+milestones' total moves by 9 pw at both ends (2 for the sway, 7 for the lenses); wherever BCR-V13-19's sentence and
+BCR-V13-20's row name the world milestones M-W0 – M-W4, they read M-W0 – M-W5 (M-W5 the lenses, after M-W2), and this
+request's range stands for the staged row's estimate.
+
+**BCR-V13-38 — §2.9 `Document`: the world document's plate cache.** `Document` gains, beside `derived`, `lensPlates?:
+LensPlate[] /* a world document only (V13 §5.8 (8)): the host-fed lens plates — never canonical, outside every digest,
+kept across loads and saves as `elaborations` is, never rebuilt or recomputed on load (a plate is what the host sent,
+and the lens window is never logged), dropped only by the host's quota, a host rewind or compaction (pinned plates
+kept by compaction) */`; the base's `derived` comment ("caches rebuilt from base + log") stays true of `derived`, and
+no loader moves a plate into it.
 
 ### 10.2 Requests to V14 (what V14 must supply; single source: these stay V14's facts)
 
@@ -76908,6 +77430,7 @@ same 2 pw at both ends.
 | R-V14-10 | G6 hands a site level's units as `WaterUnit`s with `passages` from the unit graph and the vertical links; `floodSite`/`drainSite` fold to `setSurface` on the level's `site` surface (SW-06) | V13 §3.12.6, §3.13.1, §4.1 |
 | R-V14-11 | a site subject goes through every placement edit as the frame does (`setPlacement`, `worldWins` as G5 (f)'s re-materialization, `unplaceFrame`); the site document holds only its `placementRef` (SW-11, SW-19) | V13 §2.7, §3.11, §4.3 |
 | R-V14-12 | adoption is V14's own hook on the `world.placed` message (the `placed` outcome row of P4/P5); V13 calls nothing of V14 (SW-10) | V13 §3.11, §1b.2 |
+| R-V14-13 | the card's `devotion` (V14 §2.2: a DM-placed holy or hidden cult site's deity key and role; stated only, never generated; DM-only by default) — read by the religion lens and offered in the DM's map feed (J384 (10)) | V13 §3.11.6, §5.9 |
 
 ## 11 Owner questions (true owner decisions only, each with a recommendation)
 
@@ -76920,12 +77443,12 @@ from this module — which moves its lived futures, a class of same-seed movemen
 *Recommendation:* offer it per campaign, premium, default keep, with the full forecast diff (travel weeks, tiers,
 crossings, ports, water lanes) shown before confirmation; never automatic.
 
-**Q2 — The host's schedule and the launch classification.** The host's own changes (V13 §8.5's H1–H21) are the host's
+**Q2 — The host's schedule and the launch classification.** The host's own changes (V13 §8.5's H1–H30) are the host's
 program on the owner's schedule; and replacing the host's launch-core realm map is not covered by the owner's clearance
-of the settlement-layer map module for after launch. The owner decides when the host's track runs against M-W1 – M-W3
+of the settlement-layer map module for after launch. The owner decides when the host's track runs against M-W1 – M-W3 and M-W5
 and whether the realm map's replacement is part of the map module's post-launch disposition. *Recommendation:* class it
 with the map module's post-launch disposition; the host launches on its fork with H1–H3 done; H4–H11 in step with M-W1,
-H12–H17 with M-W2, H18–H20 after M-W3 (the standalone world ships either way: T-V13-37's mock host covers the map side);
+H12–H17 and H22 with M-W2, H23–H30 with M-W5, H18–H20 after M-W3 (the standalone world ships either way: T-V13-37's mock host covers the map side);
 the transition per campaign, opt-in and data-preserving.
 
 **Q3 — Share codes and replay.** A world's share code (V12's replay of a recipe) replays W0–W9 from `Recipe.world`;
@@ -76942,6 +77465,15 @@ for the settlement map's geometry, and the base's fifth door says so; the owner 
 world-scale derived facts only. Until the answer the host's builder over the canon (V13 §8.5's H5) stays dark.
 *Recommendation:* confirm; the settlement frame's geometry stays behind the closed door.
 
+**Ruled — who keeps a gate under the sway** (J385; J-V13.96; recorded here as a ruling, not an open question). The
+host's crossings stay on the seat territory; the choice between the host's intermediary settlement — the one whose
+territory a path crosses, which keeps the gate today, with its tolls, its interception and its contraband — and the
+political holder of the crossing — the owner's own principle that holding the pass holds the trade, against the sway's
+enforcement — is ruled under the owner's delegation: the intermediary settlement keeps the gate until the sway has
+passed its soak (T-V13-41 (d)'s 300-year soak under B-POLITY, with the polity cells measured); the crossing holder is
+then offered to the host as a per-gate policy it may adopt gate by gate, each with its own register row (V13 §8.5's
+H16). Vetoable.
+
 ## 12 CONFIRMED versus PLAUSIBLE
 
 **CONFIRMED** (read from the base, the volumes, the amendments, the proposals or the site package's code):
@@ -76957,7 +77489,7 @@ evidence (the survey's sections named in V13 §3) — none of its numbers, names
 **PLAUSIBLE** (this volume's design, each with its measurement):
 every constant marked own and calibratable in V13 §2.3 and §3 (the climate and hydrology laws, the groundwater
 gradient and permeabilities, the hydraulic coefficients, the biome matrix, the suitability weights and spacings, the
-route cost rows, the polity rule's cells (`world.polity`, V13 §2.3; measured on B-WORLD-lite under B-POLITY), the coherence weights and the lawful bound, the blend band, the water
+route cost rows, the polity rule's cells (`world.polity`, V13 §2.3; measured on B-WORLD-lite under B-POLITY), the lens rule's plate horizon, store and draw caps (`world.lens`; measured by `WORLD-14` and `WORLD-15`), the coherence weights and the lawful bound, the blend band, the water
 class thresholds, the flood shares and barrier kinds, the resource rules) — measured by T-V13-16's statistics bars at
 M-W1 and M-W2 and re-cellled by `editTable`; the budgets of V13 §6 — measured by T-V13-17 and T-V13-20 at M-W4 with
 V13 §8.4's fallbacks; the spikes' outcomes (V13 §8.4); the estimates of V13 §8.2; the deferred decisions; the glyph
@@ -76966,12 +77498,18 @@ ecosystem file is the owner's to supply, never captured by this lane). The volum
 re-used (the flood and D8; the base's edit machinery) for every 1 PLAUSIBLE one it adds; the PLAUSIBLE ones are data
 or measured.
 
-**The one owner-rule deviation this volume carries** (C13-05): item 135 (c) — "resolution is added deterministically
+**The owner-rule deviation this volume's design carries** (C13-05; the host's track carries one bounded deferral, below): item 135 (c) — "resolution is added deterministically
 from the coarse fact, position and seed, so neighbouring frames agree at a shared edge unseen" — is met in the design
 by BCR-V13-29 (the position-keyed lattice on placed frames) and the margin-overlap rule (V13 §3.11, §3.11.4); until
 that base request is applied, the base keys S1's noise by the town root and neighbouring frames agree only at the
 charter's edge profile and outlines, not in their interiors — T-V13-13's two-frame fixture is marked expected-fail
 until BCR-V13-29 lands, and the coherence pass admits the request.
+
+**One owner directive deferred, bounded and visible** (J385; V13 §8.5's H2, H3 and H7). The owner's directive of
+2026-08-05 that the host's normalised spread of march weeks give way, for scaled worlds, to absolute distance is
+deferred for a world from this module until the host's per-map band census lands (H2): until then a native world rides
+the host's normalized arm (`TravelLaw.basis` `normalized`, its calibration sent with the travel law, H7, H8). The
+deferral ends when H2 lands; it is recorded here so the owner sees it, and is not extended without the owner's word.
 
 **Parity against the survey's decision matrix** (`research/fmg/FMG-survey.md` §"The consolidated decision matrix", as
 evidence; C13-51): every KEEP or GENERALIZE row that touches the world regime, with V13's mechanism and whether it is
@@ -77414,7 +77952,7 @@ V13 supplies is marked **V13** and listed again in V14 §1b.6.
 | `WorldSite` (the card; V14 §2.2) | `dropSite` (a candidate card), `promoteEncounter` (`as: 'site'`), G2–G8 (its programme, vector, document, lifecycle, knowledge, history), a host record through V08's port (its host-owned fields) | G-SITE (every stage), the icon (V14 §5.1), the site panel (V09), the `site` why section (V10), V12's measures, the derived-facts port (its capacity), V13's W6 (a destination), V07's and V13's adoption, the exports | the entities block of the host document (attached, `inFrame`, `ground`, `surface`) or of the site document itself (free-standing); its declared fields in the model digest, its G2–G8 products in the host's **derived block** (V14 §3.1; C14-03); the registry row BCR-V14-1 |
 | `SiteAnchor` (V14 §2.3) | `dropSite`; `promoteEncounter`; adoption (re-addressed); `moveAnchor` | the icon and its context rule, the access record's host, the admission function, V09's panels, V10, the exports (a point feature), Find's listing | the host document's entities block; §2.7's staged records (BCR-V14-1) |
 | `AccessPoint.source: 'site'`, `AccessPoint.under` as `SiteReach` (V14 §2.3) | G8 (a) (the one access record), `moveAnchor` (re-dug) | V03's access head (the trapdoor, stair or hatch in the plan), V04's drawing of its underground end and V01's ground symbol, the per-storey and per-band VTT portals, the clerk | II.7.4 (BCR-V14-2) |
-| `SiteRequest`, `Stated<T>` (V14 §2.2) | the user (the site dialog, V09; a skeleton line; the clerk's `propose`), `promoteEncounter` (derived from what was there), a host record's fields | G2 (the resolution), G3 (floors, shape, terrain), G4 (purpose, size), G7 (condition, age), the clerk ("asked for …, derived …") | the card |
+| `SiteRequest`, `Stated<T>` (V14 §2.2) | the user (the site dialog, V09; a skeleton line; the clerk's `propose`), `promoteEncounter` (derived from what was there), a host record's fields | G2 (the resolution), G3 (floors, shape, terrain), G4 (purpose, size), G7 (condition, age), the clerk ("asked for …, derived …"); its `devotion` (the DM's only) V13's religion lens and the DM's map feed's offers (V13 §5.9, §3.11.6) | the card |
 | `SiteProgramme` (V14 §2.2) | G2 | G4 (the grammar's axiom and budget), G5 (the materializer composition, the envelope), G7 (the history layers' ages), the measured vector's comparison, V03's programme row override for the surface exception | the card's derived block (never in a digest; rebuilt on open, V14 §3.1) |
 | `ComplexityVector` (V14 §2.2): target and measured | G2 (the target: a preset's vector adjusted by the request), G5's close (the measured, on the finished geometry) | T-V14-6's assertion, the clerk, the size dialog (a preset is a named vector), V12's measures | the card |
 | `UnitGraph`, `Unit`, `UnitEdge`, `VerticalLink` (V14 §2.2) | G4 (the graph), G5 (each unit's geometry reference, each vertical link's two ends with their elevations) | G5 (the embedding), G6 (per-unit classes), G7 (collapses close units, breaches open edges), the tactical check, the 2.5D slabs (`VerticalLink` drawn as stacked-slab joins), the clerk (every unit's reason), the exports (portals, stairs) | the site document's entities block; `VerticalLink` the base's vertical-link row (BCR-V14-6) |
@@ -77639,11 +78177,18 @@ interface SiteRequest {
   hiddenEntrance: Stated<boolean>;                              // the entrance unit's edge is a secret edge (V14 §3.5 G4)
   floodedLevel: Stated<number|null>;                            // 'lvl': the level below which units are flooded by request — G6 sets the governing surface at that level's floor (a dated surface in V13's terms)
   envelopeM2?: Stated<number>;                                  // 'm2': the plan envelope; defaulted from the preset's areaM2
-  entrances?: Stated<number>; secrecy?: Stated<'open'|'discreet'|'secret'> }   // 'count'; the whole site's default knowledge
+  entrances?: Stated<number>; secrecy?: Stated<'open'|'discreet'|'secret'>;   // 'count'; the whole site's default knowledge
+  devotion?: Stated<SiteDevotion> }                           // a DM-placed holy or hidden cult site's deity (J384 (10)): `stated` only — G2 never derives it, no preset defaults it, no stage writes it
 type SizePreset = 'lair'|'small'|'medium'|'large'|'vast';
 type FootprintShape = { shape: 'round'|'square'|'oblong'|'irregular'|'polygon'; ring?: PolygonCm; aspect?: number /* oblong: 1.3–3 */ };
 type TerrainShaping = { op: 'none'|'level'|'raise'|'cut'|'moat'|'cliffFace'; amountCm?: Cm /* raise or cut: ≤ EmbedRule.terrain.maxShapeCm */; radiusM?: number };
 type SiteCondition = 'pristine'|'occupied'|'vacant'|'damaged'|'ruined';
+interface SiteDevotion { deity: string /* the host's deity key on a host-bound world (the adapter folder's deity table); the DM's own name on a standalone world */; role: 'holy'|'cult' /* a holy place, or a hidden cult site */ }
+  // a map fact, labelled "DM-placed" wherever it is drawn (V13's religion lens, V13 §5.9) and never generated; DM-only by default, as every card starts unrevealed to the party (an
+  // attached site's anchor `dmOnly`, V14 §3.9 (b); a free-standing site's `knowledge.players` 'none') until the DM reveals it, a `cult` site never revealed by any default; G2's `secrecy.devotion`
+  // row makes a `cult` site `secret` (a hidden cult site), a `holy` one keeping its kind's default; a `setSiteRequest` touching only `devotion` re-runs G2 under V14 §4.7's locality — where the
+  // derived `secrecy` flips, `hiddenEntrance` and the units' default `knownTo` re-derive, the entrance edge re-laid only when the derived `hiddenEntrance` flips; offered in the
+  // DM's map feed for the host to adopt by its own command, which binds the card's `host.element` (V13 §3.11.6); never read by the host's simulation until adopted
 
 // The programme (item 132 (g)): the request resolved — what to lay, in which order, under which policy
 interface SiteProgramme {
@@ -78423,7 +78968,8 @@ has an input, the rule's id written to `by`; a field no rule reaches takes the k
 | `floodedLevel` | `flooded.water` | the lowest level whose floor lies at or below the governing surface (G6's reading at resolution) → that level; else null |
 | `envelopeM2` | `envelope.preset` | the preset's `units × envelopeM2PerUnit`, capped by A3 |
 | `entrances` | `entrances.kind` | the kind row's default; a `hideout` 2 (one the bolt-hole) |
-| `secrecy` | `secrecy.context` | `urbanBelow`, `urbanInside` → at least `discreet`; a `hideout` or `sewerLair` → `secret` |
+| `secrecy` | `secrecy.devotion` | a request whose `devotion.role` is `cult` → `secret` (a hidden cult site; J384 (10)); a `holy` one falls to the rows below, its DM-only default the card's unrevealed start (V14 §3.9 (b)) |
+| | `secrecy.context` | `urbanBelow`, `urbanInside` → at least `discreet`; a `hideout` or `sewerLair` → `secret` |
 | | `secrecy.kind` | the kind row's default |
 
 **A3 — The available envelope** by context: `urbanInside` and `urbanBelow` under a building — the plot's area × 1.5,
@@ -79913,6 +80459,7 @@ owner row; its site clause T-V14-23); 10 → T-V13-10 (the owner row; its site a
 | T-V14-30 | the surface exception (item 133 (c)) | an `urbanSurface` drop of a tower on `B-SITE`'s CITY places one building through `assign` + `placeAt` within §7.3 item 8's budget, with `floors` the request's, its plan's rooms the site programme's (the core the class row's main room, a `secret` unit a concealed room), its basement storeys the request's `levelsBelow` up to the gate's cap and, beyond it, a site document whose anchor sits on the lowest basement storey with a `hatch` access — the card's `document` present in exactly that case (C14-26); `Assignment.site` names the card; the plot is a plot like any (S10b's, S11's and V03's bars green on it) | PR |
 | T-V14-31 | lifecycle / determinism (C14-03) | opening and closing every `B-SITE` card — the icon's click, the clerk's `open`, an export naming the site, a host event that needs its geometry — in two orders and on two machines changes no host model digest, records digest, document digest, log entry or arena; the derived block alone grows, and after a reload it is rebuilt byte-identically; `dropSite`, `setSiteRequest`, `moveAnchor`, each conversion and the secret toggle are the only events that move the host's digest; **a site document's digest never moves with its placement (SW-11):** V13's `setPlacement`, `placeFrame`, `unplaceFrame` and `worldWins` on a `B-SITE` free-standing site leave the site document's model digest byte-equal (T-V13-2's bar read here), the card's `placementRef` and the document's `worldRef` changing outside every digest | PR |
 | T-V14-32 | **Part E bar 1** (the owner row; K1, K5, K6; SW-33) | this volume's additions to the base's registries — the `Layer` value `site`, `Document.nextSitePart`, the edge role `passage`, the `site` concern, the stage ids `G1`–`G8`, `E1`–`E4` and `R1`–`R4` — are appended, never inserted or renamed (K1's append-only test on `types/ids.ts` and the stage table), and with no card dropped, no encounter open and `projection` `flat` every golden of the base's and the volumes' fixtures hashes byte-identically before and after the additions (K5's golden set, K6's canonical form) | PR |
+| T-V14-33 | the DM-placed devotion site (J384 (10)) | a `devotion` is admitted only as `stated` (a G2 run, a preset and every generator leave it absent); a `cult` devotion derives `secrecy` `secret` while a `holy` one keeps its kind's default, and every devotion card starts unrevealed to the party, a `cult` site staying so until the DM reveals it; a `setSiteRequest` touching only `devotion` re-lays an entrance edge only when the derived `hiddenEntrance` flips and re-lays no other unit; the card appears in the DM's map feed as an offer and in no player feed while DM-only; V13's religion lens draws it labelled "DM-placed" (T-V13-54) | PR |
 
 **The owner's panel** (§13.6 without a reference; V12 §3.9.1's `PanelSpec` V14-P, stated here once): at SE6's exit
 the owner rates, blind to which is which, SOLO 24 — six sites (a fort, a temple with its crypt, a cave, a mine, a
@@ -80059,6 +80606,7 @@ you"); each row below is vetoable.
 | J-V14.53 | **(SW-11, SW-12.)** chose the card to hold only a `placementRef` (the mirror of the site document's `worldRef`), the `Placement` living in the world document and a site document's digest never moving with its placement, and every world point to be V13 §2.1's integer `WorldPointCm`, over a `Placement` on the card and metre points, because T-V13-2's bar (no placement writes a hashed field) and the kernel's integer rule (§2.1) admit nothing else (vetoable) |
 | J-V14.54 | **(SW-13, SW-29, SW-33.)** chose to request the §4.12 `StrategyRegistry.products` union and the §16 and §13.2 rows explicitly as V13's merged texts place them, and one T- row per Part E bar with the other volume's half a cited clause (T-V14-32 for bar 1), over two volumes each writing the union or the row, because the coherence pass writes one union text and one row (vetoable) |
 | J-V14.55 | **(SW-14, SW-19, SW-26, SW-30, SW-36, SW-37.)** chose to cite V13's milestones by their M-W ids and M-W0h for the classifier and the verbs, to make a `worldWins` on a site a re-materialization (G3 (c), G5 (f)), to fold the water edits to V13's `setSurface`, to add the waterlogged lifecycle row, and to request the `secret` stair core of V03 rather than cite it as a V03 fact, over the earlier readings, because each names a dependency where this volume had restated or mis-cited one (vetoable) |
+| J-V14.56 | **(J384 (10).)** chose holy places and hidden cult sites to be ordinary world-site cards of the existing kinds carrying a DM-stated `devotion` (a deity key and a role), DM-only by default, a cult site secret, drawn by V13's religion lens labelled "DM-placed" and offered to the host for adoption by its own command, over a new site kind (the temple, shrine, crypt, cave and hideout rows already lay them), generated holy sites (the host holds no positioned faith place) or a deity read from a site's name (a guess) (vetoable) |
 
 ## 10 Base change requests
 
@@ -80101,7 +80649,7 @@ designed as if each were applied. File j's BCR-j5, -j6, -j9, -j10, -j11 and -j15
 
 | to | request | V14's reader |
 |---|---|---|
-| V13 (**the precise requests; each designed here as if granted; the list as it reads after Reconciliation r0**) | (1) C14-04, SW-01, SW-03: the `SuitabilityTerm` interface (`{ id; compute(cell, ctx: SuitabilityContext): number }`), `terms.register(term)` and `score` are V13's; the `SuitabilityContext` carries `territories: Territory[]` and the wet-season spread beside its raster, coast, reaches, surfaces, routes, placements, sites, resources, springs and stage (V14 §2.5's `territoryBorder` and `floodSafe` read them); V14's seventeen terms are registered through `register` and defined once in V14 §2.5; the `destination` term (named so everywhere) reads `WorldSite.attraction` from the card within `reach.siteKm`; W7 reads `WorldSite.routed`; no random or jitter term and no jitter argument exists — equal candidates fall to V13's deterministic tie-break (the lowest cell index, then the lexicographic id); (2) C14-08, SW-12, SW-32: `charterFor(world, placement)` for a transient, non-settlement placement whose `originCm` is the clicked `WorldPointCm` (a 100 m frame, no `Placement` recorded, no glyph) — the form `WorldPort.charter(world, campaign)` nearly gives — under the budget row `WORLD-9` (≤ 10 ms); (3) C14-20: V13 §3.14.2 step 5's "V14's E3 cache" is the `Encounter` memo (invalidated at the addresses the cascade's dirty set covers) and "VTT scene stamps" the scene's `waterStamp`; T-V13-21 (11), (12) test a re-open and a re-export; (4) C14-21, SW-18: V13 §5.1's sentence names E3's `classifyWater` and `routeClass` reads and leaves the crop's water rendering to V14 §5.3, whose depth tint is V13 §5.1's `flood` overlay's; (5) C14-52: W8's `foreignCulture` reads the host's or the recipe's culture, never a raster of V14's; (6) C14-53, SW-08: the glyph record is generalized with a `kind` and a level-0 kind glyph; a site's marks are made by `glyphOf` over the site document (V14 §3.9 (d)) and posted through the `world.glyph` message as any frame's — W9's hook makes nothing from the card; (7) C14-58: a `WaterSurface` of kind `site` with `body` the card and the level's units as its cells, admitted by `governingSurface` for a dated `floodedLevel`; the connected-set walk (V13 §3.12.6) over `site` parts and `VerticalLink`s; `setSurface` admits that surface as its `surface` (V14 §4.3's `floodSite` / `drainSite` and §4.6's water row fold to it; SW-26); (8) C14-15, SW-11, SW-19: `setPlacement` / `placeFrame` / `unplaceFrame` with a `site` subject leaves the site's arenas and the site document's digest byte-identical and marks its charter stale as for a frame; the `Placement` lives in the world document (V13 §2.7) and the site document carries `worldRef` (the card its mirror `placementRef`); a `worldWins` on a site schedules V14's re-materialization (G3 (c), G5 (f)), not an S1 re-derive; (9) `ReasonRecord`'s declaration cited by V14 §2.7; the world document's event index for E1's `world` context; (10) SW-02, SW-22: every drawable of V13 §5.7 (the DEM, the surfaces, the traces, the glyph marks, the routes, the borders, the labels) carries a `ZDecl` row with `z` (BCR-V13-28), consumed by V14's R1–R4 as the 2.5D view of the world document — V13 keeps no projection of its own; (11) SW-13: §4.12 `StrategyRegistry.products` admits `'site'` (BCR-V13-7's merged union) and `Recipe.product` `'site'` rides BCR-V13-5's merged union — V13 writes the one union text, V14 cites it; (12) SW-14: the milestone M-W0h (the frame-side water state, after M4 and before M6-U), cited by V14 §1.4, §3.7 and §8; (13) SW-04, R1-1: the import adapter (V13 §3.15 (3)) writes one `SitingProposal` with `demand: 'import'` per marker (the marker's word, world point and name on it) and the zones as `zone` records, raising no edit and moving no digest; G1 reads the proposals as candidates for the dialog's From-the-import tab, and the DM's acceptance is this volume's `dropSite` (R-V14-5); (14) SW-10: P4/P5 emit a `placed` outcome naming the sites the new frame covers, on which the application raises V14's `adoptSite`; V13 never calls V14; (15) SW-32: the budget row `WORLD-10` for G3's score over its candidates; (16) SW-29, SW-33: BCR-V13-19's and BCR-V13-15's merged texts place V14's milestone rows (M-ENC, M-SITE-A, M-SITE-F, M-25D) and test rows; T-V13-30 (a), T-V13-9, T-V13-10, T-V13-8 and T-V13-21 stand as the owner rows or cited clauses V14 §7's bar map names; (17) SW-30: BCR-V13-22's sentence on V06 §3.23 (2)'s `r` merges V14's unit material rate (`SiteDamageRow.ratePerYear`) into one text | V14 §2.2, §2.5, §3.2, §3.4, §3.7, §3.9, §3.10, §3.12, §4.3, §4.5, §4.6, §5.1, §5.3, §5.4, §5.6, §6, §7, §8 |
+| V13 (**the precise requests; each designed here as if granted; the list as it reads after Reconciliation r0**) | (1) C14-04, SW-01, SW-03: the `SuitabilityTerm` interface (`{ id; compute(cell, ctx: SuitabilityContext): number }`), `terms.register(term)` and `score` are V13's; the `SuitabilityContext` carries `territories: Territory[]` and the wet-season spread beside its raster, coast, reaches, surfaces, routes, placements, sites, resources, springs and stage (V14 §2.5's `territoryBorder` and `floodSafe` read them); V14's seventeen terms are registered through `register` and defined once in V14 §2.5; the `destination` term (named so everywhere) reads `WorldSite.attraction` from the card within `reach.siteKm`; W7 reads `WorldSite.routed`; no random or jitter term and no jitter argument exists — equal candidates fall to V13's deterministic tie-break (the lowest cell index, then the lexicographic id); (2) C14-08, SW-12, SW-32: `charterFor(world, placement)` for a transient, non-settlement placement whose `originCm` is the clicked `WorldPointCm` (a 100 m frame, no `Placement` recorded, no glyph) — the form `WorldPort.charter(world, campaign)` nearly gives — under the budget row `WORLD-9` (≤ 10 ms); (3) C14-20: V13 §3.14.2 step 5's "V14's E3 cache" is the `Encounter` memo (invalidated at the addresses the cascade's dirty set covers) and "VTT scene stamps" the scene's `waterStamp`; T-V13-21 (11), (12) test a re-open and a re-export; (4) C14-21, SW-18: V13 §5.1's sentence names E3's `classifyWater` and `routeClass` reads and leaves the crop's water rendering to V14 §5.3, whose depth tint is V13 §5.1's `flood` overlay's; (5) C14-52: the world's `culture` raster (names only) reads the host's or the recipe's culture, and W8b's culture term the host's own culture distance (V13 §3.9 (6)) — never a raster of V14's; (6) C14-53, SW-08: the glyph record is generalized with a `kind` and a level-0 kind glyph; a site's marks are made by `glyphOf` over the site document (V14 §3.9 (d)) and posted through the `world.glyph` message as any frame's — W9's hook makes nothing from the card; (7) C14-58: a `WaterSurface` of kind `site` with `body` the card and the level's units as its cells, admitted by `governingSurface` for a dated `floodedLevel`; the connected-set walk (V13 §3.12.6) over `site` parts and `VerticalLink`s; `setSurface` admits that surface as its `surface` (V14 §4.3's `floodSite` / `drainSite` and §4.6's water row fold to it; SW-26); (8) C14-15, SW-11, SW-19: `setPlacement` / `placeFrame` / `unplaceFrame` with a `site` subject leaves the site's arenas and the site document's digest byte-identical and marks its charter stale as for a frame; the `Placement` lives in the world document (V13 §2.7) and the site document carries `worldRef` (the card its mirror `placementRef`); a `worldWins` on a site schedules V14's re-materialization (G3 (c), G5 (f)), not an S1 re-derive; (9) `ReasonRecord`'s declaration cited by V14 §2.7; the world document's event index for E1's `world` context; (10) SW-02, SW-22: every drawable of V13 §5.7 (the DEM, the surfaces, the traces, the glyph marks, the routes, the borders, the labels) carries a `ZDecl` row with `z` (BCR-V13-28), consumed by V14's R1–R4 as the 2.5D view of the world document — V13 keeps no projection of its own; (11) SW-13: §4.12 `StrategyRegistry.products` admits `'site'` (BCR-V13-7's merged union) and `Recipe.product` `'site'` rides BCR-V13-5's merged union — V13 writes the one union text, V14 cites it; (12) SW-14: the milestone M-W0h (the frame-side water state, after M4 and before M6-U), cited by V14 §1.4, §3.7 and §8; (13) SW-04, R1-1: the import adapter (V13 §3.15 (3)) writes one `SitingProposal` with `demand: 'import'` per marker (the marker's word, world point and name on it) and the zones as `zone` records, raising no edit and moving no digest; G1 reads the proposals as candidates for the dialog's From-the-import tab, and the DM's acceptance is this volume's `dropSite` (R-V14-5); (14) SW-10: P4/P5 emit a `placed` outcome naming the sites the new frame covers, on which the application raises V14's `adoptSite`; V13 never calls V14; (15) SW-32: the budget row `WORLD-10` for G3's score over its candidates; (16) SW-29, SW-33: BCR-V13-19's and BCR-V13-15's merged texts place V14's milestone rows (M-ENC, M-SITE-A, M-SITE-F, M-25D) and test rows; T-V13-30 (a), T-V13-9, T-V13-10, T-V13-8 and T-V13-21 stand as the owner rows or cited clauses V14 §7's bar map names; (17) SW-30: BCR-V13-22's sentence on V06 §3.23 (2)'s `r` merges V14's unit material rate (`SiteDamageRow.ratePerYear`) into one text | V14 §2.2, §2.5, §3.2, §3.4, §3.7, §3.9, §3.10, §3.12, §4.3, §4.5, §4.6, §5.1, §5.3, §5.4, §5.6, §6, §7, §8 |
 | V03 | A1's first match on `Assignment.site` (the card's `programme.rooms`); **the head rule for a `site`-sourced access (C14-02):** headed on `ground.storey` as a `hatch` in that room's floor or a concealed door in its wall (V03 §3.7.3's secret form), descending by a stair core of a **new** kind `secret` — **S4's stair kinds gain `secret`** (a request, not a V03 fact; SW-36): a core S4 places like any, its openings concealed by V03 §3.6 O6's rule, its head room V03 §3.7.3's concealed back room — to the lowest storey's ordinary head (V03 §3.7.2), the storeys between re-cut (V03 §3.11), the storey count in `requestedVsBuilt`, the anchor bent to the lowest storey where no core fits; the plan's per-storey scene path for a site building | V14 §3.9 G8 (a), (c); §5.3 |
 | V02 | the ranges of `storeys/groundCm` and `storeys/upperCm` for `raiseLower` (C14-25) | V14 §4.6 |
 | V04 | the overlap test, the excavation reading and the per-band exports over the `site` parts of the same document (BCR-V14-11's V04 side); **`siteEnvelopes(doc)`** — a `foundationObstacles`-style reading of every attached card's `envelope` and level bands, read by catacomb growth, the sewer's extension and U-DIG's connector as an obstacle with `blockedBy: 'site'` and `W_SITE_NEAR_VOID` (C14-10); the records and programs reused on `site` parts (`Gallery`, `Chamber` with `hall`, `breakdown`, `room`, `workings`, `storey`, the quarry program, the light rows; C14-27, C14-28); the dig generators called as functions by `SiteAttach.attach` whatever the presets (C14-51); the buried step's adoption of a robbed site's levels by `reusedBy` | V14 §3.6 (b)–(d), §3.4 (d), §3.9 (a) |

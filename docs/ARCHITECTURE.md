@@ -12893,7 +12893,7 @@ doesn't provide, the rest of the map code must compensate. it is one directional
 immutable truth while the rest can be constructed at whim. better if the rest of the map code coherently derives things
 from the dossier and in accordance with our rules").
 
-The **world port** (`@plat/port/world`, one adapter folder per host line, V13 §3.11.6) is the port's second door and §11.4's fifth: it replaces the host's capture of the reference generator, never the host's own frozen spatial record; outbound the simulator feed `canon(world, request)` (integer, versioned per slot, adopted only by the host's receipted re-canonize) and the map feed (`derivedFacts(world, placement) → SettlementMapRecord`, `mapFeed`, `routes`, `pathGeometry`, `borderSegment`, `placeOf`), `charter(world, campaign) → FrameCharter`, `proposals(world, demand) → SitingProposal[]`; inbound recorded inputs, the windowed ones as windowed replaces (`bindSeat`, `unbindSeat`, `importSeats`, `costLaw`, `travelLaw`, `hostRequires`, `genesis`, `network`, `polity`, `events`, `canonized`, `consumed`), and presentation inputs never logged (`clock`, `hostOverlay`, `beliefView`, `audienceKnowledge`); nothing the host simulates calls it inside an advance (file m item 778). The host reads derived facts and never an arena; the map writes no dossier fact except through this door as a derived fact (V13 Part E bar 9). V08's host client carries the messages V13 §3.11.6 lists, each with the canon envelope's version vector, the presentation inputs never logged. Built M-W1 for `canon`, `derivedFacts`, `charter`, `proposals`, `costLaw`, `travelLaw`, `bindSeat`, `unbindSeat`, `importSeats`, `hostRequires`, the `events` windows, `canonized`, `consumed` and the `physicalChange` offer; M-W2 for the rest (V13 §8.2).
+The **world port** (`@plat/port/world`, one adapter folder per host line, V13 §3.11.6) is the port's second door and §11.4's fifth: it replaces the host's capture of the reference generator, never the host's own frozen spatial record; outbound the simulator feed `canon(world, request)` (integer, versioned per slot, adopted only by the host's receipted re-canonize) and the map feed (`derivedFacts(world, placement) → SettlementMapRecord`, `mapFeed`, `routes`, `pathGeometry`, `borderSegment`, `placeOf`), `charter(world, campaign) → FrameCharter`, `proposals(world, demand) → SitingProposal[]`; inbound recorded inputs, the windowed ones as windowed replaces (`bindSeat`, `unbindSeat`, `importSeats`, `costLaw`, `travelLaw`, `hostRequires`, `genesis`, `network`, `polity`, `events`, `canonized`, `consumed`), and presentation inputs never logged (`clock`, `hostOverlay`, `beliefView`, `audienceKnowledge`, and `lensWindow`, kept only as plates in the world document's plate cache, V13 §5.8 (8)); outbound, the map feed also carries the DM-placed site offers (V13 §3.11.6); nothing the host simulates calls it inside an advance (file m item 778). The host reads derived facts and never an arena; the map writes no dossier fact except through this door as a derived fact (V13 Part E bar 9). V08's host client carries the messages V13 §3.11.6 lists, each with the canon envelope's version vector, the presentation inputs never logged. Built M-W1 for `canon`, `derivedFacts`, `charter`, `proposals`, `costLaw`, `travelLaw`, `bindSeat`, `unbindSeat`, `importSeats`, `hostRequires`, the `events` windows, `canonized`, `consumed` and the `physicalChange` offer; M-W2 for the rest but `lensWindow`, M-W5's (V13 §8.2).
 
 9. *Two tiers of fact* (item 20 (h) (i)). Every fact the map holds is either a **dossier fact** — a record or value the
    dossier supplies, carried by the map under its binding key (§7.7 item 12), immutable on the map and changed only by a
@@ -17581,7 +17581,7 @@ result, §3.1).
   the preview reply, V10 §3.17's rows for `brief`, `entity`, `sites`, `why`, `frame` (without `near` and `radiusM`),
   `rule` and `profile`; `measure`, `hit` and `inView` are answered `query.result { error: 'E_HOST_KIND' }` (correlated
   by `re`) — so no length, bearing, extent or coordinate of a frame reaches a host (J86's door 1); a world document's points reach
-it only through door (5)'s canon and map feed. The AI key or relay, the assistant
+  it only through door (5)'s canon and map feed. The AI key or relay, the assistant
   and its model tier follow SettlementForge's own decisions, read as inputs (J121; V10 Q1–Q3). **One way (items 20, 22; J-A20.81).** No PLAT → host message writes,
   patches or proposes a change to the host's dossier: `doc.changed` carries map-document events only, `report.changed` the
   map's report, and the vocabulary has no message that addresses the dossier; a dossier change reaches the map as
@@ -17626,7 +17626,8 @@ it only through door (5)'s canon and map feed. The AI key or relay, the assistan
   `entity.selected`; a command, never a stored key) — and these are commands, never inputs: the map never needs them, and
   no document a dossier makes depends on them (§11.4). **The host's clock (item 67; J-A67.82).** The clock the design calls
   "the simulator's" — the one whose weeks move the map's history — is the host's: its advance reaches the map only as
-  dossier events and epochs, which the port dates and groups by §4.11's week and cadence (§7.7 items 1 and 6; §11.4),
+  dossier events and epochs — and, for a world document, door (5)'s windows — which the port dates and groups by
+  §4.11's week and cadence (§7.7 items 1 and 6; §11.4),
   and a host shows its campaign's current week by `view.set { week }`; the module's `time` key counts hours and never
   moves the map (§10.3). A viewer's `knowledge` defaults from its role — `owner` and `editor`
   `secret`, `viewer` `public` — the host may set any viewer's key by `view.set`, and a client never raises its own tier
@@ -17678,7 +17679,7 @@ check and the record. (5) **For a world document only, the world port** (§7.7's
 recorded inputs — seat bindings and placements, the host's cost and travel laws, its route genesis and changes, its
 political facts and dated events, each a windowed replace keyed by host keys — are logged with provenance `host`, so a
 world replays without its host; its presentation inputs (the week drawn, movers, the DM's believed view, an audience's
-known events) are never logged and read by nothing replayable. Item 125 (a) still holds for every settlement frame,
+known events, the lens facts kept as plates) are never logged and read by nothing replayable. Item 125 (a) still holds for every settlement frame,
 which reads only its dossier and its charter, and T125-3w scans `@plat/port/world` (file m item 779).
 
 **A dossier comes through the port (items 73–87; §14).** For a dossier, door (1)'s blueprint and the log's creation

@@ -188,13 +188,15 @@ parameters, which is the model-level M0 gate row already identified.
 
 ## 6 What the host must change (superseded 2026-10-17)
 
-The eight items that stood here are superseded by the ordered host-change list of `research/sf/fp-realm-review.md` §5
-(H1 – H21), carried into the design as V13 §8.5. The old items map: 1 → H4, H5 (the port replaces the capture, never the
+The eight items that stood here are superseded by V13 §8.5, the design's one host-change list (H1 – H30): the ordered
+list of `research/sf/fp-realm-review.md` §5 (H1 – H21) was carried into it and is itself superseded by it (a dated
+bracket there, 2026-10-17), and amendments n (`docs/AMENDMENTS-2026-10-17n.md`, items 817–818) restored the clauses
+the carry dropped and added the lens asks and a native world canonized at birth (H22 – H30). The old items map: 1 → H4, H5 (the port replaces the capture, never the
 frozen digest, which stays the host's engine state); 2 → H11 (the per-settlement water verdicts sent as constraints) and
 V13 §3.11.6's charter; 3 → H12 (genesis at world birth; the render tier's roads retired); 4 → H5, H18, H19 (world points
 for the host's cell-keyed facts, translated once under a confirmed capture); 5 → H11 (the lake and climate laws
-re-versioned over the settlement's physical record); 6 → H14 (a world-first settlement's access word from its charter;
-existing configurations canonical); 7 → H18, H19, H20 (the transition in phases 0–5: capture first, import on request,
+re-versioned over the settlement's physical record); 6 → H14 (a world-first settlement's access word and its terrain word from its charter, the terrain-agreement notice
+retired, its role taken by `refuse.charter.dossier`; existing configurations canonical); 7 → H18, H19, H20 (the transition in phases 0–5: capture first, import on request,
 an elective rebase, retirement with every frozen digest kept — never a forced migration under a geometry bump); 8 → H21.
 
 ## 7 Import adapter for existing FMG maps

@@ -619,6 +619,20 @@ superseded (item 750).
 
 ## 5 The refined host-change list (supersedes proposal-world-native §6's eight items)
 
+> **[Dated bracket, 2026-10-17 — amendments n (`docs/AMENDMENTS-2026-10-17n.md`, items 817, 818 and 832; the realm review
+> critic's gap 3, `docs/validation/coherence/realm-m-critic.md:48-61`): this list is SUPERSEDED BY V13 §8.5,** the design's
+> one host-change list. V13 §8.5 carries H1–H21 with the clauses its first carry dropped restored — H12's per-evaluation
+> ports totality, quiet-quay check and per-seat move-lock release; H13's claims, now with a W8b reader (V13 §3.9 (12));
+> H14's terrain inputs, as the charter's terrain word — and gives content to the two phrases this list left undefined:
+> H16's "route limits" (a water edge's limits read on demand, the physical half of row C2's capacity, through V13
+> §3.11.6's `routeFacts`) and "flood exposure for new worlds" (the host's calamity exposure reading the settlement's
+> physical record's wet-season flood share). It records the gate rule as J385 ruled it (H16) and adds H22–H30: a native
+> world canonized at birth (J384 (6)) and the lens asks of `research/sf/lens-implications.md` §5. This section is kept as
+> the review's record; read V13 §8.5 for the list in force. The host documents this review left unread (critic gap 13:
+> the ODQ, `map-corpus/docs/GENERATION-SPEC.md`, the MF charter, `PHASE55_EXECUTION_PLAYBOOK.md` §0.2,
+> `DESIGN_EDIT_MODE_AND_DECREES.md`, `DESIGN_NAVY.md`, `src/domain/roads/userRoutes.js`) are listed in amendments n item
+> 817's evidence, the first three named generically in V13 §8.5's H21.]
+
 Each item names the host program, document or law it touches, what changes, what it depends on (the host rows it builds on, and the map milestone of
 V13 §8.2: M-W1 the world and the port's first calls, M-W2 routes, polity, siting stage 2, M-W3 labels, exports, the
 adapter; M-SF the SettlementForge connection the port rides) and its order. Every optional read lands dark and

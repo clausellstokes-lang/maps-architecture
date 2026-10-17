@@ -455,6 +455,18 @@ Status vocabulary: **SUPPLIED** — the charter or port carries it in a form the
 | M4 | a `hidden` route class | the world's classes end at `trail`; the host's `hidden` rung has no world counterpart | MISSING |
 | M5 | nothing | — | NONE-OWED |
 
+> **[Dated bracket, 2026-10-17 — amendments n (`docs/AMENDMENTS-2026-10-17n.md`, its preamble; the realm review critic's
+> gap 14, `docs/validation/coherence/realm-m-critic.md:146-148`): row A1 reads PARTLY, not SUPPLIED.** The port surface
+> this table was read from is retired: `seats(world, seeds)` with `TerritorySeed { budget, costVector }` no longer exists
+> (the realm review's J-RR.3 and J-RR.48, applied to V13 by amendments m items 714 and 721). The host's own territory is
+> now W8a, the seat territory — its total nearest-seat partition with its crossings, built by the map into the canon's
+> travel slot and adopted by the host's receipted re-canonize, the host keeping its all-pairs costs, neighbour tiers and
+> candidate routes over it (J-RR.3) — while the political picture is W8b, the sway, never handed to the host as its
+> territory (J-RR.48). So A1 is PARTLY: the map supplies the geometry half (the seat territory and its crossings, in the
+> canon) and the host owes its own build of its frozen record over it (V13 §8.5's H5). The surface named in this
+> section's opening paragraph and in rows A1 and D1 (`seats(world, seeds)`, `TerritorySeed`, budgets, `costTotal`) is
+> historical; row A2 (gates) is answered by the canon's crossings (J-RR.3).]
+
 ### 8.1 What the counts say
 
 [INFERRED] Everything the host wants at the SETTLEMENT (the charter, T7/T8, W1–W3, W8–W9, S3, S7, D14–D15, R8–R9) is supplied in richer form than the host's design asked for — a river crossing with discharge, width, depth and stage where the host asked "is there a river"; a wind where the host had none; a lake with an outlet where the host guesses from a bounding box. Everything the host wants at the REALM GRAPH is the thinner side: the port returns routes, costs, territory and positions, but not the digest's derived products the simulation actually reads every tick — the all-pairs integer matrix (D1), gates (A2) and tiers (D10), per-segment terrain receipts (T2), candidate route sets (R7), route capacities (C2) and the `hidden` rung (M4). Two readings are possible and the host's own law picks one: proposal §6.1 says the host should receive "territory, gates, distances, routed polylines" through the port, which would extend `SettlementMapRecord`/`routes(world)` with a distance matrix and gate list in the host's cost law (the host already hands the law in through `costLaw`); or the host keeps building its digest from what the port returns, in which case it needs the territory raster and each route's cell sequence, which the port withholds by design ("the host reads derived facts; it never reads arenas", V13 §3.11.6). Either way the three version axes (geometry, cost law, overlay) must ride the port's format version, as proposal §6.1 already says.
