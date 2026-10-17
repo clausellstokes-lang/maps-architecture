@@ -2,6 +2,8 @@
 
 ## WORLD, SITES, ENCOUNTERS AND HYDROLOGY — the design volumes landed (2026-10-17)
 
+**STATE AFTER THE FOUR FOLLOW-UPS (J376, 2026-10-17 ~04:25Z).** File k APPLIED to the base and the volumes (`docs/validation/coherence/world-sites-k.md`); file l (the VTT deltas, items 648–658) applied (`vtt-l.md`); the M0 world-sites gate HOLDS (`plat/docs/build/checks/M0-world-sites-gate.md`: 20 gate tests green; K10, K12, M1, M2, M4 carried to M1 with their smallest additions; K11 closed by C-0374); the bundle at 79,542 lines. Still open: R1-1 is closed (reconcile-V14-r1); the dungeon-tool parity critique waits for the first built world site (V14 §8 SE4); the host's parallel track (V13 §8, §11 Q2) is the owner's to schedule; the five reading choices of the coherence pass and every J375 file await the whole-design retrovalidation.
+
 **MODEL RULING (owner, 2026-10-17; J375).** From J375 on, every spawned seat runs on Opus 5.5 with Fable as the managing seat; every file an Opus seat writes or edits carries the J375 stand-in notice under its title and its lane line the suffix "(opus; J375)"; all of it is to be retrovalidated overall at the next opportunity. Lanes spawned before the ruling (coherence/world-sites-k, check/M0-world-sites-gate, research/vtt-profile-reverify) ran on Fable.
 
 1. **What exists now.** The owner's rules of 2026-10-16 are file j (`docs/AMENDMENTS-2026-10-16j.md`, items 131–141: the brief and the identity ruling, two kinds of encounter map, editable sites and DM secrets, context and adoption, scale coherence, no hour and VTT, reacting terrain and water edits, FMG native, the fold directive, the M0 close gate with K1–K13 and M1–M11, the 2.5D mode).

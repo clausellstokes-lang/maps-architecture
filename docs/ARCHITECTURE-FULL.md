@@ -6,7 +6,7 @@
 
 | file | sha256 (16) | lines |
 |---|---|---|
-| `docs/ARCHITECTURE.md` | 958eab191078ad20 | 24437 |
+| `docs/ARCHITECTURE.md` | 779440fadc1cdfc1 | 24440 |
 | `docs/volumes/INDEX.md` | e0a9a375c8110601 | 252 |
 | `docs/volumes/V01-neighbourhoods.md` | a59cfac9b27a8886 | 3765 |
 | `docs/volumes/V02-buildings.md` | 574577038e1de304 | 4232 |
@@ -21,7 +21,7 @@
 | `docs/volumes/V11-content.md` | c698b45421163a1f | 5504 |
 | `docs/volumes/V12-calibration.md` | 1bcb54970016f797 | 3590 |
 | `docs/volumes/V13-world.md` | e0271282f0c1d930 | 2989 |
-| `docs/volumes/V14-sites.md` | a6b2225b3a476052 | 3167 |
+| `docs/volumes/V14-sites.md` | 490903d0f441c987 | 3184 |
 
 ## Contents
 
@@ -312,6 +312,8 @@
 
 > Fable-validated 2026-09-26 — the whole normative text of this document was consolidated by Opus stand-ins (the consistency pass of 2026-09-26: one canonical home per fact, history and rationale moved to `docs/ARCHITECTURE-RATIONALE.md`) and validated by Fable on 2026-09-26 (`docs/validation/consistency/validate.md`; closing record `docs/validation/consistency/SUMMARY.md`); the design decisions taken by Opus stand-ins during the fix rounds stay queued in `docs/FABLE-REVIEW-QUEUE.md` until `workflows/05-fable-review.js` has run.
 
+> **Revision — 2026-10-17 (lane coherence/vtt-l-and-k11; file l, `docs/AMENDMENTS-2026-10-17l.md`, items 648–654 applied to §11.1's `.dd2vtt` profile: the version pin, the multi-floor sentence, `format`, the transient sight-blockers in both lists, `software` and `creator`, `plat.stairs`, the Foundry 14 scene with `levels[]`; record `docs/validation/coherence/vtt-l.md`).** PENDING FABLE REVIEW — written by Opus 5.5 standing in for the Fable seat coherence/vtt-l-and-k11; to be retrovalidated overall at the next opportunity (owner, 2026-10-17, J375)
+
 **PLAT** is the codename — a plat is a cadastral plan of plots, the single spatial truth of this design; the packages
 are `@plat/*` (D-19). The product's public name follows SettlementForge's (J121).
 
@@ -456,14 +458,14 @@ design volumes (`docs/volumes/`) were written on this base and their base change
 below). The set is one design, not a concatenation: every mechanism appears once, under the section or volume that owns
 it; where two sources gave the same mechanism the more precise wording was taken.
 
-### 0.2 Where the owner's late rules land — items 1–7 (`docs/AMENDMENTS-2026-09-25.md`), 8–31 (`AMENDMENTS-2026-09-25b`), 32–88 and 101 (`AMENDMENTS-2026-09-27c`, `-d`, `-e`), file g's items, the base change requests 200–585 (file f) and 600–647 (file k)
+### 0.2 Where the owner's late rules land — items 1–7 (`docs/AMENDMENTS-2026-09-25.md`), 8–31 (`AMENDMENTS-2026-09-25b`), 32–88 and 101 (`AMENDMENTS-2026-09-27c`, `-d`, `-e`), file g's items, the base change requests 200–585 (file f), 600–647 (file k) and 648–658 (file l)
 
 Every clause of every rule is checked at its landing; where a rule has several clauses its home carries a clause map.
 Each row names the home that states the mechanism; the sections that carry a pointer, a hook field or one line of the
 rule, and the item's tests (§13.2's `T⟨item⟩-⟨n⟩` bars), cite the item by number. Items 1–7 are
 `docs/AMENDMENTS-2026-09-25.md`, 8–32 `AMENDMENTS-2026-09-25b` (item 32 landed with 33–72), 32–72 `AMENDMENTS-2026-09-27c`,
 73–88 `-27d`, 101 `-27e`, 102 onward `docs/AMENDMENTS-2026-09-28g.md` (file g), 131–141 `docs/AMENDMENTS-2026-10-16j.md` (file j: the owner's rules on the world, sites, encounters and hydrology; its items cited by number as every owner item is), 200–585
-`docs/AMENDMENTS-2026-09-28f.md` (file f) and 600–647 `docs/AMENDMENTS-2026-10-16k.md` (file k: volumes 13 and 14's base change requests, applied by the coherence pass `coherence/world-sites-k` and cited below as `file k item n`). Items 33–62 come from reading the references' compiled code (§17.1 (1)): each
+`docs/AMENDMENTS-2026-09-28f.md` (file f) and 600–647 `docs/AMENDMENTS-2026-10-16k.md` (file k: volumes 13 and 14's base change requests, applied by the coherence pass `coherence/world-sites-k` and cited below as `file k item n`), and 648–658 `docs/AMENDMENTS-2026-10-17l.md` (file l: the VTT export profile re-verified against the formats as of 2026-10-17, item 136 (c) — items 648–654 the base's §11.1, 655–658 volume 14's — applied by `coherence/vtt-l-and-k11` and cited as `file l item n`). Items 33–62 come from reading the references' compiled code (§17.1 (1)): each
 adopts a mechanism re-derived in our own terms, keeps ours with its reason, or calibrates a default to a read fact with
 its `(code)` provenance (§17.1 (6)); a part a reader only inferred entered only as Fable's evidence gate released it,
 labelled as an inference, and the gate's one rejection (item 49's deletion) is honoured. Items 63–72, 101, 102–111 and
@@ -17305,14 +17307,14 @@ CityJSON is built for its lossless integer-vertex encoding (J-R14).
 table (tombstone → successor), so an outside tool that keyed data to an entity can follow it across re-derivations; ids
 cross the API and bridge boundary as `<docId>/<id>`.
 
-**The `.dd2vtt` profile (DEF-4).**
+**The `.dd2vtt` profile (DEF-4).** *Pinned (item 136 (c)'s re-verification of 2026-10-17; file l item 648):* Universal VTT as its published developer description revised 2026-08-22 — the field set below, `format` carried, not checked; Foundry VTT 14 — release 14.369 of 2026-10-08, API documentation 14.368 — with Foundry's importer of Universal VTT files at 6.1.1 and the one Foundry level importer that reads a numeric floor suffix at 0.0.8 (both verified for 14; the latter reads no `.dd2vtt`); the next re-verification at Foundry 15's first stable release or a change to the format's published description, whichever comes first.
 * **Scope:** a rectangle or a district chosen by the user — by default the current view snapped to whole grid squares —
-  cut to the limit bounds as every export frame is (§8.7; g items 116 (c), 122 (i)); or, with `ExportOpts.vtt.crop?: { key: EncounterAddress }`, the open encounter's crop as the scope, its scene set `EncounterCrop.scenes`, the `site` level form added to `scene`'s union (V14 §3.12; M-ENC's SE2; file k item 628). For every VTT export `resolution.map_origin` is the scope's south-west corner in grid units from the arena's origin on the **world grid** (cells of `StyleSheet.vtt.squareM` from the arena's origin; for V13's regime the crop frame's transient placement whose `originCm` is the click's `WorldPointCm` snapped to the grid, V14 §3.12 (5)) — the origin derived from the address, never from the view; a multi-scene export writes one image and one JSON per scene named `<base>.<ordinal>.dd2vtt` (0 the ground, then each storey or level in elevation order) with the scene's elevation and name in the `plat` object; the `plat` object gains `waterStamp` (V13 §2.7's `surfaceSetDigest`), `difficultTerrain` (the wading and swimming faces; the rooftops as the walkable set under a flood stage) and the optional namespaced `sites` vendor block (`ExportOpts.vtt.vendorBlock`, default false; V14 §11 Q4); the profile's version is pinned by item 136 (c)'s re-verification before M-ENC's SE2.
+  cut to the limit bounds as every export frame is (§8.7; g items 116 (c), 122 (i)); or, with `ExportOpts.vtt.crop?: { key: EncounterAddress }`, the open encounter's crop as the scope, its scene set `EncounterCrop.scenes`, the `site` level form added to `scene`'s union (V14 §3.12; M-ENC's SE2; file k item 628). For every VTT export `resolution.map_origin` is the scope's south-west corner in grid units from the arena's origin on the **world grid** (cells of `StyleSheet.vtt.squareM` from the arena's origin; for V13's regime the crop frame's transient placement whose `originCm` is the click's `WorldPointCm` snapped to the grid, V14 §3.12 (5)) — the origin derived from the address, never from the view; a multi-scene export writes one image and one JSON per scene named `<base>.<ordinal>.dd2vtt`, the ordinal written as two zero-padded digits (`00` the ground, then each storey or level in elevation order), with the scene's elevation and name in the `plat` object — an ordering convention only, for people and for an importer's file list: no importer pairs these files by name (Foundry's importer of Universal VTT files takes them one at a time under level names the user types and reads no suffix; no importer that reads a numeric floor suffix reads a `.dd2vtt`), so the path to one Foundry scene holding every scene of the set as a native level with no manual step is the Foundry scene JSON (*Foundry scene JSON*, below), written beside the `.dd2vtt` set (file l item 649); the `plat` object gains `waterStamp` (V13 §2.7's `surfaceSetDigest`), `difficultTerrain` (the wading and swimming faces; the rooftops as the walkable set under a flood stage) and the optional namespaced `sites` vendor block (`ExportOpts.vtt.vendorBlock`, default false; V14 §11 Q4); the profile's version is pinned by the line under this profile's heading (item 136 (c)'s re-verification of 2026-10-17, made before M-ENC's SE2).
   One scene image is ≤ 8 192 px on a side at the declared grid (default 1 square = 5 ft = 1.5 m at 100 px, so ≈ 123 m);
   a larger scope is split into a grid of scenes aligned to grid lines, or the user lowers the pixels per square (≥ 50) —
   the export dialog shows the choice before writing. Output is exact pixels per cell (grid alignment error 0 px per
   cell, O11 g).
-* **Fields:** `format` 0.3; `resolution { map_origin: {x: 0, y: 0}, map_size: {x, y} in squares, pixels_per_grid }`;
+* **Fields:** `format` 0.3 — the decimal the originating product writes; the format's published description gives the field no value (its own sample file writes 1.0) and no importer read checks it, so the value is carried for compatibility, not checked (file l item 650); `resolution { map_origin: {x: 0, y: 0}, map_size: {x, y} in squares, pixels_per_grid }`;
   `line_of_sight` — polylines in grid units from building footprint edges (minus door openings and the outer-wall runs
   the building's own decay level breaks at the export's drawn week — V06's `decayLevel`, §6.3 *Plan damage*'s
   comparison: a fallen run leaves line of sight, item 123 (e) — never a crisis look's `lookLevel`, which the scene's
@@ -17324,7 +17326,7 @@ cross the API and bridge boundary as `<docId>/<id>`.
   polylines along the wall broken over every stair or ramp interval (an opening, not a portal), and a raised part's
   supports' footprints as closed polylines as cliffs are (one rule; M3a, file f items 447, 448); no portal
   where a raised way crosses a street; `objects_line_of_sight`
-  empty; `portals` — doors at every entrance of a building's entrance set (§2.6; item 29: `main`, `side`, `rear`, `yard`
+  empty, save an encounter crop's transient items' sight-blocking shapes (V14 §5.3), each written as a closed polyline both there (the contract's object-occluder list) and in `line_of_sight` (the list every importer reads: Foundry's importer of Universal VTT files never reads `objects_line_of_sight` on its default multi-level path), the duplication recorded as `plat.objectsAlsoInLos: true` so a reader honouring both lists may drop one; `portals` — doors at every entrance of a building's entrance set (§2.6; item 29: `main`, `side`, `rear`, `yard`
   and `service`, each the width of its plan opening where the plan rung exists (V03 §3.6 O3; M6-P, file f item 451), else
   1.2 m) and gates (their opening), each
   `{ position, bounds: [two points], rotation, closed: true, freestanding: false }` — a concealed door only for a key
@@ -17336,7 +17338,7 @@ cross the API and bridge boundary as `<docId>/<id>`.
   `pixels_per_grid` without the grid drawn in, lit by §8.4's CPU reference at the export's light setting (a day or a
   night scene).
 * **Per layer:** one file per model layer — the underground one per depth band (II.7.3) — its elevation in the file name
-  and in a `plat` extension object; coordinates exact to the grid (O11 g). An underground band's scene (M6-U, file f
+  and in a `plat` extension object, beside the two top-level vendor strings the format's published description proposes for every writer — `software: 'PLAT <output version>'` and `creator` (the document's author name where the export's key admits it, else absent); no importer read reads a vendor key, so the common fields never change (file l item 651); coordinates exact to the grid (O11 g). An underground band's scene (M6-U, file f
   item 452) takes `line_of_sight` from every void kerb and chamber wall and every underground
   building's footprint less its doors and every outer wall run its own decay level fells (V04 §5.6 (5)) — a `cellarWall`
   run keeping its segment —;
@@ -17348,13 +17350,13 @@ cross the API and bridge boundary as `<docId>/<id>`.
 * **Per raised way (item 110 (b); M3a):** each raised way crossing the scope adds one deck scene at its mean deck
   elevation, named as a storey scene is, its parapet edges `line_of_sight`, its end stairs or ramps open portals
   (`closed: false`) and the ground beneath drawn dimmed — at most 8 per export, the longest first, the dialog saying so;
-  a Foundry scene writes each deck as one more level with its elevation band.
+  a Foundry scene writes each deck as one more `Level` of its Scene (*Foundry scene JSON*, below): `elevation.bottom` the mean deck elevation, `elevation.top` that plus `vtt.levelBandCm`, `background.src` the deck scene's image and `visibility.levels` naming the ground's level, its parapet walls and its portals carrying the deck level's id (file l item 652).
 * **Per storey (item 28):** a building whose plan rung exists exports one scene for each storey, at that storey's elevation:
   `line_of_sight` from its walls minus their openings and the wall runs and partitions the building's own decay level
   breaks at the export's drawn week (V03 §5.3's `ownDamaged`: V06's `decayLevel`, §6.3 *Plan damage*'s comparison —
   never a crisis look's `lookLevel`, item 122 (f)), `cellarWall` and `cryptWall` runs keeping their segments
   (V04 §5.6 (2)); `portals` from every opening and every entrance whose door that level leaves standing — a doorless
-  opening is a gap, no portal —; the stair core a named portal on both storeys' scenes while its flights at or above
+  opening is a gap, no portal —; the stair core a portal on both storeys' scenes (the format gives a portal no name: the core's name and its two storeys go in the `plat` object, `plat.stairs: { portal: number /* its index in the scene's portals */; name: string; from: number; to: number /* the two storeys' scene ordinals */ }[]`; file l item 653) while its flights at or above
   level 0 stand, a broken flight below level 0 a portal still (climbable rubble, V04 §5.6 (3)); floor holes, rubble and
   debris appear in the image only, never invented as walls (g item 123 (e); T123-6), the image drawing the drawn level,
   a disaster's look in it only (V03 §5.3; J-V3.138); `lights` — one per lit room (`Room.lit`, §2.6) that draws for the
@@ -17363,10 +17365,11 @@ cross the API and bridge boundary as `<docId>/<id>`.
   `{ position, range, intensity: 1, color, shadows: true }` as the scene-level `lights` above, `range` being the room's
   diameter in squares and `color` the `glow` role's; the walls keep their centimetre positions and only the scene's grid
   snaps.
-* **Foundry scene JSON:** the same geometry as walls (`c: [x0, y0, x1, y1]` with movement and sight types; doors flagged;
-  an enceinte's walls by run as `line_of_sight` above — a `patched` run a wall, a `breached` or `dismantled` run none),
-  the same lights, a background image file, grid size and distance units — written before the walls — and journal
-  entries from the gazetteer.
+* **Foundry scene JSON:** one Foundry 14 **Scene** document per export scope, in Foundry's published Scene, Level, Wall and AmbientLight schemas (API 14.368, pinned above), so Foundry imports it with no manual step and every scene of the set becomes a native level of one Scene (file l item 654).
+  **The Scene:** `grid { type: 1, size, distance, units }` — `type` 1 the square grid, `size` the scenes' `pixels_per_grid`, `distance` and `units` from `vtt.squareM` (`5, 'ft'` for 1.5 m, `1, 'm'` for 1 m) —, `width` and `height` the scope's pixels, `padding: 0`, `initialLevel` the ground level's id, no scene-level background (the image lives on each level), `journal` and `notes` from the gazetteer, and `flags.plat` the ground scene's `plat` object.
+  **`levels[]` — one `Level` per scene of the set**, in ordinal order: `{ _id, name, sort, elevation: { bottom, top }, background: { src }, visibility: { levels }, flags: { plat } }` — `name` the scene's name, `sort` its ordinal, `background.src` the scene's image file written beside the JSON, `flags.plat` the scene's `plat` object; `bottom` the scene's elevation (the ground 0 at the scope's ground datum, a storey its floor, a deck its mean deck elevation, a depth band its floor; negative below the datum) and `top` its ceiling where it has one (a storey's ceiling, a depth band's top), else `bottom` plus `vtt.levelBandCm` (300 cm, a cell of the VTT export settings; the ground and a deck), both converted to the scene's distance units as the grid is (`cm ÷ (squareM × 100) × distance`); `visibility.levels` empty on the ground and on a storey or band level, a deck's naming the ground's level.
+  **`walls[]`** — the geometry of the scene's `line_of_sight` and `portals` (an enceinte's walls by run as `line_of_sight` above — a `patched` run a wall, a `breached` or `dismantled` run none; a crop's transient sight-blockers among them, *Fields* above), each `{ c: [x0, y0, x1, y1], move, sight, light, sound, door, ds, dir: 0, levels }` with `c` in the scene's pixels and `levels` its level's id alone: a wall `move: 20, sight: 20, light: 20, sound: 20, door: 0`; a closed portal the same with `door: 1, ds: 0`; a concealed door, written only for a key that admits its use (item 63), the same with **`door: 2`** (secret — a fact the Universal VTT file cannot carry, where it is a closed portal); a window `move: 20, sight: 30, light: 30, sound: 20, door: 0` with `threshold { attenuation: true, sight: 10, light: 10 }` (proximity; the threshold in the scene's distance units); an open portal that is not a window (a raised way's end stair or ramp) no wall. The values are Foundry 14's named constants: `move` ∈ `WALL_MOVEMENT_TYPES { NONE: 0, NORMAL: 20 }`; `sight`, `light`, `sound` ∈ `EDGE_SENSE_TYPES { NONE: 0, LIMITED: 10, NORMAL: 20, PROXIMITY: 30, DISTANCE: 40 }` (renamed from `WALL_SENSE_TYPES`, which Foundry 14's constants no longer list); `door` ∈ `WALL_DOOR_TYPES { NONE: 0, DOOR: 1, SECRET: 2 }`; `ds` ∈ `WALL_DOOR_STATES { CLOSED: 0, OPEN: 1, LOCKED: 2 }`; `dir` ∈ `EDGE_DIRECTIONS { BOTH: 0, LEFT: 1, RIGHT: 2 }` (renamed from `WALL_DIRECTIONS`; always 0 here).
+  **`lights[]`** — the scene's lights, each `{ x, y, rotation: 0, elevation, walls: true, vision: false, config: { dim, bright, color, alpha: 0.5, angle: 360 }, levels }` with `x, y` in the scene's pixels, `elevation` its level's `bottom`, `dim` the `.dd2vtt` light's `range` (its radius in squares) × `distance`, `bright` `dim ÷ 2`, `color` `'#rrggbb'` (the `AARRGGBB` colour's last six digits) and `levels` its level's id alone.
 * **Plain scene PNG:** on request a plain PNG of the scene named `{cols}x{rows}` is written beside the file, for
   tabletops that read the grid from the file name (file f item 454).
 
@@ -76416,6 +76419,13 @@ below them):
 > **SW-37** V13's milestones cited by M-W ids (§1.4, §8, J-V14.34, J-V14.38, T-V14-8). Decisions J-V14.49–J-V14.55
 > record the rulings applied; §10.2's V13 row is the request list as it now reads.
 
+> **Coherence l — 2026-10-17 (lane coherence/vtt-l-and-k11; file l, `docs/AMENDMENTS-2026-10-17l.md`, items 655–658,
+> the VTT profile's item 136 (c) re-verification).** PENDING FABLE REVIEW — written by Opus 5.5 standing in for the Fable seat coherence/vtt-l-and-k11; to be retrovalidated overall at the next opportunity (owner, 2026-10-17, J375). What changed: §1b.4's `SiteLevel` and
+> `TransientItem` VTT cells (655); §5.3 — the transient sight-blockers in both `objects_line_of_sight` and
+> `line_of_sight`, the multi-floor convention an ordering convention with a two-digit ordinal (no importer pairs files
+> by name; the Foundry scene JSON with `levels[]` the multi-level path), the vendor strings beside the fields (656);
+> T-V14-11's clauses (657); §12's Scene Levels claim settled (658).
+
 <!-- PROGRESS (the architect seat's ledger; removed at revision)
 0 In plain words ................................ done
 1 Scope, hooks, owner rules, out of scope ....... done
@@ -76787,11 +76797,11 @@ The `encounter` view key's items (the DM's placed barricades, fires, carts, mark
 | the access record (`AccessPoint` of source `site`) | V04 §5.2 (7)'s underground end on a `site` part; V01's ground symbol or V03's head | none | VTT portal (a door in a wall line) or shaft light with a `plat` object; GeoJSON point | the entities block |
 | `Unit` | through its geometry (a `Chamber`, `Gallery`, a V03 room or a ground face), the role's second cue in the site view | the core's and the entrance's names | GeoJSON feature per unit with `role`, `layer`, `waterClass`, `reason` | the site document's entities block |
 | `VerticalLink` | a stair, ladder, shaft, ramp or trapdoor glyph at each end; stacked-slab joins in 2.5D | none | VTT named portals on both scenes; glTF opening | the entities block |
-| `SiteLevel` | its part through V04 §5.1's view (one level at a time) | the band ladder's entry ("Level −2 — the lower crypt") | the per-level `.dd2vtt` scene (its ordinal the file suffix, `plat.level` its elevation and name); GeoJSON a feature per level | the entities block |
+| `SiteLevel` | its part through V04 §5.1's view (one level at a time) | the band ladder's entry ("Level −2 — the lower crypt") | the per-level `.dd2vtt` scene (its ordinal the file's two-digit suffix, an ordering convention only, V14 §5.3; `plat.level` its elevation and name) and its `Level` in the Foundry scene JSON (§11.1); GeoJSON a feature per level | the entities block |
 | `Gallery`, `Chamber` on a `site` part | V04 §5.2's programs by `kind` | the level's label | all six formats as V04 §5.5 | the part chunk |
 | a site's ground `Plot`, `Building`, `Enceinte`, `LandUse`, `Way` | the base's | the base's | the base's | the site document's ground part |
 | `Encounter` / `EncounterCrop` | the crop view (V14 §5.3) | the crop's title | `.dd2vtt` and Foundry with the crop scope; PNG, SVG | never |
-| `TransientItem` | the crop's transient marks | none | VTT objects (`objects_line_of_sight` for a barricade or cart) | the `encounter` view key only |
+| `TransientItem` | the crop's transient marks | none | VTT objects (a barricade's or cart's closed polyline in both `objects_line_of_sight` and `line_of_sight`, V14 §5.3) | the `encounter` view key only |
 
 ### 1b.5 Host facts, traced to their field and derivation row
 
@@ -78853,19 +78863,27 @@ the dialog's default while one is open) and `gridOrigin: 'address'` (always, for
 rectangle, `resolution.map_origin` the crop's origin in grid units from the arena's origin, `map_size` `cols × rows`,
 `pixels_per_grid` the request's, and one scene per member of `EncounterCrop.scenes` by §11.1's profile — the ground
 scene with `line_of_sight` from the footprints, walls, cliffs and retaining walls in the rectangle and the transient
-items' sight-blocking shapes as `objects_line_of_sight`, portals at the entrances and gates, the lights in the
+items' sight-blocking shapes as closed polylines in **both** `objects_line_of_sight` (the contract's object-occluder list) and `line_of_sight` (the list every importer reads: Foundry's importer of Universal VTT files never reads `objects_line_of_sight` on its default multi-level path), the duplication noted as `plat.objectsAlsoInLos: true` so a reader that honours both lists can drop one (§11.1
+*Fields*), portals at the entrances and gates, the lights in the
 rectangle; a storey scene per completed building (§11.1's per-storey rule, V03 §5.3) and the band scene (V04 §5.5)
 cut to the rectangle; a site level's scene by the same per-band path. The transient items export as objects, the
 occupancy summaries as a `plat` note per room (`plat.occupancy: { room, band, parts }`), tokens never (the VTT's).
 **The multi-floor convention (C14-06; the survey's §2.1 and §6.1 (1)):** a multi-scene export of a crop or a site
-writes **one image and one JSON per scene**, named `<base>.<ordinal>.dd2vtt` with the scene's ordinal as the numeric
-suffix (0 the ground, then each storey or level in elevation order, `EncounterCrop.scenes`' ordinals) and the
-scene's elevation and name in its `plat` object (`plat.level`, `plat.storey`) — the pairing the Foundry Scene Levels
-importer reads; the research seat's item 136 (c) re-verification pins the exact rule with the profile's version.
+writes **one image and one JSON per scene**, named `<base>.<ordinal>.dd2vtt` with the scene's ordinal as a two-digit, zero-padded numeric
+suffix (`00` the ground, then each storey or level in elevation order, `EncounterCrop.scenes`' ordinals) and the
+scene's elevation and name in its `plat` object (`plat.level`, `plat.storey`) — an ordering convention for people
+and for an importer's file list, never a pairing: Foundry's importer of Universal VTT files takes the files one at a
+time under level names the user types and reads no suffix, and the one Foundry level importer that reads a numeric
+floor suffix reads another product's own JSON pairs, never a `.dd2vtt`, so no importer pairs these files by name.
+The path to one Foundry scene with every storey and level as a native Scene Level, with no manual step, is §11.1's
+*Foundry scene JSON* — one Scene with a `Level` per scene of the set, its elevation band and its image — written
+beside the `.dd2vtt` set; item 136 (c)'s re-verification of 2026-10-17 pinned the rule with the profile's version
+(§11.1's pin line; file l item 656).
 **The fields per scene** are the Universal VTT contract's (the survey's §2.9, read as evidence): `format`,
 `resolution` with `map_origin` and `map_size` in squares and `pixels_per_grid`, `line_of_sight`,
 `objects_line_of_sight`, `portals` with `closed` and `freestanding`, `lights` with `range`, `intensity`, `color` and
-`shadows`, `environment`, `image` — §11.1's profile emits exactly these per scene. **Water and difficult terrain
+`shadows`, `environment`, `image` — §11.1's profile emits exactly these per scene, beside the `plat` object and the two top-level vendor strings
+`software` and `creator` the contract's description proposes for every writer (§11.1 *Per layer*). **Water and difficult terrain
 (C14-21):** the VTT export writes `plat.difficultTerrain: { kind: 'wading'|'swimming'; ring }[]` from `Encounter.water`
 and, under a flood stage over a storey, the rooftops' faces as the ground scene's walkable set; a `submerged` interior
 is left out of the party's scene by depth and key. **The vendor block (the survey's open question 1; V14 §11 Q4;
@@ -79150,7 +79168,7 @@ owner row; its site clause T-V14-23); 10 → T-V13-10 (the owner row; its site a
 | T-V14-8 | siting | on V13's world fixture (from V13's M-W1 landing): each of V14 §2.5's seventeen `SuitabilityTerm` plug-ins is a pure function of V13's rasters in [0, 1] (a fixture cell per term with its expected value); a fort with no point lands on a candidate whose `overlook` and `roadControl` plug-ins exceed the frame's median and whose `floodSafe` is non-zero; a mine on ore; a hidden temple at a candidate with `oneApproach` 1; no random term enters or follows the score (two runs are bit-identical, V13's tie-break deciding equal candidates; SW-03); the reason record lists the five candidates considered; the card's `attraction` and `routed` reach V13's `destination` term and W7 (a routed fort gains a road); a host-placed site never moves; until V13 lands, a free-standing drop without a point is refused `refuse.site.noWorld` (C14-04, C14-49) | nightly (from V13's W1) |
 | T-V14-9 | locality (§7.3's oracle); **Part E bar 6** | a town regenerated locally around a new free-standing site (an `adoptSite` over a CITY) and a site dropped inside a town (every attachment) change exactly the oracle's dirty set: an attached drop changes the card, anchor, access and the host building's elaboration state only; a surface drop the assignment's touched set; an `inFrame` watchpost and manor (C14-01) the reservation's faces and the blocks they touch, the host's new `site` parts and nothing else; a `ground` camp the card, anchor and its items; an adoption the reservation's faces, the drawn constraints' faces and the mapped parts; nothing outside reshuffles — every other arena's digest, every other plot's and building's id and geometry byte-identical (bar 6); `setSiteRequest` with held units changes none of them | PR (B-EDIT sequences with site events) |
 | T-V14-10 | lifecycle (item 134 (b)) | (a) on every `B-SITE` card: `destroySite` then `restoreSite` draws the plan byte-identically to its pristine drawing at level 0, every id kept, the ruin decoration gone; at levels 0 to 1 in 0.05 steps the damaged element set is monotone and each `SiteDamageRow` kind breaks inside its range, every carved or natural unit's `UnitElement`s keyed by V14 §2.8 and the same element breaking at the same level for a seed, the level rising at the unit's material's `ratePerYear` through the V06 request's signature (C14-13); `collapseUnit` closes exactly its unit's edges and `restoreSite` repairs it last; a `rockWall` breach opens a `breach` edge only to a unit within reach; (b) a host word of every row applies its transform and an unmapped word reports `unmapped_word`; a removed host record leaves the card at `map` tier; (c) over 30 epochs of V06's trajectories an adopted ruin's above-ground elements are robbed with V06's ledger credited and its levels never robbed; a free-standing site runs no epoch; an attached site's `decayLevel` reads the host's week (C14-12); **the host's fate (C14-32):** a crypt under a church V06's epoch ruins reads `vacate` with cause `rule:host`, a cellar complex under a demolished house has its access `collapsed` and its anchor on the trace, and a successor building re-heads it on its lowest storey; (d) every transition has its `LifecycleEvent` with cause; an edit on a locked wall survives every transform | nightly |
-| T-V14-11 | VTT (item 136 (b)); **Part E bar 11's export half** | on `B-CROP`: every crop's `.dd2vtt` and Foundry scene validates; `map_origin` equals the crop's origin in grid units from the arena's origin and is a multiple of `gridCm`; two crops whose rectangles share an edge share their cell lines exactly (a token's cell in one is the same cell in the other); a storey scene's grid equals the ground scene's; the transient items appear as objects and the occupancy as `plat.occupancy` notes, never as tokens; a site document exports one scene per level and storey through the per-band and per-storey paths at the export's key; **the multi-floor convention (C14-06):** a crop's or a site's multi-scene export writes one image and one JSON per scene named `<base>.<ordinal>.dd2vtt`, the ground 0 and each storey or level by its ordinal, each JSON holding exactly the Universal VTT fields (`format`, `resolution` with `map_origin`, `map_size` in squares and `pixels_per_grid`, `line_of_sight`, `objects_line_of_sight`, `portals` with `closed` and `freestanding`, `lights` with `range`, `intensity`, `color` and `shadows`, `environment`, `image`) plus the `plat` object with `level`/`storey`, `waterStamp` (C14-20) and, when asked, `plat.sites`; `plat.difficultTerrain` lists every wading and swimming face and the rooftops' faces form the walkable set under a flood stage (C14-21); a re-export after a V13 cascade over the crop differs in `waterStamp` and the water fields alone; the research seat's re-verification of the Universal VTT fields and Foundry's wall and door schema (item 136 (c)) is recorded with the profile's version pin before SE2 exits | milestone |
+| T-V14-11 | VTT (item 136 (b)); **Part E bar 11's export half** | on `B-CROP`: every crop's `.dd2vtt` and Foundry scene validates; `map_origin` equals the crop's origin in grid units from the arena's origin and is a multiple of `gridCm`; two crops whose rectangles share an edge share their cell lines exactly (a token's cell in one is the same cell in the other); a storey scene's grid equals the ground scene's; the transient items appear as objects — each sight-blocking shape in both `objects_line_of_sight` and `line_of_sight`, `plat.objectsAlsoInLos` true — and the occupancy as `plat.occupancy` notes, never as tokens; a site document exports one scene per level and storey through the per-band and per-storey paths at the export's key; **the multi-floor convention (C14-06):** a crop's or a site's multi-scene export writes one image and one JSON per scene named `<base>.<ordinal>.dd2vtt`, the ordinal two zero-padded digits, the ground `00` and each storey or level by its ordinal (an ordering convention, never read as a pairing), each JSON holding exactly the Universal VTT fields (`format`, `resolution` with `map_origin`, `map_size` in squares and `pixels_per_grid`, `line_of_sight`, `objects_line_of_sight`, `portals` with `closed` and `freestanding`, `lights` with `range`, `intensity`, `color` and `shadows`, `environment`, `image`) plus the top-level vendor strings `software` and `creator` and the `plat` object with `level`/`storey`, `waterStamp` (C14-20) and, when asked, `plat.sites`; `plat.difficultTerrain` lists every wading and swimming face and the rooftops' faces form the walkable set under a flood stage (C14-21); a re-export after a V13 cascade over the crop differs in `waterStamp` and the water fields alone; the research seat's re-verification of the Universal VTT fields and Foundry's wall and door schema (item 136 (c)) is recorded with the profile's version pin before SE2 exits (recorded 2026-10-17, §11.1's pin line); the crop's Foundry scene JSON validates against Foundry 14's Scene schema with one `Level` per scene of the set (its `elevation { bottom, top }` and `background.src`), every wall and light carrying its level's id, a window `sight` and `light` 30 with its `threshold`, and a concealed door `door: 2` only at a key that admits it | milestone |
 | T-V14-12 | water and knowledge (item 137 (f), (g); item 133 (e)); **Part E bar 12** | (a) a flooded crypt, a drowned ruin and a flooded street — one fixture with a dated surface rising a metre at a week — are classified by V13's one test per storey, by share and by route: their classes change under the dated surface and no identity, face, wall or id changes (**bar 12's owner row**; the classifier clause — one `classifyWater` over the crypt, the ruin, the street and a plot — is T-V13-8, cited here, SW-33); the site's `discoverable` falls false when every entrance's route class is `diving`; a crop over the flooded street draws the depth tint and exports the difficult terrain (C14-21); (b) the three secret states: at the party's key a `dmOnly` anchor is absent from every view, label, listing, `why` answer, Find and export (T30-5's enumeration on `B-SITE`), **its access's head absent from the party's plan, ground symbol and VTT portals whatever the access's stored `knownTo` (`effectiveKnownTo`; C14-18)** and its site withheld; the `party` view key holds the revealed places with and without a host bound (C14-17); `revealed` admits the icon through the party's `places` with the open-ring cue; `discovered` the filled ring and `knownTo` `local`; the DM's View as at the party's key shows exactly what the party picture shows (V08's render); (c) the second cue is drawn in every shipped sheet and under every `cvdVariant` | PR, nightly |
 | T-V14-13 | the context rule (item 133 (d)) | on `B-SITE`: the crypt's icon draws only with the cathedral's plan open at the basement storey and at no other storey or band; **an upper-storey crypt (C14-02):** a card dropped in a second-floor room of a merchant's house draws its icon at that storey only, its `hatch` head lies in that room, a V03 stair core of the new kind `secret` (V14 §10.2's V03 request) descends to the cellar where the `SiteReach` begins, every storey between re-cut and marked stale, and a house whose core cannot be placed bends the anchor to the lowest storey with `bend.site.storey`; the `inFrame` manor's and watchpost's decorations draw at every band (C14-01, C14-50); the hideout's only with Below drawn at the band holding its run; the island shrine's only with the island drawn; the manor's on its hinterland face at the neighbourhood and building bands and never at the city band; Find's **Go there** brings each context by view keys alone (0 events); hit testing outside the context never returns the anchor | PR |
 | T-V14-14 | **Part E bar 14** (item 141 (d)) | on `B-25D`: the model digest, the records digest, the document digest and every per-arena digest identical under `flat`, `isometric`, `oblique` and `perspective` at every azimuth and exaggeration tried (1, 1.5, 3), before and after a projected session of pans, zooms, band switches, cutaways and an `undo`; `projection` absent from every digest input and from every export's model | PR |
@@ -79456,8 +79474,10 @@ each with the session's recommendation under the delegation (J122's form); every
   ordinary house on ≥ 95 % of seeds (T-V14-13's clause bars it); that the derived block keeps every host digest
   unchanged across opens (T-V14-31); that the seventeen plug-in terms cost no more than V13's own terms at W6 (a
   spike at SE6); that 36 units per level is the right order for one embedding (spike (a) at the cap); that the crop
-  frame lands inside the crop's first frame (SE0 measures); that the Foundry Scene Levels convention is still the
-  numeric-suffix pair at the item 136 (c) re-verification; the lifecycle, occupancy, `lookItems` and damage-rate
+  frame lands inside the crop's first frame (SE0 measures); that Foundry 14's Scene with `levels[]` (API 14.368, pinned in §11.1) still holds at Foundry 15's first
+  stable release — the numeric-suffix pairing this list once assumed was found absent at item 136 (c)'s
+  re-verification of 2026-10-17, the ordinal kept as an ordering convention and the Foundry scene JSON made the
+  multi-level path (V14 §5.3); the lifecycle, occupancy, `lookItems` and damage-rate
   rows (own, calibratable, each barred).
 
 ## 13 Fix list
