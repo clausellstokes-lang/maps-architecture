@@ -35,23 +35,23 @@ describe('K1: the Layer codes are append-only (block header and entity key)', ()
   });
 
   it('the routes chunk carries the layer code in one byte at a fixed offset: the three layers differ there only', () => {
-    const chunks = LAYERS.map((layer) => encodeArena(dressedOn({ layer, part: 0 }))[0].bytes);
+    // One content (the ground arena's entity ids) under each layer: the chunks differ in the layer byte and nowhere else.
+    const ids = idsOf({ layer: 'ground', part: 0 });
+    const chunks = LAYERS.map((layer) => encodeArena(dressedOn({ layer, part: 0 }, undefined, ids))[0].bytes);
     // magic (4) + format version (1) + kind (1) + role registry version (1), then the layer byte (encode.ts `write`).
     const LAYER_AT = 7;
     for (let i = 0; i < chunks.length; i++) {
       expect(chunks[i][LAYER_AT]).toBe(i);
       expect(chunks[i].length).toBe(chunks[0].length);
-    }
-    // The entity ids carry the key's name (support.ts), so the entity section differs too; everything up to the ids
-    // — the header — differs in the layer byte alone.
-    const HEADER_END = LAYER_AT + 1 + 1; // the part (uv 0) follows the layer byte
-    for (let i = 1; i < chunks.length; i++) {
-      for (let k = 0; k < HEADER_END; k++) if (k !== LAYER_AT) expect(chunks[i][k]).toBe(chunks[0][k]);
+      const differing: number[] = [];
+      for (let k = 0; k < chunks[i].length; k++) if (chunks[i][k] !== chunks[0][k]) differing.push(k);
+      expect(differing).toEqual(i === 0 ? [] : [LAYER_AT]);
     }
   });
 
-  it('the level digest reads the layer code: one arena digests differently under each layer', () => {
-    const d = LAYERS.map((layer) => digestsOf(dressedOn({ layer, part: 0 })));
+  it('the level digest reads the layer code: one content digests differently under each layer', () => {
+    const ids = idsOf({ layer: 'ground', part: 0 });
+    const d = LAYERS.map((layer) => digestsOf(dressedOn({ layer, part: 0 }, undefined, ids)));
     expect(d[0]).not.toEqual(d[1]);
     expect(d[1]).not.toEqual(d[2]);
     expect(d[0]).not.toEqual(d[2]);

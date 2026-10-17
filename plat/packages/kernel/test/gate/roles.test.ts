@@ -44,13 +44,21 @@ describe('K5: the role registry is append-only; an append keeps every row the di
     expect(parsed.roles.slice(0, ROLE_REGISTRY.length).map(read)).toEqual(ROLE_REGISTRY.map(read));
   });
 
-  it('refuses an insertion that renumbers (ids not dense in row order) and a row dated past the version', () => {
+  it('refuses a removed row (ids not dense) and a row dated past the version; a shifting insertion parses but moves every row after it', () => {
     const n = committed.roles.length;
+    const removed: RoleRegistryDoc = { version: committed.version, roles: committed.roles.slice(1) };
+    expect(() => parseRoleRegistry(removed)).toThrow(/dense/);
+    // The loader holds ids dense in row order, so a shifted insertion passes it; it is the comparison with the committed
+    // rows (the test above, on every existing id) that refuses it — the append-only rule is a snapshot rule, as the
+    // concern and stage registries' is (test/rng/registry.test.ts, C-0020).
     const inserted: RoleRegistryDoc = {
       version: committed.version + 1,
       roles: [committed.roles[0], { id: 1, name: 'site_anchor', kind: 'vertex', rank: n, structural: false, indexed: false, knot: false, since: 2 }, ...committed.roles.slice(1).map((r) => ({ ...r, id: r.id + 1 }))],
     };
-    expect(() => parseRoleRegistry(inserted)).toThrow(/rank outside 0 … n − 1 or shared|dense/);
+    const shifted = parseRoleRegistry(inserted);
+    expect(shifted.roles[1].name).toBe('site_anchor');
+    expect(shifted.roles[2]).not.toEqual(ROLE_REGISTRY[2]);
+    expect(shifted.roles.slice(2).every((r, i) => r.id === ROLE_REGISTRY[i + 1].id + 1 && r.name === ROLE_REGISTRY[i + 1].name)).toBe(true);
     const future: RoleRegistryDoc = { ...appended(), version: committed.version };
     expect(() => parseRoleRegistry(future)).toThrow(/since/);
     const swapped: RoleRegistryDoc = { version: committed.version, roles: [{ ...committed.roles[0], rank: committed.roles[1].rank }, { ...committed.roles[1], rank: committed.roles[0].rank }, ...committed.roles.slice(2)] };

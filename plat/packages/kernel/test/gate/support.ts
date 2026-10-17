@@ -37,9 +37,8 @@ export function emptyOn(key: PlatKey, frame: Frame = FRAME): Plat {
  * y = 2000 (L1, owner of nothing — its faces keep no owner), the lane from (1000, 500) to (1000, 1500) (L2, `kerb`),
  * the north face owned by `terrain` at L1 (an owner for a FaceRef), and the junction row on the way's west end (L1).
  */
-export function dressedOn(key: PlatKey, frame: Frame = FRAME): Plat {
+export function dressedOn(key: PlatKey, frame: Frame = FRAME, ids = idsOf(key)): Plat {
   const p = emptyOn(key, frame);
-  const ids = idsOf(key);
   const over = { key };
   commit(p, 0, (o) => insertChain(o, [pt(0, 0), pt(4000, 0), pt(4000, 4000), pt(0, 4000)], [{ role: 'margin', entity: ids.terrain }], 'mandatory', { closed: true }), over);
   commit(p, 1, (o) => insertChain(o, [pt(0, 2000), pt(4000, 2000)], [{ role: 'way', entity: ids.way }], 'mandatory'), over);

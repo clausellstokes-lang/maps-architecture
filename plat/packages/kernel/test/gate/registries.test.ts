@@ -40,8 +40,13 @@ describe('K6: the concern and stage registries append without renumbering', () =
     }
     expect(after).toContain(`'site.world': ${String(CONCERN_COUNT)} as ConcernId,`);
     expect(after).toContain(`'SITE': ${String(STAGE_COUNT)} as StageId,`);
-    // An insertion that renumbers is refused by the generator (ids dense in row order).
-    expect(() => renderIds({ ...concerns, rows: [{ id: 0, name: 'site.world' }, ...concerns.rows.map((r) => ({ ...r, id: r.id + 1 }))] }, stages)).toThrow(/dense/);
+    // A row removed (ids no longer dense in row order) is refused by the generator; an insertion that shifts the ids
+    // stays dense and so passes the generator, but moves every existing constant — what the committed snapshot test
+    // (test/rng/registry.test.ts, C-0020) refuses: the append-only rule is the snapshot's, not the loader's.
+    expect(() => renderIds({ ...concerns, rows: concerns.rows.slice(1) }, stages)).toThrow(/dense/);
+    const shifted = renderIds({ ...concerns, rows: [{ id: 0, name: 'site.world' }, ...concerns.rows.map((r) => ({ ...r, id: r.id + 1 }))] }, stages);
+    expect(shifted).not.toContain(`'terrain.noise': 0 as ConcernId,`);
+    expect(shifted).toContain(`'terrain.noise': 1 as ConcernId,`);
   });
 
   it('STAGE_VIEW stays outside the table: an appended stage takes STAGE_COUNT, never 0xffff', () => {
