@@ -13,7 +13,10 @@ journal.jsonl into scratch files) to the next stage, with guards that stop befor
 | wf_a2c34533-085 realm review continuation | workflows/36b-realm-review-continue.js | LANDED and APPLIED (J385): file m 659–779 in V13, V14, the proposal, the brief and the base; critic gaps in docs/validation/coherence/realm-m-critic.md | — |
 | wf_6fb099fc-e71 lens design (amendments n) | workflows/40-lens-design.js | LANDED and APPLIED (J386): file n 780–837; critic gaps in docs/validation/coherence/lens-n-critic.md | — |
 | wf_14da6479-931 lens close (amendments o) | workflows/41-lens-close.js | LANDED and APPLIED (J387): file o 838–877; critic gaps in docs/validation/coherence/lens-o-critic.md | — |
-| wf_2ecc9c4d-61b lens final (amendments p) | workflows/42-lens-final.js | design → review ×2 → revise → apply (guarded) → critic; the last six gaps, J387 | sequential; resumeFromRunId wf_2ecc9c4d-61b |
+| wf_2ecc9c4d-61b lens final (amendments p) | workflows/42-lens-final.js | LANDED and APPLIED (J388): file p 878–896; critic gaps in docs/validation/coherence/lens-p-critic.md | — |
+| wf_3cef978c-75a lens q (amendments q) | workflows/43-lens-q.js | design → review ×2 → revise → apply (guarded) → critic; the last three gaps, J388; Q4 surfaced as the owner's own word | sequential; resumeFromRunId wf_3cef978c-75a |
+
+**WAITING ON THE OWNER (not delegable by the base's own text, §11.4):** V13 §11 Q4 — does the world canon (per-settlement travel effort, water access and site facts; never a town's geometry) stay outside J86's door 1? Recommendation: confirm. Until answered, H5 and every new campaign's birth canon stay dark.
 | wf_a7c82671-f52 systems read continuation | — | LANDED (J383) | — |
 | wf_868a6476-905 plague read | — | LANDED (J383) | — |
 | (stopped) wf_e54a90fb-43c, wf_0e759907-c33 | workflows/36, 38 | superseded by the continuations | — |
