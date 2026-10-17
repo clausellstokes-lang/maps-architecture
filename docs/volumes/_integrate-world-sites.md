@@ -21,9 +21,9 @@ PROGRESS
 - §5 SUMMARY.md sections: done
 - §6 Integration notes appended to V13 and V14: done (IN-V13-1 – 6; IN-V14-1 – 7)
 - §7 README.md rows: done
-- §8 The bundle (line counts): pending
-- §9 HANDOFF section, PROGRESS row, lane-events: pending
-- §10 CONFIRMED versus PLAUSIBLE: pending
+- §8 The bundle (line counts): done (73 132 → 79 372)
+- §9 HANDOFF section, PROGRESS row, lane-events: done (J374)
+- §10 CONFIRMED versus PLAUSIBLE: done
 
 ## 1 Seam round 1 (confirming): SW-01 – SW-37, V13 §10.2's R-V14-1 – 12, V14 §10.2's V13 row (1)–(17)
 
@@ -229,3 +229,32 @@ dungeon tools' names — over both volumes; (3) the earlier integration's allow 
 of the reference generator or of any surveyed tool is used as a mechanism; the one place the ecosystem's field names
 are admitted stays V13 §3.15's schema file (a data file under §14's lint). V14: 0 slips. Re-grepped after the edits:
 the product name appears in V13 only inside `research/fmg/…` citations.
+
+## 4 – 9 The other outputs (index)
+
+| step | output | what changed |
+|---|---|---|
+| §4 INDEX.md | `docs/volumes/INDEX.md` | the "fourteen volumes" statement and files j/k in the head; §1's product-map rows V13 and V14 (file, subject, base hooks, milestones M-W0h, M-W0 – M-W4, M-ENC, M-SITE-A, M-SITE-F, M-25D, prices 28–36 and 25.75–36.25 pw); §1's census re-counted (54 requests → 48 items; 461 requests, 434 items in all); §2's wiring rows V13 and V14 (consumes and feeds, V13↔V14 and both to V03, V04, V06, V08–V12) and the density line (V14→V13 386, V13→V14 151); §3's graph (nine arrows) and six dependency rows; §4's order sentence; §5's risk rows 11–12 and the spikes; §6's seven owner-question rows, each "recommended; vetoable"; §7's reconciliation record; §8's CONFIRMED and PLAUSIBLE lines. Every existing row intact |
+| §5 SUMMARY.md | `docs/volumes/SUMMARY.md` | the head paragraph (fourteen volumes; thirty-two decisions); sections 13 (the world: placing a river town and the world bending to it; water as a system; the two verbs) and 14 (click anywhere for an encounter; a secret temple under a house; the 2.5D switch with 2D the default); order step 6; the two price lines and the whole 446–611 pw; the checking paragraph; the owner's seven decisions; a closing section on what is asked of the owner |
+| §6 Integration notes | V13 (IN-V13-1 – 6), V14 (IN-V14-1 – 7) | each in-place edit named with its seam id; the file k item of every BCR; R1-1 recorded on both sides |
+| §7 README.md | `README.md` | the bundle row (fourteen volumes); a row for V13, V14, their critiques, the seam and this record; file k beside file f |
+| §8 the bundle | `docs/ARCHITECTURE-FULL.md` | `python3 tools/bundle_architecture.py`: 16 sources; **73 132 lines before, 79 372 after** (`wc -l`); V13 at l. 73 222, V14 at l. 76 212; `--check` UP TO DATE |
+| §9 HANDOFF, PROGRESS, lane-events | `docs/HANDOFF.md` (a ten-line section above the first `##`), `docs/PROGRESS.md` (J374 at the end of the J table), `docs/lane-events.log` (the LANDED line) | — |
+
+## 10 CONFIRMED versus PLAUSIBLE
+
+**CONFIRMED (executed in this lane):** both volumes read whole; every seam finding and every cross-volume request held
+against both texts by grep and reading (§1); every in-place edit applied by an exact-match script asserting its count
+(16 in V13, 12 in V14; backups in `scratchpad/v13v14/integrate/pre-integrate/`, md5 4b23e80d… / 70b75100… before);
+every "current text" quote of file k found by fragment search (56, four markup-only variances named); the clean-room
+scans (667 reference tokens; nine tool names; the product name re-grepped to research citations only); the INDEX,
+SUMMARY and README replacements each asserted unique; the bundle regenerated and `--check` green; V14 §8's total
+re-summed by hand (25.75–36.25).
+
+**PLAUSIBLE (reasoned, not executed):** that no mechanism disagreement beyond R1-1 hides where the two volumes share
+no name, section citation or request (settle: reconciliation round 1 and the coherence pass's reading of file k); that
+file k's BASE/STAGED labels are right where the gate's M1 reservation and a volume's milestone meet (the model rows are
+"recorded as M1 items" by item 140 — the pass may move a reservation later with a reason); that V13's and V14's prices
+and the whole-program figure in SUMMARY (446–611 pw, the earlier 392–539 plus the two lines) hold until §16's totals are
+recomputed by the pass (file f item 568); that the wording fixes introduced no new contradiction (each was read in its
+sentence; none changes a mechanism).
