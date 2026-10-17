@@ -130,6 +130,12 @@ function insideOpen(a: Area, x: number, y: number): boolean {
   return inside;
 }
 
+/**
+ * num ÷ den for the overlap's quotients, through the kernel's ratio() under kind `area` (floor 1 cm², §3.2 (8),
+ * C-0044): every denominator here is a product of two lattice lengths — a squared length, a dot or cross product, a
+ * twice-area — so it is in cm². Kept apart from match.ts's `inverse` and timing.ts's `perEntity` and `shareOf` (each
+ * its own kind); refuses with "match: a degenerate division in the overlap".
+ */
 function div(num: number, den: number): number {
   const r = ratio(num, den, 'area');
   if (!r.ok) throw new RangeError('match: a degenerate division in the overlap');

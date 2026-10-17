@@ -266,3 +266,65 @@ S5a:2). Under N-48, the KI rows are test-gap notes on code the probes confirm co
       `.pnpm-workspace-state-v1.json`) there. The seat checked those three with an `ls -la` of the project root, which
       listed directory names only, and removed them at 06:01. Nothing else outside `plat/` and the scratch directory was
       touched. No git command was run.
+
+## Closing check of session fix round S4 (`check/M0-c-02-close-s4`, 2026-10-12)
+
+Q40 is fixed (`M0-c-02-s4.md`). These notes come from this round's own mutants Y01 – Y19 and probes (mirrors
+`/tmp/claude-0/…/scratchpad/waves/check-M0-c-02/s4/`: `before/` = the tree with the s3-landed `water.ts` a3df60e7…,
+`trace.ts` c336a3ee…, `water.test.ts` 7bf5cf8e…; `after/` = the tree; `mut/` = mutants). Under N-48, the KI rows are
+test-gap notes on code the probes confirm correct, not blockers. N-35 and N-36 are for the session.
+
+30. **N-30 KI (fail-safety test gap; drain in the M0 hardening phase, before M1): the routed chord's nine-sample test is
+    not pinned (mutant Y07).**
+    * Observation: Y07 replaces `chordClear`'s last line `return chordInside(ring, a, b)` with `return true`. It survives
+      NEAR (12 files). Every routed case the tests hold (the L-bend, the needle, base river seed 2) has its bad chord
+      cross a shore side, so the proper-crossing test alone rejects it. A chord that runs wholly over land and crosses
+      no shore side is not covered. `settleChord` returns `clear: true` when no existing vertex lies on the chord, and
+      the strategy's strict proofs never check that a `wall_gate` edge lies over water. So under Y07 the bank route can
+      commit a water gate across land.
+    * Probe (CONFIRMED, `probe/zz-ubend.test.ts`): a horseshoe river (arms x 0–60 m and 260–320 m, bar y 500–560 m, the
+      inner top edge bowed down to (160, 470) m). The boundary enters the right arm's inner bank at (260, 138) m, runs
+      round inside the water and leaves by the left arm's inner bank at (60, 138) m. The straight chord crosses the
+      land between the arms and touches no shore side. The round's code routes to (260, 500) – (60, 500) m, 99/99
+      samples wet, and `traceBase` commits `gate:w0` there, one edge. Under Y07, `crossWater` returns the land chord
+      (260, 138) – (60, 138) m as `routed`, `clear`, and `traceBase` COMMITS `gate:w0` on it: one `wall_gate` edge with
+      0/99 samples wet. Y12, Y13, Y15 and Y17 give the round's output on this probe.
+    * Handling: pin this horseshoe case in `bend.test.ts` (crossWater and through the strategy). For defence in depth,
+      consider a strict proof that each `wall_gate` edge's inner samples lie in its water ring. The real code is correct,
+      so this is not a blocker. But it is the only guard against a silently wrong committed result on a meander, so it
+      belongs in the M0 hardening phase, not M4.
+31. **N-31 KI: a routed crossing's settling is not pinned (mutant Y12; M4).** Y12 returns a routed crossing as
+    `clear: true` without `settleChord`. It survives NEAR and gives the round's output on the U probe. No routed fixture
+    has an existing vertex on its chord. Without settling, the insertion would split such a chord at the vertex into two
+    edges, and the one-edge proof (`looseGate`) refuses that. So the mutant only adds refusals (fail-safe). Handling:
+    a routed case with an arena vertex (a shore vertex off the walk, or a way's vertex) on the chord.
+32. **N-32 KI: the shared-walk guard is not pinned (mutant Y13; M4).** It is the same as the author's Z11, judged here
+    independently. It is not equivalent in principle: two walks that reach one shore point make the ring touch itself.
+    That needs a walk round the river's end inside the band, and F-WALL or the kernel then refuses the self-touch
+    (fail-safe). Handling: a narrow river end inside the band.
+33. **N-33 KI: the one-water-ring condition of the route is not pinned (mutant Y15; M4).** Y15 drops
+    `waters[a.w] === w && waters[b.w] === w`. It survives NEAR and the U probe. C-0324 (6) says such a crossing stays
+    refused, and no test holds two water rings. With the ends on different rings, the walk runs on the mid's ring from a
+    side index of the other ring. Every walked side is still checked against the band and every chord against the ring,
+    and a side over water that is not a gate is refused by `wet.firstOver` (fail-safe). Handling: two touching water
+    faces (a river into a lake) crossed in one stretch.
+34. **N-34 KI: `chordClear`'s 1 cm end tolerance is not pinned (mutant Y17, 1 → 50 cm; M4).** It survives NEAR and the U
+    probe. A chord that clips a shore corner within 50 cm of a bank would then be taken. That is a tightening, below the
+    fidelity scale. Handling: a corner 2 – 50 cm off a candidate bank.
+35. **N-35 Session (J264 / J290): lawful-input refusals that were already there on the river fixtures, unchanged by this
+    round (before = after, identical digests).** The census's extra runs (`runBase`, kind all) show:
+    * RIVER 900 ha / 30 ha walled, seeds 8 and 14, and RIVER_BLUEPRINT (default size), seeds 3 and 4: S5
+      `E_SELF_INTERSECT` "F-WALL: the trace touches itself after the re-offset and union-simplify rungs; the later rungs
+      are M1's (§5.2; C-0085)". RIVER_BLUEPRINT seed 5 gives the same refusal at S3.
+    * RIVER 900/30, seed 12: S3 `E_INVARIANT` "trace: gate gate:2 is not on the committed trace at its point (§4.2 S3
+      (9))". This is `trace.ts` line 290, with no milestone named.
+    * Classes: LAWFUL input. The F-WALL rows are REFUSE with M1 named (C-0085). The seed-12 row names no milestone, so it
+      is a J264 defect for a session round.
+    * The bench site spike's relief-60 "refused S5 E_SELF_INTERSECT ×1" (the builder's note) is very likely the same
+      F-WALL class.
+36. **N-36 Session (contract): water gate ids after C-0324 (3).** `waterGates(trace, water, k)` (§4.12's reader) still
+    numbers its gates `gate:w0` … per call. On a second enceinte it names `gate:w0` and `gate:w1` where the committed
+    gates are `gate:w2` and `gate:w3`. Today no consumer reads its ids (`growth/boundary.ts` reads only the count). Also,
+    M0-c-04's notBuilt('M1') guard (C-0244, `earlierWaterGates`) still refuses a k ≥ 3 stage on the reasoning that C-0324
+    (3) has removed for `traceBase`. The builder reported this to the session (C-0324 (3)). Handling: the session routes
+    it, either to a later M0-c-04 round or to the hardening pass.

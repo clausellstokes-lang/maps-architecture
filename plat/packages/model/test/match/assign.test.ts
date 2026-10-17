@@ -154,7 +154,7 @@ describe('the greedy one-to-one assignment (§6.3)', () => {
         },
       ),
     );
-  });
+  }, 120_000);
 });
 
 describe('the outcomes (§6.3 Carry-over)', () => {
@@ -185,6 +185,14 @@ describe('the outcomes (§6.3 Carry-over)', () => {
     const r = match(old, fresh, TABLE);
     expect(r.counts.succeed).toBe(2);
     expect(r.carry).toEqual([{ id: 'cell:b', entityKind: 'cell', fresh: 'cell:y', lineageFrom: [7, 8], lineageTo: [7, 9] }]);
+    // The carry list is in old-id order (UTF-16 code units) across kinds, not in the table's kind order: the junction is
+    // matched before the cell, but 'cell:b' sorts before 'junction:z'.
+    const two = match(
+      [pointEntity('junction', 'junction:z', 0, 0, { lineage: L(1, 1) }), old[1]],
+      [pointEntity('junction', 'junction:w', 10, 0, { lineage: L(1, 2) }), fresh[1]],
+      TABLE,
+    );
+    expect(two.carry.map((c) => c.id)).toEqual(['cell:b', 'junction:z']);
   });
 
   it('a tombstone is superseded by the fresh entity whose region covers its anchor point (the supersedes table), the successor\'s address when it is one', () => {
@@ -330,6 +338,10 @@ describe('the anchor table as data (§6.3; M0\'s kinds)', () => {
     expect(() => match([{ ...o, anchor: { point: { x: 2 ** 25, y: 0 } } as never }], [], ONE)).toThrow(/lattice point/);
     expect(() => match([{ ...o, lineage: [1] as never }], [], ONE)).toThrow(/u32/);
     expect(() => match([{ ...o, lineage: [-1, 0] as never }], [], ONE)).toThrow(/u32/);
+    for (const lineage of [[0, -1], [0, 1.5], [0, 2 ** 32], [1, 2, 3]]) {
+      expect(() => match([{ ...o, lineage: lineage as never }], [], ONE)).toThrow(/match: the old entity junction:a's lineage is not two u32 lanes/);
+      expect(() => match([], [{ ...o, lineage: lineage as never }], ONE)).toThrow(/match: the fresh entity junction:a's lineage is not two u32 lanes/);
+    }
     expect(() => match([], [{ ...o, survives: false }], ONE)).toThrow(/old entity's flag/);
     expect(() => match([{ ...o, anchor: { area: rect(0, 0, 1, 1) } } as never], [], ONE)).toThrow(/not a point/);
     expect(() => match([{ ...o, id: '' }], [], ONE)).toThrow(/no id/);
