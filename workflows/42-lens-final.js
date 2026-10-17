@@ -1,6 +1,6 @@
 export const meta = {
   name: 'lens-final',
-  description: 'Close the lens critic\'s fourteen gaps as amendments o (trade economy rows, global deity rank, deferred lenses, dropped rows, culture wording, canon-at-birth, march verdicts, base sync, V14 step, V09 controls, tests); review, revise, apply, completeness check',
+  description: 'Close the last six lens gaps as amendments p (birth canon stated as ruled, plate cache in the base, verdict-audience test, conditional legend notes, index milestone lines, proposal section 3.8); review, revise, apply, completeness check',
   phases: [
     { title: 'Design', detail: 'one design seat writes amendments p' },
     { title: 'Review', detail: 'host-fidelity and map-architecture adversarial reviews' },
