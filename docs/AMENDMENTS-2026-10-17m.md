@@ -15,10 +15,21 @@ the review of the host's simulator against the world regime: 59 findings RR-1 �
 `research/sf/fp-simulator.md` and `research/sf/fp-physical-integration.md`. The host repository
 (`clausellstokes-lang/settlement-engine` at `origin/master` `81f1cd96`) was read, never written.
 
+**Revised 2026-10-17** after two adversarial reviews of this file and its review note: 51 issues, each verified against
+the host's code and this repository's targets and accepted, partly accepted or rejected with its reason in
+`research/sf/fp-realm-review.md` §10. The revision changed items in place and gave new fragments to existing items
+rather than new numbers — V13 §3.0 and §3.16 (item 714), §7's corpus paragraph, T-V13-7 and T-V13-14 (item 742), §8.2's
+estimate (746), §10's BCR-V13-8 and a new BCR-V13-37 (752, 753), §12 (756), V14 §1b.6, §2.2, §2.5 and §5.4 (757, 759,
+766), the proposal's §3.8 (770) and the base's §11.3, §11.4 and §13.2 (779) — so items 659–779 keep their numbers and
+the next file starts at 780. A census of retired words (`seats(world`, budgets, cost vectors, `foreignCulture`,
+`port: true`) over the targets as this file leaves them found the stale sentences those fragments mend.
+
 **How to read an item.** As file l's: each item names its target file's section (the heading above it), its title in
 bold, the review findings it carries (*Requests*), the current text quoted **once** (every quote verified by exact search
 against the target file on 2026-10-17, and verified again by applying every item of this file in order to a copy of each
-target: each quote occurs exactly once at its turn and each new text exactly once after; a quote that wraps across lines
+target: each quote occurs exactly once at its turn, each new text exactly once after, and what the target keeps after
+each quote agrees with how its new text ends, so no sentence is left dangling — the residue check, added at the revision
+below; a quote that wraps across lines
 is written with each line break marked ⏎, the continuation's indentation kept), and the new text **in full** as a
 blockquote whose lines are the new lines (the `> ` prefix removed; a bare `>` an empty line). An item with several
 fragments gives each fragment's current and new text in turn, (a), (b) …, applied in that order. A reference written
@@ -34,7 +45,9 @@ factor, reinforcement band, population thresholds) reach the map only as the `Tr
 document names, ruling ids, product names and code paths stay in each item's *Evidence* line. The owner's own words,
 quoted verbatim in V13 §1.3 (item 667), keep the product name the owner wrote. The proposal and the brief are
 research-side and owner-facing documents and may name the products. Checked by a lint over every new text bound for the
-base and the volumes (host identifiers, product names, ruling ids, host document names: no hit).
+base and the volumes (host identifiers, product names, ruling ids, host document names: no hit — re-run at the
+revision, after the reference generator's settings keys in item 739 and two of the host's closed vocabularies written
+as literal unions in item 693 were found and taken out).
 
 **Where the review's text was not taken verbatim** (each a design choice of this file, recorded so it can be vetoed):
 (a) RR-8's rename of the wind field to a from-bearing name is not taken: `windCdeg` keeps its name and is stated to be the
@@ -44,14 +57,17 @@ is merged into the `physicalChange` offer, which carries the durability (`event`
 refusal is named `refuse.world.hostRequires`, after the inbound `hostRequires` message it guards; (e) J382's culture
 term is a resistance along the projection's path — each step into a cell slowed by the host's culture distance between
 the projecting seat and the cell's home seat — rather than a penalty at the destination, and `culture.phi` 0.5 and
-`water.footholdDays` 0.5 are own values, UNMEASURED; (f) the frame-side requests the review rules (BCR-V13-30 –
+`water.lodgementDays` 0.5 are own values, UNMEASURED; (f) the frame-side requests the review rules (BCR-V13-30 –
 BCR-V13-36) are stated in V13 §10 as substance, the coherence pass writing each one's exact base text, as file k did for
 that section's earlier requests; (g) the standalone travel law's speeds (cart 120, river 250, coastal 600, sea 900 km a
 week) and the toll house's kind row are own values, PLAUSIBLE; (h) J86's door 1 is an owner question whose answer gates
 only the lighting of the host's builder over the canon, not the design; (i) the manager's reading that "gates then come
 from the map's weighted partition" is not taken (J-RR.53: the host's crossings stay on the unweighted seat territory;
 the map offers a per-crossing holder reading instead); (j) the V13 revision note, §11's questions and the new J-V13 rows
-restate the review's rulings in the volume's own form rather than citing the review as a reference.
+restate the review's rulings in the volume's own form rather than citing the review as a reference; (k) three parts of
+the manager's reading are not taken: provinces on a host-bound world (its divisions are its member sways, V13 §3.9 (17)),
+fortifications as a force source of their own (walls enter only through garrisoned sites and the host's force band) and
+the patrols' belief side (belief is the host's, fed by `patrolOffer` at its own choice).
 
 *Not items* (listed so nothing is re-found): the review's §5 host-change list is carried as V13 §8.5 (item
 749) and as the proposal's §6 pointer (item 771) — the host's own documents are the host's to change; the
@@ -77,7 +93,9 @@ settlement power or military, and vassals and the likes?"
   SETTLEMENT POWER OR MILITARY.** Occupation is an overlay, never ownership; a garrisoned fort or watchtower is a held
   point of its holder; an army in the field is presence only and moves no border until a dated outcome, an occupation or
   a treaty transfers it (J-RR.52, J-RR.56). **(d) VASSALS AND THE LIKES.** An allegiance graph from the host's own links —
-  vassals, puppets, satellites, tributaries, compelled allies — with exclaves where the chain breaks (J-RR.51). **(e) THE
+  vassals (including the occupation's vassalized rung) and puppet seats as members; satellites as claim points of their
+  parent's allegiance; tributaries and compelled allies as bands and relations — with exclaves where the chain breaks
+  (J-RR.51). **(e) THE
   REFERENCE GENERATOR'S INCLUSION, EXPANDED.** Its states, provinces and diplomacy become allegiances and links on a
   standalone import (item 709); unlike it, land beyond everyone's reach stays wild. **(f) THE PERSISTENT ENCOUNTER
   MAP.** The encounter crop reads the polity at its point and week — whose land, held or debatable, occupied, patrolled,
@@ -89,9 +107,10 @@ territory has an upper limit per individual settlement that expands bounded but 
 prosperity, relative distance and dynamics of neighbors and contnious chain of vassals."
 
   **(a) BOUNDED BUT EXPONENTIAL.** A settlement's reach grows geometrically with its tier and is capped per tier: reach =
-  min(Λ·τ, capTier), τ geometric by rung (J-RR.49; V13 §3.9 (7)). **(b) SIZE, TIER, PROSPERITY.** τ = τTier × kSize ×
+  min(Λ·τ, capTier), τ growing by at least half again per rung (J-RR.49; V13 §3.9 (7)). **(b) SIZE, TIER, PROSPERITY.** τ = τTier × kSize ×
   kProsperity × (1 + the chain bonus). **(c) RELATIVE DISTANCE.** Strength fades with travel time on the host's own cost
-  law at walking pace, so mountains and rivers resist and a valley town's reach hugs its valleys — the loss-of-strength
+  law at walking pace, so mountains resist, a navigable river adds its own crossing time (V13 §2.3's `river.crossingDays`)
+  and a valley town's reach hugs its valleys — the loss-of-strength
   gradient. **(d) DYNAMICS OF NEIGHBORS.** Kin and allies split at the travel-time midline without pushing; neutrals
   yield to the stronger; adversaries push by relative strength and leave a **debatable land** held by neither where they
   are within a margin (J-RR.50). **(e) THE CONTINUOUS CHAIN OF VASSALS.** "Continuous" read as an unbroken chain of links
@@ -108,15 +127,15 @@ J378).** "and of course military strenght to enforce. where two hostile neighbor
 the cieling that you described but where contested, this also becomes part of the tie breakeralso there should be
 patrols"
 
-  **(a) MILITARY STRENGTH TO ENFORCE, AS THE TIE-BREAKER.** A second strength — the host's garrison and standing bands,
-  continuous vassals' contingents, garrisoned sites — at army pace, entering only land the civil projection left
+  **(a) MILITARY STRENGTH TO ENFORCE, AS THE TIE-BREAKER.** A second strength — the host's existing latent-strength band and garrison
+  presence per seat, continuous vassals' forces, garrisoned sites — at army pace, entering only land the civil projection left
   debatable (J-RR.52). **(b) THE CEILING KEPT.** Military strength never extends a reach, never moves a decided line, never
   takes a town's own ground. **(c) HOSTILE NEIGHBOURS FIGHTING OVER THE MARCH.** The host's dated verdicts on fights there
   move a hold band per segment and side that decays by a season; the fight itself is a fighting overlay that never moves
   a line (J-RR.56). **(d) PATROLS.** Each power patrols its roads and its side of a debatable stretch at a cadence derived
   from its garrisons, its neighbours' hostility and the road's grade, the host's own road closures and wardens first;
-  present by a hash of address and week, never a roll; drawn as a layer, read by encounters, offered to the host and never
-  imposed (J-RR.54; V13 §3.9 (14)).
+  present on a fixed weekly phase keyed by its segment and power, never a roll; drawn as a layer, read by encounters,
+  offered to the host as an extent and its basis (never as a time) and never imposed (J-RR.54; V13 §3.9 (14)).
 
 **662. OWNER RULE (J382) — Culture as a resistance; the sea as cheap carriage (owner, 2026-10-17; `docs/PROGRESS.md`
 J382).** The owner answered "yes" to the session's question whether territory should add culture as a resistance term and
@@ -124,10 +143,14 @@ the sea as cheap carriage. RULED (the session's reading, vetoable):
 
   **(a) CULTURE RESISTS THROUGH THE HOST'S OWN MEASURE.** The projection's culture term reads the host's existing culture
   distance (its composite of faith, alignment, economy, trade ties and governance — host `src/domain/spatial/cultureDistance.js`,
-  a live read of its world state), sent banded in fifths per seat pair within reach and held for a dwell; the map invents
-  no culture measure, and V13 W8's former `foreignCulture` term is retired into it (V13 §3.9 (6), item 714). **(b) WATER
+  a live read of its world state; not purely cultural — its governance term counts two seats answering to one sovereign
+  as close, so a conquest or a vassalage moves it, and trade ties and shared traditions close it multiplicatively; recorded
+  owner-visible, this reading vetoable), sent banded in fifths with the pair's relationship-label trade tie as the host's
+  own migration reads it, for every pair within the host's reinforcement band or at its neighbour tier ≤ 2, held for a
+  dwell, and held at its first window's value between an occupied seat and its occupier's allegiance while the occupation
+  stands; a pair not sent reads 0, reported; the map invents no culture measure, and V13 W8's former `foreignCulture` term is retired into it (V13 §3.9 (6), item 714). **(b) WATER
   IS CHEAP CARRIAGE ONLY WHERE THE HOST'S SEA LANES ARE LIT.** While the host's lane system is lit, a seat at one end of an
-  adopted lane reaches its other end at the travel law's water price; across water a power takes a coastal foothold,
+  adopted lane reaches its other end at the travel law's water price; across water a power takes a coastal lodgement,
   never the whole far shore; with the lanes dark, water bars the sway (V13 §3.9 (6)). **(c) FAITH GETS NO SEA CARRIER** —
   recorded here for the religion lens's follow-up review (J379); no text of this file.
 
@@ -209,7 +232,7 @@ the sea as cheap carriage. RULED (the session's reading, vetoable):
 >   (`PolityFacts`, V13 §2.2) over the terrain, never a fact the map owns — each seat's reach bounded but exponential in
 >   tier, size and prosperity, decaying with travel time and capped per tier (T2's limit; V13 §3.9 (6)–(7)); culture
 >   slowing the projection by the host's own culture distance, and water carrying it cheaply only along the host's lit
->   water lanes, to a coastal foothold and never the whole far shore (J382; (6)); neighbours weighed by class with a
+>   water lanes, to a coastal lodgement and never the whole far shore (J382; (6)); neighbours weighed by class with a
 >   debatable land between adversaries (T2's dynamics; (8)); a bounded bonus along a continuous chain of vassals, with
 >   exclaves where the chain breaks (T2's chain; (9)); military strength the tie-breaker inside the debatable land only and
 >   never above the ceiling, garrisoned sites as held points, armies presence only (T1's "occupied by … military", T3;
@@ -276,12 +299,12 @@ the sea as cheap carriage. RULED (the session's reading, vetoable):
 *New text:*
 > | `WorldRoute` (a graph edge: ends, mode, class or the host's grade, polyline, time stations, lay version, origin; bound: the host's edge key) | W7 — on a standalone world by its own selection; on a host-bound world laying exactly the host's genesis edges and lived changes (V13 §3.8) | the charter's `roads`, the port's `routes`, `routeFacts` and `mapFeed`, W6's economic stage, W9's labels, the view, the exports; V14's E1 (the world-map case reads the route at the point) | V13 §2.2 |
 > | `Territory` (the seat territory, W8a: seat, coarse cells, refined crossings, border, pole, neighbours; provinces on a standalone world) | W8a from the bound seats, or the recipe's seats standalone | the canon's travel slot; the charter's `territory`; W8b (the culture term's home seat); W9's labels; the diagnostic `seatTerritory` layer; the exports | V13 §2.2 |
-> | `Sway`, `Allegiance`, `MarchHold`, `SwayRevision`, `SwayTrace`, `PatrolCadence` and the fine rasters `sway`, `swayStatus`, `debatableSides` (W8b) | W8b at a `polityRevision`, at most one revision per week (V13 §3.9 (13)) | `worldFactsAt` (`polity`), the charter's `polityAtCharter`, `polityOf`, the view's sway, debatable, occupation, fighting and patrol layers, the port's `mapFeed` and `patrolOffer`, V13 §3.9 (16)'s gate proposals, V14's `territoryBorder` term, E1 and E4 | V13 §2.2 |
+> | `Sway`, `Allegiance`, `MarchHold`, `SwayRevision`, `SwayTrace`, `PatrolCadence` and the fine rasters `sway`, `swayStatus`, `debatableSides` (W8b) | W8b at a `polityRevision`, at most one revision per week (V13 §3.9 (13)) | `worldFactsAt` (`polity`), the charter's `polityAtCharter`, `polityOf`, the view's sway, debatable, occupation, fighting and patrol layers, the port's `mapFeed` and `patrolOffer`, V13 §3.9 (16)'s border-post proposals, V14's `territoryBorder` term, E1 and E4 | V13 §2.2 |
 > | `SettlementGlyph` (the generalization by level) | W9 for every placed frame; re-made by the frame's commit hook (V13 §3.10) | the world view (V13 §5.2), the exports' world layer, the port's thumbnail | V13 §2.2 |
-> | `SitingProposal` (a scored candidate site with its reason and its `WaterAccess`) | W6; V13 §3.9 (16)'s transient gate-site proposals | the host (the port), V14's G3, the clerk | V13 §2.2 |
+> | `SitingProposal` (a scored candidate site with its reason and its `WaterAccess`) | W6; V13 §3.9 (16)'s transient border-post proposals | the host (the port), V14's G3, the clerk | V13 §2.2 |
 > | `ReasonRecord` (M8; shared with V14) | every stage of this volume, per generated fact; the cascade; V14's stages | the clerk's `why`, `whatCaused`, `whatChanged`, `whatIf` (V13 §4.7); T-V13-10's missing-chain test | V13 §2.2; §2.8 (BCR-V13-17) |
 > | `WorldEvent` (a dated host event: battle, plague, fire, siege, raid; a point, or a pair placed by `borderSegment`; its place `WorldWhere`, week, window and resolved audience; SW-07) | the host through `WorldPort.events`, a windowed replace keyed by host keys (a dossier-tier fact), or a user's `addEvent` edit; never a stage | `worldFactsAt.recent` (V14's E1 world crop, the clerk, V09's hover); the view's `events` layer; `MarchHold` (the verdicts) | V13 §2.2 |
-> | `WorldHeader` (unit, axes, origin, extent, geometry version, the travel span) | W0; an extent `adjust` | the canon's envelope, the host's scale stamp, the world dialog's readout, the exports' settings block | V13 §2.2 |
+> | `WorldHeader` (unit, axes, origin, extent, geometry version) | W0; an extent `adjust` | the canon's envelope, the host's scale stamp, the exports' settings block (the world dialog's travel span is the map feed's, never the header's) | V13 §2.2 |
 > | `WorldCanon` (the simulator feed: the travel, water and sites slots, the version vector, the input hashes, the causes, the skipped list) | `WorldPort.canon` at a named log head | the host's builder of its own frozen record (its own derivations) | V13 §2.2; never persisted in the world (re-built on request; its hashes logged) |
 > | `TravelLaw` (the host's travel law as data) | `WorldPort.travelLaw` (a recorded input, the `world.travel` host slice); the default row standalone | `derivedTime`, the time stations, `timeDelta`, the world dialog's span, W8b's foot and army paces, the patrol cadence | V13 §2.2, §2.3 |
 > | `RouteLayRule` (`world.routeLay`) | shipped defaults; `editTable` | W7 | V13 §2.3 |
@@ -302,11 +325,11 @@ the sea as cheap carriage. RULED (the session's reading, vetoable):
 *Current text* (b):
 > `W_IMPORT_LOSS`, `W_IMPORT_REPAIRED`, `W_CASCADE_TRUNCATED` | the stages and steps named in V13 §3.16
 *New text* (b):
-> `W_IMPORT_LOSS`, `W_IMPORT_REPAIRED`, `W_CASCADE_TRUNCATED`, `W_TRAVEL_BAND_CROSSED`, `W_HOST_CANON_BEHIND`, `W_EDIT_DOSSIER`, `W_WORLD_HEMISPHERE`, `W_POLITY_CYCLE`, `W_POLITY_TWO_LIEGES`, `W_IMPORT_SCALE_ASSUMED` | the stages and steps named in V13 §3.16 and §7.5
+> `W_IMPORT_LOSS`, `W_IMPORT_REPAIRED`, `W_CASCADE_TRUNCATED`, `W_TRAVEL_BAND_CROSSED`, `W_HOST_CANON_BEHIND`, `W_EDIT_DOSSIER`, `W_WORLD_HEMISPHERE`, `W_POLITY_CYCLE`, `W_POLITY_TWO_LIEGES`, `W_POLITY_CULTURE_ABSENT`, `W_SWAY_LOCK_CONTRADICTED`, `W_IMPORT_SCALE_ASSUMED`, `W_IMPORT_LEGACY_BURG`, `W_IMPORT_PLACEMENT_UNVERIFIED` | the stages and steps named in V13 §3.16 and §7.5
 *Current text* (c):
 > `world.siting`, `world.polity`, `world.labels`, `place.search`; the stage ids
 *New text* (c):
-> `world.siting`, `world.polity` (reserved: W8 draws nothing), `world.patrol` (the patrol presence hash keyed by (segment, power, week), V13 §3.9 (14); no stream of draws), `world.labels`, `place.search`; the stage ids
+> `world.siting`, `world.polity` (reserved: W8 draws nothing), `world.patrol` (the patrol phase hash keyed by (segment, power), V13 §3.9 (14); no stream of draws; its row appended to the kernel's concern registry, BCR-V13-8), `world.labels`, `place.search`; the stage ids
 *Evidence:* `research/sf/fp-realm-review.md` RR-10, RR-11, RR-21, RR-23, RR-48, RR-54 and J-RR.11 – J-RR.13, J-RR.23, J-RR.24, J-RR.51, J-RR.54.
 
 
@@ -337,7 +360,7 @@ the sea as cheap carriage. RULED (the session's reading, vetoable):
 > | `RouteCostLaw` (the host's law as data; the default rows ours) | `@plat/tables` (`world.routes`), the host through the port | W7; V14's E1 (the route at the point) |
 *New text:*
 > | `RouteCostLaw` (the host's law as data: its values and version, each term tagged `time` or `choice`; the default row ours) and `RouteLayRule` (the map's network formation) | `@plat/tables` (`world.routes`, `world.routeLay`), the host through the port (`costLaw`) | W7; W8a; W8b's travel times; `derivedTime`; V14's E1 (the route at the point) |
-> | `TravelLaw` and `derivedTime(effort, mode, week, law)`, `pointAtTime(route, from, fraction, dispatchWeek, law)`, `timeDelta(world, edit)` | `@plat/world/travel` | every time the map shows (labelled, stamped with the law's version); the host's movers and hearing positions (through the map feed); the dry runs |
+> | `TravelLaw` and `derivedTime(effort, mode, week, law)`, `pointAtTime(route, from, fraction, dispatchWeek, law)`, `timeDelta(world, edit)` — an **effort-metre** is one metre of level open ground at the cost law's base rate (effort = Σ step cost under the time terms ÷ (`landBase` × `perM`)); `derivedTime` is, by the law's `basis`, absolute: effort ÷ 1 000 ÷ `kmPerWeek[mode]` weeks; normalized: effort × the canon's `costUnitsPerMetre` × the law's `calibration` (weeks per cost unit); normalizedFrozen: the leg's frozen weeks; then the law's leg rounding, floor and cap and its season factor | `@plat/world/travel` | every time the map shows (labelled, stamped with the law's version); the host's movers and hearing positions (through the map feed); the dry runs |
 *Evidence:* `research/sf/fp-realm-review.md` RR-10, RR-11, RR-12 and J-RR.11 – J-RR.13, J-RR.15.
 
 **675.** **The world port's surface: two feeds, recorded inputs, presentation inputs.**
@@ -345,7 +368,7 @@ the sea as cheap carriage. RULED (the session's reading, vetoable):
 *Current text:*
 > | `WorldPort` — `derivedFacts(world, placement)` → `SettlementMapRecord`; `charter(world, campaign)`; `proposals(world, demand)`; `routes(world)` | `@plat/port/world` (one adapter folder per host line, as `@plat/port`'s) | the host, one way (BCR-V13-11); V08's host client gains the world's messages (V13 §3.11.6) |
 *New text:*
-> | `WorldPort` — the simulator feed `canon(world, request)` → `WorldCanon`, with the optional `routeFacts` and `patrolOffer`; the map feed `derivedFacts(world, placement)` → `SettlementMapRecord`, `mapFeed(world, week, audience)`, `routes(world)`, `pathGeometry`, `borderSegment`, `placeOf`; `charter(world, campaign)`; `proposals(world, demand)`; inbound recorded `bindSeat`, `importSeats`, `costLaw`, `travelLaw`, `hostRequires`, `genesis`, `network`, `polity`, `events`, `canonized`, `consumed`; inbound presentation `clock`, `hostOverlay`, `beliefView`, `audienceKnowledge`; the outbound offer `physicalChange` (V13 §3.11.6) | `@plat/port/world` (one adapter folder per host line, as `@plat/port`'s; its manifest names the closed key list of every recorded input) | the host, one way per message (BCR-V13-11; the base's fifth host door, 779); V08's host client gains the world's messages (V13 §3.11.6) |
+> | `WorldPort` — the simulator feed `canon(world, request)` → `WorldCanon`, with the optional `routeFacts` and `patrolOffer`; the map feed `derivedFacts(world, placement)` → `SettlementMapRecord`, `mapFeed(world, week, audience)`, `routes(world)`, `pathGeometry`, `borderSegment`, `placeOf`; `charter(world, campaign)`; `proposals(world, demand)`; inbound recorded `bindSeat`, `unbindSeat`, `importSeats`, `costLaw`, `travelLaw`, `hostRequires`, `genesis`, `network`, `polity`, `events`, `canonized`, `consumed`; inbound presentation `clock`, `hostOverlay`, `beliefView`, `audienceKnowledge`; the outbound offer `physicalChange` (V13 §3.11.6) | `@plat/port/world` (one adapter folder per host line, as `@plat/port`'s; its manifest names the closed key list of every recorded input) | the host, one way per message (BCR-V13-11; the base's fifth host door, 779); V08's host client gains the world's messages (V13 §3.11.6) |
 *Evidence:* `research/sf/fp-realm-review.md` RR-2, RR-3, RR-6, RR-35 and J-RR.2, J-RR.3, J-RR.8, J-RR.35.
 
 **676.** **The point reader carries the week and the polity; the new readers.**
@@ -358,7 +381,8 @@ the sea as cheap carriage. RULED (the session's reading, vetoable):
 > | `borderSegment(world, a, b, week)`, `placeOf(world, where)` | `@plat/world` | the port; the event fold (a pair-only host event); the hearing card's words |
 > | `@plat/world/sight` — `viewshed(world, at, heightM)`, `intervisible(world, a, b)` (the DEM with the earth's curvature and refraction); `aerialLegs(world, seats)` (straight legs between named seats, fed only to a canon whose envelope names this world) | `@plat/world/sight` | V14's site coverage; V13 §3.9 (14)'s detection; beacon chains; the host's air field |
 > | `roadsAt(placement, week)` (the frame's road rows at a week, from the lived network) | `@plat/world` | the frame's views; the charter's re-emission at a growth or a re-placement; the clerk |
-*Evidence:* `research/sf/fp-realm-review.md` RR-36, RR-37, RR-43, RR-50, RR-53, RR-55 and J-RR.30, J-RR.38, J-RR.39, J-RR.44, J-RR.55.
+> | `patrolAt(world, segment, power, week)` → boolean (a patrol present that week on its fixed phase, V13 §3.9 (14)) | `@plat/world` | `worldFactsAt`, V14's E4, T-V13-42 |
+*Evidence:* `research/sf/fp-realm-review.md` RR-36, RR-37, RR-43, RR-50, RR-53, RR-54, RR-55 and J-RR.30, J-RR.38, J-RR.39, J-RR.44, J-RR.54, J-RR.55 (§10: T-V13-42 tested `patrolAt`, which no row defined).
 
 **677.** **Who consumes W7 and W8 now.**
 *Requests:* RR-45.
@@ -378,8 +402,8 @@ the sea as cheap carriage. RULED (the session's reading, vetoable):
 *New text:*
 > | `setAttr` on a `WaterSurface` (`subtype`, `open`, `date`), a `Reach` (`navigable` override, `name`), a `Territory` or an `Allegiance` (`name`, standalone only — a host-bound allegiance takes the DM's christening from the host), a `WorldRoute` (`class`, standalone only; a host route's grade is the host's), a `Placement` (`bearingCdeg`, `originCm`) | T9 `shape` | §7.4's setAttr row | the inverse |
 > | `setSeats` (a standalone world's `RecipeSeat`s; a Re-derive from W8) — refused on a host-bound world, whose seats arrive as `bindSeat` and `importSeats` | T6 `place` | V13 §2.6's seats row | the replaced W8 scope |
-> | `bindSeat` (the host's key on a placement; recorded input) and `importSeats` (the host's existing placements as a recorded import request) | the port (author `host`) | V13 §2.6's placement row | a host input is never a user's undo target |
-> | `setSwayLock` (cells or a sway held by a named holder or kept unclaimed against later revisions: the DM's word is canon) and `divide` (invented provinces on a standalone world) | T9 `shape` | V13 §2.6's sway row | the former lock; the replaced W8b scope |
+> | `bindSeat` (the host's key on a placement; recorded input), `unbindSeat` (the host's removal of a seat: the key cleared, the seat territory's change offered to the host's re-canonize like an addition) and `importSeats` (the host's existing placements as a recorded import request) | the port (author `host`) | V13 §2.6's placement row | a host input is never a user's undo target |
+> | `setSwayLock` (cells or a sway held by a named holder or kept unclaimed against later revisions: the DM's word is canon on a standalone world; on a host-bound world a presentation lock the view and the clerk read and the map feed's crossing holders and `patrolOffer` never do) and `divide` (invented provinces on a standalone world) | T9 `shape` | V13 §2.6's sway row | the former lock; the replaced W8b scope |
 *Evidence:* `research/sf/fp-realm-review.md` RR-4, RR-44, RR-52 and J-RR.6, J-RR.47, J-RR.53, J-RR.56.
 
 
@@ -405,15 +429,16 @@ the sea as cheap carriage. RULED (the session's reading, vetoable):
 > set standalone⏎by the season control and, on a host-bound world, by `WorldPort.clock(world, week)`, a view command in §11.3's⏎`view.set { week }` form the host sends with its tick, never a model input; V13 §3.12.5).
 *New text:*
 > set standalone by the season control; on a host-bound world **the present week is the end of the latest window the
-> host sent** (`AdvanceWindow.toWeek`, V13 §2.2: every recorded host input arrives as a windowed replace after each
+> host sent**, which takes the place of the greatest folded week (a DM's *this happened* edit is dated at the host's next
+> tick head and waits for the next window) (`AdvanceWindow.toWeek`, V13 §2.2: every recorded host input arrives as a windowed replace after each
 > advance, undo and resume, so a rewind of the host moves the world's present back with it, and a consumed DM edit
 > inside a discarded window is unsealed), and `WorldPort.clock(world, week)` is a view command in §11.3's `view.set {
 > week }` form for the week drawn, never a model input; V13 §3.12.5). **Edits on a host-bound world follow the host's
 > decree law** (V13 §4.1; J-V13.80): held while the host advances or is parked; a *this happened* edit dated at the
 > host's next tick head and offered as `physicalChange`, which the host acknowledges (`consumed`, sealing the edit
 > against undo); a retcon, a regenerate, a size or climate `adjust` only as a geometry shift the host adopts by its own
-> receipted re-canonize; political and military event kinds offered to the host as decree proposals, never folded as
-> facts by the map.
+> receipted re-canonize; political and military event kinds are refused (`refuse.world.hostPolitical`), the world
+> editor opening the host's own command for them as for routes (V13 §3.8 (9)); no message proposes one.
 *Evidence:* `research/sf/fp-realm-review.md` RR-32, RR-38 and J-RR.36, J-RR.37 (undo deletes the history entry and the next advance mints a fresh nonce, host `DESIGN_FP_ARCH_EP.md:264-310,2500-2506`; a parked advance supersedes its pause commit at resume, `advanceInterval.js:325-340`; the parked advance refuses edits, `settlementPendingEdits.js:134-143`; the decree law and read-only applied acts, `DESIGN_FP_ARCHITECTURE.md:216` — the BA-1, BA-10 and BA-15 verifiers' citations).
 
 **681.** **The scale as a declaration: the world header.**
@@ -424,10 +449,11 @@ the sea as cheap carriage. RULED (the session's reading, vetoable):
 > exists only for climate (V13 §3.4): no coordinate is ever a degree. **The world header** (`WorldHeader`, V13 §2.2;
 > J-V13.72) declares the scale once: unit cm, x east, y north, origin the south-west corner, the extent in cm, a geometry
 > version bumped by every edit that changes the physical layers the canon reads (an extent adjust, a recipe op, a terrain
-> retcon), and the travel span. It is the scale every consumer reads: the host stamps its own map unit's kilometres from
+> retcon). It is the scale every consumer reads: the host stamps its own map unit's kilometres from
 > it (0.001 for integer metres, 0.00001 for cm), never a default, carries a stamped value forward only within one
 > geometry version, and converts between this frame (y north) and its own render frame in one adapter in both directions;
-> no world carries a float scale or a unit slider. The world dialog shows the span under the travel law in force (the
+> no world carries a float scale or a unit slider. The world dialog shows the travel span (the map feed's, never the
+> canon's) under the travel law in force (the
 > default row standalone): "corner to corner about N weeks on foot; neighbouring towns about M days apart" — the
 > scale-against-mystery readout. `worldUnits` is a view key (the display unit of the world view's scale bar and
 > distance labels: km, mi, lg, nmi; seeded by an import from the file's unit), never a model input and never an `adjust`.
@@ -489,17 +515,17 @@ the sea as cheap carriage. RULED (the session's reading, vetoable):
 >   territory: { id: Id; name?: NameRef; seat: Id | null; province?: Id } | null;
 *New text:*
 >   territory: { id: Id; name?: NameRef; seat: Id | null; seatKey?: string /* the host's settlement key */; province?: Id /* a standalone world only */ } | null /* the seat territory (W8a): changes only at a membership re-canonize */;
->   polityAtCharter: { swayRevision: number; holder: string | null; allegiance: string | null; status: 'held'|'heldByForce'|'debatable'|'unclaimed'; culture?: string } | null /* the sway at the placement's origin, read ONCE by the placement edit that emitted this charter (S0 reads it for culture only); never re-emitted by a sway revision — the frame's live political context is the derived reading `polityOf` (V13 §1b.2) */;
-*Evidence:* `research/sf/fp-realm-review.md` RR-53 and J-RR.30 (a live territory row in the charter would stale every world-stamped frame at each border revision and offer `worldWins`; TR-10).
+>   polityAtCharter: { swayRevision: number; culture?: string } | null /* the culture id at the placement's origin and the sway revision in force, read ONCE by the placement edit that emitted this charter (S0 reads its culture); the holder, allegiance and status are never charter fields — the frame's live political context is the derived reading `polityOf` (V13 §1b.2) —, and a sway revision never re-emits it */;
+*Evidence:* `research/sf/fp-realm-review.md` RR-53 and J-RR.30 (a live territory row in the charter would stale every world-stamped frame at each border revision and offer `worldWins`; TR-10; §10: holder, allegiance and status in the frame's one input record were read by no frame stage).
 
 **688.** **The placement carries the host's key and the host's move-lock.**
 *Requests:* RR-4, RR-14.
 *Current text:*
 >   since: { seq: number; week: Week } }
 *New text:*
->   hostKey?: string /* the host's settlement key, written once by `bindSeat` (V13 §4.1); every port row names it */; hostLocked?: boolean /* the host's move-lock: an origin edit or an unplacement is refused (`refuse.place.hostLocked`) while it is set; bearing and mirror admitted */;
+>   hostKey?: string /* the host's settlement key, written by `bindSeat` and cleared by `unbindSeat` (V13 §4.1); every port row names it */; hostLocked?: boolean /* the host's move-lock: an origin edit is refused (`refuse.place.hostLocked`) while it is set; the map additionally refuses a DM's unplacement of a host seat in the world editor (a map rule, not the host's: the host's own removal arrives as `unbindSeat`); bearing and mirror admitted */;
 >   since: { seq: number; week: Week } }
-*Evidence:* `research/sf/fp-realm-review.md` RR-4, RR-14 and J-RR.6, J-RR.17 (the host keys seeds and lived edges by settlement id, host `DESIGN_ROUTE_LIFECYCLE.md:71-80`; the host refuses to move a canonized placement, `mapSlice.js:486-494`, the RL-3 verifier's citation).
+*Evidence:* `research/sf/fp-realm-review.md` RR-4, RR-14 and J-RR.6, J-RR.17 (the host keys seeds and lived edges by settlement id, host `DESIGN_ROUTE_LIFECYCLE.md:71-80`; the host refuses to move a canonized placement, `mapSlice.js:486-494`, the RL-3 verifier's citation; the host's removal of a placement is ungated, `mapSlice.js:473-481` — §10).
 
 **689.** **The route record keyed to the host; the recipe's seats; the seat territory record.**
 *Requests:* RR-4, RR-10, RR-12, RR-16, RR-21, RR-44, RR-45, RR-58.
@@ -525,8 +551,8 @@ the sea as cheap carriage. RULED (the session's reading, vetoable):
 *Current text:*
 > interface SitingProposal { id: Id; at: WorldPointCm; cell: number; score: number; terms: Record<string, number>; port: boolean; reason: Id; demand?: string /* the host's demand key it answers */ }
 *New text:*
-> interface SitingProposal { id: Id; at: WorldPointCm; cell: number; score: number; terms: Record<string, number>; harbourCandidate: boolean /* W6's promotion (V13 §3.7 (3)): standalone, or a suggestion to the host */; waterAccess: WaterAccess; reason: Id; demand?: string /* the host's demand key it answers; 'gate' for V13 §3.9 (16)'s transient gate sites */; gateKind?: 'bridgeFort'|'fort'|'watchpost'|'tollhouse' }
-*Evidence:* `research/sf/fp-realm-review.md` RR-18, RR-56 and J-RR.20, J-RR.56 (PORT = GEOGRAPHY ∧ INSTITUTIONS with verdicts frozen per version, host `PHASE55_SPATIAL_ENGINE_DESIGN.md:718-728,755-758`, `seaLanes.js:76-85,149-205,271`; V13 never said which half `port: boolean` carried, V13:1286-1291; TR-17's gate sites).
+> interface SitingProposal { id: Id; at: WorldPointCm; cell: number; score: number; terms: Record<string, number>; harbourCandidate: boolean /* W6's promotion (V13 §3.7 (3)): standalone, or a suggestion to the host */; waterAccess: WaterAccess; reason: Id; demand?: string /* the host's demand key it answers; 'borderPost' for V13 §3.9 (16)'s transient border posts */; postKind?: 'bridgeFort'|'fort'|'watchpost'|'tollhouse' }
+*Evidence:* `research/sf/fp-realm-review.md` RR-18, RR-56 and J-RR.20, J-RR.56 (PORT = GEOGRAPHY ∧ INSTITUTIONS with verdicts frozen per version, host `PHASE55_SPATIAL_ENGINE_DESIGN.md:718-728,755-758`, `seaLanes.js:76-85,149-205,271`; V13 never said which half `port: boolean` carried, V13:1286-1291; TR-17's gate sites, named border posts so the word *gate* keeps the host's meaning and the town wall's, J-V13.78).
 
 **691.** **The siting context carries the sway.**
 *Requests:* RR-56.
@@ -554,7 +580,7 @@ the sea as cheap carriage. RULED (the session's reading, vetoable):
 *New text:*
 > interface PlacementAnomaly { placement: Id; subject: Id /* the locked entity */; kind: 'riverUphill'|'coastInland'|'lockedBelowTable'|'lockedInWater'|'roadToNowhere'|'roadUnmatched'|'windSide'|'sunDiffers'; detail: string; reason: Id }   // derived, V13 §2.4; `roadToNowhere` (a charter road no exit meets) and `roadUnmatched` (a frame exit no charter road meets) are reported readings, never annotations
 > // The world port's records (V13 §3.11.6; J-V13.70 – J-V13.72). Host keys are opaque strings; every point a WorldPointCm; every length an integer with its unit.
-> interface WorldHeader { unit: 'cm'; axes: 'x-east,y-north'; origin: 'south-west'; extentCm: { w: WorldCm; h: WorldCm }; geometryVersion: number; span: { cornerFootWeeks: number; medianLegDays: number } /* under the travel law in force */ }
+> interface WorldHeader { unit: 'cm'; axes: 'x-east,y-north'; origin: 'south-west'; extentCm: { w: WorldCm; h: WorldCm }; geometryVersion: number }   // the scale's declaration only: the travel span is the map feed's (`mapFeed`), never the canon's
 > interface CanonRequest { campaign: string; logHead: number; seats: string[] /* the host keys asked for */; costLawVersion: number; waterK: number /* the host's K */ }
 > interface WorldCanon { envelope: { schema: string; world: { doc: Uuid; namespace: string; logHead: number; modelDigest: Hash128 }; campaign: string; header: WorldHeader;
 >     versions: { geometry: { generator: string; inputHash: Hash128 }; costLaw: { host: number; lawHash: Hash64 }; travelLaw: number; vocabulary: { terrainClass: string; climateBand: string }; water: Hash128; sites: Hash128 };
@@ -569,15 +595,22 @@ the sea as cheap carriage. RULED (the session's reading, vetoable):
 >   water: { costPerDistRatio: number; stormFactor: number[] /* per quarter */ }; leg: { floorWeeks: number; capWeeks: number; rounding: 'nearest' }; gradeLeg: Record<string, number>;
 >   army: { factor: number; readinessGain: number; neutralReadiness: number; rounding: 'ceil' }; news: { factor: number; rounding: 'floor' };
 >   season: { quarterWeeks: 13; startWeek: number; terrainFactor: Record<string, number[]> /* per host terrain class, per quarter */ }; reachBandEdgesWeeks: number[]; bandEdges: { key: string; weeks: number; read: 'foot'|'army' }[] /* the reinforcement band among them */;
->   tiers: { order: Rung[]; popThresholds: number[] }; prosperityRungs: number; basis: 'absolute'|'normalizedFrozen'; legWeeks?: { a: string; b: string; weeks: number }[] /* a migrated campaign's frozen leg weeks */ }   // the host's law as data (`world.travel`'s host slice); a standalone world reads the default row (V13 §2.3); nothing derived from a default is ever sent
-> interface AdvanceWindow { fromWeek: Week; toWeek: Week; advanceNonce: string; seq: number }
+>   tiers: { order: Rung[]; popThresholds: number[] }; prosperityRungs: number; basis: 'absolute'|'normalized'|'normalizedFrozen' /* normalized: a native world on the host's per-map calibration until its band census lands */;
+>   calibration?: { weeks: number; perCost: number } /* integers: one cost unit is weeks ÷ perCost weeks — the host's calibration at its latest canonize (on its normalized arm its anchor weeks over its median tier-1 hop cost); sent at every canonize, on either arm */;
+>   legWeeks?: { a: string; b: string; weeks: number }[] /* a migrated campaign's frozen leg weeks */ }   // the host's law as data (`world.travel`'s host slice); a standalone world reads the default row (V13 §2.3); nothing derived from a default is ever sent
+> interface AdvanceWindow { fromWeek: Week; toWeek: Week; advanceNonce?: string /* when the host's advance epoch is lit */; hostSeq: number /* the host's pulse-history sequence of the window's final record: the window's key while the epoch is dark */; seq: number }
 > interface PolityFacts { window: AdvanceWindow; seats: PolitySeat[]; links: PolityLink[]; relations: PolityRelation[]; sites: PolitySite[]; claims: { claimant: string; target: string }[];
->   culture: { a: string; b: string; band: 0|1|2|3|4|5 }[] /* the host's own culture distance between two seats in fifths, sparse (pairs within reach); J382 */;
+>   culture: { a: string; b: string; band: 0|1|2|3|4|5 }[] /* the host's own culture distance between two seats in fifths, with the pair's relationship-label trade tie as its own migration reads it, for every pair within the host's reinforcement band or at its neighbour tier ≤ 2 — pairs the host can name itself; a pair not sent reads 0 (`W_POLITY_CULTURE_ABSENT`); J382 */;
 >   waterLanes: { lit: boolean; lanes: { a: string; b: string }[] } /* the host's adopted water lanes and whether its lane system is lit; J382 */;
 >   roadWatch: { edge: string; power: string; kind: 'closed'|'warden'; since: Week }[]; christened: { root: string; name: string }[] }
-> interface PolitySeat { seat: string; tier: Rung; sizeThird: 0|1|2; prosperity: number /* the host's rung, 0 lowest */; military?: { garrison: 0|1|2|3|4; standing: 0|1|2|3|4 } /* absent until the host bands its strength (V13 §8.5) */; since: Week }
-> interface PolityLink { from?: string /* absent: an occupation the host records with no occupier */; to: string; word: string /* the host's own word, mapped by the adapter folder's link table */; occupationRung?: number; continuous?: boolean /* the host's own reach verdict, when it has one */; covert?: boolean; since: Week }
-> interface PolityRelation { a: string; b: string /* sorted */; word: string /* the host's relation word, mapped to kin, respect, neutral or adversarial by the adapter folder's class table */; atWar: boolean; stance?: 'open'|'taxed'|'restricted'|'closed' /* a dated trade stance, dark until the host sends it */; since: Week }
+> interface PolitySeat { seat: string; tier: Rung; sizeThird: 0|1|2; prosperity: number /* the host's rung, 0 lowest */;
+>   military?: { forceBand: 0|1|2|3|4 /* the host's existing five latent-strength floors */; garrisonPresent: boolean /* its garrison institution present */ } /* absent until the host sends it (V13 §8.5) */;
+>   since?: Week /* the week the row's rungs last changed, where the host records it; absent: the window's start */;
+>   changes?: { field: 'tier'|'prosperity'|'force'|'garrison'; value: number; week: Week }[] /* optional, the host's choice: the window's dated rung changes (V13 §3.9 (13)) */ }
+> interface PolityLink { from?: string /* absent: an occupation the host records with no occupier */; to: string;
+>   word: string /* the host's own word — a vassal label of its relationship-state plane (the plane its simulation reads; the regional plane is never sent), a subordinating treaty term's kind (tribute, compelled alliance, puppet seat, a treaty-held occupation) or an occupation's — mapped by the adapter folder's link table */;
+>   occupationRung?: number; heldByTreaty?: boolean /* an occupation the host holds by a treaty's ceded garrison: an overlay at its rung, never a member link (V13 §3.9 (12)) */; continuous?: boolean /* the host's own reach verdict, when it has one */; covert?: boolean; since: Week }
+> interface PolityRelation { a: string; b: string /* sorted */; word: string /* the host's relationship-state label (the plane its simulation reads; the regional plane is never sent), mapped to respect, neutral or adversarial by the adapter folder's class table */; atWar: boolean; stance?: string /* the host's dated trade-stance word, mapped by the adapter folder's stance table; dark until the host sends it */; since: Week }
 > interface PolitySite { site: Id; holder?: string; garrisonBand?: 0|1|2|3|4; status: string }
 > interface Sway { id: Id; seat: string; allegiance: Id; cells: Uint32Array /* fine */; border: WorldPointCm[][]; poleCm: WorldPointCm; neighbours: { sway: Id; class: 'kin'|'respect'|'neutral'|'adversarial' }[]; exclave: boolean; reason: Id }
 > interface Allegiance { id: Id; root: string; members: { seat: string; word: string; depth: number; continuous: boolean; verdictSource: 'host'|'map' }[]; name?: NameRef /* the DM's christening only, on a host-bound world */; revision: number }
@@ -586,11 +619,11 @@ the sea as cheap carriage. RULED (the session's reading, vetoable):
 > interface SwayTrace { rev: number; cells: Uint32Array; former: Uint16Array; formerStatus: Uint8Array }   // between checkpoints only (V13 §2.6)
 > interface PatrolCadence { route: Id; fromStation: number; toStation: number; power: string; everyWeeks: 1|4|13|null; basis: 'hostWatch'|'garrison'|'debatable'; rev: number }
 > interface RouteGenesis { lawVersion: string; edges: { hostKey: string; a: string; b: string; mode: 'land'|'water'; grade: string }[]; week: Week }
-> interface NetworkChange { hostKey: string; kind: 'chartered'|'promoted'|'demoted'|'abandoned'|'revived'|'facet'|'retract'; grade?: string; facet?: Record<string, string>; via?: WorldPointCm[] /* a charter's course hint */; week: Week; window: AdvanceWindow }
+> interface NetworkChange { hostKey: string; kind: string /* the host's word, mapped by the adapter folder's network table to chartered, promoted, demoted, abandoned, revived, facet or retract */; grade?: string; facet?: Record<string, string>; via?: WorldPointCm[] /* a charter's course hint */; week: Week; window: AdvanceWindow }
 > interface WorldWhere { kind: 'settlement'|'wall'|'road'|'border'|'supplyLine'|'region'|'point'|'offStage'; seat?: string; edge?: string; mode?: 'land'|'water'; fraction?: { num: number; den: number }; pair?: [string, string]; at?: WorldPointCm }   // resolved at fold, kept as a dated fact
 > interface TimeDeltaReceipt { baseline: number /* the canon version the host read (`canonized`) */; legs: { a: string; b: string; foot: [number, number]; army: [number, number]; bandsCrossed: string[]; fragile: boolean }[]; causes: Id[] }
 > interface HostGateRef { pairKey: string; cellA: number; cellB: number; atCm: WorldPointCm }   // an imported legacy world's host gates as world points (V13 §3.15 (3))
-*Evidence:* `research/sf/fp-realm-review.md` §3.1 – §3.8 and J-RR.2, J-RR.3, J-RR.5, J-RR.7, J-RR.10, J-RR.11, J-RR.13, J-RR.16, J-RR.18, J-RR.20, J-RR.22, J-RR.36, J-RR.38, J-RR.47 – J-RR.54 (PS-2's corrected canon, PS-4's envelope, PS-9's polity facts, DT-3's travel law, TR-2's records with TR missed 2 and 4; J382 (a)–(b)).
+*Evidence:* `research/sf/fp-realm-review.md` §3.1 – §3.8 and J-RR.2, J-RR.3, J-RR.5, J-RR.7, J-RR.10, J-RR.11, J-RR.13, J-RR.16, J-RR.18, J-RR.20, J-RR.22, J-RR.36, J-RR.38, J-RR.47 – J-RR.54 (PS-2's corrected canon, PS-4's envelope, PS-9's polity facts, DT-3's travel law, TR-2's records with TR missed 2 and 4; J382 (a)–(b)). Revised (§10): the host keeps two relationship planes that disagree on purpose, its relationship-state plane collapsing tributary and subject onto vassal and war onto hostile, tributary with no producer — host `canonicalRelationship.js:19-35,98-106,140`, `convergence.js:795`; its weeks ride a per-map calibration, `distanceRead.js:76,588-591,728-733`; its advance key is dark, `DESIGN_FP_ARCH_EP.md:5`; it has a five-floor latent-strength band and a garrison bucket, never a garrison and standing split, `armyStrength.js:44-55`, `defenseInstitutionBuckets.js:83-92`; it keeps no per-settlement rung history, `research/sf/prosperity-system.md:98,126`; a treaty-held occupation is a ceded garrison, never a membership, `occupation.js:1248-1253`, `treatyEnforcement.js:132-151`; the span is a map-computed time and leaves the canon (J-V13.72); the stance and route-event unions were the host's closed vocabularies written as literals.
 
 **694.** **Host facts carry the host's resolved audience.**
 *Requests:* RR-33.
@@ -620,15 +653,15 @@ the sea as cheap carriage. RULED (the session's reading, vetoable):
 >   sea: { trunk: boolean /* every well-ported landmass gets one sea trunk to the largest landmass */; gapFixRatio: number /* a port pair whose sea cost ≤ ratio × its land cost gets the sea leg too */ }; exitRunM: number /* a placed frame's road run through the margin to its gate station */ }   // world.routeLay — the map's own network formation (W7); never the host's, never a time
 > interface PolityRule {                                                                                       // world.polity — W8a, W8b (V13 §3.9); every cell {value, unit, provenance, calibratable}
 >   reach: { lambda: number; reachTierDays: Record<Rung, number> /* Λ·τTier in foot-days */; capFactor: number /* capTier = capFactor × reachTier */; kSize: [number, number, number]; kProsperity: number[] /* by the host's prosperity rung, lowest first */ };
->   culture: { phi: number /* the step slowing at a culture distance of 1 */; dwellWeeks: number }; water: { footholdDays: number };
+>   culture: { phi: number /* the step slowing at a culture distance of 1 */; dwellWeeks: number }; water: { lodgementDays: number }; river: { crossingDays: number /* added to t at a step across a reach ≥ navigableM3s: the sway's own resistance, never a route time */ };
 >   margins: { civ: number /* L */; mil: number /* bands */; muPerBand: number /* L */ };
->   military: { tauMilDays: Record<'seat'|'fort'|'watchpost'|'bridgeFort'|'tower', number>; offRoadFactor: number; dwellWeeks: number };
+>   military: { tauMilDays: Record<'seat'|'fort'|'watchpost'|'bridgeFort'|'tollhouse'|'tower', number>; garrisonBonus: number /* bands added to a source's force band where a garrison is present */; offRoadFactor: number; dwellWeeks: number };
 >   chain: { delta: number; depthMax: number; bMax: number; wTier: Record<Rung, number>; wTributary: number; rho: number /* L */ };
 >   march: { halfLifeWeeks: number; bands: number; muHoldPerBand: number /* L */; fightingWeeks: number }; prosperityDwellWeeks: number;
 >   patrol: { cadenceWeeks: [1, 4, 13]; hostileDays: number; gradeShift: Record<string, -1|0|1> };
 >   normalize: { enclaveMaxCells: number; spikeMaxCells: number; smoothPasses: number }; province: { perSeatCells: number; minCells: number }; polePrecisionM: number;
->   retention: { checkpointEvery: number; thinAfterYears: number } }
-*Evidence:* `research/sf/fp-realm-review.md` RR-10, RR-46 – RR-54, RR-57 and J-RR.12, J-RR.49 – J-RR.54, J-RR.57 (TR-19's table; DT-2's time/choice tags; the host's v1 law has an elevation knee and a river-cell add and no slope, host `spatialCost.js:30-70,380-388`; J382 (a)–(b)).
+>   retention: { keyframeEvery: number; thinAfterYears: number } }
+*Evidence:* `research/sf/fp-realm-review.md` RR-10, RR-46 – RR-54, RR-57 and J-RR.12, J-RR.49 – J-RR.54, J-RR.57 (TR-19's table; DT-2's time/choice tags; the host's v1 law has an elevation knee and a river-cell add and no slope, host `spatialCost.js:30-70,380-388`; J382 (a)–(b); §10: under the default row a river cost the sway nothing, so `river.crossingDays` keeps item 660 (c)'s promise; the host's strength is a band and a garrison presence; *foothold* and *checkpoint* are landed host words, so `lodgementDays` and `keyframeEvery`).
 
 **696.** **The continent row is no longer called the host's realm.**
 *Requests:* RR-40.
@@ -686,25 +719,26 @@ the sea as cheap carriage. RULED (the session's reading, vetoable):
 *Current text:*
 > | `PolityRule` | default |⏎|---|---|⏎| `normalize` | enclaveMaxCells 12 · spikeMaxCells 3 · smoothPasses 2 |⏎| `province.perSeatCells` / `minCells` | 2 000 / 300 |⏎| `budgetDefault` / `budgetPerCell` / `costDefault` | 40 000 / 2 / water 8 · mountain 6 · forest 2 · desert 3 · river 1.5 · foreignCulture 4 |⏎| `mountainAboveM` / `polePrecisionM` | 1 500 / 200 |
 *New text:*
-> | `PolityRule` (every own cell PLAUSIBLE, registered in V12 as UNMEASURED until B-WORLD's 300-year sweep measures it; a day is a week ÷ 7 at the travel law's foot speed) | default | anchor |
+> | `PolityRule` (every own cell PLAUSIBLE, registered in V12 as UNMEASURED until the 300-year sweep of B-WORLD-lite under B-POLITY (V13 §7) measures it; a day is a week ÷ 7 at the travel law's foot speed) | default | anchor |
 > |---|---|---|
 > | `reach.lambda` / `reach.capFactor` | 4 / 1.5 | the floor at L = 0; capTier = 1.5 × the tier's reach |
 > | `reach.reachTierDays` THORP / HAMLET / VILLAGE / TOWN / CITY / METROPOLIS | 0.2 / 0.3 / 0.5 / 0.8 / 2.5 / 6 foot-days | a village's market reached in a third of a day; a market town's hinterland about a day's round trip; a city-state's two to three days; a capital's reach limited by days, a realm's by weeks of courier travel (the loss-of-strength gradient; central places) |
 > | `reach.kSize` (small, middle, large third of the tier's population band) | 0.85 / 1.00 / 1.15 | — |
 > | `reach.kProsperity` (lowest rung first) | 0.70 / 0.80 / 0.90 / 1.00 / 1.10 / 1.20 / 1.30 | — |
 > | `culture.phi` / `culture.dwellWeeks` | 0.5 (a step into land of the farthest culture takes 1.5 × the time) / 13 | J382: the host's culture distance, banded in fifths |
-> | `water.footholdDays` | 0.5 | J382: across water a coastal foothold, never the far shore |
-> | `margins.civ` / `margins.mil` / `margins.muPerBand` | 0.75 L / 1 band / 1 L | a debatable land about one to two days wide between equal towns |
-> | `military.tauMilDays` seat / fort / watchpost / bridgeFort / tower; `offRoadFactor`; `dwellWeeks` | 0.5 / 1 / 0.4 / 0.5 / 0.3; 2; 4 | a garrison's ride along its roads |
+> | `water.lodgementDays` | 0.5 | J382: across water a coastal lodgement, never the far shore |
+> | `river.crossingDays` | 0.25 | a big river is a border: two equal seats across a navigable river split at the river when one is nearer it by less than this |
+> | `margins.civ` / `margins.mil` / `margins.muPerBand` | 0.75 L / 1 band / 1 L | the debatable width 0.75 τ between equal seats (T-V13-41 (e)): about a sixth of a foot-day between two towns, half a day between cities, a day between metropolises |
+> | `military.tauMilDays` seat / fort / watchpost / bridgeFort / tollhouse / tower; `garrisonBonus`; `offRoadFactor`; `dwellWeeks` | 0.5 / 1 / 0.4 / 0.5 / 0.3 / 0.3; 1 band; 2; 4 | a garrison's ride along its roads |
 > | `chain.delta` / `depthMax` / `bMax` / `wTributary` / `rho` | 0.25 / 2 / 0.5 / 0.5 / 1 L | diminishing returns on chain length: no snowball |
 > | `chain.wTier` THORP … METROPOLIS | 0.02 / 0.04 / 0.06 / 0.1 / 0.2 / 0.3 | — |
-> | the reinforcement band Treinf and the realm's cap | derived from the travel law's reinforcement band edge at the army factor (about 23 foot-days at the host's present values); provenance host, never authored or calibrated here | the host's own reach law |
+> | the reinforcement band Treinf and the realm's cap | the largest seat-to-seat cost whose host hop weeks, run through the host's army arithmetic at neutral readiness, stay within the reinforcement band edge — in cost units under the calibration sent with the travel law; on the normalized arm a multiple of the realm's median tier-1 hop (under three and a half at the host's present values), never a day count; provenance host, never authored or calibrated here | the host's own reach law |
 > | `march.halfLifeWeeks` / `bands` / `muHoldPerBand` / `fightingWeeks`; `prosperityDwellWeeks` | 13 / 4 (none, slight, firm, dominant) / 0.5 L / 4; 13 | a season's memory of a won border fight |
 > | `patrol.cadenceWeeks` / `hostileDays` / `gradeShift` | 1, 4, 13 / 3 / highway +1, road 0, track −1 (hidden: none) | a garrison's round trip at walking pace |
 > | `normalize` | enclaveMaxCells 12 · spikeMaxCells 3 · smoothPasses 2 (per class) | — |
 > | `province.perSeatCells` / `minCells` / `polePrecisionM` | 2 000 / 300 / 200 (standalone provinces) | — |
-> | `retention.checkpointEvery` / `thinAfterYears` | 52 revisions / 100 (then one checkpoint per decade) | — |
-*Evidence:* `research/sf/fp-realm-review.md` RR-46 – RR-54, RR-57 and J-RR.49 – J-RR.54, J-RR.57 (TR-19's table, TR-21's retention; DT-8's time units; J382 (a)–(b); the reinforcement band was measured on a 2–8 army-week spectrum, host `sovereigntyReach.js:60-81`).
+> | `retention.keyframeEvery` / `thinAfterYears` | 52 revisions / 100 (then one keyframe per decade) | — |
+*Evidence:* `research/sf/fp-realm-review.md` RR-46 – RR-54, RR-57 and J-RR.49 – J-RR.54, J-RR.57 (TR-19's table, TR-21's retention; DT-8's time units; J382 (a)–(b); the reinforcement band was measured on a 2–8 army-week spectrum, host `sovereigntyReach.js:60-81`; §10: on the host's calibration a median tier-1 hop is one week and hop weeks are whole, so 5 army weeks admit hop weeks ≤ 3 at neutral readiness, `distanceRead.js:76,588-591,728-733`, `armyTransit.js:293-301` — never 23 foot-days; the former margins anchor was off by a factor of ten against T-V13-41 (e)'s own formula).
 
 
 ### Volume 13 — §2.4 Derived transients
@@ -727,7 +761,7 @@ the sea as cheap carriage. RULED (the session's reading, vetoable):
 > | a `WorldRoute` | the world root | (`route`, the two seats' lineages sorted, the class) |⏎| a `Territory` | its seat | (`territory`, the seat's key); a province (`province`, the territory's lineage, its ordinal) |
 *New text:*
 > | a `WorldRoute` | the world root | (`route`, the two seats' lineages sorted, the mode `land`\|`water`) — the class or grade an attribute, so a re-grade keeps the id and a land road and a sea leg between one pair keep two |
-> | a `Territory` (the seat territory) | its seat | (`territory`, the seat's key); a standalone province (`province`, the territory's lineage, its ordinal) — **membership follows the host's**: a seat's W8a membership is the host's digest membership exactly (a placement and the host's graduation of a satellite add, an unplacement removes; a death, a resettlement and a satellite never touch it) |
+> | a `Territory` (the seat territory) | its seat | (`territory`, the seat's key); a standalone province (`province`, the territory's lineage, its ordinal) — **membership follows the host's**: a seat's W8a membership is the host's digest membership exactly (a placement (`bindSeat`) and the host's graduation of a satellite add, the host's removal (`unbindSeat`) removes, each offered to the host's re-canonize; a death, a resettlement and a satellite never touch it) |
 > | a `Sway` | its seat | (`sway`, the seat's key) |
 > | an `Allegiance` | its root seat | (`allegiance`, the root seat's lineage) — a re-rooting folds it into the new root's and is reported |
 > | a `SwayRevision`, `SwayTrace` | the world root | (`swayRev`, the revision number) |
@@ -768,9 +802,12 @@ the sea as cheap carriage. RULED (the session's reading, vetoable):
 > | `WorldRoute`, `Territory`, `SitingProposal` (W6's own) | W7, W8, W6 | the charter, the port, W9, the view | entities block | re-derived from their stage; a `setSeats` or a cost-law change re-derives from W8 or W7 | the replaced scope | absent: re-derived on load |
 *New text:*
 > | `WorldRoute`, `Territory`, `SitingProposal` (W6's own) | W7, W8a, W6; on a host-bound world W7 lays only the edges `genesis` and `network` name | the charter, the port, W8b, W9, the view | entities block | standalone: re-derived from their stage (a `setSeats` from W8, a lay-rule change from W7); host-bound: a happened edit re-lays a route from its week as a dated lay version, an always-so edit, a regenerate or an adjust mints a lay version the host adopts by its re-canonize (`W_HOST_CANON_BEHIND` until then), a cost-law change is the host's own re-canonize | the replaced scope | absent: re-derived on load |
-> | `SwayRevision`, `SwayTrace`, the checkpoints (the full `sway` and `swayStatus` rasters every `retention.checkpointEvery` revisions) | the `polityRevision` fold (V13 §3.9 (13)) | `worldFactsAt` at a week, the view's time scrub, the clerk's `whatChanged` | headers whole; checkpoints and traces in the fields and entities blocks; traces only between checkpoints, checkpoints thinned to one per decade after `thinAfterYears` | a polity-law change replays every revision; a re-canonize replays the revision log over the new W8a | the host's window replace (a rewind drops the later revisions); a `setSwayLock` with its edit | revision 0 at the first polity window |
+> | `SwayRevision`, `SwayTrace`, the keyframes (the full `sway` and `swayStatus` rasters every `retention.keyframeEvery` revisions) | the `polityRevision` fold (V13 §3.9 (13)) | `worldFactsAt` at a week, the view's time scrub, the clerk's `whatChanged` | headers whole; keyframes and traces in the fields and entities blocks; traces only between keyframes, keyframes thinned to one per decade after `thinAfterYears` | a polity-law change replays every revision; a re-canonize replays the revision log over the new W8a | the host's window replace (a rewind drops the later revisions); a `setSwayLock` with its edit | revision 0 at the first polity window |
 > | `Allegiance`, `MarchHold`, `PatrolCadence` | W8b at a revision | the view, `worldFactsAt`, the port's `patrolOffer` | derived; rebuilt on load from the revision | with the revision | with the revision | — |
-*Evidence:* `research/sf/fp-realm-review.md` RR-14, RR-45, RR-52, RR-57 and J-RR.17, J-RR.48, J-RR.53, J-RR.57 (TR-9 (5), TR-21 (3)–(4)).
+> | `WorldCanon` as the host adopts it | `canon` at a named log head, on the host's request | the host's builder of its own frozen record; nothing of the map's | never persisted in the world (re-built on request from the inputs its hashes name; the hashes logged) | the same log head re-builds it byte-identically; a later head is a new canon the host adopts only by its receipted re-canonize | the world's undo moves its log head, never an adopted canon | the envelope's version vector; **import:** an imported world's first canon is built only after the DM accepts the import's report; **dark-after-lit:** a host that stops reading canons keeps its last frozen record (absent ⇒ its prior bytes); **death:** a seat's death leaves the travel slot unchanged, a campaign's deletion is the host's; **veil:** the canon carries no audience-bound fact and is never shown to a player |
+> | `WorldRoute` on a host-bound world | W7 laying the edges `genesis` names and `network`'s `chartered` changes | the charter's `roads`, `routes`, `routeFacts`, `mapFeed`, the view | entities block, every lay version kept | never silently: a happened edit is a dated lay version; an always-so edit, a regenerate or an adjust a lay version the host adopts by its re-canonize | a host input is never a user's undo target; a user's dated re-lay goes with its edit | the record schema's chain; **import:** a legacy campaign's drawn roads stay presentation and become host routes only through the host's elective genesis; **dark-after-lit:** with the host's route lane dark its genesis still arrives as a presentation call and nothing is laid beyond it; **death:** a dead seat's routes keep the host's grades until the host's `network` demotes or abandons them, and a campaign's deletion takes them with the world; **veil:** a hidden host road is a DM-only ghost, a covert power's patrols omitted |
+> | the world document on a host-bound world | the host's new-world request (its seed minted by the host) or the DM's import on request | the module's world view, placement, charter and clerk | the host's per-campaign world record (snapshot, log, backups, quota) under the frames' store pattern (V13 §2.7) | a regenerate or a retcon only as a geometry shift the host adopts by its receipted re-canonize | the world's own undo for user edits; host inputs never | the world schema's chain; **import:** never on load; **dark-after-lit:** a campaign that stops using its world keeps the record read-only, its placed frames falling back to their recorded charter values; **death:** a campaign's deletion deletes the record with the campaign (the host's lifecycle); **veil:** pictures through the gallery's veil, players through the party picture set, a record whose existence is the secret omitted with its geometry |
+*Evidence:* `research/sf/fp-realm-review.md` RR-7, RR-14, RR-29, RR-45, RR-52, RR-57 and J-RR.17, J-RR.27, J-RR.48, J-RR.53, J-RR.57 (TR-9 (5), TR-21 (3)–(4); §10: the ten lifecycle paths of the host's requirement 22a — create, read, persist, regenerate, undo, import, migrate, dark-after-lit, death, veil — for the adopted canon, a bound route and the host-stored world, promised by RR-7 and RR-29 and stated by no row; the table keeps its seven columns, the four further paths written in the last).
 
 
 ### Volume 13 — §2.7 The version table, the digests and the storage
@@ -879,10 +916,10 @@ the sea as cheap carriage. RULED (the session's reading, vetoable):
 ### Volume 13 — §3.8 W7 Routes
 
 **713.** **W7 on a host-bound world: the host's genesis laid, the lived network mirrored, nothing moved silently.**
-*Requests:* RR-12, RR-13, RR-14, RR-15, RR-17, RR-24.
-*Current text:*
+*Requests:* RR-12, RR-13, RR-14, RR-15, RR-17, RR-18, RR-24.
+*Current text* (a):
 >    (slope, biome, crossing) — the clerk's "the road bends here because the pass is 400 m lower".
-*New text:*
+*New text* (a):
 >    (slope, biome, crossing) — the clerk's "the road bends here because the pass is 400 m lower".
 > 7. **The host's law and the stations.** Under the host's cost law the step cost of (2) reads `classFactor` for
 >    `biomeFactor`, adds `riverCellAdd` on a river cell and multiplies a step above `elevationKneeM` by
@@ -914,7 +951,12 @@ the sea as cheap carriage. RULED (the session's reading, vetoable):
 >    geometry and effort, never the number of legs. A placed frame's exits are W7's terminals: a highway or road meets
 >    the town at its gate station after `exitRunM` through the margin, and `requestCharter` lays the town's own links
 >    before the charter is emitted.
-*Evidence:* `research/sf/fp-realm-review.md` RR-12 – RR-15, RR-17, RR-24 and J-RR.12, J-RR.15 – J-RR.19, J-RR.25 (OD-FC-18 mounts genesis at world birth, host `DESIGN_FP_COHERENCE_FOLD.md:511`; genesis has no caller, host `routeNetworkGenesis.js:85,105-108,425-473,630-643`; Law 2; the ledger's facets and five events, "patrolled is not a change", hidden never absence, `routeNetworkLedger.js:64-181`, `DESIGN_ROUTE_LIFECYCLE.md:40-43,205-213`; every placement, cost-law change, cascade, site drop and regenerate re-derived W7, V13:883,1682,1871,1890-1904; law M's one-week floor per leg, `namedPersonTransit.js:18-22` — DT-4).
+*Current text* (b):
+> start and end only at a `port: true` seat when `portOnly`
+*New text* (b):
+> start and end only at a harbour seat when `portOnly` — on a standalone world a W6 `harbourCandidate`, on a host-bound
+>    world the port seats the host's genesis water edges name —
+*Evidence:* `research/sf/fp-realm-review.md` RR-12 – RR-15, RR-17, RR-18, RR-24 and J-RR.12, J-RR.15 – J-RR.20, J-RR.25 (§10: fragment (b) mends a stale `port: true` the census found after item 690 retired the port boolean; OD-FC-18 mounts genesis at world birth, host `DESIGN_FP_COHERENCE_FOLD.md:511`; genesis has no caller, host `routeNetworkGenesis.js:85,105-108,425-473,630-643`; Law 2; the ledger's facets and five events, "patrolled is not a change", hidden never absence, `routeNetworkLedger.js:64-181`, `DESIGN_ROUTE_LIFECYCLE.md:40-43,205-213`; every placement, cost-law change, cascade, site drop and regenerate re-derived W7, V13:883,1682,1871,1890-1904; law M's one-week floor per leg, `namedPersonTransit.js:18-22` — DT-4).
 
 
 ### Volume 13 — §3.9 W8 Polity
