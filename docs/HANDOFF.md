@@ -2,6 +2,8 @@
 
 ## WORLD, SITES, ENCOUNTERS AND HYDROLOGY — the design volumes landed (2026-10-17)
 
+**MODEL RULING (owner, 2026-10-17; J375).** From J375 on, every spawned seat runs on Opus 5.5 with Fable as the managing seat; every file an Opus seat writes or edits carries the J375 stand-in notice under its title and its lane line the suffix "(opus; J375)"; all of it is to be retrovalidated overall at the next opportunity. Lanes spawned before the ruling (coherence/world-sites-k, check/M0-world-sites-gate, research/vtt-profile-reverify) ran on Fable.
+
 1. **What exists now.** The owner's rules of 2026-10-16 are file j (`docs/AMENDMENTS-2026-10-16j.md`, items 131–141: the brief and the identity ruling, two kinds of encounter map, editable sites and DM secrets, context and adoption, scale coherence, no hour and VTT, reacting terrain and water edits, FMG native, the fold directive, the M0 close gate with K1–K13 and M1–M11, the 2.5D mode).
 2. Their design is **volume 13** (`docs/volumes/V13-world.md`: the world regime, placement and hydrology) and **volume 14** (`docs/volumes/V14-sites.md`: world sites, encounter crops, the 2.5D view), each critiqued (`critique/V13.md`, `critique/V14.md`), revised, checked against each other by the seam `critique/seam-world-sites-r0.md` (37 findings) and reconciled under the session's rulings (J-V13.51–62, J-V14.49–55).
 3. The integration record is `docs/volumes/_integrate-world-sites.md` (seam round 1: 36 of 37 confirmed, 12 wording residuals fixed in place, one mechanism question R1-1 open — the import's markers; clean-room: 2 slips fixed; INDEX.md, SUMMARY.md and README.md carry both volumes; the bundle `docs/ARCHITECTURE-FULL.md` is regenerated with them, 73 132 → 79 372 lines).
