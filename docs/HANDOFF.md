@@ -1,18 +1,23 @@
 # HANDOFF — town-generator research program
 
-## RESUME HERE — THE HOST SIMULATOR REVIEW AND THE SYSTEM READS (2026-10-17 ~07:00Z; the owner's five-hour window closing)
+## RESUME HERE — THE HOST SIMULATOR REVIEW AND THE SYSTEM READS (2026-10-17; updated 08:45Z after the limit reset)
 
-Everything since J375 runs on Opus 5.5 and carries the J375 retrovalidation notice (J377–J381). Four workflows were in
-flight when the window closed. A workflow can be resumed only in THIS session (same session id): re-invoke Workflow with
-the script path and the run id; completed agents replay from cache, the rest run live. If an agent died on the limit,
-its file may be partial — the resumed agent rewrites it.
+Everything since J375 runs on Opus 5.5 and carries the J375 retrovalidation notice (J377–J382). The window closed at
+~07:15Z (reset 08:30Z) with three runs mid-way. LESSON: a resumed workflow replays from cache only the longest unchanged
+PREFIX of agent calls in call order; parallel stages reorder, so a plain resume re-ran finished verifiers and readers.
+The cure used: hand-authored CONTINUATION scripts that feed the recorded results (extracted from each run's
+journal.jsonl into scratch files) to the next stage, with guards that stop before any apply when a stage failed.
 
-| run | script | state at the close | resume |
+| run | script | state | resume |
 |---|---|---|---|
-| wf_e54a90fb-43c realm review (8 dimensions incl. territory T1–T3) | the session's realm-review script (copy: workflows/36-realm-review.js) | find and verify done for all 8; SYNTHESIZE running (research/sf/fp-realm-review.md partly written, committed as WIP; docs/AMENDMENTS-2026-10-17m.md not yet written); review, revise, apply, critic not started | resumeFromRunId wf_e54a90fb-43c with the session script path (args.scratch as before). BEFORE trusting an apply: check file m exists whole and the review record §10 exists; if the run ended with nulls, resume it — do not apply file m by hand. |
-| wf_0e759907-c33 systems read (alignment, trade, populations, prosperity) | workflows/38-systems-read.js (session copy identical) | readers running; nothing landed | resumeFromRunId wf_0e759907-c33 |
-| wf_868a6476-905 plague read | workflows/39-plague-read.js | just launched | resumeFromRunId wf_868a6476-905 |
+| wf_a2c34533-085 realm review continuation | workflows/36b-realm-review-continue.js (args.findings = the scratch surviving.json rebuilt from wf_e54a90fb-43c's journal: 127 kept findings, 0 refuted, 36 missed; carries J382) | synthesize → review ×2 → revise → apply → critic | resumeFromRunId wf_a2c34533-085 (sequential, so a plain resume replays cleanly); never apply file m by hand |
+| wf_a7c82671-f52 systems read continuation | workflows/38b-systems-read-continue.js (args.dir = scratch systems-read/, the recorded readings per subject) | prosperity docs read live; per subject synth → verify → fix; then research/sf/lens-implications.md (reads plague when landed) | rebuild from its journal if it dies mid-way |
+| wf_868a6476-905 plague read | workflows/39-plague-read.js | readers cached; synth → verify → fix running | resumeFromRunId wf_868a6476-905 |
+| (stopped) wf_e54a90fb-43c, wf_0e759907-c33 | workflows/36, 38 | superseded by the continuations | — |
 | (done) wf_5f99985d-25d faith read | workflows/37-faith-read.js | LANDED research/sf/faith-system.md (verified) | — |
+
+Partial notes withdrawn before the resume (kept in the session scratch partials-0831/): the realm review's WIP note and the
+plague and trade synth drafts.
 
 **Pending after they land.** (1) Fold research/sf/plague-system.md into research/sf/lens-implications.md (the systems
 read's implications seat ran without plague; one seat appends a plague section and updates the lens tables).
