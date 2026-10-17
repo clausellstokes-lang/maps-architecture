@@ -20952,7 +20952,8 @@ tool API and a skeleton file all make and change a town with one set of twelve t
                pass — §8.4's lighting model as a post operation over the base raster, its CPU implementation the reference and a WebGL2
                (WebGPU where available) accelerator that draws no marks — with the vector rung as its fallback, decoration stamps over the
                bundled stamp-tile asset (§8.10), live layers (`live.stale` and the dry run's ghost `live.ghost` among them) and the
-               `states` rows' programs (§8.2), the tile worker's queue of resumable raster jobs (§8.9)
+               `states` rows' programs (§8.2), the tile worker's queue of resumable raster jobs (§8.9); `@plat/render/projection` — the 2.5D
+               projection family R1–R4 over the flat display list's `baseCm` and `topCm` (§8.1; volume 14, M-25D; file k item 634)
 @plat/edit     edit events (§7.1's kinds, each with its inverse, its fates and its migration, §7.4, §7.5), dry-run validation, undo and redo
                records, scoped regeneration, rebase, the dependency audit, event migrations, warp kernels; the epoch runner in its fold
                (§4.11)
@@ -20975,7 +20976,8 @@ tool API and a skeleton file all make and change a town with one set of twelve t
                meter, settings; '@plat/clerk/model' — the model backend, the request builder, the prompt and the turn loop, a lazily
                loaded chunk and the only importer of the provider's SDK
 @plat/app      the reference UI (below): the shell, its screens and flows (volume 9); a second entry `embed.html` — host mode: no file
-               operations, no `DocResolver`, bridge-driven (V08 §3.1, V08 §5.1)
+               operations, no `DocResolver`, bridge-driven (V08 §3.1, V08 §5.1); the encounter module (`EncounterService`, the client of
+               §11.2's `encounter.*` behind the boundary; volume 14, M-ENC; file k item 634)
 @plat/bridge-client the host client a host page imports (volume 8): `MapHost`, `MapSession`, `MapStore`, `MapRecord`, `hashDossier`,
                the status texts; dependency-free, its message types generated from `@plat/api`'s bridge schema at build
                time (V08 §2.2)
@@ -21001,7 +21003,7 @@ tool API and a skeleton file all make and change a town with one set of twelve t
 Each stage's declared inputs and outputs are its `StageDecl` registration (§4.1–§4.12); the record types a registration
 names are declared at their homes (§2.5–§2.7, §3.4, §4.8, §10.4, II.1, II.6, II.7.4, and each volume's §2).
 
-**Dependency rules (enforced by lint):** `kernel ← model ← tables ← {site, content} ← layout ← plots ← buildings ← labels
+**Dependency rules (enforced by lint):** `kernel ← model ← tables ← world ← {site, content} ← layout ← plots ← buildings ← labels
 ← render ← edit ← export ← port ← api ← clerk ← app`; **labels ← render**: the tile worker in `render` runs S13b from
 `labels`, and the drawn symbol extents and the display-list index that S13b reads reach it only as the parameters
 `ObstacleSource` and `RoleIndex` — interfaces `labels` declares and `render` implements — so `labels` never imports
@@ -21011,7 +21013,7 @@ pure `roofscape` and `facadeBays`, and by `export` for the plan's pure readers (
 Foundry storey scenes, CityJSON storeys and glTF interiors), only; `render` and `export` may import `facadeBays` from
 `plots` or `buildings`; `hood`, `village` and `evolve` depend on `layout` / `plots` only through their interfaces (and
 `evolve` on `content` and `edit`'s operators); `under` depends on `kernel`, `model`, `tables`, `plots` and `content`, and
-`sky` on `layout`, `site`, `content` and `kernel`; no ground package imports `hood`, `under`, `sky`, `evolve` or
+`sky` on `layout`, `site`, `content` and `kernel`; `world` imports nothing from `site`, `layout`, `plots` or `content`, `site` depends on `world` (its lifted hydro core), `port/world` is one adapter folder of `port`, and `export` reads `world`'s records (T-V13-7; file k item 634); `sites` depends on the packages its line names and never on `render`, `export` or `app`; no ground package imports `hood`, `under`, `sky`, `evolve`, `sites` or
 `village` — `api`'s worker host alone imports them, to register them; `docs` reads the registries of `model` and
 `tables` only; `sim` depends on `content` and `model` only; `port` depends on `model`, `tables`, `content` and `edit`
 only and is imported only by `api` and the reference app's host glue; `clerk` depends on `api`, `model` and `tables`
@@ -21639,7 +21641,7 @@ determinism machinery. The first real milestone (M1) is a town the owner can loo
 owner ranks editability first, editing comes next (M2a), before the second look and the rest of parity (M2b). Then full
 editing and the API (M3a), the exports and the should-have extras (M3b), hardening (M4), the simulation module (M4b)
 and stage 2 (M5). The design volumes' milestones follow in the order the owner's delegation fixed (J122): the village's
-tracker spike right after M0, the built-in clerk beside M3b, and after M4 four streams side by side. Effort is stated
+tracker spike right after M0, the built-in clerk beside M3b, and after M4 four streams side by side; **the water state at the frame M-W0h after M4 beside M5 (V13 §8; SW-14), the world milestones M-W0 – M-W4 (V13 §8: 28–36 pw as one staged row) after M-SF, the encounter crop M-ENC after M1, the attached sites M-SITE-A after M6-U, the free sites M-SITE-F after M-W1 and the 2.5D renderer M-25D after M4 (V14 §8); the host's own changes a parallel track on the owner's schedule (V13 §11 Q2)** — the one merged text both volumes cite (SW-29). Effort is stated
 honestly as a range with its basis, and computed once here: two totals, the base with stage 2 and the whole program.
 
 Person-weeks are expert estimates (PLAUSIBLE) for two implementers plus a verifier seat — about 115–158 calendar weeks
@@ -21683,6 +21685,12 @@ outside the first total.
 | **M6-sky — the sky layer** (V05 §8: P0–P6) | M6-U (its P0 spike may run beside M5) | — | V05 §8's exits | 18–24.75 pw |
 | **M-CAL — the corpus reconciliation** (V12 §8) | M6-sky; its inputs M4, M5, M6 and V-M4 | — | V12 §3.10's acceptance and the before-and-after sitting | 4.75–8 pw |
 | **M-SF — the SettlementForge connection** (V08 §8: SF0–SF7; VH with the village) | M-CAL (SF0–SF3 may start earlier; VH when the village lands) | — | V08 §8's exits and release checklist, item 125's bars and item 122's map rows and crisis reading among them | 18.5–25.25 pw (map side) |
+| **M-W0h — the water state at the frame** (V13 §8.2, §8.3; SW-14) | M4; beside M5, before M6-U's U3b | M5 | T-V13-4, 6, 8, 9, 10, 20, 22, 25, 27, 29, 33–35; V04's readers switched, the shift reported | ≈ 4 pw (inside the world row's 28–36) |
+| **M-W0 – M-W4 — the world** (V13 §8.2: M-W0 spikes, M-W1 the world, M-W2 routes, polity and siting stage 2, M-W3 labels, exports and the adapter, M-W4 hardening) | M-SF; M-W0's spikes after M0 closes | the host's parallel track (V13 §8.5) | V13 §8.2's gates per milestone; every T-V13 row green in the nightly tier at M-W4 | 28–36 pw (one staged row; M-W0h's ≈ 4 inside it) |
+| **M-ENC — the encounter crop** (V14 §8: SE0–SE2) | M1 | its interiors with V03's P1, its occupancy with M4b | V14 §8's SE0–SE2 exits (T-V14-1, 3, 4, 11, 21's `item132.none`, 24 (a), 26, 29); the register check at every exit | 4.25–5.75 pw (with SE0) |
+| **M-SITE-A — the attached sites** (V14 §8: SE3–SE5) | M6-U's U3b and V01's W15 at M5 | may run beside M6-P and M-W1 | V14 §8's SE3–SE5 exits (T-V14-2, 5, 10, 12, 13, 18, 19, 20, 23, 26, 27, 30); the owner's panel V14-P's site half offered | inside M-SITE's 13–18.5 pw |
+| **M-SITE-F — the free sites** (V14 §8: SE6) | M-W1 | M-W2 | V14 §8's SE6 exit; T-V14-7 (c), T-V14-22 | inside M-SITE's 13–18.5 pw |
+| **M-25D — the 2.5D renderer** (V14 §8: V0–V4) | M4 | M5; its world rows after M-W1 | V14 §8's V0–V4 exits (T-V14-14, 15, 16, 17, 21's `item141.flat`, 24); the panel's view half | 7.75–11 pw |
 | the application's staged screens (V09: AP5 with M6-E's E6, AP6 with M6-U, AP7 with M6-sky, AP8 with M3c, AP10 with M6c; AP11's History chip, "What its past left", the lost-void line, Back in use, the last-change epoch and the ring's story with M6-E, its grandeur line with M6, the damage lines with M6-P's P4 and the game-master trial before the public release) | their layers | their layers | V09 §7 | 4.25–6.25 pw |
 | the content's staged rows (V11: C4b at M-SF, C8 at M6-U) | their milestones | — | V11 §8 | ≈ 1.85–2.6 pw |
 
@@ -21723,8 +21731,10 @@ payments; its findings enter volume 12's calibration record and the fix list; vo
 | the corpus reconciliation (volume 12) | 4.75–8 | V12 §8 |
 | the application's staged screens (volume 9) | 4.25–6.25 | V09 §8.1 (AP5 – AP8, AP10 and AP11's staged parts, 1–1.25) |
 | the content's staged rows (volume 11) | ≈ 1.85–2.6 | V11 §8 (C4b and C8) |
-| **the staged milestones together** | **187.85–264.1** | |
-| **the whole program — the second total** | **418.6–579.35** | the first total plus every staged line |
+| the world: M-W0h and M-W0 – M-W4 (volume 13) | 28–36 | V13 §8.2 (M-W0h ≈ 4 inside it; file k item 635) |
+| world sites, the encounter crop and the 2.5D view (volume 14) | 25.75–36.25 | V14 §8 (M-ENC 4.25–5.75 with SE0; M-SITE 13–18.5; M-25D 7.75–11; content 0.75–1; file f item 568's rule) |
+| **the staged milestones together** | **241.6–336.35** | recomputed once by the coherence pass applying file k (file f item 568): 187.85–264.1 + 28–36 + 25.75–36.25 |
+| **the whole program — the second total** | **472.35–651.6** | the first total plus every staged line (230.75–315.25 + 241.6–336.35) |
 
 Outside both totals: each later corpus run (M-CAL/⟨layer⟩, 0.25–0.75 pw each), the command-line clerk where volume 10's
 spike takes that fallback (0.5 pw), and SettlementForge's own side of the connection (1.5–2.5 pw, SettlementForge's
@@ -22785,11 +22795,11 @@ interface AccessPoint { id: Id; kind: 'stair'|'ladder'|'hatch'|'door'|'shaft'|'w
     /* ladder, hatch and door: item 64's basement accesses; mouth: an opening in outside ground — a cave mouth, a dug passage's outlet (II.7.6);
        sinkhole, collapsed_shaft, ruin_entrance: public openings by chance into a cavern, a quarry or mine, or a ruin (item 109 (j) (3) (ii)) — each public opening of role access a HoodPlace of kind opening on the surface (V01 §3.7.1) */;
   role: 'access'|'air'|'light';
-  ground: { at: PointCm /* moves with its host face under a warp (§7.4) */; host: Id /* the corridor, square, yard, building (for a basement access, its basement) or outside face it opens in */ };
-  under: { part: number /* the underground part it reaches (§3.4; 0 the sewer network) */; element: Id /* the tunnel, gallery, chamber or underground building (a sewer dwelling's side or rear wall: item 64's door) */; at: VertexRef /* ('access_point', id) on that element's kerb or wall, §2.2 rule 7 */ };
+  ground: { at: PointCm /* moves with its host face under a warp (§7.4) */; host: Id /* the corridor, square, yard, building (for a basement access, its basement) or outside face it opens in */; storey?: number /* source `site` only: the anchor's storey — V14 §3.9 (a)'s head rule: a `hatch` in that room's floor or a concealed door, descending by a V03 stair core of kind `secret` (V03 §3.3; file k items 636, 639) */ };
+  under: { part: number /* the underground part it reaches (§3.4; 0 the sewer network) */; element: Id /* the tunnel, gallery, chamber or underground building (a sewer dwelling's side or rear wall: item 64's door) */; at: VertexRef /* ('access_point', id) on that element's kerb or wall, §2.2 rule 7 */ } | SiteReach /* V14 §2.3: `{ site; unit; level; at; floorCm }` — the first two written whole with the site document's namespace (§6.3); source `site` (M-SITE-A; file k item 636; the form reserved at M1's API pass) */;
   state: 'open'|'locked'|'bricked' /* item 64 (c): stored, set by the rule's row, an edit, or the access closures of its host's change (a use turned to a class whose access row is 0, a ground host no longer admitted: bricked; V04 §3.10); it reads collapsed or bricked while its element is closed (II.6), a derived reading, never stored */;
-  knownTo: 'public'|'local'|'secret' /* item 64 (c), item 30's values: public for a stair, shaft or grating on public ground, local in a yard, and in a building by II.7.3's Basement accesses (4) — secret too where an undercity lifeline's row makes it so (II.7.5) */;
-  source: 'neighbourhood'|'basement'|'system'|'lifeline'|'edit'|'dig'|'opening'|'overlap'|'crypt'|'dossier' /* II.7.3's neighbourhood rule or its basement accesses, a system's own entrance (II.7.6), an undercity lifeline (II.7.5), an edit (§7.1; §7.3 item 9's closure), a building's dig into a void, a public opening, a system grown through a void (item 109 (j) (3), (3b)), a church's crypt joining a catacomb (item 109 (k) (2)), a dossier's requirement */;
+  knownTo: 'public'|'local'|'secret' /* item 64 (c), item 30's values: public for a stair, shaft or grating on public ground, local in a yard, and in a building by II.7.3's Basement accesses (4) — secret too where an undercity lifeline's row makes it so (II.7.5); the stored value is read by every reader through `effectiveKnownTo(access)` (V14 §2.3: `secret` while the anchor is `dmOnly`, at least `local` once `discovered`; file k item 636) */;
+  source: 'neighbourhood'|'basement'|'system'|'lifeline'|'edit'|'dig'|'opening'|'overlap'|'crypt'|'dossier'|'site' /* II.7.3's neighbourhood rule or its basement accesses, a system's own entrance (II.7.6), an undercity lifeline (II.7.5), an edit (§7.1; §7.3 item 9's closure), a building's dig into a void, a public opening, a system grown through a void (item 109 (j) (3), (3b)), a church's crypt joining a catacomb (item 109 (k) (2)), a dossier's requirement; `site`: a world site's anchor reaching its site document (V14 §2.3) — `AccessCause.rule` gains `'site'` (V04 §2.2's union); an access of source `site` is never a `HoodPlace`, skipped by V01's opening pass and V04's excavation reading; its ends through `verticalEnds` (§2.7, file k item 606) */;
   cause: AccessCause /* persisted: the rule, the system and the event that made it; absent in an older document `legacy` (V04 §2.2) */; lifecycle: Lifecycle }   // §2.8's entity registry; its lifecycle row V04 §2.6's
 interface UndergroundRule {
   undergroundShare: Record<Rung, number> /* an `extension` cell: 0 under the parity presets (§7.6), as are crowdingShare, the class table's underground and undercity 'preferred' shares and V04 §2.3's voidDwellings.share */;
@@ -23133,7 +23143,7 @@ says so.
 **The connection graph (item 65 (d), item 109 (d), (j); J-A65.47).** A link (`UndergroundLink`, §2.7) joins two elements of
 different parts — each end one vertex in its part carrying the `link_end` role (§2.2 rule 7), never a vertex two parts share
 (J-A65.31) — with a `kind` (`open`, `gated`, `secret`, `collapsed`, `flooded`), a `via` (`breach`, `reuse`, `stair`,
-`shaft`, `door`) and a `knownTo`; the surface links are `AccessPoint`s (II.7.4). Two tail stages make them: **the access pass**
+`shaft`, `door`) and a `knownTo`; the surface links are `AccessPoint`s (II.7.4). **Over `site` parts (V14 §2.1; M-SITE-A; file k item 637):** the graph admits a link whose ends lie on an `underground` part and a `site` part; V04's U-ACCESS overlap test and the excavation reading read the `site` parts **of the same document** (an adopted or `inFrame` site's; its units start `accessible` through their entrances) as parts, and read an **attached** card's `envelope` and level bands through `siteEnvelopes(doc)` (V04 §3.5.7, file k item 640) as an obstacle (`blockedBy: 'site'`, `W_SITE_NEAR_VOID`), never breaching it; `Chamber.system` and `Gallery.system` on a `site` part name the part's `SiteLevel`; `ChamberKind` is **unchanged** (a site's chambers take `hall`, `breakdown`, `room`, `workings`, `storey`). Two tail stages make them: **the access pass**
 (`AccessPassStrategy`, V04's U-ACCESS), after the void systems and before the undercity, writes the proximity, overlap,
 mine-breach, crypt and reuse links, the dig, opening and crypt accesses and a mine's heading galleries; **the connection stage**
 (`UndergroundLinkStrategy`) runs last, after the undercity: (1) the undercity's lifelines (II.7.5) first; (2) for every pair of

@@ -677,6 +677,10 @@ interface TierInput {
   scale: number;                              // ST8's size factor on tier 0 (1 at the first lay)
   cells: TierCells;                           // the row's cells at the building's band value (V02 §3.2 step 3)
   storeys: { groundCm: Cm; upperCm: Cm };     // the class's HeightsRow storeyCm (massStepped, the tiers op, the mutator) or TierCells.heights (V04)
+  waterClass?: WaterClassResult[];            // file k item 638 (BCR-V13-23; M-W0h): one per storey from the basement up, the last result of the shared test (V13 §3.13.4), re-written by the cascade,
+                                              // absent on a dry building (V13's C13-56 note: the results move to a `derived` cache outside the model digest in the next revision of BCR-V13-23, or the
+                                              // migration writes them under a declared shift — the pass chooses, T-V13-29 the bar). The lawful ranges `raiseLower`'s storey row maps into (V14 §4.6; M-25D):
+                                              // `storeys/groundCm` and `storeys/upperCm` each within the class's HeightsRow storeyCm band (its min and max cells), every upper storey moved together, the bend named (`bend.site.storey`)
   pitch: number; parapetCm: Cm; plinthCm: Cm; // M11's one pitch rule; the family's parapet; §2.6's plinth (a ruin passes 0 and 0)
   draws: TierDraws;                           // what drawTiers drew (or, for the `tiers` op, the values it resolved without a draw)
   anchor?: PointCm[];                         // anchored mode (V02 §3.9 W3, the `tiers` op): tier 0's ring is given — four corners (a kept range's
