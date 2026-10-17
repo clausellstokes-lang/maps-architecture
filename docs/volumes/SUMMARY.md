@@ -12,9 +12,11 @@ rules of 16 October, the world a town stands in, the persistent sites and battle
 and 14, added on 17 October). The volumes were
 checked against each other in seven rounds; the last round's fourteen serious problems were fixed in this final pass.
 What remains are small wording and bookkeeping items, listed below, which do not change how anything would be built.
-There are thirty-two decisions that are yours by rule (twenty-five from the first twelve volumes, seven from the two
-new ones, which you deferred to the session on 16 October); each already has a recommendation, and the work proceeds
-on the recommendation until you say otherwise.
+There are thirty-three decisions that are yours by rule (twenty-five from the first twelve volumes, eight from the two
+new ones: seven you deferred to the session on 16 October, and one — whether the world's canon stays outside the
+closed door that keeps your host's simulator from reading the map — that waits on your own word); each already has
+a recommendation, and the work proceeds on the recommendation until you say otherwise, save that one: until you
+answer it, no campaign's simulation reads the new world's canon, not even a new campaign's at its birth.
 
 ## What each volume makes possible, and what it will feel like
 
@@ -146,8 +148,9 @@ The two new volumes went through the same kind of checking in one day (17 Octobe
 in one seam round — **37 problems: 1 blocking, 15 serious, 21 small**, every one fixed in one reconciliation round
 under the session's rulings — and then confirmed by the integrating pass, which found twelve small wording slips
 (fixed in place) and one question of mechanism left for the next round: when an old world map is imported, which
-side records the places it marks. Their changes to the core design are written down as file k (48 items) but not yet
-applied; applying them is the next pass.
+side records the places it marks. Their changes to the core design, written down as file k (48
+items), were applied on 17 October, and so were the changes since — the review of your host's simulator against the
+world, and the map lenses over its systems (files m to q).
 
 ## What was left for later, and why it does not matter now
 
@@ -178,22 +181,31 @@ Twenty-five questions, each with a recommendation the work follows until you rul
 - **Identity and defaults.** Keep "PLAT" as the working name until a public release; historical looks become a default
   only where your before-and-after sitting approves them.
 - **The world and the sites** (seven questions; you deferred them to the session on 16 October, so each stands as a
-  recommendation you can veto): bring existing campaign towns into a world one at a time at the game master's request,
-  the world bending to each (never the town), and bring your host's existing worlds in once through the import; your
-  host's own changes (the world port and the per-campaign request) in step with the world's first milestone; a town's
+  recommendation you can veto): every existing campaign keeps the world it was born with, and whether a living
+  campaign may choose to move onto a world from the new module — recommended: offer it campaign by campaign as a
+  premium option, off by default, with every change it would make to travel times, settlement tiers, border
+  crossings, ports and water lanes shown before the game master confirms, never automatic; your host's own changes
+  on a schedule in step with the world's milestones — the first few now, the port with the world's first milestone,
+  the routes, borders and every new campaign's canon at its birth with the second, the lenses' asks with the lenses,
+  the old world map retired after the third — and the replacement of your host's realm map counted as part of the
+  map module's after-launch plan; a town's
   share code carries its world charter so it replays alone; the battle map ships right after the first viewable town,
   interiors following; a site record in the SettlementForge dossier, scheduled with the host's other changes; accept
   the two volumes' cost (37–45 and 25.75–36.25 person-weeks); and the tabletop export may carry each room's reason in
   an optional block that is off unless you turn it on.
+- **One waits on your own word, which the design reserves to you:** whether the world's canon — the travel, water and
+  site facts your host's simulation reads, never a town's geometry — stays outside the closed door that keeps your
+  host's simulator from reading the map (recommended: confirm); until you answer, no campaign gets the canon, not even
+  a new one at its birth.
 
 Every recommendation with its reason is in `docs/volumes/INDEX.md` §6, and each question's full text is in its volume's
 section 11.
 
 ## What the two new volumes ask of you
 
-Nothing you have not already been asked for the other twelve: the seven decisions above (each proceeds on its
-recommendation until you say otherwise), two short review sittings when the builds land (six sites and six battle
+Nothing you have not already been asked for the other twelve: the eight decisions above (each proceeds on its recommendation until you
+say otherwise, save the one that waits on your word), two short review sittings when the builds land (six sites and six battle
 maps rated for legibility, realism and playability; the 2.5D view beside the flat one), and, on the SettlementForge
 side, the host's own changes to send the world its seats, borders and events and to carry a site record — on your
 schedule. Before any of this is built, the M0 gate (item 140: fourteen "do not foreclose" checks on the kernel and
-the model, none adding a feature) must close with evidence, and the core design must absorb file k.
+the model, none adding a feature) must close with evidence; the core design has absorbed file k (17 October).

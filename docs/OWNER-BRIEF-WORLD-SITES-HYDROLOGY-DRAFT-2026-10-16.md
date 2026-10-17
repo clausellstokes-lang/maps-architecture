@@ -97,7 +97,7 @@ view-only transient (item 122); the frozen-fixture and budget-tier discipline (�
 
 Ruled (vetoable): the boundary option (a) — the host owns political facts, the map module owns the world regime, the
 host's capture of the reference generator is replaced by the world port, the host's frozen spatial digest staying its
-engine state, built from the port's canon at its receipted re-canonize (refined 2026-10-17, `docs/AMENDMENTS-2026-10-17m.md`); planar bounded worlds in metres now; tectonics, erosion over time,
+engine state, built from the port's canon at its receipted canonize — every new campaign's birth canon, or a re-canonize — (refined 2026-10-17, `docs/AMENDMENTS-2026-10-17m.md`); planar bounded worlds in metres now; tectonics, erosion over time,
 fluid dynamics and a sphere not built; no second FMG fork and no embedding of its code; FMG maps imported once as
 data; Watabou's boundary kept as the boundary between the world regime and the settlement map; time of day not a
 parameter; transient encounters derived, never random; who keeps a gate under the sway — the host's intermediary
@@ -109,10 +109,15 @@ trade lens drawing each settlement's production, needs, exports, imports and ser
 religion lens the host's local and global deity rankings and its piety (J380; V13 §5.9); a world from this module
 canonized at the birth of every new campaign, whatever the campaign's tier — the product ruling the host implements,
 its premium canonize entitlement never gating it (J387), which gives every new campaign on such a world the canon
-SettlementForge today sells only as its entitled one-shot "Map geography" action —, a re-canonize and retcons
-staying the premium DM's act (so on a campaign without the entitlement the birth canon stays as born: a settlement
-founded after it stays outside it until a re-canonize, unmapped to the simulation's canon-gated lanes and to the
-lenses), and a host fight verdict alone moving a march line while the
+SettlementForge today sells only as its entitled one-shot "Map geography" action —, a settlement
+founded after the birth canon joining it by an additive re-canonize SettlementForge runs itself between two of its
+advances, at the first chance after the founding — a change to SettlementForge, whose canonize today runs only when
+the DM asks — covering only the new settlement, the seat territories its founding redraws and the water links on the
+sea or lake it reaches, SettlementForge keeping its own rules and every other settlement's ports and circles as the
+canon had them, a new version of the canon with its receipt, any settlement whose travel band it changes reported,
+never silently, which that entitlement never gates either (J388: without it, every settlement founded after the
+birth would stay unmapped to the simulation's canon-gated lanes and to the lenses until the DM re-mapped the whole
+realm by the premium act), a re-canonize that shifts other geometry and retcons staying the premium DM's act, and a host fight verdict alone moving a march line while the
 host's military reading is dark (J386; V13 §8.5, §11).
 Owner questions that remain: whether SettlementForge's existing
 campaigns are offered an elective rebase (the transition otherwise ruled: every frozen digest kept, the import on

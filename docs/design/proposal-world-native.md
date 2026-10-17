@@ -17,7 +17,7 @@ suitability) are canonical world state; whose political facts (factions, culture
 institutions, events) stay the host's and are only materialized; and whose output to every settlement frame is a
 boundary record the frame refines, so that a town's river is the world's river. The vendored FMG fork, the iframe
 bridge and the one-shot capture are retired in favour of one versioned, one-way world port; the host's frozen spatial
-digest stays the host's engine state, built by the host from the port's canon at its receipted re-canonize, and every
+digest stays the host's engine state, built by the host from the port's canon at its receipted canonize (every new campaign's birth canon, or a re-canonize), and every
 existing campaign's digest is kept forever (`research/sf/fp-realm-review.md` J-RR.1, J-RR.45). Existing FMG maps are imported once as data through a version-pinned adapter. Nothing of FMG's
 rendering, save format, cell mesh, economy, military, religion, zone or assistant machinery is carried over.
 

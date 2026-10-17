@@ -11,7 +11,7 @@ carries files f (`docs/AMENDMENTS-2026-09-28f.md`, items 200–585, the volumes'
 (`docs/AMENDMENTS-2026-09-28g.md`, file g's items, the owner's rules), applied by the coherence pass
 (`workflows/18-coherence.js`); files j (`docs/AMENDMENTS-2026-10-16j.md`, items 131–141, the owner's rules on the world,
 sites, encounters, hydrology and the 2.5D view) and k (`docs/AMENDMENTS-2026-10-16k.md`, items 600–647, volumes 13
-and 14's base change requests) are NOT yet applied: the coherence pass applies them next. The plain-language account for the owner is `docs/volumes/SUMMARY.md`.
+and 14's base change requests) are applied — file j's rules cited by number in the base's §0.2 and its base change requests superseded by file k's (J374), file k applied by the coherence pass `coherence/world-sites-k` (J376; `docs/validation/coherence/world-sites-k.md`) —, as are file l (items 648–658, the VTT export profile re-verified; J376) and files m–q (items 659–925: the realm review of the host's simulator, the lens design and its closing passes; J385 – J388 for files m–p), each applied by the record its status line names under `docs/validation/coherence/`. The plain-language account for the owner is `docs/volumes/SUMMARY.md`.
 
 ## 1 The product map
 
@@ -45,7 +45,7 @@ milestone); 0 uncarried, 0 duplicated, no gap. Volumes 13 and 14's 54 requests (
 carried by the 48 items of file k (600–647; 38 base items, 10 cross-volume items; the gate's rows K1, K5, K6, K9 and
 M1–M11 reserved BASE at M1's API pass, the mechanisms STAGED with their milestones); 0 uncarried, 0 duplicated, no
 gap, 0 conflicts; one mechanism question open for reconciliation round 1 (`docs/volumes/_integrate-world-sites.md`
-§1.4). In all: 461 requests, 434 items.
+§1.4). In all: 461 requests, 434 items. Files m–q since added eleven requests to V13 §10, outside those totals (BCR-V13-30 – BCR-V13-40): BCR-V13-37 is carried by file o item 877, BCR-V13-38 by file p item 890 and BCR-V13-40 by file q items 916 and 917; BCR-V13-30 – BCR-V13-36 (the base) and BCR-V13-39 (V09) stand with no admission item, each for the coherence pass to admit by an item of its own (J387's and J388's pending ledger).
 
 ## 2 The wiring — base hooks and what each volume feeds
 
@@ -180,12 +180,14 @@ SP-W1 – SP-W7 (M-W0, once M0 closes; before M-W1). The first-five-minutes sess
 
 ## 6 Owner questions with recommendations
 
-Every question the volumes put to the owner is answered: those that belong to SettlementForge follow its own decisions
-(J121: the map is a SettlementForge module), and every other is decided under the owner's delegation (J122:
+Every question the volumes put to the owner is answered but one: those that belong to SettlementForge follow its own
+decisions (J121: the map is a SettlementForge module), and every other is decided under the owner's delegation (J122:
 `docs/OWNER-DECISIONS-DELEGATED-2026-09-29.md`), each vetoable. Each volume's §11 marks its questions answered and its
-body reads the decision. Volumes 13 and 14's seven questions carry the session's recommendation: the owner deferred
+body reads the decision. Volumes 13 and 14's eight questions carry the session's recommendation: the owner deferred
 every decision on them to the session (2026-10-16: "i defer all decisiosn to you"), so each stands as **recommended;
-vetoable** until the owner rules.
+vetoable** until the owner rules — save V13 Q4, which waits on the owner's own word, the one decision the delegation
+cannot reach: J86's door 1 opens only on the owner's explicit word (base §11.4; J388), and until Q4 is answered the
+host's builder over the canon (V13 §8.5's H5) and every new campaign's birth canon (H22) stay dark.
 
 | volume | question | answer |
 |---|---|---|
@@ -214,9 +216,10 @@ vetoable** until the owner rules.
 | V12 | Q-V12-1 — one month of FTG's premium tier | no (J122); reversed by the owner on 2026-10-03 (J164): one month bought for the METROPOLIS reference |
 | V12 | Q-V12-2 — the owner's sittings | only at M1 (the look check), M2b, M4 and M5, batched, about an hour each; a staged milestone's panel joins the next of them when its build has landed, else stays *provisional — not rated* (J122; §13.6 (1)) |
 | V12 | Q-V12-3 — historical layers as defaults | only where the owner's sitting passes them (J122) |
-| V13 | Q1 — existing campaigns: migrate their settlements into a world or freeze them; the host's existing worlds | migrate, settlement-first, campaign by campaign at the DM's request, the diff shown, `worldWins` never run automatically; the host's stored snapshots exported once through its fork and imported once through the adapter (recommended; vetoable) |
-| V13 | Q2 — the host's schedule against M-W1 – M-W3 | the port's three outbound calls and the charter request in step with M-W1, the seats and the cost law with M-W2, the reference fork retired after M-W3's round trip; the standalone world ships either way (recommended; vetoable) |
+| V13 | Q1 — existing campaigns: whether a living campaign is offered the elective rebase onto a world from this module (the transition otherwise ruled: every frozen record kept, the import on request, a legacy world view with no write; J-V13.81) | offer it per campaign, premium, default keep, the full forecast diff shown before confirmation; never automatic (recommended; vetoable) |
+| V13 | Q2 — the host's schedule (V13 §8.5's H1–H30) against M-W1 – M-W3 and M-W5, and whether the realm map's replacement is part of the map module's post-launch disposition | class it with the post-launch disposition; H1–H3 before the host's launch, H4–H11 with M-W1, H12–H17 and H22 with M-W2, H23–H30 with M-W5, H18–H20 after M-W3; the standalone world ships either way (recommended; vetoable) |
 | V13 | Q3 — a placed settlement's share code: embed the charter or name the world | embed the charter, so a settlement replays from its own code (recommended; vetoable) |
+| V13 | Q4 — J86's door 1 and the world canon: is the canon (reaching the host's simulation only through its receipted canonize — H22's birth canon or a re-canonize, the additive one included) outside door 1? | confirm — the owner's own word, which base §11.4 reserves to the owner (J388): until it is answered the host's builder over the canon (H5) and every new campaign's birth canon (H22) stay dark (recommended; awaiting the owner) |
 | V14 | Q1 — the in-town encounter crop ships after M1 or waits whole for M6-P | ship after M1 with shells and the VTT crop; the interiors arrive with V03's P1 by a registry lookup (recommended; vetoable) |
 | V14 | Q2 — a host record for world sites in the dossier (a capability across the SettlementForge boundary) | yes, scheduled with V13's host changes; until it lands every site is map-tier and nothing of the map is lost (recommended; vetoable) |
 | V14 | Q3 — the cost, 25.75–36.25 person-weeks across three milestones | accept (recommended; vetoable) |
@@ -232,8 +235,11 @@ owns it and fixed there. Volumes 13 and 14 (2026-10-17) were critiqued (`critiqu
 checked against each other by one seam round (`critique/seam-world-sites-r0.md`: 37 findings — 1 blocker, 15 major,
 21 minor), reconciled under the chief architect's rulings (J-V13.51–62, J-V14.49–55) and integrated
 (`_integrate-world-sites.md`: seam round 1 confirmed 36 of 37, 12 wording residuals fixed in place, one mechanism
-question open for reconciliation round 1 — the import's markers, R1-1); their coherence pass has not run: file k is
-unapplied, and the M0 gate (`docs/build/checks/M0-world-sites-gate.md`, item 140) is a separate lane.
+question open for reconciliation round 1 — the import's markers, R1-1); their coherence pass applied file k (J376;
+`docs/validation/coherence/world-sites-k.md`, 48 of 48 items), the M0 gate (`docs/build/checks/M0-world-sites-gate.md`,
+item 140) ran as a separate lane and holds (J376), and files m–q carried the realm review and the lens design into
+them, each applied by its record (`docs/validation/coherence/realm-m.md`, `lens-n.md`, `lens-o.md`, `lens-p.md` and
+`lens-q.md`, each named by its file's status line).
 
 ## 8 CONFIRMED versus PLAUSIBLE
 
