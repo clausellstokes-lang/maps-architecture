@@ -625,8 +625,11 @@ superseded (item 750).
 > ports totality, quiet-quay check and per-seat move-lock release; H13's claims, now with a W8b reader (V13 §3.9 (12));
 > H14's terrain inputs, as the charter's terrain word — and gives content to the two phrases this list left undefined:
 > H16's "route limits" (a water edge's limits read on demand, the physical half of row C2's capacity, through V13
-> §3.11.6's `routeFacts`) and "flood exposure for new worlds" (the host's calamity exposure reading the settlement's
-> physical record's wet-season flood share). It records the gate rule as J385 ruled it (H16) and adds H22–H30: a native
+> §3.11.6's `routeFacts`) and "flood exposure for new worlds" (the host's calamity exposure reading the terrain word H14
+> derives from the charter — a riverside or coastal word already weights it — and the settlement's physical record's
+> wet-season flood share only as a finer reading the host chooses, a declared shift; corrected 2026-10-17 by amendments o,
+> `docs/AMENDMENTS-2026-10-17o.md`, the lens critic's gap 13, `docs/validation/coherence/lens-n-critic.md:110-112`, to
+> agree with V13 §8.5's H16). It records the gate rule as J385 ruled it (H16) and adds H22–H30: a native
 > world canonized at birth (J384 (6)) and the lens asks of `research/sf/lens-implications.md` §5. This section is kept as
 > the review's record; read V13 §8.5 for the list in force. The host documents this review left unread (critic gap 13:
 > the ODQ, `map-corpus/docs/GENERATION-SPEC.md`, the MF charter, `PHASE55_EXECUTION_PLAYBOOK.md` §0.2,

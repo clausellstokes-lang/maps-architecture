@@ -104,7 +104,12 @@ parameter; transient encounters derived, never random; who keeps a gate under th
 settlement until the sway has passed its soak, the crossing holder then offered as a per-gate policy the host may adopt
 (J385; V13 §11); the map's lenses over the host's simulated systems — plague first, then the sway (territory) and
 patrols, trade and populations, religion, prosperity and alignment — one mechanism, no invented fact, a lens with
-nothing moving shown still and never hidden, no player view of alignment, holy and cult sites only as DM-placed sites (J384; V13 §5.8, §5.9).
+nothing moving shown still and never hidden, no player view of alignment, holy and cult sites only as DM-placed sites (J384; V13 §5.8, §5.9), the
+trade lens drawing each settlement's production, needs, exports, imports and services and its food coverage, and the
+religion lens the host's local and global deity rankings and its piety (J380; V13 §5.9); a world from this module
+canonized at the birth of every new campaign, asked of the host whatever the campaign's tier (its choice), a
+re-canonize and retcons staying the premium DM's act, and a host fight verdict alone moving a march line while the
+host's military reading is dark (J386; V13 §8.5, §11).
 Owner questions that remain: whether SettlementForge's existing
 campaigns are offered an elective rebase (the transition otherwise ruled: every frozen digest kept, the import on
 request, a legacy world view with no write; V13 §8.5, §11 Q1); whether the realm map's replacement is part of the map
@@ -185,7 +190,7 @@ fact; complexity as a count; a site required to pass through every state; featur
 | the first site milestone | the attached kind (a crypt under a church, a cellar complex), then a small fort | bars 2, 6, 10, 12 |
 | the 2.5D renderer milestone (after the viewable town) | the projection family, draped terrain, extruded massing, per-storey slabs, cutaway bands, hit testing, the raise-or-lower edit | bars 14–17 |
 | the world milestones | W1 terrain, surfaces, hydrology, climate, biomes, suitability, the charter, the port (the canon, the map feed, the recorded inputs); W2 routes on the host's genesis, the seat territory and the sway with patrols, siting stage 2; W3 labels, exports, the adapter (1.114 and 1.152); the lenses (V13's M-W5, after W2): one mechanism and eight lenses, plague first | bars 3, 4, 5, 7 |
-| the host's track (V13 §8.5) | now, on the fork: the capture's frame, seed, scale and unit, the export command, the band census, the register rows (H1–H3); with W1: the port and the second builder of its digest (H4–H11); with W2: genesis, the polity facts, the decree law for world edits, the presentation messages (H12–H17), and a native world canonized at birth for new campaigns (H22); with the lenses (V13's M-W5): the lens window and the lenses' asks in their build order, plague first (H23–H30); after W3: the capture freeze to a deadline, the elective rebase, then the fork's retirement (H18–H20) | Bar T (18) |
+| the host's track (V13 §8.5) | now, on the fork: the capture's frame, seed, scale and unit, the export command, the band census, the register rows (H1–H3); with W1: the port and the second builder of its digest (H4–H11); with W2: genesis, the polity facts, the decree law for world edits, the presentation messages (H12–H17), and a native world canonized at birth, asked of the host for every new campaign, whatever its tier (its choice; H22; J386); with the lenses (V13's M-W5): the lens window and the lenses' asks in their build order, plague first (H23–H30); after W3: the capture freeze to a deadline, the elective rebase, then the fork's retirement (H18–H20) | Bar T (18) |
 
 ## 10 Not in this brief
 
