@@ -15,6 +15,24 @@
 > as the disposition table records, section by section; §5.7, §10.2 (requests to V14), §12's parity and deviation
 > tables and §13's fix list are new.
 
+> **Reconciliation r0 — 2026-10-17** (lane volumes/reconcile-V13-r0, against
+> `docs/volumes/critique/seam-world-sites-r0.md`, under the session's rulings as chief architect, each a J-V13 row).
+> Changed by seam id: SW-01 V13 owns the `SuitabilityTerm` slot and `terms.register`, keeps its eight generic terms,
+> drops its copies of V14's purpose-term formulas; the term is `destination`, the cell `reach.siteKm` (§2.2, §2.3,
+> §3.7, §1b.2, R-V14-3; J-V13.51); SW-02 §5.7 supplies the world's drawables with their `ZDecl` rows only (R-V14-7;
+> J-V13.52); SW-03 no random or jitter term in siting; one deterministic tie-break stated in §3.7 (6) (`world.siting`
+> reserved; J-V13.53); SW-05 the transient, record-less `charterFor` for a crop frame (§1b.2, §3.11.4, §6 `WORLD-9`,
+> R-V14-9; J-V13.54); SW-06 `WaterSurface.kind 'site'`, the walk over `site` parts and vertical links, `setSurface`
+> folding `floodSite`/`drainSite` (§2.2, §3.12.6, §3.13.1, §4.1, R-V14-10; J-V13.55); SW-07 the world event index
+> `WorldEvent` from the host (§2.2, §2.4, §2.5, §2.6, §3.11.6, §4.1, BCR-V13-11; J-V13.56); SW-08 `Glyph` generalised,
+> the site's marks through `glyphOf`/`world.glyph` (§2.2, §3.10, §5.1; J-V13.57); SW-09 culture from the host or the
+> recipe, never V14 (§2.2, §2.6, §3.9, §1b.1; J-V13.58); SW-10 the `placed` outcome row, no call into V14 (§3.11,
+> §3.11.5, §1b.2; J-V13.59); SW-11 a site's placement lives in the world document (§2.7, §3.11; J-V13.60); SW-12 world
+> points are integer `WorldPointCm` everywhere (§2.1); SW-13 one union text for `Recipe.product` and
+> `StrategyRegistry.products`, BCR-V13-7 fixed (J-V13.61); SW-14 M-W0h after M4 (§8.1, §8.2, BCR-V13-19, -21;
+> J-V13.62); SW-16 W7 triangulates in integer metres (§2.1, §3.8, T-V13-39); SW-17, -18, -19, -20, -22, -23, -24, -25,
+> -27, -29, -30, -31, -32, -33, -34 as the seam's resolutions read.
+
 **How to read this volume.** It builds, to implementation depth, the subject the base (`docs/ARCHITECTURE.md`, with files
 f and g applied, and file j's items 131–141 as the owner's rules of 2026-10-16: `docs/AMENDMENTS-2026-10-16j.md`) carries
 nowhere yet: a world regime of its own, the placement of settlement frames in it, and water as a consequence system at
@@ -98,7 +116,7 @@ world regime, the placement step and the water-state machinery, and the base cha
 | **W-POLITY** W8 | — (new) | `Territory` records by budgeted typed-cost floods from host seats, provinces, normalized borders, poles of inaccessibility | 3.9 |
 | **W-LABELS** W9 | §9's label records, S13b's placer | world label candidates and the `SettlementGlyph` with its level table | 3.10 |
 | **P-PLACE** P1–P5 | §2.9's `Document`, §2.8's identity, §4.2 S1 (BCR-V13-2 – BCR-V13-5) | `Placement` records, the coherence cost and the nearest lawful placement, the blend band, the local drainage re-run, the `FrameCharter` emitted both ways, the precedence stamp, the mirror edit | 3.11 |
-| **H-STATE** the water state | §2.3, §2.4's water-table paragraph, II.6's condition table, V04's closure states (BCR-V13-2, BCR-V13-3) | surfaces as dated records at settlement scale, the frame's groundwater field, flood as a stage on a surface with barrier tops, historical and seasonal surfaces, underground water by connectivity, the water class test as the shared classifier V14 and V04 call | 3.12–3.13 |
+| **H-STATE** the water state | §2.3, §2.6's water-table paragraph (*Basements*), II.6's condition table, V04's closure states (BCR-V13-2, BCR-V13-3) | surfaces as dated records at settlement scale, the frame's groundwater field, flood as a stage on a surface with barrier tops, historical and seasonal surfaces, underground water by connectivity, the water class test as the shared classifier V14 and V04 call | 3.12–3.13 |
 | **H-EDIT** the two verbs and the cascade | §7.1, §7.3, §7.4 (BCR-V13-9, BCR-V13-10) | `EditBase.verb`, the trace records, the dependency-ordered cascade, the counterfactual fork, the reason records the clerk reads | 3.14, 4 |
 | **W-IMPORT** the adapter | `@plat/port`'s adapter folders (§14) | `MapImport`: one existing map read once as data, version-pinned, its loss reported | 3.15 |
 | **W-PORT** the derived-facts port | §7.7's port, V08's host client (BCR-V13-11) | `WorldPort`: per-settlement derived facts and routed polylines to the host, one way, versioned; the charter per campaign | 3.11.6, 5.4 |
@@ -110,7 +128,7 @@ world regime, the placement step and the water-state machinery, and the base cha
 |---|---|---|
 | `Terrain` (its `datumCm`, `heightCm`, `hydro`, `flowDir`, `flatRank`, `flowAccum`, `outfalls`, `seaLevelCm`, `wind`, `geology`, `mining`), `HydroGrid`, `TerrainSampler`, `WaterBody` (its `course`, `controls`, `widthProfile`, `depthCm`, `flowFrom`, `flowTo`, `spring`, `bankKinds`, `shoreClass`), `Outfall` | §2.3 | the frame's records the charter feeds and the water state reads; `datumCm` and `wind` go behind one accessor each (`datumOf`, `windOf`), whose placed reading is derived through `worldRef` and never written by a placement (BCR-V13-2; C13-01); the water bodies gain their `WaterSurface` (V13 §2.2) |
 | the hydrology grid's mechanism — the bucket-queue priority flood with exact flats, the two-gradient flat resolution, D8 in the fixed neighbour order, accumulation | §2.3 *The hydrology grid*, *Flats*; §4.2 S1 (3) | run unchanged at the world cell size by W4 (V13 §3.5) and by the frame's local re-runs (P3, the cascade); lifted into `@plat/world/hydro` with its tests (BCR-V13-1) |
-| the basement's water table — the nearest body's surface plus a freeboard, else the drainage line's height | §2.4 *Basements* | replaced by the groundwater accessor `waterTableAt` (BCR-V13-3; V13 §3.12.3); the freeboard and the three basement-gate cells stay §10.2's |
+| the basement's water table — the nearest body's surface plus a freeboard, else the drainage line's height | §2.6 *Basements* (SW-23) | replaced by the groundwater accessor `waterTableAt` (BCR-V13-3; V13 §3.12.3); the freeboard and the three basement-gate cells stay §10.2's |
 | S1's heightfield, coast routine, rivers by descent, the carve capped at `carveMaxCm`, mouths, islands, crossing sites, bank classes, land components, outfalls, resources, the geology flag and mining | §4.2 S1 (1)–(10) | S1 takes the charter as its one input record and refines inside it (BCR-V13-4; V13 §3.11.4): the edge profiles constrain (1), the water edges and crossings (2)–(3), the roads (S3 (4)'s requested bearings), the climate scalars S0's climate row; the carve keeps its delta (V13 §2.2); every other step is unchanged |
 | S0's site request, auto features, the sewer feature; `Blueprint` | §4.2 S0 | a placed frame's S0 resolves `coast`, `river`, `lake`, `oasis`, `relief` and `geology` from the charter, never from the feature table, except that every dossier-tier value (DR1, DR29) wins and the placement is constrained to it (V13 §3.11.4; C13-08); S0's size step is the pure `frameOf(size, aspect)`; a standalone frame as before |
 | the stage graph, `StageDecl`, `phase`, the tail, declarations read ahead | §4.1, §4.12 | the world pipeline is a product's stage set run on its own document (V13 §3.0); the placement step runs on the world document between the two regimes |
@@ -218,8 +236,8 @@ the words.
 * **Item 140 (the M0 gate).** The model rows: M2 "the carve delta or pre-carve heightfield recoverable, water surfaces
   separate from the heightfield" — `Terrain.carveDeltaCm` and `WaterSurface` (V13 §2.2; T-V13-20); M3 "the datum behind
   one accessor" — `datumOf` (V13 §2.2; T-V13-21); M4 "the water table behind one function" — `waterTableAt` (V13 §3.12.3;
-  T-V13-22); M5 "S1's terrain and water parameters as one input record (the charter's landing)" — `SiteInput` = the
-  charter (BCR-V13-4; T-V13-23); M6 "a placement record reserved per arena set" — `Placement` (V13 §2.2; T-V13-24). M1
+  T-V13-22); M5 "S1's terrain and water parameters as one input record (the charter's landing)" — the charter as
+  `Recipe.charter` (BCR-V13-4; T-V13-23; the base's "site" and S1's `SiteRequest` are never redefined, SW-34); M6 "a placement record reserved per arena set" — `Placement` (V13 §2.2; T-V13-24). M1
   (the namespace segment) and M8 (a reason record per generated fact) are shared with V14 and declared here (V13 §2.5,
   V13 §2.2); M7 (the anchor record) is V14's. K12 (the commit journal records stage, concern and inputs read) is the
   primitive V13 §2.2's `ReasonRecord` reads.
@@ -242,7 +260,7 @@ the words.
   the unit graph and its embedding, the encounter crop, the VTT crop scope and grid origin, and the projection family.
   This volume gives V14 its hooks — the charter, the placement, the suitability score with its destination term, the
   water class test and `ReasonRecord` — and reads nothing of V14's but `WorldSite` positions as a suitability input
-  (V13 §3.7) and a `SiteAnchor`'s address as a world fact to answer `worldFactsAt` (V13 §2.4).
+  (V13 §3.7) and a site's `Placement` as a world fact (`WorldFacts.sites`, V13 §2.4; SW-20).
 * **The host's political facts** — factions, cultures, states' diplomacy and forms, religions, military, zones, the
   economy cycle, lore — are the host's (item 131 (b); item 138 (d)); this volume materializes their spatial footprint
   from host-supplied seats, budgets and cost vectors (W8) and invents none standalone beyond one default territory per
@@ -283,7 +301,7 @@ listed without a consumer.
 |---|---|---|---|
 | `WorldDocument` (a `Document` of product `world`; V13 §2.2) | W0 at creation; every world edit's fold | every world stage; the placement step; the port; the world view; the adapter writes one | §2.9 (BCR-V13-5); `Recipe.product: 'world'` (BCR-V13-7) |
 | `WorldRecipe` (extent, units, the terrain recipe's op list, the options snapshot, the version table) | W0 from the request; `worldRecipe` edits (V13 §4.1) | W1 (the op list), W3 (the pole inputs, the wind), W5 (the matrix choice), every stage (the snapshot); the report's recipe line | V13 §2.2 |
-| `WorldRaster` — `dem` (Int32 cm against the world datum), `carveDeltaCm` (sparse), `flowDir`, `flatRank`, `flowAccum`, `watershed`, `biome`, `landUse`, `geology`, the climate raster (`tempDeciC`, `seasonAmpDeciC`, `seasonPhaseWeek`, `precipMm`, `evapMm`, `windCdeg`, `windStrength`) and the fine→coarse index map | W1 (dem, carve delta, the index map), W4 (flow, accumulation, watershed), W3 (the climate raster), W5 (biome, land use), W1's geology op (`geology`) | W2, W4, W5, W6, W7 (the cost surface), W8, W9; P1–P4; the charter; the port; the view; the exports; V14's G3 siting and E1's `worldFactsAt` | V13 §2.2 |
+| `WorldRaster` — `dem` (Int32 cm against the world datum), `carveDeltaCm` (sparse), `flowDir`, `flatRank`, `flowAccum`, `watershed`, `biome`, `landUse`, `geology`, the climate raster (`tempDeciC`, `seasonAmpDeciC`, `seasonPhaseWeek`, `precipMm`, `evapMm`, `windCdeg`, `windStrength`) and the fine→coarse index map | W1 (dem, carve delta, the index map), W4 (flow, accumulation, watershed), W3 (the climate raster), W5 (biome, land use), W1's geology op (`geology`); `culture` from the host's seats or the recipe, spread by W8 (SW-09) | W2, W4, W5, W6, W7 (the cost surface), W8, W9; P1–P4; the charter; the port; the view; the exports; V14's G3 siting and E1's `worldFactsAt` | V13 §2.2 |
 | `WaterSurface` (sea · lake · reach; `elevationCm`; `date`; `open`; `subtype`; `outlet`; `body`) | W2 (sea, lakes), W4 (reaches' stage), `setSurface` edits (dated), V06's `terrainWater` ops at an epoch, the adapter | the water class test; W4 (lake levels as spill heights); the frame's surfaces (the charter's `waterEdges`); the view (water at its level); the exports; V04's `flood` reading; V14's G6 | V13 §2.2; the frame's `Terrain.surfaces` (BCR-V13-2) |
 | `Reach` (a world river reach: course, discharge, width and depth profiles, stage, basin, navigability, mouth kind, exit head) | W4 | W6 (discharge term), W7 (navigable reaches, river crossings' cost), W9 (river labels), the charter's `riverCrossings`, the port, the exports, V14's E3 | V13 §2.2 |
 | `Watershed` (basin id, outlet, area, the off-map `exitHeadCm`) | W4 | the charter's `downstreamHeadCm`; the cascade's dirty set (V13 §3.14.2); W6; the clerk | V13 §2.2 |
@@ -296,11 +314,12 @@ listed without a consumer.
 | `SettlementGlyph` (the generalization by level) | W9 for every placed frame; re-made by the frame's commit hook (V13 §3.10) | the world view (V13 §5.2), the exports' world layer, the port's thumbnail | V13 §2.2 |
 | `SitingProposal` (a scored candidate site with its reason) | W6 | the host (the port), V14's G3, the clerk | V13 §2.2 |
 | `ReasonRecord` (M8; shared with V14) | every stage of this volume, per generated fact; the cascade; V14's stages | the clerk's `why`, `whatCaused`, `whatChanged`, `whatIf` (V13 §4.7); T-V13-10's missing-chain test | V13 §2.2; §2.8 (BCR-V13-17) |
+| `WorldEvent` (a dated host event: battle, plague, fire; position, radius, week; SW-07) | the host through `WorldPort.events` (a dossier-tier fact), or a user's `addEvent` edit; never a stage | `worldFactsAt.recent` (V14's E1 world crop, the clerk, V09's hover); the view's event pins | V13 §2.2 |
 | `MapImport` (as data, from the ecosystem's full JSON export, version-pinned) | the adapter (V13 §3.15) | W0–W9 run over it as inputs; the import report | V13 §2.8 |
 | the trace records `TerrainTrace` and `SurfaceTrace` (the old surface or ground under a *this happened* edit) | the two verbs (V13 §3.14) and V06's water ops | the view's trace projection (V13 §5.1), the clerk, `deleteTrace`; the history frames (V06 §3.15) | V13 §2.2 |
 | `Terrain.carveDeltaCm` (sparse, per hydro cell) and `Terrain.surfaces` | S1 (3)'s carve, S1's water operator, the frame's W2-equivalent surface step (V13 §3.12.1) | the pre-carve heightfield reading (`preCarveHeightAt`), the re-route edit (bar 5), the water class test, the exports | §2.3 (BCR-V13-2) |
 | `datumOf(doc)` (one accessor) and `Document.worldRef` | S1 (a standalone frame), P4 (a placed frame: `datumCm` = the world's DEM at the origin, V13 §3.11.4) | every reader of `Terrain.datumCm` (§2.3, §2.6, §8.4, §11.1); the world↔frame transform's z | §2.3, §2.9 (BCR-V13-2, BCR-V13-5) |
-| `waterTableAt(doc, p, when?)` (one function) | the frame's `GroundwaterField` | §2.4's basement gate, V04's wet tests (`hallDryCm`, `flood` admission), V14's G6, the water class test, S12a's well yield | §2.4 (BCR-V13-3) |
+| `waterTableAt(doc, p, when?)` (one function) | the frame's `GroundwaterField` | §2.6's basement gate, V04's wet tests (`hallDryCm`, `flood` admission), V14's G6, the water class test, S12a's well yield | §2.6 *Basements* (BCR-V13-3) |
 | the address namespace segment (item 140 M1) | the document's `namespace` at creation (V13 §2.5) | every address of a world, a frame or a site document; the merge rule (bar 7); V14's `SiteAnchor` | §6.3 (BCR-V13-6) |
 | `EditBase.verb` (`happened` · `alwaysSo`) | every terrain and water edit (V13 §4.1) | the fold (traces kept or the base rewritten), undo, the clerk | §7.1 (BCR-V13-9) |
 | the tables `world.sizes`, `world.recipeOps`, `world.climate`, `world.hydro`, `world.groundwater`, `world.biomes`, `world.suitability`, `world.routes`, `world.polity`, `world.labels`, `world.glyph`, `place.coherence`, `water.class`, `water.flood` (V13 §2.3) | shipped defaults; `editTable` (§7.6) | the stages named per table in V13 §2.3; V12's register | §7.6; V11's registry (new rows, V13 §2.3) |
@@ -317,13 +336,15 @@ listed without a consumer.
 | `WorldTerrainStrategy.terrain(recipe, ctx)` (W1) | `@plat/world/terrain` | W0's scheduler; the recipe-op edit's local re-run (V13 §4.3) |
 | `HydroField` and `priorityFlood` (with its lake typing by threshold), `resolveFlats`, `d8`, `accumulate` (the lifted core, the site package's own names; C13-49) | `@plat/world/hydro` (lifted from `@plat/site/hydro`'s field, flood, flats, D8 and accumulation modules, same functions, same tests; the river's surface, trace, course and carve stay in `@plat/site/hydro` importing the field type; BCR-V13-1) | `@plat/site`'s S1 (3) unchanged in mechanism; W4; P3; the cascade's local re-runs at both scales |
 | `groundwater.derive(field, surfaces, geology, precip, rules)` → `GroundwaterField` | `@plat/world/groundwater` | W4 (world scale); the frame's groundwater step after S1 (3) and after every water or terrain operator (V13 §3.12.3); `waterTableAt` |
-| `classifyWater(unit, governing, thresholds)` → `WaterClass` and `routeClass(path, …)` → `RouteClass` (V13 §3.13) | `@plat/world/water` | V04 (every element's `flood` and the `hallDryCm` test, V04 §3.5.2, V04 §4.3's water-edit row), V14's G6 and E3, the frame's basement gate (§2.4), the flood overlay (V13 §5.1), the exports' `waterClass` property, the clerk |
-| `charterFor(world, placement)` → `FrameCharter` (P4, world-first) and `charterFrom(frame, blend)` (P4, settlement-first) | `@plat/world/place` | `placeFrame`, `setPlacement`, `worldWins`; the port's per-campaign charter; S0 and S1 through `Recipe.charter` |
+| `classifyWater(unit, governing, thresholds)` → `WaterClass` and `routeClass(path, …)` → `RouteClass` (V13 §3.13) | `@plat/world/water` | V04 (every element's `flood` and the `hallDryCm` test, V04 §3.5.2, V04 §4.3's water-edit row), V14's G6 and E3, the frame's basement gate (§2.6), the flood overlay (V13 §5.1), the exports' `waterClass` property, the clerk |
+| `charterFor(world, placement | transient)` → `FrameCharter` (P4, world-first; the transient, record-less form for a crop frame, V13 §3.11.4, SW-05) and `charterFrom(frame, blend)` (P4, settlement-first) | `@plat/world/place` | `requestCharter`, `setPlacement`, `worldWins`; the port's per-campaign charter; S0 and S1 through `Recipe.charter`; V14's E1 (4) (the transient form) |
+| `surfaceSetDigest(doc, week)` → `Hash64` (V13 §2.7; SW-25) | `@plat/world/water` | V14's `waterStamp` and `WaterClassReport.stamp`; the flood overlay's cache key |
+| the messages `world.glyph { doc; digest; marks }` (a frame's or a site's commit hook → the world) and `world.placed { placement; subject; extent; covers }` (P4/P5's outcome row → the application → `@plat/sites`; SW-10) | `@plat/api` | the world's glyph placing (V13 §3.10); V14's adoption (V14 §3.9 (e)) |
 | `coherence(world, frame, origin, bearing)` → `CoherenceCost` and `nearestLawful(world, frame, origin)` → `Placement[]` (P1) | `@plat/world/place` | the `placeFrame` dry run; V09's placement tool; the clerk's `placeAt` proposal on the world |
 | `blend(world, frame, placement)` (P2) and `localDrainage(world, box)` (P3) | `@plat/world/place` | the `placeFrame` / `setPlacement` fold; the cascade |
 | `toWorld(placement, pCm)`, `toFrame(placement, wCm)`, `bearingToWorld(placement, cdeg)` | `@plat/world/place` | the glyph, the view (the frame drawn on the world), the sun and wind recomputation (V13 §3.11.5), V14's `SiteAnchor`, the exports' world coordinates, the port |
 | `glyphOf(doc, levels)` (the frame's marks, `@plat/layout`) and `placeGlyph(marks, placement)` (`@plat/world/glyph`: `toWorld` only; C13-35) | `@plat/layout`; `@plat/world/glyph` | the world view; the frame's commit hook (every commit that changes a frame's outline, enceinte, principal water or arterials re-makes its marks and posts `world.glyph`, V13 §3.10) |
-| `score(cell, ctx, weights, hard?, jitter?)` over the `terms` registry of `SuitabilityTerm`s (V13 §2.2, §3.7) | `@plat/world/siting` | W6a, W6b; V14's G3 (purpose weights, hard terms, the one jitter term); the host through the port (its weights) |
+| `score(cell, ctx, weights, hard?)` over the `terms` registry of `SuitabilityTerm`s, `terms.register(term)` (V13 §2.2, §3.7; SW-01) | `@plat/world/siting` (the slot and V13's eight terms; V14 registers its purpose terms) | W6a, W6b; V14's G3 (purpose weights, hard terms; no jitter, SW-03); the host through the port (its weights) |
 | `RouteCostLaw` (the host's law as data; the default rows ours) | `@plat/tables` (`world.routes`), the host through the port | W7; V14's E1 (the route at the point) |
 | `WorldPort` — `derivedFacts(world, placement)` → `SettlementMapRecord`; `charter(world, campaign)`; `proposals(world, demand)`; `routes(world)` | `@plat/port/world` (one adapter folder per host line, as `@plat/port`'s) | the host, one way (BCR-V13-11); V08's host client gains the world's messages (V13 §3.11.6) |
 | `MapImportAdapter.read(json | mapFile)` → `MapImport` and `WorldStrategy.fromImport(imp)` | `@plat/port/world/adapters/<ecosystem>/<version>/` | the import command (V09's dialog; the CLI) |
@@ -331,7 +352,7 @@ listed without a consumer.
 | the cascade `cascade(doc, dirty, verb)` (V13 §3.14.2) | `@plat/edit` over `@plat/world`'s operators | every terrain and water edit at both scales; V06's `terrainWater` ops; `setSurface`; the placement edits |
 | `ReasonRecord` writers and the readers `why`, `whatCaused`, `whatChanged`, `whatIf` | every stage (the writers); `@plat/world/why` (the readers) | V10's `why` query (V10 §3.9) and its three new modes (V13 §4.7); V14's stages write the same record |
 | the world `WhyProvider` (kinds: `Reach`, `WaterSurface`, `Watershed`, `Territory`, `WorldRoute`, `SitingProposal`, `Placement`, `GroundwaterField`'s springs) and the `world` `WhySectionProvider` | `@plat/world` | V10's `why` query, V09's cards |
-| `worldFactsAt(world, wCm)` → the facts at a point (terrain, surfaces, biome, route, territory, recent dated events) | `@plat/world` | V14's E1 (the world-map encounter case, item 132 (e)); the clerk; V09's hover |
+| `worldFactsAt(world, wCm, sinceWeek?)` → the facts at a point (terrain, surfaces, biome, route, territory, the site placements, the recent `WorldEvent`s and dated water events since `sinceWeek`; SW-07) | `@plat/world` | V14's E1 (the world-map encounter case, item 132 (e)); the clerk; V09's hover |
 
 Each stage's output is consumed: W1's rasters by W2–W9 and the charter; W2's surfaces by W4, the water class test and the
 view; W3's climate by W4, W5, W6 and the charter; W4's reaches, watersheds and groundwater by W6, W7, the charter, the
@@ -398,7 +419,9 @@ by the season control and, on a host-bound world, by `WorldPort.clock(world, wee
 **The two coordinate regimes (item 131 (a), (b); J-V13.2).** The **world regime** is a planar, bounded, axis-aligned
 raster plus a graph, in **integer world centimetres** (`WorldCm`, an int32 lane as `Cm` is: x east, y north, from the
 world's south-west corner; the largest world rung's far corner at 3 840 km lies at 3.84 × 10⁸ cm, inside the lane, and
-§3.2's lattice bounds are never read for a world coordinate), with a `WorldPointCm = { x: WorldCm; y: WorldCm }`; its
+no world coordinate reaches a kernel primitive except as integer metres inside §3.2 (1)'s range invariant, V13 §3.8 (3);
+SW-16), with a `WorldPointCm = { x: WorldCm; y: WorldCm }` — **every world point in every record, message, event and
+address of this volume and of V14 is an integer `WorldPointCm`; no world point is ever a double or a metre** (SW-12); its
 elevations are integer centimetres against the **world datum** — mean sea level, 0 — and its rasters are typed arrays
 with a cell size in cm. It holds no plat arena and runs no kernel transaction: its geometry is records (polylines and
 rings of `WorldPointCm`), and the kernel's `delaunay`, `dmath`, `rng`, `index` and `noise` are the only kernel parts it
@@ -451,7 +474,7 @@ interface WorldRaster {                      // the world's `fields` chunks (§2
   discharge: Float32Array /* fine; W4's per-cell discharge in m³/s (the springs' flowM3s, the reaches' profiles) */;
   vegetation: Uint8Array; habitability: Uint8Array /* fine; W5's rows × 255 */;
   territory: Uint32Array /* fine; W8's Territory id per cell, 0 unclaimed */;
-  culture: Uint16Array /* fine; the culture id per cell from V14's or the host's raster, or the import (V13 §2.8); 0 none — read by W8's foreignCulture term */;
+  culture: Uint16Array /* fine; the culture id per cell from the host's seats (TerritorySeed.culture, flooded with W8's territories), the recipe's default culture, or the import (V13 §2.8); 0 none — read by W8's foreignCulture term; never V14's (SW-09) */;
   routes: Map<number /* fine cell */, Id[]> /* the route ids crossing a cell (W7); sparse */;
   biome: Uint8Array; landUse: Uint8Array /* fine; W5's rows (world.biomes) */;
   climate: { tempDeciC: Int16Array; seasonAmpDeciC: Int16Array; seasonPhaseWeek: Uint8Array; precipMm: Uint16Array; evapMm: Uint16Array;
@@ -460,8 +483,9 @@ interface WorldRaster {                      // the world's `fields` chunks (§2
 // companion records in the entities block: `coast: { landmass: number; rings: WorldPointCm[][] }[]` (W2's coast polylines, the view's and the charter's outlines source)
 
 interface WaterSurface {                     // a surface record, separate from the ground (item 140 M2; proposal §3.3 restated here)
-  id: Id; kind: 'sea'|'lake'|'reach';
-  body: Id /* the feature or reach it is the surface of: a world feature id (W2), a Reach, or on a frame a WaterBody (§2.3) */;
+  id: Id; kind: 'sea'|'lake'|'reach'|'site';
+  body: Id /* the feature or reach it is the surface of: a world feature id (W2), a Reach, on a frame a WaterBody (§2.3), or for kind 'site' a WorldSite card (V14) */;
+  level?: number /* kind 'site': the site level whose units are the surface's cells (V14 §3.7; SW-06) */;
   elevationCm: Cm /* against the world datum; on a frame against datumOf(doc) */;
   date: Week | null /* null: the generation-time surface (the present until a dated one supersedes it); a dated surface is the present from its week on — the present is the latest surface of the body whose date ≤ the document's week (§2.9's `week`) */;
   season?: 'dry'|'wet' /* a seasonal pair beside the present (V13 §3.12.4): absent on the present itself */;
@@ -528,16 +552,21 @@ interface TerritorySeed { seat: Id /* a settlement's placement, or a host seat w
 interface Territory { id: Id; key: string; seat: Id; cells: Uint32Array /* fine cell ids, sorted */; border: WorldPointCm[][] /* rings, normalized (V13 §3.9) */;
   poleCm: WorldPointCm /* the pole of inaccessibility: the label anchor */; neighbours: Id[]; provinces?: Territory[]; name?: NameRef; reason: Id }
 
-interface SettlementGlyph {                  // W9's generalization of a placed frame, per level (V13 §3.10)
-  placement: Id; tier: Rung; name: NameRef | null; pop: number;
+interface Glyph {                            // W9's generalization of a placed subject, per level (V13 §3.10); SW-08: a frame's or a site's
+  placement: Id; subject: 'frame'|'site'; kind?: string /* a site: its kind (the level-0 icon glyph's id) */; tier?: Rung; pop?: number /* a frame's */; name: NameRef | null;
   levels: { level: 0|1|2|3; marks: GlyphMark[] }[] /* the level table's rows (world.glyph): 0 a tier dot, 1 the enclosure, 2 the outline with principal water and walls, 3 the arterials and wards */;
   sourceDigest: Hash128 /* the frame's model digest the glyph was made from: a differing digest marks it stale (V13 §2.6) */ }
-type GlyphMark = { kind: 'dot'|'ring'|'outline'|'water'|'wall'|'way'|'ward'; points: WorldPointCm[]; class?: string };
+type GlyphMark = { kind: 'glyph'|'dot'|'ring'|'outline'|'water'|'wall'|'way'|'ward'; points: WorldPointCm[]; class?: string /* 'glyph': the icon glyph id at level 0 (a site's kind) */ };
+type SettlementGlyph = Glyph & { subject: 'frame'; tier: Rung; pop: number };
 
 interface SitingProposal { id: Id; at: WorldPointCm; cell: number; score: number; terms: Record<string, number>; port: boolean; reason: Id; demand?: string /* the host's demand key it answers */ }
-interface SuitabilityContext { raster: WorldRaster; coast: WorldRaster['coast']; reaches: Reach[]; surfaces: WaterSurface[]; routes: WorldRoute[]; placements: Placement[]; sites: { id: Id; at: WorldPointCm; attraction: number }[] /* V14's WorldSites */; resources: ResourceSite[]; springs: GroundwaterField['springs']; stage: 'a'|'b' }
-interface SuitabilityTerm { id: string; compute(cell: number, ctx: SuitabilityContext): number /* 0–1 */ }   // the plug-in V13 §3.7's registry holds: V13's eight and the terms V14 names (C13-19)
-declare function score(cell: number, ctx: SuitabilityContext, weights: Record<string, number>, hard?: string[] /* a term whose value is 0 refuses the cell */, jitter?: { key: string; amplitude: number } /* the one controlled random term, drawn on world.siting keyed by the caller's key */): number;
+interface SuitabilityContext { raster: WorldRaster; coast: WorldRaster['coast']; reaches: Reach[]; surfaces: WaterSurface[]; routes: WorldRoute[]; placements: Placement[];
+  sites: { placement: Id; at: WorldPointCm; attraction: number; routed: boolean }[] /* every Placement with a site subject, its card's attraction and routed read through the resolver (R-V14-1) */;
+  resources: ResourceSite[]; springs: GroundwaterField['springs']; territories: Territory[] /* SW-01: V14's territoryBorder reads Territory.border */;
+  wetStage(reach: Id): Int32Array /* the reach's wet-season stage profile by V13 §3.12.4's seasonal.wetShare, derived on demand (V14's floodSafe) */; stage: 'a'|'b' }
+interface SuitabilityTerm { id: string; compute(cell: number, ctx: SuitabilityContext): number /* 0–1; pure, deterministic — no draw (SW-03) */ }   // V13 OWNS the slot (SW-01; J-V13.51): V13's eight generic terms live here; V14's purpose terms are V14's plug-ins
+declare const terms: { register(term: SuitabilityTerm): void; get(id: string): SuitabilityTerm };   // @plat/world/siting's registry; a duplicate id is refused at registration
+declare function score(cell: number, ctx: SuitabilityContext, weights: Record<string, number>, hard?: string[] /* a term whose value is 0 refuses the cell */): number;   // no random or jitter term anywhere in siting (item 132 (b) extended; SW-03; J-V13.53)
 interface GoverningSurface { surface: Id | null; elevationCm: Cm; kind: 'table'|'open'|'stage'; via?: Id /* the passage the body reached through */ }   // V13 §3.13.1 (C13-20)
 
 interface ReasonRecord {                     // item 140 M8; shared with V14, declared here ONCE (§2.8's sixth part; BCR-V13-17); V13 §4.7 and V14 cite this block
@@ -555,6 +584,9 @@ interface ReasonRecord {                     // item 140 M8; shared with V14, de
 
 interface TerrainTrace { id: Id; kind: 'oldBed'|'oldShore'|'oldGround'; cells: Uint32Array /* fine or hydro cells */; formerCm: Int32Array /* the former values */; event: EditRef; week: Week; reason: Id }
 interface SurfaceTrace { id: Id; surface: Id /* the superseded WaterSurface */; event: EditRef; week: Week; reason: Id }
+interface WorldEvent {                       // SW-07 (J-V13.56): the world's event index — dated host events delivered as facts, stored and indexed, NEVER generated here
+  id: Id; kind: string /* the host's word: battle, plague, fire, siege, … */; at: WorldPointCm; radiusM: number; week: Week;
+  source: 'host'|'user'; factTier: 'dossier'|'map' /* dossier when the host wrote it */; detail?: string; reason: Id }
 interface PlacementAnomaly { placement: Id; subject: Id /* the locked entity */; kind: 'riverUphill'|'coastInland'|'lockedBelowTable'|'lockedInWater'|'roadToNowhere'|'windSide'|'sunDiffers'; detail: string; reason: Id }   // derived, V13 §2.4
 ```
 
@@ -615,7 +647,7 @@ interface BiomeRow { id: string; label: string; habitability: number /* 0–1 */
 interface ResourceSite { id: Id; kind: string; at: WorldPointCm; cell: number; amount: number /* 0–1 */; reason: Id }   // W5's resource record (V13 §3.6)
 interface BiomeMatrixRow { id: string; moistureBands: MmYr[] /* the upper bounds of the moisture columns */; tempBands: DeciC[] /* the upper bounds of the temperature rows */; cells: string[][] /* biome ids, [tempRow][moistureCol] */;
   overrides: { water: string; permafrostBelowDeciC: DeciC; wetlandAccumCells: number; alpineAboveM: number } }   // world.biomes
-interface SuitabilityRule { weights: Record<'habitability'|'discharge'|'lowland'|'coastType'|'resource'|'spring'|'site'|'connectivity', number>;
+interface SuitabilityRule { weights: Record<'habitability'|'discharge'|'lowland'|'coastType'|'resource'|'spring'|'destination'|'connectivity', number>;
   discharge: { refM3s: M3s }; lowland: { refM: number }; coastType: Record<'none'|'open'|'bay'|'estuary'|'lake'|'saltLake', number>;
   spacing: { capitalKm: number; townKm: number; shrink: number; targetShare: number; capitalPerKm2: number; townPerKm2: number }; portPromote: number; minPortsPerBody: number;
   reach: { estuaryKm: number; resourceKm: number; siteKm: number; overlookKm: number; roadControlKm: number; settlementKm: number }; navigableBonus: number; coastalHabitabilityBonus: number;
@@ -709,7 +741,7 @@ vocabulary and bounds; the idea of a configurable two-axis matrix with overrides
 
 | `SuitabilityRule` | default |
 |---|---|
-| `weights` | habitability 1.0 · discharge 0.6 · lowland 0.4 · coastType 0.5 · resource 0.3 · spring 0.4 · site 0.5 · connectivity 0.8 (stage 2 only) |
+| `weights` | habitability 1.0 · discharge 0.6 · lowland 0.4 · coastType 0.5 · resource 0.3 · spring 0.4 · destination 0.5 (the world-site term, `reach.siteKm`; SW-01) · connectivity 0.8 (stage 2 only) |
 | `discharge.refM3s` / `lowland.refM` | 100 / 500 (the discharge and elevation at which the terms read 1) |
 | `coastType` | none 0 · open 0.4 · bay 0.9 · estuary 0.8 · lake 0.7 · saltLake 0.2 |
 | `spacing.capitalKm` / `townKm` / `shrink` / `targetShare` | 120 / 25 / 0.85 / 0.7 (a pass that places fewer than 0.7 × its target multiplies its spacing by `shrink` and repeats, V13 §3.7) |
@@ -780,7 +812,8 @@ interface Blend { box: { c0: number; r0: number; c1: number; r1: number }; weigh
 interface FloodSpread { surface: Id; stageCm: Cm; cells: Uint32Array /* the HEIGHT-raster cells the stage reaches by the barrier-aware flood (V13 §3.12.4; C13-12) */; blockedBy: Id[] /* the barrier entities that stopped it */; overtopped: Id[] /* the barriers lower than the stage */ }
 interface WaterClassResult { unit: Id; class: 'dry'|'damp'|'wading'|'swimming'|'submerged'; depthCm: Cm; share?: number /* a floor range's flooded share */; governing: { surface: Id; via?: Id /* the passage the body reached through */; kind: 'table'|'open'|'stage' }; thresholds: Hash64 /* the water.class slice */; reason: Id }
 interface RouteClassResult { path: Id[]; class: 'walkable'|'wading'|'swimming'|'diving'|'none'; worst: Id }
-interface WorldFacts { at: WorldPointCm; demCm: Cm; surfaces: WaterSurface[]; reach?: Id; biome: string; landUse: string; route?: Id; territory?: Id; sites: Id[]; recent: { kind: string; week: Week; reason: Id }[] }   // worldFactsAt's answer (V14's E1)
+interface WorldFacts { at: WorldPointCm; demCm: Cm; surfaces: WaterSurface[]; reach?: Id; biome: string; landUse: string; route?: Id; territory?: Id; sites: Id[] /* the site Placements at the cell */;
+  recent: { kind: string; week: Week; event?: Id /* a WorldEvent within its radiusM */; reason: Id }[] /* every WorldEvent within its radius of the point and every dated surface or trace in the cell with week ≥ sinceWeek (SW-07) */ }   // worldFactsAt(world, wCm, sinceWeek?)'s answer (V14's E1)
 ```
 
 Each is total over its inputs: a blend over an empty band writes nothing; a spread from a surface whose body holds no
@@ -816,6 +849,7 @@ segment existed reads `namespace` from its `docId` at load and writes it at the 
 | a `WorldRoute` | the world root | (`route`, the two seats' lineages sorted, the class) |
 | a `Territory` | its seat | (`territory`, the seat's key); a province (`province`, the territory's lineage, its ordinal) |
 | a `Placement` | the world root | (`placement`, the subject's docId or site lineage) — so re-placing a frame keeps its placement's address |
+| a `WorldEvent` | the world root | (`event`, the host's event key, or the writing event's `seq` for a user's) |
 | a `SettlementGlyph` | its placement | (`glyph`, the placement's lineage) |
 | a `FrameCharter` | its placement | (`charter`, the placement's lineage, the emitting event's `seq`) — a new charter per re-placement, the old one a tombstone the frame's recipe may still cite |
 | a `TerrainTrace`, `SurfaceTrace` | the event | (the event's `seq`, its ordinal) — user-created entities of their event (§6.3) |
@@ -833,7 +867,7 @@ T-V13-30 (b).
 | `Recipe.world` (`WorldRecipe`) and its `recipe` op list | W0 from the request; a `worldRecipe` edit appends, replaces or removes an op | W1; every stage reads the snapshot | the recipe | a `worldRecipe` edit re-derives from W1 with carry-over (§6.3) over the ops' touched cells (V13 §4.3) | the former op list; the replaced scope | the op schema versioned; an unknown op refused at load naming it |
 | `WorldRaster.dem`, `carveDeltaCm`, `geology` | W1 (dem, geology); W4's carve (the delta) | W2–W9, P1–P4, the exports | the world's `fields` chunks: `dem` as a delta-coded Int32 stream, `carveDeltaCm` as a sparse (cell, delta) list, `geology` run-length | re-derived from W1; a terrain edit's stroke list composited as §7.2's | the stroke leaves the list; a trace removed | a document without `carveDeltaCm` reads an empty map (pre-carve = dem) and is reported (bar 5 cannot hold on it until re-derived) |
 | the climate raster | W3 | W4, W5, W6, the charter | `fields` chunk | re-derived from W3 on a pole, wind or latitude-box adjust | the replaced scope | absent: re-derived on load |
-| `landmass`, `discharge`, `vegetation`, `habitability`, `territory`, `culture`, `routes`, the `coast` record (C13-32) | W2 (landmass, coast), W4 (discharge), W5 (vegetation, habitability), W8 (territory), W7b (routes); `culture` from V14, the host or the import | W6–W9, the charter, the view, the exports | `fields` chunks (run-length or sparse); `coast` and the id tables in the entities block | re-derived by their stage over the dirty set | the replaced scope | absent: re-derived on load; `culture` absent reads 0 |
+| `landmass`, `discharge`, `vegetation`, `habitability`, `territory`, `culture`, `routes`, the `coast` record (C13-32) | W2 (landmass, coast), W4 (discharge), W5 (vegetation, habitability), W8 (territory), W7b (routes); `culture` from the host's seats or the recipe's default culture, spread by W8, or the import — never V14 (SW-09) | W6–W9, the charter, the view, the exports | `fields` chunks (run-length or sparse); `coast` and the id tables in the entities block | re-derived by their stage over the dirty set | the replaced scope | absent: re-derived on load; `culture` absent reads 0 |
 | `flowDir`, `flatRank`, `flowAccum`, `watershed`, `distToShoreM`, `distToRiverM` | W4 | W5–W9, the charter, the cascade | `fields` chunk (recomputable; stored so a frozen view needs no pipeline) | the cascade's local re-run inside the dirty watershed (V13 §3.14.2) | the replaced scope | absent: recomputed on load |
 | `WaterSurface` (generation-time) | W2 (sea, lakes), W4 (reaches); S1 on a frame | the water class test, the view, the exports, V04 | entities block | re-derived with its body; a user's `setSurface` on the generation-time surface is an edited attribute kept (§7.2) | the former surface | absent on an older frame: one surface per `WaterBody` made on load from `seaLevelCm`, the spill heights and the carved bed (V13 §4.6) |
 | `WaterSurface` (dated, `date` set) | `setSurface` (verb `happened`), V06's `terrainWater` op at an epoch, a dossier calamity's flood (V13 §3.12.4), the adapter (none) | the present at a week; the historical class; the view under `surfaceDate` | entities block | kept through every re-derivation (an event's fact, as a drawn constraint is); re-applied at its log position | removed with its event; its trace with it | kept |
@@ -843,6 +877,7 @@ T-V13-30 (b).
 | `datumOf(doc)`, `windOf(doc)`, `sunAt(doc, …)` (derived readings) | S1 writes `Terrain.datumCm` and `Terrain.wind` once; on a placed frame the accessors read the world through `worldRef` at call time (the DEM at the origin; the charter's wind; the view's sun) — nothing is written in the frame (C13-01) | every reader of §2.3's `datumCm` and `wind`; §8.4's sun | `Terrain.datumCm`, `Terrain.wind` (unchanged storage; never rewritten by a placement) | a placement edit changes the accessors' answer by changing the world, not the frame; `worldWins` re-derives the frame from S1 and S1 writes the fields anew | the world's placement undo | — |
 | `Recipe.charter` (world-sourced only), `Document.worldRef` | the frame's own `charter` event (author `world`, V13 §4.1), emitted by the world's `requestCharter` / `bindPlacement` / `worldWins` / `unplaceFrame` folds; `generate` from a charter writes the recipe's copy at creation | S0, S1, S12a, V14 | the recipe (the charter as a recorded input, §2.8's derivation-record rule; V13 §2.7) | the charter is an input: Regenerate (keep settings) keeps it; `worldWins` replaces it and re-derives from S1; a settlement-first placement writes NO `Recipe.charter` (its charter stays on the world's `Placement`, C13-03), so Regenerate (keep settings) after such a placement is byte-identical to the same action before it (T-V13-13) | the frame's `charter` event is undone only by the world's undo of the placement edit that emitted it (the pair recorded in the world's undo record, V13 §4.4) | absent: a standalone frame |
 | `Placement` | `placeFrame` (settlement-first) or `requestCharter` (world-first, bound to the frame's `docId` by `bindPlacement`); `setPlacement`, `mirrorFrame`, `worldWins`; V14's adoption | the transform, the glyph, the port, the compass, the sun and wind terms | the world's entities block | an input: kept by every world re-derivation; a world `adjust` that changes the extent re-validates every placement (one outside the new extent is reported and kept) | the former placement, blend and charter | the subject by `docId`; a subject the world cannot open stays placed and is reported |
+| `WorldEvent` | `WorldPort.events` (the host; `factTier: 'dossier'`), `addEvent` (the user) | `worldFactsAt`, the view, the clerk | the world's entities block | kept through every re-derivation (a fact, never derived); a dossier-tier event is removed only when the host removes it (as V14 §1b.5's rule keeps a card) | a user's event with its edit; a host's never by the user | kept |
 | `Placement.blend`'s world cells | P2 | W4 (the band's drainage), the view | the blended cells are the `dem`'s own values; the band's former values a `TerrainTrace` of the placement event | re-blended by a placement edit; a world terrain re-derivation under a placed frame re-blends after it (V13 §4.3) | the trace restores them | — |
 | `SettlementGlyph` | W9; the frame's commit hook (V13 §3.10: the frame makes its marks, the world transforms them) | the view, the exports, the port | the world document's `derived` cache (as §2.9's `elaborations`), keyed by (`placement`, `sourceDigest`) — OUTSIDE the model digest (C13-21) | re-made whenever the frame's digest differs (stale → re-made at the next world view or export; never a world edit, never a digest change) | with its placement | absent: made at the next view |
 | `WorldRoute`, `Territory`, `SitingProposal` (W6's own) | W7, W8, W6 | the charter, the port, W9, the view | entities block | re-derived from their stage; a `setSeats` or a cost-law change re-derives from W8 or W7 | the replaced scope | absent: re-derived on load |
@@ -872,7 +907,14 @@ the frame's rasters and arenas it refined from the charter are model data and ch
 and no placement edit writes any field the frame's model digest hashes (`datumCm`, `wind` and the sun are derived
 readings, V13 §2.2), so moving a placement changes the world's digest and no arena digest — the frame's **model digest is
 byte-equal** before and after every placement edit, only its records digest differing by the charter event (T-V13-2).
-`ReasonRecord`s, traces' `reason` references and the charter's bytes are in the records digest. **The record budget**
+The same holds for a **site subject** (SW-11; J-V13.60): a free-standing world site's placement is a `Placement` of
+the world document keyed by the subject id (V13 §2.5), never a field of the site document's hashed model — the site
+document holds only a `placementRef` (`Document.worldRef`, mirrored on its card as a derived reading), and every
+placement edit on a site subject leaves the site document's model digest byte-equal (T-V13-2 on a site subject).
+`ReasonRecord`s, traces' `reason` references and the charter's bytes are in the records digest. **The surface-set
+digest** (SW-25): `surfaceSetDigest(doc, week): Hash64` is the low 64 bits of `H128` over the canonical bytes of every
+`WaterSurface` in force at `week` (V13 §3.12.5's rule), in id order — a derived reading V14's `waterStamp` and
+`WaterClassReport.stamp` carry (V14 §2.4) and the flood overlay's cache key. **The record budget**
 (C13-07): reason records are one per entity and one per raster chunk — reaches, surfaces, basins, territories, provinces,
 routes, proposals, placements, resources, springs and the chunks: ≤ 10⁵ records at the continent rung, ≈ 120 B each
 gzipped, inside the 2 MB of records below; a cell's reason is never stored (`whyCell`, V13 §2.2).
@@ -962,9 +1004,9 @@ the two orders meet at P1–P5.
 | W3 Climate | `W3` | `dem`, the coarse grid, `latBox`, `poles`, `wind`; the features (water cells) | the climate raster | `world.climate` (the moisture start jitter) | the world root | F-WORLD (clamp) | " |
 | W4 Hydrology | `W4` | `dem`, `geology`, the features, the surfaces, the climate | `flowDir`, `flatRank`, `flowAccum`, `watershed`, `discharge`, `carveDeltaCm`, `Reach`, `Watershed`, the reaches' surfaces, lake outlets and `open`, `GroundwaterField`, the distance fields | the base's `water.delta` (the distributary shares, keyed by the reach; C13-46) | the world root | F-WORLD (sink), F-GW | " |
 | W5 Biomes | `W5` | the climate, `flowAccum`, `dem`, the surfaces | `biome`, `landUse`, the resource sites | `world.resources` (thinning) | the world root | F-WORLD (matrix) | " |
-| W6a Suitability, stage 1 | `W6a` | everything above; V14's sites | `proposals.stage1`, the score raster (transient) | `world.siting` (tie-breaks) | the world root | F-WORLD (none placed) | " |
+| W6a Suitability, stage 1 | `W6a` | everything above; V14's sites | `proposals.stage1`, the score raster (transient) | none (`world.siting` reserved; the tie-break is deterministic, V13 §3.7 (6)) | the world root | F-WORLD (none placed) | " |
 | W7a Routes over the candidates | `W7a` | `proposals.stage1`, the placements and host seats, the surfaces, `dem`, `biome`, the reaches, the cost law | `routes.stage1` | none | the world root | F-WORLD (no path) | " |
-| W6b Suitability, stage 2 | `W6b` | `proposals.stage1`, `routes.stage1` | `SitingProposal`s (the final) | `world.siting` | the world root | F-WORLD (none placed) | " |
+| W6b Suitability, stage 2 | `W6b` | `proposals.stage1`, `routes.stage1` | `SitingProposal`s (the final) | none | the world root | F-WORLD (none placed) | " |
 | W7b Routes | `W7b` | the final seats (proposals, placements, host seats, V14's routed sites), the surfaces, `dem`, `biome`, the reaches, the cost law | `WorldRoute`s, the `routes` layer | none | the world root | F-WORLD (no path) | " |
 | W8 Polity | `W8` | the seats, the cost surface, the reaches, the features | `Territory`s with provinces | none | each seat | F-WORLD (budget) | " |
 | W9 Labels and glyphs | `W9` | every named record; the placements and their frames | the world's `LabelEntity` candidates (§9.1), `SettlementGlyph`s | `naming` (world names) | the world root; a glyph its placement | §9.6's naming ladder | " |
@@ -1206,22 +1248,16 @@ accept. **W6 is two stages** (C13-33: W6 and W7 read each other, so each is spli
 W7b in the declared I/O): **W6a** writes `proposals.stage1` from the raster below; **W7a** routes over them (V13 §3.8);
 **W6b** reads `routes.stage1`, adds the `connectivity` term and writes `proposals`; **W7b** routes over the final seats.
 
-**The plug-in** (C13-19; V13 §2.2's `SuitabilityTerm`, `SuitabilityContext`, `score`): `@plat/world/siting` holds a
-registry `terms` of named terms, each a pure function of a cell and the context; W6a and W6b call `score(cell, ctx,
-weights, hard?, jitter?)` with `world.suitability`'s weights; V14's G3 calls it with its purpose row's weights and
-`hard` terms (a hard term's zero refuses the cell) and the one controlled random term it names drawn on `world.siting`
-keyed by the caller's key (`jitter`); the host calls it through `proposals`. The registry holds V13's eight terms
-(below) and the terms V14 names, each computed from V13's data by an own formula: `overlook` = clamp((dem − the mean
-dem within `reach.overlookKm`) ÷ 300 m, 0, 1); `roadControl` = 1 − min(1, distToRoute ÷ `reach.roadControlKm`);
-`waterNear` = the `lowland` term; `ore`, `stone`, `wood` = min(1, Σ amount of the kind's resource sites within
-`reach.resourceKm` ÷ 2); `concealment` = 1 − `overlook`, × 1.5 on forest land use, clamped; `oneApproach` = 1 when the
-cell's eight neighbours hold ≤ 2 land cells below it by less than 30 m (a defile), else the share of such neighbours ÷
-8; `solitude` = min(1, distance to the nearest placement or proposal ÷ `reach.settlementKm`); `settlementNear` = 1 −
-`solitude`; `settlementFar` = `solitude`; `routeNear` = `roadControl`; `shoreNear` = 1 − min(1, `distToShoreM` ÷ 2 000);
-`slopeFlat` = 1 − min(1, the eight-neighbour slope % ÷ 15); `floodSafe` = 0 on a `wetland` cell or a cell a reach's
-wet-season stage reaches, else 1 − the `lowland` term × 0.5; `territoryBorder` = 1 − min(1, distance to the territory
-raster's nearest edge ÷ 5 km); `relief` = min(1, the dem range within 1 km ÷ 500 m); `destination` (V13's own term,
-below — the name V14 uses). The formulas are own (PLAUSIBLE, calibratable through `world.suitability`'s reach cells).
+**The plug-in** (C13-19; SW-01; V13 §2.2's `SuitabilityTerm`, `SuitabilityContext`, `terms.register`, `score`):
+`@plat/world/siting` holds the registry `terms` of named terms, each a pure, deterministic function of a cell and the
+context; W6a and W6b call `score(cell, ctx, weights, hard?)` with `world.suitability`'s weights; V14's G3 calls it
+with its purpose row's weights and `hard` terms (a hard term's zero refuses the cell); the host calls it through
+`proposals`. **The registry holds V13's eight generic terms (below); V14 registers its purpose terms (V14 §2.5)
+through `terms.register(term)` and they are V14's to state** — this volume defines none of them (J-V13.51). The
+context carries everything a plug-in may read (the rasters, the coast, the reaches and surfaces, the routes, the
+placements, the site placements, the resources, the springs, the territories, the wet-season stage of a reach). No
+term, V13's or V14's, draws: the score has no random or jitter term (item 132 (b)'s "derived, never random", extended
+to siting; SW-03; J-V13.53).
 
 1. **The score raster, stage 1 (W6a).** For every land cell `c`: `score1(c) = Σ_t w_t · term_t(c)` over the
    `SuitabilityRule.weights` terms except `connectivity`; every term in [0, 1]:
@@ -1236,9 +1272,10 @@ below — the name V14 uses). The formulas are own (PLAUSIBLE, calibratable thro
      on a closed one, else `open`.
    - `resource`: min(1, Σ amount of resource sites within `reach.resourceKm` ÷ 2).
    - `spring`: 1 when a spring lies within one fine cell, 0.5 within three, else 0.
-   - `destination` (V14's name for it, C13-19): V14's world sites' pull: Σ over sites within `reach.siteKm` of the
-     site's `attraction` (V14's term, 0–1) × (1 − d ÷ reach), clamped — the owner's item 134 (c): a site makes the
-     ground around it worth settling.
+   - `destination` (the world-site term, named so everywhere — V13 §2.3's weight key and `reach.siteKm`; SW-01): the
+     placed world sites' pull: Σ over site placements within `reach.siteKm` of the card's `attraction` (0–1, read
+     through the resolver) × (1 − d ÷ reach), clamped — the owner's item 134 (c): a site makes the ground around it
+     worth settling.
    A cell on water, on `ice`, or above the size row's `reliefLimitM` scores 0. The raster is transient (V13 §2.4).
 2. **Spacing passes.** Two passes pick candidates from the raster in descending score, ties by cell index: the *capital*
    pass with `spacing.capitalKm` and a target count `capitals` = max(1, ⌊land km² ÷ `spacing.capitalPerKm2`⌋), then
@@ -1264,8 +1301,9 @@ below — the name V14 uses). The formulas are own (PLAUSIBLE, calibratable thro
    table's; a host's weights never persist (an input to one call, recorded in each proposal's reason).
 6. **The proposal record.** Each `SitingProposal` carries its terms as `terms` (each term's value), its `score`, `port`,
    its `cell` and `at` (the cell centre) and a reason naming the pass, the spacing in force and the rule slice's digest.
-   Tie-breaks between equal scores draw on `world.siting` keyed by the two cells (position-keyed: a different seed
-   changes only the equal pairs).
+   **The one tie-break of siting, stated once for every caller** (SW-03; V14 cites it): two candidates of equal
+   score are ordered by the lowest cell index, then by the lexicographic order of their ids — no draw; `world.siting`
+   is a reserved concern id with no stream.
 
 *Output:* the proposals; the standalone world's seats are the capital-pass proposals (W8 reads them as
 `Recipe.world.seats` when the recipe gave none). *Edges:* a world with one land cell proposes it; a world with no land
@@ -1276,7 +1314,7 @@ none and is not an error.
 
 1. **The seats.** The route graph's nodes are the seats: every `Placement` (a placed frame's origin mapped to its fine
    cell), every host seat with a position (through the port), every stage-1 or final proposal when W7 runs for W6, and
-   V14's world sites flagged `routed` (V14 G1). A seat's rank is its tier (a placement's frame tier; a proposal's pass:
+   every site placement whose card is flagged `routed` (V14 §2.5's kind row, copied at the drop; SW-20). A seat's rank is its tier (a placement's frame tier; a proposal's pass:
    capital 2, town 1, port + 1; a site 0).
 2. **The cost surface.** Per fine cell, the land step cost from cell `a` to its neighbour `b` over distance `d` m (the
    cell size, × √2 on a diagonal): `d × perM × (1 + slopePerPct × slope%) × biomeFactor[biome(b)]`, slope% = |dem(b) −
@@ -1289,7 +1327,10 @@ none and is not an error.
    nearest port).
 3. **The neighbour graph.** The seats of one landmass are joined by the Urquhart graph of their Delaunay triangulation
    (the longest edge of every triangle removed: own choice over the full triangulation — fewer, more plausible pairs;
-   J-V13.11), computed by the kernel's deterministic triangulation (§5.1's primitive, over integer cm). Pairs across
+   J-V13.11), computed by the kernel's deterministic triangulation (§5.1's primitive) over the seats' positions handed to
+it in **integer metres** (`originCm ÷ 100`, rounded; the continent rung's far corner at 3.84 × 10⁶ m lies inside §3.2
+(1)'s range invariant of 2²³ at every rung), the edges read back by seat id — no world cm reaches a kernel predicate
+(SW-16). Pairs across
    water are joined only when both are ports (the sea graph: the same Urquhart rule over port seats, per sea), plus the
    reference's sea-route vocabulary kept as own rules (C13-51): when `sea.trunk`, every landmass with ≥ `minPortsPerBody`
    ports gets one **trunk** sea leg from its highest-ranked port to the nearest port of the largest landmass; and a port
@@ -1326,7 +1367,8 @@ end). W7 at the continent rung is the stage's cost driver (V13 §6).
    `b` is `1 + Σ_k costVector[k] · is_k(b)` with the typed terms: `water` 1 on a sea or lake cell (a territory may cross a
    strait at the cost), `mountain` 1 when dem(b) > `world.polity.mountainAboveM`, `forest` 1 on a forest
    land use, `desert` 1 on desert, `river` 1 when the step crosses a reach ≥ `navigableM3s` (a big river is a border by
-   default), `foreignCulture` 1 when the cell's culture (V14's or the host's culture raster, absent → 0) differs from
+   default), `foreignCulture` 1 when the cell's culture (the host's or the recipe's: the seat's `culture` spread over its
+   territory by W8 at the previous pass and read back at this one, absent → 0; never V14's, SW-09) differs from
    the seed's. A seed stops expanding when its spent cost reaches its `budget` (the queue entry is dropped); a seed on a water or ice cell is moved to its nearest land cell first, reported `W_POLITY_SEAT_MOVED`; a cell goes
    to the seed that reached it cheapest, ties by seed key order. A cell no seed reaches is `unclaimed`. The budgeted
    typed-cost flood is the reference's mechanism restated as our own (`FMG-survey.md` §"Burgs and states", *State
@@ -1363,7 +1405,7 @@ budget's reach; a budget of 0 — the seat cell only.
 2. **Label candidates.** W9 writes the world's `LabelEntity` candidates in §9.1's form, one per named record, with the
    anchor: a sea or lake at its pole of inaccessibility; a river along its course (a path label over the longest reach's
    smoothed polyline, letters spaced by §9's placer); a range along its ridge line (the W2 feature's spine); a territory
-   at `poleCm`; a province at its pole; a settlement at its glyph's dot; a site at its anchor. Priority and zoom extent
+   at `poleCm`; a province at its pole; a settlement at its glyph's dot; a site at its placement's origin. Priority and zoom extent
    are `world.labels`'s rows; the settlement's priority is `settlement × tier` (THORP 1 … CITY 5 in the rung's order).
    V13 §5.3 runs §9's placer over them per stop; W9 only writes the candidates.
 3. **The settlement glyph — made by the frame, placed by the world** (C13-35: `@plat/world` may not read a frame's
@@ -1390,7 +1432,7 @@ budget's reach; a budget of 0 — the seat cell only.
    (the world document, when open in the same host, re-places the glyph at its next render or export; when not open,
    the world reads `sourceDigest` ≠ the frame's digest at its next open and re-makes it then). A glyph re-make is never
    a world edit and never a digest change (V13 §2.6: the glyph is a `derived` cache; T-V13-11 asserts the world's model
-   digest unchanged by a re-make). The same hook serves V14's site glyphs.
+   digest unchanged by a re-make). **The same path serves a world site** (SW-08; R-V14-8; J-V13.57): `@plat/sites` runs its own `glyphOf` over the site document — level 0 a `glyph` mark whose `class` is the kind's icon id, level 1 `dot` + `ring` (the envelope), level 2 `outline` (the envelope) and `wall` (the enclosure), level 3 the same — into its `derived.glyph` and posts `world.glyph`; the world places it as a `Glyph` with `subject: 'site'`; `GlyphLevelRow.minTier` and `fromStopByTier` are read for frames only, a site glyph drawing from the stop its `GlyphLevelRow` admits.
 5. **Reason** per name: the request and the draw key; per glyph: the frame digest and the level rows applied.
 
 *Output:* the names, the label candidates, the glyphs. *Edges:* a frame with no enceinte and no plots (an empty frame)
@@ -1405,7 +1447,12 @@ world; frame: Document | null /* null in world-first mode before the frame exist
 marginCm }; edit; rules: CoherenceRule; mode: 'worldFirst'|'settlementFirst' }`. The mode is a fact of the edit:
 `worldFirst` for `requestCharter` (the frame does not exist yet; the charter will be its input) and for every later edit
 of a placement whose frame carries a `Recipe.charter` from this world; `settlementFirst` for `placeFrame` of an existing
-frame without one (a standalone frame placed later — the owner's settlement-first correction, V13 §1.3). **The
+frame without one (a standalone frame placed later — the owner's settlement-first correction, V13 §1.3). **A
+`Placement` whose subject is a site** (V14 §3.4 (a); SW-19) takes the site document as the frame through every edit
+below; its placement lives in the world document and the site document holds only its `placementRef` (V13 §2.7;
+SW-11). **The operators never call V14** (SW-10; J-V13.59): P4/P5 end by emitting the outcome row `placed { placement;
+subject; extent; covers: Id[] /* the site placements the new extent covers */ }`, which the application layer
+(`@plat/api`) publishes as the message `world.placed`; `@plat/sites` listens and runs its own adoption (V14 §3.9 (e)). **The
 world-first order** (C13-04): `requestCharter` (the host's `WorldPort.charter(world, campaign)` is this event with
 `author: 'host'`; a user's is T6 `place`'s *Charter here* action) creates the `Placement` with `precedenceStamp: 'world'`,
 `subject: { kind: 'frame', pending: Uuid }` and `coherenceCost: { total: 0, terms: [], lawful: true, detail:
@@ -1521,6 +1568,13 @@ crossings' discharge, the roads, the table, the biome's land-use shares, the res
 latitude on a dossier-bound frame is DR29's; the placement's latitude is a reported difference (`sunDiffers`, V13
 §3.11.5), never an input.
 
+**The transient form** (SW-05; J-V13.54): `charterFor(world, pl: Placement | TransientPlacement)` with
+`TransientPlacement { originCm: WorldPointCm; bearingCdeg: 0; mirrored: false; frame: { widthCm; heightCm; marginCm } }`
+builds the `FrameCharter` of (1)–(11) from the world as it stands, with `placement` the transient value and `source:
+'world'`, and **writes nothing** — no record, no event, no blend, no glyph, no reason record: a view read, as
+`worldFactsAt` is. It is the form V14's E1 (4) calls for a world crop frame (100 m; the click as `originCm`), budgeted
+at `WORLD-9` (V13 §6).
+
 **How S0 and S1 read the charter** (the base's hooks, consumed here; the exact base-text changes are BCR-V13-3 and
 BCR-V13-4):
 - S0 (§4.2) reads `Recipe.charter.climate` as its climate row's inputs (temperature, precipitation; the wind bearing
@@ -1617,6 +1671,10 @@ way in and out (BCR-V13-11):
 - `routes(world)` → every `WorldRoute` with its ends' settlement map records' ids.
 - `seats(world, seeds)` ← the host's territory seeds (W8's input, a `setSeats` edit).
 - `costLaw(world, law)` ← the host's route cost law as data (W7's input, a table edit of `world.routes`'s host slice).
+- `events(world, events: WorldEvent[])` ← the host's dated events (battles, plagues, fires, sieges) as facts for the
+  world's event index (V13 §2.2; SW-07): stored, indexed by cell and week, never generated or altered by a stage; read
+  by `worldFactsAt(…, sinceWeek)`.
+- `clock(world, week)` ← the host's tick as a view command (V13 §2.1).
 Messages are versioned with the world's format version (V13 §2.7) and carried by V08's host client as new message kinds
 (BCR-V13-11); a host that does not speak them reads the ecosystem-shaped JSON export instead (V13 §5.4).
 
@@ -1626,7 +1684,9 @@ seat (W7, W8 over the dirty landmass only). *Edges:* a frame placed wholly in th
 unlawful, `nearestLawful` offers the shore; a frame larger than the world: refused (`F-PLACE` rung "does not fit");
 a placement at the world's edge: the ring's off-world stations read the edge cell (clamped) and `downstreamHeadCm` is
 the world's edge head; two frames whose **extents** overlap: refused unless the DM accepts `W_PLACEMENT_OVERLAP` (the
-later wins the blend; the earlier's charter is marked stale); two frames whose **margins** overlap (extents apart): admitted
+later wins the blend; the earlier's charter is marked stale) — except where one subject is a **site** (SW-10): admitted, the
+`placed` outcome row's `covers` names the site placement and `world.placed` is posted (V14 adopts); two frames whose
+**margins** overlap (extents apart): admitted
 — the shared margin's ground is the world's DEM, both charters sample the same world cells and both frames blend to one
 profile, which is how neighbours meet at an edge they share (item 135 (c); C13-05).
 
@@ -1700,8 +1760,10 @@ an event's fact (V13 §2.6).
 **3.12.6 Underground water by connectivity.** V04's elements (cellars, crypts, sewers, mines, caves, the undercity)
 are units for V13 §3.13: the governing surface of an underground unit is the highest of the local table
 (`waterTableAt` at the unit's floor sample) and the surface of any open-water body reached through a passage whose
-floor lies below that surface (a connected-set flood: the void graph of V04's elements is walked from every element
-whose floor is below an adjacent body's surface, and the set floods to that surface); a **liner** (a cistern's lining,
+floor lies below that surface (a connected-set flood: the void graph of V04's elements **and of V14's `site` parts —
+every `Unit` with its `passages` and every `VerticalLink` as a passage whose `floorCm` is the lower end's (V14 §2.2;
+SW-06)** — is walked from every element whose floor is below an adjacent body's surface, and the set floods to that
+surface); a **liner** (a cistern's lining,
 a sewer invert, V04's `lined` attribute — BCR-V13-21's second part) holds the table back: a lined unit's governing
 surface from the table is `table − liner.headLimitCm` at most (a table more than 1.5 m above the floor overcomes the
 liner). The test and its records are V13 §3.13's; V04 §3.5.2's `hallDryCm` test becomes one call of `classifyWater`
@@ -1728,7 +1790,8 @@ WaterUnit[], doc: Document, when?: Week): RouteClassResult`; V14's G6 stores `Wa
 `waterTableAt(floor sample)` (less a liner's head limit) and every body reached through a passage whose `floorCm` is
 below that body's surface in force at `when`; for an above-ground unit (`storey`, `ground`, `deck`, `street`, `plot`)
 open water or a flood stage only — the highest surface whose `FloodSpread` (or the body's own cells) covers the unit's
-footprint cell — never the table. `depthCm = surface − floor`.
+footprint cell — never the table; for a unit of a site level a `WaterSurface` of kind `site` on that level is an `open`
+surface (SW-06). `depthCm = surface − floor`.
 
 **3.13.2 The table.**
 
@@ -1786,7 +1849,7 @@ never an invariant failure (C13-29).
 **3.14.1 The verbs.** Every terrain and water edit at both scales carries `EditBase.verb: 'happened' | 'alwaysSo'`
 (BCR-V13-9; default `happened`): `setField(terrain)`, `terrace`, `warp` at level 0, `drawWater`, `moveCourseKnot`,
 `rerouteReach`, `setSurface` and V06's `terrainWater` op (a placement is always `happened`, C13-55). **`happened`** writes a dated record:
-the new surface with `date` = the document's week, a `TerrainTrace` of the former ground or bed and a `SurfaceTrace` of
+the new surface and the traces dated at the event's `date` where given, else the document's week (SW-27), a `TerrainTrace` of the former ground or bed and a `SurfaceTrace` of
 the superseded surface; descendants are re-derived by the cascade but every dated fact older than the edit is kept
 (the old ford stays as a `trace` the clerk can name: "the ford is gone because the river was re-routed in year 412,
 this happened"). **`alwaysSo`** is the retcon: the present surface is replaced, no trace is written, every descendant is
@@ -1805,7 +1868,7 @@ each step reading the previous's output:
 | 2 flow, flats, accumulation | the lifted `hydro.*` over the dirty cells with the border fixed | V13 §3.5.1–3.5.2 over the dirty watersheds | 1 | `flowDir`, `flatRank`, `flowAccum`; the reaches re-traced inside (ids by anchor); the carve delta |
 | 3 surfaces re-derived | lake spill heights, reach stages, `open` | the same, plus lake outlets | 2 | the generation-time surfaces (a dated or edited surface kept) |
 | 4 the table | `groundwater.derive` over the dirty cells with the margin fixed | V13 §3.5.4 over the dirty set | 3 | `Terrain.groundwater` / `GroundwaterField` |
-| 5 the consumers | water classes of every unit in the dirty set; flood classes (the seasonal pair); outfalls (V04's sewer network, its stage re-run where an outfall moved); fords and spans (S1's crossing sites, §4.3's decks: a deck no longer over water is F-REDERIVE's row); wells (V04's yields); the damp-ground term (§4.5's prosperity); the siting score; encounter crops at those addresses (V14's E3 cache invalidated); VTT scenes covering them (V14's stamp); every site document whose anchor or placement lies in the dirty set (V14's G6 and the site's lifecycle); V05's fallen islands' decoration faces under a raised sea (V05 §3.16) | W5's biomes, W6's proposals, the charter's facts of every placement in the set (marked stale when changed), the glyphs' `water` marks, W7's crossings (a route crossing a moved reach re-costs its edge), W8 (a river border moved: re-run for the territories touching it) | 4 | each consumer's records, each with a reason naming the edit |
+| 5 the consumers | water classes of every unit in the dirty set; flood classes (the seasonal pair); outfalls (V04's sewer network, its stage re-run where an outfall moved); fords and spans (S1's crossing sites, §4.3's decks: a deck no longer over water is F-REDERIVE's row); wells (V04's yields); the damp-ground term (§4.5's prosperity); the siting score; the open `Encounter`'s memo at every address whose rectangle the dirty set reaches (invalidated; V14 §3.10) and the `waterStamp` of every scene exported over it (V14 §2.4; SW-17); every site document whose anchor or placement lies in the dirty set (V14's G6 and the site's lifecycle); V05's fallen islands' decoration faces under a raised sea (V05 §3.16) | W5's biomes, W6's proposals, the charter's facts of every placement in the set (marked stale when changed), the glyphs' `water` marks, W7's crossings (a route crossing a moved reach re-costs its edge), W8 (a river border moved: re-run for the territories touching it) | 4 | each consumer's records, each with a reason naming the edit |
 | 6 one level up | the frame posts `charter.stale` to its world when its edge facts changed (a reach now leaving at another station; a sea level changed by a world edit) | the world marks every placement whose charter facts moved (`Placement.charter` stale) and offers `worldWins` per frame; it never writes a frame | 5 | the stale flags, the clerk's notice |
 
 Every step is a local operator in §7.3's sense with its boundary pinned (the dirty set's border cells and their
@@ -1845,7 +1908,7 @@ says so (C13-02).
 **The cascade's own consumer list** (T-V13-21b, the water readers of this design, one test each): (1) V04's cellar
 `flood` attribute, (2) V04's sewer outfalls, (3) V04's well yields, (4) V04's crypt depth test, (5) the undercity's
 lifeline (V04 §3.6), (6) §4.5's damp-ground prosperity term, (7) S3's site flood test, (8) S1's crossing sites, (9)
-§4.3's deck spans, (10) the harbour's low-water depth, (11) V14's E3 encounter crop cache, (12) V14's VTT scene stamps,
+§4.3's deck spans, (10) the harbour's low-water depth, (11) the `Encounter` memo re-resolves after the cascade, (12) a scene re-exported after the cascade differs in `waterStamp` and the water fields alone (T-V14-11's clause),
 (13) the world's charter facts per placement, (14) the glyph's water marks, (15) W7's river crossings, (16) W8's river
 borders, (17) the flood overlay's spread cache, (18) the exports' `waterClass` property, (19) V14's G6 over every site
 document whose anchor or placement lies in the dirty set, (20) V05's fallen islands' decoration faces under a raised
@@ -1923,7 +1986,7 @@ noise op keyed by op index and **position**: the noise value at a fine cell is t
 structured components (the op's seed, the cell's world x and y) through the one mixer — never a string, §6.1; C13-43
 — folded into the octave sum, so a changed extent changes only the new cells — position-keyed noise, V13 §3.2),
 `world.climate` (W3's moisture start jitter per coarse row), `world.resources` (W5's per-cell draws), `world.siting`
-(W6a's and W6b's tie-breaks per cell pair; V14's G3 jitter), the base's `water.delta` (W4's distributary shares, keyed by
+(reserved: siting draws nothing, its tie-break deterministic, V13 §3.7 (6); SW-03), the base's `water.delta` (W4's distributary shares, keyed by
 the reach's lineage — the base concern's registry row gains W4, BCR-V13-8; C13-46) and the base's `naming` (W9's names
 through V11's service). `world.polity` and `place.search` are **reserved ids only**, not streams (W8 and P1 draw
 nothing). The comparator lint (no randomness in a comparator: every sort key is a value or an index, never a draw) runs
@@ -1963,9 +2026,9 @@ type WaterVerb = 'happened' | 'alwaysSo';                         // EditBase.ve
 type EditEvent = EditBase & (
   // … the base's variants …
   | { t: 'worldRecipe'; action: 'append'|'replace'|'remove'|'reorder'; index: number; op?: RecipeOp; toIndex?: number }   // the world document only; a Re-derive from W1 over the op's touched cells (V13 §4.3)
-  | { t: 'setSurface'; surface: Id /* the body's present surface, or a reach */; levelCm?: Cm; stage?: { knot: number; stageCm: Cm }[] /* a reach's stage profile */; date?: Week /* absent: the document's week under 'happened'; forbidden under 'alwaysSo' */; cause?: string /* a calamity kind, an epoch's op, or free text */ }
-  | { t: 'setField'; field: 'terrain'; key: PlatKey | 'world' /* the base's shape: one stroke; 'world' names the world raster (BCR-V13-9) */; stroke: FieldStroke }   // `verb` read
-  | { t: 'rerouteReach'; reach: Id; fromKnot: number; toKnot: number; via?: WorldPointCm[] /* waypoints the re-trace must pass within one hydro cell of; absent: steepest descent on the pre-carve ground */ }   // the frame's form is the base's moveCourseKnot with `verb`
+  | { t: 'setSurface'; surface: Id | { kind: 'site'; body: Id; level: number } /* the body's present surface, a reach, or a site level's surface (V14's floodSite / drainSite fold to it; SW-06) */; levelCm?: Cm; stage?: { knot: number; stageCm: Cm }[] /* a reach's stage profile */; date?: Week /* absent: the document's week under 'happened'; forbidden under 'alwaysSo' */; cause?: string /* a calamity kind, an epoch's op, or free text */ }
+  | { t: 'setField'; field: 'terrain'; key: PlatKey | 'world' /* the base's shape: one stroke; 'world' names the world raster (BCR-V13-9) */; stroke: FieldStroke; date?: Week /* ≤ the document's week; absent: the document's week; forbidden under 'alwaysSo' (refuse.surface.date); SW-27 */ }   // `verb` read
+  | { t: 'rerouteReach'; reach: Id; fromKnot: number; toKnot: number; via?: WorldPointCm[] /* waypoints the re-trace must pass within one hydro cell of; absent: steepest descent on the pre-carve ground */; date?: Week /* as setField's */ }   // the frame's form is the base's moveCourseKnot with `verb` and `date?`
   | { t: 'requestCharter'; subject: { kind: 'frame'; pending: Uuid } | { kind: 'site'; site: Id }; originCm: WorldPointCm; bearingCdeg: Cdeg; frame: { widthCm: Cm; heightCm: Cm; marginCm: Cm } /* frameOf(size, aspect), V13 §3.11 */ }   // world-first (C13-04): creates the Placement (stamp 'world', cost 'world-first') and runs P4; author 'host' through WorldPort.charter, else 'user'
   | { t: 'bindPlacement'; placement: Id; doc: Uuid }   // author 'world': the frame generated from the charter now exists; emitted by `generate` with Recipe.charter (C13-04, C13-40)
   | { t: 'placeFrame'; frame: Uuid; originCm: WorldPointCm; bearingCdeg: Cdeg; preview?: true /* the dry run: the cost and the offers, no write */; accept?: ('overlap'|'unlawful')[] /* the warnings the DM accepted */ }   // settlement-first; always `happened` (`verb` ignored, C13-55)
@@ -1975,6 +2038,7 @@ type EditEvent = EditBase & (
   | { t: 'unplaceFrame'; placement: Id }
   | { t: 'setSeats'; seeds: TerritorySeed[] /* the whole list; the fold diffs by seat */ }
   | { t: 'deleteTrace'; trace: Id }
+  | { t: 'addEvent'; event: Omit<WorldEvent, 'id' | 'reason' | 'source' | 'factTier'> }   // a user's dated world event (T9 `shape`; source 'user', factTier 'map'); the host's arrive through WorldPort.events as author 'host' (SW-07)
   | { t: 'fork'; name: string } | { t: 'discardFork'; fork: Id } | { t: 'commitFork'; fork: Id; verb: WaterVerb }   // V13 §4.5
   | { t: 'adjust'; param: 'world.size'|'world.units'|'world.poles'|'world.wind'|'world.latBox'|'world.biomeMatrix'; value: unknown; fromStage: 'W0'|'W3'|'W5'; fates: EditFate[] }   // the base's shape (§7.1) with the world params (BCR-V13-9; C13-34)
   // in the FRAME's log (C13-40):
@@ -2027,7 +2091,8 @@ rotates.
 | `requestCharter` (world-first; the host's `charter(world, campaign)`) | P4 only (the placement created with a pending subject, `precedenceStamp: 'world'`, cost `world-first`; no P1: there is no frame) | the world's DEM (no blend); every other placement | a dossier contradiction refuses the event (`refuse.charter.dossier`) |
 | `bindPlacement` (author `world`, after `generate` from the charter) | the placement's subject bound → the frame's `charter` event → P5 → W9 (the glyph) → W7–W8 over the landmass (a new seat) | everything in the frame; the world's DEM | W7–W8 over the landmass is declared |
 | `mirrorFrame`, `setPlacement` bearing only | P1 → P4 → P5 → W9 (settlement-first: P2–P3 re-run, the former band's trace restored first) | the frame | — |
-| `worldWins` | P4 (world-first charter) → the frame's Re-derive from S1 with §6.3's carry-over → P5 → W9; the blend trace restored and P3 re-run over the former band | every drawn constraint and lock in the frame; the world outside the band | the frame's re-derivation is whole-frame from S1: declared, with the base's Re-derive budget (§12.6) |
+| `setPlacement` (origin) of a world-first placement | P4 (the charter re-emitted, marked stale on the frame) → P5 → W9 → W7–W8 over the landmass | the frame | the frame's `worldWins` re-derivation: declared (SW-19) |
+| `worldWins` | P4 (world-first charter) → the frame's Re-derive from S1 with §6.3's carry-over → P5 → W9; the blend trace restored and P3 re-run over the former band; on a **site** subject the re-derivation is V14's G5 (f) re-materialization under the new charter with §6.3's carry-over, run by `@plat/sites` on the `placed` row (SW-19) | every drawn constraint and lock in the frame; the world outside the band | the frame's re-derivation is whole-frame from S1: declared, with the base's Re-derive budget (§12.6) |
 | `unplaceFrame` | the blend trace restored, P3 over the former band, the placement, charter and glyph tombstoned; W7–W8 over the landmass | the frame document (its `worldRef` cleared, `Recipe.charter` kept as a recorded input — the frame still knows where it was generated for) | — |
 | `setSeats` | W8 over the seats that changed (their former and new cells' bounding watersheds) → W9 names | territories of unchanged seats outside the touched cells | a budget change on every seat is Re-derive from W8 (declared) |
 | `adjust` of a pole, wind or latitude box | W3 → the cascade (the climate changes discharge) → W5–W9 over the whole extent | the DEM; placements; dated surfaces | whole-world by nature: declared |
@@ -2113,7 +2178,7 @@ rows of the `world` product (C13-60 (e)) (the view's `worldLayer` key picks the 
 | `traces` (under `showTraces`) | vector | `oldShore` as a dashed line, `oldBed` as a hatched band, `oldGround` as a stippled fill; a `SurfaceTrace` as a dotted level line | the base's "former" style (the dashed grey of V06's history frames) |
 | `routes` | vector | `WorldRoute` by class | highway 2 px solid, road 1.2 px, track 0.8 px dashed, trail 0.5 px dotted, sea 1 px dashed blue, river (navigable) a darker water line |
 | `territory` | vector | fills at 18 % alpha by territory, borders 1 px; provinces at stop ≥ 2 as 0.6 px dashed | hashed categorical palette; a host's state colours through the port when given |
-| `settlements` | vector | every `SettlementGlyph` at the stop's level (V13 §5.2); V14's site glyphs | the glyph style rows (dot by tier size: 3–9 px; ring 1 px; outline fill at 60 % of the built colour; water, wall and way in the base's colours at world weight) |
+| `settlements` | vector | every `Glyph` at the stop's level (V13 §5.2): a frame's `SettlementGlyph`; a site's drawn at level 0 by its `glyph` mark's `class` icon at the pin size (SW-08) | the glyph style rows (dot by tier size: 3–9 px; ring 1 px; outline fill at 60 % of the built colour; water, wall and way in the base's colours at world weight) |
 | `resources`, `springs`, `proposals` | pins | W5's resources, W4's springs, W6's proposals (while shown) | the base's pin style, one icon kind per resource (own glyphs) |
 | `placements` | vector | the placed frames' outlines (the arena's outer ring through `toWorld`) and the blend band's outline on hover | 1 px accent; the band dotted |
 | `anomalies` | pins | `PlacementAnomaly` | the notice style |
@@ -2126,8 +2191,8 @@ hatched blue, wading light blue, swimming blue, submerged dark blue with a ghost
 chosen stage with depth bands and the barrier edges that stopped it; `traces` as above) and the **waterline** on walls
 (a building's elevation render draws a line at the governing surface's height on every storey the stage reaches), the
 submerged ruin as a ghost at depth < `style.world.ghostDepthCm` (300) and withheld deeper (below the viewer's key, V10's
-visibility), and the encounter crop's water-as-terrain with depth bands, rooftops as the dry ground and swimming
-routes as difficult terrain (V14's E3 reads `RouteClassResult`; the crop's rendering is V14's).
+visibility), and the encounter crop reads `classifyWater` for every face of its resolved set and `routeClass` over its
+ways (V14's E3 (7)); the crop's water rendering is V14 §5.3's (SW-18).
 
 ### 5.2 Zoom stops, the glyph levels and opening a settlement
 
@@ -2181,17 +2246,22 @@ Every layer has the base's high-contrast variant (§8.3); the water class overla
 (hatching by class) so it reads without colour; every reason the clerk renders is text (V13 §4.7). The world's
 screen-reader summary (V09's) lists the extent, the seas, the named rivers and the settlements by tier.
 
-### 5.7 What the world gives a 2.5D projection (item 141 (e); the renderer is V14's R1–R4)
+### 5.7 What the world gives a 2.5D projection (item 141 (e); the renderer is V14's R1–R4 for every document, the world included)
 
-The world regime hands a 2.5D view exactly these: the fine DEM draped (the vertical exaggeration a view key, never in
+V14's R1–R4 own the 2.5D view of every document, the world document among them (SW-02; J-V13.52); this section
+supplies the world's drawables with their `ZDecl` rows (BCR-V13-28; SW-22) and nothing else. The world regime hands
+that view exactly these: the fine DEM draped (the vertical exaggeration a view key, never in
 any hash — M11); every `WaterSurface` a plane at its `elevationCm` (a lake's, the sea's, a reach's stage profile as a
 ruled surface along its course); every trace a plane at its former level (`SurfaceTrace`) or the former ground
 (`TerrainTrace`); the glyph marks at the DEM's height at each point; the routes and territory borders draped on the
 DEM; the labels upright at their anchors' heights. **The world's M9 row** (item 140 M9): every world kind declares base
 = the DEM and top = the DEM (a raster, a route, a border, a glyph mark, a trace) or its surface (a `WaterSurface`: base
-the bed, top the surface); none is flat. The projection family, the hit test and the vertical edit are V14's (R1–R4);
-nothing of the world's model changes under any projection (bar 14's world half: the same document hashes identically
-under the flat view and every projection — T-V13-40's row).
+the bed, top the surface); none is flat — as `ZDecl` rows: `{ surface: 'dem' }` for the rasters, routes, borders,
+glyph marks and `TerrainTrace`; `{ base: 'bed', top: 'elevationCm' }` for `WaterSurface` and `SurfaceTrace`; `{ flat,
+reason: 'furniture' }` for a label candidate. The projection family, the hit test, the per-stop `Lod25Row`s and the
+vertical edit are V14's (R1–R4; V14 §5.6 (10) draws this list); nothing of the world's model changes under any
+projection (bar 14's world half: the same document hashes identically under the flat view and every projection —
+T-V13-40's row, harnessed on T-V14-14's fixture).
 
 ## 6 Performance budgets (§12's form)
 
@@ -2240,7 +2310,9 @@ profile sampled once), `nearestLawful` ≤ 600 ms by its two tiers (C13-37: the 
 × 100 stations × 2 index lookups ≈ 1.4 × 10⁶ evaluations ≈ 150 ms; the fine pass over the three best pairs ≈ 3 × 40 ms;
 shown as a progress strip), P2 ≤ 30 ms, P3 ≤ 120 ms (one watershed), P4 ≤ 10 ms, P5 ≤ 20 ms, the glyph ≤ 30 ms; a
 `requestCharter` ≤ 30 ms; `worldWins` is the frame's Re-derive from S1 (§12.6's budget) + 150 ms; a flood spread on the
-height raster ≤ 25 ns × the raster's cells (≤ 60 ms at METROPOLIS, C13-12).
+height raster ≤ 25 ns × the raster's cells (≤ 60 ms at METROPOLIS, C13-12); **a transient `charterFor`** for a 100 m
+crop frame ≤ 10 ms (P4's cost; `WORLD-9`, SW-05); **a caller's score pass** (V14's G3, the host's `proposals`) ≤ W6a's
+law over the disc asked — ≤ 230 ms over a continent, ≤ 30 ms over a 100 km disc (`WORLD-10`, SW-32).
 
 **The frame's additions on the one-click path** (§12.3's laws unchanged — C13-09: the constants are **not** raised):
 the surface step ≤ 3 ms and the groundwater step ≤ 30 ms at the METROPOLIS hydro grid (C13-54: the base measured the
@@ -2263,7 +2335,8 @@ layer ≤ 2 ms per 100 glyphs; the exports: `ecosystemJson` at the continent run
 amendment pre-decided); `WORLD-5` memory ≤ 285 MB resident at the continent rung (the §12.8 world line requested);
 `WORLD-6` the document ≤ the size row's `docMb`;
 `WORLD-7` the cascade at a frame ≤ 1.5 × S1's water operator's budget (§12.6) for the same scope; `WORLD-8` the world's
-first frame ≤ 400 ms. Each has its T-V13 row in §7.
+first frame ≤ 400 ms; `WORLD-9` a transient `charterFor` ≤ 10 ms; `WORLD-10` a caller's score pass ≤ W6a's law over
+its disc. Each has its T-V13 row in §7.
 
 ## 7 Tests and acceptance bars
 
@@ -2294,7 +2367,7 @@ the six templates, seed i `H32("bworld/<rung>/<template>/<i>")` by V12 §2.4's c
 |---|---|---|
 | T-V13-4 (bar 4) | the sea level rises one metre (`setSurface` on the sea, both verbs): the heightfield is byte-identical (the DEM and `carveDeltaCm`); only surfaces, water classes, outfalls, crossings and the consumers of V13 §3.14.2 change; every change carries a reason the clerk reads naming the edit | a frame and a world fixture; the DEM digest; the change list against a golden |
 | T-V13-6 (bar 5) | a reach is re-routed from the uncarved ground (`rerouteReach` / `moveCourseKnot` under `happened`): the new bed is traced on `preCarveHeightAt`, the old bed remains as a `TerrainTrace` (`oldBed`) with its cause (the event), the old carve delta is restored under it, the view's trace layer draws it, `whatChanged` names it | the frame fixture with a river; the trace's cells against the former course |
-| T-V13-8 (bar 12's world half) | one `classifyWater` over a crypt (underground: the table, a passage to the river), a drowned ruin (storeys with the damage layer's height), a flooded street (route class) and a plot (share): the classes follow V13 §3.13.2's table at every threshold boundary (±1 cm), and change under a dated surface with no identity changing | a V04 fixture with four units; the surfaces stepped through every class |
+| T-V13-8 (bar 12's classifier clause; bar 12's owner is V14's T-V14-12) | one `classifyWater` over a crypt (underground: the table, a passage to the river), a site level under a `site` surface reached through a vertical link (SW-06), a drowned ruin (storeys with the damage layer's height), a flooded street (route class) and a plot (share): the classes follow V13 §3.13.2's table at every threshold boundary (±1 cm), and change under a dated surface with no identity changing | a V04 fixture with four units; the surfaces stepped through every class |
 | T-V13-13 | the charter honoured, in the world-first order `requestCharter` → `generate` → `bindPlacement` → the glyph (C13-04): a frame generated from a charter meets the edge profile within `edgeRmsRefCm`, every `in` crossing enters at its station ± `riverMatchM` with its width within 10 % of the charter's and the accumulation at the inlet equal to the seed (C13-14), every `out` crossing leaves, the sea sits at its level, the frame's shore lies within one hydro cell of the world's inside the extent (the Hausdorff bar, C13-13), the table at the margin equals the charter's; the same charter and seed twice give the same frame (the deterministic refinement rule); two neighbouring frames with overlapping margins agree within 1 cm in the shared margin (C13-05; marked expected-fail until BCR-V13-29 lands); a changed charter (`worldWins`) gives a Re-derive from S1 whose locks and drawn constraints are kept; **on a settlement-first placed frame, Regenerate (keep settings) is byte-identical to the same action before the placement** (C13-03); a dossier-bound frame's `requestCharter` at a contradicting origin is refused with `refuse.charter.dossier` (C13-08) | the world-first fixture; the two-frame fixture; the settlement-first fixture; the dossier fixture |
 | T-V13-21 (bar 13) | the eighteen model-drift rows of V13 §3.14.3's table: for each, the equivalent edit is made and the row's assertion holds (the recomputing stages ran, the values changed as the law says, nothing outside the dirty set moved) | one test per row, in the PR tier (BCR-V13-15); a row whose assertion fails names the drift it reproduces |
 | T-V13-21b | the cascade's twenty consumers (V13 §3.14.3's second list): each re-reads after a surface edit's cascade and its value changes as the law says | one test per consumer; a reader whose value is unchanged after a change that must move it fails |
@@ -2314,9 +2387,9 @@ the six templates, seed i `H32("bworld/<rung>/<template>/<i>")` by V12 §2.4's c
 | T-V13-23 | F-PLACE: a frame larger than the world is refused naming the rung; an unlawful placement keeps the asked one and offers three; an extent overlap is refused and accepted with the warning while a margin overlap is admitted; `nearestLawful` returns placements whose cost ≤ `lawfulMax` sorted by cost then distance; **no placement with a coast-side error is ever `lawful`** (C13-26) | the placement fixtures |
 | T-V13-24 | the blend: after P2 the DEM inside the frame equals the frame's dem re-based within 1 cm, the band's weights are the smoothstep, the band's former values are an `oldGround` trace, the edge RMS is re-measured and reported; the band widens by the rule when the RMS exceeds the reference and the residual is reported | the settlement-first fixture |
 | T-V13-36 | P3: after a settlement-first placement, the world's D8 inside the dirty set agrees with the blended DEM, reach ids are kept by anchor, downstream discharge is propagated, nothing outside the dirty set changed | the digest of cells outside the set |
-| T-V13-37 | the port: `derivedFacts` returns the settlement map record with no arena field; `charter(world, campaign)` is a `requestCharter` whose charter equals `charterFor` at the recorded placement; `proposals` honours `count`, `withinKm`, `exclude` and merged weights and persists nothing (C13-22); (b) `score` called as V14's G3 calls it (purpose weights, hard terms, the jitter term) refuses a cell whose hard term is 0 and draws the jitter on `world.siting` keyed by the caller (C13-19); `clock(world, week)` sets the world's week as a view command (C13-23); the messages carry the format version | a mock host |
+| T-V13-37 | the port: `derivedFacts` returns the settlement map record with no arena field; `charter(world, campaign)` is a `requestCharter` whose charter equals `charterFor` at the recorded placement; `proposals` honours `count`, `withinKm`, `exclude` and merged weights and persists nothing (C13-22); (b) `score` called as V14's G3 calls it (purpose weights, hard terms over V14-registered plug-ins) refuses a cell whose hard term is 0 and is bit-identical across two calls (no draw, SW-03); `clock(world, week)` sets the world's week as a view command (C13-23); the messages carry the format version | a mock host |
 | T-V13-38 | W6's spacing passes: no two capitals within `capitalKm`, no two towns within `townKm` after the passes; the shrink rule triggers on the sparse fixture; ports are promoted on coasts only; stage 2 drops, never adds | B-WORLD-lite statistics |
-| T-V13-39 | W7 and W8: no land leg crosses water; the `existingRoute` discount makes later roads share earlier cells (the shared-cell share ≥ 20 % on B-WORLD-lite, own bar); every territory is one connected component after normalization (enclaves ≤ `enclaveMaxCells` removed); provinces partition their territory | statistics and invariants |
+| T-V13-39 | W7 and W8: every coordinate passed to `delaunay` is an integer metre inside §3.2 (1)'s range invariant (a lint on the call; SW-16); no land leg crosses water; the `existingRoute` discount makes later roads share earlier cells (the shared-cell share ≥ 20 % on B-WORLD-lite, own bar); every territory is one connected component after normalization (enclaves ≤ `enclaveMaxCells` removed); provinces partition their territory | statistics and invariants |
 
 ### 7.4 Editing, view, exports, budgets
 
@@ -2355,9 +2428,11 @@ the six templates, seed i `H32("bworld/<rung>/<template>/<i>")` by V12 §2.4's c
 | `refuse.world.recipeOp`, `refuse.world.tier`, `refuse.place.fit`, `refuse.place.worldRef`, `refuse.charter.dossier`, `refuse.surface.date`, `refuse.import.version`, `refuse.import.key` | refusal: a §7.1 outcome key rendered by V09's catalogue, never a `ReportCode` (C13-53) | the dry run, the adapter | the op, the rung, the frame and world, the dossier fact and the nearest lawful origin, the date, the version, the key |
 | `E_WORLD_SINK`, `E_GW_CAP` | bug abort (§5.1 (8)) | W4, the groundwater step | the cell |
 
-**Bars carried as rows:** bar 3 → T-V13-2; bar 4 → T-V13-4; bar 5 → T-V13-6; bar 7 → T-V13-30 (the site half V14's);
-bar 9 → T-V13-7; bar 10 → T-V13-10; bar 13 → T-V13-21. Bars 1, 2 (the kernel's, M0's gate), 6, 11, 12's site half, 14–17
-are V14's or the 2.5D renderer's and are not carried here (V13 §1.4).
+**Bars carried as rows** (SW-33: one owner per bar, the other volume's row its named clause): bar 3 → T-V13-2; bar
+4 → T-V13-4; bar 5 → T-V13-6; bar 7 → V14's T-V14-7 (its world clause T-V13-30 (a)); bar 8 → T-V13-9 (its site clause
+V14's T-V14-23); bar 9 → T-V13-7; bar 10 → T-V13-10 (its site and encounter clause V14's T-V14-18); bar 12 → V14's
+T-V14-12 (its classifier clause T-V13-8); bar 13 → T-V13-21. Bars 1 (V14's T-V14-32), 2, 6, 11, 14–17 are V14's or the
+2.5D renderer's and are not carried here (V13 §1.4).
 
 ## 8 Build plan
 
@@ -2366,8 +2441,9 @@ are V14's or the 2.5D renderer's and are not carried here (V13 §1.4).
 The world milestones follow M-SF (§16: the SettlementForge connection, SF0–SF7) because the port, the charter per
 campaign and the host's seats are the host-facing half of this volume and M-SF lands the host client they ride on
 (BCR-V13-19). The frame-side water state (surfaces, the groundwater step, the water class test, the two verbs and the
-cascade) has no host dependency and is built first, inside M-W1, so V04 and V14 read one function from their first
-milestone. Order inside each milestone is the spine's: W0 → W9, then P1 → P5. Effort is in person-weeks (pw) on §16's
+cascade) has no host dependency and is its own milestone **M-W0h**, starting after M4 beside M5 and exiting before
+M6-U's U3b, so V04 and V14 read one function from their first milestone (SW-14; J-V13.62); until it lands V04's readers
+keep the base's nearest-body rule (BCR-V13-21). Order inside each milestone is the spine's: W0 → W9, then P1 → P5. Effort is in person-weeks (pw) on §16's
 scale (one engineer, the reference hardware); estimates are PLAUSIBLE until the spikes report.
 
 ### 8.2 Milestones
@@ -2375,7 +2451,8 @@ scale (one engineer, the reference hardware); estimates are PLAUSIBLE until the 
 | milestone | contents | gate (tests) | estimate |
 |---|---|---|---|
 | **M-W0 spikes** (before M-W1; after M0 closes) | SP-W1 the lifted priority flood and accumulation at 9.2 M cells; SP-W2 the two-tier coherence search's cost; SP-W3 W6's stage-2 iteration count (one or two); SP-W4 the adapter's round trip on the synthetic fixture; SP-W5 the frame's groundwater step against S1's row; SP-W6 W1 over the six templates at 9.2 M cells (C13-10); SP-W7 W7's A\* at the continent rung over B-WORLD-lite (C13-36) | each spike a pass/fail number (V13 §8.4) | 3 pw |
-| **M-W1 the world and the water state** (the brief's W1) | `@plat/world` with the lifted hydro core (BCR-V13-1); W0 Blueprint, W1 Terrain recipe, W2 Features and surfaces, W3 Climate, W4 Hydrology with groundwater, W5 Biomes and resources, W6 Suitability (stage 1); the frame's surface step, groundwater step, `datumOf`, `waterTableAt`, `classifyWater` and `routeClass` with V04's readers switched (BCR-V13-2, -3, -21, -23); the two verbs and the cascade at both scales (BCR-V13-9, -10); the counterfactual fork; `ReasonRecord` and the four readers (BCR-V13-17, -24); P1–P5 with the charter both ways and S0/S1 reading it (BCR-V13-4, -5); the port's `derivedFacts`, `charter`, `proposals` (BCR-V13-11); the world view's raster and water layers and the glyph (BCR-V13-13); the world dialog and the placement tool (BCR-V13-25) | T-V13-1 – T-V13-10, 12, 13, 15, 20 – 25, 27, 29 – 37; bars 3, 4, 5, 9, 10, 13 | 14 pw |
+| **M-W0h the water state at the frame** (after M4, beside M5; before M6-U's U3b; SW-14) | the hydro lift (BCR-V13-1); `carveDeltaCm`, `Terrain.surfaces`, `datumOf` on a standalone frame; the groundwater step and `waterTableAt`; `classifyWater`, `governingSurface`, `routeClass`, `surfaceSetDigest`; the two verbs and the cascade at the frame; the counterfactual fork; `ReasonRecord` and its readers; V04's readers switched (BCR-V13-2, -3, -21, -23); its only new dependency M4's render tier for the overlays | T-V13-4, 6, 8, 9, 10, 20, 22, 25, 27, 29, 33–35 | ≈ 4 pw |
+| **M-W1 the world** (the brief's W1) | `@plat/world` with the lifted hydro core (BCR-V13-1); W0 Blueprint, W1 Terrain recipe, W2 Features and surfaces, W3 Climate, W4 Hydrology with groundwater, W5 Biomes and resources, W6 Suitability (stage 1); the frame's surface step, groundwater step, `datumOf`, `waterTableAt`, `classifyWater` and `routeClass` with V04's readers switched (BCR-V13-2, -3, -21, -23); the two verbs and the cascade at both scales (BCR-V13-9, -10); the counterfactual fork; `ReasonRecord` and the four readers (BCR-V13-17, -24); P1–P5 with the charter both ways and S0/S1 reading it (BCR-V13-4, -5); the port's `derivedFacts`, `charter`, `proposals` (BCR-V13-11); the world view's raster and water layers and the glyph (BCR-V13-13); the world dialog and the placement tool (BCR-V13-25) | T-V13-1 – T-V13-10, 12, 13, 15, 20 – 25, 27, 29 – 37; bars 3, 4, 5, 9, 10, 13 | 14 pw |
 | **M-W2 routes, polity, siting stage 2** (the brief's W2) | W7 Routes under the host's cost law; W8 Polity with provinces; W6 stage 2; `setSeats`, `costLaw` through the port; the routes, territory and proposals layers; the port's `routes` and `seats` | T-V13-14, 16, 17, 38, 39; the B-WORLD statistics bars | 6 pw |
 | **M-W3 labels, exports, the adapter** (the brief's W3) | W9 Labels; the world's label placement; the four exporters and the frame's export additions (BCR-V13-12); the map-import adapter with its schema file; the picture exports' world rows; the retirement of the host's reference fork (the host's track, V13 §8.5) | T-V13-11, 18, 19, 26, 28, 40; bar 7's world half | 6 pw |
 | **M-W4 hardening** | the budgets' register rows measured (T-V13-17, 20), the memory test, the low-tier refusal, the migration of older frames at scale, the clean-room lint over the three packages | every T-V13 row green in the nightly tier | 3 pw |
@@ -2464,6 +2541,18 @@ Its schedule is the owner's question (V13 §11 Q2).
 | J-V13.39 | chose P1–P5 as §7.3 local operators of the placement edits with one stage id over stages of the product's set because `generate` runs every stage of the set and the base has no phase it skips (C13-27) |
 | J-V13.48 | chose that every stage re-derives over an imported map (lakes, rivers, routes and territories matched to the re-derived ones and kept as edited attributes or provenance) over trusting the import's drawn facts because our hydrology is causal and the import's is drawn, and one statement of the adapter is the only buildable one (C13-06) |
 | J-V13.49 | chose one reason record per raster chunk with cell reasons re-evaluated on demand (`whyCell`) over a record per cell because 9.2 M biome reasons would be a gigabyte against a 2 MB record budget, and the rule function is pure (C13-07) |
+| J-V13.51 (SW-01) | chose that V13 owns the suitability slot (`SuitabilityTerm`, `SuitabilityContext`, `terms.register`, `score`) and its eight generic terms while V14 owns its purpose terms as plug-ins, over defining V14's seventeen formulas here, because one registry cannot hold two definitions of one id and the purpose rows are V14's domain; the world-site term is `destination` with `reach.siteKm` |
+| J-V13.52 (SW-02) | chose that V14's R1–R4 own the 2.5D view of every document, the world included, with §5.7 supplying the world's drawables and their `ZDecl` rows, over a world-side projection, because item 141 (a) asks for one projection family over the whole architecture |
+| J-V13.53 (SW-03) | chose no random or jitter term anywhere in siting, with one deterministic tie-break (lowest cell index, then lexicographic id), over a controlled jitter, because item 132 (b)'s "derived, never random" extends to siting and a draw inside a score is a comparator with randomness |
+| J-V13.54 (SW-05) | chose a transient, record-less `charterFor(world, TransientPlacement)` over a recorded placement for a crop frame because a crop is a view read and must leave the world untouched |
+| J-V13.55 (SW-06) | chose `WaterSurface.kind 'site'` with the connected-set walk over site parts and vertical links over a V14-side water model because one classifier serves every scale (bar 12) |
+| J-V13.56 (SW-07) | chose a world event index of host-delivered `WorldEvent` facts (stored, indexed, never generated here) over generating events because the host owns its political and military facts (item 131 (b)) and item 132 (e) needs them at a point |
+| J-V13.57 (SW-08) | chose a generalised `Glyph` with the site's marks made by `@plat/sites` and placed by the world over W9 reading a site document because §14's dependency rule forbids it (as for frames, J-V13.34) |
+| J-V13.58 (SW-09) | chose culture from the host's seats or the recipe, spread by W8, over a V14 raster because V14 has none |
+| J-V13.59 (SW-10) | chose a `placed` outcome row published as `world.placed`, which `@plat/sites` answers with its own adoption, over V13 calling V14, because `@plat/world` sits below `@plat/sites` |
+| J-V13.60 (SW-11) | chose that a site's placement lives in the world document as a `Placement` keyed by the subject id, the site document holding only a `placementRef`, over a placement field on the card, because bar 3 holds for every subject |
+| J-V13.61 (SW-13) | chose one merged union text for `Recipe.product` and `StrategyRegistry.products` (`'world'` and `'site'`) carried by BCR-V13-5 and -7 over two requests on one line because the coherence pass applies one text per line |
+| J-V13.62 (SW-14) | chose a milestone M-W0h for the frame-side water state after M4 beside M5 and before M6-U, over keeping it inside M-W1 after M-SF, because V04 and V14 read the classifier from their first milestone |
 | J-V13.50 | chose dossier facts as hard placement constraints (the `dossier` term at weight ∞; `refuse.charter.dossier`) over a precedence rule that lets the world amend a dossier fact because item 20 (h) makes the dossier the one source of truth and a placement a map fact; the host moves its placement or amends its dossier — vetoable, no owner question needed (C13-08) |
 | J-V13.40 | rejected a re-sampled cell graph for the world (the reference's two-graph mesh) in favour of rasters and a graph because every stage's law is then linear in cells and the raster is what the heightmap and the DEM edits need (C13-50) |
 | J-V13.41 | rejected tectonics because the recipe's ranges and troughs give the authored control the owner asked for; a tectonic pass may later be one op emitting them |
@@ -2506,7 +2595,7 @@ The dependency rule gains: `@plat/world` imports nothing from `@plat/site`, `@pl
 > `surfaces: WaterSurface[] /* item 140 M2: one surface per WaterBody at generation (the sea at seaLevelCm, each lake at its spill height, each reach's stage profile) plus every dated surface an edit or an epoch wrote; never carved into the heightfield (V13 §2.2, V13 §3.12.1) */;`
 > `groundwater: GroundwaterField /* item 140 M4: the frame's water table, derived by the groundwater step after S1 (3) and after every terrain or water operator (V13 §3.12.3); read only through `waterTableAt(doc, p, when?)` */;`
 
-**BCR-V13-3 — §2.4 *Basements*: the water table is the groundwater function.**
+**BCR-V13-3 — §2.6 *Basements*: the water table is the groundwater function.**
 *Current text:*
 > The **water table** is the nearest water body's surface elevation — a moat's the one level §4.2 S3 (10) derives from its `flowFrom` source, every other body's shore terrain sample — plus the freeboard `freeboardCm` (default 50) for a plot within `waterTableM` (default 40 m) of a shore, and elsewhere the height of the drainage line: the `hydro` cell nearest the footprint's centroid whose `flowAccum` reaches `drainageAccumCells` (ties by cell index; where no cell reaches it, no water table limits the cellar) — the three values are §10.2's basement-gate row.
 *New text:*
@@ -2524,13 +2613,15 @@ The dependency rule gains: `@plat/world` imports nothing from `@plat/site`, `@pl
 *Current text:*
 > `product?: 'town'|'hood' /* absent reads 'town'; 'hood' a standalone neighbourhood document (V01 §3.10.1) */; hood?: HoodRecipe /* present exactly when product is 'hood' (below; its rules V01 §3.10.1) */;`
 *New text:*
-> `product?: 'town'|'hood'|'world' /* absent reads 'town'; 'hood' a standalone neighbourhood document (V01 §3.10.1); 'world' a world document (V13) */; hood?: HoodRecipe /* present exactly when product is 'hood' (below; its rules V01 §3.10.1) */; world?: WorldRecipe /* present exactly when product is 'world' (V13 §2.2) */;`
+> `product?: 'town'|'hood'|'world'|'site' /* absent reads 'town'; 'hood' a standalone neighbourhood document (V01 §3.10.1); 'world' a world document (V13); 'site' a world-site document (V14 §3.1) — the one merged union both volumes cite (SW-13) */; hood?: HoodRecipe /* present exactly when product is 'hood' (below; its rules V01 §3.10.1) */; world?: WorldRecipe /* present exactly when product is 'world' (V13 §2.2) */;`
 > `charter?: FrameCharter /* a placed frame's one boundary record (item 140 M5; V13 §2.2): a recorded input of S0 and S1, in the records digest, never the model digest */;`
 and `Document` gains, after `nextUndergroundPart`:
 > `worldRef?: { world: Uuid; placement: Id } /* the world this frame is placed in and its placement there (V13 §2.2); absent on a standalone frame; written only by the frame's own `charter` event (author `world`, V13 §4.1, §4.4) */;`
 > `namespace: string /* the address namespace segment (V13 §2.5; BCR-V13-6): minted once at creation, kept on clone and save-as (C13-24) */;`
 A world document's `base` holds its rasters as `fields` chunks and its records in the entities block (V13 §2.7); its log
-holds V13 §4.1's events.
+holds V13 §4.1's events. §2.9's per-viewer view keys gain `worldZoom` (0–3, default 1), `worldLayer` (V13 §5.1's
+thematic layer, default `relief`), `showTraces` (default false) and `surfaceDate` (a `Week`, default the document's
+week); the world document's `week` key is set by the season control or `view.set { week }` (V13 §2.1; SW-24).
 
 **BCR-V13-6 — §6.3 Identity: the namespace segment (item 140 M1).**
 *Current text:*
@@ -2542,7 +2633,7 @@ holds V13 §4.1's events.
 *Current text:*
 > `→ { product: 'base' | 'village', rung }` to the village product registered in `StrategyRegistry.products` (§4.12;
 *New text:*
-> `→ { product: 'base' | 'village' | 'world', rung }` to the village product, or by `Recipe.product: 'world'` to the world product (V13 §3.0: stages W0–W9 and the placement stage P1–P5, each a `StageDecl` with `txForm: 'declared'`), registered in `StrategyRegistry.products` (§4.12;
+> `→ { product: 'base' | 'village' | 'world' | 'site', rung }` to the village product, by `Recipe.product: 'world'` to the world product (V13 §3.0: stages W0–W9, each a `StageDecl` with `txForm: 'records'`; the placement operators P1–P5 are §7.3 local operators, not stages), or by `Recipe.product: 'site'` to the `site` product (V14 §3.1's G1–G8, registered by `@plat/sites`; never by population), all registered in `StrategyRegistry.products` (§4.12;
 `ProductDecl` gains `coordinateRegime: 'frame'|'world'` (V13 §2.1), read by the view's transform and the exports;
 `StageDecl.txForm` gains `'records'` (a stage that writes records and rasters and no arena: no kernel transaction, no
 K12 entry; the world's own `WorldCommitRecord` stands in, V13 §3.0; C13-28). The placement operators P1–P5 are not
@@ -2555,7 +2646,7 @@ stages of the set (V13 §3.0; C13-27).
 > `| `world.recipe` | default | W0's template draw, keyed by the world root and the op ordinal; W1's noise, keyed by the op index and the cell position (V13 §3.17) |`
 > `| `world.climate` | default | W3's moisture start jitter, keyed by the coarse row |`
 > `| `world.resources` | default | W5's per-cell resource draws, keyed by the rule ordinal and the cell |`
-> `| `world.siting` | default | W6a's and W6b's tie-breaks, keyed by the cell pair; V14's G3 jitter term, keyed by the caller's key |`
+> `| `world.siting` | — | a reserved id, not a stream: siting draws nothing; the tie-break is V13 §3.7 (6)'s (SW-03) |`
 > `| `world.polity` | — | a reserved id, not a stream (W8 draws nothing) |`
 > `| `place.search` | — | a reserved id, not a stream (P1 draws nothing) |`
 and two existing rows gain a reader: `water.delta`'s row appends "W4's distributary shares, keyed by the reach's
@@ -2588,7 +2679,7 @@ reserved session `world:place` beside `host:port` (C13-34, C13-40, C13-53).
 *Current text* (§7.1, the port's door as the base states it):
 > `dossier?: DossierRef /* set by the dossier port (`@plat/port`, §14) on every event a dossier change generates through the host door (§11.4): the element's binding key, opaque to the module (§7.7 item 12) */;`
 *New text* (unchanged; the following added to §7.7's port paragraph, and the six methods to V08 §2.2's host → PLAT and PLAT → host unions, one type per method, with the world's format version in the envelope — C13-59):
-> The **world port** (`@plat/port/world`, one adapter folder per host line, V13 §3.11.6) is the port's second door: outbound `derivedFacts(world, placement) → SettlementMapRecord`, `charter(world, campaign) → FrameCharter`, `proposals(world, demand) → SitingProposal[]`, `routes(world) → WorldRoute[]`; inbound `seats(world, seeds)` and `costLaw(world, law)` as recorded inputs. The host reads derived facts and never an arena; the map writes no dossier fact except through this door as a derived fact (bar 9). V08's host client carries the six messages, versioned by the world's format version, plus the view command `clock(world, week)` (V13 §2.1; C13-23).
+> The **world port** (`@plat/port/world`, one adapter folder per host line, V13 §3.11.6) is the port's second door: outbound `derivedFacts(world, placement) → SettlementMapRecord`, `charter(world, campaign) → FrameCharter`, `proposals(world, demand) → SitingProposal[]`, `routes(world) → WorldRoute[]`; inbound `seats(world, seeds)` and `costLaw(world, law)` as recorded inputs. The host reads derived facts and never an arena; the map writes no dossier fact except through this door as a derived fact (bar 9); the seventh method, inbound `events(world, events: WorldEvent[])`, delivers the host's dated events as dossier-tier facts for the world's event index (V13 §2.2; SW-07). V08's host client carries the seven messages, versioned by the world's format version, plus the view command `clock(world, week)` (V13 §2.1; C13-23).
 
 **BCR-V13-12 — §11.1 Formats: the world's rows and the frame's water additions.**
 *Current text* (the GeoJSON row's opening):
@@ -2621,7 +2712,7 @@ pooled-law amendment should S1's row miss at M-W4.
 *Current text:*
 > (T-V1-n … T-V12-n, each volume's §7), run by the same benches and tiers.
 *New text:*
-> (T-V1-n … T-V14-n, each volume's §7), run by the same benches and tiers; volume 13 adds the **B-WORLD** corpus (200 seeds × three rungs × six templates, B-WORLD-lite its first 10 per rung; V13 §7) and its eighteen model-drift tests (T-V13-21, one per row of V13 §3.14.3's table) to the PR tier.
+> (T-V1-n … T-V14-n, each volume's §7), run by the same benches and tiers; volume 13 adds the **B-WORLD** corpus (200 seeds × three rungs × six templates, B-WORLD-lite its first 10 per rung; V13 §7) and its eighteen model-drift tests (T-V13-21, one per row of V13 §3.14.3's table) to the PR tier; volume 14 adds the fixtures `B-SITE`, `B-CROP`, `B-25D` and the no-op pins `item132.none`, `item141.flat` (V14 §7) — the one merged text both volumes cite (SW-29).
 
 **BCR-V13-16 — §9.5 Furniture: the compass derived from the placement.**
 *Current text:*
@@ -2647,8 +2738,8 @@ pooled-law amendment should S1's row miss at M-W4.
 *Current text:*
 > The design volumes' milestones follow in the order the owner's delegation fixed (J122): the village's tracker spike right after M0, the built-in clerk beside M3b, and after M4 four streams side by side.
 *New text:*
-> The design volumes' milestones follow in the order the owner's delegation fixed (J122): the village's tracker spike right after M0, the built-in clerk beside M3b, and after M4 four streams side by side; **the world milestones M-W0 – M-W4 (V13 §8: 32 pw) follow M-SF, the frame's water state first inside M-W1, the host's own changes a parallel track on the owner's schedule (V13 §11 Q2)**.
-§16's totals gain the 32 pw.
+> The design volumes' milestones follow in the order the owner's delegation fixed (J122): the village's tracker spike right after M0, the built-in clerk beside M3b, and after M4 four streams side by side; **the water state at the frame M-W0h after M4 beside M5 (V13 §8; SW-14), the world milestones M-W0 – M-W4 (V13 §8: 28–36 pw as one staged row) after M-SF, the encounter crop M-ENC after M1, the attached sites M-SITE-A after M6-U, the free sites M-SITE-F after M-W1 and the 2.5D renderer M-25D after M4 (V14 §8); the host's own changes a parallel track on the owner's schedule (V13 §11 Q2)** — the one merged text both volumes cite (SW-29).
+§16's staged table gains the rows as this sentence places them; the volume states no total of its own.
 
 **BCR-V13-20 — §1.1 What is built: the world row.**
 *Current text:*
@@ -2662,13 +2753,13 @@ pooled-law amendment should S1's row miss at M-W4.
 > **its floor lies `hallDryCm` above the local water table**
 *New text:*
 > water table reads it — `waterTableAt(doc, at)` (V13 §3.12.3), a moat's level among the surfaces it derives from,
-> **its floor lies `hallDryCm` above `waterTableAt(doc, hallCentre, constructionWeek(hall))`** (`constructionWeek` the derived reading of V13 §3.13.5: the week of the epoch named by `Lifecycle.since.epoch`, week 0 at generation; C13-18) — and every element's `flood` admission, its class after construction and its route from the entrance are V13 §3.13's `classifyWater` and `routeClass` over the element as a `WaterUnit` (floor, chamber height, passages), with the connected-set rule (a void below an adjacent body's surface floods to it) and the `lined` attribute (a cistern or sewer invert holds the table back to `liner.headLimitCm`) of V13 §3.12.6; V04's `hallDryCm`, `freeboardCm` and burial depths stay V04's cells, read as the unit's thresholds. **Third part** (C13-29): V04's T-V4-12, T-V4-20 and T-V4-23 read the table at the element's construction week (`waterTableAt(doc, p, constructionWeek(element))`); a present-week violation under a lawful `setSurface` or placement is a `lockedBelowTable` report, never a test failure.
+> **its floor lies `hallDryCm` above `waterTableAt(doc, hallCentre, constructionWeek(hall))`** (`constructionWeek` the derived reading of V13 §3.13.5: the week of the epoch named by `Lifecycle.since.epoch`, week 0 at generation; C13-18) — and every element's `flood` admission, its class after construction and its route from the entrance are V13 §3.13's `classifyWater` and `routeClass` over the element as a `WaterUnit` (floor, chamber height, passages), with the connected-set rule (a void below an adjacent body's surface floods to it) and the `lined` attribute (a cistern or sewer invert holds the table back to `liner.headLimitCm`) of V13 §3.12.6; V04's `hallDryCm`, `freeboardCm` and burial depths stay V04's cells, read as the unit's thresholds. **Third part** (C13-29): V04's T-V4-12, T-V4-20 and T-V4-23 read the table at the element's construction week (`waterTableAt(doc, p, constructionWeek(element))`); a present-week violation under a lawful `setSurface` or placement is a `lockedBelowTable` report, never a test failure. **The II.6 condition** (SW-31): an element's `flooded` holds exactly when its class is `wading`, `swimming` or `submerged` (`depthCm` > 0 at its floor sample); `damp` and `dry` leave it as it was. **Order** (SW-14): the readers switch at M-W0h; until it lands V04's readers keep the base's nearest-body rule, the switch reported as the version's shift at M-W0h's landing.
 
 **BCR-V13-22 — V06 §3.23 (the decay ladder): the waterlogged rate.**
 *Current text:*
 > `r` is V11's decay rate per year for the building's walls material (`Building.material.walls`, read for time only, as §4.11's `WorksTable` reads it): timber and thatch faster than stone.
 *New text:*
-> `r` is V11's decay rate per year for the building's walls material (`Building.material.walls`, read for time only, as §4.11's `WorksTable` reads it): timber and thatch faster than stone; **a building whose ground storey is `submerged` or `swimming` under the present surface (V13 §3.13.4) decays at `r × waterloggedFactor` (V11's cell, default 3) toward the `submerged ruin` state, and one later exposed keeps its state and resumes `r`**.
+> `r` is V11's decay rate per year for the building's walls material (`Building.material.walls`, read for time only, as §4.11's `WorksTable` reads it): timber and thatch faster than stone, **or, for a world site's carved and natural units, the unit's material rate (`SiteDamageRow.ratePerYear`, V14 §2.5); a lineage whose ground storey or lowest unit is `submerged` or `swimming` under the present surface (V13 §3.13.4) decays at `r × waterloggedFactor` (V11's cell, default 3) toward the `submerged ruin` state, and one later exposed keeps its state and resumes `r`** — the one merged sentence both volumes cite (SW-30).
 
 **BCR-V13-23 — V02 §2.2's building record: the per-storey water class.**
 *Current text:*
@@ -2714,7 +2805,10 @@ they land V13 §2.3's mapping table names each biome's stand-in key (C13-16).
 `Territory` (and its provinces), `WorldRoute`, `SitingProposal`, `ResourceSite`, the spring, `Placement`,
 `FrameCharter`, `TerrainTrace`, `SurfaceTrace`, `ReasonRecord`, the `coast` record and the `zone` and `importHint`
 records — each with every column the completeness test reads (its stage, its lineage unit, its anchor, its digest
-encoding, its export mapping, its `WhyProvider`, its edit kinds; V13 §2.5, §1b.4, §5.4); `EntityKind` gains the
+encoding, its export mapping, its `WhyProvider`, its edit kinds, and `z: ZDecl` — BCR-V14-5's column: `{ surface: 'dem' }`
+for the rasters, routes, borders, glyph marks and `TerrainTrace`, `{ base: 'bed', top: 'elevationCm' }` for `WaterSurface`
+and `SurfaceTrace`, `{ flat, reason: 'furniture' }` for a label candidate (V13 §5.7; SW-22); V13 §2.5, §1b.4, §5.4);
+`EntityKind` gains the
 registered lineage units `'placement'` and `'territory'`; and §6.3's anchor table gains V13 §2.5's anchors as rows (a
 reach by course overlap ≥ 50 % within one fine cell, a territory by its seat, a placement by its subject, a surface by
 its body and date, a route by its ends) — C13-30.
@@ -2732,14 +2826,18 @@ neighbouring frames agree only at the charter's edge profile and outlines: V13 �
 
 | request | what V13 needs | where V13 reads it |
 |---|---|---|
-| R-V14-1 | `WorldSite { id; at: WorldPointCm; attraction: number /* 0–1 */; routed: boolean }` positions for W6's `destination` term, W7's routed sites and the charter's `sites` | V13 §3.7, §3.8, §3.11.4 |
-| R-V14-2 | the `SiteAnchor` address form resolved across documents by the namespace segment (V13 §2.5) | V13 §2.5, `worldFactsAt` |
-| R-V14-3 | G3 calls `score(cell, ctx, weights, hard, jitter)` with its `SitePurposeWeightRow` (seventeen terms as V13 §3.7's registry names them, the destination term called `destination`) and names its one jitter term; V14 owns the weights | V13 §3.7 |
+| R-V14-1 | every `Placement` with a `site` subject gives the site's `at` (`originCm`); its card's `attraction` (0–1) and `routed` are read through `@plat/api`'s resolver from the site document (V14 §2.2), cached per (placement, the card's digest) — for W6's `destination` term, W7's routed sites and the charter's `sites` (SW-20) | V13 §2.2, §3.7, §3.8, §3.11.4 |
+| R-V14-2 | a site's `Placement` as a world fact (`WorldFacts.sites`); the `SiteAnchor` of an attached site resolved across documents by the namespace segment (V13 §2.5) (SW-20) | V13 §2.4, §2.5 |
+| R-V14-3 | G3 calls `score(cell, ctx, weights, hard)` with its `SitePurposeWeightRow` over V14's own purpose-term plug-ins (registered through `terms.register`, V14's formulas) and V13's eight generic terms; the world-site term is `destination` (`reach.siteKm`); no jitter or random term anywhere — equal candidates take V13 §3.7 (6)'s deterministic tie-break (SW-01, SW-03) | V13 §2.2, §3.7 |
 | R-V14-4 | G6 stores `WaterClassResult` and `RouteClassResult` (V13 §2.4) and re-runs on every cascade whose dirty set reaches the site's governing surface (V13 §3.14.2 step 5); E3 reads `routeClass` for swimming routes | V13 §3.13, §3.14.2 |
 | R-V14-5 | the import's markers and zones handed to G1 as site candidates and annotations (V13 §2.8, §3.15): V14 states what G1 does with them | V13 §3.15 |
 | R-V14-6 | every V14 stage writes V13 §2.2's `ReasonRecord` (the one declaration) and names its `WhyProvider` kinds | V13 §2.2, §4.7 |
-| R-V14-7 | the 2.5D renderer (R1–R4) consumes V13 §5.7's list and nothing else of the world | V13 §5.7 |
-| R-V14-8 | a site's glyph marks through the same `glyphOf`/`world.glyph` path as a frame's (V13 §3.10) | V13 §3.10 |
+| R-V14-7 | V14's R1–R4 own the 2.5D view of every document, the world included: R2–R3 draw V13 §5.7's drawables with their `ZDecl` rows (a `Lod25Row` per world stop) and nothing else of the world (SW-02) | V13 §5.7 |
+| R-V14-8 | a site's glyph marks through the same `glyphOf`/`world.glyph` path as a frame's: `@plat/sites` runs `glyphOf` over the site document (the levels V13 §3.10 (4) names) and posts `world.glyph`; V13 places it as a `Glyph` with `subject: 'site'` (SW-08) | V13 §2.2, §3.10 |
+| R-V14-9 | E1's world crop frame calls the transient `charterFor(world, TransientPlacement)` (V13 §3.11.4) and persists nothing (SW-05) | V13 §3.11.4, §6 `WORLD-9` |
+| R-V14-10 | G6 hands a site level's units as `WaterUnit`s with `passages` from the unit graph and the vertical links; `floodSite`/`drainSite` fold to `setSurface` on the level's `site` surface (SW-06) | V13 §3.12.6, §3.13.1, §4.1 |
+| R-V14-11 | a site subject goes through every placement edit as the frame does (`setPlacement`, `worldWins` as G5 (f)'s re-materialization, `unplaceFrame`); the site document holds only its `placementRef` (SW-11, SW-19) | V13 §2.7, §3.11, §4.3 |
+| R-V14-12 | adoption is V14's own hook on the `world.placed` message (the `placed` outcome row of P4/P5); V13 calls nothing of V14 (SW-10) | V13 §3.11, §1b.2 |
 
 ## 11 Owner questions (true owner decisions only, each with a recommendation)
 
