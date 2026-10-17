@@ -509,26 +509,39 @@ type GlyphMark = { kind: 'dot'|'ring'|'outline'|'water'|'wall'|'way'|'ward'; poi
 
 interface SitingProposal { id: Id; at: WorldPointCm; cell: number; score: number; terms: Record<string, number>; port: boolean; reason: Id; demand?: string /* the host's demand key it answers */ }
 
-interface ReasonRecord {                     // item 140 M8; shared with V14, declared here once (§2.8's sixth part for world facts; BCR-V13-17)
-  id: Id; fact: Id /* the entity or field value it explains */; stage: StageId; concern?: ConcernId;
-  inputs: { fact: Id; path?: string }[] /* the facts read, from the commit journal (K12) */;
-  rule: RuleRef /* the section whose rule produced it */; values: Record<string, number | string> /* the numbers the rule read, in their units ("tableCm", "distanceM", "thresholdCm") */;
+interface ReasonRecord {                     // item 140 M8; shared with V14, declared here ONCE (§2.8's sixth part; BCR-V13-17); V13 §4.7 and V14 cite this block
+  id: Id; fact: Id | { chunk: ChunkRef } /* the entity or field value it explains, or a RASTER CHUNK: a stage writes one record per raster it writes, never one per cell (J-V13.49) */;
+  path?: string /* the field of the fact, when not the whole record */; stage: StageId; concern?: ConcernId;
+  event?: EditId /* the edit whose fold wrote it; absent at generation */;
+  inputs: { fact: Id | { chunk: ChunkRef }; path?: string; value?: number | string }[] /* the facts read: from the kernel's commit journal (K12) for a frame stage that runs a kernel transaction, from the world's own `WorldCommitRecord` (V13 §3.0) for a world stage or cascade step */;
+  rule: RuleRef /* the table, row and cells whose rule produced it */; values: Record<string, number | string> /* the numbers the rule read, in their units ("tableCm", "distanceM", "thresholdCm") */;
+  text: MsgRef /* the sentence the clerk renders, per caller (§5.4's form; V13 §4.7) */;
   cause: EditRef | RuleRef | 'generation' | `convert:${string}`; verb?: 'happened'|'alwaysSo';
   supersedes?: Id /* the reason this one replaced (a cascade's re-derivation) */; week: Week }
-  // persisted in the entities block, outside the model digest and inside the records digest (V13 §2.7): a reason explains a fact and never is one
+  // persisted in the entities block, outside the model digest and inside the records digest (V13 §2.7): a reason explains a fact and never is one.
+  // A cell's reason is COMPUTED ON DEMAND: `whyCell(raster, cell)` (`@plat/world/why`) re-evaluates the writing stage's rule function for that one cell
+  // against the chunk record's inputs and slices (J-V13.49); records are bounded by entity count (≤ 10⁵ at the continent rung, V13 §2.7), never by cells.
 
 interface TerrainTrace { id: Id; kind: 'oldBed'|'oldShore'|'oldGround'; cells: Uint32Array /* fine or hydro cells */; formerCm: Int32Array /* the former values */; event: EditRef; week: Week; reason: Id }
 interface SurfaceTrace { id: Id; surface: Id /* the superseded WaterSurface */; event: EditRef; week: Week; reason: Id }
-interface PlacementAnomaly { placement: Id; subject: Id /* the locked entity */; kind: 'riverUphill'|'coastInland'|'lockedBelowTable'|'lockedInWater'|'roadToNowhere'; detail: string; reason: Id }   // derived, V13 §2.4
+interface PlacementAnomaly { placement: Id; subject: Id /* the locked entity */; kind: 'riverUphill'|'coastInland'|'lockedBelowTable'|'lockedInWater'|'roadToNowhere'|'windSide'|'sunDiffers'; detail: string; reason: Id }   // derived, V13 §2.4
 ```
 
 **The frame's side** (BCR-V13-2, BCR-V13-3, BCR-V13-5): `Terrain` gains `carveDeltaCm: Map<number, number>` (per hydro
 cell, the delta S1 (3)'s carve lowered it by; `preCarveHeightAt(p)` = `heightAt(p)` + the cell's delta), `surfaces:
 WaterSurface[]` (one generation-time surface per `WaterBody` — the sea at `seaLevelCm`, each lake at its spill height,
 each reach's stage profile — and every dated surface after it) and `groundwater: GroundwaterField` (`grid: 'hydro'`);
-`datumCm` is read only through `datumOf(doc)`; `Document` gains `worldRef?: { world: Uuid; placement: Id }` and
-`Recipe` gains `charter?: FrameCharter` (present exactly when the frame was generated or re-derived from a charter) and
-`product: 'world'` with `Recipe.world`. The base's water-table rule (§2.4) is replaced by `waterTableAt(doc, p, when?)`
+`Terrain.datumCm` and `Terrain.wind` stay exactly what S1 wrote and are read only through the accessors `datumOf(doc)`,
+`windOf(doc)` and `sunAt(doc, week, hour)` (`@plat/model`): on a standalone frame each returns S1's value (the datum,
+`Terrain.wind`, the sun from the recipe's `Intent.latitudeDeg`, DR29); on a placed frame `datumOf` returns the world's
+DEM at the placement's origin and `windOf` the charter's wind in frame terms, **each read through the world document
+named by `worldRef` at call time — a derived reading, never stored in the frame** (Revision 1, C13-01: no placement
+writes a field the model digest hashes; bar 3). The model-side sun (§4.5's daylight term, field pass 1) stays the
+recipe's latitude until a `worldWins` re-derives the frame; a placement whose latitude differs from the recipe's is a
+`PlacementAnomaly` kind `sunDiffers` (V13 §3.11.5). `Document` gains `worldRef?: { world: Uuid; placement: Id }`
+(written only by the frame's own `charter` event, V13 §4.1) and `Recipe` gains `charter?: FrameCharter` (present exactly
+when the frame was generated or re-derived from a **world-sourced** charter, `source: 'world'`; a settlement-first
+placement's charter lives on the world's `Placement` alone, C13-03) and `product: 'world'` with `Recipe.world`. The base's water-table rule (§2.4) is replaced by `waterTableAt(doc, p, when?)`
 (V13 §3.12.3). A standalone frame — no `worldRef` — keeps every base behaviour: `datumOf` returns S1's value, the
 surfaces are S1's at generation, the groundwater field is derived from them, and the charter is absent.
 
@@ -765,12 +778,13 @@ T-V13-30 (b).
 | `Reach` (course, profiles, `navigable`, `mouth`, `exitHeadCm`) | W4 | W6, W7, W9, the charter, the port, the exports | entities block | re-derived by the cascade inside its basin; a `rerouteReach` is an edited course held (§7.2) | the former reach, delta and trace | absent: W4 on load |
 | `GroundwaterField` (world) / `Terrain.groundwater` (frame) | W4; the frame's step after S1 (3) and after every terrain or water operator | `waterTableAt`, the water class test, W6, the view | `fields` chunk / the terrain chunk | re-derived by the cascade over the dirty set | the replaced scope | absent on an older frame: derived on load from the surfaces (V13 §4.6), reported as the version's shift |
 | `Terrain.carveDeltaCm`, `Terrain.surfaces` | S1 (3), S1's water operator | `preCarveHeightAt`, the water class test, the exports | the terrain chunk | re-derived with S1's water | the edit's replaced scope | absent: `carveDeltaCm` empty (reported), `surfaces` built on load |
-| `datumOf(doc)`'s value | S1 (standalone); P4 (placed: the world DEM at the origin) | every reader of §2.3's `datumCm` | `Terrain.datumCm` (unchanged storage) | a placement edit re-derives it and runs V13 §3.11.5's re-basing | the former datum | — |
-| `Recipe.charter`, `Document.worldRef` | P4 at a placement; `generate` from a charter | S0, S1, S12a, V14 | the recipe (the charter as a recorded input, §2.8's derivation-record rule; V13 §2.7) | the charter is an input: Regenerate (keep settings) keeps it; `worldWins` replaces it and re-derives from S1 | the former charter and `worldRef` | absent: a standalone frame |
-| `Placement` | `placeFrame`; `setPlacement`, `mirrorFrame`, `worldWins`; V14's adoption | the transform, the glyph, the port, the compass, the sun and wind terms | the world's entities block | an input: kept by every world re-derivation; a world `adjust` that changes the extent re-validates every placement (one outside the new extent is reported and kept) | the former placement, blend and charter | the subject by `docId`; a subject the world cannot open stays placed and is reported |
+| `datumOf(doc)`, `windOf(doc)`, `sunAt(doc, …)` (derived readings) | S1 writes `Terrain.datumCm` and `Terrain.wind` once; on a placed frame the accessors read the world through `worldRef` at call time (the DEM at the origin; the charter's wind; the view's sun) — nothing is written in the frame (C13-01) | every reader of §2.3's `datumCm` and `wind`; §8.4's sun | `Terrain.datumCm`, `Terrain.wind` (unchanged storage; never rewritten by a placement) | a placement edit changes the accessors' answer by changing the world, not the frame; `worldWins` re-derives the frame from S1 and S1 writes the fields anew | the world's placement undo | — |
+| `Recipe.charter` (world-sourced only), `Document.worldRef` | the frame's own `charter` event (author `world`, V13 §4.1), emitted by the world's `requestCharter` / `bindPlacement` / `worldWins` / `unplaceFrame` folds; `generate` from a charter writes the recipe's copy at creation | S0, S1, S12a, V14 | the recipe (the charter as a recorded input, §2.8's derivation-record rule; V13 §2.7) | the charter is an input: Regenerate (keep settings) keeps it; `worldWins` replaces it and re-derives from S1; a settlement-first placement writes NO `Recipe.charter` (its charter stays on the world's `Placement`, C13-03), so Regenerate (keep settings) after such a placement is byte-identical to the same action before it (T-V13-13) | the frame's `charter` event is undone only by the world's undo of the placement edit that emitted it (the pair recorded in the world's undo record, V13 §4.4) | absent: a standalone frame |
+| `Placement` | `placeFrame` (settlement-first) or `requestCharter` (world-first, bound to the frame's `docId` by `bindPlacement`); `setPlacement`, `mirrorFrame`, `worldWins`; V14's adoption | the transform, the glyph, the port, the compass, the sun and wind terms | the world's entities block | an input: kept by every world re-derivation; a world `adjust` that changes the extent re-validates every placement (one outside the new extent is reported and kept) | the former placement, blend and charter | the subject by `docId`; a subject the world cannot open stays placed and is reported |
 | `Placement.blend`'s world cells | P2 | W4 (the band's drainage), the view | the blended cells are the `dem`'s own values; the band's former values a `TerrainTrace` of the placement event | re-blended by a placement edit; a world terrain re-derivation under a placed frame re-blends after it (V13 §4.3) | the trace restores them | — |
-| `SettlementGlyph` | W9; the frame's commit hook (V13 §3.10) | the view, the exports, the port | the world's entities block, with `sourceDigest` | re-made whenever the frame's digest differs (stale → re-made at the next world view or export; never a world edit) | with its placement | absent: made at the next view |
-| `WorldRoute`, `Territory`, `SitingProposal` | W7, W8, W6 | the charter, the port, W9, the view | entities block | re-derived from their stage; a `setSeats` or a cost-law change re-derives from W8 or W7 | the replaced scope | absent: re-derived on load |
+| `SettlementGlyph` | W9; the frame's commit hook (V13 §3.10: the frame makes its marks, the world transforms them) | the view, the exports, the port | the world document's `derived` cache (as §2.9's `elaborations`), keyed by (`placement`, `sourceDigest`) — OUTSIDE the model digest (C13-21) | re-made whenever the frame's digest differs (stale → re-made at the next world view or export; never a world edit, never a digest change) | with its placement | absent: made at the next view |
+| `WorldRoute`, `Territory`, `SitingProposal` (W6's own) | W7, W8, W6 | the charter, the port, W9, the view | entities block | re-derived from their stage; a `setSeats` or a cost-law change re-derives from W8 or W7 | the replaced scope | absent: re-derived on load |
+| a demand proposal (`proposals(world, demand)`, V13 §3.7 (5)) | the port call | the caller (the host, V14's G3); drawn while shown | NEVER persisted: a transient answer with its weights in its reason (C13-22) | — | — | — |
 | `ReasonRecord` | every stage; the cascade; V14 | the clerk's four readers | entities block (records digest only) | re-written by every derivation that re-derives its fact (`supersedes` the old) | the former record | absent on an older document: the generic provider answers from provenance (V10 §2.13) and the clerk says the chain is incomplete |
 | `TerrainTrace`, `SurfaceTrace` | a `happened` edit; V06's water ops | the view, the clerk | entities block | kept | removed with the event; `deleteTrace` removes one alone, its own undo restoring it | kept |
 | `EditBase.verb` | every terrain and water edit (`happened` by default) | the fold (V13 §3.14) | the event | — | — | an older event reads `alwaysSo` (no trace was ever kept) |
@@ -788,12 +802,18 @@ default, a field removed is dropped and reported), never by re-generating the fr
 
 **The model digest** (§6.2) gains a layer node `world` for a world document: the fine and coarse raster chunks' content
 hashes (each raster a leaf whose bytes are its typed array in the canonical delta coding of V13 §2.6, so two worlds with
-equal rasters hash alike), the surfaces, reaches, watersheds, routes, territories, proposals, placements, glyphs and
-traces as leaves in schema order. **A placement is in the world's digest and in no arena's** (the brief's bar 3): a frame
-document's model digest reads neither `worldRef` nor `Recipe.charter` (the charter is a recorded input in the records
-digest, as a `DerivationRecord` is, §6.2's *Excluded*; the frame's rasters and arenas it refined from the charter are
-model data and change only when the frame re-derives), so moving a placement changes the world's digest and no arena
-digest (T-V13-3). `ReasonRecord`s, traces' `reason` references and the charter's bytes are in the records digest.
+equal rasters hash alike), the surfaces, reaches, watersheds, routes, territories, W6's proposals, placements and
+traces as leaves in schema order; the glyphs are a `derived` cache outside it (C13-21). **A placement is in the world's
+digest and in no arena's** (the brief's bar 3): a frame document's model digest reads neither `worldRef` nor
+`Recipe.charter` (the charter is a recorded input in the records digest, as a `DerivationRecord` is, §6.2's *Excluded*;
+the frame's rasters and arenas it refined from the charter are model data and change only when the frame re-derives),
+and no placement edit writes any field the frame's model digest hashes (`datumCm`, `wind` and the sun are derived
+readings, V13 §2.2), so moving a placement changes the world's digest and no arena digest — the frame's **model digest is
+byte-equal** before and after every placement edit, only its records digest differing by the charter event (T-V13-2).
+`ReasonRecord`s, traces' `reason` references and the charter's bytes are in the records digest. **The record budget**
+(C13-07): reason records are one per entity and one per raster chunk — reaches, surfaces, basins, territories, provinces,
+routes, proposals, placements, resources, springs and the chunks: ≤ 10⁵ records at the continent rung, ≈ 120 B each
+gzipped, inside the 2 MB of records below; a cell's reason is never stored (`whyCell`, V13 §2.2).
 
 **Storage.** A world document is a `.plat` container (§2.9) whose `fields` chunks hold the rasters — `dem` second-order
 delta-coded (the fallback §2.9 names, taken from the start for a raster: a world's dem is smooth, so the stream
@@ -841,16 +861,22 @@ T-V13-26.
 ### 3.0 The world pipeline: registration, order, the materializer contract
 
 The world is a product (`ProductDecl` `world`, registered by `@plat/world` into `StrategyRegistry.products`; BCR-V13-7;
-J-V13.4): its stage set is W0–W9, each a `StageDecl` (§4.12) with `phase: 'main'`, `txForm: 'declared'` (a world stage
-writes records and rasters, never a kernel transaction; its "batch" is one commit of the world document's records,
-§3.3's commit record kept for K12's journal), `lineageUnit: 'town'` (the world root) unless the table below names
-another, and the declared I/O that orders them topologically (§4.1). `LadderRouter` routes a `WorldRecipe` request to
-the product by `Recipe.product`, never by population. The placement step P1–P5 is one more stage of the product, run
-not by `generate` but by the placement edits' folds (V13 §4.1), with its own stage id and streams. Every stage obeys
-item 131 (c)'s **materializer contract**: it declares its world-fact inputs (the data keys it reads), takes one context
-record (`StageContext`, §14; a `PlaceContext` for P1–P5, V13 §3.11) and returns outputs as rasters, records (arenas, for
-a frame) and derived facts, writing one `ReasonRecord` per fact it creates or changes (V13 §2.2) — a stage that writes a
-fact without a reason fails T-V13-10's chain test. Every stage declares its failure ladder (V13 §3.16) and its work
+J-V13.4): its stage set is W0–W9 (W6 and W7 each split in two, V13 §3.7 and §3.8: `W6a`, `W7a`, `W6b`, `W7b`, C13-33),
+each a `StageDecl` (§4.12) with `phase: 'main'`, `txForm: 'records'` (BCR-V13-7: a stage that writes records and rasters
+and no arena — never a kernel transaction, so K12's journal does not see it; C13-28), `lineageUnit: 'town'` (the world
+root) unless the table below names another, and the declared I/O that orders them topologically (§4.1). Each world
+stage run writes the world's own commit record, `WorldCommitRecord { stage: StageId; concern?: ConcernId; inputsRead:
+DataKey[]; chunksWritten: ChunkRef[]; recordsWritten: Id[]; seq: number }`, kept per run in the world document's
+`derived` and read by the reason records as K12's analogue (V13 §2.2); a frame's stages keep K12's journal. `LadderRouter`
+routes a `WorldRecipe` request to the product by `Recipe.product`, never by population. **The placement step P1–P5 is
+not a stage**: its five parts are §7.3 local operators of the placement edits (`placeFrame`, `setPlacement`,
+`mirrorFrame`, `worldWins`, `unplaceFrame`, `requestCharter`, `bindPlacement`; V13 §4.1, §4.3), run by those edits'
+folds and by nothing else — never by `generate` or a Re-derive (C13-27); they share one stage id, `WORLD_PLACE`, for
+their stream keys and their reason records (BCR-V13-8). Every stage obeys item 131 (c)'s **materializer contract**: it
+declares its world-fact inputs (the data keys it reads), takes one context record (`StageContext`, §14; a `PlaceContext`
+for the placement operators, V13 §3.11) and returns outputs as rasters, records (arenas, for a frame) and derived facts,
+writing one `ReasonRecord` per record it creates or changes and one per raster chunk it writes (V13 §2.2; C13-07) — a
+stage that writes a record or a chunk without a reason fails T-V13-10's chain test. Every stage declares its failure ladder (V13 §3.16) and its work
 limits as laws over the extent's cell counts (§5.1 (5): the unit `frameCells` reads the fine or coarse grid). The world
 runs on the generation worker as a settlement does (§4.1), its stages serial; it runs **before** any settlement frame
 of its campaign is generated from a charter and **after** every settlement generated standalone that is later placed;
@@ -868,14 +894,16 @@ the two orders meet at P1–P5.
 | W7 Routes | `W7` | the seats (placements and host seats), the surfaces, `dem`, `biome`, the reaches, the cost law | `WorldRoute`s | none | the world root | F-WORLD (no path) | " |
 | W8 Polity | `W8` | the seats, the cost surface, the reaches, the features | `Territory`s with provinces | none | each seat | F-WORLD (budget) | " |
 | W9 Labels and glyphs | `W9` | every named record; the placements and their frames | the world's `LabelEntity` candidates (§9.1), `SettlementGlyph`s | `naming` (world names) | the world root; a glyph its placement | §9.6's naming ladder | " |
-| P1–P5 Placement | `P1` … `P5` | the world; the frame document; the edit | `Placement`, the blend, the charter, the frame's re-based terms, anomalies | `place.search` (none: deterministic; reserved) | the placement | F-PLACE | V13 §6's placement row |
+| the placement operators P1–P5 (not a stage: §7.3 local operators of the placement edits, one stage id `WORLD_PLACE`) | `WORLD_PLACE` | the world; the frame document (settlement-first) or the frame size (world-first); the edit | `Placement`, the blend, the charter, the frame's `charter` event, anomalies | none (`place.search` reserved, no draw) | the placement | F-PLACE | V13 §6's placement row |
 
 **Where the stages run and what they may touch.** W0–W9 write the world document only. P1–P5 write the world document
-(the placement, the blend's cells with their trace, the charter's world copy) and, in the frame document, exactly:
-`Document.worldRef`, `Recipe.charter`, `Terrain.datumCm` (through its accessor), the orientation-dependent terms of
-V13 §3.11.5 and their anomaly reports — **never an arena, a plot, a building or a lock** (bar 3; J-V13.5). A frame
-generated from a charter runs the base pipeline S0–S15 with the tail, S0 and S1 reading `Recipe.charter` as V13 §3.11.4
-states. Progress is posted per stage (§11.2's `Progress`), and a world generate past one second shows §12.1's progress
+(the placement, the blend's cells with their trace, the charter's world copy) and, in the frame document, exactly one
+thing: the frame's own `charter` event (author `world`, V13 §4.1, §4.4 — C13-40), whose fold sets `Document.worldRef`
+and, when the charter is world-sourced, `Recipe.charter` — both outside the model digest. **Nothing else in the frame
+is written** (C13-01): the datum, the wind, the sun and every orientation-dependent term of V13 §3.11.5 are derived
+readings through `worldRef`, and the anomaly list is derived — **never an arena, a plot, a building, a lock or a hashed
+field** (bar 3; J-V13.5). A frame generated from a charter runs the base pipeline S0–S15 with the tail, S0 and S1 reading
+`Recipe.charter` as V13 §3.11.4 states. Progress is posted per stage (§11.2's `Progress`), and a world generate past one second shows §12.1's progress
 strip naming the stage (item 119).
 
 ### 3.1 W0 Blueprint
@@ -1258,33 +1286,49 @@ case); a frame whose outline is larger than the world cell at level 0 still draw
 
 ### 3.11 P1–P5 Placement
 
-A placement is an edit of the world document (`placeFrame`, `setPlacement`, `mirrorFrame`, `worldWins`,
-`unplaceFrame`; V13 §4.1) whose fold runs the placement stage with a `PlaceContext { world; frame: Document; edit;
-rules: CoherenceRule; mode: 'worldFirst'|'settlementFirst' }`. The mode is a fact of the frame: `worldFirst` when the
-frame carries a `Recipe.charter` from this world (it was generated from the charter), `settlementFirst` otherwise (a
-standalone frame placed later — the owner's settlement-first correction, V13 §1.3). Both modes run P1 and P4; P2 and P3
-run in `settlementFirst` only; P5 runs in both.
+A placement is an edit of the world document (`requestCharter`, `bindPlacement`, `placeFrame`, `setPlacement`,
+`mirrorFrame`, `worldWins`, `unplaceFrame`; V13 §4.1) whose fold runs the placement operators with a `PlaceContext {
+world; frame: Document | null /* null in world-first mode before the frame exists */; frameSize: { widthCm; heightCm;
+marginCm }; edit; rules: CoherenceRule; mode: 'worldFirst'|'settlementFirst' }`. The mode is a fact of the edit:
+`worldFirst` for `requestCharter` (the frame does not exist yet; the charter will be its input) and for every later edit
+of a placement whose frame carries a `Recipe.charter` from this world; `settlementFirst` for `placeFrame` of an existing
+frame without one (a standalone frame placed later — the owner's settlement-first correction, V13 §1.3). **The
+world-first order** (C13-04): `requestCharter` (the host's `WorldPort.charter(world, campaign)` is this event with
+`author: 'host'`; a user's is T6 `place`'s *Charter here* action) creates the `Placement` with `precedenceStamp: 'world'`,
+`subject: { kind: 'frame', pending: Uuid }` and `coherenceCost: { total: 0, terms: [], lawful: true, detail:
+'world-first' }` — P1 is **not** run, there is no frame to measure — and runs P4 only; the frame size the charter needs
+is `frameOf(size, aspect)`, §3.2 (9)'s rule applied to the request's `size` and `aspect` before any generation (a pure
+table reading, S0's size step made callable without a document; BCR-V13-4), carried in the event; `generate` with
+`Recipe.charter` then creates the frame, whose creation prefix carries the frame's `charter` event, and the world's
+`bindPlacement` (author `world`) sets `Placement.subject.doc` to the new `docId`; the glyph follows. **The
+settlement-first order**: `placeFrame` runs P1, P2, P3, P4 (the settlement-sourced charter, stored on the `Placement`
+only) and P5. Every later `setPlacement`, `mirrorFrame`, `worldWins` and `unplaceFrame` runs the operators V13 §4.3's
+rows name.
 
 **3.11.1 P1 — coherence and the bearing search.** `coherence(world, frame, origin, bearing)` returns the
 `CoherenceCost` whose six terms are, each ≥ 0 before its weight:
 
 | term | measures | the raw cost |
 |---|---|---|
-| `coastSide` | the frame's sea (the frame's `WaterBody` of kind sea, its shore's side in frame terms after `R(bearing)·M(mirrored)`) against the world's sea at the placement | 0 when the frame's sea side faces world water within `coastSearchM` 3 000 (own; calibratable) of the mapped shore; 1 when water lies on an adjacent side (a 90° error); 2 when opposite or absent; a frame with no sea and world water inside the frame's extent: 1.5 |
+| `coastSide` | the frame's sea (the frame's `WaterBody` of kind sea, its shore's side in frame terms after `R(bearing)·M(mirrored)`) against the world's sea at the placement | 0 when the frame's sea side faces world water within `coastSearchM` (V13 §2.3) of the mapped shore; 2 when water lies on an adjacent side (a 90° error); 3 when opposite or absent; a frame with no sea and world water inside the frame's extent: 2 — so at weight 3 **any coast error is unlawful** (6 > `lawfulMax` 4; C13-26) and the port is first turned, never passed green |
 | `riverCrossing` | each frame reach that reaches the frame's edge against the world's reaches at the mapped edge stations | per frame reach: 0 when a world reach crosses the same side within `riverMatchM` 1 500 (own) with the same direction (in/out), 0.5 when the side matches but not the station, 1 when absent; a world reach ≥ `navigableM3s` entering the frame's extent with no frame reach: 1 |
 | `edgeElevation` | the RMS difference between the frame's edge profile (its outer ring, against its datum) and the world DEM along the mapped ring (against the world DEM at the origin), both at `stationCm` | RMS ÷ `edgeRmsRefCm` |
 | `relief` | the frame's relief (its dem range) against the world's over the mapped extent | |Δ range| ÷ `edgeRmsRefCm` |
 | `biome` | the frame's biome row (its `Recipe.climate`'s table row, §4.11) against the world's mode over the extent | 0 when the rows agree; 0.5 when adjacent in the matrix (one band apart); 1 otherwise |
 | `territory` | a frame with a host territory key (a campaign fact) against the world's `territory` raster at the origin | 0 when the territory agrees or is `unclaimed`; 1 otherwise |
+| `dossier` (weight ∞) | on a dossier-bound frame (V08), every DR1 and DR29 site fact — `site.terrain`'s relief class, `site.access`'s coast and its side, river and inflow, the water deposits, `site.culture`'s latitude — against what the charter at this placement would say | 0 when every dossier fact holds at the placement; ∞ when any would be contradicted (an inland placement of a `coastal` site, a river side the charter cannot give, a latitude outside the culture's band): **the placement is unlawful whatever the other terms** — item 20's one-way rule applied: the dossier is the truth, a placement is a map fact (C13-08; J-V13.50) |
 
 `total = Σ w_t · raw_t`; `lawful = total ≤ lawfulMax`. The weights are `place.coherence`'s (coast first, then the
-river: the owner's order, item 136's "the coast is the fact a map cannot hide"). The bearing search for a given origin
+river: the owner's correction (3), V13 §1.3 — a coast mismatch is resolved by the bearing first). The bearing search for a given origin
 tries every bearing from 0 in steps of `bearingStepCdeg` (360 bearings) and, when `mirrorAllowed` (never by default:
 the DM's explicit `mirrorFrame` only, V13 §3.11.5), the mirrored set too; the best is the least `total`, ties by the
 smaller bearing, then unmirrored. `nearestLawful(world, frame, origin)` searches origins on a spiral over the fine
-grid out to `originSearchM` in steps of `originStepCells` cells, running the bearing search at each (a coarse pass at
-10 × the step first, then the fine step around the three best), and returns up to three lawful placements by
-ascending `total`, ties by distance from the asked origin; none found → `F-PLACE` rung "no lawful placement within
+grid out to `originSearchM` in steps of `originStepCells` cells **in two tiers** (C13-37): the coarse pass, at 10 × the
+step, evaluates 36 bearings (10°) with the two cheap, decisive terms only — `coastSide` from W2's coast index and
+`riverCrossing` from the reach index — over 100 stations of the frame's ring (the frame's edge profile sampled once
+per search, the world's ring samples cached per origin), and under the `dossier` term where one applies; only the three
+best (origin, bearing) pairs take the full six terms at `bearingStepCdeg` (1°) over 400 stations with the fine step
+around them; it returns up to three lawful placements by ascending `total`, ties by distance from the asked origin; none found → `F-PLACE` rung "no lawful placement within
 reach" (the asked placement is kept, flagged unlawful, and the three least-cost unlawful ones are offered). The dry
 run (`placeFrame` with `preview`) returns the cost and the offers without writing; V09's placement tool shows the cost
 by term as the frame is dragged (V13 §4.2).
@@ -1341,31 +1385,70 @@ settlement-first, where it records what the world now says at the frame's edge) 
     perched rule still holds in the charter's `waterTable`).
 
 `charterFrom(frame, blend)` (settlement-first) is the same record with `source: 'settlement'`, built from the frame's
-own edge (its dem, its water bodies' edge crossings, its ways at the edge, its `Recipe.climate`) — what the world now
-owes the frame — and is what P2 and P3 consumed; both charters are stored (the world's copy keyed by the placement, the
-frame's `Recipe.charter` the world-first one in world-first mode and the settlement one in settlement-first mode, so a
-frame's recipe never names facts its own generation did not use).
+own edge (its dem, its water bodies' edge crossings, its ways at the edge, the climate row of its blueprint's
+`circumstances.biome`) — what the world now owes the frame — and is what P2 and P3 consumed. **Where a charter lives**
+(C13-03): a charter with `source: 'world'` is stored on the world's `Placement` and, through the frame's `charter`
+event, in the frame's `Recipe.charter`, because the frame was (or, after `worldWins`, is) generated from it; a charter
+with `source: 'settlement'` is stored on the world's `Placement.charter` **only** — the frame's `Recipe.charter` stays
+absent, S1 never reads it, and the frame's next Regenerate (keep settings) is byte-identical to the same action before
+the placement (T-V13-13; the owner's correction (3): the settlement never changes but by `mirrorFrame` or `worldWins`).
+A frame that needs the settlement-sourced charter's facts (the orientation terms of V13 §3.11.5, V14's site context)
+reads them through `worldRef` as a derived reading.
+
+**The dossier's precedence** (C13-08; item 20 (h): "only the dossier is the source of immutable truth"; V08's DR1 and
+DR29). On a dossier-bound frame every DR1 and DR29 fact — the site's relief class, its coast and the coast's side, its
+river and inflow, its water deposits (`site.terrain`, `site.access`), its latitude (`site.culture`) — is a **hard
+constraint on the placement**, the `dossier` term of V13 §3.11.1: a placement whose charter would contradict one is
+unlawful, `nearestLawful` searches under the constraint, and `requestCharter` (the host's `charter(world, campaign)`)
+is **refused** with `refuse.charter.dossier` naming the fact and the nearest lawful origin — the host then moves its
+placement or amends its dossier (J-V13.50: the map never silently amends a dossier fact; no owner question is needed,
+since item 20's one-way rule decides it). The charter never rewrites a dossier-tier value: every `factTier: 'dossier'`
+path (V08 §2.5) stays the dossier's, the charter fills `map`-tier inputs only (the edge profile, the water levels, the
+crossings' discharge, the roads, the table, the biome's land-use shares, the resources, the territory). The sun's
+latitude on a dossier-bound frame is DR29's; the placement's latitude is a reported difference (`sunDiffers`, V13
+§3.11.5), never an input.
 
 **How S0 and S1 read the charter** (the base's hooks, consumed here; the exact base-text changes are BCR-V13-3 and
 BCR-V13-4):
-- S0 (§4.2) reads `Recipe.charter.climate` as its climate row's inputs (temperature, precipitation, the wind bearing as
-  the frame's `Recipe.wind`, V11's climate table row by `biome.climateRow`), `charter.biome` as the terrain template's
-  land-use shares, `charter.territory` as the campaign's territory, `charter.sites` as drawn constraints (V14's
-  adoption) and `charter.resources` as the demand's resource terms.
+- S0 (§4.2) reads `Recipe.charter.climate` as its climate row's inputs (temperature, precipitation; the wind bearing
+  becomes the site request's wind that S1 stores as `Terrain.wind`; V11's `ClimateRow` by `biome.climateRow`, which is
+  the blueprint's `circumstances.biome` on a chartered frame, V13 §2.3's mapping table), `charter.biome` as the terrain
+  template's land-use shares, `charter.territory` as the campaign's territory, `charter.sites` as drawn constraints
+  (V14's adoption) and `charter.resources` as the demand's resource terms; on a dossier-bound frame every dossier-tier
+  value wins (the precedence paragraph above). S0's size step `frameOf(size, aspect)` is the pure function
+  `requestCharter` called before S0 ran (V13 §3.11).
 - S1 (1) builds its heightfield to meet `charter.edges` at the outer ring (the edge profile is the boundary condition
-  of its noise: the kernel's field is blended to the profile over the margin by the same smoothstep as P2's, inward),
-  with `charter.datumCm` as `Terrain.datumCm`; S1 (2) seeds its sea and lakes from `charter.waterEdges` (a sea at
-  `levelCm`, a lake with its surface) and its river inflows from `charter.riverCrossings` with `direction: 'in'` (the
-  priority flood's border head is `downstreamHeadCm` everywhere except at an `in` crossing, whose head is the crossing's
-  stage; accumulation is seeded with the crossing's discharge); an `out` crossing is a required exit: the frame's reach
-  must leave the ring at that station ± `riverMatchM` or S1 reports `W_CHARTER_RIVER_MISSED` (a coherence fact, never a
-  failure); S1 (3)'s carve runs as today; S1's groundwater step (V13 §3.12.3) seeds from `charter.waterTable` at the
-  margin; S1's ways-at-the-edge (S4's arterial seeds, §4.2) take `charter.roads`.
-- **The deterministic refinement rule** (item 135 (b)): the frame's S1 is a pure function of (`Recipe.seed`,
-  `Recipe.charter`, the tables); the same charter and seed give the same frame; a changed charter (a `worldWins`) gives
-  a Re-derive from S1 with §6.3's carry-over. The frame refines the world's facts inside its extent and never contradicts
-  them at its edge: the charter is the contract, tested by T-V13-13 (the frame's edge profile against the charter's
-  within `edgeRmsRefCm`; every `in` and `out` crossing honoured; the sea at its level).
+  of its noise: the field is blended to the profile over the margin by the same smoothstep as P2's, inward), with
+  `charter.datumCm` as `Terrain.datumCm` (S1's own write, at generation); **its fBm lattice is position-keyed on the
+  world** (BCR-V13-29; item 135 (c)): each octave's lattice value at a cell is the mixer's draw keyed by (`worldSeed`,
+  the octave, the cell's world position through `toWorld`) with the world root as the derivation unit, the frame's seed
+  keying only its authored primitives and its water draws — so two frames whose margins overlap sample one field and
+  agree in the shared margin within 1 cm (T-V13-13's two-frame fixture); S1 (2) draws its shore from
+  `charter.outlines.coast` (the world's coast polygon clipped to the frame + margin is the base line its closed-outline
+  routine displaces — the routine's detail row only, never its own arms), its lakes from `charter.outlines.lakes` (the
+  rings at their levels) and the sea's level from `charter.waterEdges`; its river inflows come from
+  `charter.riverCrossings` with `direction: 'in'` (the priority flood's border head is `downstreamHeadCm` everywhere
+  except at an `in` crossing, whose head is the crossing's stage; accumulation is seeded with `seedCells = round(Q ÷
+  r_cell)`, `r_cell` the frame's per-cell runoff by V13 §3.5.2's law at the frame's hydro cell from the charter's
+  `precipMm`, `evapMm` and `runoffShare` — a cell count, as `Terrain.flowAccum` is; C13-14) and its descent is guided by
+  `charter.outlines.reaches` (the control knots seeded on the world's course, the descent constrained to a corridor one
+  hydro cell about it); the width law on a chartered frame is calibrated per reach so that `w(inlet) = charter.widthCm`
+  (`w0` solved from the inlet's seed; a value outside the law's band clamped and reported `W_CHARTER_WIDTH_CLAMPED`;
+  BCR-V13-4); an `out` crossing is a required exit: the frame's reach must leave the ring at that station ±
+  `riverMatchM` or S1 reports `W_CHARTER_RIVER_MISSED` (a coherence fact, never a failure); S1 (3)'s carve runs as today;
+  S1's groundwater step (V13 §3.12.3) seeds from `charter.waterTable` at the margin; S1's ways-at-the-edge (S4's arterial
+  seeds, §4.2) take `charter.roads`.
+- **The deterministic refinement rule** (item 135 (b), (c)): the frame's S1 is a pure function of (`Recipe.seed`,
+  `Recipe.charter` — which carries the world's seed and the placement for the position-keyed lattice —, the tables); the
+  same charter and seed give the same frame; a changed charter (a `worldWins`) gives a Re-derive from S1 with §6.3's
+  carry-over. The frame refines the world's facts inside its extent and never contradicts them at its edge: the charter
+  is the contract, tested by T-V13-13 (the frame's edge profile against the charter's within `edgeRmsRefCm`; every
+  `in` and `out` crossing honoured, the inlet's width within 10 % of the charter's and the accumulation at the inlet
+  equal to the seed; the sea at its level; the frame's shore within one hydro cell of the world's inside the extent — a
+  Hausdorff bar; two neighbouring frames equal within 1 cm in their shared margin). **Declared deviation until
+  BCR-V13-29 is applied:** the base's `terrain.noise` is keyed by the town root (§6.1), so before that request lands
+  neighbouring frames agree only at the charter's edge profile and outlines, not in their interiors' noise; recorded in
+  V13 §12 as the one owner-rule deviation this volume carries (C13-05).
 
 **3.11.5 P5 — the precedence stamp, mirror, world-wins and the orientation-dependent terms.**
 
@@ -1391,28 +1474,32 @@ BCR-V13-4):
    where the frame sits and faces, through their one accessor each, and reports every anomaly against a lock:
    | term | recomputed from | the base's reader | lock behaviour |
    |---|---|---|---|
-   | the sun's bearing and elevation (V09's shading, §4.11's daylight) | `charter.climate.latitudeDeg` and the placement's bearing: solar azimuth in frame terms = world azimuth − `bearingCdeg` (mirrored: reflected) | `sunAt(doc, week, hour)` (BCR-V13-13: one accessor, the sun from the placement) | none (no lock names the sun) |
-   | the prevailing wind (`Recipe.wind`, the smoke and smell terms, §4.2's wind-side siting) | `charter.climate.windCdeg` (already in frame terms) | `Recipe.wind` | a locked industry placed "downwind" that is now upwind is a `PlacementAnomaly` kind `roadToNowhere`'s sibling `windSide` — reported, geometry held |
+   | the view's sun (V09's shading, §8.4's path sun) | `charter.climate.latitudeDeg` and the placement's bearing: solar azimuth in frame terms = world azimuth − `bearingCdeg` (mirrored: reflected), read through `worldRef` at call time | `sunAt(doc, week, hour)` (BCR-V13-13: one accessor; the model-side daylight term of §4.5 keeps the recipe's `Intent.latitudeDeg` — DR29's on a dossier-bound frame — until a `worldWins` re-derives the frame, so no placement moves a model output, C13-01) | a placement whose latitude differs from the recipe's by more than `sunDiffersDeg` (V13 §2.3) is reported `sunDiffers`; nothing moves |
+   | the prevailing wind (`Terrain.wind` through `windOf`; the smoke and smell terms, §4.2's wind-side siting) | `charter.climate.windCdeg` (already in frame terms), read through `worldRef` | `windOf(doc)` (C13-15: the base stores the wind in `Terrain.wind`; S1 wrote it, nothing rewrites it) | a locked industry placed "downwind" that is now upwind is a `PlacementAnomaly` kind `windSide` — reported, geometry held |
    | the sea side (the harbour's facing, the coastal road, the quay fronts) | the charter's `waterEdges` sides | §4.2's coast terms | a locked quay whose side now faces land: `coastInland`; held, reported |
    | seasonality (`seasonPhaseWeek`, the hemisphere's calendar) | `charter.climate.seasonPhaseWeek`, `seasonAmpDeciC` | §4.11's calendar and V11's climate row | none |
    | the compass rose | the placement's bearing (and mirror) | V09's compass (derived presentation: the arena's north stays the frame's +y; the rose turns) | — |
    | the river's flow direction labels and the "upstream/downstream" words of the clerk | the charter's `riverCrossings[].direction` | V10's narrative terms | a reach whose frame flow now runs uphill against the world's: `riverUphill`; held, reported |
    | the water table under locked basements | `charter.waterTable` through `waterTableAt` | V04's `hallDryCm` test | a locked cellar now below the table: `lockedBelowTable`; held, classified `damp`/`wading` by V13 §3.13, reported |
    | the territory and culture context | `charter.territory` | S0's culture reading, V11's names | a locked name of another culture: no anomaly (names are the DM's) |
-   The terms are re-derived facts, never edits of the frame (no event; the frame's records digest changes by the charter
-   only, as recorded input). The anomaly list is `PlacementAnomaly[]` (V13 §2.4), shown on the placement card and in the
-   clerk's `why placement`, with the DM's choices per anomaly: keep (default), unlock and re-derive the thing, or
-   `worldWins`.
+   The terms are derived readings, never writes to the frame (the only event in the frame's log is its `charter` event,
+   C13-40; its model digest never moves, T-V13-2). The anomaly list is `PlacementAnomaly[]` (V13 §2.4), shown on the placement card and in the
+   clerk's `why placement`, with the DM's choices per anomaly: keep (default), or `worldWins { placement, ids: [the
+   anomaly's subject] }` — the scoped form of the one verb (V13 §4.1: the named entities re-derived from the world's
+   charter with §6.3's carry-over, confirmed with the change count) — so the owner's two verbs stay the only two ways a
+   settlement changes (C13-25).
 
 **3.11.6 The port, the settlement map record and the per-campaign charter.** `WorldPort` (V13 §1b.2) is the host's one
 way in and out (BCR-V13-11):
 - `derivedFacts(world, placement)` → `SettlementMapRecord { placement; originCm; bearingCdeg; mirrored; tier; pop;
   name; glyph: { level: 0|1|2|3; marks }[]; charter: Id; port: boolean; routes: Id[]; territory: Id | null; waterClassSummary?:
   { floodedShare; submergedShare; lowestDryCm; access } /* V13 §3.13's site summary when the host asks */; stamp;
-  coherence: CoherenceCost }` — item 134 (b)'s "the host reads derived facts; it never reads arenas".
-- `charter(world, campaign)` → the `FrameCharter` for a campaign's pending frame (the host names the origin and bearing
-  from its own map; the charter is P4's at a transient placement the world records as `Placement` when the frame is later
-  generated from it — the per-campaign charter is the frame's one input record, item 140 M5).
+  coherence: CoherenceCost }` — the brief's §2 and the audit's §7.3: the host reads derived facts; it never reads arenas.
+- `charter(world, campaign)` → the `FrameCharter` for a campaign's pending frame: the `requestCharter` event with
+  `author: 'host'` (V13 §3.11, §4.1 — the host names the origin, bearing and the frame size from `frameOf(size, aspect)`
+  on its own map; the fold creates the `Placement` with a pending subject and runs P4; the frame generated from the
+  charter is bound to it by `bindPlacement`; a dossier contradiction refuses with `refuse.charter.dossier`, V13 §3.11.4)
+  — the per-campaign charter is the frame's one input record, item 140 M5.
 - `proposals(world, demand)` → V13 §3.7 (5).
 - `routes(world)` → every `WorldRoute` with its ends' settlement map records' ids.
 - `seats(world, seeds)` ← the host's territory seeds (W8's input, a `setSeats` edit).
@@ -1425,8 +1512,10 @@ anomalies, the glyph (W9 re-run for the placement), the world's routes and terri
 seat (W7, W8 over the dirty landmass only). *Edges:* a frame placed wholly in the sea: `coastSide` 2 on every bearing,
 unlawful, `nearestLawful` offers the shore; a frame larger than the world: refused (`F-PLACE` rung "does not fit");
 a placement at the world's edge: the ring's off-world stations read the edge cell (clamped) and `downstreamHeadCm` is
-the world's edge head; two frames overlapping: refused unless the DM accepts `W_PLACEMENT_OVERLAP` (the later wins the
-blend; the earlier's charter is marked stale).
+the world's edge head; two frames whose **extents** overlap: refused unless the DM accepts `W_PLACEMENT_OVERLAP` (the
+later wins the blend; the earlier's charter is marked stale); two frames whose **margins** overlap (extents apart): admitted
+— the shared margin's ground is the world's DEM, both charters sample the same world cells and both frames blend to one
+profile, which is how neighbours meet at an edge they share (item 135 (c); C13-05).
 
 ### 3.12 Water state at settlement scale
 
@@ -1700,18 +1789,23 @@ type EditEvent = EditBase & (
   // … the base's variants …
   | { t: 'worldRecipe'; action: 'append'|'replace'|'remove'|'reorder'; index: number; op?: RecipeOp; toIndex?: number }   // the world document only; a Re-derive from W1 over the op's touched cells (V13 §4.3)
   | { t: 'setSurface'; surface: Id /* the body's present surface, or a reach */; levelCm?: Cm; stage?: { knot: number; stageCm: Cm }[] /* a reach's stage profile */; date?: Week /* absent: the document's week under 'happened'; forbidden under 'alwaysSo' */; cause?: string /* a calamity kind, an epoch's op, or free text */ }
-  | { t: 'setField'; field: 'terrain'; key: PlatKey /* the world root's, or the frame's ground */; strokes: FieldStroke[] }   // the base's setField with the world root admitted as key (BCR-V13-9) and `verb` read
+  | { t: 'setField'; field: 'terrain'; key: PlatKey | 'world' /* the base's shape: one stroke; 'world' names the world raster (BCR-V13-9) */; stroke: FieldStroke }   // `verb` read
   | { t: 'rerouteReach'; reach: Id; fromKnot: number; toKnot: number; via?: WorldPointCm[] /* waypoints the re-trace must pass within one hydro cell of; absent: steepest descent on the pre-carve ground */ }   // the frame's form is the base's moveCourseKnot with `verb`
-  | { t: 'placeFrame'; frame: Uuid; originCm: WorldPointCm; bearingCdeg: Cdeg; preview?: true /* the dry run: the cost and the offers, no write */; accept?: ('overlap'|'unlawful')[] /* the warnings the DM accepted */ }
+  | { t: 'requestCharter'; subject: { kind: 'frame'; pending: Uuid } | { kind: 'site'; site: Id }; originCm: WorldPointCm; bearingCdeg: Cdeg; frame: { widthCm: Cm; heightCm: Cm; marginCm: Cm } /* frameOf(size, aspect), V13 §3.11 */ }   // world-first (C13-04): creates the Placement (stamp 'world', cost 'world-first') and runs P4; author 'host' through WorldPort.charter, else 'user'
+  | { t: 'bindPlacement'; placement: Id; doc: Uuid }   // author 'world': the frame generated from the charter now exists; emitted by `generate` with Recipe.charter (C13-04, C13-40)
+  | { t: 'placeFrame'; frame: Uuid; originCm: WorldPointCm; bearingCdeg: Cdeg; preview?: true /* the dry run: the cost and the offers, no write */; accept?: ('overlap'|'unlawful')[] /* the warnings the DM accepted */ }   // settlement-first; always `happened` (`verb` ignored, C13-55)
   | { t: 'setPlacement'; placement: Id; originCm?: WorldPointCm; bearingCdeg?: Cdeg; accept?: ('overlap'|'unlawful')[] }
   | { t: 'mirrorFrame'; placement: Id; mirrored: boolean; confirmed: true /* the warning of V13 §3.11.5 (2) was shown */ }
-  | { t: 'worldWins'; placement: Id; confirmed: true /* the §6.3 change count was shown */ }
+  | { t: 'worldWins'; placement: Id; ids?: Id[] /* absent: the whole frame from S1; present: the named entities only (the scoped form, V13 §3.11.5 (4); C13-25) */; confirmed: true /* the §6.3 change count was shown */ }
   | { t: 'unplaceFrame'; placement: Id }
   | { t: 'setSeats'; seeds: TerritorySeed[] /* the whole list; the fold diffs by seat */ }
   | { t: 'deleteTrace'; trace: Id }
   | { t: 'fork'; name: string } | { t: 'discardFork'; fork: Id } | { t: 'commitFork'; fork: Id; verb: WaterVerb }   // V13 §4.5
-  | { t: 'adjust'; key: 'world.size'|'world.units'|'world.poles'|'world.wind'|'world.latBox'|'world.biomeMatrix'; value: unknown }   // the base's adjust with the world keys (BCR-V13-9)
+  | { t: 'adjust'; param: 'world.size'|'world.units'|'world.poles'|'world.wind'|'world.latBox'|'world.biomeMatrix'; value: unknown; fromStage: 'W0'|'W3'|'W5'; fates: EditFate[] }   // the base's shape (§7.1) with the world params (BCR-V13-9; C13-34)
+  // in the FRAME's log (C13-40):
+  | { t: 'charter'; worldRef: { world: Uuid; placement: Id } | null; charter?: FrameCharter /* source 'world' only (C13-03) */ }   // author 'world', the reserved session 'world:place' with no group (as 'host:port'); emitted by the world's requestCharter / bindPlacement / worldWins / unplaceFrame folds; undone only by the world's undo of that edit
 );
+type EditScope = /* the base's forms */ | { kind: 'world'; stage: 'W1'|'W5'|'W6a'|'W6b'; box?: { c0: number; r0: number; c1: number; r1: number } };   // `regenerate` on a world stage's scope (BCR-V13-9; C13-34)
 ```
 
 `setAttr` (the base's) admits the targets of V13 §1b.3's row (a surface's `subtype`, `open`, `date`; a reach's
@@ -1719,11 +1813,17 @@ type EditEvent = EditBase & (
 `originCm` — the last two sugar for `setPlacement`). Every event's dry run (§7.1) runs the fold on the scratch overlay:
 a placement's P1–P5 with the cost and anomalies as its outcome; a water edit's cascade with its change list; a
 `worldRecipe`'s W1 re-run over the touched cells with the downstream dirty set as its effective scope. The outcome
-table's new rows (§7.1's catalogue; BCR-V13-9): `E_PLACE_FIT`, `E_PLACE_WORLDREF`, `W_PLACE_NO_LAWFUL` (with
-`ConflictAction`s *keep*, *take offer n*, *cancel*), `W_PLACEMENT_OVERLAP` (*accept*, *cancel*), `W_CHARTER_RIVER_MISSED`,
-`E_SURFACE_DATE`, `W_SURFACE_BELOW_BED`, `W_PLACE_ANOMALY` (*keep*, *unlock and re-derive*, *worldWins*), `E_WORLD_RECIPE_OP`
-(an unknown op). The author of a port-driven placement is `host`; of an epoch's dated surface `epoch`; of an import's
-seeded attributes `migration` (the import is a creation-prefix event, `creation: true`).
+table's new rows (§7.1's catalogue; BCR-V13-9; the refusals are §7.1 outcome keys rendered by V09's catalogue, never
+§5.4 `ReportCode`s — C13-53): `refuse.place.fit`, `refuse.place.worldRef`, `refuse.charter.dossier`,
+`refuse.surface.date`, `refuse.world.recipeOp`, `refuse.world.tier`, `refuse.import.version`, `refuse.import.key`; the
+warnings with their `ConflictAction`s — `W_PLACE_NO_LAWFUL` (`keep`, `takeOffer` with `offer: n`, `cancel`),
+`W_PLACEMENT_OVERLAP` (`accept`, `cancel`), `W_CHARTER_RIVER_MISSED`, `W_SURFACE_BELOW_BED`, `W_PLACE_ANOMALY` (`keep`,
+`worldWins` with `ids`) — `ConflictAction.kind` gaining `'keep'|'takeOffer'|'accept'|'cancel'` and `offer?: number`
+(BCR-V13-9). The author of a port-driven `requestCharter` is `host`; of `bindPlacement` and the frame's `charter`
+event `world` (`EditBase.author` gains `'world'`, BCR-V13-9); of an epoch's dated surface `epoch`; of an import's seeded
+attributes `user` or `host` (whoever ran the import: a creation-prefix event, `creation: true`, never `migration` —
+C13-34). A placement edit is always `happened` (`verb` ignored on it; its `oldGround` trace covers the extent + margin
++ band, C13-55).
 
 ### 4.2 The authoring tools (V09's binding table, BCR-V13-25)
 
@@ -1749,7 +1849,8 @@ rotates.
 | `setSurface` (world or frame) | the cascade from step 3 (surfaces) over the body's watershed | the body's identity; every other body; locks | a sea-level change touches every coastal watershed: declared as such; at the frame it is S1's water operator (§7.3) with the cascade |
 | `rerouteReach` / `moveCourseKnot` with `verb` | the base's river operator (§7.3's S1 water row) at the frame; at the world the re-trace between the knots on the pre-carve ground, the old bed's cells un-carved (the delta restored), the new bed carved, then the cascade over the reach's basin | the knots outside [fromKnot, toKnot]; downstream reach ids (discharge re-propagated as scalars) | — |
 | `placeFrame` / `setPlacement` (settlement-first) | P1 → P2 → P3 → P4 → P5 → W9 (the glyph) → W7–W8 over the landmass when the frame is a new seat | the frame's arenas, plots, buildings, locks (bar 3); every other placement's blend (an overlap is refused or accepted) | W7–W8 re-run over the landmass is declared |
-| `placeFrame` (world-first: the frame generated from the charter) | P1 (the cost recorded) → P4 → P5 → W9 | everything in the frame; the world's DEM (no blend) | — |
+| `requestCharter` (world-first; the host's `charter(world, campaign)`) | P4 only (the placement created with a pending subject, `precedenceStamp: 'world'`, cost `world-first`; no P1: there is no frame) | the world's DEM (no blend); every other placement | a dossier contradiction refuses the event (`refuse.charter.dossier`) |
+| `bindPlacement` (author `world`, after `generate` from the charter) | the placement's subject bound → the frame's `charter` event → P5 → W9 (the glyph) → W7–W8 over the landmass (a new seat) | everything in the frame; the world's DEM | W7–W8 over the landmass is declared |
 | `mirrorFrame`, `setPlacement` bearing only | P1 → P4 → P5 → W9 (settlement-first: P2–P3 re-run, the former band's trace restored first) | the frame | — |
 | `worldWins` | P4 (world-first charter) → the frame's Re-derive from S1 with §6.3's carry-over → P5 → W9; the blend trace restored and P3 re-run over the former band | every drawn constraint and lock in the frame; the world outside the band | the frame's re-derivation is whole-frame from S1: declared, with the base's Re-derive budget (§12.6) |
 | `unplaceFrame` | the blend trace restored, P3 over the former band, the placement, charter and glyph tombstoned; W7–W8 over the landmass | the frame document (its `worldRef` cleared, `Recipe.charter` kept as a recorded input — the frame still knows where it was generated for) | — |
@@ -1766,14 +1867,17 @@ its seats and every placement; of a frame its charter.
 ### 4.4 Undo
 
 Every event's undo is V13 §1b.3's row: the replaced scope (for a re-derivation) or the inverse (for an attribute).
-A placement edit's undo restores the former placement, its blend (the band's trace re-applied), its charter copy and
-the frame's `worldRef`, `Recipe.charter`, datum and re-based terms; a `worldWins` undo is the frame's Re-derive from
-S1 undo (the base's: the replaced scope restored byte-identical). A `happened` edit's undo removes its dated surface
-and traces together (the group); `deleteTrace`'s undo restores the trace alone. The world and the frame have separate
-logs and separate undo stacks (§7.4's per-document sessions): a placement edit is one group in the world's log whose
-fold writes the frame's recorded-input fields through the port's door (`author: 'host'`-style, session `world:place`,
-no group in the frame's stack — the frame's user cannot undo the world's placement from the frame; `unplaceFrame` on
-the world is the way). T-V13-27 replays every edit kind forward and back.
+A placement edit's undo restores the former placement, its blend (the trace re-applied) and its charter copy, and emits
+in the frame's log the inverse `charter` event (the former `worldRef` and `Recipe.charter`); the derived readings
+(datum, wind, sun) follow the world; a `worldWins` undo is the frame's Re-derive from S1 undo (the base's: the replaced
+scope restored byte-identical). A `happened` edit's undo removes its dated surface and traces together (the group);
+`deleteTrace`'s undo restores the trace alone. The world and the frame have separate logs and separate undo stacks
+(§7.4's per-document sessions): a placement edit is one group in the world's log; its fold writes the frame through
+the frame's own `charter` event (author `world`, the reserved session `world:place` — §7.4's second reserved session
+beside `host:port`, BCR-V13-9 — with no group, so it sits in no user's undo stack; C13-40), and the world's undo record
+holds the pair (the world event, the frame event's `seq`) so the two are undone together and a bridged client of the
+frame (§11.3) sees the change as an ordinary log event. The frame's user cannot undo the world's placement from the
+frame; `unplaceFrame` on the world is the way. T-V13-27 replays every edit kind forward and back.
 
 ### 4.5 The counterfactual fork
 
@@ -1783,8 +1887,8 @@ the view shows it (with the diff layer: changed units by class, moved reaches, f
 state); `commitFork` replays the fork's events onto the canonical log under the given verb as one group (each event
 re-folded at its new log position — the fork's results are never copied; a conflict with an event committed since the
 fork's `seq` is F-EDIT's outcome per event); `discardFork` drops it. Forks never persist in the canonical document
-(a reload drops them; V13 §2.6's row). `forkAt(doc, week)` is the clerk's `whatIf` entry (V13 §4.7): a fork whose
-surfaces are those in force at `week` and whose cascade runs from there.
+(a reload drops them; V13 §2.6's row). `forkAt(h, seq)` (§11.2) is the clerk's `whatIf` entry (V13 §4.7), the week mapped to the `seq` of the last event at
+or before that week: a fork whose surfaces are those in force at `week` and whose cascade runs from there.
 
 ### 4.6 Loading older documents
 
@@ -1798,10 +1902,10 @@ migration is one `migration`-authored event group at the log's end (the base's r
 
 ### 4.7 The clerk's view: reason records and the four readers
 
-Every stage and every cascade step writes a `ReasonRecord` (V13 §2.2) per fact: `{ id; fact: { id; path? }; stage;
-event?: EditId; inputs: { id; path?; value? }[]; rule: { table; row; cells }; numbers: Record<string, number>;
-text: MsgRef; supersedes?: Id }`. The readers in `@plat/world/why`, exposed through V10's `why` query (V10 §3.9) as
-three new modes beside `why` (BCR-V13-24):
+Every stage and every cascade step writes a `ReasonRecord` — the one declaration of V13 §2.2 (C13-07) — per record
+and per raster chunk; a cell's reason is `whyCell(raster, cell)`, computed on demand from the chunk's record. The
+readers in `@plat/world/why`, exposed through V10's `why` query (V10 §3.9) by a new field `ask` beside the existing
+`mode: 'asPlaced'|'asNow'`, which the readers pass through to the kind's provider (BCR-V13-24; C13-39):
 
 | reader | question | answer |
 |---|---|---|
@@ -1810,7 +1914,7 @@ three new modes beside `why` (BCR-V13-24):
 | `whatChanged(fact, since)` | "what changed here since week w" | every reason with `supersedes` written after `since` whose fact is the asked one or an input of it, with the event and verb ("the ford is gone because the river was re-routed in year 412, this happened") |
 | `whatIf(edit)` | "what if …" | `forkAt` + the edit's dry run on the fork + the cascade's change list rendered: counts by consumer kind, the three largest changes named, the coherence cost for a placement |
 
-The clerk's placement proposal (`placeAt`, item 136's clerk row) is `nearestLawful` rendered as a proposal the user
+The clerk's placement proposal (`placeAt`, V10 §3.9's proposal form) is `nearestLawful` rendered as a proposal the user
 accepts (`proposedBy: 'clerk'`). A reason's `text` is a `MsgRef` (§5.4's form) so every rendering is per caller and
 never carries a withheld name (V10's visibility rule applies: a reason whose input the viewer may not see renders the
 input as "something you cannot see"). Reason records sit outside the model digest and inside the records digest (V13
