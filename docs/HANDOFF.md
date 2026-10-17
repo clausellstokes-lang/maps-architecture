@@ -25,15 +25,7 @@ journal.jsonl into scratch files) to the next stage, with guards that stop befor
 Partial notes withdrawn before the resume (kept in the session scratch partials-0831/): the realm review's WIP note and the
 plague and trade synth drafts.
 
-**Pending after they land.** (1) Fold research/sf/plague-system.md into research/sf/lens-implications.md (the systems
-read's implications seat ran without plague; one seat appends a plague section and updates the lens tables).
-(2) The religion follow-up review (J379) — rebriefed by research/sf/faith-system.md §9.6: reuse the territory hinterlands,
-pressure along carrier links, the host's unconsumed religious hierarchy first, no invented holy sites, pilgrims or
-source-named flows. (3) RULED by the owner (J382, "yes"): territory's culture term reads the host's cultureDistance; water is cheap
-carriage for territory only where the host's sea lanes are lit, with coastal footholds across water; no sea carrier for
-faith. Check file m carries it; if not, a small follow-up amendment adds it to V13 §3.9 W8 and the host-change list. (4) Report to the owner: the realm review's rulings and file m's items; each system read's "how this changes
-the view" section. (5) Host defects found by the faith read (research/sf/faith-system.md §3.11, §10, §12) to pass to the
-owner for the host repository.
+**Pending after they land — STATUS (J389).** (1) plague folded into research/sf/lens-implications.md — DONE. (2) the religion follow-up — DONE as V13 §5.9's religion lens (files n, o). (3) culture and sea — RULED J382, carried by file m. (4) report to the owner — DONE 2026-10-17. (5) host defects — listed in each research note's defects section (research/sf/{faith,alignment,trade,population,prosperity,plague}-system.md §10) for the owner to pass to the host repository. OPEN: V13 §11 Q4, the owner's own word; the pending BCR ledger (BCR-V13-30 – -36, -39) for the next coherence pass; the whole-design retrovalidation of everything since J375.
 
 ## WORLD, SITES, ENCOUNTERS AND HYDROLOGY — the design volumes landed (2026-10-17)
 
