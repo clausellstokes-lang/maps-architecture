@@ -66,8 +66,12 @@ in full. **Citations:** a bare `§n` or `II.n` is the base's; `Vnn §n` is a des
 Decisions are `J-V14.n` (V14 §9), tests `T-V14-n` (V14 §7), base change requests `BCR-V14-n` (V14 §10).
 **Naming (the spine's hazard):** the base's *site* is the settlement's ground — S1 Site, `@plat/site`, the site plan
 S11, the site-and-fields spike — and keeps that meaning everywhere in this volume; the owner's persistent places are
-**world sites** in prose and `WorldSite*` in records, their stages the **G-** stages (generated sites), their package
-`@plat/sites`. **Volume 13's part:** the world regime (W0–W9), placement (P1–P5), the frame charter, the water class
+**world sites** in prose, their stages the **G-** stages (generated sites), their package `@plat/sites`. In records
+(SW-34): the card is `WorldSite`, the host's facts `WorldSiteHost`, and every other record of `@plat/sites` carries the
+`Site` prefix as it stands (`SiteRequest`, `SiteAnchor`, `SiteLevel`, `SiteReach`, …); the bare word `site` names this
+volume's things only as the `Layer` value `site`, the `Recipe.product` `'site'`, the `site` concern, an
+`AccessPoint.source` `site`, an `AccessCause.rule` `site` and the part prefix `site<n>/` — every other `site` in this
+volume is the base's, consistent with V13's usage. **Volume 13's part:** the world regime (W0–W9), placement (P1–P5), the frame charter, the water class
 test and `ReasonRecord` are V13's; where this volume reads them it names the dependency (V14 §1b, V14 §11), and
 nothing of V13 is restated.
 
@@ -213,7 +217,7 @@ the site's widths as it reads the sewer's (C14-29).
 | the package and registry rules | §14 | `@plat/sites` and its registrations |
 | the staged milestones | §16 | V14 §8's slots |
 | the stream key, concern and stage registries, fixed-key draws | §6.1, §6.3 | the `site` concern and the stage ids G1–G8, E1–E4 (BCR-V14-14); every draw V14 §3.15 lists |
-| the world regime, placement (`placeFrame`, `setPlacement`, `unplaceFrame`, `charterFor`), the frame charter, `SuitabilityScore` with its `SuitabilityTerm` plug-in slot, `ReasonRecord`, `classifyWater` / `routeClass` with `WaterClassResult` / `RouteClassResult`, the namespace segment, the two edit verbs and the cascade | V13 §1b.2, V13 §2.2, V13 §2.4, V13 §2.5, V13 §3.7, V13 §3.11, V13 §3.13, V13 §3.14, V13 §4 | V14's dependencies, each named in V14 §1b.6 and V14 §10.2 |
+| the world regime, placement (`placeFrame`, `setPlacement`, `unplaceFrame`, `charterFor`), the frame charter, `SuitabilityTerm` with its `SuitabilityContext`, `score` and `register(term)` (the plug-in registry), `ReasonRecord`, `classifyWater` / `routeClass` with `WaterClassResult` / `RouteClassResult`, the namespace segment, the two edit verbs and the cascade | V13 §1b.2, V13 §2.2, V13 §2.4, V13 §2.5, V13 §3.7, V13 §3.11, V13 §3.13, V13 §3.14, V13 §4 | V14's dependencies, each named in V14 §1b.6 and V14 §10.2 |
 | V01's local places (`HoodPlace`), `districtsAbove`, the opening pass | V01 §2.2, V01 §3.7.1, V01 §3.16 | promotion to a named place (E4); the context of an anchor in a close-up |
 | V05's islands, slabs and access | V05 §2, V05 §5.3 | a crop on an island; R3's island slabs |
 | V07's village ladder and hand-offs | V07 §3, V07 §3.12 | adoption: a thorp forming round a free-standing site (G8); the village's products on a site's ground |
@@ -258,11 +262,13 @@ the site's widths as it reads the sewer's (C14-29).
   politics, labels, placement P1–P5 and the frame charter — is V13's. This volume reads V13's `Placement` for a
   free-standing site, V13's suitability score for G3 and V13's charter for a site frame's boundary conditions, and
   names each as a dependency (V14 §1b.6). **The world-map encounter case** (item 132 (e)) is designed here as a
-  context of E1 whose facts are V13's and lands only after V13's W1–W5 (V14 §8).
+  context of E1 whose facts are V13's and lands only after V13's M-W1 (its W1–W5 stages; V14 §8).
 * **The water class test** — the governing surface, the thresholds, the route classes, the aggregate — is V13's (the
-  hydrology half of V13 §3; item 137 (f)). G6 calls it per unit and stores what it returns; nothing of it is restated.
-* **The two edit verbs and the cascade** (item 137 (a)–(e)) are V13's editing section; this volume's `destroySite`
-  is "this happened" and `removeSite` is "this was always so", each cited to V13 §4.
+  hydrology half of V13 §3; item 137 (f)), landing at V13's milestone M-W0h (the frame-side water state, after M4 and
+  before M6-U). G6 calls it per unit and stores what it returns; nothing of it is restated.
+* **The two edit verbs and the cascade** (item 137 (a)–(e)) are V13's editing section; this volume's **remove** and
+  **destroy** carry the owner's two meanings on the card (V14 §4.3, J-V14.23); V13's `verb` is read on terrain and
+  water edits only (SW-28).
 * **The plan rung** itself — rooms, stairs, doors, furniture, re-cuts, stored plans — is V03's; the crop completes
   buildings by calling it, and a site's built floors are its storeys. **Building massing** is V02's. **The
   underground's systems** under a settlement — sewers, catacombs, caverns, quarries, vaults, the undercity, the access
@@ -312,7 +318,7 @@ V13 supplies is marked **V13** and listed again in V14 §1b.6.
 | `UnitGraph`, `Unit`, `UnitEdge`, `VerticalLink` (V14 §2.2) | G4 (the graph), G5 (each unit's geometry reference, each vertical link's two ends with their elevations) | G5 (the embedding), G6 (per-unit classes), G7 (collapses close units, breaches open edges), the tactical check, the 2.5D slabs (`VerticalLink` drawn as stacked-slab joins), the clerk (every unit's reason), the exports (portals, stairs) | the site document's entities block; `VerticalLink` the base's vertical-link row (BCR-V14-6) |
 | `SiteHistoryLayer` (V14 §2.2) | G5 (one per materializer run, in chronological order) | G7 (a layer's age sets its decay run), the clerk ("built over the old cave"), the `ruinMasonry`-style programs per layer | the card |
 | `SiteLevel` (V14 §2.2; C14-05): one per `site` part — its elevation, headroom cap, name, band, units | G5 (one per level; the owner of the part's L1 rock face and margin; the `system` every `Chamber` and `Gallery` of the part names) | the band ladder and the level chip (V09), `depthBand`, V04 §5.2's programs (a level read as a system of kind `site`), `verticalEnds`, the per-level VTT scene's `plat.level`, `storeysBelow`'s count, the exports | the site document's (or the host's, `inFrame`) entities block; BCR-V14-11 |
-| `WorldSite.attraction`, `.routed` (V14 §2.2; C14-04) | the kind row's columns, copied to the card at the drop and editable by `setAttr` | V13 W6's `site` term (the pull within `siteReachKm`) and W7's seats (a routed site) | the card |
+| `WorldSite.attraction`, `.routed` (V14 §2.2; C14-04) | the kind row's columns, copied to the card at the drop and editable by `setAttr` | V13 W6's `destination` term (the pull within `reach.siteKm`) and W7's seats (a routed site) | the card |
 | `SiteReach.floorCm` (V14 §2.3; C14-24) | G8 (a); every G5 of the entrance's level | `verticalEnds` of a `site`-sourced access in the host, the VTT portal's elevation, the clerk | the access record |
 | the element set of a carved or natural unit (`UnitElement`, V14 §2.2; C14-13) | G5, derived from the unit's geometry, keyed for §6.3's `plan.damage` draw | G7's thresholds and collapses, V03 §5.6's comparison, the exports' fallen walls | derived with the unit (never stored); its keys V14 §2.8 |
 | `effectiveKnownTo(access)` (V14 §2.3; C14-18) | the anchor's `SecretState` over the access's stored `knownTo` | every reader of `AccessPoint.knownTo` for a `site`-sourced access: V03's head, V01's symbol, the VTT portal, the admission function | — (BCR-V14-2) |
@@ -333,7 +339,7 @@ V13 supplies is marked **V13** and listed again in V14 §1b.6.
 | `ZDecl` — the z-completeness declaration per drawable record kind (V14 §5.4) | each record kind's registry row (the base's and the volumes') | R3's extrusion, the gap lint (T-V14-16), the glTF path | §2.8's entity registry (BCR-V14-5) |
 | `verticalEnds(id)` (derived; V14 §5.4) | the base's and V04's records at read | R3's stacked-slab joins, the VTT portal elevations, T-V14-16 (M10) | — (BCR-V14-6) |
 | `Reservation.kind: 'worldSite'`, `Destination.kind: 'worldSite'` | G8 (e)'s and (g)'s adoption (the reservation); after adoption the site's gate as S4's destination | S3's siting and claims (a site claims ground first); S4's router inside the settlement's frame only | §2.5, §4.12 (BCR-V14-13) |
-| the `SuitabilityTerm` plug-ins of V14 §2.5 (C14-04) | `@plat/sites/siting`, registered with V13's `SuitabilityScore` | G3's score with the purpose weights | V13 §1b.2's slot |
+| the `SuitabilityTerm` plug-ins of V14 §2.5 (C14-04) | `@plat/sites/siting`, each a `SuitabilityTerm` registered through V13's `register(term)` | G3's score with the purpose weights | V13 §1b.2's registry (SW-01) |
 | the edge role `passage` (C14-29) | §2.2 rule 7's registry (BCR-V14-24) | G5's L1 chains, `corridorUnion` through the `SpineWidths` callback | §2.2 |
 | `Assignment.site` (V14 §3.9 G8 (c)) | `dropSite` in an urban-surface context | S10b's placement, S11's mutator and V03's programme row (A1's first match) | §7.7 (BCR-V14-12) |
 | `Document.nextSitePart`; `Layer` `'site'` | the site pipeline's G5 (one part per level) | every site address, the exports, V09's working layer (Site), adoption | §2.1, §2.2, §2.9 (BCR-V14-3) |
@@ -347,16 +353,16 @@ V13 supplies is marked **V13** and listed again in V14 §1b.6.
 |---|---|---|
 | `SiteContext.of(doc, address): SiteContext` (V14 §3.2 G1) | `@plat/sites/admit` | `dropSite`'s dry run, E1 (the crop's context), the site dialog's kind list (V09), the clerk |
 | `SiteRequestResolver.resolve(doc, card, context, tables, rng): { programme: SiteProgramme; reasons: ReasonRecord[] }` (G2) | `@plat/sites/request` | the site pipeline; `setSiteRequest`'s re-resolution; `promoteEncounter` |
-| `SiteSiting.site(world: WorldDocument /* V13 */, request, weights: SitePurposeWeightRow): { placement: Placement /* V13 */; score; reasons }` (G3) | `@plat/sites/siting` over V13's `SuitabilityScore` with this volume's plug-in terms (**V13**: the plug-in interface) | a free-standing `dropSite` with no point ("somewhere fitting"); V13's W6 when the host asks for sites |
+| `SiteSiting.site(world: WorldDocument /* V13 */, request, weights: SitePurposeWeightRow): { placement: Placement /* V13 */; score; reasons }` (G3) | `@plat/sites/siting` over V13's `score` with this volume's plug-in terms (**V13**: `SuitabilityTerm`, `SuitabilityContext`, `register`) | a free-standing `dropSite` with no point ("somewhere fitting"); V13's W6 when the host asks for sites |
 | the world crop frame (V14 §3.10 (4); C14-08): V13's `charterFor(world, placement)` at a transient placement, S1, the roads as way bands, S12a's cover, on the crop's transient arena | `@plat/sites/cropFrame` in the generation worker | E1's `world` context |
 | `TopologyBuilder.build(programme, rng): { graph: UnitGraph; reasons }` (G4) | `@plat/sites/topology` | the site pipeline; `setSiteRequest` (a re-build keeping locked units as fixed nodes) |
 | `Embedder.embed(doc, graph, policy, k): KernelResult<EmbedResult>` (G5) | `@plat/sites/embed` | the site pipeline; a programme edit's local rematerialization |
 | the materializer functions `NaturalCave.lay`, `RockCut.lay`, `MineExcavate.lay`, `BuiltLevel.lay`, `GroundComposer.lay` (G5 (b)–(f)) | `@plat/sites/materialize` — three materializers of this volume's own (natural, rock-cut, mine) reusing V04's **records and programs** (`Gallery`, `Chamber`, the quarry program, the light rows), never its stages (C14-28); the built and ground ones calling S12a's hinterland unit, S7's `EnceinteStrategy.trace`, S11's `SitePlanStrategy` and V03's `plan` | `Embedder` per history layer |
-| the `SuitabilityTerm` plug-ins (V14 §2.5): `overlook`, `relief`, `slopeFlat`, `waterNear`, `shoreNear`, `routeNear`, `roadControl`, `settlementNear`, `settlementFar`, `territoryBorder`, `floodSafe`, `ore`, `stone`, `wood`, `solitude`, `concealment`, `oneApproach` | `@plat/sites/siting`, each over V13's rasters and layers | V13's `SuitabilityScore.score` when G3 passes the purpose weights |
+| the `SuitabilityTerm` plug-ins (V14 §2.5): `overlook`, `relief`, `slopeFlat`, `waterNear`, `shoreNear`, `routeNear`, `roadControl`, `settlementNear`, `settlementFar`, `territoryBorder`, `floodSafe`, `ore`, `stone`, `wood`, `solitude`, `concealment`, `oneApproach` | `@plat/sites/siting`, each a `SuitabilityTerm { id; compute(cell, ctx: SuitabilityContext) }` registered through V13's `register(term)`, over the context's rasters and layers | V13's `score` when G3 passes the purpose weights |
 | `SiteWaterClasses.classify(doc, card): WaterClassReport` (G6) | `@plat/sites/water` calling V13's classifier (**V13**) | the card's water state, the lifecycle (`submerged`), the exports, the clerk |
 | `SiteCondition.apply(doc, card, event): KernelResult<ConditionResult>` (G7) | `@plat/sites/condition` over V06 §3.23's `decayLevel`, V06 §2.8's ops and V03 §5.6's drawing | `destroySite`, the `siteState` conversions, a host event, an epoch over an adopted site (V06) |
 | `SiteAttach.attach(doc, card, anchor): KernelResult<{ access: AccessPoint }>` (G8 (a)–(d)) | `@plat/sites/attach` over V04's dig generators (V04 §3.8) | `dropSite` (attached), `moveAnchor` |
-| `SiteAdopt.adopt(settlement: Document, site: Document, placement): KernelResult<AdoptResult>` (G8 (e)) | `@plat/sites/adopt` | V13's P4/P5 when a settlement is placed over a site; V07's siting at a village rung; a hand `adoptSite` |
+| `SiteAdopt.adopt(settlement: Document, site: Document, placement): KernelResult<AdoptResult>` (G8 (e)) | `@plat/sites/adopt` | the `adoptSite` event (V14 §4.5), raised by the application (V09's tool) on the `placed` outcome V13's P4/P5 emit over a site — V13 never calls this volume (SW-10) —, by V07's siting at a village rung, or by hand |
 | `PlatApi.encounter.open(h, address) → Encounter`, `.items(h, key, ops)`, `.crop(h, key)`, `.close(h, key)` and the `query` kind `encounter` (BCR-V14-25; C14-07) | the generation worker (`@plat/sites/encounter`): the resolve, the completion, the crop, the transient arena and its items live there behind §11.2's boundary | `EncounterService` in `@plat/app` (the DM's click — V09's T6 `place` **Encounter here** —, the clerk's `useTool`, the VTT crop export) |
 | `EncounterService.promote(doc, encounter, as): EditEvent` | `@plat/app` → the `promoteEncounter` event | the crop's **Keep this** button |
 | `Occupancy.summarize(doc, building \| unit, week): OccupancySummary` (E2 (b)) | `@plat/sites/occupancy` | the crop, the clerk |
@@ -430,15 +436,15 @@ least-disruption mutation: a status change applies G7's transform; a removed rec
 | the world document and its facts at a point (terrain class, biome, route, territory, recent events) | V13 §2 `WorldDocument`, `WorldRaster`, `WorldRoute`, `Territory`; W2–W8 | E1's `world` context; G3's siting inputs | E1 refuses a world click with `refuse.encounter.noWorld` (V09 §4.9's catalogue); G3 sites only within a settlement's frame (hinterland contexts) |
 | the frame charter for a site's own frame (edge elevation profiles, datum, water edges, climate, water table, biome, resources, territory) | V13 §2 `FrameCharter`; P4 | G5 (f) (the ground composer's S1 inputs); G6 (the water table) | a free-standing site document takes a flat charter with the base's S1 defaults, reported |
 | placement in the world regime | V13 §2 `Placement`; P1–P5 | G3 (a free-standing site's placement); G8 (e) (the settlement's placement over a site) | free-standing sites wait (V14 §8) |
-| the `SuitabilityTerm` plug-in interface: the rasters and layers a term may read (`dem`, `distToRiverM`, `distToShoreM`, the `route` layer, the placements' origins, `Territory.border`, the wet-season `FloodSpread`, W5's resource sites, `landUse`) and the `site` term's read of `WorldSite.attraction` within `siteReachKm` | V13 §1b.2, §3.7 (1) | G3 registers V14 §2.5's terms; the kind row's `attraction` and `routed` on the card | a free-standing drop takes a point only |
+| the `SuitabilityTerm` interface (`{ id; compute(cell, ctx: SuitabilityContext): number }`), the `SuitabilityContext` a term reads (the raster, the coast, the reaches, the surfaces, the routes, the placements, the sites, the resources, the springs, `territories: Territory[]`, the wet-season spread and the stage), `score` and `register(term)` — the registry V14 §2.5's seventeen terms are registered through; the `destination` term's read of `WorldSite.attraction` within `reach.siteKm` | V13 §1b.2, §2.2, §3.7 (1) | G3 registers V14 §2.5's terms; the kind row's `attraction` and `routed` on the card | a free-standing drop takes a point only |
 | W7's seats reading `WorldSite.routed` from the card | V13 §3.8 (1) | G3 (d) | — |
 | `charterFor(world, placement)` for a transient, non-settlement placement at a point (a 100 m frame) that records no `Placement` | V13 §3.11.4, §3.11.6 (the form `WorldPort.charter` nearly gives) | E1 (4)'s crop frame | the world click is refused |
 | the names "V14's E3 cache" and "VTT scene stamps" resolved to the `Encounter` memo and the scene's `waterStamp` | V13 §3.14.2 step 5, §3.14.3 (T-V13-21 (11), (12)) | V14 §3.10, §5.3 | — |
 | a `WaterSurface` of kind `site` with `body` the card and the unit as its cells, admitted by `governingSurface` for a dated `floodedLevel`; the connected-set walk over `site` parts and `VerticalLink`s | V13 §2.2, §3.12.6, §3.13.1 | G6; J-V14.39 | the provisional classes |
 | `setPlacement` with a `site` subject leaving the site's arenas byte-identical and marking its charter stale | V13 §3.11.5, §4.3 | V14 §4.7's row | — |
-| the site glyph's levels (a kind glyph at level 0, the envelope at level 2) made by W9's hook from the card | V13 §3.10, §5.1 | V14 §5.1 | — |
+| the glyph record generalized with a `kind` and a level-0 kind glyph; `glyphOf` and the `world.glyph` message a site's marks are posted through (SW-08) | V13 §3.10, §5.1 | V14 §3.9 (d), §5.1 | — |
 | W8's `foreignCulture` reads the host's or the recipe's culture, never a raster of V14's (V14 has none) | V13 §3.9 | — | — |
-| the water class test: the governing surface, thresholds, route classes, the aggregate | V13 §3's classifier (the mechanism of `proposal-hydrology` §4, stated once there) | G6 per unit, per storey; the lifecycle's `submerged` | G6 reads the base's §2.6 water table and classes `dry` / `flooded` only, reported `W_SITE_WATER_PROVISIONAL` |
+| the water class test: the governing surface, thresholds, route classes, the aggregate | V13 §3's classifier (the mechanism of `proposal-hydrology` §4, stated once there), landing at V13's milestone M-W0h (SW-14) | G6 per unit, per storey; the lifecycle's `submerged` | G6 reads the base's §2.6 water table and classes `dry` / `flooded` only, reported `W_SITE_WATER_PROVISIONAL` |
 | the two edit verbs ("this happened" / "this was always so"), the cascade, the counterfactual fork | V13 §4 | V14 §4.3's two deletion verbs; a site's terrain pre-edit (G3 (b)) | the base's `setField` terrain stroke, undated |
 | `ReasonRecord` (shared) | V13 §2's declaration | every G- and E- stage writes one per generated fact (V14 §2.7) | — (declared in V13; this volume cites it) |
 | the charter for a free-standing site (what a site frame must carry to be placed) | V13 §2's `FrameCharter` as read by V13 P4 for a non-settlement frame | G3 (c) | — |
@@ -489,13 +495,13 @@ interface WorldSite {                                           // the card (ite
   kind: WorldSiteKind; purpose: SitePurpose;                    // SitePurpose: SiteKindRow.purposes' ids (V14 §2.5): 'defence'|'worship'|'dwelling'|'extraction'|'concealment'|'burial'|'storage'|'watch'|'solitude'|'trade'
   attachment: SiteAttachment;
   context: SiteContextKind;                                     // the context G1 read at creation; re-read on moveAnchor
-  placement?: Placement;                                        // V13: a free-standing site's placement in the world regime (origin, bearing, precedence stamp); absent attached or surface
+  placementRef?: { world: Uuid; placement: Id };                // a free-standing site: the mirror of the site document's `worldRef` (V13 §2.2), set by the world's `charter` fold; the `Placement` itself lives in the world document (V13 §2.7) and is read through it; never in any digest (SW-11; T-V14-31); absent attached or surface
   anchor?: Id;                                                  // attached: its SiteAnchor in the host document (V14 §2.3)
   building?: Id;                                                // surface: the building the assignment path placed, in the host document (V14 §3.9 G8 (c))
   document?: SiteDocumentRef;                                   // attached and free-standing: the site's own document once materialized (lazily on first open, item 133 (h)); absent while `lifecycle.materialized` is 'candidate';
                                                                 // a `surface` card's: present exactly when a level beyond item 29 (b)'s basement gate exists (then `anchor` is set on the lowest basement storey, V14 §3.9 (c); C14-26); never for `inFrame` or `ground`
   levels: Id[];                                                 // the SiteLevel records, ordinal order (in the site document, or in the host for an inFrame site)
-  attraction: number; routed: boolean;                          // the kind row's columns copied at the drop, editable: V13's `site` term reads `attraction` (0–1) within `siteReachKm`; W7 seats a `routed` site (C14-04)
+  attraction: number; routed: boolean;                          // the kind row's columns copied at the drop, editable: V13's `destination` term reads `attraction` (0–1) within `reach.siteKm`; W7 seats a `routed` site (C14-04)
   frameDigest?: Hash64;                                         // an attached card: the host frame's digest at materialization (V14 §3.1; C14-11)
   envelope?: { ring: PolygonCm; levelBands: { level: number; floorCm: Cm; ceilingCm: Cm }[] };   // an attached card: the envelope and each level's band in the host's cm, read by V04's `siteEnvelopes(doc)` (C14-10)
   request: SiteRequest; programme?: SiteProgramme;              // the request (stated and derived), the programme G2 resolved (absent while candidate)
@@ -508,9 +514,9 @@ interface WorldSite {                                           // the card (ite
   ageYears: number;                                             // 'yr': the oldest history layer's age at the drawn week; a request's `age` sets it, else G2 derives it
   name?: NameRef; identity: Identity; lifecycleBase: Lifecycle } // §2.8's two parts; `lifecycleBase.existence` mirrors `lifecycle.condition` (V14 §2.9); `identity.key` the anchor's part for an attached
                                                                 // card, ground part 0 otherwise — a geometry-less record's key, read by nothing but the registry's path test (C14-54)
-// Which fields are model data and which are derived (C14-03; J-V14.42): `kind`, `purpose`, `attachment`, `context`, `placement`, `anchor`, `building`, `request`,
+// Which fields are model data and which are derived (C14-03; J-V14.42): `kind`, `purpose`, `attachment`, `context`, `anchor`, `building`, `request`,
 // `attraction`, `routed`, `lifecycle` (every Dated state), `knowledge` (but `discoverable`), `host`, `name` and the identity are declared — in the model digest,
-// moved only by events. `programme`, `complexity`, `history`, `document`, `levels`, `water`, `ageYears` (where not stated), `frameDigest`, `envelope` and
+// moved only by events. `programme`, `complexity`, `history`, `document`, `levels`, `water`, `ageYears` (where not stated), `frameDigest`, `envelope`, `placementRef` (a reading of the world document, SW-11) and
 // `knowledge.discoverable` are G2–G8's products: they live in the host document's **derived block** (§2.9's non-canonical set, beside the elaboration cache),
 // rebuilt from the declared fields on open and never in any digest, log or export's model.
 type SiteDocumentRef = { docId: Uuid; product: 'site'; outputVersion: string; digest: Hash128 /* its model digest at the last commit the host document saw; checked at open (§2.9 step 3) */ };
@@ -725,8 +731,8 @@ read it through `ViewOpts.viewAs`'s key form; the admission function is unchange
 // The encounter (item 132 (a), (b)): one operation — materialize detail at an address at a scale — with the discard policy
 interface EncounterAddress {                                    // keyed by world address and time; never an hour (item 136 (a))
   doc: Uuid;                                                    // the document clicked (a settlement, a site document, or V13's world document)
-  arena: PlatKey | { world: true /* V13's regime, in metres */ } | { site: Id; level: number };
-  at: PointCm | { xM: number; yM: number /* the world point, V13 */ };
+  arena: PlatKey | { world: true /* V13's regime */ } | { site: Id; level: number };
+  at: PointCm | WorldPointCm /* V13 §2.1's integer world point, under `{ world: true }` (SW-12) */;
   storey?: number;                                              // a click inside an open plan: that storey
   depthBand?: number;                                           // a click on Below: the drawn band (§8.4)
   week: number;                                                 // §2.9's `week` at the click — the time in the key
@@ -848,8 +854,8 @@ Shipped rows (own; the vectors are the `medium` presets, the other presets scale
 −1 / 0 / +1 / +2 clamped to [1, 6].
 
 Two more kind-row columns feed V13's siting (C14-04; `SiteKindRow.attraction: number` 0–1 and `.routed: boolean`,
-own, calibratable), copied to the card at the drop (`WorldSite.attraction`, `.routed`) and read by V13's `site` term
-within its `siteReachKm` and by W7's seats:
+own, calibratable), copied to the card at the drop (`WorldSite.attraction`, `.routed`) and read by V13's `destination` term
+within its `reach.siteKm` and by W7's seats:
 
 | kind | `attraction` | `routed` | why |
 |---|---|---|---|
@@ -918,8 +924,9 @@ band is the proposal's (own): thirty metres is one house and its street, a hundr
 battle larger than that is a siege, not an encounter (J-V14.5).
 
 ```ts
-// tables/sites/purpose.json — G3: purpose weights on V13's suitability score (proposal §5): the terms are THIS VOLUME'S `SuitabilityTerm` plug-ins in
-// `@plat/sites/siting`, registered with V13's `SuitabilityScore` (V13 §1b.2's plug-in slot; C14-04), each a pure function of V13's rasters and layers
+// tables/sites/purpose.json — G3: purpose weights on V13's suitability score (proposal §5): the terms are THIS VOLUME'S plug-ins in `@plat/sites/siting`,
+// each defined once here against V13's `SuitabilityTerm { id; compute(cell, ctx: SuitabilityContext): number }` (V13 §2.2) and registered through V13's
+// `register(term)` (V13 §1b.2; C14-04; SW-01), each a pure function of the context's rasters and layers; no random or jitter term exists (SW-03)
 interface SitePurposeWeightRow { purpose: SitePurpose; terms: Partial<Record<SiteTerm, number>> /* 'weight': the term's weight in V13's score; a negative weight repels */; hard?: SiteTerm[] /* terms whose zero refuses the candidate */ }
 type SiteTerm = 'overlook'|'relief'|'slopeFlat'|'waterNear'|'shoreNear'|'routeNear'|'roadControl'|'settlementNear'|'settlementFar'|'territoryBorder'|'floodSafe'|'ore'|'stone'|'wood'|'solitude'|'concealment'|'oneApproach';
 // each plug-in, stated once (its V13 input; every output in [0, 1]; constants own, calibratable):
@@ -965,6 +972,7 @@ interface SiteLifecycleRow { from: SiteCondition|'destroyed'|'cleared'|'restored
 //   * (but cleared) → restored    causes host, dm         transform restore
 //   restored → pristine     cause rule (the restore Works' FINISHED week)  transform none
 //   pristine | vacant → vacant    cause water (G6's aggregate `submerged`)  transform vacate
+//   vacant | occupied → damaged | ruined   cause water (the aggregate `submerged` for ≥ `waterloggedWeeks` of the decay run)   transform decay at `r × waterloggedFactor` (V13's waterlogged rule, BCR-V13-22; SW-30)
 //   occupied → vacant       cause rule:host (the host building's decay run, C14-32)  transform vacate
 // tables/sites/occupancy.json — E2 (b) (item 132 (c))
 interface OccupancyRow { of: OccupancySummary['of']; by: 'households'|'use'|'garrison'|'site'; perHousehold?: [number, number] /* 'people' present per household at any moment: [1, 3] */; perCapacity?: number /* 'share' of a use's capacity present: patrons 0.4, staff 0.15, congregation 0.1, garrison 0.6 */;
@@ -1067,7 +1075,8 @@ request.
 Addresses, lineage and anchors are §6.3's, with V13 §2.5's **namespace segment** (item 140 M1; C14-22): every id that
 names an entity of another document is written whole with that document's namespace (`<ns>:site2/unit:k`) —
 `SiteReach.site` and `.unit`, `SiteDocumentRef` (which carries `namespace`), `WorldSite.adoptedFrom`,
-`EncounterAddress.doc` with its `arena`, `AdoptResult.addresses`, the anchor's `site` and the card's `anchor` — while a
+`EncounterAddress.doc` with its `arena`, `AdoptResult.addresses` (the anchor's `site` and the card's `anchor` name
+entities of their own document and stay bare, SW-21) — while a
 document's own addresses are bare inside it; adoption rewrites the segment to the settlement's (the mapping in
 `AdoptResult.addresses`), so two adopted site documents never collide on a token (bar 7). The site document's town
 root is the card (its lineage the dropSite
