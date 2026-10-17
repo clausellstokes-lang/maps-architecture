@@ -1,5 +1,29 @@
 # HANDOFF — town-generator research program
 
+## RESUME HERE — THE HOST SIMULATOR REVIEW AND THE SYSTEM READS (2026-10-17 ~07:00Z; the owner's five-hour window closing)
+
+Everything since J375 runs on Opus 5.5 and carries the J375 retrovalidation notice (J377–J381). Four workflows were in
+flight when the window closed. A workflow can be resumed only in THIS session (same session id): re-invoke Workflow with
+the script path and the run id; completed agents replay from cache, the rest run live. If an agent died on the limit,
+its file may be partial — the resumed agent rewrites it.
+
+| run | script | state at the close | resume |
+|---|---|---|---|
+| wf_e54a90fb-43c realm review (8 dimensions incl. territory T1–T3) | the session's realm-review script (copy: workflows/36-realm-review.js) | find and verify done for all 8; SYNTHESIZE running (research/sf/fp-realm-review.md partly written, committed as WIP; docs/AMENDMENTS-2026-10-17m.md not yet written); review, revise, apply, critic not started | resumeFromRunId wf_e54a90fb-43c with the session script path (args.scratch as before). BEFORE trusting an apply: check file m exists whole and the review record §10 exists; if the run ended with nulls, resume it — do not apply file m by hand. |
+| wf_0e759907-c33 systems read (alignment, trade, populations, prosperity) | workflows/38-systems-read.js (session copy identical) | readers running; nothing landed | resumeFromRunId wf_0e759907-c33 |
+| wf_868a6476-905 plague read | workflows/39-plague-read.js | just launched | resumeFromRunId wf_868a6476-905 |
+| (done) wf_5f99985d-25d faith read | workflows/37-faith-read.js | LANDED research/sf/faith-system.md (verified) | — |
+
+**Pending after they land.** (1) Fold research/sf/plague-system.md into research/sf/lens-implications.md (the systems
+read's implications seat ran without plague; one seat appends a plague section and updates the lens tables).
+(2) The religion follow-up review (J379) — rebriefed by research/sf/faith-system.md §9.6: reuse the territory hinterlands,
+pressure along carrier links, the host's unconsumed religious hierarchy first, no invented holy sites, pilgrims or
+source-named flows. (3) The owner's open question from the session: add culture as a resistance term (read the host's
+cultureDistance) and the sea as cheap carriage for territory only where the host's sea lanes are lit (faith's sea idea
+dropped). (4) Report to the owner: the realm review's rulings and file m's items; each system read's "how this changes
+the view" section. (5) Host defects found by the faith read (research/sf/faith-system.md §3.11, §10, §12) to pass to the
+owner for the host repository.
+
 ## WORLD, SITES, ENCOUNTERS AND HYDROLOGY — the design volumes landed (2026-10-17)
 
 **STATE AFTER THE FOUR FOLLOW-UPS (J376, 2026-10-17 ~04:25Z).** File k APPLIED to the base and the volumes (`docs/validation/coherence/world-sites-k.md`); file l (the VTT deltas, items 648–658) applied (`vtt-l.md`); the M0 world-sites gate HOLDS (`plat/docs/build/checks/M0-world-sites-gate.md`: 20 gate tests green; K10, K12, M1, M2, M4 carried to M1 with their smallest additions; K11 closed by C-0374); the bundle at 79,542 lines. Still open: R1-1 is closed (reconcile-V14-r1); the dungeon-tool parity critique waits for the first built world site (V14 §8 SE4); the host's parallel track (V13 §8, §11 Q2) is the owner's to schedule; the five reading choices of the coherence pass and every J375 file await the whole-design retrovalidation.
