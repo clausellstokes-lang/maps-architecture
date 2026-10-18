@@ -11,12 +11,7 @@ import type { ConstructiveCase } from '../../../src/constructive/types.js';
 import { constructiveSequence, determinismPoint as lp, fixtureSpec, runBatch } from '../../../src/determinism/index.js';
 import { bareArena, draw, insertSteps, roundTrip, sameBlock } from './support.js';
 
-/**
- * Seeds per case: 4 (a swept case runs the first 4 of its sweep). This is the item's own bar run, not the set at the
- * tier sizes: C-0122 — "M0-k-04's aggregate B-FUZZ runs (wave 11: the whole constructive set and every primitive at the
- * tier sizes) are unchanged" — so every seed of every case at the PR and nightly sizes is M0-k-04's run (C-0110), and 4
- * here is not a narrowed bar (checks/M0-a-15-notes.md note 4).
- */
+/** Seeds per case (a swept case runs its first seeds of the sweep). */
 const SEEDS = 4;
 
 const M0 = casesAt('M0');

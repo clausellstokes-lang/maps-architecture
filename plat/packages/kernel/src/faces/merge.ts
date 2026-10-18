@@ -110,10 +110,7 @@ interface Neighbour {
   readonly length: number;
 }
 
-/**
- * The face's neighbouring records at level n — faces sharing an edge with it across any of its rings, not a vertex
- * one-ring — longest shared boundary first, ties by key.
- */
+/** The face's neighbouring records at level n (across any of its rings), longest shared boundary first, ties by key. */
 function neighbours(t: OpenTx, f: FaceId): Neighbour[] {
   const p = t.plat;
   const n = t.level;

@@ -19,15 +19,10 @@
 //   chain), or any other candidate of insertion's step 3 off the rings — lies within `attractCm` of a segment where the
 //   router would route the cut through it (`passesWithin`), nor, inside the face, within `attractCm` of a closed
 //   segment (step 2 would draw a cut point onto it): a degenerate antenna the cut may neither cross nor pass, and ending
-//   on it splits nothing (C-0214 (1)).
+//   on it splits nothing (C-0214; integration g8 B-1).
 // A cut that passes is inserted by `insertChain` (the door) at points that land exactly where they were judged, so the
 // insertion neither bends nor shares it: §3.6 (2)'s "never lets attraction bend a cut into a pinch". Where it comes
-// back bent all the same, the cut is refused, never thrown (split.ts `insertCut`, C-0214 (2)).
-//
-// The exact predicates are the kernel's own (`num/exact.ts`, C-0314): the crossing rule `crossingStep` behind
-// `insideRing`, the closed-segment contact `segmentsMeet` re-exported as `segmentsTouch`, the lattice order and the
-// lattice point; the writer's entry and its E_WORK_LIMIT are the transaction's (`tx/state.ts`), a face's doubled area
-// the index's (`index/items.ts`). Their names here are the ones the partitioners and their importers read.
+// back bent all the same, the cut is refused, never thrown (split.ts `insertCut`).
 import {
   compareVertices,
   dest,
@@ -49,27 +44,36 @@ import { faceRouteRings, query } from '../index/index.js';
 import { planAttraction } from '../insert/attractVertex.js';
 import { chainJournal, charge, INSERT_ATTRACT_QUERIES, TX_FACES_WALKED } from '../insert/index.js';
 import { nearerVertex, nearParallel, onRouteOfLevel, passesWithin, segmentBox, splitBreaksClearance, withinSegment } from '../insert/stretch.js';
-import { comparePoints, crossingStep, lp, segmentsMeet } from '../num/exact.js';
-import { err, LATTICE, ok, orient2d, snap, type KernelError, type KernelResult, type Warning } from '../num/index.js';
+import { area2, err, LATTICE, ok, orient2d, snap, type KernelError, type KernelResult, type Warning } from '../num/index.js';
 import { restoreSavepoint, takeSavepoint } from '../tx/savepoint.js';
-import { chargeTx, check, type OpenTx } from '../tx/state.js';
-import type { Id, LatticePoint, Level, RoleKey } from '../types/index.js';
-
-/** The writer's entry, the open transaction or a doomed batch's refusal (§3.3 *Work limits*); E_WORK_LIMIT past it. */
-export { enterWriter as enter, overLimit } from '../tx/state.js';
-/** A lattice point; two lattice points in §3.3's vertex key order (y, then x). */
-export { comparePoints, lp } from '../num/exact.js';
-/** Twice a face's area (cm²) over its own-level route rings, exact (§3.2 (6)). */
-export { faceArea2 } from '../index/items.js';
-/** Do the closed segments a–b and c–d share a point (exact `orient2d`; a touch at an end and a collinear overlap count)? */
-export { segmentsMeet as segmentsTouch } from '../num/exact.js';
+import { chargeTx, check, doomed, openTx, type OpenTx } from '../tx/state.js';
+import type { Overlay } from '../tx/types.js';
+import type { Cm, Id, LatticePoint, Level, RoleKey } from '../types/index.js';
 
 export const ATTRACT = LATTICE.attractCm;
 export const MIN_EDGE_SQ = LATTICE.minEdgeCm * LATTICE.minEdgeCm;
 
+/** The open transaction, or the refusal of a doomed one (E_WORK_LIMIT reached by an earlier op). */
+export function enter<T>(o: Overlay): { t: OpenTx; refused: KernelResult<T> | null } {
+  const t = openTx(o);
+  if (t.failed === null && t.work.total > t.workLimit) t.failed = { code: 'E_WORK_LIMIT', detail: 'the batch exceeded its work limit' };
+  return { t, refused: doomed<T>(t) };
+}
+
+/** E_WORK_LIMIT, the batch doomed (the writer refuses before it writes). */
+export function overLimit<T>(t: OpenTx): KernelResult<T> {
+  if (t.failed === null) t.failed = { code: 'E_WORK_LIMIT', detail: TX_FACES_WALKED };
+  return doomed<T>(t) as KernelResult<T>;
+}
+
 /** A refusal with its code (the partitioners' typed results, §3.1). */
 export function refuse<T>(code: KernelError, detail: string): KernelResult<T> {
   return err<T>(code, detail);
+}
+
+/** A lattice point. */
+export function lp(x: number, y: number): LatticePoint {
+  return { x: x as Cm, y: y as Cm };
 }
 
 // ---- a face's region and its boundary ----------------------------------------------------------------------------------
@@ -120,15 +124,7 @@ export function regionOf(t: OpenTx, face: FaceId, faceLevel: Level = t.level): R
   return { level: n, faceLevel, face, record: faceLevel === n ? face : -1, rings, ringOf, vertexRings, pairs };
 }
 
-/**
- * Is the doubled point inside the ring of half-edges by the parity of its crossings (exact, on doubled coordinates)?
- * Each edge counts by num's half-open crossing rule (`crossingStep`). The callers pass a doubled lattice point — a
- * vertex, a cut point, an apex, a core corner — or the doubled midpoint of a cut segment. Off the ring the parity
- * decides: strictly inside or outside (C-0314's off-ring reading, doubled). On a ring edge the answer is the parity's
- * (the half-open rule reads some edges' points inside and others' outside), not a rule a caller may lean on: every
- * caller that can pass such a point — `planCut`'s interior points and segment midpoints, `radialSplit`'s apex,
- * `ringBand`'s core corners (`coreClear`) — refuses or lands it by its own attractCm and along-an-edge tests.
- */
+/** Is the doubled point strictly inside the ring of half-edges (crossing number on doubled coordinates, exact)? */
 export function insideRing(p: Plat, ring: readonly HalfEdgeId[], qx2: number, qy2: number): boolean {
   const X = p.vertices.x;
   const Y = p.vertices.y;
@@ -137,15 +133,17 @@ export function insideRing(p: Plat, ring: readonly HalfEdgeId[], qx2: number, qy
   for (const h of ring) {
     const a = O[h];
     const b = O[h ^ 1];
-    if (crossingStep(2 * X[a], 2 * Y[a], 2 * X[b], 2 * Y[b], qx2, qy2) !== 0) inside = !inside;
+    const ay = 2 * Y[a];
+    const by = 2 * Y[b];
+    if ((ay > qy2) !== (by > qy2)) {
+      const o = orient2d(2 * X[a], ay, 2 * X[b], by, qx2, qy2);
+      if (by > ay ? o > 0 : o < 0) inside = !inside;
+    }
   }
   return inside;
 }
 
-/**
- * Is the doubled point inside the region: inside its outer ring and inside none of its holes, each by `insideRing`'s
- * parity? Off the rings that is strictly inside; on a ring edge it is the parity's answer (see `insideRing`).
- */
+/** Is the doubled point strictly inside the region: inside its outer ring and inside none of its holes? */
 export function insideRegion(p: Plat, r: Region, qx2: number, qy2: number): boolean {
   if (!insideRing(p, r.rings[0], qx2, qy2)) return false;
   for (let i = 1; i < r.rings.length; i++) if (insideRing(p, r.rings[i], qx2, qy2)) return false;
@@ -153,6 +151,26 @@ export function insideRegion(p: Plat, r: Region, qx2: number, qy2: number): bool
 }
 
 // ---- exact segment predicates ------------------------------------------------------------------------------------------
+
+function sign(v: number): number {
+  return v > 0 ? 1 : v < 0 ? -1 : 0;
+}
+
+/** Does c lie on the closed segment a–b (exact; c collinear and inside its box)? */
+function onSegment(ax: number, ay: number, bx: number, by: number, cx: number, cy: number): boolean {
+  return orient2d(ax, ay, bx, by, cx, cy) === 0 && Math.min(ax, bx) <= cx && cx <= Math.max(ax, bx) && Math.min(ay, by) <= cy && cy <= Math.max(ay, by);
+}
+
+/** Do the closed segments a–b and c–d share a point (exact orient2d)? */
+export function segmentsTouch(ax: number, ay: number, bx: number, by: number, cx: number, cy: number, dx: number, dy: number): boolean {
+  const d1 = sign(orient2d(cx, cy, dx, dy, ax, ay));
+  const d2 = sign(orient2d(cx, cy, dx, dy, bx, by));
+  const d3 = sign(orient2d(ax, ay, bx, by, cx, cy));
+  const d4 = sign(orient2d(ax, ay, bx, by, dx, dy));
+  if (d1 * d2 < 0 && d3 * d4 < 0) return true;
+  return (d1 === 0 && onSegment(cx, cy, dx, dy, ax, ay)) || (d2 === 0 && onSegment(cx, cy, dx, dy, bx, by))
+    || (d3 === 0 && onSegment(ax, ay, bx, by, cx, cy)) || (d4 === 0 && onSegment(ax, ay, bx, by, dx, dy));
+}
 
 /**
  * Do the closed segments a–b and a–d (sharing their first end a) share any point other than a? Exact: they do only when
@@ -349,7 +367,7 @@ export function planCut(t: OpenTx, r: Region, cutIn: readonly { readonly x: numb
           }
         }
       }
-      if (!arrives && segmentsMeet(s0.x, s0.y, s1.x, s1.y, X[u], Y[u], X[w], Y[w])) {
+      if (!arrives && segmentsTouch(s0.x, s0.y, s1.x, s1.y, X[u], Y[u], X[w], Y[w])) {
         return refuse(NOT_TWO, `the cut touches or crosses the boundary edge (${X[u]}, ${Y[u]})–(${X[w]}, ${Y[w]}) (§3.6 (2), (3))`);
       }
     }
@@ -370,13 +388,13 @@ export function planCut(t: OpenTx, r: Region, cutIn: readonly { readonly x: numb
     for (let j = i + 1; j < k - 1; j++) {
       if (j === i + 1) {
         // A fold sharper than minFaceAngle: insertion would share the two segments as one stretch, bending the cut
-        // into an antenna (two rays a couple of degrees apart from an interior apex, C-0192 (1)).
+        // into an antenna (B-FUZZ seed -1225756674: two rays 2.11° apart from an interior apex).
         if (overlapBeyond(q[j].x, q[j].y, q[i].x, q[i].y, q[j + 1].x, q[j + 1].y) || sameWayNear(q[j], q[j + 1], q[i].x, q[i].y)) {
           return refuse(NOT_TWO, 'the cut folds back on itself (§3.6 (2))');
         }
         continue;
       }
-      if (segmentsMeet(q[i].x, q[i].y, q[i + 1].x, q[i + 1].y, q[j].x, q[j].y, q[j + 1].x, q[j + 1].y)) return refuse(NOT_TWO, 'the cut crosses itself (§3.6 (2))');
+      if (segmentsTouch(q[i].x, q[i].y, q[i + 1].x, q[i + 1].y, q[j].x, q[j].y, q[j + 1].x, q[j + 1].y)) return refuse(NOT_TWO, 'the cut crosses itself (§3.6 (2))');
     }
   }
   return ok({ points: q, from, to });
@@ -420,6 +438,11 @@ export function comparePairs(p: Plat, a: number, b: number): number {
   const [a0, a1] = ends(a);
   const [b0, b1] = ends(b);
   return compareVertices(p, a0, b0) || compareVertices(p, a1, b1);
+}
+
+/** Two lattice points, y then x. */
+export function comparePoints(a: LatticePoint, b: LatticePoint): number {
+  return a.y !== b.y ? (a.y < b.y ? -1 : 1) : a.x !== b.x ? (a.x < b.x ? -1 : 1) : 0;
 }
 
 /** Two faces of one level by canonical key (lattice points only). */
@@ -529,6 +552,13 @@ export function rollback<T>(t: OpenTx, s: OpSavepoint, refusal: KernelResult<unk
 }
 
 // ---- measures ------------------------------------------------------------------------------------------------------------
+
+/** A face's area × 2 (cm²) over its own-level route rings, outer counter-clockwise and holes clockwise: exact. */
+export function faceArea2(p: Plat, level: Level, f: FaceId): number {
+  let s = 0;
+  for (const ring of faceRouteRings(p, level, f, level)) s += area2(ring.map((v) => lp(p.vertices.x[v], p.vertices.y[v])));
+  return s;
+}
 
 /** A face's width (cm): the transaction's injected measure, else its own-level outer ring's OBB minor extent (C-0185 (11)). */
 export function faceWidth(t: OpenTx, level: Level, f: FaceId): number {
