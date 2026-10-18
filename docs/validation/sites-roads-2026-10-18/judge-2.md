@@ -11,3 +11,17 @@
   `9d142283`, file s `3b83b3af`.
 
 (in progress)
+
+## Working notes (written as read; superseded by the scored sections below)
+
+- 09:40–09:47 readers read whole (read-v14 981, read-v13 1 014, read-base 881, read-research 563, read-checks 1 269 lines).
+- 09:47–09:58 design-A read whole (1 776 lines): catalogue-first; five kind-row columns (`roadAccess`, `approach`,
+  `coherence`, `correction`, `bendM`), eleven `SiteCoherenceTest` plug-ins in a new V13 slot, `siteKind` coherence term,
+  bend within `bendM` on four kinds, offers within `originSearchM`; W7 (12) approach roads (`WorldRoute` origin
+  `approach`) on both worlds; `routed` retired; W7 (11)'s "changes a route's geometry and effort" rewritten to "changes
+  no route's geometry"; frame side (G5 (f) way to gate; `inFrame` driveway/path, BCR-V14-26); M12; H31 optional; 96
+  fragments; one owner question.
+- 09:58–10:08 design-B read whole (1 036 lines): pipeline-first; one `roadAccess` row (join/class/reachM/correction
+  snap/offer/report); `routed` kept; byway `WorldRoute` origin `byway`; host-bound `routed` site re-lays the host edge as
+  a station (dated lay version, 500 m / 1.1); `inFrame` road-class site → S4 `worldSite` destination at the drop;
+  `placeFrame` with a site subject runs P2–P3 (the world blends to a site); 93 fragments; two owner questions.
