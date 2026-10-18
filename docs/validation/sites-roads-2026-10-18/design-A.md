@@ -361,9 +361,9 @@ re-deriving its arenas (J-A.13). A preference unmet raises no anomaly: it is the
 frame (V13:2070–2072), so the route the site lies along, or its approach road, crossing the site frame's ring is a
 charter road of its class; V14's §1b.6 charter row (V14:478) and §3.4 (c)'s list (V14:1436–1437) name the charter
 without roads and gain them. A charter road's `forced` reads only on a settlement frame (no S3 runs on a site document,
-V14:1214–1216). (2) **The ground joins the road to the gate.** G5 (f) (V14:1696–1698) gains a last step: for each
+V14:1218). (2) **The ground joins the road to the gate.** G5 (f) (V14:1696–1698) gains a last step: for each
 charter road, one way of its `WayClass` from its ring station to the nearest entrance `GateSite` of the envelope (G5
-(e)'s `forced` gates, V14:1670–1672), routed by S4's router as `drawWay` routes a pair (base §7.1) — the hinterland
+(e)'s `forced` gates, V14:1675–1676), routed by S4's router as `drawWay` routes a pair (base §7.1) — the hinterland
 unit's ground round it; a route the site lies along crosses the ring twice and reaches two gates, so the road runs
 through a tollhouse's or a bridge fort's two entrances; a gate no road can reach reports the way `unserved` (F-ROUTE's
 rung, never silent). This is item 135 (a)'s refinement: the world's road ends at the site's frame, the frame's way at
@@ -375,7 +375,7 @@ re-derive S3 for a new destination); after adoption the gate is S4's `worldSite`
 (4) **`surface`**: the plot's access edge. (5) **`attached`, `ground`**: none.
 
 **(g) The encounter crop, patrols, the travel law, the lenses.** E1 (4) (iii) lays the charter's roads as way bands
-(V14:1983–1984): an approach road crossing the 100 m crop frame is a band of its class and the `road` profile row
+(V14:1990): an approach road crossing the 100 m crop frame is a band of its class and the `road` profile row
 ("within 15 m of a way or route", V14:966) reads it — nothing new. W8b (14)'s "the power's nearest garrisoned seat,
 fort or watchpost along the segment" (V13:1979) reads: a garrisoned fort or watchpost is along a segment when its
 approach lies along it or its approach road joins it, the round trip measured from the site's origin over its approach;
@@ -438,4 +438,95 @@ has no site record (V14 §11 Q2).
 point on the route's polyline (a point, never a cell centre), so an accepted card lies along the route by construction
 and meets its kind's rows: a toll house `onRoute`, a bridge fort `atCrossing`, a fort `atPass` in its `command` group, a
 watchpost `onRoute` in its `post` group.
+
+### 1.5 Identity, lifecycle, determinism
+
+| new field or record | identity (V13 §2.5 / V14 §2.8) | lifecycle (V13 §2.6 / V14 §2.9's columns: create · read · persist · regenerate · undo · migrate) |
+|---|---|---|
+| `SiteKindRow.roadAccess`, `.approach`, `.coherence`, `.correction`, `.bendM` | table cells of `tables/sites/kinds.json`, no entity | shipped; `editTable` · G1's dialog, the drop, P1's site form, W7 (12) · the override layer · a table edit governs new drops and the next placement edit of a site; existing cards keep their `roadAccess` (a card is declared, V14:2396) · §7.4's editTable row · an older document reads the shipped defaults |
+| `WorldSite.roadAccess` (replacing `.routed`) | the card's declared field, in its model digest as `attraction` is (V14:559) | copied from the kind row at the drop; `setAttr site/roadAccess` · W7 (12) through the resolver (R-V14-1) · the card · kept by every re-derivation · the inverse · an older card with `routed`: `true` reads the kind row's value where that is `required` or `preferred`, else `preferred`; `false` reads the kind row's value where that is `none` or `avoided`, else `none`; reported in the load's migration report |
+| `Placement.approach { role: 'along'\|'road'\|'none'; route?; atCm?; junction?: { route; atCm } }` | none of its own: a reading of its placement | W7 (12) · the charter's roads, the patrols, the clerk's `why placement`, the view · persisted with the placement, as `coherenceCost` is, rewritten only by W7 (12) · re-laid by W7 (12) at every run reaching it · never an undo target (re-laid after the placement's undo) · absent: W7 (12) at load |
+| an approach road (`WorldRoute` of origin `approach`) | creation key (`route`, the site placement's lineage, `approach`) — so a re-lay keeps its id and a moved site keeps its road's address; anchor: by its site | W7 (12) · (d) 5's readers · the entities block, each re-lay bumping `layVersion` · re-derived by W7 (12) · with its site's placement edit (derived) · absent: W7 (12) at load; tombstoned as (d) 4 says |
+| `CoherenceCost.terms[].term` gains `'siteKind'` | — | stored on the `Placement` at the edit, as every term is; re-evaluated live for the anomaly only |
+| `PlacementAnomaly.kind` gains `'siteIncoherent'`, `'noRoadAccess'` | derived, never persisted (V13:801) | re-evaluated as (e) says |
+| the `siteCoherence` registry (`@plat/world/siting`) | code, never persisted | registered at load by `@plat/sites`; a duplicate kind refused |
+| `place.coherence.weights.siteKind`, `world.polity.patrol.gradeShift.trail` | table cells | `editTable`; a change re-reads at the next placement edit (the weight) and at the next sway revision (the patrol shift) |
+
+**Determinism and no draw.** The tests, the bend's search, the offers and W7 (12) draw nothing; every tie falls to a
+value or an index (the lower cell index, then (y, x); the lower route lineage key; the lower vertex index; ascending
+cost, then distance); the comparator lint (T-V13-1) covers `@plat/world/siting` and V14's `@plat/sites/siting`;
+`world.siting` and `place.search` stay reserved ids with no stream (V13:2799–2801). **No hour** anywhere: the tests read
+the week only through the network and the sway in force. **Nothing of the simulator:** the host's graph has settlement
+nodes only (rr HS20); no site node, time or road is sent.
+
+### 1.6 Tests (each new behaviour has one)
+
+V13 §7.3's form (`| id | what it asserts | how |`):
+
+| id | what it asserts | how |
+|---|---|---|
+| T-V13-57 | **approaches (W7 (12)):** on B-WORLD-lite with one card of every `required` and `preferred` kind dropped free: a tollhouse and a bridge fort on a road lie along it (`approach.role` `along`, `atCm` on the polyline) and **every route is byte-identical** before and after (polyline, stations, effort, lay version); a fort 3 km from a road gets an approach road of class `track` ending at a junction on the nearest track-or-better route, its cells in the `route` layer, its site frame's charter naming it as a road; a shrine 2 km from every road (beyond its 1 500 m `maxRoadM`) gets none and nothing is reported, a mine 6 km from every road gets none with `W_SITE_NO_ROAD_ACCESS` and `noRoadAccess`; no approach road crosses water or enters a placed settlement frame's extent + margin, and no settlement's charter changes; two runs are byte-identical; a later approach road rides an earlier one (shared cells); on the host-bound fixture no host route moves, `timeDelta` is empty, no approach road carries a host key or appears in the canon, `routeFacts`, `patrolOffer` or `routes(world)`'s host list, and the DM's map feed carries it keyless; a re-lay keeps the approach road's id; unplacing the site tombstones it; a route laid later through the site's frame turns the approach to `along` and tombstones the road | the world fixtures; a mock host |
+| T-V13-58 | **a site's coherence:** every shipped kind row's coherence rows evaluated at a fixture point per row, met and unmet (each of the eleven tests at its tolerance ± 1 cell or ± 1 m on a line); a tollhouse dropped 600 m off a road is unlawful, the dry run preselects the road point 600 m away with `bend.site.placement` naming the row and the distance, `keep` places it at the asked point unlawful with `siteIncoherent`, `takeOffer` places it on the road; a hideout dropped 150 m from a road is bent to the nearest point beyond 300 m; a tollhouse dropped 4 km from every road (beyond its 1 000 m `bendM`) is kept unlawful with the nearest lawful within 20 km offered, none preselected; a camp off every road and water is lawful at cost 1 and raises no anomaly; a fort with no height, pass or crossing is lawful at cost 4 (3 + 1); a host-placed tollhouse (`hostLocked`) off every road is neither bent nor offered and reads `siteIncoherent` DM-only; a road the mock host demotes to hidden under a placed tollhouse raises `siteIncoherent` at the next window and moves nothing; a drop with no point never lands on a point failing a row of cost 5; the stored `coherenceCost` is the edit's while the anomaly reads the present; every search is bit-identical across two runs | the placement fixtures |
+| T-V13-21b (extended) | the cascade's consumers gain (21) W7 (12)'s approach roads: a cascade that moves a reach under an approach road re-lays it and nothing outside its closure | one more consumer test |
+| T-V13-42 (extended) | a garrisoned fort whose approach lies along a segment, or whose approach road joins it, is that segment's patrol source and its round trip runs over the approach; one with approach `none` is not; an approach road of class `trail` runs one rung sparser than a road (`gradeShift.trail` −1) | the patrol fixtures |
+| T-V13-43 (amended clause) | a site dropped beside a host route leaves the leg count, the route's polyline and its effort unchanged, the site lying along it or joined by an approach road that no `routeFacts` row names | the travel-law fixture |
+
+V14 §7's form (`| id | family (§13) | bar | tier (§13.8) |`):
+
+| id | family (§13) | bar | tier (§13.8) |
+|---|---|---|---|
+| T-V14-8 (amended clause) | siting | "a routed fort gains a road" reads "a fort, whose road access is `required`, gains an approach — along a route or by an approach road — and is no seat of W7's pair selection" | nightly (from V13's W1) |
+| T-V14-34 | rule bar (the catalogue) | every kind row carries `roadAccess`, `approach`, `coherence`, `correction` and `bendM` with the shipped values; `correction` `bend` exactly on the four kinds with a row of cost > `lawfulMax`; no kind row or card carries `routed`; an older card's `routed` migrates by V14 §2.9's row and is reported; the card copies `roadAccess` at the drop and an `editTable` of a kind row's `bendM` changes the next drop and no placed site; a `setAttr site/roadAccess` to `none` on a fort tombstones its approach road and leaves every other route byte-identical; the eleven `SiteCoherenceTest` plug-ins are pure (a fixture point per test, two runs bit-identical) and registered once; the one-click drop of every kind at a point reads its rows — a bend named in one line or a cost by row — with no dialog; every word a catalogue key (`bend.site.placement`) | PR |
+| T-V14-35 | rule bar (the frame side) | on B-SITE over V13's world fixture: a free fort's site frame's charter carries its approach road as a road of its class and its ground lays one way from that road's ring station to the nearest entrance gate; a tollhouse along a road carries the road through its two gates; a gate no road reaches reports the way `unserved`; an `inFrame` fort's reservation gains one L3 `driveway` face from its entrance gate to the nearest way corridor, an `inFrame` shrine one `path` face, an `inFrame` hideout none, and nothing else of the host is re-derived (bar 6's oracle); a `ground` graveyard gains no face; a crop at a tollhouse reads the profile `road` with the road's band inside its frame | PR |
+
+### 1.7 Decisions (J-A.n; each "chose X over Y because Z"; vetoable; landing rows in §2)
+
+| id | decision | lands as |
+|---|---|---|
+| J-A.0 | chose to read "the catalogue" as V14 §2.5's site kind rows, carrying every per-kind rule as kind-row columns, over another list (V09 §4.9's message keys, V11's symbol catalogue), because the sentence needs a per-kind source of "where appropriate" and only the kind rows are one; put to the owner as OQ-A1 | J-V14.57 |
+| J-A.1 | chose a site to lie **along** a route or be joined by an **approach road**, never a seat of W7's pair selection, on both worlds, and **no route bent** to a site, over seating a `routed` site among the Urquhart seats (V13:1713–1716; V14:1446–1447) or giving a route a vertex at the site's cell (the partial's W7c), because (a) W7 (11) already makes a site "a position along a route, never an end" on a host-bound world and one rule beats two; (b) a rank-0 seat beside a capital pulls a pair edge classed by the higher seat (V13:1748: a highway to a mine); (c) a bound route's geometry is the host's lived network, "mirrored, never computed" (V13:1766), and a fine-cell vertex would shift a road by up to half a cell; (d) the bend brings the site that must stand on the road to it | J-V13.107 |
+| J-A.2 | chose to **replace `routed` with `roadAccess`** on the kind row and the card, over keeping `routed` as a derived boolean beside it, because two fields with one meaning would be a drift and the owner's own words name the field | J-V14.58 |
+| J-A.3 | chose the kind's coherence rows as **one more term (`siteKind`) of V13's coherence cost** for a site subject, searched by `nearestLawful` and reported by `PlacementAnomaly`, over a V14-side check before the drop, because the owner's word is "coherence" and V13's placement law already judges, searches, offers, stores and reports | J-V13.108 |
+| J-A.4 | chose the eleven tests as **V14's plug-ins in a V13 slot** (`SiteCoherenceTest`, `siteCoherence.register`), over formulas in V13, because SW-01's pattern keeps one registry and the kinds are V14's domain | J-V13.108 |
+| J-A.5 | chose **per-row costs under the one `lawfulMax`** (5 the expectation proper, 1 or 3 a preference; groups of alternatives), over a `required` flag and a second weight, because C13-26's bound already decides "unlawful" by cost and a calibrator edits one cell per row | J-V13.108 |
+| J-A.6 | chose the bend **preselected in the dry run within `bendM`, the DM's `keep` holding the asked point, and beyond it the nearest lawful placement offered, never taken**, and **never a bend after the edit** (a later break is an anomaly), over the offer shown and not taken, or a placed site re-sited by a later world change, because the owner's word is that the site's geography autocorrects, item 101 R2 bends rather than refuses, V13 §1.3's correction offers the nearest lawful placement, and item 137 (c) keeps a locked thing where it stands | J-V13.109 |
+| J-A.7 | chose the world's road to **end at the site's frame**, the site's ground joining it to the gate by S4's router, over a world-scale polyline to the envelope, because fine cells are 250–1 000 m and item 135 (a) refines the coarse fact at the finer scale | J-V14.59 |
+| J-A.8 | chose the **`inFrame` road access by the hinterland's own faces** (`driveway` for `required`, `path` for `preferred`), over an S4 `worldSite` destination at the drop, because the base's gate-count rule re-derives S3 for a new destination (base:11703) and the hinterland's faces cost no gate | J-V14.60 |
+| J-A.9 | chose an approach road as a **`WorldRoute` of origin `approach`**, over a polyline on the placement, because every reader of roads reads `WorldRoute` and a second source would fork the one network; `Placement.approach` keeps the reading | J-V13.110 |
+| J-A.10 | chose W7 (12) **after W7b, incremental per site** (its closure: the site and the approach roads that joined it), over re-running W7a/W7b at every drop, because W7 (10) moves nothing outside a closure and V14 §4.7 promises the same | J-V13.110 |
+| J-A.11 | chose a garrisoned fort or watchpost to be a **patrol source through its approach** only, over any site near the segment, because W8b (14)'s "along the segment" needs a reading and the approach is the one the road gives | J-V13.111 |
+| J-A.12 | chose to **keep "a host-placed site is never re-sited"** (V14:1416–1417) with its rows read and its approach laid, over an owner question, because the host's record is a dossier-tier fact (item 20 (h)) and the world yields to it as to a canonized seat (V13:2408–2410) | J-V14.61 |
+| J-A.13 | chose `takeOffer` as the DM's second choice on a site's `W_PLACE_ANOMALY` and **no anomaly for a preference**, over the scoped `worldWins` and a pin per cost, because a site's incoherence is cured by moving it, not by re-deriving its arenas, and a camp off a road is no fault | J-V13.112 |
+| J-A.14 | chose that a **`ground` card takes no approach**, over a path to a camp or a battlefield, because a marker-like card has no gate and the base's decorations already link what wants a trail (base:8678) | J-V14.62 |
+| J-A.15 | chose **four bending kinds** (tollhouse, bridge fort, mine, hideout) and `report` for the other seventeen, over bending every kind with a preferred feature, because only those four are nonsense off their feature (a toll off the road, a bridge fort off the crossing, a mine off the ore, a hideout on the road); a fort, a temple or a tower stands where its builders put it | J-V14.63 |
+| J-A.16 | chose an approach road on a **host-bound world as the map's own road** — no host key, in no simulator-feed message, keyless in the DM's map feed, drawn by the host's map surface only by its own choice (H31) — reading J-RR.21's "a `WorldRoute` only for a host-named edge" as the host network's rule, over no approach road on a host-bound world, because the owner's "integrated into road infrastructure" holds on every world, the host reads no site geometry (rr HS20), and a road the host's simulation never travels changes no simulated byte | J-V13.110 |
+| J-A.17 | chose **no nineteenth row of T-V13-21's drift table** (the owner's eighteen, item 138 (c)) and the approach roads as one more consumer of T-V13-21b, over extending the owner's list | J-V13.110 (a clause) |
+
+### 1.8 Base change requests, cross-volume requests, the M0 gate
+
+- **BCR-V14-26 (base §4.9's hinterland decorations and §7.3's S12 row):** "a `worldSite` reservation whose card's
+  `roadAccess` is `required` links its entrance gate to the nearest way corridor by an L3 `driveway` face, one whose
+  `roadAccess` is `preferred` by an L3 `path` face; `none` and `avoided` link nothing; §7.3's S12 row lays it round the
+  reservation at the drop" (§1.4 (f) (3); fragments A-26, A-60).
+- **BCR-V14-13 amended:** its new text's "V13's siting reads the card's `attraction` and `routed`" reads "… `attraction`
+  and `roadAccess`" (fragments A-25, A-61).
+- **V14 §10.2's V13 row gains (18):** the `SiteCoherenceTest` slot and `siteCoherence.register`; P1's site form (the
+  `siteKind` and `dossier` terms, the bend within `bendM`, the offers within `originSearchM`); W7 (12)'s approaches
+  (along, approach roads of origin `approach`) and `Placement.approach`; the anomalies `siteIncoherent` and
+  `noRoadAccess`; `W_SITE_NO_ROAD_ACCESS`; the site frame's charter roads; `takeOffer` on a site's `W_PLACE_ANOMALY`;
+  border posts' `at` on the polyline (fragment A-27).
+- **V13 §10.2:** R-V14-1 reads `roadAccess` for `routed`; **R-V14-14:** V14 supplies the card's `roadAccess`, the kind
+  row's `approach`, `coherence`, `correction` and `bendM`, and the eleven `SiteCoherenceTest` plug-ins (fragments A-55,
+  A-56).
+- **V09:** nothing new beyond V14 §4.9's key list (its V09 row already carries "the catalogue keys of V14 §4.9",
+  V14:3060); T6's **Drop a site** shows the dry run's bend as it shows every bend.
+- **V11:** nothing new: the columns are cells of the existing `tables/sites/kinds` row (BCR-V14-10).
+- **The M0 gate (item 140's form; no K row — the kernel is untouched, the world is no plat arena, K3 already keeps every
+  world position out of every digest):** one model row, **M12** — "The hinterland unit's L3 access faces (an outside
+  plot's `driveway`, a decoration's `path`) can begin at a point on a reservation's boundary — the face's origin a point,
+  not a plot or a decoration id — without a new role, layer or digest change" · verification "read the hinterland
+  unit's face types and S12's operator; if the origin is typed to a plot or decoration, an M1 item" (fragment A-64).
+  PLAUSIBLE: base §4.9 names "its decoration" and "each plot" as the face's origin, both sited points; the test, where
+  one can be written at M0, lays a `path` face from an arbitrary hinterland point to the nearest corridor on the golden
+  CITY and asserts every other face and id byte-identical. "Do not foreclose", no feature added; recorded as M1's.
 
