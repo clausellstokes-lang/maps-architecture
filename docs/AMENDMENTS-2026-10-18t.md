@@ -1301,7 +1301,7 @@ words (B-92).
 > > J-V14.43's note; §10 BCR-V14-26, BCR-V14-13's text and the V13 request (18); §11 Q5.
 *Reason:* the volume's revision notes record every amendment file that changes it (file s item 936's form; B-44, C-31 with its word fixed).
 
-**947 (c).** The index — the revision notes under the title (replacement). Target: `docs/volumes/INDEX.md`, line 14 (md5 `42881796…`) as it stands now. *From:* new (the synthesis; after B-86); its item range 940–948 since the critique's corrections are item 948 (lane sites-roads/fix).
+**947 (c).** The index — the preamble (*What this file is*: the amendment files' state) (replacement). Target: `docs/volumes/INDEX.md`, line 14 (md5 `42881796…`) as it stands now. *From:* new (the synthesis; after B-86); its item range 940–948 since the critique's corrections are item 948 (lane sites-roads/fix).
 *Current text:*
 > applied by the lane its status line names. The plain-language account for the owner is `docs/volumes/SUMMARY.md`.
 *New text:*

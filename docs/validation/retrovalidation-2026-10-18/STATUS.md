@@ -1,4 +1,4 @@
-# Live status (written by the autosave loop; last 2026-10-18 16:26 UTC)
+# Live status (written by the autosave loop; last 2026-10-18 16:31 UTC)
 
 Latest lane line per lane key (docs/lane-events.log) for today's lanes:
 
@@ -103,6 +103,7 @@ Latest lane line per lane key (docs/lane-events.log) for today's lanes:
 - 2026-10-18 16:21 sites-roads/confirm-t-rest LANDED FAIL on one content problem, mechanics all PASS: 24/24 file-t fragments on INDEX, SUMMARY, base, gate, brief, README re-applied by script from before copies to each lane's after-md5 (gate's before reconstructed, = b6c5be2a), file u's 9 fragments reversed from the current files to the same md5s, every diff hunk a fragment; AMENDMENTS-2026-10-18t.
 - 2026-10-18 16:24 sites-roads/confirm-u LANDED FAIL (one formation defect): file u's 23 fragments PASS by script from the file's own quotes (old once at its turn, new once after, cited lines and md5s 23/23; reverse round-trip to every stated before-md5 9/9, forward == current 9/9), bundle --check exit 0 and 12/12 new texts once, greps re-run (no missed host-meaning ask), K14 in the K rows' 3-cell
 - 2026-10-18 16:24 sites-roads/fix-u LANDED docs/AMENDMENTS-2026-10-18u.md edad734b -> c1403ea0 (377 -> 382 lines): five exact blank-line insertions before **950.**, **951.**, **952.**, **953.** and the closing --- (old once before, new once after, 5/5, python3 -I), byte-identical to confirm-u's preview; formation only, no fragment text, target or bundle changed (file u not a bundle source); recor
+- 2026-10-18 16:28 sites-roads/fix-t-rest LANDED P1 and P2 of confirm-t-rest fixed: new docs/AMENDMENTS-2026-10-18v.md (item 954, nine fragments (a)-(i), 170 lines, md5 d2c39f0f) carries the owner's answer to V14 Q5 (J398) into the volumes - INDEX:186, :229 and SUMMARY:17-18, :208-210, :222-223 replaced with the check's five texts verbatim, V14 J-V14.57 and the Q5 answer cell marked answered, plus
 
 Workflow runs: retrovalidation continuation wf_ed23dc6b-f13 (task wuojbxzyu; the first run wf_f0931b52-ef5 killed at the limit); sites-roads-design wf_a2bd73c2-64c (task wh4norxj2); host-requirements wf_94da751f-a31 (LANDED); amendments-r wf_6c3a4aa0-0d5 (LANDED e5de220d).
 Records: docs/validation/retrovalidation-2026-10-18/ (one <family>-verify.md and <family>.md per family, rulings.md, apply-*.md, confirm-*.md, critic.md, README.md); docs/validation/host-requirements-2026-10-18/ (extract-*.md, draft-s3..s8.md, final-s3..s8.md, critic.md); docs/validation/sites-roads-2026-10-18/ (read-*.md, design-A..C.md, judge-1..3.md, draft-t.md, critic.md, verify.md).
