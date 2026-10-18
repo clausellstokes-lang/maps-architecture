@@ -1,7 +1,7 @@
 # Read — the checks, critiques and coherence records a site-road-autocorrect design must satisfy (lane `sites-roads/read-checks`, 2026-10-18, J393)
 
 **Lane.** `sites-roads/read-checks` (Opus, high; a reader under J390: it records what the texts say and judges nothing).
-**Started.** 2026-10-18 05:12 UTC. **Status.** IN PROGRESS (written as it goes).
+**Started.** 2026-10-18 05:12 UTC. **Status.** COMPLETE (written as it went; LANDED line in `docs/lane-events.log`).
 
 **The owner's words (J393, verbatim):** "make sure that sites have road access where appropriate, they are integrated
 into road infrastructure and that depending on the catalogue, where appropriate, their geography in the world map
@@ -14,8 +14,48 @@ autocorrects to meet the coherence expectation."
 | docs/validation/sites-roads-2026-10-18/README.md | 29 | (orientation only) |
 | plat/docs/build/M0-world-sites-gate.md (the gate spec; K1–K13, M1–M11) | 45 | b6c5be2a5d89fbd19035a3c606194fb9 |
 | plat/docs/build/checks/M0-world-sites-gate.md (the gate's check) | 476 | 1e29aadca96f2cfcb96cdbe82c0181ef |
+| docs/volumes/critique/V13.md | 953 | 66e13f1cca877af83370cebbd01b8735 |
+| docs/volumes/critique/V14.md | 908 | 3e1978b9b682798151fbe630d6a20f8f |
+| docs/volumes/critique/seam-world-sites-r0.md | 699 | 8eceb066ad1f02de4e2b5fe16d85f230 |
+| docs/volumes/_integrate-world-sites.md | 260 | 8f380cf94a35fd5f12943e3d9b08ba13 |
+| docs/validation/coherence/world-sites-k.md | 127 | 9500e2f16348210b588c9bddda48463e |
+| docs/validation/coherence/vtt-l.md | 59 | 0d45ae01e2745e4ff282032c09d63edd |
+| docs/validation/coherence/q4-r.md | 95 | 56ac0ea3f9c683e0a5d92b2b49ad07b4 |
+| plat/docs/build/checks/M0-c-03.md | 301 | abac7ab821aad3c886b82dcf6d4a47da |
+| plat/docs/build/checks/M0-c-03-s1.md | 226 | d976e51d1c64d23a1970ccaa32f79333 |
+| plat/docs/build/checks/integration-g12.md | 325 | f28f1a3058d3020cad87457be786ef29 |
+| docs/validation/retrovalidation-2026-10-18/STATUS.md (live autosave file; changed to 04433731… during the read) | 35 | 48ec78e2f611a074cc8b59284d8ecd24 |
+| docs/validation/retrovalidation-2026-10-18/rulings.md | 106 | b2e8fa39d0dd4c1a97e0ecc8fc0ede2a |
+| docs/validation/retrovalidation-2026-10-18/realm.md | 194 | 23cefe1ba8a51a62eb79a118ed4d99cc |
+| docs/validation/retrovalidation-2026-10-18/realm-verify.md | 74 | b92fc48b11f63680a3d86499c5348fe0 |
+| docs/validation/retrovalidation-2026-10-18/lenses.md | 247 | 08b6a95030294148e370e01fa8e2647d |
+| docs/validation/retrovalidation-2026-10-18/lenses-verify.md | 105 | bdeebe10c919725eeeb9f9d5d7484047 |
+| docs/validation/retrovalidation-2026-10-18/trade.md | 132 | 3985dbb59dc8409c2d339d340e33eb45 |
+| docs/validation/retrovalidation-2026-10-18/trade-verify.md | 55 | 7d2a2d9974bce61ffddb5ce66c449e4e |
+| docs/validation/retrovalidation-2026-10-18/amendments.md (live: sections "(pending)" at read) | 85 | c33b3d3f6d977f8de014c5872e66b3b8 |
+| docs/validation/retrovalidation-2026-10-18/amendments-verify.md | 225 | 5a483a04d192293403f2143f87a541c1 |
+| docs/validation/retrovalidation-2026-10-18/alignment.md | 213 | 6a3e117972782b9d05b5bc71bac63742 |
+| docs/validation/retrovalidation-2026-10-18/alignment-verify.md | 94 | dde1097c71d2f14494ee8167199e9f6e |
+| docs/validation/retrovalidation-2026-10-18/faith.md | 338 | f803f8564952784e1740455dd1ac3d37 |
+| docs/validation/retrovalidation-2026-10-18/faith-verify.md | 89 | be050e33b18b592eaebe91922b2bf482 |
+| docs/validation/retrovalidation-2026-10-18/fp.md | 173 | 18b0cec4012517002185e0b910e015df |
+| docs/validation/retrovalidation-2026-10-18/fp-verify.md | 80 | f570dcb6c0563d0f3f4d9bddb82bcc69 |
+| docs/validation/retrovalidation-2026-10-18/plague.md | 105 | 7161ceec53f4a8782c2e203ba582b9c1 |
+| docs/validation/retrovalidation-2026-10-18/plague-verify.md | 45 | c525ec942eeba45b7bc282a81dad016e |
+| docs/validation/retrovalidation-2026-10-18/population.md | 157 | f38528a0b8b345437cf1e4793b36e504 |
+| docs/validation/retrovalidation-2026-10-18/population-verify.md | 49 | 8fd487a4cae05127391627c667d8cdc5 |
+| docs/validation/retrovalidation-2026-10-18/prosperity.md | 178 | 2b1367b20599cafd8169515196e7c002 |
+| docs/validation/retrovalidation-2026-10-18/prosperity-verify.md | 96 | 5148c9dc6af9ce6d67e4d0045cd4e801 |
+| docs/validation/retrovalidation-2026-10-18/scripts.md | 72 | 1818295e3b071a05995f07f9cd0bb767 |
+| docs/validation/retrovalidation-2026-10-18/scripts-verify.md | 43 | f91915f4aeb29991ed85e05c0fc5cf85 |
+| docs/validation/retrovalidation-2026-10-18/small.md | 99 | 526fc3bb38e85c3efa3d6d079c566a3e |
+| docs/validation/retrovalidation-2026-10-18/small-verify.md | 73 | f3b3067daaff242456dd802aca49e52f |
+| docs/validation/retrovalidation-2026-10-18/amendments.verdict.json (appeared during the read) | 316 | 926ed37b94db9717e1118e299f289bb5 |
+| the other 23 `*.findings.json` / `*.verdict.json` in that folder (matching entries only, H.26) | — | in scratchpad `sites-roads/retro-md5-end.txt` |
 
-(the table grows as files are read; see the end of the header for the rest)
+Started 05:12 UTC; every md5 above was re-taken at 05:23 UTC and equals the value at first read except STATUS.md
+(autosave). Scratch: `/tmp/claude-0/-home-user-maps-architecture/4291a60d-8240-5d49-a54e-2b2a213d093f/scratchpad/sites-roads/`
+(`checks-grep.txt`, `retro-md5.txt`, `retro-md5-end.txt`, `md5-end.txt`).
 
 ## Facts, in the order found
 
@@ -991,3 +1031,238 @@ word "world" as world coordinates — none about world sites or world roads. A s
 contract (`through-road|context margin|frame edge|approach road`) finds the S4 backbone item M0-c-03 and the
 integration record integration-g12; those were read whole (below).
 
+**I.1 plat/docs/build/checks/M0-c-03.md (301 lines, md5 abac7ab821aad3c886b82dcf6d4a47da) — the S4 backbone's checks.**
+
+I1. The settlement frame's road contract as built and pinned: "§4.3 *Result* 'Through-roads continue to the context
+margin with their bearings'; the item's 'outward arterial (gate ↔ frame edge at the bearing)'; Way.to's external bearing
+(§2.4). C-0236 (18): 'its end a `bearing` NodeRef from the gate to that point'"; the test "through-roads run to the
+frame's edge with their bearings" asserts "`to.bearingCdeg` within 1 cdeg of the compass bearing from the gate to the
+frame end, and within 200 cdeg of the S3 gate's bearing". (plat/docs/build/checks/M0-c-03.md:110, 226) — the frame end
+of every through-road carries a bearing, the seam a world road (or a site road on the world) meets.
+
+I2. "Roads leaving = N" (N the gates; "N = 7 on every seed, with 7 outward through-ways") and "every route committed
+through its gate" asserted from the arena ("way–wall shared vertices = the gate points"); `unserved` 0, `offGate` 0.
+(M0-c-03.md:246, 249, 268–270) — on a walled frame every outward road leaves by a gate.
+
+I3. Deferred parts of S4, "each named with a milestone in the item's `defers` and C-0076 / C-0236 (4)": "the deck strip,
+the extra bridge, viaducts, TradeFlow, two-point roads, the local operator". (M0-c-03.md:279) — "two-point roads" (a road
+between two given points) is deferred, not built at M0.
+
+I4. "§6.3, keyed by the town in destination order: `ways[0]` is the lowest gate's street" (X30 killed); "determinism holds
+(`backbone.test.ts`'s second run, and the reversed-op arena)". (M0-c-03.md:279, 292–293) — the frame's ways are keyed by
+destination order, a deterministic identity a site-road destination would join.
+
+I5. F-ROUTE's M0 rungs: "another site in the band, slope, unserved, extra bridge listed M1"; X16 "(no frame extension)",
+X17 "(no held corridor)", X19 "(the approach always usable)", X20 "(no band check)" killed. (M0-c-03.md:263–265, 278) —
+"site" here is the base's S1 site (the frame's ground), not a world site (one word, one meaning, SW-34).
+
+**I.2 plat/docs/build/checks/integration-g12.md (325 lines, md5 f28f1a3058d3020cad87457be786ef29) — S1 → S3 → S4 on
+rivers.**
+
+I6. Meeting point A, C-0076: "a route reaching a crossing site passes along the site's deck segment … and the Bridge's
+state becomes built (a site no route uses stays a site)", and "a route that would cross water away from a site is refused
+by the lattice". (plat/docs/build/checks/integration-g12.md:134) — "site" here is a bridge's crossing site (the base's
+word), a third meaning beside the base's S1 site and V14's world site; one word, one meaning binds any new text.
+
+I7. B-2 (fixed): the "through-roads continue to the context margin" stub (C-0236) was laid inside a river and committed
+silently; required change: "the stub (and any lattice-course chain that still fails the water rule) must never be
+committed across water off a deck. For example, end the through-road at its last dry node, or report the part as
+`unserved` or `offGate`. A test is needed on a river that reaches the frame edge where a through-road leaves". Re-check:
+"`gate:1/out` is reported `unserved` (`why: 'approach'`), which is reported, never silent". (integration-g12.md:43,
+241–257) — the frame-edge stub of a through-road is where a world road meets the frame; its water rule is fixed.
+
+I8. B-3 (fixed): "A re-solved (or any) route part must reach the commit as a simple path, for example by cutting the
+loop at its first repeated node … Otherwise that one part must take `unserved`, never the whole stage". (integration-g12.md:
+259–277) — a precedent for a deterministic repair (cut at the first repeated node) and for reporting one part
+`unserved` rather than refusing a whole stage.
+
+I9. F-ROUTE's rungs on honest rivers: "`another_site` (none in band) and `extra_bridge` (`notBuilt(M1)`)" → `unserved`,
+"reported, never silent"; "On seed 16 F-ROUTE's `another_site` gave up `bridge:14` and took `bridge:15` (held)".
+(integration-g12.md:181–184) — the frame's own nearest-alternative ladder for a road that cannot cross.
+
+I10. N-9 (KI): "when the frame stub is dropped or shorter than 1 m, the last point is re-pinned `frame` … If an outward
+part's last lattice node were also a crossing's exit … that line would overwrite the `deck_end` pin". (integration-g12.md:
+87–91)
+
+I11. N-5 (identity): "S4's ids are sequential (`way:<n>`, `junction:<n>`, C-0236 (10)), and S8's are minted (`way:<13-char
+token>`). They cannot collide. S4's ways carry no lineage". (integration-g12.md:312–314)
+
+I12. Determinism: "Determinism (two runs byte-identical) and the CI sweep hold on all 30". (integration-g12.md:46–47)
+
+**I.3 plat/docs/build/checks/M0-c-03-s1.md (226 lines, md5 d976e51d1c64d23a1970ccaa32f79333) — S4's F-ROUTE ladder at the
+frame.**
+
+I13. "§5.2's F-ROUTE row is triggered by `E_NO_PATH` or 'an approach cannot meet a pinned bridge deck'. Its first rung
+is 'another crossing site on the reach within its search band'"; "A course that reaches the frame dry needs no crossing,
+so leaving it `unserved` would break §4.3 *Result* ('through-roads continue to the context margin') and the item's
+roads-leaving = N"; "When no course exists, `unserved` is the lawful outcome and is reported". (plat/docs/build/checks/
+M0-c-03-s1.md:110–117)
+
+I14. N-54 (2) / C-0289: "a deck with an end beyond the frame is no deck of S4's route graph" (pinned with a control 1 m
+inside). (M0-c-03-s1.md:41, 84–96) — the frame's route graph ends at the frame; anything beyond is the world's.
+
+I15. B-1: "an unserved gate that the rule leaves unserved is reported in the run (a counted outcome, never silent)";
+note 17: "the run's report never receives S4's unserved parts or F-ROUTE rungs. This is the base registration
+`pipeline/base.ts` (M0-x-04) … a fix-queue row for the session". (M0-c-03-s1.md:48–64, 222–223) — an open M0 fix-queue
+row on the reporting path a "road access" anomaly at the frame would ride.
+
+I16. The other M0-c-03 files the second grep hit (M0-c-03-c1.md:199, M0-c-03-notes.md:191) carry the through-road test's
+title only, as a mutant's failing test name ("through-roads run to the frame's edge …"); they were not read whole (see
+gaps).
+
+### J. The gate rows and T- rows a site-road-autocorrect design must satisfy, extend or not contradict (collected from A–I)
+
+Each row repeats a fact above with its cite; this lane ranks nothing.
+
+| row | what it binds (as the texts state it) | cite |
+|---|---|---|
+| K3 | no digest hashes an absolute position outside the frame; a world position is outside every arena digest | gate spec:19; check:90–98 |
+| M6 | a placement record (origin, bearing) per arena set, reservable at M1, moving no arena digest (it moves the model root) | spec:40; check:332–341 |
+| M1 | address namespace: today two documents from one seed mint identical addresses; cross-document references need the segment | check:259–278; V14 crit C14-22 (V14.md:406–416) |
+| M7, M8, K12 | anchor record; reason record per generated fact; the kernel's commit journal lacks stage/batch/reads (carried to M1) | check:221–236, 343–361 |
+| K1, K5, K6 | layer codes, roles, concerns and stage ids append-only; existing digests byte-identical (bar 1 → T-V14-32) | check:40–148; seam SW-33 (seam:612–626) |
+| K13 | no elevation in kernel digests, refs or frame | spec:29; check:238–253 |
+| K11 (as corrected) | held set §3.6 (2)–(3): `deck_end`/`gate_end` (a water gate's) held unless `fromLevel = 0`; `raised_foot` always | small.md:25–26; small-verify.md:39 |
+| T-V13-2 | the subject's model digest byte-equal across every placement edit; only the records digest differs | V13 crit:58–78 |
+| T-V13-13 | world-first order; settlement-first Regenerate (keep settings) byte-identical; two-frame shared margin; Hausdorff shore bar | V13 crit:104–139, 141–158, 264–277 |
+| T-V13-21 / 21b | the survey's eighteen drift paths, among them "burg relocation not re-routing roads", "route removal not re-routing journeys" — one test per row | V13 crit:80–102 |
+| T-V13-23 | no placement with a coast-side error is ever `lawful` | V13 crit:398–402 |
+| T-V13-37 (b) | `score` called as G3 calls it (the jitter clause dropped by SW-03: "two runs are bit-identical") | V13 crit:323–340; _integrate:44, 160 |
+| T-V13-39 | every coordinate passed to `delaunay` within the range invariant (integer metres) | seam:406–411; _integrate:57 |
+| T-V13-1 | the "no randomness in comparators" lint | V13 crit:626–635 |
+| T-V13-41 | the sway's bars ((d) soak, (g) claim points, (r) log-linear, (s) verdict-only) | rulings.md:44–77 |
+| T-V13-54 | no sea carrier for faith; the catchment only as the host sends it | faith.md:320 |
+| T-V14-25 | a moved site's per-part digests unchanged; the site document's model digest byte-equal across `setPlacement` | V14 crit:323–333; seam:315–320 |
+| T-V14-31 | opening and closing every B-SITE card changes no host digest, log or arena | V14 crit:109–127 |
+| T-V14-32 | bar 1: the `site` layer, `nextSitePart`, `passage`, the `site` concern and G-/E- ids appended, every golden byte-identical | seam:621–626 |
+| T-V14-8 | the plug-ins named; "two runs are bit-identical" (no random term) | V14 crit:129–155; _integrate:160 |
+| T-V14-1 | the same click returns the same map (integer `WorldPointCm` keys) | V14 crit:661; seam:322–334 |
+| T-V14-7, T-V14-22 | two adopted site documents take no colliding address; the namespace segment | V14 crit:406–416 |
+| S4 through-road test | through-roads run to the frame's edge with their bearings; roads leaving = N; every route through its gate | M0-c-03.md:110, 226, 246 |
+
+### K. Determinism and identity rules a new placement or road rule must keep (collected)
+
+K-1. No random or jitter term in a siting score: "No random or jitter term; one deterministic tie-break (V13 §3.7 (6))"
+(_integrate-world-sites.md:44); "The score has no random term for a site (derive before invent, item 132 (g))" (seam:168);
+V14's tie-break among equal candidates is one draw on `site` keyed by (the card, `siting`), outside the score (seam:171–172)
+— a reader's note: the J393 brief's rule reads "no random or jitter term; deterministic tie-breaks"; whether V14's keyed
+`siting` draw survives as written is read-v14's to quote (it is a draw, keyed, used only to break ties).
+
+K-2. Queues and passes: "every queue is keyed on (cost × 1 000 rounded, cell index), every raster pass is row-major, every
+transcendental goes through `dmath`" (V13 crit:811–814); A\* "deterministic with the (cost × 1 000, cell index) tie rule"
+(V13 crit:497–499); "every loop runs in address order; the site pipeline is serial" (V14 crit:757–760).
+
+K-3. Coordinates: integer `WorldPointCm` everywhere; no metre doubles in keys (seam:322–334; _integrate:53); world cm never
+reaches a kernel predicate — integer metres into `delaunay` (seam:406–411).
+
+K-4. Placement never moves an arena digest or a frame's model digest; derived readings (`datumOf`, `windOf`, `sunAt`)
+through `worldRef` at call time (V13 crit:58–78); a site's `placementRef` is a reference in the derived block, read
+through the world document (seam:304–320; _integrate:52).
+
+K-5. Two verbs only change a settlement: `mirrorFrame` (warned) and `worldWins` (scoped `{ ids }`); on a site subject
+`worldWins` is V14's re-materialization (V13 crit:391–396; seam:437–452; _integrate:60).
+
+K-6. Identity: cross-document ids written whole with the namespace (`<ns>:site2/unit:k`), own ids bare (V14 crit:406–416;
+seam:469–477); the host's route id `route.<a>.<b>.<mode>` codepoint-ordered (realm-verify.md:57); a world route has a
+§6.3 anchor row (world-sites-k.md:44); S4's ways keyed by destination order, `ways[0]` the lowest gate's street
+(M0-c-03.md:279); S4 ids sequential `way:<n>` (integration-g12.md:312).
+
+K-7. Host-bound worlds: "nothing moves a bound route silently; the host's move-lock (moves only)" (realm.md:106); the host
+owns the genesis network's topology and grades, the world its geometry (realm.md:105); a `WorldRoute` only for a
+host-named edge (realm.md:110); the route record keyed to the host, grade edits refused, the DM charters through the
+host's command (realm.md:108); no world edit reaches the simulation by itself — an offer the host adopts (realm.md:102);
+door 1 stays closed; the world canon is outside it (q4-r.md:66).
+
+K-8. Reported, never silent: an unserved route part is reported (integration-g12.md:43; M0-c-03-s1.md:48–64); anomalies
+are `PlacementAnomaly` kinds on the card (V13 crit:58–78, 423–431); refusals are `refuse.*` outcome keys, warnings named at
+their emitters (V13 crit:643–650).
+
+K-9. Words: the register bars bare *gate*, *foothold*, *checkpoint*, *contingent*, *claimant* (realm.md:176); `fighting`,
+never *embattled* (rulings.md:53); *lodgement* (rulings.md:58); "site" already names the base's S1 site, a bridge's
+crossing site (integration-g12.md:134) and V14's world site (`WorldSite*` records, bare `site` only as listed values,
+seam:628–645); the destination term's landed name is `destination` (_integrate:42) where the seam had asked `site` (seam:125).
+
+### L. What the M0 gate would need as new tests (as the texts frame it; the design choice is the designers')
+
+L-1. The gate's form: a row "asks M0 to prove that the kernel and the model do not foreclose" later work; "No row adds a
+feature"; a K row is resolved before M0 commits or carried to M1 with its reason; "Where a row can be a test, the test
+joins M0's exit suite"; "No row is closed by changing the design to match the code without a row of
+`plat/docs/build/choices.md`". (gate spec:4–11)
+
+L-2. What the existing rows already cover for a site-road rule: a site's world position outside every arena digest (K3,
+M6), cross-document references (M1, carried to M1), a reason record per autocorrect (M8 with K12, carried to M1),
+append-only ids for any new stage or concern (K6), no elevation in the kernel (K13). (check:90–98, 221–236, 259–278,
+332–361, 134–148, 238–253)
+
+L-3. What none covers today, by the texts read: no row names a road, a route, a seat, travel, a patrol or V13 §3.11's
+placement law (A3); the S4 through-road contract (bearing at the frame end, roads leaving = N, through the gate) is pinned
+by M0-c-03's own tests, not by the gate (I1–I2); the run's report does not receive S4's unserved parts (note 17, an open
+fix-queue row, I15); K12's journal lacks the reads a reason record for a road decision would cite (A8). A new gate row in
+the gate's own form would ask M0 to show such a contract is not foreclosed (e.g. that a frame road's end bearing and an
+external `NodeRef` can name a world point, or that a way may end at a site reservation), with a test where one can be
+written — the row's wording is for the designers.
+
+L-4. The gate spec has no T- rows; the T-V13-n and T-V14-n rows are the volumes' (J), and V14 §7's T-V14-32 carries
+bar 1 (append-only) on the volumes' side (seam:621–626).
+
+### M. Open questions recorded in these texts that touch the J393 rule
+
+M-1. R1-1 (open, mechanism): the import's markers — V13 `SitingProposal`s vs V14 declared `dropSite` cards; recommended
+V13's reading; owner of the change V14. (_integrate-world-sites.md:119–140; world-sites-k.md:127)
+
+M-2. V13 §11 Q1 (the elective rebase of a living campaign) and Q2 (the host's schedule and launch classification) remain
+the owner's. (realm.md:148–149)
+
+M-3. PHASE55 §VI.4 owner decision 3 (the installed base's re-derivation on a cost-law change) is an open host owner
+decision. (amendments-verify.md:181)
+
+M-4. H22's additive re-canonize and the birth canon are NEW host behaviours (host asks), lit by the owner's Q4 answer.
+(rulings.md:65, 79–81; q4-r.md:18–22)
+
+M-5. note 17 (the run's report and S4's unserved parts) is "a fix-queue row for the session". (M0-c-03-s1.md:222–223)
+
+## Gaps — what this lane looked for and did not find, or did not read
+
+G-1. **T- rows in the M0 gate.** The brief names "K1–K13, M1–M11 and the T- rows"; neither gate file holds a T- row
+(plat/docs/build/M0-world-sites-gate.md:1–45; plat/docs/build/checks/M0-world-sites-gate.md:1–476). The T- rows recorded
+in section J are the volumes' (T-V13-n, T-V14-n) as the critiques, the seam and the integration cite them; their current
+text in V13 §7 and V14 §7 is read-v13's and read-v14's lanes, not read here.
+
+G-2. **No gate row, check or record about road access for a site.** Nothing in the gate, the 247 check files, the
+critiques, the seam, the integration record, the three coherence records or the 49 retrovalidation records states a rule
+that a site must have road access, an access class per site kind, or a site-to-road connection on the world map. The
+nearest texts: `WorldSite.routed` read by W7 as a seat (C2–C3, D13, E8); the crop frame's "charter's `roads` as way bands"
+(C4); patrols per route segment (H1); S4's through-road contract at the frame edge (I1–I2); C-0076's crossing sites
+(I6). The read lanes for V13, V14 and the base hold the mechanisms.
+
+G-3. **No text found on autocorrecting a site's geography.** The autocorrect texts read here concern settlement frames
+(the settlement-first correction (1), B23; C13-26's lawful threshold, B10; `nearestLawful`, B14) and the site's
+placement as a `Placement` subject (C5, D12, E7); no text read here states a catalogue-dependent correction of a site's
+position, or which site kinds move and which stay.
+
+G-4. **The other M0 check files were grep-scoped, not read whole.** Of 247 files, the gate's check, M0-c-03.md,
+M0-c-03-s1.md and integration-g12.md were read whole. The first grep's 177 hits in the others (scratchpad
+`checks-grep.txt`) are kernel-internal ("routed to the session", insertChain's router, "world coordinates" in the
+skeleton and medial axis) and were judged off-topic by their hit lines alone; M0-c-03-c1.md and M0-c-03-notes.md carry the
+through-road test's title only (I16). If the designers need the S4 route graph's internals (`route.ts`, F-ROUTE's
+notes 13–17), M0-c-03-notes.md (231 lines) is the next file to read.
+
+G-5. **23 retrovalidation JSON records read by their matching entries only** (H.26); their non-matching entries (findings
+and corrections about faith, alignment, prosperity constants etc.) were not read. amendments.verdict.json was read whole.
+
+G-6. **amendments.md is a live record.** At read (md5 c33b3d3f…) its sections "The amendments judged as design",
+"Rulings table", "Corrections", "Verdict" read "(filled as judged)" / "(pending)"; amendments.verdict.json (which appeared
+during this read) carries that lane's full verdict. The apply step must re-read both after J392 lands.
+
+G-7. **Not read (outside the brief's list, named by the texts as relevant):** `docs/HOST-REQUIREMENTS-2026-10-18.md`
+(934 lines; H96); `research/sf/fp-physical-integration.md` §2.5 "Routes and their lifecycle" (H65); the host's
+`DESIGN_ROUTE_LIFECYCLE.md` (300 lines; H78, H82) and `DESIGN_SETTLEMENT_MAP.md:356–358` (the REALM-COHERENCE LAW, H73) —
+the host is read-only and outside this lane; `docs/AMENDMENTS-2026-10-16k.md` (file k itself; only its application record
+was read); V13 and V14 themselves (read-v13, read-v14).
+
+G-8. **One record anomaly, not judged:** `faith.findings.json` carries the scripts verifier's findings S1–S10, not the
+faith verifier's (H.26).
+
+G-9. **A word conflict this lane cannot settle:** the seam's required change named the world-site pull term `site`
+(seam:125); the integration record says V14 names it `destination` (_integrate:42). Which word the volumes use today is
+read-v13/read-v14's to quote; one word, one meaning binds the J393 draft.
