@@ -1,6 +1,6 @@
 # SettlementForge's population flows — growth, tier, migration, columns and settlers, and what a map lens can show
 
-> PENDING FABLE REVIEW — written by Opus 5.5 standing in for the Fable seat research/sf-population; to be retrovalidated overall at the next opportunity (owner, 2026-10-17, J375)
+> Fable-reviewed 2026-10-18: PASS-WITH-CORRECTIONS — the conclusions hold; 18 verifier and 6 validator findings fixed by 45 fragments (lane retrovalidation/population; J392)
 
 Synthesis seat `research/sf-population`. Host: `/home/user/clausellstokes-lang/settlement-engine` at `origin/master`
 `81f1cd96` (HEAD verified `81f1cd963553`, clean), read-only — nothing was written there. Two reading seats returned
@@ -38,11 +38,11 @@ verification pass recorded in §12; passages it changed say "verification pass" 
 **How a settlement's head count moves in the default world.** In every preset but SC, each settlement's population
 drifts every week by a *legacy proportional rate* read from six pressure scores and a handful of crisis conditions; the
 rate has **no carrying capacity** and an integer deadband [OBSERVED `wp/populationDynamics.js:292-385`, `:533`]. This is
-the model that ran away to 29.1 trillion people in two settlements and froze six others at 200–500 in the 300-year soak
-[STATED DEMO §0]. On top of it: tier drift promotes a place near the next floor and **mints** people up to that floor
+the model that ran two settlements away to 29.1 and 16.4 trillion people and froze six others at 200–500 in the 300-year soak
+[STATED DEMO preamble :6-14; §0 :48, :68-71]. On top of it: tier drift promotes a place near the next floor and **mints** people up to that floor
 (P-3); crises shed people to neighbours (P-4, P-5); town-or-larger parents seed small **steadings** that draw settlers
 from them (P-10); a ruined thorp dies to a remnant and may later be **resettled** (P-8, P-9); a rare **calamity** kills
-2–14% and drives out 4–26% (P-7). **Births and deaths do not exist as quantities in shipped play.** The cure — Wave P,
+2–14% and drives out 4–26% (P-7). **Natural births and deaths — a vital-rates term — do not exist as quantities in shipped play** (the deaths that do exist are event tolls: calamity's 2–14% in RR, DC and FS, M4's origin and road deaths on canonized realms, the sack's dead half in FS) [Fable-reviewed 2026-10-18: was "Births and deaths do not exist as quantities in shipped play"]. The cure — Wave P,
 births minus deaths against a food bound and a density bound, push-and-pull columns, plans and a founding land law
 (P-18…P-21) — is built and **dark in every preset**: `demographicsEnabled` is declared false in FS and absent elsewhere,
 and no Living-World control lights it [OBSERVED `rules:1156-1170`; `LWG:55-73`; STATED FOLD:342].
@@ -107,14 +107,14 @@ store arrays (§8.1, §10.2 #13) [OBSERVED `map/PlacementsLayer.jsx:320-338`; `s
 **tier band**, never raw population, because the shipped population has no ceiling and jumps at promotion; (2) the
 canonize door is also the switch that makes people walk — a native map that sets the canon at world birth would light
 M4 columns, the pestilence front, traditions influx and the belief axes by default, which is a host behaviour change
-the map must not make by accident; (3) a population or movement lens must draw two different kinds of thing — dated
+the map must not make by accident [Fable-reviewed 2026-10-18: made on purpose since — J386, J387, V13 §8.5 H22: every new campaign on a native world is canonized at birth]; (3) a population or movement lens must draw two different kinds of thing — dated
 **arcs** for netted transfers and **moving markers** for columns — and say which is which; (4) steadings are the host's
 only "claim points" below a seat, already sit inside the parent's own territory, and are already drawn on the host map
 as orbit dots; (5) the religion lens gets one real "faith moves with people" fact (rites adopted from column influx) and
 must not draw migrants as carrying faith; (6) the lens mechanism's time scrub can start from the host's own timelapse
 track (one frame per advance), but must read the population deltas as the arrays they are, and still needs its own
 receipts for the interior weeks of an advance, for anything older than 12 history rows or 80 records, and for the
-dropped column tolls; (7) players see none of this today except believed trends in three presets on canonized maps.
+dropped column tolls; (7) players see none of this movement today; what the host does show every viewer of a settlement's dossier is its head count and a retrospective trend sentence over the same 12-row ring (§8.1, §8.5), while the believed trends of three presets are held by the courts' belief records and read by no surface (§4) [Fable-reviewed 2026-10-18: was "players see none of this today except believed trends in three presets on canonized maps"].
 
 ---
 
@@ -137,8 +137,7 @@ dropped column tolls; (7) players see none of this today except believed trends 
 **A history-row detail that matters for any lens (new, re-checked).** The shared writer stamps each row's `reason`
 with the *outcome's headline*, not the per-delta reason string the producer attached
 [OBSERVED `wp/populationDynamics.js:599-607`, called from `wp/applyWorldPulse.js:131-132`]. So a destination credited by
-an aspatial dispersal records the origin's headline ("X's population is falling") with an `outcomeId` of the form
-`candidate.population.emigration.<origin>.<tick>`; a flow_migration credit records "Refugees from X reach Y"; an M4
+an aspatial dispersal records the producer's headline, not the per-delta reason: for a mass emigration "X's population is falling" with an `outcomeId` of the form `candidate.population.emigration.<origin>.<tick>` [`:487`, `:501`]; for a terminal death "X is dying" with `candidate.lifecycle.death.<origin>.<tick>` [`wp/settlementLifecycleFirstClass.js:213`, `:224`]; for a calamity exodus, whose outcome carries no headline, the bare type `population_emigration` with `calamity.exodus.<origin>.<tick>` [`wp/calamityKernel.js:782-806`, applied at `:829`] — every one of the three ids encodes the origin [Fable-reviewed 2026-10-18: the mass-emigration case alone was stated]; a flow_migration credit records "Refugees from X reach Y"; an M4
 landing records the fixed "Refugee column arrives from a shed settlement." with `outcomeId`
 `migration.arrival.<destination>.<tick>` — the origin is not named, although the release step has it: the ledger read
 returns the origin ids per destination and the kernel keeps only the destination and the count [OBSERVED
@@ -171,7 +170,7 @@ cast and never the count [OBSERVED reader 1: `src/generators/steps/resolveConfig
 | `settlementTickStates` | tier-drift streaks; terminal-decline and zero-population dwell stamps | tier drift; lifecycle | tick stamps, catch-up-safe [`wp/settlementLifecycleKernel.js:61-64`] |
 | `stressors`, `regionalGraph` | displacement stressors; channels (`migration_pressure`, `trade_route`, `political_authority`, `military_protection`) and relationship-labelled edges | stressor and region lanes | the netted movers' only "geography" |
 | `spatialCanonVersion`, `spatialDigest` | the canon marker and the frozen digest | the canonize store action | turns netted shedding into columns [`sp/migration.js:175-179`] |
-| `proposals` (≤ 80), `pulseHistory` (≤ 80) | pending major population changes; recent pulse records — **one per advance** (a multi-week advance keeps only its final week's record; interior weeks live in the chronicle), each keeping ≤ 24 public selected outcomes and, when any exist, ≤ 8 mechanical (state-only) outcomes, every kept outcome with its `populationDeltas` array of `{saveId, delta, reason}` rows | the apply pass; the interval collapse | `wp/worldState.js:16-17`; `wp/advanceInterval.js:117-145`; `wp/pulseKernel.js:1908`; `wp/pulseOutcomePartition.js:109-123`; `wp/pulseHelpers.js:30`, `:112-144` (verification pass) |
+| `proposals` (≤ 80), `pulseHistory` (≤ 80) | pending major population changes; recent pulse records — **one per advance** (a multi-week advance keeps only its final week's record; interior weeks live in the chronicle), each keeping ≤ 24 public selected outcomes and, when any state-only outcome is present, ≤ 8 mechanical outcomes and ≤ 24 `consequenceOutcomes` (the selected set, compacted; `wp/pulseOutcomePartition.js:121-123`), every kept outcome with its `populationDeltas` array of `{saveId, delta, reason}` rows | the apply pass; the interval collapse | `wp/worldState.js:16-17`; `wp/advanceInterval.js:117-145`; `wp/pulseKernel.js:1908`; `wp/pulseOutcomePartition.js:109-123`; `wp/pulseHelpers.js:30`, `:112-144` (verification pass) |
 
 **Designed, not built:** `spatialLedgers.departureMemory` (POP-3) and `spatialLedgers.emigres` (INT-3b, OD-FC-25); a
 `believedBand` carried on each column (OD-FC-44) [STATED POPV §3-§9; FOLD:518, :537].
@@ -217,7 +216,7 @@ cast and never the count [OBSERVED reader 1: `src/generators/steps/resolveConfig
 (the rounded 0.1% is smaller), and a rounded delta reaches 2 only when the expectation is at least 1.5, i.e. population
 ≥ 1.5 ÷ (rate × 0.288). With no condition, RR's best rate (stability 1) is 0.65 × 0.0078 ≈ 0.0051 a month, so **no
 settlement under about 1,030 people grows through this lane in RR**; from about 2,500 people up the 0.1% bar needs a
-rate of about 0.0033–0.0035, i.e. stability of about 0.8 or more. An influx condition (+0.012) lowers the growth floor to
+rate between about 0.0025 and 0.0035 (the bar is a rounded integer, so the needed rate oscillates and settles toward 0.0035 as places grow), i.e. RR stability of roughly 0.67–0.80 [Fable-reviewed 2026-10-18: was "0.0033–0.0035, i.e. stability of about 0.8 or more"; `wp/populationDynamics.js:381-383`]. An influx condition (+0.012) lowers the growth floor to
 about 405 people while it lasts; a recovery condition (+0.002) to about 820. The same arithmetic in DC (×1.45) gives
 about 460 people and stability 0.55; in FS (×1) about 670 and 0.64. Declining places freeze the same way, at population ≈ 1.5 ÷ (|rate| × 0.288), which the code comment itself
 names as half of the soak's bifurcation [STATED `wp/populationDynamics.js:331-338`]. Consequence for a map: in the
@@ -268,7 +267,7 @@ What happens next depends on two switches [OBSERVED `:449-481`]:
 - **Growth**: while backing (0.6 prosperity + 0.4 × (1 − trade pressure)) ≥ 0.45 and no charter is pending, each tick
   moves population × (0.02 + 0.05 × backing), rounded and at least 1 person, from the parent, capped by the parent's
   headroom above its own floor [re-checked `:205-210`, `:955-967`]. [INFERRED] With backing from 0.45 to 1 that is about
-  4.25–7% a week, so a steading reaches 401 in roughly 40–70 weeks if backing holds.
+  4.25–7% a week, so a steading reaches 401 in roughly 40–80 weeks if backing holds (39 weeks for 31 founders at full backing, 78 for 16 founders at the 0.45 floor) [Fable-reviewed 2026-10-18: was "40–70 weeks"].
 - **Stall band** (verification pass): with backing from 0.30 up to 0.45 a steading neither grows nor starves, and its
   starvation clock is cleared; a charter-pending steading likewise never starves [OBSERVED `:955`, `:994`, `:1029-1032`].
 - **Promotion and charter**: thorp → hamlet at 61; at 401 it becomes `charterPending` and stops growing; graduation into a
@@ -290,7 +289,7 @@ What happens next depends on two switches [OBSERVED `:449-481`]:
   its orbit re-derived there, without moving a single person, its founding tick or its history. It is gated by
   `sovereigntyTradeActive`, whose own flag `sovereigntyTradeEnabled` is in no preset [OBSERVED
   `wp/satellitesLedger.js:136-161`; `wp/sovereigntyTransfer.js:204-271`, `:361`; `wp/sovereigntyAssets.js:79-86`;
-  `wp/realmVerbExecution.js:483`; `rules:429`; STATED FOLD:333].
+  `wp/realmVerbExecution.js:483`; `rules:429`; STATED FOLD:335].
 - **On the host map**: drawn as orbit dots around the parent, with a charter ring (§8.1, P-28).
 
 ### 3.5 Terminal death and resettlement (P-8, P-9) [OBSERVED `wp/settlementLifecycleKernel.js:221-259`; `wp/settlementLifecycleFirstClass.js:173-330`, `:356-520`]
@@ -377,7 +376,7 @@ inside the counts.
    dispatches columns, so its whole shed is lost (§10.2 #2) — and a DM `FORCE_ABANDON` on a canonized realm, which is
    always minted as a proposal, loses its whole residual the same way (verification pass, §10.2 #2).
 
-**Measured behaviour** [STATED DEMO §0]: in the 300-year soak (FS, weekly ticks) two settlements compounded at about
+**Measured behaviour** [STATED DEMO preamble :6-14; §0 :48, :68-71]: in the 300-year soak (FS, weekly ticks) two settlements compounded at about
 ×1.07 a year to 29.1 trillion and 16.4 trillion people while six froze at 200–500. Because the cure is lit nowhere, every
 preset still ships that model [OBSERVED `rules:1170`]; RR's conservative intensity slows the compounding but does not
 bound it [INFERRED from §3.1].
@@ -392,8 +391,8 @@ history rows; the 80-record pulse history; for courts (not players) in DC, LR an
 population trend per settlement (P-17).
 
 **Fold status** [STATED FOLD:342]: POPULATIONS has nothing lit; Wave P is built and dark entire; POP-1…POP-7 are unbuilt;
-"a column was refused at the wall" cannot fire. The lit movers of this note (P-2…P-10, P-14…P-17) predate FP and are not
-in the fold's table.
+"a column was refused at the wall" cannot fire. The lit movers of this note other than P-17 (P-2…P-10, P-14…P-16) predate FP and are not
+in the fold's table; P-17's belief axes are pre-FP code (D-1, `wp/beliefAxes.js:1-10`) lit by FP's own LIT-1b fragment `FP_LIT_BELIEF` (`rules:766-773`, `:793-797`), which the fold's §2 SPINE row lists (FOLD:335) [Fable-reviewed 2026-10-18: P-17 was counted among the pre-FP movers].
 
 ---
 
@@ -423,7 +422,7 @@ front, traditions influx, steading sites, belief axes) keys on that marker. Stea
 
 ### 5.3 What the channels share and do not share [OBSERVED unless marked]
 
-- **Distance**: only C (and the dark G and land law) read the digest. A, B, D, E and F read no distance and no travel
+- **Distance**: only C (and the dark G and land law) read the digest's distances or weeks; D reads the digest only to pick a steading's site cell inside the parent's partition on a canonized realm (`wp/settlementLifecycleKernel.js:54-60`, `:434-439`, `:808-822`; `wp/steadingTopography.js:11-38`). A, B, D, E and F read no distance and no travel
   time. Nothing population-related reads kilometres: `kmScale` is live in code and written by no world, so every column
   time is normalised weeks [STATED FPI §2.1 D2-D4].
 - **Adjacency**: A and B use the regional graph's channels and relationship labels — topology the DM confirms; the
@@ -523,7 +522,7 @@ them [STATED POPV §1b; FPI C5].
   nearest reachable mapped settlements, each weighted by `distanceWeight` (a neighbour of 6,000 people adds about one unit
   of raw draw; half the cap at two units). It is a read only — no one moves and visitors are not debited — and needs a
   canon and `traditionsEnabled` [OBSERVED `src/domain/traditions/pilgrimage.js:1-60`, `:84-99`; caller
-  `wp/traditionsKernel.js:79`]. [INFERRED] Unbounded populations push neighbours' draw toward the cap, softly.
+  `wp/traditionsKernel.js:757`, imported at `:79`]. [INFERRED] Unbounded populations push neighbours' draw toward the cap, softly.
 - Dark: route desire paths and migration rumours (P-22); the Wave P war motive, capability and risk lifts; the realm
   reading.
 
@@ -563,9 +562,9 @@ propagation and intensity) [OBSERVED `LWG:55-73`; `SRD:59-68`, `:258-271`, `:484
 `map/SimulationRulesAxes.jsx:110-117`, `:368-378`; the Engine-waves rows were added by the verification pass]. Those wave
 keys are virtual and ride the normaliser's input spread, so a DM's write persists [OBSERVED `rules:706-730`,
 `:1459-1466`]. `SRD` opens from the map toolbar's overflow "Rules" item whenever a campaign is active; neither the opener,
-the mount nor the store write carries a premium check — only campaign management gates it [OBSERVED
+the mount nor the store write carries a premium check — only campaign management gates it, and campaign management is itself the premium entitlement (below) [OBSERVED
 `map/WorldMapToolbar.jsx:570-579`; `map/WorldMapOverlays.jsx:68-70`, `:203-209`;
-`src/store/campaignWorldPulseDeferred.js:380-440`]. Whether campaign management is itself a paid feature was not traced.
+`src/store/campaignWorldPulseDeferred.js:380-440`]. Campaign management is the premium entitlement: `canManageCampaigns = authTier === 'premium' || isElevated`, and `activeCampaigns` is empty without it (`map/useWorldMapCampaignModel.js:58-61`; the toolbar's `campaignActive` is `canManageCampaigns && activeCampaignId`, `map/WorldMapToolbar.jsx:373`; the same gate `LWG:32` names), so `SRD` is premium-gated like `LWG` even though its opener, mount and store write (`src/store/campaignWorldPulseSlice.js:416-434`; `campaignWorldPulseDeferred.js:380-440`) carry no check of their own [Fable-reviewed 2026-10-18: was "Whether campaign management is itself a paid feature was not traced."].
 
 | Id | Mechanism | RR | QL | DC | SC | NC | LR | FS | Flag(s) | Per campaign |
 |---|---|---|---|---|---|---|---|---|---|---|
@@ -582,7 +581,7 @@ the mount nor the store write carries a premium check — only campaign manageme
 | P-10b | Steading charter graduation | D | D | D | D | D | D | D | `lineageClaimEnabled` (false in FS `rules:1048`) | — |
 | P-11 | War conditions on population | – | – | L | – | – | – | L | `warLayerEnabled` `rules:83`, DC/FS | **LWG War layer** (needs Relationship drift); SRD War row |
 | P-12 | Sack, conscription, levy, homecoming | – | – | – | – | – | – | L | `warForageEnabled`, `warEconomyDrainEnabled`, `warLevyEnabled` `rules:1024`, `:1028`, `:1029` | none (not in LWG or SRD; a preset switch to FS) |
-| P-13 | Razing population law | D | D | D | D | D | D | D | eight conquest-doctrine flags, none set (reader 0) | — |
+| P-13 | Razing population law | D | D | D | D | D | D | D | the eight-flag conjunction `CONQUEST_REQUIRED_RULES` (`wp/conquestDoctrineStage.js:63-72`; gate `wp/razingExecution.js:487`, `:1250`), never all true in any preset: `conquestDoctrineEnabled` is in none, five are declared false in FS, two (`warLayerEnabled`, `peaceEngineEnabled`) are lit in DC/FS | — |
 | P-14a | Plague via pressure, condition and flight | L | L | L | – | L | L | L | rides P-2 (+ P-5 where migration live); stressors off in SC | — |
 | P-14b | Pestilence front (travels trade carriers at `hopWeeks`) | c | c | c | – | c | c | c | marker only `sp/pestilence.js:151-155`; seeds need stressors | LWG Map geography |
 | P-15 | Refuge postures steering M4 | c | – | c | – | – | c | c | `constructiveFlowsEnabled` (WAVES) | SRD Engine waves: "Aid and generosity"; LWG Map geography |
@@ -672,6 +671,7 @@ still applies on its own in NC, and every NC tier change waits for the DM [OBSER
   change; the realm comparisons panel shows per-tier population totals in an owner session; the road-scene brief lists
   migrant columns touching the party's route with survivor counts and a cause sentence [OBSERVED
   `map/RealmForecast.jsx:167-176`; `map/RealmComparisons.jsx:105-115`; `src/domain/briefs/roadScene.js:158-163`].
+- **Settlement dossier (every audience)**: the Overview tab's identity strip prints the head count and, once the ring holds two readings, the DS-POP-3 direction sentence — a retrospective band over `populationHistory` with the belief axes' thresholds, drawn for the player audience too and silent only on a public gallery dossier [OBSERVED `src/components/new/tabs/OverviewTab.jsx:183`, `:287`, `:294`; `src/domain/display/trendLens.js:1-60`; `src/components/new/generalDeskRead.js:173-176`, `:259`; `src/domain/display/stateProse/stateProseKernel.js:174-178`; Fable-reviewed 2026-10-18].
 - **The Living-World row** shows "Geography mapped ✓", "Re-map geography" and a sentence naming how many seats were
   founded since the canon [`LWG:185-215`].
 - **No** population heat map, flow-arrow layer or pressure layer exists in the host (grep, reader 1); a steading layer
@@ -737,14 +737,14 @@ still applies on its own in NC, and every NC tier change waits for the DM [OBSER
 
 ### 8.5 Audience and time scrub
 
-- Audience: every column position is DM-secret today; players get no population movement. Player-safe forms built for
+- Audience: every column position is DM-secret today; players get no population movement. What a player does get is the settlement dossier's own head count and its DS-POP-3 direction sentence ("has been emptying" … "has been swelling"), a retrospective band over the 12-row ring with the belief axes' thresholds, drawn for the player audience and silent only on a public gallery dossier [OBSERVED `src/domain/display/trendLens.js:1-60`; `src/components/new/tabs/OverviewTab.jsx:183`, `:287`, `:294`; `src/components/new/generalDeskRead.js:173-176`, `:259`; `src/domain/display/stateProse/stateProseKernel.js:174-178`; Fable-reviewed 2026-10-18]. Player-safe forms built for
   this are dark: the banded Herald lines (no digits) and the migration rumour net [OBSERVED reader 1:
   `wp/demographicsHerald.js:16-21`; `sp/migrationRumors.js:41-56`]. Courts' believed trends exist in DC, LR and FS on
-  canonized realms, unconsumed by any map.
+  canonized realms, unconsumed by any map or dossier (grep: no component reads the belief record's `populationTrendBand`; the two component readers of that name import `src/domain/display/trendLens.js`, the dossier's own ground-truth band) [Fable-reviewed 2026-10-18].
 - Time scrub: columns carry departure and arrival ticks; everything else has a short memory (12 history rows, mixed
   writers; 80 pulse records, one per advance, a multi-week advance keeping only its final week; dispatch receipts
   discarded). Pulse records **do** carry population deltas — arrays of `{saveId, delta, reason}` on ≤ 24 public and ≤ 8
-  mechanical outcomes per record [OBSERVED in the verification pass: `wp/pulseHelpers.js:30`, `:112-144`;
+  mechanical outcomes per record, plus ≤ 24 `consequenceOutcomes` when state-only outcomes exist (`wp/pulseOutcomePartition.js:121-123`) [Fable-reviewed 2026-10-18; OBSERVED in the verification pass: `wp/pulseHelpers.js:30`, `:112-144`;
   `wp/pulseKernel.js:1908`; `wp/pulseOutcomePartition.js:109-123`; `wp/advanceInterval.js:117-145`]. The host already
   scrubs them (the V-3 timelapse, §8.1, P-27), so a lens can reuse that track's frame derivation once it reads the arrays
   (and the mechanical outcomes, where minor drift lands); for interior weeks, older advances and the tolls it still needs
@@ -761,7 +761,7 @@ still applies on its own in NC, and every NC tier change waits for the DM [OBSER
 4. Build WY-4's fence so a crisis is served netted or physical, not both.
 5. Write `kmScale` at canonisation from the map's exported scale (OD-FC-22) so column times are absolute.
 6. Persist settlement coordinates or seed cells (the world-native proposal's port does this:
-   `docs/design/proposal-world-native.md` §6 item 4) so steading sites and the land law use true radii.
+   V13 §8.5 H5, H18, H19; formerly proposal §6 item 4, superseded 2026-10-17) so steading sites and the land law use true radii.
 7. Mount the lived route network at world birth from the map's routes (OD-FC-18), which is what Wave P2 walks.
 8. Read `populationDeltas` as the arrays they are in the timelapse track, and read the mechanical outcomes too
    (§10.2 #13; verification pass).
@@ -773,7 +773,7 @@ still applies on its own in NC, and every NC tier change waits for the DM [OBSER
 ### 9.1 Territory (J377–J378)
 
 1. **Size must enter as a band, not a count.** J377 grows strength exponentially "with tier, size and prosperity band".
-   In every shipped preset population has no ceiling and compounds in big stable towns (§3.1, §4), so an exponential in
+   In every shipped preset but SC (where the drift lane is off) population has no ceiling and compounds in big stable towns (§3.1, §4), so an exponential in
    raw population would explode on long campaigns. Use the tier band (bounded at metropolis) and at most a log-banded
    size inside it; never the raw count.
 2. **Promotion jumps are minted.** A promotion adds up to 8% of the new floor in one step (§3.3); a projection keyed on
@@ -788,19 +788,19 @@ still applies on its own in NC, and every NC tier change waits for the DM [OBSER
    dark conveyance (`sovereigntyTradeEnabled`) can move a steading to another parent without moving anyone (§3.4), so a
    sub-seat claim point can change sovereign if that flag is ever lit (verification pass).
 5. **Σ(parent + satellites) is the host's conserved size**, not `settlement.population` alone; a projection reading
-   saves alone undercounts parents that have seeded.
+   saves alone undercounts parents that have seeded. [Fable-reviewed 2026-10-18: the design counts the parent's own people only in its size third and gives each steading its own claim point, so the sum is not double-counted (J384 (11) as amended by the rulings lane; V13 §3.9 (7) and (12)).]
 6. **Refugee columns are evidence, not ownership.** M4 columns cross marches and die by embattlement × season; they do
    not claim. J378's patrols could lower road danger only if the host chooses to consume a patrol fact; today road
    deaths read the M1 embattlement ledger alone (§5.2 C).
 7. **The war sack and conscription move people only in FS**, same-tick; a territory lens must not draw captive columns.
 8. **The §5b land law is the host's own spacing rule** (minimum separation by tier pair, maximum reach 1.25 median hops),
-   expressed in median primary hops — a ready calibration for "a per-settlement limit by tier" once lit, and a reason to
+   expressed in median primary hops — a ready calibration for the per-settlement, per-tier reach limit J377 reads ("the per-settlement limit is where it falls below a floor, capped per tier") once lit, and a reason to
    keep territory reach in the same week-and-hop vocabulary until `kmScale` exists.
 
 ### 9.2 Religion (J379 and FAITH §9.6)
 
 1. **Migrants carry no faith in code.** M4's destination choice prefers faith-close places (the culture-distance faith
-   term, 0.30), but WY-4's faith cargo is unbuilt; FAITH §9.6 item 7's "no movers" stands for population too. A religion
+   term, 0.30), but WY-4's faith cargo is unbuilt; FAITH §9.6 item 7's finding ("no host fact as movers") stands for population too. A religion
    lens may say "refugees fled toward co-religionists" only as the M4 destination choice on canonized realms.
 2. **One real "culture moves with people" fact exists**: rites adopted from column influx (≥ 12% over three years,
    `adoptedFrom`), lit in RR, DC, LR and FS on canonized realms (P-16). It is the only persisted cross-settlement rite
@@ -816,8 +816,8 @@ still applies on its own in NC, and every NC tier change waits for the DM [OBSER
 1. **The canonize door is a behaviour switch, not just geography.** If a native map world sets the canon marker at
    birth, it lights M4 columns, the pestilence front, traditions influx, refuge steering, steading sites and (in DC, LR,
    FS) the belief axes for every new campaign. The port proposal keeps "the digest's immutable canon-version semantics"
-   [`docs/design/proposal-world-native.md` §6 item 1]; whether a port-backed world counts as canonized at birth must be
-   the host's explicit choice, recorded with the owner, not a side effect of shipping the native map.
+   [proposal §6 item 1 as it stood before its 2026-10-17 supersession, quoted at `docs/AMENDMENTS-2026-10-17m.md:2264`; now V13 §8.5 H4/H5]; whether a port-backed world counts as canonized at birth must be
+   the host's explicit choice, recorded with the owner, not a side effect of shipping the native map. [Fable-reviewed 2026-10-18: ruled since — J386 and J387 (V13 §8.5 H22, under the owner's J384 delegation "i leave all judgemtn to you"): every new campaign on a native world is canonized at birth, deliberately, as the product ruling the host implements; re-canonize and retcons stay the premium DM's act.]
 2. **Every lens must read the campaign's resolved rules and the canon marker**, as FAITH §9.6 item 1 found for faith:
    in QL and NC nothing moves between settlements; in RR people teleport until the DM canonizes.
 3. **A lens needs two layer kinds** — dated arcs (netted, same tick) and moving markers (columns with depart/arrive) —
@@ -828,8 +828,7 @@ still applies on its own in NC, and every NC tier change waits for the DM [OBSER
    arrays (the host track does not, §10.2 #13), and snapshot what the host does not keep — interior weeks of an advance,
    more than 12 rows or 80 records, the column tolls — as a derived cache outside any model digest, or declare a short
    horizon.
-5. **Audience filter defaults to DM-only** for population movement; the player view is either nothing or believed trends
-   (three presets, canonized) — the same narrowness FAITH §9.6 item 10 found.
+5. **Audience filter defaults to DM-only** for population movement; the player view is the host's own dossier trend sentence and head count (§8.5), which a lens may draw for players as a public host fact, or nothing — the believed trends of three presets reach no player surface [Fable-reviewed 2026-10-18: was "either nothing or believed trends (three presets, canonized)"] — the same narrowness FAITH §9.6 item 10 found.
 6. **Do not inherit the host overlay's shortcuts**: it hides port and circle columns (exactly the ones M4 may have priced
    by sea or teleport), re-derives the path, draws no line and repositions by the current season. A native lens should draw every class, mark the path as likely, and position from the departure.
 7. **Netted transfers have no geography of their own**: draw them along regional links (the regional graph), not along
@@ -859,8 +858,8 @@ still applies on its own in NC, and every NC tier change waits for the DM [OBSER
    positions from arrival minus a re-computed `hopWeeks`, along the cheapest route, with chevrons WY forbids [OBSERVED
    `map/TravelersLayer.jsx:93-108`; STATED WY §0 C1, §3a].
 8. **Column speed**: the owner's size-scaled speed has no code; ARCH_WY's bracket says it lands with WY-4 while OD-FC-13
-   rules it POP's row read by WY-4 [STATED].
-9. **Village seeding**: DEMO §5's farm-village example contradicts the town-or-larger cap table; ruled for the cap table
+   rules it POP's row read by WY-4 — one bracket, ARCH_WY:1252, carries both: it quotes OD-FC-13's reconciliation ("the band is POP's row per ODQ §130.3, WY-4 READS it") and records the band as "landing in this wave", so the owning row and the landing wave are named apart, not in disagreement [STATED; Fable-reviewed 2026-10-18].
+9. **Village seeding**: DEMO §11b records that an earlier §5 example ("a farm village with open land spins off steadings", no longer in §5 at `81f1cd96`) contradicted the town-or-larger cap table; ruled for the cap table by the host's manager
    (vetoable) [STATED DEMO §11b; OBSERVED `wp/settlementLifecycleKernel.js:196`].
 10. **Charters never graduate**: the steading header says charters are "executed by the parked V2 machinery"; the executor
     is dark [OBSERVED §3.4].
@@ -883,7 +882,7 @@ still applies on its own in NC, and every NC tier change waits for the DM [OBSER
    stamps the outcome headline, not the per-delta reason [OBSERVED `wp/populationDynamics.js:599-607`], and no test
    mentions the phrase (grep of `tests/`). So aspatial dispersal never adds the 0.20 inflow term to a parent's seeding
    drive; only M4 landings (matched by `outcomeId`) do. Side effect: a dispersal destination's history reads the
-   *origin's* "population is falling" headline.
+   *origin's* outcome headline ("population is falling" for a mass emigration, "is dying" for a terminal death, the bare type `population_emigration` for a calamity exodus) [Fable-reviewed 2026-10-18].
 2. **New — an approved spatial shed never travels.** A major mass emigration (≥ max(80, 4%)) or a terminal death in a
    proposal-requiring preset (RR, LR) is queued; M4 dispatches only for outcomes debited in the same tick
    [OBSERVED `wp/migrationKernel.js:398-415`]. On approval, `applyWorldPulseProposal` applies the outcome through the
@@ -929,7 +928,7 @@ still applies on its own in NC, and every NC tier change waits for the DM [OBSER
     [OBSERVED `src/domain/display/timelineTrack.js:81-86`; `wp/populationDynamics.js:451`; `wp/flows.js:106`;
     `wp/deploymentReturn.js:415-423`; `wp/pulseHelpers.js:144`; `tests/domain/timelineTrack.test.js:18`, `:60`]. The
     panel's "N grew · M declined" and the drill's counts read the same frames. The track also never reads
-    `mechanicalOutcomes`, where minor drift is recorded. PLAUSIBLE until executed.
+    `mechanicalOutcomes` or `consequenceOutcomes`, where minor drift is recorded (`timelineTrack.js:131-132` reads `selectedOutcomes` and `impactDigest` only) [Fable-reviewed 2026-10-18]. PLAUSIBLE until executed.
 14. **New (verification pass) — map labels under ignored pointer events.** The migrant markers and the steading dots
     carry their text as SVG titles inside groups that ignore pointer events, so the browser probably never shows them
     on hover; they remain accessible names [OBSERVED `map/TravelersLayer.jsx:140-145`; `map/PlacementsLayer.jsx:320-331`;
@@ -938,16 +937,16 @@ still applies on its own in NC, and every NC tier change waits for the DM [OBSER
 ### 10.3 Open questions for the owner and the map design
 
 1. Should a port-backed native world count as canonized at birth (lighting M4 and the rest by default), or keep the
-   premium canonize as the act that makes people walk? (§9.3 #1)
-2. Does the territory projection read tier only, or tier plus a log-banded size inside the tier? (§9.1 #1)
+   premium canonize as the act that makes people walk? (§9.3 #1) [Fable-reviewed 2026-10-18: RULED — J386, J387: canonized at birth for every new campaign on a native world; re-canonize stays premium (V13 §8.5 H22).]
+2. Does the territory projection read tier only, or tier plus a log-banded size inside the tier? (§9.1 #1) [Fable-reviewed 2026-10-18: RULED — J385 gap 4: tier plus a size third inside it, kSize = 1.15^(third − 1) (V13 §2.3, §3.9 (7)).]
 3. Steadings already appear on the host map as cosmetic orbit dots (§8.1). Should the native map draw them at their
-   frozen site cells instead, and should they count as claim points, labels or both before they graduate? (§9.1 #4)
+   frozen site cells instead, and should they count as claim points, labels or both before they graduate? (§9.1 #4) [Fable-reviewed 2026-10-18: RULED — J384 (11): drawn at their frozen site points as claim points inside the parent's allegiance, never seats or chain members (V13 §3.9 (12)).]
 4. Is a population or movement lens worth building while Wave P is dark and most RR worlds teleport, or should it wait
-   for the host's WY-4 fence and the stored route path (§8.6)?
+   for the host's WY-4 fence and the stored route path (§8.6)? [Fable-reviewed 2026-10-18: RULED — J384 (8), (12): the populations lens is built in the lens order (plague, the sway and patrols, trade and populations, …) and draws every column class, the host overlay's hidden ones included (V13 §5.9 (5)).]
 5. Resolved by the verification pass: pulse records do carry population deltas (as arrays; §8.5), and M4's path cost
    does cross sea lanes and teleport edges where the canon carries them (§5.3). Open instead: should the lens mechanism
    reuse the host timelapse's frames (after the §10.2 #13 fix), and should a lens show sea- and circle-priced columns that
-   the host overlay hides?
+   the host overlay hides? [Fable-reviewed 2026-10-18: RULED in part — J384 (12): the hidden columns are shown, styled by carriage, DM-only by default; J384 (9): the scrub reads plates kept in the world document's own cache, one per host advance, not the host timelapse's frames.]
 
 ---
 
@@ -984,7 +983,7 @@ Code: `wp/populationDynamics.js` (610), `wp/flows.js` (178), `wp/migrationKernel
 (85-120); `src/store/mapSlice.js` (860-892); `src/store/instantWorldBody.js` (1-20). Documents in passages: PHASE55
 (1,710: §2-§4c, §4f, §4h-§4j, II.3, II.5-II.6, Round 21), WY (1,737: §0, §1c, §2c/§3a, WY-4), WC (7,054: §1.12.2,
 WC-13, §7.A.8), RD (1,911: 140-160, 1060-1155, 1470-1490, 1705-1745), FOLD (708: §0, §1-§2, §3.4, OD-FC rows).
-Map module: FPS (1,098: summary and every population row), FPI (481: §1, §2.1, §2.7, §2.9), `docs/PROGRESS.md` rows
+Map module: FPS (1,098: summary and every population row), FPI (481 when read; 493 after its 2026-10-17 amendments-n bracket at `:458`: §1, §2.1, §2.7, §2.9), `docs/PROGRESS.md` rows
 J377-J380.
 
 ### 11.3 My own re-reads at `81f1cd96` (this seat)
@@ -1017,11 +1016,11 @@ the rest of WC, WY, RD and PHASE55; `wp/commonsVoiceKernel.js`; `wp/routeNetwork
 `wp/calamityKernel.js` and `wp/applyWorldPulse.js`; `wp/decisionTier.js` (`resolveProposalToOutcome`); every test file
 except the greps named here and in §11.5. (`wp/npcReplacement.js`, `satellitesLedger.js` and `wp/deploymentReturn.js`
 were read in part by the verification pass, §11.5.)
-Still not traced: whether campaign management (which gates `SRD`) is a paid feature; whether the pulse writes a promotion
+Still not traced: whether the pulse writes a promotion
 back to the save row's tier label; whether M4's route danger covers sea hops; the inputs of the town map's aged overlay;
 whether any layer outside the three `dispatchMigrations` callers dispatches an approved shed. Resolved by the
 verification pass: pulse records carry population deltas (§8.5); M4's path cost crosses sea and teleport edges (§5.3);
-`SRD`'s mount carries no premium check (§7 legend).
+`SRD`'s opener, mount and store write carry no premium check of their own, the surface being premium-gated through campaign management, premium or elevated (§7 legend; Fable-reviewed 2026-10-18).
 
 ### 11.5 Re-reads by the verification pass (fixer seat, host `81f1cd96`, read-only)
 
@@ -1064,19 +1063,19 @@ at the source; every row's evidence was re-read by this seat at `81f1cd96` (§11
 | V2 | Steading growth in row D | "2–7%" is wrong; growth needs backing ≥ 0.45, so ≈ 4.25–7%, and 0.30–0.45 stalls | Holds (lines are `:955` and `:994`, not `:957`/`:986`): floor 0.45 at `:205`, at least 1 person, stall branch clears the starvation clock at `:1029-1032`; charter-pending never starves | Row D, §3.4 growth bullet, new stall-band bullet |
 | V3 | Road deaths in §1 | "up to 35% more" is wrong; the season factor multiplies the danger term (winter 1.6), capped at 0.5 | Holds [`sp/migration.js:96-98`, `:151-153`, `:219-226`]; uncapped share reaches 0.59 in winter | §1 item 2 and row C state the full formula |
 | V4 | "A column under 2 folds into origin death" | Wrong: the test is on the whole traveller pool | Holds: `:388` returns the empty plan for the whole pool; 1-person splits still enqueue; only zero-arrival splits are skipped [`:586`] | Row C reworded |
-| V5 | "Per campaign: —" for P-8, P-9, P-10, P-15 | Wrong: SRD's Engine waves toggle the lifecycle and constructive-flows flags | Holds [`map/SimulationRulesAxes.jsx:368-378`; `SRD:492-497`]; the virtual keys persist through the normaliser [`rules:1459-1466`]; SRD has no premium check in opener, mount or store write | §7 legend, rows P-8/P-9/P-10/P-15, note (a); P-7 and P-12 now say "preset switch only" |
+| V5 | "Per campaign: —" for P-8, P-9, P-10, P-15 | Wrong: SRD's Engine waves toggle the lifecycle and constructive-flows flags | Holds [`map/SimulationRulesAxes.jsx:368-378`; `SRD:492-497`]; the virtual keys persist through the normaliser [`rules:1459-1466`]; SRD has no premium check of its own in opener, mount or store write, but opens only under an active campaign, which only a campaign manager (premium or elevated) holds [Fable-reviewed 2026-10-18] | §7 legend, rows P-8/P-9/P-10/P-15, note (a); P-7 and P-12 now say "preset switch only" |
 | V6 | Host overlay draws route chords | Wrong: one marker moves along the chords; no line; behind `layers.travelers` | Holds [`map/TravelersLayer.jsx:139-151`; `map/travelersGeometry.js:54-78`; `MapOverlay.jsx:351`]; the toggle defaults off [`mapSlice.js:112`]; its label sits under ignored pointer events | §1, §8.1, §8.2, §10.2 #5 and #8, P-25; new §10.2 #14 [INFERRED] |
 | V7 | Map tier icons from population | Wrong: icons read the tier label; population only as fallback | Holds [`map/TierIcon.jsx:25-39`; `map/PlacementsLayer.jsx:101`]; whether promotions reach the save row's label not traced | §6.2, §8.1 |
 | V8 | "No steading layer exists" | Wrong: orbit dots with charter ring and tooltip | Holds [`map/PlacementsLayer.jsx:53-61`, `:131-135`, `:320-338`]; also remnants draw dimmed [`:380`] and the legend documents the glyphs [`map/MapLegend.jsx:191-198`] | §1, §8.1, §8.4, §9.1 #4, §10.3 #3; new P-28 |
 | V9 | No heat/flow layer; pulse deltas untraced | Wrong: the V-3 timelapse scrubs pulse history; records carry delta arrays; tint probably inert | Holds; producers write arrays [`wp/populationDynamics.js:451`; `wp/flows.js:106`], no map-shaped producer in `src/` (grep), tests feed maps; the track also skips `mechanicalOutcomes` | §1, §8.1, §8.5, §8.6 #8, §9.3 #4, §10.3 #5; new §10.2 #13, P-27 |
 | V10 | Whether M4 crosses sea edges | Wrong: `pathCost` escalates over sea lanes and teleport edges | Holds [`sp/distanceRead.js:653-680`]; correction to the verifier: the slots come with every new canon (≥ 2 ports or circle holders), not from `navalEnabled`, which gates fleets only [`campaignSpatialCanonize.js:124-137`] | §1, §5.3, row C, §8.2, §10.2 #8, §10.3 #5, §11.4 |
 | V11 | Political autonomy and population (note silent) | Population drift bypasses autonomy; tier and lifecycle obey it | Holds [`wp/populationDynamics.js:495`; `wp/pulseKernel.js:1552`; `wp/tierResourceDynamics.js:237`; `wp/settlementLifecycleFirstClass.js:422`, `:501`]; also P-5 passes the choke [`wp/candidateEvents.js:600-643`] and steadings carry no apply mode | §7 note (d); §3.3; §3.4 "No apply mode" |
-| V12 | FS war constants; cite `rules:1025-1030` | Constants unverifiable; the cite misses `warLevyEnabled` at `:1030` | Verifier wrong on the cite: the flags sit at `rules:1024`, `:1028`, `:1029`, inside the original range. Constants now read: sack 8% floor 150; conscription 0.6% floor 250 (under `warEconomyDrainEnabled`); levy 0.4% floor 300; homecoming pro rata; razing 24–72%, 12%, floor 40 | §3.7 rewritten with floors, flag lines and homecoming; row F; P-12 cite made exact |
+| V12 | FS war constants; cite `rules:1025-1030` | Constants unverifiable; the cite misses `warLevyEnabled` at `:1030` | Verifier half right: `warLevyEnabled` is at `:1029`, inside the original range (`:1030` is `warDispositionEnabled`), but `1025-1030` missed `warEconomyDrainEnabled` at `:1024`; the exact cite is `rules:1024`, `:1028`, `:1029` [Fable-reviewed 2026-10-18]. Constants now read: sack 8% floor 150; conscription 0.6% floor 250 (under `warEconomyDrainEnabled`); levy 0.4% floor 300; homecoming pro rata; razing 24–72%, 12%, floor 40 | §3.7 rewritten with floors, flag lines and homecoming; row F; P-12 cite made exact |
 | M1 | Steadings already on the world map | Orbit dots; owner session only | Holds, with one correction: the layer checks no flag and no secrecy; it draws the active campaign's ledger, which only a campaign manager holds | As V8 |
 | M2 | Host time scrub | V-3 timelapse; panel not read; probable shape defect | Holds; panel read whole: frame stepping, drill, clip export, mounted in the realm inspector; its tick also drives the town map's aged overlay | As V9; town-map line in §8.1 |
 | M3 | Pulse-record collapse | Multi-week advance keeps only its final record | Holds [`wp/advanceInterval.js:117-145`]; caps 24 public + 8 mechanical [`wp/pulseKernel.js:1908`; `wp/pulseHelpers.js:30`] | §1, §2.2 row, §8.5 |
 | M4 | Calamity exposure is geometry | Terrain and prior strikes weight hazard 0.75–1.5, mean 1 | Holds [`sp/calamity.js:153-207`, `:385-399`; `wp/calamityKernel.js:615-686`] | §3.6 paragraph, §8.2 row, §8.4 bullet, P-7 label |
-| M5 | Per-campaign lighting outside LWG | SRD Engine waves and domain rows; premium gating untraced | Holds; premium gating traced: none in opener, mount or store write | As V5 |
+| M5 | Per-campaign lighting outside LWG | SRD Engine waves and domain rows; premium gating untraced | Holds; premium gating traced: none of its own in opener, mount or store write, the surface gated by campaign management (premium or elevated, `map/useWorldMapCampaignModel.js:58-61`) [Fable-reviewed 2026-10-18] | As V5 |
 | M6 | Sea lanes and teleport in M4 pricing | M4 can price by sea or magic; overlay hides them | Holds, with the `navalEnabled` correction in V10 | As V10 |
 | M7 | Steading conveyance | Transfers move a steading row without people; BUILT DARK | Holds [`wp/satellitesLedger.js:136-161`; `wp/sovereigntyTransfer.js:204-271`, `:361`; `wp/sovereigntyAssets.js:79-86`]; the verb case starts at `wp/realmVerbExecution.js:483` | §3.4 bullet, §9.1 #4; new P-29 |
 | M8 | Pilgrimage read | Grand observances read neighbours' size over the digest | Holds [`src/domain/traditions/pilgrimage.js:1-60`, `:84-99`] | §6.2 bullet, §8.2 rows; new P-30 |

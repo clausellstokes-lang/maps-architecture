@@ -1,6 +1,6 @@
 # SettlementForge's prosperity — the band, how it is set and moved, how it compares and presses across the realm, what it drives, and what a map lens can show
 
-> PENDING FABLE REVIEW — written by Opus 5.5 standing in for the Fable seat research/sf-prosperity; to be retrovalidated overall at the next opportunity (owner, 2026-10-17, J375)
+> Fable-reviewed 2026-10-18: PASS-WITH-CORRECTIONS — the substance holds at 81f1cd96; 20 verifier findings accepted (5 amended), 4 own findings fixed, 0 readings overturned (lane retrovalidation/prosperity; J392)
 
 Synthesis seat `research/sf-prosperity`. Host: `/home/user/clausellstokes-lang/settlement-engine` at `origin/master`
 `81f1cd96`, read-only (HEAD detached, tree clean; nothing written there). Map module: `/home/user/maps-architecture` at
@@ -44,7 +44,7 @@ corrected in §12 row P1]. The word "prosperity" also names a third quantity —
 lifecycle's economy *health* ("prosperous"/"declining"), which reads neither the band nor the score (§3.9).
 
 **How it is set.** Once, at generation, from the configured route class (crossroads or port 3, road or river 2, isolated
-1), tier, the economy/magic/military sliders, monster threat, defences, institution depth and income diversity, then capped
+1 — 0 for a disconnected thorp or hamlet, 2 for a disconnected village or larger with working teleportation and magic, `econ/prosperity.js:183-192`), tier, the economy/magic/military sliders, monster threat, defences, institution depth and income diversity, then capped
 by food security and stresses, then mapped to a word [OBSERVED `econ/prosperity.js:121-290`]. Generation reads no map
 geometry: the route class is a configuration string.
 
@@ -58,7 +58,7 @@ write back in kind) [OBSERVED grep: the only writes of a `PROSPERITY_TIERS[...]`
    successful market fair on a trade lane +1 more. Prosperity raises the success odds, so the loop reinforces itself.
 3. **Grain purchase** (generosity A2): a needy buyer refused a gift by a bonded neighbour pays up to one rung; the seller
    gets 0.4 of the debit. Rounding makes small debits vanish.
-4. **Ransoms** (roads): a captor gains a rung for a key or pillar captive; a pillar's home loses one.
+4. **Ransoms** (roads): at a term-end release a captor gains a rung for a key or pillar captive and a pillar's home loses one; a party ransom pays the captor's step only; every other early release pays none (§3.5).
 
 Nothing else writes the band: not food, famine, harvest, plague, war, corruption, the treasury, momentum, tier change or
 population. War reaches it only by busting a boom (the boom town's own embattlement), cancelling festivals and ending
@@ -91,17 +91,17 @@ Trade Bust conditions do nudge population growth through trade pressure (§5.6).
 deeper: boom/bust needs a spatially canonized campaign **and** `commodityFlowEnabled`, which only RR and FS carry — so it
 is inert in DC and LR; ransoms and the pilgrim lift need canon. And **the birth door**: a campaign created by
 `createCampaign` gets the plain defaults, which still infer the id `realistic_regional` but carry none of the writers'
-flags — its band is frozen at generation forever. Only an Instant World or a DM clicking a preset chip applies RR's lit
-keys (§7.1) [OBSERVED, probe].
+flags — its band is frozen at generation forever. An Instant World, a realm-toolbar preset chip (`src/hooks/useRealmInspector.js:247-250`; the rules dialog's §11 grid offers SC, NC, LR and FS, not RR, `src/components/map/SimulationRulesDialog.jsx:70-81`) or an RR-based temperament picked on the DM screen ("A steady realm", "The long winter": `wp/temperamentPresets.js:38-43`, `:68-73`, applied by `src/components/temperament/TemperamentPicker.jsx:33-34`) applies RR's lit
+keys (§7.1) [STATED `wp/simulationRules.js:889-892` for the first two paths; OBSERVED for the third; probe: BORN lacks them] [Fable-reviewed 2026-10-18].
 
 **What this means for the map module.** (1) The territory projection's "prosperity band" (J377 T2, J378's civil part)
 should read the seven-rung band, case-insensitively, and must bring its own hysteresis and its own band history, because
 the host keeps neither and its boom steps do not even reach the news. (2) The band is absolute and, in lit presets,
 drifts *upward* realm-wide over years (festivals ratchet above Poor; booms climb; little pulls down), so an exponential
-strength term will inflate every border unless it is relativised or bounded (§9.1). (3) Prosperity already enters J382's
-culture term (the economy gap is 0.18 of the host culture distance), and would enter J378's military tie-breaker too if
-the map's "garrison and standing bands" were banded from the host's composite military capacity, whose economy facet is
-10% (§9.1 item 4) — two or three entries unless one is chosen. (4) A prosperity lens is honest as glyphs, dated pair
+strength term will inflate every border unless it is relativised or bounded (§9.1) [Fable-reviewed 2026-10-18: ruled relative by J384 (1) — the seat's rung minus the realm's held median, clamped ±3, read at dated revisions with a 13-week dwell (`docs/PROGRESS.md:443`; V13 §3.9 (7)); on the direction of the drift see §4]. (3) Prosperity already enters J382's
+culture term (the economy gap is 0.18 of the host culture distance), and would have entered J378's military tie-breaker too had
+the map's military bands been banded from the host's composite military capacity, whose economy facet is
+10% (§9.1 item 4) — two or three entries unless one is chosen [Fable-reviewed 2026-10-18: ruled since — J384 (4) bands the host's capacity facets EXCLUDING the economy facet, "so prosperity is counted once" (`docs/PROGRESS.md:443`; J-RR.52, `research/sf/fp-realm-review.md:611`; V13 §2.2 `PolitySeat.military`)]. (4) A prosperity lens is honest as glyphs, dated pair
 links, boom arteries, catchments and donor lines, and a town lens may show the host's district wealth band; a continuous
 wealth field or "hinterland wealth" would be invention.
 
@@ -188,7 +188,7 @@ front into it (weight 0.85), its occupation (0.75 × a rung term: contested 1, u
 0.3, vassalized 0.15; `:117-119`), its war-exhaustion scar (0.45), crime above 0.5 (up to 0.3)
 and, for an entrepôt, a wartime targeting premium (0.3 × centrality, at most 0.2; `sp/entrepots.js:94-99`, `:204-210`),
 minus a security relief of at most 0.25. The level only rises after the threat crosses 0.55 (hysteresis; exit below 0.3
-after 6 ticks), then decays by 0.12 a tick once calm. So: a war front into the town alone embattles it; a fresh
+after 6 ticks), then decays by 12% of its level a tick once calm (`sp/embattlement.js:82`, `:245-247`). So: a war front into the town alone embattles it; a fresh
 (contested or unstable) occupation does unless security relief is high; a matured occupation, war exhaustion, crime, the
 hub premium, or crime plus premium (≤ 0.5) cannot alone; crime and the premium can *keep* a town embattled after a war
 (they hold the threat at or above the 0.3 exit); and a level of 0.8 takes about 29 weekly ticks to decay below 0.02
@@ -223,8 +223,7 @@ sustained [INFERRED from the steady state of that average].
 ### 3.3 Festivals — traditions [OBSERVED `wp/traditionsKernel.js:150-190`, `:245-410`, `:740-800`; re-read]
 
 Each tradition has a yearly calendar window; a settlement holds 1–2 (thorp, hamlet), 2 (village), 3 (town), 4–5 (city),
-5–7 (metropolis), 6–8 (the schema tier "capital", grandeur band 6) traditions, each with a grandeur `scaleBand` aligned to
-the tier index [OBSERVED `tr/genesis.js:111-126`; STATED `:98`]. When a window opens:
+5–7 (metropolis), 6–8 (the schema tier "capital", grandeur band 6) traditions, each with a grandeur `scaleBand` [Fable-reviewed 2026-10-18: the founding core's is the tier index; each addition's is drawn between a random birth tier and the tier index (`tr/genesis.js:394-398`); `:98` is the typedef's "aligned to tier index"; the −0.10/−0.20 scale-mismatch examples below are for the founding core] [OBSERVED `tr/genesis.js:111-126`, `:394-398`; STATED `:98`]. When a window opens:
 - **Cancelled** (`wp/traditionsKernel.js:197`, `:245-256`) when the settlement carries any of six condition archetypes —
   `plague`, `famine`, `war_pressure` (minted on a raid's victim by relationship drift, by war deployment, a trade war and
   razing, and promoted from siege, war, monster or raider stressors), `vassal_extraction` (minted on a vassal by
@@ -273,8 +272,8 @@ note, `generosityUpdates.js:114-117`). No fraction carries between ticks.
 
 ### 3.5 Ransoms — roads [OBSERVED `rd/state.js:276-290`, `:465-505`; `wp/roadsKernel.js:340-353`, `:765-845`, `:1124-1131`]
 
-Ransom term 13 + 26 × importance weeks. At resolution: captor +1 rung for a captive of importance ≥ 0.7 (key or pillar);
-the captive's home −1 for a pillar (importance 1.0) only, spared when adventurers paid; a third-party payer −1 (that arm is
+Ransom term 13 + round(26 × importance) weeks (`rd/state.js:403`). At a term-end release: captor +1 rung for a captive of importance ≥ 0.7 (key or pillar) and
+the captive's home −1 for a pillar (importance 1.0) only; a party ransom pays the captor's step only (the home is spared the step and the legitimacy hit, the coin being the adventurers'); a rescue, the captor's fall, occupation or peace release with no step (`wp/roadsKernel.js:827-836`) [Fable-reviewed 2026-10-18]; a third-party payer −1 (that arm is
 BUILT DARK behind `thirdPartyRansomEnabled`, lit in no preset, `rd/thirdPartyRansom.js:7-38`).
 
 ### 3.6 Reconstruction and flourishing — upswing B1, B3 (readers) [OBSERVED `wp/upswingKernel.js:100-142`, `:426-592`, `:708-773`]
@@ -312,8 +311,8 @@ the condition registry the second.
 ### 3.9 Things called "prosperity" that are not the band
 
 - **Institution-lifecycle economy health** [OBSERVED `wp/institutionLifecycle.js:82-153`, `:680-770`]: the mean of trade
-  connectivity, labour capacity, infrastructure condition and food security (÷ 100), plus a conquest-feed pulse (≤ 0.35,
-  about an 11-week half-life), minus mercenary upkeep, plus the entrepôt toll lift = 0.3 × clamp(c × min(1, c) − 0.35 c),
+  connectivity, labour capacity, infrastructure condition and food security (÷ 100), plus a conquest-feed pulse (≤ 0.35;
+  its loot channel halves in about 7 weeks and its captive channel in about 11, `wp/conquestFeeds.js:61`, `:71`, `:77`), minus mercenary upkeep, plus the entrepôt toll lift = 0.3 × clamp(c × min(1, c) − 0.35 c),
   which is positive only above centrality 0.35 and peaks near 0.195 at c = 1 (`sp/entrepots.js:85-93`, `:170-194`) [re-checked:
   0.3 is the weight, not the maximum]. "Prosperous" at ≥ 0.62, "declining" at ≤ 0.40, a dead band between that decays a
   streak (cap 10); builds need a streak of 3, closures 4. This is the only real hysteresis on any "prosperity" in the host.
@@ -335,7 +334,7 @@ dead word Thriving (`src/generators/power/rulingStructure.js:497-500`). The resi
 Further readers found by the verification pass [OBSERVED this pass, §12]:
 - **Condition severity**: a condition promoted from a stressor (at generation, `src/generators/steps/assembleSettlement.js:355`;
   in the crisis lifecycle, `src/domain/crisisLifecycle.js:316`) takes +0.06 severity when the band reads Subsistence, Struggling or Poor and −0.06 at Prosperous or Wealthy, by an
-  exact-case string match (`src/domain/conditionPromotion.js:106-125`, used at `:157`). Unflagged.
+  exact-case string match (`src/domain/conditionPromotion.js:106-125`, used at `:157`) — only when the stressor carries no numeric severity of its own (`:201`), and the summed settlement modifier is clamped −0.25…+0.18 (`:124`) [Fable-reviewed 2026-10-18]. Unflagged.
 - **The district wealth band**: each district carries one of six words (destitute, poor, modest, comfortable, wealthy,
   opulent), derived live from its category (noble 5 … residential and criminal 1) and nudged one step up at Prosperous or
   Wealthy and one down at Subsistence or Struggling, exact-case, string or `{tier}` (`src/domain/districtProfile.js:40`,
@@ -391,7 +390,7 @@ has no prosperity token. Tier drift reads food, conflict, trade, legitimacy and 
 - **Realm-scale dynamics** [INFERRED from §3.2–3.4]: in an RR-applied or FS realm the band drifts upward in aggregate —
   festivals ratchet above Poor, booms climb at hubs, and the downward forces (busts, festival failures, purchases by
   Comfortable+ buyers, pillar ransoms) are episodic. Struggling settlements fall to Subsistence and stick. The result over
-  years is a polarised, top-heavy distribution, not a stationary one. Designed brakes on realm wealth are unbuilt (§7.3).
+  years is a polarised, top-heavy distribution, not a stationary one. [Fable-reviewed 2026-10-18: what the ratchet table (§3.3) establishes is the polarisation — Moderate and above climb, Poor is nearly flat (−0.03) and Struggling sinks; the aggregate direction depends on how many settlements generation seeds at Moderate or better (most connected ones, §3.1), so "upward in aggregate" is the usual case, not a law; J384 (1)'s relative rung does not rest on the direction.] Designed brakes on realm wealth are unbuilt (§7.3).
 
 ---
 
@@ -454,7 +453,7 @@ a 0.04 trust nudge. Neither touches the band. Same flag.
   refuge (`sp/migration.js:100-120`, `:245-266`); richness = destination `economic_capacity` ÷ 100. Culture affinity itself
   contains the economy gap (§5.8), so prosperity enters destination choice twice.
 - Origin tolerance = 0.15 + 0.4 × origin `economic_capacity` ÷ 100 + 0.25 connectivity + 0.2 granary (the population seat's
-  reading, `research/sf/population-system.md:375`) — richer origins lose fewer emigrants.
+  reading, `research/sf/population-system.md:417`, row C; host `sp/migration.js:78-81`) — richer origins lose fewer emigrants.
 - Departures are caused by pressures, not by the band (`wp/populationDynamics.js:286-311`). The bust writes no
   population, but its Trade Bust condition raises the town's trade pressure twice — it lowers the trade-connectivity score
   and, as a crisis condition on trade connectivity, adds 0.16 (`wp/pressureModel.js:47-56`, `:266-273`) — and trade
@@ -534,7 +533,7 @@ territory is the nearest settlement per cell by cost [STATED PHASE55:1061, 1130]
 
 **Writers of the band** (§3): generation (`econ/economicState.js:866`) and four tick applicators. Pulse order within a tick
 [OBSERVED `wp/pulseKernel.js`]: entrepôts (`:866`) … generosity (`:2561`) → upswing (`:2614`) → lifecycle (`:2630`) → the
-growth chain that ends with traditions and roads (`:2735`); each reads the freshest settlement update, so steps compose
+growth chain (ladder, traditions, roads, then commons, assize and density, which write no band; `:2735`); each reads the freshest settlement update, so steps compose
 within a tick.
 
 **Readers of the band**: `economic_capacity`'s baseline; upswing B1/B2/B3; purchase affordability; traditions (score,
@@ -544,7 +543,7 @@ onset −0.06, exposure +0.12, capture advance −0.05, capture recovery +0.08, 
 counter-intel and information statecraft affordability floors (dark); naval fleet affordability; chaotic receptivity and the
 secular sink (deity worlds); the believed pull band; the treasury (dark); generation legitimacy, merchant dominance and
 neighbour strength (`src/generators/neighbourGenerator.js:133-145`); the resilience dial; the herald, gazetteer and
-comparisons; the compendium's seven-rung reading ("not a dial you set; an output you read", `src/domain/compendium/bandLadders.js`);
+comparisons; the compendium's seven-rung reading ("Not a dial you set. An output you read.", `src/domain/compendium/bandLadders.js:220`);
 the town v2 layout, interior, building dress and scene; the district wealth band (v2 ward walls, scene fabric,
 explanations); the severity of stressor-promoted conditions; the surveyor's autonomy stop signal; the gallery facet; the
 unmounted undercity sewer ladder (§3.10); the dormant condition grammar.
@@ -568,7 +567,7 @@ vassalisation, and the end of flourishing; it moves `economic_capacity` directly
 `war_mobilization`, `reinforcement_cost`, `occupation_resistance`, `occupation_burden`; `war_spoils` lifts it). Plague
 neither reads nor writes the band in live code (no prosperity token in the pestilence, calamity or stressor kernels except
 one comment line, `wp/stressorGates.js:539`); it cancels festivals as a hard stressor and lifts chaotic receptivity through
-disorder [OBSERVED both seats; agrees with `research/sf/plague-system.md:296-300`].
+disorder [OBSERVED both seats; agrees with `research/sf/plague-system.md:364-366` for the pulse lanes. Fable-reviewed 2026-10-18: that note's :368-371 said a DM Apply-stressor plague reruns `economicState` and drops a rank at once; at 81f1cd96 no economy pass runs on the event (`src/domain/events/mutateWorld.js:681-690` → `crisisOnset`, `src/domain/crisisLifecycle.js:300-330`; `src/domain/events/eventPipeline.js:37-44`; `registryRerunKeys.js` is a freshness classifier, `:19-30`, read by `src/domain/display/economyFreshness.js` alone, whose `:6-12` say the band keeps its generation value) — the authored stress persists in `config.stressorEdits` and lowers the *generated* band only at the next Regenerate Draft or Edit-Mode re-derivation (`src/generators/steps/resolveStress.js:126-177`; `prosperity.js:160`), the path open question (a) names; the plague note is corrected by this lane].
 
 **Feedback loops** [INFERRED from the cited code]: prosperity → festival success → prosperity (the ratchet, §3.3);
 boom → rung → satellites → tributary lift to trade connectivity → indirectly more flow; boom fragility → bust → −rung and
@@ -641,7 +640,7 @@ dark. BORN = a `createCampaign` campaign.
 | Autonomy stop signal `settlement.prosperity.band` | reg | reg | reg | reg | reg | reg | reg | reg | registered (`src/domain/autonomy/signalRegistry.js:116-122`); mount not traced |
 | Gallery prosperity facet | LIT | LIT | LIT | LIT | LIT | LIT | LIT | LIT | UI; a publish-time snapshot (`src/lib/gallery.js:742`, `:994`) |
 | Undercity sewer extent, colonisation economy | — | — | — | — | — | — | — | — | BUILT, UNMOUNTED (no consumer outside `src/domain/undercity`) |
-| Condition grammar (ornament, tracery, material) | — | — | — | — | — | — | — | — | BUILT DARK, no producer or consumer (`tm/arch/conditionGrammar.js:9`) |
+| Condition grammar (ornament, tracery, material) | — | — | — | — | — | — | — | — | BUILT DARK, no shipped consumer (two dormant siblings in its folder import it, `tm/arch/settlementDress.js:37`, `tm/arch/conditionParams.js:46`; `tm/arch/conditionGrammar.js:9`) |
 
 "war" in any row means: only where the war layer is lit for that campaign (DC and FS carry it; elsewhere the DM lights it
 through the Living-World gate, whose war lane needs relationship drift); "roads\*" means the roads mover's capacity read
@@ -652,7 +651,7 @@ on canonized campaigns; "reg" means registered as a vocabulary entry, with no li
 
 1. EC-7 grade profile ("fine" goods need a profile institution and Comfortable+; "rough" at Struggling/Poor; household
    demand by band) and EC-8 grade envelope (≥ Prosperous for 26 ticks promotes, ≤ Poor for 26 demotes) — UNBUILT; FOLD's
-   TR→EC row reads "EC-0…EC-18 entire" [STATED EC:1440-1530, 1583-1590, M47 at 2306; FOLD §2].
+   TR→EC row reads "EC-0..EC-18 entire" [STATED EC:1440-1530, 1583-1590, M47 at 2306; FOLD:340].
 2. PG pg-2: prosperity (as `economic_capacity` ÷ 100) lowers plague onset and duration — UNBUILT (`contagionEnabled` has no
    src hits) [STATED PG:198-248].
 3. MF fabric: a material palette by band, ward wealth *stratification* and §11.4 **prosperity drift** (high street
@@ -673,7 +672,7 @@ on canonized campaigns; "reg" means registered as a vocabulary entry, with no li
 
 | Reader | Geometry | Source |
 |---|---|---|
-| Generation | none — the configured route class `config.tradeRouteAccess` (and monster threat) | `econ/prosperity.js:182-190` |
+| Generation | none — the configured route class `config.tradeRouteAccess` (and monster threat) | `econ/prosperity.js:182-192` |
 | Boom/bust | caravan arrivals and departures at the town over frozen routes; centrality at intermediate route nodes (seasonal route choice); the town's own embattlement scalar (canon only; routing reads it as hop danger); graph adjacency for arteries | `wp/upswingKernel.js:312-345`, `:609`; `sp/entrepots.js:236-262`; `sp/embattlement.js:302-305` |
 | Festival fair pulse | the configured route class (a "seasonal" class counts) | `wp/traditionsKernel.js:358-364` |
 | Pilgrim lift | path cost, distance weight, mapped test to the 8 nearest reachable | `tr/pilgrimage.js:79-104` |
@@ -700,7 +699,7 @@ is a per-campaign act (the Living-World gate's "Map geography").
   0.4 × p), which bends the economic field the plan is grown on (`tm/townLayoutV2.js:338-343`, `:431-439`;
   `tm/asymmetrySources.js:120`). The model is a pure function of the live settlement (`tm/townMapModel.js:330-354`), so a
   band step changes the inputs of the next build [OBSERVED]; whether the visible plan then shifts was not traced
-  [INFERRED risk to "the settlement map never changes"]. The v1 layout does not read prosperity. The interior, building
+  [INFERRED risk to "the settlement map never changes"]. The v1 layout reads the band only through each district's wealth word, which it carries on the model (`tm/townMapModel.js:368`, `:400`, `:485`) and does not draw with [Fable-reviewed 2026-10-18]. The interior, building
   profiles and cartography read private ladders for furnishing, scale and masonry. The condition grammar (cuts 0.30 / 0.50 /
   0.75 → ornament density, tracery family, timber/stone/marble) is dormant. The v2 plan reads the band a **second** way:
   through each district's wealth word (§3.10), which decides whether the town wall bends out to embrace an outer quarter
@@ -770,18 +769,18 @@ route); a cause for any band (the host keeps none); pilgrim flows with sources.
 2. **Relativise or bound the term.** The band is absolute and, in lit presets, drifts upward realm-wide (§3.3, §4). An
    exponential strength term in an absolute band would grow every border together over years. Options for the owner: take
    the band relative to the realm median (or to the neighbours') at each dated advance; or make it a bounded multiplier
-   whose top is reached at Comfortable; in either case keep the per-tier ceiling as the hard bound.
+   whose top is reached at Comfortable; in either case keep the per-tier ceiling as the hard bound. [Fable-reviewed 2026-10-18: ruled since by J384 (1) (`docs/PROGRESS.md:443`): relative to the realm's held median rung, clamped ±3, read only at dated revisions with the 13-week dwell, and made log-linear by J385 gap 4 (1.1 per relative rung; V13 §2.3, §3.9 (7)).]
 3. **Bring hysteresis and a ledger.** The host has no hysteresis on the band and no history. Festivals can jitter a town
    ±1 year on year; booms climb a rung every seven weeks silently. Re-derive borders only when a new rung has held for N
    advances (or on a two-rung change), and keep a per-advance band snapshot (one word per settlement) as the map's own
-   dated record. Where the boom drives the change, key on the boom's own records (enter 3.0, exit 1.5, dwell 3; the mint and
-   bust are dated news), as `research/sf/trade-system.md` §9 item 6 proposes.
+   dated record. Where the boom drives the change, key on the boom's own records (enter at throughput 3.0 with centrality 0.3 after a 3-tick dwell that survives dips to 1.5; a bust below 1.0 or on embattlement; the mint and
+   bust are dated news) [Fable-reviewed 2026-10-18: "exit 1.5" contradicted this note's own §3.2 — 1.5 is the building-phase floor, not a boom exit (`wp/upswingKernel.js:644-653`); and the design keys on the seat's relative rung held 13 weeks, not on the records (J384 (1); V13 §3.9 (7)), as the trade lane's RL-6 records for `research/sf/trade-system.md` §9 item 6], as `research/sf/trade-system.md` §9 item 6 proposed.
 4. **Count prosperity once.** It already enters J382(a)'s culture resistance (0.18 of the core culture distance is the
-   `economic_capacity` gap, `sp/cultureDistance.js`). It enters J378's military tie-breaker only if the map's "garrison and
-   standing bands" (`docs/AMENDMENTS-2026-10-17m.md:111`, `:1695`, "a new banding of its strength facets"; J-RR.52 in
-   `research/sf/fp-realm-review.md:600`) are banded from the host's composite military capacity, whose facets are manpower
+   `economic_capacity` gap, `sp/cultureDistance.js`). It would enter J378's military tie-breaker only if the map's military bands (this reading's "garrison and
+   standing bands" at the map revision 7d7f562; at the current tree neither quoted phrase survives in `docs/AMENDMENTS-2026-10-17m.md`, whose :630 says the host has "never a garrison and standing split", and J-RR.52 is at
+   `research/sf/fp-realm-review.md:611`) were banded from the host's composite military capacity, whose facets are manpower
    0.26, institutions 0.24, materiel 0.20, logistics 0.12, economy 0.10 and will 0.08 (`wp/militaryStrength.js:75-82`); the
-   host has no facet named garrison or standing, so that banding is still the map's to define. If the civil term also takes
+   host has no facet named garrison or standing [Fable-reviewed 2026-10-18: ruled since by J384 (4) (`docs/PROGRESS.md:443`): the military bands read the host's capacity facets manpower, institutions, materiel, logistics and will, renormalised, EXCLUDING the economy facet, "so prosperity is counted once" — the second option below, taken; carried by J-RR.52 (`fp-realm-review.md:611`) and V13 §2.2 `PolitySeat.military`]. If the civil term also takes
    the band, prosperity counts twice or three times. Either accept and document the small shares, or band the military
    strength without the economy facet (and the military term is a tie-breaker inside debatable land only, so its share
    matters only there).
@@ -848,7 +847,7 @@ route); a cause for any band (the host keeps none); pilgrim flows with sources.
    and institutions for granaries and `economic_capacity` for migration. `research/sf/trade-system.md` §3.7 (`:341-345`)
    lists the entrepôt toll lift among the trade "writers" and corruption, faction capture and demographics as "other
    writers"; none of them writes the band (the toll lifts lifecycle health; corruption and capture only read; demographics
-   is dark and reads). Its §2 field row (`:141`) is already right: it says the toll lift is not a writer.
+   is dark and reads). Its §2 field row (`:141`) is already right: it says the toll lift is not a writer. [Fable-reviewed 2026-10-18: the §3.7 list is corrected by this retrovalidation (the trade lane's C6; this lane).]
 
 ---
 
@@ -876,7 +875,7 @@ route); a cause for any band (the host keeps none); pilgrim flows with sources.
   modules, but `economic_capacity` ÷ 100 in demographics (`wp/demographicsPushPull.js:347-350`); PG pg-2 calls the latter "the
   EXISTING prosperity01Of" [STATED PG:210-211].
 - **D8. Boom rungs are unrecorded**: the sustain branch emits only a receipt, and receipts are dropped at `applyPulseMover`
-  (UPSWING §4 promises "receipted" steps).
+  (UPSWING §0 and B2 promise receipted, receipt-visible steps, `:12`, `:103`; the tuning comment says "receipted", `wp/upswingKernel.js:121`).
 - **D9. Purchase news has an empty settlement-id list** (`wp/generosityNews.js:157`), while relief news in the same module
   carries both ids (`:40`).
 - **D10. The festival pin may be realm-wide** [INFERRED]: the pin bag is flattened across all saves and keyed by the single
@@ -898,7 +897,7 @@ route); a cause for any band (the host keeps none); pilgrim flows with sources.
 - **C3.** UPSWING A3 describes credit as a bounded prosperity transfer; it is a grain obligation (`generosityReactions.js:425-449`).
   A4 says the overture reads the M6d tally; it reads give-stream warmth.
 - **C4.** "Generation is sacred" vs four writers: PHASE55 says seeded prosperity stays the baseline [STATED :1675-1677];
-  `sp/tradeFlow.js:12-18` calls it the byte-identical baseline; `wp/supplyKernel.js:580-586` says economic state is never
+  `sp/tradeFlow.js:12-18` calls it the byte-identical baseline; `wp/supplyKernel.js:590-591` says economic state is never
   written; `causalState.js:776-779` calls it generation-frozen. ATLAS and EC S18/S39 already record the writers [STATED].
 - **C5.** The bust comment "M4 reads the fallen prosperity" and UPSWING B2's "bust → emigration pulse": emigration comes
   from pressures; a bust writes no population directly. Its Trade Bust condition raises trade pressure, 0.14 of the
@@ -906,11 +905,11 @@ route); a cause for any band (the host keeps none); pilgrim flows with sources.
   the bust is not a crisis-flight archetype (§5.6). PHASE55 §4c's "low prosperity pushes population out" exists only in
   the dark demographics wave.
 - **C6.** PHASE55 §4i and `fp-physical-integration.md` C6: granary capacity does not read prosperity.
-- **C7.** EC rows M7, M8 and M11 say famine, harvest and plague move prosperity "one way (S16)" today; S16 is generation-only.
+- **C7.** EC rows M7 and M8 say famine and harvest move prosperity "one way (S16)" today, and M11 says plague makes prosperity "fall through their existing writers" (EC:2240-2244); S16 is generation-only and no tick writer reads plague.
   Row M47 says the band is "written each tick"; festivals write yearly, purchases on refusals, ransoms on events, booms
   about every seven ticks.
 - **C8.** `wp/traditionsKernel.js:31-35` says the flag is dark; it is lit in four presets.
-- **C9.** Resettlement says "nearby" and "neighbouring" (`settlementLifecycleFirstClass.js:291`, `:319`, `:410`; DESIGN
+- **C9.** Resettlement says "nearby" and "neighbouring" (`settlementLifecycleFirstClass.js:291`, `:319`, `:411-412`; DESIGN
   SETTLEMENT_LIFECYCLE:83); the donor pool is realm-wide.
 - **C10.** `sp/migration.js:237` defines richness as relative to the richest reachable hub; it is absolute.
 - **C11.** `tm/arch/conditionGrammar.js:74` says no exported 0..1 prosperity scalar exists; `prosperityRank01` is one.
@@ -923,7 +922,7 @@ route); a cause for any band (the host keeps none); pilgrim flows with sources.
   meaning) has not been applied to prosperity (§3.9).
 - **C16.** Sibling map-module note: `research/sf/trade-system.md:341-345` (§3.7) lists the toll lift, corruption, faction
   capture and demographics as prosperity writers; they are not (grep: four label writers only). Its §2 row (`:141`) is
-  correct.
+  correct. [Fable-reviewed 2026-10-18: corrected in the trade note by this retrovalidation — the toll lift by the trade lane (its C6), corruption, faction capture and demographics by this lane.]
 - **C17.** `src/domain/causalState.js:776-780` names vassal extraction and market shock among the conditions that move
   `economic_capacity`; neither touches it (vassal extraction's affected systems are trade connectivity, legitimacy,
   faction power and defence, `src/domain/activeConditions.js:91-97`; market shock is a stressor promoted to an
@@ -937,14 +936,14 @@ route); a cause for any band (the host keeps none); pilgrim flows with sources.
 ### 10.3 Open questions
 
 - (a) Does an Edit-Mode re-derivation overwrite a pulse-moved band in the stored settlement? The re-derivation regenerates
-  it (§3.1); the store write was not traced.
+  it (§3.1); the store write was not traced. [Fable-reviewed 2026-10-18: that regeneration also overlays every authored stressor kept in `config.stressorEdits` (`src/generators/steps/resolveStress.js:126-177`), so a DM Apply-stressor plague lowers the *generated* band there (`prosperity.js:160`) and nowhere else (§6); the store write stays untraced.]
 - (b) Does a band step visibly move a v2 town plan (the economic field changes; the plan's sensitivity was not traced)?
 - (c) The owner question recorded in code: should booms cool gracefully instead of only busting (`wp/upswingKernel.js:644-653`)?
 - (d) Should the purchase debit carry its fraction across ticks, as the boom accrual does?
 - (e) Is the festival ratchet (§3.3) intended? It polarises the realm and has no realm-level brake.
 - (f) Is the festival pin meant to be per settlement (D10)?
-- (g) For the map: relative or absolute band in territory strength (§9.1 item 2)?
-- (h) For the map: are J378's "garrison and standing bands" banded with or without the host's economy facet (§9.1 item 4)?
+- (g) For the map: relative or absolute band in territory strength (§9.1 item 2)? [Fable-reviewed 2026-10-18: answered — relative, J384 (1), `docs/PROGRESS.md:443`.]
+- (h) For the map: are J378's "garrison and standing bands" banded with or without the host's economy facet (§9.1 item 4)? [Fable-reviewed 2026-10-18: answered — without, J384 (4), `docs/PROGRESS.md:443`; the bands are the host's five other capacity facets, renormalised.]
 - (i) Does any shipped surface mount the surveyor's autonomous runs, so that a DM can stop a run on a band (§3.10)?
 
 ---
@@ -1088,14 +1087,14 @@ was right; "partly" means right in substance with a correction recorded here.
 |---|---|---|---|
 | P1 | The `economic_capacity` drainers "war drain, vassal extraction, market shock, occupation extraction" copy a stale header; the real drainers are the war, occupation and vein conditions | Held. The drain scan counts only conditions listing `economic_capacity` (`causalState.js:342-351`, `:816-828`): `war_drain`, `war_exhaustion`, `war_mobilization`, `reinforcement_cost`, `occupation_resistance`, `occupation_burden` (`activeConditions.js:331-446`) and `vein_exhausted` (`resourceDynamicsKernel.js:908`); `vassal_extraction` lists trade, legitimacy, faction power and defence (`:91-97`); a market-shock stressor is promoted to an export-market-loss trade condition (`conditionPromotion.js`) | §1, §2 row, §3.8, §6 (war and plague), two §7.2 rows; new C17 |
 | P2 | Generation's disconnected 2-or-1 branch covers villages, not "town or larger" | Held (`prosperity.js:183-192`: only thorp and hamlet take 0) | §3.1 |
-| P3 | The bust reads the boom town's own embattlement, not "route danger"; neighbours count only through throughput; the level lingers; canon only | Held, refined: the level rises only after the threat exceeds 0.55 (`embattlement.js:74`, `:234-251`); the "siege" input is a live war front into the town (`pulseKernel.js:2376-2388`; `warFrontReads.js:76-84`); decay 0.12 a tick, about 29 ticks from 0.8 [INFERRED] | §1, §3.2 (new "what embattled means"), §3.2 bust bullet, §5.4, §8.1, §9.1 item 6 |
+| P3 | The bust reads the boom town's own embattlement, not "route danger"; neighbours count only through throughput; the level lingers; canon only | Held, refined: the level rises only after the threat exceeds 0.55 (`embattlement.js:74`, `:234-251`); the "siege" input is a live war front into the town (`pulseKernel.js:2376-2388`; `warFrontReads.js:76-84`); decay 12% of the level a tick, about 29 ticks from 0.8 [INFERRED] | §1, §3.2 (new "what embattled means"), §3.2 bust bullet, §5.4, §8.1, §9.1 item 6 |
 | P4 | A boom needs own-endpoint throughput (in + out ≥ 3) and through-traffic (centrality ≥ 0.3), not traffic "through" it | Held (`upswingKernel.js:312-315`; `tradeFlow.js:193-205`; `entrepots.js:236-262`) | §1 writer 1, §3.2 inputs, §8.1 |
 | P5 | The festival cancel list misses vassal extraction and a cut route, and its "occupation" is the occupier's burden | Held. The set is at `traditionsKernel.js:197` (the verifier cited :192); `war_pressure` and `vassal_extraction` are also promoted from war, siege, monster, raider and occupation stressors (`conditionPromotion.js:28-46`, `:63`); a cancellation stamps "cancelled" as last outcome (`:801`), so no streak term follows | §1, §3.3, new §5.12; new C18 |
 | P6 | The purchase pair also admits `client`; a live obligation waives the need and bond floors, not the edge-kind test | Held (`generosityKernel.js:273-275`, `:511-518`) | §5.1 |
 | P7 | A per-district wealth band exists, moved by the band, read by the v2 plan, its wall and the scene fabric; only MF's stratification and drift are unbuilt | Held (`districtProfile.js:40`, `:303-335`; `townLayoutV2.js:255`, `:314`, `:645`, `:725-728`; `sceneBuildingFabric.js:77-80`). Added: the wall *extends* to embrace an outer wealthy/opulent quarter, and among unvalued categories only arcane reaches "wealthy" [INFERRED] | §1, §3.10, §7.2 row, §7.3 item 3, §8.2, §8.3 item 8, §8.4, §8.5, §9.3 item 15, D5 |
 | P8 | The bust writes no population but pushes growth down through trade pressure; the boom the reverse | Held, sized: the Trade Bust raises trade pressure (score cut plus +0.16 as a crisis on trade, `pressureModel.js:47-56`, `:266-273`), weight 0.14 in stability (`populationDynamics.js:301`); at most about 0.0017 a month of rate, far below the 0.025 "severe" bar, and the bust is not a crisis-flight archetype (`:120`, `:445`), so it starts no mass emigration [INFERRED]. M4 does read the fallen band through `economic_capacity` once an emigration occurs | §1, §3.2, §5.6, C5 |
 | P9 | The cited `trade-system.md:133`, `:310-313` are wrong; the erroneous writer list is §3.7 at `:341-345`; §2 (`:141`) is right | Held | §9.3 item 16, C16 |
-| P10 | (Unverifiable) whether J378's military term reads the host's military capacity, which carries the 0.10 economy facet | Checked the map design: the tie-breaker is "the host's garrison and standing bands … a new banding of its strength facets" (`docs/AMENDMENTS-2026-10-17m.md:111`, `:1695`; J-RR.52, `fp-realm-review.md:600`); the host's facets are manpower, institutions, materiel, logistics, economy, will (`militaryStrength.js:75-82`) — none named garrison or standing — so whether economy enters is not yet defined | §1 point (3) and §9.1 item 4 made conditional; open question (h) |
+| P10 | (Unverifiable) whether J378's military term reads the host's military capacity, which carries the 0.10 economy facet | Checked the map design: the tie-breaker is "the host's garrison and standing bands … a new banding of its strength facets" (`docs/AMENDMENTS-2026-10-17m.md:111`, `:1695`; J-RR.52, `fp-realm-review.md:600`); the host's facets are manpower, institutions, materiel, logistics, economy, will (`militaryStrength.js:75-82`) — none named garrison or standing — so whether economy enters was not yet defined [Fable-reviewed 2026-10-18: defined since by J384 (4): excluded; the AMENDMENTS-m and fp-realm-review pointers re-pointed in §9.1 item 4] | §1 point (3) and §9.1 item 4 made conditional; open question (h) |
 | O1 | Festival cancellation by vassalage and hostile raids is a cross-settlement band pressure missing from §5 | Held (`relationshipRulesCore.js:586-640`; `relationshipRulesAdversarial.js:291-313`; `relationshipDynamicsEnabled` default true, off only in SC, `simulationRules.js:68`, `:970`) | New §5.12; §1; §6 loops; §7.2 row; §8.1, §8.3 item 9, §8.4; §9.1 item 7 |
 | O2 | T-4 imposes an overlord's rite "along vassal edges" and contradicts §9.1 item 7 | Partly. The trigger is the occupation ledger's "vassalized" rung (`relations.js:11-17`, `:25-26`; `rulingPowerSeat.js:290-294`), not a graph vassal edge; 0.3 per-year chance (`relations.js:49`); so it is lit with traditions **and** the war layer (DC, FS; RR, LR by the gate), not with traditions alone; adoption needs canon | §5.12, §7.2 row, §9.1 item 7 rewritten, §9.2 item 9, new C19 |
 | O3 | Entrepôt brake 3 adds up to 0.2 to the hub's embattlement ramp; any level > 0 busts the boom | Held, with a gate correction: the premium is capped below the 0.55 entry (`entrepots.js:94-99`), so it needs a war input; in RR that means the war layer by the gate | §3.2, §5.4, §6 loops, §7.2 row |

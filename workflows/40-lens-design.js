@@ -1,6 +1,6 @@
 export const meta = {
   name: 'lens-design',
-  description: 'Carry the lens mechanism, the seven lenses (plague first), the J384 rulings and the host asks into V13, V14 and the host-change list as amendments n; review, revise, apply, completeness check',
+  description: 'Carry the lens mechanism, the eight lenses (plague first), the J384 rulings and the host asks into V13, V14 and the host-change list as amendments n; review, revise, apply, completeness check',
   phases: [
     { title: 'Design', detail: 'one design seat writes amendments n' },
     { title: 'Review', detail: 'host-fidelity and map-architecture adversarial reviews' },

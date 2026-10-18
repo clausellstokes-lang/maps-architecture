@@ -62,7 +62,7 @@
 > record the rulings applied; §10.2's V13 row is the request list as it now reads.
 
 > **Coherence l — 2026-10-17 (lane coherence/vtt-l-and-k11; file l, `docs/AMENDMENTS-2026-10-17l.md`, items 655–658,
-> the VTT profile's item 136 (c) re-verification).** PENDING FABLE REVIEW — written by Opus 5.5 standing in for the Fable seat coherence/vtt-l-and-k11; to be retrovalidated overall at the next opportunity (owner, 2026-10-17, J375). What changed: §1b.4's `SiteLevel` and
+> the VTT profile's item 136 (c) re-verification).** Fable-reviewed 2026-10-18: PASS-WITH-CORRECTIONS — applied as recorded; the held-set clause and six wording and evidence points corrected (lane retrovalidation/small; J392). What changed: §1b.4's `SiteLevel` and
 > `TransientItem` VTT cells (655); §5.3 — the transient sight-blockers in both `objects_line_of_sight` and
 > `line_of_sight`, the multi-floor convention an ordering convention with a two-digit ordinal (no importer pairs files
 > by name; the Foundry scene JSON with `levels[]` the multi-level path), the vendor strings beside the fields (656);

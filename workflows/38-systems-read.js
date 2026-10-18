@@ -1,3 +1,4 @@
+// [Fable-reviewed 2026-10-18 (lane retrovalidation/scripts; J392): this script ran as J380 records (stopped at the limit; continued by 38b, J383); its prompt text stays as fed. Correction to it: line 47 (alignment-code brief) lists supplyKernel.js, migrationKernel.js, peaceReasons.js, warSeatBooks.js as siblings of src/domain/corruption.js — at 81f1cd96 all four are in src/domain/worldPulse/.]
 export const meta = {
   name: 'systems-read',
   description: 'Read the SettlementForge alignment, trade (goods and services: production, consumption, imports, exports, caravans), population-flow and prosperity systems in full; one verified note each; then what they change for the map lenses',
@@ -5,7 +6,7 @@ export const meta = {
     { title: 'Read', detail: 'readers per subject: alignment (2), trade (3), populations (2), prosperity (2)' },
     { title: 'Synthesize', detail: 'one research note per subject' },
     { title: 'Verify', detail: 'adversarial check per note against code and docs, then fixes' },
-    { title: 'Implications', detail: 'what the three systems change for territory, religion and the lens framework' },
+    { title: 'Implications', detail: 'what the four systems (five with faith) change for territory, religion and the lens framework' },
   ],
 }
 
