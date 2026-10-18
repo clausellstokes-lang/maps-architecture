@@ -10,16 +10,27 @@ three designs and the three judges already numbered it.
 **DRAFT — NOT APPLIED (every fragment re-verified at apply).** Written by lane `sites-roads/synthesis` (opus; J394,
 Fable-critiqued) on 2026-10-18 from 09:49 UTC, under the owner's word J393 and the staffing word J394; the Fable
 critique (`sites-roads/critic`) and the fragment verifier (`sites-roads/verify`) follow, then the apply lane. Items
-940–947: eight items, **127 fragments** — `docs/volumes/V13-world.md` 64, `docs/volumes/V14-sites.md` 42,
-`docs/ARCHITECTURE.md` 3, `docs/volumes/INDEX.md` 9, `docs/volumes/SUMMARY.md` 4,
+940–948: nine items, **138 fragments** — `docs/volumes/V13-world.md` 70, `docs/volumes/V14-sites.md` 44,
+`docs/ARCHITECTURE.md` 4, `docs/volumes/INDEX.md` 10, `docs/volumes/SUMMARY.md` 5,
 `docs/OWNER-BRIEF-WORLD-SITES-HYDROLOGY-DRAFT-2026-10-16.md` 2, `README.md` 1, `plat/docs/build/M0-world-sites-gate.md`
 2. Checked by script before this file was written (the lane scratchpad `sites-roads/synthesis/build.py`): every current
 text occurs **exactly once** in its target as it stands now, at the line named; no two fragments of one target overlap;
 applied in this file's order (940 (a) first) to copies of the eight targets each current text is found once at its turn
 and each new text once after. The machine copy is `docs/validation/sites-roads-2026-10-18/draft-t.fragments.json` (the
-same 127 fragments, texts unescaped, in this order). Nothing here has been applied; the apply lane re-verifies every
+same 138 fragments, texts unescaped, in this order). Nothing here has been applied; the apply lane re-verifies every
 current text against the targets as they then stand, applies in this order, regenerates `docs/ARCHITECTURE-FULL.md` by
 `tools/bundle_architecture.py` (its `--check` to exit 0) and writes the status line.
+
+**The fix round (lane `sites-roads/fix`, opus; J394, Fable-critiqued; 2026-10-18 from 10:30 UTC).** The synthesis
+landed 127 fragments (this file then 1 474 lines, md5 `09b4bf05…`; the machine copy `b4604f94…`); the fragment
+verifier found no failure (`verify.md`); the Fable critique (`critic.md`, 339 lines, md5 `5392816a…`) returned
+PASS-WITH-CORRECTIONS with twelve corrections, C-1 – C-12. Every one is taken as the critic wrote it: eighteen
+fragments of items 941–947 are corrected in place (each names its correction in its *From:*), and item 948 adds the
+critique's eleven new fragments, 948 (a)–(k). Re-checked by script against the eight targets at the md5s above (re-hashed
+at 10:36 UTC, unchanged; the lane scratchpad `sites-roads/fix/fix.py`): all 138 current texts once at their lines, no
+two fragments of one target overlapping, applied in order each current text once at its turn and each new text present
+after, no new text already in its target; the corrected table rows keep their tables' cell counts. The record of the
+round is `docs/validation/sites-roads-2026-10-18/fix.md`.
 
 **Sources.** The owner's word J393 (2026-10-18 ~05:05Z, verbatim below; `docs/PROGRESS.md:451`) and the staffing word
 J394 (~09:05Z; `docs/PROGRESS.md:452`). The run's README (`docs/validation/sites-roads-2026-10-18/README.md`, 29 lines,
@@ -42,7 +53,7 @@ had landed in V13, V14 and the index before any design quoted them, so no fragme
 keeps and why, and nothing here is taken from it.
 
 **How to read the items.** Item 940 is the owner's word, its reading clause by clause and its meaning; items 941–947
-carry the design, each opening with what it does and where its parts came from, then its lettered fragments (a), (b), …
+carry the design and item 948 the Fable critique's corrections (in the critique's order), each opening with what it does and where its parts came from, then its lettered fragments (a), (b), …
 in file order (V13 in line order, then V14, the base, the index, the summary, the brief, the README and the gate spec),
 each with its target, its line and the target's md5 as they stand now, the current text quoted **once** (a line break
 inside a quote written ⏎, the continuation's indentation kept), the new text **in full** as a blockquote whose lines are
@@ -206,20 +217,20 @@ J-V13.113). V13's scope sentence names the one new read of V14. A's `gradeShift.
 > // `attraction`, `roadAccess`, `lifecycle` (every Dated state),
 *Reason:* `roadAccess` is declared as `attraction` is (in the model digest).
 
-**941 (i).** Volume 14 — §2.5 New rule tables (data, editable by `editTable`, §7.6; every cell `{value, unit, pr… (replacement). Target: `docs/volumes/V14-sites.md`, line 872 (md5 `70d8aa1b…`) as it stands now. *From:* A-7 (changed: `attraction` declared in the interface (read-v14 fact 70: the prose named it, the interface did not); `onShore` dropped (no shipped row used it)).
+**941 (i).** Volume 14 — §2.5 New rule tables (data, editable by `editTable`, §7.6; every cell `{value, unit, pr… (replacement). Target: `docs/volumes/V14-sites.md`, line 872 (md5 `70d8aa1b…`) as it stands now. *From:* A-7 (changed: `attraction` declared in the interface (read-v14 fact 70: the prose named it, the interface did not); `onShore` dropped (no shipped row used it)); corrected by the Fable critique's C-4 (lane sites-roads/fix).
 *Current text:*
 >   importKinds: string[] /* the map import's marker words this kind answers to (V13 §3.15 (3); V14 §3.2's import candidates; SW-04); `calibratable: false` */ }
 *New text:*
 >   importKinds: string[] /* the map import's marker words this kind answers to (V13 §3.15 (3); V14 §3.2's import candidates; SW-04); `calibratable: false` */;
 >   attraction: number /* 0–1: the pull V13's `destination` term reads within `reach.siteKm` (C14-04; the table below) */;
 >   roadAccess: 'required'|'preferred'|'none'|'avoided' /* the owner's "road access where appropriate" (J393): required — a road must reach it (V13 W7 (12) gives it its approach; none is the anomaly noRoadAccess); preferred — laid where a road lies within maxRoadM, else nothing reported; none — no approach; avoided — no approach, its coherence rows keeping it off the roads; `calibratable: false` */;
->   approach: { role: 'along'|'any'|'none' /* along — on a route of class ≥ minClass or no road; any — along where a route meets its frame, else an approach road; none; `calibratable: false` */; minClass?: 'highway'|'road'|'track'|'trail'; roadClass?: 'track'|'trail' /* the approach road's class */; maxRoadM?: number /* 'm': the longest approach road, straight-line */ };
+>   approach: { role: 'along'|'any'|'none' /* along — the site lies on a public route that meets its frame (its coherence rows name the class) or has no road; any — along where a public route meets its frame, else an approach road to the nearest route of class ≥ minClass; none; `calibratable: false` */; minClass?: 'highway'|'road'|'track'|'trail' /* the least class an approach road joins */; roadClass?: 'track'|'trail' /* the approach road's class */; maxRoadM?: number /* 'm': the longest approach road, straight-line */ };
 >   coherence: SiteCoherenceRow[] /* the coherence expectation on the world map (V13 §3.11.1's `siteKind` term); [] none */; correction: 'bend'|'report' /* `calibratable: false` */; bendM: number /* 'm': how far the bend searches; 0 with report */ }
 > interface SiteCoherenceRow { test: SiteCoherenceKind; tolM: number /* 'm' */; cost: number /* 'cost': 5 (> place.coherence.lawfulMax 4) the expectation proper, 1 or 3 a preference */; minClass?: 'highway'|'road'|'track'|'trail'; group?: string /* alternatives: the group costs its least failing row, nothing when one holds */ }
 > type SiteCoherenceKind = 'onRoute'|'atCrossing'|'atPass'|'atBorder'|'onOverlook'|'onOre'|'onCliff'|'byWater'|'awayFromRoutes'|'inReach';   // this volume's plug-ins in V13's `siteCoherence` slot (V13 §2.2); `calibratable: false`
 *Reason:* the five catalogue columns and the row and test types (design A §1.2) — the design's centre.
 
-**941 (j).** Volume 14 — §2.5 New rule tables (data, editable by `editTable`, §7.6; every cell `{value, unit, pr… (replacement). Target: `docs/volumes/V14-sites.md`, lines 907–921 (md5 `70d8aa1b…`) as it stands now. *From:* A-8 (changed: `onShore` dropped (ten tests); the manor's dead `inReach` row dropped and its approach justified; the route-borne tests count public routes only (no approach road: C-16/C-36, J-V13.113); `editTable`'s validation (C §1.3, recast)).
+**941 (j).** Volume 14 — §2.5 New rule tables (data, editable by `editTable`, §7.6; every cell `{value, unit, pr… (replacement). Target: `docs/volumes/V14-sites.md`, lines 907–921 (md5 `70d8aa1b…`) as it stands now. *From:* A-8 (changed: `onShore` dropped (ten tests); the manor's dead `inReach` row dropped and its approach justified; the route-borne tests count public routes only (no approach road: C-16/C-36, J-V13.113); `editTable`'s validation (C §1.3, recast)); corrected by the Fable critique's C-3 (lane sites-roads/fix).
 *Current text:*
 > Two more kind-row columns feed V13's siting (C14-04; `SiteKindRow.attraction: number` 0–1 and `.routed: boolean`,⏎own, calibratable), copied to the card at the drop (`WorldSite.attraction`, `.routed`) and read by V13's `destination` term⏎within its `reach.siteKm` and by W7's seats:⏎⏎| kind | `attraction` | `routed` | why |⏎|---|---|---|---|⏎| fort, bridgeFort | 0.6 | yes | protection and a toll draw settlement and roads |⏎| tollhouse | 0.3 | yes | a toll on the road between two powers draws a stop, an inn, a hamlet |⏎| watchpost | 0.2 | no | a garrison's post, no market |⏎| mine | 0.5 | yes | ore is traded |⏎| manor, guildhall | 0.3 | yes | a market in small |⏎| temple, shrine, graveyard, hermitage | 0.15 | temple yes, the rest no | pilgrims |⏎| ruin | 0.1 | no | stone to rob |⏎| camp | 0.05 | no | transient |⏎| cave, hideout, cellarComplex, sewerLair, dungeon, crypt, battlefield, tower | 0 | no | unknown to siting, or a solitude that repels (a tower's `solitude` term already keeps settlements off) |
 *New text:*
@@ -270,7 +281,7 @@ J-V13.113). V13's scope sentence names the one new read of V14. A's `gradeShift.
 > | graveyard | preferred | any · trail · trail · 1 500 m | inReach 20 000 m · 1 | report · 0 m | the dead lie near the living, reached by a path |
 > | watchpost | preferred | any · trail · trail · 1 500 m | group `post`: onOverlook 0 m · 1, onRoute 300 m · 1 [track] | report · 0 m | it sees from a height or watches a road (V13's border post "on open ground" meets `post`) |
 > | hermitage | none | none | awayFromRoutes 1 000 m · 1 | report · 0 m | solitude: the hermit's own path is the site's ground |
-> | bridgeFort | required | along · road · — · — | atCrossing 5 m · 5 [road] | bend · 1 500 m | a gatehouse astride a road's river crossing |
+> | bridgeFort | required | along · track · — · — | atCrossing 5 m · 5 [track] | bend · 1 500 m | a gatehouse astride a route's river crossing (a bridge on a track is a bridge; V13 §3.9 (16) proposes it at a track-or-better crossing) |
 > | tollhouse | required | along · road · — · — | onRoute 5 m · 5 [road]; atBorder 2 000 m · 1 [road] | bend · 1 000 m | the gatehouse astride the road; a border crossing is where it earns |
 >
 > The four kinds that bend are exactly those with a row of cost 5; a preference costs and is shown on the placement card,
@@ -452,15 +463,15 @@ site's side.
 >    host change names (and the map's own approach roads to world sites, (12), never a host edge);
 *Reason:* the one map-laid road on a host-bound world is the approach road (J-V13.110).
 
-**942 (m).** Volume 13 — §3.8 W7 Routes (W7a over the stage-1 candidates, W7b over the final seats; C13-33) (replacement). Target: `docs/volumes/V13-world.md`, lines 1783–1784 (md5 `d0de9ad8…`) as it stands now. *From:* A-50.
+**942 (m).** Volume 13 — §3.8 W7 Routes (W7a over the stage-1 candidates, W7b over the final seats; C13-33) (replacement). Target: `docs/volumes/V13-world.md`, lines 1783–1784 (md5 `d0de9ad8…`) as it stands now. *From:* A-50; corrected by the Fable critique's C-2 (lane sites-roads/fix).
 *Current text:*
-> so dropping or removing a site changes a route's⏎   geometry and effort, never the number of legs.
+> never an end, so dropping or removing a site changes a route's⏎   geometry and effort, never the number of legs.
 *New text:*
-> so dropping or removing a site changes no route's
+> never an end of a host route (the map's own approach road, (12), ends at it), so dropping or removing a site changes no route's
 >    geometry, effort or number of legs: the site lies along a route, or the map's own approach road joins it ((12)).
-*Reason:* no route is bent to a site (J-V13.107); T-V13-43's clause follows.
+*Reason:* no route is bent to a site (J-V13.107); T-V13-43's clause follows. Restated by the Fable critique (C-2): the current text widened by "never an end," and "an end" qualified as a host route's, since the approach road (942 (b)) ends at the site — one sentence, one meaning.
 
-**942 (n).** Volume 13 — §3.8 W7 Routes (W7a over the stage-1 candidates, W7b over the final seats; C13-33) (insertion). Target: `docs/volumes/V13-world.md`, line 1786 (md5 `d0de9ad8…`) as it stands now. *From:* A-51 (changed: approach roads laid each on its own and joining public routes only; no road to `existingRoute`, `connectivity`, the siting plug-ins, the coherence tests or the patrols (C-16, C-36; J-V13.113); `knownTo` its card's (C-16); `join`; `SiteApproach` derived; `placeFrame` among the local edits; a same-course re-lay writes nothing; drift row 13's re-join).
+**942 (n).** Volume 13 — §3.8 W7 Routes (W7a over the stage-1 candidates, W7b over the final seats; C13-33) (insertion). Target: `docs/volumes/V13-world.md`, line 1786 (md5 `d0de9ad8…`) as it stands now. *From:* A-51 (changed: approach roads laid each on its own and joining public routes only; no road to `existingRoute`, `connectivity`, the siting plug-ins, the coherence tests or the patrols (C-16, C-36; J-V13.113); `knownTo` its card's (C-16); `join`; `SiteApproach` derived; `placeFrame` among the local edits; a same-course re-lay writes nothing; drift row 13's re-join); corrected by the Fable critique's C-4, C-6 (lane sites-roads/fix).
 *Current text:*
 >    before the charter is emitted.
 *New text:*
@@ -472,16 +483,16 @@ site's side.
 >    carries its road; `unplaceFrame` tombstoning it), of V14's `setAttr site/roadAccess` and of adoption (a later run
 >    that changes a site's approach marks its charter stale, V13 §3.11.5 (1)). For every `Placement` with a site subject whose card's
 >    `roadAccess` is `required` or `preferred` and whose kind row's `approach.role` is not `none` (V14 §2.5), each on its
->    own — no approach reads another —, in the placements' lineage-key order: (a) **along** — where a public route of
->    class ≥ the row's `minClass` (highway > road > track > trail; the network at the week, a hidden road no public road;
->    never a water leg or an approach road) crosses the site frame's ring (its rectangle through `toWorld`, as P4 (6)
+>    own — no approach reads another —, in the placements' lineage-key order: (a) **along** — where a public land route of any class (the network at the week, a hidden road no public road; never
+>    a water leg or an approach road; a route's class is highway > road > track > trail where a row names one) crosses
+>    the site frame's ring (its rectangle through `toWorld`, as P4 (6)
 >    lists a charter road), the site lies along the nearest such route (by the distance from the origin to its polyline,
 >    ties by the lower route lineage key), its approach point the polyline's nearest point to the origin (ties by the
 >    lower vertex index); **no route is written** — its polyline, stations, effort and lay version stay byte-identical;
 >    (b) **an approach road** — else, where the role is `any`: one A\* as (4)'s (the lifted bucket queue, the heuristic,
 >    the ellipse, the tie rule) from the origin's fine cell to the nearest fine cell carrying a public route of class ≥
 >    `minClass` outside every placed settlement frame's extent + margin, within the row's `maxRoadM` of the origin in a
->    straight line, over (2)'s cost surface with the `existingRoute` discount on the cells a public route carries, a path
+>    straight line, over (2)'s cost surface with the `existingRoute` discount on the cells a public route carries and every cell inside a placed settlement frame's extent + margin impassable (an approach road never enters a settlement's frame, so no settlement's charter changes for a site), a path
 >    over `maxCostFactor` × the straight cost dropped; the polyline the origin, then the path's cell centres simplified at
 >    `routeToleranceM`, ending at the **junction** (the joined route's polyline point nearest the path's last cell) and
 >    never crossing a water cell; written as a `WorldRoute` of origin `approach` (`a` the site's placement, `b` the
@@ -891,7 +902,8 @@ route's geometry for a map-tier card, against W7 (9)'s "mirrored, never computed
 
 A site frame's charter carries its roads (P4 (6) already gives them; V14's charter rows named the charter without them,
 read-v14's gap), the charter road's `toward` gains its rule for an approach road, and G5 (f) gains a last step: one way of
-the charter road's class from its ring point to the nearest entrance gate, by S4's router — a route a tollhouse lies
+the charter road's class from its ring point to the nearest entrance (its gate where the enclosure has one, else the
+entrance unit's point; C-5), by S4's router — a route a tollhouse lies
 along crossing the ring twice and running through its two gates; that step needs the two-point road M0 defers, hence
 the gate row M13 (item 946). An `inFrame` site's road access is the hinterland's own faces: a `driveway` face for
 `required`, a `path` face for `preferred` (BCR-V14-26, applied to the base's §4.9 and §7.3's S12 row here, so no
@@ -944,34 +956,36 @@ the patrols and sway lenses are unchanged. The clerk's `site` why section answer
 > | the frame charter for a site's own frame (edge elevation profiles, datum, water edges, climate, water table, biome, resources, territory, and the roads that cross its ring — the route the site lies along or its approach road, V13 §3.11.4 (6), §3.8 (12)) | V13 §2 `FrameCharter`; P4 | G5 (f) (the ground composer's S1 inputs and its way from each charter road to a gate); G6 (the water table) |
 *Reason:* P4 (6) already gives a site frame its roads (V13:2070–2072); V14's list omitted them (read-v14 fact 35) — the frame side of "integrated".
 
-**945 (f).** Volume 14 — §3.4 G3 — Siting a free-standing site, the terrain pre-edit, the frame; a site as a des… (replacement). Target: `docs/volumes/V14-sites.md`, line 1437 (md5 `70d8aa1b…`) as it stands now. *From:* A-12.
+**945 (f).** Volume 14 — §3.4 G3 — Siting a free-standing site, the terrain pre-edit, the frame; a site as a des… (replacement). Target: `docs/volumes/V14-sites.md`, line 1437 (md5 `70d8aa1b…`) as it stands now. *From:* A-12; corrected by the Fable critique's C-5, carried by the fix lane (lane sites-roads/fix).
 *Current text:*
 > edges, climate, water table, biome, resources: M5's one input record), giving the site's terrain and water; the
 *New text:*
 > edges, climate, water table, biome, resources: M5's one input record — and the roads that cross the frame's ring, the
-> route the site lies along or its approach road, V13 §3.11.4 (6), §3.8 (12), each joined to an entrance gate by G5 (f)),
+> route the site lies along or its approach road, V13 §3.11.4 (6), §3.8 (12), each joined to an entrance (its gate where the enclosure has one, else the entrance unit's point) by G5 (f)),
 > giving the site's terrain and water; the
 *Reason:* the site frame's charter carries its roads (design A §1.4 (f) (1)).
 
-**945 (g).** Volume 14 — §3.6 G5 — Embedding on the kernel: the history superposition, the materializers, the te… (replacement). Target: `docs/volumes/V14-sites.md`, lines 1697–1698 (md5 `70d8aa1b…`) as it stands now. *From:* A-14 (changed: the way's reason (bar 10) and its M0 row (M13)).
+**945 (g).** Volume 14 — §3.6 G5 — Embedding on the kernel: the history superposition, the materializers, the te… (replacement). Target: `docs/volumes/V14-sites.md`, lines 1697–1698 (md5 `70d8aa1b…`) as it stands now. *From:* A-14 (changed: the way's reason (bar 10) and its M0 row (M13)); corrected by the Fable critique's C-5 (lane sites-roads/fix).
 *Current text:*
 > S1 (terrain and water from the charter), the terrain pre-edit (G3 (b)), S12a and S12b with the envelope as the⏎perimeter, then (e); an attached site has no ground.
 *New text:*
 > S1 (terrain and water from the charter), the terrain pre-edit (G3 (b)), S12a and S12b with the envelope as the
 > perimeter, then (e), then **the way to the gate** (J393): for each charter road (the route the site lies along, or its
-> approach road, V13 §3.8 (12)), one way of its `WayClass` from its ring station to the nearest entrance `GateSite` of
-> (e), routed by S4's router as `drawWay` routes a pair (§7.1; V13 §8's M0 row M13), its reason the charter road, the gate and
-> the class (bar 10) — a route the site lies along crosses the ring twice and
-> reaches two gates, so the road runs through a tollhouse's or a bridge fort's two entrances; a gate no road reaches
-> reports the way `unserved` (F-ROUTE's rung, never silent); an attached site has no ground.
+> approach road, V13 §3.8 (12)), one way of its `WayClass` from its ring station to the nearest entrance unit's point — the enclosure's `GateSite`
+> where the policy has one ((e) (1)), else the entrance unit's point on the envelope ring; by plan distance, ties by the
+> lower unit id — routed by S4's router on the frame's ground part 0 (every free-standing site has one, V14 §3.1,
+> whether or not its policy runs the hinterland unit) as `drawWay` routes a pair (§7.1; V13 §8's M0 row M13), its reason
+> the charter road, the entrance and the class (bar 10) — a route the site lies along crosses the ring twice and
+> reaches two entrances, so the road runs through a tollhouse's or a bridge fort's two gates; an entrance no road
+> reaches reports the way `unserved` (F-ROUTE's rung, never silent); an attached site has no ground.
 *Reason:* the world's road ends at the site's frame and the frame's way reaches the gate (item 135 (a); J-V14.59).
 
-**945 (h).** Volume 14 — §3.9 G8 — Attachment: the access record, the anchor, the surface exception, the icon's… (replacement). Target: `docs/volumes/V14-sites.md`, line 1943 (md5 `70d8aa1b…`) as it stands now. *From:* A-15.
+**945 (h).** Volume 14 — §3.9 G8 — Attachment: the access record, the anchor, the surface exception, the icon's… (replacement). Target: `docs/volumes/V14-sites.md`, line 1943 (md5 `70d8aa1b…`) as it stands now. *From:* A-15; corrected by the Fable critique's C-5 (lane sites-roads/fix).
 *Current text:*
 > run (the host's S12a fields stand, re-derived locally round the reservation by §7.3's S12 row)
 *New text:*
 > run (the host's S12a fields stand, re-derived locally round the reservation by §7.3's S12 row, which links the
-> reservation's entrance gate to the nearest way corridor by an L3 `driveway` face where the card's `roadAccess` is
+> reservation's entrance (its gate where the enclosure has one, else the entrance unit's point) to the nearest way corridor by an L3 `driveway` face where the card's `roadAccess` is
 > `required` and by a `path` face where it is `preferred`, §4.9; BCR-V14-26)
 *Reason:* road access for an `inFrame` site by the hinterland's own faces (design A §1.4 (f) (3); J-V14.60).
 
@@ -982,12 +996,12 @@ the patrols and sway lenses are unchanged. The clerk's `site` why section answer
 > the other sites considered; for a placed world site its cost by coherence row, the bend or the offers, its approach — along a route or by its approach road — and the way to its gate, V13 §3.11.1, §3.8 (12); J393), *what caused this*
 *Reason:* the clerk's `site` section answers why a site stands where it does and how its road reaches it (C §1.9a; bar 10).
 
-**945 (j).** BASE — §4.9 S12a Hinterland siting and the hinterland unit · S12b Greenery — the rule tables (… (replacement). Target: `docs/ARCHITECTURE.md`, line 8678 (md5 `1f871a01…`) as it stands now. *From:* A-81.
+**945 (j).** BASE — §4.9 S12a Hinterland siting and the hinterland unit · S12b Greenery — the rule tables (… (replacement). Target: `docs/ARCHITECTURE.md`, line 8678 (md5 `1f871a01…`) as it stands now. *From:* A-81; corrected by the Fable critique's C-5 (lane sites-roads/fix).
 *Current text:*
 > row with `trail` links its decoration to the nearest way corridor by an L3 `path` face; fields and woods keep back by
 *New text:*
 > row with `trail` links its decoration to the nearest way corridor by an L3 `path` face — and a `worldSite` reservation
->   (V14 §3.9 (g)) is linked from its entrance gate to the nearest way corridor by an L3 `driveway` face where its card's
+>   (V14 §3.9 (g)) is linked from its entrance (its gate where the enclosure has one, else the entrance unit's point) to the nearest way corridor by an L3 `driveway` face where its card's
 >   `roadAccess` is `required` and by a `path` face where it is `preferred`, nothing where it is `none` or `avoided`
 >   (BCR-V14-26; J393); fields and woods keep back by
 *Reason:* BCR-V14-26's application to the base (design A §1.4 (f) (3)); the synthesis may hold it for the coherence pass as the volumes' BCRs are usually held.
@@ -1040,12 +1054,12 @@ bearing at the ring, which A's G5 (f) step needs); the heading counts them (A-95
 > each locked anomaly kind is reported on its fixture | one fixture per anomaly kind (ten: the eight of V13 §2.2's frame kinds here, the site kinds `siteIncoherent` and `noRoadAccess` on T-V13-58's fixture; J393) |
 *Reason:* the count said four against eight kinds (read-v13's gap) and the word adds two; the count is stated truly (B-37).
 
-**946 (d).** Volume 13 — §7.3 Placement, glyphs, ports, orientation (insertion). Target: `docs/volumes/V13-world.md`, line 3584 (md5 `d0de9ad8…`) as it stands now. *From:* A-70 (changed: independent approach roads, the exclusions and the knowledge clause (C-16/T-V13-58); ten tests; the candidate filter; `accept` replay (C-21); T-V13-60's four causes (C); the reason records (C §1.9a)).
+**946 (d).** Volume 13 — §7.3 Placement, glyphs, ports, orientation (insertion). Target: `docs/volumes/V13-world.md`, line 3584 (md5 `d0de9ad8…`) as it stands now. *From:* A-70 (changed: independent approach roads, the exclusions and the knowledge clause (C-16/T-V13-58); ten tests; the candidate filter; `accept` replay (C-21); T-V13-60's four causes (C); the reason records (C §1.9a)); corrected by the Fable critique's C-4 (lane sites-roads/fix).
 *Current text:*
 > | T-V13-39 | W7 and W8: every coordinate passed to `delaunay` is an integer metre inside §3.2 (1)'s range invariant (a lint on the call; SW-16); no land leg crosses water; the `existingRoute` discount makes later roads share earlier cells (the shared-cell share ≥ 20 % on B-WORLD-lite, own bar); every member sway is one connected component after normalization or is flagged an exclave (enclaves ≤ `enclaveMaxCells` removed); every seat territory is one component; standalone provinces partition their seat territory | statistics and invariants |
 *New text:*
 > | T-V13-39 | W7 and W8: every coordinate passed to `delaunay` is an integer metre inside §3.2 (1)'s range invariant (a lint on the call; SW-16); no land leg crosses water; the `existingRoute` discount makes later roads share earlier cells (the shared-cell share ≥ 20 % on B-WORLD-lite, own bar); every member sway is one connected component after normalization or is flagged an exclave (enclaves ≤ `enclaveMaxCells` removed); every seat territory is one component; standalone provinces partition their seat territory | statistics and invariants |
-> | T-V13-57 | approaches (W7 (12); J393): on B-WORLD-lite with one card of every `required` and `preferred` kind dropped free, a tollhouse and a bridge fort on a road lie along it (`SiteApproach.role` `along`, `atCm` on the polyline) and every route is byte-identical before and after (polyline, stations, effort, lay version); a fort 3 km from a road gets an approach road of class `track` ending at its `join` on the nearest public track-or-better route, its cells in the `route` layer and its site frame's charter naming it as a road; a shrine 2 km from every road gets none and nothing is reported, a mine 6 km from every road none with `W_SITE_NO_ROAD_ACCESS` and `noRoadAccess`; no approach road crosses water or enters a placed settlement frame's extent + margin, and no settlement's charter changes; two runs are byte-identical, and two sites' approach roads are laid each on its own (the second's course the same with the first dropped or not); an approach road earns no `existingRoute` discount for a later route, enters no W6b `connectivity` term and carries no `PatrolCadence`; the road to a DM-only site is absent from a player picture and from the player audience of the map feed; on the host-bound fixture no host route moves, `timeDelta` is empty, no approach road carries a host key or appears in the canon, `routeFacts`, `patrolOffer` or `routes(world)`'s host list, and the DM's map feed carries it keyless; a re-lay keeps its id; unplacing the site tombstones it; a route laid later through the site's frame turns the approach to `along` and tombstones the road; a route removed under an approach road re-joins it to the nearest qualifying route or reads none | the world fixtures; a mock host |
+> | T-V13-57 | approaches (W7 (12); J393): on B-WORLD-lite with one card of every `required` and `preferred` kind dropped free, a tollhouse and a bridge fort on a road lie along it (`SiteApproach.role` `along`, `atCm` on the polyline) and every route is byte-identical before and after (polyline, stations, effort, lay version); a fort 3 km from a road gets an approach road of class `track` ending at its `join` on the nearest public track-or-better route, its cells in the `route` layer and its site frame's charter naming it as a road; a fort whose frame a trail crosses lies along the trail and gets no approach road; a shrine 2 km from every road gets none and nothing is reported, a mine 6 km from every road none with `W_SITE_NO_ROAD_ACCESS` and `noRoadAccess`; no approach road crosses water or enters a placed settlement frame's extent + margin, and no settlement's charter changes; two runs are byte-identical, and two sites' approach roads are laid each on its own (the second's course the same with the first dropped or not); an approach road earns no `existingRoute` discount for a later route, enters no W6b `connectivity` term and carries no `PatrolCadence`; the road to a DM-only site is absent from a player picture and from the player audience of the map feed; on the host-bound fixture no host route moves, `timeDelta` is empty, no approach road carries a host key or appears in the canon, `routeFacts`, `patrolOffer` or `routes(world)`'s host list, and the DM's map feed carries it keyless; a re-lay keeps its id; unplacing the site tombstones it; a route laid later through the site's frame turns the approach to `along` and tombstones the road; a route removed under an approach road re-joins it to the nearest qualifying route or reads none | the world fixtures; a mock host |
 > | T-V13-58 | a site's coherence (V13 §3.11.1; J393): every shipped kind row's coherence rows evaluated at a fixture point per row, met and unmet (each of V14's ten tests at its tolerance ± 1 cell, or ± 1 m on a line; a route-borne test counts no approach road); a tollhouse dropped 600 m off a road is unlawful, the dry run preselects the road point with `bend.site.placement` naming the row and the distance, `keep` places it at the asked point unlawful with `siteIncoherent`, `takeOffer` on the road; a hideout dropped 150 m from a road is bent beyond 300 m; a tollhouse 4 km from every road (beyond its 1 000 m `bendM`) is kept unlawful with the nearest lawful within 20 km offered and none preselected; a camp off every road and water is lawful at cost 1 with no anomaly; a fort with no height, pass or crossing is lawful at cost 4; a host-locked tollhouse off every road is neither bent nor offered and reads `siteIncoherent` DM-only; a road the mock host demotes to hidden under a placed tollhouse raises `siteIncoherent` at the next window and moves nothing; no bend or offer candidate lies on water or inside a placed frame's extent + margin; a drop with no point never lands on a point failing a row of cost 5; a kept unlawful drop replays from its event (`requestCharter`'s `accept: ['unlawful']`); the derived site anomalies, one fixture per cause — a `rerouteReach` moving the reach off a bridge fort's crossing, a host window hiding a tollhouse's road, a route chartered past a hideout, a W5 re-thinning taking a mine's ore — each read at the next read with nothing moved, the stored `coherenceCost` and the world's model digest byte-equal (T-V13-11's form); every bend, offer, approach road and anomaly writes its reason record (T-V13-10's chain); every search is bit-identical across two runs | the placement fixtures |
 *Reason:* every new V13 behaviour has a test (design A §1.6).
 
@@ -1134,13 +1148,13 @@ bearing at the ring, which A's G5 (f) step needs); the heading counts them (A-95
 > the card's `attraction` reaches V13's `destination` term and its `roadAccess` V13's W7 (12) (a fort, whose road access is `required`, gains an approach — along a route or by an approach road — and is no seat of W7's pair selection);
 *Reason:* T-V14-8's clause follows J-V13.107.
 
-**946 (p).** Volume 14 — §7 Tests and acceptance bars (insertion). Target: `docs/volumes/V14-sites.md`, line 2863 (md5 `70d8aa1b…`) as it stands now. *From:* A-23 (changed: ten plug-ins; the table validation; the siting plug-ins read no approach road (C-36); the way's reason (bar 10)).
+**946 (p).** Volume 14 — §7 Tests and acceptance bars (insertion). Target: `docs/volumes/V14-sites.md`, line 2863 (md5 `70d8aa1b…`) as it stands now. *From:* A-23 (changed: ten plug-ins; the table validation; the siting plug-ins read no approach road (C-36); the way's reason (bar 10)); corrected by the Fable critique's C-5, C-7 (lane sites-roads/fix).
 *Current text:*
 > | T-V14-33 | the DM-placed devotion site (J384 (10)) | a `devotion` is admitted only as `stated` (a G2 run, a preset and every generator leave it absent); a `cult` devotion derives `secrecy` `secret` while a `holy` one keeps its kind's default, and every devotion card starts unrevealed to the party, a `cult` site staying so until the DM reveals it; a `setSiteRequest` touching only `devotion` re-lays an entrance edge only when the derived `hiddenEntrance` flips and re-lays no other unit; the card appears in the DM's map feed as an offer and in no player feed while DM-only; V13's religion lens draws it labelled "DM-placed" (T-V13-54) | PR |
 *New text:*
 > | T-V14-33 | the DM-placed devotion site (J384 (10)) | a `devotion` is admitted only as `stated` (a G2 run, a preset and every generator leave it absent); a `cult` devotion derives `secrecy` `secret` while a `holy` one keeps its kind's default, and every devotion card starts unrevealed to the party, a `cult` site staying so until the DM reveals it; a `setSiteRequest` touching only `devotion` re-lays an entrance edge only when the derived `hiddenEntrance` flips and re-lays no other unit; the card appears in the DM's map feed as an offer and in no player feed while DM-only; V13's religion lens draws it labelled "DM-placed" (T-V13-54) | PR |
 > | T-V14-34 | rule bar (the catalogue; J393) | every kind row carries `roadAccess`, `approach`, `coherence`, `correction` and `bendM` with V14 §2.5's shipped values; `correction` `bend` exactly on the four kinds with a row of cost > `lawfulMax`; no kind row or card carries `routed`, and an older card's migrates by V14 §2.9's row and is reported; the card copies `roadAccess` at the drop and an `editTable` of a kind row's `bendM` changes the next drop and no placed site; a `setAttr site/roadAccess` to `none` on a fort tombstones its approach road and leaves every other route byte-identical; the ten `SiteCoherenceTest` plug-ins are pure (a fixture point per test, two runs bit-identical) and registered once; `editTable` refuses a `bend` row with no coherence row above `lawfulMax` and a `report` row with `bendM` above 0 (`refuse.table.invalid`); `routeNear`, `roadControl`, `solitude`, `concealment` and `oneApproach` read no approach road, so a hermitage's own path never lowers its `solitude` and a mine's track draws no trade site; the one-click drop of every kind at a point reads its rows — a bend named in one line or a cost by row — with no dialog; every word a catalogue key (`bend.site.placement`) | PR |
-> | T-V14-35 | rule bar (the frame side; J393) | on `B-SITE` over V13's world fixture: a free fort's site frame's charter carries its approach road as a road of its class and its ground lays one way from that road's ring station to the nearest entrance gate; a tollhouse along a road carries the road through its two gates; a gate no road reaches reports the way `unserved`; an `inFrame` fort's reservation gains one L3 `driveway` face from its entrance gate to the nearest way corridor, an `inFrame` shrine one `path` face, an `inFrame` hideout none, nothing else of the host re-derived (bar 6's oracle); a `ground` graveyard gains no face; a crop at a tollhouse reads the profile `road` with the road's band inside its frame; the way to the gate writes its reason (the charter road, the gate, S4's class) | PR |
+> | T-V14-35 | rule bar (the frame side; J393) | on `B-SITE` over V13's world fixture: a free fort's site frame's charter carries its approach road as a road of its class and its ground lays one way from that road's ring station to the nearest entrance gate; a free mine's way runs from its approach road's ring station to its head-frame (no enclosure, no gate); a tollhouse along a road carries the road through its two gates; an entrance no road reaches reports the way `unserved`; an `inFrame` fort's reservation gains one L3 `driveway` face from its entrance gate to the nearest way corridor, an `inFrame` shrine one `path` face, an `inFrame` battlefield none, nothing else of the host re-derived (bar 6's oracle); a `ground` graveyard gains no face; a crop at a tollhouse reads the profile `road` with the road's band inside its frame; the way to the entrance writes its reason (the charter road, the entrance, S4's class) | PR |
 *Reason:* every new behaviour of V14's side has a test (design A §1.6).
 
 **946 (q).** Volume 14 — §8 Build plan (replacement). Target: `docs/volumes/V14-sites.md`, line 2895 (md5 `70d8aa1b…`) as it stands now. *From:* A-24.
@@ -1164,26 +1178,26 @@ bearing at the ring, which A's G5 (f) step needs); the heading counts them (A-95
 > the panel V14-P's site half rated or offered (§13.6 (7)); the register check | 3.5–5 (J393's five columns, ten plug-ins, the way to the gate and the `inFrame` face ≈ 0.25 pw, inside the range: it holds, PLAUSIBLE until SE0's spike re-prices it) |
 *Reason:* the step's estimate is priced for the new work and its holding stated (B-78's ask).
 
-**946 (t).** Volume 14 — §9 Decisions (each vetoable) (insertion). Target: `docs/volumes/V14-sites.md`, line 3010 (md5 `70d8aa1b…`) as it stands now. *From:* A-27.
+**946 (t).** Volume 14 — §9 Decisions (each vetoable) (insertion). Target: `docs/volumes/V14-sites.md`, line 3010 (md5 `70d8aa1b…`) as it stands now. *From:* A-27; corrected by the Fable critique's C-5, carried by the fix lane (lane sites-roads/fix).
 *Current text:*
 > | J-V14.56 | **(J384 (10).)** chose holy places and hidden cult sites to be ordinary world-site cards of the existing kinds carrying a DM-stated `devotion` (a deity key and a role), DM-only by default, a cult site secret, drawn by V13's religion lens labelled "DM-placed" and offered to the host for adoption by its own command, over a new site kind (the temple, shrine, crypt, cave and hideout rows already lay them), generated holy sites (the host holds no positioned faith place) or a deity read from a site's name (a guess) (vetoable) |
 *New text:*
 > | J-V14.56 | **(J384 (10).)** chose holy places and hidden cult sites to be ordinary world-site cards of the existing kinds carrying a DM-stated `devotion` (a deity key and a role), DM-only by default, a cult site secret, drawn by V13's religion lens labelled "DM-placed" and offered to the host for adoption by its own command, over a new site kind (the temple, shrine, crypt, cave and hideout rows already lay them), generated holy sites (the host holds no positioned faith place) or a deity read from a site's name (a guess) (vetoable) |
 > | J-V14.57 | **(J393.)** chose to read "the catalogue" of the owner's word of 2026-10-18 as this volume's site kind rows and to carry every per-kind road rule as kind-row columns (`roadAccess`, `approach`, `coherence`, `correction`, `bendM`), over another list (V09 §4.9's message keys, V11's symbol catalogue), because the sentence needs a per-kind source of "where appropriate" and only the kind rows are one — put to the owner as V14 §11 Q5 (vetoable) |
 > | J-V14.58 | **(J393.)** chose to replace `routed` with `roadAccess` (`required`, `preferred`, `none`, `avoided`) on the kind row and the card, over keeping `routed` beside it as a derived boolean, because two fields with one meaning drift and the owner's own words name the field (vetoable) |
-> | J-V14.59 | **(J393.)** chose the world's road to end at the site's frame — the site frame's charter carrying it — and the site's ground to join it to the nearest entrance gate by S4's router, over a world-scale polyline to the envelope, because fine cells are 250–1 000 m and item 135 (a) refines the coarse fact at the finer scale (vetoable) |
+> | J-V14.59 | **(J393.)** chose the world's road to end at the site's frame — the site frame's charter carrying it — and the site's ground to join it to the nearest entrance (its gate where the enclosure has one, else the entrance unit's point) by S4's router, over a world-scale polyline to the envelope, because fine cells are 250–1 000 m and item 135 (a) refines the coarse fact at the finer scale (vetoable) |
 > | J-V14.60 | **(J393.)** chose an `inFrame` site's road access by the hinterland's own faces — a `driveway` face for `required`, a `path` face for `preferred` — over an S4 `worldSite` destination at the drop, because the base's gate-count rule re-derives S3 for a new destination and the hinterland's faces cost no gate (BCR-V14-26; vetoable) |
 > | J-V14.61 | **(J393.)** chose to keep "a host-placed site is never re-sited" (V14 §3.4 (a)), its coherence rows read and its approach laid, over bending it, because the host's record is a dossier-tier fact (item 20 (h)) and the world yields to it as to a canonized seat (vetoable) |
 > | J-V14.62 | **(J393.)** chose that a `ground` card takes no approach, over a path to a camp or a battlefield, because a marker-like card has no gate and the base's decorations already link what wants a trail (vetoable) |
 > | J-V14.63 | **(J393.)** chose four bending kinds — tollhouse, bridge fort, mine, hideout — and `report` for the other seventeen, over bending every kind toward a preferred feature, because only those four are nonsense off their feature (a toll off the road, a bridge fort off the crossing, a mine off the ore, a hideout on the road), while a fort, a temple or a tower stands where its builders put it — `editTable`'s validation keeping the bending set to the rows that make a placement unlawful (vetoable) |
 *Reason:* the decisions V14 owns (design A §1.7).
 
-**946 (u).** Volume 14 — §10.1 Requests to the base (insertion). Target: `docs/volumes/V14-sites.md`, line 3047 (md5 `70d8aa1b…`) as it stands now. *From:* A-29.
+**946 (u).** Volume 14 — §10.1 Requests to the base (insertion). Target: `docs/volumes/V14-sites.md`, line 3047 (md5 `70d8aa1b…`) as it stands now. *From:* A-29; corrected by the Fable critique's C-5 (lane sites-roads/fix).
 *Current text:*
 > | **BCR-V14-25** the encounter's door through `PlatApi` (C14-07) | §11.2 `PlatApi` and the `query` kinds | the API's members (`generate`, `edit`, `query`, `export`, `scratch`, …) | `encounter.open(h, address): Promise<Encounter>`, `encounter.items(h, key, ops: ItemOp[])`, `encounter.crop(h, key): Promise<EncounterCrop>`, `encounter.close(h, key)` and the `query` kind `encounter` — the resolve, the completion, the crop, the transient arena and its items in the generation worker behind the boundary; `EncounterService` in `@plat/app` their client; the bridge's vocabulary gains them (§11.3) |
 *New text:*
 > | **BCR-V14-25** the encounter's door through `PlatApi` (C14-07) | §11.2 `PlatApi` and the `query` kinds | the API's members (`generate`, `edit`, `query`, `export`, `scratch`, …) | `encounter.open(h, address): Promise<Encounter>`, `encounter.items(h, key, ops: ItemOp[])`, `encounter.crop(h, key): Promise<EncounterCrop>`, `encounter.close(h, key)` and the `query` kind `encounter` — the resolve, the completion, the crop, the transient arena and its items in the generation worker behind the boundary; `EncounterService` in `@plat/app` their client; the bridge's vocabulary gains them (§11.3) |
-> | **BCR-V14-26** a world site's road access in a settlement's hinterland (J393; V14 §3.9 (g)) | §4.9's hinterland decorations ("a row with `trail` links its decoration to the nearest way corridor by an L3 `path` face"); §7.3's S12 row | a decoration's or an outside plot's link to the nearest way corridor | a `worldSite` reservation whose card's `roadAccess` is `required` links its entrance gate to the nearest way corridor by an L3 `driveway` face, one whose `roadAccess` is `preferred` by an L3 `path` face; `none` and `avoided` link nothing; §7.3's S12 row lays it round the reservation at the drop — applied to the base by `docs/AMENDMENTS-2026-10-18t.md` item 945, no admission item owed |
+> | **BCR-V14-26** a world site's road access in a settlement's hinterland (J393; V14 §3.9 (g)) | §4.9's hinterland decorations ("a row with `trail` links its decoration to the nearest way corridor by an L3 `path` face"); §7.3's S12 row | a decoration's or an outside plot's link to the nearest way corridor | a `worldSite` reservation whose card's `roadAccess` is `required` links its entrance (its gate where the enclosure has one, else the entrance unit's point) to the nearest way corridor by an L3 `driveway` face, one whose `roadAccess` is `preferred` by an L3 `path` face; `none` and `avoided` link nothing; §7.3's S12 row lays it round the reservation at the drop — applied to the base by `docs/AMENDMENTS-2026-10-18t.md` item 945, no admission item owed |
 *Reason:* the base change the `inFrame` rule asks (design A §1.8).
 
 **946 (v).** Volume 14 — §10.2 Cross-volume requests (to the siblings; not base changes) (replacement). Target: `docs/volumes/V14-sites.md`, line 3053 (md5 `70d8aa1b…`) as it stands now. *From:* A-31 (changed: the request names what the synthesis changed (SiteApproach derived, `join`, `accept`, `placeFrame`, the exclusions); `gradeShift.trail` withdrawn).
@@ -1200,13 +1214,13 @@ bearing at the ring, which A's G5 (f) step needs); the heading counts them (A-95
 > ## Model rows (M1–M13)
 *Reason:* the heading counts the two new rows.
 
-**946 (x).** The M0 gate spec — Model rows (M1–M11) (insertion). Target: `plat/docs/build/M0-world-sites-gate.md`, line 45 (md5 `b6c5be2a…`) as it stands now. *From:* A-96 (changed: M13, the two-point road (C-56), beside A's M12).
+**946 (x).** The M0 gate spec — Model rows (M1–M11) (insertion). Target: `plat/docs/build/M0-world-sites-gate.md`, line 45 (md5 `b6c5be2a…`) as it stands now. *From:* A-96 (changed: M13, the two-point road (C-56), beside A's M12); corrected by the Fable critique's C-5 (lane sites-roads/fix).
 *Current text:*
 > | M11 | The projection and the vertical exaggeration are view state outside the document hash; the style store's schema admits a projection family | §2.9 view state, §8.2 styles |
 *New text:*
 > | M11 | The projection and the vertical exaggeration are view state outside the document hash; the style store's schema admits a projection family | §2.9 view state, §8.2 styles |
 > | M12 | The hinterland unit's L3 access faces (an outside plot's `driveway`, a decoration's `path`) can begin at a point on a reservation's boundary — the face's origin a point, not a plot or a decoration id — without a new role, layer or digest change (V14 §3.9 (g), BCR-V14-26; J393) | read the hinterland unit's face types and S12's operator; if the origin is typed to a plot or a decoration, an M1 item |
-> | M13 | S4's router admits a way between two given points — a charter road's point on a frame's ring and an entrance gate (M0-c-03's deferred two-point road) — and a way's end at the frame ring carries its external bearing, so V14 §3.6 (f)'s way from a world site's charter road to its gate is not foreclosed (J393); nothing is built at M0 | read M0-c-03's `defers` (the two-point road named with its milestone) and `Way.to`'s external `bearing` form (§2.4; C-0236 (18)); if a way's end cannot be given as a point, an M1 item with the smallest addition named |
+> | M13 | S4's router admits a way between two given points — a charter road's point on a frame's ring and an entrance point (a gate where the enclosure has one) (M0-c-03's deferred two-point road) — and a way's end at the frame ring carries its external bearing, so V14 §3.6 (f)'s way from a world site's charter road to its gate is not foreclosed (J393); nothing is built at M0 | read M0-c-03's `defers` (the two-point road named with its milestone) and `Way.to`'s external `bearing` form (§2.4; C-0236 (18)); if a way's end cannot be given as a point, an M1 item with the smallest addition named |
 *Reason:* item 140's form: two "do not foreclose" model rows recorded as M1's — the `inFrame` road-access face (M12) and the two-point road with its end bearing that the way to a site's gate needs (M13, C-56).
 
 **947.** **The record: the volumes' revision notes, the index, the summary, the brief and the README.**
@@ -1221,13 +1235,13 @@ gate's (the synthesis: one list, one meaning); the README's owner-rules row name
 words (B-92).
 
 
-**947 (a).** Volume 13 — the revision notes under the title (insertion). Target: `docs/volumes/V13-world.md`, line 116 (md5 `d0de9ad8…`) as it stands now. *From:* new (the synthesis; after B-1/C-1, in A's words).
+**947 (a).** Volume 13 — the revision notes under the title (insertion). Target: `docs/volumes/V13-world.md`, line 116 (md5 `d0de9ad8…`) as it stands now. *From:* new (the synthesis; after B-1/C-1, in A's words); its item range 940–948 since the critique's corrections are item 948 (lane sites-roads/fix).
 *Current text:*
 > > trend; §5.9 (6)'s pressure row puts an overlord's authority over its vassal above a war front; §9's J-V13.83 keeps the rejected absolute rung's reason under a dated bracket saying the band polarises, the relative choice standing.
 *New text:*
 > > trend; §5.9 (6)'s pressure row puts an overlord's authority over its vassal above a war front; §9's J-V13.83 keeps the rejected absolute rung's reason under a dated bracket saying the band polarises, the relative choice standing.
 >
-> > **Owner's word t — 2026-10-18** (`docs/AMENDMENTS-2026-10-18t.md`, items 940–947; the owner's word on sites, road
+> > **Owner's word t — 2026-10-18** (`docs/AMENDMENTS-2026-10-18t.md`, items 940–948; the owner's word on sites, road
 > > access and catalogue-driven autocorrect, J393: "make sure that sites have road access where appropriate, they are
 > > integrated into road infrastructure and that depending on the catalogue, where appropriate, their geography in the
 > > world map autocorrects to meet the coherence expectation."). Changed: §1.3 quotes the word; §1.4's scope sentence names
@@ -1246,13 +1260,13 @@ words (B-92).
 > > `W_SITE_NO_ROAD_ACCESS`; §8 M-W2 and H31; §9 J-V13.107 – J-V13.113; §10.2 R-V14-1 and R-V14-14; §11's host-row count.
 *Reason:* the volume's revision notes record every amendment file that changes it (file s item 927's form; B-1, C-1).
 
-**947 (b).** Volume 14 — the revision notes under the title (insertion). Target: `docs/volumes/V14-sites.md`, line 74 (md5 `70d8aa1b…`) as it stands now. *From:* new (the synthesis; after B-44/C-31).
+**947 (b).** Volume 14 — the revision notes under the title (insertion). Target: `docs/volumes/V14-sites.md`, line 74 (md5 `70d8aa1b…`) as it stands now. *From:* new (the synthesis; after B-44/C-31); its item range 940–948 since the critique's corrections are item 948 (lane sites-roads/fix).
 *Current text:*
 > > the number.
 *New text:*
 > > the number.
 >
-> > **Owner's word t — 2026-10-18** (`docs/AMENDMENTS-2026-10-18t.md`, items 940–947; the owner's word on sites, road
+> > **Owner's word t — 2026-10-18** (`docs/AMENDMENTS-2026-10-18t.md`, items 940–948; the owner's word on sites, road
 > > access and catalogue-driven autocorrect, J393). Changed: §0 says it in plain words; §1.3 quotes the word; §1b's rows
 > > wire `WorldSite.roadAccess` (for `routed`, retired), the host-fixed site's reading, the charter's roads and V13's site
 > > form; §2.2 the card's `roadAccess`; §2.5 the kind rows' five columns (`roadAccess`, `approach`, `coherence`,
@@ -1264,11 +1278,11 @@ words (B-92).
 > > J-V14.43's note; §10 BCR-V14-26, BCR-V14-13's text and the V13 request (18); §11 Q5.
 *Reason:* the volume's revision notes record every amendment file that changes it (file s item 936's form; B-44, C-31 with its word fixed).
 
-**947 (c).** The index — the revision notes under the title (replacement). Target: `docs/volumes/INDEX.md`, line 14 (md5 `42881796…`) as it stands now. *From:* new (the synthesis; after B-86).
+**947 (c).** The index — the revision notes under the title (replacement). Target: `docs/volumes/INDEX.md`, line 14 (md5 `42881796…`) as it stands now. *From:* new (the synthesis; after B-86); its item range 940–948 since the critique's corrections are item 948 (lane sites-roads/fix).
 *Current text:*
 > applied by the lane its status line names. The plain-language account for the owner is `docs/volumes/SUMMARY.md`.
 *New text:*
-> applied by the lane its status line names, and file t (`docs/AMENDMENTS-2026-10-18t.md`, items 940–947: the owner's word on sites, road access and catalogue-driven autocorrect, 2026-10-18; J393), applied by the lane its status line names. The plain-language account for the owner is `docs/volumes/SUMMARY.md`.
+> applied by the lane its status line names, and file t (`docs/AMENDMENTS-2026-10-18t.md`, items 940–948: the owner's word on sites, road access and catalogue-driven autocorrect, 2026-10-18; J393), applied by the lane its status line names. The plain-language account for the owner is `docs/volumes/SUMMARY.md`.
 *Reason:* the index's state line names every amendment file applied to the volumes (file s item 938's form; B-86; C-52 not taken, it rewrote file s's "corrections").
 
 **947 (d).** The index — §1 The product map (replacement). Target: `docs/volumes/INDEX.md`, line 40 (md5 `42881796…`) as it stands now. *From:* new (the synthesis; after B-87, recast).
@@ -1369,13 +1383,13 @@ words (B-92).
 > say otherwise; one you answered on 18 October),
 *Reason:* the count follows.
 
-**947 (p).** The brief — §4 Part A — the M0 close gate (item 140; before M0 commits) (insertion). Target: `docs/OWNER-BRIEF-WORLD-SITES-HYDROLOGY-DRAFT-2026-10-16.md`, line 81 (md5 `fc252070…`) as it stands now. *From:* new (the synthesis).
+**947 (p).** The brief — §4 Part A — the M0 close gate (item 140; before M0 commits) (insertion). Target: `docs/OWNER-BRIEF-WORLD-SITES-HYDROLOGY-DRAFT-2026-10-16.md`, line 81 (md5 `fc252070…`) as it stands now. *From:* new (the synthesis); corrected by the Fable critique's C-5 (lane sites-roads/fix).
 *Current text:*
 > | M11 | the projection and vertical exaggeration are view state outside the document hash; the style store's schema admits a projection family | §2.9 view state, §8 styles |
 *New text:*
 > | M11 | the projection and vertical exaggeration are view state outside the document hash; the style store's schema admits a projection family | §2.9 view state, §8 styles |
 > | M12 | the hinterland unit's L3 access faces (an outside plot's `driveway`, a decoration's `path`) can begin at a point on a reservation's boundary (J393) | the face types and S12's operator |
-> | M13 | S4's router admits a way between two given points (a frame-ring point and a gate; the deferred two-point road), a way's end at the ring carrying its external bearing (J393) | M0-c-03's `defers`; `Way.to`'s bearing form |
+> | M13 | S4's router admits a way between two given points (a frame-ring point and an entrance point (a gate where the enclosure has one); the deferred two-point road), a way's end at the ring carrying its external bearing (J393) | M0-c-03's `defers`; `Way.to`'s bearing form |
 *Reason:* the brief's Part A mirrors the gate's rows, which gain M12 and M13 (one list, one meaning).
 
 **947 (q).** The brief — §7 Part D — the design volumes (after M0 closes) (replacement). Target: `docs/OWNER-BRIEF-WORLD-SITES-HYDROLOGY-DRAFT-2026-10-16.md`, line 153 (md5 `fc252070…`) as it stands now. *From:* A-94.
@@ -1387,12 +1401,133 @@ words (B-92).
 >   placement on the world map (with V13's routes and placement law).
 *Reason:* the brief places the owner's thread of 2026-10-18 with the volume that carries it.
 
-**947 (r).** `README.md` — the revision notes under the title (replacement). Target: `README.md`, line 16 (md5 `2a4b54c8…`) as it stands now. *From:* new (the synthesis; after B-92).
+**947 (r).** `README.md` — the revision notes under the title (replacement). Target: `README.md`, line 16 (md5 `2a4b54c8…`) as it stands now. *From:* new (the synthesis; after B-92); its item range 940–948 since the critique's corrections are item 948 (lane sites-roads/fix).
 *Current text:*
 > door 1 closed; 2026-10-18), `docs/OWNER-INSTRUCTIONS-2026-09-25.md` |
 *New text:*
-> door 1 closed; 2026-10-18), `docs/AMENDMENTS-2026-10-18t.md` (items 940–947: the owner's word on sites, road access and catalogue-driven autocorrect — each kind's road access, the map's own approach roads, the bend at the drop; J393, 2026-10-18), `docs/OWNER-INSTRUCTIONS-2026-09-25.md` |
+> door 1 closed; 2026-10-18), `docs/AMENDMENTS-2026-10-18t.md` (items 940–948: the owner's word on sites, road access and catalogue-driven autocorrect — each kind's road access, the map's own approach roads, the bend at the drop; J393, 2026-10-18), `docs/OWNER-INSTRUCTIONS-2026-09-25.md` |
 *Reason:* the README's row lists every file that carries the owner's words; file t carries J393's (B-92).
+
+**948.** **The Fable critique's corrections (lane `sites-roads/critic`, C-1 – C-12, `docs/validation/sites-roads-2026-10-18/critic.md`; written into this draft by lane `sites-roads/fix`).**
+
+The critique's verdict is PASS-WITH-CORRECTIONS: twelve corrections, every one taken as the critic wrote it. Seven
+edit fragments of items 941–947 in place — C-2 restates 942 (m) on the wider current text "never an end, …"; C-3 the
+bridge fort's kind row in 941 (j) (class floor `track`); C-4 the `along` reading in 942 (n) (a) (any public land route
+meeting the frame; `minClass` the approach road's target only), 941 (i)'s `approach` comments and T-V13-57 in 946 (d);
+C-5 the way to the entrance in 945 (g) (the enclosure's gate where the policy has one, else the entrance unit's point,
+on ground part 0) and the same words in 945 (h), 945 (j), 946 (p), 946 (u), 946 (x) and 947 (p) — and, by the fix
+lane, in 945 (f) and 946 (t), two instances of the same phrase the critic's list did not name; C-6 settlement frames
+impassable to 942 (n) (b)'s A\*; C-7 T-V14-35's impossible `inFrame` hideout read as a battlefield. The other
+corrections are the eleven fragments below, each on a passage no other fragment touches: W7's host-bound rule stated
+as exactly or only the host's edges in three more places (C-1: (a)–(c)); V13 §3.9 (16)'s bridge fort proposed at a
+track-or-better crossing, so an accepted post meets its own kind row (C-3: (d)); P1's count of terms (C-8: (e)); the
+context's `routes` (C-9: (f)); V14 §12's CONFIRMED line and PLAUSIBLE list (C-10: (g), (h)); the request census and the
+base's revision note for this file (C-11: (i), (j)); the summary's count of the gate's checks (C-12: (k)). Because the
+corrections are numbered as an item of their own, the record's item range in 947 (a), (b), (c) and (r) reads 940–948.
+
+**948 (a).** Volume 13 — §1.1 What this volume builds (replacement). Target: `docs/volumes/V13-world.md`, line 199 (md5 `d0de9ad8…`) as it stands now. *From:* the Fable critique, C-1 (critic.md §3).
+*Current text:*
+> on a host-bound world exactly the host's genesis edges and lived changes laid as geometry, with time stations | 3.8 |
+*New text:*
+> on a host-bound world exactly the host's genesis edges and lived changes laid as geometry, with time stations — and, on either world, the map's own approach roads to world sites (§3.8 (12); J393) | 3.8 |
+*Reason:* The engine table's row says what W7 lays on a host-bound world; (12) lays one more thing there (the Fable critique, C-1).
+
+**948 (b).** Volume 13 — §3.8 W7 Routes (W7a over the stage-1 candidates, W7b over the final seats; C13-33) (replacement). Target: `docs/volumes/V13-world.md`, line 1763 (md5 `d0de9ad8…`) as it stands now. *From:* the Fable critique, C-1 (critic.md §3).
+*Current text:*
+>    selection, no rank classes, no trails to host seats, a water edge as one water route between its two port seats;
+*New text:*
+>    selection, no rank classes, no trails to host seats, a water edge as one water route between its two port seats (the
+>    map's own approach roads to world sites, (12), are laid beside the host's edges on either world and are never one
+>    of them; J393);
+*Reason:* (8)'s "exactly those edges" is the host network's rule; (12)'s roads are outside that network, as (10) now says (the Fable critique, C-1).
+
+**948 (c).** Volume 13 — §2.6 The lifecycle of every state field this volume adds or gives a producer (replacement). Target: `docs/volumes/V13-world.md`, line 1258 (md5 `d0de9ad8…`) as it stands now. *From:* the Fable critique, C-1 (critic.md §3).
+*Current text:*
+> | `WorldRoute`, `Territory`, `SitingProposal` (W6's own) | W7, W8a, W6; on a host-bound world W7 lays only the edges `genesis` and `network` name |
+*New text:*
+> | `WorldRoute`, `Territory`, `SitingProposal` (W6's own) | W7, W8a, W6; on a host-bound world W7 lays only the edges `genesis` and `network` name and, on either world, W7 (12)'s approach roads to world sites (their own row below; J393) |
+*Reason:* The general route row's producer clause agrees with the approach road's row 942 (h) inserts below it (the Fable critique, C-1).
+
+**948 (d).** Volume 13 — §3.9 W8 Polity — the seat territory (W8a) and the sway (W8b) (replacement). Target: `docs/volumes/V13-world.md`, line 2000 (md5 `d0de9ad8…`) as it stands now. *From:* the Fable critique, C-3 (critic.md §3).
+*Current text:*
+>    transient `SitingProposal` of demand `borderPost` — a bridge fort at a river crossing, a fort at a pass, a watchpost on open ground, a
+*New text:*
+>    transient `SitingProposal` of demand `borderPost` — a bridge fort at a river crossing of a route of class track or better (at a trail's crossing a watchpost; J393), a fort at a pass, a watchpost on open ground, a
+*Reason:* The proposal's kind and the kind row's coherence rows must agree, or an accepted post is bent off its crossing (945 (c)'s claim then holds for every post kind; T-V13-57's "a tollhouse and a bridge fort on a road lie along it" is unchanged) (the Fable critique, C-3).
+
+**948 (e).** Volume 13 — §3.11 P1–P5 Placement (replacement). Target: `docs/volumes/V13-world.md`, line 2111 (md5 `d0de9ad8…`) as it stands now. *From:* the Fable critique, C-8 (critic.md §3).
+*Current text:*
+> best (origin, bearing) pairs take the full six terms at
+*New text:*
+> best (origin, bearing) pairs take the full seven terms at
+*Reason:* One count across the section (943 (i)); J-V13.37's "the full six" (V13:3814) is a dated decision and stays (the Fable critique, C-8).
+
+**948 (f).** Volume 13 — §2.2 New records (replacement). Target: `docs/volumes/V13-world.md`, line 771 (md5 `d0de9ad8…`) as it stands now. *From:* the Fable critique, C-9 (critic.md §3).
+*Current text:*
+> routes: WorldRoute[]; placements: Placement[];
+*New text:*
+> routes: WorldRoute[] /* every WorldRoute, the approach roads to world sites among them (origin 'approach'): V14's route-borne plug-ins and the site coherence tests count public routes only (V13 §3.8 (12); J393) */; placements: Placement[];
+*Reason:* The context's declaration says what its readers must skip; it overlaps no fragment (941 (b) is line 772) (the Fable critique, C-9).
+
+**948 (g).** Volume 14 — §12 CONFIRMED versus PLAUSIBLE (replacement). Target: `docs/volumes/V14-sites.md`, line 3113 (md5 `70d8aa1b…`) as it stands now. *From:* the Fable critique, C-10 (critic.md §3).
+*Current text:*
+>   tie-breaks only; W7 reads `routed`; its `charterFor(world, placement)`, `placeFrame`, `setPlacement`,
+*New text:*
+>   tie-breaks only; W7 reads `routed` (as confirmed at Revision 1; since 2026-10-18 `routed` is retired for `roadAccess`, read by W7 (12) — file t item 941, J-V14.58); its `charterFor(world, placement)`, `placeFrame`, `setPlacement`,
+*Reason:* A CONFIRMED line stays as confirmed, with the date its fact moved (the dated-note form of 941 (n)) (the Fable critique, C-10).
+
+**948 (h).** Volume 14 — §12 CONFIRMED versus PLAUSIBLE (insertion). Target: `docs/volumes/V14-sites.md`, lines 3131–3132 (md5 `70d8aa1b…`) as it stands now. *From:* the Fable critique, C-10 (critic.md §3).
+*Current text:*
+> * That V13's score exposes the terms V14 §2.5 names or their fallbacks (J-V14.36); that V13's charter admits a⏎  non-settlement frame; that the classifier's per-unit call is cheap enough for G6's row (V14 §6).
+*New text:*
+> * That V13's score exposes the terms V14 §2.5 names or their fallbacks (J-V14.36); that V13's charter admits a
+>   non-settlement frame; that the classifier's per-unit call is cheap enough for G6's row (V14 §6).
+> * The kind rows' five road columns (`roadAccess`, `approach`, `coherence`, `correction`, `bendM`) and the ten site
+>   coherence tests' constants (V14 §2.5; J393): own values until the V14-P panel and M-CAL/world measure them.
+*Reason:* 941 (j) says PLAUSIBLE; §12's list is where the volume keeps the claim (the Fable critique, C-10).
+
+**948 (i).** The index — §1 The product map (replacement). Target: `docs/volumes/INDEX.md`, line 48 (md5 `42881796…`) as it stands now. *From:* the Fable critique, C-11 (critic.md §3).
+*Current text:*
+> stand with no admission item, each for the coherence pass to admit by an item of its own (J387's and J388's pending ledger).
+*New text:*
+> stand with no admission item, each for the coherence pass to admit by an item of its own (J387's and J388's pending ledger); file t adds BCR-V14-26 (an `inFrame` world site's road-access face) and applies it to the base's §4.9 and §7.3 itself (item 945; J393).
+*Reason:* The census names every request and how each reached the base (the Fable critique, C-11).
+
+**948 (j).** BASE — the revision notes under the title (insertion). Target: `docs/ARCHITECTURE.md`, line 5 (md5 `1f871a01…`) as it stands now. *From:* the Fable critique, C-11 (critic.md §3).
+*Current text:*
+> the held-set clause and six wording and evidence points corrected (lane retrovalidation/small; J392)
+*New text:*
+> the held-set clause and six wording and evidence points corrected (lane retrovalidation/small; J392)
+>
+> > **Revision — 2026-10-18 (the apply lane of file t, `docs/AMENDMENTS-2026-10-18t.md`, items 941 (q) and 945 (j)–(k) applied: §4.9's hinterland decorations gain the `worldSite` reservation's road-access face (`driveway` for `required`, `path` for `preferred`; BCR-V14-26), §7.3's S12 row lays it, §4.12's `Destination` comment reads `roadAccess` for `routed`; the owner's word on sites and their roads, J393).**
+*Reason:* The base records every amendment file applied to it under its title (file l's note, base:5) (the Fable critique, C-11).
+
+**948 (k).** The summary — What the two new volumes ask of you (replacement). Target: `docs/volumes/SUMMARY.md`, line 213 (md5 `9d142283…`) as it stands now. *From:* the Fable critique, C-12 (critic.md §3).
+*Current text:*
+> the M0 gate (item 140: fourteen "do not foreclose" checks on the kernel and
+*New text:*
+> the M0 gate (item 140: twenty-six "do not foreclose" checks on the kernel and
+*Reason:* The gate holds K1–K13 and M1–M13 once file t lands (item 140's twenty, item 141's four, file t's two); the owner's count is the gate's (the Fable critique, C-12).
+
+---
+
+## Gaps judged not taken
+
+None. Each of the critique's twelve corrections (C-1 – C-12) carried its exact text and is taken as written; the
+verifier reported no failure. Three things the fix lane observed in carrying them, each answered here (the full record
+is `fix.md`):
+
+1. **C-5's phrase carried to two more instances.** 945 (f) ("each joined to an entrance gate by G5 (f)") and 946 (t)'s
+   J-V14.59 ("join it to the nearest entrance gate by S4's router") said what C-5 corrects for a site with no enclosure;
+   both now read the critic's own words, "an entrance (its gate where the enclosure has one, else the entrance unit's
+   point)". Nothing new is invented: the same phrase, the same defect.
+2. **The name "the way to the gate"** (945 (g)'s bold name of the step, 945 (i), 946 (s), 946 (x)'s "its gate") — kept
+   as the critic kept it in 945 (g)'s new text: it names the step, whose end G5 (f) now defines (the gate where the
+   enclosure has one, else the entrance unit's point); T-V14-35's "the way to the entrance writes its reason", the
+   critic's wording, reads the same step.
+3. **"A bridge fort onto the road's river crossing"** (940 (b), 947 (m) and item 940's clause table) — plain words for
+   the owner, in which a track is a road ("road access" is the owner's own phrase); the kind row (941 (j), C-3) carries
+   the class, `track`. Kept.
 
 ---
 
@@ -1451,7 +1586,8 @@ never re-sited" is kept (J-V14.61). (6) *The estimate* — priced and holding (i
   join that search as a filter (V14 §3.4 (a), 943) without changing a weight; only `routeNear`'s line says it counts public
   routes (941).
 - **V14 §3.6 (b) 2's approach side** ("else the side facing the nearest route") — unchanged: G5 (f)'s new step joins
-  whichever charter road the frame has to the nearest gate, so no side rule is needed (B-61 not taken).
+  whichever charter road the frame has to the nearest entrance (its gate where the enclosure has one; C-5), so no side
+  rule is needed (B-61 not taken).
 - **V14 §3.10 E1 (4), E3, E4 (b)** — they read the charter's roads and the route layer, which now include the approach
   road: no text changes (T-V14-35's crop clause tests it).
 - **BCR-V13-30** (charter highways and roads as forced gate picks; no admission item yet, INDEX:48) — unchanged: an
@@ -1459,7 +1595,8 @@ never re-sited" is kept (J-V14.61). (6) *The estimate* — priced and holding (i
 - **The base's §7.3 placement row** ("P1–P5 then W9, W7–W8 over the landmass") — unchanged: it is the general row for
   every placement and its scope is declared; V13 §4.3's site row (943) is the narrower reading for a site subject.
 - **Dated records that name `routed`** — V14's Revision 1 note (V14:11), J-V14.37 (V14:3092), J-V14.43's text with A's
-  dated note (941), §12's CONFIRMED line "W7 reads `routed`" (V14:3223, what Revision 1 confirmed) and the `_integrate`
+  dated note (941), §12's CONFIRMED line "W7 reads `routed`" (V14:3113, what Revision 1 confirmed; kept, with the dated bracket
+  948 (g) adds, C-10) and the `_integrate`
   and critique records: history, as written.
 - **The volumes' totals and V14 §11 Q3's cost** — unchanged: the new work's ≈ 0.5 pw holds inside the rows (946).
 - **V13 §11 and its questions** — none added: the one owner question is V14's (Q5), with its index and summary rows.
@@ -1468,7 +1605,6 @@ never re-sited" is kept (J-V14.61). (6) *The estimate* — priced and holding (i
 - **`docs/ARCHITECTURE-FULL.md`** — derived; regenerated at apply, never edited.
 
 **For the session** (not items): (1) the ledger — J393's landing (this file's application) and the critic's verdict want
-their rows in `docs/PROGRESS.md`; (2) observed and left, each older than J393 and outside it: SUMMARY:213's "fourteen 'do
-not foreclose' checks" does not match the gate's rows (K1–K13, M1–M11 before this file); V13's patrol `gradeShift` has
+their rows in `docs/PROGRESS.md`; (2) observed and left, each older than J393 and outside it: V13's patrol `gradeShift` has
 no `trail` row for W7 (5)'s seat trails; the base's §7.3 placement row and §6.3's "world route | its ends" predate the
 host-bound W7 and the route identity "ends and mode" (read-base gap 4) — the coherence pass's to restate.
