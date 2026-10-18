@@ -28,7 +28,7 @@ row of `plat/docs/build/choices.md`.
 | K12 | The commit journal records the stage, the concern and the inputs a stage read, so a reason record can be reconstructed for every kernel-transaction stage | read `tx/`, `CommitRecord`; if absent, carry to M1 with the smallest addition named |
 | K13 | No digest, reference form, invariant or kernel operation reads or assumes an elevation; `Frame` and the lattice are two-dimensional only | grep for any z-like field in `kernel/src/`; read `num/`, `digest/`, `types/refs.ts` |
 
-## Model rows (M1–M11)
+## Model rows (M1–M13)
 
 | # | the row | verification |
 |---|---|---|
@@ -43,3 +43,5 @@ row of `plat/docs/build/choices.md`.
 | M9 | Every drawable record kind declares a base elevation and a top, or a surface, or is listed flat with a reason; the gap list is the finding | read the model's record types against §8.4 |
 | M10 | Every vertical-link record (stair, shaft, ramp, trapdoor, access) carries an elevation at both ends | model, the records of §2.6–§2.7 |
 | M11 | The projection and the vertical exaggeration are view state outside the document hash; the style store's schema admits a projection family | §2.9 view state, §8.2 styles |
+| M12 | The hinterland unit's L3 access faces (an outside plot's `driveway`, a decoration's `path`) can begin at a point on a reservation's boundary — the face's origin a point, not a plot or a decoration id — without a new role, layer or digest change (V14 §3.9 (g), BCR-V14-26; J393) | read the hinterland unit's face types and S12's operator; if the origin is typed to a plot or a decoration, an M1 item |
+| M13 | S4's router admits a way between two given points — a charter road's point on a frame's ring and an entrance point (a gate where the enclosure has one) (M0-c-03's deferred two-point road) — and a way's end at the frame ring carries its external bearing, so V14 §3.6 (f)'s way from a world site's charter road to its gate is not foreclosed (J393); nothing is built at M0 | read M0-c-03's `defers` (the two-point road named with its milestone) and `Way.to`'s external `bearing` form (§2.4; C-0236 (18)); if a way's end cannot be given as a point, an M1 item with the smallest addition named |
