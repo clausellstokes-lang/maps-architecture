@@ -9542,3 +9542,8 @@
 2026-10-17 14:01 amendments/lens-p-apply LANDED docs/validation/coherence/lens-p.md (opus; J375)
 2026-10-17 14:29 amendments/lens-q LANDED docs/AMENDMENTS-2026-10-17q.md (opus; J375)
 2026-10-17 15:09 amendments/lens-q-apply LANDED docs/validation/coherence/lens-q.md (opus; J375)
+2026-10-18 00:23 retrovalidation/population-verify CHECKPOINT started; target read whole (1,091 lines); verifying claims section by section (opus; J390, Fable-checked)
+2026-10-18 00:23 retrovalidation/trade-verify CHECKPOINT read research/sf/trade-system.md whole (1,307 lines); verifying citations at 81f1cd96; record docs/validation/retrovalidation-2026-10-18/trade-verify.md (opus; J390, Fable-checked)
+2026-10-18 00:23 retrovalidation/alignment-verify CHECKPOINT read research/sf/alignment-system.md whole (1,246 lines); verifying citations at 81f1cd96; record docs/validation/retrovalidation-2026-10-18/alignment-verify.md (opus; J390, Fable-checked)
+2026-10-18 00:23 retrovalidation/faith-verify CHECKPOINT read research/sf/faith-system.md whole (1,516 lines); verifying citations at 81f1cd96; record docs/validation/retrovalidation-2026-10-18/faith-verify.md (opus; J390, Fable-checked)
+2026-10-18 00:23 retrovalidation/fp-verify CHECKPOINT reading research/sf/fp-simulator.md and fp-physical-integration.md whole; verifying at 81f1cd96; record docs/validation/retrovalidation-2026-10-18/fp-verify.md (opus; J390, Fable-checked)
