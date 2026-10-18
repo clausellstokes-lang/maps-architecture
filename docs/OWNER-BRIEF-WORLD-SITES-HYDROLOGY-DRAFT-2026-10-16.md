@@ -79,6 +79,8 @@ now and are M1's to change. Every row is "do not foreclose"; where a row can be 
 | M9 | z-completeness: every drawable record kind declares a base elevation and a top, or a surface, or is listed flat with a reason | read the model's record types; the gap list is the finding |
 | M10 | vertical-link records (stair, shaft, ramp, trapdoor, access) carry an elevation at both ends | model, V03/V04 records |
 | M11 | the projection and vertical exaggeration are view state outside the document hash; the style store's schema admits a projection family | §2.9 view state, §8 styles |
+| M12 | the hinterland unit's L3 access faces (an outside plot's `driveway`, a decoration's `path`) can begin at a point on a reservation's boundary (J393) | the face types and S12's operator |
+| M13 | S4's router admits a way between two given points (a frame-ring point and an entrance point (a gate where the enclosure has one); the deferred two-point road), a way's end at the ring carrying its external bearing (J393) | M0-c-03's `defers`; `Way.to`'s bearing form |
 
 Deliverable: `docs/build/checks/M0-world-sites-gate.md`, every row CONFIRMED or PLAUSIBLE with evidence, signed in the
 clean-room ledger. M0 does not close without it. No row is closed by changing the design to match the code without a
@@ -150,7 +152,9 @@ are the volumes' sources; the threads of 2026-10-16 are placed as follows.
   transient crop; the site card with its two attachment modes and the surface exception; the admissibility table; the
   request record and the complexity vector; composition and topology-first materialization; the history superposition;
   lifecycle, condition transforms and the two deletion verbs; the anchor record, context-dependent icons and the
-  knowledge layers; scale and the VTT crop scope with a stable grid origin.
+  knowledge layers; scale and the VTT crop scope with a stable grid origin; and, by the owner's word of 2026-10-18
+  (J393), each site kind's road access, its place on the road network and the catalogue-dependent autocorrect of its
+  placement on the world map (with V13's routes and placement law).
 - **Scale coherence** (item 135) as a cross-cutting section of both: three regimes, boundary conditions downward,
   deterministic refinement, edits stored at their scale, per-regime tables and budgets.
 - **The decision matrix and the dependency graph** of the original brief's §34–§35, with every arrow labelled and
