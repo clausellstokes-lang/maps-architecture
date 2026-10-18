@@ -96,3 +96,45 @@ marker or burg to a road or a road to a marker. [READ by absence over the whole 
 B16 [INFERRED from B3, B4] In FMG the "road access" of a non-burg place is incidental (a marker predicate may require a
 route nearby); there is no per-kind access rule.
 
+## C. `research/fmg/notes/fmg-human-layers.md` (md5 66ca39ce…, 354 lines; read whole)
+
+C1 [READ] Pipeline order (human slice): `burgs` (30) → `states` (31) → `routes` (32) → `religions` (33, reads routes for
+passage cost) → `burgsSpecify` (34, reads "routes connectivity") → … → `markers` (45, reads routes) → `zones` (46,
+reads routes) → `journeys` (48, reads routes). Routes read "burgs (capital/port/feature/xy)" and write `pack.routes`
+(roads/trails/searoutes) and `cells.routes`. (`research/fmg/notes/fmg-human-layers.md`:25-46)
+C2 [READ] FMG burg groups include non-town site-like kinds: "fort (citadel without walls/plaza/port, ≤ 1), monastery
+(temple without walls/plaza/port, ≤ 0.8), caravanserai (plaza, no port, ≤ 0.8, desert/savanna biomes), trading_post
+(plaza, ≤ 0.8, forest/tundra/wetland biomes)"; these are burgs, hence trail endpoints. (:125; preview: "fort,
+monastery, caravanserai and trading_post have no preview", :248)
+C3 [READ] Routes (3.6): main roads = per-landmass capitals' Delaunay → Urquhart; trails = "the same per landmass over
+*all* burgs"; sea routes = per water body Urquhart over ports; "sea, roads, trails" computation order. (:159-162)
+C4 [READ] Land cost: "water cells and zero-habitability biomes are impassable; cost = squared distance × habitability
+modifier (1 + max(100 − habitability, 0)/1000) × height modifier (1 + max(h − 25, 25)/25 …) × 0.5 if the step is
+already a connection × 3 unless the target holds a burg" ("burg cells one third"). (:164)
+C5 [READ] Paths are "smoothed by pulling non-burg vertices … toward the chord midpoint" — burg vertices are pinned.
+Route names use group suffix pools (road/route/way/highway; trail/path/track/pass; route/lane/passage/water way). (:168)
+C6 [READ] "Depended on by: burg population (connectivity), religions (passage cost), markers (inns at crossroads,
+brigands on roads, pirates/sea monsters on sea routes, lighthouses), zones (disease spread, avalanche), journeys, trade
+animation. Helpers `isCrossroad` (> 3 links or > 2 road links) and `getConnectivityRate` feed the Watabou handoff."
+(:170)
+C7 [READ] Markers (3.14): "37 marker types … candidates are drawn at random and a cell is used once; a marker on a
+burg cell takes the burg's position". Road-reading predicates: "inns at populated crossroads; lighthouses on harbour > 6
+cells next to a routed water cell; … sea monsters on routed ocean cells; … brigands on road cells; pirates on routed
+water; … circuses on routed cultured land"; "dungeons at pop < 3 with a Watabou One-Page-Dungeon iframe seeded by map
+seed + cell id". (:221)
+C8 [READ] Markers are placed after routes and are never route endpoints; no marker generates or attracts a road.
+[READ by the pipeline order :43 and the routes inputs :33 "burgs (capital/port/feature/xy)"]
+C9 [READ] Zones: "diseases spread from a burg along routes (cost 5 on a route, 100 off, budget 20-40)"; "avalanches on
+routed cells h ≥ 70". (:225)
+C10 [READ] Journeys: land legs "first try a BFS over the existing route network (rejecting sea links), else A* over
+cells with cost = distance × terrain … × 0.5 on routes (or ×5 when avoiding roads)"; "off-road halves speed". (:217)
+C11 [READ] Village handoff tag: one of "`highway` (connectivity > 1) / `dead end` (= 1) / `isolated`". City handoff:
+`hub` = "1 when the cell is a crossroads (> 3 route links or > 2 road links)". (:288, :265)
+C12 [READ] Recommendation [INFERRED in source]: "Preserve FMG's ordering constraint: suitability → placement → routes →
+everything that reads connectivity. In SettlementForge, routes must exist before the host computes anything
+connectivity-dependent." (:333)
+C13 [READ] Determinism: routes re-seed a local Alea from the map seed (`routes-generator.ts:222`); markers consume the
+global PRNG ("candidates are drawn at random"). (:229, :221)
+C14 [READ] Regenerate of burgs "re-runs ports, specify and routes" (:129); no step re-routes when a single burg moves
+(cf. B8). FMG's stated route limitations: "no river-aware `Routes.connect`" (:236).
+

@@ -83,3 +83,61 @@ Any md5 that changed during the read (J392 applying) is recorded at the fact tha
 - F11. BCR-j4 ("placement record per arena set; … adoption of a site's parts into a settlement document", from 134,
   135, 140); BCR-j6 (site card and lifecycle); BCR-j12 ("the derived-facts port … the settlement-map record (geography
   by the engine, institutions by the host)"). No BCR row in file j names roads or routes. (j:264–282)
+
+### docs/AMENDMENTS-2026-10-16k.md (885 lines, md5 15fffc60…) — read whole
+
+- F12. File k's header form: a `>` status line ("PENDING FABLE REVIEW …"); "Numbered from **600** (file f ended at
+  585 …). **NOT APPLIED**"; source paragraph; supersession statement with a mapping table (BCR-j row → items → note);
+  a **"How to read an item."** paragraph (heading named, current text quoted **once**, new text in full or as
+  mechanism, *Requests* / *Gate* / *BCR-j* / *Needed by* tags, **BASE** vs **STAGED** with milestone); "Four rules
+  bind every item"; "CONFLICT items"; "*Not items*"; `---`; items grouped under the base's `### §` headings; a closing
+  **Census**. (k:1–69, 876–885)
+- F13. Rule (R-c) of file k: "**no random or jitter term in siting** (J-V13.53)"; (R-d) "V13 owns the suitability
+  slot, V14 its purpose terms (J-V13.51)"; and "Item 101 R2 … holds: every 'refused' below is a dossier fact's or a
+  lock's; every other infeasible declaration is bent and named (V14 §3.2's `bend.site.kind`, V13's `W_PLACE_*`
+  offers)". (k:50–56)
+- F14. Item 604: `Reservation.kind` gains `'worldSite'` with `site: Id` — "claimed first as the castle's is (§4.2 S3
+  (2), (8)) at a host-founded settlement over a free-standing site, the site's enclosure, buildings, plots, ways and
+  terrain pre-edit entering the creation prefix as drawn constraints (§7.2 …), and at an `inFrame` drop (V14 §3.9 (g))
+  by §7.3's reservation operator". STAGED (M-SITE-A for `inFrame`; M-SITE-F for adoption). (k:135–142)
+- F15. Item 607 (c): the registry gains world kinds incl. `WorldRoute`, `SitingProposal`, `Placement`, `FrameCharter`;
+  routes' `z` is `{ surface: 'dem' }`. (k:190–196)
+- F16. Item 611: `Destination` admits `kind: 'worldSite'` "for **S4 after adoption only** — the adopted site's gate as
+  a frame-scale destination inside the settlement's frame; **V13's siting reads the card's `attraction` and `routed`,
+  never a destination (C14-04)**". The placement operators P1–P5 "are §7.3 local operators, not stages". (k:274–289)
+- F17. Item 614: the world's warning codes include `W_ROUTE_NO_PATH`, `W_POLITY_SEAT_MOVED`, `W_PLACE_*`,
+  `W_PLACEMENT_OVERLAP`, `W_CHARTER_*`; the site's include `W_SITE_NO_ACCESS`; the refusals `refuse.place.*`,
+  `refuse.site.*` are "§7.1 outcome keys rendered by V09's catalogue, never report codes (C13-53)". (k:320–330)
+- F18. Item 615 (a): `world.siting` is a "**reserved id, not a stream**" — "siting draws nothing: V13 §3.7 (6)'s
+  tie-break, R-c"; `place.search` likewise reserved; (b) the `site` concern draws for "G8's access candidate" among
+  others; (c) stage ids `W6a`, `W6b`, `W7a`, `W7b`, `WORLD_PLACE`, `WORLD_CASCADE`, `G1`…`G8` appended, "no `P1` … `P5`
+  ids". (k:335–357)
+- F19. Item 616: the anchor table gains "a route by its ends"; "a placement by its subject". (k:369–371)
+- F20. Item 617: `EditEvent` gains V13 §4.1's `placeFrame`, `setPlacement`, `mirrorFrame`, `worldWins` with `ids?`,
+  `unplaceFrame`, `setSeats`, …; V14 §4.2's `dropSite`, `setSiteRequest`, `promoteEncounter`, `adoptSite`;
+  `ConflictAction.kind` gains `'keep'|'takeOffer'|'accept'|'cancel'` with `offer?: number`; `verb` ignored on "a
+  placement and V14's remove/destroy". (k:382–404)
+- F21. Item 618 (§7.3's table rows): "a placement (`placeFrame`, `setPlacement`, `mirrorFrame`, `worldWins`,
+  `unplaceFrame`): P1–P5 then W9, **W7–W8 over the landmass**, pinned the frame's arenas, plots, buildings and locks and
+  other placements, `worldWins`'s Re-derive from S1 declared. **V14 §4.7's rows (a drop's, an adoption's, a
+  conversion's) read these and §7.3's existing reservation and assignment rows and add none.**" (k:409–419)
+- F22. Item 619: the second reserved session `world:place` — "the world's placement fold writes a frame's `charter`
+  event there (author `world`, no group, in no user's undo stack …)". (k:424–433)
+- F23. Item 620: `tables/sites/*` = `admissibility`, `kinds`, `grammar`, `extent`, `purpose`, `lifecycle`,
+  `occupancy`, `crop`, `embed`, `damage`, `view25`; V13's tables include `world.suitability`, `world.routes`,
+  `world.polity`, `place.coherence`; "the admissibility row's `context` keys fixed and every other cell by its
+  schema". (k:438–447)
+- F24. Item 621: the world port's outbound `routes(world) → WorldRoute[]`, `proposals(world, demand) →
+  SitingProposal[]`; inbound `seats(world, seeds)` and `costLaw(world, law)` "as recorded inputs"; "the host reads
+  derived facts and never an arena, the map writes no dossier fact except through this door as a derived fact — bar 9".
+  (k:452–466)
+- F25. Item 642: "a thorp placed by V13 over a fort claims the fort's envelope first, its tofts growing outside the
+  glacis (V14 §3.9 (f))"; "a village frame is placed as a town frame is (V13 §1.4)". (k:772–780)
+- F26. Item 643: the site's host record `WorldSiteRecord` ("existence, kind, name, owner or faction, status, position
+  in V13's regime"). (k:791–793)
+- F27. Item 644: T6 **Drop a site** one-click; `placeFrame` … `worldWins` → T6 `place`'s mode; `setSeats` → T6's seat
+  pins; "the `W_PLACE_*` warnings' actions". (k:803–821)
+- F28. Item 645: "the clerk's `placeAt` proposal on the world as `nearestLawful` rendered (V13 §4.7)"; `WorldRoute`
+  and `SitingProposal` are `WhyProvider` kinds. (k:833–837)
+- F29. File k census: 48 items (600–647); no item in file k names road access for a site, a site's route leg, or a
+  site's autocorrect. (k:878–885)

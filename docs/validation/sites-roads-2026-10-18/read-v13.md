@@ -66,3 +66,66 @@ gaps section for what the volume text does and does not say against the README's
 17. §1.4: any settlement rung THORP–METROPOLIS may be placed; a standalone neighbourhood document never (J-V13.47).
    (V13:420–422)
 
+### §1b wiring and §2.1 (lines 424–617)
+
+18. §1b.1 `FrameCharter` fields: "frame in cm, datum, edge elevation profiles, water edges, river crossings, downstream
+   head, roads, climate scalars, water table, biome, resources, territory, sites, `source`"; fed by P4 both directions;
+   feeds S0/S1, `Recipe.charter`, V14's G3 and E1, the port's per-campaign charter, the clerk. (V13:441)
+19. §1b.1 `Placement` (subject, origin, bearing, `mirrored`, `precedenceStamp`, `coherenceCost`, `since`): fed by P1
+   (proposed), `placeFrame` / `setPlacement` / `mirrorFrame` / `worldWins`, and "V14's G8 adoption moves a site's
+   placement into its settlement's"; feeds the transform, P2–P5, the glyph, the orientation terms, the compass, the port,
+   "V14's free-standing site (its card's `placementRef`, V14 §2.2; SW-11)". (V13:442)
+20. §1b.1 `PlacementAnomaly` ("a reported impossibility under a lock"): fed by P5 and the cascade; feeds the clerk, the
+   report, V09's panel. (V13:443)
+21. §1b.1 `WorldRoute` ("a graph edge: ends, mode, class or the host's grade, polyline, time stations, lay version,
+   origin; bound: the host's edge key"): fed by W7 (standalone own selection; host-bound laying exactly the host's genesis
+   edges and lived changes); feeds "the charter's `roads`, the port's `routes`, `routeFacts` and `mapFeed`, W6's economic
+   stage, W9's labels, the view, the exports; V14's E1". (V13:444)
+22. §1b.1 W8b records include `PatrolCadence`; consumers include the port's `mapFeed` and `patrolOffer`, "V13 §3.9 (16)'s
+   border-post proposals, V14's `territoryBorder` term, E1 and E4". (V13:446)
+23. §1b.1 `SitingProposal` ("a scored candidate site with its reason and its `WaterAccess`"): fed by W6 and "V13 §3.9
+   (16)'s transient border-post proposals"; feeds the host, V14's G3, the clerk. (V13:448)
+24. §1b.1 `TravelLaw` feeds `derivedTime`, time stations, `timeDelta`, the world dialog's span, W8b's paces, "the patrol
+   cadence". `RouteLayRule` (`world.routeLay`) feeds W7. `PolityFacts` carry "held sites, satellites, … road watches";
+   feeds W8b and "the patrol cadence". (V13:453–455)
+25. §1b.1 `RouteGenesis`, `NetworkChange`: fed by `WorldPort.genesis`, `WorldPort.network` (recorded inputs); feed
+   "bound W7; the route layer; the frame's road rows at a week (`roadsAt`)". (V13:460)
+26. §1b.1 table list includes `world.suitability`, `world.routes` ("the host's cost law: a host slice and the default
+   row"), `world.routeLay` ("the map's lay rules"), `world.travel`, `world.polity`, `place.coherence`. (V13:472)
+27. §1b.1 stage warnings include `W_PLACE_BENT`, `W_PLACE_NO_LAWFUL`, `W_PLACE_ANOMALY`, `W_BLEND_CLIPPED`,
+   `W_TRAVEL_BAND_CROSSED`. (V13:473)
+28. §1b.1 concern `world.patrol`: "the patrol phase hash keyed by (segment, power), V13 §3.9 (14); no stream of draws";
+   `place.search` a concern; `world.siting` a concern. (V13:475)
+29. §1b.2 `charterFor(world, placement | transient)` (P4 world-first; transient record-less form for a crop frame, SW-05)
+   and `charterFrom(frame, blend)` (P4 settlement-first). (V13:488)
+30. §1b.2 message `world.placed { placement; subject; extent; covers }` (P4/P5's outcome row → the application →
+   `@plat/sites`; SW-10). (V13:490)
+31. §1b.2 `coherence(world, frame, origin, bearing)` → `CoherenceCost` and `nearestLawful(world, frame, origin)` →
+   `Placement[]` (P1), callers the `placeFrame` dry run, V09's placement tool, the clerk's `placeAt`. (V13:491)
+32. §1b.2 `score(cell, ctx, weights, hard?)` over the `terms` registry, `terms.register(term)`; V14 registers its purpose
+   terms; "no jitter, SW-03". (V13:495)
+33. §1b.2 `RouteCostLaw` ("the host's law as data: its values and version, each term tagged `time` or `choice`; the
+   default row ours") and `RouteLayRule` ("the map's network formation"); consumers W7, W8a, W8b's travel times,
+   `derivedTime`, V14's E1. (V13:496)
+34. §1b.2 effort-metre: "one metre of level open ground at the cost law's base rate (effort = Σ step cost under the time
+   terms ÷ (`landBase` × `perM`))"; `derivedTime` by `basis` absolute / normalized / normalizedFrozen. (V13:497)
+35. §1b.2 `WorldPort` offers include `routeFacts`, `patrolOffer`, `routes(world)`, `pathGeometry`, inbound `genesis`,
+   `network`, `polity`, "the outbound offers `physicalChange` and the DM-placed site offers of the DM's map feed". (V13:498)
+36. §1b.2 `worldFactsAt` returns terrain, surfaces, biome, route, the seat territory, the polity (incl. patrols), "the
+   site placements", recent events. (V13:504)
+37. §1b.2 `roadsAt(placement, week)` ("the frame's road rows at a week, from the lived network"), consumers include "the
+   charter's re-emission at a growth or a re-placement"; `patrolAt(world, segment, power, week)` → boolean "on its fixed
+   phase". (V13:508–509)
+38. §1b.3 placement edits: `requestCharter`, `bindPlacement`, `placeFrame`, `setPlacement`, `mirrorFrame`, `worldWins`
+   ("whole or scoped by `ids`"), `unplaceFrame`, the frame's own `charter` event; tool T6 `place`. (V13:528)
+39. §1b.3 `setAttr` on a `WorldRoute` (`class`, "standalone only; a host route's grade is the host's") and on a
+   `Placement` (`bearingCdeg`, `originCm`). (V13:530)
+40. §1b.3 `setSwayLock`: on a host-bound world a presentation lock "the map feed's crossing holders and `patrolOffer`
+   never do" read. (V13:533)
+41. §1b.4 `WorldRoute` rendered "by class or the host's grade (a hidden host road a DM-only ghost)"; labelled "none (a
+   route takes its ends' names)"; exported as GeoJSON LineString, ecosystem JSON routes, CSV. `PatrolCadence` rendered as
+   "the `patrols` tints", "derived on load from the revision". `PlacementAnomaly` "a notice pin … derived; never persisted
+   (V13 §2.4)". (V13:552, 555, 562)
+42. §2.1: on a host-bound world "political and military event kinds are refused (`refuse.world.hostPolitical`), the world
+   editor opening the host's own command for them as for routes (V13 §3.8 (9))". (V13:588–589)
+
