@@ -1,0 +1,86 @@
+{
+ "checked": 1183,
+ "findings": [
+  {
+   "id": "AV-1",
+   "where": "docs/volumes/V13-world.md:953 (RouteCostLaw; file m item 695 as file n item 793 left it)",
+   "claim": "classFactor is 'the host's per-terrain-class factor … when present it replaces biomeFactor'; elevationKneeFactor is 'the host's elevation knee: a step above it costs × the factor'",
+   "verdict": "IMPRECISE",
+   "evidence": "host 81f1cd96: src/domain/spatial/spatialCost.js:35-49 (BIOME_COST, 13 biome rows), :62-67 and :96-101 (terrain classes key receipts and the seasonal factor only), :241-254 (terrainClassOf puts biomes costing 1.6/1.9/2.6/2.2/2.2 in one forest class), :385 (elevMult = 1 + (h - 60)/15, a ramp). Neither field carries the host's present law; they are the shape of its law 2 (V13 H6; J-V13.73 rejects porting the first law). realm.md:101 (J-RR.12) says 'the v1 law's inputs (knee, river add) are expressible' — for the Fable validator to weigh.",
+   "fix": "In docs/volumes/V13-world.md replace `classFactor?: Record<string, number> /* the host's per-terrain-class factor through the adapter folder's class table; when present it replaces biomeFactor */; elevationKneeM?: number; elevationKneeFactor?: number /* the host's elevation knee: a step above it costs × the factor */;` with `classFactor?: Record<string, number> /* a host law's per-terrain-class factor through the adapter folder's class table — the shape of the host's law 2 in this schema (H6); its first law prices by biome, its terrain classes keying only its receipts and seasonal factors — when present it replaces biomeFactor */; elevationKneeM?: number; elevationKneeFactor?: number /* a host law's elevation knee: a step above it costs × the factor — law 2's shape (H6); the host's first law's knee is a ramp one factor does not carry, and that law is not ported (J-V13.73) */;`"
+  },
+  {
+   "id": "AV-2",
+   "where": "docs/AMENDMENTS-2026-10-17m.md:1474 (item 727 Evidence)",
+   "claim": "the host's frozen gates carry pack cell indices and the digest stores no coordinates, host `spatialDigest.js:771-775`",
+   "verdict": "WRONG",
+   "evidence": "spatialDigest.js:771-775 is step 4b (neighbour tiers); gates {between, cellA, cellB, cost} are built at :813-817 from the crossings chosen at :700-727; TerritoryLayer.jsx:12-17 holds",
+   "fix": "replace \"host `spatialDigest.js:771-775`\" with \"host `spatialDigest.js:700-727,813-817`\""
+  },
+  {
+   "id": "AV-3",
+   "where": "docs/AMENDMENTS-2026-10-17m.md:963 (item 713 Evidence)",
+   "claim": "the ledger's facets and five events, 'patrolled is not a change' — routeNetworkLedger.js:64-181",
+   "verdict": "IMPRECISE",
+   "evidence": "routeNetworkLedger.js:64-181 holds grades, charter flavours, flow accrual and the bypass; the five event words and 'a road being walked, patrolled or garrisoned is not a CHANGE' are src/domain/certification/subsystemRowsWaves.js:356-366 (cited by the research note's RR-15, dropped by file m)",
+   "fix": "replace \"\\\"patrolled is not a change\\\", hidden never absence, `routeNetworkLedger.js:64-181`\" with \"\\\"patrolled is not a change\\\", hidden never absence, `routeNetworkLedger.js:64-181`, `src/domain/certification/subsystemRowsWaves.js:356-366`\""
+  },
+  {
+   "id": "AV-4",
+   "where": "docs/AMENDMENTS-2026-10-17q.md:497-498 (item 909 Evidence) and :899 (review issue 3)",
+   "claim": "a cost-law change 'a DISCRETE re-canonize event', behind the entitlement — PHASE55_SPATIAL_ENGINE_DESIGN.md:1372-1375, :1534-1535",
+   "verdict": "IMPRECISE",
+   "evidence": "PHASE55:1372-1375 holds; :1534-1535 is §VI.4 owner decision 3, still open ('re-derive on next open behind the entitlement, or freeze old canons on their old law forever'); the entitlement holds because every canonize is premium-gated at src/store/campaignWorldPulseSlice.js:389-391",
+   "fix": "(:497-498) replace \"host `docs/PHASE55_SPATIAL_ENGINE_DESIGN.md:1372-1375`, `:1534-1535`⏎(a cost-law change \\\"a DISCRETE re-canonize event\\\", behind the entitlement)\" with \"host `docs/PHASE55_SPATIAL_ENGINE_DESIGN.md:1372-1375`⏎(a cost-law change \\\"a DISCRETE re-canonize event\\\"; behind the entitlement as every canonize is, `src/store/campaignWorldPulseSlice.js:389-391`; the installed base's re-derivation an open owner decision, `:1534-1535`)\"; (:899) replace \"a cost-law change is a discrete, entitled re-canonize (`PHASE55…:1372-1375`, `:1534-1535`)\" with \"a cost-law change is a discrete re-canonize (`PHASE55…:1372-1375`), entitled as every canonize is (`campaignWorldPulseSlice.js:389-391`; the installed base's policy an open owner decision, `PHASE55…:1534-1535`)\""
+  },
+  {
+   "id": "AV-5",
+   "where": "docs/AMENDMENTS-2026-10-17m.md:719 (item 698 Evidence)",
+   "claim": "army time is ceil(1.5 × weeks ÷ readiness)",
+   "verdict": "IMPRECISE",
+   "evidence": "armyTransit.js:298-300: weeks = ceil(base × 1.5 / max(0.1, 1 + 0.4·(readiness − 0.5)·2)), clamped to [1, 52] (realm-verify RV-2, accepted by realm.md)",
+   "fix": "replace with \"army time is ceil(1.5 × weeks ÷ (1 + 0.4·(2·readiness − 1))), clamped to [1, 52]\""
+  },
+  {
+   "id": "AV-6",
+   "where": "docs/AMENDMENTS-2026-10-17m.md:774 (item 701 Evidence)",
+   "claim": "the host's edge id is the pair and the mode, host `DESIGN_ROUTE_LIFECYCLE.md:71-80`",
+   "verdict": "IMPRECISE",
+   "evidence": "DESIGN_ROUTE_LIFECYCLE.md:71-80 is the RouteEdge shape; the id rule route.<a>.<b>.<mode> is :86, built at src/domain/worldPulse/routeNetworkLedger.js:239-241 (RV-3)",
+   "fix": "replace \"the host's edge id is the pair and the mode, host `DESIGN_ROUTE_LIFECYCLE.md:71-80`\" with \"the host's edge id is the pair and the mode, host `DESIGN_ROUTE_LIFECYCLE.md:71-86`, `routeNetworkLedger.js:239-241`\""
+  },
+  {
+   "id": "AV-7",
+   "where": "docs/AMENDMENTS-2026-10-17m.md:834 (item 706 Evidence)",
+   "claim": "at least thirteen self-describing host axes, each bumped only by a discrete re-canonize, host `spatialDigest.js:116-179`",
+   "verdict": "IMPRECISE",
+   "evidence": "spatialDigest.js:117-179 declares six version axes; twelve canon axes exist across src/domain/spatial (spatialCost.js:82, seaLanes.js:85, waterBodies.js:60, spatialSubstrate.js:65, teleportEdges.js:64, captureSidecar.js:41 beside the six); the thirteenth *_VERSION (armyTransit.js:120) is a decision-record schema (RV-1)",
+   "fix": "replace with \"at least twelve self-describing canon axes, each bumped only by a discrete re-canonize — six in host `spatialDigest.js:117-179`, with `spatialCost.js:82`, `seaLanes.js:85`, `waterBodies.js:60`, `spatialSubstrate.js:65`, `teleportEdges.js:64`, `captureSidecar.js:41`\""
+  },
+  {
+   "id": "AV-8",
+   "where": "docs/AMENDMENTS-2026-10-17m.md:216 (item 666 Evidence)",
+   "claim": "the host's frozen record is read through one gate by 31 modules",
+   "verdict": "IMPRECISE",
+   "evidence": "32 src modules import activeSpatialDigest at 81f1cd96 (multi-line-import-aware scan: components/map RoadsLayer, TerritoryLayer, TravelRingsLayer, TravelersLayer; CharterRoadCard; briefs/roadScene; display/settlementRumors; events/realmManifest; region/neutralNeighbourEdges; spatial/rumorNetwork; 21 worldPulse modules; store/userRouteCharter)",
+   "fix": "replace \"read through one gate by 31 modules\" with \"read through one gate by 32 modules\""
+  },
+  {
+   "id": "AV-9",
+   "where": "docs/AMENDMENTS-2026-10-17q.md:360 (item 902), :498 (item 909), :637 (item 915), :897 (review issue 1)",
+   "claim": "src/domain/spatial/canonMembership.js:116-127",
+   "verdict": "IMPRECISE",
+   "evidence": "canonMembership.js has 125 lines; the 'Re-map to bring it into the canon' note is :116-124",
+   "fix": "in docs/AMENDMENTS-2026-10-17q.md replace each of the four occurrences of `116-127` with `116-124`"
+  },
+  {
+   "id": "AV-10",
+   "where": "docs/AMENDMENTS-2026-10-17m.md:745 (item 699 Evidence)",
+   "claim": "the reinforcement band was measured on a 2–8 army-week spectrum",
+   "verdict": "IMPRECISE",
+   "evidence": "sovereigntyReach.js:60-79 gives the measured 2w–8w spectrum as hopWeeks of every ordered pair; the band (MAX_REINFORCEMENT_WEEKS 5, :81) is a march-week ceiling run through armyMarchWeeks (:23-28, :189-190)",
+   "fix": "replace with \"the reinforcement band (5 march weeks) was chosen inside a measured spectrum of 2–8 hop weeks\""
+  }
+ ],
+ "summary": "Family 'amendments' (files m–q, items 659–925; file r placement only). Reverse and forward replay over the seven targets and README: every current text once at its turn, every new text once after, the forward replay byte-identical to the targets today; every recorded md5 and line count in realm-m/lens-n/lens-o/lens-p/lens-q and file r reproduced (chain consistent, no edit between applications or since r); the amendment files' as-applied md5s reproduced by restoring their status lines; 286 recorded landing lines hold; 367 of 456 m–q new texts present once today, the other 89 each traced to the later fragment(s) that rewrote them; file r's 20 fragments in place. All 225 host path citations (258 line ranges) in the 263 Evidence lines opened at 81f1cd96: 10 findings (1 WRONG citation, 9 IMPRECISE — one a V13 RouteCostLaw comment, AV-1, the rest Evidence citations in files m and q, four of them repeating realm-verify findings RV-1–RV-3 that file m carries). Critic gaps claimed closed: 38 of 38 present (realm-m 15, lens-n 14, lens-o 6, lens-p 3)."
+}

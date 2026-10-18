@@ -1,4 +1,4 @@
-# Live status (written by the autosave loop; last 2026-10-18 04:55 UTC)
+# Live status (written by the autosave loop; last 2026-10-18 05:00 UTC)
 
 Latest lane line per lane key (docs/lane-events.log) for today's lanes:
 
@@ -27,7 +27,7 @@ Latest lane line per lane key (docs/lane-events.log) for today's lanes:
 - 2026-10-18 04:28 retrovalidation/realm LANDED docs/validation/retrovalidation-2026-10-18/realm.md: PASS-WITH-CORRECTIONS — research/sf/fp-realm-review.md read whole (870 lines) with realm-verify.md, rulings.md, J375-J391, file j 131-141, file i 130, file m 659-662, the realm critic, V13 §3.9/§5.8/§8.5/§9/§11/§12; all 13 verifier findings ACCEPTED (RV-1 sharpened; RV-6 re-parsed and confi
 - 2026-10-18 04:31 retrovalidation/lenses LANDED docs/validation/retrovalidation-2026-10-18/lenses.md: PASS-WITH-CORRECTIONS — research/sf/lens-implications.md read whole (613 lines); all 25 verifier findings ACCEPTED on evidence re-read at 81f1cd96 (L8, L11 with a widened fix); 9 own findings (the five latent-strength floors and garrison bucket the note calls absent, which J384 (4)/H13 already 
 - 2026-10-18 04:31 retrovalidation/prosperity LANDED docs/validation/retrovalidation-2026-10-18/prosperity.md: PASS-WITH-CORRECTIONS — research/sf/prosperity-system.md read whole (1,116 lines); all 20 verifier findings ACCEPTED on evidence re-read at 81f1cd96 (5 amended in wording: F4 reaches §1, F9 carried-not-drawn, F17 the mechanism — no rerun on Apply-stressor, the drop lands at the next 
-- 2026-10-18 04:43 retrovalidation/amendments-verify CHECKPOINT files m-q parsed (263 items with fragments, 456 fragments; file r 20); reverse and forward replay over the seven targets and README: every current text once at its turn, every new text once after, the forward replay byte-identical to the targets today, every md5 and line count in realm-m/lens-n/lens-o/lens-p/lens-q and file r reproduc
+- 2026-10-18 04:58 retrovalidation/amendments-verify LANDED docs/validation/retrovalidation-2026-10-18/amendments-verify.md (+ amendments.findings.json): files m-q read whole (items 659-925; 456 fragments) with their five records and five critics, file r placement only; reverse and forward replay over the seven targets and README reproduce every recorded md5 and line count (chain consistent, nothi
 
 Workflow runs: retrovalidation wf_f0931b52-ef5 (task wk5glb73q); host-requirements wf_94da751f-a31 (task wac7fpko5); amendments-r wf_6c3a4aa0-0d5 (LANDED e5de220d).
 Records: docs/validation/retrovalidation-2026-10-18/ (one <family>-verify.md and <family>.md per family, rulings.md, apply-*.md, confirm-*.md, critic.md, README.md); docs/validation/host-requirements-2026-10-18/ (extract-*.md, draft-s3..s8.md, critic.md).

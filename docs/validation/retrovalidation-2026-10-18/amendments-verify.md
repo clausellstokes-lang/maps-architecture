@@ -144,15 +144,82 @@ applied targets as they stand on 2026-10-18 (after file r): `docs/volumes/V13-wo
 - `q:924(b)` → r:926
 - `q:925(a)` → r:926
 
-## (c) progress (interim; superseded by the findings table below when written)
+- **The amendment files themselves.** Restoring each file's line 7 to `**PENDING APPLICATION**` reproduces the md5 every
+  record gives for the source as applied: m `28d01677…` (realm-m.md :12), n `2ae0751b…` (lens-n.md :13), o
+  `d1969bac…` (lens-o.md :14), p `ce8e356d…` (lens-p.md :14), q `46fa12e9…` (lens-q.md :15); today's files equal the
+  records' after-md5s for n `6f6097d5…`, o `28cd49db…`, p `87d9705c…`, q `510edf79…` (realm-m.md gives none for m). So
+  no amendment file changed after its application but by its status line; line counts 2 441, 2 007, 1 231, 677, 920
+  as recorded.
+- **Landing lines.** The 286 "×1 at L…" claims of lens-n.md, lens-o.md, lens-p.md and lens-q.md §1 were recomputed in
+  the reconstructed after-state of each file: all 286 hold (realm-m.md records none). lens-n.md's §5.8 / §5.9 /
+  §6 heading lines (:47-48) hold in the after-n state.
+- **The bundle.** `python3 tools/bundle_architecture.py --check` today: "UP TO DATE", exit 0 (read-only; the records'
+  own bundle runs are not re-checkable after the fact).
+- **File r** (the owner's word, placement only): its twenty fragments (a)–(t) each occur exactly once in their targets
+  (V13 8, INDEX 4, SUMMARY 3, the brief 3, the base 1, README 1); its recorded before/after md5s are the reconstructed
+  ones (table above); q4-r.md's 20/20 holds. Not re-judged.
 
-File m read whole (2 441 lines); every host citation in its 117 *Evidence* lines and its head's readings opened at 81f1cd96; map-side line citations read against the reconstructed pre-m state. Candidates so far:
+## (c) Host citations at 81f1cd96 — 10 findings
 
-- F-cand-1 (m 695/699/714(a) new texts, V13 :953, :1074, :1742-1743): host's v1 knee is a ramp elevMult = 1 + (h−60)/15 (spatialCost.js:385), not "× the factor"; base cost per FMG biome id (BIOME_COST :35-49), terrain classes key receipts (:62-67) and seasonal overlay (:96-101) — "the host's per-terrain-class factor ... replaces biomeFactor" imprecise.
-- F-cand-2 (m 699 evidence, file m :745): "measured on a 2–8 army-week spectrum" — host sovereigntyReach.js:60-79 gives the 2w–8w spectrum as hopWeeks values; the band 5 is a march-week ceiling via armyMarchWeeks (:23-28, :189-190).
-- F-cand-3 (m 713 evidence :963): "the ledger's facets and five events, 'patrolled is not a change' … routeNetworkLedger.js:64-181" — five events + patrolled quote are at src/domain/certification/subsystemRowsWaves.js:356-366 (research note RR-15 cited it; file m dropped it); ledger :64-181 carries grades, charter flavors, flow accrual, bypass.
-- F-cand-4 (m 698 evidence :719): "army time is ceil(1.5 × weeks ÷ readiness)" — armyTransit.js:298-300 divisor is speedMult = 1 + 0.4·(2·readiness − 1) (realm RV-2).
-- F-cand-5 (m 701 evidence :774): "edge id is the pair and the mode, DESIGN_ROUTE_LIFECYCLE.md:71-80" — the id rule is :86; code routeNetworkLedger.js:241 (realm RV-3).
-- F-cand-6 (m 706 evidence :834): "at least thirteen self-describing host axes … spatialDigest.js:116-179" — six there; twelve canon axes across src/domain/spatial (realm RV-1).
-- F-cand-7 (m 727 evidence :1474): "the host's frozen gates carry pack cell indices … spatialDigest.js:771-775" — :771-775 is step 4b neighbour tiers; the gates {between, cellA, cellB, cost} are :813-817 (crossings with cellA/cellB :700-727).
-- F-cand-8 (m 666 evidence :216): "read through one gate by 31 modules" — 32 src modules import activeSpatialDigest at 81f1cd96 (list in scratch).
+All five files read whole (m 2 441, n 2 007, o 1 231, p 677, q 920 lines; r 262). Every host path an *Evidence* line
+cites — 225 path citations, 258 line ranges, in the 263 *Evidence* lines of items 663–925 — and the host lines the four
+review records and file q's preamble add (e.g. `pulseKernel.js:2634-2643`, `campaignPulseHelpers.js:106-170`,
+`relationshipRulesAdversarial.js:264`, `LivingWorldGates.jsx:146-149`, `:200`) were opened at the host
+(`.git/HEAD` → master → `81f1cd963553…`, read with `sed`, never written) and read against what the item says. Every
+path exists (`map-corpus/docs/GENERATION-SPEC.md` is cited only as a document the critic found unread, not as a
+host fact). File m's head readings of the owner's rules (items 659–662: the culture distance's five terms, the
+governance identity, the multiplicative trade and tradition pulls, `cultureDistance.js:1-60`, `:157-200`) hold. Map-side
+line citations were read against the reconstructed pre-file state for file m (V13, the base, V14, the proposal, the
+brief) and spot-read for n–q; none was found wrong. What does not hold (the owner's words quoted in any row are not
+judged; only the files' readings and evidence):
+
+| id | where | claim | verdict | evidence (host at 81f1cd96) | fix |
+|---|---|---|---|---|---|
+| AV-1 | V13 :953 (`RouteCostLaw`, file m item 695 as n:793 left it) | `classFactor` "the host's per-terrain-class factor … when present it replaces biomeFactor"; `elevationKneeFactor` "the host's elevation knee: a step above it costs × the factor" | IMPRECISE | the host's law prices per reference-generator biome (`spatialCost.js:35-49`, 13 rows), its eight terrain classes keying only receipts and the seasonal factor (`:62-67`, `:96-101`; `terrainClassOf` `:241-254` puts biomes costing 1.6, 1.9, 2.6, 2.2, 2.2 in one `forest` class); its knee is a ramp, `elevMult = 1 + (h − 60) / 15` (`:385`), not one factor. Neither field can carry the host's present law; they are the shape of its law 2 (H6; J-V13.73 rejects porting the first law). realm.md :101 (J-RR.12) reads "the v1 law's inputs (knee, river add) are expressible" — for the Fable validator to weigh. | in V13 replace `classFactor?: Record<string, number> /* the host's per-terrain-class factor through the adapter folder's class table; when present it replaces biomeFactor */; elevationKneeM?: number; elevationKneeFactor?: number /* the host's elevation knee: a step above it costs × the factor */;` with `classFactor?: Record<string, number> /* a host law's per-terrain-class factor through the adapter folder's class table — the shape of the host's law 2 in this schema (H6); its first law prices by biome, its terrain classes keying only its receipts and seasonal factors — when present it replaces biomeFactor */; elevationKneeM?: number; elevationKneeFactor?: number /* a host law's elevation knee: a step above it costs × the factor — law 2's shape (H6); the host's first law's knee is a ramp one factor does not carry, and that law is not ported (J-V13.73) */;` |
+| AV-2 | file m item 727 *Evidence* (:1474) | "the host's frozen gates carry pack cell indices and the digest stores no coordinates, host `spatialDigest.js:771-775`" | WRONG (citation) | `:771-775` is step 4b, the neighbour tiers; the gates `{ between, cellA, cellB, cost }` are built at `:813-817` from the crossings chosen at `:700-727`. `TerritoryLayer.jsx:12-17` holds. | replace "host `spatialDigest.js:771-775`" with "host `spatialDigest.js:700-727,813-817`" |
+| AV-3 | file m item 713 *Evidence* (:963) | the ledger's facets and five events, "patrolled is not a change" — `routeNetworkLedger.js:64-181` | IMPRECISE (citation) | `:64-181` holds the grades, charter flavours, flow accrual and bypass; the five event words and "a road being walked, patrolled or garrisoned is not a CHANGE" are `src/domain/certification/subsystemRowsWaves.js:356-366`, which the research note's RR-15 cited and file m dropped | replace "\"patrolled is not a change\", hidden never absence, `routeNetworkLedger.js:64-181`" with "\"patrolled is not a change\", hidden never absence, `routeNetworkLedger.js:64-181`, `src/domain/certification/subsystemRowsWaves.js:356-366`" |
+| AV-4 | file q item 909 *Evidence* (:497-498) and review issue 3 (:899) | a cost-law change "a DISCRETE re-canonize event", behind the entitlement — `PHASE55…:1372-1375`, `:1534-1535` | IMPRECISE | `:1372-1375` holds (a discrete re-canonize); `:1534-1535` is §VI.4 owner decision 3, still open: "re-derive on next open behind the entitlement, or freeze old canons on their old law forever". The entitlement holds only because every canonize is premium-gated (`src/store/campaignWorldPulseSlice.js:389-391`). | (:497-498) replace "host `docs/PHASE55_SPATIAL_ENGINE_DESIGN.md:1372-1375`, `:1534-1535`⏎(a cost-law change \"a DISCRETE re-canonize event\", behind the entitlement)" with "host `docs/PHASE55_SPATIAL_ENGINE_DESIGN.md:1372-1375`⏎(a cost-law change \"a DISCRETE re-canonize event\"; behind the entitlement as every canonize is, `src/store/campaignWorldPulseSlice.js:389-391`; the installed base's re-derivation an open owner decision, `:1534-1535`)"; (:899) replace "a cost-law change is a discrete, entitled re-canonize (`PHASE55…:1372-1375`, `:1534-1535`)" with "a cost-law change is a discrete re-canonize (`PHASE55…:1372-1375`), entitled as every canonize is (`campaignWorldPulseSlice.js:389-391`; the installed base's policy an open owner decision, `PHASE55…:1534-1535`)" |
+| AV-5 | file m item 698 *Evidence* (:719) | "army time is ceil(1.5 × weeks ÷ readiness)" | IMPRECISE | `armyTransit.js:298-300`: the divisor is `speedMult = 1 + 0.4·(readiness − 0.5)·2`, the weeks clamped to [1, 52] (realm-verify RV-2, accepted in realm.md) | replace with "army time is ceil(1.5 × weeks ÷ (1 + 0.4·(2·readiness − 1))), clamped to [1, 52]" |
+| AV-6 | file m item 701 *Evidence* (:774) | "the host's edge id is the pair and the mode, host `DESIGN_ROUTE_LIFECYCLE.md:71-80`" | IMPRECISE (citation) | `:71-80` is the `RouteEdge` shape; the id rule `route.<a>.<b>.<mode>` is `:86`, built at `routeNetworkLedger.js:239-241` (RV-3) | replace "host `DESIGN_ROUTE_LIFECYCLE.md:71-80`" in that clause with "host `DESIGN_ROUTE_LIFECYCLE.md:71-86`, `routeNetworkLedger.js:239-241`" (item 688's use of `:71-80` for the settlement-id keying holds) |
+| AV-7 | file m item 706 *Evidence* (:834) | "at least thirteen self-describing host axes … host `spatialDigest.js:116-179`" | IMPRECISE | `:117-179` declares six; twelve canon axes exist across `src/domain/spatial/` (`spatialCost.js:82`, `seaLanes.js:85`, `waterBodies.js:60`, `spatialSubstrate.js:65`, `teleportEdges.js:64`, `captureSidecar.js:41` beside the six); the thirteenth `*_VERSION`, `armyTransit.js:120`, is a decision-record schema (RV-1) | replace "at least thirteen self-describing host axes, each bumped only by a discrete re-canonize, host `spatialDigest.js:116-179`" with "at least twelve self-describing canon axes, each bumped only by a discrete re-canonize — six in host `spatialDigest.js:117-179`, with `spatialCost.js:82`, `seaLanes.js:85`, `waterBodies.js:60`, `spatialSubstrate.js:65`, `teleportEdges.js:64`, `captureSidecar.js:41`" |
+| AV-8 | file m item 666 *Evidence* (:216) | the frozen record "read through one gate by 31 modules" | IMPRECISE | 32 `src` modules import `activeSpatialDigest` at 81f1cd96 (a multi-line-import-aware scan; list in the scratchpad) | replace "read through one gate by 31 modules" with "read through one gate by 32 modules" |
+| AV-9 | file q :360 (item 902), :498 (909), :637 (915), :897 (review issue 1) | `src/domain/spatial/canonMembership.js:116-127` | IMPRECISE (citation) | the file has 125 lines; the "Re-map to bring it into the canon" note is `:116-124` | in file q replace each of the four `116-127` with `116-124` |
+| AV-10 | file m item 699 *Evidence* (:745) | "the reinforcement band was measured on a 2–8 army-week spectrum" | IMPRECISE | `sovereigntyReach.js:60-79` gives the measured 2w–8w spectrum as `hopWeeks` values of every ordered pair; the band (5) is a march-week ceiling run through `armyMarchWeeks` (`:23-28`, `:189-190`) — the item's own next clause ("5 army weeks admit hop weeks ≤ 3") reads it right | replace with "the reinforcement band (5 march weeks) was chosen inside a measured spectrum of 2–8 hop weeks" |
+
+Every other host citation holds as the item says, among them: the culture distance's composite and its multiplicative
+pulls; the two relationship planes and their aliases; occupation rungs and the treaty-held ceded garrison; hegemony a
+pattern; the cheapest-crossing gates and their class receipts; the port rule GEOGRAPHY ∧ INSTITUTIONS and `port:
+navigable && waterAccess`; the scale datum no caller supplies (no `src` caller passes `options.kmScale`); the decree law
+and the resume that supersedes the minors-only commit; the reinforcement band 5 and its measurement note; the genesis
+with no caller; the field battle's place persisted as a settlement id; the lineage claim dark (its flag false in the one
+preset naming it); the settlement-strength comparator and its 0.04 raid tie; the plague record with no carrier; the nine
+pressure kinds with no band; the demographics lane declared false; the shippable rule, the loose goods reading and the
+custom good; food coverage over the raw deficit and the 0.4 blockade gate; the entrepôt record; the escort frozen at
+dispatch; the rites dated by year; the pilgrim pool computed and dropped; the conservative ×0.65 and the conservative
+preset with its population lane dark; generation seating no deity; the canonize premium-gated, refused mid-advance,
+rebuilding the whole record and carrying only its scale; campaigns created and listed only for premium or staff; a
+graduation minted inside an advance.
+
+## (d) The critic gaps the next file claims to close — 38 of 38 closed
+
+Each gap read in its critic and its closing fragments found in the targets today (or the later fragment that carries the
+closing content, traced):
+
+| critic | gaps | closed by (present today) |
+|---|---|---|
+| `realm-m-critic.md` (15, closed by file n's table :47-63) | 1 H14's terrain word and the proposal's mapping; 2 the sites slot's class and step cost, H5's satellite-ground reader; 3 one host-change list (H12's three clauses, H16's limits and flood exposure, `claims` with a reader, the review's §5 bracket); 4 log-linear `kSize`/`kProsperity`, (7)'s ln-reach sentence, T-V13-41 (r), J-V13.83; 5 the gate ruling (§11, H16, brief :103, J-V13.96); 6 BCR-V13-32's fifteen rows; 7 `bypass` (§2.2, §3.8 (9), J-V13.99); 8 `forceShift`, J-V13.86, J-V13.97; 9 the dossier re-blend in §3.11.5; 10 §8.5's preamble clauses and the planting line; 11 the citation rule, T-V13-44 at M-W1 and -45 at M-W3, V14 request (5), base §11.3's indent and windows; 12 `claims: { by; target }`, `outranked` in law (9) and J-V13.78; 13 H21's unread documents; 14 the dated bracket under `fp-physical-integration.md` §8 (:459-465); 15 V13 §12's bounded deferral | all 15 present; H5's row now ends with file r's answer (r ← n:817(b)'s content kept) |
+| `lens-n-critic.md` (14, closed by file o's table :35-50) | 1 `LensGood`, `economy`, the production-and-need and food-coverage rows, H23, T-V13-56, J-V13.102; 2 `realmRank`, `suppressed`, `standing`, `WorldEvent.cause`, the rank, suppressed and fall rows, J-V13.103; 3 D-V13.8 and §5.9's intro; 4 six *Not drawn in this pass* lines, the catchment row, J-V13.105; 5 §3.9 (6) and J-V13.64 plain form; 6 H22, J-V13.100, §11's ruling; 7 the verdict's hold band in §3.9 (10)/(11)/(13), §4.3, the civil regime, T-V13-41 (s), J-V13.101; 8 base §2.9 keys, §7.7 tail, §1.1 and §16 at 37–45 and 481.35–660.6; 9 V14 SE3 and the base's M-SITE-A row; 10 BCR-V13-39 and §5.8 (1); 11 §5.1's omniscient-regime words; 12 T-V13-47 (a)–(c), T-V13-50 (d), T-V13-7 (e), J-V13.104; 13 the research bracket's flood-exposure phrase (`fp-realm-review.md` :628-631); 14 the satellite warning once per window | all 14 present; gap 6's Q4 sentence (o:870(a)) later answered by file r (the owner's word) |
+| `lens-o-critic.md` (6, closed by file p's table :42-49) | 1 the entitlement hedge struck (H22, J-V13.100, §11's ruling, the brief), the brief's Q4 line; 2 base `Document.lensPlates`; 3 T-V13-41 (s)'s player-picture clause; 4 `GateExpr.born`/`.intensity`, gated `legend.notes`, `world.lens` notes, §5.8 (3); 5 INDEX :39, :109, :133, :147, :248 and SUMMARY :113, :117, :184; 6 the proposal's §3.8 | all 6 present; J-V13.100 later extended by q:911(a) (the closing words kept), the brief's Q4 line removed by file r (Q4 answered) |
+| `lens-p-critic.md` (3, closed by file q's table :44-48) | 1 the canonize wording in base §7.7 and §11.4, V13's W-PORT row, H8, the proposal :20, the brief :100, BCR-V13-40; 2 the additive re-canonize in H22, J-V13.100, §11's ruling, the brief's Part C, J-V13.106, T-V13-37 (c); 3 INDEX §6's paragraph and Q1/Q2/Q4 rows, its state line, census and §7; SUMMARY's thirty-three, eight decisions, restated Q1/Q2 | all 3 present; the §11.4 sentence, INDEX §6's paragraph and Q4 row and SUMMARY's Q4 lines later rewritten by file r with the owner's answer |
+| `lens-q-critic.md` | no material gap; five bookkeeping notes (answered by J389) | nothing claimed closed by a next file; not checked further |
+
+## Counts
+
+Checked 1 183: 476 fragment placements (456 of m–q, 20 of r; 89 traced through later fragments), 64 recorded md5s and
+52 recorded line counts of the targets, 9 recorded md5s of the amendment files, 286 recorded landing lines, 258 host
+line ranges (225 path citations), 38 claimed critic-gap closures. Findings: 10 — 1 WRONG (a citation), 0 UNSUPPORTED, 9
+IMPRECISE (one a V13 design comment, AV-1; the rest *Evidence* citations in files m and q). The md5 chain, the
+application records' placement and landing claims, the critics' closures and file r's placement all hold.
+
+Not checkable here: the records' bundle runs and `git` observations at the time of application (no git command is run
+in this lane); the reviser seats' clean-room lints (re-running them needs the seats' identifier lists).
