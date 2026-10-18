@@ -190,10 +190,10 @@ Group J — M0's own close (what every SUPPORTED-NOW row above stands on).
 ### B-1 — MISSING: an arena cannot change its `PlatKey` (adoption, E-31)
 
 - **The need, exactly.** V14 §3.9 (e) (2): "Every `site` part becomes a `site` part of the settlement document by its
-  `nextSitePart`, addresses re-prefixed and re-namespaced" (V14-sites.md:1917–1919) READ, keeping every token
+  `nextSitePart`, addresses re-prefixed and re-namespaced" (V14-sites.md:1917–1918) READ, keeping every token
   (`site2/unit:k` → `site7/unit:k`, :1167–1170 via read-v14 F76). So one part's arena — its vertices, edges, faces,
   owners and role rows — must come to live under a new key (`{ layer: 'site', part: 2 }` → `{ layer: 'site', part: 7 }`)
-  in another document with every owner and role entity id rewritten, and every lock, pin and edit mapped (:1919–1920).
+  in another document with every owner and role entity id rewritten, and every lock, pin and edit mapped (:1918–1919).
 - **What M0 has.** §3.4's "complete list" of writers and services holds no re-key (ARCHITECTURE.md:4797–4852 per
   read-base 99–100); `Plat.key` is readonly (plat.ts:149) READ; `decodeArena(chunks, key, opts)` checks every chunk
   "a chunk of another arena" by `c.layer === key.layer && c.part === key.part` (io/decode.ts:274) READ; `DecodeOptions`
@@ -254,7 +254,7 @@ string` against `view:<hash64>` (E-09); Int32 record fields against levels below
   builds the form early or E4 waits for M6-P; no text decides. Not an M0 foreclosure: the types are declared "so no
   signature changes later" (C-0041 per read-m0 E4) and the façade already takes `ArenaKey` (facade/types.ts:102–103) READ.
 - **O3 — two operator names in V14 the transient arena does not offer.** E4's strip items enter "by `partition` of that
-  face" (V14-sites.md:2082) READ — `partition` is not among the kernel's 17 writers (tx/types.ts:64–68 per read-kernel
+  face" (V14-sites.md:2083) READ — `partition` is not among the kernel's 17 writers (tx/types.ts:64–68 per read-kernel
   B16) nor §3.4's transient list (ARCHITECTURE.md:5007–5008) READ; E1 (4) lays the world crop's roads "by
   `corridorUnion`" "as `fixed` faces of the arena" (V14-sites.md:1990–1994) READ while `corridorUnion` is "not offered
   on it" (ARCHITECTURE.md:5009–5011) READ. INFERRED: both read as "computed elsewhere, entered as fixed rings" (the
@@ -272,7 +272,7 @@ string` against `view:<hash64>` (E-09); Int32 record fields against levels below
   type — an exported-type change at M6-P, never persisted (INFERRED).
 - **O8 — K1's own "fixed-in-M0" consolidation is not applied**: the checker's smallest addition "one frozen `LAYERS`
   list … read by `io/format.ts`, `rng/layer.ts` and `plat.ts:isPlatKey`" (checks:66–68) READ; `types/ids.ts:14` still
-  holds the closed union (READ) and the closing table lists it as a recommendation, not a carry (checks:415).
+  holds the closed union (READ) and the closing table lists it as a recommendation, not a carry (checks:413).
 
 ## Counts
 

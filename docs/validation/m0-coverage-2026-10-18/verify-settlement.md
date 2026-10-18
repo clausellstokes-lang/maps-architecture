@@ -3,7 +3,7 @@
 **Lane:** m0-coverage/verify-settlement (opus; J394, Fable-validated). A verifier: one row per need the local settlement
 level (the base: S0–S15 over the plat arenas, the five refinement levels, the evolution hook, the exports) puts on the
 kernel or the base, against what M0 specifies, what is built on this branch, what tests or gates it, and a STATUS.
-Started 2026-10-18 09:29Z; written 09:38Z–09:55Z.
+Started 2026-10-18 09:29Z; written 09:38Z–09:45Z.
 
 **The owner's question** (2026-10-18 ~09:20Z, verbatim, not re-judged): "so verify for more or validate me. M0, as it
 stands can. support all levels of the map building process form local settlement to world to encounter map in
@@ -320,4 +320,4 @@ in hardening rounds that stopped mid-flight, and they sit on the path to M1:
 The answer for this level: **yes by design, not yet in fact** — the bedrock's shape supports the local settlement
 whole, and its proof (B-1 … B-8) is still to land.
 
-Landed 2026-10-18 (see docs/lane-events.log).
+Landed 2026-10-18 09:45Z (see docs/lane-events.log).
