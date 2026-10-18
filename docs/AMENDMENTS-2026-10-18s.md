@@ -2,7 +2,7 @@
 
 Numbered from **927** (file r ended at 926).
 
-**APPLIED** by retrovalidation/apply-design on 2026-10-18 (record: docs/validation/retrovalidation-2026-10-18/apply-design.md) — all 13 change items 927–939 applied (939 added by the confirm-design check, 2026-10-18), all 13 fragments matched exactly once at their turn, no adjustment needed; no item not applied; `docs/ARCHITECTURE-FULL.md` regenerated, `--check` exit 0.
+**APPLIED** by retrovalidation/apply-design on 2026-10-18 (record: docs/validation/retrovalidation-2026-10-18/apply-design.md) — all 13 change items 927–939 applied (939 added by the confirm-design check and applied by retrovalidation/fix-design, 2026-10-18; the verification record gives both passes), all 13 fragments matched exactly once at their turn, no adjustment needed; no item not applied; `docs/ARCHITECTURE-FULL.md` regenerated, `--check` exit 0.
 
 Items 927–939: 13 change items, one fragment each, to `docs/volumes/V13-world.md` (10, items 927–935 and 939),
 `docs/volumes/V14-sites.md` (2, items 936–937) and `docs/volumes/INDEX.md` (1, item 938). Source: the session's Fable
@@ -90,7 +90,7 @@ plain-language claim SUMMARY makes; the bundle `docs/ARCHITECTURE-FULL.md` — r
 >
 > > **Retrovalidation s — 2026-10-18** (`docs/AMENDMENTS-2026-10-18s.md`, items 927–935 and 939; the Fable retrovalidation of
 > > the work J375 marked pending, its records under `docs/validation/retrovalidation-2026-10-18/`). Changed, each text
-> > a validator's correction taken whole save §2.3's prosperity row: §2.2's `waterLanes` comment says what "lit" means —
+> > a validator's correction taken whole save §2.3's prosperity row and §9's J-V13.83: §2.2's `waterLanes` comment says what "lit" means —
 > > the frozen record's versioned lane slot with at least one lane, never the host's fleet switch (H25; J382 (b) as the
 > > retrovalidation amended it); §2.3's `RouteCostLaw` comments give `classFactor` and the elevation knee as the shape of
 > > the host's law 2 (H6), its first law pricing by biome with a ramp for a knee and not ported (J-V13.73); §2.3's
@@ -99,9 +99,9 @@ plain-language claim SUMMARY makes; the bundle `docs/ARCHITECTURE-FULL.md` — r
 > > relative rung resting on the polarisation, not the direction; §3.11.6's *Retention* names the lens plates' horizon
 > > (§5.8 (8)) beside user events and the supersession chain; §5.8 (7) says the host's own chips are shown to the DM, no player surface
 > > traced; §5.9 (5)'s trend row gives the party the direction the host's own dossier already tells it, never a believed
-> > trend; §5.9 (6)'s pressure row puts an overlord's authority over its vassal above a war front.
+> > trend; §5.9 (6)'s pressure row puts an overlord's authority over its vassal above a war front; §9's J-V13.83 keeps the rejected absolute rung's reason under a dated bracket saying the band polarises, the relative choice standing.
 *Reason:* the form of this series (see *Where the sources were not taken verbatim*); no validator asked for it.
-*Evidence:* [OBSERVED] `docs/volumes/V13-world.md:5-103` (the revision notes, one per amendment file since revision 1: m :36, n :47, o :58, p :73, q :86, r :100-103); items 928–935 (the V13 changes it lists); [INFERRED] a reader of the volume learns what changed from its own notes, as every file since m has recorded.
+*Evidence:* [OBSERVED] `docs/volumes/V13-world.md:5-103` (the revision notes, one per amendment file since revision 1: m :36, n :47, o :58, p :73, q :86, r :100-103); items 928–935 and 939 (the V13 changes it lists); [INFERRED] a reader of the volume learns what changed from its own notes, as every file since m has recorded.
 
 ### Volume 13 — §2.2 New records (`PolityWindow.waterLanes`)
 
@@ -270,6 +270,19 @@ re-read on disk once. After: V13 `a896c8dbdb41dd38516becc970b4db81` (4,465 lines
 failed to match, so no item needed an adjusted quote. The bundle regenerated (`python3 tools/bundle_architecture.py`:
 81,080 lines from 16 sources, the base's 05:29 record and notice edit by apply-small included) and `--check` exited 0
 ("UP TO DATE"); every new text occurs once in the bundle.
+
+The confirm check and its fixes (2026-10-18). retrovalidation/confirm-design (Fable 5.1 high, 05:37–05:46 UTC; record
+`docs/validation/retrovalidation-2026-10-18/confirm-design.md`) returned this file with two findings: (1) J-V13.83 (V13
+:3860) still gave the rejected absolute rung the pre-correction law as its reason, the one "upward" hit the sweep had
+missed — item 939 added, item 927's range, item 938's `items 927–939` and this file's counts updated; (2) item 927's note
+said the band drifts upward in aggregate "only where most seats start there", a sufficient condition made a necessary
+one — "only" removed and "the usual case" added, in V13 and in item 927 alike. retrovalidation/fix-design (Opus 5.5
+high, 05:49–05:51 UTC; record `fix-design.md` beside it) applied both as given, each old once before and each new once
+after: V13 `a896c8db…` → `09fbe522…`, INDEX `b19971d3…` → `42881796…`, V14 unchanged. retrovalidation/confirm2-design
+(Opus 5.5 high under J394, 2026-10-18 09:06 UTC; record `confirm2-design.md` beside it) confirmed both by reconstruction
+and found item 927's note naming item 939 in its range but not its change: the note's list (in V13 and in item 927) and
+item 927's evidence now name §9's J-V13.83, V13 `09fbe522…` → `d0de9ad8…` (4,465 lines). The bundle regenerated after
+each pass; `--check` exit 0.
 
 The clean-room check: every code span a new text adds is already its target volume's own (`RouteCostLaw` ×5,
 `classFactor` ×3, `reach.kProsperity`, `waterLanes`, `plates.fullWeeks` ×3, `plates.compactWeeks` ×2,

@@ -20,7 +20,7 @@
 | `docs/volumes/V10-clerk.md` | 1717fa2eb3dd375a | 3583 |
 | `docs/volumes/V11-content.md` | c698b45421163a1f | 5504 |
 | `docs/volumes/V12-calibration.md` | 1bcb54970016f797 | 3590 |
-| `docs/volumes/V13-world.md` | 6dca9e22df622b2a | 4466 |
+| `docs/volumes/V13-world.md` | b48ba327843b0905 | 4466 |
 | `docs/volumes/V14-sites.md` | 17d3881a91f496a6 | 3214 |
 
 ## Contents
@@ -73503,7 +73503,7 @@ The integration lane's rulings for this volume (`docs/volumes/_integrate.md`) ar
 
 > **Retrovalidation s — 2026-10-18** (`docs/AMENDMENTS-2026-10-18s.md`, items 927–935 and 939; the Fable retrovalidation of
 > the work J375 marked pending, its records under `docs/validation/retrovalidation-2026-10-18/`). Changed, each text
-> a validator's correction taken whole save §2.3's prosperity row: §2.2's `waterLanes` comment says what "lit" means —
+> a validator's correction taken whole save §2.3's prosperity row and §9's J-V13.83: §2.2's `waterLanes` comment says what "lit" means —
 > the frozen record's versioned lane slot with at least one lane, never the host's fleet switch (H25; J382 (b) as the
 > retrovalidation amended it); §2.3's `RouteCostLaw` comments give `classFactor` and the elevation knee as the shape of
 > the host's law 2 (H6), its first law pricing by biome with a ramp for a knee and not ported (J-V13.73); §2.3's
@@ -73512,7 +73512,7 @@ The integration lane's rulings for this volume (`docs/volumes/_integrate.md`) ar
 > relative rung resting on the polarisation, not the direction; §3.11.6's *Retention* names the lens plates' horizon
 > (§5.8 (8)) beside user events and the supersession chain; §5.8 (7) says the host's own chips are shown to the DM, no player surface
 > traced; §5.9 (5)'s trend row gives the party the direction the host's own dossier already tells it, never a believed
-> trend; §5.9 (6)'s pressure row puts an overlord's authority over its vassal above a war front.
+> trend; §5.9 (6)'s pressure row puts an overlord's authority over its vassal above a war front; §9's J-V13.83 keeps the rejected absolute rung's reason under a dated bracket saying the band polarises, the relative choice standing.
 
 **How to read this volume.** It builds, to implementation depth, the subject the base (`docs/ARCHITECTURE.md`, with files
 f and g applied, and file j's items 131–141 as the owner's rules of 2026-10-16: `docs/AMENDMENTS-2026-10-16j.md`) carries
