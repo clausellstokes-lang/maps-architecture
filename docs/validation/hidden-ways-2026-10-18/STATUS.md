@@ -1,4 +1,4 @@
-# STATUS — the hidden-ways design run (lanes hidden-ways/*; written by the autosave loop at 2026-10-18 23:12Z)
+# STATUS — the hidden-ways design run (lanes hidden-ways/*; written by the autosave loop at 2026-10-18 23:13Z)
 
 | lane | last line | state | the line |
 |---|---|---|---|
@@ -8,6 +8,6 @@
 | hidden-ways/read-host | 2026-10-18 22:42 | LANDED | 2026-10-18 22:42 hidden-ways/read-host LANDED docs/validation/hidden-ways-2026-10-18/read-host.md (352 lines, md5 c63dedaf): 33 host facts with citations; H9/H23/H16 in the host's words; covered vs new asks; the eight cl |
 | hidden-ways/read-request | 2026-10-18 22:41 | LANDED | 2026-10-18 22:41 hidden-ways/read-request LANDED docs/validation/hidden-ways-2026-10-18/read-request.md (389 lines, md5 9672c754): the request as a checklist (six behaviours, A-D with A1-A9, seven questions verbatim, hos |
 | hidden-ways/read-v14-base | 2026-10-18 22:39 | LANDED | 2026-10-18 22:39 hidden-ways/read-v14-base LANDED docs/validation/hidden-ways-2026-10-18/read-v14-base.md (301 lines, md5 c374178b): the site record's ownership split mirrors exactly but HR's fallback direction is invert |
-| hidden-ways/design-A | 2026-10-18 23:07 | CHECKPOINT | 2026-10-18 23:07 hidden-ways/design-A CHECKPOINT builder written (63 fragments) and run; next: fix any misses, write design-A.md §0/§1/§3/§4 and assemble |
+| hidden-ways/design-A | 2026-10-18 23:12 | LANDED | 2026-10-18 23:12 hidden-ways/design-A LANDED docs/validation/hidden-ways-2026-10-18/design-A.md (1054 lines, md5 514bf0f8; machine copy design-A.fragments.json md5 f14addb2, 82 fragments: V13 69, V14 3, HOST-REQ 8, INDEX |
 | hidden-ways/design-B | 2026-10-18 23:11 | LANDED | 2026-10-18 23:11 hidden-ways/design-B LANDED docs/validation/hidden-ways-2026-10-18/design-B.md (1869 lines, md5 4c065380): host-first design — the word trod (way and hidden taken), a Trod/TrodJunction record of its own  |
 | hidden-ways/design-C | 2026-10-18 23:10 | LANDED | 2026-10-18 23:10 hidden-ways/design-C LANDED docs/validation/hidden-ways-2026-10-18/design-C.md (1260 lines, md5 6a1d232b): the hidden way is a trod (way and hidden both taken) — a record of its own (WorldTrod, two junct |
