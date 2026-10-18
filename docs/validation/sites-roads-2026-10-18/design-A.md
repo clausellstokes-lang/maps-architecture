@@ -63,8 +63,10 @@ and every cite is re-taken at the targets' current md5s (the partial's §1.0 cla
   `read-checks.md` (1 268, `28609ac256bf0aaa569d6c77f93619cf`); file s `docs/AMENDMENTS-2026-10-18s.md` (285,
   `090329b6c51ca9abe907a8970acc5677`, items 927–939); the gate spec `plat/docs/build/M0-world-sites-gate.md` (45,
   `b6c5be2a5d89fbd19035a3c606194fb9`); and the primary sections of §1.0 below.
-- **The targets now (09:08 UTC; re-hashed before §2 was written, unchanged):** `docs/volumes/V13-world.md`
-  `09fbe522c52b4b1c7c89e7c243f0f19d` (4 465 lines: file s's 13-line note after line 104 and its one-line corrections,
+- **The targets now (09:08 UTC; re-hashed at 09:36 before §2 was rendered — V13 alone had moved, to
+  `d0de9ad8dadfeccc89ac86f2ea4d62f4`, by an edit to its file-s revision note at lines 107 and 116 that moves no line and
+  touches no text this design quotes; §2's note):** `docs/volumes/V13-world.md`
+  `09fbe522c52b4b1c7c89e7c243f0f19d` at 09:08 (4 465 lines: file s's 13-line note after line 104 and its one-line corrections,
   then fix-design's three one-line edits at 105, 112, 3860 — so a reader's V13 line above 104 is the same text 13 lines
   lower now); `docs/volumes/V14-sites.md` `70d8aa1b3c14e7cab6a135adbd3caa00` (3 213: a 5-line note after line 70 —
   a reader's V14 line above 70 is 5 lower now); `docs/ARCHITECTURE.md` `1f871a01961de8a4994125d7bb1993be` (24 462;
@@ -75,7 +77,7 @@ and every cite is re-taken at the targets' current md5s (the partial's §1.0 cla
   passages this design changes (its items edit V13 §2.2 `waterLanes`, §2.3 `RouteCostLaw` and `reach.kProsperity`,
   §3.11.6 *Retention*, §5.8 (7), §5.9 (5)–(7), §9 J-V13.83, V14 §2.4 and the index's state line), so no fragment below
   quotes a pre-change text; the readers' line numbers are stale by the offsets above and are not used.
-- **Cite form.** `V14:n` = `docs/volumes/V14-sites.md` line n at `70d8aa1b…`; `V13:n` at `09fbe522…`; `base:n` =
+- **Cite form.** `V14:n` = `docs/volumes/V14-sites.md` line n at `70d8aa1b…`; `V13:n` at `d0de9ad8…` (the same lines as at `09fbe522…`); `base:n` =
   `docs/ARCHITECTURE.md` at `1f871a01…`; `INDEX:n` at `42881796…`; `SUMMARY:n` at `9d142283…`; `brief:n` at
   `fc252070…`; `gate:n` = the gate spec at `b6c5be2a…`; `rv14 n`, `rv13 n`, `rb Fn`, `rr Xn`, `rc Xn` = a fact of the
   reader records by its own number.
@@ -507,17 +509,17 @@ V14 §7's form (`| id | family (§13) | bar | tier (§13.8) |`):
 - **BCR-V14-26 (base §4.9's hinterland decorations and §7.3's S12 row):** "a `worldSite` reservation whose card's
   `roadAccess` is `required` links its entrance gate to the nearest way corridor by an L3 `driveway` face, one whose
   `roadAccess` is `preferred` by an L3 `path` face; `none` and `avoided` link nothing; §7.3's S12 row lays it round the
-  reservation at the drop" (§1.4 (f) (3); fragments A-26, A-60).
+  reservation at the drop" (§1.4 (f) (3); fragments A-14, A-28 in V14 and A-80, A-82 in the base).
 - **BCR-V14-13 amended:** its new text's "V13's siting reads the card's `attraction` and `routed`" reads "… `attraction`
-  and `roadAccess`" (fragments A-25, A-61).
+  and `roadAccess`" (fragments A-27 in V14, A-81 in the base).
 - **V14 §10.2's V13 row gains (18):** the `SiteCoherenceTest` slot and `siteCoherence.register`; P1's site form (the
   `siteKind` and `dossier` terms, the bend within `bendM`, the offers within `originSearchM`); W7 (12)'s approaches
   (along, approach roads of origin `approach`) and `Placement.approach`; the anomalies `siteIncoherent` and
   `noRoadAccess`; `W_SITE_NO_ROAD_ACCESS`; the site frame's charter roads; `takeOffer` on a site's `W_PLACE_ANOMALY`;
-  border posts' `at` on the polyline (fragment A-27).
+  border posts' `at` on the polyline (fragments A-29, A-30).
 - **V13 §10.2:** R-V14-1 reads `roadAccess` for `routed`; **R-V14-14:** V14 supplies the card's `roadAccess`, the kind
-  row's `approach`, `coherence`, `correction` and `bendM`, and the eleven `SiteCoherenceTest` plug-ins (fragments A-55,
-  A-56).
+  row's `approach`, `coherence`, `correction` and `bendM`, and the eleven `SiteCoherenceTest` plug-ins (fragments A-77,
+  A-78).
 - **V09:** nothing new beyond V14 §4.9's key list (its V09 row already carries "the catalogue keys of V14 §4.9",
   V14:3060); T6's **Drop a site** shows the dry run's bend as it shows every bend.
 - **V11:** nothing new: the columns are cells of the existing `tables/sites/kinds` row (BCR-V14-10).
@@ -525,7 +527,7 @@ V14 §7's form (`| id | family (§13) | bar | tier (§13.8) |`):
   world position out of every digest):** one model row, **M12** — "The hinterland unit's L3 access faces (an outside
   plot's `driveway`, a decoration's `path`) can begin at a point on a reservation's boundary — the face's origin a point,
   not a plot or a decoration id — without a new role, layer or digest change" · verification "read the hinterland
-  unit's face types and S12's operator; if the origin is typed to a plot or decoration, an M1 item" (fragment A-64).
+  unit's face types and S12's operator; if the origin is typed to a plot or decoration, an M1 item" (fragments A-94, A-95).
   PLAUSIBLE: base §4.9 names "its decoration" and "each plot" as the face's origin, both sited points; the test, where
   one can be written at M0, lays a `path` face from an arbitrary hinterland point to the nearest corridor on the golden
   CITY and asserts every other face and id byte-identical. "Do not foreclose", no feature added; recorded as M1's.
