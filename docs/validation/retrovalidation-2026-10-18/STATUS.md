@@ -1,4 +1,4 @@
-# Live status (written by the autosave loop; last 2026-10-18 09:50 UTC)
+# Live status (written by the autosave loop; last 2026-10-18 09:55 UTC)
 
 Latest lane line per lane key (docs/lane-events.log) for today's lanes:
 
@@ -82,7 +82,7 @@ Latest lane line per lane key (docs/lane-events.log) for today's lanes:
 - 2026-10-18 09:46 sites-roads/judge-2 LANDED docs/validation/sites-roads-2026-10-18/judge-2.md (277 lines, md5 e2ebee64): the three designs (A 9d495fba, B a47697d1, C cc051133) and the five readers read whole; every fragment checked by script against the live targets (V13 d0de9ad8, V14 70d8aa1b, base 1f871a01, INDEX 42881796, SUMMARY 9d142283, brief fc252070, README 2a4b54c8, gate b6c5be2a): A 96
 - 2026-10-18 09:47 retrovalidation/critic-2 LANDED docs/validation/retrovalidation-2026-10-18/critic-2.md: the second Fable look at the close-gaps pass — all 66 fragments re-checked from disk (65 verbatim, each new once and old gone; B-19 with the 531/672 adjustment confirmed right: plague-system.md :531 is §5.1 row 14, :672 the §7 pg-4 row), the 28 targets at the md5s critic-round2 recorded, 
 - 2026-10-18 09:48 sites-roads/judge-3 LANDED docs/validation/sites-roads-2026-10-18/judge-3.md (272 lines, md5 9933de07): the three designs and five readers read whole; every fragment re-checked by script against the live targets (A 96, B 93, C 56: each current text once at its line, in-order apply clean, inserted rows well-formed); claims spot-checked (A 7 true; B 6 true, 1 false: an inFrame wor
-- 2026-10-18 09:49 sites-roads/synthesis CHECKPOINT started: reading file r's form, the three judgments, design A whole, then B, C and the five readers; draft-t.md written as I go (opus; J394, Fable-critiqued)
+- 2026-10-18 09:53 sites-roads/synthesis CHECKPOINT read whole: file r's form, file s's head and end (it ends at item 939, so file t numbers from 940), the three judgments, design A (its §0–§1, §3–§4 and all 96 fragments), design B (whole, its 93 fragments parsed), design C (§0–§1, §3–§4 and its 56 fragments); the five readers next, then the fragments (opus; J394, Fable-critiqued)
 
 Workflow runs: retrovalidation continuation wf_ed23dc6b-f13 (task wuojbxzyu; the first run wf_f0931b52-ef5 killed at the limit); sites-roads-design wf_a2bd73c2-64c (task wh4norxj2); host-requirements wf_94da751f-a31 (LANDED); amendments-r wf_6c3a4aa0-0d5 (LANDED e5de220d).
 Records: docs/validation/retrovalidation-2026-10-18/ (one <family>-verify.md and <family>.md per family, rulings.md, apply-*.md, confirm-*.md, critic.md, README.md); docs/validation/host-requirements-2026-10-18/ (extract-*.md, draft-s3..s8.md, final-s3..s8.md, critic.md); docs/validation/sites-roads-2026-10-18/ (read-*.md, design-A..C.md, judge-1..3.md, draft-t.md, critic.md, verify.md).
