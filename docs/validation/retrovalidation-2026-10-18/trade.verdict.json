@@ -1,0 +1,389 @@
+{
+ "verdict": "PASS-WITH-CORRECTIONS",
+ "notice_replacement": "> Fable-reviewed 2026-10-18: PASS-WITH-CORRECTIONS — the physics, gating and constants hold; 22 verifier findings and 4 of the validator's own applied in place; two §9 readings amended in fact (boom hysteresis; the culture term's premise), none in design; §9 item 1 superseded by J-V13.63 (lane retrovalidation/trade; J392)",
+ "summary": "Lane retrovalidation/trade (Fable, J392). I read research/sf/trade-system.md whole (1,307 lines) and the verifier's trade-verify.md whole, then re-read at the host (81f1cd96, read-only, no git) every passage behind the 22 findings plus the load-bearing gates the whole note rests on (ONE_REGEN, the two commodityFlowEnabled lines, the birth door, the cascade gate, the sea-lane read). All 22 findings reproduce and are ACCEPTED; three are amended in wording (TV-11's reading, TV-12's consequence sharpened to \"late by a factor of the tick span\", TV-18 widened to the §10.3 echo and fp-physical-integration row A1). I found four more the verifier did not list: the §3.10 constants row repeats \"exit 1.5\" as if a boom exit (F-A); §1 and §3.8 say the coverage share is netted each tick when it is applied once at generation (F-B, gen/foodGenerator.js:319-331, wp/foodStockpile.js:288, :346-349); §12 record rows P10/M8 would contradict the corrected body (F-C, dated brackets); the TV-10 slip and TV-18 question recur at lines 1103 and 1140 (F-D). I checked the note against owner rules 131-141 and 130 and the J375/J377/J378/J379/J382/J384/J391 rows: no contradiction. Rulings: 19 judged, 13 UPHELD, 4 AMENDED (§9 item 6: the hysteresis facts and the design's actual mechanism J384 (1)/J-V13.65; §9 item 8: the conclusion stands on J384 (2) but the \"only trade reader\"/\"run ahead of the host\" premise is wrong and foreignCulture is retired; §9 item 13: weekly ticks only under the default-on advanceMultiTick killswitch; the §1 prosperity and default-preset answers), 0 OVERTURNED, 2 NOT-A-RULING; §9 item 1 is UPHELD and superseded by event (J-V13.63 enacted its two-product proposal). No design text needs a change: V13 §3.9 (6)-(7), §2.2 and its J-V13.63-66 rows already say what the amended readings say. 38 corrections, every old fragment verified to occur exactly once (37 in the note, 1 cross-family on fp-physical-integration.md row A1 — apply once, skip if the FP lane's corrections touch that row). Record: /home/user/maps-architecture/docs/validation/retrovalidation-2026-10-18/trade.md; CHECKPOINT and LANDED lines appended to /home/user/maps-architecture/docs/lane-events.log; corrections list and check script at /tmp/claude-0/-home-user-maps-architecture/4291a60d-8240-5d49-a54e-2b2a213d093f/scratchpad/retro/trade-fable/corrections.json. Cross-lane notes: the rulings lane's J384 (2) reason cites the contraband gate passing no tie (true) but the host has two trade-closed reads, so that reason rests on the relation-classes argument alone; the J391 (6) host-requirements document should carry §9 item 4's gate-keyed patrol segment and the two designed slots (route_wardenship/route_predation, EC-6's stance term).",
+ "rulings": [
+  {
+   "id": "RL-1 (§9 item 1; J377 T1/T2 against the host's partition)",
+   "verdict": "UPHELD",
+   "reason": "The host facts hold (the caravan graph is the unbudgeted nearest-by-cost partition, sp/spatialDigest.js:690-740) and J-V13.63 (2026-10-17) chose exactly the two products the item proposes: W8a the seat territory in the canon, W8b the sway in the feed; budgets and cost vectors retired (V13:745, §3.9).",
+   "consequence": "Superseded by event: bracketed in the note (§9 item 1, the §1 echo, the §10.3 question); fp-physical-integration.md row A1 corrected as a cross-family fragment; no design text changes; named in J392."
+  },
+  {
+   "id": "RL-2 (§9 item 2: gates per settlement)",
+   "verdict": "UPHELD",
+   "reason": "Interception, contraband and tolls are decided at the intermediary settlement (§5.5-§5.8, all held at 81f1cd96).",
+   "consequence": "None."
+  },
+  {
+   "id": "RL-3 (§9 item 3: contested marches have no trade analogue)",
+   "verdict": "UPHELD",
+   "reason": "Route danger is embattlement at settlements (sp/embattlement.js:84-98); consistent with J384 (5), which marks a march embattled and moves no line.",
+   "consequence": "None."
+  },
+  {
+   "id": "RL-4 (§9 item 4: patrols offered as a route_wardenship producer or security input, keyed to gates)",
+   "verdict": "UPHELD",
+   "reason": "The entry arithmetic holds (sp/embattlement.js:84-98, :115-119, :196-206); J-V13.66 made patrols derived per route segment and power, offered to the host as an extent and its basis, never imposed — the same reading.",
+   "consequence": "The J391 (6) host-requirements document should carry the gate-keyed segment and the two designed slots; named in J392."
+  },
+  {
+   "id": "RL-5 (§9 item 5: travel time is the host's week)",
+   "verdict": "UPHELD",
+   "reason": "sp/distanceRead.js:70-92 and sp/supplyShipments.js:140-145; J391 (1) keeps per-settlement travel effort in the world canon.",
+   "consequence": "None."
+  },
+  {
+   "id": "RL-6 (§9 item 6: borders key on boom/bust records 'enter 3.0, exit 1.5, dwell 3')",
+   "verdict": "AMENDED",
+   "reason": "TV-6: BOOM_EXIT_THROUGHPUT 1.5 is the building-phase continuation floor, not a boom exit (wp/upswingKernel.js:644-653); a boom leaves only by bust below 1.0 or embattlement (:617). And the design went another way after the note: V13 §3.9 (7) reads the seat's relative prosperity rung, held with a 13-week dwell at dated revisions (J384 (1), J-V13.65); the records themselves are not read. New text: 'enter at throughput 3.0 with centrality 0.3 after a 3-tick dwell that survives dips to 1.5; leave only by a bust below 1.0 or on embattlement' plus a [SUPERSEDED BY EVENT] bracket.",
+   "consequence": "Research note corrected; V13 §3.9 (7) already right, no design change; named in J392."
+  },
+  {
+   "id": "RL-7 (§9 item 7; J382 (b): 'lit' = the frozen digest carries a sea-lane slot)",
+   "verdict": "UPHELD",
+   "reason": "activeSeaLanes reads digest.reserved.seaLanes with version ≥ 1 and ≥ 1 edge and no flag (sp/distanceRead.js:286-293); the rulings lane AMENDED J382 (b) to the same reading and owes V13 §2.2 the definition (its C1).",
+   "consequence": "None beyond the rulings lane's C1; the two lanes agree."
+  },
+  {
+   "id": "RL-8 (§9 item 8; J382 (a): the sway compares against the plain culture distance because the host's only trade reader passes no tie; a trade-adjusted form would run ahead of the host)",
+   "verdict": "AMENDED",
+   "reason": "TV-11: the host reads the trade-closed distance in migration pull (wp/migrationKernel.js:197, :229-230) and ruling-seat closeness (src/domain/rulingPowerSeat.js:178, :365-369, :673); only contraband reads it plain (wp/supplyKernel.js:754-756). The conclusion stands on J384 (2) (the sway's relation classes already count the pair's label), which V13 §2.2 line 812 and V13's J-V13.64 row carry; 'foreignCulture' is retired (17m item 714) into V13 §3.9 (6). New text as correction C13: premise corrected, name replaced, 'run ahead of the host' dropped.",
+   "consequence": "Research note corrected; no design change; named in J392. Note for the rulings lane: its J384 (2) reason's 'contraband passes none' is true but not the only host read; the reason rests on the relation-classes argument."
+  },
+  {
+   "id": "RL-9 (§9 items 9-11; J379: trade carries faith only as a trade_partner label; relief→partnership→faith chain; pilgrim trade is a label)",
+   "verdict": "UPHELD",
+   "reason": "Rests on faith §6.2, §7.4, §7.10, §9.6 (the faith lane's family) and is consistent with the rulings lane's amended J379.1 (pressure as weights on carrier links).",
+   "consequence": "None."
+  },
+  {
+   "id": "RL-10 (§9 item 12: resolved rules and the canon marker, never the preset id)",
+   "verdict": "UPHELD",
+   "reason": "wp/simulationRules.js:31, :1552-1558; J384 (13) carries it ('still' mode with the regime banner).",
+   "consequence": "None."
+  },
+  {
+   "id": "RL-11 (§9 item 13: links and ETAs, not positions; 'every committed advance runs weekly ticks')",
+   "verdict": "AMENDED",
+   "reason": "TV-12: weekly while the default-on advanceMultiTick killswitch holds (lib/flagRegistry.js:88); one coarse committed tick when it is off (store/campaignAdvanceSession.js:613-614, :809-817). New text as correction C15.",
+   "consequence": "Research note corrected; no design change."
+  },
+  {
+   "id": "RL-12 (§9 items 14-20: four link sets, snapshots, audience filter, explicit absences, unmapped marked, two 'besieged', DM verbs relational)",
+   "verdict": "UPHELD",
+   "reason": "Each rests on held host facts; 17n (lines 1256, 1268) and 17o (lines 416, 557, 906) took items 13-20, 16, 17 and 20 into the lens design.",
+   "consequence": "None."
+  },
+  {
+   "id": "RL-13 (§1 'Prosperity (the owner's addendum)': a boom adds 0.14 per tick while throughput ≥ 3.0 with centrality ≥ 0.3)",
+   "verdict": "AMENDED",
+   "reason": "TV-5: 3.0/0.3 gate the mint (wp/upswingKernel.js:669-671); the sustain test is not embattled, throughput ≥ 1.0, no resource removal (:617); accrual 0.14 with a band step when it crosses 1.0 (:656-659); the bust rounds to one rung (:915). New text as correction C6.",
+   "consequence": "Research note corrected; agrees with the rulings lane's J384 (1) rate ('a rung every ~7 weeks')."
+  },
+  {
+   "id": "RL-14 (§1 'What a DM in the default preset actually feels': the cascade and M2, 'nothing else of trade')",
+   "verdict": "AMENDED",
+   "reason": "TV-20: the plain default rules (wp/simulationRules.js:63-74) light channel discovery, trade relationship drift, depth-1 waves, the cascade, export re-diffs on depletion and the stressor food-import cut (the note's own §7 RR-born column). New text as correction C24.",
+   "consequence": "Research note corrected."
+  },
+  {
+   "id": "RL-15 (§10.1 items 1-13: documents the code has outrun)",
+   "verdict": "AMENDED",
+   "reason": "Items 1-9, 11, 13 hold; item 10 omits TRADE:62's in-place [CORRECTED 2026-10-16] bracket (TV-16); item 12's EC citations are off (TV-17). New texts as corrections C20, C21.",
+   "consequence": "Research note corrected."
+  },
+  {
+   "id": "RL-16 (§12, the synthesis seat's findings over the verifier's P1-P11 and M1-M13)",
+   "verdict": "AMENDED",
+   "reason": "All hold except P10 (one coarse call; TV-12), M8 (warLayerEnabled alone; TV-13) and M12 (:47; TV-7). Dated brackets on P10 and M8, the line fixed in M12.",
+   "consequence": "The record is kept, not rewritten."
+  },
+  {
+   "id": "RL-17 (§10.2 item 40: 'in peace the danger half of the stack is inert')",
+   "verdict": "NOT-A-RULING",
+   "reason": "A code reading [OBSERVED + INFERRED], not a reading of the owner's words; it holds (siege 0.85 − relief 0.25 > entry 0.55; crime 0.3 + premium 0.2 = 0.5 < 0.55). Its :113-115 citation slip is corrected (TV-10 widened).",
+   "consequence": "None beyond the citation."
+  },
+  {
+   "id": "RL-18 (§10.3 open questions, incl. 'One territory or two?')",
+   "verdict": "NOT-A-RULING",
+   "reason": "Questions, not rulings; the first is answered by J-V13.63.",
+   "consequence": "Bracketed as superseded by event."
+  },
+  {
+   "id": "RL-19 (the header's gating vocabulary: RR applied / RR born, canon, W)",
+   "verdict": "UPHELD",
+   "reason": "Re-read wp/simulationRules.js:705-752, :896, :1081, :1552-1558; every §7 status row depends on it and the verifier's 52 rows hold.",
+   "consequence": "None."
+  }
+ ],
+ "corrections": [
+  {
+   "file": "research/sf/trade-system.md",
+   "old": "STATED EC S14; `gen/foodGenerator.js:160-166` |",
+   "new": "STATED EC S14; `gen/foodGenerator.js:258-262` (the constant at `:34-36`) [Fable-reviewed 2026-10-18: `:160-166` is the storage-buffer block] |",
+   "reason": "TV-1 accepted: `:160-166` is baseStorage/storageMonths; `baseDailyNeed = population * PER_CAPITA_NEED` is at `:258`, the constant 2 at `:34` (re-read).",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/trade-system.md",
+   "old": "(`gen/foodGenerator.js:182-189` is a different table: the descriptive\nimportCapacity, road 0.20, river 0.28, crossroads 0.42, port 0.58.)",
+   "new": "(`gen/foodGenerator.js:182-189` is a different table: the import-dependency table — importCapacity, road 0.20, river 0.28, crossroads 0.42, port 0.58, capped by tier need into `importDependency` at `:190-191` — which the siege/occupation stressor cut reads (`wp/foodStockpile.js:322-324`) and the resilience score weighs (`:468`) [Fable-reviewed 2026-10-18: not descriptive].)",
+   "reason": "TV-2 accepted: the table is load-bearing — `blockadePct = (importDependency − bypass) × 100` at tick (re-read `wp/foodStockpile.js:322-324`), and the note's own next paragraph says the stressor adds the import dependency back.",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/trade-system.md",
+   "old": "the descriptive import-capacity table has no mountain_pass or coastal row (`gen/foodGenerator.js:182-189` against\n    `:309-318`).",
+   "new": "the import-dependency table the stressor cut reads has no mountain_pass or coastal row (`gen/foodGenerator.js:182-189` against `:309-318`), so a siege or occupation stressor cuts no import share on a mountain_pass or coastal settlement [Fable-reviewed 2026-10-18].",
+   "reason": "TV-2 accepted: `?? 0` at `:189` gives those routes importDependency 0, so the cut at `wp/foodStockpile.js:322-324` is 0 there.",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/trade-system.md",
+   "old": "[STATED `disp/economyFreshness.js:1-25`; `econ/economicState.js:51-61`] services, the food deficit, trade dependencies,\nthe income mix and the compound flags these read stay at their generation values after events (\"as judged at the last\nsurvey\").",
+   "new": "[STATED `disp/economyFreshness.js:6-12`, `:24-25`] the chains, services, prosperity label and resource analysis keep their generation values after an applyEvent (\"as judged at the last survey\"); [STATED `econ/economicState.js:51-61`] the compound flags are stamped once; [OBSERVED] trade dependencies and the income mix have no runtime writer; the food ledger keeps its generation *base* deficit (`stockpile.baseDeficitPct`, `wp/foodStockpile.js:288`, `:411`) while the stockpile tick rewrites the visible `deficitPct`, `surplusPct` and `resilienceScore` every tick (`:404-409`). [Fable-reviewed 2026-10-18: the earlier sentence cited economyFreshness for services, the food deficit, trade dependencies and the income mix, which it does not name, and said the food deficit stays, which it does not.]",
+   "reason": "TV-3 accepted: economyFreshness.js:6-12 names activeChains, availableServices, prosperity, resourceAnalysis only (grep finds no foodSecurity/tradeDependencies/incomeSources); the stockpile rewrites deficitPct each tick (re-read).",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/trade-system.md",
+   "old": "| generator; the food-stockpile tick and relief write storage months |",
+   "new": "| generator; the food-stockpile tick rewrites storage months, `deficitPct`, `surplusPct` and `resilienceScore` (`wp/foodStockpile.js:404-411`); relief writes storage months |",
+   "reason": "TV-3 accepted (writer column): `nextFoodSecurity` at `wp/foodStockpile.js:404-409` carries all four fields.",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/trade-system.md",
+   "old": "arteries; the M6b toll lift into institution-lifecycle health; the generosity purchase (one band-step debit on the\n  buyer, a small credit to the seller).",
+   "new": "arteries; the generosity purchase (one band-step debit on the buyer, a small credit to the seller). (The M6b toll lift is not a prosperity writer: it feeds only institution-lifecycle health, `wp/institutionLifecycle.js:698-701` [Fable-reviewed 2026-10-18].)",
+   "reason": "TV-4 accepted: `tollProsperityFor` has one consumer, `wp/institutionLifecycle.js:698`, folded into economy health at `:699-701`; the note's §1, §2.1 and §9 item 6 already say so.",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/trade-system.md",
+   "old": "a boom adds\n  0.14 band-steps per tick while throughput stays at or above 3.0 with centrality at or above 0.3, and a bust takes 0.9\n  and 3 legitimacy.",
+   "new": "a boom mints after throughput ≥ 3.0 with centrality ≥ 0.3 has held for 3 ticks (the dwell survives dips to 1.5); it then accrues +0.14 band-steps per tick (one rung about every 7 ticks, ladder-capped) until throughput falls below 1.0, embattlement appears or the resource is removed, when it busts: one rung down (−0.9, rounded) and −3 legitimacy [Fable-reviewed 2026-10-18: the 3.0/0.3 gate is the mint test, not the sustain condition; `wp/upswingKernel.js:617`, `:656-659`, `:669-671`, `:915`].",
+   "reason": "TV-5 accepted: `severed = embattled || throughput < BUST_THROUGHPUT || veinGone` (`:617`) is the only sustain test; 3.0/0.3 gate the approach at `:669`, the building dwell continues at ≥ 1.5 (`:671`); the bust delta rounds to one rung (`:915`).",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/trade-system.md",
+   "old": "should key on the host's boom and bust records (which carry their own hysteresis: enter 3.0, exit 1.5, dwell 3), not\n   on each band-step.",
+   "new": "should key on the host's boom and bust records (which carry their own hysteresis: enter at throughput 3.0 with centrality 0.3 after a 3-tick dwell that survives dips to 1.5; leave only by a bust below 1.0 or on embattlement [Fable-reviewed 2026-10-18: 1.5 is the building-phase floor, not a boom exit; `wp/upswingKernel.js:644-653`]), not on each band-step. [SUPERSEDED BY EVENT 2026-10-17 (J384 (1), J-V13.65): V13 §3.9 (7) reads the seat's prosperity rung relative to the realm median, held with a 13-week dwell at dated revisions; the boom and bust records themselves are not read — a boom reaches the sway only as the rungs it moves.]",
+   "reason": "TV-6 accepted (the code comment at `:644-653` says BOOM_EXIT_THROUGHPUT is not a boom-exit gate); and the design went another way after this note (J384 (1); V13 §3.9 (7) as it stands), so the proposal is bracketed as superseded, not deleted.",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/trade-system.md",
+   "old": "| Boom / bust | enter 3.0, exit 1.5, centrality ≥ 0.3, dwell 3, +0.14 per tick / below 1.0, −0.9, −3 legitimacy, hold 3 |",
+   "new": "| Boom / bust | enter 3.0 with centrality ≥ 0.3, dwell 3 (the dwell continues above 1.5: `BOOM_EXIT_THROUGHPUT` is the building-phase floor, not a boom exit), +0.14 per tick / bust below 1.0, −0.9, −3 legitimacy, hold 3 |",
+   "reason": "Validator's own (F-A): the constants row repeated \"exit 1.5\", which a reader takes as a boom exit; the code says otherwise (`wp/upswingKernel.js:644-653`).",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/trade-system.md",
+   "old": "re-checked `:47`]",
+   "new": "re-checked `:48`]",
+   "reason": "TV-7 accepted: `:47` is `if (!np || !np.name) return [];`; the hostile-or-suppress return is `:48` (re-read).",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/trade-system.md",
+   "old": "| Confirmed (`rg/tradeLinks.js:47`). |",
+   "new": "| Confirmed (`rg/tradeLinks.js:48`; `:47` is the missing-neighbour return). |",
+   "reason": "TV-7 accepted, second place (§12 row M12).",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/trade-system.md",
+   "old": "Catalog services (categories service and transport) are excluded from shipping\n  (`wp/supplyKernel.js:71-86`).",
+   "new": "Catalog services (kind *service*; the category list food/service/transport is a second filter on goods, so military_services and arcane_services, whose categories are military and arcane, are excluded by kind) are excluded from shipping (`wp/supplyKernel.js:71-86`).",
+   "reason": "TV-8 accepted: `isShippableInput` requires `kind === 'good'` and a category outside the set (`:84-86`); `rg/goodsCatalog.js:224-247` gives military_services category military and arcane_services category arcane (re-read).",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/trade-system.md",
+   "old": "two- and three-sourced links can.\n    `STARVE_AFTER_WEEKS` is receipt text only (EC S33; `sp/commodityFlow.js:927-932`).",
+   "new": "two- and three-sourced links can (`sp/commodityFlow.js:927-932`; `sp/supplyShipments.js:333-335`). `STARVE_AFTER_WEEKS` (`sp/supplyShipments.js:83`; `sp/commodityFlow.js:130`) is read only as receipt text (`sp/supplyShipments.js:412`; `sp/commodityFlow.js:806`) (EC S33).",
+   "reason": "TV-9 accepted: `:927-932` is `fragileLink`; the constant and its two `weeksCut` reads are where the verifier says (grep re-run).",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/trade-system.md",
+   "old": "| `:84-98`, `:113-115`, `:196-206` |",
+   "new": "| `:84-98`, `:115-119`, `:196-206` |",
+   "reason": "TV-10 accepted: `OCCUPATION_TERM` is `sp/embattlement.js:115-119`; `:113` closes the tuning object (re-read).",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/trade-system.md",
+   "old": "re-checked `sp/embattlement.js:66-98`, `:113-115`, `:196-206`, `:239-247`;",
+   "new": "re-checked `sp/embattlement.js:66-98`, `:115-119`, `:196-206`, `:239-247`;",
+   "reason": "TV-10 accepted, second place (§9 item 4).",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/trade-system.md",
+   "old": "`sp/embattlement.js:84-98`, `:113-115`, `:196-206`, `:237-245`",
+   "new": "`sp/embattlement.js:84-98`, `:115-119`, `:196-206`, `:237-245`",
+   "reason": "Validator's own extension of TV-10: §10.2 item 40 (line 1103) carries the same slip, which the verifier did not list.",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/trade-system.md",
+   "old": "8. **Culture resistance (J382a): the host's live trade read uses the plain culture distance.** The host's culture\n   distance accepts a trade-tie term that would close it. But contraband, its only trade reader, never passes the term,\n   so live contraband reads the plain distance [OBSERVED re-checked `sp/smuggle.js:164-177`;\n   `wp/supplyKernel.js:753-756`]. V13 W8's `foreignCulture` term should compare against the plain distance. A\n   trade-adjusted form on the map would run ahead of the host.",
+   "new": "8. **Culture resistance (J382a): the sway reads the plain culture distance by J384 (2), not because the host lacks a trade-closed read.** The host's culture distance takes a relationship-label trade tie (trade_partner 1, allied 0.7, vassal/patron 0.6; `wp/migrationKernel.js:197`; `src/domain/rulingPowerSeat.js:178`). Contraband never passes it, so live contraband reads the plain distance [OBSERVED re-checked `sp/smuggle.js:164-177`; `wp/supplyKernel.js:753-756`]; migration pull (`wp/migrationKernel.js:228-230`) and ruling-seat closeness (`src/domain/rulingPowerSeat.js:361-370`, called at `:673`) read the trade-closed distance. V13 §3.9 (6)'s culture term (the former `foreignCulture`, retired into it by `docs/AMENDMENTS-2026-10-17m.md` item 714) reads the plain form over the whole vector (V13 §2.2 `culture`; J384 (2)) because the sway's relation classes already count the pair's label — a second count, not a run ahead of the host. [Fable-reviewed 2026-10-18: the earlier text called contraband the host's only trade reader and said a trade-adjusted form would run ahead of the host; both wrong.]",
+   "reason": "TV-11 accepted and the reading amended: the conclusion (plain form) stands on J384 (2), which V13 §2.2 line 812 and V13's J-V13.64 row carry; the premise and the \"run ahead\" inference are wrong (two trade-closed reads re-read in the host); `foreignCulture` no longer exists in V13.",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/trade-system.md",
+   "old": "The asymmetry is **latent**. Every committed advance runs\n    N one-week kernel calls (`wp/advanceInterval.js:97-105`; tick args `interval: 'one_week'` at `:511`), and M6a's\n    production and draw do scale by the span (`sp/commodityFlow.js:454`, `:529`, `:674`). The only coarse kernel call\n    in the host is the Simulation Rules dialog's uncommitted one-month preview (`map/SimulationRulesDialog.jsx:286`;\n    `store/campaignWorldPulseDeferred.js:85-125`). That is a single tick, in which no dispatched caravan arrives under\n    either model [INFERRED]. A direct coarse kernel call would expose it.",
+   "new": "The asymmetry is **latent by default**. Every committed advance runs N one-week kernel calls while the default-on `advanceMultiTick` flag holds (`lib/flagRegistry.js:88`, kept as a \"soak killswitch\", `lib/flags.js:77`; `wp/advanceInterval.js:97-105`; tick args `interval: 'one_week'` at `:511`), and M6a's production and draw do scale by the span (`sp/commodityFlow.js:454`, `:529`, `:674`). Two coarse kernel calls exist: the Simulation Rules dialog's uncommitted one-month preview (`map/SimulationRulesDialog.jsx:286`; `store/campaignWorldPulseDeferred.js:85-125`), a single tick in which no dispatched caravan arrives under either model [INFERRED]; and the committed single-tick advance that runs when the killswitch is off (`store/campaignAdvanceSession.js:613-614`, `:809-817`), under which an M6a caravan arrives late by a factor of the tick span (a four-week route arrives four monthly ticks on, where M2 arrives at the next). [Fable-reviewed 2026-10-18: the earlier text named one coarse call.]",
+   "reason": "TV-12 accepted: `useMultiTick = catchUpWeeks != null || flag('advanceMultiTick')` (`:613-614`), else `advanceCampaignWorld({ …, interval })` once (`:809-817`); flag default true (`lib/flagRegistry.js:88`). The verifier's \"late by the tick span\" is sharpened to a factor: M6a adds raw route weeks to the tick count.",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/trade-system.md",
+   "old": "(M6a's arrival clock would also be off at coarse ticks, but\n    every committed advance runs weekly ticks; §10, item 14)",
+   "new": "(M6a's arrival clock is off at coarse ticks; every committed advance runs weekly ticks while the default-on `advanceMultiTick` killswitch holds, and is one coarse tick when it is off; §10, item 14 [Fable-reviewed 2026-10-18])",
+   "reason": "TV-12 accepted, mirror in §9 item 13.",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/trade-system.md",
+   "old": "runs under `warLayerEnabled`,\n  `wp/pulseKernel.js:1783`;",
+   "new": "runs under `warLayerEnabled`, or while a `mercenaryMarket` ledger persists after War is switched off, `wp/pulseKernel.js:1783`;",
+   "reason": "TV-13 accepted: `if (simulationRules.warLayerEnabled || memoryState.mercenaryMarket !== undefined)` (re-read).",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/trade-system.md",
+   "old": "| W-C2 mercenary market (reads supply completeness) | `warLayerEnabled` (`wp/pulseKernel.js:1783`) |",
+   "new": "| W-C2 mercenary market (reads supply completeness) | `warLayerEnabled`, or a persisting `mercenaryMarket` ledger (`wp/pulseKernel.js:1783`) |",
+   "reason": "TV-13 accepted, second place (§7 row).",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/trade-system.md",
+   "old": "[OBSERVED\n  `sp/dispatchDestination.js:85-259`]",
+   "new": "[OBSERVED\n  `sp/dispatchDestination.js:85-253`]",
+   "reason": "TV-14 accepted: the file has 253 lines (wc re-run); the note's §11.1 says 253.",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/trade-system.md",
+   "old": "23. **Brokerage's distance surcharge is always 0** (`wp/brokerageServicesRules.js:276`).",
+   "new": "23. **Brokerage's distance surcharge is always 0** (`delayTicks: 0` at the only `answerBrokerageQuery` call, `wp/brokerageServicesRules.js:277`; the surcharge is `DISTANCE_SURCHARGE × delayTicks`, `wp/brokerageServices.js:175`, `:210`).",
+   "reason": "TV-15 accepted: `:276` is `tick,`; `delayTicks: 0,` is `:277`; the formula at `wp/brokerageServices.js:210` (re-read).",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/trade-system.md",
+   "old": "10. **Same-named truth reads.** TRADE T1 says truth-side scarcity derives from physical stocks; SP-B's ground truth is\n    the generation lists plus the food ratio (EC S25).",
+   "new": "10. **Same-named truth reads.** TRADE T1's original sentence says truth-side scarcity derives from physical stocks; the same line already carries an in-place \"[CORRECTED 2026-10-16 (coherence fold)]\" bracket saying SP-B's believed scarcity reads generation data (the lists plus the frozen food ratio), never physical stocks (EC S25) [STATED re-checked TRADE:62]. As with item 1, the stale reading survives only for a reader who skips the bracket.",
+   "reason": "TV-16 accepted: TRADE:62 carries the [CORRECTED 2026-10-16 (coherence fold)] bracket and two [RULED 2026-10-16] brackets (grep re-run).",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/trade-system.md",
+   "old": "salt (EC:2261, :2268, :2310).",
+   "new": "salt (sea-borne salt EC:2261; salt caravans EC:2265; salt as a traded staple EC:2310).",
+   "reason": "TV-17 accepted: EC:2261 \"no salt has come by sea since\"; EC:2265 \"the first caravans are on the road, and salt stays dear\"; EC:2268 (M24 port closure) has no salt; EC:2310 the salt-mine/salt-pans sentence (re-read).",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/trade-system.md",
+   "old": "The map's W8 territory is a *budgeted* flood with unclaimed land, contested marches and vassal\n   realms (`docs/volumes/V13-world.md` §3.9).",
+   "new": "The map's W8 territory was, when this note was written, a *budgeted* flood with unclaimed land, contested marches and vassal realms (`docs/volumes/V13-world.md` §3.9). [SUPERSEDED BY EVENT 2026-10-17 (`docs/AMENDMENTS-2026-10-17m.md`, J-V13.63): V13 §3.9 now makes exactly the two products this item proposes — W8a, the unbudgeted nearest-seat partition the host's crossings ride, and W8b, the sway (no budget; unclaimed land, debatable marches, the vassal chain); budgets and cost vectors are retired; `research/sf/fp-physical-integration.md` row A1 still named the retired budgeted flood.]",
+   "reason": "TV-18 accepted: V13 §3.9 (lines 1781-1850) reads \"Two partitions, never one (J-V13.63 …)\"; V13:745 retires budgets and cost vectors; 17m:1891 carries the J-row (re-read).",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/trade-system.md",
+   "old": "if the map's budgeted territory\nwere ever supplied as the host's territory it could cut the caravan graph (§9, item 1).",
+   "new": "if the map's sway (V13 W8b) were ever supplied as the host's territory it could cut the caravan graph — which is why V13 §3.9 keeps W8a, the unbudgeted nearest-seat partition, as the host's territory (J-V13.63; §9, item 1).",
+   "reason": "TV-18 accepted, §1 echo.",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/trade-system.md",
+   "old": "- **One territory or two?** (§9, item 1.)",
+   "new": "- **One territory or two?** (§9, item 1.) [SUPERSEDED BY EVENT 2026-10-17: two, W8a and W8b (J-V13.63).]",
+   "reason": "Validator's own extension of TV-18: §10.3 repeats the question J-V13.63 answered.",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/trade-system.md",
+   "old": "It is stamped once; only calamities, resource changes\n   and DM edits rewrite parts of it later (§3).",
+   "new": "It is stamped once; calamities, resource changes and DM edits rewrite its chains and lists later, and the pulse rewrites the prosperity label and the food ledger's storage and deficit every tick (EC S18; §2.1, §3).",
+   "reason": "TV-19 accepted: EC S18 (EC:377) and `wp/foodStockpile.js:404-409`; the note's own §2.1 lists the tick writers.",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/trade-system.md",
+   "old": "A campaign born through the plain door runs the trade-scarcity\ncascade and, once premium-canonized, M2 caravans with starvation — nothing else of trade.",
+   "new": "A campaign born through the plain door runs channel discovery, trade relationship drift, depth-1 regional waves on trade channels, the trade-scarcity cascade, export re-diffs on depletion and the stressor food-import cut (the plain default rules: `relationshipDynamicsEnabled`, `resourceDriftEnabled`, `stressorsEnabled`, `tradeFlowsEnabled` and `propagationMode: 'first_order'`, `wp/simulationRules.js:63-74`, `:1552-1558`; §7's \"RR born\" column), and, once premium-canonized, M2 caravans with starvation; no relief, no M6a, no Roads missions [Fable-reviewed 2026-10-18: the earlier sentence said \"nothing else of trade\"].",
+   "reason": "TV-20 accepted: DEFAULT_SIMULATION_RULES at `:63-74` (re-read) and the note's §7 RR-born column; `wp/candidateEvents.js:600-605` gates the cascade on first_order ∧ tradeFlowsEnabled.",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/trade-system.md",
+   "old": "the all-pairs `distanceMatrix`, tiers, calibration, `routeReceipts`,",
+   "new": "the all-pairs `distanceMatrix`, tiers (the calibration is derived at read from the matrix and tiers and memoized, `sp/distanceRead.js:540-560`; the digest stores none), `routeReceipts`,",
+   "reason": "TV-21 accepted: `buildSpatialDigest`'s return at `sp/spatialDigest.js:902-921` has no calibration field; `calibration(digest)` at `sp/distanceRead.js:540` derives and memoizes it (re-read).",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/trade-system.md",
+   "old": "| Geometry | the frozen digest (territory, gates, matrix, calibration, overlays, ports, teleport edges) | — |",
+   "new": "| Geometry | the frozen digest (territory, gates, matrix, overlays, ports, teleport edges) and the calibration derived from it at read | — |",
+   "reason": "TV-21 accepted, §8.4 row.",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/trade-system.md",
+   "old": "| `worldState.embattlement` | settlement → 0..1 danger level with a hysteresis phase | the embattlement advance | canon |",
+   "new": "| `spatialLedgers.embattlement` | settlement → 0..1 danger level with a hysteresis phase (written by `setSpatialLedger`, `wp/pulseKernel.js:2394`; read by `getSpatialLedger`, `sp/embattlement.js:303`; only `sp/embattlement.js:9`'s header keeps the old `worldState.embattlement` spelling) | the embattlement advance | canon |",
+   "reason": "TV-22 accepted: the only `worldState.embattlement` text in src is the stale header comment (grep re-run); the write folds under `spatialLedgers` (`sp/spatialLedgerAccess.js:92-95`).",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/trade-system.md",
+   "old": "a settlement's food import is a standing coverage *rate* by route class (port 0.70 down to the mountain\n  pass's 0.14), netted into its deficit each tick.",
+   "new": "a settlement's food import is a standing coverage *rate* by route class (port 0.70 down to the mountain pass's 0.14), applied once at generation to its raw deficit (`gen/foodGenerator.js:319-331`); the tick carries that base deficit forward and, under a siege or occupation stressor, adds the import-dependency share back (§3.8).",
+   "reason": "Validator's own (F-B): the coverage rate is applied at generation (`importCoverage` into `deficitPct`, `gen/foodGenerator.js:319-331`); the tick starts from the stashed base (`wp/foodStockpile.js:288`) and adds cuts (`:346-349`); nothing re-applies the rate per tick.",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/trade-system.md",
+   "old": "At tick time the share is netted into the stashed base deficit.",
+   "new": "At tick time the stashed base deficit, already net of the coverage share, is carried forward (`wp/foodStockpile.js:288`, `:346-349`).",
+   "reason": "Validator's own (F-B), §3.8 echo: the sentence read as a per-tick netting of the coverage share; the base is net once, at generation.",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/trade-system.md",
+   "old": "It is a single tick, in which no caravan arrives either way. |",
+   "new": "It is a single tick, in which no caravan arrives either way. [Fable-reviewed 2026-10-18: a second, committed coarse call exists under the `advanceMultiTick` killswitch; §10.2 item 14 as corrected.] |",
+   "reason": "Validator's own (F-C): the §12 record row P10 would contradict the corrected §10.2 item 14; a dated bracket keeps the record honest without rewriting history.",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/trade-system.md",
+   "old": "and the mercenary market runs under `warLayerEnabled` (`wp/pulseKernel.js:1783`). |",
+   "new": "and the mercenary market runs under `warLayerEnabled` (`wp/pulseKernel.js:1783`). [Fable-reviewed 2026-10-18: or while a `mercenaryMarket` ledger persists; §6 as corrected.] |",
+   "reason": "Validator's own (F-C): §12 row M8, same reason.",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/fp-physical-integration.md",
+   "old": "from W8's budgeted flood with the host's `TerritorySeed`s and cost vector",
+   "new": "from W8a's unbudgeted nearest-seat flood over the host's seats (J-V13.63; budgets and cost vectors retired) [Fable-reviewed 2026-10-18, trade lane]",
+   "reason": "Cross-family (FP) row named by TV-18's evidence and not flagged by fp-verify.md: V13:745 and §3.9 retire budgets and cost vectors (J-V13.63). Apply once; skip if the FP lane's corrections already touch this row.",
+   "kind": "research"
+  }
+ ]
+}

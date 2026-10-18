@@ -1,0 +1,150 @@
+{
+ "checked": 600,
+ "findings": [
+  {
+   "id": "F14",
+   "where": "research/sf/population-system.md §4 'Fold status', lines 395-396",
+   "claim": "The lit movers of this note (P-2…P-10, P-14…P-17) predate FP and are not in the fold's table.",
+   "verdict": "WRONG",
+   "evidence": "P-17's flag beliefAxesEnabled is in FP_LIT_BELIEF, 'THE FP LAYERS, SHIPPED LIT (LIT-1a, 2026-09-24)' (wp/simulationRules.js:754-797, key at :794); the fold's §2 SPINE row lists it: 'SP-B scarcity + conditions (3 presets, FP_LIT_BELIEF)' (DESIGN_FP_COHERENCE_FOLD.md:335).",
+   "fix": "'The lit movers of this note other than P-17 (P-2…P-10, P-14…P-16) predate FP and are not in the fold's table; P-17's belief axes are FP's own SP-B lighting (FP_LIT_BELIEF, fold §2 SPINE row).'"
+  },
+  {
+   "id": "F16",
+   "where": "§12 V12, line 1074",
+   "claim": "Verifier wrong on the cite: the flags sit at rules:1024, :1028, :1029, inside the original range (rules:1025-1030).",
+   "verdict": "WRONG",
+   "evidence": "wp/simulationRules.js:1024 is warEconomyDrainEnabled: true, outside 1025-1030; :1028 warForageEnabled, :1029 warLevyEnabled, :1030 warDispositionEnabled. The verifier was wrong to put warLevyEnabled at :1030, but the original range did miss :1024.",
+   "fix": "'Verifier half right: warLevyEnabled is at :1029, inside the original range (:1030 is warDispositionEnabled), but 1025-1030 missed warEconomyDrainEnabled at :1024; the exact cite is rules:1024, :1028, :1029.'"
+  },
+  {
+   "id": "F18",
+   "where": "§7 table row P-13, line 585",
+   "claim": "eight conquest-doctrine flags, none set (reader 0)",
+   "verdict": "WRONG",
+   "evidence": "Razing gates on conquestDoctrineActive (wp/razingExecution.js:487, :1250), which needs all eight CONQUEST_REQUIRED_RULES (wp/conquestDoctrineStage.js:63-72). warLayerEnabled is lit in DC/FS (rules:938, :1016) and peaceEngineEnabled through WAVES (rules:725). Five others are declared false in FS (:1036, :1041, :1056, :1063, :1170), and conquestDoctrineEnabled is in no preset. So the conjunction holds in no preset and the D cells stand.",
+   "fix": "'the eight-flag conjunction CONQUEST_REQUIRED_RULES (wp/conquestDoctrineStage.js:63-72), never all true in any preset (conquestDoctrineEnabled is in none; two of the eight are lit in DC/FS)'."
+  },
+  {
+   "id": "F8",
+   "where": "§9.1 #8, line 797",
+   "claim": "a ready calibration for \"a per-settlement limit by tier\" once lit",
+   "verdict": "UNSUPPORTED",
+   "evidence": "The quoted phrase appears nowhere in docs/ or research/ except this note (grep). J377 (docs/PROGRESS.md:436) reads 'the per-settlement limit is where it falls below a floor, capped per tier'.",
+   "fix": "Drop the quotation marks ('the per-settlement, per-tier reach limit J377 describes'), or quote J377 verbatim: '\"per-settlement limit … capped per tier\"'."
+  },
+  {
+   "id": "F2",
+   "where": "§7 legend lines 565-568; §11.4 lines 1020, 1024; §12 V5 and M5 (lines 1067, 1079)",
+   "claim": "SRD carries no premium check — only campaign management gates it; whether campaign management is itself a paid feature was not traced; 'premium gating traced: none'.",
+   "verdict": "IMPRECISE",
+   "evidence": "src/components/map/useWorldMapCampaignModel.js:58-61: canManageCampaigns = authTier === 'premium' || isElevated, and activeCampaigns is [] without it. WorldMapOverlays.jsx:68-70: 'Only a campaign manager can hold an active campaign on this surface'. WorldMapToolbar.jsx:570 shows Rules only when campaignActive. LWG:32: 'Premium: writes require canManageCampaigns'.",
+   "fix": "State that SRD's opener, mount and store write carry no premium check of their own, but only a campaign manager (premium or elevated, useWorldMapCampaignModel.js:58-61; the same gate as LWG:32) holds an active campaign there, so SRD is premium-gated like LWG. Strike the item from §11.4 'not traced' and correct line 1024 and §12 V5/M5."
+  },
+  {
+   "id": "F1",
+   "where": "§3.1, line 220",
+   "claim": "from about 2,500 people up the 0.1% bar needs a rate of about 0.0033–0.0035, i.e. stability of about 0.8 or more",
+   "verdict": "IMPRECISE",
+   "evidence": "wp/populationDynamics.js:381-383: delta = round(expectation), dropped when below max(2, round(pop×0.001)). Because the bar is rounded, the needed rate oscillates. At 3,499 people the bar is 3 and needs expectation ≥ 2.5, i.e. rate ≥ 0.00248 (RR stability ≈ 0.67). Only large places tend to 0.00348 (stability ≈ 0.80).",
+   "fix": "'needs a rate between about 0.0025 and 0.0035 (rounding makes it oscillate, settling toward 0.0035 as places grow), i.e. RR stability of roughly 0.67–0.80'."
+  },
+  {
+   "id": "F3",
+   "where": "§3.4 growth bullet, line 271",
+   "claim": "[INFERRED] a steading reaches 401 in roughly 40–70 weeks if backing holds",
+   "verdict": "IMPRECISE",
+   "evidence": "Iterating wp/settlementLifecycleKernel.js:958 (max(1, round(pop×(0.02+0.05×backing)))) from 16–31 founders (:200-201, :419) gives 78 weeks for 16 founders at backing 0.45, 63 for 31 at 0.45, 49 for 16 at 1.0 and 39 for 31 at 1.0.",
+   "fix": "'roughly 40–80 weeks (39 for 31 founders at full backing, 78 for 16 founders at the 0.45 floor)'."
+  },
+  {
+   "id": "F4",
+   "where": "§2.1 history-row detail, lines 139-141; §10.2 #1, lines 885-886",
+   "claim": "a destination credited by an aspatial dispersal records the origin's headline ('X's population is falling') with outcomeId candidate.population.emigration.<origin>.<\\tick>",
+   "verdict": "IMPRECISE",
+   "evidence": "The writer stamps outcome.headline || outcome.candidateType (wp/populationDynamics.js:605). That gives the quoted text for mass emigration (:487, :501). A calamity exodus has no headline, so its row reads 'population_emigration' with id calamity.exodus.<origin>.<\\tick> (wp/calamityKernel.js:782-806, :829). A terminal death reads 'X is dying' with id candidate.lifecycle.death.<origin>.<\\tick> (settlementLifecycleFirstClass.js:213, :224).",
+   "fix": "Name all three producers' row text and ids, and note that every id still encodes the origin. In §10.2 #1, say the row reads 'the origin's outcome headline (or, for a calamity exodus, the bare type)'."
+  },
+  {
+   "id": "F5",
+   "where": "§2.2 pulseHistory row line 174; §8.5 lines 746-747",
+   "claim": "each pulse record keeps ≤ 24 public selected outcomes and, when any exist, ≤ 8 mechanical outcomes (with populationDeltas)",
+   "verdict": "IMPRECISE",
+   "evidence": "wp/pulseOutcomePartition.js:121-123: whenever any selected outcome is state-only, the record also carries consequenceOutcomes = selectedForApply.slice(0, 24).map(compactOutcomeForHistory). That compaction clones populationDeltas (pulseHelpers.js:144).",
+   "fix": "Add '≤ 24 consequenceOutcomes when state-only outcomes exist' in §2.2 and §8.5. In §10.2 #13, note the track reads neither mechanicalOutcomes nor consequenceOutcomes (timelineTrack.js:131-132)."
+  },
+  {
+   "id": "F6",
+   "where": "§1 line 41; §4 lines 380-381",
+   "claim": "the model that ran away to 29.1 trillion people in two settlements … [STATED DEMO §0]",
+   "verdict": "IMPRECISE",
+   "evidence": "DESIGN_DEMOGRAPHIC_ENGINE.md:8-10 (the preamble; §0 opens at :30): 'Two settlements compounded … to 29.1 trillion and 16.4 trillion people'. 29.1 trillion is one of the two settlements. The FS configuration and the weekly ticks are stated in §0 at :48 and :68-71.",
+   "fix": "Line 41: 'ran two settlements away to 29.1 and 16.4 trillion people'. Cite [STATED DEMO preamble :6-10; §0 :48, :68-71] here and at line 380."
+  },
+  {
+   "id": "F7",
+   "where": "§3.4 conveyance bullet, line 293",
+   "claim": "sovereigntyTradeEnabled in no preset [… STATED FOLD:333]",
+   "verdict": "IMPRECISE",
+   "evidence": "DESIGN_FP_COHERENCE_FOLD.md:333 is the §2 table's header row. The statement is in the SPINE row at :335: 'SP-B2 legs (sovereigntyTradeEnabled lit nowhere)'.",
+   "fix": "Cite FOLD:335."
+  },
+  {
+   "id": "F9",
+   "where": "§9.3 #1 lines 813-820; §8.6 #6 line 764; §10.3 #1 line 940",
+   "claim": "The port proposal keeps 'the digest's immutable canon-version semantics' [proposal-world-native.md §6 item 1]; '§6 item 4'; open question whether a native world counts as canonized at birth",
+   "verdict": "IMPRECISE",
+   "evidence": "proposal-world-native.md:193-204 marks §6 superseded on 2026-10-17 and maps its items to V13 §8.5 H1–H30 (item 1 → H4, H5; item 4 → H5, H18, H19). The quote survives only at docs/AMENDMENTS-2026-10-17m.md:2264. J386 (PROGRESS.md:445) and J387 (:446) ruled that every new campaign on a native world is canonized at birth, carried as V13 §8.5 H22.",
+   "fix": "Re-cite the quote as the pre-supersession text (AMENDMENTS-2026-10-17m.md:2264), now V13 §8.5 H4/H5. Change §8.6 #6 to V13 H5/H18/H19. Mark §10.3 #1 as ruled by J386/J387 (canonized at birth; re-canonize stays premium)."
+  },
+  {
+   "id": "F10",
+   "where": "§10.1 #9, line 863",
+   "claim": "DEMO §5's farm-village example contradicts the town-or-larger cap table",
+   "verdict": "IMPRECISE",
+   "evidence": "DEMO §11b (:503-506) records that §5's example said 'a farm village with open land spins off steadings', but §5 (:291-313) no longer holds that sentence. grep finds 'farm village' only at :504.",
+   "fix": "'DEMO §11b records that an earlier §5 example (no longer in §5 at 81f1cd96) contradicted the cap table; ruled for the cap table (vetoable)'."
+  },
+  {
+   "id": "F11",
+   "where": "§6.2 pilgrimage bullet, line 526",
+   "claim": "caller wp/traditionsKernel.js:79",
+   "verdict": "IMPRECISE",
+   "evidence": "traditionsKernel.js:79 is the import line; the call pilgrimageDraw({…}) is at :757.",
+   "fix": "'caller wp/traditionsKernel.js:757 (imported at :79)'."
+  },
+  {
+   "id": "F12",
+   "where": "§11.2 line 987",
+   "claim": "FPI (481: …)",
+   "verdict": "IMPRECISE",
+   "evidence": "research/sf/fp-physical-integration.md has 493 lines now (wc -l); its dated bracket at :458 (amendments n, 2026-10-17) postdates the read. All 72 other host and document counts in §11 hold, as do FPS 1,098 and FAITH 1,516.",
+   "fix": "'FPI (481 when read; 493 after the 2026-10-17 amendments-n bracket …)'."
+  },
+  {
+   "id": "F13",
+   "where": "§10.1 #8, lines 861-862",
+   "claim": "ARCH_WY's bracket says it lands with WY-4 while OD-FC-13 rules it POP's row read by WY-4",
+   "verdict": "IMPRECISE",
+   "evidence": "DESIGN_FP_ARCH_WY.md:1252: the bracket itself carries OD-FC-13's reconciliation ('the band is POP's row per ODQ §130.3, WY-4 READS it') and also says 'landing in this wave'. FOLD:506 agrees.",
+   "fix": "'ARCH_WY:1252 records it as a WY-4 band \"landing in this wave\" while, per OD-FC-13 quoted in the same bracket, POP owns the row and WY-4 reads it'."
+  },
+  {
+   "id": "F15",
+   "where": "§9.2 #1, line 803",
+   "claim": "FAITH §9.6 item 7's \"no movers\" stands for population too",
+   "verdict": "IMPRECISE",
+   "evidence": "faith-system.md:1260 (§9.6 item 7) reads 'Pilgrims, missionaries and inquisitors have no host fact as movers.' The phrase 'no movers' does not occur in FAITH (grep).",
+   "fix": "'FAITH §9.6 item 7's finding (\"no host fact as movers\") stands for population too'."
+  },
+  {
+   "id": "F17",
+   "where": "§5.3 Distance bullet, line 426",
+   "claim": "only C (and the dark G and land law) read the digest",
+   "verdict": "IMPRECISE",
+   "evidence": "Channel D's founding samples the frozen digest (territory partition, cost field, gate terrain) on canonized realms: wp/settlementLifecycleKernel.js:54-60, :434-439, :808-822 and wp/steadingTopography.js:11-38. It reads no distance or time, so the next sentence holds.",
+   "fix": "'only C (and the dark G and land law) read the digest's distances or weeks; D reads it only to pick a steading's site cell on a canonized realm'."
+  }
+ ],
+ "summary": "I read research/sf/population-system.md whole (1,091 lines) and checked about 600 claims against the host at 81f1cd96, the cited design documents and the map-side notes. The host HEAD was read from .git files; no git command was run. 18 claims do not hold: 3 WRONG, 1 UNSUPPORTED, 14 IMPRECISE, each with its evidence and an exact fix.\n\n- **WRONG (3):** P-17's belief axes are FP's own lighting (FP_LIT_BELIEF), not pre-FP. In §12 V12, rules:1024 lies outside the range 1025-1030. In row P-13, two of the eight conquest flags are set in some presets, so 'none set' is false; the conjunction still holds in no preset, so the D cells stand.\n- **UNSUPPORTED (1):** the quotation 'a per-settlement limit by tier' appears in no record.\n- **IMPRECISE, notable:** SRD is premium-gated after all: canManageCampaigns means premium or elevated, the same gate LWG uses. The canon-at-birth open question and the proposal §6 citation are stale, since §6 was superseded and J386/J387 have ruled. The history-row text differs across the three dispersal producers. Pulse records also carry consequenceOutcomes. Steading growth to 401 takes up to 78 weeks, not 70. The deadband rate oscillates between about 0.0025 and 0.0035.\n- **IMPRECISE, the rest:** several citation lines, two quotations and one stale line count.\n\nEverything else holds:\n- the M4 model and all its constants;\n- the three dispatch callers and the approval path that never dispatches;\n- the timelapse reading the deltas as a map when they are arrays;\n- the overlay and the orbit dots;\n- every preset cell in the §7 table;\n- the calamity exposure law, the steading and first-class lanes, the war and razing constants and the conveyance;\n- the Wave P constants (spot-checked);\n- all 72 stated host line counts.\n\nThe record is at /home/user/maps-architecture/docs/validation/retrovalidation-2026-10-18/population-verify.md, and the LANDED line is appended to docs/lane-events.log."
+}

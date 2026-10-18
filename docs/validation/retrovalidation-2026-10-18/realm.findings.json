@@ -1,0 +1,110 @@
+{
+ "checked": 1072,
+ "findings": [
+  {
+   "id": "RV-1",
+   "where": "research/sf/fp-realm-review.md RR-5 Evidence (line 135)",
+   "claim": "at least thirteen self-describing host axes, each bumped only by a discrete re-canonize (spatialDigest.js:116-179) [OBSERVED]",
+   "verdict": "IMPRECISE",
+   "evidence": "src/domain/spatial/spatialDigest.js:117-179 declares six *_VERSION axes (:120-122, :127, :134, :179). Thirteen exist only across src/domain/spatial/. The thirteenth, ARMY_INTERCEPTION_DECISION_SCHEMA_VERSION (armyTransit.js:120), is a decision-record schema, not a canon axis.",
+   "fix": "\"at least twelve self-describing canon axes, each bumped only by a discrete re-canonize (six in spatialDigest.js:117-179; spatialCost.js:82; seaLanes.js:75-85; waterBodies.js:58-60; spatialSubstrate.js:65; teleportEdges.js:64; captureSidecar.js:41) [OBSERVED]\""
+  },
+  {
+   "id": "RV-2",
+   "where": "RR-10 Evidence (line 190)",
+   "claim": "army time is ceil(1.5 × weeks ÷ readiness)",
+   "verdict": "IMPRECISE",
+   "evidence": "armyTransit.js:298-300: speedMult = 1 + 0.4·(readiness−0.5)·2 (∈ [0.6, 1.4]); weeks = ceil(base×1.5/max(0.1, speedMult)), clamped to [1, 52].",
+   "fix": "\"army time is ceil(1.5 × weeks ÷ (1 + 0.4·(2·readiness − 1))), clamped to [1, 52]\""
+  },
+  {
+   "id": "RV-3",
+   "where": "RR-4 Evidence (line 129)",
+   "claim": "edge id `route.<a>.<b>.<mode>` (DESIGN_ROUTE_LIFECYCLE.md:71-80) [STATED]",
+   "verdict": "IMPRECISE",
+   "evidence": "DESIGN_ROUTE_LIFECYCLE.md:71-82 is the RouteEdge shape. The id rule is at :86. The code builds the id at routeNetworkLedger.js:241.",
+   "fix": "Cite DESIGN_ROUTE_LIFECYCLE.md:71-86 and add [OBSERVED routeNetworkLedger.js:241]."
+  },
+  {
+   "id": "RV-4",
+   "where": "header lines 22-24 and §6 preamble line 677",
+   "claim": "J382 is ruled into J-RR.49 and J-RR.52",
+   "verdict": "IMPRECISE",
+   "evidence": "PROGRESS J382 rules (a) culture resistance and (b) sea carriage along lit lanes. Both are in J-RR.49 (line 608) and RR-46. J-RR.52 (line 611) carries neither and names no J382; its water clause comes from WS missed-1 via RR-49.",
+   "fix": "Replace \"J-RR.49 and J-RR.52\" with \"J-RR.49 (with RR-46)\" in both places."
+  },
+  {
+   "id": "RV-5",
+   "where": "§3 preface lines 92-94",
+   "claim": "items 663, 751 and 771 carry every finding",
+   "verdict": "IMPRECISE",
+   "evidence": "AMENDMENTS-2026-10-17m.md item 751 Requests: RR-1 – RR-58 (line 1886); its rows never name RR-59. Items 663 and 771 do request RR-1 – RR-59.",
+   "fix": "\"items 663 — the volume's revision note — and 771 — the proposal's §6 pointer — carry every finding, and item 751 — J-V13.63 – J-V13.82 — every finding but RR-59\""
+  },
+  {
+   "id": "RV-6",
+   "where": "§3 preface lines 89-91 with the 59 From lists",
+   "claim": "36 missed items … merge into 59 findings below. Each names its sources",
+   "verdict": "UNSUPPORTED",
+   "evidence": "A parse of the From lists finds all 127 kept ids, but 5 of the 36 missed items are named by no finding: PS missed 4, WS missed 2, WS missed 5, BA missed 5, TR missed 1. File m traces TR missed 1 to RR-6 (item 777 Evidence, line 2378) and PS missed 4 to H19 (item 749 Evidence, line 1860). WS missed 2, WS missed 5 and BA missed 5 appear in neither file. Their source, surviving.json, is not kept.",
+   "fix": "Add \"TR missed 1\" to RR-6's From and \"PS missed 4\" to RR-59's From. Replace \"They merge into 59 findings below.\" with \"Thirty-three of them merge into the 59 findings below; WS missed 2, WS missed 5 and BA missed 5 are carried by no finding and no item of file m (their record, the scratch surviving.json, was not kept).\""
+  },
+  {
+   "id": "RV-7",
+   "where": "§9 lines 782-784",
+   "claim": "cultureDistance.js … five derived terms",
+   "verdict": "IMPRECISE",
+   "evidence": "cultureDistance.js:53-56 and :195-198 also apply a sixth, multiplicative tradition-kinship pull (TRAD_CLOSE 0.2). J-RR.49 itself relies on that pull (\"shared traditions close it\").",
+   "fix": "\"five derived terms and a tradition-kinship closing pull (:53-56, :195-198)\""
+  },
+  {
+   "id": "RV-8",
+   "where": "§10 row 40 (line 859)",
+   "claim": "a sixth of a foot-day between towns …: 2 × 0.75 ÷ (2 ÷ 0.2) = 0.15",
+   "verdict": "IMPRECISE",
+   "evidence": "0.15 is not 1/6 (0.167). V13:1104 and file m line 735 both say \"about a sixth\". With τ = 0.2, 0.625 and 1.5, the widths are 0.15, 0.47 and 1.125 foot-days.",
+   "fix": "\"(about a sixth of a foot-day between towns — 0.75 τ = 0.15 —, about half a day between cities — 0.47 —, about a day between metropolises — 1.125)\""
+  },
+  {
+   "id": "RV-9",
+   "where": "§10 row 41 (line 860)",
+   "claim": "keyframe appears in the host only as CSS",
+   "verdict": "IMPRECISE",
+   "evidence": "keyframe also appears in host comments outside CSS: ProgressJourneyOverlay.jsx:17-18 (\"all-keyframe H.264\") and hallRegister.js:113. None is a simulation word.",
+   "fix": "\"(keyframe appears in the host only as CSS animation and video-encoding terms, never as a simulation word)\""
+  },
+  {
+   "id": "RV-10",
+   "where": "§8 row (line 740)",
+   "claim": "the fragile-leg margin of 5 % … PLAUSIBLE",
+   "verdict": "UNSUPPORTED",
+   "evidence": "No design text states a 5 % margin. V13 has only `TimeDeltaReceipt.fragile: boolean` (V13:835) and \"its fragility\" (V13:2871); file m line 628 is the same. A repository grep finds the margin in this row only.",
+   "fix": "Replace the claim with \"the fragile-leg flag (TimeDeltaReceipt.fragile, V13 §2.2), whose margin no design text states (5 % was this note's working value)\"."
+  },
+  {
+   "id": "RV-11",
+   "where": "J-RR.8 (line 532) against §5 H4 (line 651)",
+   "claim": "presentation inputs … (`clock`, `hostOverlay`, `beliefView`)",
+   "verdict": "IMPRECISE",
+   "evidence": "§5 H4 lists four presentation inputs, including `audienceKnowledge`. The base's door (5) as applied (ARCHITECTURE.md:17680-17685) includes an audience's known events.",
+   "fix": "Add \", `audienceKnowledge`\" to J-RR.8's list. This only aligns the list with §5 H4; the ruling's substance is the Fable validator's."
+  },
+  {
+   "id": "RV-12",
+   "where": "tag legend lines 14-15 against 22 map-side citations",
+   "claim": "Tags: [STATED] a document says it; [OBSERVED] code or git",
+   "verdict": "IMPRECISE",
+   "evidence": "22 map-side design-document citations carry [OBSERVED], for example RR-1 line 103 and RR-6 line 144. Meanwhile AMENDMENTS-2026-09-25b.md:216-220 and DESIGN_FP_ARCHITECTURE.md:214 are tagged [STATED]. The legend does not cover a map document read as the object under review.",
+   "fix": "Extend the legend: \"[STATED] a document says it (a rule cited); [OBSERVED] code or git, or this repository's own design text read as the object under review (its line citations are to the revisions before file m was applied)\"."
+  },
+  {
+   "id": "RV-13",
+   "where": "RR-9 Evidence (line 180)",
+   "claim": "OD-FC-22's source (the FMG export) disappears with the fork [STATED]",
+   "verdict": "IMPRECISE",
+   "evidence": "DESIGN_FP_COHERENCE_FOLD.md:515 states the source (FMG export-json.js:90). The disappearance follows from the map design's own H20 / item 769, so it is the seat's inference.",
+   "fix": "\"OD-FC-22's source is the FMG export [STATED fold:515], which disappears with the fork [INFERRED: H20 retires the fork]\""
+  }
+ ],
+ "summary": "Read research/sf/fp-realm-review.md whole (870 lines) and checked 1,072 claims at 81f1cd96. Every host path:line citation was opened (155). Mechanical checks covered 382 target-item references, 116 RR↔J-RR links, 163 source ids and the §10 tallies. Map-side \"document says\" claims were re-found in current text or in file m's quoted Current text.\n\nThe load-bearing host facts hold:\n- the digest builder, the 400 KB cap and the one gate (31 callers)\n- kmScale is never written\n- the 2–8 march-week spectrum and the reinforcement band of 5 (under 3.5 median hops)\n- genesis is unmounted\n- the move-lock\n- the season quarters\n- no salt lake in the host\n- the occupation ladder and the subordinating terms\n- the two relationship planes\n- culture distance\n- the gate pipeline\n- the field-battle region\n- the strength bands\n- the FMG fork's version, unit and scale\n- the kernel registries (93 and 25 rows)\n\n13 findings: 0 WRONG, 2 UNSUPPORTED, 11 IMPRECISE, each with an exact fix.\n- RV-6 (UNSUPPORTED): five missed items are named by no finding, and three of them (WS missed 2, WS missed 5, BA missed 5) are traced nowhere.\n- RV-10 (UNSUPPORTED): the §8 table's 5 % fragile-leg margin exists in no design text.\n- RV-4: J382 is in J-RR.49, not J-RR.52.\n- RV-5: item 751 lacks RR-59.\n- RV-12: the tag legend versus 22 map-side [OBSERVED] tags.\n- The rest are citation or wording corrections.\n\nNot checkable:\n- Pre-application map-side line numbers: git is forbidden; content was checked instead.\n- The dimensions' surviving.json journal.\n- The host's ODQ (ledger branch): checked through the fold's and the code's citations.\n\nRecord: /home/user/maps-architecture/docs/validation/retrovalidation-2026-10-18/realm-verify.md. CHECKPOINT and LANDED lines were appended to docs/lane-events.log."
+}

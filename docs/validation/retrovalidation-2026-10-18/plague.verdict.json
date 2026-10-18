@@ -1,0 +1,273 @@
+{
+ "verdict": "PASS-WITH-CORRECTIONS",
+ "summary": "Lane retrovalidation/plague (Fable; J392). research/sf/plague-system.md read whole (1,085 lines) before any ruling; the verifier's 11 findings re-checked at the host 81f1cd96 by re-opening every cited line (HEAD read from .git/HEAD → refs/heads/master; no git command). All 11 ACCEPTED; 3 with an amended fix: F2 (the crime-pressure path into true embattlement is real, but crime's whole weight 0.3 sits under the 0.55 enter threshold and embattlement.js:84-86 says high crime sustains, never initiates, an embattlement — so a DM plague can hold or raise an already-embattled region, never start one; and the scalar it nudges is read by the movers' route re-score and banditry, not only the roads' known view), F10 (the verifier's sentence lacked the DM exception the note keeps for plague: condition promotion maps both magic names to the magical_instability condition, activeConditions.js:158-165, which drains healing at once), F11 (the \"priceable folly\" sentence is at PHASE55:1631, not :1633). F6 confirmed WRONG in part: pulseKernel.js:670 writes the population_friction history from agedStressors.graduated and :1996 emits the graduation news; the echo's footprint collapses to the origin (stressorsCore.js:489). Own findings beyond the verifier: the embattlement sizing; the DM exception; the PHASE55 line; and one dated bracket where §1 and §8.4 call an unmapped realm \"the default preset's usual state\" — true of the host today but, under J384 (6) and V13 H22 (rulings.md UPHELD), the exception for a world born from this module. Readings tested and sound: the 26-tick \"recovery floor\" is a ceiling on the active phase (pestilence.js:533-536, host name RECOVERY_FLOOR_TICKS); aging precedes candidates and skips nothing at age 0 (pulseKernel.js:509-512; stressors.js:351-379); the J377–J382 readings cite the rows' session readings, not the owner's words, correctly. Amendments j 131–141 and i 130 touch nothing the note claims. 23 readings judged: 20 UPHELD, 2 AMENDED (§9 item 3; the unmapped-realm reading), 0 OVERTURNED, 1 NOT-A-RULING. 16 research corrections (every old string present exactly once); no design fragment (V13 §5.9 :3223 says only that the host's plague reads no border, march, patrol or army, which holds; no design text restates a corrected claim); no record fragment (no J-row of J375–J391 repeats F2 or F6, so J392 names nothing from this lane). The note's conclusions hold. Record: docs/validation/retrovalidation-2026-10-18/plague.md; LANDED line appended 01:20 UTC.",
+ "notice_replacement": "> Fable-reviewed 2026-10-18: PASS-WITH-CORRECTIONS — sixteen research corrections, no design change (lane retrovalidation/plague; J392)",
+ "rulings": [
+  {
+   "id": "R1 §1 last paragraph; §9 item 12",
+   "verdict": "UPHELD",
+   "reason": "Plague as the cleanest first customer of the lens mechanism (J379): one sparse ledger with phases, a source and two forward ticks; adopted by J384 (8), V13 §5.9 and J-V13.93.",
+   "consequence": "none"
+  },
+  {
+   "id": "R2 §1 line 130; §8.4 heading — an unmapped realm is 'the default preset's usual state'",
+   "verdict": "AMENDED",
+   "reason": "A host fact today (every free or imported-map campaign, every campaign before the premium canonize), but the owner delegated the lens questions whole (J384 'i leave all judgemtn to you') and the session ruled (6) that a world born from this module is canonized at the campaign's birth (V13 H22; rulings.md UPHELD), so for the module's own worlds the footprint regime is the exception. New text: 'the default preset's usual state on the host today [Fable-reviewed 2026-10-18: a world born from this module is canonized at the campaign's birth, J384 (6), V13 H22, so there the footprint regime is the exception]'.",
+   "consequence": "research corrections C15, C16; no design change — V13 §5.9 already carries the regimes front / footprint / still"
+  },
+  {
+   "id": "R3 §2.3; §3.7; §10.1 item 2 — the 26-tick recovery floor and care",
+   "verdict": "UPHELD",
+   "reason": "pestilence.js:533-536 enters recovering at stressorGone || floorHit, so the floor (host name RECOVERY_FLOOR_TICKS, :107) is a ceiling on the active phase and binds only where the stressor outlives it; care enters only the recovering relax (:558), so the host header :44-46 is the one in error.",
+   "consequence": "none"
+  },
+  {
+   "id": "R4 §3.15 'What a DM severity reaches'; §12 P5",
+   "verdict": "UPHELD",
+   "reason": "pulseKernel.js:509-512 replaces worldState.stressors with the aged list before any candidate reads it; ageRoamingStressors skips nothing at age 0 (stressors.js:351-379); decayBoost 0.8 gives 0.7..1.8, so strong healing speeds decay and raises the refugee bar — the earlier verifier's fix direction was wrong, as the note says.",
+   "consequence": "none"
+  },
+  {
+   "id": "R5 §5.4 — 'nature is exempt' reading",
+   "verdict": "UPHELD",
+   "reason": "A host quotation (candidateEvents.js:522-557); canonizing upgrades plague travel from DM-gated to autonomous; the proposal-gated alternative is correctly left as the owner's question (§10.2).",
+   "consequence": "none"
+  },
+  {
+   "id": "R6 §9 item 1 — borders are not plague barriers",
+   "verdict": "UPHELD",
+   "reason": "The host's plague reads no territory, sovereignty, vassal chain, march or gate; V13 §5.9 :3223 carries it.",
+   "consequence": "none"
+  },
+  {
+   "id": "R7 §9 item 2 — patrols have no plague job; the one plague term in route danger is believed danger",
+   "verdict": "UPHELD",
+   "reason": "J378's patrols are the session's reading (military enforcement, neighbour hostility, route class); the owner said only 'also there should be patrols'; the plague-specific term is row 16 only — F2's generic crime nudge is not a plague term.",
+   "consequence": "the host-requirements document (J391 (6)) should carry pg-4's quarantine verb as the owner value PG names, not as a patrol fact"
+  },
+  {
+   "id": "R8 §9 item 3 — plague not written to the true embattlement ledger; the believed view the only meeting; a territory lens on true embattlement will not see it",
+   "verdict": "AMENDED",
+   "reason": "A plague condition's +0.12 crime pressure (pressureModel.js:42,321-327) is one of embattlement's ramp inputs on mapped worlds (pulseKernel.js:2365-2391; embattlement.js:98,199-205), but crime's whole weight 0.3 is under the 0.55 enter threshold and the header :84-86 says high crime sustains, never initiates; the scalar is read by the movers' re-score and banditry too (embattlement.js:12-13,41-53). New text: 'Plague has no term of its own in the true embattlement ledger [… a plague condition's crime lift can sustain or raise a region already embattled by siege or occupation, never start one …]; the roads' believed view is the only plague-specific meeting, and a territory lens built on true embattlement sees plague only through that generic crime term.'",
+   "consequence": "research corrections C2–C4; no design fragment (V13 draws no embattlement from plague)"
+  },
+  {
+   "id": "R9 §9 item 4 — shared substrate, different graph; J380's hinterland reuse does not carry over",
+   "verdict": "UPHELD",
+   "reason": "Plague's adjacency is trade links and shipment edges, not hinterlands; V13's plague rows draw hops as links.",
+   "consequence": "none"
+  },
+  {
+   "id": "R10 §9 item 5 — J382's sea carriage already holds for plague latency",
+   "verdict": "UPHELD",
+   "reason": "Consistent with rulings.md's AMENDED J382(b): the frozen record's lane slot, which plague latency reads in every preset (sp/distanceRead.js:286-293 per rulings.md; the note's §2.3 and §5.2).",
+   "consequence": "none"
+  },
+  {
+   "id": "R11 §9 item 6 — canon staleness matters more for plague",
+   "verdict": "UPHELD",
+   "reason": "A seat founded after the canon gets the one-week floor (pestilenceKernel.js:192-197); for module-born worlds J388's additive re-canonize on a founding event narrows the case on the design side.",
+   "consequence": "none"
+  },
+  {
+   "id": "R12 §9 item 7 — plague is not a faith carrier",
+   "verdict": "UPHELD",
+   "reason": "Crisis disorder is type-blind (religiousContest.js:181-209); V13 :3384 bars 'arrows from plague to conversion'.",
+   "consequence": "none"
+  },
+  {
+   "id": "R13 §9 items 8–10 — against faith-system §9.6 items 4, 5, 1",
+   "verdict": "UPHELD",
+   "reason": "Plague's latency is a route read while its adjacency is links; a source id lives while the record lives (pestilence.js:256-270); the lens mode key is the marker and propagationMode, and V13's GateExpr keys on canon and lanes, not the Living-World gate.",
+   "consequence": "none"
+  },
+  {
+   "id": "R14 §9 item 11 — omens stay out",
+   "verdict": "UPHELD",
+   "reason": "Fold OD-FC-8 (fold:501) and faith-system §5.5 :517; the note's §3.11 citation of §7.6 is corrected by C7.",
+   "consequence": "research correction C7"
+  },
+  {
+   "id": "R15 §9 item 13; §8.3 — time scrub needs history the host does not keep",
+   "verdict": "UPHELD",
+   "reason": "The epidemic ledger prunes; J384 (9) snapshots and H24's front history answer it.",
+   "consequence": "none"
+  },
+  {
+   "id": "R16 §9 item 14 — two audience modes",
+   "verdict": "UPHELD",
+   "reason": "Omniscient presets share banded truth; belief presets can show 'heard of plague' from the rumour ledger — V13 :3238 carries the row.",
+   "consequence": "none"
+  },
+  {
+   "id": "R17 §9 item 15 — the legend reserves 'plagued' and its hue; calamity on its own layer",
+   "verdict": "UPHELD",
+   "reason": "settlementThreat.js:1-12,36 is monster threat; V13 :3173 and :3883 keep the vocabulary and the layers apart.",
+   "consequence": "none"
+  },
+  {
+   "id": "R18 §9 item 16 — a lens must name the lane",
+   "verdict": "UPHELD",
+   "reason": "V13 §5.9's regimes front / footprint / still and the author's honesty note :3151; read together with R2's bracket.",
+   "consequence": "none"
+  },
+  {
+   "id": "R19 §1; §3.15; §10.1 item 23 — the Table Ledger's plague key breaks one plague truth",
+   "verdict": "UPHELD",
+   "reason": "tableLedger.js:131-133,265; stressorPicker.js:58-62 (null pulse type); stressorsCore.js:301-309 generic entry — verifier re-found; V13 H24 :3713 carries 'the ledger's plague mapping' as a host ask.",
+   "consequence": "none"
+  },
+  {
+   "id": "R20 §10.1 item 7 — read PG's header and the fold's bracket as 'no code on master'",
+   "verdict": "UPHELD",
+   "reason": "PG:4-11 says draft-not-landed while the file sits on master; the zero-hit greps of contagionEnabled, plagueTouched, afflictionBand settle it; fold §2 is the record.",
+   "consequence": "none"
+  },
+  {
+   "id": "R21 §3.9 — tier is never demoted by plague [INFERRED]",
+   "verdict": "UPHELD",
+   "reason": "No plague tier writer; the inference is tagged and the law is stated for calamity at PHASE55:1638.",
+   "consequence": "none"
+  },
+  {
+   "id": "R22 §12 M4, M7 'Partly holds'",
+   "verdict": "UPHELD",
+   "reason": "threatProfile.js:416 reads defenseProfile.threats rather than feeding it; registryRerunKeys.js:68 lists no npcs, so the institution-effect secrets are generation-only (verifier re-found).",
+   "consequence": "none"
+  },
+  {
+   "id": "R23 §10.2 open questions; §8.6 host asks",
+   "verdict": "NOT-A-RULING",
+   "reason": "Questions put to the owner and offers the host chooses, correctly left open.",
+   "consequence": "H24 already carries the asks"
+  }
+ ],
+ "corrections": [
+  {
+   "file": "research/sf/plague-system.md",
+   "kind": "research",
+   "old": "(\"crowded homes make containment harder\")",
+   "new": "(\"housing pressure weakens containment\", read to players as \"Crowded homes make sickness harder to contain.\", `stressors.js:68`)",
+   "reason": "F1: the quoted phrase occurs nowhere in the host; pressureModel.js:217 is the reason string and stressors.js:68 its reader sentence"
+  },
+  {
+   "file": "research/sf/plague-system.md",
+   "kind": "research",
+   "old": "Plague is not written to the true embattlement ledger; the\n   roads' *believed* embattlement view is the only place the two meet (§5.1 row 16), and a territory lens built on true\n   embattlement will not see it.",
+   "new": "Plague has no term of its own in the true embattlement ledger [Fable-reviewed 2026-10-18: but a `plague` condition's\n   +0.12 crime pressure is one of embattlement's ramp inputs (crime above 0.5 at weight 0.3; `pressureModel.js:42,321-327`;\n   `pulseKernel.js:2365-2391`; `embattlement.js:98,199-205`), so on mapped worlds a DM plague can nudge true danger\n   generically — it can sustain or raise a region already embattled by siege or occupation, never start one (crime's whole\n   weight 0.3 is under the 0.55 enter threshold, `embattlement.js:74,84-86`), and the scalar it nudges is what the movers'\n   route re-score and banditry read as well as the roads (`embattlement.js:12-13,41-53`)]; the roads' *believed*\n   embattlement view is the only plague-specific meeting (§5.1 row 16), and a territory lens built on true embattlement\n   sees plague only through that generic crime term.",
+   "reason": "F2 amended: the indirect writer path exists and is bounded by the hysteresis (sustain, never start) and reaches the movers' re-score"
+  },
+  {
+   "file": "research/sf/plague-system.md",
+   "kind": "research",
+   "old": "contested marches and the true embattlement ledger (never read;\nplague is not written to it)",
+   "new": "contested marches and the true embattlement ledger (never read; no plague term, though a plague condition's crime lift\nis one of embattlement's ramp inputs — §9 item 3)",
+   "reason": "F2: same qualifier in §5.5"
+  },
+  {
+   "file": "research/sf/plague-system.md",
+   "kind": "research",
+   "old": "in RR known ≡ true and the true embattlement ledger holds no plague (`pulseKernel.js:2394` is its only writer)",
+   "new": "in RR known ≡ true and the true embattlement ledger holds no plague term (`pulseKernel.js:2394` is its only writer; a plague condition's crime lift enters its ramp generically, §9 item 3)",
+   "reason": "F2: same qualifier in row 16's RR clause"
+  },
+  {
+   "file": "research/sf/plague-system.md",
+   "kind": "research",
+   "old": "A pulse tick is a week [STATED `research/sf/fp-simulator.md` §1.9, citing host `ARCHITECTURE.md:149-155`]",
+   "new": "A pulse tick is a week [OBSERVED `advanceInterval.js:97-101,511`; `research/sf/fp-simulator.md` §1.9 says so too, though the host `ARCHITECTURE.md:149-155` it cites says only \"tick-by-tick\"]",
+   "reason": "F3: the citation chain ends on a document that does not state the fact; advanceInterval.js does"
+  },
+  {
+   "file": "research/sf/plague-system.md",
+   "kind": "research",
+   "old": "also a +0.002 a month recovery signal [`populationDynamics.js:113`]",
+   "new": "also a +0.002 a month recovery signal [`populationDynamics.js:113,309`]",
+   "reason": "F4: :113 declares RECOVERY_ARCHETYPES; :309 applies the +0.002"
+  },
+  {
+   "file": "research/sf/plague-system.md",
+   "kind": "research",
+   "old": "[STATED `research/sf/faith-system.md` §7.6;\nfold OD-FC-8]",
+   "new": "[STATED `research/sf/faith-system.md` §5.5 (line 517);\nfold OD-FC-8 (fold:501)]",
+   "reason": "F5: the omens statement is faith-system §5.5, not §7.6"
+  },
+  {
+   "file": "research/sf/plague-system.md",
+   "kind": "research",
+   "old": "Resolution emits, per affected settlement, the residual condition (6 ticks), then an echo record collapsed to the origin\nwith memory strength max(final severity, 0.5 × peak), a wizard-news resolution line and a campaign history event of type\n`population_friction`.",
+   "new": "Resolution emits, per affected settlement, the residual condition (6 ticks), then an echo record collapsed to the origin\nwith memory strength max(final severity, 0.5 × peak), and a wizard-news resolution line [Fable-reviewed 2026-10-18: the\ncampaign history event of type `population_friction` is not written at resolution; when the echo later graduates (memory\n< 0.1, at most about 20 ticks on), a second news line and that history event are written at the origin —\n`stressorAftermath.js:8-14,49,148,218`; `pulseKernel.js:670,1996`; the echo's footprint is the origin, `stressorsCore.js:489`].",
+   "reason": "F6 (WRONG in part): the history event is written at echo graduation, not resolution"
+  },
+  {
+   "file": "research/sf/plague-system.md",
+   "kind": "research",
+   "old": "that makes the next outbreak there 0.3 × memory stronger, a\n`population_friction` history line and wizard news",
+   "new": "that makes the next outbreak there 0.3 × memory stronger, wizard news and, when the echo fades, a\n`population_friction` history line",
+   "reason": "F6: the §1 summary read as one event"
+  },
+  {
+   "file": "research/sf/plague-system.md",
+   "kind": "research",
+   "old": "The aspatial stressor family is measured busy in 30-settlement-year\n  soaks but quiet in a long small one (2 of 100 years)",
+   "new": "The aspatial stressor family is measured busy in two 30-year,\n  12-settlement soaks (30 of 30 years) but quiet in a 100-year, 4-settlement one (2 of 100 years)",
+   "reason": "F7: subsystemRowsPeople.js:190 names no 30-settlement-year soak"
+  },
+  {
+   "file": "research/sf/plague-system.md",
+   "kind": "research",
+   "old": "`COLUMN_SEED_CHANCE[band]`, cap ≤ 3 a tick",
+   "new": "`COLUMN_SEED_CHANCE[band]`; a per-tick `COLUMN_SEED_CAP` (unset; PG recommends ≤ half the front's 6)",
+   "reason": "F8: PG:197 recommends a ceiling for an unset tuning value; 3 is not a designed value"
+  },
+  {
+   "file": "research/sf/plague-system.md",
+   "kind": "research",
+   "old": "`docs/PROGRESS.md` (1056)",
+   "new": "`docs/PROGRESS.md` (1056 when read; 1065 at the retrovalidation)",
+   "reason": "F9: the count grew (J383–J391 added); the cited lines 434-441 stand"
+  },
+  {
+   "file": "research/sf/plague-system.md",
+   "kind": "research",
+   "old": "`research/sf/fp-physical-integration.md` (481)",
+   "new": "`research/sf/fp-physical-integration.md` (481 when read; 493 after the 2026-10-17 amendments)",
+   "reason": "F9: the count grew; the cited Plague row is still :283"
+  },
+  {
+   "file": "research/sf/plague-system.md",
+   "kind": "research",
+   "old": "A deadzone then slows plague resolution (×0.8 decay\n  synergy, §3.5) and both drain healing, which feeds disease pressure back",
+   "new": "A deadzone then slows plague resolution while it lives (×0.8 decay\n  synergy, §3.5) [Fable-reviewed 2026-10-18: neither magic stressor drains healing while live — like an organic or front\n  plague, their catalog systems (healing among them) land only through the six-tick residual condition after they resolve,\n  which then feeds disease pressure back (§3.8 condition gap; `stressorsCore.js:234,261,455`; `causalState.js:336-351`);\n  a DM-authored one is the exception, as a DM plague is: condition promotion mints the `magical_instability` condition,\n  which drains healing at once (`conditionPromotion.js:72`; `activeConditions.js:158-165`)]",
+   "reason": "F10 amended: the same condition gap the note documents for plague, with the DM exception the note keeps for plague"
+  },
+  {
+   "file": "research/sf/plague-system.md",
+   "kind": "research",
+   "old": "\"besieging a plagued\n   city is priceable folly\" is design, not host behaviour",
+   "new": "\"besieging a plagued\n   city becomes priceable folly\" is design, not host behaviour (PHASE55:1631)",
+   "reason": "F11 amended: verbatim quotation; the sentence is at PHASE55_SPATIAL_ENGINE_DESIGN.md:1631 (grep), not :1633"
+  },
+  {
+   "file": "research/sf/plague-system.md",
+   "kind": "research",
+   "old": "On an unmapped realm — the default preset's usual state — the honest picture is a",
+   "new": "On an unmapped realm — the default preset's usual state on the host today [Fable-reviewed 2026-10-18: a world born from this module is canonized at the campaign's birth, J384 (6), V13 H22, so there the footprint regime is the exception] — the honest picture is a",
+   "reason": "R2: a host fact today; under the owner's delegation J384 (6) and V13 H22 make the footprint regime the exception for the module's own worlds"
+  },
+  {
+   "file": "research/sf/plague-system.md",
+   "kind": "research",
+   "old": "### 8.4 Unmapped realms (the default preset's usual state)",
+   "new": "### 8.4 Unmapped realms (the default preset's usual state on the host today; the exception for a world born from this module, J384 (6))",
+   "reason": "R2: same"
+  },
+  {
+   "file": "research/sf/plague-system.md",
+   "kind": "research",
+   "old": "> PENDING FABLE REVIEW — written by Opus 5.5 standing in for the Fable seat research/sf-plague; to be retrovalidated overall at the next opportunity (owner, 2026-10-17, J375)",
+   "new": "> Fable-reviewed 2026-10-18: PASS-WITH-CORRECTIONS — sixteen research corrections, no design change (lane retrovalidation/plague; J392)",
+   "reason": "the notice replacement (J375 → J392)"
+  }
+ ]
+}

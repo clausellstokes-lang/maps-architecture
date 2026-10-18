@@ -1,0 +1,610 @@
+{
+ "verdict": "PASS-WITH-CORRECTIONS",
+ "notice_replacement": "> Fable-reviewed 2026-10-18: PASS-WITH-CORRECTIONS — conclusions hold; citations, quotes and the \"strongest carrier\" overstatement corrected in place (lane retrovalidation/faith; J392)",
+ "summary": "Lane retrovalidation/faith (Fable 5.1, validator; J392). I read research/sf/faith-system.md whole (1,516 lines), the verifier's faith-verify.md, rulings.md, J375–J391, amendments 14i item 130 and 16j items 131–141, and opened every host site behind the 41 findings and the note's own inferences at 81f1cd96 (read-only; no git; nothing executed). Verdict PASS-WITH-CORRECTIONS: the note's conclusions hold — four layers, local and global rankings in every preset with no flag, realm piety exactly 1.0 unless spread (pulseKernel.js:1331, piety.js:311-312), spread lit by default in DC and FS only (:940, :1018) and lightable per campaign (LivingWorldGates.jsx:258-261), the status-by-preset table re-derived from the preset bodies and unit spreads (:864-1221), the three defects (first-seed-only cult read religionState.js:175-201; patron clear with no mirror write; over-capacity after demotion), and the ten J379 corrections. Verifier findings: 38 ACCEPT (F4, F22, F33, F35 extended), 3 AMEND (F6: the note's :90-100 range was right and the verifier's :89-100 is off by one; F9: the mint is customRegistry.js:111-141 and 'account-scoped' is the code's own word, kept with the scope defined; F11: the computeActiveChains cite kept only with the words it supports), 0 REJECT. Own findings the verifier could not see: V1 — §9.6 item 4 and §10.3 call the hostile war front (0.72) 'the strongest carrier', contradicted by the note's own §6.2 table and the host (vassal bundle mints political_authority 0.82 overlord→vassal, rg/graph.js:679-680, a faith carrier read at its own strength, religiousContest.js:94-97, :336-342); it travelled into lens-implications.md:105, V13 §5.9 (6)'s pressure row and rulings.md's J379.1 text — fixed in all four (one design fragment, V13); V2 — §9.5 item 3 implies the spread lane's gated reach is an exported host function; only faithCarriersOut and buildFaithReach are exported, the gated reach is internal (a map copy would be a map-invented derivation; V13 is safe because it reads the host's sent weight); V3 — §6.2's legacy-label inference ignores the graph sync that canonicalizes every edge label (rg/graph.js:462, :481, :498); V5 — dated brackets on the §9.6/§10.3 questions since answered by the owner's J382 (c) and by J384 (10)/(13); V6 — J380's summary uses two phrases that are the later lens design's, not the note's ('reuses the territory hinterlands', 'hierarchy first'): a journal row, named for J392, not edited. 22 readings ruled: 19 UPHELD, 3 AMENDED (R7 carrier order, R15 item 3, R18/R19 wording; R22 J380), 0 OVERTURNED. No contradiction with items 130–141 or the quoted J-rows. 67 corrections (65 research, 1 design, 1 record), every old fragment checked to occur exactly once in its file. Record: /home/user/maps-architecture/docs/validation/retrovalidation-2026-10-18/faith.md (338 lines); CHECKPOINT and LANDED lines appended to /home/user/maps-architecture/docs/lane-events.log; corrections data at /tmp/claude-0/-home-user-maps-architecture/4291a60d-8240-5d49-a54e-2b2a213d093f/scratchpad/retro/faith-corrections.json.",
+ "rulings": [
+  {
+   "id": "R1",
+   "verdict": "UPHELD",
+   "reason": "§1's three-things-as-built reading: chose the preset bodies over the flag comments (F6 shows the comments overstate) — religiousContest.js:17-33, pulseKernel.js:1331, piety.js:311-312, simulationRules.js:940, :1018.",
+   "consequence": "none: V13 §5.9 (6)'s three regimes state it"
+  },
+  {
+   "id": "R2",
+   "verdict": "UPHELD",
+   "reason": "§1's 'too strong' reading of the RR comment: institution lifecycle (:76, false only in SC), first_order propagation (:64), tolerance drift, WAVES (:900) and commodityFlowEnabled (:896) all run in RR; none moves a believer.",
+   "consequence": "none: V13's seated-regime banner says it"
+  },
+  {
+   "id": "R3",
+   "verdict": "UPHELD",
+   "reason": "§1's two dominating facts: latentPantheon.js:1-31 and FOLD:351 (born worlds empty); faithCarriersOut reads only edges and channels, mappedDistanceWeight only attenuates 0.35–1.0.",
+   "consequence": "none: V13 §5.9 (6) none regime, J384 (13)"
+  },
+  {
+   "id": "R4",
+   "verdict": "UPHELD",
+   "reason": "§9.6 item 1: chose the resolved rule over the preset id because the Living-World gate pair-writes the spread keys per campaign (LivingWorldGates.jsx:258-261; normalizer :1491-1495).",
+   "consequence": "none: J384 (13), V13 §5.8 (2)–(3), T-V13-47"
+  },
+  {
+   "id": "R5",
+   "verdict": "UPHELD",
+   "reason": "§9.6 item 2: FPQ-62 is the owner's open word; NEW_CAMPAIGN_SIMULATION_PRESET_ID = null (:31).",
+   "consequence": "none"
+  },
+  {
+   "id": "R6",
+   "verdict": "UPHELD",
+   "reason": "§9.6 item 3: pantheon.js:65-70, :368-392 cap tier changes; nothing caps conversions per tick.",
+   "consequence": "none: J379.1 as amended by the rulings seat says so"
+  },
+  {
+   "id": "R7",
+   "verdict": "AMENDED",
+   "reason": "§9.6 item 4 → 'including hostile war fronts at 0.72, the strongest two-way carrier (an overlord's authority channel reaches its vassal harder, at 0.82, one way)': rg/graph.js:679-680 mints political_authority 0.82 overlord→vassal, read as a carrier at its own strength (religiousContest.js:94-97, :336-342); the note's own §6.2 table says so.",
+   "consequence": "V13 §5.9 (6) pressure row (C45, design); lens-implications §1.3 (C46); rulings.md J379.1 text (C47); the note (C42–C44)"
+  },
+  {
+   "id": "R8",
+   "verdict": "UPHELD",
+   "reason": "§9.6 item 5: religiousContest.js:441, :1021-1022 name the convert as its own source; rg/graph.js:1008-1029 carries no deity field; no retire path.",
+   "consequence": "none: H28 carries the host ask"
+  },
+  {
+   "id": "R9",
+   "verdict": "UPHELD",
+   "reason": "§9.6 item 6: no faith geometry (religionLegitimacy.js:181-202; cults are memory with no location); the note deferred positioned sites to the owner, and J384 (10) then ruled as it anticipated.",
+   "consequence": "none beyond the dated bracket C50; V13 §5.9 (6), J-V13.95, R-V14-13"
+  },
+  {
+   "id": "R10",
+   "verdict": "UPHELD",
+   "reason": "§9.6 item 7: settlementStrategy.js:762-765 (a +0.05 trust nudge); envoyErrandVocabulary.js:322-335 built: false; the errand spine held dark on purpose (simulationRules.js:779-781).",
+   "consequence": "none: J379.1 as amended"
+  },
+  {
+   "id": "R11",
+   "verdict": "UPHELD",
+   "reason": "§9.6 item 8: cultureDistance.js:45 (W_FAITH 0.3); migrationKernel.js:230; smuggle.js:176; rulingPowerSeat.js:361-371; generosityKernel.js:319-334 reads the axes itself — consistent with the rulings seat's J382(a)/J384(2).",
+   "consequence": "none"
+  },
+  {
+   "id": "R12",
+   "verdict": "UPHELD",
+   "reason": "§9.6 item 9: faithCarriersOut reads no lane; the owner answered 'yes' (J382 (c)).",
+   "consequence": "none beyond the dated brackets C51, C52; T-V13-54 pins it"
+  },
+  {
+   "id": "R13",
+   "verdict": "UPHELD",
+   "reason": "§9.6 item 10: religious_authority is a default-gm channel type (rg/graph.js:93-97); beliefs need canon and a non-omniscient infoMode (DC :953, LR :996, FS :1073); faithPanelModel.js serves free and shared renders.",
+   "consequence": "none: V13 §5.9 (6) audience column"
+  },
+  {
+   "id": "R14",
+   "verdict": "UPHELD",
+   "reason": "§9.6 'what stays': each item is host-backed as cited (§7.1 mandate; §6.8 occupation; worldSnapshotPublic.js hard-denies religionStates).",
+   "consequence": "none"
+  },
+  {
+   "id": "R15",
+   "verdict": "AMENDED",
+   "reason": "§9.5 items 1–8 and the must-not list stand; item 3 → the host exports only faithCarriersOut (:314) and buildFaithReach (:361); the spread lane's gated reach (:596-653) is internal to advanceReligionStates, so a lens may recompute only the exported ones and needs the host to send or export the gated reach — a map copy would be a map-invented derivation (lens-implications' four classes; V13 §5.8 (4)).",
+   "consequence": "the note (C48); none for V13, whose pressure row reads only the host's sent weight"
+  },
+  {
+   "id": "R16",
+   "verdict": "UPHELD",
+   "reason": "§6.14's lens position restates the frozen-versus-live law (fp-simulator.md §0).",
+   "consequence": "none: V13 §5.8 (8) plates"
+  },
+  {
+   "id": "R17",
+   "verdict": "UPHELD",
+   "reason": "§3.11's three defects: cultDeitySnapshots read only inside the empty-pantheon branch (religionState.js:175-201); SET_PRIMARY_DEITY with no ref deletes both keys (mutateEntities.js:935-941), no clear branch (:211-231), the only config-patron writer in apply is the conversion re-embed (applyWorldPulse.js:196, :242); capacity consulted only at :199, :319-330 — with F14's and F15's wording.",
+   "consequence": "none to a design text; the host-requirements document (J391 (6)) should carry them among the six reads' §10 defects"
+  },
+  {
+   "id": "R18",
+   "verdict": "AMENDED",
+   "reason": "§6.2 'Enemies carry faith hardest' → 'hardest of the two-way carriers': the bullet compares only against the alliance (0.62) and trade (0.45) strengths; the vassal authority channel is 0.82 one way (as R7).",
+   "consequence": "the note (C44; the §10.3 question C43)"
+  },
+  {
+   "id": "R19",
+   "verdict": "AMENDED",
+   "reason": "§6.2's [INFERRED] legacy plural trade_partners edge → holds only for an edge read raw (religiousContest.js:327 fallback; rg/graph.js:204); the graph rebuild from the links canonicalizes every edge's label (rg/graph.js:462, :481, :498).",
+   "consequence": "the note (C49a, C49b); no design text carries it"
+  },
+  {
+   "id": "R20",
+   "verdict": "UPHELD",
+   "reason": "§6.3's [INFERRED, not executed] suggested-candidate pin: both producers mint one id (rg/graph.js:159-173) and a merge keeps the prior status (:562-600); tagged and said not executed.",
+   "consequence": "none: a host matter"
+  },
+  {
+   "id": "R21",
+   "verdict": "UPHELD",
+   "reason": "§12's 'Found' claims against the Opus verifier (P7 contraband RR and FS only, canon required: simulationRules.js:896, :1081, no DC line; P9 ripple season a data gate: pulseKernel.js:570-575; P12 generosity and cohesion weave do not import cultureDistance: generosityKernel.js:319-334).",
+   "consequence": "none: V13 §5.9 (6) and lens-implications already carry RR+FS on canon"
+  },
+  {
+   "id": "R22",
+   "verdict": "AMENDED",
+   "reason": "J380 (PROGRESS.md:439), the session's summary of this note: the counts (1,516 / 12 / 17) and the substance hold, but 'reuses the territory hinterlands instead of a second projection' and 'draws the host's unconsumed religious hierarchy first' are the later lens design's words (lens-implications :202; V13 §5.9 (6)); the note never says 'hinterland' (grep) — its §9.5 item 6 proposes the territory dots coloured by patron 'clearly a projection' and §9.5 item 8 lists the hierarchy with no order.",
+   "consequence": "none to a design text; a journal row is append-only — J392 names the two phrases as the lens design's, not the note's; no edit"
+  }
+ ],
+ "corrections": [
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "[STATED `wp/moralInstitutionPressure.js:52`]",
+   "new": "[STATED `wp/moralInstitutionPressure.js:55`]",
+   "reason": "F1 accepted: :52 is the years-scale founding comment; the week statement is :55."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "are stale (§10, item 9).",
+   "new": "are stale (§10, item 4).",
+   "reason": "F2 accepted (WRONG cross-reference): the stale 'stored verbatim' comments are §10.1 item 4; item 9 is the PHASE55/COUPLINGS distance row."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "`:354-400`; `src/copy/deityAuthoring.js:24-49`].",
+   "new": "`:354-400`].",
+   "reason": "F3 accepted (UNSUPPORTED): deityAuthoring.js:24-49 is the base form; the file names no characterAxes, boon, bane or authoredTemper (grep) — the note's own §6.13 grep already said so."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "- `domain` is one word; war/conquest/hunt/harvest are mechanical (war-bar pressure), the rest display only.",
+   "new": "- `domain` is one word; war/conquest/hunt/harvest carry a war-bar pressure that is mechanical only under WR-2's `dispositionChannelsEnabled` (lit in no preset, §7.2; `src/copy/deityAuthoring.js:45` tells the author so), the rest display only.",
+   "reason": "F4 accepted: deityEffects.js:150-175 reads 'With disposition channels active'; the flag is false in FS and absent elsewhere (simulationRules.js:1041)."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "(`dispositionChannelsEnabled` false) [OBSERVED `wp/simulationRules.js:1037`]",
+   "new": "(`dispositionChannelsEnabled` false) [OBSERVED `wp/simulationRules.js:1041`]",
+   "reason": "F5 accepted: the key is at :1041; :1037 is a comment line."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "**\"Spread is the ONLY faith dynamic still gated by a rule flag",
+   "new": "**\"This is the ONLY faith dynamic still gated by a rule flag",
+   "reason": "F6 accepted in the words: simulationRules.js:92-93 reads 'This is the ONLY'."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "[STATED `wp/simulationRules.js:90-100`; `wp/religiousContest.js:24-33`]",
+   "new": "[STATED `wp/simulationRules.js:90-100` (the quoted words at `:92-93` and `:97`); `wp/religiousContest.js:24-33`]",
+   "reason": "F6 amended in the range: the note's :90-100 is the comment block and stays; the verifier's :89-100 is off by one (:89 is settlementStrategyEnabled)."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "a patron's fall — VACUOUS on every born world\"",
+   "new": "a patron's fall — which is VACUOUS on every born world\"",
+   "reason": "F7 accepted: FOLD:351 reads 'which is VACUOUS'."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "`docs/DESIGN_TRADITIONS.md`;",
+   "new": "`docs/DESIGN_TRADITIONS.md` (not located under `docs/` at `81f1cd96`; cited by code headers such as `wp/traditionsKernel.js:3`);",
+   "reason": "F8 accepted: the file does not exist in the host; only code headers and docs cite it."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "The store resolves the authored row, mints an account-scoped identity `deity:<scope>:<slug>`, and embeds a **frozen",
+   "new": "The store resolves the authored row, mints a stable identity `deity:<scope>:<slug>` (the code's word is account-scoped: scope = the deity's own `localUid`, the authoring account's local token, falling back to `id`; `src/lib/customRegistry.js:111-141` [Fable-reviewed 2026-10-18: the two files cited below embed the snapshot, they do not mint the ref]), and embeds a **frozen",
+   "reason": "F9 amended: the mint is customRegistry.js:133-141, not deitySnapshot.js or deityCommitEmbed.js (grep); 'account-scoped' is kept because it is the code header's own word (:112), with the scope defined."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "ref minting, and the internals of the distance calibration.",
+   "new": "ref minting (read in the retrovalidation: `src/lib/customRegistry.js:111-141`, §2.2), and the internals of the distance calibration.",
+   "reason": "F9 consequence: §11.4 no longer lists the mint as unread."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "[OBSERVED `src/generators/institutionProbability.js:88-91`, `:139-146`; `src/generators/steps/resolveConfig.js:74`].",
+   "new": "[OBSERVED `src/generators/institutionProbability.js:88-91`, `:139-146`; default 50 at `src/generators/steps/resolveConfig.js:192` and `src/store/configSlice.js:29` (`:74` is the Random-mode roll)].",
+   "reason": "F10 accepted: resolveConfig.js:74 is rng.randInt(5, 95); the default 50 is :192 and configSlice.js:29."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "- Above 55 with a religious institution, the economy gets a static \"Church Tithes\" income line; above 68 on a road or",
+   "new": "- Above a derived religion influence of 55 (the slider × crime, economy, church and stress modifiers, `src/generators/priorityHelpers.js:421-427`; tested at `economicState.js:227`, `:241`) with a religious institution, the economy gets a static \"Church Tithes\" income line; above 68 on a road or",
+   "reason": "F10 accepted: the 55/68 thresholds test the derived religionInfluence, not the slider."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "marker [OBSERVED `src/generators/economy/economicState.js:226-248`; `src/data/resourceData.js:399-411`;",
+   "new": "marker (`pilgrimage: !0`, `src/data/resourceData.js:409`, carried at `src/generators/resourceGenerator.js:386`); a cathedral, monastery or pilgrim institution also opens a \"Pilgrimage & religious tourism\" export chain [OBSERVED `src/generators/economy/economicState.js:226-248`; `src/data/resourceData.js:399-411`;",
+   "reason": "F11 amended: the marker's cites added; computeActiveChains.js:935-938 kept only with the words it supports (the export chain), which the sentence did not name."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "challenge counters reset,",
+   "new": "the flip-challenge counter (`patronChallengeTicks`) resets (`contestedTicks` and the siege fields do not),",
+   "reason": "F12 accepted: religionState.js:224-225 resets only patronChallengeTicks."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "moves one share point between the patron and",
+   "new": "moves one share point between the rite's dedicated deity (`rec.deityRef`, stamped from the patron when the rite was founded, `src/domain/traditions/genesis.js:181`; a non-patron after a conversion) and",
+   "reason": "F13 accepted: traditionsKernel.js:791-795 keys on rec.deityRef, applied :471-482."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "and a later organic flip re-embeds a patron the DM removed (`wp/applyWorldPulse.js:195-197`)",
+   "new": "and a later organic flip re-embeds a patron on a settlement whose patron the DM cleared (`wp/religiousContest.js:1012-1023` → `wp/applyWorldPulse.js:195-197`; the cleared deity itself only if it wins)",
+   "reason": "F14 accepted: the flip re-embeds the NEW patron."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "Further consequence found: a later organic flip re-embeds a patron the DM removed (`wp/applyWorldPulse.js:195-197`).",
+   "new": "Further consequence found: a later organic flip re-embeds a patron on a settlement whose patron the DM cleared (`wp/applyWorldPulse.js:195-197`).",
+   "reason": "F14 carried into the §12 M11 row."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "compromise exists, `wp/pulseKernel.js:1829-1830`).",
+   "new": "compromise exists or a cause-lifecycle ledger is already held, `wp/pulseKernel.js:1828-1829`).",
+   "reason": "F15 accepted: the gate is memoryState.causeLifecycle !== undefined || anyCompromise."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "cause lifecycle runs when a compromise exists (no further flag traced)",
+   "new": "cause lifecycle runs when a compromise exists or a cause-lifecycle ledger is already held (`wp/pulseKernel.js:1828-1829`; no further flag traced)",
+   "reason": "F15 carried into the §8 row."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "conversion-fracture severity 0.5 × piety (`:1016`);",
+   "new": "conversion-fracture severity 0.5 × piety (`wp/religiousContest.js:1016`);",
+   "reason": "F16 accepted: the bare :1016 inherited religionState.js (794 lines)."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "`religious_authority` mint × `g` (`:610`);",
+   "new": "`religious_authority` mint × `g` (`wp/religiousContest.js:610`);",
+   "reason": "F16 accepted: religionState.js:610 is a doc comment; the mint is religiousContest.js:610."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "conduct drift or alignment, secularization or revival) for the panel [OBSERVED `wp/piety.js:284-294`].",
+   "new": "conduct drift or alignment; secularization or revival is pushed by the fold) for the panel [OBSERVED `wp/piety.js:284-294`; `wp/religiousContest.js:956-958`].",
+   "reason": "F17 accepted: the sink cause is pushed at religiousContest.js:958."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "`:250-254`, `:287`, `:451`",
+   "new": "`:269-275`, `:287`, `:451`",
+   "reason": "F18 accepted: severityFor is rg/propagation.js:269-275; :246-256 is impactId."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "(`rg/propagation.js:198-201`, `:250-254`)",
+   "new": "(`rg/propagation.js:198-201`, `:269-275`)",
+   "reason": "F18 carried into the §12 M17 row."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "− clergy scandal drag (0.16 × scandal)",
+   "new": "− clergy scandal drag (0.16 × (taint + 0.6 × revealed taint) × a court modifier 0.5–1.5; `wp/religionLegitimacy.js:131-133`, `:515-517`)",
+   "reason": "F19 accepted; constants verified at :131-133 (0.16, 0.6, 0.5)."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "× 30 × alignment fit × piety composite",
+   "new": "× 30 × alignment fit (when propping; erosion ignores fit, `wp/religionState.js:772`) × piety composite",
+   "reason": "F20 accepted: fitFactor = base >= 0 ? fit : 1."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "its only other mention is a path string",
+   "new": "its only other mentions are a comment and a path string",
+   "reason": "F21 accepted: couplingRegistryGrammar.js:148 names it in a comment."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "in `src/domain/certification/couplingRegistryGrammar.js:186`].",
+   "new": "in `src/domain/certification/couplingRegistryGrammar.js:148`, `:186`].",
+   "reason": "F21 accepted."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "\"standing\" is the local rank word; the same five band words are shared [STATED",
+   "new": "\"standing\" is the local rank word [OBSERVED `wp/religionState.js:51-53`]; the same five band words are shared [STATED",
+   "reason": "F22 accepted: the local-rank sense is code, not FOLD:427."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "FOLD:427; `docs/DESIGN_FP_INFORMATION.md:342`].",
+   "new": "FOLD:427 (which, as written, gives the belief axis the noun \"standing (believed devotion)\", colliding with the code's local-rank \"standing\"); `docs/DESIGN_FP_INFORMATION.md:342` (\"devotion\" names the belief axis — the register this note keeps)].",
+   "reason": "F22 accepted with the collision named: FOLD:427 and INFORMATION:342 give the belief axis different nouns; the note follows INFORMATION and the code."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "- \"piety\" (substrate scalar) vs \"devotion\" (believed axis) vs \"standing\" (local rank) [STATED FOLD:427].",
+   "new": "- \"piety\" (substrate scalar) vs \"devotion\" (believed axis) [STATED `docs/DESIGN_FP_INFORMATION.md:342`; FOLD:427 words it \"standing (believed devotion)\"] vs \"standing\" (local rank) [OBSERVED `wp/religionState.js:51-53`].",
+   "reason": "F22 carried into §7.8."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "(REWORK:29, :37)",
+   "new": "(REWORK:30, :38)",
+   "reason": "F23 accepted: the niche statements are REWORK:30 and :38."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "FAITH:624-732; ARCH_WF:446-500; FOLD:369].",
+   "new": "FAITH:624-732; ARCH_WF:446-500; FOLD:369; the return leg at COUPLINGS:856, :1816].",
+   "reason": "F24 accepted: no return/migration statement in the cited ranges (grep); COUPLINGS:856 and :1816 carry it."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "cooldowns and caps [STATED PHASE4:337-350].",
+   "new": "cooldowns and caps [STATED PHASE4:337-350, :382-383].",
+   "reason": "F25 accepted: flip margins, cooldowns and caps are PHASE4:382-383."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "is dark [STATED COUPLINGS:866-871].",
+   "new": "is dark [STATED COUPLINGS:880-882 for the bait; FOLD §2's INFORMATION row (:338) for the status: IN-2 lure, `lureCommission` no caller].",
+   "reason": "F26 accepted: the bait is under ADDS at COUPLINGS:880-882; the status is FOLD §2."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "COUPLINGS' \"faith spreads at carrier",
+   "new": "COUPLINGS' \"Spread moves at carrier",
+   "reason": "F27 accepted: the phrase is not in COUPLINGS; :344 reads 'Spread moves at carrier reach;'."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "reach\" omits the built distance attenuation entirely",
+   "new": "reach\" (COUPLINGS:344) omits the built distance attenuation entirely",
+   "reason": "F27 accepted; the citation added on the sentence's second line."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "UNBUILT [STATED `docs/DESIGN_FP_ARCH_WC.md:697-705`; FOLD §3.1.6].",
+   "new": "UNBUILT [STATED `docs/DESIGN_FP_ARCH_WC.md:6138-6139` (`wc_homecoming`, WC-14) for the words; FOLD:267 (§3.1.6) for the status].",
+   "reason": "F28 accepted: ARCH_WC:697-705 is the deity-doctrine compliance paragraph."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "famine or war relief to a relationship partner",
+   "new": "aid to a relationship partner in food need (grain relief, warning, credit, refuge, purchase or trade overture; `wp/generosityKernel.js:10-14`, `:89-90`, `:487-492`; there is no war relief)",
+   "reason": "F29 accepted: the mover asks only for settlements in food need; its six instruments carry no war relief."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "contributor sentence \"map should render hierarchy\" (`:205-224`;",
+   "new": "contributor sentence \"map should render hierarchy\" (`:205-231`, the sentence at `:228`;",
+   "reason": "F30 accepted: the sentence is mapProfile.js:228."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "2.2-wide directed line between the two settlements' placement points, with a midpoint dot,",
+   "new": "2.2-wide line between the two settlements' placement points, with a midpoint dot and no arrowhead (the channel is directed; the drawing does not show it),",
+   "reason": "F31 accepted: RelationshipEdges.jsx:185-200 draws a plain line and a midpoint circle."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "routes from dated receipts\" cannot be read",
+   "new": "routes from dated host receipts\" cannot be read",
+   "reason": "F32 accepted: PROGRESS.md:438 reads 'from dated host receipts'."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "| ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | BUILT, unconsumed |",
+   "new": "| ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | BUILT; `regionalAuthority` unconsumed, the typed links reach only the AI grounding payload (`src/domain/aiGrounding.js:441`) |",
+   "reason": "F33 accepted: aiGrounding.js:441 puts deriveRegionalGraph(settlement) into the grounding payload; regionalAuthority has no production consumer."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "derived from the authored neighbour list; settlement grain; no consumer today |",
+   "new": "derived from the authored neighbour list; settlement grain; `regionalAuthority` has no consumer, the typed links only the AI grounding payload (`src/domain/aiGrounding.js:441`) |",
+   "reason": "F33 carried into the §9.4 row."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "| none (derived; unconsumed) |",
+   "new": "| none (derived; `regionalAuthority` unconsumed, the typed links read by AI grounding only) |",
+   "reason": "F33 carried into the §9.3 row (the verifier did not name this third site)."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "`src/copy/deityAuthoring.js:74`, `:105-106`, `set/faithPanelModel.js:12-14`, `src/domain/display/publicSafe.js:73-75`",
+   "new": "`src/copy/deityAuthoring.js:74`, `:105-106`, `src/domain/display/publicSafe.js:73-75`",
+   "reason": "F34 accepted (WRONG list member): faithPanelModel.js:11-14 says only that the model never reads config.latentPantheon."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "at its seat; its read side is deliberately unwired [OBSERVED `wp/momentum.js:296-312`, `:387-406`].",
+   "new": "at its seat, gated momentum ∧ beliefs ∧ faith spread (`wp/momentum.js:390-395`; momentum rides WAVES in RR, DC, LR and FS, beliefs need canon and a non-omniscient infoMode, spread is lit by default in DC and FS — so DC and FS on canon, LR only if the DM lights spread); its read side is deliberately unwired [OBSERVED `wp/momentum.js:296-312`, `:387-406`].",
+   "reason": "F35 accepted with the preset membership verified (WAVES spread at simulationRules.js:900, :961, :1007, :1220; momentumEnabled :721)."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "history text still uses generic deity names and named Christian orders (§2.5)",
+   "new": "history text still uses generic deity names (§2.5; `src/generators/historyGenerator.js:212`) and named Christian orders (`:215`)",
+   "reason": "F36 accepted: §2.5 names only the generic {deity} slot; the orders are historyGenerator.js:215."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "`sp/cultureDistance.js:46`, `:170-172`",
+   "new": "`sp/cultureDistance.js:45`, `:170-172`",
+   "reason": "F37 accepted: W_FAITH is :45."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "**\"The Schism realm arc exists\"** (FAITH:1327) — it does not.",
+   "new": "**\"The Schism realm arc exists\"** (FAITH:1327) — it does not. (ARCH_WF:270, :418 and FAITH:1327 already carry the fold's 2026-10-16 CORRECTED brackets; FAITH:1498 and ARCHITECTURE:1991 do not.)",
+   "reason": "F38 accepted: three of the five cited lines are already corrected in place."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "0.30 + 0.12·clash | `wp/religionState.js:62-71` |",
+   "new": "0.30 + 0.12·clash | `wp/religionState.js:62-71`; the 0.12 is `STANCE_TUNING.CONTEST_METHOD`, `wp/deityStance.js:71`, applied `wp/religionState.js:553` |",
+   "reason": "F39 accepted: the 0.12 lives in deityStance.js."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "stains the new patron with 0.45 heresy [OBSERVED `:997-1004`];",
+   "new": "stains the new patron with 0.45 heresy [OBSERVED `wp/religiousContest.js:997-1004`];",
+   "reason": "F40 accepted: the bare range followed a heraldRouting.js cite (768 lines)."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "`disp/settlementRumors.js:1018-1050`",
+   "new": "`disp/settlementRumors.js:1018-1049`",
+   "reason": "F41 accepted: the file has 1,049 lines."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "0.72, the strongest carrier — and only patrons travel.",
+   "new": "0.72, the strongest two-way carrier (an overlord's authority channel reaches its vassal harder, at 0.82, one way; §6.2) [Fable-reviewed 2026-10-18: was \"the strongest carrier\", contradicted by §6.2's own table] — and only patrons travel.",
+   "reason": "Own finding V1 (WRONG as an absolute): the vassal bundle mints political_authority 0.82 and military_protection 0.70 overlord → vassal (rg/graph.js:679-680), both faith carriers (religiousContest.js:94-97, :336-342); the note's §6.2 table says so and §9.6 item 4 contradicts it."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "- Should hostile relationships carry faith at 0.72, the strongest carrier?",
+   "new": "- Should hostile relationships carry faith at 0.72, the strongest two-way carrier (only an overlord's authority over its vassal, 0.82 one way, is stronger)?",
+   "reason": "Own finding V1 carried into §10.3."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "**Enemies carry faith hardest**: any `hostile` relationship mints war_front channels",
+   "new": "**Enemies carry faith hardest of the two-way carriers**: any `hostile` relationship mints war_front channels",
+   "reason": "Own finding V1 carried into §6.2's bullet, whose comparison names only the alliance and trade strengths."
+  },
+  {
+   "file": "docs/volumes/V13-world.md",
+   "kind": "design",
+   "old": "a war front — hostility carries hardest — a garrison, an authority",
+   "new": "a war front — hostility carries harder than any alliance or trade tie; only an overlord's authority over its vassal carries harder, and one way — a garrison, an authority",
+   "reason": "Own finding V1 reached V13 §5.9 (6)'s pressure row through lens-implications §1.3 and J379.1; the host's vassal authority channel (0.82, overlord → vassal) is a faith carrier stronger than a war front (0.72). The bundle docs/ARCHITECTURE-FULL.md:76766 regenerates from the volume."
+  },
+  {
+   "file": "research/sf/lens-implications.md",
+   "kind": "research",
+   "old": "war_front 0.72 (hostility carries hardest)",
+   "new": "war_front 0.72 (hostility carries hardest of the two-way carriers; an overlord's authority channel reaches its vassal at 0.82, one way)",
+   "reason": "Own finding V1 carried into the lenses note's faith row, which cites FAITH §6.2 (the lenses lane's file; the finding originates here)."
+  },
+  {
+   "file": "docs/validation/retrovalidation-2026-10-18/rulings.md",
+   "kind": "record",
+   "old": "(never flows on routes; hostility carries hardest)",
+   "new": "(never flows on routes; hostility carries hardest of the two-way carriers, an overlord's authority over its vassal harder still, one way)",
+   "reason": "Own finding V1 reached the rulings record's J379.1 AMENDED text; the record is not a journal row and may be corrected."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "lane's gated reach and `buildFaithReach`'s ungated one.",
+   "new": "lane's gated reach and `buildFaithReach`'s ungated one [Fable-reviewed 2026-10-18: only `faithCarriersOut` (`wp/religiousContest.js:314`) and `buildFaithReach` (`:361`) are exported; the spread lane's gated reach (`:596-653`) is internal to `advanceReligionStates`, so a lens may recompute the carriers and the ungated reach by the host's own functions, and the gated reach only once the host exports it (a host ask) — V13 §5.9 (6) draws pressure only from the host's sent weight].",
+   "reason": "Own finding V2: a map re-implementation of the internal reach would be a map-invented derivation under the four-class rule (lens-implications §1.5; V13 §5.8 (4)); the note's item implied both reaches were exported."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "- [INFERRED] A legacy plural `trade_partners` *edge* would not carry, because the carrier check matches the raw label",
+   "new": "- [INFERRED] A legacy plural `trade_partners` *edge* would not carry when read raw (the `snapshot.relationships` fallback, `wp/religiousContest.js:327`, or an edge normalized without the sync, `rg/graph.js:204`), because the carrier check matches the raw label [Fable-reviewed 2026-10-18: a graph rebuilt from the saves' links canonicalizes every edge's label, `rg/graph.js:462`, `:481`, `:498`, so such an edge carries there]",
+   "reason": "Own finding V3 (overstated inference): the sync at rg/graph.js:452-500 writes liveType = canonicalRelationshipLabel(...) onto every edge it builds or refreshes."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "while only the channel bundle canonicalizes it (`rg/graph.js:670-672`); the trade bundle mints no carrier channel.",
+   "new": "while the channel bundle canonicalizes it (`rg/graph.js:670-672`); the trade bundle mints no carrier channel either way.",
+   "reason": "Own finding V3, the sentence's second half."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "positioned sites would be map-side facts needing the owner's ruling and, to matter, a host",
+   "new": "positioned sites would be map-side facts needing the owner's ruling and, to matter, a host [Fable-reviewed 2026-10-18: ruled by J384 (10) under the owner's delegation — holy places and hidden cult sites enter only as DM-placed world sites tagged with a deity, DM-only by default, offered to the host; never generated]",
+   "reason": "Own finding V5: the question the note left open was answered after it was written; the bracket keeps the note from reading as still open."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "Coastal footholds across water would be a host change, outside a lens.",
+   "new": "Coastal footholds across water would be a host change, outside a lens. [Fable-reviewed 2026-10-18: the owner answered \"yes\" to the session's reading — faith gets no sea carrier (J382 (c)).]",
+   "reason": "Own finding V5: answered by the owner's J382."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "- Should the contest read **seasons, travel time or sea lanes**",
+   "new": "- Should the contest read **seasons, travel time or sea lanes** [Fable-reviewed 2026-10-18: no sea carrier for faith — the owner's J382 (c)]",
+   "reason": "Own finding V5 carried into §10.3."
+  },
+  {
+   "file": "research/sf/faith-system.md",
+   "kind": "research",
+   "old": "minting a fact the host does not hold? Same question for map-side holy sites.",
+   "new": "minting a fact the host does not hold? Same question for map-side holy sites. [Fable-reviewed 2026-10-18: holy sites answered by J384 (10) — DM-placed, deity-tagged, never generated; the catchment drawn only as the set the host sends (V13 §5.9 (6), T-V13-54; J379.1 as amended in the rulings record).]",
+   "reason": "Own finding V5 carried into §10.3."
+  }
+ ]
+}

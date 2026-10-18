@@ -1,0 +1,377 @@
+{
+ "verdict": "PASS-WITH-CORRECTIONS",
+ "corrections": [
+  {
+   "file": "research/sf/alignment-system.md",
+   "kind": "research",
+   "old": "a conscience of −0.144 and an aggression of +0.162; only 63%",
+   "new": "a conscience of −0.144 and an aggression of +0.165 (the aggression sum is not clamped, `wp/disposition.js:132-139`; only the conscience sum is, `:397` [Fable-reviewed 2026-10-18: an earlier text applied the clamp to both and read +0.162]); only 63%",
+   "reason": "AV-1: npcTraitScore (wp/disposition.js:132-139) sums TRAIT_AGGRESSION with no clamp; the exact enumeration gives E = +0.1645; the note's +0.162 is the clamped variant (re-run: Ec = 0.1624)."
+  },
+  {
+   "file": "research/sf/alignment-system.md",
+   "kind": "research",
+   "old": "(conscience) and 61% (aggression) of NPCs score at all, and among those the means are −0.227 and +0.269 [INFERRED,",
+   "new": "(conscience) and 60% (aggression) of NPCs score at all, and among those the means are −0.227 and +0.272 [INFERRED,",
+   "reason": "AV-1: enumeration gives P(scored) = 0.6046 and mean among scored +0.2721; 0.269 is the clamped variant."
+  },
+  {
+   "file": "research/sf/alignment-system.md",
+   "kind": "research",
+   "old": "Holds. My exact expectation over the slot roll: −0.144 and +0.162 (rounding); among scored NPCs −0.227 and +0.269;",
+   "new": "Holds. My exact expectation over the slot roll: −0.144 and +0.165 (the verifier's figure was exact, not rounding: the aggression sum is not clamped, `wp/disposition.js:132-139` [Fable-reviewed 2026-10-18: AV-1]); among scored NPCs −0.227 and +0.272;",
+   "reason": "AV-1 echoed in §12.2 M3: the fixer's '(rounding)' was wrong; the verifier's +0.165 was exact."
+  },
+  {
+   "file": "research/sf/alignment-system.md",
+   "kind": "research",
+   "old": "writes the new faction's name [OBSERVED `src/domain/rulingPower.js:665`].",
+   "new": "writes a government-type label for the winning faction's archetype and the settlement's tier, or its alternate label when a roster name contains the preferred one [OBSERVED `src/domain/rulingPower.js:214-217`, `:433-459`, `:517`, `:665`; Fable-reviewed 2026-10-18: AV-2 — an earlier text said \"the new faction's name\"].",
+   "reason": "AV-2: rulingPower.js:517 toGovernment = resolveGovernmentLabel(...); :665 governingName: toGovernment — a label from GOVERNMENT_PREFERENCES or ALT_GOVERNMENT_LABELS, never the faction's name."
+  },
+  {
+   "file": "research/sf/alignment-system.md",
+   "kind": "research",
+   "old": "A conquest installs a new governing power named \"‹occupier\nname› occupation authority\" and the transfer writes that string as the town's `governingName` [OBSERVED\n`wp/warDeployment.js:856-858`; `wp/applyWorldPulse.js:165-187`; `src/domain/rulingPower.js:659-666`], and a victor's own",
+   "new": "A conquest installs a non-governing \"‹occupier\nname› occupation authority\" faction and crowns it; the transfer writes the occupation archetype's government label as the town's `governingName`, which — because the occupier's own name contains \"Occupation Authority\" — is the alternate \"Martial Administration\" [OBSERVED\n`wp/warDeployment.js:856-858`; `wp/applyWorldPulse.js:165-187`; `wp/applyWorldPulseOccupationAuthority.js:162-174`; `src/domain/rulingPower.js:178-187`, `:433-459`, `:517`, `:665`; confirmed by running `installOccupationAuthority` + `transferRulingPower` read-only; Fable-reviewed 2026-10-18: AV-2 — an earlier text said the occupier string itself was written], and a victor's own",
+   "reason": "AV-2: the occupier 'X occupation authority' contains the OCCUPATION label, so resolveGovernmentLabel falls to ALT 'Martial Administration' (rulingPower.js:186); liftOccupationAuthority is a no-op for a conquest transfer (:285-310); conquest.mjs re-run gives 'Martial Administration'."
+  },
+  {
+   "file": "research/sf/alignment-system.md",
+   "kind": "research",
+   "old": "1 [OBSERVED `sp/cultureDistance.js:183-186`]. If the two towns happened to share a label before the conquest, the",
+   "new": "1 [OBSERVED `sp/cultureDistance.js:183-186`]; but every occupied town carries the same \"Martial Administration\", so two towns under any occupation read identity 0 with each other, about 0.108 closer [Fable-reviewed 2026-10-18: AV-2]. If the two towns happened to share a label before the conquest, the",
+   "reason": "AV-2's consequence the note missed: all occupied towns share one label, so the identity term (0.27 × 0.4 = 0.108) reads 0 between any two of them."
+  },
+  {
+   "file": "research/sf/alignment-system.md",
+   "kind": "research",
+   "old": "an \"‹occupier› occupation authority\" string after",
+   "new": "the alternate occupation label \"Martial Administration\" after",
+   "reason": "AV-2 in §10 item 27."
+  },
+  {
+   "file": "research/sf/alignment-system.md",
+   "kind": "research",
+   "old": "    `wp/warDeployment.js:857`; `src/domain/rulingPower.js:665`].",
+   "new": "    `wp/warDeployment.js:857`; `src/domain/rulingPower.js:178-187`, `:433-459`, `:665`; Fable-reviewed 2026-10-18: AV-2].",
+   "reason": "AV-2 in §10 item 27: cite the label resolution, not only the write."
+  },
+  {
+   "file": "research/sf/alignment-system.md",
+   "kind": "research",
+   "old": "Holds, and goes further. The conquest writes \"‹occupier› occupation authority\" (`wp/warDeployment.js:857`; `wp/applyWorldPulse.js:165-187`; `src/domain/rulingPower.js:665`).",
+   "new": "Holds, and goes further. The conquest crowns the \"‹occupier› occupation authority\" faction and the transfer writes the occupation archetype's alternate label \"Martial Administration\" as `governingName` (`wp/warDeployment.js:857`; `wp/applyWorldPulse.js:165-187`; `src/domain/rulingPower.js:178-187`, `:433-459`, `:665`) [Fable-reviewed 2026-10-18: AV-2 — this row first said the occupier string itself was written].",
+   "reason": "AV-2 in §12.1 P3: the fixer's mechanism sentence was wrong; its ruling that P3 held was right (R-20 AMENDED)."
+  },
+  {
+   "file": "research/sf/alignment-system.md",
+   "kind": "research",
+   "old": "route choice over the frozen digest's cached candidates, danger × (1 − tolerance), with the season; tolerance = 0.2 + 0.8 × lawfulness for refugees | `sp/embattlement.js:304-330`; `wp/migrationKernel.js:463-474`",
+   "new": "route choice over the frozen digest's cached candidates, effective cost = seasonal base cost + tolerance × 1.5 × median hop cost × Σ embattlement (+ tolls), with the season; tolerance = 0.2 + 0.8 × lawfulness for refugees (a lawful mover weighs danger most, §2.7 [Fable-reviewed 2026-10-18: AV-3 — an earlier text wrote (1 − tolerance)]) | `sp/embattlement.js:304-330`, `:347-357`, `:407-423`; `wp/migrationKernel.js:463-474`",
+   "reason": "AV-3: sp/embattlement.js:353 dangerCost = rt × DANGER_PENALTY(1.5) × medianHop × Σdanger — tolerance multiplies danger; §2.7 and §10 item 28 already state it right."
+  },
+  {
+   "file": "research/sf/alignment-system.md",
+   "kind": "research",
+   "old": "The third, receptivity\n  resistance against an incoming faith (0.35 × clash inside the incumbent's counter-force), is read only by the\n  neighbour-spread and occupation-pull conversion, which the faith-spread gate skips when off (DC, FS; D+) [OBSERVED\n  `wp/religiousContest.js:237-246`, `:514`, `:548-553`, `:780`].",
+   "new": "The third, receptivity\n  resistance against a second creed (0.35 × clash inside the incumbent's counter-force), is read in every present creed's\n  share advance — step 3b runs for every present, non-suppressed deity in every religion-active settlement with no spread\n  gate, the patron as the mood — so it fires wherever a patron and a second creed (a DM-imposed cult or an entrant) are\n  present, in any preset; spread adds only the entrant lane and the occupation pull [OBSERVED\n  `wp/religiousContest.js:237-246`, `:514`, `:520-530`, `:733-734`, `:768-794`, `:780`, `:796-805`; `wp/religionState.js:164-201`\n  (imposed cults seeded beside the patron); Fable-reviewed 2026-10-18: AV-8 — an earlier text read it as spread-gated].",
+   "reason": "AV-8: religiousContest.js:514 counter = incumbentCounterForce(deity, moodDeity) inside deityLocalStrength (:521 fit = 1 − counter), which step 3b (:796-805) calls for every present deity with no spread gate; religionState.js:183-201 seeds DM-imposed cults beside the patron, so a second creed needs no spread."
+  },
+  {
+   "file": "research/sf/alignment-system.md",
+   "kind": "research",
+   "old": "| 59 | Deity stance local law lane: contest floor and mandate fit / receptivity resistance | deity present / + faith spread | ✓ / D+ | ✓ / D+ | ✓ / ✓ | ✓ / D+ | ✓ / D+ | ✓ / D+ | ✓ / ✓ | LIT 7 / LIT 2 (law-authored deities) [OBSERVED `wp/religionState.js:544-553`, `:739-749`; `wp/religiousContest.js:237-246`, `:548-553`] |",
+   "new": "| 59 | Deity stance local law lane: contest floor and mandate fit / receptivity resistance | deity present / + a second creed present (a DM-imposed cult or an entrant) | ✓ / ✓ | ✓ / ✓ | ✓ / ✓ | ✓ / ✓ | ✓ / ✓ | ✓ / ✓ | ✓ / ✓ | LIT 7 / LIT 7 (law-authored deities; a second creed present) [OBSERVED `wp/religionState.js:544-553`, `:739-749`; `wp/religiousContest.js:237-246`, `:514`, `:796-805`; Fable-reviewed 2026-10-18: AV-8 — the receptivity half read D+ before] |",
+   "reason": "AV-8 and F-3: the cells, the class and the gate column of §7 row 59 all followed the wrong spread-gate reading."
+  },
+  {
+   "file": "research/sf/alignment-system.md",
+   "kind": "research",
+   "old": "Partly holds. Contest floor and mandate fit are local (`wp/religionState.js:544-553`, `:739-749`); the receptivity resistance is read only by neighbour-spread and occupation-pull conversion, which the faith-spread gate skips (`wp/religiousContest.js:237-246`, `:548-553`)",
+   "new": "Holds whole [Fable-reviewed 2026-10-18: AV-8 — this row first said \"partly\"]. Contest floor and mandate fit are local (`wp/religionState.js:544-553`, `:739-749`); the receptivity resistance is read in every present creed's share advance (`wp/religiousContest.js:796-805` → `:514`), with no spread gate; spread adds only the entrant lane and the occupation pull (`:768-794`, `:780`)",
+   "reason": "AV-8 in §12.2 M11: the fixer's 'Partly holds' is overturned (R-22); the verifier's M11 held whole."
+  },
+  {
+   "file": "research/sf/alignment-system.md",
+   "kind": "research",
+   "old": "WC entirely\nunbuilt (its alignment join slider and character drift are designed only) [STATED FOLD:333-351].",
+   "new": "WC built only as\nits WC-0 substrate (vocabularies, column union, law-band shape, flags, ledger shape; no writer) and otherwise unbuilt (WC-1..WC-16), its alignment join slider and character drift designed only [STATED FOLD:346; Fable-reviewed 2026-10-18: AV-9 — an earlier text said \"entirely unbuilt\"].",
+   "reason": "AV-9: FOLD:346 lists WC-0A..0E under BUILT, DARK; the note's own §7 row 51 cites wp/lawBandModulation.js, a WC-0 shape."
+  },
+  {
+   "file": "research/sf/alignment-system.md",
+   "kind": "research",
+   "old": "`wp/roadsKernel.js:1031`, `src/domain/display/warResolve.js:256`, `src/domain/display/armyStrength.js:64`]. The patron's",
+   "new": "`wp/roadsKernel.js:1031`, `src/domain/display/warResolve.js:256`, `src/domain/display/armyStrength.js:64`, and the irregular-force share `wp/irregularForce.js:55` (dark: `irregularForceEnabled` is lit in no preset, `wp/simulationRules.js:633`) — eight modules, as §10 item 31 counts]. The patron's",
+   "reason": "AV-4: the import grep finds eight callers (pulseShapes.js:55 is a comment); §6 listed seven while §10 item 31 said eight."
+  },
+  {
+   "file": "research/sf/alignment-system.md",
+   "kind": "research",
+   "old": "matched by name, first match wins [OBSERVED `wp/moralMartialLean.js:57-69`]:",
+   "new": "matched against the institution's name, category and tags (first match wins) [OBSERVED `wp/moralMartialLean.js:57-69`, `:100-105`, `:121-128`]:",
+   "reason": "AV-5: nameKindTags (:100-105) joins name, category, priorityCategory and tags; :126-127 tests the patterns on that string."
+  },
+  {
+   "file": "research/sf/alignment-system.md",
+   "kind": "research",
+   "old": "| red-light / brothel / pleasure district | 0.2 | 0.6 |",
+   "new": "| red-light / brothel district / pleasure district | 0.2 | 0.6 |",
+   "reason": "AV-5: the pattern at :63 is red\\s*light|brothel\\s*district|pleasure\\s*district; a bare 'brothel' does not match."
+  },
+  {
+   "file": "research/sf/alignment-system.md",
+   "kind": "research",
+   "old": "[OBSERVED `sp/smuggle.js:87-98`, `:126`, `:143-148`, `:164-180`]",
+   "new": "[OBSERVED `sp/smuggle.js:87-98`, `:114-116`, `:143-148`, `:164-180`]",
+   "reason": "AV-6: SLAVE_GOOD_RE is at sp/smuggle.js:116 (comment :114-115); :126 is finiteNumber's closing brace."
+  },
+  {
+   "file": "research/sf/alignment-system.md",
+   "kind": "research",
+   "old": "[OBSERVED `sp/smuggle.js:126`, `:133-148`]",
+   "new": "[OBSERVED `sp/smuggle.js:114-116`, `:133-148`]",
+   "reason": "AV-6, second site (§6 Trade)."
+  },
+  {
+   "file": "research/sf/alignment-system.md",
+   "kind": "research",
+   "old": "target's supplier villages, fragile first then cheapest route",
+   "new": "target's supplier villages, fragile first, then highest supply share, then cheapest route (`wp/supplyWebWarfare.js:857-864`)",
+   "reason": "AV-7: sequenceStages sorts fragile, then share01 descending, then cost, then keys (:857-864; comment :851-853)."
+  },
+  {
+   "file": "research/sf/alignment-system.md",
+   "kind": "research",
+   "old": "supply-web stages ordered fragile-first then cheapest route | `wp/supplyWebWarfare.js:855-862`",
+   "new": "supply-web stages ordered fragile first, then highest supply share, then cheapest route | `wp/supplyWebWarfare.js:857-864`",
+   "reason": "AV-7, second site (§8.1)."
+  },
+  {
+   "file": "research/sf/alignment-system.md",
+   "kind": "research",
+   "old": "[STATED FOLD:339]",
+   "new": "[STATED FOLD:342]",
+   "reason": "AV-10: FOLD:339 is the ESPIONAGE row; the POP row with the empty-migration-menu sentence is :342."
+  },
+  {
+   "file": "research/sf/alignment-system.md",
+   "kind": "research",
+   "old": "[STATED WARCONV:646-651]",
+   "new": "[STATED WARCONV:436, :655-662]",
+   "reason": "AV-11: 'ALREADY LIVE' with the two code addresses sits at WARCONV:436 and :655-662; :646-651 is the malice01 threshold passage."
+  },
+  {
+   "file": "research/sf/alignment-system.md",
+   "kind": "research",
+   "old": "STATED PHASE55:1294-1297]",
+   "new": "STATED PHASE55:1296-1298]",
+   "reason": "AV-12: the belief-record shape with its alignment field is PHASE55:1298; :1294-1295 are the DM-reveal lines."
+  },
+  {
+   "file": "research/sf/alignment-system.md",
+   "kind": "research",
+   "old": "the c column is the **only NPC-grain law axis** in the host",
+   "new": "the c column is the **only personality-derived NPC law axis, and the only lit one** (the seeded and declared D&D words are parsed into a law reading too, but only by the dark war seat books `wp/warSeatBooks.js:270-276` and settlement politics `wp/settlementPolitics.js:1058-1064`, §7 rows 44-45)",
+   "reason": "AV-13: two dark readers derive a numeric NPC law axis from the D&D word; the 'only' holds for personality-derived and lit axes."
+  },
+  {
+   "file": "research/sf/alignment-system.md",
+   "kind": "research",
+   "old": "About thirty modules import the selectors today, several lit in RR",
+   "new": "About two dozen modules import the selectors today (24 by static import; 36 files name them, comments and types included), several lit in RR",
+   "reason": "AV-14: static-import grep over src/ gives 24 files; the §11.3 grep's 36 counts every mention."
+  },
+  {
+   "file": "research/sf/alignment-system.md",
+   "kind": "research",
+   "old": "[STATED PHASE55:1197-1201 via FP-PHYS §2.5]",
+   "new": "[STATED PHASE55:1197-1201 via FP-PHYS §5]",
+   "reason": "AV-15: FP-PHYS §2.5 (:93) is the route rows; the frozen-versus-live law and 'danger is relative to the mover' are restated in §5 (:271-273)."
+  },
+  {
+   "file": "research/sf/alignment-system.md",
+   "kind": "research",
+   "old": "V13 §3.9's `foreignCulture` term is categorical (1 when a cell's culture id\n   differs from the seed's) [OBSERVED `docs/volumes/V13-world.md:1360-1372`].",
+   "new": "At the time of this reading (before J382 was applied) V13 §3.9's `foreignCulture` term was categorical (1 when a cell's culture id\n   differed from the seed's) [OBSERVED then at `docs/volumes/V13-world.md:1360-1372`; Fable-reviewed 2026-10-18: AV-16 — the term is gone; V13 §3.9 W8 (now `:1779`) reads the host's culture distance between the seed seat and the owning seat, banded in fifths, in its plain form (V13:662, :811, :1101, :1811-1820; J382 (a), J384 (2)), so the proposal below has been adopted in that form].",
+   "reason": "AV-16: grep finds no foreignCulture in today's V13; §3.9 W8 starts at :1779 and reads the host's culture distance (:1811-1820); J382's text shows the term existed when the note was written, so the reading is dated, not deleted."
+  },
+  {
+   "file": "research/sf/alignment-system.md",
+   "kind": "research",
+   "old": "`characterConsumers` calls it a projection cache for two systems that are dark [OBSERVED",
+   "new": "`characterConsumers` calls it a projection cache for its \"two live consumers\" (bloc formation and the war-seat ruler bias), both dark in every preset (§7 rows 44-45), so the comment's \"live\" is stale [OBSERVED",
+   "reason": "AV-17: characterConsumers.js:518-524 calls them 'the field's two live consumers'; their darkness is the note's own finding, which the comment contradicts."
+  },
+  {
+   "file": "research/sf/alignment-system.md",
+   "kind": "research",
+   "old": "A *direct* vassal or patron edge closes the distance by up to 15% through the trade-tie multiplier (tie 0.6\n   × 0.25), and only for that linked pair, not along a chain [OBSERVED `wp/migrationKernel.js:197`, `:228-230`;\n   `sp/cultureDistance.js:193-198`]. Under J382 a chain's inner towns therefore resist each other's territory as much as",
+   "new": "In the host's migration call a *direct* vassal or patron edge closes the distance by up to 15% through the trade-tie multiplier (tie 0.6\n   × 0.25), and only for that linked pair, not along a chain [OBSERVED `wp/migrationKernel.js:197`, `:228-230`;\n   `sp/cultureDistance.js:193-198`]; the territory term reads the PLAIN form, with no trade tie, so not even that closing enters it [Fable-reviewed 2026-10-18: J384 (2), V13:811, :1811-1820 — this item was written before J384]. Under J382 a chain's inner towns therefore resist each other's territory as much as",
+   "reason": "F-1 (found beyond the verifier): J384 (2) reads the territory's culture term in the plain form with no trade tie (V13:811), so the 15% closing the note reasons from does not enter the sway; the design is right, the note is stale."
+  },
+  {
+   "file": "research/sf/alignment-system.md",
+   "kind": "research",
+   "old": "(g) is the born roster's malicious and belligerent lean intended (item 29).",
+   "new": "(g) is the born roster's malicious and belligerent lean intended (item 29). [Fable-reviewed 2026-10-18: under the owner's \"i leave all judgemtn to you\" (J384) the session answered (a) — no player view, the lens is DM-only (J384 (7)); (b) — map-side plates, one frame per host advance, and a host ask for a per-advance alignment reading (J384 (9); V13 §8.5 H30); (c) — the whole vector, alignment half included, in the plain form (J384 (2)); (e) is carried to the host as H30 (\"fixed if the host so chooses\"); (d), (f) and (g) stay open, the design drawing (d) \"by the host's law\" in three classes and (g) as the lens's lean note (V13 §5.9 (8)).]",
+   "reason": "F-2: §10 item 25's questions (a), (b), (c) were answered by J384 and (e) carried as H30 after the note was written; a reader today would think them open."
+  },
+  {
+   "file": "research/sf/alignment-system.md",
+   "kind": "research",
+   "old": "Proposed host ask: a per-pulse\n    alignment digest (both axes, bands, the top constituent causes), published like the faith projection.",
+   "new": "Proposed host ask: a per-pulse\n    alignment digest (both axes, bands, the top constituent causes), published like the faith projection [Fable-reviewed 2026-10-18: adopted as V13 §8.5 H30 beside J384 (9)'s map-side plates].",
+   "reason": "F-2: the host ask became V13 §8.5 H30; the scrub source became J384 (9)'s plates."
+  }
+ ],
+ "rulings": [
+  {
+   "id": "R-1 §1 reading of J380",
+   "verdict": "UPHELD",
+   "reason": "The owner's word is J380's own; the reading (see the system whole — what it is, local and global, how it moves between settlements, how that changes the map view) mirrors the faith request J380 points back to.",
+   "consequence": "none"
+  },
+  {
+   "id": "R-2 §1/§9.1 item 1 reading of J382 (a)",
+   "verdict": "UPHELD",
+   "reason": "cultureDistance.js:45-48, 190 weights 0.30 faith / 0.25 alignment; J384 (2) later ruled the whole vector including the alignment half, upheld by the Fable rulings seat.",
+   "consequence": "none"
+  },
+  {
+   "id": "R-3 §9.1 item 1 proposal (continuous foreignCulture × cultureDistance(seed, owner))",
+   "verdict": "AMENDED",
+   "reason": "Adopted as V13 §3.9 (6): × (1 + φ × cd(s, home(c))), banded in fifths, plain form, 13-week dwell — chose the banded, dwelled, plain form over the raw continuous value because borders move only on dated facts (J377(b).7) and the relation classes already count the tie (J384 (2)); the pair-of-seats keying was kept.",
+   "consequence": "CR-26's dated bracket only; the design already states it (V13:811, :1811-1820)"
+  },
+  {
+   "id": "R-4 §9.1 item 2 (sample culture distance at dated border events)",
+   "verdict": "UPHELD",
+   "reason": "The host's frozen-versus-live law (PHASE55:1197-1201 via FP-PHYS §5) and J377(b).7; V13:811 sampled?: Week, :1101 culture.dwellWeeks 13.",
+   "consequence": "none"
+  },
+  {
+   "id": "R-5 §9.1 item 3 (occupation moves borders and alignment; conquest never closes the identity term)",
+   "verdict": "UPHELD",
+   "reason": "disposition.js:449-456, 491-515, 549, 586; cultureDistance.js:182-185; the label written is 'Martial Administration', never the victor's (AV-2), so the conclusion stands; V13:1820-1822 holds the band during an occupation; T-V13-47 tags one occupation event for sway, prosperity and alignment.",
+   "consequence": "CR-5 only; no design fragment (the sway reads the host's own term, V13 §3.9 (6))"
+  },
+  {
+   "id": "R-6 §9.1 item 4 (settlement axes never enter strength; the patron's temper does; the tie-breaker adds no settlement axes)",
+   "verdict": "UPHELD",
+   "reason": "militaryStrength.js:75-82, 253-285; J384 (4) keeps the will facet and excludes the economy facet, as the rulings seat upheld.",
+   "consequence": "none"
+  },
+  {
+   "id": "R-7 §9.1 item 5 (patrols may cite the gate character and escort quality)",
+   "verdict": "UPHELD",
+   "reason": "A legend fact, not an input: lens-implications §2.3 rows 194-195 carry it so; J378.5's derivation (enforcement, hostility, route class) is untouched; consistent with item 132 (e).",
+   "consequence": "none"
+  },
+  {
+   "id": "R-8 §9.1 item 6 (no chain closing; a direct vassal/patron edge closes ≤ 15%; same-label ≈ 0.108)",
+   "verdict": "AMENDED",
+   "reason": "The first and third hold; the 15% is the host's migration call only — the territory term reads the plain form with no trade tie (J384 (2); V13:811, :1811-1820), so no edge closing enters the sway. Chose to date the sentence rather than delete it because the host fact is true and the lens note's §2.9 cites it.",
+   "consequence": "CR-28; no design fragment (V13 already reads the plain form)"
+  },
+  {
+   "id": "R-9 §9.1 item 6b (tradition kinship closes under J382)",
+   "verdict": "UPHELD",
+   "reason": "Kinship is read from the vectors (cultureDistance.js:196-198) and survives the plain form; genesis.js:194-199, 224-236 reads deity presence.",
+   "consequence": "none"
+  },
+  {
+   "id": "R-10 §9.2 item 7 (three quadrant classes; schism unreachable)",
+   "verdict": "UPHELD",
+   "reason": "cohesionWeave.js:88-93; sacredClaim.js:120; generosityKernel.js:334 (kinship = 1 − |Δ evil01|, so a shared patron is always kindred); V13:3422 draws it with the no-schism note.",
+   "consequence": "none"
+  },
+  {
+   "id": "R-11 §9.2 items 8-11",
+   "verdict": "UPHELD",
+   "reason": "religiousContest.js:355-384, institutionTolerance.js:138-231, pulseKernel.js:1475-1481, 1803-1813 (the two lit moral flows); the patron axes enter both the faith term and the alignment term; deriveTemper is the good/evil sign under three-valued axes (deityAxes.js:79-102, strict dead-band).",
+   "consequence": "none"
+  },
+  {
+   "id": "R-12 §9.3 item 12 and §1 (DM truth only; no believed alignment)",
+   "verdict": "UPHELD",
+   "reason": "beliefMap.js:991-1036 holds no alignment field; J384 (7) ruled it; V13 §5.8 (7) refuses every other audience.",
+   "consequence": "none"
+  },
+  {
+   "id": "R-13 §9.3 item 13 (no history; map-side snapshots or a host export; replay with the host's own decay; host ask)",
+   "verdict": "UPHELD",
+   "reason": "J384 (9) chose plates in the world document; H30 asks the per-advance reading and names the decay defect; V13 §5.8 (8) 'the lenses replay nothing, they scrub plates'.",
+   "consequence": "CR-30 (a dated bracket only)"
+  },
+  {
+   "id": "R-14 §9.3 items 14-17",
+   "verdict": "UPHELD",
+   "reason": "V13 §5.8 (4) and (6), T-V13-47 (regime from HostRegime; the lean note), V13:3412-3414 state them.",
+   "consequence": "none"
+  },
+  {
+   "id": "R-15 §10 item 9 (compounding decay and RR freeze are a host defect)",
+   "verdict": "UPHELD",
+   "reason": "Re-ran advanceMoralDrift: 0.2772 → … → 0.0268, pruned at tick 8 against a designed tick ≈ 32; the comment at sp/moralDrift.js:218-224 states the intent the code defeats; H30 carries it 'fixed if the host so chooses'.",
+   "consequence": "none"
+  },
+  {
+   "id": "R-16 §10 item 28 (inverted danger weight is unintended)",
+   "verdict": "UPHELD",
+   "reason": "roadsKernel.js:1010 and :1018 pass one number (riskToleranceOf, bold 0.9 / timid 0.35) to two opposite reads: scoreRoute multiplies danger by it, the refusal ceiling scales with it.",
+   "consequence": "none"
+  },
+  {
+   "id": "R-17 §10 items 4 and 29 (design questions, not bugs)",
+   "verdict": "UPHELD",
+   "reason": "The skip of unscored NPCs (disposition.js:171, 428) and the trait tables are deliberate; the design answers the lean with the lens's note (T-V13-47).",
+   "consequence": "none"
+  },
+  {
+   "id": "R-18 §10 item 25 (seven open questions for the owner)",
+   "verdict": "AMENDED",
+   "reason": "(a), (b), (c) were answered under the owner's 'i leave all judgemtn to you' by J384 (7), (9) + H30 and (2); (e) is carried as H30; (d), (f), (g) stay open, the design drawing (d) 'by the host's law' and (g) as the lean note. A reader must not think them open.",
+   "consequence": "CR-29"
+  },
+  {
+   "id": "R-19 §4.2 (the identity term compares government labels; no overlord modelled there)",
+   "verdict": "UPHELD",
+   "reason": "cultureDistance.js:182-185 compares governingName strings; the overlord the sway reads comes from relation labels (J384 (3); relationshipRuleHelpers.js:453-464), never from governingName.",
+   "consequence": "none"
+  },
+  {
+   "id": "R-20 §12.1 P3 ('Holds, and goes further … writes ‹occupier› occupation authority')",
+   "verdict": "AMENDED",
+   "reason": "The fixer's ruling that P3 held and its 'goes further' (governingName is a label) were right; its mechanism sentence was wrong — the transfer writes the alternate label 'Martial Administration' (AV-2, run read-only).",
+   "consequence": "CR-7c"
+  },
+  {
+   "id": "R-21 §12.2 M3 ('−0.144 and +0.162 (rounding)')",
+   "verdict": "AMENDED",
+   "reason": "The fixer applied the conscience clamp to the aggression sum; the verifier's +0.165 was exact (AV-1, enumeration re-run: E = 0.1645 unclamped, 0.1624 clamped).",
+   "consequence": "CR-3"
+  },
+  {
+   "id": "R-22 §12.2 M11 ('Partly holds … receptivity read only by spread-gated conversion')",
+   "verdict": "OVERTURNED",
+   "reason": "The fixer read the spread gate's comment block (religiousContest.js:548-553) as the receptivity read's gate; the read is in deityLocalStrength (:514, :521), which step 3b (:796-805) calls for every present deity with no spread gate; DM-imposed cults (religionState.js:183-201) make a second creed present without spread. The verifier's M11 held whole.",
+   "consequence": "CR-9, CR-10, CR-11"
+  },
+  {
+   "id": "R-23 §12's other rows (P1, P2, P4, P5, P6; M1, M2, M4-M10, M12-M18)",
+   "verdict": "UPHELD",
+   "reason": "Each re-checked by the verifier at the source; P1, M2, M7 and P3's conquest run reproduced here from the scratchpad, read-only.",
+   "consequence": "none"
+  },
+  {
+   "id": "R-24 PROGRESS J383's claim that the note was 'verified against code and fixed'",
+   "verdict": "AMENDED",
+   "reason": "Verified and fixed, with five wrong and twelve imprecise claims surviving the fix pass (which closed the verifier's six problems and eighteen omissions but introduced AV-1, AV-2 and AV-8 and left citation drift), corrected by this record.",
+   "consequence": "Journal rows are append-only: J392 names J383; no edit."
+  }
+ ],
+ "notice_replacement": "> Fable-reviewed 2026-10-18: PASS-WITH-CORRECTIONS — 17 verifier findings accepted (5 wrong, 12 imprecise) and 3 stale passages dated, 30 fragments applied in place; conclusions hold (lane retrovalidation/alignment; J392)",
+ "summary": "Lane retrovalidation/alignment (Fable, J392). I read research/sf/alignment-system.md whole (1,246 lines), the verifier's record, the Fable rulings record, the owner's rules (AMENDMENTS 16j items 131–141, 14i item 130, PROGRESS J375–J391), and re-checked every one of the 17 verifier findings against the host at 81f1cd96 read-only (no git command; nothing written to the host), re-running the enumeration, drift, lean and conquest scripts myself. All 17 are accepted: the five WRONG claims (AV-1 the clamped aggression figures — the note's +0.162/+0.269 are exactly the clamped variants of +0.1645/+0.2721; AV-2 the conquest label is 'Martial Administration', liftOccupationAuthority being a no-op for a conquest; AV-3 tolerance multiplies danger; AV-8 the receptivity resistance is read in every present creed's share advance, and DM-imposed cults make a second creed present without spread; AV-9 WC-0 is built dark) and the twelve IMPRECISE ones. Two are amended in their fix text (AV-2 adds the shared-label consequence and re-words §12.1 P3; AV-8 also changes §7 row 59's gate column). Beyond the verifier I re-derived the load-bearing inferences (the no-op seat up-weight, the deity-free respectable_rival, the unreachable schism, the strict temper dead-band, the culture weights and closers, the inverted danger weight, every range and expectation) — all hold — and found three stale passages: §9.1 item 6 reasons from a trade-tie closing that J384 (2)'s plain form excludes from the territory term; §10 item 25's questions (a), (b), (c) and §9.3 item 13's host ask were answered by J384 (7), (9), (2) and H30; §7 row 59's gate column. The note's rulings: 24 judged, 20 UPHELD, 3 AMENDED (§9.1 item 1's proposal as adopted, §9.1 item 6, §10 item 25; plus the §12 rows P3 and M3 and J383's journal claim, the last named in J392, never edited), 1 OVERTURNED (§12.2 M11). No contradiction with items 130–141. The sweep of V13, V14, the base, the proposals, the brief, INDEX, SUMMARY, the 10-17 amendment files and the lens and realm notes found none of the wrong figures or wordings carried over, so no design or record fragment is owed; 30 research corrections (32 fragments, each old string verified present exactly once) make the note sound in place; no section needs a rewrite. Verdict PASS-WITH-CORRECTIONS. Record: /home/user/maps-architecture/docs/validation/retrovalidation-2026-10-18/alignment.md; CHECKPOINT and LANDED lines appended to /home/user/maps-architecture/docs/lane-events.log; scratch runs under /tmp/claude-0/-home-user-maps-architecture/4291a60d-8240-5d49-a54e-2b2a213d093f/scratchpad/retro/align-fable/."
+}

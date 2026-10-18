@@ -1,0 +1,166 @@
+{
+ "checked": 1000,
+ "findings": [
+  {
+   "id": "F1",
+   "where": "§1 'How it is set'",
+   "claim": "route class 'crossroads or port 3, road or river 2, isolated 1'",
+   "verdict": "IMPRECISE",
+   "evidence": "econ/prosperity.js:183-192: a disconnected thorp/hamlet takes 0; a disconnected village or larger takes 2 with working teleportation and magic, else 1 (the note's §3.1 has it right)",
+   "fix": "'isolated 1 (0 for a thorp or hamlet; 2 with working teleportation and magic)'"
+  },
+  {
+   "id": "F2",
+   "where": "§8.1 Generation row",
+   "claim": "source econ/prosperity.js:182-190",
+   "verdict": "IMPRECISE",
+   "evidence": "the route-base expression runs :182-192 (the '1' arm at :191, road/river '2' at :192)",
+   "fix": "cite :182-192"
+  },
+  {
+   "id": "F3",
+   "where": "§3.3",
+   "claim": "each tradition has a grandeur scaleBand aligned to the tier index [OBSERVED tr/genesis.js:111-126; STATED :98]",
+   "verdict": "IMPRECISE",
+   "evidence": "tr/genesis.js:394-398: only the founding core takes tierIndex; each addition draws randInt(birthTierIndex, tierIndex) with a random birth tier (>=1 when tier >=1); :98 is the typedef",
+   "fix": "'the founding core at the tier index, each addition between a random birth tier and the tier index (tr/genesis.js:394-398)'; the -0.10/-0.20 scale-mismatch examples apply to the founding core"
+  },
+  {
+   "id": "F4",
+   "where": "§3.5 (and §5.3)",
+   "claim": "At resolution: captor +1 for key/pillar, home -1 for a pillar, spared when adventurers paid; term 13 + 26 x importance",
+   "verdict": "IMPRECISE",
+   "evidence": "wp/roadsKernel.js:827-836 (branch :831-836): only a term-end release pays both steps; a party ransom pays the captor step only; rescue, captor gone, occupied, peace pay no step. rd/state.js:403: term = 13 + round(26 x importance)",
+   "fix": "'At a term-end release ...; a party ransom pays only the captor's step; other early releases pay none'; '13 + round(26 x importance)'"
+  },
+  {
+   "id": "F5",
+   "where": "§10.2 C9",
+   "claim": "settlementLifecycleFirstClass.js:291, :319, :410",
+   "verdict": "IMPRECISE",
+   "evidence": ":410 is blank; the 'nearby prosperity' comment and variable are at :411-412",
+   "fix": "cite :411-412"
+  },
+  {
+   "id": "F6",
+   "where": "§3.9",
+   "claim": "conquest-feed pulse (<= 0.35, about an 11-week half-life)",
+   "verdict": "IMPRECISE",
+   "evidence": "wp/conquestFeeds.js:61 CAPTIVE_DECAY 0.06 (~11 wk), :71 LOOT_DECAY 0.09 (~7.3 wk), :77 PROSPERITY_W 0.35",
+   "fix": "'(<= 0.35; its loot channel halves in about 7 weeks, its captive channel in about 11)'"
+  },
+  {
+   "id": "F7",
+   "where": "§3.10 condition severity (also §6, §7.2 row, D5)",
+   "claim": "a stressor-promoted condition takes +0.06 severity at Subsistence/Struggling/Poor and -0.06 at Prosperous/Wealthy",
+   "verdict": "IMPRECISE",
+   "evidence": "src/domain/conditionPromotion.js:168, :201: the settlement modifier applies only when the stressor has no numeric severity (severity == null ? deriveGenerationSeverity(...) : severity); the summed modifier is clamped -0.25..+0.18 (:124)",
+   "fix": "add 'when the stressor carries no severity of its own (:201); the combined modifier is clamped -0.25..+0.18 (:124)'"
+  },
+  {
+   "id": "F8",
+   "where": "§3.2 'What embattled means'",
+   "claim": "the level 'decays by 0.12 a tick once calm'",
+   "verdict": "IMPRECISE",
+   "evidence": "sp/embattlement.js:245-247 (priorLevel * (1 - RELAX_RATE)), RELAX_RATE 0.12 at :82: a 12% relative decay; the note's 29-tick figure is the multiplicative one",
+   "fix": "'decays by 12% of its level a tick once calm'"
+  },
+  {
+   "id": "F9",
+   "where": "§8.2 Town map",
+   "claim": "The v1 layout does not read prosperity.",
+   "verdict": "IMPRECISE",
+   "evidence": "tm/townMapModel.js:368 derives every district via deriveAllDistricts and :400, :485 carry each district's band-nudged wealth word on the v1 model; no v1 geometry read of it found",
+   "fix": "'The v1 layout reads the band only through each district's wealth word, which it carries on the model (tm/townMapModel.js:368, :485) and does not draw with'"
+  },
+  {
+   "id": "F10",
+   "where": "§6 pulse order",
+   "claim": "the growth chain that ends with traditions and roads (:2735)",
+   "verdict": "IMPRECISE",
+   "evidence": "chain at wp/pulseKernel.js:2735 runs ladder -> traditions -> roads -> commons -> assize -> density (wp/roadsKernel.js:1227; wp/assizeKernel.js:428; wp/factionDensityKernel.js:789-792); the last three write no band",
+   "fix": "'the growth chain (... traditions, roads, then commons, assize and density, which do not write the band)'"
+  },
+  {
+   "id": "F11",
+   "where": "§6 readers",
+   "claim": "compendium quote 'not a dial you set; an output you read'",
+   "verdict": "IMPRECISE",
+   "evidence": "src/domain/compendium/bandLadders.js:220: 'Not a dial you set. An output you read.' (prosperity ladder blurb)",
+   "fix": "quote verbatim and cite :220"
+  },
+  {
+   "id": "F12",
+   "where": "§7.2 condition grammar row",
+   "claim": "BUILT DARK, no producer or consumer (tm/arch/conditionGrammar.js:9)",
+   "verdict": "IMPRECISE",
+   "evidence": "tm/arch/settlementDress.js:37 and tm/arch/conditionParams.js:46 import it; nothing outside that folder imports either; :9 says 'imported by nothing shipped'",
+   "fix": "'no shipped consumer (two dormant siblings import it)'"
+  },
+  {
+   "id": "F13",
+   "where": "§10.1 D8",
+   "claim": "UPSWING §4 promises 'receipted' steps",
+   "verdict": "IMPRECISE",
+   "evidence": "docs/DESIGN_UPSWING_RELATIONSHIP_FLOWS.md §4 (:119-125) lacks the word; 'receipted' is §0 (:12), B2 says 'receipt-visible' (:103); code comment wp/upswingKernel.js:121 '(receipted)'",
+   "fix": "cite UPSWING :12, :103 and wp/upswingKernel.js:121"
+  },
+  {
+   "id": "F14",
+   "where": "§10.2 C7",
+   "claim": "EC rows M7, M8 and M11 say famine, harvest and plague move prosperity 'one way (S16)'",
+   "verdict": "IMPRECISE",
+   "evidence": "EC:2240 (M7) and EC:2241 (M8) say 'one way (S16)'; EC:2244 (M11) says prosperity and legitimacy 'fall through their existing writers' (no S16)",
+   "fix": "restrict 'one way (S16)' to M7, M8; quote M11's own words"
+  },
+  {
+   "id": "F15",
+   "where": "§7.3 item 1",
+   "claim": "FOLD's TR->EC row reads 'EC-0…EC-18 entire'",
+   "verdict": "IMPRECISE",
+   "evidence": "docs/DESIGN_FP_COHERENCE_FOLD.md:340 reads 'EC-0..EC-18 entire'",
+   "fix": "quote with two dots, cite :340"
+  },
+  {
+   "id": "F16",
+   "where": "§5.6",
+   "claim": "origin tolerance 'the population seat's reading, research/sf/population-system.md:375'",
+   "verdict": "IMPRECISE",
+   "evidence": "current population-system.md:375 is an item on M4 origin/road deaths; the formula 0.15 + 0.4 prosperity + 0.25 connectivity + 0.2 granary is at :417 (file grew 852 -> 1,091 since 7d7f562); host sp/migration.js:78-81, :190-196",
+   "fix": "cite population-system.md:417 (host sp/migration.js:78-81)"
+  },
+  {
+   "id": "F17",
+   "where": "§6 War and plague",
+   "claim": "agrees with research/sf/plague-system.md:296-300",
+   "verdict": "IMPRECISE",
+   "evidence": "current plague-system.md:294-301 is the severity fixed point and §3.8 header; its prosperity section §3.12 (:364-371) agrees only for pulse lanes (:366) and claims a DM Apply-stressor plague drops prosperity a rank (:368-371); host: applyEvent runs no economy pass, prosperity keeps its generation value (src/domain/display/economyFreshness.js:6-12; registryRerunKeys.js:19-30 is a freshness classifier). File grew 817 -> 1,085 since 7d7f562",
+   "fix": "'agrees with plague-system.md:364-366 for the pulse lanes; that note's :368-371 (DM plague drops a rank) is contradicted by src/domain/display/economyFreshness.js:6-12'"
+  },
+  {
+   "id": "F18",
+   "where": "§10.2 C4",
+   "claim": "wp/supplyKernel.js:580-586 says economic state is never written",
+   "verdict": "IMPRECISE",
+   "evidence": "the sentence 'economicState is NEVER written' is at wp/supplyKernel.js:590-591",
+   "fix": "cite :590-591"
+  },
+  {
+   "id": "F19",
+   "where": "§1 point (3); §9.1 items 2, 4; §10.3 (g), (h); §12 P10",
+   "claim": "J378's military term uses the map's 'garrison and standing bands' (AMENDMENTS-2026-10-17m.md:111, :1695, 'a new banding of its strength facets'; J-RR.52 at fp-realm-review.md:600), still the map's to define; (g), (h) open",
+   "verdict": "IMPRECISE",
+   "evidence": "neither quoted phrase occurs now in AMENDMENTS-m, fp-realm-review or V13 (grep); J-RR.52 is at research/sf/fp-realm-review.md:611 and bars the economy facet; docs/PROGRESS.md:443 J384 (4): military bands EXCLUDE the economy facet ('prosperity is counted once'); J384 (1): prosperity in territory is RELATIVE — answering (g) and (h)",
+   "fix": "add 'Ruled since by J384 (1) and (4) (docs/PROGRESS.md:443): relative band; military bands bar the economy facet (fp-realm-review.md:611)'; re-point stale citations"
+  },
+  {
+   "id": "F20",
+   "where": "§1 'What is lit'",
+   "claim": "Only an Instant World or a DM clicking a preset chip applies RR's lit keys [OBSERVED, probe]",
+   "verdict": "IMPRECISE",
+   "evidence": "the two paths are STATED in RR's comment (wp/simulationRules.js:889-892); the probe only shows BORN lacks the keys. A third path: the DM screen's TemperamentPicker (src/components/screen/DmScreen.jsx) via wp/temperamentPresets.js:38-43 (RR-based 'A steady realm', 'The long winter') and :68-73; realm inspector chips at src/hooks/useRealmInspector.js:247-250",
+   "fix": "'An Instant World, a preset chip (realm inspector or rules dialog) or an RR-based temperament on the DM screen applies RR's lit keys [STATED wp/simulationRules.js:889-892; OBSERVED wp/temperamentPresets.js:38-43, :68-73; probe: BORN lacks them]'"
+  }
+ ],
+ "summary": "Read research/sf/prosperity-system.md whole (1,116 lines) and checked about 1,000 claims against the host at 81f1cd96: every host citation, all the constants and thresholds, the quoted phrases, the §11 line counts and document hit counts, and every flag-decided cell of the §7.2 table, re-run read-only for all seven presets and the new-campaign (BORN) rule set. 20 claims don't hold: 0 WRONG, 0 UNSUPPORTED, 20 IMPRECISE. The fixes are mostly line addresses and quotes. A few substantive scope corrections: genesis scaleBand, ransom steps paid only at term end, and the severity modifier applying only when the stressor carries no severity of its own. One fix is a third path that applies RR's lit keys: the temperament picker on the DM screen. One is a stale pointer: map-side rows J384 (1) and (4) now answer the note's open questions (g) and (h). No conclusion of the note changes. The four band writers, the birth door, the boom, festival, purchase and ransom arithmetic, the broken gazetteer sort and every defect in §10.1 hold. The sibling plague note's §3.12 claim that a DM plague drops prosperity is contradicted by src/domain/display/economyFreshness.js:6-12; that is recorded for the plague lane. I couldn't check the map-side line numbers as they stood at 7d7f562 without git, because those files have grown since. Record: /home/user/maps-architecture/docs/validation/retrovalidation-2026-10-18/prosperity-verify.md. LANDED line appended to /home/user/maps-architecture/docs/lane-events.log."
+}

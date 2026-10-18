@@ -1,0 +1,420 @@
+{
+ "verdict": "PASS-WITH-CORRECTIONS",
+ "corrections": [
+  {
+   "file": "research/sf/population-system.md",
+   "kind": "research",
+   "old": "rate of about 0.0033–0.0035, i.e. stability of about 0.8 or more.",
+   "new": "rate between about 0.0025 and 0.0035 (the bar is a rounded integer, so the needed rate oscillates and settles toward 0.0035 as places grow), i.e. RR stability of roughly 0.67–0.80 [Fable-reviewed 2026-10-18: was \"0.0033–0.0035, i.e. stability of about 0.8 or more\"; `wp/populationDynamics.js:381-383`].",
+   "reason": "C-1 (F1). The deadband is max(2, round(pop×0.001)) against a rounded delta, so the needed rate is (bar − 0.5) ÷ (pop × 0.2875): 0.00248 at 3,499 (bar 3), 0.00348 at 3,500 (bar 4), tending to 0.0035; recomputed by this seat with JavaScript rounding."
+  },
+  {
+   "file": "research/sf/population-system.md",
+   "kind": "research",
+   "old": "only campaign management gates it [OBSERVED",
+   "new": "only campaign management gates it, and campaign management is itself the premium entitlement (below) [OBSERVED",
+   "reason": "C-2a (F2). `canManageCampaigns = authTier === 'premium' || isElevated` and `activeCampaigns` is [] without it (`map/useWorldMapCampaignModel.js:58-61`); the toolbar's `campaignActive` is `canManageCampaigns && activeCampaignId` (`map/WorldMapToolbar.jsx:373`)."
+  },
+  {
+   "file": "research/sf/population-system.md",
+   "kind": "research",
+   "old": "Whether campaign management is itself a paid feature was not traced.",
+   "new": "Campaign management is the premium entitlement: `canManageCampaigns = authTier === 'premium' || isElevated`, and `activeCampaigns` is empty without it (`map/useWorldMapCampaignModel.js:58-61`; the toolbar's `campaignActive` is `canManageCampaigns && activeCampaignId`, `map/WorldMapToolbar.jsx:373`; the same gate `LWG:32` names), so `SRD` is premium-gated like `LWG` even though its opener, mount and store write (`src/store/campaignWorldPulseSlice.js:416-434`; `campaignWorldPulseDeferred.js:380-440`) carry no check of their own [Fable-reviewed 2026-10-18: was \"Whether campaign management is itself a paid feature was not traced.\"].",
+   "reason": "C-2b (F2). The open question was answerable from files the note cites; the three code sites carry no check, but the surface is reachable only by a campaign manager (premium or elevated)."
+  },
+  {
+   "file": "research/sf/population-system.md",
+   "kind": "research",
+   "old": "Still not traced: whether campaign management (which gates `SRD`) is a paid feature; whether the pulse writes a promotion",
+   "new": "Still not traced: whether the pulse writes a promotion",
+   "reason": "C-2c (F2). Traced (C-2b)."
+  },
+  {
+   "file": "research/sf/population-system.md",
+   "kind": "research",
+   "old": "`SRD`'s mount carries no premium check (§7 legend).",
+   "new": "`SRD`'s opener, mount and store write carry no premium check of their own, the surface being premium-gated through campaign management, premium or elevated (§7 legend; Fable-reviewed 2026-10-18).",
+   "reason": "C-2d (F2). As C-2b (§11.4)."
+  },
+  {
+   "file": "research/sf/population-system.md",
+   "kind": "research",
+   "old": "SRD has no premium check in opener, mount or store write |",
+   "new": "SRD has no premium check of its own in opener, mount or store write, but opens only under an active campaign, which only a campaign manager (premium or elevated) holds [Fable-reviewed 2026-10-18] |",
+   "reason": "C-2e (F2). As C-2b (§12 V5)."
+  },
+  {
+   "file": "research/sf/population-system.md",
+   "kind": "research",
+   "old": "Holds; premium gating traced: none in opener, mount or store write |",
+   "new": "Holds; premium gating traced: none of its own in opener, mount or store write, the surface gated by campaign management (premium or elevated, `map/useWorldMapCampaignModel.js:58-61`) [Fable-reviewed 2026-10-18] |",
+   "reason": "C-2f (F2). As C-2b (§12 M5)."
+  },
+  {
+   "file": "research/sf/population-system.md",
+   "kind": "research",
+   "old": "4.25–7% a week, so a steading reaches 401 in roughly 40–70 weeks if backing holds.",
+   "new": "4.25–7% a week, so a steading reaches 401 in roughly 40–80 weeks if backing holds (39 weeks for 31 founders at full backing, 78 for 16 founders at the 0.45 floor) [Fable-reviewed 2026-10-18: was \"40–70 weeks\"].",
+   "reason": "C-3 (F3). Iterating `wp/settlementLifecycleKernel.js:958` (want = max(1, round(pop × (0.02 + 0.05 × backing)))) from 16–31 founders (`:200-201`, `:419`) gives 78 / 63 / 49 / 39 weeks; recomputed by this seat with JavaScript rounding."
+  },
+  {
+   "file": "research/sf/population-system.md",
+   "kind": "research",
+   "old": "an aspatial dispersal records the origin's headline (\"X's population is falling\") with an `outcomeId` of the form\n`candidate.population.emigration.<origin>.<\\tick>`;",
+   "new": "an aspatial dispersal records the producer's headline, not the per-delta reason: for a mass emigration \"X's population is falling\" with an `outcomeId` of the form `candidate.population.emigration.<origin>.<\\tick>` [`:487`, `:501`]; for a terminal death \"X is dying\" with `candidate.lifecycle.death.<origin>.<\\tick>` [`wp/settlementLifecycleFirstClass.js:213`, `:224`]; for a calamity exodus, whose outcome carries no headline, the bare type `population_emigration` with `calamity.exodus.<origin>.<\\tick>` [`wp/calamityKernel.js:782-806`, applied at `:829`] — every one of the three ids encodes the origin [Fable-reviewed 2026-10-18: the mass-emigration case alone was stated];",
+   "reason": "C-4a (F4). The writer stamps `outcome.headline || outcome.candidateType` (`wp/populationDynamics.js:605`); only the mass-emigration producer carries that headline."
+  },
+  {
+   "file": "research/sf/population-system.md",
+   "kind": "research",
+   "old": "*origin's* \"population is falling\" headline.",
+   "new": "*origin's* outcome headline (\"population is falling\" for a mass emigration, \"is dying\" for a terminal death, the bare type `population_emigration` for a calamity exodus) [Fable-reviewed 2026-10-18].",
+   "reason": "C-4b (F4). As C-4a (§10.2 #1)."
+  },
+  {
+   "file": "research/sf/population-system.md",
+   "kind": "research",
+   "old": "each keeping ≤ 24 public selected outcomes and, when any exist, ≤ 8 mechanical (state-only) outcomes, every kept outcome with its `populationDeltas` array",
+   "new": "each keeping ≤ 24 public selected outcomes and, when any state-only outcome is present, ≤ 8 mechanical outcomes and ≤ 24 `consequenceOutcomes` (the selected set, compacted; `wp/pulseOutcomePartition.js:121-123`), every kept outcome with its `populationDeltas` array",
+   "reason": "C-5a (F5). `mechanicalPulseRecordFields` adds `consequenceOutcomes: selectedForApply.slice(0, 24).map(compactOutcomeForHistory)` whenever a selected outcome is state-only; the compaction clones `populationDeltas` (`wp/pulseHelpers.js:144`)."
+  },
+  {
+   "file": "research/sf/population-system.md",
+   "kind": "research",
+   "old": "  mechanical outcomes per record [OBSERVED in the verification pass:",
+   "new": "  mechanical outcomes per record, plus ≤ 24 `consequenceOutcomes` when state-only outcomes exist (`wp/pulseOutcomePartition.js:121-123`) [Fable-reviewed 2026-10-18; OBSERVED in the verification pass:",
+   "reason": "C-5b (F5). As C-5a (§8.5)."
+  },
+  {
+   "file": "research/sf/population-system.md",
+   "kind": "research",
+   "old": "    `mechanicalOutcomes`, where minor drift is recorded.",
+   "new": "    `mechanicalOutcomes` or `consequenceOutcomes`, where minor drift is recorded (`timelineTrack.js:131-132` reads `selectedOutcomes` and `impactDigest` only) [Fable-reviewed 2026-10-18].",
+   "reason": "C-5c (F5). As C-5a (§10.2 #13)."
+  },
+  {
+   "file": "research/sf/population-system.md",
+   "kind": "research",
+   "old": "the model that ran away to 29.1 trillion people in two settlements and froze six others at 200–500 in the 300-year soak\n[STATED DEMO §0].",
+   "new": "the model that ran two settlements away to 29.1 and 16.4 trillion people and froze six others at 200–500 in the 300-year soak\n[STATED DEMO preamble :6-14; §0 :48, :68-71].",
+   "reason": "C-6a (F6). DEMO:8-10 (the preamble; §0 opens at :30): 29.1 trillion is one of the two settlements; the FS configuration and the weekly ticks are §0's (:48, :68-71)."
+  },
+  {
+   "file": "research/sf/population-system.md",
+   "kind": "research",
+   "old": "**Measured behaviour** [STATED DEMO §0]: in the 300-year soak",
+   "new": "**Measured behaviour** [STATED DEMO preamble :6-14; §0 :48, :68-71]: in the 300-year soak",
+   "reason": "C-6b (F6). As C-6a (§4)."
+  },
+  {
+   "file": "research/sf/population-system.md",
+   "kind": "research",
+   "old": "`wp/realmVerbExecution.js:483`; `rules:429`; STATED FOLD:333].",
+   "new": "`wp/realmVerbExecution.js:483`; `rules:429`; STATED FOLD:335].",
+   "reason": "C-7 (F7). FOLD:333 is the §2 table's header row; the SPINE row at :335 carries \"SP-B2 legs (`sovereigntyTradeEnabled` lit nowhere)\"."
+  },
+  {
+   "file": "research/sf/population-system.md",
+   "kind": "research",
+   "old": "a ready calibration for \"a per-settlement limit by tier\" once lit",
+   "new": "a ready calibration for the per-settlement, per-tier reach limit J377 reads (\"the per-settlement limit is where it falls below a floor, capped per tier\") once lit",
+   "reason": "C-8 (F8). The quoted phrase occurs in no record (grep of docs/ and research/); J377's session reading at `docs/PROGRESS.md:436` is quoted verbatim instead."
+  },
+  {
+   "file": "research/sf/population-system.md",
+   "kind": "research",
+   "old": "[`docs/design/proposal-world-native.md` §6 item 1]; whether a port-backed world counts as canonized at birth must be",
+   "new": "[proposal §6 item 1 as it stood before its 2026-10-17 supersession, quoted at `docs/AMENDMENTS-2026-10-17m.md:2264`; now V13 §8.5 H4/H5]; whether a port-backed world counts as canonized at birth must be",
+   "reason": "C-9a (F9). `docs/design/proposal-world-native.md:193-204` marks §6 superseded (item 1 → H4, H5); the quote survives only in the pre-supersession text."
+  },
+  {
+   "file": "research/sf/population-system.md",
+   "kind": "research",
+   "old": "   the host's explicit choice, recorded with the owner, not a side effect of shipping the native map.",
+   "new": "   the host's explicit choice, recorded with the owner, not a side effect of shipping the native map. [Fable-reviewed 2026-10-18: ruled since — J386 and J387 (V13 §8.5 H22, under the owner's J384 delegation \"i leave all judgemtn to you\"): every new campaign on a native world is canonized at birth, deliberately, as the product ruling the host implements; re-canonize and retcons stay the premium DM's act.]",
+   "reason": "C-9b (F9). J386 (`docs/PROGRESS.md:445`) and J387 (:446) ruled the question this sentence asked; the rulings lane upheld both."
+  },
+  {
+   "file": "research/sf/population-system.md",
+   "kind": "research",
+   "old": "`docs/design/proposal-world-native.md` §6 item 4)",
+   "new": "V13 §8.5 H5, H18, H19; formerly proposal §6 item 4, superseded 2026-10-17)",
+   "reason": "C-9c (F9). Proposal §6 item 4 → H5, H18, H19 (`proposal-world-native.md:200-201`)."
+  },
+  {
+   "file": "research/sf/population-system.md",
+   "kind": "research",
+   "old": "   premium canonize as the act that makes people walk? (§9.3 #1)",
+   "new": "   premium canonize as the act that makes people walk? (§9.3 #1) [Fable-reviewed 2026-10-18: RULED — J386, J387: canonized at birth for every new campaign on a native world; re-canonize stays premium (V13 §8.5 H22).]",
+   "reason": "C-9d (F9). As C-9b (§10.3 #1)."
+  },
+  {
+   "file": "research/sf/population-system.md",
+   "kind": "research",
+   "old": "the map must not make by accident; (3)",
+   "new": "the map must not make by accident [Fable-reviewed 2026-10-18: made on purpose since — J386, J387, V13 §8.5 H22: every new campaign on a native world is canonized at birth]; (3)",
+   "reason": "C-9e (F9). The summary's item (2) carries the same now-ruled warning as §9.3 #1."
+  },
+  {
+   "file": "research/sf/population-system.md",
+   "kind": "research",
+   "old": "**Village seeding**: DEMO §5's farm-village example contradicts the town-or-larger cap table; ruled for the cap table",
+   "new": "**Village seeding**: DEMO §11b records that an earlier §5 example (\"a farm village with open land spins off steadings\", no longer in §5 at `81f1cd96`) contradicted the town-or-larger cap table; ruled for the cap table by the host's manager",
+   "reason": "C-10 (F10). DEMO:503-506 (§11b) quotes the sentence; §5 at :291-313 no longer holds it; grep finds \"farm village\" only at :504."
+  },
+  {
+   "file": "research/sf/population-system.md",
+   "kind": "research",
+   "old": "  `wp/traditionsKernel.js:79`]. [INFERRED]",
+   "new": "  `wp/traditionsKernel.js:757`, imported at `:79`]. [INFERRED]",
+   "reason": "C-11 (F11). `:79` is the import line; `pilgrimageDraw({…})` is called at `:757`."
+  },
+  {
+   "file": "research/sf/population-system.md",
+   "kind": "research",
+   "old": "FPI (481: §1, §2.1, §2.7, §2.9)",
+   "new": "FPI (481 when read; 493 after its 2026-10-17 amendments-n bracket at `:458`: §1, §2.1, §2.7, §2.9)",
+   "reason": "C-12 (F12). `wc -l` gives 493; the dated bracket at :458 postdates the read."
+  },
+  {
+   "file": "research/sf/population-system.md",
+   "kind": "research",
+   "old": "   rules it POP's row read by WY-4 [STATED].",
+   "new": "   rules it POP's row read by WY-4 — one bracket, ARCH_WY:1252, carries both: it quotes OD-FC-13's reconciliation (\"the band is POP's row per ODQ §130.3, WY-4 READS it\") and records the band as \"landing in this wave\", so the owning row and the landing wave are named apart, not in disagreement [STATED; Fable-reviewed 2026-10-18].",
+   "reason": "C-13 (F13). `DESIGN_FP_ARCH_WY.md:1252` holds both statements in one bracket; FOLD:506 agrees."
+  },
+  {
+   "file": "research/sf/population-system.md",
+   "kind": "research",
+   "old": "The lit movers of this note (P-2…P-10, P-14…P-17) predate FP and are not\nin the fold's table.",
+   "new": "The lit movers of this note other than P-17 (P-2…P-10, P-14…P-16) predate FP and are not\nin the fold's table; P-17's belief axes are pre-FP code (D-1, `wp/beliefAxes.js:1-10`) lit by FP's own LIT-1b fragment `FP_LIT_BELIEF` (`rules:766-773`, `:793-797`), which the fold's §2 SPINE row lists (FOLD:335) [Fable-reviewed 2026-10-18: P-17 was counted among the pre-FP movers].",
+   "reason": "C-14a (F14, fix amended). `beliefAxesEnabled` is lit by `FP_LIT_BELIEF` under \"THE FP LAYERS, SHIPPED LIT\" (`rules:754-797`), and the fold lists that set; the verifier's fix is amended to keep the distinction between P-17's pre-FP code and its FP lighting."
+  },
+  {
+   "file": "research/sf/population-system.md",
+   "kind": "research",
+   "old": "FAITH §9.6 item 7's \"no movers\" stands for population too.",
+   "new": "FAITH §9.6 item 7's finding (\"no host fact as movers\") stands for population too.",
+   "reason": "C-15 (F15). `research/sf/faith-system.md:1260` reads \"Pilgrims, missionaries and inquisitors have no host fact as movers.\"; \"no movers\" occurs nowhere in FAITH."
+  },
+  {
+   "file": "research/sf/population-system.md",
+   "kind": "research",
+   "old": "Verifier wrong on the cite: the flags sit at `rules:1024`, `:1028`, `:1029`, inside the original range.",
+   "new": "Verifier half right: `warLevyEnabled` is at `:1029`, inside the original range (`:1030` is `warDispositionEnabled`), but `1025-1030` missed `warEconomyDrainEnabled` at `:1024`; the exact cite is `rules:1024`, `:1028`, `:1029` [Fable-reviewed 2026-10-18].",
+   "reason": "C-16 (F16). `rules:1024` is `warEconomyDrainEnabled: true`, outside 1025-1030; `:1028` `warForageEnabled`, `:1029` `warLevyEnabled`, `:1030` `warDispositionEnabled`."
+  },
+  {
+   "file": "research/sf/population-system.md",
+   "kind": "research",
+   "old": "- **Distance**: only C (and the dark G and land law) read the digest. A, B, D, E and F read no distance and no travel",
+   "new": "- **Distance**: only C (and the dark G and land law) read the digest's distances or weeks; D reads the digest only to pick a steading's site cell inside the parent's partition on a canonized realm (`wp/settlementLifecycleKernel.js:54-60`, `:434-439`, `:808-822`; `wp/steadingTopography.js:11-38`). A, B, D, E and F read no distance and no travel",
+   "reason": "C-17 (F17). The founding samples the frozen territory partition, cost field and gate terrain; it reads no distance or time, so the second sentence holds, and the bullet now agrees with the file's own \"Gates and territory\" bullet."
+  },
+  {
+   "file": "research/sf/population-system.md",
+   "kind": "research",
+   "old": "eight conquest-doctrine flags, none set (reader 0)",
+   "new": "the eight-flag conjunction `CONQUEST_REQUIRED_RULES` (`wp/conquestDoctrineStage.js:63-72`; gate `wp/razingExecution.js:487`, `:1250`), never all true in any preset: `conquestDoctrineEnabled` is in none, five are declared false in FS, two (`warLayerEnabled`, `peaceEngineEnabled`) are lit in DC/FS",
+   "reason": "C-18 (F18). \"none set\" is false (`rules:938`, `:1016`, `:725`); the D cells stand because the conjunction holds nowhere."
+  },
+  {
+   "file": "research/sf/population-system.md",
+   "kind": "research",
+   "old": "(7) players see none of this today except believed trends in three presets on canonized maps.",
+   "new": "(7) players see none of this movement today; what the host does show every viewer of a settlement's dossier is its head count and a retrospective trend sentence over the same 12-row ring (§8.1, §8.5), while the believed trends of three presets are held by the courts' belief records and read by no surface (§4) [Fable-reviewed 2026-10-18: was \"players see none of this today except believed trends in three presets on canonized maps\"].",
+   "reason": "C-19a (V-1). No component reads the belief record's `populationTrendBand` (grep of `src/components`: the two readers of that name import `src/domain/display/trendLens.js`, the dossier's ground-truth band); the Overview tab prints the head count (`OverviewTab.jsx:287`) and the DS-POP-3 sentence (`:183`, `:294`) for the player audience (`generalDeskRead.js:259`; `stateProseKernel.js:174-178`), silent only on a public gallery dossier (`generalDeskRead.js:173-176`). The file's own lines 391-392 and 742-743 already said the believed trend is the courts', not the players'."
+  },
+  {
+   "file": "research/sf/population-system.md",
+   "kind": "research",
+   "old": "- Audience: every column position is DM-secret today; players get no population movement.",
+   "new": "- Audience: every column position is DM-secret today; players get no population movement. What a player does get is the settlement dossier's own head count and its DS-POP-3 direction sentence (\"has been emptying\" … \"has been swelling\"), a retrospective band over the 12-row ring with the belief axes' thresholds, drawn for the player audience and silent only on a public gallery dossier [OBSERVED `src/domain/display/trendLens.js:1-60`; `src/components/new/tabs/OverviewTab.jsx:183`, `:287`, `:294`; `src/components/new/generalDeskRead.js:173-176`, `:259`; `src/domain/display/stateProse/stateProseKernel.js:174-178`; Fable-reviewed 2026-10-18].",
+   "reason": "C-19b (V-1). As C-19a (§8.5)."
+  },
+  {
+   "file": "research/sf/population-system.md",
+   "kind": "research",
+   "old": "  canonized realms, unconsumed by any map.",
+   "new": "  canonized realms, unconsumed by any map or dossier (grep: no component reads the belief record's `populationTrendBand`; the two component readers of that name import `src/domain/display/trendLens.js`, the dossier's own ground-truth band) [Fable-reviewed 2026-10-18].",
+   "reason": "C-19c (V-1). As C-19a (§8.5)."
+  },
+  {
+   "file": "research/sf/population-system.md",
+   "kind": "research",
+   "old": "5. **Audience filter defaults to DM-only** for population movement; the player view is either nothing or believed trends\n   (three presets, canonized) — the same narrowness FAITH §9.6 item 10 found.",
+   "new": "5. **Audience filter defaults to DM-only** for population movement; the player view is the host's own dossier trend sentence and head count (§8.5), which a lens may draw for players as a public host fact, or nothing — the believed trends of three presets reach no player surface [Fable-reviewed 2026-10-18: was \"either nothing or believed trends (three presets, canonized)\"] — the same narrowness FAITH §9.6 item 10 found.",
+   "reason": "C-19d (V-1). As C-19a (§9.3 #5)."
+  },
+  {
+   "file": "research/sf/population-system.md",
+   "kind": "research",
+   "old": "`src/domain/briefs/roadScene.js:158-163`].\n- **The Living-World row**",
+   "new": "`src/domain/briefs/roadScene.js:158-163`].\n- **Settlement dossier (every audience)**: the Overview tab's identity strip prints the head count and, once the ring holds two readings, the DS-POP-3 direction sentence — a retrospective band over `populationHistory` with the belief axes' thresholds, drawn for the player audience too and silent only on a public gallery dossier [OBSERVED `src/components/new/tabs/OverviewTab.jsx:183`, `:287`, `:294`; `src/domain/display/trendLens.js:1-60`; `src/components/new/generalDeskRead.js:173-176`, `:259`; `src/domain/display/stateProse/stateProseKernel.js:174-178`; Fable-reviewed 2026-10-18].\n- **The Living-World row**",
+   "reason": "C-19e (V-1). As C-19a (§8.1 omitted the one player-visible population surface)."
+  },
+  {
+   "file": "research/sf/population-system.md",
+   "kind": "research",
+   "old": "In every shipped preset population has no ceiling and compounds in big stable towns (§3.1, §4)",
+   "new": "In every shipped preset but SC (where the drift lane is off) population has no ceiling and compounds in big stable towns (§3.1, §4)",
+   "reason": "C-20 (V-2). SC declares `populationDynamicsEnabled: false` and `tierDriftEnabled: false` (`rules:973`, `:977`), as the file's §1 and §7 say."
+  },
+  {
+   "file": "research/sf/population-system.md",
+   "kind": "research",
+   "old": "**Births and deaths do not exist as quantities in shipped play.**",
+   "new": "**Natural births and deaths — a vital-rates term — do not exist as quantities in shipped play** (the deaths that do exist are event tolls: calamity's 2–14% in RR, DC and FS, M4's origin and road deaths on canonized realms, the sack's dead half in FS) [Fable-reviewed 2026-10-18: was \"Births and deaths do not exist as quantities in shipped play\"].",
+   "reason": "C-21 (V-3). The same paragraph names calamity deaths, §5.2 C names M4's two sinks and §3.7 the sack's dead half; the sentence as written contradicts them."
+  },
+  {
+   "file": "research/sf/population-system.md",
+   "kind": "research",
+   "old": "2. Does the territory projection read tier only, or tier plus a log-banded size inside the tier? (§9.1 #1)",
+   "new": "2. Does the territory projection read tier only, or tier plus a log-banded size inside the tier? (§9.1 #1) [Fable-reviewed 2026-10-18: RULED — J385 gap 4: tier plus a size third inside it, kSize = 1.15^(third − 1) (V13 §2.3, §3.9 (7)).]",
+   "reason": "C-22a (V-4). Ruled after the note (rulings lane J385.g4, UPHELD)."
+  },
+  {
+   "file": "research/sf/population-system.md",
+   "kind": "research",
+   "old": "   frozen site cells instead, and should they count as claim points, labels or both before they graduate? (§9.1 #4)",
+   "new": "   frozen site cells instead, and should they count as claim points, labels or both before they graduate? (§9.1 #4) [Fable-reviewed 2026-10-18: RULED — J384 (11): drawn at their frozen site points as claim points inside the parent's allegiance, never seats or chain members (V13 §3.9 (12)).]",
+   "reason": "C-22b (V-4). Ruled after the note (rulings lane J384(11), AMENDED in wording only)."
+  },
+  {
+   "file": "research/sf/population-system.md",
+   "kind": "research",
+   "old": "   for the host's WY-4 fence and the stored route path (§8.6)?",
+   "new": "   for the host's WY-4 fence and the stored route path (§8.6)? [Fable-reviewed 2026-10-18: RULED — J384 (8), (12): the populations lens is built in the lens order (plague, the sway and patrols, trade and populations, …) and draws every column class, the host overlay's hidden ones included (V13 §5.9 (5)).]",
+   "reason": "C-22c (V-4). Ruled after the note (rulings lane J384(8), J384(12), UPHELD)."
+  },
+  {
+   "file": "research/sf/population-system.md",
+   "kind": "research",
+   "old": "   the host overlay hides?",
+   "new": "   the host overlay hides? [Fable-reviewed 2026-10-18: RULED in part — J384 (12): the hidden columns are shown, styled by carriage, DM-only by default; J384 (9): the scrub reads plates kept in the world document's own cache, one per host advance, not the host timelapse's frames.]",
+   "reason": "C-22d (V-4). Ruled after the note (rulings lane J384(9), J384(12), UPHELD)."
+  },
+  {
+   "file": "research/sf/population-system.md",
+   "kind": "research",
+   "old": "   saves alone undercounts parents that have seeded.",
+   "new": "   saves alone undercounts parents that have seeded. [Fable-reviewed 2026-10-18: the design counts the parent's own people only in its size third and gives each steading its own claim point, so the sum is not double-counted (J384 (11) as amended by the rulings lane; V13 §3.9 (7) and (12)).]",
+   "reason": "C-23 (V-5). The host fact stands; the design chose against the recommendation with a stated reason, and a reader of the note must not be led the other way."
+  },
+  {
+   "file": "research/sf/lens-implications.md",
+   "kind": "research",
+   "old": "no premium check was traced in its opener, mount or store write",
+   "new": "no premium check of its own in its opener, mount or store write, but it opens only under an active campaign, which only a campaign manager (premium or elevated) holds, so it is premium-gated like the Living-World row (POP §7 legend as Fable-reviewed 2026-10-18)",
+   "reason": "C-24 (V-6). The +S row inherits F2 from POP §7 legend and V5; to be reconciled with the lenses lane's own corrections if it touches the same row."
+  },
+  {
+   "file": "docs/volumes/V13-world.md",
+   "kind": "design",
+   "old": "| trend | `.trend` | an arrow by the sign of the host's recent deltas, labelled \"by the host's law\" | D | every | DM; the party's believed trend where beliefs | plate |",
+   "new": "| trend | `.trend` | an arrow by the sign of the host's recent deltas, labelled \"by the host's law\" | D | every | DM; the party, as the direction the host's own dossier already tells it (its retrospective sentence over the same ring and thresholds) — never a believed trend, which the host records for its courts and shows to no one | plate |",
+   "reason": "D-1 (V-1). The row inherited POP §8.5/§9.3 #5's audience reading: the host keeps belief records for its courts (per-observer, `wp/beliefAxes.js`), reads the believed `populationTrendBand` on no surface, and keeps no belief record for the party, so \"the party's believed trend\" would be a fact the lens invents (V13 §5.8 (4)); what the host does show the party is its dossier's own head count and DS-POP-3 direction sentence over the same ring and thresholds (`trendLens.js:1-60`; `OverviewTab.jsx:287`, `:294`)."
+  }
+ ],
+ "rulings": [
+  {
+   "id": "R-1",
+   "verdict": "UPHELD",
+   "reason": "The note answers J380's \"and flow of populations?\" under the rider \"tell me how that changes your view if at all\" (lines 10-11): the owner's J380 asks \"do the same for … flow of populations\" after the faith read's rider, so it carries; the words are the owner's and verbatim at docs/PROGRESS.md:439.",
+   "consequence": "none"
+  },
+  {
+   "id": "R-2",
+   "verdict": "UPHELD",
+   "reason": "Size enters the territory projection as a band, never the raw count (§9.1 #1): chose the band over the count because the shipped count has no ceiling and compounds (wp/populationDynamics.js:292-385; rules:1170); the rulings lane's J385.g4 made the design's size term a third inside the tier, log-linear — the band the note asked for.",
+   "consequence": "none beyond C-20 (the SC overstatement) and C-22a (the ruling recorded at §10.3 #2)"
+  },
+  {
+   "id": "R-3",
+   "verdict": "UPHELD",
+   "reason": "A promotion is the dated event a projection re-derives on, not the population change (§9.1 #2): the mint is a step of at most 8% of the new floor (wp/tierOutcomeApply.js:324-335) and V13 §3.9 (13) moves borders only on dated events (J377(b).7 upheld by the rulings lane).",
+   "consequence": "none"
+  },
+  {
+   "id": "R-4",
+   "verdict": "UPHELD",
+   "reason": "\"Unclaimed land stays wild\" holds; steadings reinforce the parent's hinterland and do not extend the border or seed a territory until graduated (§9.1 #4): steadings sit inside the parent's exclusive partition (wp/steadingTopography.js:31-38), never join the digest and never graduate (lineageClaimEnabled false in FS, rules:1048); J384 (11) refined them into claim points with their own small reach inside the parent's allegiance, never seats or chain members — the note's own \"sub-seat claim points\".",
+   "consequence": "none (C-22b records the ruling at §10.3 #3)"
+  },
+  {
+   "id": "R-5",
+   "verdict": "AMENDED",
+   "reason": "Σ(parent + satellites) is the host's conserved size; a projection reading saves alone undercounts (§9.1 #5) → \"Σ(parent + satellites) is the host's conserved size (wp/settlementLifecycleKernel.js:34-40); the design counts the parent's own people only in its size third and lets each steading project its own claim point, so nothing is undercounted and nothing counted twice\": the host fact stands, but the design chose otherwise with a reason the rulings lane upheld (J384 (11): the steading projects itself and would be counted twice), and a reference note must not argue the other way without saying so.",
+   "consequence": "C-23 (a dated bracket in the research note); no design fragment, V13 §3.9 (7) :1832-1833 already states it"
+  },
+  {
+   "id": "R-6",
+   "verdict": "UPHELD",
+   "reason": "Patrols could lower road danger only if the host chooses to consume a patrol fact; road deaths read the embattlement ledger alone (§9.1 #6): sp/migration.js:151-153, :219-226 price road deaths from the M1 danger alone; J378.5 (upheld by the rulings lane) offers patrol coverage to the host consumed only by the host's choice and names embattlement's security relief as the one slot.",
+   "consequence": "none (an input to the owner's J391 (6) host-requirements document, the session's to place)"
+  },
+  {
+   "id": "R-7",
+   "verdict": "AMENDED",
+   "reason": "The §5b land law is a ready calibration for \"a per-settlement limit by tier\" (§9.1 #8) → \"a ready calibration for the per-settlement, per-tier reach limit J377 reads\": the substance holds (wp/demographicsLand.js:8-28, separations by tier pair in median primary hops) but the quotation is not J377's (F8).",
+   "consequence": "C-8"
+  },
+  {
+   "id": "R-8",
+   "verdict": "UPHELD",
+   "reason": "Migrants carry no faith in code; a religion lens may say \"refugees fled toward co-religionists\" only as M4's destination choice (§9.2 #1): wp/migrationKernel.js:225-229 reads cultureDistance (faith 0.30, confirmed by the rulings lane at sp/cultureDistance.js:165-199); WY-4's cargo is unbuilt (FOLD:342); J379.1 as amended and J382(c) refuse movers that carry faith.",
+   "consequence": "none (C-15 fixes the quotation)"
+  },
+  {
+   "id": "R-9",
+   "verdict": "UPHELD",
+   "reason": "Size pulls faith; the religion lens's gravity drifts toward the runaway centres — show it, do not correct it (§9.2 #3): an [INFERRED] reading consistent with FAITH §1 (faith-system.md:52) and with V13 §5.8 (4), no lens corrects a host law.",
+   "consequence": "none"
+  },
+  {
+   "id": "R-10",
+   "verdict": "UPHELD",
+   "reason": "The canonize door is a behaviour switch; whether a port-backed world counts as canonized at birth must be the host's explicit choice, recorded with the owner (§9.3 #1; §1 (2); §10.3 #1): upheld as the finding J384 (6) rested on (\"POP §9.3 #1\" in the rulings lane); the demand was met — the owner delegated the call (\"i leave all judgemtn to you\", J384) and J386/J387 ruled every new campaign on a native world canonized at birth as the product ruling the host implements (H22), upheld by the rulings lane — so it is superseded as an open demand.",
+   "consequence": "C-9b, C-9d, C-9e (dated brackets recording the ruling)"
+  },
+  {
+   "id": "R-11",
+   "verdict": "UPHELD",
+   "reason": "The lens mechanism must read the resolved rules and the canon marker, needs two layer kinds, should share the host timelapse's frame grammar but read arrays and snapshot, must not inherit the overlay's shortcuts, and draws netted transfers along regional links (§9.3 #2–#4, #6–#7): each rests on a host fact confirmed here or by the verifier (rules:692-697; timelineTrack.js:81-86 against the array producers; map/TravelersLayer.jsx:93-108); J384 (12), (13) and V13 §5.8–§5.9 carry them.",
+   "consequence": "none"
+  },
+  {
+   "id": "R-12",
+   "verdict": "OVERTURNED",
+   "reason": "The player view is either nothing or believed trends in three presets on canonized maps (§9.3 #5; §1 (7); §8.5) → \"the player view is the host's own dossier trend sentence and head count, or nothing; the believed trend reaches no player surface\": no component reads the belief record's populationTrendBand (the two readers of that name import src/domain/display/trendLens.js), the host keeps no party belief record, and the dossier's Overview tab prints the head count (OverviewTab.jsx:287) and the DS-POP-3 direction sentence (:183, :294) for the player audience (generalDeskRead.js:259; stateProseKernel.js:174-178), silent only on a public gallery dossier; the file's own §4 and §8.5 lines say the believed trend is the courts'.",
+   "consequence": "C-19a–C-19e (research); D-1: V13 §5.9 (5)'s trend row, which promised \"the party's believed trend where beliefs\", now reads the direction the host's dossier already tells the party and never a believed trend; the size row's \"numbers DM\" is left as a design choice stricter than the host's dossier"
+  },
+  {
+   "id": "R-13",
+   "verdict": "NOT-A-RULING",
+   "reason": "\"Village seeding … ruled for the cap table (vetoable)\" (§10.1 #9) is the host manager's ruling recorded in DEMO §11b (:506) and quoted by the note, not a ruling of this session; the note's description of it is corrected by F10.",
+   "consequence": "C-10"
+  },
+  {
+   "id": "R-14",
+   "verdict": "UPHELD",
+   "reason": "The six disagreements between the reading seats settled by the synthesis seat (§11.3): each is a code reading confirmed at the host — FORCE_CALAMITY refused when disasters are dark (wp/realmVerbExecution.js:773-774); one flow per source per tick (wp/candidateEvents.js:385-415; the id at wp/flows.js:84 embeds the destination); majorChangesRequireProposal on in LR (rules:77 default, LR not overriding); M4 unreachable in QL/NC by preset (rules:692-697 with the P-7/P-8 rows); history rows carry the headline (wp/populationDynamics.js:605); an approved spatial emigration does not dispatch (the three dispatchMigrations callers).",
+   "consequence": "none"
+  },
+  {
+   "id": "R-15",
+   "verdict": "AMENDED",
+   "reason": "The 29 rows of §12's verification record: 26 hold as the verifier re-read them (V10's navalEnabled correction and V11's autonomy reading confirmed at source); V5 and M5 are amended per F2 (true of the three code sites, wrong as a conclusion — the surface is premium-gated through campaign management) and V12 per F16 (rules:1024 lies outside the original range 1025-1030).",
+   "consequence": "C-2e, C-2f, C-16"
+  },
+  {
+   "id": "R-16",
+   "verdict": "UPHELD",
+   "reason": "§7 note (d) (political autonomy) and §3.4 \"No apply mode\": session readings of wp/populationDynamics.js:495, wp/pulseKernel.js:1492-1552, wp/tierResourceDynamics.js:237, wp/settlementLifecycleFirstClass.js:422, :501 and the grep for applyMode in the lifecycle kernel, confirmed by the verifier.",
+   "consequence": "none"
+  }
+ ],
+ "notice_replacement": "> Fable-reviewed 2026-10-18: PASS-WITH-CORRECTIONS — the conclusions hold; 18 verifier and 6 validator findings fixed by 45 fragments (lane retrovalidation/population; J392)",
+ "summary": "Lane retrovalidation/population (Fable, the validator). I read research/sf/population-system.md whole (1,091 lines), the verifier's record whole, the run's rulings record, the J-rows the file quotes (J375, J377–J380) and the rulings since (J386, J387, J390, J391), amendments-j items 131–141 and amendments-i item 130, and re-checked every verifier finding at the host at 81f1cd96 myself (no git command). Record: /home/user/maps-architecture/docs/validation/retrovalidation-2026-10-18/population.md; CHECKPOINT and LANDED lines appended to /home/user/maps-architecture/docs/lane-events.log.\n\nVerdict PASS-WITH-CORRECTIONS. All 18 verifier findings are accepted (3 WRONG, 1 UNSUPPORTED, 14 IMPRECISE confirmed at source; F14's fix amended so P-17's pre-FP code and its FP lighting are told apart; F2 stays IMPRECISE because the three code sites it names really carry no check — the defect is the conclusion). Six findings of my own: V-1 (WRONG, reached the design) — the believed population trend is read by no surface and the host keeps no party belief record, while the settlement dossier prints the head count and a DS-POP-3 trend sentence to the player audience (trendLens.js, OverviewTab.jsx:287/:294, generalDeskRead.js:259), so the note's \"players see believed trends\" (lines 117, 831-832) is overturned and V13 §5.9 (5)'s trend row gets one design fragment; V-2 the §9.1 #1 \"every shipped preset\" overstatement (SC's drift lane is off); V-3 \"births and deaths do not exist\" overstated against the file's own calamity, M4 and sack deaths; V-4 four §10.3 questions and §1 (2) ruled since (J384 (8), (9), (11), (12), J385 gap 4, J386/J387) and bracketed; V-5 §9.1 #5's conserved-sum recommendation superseded by J384 (11) as amended; V-6 lens-implications.md:34 inherits F2. Sixteen rulings judged: 13 UPHELD (R-5 and R-7 and R-15 AMENDED, R-12 OVERTURNED, R-13 NOT-A-RULING). 45 corrections (44 research, 1 design), every old fragment tested for exactly one match in its file; no journal row is wrong. Every inferred number in the note was recomputed with JavaScript rounding and holds except the two the verifier flagged."
+}

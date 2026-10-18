@@ -1,0 +1,268 @@
+{
+ "verdict": "PASS-WITH-CORRECTIONS",
+ "corrections": [
+  {
+   "file": "docs/volumes/V13-world.md",
+   "kind": "design",
+   "old": "  waterLanes: { lit: boolean; lanes: { a: string; b: string }[] } /* the host's adopted water lanes and whether its lane system is lit; J382 */;",
+   "new": "  waterLanes: { lit: boolean; lanes: { a: string; b: string }[] } /* the host's adopted water lanes and whether its lane system is lit — lit as its caravans read it: its frozen record carries a versioned lane slot with at least one lane, never its fleet switch (V13 §8.5's H25); J382 */;",
+   "reason": "J382(b) AMENDED: V13 §3.9 (6) and §5.9 (2)'s banner read `waterLanes.lit` and H13 asks the host to send it, but nothing defines it; the host's \"Sea lanes\" toggle (`navalEnabled`) governs fleets and blockades while its caravans, refugee pricing and plague latency read the record's lane slot in every preset (`sp/distanceRead.js:286-292`; TRADE §9 #7) — without the definition a host builder may wire the toggle and the sway would cross water where no caravan does (or be barred where every caravan sails). V13 §2.2 line 812 as the volume stands on 2026-10-18; one line, no other text changes."
+  }
+ ],
+ "rulings": [
+  {
+   "id": "J377(b).1",
+   "verdict": "UPHELD",
+   "reason": "borders as a projection of host political facts over terrain: chose the projection over borders as a map fact because every political fact is the host's and the host's own territory is a total nearest-seat partition with no political plane (RR-44; V13 §3.9 head, J-V13.63)",
+   "consequence": "none"
+  },
+  {
+   "id": "J377(b).2",
+   "verdict": "UPHELD",
+   "reason": "strength exponential in tier, size and prosperity band, decaying with travel time: a log-domain law honours T2's 'bounded but exponential'; file m's arithmetic size/prosperity steps (exponential in tier only) were corrected by J385 gap 4 to 1.15^third and 1.1^rung (V13 §2.3, §3.9 (7), T-V13-41 (r))",
+   "consequence": "none"
+  },
+  {
+   "id": "J377(b).3",
+   "verdict": "UPHELD",
+   "reason": "restates T2's per-settlement upper limit: reach = min(Λ·τ, capTier) (V13 §3.9 (7))",
+   "consequence": "none"
+  },
+  {
+   "id": "J377(b).4",
+   "verdict": "UPHELD",
+   "reason": "hostile push, allies at the midline, contested marches no one's: a local-pair comparison with a debatable band over a filled partition because T2 names 'dynamics of neighbors' and a fill contradicts T2's limit; the pushing strength became the host's own order under J384 (3) (V13 §3.9 (8), J-V13.84)",
+   "consequence": "none"
+  },
+  {
+   "id": "J377(b).5",
+   "verdict": "UPHELD",
+   "reason": "the vassal chain as the realm with reinforcement decaying by travel time and diminishing returns: a bounded chain bonus and reinforcement within the host's own band (Treinf) over unbounded summation because a summed realm snowballs (V13 §3.9 (9), J-V13.67, T-V13-41 (d))",
+   "consequence": "none"
+  },
+  {
+   "id": "J377(b).6",
+   "verdict": "UPHELD",
+   "reason": "wild land, forts as claim points, armies contest but do not own: chose 'contest, never own' over field armies holding land because the owner's T3 names military strength the enforcement and tie-breaker under the ceiling, so a held point is a garrisoned site and a field army is presence until a dated outcome (V13 §3.9 (10)–(11))",
+   "consequence": "none"
+  },
+  {
+   "id": "J377(b).7",
+   "verdict": "UPHELD",
+   "reason": "borders move only on dated events with hysteresis so the frozen territory and gates replay: dated revisions over continuous re-derivation or a host re-canonize per event because the host's record is never re-derived on load or per tick (`campaignWorldPulseSlice.js:370`) and gates must never come from a political partition (V13 §3.9 (13), J-V13.65)",
+   "consequence": "none"
+  },
+  {
+   "id": "J378.1",
+   "verdict": "UPHELD",
+   "reason": "civil and military parts each fading with travel time restate T3; the military inputs the reading named (garrisons, standing forces, levies) are bands the host lacks (`wp/militaryStrength.js` has six facets), so J384 (4) made them the host's capacity facets bar the economy, chosen over map-defined bands because the host is never re-implemented (V13 §5.8 (4))",
+   "consequence": "none"
+  },
+  {
+   "id": "J378.2",
+   "verdict": "UPHELD",
+   "reason": "restates T3's 'still having the cieling': M enters only debatable cells, never extends a reach, never touches a seat cell (V13 §3.9 (10), T-V13-41 (d))",
+   "consequence": "none"
+  },
+  {
+   "id": "J378.3",
+   "verdict": "UPHELD",
+   "reason": "restates T3's tie-breaker inside the contested march with `margins.mil` (V13 §2.3, §3.9 (10))",
+   "consequence": "none"
+  },
+  {
+   "id": "J378.4",
+   "verdict": "AMENDED",
+   "reason": "new text: 'a fight over the march is a dated host event whose VERDICT — never the engagement itself — moves a hold band that re-derives the line inside the debatable cells only, through the same dwell-guarded revision, shown as a `fighting` overlay (never \"embattled\", the host's landed word for a settlement's embattlement phase) until it resolves'; chose the verdict as the only mover because the host computes no outcome for an open engagement (a drift raid none at all, `relationshipRulesAdversarial.js:277-312`) and `fighting` over 'embattled' because the fold gives `embattled` one meaning (:452; RR-8)",
+   "consequence": "none: V13 §3.9 (11), J-V13.68, J-V13.78 and §3.11.6 law (9) already state it; the amendment corrects the journal reading's words only"
+  },
+  {
+   "id": "J378.5",
+   "verdict": "UPHELD",
+   "reason": "patrols derived per segment and week from enforcement, hostility and route class, drawn, read by encounters, offered per segment and consumed only by the host's choice: a derived cadence on a fixed phase over a roll or a host body because the host has no patrol producer (its one slot is embattlement's capped security relief, `sp/embattlement.js:95-96,204`) and a cadence sent as a time would be a sixth distance price (J-RR.54; V13 §3.9 (14), J-V13.66, J-V13.97)",
+   "consequence": "none"
+  },
+  {
+   "id": "J379.1",
+   "verdict": "AMENDED",
+   "reason": "new text: the religion lens draws the host's hierarchy first, then each settlement's mixture with local standing and the patron's colour over its seat area, the realm rank and realm piety, pressure as weights on the host's carrier LINKS (never flows on routes), prescription, dated conversions, falls and fractures, suppressed creeds DM-only, ruler-versus-people tension by the host's law, pilgrim catchments only as the host's own set; holy and hidden cult sites only as DM-placed world sites (J384 (10)); no pilgrims, missionaries or inquisitors as movers until the host runs them; believed faith only where the host records belief; the containment cap bounds tier changes, not spread; born worlds hold no deity and the default preset's spread is dark, so the lens opens still and says so — chose the faith read's ten corrections (FAITH §9.6; the owner's J380) over the first reading because it rested on design documents the code differs from",
+   "consequence": "none: J380 recorded the change and V13 §5.9 (6) with its refusals carries the amended reading"
+  },
+  {
+   "id": "J379.2",
+   "verdict": "UPHELD",
+   "reason": "one lens mechanism shared by every lens: one record and one drawing path over a code path per lens because eight legends, audience filters and scrubs would drift apart (V13 §5.8, J-V13.87; D-V13.8 records culture, danger and calamity as later rows)",
+   "consequence": "none"
+  },
+  {
+   "id": "J382(a)",
+   "verdict": "UPHELD",
+   "reason": "the owner's 'yes'; the host has exactly one composite (`sp/cultureDistance.js:165-199`), a live read with no culture coordinate, so the map reads it banded and dwelled and invents none (V13 §3.9 (6), H13)",
+   "consequence": "none"
+  },
+  {
+   "id": "J382(b)",
+   "verdict": "AMENDED",
+   "reason": "new text: 'water carries the sway only where the host's lane system is lit — lit as its caravans read it: its frozen record carries a versioned lane slot with at least one lane, never its fleet switch — and across water a power holds a coastal LODGEMENT, never the far shore'; the owner's 'yes' stands; chose the record's lane slot over the toggle because `navalEnabled` governs fleets and blockades while caravans, refugee pricing and plague latency read the slot in every preset (`sp/distanceRead.js:286-292`; TRADE §9 #7; H25), and 'lodgement' because J-RR.8's register bars *foothold*",
+   "consequence": "V13 §2.2 `waterLanes` comment, old→new as in corrections (one line)"
+  },
+  {
+   "id": "J382(c)",
+   "verdict": "UPHELD",
+   "reason": "no sea carrier for faith over coastal faith footholds because faith has no geographic carrier at all (FAITH §9.3) and one would be simulation the host does not run (V13 §5.8 (4)); V13 §5.9 (6) refuses it, T-V13-54 pins it",
+   "consequence": "none"
+  },
+  {
+   "id": "J384(1)",
+   "verdict": "UPHELD",
+   "reason": "relative prosperity over absolute because the host's band ratchets upward realm-wide in lit presets (PROSP §3.3, §4) and an absolute exponential term would inflate every reach together, while relative keeps the order between seats and reads 0 on a born campaign whose band is frozen; the held lower median with a whole-world revision over continuous re-reading because borders move only on dated facts; ±3 bounds a seven-rung ladder (V13 §3.9 (7), J-V13.83)",
+   "consequence": "none"
+  },
+  {
+   "id": "J384(2)",
+   "verdict": "UPHELD",
+   "reason": "the plain form over the trade-tie form because the host's tie is a relation label the sway's classes already read (`wp/migrationKernel.js:197`) and the host's own contraband gate passes none (`wp/supplyKernel.js:754-756` → `sp/smuggle.js:176`); the whole vector over dropping the alignment half because a partial composite is a map-invented measure (J382 (a)); dwell `culture.dwellWeeks` 13",
+   "consequence": "none"
+  },
+  {
+   "id": "J384(3)",
+   "verdict": "UPHELD",
+   "reason": "deference to `settlementStrength` over the map's τ because the host already decides, in the default preset, which hostile neighbour is stronger — it picks the raider (`relationshipRulesAdversarial.js:277-278`), qualifies the overlord (`relationshipRuleHelpers.js:453-464`) and feeds rebellion (`relationshipRulesCore.js:764`) — and two systems must never decide one contest; the host bands it in fifths itself (`beliefMap.js:184-185`, read by its envoys), so H13 asks a host fact (V13 §3.9 (8), J-V13.84)",
+   "consequence": "none"
+  },
+  {
+   "id": "J384(4)",
+   "verdict": "UPHELD",
+   "reason": "the host's facets bar the economy over map-defined garrison and standing bands because the host has none (six facets 0.26/0.24/0.20/0.12/0.10/0.08, `wp/militaryStrength.js:75-82`) and the economy facet already enters through the rung and culture's economy half (count prosperity once); the will facet stays because dropping a second facet would re-implement the host's law; the five floors are the host's (`armyStrength.js:48-53`)",
+   "consequence": "none"
+  },
+  {
+   "id": "J384(5)",
+   "verdict": "UPHELD",
+   "reason": "a fighting mark over ruling the aggressor the winner because `hostile_raid` records aggressor, victim and `war_pressure` with no outcome and no place (`relationshipRulesAdversarial.js:277-312`); H25 asks the outcome word (V13 §3.9 (11), J-V13.86)",
+   "consequence": "none"
+  },
+  {
+   "id": "J384(6)",
+   "verdict": "UPHELD",
+   "reason": "the birth canon over the premium canonize as the only route because the native world is the canon from its first week and every lens regime and canon-gated lane keys on the marker — a question the owner delegated whole (lens-implications §6 Q6, 'i leave all judgemtn to you'); existing campaigns untouched (genesis sacred, geometry 1); the door-1 question was reserved (J388) and answered (file r)",
+   "consequence": "none (H22, J-V13.100)"
+  },
+  {
+   "id": "J384(7)",
+   "verdict": "UPHELD",
+   "reason": "DM-only over a believed view because the built belief record holds no alignment (ALIGN §9.3 #12) and any player view would leak the truth (V13 §5.8 (7), J-V13.92)",
+   "consequence": "none"
+  },
+  {
+   "id": "J384(8)",
+   "verdict": "UPHELD",
+   "reason": "plague as the proving lens over the sway because it exercises legend, audience and scrub with the least invention (PLAGUE §9 #12) while the sway is the map's own projection (J-V13.93)",
+   "consequence": "none"
+  },
+  {
+   "id": "J384(9)",
+   "verdict": "UPHELD",
+   "reason": "plates in the world document's own cache over a store outside it, the base's rebuildable caches or the model digest because the host keeps no history of bands, shares or axes and its rings are 80/240/12 (fold requirement 23); horizon declared, gaps said (V13 §5.8 (8), J-V13.91, BCR-V13-38)",
+   "consequence": "none"
+  },
+  {
+   "id": "J384(10)",
+   "verdict": "UPHELD",
+   "reason": "DM-placed sites over generated ones because the host holds no faith geometry (FAITH §9.3, §9.6 #6) and over none because the DM wants them and the deity tag is a map fact the host may adopt (H28; V14 §2.2 `devotion`, J-V13.95)",
+   "consequence": "none"
+  },
+  {
+   "id": "J384(11)",
+   "verdict": "AMENDED",
+   "reason": "new text: 'steadings are drawn at their frozen site points and project their own small reach as CLAIM POINTS inside the parent's allegiance — never seats and never chain members (no bonus, no continuity test); the parent's size third counts its own people only'; chose the claim point over a chain member because the host's satellite is property inside the parent's exclusive partition (`steadingTopography.js:17-35`), never a seat, so a member's bonus and continuity test would invent a polity; exclusion from the size third over POP §9.1 #5's conserved sum because the steading projects itself (no double count)",
+   "consequence": "none: V13 §3.9 (9), (12), T-V13-41 (g) and H13 already say claim point, never a chain member"
+  },
+  {
+   "id": "J384(12)",
+   "verdict": "UPHELD",
+   "reason": "every column class over the host overlay's shortcut because the overlay skips any pair with a port or circle endpoint (`TravelersLayer.jsx:93-101`), hiding exactly the columns the host may have priced by sea or circle (J-V13.94)",
+   "consequence": "none"
+  },
+  {
+   "id": "J384(13)",
+   "verdict": "UPHELD",
+   "reason": "still-with-reason over hiding because a hidden lens cannot tell the DM why nothing moves and the default preset's name overstates what a born campaign runs (`NEW_CAMPAIGN_SIMULATION_PRESET_ID` null, `wp/simulationRules.js:31`; V13 §5.8 (2)–(3), J-V13.88)",
+   "consequence": "none"
+  },
+  {
+   "id": "J385.g5",
+   "verdict": "UPHELD",
+   "reason": "the host's current gate law until the soak, the crossing holder then offered per gate: over the crossing holder at once because gates drive tolls, interception and contraband every tick (a same-seed shift) and the sway's cells are UNMEASURED until the 300-year soak; within the owner's delegation, recorded vetoable (V13 §11, J-V13.96, H16)",
+   "consequence": "none"
+  },
+  {
+   "id": "J385.g15",
+   "verdict": "UPHELD",
+   "reason": "a bounded, visible deferral of the 2026-08-05 directive over lighting absolute distance at once because every host mover band was measured on the 2–8 week spectrum (`sovereigntyReach.js:39,81`) and would go dead on a province world, against the host's own per-map spectrum law (H2); ends when H2 lands, not extended without the owner's word (V13 §12 :4357-4362)",
+   "consequence": "none (the host-requirements document of J391 (6) should name the deferral where the owner reads host asks — the session's, not this lane's)"
+  },
+  {
+   "id": "J385.g4",
+   "verdict": "UPHELD",
+   "reason": "log-linear size and prosperity factors over arithmetic steps because T2 says 'exponential to the size, tier, prosperity' and arithmetic steps honoured it in tier only (V13 §2.3 :1099-1100, §3.9 (7), T-V13-41 (r))",
+   "consequence": "none"
+  },
+  {
+   "id": "J386.g6",
+   "verdict": "UPHELD",
+   "reason": "every new campaign over a premium-only birth canon because J384 (6)'s purpose fails for any campaign left uncanonized and the owner owns both products; in the host the seam is nearly moot — campaigns are created and listed active only for premium or staff (`campaignSlice.js:586`, `useWorldMapCampaignModel.js:58-61`) while the canonize reads the tier alone (`campaignWorldPulseSlice.js:391`) — H22 records that nuance",
+   "consequence": "none"
+  },
+  {
+   "id": "J386.g7",
+   "verdict": "UPHELD",
+   "reason": "a verdict-only tie-break while force bands are dark over 'no line moves until force bands are sent' because a field battle the host decides where its war layer runs would otherwise leave its march unmoved, defeating J384 (5) in every preset until H13; the civil threshold sits below the enforced one and the first window with force bands re-reads every verdict-held cell (V13 §3.9 (10)–(11), J-V13.101, T-V13-41 (s))",
+   "consequence": "none"
+  },
+  {
+   "id": "J387.g1",
+   "verdict": "UPHELD",
+   "reason": "a product ruling over a hedge handed back to the host because the hedge let a host builder gate the birth canon on the entitlement, the outcome J386 ruled out; the lens-p critic confirmed the hedge gone from H22, J-V13.100, §11 and the brief",
+   "consequence": "none"
+  },
+  {
+   "id": "J388.g2",
+   "verdict": "AMENDED",
+   "reason": "as J389 corrects it: the additive re-canonize is a NEW host behaviour (H22) — the host runs a receipted re-canonize itself between advances after the founding over the additive canon (the seats added since, their re-derived seat territories and the water candidates they reach, nothing else), carrying its own versions, slots and prior seats' ports forward; the parenthesis '(the port rule already re-derives on founding events)' is struck — verified: the host's 'founding event' is an institution founded at an existing seat (`campaignSpatialCanonize.js:126-127`), the canonize is callable only from the gate control behind the tier (`LivingWorldGates.jsx:119`; `campaignWorldPulseSlice.js:391`), 'NEVER re-derived on load or per tick' (:370), every run rebuilds the whole record (`campaignSpatialCanonize.js:105`), a seat founded since stays out until the DM re-maps (`canonMembership.js:5-13,116-127`); the ruling itself stands over every later founding left unmapped (defeats J384 (6)) and over the canon at the log head (would free the DM's premium act, J-V13.106)",
+   "consequence": "none: J389, file q items 902 (c) and 909 (a), H22, J-V13.100 and J-V13.106 already state the corrected ruling"
+  },
+  {
+   "id": "J388.Q4",
+   "verdict": "UPHELD",
+   "reason": "reserving Q4 over ruling it under the delegation because base §11.4 opens door 1 only on the owner's explicit word — the one decision the delegation cannot reach; the owner answered '1. yes' on 2026-10-18 (file r item 926; J391 (1)), lighting H5 and H22",
+   "consequence": "none (applied by file r; check/amendments-r PASS)"
+  },
+  {
+   "id": "J389.corr",
+   "verdict": "UPHELD",
+   "reason": "the correction to J388 is verified at 81f1cd96 line by line (see J388.g2); keeping J388's ruling while striking its description is right because the ruling rested on J384 (6)'s purpose, not on the claimed precedent",
+   "consequence": "none"
+  },
+  {
+   "id": "J389.rare",
+   "verdict": "UPHELD",
+   "reason": "verified: `createCampaign` refuses below premium unless staff (`campaignSlice.js:584-587`), active campaigns are listed (so advanced) only for premium or elevated accounts (`useWorldMapCampaignModel.js:58-61`, `CampaignFolder.jsx:215-217`), the simulator is premium (fold requirement 17), while the canonize reads the tier alone — the one real case is a staff-created campaign on a non-premium account, which H22 names",
+   "consequence": "none"
+  },
+  {
+   "id": "J389(2)",
+   "verdict": "UPHELD",
+   "reason": "additions-only over an additive removal because a removal deletes crossings and re-partitions the removed seat's whole territory among its neighbours — a larger shift of the lived ledgers' keys than a binding's local re-partition — and a ghost seat left in the record is the host's existing behaviour for every deletion today (death keeps the digest cell, `DESIGN_SETTLEMENT_LIFECYCLE.md:12-15`); removals are rare (never a death, resettlement or satellite)",
+   "consequence": "none"
+  },
+  {
+   "id": "J389(4)",
+   "verdict": "UPHELD",
+   "reason": "the born-canonized scope over every canonized campaign because an existing campaign's record is geometry 1, over which no port canon can be built without the elective rebase, and the rebase is itself the premium DM's act whose DM can re-canonize (J-V13.106, T-V13-37 (c)); extending to rebased campaigns stays an option the host may ask for, changing nothing today",
+   "consequence": "none"
+  }
+ ],
+ "notice_replacement": "none (journal rows)",
+ "summary": "Lane retrovalidation/rulings (Fable 5.1): every ruling and reading of PROGRESS.md rows J377–J389 was read whole and judged against research/sf/lens-implications.md and fp-realm-review.md (whole), V13 §3.9/§5.8/§5.9/§8.5/§9/§11/§12, the six system notes' §9, the five critic records, file q and file r, and the host at 81f1cd96 wherever a ruling rests on a host fact (cultureDistance and its three callers, settlementStrength and its raid/overlord/rebellion readers, the six capacity facets and the five floors, the fifths banding the envoys read, the canonize store action and its premium gate, canonMembership, the sea-lane slot gate, embattlement's security relief, the overlay's hidden columns, createCampaign/active-campaign gating). Result: 42 rulings judged — 37 UPHELD, 5 AMENDED (J378.4 the verdict not the fight moves the line and the overlay is `fighting`; J379.1 the religion reading as the faith read corrected it; J382(b) \"lit\" means the record's lane slot, never the fleet switch, and \"lodgement\" not \"foothold\"; J384(11) claim points, never chain members; J388.g2 as J389's correction states it), 0 OVERTURNED. One design fragment owed (V13 §2.2's `waterLanes` comment, kind design); every other amendment is already stated in the applied V13 text. Four suspected defects were checked and shown INVALID (H13's fifths banding is a host fact; the five floors apply after renormalisation; the J-RR.14 deferral is bounded and visible; J384 (6)/J386 were within the owner's whole delegation, the door-1 part reserved and now answered). Record: /home/user/maps-architecture/docs/validation/retrovalidation-2026-10-18/rulings.md; LANDED line appended to /home/user/maps-architecture/docs/lane-events.log at 00:35Z (fable; J392). No git command run; no file edited but the record and the log."
+}

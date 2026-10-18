@@ -1,0 +1,278 @@
+{
+ "checked": 1250,
+ "findings": [
+  {
+   "id": "FV-01",
+   "where": "fp-simulator.md:869",
+   "claim": "\"none of the 31 rows\" of the §3.4 engagement registry",
+   "verdict": "WRONG",
+   "evidence": "fold lines 357–386 are 30 table rows (35 kinds, five rows carry two kinds); the note's own §5 table also has 30 rows; no reading of the table gives 31 (SPINE:185's bracket says \"nineteen kinds becoming thirty-one\", a different count of kinds that the table, 35 kinds, does not match either)",
+   "fix": "\"none of the 30 rows (35 kinds)\""
+  },
+  {
+   "id": "FV-02",
+   "where": "fp-simulator.md:289–291",
+   "claim": "the UNBUILT RIM \"(… war circulation beyond WC-0, the epoch's tail, EC)\" tagged [STATED] fold §0 lines 53–60",
+   "verdict": "IMPRECISE",
+   "evidence": "fold lines 57–59 say \"war circulation, the epoch, EC\"; the qualifiers \"beyond WC-0\" and \"the epoch's tail\" are the note's reconciliation with §2 (WC-0A..0E built; EP-0..3 landed), not the fold's words",
+   "fix": "quote the fold (\"war circulation, the epoch\") and add \"[INFERRED from fold §2 rows WC/EP: WC-0 and EP-0..3 are built]\" for the qualifiers"
+  },
+  {
+   "id": "FV-03",
+   "where": "fp-simulator.md:345–346",
+   "claim": "WF fold status \"WF-2..7, WF-9 unbuilt\" [STATED fold §2 WF row]",
+   "verdict": "IMPRECISE",
+   "evidence": "fold line 341: WF-6 ROWS are BUILT, DARK (drafting unreachable) and WF-1d is built-dark; UNBUILT lists WF-2, WF-3, WF-4, WF-5, WF-6 executors, WF-7, WF-8 remainder, WF-9",
+   "fix": "\"WF-1d and WF-6's rows built dark; WF-2..5, WF-6 executors, WF-7, WF-8's remainder and WF-9 unbuilt\""
+  },
+  {
+   "id": "FV-04",
+   "where": "fp-simulator.md:359–360",
+   "claim": "`ensureGenesisRouteNetwork` \"has no caller in `src` (only comments name it)\"",
+   "verdict": "IMPRECISE",
+   "evidence": "no call exists (holds), but besides two comments (`routeNetworkCharter.js:521`, `routeNetworkFlows.js:634`) two STRING literals name it: `domain/certification/subsystemRowsWaves.js:390` (a certification description) and `lib/spatialUsage.js:362` (a registry string)",
+   "fix": "\"has no caller in `src` (two comments and two descriptive strings name it; none calls it)\""
+  },
+  {
+   "id": "FV-05",
+   "where": "fp-physical-integration.md:356",
+   "claim": "\"of which three files are new — CN (504), EC (2,996), MF (486), PG (431), COHERENCE_FOLD (708)\"",
+   "verdict": "WRONG",
+   "evidence": "the sentence lists FIVE new files; fold lines 40–41 confirm CN, MF, PG, EC were ledger-only at 00b648c9d and the fold itself is new; the five line counts recount correct (`wc -l`)",
+   "fix": "\"of which five files are new\""
+  },
+  {
+   "id": "FV-06",
+   "where": "fp-physical-integration.md:159 (row M4)",
+   "claim": "\"'the dangerous goods take the overgrown road' … [STATED DESIGN_ROUTE_LIFECYCLE.md:225-227]\"",
+   "verdict": "IMPRECISE",
+   "evidence": "lines 225–227 carry \"wanderers and smugglers may use hidden paths at a grade penalty, armies may NOT (J-D9 d)\"; the quoted phrase is §5b, lines 128–130",
+   "fix": "cite \"DESIGN_ROUTE_LIFECYCLE.md:128-130 (quote), 225-227 (hidden-path access)\""
+  },
+  {
+   "id": "FV-07",
+   "where": "fp-simulator.md:146–148",
+   "claim": "SP-6b SEVERITY \"(`glancing / telling / grave / ruinous`)\" [STATED] `DESIGN_FP_SPINE.md` lines 332–351",
+   "verdict": "IMPRECISE",
+   "evidence": "SPINE 332–351 is the band-family table and names no severity rung; the four rung words are at SPINE:1112 (the SP-A record) and the :424 bracket",
+   "fix": "cite \"lines 332–351 (the family), 1112 (the rungs)\""
+  },
+  {
+   "id": "FV-08",
+   "where": "fp-simulator.md:103",
+   "claim": "belief rows \"always carry a strength band and an alliance label; flag-conditional axes add population trend, observance, faith label\" — `DESIGN_FP_ARCHITECTURE.md` §2b item 2 \"(lines 400–405)\"",
+   "verdict": "IMPRECISE",
+   "evidence": "item 2 is lines 403–408 (lines 400–402 are item 1); the content holds there",
+   "fix": "\"(lines 403–408)\""
+  },
+  {
+   "id": "FV-09",
+   "where": "fp-simulator.md:646, 673",
+   "claim": "compiled \"L2 (lines 95–129)\"",
+   "verdict": "IMPRECISE",
+   "evidence": "L2 is lines 95–113; 115–128 is L3 EPISTEMICS",
+   "fix": "\"L2 (lines 95–113)\""
+  },
+  {
+   "id": "FV-10",
+   "where": "fp-simulator.md:623–625",
+   "claim": "WY's nine fields and WC's four ledgers \"(now signed by delegation, OD-FC-20; F9's shape ruled by OD-FC-21)\" [STATED] WY header lines 96–102",
+   "verdict": "IMPRECISE",
+   "evidence": "WY:100 bracket: F1..F9 are SIGNED \"by J-EM-9's reading of the 2026-08-05 blanket grant\" (compiled :3142); OD-FC-20 (fold:513) signs CR-WC-9, WC's batch only; F9's shape is OD-FC-21 (holds)",
+   "fix": "\"WY's nine fields are signed by J-EM-9's reading of the 08-05 blanket grant (WY:100); WC's four-ledger batch by OD-FC-20; F9's shape by OD-FC-21\""
+  },
+  {
+   "id": "FV-12",
+   "where": "fp-physical-integration.md:15 (summary), :73 (row E2)",
+   "claim": "\"hills are unknowable\" / \"relief between LAND_HEIGHT and MOUNTAIN_HEIGHT is invisible to it… hills unknowable\" given as quotation [OBSERVED spatialCost.js:290-291]",
+   "verdict": "IMPRECISE",
+   "evidence": "spatialCost.js:289–292 reads \"`hills` is deliberately almost-blind … relief between LAND_HEIGHT and MOUNTAIN_HEIGHT is invisible to it. Claiming agreement or disagreement there would be inventing a comparison the map cannot make\"; the word \"unknowable\" occurs nowhere in the file (grep)",
+   "fix": "quote \"relief between LAND_HEIGHT and MOUNTAIN_HEIGHT is invisible to it\" and put \"hills unknowable\" outside quotation marks as the note's gloss"
+  },
+  {
+   "id": "FV-13",
+   "where": "fp-physical-integration.md:15 (summary), :146 (row C3)",
+   "claim": "an airship \"adds … a blockade-bypass share (0.3)\"; \"blockade-bypass shares teleport 0.3 / airship 0.3 (besieged airship at half throughput) in food import rates\"",
+   "verdict": "IMPRECISE",
+   "evidence": "`src/data/foodImportRates.js:1–22`: `FOOD_IMPORT_RATES` are \"food-deficit import coverage\" rates for settlements WITHOUT an open trade route (teleport 0.3, airship 0.3, airshipBesieged 0.15, minorRoutes 0.08); only the besieged-airship rate and the teleport circle are blockade terms",
+   "fix": "\"food-import coverage rates teleport 0.3 / airship 0.3 (0.15 for a besieged airship dock; a teleport circle is the one channel a blockade cannot touch)\""
+  },
+  {
+   "id": "FV-15",
+   "where": "fp-physical-integration.md:124 (row S2)",
+   "claim": "seasonal overlay \"… summer 1.0 on land\" [OBSERVED spatialCost.js:71-115]",
+   "verdict": "IMPRECISE",
+   "evidence": "spatialCost.js:98: summer is 1.0 on every land class EXCEPT glacier 1.2 (the code's own comment at :92 also says \"1.0 on land\")",
+   "fix": "\"summer 1.0 on land except glacier 1.2\""
+  },
+  {
+   "id": "FV-16",
+   "where": "fp-physical-integration.md:103 (row R7)",
+   "claim": "\"('route by the known picture, roll outcomes against truth') [OBSERVED embattlement.js, knownWorld.js headers]\"",
+   "verdict": "IMPRECISE",
+   "evidence": "the quoted words are `DESIGN_ROUTE_LIFECYCLE.md:120–121` (§5b); knownWorld.js:4–6 says it in other words (\"dispatch + routing read the faction's KNOWN picture … every OUTCOME roll reads TRUTH\")",
+   "fix": "cite DESIGN_ROUTE_LIFECYCLE.md:120-121 for the quotation"
+  },
+  {
+   "id": "FV-17",
+   "where": "fp-simulator.md:198–199, 446 (and §6.2's \"War §1b\")",
+   "claim": "law M \"[STATED] war §1b (lines 70–74)\" / \"war §1b M (lines 70–74)\"",
+   "verdict": "IMPRECISE",
+   "evidence": "`DESIGN_WAR_RULINGS_ARCHITECTURE.md` law M is lines 66–70; lines 71–75 are E3 and I. The quoted text holds at 66–70",
+   "fix": "\"war §1b M (lines 66–70)\""
+  },
+  {
+   "id": "FV-18",
+   "where": "fp-simulator.md:513–515",
+   "claim": "\"Selected judgment blocks J-WR-n ([STATED] lines 1516–1592) …: J-WR-10 / J-WR-10-B (no new vocabulary where an existing ladder serves; the BORROW CENSUS before minting any ladder)\"",
+   "verdict": "IMPRECISE",
+   "evidence": "war volume J-WR-10 (lines 1554–1556) is \"R's extremity read: existing relationship-state axes … no new relationship vocabulary\"; J-WR-10-B occurs nowhere in the war volume (grep 0) — it is `docs/FABLE_VALIDATION_QUEUE.md:1775` (\"ONE LADDER WAS MINTED … J-WR-10 forbids a SECOND spelling of an existing concept\"), cited by `DESIGN_FP_ARCH_CENSUS.md:194` and fold req 21(d)",
+   "fix": "\"J-WR-10 (war:1554–1556, no new relationship vocabulary for R's read) as generalised by J-WR-10-B (FABLE_VALIDATION_QUEUE.md:1775: borrow before minting; no second spelling of an existing concept)\""
+  },
+  {
+   "id": "FV-19",
+   "where": "fp-physical-integration.md:137 (row L1) and :15 (summary)",
+   "claim": "\"zero hits for intervisib/line of sight/lineOfSight/viewshed across docs and src [OBSERVED grep]\"; summary \"(zero hits in docs and src for intervisibility/line-of-sight/viewshed)\"",
+   "verdict": "WRONG",
+   "evidence": "`src/domain/interior/interiorExport.js:8–10`: the interior UVTT export's \"`line_of_sight` is a 1:1 image of the wall segments … exactly one line-of-sight segment per (visible) wall\" (grep -i \"line-of-sight\" over src). Docs: zero hits (holds). The note's substantive point (no FP / Phase 5.5 / fabric volume reads intervisibility) still holds",
+   "fix": "\"zero hits in docs; in src only the interior VTT export's wall-blocking `line_of_sight` (interiorExport.js:8–10), which is not a terrain viewshed\""
+  },
+  {
+   "id": "FV-20",
+   "where": "fp-physical-integration.md:101 (row R5), :319 (I15)",
+   "claim": "J-D3 \"the engine paths via the spatial travel-cost raster\" [STATED DESIGN_REALM_DIRECTIVES.md:1613-1617]",
+   "verdict": "IMPRECISE",
+   "evidence": "lines 1613–1617 are J-D2's B1b measurement; J-D3 (CREATE_ROUTE, the quoted sentence) is lines 1630–1634",
+   "fix": "cite \"DESIGN_REALM_DIRECTIVES.md:1630-1634\""
+  },
+  {
+   "id": "FV-21",
+   "where": "fp-physical-integration.md:263 (§4.5 Law 6 bullet)",
+   "claim": "\"'the sea keeps no track — a decayed water route's memory is the QUIET QUAY (the shell port)' [STATED … DESIGN_REALM_DIRECTIVES.md:1773-1778]\"",
+   "verdict": "IMPRECISE",
+   "evidence": "the sentence is J-D11(c) at DESIGN_REALM_DIRECTIVES.md:1753–1755; 1773–1778 is D11-W1's portCapability text; the route-lifecycle citations carry Law 6, not this phrase",
+   "fix": "cite \":1753-1755\" for the quotation"
+  },
+  {
+   "id": "FV-22",
+   "where": "fp-physical-integration.md:365 (§7 item 6)",
+   "claim": "\"POP/FP_POPULATIONS recorded that the netted `populationFlows` still teleports refugees in spatial worlds (the WY-4 repair) … [DESIGN_FP_ARCH_POP.md:30; WY:159-166]\"",
+   "verdict": "IMPRECISE",
+   "evidence": "grep: neither DESIGN_FP_ARCH_POP.md nor DESIGN_FP_POPULATIONS.md mentions `populationFlows`; the record is WY's C3 bracket (WY:159–166). ARCH_POP:30 carries only the P2 zero-road-mortality half",
+   "fix": "\"WY recorded (WY:159-166) that … ; ARCH_POP recorded (:30) that P2 columns keep zero road mortality\""
+  },
+  {
+   "id": "FV-23",
+   "where": "fp-physical-integration.md:362 (§7 item 3)",
+   "claim": "WY's brackets record, among \"this note's most important code facts\", \"`travelersFilter` not persisted [WY:…704]\"",
+   "verdict": "IMPRECISE",
+   "evidence": "WY:704 calls it \"a PLAUSIBLE contradiction (the registry entry is read; the persistence path is not traced)\": `operationRegistry.js:531` says NOT saved, against the paragraph's premise that it IS persisted",
+   "fix": "\"`travelersFilter`'s persistence is contested (PLAUSIBLE; WY:704)\""
+  },
+  {
+   "id": "FV-24",
+   "where": "fp-physical-integration.md:36 (row D1)",
+   "claim": "\"V.1 three version axes (`spatialGeometryVersion`, `costLawVersion`, `overlayVersion`) [STATED PHASE55:1365-1378]\"",
+   "verdict": "IMPRECISE",
+   "evidence": "PHASE55:1372 names the axis `geometryVersion`; `spatialGeometryVersion` is the code's field (spatialDigest.js return object)",
+   "fix": "\"(`geometryVersion` in PHASE55:1372, `spatialGeometryVersion` in the digest), `costLawVersion`, `overlayVersion`\""
+  },
+  {
+   "id": "FV-25",
+   "where": "fp-physical-integration.md:175 (§2.11 I/O line)",
+   "claim": "\"29 rows are ONE-SHOT inputs (two of them also read per tick), 29 are per-TICK reads, 17 … OUT, 3 … no I/O\"",
+   "verdict": "WRONG",
+   "evidence": "recount of the I/O cell of all 80 ledger rows: ONE-SHOT 26 + \"ONE-SHOT + TICK\" 2 + \"ONE-SHOT, re-derived\" 1 = 29 (holds); TICK 29 + \"TICK (per session)\" (R1) 1 + \"TICK (slow)\" (R3) 1 = 31; OUT 17; \"—\" 3; total 29+31+17+3 = 80 (the note's figures sum to 78)",
+   "fix": "\"31 are per-TICK reads\""
+  },
+  {
+   "id": "FV-26",
+   "where": "fp-physical-integration.md:23 (the drafted §1 implication paragraph, kept \"for the retrovalidation\")",
+   "claim": "\"of 62 ledger rows … supplies 34 outright and 16 partly; 12 are missing — chiefly … the `kmScale` datum …, the storm/season overlays, the teleport and aerial edge sets, … wind\"",
+   "verdict": "WRONG",
+   "evidence": "recount of §8: 80 rows — SUPPLIED 30, PARTLY 17, MISSING 7 (T2, R4, R7, A2, L1, C2, M4), NONE-OWED 26 (assembler's note holds); D3 and S7 are SUPPLIED (with a host conversion/consumer owed), W7/S9 NONE-OWED/PARTLY, M1 NONE-OWED, M2 PARTLY — none of the drafted \"missing\" examples is MISSING in §8 except the route-graph products",
+   "fix": "replace the drafted counts and examples with §8's: 80 rows; 30 / 17 / 7 / 26; MISSING = T2, R4, R7, A2, L1, C2, M4 (and see FV-27 for the A1 bracket)"
+  },
+  {
+   "id": "FV-27",
+   "where": "fp-physical-integration.md:25 (assembler's note) and §8.1",
+   "claim": "the counts \"30 SUPPLIED … 17 PARTLY, 7 MISSING (… A2 gates …)\" stand without reference to the dated bracket below the §8 table",
+   "verdict": "IMPRECISE",
+   "evidence": "the 2026-10-17 amendments-n bracket under §8 (fp-physical-integration.md:458–468) re-reads A1 as PARTLY (SUPPLIED 29, PARTLY 18) and says \"row A2 (gates) is answered by the canon's crossings\" — the note's two count statements and §8.1's \"gates (A2)\" sentence predate it and are not pointed at it",
+   "fix": "add to the assembler's note: \"read with the amendments-n bracket under §8: SUPPLIED 29, PARTLY 18 (A1); A2 answered by the canon's crossings (J-RR.3)\""
+  },
+  {
+   "id": "FV-28",
+   "where": "fp-physical-integration.md:317 (I13)",
+   "claim": "Door 1 quotation \"At generation/canonize time a compact SPATIAL SUBSTRATE … The engine NEVER reads the render or the layout model directly\" at \"DESIGN_MAP_DOORS.md:239-247\"",
+   "verdict": "WRONG",
+   "evidence": "`docs/DESIGN_MAP_DOORS.md` has 143 lines (`wc -l`); the quoted text is at lines 31–36",
+   "fix": "\"DESIGN_MAP_DOORS.md:31-36\""
+  },
+  {
+   "id": "FV-29",
+   "where": "fp-physical-integration.md:340 (I36)",
+   "claim": "date \"2026-10-02/03 (ODQ §764.1/.4/.5, as the fold quotes it)\", author \"owner\", statement quoted as the owner's",
+   "verdict": "UNSUPPORTED",
+   "evidence": "no clone document dates ODQ §764; `docs/URBAN_BAND_INSTITUTIONS.md` (headed 2026-09-30) already cites §764.3 (:15) and §764.5 (:99), so §764 predates 10-02. The two quoted sentences are the fold chair's (fold:510, \"ODQ §764.1/.4/.5 — the owner's own word — forbid …\") and the urban-band doc's (:99) characterisations, not owner verbatim; the fold \"quotes\" nothing of §764",
+   "fix": "date \"≤ 2026-09-30 (ODQ §764; undated in the clone)\"; author \"owner (as characterised by the fold chair, fold:510, and URBAN_BAND_INSTITUTIONS.md:99)\""
+  },
+  {
+   "id": "FV-30",
+   "where": "fp-physical-integration.md:308 (I4)",
+   "claim": "the §4j PROXIMITY clause dated \"2026-07-11\"",
+   "verdict": "UNSUPPORTED",
+   "evidence": "PHASE55:715 marks §4j \"owner, round 20\"; the file dates rounds 14–16 to 2026-07-11 (PART VI, :1455) and rounds 21–22 to 2026-07-12 (:1605, :1653); round 20 carries no date; the header's \"2026-07-11, SIX rounds\" (:3) does not cover it",
+   "fix": "\"2026-07-11/12 (round 20; undated in PHASE55)\""
+  },
+  {
+   "id": "FV-31",
+   "where": "fp-simulator.md:698–699",
+   "claim": "\"LG is a no-op under omniscient (Q8). [STATED] `DESIGN_FP_ARCH_LG.md` §2 Q8\"",
+   "verdict": "IMPRECISE",
+   "evidence": "LG:88–90 (Q8, news carriage): \"LG-8 is a no-op under `infoMode: 'omniscient'`\" — only the news-carriage wave; LG-0..LG-7 and the journeys carry TIER \"spatial canon\" (LG:111–136), not belief infoMode",
+   "fix": "\"LG-8 (news carriage) is a no-op under omniscient (Q8); LG's other waves need spatial canon\""
+  },
+  {
+   "id": "FV-32",
+   "where": "fp-simulator.md:186–187",
+   "claim": "Class A: \"two wrong by their own comment: `STARVE_FULL_TICKS` and `CREDIT_TERM`, cured to 13 by OD-FC-15\"",
+   "verdict": "IMPRECISE",
+   "evidence": "fold:508 OD-FC-15 rules both cures \"SIGNED DESIGNS … re-recorded at their cure unit\" — not applied: at 81f1cd96 `warSiegeVerdict.js:141` `STARVE_FULL_TICKS = 12` and `generosityReactions.js:72` `CREDIT_TERM: 12`",
+   "fix": "\"ruled to be cured 12→13 by OD-FC-15 (signed designs, still 12 at 81f1cd96)\""
+  },
+  {
+   "id": "FV-33",
+   "where": "fp-simulator.md:437, 467, 738, 869",
+   "claim": "[OBSERVED] on four statements about DOCUMENTS or git history (the fold-merge stat via `git show --stat HEAD`; the SPINE's copy of req 17; the grep over the fold; the registry rows)",
+   "verdict": "IMPRECISE",
+   "evidence": "the note's own legend (fp-simulator.md:7–8): \"[OBSERVED] = I read code or a test\"; these are reads of documents (STATED-class) or of git history; the content of 467 and 738 holds (SPINE:129–137, fold grep recomputed), 869 is FV-01, 437 is in \"could not check\"",
+   "fix": "tag 467/738/869 [STATED] (the document read) and widen the legend to \"code, a test or git history\" for 437"
+  },
+  {
+   "id": "FV-34",
+   "where": "fp-physical-integration.md:47–48, 59–64, 97–102, 111–113 (rows D12, D13, T3, T4, T5, T8, R1, R2, R5, R6, A1, A2, A3)",
+   "claim": "[OBSERVED … per audit] / [OBSERVED audit §n]",
+   "verdict": "IMPRECISE",
+   "evidence": "the note's legend (:7): \"[OBSERVED] read in code or in the git history\"; these rows inherit the prior audit's reading (research/fmg/notes/sf-host-fmg-integration-audit.md §3–§4) rather than this note's own read. Spot re-reads at 81f1cd96 hold: spatialPackCapture.js:152–179 (1000×600, `frame_unverified`), TerritoryLayer.jsx:51,91 (2,400 dots; cellCount reconcile), steadingTopography.js:10–29,77–80 (cost-band inversion; nine landforms), routeNetworkGenesis.js:20–105 (user pairs, Urquhart, grade ladder, law version 1, unmounted), autoplacement.js:92–94 (100/30/4)",
+   "fix": "add to the legend: \"'per audit' = observed by the prior audit at 00b648c9 and carried because §7 shows no src change; spot re-read at 81f1cd96\""
+  },
+  {
+   "id": "FV-35",
+   "where": "fp-physical-integration.md:21 (summary)",
+   "claim": "\"The range holds exactly one commit, `cd347a57`\"",
+   "verdict": "IMPRECISE",
+   "evidence": "the note's own §7 (:355) says the range \"holds two commits: `cd347a57` … and the merge `81f1cd96`\"; the HEAD commit object (inflated from the pack) is the merge with parents 00b648c9… and cd347a57…, so `00b648c9..81f1cd96` includes the merge",
+   "fix": "\"one non-merge commit, `cd347a57`, plus the merge `81f1cd96`\""
+  },
+  {
+   "id": "FV-36",
+   "where": "fp-simulator.md:1090–1094 (§8 item 5)",
+   "claim": "\"terrain lives in generation (config), in calamities (`DISASTER_TYPE_BY_TERRAIN`), in Edit Mode's `worldFact` card, and in the FABRIC program's terrain-first law\" (an [INFERRED] item whose factual list reads as complete)",
+   "verdict": "IMPRECISE",
+   "evidence": "the list omits the one terrain home every FP clock reads: the frozen digest's cost law — `spatialCost.js:35–49` `BIOME_COST` × the elevation knee (:68, :385), `terrainClassOf` (:241–254) naming route-receipt terrain, and the `SEASON_TERRAIN_COST` overlay keyed by terrain class (:96–101) — all reached by FP movers through `distanceRead.hopWeeks`; armyTransit's terrain pace (armyTransit.js:1–12) likewise",
+   "fix": "add \"and in the frozen digest's cost law (BIOME_COST × the elevation knee, terrain classes, the seasonal terrain overlay), which every FP mover reads through hopWeeks\""
+  }
+ ],
+ "summary": "I verified research/sf/fp-simulator.md and research/sf/fp-physical-integration.md against the host repository at 81f1cd96 (/home/user/clausellstokes-lang/settlement-engine, read-only, no git commands). I read both notes in full, and read in full DESIGN_FP_COHERENCE_FOLD.md (708 lines) and DESIGN_ROUTE_LIFECYCLE.md (300). For every other host document, I opened each cited line range. I checked about 60 code sites at the lines the notes give. I checked about 1,250 claims: 385 tagged statements, the roughly 470 citations behind them, every stated line count (all 40 match), and the recounts.\n\nFindings: 34. Six are WRONG (FV-01, -05, -19, -25, -26, -28), two are UNSUPPORTED (FV-29, -30) and 26 are IMPRECISE. Two candidates, FV-11 and FV-14, did not hold up on re-read; they are withdrawn with evidence.\n\nfp-simulator.md: its §2 laws hold at their sources. The errors that matter: the engagement registry has 30 rows, not 31 (FV-01). The Class-A clock fixes are ruled but not applied; both constants are still 12 in the code (FV-32). WY's nine fields were signed by J-EM-9, not OD-FC-20 (FV-10). §8 item 5's list of where terrain lives leaves out the digest's cost law (FV-36). The rest are citation and tag drift.\n\nfp-physical-integration.md: the ledger recount holds at 80 rows, and the source-kind tally holds. The I/O tally is off by two: there are 31 per-tick rows, not 29 (FV-25). The drafted summary counts are wrong, as the assembler's note already said (FV-26). Neither count statement points at the later bracket that moves A1 to PARTLY (FV-27). The 'zero line-of-sight hits in src' claim is wrong: the interior VTT export has a line_of_sight field (FV-19). One citation points past the end of a 143-line file (FV-28). Two intent dates are not supported by the sources (FV-29, FV-30).\n\nNot checkable: git-history claims. The clone is shallow at 81f1cd96 and its parents are absent, though I confirmed the HEAD merge commit and its parents. Also not checkable: the 10-17 text of V13 and proposal-world-native, both amended since. And the ODQ, which is not in this checkout.\n\nRecord: /home/user/maps-architecture/docs/validation/retrovalidation-2026-10-18/fp-verify.md. LANDED line appended to /home/user/maps-architecture/docs/lane-events.log."
+}
