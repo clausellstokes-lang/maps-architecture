@@ -932,3 +932,62 @@ vs land ~90..1560, capacity 10, winter 2.5 (`seaLanes.js:96,102,119`)"; "≥2 el
 (ROUTE_LIFECYCLE:24-47)". (docs/validation/retrovalidation-2026-10-18/scripts-verify.md:35) — the host's travel modes and
 its route lifecycle laws a road integration on a host-bound world meets.
 
+**H.23 small.md (99 lines).**
+
+H98. SV-1/SV-2 ACCEPTED: the M0 gate check's K11 reading of §3.6's held set is wrong: "`crossing` (`deck_end`, `gate_end`)
+is held only `if (fromLevel !== 0 && …)` (l. 207); `feet` (`raised_foot`) always (l. 208); l. 209 is the smoothing step's
+`VERTEX_PINNED` flag, no role. Base §3.6: (2) 'unless `fromLevel = 0`', (3) the part-0 feet, (4) 'in a smoothing step,
+every kernel-pinned vertex'"; "The misreading's source is the gate's K11 text (`M0-world-sites-gate.md` l. 208–209, 216),
+a Fable-spawned file outside this family and not marked; it is named here so the gate's next edit carries it".
+(docs/validation/retrovalidation-2026-10-18/small.md:25–26, 48) — read with A-facts: plat/docs/build/checks/
+M0-world-sites-gate.md:207–219 (K11) carries "§3.6's held set (2)–(4) — crossing ends and raised feet are held",
+corrected to "(2)–(3): crossing ends, unless `fromLevel = 0`, and raised feet" (C-1, C-2). Any new gate row a site-road
+rule adds about gate or deck ends must use the corrected reading.
+
+H99. Verdict PASS-WITH-CORRECTIONS; C-10 is the one design fragment (V14 §2.4 `EncounterCrop.scenes` comment). (small.md:
+88, 93)
+
+**H.24 small-verify.md (73 lines).**
+
+H100. Base §3.6 (l. 5247–5252) as read: "(2) 'unless `fromLevel = 0`, a bridge's `deck_end` and a water gate's
+`gate_end`', (3) 'a raised way's part-0 feet', (4) 'in a smoothing step, every kernel-pinned vertex' (a flag, `held.ts:209`,
+not a role)"; the gate's test folder covers "K1, K2, K5, K6, K8, K13 and no K11 test". (docs/validation/
+retrovalidation-2026-10-18/small-verify.md:39, 54) — `gate_end` is a water gate's crossing end, not a road gate; one
+word, one meaning for "gate" (the register bars a bare *gate*, H-facts realm.md:176).
+
+**H.25 amendments.verdict.json (md5 926ed37b94db9717e1118e299f289bb5, 32 327 bytes; read whole — it carries the
+amendments lane's complete verdict while amendments.md's sections still read "(pending)").**
+
+H101. Verdict PASS-WITH-CORRECTIONS; "22 rulings tabled (14 UPHELD, 5 AMENDED, 3 NOT-A-RULING); 25 corrections (2 design,
+22 record, 1 research)"; the two design fragments are AV-1 (V13 `RouteCostLaw` comments) and D-2 (V13 §3.11.6's
+*Retention* sentence at :2454: "the map's own horizons cover user events, the polity supersession chain and the lens
+plates"). (amendments.verdict.json: summary; corrections 1–2)
+
+H102. AM-R2 UPHELD: item 659's reading of T1 includes "the encounter crop reading the polity at its point and week (V14
+E1, E4)". AM-R4 UPHELD: T3's "(d) patrols derived on a fixed phase, never a roll, offered as an extent (J-RR.54 AMENDED
+adds the force-band rung …)". (amendments.verdict.json: rulings AM-R2, AM-R4) — the encounter crop reads the polity (and
+so the patrols) at its point and week.
+
+H103. AM-R8 (e): "culture as a path resistance, `culture.phi` and `lodgementDays` own values labelled UNMEASURED"; (i)
+"the crossings kept on the unweighted seat territory (J-RR.53 UPHELD in that clause)". (amendments.verdict.json: AM-R8)
+
+H104. Correction 13 quotes item 721's evidence: "a host's removal of a placement is ungated, `mapSlice.js:473-481`".
+(amendments.verdict.json: correction 13) — with H33: a canonized host placement cannot be moved, only removed or added.
+
+**H.26 The other 23 JSON records** (`*.findings.json`, `*.verdict.json` except amendments.verdict.json). They are the
+structured forms of the md records read whole above (the corrections' exact old/new strings, the rulings' reasons). This
+lane read every entry of each that matches the grep (121 matching entries listed in the scratchpad run) and found each
+to carry the same fact as its md row already recorded here (e.g. trade.verdict.json RL-4 "keyed to gates"; realm.verdict.json
+J-RR.17/.18/.29/.54; rulings.verdict.json J378.5, J384(10)); it did not read the non-matching entries of these 23 files
+(see gaps). One record anomaly observed, not judged: `faith.findings.json` holds the scripts verifier's findings S1–S10
+and a summary of the scripts read, not the faith verifier's F1–F41 (faith.findings.json: summary, ids). (docs/validation/
+retrovalidation-2026-10-18/faith.findings.json)
+
+### I. The settlement-side road contract in the M0 checks (plat/docs/build/checks/)
+
+The grep for sites/placement/routes/world over the 247 check files (scratchpad `sites-roads/checks-grep.txt`, 177 lines)
+finds, besides the gate, only kernel-internal "routed"/"routing" (insertChain's router, "routed to the session") and the
+word "world" as world coordinates — none about world sites or world roads. A second grep for the settlement's own road
+contract (`through-road|context margin|frame edge|approach road`) finds the S4 backbone item M0-c-03 and the
+integration record integration-g12; those were read whole (below).
+
