@@ -1,0 +1,25 @@
+{
+  "name": "@plat/layout",
+  "version": "0.0.0",
+  "private": true,
+  "description": "S3-S8 at M0: siting slice, backbone, growth, districts, fields, the bent-cut infill, the stage registry and runner (§4, §14)",
+  "license": "UNLICENSED",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "plat-source": "./src/index.ts",
+      "types": "./dist/types/src/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@plat/kernel": "workspace:*",
+    "@plat/model": "workspace:*",
+    "@plat/site": "workspace:*",
+    "@plat/tables": "workspace:*"
+  }
+}

@@ -1,0 +1,123 @@
+[
+ {
+  "id": "VAF-R0S-03",
+  "severity": "major",
+  "kind": "DUPLICATE-HOME",
+  "claim": "Persists in part. Under MC-11 the model's repair declared `DormerRow` and `DormerKind` at \u00a72.6 (l.1377\u20131386, \"declared here, V02 \u00a72.2 cites it\") and `TierLay` and `LaidWing` at \u00a72.7 (l.2346\u20132347, \"declared here, V02 \u00a72.6 cites it\"), but V02 \u00a72.2 (l.412\u2013422) and \u00a72.6 (l.649\u2013650) still declare all four: two homes of each record (the texts agree today; = VM-R1T-05). The V01 half (V01 \u00a72.6 still declaring `HoodRecipe`, its comments now differing from \u00a72.9's) is VM-R1T-03 / VM-R1T-02.",
+  "required_change": "V02 \u00a72.2: delete the `interface DormerRow { \u2026 }` and `type DormerKind \u2026` declarations (with DormerKind's two comment lines) and add \"`DormerRow`, `DormerKind` and `PorchKind` are \u00a72.6's\" to the lead sentence's list; V02 \u00a72.6: delete the `LaidWing` and `TierLay` lines and write \"// `TierLay` and `LaidWing` are \u00a72.7's (V02 \u00a73.15.1 lays them)\".",
+  "owner": "V02",
+  "reported_by": "verify-agree-fabric-r1t"
+ },
+ {
+  "id": "VAF-R1T-01",
+  "severity": "blocker",
+  "kind": "DISAGREE",
+  "claim": "Three statements of one rule, and V02's now contradicts the base's home. \u00a74.5 (l.5879\u20135883, new this round, VAF-R0S-20's fix) rules for every rule table: a discrete cell at a band without a row reads the nearest rowed band below \u2014 under the four-row tables `comfortable` reads the modest cell \u2014 \"so a discrete column switches at the lower cut of the next rowed band above\". V02 \u00a73.10.1 (l.1499\u20131502) compiles its six-band `CompositionRow`s from the same four anchors by another rule: \"`comfortable` the cell-wise interpolation of modest and prosperous at its band centre \u2026; a discrete cell takes the richer anchor's value from the band's upper half (J-A19.43's switch at the cut)\". A plot in the upper half of the comfortable band reads the prosperous anchor's discrete cells (`axis`, roof kind, tower counts \u2026) by V02 and the modest anchor's by \u00a74.5, so the massing differs. J-A19.43 (manifested versus field band) says nothing about cuts; pipeline's hand-off named V03 and V11 only, so V02 was left on the old reading. V02 \u00a72.3's `CompositionRow` comment (l.453) and \u00a73.2 step 3 (l.815) say \"discrete cells switch at the cut (item 19)\" without naming the rule.",
+  "required_change": "V02 \u00a73.10.1: \"`squalid` reads the poor row and `comfortable` the modest row for its discrete cells and the cell-wise interpolation of modest and prosperous at its band centre for its continuous cells (\u00a74.5's band-set paragraph and its discrete-cell rule \u2014 one band-anchoring rule for every template-like table)\"; delete \"a discrete cell takes the richer anchor's value from the band's upper half (J-A19.43's switch at the cut)\"; V02 l.453 and l.815: \"discrete cells read \u00a74.5's discrete-cell rule (item 19)\".",
+  "owner": "V02",
+  "reported_by": "verify-agree-fabric-r1t"
+ },
+ {
+  "id": "G122-V02",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "claim": "Item 122 routes \"V02: the ruined look of a disaster's buildings\". V02 has no part (\"item 122\" 0 times).",
+  "required_change": "V02 states the temporary ruined look of a disaster's buildings (roofs, walls, rubble per band; never a change of `Building.massing` or the hash), with its test.",
+  "owner": "V02",
+  "reported_by": "verify-agree-fabric-r1t, verify-agree-time-r1t, verify-edges-world-r1t, verify-vol-V01-V02-r1t",
+  "also_reported": [
+   {
+    "by": "verify-agree-time-r1t",
+    "claim": "g item 122 routes to V02 'the ruined look of a disaster's buildings' (canon's dated ruling for items 121\u2013123; item 122 (b)'s 'whole neighbourhoods in a temporary ruined state'). V02 has no item-122 text.",
+    "required_change": "Write V02's item-122 part at build depth. While a disaster look stands, the building band draws its buildings in a temporary ruined look over the same massing: roof holes, burnt shells, fallen walls. It never changes `MassingRef`, `Composition`, the model or its hash, and is keyed by the condition's id and the building's lineage. Read it as item 123's exterior damage (G123-V02) at a look-only decay level set by the disaster's severity, so the exterior and V03's plan agree. Edges: a building the look and a real decay both reach (the higher of the two levels drawn); a standing Works; a deck building. A T-V2 test: the hash is identical with the look on and off, and the look ends in its condition's last week.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-edges-world-r1t",
+    "claim": "Item 122 (J135) names V02: the ruined look of a disaster's buildings. V02 has no crisis part.",
+    "required_change": "V02: a building in a disaster look's neighbourhood draws a temporary ruined exterior (a look over the same composition, never a change of wings, `MassingRef` or hash), agreeing with item 123's damage at the look's decay level (V03). Edges: a deck building; a tiered stack; a building under Works.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-vol-V01-V02-r1t",
+    "claim": "g item 122's V02 part (\"the ruined look of a disaster's buildings\"; canon, J135) is absent: V02 carries nothing of item 122.",
+    "required_change": "V02 writes its part at build depth as new design. It is a look only: `MassingRef`, the wings, the composition and the hash unchanged (item 122 (a)). **(1) Which buildings:** in the districts V01's part targets while the condition stands, a keyed share by severity (keyed by the condition's id and the building's lineage). **(2) What each draws:** fire, roofs burnt open and wings blackened; flood, lower storeys stained and outbuildings down; earthquake, fallen wings, towers and roof holes. Each is drawn over the roofscape and the massing, never re-laid. **(3) At each band** (item 122 (d)): the ruined quarters' tone at the city band, broken roofs at the district band, rubble and detail at the neighbourhood band, with item 112's second cues. **(4)** Agreement with V03's item-123 damage drawn as a look inside them (item 122 (d)). **(5) Exports:** pictures draw it, battle maps in the image only (item 122 (f)). **(6) The hand-over** to V06's aftermath: a building whose real fate (a ruin through the epoch path, `reconstruction`'s Works scaffolding) arrives takes it, and the look stops. **(7)** The wiring: the paint-program rows it reads (\u00a78.2's crisis rows), \u00a71b and \u00a71c. **(8)** \u00a73.18's edges and toggles: Show crises off gives byte-identical tiles; a building with no roofscape; a deck or underground building. **(9)** V02 \u00a76's lazy per-tile line. **(10)** A new T-V2 bar and a decision row.",
+    "severity": "major"
+   }
+  ]
+ },
+ {
+  "id": "G123-V02",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "claim": "Item 123 (d) routes \"V02: the exterior agreeing with the plan's damage\". V02 has no part (\"item 123\" 0 times).",
+  "required_change": "V02 states that the building band's exterior draws the plan's damage \u2014 a roof hole over a room a hole in the roof, a fallen outer wall run a gap in the footprint's outline \u2014 from the same thresholds, and its test.",
+  "owner": "V02",
+  "reported_by": "verify-agree-fabric-r1t, verify-agree-time-r1t, verify-edges-world-r1t, verify-vol-V01-V02-r1t",
+  "also_reported": [
+   {
+    "by": "verify-agree-time-r1t",
+    "claim": "g item 123 routes to V02 'the exterior agreeing with the plan's damage' (canon's dated ruling for items 121\u2013123; item 123 (d)). V02 has no item-123 text.",
+    "required_change": "Write V02's item-123 part at build depth. The building band draws the same damage from the same thresholds (\u00a76.3) at the same decay level (V06): a roof bay over a room past its threshold is a hole in the roof seen from above; a broken outer wall run is a gap in the footprint's outline. `MassingRef`, `Composition` and the footprint are unchanged. Edges: a solid monument (no roof bays); a building with no stored plan (the thresholds keyed by element id all the same); a deck building. A T-V2 test: the exterior's holes and gaps equal the plan's damaged roof bays and outer runs at every level.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-edges-world-r1t",
+    "claim": "Item 123 (J136) names V02: the exterior agreeing with the plan's damage. V02 has no such part.",
+    "required_change": "V02: the building band's exterior draws the plan's damage \u2014 a roof bay whose threshold the decay level has passed is a hole in the roof seen from above; a broken outer-wall run is a gap in the footprint's outline \u2014 reading V03's keyed thresholds, never its own.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-vol-V01-V02-r1t",
+    "claim": "g item 123's V02 part (\"the exterior agreeing with the plan's damage\", item 123 (d); canon, J136) is absent: V02 carries nothing of item 123.",
+    "required_change": "V02 writes its part at build depth as new design. **(1) The exterior's damage:** for an `abandoned`, `decayed` or `ruined` building (\u00a72.7 `Existence`) whose plan carries V03's damage layer, the building band's exterior draws the same damage. A roof bay over a room whose keyed threshold the decay level has passed is a hole in the roofscape facet over that room (each facet tied to the plan's roof-bay elements). A fallen outer wall run is a gap in the footprint's outline, broken ink over rubble. A lost upper storey shows as its wing's roof gone. **(2) The source:** V03's per-element thresholds (lineage and element id, \u00a76.3), monotone in V06's decay level, never redrawn: wings, `MassingRef` and their ids unchanged (item 123 (a), (b)). Restoration (`reused`, a repair) reverses it, a repaired element in patch material (item 114's patchwork). **(3)** The district and city bands' tone. **(4) Exports:** pictures draw it; V02 states whether the glTF, OBJ and CityJSON exports carry the damage or leave it out. **(5)** The wiring: \u00a71b and \u00a71c rows. **(6)** \u00a73.18's edges: a building never decayed byte-identical (the no-op pin); decay levels 0 and 1; a building first met ruined, its plan the one it had when built (item 123 (a)). **(7)** A new T-V2 bar: the exterior agrees with the plan on every element at every decay level; damage monotone; restoring reverses it; never-decayed byte-identical (item 123 (f)). **(8)** A decision row.",
+    "severity": "major"
+   }
+  ]
+ },
+ {
+  "id": "VAH-r1-13",
+  "severity": "minor",
+  "kind": "BROKEN-REFERENCE",
+  "claim": "A shared type cited at a home it left this round. Repair r1 moved the reader's and the oracle's types \u2014 `MapBrief`, `EntityCard`, `SiteCandidate`, `MeasureAnswer`, `FrameAnswer`, `RuleAnswer`, `ProfileAnswer`, `WhyAnswer`, `WhySection`, `WhyCause`, `WhyFamily`, `WhyPull`, `WhyLink`, `FieldDrivers` \u2014 from V10 \u00a72.13 to base \u00a711.2 (rendering's VAT-03, V10's VAT-04). V10 \u00a72.13 now opens 'The reader's and the oracle's types are \u00a711.2's' and keeps only `WhyProvider`, `WhySectionProvider`, the solver's explanation, `raisedOutcome`, `LookAnswer` and `FindAnswer`. This unit still names V10 as the home of moved types at: V02 l.2639 ('filling V10's `WhyAnswer` with no new field'). The chain resolves only through V10's pointer, and the text names the wrong owner of a shared type (principle (1)).",
+  "required_change": "V02 l.2639 reads 'filling \u00a711.2's `WhyAnswer` with no new field'.",
+  "owner": "V02",
+  "reported_by": "verify-agree-host-r1t"
+ },
+ {
+  "id": "VM-R1T-05",
+  "severity": "minor",
+  "kind": "RESTATEMENT",
+  "claim": "V02 \u00a72.2 still declares `interface DormerRow` and `type DormerKind`, and V02 \u00a72.6 `interface LaidWing` and `interface TierLay`, while the base now declares all four (\u00a72.6 DormerRow and DormerKind, 'declared here, V02 \u00a72.2 cites it'; \u00a72.7 TierLay and LaidWing, 'declared here, V02 \u00a72.6 cites it'; MC-11 via VAF-R0S-03). The texts agree today, but the set holds two declarations of each, and V02 \u00a72.2's lead sentence lists only `Wing.base`, `Wing.dormerRows`, `ComposedTower.base`, `Porch.kind`, `Composition.row` and `.grammar` as \u00a72.6's.",
+  "required_change": "V02 \u00a72.2: delete the DormerRow and DormerKind declarations and add `DormerRow`, `DormerKind` and `PorchKind` to the lead sentence's list of \u00a72.6's declarations; V02 \u00a72.6: delete the LaidWing and TierLay lines and cite '`TierLay` and `LaidWing` are \u00a72.7's'.",
+  "owner": "V02",
+  "reported_by": "verify-model-r1t"
+ },
+ {
+  "id": "VV12-08",
+  "severity": "major",
+  "kind": "CHANGED",
+  "claim": "E-27's `valleyReach` reads a `shed` `Y`'s whole run in both modes, where the archived integer form read `Y.halfSpanCm`. So `facadeBays`' usable run (bays, dormers, lit windows; byte-identical data) changes for a building whose valley ends on a shed. The canon's E-27 ruled no shed case. V02's round-1 repair recorded the choice as J-V2.109 (V02 \u00a79; V02 \u00a73.7 now cites it) and handed the confirmation to the adjudicator (repair-r1-V02.md, HAND-OFFS: \"adjudicator: VV12-08 \u2014 confirm J-V2.109 as the shed ruling E-27 left open\"). No adjudication file exists yet.",
+  "required_change": "The adjudicator confirms J-V2.109 as the ruling E-27 left open (a `shed` `Y`'s whole run in both modes; E-27's two equivalences kept; T-V2-54) and records it in its adjudication file; no further text change (ruling requested by V02: see repair-r1-V02.md).",
+  "owner": "V02",
+  "reported_by": "verify-vol-V01-V02-r1t"
+ },
+ {
+  "id": "VV12-r1-05",
+  "severity": "minor",
+  "kind": "BROKEN-REFERENCE",
+  "claim": "V02 \u00a76.4's new estimate (l.3056) reads \"\u2248 35 \u00b5s for the roofscape's facets (V02 \u00a76.2's mean)\". V02 \u00a76.2 states no mean: its `roofscape` row gives a median of \u2264 25 \u00b5s and a p99 of \u2264 150 \u00b5s, and its tile row estimates 20 \u00b5s a building.",
+  "required_change": "Either V02 \u00a76.2's `roofscape` row gains its mean (\"mean \u2248 35 \u00b5s, the p99 tail of large manors included\", as the export estimate assumes), or l.3056 reads \"\u2248 35 \u00b5s for the roofscape's facets (V02 \u00a76.2's \u2264 25 \u00b5s median with its \u2264 150 \u00b5s p99 tail)\".",
+  "owner": "V02",
+  "reported_by": "verify-vol-V01-V02-r1t"
+ },
+ {
+  "id": "VV12-r1-06",
+  "severity": "minor",
+  "kind": "COHESION",
+  "claim": "V02's citations paragraph (l.7) states file g's numbering as \"file g 102\u2013120\"; file g now holds items 102\u2013125 (items 121\u2013125 filed 2026-10-01, J134\u2013J139). V01's citations paragraph states no range.",
+  "required_change": "l.7 reads \"file g 102\u2013125\".",
+  "owner": "V02",
+  "reported_by": "verify-vol-V01-V02-r1t"
+ }
+]

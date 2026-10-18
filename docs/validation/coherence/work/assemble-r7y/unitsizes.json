@@ -1,0 +1,121 @@
+{
+ "units": {
+  "V05": {
+   "found": 1,
+   "applied": 1,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/volumes/V05-sky.md"
+   ],
+   "words_before": 8293,
+   "words_after": 8336,
+   "bytes_before": 48963,
+   "bytes_after": 49208,
+   "whole_files": []
+  },
+  "V06": {
+   "found": 3,
+   "applied": 3,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/volumes/V06-evolution.md"
+   ],
+   "words_before": 25531,
+   "words_after": 25648,
+   "bytes_before": 153581,
+   "bytes_after": 154277,
+   "whole_files": []
+  },
+  "V07": {
+   "found": 7,
+   "applied": 7,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/volumes/V07-village.md"
+   ],
+   "words_before": 23732,
+   "words_after": 23885,
+   "bytes_before": 141993,
+   "bytes_after": 142920,
+   "whole_files": []
+  },
+  "V09": {
+   "found": 3,
+   "applied": 3,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/volumes/V09-application.md"
+   ],
+   "words_before": 26230,
+   "words_after": 26468,
+   "bytes_before": 160732,
+   "bytes_after": 162011,
+   "whole_files": []
+  },
+  "determinism": {
+   "found": 5,
+   "applied": 5,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/ARCHITECTURE.md"
+   ],
+   "words_before": 43413,
+   "words_after": 43571,
+   "bytes_before": 273391,
+   "bytes_after": 274276,
+   "whole_files": []
+  },
+  "model": {
+   "found": 1,
+   "applied": 1,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/ARCHITECTURE.md"
+   ],
+   "words_before": 31564,
+   "words_after": 31684,
+   "bytes_before": 189383,
+   "bytes_after": 190129,
+   "whole_files": []
+  },
+  "pipeline": {
+   "found": 5,
+   "applied": 5,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/ARCHITECTURE.md"
+   ],
+   "words_before": 26677,
+   "words_after": 27237,
+   "bytes_before": 161709,
+   "bytes_after": 164794,
+   "whole_files": []
+  },
+  "scope": {
+   "found": 2,
+   "applied": 2,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/ARCHITECTURE.md"
+   ],
+   "words_before": 32418,
+   "words_after": 33110,
+   "bytes_before": 199217,
+   "bytes_after": 203298,
+   "whole_files": []
+  }
+ },
+ "total": {
+  "found": 27,
+  "applied": 27,
+  "skipped": 0
+ }
+}

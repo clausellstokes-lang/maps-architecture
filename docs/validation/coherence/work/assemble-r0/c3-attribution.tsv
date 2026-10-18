@@ -1,0 +1,371 @@
+run	lines	section	in_ours	corpus_whole	n_tokens
+0 1 0 0 8 5	320	§1 Scope, product shape, fusion thesis, 	archived V07	-	6
+0 25 0 5 the	17636	§16 Build plan — calibration and spikes 	archived V09	-	5
+0 3 the same stage	11290	§7 Editing and regeneration locality — e	archived V05	-	5
+0 5 0 75 1	16092	§13 Testing and verification	archived V05;archived V12	findings/code-mfcg.md	5
+0 6 0 5 and 0	18295	II.6 The staged layers — floating island	-	-	6
+0 at the ground and on every storey above	2020	§2 Domain model and schemas	archived V03	-	9
+0 ng 1 2 2 s	18094	II.2 Templates as fabric strategies (NG 	-	-	6
+1 0 1 0 0 1 0 1 0 10	318	§1 Scope, product shape, fusion thesis, 	archived V07	-	10
+1 0 1 0 0 1 0 1 0 8	319	§1 Scope, product shape, fusion thesis, 	archived V07	-	10
+1 1 2 1 3 6 4	16438	§13 Testing and verification	archived V02	-	7
+1 1 4 13 2	19886	Judgment calls ("chose X over Y because 	-	-	5
+1 1 5 2 a	16092	§13 Testing and verification	-	-	5
+1 1 and the single	16378	§13 Testing and verification	archived V12	-	5
+1 2 1 one record	2131	§2 Domain model and schemas	-	findings/dwellings-exports.md	5
+1 2 2 2 5 2 7	19787	Judgment calls ("chose X over Y because 	-	-	7
+1 that is why a	8920	§6 Determinism	-	-	5
+10 2 4 5 s	6143	§4 Generation pipeline	-	-	5
+10 4 7 s10 10	196	§0 Provenance	-	-	5
+10 5 2 s f	6173	§4 Generation pipeline	-	-	5
+10 s for a room s	9411	§7 Editing and regeneration locality — e	-	-	6
+11 2 11 4 14	280	§1 Scope, product shape, fusion thesis, 	-	-	5
+11 3 11 4 2 7	20266	Staged by the owner's roadmap (this docu	-	-	6
+12 7 13 2 s	15229	§12 Performance budgets	-	-	5
+17 1 1 0 3	186	§0 Provenance	-	-	5
+2 1 2 2 rule	2220	§2 Domain model and schemas	archived base;archived V04	-	5
+2 2 3 4 gates	6955	§4 Generation pipeline	-	-	5
+2 2 6 s stage 3	274	§1 Scope, product shape, fusion thesis, 	-	-	6
+2 3 2 6 the	4345	§3 Geometry kernel	-	-	5
+2 3 2 7 and the way	15448	§13 Testing and verification	-	-	7
+2 4 2 7 2 9	20227	Judgment calls ("chose X over Y because 	-	-	6
+2 5 2 6 and	9572	§7 Editing and regeneration locality — e	-	-	5
+2 5 2 6 the	9892	§7 Editing and regeneration locality — e	archived V08	-	5
+2 5 3 7 the	13690	§10 Simulation and content layer (FTG pa	-	-	5
+2 5 are the same kind	2417	§2 Domain model and schemas	-	-	6
+2 6 3 3 3 4 3 7 3 8	20259	Staged by the owner's roadmap (this docu	-	-	10
+2 6 3 8 s	8375	§5 Failure handling — no whole-map disca	-	-	5
+2 6 4 4 5 4 and	2695	§2 Domain model and schemas	-	-	7
+2 6 8 2 the	7615	§4 Generation pipeline	-	-	5
+2 6 with 2 8	20260	Staged by the owner's roadmap (this docu	-	findings/dwellings-synthesis.md	5
+2 7 1 2 7 the	20267	Staged by the owner's roadmap (this docu	-	-	6
+2 7 3 1 8	16458	§13 Testing and verification	archived V07	-	5
+2 7 4 3 4 6 4 7 s10	16114	§13 Testing and verification	-	-	9
+2 with the plan rung s	16864	§14 Package and module layout, key inter	-	-	6
+20 1 2 the street	6346	§4 Generation pipeline	archived V05	-	5
+3 0 3 5 2 a	19175	PART III — What a later village product 	-	-	6
+3 10 3 4 item	4699	§4 Generation pipeline	-	-	5
+3 10 4 7 the	16817	§13 Testing and verification	-	-	5
+3 19 4 1 6 and the	2355	§2 Domain model and schemas	-	-	7
+3 2 2 3 10	6173	§4 Generation pipeline	-	-	5
+3 2 2 for every other	6176	§4 Generation pipeline	-	-	6
+3 2 3 the band	19200	PART III — What a later village product 	-	-	5
+3 2 6 3 7 3 10	8429	§5 Failure handling — no whole-map disca	-	-	7
+3 3 3 6 3 9 3 10	3072	§3 Geometry kernel	-	-	8
+3 4 3 7 for	18302	II.6 The staged layers — floating island	-	-	5
+3 4 4 3 4 6 4 7 s10	236	§0 Provenance	archived V05	-	9
+3 4 the roof construction draws it 8 6	1359	§2 Domain model and schemas	archived base	-	9
+3 5 1 1 with the settlement s	9709	§7 Editing and regeneration locality — e	archived V09	-	8
+3 5 1 and 3	11107	§7 Editing and regeneration locality — e	archived V08	-	5
+3 5 3 6 the	8374	§5 Failure handling — no whole-map disca	archived V03;archived V08	-	5
+3 6 3 10 and the	669	§2 Domain model and schemas	-	-	6
+3 6 5 3 10 and a	6637	§4 Generation pipeline	-	-	7
+3 7 2 10 4	18143	II.3 Block content dispatch, pins, local	-	-	5
+3 7 3 10 and	16641	§13 Testing and verification	-	-	5
+3 7 4 the building	1864	§2 Domain model and schemas	archived V03	-	5
+3 9 the plan rung	8371	§5 Failure handling — no whole-map disca	-	-	5
+3 and 0 on the same	15208	§12 Performance budgets	-	-	6
+3 item 1 is the	10181	§7 Editing and regeneration locality — e	-	-	5
+3 item 1 the same record	10158	§7 Editing and regeneration locality — e	-	-	6
+3 the ground storey is	1281	§2 Domain model and schemas	archived V02	-	5
+3 what the plan owed	1341	§2 Domain model and schemas	-	-	5
+4 1 4 2 s1	5315	§4 Generation pipeline	-	-	5
+4 1 6 1 7 1 8	20260	Staged by the owner's roadmap (this docu	-	-	7
+4 1 7 7 the	14092	§11 Export and interop	archived V09	-	5
+4 1 the whole town	17254	§14 Package and module layout, key inter	-	-	5
+4 2 4 5 5 2 5 3 7 1 7 3 7 4 8	20262	Staged by the owner's roadmap (this docu	-	-	15
+4 2 s3 4 4 4 5 4 7	16128	§13 Testing and verification	-	findings/code-impact.md	9
+4 2 the class s	11084	§7 Editing and regeneration locality — e	archived V08	-	5
+4 2 the plan rung	1865	§2 Domain model and schemas	-	-	5
+4 6 step 1 4 6	20008	Judgment calls ("chose X over Y because 	-	-	6
+4 7 1 the only	17130	§14 Package and module layout, key inter	archived base	-	5
+4 7 4 5 16	14853	§12 Performance budgets	-	-	5
+4 derived from a hearth column	1359	§2 Domain model and schemas	-	-	6
+5 1 1 5 1 1	205	§0 Provenance	-	-	6
+5 1 6 and the dry run	8614	§6 Determinism	-	-	7
+5 4 and the reader s	2776	§2 Domain model and schemas	-	-	6
+5 and 2 9 step	17628	§16 Build plan — calibration and spikes 	-	-	5
+6 1 the top k	6460	§4 Generation pipeline	archived V10	-	5
+6 11 1 12 7	20260	Staged by the owner's roadmap (this docu	-	-	5
+6 2 7 1 and	10241	§7 Editing and regeneration locality — e	-	-	5
+6 2 7 4 5 8 4 the	20263	Staged by the owner's roadmap (this docu	-	-	8
+6 3 0 2 1 1	19878	Judgment calls ("chose X over Y because 	-	-	6
+6 4 and the skeleton	14117	§11 Export and interop	-	-	5
+6 5 9 s cross host	8328	§5 Failure handling — no whole-map disca	-	findings/dwellings-synthesis.md	6
+61 vg 1 6 9	215	§0 Provenance	-	findings/profile-village.md	5
+7 1 1 2 1 2 3 2 7 3 4 3 7 3 10 4	20262	Staged by the owner's roadmap (this docu	-	-	16
+7 1 3 7 one	4041	§3 Geometry kernel	-	-	5
+7 1 7 4 5 2	11130	§7 Editing and regeneration locality — e	-	-	6
+7 1 7 7 and	16855	§14 Package and module layout, key inter	-	-	5
+7 1 and the skeleton	20267	Staged by the owner's roadmap (this docu	-	-	5
+7 10 2 4 2	16091	§13 Testing and verification	-	-	5
+7 2 5 7 7	20264	Staged by the owner's roadmap (this docu	-	-	5
+7 2 and the first	7902	§4 Generation pipeline	-	-	5
+7 2 is the only	3311	§3 Geometry kernel	-	-	5
+7 3 2 2 rule	2415	§2 Domain model and schemas	-	-	5
+7 3 the band s	4104	§3 Geometry kernel	-	-	5
+7 5 7 5 s	10300	§7 Editing and regeneration locality — e	-	-	5
+7 6 7 7 s	235	§0 Provenance	archived V09	-	5
+7 at the view s	13171	§9 Labels and map furniture	-	-	5
+8 2 11 1 s	2357	§2 Domain model and schemas	-	-	5
+8 2 6 9 the	17679	§16 Build plan — calibration and spikes 	-	-	5
+8 2 the same kind	17635	§16 Build plan — calibration and spikes 	-	-	5
+8 4 8 8 8 9	13057	§8 Rendering and the style system	-	-	6
+8 7 8 9 9 of	16437	§13 Testing and verification	archived V02	-	6
+a block whose content is	6132	§4 Generation pipeline	archived V01	-	5
+a cell of the base	8291,9056	§5 Failure handling — no whole-map disca	-	-	5
+a fixed input to every	10284	§7 Editing and regeneration locality — e	archived V02	findings/dwellings-synthesis.md	5
+a fixed input to the	10283,10284	§7 Editing and regeneration locality — e	archived base;archived V02	findings/dwellings-synthesis.md	5
+a gap in the wall a	6085	§4 Generation pipeline	-	-	6
+a gate and a river	5288	§4 Generation pipeline	-	-	5
+a loop in the class	6138	§4 Generation pipeline	-	-	5
+a pure rung is derived never	4523,11304	§4 Generation pipeline	archived base	findings/dwellings-synthesis.md	6
+a room below its row s minimum area	9690	§7 Editing and regeneration locality — e	archived base	-	8
+a settlement with a single	5439	§4 Generation pipeline	-	-	5
+a soft room absorbed into its neighbour or	8371	§5 Failure handling — no whole-map disca	archived base	findings/dwellings-synthesis.md	8
+aligned across storeys where a wall stacks	1946	§2 Domain model and schemas	archived base	findings/dwellings-synthesis.md	7
+all of them and the	10255	§7 Editing and regeneration locality — e	-	-	5
+always a street facing door	17540	§15 Parity matrix and improvement matrix	archived V02	findings/code-manor.md	5
+and a building with a	9970,15527	§7 Editing and regeneration locality — e	archived base;archived V02;archived V09	-	5
+and a building with no	15704	§13 Testing and verification	archived V03	-	5
+and absent from a base	2695	§2 Domain model and schemas	archived V07	-	5
+and at the building band	13147	§9 Labels and map furniture	archived V01;archived V02;archived V10	-	5
+and by the class s	5737	§4 Generation pipeline	archived V06;archived V11	-	5
+and clipped to the facet	12031	§8 Rendering and the style system	archived V01	-	5
+and in the page s	14515	§11 Export and interop	archived V10	-	5
+and it is not a geometry	8626	§6 Determinism	-	-	6
+and on the ground is	6396	§4 Generation pipeline	archived V05	-	5
+and places the rest a	13712	§10 Simulation and content layer (FTG pa	-	-	5
+and roof are read from	1334	§2 Domain model and schemas	archived V02	-	5
+and the class table s	18720	II.7 The sewer layer — existence by tier	archived V04	-	5
+and the new one is	11113	§7 Editing and regeneration locality — e	-	-	5
+and the rest of the	19086	II.7 The sewer layer — existence by tier	archived base;archived V09	findings/code-dwellings.md;findings/profile-neighbourhood.md	5
+and when it is measured	15200	§12 Performance budgets	-	-	5
+and whether it is a	6284	§4 Generation pipeline	-	findings/ftg-docs-params.md	5
+any of the edge s	4835	§4 Generation pipeline	-	-	5
+around it plan layout kept where the wing is unchanged t	9429	§7 Editing and regeneration locality — e	archived base	findings/dwellings-synthesis.md	11
+as a whole map retry	4339	§3 Geometry kernel	-	-	5
+as its own top level	14098	§11 Export and interop	-	-	5
+as part of the main	6513	§4 Generation pipeline	archived V02	-	5
+as the edge of a	2348	§2 Domain model and schemas	-	-	5
+at 4 3 4 3 2 9	20056	Judgment calls ("chose X over Y because 	-	-	7
+at a scale bar compass	13074	§9 Labels and map furniture	archived base	-	5
+at the building band 8 5 the	10283	§7 Editing and regeneration locality — e	-	-	7
+at the centroid of the	11103	§7 Editing and regeneration locality — e	archived V06	-	5
+at the end of the raised	2317	§2 Domain model and schemas	archived V04	-	6
+at the end of this section	15592	§13 Testing and verification	archived V07	-	6
+at the foot of the	6350	§4 Generation pipeline	archived V03;archived V05	-	5
+at the plan rung item	20259	Staged by the owner's roadmap (this docu	-	-	5
+band read the same way	5789	§4 Generation pipeline	-	-	5
+bars on the overlay and	9576	§7 Editing and regeneration locality — e	-	-	5
+bay polygon the same bay on every storey it serves levels number number kind straight dogleg winder spiral ladder trapdoor interface chimney id id wing number	1357	§2 Domain model and schemas	archived base	findings/dwellings-synthesis.md	26
+bisect on the wing s axes tier 5	8371	§5 Failure handling — no whole-map disca	archived base	findings/dwellings-synthesis.md	8
+by the block with the	8690	§6 Determinism	archived V01	-	5
+by the building s address and	10283,10284	§7 Editing and regeneration locality — e	archived base;archived V02	findings/dwellings-synthesis.md	6
+by the district with the	8677	§6 Determinism	-	-	5
+byte identical to the base	7694,16078,16084,16113,16125,16135	§4 Generation pipeline	archived V04;archived V05;archived V11;archived V12	findings/profile-neighbourhood.md	5
+cache line 13 2 s	20260	Staged by the owner's roadmap (this docu	-	-	5
+capped at the table s	5255	§4 Generation pipeline	-	-	5
+captures manor readme frequencies md	16437	§13 Testing and verification	archived V02	findings/manor.md	5
+cell of the class s	16673	§13 Testing and verification	archived V03	-	5
+cells of the same kind	10648	§7 Editing and regeneration locality — e	-	-	5
+change to the height of the wing it	1625	§2 Domain model and schemas	archived V02	-	8
+choice ng 1 2 2	18133	II.3 Block content dispatch, pins, local	archived V01	findings/code-impact.md	5
+clipped to a point on a	13055	§8 Rendering and the style system	-	-	6
+clipped to the building s	9707	§7 Editing and regeneration locality — e	archived V03;archived V09	-	5
+code is confirmed on the captured	20293	Appendix A — reading record, and CONFIRM	-	-	6
+column pointcm levels number number	1359	§2 Domain model and schemas	archived base	findings/dwellings-synthesis.md	5
+come from the wall kinds	10925	§7 Editing and regeneration locality — e	-	-	5
+computed on the main thread	14335	§11 Export and interop	archived V09	-	5
+corner of the frame or	3345	§3 Geometry kernel	archived base	-	5
+corner of the frame the	15304	§13 Testing and verification	archived base	-	5
+crossing a wall is a stair or	6264	§4 Generation pipeline	-	-	7
+cuts perpendicular to the frontage	6209	§4 Generation pipeline	archived base	findings/code-neighbourhood.md	5
+default 1 0 in the	6321	§4 Generation pipeline	-	-	5
+district of the settlement the	1198	§2 Domain model and schemas	-	-	5
+do not depend on the	13898	§10 Simulation and content layer (FTG pa	archived V06	findings/profile-mfcg.md	5
+does not advance it the	8614	§6 Determinism	-	findings/code-village.md	5
+e a settlement with a	7646	§4 Generation pipeline	-	-	5
+exception is the part of a district	5971	§4 Generation pipeline	-	-	7
+exterior none some max door door arch open	13749	§10 Simulation and content layer (FTG pa	archived V03	findings/dwellings-synthesis.md	8
+exterior walls only t movestaircore	9428	§7 Editing and regeneration locality — e	archived base	findings/dwellings-synthesis.md	5
+field 4 2 s3 4 4 the	985	§2 Domain model and schemas	-	-	7
+field and the town are	16050	§13 Testing and verification	archived V05	-	5
+for a building with a	1621,1826,8069	§2 Domain model and schemas	archived V02	findings/ftg-posts-c.md	5
+form and the caller s	3282	§3 Geometry kernel	-	-	5
+form in the generation worker	14269	§11 Export and interop	archived V10	-	5
+from one of those buildings	10213	§7 Editing and regeneration locality — e	archived V09	-	5
+from the composed exterior and	1871	§2 Domain model and schemas	archived base	findings/dwellings-synthesis.md	5
+from the seed and the	7671	§4 Generation pipeline	-	-	5
+from the storey above the	1346,2014	§2 Domain model and schemas	archived V02	-	5
+further from the settlement s	5258	§4 Generation pipeline	-	-	5
+hours per day days per week	13940	§10 Simulation and content layer (FTG pa	-	findings/ftg-posts-b.md	6
+id of the plot s	2457	§2 Domain model and schemas	-	-	5
+in 2 6 2 6	19771	Judgment calls ("chose X over Y because 	-	-	5
+in 3 4 3 7 and	15380	§13 Testing and verification	-	-	6
+in each of the two parts	840	§2 Domain model and schemas	-	-	6
+in place of the class	1806	§2 Domain model and schemas	archived V03	-	5
+in the building s plan	1277	§2 Domain model and schemas	archived V02	-	5
+in the case of a larger	1724	§2 Domain model and schemas	archived base	-	6
+in the district s ring	1082	§2 Domain model and schemas	archived V01	-	5
+interface opening id id wall id	1353	§2 Domain model and schemas	archived base;archived V03	findings/dwellings-synthesis.md	6
+interface staircore id id wing number tower number	1357	§2 Domain model and schemas	archived base	findings/dwellings-synthesis.md	8
+interface storey level number k 1 the basement s	1345	§2 Domain model and schemas	archived base	-	9
+interface windowrec id id wall id at cm widthcm cm kind	1356	§2 Domain model and schemas	-	-	11
+is byte identical to the base	7694	§4 Generation pipeline	archived V04;archived V11	findings/profile-neighbourhood.md	6
+is byte identical to the model	5510	§4 Generation pipeline	-	-	6
+is clamped to the nearest	13889	§10 Simulation and content layer (FTG pa	-	-	5
+is clipped to it and	10456	§7 Editing and regeneration locality — e	-	-	5
+is handed to the main	6513	§4 Generation pipeline	archived V02	-	5
+is left out of the	13055	§8 Rendering and the style system	archived V02;archived V03	findings/code-dwellings.md	5
+is part of its own	18968	II.7 The sewer layer — existence by tier	archived V11	-	5
+is re derived and the	810	§2 Domain model and schemas	-	-	5
+is routed to the village	7758	§4 Generation pipeline	archived V07	-	5
+it 4 5 4 1	20073	Judgment calls ("chose X over Y because 	-	-	5
+it and the caller s	14105	§11 Export and interop	archived V09	-	5
+it is carried by the	2501	§2 Domain model and schemas	-	-	5
+kept as a third party	20205	Judgment calls ("chose X over Y because 	-	-	5
+layout families as path shape rows	20259	Staged by the owner's roadmap (this docu	-	findings/code-impact.md	6
+lies in 1 2 2 only	18094	II.2 Templates as fabric strategies (NG 	-	-	6
+lies on the footprint s	1739	§2 Domain model and schemas	archived V02	-	5
+mapped through the grammar s	10284	§7 Editing and regeneration locality — e	-	-	5
+may add a water qualifier	13401	§9 Labels and map furniture	archived V07	-	5
+merge two under size pieces slide a cut to its neighbour s	8371	§5 Failure handling — no whole-map disca	archived base	findings/dwellings-synthesis.md	12
+mfcg 12710731 vg 1 6 9	3078,9312,17758	§3 Geometry kernel	archived base	findings/code-impact.md	6
+model 2 6 4 7 s11	415	§1 Scope, product shape, fusion thesis, 	-	-	6
+name for the room the	1340	§2 Domain model and schemas	-	-	5
+neighbourhood 1 2 2 s	44	The whole design in one page (plain word	-	-	5
+never a re roll 2	4533	§4 Generation pipeline	-	-	5
+never in the model the	4384	§4 Generation pipeline	-	-	5
+no geometry of its own	14084	§11 Export and interop	archived V08	findings/vg-posts-b.md	5
+not of the order the	3382	§3 Geometry kernel	-	-	5
+nothing else it is the stage 3	10693	§7 Editing and regeneration locality — e	archived V02	-	7
+of 2 6 step 3	8371	§5 Failure handling — no whole-map disca	-	-	5
+of 4 6 step 1	18094	II.2 Templates as fabric strategies (NG 	archived base;archived V01	-	5
+of 4 6 step 8	8356	§5 Failure handling — no whole-map disca	-	-	5
+of a building with no	1905	§2 Domain model and schemas	archived V02;archived V03	-	5
+of a room s name	9632	§7 Editing and regeneration locality — e	-	-	5
+of docs confidence md docs	15	ARCHITECTURE — PLAT, the fused town/city	archived base	-	5
+of fewer than 3 distinct	4344	§3 Geometry kernel	-	-	5
+of the class s own	13889	§10 Simulation and content layer (FTG pa	-	-	5
+of the name and description	13681	§10 Simulation and content layer (FTG pa	-	-	5
+of the settlement and its	10934	§7 Editing and regeneration locality — e	archived V08	-	5
+of the union of the	2012,2017	§2 Domain model and schemas	archived base;archived V02;archived V10	-	5
+on the ground or the reverse	6345	§4 Generation pipeline	archived V05	-	6
+once this is the one	5692	§4 Generation pipeline	-	-	5
+one statement of the span	1147	§2 Domain model and schemas	-	-	5
+only on an arc whose	9634	§7 Editing and regeneration locality — e	archived V09	-	5
+or by the user s	9604	§7 Editing and regeneration locality — e	-	-	5
+or from the building s	14088	§11 Export and interop	-	-	5
+or on a green block	7189	§4 Generation pipeline	archived V01	-	5
+or one line of the	139	§0 Provenance	-	-	5
+or the edge of a	6275	§4 Generation pipeline	-	-	5
+or the field is a soft	5508	§4 Generation pipeline	-	-	6
+order is a function of the stage	3388	§3 Geometry kernel	-	-	7
+order need not be a wing of	1605	§2 Domain model and schemas	archived V02	-	7
+orientation is derived from the	13693	§10 Simulation and content layer (FTG pa	-	findings/mfcg-posts-b.md	5
+palisade before the roads the	19176	PART III — What a later village product 	archived V07	-	5
+passage at the ground storey	1882	§2 Domain model and schemas	-	-	5
+pattern re run on the next attempt	8371	§5 Failure handling — no whole-map disca	archived base	findings/dwellings-synthesis.md	7
+people is a record with a	483	§2 Domain model and schemas	archived base	-	6
+plan and a block whose	8302	§5 Failure handling — no whole-map disca	-	-	5
+plan roles re derives what hangs off roles window demand door kinds furniture plan layout	8707	§6 Determinism	-	-	15
+plat plots and the plan rung	16902	§14 Package and module layout, key inter	-	-	6
+png byte identical to the	15226	§12 Performance budgets	-	-	5
+point or the field s	908	§2 Domain model and schemas	archived V04	-	5
+points and the layout is	5534	§4 Generation pipeline	archived V05	-	5
+points at the dry run	9386	§7 Editing and regeneration locality — e	archived V07	-	5
+reached from the main entrance through	8421	§5 Failure handling — no whole-map disca	archived V03	-	6
+read by the module s	13944	§10 Simulation and content layer (FTG pa	-	-	5
+read by the plan rung s	1263	§2 Domain model and schemas	archived V03	-	6
+read from the settlement s	5525	§4 Generation pipeline	-	-	5
+rectangular or round plaza at	18117	II.2 Templates as fabric strategies (NG 	archived V01	-	5
+resolved at the dry run	2143	§2 Domain model and schemas	-	-	5
+ring of the wing it	1529	§2 Domain model and schemas	archived V02	-	5
+ring polygon inside the ground	1380	§2 Domain model and schemas	archived base;archived V02	findings/dwellings-synthesis.md	5
+rows 4 7 4 9 the	16800	§13 Testing and verification	-	-	6
+rows are the model and	11828	§8 Rendering and the style system	-	-	5
+rule 2 6 2 2 rule	19906	Judgment calls ("chose X over Y because 	-	-	6
+rule and the basement and	1591	§2 Domain model and schemas	-	-	5
+rules 1 and 2 the	1781	§2 Domain model and schemas	-	findings/profile-neighbourhood.md	5
+s and the no op	16757	§13 Testing and verification	archived V12	-	5
+s cell is the one	8654	§6 Determinism	-	findings/code-dwellings.md	5
+s committed state and the settlement s	8895	§6 Determinism	-	-	7
+s for a building with a	1619	§2 Domain model and schemas	-	-	6
+s nothing outside the building is touched	8371	§5 Failure handling — no whole-map disca	-	-	7
+s or a corridor or	13747	§10 Simulation and content layer (FTG pa	-	-	5
+s reading of them are	2340	§2 Domain model and schemas	-	-	5
+s ring is a rectangle	2306	§2 Domain model and schemas	-	-	5
+s ring is the same	1619	§2 Domain model and schemas	archived V02	-	5
+s1 1 3 9 10	8152	§4 Generation pipeline	-	-	5
+scale only on the ground	6397	§4 Generation pipeline	archived V05	-	5
+seed comes from the same	16494	§13 Testing and verification	archived base	-	5
+shadow on the low side	2360	§2 Domain model and schemas	-	-	5
+share 0 5 0 75	17633	§16 Build plan — calibration and spikes 	-	-	5
+side number the wing ring s side as porch side offsetcm cm	1376	§2 Domain model and schemas	archived base	findings/dwellings-synthesis.md	12
+side on the footprint and	1770	§2 Domain model and schemas	archived V02	-	5
+silently 4 7 5 2	19794	Judgment calls ("chose X over Y because 	-	-	5
+sized to the ground s	16118,20233	§13 Testing and verification	-	-	5
+slices sliceref the table slices the rung consulted	2588	§2 Domain model and schemas	archived base;archived V02	findings/dwellings-synthesis.md	8
+stage 2 and the village	452	§1 Scope, product shape, fusion thesis, 	archived base	-	5
+stage 2 and the whole	116,17612	The whole design in one page (plain word	-	-	5
+staged after the first map	4383	§4 Generation pipeline	-	-	5
+stays in the generation worker	14440	§11 Export and interop	-	-	5
+stops at the ground storey	1377	§2 Domain model and schemas	archived V03	-	5
+stores the composition 2 6 a	10283	§7 Editing and regeneration locality — e	archived base	-	6
+streams 6 1 so a district	1215	§2 Domain model and schemas	archived base	-	6
+streams 6 1 so the	7671	§4 Generation pipeline	-	-	5
+stroke with the island s	2349	§2 Domain model and schemas	archived V05	-	5
+style and the water body s	11898	§8 Rendering and the style system	-	-	6
+tests and the base s	16155	§13 Testing and verification	-	-	5
+that does not fit a	8388	§5 Failure handling — no whole-map disca	archived V01	-	5
+the band s upper bound	2305	§2 Domain model and schemas	archived V04	findings/code-neighbourhood.md	5
+the basement lies inside the ground	1822	§2 Domain model and schemas	archived base;archived V02	findings/profile-dwellings.md	6
+the bay on every storey it serves	9429	§7 Editing and regeneration locality — e	archived base;archived V03	findings/dwellings-synthesis.md	7
+the building s leaf digest	1274	§2 Domain model and schemas	archived V02;archived V03;archived V06	findings/dwellings-synthesis.md	5
+the design the design is	8	ARCHITECTURE — PLAT, the fused town/city	-	-	5
+the distance to the nearest	19019	II.7 The sewer layer — existence by tier	archived V01;archived V04;archived V07	findings/code-neighbourhood.md	5
+the export dialog and the	17241	§14 Package and module layout, key inter	archived V09	findings/dwellings-exports.md	5
+the far side is a deterministic	8679	§6 Determinism	-	-	6
+the half width from the vertex	4052,4054	§3 Geometry kernel	-	-	6
+the half width from the vertex and	4052	§3 Geometry kernel	-	-	7
+the id of the district	14158	§11 Export and interop	archived V12	-	5
+the larger of the current	18984	II.7 The sewer layer — existence by tier	-	-	5
+the law of the first entry	13530	§10 Simulation and content layer (FTG pa	archived V07	-	6
+the module is a separate	105	The whole design in one page (plain word	-	-	5
+the old one and is a	16461	§13 Testing and verification	-	-	6
+the outline and the placement of	5667	§4 Generation pipeline	archived V05	-	6
+the plan rung item 28 s	20260	Staged by the owner's roadmap (this docu	-	-	6
+the rung is a registration	1874	§2 Domain model and schemas	-	-	5
+the side of a street	6905	§4 Generation pipeline	-	-	5
+the square s centrepiece is	18115	II.2 Templates as fabric strategies (NG 	-	findings/vg-ng-devlogs.md	5
+the stop test and the ring spacing	8214	§4 Generation pipeline	-	-	7
+the stroke s first point	9399	§7 Editing and regeneration locality — e	archived V09	-	5
+the surviving role chosen or given	9426	§7 Editing and regeneration locality — e	archived base	findings/dwellings-synthesis.md	6
+the union of a stored composition	8415	§5 Failure handling — no whole-map disca	archived V02	-	6
+them the castle and the large	38	The whole design in one page (plain word	-	-	6
+this is the map s	7659	§4 Generation pipeline	-	-	5
+tier 1 the plan s	8421	§5 Failure handling — no whole-map disca	-	-	5
+tier 6 a hard room omitted	8371	§5 Failure handling — no whole-map disca	archived base	findings/dwellings-synthesis.md	6
+to the building s footprint	10214	§7 Editing and regeneration locality — e	archived V04;archived V09	-	5
+to the district s largest	18006	II.1 The district → neighbourhood interf	archived V01	-	5
+type roomrole string data defined by	1363	§2 Domain model and schemas	archived base	findings/dwellings-synthesis.md	6
+under 4 1 s contract	1399,7672	§2 Domain model and schemas	archived base	findings/dwellings-synthesis.md	5
+units of the same kind	4506	§4 Generation pipeline	-	-	5
+vertices and an open chain	5266	§4 Generation pipeline	-	-	5
+view state not a model	14333	§11 Export and interop	archived V06	-	5
+walk along the run s	18006	II.1 The district → neighbourhood interf	archived V01	-	5
+wall id at cm op add move remove	9428	§7 Editing and regeneration locality — e	archived base;archived V03	findings/dwellings-synthesis.md	8
+walls wall openings opening windows windowrec	1347	§2 Domain model and schemas	archived base;archived V03	findings/dwellings-synthesis.md	6
+when the ground or the	1763	§2 Domain model and schemas	archived V03	-	5
+whose ends are not on	4347	§3 Geometry kernel	-	-	5
+whose kind is a good	4833	§4 Generation pipeline	archived V11	-	5
+widthcm cm kind door arch open entrance passage trapdoor entrance number	1353	§2 Domain model and schemas	archived base	findings/dwellings-synthesis.md	11
+widths and the gate gap	12091	§8 Rendering and the style system	-	-	5
+wings in the collision set	1661	§2 Domain model and schemas	archived V02	findings/manor.md	5
+wings wing towers composedtower courts polygon	1326	§2 Domain model and schemas	archived base	findings/dwellings-synthesis.md	6
+with a building s plan	17305	§14 Package and module layout, key inter	-	-	5
+with the plan rung s	13521,16864	§10 Simulation and content layer (FTG pa	archived V03	-	5
+within 0 5 m and	6263	§4 Generation pipeline	archived V01	-	5
+written by the plan rung	1382	§2 Domain model and schemas	archived V03	-	5
+yard at the gate or	6394	§4 Generation pipeline	-	-	5

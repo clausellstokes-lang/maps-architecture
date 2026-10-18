@@ -1,0 +1,107 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm7v/before/docs/volumes/V12-calibration.md",
+ "input_doc_sha256": "66e2ca404b1f9d19f6f9d56beebd73445a9a0375992d45ea1c2b754083446eff",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm7v/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "7e172500f6a791c5cf1e667c657309b6a49ee067dc130a05d82e605a06579c39",
+ "files": [
+  {
+   "file": "b-repair-r7v-V12.md",
+   "sha256": "15357383872d478be9d4c3ae6a2bf603a428fdf8cd7f2a37df561c3c5045e118",
+   "lines": 470,
+   "blocks": 2,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "b-repair-r7v-V12.md #1 (l. 2) REPLACE ### 3.4 The metric suite",
+   "file": "b-repair-r7v-V12.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "### 3.4 The metric suite",
+   "body_lines": 174,
+   "body_sha256": "0f4190b0d08064ee748ff9b06db0b5a40caacbff852d6ee509e916eb438017fc",
+   "target_line": 1082,
+   "section_old": "1082–1255",
+   "section_old_n": 174,
+   "section_new_n": 175,
+   "new_headings": [
+    "### 3.4 The metric suite"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "b-repair-r7v-V12.md #2 (l. 179) REPLACE ### 3.11 The calibration register — no provisional number dangles",
+   "file": "b-repair-r7v-V12.md",
+   "index": 2,
+   "line": 179,
+   "kind": "REPLACE",
+   "heading": "### 3.11 The calibration register — no provisional number dangles",
+   "body_lines": 289,
+   "body_sha256": "5265f526a8828b09e7dada60f9f120d7aac59e1432d6aa500f49c01708f38fe0",
+   "target_line": 2014,
+   "section_old": "2014–2303",
+   "section_old_n": 290,
+   "section_new_n": 290,
+   "new_headings": [
+    "### 3.11 The calibration register — no provisional number dangles"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "b-repair-r7v-V12.md #1 (l. 2) REPLACE ### 3.4 The metric suite",
+    "kind": "REPLACE",
+    "heading": "### 3.4 The metric suite",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7v-V12.md #2 (l. 179) REPLACE ### 3.11 The calibration register — no provisional number dangles",
+    "kind": "REPLACE",
+    "heading": "### 3.11 The calibration register — no provisional number dangles",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 805,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 67,
+  "headings_after": 67,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 30,
+  "fence_lines_after": 30,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 525763,
+  "doc_bytes_after": 526016,
+  "doc_lines_before": 3560,
+  "doc_lines_after": 3561,
+  "rationale_bytes_before": 704813,
+  "rationale_bytes_after": 704813,
+  "rationale_lines_before": 2386,
+  "rationale_lines_after": 2386,
+  "blocks_total": 2,
+  "blocks_applied": 2,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "3f20cb1fbf132b75ffdbd881b97084797c8203a63355587d1de977315f792b89",
+  "output_rationale_sha256": "7e172500f6a791c5cf1e667c657309b6a49ee067dc130a05d82e605a06579c39"
+ }
+}

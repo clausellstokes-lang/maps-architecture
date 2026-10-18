@@ -1,0 +1,393 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm6/before/docs/volumes/V09-application.md",
+ "input_doc_sha256": "7c91d3bff549344b72ad0615b9362249269b2fd786e724b340c9afe50cd98253",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm6/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "a480f02e58a893fea57cacc5977b83489f633ced23901f578adbcfbd8059c52a",
+ "files": [
+  {
+   "file": "repair-r6-V09.md",
+   "sha256": "b9ec59522f07bc658f6125c1f9ce1a89ec978526d3db0ed425042410aba6d16a",
+   "lines": 1635,
+   "blocks": 13,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "repair-r6-V09.md #1 (l. 2) REPLACE ### 2.7 The answers the panels render",
+   "file": "repair-r6-V09.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "### 2.7 The answers the panels render",
+   "body_lines": 89,
+   "body_sha256": "843023e9f102d5c2fd943664d6c6c34de766b583a7910e71ee7d22821cd5fd4f",
+   "target_line": 614,
+   "section_old": "614–700",
+   "section_old_n": 87,
+   "section_new_n": 90,
+   "new_headings": [
+    "### 2.7 The answers the panels render"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "repair-r6-V09.md #2 (l. 94) REPLACE ### 2.12 Lifecycle of every new state field",
+   "file": "repair-r6-V09.md",
+   "index": 2,
+   "line": 94,
+   "kind": "REPLACE",
+   "heading": "### 2.12 Lifecycle of every new state field",
+   "body_lines": 49,
+   "body_sha256": "d7075e0987de1c151adac38d0c3f7c2905c6785136dff49b1eb1a2a36c86030b",
+   "target_line": 967,
+   "section_old": "967–1016",
+   "section_old_n": 50,
+   "section_new_n": 50,
+   "new_headings": [
+    "### 2.12 Lifecycle of every new state field"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "repair-r6-V09.md #3 (l. 146) REPLACE ### 3.16 Edges — every mechanism at its limits (principle (11))",
+   "file": "repair-r6-V09.md",
+   "index": 3,
+   "line": 146,
+   "kind": "REPLACE",
+   "heading": "### 3.16 Edges — every mechanism at its limits (principle (11))",
+   "body_lines": 143,
+   "body_sha256": "c1dd1d63a200472267218c781c52ac1a72dcc9774f4c52a491dfec0cfb6e4c87",
+   "target_line": 1479,
+   "section_old": "1479–1621",
+   "section_old_n": 143,
+   "section_new_n": 143,
+   "new_headings": [
+    "### 3.16 Edges — every mechanism at its limits (principle (11))"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "repair-r6-V09.md #4 (l. 292) REPLACE ### 4.3 The tool binding table — every edit kind and where a user reaches it",
+   "file": "repair-r6-V09.md",
+   "index": 4,
+   "line": 292,
+   "kind": "REPLACE",
+   "heading": "### 4.3 The tool binding table — every edit kind and where a user reaches it",
+   "body_lines": 69,
+   "body_sha256": "cab3a93db57b683312297a33accc7639bd003b56a802e7b38bcef82db431e670",
+   "target_line": 1689,
+   "section_old": "1689–1758",
+   "section_old_n": 70,
+   "section_new_n": 70,
+   "new_headings": [
+    "### 4.3 The tool binding table — every edit kind and where a user reaches it"
+   ]
+  },
+  {
+   "seq": 5,
+   "block": "repair-r6-V09.md #5 (l. 364) REPLACE ### 4.5 The twelve tools at build depth",
+   "file": "repair-r6-V09.md",
+   "index": 5,
+   "line": 364,
+   "kind": "REPLACE",
+   "heading": "### 4.5 The twelve tools at build depth",
+   "body_lines": 31,
+   "body_sha256": "cefa8388a1b5c72a2bb83bb05f322634d021836f1bf6e8a71050dd476dc8c943",
+   "target_line": 1795,
+   "section_old": "1795–1826",
+   "section_old_n": 32,
+   "section_new_n": 32,
+   "new_headings": [
+    "### 4.5 The twelve tools at build depth"
+   ]
+  },
+  {
+   "seq": 6,
+   "block": "repair-r6-V09.md #6 (l. 398) REPLACE ### 4.9 The words — the message catalogue's rows (English, our own)",
+   "file": "repair-r6-V09.md",
+   "index": 6,
+   "line": 398,
+   "kind": "REPLACE",
+   "heading": "### 4.9 The words — the message catalogue's rows (English, our own)",
+   "body_lines": 404,
+   "body_sha256": "26e088d35cf8eb259a109e953360a880cee133aab794a9a217a88b62ba3e9183",
+   "target_line": 1929,
+   "section_old": "1929–2334",
+   "section_old_n": 406,
+   "section_new_n": 405,
+   "new_headings": [
+    "### 4.9 The words — the message catalogue's rows (English, our own)"
+   ]
+  },
+  {
+   "seq": 7,
+   "block": "repair-r6-V09.md #7 (l. 805) REPLACE #### 4.20.2 Raised ways and aqueducts (item 110 (b))",
+   "file": "repair-r6-V09.md",
+   "index": 7,
+   "line": 805,
+   "kind": "REPLACE",
+   "heading": "#### 4.20.2 Raised ways and aqueducts (item 110 (b))",
+   "body_lines": 67,
+   "body_sha256": "55fb6be157d50452f443591a4ad32c1a2e82608f2fa6e19edc9673870f9999bb",
+   "target_line": 3000,
+   "section_old": "3000–3068",
+   "section_old_n": 69,
+   "section_new_n": 68,
+   "new_headings": [
+    "#### 4.20.2 Raised ways and aqueducts (item 110 (b))"
+   ]
+  },
+  {
+   "seq": 8,
+   "block": "repair-r6-V09.md #8 (l. 875) REPLACE #### 4.20.6 The new records' panels, handles, spans, crossings and why lines",
+   "file": "repair-r6-V09.md",
+   "index": 8,
+   "line": 875,
+   "kind": "REPLACE",
+   "heading": "#### 4.20.6 The new records' panels, handles, spans, crossings and why lines",
+   "body_lines": 43,
+   "body_sha256": "bdf8d24ed7d733083f810246407acf06cb84a926fc9187db86b7bbf0cf7bb854",
+   "target_line": 3176,
+   "section_old": "3176–3215",
+   "section_old_n": 40,
+   "section_new_n": 44,
+   "new_headings": [
+    "#### 4.20.6 The new records' panels, handles, spans, crossings and why lines"
+   ]
+  },
+  {
+   "seq": 9,
+   "block": "repair-r6-V09.md #9 (l. 921) REPLACE ### 4.21 Items 111–126 on screen",
+   "file": "repair-r6-V09.md",
+   "index": 9,
+   "line": 921,
+   "kind": "REPLACE",
+   "heading": "### 4.21 Items 111–126 on screen",
+   "body_lines": 511,
+   "body_sha256": "41ea301d4db8c6cf69c3aac073a2055f87ae7b740e4ba2d82bbb962ced315b7a",
+   "target_line": 3271,
+   "section_old": "3271–3779",
+   "section_old_n": 509,
+   "section_new_n": 511,
+   "new_headings": [
+    "### 4.21 Items 111–126 on screen"
+   ]
+  },
+  {
+   "seq": 10,
+   "block": "repair-r6-V09.md #10 (l. 1435) REPLACE ### 5.7 The other panels",
+   "file": "repair-r6-V09.md",
+   "index": 10,
+   "line": 1435,
+   "kind": "REPLACE",
+   "heading": "### 5.7 The other panels",
+   "body_lines": 32,
+   "body_sha256": "2e2bc359954705e15ce1864fc1d608c201cb55692f6ccb563a6224ee1fd64e98",
+   "target_line": 3979,
+   "section_old": "3979–4011",
+   "section_old_n": 33,
+   "section_new_n": 33,
+   "new_headings": [
+    "### 5.7 The other panels"
+   ]
+  },
+  {
+   "seq": 11,
+   "block": "repair-r6-V09.md #11 (l. 1470) REPLACE ### 5.8 The \"Why here?\" card",
+   "file": "repair-r6-V09.md",
+   "index": 11,
+   "line": 1470,
+   "kind": "REPLACE",
+   "heading": "### 5.8 The \"Why here?\" card",
+   "body_lines": 25,
+   "body_sha256": "1062213938582aa4784a077b1dacca75697c42dc3d707f077c1d5a871441b8f1",
+   "target_line": 4012,
+   "section_old": "4012–4037",
+   "section_old_n": 26,
+   "section_new_n": 26,
+   "new_headings": [
+    "### 5.8 The \"Why here?\" card"
+   ]
+  },
+  {
+   "seq": 12,
+   "block": "repair-r6-V09.md #12 (l. 1498) REPLACE ### 5.15 Every new thing: drawn, labelled, exported, persisted",
+   "file": "repair-r6-V09.md",
+   "index": 12,
+   "line": 1498,
+   "kind": "REPLACE",
+   "heading": "### 5.15 Every new thing: drawn, labelled, exported, persisted",
+   "body_lines": 41,
+   "body_sha256": "2c42c2209eda1730736123e578207dc2883868549be899b64614119dd2b3860e",
+   "target_line": 4155,
+   "section_old": "4155–4196",
+   "section_old_n": 42,
+   "section_new_n": 42,
+   "new_headings": [
+    "### 5.15 Every new thing: drawn, labelled, exported, persisted"
+   ]
+  },
+  {
+   "seq": 13,
+   "block": "repair-r6-V09.md #13 (l. 1542) REPLACE ### 7.1 The bars",
+   "file": "repair-r6-V09.md",
+   "index": 13,
+   "line": 1542,
+   "kind": "REPLACE",
+   "heading": "### 7.1 The bars",
+   "body_lines": 91,
+   "body_sha256": "7f5cf0f5d469d259e56541f48917b495445a4899b8d6749b1ab059204da7ea6a",
+   "target_line": 4356,
+   "section_old": "4356–4447",
+   "section_old_n": 92,
+   "section_new_n": 92,
+   "new_headings": [
+    "### 7.1 The bars"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "repair-r6-V09.md #1 (l. 2) REPLACE ### 2.7 The answers the panels render",
+    "kind": "REPLACE",
+    "heading": "### 2.7 The answers the panels render",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-V09.md #2 (l. 94) REPLACE ### 2.12 Lifecycle of every new state field",
+    "kind": "REPLACE",
+    "heading": "### 2.12 Lifecycle of every new state field",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-V09.md #3 (l. 146) REPLACE ### 3.16 Edges — every mechanism at its limits (principle (11))",
+    "kind": "REPLACE",
+    "heading": "### 3.16 Edges — every mechanism at its limits (principle (11))",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-V09.md #4 (l. 292) REPLACE ### 4.3 The tool binding table — every edit kind and where a user reaches it",
+    "kind": "REPLACE",
+    "heading": "### 4.3 The tool binding table — every edit kind and where a user reaches it",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-V09.md #5 (l. 364) REPLACE ### 4.5 The twelve tools at build depth",
+    "kind": "REPLACE",
+    "heading": "### 4.5 The twelve tools at build depth",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-V09.md #6 (l. 398) REPLACE ### 4.9 The words — the message catalogue's rows (English, our own)",
+    "kind": "REPLACE",
+    "heading": "### 4.9 The words — the message catalogue's rows (English, our own)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-V09.md #7 (l. 805) REPLACE #### 4.20.2 Raised ways and aqueducts (item 110 (b))",
+    "kind": "REPLACE",
+    "heading": "#### 4.20.2 Raised ways and aqueducts (item 110 (b))",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-V09.md #8 (l. 875) REPLACE #### 4.20.6 The new records' panels, handles, spans, crossings and why lines",
+    "kind": "REPLACE",
+    "heading": "#### 4.20.6 The new records' panels, handles, spans, crossings and why lines",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-V09.md #9 (l. 921) REPLACE ### 4.21 Items 111–126 on screen",
+    "kind": "REPLACE",
+    "heading": "### 4.21 Items 111–126 on screen",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-V09.md #10 (l. 1435) REPLACE ### 5.7 The other panels",
+    "kind": "REPLACE",
+    "heading": "### 5.7 The other panels",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-V09.md #11 (l. 1470) REPLACE ### 5.8 The \"Why here?\" card",
+    "kind": "REPLACE",
+    "heading": "### 5.8 The \"Why here?\" card",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-V09.md #12 (l. 1498) REPLACE ### 5.15 Every new thing: drawn, labelled, exported, persisted",
+    "kind": "REPLACE",
+    "heading": "### 5.15 Every new thing: drawn, labelled, exported, persisted",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-V09.md #13 (l. 1542) REPLACE ### 7.1 The bars",
+    "kind": "REPLACE",
+    "heading": "### 7.1 The bars",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 805,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 110,
+  "headings_after": 110,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 24,
+  "fence_lines_after": 24,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 766888,
+  "doc_bytes_after": 770727,
+  "doc_lines_before": 5021,
+  "doc_lines_after": 5028,
+  "rationale_bytes_before": 704770,
+  "rationale_bytes_after": 704770,
+  "rationale_lines_before": 2386,
+  "rationale_lines_after": 2386,
+  "blocks_total": 13,
+  "blocks_applied": 13,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "046b6610e47e621d6773d9a8646f4e528a2089299347c883db7a00ac24593b11",
+  "output_rationale_sha256": "a480f02e58a893fea57cacc5977b83489f633ced23901f578adbcfbd8059c52a"
+ }
+}

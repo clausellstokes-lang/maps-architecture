@@ -1,0 +1,6 @@
+=== galeiaward-rl60: Galeiaward — nearest edge type to each building entrance
+  in-ring  n=1334  type 0: 1138 (85%, median 2.47 m), type 1: 196 (15%, median 4.05 m)
+  out-ring n=1355  type 0: 941 (69%, median 3.25 m), type 1: 277 (20%, median 4.68 m), type 4: 131 (10%, median 3.26 m), type 14: 4 (0%, median 13.23 m), type 10: 2 (0%, median 2.75 m)
+=== nevervalley-rl100: Nevervalley — nearest edge type to each building entrance
+  in-ring  n=1557  type 0: 1446 (93%, median 2.47 m), type 1: 110 (7%, median 3.99 m), type 4: 1 (0%, median 3.11 m)
+  out-ring n= 975  type 0: 663 (68%, median 3.23 m), type 1: 201 (21%, median 4.72 m), type 4: 111 (11%, median 3.28 m)

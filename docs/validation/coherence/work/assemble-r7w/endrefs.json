@@ -1,0 +1,450 @@
+[
+ {
+  "anchor": "§8.2's slot 19a (layer-order row)",
+  "home": "base",
+  "defined_untouched": false,
+  "defined_installed": true,
+  "citations_untouched": 0,
+  "citations_installed": 8,
+  "by_unit_installed": {
+   "base": 3,
+   "V01": 5
+  }
+ },
+ {
+  "anchor": "V01 §5.1.3's row 19a",
+  "home": "V01",
+  "defined_untouched": false,
+  "defined_installed": true,
+  "citations_untouched": 0,
+  "citations_installed": 8,
+  "by_unit_installed": {
+   "base": 3,
+   "V01": 5
+  }
+ },
+ {
+  "anchor": "§4.4 S5a *Trace* (2)",
+  "home": "base",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 10,
+  "citations_installed": 12,
+  "by_unit_installed": {
+   "base": 11,
+   "V06": 1
+  }
+ },
+ {
+  "anchor": "V04 §3.5.4 (d) (1) (the lay rule: an inset rectangle below `minEdge` is no chamber)",
+  "home": "V04",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 67,
+  "citations_installed": 69,
+  "by_unit_installed": {
+   "base": 11,
+   "V03": 2,
+   "V04": 37,
+   "V06": 8,
+   "V07": 7,
+   "V09": 1,
+   "V10": 3
+  }
+ },
+ {
+  "anchor": "V06 §3.7.5 (the ring repair)",
+  "home": "V06",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 23,
+  "citations_installed": 26,
+  "by_unit_installed": {
+   "base": 2,
+   "V05": 7,
+   "V06": 16,
+   "V07": 1
+  }
+ },
+ {
+  "anchor": "V06 §3.19 (2)",
+  "home": "V06",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 6,
+  "citations_installed": 7,
+  "by_unit_installed": {
+   "base": 1,
+   "V06": 6
+  }
+ },
+ {
+  "anchor": "§7.4 *Independence*",
+  "home": "base",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 2,
+  "citations_installed": 2,
+  "by_unit_installed": {
+   "base": 2
+  }
+ },
+ {
+  "anchor": "`refuse.undo.dependent` (§7.1's outcome table)",
+  "home": "base",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 5,
+  "citations_installed": 6,
+  "by_unit_installed": {
+   "base": 4,
+   "V09": 2
+  }
+ },
+ {
+  "anchor": "`refuse.raised.meeting` (§7.1)",
+  "home": "base",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 31,
+  "citations_installed": 31,
+  "by_unit_installed": {
+   "base": 25,
+   "V04": 1,
+   "V07": 2,
+   "V09": 2,
+   "V10": 1
+  }
+ },
+ {
+  "anchor": "`bend.wall.raisedCrossing` (§7.1 row)",
+  "home": "base",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 26,
+  "citations_installed": 26,
+  "by_unit_installed": {
+   "base": 17,
+   "V07": 2,
+   "V09": 7
+  }
+ },
+ {
+  "anchor": "`bend.wall.raisedCrossing` (V09 §4.9 row)",
+  "home": "V09",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 26,
+  "citations_installed": 26,
+  "by_unit_installed": {
+   "base": 17,
+   "V07": 2,
+   "V09": 7
+  }
+ },
+ {
+  "anchor": "`bend.wall.aqueductArch` (V09 §4.9 row)",
+  "home": "V09",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 8,
+  "citations_installed": 8,
+  "by_unit_installed": {
+   "base": 4,
+   "V09": 4
+  }
+ },
+ {
+  "anchor": "`bend.raised.underSpan` (V09 §4.9 row)",
+  "home": "V09",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 17,
+  "citations_installed": 17,
+  "by_unit_installed": {
+   "base": 9,
+   "V09": 8
+  }
+ },
+ {
+  "anchor": "`W_RAISED_MEETING` (§5.4's warnings)",
+  "home": "base",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 9,
+  "citations_installed": 9,
+  "by_unit_installed": {
+   "base": 7,
+   "V07": 2
+  }
+ },
+ {
+  "anchor": "F-CASTLE (§5.2 row)",
+  "home": "base",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 11,
+  "citations_installed": 12,
+  "by_unit_installed": {
+   "base": 12
+  }
+ },
+ {
+  "anchor": "F-WALL (§5.2 row)",
+  "home": "base",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 25,
+  "citations_installed": 25,
+  "by_unit_installed": {
+   "base": 19,
+   "V06": 3,
+   "V07": 1,
+   "V11": 2
+  }
+ },
+ {
+  "anchor": "F-REDERIVE (§5.2 row)",
+  "home": "base",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 30,
+  "citations_installed": 30,
+  "by_unit_installed": {
+   "base": 28,
+   "V02": 1,
+   "V09": 1
+  }
+ },
+ {
+  "anchor": "F-V-RAISED (V07 §3.13 row)",
+  "home": "V07",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 11,
+  "citations_installed": 11,
+  "by_unit_installed": {
+   "base": 6,
+   "V07": 5
+  }
+ },
+ {
+  "anchor": "`raisedWays.structure.span.deckDepthCm`",
+  "home": "base, V09",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 16,
+  "citations_installed": 17,
+  "by_unit_installed": {
+   "base": 4,
+   "V09": 1,
+   "V11": 10,
+   "V12": 2
+  }
+ },
+ {
+  "anchor": "**the edge** (*beneath*)",
+  "home": "base",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 4,
+  "citations_installed": 4,
+  "by_unit_installed": {
+   "base": 4
+  }
+ },
+ {
+  "anchor": "the fixed-place sentence",
+  "home": "base",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 22,
+  "citations_installed": 26,
+  "by_unit_installed": {
+   "base": 18,
+   "V06": 5,
+   "V07": 2,
+   "V09": 1
+  }
+ },
+ {
+  "anchor": "the bent-group sentence",
+  "home": "base",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 20,
+  "citations_installed": 20,
+  "by_unit_installed": {
+   "base": 13,
+   "V06": 1,
+   "V07": 4,
+   "V09": 2
+  }
+ },
+ {
+  "anchor": "`walls.waited` (V06 §2.10's report: walls { … waited })",
+  "home": "V06",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 14,
+  "citations_installed": 15,
+  "by_unit_installed": {
+   "base": 11,
+   "V06": 3,
+   "V07": 1
+  }
+ },
+ {
+  "anchor": "`raised.waited` (V06 §2.10's report: raised { … waited })",
+  "home": "V06",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 16,
+  "citations_installed": 16,
+  "by_unit_installed": {
+   "base": 6,
+   "V06": 10
+  }
+ },
+ {
+  "anchor": "T-V6-73",
+  "home": "V06",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 37,
+  "citations_installed": 37,
+  "by_unit_installed": {
+   "base": 15,
+   "V06": 13,
+   "V11": 4,
+   "V12": 5
+  }
+ },
+ {
+  "anchor": "T-V6-48",
+  "home": "V06",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 3,
+  "citations_installed": 3,
+  "by_unit_installed": {
+   "base": 1,
+   "V06": 2
+  }
+ },
+ {
+  "anchor": "T-V6-47",
+  "home": "V06",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 27,
+  "citations_installed": 29,
+  "by_unit_installed": {
+   "base": 18,
+   "V06": 11
+  }
+ },
+ {
+  "anchor": "T-V6-11",
+  "home": "V06",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 26,
+  "citations_installed": 26,
+  "by_unit_installed": {
+   "base": 14,
+   "V05": 1,
+   "V06": 11
+  }
+ },
+ {
+  "anchor": "T-V10-41 (c14 span)",
+  "home": "V10",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 9,
+  "citations_installed": 9,
+  "by_unit_installed": {
+   "base": 2,
+   "V10": 7
+  }
+ },
+ {
+  "anchor": "T110-2 (§13.2)",
+  "home": "base",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 124,
+  "citations_installed": 127,
+  "by_unit_installed": {
+   "base": 111,
+   "V06": 13,
+   "V09": 1,
+   "V10": 1,
+   "V12": 1
+  }
+ },
+ {
+  "anchor": "T110-4 (§13.2)",
+  "home": "base",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 10,
+  "citations_installed": 11,
+  "by_unit_installed": {
+   "base": 10,
+   "V02": 1
+  }
+ },
+ {
+  "anchor": "§4.2 S3 (10)",
+  "home": "base",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 26,
+  "citations_installed": 27,
+  "by_unit_installed": {
+   "base": 21,
+   "V04": 4,
+   "V07": 1,
+   "V11": 1
+  }
+ },
+ {
+  "anchor": "§4.2 S3 (8)'s filter",
+  "home": "base",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 12,
+  "citations_installed": 14,
+  "by_unit_installed": {
+   "base": 14
+  }
+ },
+ {
+  "anchor": "`undo(h, of)`",
+  "home": "base",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 6,
+  "citations_installed": 7,
+  "by_unit_installed": {
+   "base": 4,
+   "V09": 2,
+   "V10": 1
+  }
+ },
+ {
+  "anchor": "§2.7's support step (6)",
+  "home": "base",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 9,
+  "citations_installed": 9,
+  "by_unit_installed": {
+   "base": 6,
+   "V01": 1,
+   "V06": 2
+  }
+ }
+]

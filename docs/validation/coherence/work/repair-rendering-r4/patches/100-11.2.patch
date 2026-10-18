@@ -1,0 +1,111 @@
+# §11.2. VRC3T-06: `Box` (§8.1) for ExportOpts.frame and thumbnail's box. VRC2T-12: ExportOpts' missing members (links,
+# raised, retaining, wings, terrain, lights; trees for the 3-D formats; vtt.scene's raised-way form). VAL-R3-01's END
+# (R4-02): `layers`' default those the view draws. VRC3T-05: the out-of-range rule. VV910-r3-02's END (R4-04 (c)): the
+# `looks` member's building and LooksAnswer.crises[].over. VAT-r3-02 (R4-05): the view-bound why and its admission.
+# VV910-r3-03's END: the festival list standalone and under a preview. VV12-r3-02 (VAF-R3T-03 merged): the `districts`
+# comment. VRC3T-01 (R4-12): *At a drawn week* — the frame's listing.
+@@ FILE 11.2.md
+<<<<
+  thumbnail(h: DocHandle, req: { previewId: string; variation: number; box: BoxCm; px: [number, number] }): Promise<ImageBitmap>;
+====
+  thumbnail(h: DocHandle, req: { previewId: string; variation: number; box: Box; px: [number, number] }): Promise<ImageBitmap>;
+>>>>
+<<<<
+  frame?: BoxCm;         // a picture's frame or a scene's scope in model cm
+====
+  frame?: Box;           // a picture's frame or a scene's scope in model cm
+>>>>
+<<<<
+  layers?: Layer[];      // the model layers drawn or written (§11.1 *Layers*; §8.9's request): default, for a picture, those the view shows (`LayerSpec.visible`,
+                         // §8.4), for every other format every layer
+====
+  layers?: Layer[];      // the model layers drawn or written (§11.1 *Layers*; §8.9's request): default, for a picture, those the view draws (`LayerSpec.visible`,
+                         // and the view's working layer, §8.4), for every other format every layer
+>>>>
+<<<<
+  trees?: 'groups'|'each'|'none';       // GeoJSON (§11.1): one MultiPoint per green entity (default), one Feature per tree, or none
+  exportWhy?: boolean;   // GeoJSON and CityJSON (§11.1; file f item 456): default false
+====
+  trees?: 'groups'|'each'|'none';       // GeoJSON (§11.1): one MultiPoint per green entity (default), one Feature per tree, or none; the 3-D formats (§11.1:
+                         // glTF's instanced crowns, CityJSON's `SolitaryVegetationObject`s): 'none' leaves them out, any other value writes them (default)
+  raised?: boolean;      // GeoJSON (§11.1's item-110 clause; file f item 447 (a)): false leaves out every feature on a raised part (`part` ≥ 1, the raised
+                         // ways' LineStrings) and the `raisedSupport` and `span` Polygons; default true
+  retaining?: boolean;   // GeoJSON (the same clause): false leaves out the `retaining` LineStrings; default true
+  links?: boolean;       // GeoJSON (V09 §5.15): one LineString of kind `supplyLink` per supply link within the export's scope (its good, consumer, provider,
+                         // satisfaction and declared row, as the `links` query below reads them); default true while the view's `thematic` is `links`, else false
+  wings?: boolean;       // GeoJSON with stage 3 registered: V02 §5.5's optional `wings` layer (§11.1); default false
+  exportWhy?: boolean;   // GeoJSON and CityJSON (§11.1; file f item 456): default false
+>>>>
+<<<<
+  interiors?: boolean;   // glTF (§11.1; V03 §5.3): default false
+====
+  interiors?: boolean;   // glTF (§11.1; V03 §5.3): default false
+  terrain?: boolean;     // the 3-D formats: the ground surface — glTF's draped ground partition, CityJSON's `TINRelief` (§11.1); false leaves it out; default true
+  lights?: boolean;      // glTF: the `KHR_lights_punctual` lights (§11.1; item 68); false writes none; default true
+>>>>
+<<<<
+    scene?: { key: PlatKey } | { depthBand: number } | { building: Id; storey?: number } /* one scene set;
+====
+    scene?: { key: PlatKey } | { depthBand: number } | { building: Id; storey?: number } | { raisedWay: Id /* its deck scene, §11.1 *Per raised way* */ } /* one scene set;
+>>>>
+<<<<
+}
+interface ViewOpts { viewAs?: Admission
+====
+}
+// Out of range (principle (11)). A request from a script or the bridge (V09 §5.10's dialog offers none) whose member lies outside the range its comment
+// gives is never drawn as asked. A member with a nearest lawful value is clamped to it — `vtt.pxPerSquare` below 50 to 50, `vtt.squareM` to the nearer
+// of 1.5 and 1, `band` 'neighbourhood' over a frame larger than a district to 'district' — the file made at that value and the clamp listed in its
+// metadata's `plat.clamped: { member: string; asked: unknown; used: unknown }[]` (the `.dd2vtt`'s `plat` extension object, a Foundry scene's
+// `flags.plat`, the SVG's `<metadata>` JSON; every clamped member is one of these formats'). A member with none — a `vtt.scene` naming a key, depth
+// band, building, storey or raised way the scope lacks, a `stride` ≤ 0, a `size` side or `dpi` ≤ 0, a `frame` of zero area once cut to the limit
+// bounds — refuses the export with the API error `E_EXPORT_OPTION` naming the member (the call's promise rejected, `exportDocument` throwing; over the bridge
+// `export.refused { error: 'E_EXPORT_OPTION', message }`), nothing written — never a crash or a hang (T-ER-19).
+interface ViewOpts { viewAs?: Admission
+>>>>
+<<<<
+  | { kind: 'looks'; view: ViewHandle }   // g items 122 (f), 118
+====
+  | { kind: 'looks'; view: ViewHandle; building?: Id /* g item 122 (f): with it, each disaster look says whether it stands over that building (§10.2 (f)) */ }   // g items 122 (f), 118
+>>>>
+<<<<
+  | { kind: 'why'; id: Id; path?: string; mode?: 'asPlaced'|'asNow'; historyPage?: number }   // item 101
+====
+  | { kind: 'why'; id: Id; path?: string; mode?: 'asPlaced'|'asNow'; historyPage?: number;
+      view?: ViewHandle /* a view-bound why: a provider whose rows state a view's look — V07 §4.5's crisis, season and festival rows — reads that view's
+                           §2.9 `week`, `yearWeek`, `festival` and `crises` and its `looks` evaluation (LooksAnswer) at the view's effective key; absent, no
+                           such row is given; a provider that states no view's look ignores it */ }   // item 101
+>>>>
+<<<<
+shown: boolean /* drawn now under §2.9's `festival` */ }[] /* DR43's list, in window order */;
+====
+shown: boolean /* drawn now under §2.9's `festival` */ }[] /* DR43's list, in window order; standalone the list is empty (DR43: no tradition exists and none is invented); a previewed generic festival is no entry — it reaches the view by §2.9's `festival` */;
+>>>>
+<<<<
+    districts?: Id[] /* a disaster look's units: V01's disasterDistricts over the model the view draws, at the village rungs V07's ends; key-filtered, ≤ limits.members */;
+====
+    districts?: Id[] /* a disaster look's units: V01's disasterDistricts over the model the view draws (at the village rungs V07 §5.6 (3)'s ends or toft groups); key-filtered, ≤ limits.members */;
+    over?: boolean /* with the query's building: whether this disaster look stands over it at the view's week — a building of one of its units on which V06 §3.22 (3)'s crisisLookYields is not yet true; on a preview, every building of its units; evaluated in the generation worker */;
+>>>>
+<<<<
+by DR44's admission at its view's effective key, so a condition the key withholds is absent and uncounted; `plan` and
+====
+by DR44's admission at its view's effective key, so a condition the key withholds is absent and uncounted, and a `why`
+with a `view` admits its view-bound rows as `looks` does; `plan` and
+>>>>
+<<<<
+**At a drawn week** (`week`, g item 120 (f); V06 §3.15.2): where that week's frame is not the head, every row, count,
+match and gap unit is the head index's restricted to the entities the frame holds — one the frame lacks matches nothing
+and counts nothing there, a chip with none there counting 0 — so a reader that passes its view's week (`live.find`,
+V09's panel, V10's `read_map find`) counts, glows, pins, lists and gaps only what the drawn frame holds; absent, the head.
+====
+**At a drawn week** (`week`, g item 120 (f); V06 §3.15.2): where that week's frame is not the head, the listing is the
+frame's — every row, count, match and gap unit: the head index's matches less those whose entity, or whose matching use,
+the frame does not hold open at that week, plus the frame's own uses and entities of the chip's classes or target that
+the head lacks or holds otherwise — read from V06 §3.15.2's frame (its `Use` records whose `opened` event falls at or
+before the week and whose `closed` event, if any, after it; the `HistoryStore` images between the frame and the head) —
+so a building matches by its use at that week, never its head use, and an entity or use the frame holds matches though
+the head has since closed, moved or demolished it; a chip with none there counting 0. A reader that passes its view's
+week (`live.find`, V09's panel, V10's `read_map find`, V01's `gapUnits`, V04's and V05's Find places) counts, glows,
+pins, lists and gaps that listing; absent, the head.
+>>>>

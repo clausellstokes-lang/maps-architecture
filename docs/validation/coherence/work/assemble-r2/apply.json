@@ -1,0 +1,385 @@
+{
+ "base": {
+  "target": "docs/ARCHITECTURE.md",
+  "found": 71,
+  "applied": 71,
+  "skipped": 0,
+  "skipped_detail": [],
+  "audit_not_ok": 0,
+  "headings": [
+   153,
+   153
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   140,
+   140
+  ],
+  "title_block_unchanged": true,
+  "bytes": [
+   2787468,
+   2934933
+  ],
+  "sha256_out": "4ed292e94f2442e5db7cb25e3da110806f5c5e7ccb9037d6fe32375a51504f76",
+  "rationale_unchanged": false,
+  "rationale_sha256_out": "24b3df75f437481a808767febf87db62c4d2aedc0f028895454c82011cf46abb",
+  "notes": [
+   "REPLACE retitles the heading",
+   "DUPLICATE ID inserted (an id the table already holds): ['J-DET-11', 'J-A20.71', 'J-A113.61', 'J-A114.01', 'J-A568.01', 'J-A76.41']"
+  ]
+ },
+ "INDEX": {
+  "target": "docs/volumes/INDEX.md",
+  "found": 1,
+  "applied": 1,
+  "skipped": 0,
+  "skipped_detail": [],
+  "audit_not_ok": 0,
+  "headings": [
+   9,
+   9
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   2,
+   2
+  ],
+  "title_block_unchanged": false,
+  "bytes": [
+   23960,
+   24049
+  ],
+  "sha256_out": "1774db18eb14cd3179d29569dc876b00b0d8ae1b603169e1dfa507bec88e83f0",
+  "rationale_unchanged": true,
+  "rationale_sha256_out": "630da95935076a85bca38148d5c07208f6e3bf61c9648eefb15967351a8a2928",
+  "notes": []
+ },
+ "V01-neighbourhoods": {
+  "target": "docs/volumes/V01-neighbourhoods.md",
+  "found": 28,
+  "applied": 28,
+  "skipped": 0,
+  "skipped_detail": [],
+  "audit_not_ok": 0,
+  "headings": [
+   123,
+   123
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   14,
+   12
+  ],
+  "title_block_unchanged": true,
+  "bytes": [
+   492604,
+   516483
+  ],
+  "sha256_out": "fb2d14965bdcae74be2f7d138804e64aafe2ed5569e53f1aeb5d07ed52ac1901",
+  "rationale_unchanged": true,
+  "rationale_sha256_out": "630da95935076a85bca38148d5c07208f6e3bf61c9648eefb15967351a8a2928",
+  "notes": []
+ },
+ "V02-buildings": {
+  "target": "docs/volumes/V02-buildings.md",
+  "found": 28,
+  "applied": 28,
+  "skipped": 0,
+  "skipped_detail": [],
+  "audit_not_ok": 0,
+  "headings": [
+   73,
+   77
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   14,
+   16
+  ],
+  "title_block_unchanged": true,
+  "bytes": [
+   513788,
+   547405
+  ],
+  "sha256_out": "dad2b5bce0a72f006eac1a330608b88ebf1a9cefcc17d1e2552fe591efeb48c7",
+  "rationale_unchanged": true,
+  "rationale_sha256_out": "630da95935076a85bca38148d5c07208f6e3bf61c9648eefb15967351a8a2928",
+  "notes": []
+ },
+ "V03-interiors": {
+  "target": "docs/volumes/V03-interiors.md",
+  "found": 25,
+  "applied": 25,
+  "skipped": 0,
+  "skipped_detail": [],
+  "audit_not_ok": 0,
+  "headings": [
+   47,
+   48
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   12,
+   14
+  ],
+  "title_block_unchanged": true,
+  "bytes": [
+   413070,
+   459238
+  ],
+  "sha256_out": "b015fd004576b4c1469fa91f4d40dc027c2842b5995aa06c9d52093129a6a157",
+  "rationale_unchanged": true,
+  "rationale_sha256_out": "630da95935076a85bca38148d5c07208f6e3bf61c9648eefb15967351a8a2928",
+  "notes": []
+ },
+ "V04-underground": {
+  "target": "docs/volumes/V04-underground.md",
+  "found": 24,
+  "applied": 24,
+  "skipped": 0,
+  "skipped_detail": [],
+  "audit_not_ok": 0,
+  "headings": [
+   58,
+   59
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   12,
+   12
+  ],
+  "title_block_unchanged": true,
+  "bytes": [
+   488215,
+   514594
+  ],
+  "sha256_out": "a6647acf2da8a1724d3d0f70bf53a69cfe62289478263099d8f0d8e4d278be02",
+  "rationale_unchanged": true,
+  "rationale_sha256_out": "630da95935076a85bca38148d5c07208f6e3bf61c9648eefb15967351a8a2928",
+  "notes": []
+ },
+ "V05-sky": {
+  "target": "docs/volumes/V05-sky.md",
+  "found": 10,
+  "applied": 10,
+  "skipped": 0,
+  "skipped_detail": [],
+  "audit_not_ok": 0,
+  "headings": [
+   62,
+   62
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   14,
+   14
+  ],
+  "title_block_unchanged": true,
+  "bytes": [
+   394900,
+   398211
+  ],
+  "sha256_out": "7617d87cff90221648d3152f847bad8a9c3926683066543ab69331edd764bf95",
+  "rationale_unchanged": true,
+  "rationale_sha256_out": "630da95935076a85bca38148d5c07208f6e3bf61c9648eefb15967351a8a2928",
+  "notes": []
+ },
+ "V06-evolution": {
+  "target": "docs/volumes/V06-evolution.md",
+  "found": 33,
+  "applied": 33,
+  "skipped": 0,
+  "skipped_detail": [],
+  "audit_not_ok": 0,
+  "headings": [
+   63,
+   65
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   26,
+   28
+  ],
+  "title_block_unchanged": true,
+  "bytes": [
+   629860,
+   665606
+  ],
+  "sha256_out": "03d1130a030358951322359b05542a41a3cc043557ef9cd3b54294c095188c70",
+  "rationale_unchanged": true,
+  "rationale_sha256_out": "630da95935076a85bca38148d5c07208f6e3bf61c9648eefb15967351a8a2928",
+  "notes": []
+ },
+ "V07-village": {
+  "target": "docs/volumes/V07-village.md",
+  "found": 21,
+  "applied": 21,
+  "skipped": 0,
+  "skipped_detail": [],
+  "audit_not_ok": 0,
+  "headings": [
+   57,
+   58
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   16,
+   18
+  ],
+  "title_block_unchanged": true,
+  "bytes": [
+   580760,
+   602959
+  ],
+  "sha256_out": "cb663d471ad61b32c232622c3e5b520586cd09e274698caf3ce95281915ef220",
+  "rationale_unchanged": true,
+  "rationale_sha256_out": "630da95935076a85bca38148d5c07208f6e3bf61c9648eefb15967351a8a2928",
+  "notes": []
+ },
+ "V08-settlementforge": {
+  "target": "docs/volumes/V08-settlementforge.md",
+  "found": 38,
+  "applied": 38,
+  "skipped": 0,
+  "skipped_detail": [],
+  "audit_not_ok": 0,
+  "headings": [
+   63,
+   63
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   20,
+   18
+  ],
+  "title_block_unchanged": true,
+  "bytes": [
+   505231,
+   545796
+  ],
+  "sha256_out": "3d235466c526cd5cba347bb1a2c9184b79a62271711688e088222db9274b8aa8",
+  "rationale_unchanged": true,
+  "rationale_sha256_out": "630da95935076a85bca38148d5c07208f6e3bf61c9648eefb15967351a8a2928",
+  "notes": [
+   "REPLACE retitles the heading",
+   "REPLACE retitles the heading",
+   "REPLACE retitles the heading",
+   "REPLACE retitles the heading"
+  ]
+ },
+ "V09-application": {
+  "target": "docs/volumes/V09-application.md",
+  "found": 52,
+  "applied": 52,
+  "skipped": 0,
+  "skipped_detail": [],
+  "audit_not_ok": 0,
+  "headings": [
+   110,
+   110
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   24,
+   24
+  ],
+  "title_block_unchanged": true,
+  "bytes": [
+   659614,
+   738860
+  ],
+  "sha256_out": "cab49ee7245d62632460b25431df23eb14b7067c6dba8e583abfc005fecbb1ca",
+  "rationale_unchanged": true,
+  "rationale_sha256_out": "630da95935076a85bca38148d5c07208f6e3bf61c9648eefb15967351a8a2928",
+  "notes": [
+   "REPLACE retitles the heading",
+   "REPLACE retitles the heading"
+  ]
+ },
+ "V10-clerk": {
+  "target": "docs/volumes/V10-clerk.md",
+  "found": 28,
+  "applied": 28,
+  "skipped": 0,
+  "skipped_detail": [],
+  "audit_not_ok": 0,
+  "headings": [
+   86,
+   86
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   24,
+   24
+  ],
+  "title_block_unchanged": true,
+  "bytes": [
+   476312,
+   503125
+  ],
+  "sha256_out": "6c871dc4d98a528ed3e739b353a740adfd6f3d432671a612a7bbed7fac79d5e9",
+  "rationale_unchanged": true,
+  "rationale_sha256_out": "630da95935076a85bca38148d5c07208f6e3bf61c9648eefb15967351a8a2928",
+  "notes": [
+   "REPLACE retitles the heading",
+   "REPLACE retitles the heading"
+  ]
+ },
+ "V11-content": {
+  "target": "docs/volumes/V11-content.md",
+  "found": 27,
+  "applied": 27,
+  "skipped": 0,
+  "skipped_detail": [],
+  "audit_not_ok": 0,
+  "headings": [
+   58,
+   58
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   22,
+   22
+  ],
+  "title_block_unchanged": true,
+  "bytes": [
+   626514,
+   668874
+  ],
+  "sha256_out": "db2ccf012142718e91fdd59ebffc8d2e5344627018602a6b127cedaf70762fac",
+  "rationale_unchanged": true,
+  "rationale_sha256_out": "630da95935076a85bca38148d5c07208f6e3bf61c9648eefb15967351a8a2928",
+  "notes": [
+   "REPLACE retitles the heading",
+   "REPLACE retitles the heading"
+  ]
+ },
+ "V12-calibration": {
+  "target": "docs/volumes/V12-calibration.md",
+  "found": 24,
+  "applied": 24,
+  "skipped": 0,
+  "skipped_detail": [],
+  "audit_not_ok": 0,
+  "headings": [
+   67,
+   67
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   30,
+   30
+  ],
+  "title_block_unchanged": true,
+  "bytes": [
+   453363,
+   512827
+  ],
+  "sha256_out": "5285ff5bdbe28e2ed0836c17e3a62c4db42c508ee10a5ca83190b3f3bea4abfd",
+  "rationale_unchanged": true,
+  "rationale_sha256_out": "630da95935076a85bca38148d5c07208f6e3bf61c9648eefb15967351a8a2928",
+  "notes": [
+   "REPLACE retitles the heading"
+  ]
+ }
+}

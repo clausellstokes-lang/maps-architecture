@@ -1,0 +1,432 @@
+--- live
++++ new
+@@ -102 +102,3 @@
+-the village rungs: the ends, fields and places as targets and the ends as Show gaps' units, V07 §5.5).
++the village rungs: the ends, fields and places as targets and the ends as Show gaps' units, V07 §5.5); item 122 (the
++crisis looks at the village rungs: §10.2's places read on the village's records, the ends as a disaster's units, the
++village tiers' scale and the hand-over through the village's epochs, V07 §5.6).
+@@ -121 +123,4 @@
+-deck plots and their budget, T3 `wall`'s `retaining` kind and T4 `road`'s `raised` flag (§7.1). The sibling volumes' parts
++deck plots and their budget, T3 `wall`'s `retaining` kind and T4 `road`'s `raised` flag (§7.1); item 122's base side —
++`ConditionOverlay` and
++its reader comment (§2.7), §2.9's `crises` key and *The crisis framing*, §7.7's DR44, §10.2's crisis look table and its
++*Crisis looks*, §8.2's `live.crises` rows and §8.8's ring marks, §11.1's exports. The sibling volumes' parts
+@@ -127 +132,4 @@
+-cap and decline (V06 §3.19); V09's delete; V01's aqueduct terminal form (V01 §3.17.8).
++cap and decline (V06 §3.19); V09's delete; V01's aqueduct terminal form (V01 §3.17.8); item 122's sibling parts —
++V01's `disasterDistricts` and `campLand`, V06's `frontierFor` and `crisisLookYields` (V06 §3.22), V08's reading of the
++conditions with their closed mapping, V11's crisis rows, V09's Show crises, preview, crisis lines and Find's crisis section
++(V09 §4.21.12), V02's ruined exterior and V03's look damage (item 123's layer).
+@@ -188 +196,5 @@
+-participants at item 202's call points with V06 §2.1's `ProductEpochContext`; *fallback*: V07 §8's risk (10).
++participants at item 202's call points with V06 §2.1's `ProductEpochContext`; *fallback*: V07 §8's risk (10). (15) V01 —
++`disasterSource` reads V07 §5.6 (3)'s units, in V01 §2.3's `DisasterUnit` shape, at THORP, HAMLET and VILLAGE, and
++`campLand` the village's records as V07 §5.6 (2) states; V06 — `frontierFor` at a village rung answers the through
++road's entry (V06 §3.22 (2)), here V07 §5.6 (2)'s main approach road, and `crisisLookYields` yields a building to its
++rebuild (V06 §3.22 (3)); §10.2's *Crisis looks* — its places read at the village rungs as V07 §5.6 (2) states.
+@@ -242 +254 @@
+-| W46 | the village dig rows and the well and mine-working access readings (V07 §3.16 (3)–(4)) | V07 §2.4's classes; VS8's wells; the mining class's outside plot | V04's U-ACCESS draws; `AccessPoint.cause` | V04's `DigRule.classRow`, `OpeningRow` | the mining deposits (DR19) |
++| W46 | the village dig rows and the well and mine-working access readings (V07 §3.16 (3)–(4)) | V07 §2.4's classes; VS8's wells; the mining class's outside plot | V04's U-ACCESS draws; `AccessPoint.cause` | V04's `DigRule.classRow`, `UnderOpeningRow` | the mining deposits (DR19) |
+@@ -270 +282 @@
+-| W74 | the village `WhyProvider` for `VillagePlan`, `VillageField` and `VillageEnd`, with its `info.village.*` answer rows (V07 §4.5) | the committed records; V07 §2.3's recorded sources (`formSource`, `roadsSource`, `heartSource`), the heart's terms, a field's system, an end's reason; `RaisedRead.origin`; a generated wall's platform | V10's `why` query and the application's why card (V10 §3.9's owed table); T-V7-61 | item 270's `WhyProvider` registry (§2.8; §11.2's `why`) | the recorded dossier sources (`formSource`/`roadsSource` `dossier`) |
++| W74 | the village `WhyProvider` for `VillagePlan`, `VillageField` and `VillageEnd`, with its `info.village.*` answer rows (V07 §4.5) | the committed records; V07 §2.3's recorded sources (`formSource`, `roadsSource`, `heartSource`), the heart's terms, a field's system, an end's reason; `RaisedRead.origin`; a generated wall's platform; while a crisis look stands, §2.9's `crises` and `week` with DR44 at the viewer's key (the crisis line, V09's `info.crisis.ruinedFor`) | V10's `why` query and the application's why card (V10 §3.9's owed table); T-V7-61 | item 270's `WhyProvider` registry (§2.8; §11.2's `why`) | the recorded dossier sources (`formSource`/`roadsSource` `dossier`) |
+@@ -273,5 +285,5 @@
+-| W77 | the palisade's run conditions and patch materials (item 114; V07 §3.4 (8)) | at generation §7.7's readiness-and-wealth row; at an epoch V06 §3.7's walls step (need and means); T3 `wall`'s `repairWall` with its material; `walls.patchMaterials`' rows by kind and culture (V11 §3.25.3) | render (V07 §5.1's condition looks, the legend); exports (condition and material; a patch a wall, a breach an opening); the clerk (W74's `info.village.palisadeRun`); T-V7-62 | `Enceinte.condition` (§2.7; a stretch-state profile, §2.2 rule 5) | the dossier's `readiness` label and `wealth` (V08) |
+-| W78 | the grandeur ceiling at village rungs (item 115; V07 §3.8) | V11's ceiling rows by rung (§10.2's shape); S10b's class mix; DR6's wealth shift; a dossier's manor record or `villageSeat` ("specified", V08) | S10b's generation fill and the manor's presence; V02's composition chain (the capped rows); the clerk (`info.village.ceiling`); T-V7-63 | §4.7 S10b's rung ceiling; §10.2 | DR6 wealth; DR11 seats; a manor or hall record |
+-| W79 | the township view at the zoom-out limit (item 116; V07 §5.2) | the map's `bounds` (the territory frame, grown by an epoch or an edit) | the view's zoom-out stop, the pyramid's tiles, the export frame; T-V7-64 | §8.8's per-map limit | — |
+-| W80 | the village through the year (item 117, (f2) included; V07 §5.1) | the view's year position (§2.9), §7.7's calendar row (the dossier's week), the climate's season columns (§4.2 S0, §10.2), V11's season tables by field, garden and water kind and its leaf palettes | §8.2's season, cover, `ice` and `snow` rows over the village's fields, strips, commons, green, ponds, leat, crowns and roofs; exports naming the season; the clerk (`info.village.season`); T-V7-65 | §8.2's season rows (item 117) | the campaign calendar's week and season (V08) |
+-| W81 | the festival decorations of the village rungs (item 118; V07 §5.1) | the view's year position and festival display (§2.9); §7.7's `traditions` row (window, staging); V11's decoration, staging-keyword and motif tables | §8.2's decoration rows at the village's places (the heart, the green, the church lane, the market, the landing); exports (the image only); the clerk (`info.village.festival`); T-V7-66 | §8.2's decoration rows (item 118) | `traditions[]` (V08) |
++| W77 | the palisade's run conditions and patch materials (item 114; V07 §3.4 (8)) | at generation §7.7's DR41; at an epoch V06 §3.7's walls step (need and means); T3 `wall`'s `repairWall` with its material; `walls.patchMaterials`' rows by kind and culture (V11 §3.25.3) | render (V07 §5.1's condition looks, the legend); exports (condition and material; a patch a wall, a breach an opening); the clerk (W74's `info.village.palisadeRun`); T-V7-62 | `Enceinte.condition` (§2.7; a stretch-state profile, §2.2 rule 5) | the dossier's `readiness` label and `wealth` (V08) |
++| W78 | the grandeur ceiling at village rungs (item 115; V07 §3.8) | V11's ceiling rows by rung (§10.2's shape); S10b's class mix; DR6's wealth shift; a dossier's specification (V08 §3.16 (3)) | S10b's generation fill and the manor's presence; V02's composition chain (the capped rows); the clerk (`info.village.ceiling`); T-V7-63 | §4.7 S10b's rung ceiling; §10.2 | DR6 wealth; DR11 seats; a dossier-bound record of a class in `grandeur.ceiling`'s `settings.grandClasses` (V11 §3.25.4), or a dossier government whose `villageSeat` names the manor house, seigneurial or crown (V11 §3.21.1) (V08 §3.16 (3)) |
++| W79 | the township view at the zoom-out limit (item 116; V07 §5.2) | the map's `bounds` (the territory frame, grown by an epoch or an edit); while a crisis look stands, the bounds of town and camps (§2.9's *The crisis framing*; V07 §5.6) | the view's zoom-out stop, the pyramid's tiles, the export frame; T-V7-64 | §8.8's per-map limit | — |
++| W80 | the village through the year (item 117, (f2) included; V07 §5.1) | the view's year position (§2.9), §7.7's DR42 (the dossier's week), the climate's season columns (§4.2 S0, §10.2), V11's season tables by field, garden and water kind and its leaf palettes | §8.2's season, cover, `ice` and `snow` rows over the village's fields, strips, commons, green, ponds, leat, crowns and roofs; exports naming the season; the clerk (`info.village.season`); T-V7-65 | §8.2's season rows (item 117) | the campaign calendar's week and season (V08) |
++| W81 | the festival decorations of the village rungs (item 118; V07 §5.1) | the view's year position and festival display (§2.9); §7.7's DR43 (window, staging); V11's decoration, staging-keyword and motif tables | §8.2's decoration rows at the village's places (the heart, the green, the church lane, the market, the landing); exports (the image only); the clerk (`info.village.festival`); T-V7-66 | §8.2's decoration rows (item 118) | `traditions[]` (V08) |
+@@ -279,0 +292 @@
++| W84 | the crisis looks at the village rungs (item 122; V07 §5.6) — the places' village readings and the main approach road, `villageDisasterUnits` and `villageUnitPlots` (the ends, or the toft groups), the village tiers' scale, the crisis lines | the committed records (`VillagePlan.entries` and `.ends`; the palisade with its runs' conditions, W10, W77; the hinterland's `VillageField`s, W21; the outlying farmsteads, W22; VS8's stalls, W25); DR3's partner weights; §2.9's `crises` key and `week`; DR44's standing looks at the viewer's key; V11's `crisis.looks` and `crisis.map` rows | §10.2's placement through V01's `disasterSource` (its `DisasterUnit`s) and `campLand` and V06's `frontierFor` → §8.2's `live.crises`; V02's ruined exterior and V03's look damage (item 123's layer); the village `WhyProvider`'s crisis line (W74); V09's Find `crises` section; picture exports (V07 §5.4); T-V7-69 | §10.2's *Crisis looks*; §7.7's DR44; §2.7's `ConditionOverlay`; §8.2's `live.crises` (item 122) | `activeConditions[]`, the stressors, `calamityHistory[]` with its `targets`, the forces' and travelling groups' headcounts (V08) |
+@@ -309,4 +322,7 @@
+-→ V08's history reading and DR36 onward → W76; the `readiness` label and wealth → §7.7's item-114 row → W77; a manor or
+-hall record and a government's `villageSeat` → item 115's "specified" → W78; the campaign calendar's week and season → §7.7's
+-item-117 row → W80; `traditions[]` (their windows and staging) → §7.7's item-118 row → W81; the institution names → V08's
+-Find list entries (item 120) → W83.
++→ V08's history reading and DR36 onward → W76; the `readiness` label and wealth → §7.7's DR41 → W77; a dossier-bound
++record of a class in `grandeur.ceiling`'s `settings.grandClasses` (V11 §3.25.4), or a dossier government whose `villageSeat`
++names the manor house, seigneurial or crown (V11 §3.21.1) → item 115's "specified" (V08 §3.16 (3)) → W78; the campaign
++calendar's week and season → §7.7's DR42 → W80; `traditions[]` (their windows and staging) → §7.7's DR43 → W81; the
++institution names → V08's Find list entries (item 120) → W83; the conditions, the stressors and the calamities
++(`activeConditions[]`, the stressors, `calamityHistory[]` with its `targets`) and the forces' and travelling groups'
++headcounts where the dossier gives them → V08's closed mapping and §7.7's DR44 → W84 (item 122).
+@@ -555 +571 @@
+-  raised: { supportClearM: M; endSnapM: M; stripClearM: M; turnStepCdeg: Cdeg; turnMaxCdeg: Cdeg };   // V07 §3.5a (item 110 (b))
++  raised: { supportClearM: M; endSnapM: M; turnStepCdeg: Cdeg; turnMaxCdeg: Cdeg };   // V07 §3.5a (item 110 (b)); the under-deck strip's margin is §4.6 S8's `raisedWays.structure.stripMarginM` (V11 §3.24.2; no village cell)
+@@ -592 +608 @@
+-| `raised` | support clearance 1 m; end snap 20 m; strip clearance 2 m; a tracker turns around a support in 15° steps up to 60° |
++| `raised` | support clearance 1 m; end snap 20 m; a tracker turns around a support in 15° steps up to 60°; the under-deck strip's margin is V11 §3.24.2's `raisedWays.structure.stripMarginM`, read, never copied |
+@@ -993 +1009 @@
+-| the market halls' claims and the fair field (`Reservation`s of kind `institution`, owned by the member, and `market` rank `secondary`, owned by the commons; V07 §3.6 (4a), (4b)) | VS4 (the claims, in its L1 batch) and VS5 (the fair field) from S2's manifest; at a village epoch `village.records` for a record and step (m) for a roster member (V07 §3.12 *Markets, halls and the fair over epochs*); on an absorb without an epoch `village.records` in the absorb's commit; a record's fair field tombstoned by `village.records`' `remove` | S10 (the hall's plot), S10b (the members bind), S12a (the fair field as a `common` face), (8v)'s perimeter re-derivation (the fair field a hole), `dist.market` (the open space, never the fair field), labels, exports, the clerk | the base's reservation chunk | re-derived with their stage, keyed by the member's lineage; one moved by hand held (V07 §4.3); one laid at an epoch replayed from the epoch's record, and the fair field kept at the hand-off up as a standing secondary market | the event's inverse or the stage's undo record; one step (m) laid for a roster member, the epoch's undo record where the epoch is an undo target; one a record laid or removed, none (a dossier event and an epoch that carries one are no undo targets, §7.4; the host restores, item 87) | a document without them has none until VS4, VS5 or an epoch lays them |
++| the market halls' claims and the fair field (`Reservation`s of kind `institution`, owned by the member, and `market` rank `secondary`, owned by the commons; V07 §3.6 (4a), (4b)) | VS4 (the claims, in its L1 batch) and VS5 (the fair field) from S2's manifest; at a village epoch `village.records` for a record and step (m) for a roster member (V07 §3.12 *Markets, halls and the fair over epochs*); on an absorb without an epoch `village.records` in the absorb's commit; a record's fair field tombstoned by `village.records`' `remove` | S10 (the hall's plot), S10b (the members bind), S12a (the fair field as a `common` face), (8v)'s perimeter re-derivation (the fair field a hole), `dist.market` (the open space, never the fair field), labels, exports, the clerk | the base's reservation chunk | re-derived with their stage, keyed by the member's lineage; one moved by hand held (V07 §4.3); one laid at an epoch replayed from the epoch's record, and the fair field kept at the hand-off up as a standing secondary market | the event's inverse or the stage's undo record; one step (m) laid for a roster member, the epoch's undo record where the epoch is an undo target; one a record laid or removed, none (no event of the port's session `host:port` is an undo target, §7.4 *Replay semantics*; the host restores, item 87) | a document without them has none until VS4, VS5 or an epoch lays them |
+@@ -997 +1013 @@
+-| the records placement's ops (`village.records`; V07 §3.12) — the fair field, a hall's plot, building and use, a claim-sized join or outside plot, the rank, a forced pin, a REPLACEMENT greater (item 4), and `remove`'s tombstones, unbindings and a removed market record's cleared rank | the engine's `dossier` step at a village epoch; the base's *One path* placement and §7.7 item 2's removal on an absorb without an epoch — every entity minted and every draw keyed by the adding or removing dossier event's `seq`, epoch component 0 | as their records' rows above and the base's | the epoch's record, or the absorb's commit | replayed from the epoch's record or the absorb's commit | none: a dossier event and an epoch that carries one are no undo targets (§7.4); the host restores (item 87) | base |
++| the records placement's ops (`village.records`; V07 §3.12) — the fair field, a hall's plot, building and use, a claim-sized join or outside plot, the rank, a forced pin, a REPLACEMENT greater (item 4), and `remove`'s tombstones, unbindings and a removed market record's cleared rank | the engine's `dossier` step at a village epoch; the base's *One path* placement and §7.7 item 2's removal on an absorb without an epoch — every entity minted and every draw keyed by the adding or removing dossier event's `seq`, epoch component 0 | as their records' rows above and the base's | the epoch's record, or the absorb's commit | replayed from the epoch's record or the absorb's commit | none: no event of the port's session `host:port` is an undo target (§7.4 *Replay semantics*); the host restores (item 87) | base |
+@@ -1004 +1020 @@
+-| `VillageField` whose furlongs are all cleared | the hinterland unit | — | entities chunk | tombstoned by the clearing epoch's ops, or by the batch of V07 §3.12 (a)'s fair field or (c)'s outside plot that takes its last furlong | the epoch's undo record where the epoch is an undo target; a record's batch none (a dossier event's, §7.4) | as above |
++| `VillageField` whose furlongs are all cleared | the hinterland unit | — | entities chunk | tombstoned by the clearing epoch's ops, or by the batch of V07 §3.12 (a)'s fair field or (c)'s outside plot that takes its last furlong | the epoch's undo record where the epoch is an undo target; a record's batch none (an event of the port's session `host:port`, §7.4 *Replay semantics*) | as above |
+@@ -1019,0 +1036 @@
++| the village crisis units (`villageDisasterUnits`, V07 §5.6 (3)) | derived at each call over committed state (the ends, the district's plots and their shared edges) | V01's `disasterSource` at village rungs; with `villageUnitPlots`, §8.2's `live.crises`, V02's ruined exterior, V03's look damage and Find's frame | never (memoised per model digest in memory; a look stores nothing) | re-derived over the regenerated state | re-derived: an undone edit or epoch that changed the ends gives the units of the state it restores | — (nothing stored) |
+@@ -1414 +1431 @@
+-   is §7.7's readiness-and-wealth derivation row (item 114 (d); a dossier village's `readiness` label and wealth, V08), and
++   is §7.7's DR41 (item 114 (d); a dossier village's `readiness` label and wealth, V08), and
+@@ -1585,2 +1602,3 @@
+-**(5) VS5, VS6 and S10 — no house under the arches.** The **under-deck strip** — the deck's footprint grown by
+-`raised.stripClearM` (2 m) — holds no toft yard part and no building. S10's `toft` strategy lays a frontage slot whose toft
++**(5) VS5, VS6 and S10 — no house under the arches.** The **under-deck strip** — §4.6 S8's: the deck's ground projection
++over its piers and spans, widened each side by `raisedWays.structure.stripMarginM` (V11 §3.24.2) — holds no toft yard part
++and no building. S10's `toft` strategy lays a frontage slot whose toft
+@@ -2100 +2118 @@
+-  (walls exactly when the dossier lists one, DR2's bar). The palisade's generation-time condition is §7.7's item-114 row
++  (walls exactly when the dossier lists one, DR2's bar). The palisade's generation-time condition is §7.7's DR41
+@@ -2336,2 +2354,3 @@
+-law's ops undone by the epoch's undo record where the epoch is an undo target, a record's never (an epoch that carries a
+-dossier event is no undo target, §7.4; the host restores, item 87):
++law's ops undone by the epoch's undo record where the epoch is an undo target, a record's never (no event of the port's session
++`host:port` — a port epoch with or without a dossier change, a dossier event — is an undo target, §7.4 *Replay semantics*;
++the host restores, item 87):
+@@ -2442 +2461,2 @@
+-their ops are that absorb commit's batches (no undo target, §7.4), keyed by the absorb's dossier event's `seq`; so a fair
++their ops are that absorb commit's batches (no undo target, §7.4 *Replay semantics*), keyed by the absorb's dossier event's
++`seq`; so a fair
+@@ -2480,2 +2500,2 @@
+-the epoch's record (replayed with it), undone by its undo record where the epoch is an undo target (an epoch that carries a
+-dossier event is none, §7.4). At the hand-off up, step 3 runs the stall rows on the green it makes the market; at the
++the epoch's record (replayed with it), undone by its undo record where the epoch is an undo target (a port epoch never is, §7.4
++*Replay semantics*). At the hand-off up, step 3 runs the stall rows on the green it makes the market; at the
+@@ -2824,3 +2844,3 @@
+-`cavern.mineCap` (item 109 (a)'s values as V11 §3.23.1 registers them in V04's cavern `params`), where the site holds mining —
+-by V11 §3.23.1's ore rule over its `miningCellShare` of the frame, a roster mining class, or a dossier mining deposit (DR19) —
+-and the `fissure` variant in ordinary rock of hilly or mountainous relief (V04 §2.3's cavern parameters). **Ruins** exist by
++`cavern.mineCap` (item 109 (a)'s values as V11 §3.23.1 registers them in V04's cavern `params`), where the site holds mining
++(`Terrain.mining`, §4.2 S1 (10)) — and the `fissure` variant in ordinary rock of hilly or mountainous relief (V04 §2.3's
++cavern parameters). **Ruins** exist by
+@@ -2850 +2870,2 @@
+-* **(iii) Public openings** — V04 §3.5.7 (e)'s candidates and V11 §3.23.7's `OpeningRow` chances (the ruin entrance's 1 where
++* **(iii) Public openings** — V04 §3.5.7 (e)'s candidates and V11 §3.23.7's `UnderOpeningRow` chances (V04 §2.3's record;
++  the ruin entrance's 1 where
+@@ -2927,0 +2949 @@
++| the crisis looks at the village rungs (V07 §5.6) | none: no condition and no preview, nothing drawn; one: a THORP of one house, one unit, ruined at any positive share at `lookLevel`'s depth; data: an unmatched target reported and the pattern used, an unmapped condition read `none` (V08); no walled stretch, green, market, entry, outlying farmstead, arable face or end — V07 §5.6 (7)'s outcomes; cap: a force beyond the frame and its margin, the ring marks; rungs: THORP, HAMLET and VILLAGE, the parity presets none; lifecycle: nothing stored, every look re-derived from the committed state and the view at save, load, undo, redo, regenerate and migrate | substitute | T-V7-69, T-V7-60 (h) |
+@@ -2948,0 +2971,4 @@
++| a siege of a village whose palisade closes only by barrier arcs | the closing arcs take no camp; with no walled stretch the siege draws the blockade on the entries' ways (§10.2 (h); V07 §5.6 (2)) | — | T-V7-69 |
++| a crisis look over a hand-off epoch | from that epoch the look draws on the places of the rung in force — the town's districts after a hand-off up, the village's ends after a hand-off down (V07 §5.6 (4)) | — | T-V7-69 |
++| a refugee look beside DR18's tent clusters | the look on `campLand`, never on a plot; the clusters stay the model's (V07 §5.6 (2)) | — | T-V7-69 |
++| a famine in the harvest weeks | the bare fields drawn over the harvest's crop stage (§8.2's slot 15b) | — | T-V7-69 |
+@@ -3064 +3090,2 @@
+-`asNow` modes (V10's `WhyAnswer`) from the committed records alone — the heart's terms recomputed by VS1's score (a pure function
++`asNow` modes (§11.2's `WhyAnswer`) from the committed records alone — the heart's terms recomputed by VS1's score (a pure
++function
+@@ -3090 +3117,6 @@
+-  items 117 (h), 118 (g)), read from view state and the dossier's schedule, never from the model.
++  items 117 (h), 118 (g)), read from view state and the dossier's schedule, never from the model;
++* the **crisis line** (item 122 (f); V07 §5.6) — while a crisis look stands at the viewer's key, the answer for a
++  `VillageEnd` a disaster look ruins and for a `VillageField` a famine look leaves bare carries V09 §4.21.12 (4)'s
++  `info.crisis.ruinedFor` row ("For now: Disaster, the mill-end fire, weeks 30–34"), the one row its why card shows for
++  it, read from view state (the `crises` key, the `week`) and §7.7's DR44 at the key, never from the model; a condition
++  the key withholds gives none.
+@@ -3194,45 +3226,22 @@
+-* **The village through the year** (item 117, the village's part; J-V7.141). A season is a look only: the view's year position
+-  (§2.9's view state, a week 0–51, spring first; a campaign dossier's own week by §7.7's derivation row, else midsummer) selects
+-  §8.2's season rows, with V11's season tables by climate and by field, garden and water kind giving the bands of weeks; nothing
+-  here moves, adds or removes a building, way, wall, field boundary or water edge, and the document hashes identically in every
+-  week. The village's surfaces read those rows by their own kinds: each **great field** by its rotation slot's crop (the winter
+-  grain, the spring crop, the fallow; the infield's continuous crop; the outfield's cropped or grazed year) — spring fresh green
+-  and sown strips, summer full crops, late summer to autumn ripening gold, then stubble with **stooks** (render-time glyphs along
+-  the strips, on `render.instances`) after the harvest weeks, winter ploughed brown and bare fallow; the **strips** carry their
+-  furlong's row, a strip's week offset within the band keyed by its strip index on `render.instances` so a furlong turns strip by
+-  strip; **orchards** in blossom in spring; the **meadow** high in summer and mown after its hay weeks; the **commons** and the
+-  **green** by the climate's grass rows (the green grazed short); an oasis's gardens by their climate; hedges and the wood's
+-  deciduous crowns by the leaf weeks, evergreens unchanged; **snow** over all of it where the climate's snow weeks lie (§8.2's
+-  `snow` role). **Water in winter** (item 117 (e)) by the climate's winter severity: still water freezes first — the L0 village
+-  pond, the green's centrepiece pond, the manor's moat and fishponds, the fair field's watering places — then the leat's slow
+-  reach above the mill, then a brook, a stream and a river last; open water is kept at the mill race (the wheel pit and the tail
+-  race), at the leat's take-off and at springs (an oasis never freezes: arid climates have no ice); drawn in §8.2's `ice` role
+-  with crack lines, snow-dusted where snow lies, boats at the landing hauled up on the bank while their water is frozen. The
+-  painterly family draws these rows in its own palette, `ink` by §8.2's ink rows; the view's sun height follows the week (§8.2),
+-  item 102's model daylight `D` never does. **Autumn, a plethora of fall covers** (item 117 (f2)): through the climate's leaf
+-  weeks each deciduous crown of the woods, hedgerows, orchards and the green's large tree takes its own colour by a draw on
+-  `render.instances` keyed by the crown's instance key from V11's species leaf palette (gold, amber, orange, scarlet, crimson,
+-  russet, bronze and brown, some crowns still green in the first weeks), so a wood's rim band and an orchard read as many colours
+-  at once; **fallen-leaf cover** (§8.2's cover rows, V11's densities) lies under and around the trees and drifts over the green,
+-  the lanes and tracks, the tofts' yards and crofts, the churchyard, the closes and the roofs, gathering at the palisade, hedges
+-  and yard walls, thin in the first leaf-fall weeks and deepening through them, and floats on the village pond and the moat near
+-  trees; creepers on the church, the churchyard wall and cottage walls turn red; hedges and orchards turn; the bracken of the
+-  commons goes rust and the stubble of the great fields gold; late autumn thins the crowns toward winter's bare ones.
+-* **Festivals** (item 118, the village's part; J-V7.142). A look only, never the model or its hash: while the view's week (item
+-  117's year position) falls inside a festival's `window` from the dossier's `traditions` (V08's reading; §7.7's row), or the
+-  user previews one (a generic spring, midsummer, harvest or midwinter festival when standalone), §8.2's decoration rows draw the
+-  village rungs' kinds from V11's decoration table: at **THORP** a garland or a bonfire at the heart; at **HAMLET** a maypole or a
+-  bonfire on the green, garlands on doors; at **VILLAGE** a maypole, bunting along the church lane, stalls and tables on the green
+-  — never a larger tier's kinds. **Where**: the staging prose maps to a place kind by V11's staging keyword table, read at a
+-  village rung as — square or market → the open space that carries the market (else the flanking square, else a street market's
+-  frontage by the heart); green → the green (else the first nucleus's open space, else the heart); church or temple → the parish
+-  church's churchyard gate and the **church lane** (the lane V07 §3.10 names so, else the shortest way from the church's door to
+-  the green); river or harbour → the wharf or the chief landing; gate → the palisade's gate on the through road, else the through
+-  road's entry; fair field → the fair field; the castle → the manor house; a dossier-named place wins where it names one; with no
+-  keyword, the fallback by the festival's kind (religious → the church and the church lane to the green; market or fair → the
+-  market's open space or the fair field; harvest → the green and the nearest great field's edge; water → the landing). Each
+-  decoration is placed by keyed draws on `render.instances` from the seed, the festival's id and the place, never over a label's
+-  keep-out, a gate's passage or a way's carriageway (bunting spans above it, stalls and tables stand on the green's turf); the
+-  culture's motifs and the season's (flowers in spring, sheaves at harvest, evergreen boughs and lanterns in winter) from V11's
+-  motif rows; by band as §8.2's rows give (colour along the church lane at the city band; the maypole, bunting and stalls at the
+-  district band; garlands, tables and lanterns at the neighbourhood band); item 112's pattern rule holds.
++* **The village through the year** (item 117, the village's part; J-V7.141). A season is a look only, drawn by §8.2's
++  *Seasons* rows — the year position and DR42, the surfaces, autumn's covers, water in winter, snow and the sun — which hold
++  the village's readings; nothing here moves, adds or removes a building, way, wall, field boundary or water edge, and the
++  document hashes identically in every week. The village's own part is which of its records each row reads: each **great
++  field** takes the `season.surfaces` row of its rotation slot's crop (the winter grain, the spring crop, the fallow; the
++  infield's continuous crop; the outfield's cropped or grazed year), `field.harvest`'s stooks set in rows along its strips;
++  its **strips** carry their furlong's row, a strip's week offset within the band keyed by its strip index on
++  `render.instances`, so a furlong turns strip by strip; the **meadow** takes the meadow rows, the **commons** and the
++  **green** the grass rows (the green grazed short), an oasis's gardens their climate's garden rows; the **crofts** and
++  **closes** are among the green and lawn faces §8.2's fallen-leaf cover lies on and the tofts' yard parts among its garden
++  yard parts, the palisade and the yard walls among the wall lines it gathers at; for **water in winter** the L0 village
++  pond, the green's centrepiece pond, the manor's fishponds and the fair field's watering places are `pond` marks, the
++  manor's moat a `moat`, the **leat** the mill's canal (`millpond`, its take-off an open lead), and the brook, stream or
++  river `slowRiver` or `river` by its fall. The painterly family draws these rows in its own palette, `ink` by §8.2's ink
++  rows.
++* **Festivals** (item 118, the village's part; J-V7.142). A look only, drawn by §8.2's *Festival decorations* — DR43's
++  schedule, the festival display, the place table with its village readings, keyed placement, the glyphs, motifs and
++  bands. The village's own part: **the village tiers' kinds**, V11's decoration rows for each tier — at **THORP** a
++  garland or a bonfire at the heart; at **HAMLET** a maypole or a bonfire on the green, garlands on doors; at **VILLAGE** a
++  maypole, bunting along the church lane, stalls and tables on the green — never a larger tier's kinds; and **the church
++  lane**, §8.2's `churchLane` place: the lane V07 §3.10 names so, else the shortest way from the church's door to the
++  green.
+@@ -3255 +3264 @@
+-(item 118).
++(item 118), the crisis looks §8.2's crisis look rows and roles (item 122; V07 §5.6).
+@@ -3269 +3278,2 @@
+-with it (item 116 (d)), and exports frame within it (item 116 (c); V07 §5.4) (J-V7.137).
++with it (item 116 (d)), a standing crisis look widens it to the town and its camps until the look ends (§2.9's *The crisis
++framing*; V07 §5.6), and exports frame within it (item 116 (c); V07 §5.4) (J-V7.137).
+@@ -3291 +3301,2 @@
+-chosen season and the festival shown, both named (items 116, 117, 118), and Find as shown with its chips in the legend
++chosen season, the festival shown and the crisis looks standing, each named (items 116, 117, 118, 122), and Find as shown
++with its chips in the legend
+@@ -3294 +3305,2 @@
+-(item 117 (h)), a festival's decorations in the image only, never walls or obstacles (item 118 (g)), Find off unless asked
++(item 117 (h)), a festival's decorations and a crisis look's camps, engines and barricades in the image only, never walls
++or obstacles (items 118 (g), 122 (f)), Find off unless asked
+@@ -3336 +3348,2 @@
+-An empty box shows the kinds as V11's grouped grid, as at every rung; at THORP and HAMLET the grid is short.
++An empty box shows the kinds as V11's grouped grid, as at every rung; at THORP and HAMLET the grid is short. The standing
++crisis looks are listed in Find's `crises` section as at every rung (V09 §4.21.12 (7); V07 §5.6) — a look is no chip.
+@@ -3353,2 +3366,4 @@
+-V07 §5.2), so no match lies beyond the view's reach. **Across layers**: on Below, a dwelling or an access in a cavern or ruin
+-(V07 §3.16 (3), (5)) glows on the underground layer and shows as a ghost pin on Ground (V04's part); an island a fallen city
++V07 §5.2), so no match lies beyond the view's reach. **Across layers**: on Below, a dwelling in a cavern or ruin (V07 §3.16
++(5))
++glows on the underground layer and shows as a ghost pin on Ground (V04 §5.1); an access is no Find target (V05 §5.6 (1)); an
++island a fallen city
+@@ -3370,0 +3386,116 @@
++
++### 5.6 Crisis looks at the village rungs (item 122, the village's part; J-V7.146)
++
++A crisis look is a look only (item 122 (a)): while a `ConditionOverlay` stands in the view's week (§2.7's reader comment) and
++its `crisis.map` row gives a look, or one is previewed under §2.9's `crises` key (V09 §4.21.12), §8.2's `live.crises` draws it
++by §7.7's DR44 and §10.2's *Crisis looks* — the table, the rates and every value V11's. Nothing here moves, adds or removes a
++building, way, wall, plot, field or water edge or reaches a record, a digest or the hash; a condition the viewer's key
++withholds is never drawn, listed or named; the parity presets, `VG` among them, draw none (§8.2's `extension` rows). This
++section states how §10.2's places read on a THORP, HAMLET or VILLAGE map, the disaster's units there, the village tiers'
++scale and the hand-over through the village's epochs.
++
++**(1) The village tiers' scale** (item 122 (c), (h)). A look's extent at THORP, HAMLET and VILLAGE is its row's `scale` cell
++for that rung, linear in severity, or, for a camp the dossier sizes, `areaPerHeadM2` × its heads (§10.2 (c)); V11's village
++cells read the item's "a hamlet gets a war band's camp" — a siege, blockade or garrison camp of a war band, a refugee or
++quarantine camp of a few tents and huts. **A siege at THORP or HAMLET draws no siege line**: its camp, smoke, burned
++farmsteads and any engines its heads give (§10.2 (f)) stand without the trench and earthwork line, which a VILLAGE's siege
++draws along its palisade's walled stretches only. A force the dossier sizes beyond what the frame and its margin hold fills
++them, the rest drawn as §8.8's massed ring marks (§10.2 (e)): a large army at a hamlet is shown, never shrunk. A look scaled
++as a share of its place's units (§10.2 (c)) takes, of a place's n units at its share s, round(s × n) clamped to [1, n]
++where s is above 0 and none where it is not — V01 §3.16 (5)'s count of the disaster's units, read for every share at the
++village rungs, whose places hold few units (one end, three great fields, a handful of palisade runs), so a look standing at
++a positive share never rounds to nothing.
++
++**(2) The places** (§10.2 (d)'s places read on the village's records; every other rule of §10.2 (d)–(h) unchanged — the
++outskirts shared by priority, siege, then quarantine, then refugees, under the density cap, §10.2 (e)).
++
++| place | on a THORP, HAMLET or VILLAGE map |
++|---|---|
++| the main approach road | the way of the `through` entry (`VillagePlan.entries`, V07 §2.3) whose bearing is that of the DR3 partner of greatest weight, else the `through` entry, then the `neighbour` entry, nearest the heart by walking distance, ties by lineage; its gate the palisade's gate on it, else its perimeter crossing (V07 §3.7); an `isolated` village has none |
++| `beyondWalls` | `siegeStandoffM` beyond the palisade's walled stretches (V07 §3.4), its barrier-closing arcs taking none; with no walled stretch a siege draws the `blockade` row (§10.2 (f), (h)) |
++| `approachRoads` | the verges of each entry's way beyond the perimeter, one camp per entry; with no entry, the `campLand` faces nearest the perimeter |
++| `approachByGate` | the `campLand` faces along the main approach road by its gate, nearest `frontierFor`'s answer — at a village rung the through road's entry (V06 §3.22 (2)'s no-frontier case) |
++| `outside` | the `campLand` faces furthest from the main approach road, beyond the palisade's outer strip, else beyond the perimeter |
++| `affectedQuarter` | a unit of (3), an end where the village has ends: `disasterSource`'s first `matched` unit (V01 §3.16; a target names the unit holding its plot), else the unit with the most households per hectare of its plots |
++| `fields` | the hinterland's arable faces (V07 §3.9: every furlong of the great fields, the infield and the outfield, a strip holding, an enclosed system's fields), the meadow and the commons; its pens the closes' and crofts' paddocks and the pound; its stalls the market's (V07 §3.10), none where no market stands |
++| `edge` | the palisade's walled stretches, its gate gaps and barrier arcs excepted; unwalled, the perimeter (V07 §3.7) |
++| `outlyingFarms` | the outlying farmsteads (V07 §3.9 (5)), outermost first, then the tofts of the farm classes (V07 §2.4) farthest from the heart |
++| `gatesAndKeep` | the palisade's gates and the manor house (a castle or tower house playing itself, V07 §3.11 step 3, before it), else the open space that carries the market, else the green, else the heart |
++| `streets` | the junctions and frontages of the ways inside the perimeter, those round the open space that carries the market first, else the heart's |
++| `neighbourhoods` | (3)'s units |
++
++**The outskirts' land.** At a village rung V01's `campLand` (V01 §3.16) reads the village's records: its built edge is the
++perimeter (V07 §3.7), or the palisade's outer strip where that lies beyond it; its fallow faces are the furlongs in their
++rotation's fallow course (§4.9) — a great field in its fallow slot (`VillageField.slot`), an outfield in its grazed years;
++its approach roads are the entries' ways. So no camp stands on the green, a toft, a close, a croft or any other plot.
++DR18's informal clusters under a migration condition (tents at the perimeter, V07 §3.11 DR16–DR18) are plots of the model
++housing households the population counts; the refugee look is the arrivals the condition stands for, on `campLand` beside
++them, never on them, and adds no household.
++
++**(3) The disaster's units** (item 122 (b); §10.2 (d)'s `neighbourhoods`). The village product holds one district (PART III
++(4)), so a disaster's whole neighbourhoods are its **ends**, built in V01 §2.3's `DisasterUnit` shape for V01's
++`disasterSource`, whose one rule — the matched targets, then the pattern's strike order, then the share — picks among them
++(V01 §3.16 (1)–(5)):
++
++```ts
++// @plat/village — the village rungs' disaster units (V01 §3.16 (1)): pure and draw-free over committed state, memoised per model digest, never stored
++villageDisasterUnits(doc: Document): DisasterUnit[]   // V01 §2.3's shape; in end order, then address order
++villageUnitPlots(doc: Document, unit: Id): Id[]       // a unit's land, its plots in address order: read by §8.2's ruined tone, the buildings' damage (V02, V03) and Find's frame (V01 §5.4 (6))
++```
++* **Units.** Each end of `VillagePlan.ends` with its derived plots (V07 §3.10). A village with no end (a thorp with no
++  anchor, V07 §3.10) takes its **toft groups**: the district's plots joined where two share a boundary of positive length
++  or front the same way segment, each maximal group one unit. The outlying farmsteads lie in no unit (they are
++  `outlyingFarms`').
++* **The shape's fields.** `id` — the end's (an entity, whose render key keys the draws, V01 §3.16 (4)), or the toft
++  group's lowest plot id; `centroid` — the area centroid of its plots' faces; `inhabitants` — the members of the households
++  housed on its plots; `meanHeightCm` — `Terrain.heightCm`'s mean over those faces; `waterFront` — a face of its plots
++  shares an edge with a water face; `neighbours` — the units one of whose plots shares a boundary of positive length with
++  one of its plots, or fronts the same way segment, in address order (a district's seam read at the plots, so a fire
++  crosses the village street as it crosses a town's).
++* **Targets.** A calamity's target (V01 §3.16 (3)) names the unit holding its plot; a target naming the `village` district
++  names every unit.
++* **The look.** Every building on a returned unit's plots draws item 123's damage at `lookLevel` by severity, or at its own
++  decay level where that is higher (V02's exterior, V03's plan; nothing stored), and the unit's plots' faces take §8.2's
++  ruined tone at the city band; a building whose rebuild Works has begun draws its Works instead (V06 §3.22 (3)'s
++  `crisisLookYields`). A one-end village's disaster ruins its one end at any positive share, at the depth `lookLevel`
++  gives by severity.
++
++**(4) The hand-over** (item 122 (a); V06 §3.22). What a crisis leaves reaches the village only through its epochs (V07
++§3.12), as V06 §3.22 (1) states at every rung: the calamity through `EpochInputs.events` and the engine's `hazards` phase at
++its targets (a step the village runs unchanged, V07 §3.12), the deaths and the exodus through the epoch's target — a hamlet
++a crisis empties declining toward the deserted village by V07 §3.12's decline (J-V7.2) — and the newcomers who stay through
++the village siting's (6v)–(9v) (infill, encroachment, then extension). The refugee camp stands by the main approach road's
++entry ((2)),
++`frontierFor`'s answer at a village rung; it claims no ground, so where the newcomers settle is the siting's. A disaster's
++ruined look yields building by building to its rebuild's Works (V06 §3.22 (3)), at a village rung the siting's
++regrowth-first rebuild (a house platform first). **Across a hand-off** the look reads the rung in force (the fold's, V07
++§3.12 *Which path runs*): from an epoch that hands up it draws on the town's places, its disaster units districts (V01);
++from one that hands down, on the village's; the band's hysteresis keeps it on one product while the population moves inside
++the band.
++
++**(5) Bands, families and framing.** §8.2's look rows by band, the village's city band being its township view (V07 §5.2):
++the camps as clusters with their smoke, a VILLAGE's siege line and the ruined ends' tone; the district band adds the tents,
++engines, fences and barricades and the torn palisade (the `breached` run row); the neighbourhood band the marked doors,
++rubble and fires. The `painterly` sheet gives §8.2's crisis roles (`crisis.tent`, `crisis.ash`, `crisis.mark`,
++`crisis.army.a` – `.d`) by §8.2's placement rule over its own palette (V07 §5.1), `ink` by its rows; item 112's second cues
++hold. While a look stands the opening view, Fit and the township view's limit take in the camps (§2.9's *The crisis
++framing*; V07 §5.2).
++
++**(6) Words, Find and exports.** The village `WhyProvider` carries the crisis line on a ruined end and a bare field (V07
++§4.5); Find lists the standing looks in its `crises` section as at every rung (V09 §4.21.12 (7); V07 §5.5); picture exports
++draw them and a VTT scene draws them in the image only, never as walls or obstacles (V07 §5.4; §11.1).
++
++**(7) Edges** (V07 §3.17's row; T-V7-60 (h)). No walled stretch — a siege is the blockade on the entries' ways, a beast
++attack watch-fires along the perimeter and stake barricades at its way crossings, no torn sections; no green and no market
++— no stalls to shutter, `gatesAndKeep` down its fallbacks; no entry — every camp on the `campLand` nearest the perimeter;
++no `campLand` left in the frame and its margin — §10.2 (e)'s ring marks; no outlying farmstead — the farm tofts farthest
++from the heart; no arable face — famine's pens and stalls alone; a THORP of one house — one unit, its toft ruined by a
++disaster at any positive share at `lookLevel`'s depth; no end — the toft groups; an end an epoch or an edit removes while a
++look stands — the units re-derived at that commit, the share read over them; a preview on a standalone village — every place
++read the same, at `previewSeverity`; a look and a festival in one week — both drawn (§8.2's slot 19b), famine's bare fields
++over the crop stage (slot 15b); save, load, undo, redo, regenerate and migrate — nothing stored, every look re-derived
++from the committed state and the view.
++
++**(8) Cost and build.** No model time: a look is drawn lazily per visible tile within §12.5's budget, and
++`villageDisasterUnits` is one pass over the district's plots and their shared edges, ≤ 0.5 ms at the VILLAGE top, memoised
++per model digest (V07 §6). Bar: T-V7-69. It lands at V-M3 (V07 §8; risk (14)).
+@@ -3405,2 +3536,3 @@
+-item 115's ceiling a row read in S10b; items 117 and 118 no model time (looks, drawn lazily per visible tile within §12.5's
+-budget). **The underground tail** (V07 §3.16) runs after the first
++item 115's ceiling a row read in S10b; items 117, 118 and 122 no model time (looks, drawn lazily per visible tile within
++§12.5's budget; `villageDisasterUnits` ≤ 0.5 ms at the VILLAGE top, one pass over the district's plots and their shared
++edges, memoised per model digest, V07 §5.6). **The underground tail** (V07 §3.16) runs after the first
+@@ -3462,2 +3594,3 @@
+-T111-5, and the village halves of T113-1 and T113-3 and of items 114–120's bars, each test naming the bar it takes over); every
+-no-op pin registers on V12 §3.7.8's engine and reads "off" as V11 §3.24.0's switch table.
++T111-5, the village halves of T113-1 and T113-3, and the village clauses of items 114–120's bars and of item 122's T122-5 and
++T122-6, each test naming in its head the bars it takes over); every no-op pin registers on V12 §3.7.8's engine — its test
++stating that registration in one clause — and reads "off" as V11 §3.24.0's switch table.
+@@ -3499 +3632 @@
+-| T-V7-33 | the supply web at village rungs: every good of V07 §2.4's supply rows is an id of V11 §3.7.1 and every provider class produces the good it provides (T-V11-3 and T-V11-28 pass over the village rows); with its weights at 0 the output is byte-identical (item 105 (k)'s no-op pin); the district term changes nothing (one district); every dwelling's toft is identical with the web on and off; across the bench the bakehouse and the alehouse lie nearer the open space, the smithy nearer a through-road entry or the crossroads, and the charcoal pit and the wood yard nearer the wood edge than their random baselines; with two mills each consumer binds to the nearer | C, O | V-M2 |
++| T-V7-33 | the supply web at village rungs: every good of V07 §2.4's supply rows is an id of V11 §3.7.1 and every provider class produces the good it provides (T-V11-3 and T-V11-28 pass over the village rows); with its weights at 0 the output is byte-identical (item 105 (k)'s no-op pin — the `item105.web` registration of the village goldens on V12 §3.7.8's engine (V12 §2.13), written by the V-M2 seat); the district term changes nothing (one district); every dwelling's toft is identical with the web on and off; across the bench the bakehouse and the alehouse lie nearer the open space, the smithy nearer a through-road entry or the crossroads, and the charcoal pit and the wood yard nearer the wood edge than their random baselines; with two mills each consumer binds to the nearer | C, O | V-M2 |
+@@ -3504 +3637 @@
+-| T-V7-38 | caverns and ruins at every village rung: across the bench (with a mountainous-relief set and a dossier-ruin set) caverns and ruins occur at THORP, HAMLET and VILLAGE at their rows' rates within ± 3 s.e.; cavern frequency higher with mining than without per relief class; a dossier `ancient_ruins` fixture gets a ruin with its marker linked, or a reported reason; with the ruin chance 0 and the base's relief, boost and fissure rows the village is byte-identical to the build without these kinds (a `NoOpPin`); the village rungs' levels of item 109's presence and access bars join at V-M4, `notApplicable` before, never `insufficient` (V12) | C | V-M2u |
++| T-V7-38 | caverns and ruins at every village rung: across the bench (with a mountainous-relief set and a dossier-ruin set) caverns and ruins occur at THORP, HAMLET and VILLAGE at their rows' rates within ± 3 s.e.; cavern frequency higher with mining than without per relief class; a dossier `ancient_ruins` fixture gets a ruin with its marker linked, or a reported reason; with the ruin chance 0 and the base's relief, boost and fissure rows the village is byte-identical to the build without these kinds (a `NoOpPin` — the `item109.underground` registration of the village goldens on V12 §3.7.8's engine (V12 §2.13), written by the V-M2u seat); the village rungs' levels of item 109's presence and access bars join at V-M4, `notApplicable` before, never `insufficient` (V12) | C | V-M2u |
+@@ -3524,3 +3657,3 @@
+-| T-V7-58 | item 111 at village rungs (T111-1 – T111-5's village clauses): on the arid set the share of households within `pins.wellWithinM` of water exceeds the non-arid baseline; an oasis stands only on an arid site unless drawn (T2 `ground`) or given by `oasis_water`; arid sites still draw rivers, ponds and coasts at the arid row's re-weighted shares (a rate `StatBarSpec` per water kind); the richest band's mean distance to reliable water below the middle band's on arid seeds; the density's `wp` term leans the dwellings toward reliable water on arid seeds (their mean `pw` above the box's); an oasis village's heart, `site water` test and wells read the oasis as water, its spring never a well access, its shore a barrier the palisade never fences; with the oasis chance, `w_water` and the climate cell at their neutral values the output is byte-identical to the build before item 111 (a `NoOpPin`) | C, O | V-M1 (the dossier clause at V-M2) |
+-| T-V7-59 | item 113 at village rungs (the village halves of T113-1 and T113-3; run on V06's replay engine): a CITY-to-VILLAGE history fixture shows walls and street lines beyond the village's fabric, hollow ways on the old streets, an oversized church and a kept market square, with a `VillagePlan` created at the replay's hand-off down epoch and the dossier's present population and institutions matched exactly; a symbolic-peak fixture (a village with a ruined "City walls and gates" record) sizes its remnants inside CITY's range at `history.symbolicQuantile`, each remnant fact `symbolic`, and a fixture with no evidence has no peak; a refounded-village fixture over a ruined town reuses the old roads (the share of new way length within `refound.traceReachM` of a ruined way trace above the same site's unrefounded baseline), rebuilds its ruined bridges where its trackers cross, crosses the ruined wall only at gate gaps and breaches save a through road's cut, and races slots over ruined footprints above their random baseline; a former city buried past `history.burialYears` lies under the village as V04's buried former settlement in maintenance mode, a former hamlet's refounding lays none; the replay is byte-stable per seed and history on the five engines; with the replay off the output is byte-identical (a `NoOpPin`) | C, O | V-M3 (with M6-E) |
+-| T-V7-60 | the edge suite (V07 §3.17): each clause runs its V07 §3.17 rows on their edge fixtures at THORP (P = 1, 40), HAMLET, VILLAGE (P = 1 499), under `VG` and each switch off, and through save, load, undo, redo, regenerate and migrate — each case ending in its row's defined outcome and reported rung, with 0 crashes, 0 hangs, 0 lost records, 0 whole-map retries and 0 silent changes (every changed output named in the report). The clauses: **(a)** the records, the request block and the pipeline; **(b)** S0, VS1 and VS2; **(c)** VS3, VS4 and the raised way; **(d)** the open space, VS5, VS6 and levelling; **(e)** the hinterland, the wharf, ends and pins, and deck plots; **(f)** the dossier readings, the epochs and hand-offs, and the failure ladders; **(g)** the underground; **(h)** editing, the clerk, rendering, labels and exports, and Find; **(i)** every combination row of V07 §3.17 (b). (Determinism's row is T-V7-18's, the one-time waits' T-V7-67's.) | C | (a), (b), (d) at V-M1, (a)'s landmark-part clause at V-M2; (c) at V-M1, its raised-way row at V-M3; (e) at V-M2, its deck-plot row at V-M3; (f) at V-M2, its epoch and hand-off row at V-M3; (g) at V-M2u; (h) at V-M3; (i) each row at the later milestone of the two mechanisms it joins |
++| T-V7-58 | item 111 at village rungs (T111-1 – T111-5's village clauses): on the arid set the share of households within `pins.wellWithinM` of water exceeds the non-arid baseline; an oasis stands only on an arid site unless drawn (T2 `ground`) or given by `oasis_water`; arid sites still draw rivers, ponds and coasts at the arid row's re-weighted shares (a rate `StatBarSpec` per water kind); the richest band's mean distance to reliable water below the middle band's on arid seeds; the density's `wp` term leans the dwellings toward reliable water on arid seeds (their mean `pw` above the box's); an oasis village's heart, `site water` test and wells read the oasis as water, its spring never a well access, its shore a barrier the palisade never fences; with the oasis chance, `w_water` and the climate cell at their neutral values the output is byte-identical to the build before item 111 (a `NoOpPin` — the `item111.water` registration of the village goldens on V12 §3.7.8's engine (V12 §2.13), written by the V-M1 seat) | C, O | V-M1 (the dossier clause at V-M2) |
++| T-V7-59 | item 113 at village rungs (the village halves of T113-1 and T113-3, and T114-9's village clause; run on V06's replay engine): a CITY-to-VILLAGE history fixture shows walls and street lines beyond the village's fabric, hollow ways on the old streets, an oversized church and a kept market square, with a `VillagePlan` created at the replay's hand-off down epoch and the dossier's present population and institutions matched exactly; a symbolic-peak fixture (a village with a ruined "City walls and gates" record) sizes its remnants inside CITY's range at `history.symbolicQuantile`, each remnant fact `symbolic`, and a fixture with no evidence has no peak; a refounded-village fixture over a ruined town reuses the old roads (the share of new way length within `refound.traceReachM` of a ruined way trace above the same site's unrefounded baseline), rebuilds its ruined bridges where its trackers cross, crosses the ruined wall only at gate gaps and breaches save a through road's cut (the run set `dismantled` over its width, V07 §3.12a (4) (d)), with 0 violations of §5.3's wall-crossing row (T114-9), and races slots over ruined footprints above their random baseline; a former city buried past `history.burialYears` lies under the village as V04's buried former settlement in maintenance mode, a former hamlet's refounding lays none; the replay is byte-stable per seed and history on the five engines; with the replay off the output is byte-identical (a `NoOpPin` — the `item113.history` registration of the village goldens on V12 §3.7.8's engine (V12 §2.13), written by the V-M3 seat) | C, O | V-M3 (with M6-E) |
++| T-V7-60 | the edge suite (V07 §3.17): each clause runs its V07 §3.17 rows on their edge fixtures at THORP (P = 1, 40), HAMLET, VILLAGE (P = 1 499), under `VG` and each switch off, and through save, load, undo, redo, regenerate and migrate — each case ending in its row's defined outcome and reported rung, with 0 crashes, 0 hangs, 0 lost records, 0 whole-map retries and 0 silent changes (every changed output named in the report). The clauses: **(a)** the records, the request block and the pipeline; **(b)** S0, VS1 and VS2; **(c)** VS3, VS4 and the raised way; **(d)** the open space, VS5, VS6 and levelling; **(e)** the hinterland, the wharf, ends and pins, and deck plots; **(f)** the dossier readings, the epochs and hand-offs, and the failure ladders; **(g)** the underground; **(h)** editing, the clerk, rendering, labels and exports, Find and the crisis looks; **(i)** every combination row of V07 §3.17 (b). (Determinism's row is T-V7-18's, the one-time waits' T-V7-67's.) | C | (a), (b), (d) at V-M1, (a)'s landmark-part clause at V-M2; (c) at V-M1, its raised-way row at V-M3; (e) at V-M2, its deck-plot row at V-M3; (f) at V-M2, its epoch and hand-off row at V-M3; (g) at V-M2u; (h) at V-M3; (i) each row at the later milestone of the two mechanisms it joins |
+@@ -3528,7 +3661,8 @@
+-| T-V7-62 | item 114 at village rungs (item 114 (g)'s village clauses): a poor, threatened palisade fixture shows patched runs in its kind's `walls.patchMaterials` rows (V11 §3.25.3), each drawn by its row's `look` role, and no robust rebuild; a rich, threatened one rebuilds its breached runs robust; a safe one wears through `worn` to `breached`; recovery replaces patches oldest first; no run changes condition without a sustained driver (no flicker across two epochs at a threshold); every state distinguishable in greyscale at its bands; a dossier village's generation-time conditions follow its readiness and wealth by §7.7's row; `VG` draws every run standing; with need and means at neutral values the existing neglect and repair behaviour is reproduced (a `NoOpPin`); a patched run exports as a wall and a breached one as an opening; `repairWall` with a material is undone by its inverse | C, O | V-M2 (generation), V-M3 (epochs, with M6-E) |
+-| T-V7-63 | item 115 at village rungs (item 115 (f)'s village clauses): rich THORP, HAMLET and VILLAGE fixtures at the wealth maximum have no `H`, `U`, court, tower or turret dwelling but the manor; at most one manor, only with a lord or a dossier record (none at THORP and HAMLET without one); a dossier-named hall and a hand-placed manor keep their design, the clerk noting the excess; a village grown into a town builds its new grand buildings from that epoch, a shrunk town keeps its grand buildings as they stand; the manor count never rises with wealth (a wealth sweep at a fixed population and government leaves it unchanged) | C | V-M2 (the class mix and manor rule); the composition clause with V02's M6 (`notApplicable` before) |
+-| T-V7-64 | item 116 at village rungs: at THORP (P = 1, 40), HAMLET and VILLAGE (P = 1 499) the zoom-out limit shows the whole territory frame with one stop of margin and no stop beyond it is reachable in the view; the pyramid draws every stop from the limit inward and none beyond; the first view unchanged; an epoch that grows the frame moves the limit; an export frames within it | C | V-M3 |
+-| T-V7-65 | item 117 at village rungs (item 117 (i)'s village clauses, (f2) included): the same village document hashes identically in all 52 weeks; every village surface (each great field by its slot, the strips, orchards, meadow, commons, green, gardens, ponds, the moat, the leat, the stream) has a season row in every week of every climate with no gap; an arid fixture never draws ice or snow; a cold fixture freezes the ponds and the moat before the leat's slow reach and the leat before the stream, and keeps open water at the mill race, the leat's take-off and springs; stooks only in the harvest weeks; in autumn a wood's rim crowns take several colours (their count per wood above a floor), the leaf cover's density non-decreasing through the leaf-fall weeks on the green, lanes, tofts, churchyard and roofs; a campaign dossier opens on its own week; each week's look passes the contrast and colour-blind checks (item 112) | C | V-M3 |
+-| T-V7-66 | item 118 at village rungs (item 118 (h)'s village clauses): the same document hashes identically with decorations on and off and in every week; a festival shows exactly in its window's weeks; the same festival draws identically across views and exports (byte-stable tiles per seed); a THORP fixture shows only a garland or a bonfire at the heart, a HAMLET a maypole or a bonfire on the green and door garlands, a VILLAGE a maypole, church-lane bunting and the green's stalls and tables — no larger tier's kinds; staging lands on the named or keyed village place, else its kind's fallback; nothing blocks a gate or covers a label's keep-out; with no traditions and no preview, byte-identical (a `NoOpPin`) | C | V-M3 (the dossier-window clause with V08's reading of `traditions`) |
+-| T-V7-67 | the one-time waits (item 119 (f)'s village clauses): on §12.1's reference machine, at THORP (P = 1, 40), HAMLET and VILLAGE (P = 1 499), each on its largest frame, generate, regenerate, opening a map from SettlementForge (the small-dossier fixtures), a dossier change applied, an epoch and the history replay (V07 §3.12a's fixture; each timed as V06's part of item 119 times it), every export format and a migration each complete within 10 s from the click to the complete result; every wait past 1 s shows V09 §4.21.9's progress, never an empty screen; every step slower than its §12 or V07 §6 target has its `perf.qualitySpend` row with its recorded gain (0 rows and 0 slower steps at shipping); V07 §6's edit and switch budgets and §12.5's frame budgets hold unchanged | C | V-M3 |
+-| T-V7-68 | Find at the village rungs (item 120 (k)'s village clauses): on THORP (P = 1, 40), HAMLET and VILLAGE (P = 1 499) fixtures, with and without a dossier, the document hashes identically with Find on and off and turning every chip off restores byte-identical tiles; each chip's matches equal the gazetteer query's rows at the key — the `v.` classes by their labels and synonyms (a "farms" chip holding the village's farmsteads and the outlying ones), the dossier's names, the village, the ends, the field groups and V07 §5.3's places — and the list offers nothing the village lacks; Show gaps outlines exactly the ends (with one end or none, the village) holding no member of the chip's class and never a class its row sites outside the perimeter; at the township view every match has a pin or a count bubble; an epoch that opens a smithy lights it and one that closes its use darkens it in that commit; an end's chip reads 0 after the hand-off up and lights again after the hand-off down; under a player view the knowledge canary (T-V9-66's fixture read at a village rung) surfaces in no suggestion, count, glow or pin; the chips survive every band and layer change, a village epoch and an undo; suggestions within 50 ms and a chip's glow within 100 ms at the VILLAGE top | C | V-M3 (with V09's Find; risk (13)) |
++| T-V7-62 | item 114 at village rungs (item 114 (g)'s village clauses; takes T114-1 – T114-8's village clauses): a poor, threatened palisade fixture shows patched runs in its kind's `walls.patchMaterials` rows (V11 §3.25.3), each drawn by its row's `look` role, and no robust rebuild; a rich, threatened one rebuilds its breached runs robust; a safe one wears through `worn` to `breached`; recovery replaces patches oldest first; no run changes condition without a sustained driver (no flicker across two epochs at a threshold); every state distinguishable in greyscale at its bands; a dossier village's generation-time conditions follow its readiness and wealth by §7.7's DR41; `VG` draws every run standing; with need and means at neutral values the existing neglect and repair behaviour is reproduced (a `NoOpPin` — the `item114.condition` registration of the palisade goldens on V12 §3.7.8's engine (V12 §2.13), written by the V-M2 seat); a patched run exports as a wall and a breached one as an opening; `repairWall` with a material is undone by its inverse | C, O | V-M2 (generation), V-M3 (epochs, with M6-E) |
++| T-V7-63 | item 115 at village rungs (item 115 (f)'s village clauses; takes T115-1 – T115-4's village clauses): rich THORP, HAMLET and VILLAGE fixtures at the wealth maximum have no `H`, `U`, court, tower or turret dwelling but the manor; at most one manor, only with a lord or when specified (V08 §3.16 (3); none at THORP and HAMLET otherwise); a dossier-specified grand building — a manor record, and at a HAMLET a `castle` or `tower_house` record, a town class playing itself (V07 §3.11 step 3) — and a hand-placed manor keep their design, the clerk noting the excess; a village grown into a town builds its new grand buildings from that epoch, a shrunk town keeps its grand buildings as they stand; the manor count never rises with wealth (a wealth sweep at a fixed population and government leaves it unchanged); with every `grandeur.ceiling` row's `enabled` false (V11 §3.24.0's off form) `B-VILLAGE` is byte-identical to the build before item 115 — the `item115.off` registration of the village goldens on V12 §3.7.8's engine (V12 §2.13), written by the V-M2 seat (T115-4) | C | V-M2 (the class mix, the manor rule and the `item115.off` pin); the composition clause with V02's M6 (`notApplicable` before) |
++| T-V7-64 | item 116 at village rungs (takes T116-1 – T116-4's village clauses): at THORP (P = 1, 40), HAMLET and VILLAGE (P = 1 499) the zoom-out limit shows the whole territory frame with one stop of margin and no stop beyond it is reachable in the view; the pyramid draws every stop from the limit inward and none beyond; the first view unchanged; an epoch that grows the frame moves the limit; an export frames within it | C | V-M3 |
++| T-V7-65 | item 117 at village rungs (item 117 (i)'s village clauses, (f2) included; takes T117-1 – T117-8's village clauses): the same village document hashes identically in all 52 weeks — the `item117.season` registration of the village goldens on V12 §3.7.8's engine (V12 §2.13), written by the V-M3 seat; every village surface (each great field by its slot, the strips, orchards, meadow, commons, green, gardens, ponds, the moat, the leat, the stream) has a season row in every week of every climate with no gap; an arid fixture never draws ice or snow; a cold fixture freezes the ponds and the moat before the leat's slow reach and the leat before the stream, and keeps open water at the mill race, the leat's take-off and springs; stooks only in the harvest weeks; in autumn a wood's rim crowns take several colours (their count per wood above a floor), the leaf cover's density non-decreasing through the leaf-fall weeks on the green, lanes, tofts, churchyard and roofs; a campaign dossier opens on its own week; each week's look passes the contrast and colour-blind checks (item 112) | C | V-M3 |
++| T-V7-66 | item 118 at village rungs (item 118 (h)'s village clauses; takes T118-1 – T118-6's village clauses): the same document hashes identically with decorations on and off and in every week; a festival shows exactly in its window's weeks; the same festival draws identically across views and exports (byte-stable tiles per seed); a THORP fixture shows only a garland or a bonfire at the heart, a HAMLET a maypole or a bonfire on the green and door garlands, a VILLAGE a maypole, church-lane bunting and the green's stalls and tables — no larger tier's kinds; staging lands on the named or keyed village place of §8.2's place table, else its kind's fallback; nothing blocks a gate or covers a label's keep-out; with no traditions and no preview, byte-identical (a `NoOpPin` — the `item118.festival` registration of the village goldens on V12 §3.7.8's engine (V12 §2.13), written by the V-M3 seat) | C | V-M3 (the dossier-window clause with V08's reading of `traditions`) |
++| T-V7-67 | the one-time waits (item 119 (f)'s village clauses; takes T119-2 – T119-4's village clauses): on §12.1's reference machine, at THORP (P = 1, 40), HAMLET and VILLAGE (P = 1 499), each on its largest frame, generate, regenerate, opening a map from SettlementForge (the small-dossier fixtures), a dossier change applied, an epoch and the history replay (V07 §3.12a's fixture; each timed as V06's part of item 119 times it), every export format and a migration each complete within 10 s from the click to the complete result; every wait past 1 s shows V09 §4.21.9's progress, never an empty screen; every step slower than its §12 or V07 §6 target has its `perf.qualitySpend` row with its recorded gain (0 rows and 0 slower steps at shipping); V07 §6's edit and switch budgets and §12.5's frame budgets hold unchanged | C | V-M3 |
++| T-V7-68 | Find at the village rungs (item 120 (k)'s village clauses; takes T120-1's and T120-4's village clauses): on THORP (P = 1, 40), HAMLET and VILLAGE (P = 1 499) fixtures, with and without a dossier, the document hashes identically with Find on and off and turning every chip off restores byte-identical tiles — the `item120.find` registration of the village goldens on V12 §3.7.8's engine (V12 §2.13), written by the V-M3 seat; each chip's matches equal the gazetteer query's rows at the key — the `v.` classes by their labels and synonyms (a "farms" chip holding the village's farmsteads and the outlying ones), the dossier's names, the village, the ends, the field groups and V07 §5.3's places — and the list offers nothing the village lacks; Show gaps outlines exactly the ends (with one end or none, the village) holding no member of the chip's class and never a class its row sites outside the perimeter; at the township view every match has a pin or a count bubble; an epoch that opens a smithy lights it and one that closes its use darkens it in that commit; an end's chip reads 0 after the hand-off up and lights again after the hand-off down; under a player view the knowledge canary (T-V9-66's fixture read at a village rung) surfaces in no suggestion, count, glow or pin; the chips survive every band and layer change, a village epoch and an undo; suggestions within 50 ms and a chip's glow within 100 ms at the VILLAGE top | C | the later of V-M3 and M5 (Find's milestone; risk (13)) |
++| T-V7-69 | item 122 at village rungs (item 122 (g)'s village clauses; takes T122-5's and T122-6's village clauses): on THORP (P = 1, 40), HAMLET and VILLAGE (P = 1 499) fixtures — with and without a palisade (one closing only by barrier arcs among them), a green, a market, an entry, an outlying farmstead, an arable field and an end — each look kind previewed at severity 0, 0.5 and 1 and, from M-SF, a dossier fixture carrying each mapped condition: **(a)** each look's extent lies within its rung's `scale` cell, linear in severity, a camp the dossier sizes taking `areaPerHeadM2` × its heads within 10 %, and no siege at THORP or HAMLET draws a trench or earthwork line (T122-5); **(b)** 0 look elements on water, in a gate's passage (a palisade gate's opening and 4 m along its way each side) or over a label's keep-out, and no camp on the green or on a plot — a toft, a close, a croft, a plot of DR18's clusters (T122-6); **(c)** a disaster ruins whole units of `villageDisasterUnits` — the ends, or the toft groups of a village with no end — each unit's `DisasterUnit` fields as V07 §5.6 (3) reads them, the calamity's matched targets first, every building of a returned unit drawing the ruined look and none outside; a look scaled as a share of its place's n units at share s takes round(s × n) clamped to [1, n] where s is above 0; **(d)** each place reads as V07 §5.6 (2) states: a siege of a village with no walled stretch draws the blockade on its entries' ways, a palisaded one its camps beyond the walled stretches and its engines facing the weakest runs, then the gates; beast's torn sections only on a standing palisade, else watch-fires along the perimeter; famine bares every arable face, the meadow and the commons, its pens empty and the market's stalls shuttered; raiders burn the outermost outlying farmsteads, else the farm tofts farthest from the heart; the refugee camp on `campLand` by the main approach road's gate; the quarantine's marked doors and cordon in one unit of V07 §5.6 (3); **(e)** the answer to a `why` on an end a disaster look ruins and on a field a famine look leaves bare carries `info.crisis.ruinedFor` while the look stands at the viewer's key, and none otherwise; **(f)** an epoch, an edit or a hand-off that changes the ends re-derives the units in that commit, a look over a hand-off reads the rung in force, and under `VG` no look draws | C | V-M3 (the previews and the readings); the dossier clauses with V08's reading at M-SF; the disaster clause at the later of V-M3 and M5 (V01's `disasterSource`), the refugee camp's frontier clause at the later of V-M3 and M6-E (V06's `frontierFor`) (risk (14)) |
+@@ -3567 +3701 @@
+-| **V-M3 — editing, time and output** | V07 §4's tool forms, events and locality rows (the lassoed ends with the count badge, the wall tool's barrier snapping and its repair material, the declared split, the form-edit bend); the epoch phases, desertion with the hollow ways and house platforms as records, the ladder steps and the palisade's replacement; the markets, halls and the fair over epochs (V07 §3.12) with the dossier step's call of `village.records` (built at V-M2), `village.outsidePlot` from V06 §3.9.6 and the siting step (m), and the pins over epochs (`village.pins`), these grow-path parts on M4's grow path at item 202's call points (V-M2) until V06's engine carries them — V-M3's clauses that run V06's steps exiting with M6-E (risk (10)); both hand-offs with the band, the one revived plan, the old core's fabric participants, the catacomb step and the maintenance mode; item 113's village part (V07 §3.12a) on V06's replay; item 114's epochs and condition looks; `painterly` at the neighbourhood band with the crown bands and group shade; the night view; the village through the year and its festivals (items 117, 118); the township view at the zoom-out limit (item 116); exports; the village `WhyProvider`; item 110's village parts — the raised way on a village map (V07 §3.5a), deck plots and the pier head (V07 §3.10a), the decline rows, the hand-offs' item-110 state, the painterly item-110 programs and the item-110 edit rows; item 119's one-time waits (V07 §6); Find at the village rungs (item 120; V07 §5.5); the edge suite's V-M3 clauses | T-V7-13's village-history clause, T-V7-57's village-history clause, T-V7-14 – T-V7-17, T-V7-22, T-V7-25 – T-V7-27, T-V7-30, T-V7-32, T-V7-35's promotion clause, T-V7-37, T-V7-43, T-V7-48 – T-V7-51, T-V7-53 – T-V7-55, T-V7-59, T-V7-60's V-M3 clauses, T-V7-61, T-V7-62's epoch clause, T-V7-64 – T-V7-68 — the clauses that run V06's steps (T-V7-16, T-V7-30, T-V7-50's desertion clause, T-V7-35's promotion clause over epochs, T-V7-51, T-V7-59, T-V7-62's epoch clause) at V-M3's exit where M6-E's E2–E4 have landed, else at the first V07 exit after E4 (risk (10)); `plat calibrate register --check` green over the cells it lands | 9.5–14.25 |
++| **V-M3 — editing, time and output** | V07 §4's tool forms, events and locality rows (the lassoed ends with the count badge, the wall tool's barrier snapping and its repair material, the declared split, the form-edit bend); the epoch phases, desertion with the hollow ways and house platforms as records, the ladder steps and the palisade's replacement; the markets, halls and the fair over epochs (V07 §3.12) with the dossier step's call of `village.records` (built at V-M2), `village.outsidePlot` from V06 §3.9.6 and the siting step (m), and the pins over epochs (`village.pins`), these grow-path parts on M4's grow path at item 202's call points (V-M2) until V06's engine carries them — V-M3's clauses that run V06's steps exiting with M6-E (risk (10)); both hand-offs with the band, the one revived plan, the old core's fabric participants, the catacomb step and the maintenance mode; item 113's village part (V07 §3.12a) on V06's replay; item 114's epochs and condition looks; `painterly` at the neighbourhood band with the crown bands and group shade; the night view; the village through the year and its festivals (items 117, 118); the township view at the zoom-out limit (item 116); exports; the village `WhyProvider`; item 110's village parts — the raised way on a village map (V07 §3.5a), deck plots and the pier head (V07 §3.10a), the decline rows, the hand-offs' item-110 state, the painterly item-110 programs and the item-110 edit rows; item 119's one-time waits (V07 §6); Find at the village rungs (item 120; V07 §5.5); the crisis looks at the village rungs (item 122; V07 §5.6: the places' village readings, `villageDisasterUnits`, the crisis lines); the edge suite's V-M3 clauses | T-V7-13's village-history clause, T-V7-57's village-history clause, T-V7-14 – T-V7-17, T-V7-22, T-V7-25 – T-V7-27, T-V7-30, T-V7-32, T-V7-35's promotion clause, T-V7-37, T-V7-43, T-V7-48 – T-V7-51, T-V7-53 – T-V7-55, T-V7-59, T-V7-60's V-M3 clauses, T-V7-61, T-V7-62's epoch clause, T-V7-64 – T-V7-67, T-V7-68 at the later of V-M3's exit and M5's (Find's milestone), T-V7-69 (its dossier clauses at M-SF, its disaster and camp clauses as its row states) — the clauses that run V06's steps (T-V7-16, T-V7-30, T-V7-50's desertion clause, T-V7-35's promotion clause over epochs, T-V7-51, T-V7-59, T-V7-62's epoch clause) at V-M3's exit where M6-E's E2–E4 have landed, else at the first V07 exit after E4 (risk (10)); `plat calibrate register --check` green over the cells it lands | 9.75–14.75 |
+@@ -3569,7 +3703,7 @@
+-| **total** | | | **30.25–42.5** |
+-
+-The total is the product's own 26.5–36.5 pw plus the parts of items 111–120 routed here (item 111 at V-M1, + 0.25–0.5; items 114
+-and 115 at V-M2, + 0.5–0.75; at V-M3 item 113's village part + 0.75–1.25, item 114's epochs and looks + 0.25–0.5, items 117 and
+-118 + 1–1.5, item 116 inside §8.8's limit + 0.25, the `WhyProvider` and the edge suite + 0.25–0.5, item 119's one-time
+-waits + 0.25, item 120's Find at the village rungs + 0.25–0.5); §16's village line and INDEX §4 carry it (item 568 computes
+-the totals once).
++| **total** | | | **30.5–43** |
++
++The total is the product's own 26.5–36.5 pw plus the parts of items 111–120 and 122 routed here (item 111 at V-M1, + 0.25–0.5;
++items 114 and 115 at V-M2, + 0.5–0.75; at V-M3 item 113's village part + 0.75–1.25, item 114's epochs and looks + 0.25–0.5,
++items 117 and 118 + 1–1.5, item 116 inside §8.8's limit + 0.25, the `WhyProvider` and the edge suite + 0.25–0.5, item 119's
++one-time waits + 0.25, item 120's Find at the village rungs + 0.25–0.5, item 122's crisis looks at the village rungs
+++ 0.25–0.5); §16's village line and INDEX §1 carry it (item 568 computes the totals once).
+@@ -3643,3 +3777,7 @@
+-exit after them. (13) **Find** (item 120) is V09's panel and `live.find` overlay over §11.2's gazetteer and §8.2's rows;
+-*pre-decided fallback:* if they have not landed by V-M3, the village's readings (V07 §5.5) ship as the gazetteer's rows and
+-area targets alone, and T-V7-68 exits at the first V07 exit after V09's Find.
++exit after them. (13) **Find** (item 120) is V09's panel and `live.find` overlay over §11.2's gazetteer and §8.2's rows,
++landing at M5 (Find's milestone, with V01's area and gap services); *pre-decided fallback:* if M5 has not exited when V-M3
++does, the village's readings (V07 §5.5) ship as the gazetteer's rows and area targets alone, and T-V7-68 exits with M5's
++exit. (14) **The crisis looks** (item 122) are §8.2's `live.crises` over §10.2's table (M3b) and V11's rows, the conditions'
++`crisis.map` rows with V08's reading (M-SF), V01's `campLand` (M3b) and `disasterSource` (M5) and V06's `frontierFor` (M6-E);
++*pre-decided fallback:* the village's readings (V07 §5.6) and `villageDisasterUnits` ship at V-M3, exercised by previews, and a
++clause of T-V7-69 whose service has not landed exits at the first V07 exit after it.
+@@ -3789,2 +3927,2 @@
+-| J-V7.135 | chose the palisade's condition and material per run on `Enceinte.condition` with the village kinds' rows of `walls.patchMaterials` (V11 §3.25.3: odd stakes, hurdles and brush on a palisade; brush and turf, and hurdles, on a bank; V11's masonry rows on a stone circuit), decay and recovery by V06 §3.7's need and means, the generation-time conditions by §7.7's readiness-and-wealth row, a patch kept apart from a light stretch, over a village decay rule of its own or drawing a breached palisade whole, because item 114 makes the palisade one enceinte among the rest, a light stretch is a terrain grade while a patch is repaired damage, and the parity preset draws VG's whole palisade | V07 §3.4 (8), V07 §3.12, V07 §5.1 |
+-| J-V7.136 | chose item 115's grandeur ceiling as a rung-stepped reading of V11's ceiling rows — at THORP and HAMLET no grand dwelling and no manor unless specified, at VILLAGE at most one manor and only with a lord or when specified, every other dwelling at most `L` or `T`, wealth moving a dwelling only along its capped row — with the manor's presence law under it (0 at THORP and HAMLET, its `gov seigneurial` law at VILLAGE, else 0) and "specified" meaning a dossier manor or hall record, a dossier government's `villageSeat` naming the manor, or the author's placement, over keeping the manor's small chance by population or capping by wealth, because the owner's rule is by tier and outranks the anchor law's smoothness, the dossier's government is its own fact (J-V7.113), and a hand edit is never refused (item 101 R2) | V07 §2.4, V07 §3.8, V07 §3.11 DR6, DR11 |
++| J-V7.135 | chose the palisade's condition and material per run on `Enceinte.condition` with the village kinds' rows of `walls.patchMaterials` (V11 §3.25.3: odd stakes, hurdles and brush on a palisade; brush and turf, and hurdles, on a bank; V11's masonry rows on a stone circuit), decay and recovery by V06 §3.7's need and means, the generation-time conditions by §7.7's DR41, a patch kept apart from a light stretch, over a village decay rule of its own or drawing a breached palisade whole, because item 114 makes the palisade one enceinte among the rest, a light stretch is a terrain grade while a patch is repaired damage, and the parity preset draws VG's whole palisade | V07 §3.4 (8), V07 §3.12, V07 §5.1 |
++| J-V7.136 | chose item 115's grandeur ceiling as a rung-stepped reading of V11's ceiling rows — at THORP and HAMLET no grand dwelling and no manor unless specified, at VILLAGE at most one manor and only with a lord or when specified, every other dwelling at most `L` or `T`, wealth moving a dwelling only along its capped row — with the manor's presence law under it (0 at THORP and HAMLET, its `gov seigneurial` law at VILLAGE, else 0) and "specified" read as V08 §3.16 (3) reads it, or the author's placement, over keeping the manor's small chance by population or capping by wealth, because the owner's rule is by tier and outranks the anchor law's smoothness, the dossier's government is its own fact (J-V7.113), and a hand edit is never refused (item 101 R2) | V07 §2.4, V07 §3.8, V07 §3.11 DR6, DR11 |
+@@ -3799,0 +3938 @@
++| J-V7.146 | chose to read item 122's crisis looks at the village rungs as §10.2's places read on the village's own records — the ends as a disaster's units in V01's `DisasterUnit` shape (the toft groups of a village with no end), the entries' ways as the approach roads with a main approach road chosen by the DR3 partner of greatest weight, the palisade's walled stretches as the walls and the edge, the hinterland's furlongs, meadow and commons as famine's fields, V01's `campLand` read at the perimeter and the fallow course, an end as the quarantine's affected quarter — with a war band's camp and no siege line at THORP and HAMLET, every share of a place's units counted as V01 §3.16 (5) counts the disaster's units, and the hand-over through the village's own epochs, over a separate village look table or the town's places scaled down, because item 122 routes "the village and smaller rungs" here and its (c) gives a hamlet a war band's camp and a city the siege line, a village's parts are its ends (J-V7.20) and its outskirts its hinterland, one count of a share serves every rung, and a look standing at a positive share must not round a small place's share to nothing | V07 §5.6, W84, T-V7-69 |
+@@ -3859 +3998,2 @@
+-applied, items 111 and 113–120 included); the owner's words in `docs/DEFINITION.md`, `docs/OWNER-INSTRUCTIONS-2026-09-25.md`
++applied, items 111, 113–120 and 122 included); the owner's words in `docs/DEFINITION.md`,
++`docs/OWNER-INSTRUCTIONS-2026-09-25.md`
+@@ -3883 +4023 @@
+-support and strip clearances, the turns, the deck widths, the pier head and its law, and the item-110 budgets (V-M1, V-M3);
++support clearance, the turns, the deck widths, the pier head and its law, and the item-110 budgets (V-M1, V-M3);
+@@ -3889 +4029,4 @@
+-comfort level (T-V7-67; V-M3); that the ends serve as Find's area targets and Show gaps' units (T-V7-68; V-M3); and the
++comfort level (T-V7-67; V-M3); that the ends serve as Find's area targets and Show gaps' units (T-V7-68; V-M3); that the
++village tiers' crisis looks read at
++their places and scale — a war band's camp and no siege line at THORP and HAMLET, the ends as a disaster's units — and that
++`villageDisasterUnits` stays within 0.5 ms (T-V7-69; V-M3); and the

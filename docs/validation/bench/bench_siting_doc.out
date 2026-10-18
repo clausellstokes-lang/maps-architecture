@@ -1,0 +1,6 @@
+S10b naive: 80 classes x 5500 plots, full sort per class: 97.8 ms per round; x3 rounds = 293.5 ms (budget 8 ms)
+entity JSON (22 250 schema-shaped records): 15.5 MB raw, 1.25 MB gzip-9
+CITY frame 625^2 @8 m: one Float32 field 1.6 MB raw, 1.36 MB gzip-9; prosperity+density = 2.73 MB
+CITY frame+margin 1000^2 @8 m: one Float32 field 4.0 MB raw, 3.49 MB gzip-9; prosperity+density = 6.98 MB
+METRO frame+margin 1280^2 @10 m: one Float32 field 6.6 MB raw, 5.72 MB gzip-9; prosperity+density = 11.44 MB
+report.streamKeysUsed 1e5 keys: 4.8 MB raw, 0.50 MB gzip-9

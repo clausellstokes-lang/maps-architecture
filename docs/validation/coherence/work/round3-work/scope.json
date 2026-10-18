@@ -1,0 +1,92 @@
+[
+ {
+  "id": "VAP-r2-01",
+  "severity": "major",
+  "kind": "HANDOFF-OPEN",
+  "owner": "scope",
+  "claim": "R2-08: \"The volume test is the home of which base-bar clauses it runs: its head names each bar it takes \u2026, and a lettered clause re-running one names it. Scope's take-over table carries the same ids in its base-bar column.\" The table (base l. 18220\u201318231) and \u00a713.2's groups' runs lists miss ids the live tests name: (a) the calibration row (l. 18230) lists ids for items 120\u2013126 only, while T-V12-44 names T111-1 \u2013 T111-5, T-V12-45 T112-1, T-V12-46 T113-2 (and T113-5's milestone), T-V12-47 T114-4 \u2013 T114-7, T-V12-48 takes T115-1, T115-4 and T116-1, T-V12-49 names T117-2 and T118-2 \u2013 T118-6, and T-V12-50 takes T119-1, T119-2, T119-4 and T119-5; (b) the stage-3 row (l. 18224) gives T-V2-58 \"T115-1's composed shapes\" only, while its (f) registers B-MASS on the rung pin \"(V12 \u00a72.13; T115-4)\", and T-V2-59 \"T123-5\" only, while its (d) runs \"T123-7's no-op\"; (c) the plan-rung row (l. 18223) gives T-V3-37 \"T119-2's plan clauses\", while its clauses run T119-2, T119-3, T119-4 and T119-5, and T-V3-40 the plan clauses of T122-1 \u2013 T122-3, while its (f) runs \"V12's `item122.crises` pin (V12 \u00a72.13; T122-7)\"; (d) the evolution row (l. 18220) has no T114-10, though \u00a713.8 runs T114-10's 10 epochs \"with M6-E's E3\" and T-V6-73's welded-stretch clause runs them (VAP-r2-04); (e) the SettlementForge row (l. 18227) gives T-V8-62 \"T126-2's host-frame clause\" only, while it runs \"V09's T126-3 scan \u2026 over `embed.html`\"; (f) the application row (l. 18229) names no item-112 bar, while T-V9-72 runs T112-1's style check on the thematic views and T112-2's trial. \u00a713.2's groups (the third statement of the same assignment) also diverge: item 111's runs list (l. 18010\u201318011) names no test and omits volume 8 (T-V8-50, the port's clauses); item 112's (l. 18012\u201318018) has none; item 113's (l. 18028\u201318029) names no test and omits volume 7 (T-V7-59, the village halves of T113-1 and T113-3); items 114, 115, 119, 122, 123 and 126's lists omit (b)\u2013(e)'s clauses.",
+  "required_change": "In \u00a713.2's take-over table: the calibration row's base-bar column reads \"every bar's register line and its spec, the specs, pins and bench bars of items 111\u2013126: T111-1 \u2013 T111-5 (T-V12-44); T112-1's style line (T-V12-45); T113-2 and T113-5's registration (T-V12-46); T114-4 \u2013 T114-7 (T-V12-47); T115-1, T115-4 and T116-1 (T-V12-48); T117-2 and T118-2 \u2013 T118-6 (T-V12-49); T119-1, T119-2, T119-4 and T119-5 (T-V12-50); T120-1 and T120-6 (T-V12-52); \u2026\" (the rest as it stands); the stage-3 row reads \"T115-1's composed shapes and T115-4's rung clause on B-MASS (T-V2-58), \u2026, T123-5 and T123-7's exterior clause (T-V2-59)\"; the plan-rung row \"T119-2 \u2013 T119-5's plan clauses (T-V3-37), \u2026, T122-1's, T122-2's, T122-3's and T122-7's plan clauses (T-V3-40)\"; the evolution row adds \"T114-10's epoch clause (T-V6-73)\"; the SettlementForge row \"T126-2's host-frame clause and T126-3's embed clause (T-V8-62)\"; the application row adds \"T112-1's thematic-view clause and T112-2 (T-V9-72)\". In \u00a713.2's groups: item 111's runs list reads \"Volume 7 runs them at the village rungs (T-V7-58), volume 6 over epochs, a failing spring weakening its pull (T-V6-72), volume 8 the port's clauses (T-V8-50) and volume 12 the specs, the pin and the register lines (T-V12-44)\"; item 112's gains \"Volume 9 runs T112-1 on its thematic views and T112-2's trial (T-V9-72) and volume 12 the style line (T-V12-45)\"; item 113's reads \"Volume 6 runs them on its replay engine (T-V6-71), volume 4 T113-4 and T113-5 on the underground's output (T-V4-77, T-V4-76), volume 7 the village halves of T113-1 and T113-3 (T-V7-59), volume 8 the dossier's history (T-V8-51), volume 12 their register lines and the replay's budget (T-V12-46)\"; item 114's \"Volume 6 runs T114-1 \u2013 T114-5, T114-8's and T114-10's epoch clauses on its engine (T-V6-73)\"; item 115's \"volume 2 on composed shapes and the rung pin on B-MASS (T-V2-58)\"; item 119's \"volume 3 the plan's (T-V3-37: T119-2 \u2013 T119-5)\"; item 122's \"volume 3 the plan clauses of T122-1 \u2013 T122-3 and T122-7 (T-V3-40)\"; item 123's \"volume 2 T123-5 and T123-7's exterior clause (T-V2-59)\"; item 126's \"volume 8 T126-2's host-frame clause and T126-3's embed clause (T-V8-62)\". (The volume ends are VAP-r2-02 \u2013 VAP-r2-06.)",
+  "reported_by": "verify-agree-proof-r2t"
+ },
+ {
+  "id": "VAP-r2-14",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "owner": "scope",
+  "claim": "\u00a713.8 (l. 18840) schedules \"T126-1 \u2013 T126-3 | PR on volume 9's app harness | M2a (with the medium layout)\", and T126-1 requires that \"at the medium class every tool of V09 \u00a74.12's list completes its canvas script under touch\". At M2a only T9 `shape` and T10 `hold` exist (V09 AP2; T2 `ground` \u2013 T8 `fill` land at M3a, AP3). The takers place it otherwise: T-V9-22's milestone \"M2a (T126-2, T126-3); M3a (every tool's touch script)\", T-V12-59 \"M2a (\u00a716); each tool's script from the milestone that lands it, every tool from M3a\", V12 \u00a73.15.16 \"each tool from the milestone that lands it, every tool from M3a\". By \u00a713.2's convention (2) a bar runs \"from the milestone \u00a713.8's schedule gives it\", so the base gates every tool's touch script at M2a, which the volumes do not.",
+  "required_change": "\u00a713.8's row reads \"| T126-1 \u2013 T126-3 | PR on volume 9's app harness | M2a (with the medium layout); T126-1 each tool from the milestone that lands it, every tool from M3a |\".",
+  "reported_by": "verify-agree-proof-r2t"
+ },
+ {
+  "id": "VEW-r2-02",
+  "severity": "major",
+  "kind": "EDGE-UNDEFINED",
+  "owner": "scope",
+  "claim": "Item 116's export bar at the METROPOLIS cap has two outcomes. \u00a713.2's T116-4 (base l.18077\u201318078) now reads 'every export frames within the limit, the whole bounds at most, or stop 0's extent where the bounds are wider than the window at stop 0'. R2-30's clause describes a view; an export has no window (\u00a711.2's export runs in the worker and in Node with no viewport), and \u00a78.7, the export frame's home (l.13879\u201313882), cuts every export only to the limit bounds ('the whole limit bounds at most \u2026 a requested frame reaching past them is cut to them'), window-free, as item 116 (c) says ('EXPORTS frame within the same limit (the whole bounds at most)'). At the cap the bar either fails \u00a78.7's whole-map export (a print of the 17.53 km frame cut to a window's stop-0 extent) or cannot be evaluated headless.",
+  "required_change": "T116-4 reads: 'every export frames within the limit bounds (\u00a78.7: the whole bounds \u2014 town and camps while a crisis look stands \u2014 at most), at any window size and with none; at the METROPOLIS cap a whole-bounds PNG, print and SVG export frames the whole bounds'. R2-30's 'or stop 0 where the bounds are wider than the window at stop 0' stays in T116-1's view bar only.",
+  "reported_by": "verify-edges-world-r2t"
+ },
+ {
+  "id": "VKr2-02",
+  "severity": "major",
+  "kind": "EDGE-UNTESTED",
+  "owner": "scope",
+  "claim": "No bar exercises VKr2-01's case: a raised way whose deck ends on the outer ring, carried through an epoch's frame growth. T110-2 (\u00a713.2, l. 17982\u201317985) builds 'its part sized to the ground's frame plus margin and growing with it' and 'an aqueduct sourced beyond the frame laid to the outer ring without a ramp' as separate clauses. \u00a713.1's kernel set (l. 17186\u201317190) grows a frame only in 'a frame growth whose frame and arena would be no larger' and 'a village \u2192 town fold'. Nothing checks the foot through the growth: it must resolve at every stage end, the old ground vertex must leave nothing behind, and both ends must lie on the new rings after \u00a74.11. Under principle (11) an untested edge is a major.",
+  "required_change": "\u00a713.2 T110-2: after 'an aqueduct sourced beyond the frame laid to the outer ring without a ramp,' add 'and the same aqueduct through an epoch's frame growth \u2014 \u00a73.10's stored-references row passing at every stage end of the epoch, no part-0 vertex left with a row and no edge, and after \u00a74.11 both ends of its ring-end foot on the new rings (\u00a72.7 `RaisedFoot`, \u00a73.2 (9)) \u2014'.",
+  "reported_by": "verify-kernel-r2t"
+ },
+ {
+  "id": "VCS-r2-01",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "J-A120.01's index row (base l. 22398) says Find's base parts are built at M5 \"its base parts widening the O12 line by 0.5\u20131 pw\", and its Part A entry (rationale l. 836) \"widen the O12 line by an itemised 0.5\u20131 pw (PLAUSIBLE) under \u00a716's rule\". \u00a716 prices them by absorption \u2014 the O12 line's \"item 112's second cues and checked variants and item 120's Find roles and marks absorbed (its overlay provider and panel are volume 9's, AP11)\", the components paragraph's \"the base parts of items 120, 123 and 125 are absorbed \u2014 item 120's key, roles, listing and exports by the O11 and O12 lines\" \u2014 and J-A568.05 reads \"items 121, 122 and 124 widening the O12 line by 2.25\u20133.75 pw, items 120, 123 and 125 absorbed\"; O12's 10.75\u201316.75 = 8.5\u201313 + 2.25\u20133.75 holds no 0.5\u20131 for item 120. One price, two statements.",
+  "required_change": "J-A120.01's index row ends \"\u2014 built at M5 with volume 1's area and gap services, its base parts priced by absorption into the O11 and O12 lines (its overlay provider and panel volume 9's AP11; J-A568.05)\". Its Part A entry's last clause reads \"its base parts (\u00a72.9's key, \u00a78.2's marks, \u00a79.5's tool, \u00a711.1's export, \u00a711.2's listing, \u00a712.5's budget) are priced by absorption into the O11 and O12 lines whose mechanisms they extend, its overlay provider and panel being volume 9's AP11 (J-A568.05) (\u00a713.2, \u00a713.8, \u00a716).\" \u00a716 and its totals unchanged.",
+  "owner": "scope",
+  "reported_by": "verify-scope-r2t"
+ },
+ {
+  "id": "VCS-r2-03",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "\u00a71.1's new *Where the map is seen* (l. 317) says \"Tablets keep every tool, under touch and pen (V09 \u00a74.12)\" and T126-1 bars \"at the medium class every tool of V09 \u00a74.12's list completes its canvas script under touch\" (item 126 (e): \"every tool works under touch\"), while \u00a713.4's pre-decided touch fallback in the same unit (l. 18389\u201318391) still reads \"if they fail where the pointer users pass, touch is kept for the intent, ground-and-bones and programme layers \u2026 and the fabric and finish layers become pointer-only\" \u2014 after which T126-1 fails by design and \u00a71.1 is false. V09 \u00a74.12 words the same fallback as a default (\"`AppPrefs.touch.editFabric` defaults to false for coarse pointers, hiding the L3 FABRIC and L4 FINISH layers' geometry edits\"), switchable, and T-V9-22 runs T126-1 without naming the setting: the meeting of item 126's bar and the touch fallback is undefined.",
+  "required_change": "\u00a713.4's fallback clause reads \"\u2026 and the fabric and finish layers' geometry edits are off by default on a coarse pointer (`AppPrefs.touch.editFabric`, V09 \u00a74.12), switchable back on and never removed (item 126 (e)), stated in the guide\"; \u00a71.1's sentence reads \"Tablets keep every tool, under touch and pen (V09 \u00a74.12); \u00a713.4's touch fallback changes only a default\"; T126-1 reads \"\u2026 completes its canvas script under touch, with `AppPrefs.touch.editFabric` on\". V09 writes T-V9-22's end in the same words (R2-05).",
+  "owner": "scope",
+  "reported_by": "verify-scope-r2t"
+ },
+ {
+  "id": "VCS-r2-04",
+  "severity": "minor",
+  "kind": "WIRING",
+  "claim": "R2-36 places item 122's base parts at M3b and \"the disaster look's districts with V01's W10 at M5; V02's ruined exterior with V02's building-band step; V03's look damage with V03's item-123 step\", under its rule \"a look or view whose subject is not yet built draws nothing of that part\". \u00a716's M3b row (l. 19728) places \"item 122's crisis looks\" whole at M3b, and neither it nor the M5 row names the `disaster` look's districts (\u00a710.2's `neighbourhoods` place reads V01's `disasterDistricts`, built in V01's W10 at M5, V01 \u00a78.1) or states R2-36's rule; \u00a713.8 (l. 18834) runs T122-2, T122-3, T122-5 and T122-6 \"nightly on the crisis fixtures \u2014 the previews from M3b\", so a `disaster` preview's district share (T122-5's scale) is due at M3b with no producer until M5. The volumes already place it at M5 (T-V3-40, T-V7-69, T-V10-52). Between M3b and M5 a standing disaster condition has no stated drawing in the base.",
+  "required_change": "\u00a716's M3b item-122 clause adds \"\u2014 the `disaster` look's districts (\u00a710.2's `neighbourhoods`) with volume 1's `disasterSource` and `disasterDistricts` at M5 (W10), its ruined exterior with M6 (V02 \u00a78.6) and its plan damage with volume 3's P4; until each lands that part draws nothing (R2-36)\"; the M5 row's content adds \"item 122's disaster districts \u2014 volume 1's `disasterSource` and `disasterDistricts` (W10)\"; \u00a713.8's T122-2, T122-3, T122-5, T122-6 row's milestone cell reads \"M3b (the `disaster` look's district clauses from M5)\".",
+  "owner": "scope",
+  "reported_by": "verify-scope-r2t"
+ },
+ {
+  "id": "VCS-r2-06",
+  "severity": "minor",
+  "kind": "COHESION",
+  "claim": "Appendix A's graded exceptions (l. 22463\u201322465) state \"The SettlementForge facts of items 73\u201388, 102\u2013113, 117, 118 and 122 (the calendar, `traditions`, the stressors and conditions) are CONFIRMED \u2026\" but say nothing of the SettlementForge inputs the owner's items mark unconfirmed: item 122 (h)'s forces, coalitions and travelling groups with their sizes (\"IN DEVELOPMENT in SettlementForge \u2026 to be confirmed by the final local check (item 125 (d))\"), read by DR44, T122-5 and V08's T-V8-60, and the current-week stamp item 125 (d) lists; nor of item 125 (d)'s final local check that confirms the port's fields. The record's \"every mechanism \u2026 is PLAUSIBLE \u2026 until the milestone \u00a716 names for it executes it\" covers mechanisms, not whether a SettlementForge field exists.",
+  "required_change": "Appendix A adds after the SettlementForge sentence: \"The SettlementForge fields the owner's items mark in development \u2014 item 122 (h)'s forces, coalitions and travelling groups with their sizes, and a current-week stamp \u2014 are PLAUSIBLE until item 125 (d)'s final local check of SettlementForge's checkout confirms each, field by field, item 125 (b)'s fallback in force meanwhile.\"",
+  "owner": "scope",
+  "reported_by": "verify-scope-r2t"
+ },
+ {
+  "id": "VV12-r2-07",
+  "severity": "minor",
+  "kind": "COHESION",
+  "owner": "scope",
+  "claim": "R2-36 (a canon change) places item 122's disaster units 'with V01's W10 at M5', and V01 \u00a78.2's W10 builds them (`disasterSource`, `disasterDistricts`, within V01's 27.5\u201336.75 pw). \u00a716's M5 row lists item 120's Find with 'volume 1's area and gap services `findAreas` and `gapUnits` (W10\u2013W11)' but omits item 122's part. Its M3b row (`campLand`) and M6 row (V02 \u00a78.6's ruined look) both name their item-122 parts.",
+  "required_change": "\u00a716's M5 row, after \"volume 1's area and gap services `findAreas` and `gapUnits` (W10\u2013W11)\", adds \"; item 122's disaster units \u2014 volume 1's `disasterSource` and `disasterDistricts` (W10; V01 \u00a73.16)\".",
+  "reported_by": "verify-vol-V01-V02-r2t"
+ },
+ {
+  "id": "VV910-r2-07",
+  "severity": "minor",
+  "kind": "COHESION",
+  "claim": "INDEX l.33 (V10's row: \"C3's Find content at M5's exit\") and \u00a716's M3c row (base l.19741: \"C3's item-120 content landing with M5's exit\") place Find's clerk content in C3; V10 \u00a78 holds it in C4 (\"item 120's find form and read (V10 \u00a73.9b (7)), landing with V09's Find panel at M5 \u2026, inside C4's range\"; its total \"item 120's find form and read lie within C4's range\"), and C3 holds none (repair-r2-V10's VAP-r1-13 note: R2-32 (2)'s \"C3\" names the row that does not hold it).",
+  "required_change": "INDEX l.33 reads \"C4's Find content (the find form and read) at M5's exit\" and \u00a716's M3c row \"V10 \u00a78's exits (C4's item-120 content \u2014 the find form and read \u2014 landing with M5's exit)\".",
+  "owner": "scope",
+  "reported_by": "verify-vol-V09-V10-r2t"
+ }
+]

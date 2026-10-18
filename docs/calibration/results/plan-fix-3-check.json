@@ -1,0 +1,74 @@
+{
+ "id": "m1/plan-fix-3-check",
+ "status": "landed",
+ "records": [],
+ "outputs": [
+  "docs/calibration/results/plan-fix-3-check.json"
+ ],
+ "checks": [
+  {
+   "check": "U1 red: a request with one resource leaf changed fails requestDiff or vsSlot0 (scratch mirror; old script 8452903^ = 3911fc3b vs installed 4d396e67)",
+   "passed": true,
+   "receipt": "CONFIRMED, executed 21:25. 13 planted changes to the landscape raw-resource list, run --check-only under both scripts: the fishing entry's neighbour replaced on slots 5 and 2 (coast+river), 1 and 0 (none; slot 0 against itself); a middle entry and the last entry replaced; the last entry set to a copy of another; the fishing entry replaced by a copy of another entry; a seventh entry appended; the list emptied; two entries swapped. Old script: exit 0 on all 13. Installed script: exit 1 on all 13, each failing both requestDiff and vsSlot0. A building-level resource leaf fails both scripts (that class was never water-implied). The 4 controls (slots 5, 1, 0, 2 unchanged) exit 0 under both. Slot 0's recorded list made wrong, with slot 5 unchanged, fails vsSlot0 under the installed script only (exit 1), so the second term of the slot-0 check works. Cases and outputs: scratchpad m1w2/pf3check/u1/u1-results.json."
+  },
+  {
+   "check": "U1 regression: --check-only on the six bound captures, slots 0-5, with the installed script",
+   "passed": true,
+   "receipt": "CONFIRMED, executed on the live folders: exit 0 and 10 of 10 on each slot. Every requestDiff receipt reads that the resource list equals the none or coast+river list, matching the slot's water, and every vsSlot0 receipt reads that each list is its water setting's. No file in the six folders is newer than the run's start, so nothing was written."
+  },
+  {
+   "check": "U2 red: a programme-2 slot is bound, then its schedule row is edited, and the edit is refused (scratch mirror holding copies of plan.json 524830f5, metrics.m-1.json 7a21bb29 and HEAD's V12 3f20cb1f, which predates design/m1-corrections-1's edit)",
+   "passed": true,
+   "receipt": "CONFIRMED, executed. Installed plan.py a128b9d1: --check SAME, then bind slot 6, then --check SAME. Each of the following then exits 2 with plan.json byte-unchanged: slot 6's row changed in size; changed in water only; a row inserted before it; its row struck; every programme-2 row struck ('no longer in the schedule'); the rows of slots 6 and 7 swapped; slot 7 bound through the edit; --check through the edit. With slot 7 recorded failed (--fail-ftg 7=create-failed, exit 0), changing its row's water also exits 2. Under the pre-fix plan.py 4015955f every one of these edits wrote with exit 0, and striking programme 2 lost slot 6's binding. Steps: scratchpad m1w2/pf3check/u2/u2-results.json."
+  },
+  {
+   "check": "U2 allowed: striking or reordering unrecorded tail rows is allowed, and the binding is kept",
+   "passed": true,
+   "receipt": "CONFIRMED, executed. Striking the TOWN pair gives exit 0 with 26 slots, and slot 6 stays bound. Striking slot 7's row, the first unrecorded one, gives exit 0. Swapping the CITY rows of slots 24 and 25 gives exit 0. Restoring the declared schedule and regenerating gives exit 0, and --check then reads SAME."
+  },
+  {
+   "check": "U2 first six: a reorder that changes a label is refused",
+   "passed": true,
+   "receipt": "CONFIRMED, executed. Swapping programme-1 rows 0 and 1, or rows 0 and 2, gives exit 2 ('FTG slots 0..5 changed or reordered', R-36) under both scripts, with nothing written."
+  },
+  {
+   "check": "U2 refutation beyond the unit's stated scope: a first-six reorder that moves no label, and a recorded slot's day or programme",
+   "passed": false,
+   "receipt": "CONFIRMED, executed. Swapping programme-1 rows 2 and 4 (both BIG_TOWN coast+river, days 3 and 5) exits 0 and writes plan.json with the two bound slots' days swapped. Changing a recorded slot's day alone exits 0. Moving programme 1's last row to the head of programme 2 exits 0, and slot 5's programme goes from 1 to 2 and its day from 6 to null. The pre-fix script behaves identically, so this is a gap R-36 already had. It is outside the guard plan-fix-3 was asked for (a recorded slot's label, size or water, notes 6 point 2). No capture's label, size or water moves, and no script reads a slot's day or programme. The plan's header still says 'refusing any reordering of the first six'. Routed to m1/W-01b: see owner_notes."
+  },
+  {
+   "check": "U2 live plan.py --check (expected state)",
+   "passed": true,
+   "receipt": "CONFIRMED, executed 21:31 as EXPECTED. The command exits 2 with 'catalogue mismatch: missing bldg.wallAlign.median, bldg.wallAlign.share15, cut.length; extra bldg.wallAlign'. The cause is design/m1-corrections-1's V12 edit; registering the ids is W-01b's item, so this is not plan-fix-3's failure. The old script and the new one both fail the same way on today's V12 (1bacd39d), and both read SAME on HEAD's V12. The live plan.json (524830f5) and metrics.m-1.json (7a21bb29) are byte-unchanged."
+  },
+  {
+   "check": "U3: checklist section I covers plan 2.1b (1)-(10), and the retry rule reads AND, with the ambiguous case stopping",
+   "passed": true,
+   "receipt": "CONFIRMED by reading the section whole and running a script. The section I table equals plan.json slots 6-27: 22 rows, 0 mismatches in size, request value, coast option per water, rivers box or label. Where 2.1b's points sit: (1) steps 2, 3 and 5 (list count read, the never-click list); (2) step 4 (the METROPOLIS option for slots 6-9 by its request value, never by text); (3) step 7 (half widths); (4) step 9 (R-41 as six steps); (5) step 7 (--signed-in --premium, --check-only first, bind, --check, E02); (6) steps 5 and 8; (7) step 5 (payload size and the five-minute poll); (8) step 10; (9) step 11; (10) the preamble. The retry bullet allows a retry only when the PUT did not return 200 AND the list shows no new row, with at most three attempts. A PUT 200 with no new row is ambiguous: the seat STOPS, reports, and never retries. Any other combination is reported and never retried. Three attempts without a settlement go to --fail-ftg K=create-failed, and a site refusal leaves the slot open."
+  },
+  {
+   "check": "U4: R-48 is recorded, is applied in the plan and the work file, and agrees with §13.5's water row",
+   "passed": true,
+   "receipt": "CONFIRMED by reading. R-48 is in M-1-rulings-2.md §8, decided under J122, vetoable, with its reason and its source. §13.5's water row has the band column 'outline step ≤ 25 m; width band by class' in the live design. design/m1-corrections-1 changed only that row's reference column, and the band rule paragraph was read. So water.step has a fixed bound and water.riverWidth is banded per class, which is R-48 exactly. R-48 is applied in the plan (§1 D26, §2 W-15, the §12c row, the header) and in the work file (D26 class, W-15 tool, the rulings field)."
+  },
+  {
+   "check": "U5: every point of M-1-plan-notes.md §6 (6) is done or its reason recorded",
+   "passed": true,
+   "receipt": "CONFIRMED by reading, against the git diff 8452903^..8452903 and the live files. Plan §2.2's last sentence and the §9 row now read as history. W-16b has the inputs 'after programme 2's close', and its depends include W-02b, in both the plan and the work file. The work file's D13 (both programmes, work W-02 and W-02b), sampleRule.FTG (28 slots, type7 at 10, METROPOLIS 4, CITY three usable, TOWN research-side), wave2[0] and the 'thin FTG samples' risk are rewritten. W-03b's checker names plan.py --vectors in both files; I ran it and it printed 1179968782 / PM 1179968783. The variety.dispersion text of metrics.m-1.json is left to W-01b, with the reason in the record's U5 table and the result's notes; notes §6 names W-01b. No literal site-control label remains in the plan, M-1-rulings-2.md or the work file (grep). results/rulings-2.json keeps two labels as that seat's history, and rulings-2 §8 records this."
+  }
+ ],
+ "rows": 0,
+ "owner_notes": [
+  "VERDICT: all five units of m1/plan-fix-3 hold on their stated scope. I re-executed U1 and U2 on scratch mirrors (13 of 13 planted resource changes refused; 9 of 9 edits to recorded slots refused; tail edits allowed) and read U3, U4 and U5 against their sources.",
+  "ONE FINDING, ROUTED TO m1/W-01b (it edits plan.py next, before slot 6 binds; a NOTE line in lane-events.log names it). The recorded-slot guard freezes only a slot's label, size and water. A swap of two programme-1 rows with equal size and water, a change to a recorded slot's day, or a move of programme 1's last row into programme 2 regenerates with exit 0. Each of these rewrites the day or programme of bound slots. The pre-fix script does the same, so this is a gap R-36 already had. Suggested fix: in compute(), also compare 'programme' and 'day', or every slot field except capture and failed, for recorded slots. Red test: swap rows 2 and 4 of FTG_SCHEDULE and expect exit 2. W-01b should also correct the plan header's 'refusing any reordering of the first six'.",
+  "MY CALL UNDER J122 (vetoable): I ruled this finding not a failure of U2. Reason: plan-fix-3's brief and notes §6 point 2 asked for label, size and water. Every reorder that moves a capture's label is refused. The gap only rewrites metadata that no script reads, and it predates the lane. Returning blocked would have stopped W-01b and FTG programme 2 over it, and routing the one-line fix into W-01b's plan.py edit costs nothing. The alternative was status blocked on U2.",
+  "EXPECTED STATE, confirmed independently: the live plan.py refuses every write (--check, --bind-ftg, --fail-ftg) until W-01b registers bldg.wallAlign.median, bldg.wallAlign.share15 and cut.length, which design/m1-corrections-1's V12 edit added. Land W-01b before slot 6's seat binds."
+ ],
+ "notes": [
+  "Checklist section I, step 5, second bullet: the parenthetical 'or an error on the page' could be misread as a non-200 result when a PUT 200 was recorded. I ruled this not a defect, because the next bullet names the PUT-200-with-no-new-row case explicitly and the catch-all sends every other combination to stop. A suggested tightening, for whoever next edits the checklist: 'the recorded status governs; an on-page error with a recorded PUT 200 is the ambiguous case'.",
+  "PLAUSIBLE only: if a new size, such as METROPOLIS, implied a different raw-resource list, R-41 step 9 would record slot 6 failed, and slots 7-9 would fail the same way. The record already names this as PLAUSIBLE. workflows/25 stops its loop on the first non-landed slot, so at most one create would be spent before a ruling.",
+  "R-34's text in rulings-2 §2 still lists water.step under the band rule, and §8 (R-48) amends it in the same file. I ruled this not a defect: the precedent is that a ruling record is not rewritten and corrections are appended, and the plan header and the work file name R-48.",
+  "CONFIRMED: every receipt above was executed or read today, 21:23-21:35. PLAUSIBLE: none of the verdicts. Only the METROPOLIS resource note is reasoning.",
+  "I changed none of plan-fix-3's files. I wrote nothing into plat/, the design, plan.json or metrics.m-1.json; no website, no benchmark, no git state change. I wrote only this file and my lines in lane-events.log. Scratch: /private/tmp/claude-502/-Users-cstokes-Desktop-Maps/35f80c37-a71f-4b8a-aa2a-ae5f9064cf55/scratchpad/m1w2/pf3check/ (run_u1.py, run_u2.py, extra_u2.py, u1-results.json, u2-results.json, live-slot0..5.json)."
+ ]
+}

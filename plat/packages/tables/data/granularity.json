@@ -1,0 +1,31 @@
+{
+  "table": "granularity",
+  "version": 1,
+  "section": "§4.7",
+  "rows": {
+    "poor": {
+      "frontageM": {"value": [4, 6], "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": true},
+      "depthM": {"value": [12, 20], "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": true},
+      "joinMax": {"value": 1, "unit": "count", "provenance": "architecture 2026-09-25", "calibratable": true},
+      "vacancyShare": {"value": 0.03, "unit": "share", "provenance": "architecture 2026-09-25", "calibratable": true}
+    },
+    "modest": {
+      "frontageM": {"value": [6, 9], "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": true},
+      "depthM": {"value": [18, 30], "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": true},
+      "joinMax": {"value": 2, "unit": "count", "provenance": "architecture 2026-09-25", "calibratable": true},
+      "vacancyShare": {"value": 0.06, "unit": "share", "provenance": "architecture 2026-09-25", "calibratable": true}
+    },
+    "prosperous": {
+      "frontageM": {"value": [9, 14], "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": true},
+      "depthM": {"value": [25, 40], "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": true},
+      "joinMax": {"value": 3, "unit": "count", "provenance": "architecture 2026-09-25", "calibratable": true},
+      "vacancyShare": {"value": 0.08, "unit": "share", "provenance": "architecture 2026-09-25", "calibratable": true}
+    },
+    "rich": {
+      "frontageM": {"value": [14, 25], "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": true},
+      "depthM": {"value": [30, 60], "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": true},
+      "joinMax": {"value": 5, "unit": "count", "provenance": "architecture 2026-09-25", "calibratable": true},
+      "vacancyShare": {"value": 0.05, "unit": "share", "provenance": "architecture 2026-09-25", "calibratable": true}
+    }
+  }
+}

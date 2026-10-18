@@ -1,0 +1,41 @@
+{
+ "f6": [
+  {
+   "unit": "base",
+   "law": "3",
+   "chiefly": false,
+   "pointers": [],
+   "text": "shape §2.7's laws give (law 1 (2)–(6), (9)–(11), law 2 (a), law 3, read with their terms"
+  }
+ ],
+ "f3": [
+  {
+   "unit": "base",
+   "law": "2",
+   "text": "ved as S5a's pin is (§4.4 S5a *Trace* (2)) — by those laws, law 2, in its order: (a) moved along the way within (9)'s s"
+  },
+  {
+   "unit": "base",
+   "law": "2",
+   "text": "terms; law 2 *Not yet built*) — is resolved by §2.7's laws, law 2, in its order: (a) moved along its arterial to the ne"
+  },
+  {
+   "unit": "base",
+   "law": "2",
+   "text": " example the crossing table's row W2), bent where they say (law 2, in its order, law 3; its worked example the bent-gro"
+  },
+  {
+   "unit": "base",
+   "law": "2",
+   "text": "g raised way the new run meets, the meeting by §2.7's laws (law 2, in its order; its worked example the crossing table'"
+  }
+ ],
+ "bad": [],
+ "by_unit_f6": {
+  "base whole": 1
+ },
+ "by_unit_f3": {
+  "base": 4
+ },
+ "pointer_counts": {}
+}

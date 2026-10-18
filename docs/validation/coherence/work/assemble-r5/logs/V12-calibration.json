@@ -1,0 +1,211 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm5/before/docs/volumes/V12-calibration.md",
+ "input_doc_sha256": "2db3c8c9664844a3e15570bee237d12b0e4a2eea95ca7c56612b73f037cf879b",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm5/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "a480f02e58a893fea57cacc5977b83489f633ced23901f578adbcfbd8059c52a",
+ "files": [
+  {
+   "file": "repair-r5-V12.md",
+   "sha256": "ebcab077144a3787164dafb45375148d70bb606a79e61965ccbdf21103c685c3",
+   "lines": 1021,
+   "blocks": 6,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "repair-r5-V12.md #1 (l. 2) REPLACE ### 2.13 The no-op pins (V12 §3.7.8; E-20)",
+   "file": "repair-r5-V12.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "### 2.13 The no-op pins (V12 §3.7.8; E-20)",
+   "body_lines": 65,
+   "body_sha256": "93c7847a3f3e23c9541d60469af2120f1084c9da1dd23b5aed2c948f88dd3f1d",
+   "target_line": 877,
+   "section_old": "877–942",
+   "section_old_n": 66,
+   "section_new_n": 66,
+   "new_headings": [
+    "### 2.13 The no-op pins (V12 §3.7.8; E-20)"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "repair-r5-V12.md #2 (l. 70) REPLACE ### 3.4 The metric suite",
+   "file": "repair-r5-V12.md",
+   "index": 2,
+   "line": 70,
+   "kind": "REPLACE",
+   "heading": "### 3.4 The metric suite",
+   "body_lines": 173,
+   "body_sha256": "598b5887a2c13ae9682aeba0b78c028aa59d443938ea48a207ecead091b3ec4f",
+   "target_line": 1081,
+   "section_old": "1081–1254",
+   "section_old_n": 174,
+   "section_new_n": 174,
+   "new_headings": [
+    "### 3.4 The metric suite"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "repair-r5-V12.md #3 (l. 246) REPLACE ### 3.11 The calibration register — no provisional number dangles",
+   "file": "repair-r5-V12.md",
+   "index": 3,
+   "line": 246,
+   "kind": "REPLACE",
+   "heading": "### 3.11 The calibration register — no provisional number dangles",
+   "body_lines": 289,
+   "body_sha256": "0f924f1938d65ffd04078907479658768120e7cea25bc8247ddc8dcae7108a63",
+   "target_line": 2012,
+   "section_old": "2012–2300",
+   "section_old_n": 289,
+   "section_new_n": 290,
+   "new_headings": [
+    "### 3.11 The calibration register — no provisional number dangles"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "repair-r5-V12.md #4 (l. 538) REPLACE ### 3.15 The owner rules 111–126 on the harness",
+   "file": "repair-r5-V12.md",
+   "index": 4,
+   "line": 538,
+   "kind": "REPLACE",
+   "heading": "### 3.15 The owner rules 111–126 on the harness",
+   "body_lines": 386,
+   "body_sha256": "c4dca4b28ed18ef9cddd6222189e13ff08a0eda1a96402f2932db718604f86a3",
+   "target_line": 2447,
+   "section_old": "2447–2825",
+   "section_old_n": 379,
+   "section_new_n": 387,
+   "new_headings": [
+    "### 3.15 The owner rules 111–126 on the harness"
+   ]
+  },
+  {
+   "seq": 5,
+   "block": "repair-r5-V12.md #5 (l. 927) REPLACE ### 7.1 The bars",
+   "file": "repair-r5-V12.md",
+   "index": 5,
+   "line": 927,
+   "kind": "REPLACE",
+   "heading": "### 7.1 The bars",
+   "body_lines": 65,
+   "body_sha256": "ff7e6f74301d4505174b34264d8efc363215555dfd107f0545851e472dabd801",
+   "target_line": 3117,
+   "section_old": "3117–3182",
+   "section_old_n": 66,
+   "section_new_n": 66,
+   "new_headings": [
+    "### 7.1 The bars"
+   ]
+  },
+  {
+   "seq": 6,
+   "block": "repair-r5-V12.md #6 (l. 995) REPLACE ### 10.2 Hand-offs from this volume — each closed at its destination",
+   "file": "repair-r5-V12.md",
+   "index": 6,
+   "line": 995,
+   "kind": "REPLACE",
+   "heading": "### 10.2 Hand-offs from this volume — each closed at its destination",
+   "body_lines": 24,
+   "body_sha256": "11334b29d93b3290c757f71f1447b80da79a2b0eaa933de201a295f0ef748bf7",
+   "target_line": 3415,
+   "section_old": "3415–3439",
+   "section_old_n": 25,
+   "section_new_n": 25,
+   "new_headings": [
+    "### 10.2 Hand-offs from this volume — each closed at its destination"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "repair-r5-V12.md #1 (l. 2) REPLACE ### 2.13 The no-op pins (V12 §3.7.8; E-20)",
+    "kind": "REPLACE",
+    "heading": "### 2.13 The no-op pins (V12 §3.7.8; E-20)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V12.md #2 (l. 70) REPLACE ### 3.4 The metric suite",
+    "kind": "REPLACE",
+    "heading": "### 3.4 The metric suite",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V12.md #3 (l. 246) REPLACE ### 3.11 The calibration register — no provisional number dangles",
+    "kind": "REPLACE",
+    "heading": "### 3.11 The calibration register — no provisional number dangles",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V12.md #4 (l. 538) REPLACE ### 3.15 The owner rules 111–126 on the harness",
+    "kind": "REPLACE",
+    "heading": "### 3.15 The owner rules 111–126 on the harness",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V12.md #5 (l. 927) REPLACE ### 7.1 The bars",
+    "kind": "REPLACE",
+    "heading": "### 7.1 The bars",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V12.md #6 (l. 995) REPLACE ### 10.2 Hand-offs from this volume — each closed at its destination",
+    "kind": "REPLACE",
+    "heading": "### 10.2 Hand-offs from this volume — each closed at its destination",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 805,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 67,
+  "headings_after": 67,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 30,
+  "fence_lines_after": 30,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 522516,
+  "doc_bytes_after": 524105,
+  "doc_lines_before": 3549,
+  "doc_lines_after": 3558,
+  "rationale_bytes_before": 704770,
+  "rationale_bytes_after": 704770,
+  "rationale_lines_before": 2386,
+  "rationale_lines_after": 2386,
+  "blocks_total": 6,
+  "blocks_applied": 6,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "1e305ebe07843db09c56f838d12143ffb521538339239c838a45ad875e85e9a5",
+  "output_rationale_sha256": "a480f02e58a893fea57cacc5977b83489f633ced23901f578adbcfbd8059c52a"
+ }
+}

@@ -1,0 +1,47 @@
+PASS G — LENS-SPLIT PROBE (J145). This probe pass runs as three parallel seats, each one lens; you are the LOCKS AND HAND EDITS lens. Seat key coherence/probe-r7g-locks; write docs/validation/coherence/probe-r7g-locks.md and docs/validation/coherence/results/coherence_probe-r7g-locks.json (key "coherence/probe-r7g-locks"); ids PRB7G-LCK-nn. Read Part P of adjudication-r7.md and every earlier probe file of this round first; attack the AMENDED text above all and do not re-raise a finding Part P closed unless its closure fails. Stay inside your lens (two other seats cover the rest); within it, be exhaustive.
+YOUR LENS: J144's lock sentence with its guardrails G1–G3; the bent-group sentence; the hand rows (W2, W13, a re-shape C13, the hand paths of W1); column C8 in every row; §7.1's lock and bend rows; §7.2's drawn constraints; §7.4's lock column; V09's tools, bend lines and panels; V10's tools and reads; undo. One hand gesture must give one outcome, the same by canvas and clerk, and a held building stays held.
+
+SEAT coherence/probe-r7g-locks — the Maps program's coherence pass, round 7 (family-only): PROBE OF THE LAWS, fourth pass (orchestrator brief, 2026-10-02).
+
+WHAT THIS SEAT IS. The owner ruled that a lock on walls, aqueducts and similar structures holds placement, not shape (J144), and directed the program to work the raised-way × wall family alone until it is solved. An enumerated crossing table did not converge: three probe passes found 20, then 13, then 31 majors. So the owner chose LAWS PLUS EXAMPLES (J146, docs/PROGRESS.md):
+  - normative laws in docs/validation/coherence/adjudication-r7.md's Part L decide every meeting of a wall-like structure and a raised way, on every path;
+  - R7-02's tables are worked examples; where an example and the laws differ, the laws govern;
+  - a case missing from the examples is NO finding.
+Probe pass 4 attacked the laws (probe-r7d-time.md, probe-r7d-locks.md, probe-r7d-gen.md: 41 findings — 2 blockers that were one defect, 29 majors, 10 minors), and coherence/adjudicate-r7-laws2 refined Part L by class — one definition per term, one order for law 2, a total tie-break for law 3, the fields the check reads, one definition of a commit — and decided them in "Part P — Pass 4: the laws probe (J146)". The owner then ruled J147 (docs/PROGRESS.md: drawing or dragging holds nothing — a drawn or dragged thing moves with the settlement; locks have two independent axes, PLACEMENT and SHAPE (outline and plot size); a shape lock is honoured where a raised way meets a wall), and coherence/adjudicate-r7-j147 applied it to Part L ("### J147 applied"). The two-axis lock's own design and its readers outside the family (§7.1–§7.4, §5.3's declared row, V09's and V10's lock tools, plot division and merging, cosmetics) are a Part A hand-off to round 8: report nothing against that text before then. Probe pass 5 (29 findings, 19 majors) and pass 6 (probe-r7f-locks.md, probe-r7f-time.md, probe-r7f-gen.md: 23 findings — 0 blockers, 15 majors, 8 minors) attacked the laws after the owner's J147, J148 (three tiers: gates, posterns, towers and fixed places never moved by a meeting) and J149 (an aqueduct crosses a wall over or merged, by its level) were applied; coherence/adjudicate-r7-laws4 decided pass 6 ("Part P — Pass 6: the laws probe (J146)"). You attack the laws as they now stand, before any repair seat writes against them. Test pass 6's refinements above all: does each close its whole class, and did any open a new ambiguity? Above all, test whether each refinement closes its whole class, and whether it opened a new ambiguity. You change no design text.
+
+GRADING (J141 as J146 applies it to this family). Report a finding ONLY where at least one of these holds:
+  (a) the laws, applied as one general resolver, give TWO outcomes or NONE for a case;
+  (b) a law contradicts an owner rule (item 110 (b) and (f), item 114, item 101 R2, J144, J147, J148, J149);
+  (c) an invariant of law 1 is not checked by §5.3's runtime row and the family's property bar;
+  (d) an example contradicts a law (MINOR: fix the example).
+  - (a)–(c) are MAJOR. A blocker is a law that cannot be built, or that gives a wrong result on a common path.
+  - Never report "this op has no row": law 4 covers every op that changes a wall-like structure or a raised way. Instead TRY that op against the laws and report only if (a)–(c) hold.
+
+READ FIRST, WHOLE:
+  1. adjudication-r7.md: Part L (the laws), the worked examples (R7-02 and its sentences), every Part P (passes 1–6, with the re-checks, "J147 applied", "J148 applied" and "J149 applied"), and the ENDs Part L ordered.
+  2. docs/PROGRESS.md: the J144 and J146 rows.
+  3. Every earlier probe file of this round: probe-r7.md, probe-r7b.md, probe-r7c-*.md, probe-r7d-*.md, probe-r7e-*.md, probe-r7f-*.md.
+  4. The owner rules above.
+  5. The live §2.7 support step, read by grep and in ranges.
+
+ATTACK. Take the ops, paths and states your lens covers. For EACH, run the laws as a builder would code them:
+  1. which law-1 invariants the op can break;
+  2. which structure is "newer";
+  3. law 2's (a), then (b), then (c);
+  4. law 3's tie-break;
+  5. law 4's re-check, fate and report.
+Look hardest at:
+  - the terms the laws define once ("strip", "zone", "footprint", "fixed place", "beyond the foot", "the band", "anything across a vault span's strip", "newer" on each path);
+  - things that do not stand yet when a step reads them;
+  - two or more raised ways at once;
+  - a fallback that cannot wait;
+  - undo;
+  - determinism of the tie-break.
+
+WRITE (the only files you write):
+  1. docs/validation/coherence/probe-r7g-locks-locks.md: per finding an id PRB7G-LCK-nn, its severity and grading clause (a)–(d), the law or term, the case, the claim with line-cited evidence, and the exact amended words for Part L. End with a verdict paragraph: are the laws complete and determinate; how many majors remain.
+  2. docs/validation/coherence/results/coherence_probe-r7g-locks.json:
+     {"key": "coherence/probe-r7g-locks", "file": "docs/validation/coherence/probe-r7g-locks-locks.md", "issues": [{"id","severity","clause","cell","claim","required_change"}]}
+Append to docs/lane-events.log a CHECKPOINT line after reading and a LANDED line. If your .md exists with a CHECKPOINT of yours in the log, RESUME from it.
+
+RULES. Run no state-changing git commands (no add, commit, push, checkout, reset, stash). Change no design text. Record no interpretation of an owner rule as the owner's. Your final message must be exactly the JSON result object, nothing else.

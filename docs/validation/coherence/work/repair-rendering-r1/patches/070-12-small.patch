@@ -1,0 +1,40 @@
+# VK0-01 (minor, LOST): §12.4's merge row states the ≈ 200 000-record CITY merge workload its 8 ms budget carries.
+# VRC0S-08 (major, LOST): §12.4's S11 row restores "≤ 3 µs per plot median" (the kernel's M0 bar's value, home here);
+#   §12.7's stage-3 hook cites §12.4's S11 row.
+# VRC0S-22 (minor): R12-23 cites V03 §2.4's `moduleCm` instead of restating its value.
+# VRC0S-20 (minor, F-MISSING; file f item 495): §12.2 points to V07 §6 for the village rungs' budgets.
+@@ FILE 12.4.md
+<<<<
+| merge | §4.1, §3.3 (the frozen arena copied once to each pool worker; the overlays and the hinterland unit merged in lineage order) | the **frozen arena copies**, each with the static index partitions:
+====
+| merge | §4.1, §3.3 (the frozen arena copied once to each pool worker; the overlays and the hinterland unit merged in lineage order) | the ≈ 200 000 records S10–S12b create at CITY, merged in O(overlay size) (§3.3 pool step 4) within the 8 ms; the **frozen arena copies**, each with the static index partitions:
+>>>>
+<<<<
+S11 ≤ 5 µs median per plot — its geometry share within the kernel's M0 bar (§3.7) plus rule evaluation ≤ 2 µs;
+====
+S11 ≤ 5 µs median per plot — its geometry share ≤ 3 µs per plot median (the kernel's M0 bar, §3.7) plus rule evaluation ≤ 2 µs;
+>>>>
+@@ FILE 12.7.md
+<<<<
+* **Stage-3 hook (§2.6; SCL-13):** the base outline builder's `outline()` is inside S11's geometry share (the kernel's
+  M0 bar, §3.7; §12.4's S11 row); a stage-3 generator's `outline()` is admitted at ≤ 10 µs per
+====
+* **Stage-3 hook (§2.6; SCL-13):** the base outline builder's `outline()` is inside S11's geometry share (§12.4's S11
+  row); a stage-3 generator's `outline()` is admitted at ≤ 10 µs per
+>>>>
+@@ FILE 12.10.md
+<<<<
+| ≤ 5 ms × steps median, ≤ 20 ms × steps p95 | the class's wing-local module row doubles (50 → 100 cm), a declared view shift
+====
+| ≤ 5 ms × steps median, ≤ 20 ms × steps p95 | the class's wing-local module doubles (V03 §2.4's `moduleCm`), a declared view shift
+>>>>
+@@ FILE 12.2.md
+<<<<
+The rungs' population bands and targets, buildings at the target and frame areas are §1.1's rung table (frames: §3.2
+(9)); this table adds the matched MFCG reference at each rung and the cap above METROPOLIS's target.
+====
+The rungs' population bands and targets, buildings at the target and frame areas are §1.1's rung table (frames: §3.2
+(9)); this table adds the matched MFCG reference at each rung and the cap above METROPOLIS's target. The laws of this
+section are the base rungs' (TOWN, CITY, METROPOLIS); the village rungs' budgets (THORP, HAMLET, VILLAGE) are V07 §6's
+(file f item 495).
+>>>>

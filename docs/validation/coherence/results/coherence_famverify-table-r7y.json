@@ -1,0 +1,32 @@
+{
+ "key": "coherence/famverify-table-r7y",
+ "file": "docs/validation/coherence/famverify-table-r7y.md",
+ "issues": [
+  {
+   "id": "VF7y-TBL-01",
+   "severity": "minor",
+   "kind": "example contradicts law 2 (a) with law 3 (the bent group's fixed two-edge path)",
+   "owner": "model",
+   "claim": "Law 2 (a) (l. 2810–2813) gives a line an event or costless rule sets \"the lawful shape law 3 picks nearest it\" and a points-form `drawWall`'s trace to \"its own cost choosing among\" the shapes law 1 admits. Law 3's key (2) (l. 2846–2852) ranks a re-laid line by its largest distance from the old, then the area between them. The bent-group sentence nonetheless fixes the replacement's path (l. 3203–3206): \"(i) an unlawful crossing by the nearest lawful one along the deck … — the line from its entry point along that side's edge to it, across the strip there and along the other edge to its exit point —\". Its (iv) reuses it: \"the line bent through it by (i)'s path\" (l. 3215–3216). Every bent-group member is a stroke, a drag, a costless rule's line or a points-form `drawWall` (l. 3178–3182). Worked case: a hand stroke meets an aqueduct's deck line at a standing support where the channel runs above the wall's top, which law 1 (2) makes unlawful; its nearest lawful crossing Q lies under the next span, d along the deck. (i)'s path is a rectangle d wide over the strip's whole width. A line from the entry point to Q to the exit point, its band clear of the ring, is lawful (law 1 (4); law 1 (2), over). It has the same largest distance d and encloses less area, so law 3 ranks it first. The two builds lay different lines, and with them different wall strips over the under-deck strip and different spans read `open` (law 1 (8)). For a points-form trace, (i)–(iii) pin moves law 2 (a) leaves to its own cost. (ii) and (iii) agree with law 3 for a stroke. No bar asserts (i)'s path: T110-2 (4) asserts the crossing law 3 picks (l. 19463–19472) and (ii)/(iii) at the entry-side edge (l. 19496–19500). So a build that follows the laws passes every named test and §5.3's row. An example's slip: minor.",
+   "required_change": "model — the bent-group sentence (l. 3203–3204): \"Every other part of the line inside the strip is replaced, between the points where the line enters and leaves the strip:\" → \"Every other part of the line inside the strip is replaced, between the points where the line enters and leaves the strip, by the lawful shape law 2 (a) gives it (a stroke's or a costless rule's line the one law 3 picks nearest it; a points-form `drawWall`'s trace its own cost's), these its cases:\"; (i) (l. 3205–3206): \"— the line from its entry point along that side's edge to it, across the strip there and along the other edge to its exit point —\" → \"— the line between its entry and exit points re-laid through it —\"; (iv) (l. 3216): \"the line bent through it by (i)'s path\" → \"the line re-laid through it as (i) re-lays a crossing\"."
+  },
+  {
+   "id": "VF7y-TBL-02",
+   "severity": "minor",
+   "kind": "example citation names a subset of law 2's order (form F3's residue)",
+   "owner": "model; END determinism",
+   "claim": "Row W1's last column (l. 3346): \"no lawful shape: (G3) — a hand op refused once its own pull, within its own search band, finds no lawful shape, its band never widened and never a stage left unwalled (law 2 (a), (c))\". §5.2's F-WALL ladder cell (l. 9862) carries the same words for a hand `contractWall` or a terrain stroke's cliff re-anchor, \"(§2.7's laws, law 2 (a), (c))\". The hand op's pull is S5a's trace step (W1: \"a hand `contractWall` (H: S5a's trace step, §4.11)\"). That step resolves a barred pin by law 2 in its order, \"(a) moved along its way, the trace laid through it, (b) its way re-routed, (c) …\" (*beneath*, l. 3087–3089; *No gate and no tower*, l. 3150–3153). The fourth pass moved W14's identical \"(law 2 (a), (c))\" to \"law 2, in its order\" (adjudication-r7y.md M7, VF7x-EPO-02, F3) and §7.3 (b) 3's likewise (D5, VF7x-HND-02). These two sites, written for VF7v-HND-04 (adjudication-r7w.md M7, D4), kept the subset. A build reading the parenthesis as the order would refuse a hand contraction whose barred pin (b) re-routes. But the text names \"its own pull\", which runs (b), and §5.3's row decides nothing else: a citation, minor (the grade of VF7x-EPO-02 and VF7x-HND-02).",
+   "required_change": "model — row W1's last column (l. 3346): \"its band never widened and never a stage left unwalled (law 2 (a), (c))\" → \"its band never widened and never a stage left unwalled (law 2, in its order; §4.4 S5a *Trace* (2))\"; END determinism — §5.2's F-WALL row, its ladder cell (l. 9862): \"its band never widened and never a stage left unwalled (§2.7's laws, law 2 (a), (c))\" → \"its band never widened and never a stage left unwalled (§2.7's laws, law 2, in its order; §4.4 S5a *Trace* (2))\"."
+  }
+ ],
+ "held_notes": [
+  {
+   "site": "base §4.6 (l. 7217) × §2.7's laws' term *the strip* (l. 2614–2615)",
+   "note": "Persists (adjudication-r7y.md's held note 11). §4.6 words the under-deck strip S8 holes as the deck's ground projection over its piers and spans; §2.7's term words it as the deck's plan between its feet. The open question is whether a ramp's or stair's plan lies in the strip. Both are holed as (6)'s reservation, so the difference shows only where a reader reads the strip alone (raised way × plots)."
+  },
+  {
+   "site": "§2.7's C7 column (l. 3282–3283), W3·C7 (l. 3348) and T110-3 × item 127 (AMENDMENTS-2026-09-28g.md; PROGRESS J152)",
+   "note": "\"A suppressed generated way staying removed (item 110 (f), T110-3)\" keeps item 110 (b)'s removal that holds through regeneration. Item 127 (2026-10-03) replaces it with a delete that lapses at the next change that re-reads the kind. Item 127's HOMES name §2.7's support step, and J153 routes its changes to fix-list.md. The owner routed it there and the brief predates J152, so it is not graded here."
+  }
+ ]
+}

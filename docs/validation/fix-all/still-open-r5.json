@@ -1,0 +1,182 @@
+[
+ {
+  "id": "NR5-1",
+  "severity": "minor",
+  "why": "A raster export is not told which sun, light step or look to draw with, and the tile backend's options cannot name the drawn light step. \u00a78.9's raster-export request carries only frame, scale, band, layers, post operations and zoom stop (plus the transient list), and TileRasterOpts has only `sun?`. Yet \u00a78.9 expects exports to run beside an animated path-mode sun. So in `lit` with a path sun running, an A2 print (about 20 s) is rastered band by band under whatever sun and light step the tile worker holds at that moment: shadows swing and roof and crown tones step between bands, a torn print through the view state. A season, weather or preset change made during the print does the same. The export's crown set may also have been evicted (the cache keeps only 'the drawn step's set always, earlier sets while they fit'), and class 4 has no unit that bakes it again. The view's under and over jobs also cannot pass the drawn light step, which differs from the current sun's quantisation while a newer step waits (\u00a78.4). \u00a712.7's byte-identity run covers only a pan, a zoom and an edit.",
+  "required_change": "In \u00a78.9 and \u00a714, add to TileRasterOpts `lightStep?: { azimuthCdeg; altitudeCdeg }`, read by faceLight, the two-tone roof, hillshade and the crowns, beside `sun?`, which only the projected-shadow pass reads. The queue passes the drawn light step for under, over and base. In \u00a78.9's request row and in \u00a711.1, the raster-export request carries the look and view state as they stood at the request: the sheet id@version (or the viewer's stylePreset sheet with the document's rows), \u00a78.8's view-state switches, the shadow sun and the light step. Every tile of the export is rastered with them. In lit with a path sun, bake the export's crown set as class-4 one-sprite units before its first band when it is not cached, hold it until the export completes, and count it in \u00a712.8's export canvases. Add to \u00a712.7's export-beside-the-view run a lit export while a path sun advances one step per frame; its PNG must be byte-identical to the export made with the sun stopped at the request's time.",
+  "owner": "rendering",
+  "kind": "new",
+  "source": "fixall/verify-rendering-r5"
+ },
+ {
+  "id": "NR5-2",
+  "severity": "minor",
+  "why": "LabelPlacer.begin (new in round 5) and place declare `labels: LabelEntity[]`, the \u00a79.1 model record. But \u00a79.2 says S13b runs 'from the LabelTable alone' in a tile worker that holds no model. LabelEntity lacks three things the algorithm reads: the target area (the strict order's second key, LabelTable.areaM2), the parent quarter node (rung (5) 'following LabelTable.parent') and the candidate revision (the memo key; LabelTable.revision). A placer written against its declared input therefore cannot compute \u00a79.2's order, rung (5) or its memo keys. An array handed over at begin also contradicts \u00a79.2's own rule that 'The view's job reads the tile worker's list, which deltas change between steps'. Round 5 copied the older place() signature into the new begin().",
+  "required_change": "Declare the placer's input as a `LabelRows` view in \u00a79.2's interface and \u00a714's copy. The view holds the LabelTable columns with the StringTable and GeomTable ranges they index. Declare it in @plat/model beside LodBand, Role and ZoomStop, so that @plat/labels still never imports @plat/render. The tile worker's list and each export's transient list implement it, and begin and place take it. LabelEntity stays the model record that S13a writes and S14 reads.",
+  "owner": "rendering",
+  "kind": "new",
+  "source": "fixall/verify-rendering-r5"
+ },
+ {
+  "id": "NR5-3",
+  "severity": "minor",
+  "why": "\u00a712.7 says the per-row filter rule gives files '7\u201310 % smaller on the relief and textured looks'. The receipt fixall_rendering_r5_png.out (re-run here, sizes identical) gives 12.2 against 13.4 MiB for relief and 43.4 against 46.3 MiB for textured, which is 9.0 % and 6.3 % smaller. The 7\u201310 % figure is how much larger None's files are.",
+  "required_change": "In \u00a712.7, write '6\u20139 % smaller on the relief and textured looks' (or 'None's files 7\u201310 % larger').",
+  "owner": "rendering",
+  "kind": "new",
+  "source": "fixall/verify-rendering-r5"
+ },
+ {
+  "id": "VK5-1",
+  "severity": "minor",
+  "why": "When a district regroup (drawBoundary, a district merge or split, outskirtToDistrict \u2014 \u00a77.3's S6 row) moves L1 cells, the blocks that are kept move their L2\u2013L4 index items into another district's partition without deleting, re-levelling or changing them. \u00a73.3's tombstone rule ('every item a batch deletes, re-levels or changes') does not cover this move, and neither do the pool step or \u00a73.10's freshness row. Once the receiving district's partition is rebuilt (for example at the stage end of the S10\u2013S11 re-derivation in a neighbouring cell), an L3 query returns each kept plot twice until the old district's partition happens to be rebuilt. indexHome then names only the new partition, so a later change leaves the old copy answering. Because load rebuilds every partition, the live session, a reloaded document and the verification replay can then give different answers to the same edit. This is VK4-5's rebuild-timing dependence reached by another door. J-K34 already names 'an item re-owned into another district' as covered, but no operative sentence does. CONFIRMED on a model in docs/validation/bench/fixall_verify_kernel_r5_index.py: 2 000 of 2 000 sequences that include regroups give a wrong answer under the round-5 rule, and 0 do with the change below. That the real arena behaves like the model is PLAUSIBLE.",
+  "required_change": "\u00a73.3 'No item changes in place' list: add 'an item whose partition changes \u2014 every L2\u2013L4 vertex, route edge and face under an L1 face that a batch re-owns to another district or to or from the hinterland (S6's regroup, \u00a77.3), and a vertex on an L1 edge two partitions share when that edge's partitions change'. Each such item is tombstoned in its old partition and inserted in the grid like any changed item, so pool step 1's freeze finds both partitions dirty. \u00a73.10 freshness row: 'deleted, re-levelled, changed or moved to another partition'. \u00a73.9 and \u00a72.9: each partition chunk holds 'the vertices that belong to it by \u00a73.3's rebuild rule', not 'the vertices born in it'. \u00a713.1 fixture: a drawBoundary moves a kept block from district A to B and B's partitions are rebuilt before A's; every L3 query over the block must return each plot once, both before and after A's rebuild.",
+  "owner": "kernel",
+  "kind": "new",
+  "source": "fixall/verify-kernel-r5"
+ },
+ {
+  "id": "VK5-2",
+  "severity": "minor",
+  "why": "VK4-1's pin-release rule counts knot rows, and a possible second writer of the pin flag is undefined. \u00a72.2 rule 7 makes knot rows vertex role rows. So the sentence 'a vertex from which the batch strips its last vertex role row loses its kernel pinned flag' (\u00a72.2 rule 3 (b), l. 711\u2013712) never fires at a pinned bank vertex, junction or gate end that also carries a width_knot, bank_knot or shore_class_knot. S4 places width knots at class-change junctions (l. 3955), and a generated gate_end row may sit on an L0 shore vertex that carries a shore knot (l. 891\u2013892). Such a vertex stays pinned for good, and smoothing, simplification and cutting then always keep it. That contradicts the claim that 'the bank vertices of a deck that F-REDERIVE removes become plain vertices of their way'. Separately, insertChain's opts.pinned (\u00a73.4, l. 2672) is never defined. \u00a73.6 step 1 uses it only to exempt a point from decimation, while the flags comment says the pin is 'set by pinVertices'. If opts.pinned also sets the flag, a vertex pinned with no vertex role row can never be released. PLAUSIBLE (text reading).",
+  "required_change": "\u00a72.2 rule 3 (b) and the Plat flags comment: 'strips its last vertex role row other than knot rows'. \u00a73.4 insertChain: 'pinned: chain indices exempt from decimation (\u00a73.6 step 1); it does not set the kernel pinned flag, which only pinVertices sets'. \u00a713.1 fixture: a deck whose bank vertex also carries a width knot is removed by F-REDERIVE; the vertex must end unpinned with its knot kept.",
+  "owner": "kernel",
+  "kind": "new",
+  "source": "fixall/verify-kernel-r5"
+ },
+ {
+  "id": "VK5-3",
+  "severity": "minor",
+  "why": "A figure the text calls 'checked' is true by construction. \u00a72.2 (l. 737\u2013740) cites '100 000 of 100 000 [restorations] for each of one to four later same-level vertices on that route' from fixall_kernel_r5_checks.out A. The script's 'route restored' column compares route[:j]+route[j+1:] with [q for q in route if q != V], which are the same list by construction, so the column can never show anything but 100 %. The claim itself holds: demotion removes the vertex from the coarser route by the definition of a route, and the flag-only guard has no distance test that could refuse. The refusal rate of round 4's test (0.54\u20130.66 %) is a real measurement. Only the label overstates the evidence: the column does not exercise rule 3 (c)'s structural preconditions (two incident edges of one level with identical rows, no vertex role, no pin). CONFIRMED (script read).",
+  "required_change": "\u00a72.2: replace 'and on 100 000 of 100 000 for each of one to four later same-level vertices on that route' with 'and, with the flag as the whole guard, by construction for any number of later same-level vertices on that route'. In fixall_kernel_r5_checks.py, either drop column (iii) or make it model rule 3 (c)'s preconditions on edges that carry role rows, and re-commit the .out with the change stated. Optionally align ARCHITECTURE-VALIDATION \u00a7R5.1 row VK4-3's reason.",
+  "owner": "kernel",
+  "kind": "new",
+  "source": "fixall/verify-kernel-r5"
+ },
+ {
+  "id": "NP5-1",
+  "severity": "minor",
+  "why": "The edit that stores a stage-3 composition (NP4-2 rule (1)) places only a row neighbour's footprint and wing rings in its effective scope. But other L4 faces share the split footprint edges: the building's own yard parts, and the neighbouring plot's L4 face across a plot line. By \u00a73.3's same-level-split rule these faces gain the vertex. On B-EDIT's own hand-built fixture (composed wings that cut the base wings in two, on a set-back house), \u00a77.3 item 7 (ii) would therefore flag the yard part as a locality violation. Separately, the text calls every insertion 'an L4 same-level split, which never dissolves'. That holds only on L4 edges. A row house's party wall is the L3 plot side line (\u00a74.7 S10, S11), and its front lies on the L2 kerb, so the L4 batch places a Steiner vertex there, which carries the split flag and can dissolve. \u00a74.1's S11 row still says 'a row's party walls are one shared L4 edge', contradicting \u00a74.7.",
+  "required_change": "\u00a72.6 NP4-2 rule (1): state that every face sharing a split edge gains the vertex and is in the storing edit's effective scope, each ring equal to its prior ring with those vertices removed. These faces are the building's own yard parts, a row neighbour's footprint across a party wall, and a neighbouring plot's L4 face across the plot line. State the level: a same-level L4 split on an L4 edge, and an L4 Steiner vertex placed by splitThrough on a plot line or kerb (re-read at its placed point). Guard each inserted vertex with an indexed vertex role row of the building while the composition is stored, so no dissolution removes it. Correct \u00a74.1's S11 row to say the party wall is the plot's shared L3 side line carrying the party_wall rows (\u00a74.7).",
+  "owner": "pipeline",
+  "kind": "new",
+  "source": "fixall/verify-pipeline-r5"
+ },
+ {
+  "id": "NP5-2",
+  "severity": "minor",
+  "why": "S5b's main-road step (generation stages k \u2265 2 and every epoch) routes with the incremental S4 router, but no failure class covers it. F-ROUTE's 'where' column names only 'S4, S4's local operator', and no other class in \u00a75.2 names S5b. \u00a74.1 says L0 is written only by S1, S3, S4 (extra bridge) and S5a. The S5 row lists no L0 batch for S5b, and J-I18's L0 deck_end writers omit it. VD4-10's enumeration of where the extra-bridge rung fires ('S4 at generation', 'S4's operator in an edit') exposes the gap. Scenario: a stage-2 primary must cross the river where the approach cannot meet the class radius. One implementation marks the destination unserved without trying another site or an extra bridge. Another writes an L0 shore-split batch during S5b that \u00a74.1 and J-I18 say never happens. The same town then comes out differently depending on the implementation.",
+  "required_change": "Decide the S5b rule now and state it everywhere. Either add S5b (and the epoch's S5b) to F-ROUTE's 'where', with a stated batch: 'k \u2265 2 \u2014 S5b L0, only when F-ROUTE's extra-bridge rung fires on standing water: two same-level shore splits before S5b's L1 batch' in \u00a74.1's S5 row, the L0-writer sentence, J-I18's L0 rows and a pointer in \u00a74.4 S5b. Or state that S5b's ladder is the move rung, then the slope rung, then unserved, with no extra bridge.",
+  "owner": "pipeline",
+  "kind": "new",
+  "source": "fixall/verify-pipeline-r5"
+ },
+ {
+  "id": "NP5-3",
+  "severity": "minor",
+  "why": "Two sentences have modifiers attached to the wrong part, both from integration edits. (a) \u00a710.4 reads 're-draws exactly the unedited names drawn from that field \u2014 never the row's other names, listed for confirmation (\u00a76.3 case (4))', so the names that are NOT re-drawn appear to be the ones listed for confirmation. (b) \u00a77.4's warp paragraph ends '\u2026 as for a held pin (\u00a73.6) \u2014 the composed wings uniting to the moved face, its rooms inside and its tower centres inside or on it, by \u00a72.6's stored-composition rule'. This clause dangles: 'its' has no antecedent, because the sentence never names the stored composition. The owner reads these naming and warp rules, so legibility regresses.",
+  "required_change": "(a) \u00a710.4: 're-draws exactly the unedited names drawn from that field, listed for confirmation (\u00a76.3 case (4)), and never the row's other names'. (b) \u00a77.4 (determinism owns the sentence): '\u2026 as for a held pin (\u00a73.6); for a stored composition the check also requires its composed wings to unite to the moved face, its rooms to lie inside it and its tower centres inside or on it (\u00a72.6)'.",
+  "owner": "pipeline",
+  "kind": "new",
+  "source": "fixall/verify-pipeline-r5"
+ },
+ {
+  "id": "NP5-4",
+  "severity": "minor",
+  "why": "NP4-2 defines the whole of a stored composition's carried world geometry as each composed Wing.footprint, each court, each room ring and each tower centre. But two of the types involved are undefined. Composition.rooms?: Room[] and Wing.porch?: Porch have no definition anywhere in the document (grep: 0), so the text never says whether a room is one ring or whether a porch stores world points. \u00a72.6's composition 'interface Tower { centre \u2026 }' also shares its name with \u00a72.7's wall 'interface Tower { id; enceinte; vertex \u2026 }' in the same @plat/model schemas, and two TypeScript interface declarations with one name merge silently into one type. Scenario: a stage-3 generator stores a porch as a world polygon outside the wall line. A warp moves the house and every carried part but leaves the porch where the house stood \u2014 the NP4-2 failure for one field \u2014 and neither the union check nor the intake test would see it.",
+  "required_change": "\u00a72.6: define Room { ring: Polygon (world lattice points inside its wing); wing: number; subLocation?: Id }. Define Porch in relative form (its wing's side index, the offset and width along that side, and its depth, with no world point), or add the porch ring to the carried set and to the check. Rename the composition's tower (for example ComposedTower) so that 'tower centre' in the carry refers to exactly one type.",
+  "owner": "pipeline",
+  "kind": "new",
+  "source": "fixall/verify-pipeline-r5"
+ },
+ {
+  "id": "VD5-1",
+  "severity": "minor",
+  "why": "Exposed by VD4-4. After an upgrade, every later load re-reports the stored fates and renames of the events made before it. The document replays its whole log under the new version (\u00a76.2 model = G(outputVersion, base, log); \u00a77.5), but each event keeps the fates and renames confirmed under the old version. Under the \u00a77.3 item 4 rule ('a replay that computes different fates reports a mismatch', and renames 'as for fates'), an upgrade that changes naming rows or stage code therefore raises the same mismatch on every load, which cheapens the real one.",
+  "required_change": "Compare an event's stored fates and renames only when the replay folds it under the output version that confirmed it: the 'from' of the first live upgrade after the event, else the document's own version. Under a later version, apply the recomputed values and list their differences once in that upgrade's diff (a MigrationMap field naming the events whose fates or renames changed), never again at load. The upgrade's undo compares them again under 'from'. M3a test: an upgraded document whose pre-upgrade corpus selection renames differently under 'to' reloads with no mismatch report, and a divergence forced under the confirming version is still reported.",
+  "owner": "determinism",
+  "kind": "new",
+  "source": "fixall/verify-determinism-r5"
+ },
+ {
+  "id": "VD5-2",
+  "severity": "minor",
+  "why": "Introduced by VD4-9. When a pack's copy would pass the 2 MB cap, \u00a77.5's conflict offers 'removing the pack (an adjust)'. That cannot work: the pack set includes the base recipe's packs and every deselected selection (\u00a72.9), so after the removal the upgrade must still copy the pack. The removal runs a pointless Re-derive, and the retried upgrade conflicts again. The CLI frozenImport applies the same cap, so once 'from' leaves the retention window such a town can never be imported.",
+  "required_change": "Drop 'removing the pack' from the offered resolutions. Then either offer only 'keep the old model' and state that the town becomes a frozen view that cannot be imported, or exempt from the 2 MB cap any pack that an upgrade or a frozenImport copies because its version stopped shipping it (it is shipped content, not an upload), counting it in the document-size budget with its own bound. Add to \u00a77.5's test a dropped pack whose copy passes 2 MB.",
+  "owner": "determinism",
+  "kind": "new",
+  "source": "fixall/verify-determinism-r5"
+ },
+ {
+  "id": "VD5-3",
+  "severity": "minor",
+  "why": "Exposed by the round-5 frozenImport text read beside the VD4-3 principle. The frozenImport rebase (\u00a72.9 step 2) decodes the state under the current version, checks the records root and records a new model root, but it does nothing to the naming records, which still cite the old version's naming slices. An upgrade reconciles names in its mapping (\u00a77.4); a frozen import does not. Case (4) therefore renames names piecemeal at later unrelated re-derivations that reach S13a, which is exactly the side-effect rename J-DET-46 rejects.",
+  "required_change": "Make the frozenImport rebase run case (4) over every unedited generated name, as an upgrade's mapping does. It re-draws the names whose cited slices differ from the current version's effective tables, returns confirm with those renames listed, and stores them in the rebase event's renames. Name this in \u00a77.4's rebase row and in \u00a76.3's trigger list. B-EDIT: a frozen fixture whose naming row changed imports with its renames listed, and a New random made afterwards renames nothing outside its scope.",
+  "owner": "determinism",
+  "kind": "new",
+  "source": "fixall/verify-determinism-r5"
+ },
+ {
+  "id": "VD5-4",
+  "severity": "minor",
+  "why": "Introduced by VD4-6. \u00a76.2 gives the records tree 'one node per static-index partition \u2026 the partition whose entity chunk holds the record', and its maintenance re-hashes a node only when a batch rewrites a record. Two cases fall outside that rule. Street, district and wall names carry naming records, but those entities belong to no district partition, so their node is undefined. A surviving entity re-parented across districts (drawBoundary, merge or split, outskirtToDistrict) moves chunk without any record being rewritten. The saved maintained root then differs from the load's full recomputation, and the next load falsely reports the saved copy as a corrupt cache.",
+  "required_change": "Key each record's node by a stated rule: the static-index partition of its entity, plus one town node for records of entities in no partition (ways, walls, water bodies, districts). State that a batch moving an entity between nodes re-hashes the record into both nodes. Name the records tree in \u00a75.3's CI maintenance row. B-EDIT: a drawBoundary that moves surviving blocks, saved and reloaded, reports no corrupt cache.",
+  "owner": "determinism",
+  "kind": "new",
+  "source": "fixall/verify-determinism-r5"
+ },
+ {
+  "id": "VD5-5",
+  "severity": "minor",
+  "why": "Introduced by VD4-6. Every load now compares the records digest, but only model-digest identity is proven or tested. \u00a72.9 step 3 says an Adjust made during load verification uses tree scoping, 'output-identical' to the dependency-graph route. Tree scoping re-derives every unprotected entity in scope, and a derivation record is rewritten by every derivation and carries 'the epoch of the derivation'. In an epoch-grown town, such an Adjust rewrites records of unchanged entities to epoch 1. The next load's replay has provenance, takes the graph route and leaves those records at epoch 0, so a correct document gets a false records-mismatch report. Replay = session, truncation identity and oracle (i) compare model digests only.",
+  "required_change": "Make derivation records independent of the route. Preferred: a re-derivation that reproduces an entity's leaf digest exactly keeps its old derivation record, as the graph route (which never touches it) does. Alternative: every replay takes the route the session took, recorded in the event. Extend replay = session, truncation identity and oracle (i) to require equal records digests (\u00a76.5 (9), \u00a77.3 item 7, \u00a713.2). B-EDIT fixture: an Adjust made during load verification in an epoch-grown town, saved and reloaded, reports no records mismatch.",
+  "owner": "determinism",
+  "kind": "new",
+  "source": "fixall/verify-determinism-r5"
+ },
+ {
+  "id": "VD5-6",
+  "severity": "minor",
+  "why": "\u00a710.4 contradicts \u00a72.9 on how long a pack's content stays in the file. \u00a710.4 says the pack content 'stays there while any event of the log names it'. \u00a72.9 (after VD4-7) keeps it while the base recipe, any log event, or a truncated event held on a saved redo stack names it. A loader written from \u00a710.4 would drop a corpus held only by a redo entry, reopening VD4-7's lost-list scenario.",
+  "required_change": "Change \u00a710.4's sentence to: 'stays there while the base recipe, any event of the log or a truncated event held on a saved redo stack names it (\u00a72.9's pack set; VD4-7)'.",
+  "owner": "pipeline",
+  "kind": "new",
+  "source": "fixall/verify-determinism-r5"
+ },
+ {
+  "id": "VD5-7",
+  "severity": "minor",
+  "why": "Introduced by round 5's \u00a716 placement of VD4-8. M2a builds 'keep the saved town' (a keptSnapshot rebase) with load verification, while 'the link refusal for a kept town' and \u00a76.4's link rules land at M3a. M1's preview permalinks have no condition on the base. Between M2a and M3a, a kept town's link therefore replays from the seed and shows the town the user rejected, the failure VD4-8 closed. The plan is also silent on links from M2a's edited towns.",
+  "required_change": "Move \u00a76.4's 'the base is the recipe' condition and its message into M2a's row alongside the keep; alternatively, state that until M3a's link rules land, M2a offers no link for an edited or rebased town, only the .plat file. Add the kept-town link-refusal case to M2a's exit.",
+  "owner": "scope",
+  "kind": "new",
+  "source": "fixall/verify-determinism-r5"
+ },
+ {
+  "id": "VS5-1",
+  "severity": "minor",
+  "why": "From M1 to M3a the build plan's file reader reports a file of another output version as damaged. \u00a716 M1 (l. 10464) says a saved town opens by \"comparing its recomputed root with `model.digest` \u2026 a differing root loading as a corrupt cache by regeneration from the recipe\", and M2a builds load verification \"over M1's reader\". Neither row says anything about `outputVersion` or the frozen view; retention and the frozen view arrive only at M3a. Scenario: a preview town is saved at M1 under o3, a declared shift creates o4, and the file is reopened. The M1 reader recomputes the root with o4's packages, the root differs, and the app reports \"does not match its own fingerprint; it is being rebuilt\" and shows o4's town. That is the false damage report VD4-1 removed, and it contradicts \u00a713.3's preview promise and the one-page summary. This residue was introduced by the VS4-3 fix.",
+  "required_change": "\u00a716 M1 content, after the reader clause: \"a document whose `outputVersion` is not the running one is never root-checked: it opens as \u00a72.9 step 2's frozen view \u2014 each chunk checked by its content hash, decoded for view and export only, labelled 'made with oK; not verified by this version' \u2014 with the offer to open its recipe under the running version and \u00a713.3's notice; the `frozenImport` rebase arrives with M3a's rebases\". Add to M1's exit: \"a document saved by a test build labelled with an earlier output version opens as a frozen view with no mismatch message\". In \u00a72.9 step 5 (the C-2 sentence, determinism companion) and in M1's M2a clause, restrict the regeneration to an M1 document of the running output version. Amend J-S40 to match.",
+  "owner": "scope",
+  "kind": "new",
+  "source": "fixall/verify-scope-r5"
+ },
+ {
+  "id": "VS5-2",
+  "severity": "minor",
+  "why": "NG's `area` template names no fabric, so the 5 `area` pairs among M5's 20 D-5 pairs cannot be opened as written. \u00a713.6 (2) (l. 9820\u20139822) opens PLAT's side with `setAttr(district.fabric, template)` for template \u2208 'area'|'street'|'square'|'ring'. But `district.fabric` is a FabricStrategyId: 'bent-cut' in the base plus ring/square/street (\u00a72.5 l. 1142; II.1 l. 10803, where 'bent-cut' is a refine close-up and the others are replace close-ups). 'area' is not a FabricStrategyId (receipt part C). Scenario: one build refuses the id, leaving five pairs missing so M5's 14-of-20 rule cannot be met. Another aliases it to bent-cut and runs a replace close-up, which is a model edit with regeneration, although II.4 opens the base fabric as a derived refine close-up. The two builds produce different panels. This predates round 5 (it came in with round 4's VS3-6 fix) and was missed by round 4's check.",
+  "required_change": "\u00a713.6 (2): \"for `area`, PLAT's side is the district's own `bent-cut` fabric opened as a `refine` close-up (no `setAttr`; II.1, II.4), its building count the city-LOD count; for `street`, `square` and `ring`, `setAttr(district.fabric, template)`, a `replace` close-up\". Put the same mapping in D5Pair's NG comment. Add \"(`area` = the base's `bent-cut`)\" to J-S34. Pipeline companion in II.2: \"the `area` template is the base's `bent-cut` fabric (FabricStrategyId 'bent-cut'), the default\".",
+  "owner": "scope",
+  "kind": "new",
+  "source": "fixall/verify-scope-r5"
+ },
+ {
+  "id": "VS5-3",
+  "severity": "minor",
+  "why": "\u00a717.1 (4) (new this round, l. 10638\u201310642) says the D-5 panel's \"only inputs to the product are two numbers-only files\" in plat/goldens/d5/\u27e8milestone\u27e9/ (ftg-captures.json, ng-counts.json). But \u00a713.6 (9) commits a third file into the product, the sitting's record.json (\"lives in the product, committed by the seat that ran the sitting\"). MilestoneRecord.d5.record names that file (\u00a713.3), and @plat/docs reads the D-5 statuses from it (\u00a714). Scenario: a CI path rule or clean-room audit written from (4) flags the record's commit as unauthorised, or a reader concludes the answers never reach the product. Two clauses of one section disagree about what crosses the boundary.",
+  "required_change": "Rewrite \u00a717.1 (4)'s sentence: \"its inputs to the product are three files committed the same way into `plat/goldens/d5/\u27e8milestone\u27e9/`: `ftg-captures.json` and `ng-counts.json` (numbers only), which `plat d5 seeds` reads and nothing else, and the sitting's `record.json` \u2014 numbers, hashes and the owner's answers, no reference image or reference data ((9)) \u2014 which the milestone record and the release notes read\".",
+  "owner": "scope",
+  "kind": "new",
+  "source": "fixall/verify-scope-r5"
+ }
+]

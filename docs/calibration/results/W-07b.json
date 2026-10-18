@@ -1,0 +1,95 @@
+{
+ "id": "W-07b",
+ "status": "landed",
+ "records": [
+  "/Users/cstokes/Desktop/Maps/docs/calibration/E07-mfcg-signature.md",
+  "/Users/cstokes/Desktop/Maps/docs/calibration/E07-mfcg-signature.plan.json"
+ ],
+ "outputs": [
+  "/Users/cstokes/Desktop/Maps/research/baselines/measure_mfcg.py",
+  "/Users/cstokes/Desktop/Maps/research/baselines/adapters/mfcg.py",
+  "/Users/cstokes/Desktop/Maps/research/baselines/inputs/MFCG/itch-12710731/exports-sweep-m1-2026-10-03.*.metric.geojson.gz (35 MeasureInputs, 10 MB)",
+  "/Users/cstokes/Desktop/Maps/docs/calibration/E07-mfcg-signature.plan.json",
+  "/Users/cstokes/Desktop/Maps/docs/calibration/results/W-07b.json"
+ ],
+ "checks": [
+  {
+   "check": "T-V12-6: the five fixture covers printed to three decimals = 0.657 / 0.582 / 0.621 / 0.583 / 0.569",
+   "passed": true,
+   "receipt": "measure_mfcg.py --plan: 0.65704 / 0.58158 / 0.62067 / 0.58266 / 0.56901 -> 0.657 / 0.582 / 0.621 / 0.583 / 0.569 PASS"
+  },
+  {
+   "check": "T-V12-6: walled shares to two decimals, city gates exact, dry-city towers exact",
+   "passed": true,
+   "receipt": "0.9809 / 0.9676 / 0.9192 / 0.8231 / 0.3015; gates [0, 1, 4, 9, 7]; towers [33, 32, 29, 24]: PASS"
+  },
+  {
+   "check": "T-V12-6: R4 within 0.02 of every per-city value of mfcg_orient.out",
+   "passed": true,
+   "receipt": "9 of 9 held values, largest gap 0.0133 (coastal city, 120 m): PASS"
+  },
+  {
+   "check": "T-V12-6: wall alignment within one point on the dry cities",
+   "passed": true,
+   "receipt": "all 9 values mfcg_wallalign.out holds (gates 0 / 4 / 9 x three bands), largest gap 1.00 point: PASS; the gates-1 city has no held value (printed 91.3 / 62.3 / 48.9 %, finding F5)"
+  },
+  {
+   "check": "T-V12-6: the 2026-09-25 sweep's stats.md equal (buildings, walled share, cover, median footprint, gates, districts, plaza and castle areas; walled ha, dry towers)",
+   "passed": true,
+   "receipt": "13 sizes, 129 cells, all equal: PASS"
+  },
+  {
+   "check": "the M-1 sweep's stats.md equal (W-07b row)",
+   "passed": true,
+   "receipt": "35 files, 379 cells (buildings, walled share and ha, cover, median footprint, gates, dry towers, districts, plaza and castle ha, attempts), all equal; one declared difference: size130-plain-5's two-vertex zero-area footprint dropped by V12 3.2.2 (13 814 vs stats.md 13 815; compared as ours + dropped) (F6): PASS"
+  },
+  {
+   "check": "every usable seed in every row (10 / 10 / 10 / 3), no failed seed in any",
+   "passed": true,
+   "receipt": "100 per-family summaries; each summary's seeds plus notApplicable = the usable list of export-check.json; water rows notApplicable on the 30 plain seeds by design: PASS"
+  },
+  {
+   "check": "the failed indices listed",
+   "passed": true,
+   "receipt": "capture/MFCG/130/plain/8 no-export (2 loads, no files); capture/MFCG/80/river+coast/1 and /4 retry (measured, kept in perSeed, excluded from every summary); usable + failed = every plan index: PASS"
+  },
+  {
+   "check": "per-size values of D7, D8, D9, D24 (reference 0) and D35; the gate law's hits on the usable seeds",
+   "passed": true,
+   "receipt": "E07 section 9.5-9.7 and E07-mfcg-signature.plan.json summaries (type7 at n = 10, minmax at n = 3); D24 secondary 0 and adjacent 0 on all 33 usable seeds; gate law 6/10, 10/10, 9/10 plain, 1/3 stress, every miss by one"
+  },
+  {
+   "check": "red run proves the checker goes red",
+   "passed": true,
+   "receipt": "--plan --red (fixture cover +0.001, one M-1 building count +1, TOWN usable +1): 3 FAIL, exit 1"
+  },
+  {
+   "check": "determinism and the W-07 landing unchanged",
+   "passed": true,
+   "receipt": "two --plan runs: E07-mfcg-signature.plan.json sha256 0592b85f... both, logs identical; 35 MeasureInputs byte-identical on a second adapter run; the 18 fixture MeasureInputs byte-identical after the adapter change; W-07 fixture mode --check 15/15 ALL PASS, E07-mfcg-signature.json sha256 55b8b186 reproduced"
+  },
+  {
+   "check": "plan files untouched; plan.py --check",
+   "passed": true,
+   "receipt": "plan.py --check SAME plan.json (b60b1889) and metrics.m-1.json (8a0efa7e); this lane wrote neither"
+  },
+  {
+   "check": "the record's clean-room self-check",
+   "passed": true,
+   "receipt": "doc_checks.py --doc E07.md --heads ARCHITECTURE.md (pass 2, after rewording 7 of this lane's own phrases): C1 0, C2 0, C4 0, S1 0, S2 0, C3 38 hits / 37 unreviewed - capture paths, dates, digit runs of the tables and own phrases (W-07's text had 29), none a reference word list, palette, grammar or identifier; exit 1 = that count, record outside the design set, no allow rows (precedent E01/E03/W-07). make_denylist.py scan E07.md + plan.json: TOK 46/0 unreviewed, ID 0, COL 0, SET 0, PHR 0, FILE 0, TRI 63/54 (paths, dates, digit runs, the href option numbers, own phrases)"
+  }
+ ],
+ "rows": 100,
+ "owner_notes": [
+  "Nothing needs the owner. The MFCG per-size values (TOWN, CITY, METROPOLIS from 10 seeds each, the stress variant from 3) are measured and recorded; W-15 turns them into rows later. No site was touched and nothing was loaded."
+ ],
+ "notes": [
+  "OUTCOME (CONFIRMED, executed): the W-07 tool runs on all 33 usable M-1 sweep seeds (index 10 of size 130 included after W-03b) and the W-07b checker column passes 13/13; values are measured values, not rows (R-47 (a)); W-15 forms rows and bands. 'rows' = 100 per-family summaries (25 metrics x 4 families) in E07-mfcg-signature.plan.json.",
+  "KEY VALUES (median [p10, p90], n = 10): R4 60 m 0.854 / 0.927 / 0.955 at 40 / 80 / 130; ribbon.share 0.773 / 0.623 / 0.532 (F2 confirmed on ten seeds); walled.share 0.905 / 0.905 / 0.924; gates 5 / 8 / 12 (exact on 28 of 30 plain seeds); district.area medians 8.86 / 17.47 / 30.39 ha; castle 2.38 / 3.51 / 3.83 ha; cover 0.605 / 0.624 / 0.623; bldg.area 251 / 263 / 242 m2; pop.perBuilding (coded law) 6.03 / 6.15 / 6.04. Stress (n = 3): water.step 264.5 [242.2, 284.1] m, riverWidth 83.9 [68.8, 114.3] m, wall.ungated 0, barrierShare 0.374 [0.046, 0.376], 7 land gates; time.worst note: stress attempts 1/2/1/1/3 (8 for 5 cities).",
+  "FINDINGS routed (E07 section 9.8): F5 minor design wording - T-V12-6 / R-12 F1 / DC-14 say 'the four dry cities' but mfcg_wallalign.out holds three (gates 0, 4, 9); recommended 'the three dry cities mfcg_wallalign.out holds'. F6 minor declared - size130-plain-5 has one zero-area footprint dropped by V12 3.2.2. F7 minor - several section 13.5 MFCG anchor texts are one seed's or the size-40 fixtures' (castle '8.7 at 130' -> 3.83 [0.71, 6.49]; walled share '0.87-0.92' widens; alignment ranges are size 40's, 40-100 m reaches 0.762 at 130); rows replace them at W-15's shift record. F2's ribbon shift stands as R-12 / DC-15 ruled.",
+  "JUDGMENT (J122, vetoable, reasons in E07 9.8): W-07b's numbers in a new E07-mfcg-signature.plan.json so W-07's cited hash 55b8b186 stays reproducible (fixture mode filters its own two folders); wall-alignment clause checked on the 9 held values with gates-1 printed (a red-team re-run would create, not reproduce, a number); pop.perBuilding lot count = footprints + prisms (V12 buildings; PLAUSIBLE equal to the app's lot count); water.step on the sea polygon only by measure_ftg.py's definition (river is a centreline); wall.ungated = proper crossings + crossings at non-gate curtain vertices (measure_ftg.py's side rule; open-stretch ends skipped); retries measured but excluded; fg.coverWalled computed for T-V12-6, its row stays W-08's; adapter reads a J161 capture's options from j161/export-log.jsonl.",
+  "For W-09 / W-13 / W-14: the 35 M-1 MeasureInputs are in research/baselines/inputs/MFCG/itch-12710731/ with prefix exports-sweep-m1-2026-10-03.; the usable lists per family are in E07-mfcg-signature.plan.json 'families'. Tool sha256 measure_mfcg.py f907f200 (was f6336e41), adapter 640c9826 (was 3200e91f).",
+  "PLAUSIBLE only: that the exported building count equals the app's lot count (so the law value is the displayed population); that seed 0's 3 shore vertices mean its coast barely meets the wall. Everything else CONFIRMED (executed or read).",
+  "No plat/ write, no git command that changes state, no site touched, no captured program bundle read, no reference content copied (numbers, metric ids and our own words only). Disk 9.4-10 GiB free throughout (df -h /Users/cstokes)."
+ ]
+}

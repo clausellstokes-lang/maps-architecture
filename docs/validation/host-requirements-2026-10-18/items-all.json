@@ -1,0 +1,1658 @@
+[
+{
+"id": "faith-1",
+"title": "Religion design document's data model and numbers are out of date",
+"what": "The religion design document still describes the old fields (a 'chief' deity and a 1.15 hold multiplier); the code now uses patron fields, resists 0.35 of each downward step, and adds legitimacy, a sink, patron falls, suppression ticks, a push margin and standing hysteresis (a dead band against flicker). Host: docs/RELIGION_REWORK.md:93-101, :204-207 vs src/domain/worldPulse/religionState.js:45-85 and worldState.js:272-280.",
+"why": "Anyone, including the map, who builds from the document gets wrong field names and wrong numbers.",
+"when": "Bring the document up to the code (the note records the code as having outrun it).",
+"source": "faith-system.md §10.1 item 1 (line 1285)",
+"kind": "doc fix"
+},
+{
+"id": "faith-2",
+"title": "Global rank is by patron seats, not by adherents",
+"what": "The design document ranks deities by adherents; the code counts only the settlements that seat the deity as patron. Host: docs/RELIGION_REWORK.md §2.7 vs the code the note cites in its §4.2.",
+"why": "A legend ordered by 'number of believers' would show a number the host never computes.",
+"when": "Correct the document to 'patron seats'.",
+"source": "faith-system.md §10.1 item 2 (line 1289)",
+"kind": "doc fix"
+},
+{
+"id": "faith-3",
+"title": "Patron is the top share overall, not the top of the top three",
+"what": "The document says the leading deity is the top share among the top three; the code takes the top share overall, and the top three appear only in the contest. Host: docs/RELIGION_REWORK.md:32-34.",
+"why": "Small; a reader would expect a rule the code does not run.",
+"when": "Correct the document.",
+"source": "faith-system.md §10.1 item 3 (line 1290)",
+"kind": "doc fix"
+},
+{
+"id": "faith-4",
+"title": "Deity temper is derived, but comments say it is stored",
+"what": "The document derives a deity's niche from a stored temperament field; the code derives temper from the deity's two axes, and two code comments still say 'stored verbatim'. Host: docs/RELIGION_REWORK.md:29, :37; src/domain/worldPulse/cultImpositionApply.js:22-26; src/domain/worldPulse/religiousContest.js:224.",
+"why": "A reader would trust a stored value that no engine read uses.",
+"when": "Fix the document and the two comments.",
+"source": "faith-system.md §10.1 item 4 (line 1292)",
+"kind": "doc fix"
+},
+{
+"id": "faith-5",
+"title": "'Every world is born with a pantheon' is retired but still stated in six places",
+"what": "Generation no longer creates a starting pantheon (the latent pantheon was deleted), but the 'latent in every seed' claim survives in user copy and code headers. Host: docs/RELIGION_REWORK.md:180-185; docs/PHASE4_FAITH_DELTA.md §4; src/components/compendium/PantheonActivationStrip.jsx:6-9; src/copy/deityAuthoring.js:74, :105-106; src/components/settlement/faithPanelModel.js:12-14; src/domain/display/publicSafe.js:73-75; header of supabase migration 128.",
+"why": "Users and developers are told a fresh world has gods when it has none; a faith lens on a born world is empty.",
+"when": "Remove the claim from the listed files (the note records it as retired).",
+"source": "faith-system.md §10.1 item 5 (line 1294)",
+"kind": "doc fix"
+},
+{
+"id": "faith-6",
+"title": "Design documents miss the split into a local lane and a spread lane",
+"what": "The religion document presents carriers, prevalence and occupation entry as the whole model without saying they run only in the spread lane; the Phase 4 document says piety is absent (it is built) and puts realm-wide deity politics in the spread lane, while the pantheon ranking advances on local activity. Host: docs/RELIGION_REWORK.md §2.4-§2.6; docs/PHASE4_FAITH_DELTA.md §1.3, §1.9; src/domain/worldPulse/pulseKernel.js:1704.",
+"why": "A reader would think spread runs everywhere and that piety does not exist.",
+"when": "Mark those passages spread-only and update §1.3 and §1.9.",
+"source": "faith-system.md §10.1 item 6 (line 1298)",
+"kind": "doc fix"
+},
+{
+"id": "faith-7",
+"title": "Code says faith never crosses a settlement boundary unless spread is on; it does",
+"what": "Two code comments say spread is the only gated faith dynamic and otherwise faith never crosses a settlement boundary; in the default preset (RR, realistic_regional) faith prescription, the fracture spread, tolerance drift, faith-weighted relief and (on a canonized world) faith-weighted contraband all cross boundaries, and the Living-World gate (a per-campaign DM switch) can light spread itself. Host: src/domain/worldPulse/simulationRules.js:90-100; src/domain/worldPulse/religiousContest.js:24-33.",
+"why": "A map built on the comment would draw the default world as having no faith pressure between towns.",
+"when": "Correct both comments (the note's §6.1, §6.10, §6.11, §7.4, §7.10 carry the evidence).",
+"source": "faith-system.md §10.1 item 7 (line 1301)",
+"kind": "contradiction"
+},
+{
+"id": "faith-8",
+"title": "Fracture and conversion said to travel 'along religious_authority'",
+"what": "A comment says the fracture spreads along the religious-authority channel; the code declares three channels. And 'conversion spreads along religious_authority' confuses the drawn faith front (a record, not a carrier) with the creed's real path. Host: src/domain/worldPulse/religiousContest.js:10-12.",
+"why": "The map would draw the wrong link type as the path of a schism or conversion.",
+"when": "Correct the comment.",
+"source": "faith-system.md §10.1 item 8 (line 1305)",
+"kind": "doc fix"
+},
+{
+"id": "faith-9",
+"title": "Conversion reads distance but not travel delay",
+"what": "The spatial design document says conversion inherits both distance and travel latency; the code applies distance only. The couplings document's 'faith spreads at carrier reach' omits the built distance weakening altogether. Host: docs/PHASE55_SPATIAL_ENGINE_DESIGN.md §3; docs/DESIGN_FP_COUPLINGS.md; src/domain/worldPulse/religiousContest.js:365-376.",
+"why": "A map showing faith arriving 'after N weeks' would invent a delay the host does not have.",
+"when": "Correct both documents to 'distance only'.",
+"source": "faith-system.md §10.1 item 9 (line 1308)",
+"kind": "doc fix"
+},
+{
+"id": "faith-10",
+"title": "Three faith files claim to be unused; they are wired",
+"what": "faithField.js's header says nothing calls it (called since F4c); customContentSchema.js says 'no mechanical consumer'; faithWitnessSource.js says its funnel is absent though the catalog admits it (still no caller). Host: faithField.js header (path not given in this section); customContentSchema.js:241-242, :297-298; faithWitnessSource.js:16-30.",
+"why": "Developers may delete or ignore live code.",
+"when": "Correct the three headers.",
+"source": "faith-system.md §10.1 item 10 (line 1310)",
+"kind": "doc fix"
+},
+{
+"id": "faith-11a",
+"title": "'Five causes' of a patron fall: four ship",
+"what": "Three design documents say a patron can fall for five causes; the code has four. Host: docs/DESIGN_FP_ARCH_WF.md:270, :418; docs/DESIGN_FP_FAITH.md J-WF-5 :1498; docs/DESIGN_FP_ARCHITECTURE.md:1991; src/domain/worldPulse/patronFall.js:76.",
+"why": "A map legend of fall causes would list one that never happens.",
+"when": "Correct the documents to four.",
+"source": "faith-system.md §10.1 item 11 (line 1313)",
+"kind": "doc fix"
+},
+{
+"id": "faith-11b",
+"title": "The Schism realm arc does not exist",
+"what": "The faith design document says a Schism realm arc exists; it does not. Host: docs/DESIGN_FP_FAITH.md:1327.",
+"why": "A time scrub would look for a dated event the host never makes.",
+"when": "Correct the document.",
+"source": "faith-system.md §10.1 item 11 (line 1314)",
+"kind": "doc fix"
+},
+{
+"id": "faith-11c",
+"title": "'God's Abandonment' still ships despite the rename ruling",
+"what": "The owner's ruling OD-FC-8 (a rename) is not applied; the old 'God's Abandonment' text still ships.",
+"why": "Players see wording the owner ruled out.",
+"when": "Apply OD-FC-8 (listed again as awaiting application in §10.3).",
+"source": "faith-system.md §10.1 item 11 (line 1314)",
+"kind": "contradiction"
+},
+{
+"id": "faith-11d",
+"title": "'The faithful walk the roads' headline has no mechanic",
+"what": "The Ascendancy headline says the faithful walk the roads; nothing moves them.",
+"why": "Players read about travellers who are not simulated; an encounter map would have no host fact to show.",
+"when": "The note records the gap; no specific fix given.",
+"source": "faith-system.md §10.1 item 11 (line 1315)",
+"kind": "contradiction"
+},
+{
+"id": "faith-12",
+"title": "Believed devotion ruling not applied",
+"what": "OD-FC-7 (light believed devotion in three presets) was ruled but is not applied at revision 81f1cd96.",
+"why": "Player-side 'what people believe about faith' stays dark where the owner said it should be lit.",
+"when": "Apply OD-FC-7.",
+"source": "faith-system.md §10.1 item 12 (line 1316)",
+"kind": "contradiction"
+},
+{
+"id": "faith-13",
+"title": "Which lane carries pilgrims and legates is recorded three different ways",
+"what": "The faith design says WF-2 (the designed pilgrim and named-mover feature) rides SPREAD plus SP-1; the WF architecture document says SPREAD plus the errand spine; pilgrims' purpose class was corrected from religious to personal (J-EM-6); a slice brief put pilgrims and legates in the Wayfare document, which never mentions them (they live in the faith design and in the envoy errand vocabulary). Host: docs/DESIGN_FP_FAITH.md §3; docs/DESIGN_FP_ARCH_WF.md:190; docs/DESIGN_FP_ARCH_WY.md; src/domain/worldPulse/envoyErrandVocabulary.js:322-335.",
+"why": "Encounter maps that place pilgrims depend on which system owns them; today the documents disagree.",
+"when": "Reconcile the documents on one lane and one home.",
+"source": "faith-system.md §10.1 item 13 (line 1317)",
+"kind": "contradiction"
+},
+{
+"id": "faith-14a",
+"title": "Pilgrimage right drafted ungated though it cannot form without WF-2",
+"what": "The WF architecture document says the pilgrimage_right grant cannot form without WF-2; the draft lens drafts it ungated. Host: docs/DESIGN_FP_ARCH_WF.md:499.",
+"why": "A peace or treaty view could offer a grant the engine cannot produce.",
+"when": "Gate the draft on WF-2 (implied by the ARCH_WF line the note cites).",
+"source": "faith-system.md §10.1 item 14 (line 1320)",
+"kind": "contradiction"
+},
+{
+"id": "faith-14b",
+"title": "Missionary access: share mover or gate",
+"what": "The grammar document said missionary_access 'moves believer-share bands'; the faith design says it is 'a gate, never a share'; already clarified at docs/DESIGN_FP_GRAMMAR.md:868.",
+"why": "Settled in the document; listed for completeness.",
+"when": "None further; clarified at GRAMMAR:868.",
+"source": "faith-system.md §10.1 item 14 (line 1321)",
+"kind": "doc fix"
+},
+{
+"id": "faith-14c",
+"title": "The GR-6 temple arm can never be reached",
+"what": "Under the one-finder law the GR-6 temple arm is unreachable. Host: docs/DESIGN_FP_GRAMMAR.md:1290.",
+"why": "Designed behaviour that cannot happen.",
+"when": "The note records it; no fix given.",
+"source": "faith-system.md §10.1 item 14 (line 1322)",
+"kind": "defect"
+},
+{
+"id": "faith-15",
+"title": "One-writer rule broken by the traditions nudge",
+"what": "A ruling says one writer family owns the value; the traditions nudge still writes it, and the code cure is owed. Host: docs/DESIGN_FP_COHERENCE_FOLD.md:267.",
+"why": "Two writers can make a value drift silently.",
+"when": "Apply the owed code cure.",
+"source": "faith-system.md §10.1 item 15 (line 1323)",
+"kind": "defect"
+},
+{
+"id": "faith-16",
+"title": "The generation-time tithe is covered by no ruling",
+"what": "The tithe has four sources, ruled to be one flow with two ends; the static tithe written at generation is not mentioned by any ruling (note §7.4).",
+"why": "An undecided money flow; a map showing tithe would not know which source is true.",
+"when": "Rule on the generation-time tithe.",
+"source": "faith-system.md §10.1 item 16 (line 1324)",
+"kind": "open question"
+},
+{
+"id": "faith-17",
+"title": "Stale comment on the 'full' information mode",
+"what": "A normaliser comment on info mode 'full' is stale (see alignment-31a for the host lines).",
+"why": "Misleads a reader about whether beliefs run in FS.",
+"when": "Correct the comment.",
+"source": "faith-system.md §10.1 item 17 (line 1326)",
+"kind": "doc fix"
+},
+{
+"id": "faith-18a",
+"title": "Design documents cite superseded line numbers",
+"what": "The WF architecture document (R4) and the couplings document cite old line numbers for the kernel mounts, the carriers and mediation. Host: docs/DESIGN_FP_ARCH_WF.md R4; docs/DESIGN_FP_COUPLINGS.md.",
+"why": "Readers land on the wrong code.",
+"when": "Refresh the line citations.",
+"source": "faith-system.md §10.1 item 18 (line 1327)",
+"kind": "doc fix"
+},
+{
+"id": "faith-18b",
+"title": "'LivingWorldGates still writes the legacy key' is stale",
+"what": "The spatial design says the Living-World gate writes only the legacy key; since CL-0 it writes both keys. Host: docs/PHASE55_SPATIAL_ENGINE_DESIGN.md:1588-1589.",
+"why": "Misleads anyone deciding which flag to read.",
+"when": "Correct the document.",
+"source": "faith-system.md §10.1 item 18 (line 1328)",
+"kind": "doc fix"
+},
+{
+"id": "faith-18c",
+"title": "Regional graph header still reserves propagation for 'a future tier'",
+"what": "The regional graph header says active propagation is for a future tier; it already happens (note §7.10.3). Host: regionalGraph.js:19-22.",
+"why": "Readers think the graph is passive.",
+"when": "Correct the header.",
+"source": "faith-system.md §10.1 item 18 (line 1329)",
+"kind": "doc fix"
+},
+{
+"id": "faith-19",
+"title": "The 'War & faith' switch cannot hide faith; the Faith door has no map chip",
+"what": "Turning off the 'War & faith' layer leaves the faith fronts drawn (they belong to the Relationships layer), and the Herald's Faith door offers no map-lens chip. Host: src/components/map/WarFaithMapOverlay.jsx:1-26; src/components/map/LayersPanel.jsx:238-242; src/components/map/HeraldBody.jsx:282-291.",
+"why": "The switch's name promises control the user does not get.",
+"when": "Open question in §10.3: should the switch govern the faith front.",
+"source": "faith-system.md §10.2 item 19 (line 1333)",
+"kind": "contradiction"
+},
+{
+"id": "faith-20",
+"title": "Pantheon panel shows a deity weaker than the engine treats it",
+"what": "The panel's strength bar uses the earned ranking tier; the engine converts at the higher of authored and earned tier, so an authored-major deity with one seat shows as a 35% cult but converts at 0.95. Host: src/components/map/PantheonPanel.jsx:185-186, :216.",
+"why": "Wrong number on screen; a lens copying the panel would repeat it.",
+"when": "The note records it; the fix implied is to display the tier the engine uses.",
+"source": "faith-system.md §10.2 item 20 (line 1334)",
+"kind": "defect"
+},
+{
+"id": "faith-21",
+"title": "Faith-front style comment says 'allied/trade edge'; it can be a war front",
+"what": "The edge style comment says the faith front lies along an allied or trade edge; it can lie along a war front. Host: src/components/map/relationshipEdgeStyle.js:60-61.",
+"why": "Misleads the map designer about what the purple line means.",
+"when": "Correct the comment.",
+"source": "faith-system.md §10.2 item 21 (line 1337)",
+"kind": "doc fix"
+},
+{
+"id": "faith-22",
+"title": "Activation strip demands the old spread flag",
+"what": "The pantheon activation strip's 'dynamics' milestone accepts the legacy spread flag, though the local lane and the ranking need no flag. Host: src/components/compendium/PantheonActivationStrip.jsx:45-49.",
+"why": "The DM is told dynamics are off when local dynamics run.",
+"when": "The note records it; no fix given.",
+"source": "faith-system.md §10.2 item 22 (line 1338)",
+"kind": "defect"
+},
+{
+"id": "faith-23",
+"title": "'Patron-less town' text is effectively unreachable",
+"what": "The DS-FTH-2 prose is mounted only for a premium viewer with no embed, who gets no Faith tab; the desk's header admits an untested direction. Host: src/components/new/tabs/WarFaithDesk.jsx:272-292, :32-43; FaithTab.jsx:227, :284-309; src/components/OutputContainer.jsx:511-514.",
+"why": "Authored content nobody sees.",
+"when": "The note records it; no fix given.",
+"source": "faith-system.md §10.2 item 23 (line 1340)",
+"kind": "defect"
+},
+{
+"id": "faith-24a",
+"title": "War verbs still labelled 'coming soon'",
+"what": "AssignDeityFromMap says the war verbs are coming soon. Host: src/components/map/AssignDeityFromMap.jsx:14-16.",
+"why": "Stale user-facing promise.",
+"when": "Correct the copy.",
+"source": "faith-system.md §10.2 item 24 (line 1343)",
+"kind": "doc fix"
+},
+{
+"id": "faith-24b",
+"title": "Two components disagree on whether the faith tab hides itself",
+"what": "PantheonPanel says the tab self-hides; RealmInspector says no door does. Host: src/components/map/PantheonPanel.jsx:9-11; RealmInspector.jsx:83-87.",
+"why": "Developers cannot tell which behaviour is intended.",
+"when": "Reconcile the two headers.",
+"source": "faith-system.md §10.2 item 24 (line 1343)",
+"kind": "contradiction"
+},
+{
+"id": "faith-24c",
+"title": "Faith panel falls back to a field snapshots no longer carry",
+"what": "faithPanelModel falls back to 'portfolio', which deity snapshots no longer carry. Host: src/components/settlement/faithPanelModel.js.",
+"why": "The fallback silently yields nothing.",
+"when": "The note records it; no fix given.",
+"source": "faith-system.md §10.2 item 24 (line 1344)",
+"kind": "defect"
+},
+{
+"id": "faith-25a",
+"title": "A cult imposed after seeding is never admitted",
+"what": "A post-seed IMPOSE_CULT action is never admitted to the pantheon (note §3.11).",
+"why": "A DM action appears to do nothing.",
+"when": "Owner to decide whether intended (§10.3).",
+"source": "faith-system.md §10.2 item 25 (line 1346)",
+"kind": "defect"
+},
+{
+"id": "faith-25b",
+"title": "A conversion's recorded source is the convert itself",
+"what": "The conversion receipt names the convert as its own source (note §6.7).",
+"why": "The map cannot say where a conversion came from.",
+"when": "§9.6 item 5 implies a host ask: put the strongest carrier source on the receipt.",
+"source": "faith-system.md §10.2 item 25 (line 1346)",
+"kind": "defect"
+},
+{
+"id": "faith-25c",
+"title": "A DM re-assign records no win or loss",
+"what": "When a DM re-assigns a patron, no win/loss is banked to the ranking (note §3.6).",
+"why": "The global ranking misses DM-made changes.",
+"when": "The note records it; no fix given.",
+"source": "faith-system.md §10.2 item 25 (line 1347)",
+"kind": "defect"
+},
+{
+"id": "faith-25d",
+"title": "Faith fronts are never retired",
+"what": "Once a faith front (a confirmed religious_authority channel, the purple dashed line) is minted it stays, even after its carrier ends (note §6.3).",
+"why": "The map shows old fronts as if live; a lens must style them as historic.",
+"when": "§9.6 item 5 implies a host ask: retire mints when the carrier ends; §10.3 asks the owner.",
+"source": "faith-system.md §10.2 item 25 (line 1347)",
+"kind": "defect"
+},
+{
+"id": "faith-25e",
+"title": "Hostile war fronts carry faith hardest",
+"what": "War-front links carry faith at 0.72, stronger than any friendly link (note §6.2).",
+"why": "Enemies convert each other fastest; a map drawing faith along friendly links would be wrong.",
+"when": "Owner question in §10.3.",
+"source": "faith-system.md §10.2 item 25 (line 1348)",
+"kind": "defect"
+},
+{
+"id": "faith-25f",
+"title": "Any link of any status counts as a prevalence neighbour",
+"what": "neighbourIdsOf counts any link, including rival, criminal and dormant ones, as a prevalence neighbour (note §6.5).",
+"why": "Faith prevalence leaks along links that should not carry it.",
+"when": "The note records it; no fix given.",
+"source": "faith-system.md §10.2 item 25 (line 1348)",
+"kind": "defect"
+},
+{
+"id": "faith-25g",
+"title": "Two faith-reach calculations disagree",
+"what": "The spread lane's reach and buildFaithReach differ (one gated, one ungated; note §6.11 and §9.5 item 3).",
+"why": "Two different 'reach' numbers for the same deity; a lens must pick one and say which.",
+"when": "The note records it; no fix given.",
+"source": "faith-system.md §10.2 item 25 (line 1349)",
+"kind": "defect"
+},
+{
+"id": "faith-25h",
+"title": "History text uses generic deity names and named Christian orders",
+"what": "History text still uses generic deity names and named Christian orders (note §2.5).",
+"why": "Breaks the setting's own deity names.",
+"when": "The note records it; no fix given.",
+"source": "faith-system.md §10.2 item 25 (line 1350)",
+"kind": "defect"
+},
+{
+"id": "faith-25i",
+"title": "Clearing a patron leaves a stale pantheon",
+"what": "A patron clear leaves the settlement's pantheon and ledgers stale (note §3.11).",
+"why": "The map would show a faith mix for a town with no patron.",
+"when": "§10.3 asks whether SET_PRIMARY_DEITY with no deity should clear the pantheon.",
+"source": "faith-system.md §10.2 item 25 (line 1350)",
+"kind": "defect"
+},
+{
+"id": "faith-25j",
+"title": "A demotion leaves too many deities in a pantheon",
+"what": "A demotion leaves an over-capacity pantheon (note §3.11).",
+"why": "More deities shown than the tier allows.",
+"when": "§10.3 asks whether a demotion should trim it.",
+"source": "faith-system.md §10.2 item 25 (line 1351)",
+"kind": "defect"
+},
+{
+"id": "faith-25k",
+"title": "Rival-cult blame names cults never admitted",
+"what": "rivalCult blames cults the pantheon never admitted (note §3.11).",
+"why": "Receipts name a cult the town does not hold.",
+"when": "The note records it; no fix given.",
+"source": "faith-system.md §10.2 item 25 (line 1352)",
+"kind": "defect"
+},
+{
+"id": "faith-25l",
+"title": "A suggested candidate could pin a faith front at 'suggested'",
+"what": "A suggested discovery candidate could pin a pulse mint at 'suggested' status [INFERRED in the note] (note §6.3).",
+"why": "A front could stay unconfirmed and undrawn.",
+"when": "The note records it as inferred; no fix given.",
+"source": "faith-system.md §10.2 item 25 (line 1352)",
+"kind": "defect"
+},
+{
+"id": "faith-25m",
+"title": "Realm dashboard names the dominant deity by an id fragment",
+"what": "The 'Dominant faith' tile names the deity by the tail of its id, not its name (note §7.10.11). Host: src/components/map/RealmDashboard.jsx (tile at :65-77, :368-371 per §9.1).",
+"why": "Users see a code string instead of a god's name.",
+"when": "The note records it; no fix given.",
+"source": "faith-system.md §10.2 item 25 (line 1353)",
+"kind": "defect"
+},
+{
+"id": "faith-26",
+"title": "Research seats' disagreement resolved (research record)",
+"what": "Faith-field import is wired (dormant by data); hostile labels are not carriers but their war_front channels are.",
+"why": "—",
+"when": "—",
+"source": "faith-system.md §10.2 item 26 (line 1354)",
+"kind": "map-side (not for the host)"
+},
+{
+"id": "faith-9.1",
+"title": "Wayfare ruling to delete the deployment arrows is not applied",
+"what": "The Wayfare document ruled the deployment arrows deleted; the 'War & faith' overlay still draws them. Host: docs/DESIGN_FP_ARCH_WY.md:56-58, :1653-1660; src/components/map/WarFaithMapOverlay.jsx:98-105.",
+"why": "The world map draws something the owner ruled out.",
+"when": "Apply the Wayfare ruling.",
+"source": "faith-system.md §9.1 (line 1130)",
+"kind": "defect"
+},
+{
+"id": "faith-9.2",
+"title": "Town buildings reserve a patron look but never read the patron",
+"what": "The building grammar reserves patron alignment and an emblem, but hard-codes both alignments to 0.5 and makes the emblem from the scene, not from any deity. Host: src/domain/townScene/buildingProfiles.js:331-336; src/domain/townMap/arch/params.js:18-31. (Same seam as alignment-17e.)",
+"why": "Town maps cannot show a temple's god.",
+"when": "The note records it; the town fabric's worship ladder is designed only and ruled out of FP.",
+"source": "faith-system.md §9.2 (line 1155)",
+"kind": "defect"
+},
+{
+"id": "faith-9.6-7",
+"title": "Pilgrims, missionaries and inquisitors are not simulated as travellers",
+"what": "The only pilgrim maths is a deity-blind host lift that discards who came; 'missionize' is a trust nudge; WF-2's season and named movers are unbuilt and their spine (the errand system) is dark. WF-2's design (season from draw x believed devotion x route viability, road danger, 52-week feasts, interceptable errands with a return leg) is the spec a lens should mirror.",
+"why": "Faith encounters on an encounter map would be invention until WF-2 lands.",
+"when": "Build WF-2 if faith travellers are wanted on encounter maps; until then the map shows none.",
+"source": "faith-system.md §9.6 item 7 (line 1260)",
+"kind": "open question"
+},
+{
+"id": "faith-OQ1",
+"title": "Should a new world be born with any deity (FPQ-62)?",
+"what": "No deity exists until a premium DM authors one.",
+"why": "Every faith lens is empty on fresh worlds.",
+"when": "Owner to decide.",
+"source": "faith-system.md §10.3 (line 1360)",
+"kind": "open question"
+},
+{
+"id": "faith-OQ2",
+"title": "Should the default preset turn on faith spread?",
+"what": "faithSpreadEnabled is off in the default preset (RR) unless a DM lights it per campaign.",
+"why": "Without it, conversion between settlements does not exist in the preset worlds are born into.",
+"when": "Owner to decide.",
+"source": "faith-system.md §10.3 (line 1361)",
+"kind": "open question"
+},
+{
+"id": "faith-OQ3",
+"title": "Should faith fronts carry the deity and source, and retire when the link ends?",
+"what": "Fronts carry no deity id and no source and are never retired; §9.6 item 5 frames this as a host ask: put the deity id and strongest carrier source on the front and on the conversion receipt, and retire fronts when the carrier ends.",
+"why": "Decides whether a lens can draw present fronts or only historic ones, and whether it can name a conversion's source.",
+"when": "Owner and host to decide.",
+"source": "faith-system.md §10.3 (line 1363); §9.6 item 5 (line 1251)",
+"kind": "open question"
+},
+{
+"id": "faith-OQ4",
+"title": "Should hostile relationships carry faith at 0.72, the strongest carrier?",
+"what": "See faith-25e.",
+"why": "Shapes every faith-pressure map.",
+"when": "Owner to decide.",
+"source": "faith-system.md §10.3 (line 1365)",
+"kind": "open question"
+},
+{
+"id": "faith-OQ5",
+"title": "Should the faith contest read seasons, travel time or sea lanes; should realm piety be weighted?",
+"what": "Only the parked ripple and moral founding read a season; realm piety is not size- or distance-weighted. A sea route as a cheap faith carrier would be new host simulation (§9.6 item 9).",
+"why": "Decides whether faith movement can ever follow geography.",
+"when": "Owner and host to decide.",
+"source": "faith-system.md §10.3 (line 1366); §9.6 item 9 (line 1269)",
+"kind": "open question"
+},
+{
+"id": "faith-OQ6",
+"title": "Should the map render the host's religious hierarchy?",
+"what": "mapProfile's regionalAuthority output (religious-superior and pilgrimage-centre links) says 'the map should render' it; nothing consumes it.",
+"why": "A host fact the map is asked to draw and does not.",
+"when": "Owner to decide whether the map module's lens renders it.",
+"source": "faith-system.md §10.3 (line 1368); §9.3 (line 1181)",
+"kind": "open question"
+},
+{
+"id": "faith-OQ7",
+"title": "Should clearing a patron clear the pantheon; should a demotion trim it?",
+"what": "See faith-25i and faith-25j.",
+"why": "Stale faith mixes on the map.",
+"when": "Owner and host to decide.",
+"source": "faith-system.md §10.3 (line 1370)",
+"kind": "open question"
+},
+{
+"id": "faith-OQ8",
+"title": "Should 'War & faith' govern the faith front; should players ever see DM-only fronts?",
+"what": "See faith-19; fronts are DM-only by default and dropped from published maps.",
+"why": "Audience and switch behaviour of the purple lines.",
+"when": "Owner to decide.",
+"source": "faith-system.md §10.3 (line 1372)",
+"kind": "open question"
+},
+{
+"id": "faith-OQ9",
+"title": "May the map derive a pilgrim catchment or place holy sites?",
+"what": "The host keeps no pilgrim catchment (it discards the draw) and no positioned holy sites; settlement labels exist. Positioned sites would be map-side facts needing an owner ruling and, to matter, host adoption (§9.6 item 6).",
+"why": "Decides whether encounter and religion maps may show pilgrim areas and shrines.",
+"when": "Owner to decide.",
+"source": "faith-system.md §10.3 (line 1373); §9.6 item 6 (line 1254)",
+"kind": "open question"
+},
+{
+"id": "faith-OQ10",
+"title": "Is the post-seed cult admission intended or a defect?",
+"what": "See faith-25a.",
+"why": "—",
+"when": "Owner to decide.",
+"source": "faith-system.md §10.3 (line 1375)",
+"kind": "open question"
+},
+{
+"id": "faith-OQ11",
+"title": "Two faith rulings await application",
+"what": "OD-FC-7 (believed devotion) and OD-FC-8 (the rename; the attributed edit). See faith-12 and faith-11c.",
+"why": "—",
+"when": "Apply.",
+"source": "faith-system.md §10.3 (line 1376)",
+"kind": "open question"
+},
+{
+"id": "faith-map-1",
+"title": "Map's own: religion lens reads only host facts listed in the needs table",
+"what": "Patron, mix, piety, ranking, fronts, carriers, receipts, distance weights, flags; audience notes per row.",
+"why": "—",
+"when": "—",
+"source": "faith-system.md §9.4 (line 1186)",
+"kind": "map-side (not for the host)"
+},
+{
+"id": "faith-map-2",
+"title": "Map's own: show mixtures, not borders; label recomputed pressure as derived",
+"what": "Patron colour with share pie, restyled historic fronts, crisis ripple, tension marks, seat footprint, scrub needs map-side snapshots.",
+"why": "—",
+"when": "—",
+"source": "faith-system.md §9.5 (line 1207)",
+"kind": "map-side (not for the host)"
+},
+{
+"id": "faith-map-3",
+"title": "Map's own: never draw pilgrims, missionaries, positioned holy places or latent deities as host facts",
+"what": "Nor recover a conversion's source, nor show DM-only fronts or suppressed creeds to players.",
+"why": "—",
+"when": "—",
+"source": "faith-system.md §9.5 (line 1227)",
+"kind": "map-side (not for the host)"
+},
+{
+"id": "faith-map-4",
+"title": "Map's own: open in a 'still pantheons' mode when spread is off; read resolved campaign flags",
+"what": "Default preset has nothing moving unless the DM lights it.",
+"why": "—",
+"when": "—",
+"source": "faith-system.md §9.6 item 1 (line 1239)",
+"kind": "map-side (not for the host)"
+},
+{
+"id": "faith-map-5",
+"title": "Map's own: 'pressure along carrier links', not 'flows along routes'",
+"what": "Carriers are diplomacy and garrison links; geography only weakens on canonized worlds.",
+"why": "—",
+"when": "—",
+"source": "faith-system.md §9.6 item 4 (line 1247)",
+"kind": "map-side (not for the host)"
+},
+{
+"id": "faith-map-6",
+"title": "Map's own: show the host's culture resistance term, do not add one; player view is narrow",
+"what": "Receptivity is the host's resistance; believed faith only in DC, LR, FS on canon.",
+"why": "—",
+"when": "—",
+"source": "faith-system.md §9.6 items 8, 10 (lines 1265, 1271)",
+"kind": "map-side (not for the host)"
+},
+{
+"id": "alignment-1",
+"title": "Alignment code says it has no consumers; about thirty modules use it",
+"what": "Headers say the alignment reads have no live consumer 'this wave'; about thirty modules import the selectors, several lit in the default preset (RR). Host: src/domain/worldPulse/settlementAlignment.js:19-21; src/domain/worldPulse/disposition.js:365-366, :530, :562; src/domain/spatial/moralDrift.js:27-30; src/domain/worldPulse/pulseKernel.js:2294-2295 (per a reader).",
+"why": "Developers may change alignment thinking nothing depends on it.",
+"when": "Correct the headers (grep list in the note's §11.3).",
+"source": "alignment-system.md §10 item 1 (line 959)",
+"kind": "doc fix"
+},
+{
+"id": "alignment-2",
+"title": "Disposition header miscounts its terms and names a retired field",
+"what": "The header says 'three blended terms' and lists four, and says the deity term reads the retired temperament field; the code reads the derived temper. Host: src/domain/worldPulse/disposition.js:9-27, :208-212 vs src/domain/worldPulse/deityAxes.js:26-33.",
+"why": "Misleads anyone tracing how a town's character is computed.",
+"when": "Correct the header.",
+"source": "alignment-system.md §10 item 2 (line 963)",
+"kind": "doc fix"
+},
+{
+"id": "alignment-3",
+"title": "The ruling seat does not count more than anyone else",
+"what": "Each NPC's weight is importance x the governing faction's power x 1.5; the last two factors are the same for every NPC and cancel in the average, so 'the seat of power colours the settlement more than a back-bench guild' does not happen. Host: src/domain/worldPulse/disposition.js:151-181, :418-435.",
+"why": "A town's alignment ignores who rules it; a map 'why' card would mis-explain the colour.",
+"when": "The note records it as a no-op; no fix given.",
+"source": "alignment-system.md §10 item 3 (line 966)",
+"kind": "defect"
+},
+{
+"id": "alignment-4",
+"title": "One scored NPC can set a whole town's conscience",
+"what": "NPCs with no scored word are skipped, so a single scored NPC sets the whole conscience or aggression term. Host: src/domain/worldPulse/disposition.js:171, :428.",
+"why": "A hamlet can read 'malicious' from one person; a choropleth (colour-by-region map) would show it as fact.",
+"when": "The note calls it a design question, not a bug.",
+"source": "alignment-system.md §10 item 4 (line 969)",
+"kind": "open question"
+},
+{
+"id": "alignment-5a",
+"title": "Faith-by-alignment quadrant reads only the patrons' good/evil",
+"what": "The cohesion design says the quadrant comes from alignment closeness via culture distance; the owner's ruling 3 says faith war is distance across both axes; the code reads only the difference in the two patrons' evil score, so 'schism' can never occur. Host: docs/DESIGN_COHESION_WEAVE.md:25-28; docs/DESIGN_REALM_DIRECTIVES.md:166-172; src/domain/worldPulse/sacredClaim.js:121; src/domain/worldPulse/generosityKernel.js:333.",
+"why": "A religion lens must draw three classes, not four; the documents and the ruling describe something the code does not run.",
+"when": "Owner to decide which reading is meant (item 25d).",
+"source": "alignment-system.md §10 item 5 (line 971)",
+"kind": "contradiction"
+},
+{
+"id": "alignment-5b",
+"title": "Two towns with no gods are treated as 'respectable rivals' in giving",
+"what": "A pair with no deities reads respectable_rival in generosity, scaling every conscience term by 0.95 on a born world; sacred-claim guards against this, generosity does not. Host: src/domain/spatial/cohesionWeave.js:53; src/domain/worldPulse/generosityKernel.js:414, :700; src/domain/worldPulse/sacredClaim.js:39-49.",
+"why": "Silent 5% damping of every relief decision on fresh worlds.",
+"when": "The note records it; the guard in sacredClaim.js is the model it points to.",
+"source": "alignment-system.md §10 item 5 (line 974)",
+"kind": "defect"
+},
+{
+"id": "alignment-6",
+"title": "Natural enemies refuse aid less readily, not more",
+"what": "The refuse threshold is 0.12 x hysteresis divided by the gate, so natural enemies (gate 0.55) need a larger withhold (0.218) to refuse and 'brothers' (1.25) a smaller one (0.096); the comment says the opposite. Bites only with seated deities. Host: src/domain/spatial/generosityEV.js:479-494; src/domain/spatial/cohesionWeave.js:49-54.",
+"why": "Relief arcs on the map go the wrong way between enemy and allied faiths.",
+"when": "The note records it as inverted; no fix given.",
+"source": "alignment-system.md §10 item 6 (line 977)",
+"kind": "defect"
+},
+{
+"id": "alignment-7",
+"title": "Two different 'rulers' for the same town",
+"what": "Alignment and faith read the governing seat; generosity takes the highest-power faction, which the faith code measured as the wrong faction on 36.7% of fresh settlements. Host: src/domain/worldPulse/generosityKernel.js:303-313; src/domain/worldPulse/religionLegitimacy.js:226-238.",
+"why": "Two systems disagree on who rules; a map naming 'the ruler' would contradict one of them.",
+"when": "The note records it; no fix given.",
+"source": "alignment-system.md §10 item 7 (line 981)",
+"kind": "defect"
+},
+{
+"id": "alignment-8",
+"title": "Economic-base lens is always 'mixed'",
+"what": "Its three source keys have no writer, so every settlement reads 'mixed'. Host: src/domain/spatial/cohesionWeave.js:258-269.",
+"why": "A cohesion input that never varies.",
+"when": "The note records it; no fix given.",
+"source": "alignment-system.md §10 item 8 (line 984)",
+"kind": "defect"
+},
+{
+"id": "alignment-9a",
+"title": "Moral drift fades far faster than designed",
+"what": "Each tick the stored, already-faded drift is multiplied again by 0.92 to the power of all ticks since the last act, so fading compounds: half-life about 3.6 weeks instead of about 8.3, gone after 8 silent weeks instead of about 32 (measured by running the host function). Host: src/domain/spatial/moralDrift.js:218-224, :251-254.",
+"why": "A town's bad deeds vanish from its character in two months; a map time scrub replaying the designed curve would be wrong.",
+"when": "Item 25e asks the owner: keep the value at the last act so it does not compound.",
+"source": "alignment-system.md §10 item 9 (line 986)",
+"kind": "defect"
+},
+{
+"id": "alignment-9b",
+"title": "Moral drift freezes in the default preset with war on",
+"what": "The ledger advances only when beliefs are active or a web-war atrocity happened this tick; only RR among raiding presets is omniscient, so in RR on canon with the war layer lit a raid-born drift does not fade between raids, and stays forever if the war layer is turned off. Host: src/domain/worldPulse/pulseKernel.js:2296, :2341-2350; src/domain/worldPulse/beliefMap.js:204-209; src/domain/worldPulse/simulationRules.js:953, :996, :1073, :1404-1408, :720-730.",
+"why": "Permanent stain from one raid in the default preset.",
+"when": "Item 25e asks whether drift should decay every tick regardless of the belief gate.",
+"source": "alignment-system.md §10 item 9 (line 995)",
+"kind": "defect"
+},
+{
+"id": "alignment-10",
+"title": "Deceived towns drift toward evil, not toward their deceiver",
+"what": "The spatial design says a deceived good actor drifts toward the manipulator's alignment; the code drifts every unjust instigator toward malice and lawlessness. Host: docs/PHASE55_SPATIAL_ENGINE_DESIGN.md:514-517; src/domain/spatial/moralDrift.js:145-156.",
+"why": "Document and code disagree on direction.",
+"when": "The note records it; no fix given.",
+"source": "alignment-system.md §10 item 10 (line 1003)",
+"kind": "contradiction"
+},
+{
+"id": "alignment-11",
+"title": "Changing NPC alignment or institutions does not change a town's character",
+"what": "The spine requires mechanisms to move a town's character through NPC alignment, roster and institutions; the derived read never reads the NPC alignment word or institutions, and moral drift is a separate settlement accumulator (the parallel stock the requirement calls a defect). Host: docs/DESIGN_FP_SPINE.md:84-92; src/domain/worldPulse/disposition.js:112-128, :568-593; src/domain/worldPulse/moralMartialLean.js:143-163.",
+"why": "The design's own rule is broken; edits a DM makes to NPC alignment do not show on the map.",
+"when": "The note records it; no fix given.",
+"source": "alignment-system.md §10 item 11 (line 1006)",
+"kind": "contradiction"
+},
+{
+"id": "alignment-12",
+"title": "Corruption is named as an input and is not one",
+"what": "Corruption is listed as an alignment input but is not read (note §3.6).",
+"why": "A 'why' card would cite a cause that has no effect.",
+"when": "The note records it; no fix given.",
+"source": "alignment-system.md §10 item 12 (line 1012)",
+"kind": "contradiction"
+},
+{
+"id": "alignment-13",
+"title": "Three ways to compute a town's character, four lookup tables",
+"what": "The W0 axes, the faith conduct plane and the war seat books' fallback (law 0.5, malice 0.5 - 0.35 x conscience) each derive character; four archetype tables disagree; nothing reconciles them, though requirement 13 names W0 as the read. Host: src/domain/worldPulse/warSeatBooks.js:298-300.",
+"why": "Different systems see different characters; a fourth on the map side would make it worse.",
+"when": "The note records it; the map must call the host selector, not reimplement (§9.3 item 14).",
+"source": "alignment-system.md §10 item 13 (line 1013)",
+"kind": "defect"
+},
+{
+"id": "alignment-14",
+"title": "Deity values used where the design says settlement values",
+"what": "The peace press, the quadrant and fidelity noise read patron axes; the spine requires the town's own two-axis read, and the selector header promises fidelity noise will widen to settlement alignment ('Wave A'), not done. Host: src/domain/worldPulse/peaceTermsAppraisal.js:86-104; src/domain/worldPulse/fidelityNoise.js:65-72; src/domain/worldPulse/settlementAlignment.js:20-21; docs/DESIGN_FP_SPINE.md:79-88.",
+"why": "A godless town's character never reaches these systems.",
+"when": "The note records it; no fix given.",
+"source": "alignment-system.md §10 item 14 (line 1016)",
+"kind": "contradiction"
+},
+{
+"id": "alignment-15",
+"title": "'Already live' oath price is only half live",
+"what": "The war-convenience document calls the lawfulness price in war termination and momentum 'ALREADY LIVE'; the momentum call is live in DC/FS on canon, the war-termination call is dark (warTerminationEnabled false in FS, absent elsewhere). Host: docs/DESIGN_WAR_CONVENIENCE_AND_TRIBUTE.md:646-651; src/domain/worldPulse/momentum.js:1265; src/domain/worldPulse/warTermination.js:745, :144.",
+"why": "Overstates what runs.",
+"when": "Correct the document.",
+"source": "alignment-system.md §10 item 15 (line 1020)",
+"kind": "doc fix"
+},
+{
+"id": "alignment-16",
+"title": "Seeded NPC alignment word is read by nothing lit, and lacks chaotic good",
+"what": "No lit engine reads it; its vocabulary lacks chaotic_good though towns and deities can be chaotic-good; characterConsumers calls it a cache for two dark systems. Host: src/domain/worldPulse/npcAgency.js:161-170; src/domain/npc/characterConsumers.js:518-524.",
+"why": "Authored data with no effect and a missing value.",
+"when": "The note records it; no fix given.",
+"source": "alignment-system.md §10 item 16 (line 1024)",
+"kind": "defect"
+},
+{
+"id": "alignment-17a",
+"title": "Army and fleet route risk is a stub",
+"what": "Army/fleet route risk is passed as null; presented as a mechanism (note §5-§7).",
+"why": "Armies and fleets do not choose routes by danger; a patrol or encounter map cannot show alignment-shaped army routes.",
+"when": "The note records it as a seam (a reserved slot with nothing behind it).",
+"source": "alignment-system.md §10 item 17 (line 1027)",
+"kind": "defect"
+},
+{
+"id": "alignment-17b",
+"title": "The good giver's charity exception is hard-coded off",
+"what": "Hard-coded false.",
+"why": "Designed behaviour that never fires.",
+"when": "The note records it as a seam.",
+"source": "alignment-system.md §10 item 17 (line 1028)",
+"kind": "defect"
+},
+{
+"id": "alignment-17c",
+"title": "Triage has no caller",
+"what": "The triage function is never called.",
+"why": "Designed behaviour that never fires.",
+"when": "The note records it as a seam.",
+"source": "alignment-system.md §10 item 17 (line 1028)",
+"kind": "defect"
+},
+{
+"id": "alignment-17d",
+"title": "The humanitarian evidence door has no consumer",
+"what": "Nothing reads it.",
+"why": "Designed behaviour that never fires.",
+"when": "The note records it as a seam.",
+"source": "alignment-system.md §10 item 17 (line 1028)",
+"kind": "defect"
+},
+{
+"id": "alignment-17e",
+"title": "Town 3D statues ignore alignment",
+"what": "The statuary is hard-coded 0.5, reads an unwritten settlement.moralDrift, and its params note sources patron alignment from the deleted latent pantheon. Host: src/domain/townMap/arch/params.js:16-30. (Same seam as faith-9.2.)",
+"why": "Town maps cannot show a town's moral character in its statues.",
+"when": "The note records it as a seam.",
+"source": "alignment-system.md §10 item 17 (line 1028)",
+"kind": "defect"
+},
+{
+"id": "alignment-17f",
+"title": "NPC replacement always sees 'neutral'",
+"what": "NPC replacement reads settlement.alignment / config.alignment, which nothing writes, so every lean is neutral.",
+"why": "Replacement NPCs never match the town.",
+"when": "The note records it as a seam.",
+"source": "alignment-system.md §10 item 17 (line 1030)",
+"kind": "defect"
+},
+{
+"id": "alignment-17g",
+"title": "Faction alignment for NPC circulation is never supplied",
+"what": "The read exists; no caller supplies it.",
+"why": "NPC circulation ignores faction character.",
+"when": "The note records it as a seam.",
+"source": "alignment-system.md §10 item 17 (line 1031)",
+"kind": "defect"
+},
+{
+"id": "alignment-18",
+"title": "One moral ladder spelled two ways",
+"what": "conquestIntent says its bands are copied from the war seat books; the seat books say 'merciful', the intent and razing lanes say 'benevolent'. Both lanes dark. Host: src/domain/worldPulse/conquestIntent.js:64-71; src/domain/worldPulse/warSeatBooks.js:321-326.",
+"why": "Matching on the word would fail when lit.",
+"when": "The note records it; no fix given.",
+"source": "alignment-system.md §10 item 18 (line 1033)",
+"kind": "contradiction"
+},
+{
+"id": "alignment-19",
+"title": "Paradigm catalog says it has no consumers; four modules import it",
+"what": "Host: src/domain/npc/paradigmAxisCatalog.js:4-9, :78.",
+"why": "Misleads developers.",
+"when": "Correct the header.",
+"source": "alignment-system.md §10 item 19 (line 1036)",
+"kind": "doc fix"
+},
+{
+"id": "alignment-20",
+"title": "Retired deity temperament is still authored and stored",
+"what": "Deity temperamentAxis is still authored and saved but no engine read uses it; stored and derived values can diverge silently. Host: src/domain/worldPulse/deityAxes.js:26-33; docs/SETTLEMENT_CAPABILITY_ATLAS.md:9502 (per a reader).",
+"why": "A DM can author a value with no effect; silent drift.",
+"when": "The note records it; no fix given.",
+"source": "alignment-system.md §10 item 20 (line 1038)",
+"kind": "defect"
+},
+{
+"id": "alignment-21",
+"title": "Founding an institution never needs a proposal",
+"what": "Founding severity peaks at 0.64, below the 0.78 proposal threshold, so a founding always applies itself even when major changes require proposals; abolition reaches it only at 0.95 or more. Host: src/domain/worldPulse/moralInstitutionPressure.js:347, :361, :508, :527.",
+"why": "The DM's 'ask me first' setting does not cover foundings.",
+"when": "The note leaves open whether intended.",
+"source": "alignment-system.md §10 item 21 (line 1040)",
+"kind": "open question"
+},
+{
+"id": "alignment-22",
+"title": "'Converts' in faith prescription means every linked neighbour",
+"what": "The name implies converted towns; the code presses every carrier-linked neighbour (note §5.1).",
+"why": "A map label using the host's word would mislead.",
+"when": "The note records it; no fix given.",
+"source": "alignment-system.md §10 item 22 (line 1044)",
+"kind": "contradiction"
+},
+{
+"id": "alignment-23",
+"title": "Coherence fold says migration has nowhere to go; M4 does",
+"what": "The fold says the migration menu is empty in every shipped world because nothing writes the route network; the M4 dispatch ranks destinations by the digest's path cost (the frozen travel table), not the route network. Host: docs/DESIGN_FP_COHERENCE_FOLD.md:339; src/domain/worldPulse/migrationKernel.js:469-474.",
+"why": "Unclear whether refugees move; matters to any map of population movement.",
+"when": "Open question for the populations seat whether the fold's sentence covers M4.",
+"source": "alignment-system.md §10 item 23 (line 1045)",
+"kind": "open question"
+},
+{
+"id": "alignment-24",
+"title": "Vocabulary collisions are missing from the fold's register",
+"what": "Word clashes found in the note's §2.7 are not in the fold's §5 register. Host: docs/DESIGN_FP_COHERENCE_FOLD.md §5.",
+"why": "Same word, different meanings, unrecorded.",
+"when": "Add them to the register.",
+"source": "alignment-system.md §10 item 24 (line 1049)",
+"kind": "doc fix"
+},
+{
+"id": "alignment-25b",
+"title": "Should the host export a dated per-pulse alignment digest?",
+"what": "Nothing about alignment is stored, so a time scrub needs either a map-side snapshot or a host export: both axes, bands and top causes per pulse, published like the faith projection (§9.3 item 13).",
+"why": "Without it, the map must cache its own history.",
+"when": "Owner and host to decide.",
+"source": "alignment-system.md §10 item 25(b) (line 1051); §9.3 item 13 (line 936)",
+"kind": "open question"
+},
+{
+"id": "alignment-25d",
+"title": "Is the quadrant meant to read town alignment or patron axes, one axis or both?",
+"what": "See alignment-5a.",
+"why": "—",
+"when": "Owner to decide.",
+"source": "alignment-system.md §10 item 25(d) (line 1053)",
+"kind": "open question"
+},
+{
+"id": "alignment-25e",
+"title": "Should moral drift decay every tick, and without compounding?",
+"what": "See alignment-9a and 9b.",
+"why": "—",
+"when": "Owner to decide.",
+"source": "alignment-system.md §10 item 25(e) (line 1054)",
+"kind": "open question"
+},
+{
+"id": "alignment-25f",
+"title": "Should the culture identity term compare a real overlord?",
+"what": "See alignment-27.",
+"why": "Decides whether vassals feel closer to their overlord on territory maps.",
+"when": "Owner to decide.",
+"source": "alignment-system.md §10 item 25(f) (line 1055)",
+"kind": "open question"
+},
+{
+"id": "alignment-25g",
+"title": "Is the born roster's malicious and belligerent lean intended?",
+"what": "See alignment-29.",
+"why": "—",
+"when": "Owner to decide.",
+"source": "alignment-system.md §10 item 25(g) (line 1056)",
+"kind": "open question"
+},
+{
+"id": "alignment-26",
+"title": "Founded institutions with unmatched names can never be abolished",
+"what": "The pressure function reads the name-matched lean only, while the loop and the embargo read the stamped lean. Host: src/domain/worldPulse/moralInstitutionPressure.js:119-121, :308-315; src/domain/worldPulse/institutionTolerance.js:104-110, :119-136.",
+"why": "Permanent institutions by accident.",
+"when": "The note records it; no fix given.",
+"source": "alignment-system.md §10 item 26 (line 1057)",
+"kind": "defect"
+},
+{
+"id": "alignment-27",
+"title": "Culture 'same sovereign' term compares government labels; its header describes something else",
+"what": "The header says the term checks the same sovereign/overlord and that conquest flips the label; in code governingName is a government-type label at generation and an 'occupier occupation authority' string after conquest. Host: src/domain/spatial/cultureDistance.js:20-22; src/generators/power/rulingStructure.js:251-290, :783-792; src/domain/worldPulse/warDeployment.js:857; src/domain/rulingPower.js:665.",
+"why": "No realm-wide closing between vassals; a territory map would wrongly expect conquest to make towns culturally closer.",
+"when": "Fix the header; owner to decide whether the term should compare a real overlord (item 25f).",
+"source": "alignment-system.md §10 item 27 (line 1060)",
+"kind": "contradiction"
+},
+{
+"id": "alignment-28",
+"title": "Brave road travellers take the safe road and cowards the dangerous one",
+"what": "The roads module gives a bold traveller risk tolerance 0.9 and a coward 0.35 and uses it correctly to decide refusal, but passes the same number to the route chooser, where it multiplies the danger surcharge, so the bold traveller avoids danger most and the coward least; the return leg uses the frozen value too. Lit with roadsEnabled on canon (RR, DC, LR, FS). Host: src/domain/roads/state.js:248-253, :334-343; src/domain/worldPulse/roadsKernel.js:1010-1018, :506; src/domain/spatial/embattlement.js:307-320, :347-357, :407-423.",
+"why": "Named travellers' routes on any encounter map would be backwards.",
+"when": "The note records it as inferred unintended; no fix given.",
+"source": "alignment-system.md §10 item 28 (line 1065)",
+"kind": "defect"
+},
+{
+"id": "alignment-29",
+"title": "Born towns lean malicious and warlike",
+"what": "Trait tables score more vices than virtues and the slot roll keeps the flaw 70% of the time (note §3.5).",
+"why": "Every fresh world's character map looks tilted.",
+"when": "Design question, not a code bug (item 25g).",
+"source": "alignment-system.md §10 item 29 (line 1072)",
+"kind": "open question"
+},
+{
+"id": "alignment-30",
+"title": "The slave contraband ban has no catalog good",
+"what": "Host: src/domain/spatial/smuggle.js:136-138; src/domain/region/goodsCatalog.js:130-245. (Same as trade-39.)",
+"why": "A 'bans slave cargo' gate glyph would show a rule that almost never fires.",
+"when": "The note records it; no fix given.",
+"source": "alignment-system.md §10 item 30 (line 1074)",
+"kind": "defect"
+},
+{
+"id": "alignment-31a",
+"title": "Comment says 'full' info mode falls back to omniscient; it does not",
+"what": "Host: src/domain/worldPulse/simulationRules.js:1509-1511 vs infoModeOf at :1404-1408, which accepts 'full', so FS beliefs are live.",
+"why": "Misleads anyone deciding whether beliefs run in FS.",
+"when": "Correct the comment.",
+"source": "alignment-system.md §10 item 31 (line 1076)",
+"kind": "doc fix"
+},
+{
+"id": "alignment-31b",
+"title": "Military strength header says it is mounted nowhere; eight modules call it",
+"what": "Host: src/domain/worldPulse/militaryStrength.js:21-22.",
+"why": "Misleads developers about patrol and war strength reads.",
+"when": "Correct the header.",
+"source": "alignment-system.md §10 item 31 (line 1078)",
+"kind": "doc fix"
+},
+{
+"id": "alignment-32",
+"title": "Disposition history never fades as lit",
+"what": "The twenty-year decay belongs only to the dark WR-2 arm, so as lit the history is a pure ratchet. Host: src/domain/worldPulse/dispositionLedger.js:604-607.",
+"why": "Old grudges never fade in lit presets.",
+"when": "The note records it; no fix given.",
+"source": "alignment-system.md §10 item 32 (line 1079)",
+"kind": "contradiction"
+},
+{
+"id": "alignment-25a",
+"title": "Map's own: should players ever see derived alignment, and in what words",
+"what": "Owner question for the map lens.",
+"why": "—",
+"when": "—",
+"source": "alignment-system.md §10 item 25(a) (line 1050)",
+"kind": "map-side (not for the host)"
+},
+{
+"id": "alignment-25c",
+"title": "Map's own: under J382, should territory's culture term include the alignment half",
+"what": "Owner question for the territory projection.",
+"why": "—",
+"when": "—",
+"source": "alignment-system.md §10 item 25(c) (line 1052)",
+"kind": "map-side (not for the host)"
+},
+{
+"id": "alignment-map-1",
+"title": "Map's own: territory culture cost must read the host's culture distance between seats",
+"what": "V13's categorical foreignCulture becomes a continuous cost keyed on the pair of seats.",
+"why": "—",
+"when": "—",
+"source": "alignment-system.md §9.1 item 1 (line 866)",
+"kind": "map-side (not for the host)"
+},
+{
+"id": "alignment-map-2",
+"title": "Map's own: sample culture distance at the dated border event and keep it",
+"what": "Host's frozen-versus-live law; never recompute on read.",
+"why": "—",
+"when": "—",
+"source": "alignment-system.md §9.1 item 2 (line 873)",
+"kind": "map-side (not for the host)"
+},
+{
+"id": "alignment-map-3",
+"title": "Map's own: territory and alignment lenses share the occupation event and its term's expiry",
+"what": "Occupation moves borders and character together.",
+"why": "—",
+"when": "—",
+"source": "alignment-system.md §9.1 item 3 (line 877)",
+"kind": "map-side (not for the host)"
+},
+{
+"id": "alignment-map-4",
+"title": "Map's own: military tie-breaker inherits the patron term; do not add town axes",
+"what": "Patron temper shifts capacity slightly; town axes do not enter strength.",
+"why": "—",
+"when": "—",
+"source": "alignment-system.md §9.1 item 4 (line 884)",
+"kind": "map-side (not for the host)"
+},
+{
+"id": "alignment-map-5",
+"title": "Map's own (patrols): a patrol layer may show the host's gate character and escort quality",
+"what": "Host judges contraband and seizure at the route's worst gate (settlement grain), RR and FS on canon; slave ban fires only on custom goods; road escort quality is the other citable host fact.",
+"why": "—",
+"when": "—",
+"source": "alignment-system.md §9.1 item 5 (line 890)",
+"kind": "map-side (not for the host)"
+},
+{
+"id": "alignment-map-6",
+"title": "Map's own: no vassal-chain closing; same government label reads about 0.108 closer (legend line)",
+"what": "Direct vassal or patron edge closes up to 15% for that pair only.",
+"why": "—",
+"when": "—",
+"source": "alignment-system.md §9.1 items 6, 6b (lines 895, 903)",
+"kind": "map-side (not for the host)"
+},
+{
+"id": "alignment-map-7",
+"title": "Map's own: religion lens draws three quadrant classes; conversion is also an alignment event",
+"what": "Plus add the two lit moral flows to the faith reading.",
+"why": "—",
+"when": "—",
+"source": "alignment-system.md §9.2 items 7-11 (lines 909-923)",
+"kind": "map-side (not for the host)"
+},
+{
+"id": "alignment-map-8",
+"title": "Map's own: alignment is DM truth only; call the host selector; normalise legend polarity; read resolved rules; explain the born-world tilt",
+"what": "Lens mechanism rules.",
+"why": "—",
+"when": "—",
+"source": "alignment-system.md §9.3 items 12, 14-17 (lines 928-953)",
+"kind": "map-side (not for the host)"
+},
+{
+"id": "alignment-map-9",
+"title": "Map's own: never draw army or fleet routes shaped by alignment, nor imply alignment flows",
+"what": "Army/fleet route risk is a seam (alignment-17a).",
+"why": "—",
+"when": "—",
+"source": "alignment-system.md §8.3 (line 857)",
+"kind": "map-side (not for the host)"
+},
+{
+"id": "trade-1",
+"title": "Trade design's 'commodity flow only in FS' sentence (already bracket-corrected)",
+"what": "The original sentence says commodity flow (M6a, the finite, conserved, tolled trade model) is lit only in FS; an in-place correction bracket on the same line says RR and FS, absent from the birth door, which matches the code. Host: docs/DESIGN_FP_TRADE.md:200; src/domain/worldPulse/simulationRules.js:896, :1081.",
+"why": "Stale only for a reader who skips the bracket.",
+"when": "Nothing further named; the bracket already corrects it.",
+"source": "trade-system.md §10.1 item 1 (line 1007)",
+"kind": "doc fix"
+},
+{
+"id": "trade-2",
+"title": "The default preset is not the default behaviour",
+"what": "The birth door is null: a plainly born campaign carries the RR id without RR's virtual keys (the switches RR turns on). Host: src/domain/worldPulse/simulationRules.js:31, :1552-1558.",
+"why": "Notes and maps that say 'lit in RR' are wrong for a freshly born campaign until a preset is applied.",
+"when": "See trade-OQ5 (whether the birth door will be lit).",
+"source": "trade-system.md §10.1 item 2 (line 1011)",
+"kind": "contradiction"
+},
+{
+"id": "trade-3",
+"title": "Coherence fold under-states trade",
+"what": "'TR: LIT -' is right for FP but M2, M6a-M6d, M7, generosity and boom/bust also run in lit presets on canon. Host: docs/DESIGN_FP_COHERENCE_FOLD.md:340.",
+"why": "Readers underestimate what moves.",
+"when": "Correct the status line.",
+"source": "trade-system.md §10.1 item 3 (line 1014)",
+"kind": "doc fix"
+},
+{
+"id": "trade-4",
+"title": "Trade tally says it is display-only; three systems read it",
+"what": "The header says the tally never feeds the engine; upswing, pestilence and the urban fabric read it. Host: src/domain/spatial/tradeFlow.js:13-18.",
+"why": "A developer could change it believing nothing depends on it.",
+"when": "Correct the header (EC S39 refutes it).",
+"source": "trade-system.md §10.1 item 4 (line 1016)",
+"kind": "doc fix"
+},
+{
+"id": "trade-5",
+"title": "Caravans on the map: hidden, a sub-layer, or impossible",
+"what": "The spatial design says caravans are invisible; the Wayfare design makes them a map sub-layer; the record cannot support positions (no path, no departure tick). Host: docs/PHASE55_SPATIAL_ENGINE_DESIGN.md:76-80; docs/DESIGN_FP_ARCH_WY.md:111-131, :734.",
+"why": "An encounter map cannot place a caravan on a road today.",
+"when": "Store a path and departure tick (WY-3) if positions are wanted; see trade-OQ3.",
+"source": "trade-system.md §10.1 item 5 (line 1018)",
+"kind": "contradiction"
+},
+{
+"id": "trade-6",
+"title": "Embargo does not strangle trade",
+"what": "Two designs treat siege, blockade, embargo and interception as one model; in code only war fronts and blockades cut caravans, embargo paths are modifiers, tariffs do not exist, and web-war embargo is a recorded pressure. Host: docs/DESIGN_SUPPLY_WEB_WARFARE.md §4; docs/PHASE55_SPATIAL_ENGINE_DESIGN.md §7.",
+"why": "A map drawing an embargo as a cut road would be wrong.",
+"when": "The note records it; no fix given.",
+"source": "trade-system.md §10.1 item 6 (line 1020)",
+"kind": "contradiction"
+},
+{
+"id": "trade-7",
+"title": "DM-drawn or DM-cut routes do not affect caravans",
+"what": "The spatial design promises a DM can force a road that bypasses gates; caravans read only digest gates (the cheapest crossings between territories, frozen at canonize), sea lanes and teleport edges. A DM-chartered route adds only a neutral neighbour link and a _userRoutes row for the dark genesis; a DM-cut route stops no caravan. Host: docs/PHASE55_SPATIAL_ENGINE_DESIGN.md:54-55.",
+"why": "A DM placing or closing a road on the map changes no traffic; patrols on such a road guard nothing.",
+"when": "The note records it; the legend must say so (§9 item 20).",
+"source": "trade-system.md §10.1 item 7 (line 1023)",
+"kind": "contradiction"
+},
+{
+"id": "trade-8",
+"title": "Water 'high capacity' is not enforced for trade",
+"what": "Sea-lane capacity is enforced only for naval convoys; land has no capacity. Host: docs/PHASE55_SPATIAL_ENGINE_DESIGN.md §4j.",
+"why": "Overstates a limit.",
+"when": "Correct the document.",
+"source": "trade-system.md §10.1 item 8 (line 1027)",
+"kind": "doc fix"
+},
+{
+"id": "trade-9",
+"title": "'Shipments have no quantity' is true of M2 only",
+"what": "M6a records carry the load. Host: docs/DESIGN_FP_COHERENCE_FOLD.md (WC row); also the map module's research/sf/fp-simulator.md:413.",
+"why": "Readers think quantities are unavailable.",
+"when": "Correct both texts.",
+"source": "trade-system.md §10.1 item 9 (line 1029)",
+"kind": "doc fix"
+},
+{
+"id": "trade-10",
+"title": "Two different 'true scarcity' reads share a name",
+"what": "The trade design says truth-side scarcity derives from physical stocks; SP-B's ground truth is the generation lists plus the food ratio (EC S25). Host: docs/DESIGN_FP_TRADE.md T1.",
+"why": "A 'scarcity' map would not know which truth it shows.",
+"when": "The note records it; no fix given.",
+"source": "trade-system.md §10.1 item 10 (line 1031)",
+"kind": "contradiction"
+},
+{
+"id": "trade-11a",
+"title": "'No coin' was reversed; two headers still say it",
+"what": "The owner reversed T2 (W-COIN, dark); the headers of treatyTransfer.js and generosityEV.js are stale (EC S45).",
+"why": "Misleads developers.",
+"when": "Correct the headers.",
+"source": "trade-system.md §10.1 item 11 (line 1033)",
+"kind": "doc fix"
+},
+{
+"id": "trade-11b",
+"title": "Who owns the entrepot toll",
+"what": "The toll has 'no owner' in code while EC-6 designs tolls into the treasury.",
+"why": "Undecided money flow.",
+"when": "The note records it; no fix given.",
+"source": "trade-system.md §10.1 item 11 (line 1034)",
+"kind": "open question"
+},
+{
+"id": "trade-12",
+"title": "Food is the flagship good but never shipped",
+"what": "EC's dossier sentences feature salt caravans and sea-borne salt. Host: docs/DESIGN_FP_ARCH_EC.md:2261, :2268, :2310.",
+"why": "A food-flow arrow would draw something the host does not move.",
+"when": "The note records it; no fix given.",
+"source": "trade-system.md §10.1 item 12 (line 1035)",
+"kind": "contradiction"
+},
+{
+"id": "trade-13",
+"title": "FS, 'the ceiling', declares route lifecycle and brokerage off",
+"what": "Sovereignty, brokerage and the reputation race are dark everywhere. Host: src/domain/worldPulse/simulationRules.js:1119, :1153.",
+"why": "The fullest preset is not full.",
+"when": "The note records it; no fix given.",
+"source": "trade-system.md §10.1 item 13 (line 1037)",
+"kind": "contradiction"
+},
+{
+"id": "trade-14",
+"title": "M6a arrival clock would be wrong at coarse ticks (latent)",
+"what": "M6a adds raw route weeks to the pulse tick, where M2 divides by the tick span; harmless today because every committed advance runs one-week ticks, but a direct coarse kernel call would expose it. Host: src/domain/spatial/commodityFlow.js:783 vs src/domain/spatial/supplyShipments.js:389-399; src/domain/worldPulse/advanceInterval.js:97-105, :511.",
+"why": "Arrival times would be wrong if the host ever ran month-long ticks.",
+"when": "The note records it as latent; no fix given.",
+"source": "trade-system.md §10.2 item 14 (line 1042)",
+"kind": "defect"
+},
+{
+"id": "trade-15",
+"title": "A town with a single supplier can never starve",
+"what": "Single-sourced critical inputs can never starve; two- and three-sourced links can. STARVE_AFTER_WEEKS is receipt text only. Host: src/domain/spatial/commodityFlow.js:927-932.",
+"why": "The most fragile supply line is the safest; a map of fragile links would be inverted.",
+"when": "The note records it; no fix given.",
+"source": "trade-system.md §10.2 item 15 (line 1049)",
+"kind": "defect"
+},
+{
+"id": "trade-16",
+"title": "Shortage does not hurt; only total starvation does",
+"what": "Despite its comment, the shortage band does not feed the impairment; only total starvation stamps it. Host: src/domain/spatial/commodityFlow.js:51-56; src/domain/worldPulse/supplyKernel.js:532-563.",
+"why": "Shortage on the map has no consequence in the town.",
+"when": "The note records it; no fix given.",
+"source": "trade-system.md §10.2 item 16 (line 1051)",
+"kind": "defect"
+},
+{
+"id": "trade-17",
+"title": "A hostile gate never fully cuts M6a trade",
+"what": "The 'no smuggle context' branch is unreachable because the kernel always builds the context. Host: src/domain/worldPulse/supplyKernel.js:476, :486.",
+"why": "A patrol or hostile gate on the map never stops a caravan outright.",
+"when": "The note records it; no fix given.",
+"source": "trade-system.md §10.2 item 17 (line 1053)",
+"kind": "defect"
+},
+{
+"id": "trade-18",
+"title": "Ally-relief override is documented but never returned",
+"what": "Host: src/domain/spatial/dispatchEV.js:65-68; src/domain/worldPulse/supplyKernel.js:668.",
+"why": "Allies do not get the promised priority.",
+"when": "The note records it; no fix given.",
+"source": "trade-system.md §10.2 item 18 (line 1055)",
+"kind": "defect"
+},
+{
+"id": "trade-19",
+"title": "Supply-web warfare reads buffers M6a never writes",
+"what": "In RR and FS buffer thinness reads the default; its veto prose names only DC and FS though RR and LR carry the wave once War is lit. Host: src/domain/worldPulse/supplyWebWarfare.js:340-341; src/domain/worldPulse/supplyKernel.js:495-497.",
+"why": "Raid targeting ignores real stock levels.",
+"when": "The note records it; no fix given.",
+"source": "trade-system.md §10.2 item 19 (line 1056)",
+"kind": "defect"
+},
+{
+"id": "trade-20",
+"title": "The trade war changes nothing physical",
+"what": "A flip re-points a channel; caravan origins ignore channels and the prize. Discovery proposes partners at any distance while caravans use only the three nearest producers. Host: src/domain/worldPulse/supplyKernel.js:155-180.",
+"why": "A trade-war prize on the map may be contested by a supplier that never ships to the buyer.",
+"when": "The note records it; no fix given.",
+"source": "trade-system.md §10.2 item 20 (line 1059)",
+"kind": "defect"
+},
+{
+"id": "trade-21",
+"title": "Relief shipments ignore hostile gates",
+"what": "Route risk for relief is computed with the hostile-gate term fixed false. Host: src/domain/worldPulse/generosityKernel.js:691.",
+"why": "Relief cannot be intercepted; an encounter map could show no relief convoy at risk.",
+"when": "The note records it; no fix given.",
+"source": "trade-system.md §10.2 item 21 (line 1062)",
+"kind": "defect"
+},
+{
+"id": "trade-22",
+"title": "Two different tests for 'is a port'",
+"what": "The tally's (route words or a harbour or dock in the roster) and routing's (the digest's eligible ports). Host: src/domain/spatial/tradeFlow.js:112-140; src/domain/spatial/distanceRead.js:299-316.",
+"why": "A town can be a port for one and not the other.",
+"when": "The note records it; §9 item 7 says map footholds should use the digest's ports.",
+"source": "trade-system.md §10.2 item 22 (line 1063)",
+"kind": "contradiction"
+},
+{
+"id": "trade-23",
+"title": "Brokerage distance surcharge is always zero",
+"what": "Host: src/domain/worldPulse/brokerageServicesRules.js:276.",
+"why": "Distance never prices brokerage.",
+"when": "The note records it; no fix given.",
+"source": "trade-system.md §10.2 item 23 (line 1065)",
+"kind": "defect"
+},
+{
+"id": "trade-24",
+"title": "'Caravan' is a lived-network traveller kind that is never populated",
+"what": "Caravans route on the digest; the lived network's genesis and flow accrual have no caller, so every lived-network consumer reads empty.",
+"why": "Any encounter or road-use map built on the lived network shows nothing.",
+"when": "The note records it; no fix given.",
+"source": "trade-system.md §10.2 item 24 (line 1066)",
+"kind": "defect"
+},
+{
+"id": "trade-25",
+"title": "Fuzzy goods matching mislabels producers and goods",
+"what": "Bakeries index as iron producers; '(transit)' labels such as 'Toll income (transit)' become shippable goods; 'Medicinal herbs' becomes a service, so plague demand never ships; 'Scholarly services' becomes financial services (seat B probe; note §2.2).",
+"why": "Wrong goods move on the trade map.",
+"when": "The note records it; no fix given.",
+"source": "trade-system.md §10.2 item 25 (line 1068)",
+"kind": "defect"
+},
+{
+"id": "trade-26",
+"title": "Imports are never updated at runtime",
+"what": "The resource reconcile updates chains, exports and local production but not imports, so a depleted mine never gains its shortage import. Host: src/domain/worldPulse/resourceDynamicsKernel.js:624-680.",
+"why": "Depletion never creates new trade.",
+"when": "The note records it; no fix given.",
+"source": "trade-system.md §10.2 item 26 (line 1073)",
+"kind": "defect"
+},
+{
+"id": "trade-27",
+"title": "Tier goods are drawn then thrown away",
+"what": "Per-tier export probabilities draw randomness and gate income rows but never reach the export list; upgrade imports survive only as transit; the Trade Dynamics panel presents them as the tier's goods. Host: src/generators/economy/economicState.js:802, :808.",
+"why": "The panel shows goods the town does not trade.",
+"when": "The note records it; no fix given.",
+"source": "trade-system.md §10.2 item 27 (line 1075)",
+"kind": "defect"
+},
+{
+"id": "trade-28",
+"title": "'(transit)' marking is unreliable",
+"what": "Exportable entrepot outputs survive unmarked; the cap of 12 truncates transit first. Host: src/generators/computeActiveChains.js:744-797.",
+"why": "Pass-through goods look like local goods.",
+"when": "The note records it; no fix given.",
+"source": "trade-system.md §10.2 item 28 (line 1078)",
+"kind": "defect"
+},
+{
+"id": "trade-29",
+"title": "Three definitions of entrepot, three sets of isolation tiers",
+"what": "Host: src/generators/economy/tradeGoods.js:54-56; src/generators/computeActiveChains.js:689-692, :806-818; src/generators/economy/customTradeEndpointIntegration.js:100-110.",
+"why": "A town can be a trade hub by one test and not another.",
+"when": "The note records it; no fix given.",
+"source": "trade-system.md §10.2 item 29 (line 1080)",
+"kind": "contradiction"
+},
+{
+"id": "trade-30",
+"title": "Three encodings of supply-chain dependency disagree",
+"what": "Data upstream chains, the hard-coded cascade and upstream import labels. Host: src/generators/computeActiveChains.js:458-492, :838-852.",
+"why": "Which chain breaks first depends on which encoding is read.",
+"when": "The note records it; no fix given.",
+"source": "trade-system.md §10.2 item 30 (line 1082)",
+"kind": "contradiction"
+},
+{
+"id": "trade-31",
+"title": "Mountain passes trade like ordinary roads",
+"what": "mountain_pass is honoured by capacity, food and connectivity but yields road-identical goods; the import-capacity table has no mountain_pass or coastal row. Host: src/generators/foodGenerator.js:182-189 vs :309-318.",
+"why": "Pass towns look like road towns in trade.",
+"when": "The note records it; no fix given.",
+"source": "trade-system.md §10.2 item 31 (line 1084)",
+"kind": "defect"
+},
+{
+"id": "trade-32",
+"title": "Prosperity ladder has six labels at generation, seven at runtime",
+"what": "Host: src/data/constants.js:92-94; src/domain/autonomy/signalRegistry.js:76.",
+"why": "A prosperity legend may miss 'Subsistence'.",
+"when": "The note records it; no fix given.",
+"source": "trade-system.md §10.2 item 32 (line 1087)",
+"kind": "contradiction"
+},
+{
+"id": "trade-33",
+"title": "'Has local salt' is inverted",
+"what": "True when salt is a necessity import. Host: src/generators/economy/tradeGoods.js:123-129.",
+"why": "Salt-preserved goods stripped by the wrong test (they are discarded anyway).",
+"when": "The note records it; no fix given.",
+"source": "trade-system.md §10.2 item 33 (line 1089)",
+"kind": "defect"
+},
+{
+"id": "trade-34",
+"title": "Service gate 'requiredTradeRoute' is never set",
+"what": "No data row sets it. Host: src/generators/services/institutionServices.js:178.",
+"why": "Dead gate.",
+"when": "The note records it; no fix given.",
+"source": "trade-system.md §10.2 item 34 (line 1091)",
+"kind": "defect"
+},
+{
+"id": "trade-35",
+"title": "Chain status 'captured' is produced nowhere",
+"what": "Host: src/domain/supplyChainState.js:161-164.",
+"why": "A map state that can never appear.",
+"when": "The note records it; no fix given.",
+"source": "trade-system.md §10.2 item 35 (line 1092)",
+"kind": "defect"
+},
+{
+"id": "trade-36",
+"title": "Arrivals, starvations and new trade hubs are not news",
+"what": "Arrivals, starvations, 'emboldened' receipts and entrepot foundings are returned and dropped.",
+"why": "The map's time scrub cannot replay them; it must snapshot per pulse (§9 item 15).",
+"when": "The note records it; no fix given.",
+"source": "trade-system.md §10.2 item 36 (line 1093)",
+"kind": "defect"
+},
+{
+"id": "trade-37",
+"title": "The host map's 'Supply chains' layer is a fourth unrelated derivation",
+"what": "Six resource x consumer pairs; it draws a grain chain although grain never ships. Host: src/lib/supplyChains.js:11-60, :125-150.",
+"why": "The existing world map already shows a flow that does not happen.",
+"when": "The note records it; no fix given.",
+"source": "trade-system.md §10.2 item 37 (line 1094)",
+"kind": "contradiction"
+},
+{
+"id": "trade-38",
+"title": "'Sea lanes' switch text says it governs trade; it does not",
+"what": "Caravans use sea lanes by digest data regardless of navalEnabled; the switch governs naval war and blockade only. Host: src/components/map/SimulationRulesAxes.jsx:370; src/domain/spatial/distanceRead.js:286-292.",
+"why": "A DM turning sea lanes off still has sea trade.",
+"when": "Correct the copy.",
+"source": "trade-system.md §10.2 item 38 (line 1096)",
+"kind": "doc fix"
+},
+{
+"id": "trade-39",
+"title": "The slave contraband rule can almost never fire",
+"what": "No catalog good has the slave category; it fires only when both ends' slave labels slug to the same matching custom good [INFERRED; unprobed]. Host: src/domain/spatial/smuggle.js:143-148; src/domain/region/goodsCatalog.js:466-476. (Same as alignment-30.)",
+"why": "A patrol or gate glyph for it would show a rule, not traffic.",
+"when": "The note records it; no fix given.",
+"source": "trade-system.md §10.2 item 39 (line 1099)",
+"kind": "defect"
+},
+{
+"id": "trade-40",
+"title": "In peace, roads are never dangerous, so patrols have nothing to reduce",
+"what": "Route danger starts only above 0.55 after security relief (at most 0.25). A war-front siege (0.85) always clears it; an occupation only while contested or unstable; war exhaustion only with high crime or the trade-hub premium; crime plus premium never. The tuning comment says siege or occupation alone always clears it, which the occupation weight contradicts. All drivers are war-layer ledgers, so in a realm that has never held a live war front (RR without War) dispatch refusal, banditry, interception and smuggling spill do not fire. Host: src/domain/spatial/embattlement.js:84-98, :84-86, :113-115, :196-206, :237-245; src/domain/worldPulse/pulseKernel.js:2366-2389.",
+"why": "Road encounters and patrol effects have no host basis in peacetime worlds; the comment misleads.",
+"when": "Correct the tuning comment; whether the host adds a peacetime danger or patrol term is open (trade-OQ4).",
+"source": "trade-system.md §10.2 item 40 (line 1102)",
+"kind": "defect"
+},
+{
+"id": "trade-42",
+"title": "Two food models disagree; a comment says they cannot",
+"what": "The writer gives roads +0.15 on mountain, desert or hills and grants the minor-route trickle only when 'isolated'; the view has no terrain boost and grants it on any disconnected route. The comment claims both read one constant so they cannot drift (true of the pass rung only). The view now reads the writer's split when one exists, so drift touches only older saves and calls without a food record. Host: src/generators/foodGenerator.js:294-316; src/generators/economy/foodBalance.js:191-213, :308-336; src/domain/tradeRouteSemantics.js:66-76.",
+"why": "Old saves show different food security than the generator computed.",
+"when": "The note records it; no fix given.",
+"source": "trade-system.md §10.2 item 42 (line 1119)",
+"kind": "contradiction"
+},
+{
+"id": "trade-43",
+"title": "A supplier at war with its customer keeps supplying",
+"what": "Severance checks only whether the source is under a war front or blockade; interception checks only intermediaries. A besieger next to its target can stay the cheapest supplier; under M2 nothing refuses it; under M6a the siege danger usually does, except for the vassal must-go. Host: src/domain/worldPulse/supplyKernel.js:254-257, :447-450; src/domain/spatial/supplyShipments.js:200-216.",
+"why": "A war map would show besiegers feeding the besieged.",
+"when": "The note records it; no fix given.",
+"source": "trade-system.md §10.2 item 43 (line 1126)",
+"kind": "defect"
+},
+{
+"id": "trade-44",
+"title": "Naval note calls a wired link a 'seam'",
+"what": "The blockade-strangulation to peace-reason link is consumed. Host: src/domain/spatial/navalLayer.js:533-536 vs src/domain/worldPulse/peaceReasons.js:564 and src/domain/display/navalDisplay.js:49.",
+"why": "Misleads developers.",
+"when": "Correct the note in the code.",
+"source": "trade-system.md §10.2 item 44 (line 1131)",
+"kind": "doc fix"
+},
+{
+"id": "trade-OQ1",
+"title": "Will the host canonize from the map module's own map?",
+"what": "Today 'Map geography' accepts only a generated FMG map's pack; the routing partition, gates, sea lanes and seasonal overlay all come from that capture.",
+"why": "Decides whether any native-map geography ever reaches caravans, patrols or travel times.",
+"when": "Owner and host to decide (fp-physical-integration.md §8).",
+"source": "trade-system.md §10.3 (line 1137)",
+"kind": "open question"
+},
+{
+"id": "trade-OQ2",
+"title": "One territory or two?",
+"what": "Host gates come from an unbudgeted nearest-by-cost partition with no wild land; the map's W8 territory has unclaimed land and contested marches. If W8 were fed to the host as its territory, towns across unclaimed land would lose their gate and the caravan graph could break. Proposal: supply a routing partition for the host and the political territory as a lens and as rule facts; otherwise the host must treat wild cells as passable non-gates (a host change).",
+"why": "Feeding the wrong product would cut trade routes.",
+"when": "Owner and host to decide.",
+"source": "trade-system.md §10.3 (line 1140); §9 item 1 (line 906)",
+"kind": "open question"
+},
+{
+"id": "trade-OQ3",
+"title": "Positioned caravans (WY-3) before the map shows motion?",
+"what": "No path or departure tick is stored today; named Roads merchants do carry both.",
+"why": "Encounter maps cannot place caravans without it.",
+"when": "Owner to decide.",
+"source": "trade-system.md §10.3 (line 1141); §9 item 13 (line 974)",
+"kind": "open question"
+},
+{
+"id": "trade-OQ4",
+"title": "Would the host adopt patrol coverage?",
+"what": "Caravan routing has no patrol term. The only nearby slot is the embattlement ramp's security relief (0.4 x security, capped at 0.25), fed from one minus defense pressure, and it matters only where war drives danger. Designed but unfed slots: TR-1's route_wardenship / route_predation pairs (registered, no producer) and EC-6's route_wardenship stance term (unowned, OD-FC-2). The note proposes offering J378's patrol coverage per route segment as a producer for those slots or as a security input, keyed to the host's gates, not to map road lines.",
+"why": "Without adoption, patrols drawn on the map change nothing in the simulation.",
+"when": "Host to decide whether to adopt, and in which slot.",
+"source": "trade-system.md §10.3 (line 1142); §9 item 4 (line 922)",
+"kind": "open question"
+},
+{
+"id": "trade-OQ5",
+"title": "Will the RR birth door be lit?",
+"what": "NEW_CAMPAIGN_SIMULATION_PRESET_ID; the code comment prices it as a declared shift of seven persisted keys per new campaign. Host: src/domain/worldPulse/simulationRules.js:22-30.",
+"why": "Decides whether newborn worlds run the default preset's systems.",
+"when": "Owner and host to decide.",
+"source": "trade-system.md §10.3 (line 1143)",
+"kind": "open question"
+},
+{
+"id": "trade-OQ6",
+"title": "TR-5's trade half and EC-15 have no owner or gate",
+"what": "Grain provision, route wardenship and the realm-pressure consumer have no owner (OD-FC-2); EC-15 cannot light while tradePactsEnabled has no gate read. Host: docs/DESIGN_FP_ARCH_EC.md:578.",
+"why": "Route wardenship (the patrol-shaped slot) stays unowned.",
+"when": "Owner to assign.",
+"source": "trade-system.md §10.3 (line 1145)",
+"kind": "open question"
+},
+{
+"id": "trade-OQ7",
+"title": "Can a war front appear without the war layer?",
+"what": "isLiveWarFront rejects only pure relationship-label fronts; discovery proposes war_front channels for hostile neighbours; if a DM confirms one it could embattle, sever caravans and damp Roads missions with War off. Not traced. Host: src/domain/worldPulse/warFrontReads.js:1-75; src/domain/region/discoverDependencyCandidates.js:83, :189-190.",
+"why": "The only possible path to road danger in a peaceful preset; untested.",
+"when": "Trace it.",
+"source": "trade-system.md §10.3 (line 1147)",
+"kind": "open question"
+},
+{
+"id": "trade-9.3",
+"title": "Contested borders are not a road hazard in the host",
+"what": "Route danger is embattlement at settlements (siege 0.85, occupation 0.75 x state, exhaustion 0.45, crime 0.3, minus security), not along borders.",
+"why": "A contested-march overlay must not imply caravan danger.",
+"when": "Only if the host adopts a border term; otherwise none.",
+"source": "trade-system.md §9 item 3 (line 919)",
+"kind": "open question"
+},
+{
+"id": "trade-41",
+"title": "Research record: catalog has 27 rows, service map 12",
+"what": "Readers' counts settled.",
+"why": "—",
+"when": "—",
+"source": "trade-system.md §10.2 item 41 (line 1117)",
+"kind": "map-side (not for the host)"
+},
+{
+"id": "trade-map-1",
+"title": "Map's own: label gate settlements individually, even inside a vassal realm",
+"what": "Gates are per settlement, not per realm.",
+"why": "—",
+"when": "—",
+"source": "trade-system.md §9 item 2 (line 915)",
+"kind": "map-side (not for the host)"
+},
+{
+"id": "trade-map-2",
+"title": "Map's own: travel time must be the host's week",
+"what": "Median adjacent hop = 1 week, 1..52, season multipliers; or km / speed once kmScale is written (OD-FC-22).",
+"why": "—",
+"when": "—",
+"source": "trade-system.md §9 item 5 (line 933)",
+"kind": "map-side (not for the host)"
+},
+{
+"id": "trade-map-3",
+"title": "Map's own: borders key on host boom/bust records, not each prosperity step",
+"what": "Toll lift does not move prosperity.",
+"why": "—",
+"when": "—",
+"source": "trade-system.md §9 item 6 (line 936)",
+"kind": "map-side (not for the host)"
+},
+{
+"id": "trade-map-4",
+"title": "Map's own: sea footholds anchor on the digest's eligible ports; culture term uses plain distance",
+"what": "Sea lanes lit by data, not the toggle.",
+"why": "—",
+"when": "—",
+"source": "trade-system.md §9 items 7, 8 (lines 943, 949)",
+"kind": "map-side (not for the host)"
+},
+{
+"id": "trade-map-5",
+"title": "Map's own: faith rides trade only on trade_partner edges; draw relief arcs once; pilgrim trade is a label",
+"what": "Cross-lens rules.",
+"why": "—",
+"when": "—",
+"source": "trade-system.md §9 items 9-11 (lines 957-965)",
+"kind": "map-side (not for the host)"
+},
+{
+"id": "trade-map-6",
+"title": "Map's own: read resolved rules and canon; links and ETAs not positions; four link sets four styles",
+"what": "Legend names the regime (none, M2, M6a) and whether War is lit.",
+"why": "—",
+"when": "—",
+"source": "trade-system.md §9 items 12-14 (lines 970-978)",
+"kind": "map-side (not for the host)"
+},
+{
+"id": "trade-map-7",
+"title": "Map's own: snapshot per pulse; audience filter is the lens's job; show what does not move; mark unmapped towns",
+"what": "Lens mechanism rules.",
+"why": "—",
+"when": "—",
+"source": "trade-system.md §9 items 15-18 (lines 982-992)",
+"kind": "map-side (not for the host)"
+},
+{
+"id": "trade-map-8",
+"title": "Map's own: two kinds of 'besieged', two marks; DM route verbs are relational, not physical",
+"what": "War-front siege vs siege/occupation stressor; DM-cut and chartered routes stop or carry no caravan.",
+"why": "—",
+"when": "—",
+"source": "trade-system.md §9 items 19, 20 (lines 994, 997)",
+"kind": "map-side (not for the host)"
+}
+]

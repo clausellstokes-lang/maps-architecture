@@ -1,0 +1,96 @@
+unit	line	ref	list head (the other reading)	context
+base	300	§2.6	V02	adder, stepped massing, deck-plot buildings | volume 2 (§2.6's stage-3 interface) | M6 (its item-110
+base	2303	§2.7	V11	pe Order = { seq: number /* the laying event's place in §2.7's laws' order: a creation prefix's decl
+base	2911	§4.6	V01	d there for S5c; V01 §3.17.3 (3)'s F-TEMPLATE rungs and §4.6's lane ladder; V07 §3.5a (3)'s turn; S7
+base	3100	§4.3	V09	strip no reservation ((6)'s lead) and an `open` span to §4.3's crossing rule, the way-and-channel ta
+base	3102	§2.7	V01	, and every other text of the set, citing this reading (§2.7's laws, law 1 (8), with its worked exam
+base	3103	§2.7	V01	aws, law 1 (8), with its worked example "a `vault` span §2.7's crossing table's *beneath* reads `ope
+base	3868	§4.2	V01	V01 §3.10.1's outline: { template: OutlineTemplateId /* §4.2 S1 (2)'s row key */ } | { polygon: Poly
+base	5806	§11	V11	apping the year's end — read only by §8.2's season rows, §11's exports and §7.7's DR42, never by a s
+base	6292	§2.6	V04	r reads (§8.4's water at its level, V04 §3.2 N2 and N7, §2.6's water table). The channel is carved o
+base	6465	§6.1	V06	ponent 0), with one uniform per key on `raised.reason` (§6.1; epoch component 0); keys are taken in 
+base	7643	§4.2	V01	ule; `stepProfile`; V01's island bridge build after S8 (§4.2 S1 (5)); V04's wall-face knots, arch-va
+base	8439	§4.2	V01	ky island's arena V01's unit run applies the same rule (§4.2 S1 (5)) — and none for a `site`: the de
+base	12835	§8.2	V08	, placed by §10.2's *Crisis looks* (c)–(f) and drawn by §8.2's look rows under §2.9's `crises` key (
+base	15973	§2.6	V11	) (2); default 'never'; the values V11 §2.3, the ladder §2.6 */; cryptM2?: [number, number, number, 
+base	16951	§4.1	V06	 last carrying `stoppedAt` as Stop leaves it (V06 §2.3, §4.1): a journalled stopped advance re-issue
+base	21218	§2.6	V02	E-3 | / | F5 | porches and a door fallback | V02 §3.7 and §2.6's entrance rule (beyond: always a stree
+base	21220	§8.4	V02	cet shading, hatching and a swept shadow | V02 §5.3 and §8.4 (h) | STAGE-3 | / | F8 | no plot, no scal
+base	21717	§2.5	V01	*/ } // DistrictContext is V01 §2.3's and TypedBoundary §2.5's; Pin is §2.7's (the complete furnitur
+V01	125	§8	V01	d exports, budgets, tests and the M5 build plan** (V01 §4–§8). 10. **File g's neighbourhood parts** 
+V01	190	§2.4	V11	5 §3.11 (4); J-V1.87) | / | g item 103 (a), (f); V11 §2.3–§2.4 | `SitingProfile` (emits, sensitive, co
+V01	202	§5.3	V02	2.6, V02 §3.7, V02 §3.11, V02 §3.15–V02 §3.17, V02 §5.2–§5.3 | the wings' canonical order by key, `B
+V01	304	§2.8	V10	 10's `why` query; volume 9's "why?" panel | V10 §2.13 (§2.8's explainer registry, item 270) | / | T1 
+V01	712	§2.4	V11	 rows; the siting families and class profiles (V11 §2.3–§2.4); the shade sampler's mask, each live i
+V01	966	§4.6	V01	 every raised part's under-deck strip, V01 §3.17.3, and §4.6 S8's cliff band inside the district, V0
+V01	978	§2.7	V01	rt-0 gate (every gate is one: no gate stands on a deck, §2.7's crossing table) and a part-0 deck ove
+V01	2587	§5	V01	at its limits (principle (11)) /  / Every mechanism of V01 §2–§5 has a defined outcome at the limits of 
+V01	2587	§5	V01	 a defined outcome at the limits of its inputs, a rung on §5's failure ladder (check, repair locally
+V01	2682	§4.4	V01	no deck plot (§4.7) | — | T-V1-53 | / | editing (V01 §4.1–§4.4) | an edit on a target a dossier change
+V01	2897	§5.3	V02	scape('twoTone')` over each building's facets (V02 §5.2–§5.3; §8.6, item 406) — each face's or facet
+V01	2918	§5.3	V02	ce; under `roofscape` (from stage 3's landing, V02 §5.2–§5.3), each of the building's `RoofFacet`s. 
+V01	3711	§2.7	V10	 V09 §4.21.9's progress view, V10 §2.13's `FindAnswer`, §2.7's `ConditionOverlay`, V08 §2.3's carrie
+V01	3713	§2.3	V07	calamity table, V07 §5.6's village units and outskirts, §2.3's `Terrain.wind` and §4.9's land use an
+V01	3751	§2.2	V01	-VI.23 (the block-content type is `BlockKind`, V01 §2.1–§2.2); J-VI.2 (a raised part's reason word, 
+V02	131	§3.5	V02	gives it, oriented by its frontage, in metres (V02 §3.2–§3.5). Its output is the base wings (`Buildi
+V02	135	§3.8	V02	raws are keyed per wing so what is kept stays (V02 §3.6–§3.8). 3. **The roofscape** — one derived ro
+V02	540	§7.6	V02	> /* the named constants of V02 §3.10.9's table, each a §7.6 cell */ } interface CompositionTables {
+V02	956	§2.3	V02	differences at ± `axisSampleM` 2 m, the base's sampler, §2.3) gives the slope `s` and the downhill u
+V02	1524	§3.7	V02	 §4.4), and added keys composed on the spot by V02 §3.6–§3.7 on the committed massing. * **W9 — reve
+V02	2298	§8.4	V02	oof's rise over its ring (V02 §5.2's caster rule, which §8.4 reads per wing), so each tier casts one
+V02	2436	§5	V02	at its limits (principle (11)) /  / Every mechanism of V02 §2–§5 has a defined outcome at the limits of 
+V02	2436	§5	V02	 a defined outcome at the limits of its inputs, a rung on §5's failure ladder (check, repair locally
+V02	2480	§7.4	V02	y stored field's cells are V02 §2.5's and every event's §7.4's row (V02 §4.4); the elaboration cache
+V02	2517	§5.3	V02	-inset | repair locally | T-V2-48 | / | drawing (V02 §5.1–§5.3, V02 §5.6) | a map with no building; a 
+V02	2632	§4.3	V03	furnished room the op would orphan (V03 §3.11, V03 §4.2–§4.3), each with §7.3's orphan actions. 3. *
+V02	4172	§4.5	V02	`fantasyShapes` control in the advanced panel (V02 §4.4–§4.5) | the ops through the clerk and the sk
+V02	4199	§8.2	V02	e drawn, where a plan is in force, as V02 §5.7's holes (§8.2); the drawn week in the tile key of a t
+V03	160	§2.6	V02	and 5 as volume 2's BCR-V2-38 and BCR-V2-41 amend them (§2.6) | `Entrance.storey`'s rule and O2's ro
+V03	303	§7.7	V02	(§2.7's `ConditionOverlay`, §2.9's `week` and `crises`, §7.7's DR44, §10.2's `lookLevel`, V01's `dis
+V03	363	§2.6	V11	§2.6a) → volume 11's `crypt` column → `Basement.crypt` (§2.6) → A2 (9); a dossier crypt record binds
+V03	2027	§3.11	V03	access exists (item 109 (e), (j) (4)) — takes V03 §3.1–§3.11 with these differences, all else unchan
+V03	2066	§5	V03	 their limits (principle (11)) /  / Every mechanism of V03 §2–§5 at its limits: its outcome (stated at t
+V03	2066	§5	V03	tated at the section cited, else here), its failure rung (§5's ladder: never a whole-map retry) and 
+V03	2080	§5.4	V03	nd report | T-V3-36 (e) | / | every mechanism of V03 §3.2–§5.4 | every rung THORP → METROPOLIS | rung-
+V03	2091	§5.3	V03	) | / | the draw, the picture and scene exports (V03 §5.1–§5.3) | an empty plan; one room or storey; a
+V03	2100	§3.2	V03	o it reads the rasters over the frame's context margin (§3.2 (9)); frame growth extends the rasters 
+V03	2135	§3.8	V03	e fixes what each does to the derived parts of V03 §3.5–§3.8. Per item 101's R2, an edit that cannot
+V03	2904	§12	V03	 reading and a plan edit's preview hold their V03 §6 and §12 rows, none relaxed against the previous
+V03	3129	§4.1	V03	ct (item 119 (d)), the plan rung runs on no generation (§4.1), and the cache and the idle-frame chai
+V04	321	§2.7	V06	ystem id is written by V06 into `HistoryRecord.buried` (§2.7) | / | `UndercityStrategy.derive` | U-CIT
+V05	10	§3.2	V06	1, V06 §3.2` is two sections of volume 6; in `V06 §2.1, §3.2` the second is the base's); `item n` is
+V05	1749	§5.1	V05	nother unit's feature, its defined outcome, its rung on §5.1's ladder (never a whole-map retry) and 
+V05	2565	§2.7	V06	the next epoch — `repairRaised` alone, no `repairWall` (§2.7's crossing table, *unchanged meeting*) 
+V05	2985	§4.3	V05	h every generated raised part committed before S7b (1) (§4.3's slot, file f item 290), over letting 
+V06	1605	§2.7	V06	2)'s cost field takes as **impassable** the impassables §2.7's laws give a trace (law 1 (2)–(4), (9)
+V06	3327	§5.2	V04	§3.18) | a degenerate void element | V04's own ladders (§5.2's F-UNDER and F-VOID rows) | V04's | T-
+V06	3931	§2.9	V06	d events included), off the path to the picture (§12.6, §2.9 step 3), rebuilding the history store a
+V06	4095	§2.7	V06	nding then (its **CITY ring**) on a span over its band (§2.7's laws, law 1 (2); its worked example *
+V06	4172	§2.7	V06	supports off that run's former band and a span over it (§2.7's support step (3)), crossing it in the
+V07	1415	§2.7	V07	NT, in which a raised way's support may stand, the band §2.7's laws read being the section above; a 
+V07	3708	§2.7	V07	th the carried-down deck — each an *unchanged meeting* (§2.7's laws, law 4), the deck unchanged; a h
+V09	318	§6.1	V09	ender-time hashes of `style.jitter` and `style.crowns` (§6.1; display only); the history line "New d
+V09	3780	§2.9	V11	e row's weather cells, a kind live while its band holds §2.9's `yearWeek` and, under `light: 'time'`
+V09	4407	§7.3	V10	has its anchor `messages#<key>`, and every staged layer §7.3 item 9 (d)'s F-EDIT can name has its pa
+V09	4781	§7.3	V09	ion bent onto ground part 0 — over refusing it, because §7.3 item 9's closure exists for exactly thi
+V09	4837	§2.9	V09	96 | chose to split V09 §3.14's older-document row into §2.9's three outcomes — (a) inside the reten
+V09	4837	§2.9	V09	y older document, because the base separates the three (§2.9 steps 2–3, §7.5), a version outside the
+V09	4837	§7.5	V09	, because the base separates the three (§2.9 steps 2–3, §7.5), a version outside the window can be n
+V10	289	§2.9	V09	8 lists, none standalone — and DR44's standing looks at §2.9's `week` under §2.9's `crises`, the one
+V10	289	§2.9	V09	lone — and DR44's standing looks at §2.9's `week` under §2.9's `crises`, the one evaluation §9.5's l
+V10	1686	§2.7	V09	ever its recorded `use`, and no arch vault named in it (§2.7's laws, law 1 (8); its worked example *
+V10	1912	§2.3	V10	t, and that it is water to every rule that reads water (§2.3): the wells, the water pull, the prospe
+V10	2779	§7.1	V09	's T2 `ground` mapper sets them, V09 §4.20.1 (4), since §7.1's `FieldStroke` requires both; `water` 
+V10	2804	§3.2	V10	the polyline V10 §3.6 (4) reads, in `dmath`, rounded by §3.2's rule, a tie going to the lower arc le
+V11	208	§2.7	V06	der-deck strip, V01 §3.17.3 (2), V06 §3.19's clearance, §2.7's laws at S3, S5a, S7 and VS3 (law 1 (4
+V11	832	§2.8	V11	 records the slices it read (`DerivationRecord.slices`, §2.8), and a family row's slice is the pair 
+V11	1006	§4.3	V01	nceCm`, `clearWidthM` and `squareDeg`, V01 §3.17.3 (3), §4.3; S8 cuts the under-deck strip at `struc
+V11	1012	§4.4	V09	 binding table and the context menu (V09 §3.3, V09 §4.2–§4.4), `@plat/docs`' tool pages, T-V9-12 | r
+V11	1017	§4.5	V01	band`) | V01 §3.5.2 (the default rows) — the base table §4.5 S7b (3) and §4.7 S9 read (file f item 3
+V11	3959	§2.7	V07	trip, V06 §3.19's clearance, V07 §3.5a (5)'s strip, and §2.7's laws' strip, ends and zone, law 1 (4)
+V11	3965	§2.7	V07	7's quays, intervallum and castle paths and a hand way (§2.7's laws, law 1 (1), (8); its worked exam
+V11	4831	§7.4	V11	.4) — so every table of V11 §3.1 is editable, undoable (§7.4's `editTable` row), migrated by §7.5 an
+V11	5267	§4.4	V11	ecause S5b runs S4's router with the same span pricing (§4.4; file f item 290 (1), (3)), so every ta
+V11	5272	§2.7	V11	on's rule S2), the base names the cells without values (§2.7) and V04 §10 is a pointer table | / | J-V
+V12	2025	§8	V02	a line a volume writes in V02 §3.10.10's form (in its own §8, or beside its table as V03 §2.4 does f
+V12	3167	§5	V12	ity preset at each rung it names: generation completes by §5's ladder (a failed seed reported and co

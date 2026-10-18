@@ -1,0 +1,167 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+2 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
+endobj
+3 0 obj
+<< /Type /Pages /Kids [5 0 R 7 0 R 9 0 R] /Count 3 >>
+endobj
+4 0 obj
+<< /Length 3827 >>
+stream
+BT /F2 16 Tf 56 777.9 Td (What we are building - the settlement map layer, defined) Tj ET
+BT /F2 16 Tf 56 756.3 Td (\(2026-09-25, evening\)) Tj ET
+BT /F1 11 Tf 56 719.2 Td (In one sentence. A settlement map layer for SettlementForge: a procedural engine that makes) Tj ET
+BT /F1 11 Tf 56 703.7 Td (towns, cities and villages as living models rather than pictures - plots first, buildings on) Tj ET
+BT /F1 11 Tf 56 688.2 Td (the plots, neighbourhoods made of plots, layers above and below - driven by population and) Tj ET
+BT /F1 11 Tf 56 672.7 Td (prosperity, held to historical realism, editable in every part, and able to grow, decline) Tj ET
+BT /F1 11 Tf 56 657.2 Td (and grow again from one seed as circumstances change.) Tj ET
+BT /F2 13 Tf 56 610.7 Td (1. What it is for) Tj ET
+BT /F1 11 Tf 56 586.4 Td (SettlementForge describes settlements; this layer draws them and keeps them consistent. Data) Tj ET
+BT /F1 11 Tf 56 570.9 Td (flows one way: the SettlementForge dossier goes in, the map comes back, and the map never) Tj ET
+BT /F1 11 Tf 56 555.4 Td (edits the dossier. Anything the dossier specifies exists on every map; deleting it on the) Tj ET
+BT /F1 11 Tf 56 539.9 Td (map only moves it elsewhere, coherently and from the same seed, until the settlement grows) Tj ET
+BT /F1 11 Tf 56 524.4 Td (or declines and the spot is fair game again - only the dossier can truly remove it. A map) Tj ET
+BT /F1 11 Tf 56 508.9 Td (edit can also ask for a specific place to hold something, and the solver honours it when the) Tj ET
+BT /F1 11 Tf 56 493.4 Td (rules allow. When the dossier later adds or removes a building or institution, the existing) Tj ET
+BT /F1 11 Tf 56 477.9 Td (map is mutated with the least disruption - the layout you already know stays, and only what) Tj ET
+BT /F1 11 Tf 56 462.4 Td (must move moves. The module is licensed GPL-3 and kept a separate program from) Tj ET
+BT /F1 11 Tf 56 446.9 Td (SettlementForge. It must stand next to the best existing generators \(watabou's Medieval) Tj ET
+BT /F1 11 Tf 56 431.4 Td (Fantasy City Generator, Neighbourhood, Village Generator and Fantasy Manor, and Thomas) Tj ET
+BT /F1 11 Tf 56 415.9 Td (Allerton's Fantasy Town Generator\), match what they do and how they look, and go past them:) Tj ET
+BT /F1 11 Tf 56 400.4 Td (real plots, realistic constraints, editing everywhere, a history. It is built standalone) Tj ET
+BT /F1 11 Tf 56 384.9 Td (first, then calibrated against the owner's historical and artistic map corpus \(what we built) Tj ET
+BT /F1 11 Tf 56 369.4 Td (stays the base\), then connected to SettlementForge.) Tj ET
+BT /F2 13 Tf 56 322.9 Td (2. Two generators, two ladders, one engine) Tj ET
+BT /F1 11 Tf 68 298.6 Td (- Town/city generator \(built first\): town -> city -> metropolis.) Tj ET
+BT /F1 11 Tf 68 283.1 Td (- Village generator \(built after\): thorp -> hamlet -> village, in its landscape.) Tj ET
+BT /F1 11 Tf 68 267.6 Td (- Tiers are population bands. Inside a band, everything scales smoothly with the head) Tj ET
+BT /F1 11 Tf 78 252.1 Td (count: extent, streets,) Tj ET
+BT /F1 11 Tf 56 236.6 Td (plots, buildings, walls, districts, fields and greenery. Population decides what the) Tj ET
+BT /F1 11 Tf 56 221.1 Td (settlement needs before a street is drawn.) Tj ET
+BT /F2 13 Tf 56 174.6 Td (3. How a settlement is made) Tj ET
+BT /F1 11 Tf 68 150.3 Td (1. Ground: real terrain in metres; water that flows downhill; rivers that reach the) Tj ET
+BT /F1 11 Tf 78 134.8 Td (sea; coasts that agree with the contours.) Tj ET
+BT /F1 11 Tf 68 119.3 Td (2. Demand: from the population, our own tables decide the houses, workshops, inns,) Tj ET
+BT /F1 11 Tf 78 103.8 Td (churches and institutions needed and the land they take.) Tj ET
+BT /F1 11 Tf 68 88.3 Td (3. Landmarks and enclosure: market, church, castle, harbour and gates claim their) Tj ET
+endstream
+endobj
+5 0 obj
+<< /Type /Page /Parent 3 0 R /MediaBox [0 0 595.28 841.89] /Contents 4 0 R /Resources << /Font << /F1 1 0 R /F2 2 0 R >> >> >>
+endobj
+6 0 obj
+<< /Length 4243 >>
+stream
+BT /F1 11 Tf 78 777.9 Td (ground; the wall is laid where a walled town needs one.) Tj ET
+BT /F1 11 Tf 68 762.4 Td (4. Streets: main roads routed between real destinations over the terrain; side streets) Tj ET
+BT /F1 11 Tf 78 746.9 Td (grown between them; inside large blocks, lanes cut with watabou's bent cut \(one bend,) Tj ET
+BT /F1 11 Tf 78 731.4 Td (arriving square\) using constants we measured.) Tj ET
+BT /F1 11 Tf 68 715.9 Td (5. Districts: grown around the landmarks, typed by what the town still needs and by) Tj ET
+BT /F1 11 Tf 78 700.4 Td (prosperity.) Tj ET
+BT /F1 11 Tf 68 684.9 Td (6. Plots - the atom: every block divided from its street frontage into parcels.) Tj ET
+BT /F1 11 Tf 78 669.4 Td (Prosperity is a smooth field over the town, not a switch; it rises near the centre,) Tj ET
+BT /F1 11 Tf 78 653.9 Td (the market, main streets and high dry ground and falls near tanneries, walls and damp) Tj ET
+BT /F1 11 Tf 78 638.4 Td (low ground. Rich quarters join plots into fewer, larger ones with courts and gardens;) Tj ET
+BT /F1 11 Tf 78 622.9 Td (poor quarters split them, and the leftover gaps become alleys.) Tj ET
+BT /F1 11 Tf 68 607.4 Td (7. Buildings: each plot gets a site plan - row houses end to end along the street with) Tj ET
+BT /F1 11 Tf 78 591.9 Td (shared walls, detached houses, workshops behind, a manor or institution set back with) Tj ET
+BT /F1 11 Tf 78 576.4 Td (several buildings around a court, a hovel alone in a bare plot. Rules decide the class) Tj ET
+BT /F1 11 Tf 78 560.9 Td (from giant manor to small hovel, and every designation scales with prosperity - a) Tj ET
+BT /F1 11 Tf 78 545.4 Td (poor-quarter smith works a lean-to forge, a rich-quarter armourer has a storefront, a) Tj ET
+BT /F1 11 Tf 78 529.9 Td (court and journeymen's rooms; every building carries its heights for shadows.) Tj ET
+BT /F1 11 Tf 68 514.4 Td (8. Finishing: towers, bridges, harbour, fields and woods sized to the population,) Tj ET
+BT /F1 11 Tf 78 498.9 Td (trees and parks by prosperity, names and curved labels.) Tj ET
+BT /F2 13 Tf 56 467.9 Td (4. Scales and layers) Tj ET
+BT /F1 11 Tf 68 443.6 Td (- Neighbourhood close-up: any district opened street by street, same seed and style.) Tj ET
+BT /F1 11 Tf 68 428.1 Td (- Building close-up: each building composed the way Fantasy Manor composes a manor -) Tj ET
+BT /F1 11 Tf 78 412.6 Td (wings, roofs, dormers,) Tj ET
+BT /F1 11 Tf 56 397.1 Td (porches, towers - fitted to its plot.) Tj ET
+BT /F1 11 Tf 68 366.1 Td (- Toggles, after the city is mastered: sewers - uncommon in towns, always present in) Tj ET
+BT /F1 11 Tf 78 350.6 Td (cities and metropolises, none in) Tj ET
+BT /F1 11 Tf 56 335.1 Td (villages - derived by medieval rules, which age by neglect - tunnels silt up, cave in or are) Tj ET
+BT /F1 11 Tf 56 319.6 Td (sealed, never torn down; navigable sewers may carry underground neighbourhoods whose plots) Tj ET
+BT /F1 11 Tf 56 304.1 Td (front the tunnels and whose buildings sit flush against the tunnel walls, with no access-) Tj ET
+BT /F1 11 Tf 56 288.6 Td (only alleys; and, possible only in cities and metropolises \(and not in every one\), up to) Tj ET
+BT /F1 11 Tf 56 273.1 Td (three floating islands in the sky carrying a prosperous quarter or a unique institution) Tj ET
+BT /F1 11 Tf 56 257.6 Td (\(palace, cathedral, prison\). Islands exist only where there is prosperity: magic is a) Tj ET
+BT /F1 11 Tf 56 242.1 Td (resource that must be constantly supplied, so an island's size follows the prosperity of its) Tj ET
+BT /F1 11 Tf 56 226.6 Td (neighbourhood and of the whole city.) Tj ET
+BT /F2 13 Tf 56 180.1 Td (5. The rules of the engine) Tj ET
+BT /F1 11 Tf 68 155.8 Td (- One seed is the town; inputs and circumstances make its history; nothing that survives) Tj ET
+BT /F1 11 Tf 78 140.3 Td (a change is re-rolled.) Tj ET
+BT /F1 11 Tf 68 124.8 Td (- The town lives in time. It grows \(walls become ring roads, suburbs are absorbed\),) Tj ET
+BT /F1 11 Tf 78 109.3 Td (declines \(houses empty, decay) Tj ET
+BT /F1 11 Tf 56 93.8 Td (and are robbed for stone, plots turn to gardens, a shorter wall ring replaces the old one,) Tj ET
+BT /F1 11 Tf 56 78.3 Td (ruins remain\) and grows again on its old plan - each change a recorded event, driven by) Tj ET
+endstream
+endobj
+7 0 obj
+<< /Type /Page /Parent 3 0 R /MediaBox [0 0 595.28 841.89] /Contents 6 0 R /Resources << /Font << /F1 1 0 R /F2 2 0 R >> >> >>
+endobj
+8 0 obj
+<< /Length 3442 >>
+stream
+BT /F1 11 Tf 56 777.9 Td (population with a realistic lag.) Tj ET
+BT /F1 11 Tf 68 746.9 Td (- Rules are data. Coverage, plot sizes, building classes, greenery, sewers and the) Tj ET
+BT /F1 11 Tf 78 731.4 Td (events of history live in tables) Tj ET
+BT /F1 11 Tf 56 715.9 Td (that can be read, tuned and later calibrated against real towns.) Tj ET
+BT /F1 11 Tf 68 684.9 Td (- Everything is editable, by a user to taste and by us to change the system; edits are) Tj ET
+BT /F1 11 Tf 78 669.4 Td (permanent, undoable and) Tj ET
+BT /F1 11 Tf 56 653.9 Td (survive regeneration; the generator repairs around them locally and never redraws the whole) Tj ET
+BT /F1 11 Tf 56 638.4 Td (map to fix a problem.) Tj ET
+BT /F1 11 Tf 68 607.4 Td (- Assignments outrank the generator's choices, not common sense: a name, function or) Tj ET
+BT /F1 11 Tf 78 591.9 Td (shape for one building, a whole) Tj ET
+BT /F1 11 Tf 56 576.4 Td (neighbourhood, or several buildings across the city, placed after the city is built by a) Tj ET
+BT /F1 11 Tf 56 560.9 Td (solver that obeys rule templates for spatial relations \(near, far, downwind, downstream, on) Tj ET
+BT /F1 11 Tf 56 545.4 Td (the main road, beside the market\) and supply chains \(a brewery needs grain, a tannery water) Tj ET
+BT /F1 11 Tf 56 529.9 Td (and an edge site\), relocating displaced uses locally. As the city grows and declines, uses) Tj ET
+BT /F1 11 Tf 56 514.4 Td (move organically - a shop closes here and reopens where the people now are - unless an) Tj ET
+BT /F1 11 Tf 56 498.9 Td (assignment is pinned in place. When a plot gets a new designation, its buildings mutate to) Tj ET
+BT /F1 11 Tf 56 483.4 Td (match it - the previous design keeps what still fits, gains what the new use needs \(a forge) Tj ET
+BT /F1 11 Tf 56 467.9 Td (for a smith, stables and a court for an inn\) and loses what it no longer needs - immediately) Tj ET
+BT /F1 11 Tf 56 452.4 Td (for an assignment, gradually in the town's history.) Tj ET
+BT /F1 11 Tf 68 421.4 Td (- Realism is the tiebreaker, legibility the floor: where approaches conflict, the more) Tj ET
+BT /F1 11 Tf 78 405.9 Td (historically faithful one) Tj ET
+BT /F1 11 Tf 56 390.4 Td (wins, and maps use cartographic exaggeration \(wide walls, clear streets\) so they stay) Tj ET
+BT /F1 11 Tf 56 374.9 Td (readable.) Tj ET
+BT /F1 11 Tf 68 343.9 Td (- Fast and exportable: detail is generated when you zoom to it; output goes to pictures,) Tj ET
+BT /F1 11 Tf 78 328.4 Td (SVG, virtual-tabletop maps,) Tj ET
+BT /F1 11 Tf 56 312.9 Td (GeoJSON and 3-D, and to an embedding interface for SettlementForge.) Tj ET
+BT /F2 13 Tf 56 266.4 Td (6. The look) Tj ET
+BT /F1 11 Tf 56 242.1 Td (A clean ink map by default, in the family of watabou's maps; a textured, lit style like) Tj ET
+BT /F1 11 Tf 56 226.6 Td (Fantasy Town Generator's later; a hatched close-up for neighbourhoods; our own house style) Tj ET
+BT /F1 11 Tf 56 211.1 Td (in time.) Tj ET
+BT /F2 13 Tf 56 164.6 Td (7. What makes it new) Tj ET
+BT /F1 11 Tf 56 140.3 Td (Existing tools each own one rung of this ladder as a separate toy. This layer carries one) Tj ET
+BT /F1 11 Tf 56 124.8 Td (consistent model from region to room - terrain, streets, plots, buildings, layers and) Tj ET
+BT /F1 11 Tf 56 109.3 Td (history - with real parcels and yards, prosperity as a field, rules as data, growth and) Tj ET
+BT /F1 11 Tf 56 93.8 Td (decline from the same seed, and a home inside a larger world tool.) Tj ET
+endstream
+endobj
+9 0 obj
+<< /Type /Page /Parent 3 0 R /MediaBox [0 0 595.28 841.89] /Contents 8 0 R /Resources << /Font << /F1 1 0 R /F2 2 0 R >> >> >>
+endobj
+10 0 obj
+<< /Type /Catalog /Pages 3 0 R >>
+endobj
+xref
+0 11
+0000000000 65535 f 
+0000000009 00000 n 
+0000000106 00000 n 
+0000000208 00000 n 
+0000000277 00000 n 
+0000004156 00000 n 
+0000004298 00000 n 
+0000008593 00000 n 
+0000008735 00000 n 
+0000012229 00000 n 
+0000012371 00000 n 
+trailer
+<< /Size 11 /Root 10 0 R >>
+startxref
+12421
+%%EOF

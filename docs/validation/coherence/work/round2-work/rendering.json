@@ -1,0 +1,382 @@
+[
+ {
+  "id": "VAH-31",
+  "severity": "major",
+  "kind": "HANDOFF-OPEN",
+  "claim": "Persists, moved with its type. Round 0 asked V10 to type the oracle's closure barrier by base \u00a72.7's `BarrierKind` instead of restating the union. Repair r1 moved V10 \u00a72.13's reader and oracle types to \u00a711.2 (rendering's VAT-03, V10's VAT-04), so V10 now declares none of them. V10's repair handed the fields its fixes needed to \u00a711.2 (repair-r1-V10.md, note (2), and its HAND-OFFS: 'rendering \u00a711.2: note (2)'s three fields'). None landed at \u00a711.2. (a) The union 'shore'|'cliff'|'gorge'|'marsh'|'sheer'|'enceinte' is still written inline three times: `WhyAnswer.closure[].barrier` (base l.15245), `MapBrief.walls[].open[].barrier` (l.15188) and the preview arcs' `barrier` (l.15142). \u00a72.7 declares `type BarrierKind` (l.2179). (b) `RuleAnswer.register` (l.15233-15234) still reads 'the cell's entry in V12 \u00a72.6's plat/calibration/register.json', typed `{ id: string; status; method; due: string }`. V10 \u00a71.2 (V12 \u00a72.10 row), V10 \u00a71b.1, V10 \u00a73.5 and V12 \u00a72.10 (l.774-790: `EvidenceFile`, whose `entry` is absent for a stamped or `ref:` cell and whose `status` admits 'owner') say the clerk reads the shipped `dist/evidence.json` and never `register.json`. The type therefore cannot carry a stamped cell's answer. (c) `WhyAnswer.members.step` is still inline; this part is VV1112-r1-06's.",
+  "required_change": "In base \u00a711.2: (a) type `barrier: BarrierKind /* \u00a72.7 */` in `WhyAnswer.closure[]`, `MapBrief.walls[].open[]` and the preview's `arcs[]`. (b) Write `register?: { status: CalibrationEntry['status'] | 'owner'; entry?: string /* absent for a stamped or ref: cell */; method?: CalibrationEntry['method']; due?: string } /* the cell's row in V12 \u00a72.10's dist/evidence.json, where one exists; an absent file, or one of other table versions: the provenance source alone; told plain first, its entry and method only behind \"details\" (V10 \u00a73.5) */`. (c) Write `members?: { step: LadderStep /* V11 \u00a72.6 */; \u2026 }`, as VV1112-r1-06 states.",
+  "owner": "rendering",
+  "reported_by": "verify-agree-host-r1t"
+ },
+ {
+  "id": "VAL-R1-05",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "VAL-17's remainder at its other end. V05 \u00a75.1 now lists every shipped sheet of \u00a78.2's presets table \u2014 \"`ink`, `lit`, `hatched`, the ink-family variants `parchment`, `bw-print` and `night`, `painterly` once volume 7 ships it (V07 \u00a78's V-M1), and the parity presets\" (V05 l. 2132\u20132134; T-V5-12 l. 2482) \u2014 with per-family rows for each. \u00a78.2's *Slot resolution*, the loader that refuses a sheet with an unresolved pair, still says \"the sky's entries in every shipped sheet (`ink`, `lit`, `hatched`, `night` and the parity presets)\" (base l. 12753\u201312754), omitting `parchment`, `bw-print` and `painterly`, which \u00a78.2's own presets table ships (l. 12772\u201312773). The same paragraph names no entries for the underground's `under.*` semantics that S14's underground builder emits (V04 \u00a75.2), so it says nothing of what lets any shipped sheet resolve them (see VAL-R1-06).",
+  "required_change": "\u00a78.2's *Slot resolution* reads \"\u2026 and the sky's entries in every shipped sheet \u2014 the presets table's `ink`, `lit`, `hatched`, the ink-family variants `parchment`, `bw-print` and `night`, `painterly` once volume 7 ships it (V-M1), and the parity presets \u2014 \u2026 each with the per-family facts of V05 \u00a75.1's slot table (M6-sky; file f item 408), and the underground's `under.*` entries in every shipped sheet, drawn in the underground layer's own order (V04 \u00a75.2) with V04 \u00a75.2's per-family facts (M6-U)\".",
+  "owner": "rendering",
+  "reported_by": "verify-agree-layers-r1t"
+ },
+ {
+  "id": "VAL-R1-11",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "New this round (item 118's parts). \u00a78.2's place table (base l. 12523\u201312542) gives village readings only for `heart` (\"at a village rung V07's heart\"), `green` (\"at a village rung V07's green\"), `fairField` and `churchLane`; every other place is the town's (`square` \"the main square (the root plaza)\", `gate`, `gates` \"the gates on `through` and `primary` ways\", `castle` \"the castle's bailey\"), and \"A place that does not stand takes the next of its kind's fallback places, and the heart when none stands\". V07 \u00a75.1 *Festivals* (V07 l. 3226\u20133232) reads at a village rung: square or market \u2192 \"the open space that carries the market (else the flanking square, else a street market's frontage by the heart)\"; green \u2192 \"the green (else the first nucleus's open space, else the heart)\"; gate \u2192 \"the palisade's gate on the through road, else the through road's entry\"; \"the castle \u2192 the manor house\". A village staging \"castle\" decorates the manor house by V07 and falls back by \u00a78.2; a \"square\" staging at a village (no root plaza) does likewise.",
+  "required_change": "\u00a78.2's place table carries every village reading V07 \u00a75.1 states, in its rows: `square` \"\u2026; at a village rung the open space that carries the market, else the flanking square, else a street market's frontage by the heart (V07 \u00a75.1)\"; `green` \"\u2026; at a village rung V07's green, else the first nucleus's open space, else the heart\"; `gate`, `gates` \"\u2026; at a village rung the palisade's gate on the through road, else the through road's perimeter entry\"; `castle` \"the castle's bailey; at a village rung the manor house's plot\"; V07 \u00a75.1 then cites \u00a78.2's table for its places and keeps only the village tiers' decoration kinds and the church lane.",
+  "owner": "rendering",
+  "reported_by": "verify-agree-layers-r1t"
+ },
+ {
+  "id": "VAL-R1-12",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "New this round (item 117's parts). V07 \u00a75.1 restates \u00a78.2's season rules with different content. (a) Open leads: V07 keeps \"open water \u2026 at the mill race (the wheel pit and the tail race), at the leat's take-off and at springs\" (V07 l. 3208\u20133210); \u00a78.2's leads are \"a river's stretches whose course falls 2 m per km or more \u2026, each water mill's frontage reach (its weir and race), and a 12 m disc at each spring point and each outfall\" (base l. 12452\u201312454) \u2014 no leat take-off, whose canal (`millpond` kind) therefore freezes. (b) Fallen-leaf cover: V07 lays it on \"the green, the lanes and tracks, the tofts' yards and crofts, the churchyard, the closes and the roofs, gathering at the palisade, hedges and yard walls\" (V07 l. 3216\u20133218); \u00a78.2 lays it on \"the way bodies of `street` and `lane` classes, green and lawn faces, garden yard parts, churchyard faces, roofs, and still water\", gathering \"within 1 m of a wall line or a kerb\" (base l. 12432\u201312437) \u2014 no tracks, crofts, closes or hedges, and `street` is no class of \u00a72.4's `WayClass` (base l. 1055\u20131056).",
+  "required_change": "\u00a78.2's *Autumn's covers* names its way classes from \u00a72.4's `WayClass` (\"the way bodies of the `through`, `primary`, `secondary`, `lane`, `alley`, `cul_de_sac` and `track` classes\") and adds the village surfaces V07 \u00a75.1 covers (toft yard parts, crofts and closes; hedges among the lines the cover gathers at); *Water in winter*'s open leads add \"a leat's take-off (its weir)\"; V07 \u00a75.1 then cites \u00a78.2's rows for both instead of restating them, keeping only the village's kinds (which faces are crofts, closes and toft yards; which canal is the leat).",
+  "owner": "rendering",
+  "reported_by": "verify-agree-layers-r1t"
+ },
+ {
+  "id": "G120-rendering",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "claim": "g item 120's rendering part (canon: \"\u00a78.2 (the veil, halo, outline, pin and count-bubble rows; each chip's colour and second cue); \u00a79.5 (Find among the tools); \u00a711.1 (picture exports \u2026); \u00a711.2 (the gazetteer's class counts and its match listing by class, area and layer, under knowledge admission); \u00a712.5 (the overlay's interaction budget \u2026)\") is absent from \u00a78\u2013\u00a712 (verify-rendering-r1t's G120-rendering). V04 \u00a75.1, V05 \u00a75.6 and V07 \u00a75.5 cite every one of these base parts as their homes (\"\u00a78.2's veil, halo, outline, pin and count-bubble rows\", \"\u00a711.2's gazetteer match listing\", \"\u00a712.5's overlay budget\"), so the volumes' Find parts dangle until they exist.",
+  "required_change": "\u00a78.2 gains the Find rows: the veil (the style's paper colour at \u03b1 0.55 over everything not matched), the halo (a soft outer glow in the chip's colour fading over \u2248 8 px inside a 2 px outline, the label kept above the veil), an area chip lifting its area and glowing along its boundary, the city-band pin with the chip's glyph where a plot is under \u2248 6 px, the count bubble merging pins closer than \u2248 24 px \u2014 only pins of one layer, and on Sky of one island (V05 \u00a75.6 (2)) \u2014, the ghost pin for a match on another layer or band (V04 \u00a75.1 (2)\u2013(3), V05 \u00a75.6 (3)), Show gaps' dashed outline labelled \"none here\", each chip's colour from the thematic palette with its second cue (pin glyph, halo dash), the colours repeating past eight; \u00a79.5 Find among the tools; \u00a711.1 picture exports draw Find as shown with the chips in the legend, battle-map exports off unless asked; \u00a711.2 the gazetteer's class counts and match listing by class, area and layer at the view's effective key under knowledge admission; \u00a712.5 the overlay budget (suggestions \u2248 50 ms of a key, a chip's glow \u2248 100 ms of the click, base tiles never re-rendered, the index rebuilt once per commit) \u2014 each agreeing with V04 \u00a75.1, V05 \u00a75.6 and V07 \u00a75.5's readings.",
+  "owner": "rendering",
+  "reported_by": "verify-agree-layers-r1t, verify-agree-tools-r1t, verify-edges-world-r1t, verify-rendering-r1t",
+  "also_reported": [
+   {
+    "by": "verify-agree-tools-r1t",
+    "claim": "File g item 120 (Find; J133), routed by canon.md's dated ruling 'File g item 120 routed', names rendering's parts as \u00a78.2, \u00a79.5, \u00a711.1, \u00a711.2 and \u00a712.5. None is written; this was expected, since rendering's repair began before the filing. \u00a78\u2013\u00a712 hold no veil, halo, Find pin, count bubble or ghost pin, and no Find tool, export rule or overlay budget. \u00a711.2's `gazetteer` query has `text` and `kinds` only, with no class counts and no match listing by class, area and layer. Yet V10's live `FindAnswer` and V10 \u00a73.5 read 'each chip's matches by \u00a711.2's gazetteer match listing', a dangling input until this part exists.",
+    "required_change": "Write item 120's rendering part at build depth as new design. \u00a78.2: the Find rows \u2014 the veil (the style's paper colour at \u03b1 0.55), every match above it at full strength with the halo-like glow (a soft outer glow in its chip's colour fading over \u2248 8 px of screen inside a 2 px outline), its label kept above the veil; an area chip lifting the whole area and glowing along its boundary; at the city zoom, where a plot is under \u2248 6 px, a pin with its chip's glyph, pins closer than \u2248 24 px merged into a count bubble that zooms in on click; matches on another layer as faint ghost pins; each chip's colour from the thematic palette with its own second cue (a glyph on its pins, a dash pattern on its halo's outline; colours repeating past eight chips, item 112). \u00a79.5: Find among the tools and furniture. \u00a711.1: picture exports draw Find as shown with the chips in the legend; battle-map exports leave it off unless asked. \u00a711.2: the gazetteer's class counts and its match listing by class, area and layer, under knowledge admission (a thing the key withholds never suggested, counted, drawn or hinted at) \u2014 the listing V10's `FindAnswer` and V09's panel read. \u00a712.5: the overlay's interaction budget \u2014 suggestions within \u2248 50 ms of a key, a chip's glow within \u2248 100 ms of the click, base tiles never re-rendered, the index rebuilt once per commit. Find never changes the model, the document, its hash or the log.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-edges-world-r1t",
+    "claim": "Item 120 (J133) names rendering's parts: \u00a78.2 (the veil, halo, outline, pin and count-bubble rows, and each chip's colour and second cue), \u00a79.5 (Find among the tools), \u00a711.1 (picture exports draw Find as shown, chips in the legend; battle maps off unless asked), \u00a711.2 (the gazetteer's class counts and its match listing by class, area and layer under knowledge admission) and \u00a712.5 (suggestions \u2248 50 ms, glow \u2248 100 ms, base tiles never re-rendered). None is in the live base, yet the five volume parts cite them ('\u00a78.2's veil, halo, outline, pin and count-bubble rows', '\u00a711.2's match listing').",
+    "required_change": "Write each at its home at build depth, from item 120 (a)\u2013(k). \u00a78.2: the veil (paper colour at \u03b1 0.55), the halo (an \u2248 8 px glow in the chip's colour inside a 2 px outline, labels kept above the veil), an area's lift, the pin for a match under \u2248 6 px at the city band, count bubbles merging pins closer than \u2248 24 px, ghost pins for other layers, Show gaps' dashed 'none here' outline, eight chip colours then glyphs, item 112's second cues. \u00a79.5: the tool. \u00a711.1: export rules. \u00a711.2: `query({ kind: 'gazetteer' })`'s class counts and match listing by class, area and layer under admission. \u00a712.5: the two interaction budgets, the overlay-only redraw and the per-commit index. Write the edges as T-ER rows: no chip; a match under 6 px at the city band and at item 116's limit; the METROPOLIS cap; the halo at the device pixel ratio under item 121; above item 124's effects layer.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-rendering-r1t",
+    "claim": "g item 120's rendering part is absent (expected this round: rendering's repair began before the 02:33 filing). \u00a78\u2013\u00a712 hold no Find look, tool, export or budget \u2014 no reader of \u00a72.9's `find` key, no veil, halo, outline, pin or count-bubble row, no Find tool in \u00a79.5, no export rule in \u00a711.1, no gazetteer class counts or match listing by class, area and layer in \u00a711.2, no overlay budget in \u00a712.5 \u2014 while V09 (the Find panel and its `live.find` provider), V11 row 55 (\"Find's lists, counts and glow\"), V12 \u00a73.15.10 and \u00a73.15.9 (5) (\"Find's suggestions and glow\") read them.",
+    "required_change": "Write rendering's part as the canon's dated ruling ('File g item 120 routed') names it, at build depth: \u00a78.2 \u2014 the Find overlay rows: the veil (the style's `paper` at \u03b1 0.55 over everything but the matches), each match drawn above it at full strength with the halo (a soft outer glow in its chip's colour fading to nothing over about 8 px, inside a 2 px outline, its label kept above the veil), an area chip lifting its whole area and glowing along its boundary, at the city band a pin with the chip's glyph where a match is under about 6 px and pins closer than about 24 px merged into a count bubble, faint ghost pins for matches on another layer; each chip's colour from the thematic palette and its second cue (its pin glyph and a dash pattern on its halo's outline; colours repeating past eight chips, the glyph telling them apart); an overlay above the tiles that never re-renders a base tile, labels and chrome above it; \u00a79.5 \u2014 Find among the tools; \u00a711.1 \u2014 picture exports draw Find as shown with its chips in the legend, battle-map exports leave it off unless asked; \u00a711.2 \u2014 the gazetteer's class counts and its match listing by class, area and layer (with the counts on other layers), under \u00a79.2's admission function; \u00a712.5 \u2014 the overlay's interaction budget (suggestions within about 50 ms of a key, a chip's glow within about 100 ms of the click, its index rebuilt once per commit, held at the metropolis cap) with an R12 row beside R12-34's interaction rows; \u00a78.11 \u2014 the edges (no match; every band and layer; a commit, regenerate, undo, advance and season change re-evaluating the chips; the knowledge canary never drawn).",
+    "severity": "major"
+   }
+  ]
+ },
+ {
+  "id": "G121-rendering",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "claim": "g item 121 (resolution adjuster; J134; canon's ruling \"File g items 121, 122 and 123 routed\": rendering \u00a78.8, \u00a78.4 (g), \u00a712.1, \u00a712.5, \u00a712.8) is absent: \u00a78.8 keeps three hardware tiers and the tile-DPR steps 3 \u2192 2 \u2192 1.5 \u2192 1 (no Resolution setting, no ultra tier, no 4K ceiling, no live Auto loop); 0 matches for \"ultra\" or \"item 121\" in the base.",
+  "required_change": "\u00a78.8 writes the Resolution ladder 3 \u00b7 2 \u00b7 1.5 \u00b7 1 \u00b7 0.75 \u00b7 0.5 (the two steps below 1 new), the ultra tier (512 MB, tile-DPR cap 3), the live view's 4K ceiling (\u2248 8.3 M device px, larger screens scaled up; exports unbound) and the live Auto loop with its settle rule (one step down on a 2 s frame-time p95 over budget, up on 10 s under 60 % with the canvas fitting, applied only when the view settles, at most once per 10 s, a DPR change re-evaluating at once); \u00a78.4 (g) the order of what Auto gives up (lighting detail, then sharpness, then the light pass, then the steps below 1; labels, chrome and every overlay always at the device pixel ratio); \u00a712.1 calibration picking ultra; \u00a712.5 the frame budgets the loop holds; \u00a712.8 memory per tier, ultra included.",
+  "owner": "rendering",
+  "reported_by": "verify-agree-layers-r1t, verify-agree-tools-r1t, verify-edges-world-r1t, verify-rendering-r1t",
+  "also_reported": [
+   {
+    "by": "verify-agree-tools-r1t",
+    "claim": "File g item 121 (the resolution adjuster; J134), routed by canon.md's ruling 'File g items 121, 122 and 123 routed', names rendering's parts as \u00a78.8, \u00a78.4 (g), \u00a712.1, \u00a712.5 and \u00a712.8. They are absent. \u00a78.8 keeps three hardware tiers and the tile-DPR steps 3 \u2192 2 \u2192 1.5 \u2192 1. It has no Resolution setting, no steps below 1, no ultra tier, no 4K live-view ceiling and no live Auto loop.",
+    "required_change": "Write item 121's rendering part at build depth as new design. \u00a78.8: the Resolution ladder 3 \u00b7 2 \u00b7 1.5 \u00b7 1 \u00b7 0.75 \u00b7 0.5, the two steps below 1 new (tiles drawn below CSS density and scaled up). A manual level sets d = min(device pixel ratio, the level's height \u00f7 the screen's height in CSS px), rounded down to the ladder. The ultra tier has a 512 MB canvas ceiling and tile-DPR cap 3. The live view never draws more than the 4K pixel count (\u2248 8.3 M device px); larger screens are scaled up, and exports are not bound by it. The live Auto loop: a frame-time p95 over the tier's frame budget through 2 s steps one rung down; a p95 under 60 % of the budget through 10 s, with the canvas need fitting, steps one rung up. A change is applied only when the view settles, at most once per 10 s, and a device-pixel-ratio change re-evaluates at once. A manual level the device cannot hold draws the nearest level that fits and says so. \u00a78.4 (g): the order of what Auto gives up \u2014 lighting detail (full precision \u2192 the standard surface \u2192 the half-resolution global term), then sharpness (the tile DPR down to 1), then the light pass (the vector rung), then the steps below 1; labels, text, the chrome and every overlay always at the device pixel ratio. \u00a712.1: calibration picks ultra only where the device reports its memory and the benchmark clears the tier's bar. \u00a712.5: the frame budgets the loop holds and its settle rule. \u00a712.8: memory per tier, ultra included. Exports are byte-identical whatever the display setting.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-edges-world-r1t",
+    "claim": "Item 121 (the resolution adjuster; J134) names rendering's \u00a78.8, \u00a78.4 (g), \u00a712.1, \u00a712.5 and \u00a712.8. None is in the live base: no Resolution ladder, no steps below 1, no ultra tier, no 4K live-view ceiling, no live Auto loop.",
+    "required_change": "\u00a78.8: the setting's ladder 3 \u00b7 2 \u00b7 1.5 \u00b7 1 \u00b7 0.75 \u00b7 0.5 (the two steps below 1 drawn under CSS density and scaled up); a manual level's tile DPR = min(the device ratio, the level's height \u00f7 the screen's CSS height), rounded down the ladder; the 4K live-view ceiling (\u2248 8.3 M device px; larger screens drawn at the 4K-equivalent DPR and scaled); the ultra tier (512 MB, DPR cap 3); the live Auto loop (p95 over the frame budget for 2 s \u2192 one rung down; under 60 % for 10 s with the canvas fitting \u2192 one up; applied only at settle, at most once per 10 s; a device-pixel-ratio change re-evaluates). \u00a78.4 (g): Auto's give-up order, with labels, text, chrome and every overlay always at the device ratio. \u00a712.1: calibration picks ultra. \u00a712.5: the budgets the loop holds. \u00a712.8: memory per tier. Edges and their tests: a manual level the device cannot hold (the nearest that fits, said \u2014 never a refusal); a 5K\u20138K screen; a monitor change mid-gesture (applied at settle); exports byte-identical across settings.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-rendering-r1t",
+    "claim": "g item 121's rendering part is absent (filed after every round-1 repair began). \u00a78.8 keeps three hardware tiers and the tile-DPR steps 3 \u2192 2 \u2192 1.5 \u2192 1 with no Resolution setting, no steps below 1, no ultra tier, no 4K live-view ceiling and no live Auto loop; \u00a78.4 (g)'s light ladder states no order of what Auto gives up; \u00a712.1, \u00a712.5 and \u00a712.8 name neither the ultra tier nor the loop.",
+    "required_change": "\u00a78.8 \u2014 the Resolution setting (Auto, the default \u00b7 4K \u00b7 1440p \u00b7 1080p \u00b7 720p; V09's `AppPrefs.resolution`, device state, never the document, its hash or the log): a manual level's tile DPR d = min(the device pixel ratio, the level's height \u00f7 the screen's CSS height) rounded down to the ladder 3 \u00b7 2 \u00b7 1.5 \u00b7 1 \u00b7 0.75 \u00b7 0.5 (the two steps below 1 drawn below CSS density and scaled up); the live view's 4K ceiling (at most 3 840 \u00d7 2 160 device px for the whole view, a larger screen drawn at the 4K-equivalent DPR and scaled up); the ultra tier (canvas ceiling 512 MB, tile-DPR cap 3); the Auto loop (a frame-time p95 over the tier's frame budget through 2 s steps one rung down; under 60 % of it through 10 s with the canvas need fitting, one rung up; applied only when the view settles, at most once per 10 s; a device-pixel-ratio change re-evaluating at once); a manual level the device cannot hold drawing the nearest level that fits and saying so; exports byte-identical whatever the setting (\u00a78.7's any DPI stands); \u00a78.4 (g) \u2014 Auto gives up, in order, lighting detail (full precision \u2192 the standard surface \u2192 the half-resolution global term), sharpness (the DPR down to 1), the light pass (the vector rung), then the steps below 1, while labels, text, the chrome and every overlay stay at the device's full pixel ratio; \u00a712.1 \u2014 `bench/calibrate` picks ultra only where the device reports its memory and clears the tier's bar; \u00a712.5 \u2014 the frame budgets the loop holds (60 fps on the reference and higher tiers, 30 fps on the low tier) and the settle rule; \u00a712.8 \u2014 memory per tier with ultra (native 4K lit at full precision within 512 MB); \u00a78.11 \u2014 the edges (a fixture at its threshold, no oscillation; a monitor change; a manual level beyond the device; a gesture in progress).",
+    "severity": "major"
+   }
+  ]
+ },
+ {
+  "id": "G122-rendering",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "claim": "g item 122's rendering part (canon: \"\u00a78.2 (the look rows by tier and band; second cues); \u00a711 (exports: pictures draw, battle maps image only); \u00a712.5 (lazy per-tile budget)\") is absent (verify-rendering-r1t's G122-rendering).",
+  "required_change": "\u00a78.2 writes the crisis look rows by tier and band (camps as clusters, the siege line, smoke and the ruined tone at the city band; engines, tents, fences at the district band; marked doors and rubble at the neighbourhood band) with their second cues, the Show crises switch and the preview, knowledge admission of a condition; \u00a711 the exports (pictures draw them, battle maps in the image only, never walls or obstacles); \u00a712.5 the lazy per-tile budget.",
+  "owner": "rendering",
+  "reported_by": "verify-agree-layers-r1t, verify-agree-tools-r1t, verify-edges-world-r1t, verify-rendering-r1t",
+  "also_reported": [
+   {
+    "by": "verify-agree-tools-r1t",
+    "claim": "File g item 122 (crisis looks; J135), routed by canon.md's ruling 'File g items 121, 122 and 123 routed', names rendering's parts as \u00a78.2, \u00a711 and \u00a712.5. They are absent: \u00a78.2 draws a `ConditionOverlay` only as a settlement-wide wash with a legend row, and there are no crisis looks, placement, exports or budget.",
+    "required_change": "Write item 122's rendering part at build depth as new design (a look only, never the model or its hash). \u00a78.2: the look rows by tier and band, with item 112's second cues. At the city band: camps as clusters, the siege line, smoke and the ruined neighbourhoods' tone. At the district band: engines, tents and fences. At the neighbourhood band: marked doors, rubble and detail. Famine's fields bare (overriding item 117's crop stage). Placement is keyed by the seed, the condition's id and the place; several crises share the outskirts by priority (siege camp, quarantine camp, refugees) under a density cap, never on water, a gate's passage or a label's keep-out; the look is drawn only in its condition's weeks and only with **Show crises** on. \u00a711: picture exports draw the looks; battle-map exports draw them in the image only, never as walls or obstacles. \u00a712.5: drawn lazily per visible tile within the budget.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-edges-world-r1t",
+    "claim": "Item 122 (J135) names rendering \u00a78.2 (the look rows by tier and band; second cues), \u00a711 (pictures draw them; battle maps image only) and \u00a712.5 (lazy per-tile budget). None is in the live base.",
+    "required_change": "\u00a78.2: the crisis look rows by band \u2014 city: camp clusters, the siege line, smoke, the ruined neighbourhoods' tone; district: engines, tents, fences; neighbourhood: marked doors, rubble, detail \u2014 with item 112's second cues and the Show crises switch. \u00a711.1: picture exports draw the looks; battle maps draw them in the image only, never as walls or obstacles. \u00a712.5: drawn lazily per visible tile. T-ER rows: no condition and no preview (byte-identical tiles); a condition the key withholds (not drawn); every week of a condition's window and none outside it.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-rendering-r1t",
+    "claim": "g item 122's rendering part is absent (filed after every round-1 repair began). \u00a78.2 draws a `ConditionOverlay` only as a settlement-wide wash with a legend row (`condition.siege` \u2026); no crisis look, its placement, its tile key, its exports or its budget exists in \u00a78.2, \u00a78.8, \u00a711.1 or \u00a712.5.",
+    "required_change": "\u00a78.2 \u2014 the crisis look rows by tier and band, read from \u00a710.2's crisis look table through \u00a77.7's derivation row for every condition standing in the view's week (item 117's year position): siege \u2014 camps beyond bowshot (\u2248 300 m), the trench and earthwork line, engines facing the gates or the weakest stretch (item 114's), burned farmsteads, blockade camps on an unwalled place's approaches; mass immigration \u2014 a tent and shanty camp on common or fallow land by a gate, carts and fires, sized by the arrivals; disease \u2014 a fenced quarantine camp with huts, pest-house, grave rows and smoke, marked doors and a cordon at the neighbourhood band; famine \u2014 bare withered fields over item 117's crop stage, empty pens, shuttered stalls; beast attack, raiders, occupation, rebellion, boom and bust as item 122 (b) lists; disaster \u2014 whole neighbourhoods in a temporary ruined state, the share by severity, the pattern by kind (fire downwind through contiguous blocks, flood on low ground by the terrain raster, earthquake scattered), the calamity's `targets` winning; the regional pressures no look; every element placed by keyed draws of the seed, the condition's id and the place, several crises sharing the outskirts by priority (siege, quarantine, refugees) under a density cap, never on water, a gate's passage or a label's keep-out; city band clusters, the siege line, smoke and the ruined tone, district band engines, tents and fences, neighbourhood band doors, rubble and detail, each with its second cue; a `base` live layer joining the tile key; the Show crises switch and a manual preview (view state); a condition the viewer's key withholds not drawn (\u00a79.2's admission); \u00a711.1 \u2014 picture exports draw the looks, battle-map exports in the image only, never walls or obstacles; \u00a712.5 \u2014 drawn lazily per visible tile; \u00a78.11 \u2014 the edges and the no-op pin (no condition and no preview: tiles byte-identical).",
+    "severity": "major"
+   }
+  ]
+ },
+ {
+  "id": "G123-rendering",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "claim": "g item 123's rendering part (canon: \"\u00a78.6 (the damaged plan's drawing); \u00a711.1 (battle maps: fallen wall runs leave line of sight, openings, rubble and holes in the image)\") is absent (verify-rendering-r1t's G123-rendering).",
+  "required_change": "\u00a78.6 draws the damaged plan by the decay level (abandoned, decayed, ruined and restored-with-patches states, every element by its threshold); \u00a711.1's battle-map exports follow the damage (a fallen wall run leaves line of sight, a doorless opening a gap, rubble and floor holes in the image, never invented walls).",
+  "owner": "rendering",
+  "reported_by": "verify-agree-layers-r1t, verify-agree-tools-r1t, verify-edges-world-r1t, verify-rendering-r1t",
+  "also_reported": [
+   {
+    "by": "verify-agree-tools-r1t",
+    "claim": "File g item 123 (a ruined building's plans damaged, never redrawn; J136), routed by canon.md's ruling 'File g items 121, 122 and 123 routed', names rendering's parts as \u00a78.6 (the damaged plan's drawing) and \u00a711.1 (battle maps: fallen wall runs leave line of sight; openings, rubble and holes in the image). They are absent: \u00a78.6 draws a decayed or ruined plan uniformly, with no partial or progressive damage.",
+    "required_change": "\u00a78.6 draws the damage layer over the same plan at every state. Abandoned: dust, debris, broken furniture, doors off their hinges. Decayed: rotten floor patches and holes, partitions down, roof holes open to the sky, some rooms marked unsafe. Ruined: outer walls broken, upper storeys mostly floorless (fragments over the void), rubble heaps, the ground floor the only walkable storey, cellars and crypts by their own thresholds. A restored element is drawn in patch material (item 114). \u00a711.1: battle-map exports follow the damage \u2014 a fallen wall run leaves line of sight, a doorless opening is a gap, and rubble heaps and floor holes are drawn in the image only, never invented as walls.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-edges-world-r1t",
+    "claim": "Item 123 (J136) names rendering \u00a78.6 (the damaged plan's drawing) and \u00a711.1 (battle maps: fallen wall runs leave line of sight, openings, rubble and holes in the image). Neither is in the live base.",
+    "required_change": "\u00a78.6: the damaged plan's drawing by state \u2014 `abandoned`: debris, doors off; `decayed`: floor holes, partitions down, roof holes; `ruined`: outer walls broken, upper storeys floorless, rubble. \u00a711.1: battle-map walls, portals and line of sight follow the damage (a fallen run leaves line of sight, a doorless opening is a gap, rubble and holes are drawn in the image, never invented as walls).",
+    "severity": "major"
+   },
+   {
+    "by": "verify-rendering-r1t",
+    "claim": "g item 123's rendering part is absent (filed after every round-1 repair began). \u00a78.6 draws a decayed or ruined building's plan uniformly (V03 \u00a75.1's broken ink over rubble stipple), with no partial, progressive damage; \u00a711.1's battle-map rows take `line_of_sight` from every plan wall with no damage reading.",
+    "required_change": "\u00a78.6 \u2014 the damaged plan drawn over the same plan: each plan element (wall run, floor area, door, window, stair, roof bay over a room, furniture piece) drawn broken where the building's decay level has passed that element's keyed threshold (\u00a76.3) \u2014 `abandoned` dust, debris and doors off; `decayed` floor holes, fallen partitions, roof holes, rooms marked unsafe; `ruined` broken outer walls, upper storeys floorless over the void, rubble heaps, cellars and crypts by their own thresholds; a restored element in patch material (item 114) \u2014 the damage monotone in the level and never relocated, and the building band's exterior drawing the same damage (a roof hole over a room; a broken outer wall a gap in the footprint's outline); \u00a711.1 \u2014 battle-map exports follow the damage: a fallen wall run leaves `line_of_sight`, a doorless opening is a gap, rubble heaps and floor holes drawn in the image only, never invented as walls; \u00a78.11 \u2014 the edges and the no-op pin (a building never decayed byte-identical to today's plan).",
+    "severity": "major"
+   }
+  ]
+ },
+ {
+  "id": "G124-rendering",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "claim": "g item 124's rendering part (canon: \"\u00a78.2 (the effects' marks per style family); \u00a78.4 (the shower's dimming, fog's scattering and night halos as per-frame light terms; the vector rung's wash); \u00a78.8 (the layer above tiles, below labels and overlays, never in the tile key); \u00a711 (exports leave the effects out); \u00a712.5 (\u2248 1 ms per frame \u2026)\") is absent (verify-rendering-r1t's G124-rendering).",
+  "required_change": "\u00a78.2 the effects' marks per family; \u00a78.4 the shower's dimming, fog's scattering and the night halos as per-frame light terms and the vector rung's wash; \u00a78.8 the effects layer above the tiles and below labels and overlays, never in the tile key; \u00a711 exports leave the effects out; \u00a712.5 \u2248 1 ms per frame at the densest spell, first in item 121 (e)'s order.",
+  "owner": "rendering",
+  "reported_by": "verify-agree-layers-r1t, verify-agree-tools-r1t, verify-edges-world-r1t, verify-rendering-r1t",
+  "also_reported": [
+   {
+    "by": "verify-agree-tools-r1t",
+    "claim": "File g item 124 (intermittent light weather; J137), routed by canon.md's ruling 'File g item 124 routed', names rendering's parts as \u00a78.2, \u00a78.4, \u00a78.8, \u00a711 and \u00a712.5. They are absent: \u00a78.2's `weather` key (cover only) is the only weather, and there is no effects layer, light term, export rule or budget.",
+    "required_change": "Write item 124's rendering part at build depth as new design (never the model, the document, its hash or any tile). \u00a78.2: the effects' marks per style family \u2014 fine ink strokes for rain, dots for snow, stipple for mist in `ink` and `hatched`, soft translucent streaks in `lit`, faint ripples on water in rain \u2014 at low density and opacity. \u00a78.4: the shower's dimming of the direct term and softened shadows; fog's scattering (shadows soft and faint, the map fading toward the fog's colour away from the view's centre, a soft halo on every `LightSource` at night) as per-frame light terms; on the vector rung, a wash and the halos only; no flash (every change of light takes seconds). \u00a78.8: the effects layer above the tiles and below labels, the chrome and every overlay, never in the tile key. \u00a711: exports never draw the effects, byte-identical on and off. \u00a712.5: \u2248 1 ms per frame at the densest spell, the first thing item 121 (e)'s Auto gives up.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-edges-world-r1t",
+    "claim": "Item 124 (J137) names rendering \u00a78.2, \u00a78.4, \u00a78.8, \u00a711 and \u00a712.5 (the effects' marks, the per-frame light terms, the layer above tiles and below labels, never in the tile key; exports without them; \u2248 1 ms per frame). None is in the live base.",
+    "required_change": "\u00a78.2: the effect marks per style family. \u00a78.4: the shower's dimming, fog's scattering and night halos as per-frame light terms; the vector rung's wash. \u00a78.8: the layer above the tiles and below labels and overlays, never in the tile key. \u00a711: exports leave it out (byte-identical on and off). \u00a712.5: \u2248 1 ms per frame at the densest spell; first to go under item 121 (e). Edges: no falling or lying snow where the climate's winter does not freeze; arid rain within its row; no luminance step faster than the photosensitivity limit; labels never covered.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-rendering-r1t",
+    "claim": "g item 124's rendering part is absent (filed after every round-1 repair began). \u00a78.2's `weather` key is the only weather (cover rows); \u00a78.4 has no shower dimming, fog scattering or night halos; \u00a78.8 no effects layer; \u00a711 and \u00a712.5 no rule or budget. \u00a78.2's snow default ('a viewer's value stands') and V11 \u00a73.25.6 ('a user may still switch the `snow` weather on') still let the `snow` cover lie where the climate's winter does not freeze, against item 124 (c)'s hard rule (no snow, falling or lying).",
+    "required_change": "\u00a78.2 \u2014 the weather effects' marks per style family (fine ink strokes for rain, dots for snow, stipple for mist in `ink` and `hatched`, soft translucent streaks in `lit`, faint ripples on water during rain; no lightning or flash, every change of light taking seconds) and the hard rule: neither falling snow nor the `snow` cover is drawn where the climate row's winter is `none`, whatever the viewer's `weather`; \u00a78.4 \u2014 the shower's dimming of the global light's direct term and its softened shadows, fog's scattering (soft, faint shadows, the map fading toward the fog's colour away from the view's centre, a soft halo round every `LightSource` at night) as per-frame light terms, the vector rung a wash and the halos only; \u00a78.8 \u2014 the effects layer above the tiles and below labels, the chrome and every overlay, never in the tile key; \u00a711 \u2014 every export leaves the effects out, byte-identical with them on or off; \u00a712.5 \u2014 about 1 ms per frame at the densest spell on the reference hardware, the first thing item 121 (e)'s Auto gives up; \u00a78.11 \u2014 the edges (reduced motion, the low tier and phones off by default; a spell during an export; the timeline replayed from its seed and clock).",
+    "severity": "major"
+   }
+  ]
+ },
+ {
+  "id": "G122h-rendering",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "claim": "g item 122 (h)\u2013(i)'s rendering part (canon: \"\u00a78.8 (massed camp marks on the surrounding ring for a force too large for frame and margin)\") is absent.",
+  "required_change": "\u00a78.8 draws a force too large for the frame and its margin as massed camp marks on the surrounding ring at the city band, the camps filling the land to the margin, with the full count given by the panel.",
+  "owner": "rendering",
+  "reported_by": "verify-agree-layers-r1t, verify-agree-tools-r1t, verify-edges-world-r1t",
+  "also_reported": [
+   {
+    "by": "verify-agree-tools-r1t",
+    "claim": "File g item 122 (h)\u2013(i) (crisis looks sized by the dossier's forces; framing and the limit; J138), routed by canon.md's last ruling 'File g item 122 (h)\u2013(i) and item 125 routed', names rendering's part as \u00a78.8: massed camp marks on the surrounding ring for a force too large for the frame and margin. It is absent.",
+    "required_change": "\u00a78.8 adds item 122 (i)'s ring: camps stay on the land the map holds (the frame and its margin). A force too large for that land fills it out to the margin, and the rest is drawn as massed camp marks on the surrounding ring at the city band \u2014 a look only, never the frame, the model or the hash.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-edges-world-r1t",
+    "claim": "Item 122 (h)\u2013(i) (J138) names rendering \u00a78.8: massed camp marks on the surrounding ring for a force too large for frame and margin. \u00a78.8 has none.",
+    "required_change": "\u00a78.8: the surrounding ring's massed camp marks at the city band (the count beyond the margin's capacity, with the panel's full number), and their interplay with item 116's widened limit at the METROPOLIS cap (VEW-r1-05).",
+    "severity": "major"
+   }
+  ]
+ },
+ {
+  "id": "G125-rendering",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "claim": "g item 125's rendering part (canon: \"\u00a711.3 and \u00a711.4 (the dossier the only data input; the view commands kept as commands)\") is absent: \u00a711.4 still has the host pass \"the whole dossier and, when it has them, the optional fields of `HostContext` \u2014 the week, the realm block, the audience, display names, the product line\" (base l. 15550\u201315551) as inputs.",
+  "required_change": "\u00a711.3 and \u00a711.4 state the dossier as the port's only data input \u2014 `HostContext.week` and `HostContext.realm` retired as inputs, every used field with its standalone fallback \u2014 and the embedding API's view commands (a week, a layer, a selection) kept as commands the map never needs.",
+  "owner": "rendering",
+  "reported_by": "verify-agree-layers-r1t, verify-agree-tools-r1t, verify-edges-world-r1t",
+  "also_reported": [
+   {
+    "by": "verify-agree-tools-r1t",
+    "claim": "File g item 125 (the dossier the only data input; J139), routed by canon.md's last ruling 'File g item 122 (h)\u2013(i) and item 125 routed' (with its \u00a74.11 completion), names rendering's parts as \u00a711.3 and \u00a711.4: the dossier the only data input, the view commands kept as commands. It is absent: \u00a711.4 still lists 'the optional fields of `HostContext` \u2014 the week, the realm block, \u2026' among the host inputs.",
+    "required_change": "\u00a711.4 states the dossier as the port's only data input. `HostContext.week` and `HostContext.realm` are retired as inputs, and every fact they supplied comes from the dossier, else from the generator's fallback (\u00a77.7). \u00a711.3 keeps the embedding API's view commands (a week, a layer, a selection) as commands a host may send as a user would, which the map never needs (item 125 (c)).",
+    "severity": "major"
+   },
+   {
+    "by": "verify-edges-world-r1t",
+    "claim": "Item 125 (J139) names rendering \u00a711.3 and \u00a711.4: 'the dossier the only data input; the view commands kept as commands'. \u00a711.4 still has the host pass 'the whole dossier and, when it has them, the optional fields of `HostContext` \u2014 the week, the realm block, the audience, display names, the product line', so the week and the realm block remain data inputs beside the dossier; \u00a711.3 states no dossier-only rule, and \u00a714's `HostContext` still declares `week` ('the last dating rung') and `realm`.",
+    "required_change": "\u00a711.3 and \u00a711.4: the dossier is the port's only data input; `HostContext.week` and `HostContext.realm` are retired as inputs; every used field has its standalone fallback (V08's digest column); the embedding API's view commands (a week, a layer, a selection) stay commands the map never needs. Bar (item 125 (e)): a static check that the adapter reads nothing but the dossier.",
+    "severity": "major"
+   }
+  ]
+ },
+ {
+  "id": "VAT-R1-01",
+  "severity": "major",
+  "kind": "MATRIX-GAP",
+  "claim": "`advance` on a dossier-bound document is refused, but no unit says what the call returns. \u00a711.2 types `advance(h, req, opts?): Promise<ApplyResult>` with the comment 'refused on a dossier-bound document'. Its `ApplyResult` has only `ok`, `conflict` and `confirm` members, and no catalogue key is named for the refusal. V06 \u00a72.3 calls it 'the dossier-clock case of the dossier-owned refusal', offering 'Make a what-if copy and advance it'. V09 \u00a74.9 words it as `refuse.dossierClock`, codes '\u00a711.2's `advance` refused on a dossier-bound document'. So a caller that does not pre-check \u2014 volume 10's harness running the clerk's `advance` (V09 \u00a74.3's `advance` row: 'also from: the clerk's proposal'), or a script through \u00a711.2 \u2014 gets an answer of undefined shape. The matrix lists `advance` (V06\u2013V09, V06\u2013V10, V09\u2013V10) but not this refusal. That makes it an undefined edge of the embedding API (principle (11)).",
+  "required_change": "\u00a711.2's `advance` comment: 'on a dossier-bound document nothing runs and the call answers `{ status: 'conflict', outcome: { key: 'refuse.dossierClock' }, actions: [] }` \u2014 the host's clock owns its time (V06 \u00a72.3; J-V6.2); the what-if copy is that catalogue row's button (V09 \u00a74.9)'. The `advance` row of the call table adds 'or the dossier-clock conflict'.",
+  "owner": "rendering",
+  "reported_by": "verify-agree-tools-r1t"
+ },
+ {
+  "id": "VDC1-15",
+  "severity": "minor",
+  "kind": "WIRING",
+  "claim": "\u00a711.2's `ConflictAction.kind` (l.15133) still includes 'reroute'. \u00a77.1's *The returned kinds*, new this round (l.10159-10167; 'the one statement'), ends 'No row returns `reroute`: a route is bent, never refused'. The enumeration member has no producer. Determinism's repair file hands this to rendering ('retire it or name its row'), and V09 lists 'that no engine path emits a `reroute` `ConflictAction`' as PLAUSIBLE.",
+  "required_change": "\u00a711.2: `type ConflictAction = { kind: 'moveTo'|'unlock'|'unassign'|'stale'|'invalid'; \u2026 }` \u2014 `reroute` retired (no row of \u00a77.1's outcome table returns it; a route is bent).",
+  "owner": "rendering",
+  "reported_by": "verify-determinism-r1t"
+ },
+ {
+  "id": "VEW-r1-05",
+  "severity": "major",
+  "kind": "EDGE-UNDEFINED",
+  "claim": "Item 116's zoom-out limit at the METROPOLIS cap. \u00a78.8 defines k_min = max(0, k_fit \u2212 `view.zoomOutMarginStops`), with k_fit 'the largest k \u2264 34 with max(the bounds' width, height) \u2264 the short side in CSS px \u00d7 m_k'. The coarsest stop, k = 0, is m_0 \u2248 11.97 m per CSS px. The cap's frame is 17.53 km \u00d7 8.76 km (\u00a73.2), so it fits only on a short side of at least \u2248 1 465 CSS px; the METROPOLIS target's 11.31 km needs \u2248 945. On a laptop or desktop window, and always on a phone, no k satisfies the test, so k_fit is undefined, and the max(0, \u2026) clamp does not define it. T-ER-08's bar ('it stops at k_min, where the whole `bounds` fits the short side'), \u00a79.5's *Fit the town* ('frames the whole `bounds` at the limit's stop') and item 116 (e)'s 'at every rung from THORP to the cap the zoom-out limit shows the whole bounds' cannot hold there. Item 116's \u00a712.5 clause ('fewer stops, never more') forbids the obvious repair of adding coarser stops. Item 122 (i)'s widened limit, town plus camps, makes it larger still.",
+  "required_change": "\u00a78.8: state the case. 'Where no stop k \u2265 0 fits \u2014 `bounds` wider than the short side \u00d7 m_0 \u2014 k_fit is 0 and k_min is 0: the limit is the pyramid's coarsest stop, the view at it showing as much of `bounds` as fits, centred by \u00a79.5's framing, the view status saying \u2018the whole map is wider than this window\u2019.' T-ER-08 and \u00a79.5's *Fit* read 'the whole `bounds`, or stop 0 where it does not fit'. Add a METROPOLIS-cap fixture on a 900 \u00d7 1 600 and a 390 \u00d7 844 CSS-px viewport to T-ER-08. Because this narrows item 116 (e)'s bar at the cap, record it as a judgment row naming that clause. The alternative \u2014 stops below 0 for such maps \u2014 must be ruled against item 116's 'fewer stops, never more' before it is written.",
+  "owner": "rendering",
+  "reported_by": "verify-edges-world-r1t"
+ },
+ {
+  "id": "VRC1T-01",
+  "severity": "minor",
+  "kind": "F-MISSING",
+  "owner": "rendering",
+  "claim": "g item 119 (a2)'s rendering part is not written: \u00a712.1's comfort-level list reads \"an advance of time and item 113's history replay, read as V06 \u00a76 states them\" and R12-31 \"an advance of time and the history replay as V06 \u00a76 reads them\" (the repair's 'Held (VV56-07)'); the owner chose TOTAL (J132) and the canon routes to rendering \"\u00a712 lists advance and the replay among the one-time waits in total\", as V06 \u00a76.8, V12 \u00a73.15.9 (2) and V12's `wait.advanceTime` / `wait.historyReplay` rows now state.",
+  "required_change": "\u00a712.1 reads \"\u2026 an `advance` of time and a history-first generation (item 113's replay with the peak's generation before it), each in total, never per epoch (item 119 (a2); V06 \u00a76.8 coarsens the cadence until its estimate fits) \u2026\", and R12-31's wait list reads \"\u2026 an advance of time and the history replay, each in total (item 119 (a2)) \u2026\".",
+  "reported_by": "verify-rendering-r1t"
+ },
+ {
+  "id": "VRC1T-02",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "owner": "rendering",
+  "claim": "Which view keys cross the bridge disagrees between \u00a711.3 (the home \u00a72.9 names) and \u00a72.9 and V09. \u00a72.9 (model's round-1 block) declares `yearWeek`, `seasonFollow`, `festival` and `cvdVariant` \"four per-viewer keys (never over a bridge, \u00a711.3)\"; V09's state table says the per-viewer keys travel \"never (\u00a711.3)\" (listing those four with `thematic`, `workingLayer`, `underlay`, `showUnexcavated` and V09 \u00a74.19's keys) and T-V9-45 tests that \"the per-viewer keys never cross a bridge\"; \u00a711.3's replaced *View state* bullet says \"Every view key of \u00a72.9 \u2026, the per-viewer keys among them, travels as `view.set` / `view.changed`, except the pointer that moves the cursor sun and the `underlay` image\". A bridge built to \u00a711.3 fails T-V9-45 and carries the keys \u00a72.9 keeps local.",
+  "required_change": "\u00a711.3's *View state* bullet reads \"Every view key of \u00a72.9 (\u2026) travels as `view.set` / `view.changed`, except the pointer that moves the cursor sun, the `underlay` image (\u00a79.5) and the per-viewer keys a viewer's client keeps \u2014 `yearWeek`, `seasonFollow`, `festival`, `cvdVariant` (\u00a72.9), `thematic`, `workingLayer`, `showUnexcavated` and V09 \u00a74.19's per-viewer keys \u2014, which never cross the bridge; `knowledge`, which the host sets per viewer (below; J-A30.82), travels.\"",
+  "reported_by": "verify-rendering-r1t"
+ },
+ {
+  "id": "VRC1T-03",
+  "severity": "major",
+  "kind": "EDGE-UNDEFINED",
+  "owner": "rendering",
+  "claim": "The parity presets \u00d7 this round's looks (principle (11): every toggle and preset). \u00a78.4 (h): \"Every default row of ours \u2014 the field model, the cursor sun, the moon, the point lights, the ambient, occlusion and spill terms \u2014 carries the `extension` marker, so the parity presets switch it off\"; the new rows of ours \u2014 \u00a78.2's season looks, leaf colours, leaf cover, creepers, ice and leads and the climate snow default, \u00a78.4's sun through the year, `live.festival` and \u00a78.10's `boats` class (drawn in every week) \u2014 state nothing for the presets. At the standalone default (week 19) the `FTG` preset's fixed sun would stand 23.44\u00b0 above its sheet's altitude and meadows draw `meadow.mown` swaths, and `MFCG` and `FTG` would draw boats, so the presets' look and \u00a713.5's parity metrics move with no stated outcome.",
+  "required_change": "\u00a78.4 (h)'s sentence reads \"Every default row of ours \u2014 the field model, the cursor sun, the moon, the point lights, the ambient, occlusion and spill terms, item 117's season rows and sun through the year (\u00a78.2, *Sun* below), item 118's decorations (`live.festival`) and \u00a78.10's boats \u2014 carries the `extension` marker, so the parity presets switch it off: a parity preset draws the map as drawn, under its sheet's sun, in every week\"; T-ER-23 and T-ER-24 add a parity-preset fixture whose tiles are equal in all 52 weeks and with a festival shown.",
+  "reported_by": "verify-rendering-r1t"
+ },
+ {
+  "id": "VRC1T-04",
+  "severity": "major",
+  "kind": "EDGE-UNDEFINED",
+  "owner": "rendering",
+  "claim": "\u00a78.4's new *Sun through the year* sets the fixed sun at `altitudeCdeg` + \u03b4(w) (\u03b4 down to \u221223.44\u00b0 at midwinter) and the cursor sun's h\u2080 = `heightRatio` \u00d7 tan(that altitude) \u00f7 tan(`altitudeCdeg`), and `SunSpec.altitudeCdeg` has no declared range (a sheet is data: saved, edited or a preset's). A sheet under 23.44\u00b0 puts the fixed sun at or below the horizon in its midwinter weeks (h\u2080 \u2264 0; sin \u03b1_f \u2264 0 in E_key = E_g \u00b7 (a + sin \u03b1_f)), and a sheet at 0\u00b0 divides by tan 0; no outcome, fallback or test is stated (T-ER-23 sweeps the weeks on the shipped 45\u00b0 sheets only).",
+  "required_change": "\u00a78.4's *Sun through the year* clamps the drawn altitude to [atan \u215b \u2248 7.1\u00b0, 89\u00b0] (the altitude at which *Sun*'s 8\u00d7 shadow cap starts) and takes the cursor ratio as tan(the clamped altitude) \u00f7 tan(max(`altitudeCdeg`, 7.1\u00b0)); the sheet loader clamps a `SunSpec.altitudeCdeg` outside (0\u00b0, 90\u00b0) into it and reports it; T-ER-23 adds sheets at 10\u00b0 and at 0\u00b0 swept through all 52 weeks (the sun above the horizon in every week, every value finite).",
+  "reported_by": "verify-rendering-r1t"
+ },
+ {
+  "id": "VRC1T-05",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "owner": "rendering",
+  "claim": "The export comfort level's scope contradicts itself. \u00a712.1 binds it to \"an export, in every format the export dialog offers at its sizes up to A2 at 300 dpi\", while \u00a712.7's PNG fallback ends \"(R12-31; a wait past the comfort level is never offered)\" and R12-31 times \"an export of every offered format and size\"; V09's export dialog offers custom pixels and \u00a78.7 exports at any DPI (item 121 (b): \"\u00a78.7's any DPI stands\"), so a custom size past A2 at 300 dpi is both offered and, by \u00a712.7, never offered, with no stated outcome against the comfort level.",
+  "required_change": "\u00a712.7's parenthesis reads \"(R12-31: no preset print size whose export would pass the comfort level is offered; a custom pixel size or DPI past A2 at 300 dpi stays offered, \u00a78.7, outside the comfort level as \u00a712.1 scopes it, its progress shown by \u00a712.1's rule)\", and R12-31's export clause reads \"an export of every offered format at every preset size up to A2 at 300 dpi\".",
+  "reported_by": "verify-rendering-r1t"
+ },
+ {
+  "id": "VRC1T-06",
+  "severity": "minor",
+  "kind": "WIRING",
+  "owner": "rendering",
+  "claim": "\u00a711.2's new `Progress` posts `wait` kinds 'epoch' | 'history' | 'dossier' | 'export' | 'migrate'. V09 \u00a74.21.9 and V09 \u00a73.9's Go back to here read `progress.undo` (events undone of the total), which no `Progress` member posts \u2014 and `edit`, which carries that grouped undo jump, takes no `onProgress` \u2014 a dangling input; and `open`'s comment folds \"the replay of load verification and a migration\" into 'migrate', which V09 words \"Updating this town to this version\", so a plain open's verification is named a migration.",
+  "required_change": "`Progress`'s `wait` gains `'undo'` (events undone or redone of the total) and `'verify'` (an open's load-verification replay: events replayed of the total); `edit` takes `opts.onProgress?: (p: Progress) => void`, posted as `'undo'` for a group of `undo` or `redo` events; `open`'s comment reads \"the load verification replay ('verify') and a migration ('migrate')\"; V09's `progress.<wait>` row gains `verify` (V09's follow-up).",
+  "reported_by": "verify-rendering-r1t"
+ },
+ {
+  "id": "VRC1T-07",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "owner": "rendering",
+  "claim": "\u00a78.8's zoom-out limit restates a V11 cell's value: \"the margin is V11's base settings cell (1 stop, V11 \u00a73.25.5)\"; V11's registry row 92 (J-V11.106) holds `view.zoomOutMarginStops` \"here \u2026 the base cites the cells by name and states no value\", as the base does for the row's other cells (`reroll.maxAdvance`, `crossing.searchBandM`, `index.gridCellM`) (principle (1)).",
+  "required_change": "\u00a78.8 reads \"\u2026 and the margin is the base settings cell `view.zoomOutMarginStops` (V11 \u00a73.25.5)\" \u2014 the value \"1 stop\" dropped.",
+  "reported_by": "verify-rendering-r1t"
+ },
+ {
+  "id": "VRC1T-08",
+  "severity": "minor",
+  "kind": "TERM",
+  "owner": "rendering",
+  "claim": "T-ER-23 (\u00a78.11, new) names two identifiers declared nowhere in the set \u2014 \"a water mark with no `iceKind`\" and \"a face with no `seasonKind`\"; \u00a78.1 item 8 carries both as the halves of each mark's `season` column (its ice kind in the high 16 bits, its `season.surfaces` row index in the low 16, ~0 where it has none).",
+  "required_change": "T-ER-23's cases read \"a water mark whose `season` column holds no ice kind; a face whose `season` column names no `season.surfaces` row (\u00a78.1 item 8)\".",
+  "reported_by": "verify-rendering-r1t"
+ },
+ {
+  "id": "VRC1T-10",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "owner": "rendering",
+  "claim": "`cvdVariant`'s default disagrees: \u00a78.2 selects the variant \"by the per-viewer view key `cvdVariant` (`'none'` default; V09's view settings)\"; \u00a72.9, the key's home, reads an absent or unknown value as V09's machine default `AppPrefs.cvdDefault` ('none' until the user sets it), written by V09 \u00a74.21.2's Colour vision chip \u2014 so a viewer whose machine default is set reads 'none' by \u00a78.2.",
+  "required_change": "\u00a78.2's parenthesis reads \"(\u00a72.9's key: absent, V09's machine default `AppPrefs.cvdDefault`; V09 \u00a74.21.2)\".",
+  "reported_by": "verify-rendering-r1t"
+ },
+ {
+  "id": "VV34-r1-04",
+  "severity": "minor",
+  "kind": "WIRING",
+  "claim": "V04 \u00a75.1 *Find on Below* (2) draws a Below match with no element in the drawn band as 'a faint ghost pin at its plan anchor carrying its shallowest band's depth range as the band ladder writes it', and V04 \u00a713 hands rendering 'Find's rows include the faint ghost pin, with its band label for a Below match'. \u00a78.2 has no Find rows yet (G120-rendering), and G120-rendering's required change names 'faint ghost pins for matches on another layer' without the label, so the band V04 draws on a ghost pin has no row that draws it.",
+  "required_change": "When \u00a78.2's Find rows are written (G120-rendering), give the ghost-pin row its label: for a match Below, its shallowest band's depth range as the band ladder writes it (V04 \u00a75.1 (2)), drawn beside the chip's glyph and kept above the veil.",
+  "owner": "rendering",
+  "reported_by": "verify-vol-V03-V04-r1t"
+ },
+ {
+  "id": "VV56-r1-06",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "\u00a712.1 (l. 15649) counts among the comfort level's waits \"an open from SettlementForge (with its load verification and any migration, \u00a72.9, \u00a711.3)\". \u00a72.9 step 3 runs the verification replay in parallel (\"no edit waits for the verification replay\"); \u00a712.6's *Replay and load verification* (l. 15954, l. 15958): \"a century of history verifies within V06 \u00a76.2's century bound, \u2264 115 s at CITY, off the path to the picture \u2026 Verification never delays the picture or an edit\"; V06 \u00a76.3 (l. 3667) the same; V12 \u00a73.15.9 (2) times the open \"to the complete result \u2014 the map's final complete frame\". Read literally, \u00a712.1 puts a CITY century document's \u2248 113 s verification inside the open's ten seconds, where every other statement keeps it off the path.",
+  "required_change": "\u00a712.1's list reads \"\u2026 an open from SettlementForge (to the editable complete map \u2014 the load's digest checks and any migration included; the verification replay runs after it, off the path, \u00a72.9 step 3, \u00a712.6) \u2026\".",
+  "owner": "rendering",
+  "reported_by": "verify-vol-V05-V06-r1t"
+ },
+ {
+  "id": "VV910-02",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "claim": "Partly fixed. V10 now reads each cell's calibration record from V12 \u00a72.10's dist/evidence.json with entry, status, method and due (V10 \u00a71.2 l.204, \u00a71b.1 l.262, \u00a73.5 l.1406, \u00a710.2 l.3302), but repair round 1 moved the type to base \u00a711.2 (VAT-03), whose RuleAnswer.register (l.15233\u201315234) still reads `{ id: string; status: CalibrationEntry['status']; method: CalibrationEntry['method']; due: string }` from 'V12 \u00a72.6's plat/calibration/register.json' \u2014 a file that never ships, a field (`id`) the shipped file lacks, `entry` mandatory where V12 \u00a72.10 makes it optional, no 'owner' status. V10's repair note (2) handed the field to rendering.",
+  "required_change": "\u00a711.2's RuleAnswer.register reads: `register?: { status: CalibrationEntry['status'] | 'owner'; entry?: string /* absent for a stamped or ref: cell */; method?: CalibrationEntry['method']; due?: string } /* the cell's row in V12 \u00a72.10's dist/evidence.json, where one exists; an absent file, or one of other table versions: the provenance source alone; told plain first, its entry and method only behind \"details\" (V10 \u00a73.5) */` (V10's repair note (2) word for word).",
+  "owner": "rendering",
+  "reported_by": "verify-vol-V09-V10-r1t"
+ },
+ {
+  "id": "VV910-r1-01",
+  "severity": "minor",
+  "kind": "WIRING",
+  "claim": "V09 \u00a74.21.9 (2) (l.3313\u20133316) offers Stop on V06's advance, on item 113's history replay at generation (added this round, VV910-11: a stopped history-first generation leaves no document and shows info.history.cancelled; V06 \u00a73.20.4's cancel edge row) and on an export. \u00a711.2's PlatApi has cancelAdvance(h) only (l.15114): neither `generate` (which has no handle until it resolves) nor `export` can be stopped, so two of the three Stop controls are one-ended hooks. VRC1T-06 covers the progress side, not this.",
+  "required_change": "\u00a711.2: `generate`'s and `export`'s opts gain `signal?: AbortSignal` \u2014 a stopped generate rejects with no handle and no document (a history-first generation's app then shows info.history.cancelled, V06 \u00a73.20.4; V09 \u00a74.21.9), a stopped export rejects with nothing written; V09 \u00a74.21.9 (2) cites it.",
+  "owner": "rendering",
+  "reported_by": "verify-vol-V09-V10-r1t"
+ },
+ {
+  "id": "VV1112-r1-06",
+  "severity": "minor",
+  "kind": "ELEGANCE",
+  "claim": "The same ruling's other remaining copy: \u00a711.2's `WhyAnswer` (l. 15248) reads `members?: { step: 'COUNT'|'QUARTER'|'GUILD'|'SIZE'|'REPLACEMENT'; \u2026 }`. VAH-32 named this field at its former home V10 \u00a72.13; it now lives in \u00a711.2, so V11's hand-off to V10 does not reach it.",
+  "required_change": "In \u00a711.2's `WhyAnswer` write `members?: { step: LadderStep /* V11 \u00a72.6 */; range?: [number, number]; count: number; ids: Id[] /* \u2264 limits.members */ }`.",
+  "owner": "rendering",
+  "reported_by": "verify-vol-V11-V12-r1t"
+ }
+]

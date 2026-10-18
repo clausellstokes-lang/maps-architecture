@@ -1,0 +1,666 @@
+{"t": "2026-09-25T06:07:28-04:00", "wf_live": [], "single": ["profile-neighbourhood-ring"]}
+{"t": "2026-09-25T06:09:53-04:00", "wf_live": [], "single": ["profile-neighbourhood-ring", "profile-mfcg-gates-proof", "profile-village-river-blocks", "ftg-roadlength-capture"]}
+{"t": "2026-09-25T06:18:08-04:00", "wf_live": [], "single": ["profile-mfcg-gates-proof", "profile-village-river-blocks", "ftg-roadlength-capture", "manor-archive"]}
+{"t": "2026-09-25T06:29:11-04:00", "wf_live": [], "single": ["profile-village-river-blocks", "ftg-roadlength-capture", "manor-archive", "_critic-vg-ng"]}
+{"t": "2026-09-25T06:35:43-04:00", "wf_live": [], "single": ["profile-village-river-blocks", "manor-archive", "_critic-vg-ng"]}
+{"t": "2026-09-25T06:36:32-04:00", "wf_live": [], "single": ["profile-village-river-blocks", "manor-archive", "_critic-vg-ng", "capture-mfcg-styles"]}
+{"t": "2026-09-25T06:41:46-04:00", "wf_live": [], "single": ["profile-village-river-blocks", "_critic-vg-ng", "capture-mfcg-styles", "manor-capture"]}
+{"t": "2026-09-25T06:48:18-04:00", "wf_live": [], "single": ["profile-village-river-blocks", "capture-mfcg-styles", "manor-capture", "ng-draw-vertices"]}
+{"t": "2026-09-25T06:52:37-04:00", "wf_live": [], "single": ["capture-mfcg-styles", "manor-capture", "ng-draw-vertices"]}
+{"t": "2026-09-25T06:54:43-04:00", "wf_live": [], "single": ["manor-capture", "ng-draw-vertices", "profile-mfcg-styles"]}
+{"t": "2026-09-25T06:58:03-04:00", "wf_live": [], "single": ["ng-draw-vertices", "profile-mfcg-styles", "manor-read"]}
+{"t": "2026-09-25T07:04:34-04:00", "wf_live": [], "single": ["profile-mfcg-styles", "manor-read", "profile-ng-bends", "analyze-labels-fix"]}
+{"t": "2026-09-25T07:17:14-04:00", "wf_live": [], "single": ["profile-mfcg-styles", "manor-read", "analyze-labels-fix", "profile-ng-bends-obb"]}
+{"t": "2026-09-25T07:20:23-04:00", "wf_live": [], "single": ["profile-mfcg-styles", "manor-read", "profile-ng-bends-obb"]}
+{"t": "2026-09-25T07:22:06-04:00", "wf_live": [], "single": ["manor-read", "profile-ng-bends-obb"]}
+{"t": "2026-09-25T07:25:07-04:00", "wf_live": [], "single": ["profile-ng-bends-obb"]}
+{"t": "2026-09-25T07:25:35-04:00", "wf_live": [], "single": ["profile-ng-bends-obb", "manor-frequencies"]}
+{"t": "2026-09-25T07:29:32-04:00", "wf_live": [], "single": ["manor-frequencies"]}
+{"t": "2026-09-25T07:30:59-04:00", "wf_live": [], "single": []}
+{"t": "2026-09-25T07:34:45-04:00", "wf_live": ["a49046b7394c5a46b", "a454b727e09adf040", "a8b2cfc6ee71cbfb5", "a1e99e17f072dd1cb"], "single": []}
+{"t": "2026-09-25T10:03:02-04:00", "wf_live": ["a9196048ae7debf4e", "a4c64b182295f46d9", "a3938f9f10de7776d", "a4cadfc4727da1b9c"], "single": []}
+{"t": "2026-09-25T10:23:35-04:00", "wf_live": ["a4445b434e9ffd4eb", "a35ea1e4fbd4524f2"], "single": []}
+{"t": "2026-09-25T10:42:30-04:00", "wf_live": ["a4445b434e9ffd4eb", "a35ea1e4fbd4524f2", "ae6517b5ba8a91b30", "a52f2bc85a194de8d", "a66e6f5f5b429ece6", "a28279dc8ebec7f49", "aee8fa446af2adb0f", "afa0f56729ce01ce4", "a1676b5fe6ff68fc3", "a1d29e78fbc008429", "a8a2df43010ad77e1", "aa1c444f6800ee036", "afbe2444cfd49f6b5"], "single": []}
+{"t": "2026-09-25T10:42:50-04:00", "wf_live": ["a4445b434e9ffd4eb", "a35ea1e4fbd4524f2"], "single": []}
+{"t": "2026-09-25T11:01:54-04:00", "wf_live": [], "single": []}
+{"t": "2026-09-25T11:02:49-04:00", "wf_live": ["ae4e740267f8f7d64", "a97aac527712b9ac4", "a2f845e724e67274f", "ae014aa1c977914d0"], "single": []}
+{"t": "2026-09-25T11:12:54-04:00", "wf_live": ["a97aac527712b9ac4", "aec86e13a4beababa", "ae613ada71bfdf819"], "single": []}
+{"t": "2026-09-25T11:13:06-04:00", "wf_live": ["a97aac527712b9ac4", "aec86e13a4beababa", "ae613ada71bfdf819"], "single": []}
+{"t": "2026-09-25T11:29:18-04:00", "wf_live": [], "single": []}
+{"t": "2026-09-25T11:30:43-04:00", "wf_live": ["a58195313ffabd680", "a4cd27a57636aa733", "a3cf21d2b08f78f6b", "a2e8e4e085741ea5e"], "single": []}
+{"t": "2026-09-25T15:02:52-04:00", "wf_live": [], "single": ["ARCHITECTURE-finish"]}
+{"t": "2026-09-25T15:03:40-04:00", "wf_live": [], "single": ["ARCHITECTURE-finish", "profile-ng-bends-predict", "profile-village-newbuild"]}
+{"t": "2026-09-25T15:11:37-04:00", "wf_live": [], "single": ["profile-ng-bends-predict", "profile-village-newbuild"]}
+{"t": "2026-09-25T15:13:12-04:00", "wf_live": ["a4194ea67a1922ad4", "ada1ac588a5df3dee", "af6239c561ce99fb8"], "single": ["profile-village-newbuild"]}
+{"t": "2026-09-25T15:17:27-04:00", "wf_live": ["a4194ea67a1922ad4", "ada1ac588a5df3dee", "af6239c561ce99fb8", "a8ee426a00d90cf1c", "a24dfb14a524fd368", "ae2ea7fcfba07e7ce", "a52613cfa37563593", "a59a7984923ecdae0"], "single": ["profile-ng-bends-anchor"]}
+{"t": "2026-09-25T15:27:51-04:00", "wf_live": ["ab50fb7ee3aa6d5cd", "a0f15ed8ac63a0e8e", "ad89efada2c04ad4d", "aa7c36e64dc3c0930"], "single": ["capture-mfcg-export"]}
+{"t": "2026-09-25T15:46:17-04:00", "wf_live": ["a54b419f33d9229c3", "aeb3a0fee312e8012", "a42138324467e4462"], "single": []}
+{"t": "2026-09-25T15:46:59-04:00", "wf_live": ["a54b419f33d9229c3", "aeb3a0fee312e8012", "a42138324467e4462"], "single": ["validation/redteam-geometry"]}
+{"t": "2026-09-25T16:28:44-04:00", "wf_live": ["a0e0e94049e9cdce4"], "single": []}
+{"t": "2026-09-25T16:29:24-04:00", "wf_live": ["a0e0e94049e9cdce4"], "single": ["validation/redteam-lifecycle", "validation/redteam-mfcg", "validation/redteam-ftg"]}
+{"t": "2026-09-25T16:31:12-04:00", "wf_live": [], "single": ["validation/redteam-lifecycle", "validation/redteam-mfcg", "validation/redteam-ftg", "validation/redteam-scale"]}
+{"t": "2026-09-25T16:57:02-04:00", "wf_live": [], "single": ["validation/redteam-lifecycle", "validation/redteam-ftg", "validation/redteam-scale", "validation/redteam-visual"]}
+{"t": "2026-09-25T17:02:50-04:00", "wf_live": [], "single": ["validation/redteam-ftg", "validation/redteam-scale", "validation/redteam-visual", "validation/redteam-improve"]}
+{"t": "2026-09-25T17:05:17-04:00", "wf_live": [], "single": ["validation/redteam-scale", "validation/redteam-visual", "validation/redteam-improve", "capture-mfcg-size-sweep"]}
+{"t": "2026-09-25T17:07:19-04:00", "wf_live": [], "single": ["validation/redteam-visual", "validation/redteam-improve", "capture-mfcg-size-sweep"]}
+{"t": "2026-09-25T17:17:31-04:00", "wf_live": [], "single": ["validation/redteam-visual", "validation/redteam-improve"]}
+{"t": "2026-09-25T17:28:48-04:00", "wf_live": [], "single": ["validation/redteam-improve"]}
+{"t": "2026-09-25T17:39:30-04:00", "wf_live": ["a92cff4473bb1646d", "adcccbd00df1e37d1", "aa544aad4e9caacb4", "a8be16d572b177780"], "single": []}
+{"t": "2026-09-25T17:47:48-04:00", "wf_live": ["ad0267f89721e7548", "ab75d61be6009f177", "a3adf945a5776a1ac", "a762fac9198202975", "ac10f8bd29ab63ca4", "a73f27695510cf60d", "a66f989e7557e5e50"], "single": []}
+{"t": "2026-09-25T17:53:55-04:00", "wf_live": ["a87b6ab3699abaa59"], "single": []}
+{"t": "2026-09-25T19:23:21-04:00", "wf_live": ["ab6eaa0e58aee3954", "a6fac426611a476a6"], "single": []}
+{"t": "2026-09-25T19:26:32-04:00", "wf_live": ["a6fac426611a476a6"], "single": []}
+{"t": "2026-09-25T20:13:30-04:00", "wf_live": ["a37225da9ca9f78cf", "af242ec47041dc7f1"], "single": []}
+{"t": "2026-09-25T20:14:45-04:00", "wf_live": ["af242ec47041dc7f1"], "single": []}
+{"t": "2026-09-25T20:16:56-04:00", "wf_live": ["af242ec47041dc7f1"], "single": []}
+{"t": "2026-09-25T20:17:48-04:00", "wf_live": ["af242ec47041dc7f1"], "single": []}
+{"t": "2026-09-25T20:18:48-04:00", "wf_live": ["af242ec47041dc7f1"], "single": []}
+{"t": "2026-09-25T20:24:16-04:00", "wf_live": ["a52b6eb5a01fb3b35", "a175b9b01df7ec426", "a22f91be6329d4ea2", "ae2f5966091a5fdcf"], "single": []}
+{"t": "2026-09-25T20:36:30-04:00", "wf_live": ["a52b6eb5a01fb3b35", "a175b9b01df7ec426", "a22f91be6329d4ea2", "ae2f5966091a5fdcf"], "single": []}
+{"t": "2026-09-25T20:52:22-04:00", "wf_live": ["a52b6eb5a01fb3b35", "a22f91be6329d4ea2", "ae2f5966091a5fdcf", "a981ef4317950f8c0"], "single": []}
+{"t": "2026-09-25T22:11:39-04:00", "wf_live": ["adf63e4a3988152d2", "a9eaf3fd349b36ad0", "ae54929f14323249e", "a94834535c60f58d4", "a2ee2b01da4f62669"], "single": []}
+{"t": "2026-09-25T22:50:18-04:00", "wf_live": ["af1b6b5c60e667f74"], "single": []}
+{"t": "2026-09-25T23:44:19-04:00", "wf_live": ["ac3f48e1166be5831", "ac558a2d54a8b3602", "a2e22c74bd201ffaa", "a73a942d7737a3e2e", "a090a4dc74d81f68c"], "single": []}
+{"t": "2026-09-25T23:44:46-04:00", "wf_live": ["ac3f48e1166be5831", "ac558a2d54a8b3602", "a2e22c74bd201ffaa", "a73a942d7737a3e2e", "a090a4dc74d81f68c"], "single": []}
+{"t": "2026-09-25T23:51:51-04:00", "wf_live": ["a090a4dc74d81f68c"], "single": []}
+{"t": "2026-09-26T00:05:25-04:00", "wf_live": ["a090a4dc74d81f68c"], "single": []}
+{"t": "2026-09-26T00:06:31-04:00", "wf_live": ["a090a4dc74d81f68c", "af2df11a59016034d", "a5feea90eaf45817c", "a9774b04d71c31f60", "acd461f338fee3e8c"], "single": []}
+{"t": "2026-09-26T00:58:53-04:00", "wf_live": ["a887d34d3c12aec0a", "ae6303cddc866d007", "aceb4073e2dba01a7"], "single": []}
+{"t": "2026-09-26T01:08:28-04:00", "wf_live": [], "single": []}
+{"t": "2026-09-26T03:17:37-04:00", "wf_live": ["a9851092d47f57ca3", "a681af653152e2345", "a0cb478d1401683e1", "a4c71e51446a99e1d"], "single": []}
+{"t": "2026-09-26T04:43:38-04:00", "wf_live": [], "single": []}
+{"t": "2026-09-26T04:46:36-04:00", "wf_live": ["aaf6a5f8b109126d5", "a1a19a0b872d1f58c", "ad32cfddfdc7b2559", "a4bef4ef8fb533c96"], "single": []}
+{"t": "2026-09-26T14:48:34-04:00", "wf_live": [], "single": []}
+{"t": "2026-09-26T14:54:02-04:00", "wf_live": ["a4700d793f0985239", "a482114421322640a", "ac47ca63171b1e370", "a7b61000f5a1bc56c"], "single": []}
+{"t": "2026-09-26T14:56:45-04:00", "wf_live": ["a4700d793f0985239", "a482114421322640a", "ac47ca63171b1e370", "a7b61000f5a1bc56c"], "single": []}
+{"t": "2026-09-26T15:03:08-04:00", "wf_live": ["a4700d793f0985239", "a482114421322640a", "ac47ca63171b1e370", "a7b61000f5a1bc56c"], "single": []}
+{"t": "2026-09-26T15:03:44-04:00", "wf_live": ["a4700d793f0985239", "a482114421322640a", "ac47ca63171b1e370", "a7b61000f5a1bc56c"], "single": []}
+{"t": "2026-09-26T18:24:22-04:00", "wf_live": ["ad40bf7cb5834747c", "aa4606dfbd8162410", "a1a9d94913bbfb2fa", "a9602c8d20f396fad"], "single": []}
+{"t": "2026-09-26T18:39:10-04:00", "wf_live": ["af64dc282b686296e", "a87e955192fa02185"], "single": []}
+{"t": "2026-09-26T18:41:26-04:00", "wf_live": ["af64dc282b686296e", "a87e955192fa02185"], "single": []}
+{"t": "2026-09-26T18:55:14-04:00", "wf_live": ["a87e955192fa02185", "a0690a0313d0a55e1"], "single": []}
+{"t": "2026-09-26T18:56:56-04:00", "wf_live": ["a87e955192fa02185", "a0690a0313d0a55e1"], "single": []}
+{"t": "2026-09-26T19:02:39-04:00", "wf_live": ["a0690a0313d0a55e1"], "single": ["dwellings/posts", "dwellings/profile"]}
+{"t": "2026-09-26T19:08:57-04:00", "wf_live": ["a0690a0313d0a55e1"], "single": ["dwellings/posts", "dwellings/profile", "dwellings/exports"]}
+{"t": "2026-09-26T19:10:23-04:00", "wf_live": ["a0690a0313d0a55e1", "aac6bb02871ad218f", "ac5a28cdefa99862e", "a89007d9f68085cfe", "a854bc81a89d72a64"], "single": ["dwellings/posts", "dwellings/profile", "dwellings/exports"]}
+{"t": "2026-09-26T19:11:29-04:00", "wf_live": ["a0690a0313d0a55e1", "aac6bb02871ad218f", "ac5a28cdefa99862e", "a89007d9f68085cfe", "a854bc81a89d72a64"], "single": ["dwellings/posts", "dwellings/profile", "dwellings/exports"]}
+{"t": "2026-09-26T19:32:34-04:00", "wf_live": ["a62e087a3f951889b", "a76ebe0f0949e898e"], "single": ["dwellings/posts", "dwellings/profile", "dwellings/exports"]}
+{"t": "2026-09-26T19:54:57-04:00", "wf_live": ["a91da7d2d4b70a116"], "single": ["dwellings/profile", "dwellings/exports"]}
+{"t": "2026-09-26T19:57:53-04:00", "wf_live": ["a91da7d2d4b70a116"], "single": ["dwellings/profile", "amendments-b/route"]}
+{"t": "2026-09-26T20:17:55-04:00", "wf_live": ["a91da7d2d4b70a116"], "single": ["amendments-b/route"]}
+{"t": "2026-09-26T20:18:27-04:00", "wf_live": ["a91da7d2d4b70a116"], "single": ["amendments-b/route"]}
+{"t": "2026-09-26T20:19:29-04:00", "wf_live": ["a91da7d2d4b70a116", "a6a078740a657b6a5", "aea87aa9e97499867"], "single": ["amendments-b/route"]}
+{"t": "2026-09-26T20:26:13-04:00", "wf_live": ["a91da7d2d4b70a116", "a3d73e6858c97e794", "a4369964707fc6d7e"], "single": ["amendments-b/route"]}
+{"t": "2026-09-26T20:34:06-04:00", "wf_live": ["a91da7d2d4b70a116", "a92b6b4073817cd2c", "a4369964707fc6d7e"], "single": []}
+{"t": "2026-09-26T20:44:42-04:00", "wf_live": ["a92b6b4073817cd2c", "a4369964707fc6d7e"], "single": []}
+{"t": "2026-09-26T20:45:34-04:00", "wf_live": ["a92b6b4073817cd2c", "a4369964707fc6d7e"], "single": []}
+{"t": "2026-09-26T20:47:59-04:00", "wf_live": ["a92b6b4073817cd2c", "a4369964707fc6d7e", "acadd75f0bafc7efb"], "single": []}
+{"t": "2026-09-26T20:53:01-04:00", "wf_live": ["a92b6b4073817cd2c", "a4369964707fc6d7e", "acadd75f0bafc7efb", "aea4de221c5f6e7f3"], "single": []}
+{"t": "2026-09-26T20:54:18-04:00", "wf_live": ["a92b6b4073817cd2c", "a4369964707fc6d7e", "aea4de221c5f6e7f3"], "single": []}
+{"t": "2026-09-26T21:22:24-04:00", "wf_live": ["ad6c40adc3f2cd794", "a8ba222969ce5f4e3", "a339903d60af57015", "a21f45c432fcea4fc"], "single": []}
+{"t": "2026-09-26T22:07:12-04:00", "wf_live": ["a95a89a9216e716f9", "a7f03de3644f66b5e", "aeb48b0ecc39a639e", "af822948632d37afd"], "single": []}
+{"t": "2026-09-26T22:59:51-04:00", "wf_live": ["a21042f54f395d370", "acb272724c832d99e"], "single": []}
+{"t": "2026-09-27T00:44:22-04:00", "wf_live": [], "single": []}
+{"t": "2026-09-27T00:44:36-04:00", "wf_live": ["ac7d220134ddc5b99"], "single": []}
+{"t": "2026-09-27T01:22:52-04:00", "wf_live": ["a7d567b3dc0976ff2", "a33a23dc2868fdd39", "a343008174874eb0c", "aa428e30ec70ec40f", "a72766bdd577dfaac", "abc2998a677f3d138"], "single": []}
+{"t": "2026-09-27T01:23:36-04:00", "wf_live": ["a7d567b3dc0976ff2", "a33a23dc2868fdd39", "a343008174874eb0c", "aa428e30ec70ec40f", "a72766bdd577dfaac", "abc2998a677f3d138"], "single": []}
+{"t": "2026-09-27T01:27:03-04:00", "wf_live": ["a343008174874eb0c", "aa428e30ec70ec40f", "a72766bdd577dfaac", "abc2998a677f3d138"], "single": []}
+{"t": "2026-09-27T01:29:36-04:00", "wf_live": ["a343008174874eb0c", "aa428e30ec70ec40f", "a72766bdd577dfaac", "abc2998a677f3d138"], "single": []}
+{"t": "2026-09-27T01:29:50-04:00", "wf_live": ["a343008174874eb0c", "aa428e30ec70ec40f", "a72766bdd577dfaac", "abc2998a677f3d138", "a450a632d0b9c84e6", "a1ea6fa260a5af612"], "single": []}
+{"t": "2026-09-27T02:06:55-04:00", "wf_live": ["a72766bdd577dfaac", "abc2998a677f3d138", "a450a632d0b9c84e6", "a1ea6fa260a5af612", "a9394c8843ac1547e"], "single": []}
+{"t": "2026-09-27T04:08:46-04:00", "wf_live": ["ad133711fca018880", "ad060842e88f604ba", "a5ae08c147894753a"], "single": []}
+{"t": "2026-09-27T04:24:56-04:00", "wf_live": ["ad060842e88f604ba", "a54170d357cd167b1", "a668be605e3ce7c5b"], "single": []}
+{"t": "2026-09-27T04:25:37-04:00", "wf_live": ["ad060842e88f604ba", "a54170d357cd167b1", "a668be605e3ce7c5b"], "single": ["code/ftg-client"]}
+{"t": "2026-09-27T04:35:14-04:00", "wf_live": ["a6aebd65d8a16b5a3", "a655adfea475ed0df", "acc8fbdfcccd7dfe1"], "single": []}
+{"t": "2026-09-27T04:35:27-04:00", "wf_live": ["a6aebd65d8a16b5a3", "a655adfea475ed0df", "acc8fbdfcccd7dfe1"], "single": []}
+{"t": "2026-09-27T04:35:46-04:00", "wf_live": ["a6aebd65d8a16b5a3", "aaf728c6115791389", "a9d503731fdc6db4f", "a655adfea475ed0df", "acc8fbdfcccd7dfe1"], "single": []}
+{"t": "2026-09-27T05:29:41-04:00", "wf_live": ["a21d0f7a511496bf0", "a0d4b3fb9a10f4189", "a7675f45036dafa4c"], "single": []}
+{"t": "2026-09-27T05:31:05-04:00", "wf_live": ["a21d0f7a511496bf0", "a0d4b3fb9a10f4189", "a7675f45036dafa4c", "a4e761e1c26bb02f3"], "single": []}
+{"t": "2026-09-27T05:58:01-04:00", "wf_live": ["a0d4b3fb9a10f4189", "a7675f45036dafa4c", "a4e761e1c26bb02f3"], "single": []}
+{"t": "2026-09-27T05:58:47-04:00", "wf_live": ["a0d4b3fb9a10f4189", "a7675f45036dafa4c", "a54e477270fcbff80"], "single": []}
+{"t": "2026-09-27T06:05:27-04:00", "wf_live": ["a0d4b3fb9a10f4189", "a7675f45036dafa4c", "aa6a638f1293a282b", "a870dbdeeca584c1e"], "single": []}
+{"t": "2026-09-27T06:07:56-04:00", "wf_live": ["a0d4b3fb9a10f4189", "a7675f45036dafa4c", "aa6a638f1293a282b", "a9c819abcbc24d0b3"], "single": []}
+{"t": "2026-09-27T06:16:32-04:00", "wf_live": ["aa6a638f1293a282b", "ad103a205a9ac39f1", "a9c819abcbc24d0b3"], "single": []}
+{"t": "2026-09-27T06:40:49-04:00", "wf_live": ["aa6a638f1293a282b", "ad103a205a9ac39f1", "ae241ea70523651e3"], "single": []}
+{"t": "2026-09-27T06:58:28-04:00", "wf_live": ["ad103a205a9ac39f1", "a163f09846500e809"], "single": []}
+{"t": "2026-09-27T07:15:29-04:00", "wf_live": ["a163f09846500e809"], "single": []}
+{"t": "2026-09-27T07:16:27-04:00", "wf_live": ["a163f09846500e809", "a81afb78da04596ae", "a20f161bf9fba4425"], "single": []}
+{"t": "2026-09-27T07:16:46-04:00", "wf_live": ["a163f09846500e809", "a81afb78da04596ae", "a20f161bf9fba4425", "a575e36032e37937c", "aecc80f1e3157eb84"], "single": []}
+{"t": "2026-09-27T11:15:19-04:00", "wf_live": ["a6ffb599f07a90ce3"], "single": []}
+{"t": "2026-09-27T13:28:02-04:00", "wf_live": ["a98adc14b0dd67003"], "single": []}
+{"t": "2026-09-27T13:58:43-04:00", "wf_live": ["a0e49755b00a6c101", "af8d8fe9bc7fefb03"], "single": []}
+{"t": "2026-09-27T14:14:35-04:00", "wf_live": ["a89449144642de6e6", "a0e49755b00a6c101", "af8d8fe9bc7fefb03"], "single": []}
+{"t": "2026-09-27T14:16:23-04:00", "wf_live": ["ad2ead1cecbe236b9", "af8d8fe9bc7fefb03"], "single": []}
+{"t": "2026-09-27T14:16:32-04:00", "wf_live": ["ad2ead1cecbe236b9", "af8d8fe9bc7fefb03", "a4cadff8436fde4e7", "a12519a38458f29e6"], "single": []}
+{"t": "2026-09-27T14:44:37-04:00", "wf_live": ["a691d8b280a998ee1", "acd0d2e90b3f81a07", "a7c6e623843841b0d", "a75ba0f478e45f4d3", "a37388a85204ba7f7", "a5eb28957cac4bf37"], "single": []}
+{"t": "2026-09-27T14:45:06-04:00", "wf_live": ["a691d8b280a998ee1", "acd0d2e90b3f81a07", "a7c6e623843841b0d"], "single": []}
+{"t": "2026-09-27T15:07:19-04:00", "wf_live": ["a691d8b280a998ee1", "a7c6e623843841b0d", "abcd2c1381f22a996"], "single": []}
+{"t": "2026-09-27T15:10:07-04:00", "wf_live": [], "single": []}
+{"t": "2026-09-27T17:17:02-04:00", "wf_live": [], "single": []}
+{"t": "2026-09-27T17:17:38-04:00", "wf_live": ["a53993d9aba43e4f4", "a8020aafe9b0eb8c5", "aaf25a04a22d11a9b", "abf00dc8891e7ab37", "ae17d8916d2f8a80e"], "single": []}
+{"t": "2026-09-27T17:45:48-04:00", "wf_live": ["afc14a8ae47be980d", "afbb83920a0656ffd", "a1d9eb6ad8d956f18"], "single": []}
+{"t": "2026-09-27T18:14:12-04:00", "wf_live": ["afc14a8ae47be980d", "a50a2282af69c59ea", "ab3d0c65f3991ed0f", "ac9bba795e7cb0647"], "single": []}
+{"t": "2026-09-27T18:14:48-04:00", "wf_live": ["afc14a8ae47be980d", "a50a2282af69c59ea", "ab3d0c65f3991ed0f", "ac9bba795e7cb0647"], "single": []}
+{"t": "2026-09-27T18:32:24-04:00", "wf_live": ["a50a2282af69c59ea", "a8aa2c6307d522920"], "single": []}
+{"t": "2026-09-27T18:45:03-04:00", "wf_live": ["a50a2282af69c59ea", "aef53678a4e96e540", "a8aa2c6307d522920", "aee828b333acac177"], "single": ["ux/tool-survey"]}
+{"t": "2026-09-27T18:46:38-04:00", "wf_live": ["a50a2282af69c59ea", "aef53678a4e96e540", "aee828b333acac177"], "single": ["ux/tool-survey"]}
+{"t": "2026-09-27T19:33:44-04:00", "wf_live": ["afd00de84f9e557dc"], "single": []}
+{"t": "2026-09-27T19:35:20-04:00", "wf_live": ["afd00de84f9e557dc"], "single": []}
+{"t": "2026-09-27T19:58:51-04:00", "wf_live": ["a9d3b635199cb58ba", "a586454cc8ffcc692"], "single": []}
+{"t": "2026-09-27T19:59:54-04:00", "wf_live": ["a9d3b635199cb58ba", "a586454cc8ffcc692", "a7cbc6e43211ddf72"], "single": []}
+{"t": "2026-09-27T20:36:40-04:00", "wf_live": ["a33d2497c5ef505b1", "a06d563ccdffc646d"], "single": []}
+{"t": "2026-09-27T20:37:55-04:00", "wf_live": ["a06d563ccdffc646d", "afa534d9b8f3adbac", "a03be9d7f5566c6ee"], "single": []}
+{"t": "2026-09-27T22:02:18-04:00", "wf_live": [], "single": []}
+{"t": "2026-09-27T22:03:20-04:00", "wf_live": ["a7d24adee18ab02ca", "a2a4935663cf33c96", "af4b3a3cb33da71b2", "ab3db0b2a108b8bda"], "single": []}
+{"t": "2026-09-27T23:03:06-04:00", "wf_live": [], "single": []}
+{"t": "2026-09-27T23:08:43-04:00", "wf_live": ["a6a9031e706ef3d9b", "ab4e0f2801702a28a", "a2ff097a697d99edc", "a5e68a59d9792ded4"], "single": []}
+{"t": "2026-09-27T23:59:25-04:00", "wf_live": ["ab4b863f4ee29e98e"], "single": []}
+{"t": "2026-09-28T00:06:36-04:00", "wf_live": ["ab336f4aed478b388", "a4e38729207136b52", "a1a0436711e26e968", "a9229c0492803978b"], "single": []}
+{"t": "2026-09-28T00:23:17-04:00", "wf_live": ["ab336f4aed478b388", "a4e38729207136b52", "a1a0436711e26e968", "a9229c0492803978b"], "single": []}
+{"t": "2026-09-28T00:25:29-04:00", "wf_live": ["ab336f4aed478b388", "a4e38729207136b52", "a1a0436711e26e968", "a9229c0492803978b", "a953c9bac39630cdc"], "single": []}
+{"t": "2026-09-28T03:02:42-04:00", "wf_live": ["a30f172b5469fd775", "afed35aeca92e0222", "a043b94c7998e009f", "a7430f8f4c55a3c72"], "single": []}
+{"t": "2026-09-28T03:44:23-04:00", "wf_live": ["a7430f8f4c55a3c72", "aee620c6882a7dacb", "a86f7c7a6aaa200c0", "ada10714e2edf43c0"], "single": []}
+{"t": "2026-09-28T03:52:54-04:00", "wf_live": ["a7430f8f4c55a3c72", "aee620c6882a7dacb", "a86f7c7a6aaa200c0", "ada10714e2edf43c0", "afcd15f0418ecae2d", "afd7d524fdefa2d44"], "single": []}
+{"t": "2026-09-28T03:55:28-04:00", "wf_live": ["a7430f8f4c55a3c72", "aee620c6882a7dacb", "a86f7c7a6aaa200c0", "ada10714e2edf43c0"], "single": []}
+{"t": "2026-09-28T04:16:53-04:00", "wf_live": ["aa2364edf16299748", "a2ca5b83070966a71"], "single": []}
+{"t": "2026-09-28T04:24:49-04:00", "wf_live": ["a8aa57153661d72af"], "single": []}
+{"t": "2026-09-28T05:58:19-04:00", "wf_live": ["acb1c770aa1779414", "a605ea8cb09f24488", "ac70ec4cfb58a78a4", "ae5f49df05052c783"], "single": []}
+{"t": "2026-09-28T10:48:23-04:00", "wf_live": ["af05cc4d11385060d"], "single": []}
+{"t": "2026-09-28T10:50:09-04:00", "wf_live": ["af05cc4d11385060d"], "single": []}
+{"t": "2026-09-28T11:14:20-04:00", "wf_live": ["aa9cfc456ad92197e"], "single": []}
+{"t": "2026-09-28T11:19:02-04:00", "wf_live": ["aa9cfc456ad92197e"], "single": []}
+{"t": "2026-09-28T15:07:15-04:00", "wf_live": ["aa7f5f16583e75cee"], "single": []}
+{"t": "2026-09-28T16:21:04-04:00", "wf_live": [], "single": ["handfix-c/apply"]}
+{"t": "2026-09-28T16:22:00-04:00", "wf_live": [], "single": ["handfix-c/apply"]}
+{"t": "2026-09-28T16:26:26-04:00", "wf_live": [], "single": []}
+{"t": "2026-09-28T16:26:40-04:00", "wf_live": ["ad8507c95151a6ea2", "a829c1d60d672ef7a", "a6812be303d766ff6", "a299c7fea3c74c31d"], "single": []}
+{"t": "2026-09-28T16:43:36-04:00", "wf_live": ["a29823028eb98e0f6", "a36475eaae91d2441", "a9571b55c048bd476", "a789140af3b16c377"], "single": []}
+{"t": "2026-09-28T17:17:16-04:00", "wf_live": ["a29823028eb98e0f6", "a36475eaae91d2441", "a789140af3b16c377", "a16fec7f49075e812"], "single": []}
+{"t": "2026-09-28T17:28:12-04:00", "wf_live": ["a29823028eb98e0f6", "a36475eaae91d2441", "a16fec7f49075e812", "afc633050e00b2cd4"], "single": []}
+{"t": "2026-09-28T17:33:02-04:00", "wf_live": ["a36475eaae91d2441", "a16fec7f49075e812", "afc633050e00b2cd4", "a74158b79461e8cdc", "a74787e684b1db7f9"], "single": []}
+{"t": "2026-09-28T17:33:48-04:00", "wf_live": ["a16fec7f49075e812", "afc633050e00b2cd4", "a74158b79461e8cdc", "a74787e684b1db7f9"], "single": []}
+{"t": "2026-09-28T17:34:05-04:00", "wf_live": ["a571d697e6ea0f8b6", "ad9e86c70d6c582bb", "a3ab192da40015d15", "a4fca9c36d77e1a93"], "single": []}
+{"t": "2026-09-28T17:46:51-04:00", "wf_live": ["a32b49be29257ceb7", "a39aa0a7496f42f4a", "a047c5a94afd463bf", "a58ea9423a1ca87c1"], "single": []}
+{"t": "2026-09-28T17:55:13-04:00", "wf_live": ["a32b49be29257ceb7", "a39aa0a7496f42f4a", "a047c5a94afd463bf", "a58ea9423a1ca87c1"], "single": []}
+{"t": "2026-09-28T17:56:14-04:00", "wf_live": ["a89f4a890b4945dd8", "a1373ceb67bfab49b", "ad87552cfff6986da", "a43e52b7f05e4755f"], "single": []}
+{"t": "2026-09-28T17:56:26-04:00", "wf_live": ["a89f4a890b4945dd8", "a1373ceb67bfab49b", "ad87552cfff6986da", "a43e52b7f05e4755f"], "single": []}
+{"t": "2026-09-28T18:16:31-04:00", "wf_live": ["ac0fe020c96ebfdca", "a84b18cc8c660907c", "aef39c27c92575c23", "a6f07881e4f89efaa"], "single": []}
+{"t": "2026-09-28T18:21:15-04:00", "wf_live": ["af35b4fb826e202f2", "a4ea9d766cbb13d6e", "aa3f51a7eb78856ec", "a7cb1eb7743c69aac"], "single": []}
+{"t": "2026-09-28T18:44:05-04:00", "wf_live": ["a8e4b1eb87f031d80", "a2ed0dff19acfc90d", "a9cfec970e97dd7b9", "a9784ace3b93324d1"], "single": []}
+{"t": "2026-09-28T19:21:19-04:00", "wf_live": ["aafb0e9adb86c6824", "a4d7f376c3d41c683", "aecaf2b4dba4c6786", "a7d00ab191c2e1fb4"], "single": []}
+{"t": "2026-09-28T19:23:51-04:00", "wf_live": ["a1a62e462c998d510", "afef069cd545a7680", "afb84105198d372f7", "ad053153c88f21166"], "single": []}
+{"t": "2026-09-28T19:32:42-04:00", "wf_live": ["a3e9bf3c6d7a34239", "a9dbdcc8752969532", "a5ccdde07e001563f", "a47b08744e347808d"], "single": []}
+{"t": "2026-09-28T20:53:45-04:00", "wf_live": ["a39d22e9377f6595a", "ab74c066d9f838c7c", "a41d60e1a06649756", "a148c4ab398d63c38"], "single": []}
+{"t": "2026-09-28T22:53:28-04:00", "wf_live": ["a2804158cfc2d63a9", "ab12b46e98fd1887c", "a4d82d4d14a686883", "a51be73be166ae52b"], "single": []}
+{"t": "2026-09-28T22:56:10-04:00", "wf_live": ["a2804158cfc2d63a9", "ab12b46e98fd1887c", "a4d82d4d14a686883", "a51be73be166ae52b"], "single": []}
+{"t": "2026-09-28T22:59:10-04:00", "wf_live": ["a2804158cfc2d63a9", "ab12b46e98fd1887c", "a4d82d4d14a686883", "a51be73be166ae52b"], "single": []}
+{"t": "2026-09-28T23:04:47-04:00", "wf_live": ["ab12b46e98fd1887c", "a4d82d4d14a686883", "a51be73be166ae52b", "abb53045ec470e159"], "single": []}
+{"t": "2026-09-28T23:08:09-04:00", "wf_live": ["ae91adcf7c54c2ba7", "ad4af4fd54babd7c7", "abb8048e8cfe048ee", "af0367b55009c5418"], "single": []}
+{"t": "2026-09-28T23:20:13-04:00", "wf_live": ["ab19cd7c16eb84dd1", "aa878a2a5ab0d42c1", "a44c19c70c463efd1", "aff34c4b72987b01a"], "single": []}
+{"t": "2026-09-29T00:09:42-04:00", "wf_live": ["a6493e20a0abd309d", "a94d73010db8f2cf2", "a49a95d28728ae193", "a9f29dcbcd7639613"], "single": []}
+{"t": "2026-09-29T00:11:20-04:00", "wf_live": ["a4a8747917ae1683e", "abdbc134ad25340c5", "a8fb8870eb1c2004a", "ae8d00c553db20ddf", "a355e93316185a980", "a131418da987ff6e8"], "single": []}
+{"t": "2026-09-29T00:11:41-04:00", "wf_live": ["a4a8747917ae1683e", "abdbc134ad25340c5", "a8fb8870eb1c2004a", "ae8d00c553db20ddf", "a355e93316185a980", "a131418da987ff6e8"], "single": []}
+{"t": "2026-09-29T02:16:40-04:00", "wf_live": ["adda182f96d2a9423"], "single": []}
+{"t": "2026-09-29T02:20:45-04:00", "wf_live": ["adda182f96d2a9423"], "single": []}
+{"t": "2026-09-29T03:08:56-04:00", "wf_live": ["ade02e58df5e58880", "a7b2460056704fa9f"], "single": []}
+{"t": "2026-09-29T07:40:04-04:00", "wf_live": ["af6dd95b219a9a1ed"], "single": []}
+{"t": "2026-09-29T07:52:06-04:00", "wf_live": [], "single": []}
+{"t": "2026-09-29T07:52:44-04:00", "wf_live": ["abd8a06b953ab8e03", "aadf8173290406103", "a6cf1ce450971262c", "a62cf934291fb7e9b", "a8e13393a0866a8a9", "a11da61c4a944c827"], "single": []}
+{"t": "2026-09-29T07:52:55-04:00", "wf_live": ["a6cf1ce450971262c", "a8e13393a0866a8a9", "a11da61c4a944c827", "af61636207edd9d64", "a9a46ad04fb534648", "ac04c0ae03c9a31fc"], "single": []}
+{"t": "2026-09-29T07:53:02-04:00", "wf_live": ["a6cf1ce450971262c", "af61636207edd9d64", "a9a46ad04fb534648", "ac04c0ae03c9a31fc", "a47a2abd26a89dc64", "a0dc2f96b57a0ea67"], "single": []}
+{"t": "2026-09-29T07:53:12-04:00", "wf_live": ["af61636207edd9d64", "a9a46ad04fb534648", "ac04c0ae03c9a31fc", "a47a2abd26a89dc64", "a0dc2f96b57a0ea67", "a65e7ca17f6ebdf53"], "single": []}
+{"t": "2026-09-29T07:53:22-04:00", "wf_live": ["ac04c0ae03c9a31fc", "a47a2abd26a89dc64", "a0dc2f96b57a0ea67", "a65e7ca17f6ebdf53"], "single": []}
+{"t": "2026-09-29T07:53:33-04:00", "wf_live": ["a65e7ca17f6ebdf53"], "single": []}
+{"t": "2026-09-29T07:53:43-04:00", "wf_live": ["a09551066fee24d7c"], "single": []}
+{"t": "2026-09-29T07:53:53-04:00", "wf_live": ["a09551066fee24d7c"], "single": []}
+{"t": "2026-09-29T07:57:05-04:00", "wf_live": ["a09551066fee24d7c"], "single": []}
+{"t": "2026-09-29T09:21:12-04:00", "wf_live": ["af4da2bc851684c66", "afa82b38d487e5338", "a57753b09ee013ce5", "aa7737af6b0f9cbcf", "a76ab960dcd9589c8", "aa08b7f67fbdc5321"], "single": []}
+{"t": "2026-09-29T10:15:04-04:00", "wf_live": ["acadcc56937c458e7", "aa89db1c5e2c069c3", "a7066301ca6690fc4", "ac53c4880246def40", "a0e6bf428956388ca", "a316e8c1db60c3a05"], "single": []}
+{"t": "2026-09-29T10:22:27-04:00", "wf_live": ["acadcc56937c458e7", "aa89db1c5e2c069c3", "a7066301ca6690fc4", "ac53c4880246def40", "a0e6bf428956388ca", "a316e8c1db60c3a05"], "single": []}
+{"t": "2026-09-29T13:53:15-04:00", "wf_live": ["a0cf246e24b6e30dc", "a55293b80d3d97786", "a6f9c1e91bd259d91", "a4aa32fbb995ac010", "a26e6582ed413eaa2", "a6916f1106d82d3e3"], "single": []}
+{"t": "2026-09-29T14:26:24-04:00", "wf_live": ["a8ea588e28e7d1be3"], "single": []}
+{"t": "2026-09-29T14:51:38-04:00", "wf_live": ["a061289e24934883c"], "single": []}
+{"t": "2026-09-29T15:46:14-04:00", "wf_live": ["aa69b9eb3d05feb27", "a5b506cc537510f0d", "a7aabf658f5c015b4", "af2cf49ed4f36436d", "a983fda535a36dd67", "aa153659cc2bdbb11"], "single": []}
+{"t": "2026-09-29T16:12:01-04:00", "wf_live": ["aa69b9eb3d05feb27", "a5b506cc537510f0d", "a7aabf658f5c015b4", "af2cf49ed4f36436d", "a983fda535a36dd67", "aa153659cc2bdbb11"], "single": []}
+{"t": "2026-09-29T18:14:00-04:00", "wf_live": ["aebe59851e2d86a58"], "single": []}
+{"t": "2026-09-29T18:34:42-04:00", "wf_live": ["aff9c4c26fb90b4a7"], "single": []}
+{"t": "2026-09-29T20:08:51-04:00", "wf_live": ["a02d963434b9207e6", "aeee9fe529283f0de", "a327bcc1cc4ccdfff", "a67d7cb8871435917", "a1c7174705a5111da", "a8a7db090083bc614"], "single": []}
+{"t": "2026-10-03T03:32:00-04:00", "wf_live": ["aff1f11783288435b", "abf0eb00618eb0381", "a3342b2a4ac7e348d", "a1565fd4925b6bf48"], "single": []}
+{"t": "2026-10-03T03:35:07-04:00", "wf_live": ["aff1f11783288435b", "a9d8800062456d0ac", "a74b54f053fcb15c9", "a515edb9f5acb8a18"], "single": []}
+{"t": "2026-10-03T12:49:52-04:00", "wf_live": ["abb608ba71be41747", "a0f75fa3e6325f12c", "a5c6385963fed16f8", "acd55e08a1bab1340"], "single": []}
+{"t": "2026-10-03T12:50:00-04:00", "wf_live": ["abb608ba71be41747", "a0f75fa3e6325f12c", "a5c6385963fed16f8", "acd55e08a1bab1340"], "single": []}
+{"t": "2026-10-03T13:52:25-04:00", "wf_live": ["a0f75fa3e6325f12c", "a0028159ead11a222", "a0275a8d37cd8ac1f", "aa1162c53df424883"], "single": []}
+{"t": "2026-10-03T13:55:37-04:00", "wf_live": ["a0f75fa3e6325f12c", "a0028159ead11a222", "a0275a8d37cd8ac1f", "aa1162c53df424883"], "single": []}
+{"t": "2026-10-03T15:44:33-04:00", "wf_live": ["a1530484df59740c0"], "single": []}
+{"t": "2026-10-03T16:27:11-04:00", "wf_live": ["afe48cd11ae14ae91", "a3b788231c0ae9853", "ad4ebfd1698007e3c", "a58feb112ab7650a2"], "single": []}
+{"t": "2026-10-03T17:05:32-04:00", "wf_live": ["a93d1fff6ba77aef2", "a1a558fb7fe75cccf"], "single": []}
+{"t": "2026-10-03T18:03:10-04:00", "wf_live": ["aa988383a813405d3", "aa08fbeba3146e097"], "single": []}
+{"t": "2026-10-03T18:13:34-04:00", "wf_live": ["afd4f47cc9880f291", "aa08fbeba3146e097"], "single": []}
+{"t": "2026-10-03T18:17:50-04:00", "wf_live": ["afd4f47cc9880f291", "aa08fbeba3146e097"], "single": []}
+{"t": "2026-10-03T18:23:39-04:00", "wf_live": ["a5ce6beed9d26c2a4", "abb47e433dc80912c"], "single": []}
+{"t": "2026-10-03T18:39:50-04:00", "wf_live": ["aff9d9457e16c03be", "a7f9e6b36728fc335"], "single": []}
+{"t": "2026-10-03T18:41:25-04:00", "wf_live": ["aff9d9457e16c03be", "a7f9e6b36728fc335"], "single": []}
+{"t": "2026-10-03T18:43:07-04:00", "wf_live": ["aff9d9457e16c03be", "a7f9e6b36728fc335", "a11d5d9f9ba816026", "a8e31e3ba4dad3941"], "single": []}
+{"t": "2026-10-03T18:55:10-04:00", "wf_live": ["a0cf33a3a3e58ae85", "aaf587b26e8781802", "a571ff75d72ffc63e", "a12c66234ebf17b8c", "a7f9e6b36728fc335", "a11d5d9f9ba816026", "a8e31e3ba4dad3941"], "single": []}
+{"t": "2026-10-03T19:13:33-04:00", "wf_live": ["a571ff75d72ffc63e", "a12c66234ebf17b8c", "ac2efd64482d7d0a7", "a71647a18a028eb32", "a72080c4217245eb1", "a8e31e3ba4dad3941"], "single": []}
+{"t": "2026-10-03T19:20:31-04:00", "wf_live": ["a71647a18a028eb32", "ac032e2605b6148c1", "aa627b89f5b9a4507", "a72080c4217245eb1", "a8e31e3ba4dad3941"], "single": []}
+{"t": "2026-10-03T19:27:10-04:00", "wf_live": [], "single": []}
+{"t": "2026-10-03T19:32:17-04:00", "wf_live": ["a3a64c3b501479cbc", "a4751c37bdc0f7b70", "a193cbe761c3648e1", "a266f1c803a5e07e6", "af01640a7d8014fcd", "a6b173238ffaa2152"], "single": []}
+{"t": "2026-10-03T20:10:22-04:00", "wf_live": ["a1d37cf19f1a09d32", "a2881c73f39072dbd", "a7100512b8cb568af", "a277e38949695d31d", "addbbe8d1e48c2872"], "single": []}
+{"t": "2026-10-03T20:35:16-04:00", "wf_live": ["a9d451dfd2a4a2fe2", "ab23415c76a950227", "a7100512b8cb568af"], "single": []}
+{"t": "2026-10-03T21:06:21-04:00", "wf_live": ["ad80ad40ae20d5c3c", "a7100512b8cb568af", "a277e38949695d31d", "addbbe8d1e48c2872"], "single": []}
+{"t": "2026-10-03T21:09:24-04:00", "wf_live": ["ad80ad40ae20d5c3c", "a6502d8d932fe44dd", "a1a5ba48ec8e9353b", "ada66d3012d3e63fa"], "single": []}
+{"t": "2026-10-03T21:55:54-04:00", "wf_live": ["a5a7a5dcecbf433ef", "a87800ff3b25932e6", "a62664ec14d043522", "a50f074c829cb6f6e", "a779c3d871c48f413", "ad72df98cd6816bed"], "single": []}
+{"t": "2026-10-03T22:00:06-04:00", "wf_live": ["a5a7a5dcecbf433ef", "a87800ff3b25932e6", "a62664ec14d043522", "a50f074c829cb6f6e", "a779c3d871c48f413", "ad72df98cd6816bed", "a2f8dc8e7aed45e0e", "aafc6a3f127713ec3"], "single": []}
+{"t": "2026-10-03T22:47:57-04:00", "wf_live": ["a5a7a5dcecbf433ef", "a62664ec14d043522", "ae4c0a7c0d3021001", "a05c2471f1f9f96ee", "a19955a5fa0fa2ce5", "ab9ba25be11d5ac7f", "af86edd498dfe5b06", "af23c617d0edbbc8a"], "single": []}
+{"t": "2026-10-03T23:16:45-04:00", "wf_live": ["a25d2504af8b69195", "ae68134fba94c8172", "ab9ba25be11d5ac7f", "aaf49063ebd03b9c8"], "single": []}
+{"t": "2026-10-03T23:21:20-04:00", "wf_live": ["ad5710da96f50ab39", "a7736d44492f5917f", "a19955a5fa0fa2ce5", "ab9ba25be11d5ac7f", "aaf49063ebd03b9c8"], "single": []}
+{"t": "2026-10-04T00:15:50-04:00", "wf_live": ["afbd1df96fd1ad8ca", "a9ebf36ebacc03248", "a85a4fca4e045a685", "ad72ded0008633db3", "aff40a568104a6ab2"], "single": []}
+{"t": "2026-10-04T00:23:25-04:00", "wf_live": ["afbd1df96fd1ad8ca", "a0feaf4dd4b5313ac", "a9ebf36ebacc03248", "a85a4fca4e045a685", "ad72ded0008633db3", "a9d69124f5e0b749e"], "single": []}
+{"t": "2026-10-04T00:46:16-04:00", "wf_live": ["a9ebf36ebacc03248", "a87ae5e2f1711d7ad", "a9d1264fd4d01438f", "a85a4fca4e045a685", "ad72ded0008633db3", "a54cba2b181de66a7"], "single": []}
+{"t": "2026-10-04T01:11:31-04:00", "wf_live": ["a7894e19dae722b18", "a2cb8ddc90a77b09d"], "single": []}
+{"t": "2026-10-04T01:41:42-04:00", "wf_live": ["a7894e19dae722b18", "ad1f8a6314f2bc51f", "ad72ded0008633db3", "a16a0182cf87957a4"], "single": []}
+{"t": "2026-10-04T01:46:53-04:00", "wf_live": ["a87ae5e2f1711d7ad", "ad1f8a6314f2bc51f", "a760831f3972f2a92", "a16a0182cf87957a4"], "single": []}
+{"t": "2026-10-04T02:10:02-04:00", "wf_live": ["ad72ded0008633db3", "a20ac5487cf2d93d7", "a7201a302392ebd6e", "aeae5249915607da2", "a4599b72151d3af87"], "single": []}
+{"t": "2026-10-04T02:33:21-04:00", "wf_live": ["a1a5abfec660e6819", "a144c3c638db98b5f", "a098ec6f72db241be"], "single": []}
+{"t": "2026-10-04T02:37:59-04:00", "wf_live": ["a1a5abfec660e6819", "a098ec6f72db241be"], "single": []}
+{"t": "2026-10-04T02:49:42-04:00", "wf_live": ["a0061ab452d452656", "af6d641c731705d14"], "single": []}
+{"t": "2026-10-04T03:19:55-04:00", "wf_live": ["a7e0ef9cb7a0ce9a9", "a6b2e1e419e1a57e7", "a82f3e49f958717ca", "aa5cdb1962bb3d498"], "single": []}
+{"t": "2026-10-04T03:49:57-04:00", "wf_live": ["a7e0ef9cb7a0ce9a9", "a54ade7282e288661", "a988359564dd4ca9d", "a2349ee31c6d4923b", "a15a2900b1ccf2500", "a44e02ebfea8b70e8"], "single": []}
+{"t": "2026-10-04T04:20:07-04:00", "wf_live": ["a971a10313d7999a9", "a66959832f8791a71", "a2349ee31c6d4923b", "a15a2900b1ccf2500"], "single": []}
+{"t": "2026-10-04T04:23:47-04:00", "wf_live": ["a971a10313d7999a9", "a66959832f8791a71", "a2349ee31c6d4923b", "a15a2900b1ccf2500"], "single": []}
+{"t": "2026-10-04T04:39:55-04:00", "wf_live": ["a971a10313d7999a9", "a19d2228ba0f041af", "a2349ee31c6d4923b", "a15a2900b1ccf2500", "a51b60fd6f5b077b8"], "single": []}
+{"t": "2026-10-04T05:09:02-04:00", "wf_live": ["a35b782f027d4bb58", "a51b60fd6f5b077b8", "a973b009acf573cad", "a393d75790d4ba478", "ac36231657353d820", "a8444620b40a53f5a"], "single": []}
+{"t": "2026-10-04T05:30:49-04:00", "wf_live": ["a1254dd057bcd7cd5", "a160a8532476b7e8e", "a818625d0d19e2a6f", "ac36231657353d820", "a8444620b40a53f5a"], "single": []}
+{"t": "2026-10-04T05:34:59-04:00", "wf_live": ["a35b782f027d4bb58", "a1254dd057bcd7cd5", "a160a8532476b7e8e", "a818625d0d19e2a6f", "ac36231657353d820", "a99aea9e9ed127ff0"], "single": []}
+{"t": "2026-10-04T06:01:19-04:00", "wf_live": ["ac5ebf822614c5df6", "a50039bd747d8b4b5", "ad4cbd0dc70fd17df", "a71e6966b1eba256c", "ac36231657353d820", "af7ad08a7b4468562"], "single": []}
+{"t": "2026-10-04T06:31:39-04:00", "wf_live": ["ae61fc4a2baddcf7c", "a50039bd747d8b4b5", "ad4cbd0dc70fd17df", "af41bcd65566c6891", "a8444620b40a53f5a", "a4f0906e07d1a33f8"], "single": []}
+{"t": "2026-10-04T07:01:53-04:00", "wf_live": ["ad4cbd0dc70fd17df", "aae39c91e263a0d56", "a617e9bb4774d2156", "aa6fde3776cf8331a"], "single": []}
+{"t": "2026-10-04T07:31:59-04:00", "wf_live": ["ad4cbd0dc70fd17df", "aae39c91e263a0d56", "a284268732e2d46ce", "a8d181696f5a6bbd8"], "single": []}
+{"t": "2026-10-04T08:02:08-04:00", "wf_live": ["aae39c91e263a0d56", "ac959b9c316e41ca1", "a8d181696f5a6bbd8"], "single": []}
+{"t": "2026-10-04T08:32:20-04:00", "wf_live": ["a7b72a1cf2e268627", "a3768cc81a4bc5ba6", "a169ebe1eb22c30d1", "a9ea2154f5eafd824"], "single": []}
+{"t": "2026-10-04T09:02:28-04:00", "wf_live": ["a169ebe1eb22c30d1"], "single": []}
+{"t": "2026-10-04T09:13:24-04:00", "wf_live": ["abc95be47e5609954", "a3686377fd676352a"], "single": []}
+{"t": "2026-10-04T09:43:28-04:00", "wf_live": ["a7762b6e6d32a017b", "a2830c1910bfcabfb", "ac94b88065f260959", "a9588e3629c593656"], "single": []}
+{"t": "2026-10-04T10:32:46-04:00", "wf_live": ["a2830c1910bfcabfb", "ac94b88065f260959", "a5f46d9a21c747505", "a797949e82ffcbaaf", "a9fdbe5aa3a29ed5e"], "single": []}
+{"t": "2026-10-04T11:03:02-04:00", "wf_live": ["a5f46d9a21c747505", "a82a260e61ff3d8f8", "aa75c6121b26df1f7", "ac623be3f9f09962f"], "single": []}
+{"t": "2026-10-04T11:33:01-04:00", "wf_live": ["a2944160dd385dd4e", "a82a260e61ff3d8f8", "aa75c6121b26df1f7"], "single": []}
+{"t": "2026-10-04T12:05:33-04:00", "wf_live": ["af77605713f620c3b", "af87d197e5c0e2a6c", "a3758aea46277bb07", "aad92ccd2d95b93f2"], "single": []}
+{"t": "2026-10-04T12:35:38-04:00", "wf_live": ["a3758aea46277bb07"], "single": []}
+{"t": "2026-10-04T13:03:39-04:00", "wf_live": ["af87d197e5c0e2a6c", "ac89ade0c16e6746d"], "single": []}
+{"t": "2026-10-04T13:05:43-04:00", "wf_live": ["af87d197e5c0e2a6c", "ac89ade0c16e6746d"], "single": []}
+{"t": "2026-10-04T13:35:48-04:00", "wf_live": ["ac89ade0c16e6746d"], "single": []}
+{"t": "2026-10-04T14:01:23-04:00", "wf_live": ["af87d197e5c0e2a6c"], "single": []}
+{"t": "2026-10-04T14:05:56-04:00", "wf_live": ["af87d197e5c0e2a6c"], "single": []}
+{"t": "2026-10-04T14:35:58-04:00", "wf_live": ["a5626bb00c9613509"], "single": []}
+{"t": "2026-10-04T14:55:43-04:00", "wf_live": ["ae90c04f483b34870"], "single": []}
+{"t": "2026-10-04T23:02:49-04:00", "wf_live": ["aa3c7ccbb15c6b57b", "a54b416af2e7b6c34"], "single": []}
+{"t": "2026-10-05T00:22:29-04:00", "wf_live": ["a359b080b1c5300bc"], "single": []}
+{"t": "2026-10-05T04:14:43-04:00", "wf_live": ["ac8b30fa243798505", "abbce8ba3e884b9bf", "ae0f91f8e5fb8a88f", "a5ed0dc7964bb5a1d", "a097cb824afc12fd3", "a86ac942862ef3b2e", "abb9ffb0b6c47033a"], "single": []}
+{"t": "2026-10-05T04:37:52-04:00", "wf_live": ["a8d0ed039522a1276"], "single": []}
+{"t": "2026-10-05T04:53:36-04:00", "wf_live": ["adb73971c8a269f15"], "single": []}
+{"t": "2026-10-05T05:17:10-04:00", "wf_live": ["af0fe713b3e98b1d5", "afd922cd812d90ca2", "ab053d1b1e990deb7", "ad0d983596810f4e4", "a32fa328a88cd20db"], "single": []}
+{"t": "2026-10-05T05:44:19-04:00", "wf_live": ["af0fe713b3e98b1d5", "ab053d1b1e990deb7", "ad0d983596810f4e4", "a32fa328a88cd20db", "a22a1f9586303145e"], "single": []}
+{"t": "2026-10-05T06:14:26-04:00", "wf_live": ["af0fe713b3e98b1d5", "ab053d1b1e990deb7", "a32fa328a88cd20db"], "single": []}
+{"t": "2026-10-05T06:44:33-04:00", "wf_live": ["af0fe713b3e98b1d5", "ab053d1b1e990deb7", "a5273c2522b517d9b"], "single": []}
+{"t": "2026-10-05T12:37:09-04:00", "wf_live": ["aba598eeb67b3bd03"], "single": []}
+{"t": "2026-10-05T12:37:47-04:00", "wf_live": ["ab175b0c01a4e3486", "a7758698ab1b2fc3f", "a93ec4362403da961", "aba598eeb67b3bd03"], "single": []}
+{"t": "2026-10-05T18:27:19-04:00", "wf_live": ["abdf57f02ed1aca30"], "single": []}
+{"t": "2026-10-05T18:45:20-04:00", "wf_live": ["ad3762050fe49bb09", "ade6046b13ec24e5e"], "single": []}
+{"t": "2026-10-05T19:07:10-04:00", "wf_live": ["ad22c9647cd0e3c7d", "ad3762050fe49bb09"], "single": []}
+{"t": "2026-10-05T19:07:48-04:00", "wf_live": ["ad3762050fe49bb09", "ade6046b13ec24e5e"], "single": []}
+{"t": "2026-10-05T19:17:48-04:00", "wf_live": ["ad22c9647cd0e3c7d", "ad3762050fe49bb09", "ade6046b13ec24e5e"], "single": []}
+{"t": "2026-10-05T19:27:47-04:00", "wf_live": ["ad22c9647cd0e3c7d", "ad3762050fe49bb09", "ade6046b13ec24e5e"], "single": []}
+{"t": "2026-10-05T19:37:47-04:00", "wf_live": ["ad22c9647cd0e3c7d", "ad3762050fe49bb09", "a93c5ca232f84575a"], "single": []}
+{"t": "2026-10-05T19:47:47-04:00", "wf_live": ["ad22c9647cd0e3c7d", "a93c5ca232f84575a"], "single": []}
+{"t": "2026-10-05T19:57:49-04:00", "wf_live": ["ad22c9647cd0e3c7d", "a93c5ca232f84575a"], "single": []}
+{"t": "2026-10-05T20:07:47-04:00", "wf_live": ["a95bbf4dc688ffe3b", "ad3762050fe49bb09", "a93c5ca232f84575a"], "single": []}
+{"t": "2026-10-05T20:17:47-04:00", "wf_live": ["a95bbf4dc688ffe3b", "ad3762050fe49bb09", "a93c5ca232f84575a"], "single": []}
+{"t": "2026-10-05T20:27:47-04:00", "wf_live": ["a95bbf4dc688ffe3b", "a93c5ca232f84575a"], "single": []}
+{"t": "2026-10-05T20:37:46-04:00", "wf_live": ["a95bbf4dc688ffe3b", "ad3762050fe49bb09", "acf970dc3f01019af"], "single": []}
+{"t": "2026-10-05T20:47:46-04:00", "wf_live": ["a95bbf4dc688ffe3b", "ad3762050fe49bb09", "acf970dc3f01019af"], "single": []}
+{"t": "2026-10-05T20:57:47-04:00", "wf_live": ["a95bbf4dc688ffe3b"], "single": []}
+{"t": "2026-10-05T21:07:54-04:00", "wf_live": ["a95bbf4dc688ffe3b", "ad3762050fe49bb09"], "single": []}
+{"t": "2026-10-05T21:17:54-04:00", "wf_live": ["a95bbf4dc688ffe3b", "ad3762050fe49bb09"], "single": []}
+{"t": "2026-10-05T21:27:48-04:00", "wf_live": ["a95bbf4dc688ffe3b", "ad3762050fe49bb09", "acf970dc3f01019af"], "single": []}
+{"t": "2026-10-05T21:37:46-04:00", "wf_live": ["a95bbf4dc688ffe3b", "ad3762050fe49bb09", "acf970dc3f01019af"], "single": []}
+{"t": "2026-10-05T21:47:47-04:00", "wf_live": ["ad3762050fe49bb09", "abd841f5a481aa3f4"], "single": []}
+{"t": "2026-10-05T21:57:45-04:00", "wf_live": ["ad3762050fe49bb09", "abd841f5a481aa3f4"], "single": []}
+{"t": "2026-10-05T22:07:47-04:00", "wf_live": ["ad3762050fe49bb09", "abd841f5a481aa3f4"], "single": []}
+{"t": "2026-10-05T22:17:46-04:00", "wf_live": ["ad3762050fe49bb09", "abd841f5a481aa3f4", "aaf1094d73dbe0341"], "single": []}
+{"t": "2026-10-05T22:28:52-04:00", "wf_live": ["af64e156134df461a", "ae2525d25cdf7e216", "ade06f41528c848f9"], "single": []}
+{"t": "2026-10-05T22:37:48-04:00", "wf_live": ["ae2525d25cdf7e216", "aab6e0625b49a64c8", "ade06f41528c848f9"], "single": []}
+{"t": "2026-10-05T22:47:48-04:00", "wf_live": ["ae2525d25cdf7e216", "aab6e0625b49a64c8", "ade06f41528c848f9"], "single": []}
+{"t": "2026-10-05T22:57:48-04:00", "wf_live": ["aab6e0625b49a64c8", "ade06f41528c848f9"], "single": []}
+{"t": "2026-10-05T23:07:47-04:00", "wf_live": ["ae2525d25cdf7e216", "aab6e0625b49a64c8", "ade06f41528c848f9"], "single": []}
+{"t": "2026-10-05T23:17:45-04:00", "wf_live": ["ae2525d25cdf7e216", "aab6e0625b49a64c8", "ade06f41528c848f9"], "single": []}
+{"t": "2026-10-05T23:27:45-04:00", "wf_live": ["ae2525d25cdf7e216"], "single": []}
+{"t": "2026-10-05T23:37:52-04:00", "wf_live": ["ae2525d25cdf7e216", "ade06f41528c848f9"], "single": []}
+{"t": "2026-10-05T23:47:50-04:00", "wf_live": ["ae2525d25cdf7e216", "ade06f41528c848f9"], "single": []}
+{"t": "2026-10-05T23:57:47-04:00", "wf_live": ["ae2525d25cdf7e216"], "single": []}
+{"t": "2026-10-06T00:07:54-04:00", "wf_live": ["ae2525d25cdf7e216", "ade06f41528c848f9"], "single": []}
+{"t": "2026-10-06T00:17:46-04:00", "wf_live": ["ae2525d25cdf7e216"], "single": []}
+{"t": "2026-10-06T00:27:47-04:00", "wf_live": ["ae2525d25cdf7e216"], "single": []}
+{"t": "2026-10-06T00:37:47-04:00", "wf_live": ["ade06f41528c848f9"], "single": []}
+{"t": "2026-10-06T00:47:46-04:00", "wf_live": ["ae2525d25cdf7e216"], "single": []}
+{"t": "2026-10-06T00:57:50-04:00", "wf_live": [], "single": []}
+{"t": "2026-10-06T01:07:47-04:00", "wf_live": [], "single": []}
+{"t": "2026-10-06T01:17:47-04:00", "wf_live": ["abb43d763aa0ae625"], "single": []}
+{"t": "2026-10-06T01:27:56-04:00", "wf_live": ["a43a852098fef2c75", "abb43d763aa0ae625"], "single": []}
+{"t": "2026-10-06T01:37:48-04:00", "wf_live": ["abb43d763aa0ae625"], "single": []}
+{"t": "2026-10-06T01:47:48-04:00", "wf_live": ["abb43d763aa0ae625"], "single": []}
+{"t": "2026-10-06T01:57:47-04:00", "wf_live": ["a43a852098fef2c75", "abb43d763aa0ae625"], "single": []}
+{"t": "2026-10-06T02:07:47-04:00", "wf_live": ["a43a852098fef2c75", "abb43d763aa0ae625"], "single": []}
+{"t": "2026-10-06T02:17:48-04:00", "wf_live": ["abb43d763aa0ae625"], "single": []}
+{"t": "2026-10-06T02:27:48-04:00", "wf_live": ["abb43d763aa0ae625"], "single": []}
+{"t": "2026-10-06T02:37:47-04:00", "wf_live": ["a43a852098fef2c75", "abb43d763aa0ae625"], "single": []}
+{"t": "2026-10-06T02:47:48-04:00", "wf_live": ["a43a852098fef2c75"], "single": []}
+{"t": "2026-10-06T02:57:47-04:00", "wf_live": ["a43a852098fef2c75"], "single": []}
+{"t": "2026-10-06T03:07:47-04:00", "wf_live": ["a43a852098fef2c75", "abb43d763aa0ae625"], "single": []}
+{"t": "2026-10-06T03:17:47-04:00", "wf_live": ["a43a852098fef2c75", "abb43d763aa0ae625"], "single": []}
+{"t": "2026-10-06T03:27:47-04:00", "wf_live": ["a43a852098fef2c75", "abb43d763aa0ae625"], "single": []}
+{"t": "2026-10-06T03:37:48-04:00", "wf_live": ["abb43d763aa0ae625"], "single": []}
+{"t": "2026-10-06T03:47:48-04:00", "wf_live": ["abb43d763aa0ae625"], "single": []}
+{"t": "2026-10-06T03:57:48-04:00", "wf_live": ["a43a852098fef2c75", "abb43d763aa0ae625"], "single": []}
+{"t": "2026-10-06T04:07:47-04:00", "wf_live": ["a908dc97b2bd8ed17", "abb43d763aa0ae625"], "single": []}
+{"t": "2026-10-06T04:17:47-04:00", "wf_live": ["a908dc97b2bd8ed17", "abb43d763aa0ae625"], "single": []}
+{"t": "2026-10-06T04:27:47-04:00", "wf_live": ["aab6579f324adce8f", "abb43d763aa0ae625"], "single": []}
+{"t": "2026-10-06T04:37:48-04:00", "wf_live": ["a50f1c0dbdaa55fc5"], "single": []}
+{"t": "2026-10-06T04:47:48-04:00", "wf_live": ["a50f1c0dbdaa55fc5", "a10ce5fdb9b84802e"], "single": []}
+{"t": "2026-10-06T04:57:48-04:00", "wf_live": ["a924670342acca775", "af97ffa39d1b93cc3", "afff5cf52432475da", "a50f1c0dbdaa55fc5", "a10ce5fdb9b84802e"], "single": []}
+{"t": "2026-10-06T05:07:48-04:00", "wf_live": ["a924670342acca775", "af97ffa39d1b93cc3", "afff5cf52432475da", "a50f1c0dbdaa55fc5", "a10ce5fdb9b84802e"], "single": []}
+{"t": "2026-10-06T05:17:51-04:00", "wf_live": ["a924670342acca775", "af97ffa39d1b93cc3", "afff5cf52432475da", "a50f1c0dbdaa55fc5", "a4506409f550412ea"], "single": []}
+{"t": "2026-10-06T05:27:48-04:00", "wf_live": ["a924670342acca775", "afff5cf52432475da", "ad719590501698888", "a50f1c0dbdaa55fc5", "a4506409f550412ea"], "single": []}
+{"t": "2026-10-06T05:37:49-04:00", "wf_live": ["a924670342acca775", "ad719590501698888", "adcf1ea04d60cd8fc"], "single": []}
+{"t": "2026-10-06T05:47:48-04:00", "wf_live": ["ad719590501698888", "a50f1c0dbdaa55fc5"], "single": []}
+{"t": "2026-10-06T05:57:48-04:00", "wf_live": ["ad719590501698888", "adcf1ea04d60cd8fc", "a50f1c0dbdaa55fc5"], "single": []}
+{"t": "2026-10-06T06:07:48-04:00", "wf_live": ["ad719590501698888", "a974df668a82c8e71", "a50f1c0dbdaa55fc5"], "single": []}
+{"t": "2026-10-06T06:17:47-04:00", "wf_live": ["ac518cb3a39940b89", "a6d9aaf90e32e9316", "a50f1c0dbdaa55fc5"], "single": []}
+{"t": "2026-10-06T06:27:48-04:00", "wf_live": ["adf91676088b2d7d1", "a50f1c0dbdaa55fc5"], "single": []}
+{"t": "2026-10-06T06:37:48-04:00", "wf_live": ["adf91676088b2d7d1", "a50f1c0dbdaa55fc5", "a4506409f550412ea"], "single": []}
+{"t": "2026-10-06T06:47:55-04:00", "wf_live": ["ad4a93588a11d78fb"], "single": []}
+{"t": "2026-10-06T06:57:47-04:00", "wf_live": ["a912c867ee117ac89", "ad4a93588a11d78fb"], "single": []}
+{"t": "2026-10-06T07:07:47-04:00", "wf_live": ["a23d5bf30d7bee7b4", "ad4a93588a11d78fb"], "single": []}
+{"t": "2026-10-06T07:17:50-04:00", "wf_live": ["a87713e6756efd235", "a2fc3798556e6fe0b", "a57f50f66d8656929"], "single": []}
+{"t": "2026-10-06T07:27:48-04:00", "wf_live": ["a2fc3798556e6fe0b", "a57f50f66d8656929"], "single": []}
+{"t": "2026-10-06T07:37:48-04:00", "wf_live": ["a7ee5d8a7dccf4057", "addfbf32ec626dcf9", "a4bcb653d9c140a68", "aba652aafad2a069c", "a8c30809e06f8495a", "a2fc3798556e6fe0b"], "single": []}
+{"t": "2026-10-06T07:47:48-04:00", "wf_live": ["a7ee5d8a7dccf4057", "addfbf32ec626dcf9", "a4bcb653d9c140a68", "aba652aafad2a069c", "a8c30809e06f8495a", "a2fc3798556e6fe0b", "aa6c0ac6cf8b1e84a"], "single": []}
+{"t": "2026-10-06T07:57:48-04:00", "wf_live": ["a7ee5d8a7dccf4057", "addfbf32ec626dcf9", "a4bcb653d9c140a68", "aba652aafad2a069c", "a8c30809e06f8495a", "a2fc3798556e6fe0b", "aa6c0ac6cf8b1e84a"], "single": []}
+{"t": "2026-10-06T08:07:48-04:00", "wf_live": ["addfbf32ec626dcf9", "aba652aafad2a069c", "a8c30809e06f8495a", "aa6c0ac6cf8b1e84a"], "single": []}
+{"t": "2026-10-06T08:17:48-04:00", "wf_live": ["addfbf32ec626dcf9", "aba652aafad2a069c", "a8c30809e06f8495a", "a09980a21192dd2cf", "aa6c0ac6cf8b1e84a"], "single": []}
+{"t": "2026-10-06T08:27:48-04:00", "wf_live": ["addfbf32ec626dcf9", "aba652aafad2a069c", "a8c30809e06f8495a", "a09980a21192dd2cf", "aa6c0ac6cf8b1e84a"], "single": []}
+{"t": "2026-10-06T08:37:49-04:00", "wf_live": ["addfbf32ec626dcf9", "a8c30809e06f8495a", "a09980a21192dd2cf", "a77e10b288ab7ef55", "aa447483ed956de20"], "single": []}
+{"t": "2026-10-06T08:47:48-04:00", "wf_live": ["addfbf32ec626dcf9", "a8c30809e06f8495a", "a09980a21192dd2cf", "a77e10b288ab7ef55"], "single": []}
+{"t": "2026-10-06T08:57:48-04:00", "wf_live": ["aba652aafad2a069c", "a8c30809e06f8495a", "a09980a21192dd2cf", "a77e10b288ab7ef55", "a61afb3a2628bc730"], "single": []}
+{"t": "2026-10-06T09:07:49-04:00", "wf_live": ["aba652aafad2a069c", "a8c30809e06f8495a", "a61afb3a2628bc730", "a2fc3798556e6fe0b", "aa447483ed956de20"], "single": []}
+{"t": "2026-10-06T09:17:49-04:00", "wf_live": ["aba652aafad2a069c", "a8c30809e06f8495a", "a61afb3a2628bc730", "a456660872e7ad2ef", "aa447483ed956de20", "a61c569d47209cf93"], "single": []}
+{"t": "2026-10-06T09:27:49-04:00", "wf_live": ["aba652aafad2a069c", "a1c9f3deb46f99a4e", "a61c569d47209cf93"], "single": []}
+{"t": "2026-10-06T09:37:52-04:00", "wf_live": ["a8c30809e06f8495a", "a456660872e7ad2ef", "a1c9f3deb46f99a4e", "a5bb5de3d6d209226", "a61c569d47209cf93"], "single": []}
+{"t": "2026-10-06T09:47:51-04:00", "wf_live": ["a456660872e7ad2ef", "a1c9f3deb46f99a4e", "aeca2c64d6af072ba", "a61c569d47209cf93"], "single": []}
+{"t": "2026-10-06T09:57:49-04:00", "wf_live": ["a456660872e7ad2ef", "aeca2c64d6af072ba", "a2fd57f219e0b5e41", "a61c569d47209cf93"], "single": []}
+{"t": "2026-10-06T10:07:50-04:00", "wf_live": ["a829df227b91340f8", "a61c569d47209cf93"], "single": []}
+{"t": "2026-10-06T10:17:48-04:00", "wf_live": ["a61c569d47209cf93"], "single": []}
+{"t": "2026-10-06T10:27:48-04:00", "wf_live": ["aba652aafad2a069c"], "single": []}
+{"t": "2026-10-06T10:37:49-04:00", "wf_live": ["a27769c8a67387e0d", "ab1e6926a65922577"], "single": []}
+{"t": "2026-10-06T10:47:50-04:00", "wf_live": ["a27769c8a67387e0d", "ab1e6926a65922577"], "single": []}
+{"t": "2026-10-06T10:56:19-04:00", "wf_live": ["a27769c8a67387e0d", "ae28a6fdfcc083935"], "single": []}
+{"t": "2026-10-06T10:57:48-04:00", "wf_live": ["a27769c8a67387e0d", "ae28a6fdfcc083935"], "single": []}
+{"t": "2026-10-06T11:07:49-04:00", "wf_live": ["a27769c8a67387e0d", "ae28a6fdfcc083935"], "single": []}
+{"t": "2026-10-06T11:17:49-04:00", "wf_live": ["a27769c8a67387e0d"], "single": []}
+{"t": "2026-10-06T11:27:48-04:00", "wf_live": ["aba652aafad2a069c", "a97d7e7b69846e957"], "single": []}
+{"t": "2026-10-06T11:37:50-04:00", "wf_live": ["aba652aafad2a069c", "a97d7e7b69846e957", "a61c569d47209cf93"], "single": []}
+{"t": "2026-10-06T11:47:48-04:00", "wf_live": ["aba652aafad2a069c", "a97d7e7b69846e957", "a61c569d47209cf93"], "single": []}
+{"t": "2026-10-06T11:57:56-04:00", "wf_live": ["aba652aafad2a069c", "a97d7e7b69846e957", "a61c569d47209cf93"], "single": []}
+{"t": "2026-10-06T12:07:50-04:00", "wf_live": ["a61c569d47209cf93"], "single": []}
+{"t": "2026-10-06T12:17:51-04:00", "wf_live": ["a5fa9296f5c4d5b65", "a61c569d47209cf93"], "single": []}
+{"t": "2026-10-06T12:27:48-04:00", "wf_live": ["a5fa9296f5c4d5b65", "a12ae55e883d9b583", "a4ed4dab973c6dc49", "a61c569d47209cf93", "a68e48a2b1ed0d206", "a630c245b29c6bc19"], "single": []}
+{"t": "2026-10-06T12:37:49-04:00", "wf_live": ["a5fa9296f5c4d5b65", "a12ae55e883d9b583", "a4ed4dab973c6dc49", "a61c569d47209cf93", "a19efa761d2691c8b"], "single": []}
+{"t": "2026-10-06T12:47:54-04:00", "wf_live": ["a12ae55e883d9b583", "a4ed4dab973c6dc49", "a61c569d47209cf93", "aa032a5e758da26c8", "a19efa761d2691c8b"], "single": []}
+{"t": "2026-10-06T12:57:49-04:00", "wf_live": ["a12ae55e883d9b583", "a4ed4dab973c6dc49", "a61c569d47209cf93", "aa032a5e758da26c8"], "single": []}
+{"t": "2026-10-06T13:07:52-04:00", "wf_live": ["a5fa9296f5c4d5b65", "a12ae55e883d9b583", "a4ed4dab973c6dc49"], "single": []}
+{"t": "2026-10-06T13:17:48-04:00", "wf_live": ["a5fa9296f5c4d5b65", "a12ae55e883d9b583", "a4ed4dab973c6dc49", "a9bf316a1c655af9b"], "single": []}
+{"t": "2026-10-06T13:27:48-04:00", "wf_live": ["aa05940c84fbc99ab", "a0b487ce191c702fd"], "single": []}
+{"t": "2026-10-06T13:37:53-04:00", "wf_live": ["a4ed4dab973c6dc49", "aa05940c84fbc99ab", "a11b84aa7f4c02025"], "single": []}
+{"t": "2026-10-06T13:47:48-04:00", "wf_live": ["aa05940c84fbc99ab", "a11b84aa7f4c02025", "a7a75485e10d3cb3d", "a61c569d47209cf93"], "single": []}
+{"t": "2026-10-06T13:57:51-04:00", "wf_live": ["aa05940c84fbc99ab", "a11b84aa7f4c02025", "a61c569d47209cf93"], "single": []}
+{"t": "2026-10-06T14:07:48-04:00", "wf_live": ["aa05940c84fbc99ab", "a11b84aa7f4c02025", "a61c569d47209cf93"], "single": []}
+{"t": "2026-10-06T14:17:48-04:00", "wf_live": ["aa05940c84fbc99ab", "a7a75485e10d3cb3d", "a153682a9502e1fdb", "a61c569d47209cf93"], "single": []}
+{"t": "2026-10-06T14:27:48-04:00", "wf_live": ["a153682a9502e1fdb", "a791ca2cbbb7c551f"], "single": []}
+{"t": "2026-10-06T14:37:49-04:00", "wf_live": ["a791ca2cbbb7c551f", "a5a52811616778d44"], "single": []}
+{"t": "2026-10-06T14:47:51-04:00", "wf_live": ["a791ca2cbbb7c551f", "a5a52811616778d44"], "single": []}
+{"t": "2026-10-06T14:57:48-04:00", "wf_live": ["aa05940c84fbc99ab", "a791ca2cbbb7c551f", "a5a52811616778d44"], "single": []}
+{"t": "2026-10-06T15:07:49-04:00", "wf_live": ["a791ca2cbbb7c551f", "a6589f6d4b18eb1dd"], "single": []}
+{"t": "2026-10-06T15:17:49-04:00", "wf_live": ["a6589f6d4b18eb1dd", "af6e3fee315355e18", "a61c569d47209cf93"], "single": []}
+{"t": "2026-10-06T15:27:50-04:00", "wf_live": ["a6589f6d4b18eb1dd", "a2f34d7dacd5967bc", "a31b19f66af98c508"], "single": []}
+{"t": "2026-10-06T15:37:48-04:00", "wf_live": ["a791ca2cbbb7c551f", "a6589f6d4b18eb1dd", "a2f34d7dacd5967bc", "a31b19f66af98c508"], "single": []}
+{"t": "2026-10-06T15:47:48-04:00", "wf_live": ["a791ca2cbbb7c551f", "a6589f6d4b18eb1dd", "a565e2195ae9051c6", "ae2106d4d77642689"], "single": []}
+{"t": "2026-10-06T15:57:49-04:00", "wf_live": ["a791ca2cbbb7c551f", "a6589f6d4b18eb1dd", "a565e2195ae9051c6", "ae2106d4d77642689"], "single": []}
+{"t": "2026-10-06T16:07:51-04:00", "wf_live": ["a791ca2cbbb7c551f", "a565e2195ae9051c6", "ae2106d4d77642689", "a905b7eb0f32fc192", "af20ce0fdd5e31bb0", "a31b19f66af98c508"], "single": []}
+{"t": "2026-10-06T16:17:49-04:00", "wf_live": ["a791ca2cbbb7c551f", "a565e2195ae9051c6", "ae2106d4d77642689", "a905b7eb0f32fc192", "af20ce0fdd5e31bb0", "a31b19f66af98c508"], "single": []}
+{"t": "2026-10-06T16:27:49-04:00", "wf_live": ["a565e2195ae9051c6", "ae2106d4d77642689", "a905b7eb0f32fc192", "af20ce0fdd5e31bb0"], "single": []}
+{"t": "2026-10-06T16:37:52-04:00", "wf_live": ["a791ca2cbbb7c551f", "a565e2195ae9051c6", "ae2106d4d77642689", "a905b7eb0f32fc192", "a5c7e4a1d29b4a519"], "single": []}
+{"t": "2026-10-06T16:47:49-04:00", "wf_live": ["a565e2195ae9051c6", "ae2106d4d77642689", "a5c7e4a1d29b4a519", "a31b19f66af98c508"], "single": []}
+{"t": "2026-10-06T16:57:50-04:00", "wf_live": ["a565e2195ae9051c6", "ae2106d4d77642689", "aff4c9f830b067120"], "single": []}
+{"t": "2026-10-06T17:07:50-04:00", "wf_live": ["a565e2195ae9051c6", "ae2106d4d77642689", "aff4c9f830b067120"], "single": []}
+{"t": "2026-10-06T17:17:48-04:00", "wf_live": ["a565e2195ae9051c6", "ae2106d4d77642689"], "single": []}
+{"t": "2026-10-06T17:27:49-04:00", "wf_live": ["a565e2195ae9051c6", "ae2106d4d77642689"], "single": []}
+{"t": "2026-10-06T17:37:48-04:00", "wf_live": ["ae2106d4d77642689"], "single": []}
+{"t": "2026-10-06T17:47:56-04:00", "wf_live": ["a88e62ea326b34ed8", "a6564b4bb0ec84a30"], "single": []}
+{"t": "2026-10-06T17:57:48-04:00", "wf_live": [], "single": []}
+{"t": "2026-10-06T18:07:49-04:00", "wf_live": ["a5c7e4a1d29b4a519", "a88e62ea326b34ed8"], "single": []}
+{"t": "2026-10-06T18:17:48-04:00", "wf_live": ["a565e2195ae9051c6", "a88e62ea326b34ed8"], "single": []}
+{"t": "2026-10-06T18:27:48-04:00", "wf_live": ["a565e2195ae9051c6", "a88e62ea326b34ed8"], "single": []}
+{"t": "2026-10-06T18:37:48-04:00", "wf_live": ["a88e62ea326b34ed8"], "single": []}
+{"t": "2026-10-06T18:47:48-04:00", "wf_live": ["a88e62ea326b34ed8", "a8ba20fc0d11a9a5b"], "single": []}
+{"t": "2026-10-06T18:57:48-04:00", "wf_live": ["a5c7e4a1d29b4a519", "a88e62ea326b34ed8", "a8ba20fc0d11a9a5b"], "single": []}
+{"t": "2026-10-06T19:07:47-04:00", "wf_live": ["a88e62ea326b34ed8", "a8ba20fc0d11a9a5b", "a5c290ac96bef7f80", "ab66eddd2fd336553"], "single": []}
+{"t": "2026-10-06T19:17:49-04:00", "wf_live": ["a8ba20fc0d11a9a5b", "a6bf14d45150c0c0b", "ad5c327b6ed45213b", "abdf996affc805207", "ab66eddd2fd336553"], "single": []}
+{"t": "2026-10-06T19:27:47-04:00", "wf_live": ["a6bf14d45150c0c0b", "ad5c327b6ed45213b", "a61cf76778326ff52", "ab66eddd2fd336553"], "single": []}
+{"t": "2026-10-06T19:37:48-04:00", "wf_live": ["ad5c327b6ed45213b", "a931f2de1d1f29dcf"], "single": []}
+{"t": "2026-10-06T19:47:52-04:00", "wf_live": ["abdf996affc805207", "afdf25a536cf747d9", "a35906a97435a547a", "a6e9f9127cdd118f1", "a135903ad50890da8", "a931f2de1d1f29dcf"], "single": []}
+{"t": "2026-10-06T19:58:05-04:00", "wf_live": ["abdf996affc805207", "a6e9f9127cdd118f1", "a931f2de1d1f29dcf"], "single": []}
+{"t": "2026-10-06T20:07:49-04:00", "wf_live": ["a6e9f9127cdd118f1", "a135903ad50890da8"], "single": []}
+{"t": "2026-10-06T20:17:48-04:00", "wf_live": ["abdf996affc805207", "a135903ad50890da8", "afa59994804da0ee1", "aed86bfb317e47bee"], "single": []}
+{"t": "2026-10-06T20:27:49-04:00", "wf_live": ["afa59994804da0ee1", "a85cf28b2c642a50b", "a931f2de1d1f29dcf"], "single": []}
+{"t": "2026-10-06T20:37:48-04:00", "wf_live": ["a85cf28b2c642a50b", "a037282c0f9c332e1"], "single": []}
+{"t": "2026-10-06T20:47:53-04:00", "wf_live": ["a85cf28b2c642a50b", "a41b3f20a71dff1d6"], "single": []}
+{"t": "2026-10-06T20:57:47-04:00", "wf_live": ["afa59994804da0ee1", "a85cf28b2c642a50b", "a037282c0f9c332e1"], "single": []}
+{"t": "2026-10-06T21:07:48-04:00", "wf_live": ["a85cf28b2c642a50b", "a97ca7c06cc4ee97e", "ad1ba32af24776756"], "single": []}
+{"t": "2026-10-06T21:17:49-04:00", "wf_live": ["a97ca7c06cc4ee97e"], "single": []}
+{"t": "2026-10-06T21:27:48-04:00", "wf_live": ["a97ca7c06cc4ee97e", "a4f9c302a55fc2df3"], "single": []}
+{"t": "2026-10-06T21:37:57-04:00", "wf_live": ["a41b3f20a71dff1d6", "a97ca7c06cc4ee97e", "a4f9c302a55fc2df3"], "single": []}
+{"t": "2026-10-06T21:47:50-04:00", "wf_live": ["a97ca7c06cc4ee97e"], "single": []}
+{"t": "2026-10-06T21:57:45-04:00", "wf_live": ["a41b3f20a71dff1d6", "a97ca7c06cc4ee97e"], "single": []}
+{"t": "2026-10-06T22:07:48-04:00", "wf_live": ["a97ca7c06cc4ee97e", "ab3eb18d351ecd7a8"], "single": []}
+{"t": "2026-10-06T22:17:47-04:00", "wf_live": ["a97ca7c06cc4ee97e", "ab3eb18d351ecd7a8"], "single": []}
+{"t": "2026-10-06T22:27:47-04:00", "wf_live": ["ab3eb18d351ecd7a8", "a4c80ee7b17783345"], "single": []}
+{"t": "2026-10-06T22:37:47-04:00", "wf_live": ["ab3eb18d351ecd7a8", "a4c80ee7b17783345"], "single": []}
+{"t": "2026-10-06T22:47:48-04:00", "wf_live": ["ab3eb18d351ecd7a8", "a4c80ee7b17783345"], "single": []}
+{"t": "2026-10-06T22:50:24-04:00", "wf_live": ["ab3eb18d351ecd7a8", "a4c80ee7b17783345"], "single": []}
+{"t": "2026-10-06T22:57:56-04:00", "wf_live": ["a6ea8dc3a92312610", "adb4db98e9903937b", "a47a31d64e5102305", "added9d2ff6a7f989"], "single": []}
+{"t": "2026-10-06T23:07:48-04:00", "wf_live": ["a6ea8dc3a92312610", "adb4db98e9903937b", "a47a31d64e5102305", "added9d2ff6a7f989"], "single": []}
+{"t": "2026-10-06T23:17:48-04:00", "wf_live": ["a6ea8dc3a92312610", "adb4db98e9903937b", "a47a31d64e5102305"], "single": []}
+{"t": "2026-10-06T23:27:51-04:00", "wf_live": ["a6ea8dc3a92312610", "adb4db98e9903937b", "a47a31d64e5102305"], "single": []}
+{"t": "2026-10-06T23:37:47-04:00", "wf_live": ["a6ea8dc3a92312610", "adb4db98e9903937b"], "single": []}
+{"t": "2026-10-06T23:47:48-04:00", "wf_live": ["a6ea8dc3a92312610", "af7c009cda16f1f9b"], "single": []}
+{"t": "2026-10-06T23:57:47-04:00", "wf_live": ["a6ea8dc3a92312610", "added9d2ff6a7f989"], "single": []}
+{"t": "2026-10-07T00:07:46-04:00", "wf_live": ["aec798ed7d88bdd44", "a065ad1a84da54fcf", "a37c2947ec27c63ba"], "single": []}
+{"t": "2026-10-07T00:17:48-04:00", "wf_live": ["a065ad1a84da54fcf", "a1ac4dcf5dbe6afb5"], "single": []}
+{"t": "2026-10-07T00:27:47-04:00", "wf_live": ["a065ad1a84da54fcf", "a1ac4dcf5dbe6afb5", "aaabad339909ed0d7"], "single": []}
+{"t": "2026-10-07T00:37:48-04:00", "wf_live": ["aec798ed7d88bdd44", "a065ad1a84da54fcf"], "single": []}
+{"t": "2026-10-07T00:47:47-04:00", "wf_live": [], "single": []}
+{"t": "2026-10-07T00:57:47-04:00", "wf_live": ["aec798ed7d88bdd44"], "single": []}
+{"t": "2026-10-07T01:07:47-04:00", "wf_live": ["aec798ed7d88bdd44"], "single": []}
+{"t": "2026-10-07T01:17:49-04:00", "wf_live": ["aec798ed7d88bdd44"], "single": []}
+{"t": "2026-10-07T01:27:51-04:00", "wf_live": ["a065ad1a84da54fcf", "a4aa056ee9eb3dfb8"], "single": []}
+{"t": "2026-10-07T01:37:48-04:00", "wf_live": ["a065ad1a84da54fcf", "a4aa056ee9eb3dfb8"], "single": []}
+{"t": "2026-10-07T01:47:47-04:00", "wf_live": ["a065ad1a84da54fcf"], "single": []}
+{"t": "2026-10-07T01:57:47-04:00", "wf_live": ["a065ad1a84da54fcf"], "single": []}
+{"t": "2026-10-07T02:07:54-04:00", "wf_live": ["a6083907e43e9e2a1"], "single": []}
+{"t": "2026-10-07T02:17:48-04:00", "wf_live": [], "single": []}
+{"t": "2026-10-07T02:27:47-04:00", "wf_live": [], "single": []}
+{"t": "2026-10-07T02:37:47-04:00", "wf_live": ["a6083907e43e9e2a1"], "single": []}
+{"t": "2026-10-07T02:47:47-04:00", "wf_live": ["a6083907e43e9e2a1"], "single": []}
+{"t": "2026-10-07T02:57:47-04:00", "wf_live": ["a6083907e43e9e2a1"], "single": []}
+{"t": "2026-10-07T03:07:46-04:00", "wf_live": ["abf45cf4a093257eb"], "single": []}
+{"t": "2026-10-07T03:17:45-04:00", "wf_live": ["abf45cf4a093257eb", "a26323b3efe47f57d"], "single": []}
+{"t": "2026-10-07T03:27:49-04:00", "wf_live": ["abf45cf4a093257eb", "a26323b3efe47f57d"], "single": []}
+{"t": "2026-10-07T03:37:48-04:00", "wf_live": ["a26323b3efe47f57d"], "single": []}
+{"t": "2026-10-07T03:47:48-04:00", "wf_live": ["a26323b3efe47f57d"], "single": []}
+{"t": "2026-10-07T03:57:48-04:00", "wf_live": ["abf45cf4a093257eb", "ac302e5eff9a82520"], "single": []}
+{"t": "2026-10-07T04:07:48-04:00", "wf_live": ["abf45cf4a093257eb", "ac302e5eff9a82520"], "single": []}
+{"t": "2026-10-07T04:17:47-04:00", "wf_live": ["abf45cf4a093257eb", "ac302e5eff9a82520"], "single": []}
+{"t": "2026-10-07T04:27:48-04:00", "wf_live": ["abf45cf4a093257eb", "ac302e5eff9a82520"], "single": []}
+{"t": "2026-10-07T04:37:47-04:00", "wf_live": ["abf45cf4a093257eb", "ac302e5eff9a82520"], "single": []}
+{"t": "2026-10-07T04:47:48-04:00", "wf_live": ["a1f4a3c596f49b5e4"], "single": []}
+{"t": "2026-10-07T04:57:48-04:00", "wf_live": ["a1f4a3c596f49b5e4"], "single": []}
+{"t": "2026-10-07T05:07:48-04:00", "wf_live": ["a1f4a3c596f49b5e4"], "single": []}
+{"t": "2026-10-07T05:17:48-04:00", "wf_live": [], "single": []}
+{"t": "2026-10-07T05:27:47-04:00", "wf_live": ["a1f4a3c596f49b5e4"], "single": []}
+{"t": "2026-10-07T05:37:49-04:00", "wf_live": ["a1f4a3c596f49b5e4", "a36d4e81c48dd9e41"], "single": []}
+{"t": "2026-10-07T05:47:48-04:00", "wf_live": ["a36d4e81c48dd9e41"], "single": []}
+{"t": "2026-10-07T05:57:47-04:00", "wf_live": ["a9c1e71f032bf8b80"], "single": []}
+{"t": "2026-10-07T06:07:55-04:00", "wf_live": ["a9c1e71f032bf8b80", "a36d4e81c48dd9e41"], "single": []}
+{"t": "2026-10-07T06:17:48-04:00", "wf_live": ["a9c1e71f032bf8b80", "a36d4e81c48dd9e41"], "single": []}
+{"t": "2026-10-07T06:27:48-04:00", "wf_live": ["a36d4e81c48dd9e41"], "single": []}
+{"t": "2026-10-07T06:37:49-04:00", "wf_live": ["a9c1e71f032bf8b80", "a36d4e81c48dd9e41"], "single": []}
+{"t": "2026-10-07T06:47:45-04:00", "wf_live": ["a9c1e71f032bf8b80"], "single": []}
+{"t": "2026-10-07T06:57:47-04:00", "wf_live": ["a9c1e71f032bf8b80"], "single": []}
+{"t": "2026-10-07T07:07:48-04:00", "wf_live": ["a9c1e71f032bf8b80"], "single": []}
+{"t": "2026-10-07T07:17:49-04:00", "wf_live": ["a0dd892f7ef0bcdb4"], "single": []}
+{"t": "2026-10-07T07:27:48-04:00", "wf_live": ["a0dd892f7ef0bcdb4"], "single": []}
+{"t": "2026-10-07T07:37:52-04:00", "wf_live": ["a0dd892f7ef0bcdb4"], "single": []}
+{"t": "2026-10-07T07:47:48-04:00", "wf_live": ["a0dd892f7ef0bcdb4"], "single": []}
+{"t": "2026-10-07T07:57:48-04:00", "wf_live": [], "single": []}
+{"t": "2026-10-07T08:07:56-04:00", "wf_live": [], "single": []}
+{"t": "2026-10-07T08:17:49-04:00", "wf_live": [], "single": []}
+{"t": "2026-10-07T08:27:49-04:00", "wf_live": [], "single": []}
+{"t": "2026-10-07T08:37:48-04:00", "wf_live": [], "single": []}
+{"t": "2026-10-07T08:47:57-04:00", "wf_live": [], "single": []}
+{"t": "2026-10-07T08:57:48-04:00", "wf_live": [], "single": []}
+{"t": "2026-10-07T09:07:46-04:00", "wf_live": ["a39434af8029c34cf"], "single": []}
+{"t": "2026-10-07T09:17:48-04:00", "wf_live": ["a39434af8029c34cf"], "single": []}
+{"t": "2026-10-07T09:27:50-04:00", "wf_live": ["a39434af8029c34cf"], "single": []}
+{"t": "2026-10-07T09:37:48-04:00", "wf_live": ["a39434af8029c34cf"], "single": []}
+{"t": "2026-10-07T09:47:47-04:00", "wf_live": ["a39434af8029c34cf"], "single": []}
+{"t": "2026-10-07T09:57:48-04:00", "wf_live": ["a39434af8029c34cf"], "single": []}
+{"t": "2026-10-07T10:07:48-04:00", "wf_live": ["a39434af8029c34cf"], "single": []}
+{"t": "2026-10-07T10:17:48-04:00", "wf_live": ["a39434af8029c34cf"], "single": []}
+{"t": "2026-10-07T10:27:49-04:00", "wf_live": [], "single": []}
+{"t": "2026-10-07T10:37:49-04:00", "wf_live": ["a7a1365f574403800"], "single": []}
+{"t": "2026-10-07T10:47:48-04:00", "wf_live": ["a7a1365f574403800"], "single": []}
+{"t": "2026-10-07T10:57:48-04:00", "wf_live": [], "single": []}
+{"t": "2026-10-07T11:07:51-04:00", "wf_live": ["a7a1365f574403800"], "single": []}
+{"t": "2026-10-07T11:18:13-04:00", "wf_live": [], "single": []}
+{"t": "2026-10-07T11:27:50-04:00", "wf_live": [], "single": []}
+{"t": "2026-10-07T11:37:48-04:00", "wf_live": ["a7a1365f574403800"], "single": []}
+{"t": "2026-10-07T11:47:47-04:00", "wf_live": ["a1cf1a7fdde92e225", "a125e8f2052a67926"], "single": []}
+{"t": "2026-10-07T11:57:52-04:00", "wf_live": ["a1cf1a7fdde92e225", "a125e8f2052a67926"], "single": []}
+{"t": "2026-10-07T12:07:49-04:00", "wf_live": ["a125e8f2052a67926"], "single": []}
+{"t": "2026-10-07T12:17:48-04:00", "wf_live": ["a125e8f2052a67926"], "single": []}
+{"t": "2026-10-07T12:27:48-04:00", "wf_live": [], "single": []}
+{"t": "2026-10-07T12:37:47-04:00", "wf_live": ["a125e8f2052a67926"], "single": []}
+{"t": "2026-10-07T12:47:47-04:00", "wf_live": ["a125e8f2052a67926"], "single": []}
+{"t": "2026-10-07T12:57:47-04:00", "wf_live": ["a125e8f2052a67926"], "single": []}
+{"t": "2026-10-07T13:07:49-04:00", "wf_live": [], "single": []}
+{"t": "2026-10-07T13:17:44-04:00", "wf_live": ["a9c5f0f42d2363c0e"], "single": []}
+{"t": "2026-10-07T13:27:48-04:00", "wf_live": [], "single": []}
+{"t": "2026-10-07T13:37:48-04:00", "wf_live": ["a9c5f0f42d2363c0e"], "single": []}
+{"t": "2026-10-07T13:47:48-04:00", "wf_live": [], "single": []}
+{"t": "2026-10-07T13:57:47-04:00", "wf_live": ["a3b110bcfbbba36d2"], "single": []}
+{"t": "2026-10-07T14:07:56-04:00", "wf_live": ["a3b110bcfbbba36d2"], "single": []}
+{"t": "2026-10-07T14:18:13-04:00", "wf_live": ["a24fd363910c08b1b"], "single": []}
+{"t": "2026-10-07T14:18:19-04:00", "wf_live": ["a24fd363910c08b1b"], "single": []}
+{"t": "2026-10-07T14:28:02-04:00", "wf_live": ["a24fd363910c08b1b"], "single": []}
+{"t": "2026-10-07T14:37:48-04:00", "wf_live": ["a24fd363910c08b1b"], "single": []}
+{"t": "2026-10-07T14:47:48-04:00", "wf_live": ["a24fd363910c08b1b"], "single": []}
+{"t": "2026-10-07T14:57:48-04:00", "wf_live": ["a24fd363910c08b1b"], "single": []}
+{"t": "2026-10-07T15:07:49-04:00", "wf_live": ["a24fd363910c08b1b"], "single": []}
+{"t": "2026-10-07T15:17:50-04:00", "wf_live": ["a24fd363910c08b1b"], "single": []}
+{"t": "2026-10-07T15:27:48-04:00", "wf_live": ["aad5060af2bd10446"], "single": []}
+{"t": "2026-10-07T15:37:48-04:00", "wf_live": ["aad5060af2bd10446"], "single": []}
+{"t": "2026-10-07T15:47:48-04:00", "wf_live": ["aad5060af2bd10446"], "single": []}
+{"t": "2026-10-07T15:57:48-04:00", "wf_live": [], "single": []}
+{"t": "2026-10-07T16:07:48-04:00", "wf_live": [], "single": []}
+{"t": "2026-10-07T16:17:48-04:00", "wf_live": [], "single": []}
+{"t": "2026-10-07T16:27:49-04:00", "wf_live": ["aad5060af2bd10446"], "single": []}
+{"t": "2026-10-07T16:37:49-04:00", "wf_live": [], "single": []}
+{"t": "2026-10-07T16:47:49-04:00", "wf_live": ["ab45268668a8c2e9c"], "single": []}
+{"t": "2026-10-07T16:57:48-04:00", "wf_live": [], "single": []}
+{"t": "2026-10-07T17:07:45-04:00", "wf_live": ["ab45268668a8c2e9c"], "single": []}
+{"t": "2026-10-07T17:17:47-04:00", "wf_live": ["a2fa135e355cabee1"], "single": []}
+{"t": "2026-10-07T17:27:47-04:00", "wf_live": [], "single": []}
+{"t": "2026-10-07T17:37:56-04:00", "wf_live": [], "single": []}
+{"t": "2026-10-07T17:47:47-04:00", "wf_live": ["a2fa135e355cabee1"], "single": []}
+{"t": "2026-10-07T17:57:49-04:00", "wf_live": ["a3c04c59c41a240fb", "a4206497d30ab93ca", "ae61df7d12f67df0e"], "single": []}
+{"t": "2026-10-07T18:07:48-04:00", "wf_live": ["a3c04c59c41a240fb", "a4206497d30ab93ca", "a815b89cae9eff109", "ae61df7d12f67df0e", "a11ae2fa68d07e164"], "single": []}
+{"t": "2026-10-07T18:17:47-04:00", "wf_live": ["a3c04c59c41a240fb", "a4206497d30ab93ca", "a815b89cae9eff109", "ae61df7d12f67df0e", "a11ae2fa68d07e164"], "single": []}
+{"t": "2026-10-07T18:27:49-04:00", "wf_live": ["a3c04c59c41a240fb", "a4206497d30ab93ca", "a815b89cae9eff109", "ae61df7d12f67df0e", "a11ae2fa68d07e164"], "single": []}
+{"t": "2026-10-07T18:37:50-04:00", "wf_live": ["a3c04c59c41a240fb", "a4206497d30ab93ca", "a815b89cae9eff109", "ae61df7d12f67df0e", "a11ae2fa68d07e164"], "single": []}
+{"t": "2026-10-07T18:47:49-04:00", "wf_live": ["a3c04c59c41a240fb", "a4206497d30ab93ca", "ae61df7d12f67df0e", "a11ae2fa68d07e164"], "single": []}
+{"t": "2026-10-07T18:57:49-04:00", "wf_live": ["a3c04c59c41a240fb", "a4206497d30ab93ca", "a815b89cae9eff109", "ae61df7d12f67df0e", "a11ae2fa68d07e164"], "single": []}
+{"t": "2026-10-08T10:54:07-04:00", "wf_live": [], "single": []}
+{"t": "2026-10-08T10:55:09-04:00", "wf_live": ["a14af1652f1078e2b", "ad134c8fb1648f251", "a80a48eb2c71df1e6", "a7daf6e431d633905", "a9cda6677043fce5e"], "single": []}
+{"t": "2026-10-08T10:57:48-04:00", "wf_live": ["ac5f63d7e306a7d8f", "aac442a7bd919430e", "a80a48eb2c71df1e6", "a7daf6e431d633905", "a9cda6677043fce5e"], "single": ["session/ruling-lifecycle"]}
+{"t": "2026-10-08T11:05:00-04:00", "wf_live": ["ac5f63d7e306a7d8f"], "single": ["session/ruling-lifecycle"]}
+{"t": "2026-10-08T11:19:36-04:00", "wf_live": ["a80a48eb2c71df1e6", "a9cda6677043fce5e"], "single": ["session/ruling-lifecycle"]}
+{"t": "2026-10-08T11:49:35-04:00", "wf_live": ["a80a48eb2c71df1e6", "a9cda6677043fce5e", "a7a4bb550200649b4", "a87e22441cae8f3c5"], "single": []}
+{"t": "2026-10-08T12:19:34-04:00", "wf_live": ["ac5f63d7e306a7d8f", "a7daf6e431d633905", "a9cda6677043fce5e"], "single": []}
+{"t": "2026-10-08T12:49:34-04:00", "wf_live": ["ac5f63d7e306a7d8f", "a209db2d2a5795774", "a7daf6e431d633905", "ad849ee2983fd3be8"], "single": []}
+{"t": "2026-10-08T13:19:34-04:00", "wf_live": ["a209db2d2a5795774", "a7daf6e431d633905", "a4de243e86061bc9b"], "single": []}
+{"t": "2026-10-08T13:49:35-04:00", "wf_live": ["a7daf6e431d633905", "a4de243e86061bc9b"], "single": []}
+{"t": "2026-10-08T14:19:43-04:00", "wf_live": ["accd15d32e553d2ef", "a23565f0ed31e7f04", "a4de243e86061bc9b", "aa7203a91defe03e4"], "single": []}
+{"t": "2026-10-08T14:49:34-04:00", "wf_live": ["accd15d32e553d2ef", "a23565f0ed31e7f04", "a4de243e86061bc9b", "a79492ad540e744c0", "ac65611dc1886417d"], "single": []}
+{"t": "2026-10-08T15:19:34-04:00", "wf_live": ["ac65611dc1886417d"], "single": []}
+{"t": "2026-10-08T15:49:34-04:00", "wf_live": ["a4e526362e4830591", "a79492ad540e744c0", "ac65611dc1886417d"], "single": []}
+{"t": "2026-10-08T15:55:14-04:00", "wf_live": ["accd15d32e553d2ef", "a4e526362e4830591", "aa7203a91defe03e4", "a1099b214b4c17ce9", "ad59770f628d8aa1e"], "single": []}
+{"t": "2026-10-08T16:19:34-04:00", "wf_live": ["a4e526362e4830591", "aab7265c59c51f2e6", "a1099b214b4c17ce9"], "single": []}
+{"t": "2026-10-08T16:49:35-04:00", "wf_live": ["a4e526362e4830591", "aab7265c59c51f2e6", "a1099b214b4c17ce9"], "single": []}
+{"t": "2026-10-08T17:19:35-04:00", "wf_live": ["a2c532679062fb98c", "a0d1c85b7ba73a8af", "a792fd075db4fdc31"], "single": []}
+{"t": "2026-10-08T17:26:10-04:00", "wf_live": ["a2c532679062fb98c", "a5d492399e1937352", "ad59770f628d8aa1e", "a7ed70fd071a2c689"], "single": []}
+{"t": "2026-10-08T17:49:35-04:00", "wf_live": ["a2c532679062fb98c", "a0d1c85b7ba73a8af", "a7ed70fd071a2c689"], "single": []}
+{"t": "2026-10-08T18:19:34-04:00", "wf_live": ["a0d1c85b7ba73a8af"], "single": []}
+{"t": "2026-10-08T18:49:34-04:00", "wf_live": ["a2c532679062fb98c", "a792fd075db4fdc31"], "single": []}
+{"t": "2026-10-08T19:19:34-04:00", "wf_live": ["a2c532679062fb98c", "ad6903061c9fea53e"], "single": []}
+{"t": "2026-10-08T19:49:35-04:00", "wf_live": ["a2c532679062fb98c", "a1099b214b4c17ce9", "ad6903061c9fea53e", "a7ed70fd071a2c689"], "single": []}
+{"t": "2026-10-08T20:20:27-04:00", "wf_live": ["a2c532679062fb98c", "a1099b214b4c17ce9", "ad6903061c9fea53e", "a7ed70fd071a2c689"], "single": []}
+{"t": "2026-10-08T20:38:36-04:00", "wf_live": ["a1099b214b4c17ce9", "a7ed70fd071a2c689", "a933c573070b07400", "a22deffe8a07aabba", "a1554ac6902a764f2", "a2f2125b9e35cc99d"], "single": []}
+{"t": "2026-10-08T20:49:35-04:00", "wf_live": ["a1099b214b4c17ce9", "a7ed70fd071a2c689", "a933c573070b07400", "a22deffe8a07aabba", "a1554ac6902a764f2", "a2f2125b9e35cc99d"], "single": []}
+{"t": "2026-10-08T21:19:41-04:00", "wf_live": ["a1099b214b4c17ce9", "a7ed70fd071a2c689", "a933c573070b07400", "a22deffe8a07aabba", "a1554ac6902a764f2"], "single": []}
+{"t": "2026-10-08T21:46:36-04:00", "wf_live": ["a933c573070b07400", "a8365e4e285b7b15f", "a1554ac6902a764f2", "a2f2125b9e35cc99d"], "single": []}
+{"t": "2026-10-08T21:49:38-04:00", "wf_live": ["a7ed70fd071a2c689", "a933c573070b07400", "a8365e4e285b7b15f", "a1554ac6902a764f2"], "single": ["session/ruling-refusals"]}
+{"t": "2026-10-08T22:19:35-04:00", "wf_live": [], "single": ["session/ruling-refusals"]}
+{"t": "2026-10-08T22:49:38-04:00", "wf_live": ["afb7e3b7a6e4b55cc", "a8365e4e285b7b15f", "a253fb19f865b8dd8"], "single": []}
+{"t": "2026-10-08T23:19:43-04:00", "wf_live": ["afb7e3b7a6e4b55cc", "a7b1c8bc0bbda5ab7", "a1554ac6902a764f2", "a28ac9c06c678f4e3", "a253fb19f865b8dd8"], "single": []}
+{"t": "2026-10-08T23:49:43-04:00", "wf_live": ["afb7e3b7a6e4b55cc", "a933c573070b07400", "a1554ac6902a764f2", "a253fb19f865b8dd8"], "single": []}
+{"t": "2026-10-09T00:19:41-04:00", "wf_live": ["afb7e3b7a6e4b55cc", "a933c573070b07400", "a1554ac6902a764f2", "a28ac9c06c678f4e3"], "single": []}
+{"t": "2026-10-09T00:49:37-04:00", "wf_live": ["afb7e3b7a6e4b55cc", "a933c573070b07400", "a1554ac6902a764f2", "a28ac9c06c678f4e3"], "single": []}
+{"t": "2026-10-09T01:19:47-04:00", "wf_live": ["afb7e3b7a6e4b55cc", "a253fb19f865b8dd8"], "single": []}
+{"t": "2026-10-09T01:49:43-04:00", "wf_live": ["a7b1c8bc0bbda5ab7", "a125703dd675fedb6", "a253fb19f865b8dd8", "a96f8533f5ade43e2"], "single": []}
+{"t": "2026-10-09T01:52:48-04:00", "wf_live": ["a125703dd675fedb6", "a28ac9c06c678f4e3", "a253fb19f865b8dd8", "a294adfe486d17e67", "a96f8533f5ade43e2", "a14063d6f7a8e93a5"], "single": []}
+{"t": "2026-10-09T02:19:42-04:00", "wf_live": ["a253fb19f865b8dd8", "a37f02fd03cd6f263", "a96f8533f5ade43e2", "a14063d6f7a8e93a5"], "single": []}
+{"t": "2026-10-09T02:49:43-04:00", "wf_live": ["a933c573070b07400", "a125703dd675fedb6", "ab38afac5be15cb08", "a37f02fd03cd6f263", "a96f8533f5ade43e2"], "single": []}
+{"t": "2026-10-09T03:19:44-04:00", "wf_live": ["a7c98492972b0d9f1", "a37f02fd03cd6f263", "a749f8077540d7367"], "single": []}
+{"t": "2026-10-11T01:24:51+00:00", "wf_live": ["abda4783d18550c24", "a44eec90a771412dd"], "single": []}
+{"t": "2026-10-11T01:36:57+00:00", "wf_live": [], "single": []}
+{"t": "2026-10-11T02:24:50+00:00", "wf_live": ["ae07940f3a0a2bb3c"], "single": []}
+{"t": "2026-10-11T03:45:46+00:00", "wf_live": ["a51f7b466ebeca708"], "single": []}
+{"t": "2026-10-11T04:05:06+00:00", "wf_live": ["a51f7b466ebeca708", "aa12fe1b959971eae"], "single": []}
+{"t": "2026-10-11T05:05:26+00:00", "wf_live": [], "single": []}
+{"t": "2026-10-11T05:13:56+00:00", "wf_live": ["aa12fe1b959971eae"], "single": []}
+{"t": "2026-10-11T06:08:47+00:00", "wf_live": [], "single": []}
+{"t": "2026-10-11T09:11:59+00:00", "wf_live": ["a2c77da63024bec23", "a64508048ead33e99"], "single": []}
+{"t": "2026-10-11T09:14:09+00:00", "wf_live": ["a64508048ead33e99", "afd845d4acf9d2743"], "single": []}
+{"t": "2026-10-11T21:27:13+00:00", "wf_live": ["ac8ff3775fb480d71"], "single": []}
+{"t": "2026-10-11T21:29:08+00:00", "wf_live": [], "single": []}
+{"t": "2026-10-11T22:08:56+00:00", "wf_live": [], "single": []}
+{"t": "2026-10-12T02:08:09+00:00", "wf_live": ["a5c80499ee4f66a8f", "af66002d83e863b0a", "a281b83ec0a0a1937"], "single": []}
+{"t": "2026-10-12T05:32:30+00:00", "wf_live": ["a04ce2c67a2e145c9"], "single": ["session/consolidation-layout"]}
+{"t": "2026-10-12T05:51:47+00:00", "wf_live": ["a04ce2c67a2e145c9"], "single": []}
+{"t": "2026-10-12T10:44:10+00:00", "wf_live": ["aa1abcb0017466709"], "single": []}
+{"t": "2026-10-12T11:22:29+00:00", "wf_live": ["aa1abcb0017466709"], "single": []}
+{"t": "2026-10-13T07:17:00+00:00", "wf_live": ["af2955feb1b423f31"], "single": []}
+{"t": "2026-10-13T07:17:00+00:00", "wf_live": ["af2955feb1b423f31"], "single": []}
+{"t": "2026-10-13T07:17:04+00:00", "wf_live": ["af2955feb1b423f31"], "single": []}
+{"t": "2026-10-14T01:04:59+00:00", "wf_live": ["a68005e2cfb46ef15"], "single": []}
+{"t": "2026-10-14T02:14:46+00:00", "wf_live": [], "single": []}

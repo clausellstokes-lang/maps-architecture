@@ -1,0 +1,117 @@
+{
+  "$comment": "The vendored scan's fixture copies (M0-d-07): each folder holds files of a published registry tarball, unpacked unmodified, with its licence. Fetched with `npm pack <name>@<version>` on 2026-10-03 (flatbush on 2026-10-04, C-0152); the tarball's integrity equals the registry's dist.integrity (and, for delaunator, simplex-noise and flatbush, vendor/vendor.lock.json's). Each copied file is listed with its sha256 and `from`, its path in the tarball: a tarball's dist/ folder is stored under another name, because the Maps repository's .gitignore ignores every dist/ under plat/ but the vendored ones. The three unpatched copies' code files equal vendor.lock.json's pre-patch hashes (`original`), keyed by `from`.",
+  "folders": {
+    "delaunator@5.1.0-unpatched": {
+      "tarball": "delaunator-5.1.0.tgz",
+      "integrity": "sha512-AGrQ4QSgssa1NGmWmLPqN5NY2KajF5MqxetNEO+o0n3ZwZZeTmt7bBnvzHWrmkZFxGgr4HdyFgelzgi06otLuQ==",
+      "licence": "ISC",
+      "why": "the library before C-0011's patch: Math.pow(2, -52)",
+      "files": {
+        "LICENSE": {
+          "sha256": "0b348fff56384b43dbb37593906904e56d0f9deb51eae590d4dc6d427fbf1808",
+          "from": "LICENSE"
+        },
+        "delaunator.js": {
+          "sha256": "33db0578d3d651c5bcc31f7b4939e50f353c1281608ea79020eacbb121b66ba1",
+          "from": "delaunator.js"
+        },
+        "delaunator.min.js": {
+          "sha256": "bfe30439db2a04cb19e23525f7e203636e4faa4f1143876e649caba24629bab6",
+          "from": "delaunator.min.js"
+        },
+        "index.js": {
+          "sha256": "1a941d291859ebe1f6755dfbc2024686103c5ab2f31659177c01088ab88c2ca3",
+          "from": "index.js"
+        }
+      }
+    },
+    "simplex-noise@4.0.3-unpatched": {
+      "tarball": "simplex-noise-4.0.3.tgz",
+      "integrity": "sha512-qSE2I4AngLQG7BXqoZj51jokT4WUXe8mOBrvfOXpci8+6Yu44+/dD5zqDpOx3Ux792eamTd2lLcI8jqFntk/lg==",
+      "licence": "MIT",
+      "why": "the library before C-0011's patch: the random = Math.random defaults",
+      "files": {
+        "LICENSE": {
+          "sha256": "01951c4f7d8e7ce92540c4f575a2aec39738b39d25a06a96059d82ed83fb594e",
+          "from": "LICENSE"
+        },
+        "cjs/simplex-noise.js": {
+          "sha256": "99c7c2aad863a20aa9b544b88f2223a6c53435fe7e43bc21b8dd1f8de78ff107",
+          "from": "dist/cjs/simplex-noise.js"
+        },
+        "esm/simplex-noise.js": {
+          "sha256": "64e571e6d28da06fdd230110b8ce242285e76137e7258938f3b68a0fd6ff8146",
+          "from": "dist/esm/simplex-noise.js"
+        },
+        "simplex-noise.ts": {
+          "sha256": "54ed75fe5352210fb47247c38d2cc0e8ab565f469e6515ddcea04e24d44313ea",
+          "from": "simplex-noise.ts"
+        }
+      }
+    },
+    "flatbush@4.6.2-unpatched": {
+      "tarball": "flatbush-4.6.2.tgz",
+      "integrity": "sha512-nNT7MFJ58Q4IAm3aYsEg+zgZGpdRcmR1i4U+aa8c+r91jmYZg7FTQwNnIMC0FyBqVZTbClKdAnrJkKkfp1BOvw==",
+      "licence": "ISC",
+      "why": "the library before C-0152's patch: `this.nodeSize ** level` in _collectContained, in both builds (C-0126 (5)); also the unpatched module of the patch's property test (tools/vendor/flatbush-patch.test.mjs)",
+      "files": {
+        "LICENSE": {
+          "sha256": "08a9d45b1300baf1925a966bcbec26cf9bd4137883d96b79089cba2c72d872bc",
+          "from": "LICENSE"
+        },
+        "flatbush.js": {
+          "sha256": "918d03a3572f0e210ea6b26cf8d2f54aec134afb23e38b114389c29de0be4c29",
+          "from": "flatbush.js"
+        },
+        "index.js": {
+          "sha256": "03a0292b03e580efe4b5f42b506ed766ad6a868180751837e4360b6ca4e3b850",
+          "from": "index.js"
+        }
+      }
+    },
+    "d3-delaunay@6.0.4": {
+      "tarball": "d3-delaunay-6.0.4.tgz",
+      "integrity": "sha512-mdjtIZ1XLAM8bm/hx3WwjfHt6Sggek7qH043O8KEjDXN40xi3vx/6pYSVTwLjEgiXQTbvaouWKynLBiUZ6SK6A==",
+      "licence": "ISC",
+      "why": "not adopted (C-0007): the scan reproduces the reason — Math.pow, sin, cos and hypot",
+      "files": {
+        "LICENSE": {
+          "sha256": "582c3022bd01942336095f92b58a90b1be624dc547d987555c6c956512dd24c1",
+          "from": "LICENSE"
+        },
+        "bundle/d3-delaunay.js": {
+          "sha256": "76e4a8a9d82ac42cd48f4516ecb17b1d03cf21d35f3bfb409efe609717bf7953",
+          "from": "dist/d3-delaunay.js"
+        },
+        "bundle/d3-delaunay.min.js": {
+          "sha256": "efc726aa8aea0897f6dda19874709d09fd791781208ed5847ef1fd36f9886b18",
+          "from": "dist/d3-delaunay.min.js"
+        },
+        "package.json": {
+          "sha256": "09f79afc33a93b385e501649f7658b22a4c02087f920806ca69eec16ef7db094",
+          "from": "package.json"
+        },
+        "src/delaunay.js": {
+          "sha256": "21b26b06b768e5f248adff6301638b87cf9ac32edf423eccb7784e60b9851292",
+          "from": "src/delaunay.js"
+        },
+        "src/index.js": {
+          "sha256": "c68b94d0d0a4d82fd8a71f30f9f09c65724fc212981687a18d0a98338074cb59",
+          "from": "src/index.js"
+        },
+        "src/path.js": {
+          "sha256": "cf71f3f472e666a61dcdf4a73c0f926b96d179160441ca8da05c853b673f1dbb",
+          "from": "src/path.js"
+        },
+        "src/polygon.js": {
+          "sha256": "3947f8868ea3128d76ef91e7a3fad66dc67557f9d5620b6695d659f1615b49ee",
+          "from": "src/polygon.js"
+        },
+        "src/voronoi.js": {
+          "sha256": "beb779abffcc1a44ad80bf971b99f88a21f7ebb58536b4c76a94495231c5c408",
+          "from": "src/voronoi.js"
+        }
+      }
+    }
+  }
+}

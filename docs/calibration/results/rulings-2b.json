@@ -1,0 +1,63 @@
+{
+ "id": "m1/rulings-2b",
+ "status": "landed",
+ "records": [
+  "docs/calibration/M-1-rulings-2.md (section 9: R-49 and DC-36)",
+  "docs/calibration/M-1-plan.md (header, 'Where M-1 stands', section 1 D34, section 2 W-15 and W-22, section 12d)",
+  "docs/calibration/M-1-work.json (lane, rulings, D34, W-15, W-22)",
+  "docs/calibration/results/W-22.json (status landed; checks (1a), (1b), provenance, red run; the script hash; the owner note)",
+  "research/baselines/ng_draw_census.py (the row checks restated; --red gains the pin's shift)",
+  "docs/calibration/results/rulings-2b.json"
+ ],
+ "checks": [
+  {
+   "check": "the ruling R-49 is recorded in the addendum section of M-1-rulings-2.md, vetoable, with its reason and the record that measured it, and names which reference value (the pooled plan-seed value over the 44 W-04 recordings: 18.0679 hatch triangles per gable/hip wing, 2.2869 shadow quads per wing) and which definition (E20 section 2's: a wing = one roof unit; hatch per gable/hip wing with the two ridge tapers; quads over every wing) the row carries; draw.hatchPerWing a fixed-band row (section 13.5's '15-20 triangles per wing', R-34's second bucket, R-48's rule); the old 17.4 / 2.33 superseded; the 2026-09-25 values twin-fixture values entering no row (R-03)",
+   "passed": true,
+   "receipt": "M-1-rulings-2.md section 9 (lines 421 ff.): 'R-49 -- ...', the reason paragraph, 'Decided under the owner's delegation (J122); vetoable', 'Measured by: E20 sections 3-5 ... re-executed by this seat' (CONFIRMED by reading the file back)"
+  },
+  {
+   "check": "the checker row (1a) is restated so it tests what it should: (1a) provenance on the figures' own records (2026-09-21T05-04-54, profile section 5.4: counts exact on all four generations; gen-0 over the table's 296 wings rounds to 17.4 and 2.33) and (1b) the 2026-09-25 twin fixtures reproduce E20 section 4's 17.5072 and 2.3295 to four decimals; E20 F1's '+-1 %' clause not adopted, with the reason",
+   "passed": true,
+   "receipt": "plan section 2 W-22's checker cell and section 12d; M-1-work.json work[29].checker; git diff -U0 shows exactly these hunks (CONFIRMED)"
+  },
+  {
+   "check": "W-22's check re-run under the restated row (research/baselines/ng_draw_census.py --check) passes, and the red run goes red",
+   "passed": true,
+   "receipt": "--check (22:06): 7 PASS, 0 FAIL, 'ALL PASS (row checks failed: 0)', exit 0 -- row (1a) triangles 5 150 / 11 330 / 5 959 / 8 446 and quads 690 / 1 533 / 765 / 1 136 equal the table, gen-0 17.3986 and 2.3311 over 296 wings; row (1b) 17.5072 and 2.3295 against the pin; --red (22:07): rows (1a), (1b), (2) FAIL, '3 FAIL (row checks failed: 3)', exit 1; nothing written: E20's JSON 62938abf... and record ef77332a... byte-unchanged, mtimes 21:37 / 21:36 (CONFIRMED; outputs in the scratchpad's followups/check-after.txt, red-after.txt). Base state before the restatement: 'FAIL row (1a) ... 17.5072', '1 FAIL (row checks failed: 1)', exit 1 (CONFIRMED, check-before.txt)"
+  },
+  {
+   "check": "W-22.json's status and the restated checks updated with a note naming R-49",
+   "passed": true,
+   "receipt": "results/W-22.json: status 'landed'; checks[0] and checks[1] carry 'as R-49 restates it' with the 22:06 receipts and the pre-R-49 history; checks[3] and checks[8] note R-49; outputs[0] the new script hash 5acc39f5... (was 50c03963...); owner_notes[1] and notes[2] resolved; 10 checks all passed; reparses (CONFIRMED)"
+  },
+  {
+   "check": "DC-36 written in the DC form (section, old text, new text, measuring record) for a design seat; no design file edited",
+   "passed": true,
+   "receipt": "M-1-rulings-2.md section 9's table row 'DC-36 | section 13.5 draw style, the NG reference cell | ... | E20 section 4; R-49'; sha256 prefixes of docs/ARCHITECTURE.md (337cf44c...), ARCHITECTURE-FULL.md, V12, V01, E20 md and JSON, M-1-rulings-1.md and docs/PROGRESS.md identical before and after this lane (CONFIRMED, untouched-before.txt / untouched-mid.txt)"
+  },
+  {
+   "check": "M-1-work.json parses and its dump format is unchanged; M-1-plan.md's edits are the five named hunks plus section 12d",
+   "passed": true,
+   "receipt": "json.dumps(indent=1, ensure_ascii=False) round-trips the pre-edit file byte-for-byte (67 093 bytes) and the edited file reparses (W-22 status 'landed (E20; the first check restated by R-49 ...: --check 7 / 7 PASS, --red 3 FAIL)'); git diff --stat: M-1-plan.md +27/-5 lines, M-1-work.json +8/-6 (CONFIRMED)"
+  },
+  {
+   "check": "clean-room self-check of the rulings record (doc_checks.py --doc docs/calibration/M-1-rulings-2.md --heads docs/ARCHITECTURE.md) read and reviewed",
+   "passed": true,
+   "receipt": "doc_checks.py --doc docs/calibration/M-1-rulings-2.md --heads docs/ARCHITECTURE.md (22:10-22:13; corpus 10 204 JSON files, 955 797 3-grams, 521 lists): C1 1 (reviewed), C2 0, C3 53 hits / 50 unreviewed, C4 0, S1 0, S2 1 (reviewed); exit 1 by the unreviewed count, as every non-design document reads. All 50 read: the nine new to section 9 are the capture stamp 2026-09-21T05-04-54, the 2026-09-25 date, phrases of our own record ('on the buildings canvas the', 'count is the 3 segment', 'is the design s own', 're executed by this seat') and a digit run; the other 41 are sections 1-8's (section-number runs, our paths, our own phrases, read by their seats). None is a reference word list, palette, grammar or identifier; the record is outside the design set, so no allow rows (CONFIRMED; the scratchpad's followups/doc-checks-rulings-2.txt)"
+  }
+ ],
+ "new_dcs": [
+  "DC-36"
+ ],
+ "notes": [
+  "Outcome: R-49 rules that draw.hatchPerWing and draw.shadowQuadsPerWing carry the pooled plan-seed value over the 44 W-04 recordings (18.0679 / 2.2869, E20 section 4) under E20 section 2's declared definitions (a wing = one roof unit; hatch per gable/hip wing, the two ridge tapers included -- section 8.3's count on T-V1-26 (a)'s wings; quads over every wing), draw.hatchPerWing a fixed-band row (band column '15-20 triangles per wing' kept, reference value sharpened); the old 17.4 / 2.33 (one 2026-09-21 map's ratios over a wing count no stated rule reproduces: 296 against 299 by the profile's own rule and 302 by the census's) are superseded; the 2026-09-25 values are twin-fixture values and enter no row (R-03).",
+  "The checker row (1a) now tests what it should: a provenance check on the figures' own records (goes red on one triangle) plus a regression pin on the twin fixtures (goes red on 0.0001). E20 F1's proposed '+-1 % of 17.4 and 2.33 on the 2026-09-25 records' is not adopted: a tolerance against a figure those records never produced would pass a wing rule off by 1 % and fail a correct one on a map 1.4 % away (the per-map means there span 17.1732-17.6476).",
+  "DC-36 (for a design seat): section 13.5's draw-style NG cell '~17.4 hatch triangles and 2.33 shadow quads per wing' -> '18.07 hatch triangles per gable/hip wing (the two ridge tapers included; map means 15.76-21.10) and 2.29 shadow quads per wing (1.97-2.54) over the 44 plan seeds (M-1, E20; 17.4 and 2.33 were one 2026-09-21 map's ratios over the profile's wing count)'. The band column ('15-20 triangles per wing') is a ruled design cell and is not touched; E20 F2 (per wing or per map mean) stays routed to the design seat as W-22 routed it -- recorded, not deferred. E20 F3 (the cap row's form) is W-15's, unchanged.",
+  "JUDGMENT (vetoable): the row checks were restated inside ng_draw_census.py (W-22's landed tool), because the brief's receipt ('re-run W-22's check under the restated row') can only run through it; the alternative, an ad-hoc check beside an unchanged script, would leave the tool contradicting its own plan row. The E20 record and JSON were not regenerated (--check without --json writes nothing), so W-22's record and hashes stand as history; W-22.json carries the restated checks.",
+  "JUDGMENT (vetoable): W-22 is marked LANDED in plan section 2, section 1 D34 and the work file (status, record), since the item lands by the ruling's own receipt; the plan's owner may prefer the plan's status cells to be the session's.",
+  "Alternatives rejected in R-49 (1): the profile's wing rule (non-ink fills / 2; 17.9318 / 2.3210 over the 44) counts fills, not wings; the 2026-09-25 fixture value as the reference -- fixtures are not plan seeds and eight records of four maps carry no estimator; the old figure -- one map's ratio over an unreproducible denominator.",
+  "Hand-offs: a design seat applies DC-36 (the design seat design/m1-corrections-1 had applied DC-01..DC-35 at 20:24-20:46); W-15 forms the rows from E20's per-map values with draw.hatchPerWing on the fixed-band list; W-01b registers the four NG member ids (W-22's hand-off, unchanged).",
+  "CONFIRMED (executed or read): every number above (E20's JSON blocks; the profile's section 5.4 table; the three runs and their exit codes; the unchanged hashes; the work file's round-trip; the hunks). PLAUSIBLE (reasoning only): that the design's 'per wing' for the hatch figure is T-V1-26 (a)'s counted gable and hip wing (the text says 'gable and hip wings counted'); that W-15 will pool the four NG members over all 44 maps.",
+  "Not touched: plat/, the design, E20, M-1-rulings-1.md, docs/PROGRESS.md; no git command changed state; no website; no benchmark; disk 12 GiB free throughout. Long outputs: the scratchpad's followups/ (check-before.txt, check-after.txt, red-after.txt, doc-checks-rulings-2.txt, the hash lists)."
+ ]
+}

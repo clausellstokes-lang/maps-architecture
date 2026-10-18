@@ -1,0 +1,27 @@
+# fixall_pipeline_r2_quarters.out — revised by fixall/draft-pipeline-r3 (VP2-7); PENDING FABLE REVIEW
+# chosen rule J-P28: city cut = min(N_q, N_d); 'rejected floor' = min(N_q, max(N_d, N_q)), shown for reference only
+MFCG size sweep (captures/mfcg/exports-sweep-2026-09-25/README.md): buildings, walled ha, MFCG districts
+size           B    A_ha  MFCG  N_q  N_d  cut J-P28 min(N_q,N_d)  cut-MFCG  rejected floor
+size-24      411    23.1     6    7    5                       5        -1               7
+size-40     1475    58.2     9   10    8                       8        -1              10
+size-60     2617   121.8    13   11   12                      11        -2              11
+size-80     5242   220.4    12   13   16                      13        +1              13
+size-130   13091   548.1    18   17   26                      17        -1              17
+
+PLAT ladder (buildings = 0.27 per inhabitant, the rung tables' ratio; land A = buildings / 19.8 per ha,
+i.e. MFCG's ~22 buildings per walled ha at a 0.9 walled share -- a PROXY for S2's land, not our computed land)
+    pop      B    A_ha  N_q  N_d  old N_d-N_q merges  cut J-P28 min(N_q,N_d)  rejected floor
+   1500    405    20.5    7    5           merges=-2                       5               7
+   3000    810    40.9    8    7           merges=-1                       7               8
+   5000   1350    68.2    9    9            merges=0                       9               9
+   7500   2025   102.3   10   11            merges=1                      10              10
+   9999   2700   136.4   11   13            merges=2                      11              11
+  10000   2700   136.4   11   13            merges=2                      11              11
+  15000   4050   204.5   13   16            merges=3                      13              13
+  20000   5400   272.7   14   18            merges=4                      14              14
+  30000   8100   409.1   15   22            merges=7                      15              15
+  50000  13500   681.8   17   29           merges=12                      17              17
+  80000  21600  1090.9   20   37           merges=17                      20              20
+ 120000  32400  1636.4   22   45           merges=23                      22              22
+
+TOWN band (1 500 - 9 999 inhabitants), J-P28 cut: from 5 to 11

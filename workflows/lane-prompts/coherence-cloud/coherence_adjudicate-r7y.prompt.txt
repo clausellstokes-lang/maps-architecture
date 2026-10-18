@@ -1,0 +1,37 @@
+SEAT coherence/adjudicate-r7y — the Maps program's coherence pass, round 7's FOURTH FAMILY FIX PASS (orchestrator brief, 2026-10-02).
+
+WHAT THIS SEAT IS
+Round 7 works the raised-way × wall family alone (the owner's J144). Its laws (docs/validation/coherence/adjudication-r7.md's Part L, under J146 with J147–J151) were refined through eight probe passes, written into the design by fourteen repair seats and assembled (docs/validation/coherence/assemble-r7.md). Six family-focused checks then read the live design four times, each run followed by a fix pass: famverify-*-r7.md (13 majors; adjudication-r7v.md), famverify-*-r7v.md (8 majors; adjudication-r7w.md), famverify-*-r7w.md (4 distinct majors, all restatements of the laws; adjudication-r7x.md, which ruled the citation forms F1–F5), and now, after assemble-r7x:
+  - docs/validation/coherence/famverify-{table,generation,epochs,hand,readers,tests}-r7x.md (new ids VF7x-*): 24 findings, 3 majors — all three in the generation lens: VF7x-GEN-01 (the gates fixed before the pull, each barred by a cited subset of law 1 that leaves out (9) and (10)), VF7x-GEN-02 (S5d's top-up re-trace meeting a standing raised way: F-WALL's rung or law 2 (c)'s arc kept), VF7x-GEN-03 (a merged pair's cross wall, S3 (6), against (5)'s inter-nucleus route's deck dated S3 (7)). The table, epochs, hand, readers and tests lenses found no major (21 minors among them, VF7x-TBL-05 a valid choice).
+Their results are in docs/validation/coherence/results/coherence_famverify-*-r7x.json. You decide every finding so that repair seats can write the fixes, and the six checks can run again. The loop ends when they find no major (J144, J151).
+
+READ FIRST, WHOLE:
+  1. The six famverify-*-r7x files, and docs/validation/coherence/adjudication-r7v.md, adjudication-r7w.md and adjudication-r7x.md whole (the first three fix passes; r7x's "The root cause, closed once" and its forms F1–F5 above all).
+  2. adjudication-r7.md: Part L (the laws: the design's home is now §2.7's support step (6)), Part H's head (the citation rule), the restated veto list, and Part P pass 8's verdict.
+  3. docs/PROGRESS.md: the J144 – J151 rows (J151's grading: a case where EVERY outcome keeps every law-1 invariant and owner rule, passes the runtime check and fails no named test is a minor VALID CHOICE; no lawful outcome, an outcome breaking an owner rule or a law-1 invariant, an unchecked invariant, or a check or named test failing a correct build is MAJOR).
+  4. The live text each finding cites, by grep and in ranges (docs/ARCHITECTURE.md is about 9.9 MB: never read it whole).
+
+DECIDE EVERY FINDING of the r7x checks (VF7x-*) — one row each:
+  - FIX: the finding stands; give the exact words the owning unit writes (the finding's required change, or your own where its words would open a new case — say why).
+  - FIX, VALID CHOICE PICKED: a valid choice (J151) whose pick costs nothing and keeps the laws whole; give the words.
+  - VALID CHOICE LISTED: a valid choice left to the builder; give one line naming the outcomes for fix-list.md's builders' choices.
+  - MERGED: the same defect as another id; name it.
+  - INVALID: the laws or a ruling already close it, or its change would break an owner rule; say why in one line.
+Re-grade any finding graded against J151, naming the reason. Minors are FIXed too where the fix is a citation or a word (this pass should leave the family's text with nothing a fifth check would raise); list as VALID CHOICE LISTED only what is truly a choice.
+
+TWO CLASSES, EACH CLOSED ONCE.
+(A) THE SUBSET CITATION. adjudication-r7x.md closed restatement in words; VF7x-GEN-01 is its residue in numbers. A text that DECIDES whether a gate, postern, tower, pin, fixed place, line or course is barred — a bar test whose outcome depends on which clauses it lists — and lists a hand-picked subset of law 1 ("a pin §2.7's laws bar (law 1 (1), (4), (5) …)") reads as "only these bar", so a builder skips the clauses it leaves out (here (9) and (10)). Rule a form (F6) for every such bar test: it cites law 1 WHOLE ("where §2.7's laws bar it (law 1, read with its terms)" — or "admit" for the converse), with clause numbers only as a pointer to the usual reason, marked as such ("chiefly …"), never as the test. A clause number that names the reason in a worked example, a report line or a bar's expected outcome is a pointer and stays. Then rule the sweep: each repair seat greps its own unit for bar tests that list a subset of law 1 (S3 (7)'s three, S5a *Trace* (2)'s pin rule, S5b's count, row (d), and every other it finds) and writes each in F6, naming each in its report. The F1 and F4 forms already cite the searched set (law 1 (2)–(6), (9)–(11)); say whether F6 changes them (it should not where they are a search's whole set).
+(B) THE PIPELINE'S WALL LINES AGAINST STANDING RAISED STRETCHES. VF7x-GEN-02 (S5d's top-up re-trace) and VF7x-GEN-03 (a merged pair's cross wall, S3 (6), against (5)'s inter-nucleus route's deck dated S3 (7)) are the third and fourth wall lines found, one per check, that meet a raised stretch with no stated resolution (the stage-1 boundary was R7-03 (a), the stage boundaries R7-03's others). Close the class by enumeration ONCE, in your rulings: list every wall line the pipeline and its derivations lay — S3 (6)'s cross wall, S3 (9)'s stage-1 boundary, S5a's stage boundaries, S5d's top-up arcs, S7's citadel or inner walls, the harbour chain, V07's palisade, and any other you find by grep — and, against every raised stretch standing when it is laid (with its date by *Order*), name the text that resolves the meeting by §2.7's laws, law 2, in its order, and the ladder or counter carrying law 2 (c) on that path. Where one is missing, rule its words (F3 form) for the owning unit. Keep the laws themselves unchanged (J150); the outcome must be the laws' own, so a re-traced arc or a newer line takes law 2 like any other.
+
+WRITE docs/validation/coherence/adjudication-r7y.md:
+  1. A head: what this pass is, its grading, the totals by disposition.
+  2. A table: one row per id — severity, disposition, one-line reason.
+  3. The two classes: F6 and its sweep; the wall-line enumeration with each line's resolving text.
+  4. Part H by unit (model, kernel, pipeline, determinism, rendering, scope, V01 … V12): under each unit that has work, every FIX and every END line it writes, each with the site and the exact words; for a unit with none, say so. Every END that another unit's finding asks of a unit is written under THAT unit.
+  5. "Builders' choices for fix-list.md": every VALID CHOICE LISTED, one line each.
+  6. "Held for the next full round": every famverify held_note, with its site and one line (outside the family; never graded here).
+Write docs/validation/coherence/results/coherence_adjudicate-r7y.json:
+  {"file": "docs/validation/coherence/adjudication-r7y.md", "fix": n, "valid_choice_picked": n, "valid_choice_listed": [ids], "merged": n, "invalid": n, "regraded": [ids], "units": [the units with work]}
+Log to docs/lane-events.log, in the form `<UTC date time> coherence/adjudicate-r7y <KIND> <text>`: a CHECKPOINT after reading, a CHECKPOINT after the table, and a LANDED line naming both files. If adjudication-r7y.md exists with your CHECKPOINT in the log, RESUME from it: never redo a decided row.
+
+RULES. Run no state-changing git commands (no add, commit, push, checkout, reset, stash). Write only the two files above and the log lines. Change no design text. Your final message must be exactly the JSON result object, nothing else.

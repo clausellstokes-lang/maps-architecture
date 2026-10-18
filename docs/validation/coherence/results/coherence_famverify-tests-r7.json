@@ -1,0 +1,120 @@
+{
+ "key": "coherence/famverify-tests-r7",
+ "file": "docs/validation/coherence/famverify-tests-r7.md",
+ "issues": [
+  {
+   "id": "VF7-TST-01",
+   "severity": "major",
+   "kind": "TEST-FAILS-CORRECT-BUILD",
+   "owner": "scope (with V07)",
+   "claim": "The bent-group sentence's (i) puts a stretch's crossing of a road deck's ramp, stair or foot at 'the nearer, by law 3, of the first lawful crossing under its deck and the one beyond the foot' (ARCHITECTURE l. 3194-3196) — law 2 (a): a stroke or a costless rule's line 'takes the lawful shape law 3 picks nearest it' (l. 2808-2811), law 3's key (2) measuring a crossing along the deck line (l. 2846-2849). Two bars fix one outcome whatever the geometry: T110-2 (4) (l. 19366-19367) 'one across a viaduct's ramp — bent beyond its foot through a gate on the carried way's ground course', and T-V7-48 (V07 l. 3708) VS3's palisade 'bent to pass beyond each ramp's foot'. Neither fixture says where the crossing falls on the ramp; where it falls nearer the deck's first lawful crossing a correct build crosses under the deck and both bars fail it. PRB7D-LCK-20 corrected (i) and E-D3, no END reached these bars.",
+   "required_change": "§13.2 T110-2 (4): 'and one across a viaduct's ramp — bent beyond its foot through a gate on the carried way's ground course (§2.7's laws, law 1 (4)) —' → 'and one across a viaduct's ramp nearer its foot than the deck's first lawful crossing — bent beyond its foot through a gate on the carried way's ground course —, and, on a second run, one across that ramp nearer the deck — bent under the deck's first span clear of the ramp (§2.7's laws, law 1 (4), law 2 (a), law 3) —'. V07 T-V7-48: 'and bent to pass beyond each ramp's foot,' → 'and, where it crosses a ramp, bent to the nearer by law 3 of the first lawful crossing under the deck and the one beyond the ramp's foot (§2.7's laws, law 1 (4), law 3; its worked example the bent-group sentence (i)),'."
+  },
+  {
+   "id": "VF7-TST-02",
+   "severity": "major",
+   "kind": "TEST-FAILS-CORRECT-BUILD",
+   "owner": "V09",
+   "claim": "T-V9-52 (V09 l. 4427): 'an aqueduct drawn across a wall drawn by hand crosses it in the form its level there gives … and a road drawn across that wall there crosses it clear of the strip, with bend.raised.underSpan in its wall form' — the level unfixed. Law 1 (5) admits a gate 'in an aqueduct's crossing law 1 (2) reads over whose every span over it clears its top' (ARCHITECTURE l. 2722-2723); row (b) moves a way's crossing of a trace only where the laws bar a gate — 'in an aqueduct's unless its arches there clear the gate and the wall and the way passes the strip by the crossing rule' (l. 2912); law 2 (a) with law 3's key (1) keeps the drawn crossing when lawful (l. 2843). On an over fixture a road drawn square under a clearing span gets its gate under the arch, no bend, and the bar fails that correct build. Part H's head's J149 rule covers the live words of a bar an END appends to (E-V9-2 → T-V9-52); VAT-r6-04's words landed, the clause was never conformed.",
+   "required_change": "T-V9-52: 'and a road drawn across that wall there crosses it clear of the strip, with `bend.raised.underSpan` in its wall form;' → 'and a road drawn across that wall there — on a variant whose aqueduct crosses merged there, or whose arch over the road clears the wall but not the gate's top — crosses it clear of the strip, with `bend.raised.underSpan` in its wall form, and, where the crossing is over and the arch clears the gate and the wall, a road drawn square under that span makes its gate under the arch, no bend (§2.7's laws, law 1 (2), (5), law 2 (a); its worked example the way-and-channel table's row (b));'."
+  },
+  {
+   "id": "VF7-TST-03",
+   "severity": "major",
+   "kind": "TEST-FAILS-CORRECT-BUILD",
+   "owner": "V04",
+   "claim": "T-V4-80 (i) (V04 l. 3181), on 'a CITY fixture whose aqueduct's vault span holds a locked arch vault' (no level given), with a declared placement seated there and locked: 'the circuit crossing under another span and the hand drawWall moved to cross under the nearest span clear of the building's widened strip'. By law 1 (2) (ARCHITECTURE l. 2703-2711) the crossing takes the aqueduct's level: merged where the channel runs within the wall's height ('the band built … around … the aqueduct's arch or pier'), so the circuit (a search, law 2 (a)) may lawfully cross at a pier and the stroke's nearest lawful crossing (law 3) may be at a pier; over needs every span over the band to clear the wall's top, so 'the nearest span clear of the building's widened strip' may be a span the laws bar. Either way the bar can fail a correct build. The base's own clause for the case was conformed: 'the circuit crossing the deck line clear of that span's strip at the aqueduct's level … moved along the deck line to the nearest crossing clear of the building's widened strip' (T110-2 (4), l. 19397-19403); T-V4-80 (i) kept E-V4-4's pre-J149 words against Part H's head's rule.",
+   "required_change": "V04 T-V4-80 (i): 'the circuit crossing under another span and the hand `drawWall` moved to cross under the nearest span clear of the building's widened strip (§2.7's laws, law 1 (9))' → 'the circuit crossing the deck line clear of that span's strip at the aqueduct's level and the hand `drawWall` moved along the deck line to the nearest crossing clear of the building's widened strip (§2.7's laws, law 1 (2), (9), law 3)'."
+  },
+  {
+   "id": "VF7-TST-04",
+   "severity": "major",
+   "kind": "CHECK-FAILS-CORRECT-BUILD",
+   "owner": "model (with scope)",
+   "claim": "`Enceinte.laidAt` and `RaisedWayRecord.courseAt` 'are record fields: hashed with their records (§6.2)' (ARCHITECTURE l. 2304; §6.2's leaf hashes every attribute, l. 10338), their `seq` 'the laying event's place in §2.7's laws' order: a creation prefix's declarations, then a generation run's or a regeneration's stages, then each later event' (l. 2303; *Order* l. 2668-2685). (a) *Newer* makes every structure a regeneration keeps older than every stage, 'one it lays again taking the stage's' (l. 2762-2765), and law 1 (3) reads the stored fields (l. 2714-2718) so that a ring re-derived after a kept road deck passes beneath it (W3·C2, l. 3331): a regeneration's stages must then take its own event's place, every ring a Regenerate (keep) lays again writes a new laidAt, and T110-2 (6)'s 'with its aqueduct placement-locked, regenerated (keep): the routes, the ring, its strips, band, towers and gates byte-identical' (l. 19461-19463) fails a correct build; read instead in the generation's slot (the type comment), a ring New random lays across a deck kept from a later event stores a laidAt below that deck's courseAt and §5.3's law-1 row (l. 9928) fails the build that passes it beneath as *Newer* and W3·C2 say. (b) T110-4 (c) asks 'each skeleton exported and re-imported reproducing its source's model digest where no declaration on the source met a generated structure laid before it' (l. 19539-19542) on sources with hand ops after their generation; a re-import makes every declaration the creation prefix (§2.9 l. 3911-3914; §11.1 l. 16706), renumbering the seq of every line those declarations and the generation laid, so the digest differs wherever a wall or raised way stands, even where nothing meets.",
+   "required_change": "§2.7 (l. 2304; E-M2's sentence): '`Enceinte.laidAt` and `RaisedWayRecord.courseAt` are record fields: hashed with their records (§6.2),' → '`Enceinte.laidAt` and `RaisedWayRecord.courseAt` are record fields outside the model digest and inside the records digest (§6.2), as a `DerivationRecord` is — so a line a regeneration lays again where it stood, or a declaration a skeleton's import moves into the creation prefix, re-dates its `seq` without moving the model digest —,'. §2.7's laws' *Order*: 'then a generation run's, a regeneration's or a village derivation's steps in the order it runs them' → 'then a generation run's or a village derivation's steps, or a regeneration's at its own event's place after every structure it keeps (*Newer*), in the order it runs them', the `Order` type comment (l. 2303) conformed in the same words. §13.2 T110-2 (6): 'byte-identical' → 'byte-identical in the model digest (§6.2), the ring's `laidAt` taking the regeneration's order (§2.7's laws' *Order*, *Newer*)'."
+  },
+  {
+   "id": "VF7-TST-05",
+   "severity": "minor",
+   "kind": "SCHEDULING",
+   "owner": "scope",
+   "claim": "T110-2 clauses scheduled before their providers (INDEX §5 risk 2; R6-09's class). (a) T110-2 (4)'s 'epoch shiftCourse that would carry the ring's river crossing into the viaduct's fixed-place zone … counted in walls.waited' (l. 19435-19440) needs the epoch's terrain candidates, which land at V06's E5 (V06 l. 4271, W17); §13.8 (l. 20377) runs (4)'s epoch clauses with E2 and E3, and T-V6-47 does not carry it. (b) The state sweep's C3-C5 states are made by DeclineOp's breach and dismantle (the decline hooks at M4: §16 l. 21311, T8-1 at M4, l. 20380), C10 by repairRaised and C12 by a frame growth (V06's EvolveOp, E3, V06 l. 716-735; M4's growth path), and T110-2 (4)'s hand rows W4, W5 and W10 are M4's and E3's ops; §13.8 still runs (6) over the sweep and (4)'s hand rows at M3a, naming later exits only for the epoch clauses, the topple runs and the arch-vault clauses. (c) T110-4's schedule names 'an epoch at M6-E's E3, its hazards at E5', not the silting and water ops among law 4's list (E5). Nothing built changes.",
+   "required_change": "§13.8's T110 row, after '… at the later of their milestone and M6-E's E5, which builds the hazards,' add 'the state sweep's other states in a clause scheduled before them — C3 – C5 by `DeclineOp` (M4), C10 by `repairRaised` and C12 by a frame growth (M4; V06's E3) — and (4)'s hand rows W4, W5 and W10 (M4; V06's E3) at the later of their milestone and those providers, (4)'s epoch `shiftCourse` clause at M6-E's E5, which builds the terrain candidates,'; and in T110-4's runs 'its hazards at E5' → 'its hazards and water ops (a silting, a `shiftCourse`) at E5'."
+  },
+  {
+   "id": "VF7-TST-06",
+   "severity": "minor",
+   "kind": "SCHEDULING",
+   "owner": "V07",
+   "claim": "V07 ## 8's V-M3 cell (l. 3762) runs 'T-V7-48's … runs with a vault span breached and its arch-vault clauses at the later of that exit and V04's U3'. Several of T-V7-48's arch-vault outcomes follow a village epoch's wall event — the REPLACEMENT under the declared aqueduct over the state sweep (row W14 at a village: each vault span its new band meets read open, each it leaves laid again) and the hand absorbWall of the palisade (its last dismantle laying the chamber again, row W8) — which are the epoch's reconcile over EpochScope.raised, built by V06's E8 (under.extend) and V04's U5; §13.8's rule for every such run is 'the later of M6-U's U5 and M6-E's E8' (l. 20377), and V07 §1 (14) (l. 193-196) lists no E8 step. Nothing built changes.",
+   "required_change": "V07 ## 8's V-M3 cell: 'and its arch-vault clauses at the later of that exit and V04's U3 (risk (8))' → 'and its arch-vault clauses at the later of that exit and V04's U3 — those whose arch-vault outcome follows a village epoch's wall event (the REPLACEMENT's, the `absorbWall`'s and the sweep's epoch C6 runs) at the later of that exit, V04's U5 and V06's E8 (risk (8))'; V07 §1 (14) adds 'and for those clauses the epoch's arch-vault reconcile (V06's `under.extend`, E8)'."
+  },
+  {
+   "id": "VF7-TST-07",
+   "severity": "minor",
+   "kind": "FIXTURE-SCRIPT",
+   "owner": "scope (with V06)",
+   "claim": "DeclineOp dismantles 'a ruined span's rubble or a support whose spans are both down' and breaches only a span (l. 9401); V06 §3.19.2 (3) clears a support only once both its spans fell. T110-2 (7) (l. 19488-19489) scripts 'a span over the band ruined, a support by the band cleared and a vault span over the trace breached' — the span over the band is the one over the trace, so the cleared support's other span is never felled (T-V6-47, which runs (7), was fixed by VV56-r6-04, the base clause not); T110-2 (7)'s and T-V6-47's cells'-order clauses (l. 19494-19500; V06 l. 4208) clear a support with no second span felled; the sweep's C5 on a locked raised way offers 'by hand converts: a breach of both spans, then of the support' (l. 19240-19241), and no DeclineOp ruins a support (only a topple or a landfall does).",
+   "required_change": "T110-2 (7): 'a span over the band `ruined`, a support by the band `cleared`' → 'a span over the band `ruined`, then the span beyond one of its supports `ruined` and that support, both its spans fallen, `cleared`'; T110-2 (7)'s and T-V6-47's cells'-order clauses: 'after a support there was `cleared`' → 'after a support there was `cleared`, both its spans fallen first', and 'after a support by its planned line was `cleared`' → 'after a support by its planned line was `cleared`, both its spans fallen first'; the sweep's C5: '(by the `topple`, or by hand `convert`s: a `breach` of both spans, then of the support)' → '(by the `topple`)'."
+  },
+  {
+   "id": "VF7-TST-08",
+   "severity": "minor",
+   "kind": "RESTATEMENT",
+   "owner": "V04",
+   "claim": "T-V4-63's frame-growth clause (V04 l. 3164) restates §2.7's support step (7) as it stood before E-M1's pass-7 change — 'the span from the old deck's last interior station (with none, its one span) re-derived with the extension' — while (7) now keeps an old end span a wall-like structure crosses, 'from the old foot's point, that span kept as it stands (these laws, law 2 (c))' (ARCHITECTURE l. 3349-3352). On T-V4-63's fixture no wall crosses the end span, so the bar passes a correct build; the clause restates (7) instead of citing it.",
+   "required_change": "T-V4-63: 'the span from the old deck's last interior station (with none, its one span) re-derived with the extension —' → 'the extension laid on as §2.7's support step (7) says (from the old deck's last interior station, or the old foot's point where a wall-like structure crosses the old end span) —'."
+  },
+  {
+   "id": "VF7-TST-09",
+   "severity": "minor",
+   "kind": "BAR-COVERAGE",
+   "owner": "scope",
+   "claim": "T110-4 (c) (l. 19521-19542), the bar that 'makes a missing example harmless' (l. 2889), does not assert two of law 4's sentences. Law 4 gives a redo one outcome — 'exact inverse or re-application, never bent: where law 1 would not then hold it is refused' (l. 2862-2865) — but T110-4 (c) runs 'each hand op undone on a second run' (l. 19531) and never redoes one (minor because §7.4's Independence check, l. 12002-12010, refuses most such redos anyway). (G2) shows the reshape of 'a placement-locked part of the op's own (an arch vault)' (l. 2865-2869); T110-4 (c) asserts only 'each reshape of a placement-locked structure other than the op's own shown' (l. 19532-19534). A lock's behaviour under a redo stays round 8's (J150).",
+   "required_change": "T110-4 (c): 'each hand op undone on a second run' → 'each hand op undone, and then redone, on a second run'; 'each undo restoring the prior digest, or refused `refuse.undo.dependent` …' → 'each undo and redo restoring the prior digest or re-applying its event's, or refused `refuse.undo.dependent` … (a lock's behaviour under either outside this bar, J150)'; 'each reshape of a placement-locked structure other than the op's own shown' → 'each reshape of a placement-locked structure, part or way other than the op's own target, and of a placement-locked part of the op's own (an arch vault), shown'."
+  },
+  {
+   "id": "VF7-TST-10",
+   "severity": "minor",
+   "kind": "FIXTURE",
+   "owner": "scope",
+   "claim": "T110-4 (a) adds 'a CITY ring an aqueduct crosses merged (its channel within the ring's height, a pier in the band)' (l. 19518-19520) and names no fixture. A pier stands in a band only where the ring is laid after the aqueduct — the support step's (3) keeps a new aqueduct's stations off a standing band (l. 2539-2549) — so T110-2 (1)'s merged variant (S6's aqueduct after the ring) has none; the fixture that holds the case is T110-2 (6)'s New random on (1)'s merged variant, its seed searched so that the boundary meets a support (l. 19465-19471).",
+   "required_change": "T110-4 (a): 'and on a CITY ring an aqueduct crosses merged (its channel within the ring's height, a pier in the band)' → 'and on T110-2 (6)'s New random of (1)'s merged variant, its new ring crossing the kept aqueduct merged at a support (its channel within the ring's height, a pier in the band),'."
+  },
+  {
+   "id": "VF7-TST-11",
+   "severity": "minor",
+   "kind": "CELL-TEST",
+   "owner": "model",
+   "claim": "W1·C8's village path names 'T-V7-48 (V: its declared raised ways)' (l. 3329); since J147 a declared raised way holds nothing unless locked (law 1's *held*, l. 2651-2658), and T-V7-48 (V07 l. 3708) locks neither its declared viaduct nor its aqueduct, so it runs no C8 case at a village derivation — T110-4 (c)'s village rung, one raised way placement-locked, does. Row (d)'s test cell names only T110-2 (2) (l. 2914), while its ramp case — 'one whose crossing falls on a ramp, stair or foot, pinned by S5a at the first point beyond the foot … is a gate and one of c' — is run by T110-2 (3) (l. 19319-19322).",
+   "required_change": "W1·C8: 'T-V7-48 (V: its declared raised ways)' → 'T110-4 (c) (V: its village rung, a raised way placement-locked)'; row (d)'s test cell: 'T110-2 (2)' → 'T110-2 (2), (3)'."
+  },
+  {
+   "id": "VF7-TST-12",
+   "severity": "minor",
+   "kind": "WORDING",
+   "owner": "scope",
+   "claim": "T110-2 (4) (l. 19423-19426): an epoch circuit and an epoch contraction whose planned water gate and anchor fall in the declared viaduct's fixed-place zone, 'each moved along the river or the barrier's edge clear of the zone with its tower, the trace laid to it, counted in neither walls.waited nor walls.raisedCrossings'. *Reported* counts at an epoch 'once per crossing of a trace laid after a raised way with that raised way's deck line' (l. 3157-3160), a move no count; a circuit that also crosses the viaduct's deck line is counted, so the bar read as 'the epoch's walls.raisedCrossings is 0' fails that correct build, read as 'the move is not counted' holds.",
+   "required_change": "T110-2 (4): 'counted in neither `walls.waited` nor `walls.raisedCrossings`' → 'the move counted in neither `walls.waited` nor `walls.raisedCrossings` (each crossing of the viaduct's deck line the trace makes counted as §2.7's crossing table's *Reported* says; §2.7's laws, law 4)'."
+  },
+  {
+   "id": "VF7-TST-13",
+   "severity": "minor",
+   "kind": "TAKE-OVER",
+   "owner": "V06 (with scope)",
+   "claim": "The base's runs sentence (l. 19548-19550), the take-over row (l. 19796) and V06 §7's T110-2 row (V06 l. 4151) have T-V6-47 take 'T110-2's epoch clauses (4), (5), (7) and (8)', but T-V6-47 (V06 l. 4208) lacks (4)'s epoch clauses added this round (l. 19394-19440): the circuit under a placement-locked arch vault and with a held building (T-V4-80 (i) carries it, at E8), the circuit across two raised ways within a band's width, the circuit and contraction whose water gate and anchor fall in the fixed-place zone, the table-edit circuit waiting, the epoch shiftCourse — VCS-r6-04's class. V06 §7's T110-2 rows (l. 4151-4152) still read 'each run again locked and pinned, *beneath* (§2.7's crossing table)', '(*over the band*, the gap left a gap)' and '(*down before the wall*)', without Part H's head's '§2.7's laws, law n; its worked example …' and with pre-J147 'locked'. Nothing built changes: the base clause still states the cases on V06's engine.",
+   "required_change": "V06 §7's first T110-2 row: 'each run again locked and pinned, *beneath* (§2.7's crossing table)' → 'each run again placement-locked and pinned, met by §2.7's laws (law 1 (2)–(9); its worked example *beneath*)', its last cell adding '; the epoch circuit under a placement-locked arch vault and with a held building (T-V4-80 (i), at E8), and (4)'s other epoch clauses — two raised ways, the fixed-place zone, the table-edit wait, the epoch `shiftCourse` at E5 — as T110-2 (4) states them'; the second row: '(*over the band*, the gap left a gap)' → '(§2.7's laws, law 1 (2); its worked example *over the band*, the gap left a gap)' and '(*down before the wall*)' → '(§2.7's laws, law 1 (3), law 2 (c); its worked example *down before the wall*)'; the base's runs sentence: 'Volume 6 runs T110-2's epoch clauses (4), (5), (7) and (8) on its engine (T-V6-47)' → 'Volume 6 runs T110-2's epoch clauses (4), (5), (7) and (8) on its engine (T-V6-47; (4)'s arch-vault circuit by T-V4-80 (i))'."
+  }
+ ],
+ "held_notes": [
+  {
+   "site": "ARCHITECTURE §13.2 T101-4 (l. 19103-19104), §6.5 (9) (l. 10918-10919), §11.1's skeleton row (l. 16706)",
+   "note": "'a map's declared subset … re-imported under its seed reproduces its model digest': for a source whose declarations followed its generation the lifecycle event block in the digest's identity layer (each entry's seq the causing event's, l. 3681-3683; §6.2 l. 10352) also changes when the import makes them a creation prefix, so the general round trip holds as worded only for a source whose declarations stand in its creation prefix."
+  },
+  {
+   "site": "ARCHITECTURE §7.1's Regenerate (keep settings) (l. 11069-11070); §7.3 item 7 (iv), (vi) (l. 11779, 11797-11798)",
+   "note": "'byte-identical when nothing upstream changed' does not say which digest it compares; a re-derived scope writes lifecycle entries citing the regenerate event's seq (l. 3681-3683) and, until VF7-TST-04 lands, the family's order fields."
+  }
+ ]
+}

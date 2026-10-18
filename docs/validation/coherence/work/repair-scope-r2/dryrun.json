@@ -1,0 +1,71 @@
+{
+ "alone": {
+  "found": 15,
+  "applied": 15,
+  "skipped": 0,
+  "audit_not_ok": 0,
+  "headings": [
+   153,
+   153
+  ],
+  "fences_balanced": true,
+  "title_unchanged": true,
+  "sha": "300989c5f91d2e77",
+  "notes": [
+   "REPLACE retitles the heading",
+   "DUPLICATE ID inserted (an id the table already holds)"
+  ],
+  "skipped_detail": [],
+  "partA_rows": 797,
+  "index_rows": 797,
+  "partA_dupes": [],
+  "index_dupes": [],
+  "index_minus_partA": [],
+  "partA_minus_index": [],
+  "rationale_sha_after_swap": "dd2bfafa96aba31b",
+  "doc_sha": "300989c5f91d2e776ab337210e2a47f1a8ae9a0fe0ca722581dfcc656970de41"
+ },
+ "index": {
+  "found": 1,
+  "applied": 1,
+  "skipped": 0,
+  "audit_not_ok": 0,
+  "headings": [
+   9,
+   9
+  ],
+  "fences_balanced": true,
+  "title_unchanged": false,
+  "sha": "1774db18eb14cd31",
+  "notes": [],
+  "skipped_detail": [],
+  "rationale_unchanged": true,
+  "doc_sha": "1774db18eb14cd3179d29569dc876b00b0d8ae1b603169e1dfa507bec88e83f0"
+ },
+ "combined": {
+  "found": 71,
+  "applied": 71,
+  "skipped": 0,
+  "audit_not_ok": 0,
+  "headings": [
+   153,
+   153
+  ],
+  "fences_balanced": true,
+  "title_unchanged": true,
+  "sha": "4ed292e94f2442e5",
+  "notes": [
+   "REPLACE retitles the heading",
+   "DUPLICATE ID inserted (an id the table already holds)"
+  ],
+  "skipped_detail": [],
+  "partA_rows": 797,
+  "index_rows": 797,
+  "partA_dupes": [],
+  "index_dupes": [],
+  "index_minus_partA": [],
+  "partA_minus_index": [],
+  "rationale_sha_after_swap": "dd2bfafa96aba31b"
+ },
+ "sections_equal_alone_vs_combined": true
+}

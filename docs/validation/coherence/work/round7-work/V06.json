@@ -1,0 +1,83 @@
+[
+ {
+  "id": "VAL-R6-05",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "owner": "V06",
+  "claim": "R6-02's V06 END (V6-3) widened `EpochScope.raised` (V06 l. 465) to raised ways whose `vault` span a wall now stands over or no longer stands over. V04 \u00a73.5.0 *At an epoch* (l. 1338\u20131342) reads the foundations over 'the raised-way piers of the raised ways in `scope.raised` whose `feet`, `supports` or `spans` the epoch changed', but the caller, V06 \u00a73.18.1 (6) (l. 2603\u20132607), still applies `Foundations.apply` over 'the supports of the parts in `scope.raised`'. The two units state two scopes for one call (V04 owns the function, so nothing built changes).",
+  "required_change": "V06 \u00a73.18.1 (6): replace 'the supports of the parts in `scope.raised`' with 'the supports of the parts in `scope.raised` whose `feet`, `supports` or `spans` the epoch changed (V04 \u00a73.5.0 *At an epoch*; a raised way there only because a wall now stands, or no longer stands, over its `vault` span takes the arch-vault reconcile alone)'.",
+  "reported_by": "verify-agree-layers-r6t"
+ },
+ {
+  "id": "VAP-r6-04",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "Round 6 rewrote T-V6-64 (V06 l. 4187): \"the arch vaults follow their spans at every batch (a chamber under every standing `vault` span no wall stands over, none under a fallen one or under a wall, \u00a72.7's crossing table)\". \"None under a fallen one\" is kept from the old text. Every home of the rule keeps the chamber under a fallen span, `collapsed`:\n- V04 \u00a73.5.4 (d) (1)\u2013(3) (V04 l. 1695\u20131716): each `vault` span no wall stands over \"has one chamber\", and \"its closure follows its span \u2026: `collapsed` where the span's `state` is `ruined` or `cleared` \u2026 or where a bounding support's `state` is `ruined` or `cleared`\". (3) removes one only where the span no longer exists, is `open`, or has a wall over it.\n- V06's own \u00a73.2 (l. 1037\u20131040): the reconcile brings each raised way to \"a chamber for each standing `vault` span no wall stands over, a collapse under a `ruined` or `cleared` span\".\n- \u00a74.11's `DeclineOp` raised member (base l. 8764): \"breach and dismantle collapse the span's arch-vault chambers in the same batch (V04), and removal deletes them\".\n- T-V4-62 (V04 l. 3155): \"each `collapsed` exactly when V04 \u00a73.5.4 (d) (2) says so (the span's or a bounding support's `state` `ruined` or `cleared`\u2026)\". T-V4-63's frame clause, written this round: \"a vault laid in a `ruined` or `cleared` one `collapsed`\".\nSo on H-AQUA, whose lapse breaches spans (T-V6-61: \"the vaults collapse with their span in the same batch\"), T-V6-64 fails a correct build at the batch that breaches a `vault` span. A builder who keeps T-V6-64 deletes the chamber when its span falls, against V04 and \u00a74.11. Two units state two outcomes for one case, so this is MAJOR. VAT6-r6-01 raises the same reading of \"standing\" in T-V4-63. The two bars should take one wording.",
+  "required_change": "T-V6-64: \"(a chamber under every standing `vault` span no wall stands over, none under a fallen one or under a wall, \u00a72.7's crossing table)\" \u2192 \"(a chamber under every `vault` span no wall stands over \u2014 open under a standing one, `collapsed` under one whose span or a bounding support is `ruined` or `cleared` (V04 \u00a73.5.4 (d) (2)) \u2014 and none under a wall (\u00a72.7's crossing table) or where the span no longer exists)\".",
+  "owner": "V06",
+  "reported_by": "verify-agree-proof-r6t"
+ },
+ {
+  "id": "VAT6-r6-03",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "owner": "V06",
+  "claim": "R6-02 wrote two arch-vault clauses into E3 tests: T-V6-11 (l. 4134, (V6-20)) 'V04 laying again the arch vault of a `vault` span the old wall stood over', and T-V6-47's bar (l. 4170, (V6-21)) '0 arch vaults in a `vault` span under a wall'. At an epoch both are V04's `ArchVaults.reconcile` over `EpochScope.raised`, run by V06's `under.extend` (V06 \u00a73.2: 'the epoch-side guarantee \u2026 that no chamber stands \u2026 under a wall and every `vault` span no wall stands over has its chamber'). V06 \u00a78 builds those adapters at E8 ('the `under.*` adapters over V04's functions with the epoch scope (`raised` and `levelled` included: the arch-vault reconcile \u2026)'), and INDEX \u00a74 has 'E8 after V04's U5'; M6-E starts after M4, and M6-U, which lays the arch vaults, after M5. V06 \u00a78's E3 cell runs T-V6-11 and T-V6-47 whole at E3 (only T-V6-11's sky clause deferred), so before E8 T-V6-11's clause cannot run and T-V6-47's bar holds vacuously. R5-05 (c) and INDEX \u00a75 risk 2 require each such clause to name the first exit after its provider. This is R6-09's class: nothing built changes. VCS-r6-03 raises the same for T110-2's base clauses and VV56-r6-05 the fixture's `vault` spans; neither schedules these two.",
+  "required_change": "V06 \u00a78's E3 tests cell: '(T-V6-11's sky clause at the later of E3 and V05's P6, which builds the landfall)' \u2192 '(T-V6-11's sky clause at the later of E3 and V05's P6, which builds the landfall; T-V6-11's and T-V6-47's arch-vault clauses at E8, which builds the epoch's arch-vault reconcile)'; E8's tests cell 'T-V6-33\u201340, 50, 51, 55, 56, 64, 67\u201369; T-V6-27's burial-need clause' adds '; T-V6-11's and T-V6-47's arch-vault clauses'.",
+  "reported_by": "verify-agree-time-r6t"
+ },
+ {
+  "id": "VEW-r6-04",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "claim": "An epoch's founding across a drawn or locked wall (C-wall-raised x C-raised-lock at an epoch). V06 \u00a73.19 (5) (V06 l. 2815-2822) solves a founded course with 'Locked, pinned and declared entities, dossier-listed buildings, every other raised way's supports, enceinte towers and gates ... impassable, filtered before any draw'. In the same sentence: 'a course meeting a standing curtain meets it by \u00a72.7's crossing table \u2014 an aqueduct *over the band*'. The crossing table's row W2 (a hand `drawWall`) sends a raised way created later to W1\u00b7C1, *over the band* 'or V06's founding', with 'nothing of the wall ... written' (base l. 2603, 2686-2690). Every drawn wall is 'locked by default' and every declared entity is held (\u00a77.2, l. 10810-10820). So on a document whose user drew or locked a ring, the readings split. V06's list makes the ring impassable to an epoch aqueduct, which then never finds a course; its terminal lies 'inside the outermost enceinte' (V06 \u00a73.19 (6)), so it waits (`raised.waited`) at every epoch. The table crosses the ring on a span, writing nothing of it. The same list makes a drawn ground way impassable to a founded deck passing over it, while \u00a77.4's raised-way row lets a deck pass over a locked way ('a raised way over a locked way keeps its span `open`', l. 11447). This is a common path: a user who draws the walls and runs epochs at CITY gets no aqueduct from one builder and one from another. VDC6-01 (determinism) is the hand-edit sibling at \u00a77.1's lock row; this is the epoch path, at a different home.",
+  "required_change": "V06 \u00a73.19 (5): 'Locked, pinned and declared entities, dossier-listed buildings, every other raised way's supports, enceinte towers and gates, and V05's `skyAccessObstacles` (V05 \u00a72.3b) are **impassable**' -> 'Locked, pinned and declared entities, dossier-listed buildings, every other raised way's supports, enceinte towers and gates, and V05's `skyAccessObstacles` (V05 \u00a72.3b) are **impassable** to the course's supports, ramps, stairs and feet and to its clearing ((7)). A course passes over a locked, pinned or declared ground way on a span, as over any way (item 244's clearance), and meets a locked, pinned or declared wall by \u00a72.7's crossing table, as an unlocked one (an aqueduct *over the band*, a road deck *down before the wall*), nothing of either written'. Second end, at scope: \u00a713.2 T110-2 (1)'s founding clause adds 'and the same founding across a ring drawn by hand (locked by its drawing, \u00a77.2), *over the band*, no wait'; V06's T-V6-73 founding clause adds that run.",
+  "owner": "V06",
+  "reported_by": "verify-edges-world-r6t"
+ },
+ {
+  "id": "VCS-r6-04",
+  "severity": "minor",
+  "kind": "COHESION",
+  "owner": "V06",
+  "claim": "The base's runs sentence (base l. 18627\u201318629) reads 'Volume 6 runs T110-2's epoch clauses (4), (5), (7) and (8) on its engine (T-V6-47)', and the take-over row (l. 18874), V06 \u00a77's T110-2 row (V06 l. 4113) and V06 \u00a77's lead say the same. T-V6-47 (V06 l. 4170) runs (7)'s lapse and the hand delete, but leaves out two of (7)'s clauses (l. 18611\u201318615): 'then the lapsed span repaired by `repairRaised` \u2014 the cap back, no wall op'; and the cells'-order clause \u2014 an epoch circuit laid across the aqueduct after a span over its planned band fell `ruined` and after a support there was `cleared`, and an epoch contraction laid after a support by its planned line was `cleared`. The crossing table's cells W1\u00b7C3 and W1\u00b7C5 name 'T110-2 (7), T-V6-47', and W1\u00b7C10 names T110-2 (7). T110-2 (7) still states these bars, scheduled on volume 6's engine with E3 by \u00a713.8, so this is a volume test list that omits cases its taken clause names (R6-01's grading; VAL-R6-06's class).",
+  "required_change": "V06's T-V6-47: after 'the circuit's closure unchanged, the delete's undo restoring the cap' add '; then the breached span repaired by `repairRaised` \u2014 the cap back, no wall op; and an epoch circuit laid across the aqueduct after a span over its planned band fell `ruined` and after a support there was `cleared` \u2014 the run at its own top beneath the fallen span, the trace through the cleared ring as open ground \u2014 and an epoch contraction laid after a support by its planned line was `cleared` \u2014 the trace through its former ring (T110-2 (7); \u00a72.7's crossing table, W1\u00b7C3, W1\u00b7C5)'.",
+  "reported_by": "verify-scope-r6t"
+ },
+ {
+  "id": "VV56-r6-03",
+  "severity": "minor",
+  "kind": "WIRING",
+  "owner": "V06",
+  "claim": "Round-6 note (6) (b) (i) asks that each cell name a test that runs it; R5-10, kept by R6-11, says the same. \u00a72.7's crossing table names V06's tests in cells whose raised-way state those tests never set up: row W5 (decay) C3\u2013C8, C10, C12, C13 name T-V6-73, which runs only C2 (the aqueduct standing); row W6 (gate opening) C3\u2013C8, C10, C12, C13 name T-V6-47, which runs no gate opening beside any other state; row W8 (`absorbWall`) C3\u2013C6, C8, C10, C12, C13 name T-V6-11, which runs only C2. V05's repair ran row W12's cells in T-V5-14; V06's repair did not run its rows. The outcomes are defined (*unchanged meeting*), so nothing built changes.",
+  "required_change": "T-V6-73, after 'the aqueduct standing on its own supports (\u00a72.7's crossing table, *unchanged meeting*);' add 'the same 20 epochs, each on its own run of that fixture, with the aqueduct in each other state \u00a72.7's crossing table's row W5 names this test for \u2014 a span over the run `ruined` and, on a second run, `cleared` (on a third, one whose record reads `vault`); every span over the run fallen; a support by the run's band `cleared` and, on a second run, `ruined` with both its spans; the aqueduct deleted by hand; locked; a fallen span over the run repaired by `repairRaised`; the deck extended by a frame growth and, on another run, re-spaced by a hand `spanSpacingCm` edit, each before the first epoch \u2014 every one an *unchanged meeting*, the run's draws as on any run and nothing of the raised way written;'. T-V6-11, after its absorb clause, add '; the same absorb, each on its own run, with the aqueduct in each other state row W8 names this test for (a span over the ring fallen, every span fallen, a support by its band `cleared` and, on a second run, `ruined`, locked, a fallen span repaired by `repairRaised`, extended by a frame growth, re-spaced by a hand `spanSpacingCm` edit) \u2014 each an *unchanged meeting*'. T-V6-47 adds '; the CITY ring's pathway opening its gates (V06 \u00a73.7.2 (1)) beside its standing aqueduct and, each on its own run, in each other state row W6 names this test for (a span over the ring fallen, every span fallen, a support by its band `cleared`, the aqueduct deleted, locked, repaired, extended by a frame growth, re-spaced) \u2014 no gate it opens under a deck'.",
+  "reported_by": "verify-vol-V05-V06-r6t"
+ },
+ {
+  "id": "VV56-r6-04",
+  "severity": "minor",
+  "kind": "NEW-PROBLEM",
+  "owner": "V06",
+  "claim": "T-V6-47 (V6-21, l. 4170) takes T110-2 (7) with its own script: 'a `vault` span in the circuit's band breached and a support by the band dismantled by scripted `DeclineOp`s (as its lapse's salvage would, V06 \u00a73.19.2 (3); E3's ops)'. A trace crosses an aqueduct only under a span (*beneath*), so the supports by the band bound the breached span, and only that span is breached. V06 \u00a73.19.2 (3) dismantles only 'a support both of whose spans are ruined or cleared', and T-V6-61 holds '0 supports cleared while a span beside them stands' on H-AQUA. The script, as written, leaves a standing span on a cleared support; the base's (7) avoids this by making a span over the band `ruined` as well. The test also omits the later-laid order. Row W1\u00b7C5 (and W1\u00b7C3) names T-V6-47 for 'laid after the fall, through a `cleared` ring as open ground', which V06 \u00a73.7.6 (5)'s new `cleared` clause governs. T-V6-47 runs only the order in which the circuit comes first; the base's (7) holds the other order ('in the cells' own order').",
+  "required_change": "In T-V6-47 replace 'a `vault` span in the circuit's band breached and a support by the band dismantled by scripted `DeclineOp`s (as its lapse's salvage would, V06 \u00a73.19.2 (3); E3's ops)' with 'a `vault` span in the circuit's band breached, then the span beyond one of its supports breached and that support, both its spans fallen, dismantled, by scripted `DeclineOp`s (as its lapse's salvage would, V06 \u00a73.19.2 (3); E3's ops)'. After 'the delete's undo restoring the cap' add '; and, in the cells' own order, an epoch circuit laid across the aqueduct after a span over its planned band fell `ruined` and after a support there was `cleared` \u2014 the run at its own top beneath the fallen span, the trace through the cleared ring as open ground (V06 \u00a73.7.6 (5)) \u2014 and an epoch contraction laid after a support by its planned line was `cleared` \u2014 the trace through its former ring'.",
+  "reported_by": "verify-vol-V05-V06-r6t"
+ },
+ {
+  "id": "VV56-r6-05",
+  "severity": "minor",
+  "kind": "NEW-PROBLEM",
+  "owner": "V06",
+  "claim": "Two round-6 clauses need a `vault` span at H-AQUA's crossings. T-V6-11 (V6-20) has 'V04 laying again the arch vault of a `vault` span the old wall stood over', which needs the span over the CITY ring's band. T-V6-47 (V6-21) has 'a `vault` span in the circuit's band breached', which needs the span the METROPOLIS circuit crosses under. The span rule draws `vault` by chance against `span.vaultShare[kind]` \u00d7 `raisedVaultM` (base l. 2740). H-AQUA's definition (l. 4057\u20134071) holds neither span and the fixture list names neither case. This is the class R5-10 and R6-11 rule on: a fixture must hold its case.",
+  "required_change": "V06 \u00a77's H-AQUA: after 'on a span over its band (\u00a72.7's crossing table, *over the band*)' insert '\u2014 the recipe's seed searched so that this span, and the span under which the METROPOLIS epoch's circuit later crosses the aqueduct, each reads `vault` in its record (\u00a72.7's span rule; read `open` while a wall lies under it, *beneath*) \u2014'.",
+  "reported_by": "verify-vol-V05-V06-r6t"
+ },
+ {
+  "id": "VV56-r6-06",
+  "severity": "minor",
+  "kind": "NEW-PROBLEM",
+  "owner": "V06",
+  "claim": "T-V6-73's new founded-viaduct clause (V6-22, l. 4196) and T110-2 (2) (base l. 18552) bar 'not founded, `raised.waited` at each epoch'. That cannot hold at every epoch of H-AQUA (TOWN \u2192 CITY \u2192 METROPOLIS \u2192 TOWN). At a TOWN epoch no founding is admitted (`raised.generatedBelowCity`, V06 \u00a73.19.1 (4)), so nothing waits. Once the CITY ring's trace is gone by its pathway (`wallToWay`), the course no longer crosses a standing trace.",
+  "required_change": "T-V6-73: '`raised.waited` at each epoch' -> '`raised.waited` at each CITY and METROPOLIS epoch while the CITY ring's trace stands'. END scope: the same words in \u00a713.2's T110-2 (2).",
+  "reported_by": "verify-vol-V05-V06-r6t"
+ }
+]

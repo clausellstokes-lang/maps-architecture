@@ -1,0 +1,133 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm6/before/docs/volumes/V05-sky.md",
+ "input_doc_sha256": "171db6516974533d3e0aef4492f0bfbbae2f7a7c04b7a778ab19a11a14ee098e",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm6/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "a480f02e58a893fea57cacc5977b83489f633ced23901f578adbcfbd8059c52a",
+ "files": [
+  {
+   "file": "repair-r6-V05.md",
+   "sha256": "c06ccdb09449f7093f3a67b9ddcdf9fb092867b79c8fecb6ad570edf044c5937",
+   "lines": 559,
+   "blocks": 3,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "repair-r6-V05.md #1 (l. 2) REPLACE ### 3.16 The fall and the landfall (`fallIsland`)",
+   "file": "repair-r6-V05.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "### 3.16 The fall and the landfall (`fallIsland`)",
+   "body_lines": 57,
+   "body_sha256": "9bd7d0107be7115a79d79af5d70a8e7f4e23798dfd04f099b02ff3b97e582a2d",
+   "target_line": 1312,
+   "section_old": "1312–1370",
+   "section_old_n": 59,
+   "section_new_n": 58,
+   "new_headings": [
+    "### 3.16 The fall and the landfall (`fallIsland`)"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "repair-r6-V05.md #2 (l. 62) REPLACE ## 7 Tests and acceptance bars",
+   "file": "repair-r6-V05.md",
+   "index": 2,
+   "line": 62,
+   "kind": "REPLACE",
+   "heading": "## 7 Tests and acceptance bars",
+   "body_lines": 422,
+   "body_sha256": "2eb5586c176259dae33f9319f0744c42ee6f6a773ffbd14ed3a93e3a1235941e",
+   "target_line": 2419,
+   "section_old": "2419–2830",
+   "section_old_n": 412,
+   "section_new_n": 423,
+   "new_headings": [
+    "## 7 Tests and acceptance bars"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "repair-r6-V05.md #3 (l. 487) REPLACE ## 8 Build plan",
+   "file": "repair-r6-V05.md",
+   "index": 3,
+   "line": 487,
+   "kind": "REPLACE",
+   "heading": "## 8 Build plan",
+   "body_lines": 69,
+   "body_sha256": "64866d50cb349a4cae4071e6ebe607841ed82d96d96b25f189c73c7b27c3f9ac",
+   "target_line": 2842,
+   "section_old": "2842–2910",
+   "section_old_n": 69,
+   "section_new_n": 70,
+   "new_headings": [
+    "## 8 Build plan"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "repair-r6-V05.md #1 (l. 2) REPLACE ### 3.16 The fall and the landfall (`fallIsland`)",
+    "kind": "REPLACE",
+    "heading": "### 3.16 The fall and the landfall (`fallIsland`)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-V05.md #2 (l. 62) REPLACE ## 7 Tests and acceptance bars",
+    "kind": "REPLACE",
+    "heading": "## 7 Tests and acceptance bars",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-V05.md #3 (l. 487) REPLACE ## 8 Build plan",
+    "kind": "REPLACE",
+    "heading": "## 8 Build plan",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 805,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 62,
+  "headings_after": 62,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 14,
+  "fence_lines_after": 14,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 401879,
+  "doc_bytes_after": 403128,
+  "doc_lines_before": 3078,
+  "doc_lines_after": 3089,
+  "rationale_bytes_before": 704770,
+  "rationale_bytes_after": 704770,
+  "rationale_lines_before": 2386,
+  "rationale_lines_after": 2386,
+  "blocks_total": 3,
+  "blocks_applied": 3,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "a0dd3b65e35edef258cb29209b22ae3f3868868e4b7bdb91e29272a4db7b5e77",
+  "output_rationale_sha256": "a480f02e58a893fea57cacc5977b83489f633ced23901f578adbcfbd8059c52a"
+ }
+}

@@ -1,0 +1,38 @@
+# VRC1T-01 and VV56-r1-06 (R2-31 (c), (d); with (a)'s catch-up); VRC1T-05 (the export comfort level's scope).
+@@ FILE 12.1.md
+<<<<
+  through once: a generate; a regenerate or Re-derive; an open from SettlementForge (with its load verification and any
+  migration, §2.9, §11.3); a dossier change applied; an advance of time and item 113's history replay, read as V06 §6
+  states them; an export, in every format the export dialog offers at its sizes up to A2 at 300 dpi, lit included; and a
+  migration — at every size up to the population cap. Past it the wait fails its bar (R12-31) and the owning path takes
+====
+  through once: a generate; a regenerate or Re-derive; an open from SettlementForge (to the editable complete map — the
+  load's digest checks and any migration included; the verification replay runs after it, off the path, §2.9 step 3,
+  §12.6); a dossier change applied (a catch-up's epochs coarsened as an advance's are, V06 §6.8 (6)); an `advance` of
+  time and a history-first generation (item 113's replay with the peak's generation before it), each in total, never per
+  epoch (item 119 (a2); V06 §6.8 coarsens the cadence until its estimate fits); an export, in every format the export
+  dialog offers at its preset sizes up to A2 at 300 dpi, lit included (a custom pixel size or DPI past them stays offered,
+  §8.7, outside the comfort level, §12.7); and a migration — at every size up to the population cap. Past it the wait fails its bar (R12-31) and the owning path takes
+>>>>
+@@ FILE 12.7.md
+<<<<
+* **PNG:** A2 at 300 dpi of a CITY in ≤ 10 s on the reference machine **with the view idle** — the comfort level
+  (§12.1), as every offered export size at every rung is — the peak canvas one tile
+====
+* **PNG:** A2 at 300 dpi of a CITY in ≤ 10 s on the reference machine **with the view idle** — the comfort level
+  (§12.1), as every preset export size at every rung is — the peak canvas one tile
+>>>>
+<<<<
+  dialog's print sizes at that rung to the largest the measurement holds within ten seconds, the dialog naming it (R12-31;
+  a wait past the comfort level is never offered). The per-row rule's encoding alone takes 10.5 s on the synthetic
+====
+  dialog's print sizes at that rung to the largest the measurement holds within ten seconds, the dialog naming it (R12-31:
+  no preset print size whose export would pass the comfort level is offered; a custom pixel size or DPI past A2 at 300 dpi
+  stays offered, §8.7, outside the comfort level as §12.1 scopes it, its progress shown by §12.1's rule). The per-row rule's encoding alone takes 10.5 s on the synthetic
+>>>>
+@@ FILE 12.10.md
+<<<<
+| R12-31 | the comfort level, ten seconds of total time per one-time wait (§12.1; g item 119) | V12 §3.15.9's wait timer on B-CITY's browser runs and the history and dossier fixtures, five seeds per wait kind at every rung's top and at the population cap, at the milestone that lands each wait: a generate, a regenerate or Re-derive, an open from SettlementForge, a dossier change, an advance of time and the history replay as V06 §6 reads them, an export of every offered format and size, a migration | every p95 ≤ 10 000 ms from the click to the complete result |
+====
+| R12-31 | the comfort level, ten seconds of total time per one-time wait (§12.1; g item 119) | V12 §3.15.9's wait timer on B-CITY's browser runs and the history and dossier fixtures, five seeds per wait kind at every rung's top and at the population cap, at the milestone that lands each wait: a generate, a regenerate or Re-derive, an open from SettlementForge (to the editable complete map), a dossier change, an advance of time and the history replay, each in total (item 119 (a2)), an export of every offered format at every preset size up to A2 at 300 dpi, a migration | every p95 ≤ 10 000 ms from the click to the complete result |
+>>>>

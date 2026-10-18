@@ -1,0 +1,62 @@
+{
+ "key": "coherence/verify-pipeline-r3t",
+ "file": "docs/validation/coherence/verify-pipeline-r3t.md",
+ "issues": [
+  {
+   "id": "VPC-R3-01",
+   "severity": "major",
+   "kind": "EDGE-UNTESTED",
+   "owner": "scope",
+   "claim": "§4.11 *The clock* (4) (l. 8352–8357, round 3, R3-17) now folds an epoch at three triggers: each 52-week boundary, a population move past the roster tolerance, and the week of each newly carried calamity no other epoch falls on (V08 §3.6 (3); J-V8.55). Its bar, §13.2's T76-1 cadence clause (l. 17996–17998), still names two ('an epoch folds at each 52-week boundary and at a population move past the roster tolerance, none on a 2 % drift'), and no volume test covers a mid-year calamity fold (T-V8-42's calamity rides a week-52 year end; T-V6-25 and T-V6-59 test cadence independence only). An implementation without the calamity trigger passes every bar. repair-r3-pipeline listed this as a new hand-off to scope; it is unwritten.",
+   "required_change": "§13.2 T76-1's cadence clause (l. 17997) reads: 'an epoch folds at each 52-week boundary, at a population move past the roster tolerance and at the week of each newly carried calamity no other epoch falls on, none on a 2 % drift, with `years` = Δweeks ÷ 52 — on fixtures adding a calamity carried at a mid-year week with no population crossing (one epoch at its week, the calamity in its `EpochInputs.events`), one at a week-52 boundary (no second epoch) and one inside a coarsened catch-up (riding the coarse epoch that holds its week, V06 §6.8 (6))'."
+  },
+  {
+   "id": "VPC-R3-02",
+   "severity": "major",
+   "kind": "WIRING",
+   "owner": "pipeline",
+   "claim": "§10.2 *Crisis looks*' new lead (l. 15482–15486, R3-15) states the outcome before each service the looks read has landed — V01's W10 (M5), V06's E2 (M6-E) for `frontierFor`, V07's step — but omits V06's `crisisLookYields`, built in the same E2 (V06 W93; V06 §8 l. 4279). Its readers land earlier or apart: §8.2's disaster row at M5 with W10 ('a district's `ruinTone` stands while any of its buildings still draws the look', l. 13013–13016) and V02's ruined exterior at M6. §16's M6-E 'runs beside M5', so between W10 and E2 a standing disaster look reads an input with no producer and no stated outcome — the class R3-15 graded MAJOR for VPC-R2-11. The rule reads only base records (`Building.works`, §2.6; §4.11 *Works* (9)).",
+   "required_change": "§10.2 *Crisis looks*' lead, after '…by nearness to its gate (V06 §3.22 (2) (d)'s no-frontier answer);', add: 'until V06's E2 (M6-E) a building leaves the `disaster` look by V06 §3.22 (3)'s rule read directly over the base's records — a Works other than a `decay` Works begun on it by the view's week and not finished before the overlay's `sinceWeek` (`Building.works`, §2.6; the lifecycle's weeks once a record retires, §4.11 *Works* (9)), never for a preview — so §8.2's `ruinTone` and the buildings' damage read one answer from the look's first milestone;'."
+  },
+  {
+   "id": "VPC-R3-03",
+   "severity": "major",
+   "kind": "EDGE-UNDEFINED",
+   "owner": "pipeline",
+   "claim": "§10.2 (d)'s rewritten carriageway rule (l. 15514–15516) admits on a way's carriageway 'only a `barricade` across it ((f)'s `raiders` barricaded roads and `rebellion` street barricades, §8.2's `blockade` barricade; item 122 (b)) — never a camp or any other part'. Item 122 (b) names two more barriers: the beast attack's 'stake barricades' and disease's 'cordon'. V07 §5.6 (7) (l. 3495) puts 'stake barricades at its way crossings'; V01 §3.16 (l. 2325) reads `affectedQuarter` as 'the quarter its cordon closes', yet a cordon that may not cross the ways entering the quarter cannot close it, and no text states the cordon's course. Two builders draw a quarantine cordon differently (closed across the streets, against §10.2 (d) and T-ER-27's 'none on a carriageway but a barricade's'; or gapped at every street, against V01's 'closes'), and V07's stakes contradict the base.",
+   "required_change": "§10.2 (d), l. 15514–15516: read 'and on a way's carriageway only a barrier across it — a `barricade` ((f)'s `raiders` barricaded roads and `rebellion` street barricades, §8.2's `blockade` barricade), `beast`'s `stakes` where the edge crosses a way, and the quarantine's `cordon` where it crosses a way into its quarter; item 122 (b) — never a camp or any other part'. §10.2 (f) `quarantine`: '… marked doors and a cordon closing the `affectedQuarter` — along its boundary on the quarter's side of each bounding way's corridor, across each way that enters it'. END at rendering: §8.2's placement sentence (l. 13006–13011) names the same three barriers, and T-ER-27's 'none on a carriageway but a barricade's' reads 'but a barricade's, a `stakes` barricade's or a cordon's across it', with a quarantine fixture whose quarter ways enter."
+  },
+  {
+   "id": "VPC-R3-04",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "owner": "V07",
+   "claim": "R3-14 (1) makes every camp place take its faces from `campLand` and nothing else, and §10.2 (d) reads the village places 'as V07 §5.6 (2) states'. V07 §5.6 (2)'s `beyondWalls` row ('`siegeStandoffM` beyond the palisade's walled stretches') and `approachRoads` row ('the verges of each entry's way beyond the perimeter, one camp per entry') name no `campLand` (its `approachByGate` and `outside` rows do) and omit the base row's division of the camped ground and placing of the dossier's armies (VPC-R2-14's fix). §10.2 (d)'s general sentence and V07's 'every other rule … unchanged' still yield one build, so this is a restatement narrower in form.",
+   "required_change": "V07 §5.6 (2): the `beyondWalls` row reads 'the `campLand` faces lying at least `siegeStandoffM` beyond the palisade's walled stretches (V07 §3.4), its barrier-closing arcs taking none; …' (the rest as it stands); the `approachRoads` row reads '`campLand`'s verges of each entry's way beyond the perimeter, one camp per entry, the camped ground and the dossier's armies divided among the entries as §10.2 (d)'s `approachRoads` states (the entries in the main approach road's order); an entry whose verges hold no `campLand` takes the `campLand` nearest where it leaves; with no entry, the `campLand` faces nearest the perimeter'."
+  },
+  {
+   "id": "VPC-R3-05",
+   "severity": "minor",
+   "kind": "TERM",
+   "owner": "model",
+   "claim": "R3-18 (applied at §4.11 *The clock* (1), l. 8330–8335) makes 'creation week' the `generate` event's week (the replay's start on a history-first document) and 'present at creation' the dossier's present, one name each everywhere. §2.7's `HistoryHint.calamities` comment (l. 2452) still reads 'calamityHistory before the creation week'; under the new names that drops the calamities between the replay's start and the present, which DR37's replay maps. The port fills the hint before any replay plan exists, so the intended bound is the present; the word is stale.",
+   "required_change": "§2.7 l. 2452: 'calamityHistory before the creation week' reads 'calamityHistory up to the present at creation (§4.11 *The clock* (1))'."
+  },
+  {
+   "id": "VPC-R3-06",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "owner": "pipeline",
+   "claim": "§4.8 *Gates*' round-3 sentence (l. 7566–7567) reads 'the part-0 way beneath, if any, taking its own ground gate by the gate law (§4.4 *Outer moats*)'. §4.4 *Outer moats* states the ground gate, not the gate law, whose home is §4.2 S3 (4) (B5, item 46).",
+   "required_change": "§4.8 l. 7567: 'by the gate law (§4.4 *Outer moats*)' reads 'by the gate law (§4.2 S3 (4); §4.4 *Outer moats*)'."
+  },
+  {
+   "id": "VPC-R3-07",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "owner": "pipeline",
+   "claim": "§10.2 (d)'s `approachRoads` bullet (R3-14's binding text, l. 15532) cites '(V01 §3.16 (2))' for `campLand`'s verges. In V01 §3.16 the numbered item (2) is `disasterSource`'s **The calamity** (V01 l. 2333); the verges are clause (2) inside the `campLand` entry (V01 l. 2375). §10.2 (c)'s 'V01 §3.16 (5)' in the same subsection rightly means the numbered (5), so the form misleads.",
+   "required_change": "§10.2 (d) `approachRoads`, l. 15532: '(V01 §3.16 (2))' reads '(V01 §3.16's `campLand` (2))'."
+  }
+ ]
+}

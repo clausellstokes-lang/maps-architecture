@@ -1,0 +1,27 @@
+{
+  "name": "robust-predicates",
+  "version": "3.0.3",
+  "description": "Fast robust predicates for computational geometry",
+  "keywords": [
+    "computational geometry",
+    "robust arithmetic"
+  ],
+  "author": "Vladimir Agafonkin",
+  "license": "Unlicense",
+  "type": "module",
+  "main": "index.js",
+  "unpkg": "umd/predicates.min.js",
+  "module": "index.js",
+  "exports": "./index.js",
+  "types": "index.d.ts",
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "esm",
+    "umd"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mourner/robust-predicates.git"
+  }
+}

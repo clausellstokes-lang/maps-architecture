@@ -1,0 +1,159 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm5/before/docs/volumes/V05-sky.md",
+ "input_doc_sha256": "ef99abd9b5a84c8aa4530a2f318c45618f66959571fb6d9836847c509c68f031",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm5/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "a480f02e58a893fea57cacc5977b83489f633ced23901f578adbcfbd8059c52a",
+ "files": [
+  {
+   "file": "repair-r5-V05.md",
+   "sha256": "874a4d69b79bd4d97bb2a950117714c20432b867508aea355bbd5954931058bc",
+   "lines": 614,
+   "blocks": 4,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "repair-r5-V05.md #1 (l. 2) REPLACE ### 2.1 The island record",
+   "file": "repair-r5-V05.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "### 2.1 The island record",
+   "body_lines": 74,
+   "body_sha256": "039eb512f7f45babc2bd86056e2cc6db346751e03cb13db0a0e7b1c74da5638e",
+   "target_line": 310,
+   "section_old": "310–384",
+   "section_old_n": 75,
+   "section_new_n": 75,
+   "new_headings": [
+    "### 2.1 The island record"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "repair-r5-V05.md #2 (l. 79) REPLACE ### 2.6 The lifecycle of every state field this volume adds or gives a producer",
+   "file": "repair-r5-V05.md",
+   "index": 2,
+   "line": 79,
+   "kind": "REPLACE",
+   "heading": "### 2.6 The lifecycle of every state field this volume adds or gives a producer",
+   "body_lines": 47,
+   "body_sha256": "53cadeaf0cf80ee37510d57ed790232b3984cd610a65f09e69465291c0d6aea3",
+   "target_line": 644,
+   "section_old": "644–691",
+   "section_old_n": 48,
+   "section_new_n": 48,
+   "new_headings": [
+    "### 2.6 The lifecycle of every state field this volume adds or gives a producer"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "repair-r5-V05.md #3 (l. 129) REPLACE ## 7 Tests and acceptance bars",
+   "file": "repair-r5-V05.md",
+   "index": 3,
+   "line": 129,
+   "kind": "REPLACE",
+   "heading": "## 7 Tests and acceptance bars",
+   "body_lines": 411,
+   "body_sha256": "dc9b0ec15335b7529ffb1b7943b874123b1a8bd5e90ae60317777ded45e65d58",
+   "target_line": 2420,
+   "section_old": "2420–2829",
+   "section_old_n": 410,
+   "section_new_n": 412,
+   "new_headings": [
+    "## 7 Tests and acceptance bars"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "repair-r5-V05.md #4 (l. 543) REPLACE ## 8 Build plan",
+   "file": "repair-r5-V05.md",
+   "index": 4,
+   "line": 543,
+   "kind": "REPLACE",
+   "heading": "## 8 Build plan",
+   "body_lines": 68,
+   "body_sha256": "bf46ce8f624d29db39a112b99fc76e9a200c8ee3c7b9f44956f9d0068f9ea3af",
+   "target_line": 2832,
+   "section_old": "2832–2899",
+   "section_old_n": 68,
+   "section_new_n": 69,
+   "new_headings": [
+    "## 8 Build plan"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "repair-r5-V05.md #1 (l. 2) REPLACE ### 2.1 The island record",
+    "kind": "REPLACE",
+    "heading": "### 2.1 The island record",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V05.md #2 (l. 79) REPLACE ### 2.6 The lifecycle of every state field this volume adds or gives a producer",
+    "kind": "REPLACE",
+    "heading": "### 2.6 The lifecycle of every state field this volume adds or gives a producer",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V05.md #3 (l. 129) REPLACE ## 7 Tests and acceptance bars",
+    "kind": "REPLACE",
+    "heading": "## 7 Tests and acceptance bars",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V05.md #4 (l. 543) REPLACE ## 8 Build plan",
+    "kind": "REPLACE",
+    "heading": "## 8 Build plan",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 805,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 62,
+  "headings_after": 62,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 14,
+  "fence_lines_after": 14,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 401398,
+  "doc_bytes_after": 401879,
+  "doc_lines_before": 3075,
+  "doc_lines_after": 3078,
+  "rationale_bytes_before": 704770,
+  "rationale_bytes_after": 704770,
+  "rationale_lines_before": 2386,
+  "rationale_lines_after": 2386,
+  "blocks_total": 4,
+  "blocks_applied": 4,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "171db6516974533d3e0aef4492f0bfbbae2f7a7c04b7a778ab19a11a14ee098e",
+  "output_rationale_sha256": "a480f02e58a893fea57cacc5977b83489f633ced23901f578adbcfbd8059c52a"
+ }
+}

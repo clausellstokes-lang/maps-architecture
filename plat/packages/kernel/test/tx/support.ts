@@ -1,0 +1,201 @@
+// Test support for M0-a-06's transactions: a transaction spec with the defaults a test changes one field of, a callback
+// runner, a slot-free fingerprint of an arena and its index, the arena bit for bit, the arena's snapshot (its print, live
+// records per level, encoded chunks and level digests; T-support-3), and the oracles M0-a-04 / M0-a-05's tests judge an
+// arena with (re-exported, read-only: §3.10's half-edge links, minEdge, one vertex per lattice point, no crossing,
+// clearance, level consistency, the face records against the level views, nesting, Euler per level), with `readable`
+// beside them: the encoder's block and every chain's own-level route read the arena (session round S6, C-0356).
+import { expect } from 'vitest';
+import { handleOf, idOf, isFaceLive, isRoleRowLive, isVertexLive, outgoing, roleIdOf, roleInfo, rowElement, rowsOfKey, type HalfEdgeId, type Plat, type VertexId } from '../../src/arena/index.js';
+import { checkIndexState } from '../../src/index/index.js';
+import { encodeArena } from '../../src/io/index.js';
+import type { KernelResult } from '../../src/num/index.js';
+import { routeLines, tx, type Committed, type KernelOp, type KernelTx, type Overlay, type TxEnv } from '../../src/tx/index.js';
+import type { ChainRef, Level, StageId } from '../../src/types/index.js';
+import { allProblems, contentPrint, edgeRows, framed, halfEdgeBetween, ins, pt, snapshot as shellSnapshot, tx as shell, vertexAtPoint } from '../insert/step3-5/support.js';
+
+export { allProblems, contentPrint, edgeRows, framed, halfEdgeBetween, ins, pt, shell, vertexAtPoint };
+
+/** The base's stages by their registry ids (C-0020's order: their ids are their §4.1 ranks at M0). */
+export const S4 = 4 as StageId;
+export const S5 = 5 as StageId;
+export const S6 = 6 as StageId;
+export const S8 = 8 as StageId;
+export const S10 = 10 as StageId;
+
+/** A spec at `level` with every other field defaulted: declared form, no expectation, reject, a large work limit. */
+export function spec(level: Level, over: Partial<KernelTx> = {}): KernelTx {
+  return {
+    key: { layer: 'ground', part: 0 },
+    level,
+    ops: [],
+    expect: [],
+    onFail: 'reject',
+    batch: { kind: 'stage', stage: over.stage ?? S8 },
+    stage: S8,
+    rederivesFrom: S8,
+    workLimit: 1_000_000,
+    ...over,
+  };
+}
+
+/** A callback-form batch; throws on a refusal (for setup), returns the commit. */
+export function commit<T>(p: Plat, level: Level, fn: (o: Overlay) => KernelResult<T>, over: Partial<KernelTx> = {}, env: TxEnv = {}): Committed<T> {
+  const r = tx(p, spec(level, over), fn, env);
+  if (!r.ok) throw new Error(`support: the batch was refused: ${r.code} ${r.detail}`);
+  return r.value as Committed<T>;
+}
+
+/** A declared batch's result. */
+export function declared(p: Plat, level: Level, ops: KernelOp[], over: Partial<KernelTx> = {}, env: TxEnv = {}): ReturnType<typeof tx> {
+  return tx(p, spec(level, { ...over, ops }), undefined, env);
+}
+
+/** Unwraps an op's result inside a callback (a refusal there is a test's failure). */
+export function must<T>(r: KernelResult<T>): T {
+  if (!r.ok) throw new Error(`support: an op was refused: ${r.code} ${r.detail}`);
+  return r.value;
+}
+
+/** The arena's content and index state, slot-free, plus its version: what a rejected batch must leave unchanged. */
+export function state(p: Plat): string {
+  return `${contentPrint(p)}\n#v${p.version}`;
+}
+
+/**
+ * The arena bit for bit (N-53 (3), N-55 (6)): every typed column of §2.2's tables up to its capacity (the doubling
+ * capacity included), the slot counters, the handle table, the frame and the version, and the index's mutable state —
+ * the dynamic grids, tombstones, partition keys, pending sets and trees' identity, the partition lists and the batch log.
+ */
+export function bits(p: Plat): string {
+  const col = (a: ArrayLike<number>): string => `${a.length}:${Array.from(a).join(',')}`;
+  const out: string[] = [`v${p.version}`, JSON.stringify(p.frame), JSON.stringify(p.slots)];
+  const V = p.vertices;
+  const T = p.halfEdges;
+  const R = p.roles;
+  for (const a of [V.x, V.y, V.out, V.level, V.flags, T.origin, T.next, T.prev, T.level]) out.push(col(a));
+  for (const a of [R.edgeFirst, R.vertexFirst, R.kind, R.entity, R.level, R.ordinal, R.nextInSet, R.nextSameKey, R.head.k0, R.head.k1, R.head.first]) out.push(col(a));
+  out.push(`h${R.head.count}`);
+  for (const F of p.faces) {
+    for (const a of [F.outer, F.holesStart, F.holes, F.kind, F.owner, F.parent, F.stage, F.nextOfOwner, F.ownerHead.owner, F.ownerHead.head]) out.push(col(a));
+    out.push(`o${F.ownerHead.count}`);
+  }
+  out.push(col(p.indexHome.vertex), col(p.indexHome.edge), ...p.indexHome.face.map(col));
+  const H = p.handles;
+  out.push(col(H.units), col(H.start), col(H.hash), col(H.slots), `n${H.count}`);
+  const idx = p.index;
+  if (idx !== undefined) {
+    out.push(`log ${idx.log === null ? 'none' : 'open'}`, `work ${idx.work.rebuilds}/${idx.work.items}`);
+    for (const L of idx.levels) {
+      out.push(`static ${L.static.map((q) => q.id).join(',')}`);
+      out.push(`tomb ${L.tombstones.map((t) => [...t].join(',')).join('|')}`);
+      out.push(`cells ${JSON.stringify([...L.dynamic.cells].map(([k, v]) => [k, [...v]]))}`);
+      out.push(`large ${[...L.dynamic.large].join(',')}`);
+      out.push(`entries ${JSON.stringify([...L.dynamic.entries])}`);
+    }
+    for (const q of idx.partitions) out.push(`part ${q.id} ${q.key} ${q.tree === null ? 'empty' : 'tree'} ${col(q.keys)} ${[...q.pending].join(',')}`);
+    for (const m of idx.byKey) out.push(`byKey ${JSON.stringify([...m])}`);
+  }
+  return out.join('\n');
+}
+
+/** Live face records per level, L0 – L4. */
+export function facesPerLevel(p: Plat): number[] {
+  return ([0, 1, 2, 3, 4] as const).map((l) => {
+    let n = 0;
+    for (let f = 0; f < p.slots.face[l].top; f++) if (isFaceLive(p, l, f)) n++;
+    return n;
+  });
+}
+
+/**
+ * The arena's slot-free print, its live records per level, its encoded chunks' refs in encoding order (the persisted form,
+ * §11; `encodeArena` writes every live record) and its level digests L0 – L4 (§3.9), as text — what an edit and its
+ * inverse must leave equal (step 3–5's snapshot with the records per level beside it).
+ */
+export function snapshot(p: Plat): { print: string; faces: number[]; refs: string; digests: string } {
+  const s = shellSnapshot(p);
+  return { print: s.print, faces: facesPerLevel(p), refs: s.refs, digests: s.digests };
+}
+
+/** Every oracle at once: the arena's validity (M0-a-04 / M0-a-05's) and the index state (M0-a-03's). */
+export function healthy(p: Plat): void {
+  expect(allProblems(p)).toEqual([]);
+  expect(checkIndexState(p)).toEqual([]);
+}
+
+/**
+ * Every chain the arena carries — each (edge role, entity) key of a live row, by role name then entity id — read from the
+ * role table itself, so no caller's bookkeeping can miss one.
+ */
+export function chainsOf(p: Plat): ChainRef[] {
+  const R = p.roles;
+  const seen = new Map<string, ChainRef>();
+  for (let r = 0; r < p.slots.role.top; r++) {
+    if (!isRoleRowLive(p, r)) continue;
+    const info = roleInfo(R.kind[r]);
+    if (info.kind !== 'edge' || info.indexed) continue;
+    const ref: ChainRef = { role: info.name, entity: idOf(p, R.entity[r]) };
+    seen.set(`${ref.role}\u0000${ref.entity}`, ref);
+  }
+  return [...seen.values()].sort((a, b) => (a.role < b.role ? -1 : a.role > b.role ? 1 : a.entity < b.entity ? -1 : a.entity > b.entity ? 1 : 0));
+}
+
+/**
+ * The committed arena as its readers read it (session round S6, C-0356; checks/M0-a-06-notes.md N-c1-6): the persisted
+ * form (`encodeArena`, which refuses rows of one level that differ along a route edge of that level — the constancy
+ * §3.10's validator rows do not read) and the own-level route of every chain (`routeLines`, which refuses a run without
+ * two route vertices of the chain's level). Both must read every committed arena of the registered families.
+ */
+export function readable(p: Plat): void {
+  expect(() => encodeArena(p)).not.toThrow();
+  const key = { layer: 'ground', part: 0 } as const;
+  for (const c of chainsOf(p)) expect(() => routeLines(p, c, key), `routeLines (${c.role}, ${c.entity})`).not.toThrow();
+}
+
+/** The vertices carrying a vertex row's key. */
+export function carrying(p: Plat, role: string, entity: string, ordinal: number): VertexId[] {
+  const h = handleOf(p, entity);
+  if (h < 0) return [];
+  return rowsOfKey(p, roleIdOf(role), h, ordinal).map((r) => rowElement(p, r));
+}
+
+/** The lattice point of the vertex carrying a vertex row's key, as "x,y" (or "" when none). */
+export function pointOfKey(p: Plat, role: string, entity: string, ordinal: number): string {
+  const vs = carrying(p, role, entity, ordinal);
+  return vs.length === 1 ? `${p.vertices.x[vs[0]]},${p.vertices.y[vs[0]]}` : vs.length === 0 ? '' : `×${vs.length}`;
+}
+
+/** The half-edge leaving the vertex at a toward the vertex at b, asserted present. */
+export function between(p: Plat, a: readonly [number, number], b: readonly [number, number]): HalfEdgeId {
+  const h = halfEdgeBetween(p, a, b);
+  if (h < 0) throw new Error(`support: no edge ${a} → ${b}`);
+  return h;
+}
+
+/** The degree of the vertex at a lattice point (−1 when there is none). */
+export function degreeAt(p: Plat, x: number, y: number): number {
+  const v = vertexAtPoint(p, x, y);
+  return v < 0 || !isVertexLive(p, v) ? -1 : outgoing(p, v).length;
+}
+
+/** A lineage key (Hash64, low word first) from a small number. */
+export function lin(n: number, hi = 0): [number, number] {
+  return [n >>> 0, hi >>> 0];
+}
+
+/**
+ * fast-check's parameters for one of this folder's properties: a fixed seed per property (queue L10, hardening round S7:
+ * an unseeded `fc.assert` draws other cases each run, so a count read off a run is noise), derived from its name by
+ * FNV-1a; PLAT_FUZZ_SEED, when set, replaces it (the replay contract of tools/vitest/fast-check.setup.mjs, C-0057). The
+ * run count stays the global PLAT_FUZZ_RUNS.
+ */
+export function seeded(name: string): { seed: number } {
+  const raw = process.env.PLAT_FUZZ_SEED;
+  if (raw !== undefined && raw !== '') return { seed: Number(raw) | 0 };
+  let h = 0x811c9dc5;
+  for (let i = 0; i < name.length; i++) {
+    h ^= name.charCodeAt(i);
+    h = Math.imul(h, 0x01000193) >>> 0;
+  }
+  return { seed: h | 0 };
+}

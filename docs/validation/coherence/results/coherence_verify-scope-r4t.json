@@ -1,0 +1,14 @@
+{
+ "key": "coherence/verify-scope-r4t",
+ "file": "docs/validation/coherence/verify-scope-r4t.md",
+ "issues": [
+  {
+   "id": "VCS-r4-01",
+   "severity": "minor",
+   "kind": "TERM",
+   "claim": "T121-3 (§13.2, base l. 18583) reads \"Auto holds §12.5's frame budget at p95 on the reference and the low-end device over §12.5's reference views (`resolution.p95`)\". §12.5 names the object \"the reference viewport\" (l. 17056), and the canon retires \"reference view\" for it (G-refview). This round's rendering sweep changed the same phrase \"§12.5's reference views\" to \"reference viewports\" in T-ER-26 (l. 14703) and R12-36 (l. 17466), and V12's T121-3 bullet reads \"each reference viewport\" (V12 l. 2660). Scope's bar is now the only design-text survivor. The canon's pattern `reference view\\b(?!port)` misses the plural. Nothing built or tested changes (J141 minor).",
+   "required_change": "In §13.2's T121-3, replace \"over §12.5's reference views (`resolution.p95`)\" with \"over §12.5's reference viewports (`resolution.p95`)\"; nothing else changes.",
+   "owner": "scope"
+  }
+ ]
+}

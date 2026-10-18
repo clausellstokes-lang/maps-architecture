@@ -1,0 +1,83 @@
+[
+ {
+  "id": "VAH-r2-05",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "owner": "V10",
+  "claim": "V10 \u00a73.9a's 'A ruined plan's damage' (l.1805-1808) states the comparison as 'each plan element shown damaged once the building's decay level \u2026 reaches the element's one keyed threshold \u2026 the one comparison every reader makes'. The home is \u00a76.3's 'above 0 and at least t' (base l.9798). At lo = 0, 'reaches' damages an element at level 0, against V10's own row 35 and T-V10-53 ('a building never decayed \u2026 no damage row'). Same class as VAH-r2-04.",
+  "required_change": "V10 l.1807: '\u2026 is above 0 and reaches the element's one keyed threshold (\u00a76.3 Plan damage's comparison) \u2026'.",
+  "reported_by": "verify-agree-host-r2t"
+ },
+ {
+  "id": "VAH-r2-06",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "owner": "V10",
+  "claim": "V10's LookAnswer types two of \u00a72.9's view keys in a shape \u00a72.9 does not give them, while its comments say they are those keys: 'display: 'follow'|'off'|{ preview: string } /* \u00a72.9's festival display (item 118) */' (l.1000), and, new this round, 'crises.display: 'follow'|'off'|{ preview: CrisisLookKind } /* \u00a72.9's crisis display crises (item 122 (e)) */' (l.1002). \u00a72.9 (base l.3343, l.3349) declares festival: { mode: 'follow'|'off'|'preview'; id?: string } and crises: { mode: 'follow'|'off'|'preview'; look?: string }, and V09 \u00a74.21.8 (2) and \u00a74.21.12 (1)-(2) write those shapes. The harness fills LookAnswer from ClerkMount.view (V10 l.288) with no mapping between the two shapes stated anywhere. The festival display predates this round; the crisis display repeats the pattern.",
+  "required_change": "V10 l.1000 reads 'display: { mode: 'follow'|'off'|'preview'; id?: string } /* \u00a72.9's festival display (item 118), as stored */'; l.1002 reads 'display: { mode: 'follow'|'off'|'preview'; look?: CrisisLookKind /* \u00a710.2 */ } /* \u00a72.9's crisis display crises (item 122 (e)), as stored */'. Alternatively, V10 states the projection from \u00a72.9's shape to its own in the comments.",
+  "reported_by": "verify-agree-host-r2t"
+ },
+ {
+  "id": "VAH-r2-07",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "owner": "V10",
+  "claim": "T-V10-52 (l.3094) cannot be built against V08's tier rule. Its fixture carries 'a plague condition withheld at public' and asserts 'the withheld plague absent at public from every read, request, reply, card and transcript'. Under V08 \u00a73.16 (7) (e) (J-V8.128) and T-V8-59 (l.3226), 'a condition whose row gives a look is admitted at public and one whose row is none only at secret'; plague maps to quarantine (V11 \u00a73.25.9), so a plague condition is public at every key. No mechanism in the set withholds a look-bearing condition, so the fixture asserts something the design forbids. V10 \u00a73.23 row 34 ('a condition the key withholds') and V09's T-V9-85 clause ('under a player view a withheld condition is never drawn \u2026', on a fixture of siege, refugees and plague) presuppose the same thing; they are vacuous rather than contradictory.",
+  "required_change": "T-V10-52's knowledge clause reads: 'at public every look-bearing condition \u2014 the siege, the refugee wave and the plague \u2014 is listed with its name and weeks (V08 \u00a73.16 (7) (e)); a none-row condition carried beside them (an infiltrated stressor) is named in no read, request, reply, card or transcript at public, and only at secret'. The fixture loses 'a plague condition withheld at public'. V10 \u00a73.23 row 34's 'a condition the key withholds' reads 'a none-row condition, admitted only at secret'.",
+  "reported_by": "verify-agree-host-r2t"
+ },
+ {
+  "id": "VAP-r2-10",
+  "severity": "major",
+  "kind": "HANDOFF-OPEN",
+  "owner": "V10",
+  "claim": "T-V10-45 (V10 l. 3087) ends \"with item 111's cells at their no-op values the drivers carry a water term of 0 and `climateSun` 1, and every read and why golden but the brief's arid mark is byte-identical to the pin's (V12's NoOpPin)\" \u2014 a restatement of `item111.water` that states no registration and excepts one golden, while V12 \u00a72.13 registers \"the reader and why goldens (V10, T-V10-45)\" on that pin whole (VAP-r2-08). R2-09's both ends are unwritten here.",
+  "required_change": "T-V10-45's last clause reads \"\u2026 every read and why golden but the brief's is byte-identical to the build before item 111 (the brief's arid mark is item 111's own line) \u2014 the `item111.water` registration of the reader and why goldens, the brief's excepted, on V12 \u00a73.7.8's engine (V12 \u00a72.13), written by the C1 seat\".",
+  "reported_by": "verify-agree-proof-r2t"
+ },
+ {
+  "id": "VAT-r2-01",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "owner": "V10",
+  "claim": "The clerk's scratch commit resubmits filtered lists that \u00a711.2 compares unfiltered. VAT-R1-03's fix makes V10 \u00a73.5 step 3 (l.1450\u20131457) read the item from `preview(scratch, events, { filtered: true })`, then commit by `edit(scratch, events, { filtered: true })` 'with the preview's fates and renames filled, \u00a711.2's resubmission form'. It adds: 'A commit that answers otherwise than its preview (a `conflict`, or a `confirm` whose fates differ) refuses the item with that answer and records the preview equality check's defect'. But the preview's lists are the filtered ones: \u00a711.2 *`filtered`* renders fates and renames under the caller's key (a withheld place by address and kind, a concealed use and an unexcavated element absent). \u00a711.2 *Confirming fates* commits a resubmission only 'when a fresh dry run computes the same fates and renames', and *Knowledge* states that a `confirm` result goes only to an editing role, unfiltered. So whenever the session's effective key withholds an entry of an item's fates or renames \u2014 under View as, or with a host-lowered editor key (V10 \u00a72.3) \u2014 the engine answers `confirm`. The scratch cannot have moved between the two calls, so the difference is the filter's. Yet V10 refuses a lawful item and writes a `previewMismatch` defect. Round 1's text confirmed a scratch `confirm` at once, and V10 \u00a74.2 (1) avoids the trap on the user's document by previewing unfiltered and comparing the filtered projection; step 3 no longer shares that rule.",
+  "required_change": "V10 \u00a73.5 step 3, after '\u00a711.2's resubmission form, as V10 \u00a74.2 (1) commits:', reads: 'a `confirm` answer \u2014 which a filtered resubmission receives wherever the session's key withholds an entry of the fates or renames (\u00a711.2 *`filtered`*, *Confirming fates*) \u2014 is confirmed on the scratch at once, `confirm(scratch, token, fates, renames)` with that answer's own lists. A `confirm` result reaches an editing client unfiltered (\u00a711.2 *Knowledge*), and the scratch is disposable. This holds whenever the filtered projection of the answer's lists at the session's effective key equals the preview's, compared as V10 \u00a74.2 (1) compares (counts, fates by address, renames). Only a `conflict`, or a `confirm` whose projection differs, refuses the item with that answer and records the preview equality check's defect (V10 \u00a72.8)'. T-V10-11's scratch clause adds a View as fixture whose declaration moves a concealed use and renames a withheld place: the item commits on the scratch and records no defect. J-V10.127 adds 'a filtered resubmission's `confirm` is confirmed with its own lists'.",
+  "reported_by": "verify-agree-tools-r2t"
+ },
+ {
+  "id": "VAT-r2-03",
+  "severity": "minor",
+  "kind": "AMBIGUOUS",
+  "owner": "V10",
+  "claim": "V10 \u00a73.9a's damage part (l.1803\u20131808) restates the comparison as 'each plan element shown damaged once the building's decay level \u2026 reaches the element's one keyed threshold (\u00a76.3's `plan.damage`, \u2026), the one comparison every reader makes'. 'Reaches' without \u00a76.3's 'above 0' reads as level \u2265 t. With V11's lo = 0 that damages an element at level 0, which V10's own *Absent* bullet ('a building never decayed has none \u2026 `item123.damage`') and T-V10-53's no-op clause exclude. The text holds two readings of one rule, and it restates a rule whose home is \u00a76.3.",
+  "required_change": "V10 \u00a73.9a: 'reaches the element's one keyed threshold (\u00a76.3's `plan.damage`, within its element kind's range of V11's rows), the one comparison every reader makes' \u2192 'is above 0 and at least the element's one keyed threshold \u2014 \u00a76.3's comparison (`plan.damage`, within its element kind's range of V11's rows), the one every reader makes, so a level of 0 damages nothing'.",
+  "reported_by": "verify-agree-tools-r2t"
+ },
+ {
+  "id": "VM-R2T-07",
+  "severity": "minor",
+  "kind": "BROKEN-REFERENCE",
+  "claim": "G120's reader end: V10 l. 1014 declares `type FindView = ViewState['find']` and V10 l. 609's `find` action types its chips `FindView['chips']`; \u00a72.9's `ViewState` is `{ keys: Record<string, { value: unknown; lamport; session }> }`, which has no member `find`, so the alias names nothing (the model's hand-off of it was not carried). V10 l. 442's `type Knowledge = ViewState['knowledge']` has the same fault.",
+  "required_change": "V10 l. 1014: `type FindView = { chips: FindChip[]; gaps: boolean };   // \u00a72.9's view key `find` (item 120; FindChip is \u00a72.9's)`; V10 l. 442: `type Knowledge = { tier: 'public'|'local'|'secret'; places: Id[] };   // \u00a72.9's view key `knowledge``.",
+  "owner": "V10",
+  "reported_by": "verify-model-r2t"
+ },
+ {
+  "id": "VV910-r2-03",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "Find's address chip names four target kinds in \u00a72.9's `FindChip` (base l.3042: \"a place, an area (a FindArea.id, V01 \u00a75.4), a person or an institution\"), R2-33 (a) and V09 \u00a74.21.10 (1); V10 names three in three places \u2014 \u00a72.13's `FindAnswer.chips[].id` comment (l.1019: \"a place, an area (V01 \u00a75.4's FindArea) or a person \u2014 or a dossier chip's anchor\"), \u00a73.9b (7) (l.1960: \"an address the chip for that place, area or person\") and \u00a73.13 step 4's find form (l.2241: \"a place, an area or a person\").",
+  "required_change": "each of the three reads \"a place, an area (V01 \u00a75.4's `FindArea`), a person or an institution\", as \u00a72.9's `FindChip` names them.",
+  "owner": "V10",
+  "reported_by": "verify-vol-V09-V10-r2t"
+ },
+ {
+  "id": "VV910-r2-06",
+  "severity": "minor",
+  "kind": "ID",
+  "claim": "Two first uses written this round lack the tool word (canon ID-TOOL): l.1481 (\u00a73.5 step 3, \"(V10 \u00a74.1's T1 row)\") and l.2337 (\u00a73.16's `dossier` row, \"(V10 \u00a74.1's T1 row)\").",
+  "required_change": "both read \"V10 \u00a74.1's T1 `intend` row\".",
+  "owner": "V10",
+  "reported_by": "verify-vol-V09-V10-r2t"
+ }
+]

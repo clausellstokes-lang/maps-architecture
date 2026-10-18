@@ -1,0 +1,251 @@
+{
+ "units": {
+  "V01": {
+   "found": 11,
+   "applied": 11,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/volumes/V01-neighbourhoods.md"
+   ],
+   "words_before": 27923,
+   "words_after": 28052,
+   "bytes_before": 165023,
+   "bytes_after": 165745,
+   "whole_files": []
+  },
+  "V02": {
+   "found": 1,
+   "applied": 1,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/volumes/V02-buildings.md"
+   ],
+   "words_before": 192,
+   "words_after": 308,
+   "bytes_before": 1157,
+   "bytes_after": 1887,
+   "whole_files": []
+  },
+  "V03": {
+   "found": 4,
+   "applied": 4,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/volumes/V03-interiors.md"
+   ],
+   "words_before": 12666,
+   "words_after": 12717,
+   "bytes_before": 75376,
+   "bytes_after": 75670,
+   "whole_files": []
+  },
+  "V04": {
+   "found": 17,
+   "applied": 17,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/volumes/V04-underground.md"
+   ],
+   "words_before": 50477,
+   "words_after": 51134,
+   "bytes_before": 303768,
+   "bytes_after": 307544,
+   "whole_files": []
+  },
+  "V05": {
+   "found": 3,
+   "applied": 3,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/volumes/V05-sky.md"
+   ],
+   "words_before": 11333,
+   "words_after": 11562,
+   "bytes_before": 67720,
+   "bytes_after": 68969,
+   "whole_files": []
+  },
+  "V06": {
+   "found": 17,
+   "applied": 17,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/volumes/V06-evolution.md"
+   ],
+   "words_before": 64406,
+   "words_after": 64476,
+   "bytes_before": 394906,
+   "bytes_after": 395340,
+   "whole_files": []
+  },
+  "V07": {
+   "found": 7,
+   "applied": 7,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/volumes/V07-village.md"
+   ],
+   "words_before": 23443,
+   "words_after": 23915,
+   "bytes_before": 141179,
+   "bytes_after": 143950,
+   "whole_files": []
+  },
+  "V08": {
+   "found": 11,
+   "applied": 11,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/volumes/V08-settlementforge.md"
+   ],
+   "words_before": 40339,
+   "words_after": 40790,
+   "bytes_before": 244305,
+   "bytes_after": 247067,
+   "whole_files": []
+  },
+  "V09": {
+   "found": 13,
+   "applied": 13,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/volumes/V09-application.md"
+   ],
+   "words_before": 53934,
+   "words_after": 54565,
+   "bytes_before": 326444,
+   "bytes_after": 330283,
+   "whole_files": []
+  },
+  "V10": {
+   "found": 12,
+   "applied": 12,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/volumes/V10-clerk.md"
+   ],
+   "words_before": 31862,
+   "words_after": 32590,
+   "bytes_before": 197853,
+   "bytes_after": 202468,
+   "whole_files": []
+  },
+  "V11": {
+   "found": 6,
+   "applied": 6,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/volumes/V11-content.md"
+   ],
+   "words_before": 38585,
+   "words_after": 38631,
+   "bytes_before": 234023,
+   "bytes_after": 234320,
+   "whole_files": []
+  },
+  "V12": {
+   "found": 9,
+   "applied": 9,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/volumes/V12-calibration.md"
+   ],
+   "words_before": 30799,
+   "words_after": 31050,
+   "bytes_before": 188079,
+   "bytes_after": 189550,
+   "whole_files": []
+  },
+  "determinism": {
+   "found": 6,
+   "applied": 6,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/ARCHITECTURE.md"
+   ],
+   "words_before": 51779,
+   "words_after": 51803,
+   "bytes_before": 324342,
+   "bytes_after": 324498,
+   "whole_files": []
+  },
+  "model": {
+   "found": 3,
+   "applied": 3,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/ARCHITECTURE.md"
+   ],
+   "words_before": 21935,
+   "words_after": 25923,
+   "bytes_before": 140014,
+   "bytes_after": 162127,
+   "whole_files": []
+  },
+  "pipeline": {
+   "found": 9,
+   "applied": 9,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/ARCHITECTURE.md"
+   ],
+   "words_before": 51589,
+   "words_after": 51655,
+   "bytes_before": 318392,
+   "bytes_after": 318840,
+   "whole_files": []
+  },
+  "rendering": {
+   "found": 8,
+   "applied": 8,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/ARCHITECTURE.md"
+   ],
+   "words_before": 50787,
+   "words_after": 51300,
+   "bytes_before": 307886,
+   "bytes_after": 311021,
+   "whole_files": []
+  },
+  "scope": {
+   "found": 5,
+   "applied": 5,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/ARCHITECTURE.md"
+   ],
+   "words_before": 33685,
+   "words_after": 34949,
+   "bytes_before": 217782,
+   "bytes_after": 225172,
+   "whole_files": [],
+   "restated_rows": [
+    "J-ROWS J-A67.45",
+    "RATIONALE-A J-A67.45"
+   ]
+  }
+ },
+ "total": {
+  "found": 142,
+  "applied": 142,
+  "skipped": 0
+ }
+}

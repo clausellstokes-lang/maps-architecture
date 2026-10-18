@@ -1,0 +1,89 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/before/docs/volumes/INDEX.md",
+ "input_doc_sha256": "49e81c84134e0840e28b401d272894d466df416f8f05ea6e8ec59788fab20615",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "adebaafcfd89def12553256f75108264cffe35a93a9b71c9318ff1989a440564",
+ "files": [
+  {
+   "file": "repair-r1-scope.md",
+   "sha256": "d871af24fd11d0aa9565041f17593ccfab1f3dc08a947db3317e1ceb33b035a9",
+   "lines": 205,
+   "blocks": 1,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "repair-r1-scope.md #1 (l. 1) REPLACE # Index of the design volumes — the product map, the wiring, the build order",
+   "file": "repair-r1-scope.md",
+   "index": 1,
+   "line": 1,
+   "kind": "REPLACE",
+   "heading": "# Index of the design volumes — the product map, the wiring, the build order",
+   "body_lines": 202,
+   "body_sha256": "2d8e7063c37d51fed29911ecc55183787595dcd9b026a5e3da2b50afad6ff1af",
+   "target_line": 1,
+   "section_old": "1–218",
+   "section_old_n": 218,
+   "section_new_n": 203,
+   "new_headings": [
+    "# Index of the design volumes — the product map, the wiring, the build order",
+    "## 1 The product map",
+    "## 2 The wiring — base hooks and what each volume feeds",
+    "## 3 The dependency graph",
+    "## 4 The combined build order after M5, with estimates",
+    "## 5 Risks and spikes across volumes",
+    "## 6 Owner questions with recommendations",
+    "## 7 How the volumes were reconciled, and the fix list",
+    "## 8 CONFIRMED versus PLAUSIBLE"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "repair-r1-scope.md #1 (l. 1) REPLACE # Index of the design volumes — the product map, the wiring, the build order",
+    "kind": "REPLACE",
+    "heading": "# Index of the design volumes — the product map, the wiring, the build order",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 781,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 9,
+  "headings_after": 9,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 2,
+  "fence_lines_after": 2,
+  "title_block_unchanged": false,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 25407,
+  "doc_bytes_after": 23960,
+  "doc_lines_before": 217,
+  "doc_lines_after": 202,
+  "rationale_bytes_before": 685208,
+  "rationale_bytes_after": 685208,
+  "rationale_lines_before": 2362,
+  "rationale_lines_after": 2362,
+  "blocks_total": 1,
+  "blocks_applied": 1,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "9efc19e34883b52103ee7614578339544676ba8c17c45c9e9ecebd44d4927d8a",
+  "output_rationale_sha256": "adebaafcfd89def12553256f75108264cffe35a93a9b71c9318ff1989a440564"
+ }
+}

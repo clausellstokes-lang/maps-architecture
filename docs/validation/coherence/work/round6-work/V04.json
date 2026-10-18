@@ -1,0 +1,29 @@
+[
+ {
+  "id": "VAL-R5-04",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "owner": "V04",
+  "claim": "R5-04 made one comparison for plan damage, stated at \u00a76.3 (l. 10006-10008) and cited everywhere: the element is 'compared only from its entry week into the plan (V03 \u00a75.6 (2) (a)\u2013(b); for an element a restoring event's re-cut mints, the week that restoration ends \u2026)'. R5-04's sweep said V04 needs nothing, but V04 \u00a75.6's lead (l. 2888-2890) restates the comparison without the entry week: 'each plan element shown damaged while the decay level is above 0 and at least the element's keyed threshold (\u00a76.3 *Plan damage*'s comparison; \u2026)'. Likewise UE33's E1, 'a building never decayed (level 0) \u2026 draw byte-identically', lacks \u00a78.6's new 'and under no disaster look' (l. 14157). V03 draws the plan and its damage, and UE33's E7 carries the look, so nothing built or tested changes.",
+  "required_change": "V04 \u00a75.6's lead: replace 'while the decay level is above 0 and at least the element's keyed threshold (\u00a76.3 *Plan damage*'s comparison;' with 'while the decay level is above 0 and at least the element's keyed threshold, compared from the element's entry week into the plan (\u00a76.3 *Plan damage*'s one comparison; V03 \u00a75.6 (2) (a)\u2013(b);'. UE33's E1: replace 'a building never decayed (level 0)' with 'a building never decayed (level 0) and under no disaster look (\u00a78.6)'.",
+  "reported_by": "verify-agree-layers-r5t"
+ },
+ {
+  "id": "VV34-r5-02",
+  "severity": "minor",
+  "kind": "NEW-PROBLEM",
+  "owner": "V04",
+  "claim": "T-V4-63 (V04 l. 3146, written this round from R5-02's V04 end) ends \"the frame growth's case keeping every old station and its vaults\". \u00a72.7's support step (7) (base l. 2623\u20132628) keeps every old station and \"every span between two of them\". It runs (1)\u2013(5) and the span rule from the old deck's last interior station to the new end, or with none from the other foot, so the old end span is re-derived. V04 \u00a73.10 (l. 2284\u20132286) then lays \"a new `vault` span's vault\" and deletes \"one whose span is gone\". Where the old end span (or a one-span deck's only span) was `vault`, a correct build removes that vault or re-lays it under a new key, and \"its vaults\" read as every vault of the old deck fails it. The mechanism is (7)'s and \u00a73.10's, so nothing built changes.",
+  "required_change": "T-V4-63: \"the frame growth's case keeping every old station and its vaults\" \u2192 \"the frame growth's case keeping every old station and, with the same id and footprint, the arch vault of every old span between two of them (\u00a72.7's support step (7)), the span from the old deck's last interior station (with none, its one span) re-derived with the extension and its vault laid or deleted by its new span (V04 \u00a73.10)\".",
+  "reported_by": "verify-vol-V03-V04-r5t"
+ },
+ {
+  "id": "VV34-r5-03",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "owner": "V04",
+  "claim": "One fix with VAL-R5-04, at a site it does not list. R5-04's one comparison (\u00a76.3 *Plan damage*, base l. 10006\u201310008) compares an element \"only from its entry week into the plan (V03 \u00a75.6 (2) (a)\u2013(b); \u2026)\". T-V4-82 (b) (V04 l. 3165) restates it without the entry week: \"each element damaged exactly while the level is above 0 and at least its threshold (\u00a76.3 *Plan damage*'s comparison)\". R5-01 (2) (c) puts the tests in the sweep. Its fixtures hold no element entering the plan after the level rose, so nothing tested changes.",
+  "required_change": "T-V4-82 (b): \"each element damaged exactly while the level is above 0 and at least its threshold (\u00a76.3 *Plan damage*'s comparison)\" \u2192 \"each element damaged exactly while the level is above 0 and at least its threshold, compared from its entry week into the plan (\u00a76.3 *Plan damage*'s one comparison; V03 \u00a75.6 (2) (a)\u2013(b))\".",
+  "reported_by": "verify-vol-V03-V04-r5t"
+ }
+]

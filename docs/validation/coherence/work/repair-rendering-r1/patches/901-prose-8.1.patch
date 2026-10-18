@@ -1,0 +1,65 @@
+# VRC0S-26: the verbose-prose pass over §8.1 (guard: prosecheck.py — every number, code span, reference, id and rung kept).
+@@ FILE 8.1.md
+<<<<
+   rebuild each roof face's elevation from the roof's own construction without the model. **The city band carries every
+   caster (item 68; J-A68.93).** Every caster of §8.4's *Shadow casters* has a mark in the city band's list — a tree
+   line's `instances` mark too, its city-band rank subset empty so that band draws none of its crowns (§8.5's line
+   greenery, §8.10); each base wing of a building of several has a caster mark in the city band carrying its own `Heights`, drawn by no program there (as a tree line's crowns), a building of one wing casting by its footprint mark; and the city band carries the caster marks of every composition's wings and towers and every close-up's casters that the elaboration cache holds (§2.9, §8.6) — added in the `DisplayDelta` that answers the band request deriving them, removed with the cache entry, and included in every full build — a composed building's replacing its base wings'; so the city band carries every caster any band draws at the heights that band draws, and the ring blocks (§8.8) and `surfaceTopCm` read them from the one list the tile worker always holds.
+====
+   rebuild each roof face's elevation from the roof's own construction without the model. **The city band carries every
+   caster (item 68; J-A68.93)** of §8.4's *Shadow casters*: a tree line's `instances` mark, its city-band rank subset
+   empty so that band draws none of its crowns (§8.5's line greenery, §8.10); a caster mark per base wing of a building of
+   several, carrying its own `Heights` and drawn by no program there (a building of one wing casts by its footprint mark);
+   and the caster marks of every composition's wings and towers and every close-up's casters the elaboration cache holds
+   (§2.9, §8.6) — added in the `DisplayDelta` that answers the band request deriving them, removed with the cache entry,
+   included in every full build, a composed building's replacing its base wings'. So the city band carries every caster
+   any band draws, at the heights that band draws, and the ring blocks (§8.8) and `surfaceTopCm` read them from the one
+   list the tile worker always holds.
+>>>>
+<<<<
+   building's revision and so its roof; a changed boundary street dirties both its sides. **Every render-time hash** — a
+   multi-colour role's index, weathering, a stamp's tile variant, grid jitter, crown index, colour and scale jitter, hatch
+   phase, roof detail, the `ruin` dash — is `RH32(tag, key, salt[, ordinal or cell][, style id])`: a tag, an index into the
+====
+   building's revision and so its roof; a changed boundary street dirties both its sides. **Every render-time hash** is
+   `RH32(tag, key, salt[, ordinal or cell][, style id])`: a tag, an index into the
+>>>>
+<<<<
+   `crown.early`, `leaf.cover`, `creeper` and `ice.crack` (g item 117), and `festival.place` (g item 118; §8.2), each read by
+   the program it names; a new tag is
+   appended, so no existing look moves; the **render key** `key` = the low 64 bits (words 0 and 1) of the entity key (§6.1), cached
+====
+   `crown.early`, `leaf.cover`, `creeper` and `ice.crack` (g item 117), and `festival.place` (g item 118; §8.2), each read by
+   the program it names (a new tag is appended, so no existing look moves); the **render key** `key` = the low 64 bits
+   (words 0 and 1) of the entity key (§6.1), cached
+>>>>
+<<<<
+   the light of a concealed room, a lit window of one, a `LightSource` hosted by a concealed part or by an `AccessPoint`
+   or `UndergroundLink` (II.7.4, II.7.6) and the shaft of such an access (§8.4 (b)) are taken by the light pass, the
+   light-map bake, the vector rung's `glow` and every export's lights (§11.1) where their host draws at the band under
+   the viewer's knowledge key (§9.2; §8.2's `access` and `link` rows), that key then joining the tile key and the
+====
+   the light of a concealed room, a lit window of one, a `LightSource` hosted by a concealed part, an `AccessPoint` or an
+   `UndergroundLink` (II.7.4, II.7.6) and such an access's shaft (§8.4 (b)) reach the light pass, the light-map bake, the
+   vector rung's `glow` and every export's lights (§11.1) only where their host draws at the band under the viewer's
+   knowledge key (§9.2; §8.2's `access` and `link` rows), that key then joining the tile key and the
+>>>>
+<<<<
+   A mark of a concealed part — a concealed room, the concealed entrance's tick, a concealed access point or link down
+   (item 63; §2.6, II.7.4) — carries `concealed` = 1 and the concealed use's `knownTo`, so the raster draws it only for a
+   viewer whose knowledge key admits that use at the band (§9.2; the key then joins the tile key, §8.8); the building's
+   mass and every public part carry the building's own `knownTo` and always draw.
+====
+   A concealed part's mark — a concealed room, the concealed entrance's tick, a concealed access point or link down
+   (item 63; §2.6, II.7.4) — carries `concealed` = 1 and the concealed use's `knownTo`, drawn only for a viewer whose
+   knowledge key admits that use at the band (§9.2; the key then joins the tile key, §8.8); the building's mass and every
+   public part carry the building's own `knownTo` and always draw.
+>>>>
+<<<<
+1. **Built by S14** from the model through the entity registry (each type → marks per band); backends never read the
+   model. Footprint geometry is identical in every band (O12 a; O17 i); only the marks emitted and the programs run
+   change.
+====
+1. **Built by S14** from the model through the entity registry (each type → marks per band); backends never read the
+   model. Footprint geometry is identical in every band (O12 a; O17 i); only the marks emitted and the programs run differ.
+>>>>

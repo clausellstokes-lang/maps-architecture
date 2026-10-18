@@ -1,0 +1,102 @@
+{
+ "verdict": "partial",
+ "items": [
+  {
+   "id": "diff-against-backups",
+   "verdict": "confirmed",
+   "reexecuted": [
+    "shasum -c backup/SHA256SUMS: 18/18 OK; every backup equals git HEAD byte for byte (ARCHITECTURE.md 70fcf77d, V01 05c56e12, V11 39464da6, V12 1bacd39d); only the four design files and the bundle differ from HEAD among docs/ARCHITECTURE*.md and docs/volumes/",
+    "independent re-application (vfy/reapply.py) of mc2_edits.py's 55 edits to the backups, each matched exactly once: the result equals the current bytes of ARCHITECTURE.md (49), V12 (2), V01 (2), V11 (2), so nothing else moved",
+    "word diffs: base 29 hunks, V12 2, V01 2, V11 2; every hunk maps to a labelled edit; headings identical (153 / 67 / 123 / 58) and no J-, T-, C-, R-, DC- or N- id added or removed in any of the four files",
+    "doc-checks-allow.tsv sha256 equals its backup (no allow row added)"
+   ],
+   "problems": []
+  },
+  {
+   "id": "numbers-and-trace",
+   "verdict": "partial",
+   "reexecuted": [
+    "every number written checked against E12 sections 11-14 (depth rows 16-32 / 24-48 / 33-64 / 40-96 from ratios 1.3222 / 1.6067; floor 37-45; flattenM 0.59 m, 1.68 mu, 3 of 731, 0.658 vs 0.660; shares and the MFCG row 0.813 / 0 / 0 / 0.187, each row sums to 1.000; D-1 21.6 m = 0.6 x 36, 3 of 597 at 2 d-bar)",
+    "every E15 value checked against E15 section 8 and E15-baselines.json (56 designHandoff entries; held river widths 44.0 / 46.1 / 29.8 m and MFCG stress 83.86 m n 3; F3 ksMax area 0.41, square 0.88, pooled and ring 1.02, street 1.25; cut.length area 0.30, ring 0.62)",
+    "DC-38 values checked against E10 section 9.3-9.4 (739 / 1 125 = 0.657; 211 / 239 = 0.883; 99 / 120 = 0.825; 0.888 simple parents) and F6",
+    "DC-37 text matches M-1-plan-notes section 7; no other statement of the id pattern in the base or any volume (grep)",
+    "J-3's per-size bands 6.7-9.7 and 9.8-17.6 recomputed as 0.9 x p10 and 1.1 x p90 of E15's turn100 rows (7.4107-8.7969, 10.853-15.961); disjoint",
+    "unit tally 73 = 65 applied + 6 applied-adapted + 2 already true; the two already-true cells (draw style 18.07 / 2.29, markets 0 / 0) read in section 13.5"
+   ],
+   "problems": [
+    "PLAUSIBLE scope (not a defect): two changes go beyond the four named sources, both recorded as vetoable calls. J-2 extends E12 D-2 (which named the deep-interior shares only) to cut.bendMode with cut.flattenM under a criterion of the seat's own ('default is NG's own rule'), so the NG parity preset now resolves bendMode to flatten 0.7 m instead of MFCG's straightFirst 8 m. J-3 acts on DC-35 (M-1-rulings-2, carried in the design as 'the next design pass restates this reason or withdraws the exception'), with band values derived from E15's rows. Neither reaches M0 (M0's loader resolves defaults only)",
+    "minor wording: section 13.5 deep block interiors cell (line 20251) says MFCG's 0.810 / 0.810 / 0.814 are 'each over the reference's deep blocks, section 4.6's deep-interior rule'. The reference rows use the inscribed-radius definition (R-20 (4); E12 entry 6), not section 4.6's 0.6 x d-bar test, so the clause can be misread"
+   ]
+  },
+  {
+   "id": "no-reference-content",
+   "verdict": "confirmed",
+   "reexecuted": [
+    "make_denylist.py scan --list research on the four edited files: TOK 7/0, ID 13/0, TRI 2887/0, COL 0/0, SET 56/0, PHR 7/0, FILE 0/0, exit 0; --list m0: TOK 7/0, TRI 2887/0, COL 0/0, SET 56/0, FILE 0/0, exit 0 (equal to the record's receipt)",
+    "control on the backups: TOK 9, TRI 2891 (no class rose after the edits; TOK fell by the old id's two hits)",
+    "the 55 edits' new text alone, scanned on both lists: TOK 0, ID 0, SET 0, PHR 0, COL 0, TRI 14 all reviewed, 0 unreviewed",
+    "old id water.riverWidth: 0 hits in ARCHITECTURE.md, every volume and ARCHITECTURE-FULL.md; read-only grep of plat/: 0 files"
+   ],
+   "problems": []
+  },
+  {
+   "id": "doc-checks",
+   "verdict": "confirmed",
+   "reexecuted": [
+    "doc_checks.py --doc docs/ARCHITECTURE.md: exit 0; C1 5/0, C2 2/0, C3 1886/0, C4 24/0, S1 0/0, S2 318/0",
+    "--doc V12 --heads docs/ARCHITECTURE.md: exit 0; C1 7/0, C3 155/0, C4 2/0, S2 119/0",
+    "--doc V01 --heads ...: exit 0; C3 421/0, C4 6/0, S2 286/0",
+    "--doc V11 --heads ...: exit 0; C3 326/0, C4 8/0, S2 334/0",
+    "--doc docs/validation/m1-corrections-2.md --heads ...: exit 0; C3 5/0, S2 1/0",
+    "every count equals the result file's receipt; outputs in the scratchpad's m1w3/vfy/dc-*.txt"
+   ],
+   "problems": []
+  },
+  {
+   "id": "bundle-current",
+   "verdict": "confirmed",
+   "reexecuted": [
+    "python3 tools/bundle_architecture.py --check: UP TO DATE, exit 0",
+    "bundle diff against its backup: 38 hunks = 29 base + 6 volume hunks + 3 source-manifest lines (hashes and line counts)"
+   ],
+   "problems": []
+  },
+  {
+   "id": "plan-check-consequence",
+   "verdict": "confirmed",
+   "reexecuted": [
+    "plan.py --check: exit 2, 'PLAN CHECK FAILED, nothing written:' / 'catalogue mismatch: missing ['water.channelWidth'] extra ['water.riverWidth']' (verbatim as recorded); research/baselines status unchanged by the run",
+    "plan.py --catalogue-check: exit 1, missing from registry ['water.channelWidth'], in registry not in catalogue ['water.riverWidth']"
+   ],
+   "problems": []
+  },
+  {
+   "id": "m0-affected-list",
+   "verdict": "partial",
+   "reexecuted": [
+    "dumped every M0-work.json item's sections (418 lines) and grepped each changed section: section 1.4, 2.5, 4.4 S5a and regimes, 4.6 steps 1/2/5/6 and the deep-interior rule, 4.7, 7.6, 12.9, 13.5, 15.2, 16 M0 (b), V12 3.3 / 3.4.2, V01 2.2 / 3.15, V11 3.2.2",
+    "grepped every string field of every item and afterM1Needs for the old values (0.066, 0.098, 12-20, 18-30, 25-40, 30-60, 30-45, riverWidth, flattenM, bendMode, C2 and others)"
+   ],
+   "problems": [
+    "CONFIRMED gap in the session's carry list: M0-b-04.exitBars ('sigma +- 0.02 of 0.066 / 0.098') and M0-b-05a.exitBars ('+- 0.02 of 0.066 plain / 0.098 ring') also quote the old sigma. The record names only the section quotes of M0-b-05, -05a and -05b and afterM1Needs' M0-b-05a line, so the session would leave two exit bars pinned to 0.066 / 0.098",
+    "CONFIRMED omissions, nothing they build changes: M0-b-02 (sections: section 4.6 recipe steps 1-7, which hold the changed step 1, 2 (sigma), 5 (cut.flattenM provenance) and 6 (fillet) text; it builds the flatten rule on cut.flattenM); M0-c-01 (section 4.4 S5a 'the regimes' a', the sentence whose calibration target changed); M0-d-03 and M0-x-06 (section 4.6 step 1, C-8's parenthetical only); M0-t-00 and M0-t-01 (section 16 M0 (a)-(f), so M0 (b)'s sigma)",
+    "per-change rows are incomplete though the items appear elsewhere in the table: M0-b-05a is not under C-8 although its section is exactly 'section 4.6 step 1 (the depth rows and regime floors re-fitted at M-1)', and M0-x-03 ('section 16 M0 (b), (c) the comparison clauses') is not under the sigma row",
+    "CONFIRMED correct: M0-b-01.tests pins 12-20 / 18-30 / 25-40 / 30-60 / 30-45 and is listed; no M0 item's sections cite V12, V01, V11, section 7.6's resolution, section 12.9 or section 15.2; DC-37 reaches only M0-k-05.builds (C2)"
+   ]
+  },
+  {
+   "id": "record-completeness",
+   "verdict": "partial",
+   "reexecuted": [
+    "swept the base and every volume for each old figure (0.066, 0.098, the four depth rows, 30-45, the old shares, 22.9, 103 / 154 m2, 10.3 m, 0.42-0.46, 0.98-1.00, 0.87-0.92, 1.160 / 1.214, 18.6, 380 / 519, 39 m, 88 m, 3.4, 4.3 s, 0.28 / 0.30, 96 %, 53 %, 71-85 %, 0.32-0.58, 17.6 ha and others), then read each surviving hit",
+    "located every edited line's heading with awk"
+   ],
+   "problems": [
+    "CONFIRMED misses of the record's own rule (a sentence that quotes a changed reference value as current is corrected; section 4's exceptions all name their sample): FTG's 39 m tower spacing is still the current reference in section 4.8 S7 Towers (ARCHITECTURE.md line 8419, 'FTG's 39 m median and MFCG's tower-per-vertex are the two reference points'), in section 15.2's O8 row (c) evidence '[P - FTG 39 m]' (line 21462, the twin of the O6 and O17 tags that were corrected) and in V11-content.md line 3485 ('FTG's 39 m tower spacing ... remain section 4.8's reference points'). E15 entry 45 gives 34.9 / 33.4 / 32.7 m. None is in record section 4. For the owner (not a correction): the new FTG medians lie below our own 35-60 m tower-spacing rule, so the rule's anchor no longer sits inside it; re-anchoring would be tuning (J156)",
+    "location mislabels: the O6, O17 and O19 rows the record places in 'section 16' are rows of section 15.2's improvement matrix (lines 21452, 21459, 21461; section 16 starts at line 21486). This is in record sections 1.2 (none), 2, 4 and 5 and the JSON's design_corrections. The 'calibration-target list in section 1.4' is in section 0.3 (line 271)",
+    "unlisted edits: the section 4.7 S10 (2) table's poor anchor (NG 0.987 attached, party wall 0.441) and modest anchor (FTG quad side 10.24 / 10.33 / 9.95 m, footprint 96 / 99 / 91 m2) were changed. mc2_edits.py labels them 'C-1 poor depth + party-wall anchor' and 'C-2 modest depth + FTG anchor', but neither the record's section 1 tables nor its section 5 consistency list names them. Both trace to E15 entries 25-28",
+    "the record's PLAUSIBLE claim ('no sentence outside the edits restates a changed figure') is refuted by the three tower-spacing sites above. Every other surviving hit is a history clause, an anchor that names its sample, or a site listed in record section 4. Examples: section 4.4's ribbon row '71-85 % ... on the size-40 gate fixture'; section 12's 3.4 persons per building, our derivation constant, equal to E15's 3.35 at BIG_CITY at one decimal; V07's village back-close rule, its own rule"
+   ]
+  }
+ ]
+}

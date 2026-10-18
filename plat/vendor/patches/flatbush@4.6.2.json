@@ -1,0 +1,9 @@
+{
+  "library": "flatbush@4.6.2",
+  "choice": "C-0152",
+  "reason": "The determinism allowlist (§6.5 (3)) forbids the exponent operator, which the language leaves implementation-approximated; _collectContained (reached from search) computed `this.nodeSize ** level`. In both builds it is now the node size to the power level by exact repeated multiplication (scale = 1, then level times scale *= nodeSize), the rest of the line unchanged: every level search reaches lies below the root's, where nodeSize^level < numItems, so each partial product is an integer below 2^53 and exact, and the same integer as before. Closes C-0126 (5).",
+  "edits": [
+    { "file": "index.js", "find": "const leafEnd = Math.min(pos + (end - nodeIndex) * this.nodeSize ** level, numItems4);", "replace": "let scale = 1; // PLAT patch (choices C-0152): nodeSize to the power level, by exact repeated multiplication\n        for (let l = level; l > 0; l--) scale *= this.nodeSize;\n        const leafEnd = Math.min(pos + (end - nodeIndex) * scale, numItems4);", "count": 1 },
+    { "file": "flatbush.js", "find": "const leafEnd = Math.min(pos + (end - nodeIndex) * this.nodeSize ** level, numItems4);", "replace": "let scale = 1; // PLAT patch (choices C-0152): nodeSize to the power level, by exact repeated multiplication\n\t\t\tfor (let l = level; l > 0; l--) scale *= this.nodeSize;\n\t\t\tconst leafEnd = Math.min(pos + (end - nodeIndex) * scale, numItems4);", "count": 1 }
+  ]
+}

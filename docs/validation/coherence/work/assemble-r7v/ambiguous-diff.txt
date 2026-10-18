@@ -1,0 +1,7 @@
+# ambiguous-form references, untouched (95) -> final (97); key (unit, ref, list head, context tail); read by this seat
+NEW (2 sites new; 2 sites rewritten in place)
+  base l. 2303  §2.7 after a V11 list — "§2.7's laws' *Newer*" (the `Order` type's `seq` comment, model M11): the base's by its words
+  V06 l. 1628   §2.7 after a V06 list — "(§2.7's laws, law 4; its worked example *unchanged meeting*)" (V06 conformance 3): the base's by its words
+  V01 l. 978    rewritten: "§2.7's crossing table" -> "§2.7's laws, law 1 (1)" (V01 §3.4.2 (a)); same site, still after a V01 list
+  V05 l. 2565   rewritten: "§2.7's crossing table, *unchanged meeting*" -> "§2.7's laws, law 4; its worked example ..." (V05 T-V5-14); same site
+GONE: the two old texts of V01 l. 978 and V05 l. 2565 above.

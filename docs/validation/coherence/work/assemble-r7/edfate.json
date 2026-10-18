@@ -1,0 +1,54 @@
+{
+ "checks": {
+  "entry": {
+   "lines": [
+    9991
+   ],
+   "field_reshape_typed": true,
+   "no_change_field_in_variant": true
+  },
+  "ReshapeChange": {
+   "lines": [
+    9992
+   ],
+   "defined_once": true,
+   "kinds": [
+    "chamberRemoved",
+    "chamberLaid",
+    "gateMade",
+    "wayRerouted",
+    "merged",
+    "capped"
+   ]
+  },
+  "EditFate": {
+   "lines": [
+    10970
+   ],
+   "change_typed": true,
+   "comment_points_at_reshape": true,
+   "met_field": true
+  },
+  "law4_G2": {
+   "lines": [
+    2868
+   ],
+   "text": "**reshaped** (`EditFate.fate` `'reshaped'`, with `met`, the structure it met, and `change`, as §5.4's `reshaped`     entry's), off the hand path as a `reshaped` entry in the report's changes (§5.4), and the event's undo restores it.",
+   "names_met_and_change": true
+  },
+  "ReportEntry_common_change": {
+   "lines": [
+    9983
+   ],
+   "next_line_dossier_change": true
+  },
+  "ok": true
+ },
+ "other_sites": [
+  {
+   "file": "docs/volumes/V09-application.md",
+   "line": 2033,
+   "text": "keep their place but change shape where walls and raised ways meet\" (V09 §5.5); after the thing's name in its row, its change by the fate's `change` (§5.4's `reshaped` entry's): `chamberRemoved` \"the vault's chamber goes while {met} lies under the arch\" · `chamberLaid"
+  }
+ ]
+}

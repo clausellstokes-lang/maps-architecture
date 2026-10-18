@@ -1,0 +1,32 @@
+SEAT coherence/probe-r6 — the Maps program's coherence pass, round 6 (orchestrator brief, 2026-10-01).
+
+WHAT THIS SEAT IS. Rounds 3–5 each ruled the raised-way × wall family. Each ruling's own new text opened fresh edge cases, and the next verify round found them as majors: 24 of round 5's 40 majors came from R5-02's text. Five more came from R5-03's held late calamity. Round 6's adjudicator (docs/validation/coherence/adjudication-r6.md) was asked to:
+  - replace that family with ONE order-independent table at §2.7: every wall event × every raised-way state, one outcome and one test per cell;
+  - rule the late calamity's whole life once, as one sequence.
+You attack those two rulings BEFORE any repair seat writes against them. Whatever you find, the adjudicator amends now, and the round-6 verify does not find it later. You change no design text.
+
+READ FIRST, WHOLE:
+  1. docs/validation/coherence/adjudication-r6.md: the raised-way × wall table ruling, the late-calamity ruling, and Part H's END lines for both. Read the rest of the file only as far as these two touch it.
+  2. The owner rules: docs/AMENDMENTS-2026-09-28g.md item 110 (all of (a)–(f)), item 114 (decay and repair of walls) and item 125 (the dossier is the only SettlementForge data input; a readable value it gives is never replaced). Also docs/OWNER-INSTRUCTIONS-2026-09-25.md's J122 and J141 entries.
+  3. The round-5 findings the two rulings must close. They are listed in the adjudicator's ROUND-6 NOTES (2) (d) and (2b), in workflows/lane-prompts/coherence-cloud/coherence_adjudicate-r6.prompt.txt. Each finding's text is in docs/validation/coherence/verify-*-r5t.md.
+  4. The live text each ruling replaces or cites: docs/ARCHITECTURE.md §2.7's support step, §4.3, §4.4 S5a–S5b, §4.8, §4.11 (`wallToWay`, `absorbWall`, the carve, *The clock*), §5.3's gate row, §7.1's bend and lock rows, §7.2, §7.7 `DossierBinding`; V06 §3.7, §3.11.1, §3.19; V07 §3.5a, §3.12; V08 §2.3–§2.6, §3.6, §3.8; and the tests the rulings name. Use grep to find each.
+
+ATTACK, CELL BY CELL. For each cell of the table, and each step of the late calamity's life, ask:
+  (a) TWO READINGS — could two build agents, reading only the ruled words, build different behaviour? Look at the built form, the records written, which op writes each record, gate counts, §5.3's checks, the bend key and dry-run fate, and undo.
+  (b) MISSING CELL — is there a wall event, raised-way state or combination with no cell? Try a held raised way under each wall event, each fallen-part state under each later wall event, epoch versus hand versus generation, CITY versus METROPOLIS versus the village hand-off down, and a regeneration after each history. For the late calamity: two held at once, held then forked then migrated, an epoch folded by a regeneration, undo of the absorb that held it.
+  (c) OWNER RULE — does any cell contradict item 110 (b) ("a raised water channel … crossing the wall through an arch") or (f)'s bars (zero junctions with ground ways; generated raised ways only at CITY and METROPOLIS, each with its reason; a removed one stays removed)? Does any late-calamity step replace a readable dossier value (item 125)?
+  (d) CLOSURE — does every listed round-5 finding map to a cell or step that closes it, as the finding's required change asks or as the ruling says otherwise?
+  (e) READERS — does every live site that restates the rule get an END that reduces it to a citation? Grep the base and all twelve volumes for: crossing station, raised gate, under-deck, `bend.raised`, `bend.wall.raisedCrossing`, laid after, lateCalamities, held late.
+  (f) TESTS — does each cell name a test that actually runs it, on a fixture that holds the case?
+
+GRADE by the J141 SEVERITY STANDARD:
+  - blocker: cannot be built as written, or gives a wrong result on a common path;
+  - major: two builders would build different behaviour;
+  - minor: nothing built or tested changes.
+
+WRITE (the only files you write):
+  1. docs/validation/coherence/probe-r6.md. Per finding: an id PRB6-nn, its severity, the cell or step (row × column, or the step's name), the claim with line-cited evidence, and the exact amended words for adjudication-r6.md. End with a one-paragraph verdict: is the table complete and order-independent; is the late-calamity sequence complete.
+  2. docs/validation/coherence/results/coherence_probe-r6.json, of the form {"key": "coherence/probe-r6", "file": "docs/validation/coherence/probe-r6.md", "issues": [{"id", "severity", "cell", "claim", "required_change"}]}.
+Append to docs/lane-events.log a CHECKPOINT line after reading, in the form `<UTC date time> coherence/probe-r6 CHECKPOINT <what is done; what is next>`, and a LANDED line naming both files when done. If docs/validation/coherence/probe-r6.md already exists with a CHECKPOINT line of yours in the log, RESUME from it: never redo what it records.
+
+RULES. Run no state-changing git commands (no add, commit, push, checkout, reset, stash). Change no design text. Record no interpretation of an owner rule as the owner's. Your final message must be exactly the JSON result object, nothing else.

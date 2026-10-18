@@ -1,0 +1,87 @@
+{
+ "id": "m1/round3-apply",
+ "status": "landed",
+ "records": [
+  "/Users/cstokes/Desktop/Maps/docs/calibration/E15-baselines.md (sha256 554c26ba...; outcome and sections 1-3, 6-12 restated; new section 13 'Round 3'; D16-D24, F7, F8)",
+  "/Users/cstokes/Desktop/Maps/docs/calibration/E15-baselines.json (2ca99a4a...; written by rows.py; round3 block, bands[id].stability on 60 rows, heldRows empty)",
+  "/Users/cstokes/Desktop/Maps/research/baselines/candidates/baselines.json (784e2373...; 491 rows = the landing's 478 + 13 appended; 60 notes carry R-50's marker)",
+  "/Users/cstokes/Desktop/Maps/research/baselines/plan.py (e7b4ac16...), plan.json (748707c3...), metrics.m-1.json (ee191172...): water.channelWidth in the registry twin; mfcgRecordedDraw block (R-51)",
+  "/Users/cstokes/Desktop/Maps/research/baselines/rows.py (e7509b38...), bands.py (f5d3bbc7...), cross_check.py (03c6d5c1...): W-15's tools continued (R-47 (a))",
+  "/Users/cstokes/Desktop/Maps/research/baselines/measure_mfcg.py (2a46bcef...): new --plan-widths mode (R-51 (4)); fixture and plan outputs unchanged",
+  "/Users/cstokes/Desktop/Maps/docs/calibration/E07-mfcg-signature.widths.json (new, 4e4c1907...) and E07-mfcg-signature.md section 11 (4c972376...)",
+  "/Users/cstokes/Desktop/Maps/docs/digest-candidate/01-ng-sigma-frame.md, 04-hollow-block-definition.md, 06-deep-interior-shares.md, 09-ftg-city-family.md (restated on the applied design)",
+  "/Users/cstokes/Desktop/Maps/docs/calibration/E17-implementer-digest.md (cbba04d6...; section 1 bytes and hashes corrected, section 4 receipts filled, D5 history, section 9 'Round 3')",
+  "/Users/cstokes/Desktop/Maps/docs/calibration/results/W-15.json (042a9910...; status partial -> landed, continuedBy m1/round3-apply)",
+  "/Users/cstokes/Desktop/Maps/docs/calibration/results/round3-apply.json (this file)",
+  "scratch: /private/tmp/claude-502/-Users-cstokes-Desktop-Maps/35f80c37-a71f-4b8a-aa2a-ae5f9064cf55/scratchpad/m1r3/apply/ (backup/ of every file before its first edit, mirror/, dry runs, indep.py, scan and doc_checks outputs)"
+ ],
+ "checks": [
+  {
+   "check": "(a) the registry rename: plan.py's catalogue twin and metrics.m-1.json carry water.channelWidth (scratch mirror, atomic rename); plan.py --check SAME after; its catalogue check passing on today's V12",
+   "passed": true,
+   "receipt": "before: --check exit 2 'catalogue mismatch' (the verifier's receipt). Mirror: --check plan.json SAME, metrics DIFFERS; write; SAME SAME; --catalogue-check exit 0. Installed by mv of a copy; live regenerate: plan.json byte-equal (9ed325bd), metrics.m-1.json 8a0efa7e -> ee191172 (3 lines: id, basis, amendedBy); --check SAME SAME exit 0; --catalogue-check exit 0 (0 missing, 0 extra, draw.* nine members alike). Final gate re-run at the end: SAME SAME, catalogue 0"
+  },
+  {
+   "check": "(a) W-15's tools append the five held channel-width rows to the candidate; C1-C10 re-run",
+   "passed": true,
+   "receipt": "rows.py forms ftg/BIG_TOWN|BIG_CITY|METROPOLIS|CITY/water.channelWidth/all and mfcg/80/river+coast/water.channelWidth/all, appended after the 478 (D16; values read under the measuring records' own key, D17); each equals its old heldRows row apart from id and metric (compared); cross_check.py C1-C10 PASS, ACCEPTED (491 rows, 10 526 strings, 0 six-digit numbers, scan 0 hits on both lists)"
+  },
+  {
+   "check": "(b) R-50: S-V12-1's restated remedy on the MFCG rows (notes only; roles and bands unchanged) and FTG's 13 type7 band-rule rows (R-50 (4))",
+   "passed": true,
+   "receipt": "60 notes gain the marker: the 50 MFCG rows of appendix A, all 50 markers equal to appendix A character for character on exactly its 50 ids (49 from E13 rows[], fg.recoverability/130 from W-13's addendum draws, lo 0.4751-0.5302); 10 of the 13 FTG rows flagged (streams S-V12-1|capture/FTG/BIG_TOWN draws f3bb0964..., BIG_CITY 1ccd24c6...; stable: BIG_TOWN street.runs lane 0, BIG_CITY street.runs street 0, BIG_CITY wall.towerSpacing 12 flips); among the first 478 rows only these 60 notes differ (compared with the landing's candidate); longest note 198; bands[id].stability on all 60 in E15's JSON; an independent implementation (own code) reproduced all 13 FTG flip counts, the 10 flags and the lo intervals"
+  },
+  {
+   "check": "(b) R-51: D28's eight rows (recorded family block in plan.py, load_plan's lines and C7 fixtures, measure_mfcg.py extension with --check / --red, rows with receipts)",
+   "passed": true,
+   "receipt": "plan.json gains mfcgRecordedDraw (12 members, recording order), counts 12, an amendments entry; families and ftg byte-equal; guard: a swap of members 10/11 refused exit 2, an append accepted (mirror). measure_mfcg.py --plan-widths 4/4 PASS, --red 2 red exit 1, byte-deterministic; W-07 --check and W-07b --plan re-run byte-identical to E07's two JSON files (16 s, 39 s), their --red 2 and 3 red. Rows: draw.casingLaw 1 [1, 1] type7 n 11 (9 uncased), draw.roundJoins 0.9999 [0.9998, 1] n 12, draw.roundCaps 0.9971 [0.991, 0.9992] n 12 descriptive, draw.wallsAfterBuildings 1 [1, 1] minmax n 8 (4, 5, 6, 8 truncated-log), draw.widthPx at size 40 wall 6.3403 [6.0086, 7.0661], tower 12.6806 [12.0171, 14.1322], roadCore 6.674 [6.3248, 7.438], pier 4.0044 [3.7949, 4.4628] px type7 n 10 (+-15 % bands); receipts 17/17 (recording flags 12, pooled 0.99998 / 0.99905, widths 4); independent recompute equal"
+  },
+  {
+   "check": "(b) C1-C10, the T-V12 fixtures and the kinds re-run on the 491-row candidate",
+   "passed": true,
+   "receipt": "C1-C10 PASS ACCEPTED (C10 now each string and key on its own, R-52; F7: the joined form let a 3-gram run span a marker and the next row id, fixed; the first run was refused on C3/C10 by that and by the draw notes' date run, D20); --fixtures 46/46 (41 + R-51 C7 pass, two C7 refusals, F2 C6 pass, R-50 longest note C3 with scanner); --kind ng-faces ACCEPTED; --kind denylist ACCEPTED; --tv12-28 exit 1: baselines.json 70 number runs per list whole-text, ng-faces 0; rows.py --check SAME SAME, --red 5/5; bands.py --selftest 12/12 (all re-run as the final gate after the last edit)"
+  },
+  {
+   "check": "(c) W-17 digest: entry (6) states the applied deep test (thickness > 0.6 x the band plot depth) and the MFCG preset entry; the bent-cut entry carries sigma 0.084 / 0.094; doc_checks on each touched entry",
+   "passed": true,
+   "receipt": "06: section 3 'both section 7.6 changes stand applied' (MFCG entry 0.813 / 0 / 0 / 0.187; the NG step with J-2's extension to cut.bendMode and cut.flattenM), section 4 the applied 0.6 x test (21.6 m at modest; 593 of 597, court 0.465 vs 0.462), section 5 J-1/J-2 vetoable; 01: sigma 0.084 plain / 0.094 ring as applied in 13.5, 16 M0 (b) and 4.6. doc_checks --heads ARCHITECTURE on 01, 04, 06, 09: C1 C2 C3 C4 S1 S2 all 0 hits, exit 0 each (151, 149, 149, 164 s); scanner twin with no allow file, both lists: 0 hits every class, exit 0 (five phrases of the first wording reworded, no allow row)"
+  },
+  {
+   "check": "(d) the verifier's W-15 notes: E15's T-V12-28 line; N-26's count as measured; W-17 entries 4 and 6 state the applied 0.6 x test and call the 7.6 changes applied (with J-2's extension)",
+   "passed": true,
+   "receipt": "E15 section 3 T-V12-28: 'passes under D13 (vetoable; R-54), the strings-and-keys reading R-52 rules for M0's scanner ...; fails whole-text until N-26 is applied at M0-k-06' (N-26 is ruled, not yet applied, so the conditional form stays); '140 runs' -> '70 distinct number runs, each hit once on each of the two lists (140 hits)' in E15 outcome, sections 3 and 11 and W-15.json (re-counted: 70 per list on both the 478- and the 491-row candidate); entry 4 section 3 and entry 6 sections 3-4 as in (c); E15 section 2's n-0 sentence (R-53) and digest entry 9's repetition corrected"
+  },
+  {
+   "check": "E15 updated with a round-3 section; W-15.json restated (R-50 (5) (v), R-51 (5) (vi))",
+   "passed": true,
+   "receipt": "E15 section 13 (13.1 rename, 13.2 R-51 with the 13 appended rows' table, 13.3 R-50 with the FTG table, 13.4 checks, 13.5 independent recompute and W-07/W-07b reproductions, 13.6 CONFIRMED/PLAUSIBLE); sections 6 (remedy is R-50's, loads withdrawn by J171), 7 (marked rows into the shift record; 4 width flips), 8 (63 hand-off cells), 9 (held rows resolved), 10 (D16-D24), 11 (N-26 count; F1/F2 resolved; F7; F8). W-15.json: status landed, 'candidate is complete' passes (0 held), owner note restated, 57 -> 56 cells corrected (63 since round 3)"
+  },
+  {
+   "check": "content checks of the touched records (research-side; not crossing files)",
+   "passed": true,
+   "receipt": "doc_checks --heads ARCHITECTURE: E15 C1 0, C2 0, C3 25 hits / 19 unreviewed, C4 0, S1 0, S2 0; E07 C1 0, C2 0, C3 38 / 37, C4 0, S1 0, S2 0; E17 C1 2 / 0 (reviewed), C2 0, C3 11 / 11, C4 0, S1 0, S2 1 / 1 (the draft's pointer to E07 section 9.8, pre-existing); exit 1 by the unreviewed count as earlier records report; all read: digit runs and our own phrases; the round-3 extracts of E15 section 13 and E07 section 11 hit only the model-width digit run, reworded; no reference word list, palette, grammar or identifier; no allow row added"
+  },
+  {
+   "check": "the machine rules, the clean room and git",
+   "passed": true,
+   "receipt": "no benchmark; one heavy process at a time under nice 10 (doc_checks, measure_mfcg runs sequential); disk 11 GiB free, memory 73-74 % free at start and end; nothing written into plat/ (git status: plat/ changes are M0's build seats'); no website; no git command changed state; the old id token appears in none of the round-3 outputs (plan.json, metrics.m-1.json, candidate, E15 JSON, W-15.json: 0 by grep)"
+  }
+ ],
+ "design_corrections": [
+  "No new DC from this lane. For the design seat applying DC-40 and the round-3 hand-off (E15 section 8 / JSON designHandoff, 7 new cells): draw.widthPx at size 40 over the ten plan seeds p50 [p10, p90] wall 6.34 [6.01, 7.07], tower 12.68 [12.02, 14.13], road core 6.67 [6.32, 7.44], pier 4.00 [3.79, 4.46] px, px per metre 0.834 [0.791, 0.930] (the fixture's 6.2 / 12.4 / 6.5 / 3.9 px as history; passing-to-failing 5.27-5.39, 10.54-10.78, 5.525-5.67, 3.315-3.40 for the shift record); the recorded-family rows: casing law 11 of 11 cased recordings (1 uncased), round joins 0.99998 pooled (0.9999 [0.9998, 1] per recording), walls after buildings 8 of 8 complete logs, round caps 0.99905 pooled (descriptive)",
+  "13.5 water cell: the channel-width rows are no longer held (FTG 44.0 / 46.1 / 29.8 m at BIG_TOWN / BIG_CITY / METROPOLIS, bands 37.40-61.59, 28.34-60.07, 20.14-34.83; CITY 37.1 descriptive; MFCG stress 83.9 m descriptive): 'held until the registry carries the metric's renamed id' can read as current rows"
+ ],
+ "carry_rows": [],
+ "owner_notes": [
+  "R-54 / E15 D13 stays flagged for the owner's veto (C10's twin and, by R-52, M0's scanner read a crossing file's strings and keys, not its numbers); round 3 made the twin's C10 actually read each string on its own (F7) - R-52's text had said it already did; a veto of D13 also undoes that change",
+  "R-50 (4): 10 FTG rows carry the stability marker (BIG_TOWN street.runs arterial / street / track, outline.r90cv, outline.roadRatio; BIG_CITY street.runs arterial / lane / track, outline.r90cv, outline.roadRatio) - vetoable with R-50 (4); R-51's recorded family and draw.widthPx route vetoable as R-51 says",
+  "W-15 is landed now (its result file restated); W-20 still crosses only after M0-k-06 reads the crossing files by strings and keys (N-26) and with the owner's word re-confirmed in the chat of the day; nothing owner-gated was decided here"
+ ],
+ "notes": [
+  "outcome: all four brief items applied and verified; candidate 491 rows (FTG 227, MFCG 119, NG 145; 257 target, 92 weakness, 142 descriptive), C1-C10 PASS, 0 rows held; plan.py --check SAME with water.channelWidth; 60 stability markers; 8 draw rows; W-17 entries 01/04/06/09 on the applied design, each 0 on doc_checks and both scans",
+  "JUDGMENT (each vetoable, recorded as E15 D16-D24): append the 13 rows after the 478 rather than in natural order (D16); read E05/E07 values under the key their tools wrote and write the registry id (D17); widths in a new record E07-mfcg-signature.widths.json rather than inside E07's plan JSON, which would move E13's recorded input hash (D18); C10 per string, R-52's reading (D19); draw notes without the recording dates (D20); one FTG draw set per size (D21); draw shares as 1.0/0.0 and casing = paired/cased (D22); plan.py guard keeping recorded draw members (D23); W-15.json status landed (D24). Also: updated E17 sections 1 and 4 and digest entry 9 (verifier findings and R-53, outside the brief's literal entry list, fixed rather than left)",
+  "hazard F8 (CONFIRMED): R-51's block moved plan.json's hash 9ed325bd -> 748707c3 (families, slots, bindings byte-equal); E05 slots and E06 embed 9ed325bd, E08/E09 older hashes; byte reproductions compare all but the plan hash or use git HEAD 339ef9f's plan.json. Memory candidates for the session: this hazard; and 'the deny-list scanner's 3-grams cross line breaks, so scanning strings joined by newlines finds runs spanning two strings'",
+  "not done, by design: the design text (DC-39..DC-41 are the design seat's); E01, M-1-plan.md, M-1-work.json, docs/PROGRESS.md (the session's); W-17-draft.json left as the draft's history (E17 carries the current hashes); E07's earlier sections keep the measuring key (history, D17)",
+  "CONFIRMED (executed): every number, hash and check above. PLAUSIBLE: that the draw style is size-invariant enough for one recorded family to serve every setting (E07 section 7; DC-40 states it); that the 4.8 m pier default is the plank a plain export would draw; that no reader needs a stability marker before M1's parity report"
+ ]
+}

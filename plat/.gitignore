@@ -1,0 +1,11 @@
+# PLAT build outputs and installs (M0-s-01; C-0031). Vendored libraries keep their own dist/ folders, so build
+# outputs are ignored by path, never by a bare "dist/".
+node_modules/
+/packages/*/dist/
+/bench/dist/
+coverage/
+*.tsbuildinfo
+/bench-out/
+# The Maps repository's root .gitignore ignores plat/**/dist/; a vendored library's own dist/ is vendored bytes
+# (vendor.lock.json hashes it), so it is re-included here.
+!/vendor/*/dist/

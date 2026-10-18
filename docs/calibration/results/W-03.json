@@ -1,0 +1,87 @@
+{
+ "id": "W-03",
+ "status": "partial",
+ "records": [
+  "docs/calibration/E03-mfcg-sweep.md",
+  "docs/calibration/E03-mfcg-sweep.json"
+ ],
+ "outputs": [
+  "research/baselines/mfcg_sweep_m1.mjs",
+  "research/baselines/sweep_m1.sh",
+  "research/baselines/check_w03.py",
+  "captures/mfcg/exports-sweep-m1-2026-10-03/ (34 x JSON+SVG+PNG, 205 MB; export-log.jsonl, loads.jsonl, stats.py/stats.md/stats.json, export-check.json, probe/, README.md, disk.log)"
+ ],
+ "checks": [
+  {
+   "check": "build-id check (plan section 9)",
+   "passed": true,
+   "receipt": "resolveTargetUrl('mfcg') at 13:17 -> html-classic.itch.zone/html/12710731; all 34 JSON values feature: mfcg 0.11.5 (check_w03 C5). No pin shift (CONFIRMED)"
+  },
+  {
+   "check": "row: 35 of 35 exports with Blob = download (sameAsDownload)",
+   "passed": false,
+   "receipt": "34/35: check_w03 C2 - 68 files, sha1 on disk = logged download = in-page Blob (sameAsDownload) for all 34 seeds; capture/MFCG/130/plain/8 (seed 1413909430, load 29) gave no JSON in 180 s and its page then ignored input for the 600 s protocol limit (download folder empty; timing 13:34:13 + 781.5 s = 13:47:15 crash) (CONFIRMED); a deterministic generator freeze is PLAUSIBLE"
+  },
+  {
+   "check": "row: canonical href carries the plan seed and the plain options",
+   "passed": true,
+   "receipt": "check_w03 C3: all six hrefExpect keys equal hrefAfter on 34/34 (CONFIRMED)"
+  },
+  {
+   "check": "row: re-export of seed 0 at size 40 byte-identical",
+   "passed": false,
+   "receipt": "not run: a cold re-export is a 36th load, outside J159. Substitute: same-load re-export through the app's window with downloads denied, in-page Blob = URL-export JSON on 33/33 seeds (C4) (CONFIRMED); weaker - exporter determinism, not regeneration"
+  },
+  {
+   "check": "work.json: retries recorded in sample.failed",
+   "passed": true,
+   "receipt": "check_w03 C6: /80/river+coast/1 retry (2 attempts), /4 retry (3 attempts), files kept; /130/plain/8 no-export; every planned slot accounted for (CONFIRMED)"
+  },
+  {
+   "check": "loads within J159 (35)",
+   "passed": true,
+   "receipt": "C1: loads.jsonl 35 lines, 35 distinct plan seeds, all on build 12710731 with the plan query; one document request per recorded load (CONFIRMED)"
+  },
+  {
+   "check": "checker red test",
+   "passed": true,
+   "receipt": "APFS clone with one SVG byte flipped and one href edited: C2 and C3 FAIL, exit 1; real folder exit 0 (CONFIRMED)"
+  },
+  {
+   "check": "tool mechanics before live loads",
+   "passed": true,
+   "receipt": "local file:// mock pages (no network): window/menu crop guards incl. mismatch -> probe fallback, denied re-export, retry flag, load cap, frozen page (record first, bounded screenshot, stop), orphan reconcile (CONFIRMED)"
+  },
+  {
+   "check": "stats.py on the folder",
+   "passed": true,
+   "receipt": "stats.py copied byte-identical (sha1 f490ea64...), run -> stats.md (74 lines) / stats.json; unit ratio 4.0 in all 34 (CONFIRMED)"
+  },
+  {
+   "check": "doc_checks corpus drift from the new folder",
+   "passed": true,
+   "receipt": "V12 and ARCHITECTURE with vs without the folder (symlinked root): corpus +49 JSON / +1973 3-grams, all hit counts and unreviewed lines identical -> 0 new hits (CONFIRMED)"
+  }
+ ],
+ "rows": 34,
+ "build_ids": [
+  "MFCG itch:12710731 (JSON 0.11.5), re-resolved 2026-10-03 17:17Z, unchanged - no pin shift"
+ ],
+ "owner_notes": [
+  "J159 usage: 35 of 35 loads and 68 of 70 downloads (34 JSON + 34 SVG); the failed seed downloaded nothing. No login, account, payment, terms or consent prompt appeared. The build-id check fetched the public itch game page once.",
+  "Each load of the build also makes its own requests to itch.io (1), static.itch.io (1) and armoria.herokuapp.com (3, PLAUSIBLY the city's coat of arms); recorded per load, not blocked (blocking would change the SVG).",
+  "To stay at 35 loads (the plan's one-navigation-per-file method needs 70; plan-check PC-06), each seed's single load gives the JSON by the URL key and the SVG through the app's own Settlement window (T, Export, SVG), every click guarded by reference crops.",
+  "To close the row, owner-gated: (1) 1 more load, 0 downloads (Blob read in-page) for seed 0's cold re-export; (2) 1 more load, 0 downloads expected, to confirm capture/MFCG/130/plain/8 freezes the generator; (3) optional replacement seed /130/plain/10 (1 load, 2 downloads) only after a design ruling; (4) if W-13 triggers S-V12-1's 20-seed fallback: 30 loads + 60 downloads, not covered by J159."
+ ],
+ "notes": [
+  "Sample for W-07/W-09/W-13/W-15: 40 plain 10/10, 80 plain 10/10, 130 plain 9/10 (i=8 no-export), 80 river+coast 5 captured / 3 usable (i=1, i=4 retry: canal and invalid-polygon failures, regenerated under other internal seeds; files kept, flagged). rows = 34 seeds exported; W-03 writes no baseline row.",
+  "Tool crash and fix (CONFIRMED): the first version moved the mouse after a failed load; the frozen page held it 600 s and the process died, losing load 29's console trace. The tool now writes a failed load's record before any input, bounds the screenshot to 20 s, never reloads a seed listed in loads.jsonl, and reconciles orphans; red-tested on a looping mock.",
+  "Seed 0 ran on the tool's first (single-click) version: finished by probe commands, then the tool's own load counter was padded with 34 marked lines to stop it before load 2 and restored (cmp identical to the saved one-line file).",
+  "Hazard for the session and W-02/W-04: profiler/session.mjs overwrites and deletes profiler/.session, which drive.mjs/export.mjs read; two concurrent session.mjs lanes would point FTG's one-shot drive.mjs at the wrong browser. W-03 avoided it with its own Chrome (scratch profile, deleted after; no response bodies stored).",
+  "Plan text to align (session's call): M-1-plan section 2 W-03, 2.2, section 5 item 2 and plan.json mfcgExport.perSeed still say one cold navigation per file.",
+  "Timing is contended (M0 build seats ran throughout): gen ms and export wall ms are recorded but feed no time.* row (PC-11).",
+  "For the section 12 / W-15 design seat: over ten seeds, size 40 gives 1209-1576 buildings (4/10 above TOWN's 1500), size 80 4205-5591 (1/10 under CITY's 4500), size 130 12889-14134 (all in METROPOLIS).",
+  "E03 self-check (doc_checks --doc E03 --heads ARCHITECTURE): C1 1/0, C2 0, C4 0, S1 0, S2 0, C3 21/20 unreviewed (paths, digit runs, our own phrases); exit 1 by that count; not a design-set file. Capture README marked PENDING FABLE REVIEW; no queue row written (outside this seat's write scope).",
+  "Disk: 16 GiB free before, 15 GiB after; folder 205 MB. No git run; nothing written into plat/."
+ ]
+}

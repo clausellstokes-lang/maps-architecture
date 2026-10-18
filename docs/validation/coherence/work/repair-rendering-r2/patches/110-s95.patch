@@ -1,0 +1,42 @@
+# §9.5: G120-rendering (Find among the tools; the legend's chips); G122-rendering (the legend's crisis entries, read by
+# V09's Show crises and Find's list of looks); G122h-rendering and VEW-r1-05 (R2-30: Fit the town and the opening view
+# over the limit bounds, stop 0 where they do not fit); items 121 (e) and 124 (e) (furniture over tiles, effects and text).
+@@ FILE 9.5.md
+<<<<
+  colour-coded category shown with its second cue beside its colour (g item 112); and a line naming the season and week
+  and, while one shows, the festival and its weeks (g items 117 (h), 118 (g)). Position, mode and border are view state.
+====
+  colour-coded category shown with its second cue beside its colour (g item 112); a line naming the season and week
+  and, while one shows, the festival and its weeks (g items 117 (h), 118 (g)); while a crisis look stands, an entry for
+  each — its look's glyph, its condition's name and weeks ("Refugee camp: the Northmarch migration, weeks 12–20"), as
+  DR44 admits it at the viewer's key — which V09's Show crises controls and Find's list of looks read (g item 122 (f));
+  and while Find is on, its chips — each chip's words, colour swatch and glyph (g item 120 (d), (i)). Position, mode and
+  border are view state.
+>>>>
+<<<<
+  saved as an annotation.
+====
+  saved as an annotation.
+* **Find (g item 120; J133).** A view tool among the tools, never an edit: its panel, type-ahead, chip grid and results
+  are V09's (V09 §4.21.10), screen-space furniture of the main thread; its state is §2.9's per-viewer key `find`; its
+  matches are §11.2's gazetteer match listing at the view's effective key; its marks are §8.2's *Find* rows, drawn by
+  `live.find`. It sends no event and changes no model, document, hash or log, and the model never reads it. **Go to**,
+  **Next** and **Previous** fly the view to the band that shows a match (§8.8's band entry stops) and **Go there** sets
+  the working layer and band (V04 §5.1, V05 §5.6) — view changes; a picture export draws Find as shown (§11.1).
+>>>>
+<<<<
+  limit (§8.8; g item 116) — the circle lies inside `bounds`, so the first view is the framing rule's at every rung, a
+  village's V07 §5.2's — and the view's **Fit the town** frames the whole `bounds` at the limit's stop less its margin
+  (V07 §5.2's township view at a village rung; V09). River tails and ribbon tips beyond the
+  percentile are outside unless the user frames them; a user frame is view state. Furniture sizes are CSS px × a UI
+  scale; device pixels are handled by the tiles.
+====
+  limit (§8.8; g item 116) — the circle lies inside `bounds`, so the first view is the framing rule's at every rung, a
+  village's V07 §5.2's; while a crisis look stands the circle is widened to contain every camp (§2.9's *The crisis
+  framing*) — and the view's **Fit the town** frames the whole limit bounds (§8.8: `bounds`, or town and camps while a
+  look stands) at the limit's stop less its margin, or at stop 0 where they do not fit (J122) (V07 §5.2's township view
+  at a village rung; V09). River tails and ribbon tips beyond the
+  percentile are outside unless the user frames them; a user frame is view state. Furniture sizes are CSS px × a UI
+  scale, drawn at the device's pixel ratio over the tiles, the weather effects and the text layer whatever the tile DPR
+  (§8.8; g items 121 (e), 124 (e)).
+>>>>

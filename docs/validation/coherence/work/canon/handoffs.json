@@ -1,0 +1,3323 @@
+[
+{
+"volume": "V01",
+"id": "IN-V01-1",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 4161,
+"dest": [],
+"status": "unstated",
+"text": "* **IN-V01-1 (J-VI.1, clean-room).** §2's block-content type is renamed `BlockKind` (two lines); its former name coincided with a reference class of the same role and is not repeated here (reworded by the continuation, J-VI.23). No meaning changed."
+},
+{
+"volume": "V01",
+"id": "IN-V01-2",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 4163,
+"dest": [
+"V03"
+],
+"status": "unstated",
+"text": "* **IN-V01-2 (J-VI.17 H33).** §3's crypt sentence now reads \"a crypt is `Basement.crypt`, a basement fact (V03 §3.7.4, BCR-V3-20)\" (edited in place)."
+},
+{
+"volume": "V01",
+"id": "IN-V01-3",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 4165,
+"dest": [
+"V02",
+"volume 2"
+],
+"status": "unstated",
+"text": "* **IN-V01-3 (J-VI.17 H8; V02 X14).** This volume's NG draw-style bars (the `hatched` family's parity rows) are re-measured on volume 2's `roofscape` construction at M6b (V2 §5.3); until M6b the NG parity sheet keeps `fakeGablePerWing`, volume 2's stated fallback. *Reconciled (round 1, seam S23-02):* V1-7 states the one sentence — from M6a the NG parity sheet keeps `fakeGablePerWing`; at M6b the bars are re-measured on `roofscape` and the sheet switches when they pass, else keeps `fakeGablePerWing`, reported — and V1-5.1.1 – V1-5.1.2 switch every other `hatched` sheet to `roofscape('twoTone')` and the per-facet hatch when stage 3 registers."
+},
+{
+"volume": "V01",
+"id": "IN-V01-4",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 4171,
+"dest": [
+"volume 6"
+],
+"status": "unstated",
+"text": "* **IN-V01-4 (J-VI.2).** `DistrictContext.raised[].reason` is the reason **word** derived from the raised-way record's `RaisedReasonKey` (volume 6 §2.13): viaduct → `'drop'`, elevated road → `'link'`, aqueduct → `'water'`; `'declared'` where the way's source, derived at read, is `declared` (its lifecycle cause an edit or a skeleton file; file f item 244 as ST-06 amends it: the source is never stored and has no `carried` value)."
+},
+{
+"volume": "V01",
+"id": "IN-V01-5",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 4175,
+"dest": [
+"integrator"
+],
+"status": "unstated",
+"text": "* **IN-V01-5 (J-VI.9).** V1-3.17.8's recommendation is adopted by the integrator: the aqueduct's terminal outlet is a `conduit_house` where the roster or the dossier holds one, else a fountain `Pin`."
+},
+{
+"volume": "V01",
+"id": "IN-V01-6",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 4177,
+"dest": [
+"coherence pass",
+"file f"
+],
+"status": "unstated",
+"text": "* **IN-V01-6 (J-VI.13).** DR-V1.1 is numbered **DR26** by the coherence pass (file f)."
+},
+{
+"volume": "V01",
+"id": "IN-V01-7",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 4178,
+"dest": [],
+"status": "unstated",
+"text": "* **IN-V01-7 (J-VI.4).** Wherever this volume's close-up tools meet an infeasible declaration that contradicts no dossier fact and no lock, the dry run bends it (item 101 R2); this volume already states so (§4, \"No wrong answers\")."
+},
+{
+"volume": "V01",
+"id": "IN-V01-8",
+"section": "Integration notes — continuation (volumes/_integrate, 2026-0",
+"line": 4335,
+"dest": [],
+"status": "unstated",
+"text": "* **IN-V01-8 (J-VI.23, clean-room).** IN-V01-1 no longer names the retired type (its former name coincided with a reference class), and J-V1.31's alternative is worded \"a block-kind-setting event\" for the same reason. No meaning changed."
+},
+{
+"volume": "V01",
+"id": "IN-V01-9",
+"section": "Integration notes — continuation (volumes/_integrate, 2026-0",
+"line": 4338,
+"dest": [
+"file f",
+"volume 11"
+],
+"status": "unstated",
+"text": "* **IN-V01-9 (J-VI.27).** The raised-way piers this volume's crossings and under-deck strip read (V1-3.17.3) are laid by file f item 244's support step; the soffit bound over a crossed way is that item's clearance rule (the held `clearanceCm`, else volume 11's `raisedWays.structure.clearanceCm` for the crossed class), which V1-3.17.3 already reads."
+},
+{
+"volume": "V02",
+"id": "X1",
+"section": "13 Fix list",
+"line": 4419,
+"dest": [
+"volume 2"
+],
+"status": "unstated",
+"text": "| X1 | 11 | `BuildingClassRow.templateFamily`'s note \"not read by any stage\" becomes \"read by S11's composition resolution (volume 2 §3.2) and the tables editor\" (also V11C-11 (4)) | none needed — V02 reads the column |"
+},
+{
+"volume": "V02",
+"id": "X2",
+"section": "13 Fix list",
+"line": 4420,
+"dest": [
+"V11"
+],
+"status": "unstated",
+"text": "| X2 | 11 | the compiler emits `footprintM2` p10 and p90 by V11 §3.6.1's derivation ratios (0.7 and 1.45 × p50, V11C-11 (1)), mirrored as V02's fixed `sizeBandLo`/`sizeBandHi` (reconciliation round 1, SCC-R0C-3) | V02 derives them itself (M10) |"
+},
+{
+"volume": "V02",
+"id": "X3",
+"section": "13 Fix list",
+"line": 4421,
+"dest": [
+"V11"
+],
+"status": "closed-stated",
+"text": "| X3 | 11 | the `manor` template override: prosperous p50 420 m², rich p50 650 m², rich plot 3 000 m², main-slot share ≥ 0.6 at prosperous and rich (V2 §3.10.3; J-V2.35); V11C-11 (5) proposes 320 / 550 m² — revise-V11 reconciles, V02's rows are measured against 420 / 650. **Landed:** V11 §3.6.1 adopted 420 / 650 (J-V11.39; SCC-21) | none needed |"
+},
+{
+"volume": "V02",
+"id": "X4",
+"section": "13 Fix list",
+"line": 4422,
+"dest": [],
+"status": "unstated",
+"text": "| X4 | 11 | the role table's `footprintShare` per structure (V11C-11 (2)) | `mainShareDefault` 0.6, the rest equal |"
+},
+{
+"volume": "V02",
+"id": "X5",
+"section": "13 Fix list",
+"line": 4423,
+"dest": [
+"V11"
+],
+"status": "closed-stated",
+"text": "| X5 | 11 | BCR-V2-26's `attic`, `parapetCm` and `towerStoreyCm` columns in V11 §2.8 and §3.6.4. **Landed:** V11 §3.6.4 writes their values once; V2 §3.10.6 keeps only the reading rule (SCC-20) | none needed (the fallback line is dropped) |"
+},
+{
+"volume": "V02",
+"id": "X6",
+"section": "13 Fix list",
+"line": 4424,
+"dest": [],
+"status": "unstated",
+"text": "| X6 | 11 | the naming slice `building.wingRole` (V2 §5.4) with our own word per `WingRole` — the item 110 fold adds \"a tier\", \"the shrine\", \"a stair\", and the second revision \"the seating\" and \"a gate passage\" for an `ovalCourt`'s solid and passage wings | the role id |"
+},
+{
+"volume": "V02",
+"id": "X7",
+"section": "13 Fix list",
+"line": 4425,
+"dest": [],
+"status": "unstated",
+"text": "| X7 | 11 | the `crypt` column (`always`, `basement`, `never`), `cryptM2`, `rankShare` (V3C-61, V11C-02 as switched) that §2.6's crypt derivation reads | T-V2-36's crypt part waits (V2 §8.4 R8) |"
+},
+{
+"volume": "V02",
+"id": "X8",
+"section": "13 Fix list",
+"line": 4426,
+"dest": [
+"V06"
+],
+"status": "unstated",
+"text": "| X8 | 6 | V06 §3.4 rasterises the epoch casters **per wing** (each wing's prism and roof rise, V2 §3.14.1), not one height per footprint; V06's line on W10 reads \"called through the mutator\" | none needed at generation (no building casts) |"
+},
+{
+"volume": "V02",
+"id": "X9",
+"section": "13 Fix list",
+"line": 4427,
+"dest": [
+"V08",
+"V11"
+],
+"status": "unstated",
+"text": "| X9 | 8 | V08's attribution: `MaterialRow`'s rows are V11's, and `materialFamily` reaches the material row only (V2 §1d) | none needed |"
+},
+{
+"volume": "V02",
+"id": "X10",
+"section": "13 Fix list",
+"line": 4428,
+"dest": [],
+"status": "unstated",
+"text": "| X10 | 9 | the `FM` building look in the style panel; tool rows for `setComposition room`, the secondary porch and `moveTower { shape }`; the `fantasyShapes` control in the advanced panel (V2 §4.4–§4.5) | the ops exist through the clerk and the skeleton file |"
+},
+{
+"volume": "V02",
+"id": "X11",
+"section": "13 Fix list",
+"line": 4429,
+"dest": [
+"V03"
+],
+"status": "unstated",
+"text": "| X11 | 3 | the plan reads wings by key (BCR-V2-27); unedited dormer rows follow the plan's roofed rooms and edited rows stay fixed (V2 §3.7; V3C-03); the choir stairs over the raised crypt's lift (V3C-61 (4)); the room role `gatehall` in V03's role table (V3C-04) | none — V02 states its side |"
+},
+{
+"volume": "V02",
+"id": "X12",
+"section": "13 Fix list",
+"line": 4430,
+"dest": [
+"V04"
+],
+"status": "unstated",
+"text": "| X12 | 4 | the dig draw's key carries the wing key for a wing the mutator adds (V2 §3.9 W6) in C4-52 / C4-58's key list; (k) (5)'s obstacle test reads V02's footprint and basement floor (V2 §3.14.5 (f)) | none — the draw is V04's |"
+},
+{
+"volume": "V02",
+"id": "X13",
+"section": "13 Fix list",
+"line": 4431,
+"dest": [
+"V07",
+"V11",
+"volume 7"
+],
+"status": "closed-stated",
+"text": "| X13 | 7 | a `templateFamily` column on V07's village class rows (J-V2.56). **Taken by volume 7 for the budget rows only** (J-V7.82 as amended by V07's reconciliation round 2, SR1-01; J-V7.101): every `v.` row names a V11 §3.6.1 `templateFamily`, from which its budget rows compile, read at the chain's step 4 after step 3; `composition.classFamily`, keyed by V07's `v.` keys, stays the one source of the village classes' composition keys and is read first (reconciliation round 2, S23R1-06; reconciliation round 3, SR2-10, SCC-71) | landed; none needed — V02's chain reads step 3 before step 4 |"
+},
+{
+"volume": "V02",
+"id": "X14",
+"section": "13 Fix list",
+"line": 4432,
+"dest": [
+"V01"
+],
+"status": "unstated",
+"text": "| X14 | 1 | V01's NG draw-style bars: from M6a the NG parity sheet keeps `fakeGablePerWing`; at M6b the NG bars are re-measured on `roofscape` and the sheet switches to it when they pass, else keeps `fakeGablePerWing`, reported (V2 §5.3; the one sentence of S23-02); the `hatched` hatch program is volume 1's V1-5.1.2, run per roofscape facet | the NG parity sheet keeps `fakeGablePerWing` |"
+},
+{
+"volume": "V02",
+"id": "X15",
+"section": "13 Fix list",
+"line": 4433,
+"dest": [
+"volume 5"
+],
+"status": "unstated",
+"text": "| X15 | 5 | the island rim-slab crypt vault as the island form of the `always`-crypt ladder (V2 §3.14.5 (d); C5-02 (3b)) | none — volume 5's form |"
+},
+{
+"volume": "V02",
+"id": "X16",
+"section": "13 Fix list",
+"line": 4434,
+"dest": [
+"base"
+],
+"status": "unstated",
+"text": "| X16 | 11 | *Item 110 fold.* The `deck` table (`DeckBudgetRead`: `footprintM2`, `maxFloors`, and the plot fields the base's deck plots read) keyed by deck kind × band, and a `deckOk` class column that never admits an `always`-crypt class (V2 §3.16); **second revision (V2C-58):** `deckOk` is read **per use** — false also for a use to which a dossier crypt record binds (C4-05), so S10b never places it on a deck, and volume 9's T6 bend (V9C-58 (2)) sends a hand placement landward | `deck.fallbackM2` [20, 60] m² and `deck.fallbackFloors` 2; without `deckOk`, every class the base places on a deck plot composes by its `@deck` row |"
+},
+{
+"volume": "V02",
+"id": "X17",
+"section": "13 Fix list",
+"line": 4435,
+"dest": [],
+"status": "unstated",
+"text": "| X17 | 11 | *Item 110 fold.* The specialisations `stepped_temple` (temple and great temple, by the region and era rows), `terraced_palace` (palace) and `tiered_tower` (tower), each naming its composition key (`stepped-temple`, `terraced-palace`, `tiered-tower`) in `DesignationTemplateRow.composition`, with their chance and cap rows (≤ 0.1 % of buildings); no tier geometry cell in volume 11 (J-V2.62) | only a declared class (the second fixture's) and the `family` op reach `stepped` |"
+},
+{
+"volume": "V02",
+"id": "X18",
+"section": "13 Fix list",
+"line": 4436,
+"dest": [],
+"status": "open-stated",
+"text": "| X18 | 3 | *Item 110 fold.* Plans of tiers: levels by `storeyRange`, no rooms in a `solid` wing, a landing door on `landingSide` for every storeyed wing standing on another, the shrine one room by its programme, a solid entrance wing's circulation rooted at the stair chain's head; no basement on a deck; the walk-out door where a retaining wall is the plot's low edge. **Second revision:** BCR-V2-41's root (a solid stack's main entrance at the stair's foot, the plan rooted at the first landing door, no plan above the ground without a storeyed wing, its basement storeys and access heads still planned; seam S23R2-11) — V3C-66 (3)'s \"main door on the shrine\" withdrawn (V2C-53); `W_TIER_UNREACHED"
+},
+{
+"volume": "V02",
+"id": "X19",
+"section": "13 Fix list",
+"line": 4437,
+"dest": [
+"volume 4"
+],
+"status": "unstated",
+"text": "| X19 | 4 | *Item 110 fold.* A ruin's stepped monument laid by `layTiers` with the `stepped-monument` row at its ancient-culture band, on its ruin stream, decayed by its persistence order; the vaults under raised ways are volume 4's own (item 110 (b)) | none — V02 supplies the function and the row |"
+},
+{
+"volume": "V02",
+"id": "X20",
+"section": "13 Fix list",
+"line": 4438,
+"dest": [],
+"status": "unstated",
+"text": "| X20 | 5 | *Item 110 fold.* The caster ceiling reads the stack's envelope (V2 §3.15.2); an island palace or temple may take a stepped row; its crypt is the rim-slab crypt vault under the building's lowest massing tier, inside underside tier 0 (the rim slab) (J-VI.7) | none |"
+},
+{
+"volume": "V02",
+"id": "X21",
+"section": "13 Fix list",
+"line": 4439,
+"dest": [
+"volume 11"
+],
+"status": "unstated",
+"text": "| X21 | 9 | *Item 110 fold.* T9's tier controls (tier stepper, step handle, stair-form and top-form chips, a per-tier storey or height stepper) emitting `setMassing { op: 'tiers' }` and `setAttr`; the deck-plot badge reading volume 11's row; \"plots on a bridge deck stay staged\" deleted. **Second revision (V2C-47, V2C-56):** the shape, skirt and solid chips, a shrine-inset handle, the centre and radius handles on a round or octagonal tier 0, the `none` choice on the stair-form chip; the words of every bend id of V2 §1b; **V9C-59 (4)–(5) and J-V9.67 (widening V09's refusal list by \"a rule of a building's structure or of nature\") are withdrawn** — item 101 R2 admits no such refusal, and V02 ben"
+},
+{
+"volume": "V02",
+"id": "X22",
+"section": "13 Fix list",
+"line": 4440,
+"dest": [],
+"status": "unstated",
+"text": "| X22 | 10 | *Item 110 fold.* The clerk's tier calls and V2 §4.6 (7)'s why facts; **second revision:** the new `tiers` fields, the bends (the clerk says the bend's line and its alternatives, never \"cannot\"), and the facts `massing/bend/<id>`, `stack.grade` and the derived aspect | the events |"
+},
+{
+"volume": "V02",
+"id": "X23",
+"section": "13 Fix list",
+"line": 4441,
+"dest": [
+"base"
+],
+"status": "unstated",
+"text": "| X23 | 6 | *Item 110 fold.* Tiers added or removed over epochs by V2 §3.15.5's rows; deck buildings falling with their deck at an epoch by the base's fate rule; a solid monument never re-roofed; **second revision:** a stack's Works in stack order, solid wings by courses (BCR-V2-40; V2C-51); an epoch's raised way clearing **every** building meeting its supports or strip by V6 §3.19 (7), households displaced with cause `clearance` (V2 §3.17 (b) as reconciled, ST-08; the low-building exception and `raised.clearCm` withdrawn); `rebaseStack` on an epoch's terrain change (C6-51's caster top current) | none — the rows exist |"
+},
+{
+"volume": "V02",
+"id": "X24",
+"section": "13 Fix list",
+"line": 4442,
+"dest": [
+"V01"
+],
+"status": "unstated",
+"text": "| X24 | 1 | *Item 110 fold.* The `hatched` family draws a stack in its order (a wing before the wings standing on it) and hatches `stairFlight`'s treads across the flight, counted and spaced by `stairTreads` (V2 §2.6; S23-07: V1-5.1.2 reads it) | the per-wing constructions' stack order and treads (BCR-V2-36) |"
+},
+{
+"volume": "V02",
+"id": "X25",
+"section": "13 Fix list",
+"line": 4443,
+"dest": [
+"volume 12"
+],
+"status": "closed-stated",
+"text": "| X25 | 12 | *Item 110 fold.* The second known-city fixture's building bars are T-V2-44 – T-V2-47 (V2 §7.7); its golden and its own bars are volume 12's; **second revision:** T-V2-51 on its terraced wards and T-V2-42's arena bar (a closed `ovalCourt`, hull aspect 1.15–1.4, floor ≥ 10 % of the hull, seating solid); the fixture declares its arena's precinct (60 × 50 m or larger) and its temple's precinct (V2 §3.10.3's receipt hints) | none |"
+},
+{
+"volume": "V02",
+"id": "X26",
+"section": "13 Fix list",
+"line": 4444,
+"dest": [
+"V07",
+"V11",
+"volume 11"
+],
+"status": "closed-stated",
+"text": "| X26 | 7 | *Item 110 fold.* **A village class takes tiers only through volume 11's region and era specialisations, applied to the `v.` class that plays the row's class, under V07's `rules.tiers.capPerSettlement` (V11 §3.24.3; reconciliation round 2, SCC-50); none by default** (second revision, V2C-70: the fold's flat ban was a hard-coded universal, item 23); a village's piers and bridges take deck buildings by the `@deck` rows and volume 7's deck cell at village rungs | the town's `@deck` rows (V11 §3.24.3's village reading has landed, SS-31) |"
+},
+{
+"volume": "V02",
+"id": "X27",
+"section": "13 Fix list",
+"line": 4445,
+"dest": [],
+"status": "unstated",
+"text": "| X27 | 11 | *Second revision (V2C-59).* An `arena` template override: plot p50 2 500 / 4 000 / 6 000 / 9 000 m² (own; the historical amphitheatres' 1 400 – 11 000 m² hulls), footprint \"the claim's\" (so `slotBand` reads the `arena` row's `claimShare` .5–.8), main share 1; and the two naming entries \"the seating\" and \"a gate passage\" in `building.wingRole` (X6) | the arena's declared plot (a fixture's), else — until SCC-11 lands V11's `arena` plot row — the claim V11's row gives, where M3 removes `ovalCourt` if it cannot hold the least oval and M14 lays the fallback, reported. **Reconciliation round 1 (SCC-12):** the `arena` class now reads V11's own `arena` family and V02's `arena` family ro"
+},
+{
+"volume": "V02",
+"id": "X28",
+"section": "13 Fix list",
+"line": 4446,
+"dest": [
+"base",
+"coherence pass"
+],
+"status": "unstated",
+"text": "| X28 | base (the coherence pass, item 110 (d)) | *Second revision (V2C-66 (2), (6)).* The deck-plot record carries `landmark: boolean` (a mole's head and mid-mole slots, and a bridge's mid-span slot where V9C-58 (7) is adopted), which S11 copies to `DeckContext.landmark`; a `Bridge` of kind `ford` or `draw`, or with no `deckCm`, offers no deck plot; a quay platform built on the bank is flagged ground (`DeckContext.surfaceCm` null) | S11 reads `landmark` false and `surfaceCm` from the host; a ford's or drawbridge's plots are not offered by V02's reading |"
+},
+{
+"volume": "V02",
+"id": "X29",
+"section": "13 Fix list",
+"line": 4447,
+"dest": [],
+"status": "unstated",
+"text": "| X29 | 4 | *Second revision (V2C-67 (2), V2C-48 (4)).* The chamber record gives its ceiling (an arch vault's soffit, C4-110-1), which M11's `vaultClamp` reads for a building on the underground layer; the ruin stage calls `drawTiers` and `layTiers` alone with `TierCells.heights`, `plinthCm` 0, `parapetCm` 0, `scale` 1, and handles a `TierFailure` | no clamp (the `@underground` rows' one flat storey) |"
+},
+{
+"volume": "V02",
+"id": "X30",
+"section": "13 Fix list",
+"line": 4448,
+"dest": [
+"volume 2"
+],
+"status": "closed-stated",
+"text": "| X30 | 3 | *Reconciliation round 1 (S23-30, -31, -07, -38).* W2 reads \"On every side of every wing, volume 2's `facadeBays(wing, side, bayM)`\" (a tower's bays round its free perimeter, V2 §3.7); 3.7.4 step 1 reads \"under `cryptSeedWings(b)` (V2 §3.14.5 (c)); where it is empty, the far third of the region from the main entrance\"; 5.1's exterior flights by `stairTreads` (its `goingCm` for interior stairs); T-V3-25 carries the poor manor's three-units clause; the half cellar's floor at the datum less half the depth (V03 3.3 unchanged) | applied by volume 3's reconciliation round 2 (V03 RC2.1–RC2.3; reconciliation round 3, S23R2-07) |"
+},
+{
+"volume": "V02",
+"id": "X31",
+"section": "13 Fix list",
+"line": 4449,
+"dest": [
+"V01"
+],
+"status": "unstated",
+"text": "| X31 | 1 | *Reconciliation round 1 (S23-07, ST-08).* V1-5.1.2's stair-flight hatch reads `stairTreads`; V1-3.17.3 (2) and V1-3.17.4 stand as written — V02's add path now clears the same set | none |"
+},
+{
+"volume": "V02",
+"id": "X32",
+"section": "13 Fix list",
+"line": 4450,
+"dest": [
+"V11"
+],
+"status": "closed-stated",
+"text": "| X32 | 11 | *Reconciliation round 1 (SCC-12, SCC-11).* X-V11-9 is answered by V02's `arena` family row; SCC-11's `arena` plot row (plot p50 2 500 / 4 000 / 6 000 / 9 000 m², footprint \"the claim's\", `gate` structures absorbed) is what V02 reads; the role table's `gate`, `charnel house`, `mortuary chapel` and `lychgate` shares feed M10 as written (V11 §3.6.5) | X27's fallback |"
+},
+{
+"volume": "V02",
+"id": "X33",
+"section": "13 Fix list",
+"line": 4451,
+"dest": [
+"V12",
+"volume 12"
+],
+"status": "closed-stated",
+"text": "| X33 | 12 | *Reconciliation round 3 (SCC-58, with volume 12's SCC-56); round 4 (SCC-74).* The metric family `bar.<barId>` — the verdict statistic of one registered owner bar — which V2 §3.10.10's lines name as `bar.T-V2-<n>`: **landed** (V12 §2.1, J-V12.65); V02 owes the registrations of V2 §3.10.10 (its `BenchBarDef` table, each written by the seat landing its line's milestone, X-V12-15) | none (J-V12.64's fallback was declined by J-V12.65) |"
+},
+{
+"volume": "V02",
+"id": "IN-V02-1",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 4474,
+"dest": [],
+"status": "unstated",
+"text": "* **IN-V02-1 (J-VI.7).** §13's X20 now reads \"its crypt is the rim-slab crypt vault under the building's lowest massing tier, inside underside tier 0 (the rim slab)\" (edited in place; C5-55)."
+},
+{
+"volume": "V02",
+"id": "IN-V02-2",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 4476,
+"dest": [
+"V03",
+"volume 3"
+],
+"status": "closed-stated",
+"text": "* **IN-V02-2 (J-VI.17 H10; volume 3's second-round hand-offs).** (a) BCR-V2-33's external-access condition — `external` where no ground wing is storeyed (every wing standing on no other wing is solid), the door at volume 3's `basementDoor(b)` (V03 §3.7.1: a retaining wall's side first, else the tomb door) — is applied in BCR-V2-33 and V2 §3.15.3 (reconciliation round 3, S23R2-03); every pointer of this volume to the solid stack's door reads \"its door at volume 3's `basementDoor(b)` (V03 §3.7.1: the tomb door, or the wall's side where the stack stands against a retaining wall)\" (seam S23R2-12). (b) V2 §3.17 (a)'s walk-out sentence points at BCR-V3-27 (a) (the walk-out at a retaining wall), wh"
+},
+{
+"volume": "V02",
+"id": "IN-V02-3",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 4486,
+"dest": [
+"V10"
+],
+"status": "unstated",
+"text": "* **IN-V02-3 (J-VI.17 H11; CVR-V10-8).** The entity registry carries the path `deck/landmarks/<head|mid>` on a deck's host (a mole, pier, quay platform or bridge), naming its landmark plots (`DeckContext.landmark`), and `massing/stack` is readable with each tier's wing key in tier order; both are read-only paths for volume 10's providers and volume 9's panels."
+},
+{
+"volume": "V02",
+"id": "IN-V02-4",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 4490,
+"dest": [],
+"status": "unstated",
+"text": "* **IN-V02-4 (J-VI.4, J-VI.5).** This volume's second-revision rule — no structural refusal, a bend for every case (V2 §1b's bend ids; V2C-47) — is the rule every volume now follows (item 101 R2), and its tier contract (`drawTiers`, `layTiers`, `TierFailure`, `massStepped`, `TierCells.heights`, the `none` stair form, `MassingRef.stack.grade`, `rebaseStack`, the stack order in `heightsAt`, `vaultClamp`) is adopted by volumes 4, 6, 9 and 10 as stated here."
+},
+{
+"volume": "V02",
+"id": "IN-V02-5",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 4494,
+"dest": [
+"file f"
+],
+"status": "unstated",
+"text": "* **IN-V02-5 (file f).** X28's deck-plot fields (`landmark: boolean`; no deck plot on a `ford`, a `draw` bridge or a bridge without `deckCm`; a quay platform on the bank flagged ground) are carried by file f with item 110 (d)'s record."
+},
+{
+"volume": "V03",
+"id": "IN-V03-1",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 3533,
+"dest": [
+"V10",
+"volume 10"
+],
+"status": "unstated",
+"text": "* **IN-V03-1 (J-VI.17 H18; CVR-V10-2, CVR-V10-9).** This volume registers, for volume 10's clerk: (a) the `crypt` section provider over `Basement.crypt` — presence by the class's `crypt` value, area and form, the principal crypt, the crypt join, or no crypt — with its `info.crypt.*` catalogue keys; (b) in its `plan` section one catalogue key per item-110 room cause of 3.x's list (`landingDoor`, `terraceDoor`, `terraceExit`, `seatingExit`, `walkOut`, `tombDoor`, `gradeFace`, `deckNoCellar`, `stoop`, `exposure`, `stackCarried`). `deckNoCellar` (renamed from `deckRefusal` by reconcile-V03-r1, S23-17) names why a deck building has no cellar (a fact of the deck, volume 2's BCR-V2-34), not an edit"
+},
+{
+"volume": "V03",
+"id": "IN-V03-2",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 3540,
+"dest": [
+"volume 2"
+],
+"status": "unstated",
+"text": "* **IN-V03-2 (J-VI.4).** A basement or cellar request on a deck building, and every other plan edit that contradicts no dossier fact and no lock, is bent by its dry run (item 101 R2; volume 2's `bend.deck.basement`, S23-17 — `bend.deck.single` is volume 2's family bend for small light buildings on a bridge, not this one); no plan edit is refused on a structural ground."
+},
+{
+"volume": "V03",
+"id": "IN-V03-3",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 3544,
+"dest": [
+"volume 2"
+],
+"status": "closed-stated",
+"text": "* **IN-V03-3 (J-VI.5).** The tier facts this volume reads (`storeyRange`, `BaseWing.on` and `.solid`, `stairChain`, `landingSide`, `MassingRef.stack`) are volume 2's second revision as landed; its `W_TIER_UNREACHED` flags a storeyed wing on a sealed (`none`) stack, which volume 2 now admits."
+},
+{
+"volume": "V04",
+"id": "IN-V04-1",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 3772,
+"dest": [
+"V11",
+"volume 11"
+],
+"status": "unstated",
+"text": "* **IN-V04-1 (J-VI.6).** `growthCapShare` is volume 11's 0.01 **per year, compounded over the epoch's span** (V11 §3.23.8, J-V11.32): the defaults table, V4 §3.5.1, the epoch step and T-V4-52 now read `max(extent × ((1 + growthCapShare)^years − 1), growthFloorM2)` (edited in place). The defaults table's rows that volume 11 owns — the ruin chances, the cultures and their monument cells, the survival order, the source weights, the openings, the dig rows, the catacomb rows — are read from V11 §3.23 and their values here are illustrations of those rows (X-V11-4)."
+},
+{
+"volume": "V04",
+"id": "IN-V04-2",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 3777,
+"dest": [
+"volume 2"
+],
+"status": "unstated",
+"text": "* **IN-V04-2 (J-VI.5; volume 2's X19, X29).** The ruin stage lays a stepped monument by calling volume 2's `drawTiers` (ST1, on the ruin's stream) and then `layTiers` alone, with `TierCells.heights` of the `stepped-monument` row, `plinthCm` 0, `parapetCm` 0 and `scale` 1; a returned `TierFailure` truncates the monument to the tiers laid (recorded in `Chamber.monument.standing`, warning `W_RUIN_MONUMENT_SKIPPED` when none). An `archVault` chamber's record gives its soffit as its ceiling, which volume 2's `vaultClamp` reads for a building standing on the underground layer."
+},
+{
+"volume": "V04",
+"id": "IN-V04-3",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 3782,
+"dest": [
+"V02",
+"volume 2"
+],
+"status": "unstated",
+"text": "* **IN-V04-3 (J-VI.17 H2; volume 2's X12).** The dig draw's key (item 109 (j) (3) (i)) carries the wing key of a wing the mutator adds (V2 §3.9 W6); item 109 (k) (5)'s obstacle test reads volume 2's footprint and basement floor (V2 §3.14.5 (f))."
+},
+{
+"volume": "V04",
+"id": "IN-V04-4",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 3785,
+"dest": [
+"volume 3"
+],
+"status": "open-stated",
+"text": "* **IN-V04-4 (J-VI.17 H12; volume 3's hand-off).** An `archVault` chamber records its grade faces (`gradeFaces`: the ring's sides open to ground part 0); a building seated in one takes its frontage entrance on a grade face with `faces` `street`, `lane`, `alley` or `yard`, never `tunnel`; until a chamber records them, volume 3's 3.12 (9) fallback holds."
+},
+{
+"volume": "V04",
+"id": "IN-V04-5",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 3788,
+"dest": [
+"volume 5"
+],
+"status": "unstated",
+"text": "* **IN-V04-5 (J-VI.17 H13).** The arch vaults beneath a span that a landfall ruins (volume 5's `sky.islands`) follow the span's state by this volume's own decline rule (collapse with the span; C4-110-2)."
+},
+{
+"volume": "V04",
+"id": "IN-V04-6",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 3790,
+"dest": [
+"V08",
+"volume 8"
+],
+"status": "unstated",
+"text": "* **IN-V04-6 (J-VI.17 H14; volume 8's X13).** The ruin-existence step (V4 §3.5.0a) reads `site.ruinEvidence`'s seven kinds in its own strongest-first order, DR30 (DR-V8.2), DR31's (DR-V8.3) relief and mining inputs and DR32's (DR-V8.4) burial faces, rank and church count as volume 8 §2.6a states them."
+},
+{
+"volume": "V04",
+"id": "IN-V04-7",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 3793,
+"dest": [
+"V09"
+],
+"status": "unstated",
+"text": "* **IN-V04-7 (J-VI.17 H15; XV-V9-4).** The underground reader returns, on a cavern or ruin cluster, the fact `under/wayIn` (the connection graph's path from the nearest surface access, or none) and, on a burial face, the why path `catacomb` with its candidate-pass reason; §8.2's access symbol is chosen by `cause.rule`."
+},
+{
+"volume": "V04",
+"id": "IN-V04-8",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 3796,
+"dest": [
+"V10"
+],
+"status": "unstated",
+"text": "* **IN-V04-8 (J-VI.17 H16; CVR-V10-1, CVR-V10-10).** This volume exports `catacombOutcome(doc, face)`, read-only, over the candidate pass's derived per-face record (`holds`, `countReached`, `wet`, `age`, `island`, `belowTown`, `chance`), and registers the `underground` section provider with volume 10's §3.9a rows plus rows for an arch vault (its span and the span's reason), a ruin's stepped monument (tiers laid, standing, truncated), an aqueduct's terminal cistern and a void met by a support's footing; one catalogue key per value of `source.kind`, `blockedBy`, `cause.rule` and the outcome."
+},
+{
+"volume": "V04",
+"id": "IN-V04-9",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 3801,
+"dest": [],
+"status": "unstated",
+"text": "* **IN-V04-9 (J-VI.9).** `terminal.kind` is `cistern` only under a `conduit_house` the roster or the dossier holds; otherwise `fountain` or `basin`."
+},
+{
+"volume": "V04",
+"id": "IN-V04-10",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 3803,
+"dest": [
+"volume 6"
+],
+"status": "unstated",
+"text": "* **IN-V04-10 (J-VI.2).** The span `reason` vocabulary (`way`, `water`, …) is the span rule's own; the raised way's recorded reason is volume 6's `RaisedReasonKey` with its derived word (J-VI.2) — two different fields."
+},
+{
+"volume": "V04",
+"id": "IN-V04-11",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 3805,
+"dest": [
+"V09",
+"volume 9"
+],
+"status": "unstated",
+"text": "* **IN-V04-11 (J-VI.19).** `showUnexcavated` is volume 9's per-viewer view key (BCR-V9-20), not a `LayerSpec` field: §1b's and §2's rows naming `LayerSpec.showUnexcavated` read \"the view key `showUnexcavated`\", set by volume 9's control (not `setLayer`), default false, drawn only under a `secret` key; BCR-10's `LayerSpec` field is dropped (file f item 413); `underView` stays on `LayerSpec`."
+},
+{
+"volume": "V04",
+"id": "IN-V04-12",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 3809,
+"dest": [
+"volume 2"
+],
+"status": "unstated",
+"text": "* **IN-V04-12 (J-VI.22).** This volume's milestone is **M6-U** (renamed in place, 17 uses): \"M6\" is volume 2's stage 3."
+},
+{
+"volume": "V04",
+"id": "IN-V04-13",
+"section": "Integration notes — continuation (volumes/_integrate, 2026-0",
+"line": 4011,
+"dest": [
+"V09",
+"volume 9"
+],
+"status": "open-stated",
+"text": "* **IN-V04-13 (J-VI.28 applying J-VI.19 in the text).** §1b's reader row and §2's lifecycle row for the unexcavated style now name \"the view key `showUnexcavated` (BCR-V9-20; J-VI.19)\", set by volume 9's per-viewer control, not a `LayerSpec` field and not an event; BCR-10's §8.4 new text adds only `underView` and says so. IN-V04-11 had stated this by note; the rows themselves still read the retired field."
+},
+{
+"volume": "V04",
+"id": "IN-V04-14",
+"section": "Integration notes — continuation (volumes/_integrate, 2026-0",
+"line": 4015,
+"dest": [
+"file f"
+],
+"status": "unstated",
+"text": "* **IN-V04-14 (J-VI.27).** The `supports` list of BCR-45's record — the piers whose keys bound this volume's arch-vault spans and whose depth `raised.supportFoundationCm` the foundation rule reads — is produced by file f item 244's support step (stations at a pitch in volume 11's `pierSpacingM` band or the way's held `spanSpacingCm`, keys kept through an unchanged course); BCR-45's span rule runs after it, unchanged."
+},
+{
+"volume": "V05",
+"id": "IN-V05-1",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 3638,
+"dest": [],
+"status": "unstated",
+"text": "* **IN-V05-1 (J-VI.4; item 101 R2).** Every refusal of this volume except the dossier-owned one (J-V5.19: a bound dossier whose `site.magic` resolves `none`) is a **bend**: V5 §3.1 (3)–(4), §3.22 (3) (d), §4.1's table rows T3 and T4, §4.2's accesses, raised and aqueduct strokes and rim walls, J-V5.61 and BCR-V5-10 and BCR-V5-29 (f) were edited in place to J-VI.4 (a)–(g)'s bends. The tests that name these cases (T-V5-21 (h), T-V5-27, the P4 exit, §7's rim-wall and fourth- island clauses) read \"bent, with its line\" where they read \"refused\"; the message keys are volume 9's `bend.*` rows. §13's items 11–12 (volume 9's and volume 10's refusal rows) are superseded by the same decision."
+},
+{
+"volume": "V05",
+"id": "IN-V05-2",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 3644,
+"dest": [
+"V06",
+"base",
+"file f"
+],
+"status": "unstated",
+"text": "* **IN-V05-2 (J-VI.14).** An island's removed slot and a deleted generated access's ordinal (`removedSlots`, `removedAccesses`) are this volume's form of the one suppression mechanism the base carries for generated content (BCR-V6-24 widened by file f to islands and accesses)."
+},
+{
+"volume": "V05",
+"id": "IN-V05-3",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 3647,
+"dest": [
+"coherence pass",
+"file f"
+],
+"status": "unstated",
+"text": "* **IN-V05-3 (J-VI.13).** DR-SKY is numbered **DR27** by the coherence pass (file f)."
+},
+{
+"volume": "V05",
+"id": "IN-V05-4",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 3648,
+"dest": [],
+"status": "unstated",
+"text": "* **IN-V05-4 (J-VI.3).** The island rim's barrier kind `sheer` is one of the six closure-arc kinds every volume uses."
+},
+{
+"volume": "V05",
+"id": "IN-V05-5",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 3649,
+"dest": [
+"V06",
+"volume 6"
+],
+"status": "unstated",
+"text": "* **IN-V05-5 (J-VI.17).** §13's cross-lane items are dispositioned in `_integrate.md` §2.3: item 10 (volume 6's `sky.clearance`, `reclearIsland`, `skyAccessObstacles`) is written into volume 6 (IN-V06-3); item 13's register listing of `deckGapM` and `lineClearM` into volume 12 (IN-V12-1); item 15 into volume 2 (IN-V02-1); item 16 into volume 4 (IN-V04-5)."
+},
+{
+"volume": "V06",
+"id": "X1",
+"section": "13 Fix list",
+"line": 4195,
+"dest": [
+"V04",
+"V11"
+],
+"status": "closed-stated",
+"text": "| X1 | V04 (landed 22:27; its next revision) | at an epoch, `CatacombGrowth.grow` takes this volume's cap — V11's `growthCapShare` (V11 §3.23.8), V04's `CatacombRule` field, read per year and compounded over the epoch's span (J-VI.6; SCC-29 (c)) — and the derived primary, its rank cap (V11 §3.23.8's `rankCap`, V04's `CatacombRule` field; SCC-47) read against that primary rather than the stored rank 1; the quarry ossuary's age is its oldest feeding cemetery's; the crypt join (V04 §3.5.7 (c)) is used as it stands; `grow` names the span's calamity deaths as an input (ST-31) and reads `plagueNeedFactor` as V11 §3.23.8's (ST-44) | V6 §3.18.2 (3), (3a); §3.18.3 (5) |"
+},
+{
+"volume": "V06",
+"id": "X2",
+"section": "13 Fix list",
+"line": 4196,
+"dest": [
+"V04"
+],
+"status": "closed-stated",
+"text": "| X2 | V04 | `AccessPass.run` accepts the epoch's scope (V6 §2.1 `EpochScope`) — V04 §3.10's \"access at an epoch\" already evaluates the dig draw for the epoch's new buildings; `UndergroundFade`'s vacating of a void whose last access closed returns its households as displaced (cause `void`) so the ledger can re-house them the same epoch; U-NET can be laid whole at an epoch when `Features.sewers` first turns on; U-FRONT exposes its free capacity on lived runs, reopenable runs and accessible void clusters for the crowding hook; its §6 gains per-epoch rows for the `under.*` functions (V6 §6.2 assumes 3/8/20, 5/15/40, 5/15/40 and 1/4/8 ms) | V6 §3.2's participant table; §3.6 (1); §3.18.1 |"
+},
+{
+"volume": "V06",
+"id": "X3",
+"section": "13 Fix list",
+"line": 4197,
+"dest": [
+"V02",
+"V03"
+],
+"status": "unstated",
+"text": "| X3 | V02, V03 (revise-V3 near landing) | V03's rank (§3.7.4 (3)) re-runs inside each epoch op that changes the principal crypt or its building's designation; over epochs a trim shortens `Basement.crypt.ring` only, never `Basement.ring` (the bays left take the `undercroft` role and regain the crypt role when the see returns); the basement is re-derived with an always-crypt class inside a plan's occupy step; the epoch casters are rasterised per wing (V02's X8, done here) | V6 §3.18.3; §3.4 (2) |"
+},
+{
+"volume": "V06",
+"id": "X4",
+"section": "13 Fix list",
+"line": 4198,
+"dest": [
+"V07"
+],
+"status": "unstated",
+"text": "| X4 | V07 (revise-V7) | BCR-V7-18 is absorbed into BCR-V6-1 with V07's own shape (`phases` as registered phase ids); the clamp admits [0, 120 000] with the village product registered | V6 §3.1 (4); §3.3.2 |"
+},
+{
+"volume": "V06",
+"id": "X5",
+"section": "13 Fix list",
+"line": 4199,
+"dest": [
+"V08"
+],
+"status": "unstated",
+"text": "| X5 | V08 (its revision) | the port carries into `EpochInputs`: calamity records as `{ week, kind: 'calamity', calamity: CalamityRef }` with severity, F5 targets and `deaths` — BCR-V6-27's entry shape (V08 §3.6 already writes it; ST-30, ST-31); `activeChains[]` changes; ladder receipts; church, cemetery (the Cemetery network), walls and ruin/mining records; `HostContext`'s upgrade request for a pinned dossier history | V6 §2.4; §3.9.10 (5); §3.9.11; §3.7.6 (4); §3.15.5 |"
+},
+{
+"volume": "V06",
+"id": "X6",
+"section": "13 Fix list",
+"line": 4200,
+"dest": [
+"V09"
+],
+"status": "unstated",
+"text": "| X6 | V09 (its revision) | the per-device history settings; the time card's shapes, threat and era, end-state preview with the count badge and the bend line; the forward path from the past (\"Change from here\"); the rebase grey range; the link view's pin, move and cut | V6 §2.2; §4.1; §5.1 |"
+},
+{
+"volume": "V06",
+"id": "X7",
+"section": "13 Fix list",
+"line": 4201,
+"dest": [
+"V10"
+],
+"status": "unstated",
+"text": "| X7 | V10 (its revision) | the four `WhyProvider`s this volume registers (V6 §4.5) and the `advance` shapes table (V6 §2.3) | V6 §4.5 |"
+},
+{
+"volume": "V06",
+"id": "X8",
+"section": "13 Fix list",
+"line": 4202,
+"dest": [
+"V11"
+],
+"status": "unstated",
+"text": "| X8 | V11 (its revision) | the always-crypt class column (cathedral, great temple) and the church family tag; the religion shares that pick the principal seat; the calamity words live in V6's table, not V11's | V6 §3.18.3; §2.4 |"
+},
+{
+"volume": "V06",
+"id": "X9",
+"section": "13 Fix list",
+"line": 4203,
+"dest": [
+"V12"
+],
+"status": "unstated",
+"text": "| X9 | V12 (its revision) | register T-V6-38 as item 109 (k) (6)'s monotone bar; T-V6-40 (a) and (c) as the epoch forms of \"at most one catacomb at TOWN\" and \"the largest under the largest cemetery\"; T-V6-34 and T-V6-36 on `voidAccessible` and `voidSealedDeep`; the walled-share growth parity | V6 §7 |"
+},
+{
+"volume": "V06",
+"id": "X10",
+"section": "13 Fix list",
+"line": 4204,
+"dest": [
+"V05"
+],
+"status": "closed-stated",
+"text": "| X10 | V05 (landed) | BCR-V5-23 is applied here (`demandTaken`, the displaced pool's cause `island`); the building mask is OR-ed into `shadeSky` on island arenas | V6 §2.1; §3.4 (8) |"
+},
+{
+"volume": "V06",
+"id": "X11",
+"section": "13 Fix list",
+"line": 4205,
+"dest": [
+"V01"
+],
+"status": "unstated",
+"text": "| X11 | V01 (revise-V1) | `hood.fabric` registered by `@plat/hood` at `afterGrowth` order 40; the district supply term read at every epoch allocation | V6 §3.2; §3.9.10 (4) |"
+},
+{
+"volume": "V06",
+"id": "X12",
+"section": "13 Fix list",
+"line": 4206,
+"dest": [
+"coherence pass"
+],
+"status": "unstated",
+"text": "| X12 | the coherence pass | number DR-V6.1 (proposed as DR26 by volumes 1, 5, 6 and 8) and the DR rows for items 105 (i), 108 and 109 that V6 §1b's trace cites | V6 §1b; BCR-V6-12 |"
+},
+{
+"volume": "V06",
+"id": "X13",
+"section": "13 Fix list",
+"line": 4207,
+"dest": [
+"base",
+"coherence pass"
+],
+"status": "unstated",
+"text": "| X13 | the coherence pass (item 110's base application) | BCR-V6-24, BCR-V6-25, BCR-V6-26 and `repairRaised` in BCR-V6-5; the DR rows of V6 §1b's three item-110 dossier rows (the water system, landmarks on high ground, era and culture) | V6 §3.19; §1b |"
+},
+{
+"volume": "V06",
+"id": "X14",
+"section": "13 Fix list",
+"line": 4208,
+"dest": [
+"V04"
+],
+"status": "unstated",
+"text": "| X14 | V04 | the arch-vault source callable over `EpochScope.raised` as a reconcile (lay, collapse, delete); breach and dismantle of a span carrying the chamber's collapse in their batch; U-NET's invert drops over `scope.levelled`; V4 §3.5.5's builder reading a `RetainingWall` tombstoned inside a `raiseGrade` region as a step in the buried floor, the storey chambers on its high side taking its high-side datum (ST-34) | V6 §3.2; §3.19.2 (3); §3.19.4 (1), (5) |"
+},
+{
+"volume": "V06",
+"id": "X15",
+"section": "13 Fix list",
+"line": 4209,
+"dest": [
+"V05"
+],
+"status": "unstated",
+"text": "| X15 | V05 | `sky.clearance` registered at `afterGrowth` order 50 (BCR-V5-28); `sky.islands`' landfall ops put the raised parts they ruin in the epoch's lifecycle (so in `scope.raised`) | V6 §3.2; §3.19.2 (4) |"
+},
+{
+"volume": "V06",
+"id": "X16",
+"section": "13 Fix list",
+"line": 4210,
+"dest": [
+"V01"
+],
+"status": "unstated",
+"text": "| X16 | V01 | `hood.fabric` re-derives the opened close-ups a part in `scope.raised` crosses (V1C-69 (3), V1C-84 (3)); the terrace district kind as an elevated road's endpoint; `raised.stripMarginM` | V6 §3.2; §3.19 (2), (7) |"
+},
+{
+"volume": "V06",
+"id": "X17",
+"section": "13 Fix list",
+"line": 4211,
+"dest": [
+"V10"
+],
+"status": "unstated",
+"text": "| X17 | V10 | its raised-way provider (from M3a) reads, over epochs, the creation event's why rows, the lifecycle (carried down, fallen, run dry), `detail.suppress` (\"removed by you\") and the ledger's candidates (\"why is there no viaduct here\") | V6 §4.5 |"
+},
+{
+"volume": "V06",
+"id": "X18",
+"section": "13 Fix list",
+"line": 4212,
+"dest": [
+"V03"
+],
+"status": "unstated",
+"text": "| X18 | V03 | the outside-ground digest (BCR-V3-28): when an epoch levels beside a building, an unstored plan beside the levelled faces goes stale and a stored one is re-cut inside the epoch event (V03's outside-ground row; T-V3-30) — as V03 states it; nothing further owed (TU-06 (c)) | V6 §3.19.4 (5) |"
+},
+{
+"volume": "V06",
+"id": "X19",
+"section": "13 Fix list",
+"line": 4213,
+"dest": [
+"V12"
+],
+"status": "unstated",
+"text": "| X19 | V12 | the guards `raised.generatedBelowCity`, `raised.reasonMissing`, `raised.overCap`; T-V6-65's declared shift; the growth parity's raised-way presence row (no reference row) | V6 §3.19.1 (4); §7 |"
+},
+{
+"volume": "V06",
+"id": "X20",
+"section": "13 Fix list",
+"line": 4214,
+"dest": [
+"V11"
+],
+"status": "closed-stated",
+"text": "| X20 | V11 | **answered** (ST-40, ST-51): V11 §3.24.2 holds the `raisedWays` rows (the chances, `elevated.minRiseM`, `elevated.maxSpanM`, `aqueduct.minFallPerKm` among them) and §3.24.1 and §3.24.4 the `terrace`, `deck` and `deckOk` rows; this volume cites them and keeps no copy (X-V11-11) | V6 §3.19; §3.19.5 |"
+},
+{
+"volume": "V06",
+"id": "X21",
+"section": "13 Fix list",
+"line": 4215,
+"dest": [
+"V09"
+],
+"status": "unstated",
+"text": "| X21 | V09 | the delete's plain-words dry run and its fates; the time card's raised-way badge; the hand forms of V6 §4.2 (repair a raised way or a deck, the advanced panel's `raisedWays` rows) | V6 §4.1; §4.2 |"
+},
+{
+"volume": "V06",
+"id": "X22",
+"section": "13 Fix list",
+"line": 4216,
+"dest": [
+"V07"
+],
+"status": "unstated",
+"text": "| X22 | V07 | the hand-offs carry suppressions and carried ways unchanged (critique-V7 V7C-43); at a village rung the `raisedWays` step runs its lapse and repair, never its founding | V6 §3.19; §3.19.1 (5) |"
+},
+{
+"volume": "V06",
+"id": "X23",
+"section": "13 Fix list",
+"line": 4217,
+"dest": [
+"V08"
+],
+"status": "unstated",
+"text": "| X23 | V08 | the water-system record and the landmarks on high ground carried into `EpochInputs` | V6 §1b; §3.19.6 |"
+},
+{
+"volume": "V06",
+"id": "X24",
+"section": "13 Fix list",
+"line": 4218,
+"dest": [
+"V02"
+],
+"status": "unstated",
+"text": "| X24 | V02 | nothing new: deck-plot buildings at an epoch run through S11's capped mutator (V2 §3.16 (3)), as V02's X23 states | V6 §3.8.4; §3.19.5 (2) |"
+},
+{
+"volume": "V06",
+"id": "X25",
+"section": "13 Fix list",
+"line": 4219,
+"dest": [
+"V04"
+],
+"status": "unstated",
+"text": "| X25 | V04 (reconcile round) | `Foundations.apply(doc, scope, cause)` exported in V4 §1b.2 with `under.extend` its epoch caller, applying §3.5.0's rule over `scope.built`, `.basementGrown`, `.raised` and `.levelled` (ST-20); the maintenance mode as `under.extend` and `under.access` read it at a village rung (ST-18); F6's dwellings at an epoch filled by this volume's relocation (ST-19); the flood's underground reach and admission as V6 §3.11.3 cites them (ST-45) | V6 §3.2; §3.18.1 (4), (6); §3.11.3 |"
+},
+{
+"volume": "V06",
+"id": "X26",
+"section": "13 Fix list",
+"line": 4220,
+"dest": [
+"V05"
+],
+"status": "unstated",
+"text": "| X26 | V05 | the landfall writes `Way.formerClass` when it drops a covered way to `track` (BCR-V6-5; ST-13), so the clearance of V6 §3.5.2 restores the class; V5 §3.16 (4) already cites V6 §3.5.2 and §3.19.4 (6) | V6 §3.5.2 |"
+},
+{
+"volume": "V06",
+"id": "X27",
+"section": "13 Fix list",
+"line": 4221,
+"dest": [
+"V07"
+],
+"status": "unstated",
+"text": "| X27 | V07 | the product fold is V07 §2.1's (ST-01); V07 §3.12 cites `ProductDeclEpoch.rows` and supplies its `ProductEpochRows` from V07 §2.2's `epoch.rows` cell — `persistence` (church, manor), `street` (the classes and the retirement op of BCR-V7-32, ST-27) and `hinterland` (`slack`, the perimeter-and-suitability order, one great field per epoch; names as V07 now holds them, TT-06) — instead of \"the engine's, unchanged\" (ST-26); V07 §2.1 states `village.density` at `afterField`, order 20 (ST-28); the village mining working's depth read by V6 §3.18.1 (2c) (ST-29) | V6 §2.1; §3.2; §3.5.2; §3.5.3; §3.18.1 (2c) |"
+},
+{
+"volume": "V06",
+"id": "X28",
+"section": "13 Fix list",
+"line": 4222,
+"dest": [
+"V01"
+],
+"status": "unstated",
+"text": "| X28 | V01 | `EpochScope.recut` is `hood.fabric`'s input for S9b (ST-54); under a new raised strip at an epoch the participant re-derives fabric and hood pins only — the plots and households are V6 §3.19 (7)'s clearing (ST-53) | V6 §3.2 |"
+},
+{
+"volume": "V06",
+"id": "X29",
+"section": "13 Fix list",
+"line": 4223,
+"dest": [
+"V04",
+"V08",
+"base",
+"coherence pass",
+"file f"
+],
+"status": "closed-stated",
+"text": "| X29 | the finalize pass / the coherence pass (file f; the base-change lane landed 03:39 and left this item to the finalize pass) | a new file-f item for BCR-V6-27 (*Needed by:* V06, V08, V04; BASE with M6-E); items 264, 275 and 443 re-read BCR-V6-7 (a), BCR-V6-13 and BCR-V6-10 as amended here (one mask per arena; the death week); item 209 carries `repairRetaining` and `formerClass`'s landfall writer (BCR-V6-5); items 246, 260 and 447 already read as this volume does (ST-56, ST-15, ST-32) | V6 §10 |"
+},
+{
+"volume": "V06",
+"id": "X30",
+"section": "13 Fix list",
+"line": 4224,
+"dest": [
+"V09",
+"V10"
+],
+"status": "unstated",
+"text": "| X30 | V09, V10 | the hood-document gate's line on the time card and the clerk (ST-41); the bends' lines (J-V6.98); `repairRetaining`'s hand form on T3; the remove dry-run lines for a retaining wall and a deck plot; V10's readings of a cleared landfall, a restored wall and a village's persistence rows (\"the church outlasted the village\") | V6 §4.1; §4.2; §4.5 |"
+},
+{
+"volume": "V06",
+"id": "X31",
+"section": "13 Fix list",
+"line": 4225,
+"dest": [
+"V11",
+"V12"
+],
+"status": "unstated",
+"text": "| X31 | V12 | §3.11's register names `retaining.holdM`, `.neglectAfterYears`, `.stretchM` and `aqueduct.disuseAfterYears` as V11 §3.18's cells, none of this volume's (SCC-14); T-V6-66–69 join the nightly tier | V6 §2.2; §7 |"
+},
+{
+"volume": "V06",
+"id": "X32",
+"section": "13 Fix list",
+"line": 4226,
+"dest": [
+"V07"
+],
+"status": "closed-stated",
+"text": "| X32 | V07 (its round-2 lane, TR-02) | `VillageRungRow.epoch.rows.street` carries `op: 'retireWay'`, `again: 'effaceWay'` and `reopen: 'reopenWay'` (V6 §2.1's type as TR-03 amends it); V07 §3.12's \"V6 §3.8's tier order\" for the reopening reads V6 §3.8.2 tier (5′); the disuse test's entry, approach and landing clause is applied by V6 §3.5.2 at the draw | V6 §2.1; §3.5.2; §3.8.2 |"
+},
+{
+"volume": "V06",
+"id": "X33",
+"section": "13 Fix list",
+"line": 4227,
+"dest": [
+"V04",
+"file f"
+],
+"status": "closed-stated",
+"text": "| X33 | V04 | V4 §3.10 *Access closures*' \"an epoch's clearance restores that host\" is V6 §3.5.2's member-leaving batch, by whichever op ends the member's cover (TR-05, TR-06; T-V4-73 (c) unchanged); BCR-V6-28 is applied before file f item 319 (V04's BCR-6), whose quoted current text then reads as BCR-V6-28 leaves step (6) | V6 §3.5.2; §10 |"
+},
+{
+"volume": "V06",
+"id": "X34",
+"section": "13 Fix list",
+"line": 4228,
+"dest": [
+"V07",
+"coherence pass",
+"file f",
+"volume 6"
+],
+"status": "unstated",
+"text": "| X34 | the coherence pass (file f) | item 574 now has volume 6's BCR-V6-28 text (TR-09) to apply in place of the seam's pointer; items 268 (*Needed by:* V06, V07) and 209 (`repairRetaining`, `formerClass`'s landfall writer) as TR-23 (b)–(c) state | V6 §10 |"
+},
+{
+"volume": "V06",
+"id": "X35",
+"section": "13 Fix list",
+"line": 4229,
+"dest": [
+"V11"
+],
+"status": "closed-stated",
+"text": "| X35 | V11 (its round-2 lane, SCC-34) | when V11 §3.7.4 names **the web's off form** as one cell set, T-V6-44 and V6 §3.9.10's closing sentence cite it in place of their list (SCC-34's V06 half; not among this round's issues, so recorded here, not applied — applied by reconcile-V11-r2 after this lane landed, V11's round 2) | V6 §3.9.10; §7 |"
+},
+{
+"volume": "V06",
+"id": "X36",
+"section": "13 Fix list",
+"line": 4230,
+"dest": [
+"V07"
+],
+"status": "unstated",
+"text": "| X36 | V07 (its round-3 lane, TT-01 with TT-08) | §3.12's house-platform rebuild and the village tiers (6v)–(8v) cite V6 §3.8.2's placement rule: a placement on a toft whose access edge is a hollow way is made only after `reopenWay` restores it (and any hollow way on its path to the ways in use) in the same batch; V07's own disuse test (no standing building's access) is unchanged | V6 §3.8.2; T-V6-51 |"
+},
+{
+"volume": "V06",
+"id": "X37",
+"section": "13 Fix list",
+"line": 4231,
+"dest": [
+"V05"
+],
+"status": "closed-stated",
+"text": "| X37 | V05 (landed its round 3, TT-09) | V5 §3.16 (4) writes `breached` into the enceinte's `condition` and cites V6 §3.7.5's repair — of a pathway ring and, since this round, of a ring in use (TT-05); nothing further owed | V6 §3.7.5; T-V6-11 |"
+},
+{
+"volume": "V06",
+"id": "X38",
+"section": "13 Fix list",
+"line": 4232,
+"dest": [
+"V12",
+"base"
+],
+"status": "closed-stated",
+"text": "| X38 | V12 (its round-3 lane, SCC-54, SCC-56) | the bar family `bar.<barId>` (the verdict statistic of one registered owner bar) that V6 §8's register lines name as `bar.T-V6-<n>`; §3.11's `decline` line split so the base persistence cells `raised` and `retaining` are owner `base`, written by the seat landing V06's E2 (BCR-V6-26) — **landed** (V12 §2.1, J-V12.65; the split `decline` line, J-V12.66); V06 owes the registrations V6 §8 now lists, each a `BenchBarDef` written by the seat landing its line's exit (SCC-73) — X-V12-15 answered | V6 §8 |"
+},
+{
+"volume": "V06",
+"id": "X39",
+"section": "13 Fix list",
+"line": 4233,
+"dest": [
+"V09"
+],
+"status": "closed-stated",
+"text": "| X39 | V09 (its next lane; SR3-08) | XV-V9-23 is **met**: V6 §3.19.3 (3) and (7) name each suppressed kind's serving re-add as V9 §4.20.3 (4)'s Build it again emits it — `drawWay { raised: true }` or the aqueduct class, `drawWall` on the quay wall's former line, `placeGate` at the chain's former place, `drawWall { kind: 'retaining' }` on the former chain, and a `drawFootprint` on the deck whose plot S11 fits at slot `k` serving (host, `k`); V09 marks XV-V9-23 met and withdraws its deck-plot fallback | V6 §3.19.3 (3), (7); §2.12; T-V6-58 |"
+},
+{
+"volume": "V06",
+"id": "X40",
+"section": "13 Fix list",
+"line": 4234,
+"dest": [
+"V01",
+"V05",
+"volume 1"
+],
+"status": "closed-stated",
+"text": "| X40 | V01 (SLR3-11, TU-06 (a)) | note (26) is **met** by V6 §3.2's `sky.islands` row (a `raiseIsland` lays the island's districts by volume 1's unit run inside the epoch's commit, V1-3.10.3 (6) (a)) and priced per event in V6 §6.2 at V05 §6's rows and V1-6's sky row — a raise's unit run, a resize's scoped law once per receiving district and for the district whose claim is re-searched (round 5: TV-01, SLR4-09; the century bounds re-declared, J-V6.118); V01 edits nothing | V6 §3.2; §6.2 |"
+},
+{
+"volume": "V06",
+"id": "X41",
+"section": "13 Fix list",
+"line": 4235,
+"dest": [
+"V05",
+"file f"
+],
+"status": "closed-stated",
+"text": "| X41 | V05 (TU-03, its own issue; moves with TU-01) | a `Tower` and a `Gate` carry no state of their own: they draw by their run's `condition` and stand again with it (file f item 575; V6 §2.8's `repairWall`, §3.7.5), so V5 §3.16 (4)–(5), its states paragraph, T-V5-14 and J-V5.11 write `breached` over the covered towers' runs and no `ruined` tower, as TU-03 states; this volume's side is landed | V6 §2.8; §3.7.2 (3); §3.7.5; §5.1 |"
+},
+{
+"volume": "V06",
+"id": "X42",
+"section": "13 Fix list",
+"line": 4236,
+"dest": [
+"coherence pass",
+"file f",
+"volume 6"
+],
+"status": "closed-stated",
+"text": "| X42 | the coherence pass (file f items 575 and 336) | item 575's lifecycle sentence (\"back to its former state when `repairWall` leaves every run `standing`\") reads with volume 6's no-stretch `repairWall`, which lifts the ring's `neglect` (V6 §2.8; TU-02) — no field changes, the op being BCR-V6-5's `EvolveOp` as V6 §2.8 states it; item 336 carries BCR-V6-18 by pointer and so reads its widened placement sentence (every placement the engine makes, the use step's and a dossier-backed use's relocation included; TU-05). **Met** for item 575 (reconcile-BASE-F-r5, 2026-09-29 12:39, TV-05: the no-stretch `repairWall` and the exit from `abandoned` in its text; read in round 5) | V6 §2.8; §10 BCR-V6"
+},
+{
+"volume": "V06",
+"id": "X43",
+"section": "13 Fix list",
+"line": 4237,
+"dest": [
+"V07",
+"V11"
+],
+"status": "unstated",
+"text": "| X43 | V07 (SCC-R2C-3, its own issue; with X-V11-14 (b)) | V6 §3.16 now names the stages the participants register: `village.plan` registers `stage: 'VS1'` and `village.density` `stage: 'VS2'` (they re-run those stages' steps), their draws keyed and their table reads recorded under those ids; V07 §2.1's participants comment and §3.12 state the same, with its J-V7 row (SCC-R2C-3); until V07 lands it, V6 §3.16 and V11 §3.1's *Readers* (J-V11.80) state the ids an implementer uses (reconcile-V06-r3's continuation) | V6 §3.16; §2.1 `EpochParticipant.stage`; §3.2's participant table; W3 |"
+},
+{
+"volume": "V06",
+"id": "X44",
+"section": "13 Fix list",
+"line": 4238,
+"dest": [
+"V08",
+"V09"
+],
+"status": "closed-stated",
+"text": "| X44 | V09 and V08 (their next lanes; SR3-10, with SR3-12 (b) and SR3-13 (d)) | XV-V9-28 is **met**: V6 §2.10's `EpochReport.raised.suppressedFired: { removal; week }[]` is produced by the `raisedWays` pass (V6 §3.19.3 (2)) — one entry per suppressed key whose met reading's gate passes at the epoch, in removal order, none for a served key or a lifted removal, none below CITY — and T-V6-58 holds it on the METROPOLIS fixture T-V9-69's variant names; V09 marks XV-V9-28 met; V08 closes its X21 and reads §12's sentence on the field as CONFIRMED | V6 §2.10; §3.19.3 (2); W19; W58; T-V6-58 |"
+},
+{
+"volume": "V06",
+"id": "X45",
+"section": "13 Fix list",
+"line": 4239,
+"dest": [
+"V01",
+"V11"
+],
+"status": "closed-stated",
+"text": "| X45 | V01 and V11 (their next lanes; SCC-95) | V1-3.7.3's epoch clause (\"an epoch re-derives surfaces on ways whose fronting band changes past the hysteresis\") is **met** by V6 §3.4 (9), run as the `field` phase's last act (V6 §3.2 row 4): the ways fronted by a plot S6 re-banded take the rule again, an edited `surface` kept, a `setAttr` (cause `rule:field`) where the value changes; V11's row 90 `S6` epoch reader is that step, so T-V11-1 (b) exercises it on any history whose field re-bands a plot; V01 and V11 edit nothing | V6 §3.2; §3.4 (9); §2.12's `Way.surface` row; W81; T-V6-12 |"
+},
+{
+"volume": "V06",
+"id": "X46",
+"section": "13 Fix list",
+"line": 4240,
+"dest": [
+"V05"
+],
+"status": "closed-stated",
+"text": "| X46 | V05 (its next lane; an observation from TV-01, no V05 issue this round) | V05 §6's \"a resize, a rim reshape\" row prices \"§12.6's 30 ms per re-landed foot's placement\", while V5 §4.2's resize also serves each re-claimed landing yard at its re-seated top by a positive placement (`placeAt`) at every resize — a placement V05's row does not name. V6 §6.2 prices the resize at V05's row as it stands; should V05 price the tops' placements, V6 §6.2's sums follow by its citation and its D-18 rule re-declares the bounds at the new sums (≈ + 27 s at CITY and METROPOLIS at worst, three tops per island per epoch). **Met** in round 6 (TW-04): volume 5's lane priced each re-claimed yard's top placem"
+},
+{
+"volume": "V06",
+"id": "X47",
+"section": "13 Fix list",
+"line": 4241,
+"dest": [
+"V08"
+],
+"status": "closed-stated",
+"text": "| X47 | **CLOSED** by the finalization, citing V08 §3.5.1 (c)–(d), J-V8.113 and J-V8.114 as landed at 14:12 (after a receipt the record's one key binds the church and the cross is laid with no binding row; seam-settlements-r6 SR6-01, SR6-02) — V08 (reconcile-V08-r6; SR5-01) and V07 (met: §3.12 *Records at a village epoch* item 4, W70) | V08 §3.5.1 (c), (d) and the receipt row re-bind a REPLACEMENT's lesser as the greater's member only where the greater's thing is the lesser's, and place the greater new otherwise — `parish_church` over `wayside_shrine` (the shrine's key on the churchyard `cross` at a village rung, an alias on the church at a base rung, the old pin unbound) and `fish_market` o"
+},
+{
+"volume": "V06",
+"id": "X48",
+"section": "13 Fix list",
+"line": 4242,
+"dest": [
+"V10"
+],
+"status": "closed-stated",
+"text": "| X48 | V10 (its round-6 lane; SR5-03) — **Met** in V10's landed text (prompt rule 17, J-V10.108, group C's what-if grader; reconcile-V10-r6, 14:21; seam-surfaces-r6 SR6-07, applied by the finalization) | prompt rule 17 ends a what-if answer with `[[do:fork:<seq>]]` alone — the copy starts just before the event, where the user locks the thing and advances the copy — and offers `[[do:rerun:<seq>]]` only when the user asks to re-run the history from a point | V6 §4.4's `forkAt` bullet and the history panel's sentence (SR5-09) |"
+},
+{
+"volume": "V06",
+"id": "X49",
+"section": "13 Fix list",
+"line": 4243,
+"dest": [
+"V12"
+],
+"status": "closed-stated",
+"text": "| X49 | V12 (seam SCC-108, SCC-109; applied by the finalization in V12 §2.8) | V06's register lines are dated by their exit step (`--milestone V6-E<n>`) with `due` `V6-E7` (E1 – E6's lines) or `V6-E8` (E8's), and V06 lines `retaining.settings.stateSnapCm` at E2 on `bar.T-V6-62` (SCC-110, SCC-111) | V6 §8's register paragraph, its line table, J-V6.126 |"
+},
+{
+"volume": "V06",
+"id": "X1",
+"section": "13 Fix list",
+"line": 4246,
+"dest": [
+"V04",
+"V11",
+"file f",
+"volume 7"
+],
+"status": "unstated",
+"text": "X1, J-V6.53 and W48 name `growthCapShare` as V11's value (V11 §3.23.8) on V04's `CatacombRule` field. ST-25: §2.8's `retypeLand` gains volume 7's `crop?` and `rotation?` — one op, one hand form (T2 `ground`), one lifecycle row (file f item 209). File f also reads, for this volume: item 317's runner takes the product of item 322's fold (ST-02); item 260 keeps islands and accesses in volume 5's record form and adds `retaining` and `deckPlot` (ST-05, ST-15); item 244's `source` is derived, `foundedRung` dropped (ST-06); item 246 states a deck's condition as its host's existence (ST-56); item 447 exports span `state` and `underuseSince` (ST-33)."
+},
+{
+"volume": "V06",
+"id": "IN-V06-1",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 4313,
+"dest": [
+"volume 11"
+],
+"status": "unstated",
+"text": "* **IN-V06-1 (J-VI.17 H34).** §3's always-crypt target reads volume 11's `crypt: 'always'` column (edited in place; it read a boolean)."
+},
+{
+"volume": "V06",
+"id": "IN-V06-2",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 4315,
+"dest": [
+"volume 2"
+],
+"status": "unstated",
+"text": "* **IN-V06-2 (J-VI.5; volume 2's X23).** At an epoch: `rebaseStack` runs on every terrain change that reaches a stepped building (its ground wings' samples, a deck's surface, a crypt lift), before the casters are rasterised; a stack's Works run in stack order and solid wings by courses (BCR-V2-40, `heightsAt`); a raised way built at an epoch clears every building in its support footprints and strip by V6 §3.19 (7), households displaced with cause `clearance` (edited in place by reconcile-V06-r1, ST-09: volume 2's low-building rule is withdrawn, ST-08, and `raised` is no `DisplaceCause`)."
+},
+{
+"volume": "V06",
+"id": "IN-V06-3",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 4321,
+"dest": [
+"V05",
+"volume 5"
+],
+"status": "unstated",
+"text": "* **IN-V06-3 (J-VI.17 H20; volume 5's §13 item 10).** The participant `sky.clearance` is registered at `afterGrowth`, order 50, and may return `reclearIsland` (BCR-V5-28); it receives `EpochScope.raised` and `.levelled`; the raised-way pass reads ground-arena entities only, binds elevated roads to reservations and reads the ground households' water need; its course solver reads `skyAccessObstacles` (V5 §2.3b)."
+},
+{
+"volume": "V06",
+"id": "IN-V06-4",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 4325,
+"dest": [
+"V03",
+"volume 3"
+],
+"status": "unstated",
+"text": "* **IN-V06-4 (J-VI.17 H19; volume 3).** Tiers added or removed over epochs re-match stored plans by wing-relative storey (BCR-V3-29); in an epoch that levels a terrace, raises a retaining wall or adds a raised way, an unstored plan beside the levelled faces goes stale and a stored one is re-cut inside the epoch event (V03's outside-ground row; BCR-V3-28; T-V3-30) (edited in place by reconcile-V06-r4, TU-06 (c))."
+},
+{
+"volume": "V06",
+"id": "IN-V06-5",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 4329,
+"dest": [
+"V12",
+"volume 11"
+],
+"status": "unstated",
+"text": "* **IN-V06-5 (J-VI.17 H21; X-V12-11).** T-V6-65's \"off\" reads volume 11's switch table: \"every `deck.offer` 0, `terrace.enabled` false\" (for \"the `deck` budget 0, the terrace thresholds off\")."
+},
+{
+"volume": "V06",
+"id": "IN-V06-6",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 4331,
+"dest": [
+"volume 9"
+],
+"status": "open-stated",
+"text": "* **IN-V06-6 (J-VI.12).** §4.1's disabled-tool offer \"Change from here: make a copy at year N\" uses volume 9's label **\"Open a copy from here\"** (a `forkAt`)."
+},
+{
+"volume": "V06",
+"id": "IN-V06-7",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 4333,
+"dest": [
+"volume 5"
+],
+"status": "unstated",
+"text": "* **IN-V06-7 (J-VI.2, J-VI.14, J-VI.13).** The raised-way record's `reason: RaisedReasonKey` is this volume's (the single source); readers show its derived word. Islands and accesses keep volume 5's record form (`SkyIsland.removed`, `.removedAccesses`) under the same lift rule — the removal's undo or the user's re-add serving the key (file f item 260 as ST-05 amends it); BCR-V6-24's suppression carries raised ways, harbour-mouth chains, quay walls, retaining walls and deck plots (edited in place by reconcile-V06-r1, ST-59, ST-15). DR-V6.1 is one row with volume 8's DR-V8.6 and is numbered **DR28**."
+},
+{
+"volume": "V07",
+"id": "FL-1",
+"section": "13 Fix list",
+"line": 4151,
+"dest": [],
+"status": "unstated",
+"text": "| FL-1 | critique V7C-31 (b): the per-constant trace rows D5.1 – D5.17 in `research/findings/code-impact.md` §(d) | the volume assigns and cites the sub-keys (§2.2a's reference trace); the rows themselves live in the reader-tier research file, which this implementer-input lane does not write (§17.1), and the whole-design retrovalidation rules on the set (J84) | the reference-reading lane, or the J84 retrovalidation |"
+},
+{
+"volume": "V07",
+"id": "FL-2",
+"section": "13 Fix list",
+"line": 4152,
+"dest": [
+"V04",
+"V11"
+],
+"status": "closed-stated",
+"text": "| FL-2 | `CatacombComplex.blockedBy` gains `'rung'`; V04 §3.5.1 (3)'s counted classes include `v.parish_church` (V11 §3.23.8); V04's maintenance mode, ruin centre and well reading as §3.12 and §3.16 read them | **closed by IN-V07-2 (J-VI.16)**: V04's second round landed `'rung'` in `blockedBy`, `v.parish_church` among the counted churches and the maintenance mode (V04 §2.2, §3.5.1, §3.10) | — (closed) |"
+},
+{
+"volume": "V07",
+"id": "FL-3",
+"section": "13 Fix list",
+"line": 4153,
+"dest": [
+"V04",
+"V06",
+"V11"
+],
+"status": "open-stated",
+"text": "| FL-3 | item 110's cross-volume readings: V04's arch-vault source at every village rung with the span rule's hinterland condition (country spans open), V06 §3.19's raised-way ledger crossing the hand-offs and its stretch decline, V11's village cells of the X17 specialisation rows and the village reading of `deckOk` | **closed by IN-V07-2 (J-VI.16)**: V04's span rule leaves country spans open where no vault stage registers, V6 §3.19's raised-way step runs only its lapse and repair at a village rung (V6 X22), and the village cap of the specialisation rows is `rules.tiers.capPerSettlement` (V11 §3.24.3) | — (closed) |"
+},
+{
+"volume": "V07",
+"id": "FL-4",
+"section": "13 Fix list",
+"line": 4155,
+"dest": [
+"base"
+],
+"status": "closed-stated",
+"text": "| FL-4 | the volume's remaining citations of critique ids (41 at reconciliation round 2: C6-39, C4-110-3, V11C-02, V3C-61, C4-49 (5) and (7) and others), which an implementer holding only the base and the volumes cannot read (§17.1) | outside round 2's seventeen issues (TR-21 (b) named two, now fixed); each id must be mapped to the section of V01 – V06 or V11 where its finding landed, which needs those volumes' disposition tables read whole — a sweep the next seam round or the J84 retrovalidation runs across every volume at once | the next seam round, or the J84 retrovalidation |"
+},
+{
+"volume": "V07",
+"id": "IN-V07-1",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 4191,
+"dest": [],
+"status": "unstated",
+"text": "* **IN-V07-1 (J-VI.1, clean-room).** The request field is renamed `arableFactor` (six lines; its former name coincided with a reference field and is not repeated here — reworded by the continuation, J-VI.23), and §3.8's VG slot rule defines its large-house probability in our words (\"`0.15 ÷ k`, where `k` is 3 plus the number of large houses already laid in this village\"); both reference names are gone."
+},
+{
+"volume": "V07",
+"id": "IN-V07-2",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 4195,
+"dest": [
+"V04",
+"volume 4"
+],
+"status": "open-stated",
+"text": "* **IN-V07-2 (J-VI.16).** §13's FL-2 is **closed**: volume 4's second round landed `blockedBy 'rung'`, `parish_church` among the counted churches, the maintenance mode, the ruin centre, the well pins and the `DigRule` rows (V04 §13). FL-3 is **closed**: volume 4's span rule leaves country spans open where no vault stage registers, volume 6 §3.19's raised-way step runs only its lapse and repair at a village rung (V6 X22), and volume 11 §3.24.3's `villageCap` 1 is the village cell of the specialisation rows (the `villageCap` clause superseded by reconciliation round 1, SS-31: the village cap is `rules.tiers.capPerSettlement`, per settlement). FL-1 stays as written (the reference-reading lane's"
+},
+{
+"volume": "V07",
+"id": "IN-V07-3",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 4201,
+"dest": [
+"volume 11",
+"volume 8"
+],
+"status": "unstated",
+"text": "* **IN-V07-3 (J-VI.17 H30; volume 8's X7).** A village birth carrying `Toll bridge` reads the `kinds` cell's `implies: 'bridge'` (volume 11's `toll_bridge` row) in the village site rule: the settlement's through route crosses its water by a bridge, whose deck may carry the toll house by `deckOk`."
+},
+{
+"volume": "V07",
+"id": "IN-V07-4",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 4204,
+"dest": [
+"V09",
+"V11",
+"volume 11"
+],
+"status": "unstated",
+"text": "* **IN-V07-4 (J-VI.17 H31, H32; X-V11-2, XV-V9-9).** The palisade's barrier arcs read volume 11's `walls.barriers` rows (V11 §3.16.1) keyed by the closure-arc kinds of J-VI.3; its \"show circuit\" control reads BCR-V9-25's `LayerSpec.showCircuit`."
+},
+{
+"volume": "V07",
+"id": "IN-V07-5",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 4207,
+"dest": [],
+"status": "unstated",
+"text": "* **IN-V07-5 (J-VI.4).** No village tool refuses a declaration that contradicts no dossier fact and no lock (item 101 R2): a raised stroke at a village rung is drawn as declared (the rung gate binds only generation, BCR-V7-33)."
+},
+{
+"volume": "V07",
+"id": "IN-V07-6",
+"section": "Integration notes — continuation (volumes/_integrate, 2026-0",
+"line": 4373,
+"dest": [],
+"status": "unstated",
+"text": "* **IN-V07-6 (J-VI.23, clean-room).** IN-V07-1 no longer names the retired request field (its former name coincided with a reference field). No meaning changed."
+},
+{
+"volume": "V07",
+"id": "IN-V07-7",
+"section": "Integration notes — continuation (volumes/_integrate, 2026-0",
+"line": 4375,
+"dest": [
+"V08",
+"volume 8"
+],
+"status": "unstated",
+"text": "* **IN-V07-7 (J-VI.25).** The dossier trace of §1b read \"`nearbyResources[]` → DR19 → W20\", a field no digest carries; it now reads \"deposits → `site.deposits` (V08 §2.6's digest field) → DR19 → W20\", as volume 8 traces it."
+},
+{
+"volume": "V08",
+"id": "X1",
+"section": "13 Fix list",
+"line": 3439,
+"dest": [
+"V11"
+],
+"status": "unstated",
+"text": "| X1 | revise-V11 | the ladder table's fixes from the re-check against SettlementForge's ladder file: the `inferred` rows the file holds become `ladder` or `subsumption`; `hospital_network`'s and `dungeon_delving_supply_district`'s lessers corrected; the pairs the file holds that V11 lacks added; the rows the file lacks but the dossiers list both forms of kept `inferred` (J-V8.81) | V08 §3.5.1 (f) |"
+},
+{
+"volume": "V08",
+"id": "X2",
+"section": "13 Fix list",
+"line": 3440,
+"dest": [
+"V11"
+],
+"status": "closed-stated",
+"text": "| X2 | revise-V11 | **CLOSED** (reconciliation round 3's continuation): V11's `siting.web.chainStatus` row holds `sustained` 0.9 (J-V11.52), read in its text (V08 §12). Was: the `chainStatus` key `sustained` (a magically sustained chain) in `siting.web.chainStatus`, proposed at 0.9 | V08 §2.6 `chainStatus` |"
+},
+{
+"volume": "V08",
+"id": "X3",
+"section": "13 Fix list",
+"line": 3441,
+"dest": [
+"V04",
+"V06"
+],
+"status": "unstated",
+"text": "| X3 | V06 | `CalamityRef.deaths: number`, the calamity's deaths, read by V04's burial growth | V08 §3.6 (3) |"
+},
+{
+"volume": "V08",
+"id": "X4",
+"section": "13 Fix list",
+"line": 3442,
+"dest": [
+"V11"
+],
+"status": "unstated",
+"text": "| X4 | revise-V11 | the burial ladder rows: `Parish burial grounds` a SIZE lesser of the city record; `Burial grounds and charnel house`'s charnel part; `Cemetery network` a COUNT row, one member per gate on a through route, each extramural; `Great cathedral` SIZE over `Cathedral (10,000+ only)` | V08 §2.6a (3) |"
+},
+{
+"volume": "V08",
+"id": "X5",
+"section": "13 Fix list",
+"line": 3443,
+"dest": [
+"V11"
+],
+"status": "unstated",
+"text": "| X5 | revise-V11 | **SUPERSEDED** (SS-38): the first version's `near` → terminal row on `conduit_house` is not added; V11 §3.24.7 (1)'s criteria row `pc/aqueduct/<way lineage>`, written by the aqueduct's generator, binds the conduit house to the terminal (J-VI.9, IN-V08-3) | V08 §2.6b (1) (c) |"
+},
+{
+"volume": "V08",
+"id": "X6",
+"section": "13 Fix list",
+"line": 3444,
+"dest": [
+"V02",
+"V11"
+],
+"status": "unstated",
+"text": "| X6 | revise-V11, V02 | one culture modifier row per V11 culture row for item 110 (b)'s aqueduct chance; the stepped specialisation rows (item 110 (c)) keyed by culture and class, which DR15's template family reads | V08 §2.6b (4) |"
+},
+{
+"volume": "V08",
+"id": "X7",
+"section": "13 Fix list",
+"line": 3445,
+"dest": [
+"V07"
+],
+"status": "unstated",
+"text": "| X7 | V07 | the village births carrying `Toll bridge` (`culture-norse`, `sample-cnocby`, `village-1`) read the same `kinds` cell's `implies: 'bridge'` in the village product's site rule | V08 §2.6b (3) |"
+},
+{
+"volume": "V08",
+"id": "X8",
+"section": "13 Fix list",
+"line": 3446,
+"dest": [
+"V05",
+"coherence pass"
+],
+"status": "closed-stated",
+"text": "| X8 | the coherence pass (_integrate) | the SLOT mechanism for removed generated item-110 content — a removed raised way's slot stays closed and a cap increase opens only a new slot — together with critique-V5's C5-51, which asks the same for islands | V08 §4.3 |"
+},
+{
+"volume": "V08",
+"id": "X9",
+"section": "13 Fix list",
+"line": 3447,
+"dest": [
+"V11"
+],
+"status": "unstated",
+"text": "| X9 | revise-V11 | the `kinds` row's `implies: 'bridge'` cell for `toll_bridge`; the toll house's `deckOk` (whether it may stand on a bridge deck, item 110 (d)) | V08 §2.6, §2.6b (3) |"
+},
+{
+"volume": "V08",
+"id": "X10",
+"section": "13 Fix list",
+"line": 3448,
+"dest": [
+"coherence pass"
+],
+"status": "unstated",
+"text": "| X10 | the coherence pass (_integrate) | BCR-V8-28's `waterUse` field on item 110's raised-way record once that record is homed in §2.7; the generator report notes `aqueduct_no_source` and `toll_bridge_dry` in §5.4's report vocabulary | V08 §2.6b (1) (b), (e), (3) |"
+},
+{
+"volume": "V08",
+"id": "X11",
+"section": "13 Fix list",
+"line": 3449,
+"dest": [
+"V06",
+"V10"
+],
+"status": "closed-stated",
+"text": "| X11 | V10, V06 | **CLOSED** (seam-surfaces-r4 SR4-06; reconciliation round 5): V10 §3.9's `info.raised.*` outcome rows, `info.raised.suppressed` one key with the history panel's line (V10 CVR-V10-14's V08 part **Met**), and V06's chronicle `raisedWay` entries (V06 W19; V6 §3.15.1) drawn as V9 §4.10's `epoch` rows, read in their text (V08 §12). Was: the words of item 110's `why` answers — V10 §3.9's `info.raised.*` rows, `info.raised.suppressed` one key with the history panel's line (CVR-V10-14) — and the history panel's raised-way lines, which are V06's chronicle `raisedWay` entries (V06 W19; V6 §3.15.1, §5.2's templates) drawn as V9 §4.10's `epoch` rows; this volume quotes none (SS-43) | "
+},
+{
+"volume": "V08",
+"id": "X12",
+"section": "13 Fix list",
+"line": 3450,
+"dest": [
+"V09",
+"volume 8"
+],
+"status": "closed-stated",
+"text": "| X12 | V09 | **CLOSED** (seam-surfaces-r4 SR4-06; reconciliation round 5): V9 §4.9's sentence \"Every `host.*` key volume 8 names is a row of the same file, its text volume 8's (V08 §13 X12 …)\", with V9 §5.12's `host.locked` (\"Set by {host}\") and T-V9-15's walker over V08's port notes (SR2-18, landed in V09's round 2), read in its text (V08 §12). Was: the `host.*` catalogue rows for the player's caption, \"The DM has not opened this map yet\", the strip \"Showing what the players see\" with its \"Show everything\" button, the party controls (\"Hide again\" and \"Reveal again\" among them), `host.locked` (\"Set by {host}\", V08 §3.1 step 7 (b); reconciliation round 2), the draft mirror's discard notice, "
+},
+{
+"volume": "V08",
+"id": "X13",
+"section": "13 Fix list",
+"line": 3451,
+"dest": [
+"V04"
+],
+"status": "unstated",
+"text": "| X13 | V04 | the readers of `site.ruinEvidence`'s seven kinds in V04 §3.5.0a's order, DR-V8.3's relief and mining inputs, and DR-V8.4's burial faces, rank and church count as V08 §2.6a states them | V08 §2.6a |"
+},
+{
+"volume": "V08",
+"id": "X14",
+"section": "13 Fix list",
+"line": 3452,
+"dest": [
+"V07",
+"V11"
+],
+"status": "closed-stated",
+"text": "| X14 | reconcile-V11-r1, reconcile-V07-r1 | **CLOSED** (SR1-28; reconciliation round 2): all landed and read in the current text (V08 §12). Was: the companions of this volume's seam fixes, which this volume is written as if applied: V11 §3.12's burial pairs (`parish_burial_grounds` COUNT over `graveyard` and `burial_ground`; `graveyard` REPLACEMENT over `burial_ground`; SS-26), V11 §3.13.2's `village` archetype cell (SS-09), the spelling `@absent:watermill+windmill` in V11 §3.11 and BCR-V11-9 (SS-36), V11 §3.12's range paragraph citing V08 §3.5.1 (b)'s village sentence (SS-08); V07's `access_to_external_mill` read as `@absent:watermill+windmill` (SS-43) | V08 §2.6, §2.6a, §3.5.1 (reconcilia"
+},
+{
+"volume": "V08",
+"id": "X15",
+"section": "13 Fix list",
+"line": 3453,
+"dest": [
+"V09"
+],
+"status": "open-stated",
+"text": "| X15 | V09 (reconcile-V09-r2, with SR-06 and SR-16) | **CLOSED** (SR2-09; reconciliation round 3): landed at 05:16 with every companion below, read in V09's text (V08 §12). Was: the companions of this round's fixes, which this volume is written as if applied — read applied in V09's current text (2026-09-29 ~05:12, that lane's batch-1 checkpoint of 05:08; open only until it lands): BCR-V9-23's `viewAs` admits the key form `{ tier, places }` (SR-06); V9 §4.8's \"A host's players' view\" — a host may set it, the View as menu then reads \"What the players know\" with `info.viewAs.host`, and the View-as banner is not drawn while the host's strip stands for it (J-V8.89, J-V9.85); `HostSlots.historyFi"
+},
+{
+"volume": "V08",
+"id": "X16",
+"section": "13 Fix list",
+"line": 3454,
+"dest": [
+"V09"
+],
+"status": "closed-stated",
+"text": "| X16 | V09 (reconcile-V09-r3, with SR2-01 and SR2-02) | **CLOSED** within reconciliation round 3: V09's round 3 landed 06:25 with both slots, read in its text (V08 §12; V09's XV-V9-21 met by V08 §3.1 step 7 (b), §4.6, §5.1, X12). Was: the companions of this round's SR2-03: V9 §2.2's `HostSlots` gains `historyLines?: { list(): HostHistoryLine[]; onChange(h): () => void }` (`HostHistoryLine { at; text: MsgRef; targets: Id[] }`) and `newDocuments: 'download' \\| 'off'`; V9 §4.10 draws the lines as the group \"The party\" at the head of the history list under **All** and **SettlementForge**, newest first, each with **Show** when it has targets and no **Undo this**, never persisted; V9 §3.9's new-d"
+},
+{
+"volume": "V08",
+"id": "X17",
+"section": "13 Fix list",
+"line": 3455,
+"dest": [
+"V09"
+],
+"status": "open-stated",
+"text": "| X17 | V09 (reconcile-V09-r4, with SR3-02) | **CLOSED** (SS-45; reconciliation round 1's continuation): V09's round 4 landed 07:35; J-V9.98, V9 §2.2's `fileMenu: false` comment and T-V9-28's allowlist read in its text (V08 §12). Was: the companion of reconciliation round 4's SR3-06 (c) — V9 §2.2's `fileMenu: false` states its meaning once (in host mode the file menu keeps Export skeleton, Rebuild around my drawings, Settings and About and drops New town, Open…, Save a copy and Recently deleted; Settings drops its Storage section), V9 §5.1's top-bar row and V9 §5.12 cite it, and T-V9-28's allowlist names those four items and the Storage section | V08 §3.1 step 2, §5.1, BCR-V8-3 (reconciliati"
+},
+{
+"volume": "V08",
+"id": "X18",
+"section": "13 Fix list",
+"line": 3456,
+"dest": [
+"V09"
+],
+"status": "open-stated",
+"text": "| X18 | V09 (reconcile-V09-r2's continuation, with SR-22, SR-34 and SR-35 of seam-surfaces-r1) | **CLOSED** (SR2-24 (e); reconciliation round 3's continuation): that lane landed 09:49; V9 §2.8, §4.10, §5.4, §5.7 and §10.2's XV-V9-26 read in its text (V08 §12). Was: OPEN until that lane lands (started 09:27): V9 §2.8's `HistoryRow.lines` and V9 §4.10's `dossierFacts` rows — the absorb group's head (`host.group.absorb`, `.absorbUndated`), its note lines with **Show**, a line dropped under the view's effective key, and the creation's row — by which V08 §4.6's absorb group is drawn (SR-22); V9 §5.7's dossier-bound item listing `GenerationReport.dossier`, then `GenerationReport.dossierNotes` unde"
+},
+{
+"volume": "V08",
+"id": "X19",
+"section": "13 Fix list",
+"line": 3457,
+"dest": [
+"V11"
+],
+"status": "open-stated",
+"text": "| X19 | V11 (reconcile-V11-r3's continuation, with SCC-R2C-10; and the next V11 lane for `customWeights`) | **CLOSED** (SCC-R3C-11; SR3-13 (a); reconciliation round 4's continuation): reconcile-V11-r3's continuation landed 10:48; V11 §3.24.2 holds `elevated.landmarkMinSignificance` 20 (calibratable, its entry V12 §3.11's `raisedWays` settings line) and V11 §3.1 row 63 lists `customWeights`, non-calibratable like the row's others, read in its text (V08 §12). Was: OPEN until V11's text holds them: V11 §3.24.2's settings gain `elevated.landmarkMinSignificance` (the castle's significance; calibratable, bound by V12 §3.11's item-110 lines) beside `landmarkFactor`, whose text cites DR-V8.8 for the"
+},
+{
+"volume": "V08",
+"id": "X20",
+"section": "13 Fix list",
+"line": 3458,
+"dest": [
+"V09"
+],
+"status": "open-stated",
+"text": "| X20 | V09 (its next reconcile lane, with SR2-23 of seam-surfaces-r2's continuation) | **CLOSED** (SR3-13 (a); reconciliation round 4's continuation): reconcile-V09-r3's continuation landed 10:48; V9 §2.2's `list(key)` slot with its comment, V9 §4.10's re-list, T-V9-28's View-as clause and XV-V9-29 marked met, read in its text (V08 §12). Was: OPEN until V09's text holds it: V9 §2.2's `HostSlots.historyLines` reads `{ list(key: ViewState['knowledge']): HostHistoryLine[]; onChange(h: () => void): () => void }` — the shell calls `list(effectiveKey())` each time it draws the group, the provider naming and targeting only the places that key admits; V9 §4.10's host-lines paragraph re-lists them w"
+},
+{
+"volume": "V08",
+"id": "X21",
+"section": "13 Fix list",
+"line": 3459,
+"dest": [
+"V06"
+],
+"status": "closed-stated",
+"text": "| X21 | V06 (reconcile-V06-r4's continuation, with SR3-10) | **CLOSED** within reconciliation round 4's continuation: V06's lane landed 11:39 with the field, read in its text (V6 §2.10, §3.19.3 (2), T-V6-58, J-V6.120, its X44; V08 §12). Was: `EpochReport.raised.suppressedFired: { removal: number /* the live delete's seq */; week: number /* that removal's week */ }[]` as seam-surfaces-r3 SR3-10 states it — one entry per suppressed raised-way key whose reason passes its chance gate at the epoch, in removal order, none for a key a re-add serves — read by V08 §4.6 item 3 and T-V8-45 | V08 §4.6 item 3, T-V8-45 (reconciliation round 4's continuation; SR3-13 (d)) |"
+},
+{
+"volume": "V08",
+"id": "X22",
+"section": "13 Fix list",
+"line": 3460,
+"dest": [
+"V07",
+"V11"
+],
+"status": "open-stated",
+"text": "| X22 | V07 (reconcile-V07-r5, with seam-settlements-r4 SR4-01 and SR4-08), V11 (reconcile-V11-r5, with SR4-02) | **CLOSED** (seam-settlements-r5 SR5-08; reconciliation round 6): reconcile-V11-r5 landed 12:51 and reconcile-V07-r5 13:07; V07 §3.10's pin-record rule, V07 §3.11 step 4, V11 §3.11's `@pin:<kind>` reading and V11 §3.12's `parish_church` row read in their text (V08 §12). Was: OPEN until both lanes land (started 12:36 and 12:39): V07 §3.10's rule that a pin record forces its pin — the churchyard `cross` of a wayside shrine merged into a parish church laid in the church's `churchyard` part, the pin V08 §3.5.1 (c)'s pin-lesser branch binds — and V07 §3.11 step 4's one `unmapped_kind` "
+},
+{
+"volume": "V08",
+"id": "X23",
+"section": "13 Fix list",
+"line": 3461,
+"dest": [
+"V07"
+],
+"status": "open-stated",
+"text": "| X23 | V07 (its next reconcile lane; reconcile-V07-r6 landed 14:05 with SR5-02, a minute before this hand-off) | **CLOSED** by the finalization (seam-settlements-r6 SR6-01 applied in V07: item 4, §3.10, §3.11, §2.4, T-V7-13, T-V7-35, J-V7.131). Formerly OPEN until V07's text holds it (lane note 14:06): *Records at a village epoch* item 4's \"the shrine record's key binding it (V08 §3.5.1 (c))\" holds where the shrine keeps a key of its own (the church added beside a kept shrine, or the shrine leaving the list as the church arrives); after a promotion receipt the record's one key binds the church placed new and the churchyard `cross` is laid for the record — keyed by its binding key, its prove"
+},
+{
+"volume": "V08",
+"id": "X24",
+"section": "13 Fix list",
+"line": 3462,
+"dest": [
+"V06"
+],
+"status": "open-stated",
+"text": "| X24 | V06 (its next lane; reconcile-V06-r6 landed at 13:59, before this hand-off; seam-settlements-r6 SR6-02) | **CLOSED** by the finalization (SR6-02 applied in V06: V6 §3.9.11's REPLACEMENT row by V08 §3.5.1 (c)'s cases, J-V6.125, T-V6-45, X47). Formerly OPEN until V06's text holds it (lane note 14:06): V6 §3.9.11's REPLACEMENT row and J-V6.125 name the rows V08 places new by V08 §3.5.1 (c)'s cases — a building lesser whose row keeps not the lesser's thing (`fish_market` over `fishmonger`), a pin-record lesser (`parish_church` over `wayside_shrine`), the `@wall` rows by the fortification path — never by \"another template family\", since `hedge_wizard` → `wizard_s_tower`, `wizard_s_tower` "
+},
+{
+"volume": "V08",
+"id": "X25",
+"section": "13 Fix list",
+"line": 3463,
+"dest": [
+"V11"
+],
+"status": "open-stated",
+"text": "| X25 | V11 (reconcile-V11-r6, with seam-settlements-r5 SR5-03) | **CLOSED** (seam-settlements-r6 SR6-05 (a)): V11 §2.3's *The display cells*, V11 §3.5.15 and J-V11.93 – J-V11.95 landed at 14:25; a generic class's label is its family's `label` cell (J-V11.95), not `trade.noun`. Formerly OPEN until that lane lands (its checkpointed text at 14:12 holds V11 §2.3's *The display cells*, J-V11.93): the class rows' `label` cell (BCR-V9-8, as SR5-03 asks: `label`, `icon?`, `synonyms`, `commonness` on `BuildingClassRow`, the `generic-<family>` classes' labels from V11's `trade.noun` slice), whose words V08 §4.6's `unmapped_kind` and `custom_resolved` notes show; V07's `v.` rows' labels follow with SR"
+},
+{
+"volume": "V08",
+"id": "IN-V08-1",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 3478,
+"dest": [
+"V06",
+"coherence pass",
+"volume 6"
+],
+"status": "unstated",
+"text": "* **IN-V08-1 (J-VI.13).** The coherence pass numbers this volume's rows: DR-V8.1 → **DR29**, DR-V8.2 → **DR30**, DR-V8.3 → **DR31**, DR-V8.4 → **DR32**, DR-V8.5 → **DR33**, DR-V8.6 → **DR28** (one row with volume 6's DR-V6.1), DR-V8.7 → **DR34**, DR-V8.8 → **DR35**. The working names stay as aliases in this volume's text."
+},
+{
+"volume": "V08",
+"id": "IN-V08-2",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 3481,
+"dest": [
+"V06"
+],
+"status": "unstated",
+"text": "* **IN-V08-2 (J-VI.14, J-VI.15; X8, X10).** X8's slot mechanism is the one suppression mechanism of J-VI.14 (BCR-V6-24, widened to islands and accesses); X10's `waterUse` joins the raised-way record and the report notes `aqueduct_no_source` and `toll_bridge_dry` join §5.4's vocabulary (file f)."
+},
+{
+"volume": "V08",
+"id": "IN-V08-3",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 3484,
+"dest": [
+"V11"
+],
+"status": "unstated",
+"text": "* **IN-V08-3 (J-VI.9).** A dossier-bound `conduit_house` (`aqueduct_or_water_system` → V11 §3.11) is the aqueduct's terminal where an aqueduct is generated; no conduit house is created that the dossier or roster does not hold."
+},
+{
+"volume": "V08",
+"id": "IN-V08-4",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 3486,
+"dest": [
+"V11",
+"file f",
+"volume 11"
+],
+"status": "unstated",
+"text": "* **IN-V08-4 (J-VI.20).** BCR-V8-29's `customKinds` row type carries no `fallbackClass` (BCR-V11-26): a carried custom institution's class is volume 11's item 104 (a) resolution; the read-time overlay of this volume stays (file f item 425)."
+},
+{
+"volume": "V09",
+"id": "XV-V9-1",
+"section": "10.2 Cross-volume requests (to the siblings' revisions; not ",
+"line": 4221,
+"dest": [
+"V11"
+],
+"status": "unstated",
+"text": "| XV-V9-1 | V11 | `siting.declared` admits the key forms `cls:<class>` (a roster class no dossier record binds) and `use:<address>` (the `split` cell only, orphaned when the use goes, as `siting.linkEdits`' keys are), and a cell `familyWeights` (V11 §4.2's name; per family one of 0, 0.5, 1, 2 or 3) multiplying each family's soft terms for the key's kind (hard needs unscaled), read by the resolver; V11 §4.4's lifecycle rows cover them | V9C-03 |"
+},
+{
+"volume": "V09",
+"id": "XV-V9-2",
+"section": "10.2 Cross-volume requests (to the siblings' revisions; not ",
+"line": 4222,
+"dest": [
+"V11"
+],
+"status": "unstated",
+"text": "| XV-V9-2 | V11 | `siting.linkEdits` gains the cell `avoid?: Id[]` (providers never bound; the next nearest serves), and V11 §4.2 states the three meanings: `bindTo` keeps a supplier, `avoid` cuts one, `cut: true` alone stops the good at that use | V9C-03 |"
+},
+{
+"volume": "V09",
+"id": "XV-V9-3",
+"section": "10.2 Cross-volume requests (to the siblings' revisions; not ",
+"line": 4223,
+"dest": [
+"V04"
+],
+"status": "unstated",
+"text": "| XV-V9-3 | V04 | `showUnexcavated` is the per-viewer view key of BCR-V9-20, not a `LayerSpec` field: V4 §1b.1, §1b.3, §2.6's lifecycle row and BCR-10 follow | V9C-04 |"
+},
+{
+"volume": "V09",
+"id": "XV-V9-4",
+"section": "10.2 Cross-volume requests (to the siblings' revisions; not ",
+"line": 4224,
+"dest": [
+"V04"
+],
+"status": "unstated",
+"text": "| XV-V9-4 | V04 | the reader returns, on a cavern or ruin cluster, the fact `under/wayIn` (the connection graph's path from the nearest surface access) and, on a burial face, the `why` path `catacomb` with its candidate-pass reason; §8.2's access row draws its symbol by `cause.rule` (V9 §4.17.3's column); V4 §4.1 adopts BCR-V9-21's chamber closure and catacomb ladder and BCR-V9-22's dwelling closure | V9C-05, V9C-06, V9C-07, V9C-08 |"
+},
+{
+"volume": "V09",
+"id": "XV-V9-5",
+"section": "10.2 Cross-volume requests (to the siblings' revisions; not ",
+"line": 4225,
+"dest": [
+"V03"
+],
+"status": "unstated",
+"text": "| XV-V9-5 | V03 | the crypt bends of V9 §4.17.5 (e): the cathedral's crypt kept at its smallest lawful size when a plan event would remove it, another church's crypt clamped just short of the cathedral's, and the crypt join's closing listed as a fate, each with its `bent` `MsgRef` | V9C-08 |"
+},
+{
+"volume": "V09",
+"id": "XV-V9-6",
+"section": "10.2 Cross-volume requests (to the siblings' revisions; not ",
+"line": 4226,
+"dest": [
+"V02",
+"V10"
+],
+"status": "unstated",
+"text": "| XV-V9-6 | V02 | none beyond V2 §3.14.5's no-refusal crypt ladder, which V9 §4.17.5 cites; the canvas-handle contract of V2 §4.5 is received in V9 §3.5; X21 is received in V9 §4.20.5; BCR-V9-30's bridge slot is a `DeckContext.landmark` plot, and CVR-V10-8's registry path `deck/landmarks/<head \\| mid>` covers it | V9C-08, V9C-13, V9C-58, V9C-59 |"
+},
+{
+"volume": "V09",
+"id": "XV-V9-7",
+"section": "10.2 Cross-volume requests (to the siblings' revisions; not ",
+"line": 4227,
+"dest": [
+"V10"
+],
+"status": "closed-stated",
+"text": "| XV-V9-7 | V10 | **Met** in V10's text (V10 §2.6's `createClerk(mount)` returning a `ClerkHandle`, and its `send`, whose `why` entry takes the attached `WhyAnswer` (V10 §3.1); V10 §2.4's `DraftItem.bent?: MsgRef`; the merged texts in V10 §1b.1's rows for BCR-V9-10, BCR-V9-12 and BCR-V9-16; seam-surfaces-r4 SR4-05 (d)). Was: its harness implements V9 §2.10's `ClerkSlot.mount` → `ClerkHandle`; `DraftItem.bent` is a `MsgRef` (BCR-V9-12); BCR-V10-6 (b) and (c) and BCR-V10-12 are replaced by the merged texts of BCR-V9-10, -12 and -16; its `why` entry accepts the `WhyAnswer` V09 attaches | V9C-02, V9C-09, V9C-10 |"
+},
+{
+"volume": "V09",
+"id": "XV-V9-8",
+"section": "10.2 Cross-volume requests (to the siblings' revisions; not ",
+"line": 4228,
+"dest": [
+"V02",
+"V04",
+"V05",
+"V10"
+],
+"status": "closed-stated",
+"text": "| XV-V9-8 | V04, V05, V10, V02 | AP6, AP7, AP8 and AP10 (2.75–4.25 pw) join their staged milestones' pricing — V04's M6-U, V05's P4, V10's M3c, V02's M6c. V10's part **Met** in V10's text (V10 §8's total: the rest of M3c's price is V09's AP8, the built-in assistant's screens, 1–1.25 pw, V9 §8.1, priced in V09's total and outside V10's; reconcile-V10-r6, seam-surfaces-r5 SR5-06 (e), SR5-07 (d)); the V04, V05 and V02 parts lie outside that seam and are unchanged by this round | V9C-26, V9C-64 |"
+},
+{
+"volume": "V09",
+"id": "XV-V9-9",
+"section": "10.2 Cross-volume requests (to the siblings' revisions; not ",
+"line": 4229,
+"dest": [
+"V07"
+],
+"status": "unstated",
+"text": "| XV-V9-9 | V07 | the palisade's \"show circuit\" reads BCR-V9-25's `LayerSpec.showCircuit` (\"Show the whole circuit\") | V9C-14 |"
+},
+{
+"volume": "V09",
+"id": "XV-V9-10",
+"section": "10.2 Cross-volume requests (to the siblings' revisions; not ",
+"line": 4230,
+"dest": [
+"V10"
+],
+"status": "closed-stated",
+"text": "| XV-V9-10 | V10 | **Met** in V10's text (V10 §4.1's opening, one text with V09 cited and never restated, and its T10 `hold` rows, `remove` sending one plain `delete` per target with no reason key; T-V10-38; SR4-05 (d)). Was: one text for BCR-V9-26: V10's encoders emit exactly its shapes (critique-V10's C10-51); `delete` is T10's (BCR-V10-20), as V9 §4.3 adopts (J-V9.74), and V10's `hold` op `remove` sends the plain `delete`, never a reason key | V9C-52 |"
+},
+{
+"volume": "V09",
+"id": "XV-V9-11",
+"section": "10.2 Cross-volume requests (to the siblings' revisions; not ",
+"line": 4231,
+"dest": [
+"V10"
+],
+"status": "closed-stated",
+"text": "| XV-V9-11 | V10 | **Met** in V10's text (V10 §2.6's `ProposalView.variations[].effects` and `effectsMore`, V10 §5.4's **What else changes**, V10 §4.4's destructive case and J-V10.75; SR4-05 (d)). Was: the effects list (BCR-V9-27) on the proposal card under \"What else changes\" and in the model's results, filtered under the key (BCR-V10-6 (b) extended), and destructive effects kept out of apply-then-undo (critique-V10's C10-53) | V9C-56 |"
+},
+{
+"volume": "V09",
+"id": "XV-V9-12",
+"section": "10.2 Cross-volume requests (to the siblings' revisions; not ",
+"line": 4232,
+"dest": [
+"V10"
+],
+"status": "closed-stated",
+"text": "| XV-V9-12 | V10 | **Met** in V10's text (V10 §4.1's `retaining` row with `closed` and its `terrace` row sending the `terrace` sugar; V10 §2.13's `RaisedOutcome`, its reason key and its `declared` outcome, and IN-V10-2's `raised[].reason`; CVR-V10-7's stack top for `entity { at }`; V10 §3.9's *A removed thing*; `rebuild`'s events from `ClerkMount.rebuildEvents` (V10 §2.6, §4.3); SR4-05 (d)). Was: the encoders allow `closed` on a retaining chain (a platform, J-V9.71), send T2's terrace as the `terrace` sugar (BCR-V9-26 (c), with BCR-V10-17's `levelCm`), and the raised-way provider reads the recorded reason (`drop` · `link` · `water`; J-VI.2) or `declared`; `entity { at }` answers the hit stac"
+},
+{
+"volume": "V09",
+"id": "XV-V9-13",
+"section": "10.2 Cross-volume requests (to the siblings' revisions; not ",
+"line": 4233,
+"dest": [
+"V11",
+"volume 11"
+],
+"status": "closed-stated",
+"text": "| XV-V9-13 | V11 | the `terrace` table gains `retainingReachM` (15 m), `flatDepthM` (12 m) and `coverShare` (0.8) for V9 §4.20.1 (3)'s bends; the bridge's mid-span threshold is volume 11's `deck.landmarks/bridgeMid/minSpanM` (BCR-V9-30) — **met** by V11 §3.24.4 (SR-15); the `raisedWays` `says` sentences serve the raised way's panel (critique-V11 §11 (8)) | V9C-53, V9C-58, V9C-61 |"
+},
+{
+"volume": "V09",
+"id": "XV-V9-14",
+"section": "10.2 Cross-volume requests (to the siblings' revisions; not ",
+"line": 4234,
+"dest": [
+"V04"
+],
+"status": "unstated",
+"text": "| XV-V9-14 | V04 | an arch vault (`archVault`, critique-V4's C4-110-1) records its raised way and span path, so V9 §4.17.6 lists it \"At street level, under {way}\", the depth-band filter never hides it, and the hit stack reaches it through the span | V9C-74 |"
+},
+{
+"volume": "V09",
+"id": "XV-V9-15",
+"section": "10.2 Cross-volume requests (to the siblings' revisions; not ",
+"line": 4235,
+"dest": [
+"V03"
+],
+"status": "unstated",
+"text": "| XV-V9-15 | V03 | V3C-75's crypt ladder for `setAttr(basement/crypt/ring)` on a building without a basement, which V9 §4.17.5 (a) emits | V9C-67 |"
+},
+{
+"volume": "V09",
+"id": "XV-V9-16",
+"section": "10.2 Cross-volume requests (to the siblings' revisions; not ",
+"line": 4236,
+"dest": [
+"V05",
+"volume 9"
+],
+"status": "open-stated",
+"text": "| XV-V9-16 | V05 | (a) V05's \"T9's delete\" reads \"volume 9's delete row (T10)\" (open: V5 §1b's and §2.1's lifecycle rows still read \"T9's delete\"); (b) **Met** in V05's text (V5 §4.2; J-VI.4 (d), (e), (g)): V05's island and rim words are bends, one text with V9 §4.9's `bend.raised.island`, `bend.aqueduct.island`, `bend.raised.onIsland`, `bend.aqueduct.onIsland` and `bend.retaining.rim` rows, each with its alternative (\"Draw a road to its foot\"; \"Show me why\") — was: refusals each with an offer (\"Move it inside the rim\", J-V9.76, withdrawn; SS-32) | V9C-60 |"
+},
+{
+"volume": "V09",
+"id": "XV-V9-17",
+"section": "10.2 Cross-volume requests (to the siblings' revisions; not ",
+"line": 4237,
+"dest": [
+"V08"
+],
+"status": "closed-stated",
+"text": "| XV-V9-17 | V08 | **Met** in V08's text (V08 §3.1 step 7 (a), `ClerkMount.host`, and (b), `HostSlots` with `hostName: 'SettlementForge'`; SR4-05 (d)). Was: the embed's bridge handler (V08 §3.1) fills `ClerkMount.host` (V9 §2.10): `config` and `onConfig` from each `clerk.config`, `needsToken` and `refused` posting `clerk.needsToken` and `clerk.config.refused`, `proposals` from each `preview { proposal }`, `answer` posting `clerk.proposal`; and it fills `HostSlots.hostName` (\"SettlementForge\") | SS-06, SS-07 |"
+},
+{
+"volume": "V09",
+"id": "XV-V9-18",
+"section": "10.2 Cross-volume requests (to the siblings' revisions; not ",
+"line": 4238,
+"dest": [
+"V10"
+],
+"status": "closed-stated",
+"text": "| XV-V9-18 | V10 | **Met** in V10's text (V10 §2.6's `type ClerkHarness = ClerkHandle` with no member of its own and *The bridge, through the mount only*; V10 §3.17's host seam through `ClerkMount.host`; V10 §2.3's session key from `mount.effectiveKey()` and `onEffectiveKey`; V10 §3.9a's access-point row citing `info.under.cause.<rule>`, its catacomb row citing `info.catacomb.blocked.<cause>` and its sealed-deep and unexcavated rows naming `info.under.deep` and `info.under.sealed`; the `why.section.<kind>` titles are V9 §4.9's own rows; SR4-05 (d)). Was: `ClerkHarness` adds no member beyond `ClerkHandle` (V9 §2.10 now declares `run`, `newTopic`, `setKey`'s verdict, `defects` and `clearDefect"
+},
+{
+"volume": "V09",
+"id": "XV-V9-19",
+"section": "10.2 Cross-volume requests (to the siblings' revisions; not ",
+"line": 4239,
+"dest": [
+"V10"
+],
+"status": "closed-stated",
+"text": "| XV-V9-19 | V10 | **Met** in V10's round-3 text (V10 §2.6's dispatch note, §4.1's `where.locus` query, BCR-V10-22's last sentence, §2.3; SR3-05). Was: (a) V10 §2.6's dispatch table notes its one exception: the skeleton import dialog's **Fix** runs a finding's `propose` in the application, committed as the user's declaration with no `proposedBy`, whether or not a clerk is mounted (V9 §3.12) — T-V10-44 is unchanged, since no application-run `propose` reaches the harness; (b) V10 §3.16's `dossier` alternative \"the first `sites` candidate that satisfies its locus\" is V9 §4.5's query — `sites` for the class, `near` the locus target's anchor, `district` the target when the locus is `in` a quarter"
+},
+{
+"volume": "V09",
+"id": "XV-V9-20",
+"section": "10.2 Cross-volume requests (to the siblings' revisions; not ",
+"line": 4240,
+"dest": [
+"V08"
+],
+"status": "closed-stated",
+"text": "| XV-V9-20 | V08 | **Met** in V08's round-2 text (V08 §3.1 step 7 (b), (c), §3.14 (5); SR2-18). Was: \"See what the players see\" sets the frame's `ViewOpts.viewAs` to the resolved party key form by `setViewOpts` through the embed's bridge handler and clears it with `undefined`, with no view-state write (V9 §4.8; SR-05); `HostSlots.banner` draws the frame's own strips — \"Showing what the players see\" and the held and frozen-view notices — and `historyFilter` stays unset (SR-16); `info.viewAs.host` is this volume's row, so V08's `host.*` set (X12) gains nothing | SR-05, SR-06, SR-16 |"
+},
+{
+"volume": "V09",
+"id": "XV-V9-21",
+"section": "10.2 Cross-volume requests (to the siblings' revisions; not ",
+"line": 4241,
+"dest": [
+"V08"
+],
+"status": "closed-stated",
+"text": "| XV-V9-21 | V08 | **Met** in V08's round-3 text (V08 §3.1 step 7 (b), (c), §4.6, §5.1, X12; SR3-05). Was: the embed's bridge handler fills `HostSlots.historyLines` from `host.state` — a line per reveal or hide (the difference between two successive `party` values, V08's `host.*` rows for \"Revealed to the party: {places}\" and \"Hidden from the party again: {places}\"), one line for the time the party pictures were last drawn from `partyPicturesAt`, replaced on each change, `targets` the places' entity ids — and `HostSlots.newDocuments: 'download'`; V08 §4.6 cites the slot, §5.1's list of host-mode differences gains \"a new document (a copy, a re-run) is saved to the user's device, never opened "
+},
+{
+"volume": "V09",
+"id": "XV-V9-22",
+"section": "10.2 Cross-volume requests (to the siblings' revisions; not ",
+"line": 4242,
+"dest": [
+"V10"
+],
+"status": "closed-stated",
+"text": "| XV-V9-22 | V10 | **Met** in V10's round-3 text (V10 §4.3, §2.6, §1b.2, §3.1 (4), T-V10-20; SR3-05). Was: (a) V10 §4.3, §2.6's `rebuild` comment and §1b's rebuild rows read \"the events `ClerkMount.rebuildEvents(seq)` returns (V9 §2.10, by the rule of V9 §4.20.3 (4))\" (SR2-17 (c)); (b) V10 §3.1 (4) reads \"…or when the drawer's **Start a new map from this** sent the message with `attach.newMap` (V9 §2.10, §4.11)\" (SR2-17 (d)); (c) V10 §3.1 (4)'s first condition (a document holding only its creation prefix) is standalone's: in host mode the frame's document is the host's and no turn enters creation mode (V9 §3.9, §4.11) | SR2-13, SR2-14 |"
+},
+{
+"volume": "V09",
+"id": "XV-V9-23",
+"section": "10.2 Cross-volume requests (to the siblings' revisions; not ",
+"line": 4243,
+"dest": [
+"V06"
+],
+"status": "closed-stated",
+"text": "| XV-V9-23 | V06 | **Met** in V06's text (V6 §3.19.3 (7), V6 §2.12's suppression row, J-V6.116, V06's X39; reconcile-V06-r4, landed 07:31; seam-surfaces-r3 SR3-12 (a)): each suppressed kind's serving re-add is named in Build it again's forms, the deck plot's a `drawFootprint { polygon, cls? }` on the deck whose plot S11 fits at slot `k`, served while that declared plot stands at (host, `k`); V9 §4.20.3 (4)'s deck-plot fallback is withdrawn. Was: V6 §2.13 (7)'s user re-adds name their declared forms as volume 9's Build it again emits them: a retaining wall's \"wall drawn on that line\" is `drawWall { kind: 'retaining' }` on the former chain, and a deck plot's \"plot added at that slot\" is a `dra"
+},
+{
+"volume": "V09",
+"id": "XV-V9-24",
+"section": "10.2 Cross-volume requests (to the siblings' revisions; not ",
+"line": 4244,
+"dest": [
+"V08"
+],
+"status": "closed-stated",
+"text": "| XV-V9-24 | V08 | **Met** in V08's text (V08 §3.1 step 7 (b), §3.8, §5.2, T-V8-47; V08's round 4, landed 07:32; SR-34). Was: (a) V08 §3.1 step 7 (b)'s `banner` list reads \"the held notice\": a frozen view's notice is the shell's own `error.frozen` strip with its one control, in both modes (V9 §2.2's `banner` comment, §3.14 (b); J-V9.97), and V08 §5.2's \"the frame's own notice\" cites that strip; (b) V08 §3.8's \"the owner is offered the `frozenImport` rebase\" cites V9 §3.14 (b)'s **Edit it with this version**, and its in-window upgrade stays V08 §4.2's header control, the shell drawing none (V9 §3.14 (a)) | SR3-01 |"
+},
+{
+"volume": "V09",
+"id": "XV-V9-25",
+"section": "10.2 Cross-volume requests (to the siblings' revisions; not ",
+"line": 4245,
+"dest": [
+"V05"
+],
+"status": "unstated",
+"text": "| XV-V9-25 | V05 | V5 §3.22 (4)'s inward move of a rim stroke (J-VI.4 (g)) states its geometry as V9 §4.20.9 decides it: every point of a retaining or terrace stroke lying in the rim strip moves along the island's radial direction to 1 m inside the strip's `setback` line, the other points unchanged; its words are V9 §4.9's `bend.retaining.rim` (\"The rim walk stays level; the wall stands inside it.\"), already V05's (reconcile-V09-r1) | SS-32 |"
+},
+{
+"volume": "V09",
+"id": "XV-V9-26",
+"section": "10.2 Cross-volume requests (to the siblings' revisions; not ",
+"line": 4246,
+"dest": [
+"V08"
+],
+"status": "closed-stated",
+"text": "| XV-V9-26 | V08 | **Met** in V08's text (V08 §5.2's `CustomChainRecord` row, §1b, BCR-V8-15; landed 08:57, its knowledge rule as SR-25 leaves it; SR-34, SR-35): the gazetteer lists the chains V08 §5.2's row admits, under the kind `customChain` — the read by which V9 §5.4 offers **SettlementForge's chains** | SS-41 |"
+},
+{
+"volume": "V09",
+"id": "XV-V9-27",
+"section": "10.2 Cross-volume requests (to the siblings' revisions; not ",
+"line": 4247,
+"dest": [
+"V04"
+],
+"status": "closed-stated",
+"text": "| XV-V9-27 | V04 | **Met** in V04's text (V4 §3.8's *Voids and bans* exception and its bullet *The dwelling closure's way in*, V4's U-DIG and `DugGenerators` rows, its §4.1 `addUndergroundAccess` row and T-V4-48's closures' clause on T-V9-38's three-building fixture, J-V4.119, J-V4.120; reconcile-V04-r4's continuation, landed 11:35; J-V9.117). U-DIG's closure (V4 §3.8's *Voids and bans* exception for BCR-V9-22's grouped access, and the dwelling closure among U-DIG's callers (seam-surfaces-r3 SR3-11)) takes BCR-V9-22's two new sentences: the dug-access bend lists the further buildings step 1 qualifies in `PreviewResult.alternatives` (at most three, in its order), and an `addUndergroundAccess`"
+},
+{
+"volume": "V09",
+"id": "XV-V9-28",
+"section": "10.2 Cross-volume requests (to the siblings' revisions; not ",
+"line": 4248,
+"dest": [
+"V06"
+],
+"status": "closed-stated",
+"text": "| XV-V9-28 | V06 | **Met** in V06's text (V6 §2.10's `EpochReport.raised.suppressedFired`, filled by V6 §3.19.3 (2), W19's and W58's reader columns, T-V6-58's kept-removed clause, J-V6.120, V06's X44; reconcile-V06-r4's continuation, landed 11:39; seam-surfaces-r3 SR3-10; J-V9.117), its entry `{ removal: the live delete's seq; week }` as asked, none for a key a re-add serves. Was: `EpochReport.raised` (V6 §2.10) gains `suppressedFired: { removal: number /* the seq of the live removal holding the slot */; week: number /* that removal's week */ }[]` — one entry per raised-way reason that fired this epoch at a slot a live removal holds (the reasons `suppressedHeld` counts, W58, W60), in removal"
+},
+{
+"volume": "V09",
+"id": "XV-V9-29",
+"section": "10.2 Cross-volume requests (to the siblings' revisions; not ",
+"line": 4249,
+"dest": [
+"V08"
+],
+"status": "open-stated",
+"text": "| XV-V9-29 | V08 | **Met** in V08's live text (V08 §3.1 step 7 (b), §1b, J-V8.106, J-V8.109, its X20; reconcile-V08-r3's second brief, read 10:41 before its landing), which adds a per-key answer cache: a `list` with a key not yet read returns the lines that name no place and fires `onChange` when the reads answer (J-V8.109), which V9 §4.10's re-list on each `onChange` covers. Was (seam-surfaces-r2 SR2-24 (a)): V08 §3.1 step 7 (b)'s party lines read `{places}` as the names of the places the key `list` is called with admits (V9 §2.2; the shell passes `effectiveKey()`), each read by `query({ kind: 'entity', dossierKey } \\| { kind: 'entity', id }, { admitAs: that key })` (BCR-V9-36, BCR-V10-22) "
+},
+{
+"volume": "V09",
+"id": "XV-V9-30",
+"section": "10.2 Cross-volume requests (to the siblings' revisions; not ",
+"line": 4250,
+"dest": [
+"V10"
+],
+"status": "closed-stated",
+"text": "| XV-V9-30 | V10 | **Met**: (a) – (f) and (h) in V10's landed text (V10 §3.5 step 3's reading of `MsgRow.buttons`, V10 §1b.1's buttons row, §2.6's `useTool` with `mode: 'access'`, §3.16's bends paragraph with `each`, CVR-V10-20 **Met**; reconcile-V10-r6, landed 14:21, md5 `f7d96daf…`); (g) by this lane's logged companion edit of V10 §3.11 and §3.17 (both stale cards show the row's two buttons; V10's addendum *Reconciliation round 6 — volume 9's companion row*; md5 `c78aac11…`). The request: V10 §3.5 step 3 reads the whole of V9 §2.9's `MsgButton`, including what this volume adds to seam-surfaces-r5 SR5-01's interface (J-V9.121): (a) a `commit` from `event` carries the events of the form `eve"
+},
+{
+"volume": "V09",
+"id": "XV-V9-31",
+"section": "10.2 Cross-volume requests (to the siblings' revisions; not ",
+"line": 4251,
+"dest": [
+"V11"
+],
+"status": "unstated",
+"text": "| XV-V9-31 | V11 | V11 §3.1's registry row 87 (`messages`) reads its row type as `MsgRow` for `en.json` and `{ key; text }` for every other locale's file, since `buttons`, `tone` and `codes` are read from `en.json` only (V9 §2.9's *Locales*; J-V9.121), and its loader refuses a locale file carrying them | seam-surfaces-r5 SR5-01 |"
+},
+{
+"volume": "V09",
+"id": "XV-V9-24",
+"section": "13 Fix list",
+"line": 4518,
+"dest": [
+"volume 8"
+],
+"status": "unstated",
+"text": "XV-V9-24 (volume 8) are requests to siblings, not deferrals. The note at the end of this file lists each change."
+},
+{
+"volume": "V09",
+"id": "IN-V09-1",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 4584,
+"dest": [],
+"status": "unstated",
+"text": "* **IN-V09-1 (J-VI.1, clean-room).** The handle kind is renamed `'towerResize'` (one line); its former name coincided with a reference export field and is not repeated here (reworded by the continuation, J-VI.23)."
+},
+{
+"volume": "V09",
+"id": "IN-V09-2",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 4586,
+"dest": [],
+"status": "unstated",
+"text": "* **IN-V09-2 (J-VI.4; item 101 R2).** The \"added refusal class\" is withdrawn: J-V9.67 is marked withdrawn, §4.9's sentence and §4.20.5 (4) were edited in place, T-V9-13's list reads the `bend.*` keys. The rows `refuse.raised.island`, `refuse.aqueduct.island`, `refuse.raised.onIsland`, `refuse.aqueduct.uphill`, `refuse.retaining.rim` and `refuse.stack.*` are renamed `bend.*` with the same words; each renders as a bend card (the bend's line, the bent declaration pre-selected, the former offer as the alternative), per J-VI.4 (a)–(i). J-V9.44's list of refusals that remain (a dossier fact, a lock or an assignment, a dependent later change, the viewer role, a staged layer, the rung, the screen) i"
+},
+{
+"volume": "V09",
+"id": "IN-V09-3",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 4593,
+"dest": [],
+"status": "unstated",
+"text": "* **IN-V09-3 (J-VI.2, J-VI.3).** The raised-way reason words are `drop`, `link`, `water` (and `declared`); the preview's closure-arc barrier kinds are `shore`, `cliff`, `gorge`, `marsh`, `sheer`, `enceinte` (edited in place)."
+},
+{
+"volume": "V09",
+"id": "IN-V09-4",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 4595,
+"dest": [
+"V02",
+"volume 2"
+],
+"status": "unstated",
+"text": "* **IN-V09-4 (J-VI.5; volume 2's X21).** T9's tier controls also carry, from volume 2's second revision: the **shape** chip (V02's tier-0 shapes), the **skirt** and **solid** chips (a tier's skirt and its solid form), a **shrine-inset handle** on the top tier, the **centre and radius handles** on a round or octagonal tier 0, and the **Sealed** choice on the stair chip (`stairs: 'none'`, edited in place); every bend of V2 §1b (`bend.tiers.*`, `bend.stack.*`, `bend.deck.single`, …) has a catalogue row with its words; each control emits `setMassing { op: 'tiers' }` or `setAttr` as V2 §4.6 states."
+},
+{
+"volume": "V09",
+"id": "IN-V09-5",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 4601,
+"dest": [
+"V02",
+"volume 2"
+],
+"status": "unstated",
+"text": "* **IN-V09-5 (J-VI.17 H5; volume 2's X10).** The style panel offers the `FM` building look; the tool rows for `setComposition room`, the secondary porch and `moveTower { shape }` exist on T9 `shape`; the advanced panel carries the `fantasyShapes` control (V2 §4.4–§4.5, BCR-V2-30)."
+},
+{
+"volume": "V09",
+"id": "IN-V09-6",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 4604,
+"dest": [
+"volume 4"
+],
+"status": "open-stated",
+"text": "* **IN-V09-6 (J-VI.17 H23; volume 4).** T9 `shape` shows a raised way's span `use` (open or vault, a held `setAttr`) and a ruin monument's count (`setAttr` on `monument/count`)."
+},
+{
+"volume": "V09",
+"id": "IN-V09-7",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 4606,
+"dest": [
+"V12"
+],
+"status": "unstated",
+"text": "* **IN-V09-7 (J-VI.17 H24; X-V12-6, X-V12-8).** The tables editor's cell inspector reads `dist/evidence.json` — the status in plain words (\"the owner's rule\" for a stamped cell) and the evidence lines; the preset dialog lists the adopted historical packs as \"historical (<era>, <region>)\", offered only to documents of that era and region. V9 §7.2's second fixture checklist cites volume 12 §3.14's K2 list: K2-4 reads \"≥ 8 jetties outside the basin, deck buildings on ≥ 4\"; the fixture's inputs live in `plat/tests/fixtures/known-city/K2/`."
+},
+{
+"volume": "V09",
+"id": "IN-V09-8",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 4611,
+"dest": [
+"volume 11"
+],
+"status": "closed-stated",
+"text": "* **IN-V09-8 (J-VI.8; applied in place by reconciliation round 2, SR-15).** `deck.landmarkMinSpanM` names volume 11's cell `deck.landmarks/bridgeMid/minSpanM` (40 m); it is not a constant of this volume."
+},
+{
+"volume": "V09",
+"id": "IN-V09-9",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 4613,
+"dest": [
+"volume 10"
+],
+"status": "unstated",
+"text": "* **IN-V09-9 (J-VI.17).** `ClerkHandle.send`'s entries are volume 10's five (`help` added in place)."
+},
+{
+"volume": "V09",
+"id": "IN-V09-10",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 4614,
+"dest": [
+"file f"
+],
+"status": "unstated",
+"text": "* **IN-V09-10 (J-VI.14).** The delete row's \"kept removed\" line for a raised way, an island, an access, a harbour chain or a quay wall reads the one suppression mechanism (file f)."
+},
+{
+"volume": "V09",
+"id": "IN-V09-11",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 4616,
+"dest": [
+"file f",
+"volume 12"
+],
+"status": "unstated",
+"text": "* **IN-V09-11 (J-VI.18).** BCR-V9-31 (a)'s GeoJSON names follow file f item 447's one text for both variants: each support a Polygon of kind `raisedSupport` (with `key` and `state`), a retaining wall of kind `retaining` (edited in place), plus volume 12's `raisedKind`, `source`, `stair`/`ramp` flags and `onDeck`."
+},
+{
+"volume": "V09",
+"id": "IN-V09-12",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 4619,
+"dest": [
+"volume 2",
+"volume 4"
+],
+"status": "unstated",
+"text": "* **IN-V09-12 (J-VI.22).** AP6 and XV-V9-8 name volume 4's milestone **M6-U** (edited in place); \"M6c\" stays volume 2's."
+},
+{
+"volume": "V09",
+"id": "IN-V09-13",
+"section": "Integration notes — continuation (volumes/_integrate, 2026-0",
+"line": 4727,
+"dest": [],
+"status": "unstated",
+"text": "* **IN-V09-13 (J-VI.23, clean-room).** IN-V09-1 no longer names the retired handle kind (its former name coincided with a reference export field). No meaning changed."
+},
+{
+"volume": "V09",
+"id": "IN-V09-14",
+"section": "Integration notes — continuation (volumes/_integrate, 2026-0",
+"line": 4729,
+"dest": [
+"file f"
+],
+"status": "unstated",
+"text": "* **IN-V09-14 (J-VI.27).** The **Deck height** and **Arch spacing** steppers (§4.20) edit file f item 244's held fields `clearanceCm` and `spanSpacingCm`; item 244's support step and the course solver read them, so an edit re-lays the piers and re-derives the spans in the same commit (BCR-V9-33's bends unchanged)."
+},
+{
+"volume": "V09",
+"id": "IN-V09-15",
+"section": "Integration notes — continuation (volumes/_integrate, 2026-0",
+"line": 4732,
+"dest": [
+"volume 5"
+],
+"status": "closed-stated",
+"text": "* **IN-V09-15 (J-VI.4 applied in the text).** BCR-V9-26 (b)'s last sentence read that a raised stroke ending on an island's rim or lying on its key \"is refused with volume 5's refusal and its offer\"; it now reads that it is bent as J-VI.4 (d) and (e) state, as file f item 362's note already applies it; and its uphill aqueduct's last resort, which read \"F-EDIT with the action 'a well at the terminal'\", now reads \"bent to a well at the terminal (J-VI.4 (h))\"."
+},
+{
+"volume": "V09",
+"id": "IN-V09-16",
+"section": "Integration notes — continuation (volumes/_integrate, 2026-0",
+"line": 4736,
+"dest": [],
+"status": "unstated",
+"text": "* **IN-V09-16 (J-VI.30, item 101 R2).** The message rows `refuse.noSite`, `refuse.overBudget` and `refuse.vacateFirst` are now `bend.place.noSite`, `bend.place.overBudget` and `bend.vacate`: a user's placement that no plot here fits, one over its disruption budget, and a join or split that removes an occupied building are bent by the dry run and named in one line (file f item 582), since none contradicts a dossier fact or a lock; the clerk (volume 10) renders them as the item's `bent` line with its alternatives (V10 §3.16; SS-17, SS-28), no refusal category (reconcile-V09-r1, SS-30). The dossier-backed refusals (`refuse.dossierOwned`, `refuse.dossierRemove`, `refuse.roster.dossier`), the loc"
+},
+{
+"volume": "V10",
+"id": "CVR-V10-1",
+"section": "10.2 Cross-volume requests (CVR-V10-n)",
+"line": 3335,
+"dest": [
+"V04"
+],
+"status": "unstated",
+"text": "| CVR-V10-1 | V04 | `catacombOutcome(doc, face)`, read-only, over the candidate pass's derived per-face record (`holds`, `countReached`, `wet`, `age`, `island`, `belowTown`, `chance`); the `underground` section provider with V10 §3.9a's rows; one catalogue key per value of `source.kind`, `blockedBy`, `cause.rule` and the outcome, with V09 |"
+},
+{
+"volume": "V10",
+"id": "CVR-V10-2",
+"section": "10.2 Cross-volume requests (CVR-V10-n)",
+"line": 3336,
+"dest": [
+"V03"
+],
+"status": "unstated",
+"text": "| CVR-V10-2 | V03 | the `crypt` section provider over `Basement.crypt` — presence by the class's crypt value, area and form, the principal crypt, the crypt join, no crypt — with its `info.crypt.*` keys |"
+},
+{
+"volume": "V10",
+"id": "CVR-V10-3",
+"section": "10.2 Cross-volume requests (CVR-V10-n)",
+"line": 3337,
+"dest": [
+"V08"
+],
+"status": "closed-stated",
+"text": "| CVR-V10-3 | V08 | **Met** (V08 §3.1's `connect-src` with the clerk origins by configuration, T-V8-27's list with `measure`, `hit` and `inView` refused `E_HOST_KIND`, V08 §4.4 (4)'s no-prose line; SR-33): the frame's `connect-src` lists the provider's origin when configuration A ships and the host's declared proxy origin when B ships; T-V8-27's fixture list gains `brief`, `entity`, `sites`, `why` (sections included) and `frame` without radius, `measure` refused; §4.4 (4) follows BCR-V10-14 (no dossier prose) |"
+},
+{
+"volume": "V10",
+"id": "CVR-V10-4",
+"section": "10.2 Cross-volume requests (CVR-V10-n)",
+"line": 3338,
+"dest": [
+"V09",
+"volume 10"
+],
+"status": "closed-stated",
+"text": "| CVR-V10-4 | V09 | **Met** (V9 §6.2's *The page's `connect-src`*, V9 §4.11's card-only drawer, V9 §2.10's `ClerkHandle`, V9 §4.9's table of volume 10's families, T-V9-15; read in reconciliation round 5, V09 `f16fc374…`; SR4-04 (d)): the standalone application's `connect-src` with the provider's origin when A ships; the drawer's card-only mode for a host's proposal; `ClerkHandle` as V10 §2.6 implements it; the catalogue keys `critique.K1` – `critique.K18`, `refuse.clerk.*`, `clerk.notice`, `info.under.*`, `info.catacomb.*`, `info.crypt.*`, `info.raised.*` and the `withheldWords` kind words, each in every shipped locale (T-V10-29) |"
+},
+{
+"volume": "V10",
+"id": "CVR-V10-5",
+"section": "10.2 Cross-volume requests (CVR-V10-n)",
+"line": 3339,
+"dest": [
+"V06"
+],
+"status": "unstated",
+"text": "| CVR-V10-5 | V06 | the chronicle entries through `report(h)`, `locate(w)` and the frame builder callable by the `frame` read in the generation worker, `FieldDrivers.since` from the shade masks' history, `LifecycleEvent.detail.why` on moves (C10-15) |"
+},
+{
+"volume": "V10",
+"id": "CVR-V10-6",
+"section": "10.2 Cross-volume requests (CVR-V10-n)",
+"line": 3340,
+"dest": [
+"V01",
+"V11"
+],
+"status": "unstated",
+"text": "| CVR-V10-6 | V01 | its providers name their pushes by V11's families — `SUNLIGHT` as `sun`, `EMITS` and `SENSITIVE` as `nuisance` — so V10 §2.13's mapping reads them |"
+},
+{
+"volume": "V10",
+"id": "CVR-V10-7",
+"section": "10.2 Cross-volume requests (CVR-V10-n)",
+"line": 3341,
+"dest": [
+"V09"
+],
+"status": "closed-stated",
+"text": "| CVR-V10-7 | V09 | **Met** (V9 §4.3's `delete` row with T10, BCR-V9-26 as one text, V9 §4.11's **What else changes**, V9 §4.20.8 (5)'s stack top for `entity { at }`, V9 §2.10; read in reconciliation round 4): T10 in the `delete` row's tool column (BCR-V10-20); BCR-V9-26 as one text with V10 §4.1, the `terrace` sugar expanding into BCR-V10-17's flatten mode with `levelCm`; `ClerkMount.rebuildEvents(seq)`, V09's one implementation of V9 §4.20.3 (4); BCR-V9-27's effects filtered by BCR-V10-6 (b) and shown on the clerk's card as on the fates sheet, with `info.remove.holds`; BCR-V9-28's stack order for `entity { at }` |"
+},
+{
+"volume": "V10",
+"id": "CVR-V10-8",
+"section": "10.2 Cross-volume requests (CVR-V10-n)",
+"line": 3342,
+"dest": [
+"V02"
+],
+"status": "unstated",
+"text": "| CVR-V10-8 | V02 | a registry path `deck/landmarks/<head\\|mid>` on a deck's host naming its landmark plots (`DeckContext.landmark`); `massing/stack` readable with each tier's wing key in tier order; the `massing` section's item-110 rows (X22, received) |"
+},
+{
+"volume": "V10",
+"id": "CVR-V10-9",
+"section": "10.2 Cross-volume requests (CVR-V10-n)",
+"line": 3343,
+"dest": [
+"V03"
+],
+"status": "unstated",
+"text": "| CVR-V10-9 | V03 | a catalogue key for each of item 110's room causes — `landingDoor`, `terraceDoor`, `terraceExit`, `walkOut`, `tombDoor`, `gradeFace`, `deckRefusal` — in its `plan` section |"
+},
+{
+"volume": "V10",
+"id": "CVR-V10-10",
+"section": "10.2 Cross-volume requests (CVR-V10-n)",
+"line": 3344,
+"dest": [
+"V04"
+],
+"status": "closed-stated",
+"text": "| CVR-V10-10 | V04 | `underground` rows for an arch vault (its span and the span's reason), a ruin's stepped monument (tiers laid, standing, truncated), an aqueduct's terminal cistern and a void met by a support's footing; their knowledge rules applied in the effects list too |"
+},
+{
+"volume": "V10",
+"id": "CVR-V10-11",
+"section": "10.2 Cross-volume requests (CVR-V10-n)",
+"line": 3345,
+"dest": [
+"V06"
+],
+"status": "unstated",
+"text": "| CVR-V10-11 | V06 | `detail.why` on a raised way's creation event with its reason values; the ledger's single-subject read as BCR-V10-21; the `move` rows for a raised way built at an epoch, a slumped retaining wall and a struck deck |"
+},
+{
+"volume": "V10",
+"id": "CVR-V10-12",
+"section": "10.2 Cross-volume requests (CVR-V10-n)",
+"line": 3346,
+"dest": [
+"V11"
+],
+"status": "unstated",
+"text": "| CVR-V10-12 | V11 | the specialisation ids `stepped_temple`, `terraced_palace` and `tiered_tower` enumerable as classes, each with a plain-word description and the mechanism a designation carries them by; the `raisedWays`, `terrace.*` and `deck` rows readable by `query rule` with their `says` |"
+},
+{
+"volume": "V10",
+"id": "CVR-V10-13",
+"section": "10.2 Cross-volume requests (CVR-V10-n)",
+"line": 3347,
+"dest": [
+"V01"
+],
+"status": "unstated",
+"text": "| CVR-V10-13 | V01 | the terraced-ward kind (or fabric parameter) by name for the second fixture's ravine quarter; until then the transcript declares the residential kind and V01's `stepped` context row applies by slope |"
+},
+{
+"volume": "V10",
+"id": "CVR-V10-14",
+"section": "10.2 Cross-volume requests (CVR-V10-n)",
+"line": 3348,
+"dest": [
+"V05",
+"V07",
+"V08"
+],
+"status": "open-stated",
+"text": "| CVR-V10-14 | V05, V07, V08 | V05's `island` rows (\"removed by you\", \"raised clear of the aqueduct\"); V07's village words (the `belowCity` wording at village rungs, a house-platform wall, arches carried from when the place was larger); V08's history panel reading `info.raised.suppressed` as its \"kept removed\" line (C8-47) — V08's part **Met** (V08 §4.6, X11, T-V8-45; SS-43, SR-33); V05's and V07's parts open |"
+},
+{
+"volume": "V10",
+"id": "CVR-V10-15",
+"section": "10.2 Cross-volume requests (CVR-V10-n)",
+"line": 3349,
+"dest": [
+"V09"
+],
+"status": "closed-stated",
+"text": "| CVR-V10-15 | V09 | **Met** (V9 §2.10, §4.11, `LinkRow`, `ClerkSlot`, T6's roster; reconciliation round 2 checked it): `ClerkMount` gains `effectiveKey(): Knowledge` and `onEffectiveKey(h: (k: Knowledge) => void): () => void`, V9 §2.10 defining the key, notified on a change of either input (SS-10, beside SS-07's mount change); §4.11's action list cites V10 §2.6's dispatch table and adds `rebuild` → **Put it back** (SS-09); `LinkRow.chain` cites `WhyLink.chain` (SS-21); `ClerkSlot.label`'s comment reads \"Assistant (AI)\" (SS-24); a typed locus with an empty name field writes `name: ''` (BCR-V10-23) |"
+},
+{
+"volume": "V10",
+"id": "CVR-V10-16",
+"section": "10.2 Cross-volume requests (CVR-V10-n)",
+"line": 3350,
+"dest": [
+"V09",
+"V11"
+],
+"status": "closed-stated",
+"text": "| CVR-V10-16 | V11, V09 | **Met**: `familyWeights` in V9 §2.6, T-V9-25 and XV-V9-1 (V09's round 1). One name for the family-weights cell of a `siting.declared` kind row: V11 §4.2 declares `familyWeights` (a `Record<string, number>`), V09 §2.6 and XV-V9-1 write `weights` (one of 0, 0.5, 1, 2 or 3 per family); V10 writes V11's name with V09's five values (V10 §4.1) |"
+},
+{
+"volume": "V10",
+"id": "CVR-V10-17",
+"section": "10.2 Cross-volume requests (CVR-V10-n)",
+"line": 3351,
+"dest": [
+"V09"
+],
+"status": "closed-stated",
+"text": "| CVR-V10-17 | V09 | **Met** (V9 §4.9's family row, T-V9-15, V9 §4.20.2 (5); landed 08:54, V09 `94ce6753…`; SR-33): V9 §4.9's family row `refuse.clerk.<category>` reads \"one key per `RefusalCategory` value whose V10 §3.16 row words the refusal itself — every value but `lock` and `rule`, whose cards render the engine's `refuse.*` row for the code (SS-28)\", and T-V9-15's family check follows; the uphill aqueduct's row and V9 §4.20.2 (5) as SS-32 writes them (the well the bend itself), which V10 §3.16 cites (SS-33) |"
+},
+{
+"volume": "V10",
+"id": "CVR-V10-18",
+"section": "10.2 Cross-volume requests (CVR-V10-n)",
+"line": 3352,
+"dest": [
+"V09"
+],
+"status": "closed-stated",
+"text": "| CVR-V10-18 | V09 | **Met** (V9 §4.5's T11 row and J-V9.110 for (a); the T9 row citing V10 §4.1's T9 rule for (b); address order in both scoped forms for (c); reconcile-V09-r2 landed 09:49, V09 `4d08c4fa…`; SR2-25 (a)): with SR-27 and SR-29 (SR-26, SR-28): (a) V9 §4.5's T11 **New names — this quarter** reads the gazetteer for its `ids` with `admitAs` = `effectiveKey()`, by V9 §2.7's band-less read rule (J-V9.86), so the canvas and the clerk (J-V10.95) list the same names under View as; (b) **Split here**'s point is the nearest point of the way's centre-line to the click, by V10 §4.1's T9 rule (cited, not restated); (c) New names' `ids` are in address order in both scoped forms, as V10 §4.1 "
+},
+{
+"volume": "V10",
+"id": "CVR-V10-19",
+"section": "10.2 Cross-volume requests (CVR-V10-n)",
+"line": 3353,
+"dest": [
+"V09"
+],
+"status": "closed-stated",
+"text": "| CVR-V10-19 | V09 | **Met** in V09's live text (V9 §4.11's *Turns*, *The actions*, stale and applied lines, V9 §2.10's `run` comment, V9 §4.9's opening rule citing V10 §3.5 step 3's *The why target* (J-V9.120), its family rows `clerk.alt.*`, `clerk.view.cleared`, `clerk.applied` and the `refuse.clerk.<category>` row with `refuse.clerk.dossier.count`, T-V9-15, T-V9-27; read 13:08 on V09 `005a03d0…`, reconcile-V09-r5 in flight, its lane note 13:04): with seam-surfaces-r4's SR4-05, its V09 companions (J-V10.101 – J-V10.105): (a) V9 §4.11's *Turns* and *The actions* bullets draw `action` as V10 §5.4 words it — a button worded by its `label`, a `select` without one as its ids' chips — and run `w"
+},
+{
+"volume": "V10",
+"id": "CVR-V10-20",
+"section": "10.2 Cross-volume requests (CVR-V10-n)",
+"line": 3354,
+"dest": [
+"V09"
+],
+"status": "closed-stated",
+"text": "| CVR-V10-20 | V09 | **Met** in V09's live text (V9 §2.9's `MsgButton` and *The buttons as data* with *The clerk's reading*, V9 §4.5's *Mode ids* — T6's Below modes `chamber` and `access`, T11's `rename` — V9 §4.9's button column as lists with its `button.*` rows and event forms, V9 §4.11's `useTool` bullet; read at 14:17 on V09 `7e590a61…` and each cited place re-verified on `2ac50a0e…`, reconcile-V09-r6 in flight, its checkpoint 14:17): V09's own seam-surfaces-r5 SR5-01 and SR5-07 (a), the companions of this volume's SR5-02 and SR5-06 (a) — `MsgRow.buttons?: MsgButton[]` in place of `action?` (`key` a `button.*` row; `does` `commit`\\|`why`\\|`show`\\|`tool`\\|`drop`, and `app`, which no row a"
+},
+{
+"volume": "V10",
+"id": "IN-V10-1",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 3723,
+"dest": [],
+"status": "unstated",
+"text": "* **IN-V10-1 (J-VI.4).** Item 110's named refusals are bends (§3's paragraph edited in place): each the item's `bent` line, no refusal category (corrected by reconciliation round 1, SS-17: V10 §3.16), their alternatives as `propose` actions (\"Draw a road to its foot\" for `bend.raised.island`, V9 §4.20.2 (6), J-VI.4 (d) — reconciliation round 2, second brief, SR-31; \"Stairs along the front\"; an uphill aqueduct's bent result is the well itself, V9 §4.20.2 (5), J-VI.4 (h), so none is offered — reconciliation round 1, SS-33); the clerk says the bend's line and its alternatives and never \"cannot\" for a lawful declaration."
+},
+{
+"volume": "V10",
+"id": "IN-V10-2",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 3727,
+"dest": [],
+"status": "unstated",
+"text": "* **IN-V10-2 (J-VI.2).** The report's `raised[].reason` reads `'drop'|'link'|'water'` (edited in place), the derived word of the record's `RaisedReasonKey`; absent for a declared way (`source: 'declared'`)."
+},
+{
+"volume": "V10",
+"id": "IN-V10-3",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 3729,
+"dest": [
+"V02",
+"volume 2"
+],
+"status": "unstated",
+"text": "* **IN-V10-3 (J-VI.5; volume 2's X22).** The `tiers` input admits `stairs: 'none'` (edited in place); the clerk reads the facts `massing/bend/<id>`, `stack.grade` and the derived aspect (V2 §4.6), and words each bend of V2 §1b."
+},
+{
+"volume": "V10",
+"id": "IN-V10-4",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 3731,
+"dest": [
+"V03",
+"V04",
+"volume 2",
+"volume 3",
+"volume 4"
+],
+"status": "unstated",
+"text": "* **IN-V10-4 (J-VI.17).** CVR-V10-1, -2, -8 and -9 are met by volume 4's IN-V04-8, volume 3's IN-V03-1 and volume 2's"
+},
+{
+"volume": "V10",
+"id": "IN-V02-3",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 3732,
+"dest": [
+"V02",
+"volume 11"
+],
+"status": "unstated",
+"text": "IN-V02-3; CVR-V10-12's `query rule` reads volume 11's rows with their `says`."
+},
+{
+"volume": "V10",
+"id": "IN-V10-5",
+"section": "Integration notes — continuation (volumes/_integrate, 2026-0",
+"line": 3836,
+"dest": [
+"V09",
+"volume 9"
+],
+"status": "unstated",
+"text": "* **IN-V10-5 (J-VI.26).** The T2 `terrace` encoder's stroke now carries `falloff: 'cosine'` and `amount: 1`, as volume 9's T2 mapper sets them (V9 §4.20.1 (4)): §7.1's `FieldStroke` requires both, so the encoded event validates against its schema; `water: input.water ?? 'locked'`, as its `raise` row writes it and volume 9's T2 mapper sets it from T2's water mode (reconciliation round 1, SS-36)."
+},
+{
+"volume": "V11",
+"id": "X-V12-1",
+"section": "3.2 The compiler, the loader and their failure handling",
+"line": 1011,
+"dest": [
+"V12",
+"file f"
+],
+"status": "unstated",
+"text": "X-V12-1's `historical:<frame>` preset rows stops the build); `evidence` is carried into the compiled cell (BCR-V12-5); unit and `calibratable` come from the `ColumnSpec`; `ext` becomes §7.6's `extension`. The preset entries are checked (V11 §2.2; file f items 376–377; V01's BCR-46; SCC-51): a `presets` key outside `PresetId`, or an `ext.over` value outside its union (`PresetId` but `NG`, with `both` and `none`; V11 §2.2), stops the build naming the cell; for every zeroing preset whose file ships in registry row 73 (`MFCG` and `FTG` from C0, `VG` from V07's V-M0, the milestone whose content ships the `VG` preset file, V07 §8; SR3-07; `NG` from V01's M5, the milestone whose content ships its e"
+},
+{
+"volume": "V11",
+"id": "X-V11-1",
+"section": "10b Cross-volume requests",
+"line": 4672,
+"dest": [
+"V08"
+],
+"status": "unstated",
+"text": "* **X-V11-1 (V08).** T9 and DR9 read `dossier.ladders` (V11 §3.12) and the port's ladder merge reads its `identity` cells; the adapter applies `goodWords` by V11 §3.13.5's tokenised rule to `activeChains[].outputs` and mapping.md row 44's export, import, local-production and transit lists; V08's build step writes the committed catalogue manifest `plat/packages/tables/src/dossier/catalogue.<line>.json` in V08 §2.4's manifest shape (SR1-23) with the ladder file's `ladderPairs` as data (registry row 77); the `kinds` shape accepts the pseudo-classes, `@absent:<class>` among them, and the optional `implies`; the `categorySynonyms` shape gains the optional `family`; the `keywords` shape gains the "
+},
+{
+"volume": "V11",
+"id": "X-V11-2",
+"section": "10b Cross-volume requests",
+"line": 4687,
+"dest": [
+"V07"
+],
+"status": "unstated",
+"text": "* **X-V11-2 (V07).** The palisade's barrier arcs read `walls.barriers` (V11 §3.16.1) with their `arcKind`, every water arc closing at village kinds; the village cap of a culture specialisation is V07's `rules.tiers.capPerSettlement`, per settlement, and a row applies to the village class that plays its `cls`, so V07 §2.4's eligible list is `v.parish_church`, `v.manor_house`, `v.watchtower` (V11 §3.24.3; SS-31); V07's village rows win over `deckOk` and the terrace TOWN row at village rungs (J-V7.41); the village classes' dig chances are V07 §3.16 (3)'s. **Round 1:** every V07 class row is keyed `v.<id>` (V11 §2.9; SS-01 with V07's SS-47); T-V7-21 reads the archetypes' `village` cells (V11 §3."
+},
+{
+"volume": "V11",
+"id": "X-V11-3",
+"section": "10b Cross-volume requests",
+"line": 4702,
+"dest": [
+"V10"
+],
+"status": "unstated",
+"text": "* **X-V11-3 (V10).** `WhyPull.row` carries V11 §2.4's ids, the item-110 and item-109 forms included, each resolved to its row's `says`; the clerk answers V11 §4.5's `explainRow` and `profile` as `query row` and `query profile`; an unwalled side names its `WallBarrierRow` and its `arcKind` (V11 §3.16.1; SS-15, SCC-01)."
+},
+{
+"volume": "V11",
+"id": "X-V11-4",
+"section": "10b Cross-volume requests",
+"line": 4705,
+"dest": [
+"V04"
+],
+"status": "unstated",
+"text": "* **X-V11-4 (V04).** `CatacombRule` gains `order` (V11 §2.8b); `growthCapShare` is read per year compounded over the epoch's span with V11's 0.01 (J-V11.32); V04 §2.3's defaults table cites V11 §3.23 for the rows it marks V11 (the ruin chances, the cultures and their monument cells, the survival order, the source weights, the openings, the dig rows, the catacomb rows) and states none of their values again."
+},
+{
+"volume": "V11",
+"id": "X-V11-5",
+"section": "10b Cross-volume requests",
+"line": 4709,
+"dest": [
+"V02"
+],
+"status": "unstated",
+"text": "* **X-V11-5 (V02).** The S11 specialisation draw replaces the band template's `composition` and `heights` for the use (V11 §3.24.3; BCR-V11-27); V02's X17 rows are V11's `roster.specialisations`."
+},
+{
+"volume": "V11",
+"id": "X-V11-6",
+"section": "10b Cross-volume requests",
+"line": 4711,
+"dest": [
+"V08"
+],
+"status": "unstated",
+"text": "* **X-V11-6 (V08).** The keyword rows' optional `class` and `specialisation` cells (V11 §3.13.2)."
+},
+{
+"volume": "V11",
+"id": "X-V11-7",
+"section": "10b Cross-volume requests",
+"line": 4712,
+"dest": [
+"V02"
+],
+"status": "open-stated",
+"text": "* **X-V11-7 (V02).** X16's fallback constants (`deck.fallbackM2`, `deck.fallbackFloors`) are a build-order stopgap, read only while V11's `deck` table is not yet registered; a document whose pinned `deck` table resolves off never reads them, and a deck plot exists only where `deck.offer` drew yes, so \"without `deckOk`\" cannot arise at run time."
+},
+{
+"volume": "V11",
+"id": "X-V11-8",
+"section": "10b Cross-volume requests",
+"line": 4715,
+"dest": [
+"V01",
+"V07"
+],
+"status": "unstated",
+"text": "* **X-V11-8 (V01, V07).** V01's `WayNamingContext` gains `raised` (the raised way's kind) for `naming.way`'s guard; the terrace slope's unit sentence of V11 §3.24.1 (`slopeMin` a share; V01's percent = 100 × share) is read by V01's stepped fabric row and V07's `PLaw` (the TOWN row at every anchor)."
+},
+{
+"volume": "V11",
+"id": "X-V11-9",
+"section": "10b Cross-volume requests",
+"line": 4718,
+"dest": [
+"V02"
+],
+"status": "closed-stated",
+"text": "* **X-V11-9 (V02).** An oval composition key for the `arena` template family (V11 §3.6.1) — answered: V02's `ovalCourt` family row, read by V11 §3.6.1's `arena` row with V02 X27's plot (SCC-11)."
+},
+{
+"volume": "V11",
+"id": "X-V11-10",
+"section": "10b Cross-volume requests",
+"line": 4720,
+"dest": [
+"V04"
+],
+"status": "unstated",
+"text": "* **X-V11-10 (V04).** `raised.vaultShare` is scaled by `era.raisedVaultM × culture.raisedVaultM`; `CultureRow.monument`'s values are V11 §3.23.4's."
+},
+{
+"volume": "V11",
+"id": "X-V11-11",
+"section": "10b Cross-volume requests",
+"line": 4722,
+"dest": [
+"V06"
+],
+"status": "unstated",
+"text": "* **X-V11-11 (V06).** V06 reads V11 §3.18's structures block and V11 §3.24.2's `raisedWays` rows (`elevated.maxSpanM`, `aqueduct.minFallPerKm` and the chances included) and keeps no copy; V06 §3.9.9's sentence reads \"V11 writes no `useRules` by default; a class row may\". **Round 1 (SS-13):** `aqueduct.dossierFactor` is withdrawn, so V06's four readings of it — the dossier-trace row of V6 §1b (\"the chance × `aqueduct.dossierFactor`\"), V6 §3.19 (3)'s aqueduct factor (\"the dossier's water-system record for an aqueduct\"), V6 §3.19's list of the `raisedWays.settings` cells (`.dossierFactor`) and V6 §3.19.6's sentence — drop it (applied to V06 by this lane after V06's round-1 lane landed, each edi"
+},
+{
+"volume": "V11",
+"id": "X-V11-12",
+"section": "10b Cross-volume requests",
+"line": 4733,
+"dest": [
+"V12"
+],
+"status": "closed-stated",
+"text": "* **X-V11-12 (V12).** The register gains every calibratable cell of V11 §3.23 and §3.24 (the owner's rung gate is not a cell); the compiler carries `evidence` (BCR-V12-5) and admits a `corpus` source in `historical:<frame>` preset rows with evidence (X-V12-1, V11 §2.2). **Round 1** (applied to V12 by this lane, each with a dated note there): V11's column entries land with each content milestone and C6 at M4 audits them (SCC-08); the dossier row sets are not calibratable (SCC-06); `aqueduct.dossierFactor` leaves the item-110 register row and the water record is read as a met need, never a factor (SS-13); `presets.FM`'s off forms and the stepped family's off form (every `chance` 0) are V11 §3."
+},
+{
+"volume": "V11",
+"id": "X-V11-13",
+"section": "10b Cross-volume requests",
+"line": 4750,
+"dest": [
+"V09"
+],
+"status": "unstated",
+"text": "* **X-V11-13 (V09).** V09's siting, link, split and tier gestures write `siting.declared` (its three key forms) and `siting.linkEdits` and keep no store of their own (V9C-03 (a)); its family ids and sentences are V11 §3.3.1's; its deck badge, T6 landward bend and `bridgeMid` slot read V11 §3.24.4 (`minSpanM` moves from V09's own constant to this row); its flat-ground bends read the `terrace` table's `retainingReachM`, `flatDepthM` and `coverShare` (V11 §3.24.1; SCC-19)."
+},
+{
+"volume": "V11",
+"id": "X-V11-14",
+"section": "10b Cross-volume requests",
+"line": 4754,
+"dest": [
+"V04",
+"V07",
+"V09",
+"V10",
+"V12"
+],
+"status": "unstated",
+"text": "* **X-V11-14 (V04, V07, V09, V10, V12; reconciliation round 2's continuation, SCC-R1C-1, SCC-R1C-3).** (a) **V04:** its four epoch participants (`under.fade`, `under.extend`, `under.access`, `under.undercity`) register `stage: 'U-FADE'`, the engine V4 §1.1 names for them (V6 §2.1's `EpochParticipant.stage`), and each change that lands a V04 stage names its `U-*` id in the readers of the registry rows its stage reads (57, 58, 58a, 59 and the others T-V11-1 (b) records; V11 §8's readers paragraph). (b) **V07:** `village.plan` registers `stage: 'VS1'` and `village.density` `stage: 'VS2'` (they re-run those stages' steps, V07 §3.12, V6 §3.2), and row 61's readers are the village stages and epoch"
+},
+{
+"volume": "V11",
+"id": "X-V11-15",
+"section": "10b Cross-volume requests",
+"line": 4768,
+"dest": [
+"V01",
+"V04",
+"V06",
+"V07",
+"V08"
+],
+"status": "closed-stated",
+"text": "* **X-V11-15 (V04, V08, V07, V01, V06; reconciliation round 3's continuation, SCC-R2C-2, SCC-R2C-8, SCC-R2C-10, and SCC-R2C-12's V11 half).** (a) **V04:** its §1b.1 cell for `tables/dossier/sanitation` and `tables/dossier/subterranean` reads \"shipped rows, not calibratable\" (dossier row sets, V11 §3.1 row 63) — applied by V04's own round-3 continuation (its note of 10:27); its §8 content row ships the rows (W73). (b) **V08:** DR-V8.8's inputs cell reads \"is at least V11 §3.24.2's `elevated.landmarkMinSignificance`\" in place of its own `landmark.minSignificance` 20, and J-V8.70, T-V8-38 and V08 §1b cite the same cell (SCC-R2C-10) — applied by V08's own round-3 continuation (its note of 10:42,"
+},
+{
+"volume": "V11",
+"id": "X-V11-16",
+"section": "10b Cross-volume requests",
+"line": 4781,
+"dest": [
+"V01",
+"V03",
+"V06",
+"V12",
+"file f"
+],
+"status": "unstated",
+"text": "* **X-V11-16 (V01, V12, V03, V06, file f; reconciliation round 4's continuation, SCC-R3C-2, SCC-R3C-4, SCC-R3C-7, SCC-R3C-15).** (a) **V01:** no change — V11 adopts V01's note (33) as written (`PresetId` gains `'NG'` with V1-3.15's resolution; `presets.NG` admitted on `hood.constants` only and required nowhere; `hood.constants` one `settings` row; `fabric.select` no table), and registers `way.surface` and `squares.quota` as rows 90–91, which V01's note (31) asked. (b) **V12** (its own SCC-R3C-6, V01's note (34)): `PresetArm` takes `'NG'` through `PresetId`; no V12 text changes on V11's account. (c) **File f:** item 581 carries BCR-V11-31's amended text (SCC-R3C-15); V01's BCR-46 is carried b"
+},
+{
+"volume": "V11",
+"id": "X-V11-17",
+"section": "10b Cross-volume requests",
+"line": 4791,
+"dest": [
+"V04",
+"V07",
+"V08",
+"V09",
+"V12",
+"file f"
+],
+"status": "unstated",
+"text": "* **X-V11-17 (V09, V07, V08, V04, V12, file f; reconciliation round 6, SR5-03, SCC-104).** No edit is made in their texts by this round; each is a companion for its owner's next round, single source keeping V11's cells authoritative meanwhile. (a) **V09:** V9 §5.1's sprite gains the 45 family glyphs `fam.<family key>` (V11 §3.4's non-alias families), drawn by the seat that lands T6's stamp palette, which writes the 45 family `icon` cells in the same change (V11 §3.4); until then the palette's groups and the class cards show labels alone (V9 §2.3's `iconCell` is optional). V9 §4.16 (3)'s \"volume 11's `label` and `synonyms` cells\" now name V11 §2.3's cells, the town-and-city words in V11 §3.5."
+},
+{
+"volume": "V11",
+"id": "IN-V11-1",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 5044,
+"dest": [
+"V12"
+],
+"status": "unstated",
+"text": "* **IN-V11-1 (J-VI.10; X-V12-9).** The compiler stamps `ownerRule` (BCR-V12-5) on every cell of an owner-rule row — the `raisedWays` rung gate (`ownerRule: '110 (b)'`), the catacomb TOWN gate, the cemetery-only catacomb sources, the cathedral's `always` crypt, the underground's any-tier existence — and writes the stamped-clause list volume 12's register reads; the CITY and METROPOLIS `raisedWays` columns carry the calibration minima 0.02 (chance) and 1 (cap), binding calibration runs, fallbacks and corpus packs only (never a pin, a parity preset's zero or a user's edit)."
+},
+{
+"volume": "V11",
+"id": "IN-V11-2",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 5049,
+"dest": [
+"V02",
+"V09",
+"volume 9"
+],
+"status": "unstated",
+"text": "* **IN-V11-2 (J-VI.11; XV-V9-13, V02 X6 and X27).** The `terrace` table gains `retainingReachM` 15 m, `flatDepthM` 12 m and `coverShare` 0.8 (own, calibrate-later; read by volume 9 §4.20.1 (3)'s bend of a retaining stroke on flat ground — folded into `TerraceRow` and V11 §3.24.1's table by reconciliation round 1, SCC-19); the `building.wingRole` slice gains \"the seating\" and \"a gate passage\" (an `ovalCourt`'s solid and passage wings)."
+},
+{
+"volume": "V11",
+"id": "IN-V11-3",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 5053,
+"dest": [
+"volume 4"
+],
+"status": "unstated",
+"text": "* **IN-V11-3 (J-VI.17 H26; volume 4).** The `vaults` naming slice names an arch-vault run under a raised way \"the ⟨way⟩ Arches\" (the grammar's guard on the chamber kind `archVault`)."
+},
+{
+"volume": "V11",
+"id": "IN-V11-4",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 5055,
+"dest": [
+"volume 4"
+],
+"status": "unstated",
+"text": "* **IN-V11-4 (J-VI.6).** `growthCapShare` 0.01 per year, compounded, is this volume's value; volume 4 now cites it."
+},
+{
+"volume": "V11",
+"id": "IN-V11-5",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 5056,
+"dest": [],
+"status": "unstated",
+"text": "* **IN-V11-5 (J-VI.9).** §3.24.7 (1)'s criteria row `pc/aqueduct/<way lineage>` is written only on a `conduit_house` the roster or the dossier holds; otherwise the terminal is a fountain pin."
+},
+{
+"volume": "V11",
+"id": "IN-V11-6",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 5058,
+"dest": [],
+"status": "unstated",
+"text": "* **IN-V11-6 (J-VI.3, J-VI.8; as reconciled in round 1, SS-15, SCC-01).** `walls.barriers` rows are keyed by this volume's eight defensibility classes, each carrying the `arcKind` of J-VI.3's six closure-arc kinds it reports (V11 §2.7, §3.16.1: an arc is a closure feature exactly when its row closes and its wall is `none`); `enceinte` is V06's later-ring rule, no row; `deck.landmarks/bridgeMid/minSpanM` (40 m) is the one cell volume 9 reads."
+},
+{
+"volume": "V11",
+"id": "IN-V11-7",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 5062,
+"dest": [
+"V08",
+"file f"
+],
+"status": "unstated",
+"text": "* **IN-V11-7 (J-VI.20).** BCR-V11-26's retirement of `fallbackClass` wins over BCR-V8-29's row type (file f item 425)."
+},
+{
+"volume": "V11",
+"id": "IN-V11-8",
+"section": "Integration notes — continuation (volumes/_integrate, 2026-0",
+"line": 5213,
+"dest": [
+"V08"
+],
+"status": "unstated",
+"text": "* **IN-V11-8 (J-VI.25).** W21's dossier column read `site.terrainType`, a field no digest carries; it now reads \"`site.terrain`, `site.culture` → biome (the digest's `site` row, V08 §2.6)\"."
+},
+{
+"volume": "V11",
+"id": "IN-V11-9",
+"section": "Integration notes — continuation (volumes/_integrate, 2026-0",
+"line": 5215,
+"dest": [
+"file f"
+],
+"status": "unstated",
+"text": "* **IN-V11-9 (J-VI.27).** `raisedWays.structure`'s `pierSpacingM`, `pierWidthShare` and `pierMinCm` are read by file f item 244's support step (the piers' pitch and footprint), and `clearanceCm` by that item's clearance rule; `maxPierM` drops a generated course there as §3.24's sentence says."
+},
+{
+"volume": "V11",
+"id": "IN-V11-10",
+"section": "Integration notes — continuation (volumes/_integrate, 2026-0",
+"line": 5218,
+"dest": [
+"file f"
+],
+"status": "unstated",
+"text": "* **IN-V11-10 (J-VI.24).** BCR-V11-31 is carried as file f item 581, with item 377."
+},
+{
+"volume": "V12",
+"id": "X-V12-1",
+"section": "10 Base change requests",
+"line": 2996,
+"dest": [
+"V11"
+],
+"status": "unstated",
+"text": "* **X-V12-1 — V11's compiler.** V11 §3.2.1 step 4 stops the build on a `corpus` provenance other than the item-69 palette targets. From M-CAL a `corpus` source is also valid in a `historical:<frame>` pack table when its `evidence` names a corpus `CalibrationRun` listed in a committed `ReconciliationRecord`; step 7's manifest gains the `evidence.json` of V12 §2.10 with each cell's register status; cells carry evidence **ids** only, outside the pinning hash; and the compiler stamps `ownerRule` on every cell of an owner-rule row and writes the stamped-clause list the register check reads (V12 §2.10, §3.11)."
+},
+{
+"volume": "V12",
+"id": "X-V12-2",
+"section": "10 Base change requests",
+"line": 3002,
+"dest": [
+"V02",
+"V07"
+],
+"status": "unstated",
+"text": "* **X-V12-2 — V02 and V07.** Their panels are `PanelSpec`s on V12 §3.9's engine; their `D5Pair` variants are BCR-V12-6's; their reference rows are `Baseline` rows of input `counts` or `geo` under BCR-V12-1's `'FM'` and `'VG'` references."
+},
+{
+"volume": "V12",
+"id": "X-V12-3",
+"section": "10 Base change requests",
+"line": 3004,
+"dest": [
+"V11"
+],
+"status": "unstated",
+"text": "* **X-V12-3 — V11.** Its column entries — V12 §3.11's column-family register entries — land with each content milestone and C6 at M4 audits them (V11 §8; V11's round 1, SCC-08); the ancient-culture rows must clear V12 §3.6b's distinctness thresholds (block-area ratio 1.5, grid order 0.15, axis 10°) against the town's fabric above the ruin (V11 J-V11.30; V12 §3.6b `paired`; reconciliation round 1, SCC-27), which is item 109 (c)'s \"differ in at least block size, grid regularity and orientation law\" made measurable."
+},
+{
+"volume": "V12",
+"id": "X-V12-4",
+"section": "10 Base change requests",
+"line": 3009,
+"dest": [
+"V03",
+"V04",
+"V05",
+"V06"
+],
+"status": "unstated",
+"text": "* **X-V12-4 — V03, V04, V05, V06.** Their sittings are the `PanelSpec`s of V12 §3.9.1 (V3-P6 against Dwellings, V4-U5 as SOLO, M6-sky as a descriptive NG set, V6-E7 as AB `history` on H-100), each owner confirming or changing its spec in its revision; V04's item-109 bars are the `StatBarSpec`s of V12 §3.6b's bar map with its levels (forced-source fixture sites), `undergroundInputOf` reading its system records; V06 lends H-100 and its random trajectories to the V6-E7 panel, to the access trend's growth units and to item 109 (k) (6)'s never-shrink property."
+},
+{
+"volume": "V12",
+"id": "X-V12-5",
+"section": "10 Base change requests",
+"line": 3014,
+"dest": [
+"V08"
+],
+"status": "unstated",
+"text": "* **X-V12-5 — V08.** Its surveyed-dossier fixtures are item 108 (f)'s `exactMonotone` levels (their `@pop×k` derivatives registered in the frozen manifest, a level outside [1 500, 120 000] `notApplicable`), its custom-chain fixtures item 104 (h) (8)'s levels, its catacomb fixtures (DR-V8.4) the step script's, and a fixture carrying a high-ground landmark (DR-V8.8) the elevated-road `higherWith`'s; none is a calibration seed family, and B-DOSSIER-lite guards every accepted run (V12 §1b, §3.7.5)."
+},
+{
+"volume": "V12",
+"id": "X-V12-6",
+"section": "10 Base change requests",
+"line": 3019,
+"dest": [
+"V09"
+],
+"status": "unstated",
+"text": "* **X-V12-6 — V09 (the tables editor and the preset dialog).** The cell inspector reads `dist/evidence.json`: the status in plain words (\"the owner's rule\" for a stamped cell) and the evidence lines; the preset dialog lists the adopted and selectable historical packs as \"historical (<era>, <region>)\", offered only to documents of that era and region."
+},
+{
+"volume": "V12",
+"id": "X-V12-7",
+"section": "10 Base change requests",
+"line": 3022,
+"dest": [
+"V10"
+],
+"status": "unstated",
+"text": "* **X-V12-7 — V10 (the clerk).** \"Why is this value so?\" answers with the plain line first (\"tuned so organic lanes turn as much as FTG's streets per 100 m\") and the run id only behind \"details\"; a stamped cell answers \"the owner's rule, item …\"; the clerk never starts a run."
+},
+{
+"volume": "V12",
+"id": "X-V12-8",
+"section": "10 Base change requests",
+"line": 3025,
+"dest": [
+"V09",
+"V10"
+],
+"status": "unstated",
+"text": "* **X-V12-8 — V09 and V10 (the known-city fixtures).** V09 §7.2's second part cites V12 §3.14's K2 structure list for its dedicated-user checklist and thresholds (K2-4 reads \"≥ 8 jetties outside the basin, deck buildings on ≥ 4\", not \"eight jetties with deck buildings\"); the fixture's inputs live in `plat/tests/fixtures/known-city/K2/` (J-V12.58); K1's brief keeps its bridge's deck plots (already un-staged in V09); V10's evaluation group A reads the fixture record `plat/goldens/known/<id>/fixture.json`."
+},
+{
+"volume": "V12",
+"id": "X-V12-9",
+"section": "10 Base change requests",
+"line": 3030,
+"dest": [
+"V11"
+],
+"status": "closed-stated",
+"text": "* **X-V12-9 — V11 (item 110's rows and the owner's stamps; V11 landed 01:43 with V11 §3.24).** V11's switch table (§3.24.0) is the pins' \"off\", adopted as is; V11's schema holds the raised-way rung gate (no row below CITY), adopted as is. V11 adds: the `ownerRule: '110 (b)'` stamp and the calibration minima 0.02 (chance) and 1 (cap) on the CITY and METROPOLIS `raisedWays` columns, binding runs, fallbacks and corpus packs only; the `ownerRule` stamp on every cell of an owner-rule row (the catacomb TOWN gate, the cemetery-only sources, the cathedral's `always` crypt, the underground's any-tier existence) and the stamped-clause list the register check reads (BCR-V12-5); `presets.FM` resolving t"
+},
+{
+"volume": "V12",
+"id": "X-V12-10",
+"section": "10 Base change requests",
+"line": 3039,
+"dest": [
+"V06",
+"V09"
+],
+"status": "unstated",
+"text": "* **X-V12-10 — V06 and V09 (removal holds).** Key a generated raised way's removal to its reason, never its course, so it survives a change of course under a table release, an upgrade or a historical pack (V12 §4.1; T-V12-40)."
+},
+{
+"volume": "V12",
+"id": "X-V12-11",
+"section": "10 Base change requests",
+"line": 3041,
+"dest": [
+"V02",
+"V04",
+"V05",
+"V06",
+"V07",
+"V11"
+],
+"status": "unstated",
+"text": "* **X-V12-11 — V02, V04, V05, V06, V07 and V11 (the pins).** T-V2-50, T-V4-69, T-V5-15, T-V6-65, V07's village pin and T-V11-31 register their suites on V12 §3.7.8's engine and read \"off\" as V11 §3.24.0's switch table (V06's T-V6-65 wording \"the `deck` budget 0, the terrace thresholds off\" becomes \"every `deck.offer` 0, `terrace.enabled` false\"); their switch-on shifts follow V12 §3.7.6's four bumps; \"byte-identical to before item 110\" is read as V12 §3.7.8's off-state set."
+},
+{
+"volume": "V12",
+"id": "X-V12-12",
+"section": "10 Base change requests",
+"line": 3045,
+"dest": [
+"V02",
+"base",
+"coherence pass"
+],
+"status": "unstated",
+"text": "* **X-V12-12 — the coherence pass.** Apply BCR-V12-16 – BCR-V12-22, BCR-V12-17 after BCR-V12-15 (both rewrite one §11.1 clause); §16's M3a row carries item 110 (a) – (d)'s base parts (V02's BCR-V2-39) and K2, and a row names the milestone that lands raised-way generation (met: file f items 244 and 290 land it at M3a; reconciliation round 6, SCC-99); §13.2's item 105 – 110 conformance clauses go on the harness registry's `conformance` list (BCR-V12-13); sum BCR-V12-9's deltas with the other volumes'."
+},
+{
+"volume": "V12",
+"id": "X-V12-13",
+"section": "10 Base change requests",
+"line": 3049,
+"dest": [
+"V04"
+],
+"status": "unstated",
+"text": "* **X-V12-13 — V04.** T-V4-54 reads g's *voids* — V12's deep void is a connected component counted at most three per town — not chambers; T-V4-43's and T-V4-58's \"± 3 s.e.\" and 500 seeds are taken as the specs' parameters; T-V4-51's step script is V12 §3.6b's (with the dossier burial event and extend growth); `CatacombComplex.id` keeps its source lineage across every derivation, as the record-keyed monotone check needs; T-V4-44's structure test never reads a monument's tiers."
+},
+{
+"volume": "V12",
+"id": "X-V12-14",
+"section": "10 Base change requests",
+"line": 3053,
+"dest": [
+"V07"
+],
+"status": "unstated",
+"text": "* **X-V12-14 — V07.** The village rungs' levels of item 109's presence and access bars join at V-M4 (`notApplicable` before, never `insufficient`); V07's village pin registers on V12 §3.7.8 with its `terrace.enabled` switch."
+},
+{
+"volume": "V12",
+"id": "X-V12-15",
+"section": "10 Base change requests",
+"line": 3055,
+"dest": [
+"V02",
+"V03",
+"V06",
+"V11",
+"base"
+],
+"status": "unstated",
+"text": "* **X-V12-15 — the base, V02, V03, V06 and V11 (the bars their register lines name; reconciliation round 3, SCC-56).** Every bar a register line names as `bar.<id>` that no `NullModelSpec` or `StatBarSpec` carries as its `id` or `ownerBar` registers a `BenchBarDef` (V12 §2.1) with the milestone whose exit writes the entry — as the lines stand at this round: the base's T16-4 (V11 §8's `detourFactor` line); V02's T-V2-22, -28, -29, -30, -32, -36, -37, -42, -46, -47, -51 (V2 §3.10.10); V06's T-V6-6 – -10, -13, -16, -18, -28, -31, -32, -40, -43, -54, and T-V6-34 and -37 in their epoch forms (V6 §8); V11's T-V11-30 (V12 §3.11's item-102 line); V03's T-V3-35 (V03 §2.4's `roomProgram.json` lines, J"
+},
+{
+"volume": "V12",
+"id": "X-V12-16",
+"section": "10 Base change requests",
+"line": 3066,
+"dest": [
+"V01",
+"V03",
+"V04",
+"V05",
+"V07"
+],
+"status": "unstated",
+"text": "* **X-V12-16 — V01, V03, V04, V05 and V07 (the register at their exits; reconciliation round 2's continuation, SCC-R1C-2; reconciliation round 3's continuation, SCC-R2C-4) — met** (reconciliation round 4's continuation, SCC-R3C-12). Each exits every milestone that lands a registry table, or a calibratable column of one, with \"`plat calibrate register --check` green over the cells it lands\", as V12 §3.11 asks: volume 1 in V1-8.1's *The register at every exit* (J-V1.97); volume 3 in §8's PE, P1, P2 and P6 exits, with its own lines for `roomProgram.json` in V03 §2.4's *The register lines of `roomProgram.json`* and T-V3-35 registered as a `BenchBarDef` (J-V3.118;"
+},
+{
+"volume": "V12",
+"id": "X-V12-15",
+"section": "10 Base change requests",
+"line": 3072,
+"dest": [
+"V04",
+"V05",
+"V07",
+"volume 4",
+"volume 5",
+"volume 7"
+],
+"status": "unstated",
+"text": "X-V12-15); volume 4 in V4 §8's *The register at each exit* (J-V4.117); volume 5 in V5 §8's *The register at the exits* (J-V5.80); volume 7 in V07 §8's *The register at the exits* (J-V7.124). Volume 3 writes its §2.4 lines; volumes 1, 4, 5 and 7 write no line of their own — their columns take V12 §3.11's named lines where one names the column (V04's cells, J-V4.117; V07's one `rules.race.densityPower@VG` entry, V07 §3.15) and the default line otherwise. Volume 8's dossier row sets and volumes 9's and 10's tables are not calibratable (V11 §3.1 rows 63–66 and 86–89)."
+},
+{
+"volume": "V12",
+"id": "X-V12-17",
+"section": "10 Base change requests",
+"line": 3077,
+"dest": [
+"V01",
+"V03",
+"V04",
+"V05",
+"V06",
+"V07"
+],
+"status": "unstated",
+"text": "* **X-V12-17 — V04, V05 and V06 (the later corpus runs; reconciliation round 4's continuation, SCC-R3C-1; J-V12.75); V01, V03, V04, V05 and V07 (the flag; reconciliation round 5, SCC-93; J-V12.78).** V12 §3.11's default line now dates a column whose first compiled cell lands after M-CAL's record is committed to its layer's later run (*The due's corpus run*): V4 §8's due steps, which read \"the underground's later corpus run\" in words (SCC-R3C-13), may name it `M-CAL/under`; V5 §13 item 29 is met by the same line (`M-CAL/sky` for P1's and P2's columns should M6-sky land after M-CAL); V6 §8's lines carry no corpus stage, so only a V06 column no V6 §8 line names and that lands after M-CAL takes "
+},
+{
+"volume": "V12",
+"id": "X-V12-18",
+"section": "10 Base change requests",
+"line": 3097,
+"dest": [
+"V02",
+"V03",
+"V04",
+"V09",
+"V10",
+"V11"
+],
+"status": "closed-stated",
+"text": "* **X-V12-18 — V02, V03, V04, V09, V10 and V11 (reconciliation round 6; no edit needed in any).** (SCC-105; V02, V04 and V11) A line naming several stages (\"`measure` at M6a …, then `panel` at M6 …, then `corpus` possibility at M-CAL\") is written as one entry with `stages` in the line's order (V12 §2.6; V12 §3.11's *Staged entries*): V2 §3.10.10's lines, V4 §8's rows and V11 §8's measure-then-corpus lines read so as they stand. (SCC-100; V04) V12 §3.11's span-rule line now reads `panel` (M4-110) at M4, then T-V4-62's conformance at `V4-U3`, then the V4-U5 panel at `V4-U5`; V4 §8's row may take that order and cite V12's line at its next round (no mechanism changes). (SCC-98; V03) V03 §2.4's h"
+},
+{
+"volume": "V12",
+"id": "X-V12-19",
+"section": "10 Base change requests",
+"line": 3109,
+"dest": [
+"V04",
+"V06",
+"file f"
+],
+"status": "closed-stated",
+"text": "* **X-V12-19 — V04, V06 and file f (the finalization; seam SCC-110 (d)).** V06: its §8 lines `retaining.settings.stateSnapCm` at E2 on `bar.T-V6-62` and dates every line by its exit step (SCC-108, SCC-111; applied in V6 §8 by the finalization, V06 X49). V04: J-V4.118's span row and BCR-45 may name the cells `raisedWays.structure.span.*` beside the prose keys, the values staying in BCR-45 (SCC-113, left for V04's next lane — the span-rule line here is the entry's home). File f: item 244's slide bound and item 245's snap by their V11 cell names (SCC-114; applied in file f's *Finalization* section)."
+},
+{
+"volume": "V12",
+"id": "X-V12-16",
+"section": "13 Fix list",
+"line": 3431,
+"dest": [
+"V01",
+"V03",
+"V04",
+"V05",
+"V07",
+"V08",
+"V10",
+"V11",
+"volume 10",
+"volume 8"
+],
+"status": "unstated",
+"text": "X-V12-16 addresses V01, V03, V04, V05 and V07, its V08 and V10 clauses replaced by \"(volume 8's dossier row sets and volume 10's tables are not calibratable: V11 §3.1 rows 63–66 and 88–89)\"; X-V12-15, §1b's `BenchBarDef` row and V12 §2.1's comment add V03's T-V3-35; J-V12.71 amended. **SCC-R2C-5 (minor):** (a) `plat calibrate register --defaults` writes an entry only for a calibratable column that holds at least one compiled cell, so a column of an empty table (V11 §2.1) takes none until the change that ships its first row — T-V12-20's clause, §2.11's lifecycle row and §4.2's verb follow; (b) a default entry's `owner` is the document whose source file holds the column's cells (the source man"
+},
+{
+"volume": "V12",
+"id": "IN-V12-1",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 3553,
+"dest": [
+"volume 11",
+"volume 5"
+],
+"status": "unstated",
+"text": "* **IN-V12-1 (J-VI.17 H29; volume 5's §13 item 13).** The register lists `accessSiting.deckGapM` and `lineClearM` as volume 5's `IslandRule` cells (own, calibrate-later), never as volume 11 rows."
+},
+{
+"volume": "V12",
+"id": "IN-V12-2",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 3555,
+"dest": [
+"V11",
+"volume 11"
+],
+"status": "unstated",
+"text": "* **IN-V12-2 (J-VI.10).** X-V12-9 is met by volume 11's IN-V11-1 (the `ownerRule` stamps and the raised-way calibration minima) and V11 §3.24.0's FM line (`presets.FM` resolving the stepped and deck families off; V11's round 1, SCC-09)."
+},
+{
+"volume": "V12",
+"id": "IN-V12-3",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 3557,
+"dest": [],
+"status": "unstated",
+"text": "* **IN-V12-3 (J-VI.4).** A bar that counted refusals of item 110 or of the sky layer counts bends (each with its line)."
+},
+{
+"volume": "V12",
+"id": "IN-V12-4",
+"section": "Integration notes (volumes/_integrate, 2026-09-29)",
+"line": 3558,
+"dest": [
+"V09",
+"file f"
+],
+"status": "closed-stated",
+"text": "* **IN-V12-4 (J-VI.18, J-VI.3).** BCR-V12-15 and BCR-V12-17 are applied with BCR-V9-31 as file f item 447's one text; BCR-V12-15's closure barrier kinds are J-VI.3's six (edited in place); the metric variant also carries the span polygons (kind `span`) that text adds, which no bar of this volume needs to read."
+}
+]

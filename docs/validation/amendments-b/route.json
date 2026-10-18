@@ -1,0 +1,1460 @@
+[
+ {
+  "id": "8",
+  "owner_words": "\"consider what regression would look like … what if something happens that forces it to shrink organically … it's this combination of growth, regression and growth where appropriate.\" (the war example is hypothetical and is NOT written into the design)",
+  "state": "PARTIAL",
+  "home_part": "pipeline",
+  "home_section": "§4.11 Incremental mode, transformations and conversions (the evolution hook)",
+  "referencing": [
+   {
+    "part": "model",
+    "section": "§2.8",
+    "what": "the lifecycle ladder occupied → vacant → derelict (roofless) → ruin → robbed or cleared (a footprint trace) → reused, as Existence values or a mapping onto them; transitions as a data table; declined buildings stay live records with their address; reusedAs and formerUse traces"
+   },
+   {
+    "part": "model",
+    "section": "§2.7",
+    "what": "Enceinte wall states (in use, neglected, breached or partly dismantled, superseded) and supersededBy the shorter inner ring, with the old line kept as a trace; a town-level salvage MaterialLedger record"
+   },
+   {
+    "part": "model",
+    "section": "§2.6",
+    "what": "the derelict state uses RoofSpec 'none'; a building on old foundations references its predecessor"
+   },
+   {
+    "part": "pipeline",
+    "section": "§4.5 / §4.7 S10 / §10.2",
+    "what": "one line each: field contraction and concentration under decline; vacant plots merge into gardens and fields (plotToGarden, amalgamate); the population fall uses the roster's reverse suffix plus §4.11's lag"
+   },
+   {
+    "part": "determinism",
+    "section": "§6.3",
+    "what": "ruins and robbed or cleared traces keep address and lineage; regrowth re-uses the old plot's address"
+   },
+   {
+    "part": "determinism",
+    "section": "§6.1",
+    "what": "any new decline or salvage concern appended (or reuse epoch.transform)"
+   },
+   {
+    "part": "determinism",
+    "section": "§7.1 / §7.4",
+    "what": "convert covers the new kinds; edit-target rows for buildings, walls and plots; the lifecycle row with undo"
+   },
+   {
+    "part": "rendering",
+    "section": "§8.2",
+    "what": "style classes for vacant, derelict, ruined, robbed or cleared (trace), reused fabric and neglected, breached or superseded walls with the old line persisting (extend the ruin program and its tone overrides)"
+   },
+   {
+    "part": "scope",
+    "section": "Staged by the owner's roadmap (evolution row); D-25; §13.2; §15.2; §16",
+    "what": "list the new hooks; D-25's vocabulary names them; hook tests (decline conversions by hand undo exactly; the grow path fills vacant old-plan plots first; ruins keep addresses); the hooks row; price at M4"
+   },
+   {
+    "part": "scope",
+    "section": "§0 (landing table for items 8–29, beside §0.2)",
+    "what": "one row for item 8: rule, landing (home), clause map"
+   }
+  ],
+  "staged": "STAGED-HOOK (the engine is staged; states, kinds, tables, ledger and style classes are hooks now; the regrowth-first rule binds the base's grow-by-stage path now)",
+  "decisions_touched": [
+   "D-25: \"Exactly one built and tested incremental path in the base … plus the epoch key component and the transformation-event vocabulary, decline included; the evolution engine is staged by the owner with its interfaces concrete (§4.11).\"",
+   "§4.11: \"a decline rule table — periphery, lowest value, noxious and extramural first, never locked or assigned — chooses which buildings empty\" (fixed order → weighted; J27, J28)",
+   "§4.11: \"Siting across epochs places only delta demand, only on new or transformed plots\" (collides with regrowth-first)",
+   "§4.11: \"at most a table share of a district's plots transforms per epoch (default 10 % per decade)\"",
+   "J-DET-33: \"a lifecycle event block ordered by seq, undone and redone with its target\"",
+   "J27 (PROGRESS): \"amendment 8's fixed decline order … → weighted tendencies\"; J28: \"8 decline tendencies = evolution-stage only\""
+  ],
+  "group": [
+   "evolution hooks (8, 11, 17, 22, 25)"
+  ]
+ },
+ {
+  "id": "9",
+  "owner_words": "\"the actual size of the town, even within each tier is determined by population.\"",
+  "state": "SATISFIED",
+  "home_part": "scope",
+  "home_section": "§1.1 What is built, in what order; the two size ladders (no change)",
+  "referencing": [
+   {
+    "part": "scope",
+    "section": "§0 (landing table)",
+    "what": "row for item 9: SATISFIED at §1.1 (\"Size within a rung follows population … every quantity below it … is computed from that population, never from the rung's target\") and §13.6 (3) (the MFCG side matched by building count; the FTG side at the capture's population)"
+   }
+  ],
+  "staged": "BASE",
+  "decisions_touched": [
+   "D-33: \"They meet at 1 500 inhabitants; size within a rung follows population; per-rung rows live in ladder.json\"",
+   "J-S13: \"modest per-rung granularity and greenery modifiers in one RungProfile table\"",
+   "J-S41: \"an FTG pair's PLAT side generated at the capture's recorded population\"",
+   "D-31 (matched references)"
+  ],
+  "group": []
+ },
+ {
+  "id": "10",
+  "owner_words": "\"Floating islands are also a product of prosperity. If there is no prosperity, there is no floating islands. Because we consider magic to be a resource that needs to constantly be supplied so the size of an island correspond to prosperity both of the neighborhood and the overall city respectively.\"",
+  "state": "PARTIAL",
+  "home_part": "pipeline",
+  "home_section": "II.6 The staged layers — floating islands (the island supply law)",
+  "referencing": [
+   {
+    "part": "pipeline",
+    "section": "§4.5 S7b (5)",
+    "what": "the sky allocation's land comes from II.6's supply law, not an areaHaBand draw; allocate only where the law is above zero"
+   },
+   {
+    "part": "pipeline",
+    "section": "§4.9",
+    "what": "one line: the island rows belong to the same band-row rule family as coverage, granularity and greenery"
+   },
+   {
+    "part": "pipeline",
+    "section": "§4.11",
+    "what": "the proposed (vetoable) evolution response: island decline, abandonment, settling or falling, ruin; regrowth"
+   },
+   {
+    "part": "model",
+    "section": "§2.7",
+    "what": "SkyIsland gains the law's inputs and outputs (the district and town prosperity it rests on; derived area and altitude) and island lifecycle states"
+   },
+   {
+    "part": "determinism",
+    "section": "§7.1 / §7.4 (§6.1 pointer)",
+    "what": "island conversions, if adopted, are editable and undoable; the law's random term draws on island.place"
+   },
+   {
+    "part": "scope",
+    "section": "D-3; Staged list (sewers and floating islands row); §13.2",
+    "what": "D-3: islands exist only where prosperity supports them; the supply law as a hook; hook test: no island without prosperity, area monotone in each prosperity"
+   },
+   {
+    "part": "scope",
+    "section": "§0 (landing table for items 8–29, beside §0.2)",
+    "what": "one row for item 10: rule, landing (home), clause map"
+   }
+  ],
+  "staged": "STAGED-HOOK",
+  "decisions_touched": [
+   "D-3: \"Fantasy exists only as named toggles, each off by default: floating islands and their conjured rivers (II.6), fantasy sewers (II.6), the game-system stat pack (D-32), the night preset's lights.\"",
+   "AM-2 (§0.2 row 2): \"floating islands (a toggle, staged by the owner)\"",
+   "II.6: \"The toggle creates 1–3 islands.\"",
+   "§4.5 S7b (5): \"A prosperity island's plot land is its area — drawn from IslandRule.areaHaBand on the island.place stream\"",
+   "AM-6 (prosperity field)",
+   "ruling: is an institution island gated by prosperity too?"
+  ],
+  "group": [
+   "islands (10, 13, 15)",
+   "evolution hooks (decline response)"
+  ]
+ },
+ {
+  "id": "11",
+  "owner_words": "\"Sewer systems and the underground like the walls fade slowly, rather some tunnels simply cave in or become decommissioned rather than intentionally taken down by populations.\"",
+  "state": "ABSENT",
+  "home_part": "pipeline",
+  "home_section": "II.6 The staged layers — sewers (the underground layer's lifecycle)",
+  "referencing": [
+   {
+    "part": "pipeline",
+    "section": "§4.11",
+    "what": "place the underground in the persistence-order table (item 8); tunnel conversion kinds (silt, cave in, seal or decommission, reopen, reuse); the engine never demolishes a tunnel"
+   },
+   {
+    "part": "model",
+    "section": "§2.7",
+    "what": "Tunnel gains a condition or lifecycle field and the navigable flag"
+   },
+   {
+    "part": "model",
+    "section": "§2.8",
+    "what": "map the tunnel states onto Existence, or a per-kind state table"
+   },
+   {
+    "part": "determinism",
+    "section": "§7.1 / §7.4",
+    "what": "tunnel conversions editable by hand (edit-target row for tunnels), undoable"
+   },
+   {
+    "part": "rendering",
+    "section": "§8.2 / §8.4",
+    "what": "styles for silted, caved-in and sealed tunnels and underground ruins in the underground layer's cut-away or overlay"
+   },
+   {
+    "part": "scope",
+    "section": "Staged list; §13.2",
+    "what": "list the hook; hook test: tunnel conversions by hand; no evolution rule issues a tunnel demolish"
+   },
+   {
+    "part": "scope",
+    "section": "§0 (landing table for items 8–29, beside §0.2)",
+    "what": "one row for item 11: rule, landing (home), clause map"
+   }
+  ],
+  "staged": "STAGED-HOOK",
+  "decisions_touched": [
+   "D-25 (the transformation vocabulary \"decline included\" covers buildings and walls only today)",
+   "DEF-7 (sewers owner-staged)",
+   "D-3: \"fantasy sewers (II.6)\"",
+   "ruling: does a user delete of a tunnel stay available while the engine never demolishes one?"
+  ],
+  "group": [
+   "sewers (11, 12, 14)",
+   "evolution hooks (8, 11, 17, 22, 25)"
+  ]
+ },
+ {
+  "id": "12",
+  "owner_words": "\"Some sewer systems will have underground neighborhoods, or buildings … each plot can only occupy an adjacent space next to a sewer line (there are no sewer alleys for example) and the buildings are also adjacent flush against the external wall of the sewer. Rule should be given that governed how they are generated.\"",
+  "state": "ABSENT",
+  "home_part": "pipeline",
+  "home_section": "II.6 The staged layers (underground neighbourhoods: the rule table and an UndergroundStrategy registered after the sewer stage)",
+  "referencing": [
+   {
+    "part": "model",
+    "section": "§2.1",
+    "what": "the underground arena holds underground plots and buildings when the staged stage runs (schema-complete now)"
+   },
+   {
+    "part": "model",
+    "section": "§2.2 rule 1",
+    "what": "level mapping in the underground arena: L1 tunnel centrelines, L2 the tunnel band (bore plus wall), L3 frontage plots, L4 buildings"
+   },
+   {
+    "part": "model",
+    "section": "§2.5 / §2.6 / §2.7",
+    "what": "underground Plot fronts one tunnel band; Building depthCm, ceilingCm and cellarOf; access and air or light shaft records; Tunnel.navigable"
+   },
+   {
+    "part": "kernel",
+    "section": "§3.7",
+    "what": "confirm bandUnion (and the corridor use) accepts tunnel chains so the tunnel's outer wall is the plots' shared frontage edge; otherwise name the operation"
+   },
+   {
+    "part": "determinism",
+    "section": "§5.3",
+    "what": "invariants: plot fronts exactly one tunnel; no access-only tunnel; no rooms under water, harbour or water table, or under walls, gates, keep or cathedral foundations; under a surface building only as its cellar; at least one access per neighbourhood"
+   },
+   {
+    "part": "determinism",
+    "section": "§6.1",
+    "what": "an underground concern appended"
+   },
+   {
+    "part": "rendering",
+    "section": "§8.4",
+    "what": "each underground building drawn on its own level (a LayerSpec per depth level, or z bands inside the underground layer)"
+   },
+   {
+    "part": "rendering",
+    "section": "§11.1",
+    "what": "VTT scenes per underground level with depth; GeoJSON and CityJSON carry depth and ceiling height"
+   },
+   {
+    "part": "scope",
+    "section": "§14; Staged list; §13.2",
+    "what": "StrategyRegistry gains the underground registration; list the hook; schema fixture and the invariants' fixtures"
+   },
+   {
+    "part": "scope",
+    "section": "§0 (landing table for items 8–29, beside §0.2)",
+    "what": "one row for item 12: rule, landing (home), clause map"
+   }
+  ],
+  "staged": "STAGED-HOOK",
+  "decisions_touched": [
+   "D-3 (the navigable preset is the fantasy sewer)",
+   "DEF-7",
+   "D-13: \"Five refinement levels as views of one arena per layer …, a separate arena per layer and per sky island\"",
+   "II.6 presets: \"historical (restrained …) and navigable (the fantasy preset: large vaulted mains with chambers)\"",
+   "ruling: the proposed rule set (a)–(h) is vetoable (J-A12)"
+  ],
+  "group": [
+   "sewers (11, 12, 14)"
+  ]
+ },
+ {
+  "id": "13",
+  "owner_words": "\"floating islands be limited only to cities and metropolises.\"",
+  "state": "ABSENT",
+  "home_part": "pipeline",
+  "home_section": "II.6 The staged layers — floating islands (the rung condition)",
+  "referencing": [
+   {
+    "part": "scope",
+    "section": "§1.1",
+    "what": "RungProfile gains a per-rung layers row: islands TOWN no, CITY yes, METROPOLIS yes"
+   },
+   {
+    "part": "pipeline",
+    "section": "PART III / §4.5 S7b (5) / §4.11",
+    "what": "villages carry no island layer; no sky allocation below CITY; an epoch's band crossing loses or gains islands (item 10)"
+   },
+   {
+    "part": "determinism",
+    "section": "§7.8",
+    "what": "the island control is disabled below CITY, with its reason"
+   },
+   {
+    "part": "scope",
+    "section": "D-3; Staged list; §13.2",
+    "what": "test: TOWN and village requests never carry islands"
+   },
+   {
+    "part": "scope",
+    "section": "§0 (landing table for items 8–29, beside §0.2)",
+    "what": "one row for item 13: rule, landing (home), clause map"
+   }
+  ],
+  "staged": "STAGED-HOOK",
+  "decisions_touched": [
+   "D-3",
+   "AM-2",
+   "D-33 (the ladder)",
+   "II.6: \"The toggle creates 1–3 islands.\""
+  ],
+  "group": [
+   "islands (10, 13, 15)"
+  ]
+ },
+ {
+  "id": "14",
+  "owner_words": "\"Sewers can exist in towns though more rare and then becomes a necessity for cities and Metropolis.\"",
+  "state": "ABSENT",
+  "home_part": "pipeline",
+  "home_section": "II.6 The staged layers — sewers (existence by tier)",
+  "referencing": [
+   {
+    "part": "scope",
+    "section": "§1.1",
+    "what": "RungProfile.layers.sewers: the TOWN probability law (population and prosperity), always for CITY and METROPOLIS"
+   },
+   {
+    "part": "pipeline",
+    "section": "§4.2 S0 / PART III",
+    "what": "where the town's sewer draw happens (S0 runs before the prosperity field: read the wealthLevel intent or move the draw after S6 pass 1 — a ruling); villages have no sewers"
+   },
+   {
+    "part": "rendering",
+    "section": "§8.4",
+    "what": "the sewer toggle is the underground LayerSpec.visible; existence is model"
+   },
+   {
+    "part": "determinism",
+    "section": "§7.8 / §6.1",
+    "what": "a view control at CITY and METROPOLIS, a model feature at TOWN; the town draw uses the sewer concern"
+   },
+   {
+    "part": "scope",
+    "section": "D-3; Staged list; §13.2",
+    "what": "historical sewers are realism, always present in cities; the navigable preset stays the fantasy toggle; test by tier"
+   },
+   {
+    "part": "scope",
+    "section": "§0 (landing table for items 8–29, beside §0.2)",
+    "what": "one row for item 14: rule, landing (home), clause map"
+   }
+  ],
+  "staged": "STAGED-HOOK",
+  "decisions_touched": [
+   "D-3",
+   "DEF-7",
+   "II.6: \"A SewerStrategy registers as a stage after S11 …\" (no tier rule; the toggle decides generation)",
+   "II.6 class-table drain column (which plot rules depend on the sewer: a ruling)"
+  ],
+  "group": [
+   "sewers (11, 12, 14)"
+  ]
+ },
+ {
+  "id": "15",
+  "owner_words": "\"not all cities or Metropolis have floating islands.\"",
+  "state": "ABSENT",
+  "home_part": "pipeline",
+  "home_section": "II.6 The staged layers — floating islands (count 0–3 drawn and prosperity-weighted; the toggle shows)",
+  "referencing": [
+   {
+    "part": "pipeline",
+    "section": "§4.5 S7b (5)",
+    "what": "the number of sky pseudo-districts is the drawn count (0–3), not \"the toggle is on\""
+   },
+   {
+    "part": "determinism",
+    "section": "§6.1 / §7.8",
+    "what": "the count draw on island.place (or a new concern); the island control is a view control"
+   },
+   {
+    "part": "rendering",
+    "section": "§8.4",
+    "what": "the toggle is the sky LayerSpec.visible"
+   },
+   {
+    "part": "scope",
+    "section": "D-3; §13.2",
+    "what": "the D-3 ruling: a model-level fantasy-layers setting (off by default) versus the view toggle; do hidden islands still take the richest ground demand?; test: count distribution against prosperity, none in poor cities"
+   },
+   {
+    "part": "scope",
+    "section": "§0 (landing table for items 8–29, beside §0.2)",
+    "what": "one row for item 15: rule, landing (home), clause map"
+   }
+  ],
+  "staged": "STAGED-HOOK",
+  "decisions_touched": [
+   "D-3",
+   "AM-2",
+   "II.6: \"The toggle creates 1–3 islands.\" and IslandRule.maxIslands: 1|2|3",
+   "§4.5 S7b (5): \"When the island toggle is on, S7b creates each sky pseudo-district's Allocation\""
+  ],
+  "group": [
+   "islands (10, 13, 15)"
+  ]
+ },
+ {
+  "id": "16",
+  "owner_words": "\"when it comes to neighborhood assignments and building assignments, this is after you already built the city, make sure that there are rules or templates of rules in place for their respective spatial relations with other buildings, supply chains, etc.\"",
+  "state": "PARTIAL",
+  "home_part": "pipeline",
+  "home_section": "§4.7 S10b Placement (the one placement solver: HARD and SOFT relation templates and supply-chain scoring, for generation and every assignment)",
+  "referencing": [
+   {
+    "part": "pipeline",
+    "section": "§10.2 / §4.2 S2",
+    "what": "relation templates and supply edges {input, output, maxDistance, mode} as roster and class-table data; demand propagates through supply edges"
+   },
+   {
+    "part": "determinism",
+    "section": "§7.7",
+    "what": "PlacementCriteria become per-assignment overrides of the templates; assignments placed by §4.7's solver; the precedence unchanged"
+   },
+   {
+    "part": "determinism",
+    "section": "§7.3",
+    "what": "relocations of displaced uses and plot joins are local operators with effective scope and fates"
+   },
+   {
+    "part": "determinism",
+    "section": "§5.2",
+    "what": "F-SITING and F-EDIT never break a hard rule silently; infeasibility reports the closest options; manifest reduction never silently drops a hard-required class or dossier content"
+   },
+   {
+    "part": "model",
+    "section": "§2.5",
+    "what": "confirm the context vector and S10b's per-class distance rasters carry what the templates read; add a field only if one is missing"
+   },
+   {
+    "part": "rendering",
+    "section": "§12.4",
+    "what": "S10b's budget row re-declared, measured, for relation and supply scoring"
+   },
+   {
+    "part": "scope",
+    "section": "§13.2 / §13.5 / §13.9 / §14 / §15.2 / §16; D-10, D-32",
+    "what": "tests (hard relations 100 %; supply distances; O7 (b)); the corpus re-signs the templates; one solver package; the O7 and O10 rows; the O10 pricing line; split D-32 (placement supply edges in the base, economics in the module)"
+   },
+   {
+    "part": "scope",
+    "section": "§0 (landing table for items 8–29, beside §0.2)",
+    "what": "one row for item 16: rule, landing (home), clause map"
+   }
+  ],
+  "staged": "BASE (SettlementForge assignment inputs staged via §11.4; corpus calibration staged via §13.9)",
+  "decisions_touched": [
+   "D-32: \"Economy (resource chains, items and services with prices, stock per building, global price edits) … are @plat/sim content (M4b)\"",
+   "D-10 (simulation depth)",
+   "J-DET-11: \"lock > assignment in the precedence order\"",
+   "§7.7: \"Precedence: lock > assignment > user-drawn geometry > rule tables > defaults\"",
+   "J-13: \"the greenery table, control rules, control budget, forms schema and intent example written here\"",
+   "O7 (b) and O10 (e) acceptance letters"
+  ],
+  "group": [
+   "assignments (16–19)"
+  ]
+ },
+ {
+  "id": "17",
+  "owner_words": "\"assignments can change as cities grow and decline — a shop may close down here but reopen over there organically, and according to distribution.\"",
+  "state": "PARTIAL",
+  "home_part": "pipeline",
+  "home_section": "§4.11 Incremental mode, transformations and conversions (the evolution-stage use step: re-score, close, open, relocate with inertia; traces; pinned stays)",
+  "referencing": [
+   {
+    "part": "model",
+    "section": "§2.7 / §2.6",
+    "what": "a Use record (address, roster class, occupied buildings, assignment, former-use history); Building.use references the current Use or none (vacant); formerUses traces"
+   },
+   {
+    "part": "model",
+    "section": "§2.8",
+    "what": "use lifecycle (open, closed, relocated) and the relocation event's from and to"
+   },
+   {
+    "part": "determinism",
+    "section": "§6.3",
+    "what": "a use's address moves with the use; the building keeps its own"
+   },
+   {
+    "part": "determinism",
+    "section": "§7.1 / §7.4",
+    "what": "events to close, open or relocate a use by hand (swapUse generalised); edit-target and lifecycle rows"
+   },
+   {
+    "part": "determinism",
+    "section": "§7.7",
+    "what": "assignments move with their use unless pinned (replacing \"Epochs keep placed members\"); every change reported"
+   },
+   {
+    "part": "pipeline",
+    "section": "§10.3",
+    "what": "households, live-in dwellings and postings follow a relocated use"
+   },
+   {
+    "part": "rendering",
+    "section": "§11.3",
+    "what": "relocations reported to the host (subscribe and report events)"
+   },
+   {
+    "part": "scope",
+    "section": "D-25; Staged list (evolution row); §13.2; §15.2",
+    "what": "use relocation in the vocabulary; hook test: a hand relocation keeps the use's address, the building persists vacant, undo restores"
+   },
+   {
+    "part": "scope",
+    "section": "§0 (landing table for items 8–29, beside §0.2)",
+    "what": "one row for item 17: rule, landing (home), clause map"
+   }
+  ],
+  "staged": "BASE + STAGED-HOOK (the separation of use and building, and the hand relocation, are base; the epoch re-scoring is staged)",
+  "decisions_touched": [
+   "§7.7: \"Epochs keep placed members; members are added only by an event that changes the count or the criteria\" (contradicts 17 (d))",
+   "J-DET-11",
+   "J-P22: \"pinning by explicit edit only\"",
+   "D-25",
+   "D-10 / D-32 (postings in the module)",
+   "§7.1 swapUse: \"exchanges two buildings' uses, occupants and assignments atomically, footprints staying\""
+  ],
+  "group": [
+   "assignments (16–19)",
+   "evolution hooks (8, 11, 17, 22, 25)"
+  ]
+ },
+ {
+  "id": "18",
+  "owner_words": "\"if a new plot is assigned, then the buildings can be regenerated appropriately to match the actual designation of the building\" — clarified: \"it is a mutation of its previous design to the newest design, with additions and subtractions.\"",
+  "state": "ABSENT",
+  "home_part": "pipeline",
+  "home_section": "§4.7 S11 Site plans and footprints (the designation-mutation operator: a recorded design delta toward item 19's template, inverse on reversal)",
+  "referencing": [
+   {
+    "part": "model",
+    "section": "§2.6 / §2.5",
+    "what": "addressable design parts (slots by role, wings, outbuildings); a mutation record persisted with the event or derivation record; stored compositions and plans mutate with the design"
+   },
+   {
+    "part": "determinism",
+    "section": "§7.3",
+    "what": "a designation change (setAttr use or class, assign, relocation, dossier re-designation) runs §4.7's mutation operator on the plot and any joined neighbour, not tree scoping"
+   },
+   {
+    "part": "determinism",
+    "section": "§7.4",
+    "what": "assign and setAttr rows: undo is the inverse mutation"
+   },
+   {
+    "part": "determinism",
+    "section": "§7.7",
+    "what": "\"One path … claims-first re-derivation\" becomes the mutation path; claims-first only where land must be joined"
+   },
+   {
+    "part": "determinism",
+    "section": "§6.1 / §6.3",
+    "what": "the mutation step's stream (plot × event); kept parts keep addresses; added parts minted from the event's lineage"
+   },
+   {
+    "part": "pipeline",
+    "section": "§4.11",
+    "what": "the epoch-spread form: occupy if compatible → adapt → extend → rebuild only what cannot be adapted"
+   },
+   {
+    "part": "scope",
+    "section": "§13.2 / §14 / §16",
+    "what": "tests: kept parts byte-identical, locality, locks never subtracted, A → B → A restores; the operator in @plat/plots; pricing"
+   },
+   {
+    "part": "scope",
+    "section": "§0 (landing table for items 8–29, beside §0.2)",
+    "what": "one row for item 18: rule, landing (home), clause map"
+   }
+  ],
+  "staged": "BASE + STAGED-HOOK (immediate mutation base; the epoch-spread form staged)",
+  "decisions_touched": [
+   "§7.7: \"every assign event — from the blueprint, the dialog or the host bridge — runs the same claims-first re-derivation for its scope\"",
+   "§7.4 assign row: \"the claims-first re-derivation of its scope (§7.7)\"",
+   "J-DET-10: \"an edited attribute is implicitly pinned\"",
+   "§4.11 rebuild conversion (a class upgrade)",
+   "O10 (e) drift bounds",
+   "J-P48: \"a stored stage-3 composition carried in the same call as the base wings\""
+  ],
+  "group": [
+   "assignments (16–19)",
+   "floor plan (28, 29)",
+   "dossier flow (22)"
+  ]
+ },
+ {
+  "id": "19",
+  "owner_words": "\"a town has multiple blacksmiths dispersed across different bands of prosperity. They should scale appropriately in size and structure … this goes for all of the buildings across prosperity bands.\" Materials (owner, 2026-09-26): \"different materials for construction is only represented by a change in texture or color. It has nothing to do with the shape.\"",
+  "state": "PARTIAL",
+  "home_part": "pipeline",
+  "home_section": "§4.7 S11 Site plans and footprints (the prosperity-scaled designation-template table, interpolated, read on every path)",
+  "referencing": [
+   {
+    "part": "model",
+    "section": "§2.6",
+    "what": "ClassRules.pick reads the template; Materials: the default is FTG's model (per-stage default, per-district and per-type overrides, temples stone, wealth through lifestyle pools and roof colour); an optional regional prosperity shift; material changes texture and colour only, never footprint, wings, storeys, heights or roof form (the material rule's single home)"
+   },
+   {
+    "part": "pipeline",
+    "section": "§10.2",
+    "what": "class rows name the template and its specialisation rows"
+   },
+   {
+    "part": "rendering",
+    "section": "§8.2",
+    "what": "materials map to colour and texture roles only (pointer to §2.6)"
+   },
+   {
+    "part": "determinism",
+    "section": "§7.7",
+    "what": "an assignment's drift bounds are read against the template"
+   },
+   {
+    "part": "scope",
+    "section": "§13.2 / §13.5; D-2; §1.4 buildings row; §16",
+    "what": "tests: continuity along prosperity; every type has a template; a material change leaves geometry byte-identical; the regional material table as a preset row; FTG's material model named as the default; pricing"
+   },
+   {
+    "part": "scope",
+    "section": "§0 (landing table for items 8–29, beside §0.2)",
+    "what": "one row for item 19: rule, landing (home), clause map"
+   }
+  ],
+  "staged": "BASE",
+  "decisions_touched": [
+   "D-2: \"The centre of gravity is high-to-late medieval Western Europe (12th–15th c.), as presets the corpus phase re-signs through §13.9\"",
+   "§2.6: \"MaterialRow is a rule table keyed by district kind × class × prosperity band × era\" (band in the default key)",
+   "COV-FTG-F20",
+   "AM-6",
+   "J28 (PROGRESS): \"19 materials = FTG's per-stage/district/type model by default, prosperity shift optional\""
+  ],
+  "group": [
+   "assignments (16–19)",
+   "emulation baselines (23–27)",
+   "floor plan (28, 29)"
+  ]
+ },
+ {
+  "id": "20",
+  "owner_words": "\"the map does not edit the dossier … This module only takes input from SettlementForge and returns back the map. So if a player, for example, deletes one smithy from the map, not the dossier, then the map generator needs to still respect it and build the smithy somewhere else and all of the other elements in a coherent way, still based off of that same seed. The smithy can only truly be deleted if it is removed via instructions from the dossier/SettlementForge.\" + \"it is not permanent because if a settlement grows or declines that might be appropriate to put something there … but the immediate effect should be that that place is not there\" + \"maybe you want a specific place to be something\"",
+  "state": "PARTIAL",
+  "home_part": "determinism",
+  "home_section": "§7.7 Intent, character, constraints, assignments (the dossier-backed class, placement rejection, positive placement, re-application of dossier events, precedence)",
+  "referencing": [
+   {
+    "part": "determinism",
+    "section": "§7.1 / §7.2 / §7.4 / §5.2 / §5.3 / §5.4",
+    "what": "delete of a dossier-backed entity = a rejection, plus a positive-placement event; protection gains dossier existence; lifecycle rows with the lapse; F-SITING never drops dossier content and F-EDIT reports blocked placements with the closest sites; the invariant \"every dossier-backed element exists\"; the report"
+   },
+   {
+    "part": "model",
+    "section": "§2.8",
+    "what": "a dossier source on identity or lifecycle (the dossier element id); the rejection record (excluded site, held state, lapse condition)"
+   },
+   {
+    "part": "model",
+    "section": "§2.9",
+    "what": "one line: map edits live in the document's log; dossier events enter it with provenance dossier"
+   },
+   {
+    "part": "pipeline",
+    "section": "§4.7",
+    "what": "the solver re-places rejected elements and honours positive placements (joining and mutating per 18–19, relocating what was there)"
+   },
+   {
+    "part": "pipeline",
+    "section": "§4.11",
+    "what": "a rejection lapses at an epoch (growth or decline)"
+   },
+   {
+    "part": "rendering",
+    "section": "§11.4",
+    "what": "the dossier door: dossier events with author host and provenance dossier; the module never writes the dossier"
+   },
+   {
+    "part": "rendering",
+    "section": "§11.3",
+    "what": "no PLAT → host message writes, patches or proposes a dossier change; doc.changed carries map-document events only; the host keeps the returned map document as an opaque artifact"
+   },
+   {
+    "part": "scope",
+    "section": "summary (Editing); Staged list (SettlementForge inputs row); §13.2; §14; §15.2; §16",
+    "what": "one clause in the summary; list the contract's hooks; tests (a map delete re-places the element from the same seed; the lapse at an epoch; a blocked positive placement reports the rule and the closest sites); EditEngine and bridge; the hooks row; pricing"
+   },
+   {
+    "part": "scope",
+    "section": "§0 (landing table for items 8–29, beside §0.2)",
+    "what": "one row for item 20: rule, landing (home), clause map"
+   }
+  ],
+  "staged": "BASE (the contract, flags, events and invariants; SettlementForge's data mapping stays staged as §11.4 says)",
+  "decisions_touched": [
+   "J-R15: \"host-as-store\"",
+   "J-R16: \"a transport-agnostic bridge plus the static VTT exports\"",
+   "J-DET-11 and §7.7 precedence: \"lock > assignment > user-drawn geometry > rule tables > defaults\"",
+   "§5.2 F-SITING: \"reduce the manifest, lowest-priority classes first, and report unplaced\"",
+   "DEF-11 (the host-input contract)",
+   "J23 (PROGRESS): the module talks to SettlementForge \"only through a data protocol\"",
+   "rulings: where dossier existence sits against a lock; whether the proposed filler rule (e) is adopted"
+  ],
+  "group": [
+   "dossier flow (20, 22; with 21)"
+  ]
+ },
+ {
+  "id": "21",
+  "owner_words": "\"I intend to make this module, and this module not the rest of the project from SettlementForge, GPL-3 license.\"",
+  "state": "PARTIAL",
+  "home_part": "scope",
+  "home_section": "§17.3 Our own licence (D-22) — GPL-3 for the module",
+  "referencing": [
+   {
+    "part": "scope",
+    "section": "summary (Clean room); §1.7; §17.1 (1) and (6); §17.4; D-4, D-22, D-29, D-14; J-S10, J-S8; Staged list; §14",
+    "what": "\"every library is permissively licensed …\" replaced; runtime targets: the embed bundle is the module's own program (iframe, worker or service), never linked into SettlementForge; TownGeneratorOS consultable and adaptable with attribution; the checker's allowlist becomes GPL-3-compatible; D-22 → GPL-3; J-S10 superseded; licence headers"
+   },
+   {
+    "part": "rendering",
+    "section": "§11.2",
+    "what": "PlatApi is the module's own API inside its bundle; SettlementForge reaches the module only through §11.3's bridge"
+   },
+   {
+    "part": "rendering",
+    "section": "§11.3",
+    "what": "the bridge is the arm's-length boundary; messages carry data only (dossier in, map out)"
+   },
+   {
+    "part": "kernel",
+    "section": "§3.1",
+    "what": "re-ground the straight-skeleton row's \"CGAL is GPL/LGPL — rejected\": the licence is no longer the reason, the browser-first and one-engine reasons stand"
+   },
+   {
+    "part": "scope",
+    "section": "§0 (landing table for items 8–29, beside §0.2)",
+    "what": "one row for item 21: rule, landing (home), clause map"
+   }
+  ],
+  "staged": "BASE",
+  "decisions_touched": [
+   "D-22: \"Proprietary, all rights reserved to the owner, until the owner chooses (§17.3); no dependency may constrain the choice.\" (owner veto — now exercised)",
+   "J-S10: \"a proprietary default licence\"",
+   "D-4: \"A browser-first embeddable TypeScript library with an app on top; permissive dependencies only\"",
+   "D-29 (the clean-room chain); J-S8: \"implementer inputs: this document, a checked digest, a separate repository, numbers-only baselines\"",
+   "D-14: \"Rejected: CGAL (GPL)\"; J-K5",
+   "§17.1 (1): \"No code from TownGeneratorOS (GPL-3), the FTG Foundry module or any captured bundle is read for implementation, ported or paraphrased\"",
+   "J23 (PROGRESS): separate program over a data protocol; TownGeneratorOS consultable with attribution; the proprietary references stay off-limits"
+  ],
+  "group": [
+   "dossier flow / host boundary (20, 21, 22)"
+  ]
+ },
+ {
+  "id": "22",
+  "owner_words": "\"we start off with the seed and then the player decides to add an institution or building to the dossier. The seed must respect that as well, and in some ways respect the previous layout prior to the addition or subtraction.\"",
+  "state": "PARTIAL",
+  "home_part": "determinism",
+  "home_section": "§7.7 Intent, character, constraints, assignments (dossier events as least-disruption mutations; the disruption budget and report; continuity over path-independence)",
+  "referencing": [
+   {
+    "part": "determinism",
+    "section": "§6.2",
+    "what": "one line: the model is a function of the seed, the ordered dossier history and the map's edits; two histories reaching one dossier may give different valid maps"
+   },
+   {
+    "part": "determinism",
+    "section": "§7.3 / §5.4",
+    "what": "the disruption budget bounds the effective scope; the disruption report"
+   },
+   {
+    "part": "model",
+    "section": "§2.9",
+    "what": "the document keeps the ordered dossier history in its log (pointer)"
+   },
+   {
+    "part": "pipeline",
+    "section": "§4.7",
+    "what": "the solver's least-disruption objective: vacant or under-used plots first, then uses movable within the neighbourhood, joins only when needed; a removal leaves the plot vacant"
+   },
+   {
+    "part": "pipeline",
+    "section": "§4.11",
+    "what": "dossier events arriving mid-history are mutations at that epoch"
+   },
+   {
+    "part": "pipeline",
+    "section": "§4.2 S2 / §4.5 S7b",
+    "what": "every dossier element is present in a brand-new map from the start (a ruling: S2 demand or the log's first assign events 0…k)"
+   },
+   {
+    "part": "rendering",
+    "section": "§11.4 / §11.3",
+    "what": "dossier events come through the host door, in the host's order"
+   },
+   {
+    "part": "scope",
+    "section": "§13.2; Staged list; §16",
+    "what": "tests: the same history from the same seed reproduces the map; two histories give two valid maps; outside the report byte-identical; pricing"
+   },
+   {
+    "part": "scope",
+    "section": "§0 (landing table for items 8–29, beside §0.2)",
+    "what": "one row for item 22: rule, landing (home), clause map"
+   }
+  ],
+  "staged": "BASE (dossier events are host events; the SettlementForge mapping and the epoch clause are staged)",
+  "decisions_touched": [
+   "§7.7: \"One path. A blueprint's assignments and edits become assign and edit events at log positions 0…k … claims-first re-derivation\" and \"Re-solving: … only that member is re-placed, with every mapped placement as a fixed point\"",
+   "J-DET-6: \"one ordered replay fold for constraints, epochs, rebases and upgrades\"",
+   "D-21: \"A base (the recipe, or a rebased state) and the ordered log …\"",
+   "J-R15",
+   "J-DET-11",
+   "new J-A22: continuity over path-independence"
+  ],
+  "group": [
+   "dossier flow (20, 22)",
+   "evolution hooks (8, 11, 17, 22, 25)",
+   "assignments (uses the solver and 18's mutation)"
+  ]
+ },
+ {
+  "id": "23",
+  "owner_words": "program item (2026-09-26), grounded in the owner's \"I still want it to be based in our base of MFCG and FTG emulation first\"",
+  "state": "PARTIAL",
+  "home_part": "determinism",
+  "home_section": "§7.6 The override layer and editable tables (defaults = the emulation baseline; extensions marked; absolutes are default table values per region, era and setting)",
+  "referencing": [
+   {
+    "part": "scope",
+    "section": "§1.4",
+    "what": "one line: defaults emulate MFCG and FTG, the tiebreaker chooses between them, extensions layer on top; pointer to §7.6"
+   },
+   {
+    "part": "scope",
+    "section": "§17.1 (6)",
+    "what": "the provenance values name the emulated reference behaviour (or point to §7.6's marker — a ruling on where the field lives)"
+   },
+   {
+    "part": "scope",
+    "section": "§13.5 / §16 M4",
+    "what": "the default configuration stays in the parity bands (B-REF); M4's table-provenance audit covers the marker"
+   },
+   {
+    "part": "pipeline",
+    "section": "§4.2 S3 (1), §4.5 typing, §4.9 churchyard row, §4.11 decline order, §4.7 centrepiece, II.6 toggles",
+    "what": "sweep the over-strong settlement claims into default table rows (starting list in route.md; items 8, 24, 26, 27 and 13–15 carry the main ones); engineering invariants are out of scope"
+   },
+   {
+    "part": "scope",
+    "section": "§0 (landing table for items 8–29, beside §0.2)",
+    "what": "one row for item 23: rule, landing (home), clause map"
+   }
+  ],
+  "staged": "BASE",
+  "decisions_touched": [
+   "D-2 (era and region presets re-signed through §13.9)",
+   "D-19: \"defaults and calibration anchors, all data that costs nothing to change\"",
+   "§1.4: \"The rule at every genuine conflict is the owner's DESIGN TIEBREAKER\"",
+   "§17.1 (6): \"Every table cell's provenance names where its number came from: own, ref:⟨reference⟩ ⟨behaviour⟩ …\"",
+   "J27 and J28 (PROGRESS): the re-grounding in emulation"
+  ],
+  "group": [
+   "emulation baselines (23–27)"
+  ]
+ },
+ {
+  "id": "24",
+  "owner_words": "owner (2026-09-26): \"the central market does not actually have to be central to the city.\" (program item from J27 and J28: several markets, as MFCG and FTG already do)",
+  "state": "PARTIAL",
+  "home_part": "pipeline",
+  "home_section": "§4.2 S2 Programme (market demand) and S3 Siting (the principal market scored where trade meets; secondary markets by size, never touching another market)",
+  "referencing": [
+   {
+    "part": "pipeline",
+    "section": "§4.3 / §4.4 / §4.5 / §4.7 / §10.2",
+    "what": "destinations and attach points per market; the T source ruling; grower seeds and prosperity kernels per market; S10b market institutions against squares, stalls per square; market institution rows by size"
+   },
+   {
+    "part": "model",
+    "section": "§2.5",
+    "what": "several Reservations of kind market with a rank (principal or secondary); ContextVector.dist.market is the nearest market; a market district per market"
+   },
+   {
+    "part": "scope",
+    "section": "summary; §1.4 centre-and-destinations row; §13.5",
+    "what": "\"the market square … reserved\" becomes the markets; MFCG's plaza-as-market by default, trade-scored site; parity rows: MFCG secondary-plaza frequency and non-adjacency, FTG's market squares"
+   },
+   {
+    "part": "scope",
+    "section": "§0 (landing table for items 8–29, beside §0.2)",
+    "what": "one row for item 24: rule, landing (home), clause map"
+   }
+  ],
+  "staged": "BASE",
+  "decisions_touched": [
+   "D-16: \"Routed arterials between named destinations; reservations and gate sites at S3 …\"",
+   "D-17: \"Gate sites picked and castle and plaza reserved at S3 …\"",
+   "J-P3: \"reservations and gate sites at S3, and the trace before each stage's growth\"",
+   "J-P26: \"gate routes, boundary, gates, castle weld, trace and moat from one travel-cost construction\" (T is plaza-rooted — a ruling if the principal market is off-centre)",
+   "§4.2 S3 (1): \"the best is the centre / market\"",
+   "MFP-3; J-P1"
+  ],
+  "group": [
+   "emulation baselines (23–27)"
+  ]
+ },
+ {
+  "id": "25",
+  "owner_words": "program item from J27 (owner: \"should any of these change the design now before we continue?\") and J28 (\"based in our base of MFCG and FTG emulation first\"); no direct owner quote in the item",
+  "state": "PARTIAL",
+  "home_part": "pipeline",
+  "home_section": "§4.11 Incremental mode, transformations and conversions (terrain and water conversion kinds, their rarity in the persistence-order table, repair through S1's water operator)",
+  "referencing": [
+   {
+    "part": "model",
+    "section": "§2.3",
+    "what": "what each conversion changes: a silting reach's width and depth profile; reclaimed marsh or foreshore becoming land with a trace; a course shift re-tracing the reach"
+   },
+   {
+    "part": "determinism",
+    "section": "§7.3 (b)",
+    "what": "S1's water operator is the local repair of reclamation, silting and course shifts (pointer)"
+   },
+   {
+    "part": "determinism",
+    "section": "§7.1 / §7.4 / §6.1",
+    "what": "terrain and water edit-target rows gain the conversions; a lifecycle row; a concern if one is needed"
+   },
+   {
+    "part": "scope",
+    "section": "Staged list (evolution row); D-25; §13.2",
+    "what": "list the hook; hook test: a reclamation and a silting applied by hand stay local"
+   },
+   {
+    "part": "scope",
+    "section": "§0 (landing table for items 8–29, beside §0.2)",
+    "what": "one row for item 25: rule, landing (home), clause map"
+   }
+  ],
+  "staged": "STAGED-HOOK (the engine; the conversion kinds are usable by hand in the base)",
+  "decisions_touched": [
+   "J27 (PROGRESS): \"'terrain and water never change' → weighted tendencies\"",
+   "J28 (PROGRESS): \"25 terrain/water change = hook only (neither reference has time; both already allow water edits)\"",
+   "D-25",
+   "J-DET-23: \"S1's water operator re-sites crossings and chains S4–S7 in §4.11's order\"",
+   "J-DET-24: \"the terrain brush defaults to water: 'locked' with exact re-basing\"",
+   "J-P30 / J-P34 (the carve's way rule and footprint)"
+  ],
+  "group": [
+   "evolution hooks (8, 11, 17, 22, 25)",
+   "emulation baselines (23–27)"
+  ]
+ },
+ {
+  "id": "26",
+  "owner_words": "program item from J27 and J28 (owner: \"I still want it to be based in our base of MFCG and FTG emulation first\"); no direct owner quote in the item",
+  "state": "PARTIAL",
+  "home_part": "pipeline",
+  "home_section": "§4.9 S12a Hinterland siting and the hinterland unit (FTG's order and farmland modes; food, fuel and timber demand; extent follows demand; an off-by-default minimum hinterland)",
+  "referencing": [
+   {
+    "part": "pipeline",
+    "section": "§4.2 S2 / §10.2 / §4.1 / §4.4",
+    "what": "fuel and timber demand rows beside the farm table; the order statement; the off-by-default clearance against suburb growth"
+   },
+   {
+    "part": "rendering",
+    "section": "§12.4",
+    "what": "only if the hinterland unit's order changes: its row no longer hides behind the pool"
+   },
+   {
+    "part": "scope",
+    "section": "§1.4 hinterland row; §13.2 / §15.2 O14",
+    "what": "FTG's contract and modes as the default; woods sized to fuel and timber demand beside the existing farmland per capita"
+   },
+   {
+    "part": "scope",
+    "section": "§0 (landing table for items 8–29, beside §0.2)",
+    "what": "one row for item 26: rule, landing (home), clause map"
+   }
+  ],
+  "staged": "BASE",
+  "decisions_touched": [
+   "J-P27: \"the hinterland unit on the generation worker as one more overlay\"",
+   "J-I6: \"furlong-sized field faces; open-field strips as render-time segmentation\"",
+   "FTG-7; O14",
+   "J28 (PROGRESS): \"26 hinterland = FTG order (decided with demand, drawn last; fill available countryside) — early land reservation dropped to an off-by-default option\""
+  ],
+  "group": [
+   "emulation baselines (23–27)",
+   "assignments (16's supply chains)"
+  ]
+ },
+ {
+  "id": "27",
+  "owner_words": "program item from J28 (owner: \"I still want it to be based in our base of MFCG and FTG emulation first\"), building on the owner's \"prosperity is a gradient and a band rather than binary\"",
+  "state": "PARTIAL",
+  "home_part": "pipeline",
+  "home_section": "§4.5 S6 Districts, quarters and fields (the prosperity field's default bands reproduce MFCG's ward mix and FTG's six lifestyle tiers and shanty rule; the gradient is the extension)",
+  "referencing": [
+   {
+    "part": "pipeline",
+    "section": "§10.2 / §4.7 / §4.9",
+    "what": "household lifestyle weights default to FTG's six tiers; granularity, site-plan and greenery rows keyed to them (or a declared mapping onto today's four rows); the shanty trigger (average lifestyle squalid or poor, after the first half is built)"
+   },
+   {
+    "part": "model",
+    "section": "§2.5",
+    "what": "FieldBands' default cut count and band labels; prosperityBand labels; J-P1 unchanged (bands are not district kinds)"
+   },
+   {
+    "part": "scope",
+    "section": "§1.4 districts row; §13.5",
+    "what": "the MFCG baseline stated consistently with J-P1; parity rows: FTG's lifestyle distribution, MFCG's ward-class shares"
+   },
+   {
+    "part": "scope",
+    "section": "§0 (landing table for items 8–29, beside §0.2)",
+    "what": "one row for item 27: rule, landing (home), clause map"
+   }
+  ],
+  "staged": "BASE",
+  "decisions_touched": [
+   "J-P1: \"feature-named district kinds\"",
+   "AM-6 (§0.2 row 6)",
+   "LC-6 / FTG-2 (band cuts from roster demand)",
+   "MFP-7",
+   "§4.5: \"A shanty / squalid type is allowed only after the first half of the stages and only outside the enceinte (FTG's staging rule)\"",
+   "J28 (PROGRESS): \"new 27 prosperity field's default bands reproduce MFCG ward types and FTG lifestyle tiers/shanty rule\" (ruling: its MFCG evidence is the 2017 open-source model; §1.4 says the live MFCG dropped class-typed wards)"
+  ],
+  "group": [
+   "emulation baselines (23–27)"
+  ]
+ },
+ {
+  "id": "28",
+  "owner_words": "\"a user can go click into a building from within the neighborhood view and pull this up which takes all of the geometry and height and pieces from the manor view and then makes a coherent floor plan of the building also taking and tailoring to the building type and function.\" + \"the first thing that gets built is the city level view with a general view of different neighborhoods as plots without buildings. A user clicks into a neighborhood and that generates that neighborhoods buildings. Once generated it is saved. Plots can be preassigned institution/buildings as well just not generated. The same thing happens when users click a building in a neighborhood. This cuts back on loading everything all at once. of course generated buildings and neighborhoods as you zoom out are saved to be viewed until something changes in them from the simulator which lets the user know to click and see changes at their own pace.\" + (f), 2026-09-27, the interior ladder (the whole message): \"one thing to add to the dwellings. following on the fact that we put a floor to the geometry regarding prosperity, that does not mean the interior has to be. so in other news more prosperity means a larger home for a smaller family with potential for staff rooms which are dwarfed compared to the owners. where if it gets poorer, the neighborood, each building may stay or get. to the floor we have described, however the interior then becomes rearranged so a larger space gets partitioned, hallways may be created that lead into seperate rooms for different families, etc etc and this scales appropraietly, this is concurrent with how the buildings cycle between middle to rich. And the more rooms for more occupying famiiles the richer a building gets.\" + \"common rooms may be a thing if in appropraite prosperity, larger rooms vs smaller rooms too. but if it gets really poor, then its just simply all appartments that can probably fit no more than a bedroom and a small place within to cook food. maybe not even that second part.\" + \"I was originally concerned with... if every area gets developed where are the poor are suppose to stay, then i realized same building geometry but not the interior.\" (the last sentence of the first quote needs a reading: the route recommends CAPACITY — the richer the shell was built, the more rooms it has to partition and the more families it holds once let out — with a slip for \"poorer\" as the alternative; both keep households per building rising as the occupants' band falls)",
+  "state": "PARTIAL",
+  "home_part": "model",
+  "home_section": "§2.6 Buildings … the stage-3 interface (the fourth rung 'plan', the room programme, the plan record per storey, editability, per-rung streams); with §2.8–§2.9 (same part) for the rung states and the elaboration cache; item 28 (f), the interior ladder, stated once here: the programme's inputs (the occupants' band and the household count, never the manifested band or geometryFloor); the interior ladder's rule table (rich, middle, middling-poor lodging house, poor tenement, destitute single rooms: per band the households per shell, the unit's rooms, shared rooms, staff rooms and their relative size, circulation form and room-size band — the cross-class structure; the per-class programme rows stay §10.2's RoomProgramRow content, J-A28.43); the dwelling unit on the plan's room with its own entry door onto circulation or the street; the re-cut rule both ways (wing rings, stair core, entrances, hearths, passage cells and basement ring fixed; partitions, corridors, doors and roles re-derived with least disruption; re-unification removes what subdivision added); household units never omitted (the next poorer unit form first); the shell capacity (storey floor area less circulation, over the smallest unit's minimum area); §2.8's elaboration inputs include the household count and the occupants' band; §2.7's household-to-unit link",
+  "referencing": [
+   {
+    "part": "pipeline",
+    "section": "§4.1",
+    "what": "the trigger policy over the laziness contract: elaborate 'click' (the owner's default) or 'view'; a neighbourhood click composes to the wings rung (stage 3) and opens stage 2's close-up at M5; a building click derives the plan; the eager content decision named as the owner's pre-assignment"
+   },
+   {
+    "part": "pipeline",
+    "section": "§4.7 S11 / §10.2 / II.4–II.5",
+    "what": "the room programme is part of the designation template (item 19) and the class rows; stage 2's close-ups follow the click policy and stale marking"
+   },
+   {
+    "part": "determinism",
+    "section": "§6.1",
+    "what": "per-rung concerns (plan partition, room roles, furniture): re-rolling roles never moves a wall, re-rolling the plan never changes the exterior"
+   },
+   {
+    "part": "determinism",
+    "section": "§6.2",
+    "what": "the cache is outside both digests; staleness by recorded input digests; the derived-complete test covers click order"
+   },
+   {
+    "part": "determinism",
+    "section": "§7.1 / §7.3 / §7.4",
+    "what": "plan edit events (room role, wall move, door move) scoped to the building; a click logs nothing; a click on a stale rung re-derives as a mutation of the cached state (18's operator); lifecycle rows"
+   },
+   {
+    "part": "rendering",
+    "section": "§8.5 / §8.6",
+    "what": "the building band draws the plan; the plots-only view option; stale markers at every zoom; the persisted cache replaces the in-memory (entity key, revision, lod) cache"
+   },
+   {
+    "part": "rendering",
+    "section": "§11.1 / §12.7 / §12.8",
+    "what": "the room graph in our own JSON schema, VTT walls and doors per storey; one plan per click; the cache's memory"
+   },
+   {
+    "part": "kernel",
+    "section": "§3.4 / §3.8 / §3.10",
+    "what": "the plan partition's operations (splitFace, ringBand, radialSplit, booleans, lir — or name a new one); a plan skeleton reader if used; invariants: rooms tile each storey's wing rings, outer walls equal the wing rings"
+   },
+   {
+    "part": "scope",
+    "section": "summary; §1.1 stage table; §13.2; §14; §15.2; §16; Staged list (stage-3 row)",
+    "what": "plan acceptance bars (every programme room present; every room reachable; stairs stacked; walls equal the wing rings) and elaboration and staleness tests; the plan step on BuildingGenerator and the cache's owning package; the hooks row; pricing; list the plan rung's hooks; after the pass, docs/DEFINITION.md gains the rung (closing seat)"
+   },
+   {
+    "part": "scope",
+    "section": "§0 (landing table for items 8–29, beside §0.2)",
+    "what": "one row for item 28: rule, landing (home), clause map"
+   },
+   {
+    "part": "pipeline",
+    "section": "§10.2 / §4.11 / §4.7 S11 (item 28 (f))",
+    "what": "(landed seats; reached by the model seat's cross-part notes and verify → repair) §10.2: one line — the per-class RoomProgramRow rows follow §2.6's interior ladder (a pointer; the rule is stated there); programme read at the occupants' band row, households at the plot's builtBand row (as J-A19.43 and §4.11 already say); a unit-scope column on RoomRuleRow if the model seat rules one. §4.11 rung 1: a pointer — the re-cut is §2.6's interior ladder; relet keeps the count within §2.6's shell capacity. §4.7 S11: nothing new — item 18's mutator is the operator the re-cut applies to rooms"
+   },
+   {
+    "part": "pipeline",
+    "section": "§4.5 (item 28 (f); a conflict between pending blocks)",
+    "what": "the default FieldBands.middle is 'the row the granularity table calls modest' in the prosperity seat's APPEND and comfortable in the emulation seat's REPLACE (J-A27.42); under the default shares the median household lies in comfortable (cumulative 0.011 / 0.022 / 0.239 / 0.674); verify-pipeline reduces them to one statement — the interior ladder's middle row depends on it"
+   },
+   {
+    "part": "determinism",
+    "section": "§5.2 / §5.3 (item 28 (f))",
+    "what": "(landed seat) F-PLAN: tier 0 never trims a household unit, tier 5 substitutes the next poorer unit form, tier 6 never omits a household unit; test column 'every household housed'. §5.3: every unit's entry door opens on circulation or the street, never through another unit's room; a re-cut leaves the wing rings, stair core, entrances and hearths unchanged"
+   },
+   {
+    "part": "determinism",
+    "section": "§6.1 / §6.5 / §7.1 / §7.3 / §7.4 / §7.6 (item 28 (f))",
+    "what": "(landed seat) no new concern (the re-cut draws on plan.layout and plan.roles); §6.5 (9)'s click-order identity covers re-cuts, so the stale-click row's prior (J-A28.71, 'the cached result') must become canonical per the model seat's ruling; §7.3's prior clause: rooms that fit a role of the new programme keep ring and address, entrances and hearths fixed with the stair core; §7.1/§7.4: the room's unit editable (a plan event such as setRoomUnit, or through the existing events) with its lifecycle row; §7.6: the interior ladder rows are editable defaults (item 23)"
+   },
+   {
+    "part": "rendering",
+    "section": "§11.1 / §12.7 (item 28 (f))",
+    "what": "§11.1: the room graph carries each room's unit and each unit's household and entry door; §12.7: the one-plan-per-click budget covers a re-cut (including the prior ruling's chain); §8.5 and §9: no new text"
+   },
+   {
+    "part": "scope",
+    "section": "§13.2; D-25; §0 landing row; summary; Staged list; §16; DEFINITION at closing (item 28 (f))",
+    "what": "§13.2 bars: (1) a two-row fall of the occupants' band houses every dossier household with its own door off a corridor or stair hall, inside the same wing rings, the stair core unmoved; (2) the shell byte-identical through any interior re-cut; (3) re-uniting households restores the earlier plan where nothing else changed; (4) schema test: every band maps to an interior row and every row names its unit, shared, staff and size columns; (5) after a district's two-band fall every roster household is housed without a new plot. D-25 gains 'interior ladder' and 'dwelling unit'; the landing row's clause map gains (f); the summary's building line: the shell keeps its floor, the interior follows its occupants; Staged list stage-3 row; §16 no new line; DEFINITION at closing: where the poor live — the same shells, a different interior"
+   }
+  ],
+  "staged": "STAGED-HOOK + BASE (the plan rung is staged after the Fantasy-Manor buildings; the click policy and the stale-until-clicked cache apply now to the base's lazy tiers); item 28 (f): the interior derivation is the plan rung's (stage 3) and relet's epoch driver the evolution engine's; base now: the programme's band input and the household capacity with relet by hand (landed), the rows as data with the schema test, the unit field, stale marking on a household or band change, the edit kinds",
+  "decisions_touched": [
+   "J33 (PROGRESS): \"eager footprints at city zoom (MFCG parity) with a cadastral 'plots only' view as an option … Rejected: bare-plot city view by default; store every derived rung\" (ruling against the owner's \"plots without buildings\")",
+   "J-P18: \"an outline() / compose() split with a cost contract\"",
+   "J-P9: \"an eager town-wide allocation, a laziness contract and a complete first paint\"",
+   "J-I2: \"no preview at any rung\"; J-R7: \"no S9 preview\"; SCL-4",
+   "J-P23: \"close-up refinement as derived data; template replacement as a model edit\"",
+   "J-P48; DEF-17; D-35",
+   "J36 (PROGRESS): editors start after the Fable Dwellings synthesis lands",
+   "rulings: the plan's scale (dwellings-posts §0 item 10: the owner's call); rooms as plat faces or composition rings",
+   "item 28 (f): J-A19.43 (landed): \"geometry columns read the manifested band (the field band raised to the geometry floor); the specialisation and the room programme read the field band\" — (f) agrees",
+   "item 28 (f): J-A31.43 (landed): the manifested band for everything built, \"the field for use, condition and labels\"; §4.11's floor paragraph already lists \"the room programme\" on the field side",
+   "item 28 (f): J-A28.43 (landed): the room-programme table in §10.2 — the interior ladder's rows are its rows; J-A31.49 (landed): relet; J-A28.61 (landed): plan concerns keyed by the rung's reroll",
+   "item 28 (f): J-A31.45 (landed, 'modest') against J-A27.42 (emulation seat, comfortable): the default middle band",
+   "item 28 (f): J-A28.71 (landed): §7.3's prior = 'the cached result' against §6.2's 'pure function of the building's committed state', §6.5 (9)'s click-order identity and §4.1's 'never its content' (J-A28.41, J-A28.42)",
+   "item 28 (f): F-PLAN (landed §5.2) tier 6 'a hard room omitted and reported'; §2.6 sub-locations 'stage-3 rooms refine them … and never replace their ids'; §1.4's discard of FTG's one-building-one-household lot; item 18 (e)'s inverse mutation; item 23 (no reference has occupant-driven interiors; static baseline unchanged with no epoch and no relet); J48 (PROGRESS): 'needs no new records' — true of record types, the plan's room gains one field",
+   "item 28 (f) rulings for the model seat: the reading of the owner's last sentence (capacity recommended); the occupants' band (field band recommended, J-A19.43) versus Household.wealth; the interior rows by band name (recommended; RoomProgramRow.for.band) versus offsets from FieldBands.middle — default map prosperous and rich → rich, comfortable → middle, modest → middling-poor, poor → poor, squalid → destitute; the unit as a household reference on the plan's room (recommended) versus a record; the re-cut's prior made canonical (recommended: the chain from the built programme, one row or household at a time) versus the cached result at click time; staff rooms sized relative to the owners' rooms; the unit edit; the capacity bound min(households.max, shell capacity)"
+  ],
+  "group": [
+   "floor plan (28, 29; with 16–19's room programmes and 18/22's mutation)",
+   "item 28 (f): prosperity change (31: rung 1's relet re-cuts the interior; the interior reads the occupants' band, the shell the floor)",
+   "item 28 (f): assignments (18's mutation applied to rooms; 19's programme by band) and emulation (27's band set and middle band)"
+  ]
+ },
+ {
+  "id": "29",
+  "owner_words": "\"larger buildings can have more than one entrance. there should always be a street facing entrance. back or side entrances if an alley presents itself are optional or random but limited. back entrances in the case of a larger court or yard is recommended. and selective but appropriate basements. I leave all judgement to you.\"",
+  "state": "PARTIAL",
+  "home_part": "model",
+  "home_section": "§2.6 Buildings (the Entrance record and entrances[] with main, side, rear, yard and service roles and the five rules as a per-entity derivation like deriveBase; the basement decision as a derived attribute reading the class rows and the terrain gate)",
+  "referencing": [
+   {
+    "part": "model",
+    "section": "§2.2 rule 7 / §2.5 / §2.3",
+    "what": "the entrance vertex role becomes indexed; BuildingSlot.entranceOn generalised; the yard-door rule reads Plot.yard and access beyond the frontage; the plot keeps a street-facing gate or door; the terrain gate reads the flood band and drainage (define a water-table fact if needed)"
+   },
+   {
+    "part": "pipeline",
+    "section": "§4.7 S11 / §10.2",
+    "what": "S11 places entrances and decides basements through §2.6's rules; class-table and site-plan rows by class × size × prosperity band hold the side, rear and service probabilities and caps, the yard-door area threshold, the cellar rows, the slope threshold and the rock cost; the 3 ± 1 m rule stays the main entrance's placement"
+   },
+   {
+    "part": "pipeline",
+    "section": "§4.6 / §4.7 S10",
+    "what": "one line: an alley presents itself when S8's interior rule or S10's alley rung gives the plot an access edge beyond its frontage"
+   },
+   {
+    "part": "pipeline",
+    "section": "II.6",
+    "what": "a cellar belongs to its surface building, never joins a sewer tunnel and is not an underground plot (item 12)"
+   },
+   {
+    "part": "determinism",
+    "section": "§7.1 / §7.4",
+    "what": "building edits add, remove and move an entrance and override the basement decision; edit-target and lifecycle rows"
+   },
+   {
+    "part": "determinism",
+    "section": "§7.3",
+    "what": "the terrain operator re-derives basements whose terrain gate changed; the mutation operator (item 18) re-derives entrances"
+   },
+   {
+    "part": "determinism",
+    "section": "§6.1 / §5.3",
+    "what": "an entrance and basement concern (or reuse siteplan); invariants: exactly one main entrance facing street or court, no side or rear entrance without an access edge, no cellar under the flood band, the basement inside the ground-floor footprint"
+   },
+   {
+    "part": "rendering",
+    "section": "§8.2 / §8.5",
+    "what": "entrance glyphs per role at the district band and finer"
+   },
+   {
+    "part": "rendering",
+    "section": "§11.1",
+    "what": "VTT doors at every entrance; GeoJSON entrance points with roles; glTF and CityJSON basements below baseCm"
+   },
+   {
+    "part": "scope",
+    "section": "§13.2 / §13.5 / §15.2 O17 / §1.4 buildings row / §16",
+    "what": "acceptance bars (one main entrance facing its street or court; no side or rear entrance without an access edge; no cellar under the flood band; basement inside the ground-floor footprint and smaller); the FTG entrance parity row kept; doorless → the entrance set; FTG's entrance rule as the default; pricing"
+   },
+   {
+    "part": "scope",
+    "section": "§0 (landing table for items 8–29, beside §0.2)",
+    "what": "one row for item 29: rule, landing (home), clause map"
+   }
+  ],
+  "staged": "BASE + STAGED-HOOK (the entrance set and the basement decision are base; the plan rung's consumption is staged with item 28)",
+  "decisions_touched": [
+   "§1.4 / §4.7 S11: \"FTG's entrance rule kept\"; \"Entrance on the access edge 3 ± 1 m from the corridor (FTG's measured rule, §13.5)\"",
+   "O17 (f): \"0 self-intersecting, duplicate or doorless buildings\"",
+   "J-P19: \"baseCm = the highest sample plus a plinth, with skirts and stepped wings\"",
+   "J-P42 / J-P47 (the wing carry; entrance vertices are footprint vertices)",
+   "§2.2 rule 7: the entrance vertex role is not indexed",
+   "D-8 (3-D export)",
+   "rulings: the water-table fact; a basement in Heights or its own record; the caps per class"
+  ],
+  "group": [
+   "floor plan (28, 29)",
+   "assignments (16–19: designation changes add or remove entrances)",
+   "sewers (12: a cellar never joins a sewer)"
+  ]
+ },
+ {
+  "id": "30",
+  "owner_words": "\"there should be some plots that do not have a direct access to streets, these are generally only accessible via alleys. but imagine slums or hidden or clandestine places outside of public view, plots with buildings or institutions that only those that grew up there or knew about it have access to or the knowledge of.\"",
+  "state": "PARTIAL",
+  "home_part": "pipeline",
+  "home_section": "§4.6 S8 Infill — the deep-interior rule (hidden-plot and private-court target shares by prosperity and density, made deliberately by S8 and §4.7 S10's plot cut; the exposure derivation; the passage choice in S10's alley rung); second home for the knowledge label policy: rendering §9.2 (R7)",
+  "referencing": [
+   {
+    "part": "model",
+    "section": "§2.5 / §2.6",
+    "what": "Plot.exposure (street, lane, alley, court, hidden, sealed) and knownTo (public, local, secret) on plot, building and Institution, defaulting from exposure (hidden → local)"
+   },
+   {
+    "part": "model",
+    "section": "§2.4",
+    "what": "the passage class — ruling: a passage under a wing cannot be an ordinary L1 way (its corridor would cut the footprint, and S10 never writes L1); either (i) a covered L3 alley-as-face through the footprint region with the wing spanning it (§2.6's union contract and wing carry must accept it) or (ii) a declared nesting exception confirmed by the kernel"
+   },
+   {
+    "part": "model",
+    "section": "§2.8",
+    "what": "the sealed state: a sealed access edge, exposure sealed, buildings decaying as vacant (item 8), reopening restores"
+   },
+   {
+    "part": "model",
+    "section": "§2.9",
+    "what": "a per-viewer knowledge key in the view state, outside every digest (like stylePreset)"
+   },
+   {
+    "part": "model",
+    "section": "§2.6 (item 28 editor)",
+    "what": "the plan rung reserves the passage cells before partitioning (a passage room); the passage's ends are entrances (item 29)"
+   },
+   {
+    "part": "kernel",
+    "section": "§3.4 / §3.7 / §3.10",
+    "what": "confirm the chosen passage representation keeps planarity and nesting; name any operation option (ii) needs"
+   },
+   {
+    "part": "pipeline",
+    "section": "§4.7 S10b / §4.11 / PART III",
+    "what": "secret or local institutions prefer hidden plots (item 16's templates); densify, clear, seal and reopen as conversion kinds; villages have no hidden share by default"
+   },
+   {
+    "part": "determinism",
+    "section": "§5.2 / §5.3",
+    "what": "F-PLOT keeps its guarantee: a hidden plot's access is a chain of access edges (alley, court or passage faces) to a public way; invariant: every hidden plot reachable from a public way"
+   },
+   {
+    "part": "determinism",
+    "section": "§7.1 / §7.4 / §7.7",
+    "what": "edits: seal or open a passage, hide or reveal a place (setAttr knownTo), add a passage; edit-target and lifecycle rows; knownTo of a dossier-backed institution is a dossier fact (item 20)"
+   },
+   {
+    "part": "rendering",
+    "section": "§9.2 / §9.5 (label policy home)",
+    "what": "knownTo filters the candidate set of a stop: local and secret names hidden at the city band, local shown at the neighbourhood band, secret only at the building band or with the viewer's knowledge key; placement digests per (stop, knowledge set), goldens with the empty set; the legend honours the same filter"
+   },
+   {
+    "part": "rendering",
+    "section": "§8.2 / §8.3 / §8.5",
+    "what": "an arch glyph for passage in the symbol catalogue; a hidden court reads as a court behind buildings (ground and court tones, building masses), never an empty block"
+   },
+   {
+    "part": "rendering",
+    "section": "§11.1 / §11.2 / §11.3 / §11.4",
+    "what": "query (gazetteer, hit, inView), hover and exports withhold local and secret names and purposes without the viewer's knowledge key; the key travels as a per-viewer view key; a dossier may designate a place secret"
+   },
+   {
+    "part": "scope",
+    "section": "§13.2 / §13.5 / §15.2 O5 / §14 / §16; Staged list",
+    "what": "bars: every hidden plot reachable by an access-edge chain; hidden share within its band's target ± tolerance; no secret label at the city band without the key; hidden courts drawn as courts with §8.5's metrics holding; emulation presets give 0 hidden share; the app's gazetteer honours the key; pricing; list the seal and reopen hooks"
+   },
+   {
+    "part": "scope",
+    "section": "§0 (landing table for items 8–30, beside §0.2)",
+    "what": "one row for item 30: rule, landing (home), clause map"
+   }
+  ],
+  "staged": "BASE + STAGED-HOOK (exposure, hidden shares, passages, knownTo, the label and reader policy and the edits are base; evolution arising and vanishing, sealing and reopening by the engine, and SettlementForge's secret designations are staged; sealing by hand is available in the base)",
+  "decisions_touched": [
+   "J-P15: \"the deep-block interior decided in S8 by band shares\" with §4.6's default shares",
+   "§5.2 F-PLOT and O5 (a): \"access edge 100 %\"",
+   "GEO-25 (alleys as L3 faces, not spines); §4.1: \"S10 never writes L1\"; J-P46",
+   "§2.6 stage-3 contract: \"the union of the composed wings equals the outline's union exactly\"",
+   "J-R12 (label placement as view data); J-R34: \"a per-viewer stylePreset view key\"",
+   "§8.5 figure-ground contract (MFP-1)",
+   "item 23: is the hidden share on by band in the default preset (the emulation presets keep 0)? check §13.5's plot and streetwall parity rows",
+   "clean room: the item's \"banned prior #4\" is a map-corpus record id (J25, J27; partitioned/) — state the legibility bar in the design's own terms (§8.5), never with the corpus id",
+   "rulings: how \"visible from a public way\" is decided; the passage representation"
+  ],
+  "group": [
+   "evolution hooks (8: sealing, densification, clearance)",
+   "assignments (16: hidden plots preferred for secret institutions)",
+   "floor plan (28, 29: the passage room and its entrances)",
+   "dossier flow (20: knownTo as a dossier fact)"
+  ]
+ },
+ {
+  "id": "31",
+  "owner_words": "\"in regards to settlements changing some neighborhoods can grow poor or grow rich, this should affect plot aggregation and fusing or separation organically.\" + on the first draft: \"even if a neighborhood grows poor, it is hard to imagine that it would be torn down into a slum if it was filled with mansions.\" + on the correction: \"it is much easier for a poor neighborhood to grow rich and merge plots\" + on the floor (the final paragraph): \"rich places can be changed but their floor is bounded to middle class in a sense. think of it as refurbished housing or development. so once a neighborhood generally gets to a middle class outcome, that forever remains its geometry until vacancy, ruin, fire, war, or redevelopment shifts things entirely. it would cycle in appropriate circumstances between rich and middle\"",
+  "state": "PARTIAL",
+  "home_part": "pipeline",
+  "home_section": "§4.11 Incremental mode, transformations and conversions — the Survivors paragraph rewritten as the slow asymmetric ladder: the DUE trigger; rung 1 use and occupancy, rung 2 tenure and yards, rung 3 geometry only on vacancy, ruin or redevelopment; no occupied building removed by a band change; duration per rung by direction and by stock replaceability; per-block churn cap; the rung-3 orderings with §4.7 S10 (7)'s join-and-split law (same part); the geometry FLOOR, stated once in the same Survivors paragraph: geometryFloor = min(builtBand, the settlement's middle band); the geometry band max(field band, floor) (and on the value, max(field value, floor value)) read by every change other than a rung-3 event for plots, shells, yards and outbuildings; the field band read for occupancy, condition and labels; rung-3 events and the redevelopment-class edits §7 rules on set builtBand to the band of the new stock; the rich ↔ middle cycle as rungs 1–2 with no plot or shell change; a manifestation column on the rung-1/2 operations (geometry, bounded by the floor, or occupancy and condition, free); the middle band's designation stated at §4.5 (same part) with item 27's default bands",
+  "referencing": [
+   {
+    "part": "pipeline",
+    "section": "§10.2 / §10.3",
+    "what": "the class table's BuildingClassRow gains the replaceability column (its single home; tents, sheds and hovels at once; cottages and timber row houses short; stone houses long; manors, halls and institutions only by ruin or redevelopment); households per building follow the roster (the dossier's roster where one exists) and item 17's relocation, with a household capacity per building by class and band"
+   },
+   {
+    "part": "pipeline",
+    "section": "§4.7 S10 (7) / §4.7 S11 / §4.6 / §4.9 / §4.5",
+    "what": "the incremental join-and-split law with the fusion and splitting orderings, neighbours fixed, under the band's target, capped by churn; item 18's mutation for renovation, extension and class change keeping the shell; item 30's back courts, passages and cleared courts; gardens built over and reclaimed; the DUE trigger reads FieldBands' hysteresis; THE FLOOR: §4.5 names each settlement's middle band in the default band set (cross-note to item 27's seat: FTG's modest or comfortable tier, or the band holding the town's median household; ruling) and its 'Over time' bullet points to the floor; S10 (2) and S11 read the geometry band and value in every re-derivation that is not a rung-3 event or a redevelopment-class edit (cross-note to the assignments seat: item 19's template splits SHAPE columns, read at the geometry value, from USE and CONDITION columns, read at the field value; item 18 never subtracts shape below the geometry band's template on a band change); §4.6 (cross-note to item 30's seat): rung 2's back court with its passage is geometry, allowed only where the geometry band is itself a band whose row makes courts"
+   },
+   {
+    "part": "pipeline",
+    "section": "PART II.1 / II.3",
+    "what": "the floor: a refine close-up reads the committed plots and never changes builtBand; a replace close-up (a template fabric, a model edit, II.4) is a redevelopment-class edit whose plots take builtBand from the band the template reads; II.3's Normal / Manor / Empty / Green dispatch reads the geometry band"
+   },
+   {
+    "part": "model",
+    "section": "§2.5",
+    "what": "Block gains due?: the band it must meet and the epochs spent in it; THE FLOOR: Plot.builtBand: string (a band label of the settlement's FieldBands) and a continuous companion (e.g. builtProsperity: number on [0, 1]) as persisted attributes (leaf digest in schema order, §6.2; snapshot columns, §2.9); geometryFloor derived at read, never stored; FieldBands gains the middle designation (e.g. floorBand: string); the DerivationRecord bullet's epoch clause ('a field brush or an epoch … re-derives only what §7.2's τ rule selects') rewritten: an epoch acts only through §4.11's ladder, bounded by the floor"
+   },
+   {
+    "part": "model",
+    "section": "§2.6",
+    "what": "ClassRules and the building record read the class table's replaceability (pointer to §10.2); households per building (occupants as households with a capacity, or an explicit list); neglect through material and roof attributes (rendering-only by item 19) and RoofSpec 'none' when the roof is lost; a class change keeps the shell (item 18); the plan rung (item 28) re-cuts its room programme from one household to many"
+   },
+   {
+    "part": "model",
+    "section": "§2.8",
+    "what": "neglect and multiple-occupancy states in one family with item 8's ladder; THE FLOOR: DerivationRecord.band keeps 'the recorded band hysteresis reads', with one line distinguishing it from builtBand (records digest vs model digest; rewritten by every derivation vs only by rung-3 events and redevelopment-class edits); the entity registry's plot row gains the attribute's migration hook"
+   },
+   {
+    "part": "determinism",
+    "section": "§6.3 / §6.1",
+    "what": "the lineage rule: a fused plot keeps its largest parent's lineage, split children are keyed by parent key plus child index; reconciled with the JOIN/SPLIT address rule and an explicit exception to J-DET-2 (a mutation continues lineage, only a reroll takes fresh lineage); streams continue; THE FLOOR: a split's resurrected member takes builtBand from the rung-3 event that re-cut it, not from its tombstone; only an undo restores the tombstone record exactly; the floor draws no random numbers (no new stream)"
+   },
+   {
+    "part": "determinism",
+    "section": "§7.1 / §7.4 / §7.3",
+    "what": "fusion and splitting as edit kinds running the least-disruption re-cut with item 18's mutation (re-specify plot join and split or add kinds); undo restores the former rings and records exactly; effective scope is the due block with neighbours fixed; THE FLOOR: builtBand is written by the rung-3 edit kinds (fusion, splitting, rebuild, redevelopment), which re-derive the stock to the band they set; rule a direct setAttr of builtBand as such a redevelopment or refuse it as derived state, never a bare value change; the lifecycle row of builtBand — create (generation at S10, rung-3 events, redevelopment-class edits), read (the ladder; S10 and S11 through the geometry band), persist (attribute columns, §2.9), regenerate (Regenerate (keep settings) keeps it; Adjust ruled: a redevelopment-class re-derivation listed in the fate report, or floor-bound), undo (the undo record restores it), migrate (§7.5)"
+   },
+   {
+    "part": "determinism",
+    "section": "§7.2",
+    "what": "ruling: the prosperity brush's re-derivation of blocks past τ versus \"no occupied building removed by a band change\"; THE FLOOR joins this ruling, with §7.3 (a) 3's terrain-driven field re-evaluation: brushes either stay authorial re-derivations that set builtBand in their scope (the static base unchanged; recommended) or respect the floor"
+   },
+   {
+    "part": "determinism",
+    "section": "§7.6",
+    "what": "the ladder rows (durations by rung, direction and replaceability; churn caps; orderings) and the replaceability column among the editable tables; THE FLOOR: the middle designation and the manifestation column are editable table values (item 23: a default, not a law)"
+   },
+   {
+    "part": "determinism",
+    "section": "§7.5",
+    "what": "the floor: a document written before the attribute gets builtBand = its plot's DerivationRecord.band (exact for every document without an epoch)"
+   },
+   {
+    "part": "determinism",
+    "section": "§5.2 / §5.3",
+    "what": "F-PLOT holds after every re-cut; party walls agree on both sides; epoch invariant: no occupied building removed by a band change (a redevelopment first vacates by item 17's relocation); THE FLOOR: an epoch invariant — a plot without a rung-3 event keeps its ring and shells and its geometry band at or above its floor"
+   },
+   {
+    "part": "rendering",
+    "section": "§8.2",
+    "what": "neglect style classes (wear, patched roofs, a roof lost late), extending item 8's classes; materials stay rendering-only; THE FLOOR needs no new rendering text: condition draws from §2.8 states through these classes, labels and descriptions stay on the field (J-P1), nothing in rendering reads builtBand"
+   },
+   {
+    "part": "scope",
+    "section": "§13.2; §14; Staged list; D-25; §15.2; §16",
+    "what": "bars: access edges and class minimums after a re-cut; party walls agree; granularity within the band's target ± tolerance; churn cap holds; no occupied building removed by a band change; generation-then-mutation equals the replayed history; a schema test for replaceability and directional durations; @plat/tables names the ladder table; the evolution hooks listed; the vocabulary gains the ladder; O18 (g) and the hooks row; edit kinds at M3a, hooks at M4; THE FLOOR's bars: after epochs with no rung-3 event a plot's ring and shells are unchanged and its geometry band is ≥ its floor; after a rung-3 event builtBand is the new stock's band; a rich → poor → rich run with no rung-3 event leaves rings and shells byte-identical and returns rung-1/2 attributes to the rich manifestation within the durations; with no epoch builtBand = the generation band and the geometry band = the field band (item 23); a town and a metropolis resolve their own middle band; a schema test that every band set names its middle band; D-25 gains the built band, geometry floor and geometry band; no golden exists before M1 (D-24), so no declared shift"
+   },
+   {
+    "part": "scope",
+    "section": "§0 (landing table for items 8–31, beside §0.2)",
+    "what": "one row for item 31: rule, landing (home), clause map; its clause map gains the floor"
+   }
+  ],
+  "staged": "STAGED-HOOK + BASE (the epoch trigger, the ladder's durations and the churn are the evolution stage's; the per-block re-cut with fixed neighbours, the lineage rules, the due mark, the ladder rows and the replaceability column, households per building, the neglect states, fusion and splitting as hand edit kinds and the §13 bars are base); the floor (builtBand and its value companion, the middle designation, the floor rule, the manifestation column and the attribute's lifecycle paths) is BASE and inert until an epoch passes; applying it at epochs is the engine's (STAGED)",
+  "decisions_touched": [
+   "§4.11 Survivors (LC-12): \"densify / subdivide when a plot's value has risen past a cut point by more than the hysteresis, amalgamate when neighbours join, rebuild (a class upgrade), decay when the value has fallen past a cut; at most a table share of a district's plots transforms per epoch (default 10 % per decade)\" — direction and demolition-permissive scheme replaced",
+   "§4.5 FieldBands hysteresis 0.02 (LC-6)",
+   "§6.3 JOIN and SPLIT: \"A joined plot takes its address by the anchor rule from the member whose frontage anchor it keeps; … A later SPLIT resurrects a member whose anchor matches\"",
+   "J-DET-2: \"lineage kept only for entities surviving un-derived; successors get the address only\"",
+   "§7.4 row: \"structural ops on the plat (§3.4) with dependants re-derived\"",
+   "§7.2: \"A stroke re-derives every block whose plot samples moved … by more than τ = 0.01 of the field's range\"",
+   "O18 (g) one code path; D-25",
+   "§1.4 discards \"FTG's one-building-one-household lot\"",
+   "item 8: \"The owner's war example is hypothetical and NOT to be written into the design\" — name rung-3 triggers generically (vacancy, ruin, destructive or redevelopment circumstance events)",
+   "rung 3's rich-direction redevelopment must still honour \"no occupied building is removed by a band change\" (purchase → relocation → vacancy → re-cut)",
+   "item 23: the static baseline is unchanged when no epoch passes",
+   "§2.5 DerivationRecord bullet: 'a field brush or an epoch compares each plot's current sample with the recorded one and re-derives only what §7.2's τ rule selects' — the epoch clause rewritten (stale for the ladder and the floor)",
+   "§2.8 DerivationRecord.band 'the recorded band hysteresis reads' — kept, distinguished from builtBand",
+   "§4.5 Bands (LC-6, FTG-2): cuts 'computed once per town' kept; an explicit setAttr on FieldBands 're-derives every block whose band changes' — authorial (sets builtBand) or floor-bound",
+   "AM-6 / MFP-7 'prosperity is a gradient and a band': the floor stated on the value as well as the band (the continuous companion and the floor's value)",
+   "item 27's default bands (J28): which band is the middle one — ruled with the emulation seat",
+   "J-DET-12 'the prosperity, density and greenery fields recomputed on load': builtBand persisted as an attribute, never recomputed from the field",
+   "§7.2 brush, §7.3 (a) 3 terrain-driven field re-evaluation, §4.11 're-deriving it with the new field is the explicit Adjust' and §7.4's regenerate / adjust row: authorial (reset builtBand in scope) or floor-bound",
+   "§6.3 JOIN and SPLIT resurrection: builtBand from the rung-3 event, not the tombstone",
+   "J-P1 unchanged: labels and descriptions follow the field",
+   "refurbishment: the owner's 'refurbished housing or development' and 'once a neighborhood generally gets to a middle class outcome' vs the draft's rung-3-only reset — rule whether a completed upward refurbishment at rungs 1–2 raises builtBand (favoured by the owner's words); lowering stays rung-3 only",
+   "'generally': plot-level record (the draft; the neighbourhood outcome is the aggregate) or aggregation by block",
+   "item 8's owner note again: the floor quote names 'war' — rung-3 triggers stay generic (vacancy, ruin, destructive or redevelopment circumstance events)"
+  ],
+  "group": [
+   "evolution hooks (8, 11, 17, 22, 25, 31)",
+   "assignments (17–18: relocation and mutation)",
+   "with 30 (back courts and passages)",
+   "with 28 (room programmes from one household to many)",
+   "emulation (27: the default bands name the middle band the floor reads)",
+   "assignments (18–19: shape columns read the geometry band; use and condition columns the field band)",
+   "stage 2 (II.1 / II.3: refine keeps builtBand; replace resets it)"
+  ]
+ }
+]

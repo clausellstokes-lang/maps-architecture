@@ -1,0 +1,75 @@
+{
+ "slot": 5,
+ "status": "landed",
+ "capture": "2026-10-03T23-10-37",
+ "checks": [
+  {
+   "check": "ftg_capture_post.py --slot 5 --signed-in --premium: all 10 checks",
+   "passed": true,
+   "receipt": "--check-only exit 0, then the writing run exit 0; 10/10 PASS: calls, size key BIG_CITY, water keys COASTAL/rivers true, request diff vs base (other 0), vs slot 0 (23 semantic, 14 size-dependent, other 0), same-size 16 of 16 equal slot 1's (2026-10-03T22-04-25), decode (3.1 x 10164, 3.2 x 7984, 8 x 7270), border +-2750.00 m, no resident field, pb_raw runs (198 paths)"
+  },
+  {
+   "check": "exactly one create for slot 5",
+   "passed": true,
+   "receipt": "before: capture folders ended at slot 4's, slot 5 unbound, no lane line, list read 5 rows (BIG_TOWN 3, BIG_CITY 2); one Create Settlement click (1 of 1 hit-testable, (947, 522), inside the dialog, elementFromPoint checked, CHECKPOINT logged first); one PUT .../prod/settlements 200 with a body; after: list 6 rows (BIG_TOWN 3, BIG_CITY 3)"
+  },
+  {
+   "check": "request hash recomputed outside the script",
+   "passed": true,
+   "receipt": "sha256 of the 274299-byte PUT body = 101a10861aae; referenceBuild ftg:2026-10-03+101a10861aae"
+  },
+  {
+   "check": "request vs slot 3 (same cell), slot 1, slots 2 and 4",
+   "passed": true,
+   "receipt": "vs slot 3: 0 semantic differences, 45 partner ids, same 26 top-level keys; vs slot 1: 8 semantic (2 water keys + 6 water-implied) + 45 ids; vs slots 2 and 4: 15 semantic (size key + 14 size-dependent) + 45 ids"
+  },
+  {
+   "check": "red tests (same capture as other slots, --check-only)",
+   "passed": true,
+   "receipt": "as slot 0 exit 1 (sizeKey, waterKeys, border); as 1 exit 1 (waterKeys); as 2 and 4 exit 1 (sizeKey, sameSize, border); as 3 exit 0 (same cell, only the order index differs)"
+  },
+  {
+   "check": "structure.md equals a fresh pb_raw run",
+   "passed": true,
+   "receipt": "diff: title line only (absolute vs relative payload path)"
+  },
+  {
+   "check": "slot bind and plan check",
+   "passed": true,
+   "receipt": "plan.py --bind-ftg 5=2026-10-03T23-10-37 exit 0; --check SAME plan.json 524830f556bdc335 and metrics.m-1.json 7a21bb290bb9c7df (unchanged); one line changed vs pre-bind 10501452 (slot 4's bind)"
+  },
+  {
+   "check": "isolated runner and clean stop",
+   "passed": true,
+   "receipt": "cmp identical (session.mjs e199be5d, drive.mjs 597eb62d, common.mjs 3b948576, package.json 25e7d362, instrument.js cca253ac); port 9341 free before; no FTG process / Singleton* before and after; session closed; shared and own .session absent before and after"
+  },
+  {
+   "check": "only the seat used the window; hard limits",
+   "passed": true,
+   "receipt": "one document load (the landing); hosts: site, API, analytics, error reporting, fonts, one GPU-benchmark file (as slots 2-4); one API write (the create, listed twice as request and interception); no consent notice, no prompt, nothing accepted; no sign-out, settings, premium, re-roll, delete, rename or share touched"
+  },
+  {
+   "check": "privacy grep of every file written or changed",
+   "passed": true,
+   "receipt": "0 emails, 0 display-name hits, 0 tokens in README, capture-facts, request-diff, structure, create-request (45 partner UUIDs only), steps.jsonl, notes, E02 md/json, checklist (its one token-prefix hit is H11's own wording), result, lane lines; steps.jsonl holds the settlement id (map address) and the scratchpad folder name only, and 8 'Signed in as [name]' strings from the redacting helper; no account settlement names written"
+  },
+  {
+   "check": "E02 section 15 + JSON day-6 entry + checklist line; df",
+   "passed": true,
+   "receipt": "E02 header update and section 15 (15.1-15.5); JSON slotsTaken 6, days[5], next = programme 1 complete; checklist slot-5 line; 11 GiB free before and after"
+  }
+ ],
+ "account_limit": "none reached: premium account (J164), no counter; list 5 settlements before, 6 after; 'Unlimited settlements'",
+ "owner_notes": [
+  "Slot 5 was created once in your signed-in account: a big city on the coast with a river. Your list now holds 6 settlements. Nothing was accepted, bought or changed, and no prompt appeared.",
+  "Programme 1 is complete: all six FTG slots (0-5) are recorded and bound in the plan.",
+  "Your display name appears only in the local screenshots (captures/, which git ignores). It is in no file written by this seat."
+ ],
+ "notes": [
+  "CONFIRMED: slot 5 = captures/ftg/2026-10-03T23-10-37, BIG_CITY coast+river, 7270 buildings, 10164 edges, 7984 nodes, 49 towers, 3 water bodies, 4 districts, +-2750 m, referenceBuild ftg:2026-10-03+101a10861aae, listed population 24597 (nominal 24500 kept).",
+  "CONFIRMED: slot 5's request equals slot 3's apart from the 45 client-random partner ids, yet the cities differ (7270 vs 7342 buildings, 49 vs 40 towers, 3 vs 4 water bodies, sea N vs W). This repeats slot 4's finding at the second size. PLAUSIBLE: the server's own seed causes it.",
+  "CONFIRMED: 198 field paths = the union of the five earlier captures' paths, none new; field-11 parts 11.1/11.6/11.7 present here and absent in slots 3-4 (same premium account), so the path count varies by draw.",
+  "Deviation (read-only): one inspection eval of the size options threw in the driver and was repeated; no click depended on it.",
+  "Files: docs/calibration/E02-ftg-captures.md (header, section 15), docs/calibration/E02-ftg-captures.json, research/baselines/ftg_capture_checklist.md (slot-5 line), research/baselines/plan.json (slot 5 bound), captures/ftg/2026-10-03T23-10-37/, docs/calibration/results/W-02-slot5b.json. No plat/, no git."
+ ]
+}

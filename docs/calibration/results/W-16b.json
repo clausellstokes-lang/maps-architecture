@@ -1,0 +1,89 @@
+{
+ "id": "W-16b",
+ "status": "landed",
+ "records": [
+  "/Users/cstokes/Desktop/Maps/docs/calibration/E16-denylist.md",
+  "/Users/cstokes/Desktop/Maps/docs/calibration/E16-denylist.json"
+ ],
+ "outputs": [
+  "/Users/cstokes/Desktop/Maps/research/baselines/make_denylist.py",
+  "/Users/cstokes/Desktop/Maps/research/baselines/denylist/denylist.json",
+  "/Users/cstokes/Desktop/Maps/research/baselines/denylist/denylist.v1.json.gz",
+  "/Users/cstokes/Desktop/Maps/research/baselines/denylist/generation-record.json",
+  "/Users/cstokes/Desktop/Maps/research/baselines/denylist/refmap-names.digests",
+  "/Users/cstokes/Desktop/Maps/research/baselines/denylist/spell-supplement.txt",
+  "/Users/cstokes/Desktop/Maps/research/baselines/denylist/design-allow.tsv",
+  "/Users/cstokes/Desktop/Maps/docs/calibration/results/W-16b.json"
+ ],
+ "checks": [
+  {
+   "check": "the corpus after FTG programme 2's close (both programmes' folders), W-03b and W-04",
+   "passed": true,
+   "receipt": "build 2 --as-of now, cut 2026-10-04T05:56:16-04:00, after m1/W-02-slot27c bound slot 27 at 05:45 (LANDED 05:51): programme 1 slots 0-5 and programme 2 slots 6-27 (22/22), W-03b's sweep folder, W-04's 44 NG folders, W-08's renders; find -newer the cut: 0 corpus files; build 1 (cut 05:09:38, before slot 27) superseded"
+  },
+  {
+   "check": "the corpus rule equals doc_checks.py's two rules (R-30 exclusions; R-38 stats.json values only)",
+   "passed": true,
+   "receipt": "OWN_TREES, M1_FIRST_CAPTURE_DAY, OWN_RECORD, VALUES_ONLY, RECORDING, PROFILER, member and m1_capture_record compiled from doc_checks.py's own statements (ast); parity run doc_checks.py --doc E16 --sections 9: json_files 10441, own_outputs_left_out 105, own_values_only 1 = builder's 10441 / 105 / 1"
+  },
+  {
+   "check": "the self-test's eleven checks PASS on the research list",
+   "passed": true,
+   "receipt": "selftest 2 (build 2): C1 36/36 ID; colours 7358/7358; check-(vi) lists 237/237; kept lists 261/261; tokens 855/855, identifiers 130/130; files 12005/12005; 3-grams 2004/2004 sampled; planted TOK TRI SET COL FILE ID PHR 20/20 each; map names 92/92 (91 direct, 1 by set); salt = salt.hex; design set 0 unreviewed"
+  },
+  {
+   "check": "the self-test's eleven checks PASS on the M0 list (denylist.json)",
+   "passed": true,
+   "receipt": "selftest 2 through the twin of M0's rules: C1 7/7 carriable hit (29 dictionary-word compounds are R-17's id gap, counted); colours 7358/7358; lists 237/237 and 261/261; tokens 855/855, identifiers 90/90 carriable (40 gap); files 12005/12005; 3-grams 2004/2004; map names 92 covered (47 direct, 1 set, 44 R-17 phr gap); salt = salt.hex; design set 0 unreviewed"
+  },
+  {
+   "check": "check 11 at 0 unreviewed on both lists (after design/cleanroom-fix-1)",
+   "passed": true,
+   "receipt": "research: TOK 27, ID 14, TRI 6065, SET 104, PHR 9, COL 0, FILE 0 hits, 0 unreviewed; M0: TOK 27, TRI 6065, SET 104, COL 0, FILE 0, 0 unreviewed; first pass (build 1) found 32 distinct (8 TOK, 24 TRI), each attributed to its corpus sources and settled: supplement +11 ordinary words (179 -> 190), 24 reviewed TRI allow rows with reasons"
+  },
+  {
+   "check": "a planted leak in each M0 class caught by the research twin of M0's rules",
+   "passed": true,
+   "receipt": "tokens, trigrams, lists, colours, files: 20/20 seeded trials each in a scratch copy of volumes/INDEX.md (files: a copied corpus file in a temp folder, removed); 20 planted spell words: 0 hits; 0 token digests in spell"
+  },
+  {
+   "check": "the two lists' shared classes digest the same tokens",
+   "passed": true,
+   "receipt": "one corpus read builds both; counts equal: tokens 894, trigrams 1026020, colours 7358, files 2523, lists 260 / 3461 words; same salt and cut; checks 2-7 find every corpus item in each list"
+  },
+  {
+   "check": "the header carries digestHexDigits 16 (N-04) and attachment C's format",
+   "passed": true,
+   "receipt": "schema plat.denylist/1, normalisationVersion 1, digestHexDigits 16, ISO date and corpusCut, 64-hex salt, keys in attachment C's order, every digest 16 lower-hex, arrays sorted without repeat, list ids unique ints, ASCII only; N-22 colour reading: 0 of 1275393 strings hold a bounded six-hex run; the twin refuses a list with another digestHexDigits or normalisationVersion"
+  },
+  {
+   "check": "attachment C's construction (known answers) and normalisation 1",
+   "passed": true,
+   "receipt": "test salt 00..1f: abc 42fd4a8c529fdb40, the 3-gram 997eba001a17c8d3, zebrum 3ed08da5d2df31e8, file of bytes abc = row 1, salt-as-text c053f380bd02c003 != row 1; the five normalisation cases give the stated tokens; Node parity: 227 distinct non-ASCII corpus characters tokenised identically (Python Unicode 13.0, Node 16.0)"
+  },
+  {
+   "check": "the same salt, kept research-side; determinism",
+   "passed": true,
+   "receipt": "salt.hex unchanged (sha256 3f342aee...), equal in both lists; build 3 with build 2's --as-of and --date: denylist.json, denylist.v1.json.gz, generation-record.json, refmap-names.digests byte-identical (cmp)"
+  },
+  {
+   "check": "E16 section 9 appended; record self-check; no plat/ write",
+   "passed": true,
+   "receipt": "doc_checks.py --doc docs/calibration/E16-denylist.md --sections 9 --heads docs/ARCHITECTURE.md exit 0 (C2 1, C3 3, all reviewed); candidate written research-side only (research/baselines/denylist/); nothing written into plat/, no site, no git"
+  }
+ ],
+ "rows": 0,
+ "design_corrections": [],
+ "owner_notes": [
+  "The clean-room deny-list is rebuilt at M-1's exit in the format M0's scanner reads (research/baselines/denylist/denylist.json, 24 MB of salted digests). It passed every check on both the research list and the M0 file; it stays research-side until W-20 carries it into plat/.",
+  "The M0 format (R-17, version 1) cannot hold 29 of the 36 forbidden FTG message names, nor 44 of the 92 study-map names, because each is made only of ordinary dictionary words. Our research-side checks still catch them in the design and the digest; plat/'s own source code is not checked for them until a version 2 of the format adds that class (R-17 already asks for it). This is recorded for your eye, not decided anew.",
+  "R-17's literal '179-word supplement' is now 190 words: 11 ordinary words and abbreviations were added so they do not trip the scan everywhere (vetoable)."
+ ],
+ "notes": [
+  "CONFIRMED (executed): both builds, both self-tests, the known answers, the format check, Node parity, determinism cmp, the corpus-rule parity, the first pass's attribution. PLAUSIBLE: that the 14 stitched runs and the 11 supplement words are ordinary; that M0-k-06 would read its 3-gram hit as a single 3-gram unless told; that Unicode 14-16 code points absent from today's corpus would tokenise alike; that 64-bit digests stay collision-free at 1.27 million entries.",
+  "Hand-offs for the session to carry to M0 (C-0071; no design change): (1) M0-k-06's 3-gram hit must be the run rule of section 17.1 (2) (iii) - a single-3-gram reading fires at 132734 positions on 46239 lines of the design set; (2) version 1's id/phr gap counts above go with R-17's version-2 request to M0-k-07; (3) the colour hit is the #rrggbb / 0xrrggbb literal rule; (4) a list word is a maximal run of category-L letters, four or more; (5) the file is 24.2 MB, about 1.27 million digests.",
+  "Judgments (J122, vetoable; E16 9.8): both lists on normalisation 1 (R-17) so shared classes digest identical items, at the cost that underscore-joined reference ids are no longer single tokens; the corpus rule compiled from doc_checks.py's source; supplement 179 -> 190 rather than 8 TOK allow rows (an allow row would not spare M0-k-07 the same words across plat/); the clean-room fix verifier's independent map transcription (92 names, reproduces all 167 of W-16's name digests; kept outside the project, in the session scratchpad); R-17's gap counted, not failed, on the M0 list's checks 1, 5 and 9; build 1 superseded by build 2 because slot 27 was bound 36 minutes after build 1's cut.",
+  "The research list now carries normalisationVersion 1 and the twin refuses a list without it; W-16's list (60e6cc70...) is replaced. W-18's digest check should use make_denylist.py scan --list research (or m0) on this exit list.",
+  "Hashes: denylist.json 7b3d79936f32dccd0770bf37cf7381a747555a1a0a543b185749842f18c223c6 (24227888 bytes); denylist.v1.json.gz 00bb0d659148e17d3ea397906ae31384f536cc58812a1c3a82cf13366371a0a8 (9190376 bytes); cut and date 2026-10-04T05:56:16-04:00."
+ ]
+}

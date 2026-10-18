@@ -1,0 +1,114 @@
+== ink changed: {'wall': ('#34302B', '#292522'), 'field': ('#ECDFBD', '#ECDFBF')}
+  road    /ground   dE=  6.9 (>=6) dL= 10.0 (>=5) OK
+  ground  /building dE= 16.1 (>=12) dL= 21.1 (>=12) OK
+  road    /building dE= 22.1 (>=15) dL= 31.1 (>=15) OK
+  garden  /building dE= 18.5 (>=10) dL= 18.0 (>=0) OK
+  green   /building dE= 19.3 (>=10) dL= 16.1 (>=0) OK
+  tree    /water    dE= 20.7 (>=10) dL= 17.1 (>=0) OK
+  green   /road     dE= 14.9 (>=8) dL= 15.1 (>=0) OK
+  tree    /green    dE= 17.0 (>=8) dL= 21.2 (>=0) OK
+  water   /road     dE= 19.1 (>=8) dL= 19.2 (>=0) OK
+  water   /ground   dE= 18.2 (>=8) dL=  9.2 (>=0) OK
+  wall    /water    dE= 57.7 (>=20) dL= 59.9 (>=0) OK
+  field   /road     dE=  6.6 (>=4) dL=  5.0 (>=0) OK
+  field   /ground   dE=  5.2 (>=4) dL=  5.0 (>=0) OK
+  court   /road     dE=  4.9 (>=4) dL=  4.6 (>=0) OK
+  court   /ground   dE=  4.2 (>=3) dL=  5.4 (>=0) OK
+  ink     /road     dE= 75.6 (>=40) dL= 79.1 (>=50) OK
+  ink     /ground   dE= 69.4 (>=40) dL= 69.1 (>=50) OK
+  ink     /paper    dE= 75.6 (>=40) dL= 79.1 (>=50) OK
+  ink     /building dE= 41.9 (>=30) dL= 47.9 (>=40) OK
+  ink     /tree     dE= 38.7 (>=25) dL= 42.8 (>=30) OK
+  all matrix pairs pass: True
+  max chroma: ('field', 17.312574678630618)
+  distinct city-band tones (court as ground): 8
+  halo rule (label floor dE>=40, dL>=50): local role if it passes, else ground
+   under paper   : local dE= 75.6 dL= 79.1 -> halo paper   text/halo dE= 75.6 dL= 79.1 OK
+   under road    : local dE= 75.6 dL= 79.1 -> halo road    text/halo dE= 75.6 dL= 79.1 OK
+   under ground  : local dE= 69.4 dL= 69.1 -> halo ground  text/halo dE= 69.4 dL= 69.1 OK
+   under court   : local dE= 73.9 dL= 74.5 -> halo court   text/halo dE= 73.9 dL= 74.5 OK
+   under garden  : local dE= 66.3 dL= 66.0 -> halo garden  text/halo dE= 66.3 dL= 66.0 OK
+   under green   : local dE= 64.0 dL= 64.0 -> halo green   text/halo dE= 64.0 dL= 64.0 OK
+   under tree    : local dE= 38.7 dL= 42.8 -> halo ground  text/halo dE= 69.4 dL= 69.1 OK
+   under field   : local dE= 73.9 dL= 74.1 -> halo field   text/halo dE= 73.9 dL= 74.1 OK
+   under verge   : local dE= 72.4 dL= 72.0 -> halo verge   text/halo dE= 72.4 dL= 72.0 OK
+   under water   : local dE= 57.7 dL= 59.9 -> halo water   text/halo dE= 57.7 dL= 59.9 OK
+   under building: local dE= 41.9 dL= 47.9 -> halo ground  text/halo dE= 69.4 dL= 69.1 OK
+== lit changed: {'ink': ('#46392F', '#34281E')}
+  road    /ground   dE=  8.4 (>=6) dL=  7.8 (>=5) OK
+  ground  /building dE= 14.6 (>=12) dL= 15.9 (>=12) OK
+  road    /building dE= 21.1 (>=15) dL= 23.8 (>=15) OK
+  garden  /building dE= 25.6 (>=10) dL=  5.8 (>=0) OK
+  green   /building dE= 26.1 (>=10) dL=  9.8 (>=0) OK
+  tree    /water    dE= 33.3 (>=10) dL= 14.2 (>=0) OK
+  green   /road     dE= 21.9 (>=8) dL= 14.0 (>=0) OK
+  tree    /green    dE= 19.9 (>=8) dL= 22.0 (>=0) OK
+  water   /road     dE= 26.1 (>=8) dL= 21.8 (>=0) OK
+  water   /ground   dE= 29.0 (>=8) dL= 14.0 (>=0) OK
+  wall    /water    dE= 24.8 (>=20) dL= 10.2 (>=0) OK
+  field   /road     dE= 14.8 (>=4) dL=  5.9 (>=0) OK
+  field   /ground   dE=  8.5 (>=4) dL=  1.9 (>=0) OK
+  court   /road     dE=  5.3 (>=4) dL=  3.9 (>=0) OK
+  court   /ground   dE=  3.9 (>=3) dL=  3.9 (>=0) OK
+  ink     /road     dE= 66.8 (>=40) dL= 66.7 (>=50) OK
+  ink     /ground   dE= 57.3 (>=40) dL= 58.9 (>=50) OK
+  ink     /paper    dE= 68.4 (>=40) dL= 68.8 (>=50) OK
+  ink     /building dE= 37.8 (>=30) dL= 43.0 (>=40) OK
+  ink     /tree     dE= 33.4 (>=25) dL= 30.7 (>=30) OK
+  all matrix pairs pass: True
+  max chroma: ('garden', 34.40978848666457)
+  distinct city-band tones (court as ground): 10
+  halo rule (label floor dE>=40, dL>=50): local role if it passes, else ground
+   under paper   : local dE= 68.4 dL= 68.8 -> halo paper   text/halo dE= 68.4 dL= 68.8 OK
+   under road    : local dE= 66.8 dL= 66.7 -> halo road    text/halo dE= 66.8 dL= 66.7 OK
+   under ground  : local dE= 57.3 dL= 58.9 -> halo ground  text/halo dE= 57.3 dL= 58.9 OK
+   under court   : local dE= 62.6 dL= 62.8 -> halo court   text/halo dE= 62.6 dL= 62.8 OK
+   under garden  : local dE= 49.1 dL= 48.7 -> halo ground  text/halo dE= 57.3 dL= 58.9 OK
+   under green   : local dE= 53.4 dL= 52.7 -> halo green   text/halo dE= 53.4 dL= 52.7 OK
+   under tree    : local dE= 33.4 dL= 30.7 -> halo ground  text/halo dE= 57.3 dL= 58.9 OK
+   under field   : local dE= 61.1 dL= 60.8 -> halo field   text/halo dE= 61.1 dL= 60.8 OK
+   under verge   : local dE= 57.1 dL= 56.7 -> halo verge   text/halo dE= 57.1 dL= 56.7 OK
+   under water   : local dE= 46.4 dL= 44.9 -> halo ground  text/halo dE= 57.3 dL= 58.9 OK
+   under building: local dE= 37.8 dL= 43.0 -> halo ground  text/halo dE= 57.3 dL= 58.9 OK
+== hatched changed: {'ink': ('#322B25', '#2A231D')}
+  road    /ground   dE=  8.8 (>=6) dL= 11.9 (>=5) OK
+  ground  /building dE= 23.2 (>=12) dL= 26.9 (>=12) OK
+  road    /building dE= 15.1 (>=15) dL= 15.1 (>=15) OK
+  garden  /building dE= 24.0 (>=10) dL= 15.0 (>=0) OK
+  green   /building dE= 23.9 (>=10) dL= 17.2 (>=0) OK
+  tree    /water    dE= 24.4 (>=10) dL= 14.2 (>=0) OK
+  green   /road     dE= 13.4 (>=8) dL=  2.1 (>=0) OK
+  tree    /green    dE= 14.4 (>=8) dL= 16.2 (>=0) OK
+  water   /road     dE= 17.2 (>=8) dL=  0.2 (>=0) OK
+  water   /ground   dE= 17.6 (>=8) dL= 11.7 (>=0) OK
+  wall    /water    dE= 33.3 (>=20) dL= 30.2 (>=0) OK
+  field   /road     dE= 13.2 (>=4) dL= 16.1 (>=0) OK
+  field   /ground   dE=  8.3 (>=4) dL=  4.2 (>=0) OK
+  court   /road     dE= 11.3 (>=4) dL=  4.0 (>=0) OK
+  court   /ground   dE= 12.1 (>=3) dL=  7.9 (>=0) OK
+  ink     /road     dE= 50.6 (>=40) dL= 55.7 (>=50) OK
+  ink     /ground   dE= 66.8 (>=40) dL= 67.5 (>=50) OK
+  ink     /paper    dE= 66.8 (>=40) dL= 67.5 (>=50) OK
+  ink     /building dE= 34.5 (>=30) dL= 40.6 (>=40) OK
+  ink     /tree     dE= 38.7 (>=25) dL= 41.6 (>=30) OK
+  all matrix pairs pass: True
+  max chroma: ('garden', 23.97417662303151)
+  distinct city-band tones (court as ground): 9
+  halo rule (label floor dE>=40, dL>=50): local role if it passes, else ground
+   under paper   : local dE= 66.8 dL= 67.5 -> halo paper   text/halo dE= 66.8 dL= 67.5 OK
+   under road    : local dE= 50.6 dL= 55.7 -> halo road    text/halo dE= 50.6 dL= 55.7 OK
+   under ground  : local dE= 66.8 dL= 67.5 -> halo ground  text/halo dE= 66.8 dL= 67.5 OK
+   under court   : local dE= 57.0 dL= 59.6 -> halo court   text/halo dE= 57.0 dL= 59.6 OK
+   under garden  : local dE= 53.0 dL= 55.6 -> halo garden  text/halo dE= 53.0 dL= 55.6 OK
+   under green   : local dE= 55.2 dL= 57.8 -> halo green   text/halo dE= 55.2 dL= 57.8 OK
+   under tree    : local dE= 38.7 dL= 41.6 -> halo ground  text/halo dE= 66.8 dL= 67.5 OK
+   under field   : local dE= 72.3 dL= 71.7 -> halo field   text/halo dE= 72.3 dL= 71.7 OK
+   under verge   : local dE= 59.8 dL= 61.7 -> halo verge   text/halo dE= 59.8 dL= 61.7 OK
+   under water   : local dE= 52.8 dL= 55.8 -> halo water   text/halo dE= 52.8 dL= 55.8 OK
+   under building: local dE= 34.5 dL= 40.6 -> halo ground  text/halo dE= 66.8 dL= 67.5 OK
+== random-style repair, ink: 2000 draws (L* +-12 of the shipped roles, chroma <= 18, any hue), rows = matrix + outline rows
+   pass as drawn 0.177; pass after the first repair 0.817; pass within 3 attempts 0.993; shipped-palette fallback 0.007; repair steps median 5, p95 20
+== random-style repair, lit: 2000 draws (L* +-12 of the shipped roles, chroma <= 30, any hue), rows = matrix + outline rows
+   pass as drawn 0.039; pass after the first repair 0.768; pass within 3 attempts 0.991; shipped-palette fallback 0.009; repair steps median 17, p95 50
+== random-style repair, hatched: 2000 draws (L* +-12 of the shipped roles, chroma <= 30, any hue), rows = matrix + outline rows
+   pass as drawn 0.056; pass after the first repair 0.829; pass within 3 attempts 0.996; shipped-palette fallback 0.004; repair steps median 13, p95 44

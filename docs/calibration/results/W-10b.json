@@ -1,0 +1,111 @@
+{
+ "id": "m1/W-10b",
+ "status": "landed",
+ "records": [
+  "docs/calibration/E10-ng-bentcut-faces.md section 9 (9.1-9.11 appended; sections 1-8, W-10's record, unedited; file sha256 c481437a)"
+ ],
+ "outputs": [
+  "docs/calibration/E10-ng-bentcut-faces.plan.json (new, 267cfece..., 420 KB): measured values for W-15 (R-47 (a)) - rows for cut.sigma, cut.cornerMid, cut.arrival85, cut.fillet, cut.length over pooled / ring / plain / per-template subsets (per-seed values in plan order, V12 estimators, spreadKS.p90 binned and raw ECDF, the all-snapped-ends cut.length companion), the five face-class rows (descriptive) and the exclusive partition, formula-vs-recorded comparison, template-road receipts, per-map frame receipts, area receipts, census",
+  "docs/calibration/E10-ng-bentcut-faces.plan.faces.json (new, 82cbaed2..., 539 KB): research-side per-face records (model units) of all 380 rebuilt parents on the 20 medium plan seeds, degenerate flag included",
+  "research/baselines/candidates/ng-faces.json (new, eb0be059..., 285 KB): the plan section 7b candidate - header with referenceBuild at the top, W-11b's 20 hood records unchanged (referenceBuild on each), 374 face records each with referenceBuild (area 106, street 11, square 17, ring 240; 1150 cut records; integer cm rings in the registered road frame, integer cm2 block areas); no crossing key (W-20's)",
+  "research/baselines/ng_faces_by_class.py (c1a713ea...): template roads by draw order and width class (R-09), duplicate-edge collapse by line trace (bentcut scripts unmodified), zero-width spur drop, --plan and --red modes; fixture mode's outputs byte-unchanged",
+  "docs/calibration/results/W-10b.json (this file)",
+  "nothing written in plat/, plan.json or metrics.m-1.json (read only; plan.py --check SAME at ee28c604 / 8a0efa7e, both moved by m1/W-01b, not this lane)"
+ ],
+ "checks": [
+  {
+   "check": "row checker 1: the fixture run still prints 11 / 11",
+   "passed": true,
+   "receipt": "ng_faces_by_class.py --check --json/--faces into scratch, exit 0: 11 PASS lines (380/519, 780/811, 200/378, sigma 0.066/0.098/0.088, 99/120, partition 200/378, 780/811, 519/519, 0 area violations) plus 'template roads by draw order and width class = W-10's TEMPLATE_W sets on 8 / 8 maps; duplicate edges collapsed 0'; both JSONs byte-identical to the landed 7c185b17 / 3b069c2d"
+  },
+  {
+   "check": "row checker 2: each parent's area equals its leaves' sum on every map",
+   "passed": true,
+   "receipt": "--plan, exit 0: 380 rebuilt parents on 20 maps, 0 violations at 1e-6 relative and 1 cm2 declared (largest gap 1.0e-6 cm2)"
+  },
+  {
+   "check": "row checker 3: the formula sigma against section 13.5's 0.066 / 0.098 compared, departures beyond the floor listed for DC-26's successor",
+   "passed": true,
+   "receipt": "simple-parent sigma plain 0.084 (+0.018) and ring 0.094 (-0.004), all 0.090, ring rebuilt 0.090 vs DC-26's 0.100: all within the 0.02 floor; departures beyond the floor: cut.cornerMid on simple parents 0.888 vs 0.825 (+0.063) and one-bend share of all streets 0.657 vs 0.732 (-0.075), listed in E10 9.4 for the design seat"
+  },
+  {
+   "check": "template roads generalised (R-09): street 1 and square 3 roads by draw-order prefix at one width, area and ring none",
+   "passed": true,
+   "receipt": "on 44/44 W-04 recordings and 8/8 fixtures; 0 other streets at the template width; the script's own template set equals the rule's on every map (asserted); W-10's TEMPLATE_W finds 0 template streets on the 20 plan seeds"
+  },
+  {
+   "check": "face graph = W-11b's adapter on every map; registered frame",
+   "passed": true,
+   "receipt": "faces / open faces / blocks equal on 20/20 after collapsing 2 duplicate edges on square/medium/3 (before: 15 faces vs 17); every face-ring vertex on a MeasureInput way (0 missing); bounded face areas = the input's blocks (worst rel 0); input sha256s match the index"
+  },
+  {
+   "check": "built blocks re-derived on the faces = E11 section 10's per-seed counts",
+   "passed": true,
+   "receipt": "608 built over 20 maps, 0 maps differ"
+  },
+  {
+   "check": "cut.length on the registry's bins",
+   "passed": true,
+   "receipt": "metrics.m-1.json (8a0efa7e, W-01b's registration) cut.length v1.0.0: 5 m edges 0-400, no underflow, overflow, unit m - equal to the tool's; 0 cuts overflow"
+  },
+  {
+   "check": "candidate header and referenceBuild everywhere (N-02)",
+   "passed": true,
+   "receipt": "schema plat.ng-faces/1, referenceBuild at the top, metricsVersion 1.0.0, scaleDeclared 0.35, outlineKind 1, no other key; referenceBuild on all 20 hoods and all 374 faces"
+  },
+  {
+   "check": "hoods: W-11b's records unchanged, its section 7b checks re-run",
+   "passed": true,
+   "receipt": "20 hoods equal to ng-faces.hoods.json (7530098b); integer ids 0..19, integer cm, closed simple rings, cm area = hull within 0.1 %, C2, referenceBuild on each"
+  },
+  {
+   "check": "faces: section 7b fields exactly, integer cm rings closed and simple, holes inside, inside the hood outline, values in range",
+   "passed": true,
+   "receipt": "374 faces, 0 failures; 5 slit C-shaped parents (boundary along both sides of a cut, never simple) and 1 degenerate dead-end cut left out and recorded (their cuts stay in their ancestors' records)"
+  },
+  {
+   "check": "every number an integer (the declared 0.35 apart); every string matches V12 section 3.3 C2's patterns",
+   "passed": true,
+   "receipt": "0 non-integers; 831 strings: seedLabel / capture / referenceBuild by C2's patterns, template by the enumeration, schema and metricsVersion constants; 0 hex-delimited six-digit runs (N-03's reading; the literal 'anywhere' reading hits all 395 referenceBuild strings - N-03 stands for the session)"
+  },
+  {
+   "check": "every face's area equals its leaves' sum within one cm2 (read from the file's integers)",
+   "passed": true,
+   "receipt": "exact face vs exact leaves max 1.0e-6 cm2; the file's integer blockAreasCm2 (cumulative rounding) vs the exact face area max 0.94 cm2, 0 leaf-count mismatches; integer ring area vs that sum within its coordinate-rounding bound on 374/374 (max rel 1.7e-4, median 2.6e-5)"
+  },
+  {
+   "check": "determinism",
+   "passed": true,
+   "receipt": "a second --plan run into scratch: the three JSON outputs and the tables byte-identical; stdout identical apart from elapsed seconds"
+  },
+  {
+   "check": "red tests",
+   "passed": true,
+   "receipt": "--red exit 0, 19/19 as expected: planted template rules (area lays its first street; square lays none; street lays none) turn the fixture verification red (the square one only through the rule-equality check - the 11 numbers cannot see the square's roads); 14 planted candidate faults refused (face/hood/top without referenceBuild, non-integer coordinate, float block area, self-crossing ring, seedLabel outside C2, free string, six-hex run, hex run inside a C2-valid label, block area dropped, block area +2 cm2, missing cut field, face 2 cm2 off its leaves); controls green"
+  },
+  {
+   "check": "content scan of E10 after section 9",
+   "passed": true,
+   "receipt": "doc_checks.py --doc docs/calibration/E10-ng-bentcut-faces.md --heads docs/ARCHITECTURE.md: C1 0, C2 0, C4 0, S1 0, S2 0, C3 63 hits / 59 unreviewed (38/36 before section 9); every hit read: digit runs, capture dates and paths, our referenceBuild string and our own phrases (e.g. 'cuts have an open parent', 'twice and the face walk'); no reference word list, palette, grammar or identifier; exit 1 by that count, records carry no allow rows (W-10/W-11 practice)"
+  },
+  {
+   "check": "scope: no plat/ write, plan.json / metrics.m-1.json not written, no site, no bundle, no benchmark, disk",
+   "passed": true,
+   "receipt": "plan.py --check SAME (plan.json ee28c604, metrics.m-1.json 8a0efa7e - moved by m1/W-01b during this lane); bentcut scripts and paths_stats pinned by sha256 and unmodified; no __pycache__ written; 12 GB free at start and end; outputs 1.2 MB"
+  }
+ ],
+ "rows": 5,
+ "owner_notes": [
+  "The NG street-cutting measurements on the 20 planned towns are done and pass every check; the file of NG block shapes that the build side asked for is ready as a candidate (374 shapes, each stamped with its source build).",
+  "The old way of telling NG's pre-laid template streets from its cuts only worked on the two test towns; it now works on all 44 recordings, proven against the old test numbers.",
+  "Two of the design's recorded NG numbers move on the planned towns (bent cuts with the corner near the middle: 89 %, not 82 %; streets with one bend: 66 %, not 73 %); the key spread numbers 0.066 and 0.098 hold within tolerance."
+ ],
+ "notes": [
+  "rows = 5 target metric ids (cut.sigma, cut.cornerMid, cut.arrival85, cut.fillet, cut.length), each over 7 subsets (pooled 20, ring, plain, area, street, square, ring template), plus 6 descriptive face-class flags and the exclusive partition; measured values only - W-15 forms the rows (R-47 (a)).",
+  "Pooled (20 seeds): sigma 0.088 (eps 0.03; simple parents 0.090); cornerMid 211/239 (88 %); arrival85 all cuts 1704/1750 (97 %), bounded 741/758; fillet all 393/731 (54 %), bounded 111/239; cut.length p10/p50/p90 37/55/89 m declared, spreadKS.p90 area 0.243, ring 0.496, street and square 1.000 (4 seeds with cuts, 6 pairs - powerless; the all-snapped-ends companion gives 0.802 / 0.641).",
+  "Known-defects entry (R-09): only the holed class has < 10 bounded bent cuts (2); C-shaped 14 and triangular 17 clear the threshold on the formula seeds.",
+  "Hand-offs: W-15 - E10 9.7 (1) the street/square templates are thin for every face-based row; (2) arrival85 and fillet are given over all cuts (section 13.5's definition) and over bounded cuts (M0's synthetic-face comparison), W-15 chooses. Session with section 7b to M0-k-05 (N-02): the candidate's conventions - cuts[0] is the face's own cut then drawing order; arrivalCdeg = the smaller junction-end arrival; cornerT -1 when bends != 1; blockAreasCm2 holds every leaf (35 of 489 distinct leaves are unbuilt under W-11b's rule, while the block.area row holds built blocks only). N-03 stands: the literal six-hex rule refuses every referenceBuild string. Design seat: E10 9.4's two departures for DC-26's successor. E19: the holed class.",
+  "Calls under delegation, vetoable (J122; E10 9.9): the template rule; the duplicate edge kept on the later-drawn road, the spur drop and the degenerate cut on square/medium/3; the 5 slit faces and the degenerate face left out of the candidate; arrivalCdeg / cornerT / cut order / every leaf; cumulative rounding of leaf areas; the hex-delimited reading of the colour rule.",
+  "CONFIRMED (executed): every check above and every number in E10 9.1-9.7. PLAUSIBLE (reasoning): that the identified template roads are what CA-2's k counts; that the mutual fallback snap on square/medium/3 is a drawing artefact; that the C-shaped sigma's large contamination term reflects wrapping faces."
+ ]
+}

@@ -1,0 +1,30 @@
+{
+ "key": "coherence/rewrite-kernel",
+ "dir": "docs/validation/coherence/new/base/kernel/",
+ "old_kb": 141.2,
+ "new_kb": 149.4,
+ "facts_mapped": 403,
+ "facts_unmapped": 0,
+ "f_applied": [
+  "279 (BCR-V7-30): §3.2 (9) reads RungProfile.frameLaw (base / territory); Frame.marginShare typed (0.3 base, territory.marginShare); frame growth reads the same law and never shrinks across item 322's fold",
+  "245 kernel part: §3.4 doors — a state-profile knot on an existing vertex via splitThrough landing on it, dropped by removeEdges on its VertexRef; sampleProfile reads rings cyclically and step profiles as strings",
+  "575 kernel part: the same knot door for wall_state_knot (§3.4)",
+  "202, 510, 560: no kernel part (routing matched a volume's §3.x); recorded, nothing applied",
+  "g item 110 (b): §3.4 ground parts from 1 (raised ways, own parts, no junction with part 0, piers as part-0 footprints, feet as two-part join records), with §3.2 (9) frame growth, §3.6 held feet, §3.7 bands and §3.10 isolation/stored-reference rows"
+ ],
+ "conflicts_resolved": 15,
+ "cross_notes": [
+  "model: §2.2 rule 4 → pointer to §3.4's doors; §2.2 rule 6 keeps citing §3.3 (clear rule now cites §7.2)",
+  "model: PlatKey ground parts ≥ 1 per raised way with a document counter; §2.2 rule 1 outer ring/margin rows of a raised part; RaisedWayRecord and rule 7 name its two feet as {part; at} indexed vertex roles (item 244 has no feet field)",
+  "model: items 245/575 writers renumber knot ordinals in chain order via strip-and-re-add in one batch; §2.6 is now the sole home of ridgeAxis, the fixed-ring lists and the storey seed extents (steps 1, 4, 6); Cdeg the one angle unit (E-15)",
+  "pipeline: §4.7 class-floor row (minPlotWidth 2.5 m, minInteriorAnglePlot 12° with the FTG sheared-quad note, minCorridor = smallest S9 corridor width of the class), read via KernelTx.expect (KXC-02=DXC-06)",
+  "pipeline: §4.2 S3 (3) names hexLattice, §4.7 S11 names offsetFace (KWG-07); hexLattice cells keep spacing ≥ minEdge, jitter < spacing/2; raised-way re-derivation re-places feet per part",
+  "determinism: §5.2 F-NUM keeps E_OUT_OF_RANGE citing §3.1 (DXC-01); F-SKELETON cites §3.8's four post-conditions plus refused inputs (DXC-02); §5.2 detection columns name the codes (KWG-04); F-PLOT/F-CORRIDOR/§5.3 cite §4.7's row without values",
+  "determinism: §5.4 kernel.warnings = a count per §3.1 code (11; W_STEINER removed), downgrades = W_DOWNGRADE (DXC-03); §5.3 declares the missing Invariant type; §5.1 maps onFail reject/repair/downgrade to tiers 1/2/4 and states E-GEN-1; F-REDERIVE takes a stored-reference failure after an edit",
+  "rendering: §8.1 (5) sole home of the roof cache key; §11.1 'emitted without antennae' is the rule's home (its pointer becomes 'an antenna: §3.6 rule 3'); §12.4 S10 (0)/merge rows and §12.8 hold the CITY step-(0) and per-copy figures",
+  "scope: §13.1 constructive set gains §3.11's cases (empty/one-item/degenerate/data/lifecycle, buffer miter/flat, insetRing 0 and negative, skeleton sharp corner and touching hole, corrupt chunk, frame no-op and law change, raised feet under a warp); §13.2 cost-model checks work and edge/Steiner counts are O(touched) (W-FLD-02)",
+  "scope: §14 Kernel.resolve takes a PlatKey (KIC-02); §16 M4 exit or §12.8 lists the extreme-growth memory measurement (KWG-08)",
+  "V11: register the base settings row with index.gridCellM (L0–L1 25 m, L2 10 m, L3–L4 5 m; reader §3.3), reroll.maxAdvance 3, crossing.searchBandM 120 m (W-SET-01)",
+  "V07: cite §3.2 (9) for item 279; territory arena margin = territory.marginShare; V01: a negative insetRing on a non-convex outline returns E_NON_CONVEX — unite the face with a buffer of its ring; V06/V05 profile writers use §3.4's knot door"
+ ]
+}

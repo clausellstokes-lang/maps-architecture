@@ -1,0 +1,159 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm7x/before/docs/volumes/V06-evolution.md",
+ "input_doc_sha256": "f829ee6a91265e76b508310705167c8a27eb05a1a96cd2394401cfe567f187c1",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm7x/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "7e172500f6a791c5cf1e667c657309b6a49ee067dc130a05d82e605a06579c39",
+ "files": [
+  {
+   "file": "b-repair-r7x-V06.md",
+   "sha256": "1eb85d7f1dd54cb75a61eafb1f1373b2dec0d4d27c7817779a327b66e5c6f80d",
+   "lines": 844,
+   "blocks": 4,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "b-repair-r7x-V06.md #1 (l. 1) REPLACE ### 3.7 Fortification — new circuits, old rings, shorter rings",
+   "file": "b-repair-r7x-V06.md",
+   "index": 1,
+   "line": 1,
+   "kind": "REPLACE",
+   "heading": "### 3.7 Fortification — new circuits, old rings, shorter rings",
+   "body_lines": 232,
+   "body_sha256": "2c15c05a22fe14672f255c135c58c58a9480f15c4730e2069c43612c47a86bac",
+   "target_line": 1453,
+   "section_old": "1453–1690",
+   "section_old_n": 238,
+   "section_new_n": 233,
+   "new_headings": [
+    "### 3.7 Fortification — new circuits, old rings, shorter rings"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "b-repair-r7x-V06.md #2 (l. 235) REPLACE ### 3.17 Failure handling — never a whole-map retry (§5)",
+   "file": "b-repair-r7x-V06.md",
+   "index": 2,
+   "line": 235,
+   "kind": "REPLACE",
+   "heading": "### 3.17 Failure handling — never a whole-map retry (§5)",
+   "body_lines": 37,
+   "body_sha256": "20090bb4c9abfbd7c1312682e4c6dd456544b50254b85dbca3add60103820e7b",
+   "target_line": 2483,
+   "section_old": "2483–2519",
+   "section_old_n": 37,
+   "section_new_n": 38,
+   "new_headings": [
+    "### 3.17 Failure handling — never a whole-map retry (§5)"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "b-repair-r7x-V06.md #3 (l. 274) REPLACE ### 3.19 Item 110 over epochs — raised ways, retaining walls and decks (item 110 (a), (b), (d); J-V6",
+   "file": "b-repair-r7x-V06.md",
+   "index": 3,
+   "line": 274,
+   "kind": "REPLACE",
+   "heading": "### 3.19 Item 110 over epochs — raised ways, retaining walls and decks (item 110 (a), (b), (d); J-V6.82–J-V6.95)",
+   "body_lines": 380,
+   "body_sha256": "4853a3a0e09de5b4bd72be5f96c24f24e4d25e53bf0ec1d56f1554a2d21cfbcc",
+   "target_line": 2755,
+   "section_old": "2755–3141",
+   "section_old_n": 387,
+   "section_new_n": 381,
+   "new_headings": [
+    "### 3.19 Item 110 over epochs — raised ways, retaining walls and decks (item 110 (a), (b), (d); J-V6.82–J-V6.95)"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "b-repair-r7x-V06.md #4 (l. 656) REPLACE ## 7 Tests and acceptance bars",
+   "file": "b-repair-r7x-V06.md",
+   "index": 4,
+   "line": 656,
+   "kind": "REPLACE",
+   "heading": "## 7 Tests and acceptance bars",
+   "body_lines": 186,
+   "body_sha256": "4144d490583e54a13c83f24cba5378137d874a4884202297fc4cb1db14ac3488",
+   "target_line": 4077,
+   "section_old": "4077–4263",
+   "section_old_n": 187,
+   "section_new_n": 187,
+   "new_headings": [
+    "## 7 Tests and acceptance bars"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "b-repair-r7x-V06.md #1 (l. 1) REPLACE ### 3.7 Fortification — new circuits, old rings, shorter rings",
+    "kind": "REPLACE",
+    "heading": "### 3.7 Fortification — new circuits, old rings, shorter rings",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7x-V06.md #2 (l. 235) REPLACE ### 3.17 Failure handling — never a whole-map retry (§5)",
+    "kind": "REPLACE",
+    "heading": "### 3.17 Failure handling — never a whole-map retry (§5)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7x-V06.md #3 (l. 274) REPLACE ### 3.19 Item 110 over epochs — raised ways, retaining walls and decks (item 110 (a), (b), (d); J-V6",
+    "kind": "REPLACE",
+    "heading": "### 3.19 Item 110 over epochs — raised ways, retaining walls and decks (item 110 (a), (b), (d); J-V6.82–J-V6.95)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7x-V06.md #4 (l. 656) REPLACE ## 7 Tests and acceptance bars",
+    "kind": "REPLACE",
+    "heading": "## 7 Tests and acceptance bars",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 805,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 65,
+  "headings_after": 65,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 28,
+  "fence_lines_after": 28,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 710871,
+  "doc_bytes_after": 710168,
+  "doc_lines_before": 4676,
+  "doc_lines_after": 4666,
+  "rationale_bytes_before": 704813,
+  "rationale_bytes_after": 704813,
+  "rationale_lines_before": 2386,
+  "rationale_lines_after": 2386,
+  "blocks_total": 4,
+  "blocks_applied": 4,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "58f0fb64092942c2a93f9881486ea67e9640d6e4fab76b101b5ca9ef8872baeb",
+  "output_rationale_sha256": "7e172500f6a791c5cf1e667c657309b6a49ee067dc130a05d82e605a06579c39"
+ }
+}

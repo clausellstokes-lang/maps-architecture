@@ -1,0 +1,35 @@
+== ST0 (least draws, steepest grade) and the median stack
+stepped-temple    p  ST0 Wmin   9.0 Dmin  15.0 Amin    117 | median {'n': 4, 'd': 2.0, 'g': 1.1, 'r': 3.5, 'W': 15.0, 'D': 19.8, 'ideal_aspect': 0.759, 'A': 308, 'offset': 2.4}
+stepped-temple    m  ST0 Wmin  12.0 Dmin  20.8 Amin    221 | median {'n': 5, 'd': 2.0, 'g': 1.1, 'r': 3.9, 'W': 19.0, 'D': 26.3, 'ideal_aspect': 0.724, 'A': 514, 'offset': 3.6}
+stepped-temple    pr ST0 Wmin  15.0 Dmin  23.7 Amin    316 | median {'n': 5, 'd': 2.5, 'g': 1.1, 'r': 4.4, 'W': 23.0, 'D': 29.7, 'ideal_aspect': 0.775, 'A': 704, 'offset': 3.3}
+stepped-temple    r  ST0 Wmin  19.0 Dmin  30.6 Amin    526 | median {'n': 6, 'd': 2.75, 'g': 1.1, 'r': 5.0, 'W': 30.5, 'D': 39.3, 'ideal_aspect': 0.775, 'A': 1233, 'offset': 4.4}
+stepped-monument  p  ST0 Wmin   9.0 Dmin  17.4 Amin    134 | median {'n': 4, 'd': 2.25, 'g': 0.9, 'r': 4.8, 'W': 16.5, 'D': 23.6, 'ideal_aspect': 0.699, 'A': 411, 'offset': 3.5}
+stepped-monument  m  ST0 Wmin  12.0 Dmin  22.3 Amin    235 | median {'n': 5, 'd': 2.25, 'g': 0.9, 'r': 4.8, 'W': 21.0, 'D': 29.8, 'ideal_aspect': 0.706, 'A': 646, 'offset': 4.4}
+stepped-monument  pr ST0 Wmin  15.0 Dmin  27.0 Amin    361 | median {'n': 6, 'd': 2.25, 'g': 0.9, 'r': 4.8, 'W': 25.5, 'D': 35.6, 'ideal_aspect': 0.716, 'A': 930, 'offset': 5.1}
+stepped-monument  r  ST0 Wmin  18.0 Dmin  31.5 Amin    511 | median {'n': 7, 'd': 2.25, 'g': 0.9, 'r': 4.8, 'W': 30.0, 'D': 41.2, 'ideal_aspect': 0.727, 'A': 1259, 'offset': 5.6}
+terraced-palace   p  ST0 Wmin   9.0 Dmin  11.3 Amin     86 | median {'n': 3, 'd': 4.0, 'g': 0.6, 'r': 2.8, 'W': 19.0, 'D': 19.0, 'ideal_aspect': 1.0, 'A': 368, 'offset': 0.0}
+terraced-palace   m  ST0 Wmin   9.0 Dmin  11.3 Amin     86 | median {'n': 3, 'd': 4.5, 'g': 0.6, 'r': 2.8, 'W': 21.0, 'D': 21.0, 'ideal_aspect': 1.0, 'A': 448, 'offset': 0.0}
+terraced-palace   pr ST0 Wmin  19.0 Dmin  21.8 Amin    368 | median {'n': 4, 'd': 5.5, 'g': 0.6, 'r': 3.5, 'W': 36.0, 'D': 36.0, 'ideal_aspect': 1.0, 'A': 1308, 'offset': 0.0}
+terraced-palace   r  ST0 Wmin  23.0 Dmin  26.3 Amin    539 | median {'n': 4, 'd': 6.5, 'g': 0.6, 'r': 4.3, 'W': 42.0, 'D': 42.0, 'ideal_aspect': 1.0, 'A': 1781, 'offset': 0.0}
+tiered-tower      p  ST0 Wmin   4.2 Dmin   4.2 Amin     18 | median {'n': 3, 'd': 0.4, 'g': 1.0, 'r': 0.0, 'W': 4.6, 'D': 4.6, 'ideal_aspect': 1.0, 'A': 21, 'offset': 0.0}
+tiered-tower      m  ST0 Wmin   4.2 Dmin   4.2 Amin     18 | median {'n': 4, 'd': 0.44999999999999996, 'g': 1.0, 'r': 0.0, 'W': 5.7, 'D': 5.7, 'ideal_aspect': 1.0, 'A': 32, 'offset': 0.0}
+tiered-tower      pr ST0 Wmin   4.6 Dmin   4.6 Amin     21 | median {'n': 4, 'd': 0.55, 'g': 1.0, 'r': 0.0, 'W': 6.3, 'D': 6.3, 'ideal_aspect': 1.0, 'A': 40, 'offset': 0.0}
+tiered-tower      r  ST0 Wmin   5.4 Dmin   5.4 Amin     29 | median {'n': 5, 'd': 0.6000000000000001, 'g': 1.0, 'r': 0.0, 'W': 7.8, 'D': 7.8, 'ideal_aspect': 1.0, 'A': 61, 'offset': 0.0}
+== tiered tower: the median stack against the tower-family budget (V2 §3.10.3: 34/42/60/85 m2)
+p: median n=3 d=0.4 needs 4.6 x 4.6 = 21 m2 vs budget 34 (fits: True)
+m: median n=4 d=0.44999999999999996 needs 5.7 x 5.7 = 32 m2 vs budget 42 (fits: True)
+pr: median n=4 d=0.55 needs 6.3 x 6.3 = 40 m2 vs budget 60 (fits: True)
+r: median n=5 d=0.6000000000000001 needs 7.8 x 7.8 = 61 m2 vs budget 85 (fits: True)
+== tiersTruncated, Monte-Carlo, N=2000 per anchor, on claim-sized hints: area = median A / 0.475, shape of the median stack (+ reserve)
+stepped-temple    p  hint  20.5 x  31.7 m (   648 m2): truncated   8.0 %
+stepped-temple    m  hint  26.1 x  41.5 m (  1083 m2): truncated   7.6 %
+stepped-temple    pr hint  31.7 x  46.8 m (  1482 m2): truncated  33.1 %
+stepped-temple    r  hint  42.2 x  61.5 m (  2595 m2): truncated  31.7 %
+terraced-palace   p  hint  26.0 x  29.8 m (   775 m2): truncated  41.6 %
+terraced-palace   m  hint  28.8 x  32.7 m (   943 m2): truncated  37.7 %
+terraced-palace   pr hint  50.1 x  55.0 m (  2753 m2): truncated  44.6 %
+terraced-palace   r  hint  58.3 x  64.3 m (  3750 m2): truncated  63.6 %
+stepped-monument  p  hint  22.4 x  38.6 m (   865 m2): truncated  38.4 %
+stepped-monument  m  hint  28.8 x  47.3 m (  1361 m2): truncated  35.8 %
+stepped-monument  pr hint  35.2 x  55.7 m (  1958 m2): truncated  34.2 %
+stepped-monument  r  hint  41.6 x  63.8 m (  2650 m2): truncated  31.8 %

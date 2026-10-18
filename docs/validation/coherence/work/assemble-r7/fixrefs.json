@@ -1,0 +1,9 @@
+[
+ {
+  "unit": "base",
+  "file": "docs/ARCHITECTURE.md",
+  "fixes": 1,
+  "sha256_before": "45a3f366a7ffa206ffcac8ab94e6ba0c8de080366399a758bf95f711253f59f5",
+  "sha256_after": "14304a3da46127181e8274a87d3551e7b79e32a4e390389bdcd56bcfb491df2d"
+ }
+]

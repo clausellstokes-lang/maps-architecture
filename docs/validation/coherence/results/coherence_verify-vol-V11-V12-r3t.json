@@ -1,0 +1,70 @@
+{
+ "key": "coherence/verify-vol-V11-V12-r3t",
+ "file": "docs/validation/coherence/verify-vol-V11-V12-r3t.md",
+ "issues": [
+  {
+   "id": "VV1112-r3-01",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "owner": "V12",
+   "claim": "V12's new `crisis.scale` second count (§3.4.2's `crisis.*` row, l. 1208; §3.15.12's T122-5 bullet, l. 2698–2704) compares each look §10.2 (c) sizes by severity with \"the count §10.2 (c) gives that share of its place's units\" — round(s × n) clamped to [1, n]. The `disaster` look's units are V01 §3.16 `disasterSource` (5)'s: \"`units` is the first max(k, |`matched`|) units of the order — all of a shorter fire order, the shortfall reported in the view telemetry\", so every matched target is drawn even past k, and a fire whose adjacency ends draws fewer than k. V12's own fixtures hold both cases: V08 §7.1's fire, flood and earthquake calamities carry resolved `targets`, and T122-5's sweep at severity 0 sets s to the `disaster` row's lower end 0.05 (k = 1 at a TOWN of eight districts), so a calamity naming two districts gives a lawful draw the count flags; a fire meeting a gap in the district adjacency likewise. The bar fails a lawful result.",
+   "required_change": "§3.4.2's `crisis.*` row: \"or whose units differ in number from the count §10.2 (c) gives that share of its place's units;\" → \"or whose units differ in number from the count §10.2 (c) gives that share of its place's units — for the `disaster` look V01 §3.16 `disasterSource` (5)'s, max(k, |`matched`|), or every unit of a fire order shorter than that, its shortfall reported and not counted;\". §3.15.12's T122-5 bullet: \"else its units the count §10.2 (c) gives that share of its place's units (`crisis.scale`'s second count, 0 by rule)\" → \"else its units the count §10.2 (c) gives that share of its place's units — a `disaster` look's max(k, |`matched`|), or all of a shorter fire order (V01 §3.16 `disasterSource` (5)) — (`crisis.scale`'s second count, 0 by rule)\". T-V12-54 adds the passing case \"a fire calamity naming more target districts than its share's count, every one drawn\"."
+  },
+  {
+   "id": "VV1112-r3-02",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "owner": "pipeline",
+   "claim": "§10.2 (c), written this round (l. 15503–15505): \"a share s of a place's n units takes round(s × n) clamped to [1, n] where s > 0 and none where s ≤ 0, V01 §3.16 (5)'s count, one rule for every place at every rung.\" V01 §3.16 (5), the home of the disaster's units and unchanged since before this round, draws \"the first max(k, |`matched`|) units of the order — all of a shorter fire order, the shortfall reported\". For the `neighbourhoods` place the two units state two outcomes when a calamity's matched targets outnumber k or a fire's order ends short (R3-03 (b)); §10.2 (d)'s \"the calamity's `targets` first\" does not decide it. V12's new count copied the base sentence (VV1112-r3-01).",
+   "required_change": "§10.2 (c): \"V01 §3.16 (5)'s count, one rule for every place at every rung.\" → \"V01 §3.16 (5)'s count, one rule for every place at every rung; the `neighbourhoods` place then draws at least every matched target (max(k, |`matched`|)) and, by fire, stops where its order ends, the shortfall reported (V01 §3.16 (5)).\""
+  },
+  {
+   "id": "VV1112-r3-03",
+   "severity": "major",
+   "kind": "WIRING",
+   "owner": "V08",
+   "claim": "V12's T122-6 now measures `crisis.share` \"on the week standing a siege, a quarantine and a refugee wave at once at CITY and at the METROPOLIS cap, the camp looks taking the outskirts in `priority` order, each from what the earlier left, together at most `densityCap` of the outskirts' free land\" (V12 §3.15.12, l. 2705–2710); its fixture sentence asks for \"one week in which a siege, a quarantine and a refugee wave stand at once at CITY and at the METROPOLIS cap, their camped ground together past `densityCap`\", and X-V12-5 (l. 3406) names it closed at V08 §7. V08 §7.1's crisis fixtures (l. 3188–3193) stand each condition \"through part of the year at its severity\" and state no week in which the three stand together and no severities whose ground passes the cap. With no such week the order and the cap never bind and `crisis.share` passes on nothing — an input the bar needs with no producer (repair-r3-V12 handed it to round 4). A preview draws one look at a time and cannot stand in.",
+   "required_change": "V08 §7.1's fixtures sentence: after \"each standing through part of the year at its severity,\" add \"with one week on `city-1` and on `metropolis-3` in which the siege, the plague's quarantine and the refugee wave stand at once at severities whose camped ground together passes `densityCap` of the outskirts' free land (V12's `crisis.share`, T122-6; X-V12-5),\"."
+  },
+  {
+   "id": "VV1112-r3-04",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "owner": "determinism",
+   "claim": "V11 §4.1, rewritten this round for VEL2-r2-02 (l. 4823–4830), refuses the `delete` of \"a table's named row (V11 §2.1's settings form — `settings`, `structure`, `festival.staging`'s `fallback` —, whose cells its readers read with no fallback)\" beside the four earlier cases; V11 §4.4's lifecycle row, §3.26's general rule and EI-V11-EDGE-3 – -5 follow. §7.1's dry-run outcomes — \"the one home of every refusal, conflict and bend cause of a dry run\" (E-07, l. 10434) — still list four in their row (l. 10485): \"the schema's `defaultRow`, a `TotalityRule.allowFallback` target, the only row covering a value a totality rule requires, or the last row of a table not `mayEmpty` (V11 §4.1; J-V11.113)\". An edit engine built from §7.1 applies the delete of `crisis.looks`' `settings` row, leaving DR44 and §10.2's placement to read `densityCap` and `areaPerHeadM2` from no row; V11 refuses it. Two units, two outcomes; repair-r3-V11 recorded no end here.",
+   "required_change": "§7.1's row: \"removing a row readers fall back to — the schema's `defaultRow`, a `TotalityRule.allowFallback` target, the only row covering a value a totality rule requires, or the last row of a table not `mayEmpty` (V11 §4.1; J-V11.113)\" → \"removing a row readers fall back to or need — the schema's `defaultRow`, a `TotalityRule.allowFallback` target, the only row covering a value a totality rule requires (a `crisis.looks` row for its look kind and a `damage.elements` row for its element kind among them), a table's named row (V11 §2.1's settings form: `settings`, `structure`, `festival.staging`'s `fallback`), or the last row of a table not `mayEmpty` (V11 §4.1; J-V11.113)\"."
+  },
+  {
+   "id": "VV1112-r3-05",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "owner": "V09",
+   "claim": "V09's `refuse.table.required` row (l. 2003) restates V11 §4.1's cases — \"(V11 §4.1: a `defaultRow`, an `allowFallback` target, a totality rule's only cover, the last row of a table not `mayEmpty`)\" — without the named row V11 §4.1 now refuses, and its words \"{row} is what {readers} fall back to\" do not fit a named row whose readers have no fallback. The key is the same, so nothing built changes.",
+   "required_change": "The row's third cell: \"(V11 §4.1: a `defaultRow`, an `allowFallback` target, a totality rule's only cover, a table's named row, the last row of a table not `mayEmpty`)\"; its text: \"{row} is what {readers} fall back to or read, so it stays; edit its cells instead.\""
+  },
+  {
+   "id": "VV1112-r3-06",
+   "severity": "major",
+   "kind": "EDGE-UNDEFINED",
+   "owner": "V11",
+   "claim": "Since this round a weather kind is live only while \"its `hours` hold the view's hour\" (V11 §3.25.11 *The columns*; base §6.1 in the same words), so the `hours` band now decides R and every draw. Neither *The kinds* (`mist` and `fog` 4–11, `shimmer` 10–18; l. 4664) nor §2.8's `hours?: [number, number]` says how a band holds an hour: whether the end hour b is live through its whole hour (fog at 11:30 under `light: 'time'`, whose `time` key counts hours, §2.9), whether a band with a > b wraps midnight (the week bands state \"includes both ends and wraps the year's end when a > b\"; the hours do not), or what range an edited `hours` cell is clamped to (no `range` is declared; V11 §4.1 clamps only to a declared range, and V12 §3.11 now places these cells under its default line). Two builders read the shipped cells differently, and an edit to, say, 20–8 for night fog has no defined outcome; EI-V11-EDGE-6 and T-V11-45 (v) carry neither case.",
+   "required_change": "V11 §3.25.11 *The kinds*' head, after \"in which the kind is live\": \"— whole hours of the view's day, each end in [0, 23] (its declared range): the kind is live while the hour of §2.9's `time` key, rounded down, lies in a … b, both ends included, wrapping midnight when a > b, as a band of weeks wraps the year's end\"; §2.8's `hours` comment adds \"whole hours 0–23, both ends included, a > b wrapping midnight\"; EI-V11-EDGE-6 adds the case \"an `hours` band with a > b; an edited end outside [0, 23]\" with the outcome \"wraps midnight; clamped into [0, 23] (V11 §4.1)\", and T-V11-45 (v) adds both fixtures."
+  },
+  {
+   "id": "VV1112-r3-07",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "owner": "V10",
+   "claim": "VV1112-r2-14's fix deleted V09's `crisis.look.<kind>` catalogue row; each look is now worded by its `crisis.looks` row's `label` (V11 §3.25.9). V10 still names the key family three times: §1.2's V09 row (l. 202: \"the crisis looks' list and lines (V09 §4.21.12: `crisis.look.<kind>`, `info.crisis.*`)\"), T-V10-29 (\"every `info.damage.*`, `info.crisis.*` and `crisis.look.<kind>` key V10 §3.9a and V10 §3.9b (8) render … has a catalogue key in every shipped locale\") and CVR-V10-22 (\"the `crisis.look.<kind>`, `info.crisis.*` and `info.damage.*` rows\"). V10 §3.9b (8) renders a look through `info.crisis.line`, so no such key is rendered; the three cite a row that no longer exists (repair-r3-V09's HAND-OFFS names them for round 4).",
+   "required_change": "V10 l. 202: \"(V09 §4.21.12: `crisis.look.<kind>`, `info.crisis.*`)\" → \"(V09 §4.21.12: `info.crisis.*`, each look worded by its `crisis.looks` row's `label`, V11 §3.25.9)\"; T-V10-29: \"every `info.damage.*`, `info.crisis.*` and `crisis.look.<kind>` key\" → \"every `info.damage.*` and `info.crisis.*` key\"; CVR-V10-22: \"the `crisis.look.<kind>`, `info.crisis.*` and `info.damage.*` rows\" → \"the `info.crisis.*` and `info.damage.*` rows and each look's `label` (V11 §3.25.9)\"."
+  },
+  {
+   "id": "VV1112-r3-08",
+   "severity": "minor",
+   "kind": "WIRING",
+   "owner": "scope",
+   "claim": "§13.2's T122-6 (l. 18407–18408) gives one statistic for both its clauses: \"nothing stands on water, in a gate's passage or over a label's keep-out, and several crises share the outskirts by `priority` under `densityCap` (§10.2's placement; `crisis.blocked` 0)\". V12 now measures the sharing clause with `crisis.share` (V12 §3.4.2, §3.15.12, T-V12-54), `crisis.blocked` holding only the placement exclusions. The bar omits the statistic its own clause runs on (bookkeeping, R3-03 (a)). It composes with scope's VCS-r3-08, whose proposed T122-6 text keeps \"`crisis.blocked` 0\" alone.",
+   "required_change": "T122-6's parenthesis reads \"(§10.2's placement; `crisis.blocked` 0 and `crisis.share` 0)\", in VCS-r3-08's rewritten T122-6 the same."
+  }
+ ]
+}

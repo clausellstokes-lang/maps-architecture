@@ -1,0 +1,1750 @@
+{
+ "record": "E03",
+ "workItem": "W-03",
+ "lane": "m1/W-03",
+ "date": "2026-10-03",
+ "status": "partial",
+ "statusReason": [
+  "row check 1: 34 of 35 exports; capture/MFCG/130/plain/8 froze on both of its loads (J159 load 29, J161 load 2), so 35 of 35 cannot be met on build 12710731 with this seed; a substitute waits for the M-1 ruling seat's replacement-seed rule (J161 load 3 unused, kept for it)",
+  "row check 3 met under J161: seed 0's cold re-export (fresh profile) gave JSON and SVG byte-identical to the stored files (PNG identical too)"
+ ],
+ "build": {
+  "reference": "MFCG",
+  "id": "itch:12710731",
+  "jsonVersion": "0.11.5",
+  "resolvedAt": "2026-10-03T17:17:16.148Z",
+  "url": "https://html-classic.itch.zone/html/12710731/bin/index.html",
+  "pinShift": false
+ },
+ "approval": {
+  "ruling": "J159",
+  "loadsApproved": 35,
+  "downloadsApproved": 70,
+  "loadsUsed": 35,
+  "filesDownloaded": 68,
+  "inPageReexportsDownloadsDenied": 33,
+  "buildIdFetches": 1,
+  "hostsContactedByThePage": {
+   "html-classic.itch.zone": 546,
+   "static.itch.io": 34,
+   "itch.io": 34,
+   "armoria.herokuapp.com": 102
+  }
+ },
+ "method": {
+  "perSeed": "one navigation: JSON by the URL export key on load; screenshot; SVG by the Settlement window (T, Export, SVG) in the same load; guarded by byte-identical reference crops; then the window JSON item with downloads denied (in-page Blob compared)",
+  "browser": "own headless Chrome via profiler/lib/common.mjs launch() (1500x1100), fresh scratch profile deleted afterwards; profiler/.session untouched",
+  "bodiesStored": false,
+  "differsFromPlan": "plan.json mfcgExport.perSeed says one cold navigation per file (70 loads); J159 approved 35 (PC-06)"
+ },
+ "files": {
+  "research/baselines/mfcg_sweep_m1.mjs": {
+   "bytes": 21683,
+   "sha256": "846007ceed737fd53734e7f8582a6ab0513fb52a558a7236f968f2134f292fa1"
+  },
+  "research/baselines/sweep_m1.sh": {
+   "bytes": 1454,
+   "sha256": "abcf6192fa9d89cd72d701eaf6e1e2d451ca7942a68a8d9c92c2a7f08a99d110"
+  },
+  "research/baselines/check_w03.py": {
+   "bytes": 15808,
+   "sha256": "2a7e4c180b57009f42b5f20b10fb3ed9e48abc8911eaba9724230d8049107711",
+   "was": {
+    "bytes": 11256,
+    "sha256": "60ce9f3ebd9bd54d981c0941d2da259683d8432b78e84b1ac33d71eabe59676e"
+   }
+  },
+  "captures/mfcg/exports-sweep-m1-2026-10-03/export-log.jsonl": {
+   "bytes": 195559,
+   "sha256": "9475c3ae696c738ecb871e161148c3b64a94529333fa64830d17f30a7e180301"
+  },
+  "captures/mfcg/exports-sweep-m1-2026-10-03/loads.jsonl": {
+   "bytes": 8004,
+   "sha256": "da75d1163bc8862c219a61bcc1b9c93df0e110b976135c97551a8e5fa102a3cb"
+  },
+  "captures/mfcg/exports-sweep-m1-2026-10-03/stats.py": {
+   "bytes": 10820,
+   "sha256": "17aa66e8d471755380e83278045b52ef1b4f99a08f8e6ec9edaf630fda35996b"
+  },
+  "captures/mfcg/exports-sweep-m1-2026-10-03/stats.md": {
+   "bytes": 15892,
+   "sha256": "99f81c350bc7d8703b53e0f0f1cbdecd3523e814ec592eb9be48c50800340d54",
+   "was": {
+    "bytes": 15450,
+    "sha256": "44a2cb0043d041d9da79db385881a5d0050501b5c2c19612441071875d7881b9"
+   }
+  },
+  "captures/mfcg/exports-sweep-m1-2026-10-03/stats.json": {
+   "bytes": 68704,
+   "sha256": "eb77b3b67c455fd7e42b3ab482e7be2c5fcba685104592364930002f86c03e83",
+   "was": {
+    "bytes": 67015,
+    "sha256": "c8b94265d7d425415883b883140cea60d12a93699d74e54f052dc589cca66a3b"
+   }
+  },
+  "captures/mfcg/exports-sweep-m1-2026-10-03/export-check.json": {
+   "bytes": 6110,
+   "sha256": "ab756c8b60de7ac1fb6cb3cf3a5b28f2a955f9f36aacd01d7452ec7c2352fc63",
+   "was": {
+    "bytes": 4630,
+    "sha256": "a9f53e2f9b0d166fc0c725afe8ad6e95548d71a7443e791047ee307058f7f900"
+   }
+  },
+  "captures/mfcg/exports-sweep-m1-2026-10-03/probe/ui.json": {
+   "bytes": 665,
+   "sha256": "cc8bb10b060fbced984d549c45be7e004f1351d377f8484a057b0e1c2b62195a"
+  }
+ },
+ "capture": "captures/mfcg/exports-sweep-m1-2026-10-03",
+ "captureMB": 205,
+ "checks": {
+  "C1-loads": {
+   "passed": true,
+   "loads": 35,
+   "distinctSeeds": 35,
+   "badUrl": [],
+   "recordsWithOtherThanOneDocument": [],
+   "recordsWithNetwork": 34
+  },
+  "C2-files": {
+   "passed": true,
+   "okSeeds": 34,
+   "filesDownloaded": 68,
+   "deniedInPageReexports": 33,
+   "problems": []
+  },
+  "C3-href": {
+   "passed": true,
+   "checked": 34,
+   "keys": [
+    "coast",
+    "greens",
+    "river",
+    "seed",
+    "shantytown",
+    "size"
+   ],
+   "bad": []
+  },
+  "C4-reexport": {
+   "passed": true,
+   "seedsWithReexport": 33,
+   "byteIdentical": 33,
+   "size40plain0": "no in-page re-export (calibration load)",
+   "size40plain0J161": [
+    {
+     "trigger": "window JSON item, downloads denied",
+     "gotBlob": true,
+     "blobIndex": 2,
+     "sha1": "eaa7701b6a75f38eb31c065044cb479e8ef93222",
+     "jsonSha1": "eaa7701b6a75f38eb31c065044cb479e8ef93222",
+     "byteIdentical": true
+    }
+   ]
+  },
+  "C5-version": {
+   "passed": true,
+   "versions": {
+    "mfcg 0.11.5": 34
+   },
+   "unitRatioNot4": []
+  },
+  "C6-sample": {
+   "passed": true,
+   "families": {
+    "capture/MFCG/40/plain": {
+     "n": 10,
+     "captured": 10,
+     "usable": 10,
+     "failed": []
+    },
+    "capture/MFCG/80/plain": {
+     "n": 10,
+     "captured": 10,
+     "usable": 10,
+     "failed": []
+    },
+    "capture/MFCG/130/plain": {
+     "n": 10,
+     "captured": 9,
+     "usable": 9,
+     "failed": [
+      [
+       "8",
+       "no-export"
+      ]
+     ]
+    },
+    "capture/MFCG/80/river+coast": {
+     "n": 5,
+     "captured": 5,
+     "usable": 3,
+     "failed": [
+      [
+       "1",
+       "retry"
+      ],
+      [
+       "4",
+       "retry"
+      ]
+     ]
+    }
+   }
+  },
+  "C7-j161": {
+   "passed": true,
+   "loads": 2,
+   "names": [
+    "size40-plain-0",
+    "size130-plain-8"
+   ],
+   "problems": [],
+   "records": {
+    "size40-plain-0": [
+     "ok"
+    ],
+    "size130-plain-8": [
+     "failed"
+    ]
+   }
+  },
+  "C8-cold": {
+   "passed": true,
+   "run": true,
+   ".json": true,
+   ".svg": true,
+   ".png": true,
+   "logged": [
+    [
+     ".json",
+     true
+    ],
+    [
+     ".svg",
+     true
+    ]
+   ],
+   "hrefOk": true,
+   "attempts": 1,
+   "retry": false,
+   "downloadsCompleted": 0,
+   "sameLoadReexport": true
+  }
+ },
+ "rowChecks": [
+  {
+   "check": "35 of 35 exports with Blob = download (sameAsDownload)",
+   "passed": false,
+   "value": "34/35",
+   "note": "capture/MFCG/130/plain/8 froze on 2 of 2 loads (no-export); unattainable on this build with this seed; substitute after the replacement-seed rule",
+   "closedBy": "R-13's extension (R-39; lane m1/W-03b, section 10): capture/MFCG/130/plain/10 exported under J161 load 3; the family stands at 10 usable"
+  },
+  {
+   "check": "canonical href carries the plan seed and the plain options",
+   "passed": true,
+   "value": "34/34"
+  },
+  {
+   "check": "re-export of seed 0 at size 40 byte-identical",
+   "passed": true,
+   "value": "cold re-export under J161: JSON and SVG byte-identical (C8); PNG identical too",
+   "substitute": "same-load re-export byte-identical 33/33 (seeds 1-34) and on seed 0's J161 load"
+  },
+  {
+   "check": "retries recorded in sample.failed",
+   "passed": true,
+   "value": "2 retry + 1 no-export (2 loads) recorded"
+  }
+ ],
+ "sample": {
+  "capture/MFCG/40/plain": {
+   "n": 10,
+   "captured": [
+    "size40-plain-0",
+    "size40-plain-1",
+    "size40-plain-2",
+    "size40-plain-3",
+    "size40-plain-4",
+    "size40-plain-5",
+    "size40-plain-6",
+    "size40-plain-7",
+    "size40-plain-8",
+    "size40-plain-9"
+   ],
+   "failed": [],
+   "usable": 10
+  },
+  "capture/MFCG/80/plain": {
+   "n": 10,
+   "captured": [
+    "size80-plain-0",
+    "size80-plain-1",
+    "size80-plain-2",
+    "size80-plain-3",
+    "size80-plain-4",
+    "size80-plain-5",
+    "size80-plain-6",
+    "size80-plain-7",
+    "size80-plain-8",
+    "size80-plain-9"
+   ],
+   "failed": [],
+   "usable": 10
+  },
+  "capture/MFCG/130/plain": {
+   "n": 11,
+   "captured": [
+    "size130-plain-0",
+    "size130-plain-1",
+    "size130-plain-2",
+    "size130-plain-3",
+    "size130-plain-4",
+    "size130-plain-5",
+    "size130-plain-6",
+    "size130-plain-7",
+    "size130-plain-9",
+    "size130-plain-10"
+   ],
+   "failed": [
+    {
+     "label": "capture/MFCG/130/plain/8",
+     "reason": "no-export",
+     "loads": 2,
+     "detail": [
+      "J159 load 29: no record: the sweep process ended during this load (its console trace was not saved)",
+      "J161 load 2: no JSON within 180000 ms of the navigation; generation marker seen: True; attempts 1; the page did not answer evaluate(1) within 10 s (main thread busy)"
+     ],
+     "filesKept": false
+    }
+   ],
+   "usable": 10
+  },
+  "capture/MFCG/80/river+coast": {
+   "n": 5,
+   "captured": [
+    "size80-rivercoast-0",
+    "size80-rivercoast-1",
+    "size80-rivercoast-2",
+    "size80-rivercoast-3",
+    "size80-rivercoast-4"
+   ],
+   "failed": [
+    {
+     "label": "capture/MFCG/80/river+coast/1",
+     "reason": "retry",
+     "attempts": 2,
+     "internalSeeds": [
+      969798778,
+      565976615
+     ],
+     "filesKept": true
+    },
+    {
+     "label": "capture/MFCG/80/river+coast/4",
+     "reason": "retry",
+     "attempts": 3,
+     "internalSeeds": [
+      1312004405,
+      360979291,
+      1143976087
+     ],
+     "filesKept": true
+    }
+   ],
+   "usable": 3
+  }
+ },
+ "perFamilyAnchors": {
+  "source": "stats.json (stats.py raw anchors; min/median/max over captured files, stress row includes retries)",
+  "values": {
+   "size40-plain": {
+    "buildings": {
+     "n": 10,
+     "min": 1209,
+     "median": 1447.0,
+     "max": 1576
+    },
+    "walled_ha": {
+     "n": 10,
+     "min": 53.835,
+     "median": 58.259,
+     "max": 60.867
+    },
+    "walled_share": {
+     "n": 10,
+     "min": 0.814,
+     "median": 0.905,
+     "max": 0.926
+    },
+    "gross_cover_inside_walls": {
+     "n": 10,
+     "min": 0.561,
+     "median": 0.605,
+     "max": 0.627
+    },
+    "bldg_area_median_m2": {
+     "n": 10,
+     "min": 223.877,
+     "median": 251.308,
+     "max": 312.698
+    },
+    "city_gates": {
+     "n": 10,
+     "min": 4,
+     "median": 5.0,
+     "max": 5
+    },
+    "districts": {
+     "n": 10,
+     "min": 7,
+     "median": 8.5,
+     "max": 11
+    },
+    "squares_ha": {
+     "n": 10,
+     "min": 0.145,
+     "median": 0.377,
+     "max": 0.682
+    },
+    "castle_ha": {
+     "n": 10,
+     "min": 0.794,
+     "median": 2.381,
+     "max": 3.731
+    },
+    "towers_derived": {
+     "n": 10,
+     "min": 23,
+     "median": 26.0,
+     "max": 29
+    },
+    "roads": {
+     "n": 10,
+     "min": 6,
+     "median": 6.0,
+     "max": 7
+    },
+    "gen_attempts": {
+     "n": 10,
+     "min": 1,
+     "median": 1.0,
+     "max": 1
+    },
+    "gen_stage_ms": {
+     "n": 10,
+     "min": 36,
+     "median": 43.0,
+     "max": 48
+    },
+    "wall_perimeter_m": {
+     "n": 10,
+     "min": 2702.951,
+     "median": 2802.302,
+     "max": 2966.514
+    },
+    "density_per_walled_ha": {
+     "n": 10,
+     "min": 17.993,
+     "median": 22.356,
+     "max": 23.888
+    }
+   },
+   "size80-plain": {
+    "buildings": {
+     "n": 10,
+     "min": 4205,
+     "median": 5102.5,
+     "max": 5591
+    },
+    "walled_ha": {
+     "n": 10,
+     "min": 199.706,
+     "median": 212.443,
+     "max": 222.398
+    },
+    "walled_share": {
+     "n": 10,
+     "min": 0.861,
+     "median": 0.905,
+     "max": 0.924
+    },
+    "gross_cover_inside_walls": {
+     "n": 10,
+     "min": 0.604,
+     "median": 0.624,
+     "max": 0.653
+    },
+    "bldg_area_median_m2": {
+     "n": 10,
+     "min": 225.087,
+     "median": 262.56,
+     "max": 332.445
+    },
+    "city_gates": {
+     "n": 10,
+     "min": 8,
+     "median": 8.0,
+     "max": 8
+    },
+    "districts": {
+     "n": 10,
+     "min": 10,
+     "median": 12.5,
+     "max": 15
+    },
+    "squares_ha": {
+     "n": 10,
+     "min": 0.156,
+     "median": 0.328,
+     "max": 0.514
+    },
+    "castle_ha": {
+     "n": 10,
+     "min": 0.77,
+     "median": 3.508,
+     "max": 6.406
+    },
+    "towers_derived": {
+     "n": 10,
+     "min": 30,
+     "median": 32.5,
+     "max": 39
+    },
+    "roads": {
+     "n": 10,
+     "min": 9,
+     "median": 9.5,
+     "max": 10
+    },
+    "gen_attempts": {
+     "n": 10,
+     "min": 1,
+     "median": 1.0,
+     "max": 1
+    },
+    "gen_stage_ms": {
+     "n": 10,
+     "min": 54,
+     "median": 79.5,
+     "max": 131
+    },
+    "wall_perimeter_m": {
+     "n": 10,
+     "min": 5081.412,
+     "median": 5336.851,
+     "max": 5533.978
+    },
+    "density_per_walled_ha": {
+     "n": 10,
+     "min": 17.516,
+     "median": 21.946,
+     "max": 24.171
+    }
+   },
+   "size130-plain": {
+    "buildings": {
+     "n": 9,
+     "min": 12889,
+     "median": 13879,
+     "max": 14134
+    },
+    "walled_ha": {
+     "n": 9,
+     "min": 517.99,
+     "median": 532.889,
+     "max": 548.848
+    },
+    "walled_share": {
+     "n": 9,
+     "min": 0.885,
+     "median": 0.925,
+     "max": 0.942
+    },
+    "gross_cover_inside_walls": {
+     "n": 9,
+     "min": 0.613,
+     "median": 0.624,
+     "max": 0.642
+    },
+    "bldg_area_median_m2": {
+     "n": 9,
+     "min": 227.722,
+     "median": 245.021,
+     "max": 253.009
+    },
+    "city_gates": {
+     "n": 9,
+     "min": 11,
+     "median": 12,
+     "max": 12
+    },
+    "districts": {
+     "n": 9,
+     "min": 13,
+     "median": 16,
+     "max": 20
+    },
+    "squares_ha": {
+     "n": 9,
+     "min": 0.152,
+     "median": 0.296,
+     "max": 0.711
+    },
+    "castle_ha": {
+     "n": 9,
+     "min": 0.618,
+     "median": 5.259,
+     "max": 8.884
+    },
+    "towers_derived": {
+     "n": 9,
+     "min": 36,
+     "median": 40,
+     "max": 46
+    },
+    "roads": {
+     "n": 9,
+     "min": 12,
+     "median": 14,
+     "max": 15
+    },
+    "gen_attempts": {
+     "n": 9,
+     "min": 1,
+     "median": 1,
+     "max": 1
+    },
+    "gen_stage_ms": {
+     "n": 9,
+     "min": 131,
+     "median": 160,
+     "max": 194
+    },
+    "wall_perimeter_m": {
+     "n": 9,
+     "min": 8293.073,
+     "median": 8525.32,
+     "max": 8603.091
+    },
+    "density_per_walled_ha": {
+     "n": 9,
+     "min": 22.946,
+     "median": 23.648,
+     "max": 24.714
+    }
+   },
+   "size80-rivercoast": {
+    "buildings": {
+     "n": 5,
+     "min": 4374,
+     "median": 5336,
+     "max": 8092
+    },
+    "walled_ha": {
+     "n": 5,
+     "min": 205.713,
+     "median": 260.218,
+     "max": 350.01
+    },
+    "walled_share": {
+     "n": 5,
+     "min": 0.845,
+     "median": 0.905,
+     "max": 0.942
+    },
+    "gross_cover_inside_walls": {
+     "n": 5,
+     "min": 0.59,
+     "median": 0.594,
+     "max": 0.647
+    },
+    "bldg_area_median_m2": {
+     "n": 5,
+     "min": 245.337,
+     "median": 255.741,
+     "max": 305.302
+    },
+    "city_gates": {
+     "n": 5,
+     "min": 7,
+     "median": 7,
+     "max": 7
+    },
+    "districts": {
+     "n": 5,
+     "min": 11,
+     "median": 13,
+     "max": 15
+    },
+    "squares_ha": {
+     "n": 5,
+     "min": 0.274,
+     "median": 0.416,
+     "max": 0.641
+    },
+    "castle_ha": {
+     "n": 5,
+     "min": 1.017,
+     "median": 2.427,
+     "max": 8.022
+    },
+    "towers_derived": {
+     "n": 5,
+     "min": 34,
+     "median": 39,
+     "max": 52
+    },
+    "roads": {
+     "n": 5,
+     "min": 8,
+     "median": 9,
+     "max": 9
+    },
+    "gen_attempts": {
+     "n": 5,
+     "min": 1,
+     "median": 1,
+     "max": 3
+    },
+    "gen_stage_ms": {
+     "n": 5,
+     "min": 80,
+     "median": 95,
+     "max": 130
+    },
+    "wall_perimeter_m": {
+     "n": 5,
+     "min": 5278.31,
+     "median": 6784.4,
+     "max": 7847.692
+    },
+    "density_per_walled_ha": {
+     "n": 5,
+     "min": 17.76,
+     "median": 20.791,
+     "max": 21.915
+    }
+   }
+  }
+ },
+ "timing": {
+  "contended": true,
+  "reason": "M0 build seats ran on this machine; no time.* row from this sweep (PC-11)"
+ },
+ "perSeed": [
+  {
+   "label": "capture/MFCG/40/plain/0",
+   "seed": 2003595629,
+   "files": [
+    "size40-plain-0.json",
+    "size40-plain-0.svg"
+   ],
+   "jsonSha1": "eaa7701b6a75f38eb31c065044cb479e8ef93222",
+   "svgSha1": "f41234c377a125ad7ad0edc959e4f22b635aef90",
+   "attempts": 1,
+   "internalSeeds": [
+    2003595629
+   ],
+   "retry": false,
+   "reexportByteIdentical": true,
+   "reexportVia": "J161 load 1 (same-load window JSON)",
+   "coldReexportByteIdentical": true
+  },
+  {
+   "label": "capture/MFCG/40/plain/1",
+   "seed": 992112889,
+   "files": [
+    "size40-plain-1.json",
+    "size40-plain-1.svg"
+   ],
+   "jsonSha1": "e3b395326b4f4e666167271117efb056d84a0b69",
+   "svgSha1": "984252459d91311393cb650817f7ef441b0d9c12",
+   "attempts": 1,
+   "internalSeeds": [
+    992112889
+   ],
+   "retry": false,
+   "reexportByteIdentical": true
+  },
+  {
+   "label": "capture/MFCG/40/plain/2",
+   "seed": 900856892,
+   "files": [
+    "size40-plain-2.json",
+    "size40-plain-2.svg"
+   ],
+   "jsonSha1": "bfc77469f855a3017b2554c1f9dfae867b0e2e3e",
+   "svgSha1": "02694f83157882688c7980695e581ac38bd2e627",
+   "attempts": 1,
+   "internalSeeds": [
+    900856892
+   ],
+   "retry": false,
+   "reexportByteIdentical": true
+  },
+  {
+   "label": "capture/MFCG/40/plain/3",
+   "seed": 51029561,
+   "files": [
+    "size40-plain-3.json",
+    "size40-plain-3.svg"
+   ],
+   "jsonSha1": "7ad701583dc6493007e361ea6d41a727c8862231",
+   "svgSha1": "18c68dab5cab54d624d42c018094cc4767f436e9",
+   "attempts": 1,
+   "internalSeeds": [
+    51029561
+   ],
+   "retry": false,
+   "reexportByteIdentical": true
+  },
+  {
+   "label": "capture/MFCG/40/plain/4",
+   "seed": 1304928856,
+   "files": [
+    "size40-plain-4.json",
+    "size40-plain-4.svg"
+   ],
+   "jsonSha1": "8d6109ce6f181e5109ee403a5bbd1d3e8855263e",
+   "svgSha1": "e1735b2d153d1b3aa5cdd85fa48cf46b73782f4c",
+   "attempts": 1,
+   "internalSeeds": [
+    1304928856
+   ],
+   "retry": false,
+   "reexportByteIdentical": true
+  },
+  {
+   "label": "capture/MFCG/40/plain/5",
+   "seed": 1883485116,
+   "files": [
+    "size40-plain-5.json",
+    "size40-plain-5.svg"
+   ],
+   "jsonSha1": "46ef746c235d2c5c41f914e02af9ab3ed1f8b5c5",
+   "svgSha1": "4d0b10efdf94a4b9c4fa5ab704058a87754bfbb8",
+   "attempts": 1,
+   "internalSeeds": [
+    1883485116
+   ],
+   "retry": false,
+   "reexportByteIdentical": true
+  },
+  {
+   "label": "capture/MFCG/40/plain/6",
+   "seed": 1560054321,
+   "files": [
+    "size40-plain-6.json",
+    "size40-plain-6.svg"
+   ],
+   "jsonSha1": "786430921a1b1e71e454ee3f295dbe6c4149108f",
+   "svgSha1": "841ff639ac46bc6b5a3cb20c86211c113c798d00",
+   "attempts": 1,
+   "internalSeeds": [
+    1560054321
+   ],
+   "retry": false,
+   "reexportByteIdentical": true
+  },
+  {
+   "label": "capture/MFCG/40/plain/7",
+   "seed": 1173894402,
+   "files": [
+    "size40-plain-7.json",
+    "size40-plain-7.svg"
+   ],
+   "jsonSha1": "efb35b9938de9041906ec91dd40de6c4381fb182",
+   "svgSha1": "32ac5d9f0a368ae5283cd1e8c52419540e99ac0a",
+   "attempts": 1,
+   "internalSeeds": [
+    1173894402
+   ],
+   "retry": false,
+   "reexportByteIdentical": true
+  },
+  {
+   "label": "capture/MFCG/40/plain/8",
+   "seed": 610932995,
+   "files": [
+    "size40-plain-8.json",
+    "size40-plain-8.svg"
+   ],
+   "jsonSha1": "810bef799bed5e64b8d71184d34fe8e36b9b57da",
+   "svgSha1": "cdd68266d205b375544bf73879d66b2dc294b51d",
+   "attempts": 1,
+   "internalSeeds": [
+    610932995
+   ],
+   "retry": false,
+   "reexportByteIdentical": true
+  },
+  {
+   "label": "capture/MFCG/40/plain/9",
+   "seed": 936396370,
+   "files": [
+    "size40-plain-9.json",
+    "size40-plain-9.svg"
+   ],
+   "jsonSha1": "741a0b0e4ae3abe2ce944c0e0dda89464fc2fa1f",
+   "svgSha1": "129c7b8a28579f2118029bf268eaea1d4060d437",
+   "attempts": 1,
+   "internalSeeds": [
+    936396370
+   ],
+   "retry": false,
+   "reexportByteIdentical": true
+  },
+  {
+   "label": "capture/MFCG/80/plain/0",
+   "seed": 1057909441,
+   "files": [
+    "size80-plain-0.json",
+    "size80-plain-0.svg"
+   ],
+   "jsonSha1": "be5697f6893d08ce64f569eef58f61cddb7b5110",
+   "svgSha1": "0ffd9e623db44b4c9f6ccc146102c6d6401b377a",
+   "attempts": 1,
+   "internalSeeds": [
+    1057909441
+   ],
+   "retry": false,
+   "reexportByteIdentical": true
+  },
+  {
+   "label": "capture/MFCG/80/plain/1",
+   "seed": 326645150,
+   "files": [
+    "size80-plain-1.json",
+    "size80-plain-1.svg"
+   ],
+   "jsonSha1": "39e7e28d815240e427898c354039be6956482d1f",
+   "svgSha1": "eddc24a8250b15ec63defa2b7945af6fdad78685",
+   "attempts": 1,
+   "internalSeeds": [
+    326645150
+   ],
+   "retry": false,
+   "reexportByteIdentical": true
+  },
+  {
+   "label": "capture/MFCG/80/plain/2",
+   "seed": 1832027109,
+   "files": [
+    "size80-plain-2.json",
+    "size80-plain-2.svg"
+   ],
+   "jsonSha1": "20a004c9f46f93c205bbddd2a9c97fa3e845c0d3",
+   "svgSha1": "388429908fca4fdd9460af7164538d0eb82b834e",
+   "attempts": 1,
+   "internalSeeds": [
+    1832027109
+   ],
+   "retry": false,
+   "reexportByteIdentical": true
+  },
+  {
+   "label": "capture/MFCG/80/plain/3",
+   "seed": 1016906889,
+   "files": [
+    "size80-plain-3.json",
+    "size80-plain-3.svg"
+   ],
+   "jsonSha1": "05e393ccabdbb0a022420d5ccaf9608b6da47667",
+   "svgSha1": "39083474d07e3dfe1df0006761ee6c66b476c3d4",
+   "attempts": 1,
+   "internalSeeds": [
+    1016906889
+   ],
+   "retry": false,
+   "reexportByteIdentical": true
+  },
+  {
+   "label": "capture/MFCG/80/plain/4",
+   "seed": 1787087151,
+   "files": [
+    "size80-plain-4.json",
+    "size80-plain-4.svg"
+   ],
+   "jsonSha1": "46382cc3046be51c249900707685abfa3c6f3618",
+   "svgSha1": "b5de718ae1ba6cee3c0c2941012d010c535d9013",
+   "attempts": 1,
+   "internalSeeds": [
+    1787087151
+   ],
+   "retry": false,
+   "reexportByteIdentical": true
+  },
+  {
+   "label": "capture/MFCG/80/plain/5",
+   "seed": 368320464,
+   "files": [
+    "size80-plain-5.json",
+    "size80-plain-5.svg"
+   ],
+   "jsonSha1": "8967bf2038f09e8e33dc22c893bd3de474950ada",
+   "svgSha1": "4b768da2deded2fd487df1b3b6bfbda80ab55422",
+   "attempts": 1,
+   "internalSeeds": [
+    368320464
+   ],
+   "retry": false,
+   "reexportByteIdentical": true
+  },
+  {
+   "label": "capture/MFCG/80/plain/6",
+   "seed": 1893549258,
+   "files": [
+    "size80-plain-6.json",
+    "size80-plain-6.svg"
+   ],
+   "jsonSha1": "5d1c047009c7fa15ee065d27ceb7a3877142fe81",
+   "svgSha1": "7a1823c7d41055876a592792fe054cd33d7ff2c3",
+   "attempts": 1,
+   "internalSeeds": [
+    1893549258
+   ],
+   "retry": false,
+   "reexportByteIdentical": true
+  },
+  {
+   "label": "capture/MFCG/80/plain/7",
+   "seed": 817490467,
+   "files": [
+    "size80-plain-7.json",
+    "size80-plain-7.svg"
+   ],
+   "jsonSha1": "31b68f983914717dc3698de56a5d0ba6a1625e46",
+   "svgSha1": "1bf4d5fa08df4c35c38e4ead167c0b1a332d3452",
+   "attempts": 1,
+   "internalSeeds": [
+    817490467
+   ],
+   "retry": false,
+   "reexportByteIdentical": true
+  },
+  {
+   "label": "capture/MFCG/80/plain/8",
+   "seed": 983352665,
+   "files": [
+    "size80-plain-8.json",
+    "size80-plain-8.svg"
+   ],
+   "jsonSha1": "39fb69c08c3fe5057ab7db3ca79e26b05d87cea2",
+   "svgSha1": "75d6afabeb3be3c038e43a6cd8aab3dcc88696c7",
+   "attempts": 1,
+   "internalSeeds": [
+    983352665
+   ],
+   "retry": false,
+   "reexportByteIdentical": true
+  },
+  {
+   "label": "capture/MFCG/80/plain/9",
+   "seed": 1069210667,
+   "files": [
+    "size80-plain-9.json",
+    "size80-plain-9.svg"
+   ],
+   "jsonSha1": "110386ab0cc2f757cd0e3d9b60baa0e0a846c318",
+   "svgSha1": "cdee80228085b02b6c603c269e1a75a56d994c8f",
+   "attempts": 1,
+   "internalSeeds": [
+    1069210667
+   ],
+   "retry": false,
+   "reexportByteIdentical": true
+  },
+  {
+   "label": "capture/MFCG/130/plain/0",
+   "seed": 1178932495,
+   "files": [
+    "size130-plain-0.json",
+    "size130-plain-0.svg"
+   ],
+   "jsonSha1": "4df0e3bf6891888963eb274614f2cda6c86f756b",
+   "svgSha1": "cd73ce364b80460d64c81507d6e80575b38f980d",
+   "attempts": 1,
+   "internalSeeds": [
+    1178932495
+   ],
+   "retry": false,
+   "reexportByteIdentical": true
+  },
+  {
+   "label": "capture/MFCG/130/plain/1",
+   "seed": 380855225,
+   "files": [
+    "size130-plain-1.json",
+    "size130-plain-1.svg"
+   ],
+   "jsonSha1": "422a190bbd28efccedee40ce02199877622bd67d",
+   "svgSha1": "29bf676a7b8edc61636205e44d41169da9a5501e",
+   "attempts": 1,
+   "internalSeeds": [
+    380855225
+   ],
+   "retry": false,
+   "reexportByteIdentical": true
+  },
+  {
+   "label": "capture/MFCG/130/plain/2",
+   "seed": 1562318027,
+   "files": [
+    "size130-plain-2.json",
+    "size130-plain-2.svg"
+   ],
+   "jsonSha1": "c0577e5dfeab299df70d02b7d355f15109396ad1",
+   "svgSha1": "f54efe875c348c9f71c0bda240ec376fa1493a4b",
+   "attempts": 1,
+   "internalSeeds": [
+    1562318027
+   ],
+   "retry": false,
+   "reexportByteIdentical": true
+  },
+  {
+   "label": "capture/MFCG/130/plain/3",
+   "seed": 1854483063,
+   "files": [
+    "size130-plain-3.json",
+    "size130-plain-3.svg"
+   ],
+   "jsonSha1": "953fd4c2ca0a34911394c92a427130c141bcd389",
+   "svgSha1": "24a5c5a30ac97a55ed37a1fb0b1263d586963365",
+   "attempts": 1,
+   "internalSeeds": [
+    1854483063
+   ],
+   "retry": false,
+   "reexportByteIdentical": true
+  },
+  {
+   "label": "capture/MFCG/130/plain/4",
+   "seed": 1597314254,
+   "files": [
+    "size130-plain-4.json",
+    "size130-plain-4.svg"
+   ],
+   "jsonSha1": "94bdd4b553b1a7d9e1a20747c4120064a8d70a70",
+   "svgSha1": "4317059eddc2de59956e31d661ffdabe31915082",
+   "attempts": 1,
+   "internalSeeds": [
+    1597314254
+   ],
+   "retry": false,
+   "reexportByteIdentical": true
+  },
+  {
+   "label": "capture/MFCG/130/plain/5",
+   "seed": 1658332635,
+   "files": [
+    "size130-plain-5.json",
+    "size130-plain-5.svg"
+   ],
+   "jsonSha1": "f5e8f663e5aac9d9ac33cbb53abc948618852ec0",
+   "svgSha1": "8a30f5030ae71f5862d378313dfb7b3da6f4e85b",
+   "attempts": 1,
+   "internalSeeds": [
+    1658332635
+   ],
+   "retry": false,
+   "reexportByteIdentical": true
+  },
+  {
+   "label": "capture/MFCG/130/plain/6",
+   "seed": 1616577459,
+   "files": [
+    "size130-plain-6.json",
+    "size130-plain-6.svg"
+   ],
+   "jsonSha1": "4979b40712f0c025d5207414b1f9ac315867864c",
+   "svgSha1": "b674c7f62f6b2934abb388b365c6419fee6cf3fe",
+   "attempts": 1,
+   "internalSeeds": [
+    1616577459
+   ],
+   "retry": false,
+   "reexportByteIdentical": true
+  },
+  {
+   "label": "capture/MFCG/130/plain/7",
+   "seed": 1269412869,
+   "files": [
+    "size130-plain-7.json",
+    "size130-plain-7.svg"
+   ],
+   "jsonSha1": "eda735ced28a3204dfd89feab269d5a7967086c8",
+   "svgSha1": "1df1633261ff65dfd2d864633c955f7af6eaafc5",
+   "attempts": 1,
+   "internalSeeds": [
+    1269412869
+   ],
+   "retry": false,
+   "reexportByteIdentical": true
+  },
+  {
+   "label": "capture/MFCG/130/plain/9",
+   "seed": 1502932918,
+   "files": [
+    "size130-plain-9.json",
+    "size130-plain-9.svg"
+   ],
+   "jsonSha1": "32107e9b672c79699d212de9a67dd04d61b8eada",
+   "svgSha1": "c60617397c2e04c1c22f32f78e39ac70805148a8",
+   "attempts": 1,
+   "internalSeeds": [
+    1502932918
+   ],
+   "retry": false,
+   "reexportByteIdentical": true
+  },
+  {
+   "label": "capture/MFCG/80/river+coast/0",
+   "seed": 1277715861,
+   "files": [
+    "size80-rivercoast-0.json",
+    "size80-rivercoast-0.svg"
+   ],
+   "jsonSha1": "db214f3a73edb4f2ae4fa4a8e17fc4ba2cd1c9c6",
+   "svgSha1": "1396ec61b8f0825a7b7c96d6eab0ec61dc9f52aa",
+   "attempts": 1,
+   "internalSeeds": [
+    1277715861
+   ],
+   "retry": false,
+   "reexportByteIdentical": true
+  },
+  {
+   "label": "capture/MFCG/80/river+coast/1",
+   "seed": 969798778,
+   "files": [
+    "size80-rivercoast-1.json",
+    "size80-rivercoast-1.svg"
+   ],
+   "jsonSha1": "b3aed1f78acaf77a331c87e0ee77417cf07a07c2",
+   "svgSha1": "65aca8ecdb04274a570799bf45a7160618fa300a",
+   "attempts": 2,
+   "internalSeeds": [
+    969798778,
+    565976615
+   ],
+   "retry": true,
+   "reexportByteIdentical": true
+  },
+  {
+   "label": "capture/MFCG/80/river+coast/2",
+   "seed": 1811725741,
+   "files": [
+    "size80-rivercoast-2.json",
+    "size80-rivercoast-2.svg"
+   ],
+   "jsonSha1": "e2b8c7c28acea6e1a414eabe8e86a51f99317228",
+   "svgSha1": "af7d73478f0dabd17f1338d9313936bc16c96791",
+   "attempts": 1,
+   "internalSeeds": [
+    1811725741
+   ],
+   "retry": false,
+   "reexportByteIdentical": true
+  },
+  {
+   "label": "capture/MFCG/80/river+coast/3",
+   "seed": 1482787121,
+   "files": [
+    "size80-rivercoast-3.json",
+    "size80-rivercoast-3.svg"
+   ],
+   "jsonSha1": "72a5fe3636f343c779ae4063c7c80f00d32a5f7b",
+   "svgSha1": "0d1139c126c806723b850aade3ad04bb7e3f486c",
+   "attempts": 1,
+   "internalSeeds": [
+    1482787121
+   ],
+   "retry": false,
+   "reexportByteIdentical": true
+  },
+  {
+   "label": "capture/MFCG/80/river+coast/4",
+   "seed": 1312004405,
+   "files": [
+    "size80-rivercoast-4.json",
+    "size80-rivercoast-4.svg"
+   ],
+   "jsonSha1": "f3c9bface17479d2dc7b5c7f4ff7a5a693bfd228",
+   "svgSha1": "9b3ab83bf9264bb17da7921ee5cd4e73748c5056",
+   "attempts": 3,
+   "internalSeeds": [
+    1312004405,
+    360979291,
+    1143976087
+   ],
+   "retry": true,
+   "reexportByteIdentical": true
+  },
+  {
+   "label": "capture/MFCG/130/plain/10",
+   "seed": 1179968783,
+   "files": [
+    "size130-plain-10.json",
+    "size130-plain-10.svg"
+   ],
+   "jsonSha1": "e39d42d3a01d703fd942c3b9b5e11207f245bb13",
+   "svgSha1": "f3b4de4768828af5e95af67f0cd4fb9c38b823f0",
+   "attempts": 1,
+   "internalSeeds": [
+    1179968783
+   ],
+   "retry": false,
+   "reexportByteIdentical": true,
+   "route": "J161 load 3 (lane m1/W-03b): downloads denied, files from the in-page Blob; record in j161/export-log.jsonl"
+  }
+ ],
+ "ownerSteps": [
+  {
+   "step": "cold re-export of capture/MFCG/40/plain/0",
+   "loads": 1,
+   "downloads": 0,
+   "status": "done under J161 (load 1): byte-identical"
+  },
+  {
+   "step": "second load of capture/MFCG/130/plain/8",
+   "loads": 1,
+   "downloads": 0,
+   "status": "done under J161 (load 2): froze again; no-export CONFIRMED reproduced"
+  },
+  {
+   "step": "replacement for capture/MFCG/130/plain/8 (e.g. /130/plain/10)",
+   "loads": 1,
+   "downloads": "0 with this tool (Blob read in-page; files kept)",
+   "status": "waiting for the M-1 ruling seat's replacement-seed rule; J161 load 3 kept for it"
+  },
+  {
+   "step": "S-V12-1 20-seed fallback if W-13 triggers it",
+   "loads": 30,
+   "downloads": 60,
+   "note": "not covered by J159 or J161"
+  }
+ ],
+ "plausible": [
+  "seed 1413909430 freezes MFCG 0.11.5 on every load (2 of 2 observed)",
+  "the freeze lies after the model's stages, before the emblem fetch and the export (not profiled)",
+  "window-route SVG equals export=svg SVG byte for byte",
+  "armoria.herokuapp.com requests are the emblem"
+ ],
+ "docChecks": {
+  "folderDelta": {
+   "method": "doc_checks.py --doc on V12-calibration.md and ARCHITECTURE.md from the project root and from a symlinked root hiding only this folder, back to back (2026-10-03 14:00-14:10)",
+   "corpusAdded": {
+    "jsonFiles": 49,
+    "colourFiles": 50,
+    "lists": 51,
+    "c3Grams": 1973
+   },
+   "V12": {
+    "C1": [
+     8,
+     0
+    ],
+    "C2": [
+     0,
+     0
+    ],
+    "C3": [
+     207,
+     33
+    ],
+    "C4": [
+     6,
+     4
+    ],
+    "identicalWithAndWithout": true
+   },
+   "ARCHITECTURE": {
+    "C1": [
+     5,
+     0
+    ],
+    "C2": [
+     2,
+     0
+    ],
+    "C3": [
+     2050,
+     14
+    ],
+    "C4": [
+     28,
+     5
+    ],
+    "S2": [
+     318,
+     0
+    ],
+    "identicalWithAndWithout": true
+   },
+   "newHitsFromThisFolder": 0
+  },
+  "selfCheck": {
+   "command": "doc_checks.py --doc docs/calibration/E03-mfcg-sweep.md --heads docs/ARCHITECTURE.md",
+   "C1": [
+    1,
+    0
+   ],
+   "C2": [
+    0,
+    0
+   ],
+   "C3": [
+    21,
+    20
+   ],
+   "C4": [
+    0,
+    0
+   ],
+   "S1": [
+    0,
+    0
+   ],
+   "S2": [
+    0,
+    0
+   ],
+   "exit": 1,
+   "note": "C3 unreviewed = paths, table digit runs and our own phrases; not a design-set file, no allow rows"
+  },
+  "selfCheckAfterCompletion": {
+   "command": "doc_checks.py --doc docs/calibration/E03-mfcg-sweep.md --heads docs/ARCHITECTURE.md",
+   "corpusRule": "2026-10-03 reference material only (44 own outputs left out)",
+   "C1": [
+    1,
+    0
+   ],
+   "C2": [
+    0,
+    0
+   ],
+   "C3": [
+    30,
+    28
+   ],
+   "C4": [
+    0,
+    0
+   ],
+   "S1": [
+    0,
+    0
+   ],
+   "S2": [
+    0,
+    0
+   ],
+   "exit": 1,
+   "note": "C3 unreviewed = build path, table digit runs, dates and plain phrases of our own; not a design-set file, no allow rows"
+  },
+  "j161Corpus": "under the 2026-10-03 corpus rule the folder's README, export-check.json, stats.json and probe/ are our own records and left out; j161/size40-plain-0.json is byte-identical to a file already in the corpus and the corpus 3-grams and lists are sets, so it adds nothing; .jsonl, SVG and PNG are outside the globs"
+ },
+ "lanes": [
+  "m1/W-03",
+  "m1/W-03-complete",
+  "m1/W-03b"
+ ],
+ "approvalJ161": {
+  "ruling": "J161",
+  "loadsApproved": 3,
+  "loadsUsedByThisLane": 2,
+  "loadsLeft": 0,
+  "loadLeftFor": null,
+  "downloadsCompleted": 0,
+  "downloadEventsDenied": 6,
+  "buildIdFetches": 2,
+  "hostsContactedByThePage": {
+   "html-classic.itch.zone": 51,
+   "static.itch.io": 3,
+   "itch.io": 3,
+   "armoria.herokuapp.com": 6
+  },
+  "prompts": "none (no login, account, payment, terms or consent)",
+  "loadsUsed": 3,
+  "loadsUsedByW03b": 1,
+  "buildIdFetchesInLedger": "both, kind build-id-fetch (R-47 (i)); the 16:34 one backfilled by m1/W-03b"
+ },
+ "completion": {
+  "lane": "m1/W-03-complete",
+  "date": "2026-10-03",
+  "buildIdCheck": {
+   "resolvedAt": "2026-10-03T20:34:14.167Z",
+   "url": "https://html-classic.itch.zone/html/12710731/bin/index.html",
+   "pinShift": false
+  },
+  "method": "research/baselines/mfcg_j161_m1.mjs: the sweep's per-seed route (one navigation; JSON by the URL export key; screenshot; SVG by the Settlement window behind the same reference crops; the window JSON once more) with browser downloads denied and files written from the in-page Blob; own ledger j161/loads.jsonl (cap 2); no-overwrite writes; on a failed load the record first, then one bounded non-input question (evaluate, 10 s), then a bounded screenshot (20 s)",
+  "loads": [
+   {
+    "n": 1,
+    "t": "2026-10-03T20:34:28.070Z",
+    "label": "capture/MFCG/40/plain/0",
+    "profile": "fresh scratch (cold cache)",
+    "ok": true,
+    "json": {
+     "bytes": 525367,
+     "sha1": "eaa7701b6a75f38eb31c065044cb479e8ef93222",
+     "byteIdenticalToStored": true
+    },
+    "svg": {
+     "bytes": 584676,
+     "sha1": "f41234c377a125ad7ad0edc959e4f22b635aef90",
+     "byteIdenticalToStored": true
+    },
+    "png": {
+     "bytes": 375179,
+     "sha1": "032cd974d19af53eed72c21d59a830c53e82039b",
+     "byteIdenticalToStored": true
+    },
+    "attempts": 1,
+    "retry": false,
+    "hrefOk": true,
+    "sameLoadReexportByteIdentical": true,
+    "documents": 1,
+    "downloadEvents": "3, all denied",
+    "jsonMs": 4038,
+    "wallMs": 8420
+   },
+   {
+    "n": 2,
+    "t": "2026-10-03T20:34:54.104Z",
+    "label": "capture/MFCG/130/plain/8",
+    "profile": "same profile (warm cache, as load 29)",
+    "ok": false,
+    "failure": "no JSON within 180000 ms (waited 181847 ms)",
+    "stageLogComplete": true,
+    "lastStageLineMs": 2131,
+    "attempts": 1,
+    "retry": false,
+    "liveness": "no answer to evaluate(1) within 10 s (main thread busy)",
+    "screenshot": "no answer within 20 s",
+    "requests": 18,
+    "emblemHostRequests": 0,
+    "emblemHostRequestsOnGoodLoads": 3,
+    "documents": 1,
+    "downloadEvents": 0
+   }
+  ],
+  "freeze": {
+   "reproduced": true,
+   "loads": 2,
+   "of": 2,
+   "readingConfirmed": "the seed froze on both of its loads, in two browser sessions with different cache states",
+   "plausible": [
+    "it freezes on every load of this build",
+    "the hang lies after the model's stages, before the emblem fetch and the export (drawing or labelling); not profiled"
+   ]
+  },
+  "files": {
+   "research/baselines/mfcg_j161_m1.mjs": {
+    "bytes": 17895,
+    "sha256": "48f7d52b0dde6134e3244326993e0b0e8eaec3d2d916f3605d78616a8887056d"
+   },
+   "captures/mfcg/exports-sweep-m1-2026-10-03/j161/loads.jsonl": {
+    "bytes": 530,
+    "sha256": "0799d51d8022ce12783cc85c614d15927604c8cd3f1be7d8cf9fc3b25c51012d"
+   },
+   "captures/mfcg/exports-sweep-m1-2026-10-03/j161/export-log.jsonl": {
+    "bytes": 8815,
+    "sha256": "900a00cf0356f38a809f0c7af53027d8a1798bd06daf68f7e187f29009b14e91"
+   },
+   "captures/mfcg/exports-sweep-m1-2026-10-03/j161/size40-plain-0.json": {
+    "bytes": 525367,
+    "sha256": "6cb5ad2bac3a4b201e49ac041bdaaff433159c1cfd5b7a6aa2717d0ecf9eba42"
+   },
+   "captures/mfcg/exports-sweep-m1-2026-10-03/j161/size40-plain-0.svg": {
+    "bytes": 584676,
+    "sha256": "96b1dea95dffd80982d87cbf98afef8a3f0b24f37864483466e1fcd38cff71c9"
+   },
+   "captures/mfcg/exports-sweep-m1-2026-10-03/j161/size40-plain-0.png": {
+    "bytes": 375179,
+    "sha256": "f2a8ee70b93d138aebb2dea928c2c45f60386021645939a7a36b0a9c31af3aa5"
+   }
+  },
+  "checkerRedTests": "three APFS clones: flipped SVG byte under j161/ -> C7+C8 FAIL; a third ledger line -> C7 FAIL; a download marked completed -> C7+C8 FAIL; each exit 1; real folder exit 0",
+  "mockTests": "file:// mock (no network): green+compare, freeze after load (record first, liveness busy, screenshot abandoned at 20 s, exit 40 s), cap 2, loaded name refused, no overwrite (EEXIST), red compare, compare-before-write bug found and fixed",
+  "statsRerun": "stats.py re-run; stats.md and stats.json byte-identical (no new file in the folder)",
+  "delegatedCalls": [
+   "downloads denied, files = in-page Blob bytes (E03 sec 5 item 1's 0-download route; Blob = download proven on 68/68 files and 33 re-exports)",
+   "a separate tool and ledger (the landed tool refuses any J159-loaded seed by design; J161 counted apart, cap 2, load 3 left to the ruling seat)",
+   "cold = fresh scratch profile for load 1; load 2 reused it (warm, as load 29); profile deleted",
+   "one bounded non-input liveness question on a failed load, after the record is on disk",
+   "the cold re-export's files kept under j161/ (1.4 MB) for cmp, written with no overwrite",
+   "check_w03.py extended in place (C6 counts J161 loads; C7, C8)",
+   "the size-40 count corrected (4 -> 2 of 10 above 1500) in E03 sec 6 and the README; W-03.json left as history"
+  ]
+ },
+ "corrections": [
+  {
+   "where": "E03 sec 6, the sweep README, W-03.json notes",
+   "old": "4 of 10 size-40 seeds exceed TOWN's 1500 buildings",
+   "new": "2 of 10 (1571, 1576; 1499 and 1491 under)",
+   "source": "docs/calibration/results/wave1-verify.json (W-03), recounted from stats.json by m1/W-03-complete",
+   "appliedTo": [
+    "E03 sec 6",
+    "README"
+   ],
+   "leftAsHistory": [
+    "docs/calibration/results/W-03.json"
+   ]
+  }
+ ],
+ "statusAfterW03b": "the MFCG sample is complete: 40 / 80 / 130 plain at 10 / 10 / 10 usable (130 plain over 11 indices, index 8 no-export, index 10 by R-13's extension), the stress family 3 of 5; check_w03.py C1-C9 pass; J161 used up (3 of 3 loads, 0 downloads). W-03's '35 of 35' stays 34 / 35 as written: R-13 / R-39 replaced it by the formula extension (section 10)",
+ "extension": {
+  "lane": "m1/W-03b",
+  "date": "2026-10-03",
+  "rulings": [
+   "R-13",
+   "R-39",
+   "R-47 (i)"
+  ],
+  "approval": "J161 (load 3 of 3); owner-go.json mfcg true (J165)",
+  "seed": {
+   "label": "capture/MFCG/130/plain/10",
+   "h32": 1179968782,
+   "parkMiller": 1179968783,
+   "printedBy": "plan.py --vectors capture/MFCG/130/plain/10",
+   "extendedBy": "plan.py --extend capture/MFCG/130/plain 11 (W-01b)"
+  },
+  "buildIdCheck": {
+   "fetchT": "2026-10-04T02:26:25.386Z",
+   "page": "https://watabou.itch.io/medieval-fantasy-city-generator",
+   "resolved": "https://html-classic.itch.zone/html/12710731/bin/index.html",
+   "pinned": "https://html-classic.itch.zone/html/12710731/bin/index.html",
+   "same": true,
+   "pinShift": false
+  },
+  "buildIdBackfill": {
+   "fetchT": "2026-10-03T20:34:14.167Z",
+   "resolved": "https://html-classic.itch.zone/html/12710731/bin/index.html",
+   "by": "m1/W-03-complete",
+   "backfilled": true,
+   "source": "lane m1/W-03-complete's scratch buildid.json and E03 section 9.1 (R-47 (i): its fetch logged in the J161 ledger as the same contact class)"
+  },
+  "load": {
+   "n": 3,
+   "t": "2026-10-04T02:26:35.115Z",
+   "profile": "fresh scratch (cold cache), deleted afterwards; its orphaned network helper stopped",
+   "ok": true,
+   "json": {
+    "bytes": 7620995,
+    "sha1": "e39d42d3a01d703fd942c3b9b5e11207f245bb13"
+   },
+   "svg": {
+    "bytes": 8071825,
+    "sha1": "f3b4de4768828af5e95af67f0cd4fb9c38b823f0"
+   },
+   "png": {
+    "bytes": 936474,
+    "sha1": "588cd113914e9e3eece5dad0fb95451730e0f792"
+   },
+   "attempts": 1,
+   "retry": false,
+   "hrefOk": true,
+   "sameLoadReexportByteIdentical": true,
+   "documents": 1,
+   "downloadEvents": "3, all denied",
+   "downloadsCompleted": 0,
+   "hosts": {
+    "html-classic.itch.zone": 18,
+    "static.itch.io": 1,
+    "itch.io": 1,
+    "armoria.herokuapp.com": 3
+   },
+   "consoleErrorNotes": 0
+  },
+  "checker": {
+   "C1-loads": true,
+   "C2-files": true,
+   "C3-href": true,
+   "C4-reexport": true,
+   "C5-version": true,
+   "C6-sample": true,
+   "C7-j161": true,
+   "C8-cold": true,
+   "C9-estimator": true,
+   "ledgers": {
+    "J159 loads.jsonl": 35,
+    "J161 j161/loads.jsonl loads": 3,
+    "J161 build-id fetches": 2,
+    "J161 contacts (loads + fetches)": 5
+   },
+   "redFirst": "C9 failed on a pre-load clone (usable 9 -> minmax)",
+   "redClones": 8,
+   "redClonesExit1": 8
+  },
+  "estimator": {
+   "declaredN": 10,
+   "usable": 10,
+   "estimatorDeclared": "type7",
+   "estimatorUsable": "type7",
+   "extendedTo": 11
+  },
+  "anchorsIndex10": {
+   "buildings": 16800,
+   "medianFootprintM2": 202,
+   "walledHa": 544,
+   "walledShare": 0.89,
+   "coverInWalls": 0.608,
+   "gates": 12,
+   "districts": 11,
+   "note": "above METROPOLIS 12 000-15 000 at the target: 1 of 10 usable size-130 seeds above 15 000 (section 6 corrected)"
+  },
+  "files": {
+   "research/baselines/mfcg_j161_m1.mjs": {
+    "bytes": 22381,
+    "sha256": "2b31022917ad7664810edc8b0b98e082c63848e75cdc609d544b160fca820632",
+    "was": {
+     "bytes": 17895,
+     "sha256": "48f7d52b0dde6134e3244326993e0b0e8eaec3d2d916f3605d78616a8887056d"
+    }
+   },
+   "research/baselines/check_w03.py": {
+    "bytes": 15808,
+    "sha256": "2a7e4c180b57009f42b5f20b10fb3ed9e48abc8911eaba9724230d8049107711"
+   },
+   "captures/mfcg/exports-sweep-m1-2026-10-03/size130-plain-10.json": {
+    "bytes": 7620995,
+    "sha256": "e1ae4af986f963a49e03beb2b3ed8867c982c9a8c99a9599795faa3e0a958e63"
+   },
+   "captures/mfcg/exports-sweep-m1-2026-10-03/size130-plain-10.svg": {
+    "bytes": 8071825,
+    "sha256": "35a62cd74b6271c4afa7ef08faf2e93adb2a5b3f16361852d24257febcd7a55b"
+   },
+   "captures/mfcg/exports-sweep-m1-2026-10-03/size130-plain-10.png": {
+    "bytes": 936474,
+    "sha256": "073a9128a3e0789081b5c31274655b1f22ba8edc69f6464a12e611750dc43331"
+   },
+   "captures/mfcg/exports-sweep-m1-2026-10-03/j161/loads.jsonl": {
+    "bytes": 1439,
+    "sha256": "9b1d519983a755558fef419c3caf47bbcef9c1fdee2be4e9bbd6716a0669c5ae"
+   },
+   "captures/mfcg/exports-sweep-m1-2026-10-03/j161/export-log.jsonl": {
+    "bytes": 16548,
+    "sha256": "dba00babc6d98ed3460adece229f72c684c9c5eb26070f249f93219d20ba0db9"
+   },
+   "captures/mfcg/exports-sweep-m1-2026-10-03/stats.md": {
+    "bytes": 15892,
+    "sha256": "99f81c350bc7d8703b53e0f0f1cbdecd3523e814ec592eb9be48c50800340d54"
+   },
+   "captures/mfcg/exports-sweep-m1-2026-10-03/stats.json": {
+    "bytes": 68704,
+    "sha256": "eb77b3b67c455fd7e42b3ab482e7be2c5fcba685104592364930002f86c03e83"
+   },
+   "captures/mfcg/exports-sweep-m1-2026-10-03/export-check.json": {
+    "bytes": 6110,
+    "sha256": "ab756c8b60de7ac1fb6cb3cf3a5b28f2a955f9f36aacd01d7452ec7c2352fc63"
+   }
+  },
+  "mockTests": 15,
+  "statsRerun": "one row added (size130-plain-10); the first 34 stats.json records unchanged; reproducible",
+  "planCheck": "SAME at 22:31 (plan.json f6972b91..., from m1/plan-guard-2 at 22:20) and at 23:22 (plan.json 703dd74b..., after the FTG slot binds); metrics.m-1.json 8a0efa7e...; index 10's seed unchanged; this lane wrote neither",
+  "record": "E03 section 10"
+ }
+}

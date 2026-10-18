@@ -1,0 +1,230 @@
+[
+ {
+  "file": "8.0.md",
+  "heading": "## §8 Rendering and the style system",
+  "line": 12136,
+  "words": 187
+ },
+ {
+  "file": "8.1.md",
+  "heading": "### 8.1 The display list (renderer-independent, columnar, incremental)",
+  "line": 12148,
+  "words": 2957
+ },
+ {
+  "file": "8.2.md",
+  "heading": "### 8.2 Style sheets as data: roles, contrast, symbolisation, paint programs, layer order, presets (G-R2)",
+  "line": 12307,
+  "words": 18106
+ },
+ {
+  "file": "8.3.md",
+  "heading": "### 8.3 Symbol catalogue and draw-style census",
+  "line": 13243,
+  "words": 4749
+ },
+ {
+  "file": "8.4.md",
+  "heading": "### 8.4 Layers, shadows, heights",
+  "line": 13334,
+  "words": 6808
+ },
+ {
+  "file": "8.5.md",
+  "heading": "### 8.5 Level of detail, the city-band figure-ground contract, way selection, first map",
+  "line": 13681,
+  "words": 2045
+ },
+ {
+  "file": "8.6.md",
+  "heading": "### 8.6 Stage-2 render tier and stage-3 LOD",
+  "line": 13795,
+  "words": 1429
+ },
+ {
+  "file": "8.7.md",
+  "heading": "### 8.7 Export resolution",
+  "line": 13874,
+  "words": 142
+ },
+ {
+  "file": "8.8.md",
+  "heading": "### 8.8 Tiles, zoom stops, print and the canvas budget",
+  "line": 13884,
+  "words": 5513
+ },
+ {
+  "file": "8.9.md",
+  "heading": "### 8.9 Backends, text, threads and the worker boundary",
+  "line": 14144,
+  "words": 3104
+ },
+ {
+  "file": "8.10.md",
+  "heading": "### 8.10 Decoration instances (trees, scatter, crowns, roof detail)",
+  "line": 14278,
+  "words": 2699
+ },
+ {
+  "file": "8.11.md",
+  "heading": "### 8.11 Edges and combinations (principle (11))",
+  "line": 14424,
+  "words": 3170
+ },
+ {
+  "file": "9.0.md",
+  "heading": "## §9 Labels and map furniture",
+  "line": 14452,
+  "words": 150
+ },
+ {
+  "file": "9.1.md",
+  "heading": "### 9.1 What is model and what is view",
+  "line": 14462,
+  "words": 924
+ },
+ {
+  "file": "9.2.md",
+  "heading": "### 9.2 Placement (S13b): font metrics, zoom stops, the global greedy evaluated locally",
+  "line": 14515,
+  "words": 2786
+ },
+ {
+  "file": "9.3.md",
+  "heading": "### 9.3 Spines and candidates",
+  "line": 14679,
+  "words": 442
+ },
+ {
+  "file": "9.4.md",
+  "heading": "### 9.4 Sizes, floors, the ladder, quarters, overflow, halos",
+  "line": 14708,
+  "words": 989
+ },
+ {
+  "file": "9.5.md",
+  "heading": "### 9.5 Furniture, framing and tools",
+  "line": 14763,
+  "words": 1571
+ },
+ {
+  "file": "9.6.md",
+  "heading": "### 9.6 Names",
+  "line": 14850,
+  "words": 354
+ },
+ {
+  "file": "9.7.md",
+  "heading": "### 9.7 Edges (principle (11))",
+  "line": 14873,
+  "words": 462
+ },
+ {
+  "file": "11.0.md",
+  "heading": "## §11 Export and interop",
+  "line": 15609,
+  "words": 127
+ },
+ {
+  "file": "11.1.md",
+  "heading": "### 11.1 Formats",
+  "line": 15618,
+  "words": 6439
+ },
+ {
+  "file": "11.2.md",
+  "heading": "### 11.2 The embedding API and the worker boundary (SCL-6)",
+  "line": 15833,
+  "words": 6984
+ },
+ {
+  "file": "11.3.md",
+  "heading": "### 11.3 The host bridge — the host is the store (FTG-12)",
+  "line": 16175,
+  "words": 2554
+ },
+ {
+  "file": "11.4.md",
+  "heading": "### 11.4 Host inputs (DEF-11)",
+  "line": 16321,
+  "words": 964
+ },
+ {
+  "file": "11.5.md",
+  "heading": "### 11.5 Sharing and multi-client use without a hosted service (DEF-12, COV-FTG-N07)",
+  "line": 16375,
+  "words": 134
+ },
+ {
+  "file": "11.6.md",
+  "heading": "### 11.6 Edges (principle (11))",
+  "line": 16385,
+  "words": 396
+ },
+ {
+  "file": "12.0.md",
+  "heading": "## §12 Performance budgets",
+  "line": 16393,
+  "words": 365
+ },
+ {
+  "file": "12.1.md",
+  "heading": "### 12.1 Reference hardware and how budgets are measured (SCL-15)",
+  "line": 16413,
+  "words": 1276
+ },
+ {
+  "file": "12.2.md",
+  "heading": "### 12.2 Size ladder and matched reference sizes (MFP-5, MN-1, MN-2)",
+  "line": 16482,
+  "words": 365
+ },
+ {
+  "file": "12.3.md",
+  "heading": "### 12.3 Model budgets on the one-click path",
+  "line": 16507,
+  "words": 1411
+ },
+ {
+  "file": "12.4.md",
+  "heading": "### 12.4 CITY per-stage split (SCL-3)",
+  "line": 16588,
+  "words": 1756
+ },
+ {
+  "file": "12.5.md",
+  "heading": "### 12.5 First map, frames, zoom, pan, draw calls, uploads (SCL-7, SCL-17, VIS-6)",
+  "line": 16642,
+  "words": 1809
+ },
+ {
+  "file": "12.6.md",
+  "heading": "### 12.6 Edits, regeneration, replay and warp, as functions of scope (SCL-9)",
+  "line": 16744,
+  "words": 1014
+ },
+ {
+  "file": "12.7.md",
+  "heading": "### 12.7 Labels, trees, exports (SCL-8, SCL-10, SCL-14)",
+  "line": 16805,
+  "words": 1883
+ },
+ {
+  "file": "12.8.md",
+  "heading": "### 12.8 Memory (what is counted, per rung)",
+  "line": 16901,
+  "words": 1753
+ },
+ {
+  "file": "12.9.md",
+  "heading": "### 12.9 Reference comparisons and the declared trade",
+  "line": 16999,
+  "words": 358
+ },
+ {
+  "file": "12.10.md",
+  "heading": "### 12.10 The budget register",
+  "line": 17019,
+  "words": 3026
+ }
+]

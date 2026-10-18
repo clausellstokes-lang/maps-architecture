@@ -1,0 +1,33 @@
+=== galeiaward-rl60: Galeiaward  building CoM (4, 211) m; district rings: Beer Forest (44 v), Rustic Village (42 v), Ash Town (55 v), Green Wood (40 v); towers 17
+  type class     n   radius p10/p50/p90 (m)   midpoint inside a ring   on a ring outline   both ends ring vertices
+     0    15   254     314 /   511 /   872          2.0%                  0.0%                0.0%
+     0    25    50     134 /   200 /   377         90.0%                  4.0%                4.0%
+     0    30   481     176 /   442 /   854         35.8%                  0.4%                0.4%
+     0    50    30     224 /   494 /   926         80.0%                 83.3%               83.3%
+     0    60     5     214 /   242 /   264          0.0%                100.0%              100.0%
+     0   100    24    1214 /  1294 /  1551          0.0%                  0.0%                0.0%
+     0 other   370     138 /   363 /   678         57.3%                  7.3%                7.0%
+     1    15     4     605 /   794 /   828          0.0%                 50.0%               50.0%
+     1    25     2     667 /   844 /   844          0.0%                 50.0%               50.0%
+     1    30     6      15 /   580 /   640         33.3%                 50.0%               50.0%
+     1    50     9      25 /   125 /   394         88.9%                 11.1%               11.1%
+     1    60    14     231 /   411 /   529         14.3%                 28.6%               28.6%
+     1   100    48     669 /  1357 /  2290          0.0%                  0.0%                0.0%
+     1 other   124     111 /   371 /   972         34.7%                 39.5%               39.5%
+  rendered research/ftg-capture/roadlength100/classes_galeiaward-rl60.png window x -771..1274 y -690..1070 m
+
+=== nevervalley-rl100: Nevervalley  building CoM (184, -414) m; district rings: Metal Heath (75 v), Bread Village (61 v), Turnpike Dale (64 v); towers 29
+  type class     n   radius p10/p50/p90 (m)   midpoint inside a ring   on a ring outline   both ends ring vertices
+     0    15   158     618 /   802 /  1029          2.5%                  4.4%                4.4%
+     0    25    63      89 /   203 /   385         96.8%                  3.2%                3.2%
+     0    30   217     670 /   822 /  1048          1.8%                  0.5%                0.5%
+     0    50   132     252 /   466 /   642         85.6%                 18.2%               18.2%
+     0   100    12    1659 /  1673 /  1755          0.0%                  0.0%                0.0%
+     0 other   382     202 /   518 /   797         62.0%                 18.1%               18.1%
+     1    15     1     719 /   719 /   719          0.0%                  0.0%                0.0%
+     1    25     2      12 /    39 /    39        100.0%                  0.0%                0.0%
+     1    50    12      75 /   686 /  2160         58.3%                  0.0%                0.0%
+     1   100    42     924 /  1836 /  2577          0.0%                  0.0%                0.0%
+     1 other    69      37 /   408 /  1551         65.2%                 29.0%               29.0%
+  rendered research/ftg-capture/roadlength100/classes_nevervalley-rl100.png window x -616..1067 y -1312..248 m
+

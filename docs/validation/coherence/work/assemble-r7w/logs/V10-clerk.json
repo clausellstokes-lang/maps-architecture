@@ -1,0 +1,81 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm7w/before/docs/volumes/V10-clerk.md",
+ "input_doc_sha256": "4988e5ae15e19a0e3b7977a673785d83cbd92e9e03d38ae93130511f0b65a019",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm7w/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "7e172500f6a791c5cf1e667c657309b6a49ee067dc130a05d82e605a06579c39",
+ "files": [
+  {
+   "file": "b-repair-r7w-V10.md",
+   "sha256": "dc4071bfa9d931aaa02c99a2b0e463fb87e9ffa006603ae123fa765b648e3cfc",
+   "lines": 62,
+   "blocks": 1,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "b-repair-r7w-V10.md #1 (l. 2) REPLACE ### 7.1 Tests",
+   "file": "b-repair-r7w-V10.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "### 7.1 Tests",
+   "body_lines": 57,
+   "body_sha256": "76984e4f3e675d3245352a7ef7981cf342004184dbedf4e38284a39f7aaafbae",
+   "target_line": 3112,
+   "section_old": "3112–3169",
+   "section_old_n": 58,
+   "section_new_n": 58,
+   "new_headings": [
+    "### 7.1 Tests"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "b-repair-r7w-V10.md #1 (l. 2) REPLACE ### 7.1 Tests",
+    "kind": "REPLACE",
+    "heading": "### 7.1 Tests",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 805,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 86,
+  "headings_after": 86,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 24,
+  "fence_lines_after": 24,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 524498,
+  "doc_bytes_after": 524582,
+  "doc_lines_before": 3580,
+  "doc_lines_after": 3580,
+  "rationale_bytes_before": 704813,
+  "rationale_bytes_after": 704813,
+  "rationale_lines_before": 2386,
+  "rationale_lines_after": 2386,
+  "blocks_total": 1,
+  "blocks_applied": 1,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "cb4d9cffb49f1bc3cb489a515a316f2e7046f6c44a4116cd895d891022762bc0",
+  "output_rationale_sha256": "7e172500f6a791c5cf1e667c657309b6a49ee067dc130a05d82e605a06579c39"
+ }
+}

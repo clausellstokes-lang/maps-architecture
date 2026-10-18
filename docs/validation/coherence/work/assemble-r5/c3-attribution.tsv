@@ -1,0 +1,6 @@
+check	run	lines	subsection	in_untouched	carried_by	corpus_whole	proposed_by	proposed_reason
+C3	3 3 s for a	2593	2.7 Walls, gates, towers, castle, bridge	no	model	-	-	
+C3	3 on the city and	18487	13.2 Per-stage invariants, statistics, c	no	scope	-	scope	coherence/repair-scope-r5 (proposed): §13.2's T110-2, item (3) "on the CITY and METROPOLIS fixtures" — our own plain English, the binding text of adjudication-r5 R5-02 (S1) written whole; a numbered item and a rung name, no reference phrasing
+C3	4 3 s for a	2593	2.7 Walls, gates, towers, castle, bridge	no	model	-	-	
+C3	5 and the hand off	2562	2.7 Walls, gates, towers, castle, bridge	no	model	-	-	
+C3	junction with a ring road	2564	2.7 Walls, gates, towers, castle, bridge	no	model	-	-	

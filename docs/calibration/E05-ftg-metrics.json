@@ -1,0 +1,1871 @@
+{
+ "schema": "m1.e05/1",
+ "script": "research:baselines/measure_ftg.py",
+ "adapter": "research:baselines/adapters/ftg.py",
+ "lane": "m1/W-05",
+ "captures": [
+  {
+   "capture": "2026-09-21T05-23-58",
+   "referenceBuild": "ftg:2026-09-21+26c4ad3e075b",
+   "measureInput": "research/baselines/inputs/FTG/ftg-2026-09-21_26c4ad3e075b/2026-09-21T05-23-58.metric.geojson.gz",
+   "measureInputEqualsAdapterRun": true,
+   "header": {
+    "source": "FTG",
+    "build": "ftg:2026-09-21+26c4ad3e075b",
+    "scale": "metric",
+    "centre": [
+     -0.35688468735258816,
+     230.29794035855966
+    ],
+    "population": 9500,
+    "water": "coast+river",
+    "options": {
+     "coastal": true,
+     "rivers": true,
+     "mapWidthM": 5000,
+     "stage1RoadLengthM": 50,
+     "stage2RoadLengthM": 60
+    }
+   },
+   "twin": {
+    "lengthPrecision": {
+     "lines": 31,
+     "storedLines": 31,
+     "identical": true,
+     "firstDifference": null,
+     "runsTop": {
+      "1-in": [
+       50.5,
+       15
+      ],
+      "1-out": [
+       100.0,
+       56
+      ],
+      "0-in": [
+       30.0,
+       88
+      ],
+      "0-out": [
+       30.0,
+       173
+      ]
+     },
+     "windowMedians": {
+      "0-in-14": [
+       10,
+       14.90185558915399
+      ],
+      "0-in-24": [
+       58,
+       25.25173261382276
+      ],
+      "0-in-29": [
+       177,
+       30.249715701143376
+      ],
+      "0-in-49": [
+       32,
+       49.99974599935484
+      ],
+      "0-out-14": [
+       254,
+       14.69689082765467
+      ],
+      "0-out-24": [
+       10,
+       25.41860145641376
+      ],
+      "0-out-29": [
+       313,
+       30.00048332943988
+      ],
+      "0-out-49": [
+       6,
+       50.69508950578941
+      ],
+      "0-out-59": [
+       5,
+       60.5003942135917
+      ],
+      "0-out-99": [
+       24,
+       100.0001804998371
+      ],
+      "1-in-29": [
+       3,
+       30.175170256354814
+      ],
+      "1-in-49": [
+       8,
+       50.5005514821373
+      ],
+      "1-out-14": [
+       6,
+       15.090357848639641
+      ],
+      "1-out-24": [
+       6,
+       25.466293409132
+      ],
+      "1-out-29": [
+       5,
+       30.248214823357763
+      ],
+      "1-out-59": [
+       12,
+       60.500473551865696
+      ],
+      "1-out-99": [
+       48,
+       100.00030799952569
+      ],
+      "2-out-14": [
+       3,
+       14.141711353298085
+      ],
+      "2-out-49": [
+       11,
+       50.00159997440082
+      ],
+      "4-out-14": [
+       1000,
+       14.699894557444962
+      ],
+      "4-out-24": [
+       26,
+       26.185616280698838
+      ],
+      "4-out-29": [
+       157,
+       30.009695100083903
+      ],
+      "4-out-49": [
+       20,
+       50.00092899136975
+      ],
+      "4-out-99": [
+       4,
+       100.03171697016901
+      ],
+      "6-out-14": [
+       10,
+       14.679744548186115
+      ],
+      "6-out-24": [
+       9,
+       24.631753896139834
+      ],
+      "6-out-29": [
+       7,
+       30.3358879876624
+      ],
+      "6-out-49": [
+       62,
+       49.97884052276523
+      ],
+      "6-out-59": [
+       3,
+       60.146554348524404
+      ],
+      "6-out-99": [
+       39,
+       99.88820400828118
+      ],
+      "10-out-99": [
+       37,
+       99.99913299624151
+      ],
+      "14-in-49": [
+       3,
+       50.001032989329325
+      ],
+      "14-out-14": [
+       7,
+       14.910590196233013
+      ],
+      "14-out-24": [
+       4,
+       26.3062121940807
+      ],
+      "14-out-29": [
+       5,
+       30.407296821651215
+      ],
+      "14-out-49": [
+       275,
+       49.99958799830255
+      ]
+     }
+    },
+    "counts": {
+     "edges": 5326,
+     "nodes": 4303,
+     "buildings": 2798,
+     "towers": 17,
+     "districts": 4,
+     "waterBodies": 4,
+     "trees": 4125
+    },
+    "critic": {
+     "degreeHist": {
+      "1": 83,
+      "2": 2678,
+      "3": 969,
+      "4": 561,
+      "5": 10,
+      "6": 2
+     },
+     "fourWayShareAllEdges": 36.4,
+     "turnType0Bins12to18": {
+      "12": 28,
+      "13": 19,
+      "14": 16,
+      "15": 0,
+      "16": 0,
+      "17": 1,
+      "18": 0
+     },
+     "turnType0Under45": 214,
+     "turnType0AtLeast45": 12,
+     "turnType0MaxUnder45": 24.25,
+     "junctionArmP50": 90.02,
+     "junctionArmN": 5213,
+     "junctionArm80to100Pct": 58.2,
+     "headingBinsPct": [
+      7.8,
+      6.4,
+      5.2,
+      5.8,
+      7.0,
+      4.8,
+      4.8,
+      3.7,
+      5.6,
+      7.2,
+      6.6,
+      5.7,
+      7.6,
+      5.3,
+      4.6,
+      3.4,
+      3.5,
+      5.0
+     ],
+     "headingMaxBinPct": 7.8
+    },
+    "buildings": {
+     "areaMean": 110.4,
+     "areaMedian": 102.7,
+     "areaP95": 154,
+     "areaMax": 1600,
+     "quadSideMedian": 10.34,
+     "worstCornerMedian": 0.68,
+     "worstCornerP95": 22.9,
+     "worstCornerP99": 42.2,
+     "vertexHist": {
+      "3": 9,
+      "4": 2514,
+      "5": 188,
+      "6": 54,
+      "7": 15,
+      "8": 14,
+      "9": 1,
+      "12": 2,
+      "14": 1
+     }
+    },
+    "wall": {
+     "towersOnWallNodes": 17,
+     "towers": 17,
+     "wallNodes": 26,
+     "wallEdges": 25,
+     "towerSpacingN": 16,
+     "towerSpacingMin": 18.9,
+     "towerSpacingMed": 39.3,
+     "towerSpacingMax": 72.8,
+     "streetArmsPerWallNode": {
+      "0": 14,
+      "1": 6,
+      "2": 6
+     },
+     "passingNodes": 6,
+     "crossingsWithoutSharedNode": 0
+    },
+    "outline16": {
+     "centre": [
+      4,
+      204
+     ],
+     "landSectors": 9,
+     "ratio": 1.26,
+     "cv": 0.2
+    },
+    "serverTimeS": {
+     "putToLayoutGet": 4.267,
+     "putToLayoutOptions": 3.234
+    },
+    "popPerBuildingNominal": 3.4,
+    "rawWayVertexBins15and16ByEdgeType": {},
+    "water": [
+     {
+      "id": 1,
+      "points": 9,
+      "segMedian": 50.0,
+      "areaM2": 18638,
+      "ribbonWidth": 65.5
+     },
+     {
+      "id": 2,
+      "points": 102,
+      "segMedian": 50.0,
+      "areaM2": 76478,
+      "ribbonWidth": 30.9
+     },
+     {
+      "id": 3,
+      "points": 133,
+      "segMedian": 50.0,
+      "areaM2": 102156,
+      "ribbonWidth": 31.0
+     },
+     {
+      "id": 4,
+      "points": 129,
+      "segMedian": 50.0,
+      "areaM2": 11016036,
+      "ribbonWidth": 1435.7
+     }
+    ],
+    "trees": {
+     "instances": 4125,
+     "nnMin": 0.14,
+     "nnMedian": 9.66,
+     "nnMean": 11.49
+    },
+    "partyCensus": {
+     "1": {
+      "n": 888,
+      "sharedWallPct": 2
+     },
+     "13": {
+      "n": 51,
+      "sharedWallPct": 96
+     },
+     "1-outside": {
+      "n": 1151,
+      "sharedWallPct": 0
+     }
+    }
+   },
+   "metrics": {
+    "street.turn100": {
+     "value": 8.021,
+     "ways": 228,
+     "unit": "deg per 100 m",
+     "byClass": {
+      "arterial": {
+       "value": 6.867,
+       "ways": 52
+      },
+      "lane": {
+       "value": 11.303,
+       "ways": 77
+      },
+      "street": {
+       "value": 20.876,
+       "ways": 90
+      },
+      "track": {
+       "value": 8.021,
+       "ways": 9
+      }
+     },
+     "withoutTracks": 9.01,
+     "wayLengthP50": 42.52
+    },
+    "street.stepHist": {
+     "edges": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45
+     ],
+     "counts": [
+      3621,
+      67,
+      49,
+      50,
+      38,
+      30,
+      43,
+      39,
+      34,
+      28,
+      21,
+      25,
+      29,
+      25,
+      21,
+      1,
+      1,
+      2,
+      1,
+      0,
+      1,
+      2,
+      1,
+      0,
+      0,
+      1,
+      0,
+      1,
+      0,
+      0,
+      2,
+      0,
+      0,
+      1,
+      0,
+      1,
+      1,
+      0,
+      0,
+      1,
+      0,
+      5,
+      0,
+      0,
+      0,
+      21
+     ],
+     "n": 4163,
+     "shareAbove15": 0.0103,
+     "shareAtLeast45": 0.005,
+     "emptyBinsAbove15": [
+      19,
+      23,
+      24,
+      26,
+      28,
+      29,
+      31,
+      32,
+      34,
+      37,
+      38,
+      40,
+      42,
+      43,
+      44
+     ],
+     "rawVertexCounts": [
+      291,
+      32,
+      26,
+      23,
+      28,
+      22,
+      17,
+      23,
+      27,
+      30,
+      34,
+      30,
+      41,
+      33,
+      37,
+      0,
+      0,
+      1,
+      2,
+      1,
+      1,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      24
+     ],
+     "rawVertexN": 727
+    },
+    "street.entropy50": {
+     "value": 1.5069,
+     "windows": 493,
+     "binCounts": [
+      338,
+      58,
+      69,
+      7,
+      3,
+      1,
+      0,
+      0,
+      0,
+      2,
+      1,
+      0,
+      2,
+      0,
+      0,
+      1,
+      0,
+      11
+     ],
+     "over90": 9,
+     "unit": "bits",
+     "maxBits": 4.1699
+    },
+    "headingSpectrum10": {
+     "sharesPct": [
+      6.4,
+      5.4,
+      4.7,
+      6.5,
+      6.0,
+      4.2,
+      3.8,
+      4.4,
+      5.2,
+      8.1,
+      7.2,
+      6.5,
+      10.5,
+      6.7,
+      4.4,
+      2.6,
+      3.2,
+      4.2
+     ],
+     "maxBinPct": 10.5,
+     "note": "not a registered metric: the 10 m chords counterpart of _critic-ftg row 9"
+    },
+    "junction.angles": {
+     "median": 90.15,
+     "p5": 69.65,
+     "n": 1303,
+     "share80to100": 0.5541,
+     "unit": "deg"
+    },
+    "junction.share4": {
+     "value": 0.2792,
+     "junctions": 394,
+     "degreeHist": {
+      "1": 219,
+      "2": 718,
+      "3": 279,
+      "4": 110,
+      "5": 4,
+      "6": 1
+     },
+     "mergedClusters": 24
+    },
+    "street.runs": {
+     "arterial": {
+      "median": 55.17,
+      "n": 96
+     },
+     "street": {
+      "median": 41.98,
+      "n": 262
+     },
+     "lane": {
+      "median": 40.24,
+      "n": 404
+     },
+     "alley": {
+      "median": null,
+      "n": 0
+     },
+     "track": {
+      "median": 278.08,
+      "n": 10
+     },
+     "unit": "m"
+    },
+    "bldg.area": {
+     "median": 102.67,
+     "p95": 153.69,
+     "n": 2798,
+     "unit": "m2"
+    },
+    "bldg.quadSide": {
+     "value": 10.337,
+     "quads": 2514,
+     "unit": "m"
+    },
+    "bldg.worstCorner": {
+     "value": 22.926,
+     "quads": 2514,
+     "unit": "deg"
+    },
+    "bldg.partyShare": {
+     "value": 0.0,
+     "mean": 0.0365,
+     "n": 2798,
+     "unit": "share",
+     "byCategory": {
+      "category1-inRings": {
+       "n": 888,
+       "partyShareMedian": 0.0,
+       "attached": 0.0236,
+       "attachedWithoutExactDuplicates": 0.0236
+      },
+      "category13-inRings": {
+       "n": 51,
+       "partyShareMedian": 0.5134,
+       "attached": 0.9608,
+       "attachedWithoutExactDuplicates": 0.9608
+      },
+      "category1-outsideRings": {
+       "n": 1151,
+       "partyShareMedian": 0.0,
+       "attached": 0.0
+      }
+     },
+     "exactDuplicateRecords": 0
+    },
+    "bldg.attached": {
+     "value": 0.0718,
+     "n": 2798,
+     "unit": "share"
+    },
+    "wall.towerSpacing": {
+     "value": 38.649,
+     "n": 16,
+     "towersOnCurtain": 17,
+     "towers": 17,
+     "stretches": 1,
+     "unit": "m"
+    },
+    "wall.ungated": {
+     "value": 3,
+     "unit": "count",
+     "crossingNodesByClass": {
+      "any": 4,
+      "arterial": 3,
+      "street": 1
+     },
+     "properIntersections": 0,
+     "gates": 0
+    },
+    "gate.count": {
+     "value": 0,
+     "unit": "count",
+     "note": "the payload carries no gate object"
+    },
+    "water.step": {
+     "value": 50.371,
+     "n": 172,
+     "unit": "m"
+    },
+    "water.riverWidth": {
+     "value": 31.303,
+     "samples": 1148,
+     "p25": 31.29,
+     "p75": 31.31,
+     "unit": "m"
+    },
+    "tree.nnP1": {
+     "value": 0.901,
+     "unit": "m",
+     "n": 4125,
+     "min": 0.141
+    },
+    "tree.nnMedian": {
+     "value": 10.591,
+     "unit": "m",
+     "n": 4125
+    },
+    "tree.pcf": {
+     "fields": [
+      "r1",
+      "r2",
+      "r3",
+      "r4",
+      "r5",
+      "r6",
+      "r7",
+      "r8",
+      "r9",
+      "r10",
+      "r11",
+      "r12",
+      "r13",
+      "r14",
+      "r15",
+      "r16",
+      "r17",
+      "r18",
+      "r19",
+      "r20"
+     ],
+     "value": [
+      36.34,
+      21.136,
+      16.135,
+      13.666,
+      12.243,
+      11.325,
+      10.65,
+      10.134,
+      9.704,
+      9.32,
+      8.961,
+      8.616,
+      8.274,
+      7.937,
+      7.613,
+      7.315,
+      7.043,
+      6.8,
+      6.589,
+      6.404
+     ],
+     "unit": "ratio",
+     "bandwidthM": 11.677,
+     "c": 0.15,
+     "windowM": 5000.0,
+     "intensityPerHa": 1.65
+    },
+    "pop.perBuilding": {
+     "value": 3.3953,
+     "population": 9500,
+     "populationSource": "nominal",
+     "buildings": 2798,
+     "unit": "ratio"
+    },
+    "time.model": {
+     "value": 4267,
+     "unit": "ms",
+     "definition": "PUT sent to layout GET sent (index.jsonl ts), as W-02 records it; the server is remote, so no score ratio applies",
+     "putToLayoutOptionsMs": 3234
+    },
+    "outline.r90cv": {
+     "value": 0.365,
+     "sectors": 36,
+     "unit": "ratio"
+    },
+    "outline.roadRatio": {
+     "value": 1.1597,
+     "roadSectors": 9,
+     "otherSectors": 27,
+     "arterialExits": 11,
+     "unit": "ratio"
+    },
+    "wealth.tier1": {
+     "value": 0.0109,
+     "unit": "share",
+     "source": "request weight (input)"
+    },
+    "wealth.tier2": {
+     "value": 0.0109,
+     "unit": "share",
+     "source": "request weight (input)"
+    },
+    "wealth.tier3": {
+     "value": 0.2174,
+     "unit": "share",
+     "source": "request weight (input)"
+    },
+    "wealth.tier4": {
+     "value": 0.4348,
+     "unit": "share",
+     "source": "request weight (input)"
+    },
+    "wealth.tier5": {
+     "value": 0.2174,
+     "unit": "share",
+     "source": "request weight (input)"
+    },
+    "wealth.tier6": {
+     "value": 0.1087,
+     "unit": "share",
+     "source": "request weight (input)"
+    },
+    "wealth.outputTierPairs": {
+     "residences": 2039,
+     "unmapped": 0,
+     "shares": [
+      0.2491,
+      0.588,
+      0.1628
+     ],
+     "requestPairShares": [
+      0.0217,
+      0.6522,
+      0.3261
+     ],
+     "note": "residence buildings per tier pair 1-2 / 3-4 / 5-6 (a building count, not households)"
+    },
+    "variety.signature": {
+     "components": [
+      "radialShare",
+      "orthogonality",
+      "densityInner",
+      "densityMiddle",
+      "densityOuter",
+      "blockAreaCV",
+      "enclosedShare",
+      "outlineR90cv"
+     ],
+     "vector": [
+      0.5072,
+      0.2141,
+      36.784,
+      27.215,
+      9.401,
+      1.6685,
+      0.0,
+      0.365
+     ],
+     "builtRadiusM": 715.1,
+     "clusterBlocks": {
+      "n": 2617,
+      "withinR": 2337,
+      "singletons": 2588,
+      "largestFootprintCount": 20,
+      "areaMedian": 106.5
+     },
+     "note": "FTG has no enclosure (its wall is an open chain): enclosedShare 0 by definition"
+    }
+   }
+  },
+  {
+   "capture": "2026-09-25T10-13-51",
+   "referenceBuild": "ftg:2026-09-25+ba02af9ca044",
+   "measureInput": "research/baselines/inputs/FTG/ftg-2026-09-25_ba02af9ca044/2026-09-25T10-13-51.metric.geojson.gz",
+   "measureInputEqualsAdapterRun": true,
+   "header": {
+    "source": "FTG",
+    "build": "ftg:2026-09-25+ba02af9ca044",
+    "scale": "metric",
+    "centre": [
+     178.02334583065047,
+     -409.7082926800665
+    ],
+    "population": 9500,
+    "water": "coast+river",
+    "options": {
+     "coastal": true,
+     "rivers": true,
+     "mapWidthM": 5000,
+     "stage1RoadLengthM": 50,
+     "stage2RoadLengthM": 100
+    }
+   },
+   "twin": {
+    "lengthPrecision": {
+     "lines": 26,
+     "storedLines": 26,
+     "identical": true,
+     "firstDifference": null,
+     "runsTop": {
+      "1-in": [
+       50.5,
+       9
+      ],
+      "1-out": [
+       100.0,
+       39
+      ],
+      "0-in": [
+       50.5,
+       50
+      ],
+      "0-out": [
+       30.0,
+       127
+      ]
+     },
+     "windowMedians": {
+      "0-in-14": [
+       11,
+       14.644398246428564
+      ],
+      "0-in-24": [
+       66,
+       25.250021782168822
+      ],
+      "0-in-29": [
+       5,
+       30.15376759212686
+      ],
+      "0-in-49": [
+       119,
+       50.25022388009828
+      ],
+      "0-out-14": [
+       161,
+       14.696506387573885
+      ],
+      "0-out-24": [
+       7,
+       25.48428731591292
+      ],
+      "0-out-29": [
+       215,
+       29.999683331662023
+      ],
+      "0-out-49": [
+       21,
+       50.008281314198356
+      ],
+      "0-out-99": [
+       12,
+       100.00078249693848
+      ],
+      "1-in-24": [
+       4,
+       24.874623615242903
+      ],
+      "1-in-49": [
+       7,
+       50.5029078370741
+      ],
+      "1-out-49": [
+       5,
+       50.00280492132417
+      ],
+      "1-out-99": [
+       42,
+       100.00090049594553
+      ],
+      "4-out-14": [
+       739,
+       14.700044217620572
+      ],
+      "4-out-24": [
+       21,
+       25.661940690446624
+      ],
+      "4-out-29": [
+       107,
+       30.04948751642863
+      ],
+      "4-out-49": [
+       21,
+       49.999480997306364
+      ],
+      "6-in-14": [
+       3,
+       14.470853464809878
+      ],
+      "6-in-24": [
+       3,
+       24.650705872246334
+      ],
+      "6-out-14": [
+       17,
+       15.299150303203117
+      ],
+      "6-out-24": [
+       6,
+       25.6226013511509
+      ],
+      "6-out-29": [
+       7,
+       30.796956018411947
+      ],
+      "6-out-49": [
+       30,
+       50.36183574890813
+      ],
+      "6-out-59": [
+       4,
+       60.60672074943504
+      ],
+      "6-out-99": [
+       24,
+       99.98061062025978
+      ],
+      "7-in-24": [
+       4,
+       25.952019189265407
+      ],
+      "7-in-29": [
+       5,
+       29.834811881424688
+      ],
+      "10-out-49": [
+       4,
+       50.00278492244208
+      ],
+      "10-out-99": [
+       39,
+       100.00054799849849
+      ],
+      "13-out-14": [
+       12,
+       15.202032758812225
+      ],
+      "14-out-14": [
+       112,
+       14.8437865789023
+      ],
+      "14-out-24": [
+       9,
+       25.794427692817685
+      ],
+      "14-out-29": [
+       3,
+       30.291348599889044
+      ],
+      "14-out-49": [
+       170,
+       50.00593964720591
+      ]
+     }
+    },
+    "counts": {
+     "edges": 4811,
+     "nodes": 4045,
+     "buildings": 2813,
+     "towers": 29,
+     "districts": 3,
+     "waterBodies": 4,
+     "trees": 3844
+    },
+    "critic": {
+     "degreeHist": {
+      "1": 28,
+      "2": 2866,
+      "3": 752,
+      "4": 390,
+      "5": 8,
+      "6": 1
+     },
+     "fourWayShareAllEdges": 33.9,
+     "turnType0Bins12to18": {
+      "12": 9,
+      "13": 23,
+      "14": 11,
+      "15": 0,
+      "16": 1,
+      "17": 0,
+      "18": 0
+     },
+     "turnType0Under45": 178,
+     "turnType0AtLeast45": 13,
+     "turnType0MaxUnder45": 38.42,
+     "junctionArmP50": 90.02,
+     "junctionArmN": 3862,
+     "junctionArm80to100Pct": 57.0,
+     "headingBinsPct": [
+      5.3,
+      5.8,
+      5.9,
+      5.3,
+      7.5,
+      5.4,
+      4.8,
+      3.9,
+      3.3,
+      4.9,
+      5.9,
+      7.7,
+      6.4,
+      8.4,
+      7.5,
+      5.9,
+      3.0,
+      3.2
+     ],
+     "headingMaxBinPct": 8.4
+    },
+    "buildings": {
+     "areaMean": 108.8,
+     "areaMedian": 96.4,
+     "areaP95": 189,
+     "areaMax": 1077,
+     "quadSideMedian": 10.12,
+     "worstCornerMedian": 0.56,
+     "worstCornerP95": 21.6,
+     "worstCornerP99": 42.3,
+     "vertexHist": {
+      "3": 32,
+      "4": 2532,
+      "5": 165,
+      "6": 55,
+      "7": 13,
+      "8": 13,
+      "12": 2,
+      "14": 1
+     }
+    },
+    "wall": {
+     "towersOnWallNodes": 29,
+     "towers": 29,
+     "wallNodes": 46,
+     "wallEdges": 44,
+     "towerSpacingN": 27,
+     "towerSpacingMin": 4.4,
+     "towerSpacingMed": 35.6,
+     "towerSpacingMax": 59.7,
+     "streetArmsPerWallNode": {
+      "0": 25,
+      "1": 19,
+      "2": 1,
+      "3": 1
+     },
+     "passingNodes": 2,
+     "crossingsWithoutSharedNode": 0
+    },
+    "outline16": {
+     "centre": [
+      174,
+      -405
+     ],
+     "landSectors": 10,
+     "ratio": 1.65,
+     "cv": 0.33
+    },
+    "serverTimeS": {
+     "putToLayoutGet": 3.717,
+     "putToLayoutOptions": 2.897
+    },
+    "popPerBuildingNominal": 3.38,
+    "rawWayVertexBins15and16ByEdgeType": {
+     "0": [
+      0,
+      1
+     ],
+     "13": [
+      1,
+      0
+     ]
+    },
+    "water": [
+     {
+      "id": 1,
+      "points": 18,
+      "segMedian": 13.0,
+      "areaM2": 18406,
+      "ribbonWidth": 70.8
+     },
+     {
+      "id": 2,
+      "points": 115,
+      "segMedian": 50.0,
+      "areaM2": 134623,
+      "ribbonWidth": 47.7
+     },
+     {
+      "id": 3,
+      "points": 113,
+      "segMedian": 49.9,
+      "areaM2": 135198,
+      "ribbonWidth": 47.6
+     },
+     {
+      "id": 4,
+      "points": 478,
+      "segMedian": 15.0,
+      "areaM2": 11917414,
+      "ribbonWidth": 1408.3
+     }
+    ],
+    "trees": {
+     "instances": 3844,
+     "nnMin": 0.1,
+     "nnMedian": 9.4,
+     "nnMean": 11.28
+    },
+    "partyCensus": {
+     "1": {
+      "n": 1213,
+      "sharedWallPct": 5
+     },
+     "13": {
+      "n": 61,
+      "sharedWallPct": 98
+     },
+     "1-outside": {
+      "n": 818,
+      "sharedWallPct": 0
+     }
+    }
+   },
+   "metrics": {
+    "street.turn100": {
+     "value": 8.494,
+     "ways": 245,
+     "unit": "deg per 100 m",
+     "byClass": {
+      "arterial": {
+       "value": 5.382,
+       "ways": 34
+      },
+      "lane": {
+       "value": 10.581,
+       "ways": 73
+      },
+      "street": {
+       "value": 11.715,
+       "ways": 133
+      },
+      "track": {
+       "value": 8.634,
+       "ways": 5
+      }
+     },
+     "withoutTracks": 5.948,
+     "wayLengthP50": 44.88
+    },
+    "street.stepHist": {
+     "edges": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45
+     ],
+     "counts": [
+      3100,
+      62,
+      45,
+      53,
+      44,
+      31,
+      33,
+      24,
+      20,
+      17,
+      33,
+      11,
+      12,
+      20,
+      10,
+      2,
+      1,
+      0,
+      0,
+      0,
+      1,
+      1,
+      1,
+      3,
+      0,
+      1,
+      0,
+      2,
+      0,
+      2,
+      0,
+      0,
+      0,
+      1,
+      0,
+      1,
+      1,
+      2,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      1,
+      8
+     ],
+     "n": 3544,
+     "shareAbove15": 0.0082,
+     "shareAtLeast45": 0.0023,
+     "emptyBinsAbove15": [
+      17,
+      18,
+      19,
+      24,
+      26,
+      28,
+      30,
+      31,
+      32,
+      34,
+      38,
+      39,
+      40,
+      41,
+      42
+     ],
+     "rawVertexCounts": [
+      190,
+      22,
+      30,
+      18,
+      28,
+      23,
+      20,
+      19,
+      21,
+      11,
+      29,
+      24,
+      20,
+      35,
+      20,
+      1,
+      1,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      1,
+      1,
+      1,
+      4,
+      0,
+      1,
+      0,
+      2,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      2,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      15
+     ],
+     "rawVertexN": 540
+    },
+    "street.entropy50": {
+     "value": 1.1802,
+     "windows": 469,
+     "binCounts": [
+      361,
+      40,
+      54,
+      6,
+      1,
+      2,
+      0,
+      1,
+      1,
+      0,
+      1,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+     ],
+     "over90": 1,
+     "unit": "bits",
+     "maxBits": 4.1699
+    },
+    "headingSpectrum10": {
+     "sharesPct": [
+      2.3,
+      7.8,
+      4.9,
+      6.6,
+      7.3,
+      6.7,
+      3.4,
+      2.0,
+      2.9,
+      4.6,
+      8.8,
+      6.9,
+      5.6,
+      8.4,
+      9.7,
+      7.6,
+      3.2,
+      1.4
+     ],
+     "maxBinPct": 9.7,
+     "note": "not a registered metric: the 10 m chords counterpart of _critic-ftg row 9"
+    },
+    "junction.angles": {
+     "median": 90.52,
+     "p5": 59.99,
+     "n": 1060,
+     "share80to100": 0.5623,
+     "unit": "deg"
+    },
+    "junction.share4": {
+     "value": 0.2987,
+     "junctions": 318,
+     "degreeHist": {
+      "1": 152,
+      "2": 541,
+      "3": 218,
+      "4": 95,
+      "5": 4,
+      "6": 1
+     },
+     "mergedClusters": 11
+    },
+    "street.runs": {
+     "arterial": {
+      "median": 57.6,
+      "n": 51
+     },
+     "street": {
+      "median": 49.61,
+      "n": 279
+     },
+     "lane": {
+      "median": 44.69,
+      "n": 281
+     },
+     "alley": {
+      "median": null,
+      "n": 0
+     },
+     "track": {
+      "median": 317.01,
+      "n": 6
+     },
+     "unit": "m"
+    },
+    "bldg.area": {
+     "median": 96.44,
+     "p95": 188.97,
+     "n": 2813,
+     "unit": "m2"
+    },
+    "bldg.quadSide": {
+     "value": 10.12,
+     "quads": 2532,
+     "unit": "m"
+    },
+    "bldg.worstCorner": {
+     "value": 21.538,
+     "quads": 2532,
+     "unit": "deg"
+    },
+    "bldg.partyShare": {
+     "value": 0.0,
+     "mean": 0.0671,
+     "n": 2813,
+     "unit": "share",
+     "byCategory": {
+      "category1-inRings": {
+       "n": 1213,
+       "partyShareMedian": 0.0,
+       "attached": 0.1162,
+       "attachedWithoutExactDuplicates": 0.0538
+      },
+      "category13-inRings": {
+       "n": 61,
+       "partyShareMedian": 0.4002,
+       "attached": 0.9836,
+       "attachedWithoutExactDuplicates": 0.9836
+      },
+      "category1-outsideRings": {
+       "n": 818,
+       "partyShareMedian": 0.0,
+       "attached": 0.0
+      }
+     },
+     "exactDuplicateRecords": 80
+    },
+    "bldg.attached": {
+     "value": 0.1102,
+     "n": 2813,
+     "unit": "share"
+    },
+    "wall.towerSpacing": {
+     "value": 35.592,
+     "n": 27,
+     "towersOnCurtain": 29,
+     "towers": 29,
+     "stretches": 2,
+     "unit": "m"
+    },
+    "wall.ungated": {
+     "value": 1,
+     "unit": "count",
+     "crossingNodesByClass": {
+      "any": 1,
+      "arterial": 1
+     },
+     "properIntersections": 0,
+     "gates": 0
+    },
+    "gate.count": {
+     "value": 0,
+     "unit": "count",
+     "note": "the payload carries no gate object"
+    },
+    "water.step": {
+     "value": 15.69,
+     "n": 545,
+     "unit": "m"
+    },
+    "water.riverWidth": {
+     "value": 48.483,
+     "samples": 1123,
+     "p25": 48.48,
+     "p75": 48.49,
+     "unit": "m"
+    },
+    "tree.nnP1": {
+     "value": 1.118,
+     "unit": "m",
+     "n": 3844,
+     "min": 0.1
+    },
+    "tree.nnMedian": {
+     "value": 10.57,
+     "unit": "m",
+     "n": 3844
+    },
+    "tree.pcf": {
+     "fields": [
+      "r1",
+      "r2",
+      "r3",
+      "r4",
+      "r5",
+      "r6",
+      "r7",
+      "r8",
+      "r9",
+      "r10",
+      "r11",
+      "r12",
+      "r13",
+      "r14",
+      "r15",
+      "r16",
+      "r17",
+      "r18",
+      "r19",
+      "r20"
+     ],
+     "value": [
+      41.63,
+      24.241,
+      18.558,
+      15.818,
+      14.204,
+      13.127,
+      12.374,
+      11.806,
+      11.335,
+      10.925,
+      10.56,
+      10.212,
+      9.862,
+      9.514,
+      9.178,
+      8.866,
+      8.575,
+      8.309,
+      8.069,
+      7.846
+     ],
+     "unit": "ratio",
+     "bandwidthM": 12.097,
+     "c": 0.15,
+     "windowM": 5000.0,
+     "intensityPerHa": 1.538
+    },
+    "pop.perBuilding": {
+     "value": 3.3772,
+     "population": 9500,
+     "populationSource": "nominal",
+     "buildings": 2813,
+     "unit": "ratio"
+    },
+    "time.model": {
+     "value": 3717,
+     "unit": "ms",
+     "definition": "PUT sent to layout GET sent (index.jsonl ts), as W-02 records it; the server is remote, so no score ratio applies",
+     "putToLayoutOptionsMs": 2897
+    },
+    "outline.r90cv": {
+     "value": 0.3331,
+     "sectors": 35,
+     "unit": "ratio"
+    },
+    "outline.roadRatio": {
+     "value": 1.214,
+     "roadSectors": 11,
+     "otherSectors": 24,
+     "arterialExits": 17,
+     "unit": "ratio"
+    },
+    "wealth.tier1": {
+     "value": 0.0109,
+     "unit": "share",
+     "source": "request weight (input)"
+    },
+    "wealth.tier2": {
+     "value": 0.0109,
+     "unit": "share",
+     "source": "request weight (input)"
+    },
+    "wealth.tier3": {
+     "value": 0.2174,
+     "unit": "share",
+     "source": "request weight (input)"
+    },
+    "wealth.tier4": {
+     "value": 0.4348,
+     "unit": "share",
+     "source": "request weight (input)"
+    },
+    "wealth.tier5": {
+     "value": 0.2174,
+     "unit": "share",
+     "source": "request weight (input)"
+    },
+    "wealth.tier6": {
+     "value": 0.1087,
+     "unit": "share",
+     "source": "request weight (input)"
+    },
+    "wealth.outputTierPairs": {
+     "residences": 2031,
+     "unmapped": 0,
+     "shares": [
+      0.2422,
+      0.5647,
+      0.193
+     ],
+     "requestPairShares": [
+      0.0217,
+      0.6522,
+      0.3261
+     ],
+     "note": "residence buildings per tier pair 1-2 / 3-4 / 5-6 (a building count, not households)"
+    },
+    "variety.signature": {
+     "components": [
+      "radialShare",
+      "orthogonality",
+      "densityInner",
+      "densityMiddle",
+      "densityOuter",
+      "blockAreaCV",
+      "enclosedShare",
+      "outlineR90cv"
+     ],
+     "vector": [
+      0.1411,
+      0.2014,
+      27.557,
+      24.828,
+      10.657,
+      1.8573,
+      0.0,
+      0.3331
+     ],
+     "builtRadiusM": 686.2,
+     "clusterBlocks": {
+      "n": 2565,
+      "withinR": 2283,
+      "singletons": 2495,
+      "largestFootprintCount": 42,
+      "areaMedian": 96.5
+     },
+     "note": "FTG has no enclosure (its wall is an open chain): enclosedShare 0 by definition"
+    }
+   }
+  }
+ ],
+ "checks": [
+  {
+   "id": "lp-2026-09-21",
+   "check": "length_precision.out.txt reproduced line for line (2026-09-21T05-23-58)",
+   "passed": true,
+   "receipt": "31 of 31 lines identical; first difference None"
+  },
+  {
+   "id": "lp-2026-09-25",
+   "check": "length_precision.out.txt reproduced line for line (2026-09-25T10-13-51)",
+   "passed": true,
+   "receipt": "26 of 26 lines identical; first difference None"
+  },
+  {
+   "id": "runs",
+   "check": "runs 50.5 / 30.25 / 50.25 / 30.00 / 14.70 m",
+   "passed": true,
+   "receipt": "got [50.5, 30.249715701143376, 50.25022388009828, 30.00048332943988, 29.999683331662023, 14.69689082765467, 14.699894557444962, 14.700044217620572, 50.5] against [50.5, 30.25, 50.25, 30.0, 30.0, 14.7, 14.7, 14.7, 50.5] (stage-1 main runs G and N, stage-2 street p50 G / N, suburb street p50 G / N, suburb piece and lot outline p50)"
+  },
+  {
+   "id": "counts",
+   "check": "2798 and 2813 buildings; 17 / 29 towers",
+   "passed": true,
+   "receipt": "buildings 2798 / 2813, towers 17 / 29 (MeasureInput: 2798 / 2813 buildings, 17 / 29 towers)"
+  },
+  {
+   "id": "critic-7-9",
+   "check": "_critic-ftg section 4 rows 7-9 reproduced (the 2026-09-21 capture, raw edges)",
+   "passed": true,
+   "receipt": "row 7 type-0 bins 12..18 {'12': 28, '13': 19, '14': 16, '15': 0, '16': 0, '17': 1, '18': 0}; row 8 p50 90.02 n 5213, 80-100 58.2 %; row 9 max heading bin 7.8 %"
+  },
+  {
+   "id": "turning-entropy",
+   "check": "turning per 100 m and heading entropy agree with rows 7-9 within the declared 10 m resampling change",
+   "passed": true,
+   "receipt": "on rows 7-9's payload (the 2026-09-21 capture): (i) raw way-vertex bins 15/16 0/0; (ii) junction median 90.15; (iii) max heading bin 10.5 %; (iv) turn100 8.021 deg per 100 m, entropy50 1.507 bits; declared change: resampled steps above 15 deg 0.0103. Extension to the 2026-09-25 capture (not a row check): (i) 1/1 [FAIL by data], (ii) 90.52, (iii) 9.7 %, (iv) 8.494 / 1.180"
+  },
+  {
+   "id": "measureinput",
+   "check": "the stored MeasureInput equals a fresh adapter run",
+   "passed": true,
+   "receipt": "G True, N True"
+  }
+ ],
+ "preRegistered": {
+  "turningEntropy": {
+   "criteria": [
+    "(i) raw way-vertex bins 15 and 16 empty",
+    "(ii) junction.angles median within 1 deg of 90.02",
+    "(iii) resampled heading spectrum max 10-degree bin < 11.1 %",
+    "(iv) turn100 and entropy50 exist"
+   ],
+   "capture2026-09-21": [
+    true,
+    true,
+    true,
+    true
+   ],
+   "capture2026-09-25": [
+    false,
+    true,
+    true,
+    true
+   ],
+   "capture2026-09-25Bins15and16ByEdgeType": {
+    "0": [
+     0,
+     1
+    ],
+    "13": [
+     1,
+     0
+    ]
+   },
+   "capture2026-09-25CriticMethodType0Bins12to18": {
+    "12": 9,
+    "13": 23,
+    "14": 11,
+    "15": 0,
+    "16": 1,
+    "17": 0,
+    "18": 0
+   }
+  }
+ }
+}

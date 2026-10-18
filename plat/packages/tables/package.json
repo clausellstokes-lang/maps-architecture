@@ -1,0 +1,23 @@
+{
+  "name": "@plat/tables",
+  "version": "0.0.0",
+  "private": true,
+  "description": "rule tables as versioned JSON with {value, unit, provenance, calibratable} cells, and their loader (§14)",
+  "license": "UNLICENSED",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "plat-source": "./src/index.ts",
+      "types": "./dist/types/src/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@plat/kernel": "workspace:*",
+    "@plat/model": "workspace:*"
+  }
+}

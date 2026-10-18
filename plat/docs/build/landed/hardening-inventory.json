@@ -1,0 +1,23 @@
+{
+  "schema": "plat-landed-record/1",
+  "item": "hardening-inventory",
+  "lane": "session/hardening-inventory-1",
+  "lanes": ["session/hardening-inventory-1"],
+  "wave": "flow-7",
+  "snapshotTaken": "2026-10-04T20:46:52.985Z",
+  "date": "2026-10-14T00:29:01.404Z",
+  "ownsSource": "declared",
+  "owns": ["plat/docs/build/checks/hardening-inventory.md"],
+  "counts": { "created": 1, "changed": 0, "unchanged": 0, "deleted": 0 },
+  "files": [
+    { "path": "plat/docs/build/checks/hardening-inventory.md", "status": "created", "sha256": "756aec44109b363255ee8ca707d93d0c1c9b0758c633301c729401f9379ffb66", "size": 280324 }
+  ],
+  "appends": [
+    {
+      "file": "plat/CLEAN-ROOM.md",
+      "ids": ["L-0525"],
+      "lines": ["1dda31ef209e8e91"],
+      "removed": []
+    }
+  ]
+}

@@ -1,0 +1,134 @@
+{
+ "key": "coherence/verify-vol-V01-V02-r0s",
+ "file": "docs/validation/coherence/verify-vol-V01-V02-r0s.md",
+ "issues": [
+  {
+   "id": "VV12-01",
+   "severity": "blocker",
+   "kind": "LOST",
+   "claim": "`NeighbourhoodRequest` and `NeighbourhoodResult` are declared nowhere in the set: base II.1 (`docs/ARCHITECTURE.md` l.18009–18011) says they \"are V01 §2.4's\", and V01 §2.4 (l.516) says they \"are II.1's (item 539)\". The archived V01 §2.4 (archive l.697–716) held the only declaration of item 539's interface — the request's `district`, `key`, `layer`, `boundary`, `seam?`, `context?`, `laid`, `strategy?`, `params?`, `closeup?`, `outlineTemplate?`, `lod` and the result's `mode`, `blocks`, `ways`, `plots`, `buildings`, `greens`, `pins`, `hoodPins`, `places`, `labels`, `seams`, `report`, `districts`, with every field comment (the absence rules, the SKY-F write). The same base comment places `DistrictContext` and `TypedBoundary` at V01 §2.4 (they are V01 §2.3's and §2.5's). The canon homes both records at II.1 (PIPELINE-0642/-0643). Same defect as VPC-14.",
+   "required_change": "II.1 (item 539) declares both interfaces exactly as archived V01 §2.4 states them — every field and comment, `outlineTemplate?: OutlineTemplateId` \"standalone unit runs only\", `lod: 'neighbourhood'` \"every mode, a unit run's included\", `districts` \"in partition order — SKY-F writes a sky run's to SkyIsland.districts; [] for refine and replace\" — in place of the comment at l.18009–18011, and cites `DistrictContext` as V01 §2.3's and `TypedBoundary` as §2.5's; V01 §2.4's pointer then resolves unchanged.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VV12-02",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "g item 115's V02 part — \"the composition rows' ceiling by rung in the resolution chain (no `H`, `U`, court, tower or turret on a dwelling at THORP and HAMLET; at VILLAGE only the manor)\" (canon, dated ruling 2026-09-30, J127) — is absent: V02 §3.2's chain, §3.10, §3.14, §3.18 (b)'s village row, §7 and §8 carry no ceiling, no \"unless specified\" and no bar, while V07 §3.8 (l.1784–1785) already states \"V02's composition rows cap it in the resolution chain\" and rewrite-V07's note 14 asks V02's ceiling to agree with V07 §3.8. V02's citations paragraph (l.7) still bounds file g at \"102–113\".",
+   "required_change": "V02 writes item 115's part at build depth as new design: (1) V02 §3.2 step 2 — the rung ceiling (V11's ceiling rows by rung, §10.2's shape; §4.2 S10b) applied to the resolved row of a dwelling: at THORP and HAMLET every family but `single`, `L` and `T` (and the row, shelter and base constructions) and the `towers`, `turret` and `gateTower` cells read 0, no court family, no manor-class row unless specified; at VILLAGE the same for every dwelling but the one manor house (V07 §3.8: with a lord or when specified), which alone keeps the grand arrangements; TOWN and above unchanged; (2) \"unless specified\" (item 115 (c)): a building the dossier names (V08's reading) or one the author places or reshapes (T6, `setMassing`) reads its full row — a default, never a refusal (item 101 R2) — the why provider naming the ceiling and the clerk saying the building exceeds the tier's usual; (3) epochs (item 115 (e)): a building new or rebuilt at an epoch reads the ceiling of the rung it then has, a standing building is never reshaped down; (4) §1b's row for the ceiling's reads, §3.18 (b)'s village row and T-V2-55 read it; (5) a bar (item 115 (f)): rich THORP, HAMLET and VILLAGE fixtures at the wealth maximum show no `H`, `U`, court, tower or turret dwelling but the manor, at most one manor and only with a lord or a dossier record, a dossier-named hall at its full design, TOWN and above byte-identical (a no-op pin), priced inside M6a (V02 §8.3); (6) the citations paragraph reads \"file g 102–119\".",
+   "owner": "V02"
+  },
+  {
+   "id": "VV12-03",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "g item 119's V01 part — \"their budget sections read the ceiling for one-time waits and keep their interactive budgets\" (canon, dated ruling 2026-09-30, J130) — is absent from V01 §6 (l.2974–3003): no ten-second comfort level, progress rule or measured-gain rule; its one-time waits — generation with stage 2, a standalone neighbourhood document's first map, a replace close-up, the stage-2 switch's edit (a whole-document Re-derive from S2 at §12.6's M(B), never bounded at the METROPOLIS cap), the sky unit run at generation and at a raise, a district or outline export — are not held to it, its interactive lines are not declared unchanged, and T-V1-29 measures neither.",
+   "required_change": "V01 §6 gains item 119's part: its lines stay the targets; every one-time wait stage 2 adds or lengthens (generation with stage 2, a standalone neighbourhood document's first map, a replace close-up, the stage-2 switch's Re-derive from S2, the sky unit run at generation and at a raise, a district or outline export) completes within item 119 (a)'s ten seconds of total time on §12.1's reference hardware at every rung up to the METROPOLIS population cap, shows progress past one second (item 119 (c); V09's progress view) and runs slower than its target only for a recorded measured gain (item 119 (b); V11's `perf.qualitySpend`); the interactive lines — opening a district, its first visible tiles, the surface marks, a hood-pin edit, T8's preview — keep their budgets (item 119 (d)); T-V1-29 gains the clause timing each one-time wait at every rung to the cap against the ten seconds, the switch edit at the METROPOLIS cap among them.",
+   "owner": "V01"
+  },
+  {
+   "id": "VV12-04",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "g item 119's V02 part is absent from V02 §6; and V02 §6.4 (l.2970–2974) budgets a METROPOLIS-target glTF / OBJ / CityJSON export at ≤ 10 s in the generation worker with `'asDrawn'` and ≤ 12 s with `'derive'`, has no line at the population cap (≈ 30 000–36 000 buildings), and its fallback only labels `derive` \"slow\" — against item 119 (a), under which an export is a one-time wait of at most ten seconds from the click to the complete result at every size up to the cap, past which the wait is a failure.",
+   "required_change": "V02 §6 gains item 119's part: §6.1–§6.5's lines stay the targets; every one-time wait stage 3 adds or lengthens (the massing's share of generation, an export under every `compositions` option, a `derive` pass, a migration of stage-3 fields) completes within item 119 (a)'s ten seconds of total time from the click at every rung up to the population cap, with progress past one second (item 119 (c)) and a slower-than-target step only for a recorded measured gain (item 119 (b)); §6.4's export line is re-budgeted so `'asDrawn'` and `'derive'` each complete inside the ten seconds at the cap, its pre-decided fallback a `derive` that cannot finish inside the ceiling exporting `asDrawn`, reported (never a wait past ten seconds); the interactive lines (`setMassing` ≤ 2 ms, `setComposition` ≤ 1 ms, a neighbourhood click's streamed batches, the `view` tiles) keep their budgets (item 119 (d)); T-V2-22 and T-V2-24 gain the ten-second clause at every rung to the cap.",
+   "owner": "V02"
+  },
+  {
+   "id": "VV12-05",
+   "severity": "major",
+   "kind": "LOST",
+   "claim": "`type OutlineTemplateId = 'star'|'star_round'|'street_strip'|'plaza_frame'|'disc'|'d_shape'|'lozenge'|'crescent'|'spindle'` (archived V01 §2.1) is declared nowhere: the canon homes it at §4.2 (V01-0133, role reference → pipeline §4.2), V01 §2.1 (l.326) points there, and §4.2 S1 (2) (l.4640–4641) names the rows only in prose (\"D-shape\"), with no type and no identifiers. V01 uses the type in `HoodRecipe.outline` (persisted, l.551), `TemplateRow.outline` (l.352) and `hood.kinds` (l.394), and VV12-01's request field needs it.",
+   "required_change": "§4.2 S1 (2) declares `type OutlineTemplateId = 'star'|'star_round'|'street_strip'|'plaza_frame'|'disc'|'d_shape'|'lozenge'|'crescent'|'spindle'` beside its rows (the first four item 285's, the standalone neighbourhood document's, drawn by its fabric, V01 §3.10.2), the prose naming each row by its id; V01 §2.1's pointer then resolves.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VV12-06",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "claim": "Base §5.2's rows F-TEMPLATE, F-DISPATCH and F-UNIT (l.8388–8390), copies of V01 §3.13's (BCR-18: \"Add the rows … of V1-3.13\"), diverge from V01 §3.13 (l.2059–2061): F-UNIT's detection reads \"its area below four blocks' worth\" where V01 reads `4 × eLo²` (\"not one block's worth\"); the base lacks the rungs V01 now states — F-UNIT's \"an outline F-OUTLINE cannot repair replaced by the kind row's `auto` outline\" and \"an island's outline face below one district's size → no district, its allocation to F-SKY-UNIT\", F-TEMPLATE's \"no void junction\" detection with \"a void square not made is left out, reported\" and the lane to an unreached attach or deck end — and its test cells read \"V01 §7\" where V01 §3.13 names each rung's test (W-TEST-01).",
+   "required_change": "Base §5.2's three stage-2 rows restate V01 §3.13's exactly — F-UNIT's size test `4 × eLo²` (one block's worth), its two added rungs, F-TEMPLATE's void-junction detection and leave-out rung and its lane to an unreached attach or deck end, and each row's tests as V01 §3.13's test column — or each row becomes a pointer row (class, stage, \"detection, ladder, report and tests: V01 §3.13\", item 327), so the two statements cannot diverge again.",
+   "owner": "determinism"
+  },
+  {
+   "id": "VV12-07",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "claim": "V01 §3.4.4 (l.1034) lays a precinct ring on \"the reservation's outline offset outward by `dBar + w_tpl / 2` (the kernel's `insetRing` with a negative inset)\"; base §3.7 *Insets* (l.4088–4090) admits `insetRing` only for a convex face — `E_NON_CONVEX` otherwise, \"the caller … unites the face with a `buffer` of its ring for an outward one\". A precinct's outline (a close, a castle's claim) is generally non-convex, so the step as written is refused and its outcome is not stated; the kernel rewrite's note 34 addressed this to V01 and it is not closed.",
+   "required_change": "V01 §3.4.4 states the offset as the kernel does: `insetRing` with the negative inset where the reservation's outline is convex, else the union of the face with a `buffer` of its ring by `dBar + w_tpl / 2` (§3.7 *Insets*), then the three corner-cutting passes and the 48-vertex resampling as now; §3.18 (e)'s spine-series-ring row gains \"a non-convex precinct outline → the buffer union\" with T-V1-7.",
+   "owner": "V01"
+  },
+  {
+   "id": "VV12-08",
+   "severity": "major",
+   "kind": "CHANGED",
+   "claim": "E-27 unified the valley's plan reach as `valleyReach(X, Y, mode)` (V02 §3.7, l.1233–1242) reading a `shed` `Y`'s whole run in both modes; the archived integer form read `Y.halfSpanCm` for every `Y` (archive V02 §3.7), so `facadeBays`' usable run — the bays, the dormers and the lit windows, byte-identical data — changes for a building whose valley ends on a shed. The canon's E-27 ruled one definition with two arithmetic modes and listed only the integer form's byte identity and the float form's view status; it ruled no shed case. The change is stated only in prose (\"the two expressions disagreed there\") and T-V2-54.",
+   "required_change": "V02 records the choice as a decision (J-V2.109: `valleyReach` reads a `shed` `Y`'s whole run in both modes over the former integer form's half span, because a single-pitch plane runs from its eave to its high side, so the bays stop where the drawn valley starts; T-V2-54), and the adjudicator confirms it as the ruling E-27 left open; V02 §3.7's \"the two expressions disagreed there\" then cites J-V2.109.",
+   "owner": "V02"
+  },
+  {
+   "id": "VV12-09",
+   "severity": "major",
+   "kind": "EDGE-UNDEFINED",
+   "claim": "The combination C-oasis-tiers (edges.json, owner V02, UNDEFINED) has no row in V02 §3.18 (f): rewrite-V02 maps it to the moat, square and frame row \"(the spring pool is water outside the plot)\", but the live row (l.2425) names only \"a moat, a square or the map frame\", and the oasis rows (l.2421–2422) cover a crypt and a composed building, not tiers.",
+   "required_change": "V02 §3.18 (f)'s row reads \"a moat, a square, an oasis's spring pool or the map frame and a composed building, tiers or a crypt\", its outcome adding that the pool is water outside the plot, so `H` excludes it and a stack stands inside `H` on `deriveBase`'s datum; T-V2-57's oasis clause gains a stepped building beside the pool.",
+   "owner": "V02"
+  },
+  {
+   "id": "VV12-10",
+   "severity": "blocker",
+   "kind": "LOST",
+   "claim": "V02 §6 (l.2900–2901) now cites \"§2.6's cost note's assumed core mix (row quads, single ranges, tiled multi-wing massings, massings with towers)\" for the mix its massing costs are weighted by; the values — about 55 % row quads, 25 % single ranges, 18 % tiled, 2 % with towers (archive V02 §6; the base's \"55 % row quads, 25 % one-wing houses, 18 % tiled, 2 % overlapping\", archived base §2.6 rule 4) — are stated nowhere in the set: the model rewrite cut them to a pointer at §12.6, which does not state them either. Same defect as VM-R0S-01.",
+   "required_change": "§2.6 rule 4's cost note states the mix again (55 % row quads, 25 % one-wing houses, 18 % tiled, 2 % overlapping, on 450 buildings, §12.6's district ceiling), as VM-R0S-01 requires; V02 §6's pointer then resolves unchanged.",
+   "owner": "model"
+  },
+  {
+   "id": "VV12-11",
+   "severity": "minor",
+   "kind": "WIRING",
+   "claim": "Eight `hood.constants` columns are read by no rule text — each rule restates its literal, so an edit of the cell reaches no rule: `plaza.voidRadius` (l.1089 `radiusCm: 1.2 × √(A ÷ π)`), `plaza.aspectMin` (l.1067 \"exceeds 1.2\"), `sq.smallDiv` (l.1190 `eLo² ÷ 2`), `ring.insetELo` (l.1030, l.1038 `eLo + w_tpl / 2`), `ring.portalGapM` (l.1046 `max(6 m, 2 ×`), `green.leafyCourt` (l.555, l.1263, l.1746 \"× 1.5\"), `size.small` and `size.large` (l.552, l.1736, l.2611 \"85 … 1 050\"). The rewrite converted every other literal to its key under V01-ICONF-1's rule.",
+   "required_change": "Each rule cites its cell: l.1089 `radiusCm: plaza.voidRadius × √(A ÷ π)`; l.1067 \"exceeds `plaza.aspectMin`\"; l.1190 `smallBlockM2 = eLo² ÷ sq.smallDiv`; l.1030 and l.1038 \"inset by `ring.insetELo × eLo + w_tpl / 2`\"; l.1046 \"`max(ring.portalGapM, 2 ×` the wider lane's width)\"; l.555, l.1263, l.1746 \"× `green.leafyCourt`\"; l.552, l.1736, l.2611 \"`size.small`, `size.medium`, `size.large`\" — the values staying only in §3.14's default column.",
+   "owner": "V01"
+  },
+  {
+   "id": "VV12-12",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "After the assembler's partial G-cite prefixing, bare list continuations meant as a volume's sections read, under S7 (\"`Vnn §x.y` everywhere\"), as base sections of the same number, and one list now mixes both forms (l.135 \"V01 §2.3, V01 §3.4.3, V01 §3.4.4, §3.6, §3.11, V01 §3.17, §5\"). V01's rows (the assembler's `ambiguous-refs.tsv`): l.96 §3.3; l.106 §3.9; l.119 §4.5; l.120 §3.6; l.125 §3.9; l.135 §3.6, §3.11, §5; l.146 §3.9, §4; l.150 §3.8; l.172 §4.5; l.173 §3.6; l.174 §3.9 (V01's), §3.3, §3.4, §3.10, §4.3 (V04's); l.175 §2.4, §3.2, §3.5 (3), §3.8 (4), §4.2, §4.3 (V05's); l.179 §2.3; l.181 §2.6, §3.7, §3.11, §5.2–§5.3 (V02's); l.182 and l.1648 §5.1, §5.4 (V03's); l.247 §3.9; l.264 §3.11 (V12's, twice); l.303 §3.9; l.504 §3.6; l.2134 §4.1; l.2499 §2.2; l.2513 §3.10; l.2540 §5.2; l.2655 §3.10 (V04's); l.3262 §3.9; l.3289 §7; l.3301 §3.11 (4); l.3431 §6, §7, §12. (V02's twelve rows are ranges or intended base pointers; none needs a change.)",
+   "required_change": "Each listed continuation takes its volume's prefix (`V01 §3.9`, `V04 §3.10`, `V05 §4.2`, …), so every volume pointer is in S7's form; the ranges (`V01 §4–§8`, `V11 §2.3–§2.4`) and the intended base pointers (l.270 §2.8, l.2447 §5, l.2748 §8.6) stay.",
+   "owner": "V01"
+  },
+  {
+   "id": "VV12-13",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "The canon homes the NG parity sheet's roof-construction sentence at V01 §7 (VOL-V01-V02-RESTATEMENTS-011, IN-V01-3); V01 put it at §5.1.2 and V01 §7 now reads \"the NG parity sheet's roof construction is V01 §5.1.2's\", while V02 cites \"V01 §7's rule\" for it three times (§5.3 l.2839–2840, §3.18 (c) l.2367, X14) and rewrite-V02's note 2 records \"V01 §7 carries it whole\".",
+   "required_change": "V01 §7's parity paragraph states the sentence whole (from M6a the NG parity sheet keeps `fakeGablePerWing`; at M6b the NG draw-style bars are re-measured on `roofscape` and the sheet switches to it when they pass, else keeps `fakeGablePerWing`, reported), and V01 §5.1.2's hatch bullet cites V01 §7 for it; V02's three pointers then resolve as written.",
+   "owner": "V01"
+  },
+  {
+   "id": "VV12-14",
+   "severity": "minor",
+   "kind": "ID",
+   "claim": "ID-WX (canon l.2770): \"the IN-Vnn-n integration notes are folded into the body …, their ids kept only in the validation records\", and volume-local row ids are never cited bare outside their volume. V02's *Integration notes* (l.3748–3759) keeps IN-V02-1 – IN-V02-5 as labels, and its body cites other volumes' row ids bare: l.2268 \"**The stand-ins (X-V11-7):**\", l.2714 \"V09's panels (CVR-V10-8)\", l.3756 \"(J-VI.17; CVR-V10-8)\".",
+   "required_change": "*Integration notes* cites the J-VI decisions only, in V01's form (\"J-VI.7 — X20; J-VI.17 — …; J-VI.4, J-VI.5 — …; file f — item 246\"); l.2268 reads \"**The stand-ins:**\" and l.2714 \"… V09's panels:\" (their hand-offs are closed in §13's received table), and l.3756's parenthesis reads \"(J-VI.17)\".",
+   "owner": "V02"
+  },
+  {
+   "id": "VV12-15",
+   "severity": "minor",
+   "kind": "COHESION",
+   "claim": "V02 §8.1 (l.3385–3389) and J-V2.32 state that \"V03's P0–P1 run on base wings right after M4\"; V03 §8 (l.2525, J-V3.132), V01 §8.1 and INDEX §3–§4 state that P0, P1 and P3 run on the base's buildings after M4 (J122).",
+   "required_change": "V02 §8.1 and J-V2.32 read \"V03's P0, P1 and P3 run on the base's buildings after M4 (V03 §8; J-V3.132; J122)\".",
+   "owner": "V02"
+  },
+  {
+   "id": "VV12-16",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "Three pointers do not name their home: l.1963 \"(V05's sentence)\" (the rule is V05 §3.8, l.961); §3.18 (e)'s constants row \"V11 §2.2's `ColumnSpec.range`\" (`ColumnSpec` is V11 §2.1's, l.251; the clamp is V11 §4.1's rule); §3.14's \"its `range` clamps an edit (V11 §2.1)\" (the clamp is V11 §4.1's).",
+   "required_change": "l.1963 reads \"(V05 §3.8)\"; §3.18 (e)'s constants row reads \"clamped by V11 §4.1's rule (V11 §2.1's `ColumnSpec.range`)\"; §3.14 reads \"its `range` clamps an edit (V11 §2.1; V11 §4.1's rule)\".",
+   "owner": "V01"
+  }
+ ]
+}

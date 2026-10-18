@@ -1,0 +1,36 @@
+{
+  "table": "bands",
+  "version": 1,
+  "section": "§4.5",
+  "rows": {
+    "squalid": {
+      "weight": {"value": 1, "unit": "weight", "provenance": "ref:FTG lifestyle distribution", "calibratable": true},
+      "share": {"value": 0.011, "unit": "share", "provenance": "ref:FTG lifestyle distribution", "calibratable": true}
+    },
+    "poor": {
+      "weight": {"value": 1, "unit": "weight", "provenance": "ref:FTG lifestyle distribution", "calibratable": true},
+      "share": {"value": 0.011, "unit": "share", "provenance": "ref:FTG lifestyle distribution", "calibratable": true}
+    },
+    "modest": {
+      "weight": {"value": 20, "unit": "weight", "provenance": "ref:FTG lifestyle distribution", "calibratable": true},
+      "share": {"value": 0.217, "unit": "share", "provenance": "ref:FTG lifestyle distribution", "calibratable": true}
+    },
+    "comfortable": {
+      "weight": {"value": 40, "unit": "weight", "provenance": "ref:FTG lifestyle distribution", "calibratable": true},
+      "share": {"value": 0.435, "unit": "share", "provenance": "ref:FTG lifestyle distribution", "calibratable": true}
+    },
+    "prosperous": {
+      "weight": {"value": 20, "unit": "weight", "provenance": "ref:FTG lifestyle distribution", "calibratable": true},
+      "share": {"value": 0.217, "unit": "share", "provenance": "ref:FTG lifestyle distribution", "calibratable": true}
+    },
+    "rich": {
+      "weight": {"value": 10, "unit": "weight", "provenance": "ref:FTG lifestyle distribution", "calibratable": true},
+      "share": {"value": 0.109, "unit": "share", "provenance": "ref:FTG lifestyle distribution", "calibratable": true}
+    },
+    "settings": {
+      "order": {"value": ["squalid", "poor", "modest", "comfortable", "prosperous", "rich"], "unit": "none", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "defaultCuts": {"value": [0.011, 0.022, 0.239, 0.674, 0.891], "unit": "share", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the default shares cumulated in band order, the cuts of a uniform field (C-0155, lane build/M0-s-02)"},
+      "hysteresis": {"value": 0.02, "unit": "share", "provenance": "architecture 2026-09-25", "calibratable": false}
+    }
+  }
+}

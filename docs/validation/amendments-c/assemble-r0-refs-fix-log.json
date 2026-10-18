@@ -1,0 +1,149 @@
+{
+ "input_doc": "docs/ARCHITECTURE.md",
+ "input_doc_sha256": "994ea88046580ea64f23d92b50b9d005de88acf5784ab2de9a72f06db03b1976",
+ "input_rationale": "docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "84cf0c37d1d234ac04417ac5e59fa9794389a06a807037ca07430ee4df94dd9d",
+ "files": [
+  {
+   "file": "assemble-r0-refs-fix.blocks",
+   "sha256": "0447a5db697d99643ee5dab578141955649c8f9e9e3e00b2ed1a87845deadcdd",
+   "lines": 13,
+   "blocks": 4,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "assemble-r0-refs-fix.blocks #1 (l. 2) J-ROWS",
+   "file": "assemble-r0-refs-fix.blocks",
+   "index": 1,
+   "line": 2,
+   "kind": "J-ROWS",
+   "heading": "",
+   "body_lines": 1,
+   "body_sha256": "9716ec567afb34eecdc6e73b4734254bf45108a08605ac39fc43f1cc5b78020c",
+   "target_table": "document l. 16108 (header '| id | the choice | where |')",
+   "inserted_after_line": 16811,
+   "rows_inserted": 1,
+   "row_ids": [
+    "J-Fdet-1"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "assemble-r0-refs-fix.blocks #2 (l. 5) RATIONALE-A",
+   "file": "assemble-r0-refs-fix.blocks",
+   "index": 2,
+   "line": 5,
+   "kind": "RATIONALE-A",
+   "heading": "",
+   "body_lines": 1,
+   "body_sha256": "329fd0da6e5bd8bb1c6ee7af1f5cde929ac13ef9bcb34989a4c68be4e77fba6b",
+   "target_table": "rationale l. 45 (header '| id | call |')",
+   "inserted_after_line": 748,
+   "rows_inserted": 1,
+   "row_ids": [
+    "J-Fdet-1"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "assemble-r0-refs-fix.blocks #3 (l. 8) J-ROWS",
+   "file": "assemble-r0-refs-fix.blocks",
+   "index": 3,
+   "line": 8,
+   "kind": "J-ROWS",
+   "heading": "",
+   "body_lines": 1,
+   "body_sha256": "8a1ffa6b19efbf9ba385e2c44408403c745cabab79640bce232e7751f1671f4b",
+   "target_table": "document l. 16108 (header '| id | the choice | where |')",
+   "inserted_after_line": 16812,
+   "rows_inserted": 1,
+   "row_ids": [
+    "J-Fredteam-1"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "assemble-r0-refs-fix.blocks #4 (l. 11) RATIONALE-A",
+   "file": "assemble-r0-refs-fix.blocks",
+   "index": 4,
+   "line": 11,
+   "kind": "RATIONALE-A",
+   "heading": "",
+   "body_lines": 1,
+   "body_sha256": "8d045a438a655a711db773c7a44488f3e2e039299662fea8cf4dd98e0ceeca95",
+   "target_table": "rationale l. 45 (header '| id | call |')",
+   "inserted_after_line": 749,
+   "rows_inserted": 1,
+   "row_ids": [
+    "J-Fredteam-1"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "assemble-r0-refs-fix.blocks #1 (l. 2) J-ROWS",
+    "state": "OK",
+    "rows": 1,
+    "rows_not_once": []
+   },
+   {
+    "block": "assemble-r0-refs-fix.blocks #2 (l. 5) RATIONALE-A",
+    "state": "OK",
+    "rows": 1,
+    "rows_not_once": []
+   },
+   {
+    "block": "assemble-r0-refs-fix.blocks #3 (l. 8) J-ROWS",
+    "state": "OK",
+    "rows": 1,
+    "rows_not_once": []
+   },
+   {
+    "block": "assemble-r0-refs-fix.blocks #4 (l. 11) RATIONALE-A",
+    "state": "OK",
+    "rows": 1,
+    "rows_not_once": []
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 704,
+  "document index duplicate ids": [],
+  "Part A rows": 704,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 147,
+  "headings_after": 147,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 130,
+  "fence_lines_after": 130,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 0,
+  "pending_fable_review_lines_after": 0,
+  "doc_bytes_before": 2191782,
+  "doc_bytes_after": 2192330,
+  "doc_lines_before": 16870,
+  "doc_lines_after": 16872,
+  "rationale_bytes_before": 619666,
+  "rationale_bytes_after": 623311,
+  "rationale_lines_before": 2283,
+  "rationale_lines_after": 2285,
+  "blocks_total": 4,
+  "blocks_applied": 4,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "7f4c0e253438b41beb19fce30e8ec6addc4cc9f1bd01c7896a5aa2961d715623",
+  "output_rationale_sha256": "22f01184eac296c1b4498c4bf59edd17bbb24a849ab9a325055079d4c45fd730"
+ },
+ "order": "two-pass",
+ "merges": []
+}

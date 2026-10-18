@@ -1,0 +1,9 @@
+== A  VK2-6 re-seat / slide beside a vertex 25.0-25.7 cm from the route ==
+200000 re-seats: plain nearest-point rounding breaks minEdge or clearance in 25869 (12.93 %); the placement rule in 0, no qualifying point in 0; largest move from the exact projection 4.273 cm; largest distance from the route 0.710 cm
+fixture: route (0,0)-(1000,9), vertex (517,30) at 25.35 cm; exact projection (517.23, 4.66): plain rounding -> (517, 5) (vertex-to-sub-edge 24.999 cm, rejected); placement rule -> (517, 4) (25.999 cm, accepted; moved 0.69 cm)
+== B  VK2-8 split of a width profile between two knots ==
+20000 random ways (12-60 vertices, 4-15 m segments), two width knots 3-12 m, split strictly between them:
+  old re-key (each part keeps its own knots): largest change of a sampled width 846.8 cm
+  cut knots with the sampled value: largest change 6.82e-13 cm; 91.71 % of samples bit-identical; re-join restores the original profile bit for bit in 20000 of 20000
+== C  VK2-4 canonical face keys: full ring vs the level-n route ==
+L3 order before L4: ['F1', 'F2']; after L4, keyed on the full ring: ['F2', 'F1']; keyed on the L3 route: ['F1', 'F2']

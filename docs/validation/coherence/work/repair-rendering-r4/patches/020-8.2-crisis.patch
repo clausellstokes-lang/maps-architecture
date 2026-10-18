@@ -1,0 +1,42 @@
+# §8.2 Crisis looks. VV12-r3-02 (closes VAF-R3T-03 merged; VAL-R3-06's §8.2 part; R4-04 (a), (b)): the disaster look's
+# city-band tone over the look's units — districts, or at THORP, HAMLET and VILLAGE V07 §5.6 (3)'s units on the plots
+# `villageUnitPlots` gives each — and a unit's tone standing while the look stands over any of its buildings; the
+# hand-over restated with V06 §3.22 (3)'s exception (sweep, R4-04 (b)). VPC-R3-03's END (R4-06): on a way's carriageway
+# only a barrier across it — a `barricade`, `beast`'s `stakes`, the quarantine's `cordon`.
+@@ FILE 8.2.md
+<<<<
+  | `disaster` | its districts in the `ruinTone` | — (its buildings' damage, below) | rubble at the frontages; by its pattern, scorched (`crisis.ash`) or flood-marked (a `water` stipple at α 0.3 below the flood line) ground |
+====
+  | `disaster` | its units in the `ruinTone` (districts; at THORP, HAMLET and VILLAGE V07 §5.6 (3)'s units, on the plots `villageUnitPlots` gives each) | — (its buildings' damage, below) | rubble at the frontages; by its pattern, scorched (`crisis.ash`) or flood-marked (a `water` stipple at α 0.3 below the flood line) ground |
+>>>>
+<<<<
+  `crisis.ash`; `emptyPen` the pen's outline with no stock; `ruinTone` the district's faces under a `crisis.ash` wash at
+  α 0.35 with 1-px `ink` rubble dots where `RH32('crisis.place', key, salt, cell)` ÷ 2³² < 0.15.
+====
+  `crisis.ash`; `emptyPen` the pen's outline with no stock; `ruinTone` a unit's faces — a district's, or at the village
+  rungs its unit's plots' (V07 §5.6 (3)) — under a `crisis.ash` wash at α 0.35 with 1-px `ink` rubble dots where
+  `RH32('crisis.place', key, salt, cell)` ÷ 2³² < 0.15.
+>>>>
+<<<<
+  where §10.2 (d) admits it — never on water, a gate's passage or a label's keep-out, and on a way's carriageway only a
+  `barricade` (item 122 (b)'s barricaded roads and street barricades: `blockade`, `raiders`, `rebellion`; §10.2 (d)) —
+  no camp, tent, cart, engine or other part. A disaster's buildings draw item 123's damage layer at its row's
+  `lookLevel` by severity, or at their own decay level where that is higher (§8.6; item 122 (d)), and their districts the
+  `ruinTone` at the city band; the look leaves each building in the week V06 §3.22 (3)'s `crisisLookYields` turns true
+  on it — a Works other than a `decay` Works begun on it — so no week draws both the look and the rebuild's stage; a
+  building no rebuild reaches keeps it until its condition no longer stands; a district's `ruinTone` stands while any of
+  its buildings still draws the look. A preview never hands over (`crisisLookYields` is false with no overlay): a
+  previewed ruin draws over every building of its units whatever their Works.
+====
+  where §10.2 (d) admits it — never on water, a gate's passage or a label's keep-out, and on a way's carriageway only a
+  barrier across it — a `barricade` (item 122 (b)'s barricaded roads and street barricades: `blockade`, `raiders`,
+  `rebellion`), `beast`'s `stakes` where the edge crosses a way, and the quarantine's `cordon` where it crosses a way into
+  its quarter (§10.2 (d), (f)) — no camp, tent, cart, engine or other part. The buildings of a disaster look's units
+  (§10.2 (d)) draw item 123's damage layer at its row's `lookLevel` by severity, or at their own decay level where that
+  is higher (§8.6; item 122 (d)), and their units (V01 §3.16 (1)) the `ruinTone` at the city band; the look leaves each
+  building in the week V06 §3.22 (3)'s `crisisLookYields` turns true on it — a Works other than a `decay` Works begun on
+  it by the view's week, unless finished before the overlay's `sinceWeek` — so no week draws both the look and the
+  rebuild's stage; a building no rebuild reaches keeps it until its condition no longer stands; a unit's `ruinTone`
+  stands while the look stands over any of its buildings (§10.2 (f)). A preview never hands over (`crisisLookYields` is
+  false with no overlay): a previewed ruin draws over every building of its units whatever their Works.
+>>>>

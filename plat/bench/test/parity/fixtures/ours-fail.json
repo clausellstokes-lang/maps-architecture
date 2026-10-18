@@ -1,0 +1,66 @@
+{
+  "schema": "plat.parity-ours/1",
+  "date": "2026-10-04",
+  "outputVersion": "m0",
+  "generatorVersion": "m0-k-05-bench-test",
+  "rung": "CITY",
+  "preset": "default",
+  "setting": {
+    "population": 20000,
+    "water": "none",
+    "seedFamily": "bench/k05",
+    "seeds": 3
+  },
+  "entries": [
+    {
+      "metric": "junction.share4",
+      "metricVersion": "1.0.0",
+      "key": "all",
+      "perSeed": [
+        0.3,
+        0.31,
+        0.29
+      ]
+    },
+    {
+      "metric": "sgd.tShare",
+      "metricVersion": "1.0.0",
+      "key": "all",
+      "perSeed": [
+        0.44,
+        0.46,
+        0.45
+      ]
+    },
+    {
+      "metric": "block.area",
+      "metricVersion": "1.0.0",
+      "key": "all",
+      "samples": [
+        [
+          60,
+          80,
+          100
+        ],
+        [
+          70,
+          90
+        ],
+        [
+          55,
+          120
+        ]
+      ]
+    },
+    {
+      "metric": "bldg.r4.60",
+      "metricVersion": "1.0.0",
+      "key": "all",
+      "perSeed": [
+        0.9,
+        0.91,
+        0.92
+      ]
+    }
+  ]
+}

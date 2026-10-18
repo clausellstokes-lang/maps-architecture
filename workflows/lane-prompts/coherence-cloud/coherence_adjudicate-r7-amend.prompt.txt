@@ -1,0 +1,28 @@
+SEAT coherence/adjudicate-r7-amend — the Maps program's coherence pass, round 7 (orchestrator brief, 2026-10-02).
+
+WHAT THIS SEAT IS. adjudicate-r7 wrote docs/validation/coherence/adjudication-r7.md: its rulings and Part H for the 53 round-6 issues of the raised-way × wall family (a family-only round under the owner's J144; the other 28 are held for round 8), among them the raised-way × wall family's ruling: the crossing table and the way-and-channel table as amended, and three cross-cutting sentences (locks, the bent group, what the wall's law fixes in place). Before any repair seat writes against it, coherence/probe-r7 attacked that ruling. Its findings are in docs/validation/coherence/probe-r7.md (results in results/coherence_probe-r7.json). You are the adjudicator's amending hand. Decide each probe finding and amend adjudication-r7.md IN PLACE, so the file the repair seats read is already whole.
+
+READ FIRST, WHOLE:
+  1. docs/validation/coherence/probe-r7.md.
+  2. docs/validation/coherence/adjudication-r7.md: its general ruling, the family's ruling, any Part A hand-offs, an existing Part P (an earlier probe pass's decisions), and each Part H section a probe finding touches. docs/validation/coherence/narrowing-r7.md is WITHDRAWN (J143) and not binding.
+  3. The round-7 orchestrator notes, at the end of workflows/lane-prompts/coherence-cloud/coherence_adjudicate-r7.prompt.txt: their duties bind you as they bound the adjudicator.
+  4. The owner rules each finding cites — among them J144 (docs/PROGRESS.md: a lock on walls, aqueducts and similar structures holds placement, not shape; where they meet the shape changes, locked or not): docs/AMENDMENTS-2026-09-28g.md items 110, 114, 122 and 125; docs/OWNER-INSTRUCTIONS-2026-09-25.md's J122 and J141 entries.
+  5. The live text each finding cites, by grep.
+
+DECIDE EACH PROBE FINDING, PRB7-01 onwards:
+  - ACCEPT: amend the ruling's binding text, the table cell, the END lines and Part H in place, in the adjudicator's voice and form. Every changed sentence must still be one outcome that two builders build alike.
+  - ACCEPT AMENDED: as above, with your own words where the probe's would open a new case. Say why.
+  - REJECT: the ruling already closes it, or the probe's change contradicts an owner rule. Say why in one line, citing the ruling's words.
+Keep the method:
+  - one order-independent table, every cell an outcome and a test;
+  - readers cite the table, never restate it;
+  - no crossing station, raised gate, wall opening or held stretch comes back;
+  - no binding list for late calamities comes back.
+A finding that shows the table's rule itself cannot hold — a cell with no lawful outcome, or a clash with item 110 (b) or (f) — is the exception. Rule the narrowest change that restores it, and flag it at the head of the new part (below). Never change an owner rule. Never record an interpretation of the owner's words as the owner's.
+
+WRITE:
+  1. docs/validation/coherence/adjudication-r7.md, amended in place. Add a section "## Part P — the probe's findings and their decisions" just before Part I. It has one row per PRB7 id: the decision (ACCEPT / ACCEPT AMENDED / REJECT), the reason, and the ruling text, cell, Part H entry and END lines changed. Mark each amended spot in the family's ruling or Part H with "(amended, PRB7-nn)". If a finding changes a vetoable behaviour the family's ruling lists, update that list and its veto option. If Part P already exists from an earlier pass, APPEND this pass's rows to it under a sub-heading naming the pass (the probe file's name).
+  2. docs/validation/coherence/results/coherence_adjudicate-r7-amend.json, of the form {"file": "docs/validation/coherence/adjudication-r7.md", "accepted": n, "accepted_amended": n, "rejected": n, "behaviour_changes_touched": [ids]}.
+Append to docs/lane-events.log a CHECKPOINT line after reading, in the form `<UTC date time> coherence/adjudicate-r7-amend CHECKPOINT <what is done; what is next>`, and a LANDED line naming both files when done. If a Part P already exists with a CHECKPOINT of yours in the log, RESUME: never redo a decided row.
+
+RULES. Run no state-changing git commands (no add, commit, push, checkout, reset, stash). Write only the two files above and the log lines. Change no design text: the repair seats write it from your amended file. Your final message must be exactly the JSON result object, nothing else.

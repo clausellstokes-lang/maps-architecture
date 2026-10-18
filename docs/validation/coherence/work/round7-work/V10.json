@@ -1,0 +1,11 @@
+[
+ {
+  "id": "VEL6-r6-01",
+  "severity": "major",
+  "kind": "EDGE-UNDEFINED",
+  "claim": "R6-02's *beneath* (base l. 2640\u20132646) rules that a `vault` span whose under-deck strip meets a wall's band or wall strip \"is read `open` by every reader of its `use` while that band or strip lies there \u2026 its record unchanged\". V09 \u00a74.20.6 (2) (l. 3196\u20133199) applies it to the span's panel, its raised way's panel, the badge and the why card (\"A wall runs under this arch\"). V10's raised-way read row (l. 1686) gives \"each span's use with its reason \u2026 from the base's span record\", so the clerk tells the arch under T110-2 (3)'s c14 ring as a vault (and names a vault V04 never lays) while the card on the same span says open. Two units, two outcomes; R6-02's sweep searched V10 only for crossing-rule words. Sibling of VAL-R6-03 (\u00a711.1's GeoJSON row), a different unit.",
+  "required_change": "1. V10 l. 1686, the raised-way row's last cell: \"each span's use with its reason (`open` by way, water, flood, tall, low, slope or land; `vault`; `user`) from the base's span record\" \u2192 \"each span's use with its reason (`open` by way, water, flood, tall, low, slope or land; `vault`; `user`) from the base's span record \u2014 but a span whose under-deck strip a wall's band or wall strip meets is told `open` while that band or strip lies there, with \"a wall runs under this arch\", whatever its recorded `use`, and no arch vault named in it (\u00a72.7's crossing table, *beneath*; V09 \u00a74.20.6 (2))\". 2. T-V10-41 adds: \"on T110-2 (3)'s c14 fixture with a `vault` span of its S4 viaduct under stage 2's ring, the clerk's read of the viaduct tells that span `open` with \"a wall runs under this arch\", as its V09 panel and why card do, and after a hand `delete` of that run tells it `vault` with its arch vault\".",
+  "owner": "V10",
+  "reported_by": "verify-edges-life-r6t"
+ }
+]

@@ -1,0 +1,92 @@
+total rows 313 holdout in csv 53
+non-holdout 260
+== ALL non-holdout n= 260
+  ink_L                    n=260 p5=   7.78 med=  43.95 p95=  71.50
+  paper_L                  n=260 p5= 231.09 med= 242.65 p95= 247.31
+  paper_warmth_RmB         n=260 p5=  17.00 med=  25.00 p95=  41.05
+  chroma                   n=260 p5=  27.18 med=  36.10 p95=  52.34
+  paper_grain_sigma        n=246 p5=   0.72 med=   1.48 p95=   2.44
+  wash_within_sigma        n=259 p5=   1.02 med=   2.66 p95=   3.90
+  fill_tone_iqr            n=259 p5=   4.59 med=  16.20 p95=  65.51
+  stroke_p25               n=260 p5=   3.00 med=   4.00 p95=   6.00
+  stroke_p50               n=260 p5=   4.00 med=   6.00 p95=   9.00
+  stroke_p90               n=260 p5=  11.00 med=  16.00 p95=  27.00
+  stroke_ratio_p90_p25     n=260 p5=   2.80 med=   4.00 p95=   6.61
+  L_range_1_99             n=260 p5= 145.48 med= 174.10 p95= 218.91
+  register_index           n=260 p5=  18.16 med=  52.55 p95=  78.91
+  built_share_frame        n=260 p5=   0.16 med=   0.43 p95=   0.69
+== era HF-1 n= 43
+  ink_L                    n= 43 p5=  14.85 med=  38.90 p95=  69.84
+  paper_L                  n= 43 p5= 224.56 med= 235.70 p95= 242.67
+  paper_warmth_RmB         n= 43 p5=  22.30 med=  37.00 p95=  51.00
+  chroma                   n= 43 p5=  31.07 med=  46.40 p95=  66.57
+  paper_grain_sigma        n= 39 p5=   1.21 med=   2.21 p95=   3.18
+  wash_within_sigma        n= 43 p5=   1.69 med=   3.17 p95=   4.36
+  fill_tone_iqr            n= 43 p5=   6.29 med=  18.20 p95=  51.15
+  stroke_p25               n= 43 p5=   3.00 med=   4.00 p95=   6.00
+  stroke_p50               n= 43 p5=   5.00 med=   7.00 p95=   8.90
+  stroke_p90               n= 43 p5=  12.10 med=  17.00 p95=  24.90
+  stroke_ratio_p90_p25     n= 43 p5=   3.00 med=   4.00 p95=   5.97
+  L_range_1_99             n= 43 p5= 141.19 med= 175.40 p95= 212.71
+  register_index           n= 43 p5=  34.51 med=  60.60 p95=  85.74
+  built_share_frame        n= 43 p5=   0.25 med=   0.48 p95=   0.68
+== era HF-2 n= 24
+  ink_L                    n= 24 p5=   9.59 med=  36.60 p95=  55.44
+  paper_L                  n= 24 p5= 236.21 med= 240.85 p95= 245.17
+  paper_warmth_RmB         n= 24 p5=  22.00 med=  27.50 p95=  36.85
+  chroma                   n= 24 p5=  33.33 med=  42.25 p95=  48.86
+  paper_grain_sigma        n= 23 p5=   1.18 med=   1.76 p95=   2.37
+  wash_within_sigma        n= 24 p5=   2.28 med=   3.21 p95=   3.74
+  fill_tone_iqr            n= 24 p5=  12.13 med=  18.95 p95=  36.18
+  stroke_p25               n= 24 p5=   2.15 med=   4.00 p95=   5.00
+  stroke_p50               n= 24 p5=   4.00 med=   6.00 p95=   6.85
+  stroke_p90               n= 24 p5=  11.15 med=  16.00 p95=  21.85
+  stroke_ratio_p90_p25     n= 24 p5=   2.62 med=   4.38 p95=   6.28
+  L_range_1_99             n= 24 p5= 166.36 med= 176.35 p95= 216.16
+  register_index           n= 24 p5=  47.20 med=  62.30 p95=  78.96
+  built_share_frame        n= 24 p5=   0.21 med=   0.45 p95=   0.76
+== era HF-3 n= 67
+  ink_L                    n= 67 p5=   7.78 med=  38.60 p95=  66.40
+  paper_L                  n= 67 p5= 237.43 med= 243.50 p95= 247.48
+  paper_warmth_RmB         n= 67 p5=  16.00 med=  23.00 p95=  34.00
+  chroma                   n= 67 p5=  27.53 med=  36.00 p95=  48.96
+  paper_grain_sigma        n= 64 p5=   0.82 med=   1.40 p95=   2.17
+  wash_within_sigma        n= 66 p5=   1.52 med=   2.67 p95=   3.75
+  fill_tone_iqr            n= 66 p5=   6.75 med=  17.15 p95=  70.88
+  stroke_p25               n= 67 p5=   3.00 med=   4.00 p95=   6.00
+  stroke_p50               n= 67 p5=   5.00 med=   6.00 p95=   9.00
+  stroke_p90               n= 67 p5=  12.00 med=  17.00 p95=  32.40
+  stroke_ratio_p90_p25     n= 67 p5=   3.00 med=   4.00 p95=   7.49
+  L_range_1_99             n= 67 p5= 154.90 med= 181.10 p95= 219.91
+  register_index           n= 67 p5=  22.33 med=  52.80 p95=  78.97
+  built_share_frame        n= 67 p5=   0.14 med=   0.43 p95=   0.71
+== era HF-4b n= 59
+  ink_L                    n= 59 p5=   9.00 med=  44.60 p95=  73.30
+  paper_L                  n= 59 p5= 233.93 med= 243.60 p95= 247.45
+  paper_warmth_RmB         n= 59 p5=  17.00 med=  23.00 p95=  38.00
+  chroma                   n= 59 p5=  24.24 med=  34.30 p95=  49.32
+  paper_grain_sigma        n= 53 p5=   0.67 med=   1.43 p95=   2.20
+  wash_within_sigma        n= 59 p5=   1.11 med=   2.67 p95=   3.50
+  fill_tone_iqr            n= 59 p5=   5.41 med=  18.80 p95=  47.96
+  stroke_p25               n= 59 p5=   3.00 med=   4.00 p95=   6.00
+  stroke_p50               n= 59 p5=   4.90 med=   6.00 p95=   9.00
+  stroke_p90               n= 59 p5=  11.00 med=  16.00 p95=  24.30
+  stroke_ratio_p90_p25     n= 59 p5=   2.74 med=   4.00 p95=   6.60
+  L_range_1_99             n= 59 p5= 144.60 med= 174.70 p95= 216.36
+  register_index           n= 59 p5=  18.94 med=  52.80 p95=  73.30
+  built_share_frame        n= 59 p5=   0.16 med=   0.38 p95=   0.61
+== era HF-4c n= 67
+  ink_L                    n= 67 p5=   9.21 med=  51.80 p95=  71.50
+  paper_L                  n= 67 p5= 239.26 med= 243.70 p95= 247.70
+  paper_warmth_RmB         n= 67 p5=  19.00 med=  24.00 p95=  31.00
+  chroma                   n= 67 p5=  27.50 med=  34.10 p95=  42.22
+  paper_grain_sigma        n= 67 p5=   0.69 med=   1.18 p95=   1.89
+  wash_within_sigma        n= 67 p5=   0.82 med=   1.78 p95=   3.44
+  fill_tone_iqr            n= 67 p5=   3.66 med=  11.80 p95=  68.49
+  stroke_p25               n= 67 p5=   3.00 med=   4.00 p95=   6.00
+  stroke_p50               n= 67 p5=   4.00 med=   6.00 p95=   8.00
+  stroke_p90               n= 67 p5=  10.00 med=  15.00 p95=  24.00
+  stroke_ratio_p90_p25     n= 67 p5=   2.77 med=   3.75 p95=   5.73
+  L_range_1_99             n= 67 p5= 146.09 med= 164.30 p95= 207.57
+  register_index           n= 67 p5=  11.32 med=  35.20 p95=  64.97
+  built_share_frame        n= 67 p5=   0.15 med=   0.43 p95=   0.69

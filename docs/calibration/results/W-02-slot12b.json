@@ -1,0 +1,84 @@
+{
+ "slot": 12,
+ "status": "landed",
+ "capture": "2026-10-04T04-20-04",
+ "checks": [
+  {
+   "check": "resume/continue state before the site",
+   "passed": true,
+   "receipt": "no results/W-02-slot12b.json and no lane line for m1/W-02-slot12b or any earlier slot-12 key; owner-go.json ftg true; plan.json slots 0-11 bound, slot 12 open (BIG_TOWN, coast+river, third); plan.py --check SAME (b50adff0 / 8a0efa7e); newest folder was slot 11's 2026-10-04T04-07-26 (its one PUT is slot 11's; its list after held 12 rows, BIG_TOWN 4)"
+  },
+  {
+   "check": "isolated runner and clean start/stop",
+   "passed": true,
+   "receipt": "scratchpad m1w2/ftg/runner copies cmp identical (session.mjs e199be5d, drive.mjs 597eb62d, package.json 25e7d362, lib/common.mjs 3b948576, lib/instrument.js cca253ac); port 9341 free; no FTG process, no Singleton*, both .session files absent before; after drive.mjs stop: 'session closed', 0 FTG processes, no Singleton*, both .session absent, port 9341 free"
+  },
+  {
+   "check": "landing signed in, no consent notice, no other hand (H2, I2, I10)",
+   "passed": true,
+   "receipt": "'Signed in as [name]', 'Sign out', 'Home' (redacted reading), no consent notice (shot 001); .root-component scrollTop 0 at the first reading and 0 just before the Home click, hover chain empty both times; one document load in the recording; no page outside the site"
+  },
+  {
+   "check": "account list before (I2)",
+   "passed": true,
+   "receipt": "intercepted GET .../prod/settlements: 12 rows (BIG_TOWN 4, BIG_CITY 4, METROPOLIS 4) = the earlier settlement + slots 1-11; no fifth BIG_TOWN row, so no earlier slot-12 create"
+  },
+  {
+   "check": "BIG_TOWN option chosen by its request key (plan 2.1b (2), I4); metropolis not chosen",
+   "passed": true,
+   "receipt": "each option's React element key = text + request key; exactly 1 of 12 ends in BIG_TOWN ('Big town (~6000 people)'); selected by exact text, re-read key ends BIG_TOWN; the metropolis option untouched; request size BIG_TOWN (check sizeKey)"
+  },
+  {
+   "check": "form set by guarded steps (H12, H14)",
+   "passed": true,
+   "receipt": "form-final eval: selects Big town, Medieval europe, Wood, Generic fantasy, Generic religions, Comfortable, Temperate (deciduous trees), Coastal; name empty; rivers, farms, forests, reserve area, walled on; elementFromPoint named every box and the scroll point before its click; text + shot before every click/select; form-state reading after each step showed the dialog open; the 13 form, map and navigation commands in steps.jsonl equal slots 2 and 4's (the same cell) in order, coordinates and size text"
+  },
+  {
+   "check": "one create, retry rule (plan 2.1b (6))",
+   "passed": true,
+   "receipt": "CHECKPOINT line at 00:23 before the click; 'Create Settlement' 1 of 1 hit-testable (947,522) inside the dialog, clicked once (PUT sent 04:23:58.673 UTC); PUT 200 with body; layout body intercepted (intercept-0035, 389 668 bytes), in the folder at the poll's first look; list after: 13 rows (BIG_TOWN 5, BIG_CITY 4, METROPOLIS 4), the new row carries the PUT's settlement id; 1 attempt, no retry"
+  },
+  {
+   "check": "same-size rule R-41: 17 values equal slot 0's, class not widened",
+   "passed": true,
+   "receipt": "post script unchanged (735922948e3970fb); sameSize 'against slot 0 (2026-10-03T17-19-06): 17 of 17 equal'; leaf diff vs slots 2 and 4 (same cell): 0 semantic, 45 partner ids; vs slots 0 and 10: 8 semantic (2 water keys + 6 water-implied resource leaves), 0 size-dependent; vs slots 3 and 5: size key + 14 size-dependent; vs slot 9: size key + 15"
+  },
+  {
+   "check": "ftg_capture_post.py all checks",
+   "passed": true,
+   "receipt": "--slot 12 --signed-in --premium: --check-only exit 0 on the first run, writing run exit 0, 10/10 (calls, sizeKey, waterKeys, requestDiff other 0, vsSlot0 other 0, sameSize 17/17, decode, border 2000.00 m, noResidentField, pbRaw); red tests: as slots 2 and 4 (same cell) exit 0, as slots 0 and 10 exit 1 (waterKeys, requestDiff, vsSlot0), as slots 3, 5 and 9 exit 1 (sizeKey, sameSize, border), as slots 1 and 6 exit 1 (sizeKey, waterKeys, requestDiff, vsSlot0, border), as slot 11 exit 1 (those five + sameSize)"
+  },
+  {
+   "check": "payload and request facts",
+   "passed": true,
+   "receipt": "1 610 buildings, 2 987 edges, 2 639 nodes, 0 towers, 0 wall (type-7) edges, 4 water bodies, 2 districts; payload 389 668 bytes (sha256 5f029ddbde650f80); 181 field paths, none new; the 17 absent from slots 0-11's 198 are field 7 and its 6 sub-paths (no tower; present in every earlier capture), 11.6 and parts, 11.7 and parts (each absent in earlier captures too); request 274 296 bytes, hash 6a10a6990446 recomputed, exactly one PUT row with a body, create-request.json parses equal; structure.md equals a fresh pb_raw run apart from its title path; referenceBuild ftg:2026-10-04+6a10a6990446; server time 4.445 s (contended); listed population 5 491 (nominal 5 600)"
+  },
+  {
+   "check": "slot bound, plan SAME",
+   "passed": true,
+   "receipt": "plan.py --bind-ftg 12=2026-10-04T04-20-04: one line changed; --check SAME immediately after (plan.json b50adff0 -> 2994f3e2; metrics.m-1.json 8a0efa7e unchanged; plan.py 68709ba8 unchanged); --check SAME again before this result"
+  },
+  {
+   "check": "records written",
+   "passed": true,
+   "receipt": "E02 header update + section 23 (capture, checks, findings, calls; 132 lines added, none removed); E02-ftg-captures.json: days entry (day null, programme 2, slot 12, with noWall and wallEdges 0), slotsTaken 13/28, slotsByProgramme 2 taken 7 (open 13-27), next.programme2, sizeDependentClass.fifthBigTown (diff against the pre-edit copy: only those lines); checklist section I slot-12 note (12 lines added)"
+  },
+  {
+   "check": "privacy grep of the files written (H11, H14)",
+   "passed": true,
+   "receipt": "README, capture-facts.json, request-diff.txt, structure.md, E02 section 23 + header, the JSON entry, the checklist note, the notes, this lane's lane-events lines, this result file: 0 emails, 0 display-name hits, 0 token prefixes, 0 full ids; create-request.json: only the 45 partner ids; steps.jsonl: only the new settlement's id and the scratchpad session folder name (as H11 notes), the display name redacted by H14's helper (6 '[name]' placeholders); the only other name-like hit is the Mac's local user folder in file paths (README 1, structure.md 1, steps.jsonl 20), as in slots 7-11"
+  }
+ ],
+ "account_limit": "not reached: premium account (J164, unlimited); no counter shown; list 12 rows before, 13 after (BIG_TOWN 5, BIG_CITY 4, METROPOLIS 4); no payment, upgrade, limit, sign-in or terms prompt appeared.",
+ "owner_notes": [
+  "Slot 12 is done. It is a big town on the coast with rivers, the third of that kind. One new settlement was saved in your account, which now holds 13. Nothing was bought, accepted or changed, and you are still signed in.",
+  "This town came out with no town wall. The walls option was on, and the settings sent were exactly those of the two earlier coastal big towns, which both got walls. So FTG sometimes skips the wall on its own. The slot was kept as it is, and it is recorded so the wall measurements skip it instead of counting it as an error.",
+  "The recording window was left alone; the seat saw no other hand."
+ ],
+ "notes": [
+  "CONFIRMED: the one create (PUT 200, list 12 -> 13, the new row is the PUT's settlement); the 10/10 post checks on the first run; the 17 same-size values equal to slot 0's; the request equal to slots 2 and 4's (the same cell) apart from the 45 partner ids, yet a different town (1 610 vs 1 821 / 1 880 buildings, 2 vs 4 / 4 districts, and no wall); the red tests; the bind. PLAUSIBLE: any cause of the missing wall; that the server's seed makes equal requests differ; what the four water bodies are; that a lapsed premium would refuse a further settlement; that the listed population is the generated resident count.",
+  "Finding for W-05b (E02 23.3 finding 2, 23.4 call 2; to route to W-05b's next pass): the request asks for a wall exactly as slots 2 and 4's do, yet this payload has 0 wall edges and no tower field, the first of 13 captures without a wall. W-05b's wall rows (wall.towerSpacing, wall.ungated, the twin's tower readings) must record this capture as a wall-less draw (n = 0), not drop it from the BIG_TOWN pool or treat it as a decode failure. Binding it rather than failing it is a vetoable call: a ruling could exclude wall-less draws from the wall rows by name.",
+  "SIZE_DEPENDENT was not touched (17 names; R-41 forbids widening on a later capture of a size). Slot 13 (BIG_CITY coast+river, third) is next; it must repeat slot 1's 17 values and must not choose the metropolis option; the coast select and rivers box are changed (H5), as in slots 3 and 5.",
+  "Files: captures/ftg/2026-10-04T04-20-04/ (README.md, capture-facts.json, create-request.json, request-diff.txt, structure.md, session/, steps/ 20 shots), research/baselines/plan.json (via plan.py), research/baselines/ftg_capture_checklist.md (slot-12 note), docs/calibration/E02-ftg-captures.md (header update, section 23), docs/calibration/E02-ftg-captures.json, docs/calibration/results/W-02-slot12b.json. No plat/, no design, no git. Disk 9.9 GiB free before, 9.7 GiB after the session, 9.6 GiB at the end (other lanes writing)."
+ ]
+}

@@ -1,0 +1,123 @@
+edges whose midpoint lies inside a river polygon: 165 by type Counter({14: 122, 6: 13, 0: 9, 1: 9, 4: 8, 10: 2, 2: 2})
+bridge clusters: 120
+  bridge 0 at (615,592) m edges=1 types=[14] span=23.2 m nearest other bridge 37 m
+  bridge 1 at (650,603) m edges=1 types=[14] span=50.5 m nearest other bridge 37 m
+  bridge 2 at (699,618) m edges=1 types=[14] span=50.3 m nearest other bridge 50 m
+  bridge 3 at (747,631) m edges=1 types=[14] span=50.1 m nearest other bridge 50 m
+  bridge 4 at (796,643) m edges=1 types=[14] span=49.8 m nearest other bridge 50 m
+  bridge 5 at (844,655) m edges=1 types=[14] span=49.6 m nearest other bridge 50 m
+  bridge 6 at (892,669) m edges=1 types=[14] span=49.4 m nearest other bridge 49 m
+  bridge 7 at (939,683) m edges=1 types=[14] span=49.3 m nearest other bridge 49 m
+  bridge 8 at (985,700) m edges=1 types=[14] span=49.2 m nearest other bridge 49 m
+  bridge 9 at (1031,718) m edges=1 types=[14] span=49.2 m nearest other bridge 30 m
+  bridge 10 at (1075,739) m edges=1 types=[14] span=49.3 m nearest other bridge 29 m
+  bridge 11 at (1119,762) m edges=1 types=[14] span=49.4 m nearest other bridge 49 m
+  bridge 12 at (1162,787) m edges=1 types=[14] span=49.5 m nearest other bridge 49 m
+  bridge 13 at (1204,813) m edges=1 types=[14] span=49.6 m nearest other bridge 50 m
+  bridge 14 at (1245,840) m edges=1 types=[14] span=49.6 m nearest other bridge 30 m
+  bridge 15 at (1286,869) m edges=1 types=[14] span=49.7 m nearest other bridge 29 m
+  bridge 16 at (1326,899) m edges=1 types=[14] span=49.7 m nearest other bridge 50 m
+  bridge 17 at (1365,929) m edges=1 types=[14] span=49.7 m nearest other bridge 50 m
+  bridge 18 at (1404,960) m edges=1 types=[14] span=49.7 m nearest other bridge 50 m
+  bridge 19 at (1442,992) m edges=1 types=[14] span=49.8 m nearest other bridge 50 m
+  bridge 20 at (1479,1025) m edges=1 types=[14] span=49.8 m nearest other bridge 50 m
+  bridge 21 at (1517,1058) m edges=1 types=[14] span=50.0 m nearest other bridge 50 m
+  bridge 22 at (1554,1091) m edges=1 types=[14] span=50.1 m nearest other bridge 50 m
+  bridge 23 at (1591,1125) m edges=1 types=[14] span=50.3 m nearest other bridge 50 m
+  bridge 24 at (1629,1158) m edges=1 types=[14] span=50.5 m nearest other bridge 50 m
+  bridge 25 at (1668,1190) m edges=1 types=[14] span=50.6 m nearest other bridge 51 m
+  bridge 26 at (1709,1221) m edges=1 types=[14] span=50.7 m nearest other bridge 51 m
+  bridge 27 at (1750,1250) m edges=1 types=[14] span=50.8 m nearest other bridge 51 m
+  bridge 28 at (1793,1277) m edges=1 types=[14] span=50.8 m nearest other bridge 51 m
+  bridge 29 at (1837,1302) m edges=1 types=[14] span=50.8 m nearest other bridge 51 m
+  bridge 30 at (1883,1325) m edges=1 types=[14] span=50.8 m nearest other bridge 51 m
+  bridge 31 at (1929,1345) m edges=1 types=[14] span=50.7 m nearest other bridge 51 m
+  bridge 32 at (1977,1363) m edges=1 types=[14] span=50.5 m nearest other bridge 50 m
+  bridge 33 at (2024,1379) m edges=1 types=[14] span=50.4 m nearest other bridge 50 m
+  bridge 34 at (2073,1393) m edges=1 types=[14] span=50.3 m nearest other bridge 50 m
+  bridge 35 at (2121,1407) m edges=1 types=[14] span=50.1 m nearest other bridge 50 m
+  bridge 36 at (2169,1420) m edges=1 types=[14] span=50.0 m nearest other bridge 50 m
+  bridge 37 at (2218,1432) m edges=1 types=[14] span=50.0 m nearest other bridge 50 m
+  bridge 38 at (2266,1445) m edges=1 types=[14] span=49.9 m nearest other bridge 50 m
+  bridge 39 at (2314,1458) m edges=1 types=[14] span=49.9 m nearest other bridge 50 m
+  bridge 40 at (2362,1471) m edges=1 types=[14] span=49.9 m nearest other bridge 50 m
+  bridge 41 at (2410,1485) m edges=1 types=[14] span=49.8 m nearest other bridge 50 m
+  bridge 42 at (2458,1499) m edges=1 types=[14] span=49.8 m nearest other bridge 34 m
+  bridge 43 at (2491,1509) m edges=1 types=[14] span=18.8 m nearest other bridge 34 m
+  bridge 44 at (-163,365) m edges=1 types=[14] span=50.9 m nearest other bridge 51 m
+  bridge 45 at (-115,382) m edges=1 types=[14] span=50.9 m nearest other bridge 51 m
+  bridge 46 at (-67,397) m edges=1 types=[14] span=50.8 m nearest other bridge 51 m
+  bridge 47 at (82,428) m edges=1 types=[14] span=50.0 m nearest other bridge 39 m
+  bridge 48 at (131,435) m edges=1 types=[14] span=49.7 m nearest other bridge 27 m
+  bridge 49 at (182,433) m edges=3 types=[6, 14] span=149.4 m nearest other bridge 34 m
+  bridge 50 at (241,445) m edges=18 types=[2, 4, 6, 14] span=249.8 m nearest other bridge 31 m
+  bridge 51 at (324,477) m edges=1 types=[14] span=49.2 m nearest other bridge 49 m
+  bridge 52 at (370,493) m edges=1 types=[14] span=49.4 m nearest other bridge 33 m
+  bridge 53 at (416,511) m edges=1 types=[14] span=49.7 m nearest other bridge 46 m
+  bridge 54 at (593,625) m edges=1 types=[14] span=50.4 m nearest other bridge 39 m
+  bridge 55 at (625,664) m edges=1 types=[14] span=50.3 m nearest other bridge 50 m
+  bridge 56 at (657,703) m edges=1 types=[14] span=50.3 m nearest other bridge 50 m
+  bridge 57 at (690,741) m edges=1 types=[14] span=50.3 m nearest other bridge 50 m
+  bridge 58 at (724,778) m edges=1 types=[14] span=50.3 m nearest other bridge 50 m
+  bridge 59 at (758,814) m edges=1 types=[14] span=50.2 m nearest other bridge 50 m
+  bridge 60 at (793,850) m edges=1 types=[14] span=50.1 m nearest other bridge 50 m
+  bridge 61 at (828,886) m edges=1 types=[14] span=50.0 m nearest other bridge 50 m
+  bridge 62 at (863,921) m edges=1 types=[14] span=49.9 m nearest other bridge 49 m
+  bridge 63 at (933,993) m edges=1 types=[14] span=50.1 m nearest other bridge 49 m
+  bridge 64 at (968,1029) m edges=1 types=[14] span=50.2 m nearest other bridge 50 m
+  bridge 65 at (1004,1065) m edges=1 types=[14] span=50.3 m nearest other bridge 50 m
+  bridge 66 at (1040,1100) m edges=1 types=[14] span=50.4 m nearest other bridge 50 m
+  bridge 67 at (1076,1134) m edges=1 types=[14] span=50.3 m nearest other bridge 50 m
+  bridge 68 at (1151,1201) m edges=1 types=[14] span=50.0 m nearest other bridge 50 m
+  bridge 69 at (1189,1233) m edges=1 types=[14] span=49.8 m nearest other bridge 50 m
+  bridge 70 at (1227,1266) m edges=1 types=[14] span=49.7 m nearest other bridge 50 m
+  bridge 71 at (1264,1299) m edges=1 types=[14] span=49.6 m nearest other bridge 50 m
+  bridge 72 at (1300,1332) m edges=1 types=[14] span=49.5 m nearest other bridge 49 m
+  bridge 73 at (1336,1367) m edges=1 types=[14] span=49.4 m nearest other bridge 49 m
+  bridge 74 at (1369,1403) m edges=1 types=[14] span=49.4 m nearest other bridge 49 m
+  bridge 75 at (1402,1440) m edges=1 types=[14] span=49.3 m nearest other bridge 49 m
+  bridge 76 at (1432,1479) m edges=1 types=[14] span=49.2 m nearest other bridge 49 m
+  bridge 77 at (1461,1519) m edges=1 types=[14] span=49.1 m nearest other bridge 49 m
+  bridge 78 at (1487,1560) m edges=1 types=[14] span=49.1 m nearest other bridge 49 m
+  bridge 79 at (1512,1603) m edges=1 types=[14] span=49.2 m nearest other bridge 49 m
+  bridge 80 at (1533,1647) m edges=1 types=[14] span=49.3 m nearest other bridge 49 m
+  bridge 81 at (1553,1693) m edges=1 types=[14] span=49.5 m nearest other bridge 49 m
+  bridge 82 at (1571,1739) m edges=1 types=[14] span=49.8 m nearest other bridge 50 m
+  bridge 83 at (1588,1786) m edges=1 types=[14] span=50.2 m nearest other bridge 50 m
+  bridge 84 at (1606,1833) m edges=1 types=[14] span=50.5 m nearest other bridge 50 m
+  bridge 85 at (1624,1880) m edges=1 types=[14] span=50.7 m nearest other bridge 51 m
+  bridge 86 at (1644,1927) m edges=1 types=[14] span=50.8 m nearest other bridge 51 m
+  bridge 87 at (1667,1972) m edges=1 types=[14] span=50.8 m nearest other bridge 51 m
+  bridge 88 at (1692,2016) m edges=1 types=[14] span=50.6 m nearest other bridge 50 m
+  bridge 89 at (1719,2059) m edges=1 types=[14] span=50.4 m nearest other bridge 50 m
+  bridge 90 at (1747,2101) m edges=1 types=[14] span=50.0 m nearest other bridge 50 m
+  bridge 91 at (1775,2142) m edges=1 types=[14] span=49.7 m nearest other bridge 50 m
+  bridge 92 at (1803,2183) m edges=1 types=[14] span=49.5 m nearest other bridge 49 m
+  bridge 93 at (1829,2225) m edges=1 types=[14] span=49.4 m nearest other bridge 49 m
+  bridge 94 at (1854,2267) m edges=1 types=[14] span=49.5 m nearest other bridge 49 m
+  bridge 95 at (1878,2311) m edges=1 types=[14] span=49.6 m nearest other bridge 50 m
+  bridge 96 at (1900,2355) m edges=1 types=[14] span=49.8 m nearest other bridge 50 m
+  bridge 97 at (1922,2400) m edges=1 types=[14] span=50.1 m nearest other bridge 50 m
+  bridge 98 at (1943,2446) m edges=1 types=[14] span=50.3 m nearest other bridge 43 m
+  bridge 99 at (1962,2484) m edges=1 types=[14] span=35.4 m nearest other bridge 43 m
+  bridge 100 at (-235,300) m edges=6 types=[0, 1] span=127.6 m nearest other bridge 43 m
+  bridge 101 at (-342,270) m edges=1 types=[0] span=50.7 m nearest other bridge 51 m
+  bridge 102 at (-299,297) m edges=1 types=[0] span=50.7 m nearest other bridge 25 m
+  bridge 103 at (1060,714) m edges=1 types=[0] span=31.3 m nearest other bridge 29 m
+  bridge 104 at (920,946) m edges=2 types=[0, 14] span=55.0 m nearest other bridge 21 m
+  bridge 105 at (913,927) m edges=1 types=[14] span=26.3 m nearest other bridge 21 m
+  bridge 106 at (1134,1151) m edges=3 types=[10, 14] span=81.1 m nearest other bridge 53 m
+  bridge 107 at (1275,842) m edges=1 types=[10] span=31.3 m nearest other bridge 29 m
+  bridge 108 at (-277,309) m edges=1 types=[1] span=2.0 m nearest other bridge 25 m
+  bridge 109 at (18,395) m edges=4 types=[1, 6] span=90.2 m nearest other bridge 23 m
+  bridge 110 at (292,435) m edges=1 types=[14] span=35.8 m nearest other bridge 25 m
+  bridge 111 at (268,429) m edges=1 types=[14] span=15.1 m nearest other bridge 25 m
+  bridge 112 at (479,522) m edges=8 types=[0, 1, 4, 14] span=126.6 m nearest other bridge 31 m
+  bridge 113 at (396,469) m edges=1 types=[14] span=19.0 m nearest other bridge 25 m
+  bridge 114 at (373,460) m edges=1 types=[14] span=31.6 m nearest other bridge 25 m
+  bridge 115 at (158,408) m edges=1 types=[14] span=4.8 m nearest other bridge 34 m
+  bridge 116 at (117,412) m edges=3 types=[6, 14] span=245.5 m nearest other bridge 27 m
+  bridge 117 at (499,546) m edges=4 types=[14] span=65.2 m nearest other bridge 31 m
+  bridge 118 at (28,416) m edges=4 types=[1, 6, 14] span=86.3 m nearest other bridge 23 m
+  bridge 119 at (522,522) m edges=1 types=[14] span=46.8 m nearest other bridge 33 m
+road nodes inside river polygons: 154

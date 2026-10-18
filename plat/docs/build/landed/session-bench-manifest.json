@@ -1,0 +1,16 @@
+{
+  "schema": "plat-landed-record/1",
+  "item": "session-bench-manifest",
+  "lane": "session/bench-manifest-1",
+  "lanes": ["session/bench-manifest-1"],
+  "wave": "flow-7",
+  "snapshotTaken": "2026-10-04T20:46:52.985Z",
+  "date": "2026-10-12T11:32:42.826Z",
+  "ownsSource": "declared",
+  "owns": ["plat/bench/manifest.json"],
+  "counts": { "created": 1, "changed": 0, "unchanged": 0, "deleted": 0 },
+  "files": [
+    { "path": "plat/bench/manifest.json", "status": "created", "sha256": "9746703b04e872d9587c45d126a5633e63810275d551c10fec0abd1a44a30d90", "size": 1199 }
+  ],
+  "appends": []
+}

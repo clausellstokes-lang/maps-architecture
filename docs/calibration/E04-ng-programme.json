@@ -1,0 +1,1645 @@
+{
+ "record": "E04",
+ "workItem": "W-04",
+ "lane": "m1/W-04",
+ "date": "2026-10-03",
+ "status": "landed",
+ "build": {
+  "reference": "NG",
+  "referenceBuild": "itch:11441280",
+  "checkedAt": "2026-10-03T18:59:52Z",
+  "resolvedBy": "profiler/lib/common.mjs resolveTargetUrl",
+  "matchesPin": true
+ },
+ "approval": {
+  "id": "J159 (3)",
+  "loadsApproved": 44,
+  "loadsUsed": 44,
+  "downloads": 0,
+  "gamePageFetches": 1
+ },
+ "method": {
+  "driver": "research:baselines/ng_programme_m1.mjs",
+  "recorder": "profiler/record.mjs (unchanged)",
+  "perLoad": "--url <checked build> + the plan entry record list (--runs 0 --passes draw --vertices --seed S --query tags=<template>,<size>)",
+  "order": "medium, small, large; index-major over area, street, square, ring",
+  "headless": true,
+  "caps": {
+   "maxPathVerts": 5000,
+   "maxTotalVerts": 4000000
+  },
+  "run": {
+   "first": "2026-10-03T19:05:32Z",
+   "last": "2026-10-03T19:11:15Z"
+  }
+ },
+ "files": {
+  "research/baselines/ng_programme_m1.mjs": {
+   "bytes": 10913,
+   "sha256": "280d1427a8f9a6e8"
+  },
+  "research/baselines/check_w04.py": {
+   "bytes": 10866,
+   "sha256": "9c172d9d056aae3d"
+  },
+  "profiler/record.mjs": {
+   "bytes": 10380,
+   "sha256": "7f152077cc7c0957"
+  },
+  "profiler/lib/instrument.js": {
+   "bytes": 13540,
+   "sha256": "cca253ac7a007c42"
+  },
+  "profiler/paths_stats.py": {
+   "bytes": 14742,
+   "sha256": "188b607838026689"
+  }
+ },
+ "capture": {
+  "programme": "captures/neighbourhood/ng-programme-m1-2026-10-03",
+  "folders": 44,
+  "firstFolder": "captures/neighbourhood/2026-10-03T19-05-32",
+  "lastFolder": "captures/neighbourhood/2026-10-03T19-11-04",
+  "MB": 322,
+  "networkBodiesMB": 56,
+  "plannedMB": [
+   450,
+   600
+  ]
+ },
+ "disk": {
+  "freeBefore": "15Gi",
+  "freeAfter": "14Gi",
+  "stopRuleGB": 1,
+  "readings": "before the build check, before each load, after the programme"
+ },
+ "checks": {
+  "C1 meta keeps tags and seed (row)": "pass 44/44",
+  "C2 0 skipped 0 dropped (row)": "pass 44/44",
+  "C3 paths_stats --md on every folder (row)": "pass 44/44, exit 0, 4 tables x 44 rows",
+  "C4 loads within J159": "pass 44 starts, 44 distinct, 1 document per folder, 0 attachments",
+  "C5 settled": "pass 44/44",
+  "C6 build": "pass 44/44",
+  "C7 plan coverage": "pass 44/44",
+  "red test": "pass (C1+C2 FAIL, exit 1 on a tampered clone)",
+  "mock tests": "pass (hang, no-marker, re-run skip, cap, disk stop; delayed-kill defect fixed)",
+  "doc_checks E04": "C1 1 reviewed, C2/C4/S1/S2 0, C3 21 unreviewed own phrases/paths/dates (exit 1 by that count; outside the design set)",
+  "doc_checks drift": "ARCHITECTURE and V12 with vs without the 45 folders: +486 JSON, +35647 3-grams, +1 list; hit counts and unreviewed lines identical (0 new hits); other volumes not run"
+ },
+ "sampleTotals": {
+  "maps": 44,
+  "streets": 2625,
+  "streetBends": {
+   "0": 948,
+   "1": 1668,
+   "2+": 9
+  },
+  "arrivals85": 4024,
+  "junctionEnds": 4135,
+  "footprints": 28887
+ },
+ "perFamily": {
+  "area/small": {
+   "n": 3,
+   "paintedPaths": [
+    7982,
+    8514
+   ],
+   "vertices": [
+    32621,
+    50986
+   ],
+   "streets": [
+    25,
+    28
+   ],
+   "closedRoads": [
+    0,
+    0
+   ],
+   "footprints": [
+    252,
+    262
+   ],
+   "footprintsMean": 257,
+   "streetBends": {
+    "0": 21,
+    "1": 58,
+    "2+": 0
+   },
+   "arrivals85": 105,
+   "junctionEnds": 107
+  },
+  "street/small": {
+   "n": 3,
+   "paintedPaths": [
+    2336,
+    6219
+   ],
+   "vertices": [
+    10699,
+    22674
+   ],
+   "streets": [
+    8,
+    21
+   ],
+   "closedRoads": [
+    0,
+    0
+   ],
+   "footprints": [
+    77,
+    198
+   ],
+   "footprintsMean": 134,
+   "streetBends": {
+    "0": 8,
+    "1": 33,
+    "2+": 2
+   },
+   "arrivals85": 50,
+   "junctionEnds": 53
+  },
+  "square/small": {
+   "n": 3,
+   "paintedPaths": [
+    2609,
+    4000
+   ],
+   "vertices": [
+    15873,
+    25455
+   ],
+   "streets": [
+    11,
+    18
+   ],
+   "closedRoads": [
+    0,
+    0
+   ],
+   "footprints": [
+    85,
+    124
+   ],
+   "footprintsMean": 105,
+   "streetBends": {
+    "0": 21,
+    "1": 20,
+    "2+": 0
+   },
+   "arrivals85": 48,
+   "junctionEnds": 48
+  },
+  "ring/small": {
+   "n": 3,
+   "paintedPaths": [
+    13653,
+    16308
+   ],
+   "vertices": [
+    56279,
+    67569
+   ],
+   "streets": [
+    35,
+    43
+   ],
+   "closedRoads": [
+    1,
+    3
+   ],
+   "footprints": [
+    425,
+    532
+   ],
+   "footprintsMean": 466,
+   "streetBends": {
+    "0": 19,
+    "1": 96,
+    "2+": 0
+   },
+   "arrivals85": 172,
+   "junctionEnds": 180
+  },
+  "area/medium": {
+   "n": 5,
+   "paintedPaths": [
+    14269,
+    34419
+   ],
+   "vertices": [
+    69818,
+    155376
+   ],
+   "streets": [
+    37,
+    99
+   ],
+   "closedRoads": [
+    0,
+    0
+   ],
+   "footprints": [
+    445,
+    1118
+   ],
+   "footprintsMean": 793,
+   "streetBends": {
+    "0": 171,
+    "1": 177,
+    "2+": 1
+   },
+   "arrivals85": 542,
+   "junctionEnds": 548
+  },
+  "street/medium": {
+   "n": 5,
+   "paintedPaths": [
+    6593,
+    12825
+   ],
+   "vertices": [
+    29641,
+    56268
+   ],
+   "streets": [
+    16,
+    39
+   ],
+   "closedRoads": [
+    0,
+    0
+   ],
+   "footprints": [
+    193,
+    437
+   ],
+   "footprintsMean": 302,
+   "streetBends": {
+    "0": 31,
+    "1": 100,
+    "2+": 1
+   },
+   "arrivals85": 163,
+   "junctionEnds": 171
+  },
+  "square/medium": {
+   "n": 5,
+   "paintedPaths": [
+    4545,
+    15419
+   ],
+   "vertices": [
+    17392,
+    60622
+   ],
+   "streets": [
+    22,
+    45
+   ],
+   "closedRoads": [
+    0,
+    1
+   ],
+   "footprints": [
+    146,
+    488
+   ],
+   "footprintsMean": 323,
+   "streetBends": {
+    "0": 49,
+    "1": 111,
+    "2+": 0
+   },
+   "arrivals85": 210,
+   "junctionEnds": 222
+  },
+  "ring/medium": {
+   "n": 5,
+   "paintedPaths": [
+    27543,
+    39798
+   ],
+   "vertices": [
+    133170,
+    164638
+   ],
+   "streets": [
+    61,
+    154
+   ],
+   "closedRoads": [
+    1,
+    5
+   ],
+   "footprints": [
+    837,
+    1332
+   ],
+   "footprintsMean": 1078,
+   "streetBends": {
+    "0": 131,
+    "1": 351,
+    "2+": 2
+   },
+   "arrivals85": 797,
+   "junctionEnds": 822
+  },
+  "area/large": {
+   "n": 3,
+   "paintedPaths": [
+    22391,
+    36923
+   ],
+   "vertices": [
+    104216,
+    181493
+   ],
+   "streets": [
+    86,
+    101
+   ],
+   "closedRoads": [
+    0,
+    0
+   ],
+   "footprints": [
+    805,
+    1236
+   ],
+   "footprintsMean": 1063,
+   "streetBends": {
+    "0": 125,
+    "1": 162,
+    "2+": 0
+   },
+   "arrivals85": 448,
+   "junctionEnds": 456
+  },
+  "street/large": {
+   "n": 3,
+   "paintedPaths": [
+    18844,
+    28463
+   ],
+   "vertices": [
+    83350,
+    132985
+   ],
+   "streets": [
+    57,
+    75
+   ],
+   "closedRoads": [
+    0,
+    0
+   ],
+   "footprints": [
+    621,
+    918
+   ],
+   "footprintsMean": 782,
+   "streetBends": {
+    "0": 86,
+    "1": 112,
+    "2+": 2
+   },
+   "arrivals85": 299,
+   "junctionEnds": 301
+  },
+  "square/large": {
+   "n": 3,
+   "paintedPaths": [
+    22323,
+    45454
+   ],
+   "vertices": [
+    112308,
+    192540
+   ],
+   "streets": [
+    67,
+    178
+   ],
+   "closedRoads": [
+    0,
+    0
+   ],
+   "footprints": [
+    674,
+    1525
+   ],
+   "footprintsMean": 1075,
+   "streetBends": {
+    "0": 184,
+    "1": 148,
+    "2+": 0
+   },
+   "arrivals85": 528,
+   "junctionEnds": 540
+  },
+  "ring/large": {
+   "n": 3,
+   "paintedPaths": [
+    46185,
+    62405
+   ],
+   "vertices": [
+    212375,
+    270635
+   ],
+   "streets": [
+    107,
+    149
+   ],
+   "closedRoads": [
+    1,
+    3
+   ],
+   "footprints": [
+    1376,
+    1930
+   ],
+   "footprintsMean": 1586,
+   "streetBends": {
+    "0": 102,
+    "1": 300,
+    "2+": 1
+   },
+   "arrivals85": 662,
+   "junctionEnds": 687
+  }
+ },
+ "perLoad": [
+  {
+   "load": 1,
+   "label": "capture/NG/area/medium/0",
+   "template": "area",
+   "size": "medium",
+   "seed": 259196530,
+   "folder": "captures/neighbourhood/2026-10-03T19-05-32",
+   "paintedPaths": 24215,
+   "vertices": 116867,
+   "pathsBytes": 4927382,
+   "folderBytes": 8563073,
+   "streets": 66,
+   "closedRoads": 0,
+   "footprints": 807,
+   "roofFaces": 1576,
+   "streetBends": {
+    "0": 36,
+    "1": 30,
+    "2+": 0
+   },
+   "junctionEnds": 102,
+   "allEnds": 132,
+   "arrivals85": 100,
+   "footprintCornerShare89to91": 0.7835,
+   "requests": 16
+  },
+  {
+   "load": 2,
+   "label": "capture/NG/street/medium/0",
+   "template": "street",
+   "size": "medium",
+   "seed": 785771709,
+   "folder": "captures/neighbourhood/2026-10-03T19-05-47",
+   "paintedPaths": 9908,
+   "vertices": 42516,
+   "pathsBytes": 1906611,
+   "folderBytes": 4183709,
+   "streets": 27,
+   "closedRoads": 0,
+   "footprints": 297,
+   "roofFaces": 587,
+   "streetBends": {
+    "0": 3,
+    "1": 24,
+    "2+": 0
+   },
+   "junctionEnds": 33,
+   "allEnds": 54,
+   "arrivals85": 29,
+   "footprintCornerShare89to91": 0.5147,
+   "requests": 16
+  },
+  {
+   "load": 3,
+   "label": "capture/NG/square/medium/0",
+   "template": "square",
+   "size": "medium",
+   "seed": 515542992,
+   "folder": "captures/neighbourhood/2026-10-03T19-05-53",
+   "paintedPaths": 4545,
+   "vertices": 17392,
+   "pathsBytes": 853169,
+   "folderBytes": 2611241,
+   "streets": 22,
+   "closedRoads": 0,
+   "footprints": 146,
+   "roofFaces": 283,
+   "streetBends": {
+    "0": 5,
+    "1": 17,
+    "2+": 0
+   },
+   "junctionEnds": 28,
+   "allEnds": 44,
+   "arrivals85": 25,
+   "footprintCornerShare89to91": 0.548,
+   "requests": 16
+  },
+  {
+   "load": 4,
+   "label": "capture/NG/ring/medium/0",
+   "template": "ring",
+   "size": "medium",
+   "seed": 1081967957,
+   "folder": "captures/neighbourhood/2026-10-03T19-05-59",
+   "paintedPaths": 29925,
+   "vertices": 150359,
+   "pathsBytes": 6359990,
+   "folderBytes": 10344653,
+   "streets": 61,
+   "closedRoads": 1,
+   "footprints": 870,
+   "roofFaces": 1695,
+   "streetBends": {
+    "0": 12,
+    "1": 49,
+    "2+": 0
+   },
+   "junctionEnds": 96,
+   "allEnds": 122,
+   "arrivals85": 94,
+   "footprintCornerShare89to91": 0.5821,
+   "requests": 16
+  },
+  {
+   "load": 5,
+   "label": "capture/NG/area/medium/1",
+   "template": "area",
+   "size": "medium",
+   "seed": 232825077,
+   "folder": "captures/neighbourhood/2026-10-03T19-06-06",
+   "paintedPaths": 34419,
+   "vertices": 155376,
+   "pathsBytes": 6871336,
+   "folderBytes": 11329866,
+   "streets": 99,
+   "closedRoads": 0,
+   "footprints": 1118,
+   "roofFaces": 2219,
+   "streetBends": {
+    "0": 45,
+    "1": 54,
+    "2+": 0
+   },
+   "junctionEnds": 160,
+   "allEnds": 198,
+   "arrivals85": 157,
+   "footprintCornerShare89to91": 0.7086,
+   "requests": 16
+  },
+  {
+   "load": 6,
+   "label": "capture/NG/street/medium/1",
+   "template": "street",
+   "size": "medium",
+   "seed": 1598584932,
+   "folder": "captures/neighbourhood/2026-10-03T19-06-13",
+   "paintedPaths": 12825,
+   "vertices": 50185,
+   "pathsBytes": 2445618,
+   "folderBytes": 4955888,
+   "streets": 34,
+   "closedRoads": 0,
+   "footprints": 437,
+   "roofFaces": 865,
+   "streetBends": {
+    "0": 9,
+    "1": 24,
+    "2+": 1
+   },
+   "junctionEnds": 47,
+   "allEnds": 68,
+   "arrivals85": 46,
+   "footprintCornerShare89to91": 0.6538,
+   "requests": 16
+  },
+  {
+   "load": 7,
+   "label": "capture/NG/square/medium/1",
+   "template": "square",
+   "size": "medium",
+   "seed": 357012674,
+   "folder": "captures/neighbourhood/2026-10-03T19-06-19",
+   "paintedPaths": 6006,
+   "vertices": 23070,
+   "pathsBytes": 1133276,
+   "folderBytes": 3082287,
+   "streets": 22,
+   "closedRoads": 1,
+   "footprints": 177,
+   "roofFaces": 347,
+   "streetBends": {
+    "0": 7,
+    "1": 15,
+    "2+": 0
+   },
+   "junctionEnds": 28,
+   "allEnds": 44,
+   "arrivals85": 23,
+   "footprintCornerShare89to91": 0.6921,
+   "requests": 16
+  },
+  {
+   "load": 8,
+   "label": "capture/NG/ring/medium/1",
+   "template": "ring",
+   "size": "medium",
+   "seed": 444492668,
+   "folder": "captures/neighbourhood/2026-10-03T19-06-24",
+   "paintedPaths": 39798,
+   "vertices": 139660,
+   "pathsBytes": 7457729,
+   "folderBytes": 12399967,
+   "streets": 154,
+   "closedRoads": 5,
+   "footprints": 1332,
+   "roofFaces": 2621,
+   "streetBends": {
+    "0": 41,
+    "1": 113,
+    "2+": 0
+   },
+   "junctionEnds": 279,
+   "allEnds": 308,
+   "arrivals85": 274,
+   "footprintCornerShare89to91": 0.4337,
+   "requests": 16
+  },
+  {
+   "load": 9,
+   "label": "capture/NG/area/medium/2",
+   "template": "area",
+   "size": "medium",
+   "seed": 1353336801,
+   "folder": "captures/neighbourhood/2026-10-03T19-06-32",
+   "paintedPaths": 14269,
+   "vertices": 69818,
+   "pathsBytes": 2928096,
+   "folderBytes": 5663323,
+   "streets": 37,
+   "closedRoads": 0,
+   "footprints": 445,
+   "roofFaces": 881,
+   "streetBends": {
+    "0": 10,
+    "1": 27,
+    "2+": 0
+   },
+   "junctionEnds": 52,
+   "allEnds": 74,
+   "arrivals85": 52,
+   "footprintCornerShare89to91": 0.6269,
+   "requests": 16
+  },
+  {
+   "load": 10,
+   "label": "capture/NG/street/medium/2",
+   "template": "street",
+   "size": "medium",
+   "seed": 13886769,
+   "folder": "captures/neighbourhood/2026-10-03T19-06-38",
+   "paintedPaths": 11201,
+   "vertices": 47595,
+   "pathsBytes": 2202954,
+   "folderBytes": 4790619,
+   "streets": 39,
+   "closedRoads": 0,
+   "footprints": 389,
+   "roofFaces": 742,
+   "streetBends": {
+    "0": 12,
+    "1": 27,
+    "2+": 0
+   },
+   "junctionEnds": 55,
+   "allEnds": 78,
+   "arrivals85": 53,
+   "footprintCornerShare89to91": 0.556,
+   "requests": 16
+  },
+  {
+   "load": 11,
+   "label": "capture/NG/square/medium/2",
+   "template": "square",
+   "size": "medium",
+   "seed": 1487799455,
+   "folder": "captures/neighbourhood/2026-10-03T19-06-43",
+   "paintedPaths": 13824,
+   "vertices": 53845,
+   "pathsBytes": 2635974,
+   "folderBytes": 5238977,
+   "streets": 33,
+   "closedRoads": 0,
+   "footprints": 421,
+   "roofFaces": 833,
+   "streetBends": {
+    "0": 7,
+    "1": 26,
+    "2+": 0
+   },
+   "junctionEnds": 43,
+   "allEnds": 66,
+   "arrivals85": 42,
+   "footprintCornerShare89to91": 0.6433,
+   "requests": 16
+  },
+  {
+   "load": 12,
+   "label": "capture/NG/ring/medium/2",
+   "template": "ring",
+   "size": "medium",
+   "seed": 286417888,
+   "folder": "captures/neighbourhood/2026-10-03T19-06-49",
+   "paintedPaths": 31567,
+   "vertices": 133170,
+   "pathsBytes": 6265060,
+   "folderBytes": 10360685,
+   "streets": 94,
+   "closedRoads": 2,
+   "footprints": 1050,
+   "roofFaces": 2032,
+   "streetBends": {
+    "0": 23,
+    "1": 71,
+    "2+": 0
+   },
+   "junctionEnds": 157,
+   "allEnds": 188,
+   "arrivals85": 147,
+   "footprintCornerShare89to91": 0.5312,
+   "requests": 16
+  },
+  {
+   "load": 13,
+   "label": "capture/NG/area/medium/3",
+   "template": "area",
+   "size": "medium",
+   "seed": 632875219,
+   "folder": "captures/neighbourhood/2026-10-03T19-06-56",
+   "paintedPaths": 23244,
+   "vertices": 103089,
+   "pathsBytes": 4589435,
+   "folderBytes": 8027922,
+   "streets": 68,
+   "closedRoads": 0,
+   "footprints": 747,
+   "roofFaces": 1485,
+   "streetBends": {
+    "0": 29,
+    "1": 38,
+    "2+": 1
+   },
+   "junctionEnds": 107,
+   "allEnds": 136,
+   "arrivals85": 107,
+   "footprintCornerShare89to91": 0.6635,
+   "requests": 16
+  },
+  {
+   "load": 14,
+   "label": "capture/NG/street/medium/3",
+   "template": "street",
+   "size": "medium",
+   "seed": 1773949171,
+   "folder": "captures/neighbourhood/2026-10-03T19-07-02",
+   "paintedPaths": 6593,
+   "vertices": 56268,
+   "pathsBytes": 1656742,
+   "folderBytes": 3650893,
+   "streets": 16,
+   "closedRoads": 0,
+   "footprints": 193,
+   "roofFaces": 377,
+   "streetBends": {
+    "0": 5,
+    "1": 11,
+    "2+": 0
+   },
+   "junctionEnds": 17,
+   "allEnds": 32,
+   "arrivals85": 16,
+   "footprintCornerShare89to91": 0.651,
+   "requests": 16
+  },
+  {
+   "load": 15,
+   "label": "capture/NG/square/medium/3",
+   "template": "square",
+   "size": "medium",
+   "seed": 1551289944,
+   "folder": "captures/neighbourhood/2026-10-03T19-07-07",
+   "paintedPaths": 11724,
+   "vertices": 47740,
+   "pathsBytes": 2259988,
+   "folderBytes": 4830753,
+   "streets": 38,
+   "closedRoads": 0,
+   "footprints": 381,
+   "roofFaces": 753,
+   "streetBends": {
+    "0": 15,
+    "1": 23,
+    "2+": 0
+   },
+   "junctionEnds": 54,
+   "allEnds": 76,
+   "arrivals85": 54,
+   "footprintCornerShare89to91": 0.7164,
+   "requests": 16
+  },
+  {
+   "load": 16,
+   "label": "capture/NG/ring/medium/3",
+   "template": "ring",
+   "size": "medium",
+   "seed": 1753136892,
+   "folder": "captures/neighbourhood/2026-10-03T19-07-12",
+   "paintedPaths": 39092,
+   "vertices": 164638,
+   "pathsBytes": 7717560,
+   "folderBytes": 12413580,
+   "streets": 113,
+   "closedRoads": 1,
+   "footprints": 1303,
+   "roofFaces": 2466,
+   "streetBends": {
+    "0": 36,
+    "1": 76,
+    "2+": 1
+   },
+   "junctionEnds": 192,
+   "allEnds": 226,
+   "arrivals85": 189,
+   "footprintCornerShare89to91": 0.6265,
+   "requests": 16
+  },
+  {
+   "load": 17,
+   "label": "capture/NG/area/medium/4",
+   "template": "area",
+   "size": "medium",
+   "seed": 1985887065,
+   "folder": "captures/neighbourhood/2026-10-03T19-07-18",
+   "paintedPaths": 27508,
+   "vertices": 134127,
+   "pathsBytes": 5588279,
+   "folderBytes": 9439458,
+   "streets": 79,
+   "closedRoads": 0,
+   "footprints": 848,
+   "roofFaces": 1672,
+   "streetBends": {
+    "0": 51,
+    "1": 28,
+    "2+": 0
+   },
+   "junctionEnds": 127,
+   "allEnds": 158,
+   "arrivals85": 126,
+   "footprintCornerShare89to91": 0.7873,
+   "requests": 16
+  },
+  {
+   "load": 18,
+   "label": "capture/NG/street/medium/4",
+   "template": "street",
+   "size": "medium",
+   "seed": 1679123909,
+   "folder": "captures/neighbourhood/2026-10-03T19-07-24",
+   "paintedPaths": 6670,
+   "vertices": 29641,
+   "pathsBytes": 1339901,
+   "folderBytes": 3288634,
+   "streets": 16,
+   "closedRoads": 0,
+   "footprints": 196,
+   "roofFaces": 383,
+   "streetBends": {
+    "0": 2,
+    "1": 14,
+    "2+": 0
+   },
+   "junctionEnds": 19,
+   "allEnds": 32,
+   "arrivals85": 19,
+   "footprintCornerShare89to91": 0.5479,
+   "requests": 16
+  },
+  {
+   "load": 19,
+   "label": "capture/NG/square/medium/4",
+   "template": "square",
+   "size": "medium",
+   "seed": 1809810844,
+   "folder": "captures/neighbourhood/2026-10-03T19-07-29",
+   "paintedPaths": 15419,
+   "vertices": 60622,
+   "pathsBytes": 2953123,
+   "folderBytes": 5748338,
+   "streets": 45,
+   "closedRoads": 1,
+   "footprints": 488,
+   "roofFaces": 939,
+   "streetBends": {
+    "0": 15,
+    "1": 30,
+    "2+": 0
+   },
+   "junctionEnds": 69,
+   "allEnds": 90,
+   "arrivals85": 66,
+   "footprintCornerShare89to91": 0.6393,
+   "requests": 16
+  },
+  {
+   "load": 20,
+   "label": "capture/NG/ring/medium/4",
+   "template": "ring",
+   "size": "medium",
+   "seed": 359026657,
+   "folder": "captures/neighbourhood/2026-10-03T19-07-34",
+   "paintedPaths": 27543,
+   "vertices": 163884,
+   "pathsBytes": 6008797,
+   "folderBytes": 9906522,
+   "streets": 62,
+   "closedRoads": 1,
+   "footprints": 837,
+   "roofFaces": 1634,
+   "streetBends": {
+    "0": 19,
+    "1": 42,
+    "2+": 1
+   },
+   "junctionEnds": 98,
+   "allEnds": 124,
+   "arrivals85": 93,
+   "footprintCornerShare89to91": 0.6628,
+   "requests": 16
+  },
+  {
+   "load": 21,
+   "label": "capture/NG/area/small/0",
+   "template": "area",
+   "size": "small",
+   "seed": 126607485,
+   "folder": "captures/neighbourhood/2026-10-03T19-07-43",
+   "paintedPaths": 7982,
+   "vertices": 32621,
+   "pathsBytes": 1528108,
+   "folderBytes": 3701249,
+   "streets": 26,
+   "closedRoads": 0,
+   "footprints": 252,
+   "roofFaces": 482,
+   "streetBends": {
+    "0": 3,
+    "1": 23,
+    "2+": 0
+   },
+   "junctionEnds": 32,
+   "allEnds": 52,
+   "arrivals85": 31,
+   "footprintCornerShare89to91": 0.5146,
+   "requests": 16
+  },
+  {
+   "load": 22,
+   "label": "capture/NG/street/small/0",
+   "template": "street",
+   "size": "small",
+   "seed": 978382261,
+   "folder": "captures/neighbourhood/2026-10-03T19-07-49",
+   "paintedPaths": 6219,
+   "vertices": 22674,
+   "pathsBytes": 1134328,
+   "folderBytes": 3092285,
+   "streets": 21,
+   "closedRoads": 0,
+   "footprints": 198,
+   "roofFaces": 385,
+   "streetBends": {
+    "0": 5,
+    "1": 16,
+    "2+": 0
+   },
+   "junctionEnds": 29,
+   "allEnds": 42,
+   "arrivals85": 28,
+   "footprintCornerShare89to91": 0.6451,
+   "requests": 16
+  },
+  {
+   "load": 23,
+   "label": "capture/NG/square/small/0",
+   "template": "square",
+   "size": "small",
+   "seed": 707853513,
+   "folder": "captures/neighbourhood/2026-10-03T19-07-54",
+   "paintedPaths": 4000,
+   "vertices": 15873,
+   "pathsBytes": 759166,
+   "folderBytes": 2548373,
+   "streets": 18,
+   "closedRoads": 0,
+   "footprints": 124,
+   "roofFaces": 248,
+   "streetBends": {
+    "0": 6,
+    "1": 12,
+    "2+": 0
+   },
+   "junctionEnds": 22,
+   "allEnds": 36,
+   "arrivals85": 22,
+   "footprintCornerShare89to91": 0.6385,
+   "requests": 16
+  },
+  {
+   "load": 24,
+   "label": "capture/NG/ring/small/0",
+   "template": "ring",
+   "size": "small",
+   "seed": 304900102,
+   "folder": "captures/neighbourhood/2026-10-03T19-08-00",
+   "paintedPaths": 16308,
+   "vertices": 67569,
+   "pathsBytes": 3148612,
+   "folderBytes": 6048302,
+   "streets": 43,
+   "closedRoads": 3,
+   "footprints": 532,
+   "roofFaces": 1011,
+   "streetBends": {
+    "0": 4,
+    "1": 39,
+    "2+": 0
+   },
+   "junctionEnds": 77,
+   "allEnds": 86,
+   "arrivals85": 75,
+   "footprintCornerShare89to91": 0.4465,
+   "requests": 16
+  },
+  {
+   "load": 25,
+   "label": "capture/NG/area/small/1",
+   "template": "area",
+   "size": "small",
+   "seed": 358222298,
+   "folder": "captures/neighbourhood/2026-10-03T19-08-05",
+   "paintedPaths": 8469,
+   "vertices": 50986,
+   "pathsBytes": 1839921,
+   "folderBytes": 4028643,
+   "streets": 25,
+   "closedRoads": 0,
+   "footprints": 257,
+   "roofFaces": 495,
+   "streetBends": {
+    "0": 7,
+    "1": 18,
+    "2+": 0
+   },
+   "junctionEnds": 37,
+   "allEnds": 50,
+   "arrivals85": 36,
+   "footprintCornerShare89to91": 0.6227,
+   "requests": 16
+  },
+  {
+   "load": 26,
+   "label": "capture/NG/street/small/1",
+   "template": "street",
+   "size": "small",
+   "seed": 636321768,
+   "folder": "captures/neighbourhood/2026-10-03T19-08-12",
+   "paintedPaths": 2336,
+   "vertices": 10699,
+   "pathsBytes": 462206,
+   "folderBytes": 2060232,
+   "streets": 8,
+   "closedRoads": 0,
+   "footprints": 77,
+   "roofFaces": 143,
+   "streetBends": {
+    "0": 2,
+    "1": 5,
+    "2+": 1
+   },
+   "junctionEnds": 7,
+   "allEnds": 16,
+   "arrivals85": 7,
+   "footprintCornerShare89to91": 0.5191,
+   "requests": 16
+  },
+  {
+   "load": 27,
+   "label": "capture/NG/square/small/1",
+   "template": "square",
+   "size": "small",
+   "seed": 1890188727,
+   "folder": "captures/neighbourhood/2026-10-03T19-08-17",
+   "paintedPaths": 3442,
+   "vertices": 25455,
+   "pathsBytes": 822992,
+   "folderBytes": 2717420,
+   "streets": 12,
+   "closedRoads": 0,
+   "footprints": 106,
+   "roofFaces": 212,
+   "streetBends": {
+    "0": 8,
+    "1": 4,
+    "2+": 0
+   },
+   "junctionEnds": 14,
+   "allEnds": 24,
+   "arrivals85": 14,
+   "footprintCornerShare89to91": 0.8344,
+   "requests": 16
+  },
+  {
+   "load": 28,
+   "label": "capture/NG/ring/small/1",
+   "template": "ring",
+   "size": "small",
+   "seed": 1442993248,
+   "folder": "captures/neighbourhood/2026-10-03T19-08-23",
+   "paintedPaths": 13653,
+   "vertices": 56279,
+   "pathsBytes": 2617484,
+   "folderBytes": 5334707,
+   "streets": 37,
+   "closedRoads": 1,
+   "footprints": 425,
+   "roofFaces": 819,
+   "streetBends": {
+    "0": 6,
+    "1": 31,
+    "2+": 0
+   },
+   "junctionEnds": 55,
+   "allEnds": 74,
+   "arrivals85": 51,
+   "footprintCornerShare89to91": 0.6126,
+   "requests": 16
+  },
+  {
+   "load": 29,
+   "label": "capture/NG/area/small/2",
+   "template": "area",
+   "size": "small",
+   "seed": 404975847,
+   "folder": "captures/neighbourhood/2026-10-03T19-08-29",
+   "paintedPaths": 8514,
+   "vertices": 47658,
+   "pathsBytes": 1814851,
+   "folderBytes": 4117844,
+   "streets": 28,
+   "closedRoads": 0,
+   "footprints": 262,
+   "roofFaces": 513,
+   "streetBends": {
+    "0": 11,
+    "1": 17,
+    "2+": 0
+   },
+   "junctionEnds": 38,
+   "allEnds": 56,
+   "arrivals85": 38,
+   "footprintCornerShare89to91": 0.7405,
+   "requests": 16
+  },
+  {
+   "load": 30,
+   "label": "capture/NG/street/small/2",
+   "template": "street",
+   "size": "small",
+   "seed": 1275069081,
+   "folder": "captures/neighbourhood/2026-10-03T19-08-36",
+   "paintedPaths": 4084,
+   "vertices": 15226,
+   "pathsBytes": 766715,
+   "folderBytes": 2516944,
+   "streets": 14,
+   "closedRoads": 0,
+   "footprints": 127,
+   "roofFaces": 254,
+   "streetBends": {
+    "0": 1,
+    "1": 12,
+    "2+": 1
+   },
+   "junctionEnds": 17,
+   "allEnds": 28,
+   "arrivals85": 15,
+   "footprintCornerShare89to91": 0.5087,
+   "requests": 16
+  },
+  {
+   "load": 31,
+   "label": "capture/NG/square/small/2",
+   "template": "square",
+   "size": "small",
+   "seed": 409499837,
+   "folder": "captures/neighbourhood/2026-10-03T19-08-42",
+   "paintedPaths": 2609,
+   "vertices": 19638,
+   "pathsBytes": 624837,
+   "folderBytes": 2378198,
+   "streets": 11,
+   "closedRoads": 0,
+   "footprints": 85,
+   "roofFaces": 163,
+   "streetBends": {
+    "0": 7,
+    "1": 4,
+    "2+": 0
+   },
+   "junctionEnds": 12,
+   "allEnds": 22,
+   "arrivals85": 12,
+   "footprintCornerShare89to91": 0.8209,
+   "requests": 16
+  },
+  {
+   "load": 32,
+   "label": "capture/NG/ring/small/2",
+   "template": "ring",
+   "size": "small",
+   "seed": 338509678,
+   "folder": "captures/neighbourhood/2026-10-03T19-08-48",
+   "paintedPaths": 13712,
+   "vertices": 57476,
+   "pathsBytes": 2668066,
+   "folderBytes": 5376744,
+   "streets": 35,
+   "closedRoads": 1,
+   "footprints": 441,
+   "roofFaces": 862,
+   "streetBends": {
+    "0": 9,
+    "1": 26,
+    "2+": 0
+   },
+   "junctionEnds": 48,
+   "allEnds": 70,
+   "arrivals85": 46,
+   "footprintCornerShare89to91": 0.6171,
+   "requests": 16
+  },
+  {
+   "load": 33,
+   "label": "capture/NG/area/large/0",
+   "template": "area",
+   "size": "large",
+   "seed": 1752556562,
+   "folder": "captures/neighbourhood/2026-10-03T19-08-54",
+   "paintedPaths": 22391,
+   "vertices": 104216,
+   "pathsBytes": 4475620,
+   "folderBytes": 7730034,
+   "streets": 86,
+   "closedRoads": 0,
+   "footprints": 805,
+   "roofFaces": 1527,
+   "streetBends": {
+    "0": 47,
+    "1": 39,
+    "2+": 0
+   },
+   "junctionEnds": 129,
+   "allEnds": 172,
+   "arrivals85": 125,
+   "footprintCornerShare89to91": 0.7227,
+   "requests": 16
+  },
+  {
+   "load": 34,
+   "label": "capture/NG/street/large/0",
+   "template": "street",
+   "size": "large",
+   "seed": 998667101,
+   "folder": "captures/neighbourhood/2026-10-03T19-09-01",
+   "paintedPaths": 28463,
+   "vertices": 132985,
+   "pathsBytes": 5715121,
+   "folderBytes": 9520413,
+   "streets": 75,
+   "closedRoads": 0,
+   "footprints": 918,
+   "roofFaces": 1746,
+   "streetBends": {
+    "0": 36,
+    "1": 37,
+    "2+": 2
+   },
+   "junctionEnds": 117,
+   "allEnds": 150,
+   "arrivals85": 117,
+   "footprintCornerShare89to91": 0.7421,
+   "requests": 16
+  },
+  {
+   "load": 35,
+   "label": "capture/NG/square/large/0",
+   "template": "square",
+   "size": "large",
+   "seed": 396387888,
+   "folder": "captures/neighbourhood/2026-10-03T19-09-08",
+   "paintedPaths": 30386,
+   "vertices": 192540,
+   "pathsBytes": 6767415,
+   "folderBytes": 10830924,
+   "streets": 87,
+   "closedRoads": 0,
+   "footprints": 1027,
+   "roofFaces": 1975,
+   "streetBends": {
+    "0": 86,
+    "1": 1,
+    "2+": 0
+   },
+   "junctionEnds": 134,
+   "allEnds": 174,
+   "arrivals85": 134,
+   "footprintCornerShare89to91": 0.9578,
+   "requests": 16
+  },
+  {
+   "load": 36,
+   "label": "capture/NG/ring/large/0",
+   "template": "ring",
+   "size": "large",
+   "seed": 470968935,
+   "folder": "captures/neighbourhood/2026-10-03T19-09-15",
+   "paintedPaths": 48295,
+   "vertices": 232457,
+   "pathsBytes": 9851825,
+   "folderBytes": 15260618,
+   "streets": 107,
+   "closedRoads": 2,
+   "footprints": 1376,
+   "roofFaces": 2741,
+   "streetBends": {
+    "0": 30,
+    "1": 76,
+    "2+": 1
+   },
+   "junctionEnds": 180,
+   "allEnds": 214,
+   "arrivals85": 176,
+   "footprintCornerShare89to91": 0.5947,
+   "requests": 16
+  },
+  {
+   "load": 37,
+   "label": "capture/NG/area/large/1",
+   "template": "area",
+   "size": "large",
+   "seed": 1090102981,
+   "folder": "captures/neighbourhood/2026-10-03T19-09-24",
+   "paintedPaths": 36923,
+   "vertices": 181493,
+   "pathsBytes": 7529353,
+   "folderBytes": 11978906,
+   "streets": 101,
+   "closedRoads": 0,
+   "footprints": 1236,
+   "roofFaces": 2404,
+   "streetBends": {
+    "0": 45,
+    "1": 56,
+    "2+": 0
+   },
+   "junctionEnds": 167,
+   "allEnds": 202,
+   "arrivals85": 167,
+   "footprintCornerShare89to91": 0.654,
+   "requests": 16
+  },
+  {
+   "load": 38,
+   "label": "capture/NG/street/large/1",
+   "template": "street",
+   "size": "large",
+   "seed": 1535414009,
+   "folder": "captures/neighbourhood/2026-10-03T19-09-30",
+   "paintedPaths": 24008,
+   "vertices": 83350,
+   "pathsBytes": 4578249,
+   "folderBytes": 7958749,
+   "streets": 57,
+   "closedRoads": 0,
+   "footprints": 806,
+   "roofFaces": 1593,
+   "streetBends": {
+    "0": 23,
+    "1": 34,
+    "2+": 0
+   },
+   "junctionEnds": 81,
+   "allEnds": 114,
+   "arrivals85": 80,
+   "footprintCornerShare89to91": 0.7131,
+   "requests": 16
+  },
+  {
+   "load": 39,
+   "label": "capture/NG/square/large/1",
+   "template": "square",
+   "size": "large",
+   "seed": 1692923774,
+   "folder": "captures/neighbourhood/2026-10-03T19-09-35",
+   "paintedPaths": 45454,
+   "vertices": 184751,
+   "pathsBytes": 8758752,
+   "folderBytes": 13980468,
+   "streets": 178,
+   "closedRoads": 0,
+   "footprints": 1525,
+   "roofFaces": 2989,
+   "streetBends": {
+    "0": 70,
+    "1": 108,
+    "2+": 0
+   },
+   "junctionEnds": 307,
+   "allEnds": 356,
+   "arrivals85": 299,
+   "footprintCornerShare89to91": 0.6132,
+   "requests": 16
+  },
+  {
+   "load": 40,
+   "label": "capture/NG/ring/large/1",
+   "template": "ring",
+   "size": "large",
+   "seed": 1263018650,
+   "folder": "captures/neighbourhood/2026-10-03T19-09-42",
+   "paintedPaths": 46185,
+   "vertices": 212375,
+   "pathsBytes": 9271302,
+   "folderBytes": 14701507,
+   "streets": 147,
+   "closedRoads": 1,
+   "footprints": 1452,
+   "roofFaces": 2895,
+   "streetBends": {
+    "0": 36,
+    "1": 111,
+    "2+": 0
+   },
+   "junctionEnds": 253,
+   "allEnds": 294,
+   "arrivals85": 240,
+   "footprintCornerShare89to91": 0.5604,
+   "requests": 16
+  },
+  {
+   "load": 41,
+   "label": "capture/NG/area/large/2",
+   "template": "area",
+   "size": "large",
+   "seed": 477074889,
+   "folder": "captures/neighbourhood/2026-10-03T19-09-55",
+   "paintedPaths": 36070,
+   "vertices": 171492,
+   "pathsBytes": 7190037,
+   "folderBytes": 11565519,
+   "streets": 100,
+   "closedRoads": 0,
+   "footprints": 1149,
+   "roofFaces": 2259,
+   "streetBends": {
+    "0": 33,
+    "1": 67,
+    "2+": 0
+   },
+   "junctionEnds": 160,
+   "allEnds": 200,
+   "arrivals85": 156,
+   "footprintCornerShare89to91": 0.6512,
+   "requests": 16
+  },
+  {
+   "load": 42,
+   "label": "capture/NG/street/large/2",
+   "template": "street",
+   "size": "large",
+   "seed": 1041970032,
+   "folder": "captures/neighbourhood/2026-10-03T19-10-09",
+   "paintedPaths": 18844,
+   "vertices": 85285,
+   "pathsBytes": 3721054,
+   "folderBytes": 6842468,
+   "streets": 68,
+   "closedRoads": 0,
+   "footprints": 621,
+   "roofFaces": 1226,
+   "streetBends": {
+    "0": 27,
+    "1": 41,
+    "2+": 0
+   },
+   "junctionEnds": 103,
+   "allEnds": 136,
+   "arrivals85": 102,
+   "footprintCornerShare89to91": 0.6372,
+   "requests": 16
+  },
+  {
+   "load": 43,
+   "label": "capture/NG/square/large/2",
+   "template": "square",
+   "size": "large",
+   "seed": 880974761,
+   "folder": "captures/neighbourhood/2026-10-03T19-10-31",
+   "paintedPaths": 22323,
+   "vertices": 112308,
+   "pathsBytes": 4649436,
+   "folderBytes": 8059971,
+   "streets": 67,
+   "closedRoads": 0,
+   "footprints": 674,
+   "roofFaces": 1319,
+   "streetBends": {
+    "0": 28,
+    "1": 39,
+    "2+": 0
+   },
+   "junctionEnds": 99,
+   "allEnds": 134,
+   "arrivals85": 95,
+   "footprintCornerShare89to91": 0.7233,
+   "requests": 16
+  },
+  {
+   "load": 44,
+   "label": "capture/NG/ring/large/2",
+   "template": "ring",
+   "size": "large",
+   "seed": 1801952899,
+   "folder": "captures/neighbourhood/2026-10-03T19-11-04",
+   "paintedPaths": 62405,
+   "vertices": 270635,
+   "pathsBytes": 12305440,
+   "folderBytes": 18538196,
+   "streets": 149,
+   "closedRoads": 3,
+   "footprints": 1930,
+   "roofFaces": 3743,
+   "streetBends": {
+    "0": 36,
+    "1": 113,
+    "2+": 0
+   },
+   "junctionEnds": 254,
+   "allEnds": 298,
+   "arrivals85": 246,
+   "footprintCornerShare89to91": 0.5572,
+   "requests": 16
+  }
+ ],
+ "requests": {
+  "perLoad": 16,
+  "total": 704,
+  "hosts": {
+   "html-classic.itch.zone": 14,
+   "static.itch.io": 1,
+   "itch.io": 1
+  },
+  "status": {
+   "200": 660,
+   "204": 44
+  }
+ },
+ "notRows": "census counts of profiler/paths_stats.py describing the sample; the baseline rows are W-10 and W-11; wallMs in meta.json is not a timing row (shared machine)",
+ "plausible": [
+  "headless recordings equal what a headful load would paint (not compared)",
+  "the census readings carry over to W-11 registered faces",
+  "no doc_checks drift on the eleven volumes not run"
+ ],
+ "handOffs": {
+  "W-10": "the 20 medium maps as ng_faces_by_class.py input",
+  "W-11": "block.countTemplate and block.area at medium (5 seeds per template + 2 of 2026-09-25); small/large for D3; register layers on gen-0.png",
+  "W-12": "block minor extents by size via W-11 faces"
+ }
+}

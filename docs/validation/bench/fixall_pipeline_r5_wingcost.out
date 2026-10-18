@@ -1,0 +1,19 @@
+fixall_pipeline_r5_wingcost: §2.6 carry + check per building per warp validation pass (NP4-6); Node v24.12.0, seeded; 20000 buildings x 7 repetitions per class; 1 m warp amplitude
+class | median ns per building per pass (carry + rule 3 + rule 4) | of which rule 4 check | pass rate | identity pairing (computed once per edit) | agreement with the full geometric edge test
+one-wing rect            |    434 |      0 | 100.00 % | pairing holds (255 ns once per edit)
+row quad                 |     61 |      7 | 100.00 % | pairing holds (281 ns once per edit)
+L tiled                  |    863 |    155 | 100.00 % | pairing holds (583 ns once per edit) | geometric edge test agrees on 20000 / 20000
+T tiled                  |    919 |    207 | 100.00 % | pairing holds (414 ns once per edit) | geometric edge test agrees on 20000 / 20000
+cross tiled              |   1555 |    317 | 100.00 % | pairing holds (564 ns once per edit) | geometric edge test agrees on 20000 / 20000
+U tiled                  |   1547 |    261 | 100.00 % | pairing holds (528 ns once per edit) | geometric edge test agrees on 20000 / 20000
+2x2 grid (inner joint)   |   2739 |    236 | 100.00 % | pairing holds (918 ns once per edit) | geometric edge test agrees on 20000 / 20000
+T overlap                |   1153 |    442 | 100.00 % | pairing fails (685 ns once per edit)
+mix (row 55 %, one-wing 25 %, L 8 %, T 5 %, cross 1 %, U 2 %, inner-joint 2 %, overlap 2 %): 381 ns per building per pass
+450 buildings: 0.17 ms per pass; 9 passes (the step and 8 halvings, the worst case): 1.55 ms
+note: an overlapping composition's check in the architecture is the arrangement union (§3.7), budgeted at S11's compound geometry share (<= 25 us); at 2 % of 450 buildings that adds <= 0.23 ms per pass.
+agreement at 8 m amplitude (tiled classes; simple-CCW-with-pairing versus the full geometric edge test):
+L tiled                  | trials 15555 | failing carries 468 | agree 15555 / 15555
+T tiled                  | trials 14962 | failing carries 474 | agree 14962 / 14962
+cross tiled              | trials 14145 | failing carries 433 | agree 14145 / 14145
+U tiled                  | trials 13945 | failing carries 454 | agree 13945 / 13945
+2x2 grid (inner joint)   | trials 17277 | failing carries 1745 | agree 17277 / 17277

@@ -1,0 +1,32 @@
+{
+  "table": "district",
+  "version": 1,
+  "section": "§4.5",
+  "rows": {
+    "growthRate": {
+      "gate": {"value": 0.1, "unit": "share", "provenance": "ref:MFCG 12710731 growth rate by seed kind (code), P13", "calibratable": false},
+      "castle": {"value": 0.1, "unit": "share", "provenance": "ref:MFCG 12710731 growth rate by seed kind (code), P13", "calibratable": false},
+      "bridgehead": {"value": 0.1, "unit": "share", "provenance": "ref:MFCG 12710731 growth rate by seed kind (code), P13", "calibratable": false},
+      "riverbank": {"value": 0.5, "unit": "share", "provenance": "ref:MFCG 12710731 growth rate by seed kind (code), P13", "calibratable": false},
+      "other": {"value": 1, "unit": "share", "provenance": "ref:MFCG 12710731 growth rate by seed kind (code), P13", "calibratable": false}
+    },
+    "countLaw": {
+      "coefficient": {"value": 3.5, "unit": "ratio", "provenance": "own", "calibratable": false},
+      "areaHa": {"value": 10, "unit": "ha", "provenance": "own", "calibratable": false},
+      "band": {"value": [0.5, 1.5], "unit": "ratio", "provenance": "own", "calibratable": false}
+    },
+    "patch": {
+      "compactnessMin": {"value": 0.5, "unit": "ratio", "provenance": "architecture 2026-09-25", "calibratable": false}
+    },
+    "perimeter": {
+      "offsetM": {"value": 50, "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "marginBandHalfM": {"value": 2, "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false}
+    },
+    "quarters": {
+      "coefficient": {"value": 1.37, "unit": "ratio", "provenance": "ref:MFCG district counts by size", "calibratable": false},
+      "exponent": {"value": 0.267, "unit": "ratio", "provenance": "ref:MFCG district counts by size", "calibratable": false},
+      "familyCostHa": {"value": 1000, "unit": "ha", "provenance": "own", "calibratable": false},
+      "barrierCostHa": {"value": 10000, "unit": "ha", "provenance": "own", "calibratable": false}
+    }
+  }
+}

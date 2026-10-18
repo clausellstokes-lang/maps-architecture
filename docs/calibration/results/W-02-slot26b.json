@@ -1,0 +1,90 @@
+{
+ "slot": 26,
+ "status": "landed",
+ "capture": "2026-10-04T08-06-17",
+ "checks": [
+  {
+   "check": "resume/continue state before the site",
+   "passed": true,
+   "receipt": "no results/W-02-slot26b.json and no lane line for m1/W-02-slot26b or any earlier slot-26 key; owner-go.json ftg true; plan.json slots 0-25 bound, slot 26 open (TOWN, none); plan.py --check SAME (d9c1109e/8a0efa7e); newest folder 2026-10-04T07-50-43 = slot 25's (its one PUT is slot 25's; its list after the create: 26 rows, BIG_TOWN 10, BIG_CITY 10, METROPOLIS 4, CITY 2, TOWN 0)"
+  },
+  {
+   "check": "isolated runner and clean start/stop",
+   "passed": true,
+   "receipt": "scratchpad m1w2/ftg/runner copies cmp identical (session.mjs e199be5d, drive.mjs 597eb62d, package.json 25e7d362, lib/common.mjs 3b948576, lib/instrument.js cca253ac); port 9341 free before; no FTG process, no Singleton*, no .session before; 'session closed' after drive.mjs stop; no Singleton*, both .session files absent, port 9341 free, pgrep -fl profiles/ftg empty at once and again about seven minutes later (nothing signalled)"
+  },
+  {
+   "check": "landing signed in, no consent notice, no other hand (H2, I2, I10)",
+   "passed": true,
+   "receipt": "'Signed in as [name]', 'Sign out', 'Home' (redacted reading), no consent notice (shot 001); .root-component scrollTop 0 at the first reading and 0 just before the Home click, hover empty both times; Home 1 of 2 matches hit-testable (896,931); later hovers only at the seat's own click points (the dialog's full-window layer under the New Settlement point after the form opened, as in slot 25); focus from the first settlements-view reading (after the seat's Home click), as in slots 22-25; one document load; no identity-provider call; no page outside the site; no response >= 400"
+  },
+  {
+   "check": "account list before (I2)",
+   "passed": true,
+   "receipt": "intercepted GET .../prod/settlements: 26 rows (BIG_TOWN 10, BIG_CITY 10, METROPOLIS 4, CITY 2) = the earlier settlement + slots 1-25; no TOWN row, so no slot-26 create had happened"
+  },
+  {
+   "check": "TOWN option by its request key (plan 2.1b (2), I4, slot-24/25 notes); metropolis not chosen",
+   "passed": true,
+   "receipt": "the form opened at 'Town (~4000 people)'; each option's React element key = its text + the request key; 3 of 12 keys end in TOWN, exactly 1 remainder is TOWN and it was the selected option; confirmed by eval, not selected again (I4); re-read in the form-final reading; request size key TOWN"
+  },
+  {
+   "check": "form set by guarded steps (H12, H14)",
+   "passed": true,
+   "receipt": "form-final eval: selects Town, Medieval europe, Wood, Generic fantasy, Generic religions, Comfortable, Temperate (deciduous trees), No coast; name field (found by its placeholder) empty; rivers off; farms, forests, reserve, walled on; dialog open. Every click its own command after text + shot (+ elementFromPoint for coordinates: forests 1008,556; scroll 720,400 inside the dialog; reserve 1008,367; walled 1008,396); the 23 checkbox states equal slot 25's form-final but the rivers box and its mirror; the 10 commands equal every signed-in none capture's 11 (slots 1, 6, 10, 11, 14, 15, 18, 19, 24) without their size select"
+  },
+  {
+   "check": "one create, retry rule (plan 2.1b (6))",
+   "passed": true,
+   "receipt": "CHECKPOINT line at 04:08 before the click; 'Create Settlement' 1 of 1 hit-testable (947,522) inside the dialog, pre-create shot 010 after the hit test, clicked once; PUT 200 with a 273 907-byte body; layout GET intercepted (intercept-0035); list after: 27 rows (TOWN 1), the new row carries the PUT's settlement id (listed population 3 590); no retry"
+  },
+  {
+   "check": "first-of-size rule R-41 (I9): leaves named, examined, added by name",
+   "passed": true,
+   "receipt": "first --check-only (script 735922948e3970fb) exit 1, 8/10: requestDiff and vsSlot0 each named the same 11 other leaves, the same 11 against all 16 earlier requests compared (base, 2026-09-25, slots 0, 1, 2, 3, 6, 7, 10, 11, 14, 15, 18, 19, 24, 25): stages[0].key and .buildingPlacement (the town's one stage is the gaps stage) and stages[1].key, .buildingPlacement, .branchType, .buildingMaterial, .maxMainRoadAngle, .maxNormalRoadAngle, .placeWallAfter, .spokeStaySpokeProbability, .wallPlacement (absent: no second stage). Step 1: form steps differ from the none slots in the size option only. Step 3: all in .layoutParameters.stages; FTG's client stage builder (read in this capture's bundle) gives SMALL_TOWN and TOWN the gaps stage alone and the larger sizes the dense stage then the gaps stage; the town's stage equals the client's town entry (2.5 ha, share 0.5, 3/3 segments, 50 m, 1 spoke). Step 4: same-dir copy with 11 names: slot 26 exit 1 before / 0 after; slots 0-25 10/10 under both (sameSize 17/17 -> 28/28); planted: slot 21 second-stage building material or wall flag changed -> exit 1 on sameSize; installed by atomic rename after the hash check (735922948e3970fb -> c4ad4ddf76bd1f2a); SIZE_DEPENDENT 17 -> 28 names"
+  },
+  {
+   "check": "ftg_capture_post.py all checks",
+   "passed": true,
+   "receipt": "--slot 26 --signed-in --premium under the installed script: --check-only exit 0, writing run exit 0, 10/10 (calls, sizeKey, waterKeys, requestDiff other 0, vsSlot0 other 0, sameSize vacuous (first TOWN), decode, border 1750.00 m, noResidentField, pbRaw); red: as every other slot 0-25 and 27 exit 1 (as 0/1/6/24: sizeKey, border; as later none draws: + sameSize; as coast+river slots of other sizes: sizeKey, waterKeys, requestDiff, vsSlot0, sameSize, border; as 27: waterKeys, requestDiff, vsSlot0)"
+  },
+  {
+   "check": "payload and request facts",
+   "passed": true,
+   "receipt": "1 102 buildings, 2 417 edges, 1 985 nodes, 27 towers, 49 wall (type-7) edges in one closed ring (1 178 m, within 250 m), 0 water bodies, 2 districts, border half width 1 750.00 m (3 500 m square); payload 271 060 bytes sha256 3b66815867e34d2f, 173 distinct paths (none new; each absent one absent in an earlier capture; structure.md = fresh pb_raw apart from the title line); requestHash de113ff3f066 (273 907 bytes, recomputed outside the script; create-request.json parses equal); referenceBuild ftg:2026-10-04+de113ff3f066; server time 1.477 s (contended); population 3 625 nominal, listed 3 590"
+  },
+  {
+   "check": "slot bound, plan SAME",
+   "passed": true,
+   "receipt": "plan.json byte-equal to the pre-flight copy just before the bind; plan.py --bind-ftg 26=2026-10-04T08-06-17: one line changed; --check SAME immediately after (plan.json 11a9b3577f6d3d63, metrics.m-1.json 8a0efa7e61592ef3 unchanged); plan.py unchanged 68709ba8"
+  },
+  {
+   "check": "records written",
+   "passed": true,
+   "receipt": "E02 header update + section 37 (capture, checks, findings with the 28-value table, calls; 209 lines added, none removed; measure_ftg_slots.py e02_table() parse equal before/after: 17 rows, section 17.3's table); E02-ftg-captures.json: days entry for slot 26, slotsTaken 27, sizeDependentClass leaves 28 / since.slot26 11 / firstOfSizeTown, next.programme2, slotsByProgramme 2 = 21 of 22 (prior days equal); checklist section I slot-26 note (21 lines added, none removed); ftg_capture_post.py SIZE_DEPENDENT +11 names with an evidence comment; capture README with the seat's notes"
+  },
+  {
+   "check": "privacy grep of the files written (H11, H14)",
+   "passed": true,
+   "receipt": "README, capture-facts.json, create-request.json, request-diff.txt, structure.md, steps.jsonl, E02 section 37 + header (and the whole E02 .md and .json), the JSON entry, the checklist (with its slot-26 note), the post script's diff, the notes, this result file and this lane's lane-events.log lines: 0 email patterns, 0 display-name matches, 0 token prefixes (the checklist's one 'eyJ' is H11's own rule text, pre-existing); full ids only in create-request.json (the 45 client partner ids) and steps.jsonl (written by drive.mjs: the new settlement's id 64b8cc11... in the map-page address and the scratchpad session folder 35f80c37...; neither an account id, as in slots 1-25); every record written by hand keeps 8 hex at most"
+  },
+  {
+   "check": "disk",
+   "passed": true,
+   "receipt": "df -h /Users/cstokes: 11 GiB free before the session and after it, 10 GiB at the end (other lanes writing); capture folder 33 MB"
+  }
+ ],
+ "account_limit": "not reached: premium account (J164, unlimited); no counter shown; list 26 rows before, 27 after (BIG_TOWN 10, BIG_CITY 10, METROPOLIS 4, CITY 2, TOWN 1); no payment, upgrade, limit, sign-in or terms prompt appeared.",
+ "owner_notes": [
+  "Slot 26 is done. It is the first ordinary town (about 3 600 people), with no sea and no river. One new settlement was saved in your account, which now holds 27. Nothing was bought, accepted or changed, and you are still signed in.",
+  "The recording window was left alone; the seat saw no other hand. One slot (27, a coastal town) remains."
+ ],
+ "notes": [
+  "CONFIRMED: the one create (PUT 200, list 26 -> 27, the new row is the PUT's settlement); the first-of-size rule (R-41) named 11 layout-stage leaves, all set by the size (FTG's client gives TOWN one layout stage, the gaps stage, where larger sizes have two), widened by name red first (SIZE_DEPENDENT 17 -> 28; post script 735922948e3970fb -> c4ad4ddf76bd1f2a; slots 0-25 still 10/10); then 10/10 and bound with --check SAME. PLAUSIBLE only: why the town's wall (1 178 m, 27 towers) is longer than any BIG_TOWN none wall, that W-05b's next run stops at slot 26, what raised the window's focus, and that the listed population (3 590) is the generated resident count.",
+  "Vetoable call (E02 37.4 call 1): two of the 11 added leaves (the second stage's building material and wall flag) take form values at the two-stage sizes; there a change now fails the same-size check instead of the request diff (planted tests show it is caught). Every size now has a first capture, so the guard holds for every later slot. The alternative was failing slot 26 (and then slot 27) on values the size alone sets.",
+  "FOR THE SESSION (W-05b's lane, not changed here): research/baselines/measure_ftg_slots.py request_size_values() reads stages[1] by position and raises IndexError on slot 26's TOWN request (CONFIRMED by calling it read-only); measure_all calls it for every bound slot (line 339), so W-05b's next run over slot 26 PLAUSIBLY stops there, and its 'stage 1' rows would read TOWN's gaps stage. Its E02 class-table reader also cannot parse absent or text cells, so E02 section 37.3's 28-value table keeps a header outside the class-table form (parse equal before/after); W-05b's owner adds the 11 rows and a TOWN reading.",
+  "Findings (E02 37.3): the town is the smallest capture so far (1 102 buildings, 2 417 edges, 0.27 MB payload, 1.5 s server time); one closed wall ring as in every none capture; no water body; 173 payload paths, none new; the form's opening state already carries the town's values. For slot 27 (TOWN coast+river): its 28 size-dependent values must equal slot 26's (checklist I slot-26 note).",
+  "No leftover Chrome helper this run (as in slots 18 to 25); nothing was signalled. No identity-provider call. No git command was run.",
+  "Files: captures/ftg/2026-10-04T08-06-17/ (README.md, capture-facts.json, create-request.json, request-diff.txt, structure.md, session/, steps/ 17 shots), research/baselines/ftg_capture_post.py (SIZE_DEPENDENT only), research/baselines/plan.json (via plan.py), research/baselines/ftg_capture_checklist.md, docs/calibration/E02-ftg-captures.md, docs/calibration/E02-ftg-captures.json, docs/calibration/results/W-02-slot26b.json, docs/lane-events.log (this lane's lines)."
+ ]
+}

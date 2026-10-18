@@ -1,0 +1,75 @@
+{
+ "id": "W-14",
+ "status": "landed",
+ "records": [
+  "/Users/cstokes/Desktop/Maps/docs/calibration/E14-spike-derived-graph.md",
+  "/Users/cstokes/Desktop/Maps/docs/calibration/E14-spike-derived-graph.json"
+ ],
+ "outputs": [
+  "/Users/cstokes/Desktop/Maps/research/baselines/spike_derived_graph.py",
+  "/Users/cstokes/Desktop/Maps/docs/calibration/E14-spike-derived-graph.md",
+  "/Users/cstokes/Desktop/Maps/docs/calibration/E14-spike-derived-graph.json",
+  "/Users/cstokes/Desktop/Maps/docs/calibration/results/W-14.json"
+ ],
+ "checks": [
+  {
+   "check": "reproducible from E09's per-seed file (the W-14 row's checker)",
+   "passed": true,
+   "receipt": "spike_derived_graph.py (sha 80ee0d36) C1: the seed-to-seed CV of sgd.tShare, sgd.deadEnds, blockc.perHa and blockc.lotsPer per family, recomputed from E09-mfcg-derived-graph.seeds.json (9f23b5fb) over the usable seeds with derived_graph.cv_of, equals E09-mfcg-derived-graph.json's (512e682c) stored summaries exactly (n, mean, sd, cv, sdPop, cvPop) on 16 of 16, n = 10 / 10 / 10 / 3; the 4 block.courtShare companions equal too; --verify re-forms the whole E14 JSON byte for byte in a separate process (sha256 f7bae41d both), exit 0"
+  },
+  {
+   "check": "the ruling (S-V12-2; a metric with CV > 0.3 -> descriptive by the <M-1> rule in C-0116 form)",
+   "passed": true,
+   "receipt": "C2: 12 ruled rows (4 D11 metrics x TOWN / CITY / METROPOLIS), 12 TARGET, 0 descriptive; largest plain CV 0.2547 (sgd.deadEnds at TOWN), then 0.1821 (blockc.perHa CITY), 0.1761 (sgd.deadEnds CITY), 0.1497 (sgd.deadEnds METROPOLIS); the population CV, the any-family reading and block.courtShare under the same rule change no verdict; the 4 stress rows (80/river+coast, n = 3) descriptive by the plan, its sgd.deadEnds CV 0.3522 reported not ruled; no descriptive row and no E19 entry owed by S-V12-2"
+  },
+  {
+   "check": "the sensitivity to the raster step (0.5 against 0.25 m) and the spur threshold (8 +- 2 m) on the five fixtures (R-22; the bias PROXY for M0-c-07a's note)",
+   "passed": true,
+   "receipt": "20 records (base, step 0.25 m, spur 6 m, spur 10 m x 5 fixtures) by derived_graph.measure_seed in-process at nice 19: sgd.deadEnds +107..233 % (x2.1..3.3) at spur 6, -23..33 % at spur 10, +18..39 % at step 0.25 (max 11.75 / 1.33 / 1.71 seed-to-seed SDs); sgd.tShare +7..17 % at spur 6, 4..15 % at step 0.25 (one fixture -1.3 %), <= 0.8 % at spur 10; blockc.perHa and blockc.lotsPer exactly invariant (C4: 40 of 40 values equal); within T-V12-3's tolerance (0.5 % or one printed unit): sgd.* on 0 of 5 fixtures under step 0.25 and spur 6, sgd.tShare on 3 of 5 under spur 10, blockc.* on 5 of 5 everywhere; E14 section 5 and 6, JSON sensitivity.summary / table and proxyNote"
+  },
+  {
+   "check": "C3 lane: the base variant equals E09's stored fixture records field for field (determinism across lanes)",
+   "passed": true,
+   "receipt": "5 of 5 fixtures equal on 21 keys (sgd.*, blockc.*, graph, graphRaw, topology, crossings, streetSpace, raster, blockAreas, clusters, block.courtShare without rows, medianFootprint, enclosureHa, buildings, measureInputSha256, header)"
+  },
+  {
+   "check": "C5 lane: planarity and E09's face-count identity on every variant's graph",
+   "passed": true,
+   "receipt": "20 of 20 variant-fixture graphs: 0 proper crossings; Euler numbers equal; raw faces = street-space holes = pruned faces; merged = pruned - collapsed; internal edges <= 4 m; 0 chain anomalies; faces 99 / 156 / 137 / 97 / 514 under every variant"
+  },
+  {
+   "check": "C6 and C7 lane: the sample is the plan's; the table complete",
+   "passed": true,
+   "receipt": "C6: 10 / 10 / 10 / 3 usable, no failed seed among them, failed listed (130/plain/8 no-export; 80/river+coast/1 and /4 retry); C7: 20 of 20 records at their declared step"
+  },
+  {
+   "check": "red run (one planted fault per check)",
+   "passed": true,
+   "receipt": "--red: 7 of 7 FAIL (C1 a per-seed value moved by 1e-6; C2 a ruled row's status flipped; C3 the base's sgd.deadEnds moved on one fixture; C4 blockc.perHa changed under spur 6; C5 a crossing planted on step 0.25 gates4; C6 a failed seed added to 130/plain's usable list; C7 spur 10's river-coast record dropped); writes nothing: E14 JSON sha f7bae41d before and after"
+  },
+  {
+   "check": "plan.py --check after the lane's writes; no plat/ write; no site; no bundle; no git",
+   "passed": true,
+   "receipt": "SAME plan.json (0fd7aae1, after the recording seats' binds; this lane wrote neither) and SAME metrics.m-1.json (8a0efa7e); nothing written under plat/, no site touched, no captured bundle opened, no git command; 11 GiB free throughout"
+  },
+  {
+   "check": "content checks on the record (precedent E07 / E09 / E13)",
+   "passed": true,
+   "receipt": "doc_checks.py --doc E14.md --heads ARCHITECTURE.md: C1 0, C2 0, C4 0, S1 0, S2 0, C3 22 hits / 19 unreviewed, all read (digit runs of the record's own numbers and our own phrases; none a reference word list, palette, grammar or identifier; exit 1 = that count, as for E07/E09/E13); make_denylist.py scan E14.md + E14.json: TOK 0, ID 0, COL 0, SET 0, PHR 0, FILE 0, TRI 78 / 75, all listed with --show and read (our own fixture stems once per JSON record, zero runs, our own digit runs and phrases); the scan ran on the record as written at 03:47, before only the section-10 counts and the header's end time were added"
+  }
+ ],
+ "rows": 16,
+ "owner_notes": [
+  "Nothing needs your decision. The check on MFCG's street-pattern numbers (how often streets meet in a T, how many dead ends per kilometre, how many blocks per hectare, how many buildings per block) passed: none of them varies enough from one sample town to the next to be set aside, so all four stay as targets our generator will be judged against. No site was touched and nothing was loaded.",
+  "One thing to know for later: the dead-end count depends strongly on a measurement setting (how short a stub still counts as a street) and on how finely the map is rasterised. When the product measures itself at the next milestone, it will very likely not match our number within the tight tolerance the design asks for. The plan already says what happens then: the product's own value takes over, recorded as a declared shift. The record spells out the settings the digest must carry so both sides measure the same way."
+ ],
+ "notes": [
+  "OUTCOME (CONFIRMED, executed): spike S-V12-2 built (research/baselines/spike_derived_graph.py, imports derived_graph.py unchanged) and run on E09's files and the five 2026-09-25 fixtures: the W-14 checker passes (CVs reproducible from E09's per-seed file, 16/16 exact; --verify byte-identical in a separate process), lane checks C2-C7 pass, red 7/7 FAIL. 'rows' = the 16 verdict rows (12 ruled plain rows + 4 stress rows). Values and verdicts, not rows (R-47 (a)): W-15 forms the rows.",
+  "THE RULING (as the row states, V12 8.3 (2); plan 8 (3)): CV > 0.3 -> descriptive. RESULT: every D11 metric stays TARGET at TOWN, CITY and METROPOLIS (12 of 12); largest CV sgd.deadEnds TOWN 0.2547; no descriptive row in C-0116's form and no E19 entry are owed by S-V12-2. The stress family's rows are descriptive by the plan (its sgd.deadEnds CV 0.3522 at n = 3 reported, not ruled). Companion readings (population CV, any-family, block.courtShare) agree.",
+  "THE PROXY (R-22; notes s4: a PROXY, not the raster-against-skeleton bias; T-V12-3 at M1 decides): against the declared twin (step 0.5 m, spur 8 m, merge 2 m) sgd.deadEnds is spur-threshold-dominated: +107..233 % at spur 6 m, -23..33 % at spur 10 m, +18..39 % at step 0.25 m; sgd.tShare 4..17 % under step 0.25 and spur 6, < 1 % under spur 10; blockc.* exactly invariant; faces, planarity and the Euler identities hold under every variant. No sgd.* value within T-V12-3's 0.5 % under a halved step or a 2 m lower spur. The proxyNote sentence for M0-c-07a is in E14 section 6 and the JSON.",
+  "F1 (major; for the rulings seat's eye and W-17's digest entry; NO ruling owed by the plan): the dead-end row of the raster twin counts the thinning's corner branches longer than the spur threshold, and most lie between 6 and 10 m (degree-1 nodes 112 / 39 / 26 at spur 6 / 8 / 10 m on the first fixture). The digest entry of R-20 (7) must carry the raster step, the spur law (8 m on the Douglas-Peucker-simplified line at the step, to a fixed point, once more after the merge), the 2 m merge with internal edges <= 4 m removed, and the thinning method, so M0-c-07a derives like with like (R-22, J-V12.5). Expect the product's skeleton to miss T-V12-3 on sgd.deadEnds (PLAUSIBLE): plan 9's pre-decided outcome is a baselineShift at M1 (J-V12.1). Whether parameter sensitivity should enter the descriptive rule is an amendment to V12 8.3 (2), the owner's under J122; this seat did not widen the rule.",
+  "JUDGMENT (J122, vetoable; E14 8 D1-D8): D1 the rule on the sample CV (E09 D13), population CV beside; D2 per row (metric x plain family), any-family reading beside; D3 the stress family not ruled (descriptive by the plan); D4 block.courtShare outside S-V12-2, a companion; D5 variants step 0.25 / spur 6 / spur 10 only (merge 2 m throughout, no --merge variant), in-process without the vector, court rows stripped, the base re-measured and checked equal to E09 (C3); D6 tolerance read with E09 section 5's printed units (0.001 / 0.01 / 0.01 / 0.1) and in SD units of the plain family at the fixture's size (the river-coast fixture against CITY plain's SD, context only); D7 the ruling stands on the rule as pre-decided, sensitivity reported not ruled; D8 the red run exits 0 when all seven fail and writes nothing.",
+  "HAND-OFFS: W-15 reads the ruling (four D11 target rows per plain rung by the band rule; nothing descriptive from this spike); E19 / M0-x-03 nothing; W-17 / M0-c-07a the proxy sentence and the five parameters for the digest entry; the rulings seat F1 (information). Memory: derived-graph-twin-sensitivity.md added to the project memory index.",
+  "CONFIRMED vs PLAUSIBLE: every number, verdict and check is CONFIRMED by execution (the measurement runs, the record run, --verify, --red, plan.py --check, doc_checks, the deny-list scan); PLAUSIBLE only: that the product's skeleton will differ from the twin beyond T-V12-3's tolerance on sgd.deadEnds, and the readings of why the finer step raises the dead-end count and why the T share hardly moves at spur 10 m. No plat/ write, no site, no bundle, no git, no benchmark or timing; 11 GiB free."
+ ]
+}

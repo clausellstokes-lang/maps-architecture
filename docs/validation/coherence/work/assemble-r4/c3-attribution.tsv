@@ -1,0 +1,5 @@
+check	run	lines	subsection	in_untouched	carried_by	corpus_whole	proposed_by	proposed_reason
+C3	1 2 3 4 6 7 8 9	261	0.2 Where the owner's late rules land — 	no	scope	-	scope	coherence/repair-scope-r4 (proposed): §0.2's item-122 row: "volumes 1, 2, 3, 4, 6, 7, 8, 9, 10, 11 and 12" — volume numbers, not text (the reviewed run "1 2 3 6 7 8 9" with volume 4 added); held whole by no corpus file; absent from the untouched base
+C3	it at the view s	16325	11.2 The embedding API and the worker bo	no	rendering	-	rendering	our own plain English, the END line's text as given (§11.2's `LooksAnswer.crises[].over`).
+C3	layer that is not the	14798	9.2 Placement (S13b): font metrics, zoom	no	rendering	-	rendering	our own plain English, the END line's text as given (§9.2's candidate set, R4-02).
+S2	§5.15	16228	11.2 The embedding API and the worker bo	no	-	(S2: a base-heading lookup)	rendering	a volume-prefixed pointer: its one occurrence in the base reads V09 §5.15 (§11.2's `ExportOpts.links`); S2 reads the base's headings only; it resolves in V09.

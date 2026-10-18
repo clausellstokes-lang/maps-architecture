@@ -1,0 +1,136 @@
+=== REPLACE ### 3.2 Numeric policy ===
+### 3.2 Numeric policy
+
+```ts
+interface Frame { widthCm: Cm; heightCm: Cm; aspect: number /* width / height, 0.5–2 */;
+  marginShare: number /* context margin per side: 0.3 under the `base` frame law; `territory.marginShare` under the `territory` law (V07 §3.2 (1)); the kept arena's own share where an epoch's growth kept a wider arena (§3.2 (9)); `vg.marginM` ÷ the view's side under the `VG` parity preset (V07 §3.15) */ }
+```
+
+1. **Integer world and range.** All persisted geometry is integer cm. A computed rational point that becomes arena
+   geometry — a crossing, an offset, a circumcentre — is computed in doubles and placed on the lattice as it enters the
+   arena (through `insertChain` or `snap`): by §3.6's placement rule on an existing edge, by nearest-point rounding
+   otherwise. Derived values that no arena holds (skeleton nodes, §3.8; fit targets, §3.4) stay doubles until a stage
+   inserts them. **The range invariant is |x|, |y| < 2²³ cm (83.9 km)**, enforced by `snap` (7): every coordinate
+   difference is then < 2²⁴, every `orient2d` term < 2⁴⁸ and the determinant < 2⁴⁹, so the sign of `orient2d` is exact
+   in ordinary doubles. The largest arena — METROPOLIS at the population cap (§12.2) at aspect 2, 17.53 km × 8.76 km plus
+   the 30 % margin on every side — has |x| ≤ 0.8 × 17.53 km ≈ 1 402 000 cm ≈ 2^20.4, ≈ 6× headroom (≈ 9× at the
+   METROPOLIS target: 11.31 km × 5.66 km, |x| ≤ 905 097 cm ≈ 2^19.8). Every exactness argument below rests on the range
+   invariant, never on the frame table, so a rescaled frame (§13.7 O14 (e)) cannot break one.
+2. **Tolerances are world lengths, never parameter-space** (the OS `DELTA = 1e-6` on line parameters is the
+   anti-pattern). The lattice constants are `LatticeSpec`'s (§2.2); their meaning: `minEdge` is the shortest edge any
+   writer may create or leave; `attractCm` is `minEdge` plus 1 cm of lattice slack, so a vertex split onto an edge lies
+   at least `attractCm` − 0.71 cm (25.29 cm at `LatticeSpec`'s values) from both of the edge's endpoints — a vertex whose
+   exact foot lies within `attractCm` of an endpoint moves onto that endpoint instead (§3.6 step 2); `minFaceAngle` is
+   hard or soft by chain class (§3.10); the range is (1)'s. **Class floors** — per face class a minimum width, a minimum
+   area and an angle floor — are §4.7's class-floor row: face-size floors are a width and an area, angle floors angles,
+   and **none is `minEdge`**. **One minimum-edge rule for every writer (GEO-35):** `insertChain`, booleans, buffers,
+   offsets, smoothing and `warp` create or move edges only through §3.6's insertion semantics or move validation, and
+   §3.10 checks the same `minEdge` on new *and moved* edges. There is no weld tolerance: coincidence is lattice-point
+   equality, proximity is attraction (§3.6; J-K2).
+3. **No float comparisons for topology.** Equality is index equality; "same place" is a lattice test; collinear and
+   cocircular ties are broken deterministically on lattice positions, never on slot ids, and no predicate compares a
+   float with `== 0`. A float that decides a topology operation is quantised first — a length to integer cm, an angle to
+   centidegrees (`Cdeg`, §2.1), the one angle unit. A distance comparison against `attractCm` or `minEdge` on a computed
+   point (an exact foot, a crossing) uses + − × ÷ √ only, so every IEEE engine gives the same answer; a borderline case
+   may fall either way without breaking any bound, because the 1 cm between `attractCm` and `minEdge` exceeds the
+   0.71 cm of any single rounding.
+4. **Cross-platform reproducibility** is §6.5's policy; the kernel's part is integer geometry, exact predicates, one
+   geometry engine on every host (§3.7) and a deterministic op order in every batch (§3.3).
+5. **Angles and directions** are unit vectors in doubles derived from integer endpoints; growth headings are stored as
+   centidegrees.
+6. **Exact areas and orientation (GEO-32; J-K13).** `area2(ring)` returns twice the signed area as an exact integer for
+   **every ring `snap` can produce**: each shoelace term xᵢ·yᵢ₊₁ − xᵢ₊₁·yᵢ is taken on coordinates relative to the
+   ring's bounding-box minimum corner, in [0, 2²⁴) by the range invariant, so each product is an exact double below 2⁴⁸
+   and |term| < 2⁴⁸; the terms are summed in a double partial flushed into a BigInt accumulator whenever its magnitude
+   reaches 2⁵² (one comparison per term), so every partial stays below 2⁵² + 2⁴⁸ < 2⁵³ and every addition is exact.
+   Faces at the frame table's sizes never reach the flush (their terms are < 2⁴³). The value is returned as an exact
+   double, because every face ring is simple or retraces only declared antennae, which add no area (§3.10), so its
+   twice-area is below 2⁴⁹; a self-crossing ring — only a boolean operand before its overlay can be one — takes
+   `area2Big`, which returns the BigInt. Receipt: three star rings of radius 2²³ − 2 whose terms all share one sign are
+   exact (`docs/validation/bench/fixall_kernel_r2_attract.out` E). Ring orientation is `orient2d` at the ring's
+   lowest-leftmost vertex; no orientation, sliver or degeneracy decision reads the sign of a float sum; area statistics
+   in m² derive from the exact integer.
+7. **The finite and range check lives at the one door (GEO-7).** `snap(x, y)` is the only way a number becomes an arena
+   coordinate, and in every build — not only in debug — it rejects `!(Math.abs(v) < 2**23)` with `E_OUT_OF_RANGE`, one
+   comparison per coordinate that also catches NaN and ±∞. NaN, ±∞ and values past 2³¹ therefore never reach an
+   `Int32Array`, which would store them silently as 0, 0 and a wrapped value (executed in GEO-7), so the null-`rect`
+   crash class cannot return as a vertex at the world origin. Height and depth rasters have their own check (§2.3).
+8. **Checked ratios.** In model packages a division by a computed value goes through `ratio(num, den, kind)`, which
+   returns `E_DEGENERATE` (detail `ratio`) when |den| is below the quantity's floor (length 1 cm, area 1 cm², angle
+   1 centidegree, count 1); §6.5's lint flags every other division whose divisor is not a non-zero literal.
+9. **Frames are rectangles (COV-VG-VN-156).** A rung's frame area at the requested population follows the rung's
+   `RungProfile.frameLaw` (§1.1; item 279): `base` — A = A_target · population ÷ target, A_target its
+   `frameAreaKm2AtTarget` (§1.1's ladder; the cap: §12.2; item 9); `territory` (the village rungs) — V07 §3.2 (1)'s land
+   law with its floor. The blueprint's `aspect` ∈ [0.5, 2] (default 1) gives width = √(A · aspect) and height =
+   √(A / aspect), centred on (0, 0) with +y north; the arena spans the frame plus `marginShare` on every side, and every
+   raster's `cols × rows` follows width × height (§2.3). The range bound of (1) is taken at the population cap and the
+   extreme aspect, so a non-square town — the shape a village and many river and coast towns want — needs no other
+   change. The arena's outer ring and the frame rectangle are §2.2 rule 1's `margin` and `border` chains. A Re-derive
+   that recomputes the frame — a rung change or a population `adjust` — reads this law afresh and never shrinks the
+   frame below its protected content (§7.4's frame row; §7.1's `bend.frame.held`).
+
+   **Frame growth at an epoch (item 81 (b); J-A81.31).** At an epoch a frame only grows, and only where §4.11 grows it.
+   The new frame is this rule's frame for the epoch's population target — taken at most at the cap, as §1.1 clamps a
+   request — at the frame's own `aspect`, centred on (0, 0), kept at the current frame where that is no larger or would
+   move one of its sides out by at most `attractCm` ((2); measured on the lattice); the new arena is the new frame plus
+   the current law's margin, kept at the current arena where that is no larger or would move one of its sides out by at
+   most `attractCm` — so no new chain is laid within attraction of the chain it replaces, which §3.6's vertex and
+   stretch attraction would merge into it before the strip removes its rows, and no through-road's continuation (§4.11)
+   or raised foot's move (below) spans `attractCm` or less. So a frame and its arena never shrink — a change of frame
+   law included (item 322's product fold, §4.11) — each new one encloses its predecessor, and where neither grows,
+   nothing runs. The range bound of (1) holds for every grown coordinate. The
+   growth inserts coarse chains into finished fabric and deletes others, so it runs as §3.3's declared sequence of
+   single-level batches sharing one clear region, each with `rederivesFrom` S1: (b) when the arena grows, (a) and (c)
+   when the frame grows. A **lapsing stretch** is a
+   stretch of the old `margin` ring or `border` rectangle that carries no other row of its chain's level or a coarser
+   one; the **region** unites the L1 faces beside a lapsing stretch with those the new frame rectangle will cross —
+   whole L1 faces, as a carve's footprint is (§3.3).
+   * (a) *Clearing (L1).* One L1 batch removes the content finer than L1 of every face of the region (§3.3 rule 1), a
+     locked or pinned owner returning as a conflict (F-EDIT, §5.2), so no deletion of the growth joins two faces finer
+     than L1 and its new rectangle crosses none.
+   * (b) *The margin (L0).* One L0 batch — on part 0 two, where a raised way's foot lies at a deck end on the old ring
+     (below) — inserts the new outer ring as the `margin` chain, then S1's water faces in the band between old and new
+     ring (§4.11), then strips the old ring's `margin` rows by `removeEdges` on two `StretchRef`s that together cover it
+     (§3.4). A stretch left with no row is deleted, joining the faces either side — land with land, water with water,
+     each cleared L1 face beside it with the ring's; a stretch that keeps a row keeps its edge, re-levelled by §2.2
+     rule 3 (a), as where S1 lays a shore along it. `Plat.frame` takes the new frame as its last batch commits.
+   * (c) *The border (L1).* One L1 batch inserts the new frame rectangle as the `border` chain by §3.6's insertion (a
+     way it crosses sharing the crossing vertex) and strips the old rectangle's `border` rows alike; a stretch that also
+     carries another L1 row — the settlement perimeter or a reservation boundary along the frame (§2.2 rule 1) — stays.
+     Where the frame grows and the arena is kept — after a change of frame law only (a town handed down to the village
+     product, item 322, its territory frame growing within the arena it kept — at a village band's re-crossing or at a
+     later growth inside that arena) — (b) does not run, and `Plat.frame` takes the new frame as this batch commits, its
+     `marginShare` the kept arena's own share of it, (arena width ÷ frame width − 1) ÷ 2, so the arena still spans the
+     frame plus `marginShare`.
+
+   A vertex of an old chain that keeps a row or another edge stays — a through-road's end on the old ring is an antenna
+   end until §4.11 continues its way — and every other dissolves or stays by §2.2 rule 3. A raised way's ground foot at
+   a deck end on the old ring (§2.7 `RaisedFoot`) — a `raised_foot` vertex whose every edge the strip would delete,
+   leaving its row and no edge — is never left so. Where part 0's old ring holds one, batch (b)'s insertion (the new
+   ring with S1's water) and its strip are two L0 batches, and between them one batch at the foot rows' level (one per
+   level, coarsest first, should they differ) moves each such foot, in the callback form's issue order (§3.3) — the
+   feet by way id, then foot index, each foot's strip before its add: its row is stripped by `removeEdges` on its
+   `VertexRef`, the vertex dissolving into the old ring, or left a plain vertex of it for the strip, by §2.2 rule 3;
+   then the row is added by `splitThrough` on the new ring at that ring's point nearest it (ties by lattice position,
+   y then x). The deck end on the raised part's own old ring stays an antenna end of its spine, as a through-road's
+   end does. The raised way's re-derivation then extends the deck to the new ring and re-places both ends of that foot
+   (§2.7 `RaisedFoot`, as §4.11 continues a through-road), so both ends resolve at every stage end (§3.10's
+   stored-references row). Every other part whose outer
+   ring is the frame with its margin (§2.2 rule 1: each underground part — the sewer's, II.7.2, and each further part's
+   — and each raised part of the ground layer, §2.7 *At the frame*) grows by (a) and (b) on its own key, the `margin`
+   rows of its own record instead of the `Terrain`'s, with no water and no border. Each raster of §2.3 extends as §2.3 states (whole
+   cells, its `cellCm` and alignment kept), so every old cell keeps its place and every stored height its value; S1
+   fills the new cells, and the `hydro` fields — flow direction, flat rank and accumulation — are recomputed over the
+   grown grid by §2.3's mechanism, because an old edge cell gains neighbours and the ring may drain inward, every river's
+   traced course inside the old arena unchanged. What changes is the region's faces, the faces beside a deleted stretch
+   and the ring's new faces, at each level that sees them — §4.11's stages continue the ways and re-derive them; every
+   other face keeps its ring, owner and nested faces (re-parented where its parent was joined, §3.3). The kernel's part
+   draws no stream, so a replay of the log re-grows the frame byte for byte, and where §7.4 allows an epoch's undo, its
+   undo record restores the old frame and what its batches removed. *Pre-decided fallback* if M4's memory
+   measurement of the extreme growth — a TOWN grown in one epoch to the cap, whose kept TOWN-cell heights (§2.3) over
+   the cap's arena are ≈ 15.7 M cells (≈ 63 MB, where a METROPOLIS made at the cap holds ≈ 3.9 M; our count) — exceeds
+   §12.8's METROPOLIS line: a growth that changes the rung re-grids each raster at the new rung's `cellCm`, heights by
+   the sampler's bilinear read of the old grid and the flow fields recomputed, every standing entity keeping its stored
+   `baseCm`, and the generation report (§5.4) names the re-grid.
+=== END ===
+

@@ -1,0 +1,20 @@
+[
+ {
+  "id": "VAP-r5-03",
+  "severity": "minor",
+  "kind": "HANDOFF-OPEN",
+  "claim": "Round 5 changed the `item110.*` pin's H-AQUA suite. T-V6-65 (V06 l. 4188) now runs its pins \"over H-100, H-AQUA (run without the two raised-way edits its fixture logs \u2014 the viaduct row's `editTable` and the declared elevated road \u2014 so that the overlay's off form governs it), H-TERRACE and H-DECK\". R5-10 (VV56-r4-02) gave H-AQUA those two edits (V06 l. 4063\u20134072). A pin's overlay leaves the cells editable, so with the edits kept the history under the overlay would hold raised ways. V12 \u00a72.13's `item110.*` row (V12 l. 922) still lists \"H-100, H-AQUA, H-TERRACE, H-DECK (V06, T-V6-65)\". V06 \u00a77's E1 registration line (V06 l. 4275) reads \"(H-100, H-AQUA, H-TERRACE, H-DECK; T-V6-65)\". R3-26 makes V12 \u00a72.13's suites column exactly the union of the registering clauses. V06's hand-off asks \"a verifier checks that the two agree\" (repair-r5-V06, HAND-OFFS), and they differ in form. The registering seat runs what T-V6-65 states, so nothing built changes. MINOR.",
+  "required_change": "V12 \u00a72.13's `item110.raised`, `.terrace`, `.deck`, `.stepped` row (l. 922): \"H-100, H-AQUA, H-TERRACE, H-DECK (V06, T-V6-65)\" \u2192 \"H-100, H-AQUA without its two raised-way edits (the CITY viaduct row's `editTable` and the declared elevated road), H-TERRACE, H-DECK (V06, T-V6-65)\". V06's end, for an END line: \u00a77's E1 line (l. 4275) \"(H-100, H-AQUA, H-TERRACE, H-DECK; T-V6-65)\" \u2192 \"(H-100, H-AQUA without its two raised-way edits, H-TERRACE, H-DECK; T-V6-65)\".",
+  "owner": "V12",
+  "reported_by": "verify-agree-proof-r5t"
+ },
+ {
+  "id": "VV1112-r5-01",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "owner": "V12",
+  "claim": "T-V12-57 (V12 l. 3179), written this round as VAP-r4-04's required text, ends: \"`weather.replay` fails a planted spell drawn from the host's clock and one carried into a week with no live kind across a year-position change\". The base makes the second case lawful. \u00a76.1 *The weather stream* (base l. 9585\u20139589): \"a change of the year position, the climate row, the sites, the `light` mode or the hour changes the rate from that moment, the drawn E kept \u2026 A spell's kind and length are fixed once it starts; a change acts on a running spell only through \u00a78.2's hard rules\", and those hard rules (l. 13262\u201313264) concern only snow and arid rain. T124-9's own fixture moves the year position \"from a week with no live kind into a live one and back\" (\u00a713.2, base l. 18735; determinism \u00a76.5 (9), l. 10224\u201310228; V12 \u00a73.15.14, l. 2795\u20132797), so a spell started in the live week and still running when the year position goes back is carried into the week with no live kind by rule. `weather.replay` counts the spells that differ in kind, start or length between two timelines from the same seed, clock, presses and inputs (V12 \u00a73.4.2's row, l. 1212). A carried spell \u2014 the lawful one, or any deterministic planted code \u2014 is the same in both runs, so the statistic reads 0 and the clause \"fails \u2026 one carried into a week with no live kind\" cannot pass. The first planted case passes only because the host's clock differs between runs. Builders would split three ways: one finds the clause unpassable and stops; one reads it as requiring a running spell to end at a change into a week with no live kind and builds a timeline against \u00a76.1; one plants a run-varying fault of their own. This is a test bar that cannot pass as written (J141: major).",
+  "required_change": "T-V12-57: \"and one carried into a week with no live kind across a year-position change\" \u2192 \"and one whose gap is re-drawn from the host's clock at a year-position change instead of kept (\u00a76.1 *The weather stream*: the drawn E kept), on T124-9's year-position fixture \u2014 a spell in force at that change carried into the week with no live kind, its kind and length fixed (\u00a76.1), passing\". The rest of the row stands.",
+  "reported_by": "verify-vol-V11-V12-r5t"
+ }
+]

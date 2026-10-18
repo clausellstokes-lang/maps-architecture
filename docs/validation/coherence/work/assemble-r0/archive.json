@@ -1,0 +1,152 @@
+[
+ {
+  "src": "docs/ARCHITECTURE.md",
+  "dst": "docs/archive/ARCHITECTURE-pre-coherence-2026-09-28.md",
+  "action": "copied",
+  "identical": true,
+  "bytes": 2304442,
+  "sha256": "87588d349c3da25575e915034412627bb4671c9b4696d74675b42d7f7316c31d",
+  "sha256_src": "87588d349c3da25575e915034412627bb4671c9b4696d74675b42d7f7316c31d",
+  "writable": false
+ },
+ {
+  "src": "docs/ARCHITECTURE-RATIONALE.md",
+  "dst": "docs/archive/ARCHITECTURE-RATIONALE-pre-coherence-2026-09-28.md",
+  "action": "copied",
+  "identical": true,
+  "bytes": 675351,
+  "sha256": "db063efd3e73f682730e607be93ad2d15e64837a36229a1810ae4b97080e9693",
+  "sha256_src": "db063efd3e73f682730e607be93ad2d15e64837a36229a1810ae4b97080e9693",
+  "writable": false
+ },
+ {
+  "src": "docs/volumes/V01-neighbourhoods.md",
+  "dst": "docs/archive/volumes-pre-coherence-2026-09-28/V01-neighbourhoods.md",
+  "action": "copied",
+  "identical": true,
+  "bytes": 585123,
+  "sha256": "b119c2e0369c6d1286e70afbe9e04e0104b4cbbcdc10f06ea687f293f08cf0df",
+  "sha256_src": "b119c2e0369c6d1286e70afbe9e04e0104b4cbbcdc10f06ea687f293f08cf0df",
+  "writable": false
+ },
+ {
+  "src": "docs/volumes/V02-buildings.md",
+  "dst": "docs/archive/volumes-pre-coherence-2026-09-28/V02-buildings.md",
+  "action": "copied",
+  "identical": true,
+  "bytes": 637179,
+  "sha256": "b527a1e29ebe02016906a9ebfea1af1702f5ae1a8825a78b49ea7b61727f4c24",
+  "sha256_src": "b527a1e29ebe02016906a9ebfea1af1702f5ae1a8825a78b49ea7b61727f4c24",
+  "writable": false
+ },
+ {
+  "src": "docs/volumes/V03-interiors.md",
+  "dst": "docs/archive/volumes-pre-coherence-2026-09-28/V03-interiors.md",
+  "action": "copied",
+  "identical": true,
+  "bytes": 505716,
+  "sha256": "fcaabceb5468a3428bfa9d13c99025b1f1c60b1ca45d76a8c364182f1bb18961",
+  "sha256_src": "fcaabceb5468a3428bfa9d13c99025b1f1c60b1ca45d76a8c364182f1bb18961",
+  "writable": false
+ },
+ {
+  "src": "docs/volumes/V04-underground.md",
+  "dst": "docs/archive/volumes-pre-coherence-2026-09-28/V04-underground.md",
+  "action": "copied",
+  "identical": true,
+  "bytes": 530576,
+  "sha256": "63aff301147207a3ba6e2d7cc4a5b7f4ca296431fabe394a507469b3c9def316",
+  "sha256_src": "63aff301147207a3ba6e2d7cc4a5b7f4ca296431fabe394a507469b3c9def316",
+  "writable": false
+ },
+ {
+  "src": "docs/volumes/V05-sky.md",
+  "dst": "docs/archive/volumes-pre-coherence-2026-09-28/V05-sky.md",
+  "action": "copied",
+  "identical": true,
+  "bytes": 495910,
+  "sha256": "162d464cc8d6dbe9e96e82fc691d5b4e0fd5859dca2ec8e974e86eb3861fe5cc",
+  "sha256_src": "162d464cc8d6dbe9e96e82fc691d5b4e0fd5859dca2ec8e974e86eb3861fe5cc",
+  "writable": false
+ },
+ {
+  "src": "docs/volumes/V06-evolution.md",
+  "dst": "docs/archive/volumes-pre-coherence-2026-09-28/V06-evolution.md",
+  "action": "copied",
+  "identical": true,
+  "bytes": 665661,
+  "sha256": "aeb56d371e3221a7e92cadaaa7fd0003ee46c61e9c190490db848abe412743d1",
+  "sha256_src": "aeb56d371e3221a7e92cadaaa7fd0003ee46c61e9c190490db848abe412743d1",
+  "writable": false
+ },
+ {
+  "src": "docs/volumes/V07-village.md",
+  "dst": "docs/archive/volumes-pre-coherence-2026-09-28/V07-village.md",
+  "action": "copied",
+  "identical": true,
+  "bytes": 648060,
+  "sha256": "84f9476291ae7c814bf27ecc9703001da74f81b460414bd1b2173274003f09b5",
+  "sha256_src": "84f9476291ae7c814bf27ecc9703001da74f81b460414bd1b2173274003f09b5",
+  "writable": false
+ },
+ {
+  "src": "docs/volumes/V08-settlementforge.md",
+  "dst": "docs/archive/volumes-pre-coherence-2026-09-28/V08-settlementforge.md",
+  "action": "copied",
+  "identical": true,
+  "bytes": 545534,
+  "sha256": "f379b890226f7e6991a69e68582b2cacff170c6eeae83ced24d9ba04f73cd7e8",
+  "sha256_src": "f379b890226f7e6991a69e68582b2cacff170c6eeae83ced24d9ba04f73cd7e8",
+  "writable": false
+ },
+ {
+  "src": "docs/volumes/V09-application.md",
+  "dst": "docs/archive/volumes-pre-coherence-2026-09-28/V09-application.md",
+  "action": "copied",
+  "identical": true,
+  "bytes": 690061,
+  "sha256": "d4ac111851c93234a5086a26a84b33c213e1cb9f30b9c2c4918ece87cd5833af",
+  "sha256_src": "d4ac111851c93234a5086a26a84b33c213e1cb9f30b9c2c4918ece87cd5833af",
+  "writable": false
+ },
+ {
+  "src": "docs/volumes/V10-clerk.md",
+  "dst": "docs/archive/volumes-pre-coherence-2026-09-28/V10-clerk.md",
+  "action": "copied",
+  "identical": true,
+  "bytes": 538604,
+  "sha256": "6d2eff524a9558e38c8da310c140e2d3c5c4023c3228eee1c4812bcc654a5e2a",
+  "sha256_src": "6d2eff524a9558e38c8da310c140e2d3c5c4023c3228eee1c4812bcc654a5e2a",
+  "writable": false
+ },
+ {
+  "src": "docs/volumes/V11-content.md",
+  "dst": "docs/archive/volumes-pre-coherence-2026-09-28/V11-content.md",
+  "action": "copied",
+  "identical": true,
+  "bytes": 650238,
+  "sha256": "74f14317886db796ad7cc76afe0a9376ddb3d6330c5c1f924ed2fb8834ea1a24",
+  "sha256_src": "74f14317886db796ad7cc76afe0a9376ddb3d6330c5c1f924ed2fb8834ea1a24",
+  "writable": false
+ },
+ {
+  "src": "docs/volumes/V12-calibration.md",
+  "dst": "docs/archive/volumes-pre-coherence-2026-09-28/V12-calibration.md",
+  "action": "copied",
+  "identical": true,
+  "bytes": 482479,
+  "sha256": "ed72ef084f275138884c8a40f6512dd455f9c884b7a6a37e594fc1348f293733",
+  "sha256_src": "ed72ef084f275138884c8a40f6512dd455f9c884b7a6a37e594fc1348f293733",
+  "writable": false
+ },
+ {
+  "src": "docs/volumes/INDEX.md",
+  "dst": "docs/archive/volumes-pre-coherence-2026-09-28/INDEX.md",
+  "action": "copied",
+  "identical": true,
+  "bytes": 34420,
+  "sha256": "73d307cf49250daf11cbb89a9beb45a99cc27f06b694d6b8089e8c22d26c83fe",
+  "sha256_src": "73d307cf49250daf11cbb89a9beb45a99cc27f06b694d6b8089e8c22d26c83fe",
+  "writable": false
+ }
+]

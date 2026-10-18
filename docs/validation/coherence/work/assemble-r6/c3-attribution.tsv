@@ -1,0 +1,19 @@
+check	run	lines	subsection	in_untouched	carried_by	corpus_whole	proposed_by	proposed_reason
+C3	0 clear of the ramp	2621	2.7 Walls, gates, towers, castle, bridge	no	model	-	-	
+C3	3 19 2 1 and	2719	2.7 Walls, gates, towers, castle, bridge	no	model	-	-	
+C3	3 7 6 3 s	2628,2698	2.7 Walls, gates, towers, castle, bridge	no	model	-	-	
+C3	a ring is a standing	2577	2.7 Walls, gates, towers, castle, bridge	no	model	-	-	
+C3	a wall and a raised	2591	2.7 Walls, gates, towers, castle, bridge	no	model	-	-	
+C3	and none in the band	18584	13.2 Per-stage invariants, statistics, c	no	scope	-	scope	coherence/repair-scope-r6 (proposed): §13.2's T110-2 (5), adjudication-r6 R6-02's binding (S1) text ("and none in the band of a wall standing at the raised way's creation") — our own plain English, no reference phrasing
+C3	and on the second run	18530	13.2 Per-stage invariants, statistics, c	no	scope	-	scope	coherence/repair-scope-r6 (proposed): §13.2's T110-2 frame-growth clause, the END text of model's VAT5-r5-02 as written ("and, on the second run, carrying the held `use`") — our own plain English, no reference phrasing
+C3	clear of the towers and gates	2691	2.7 Walls, gates, towers, castle, bridge	no	model	-	-	
+C3	no crossing of the gate law	2653	2.7 Walls, gates, towers, castle, bridge	no	model	-	-	
+C3	no reading of the wall	18542	13.2 Per-stage invariants, statistics, c	no	scope	-	scope	coherence/repair-scope-r6 (proposed): §13.2's T110-2 (1), adjudication-r6 R6-02's binding (S1) text ("the span over the band ruled with no reading of the wall") — our own plain English, no reference phrasing
+C3	of 1 2 4 5 7 and	19455	13.8 CI tiers and compute budgets (SCL-1	no	scope	-	scope	coherence/repair-scope-r6 (proposed): §13.8's T110 row, adjudication-r6 R6-02's binding (S4) text ("those of (1), (2), (4), (5), (7) and (8)") — numbered clause pointers, no reference phrasing
+C3	on either side of the way	2651	2.7 Walls, gates, towers, castle, bridge	no	model	-	-	
+C3	re derived from the new	18602	13.2 Per-stage invariants, statistics, c	no	scope	-	scope	coherence/repair-scope-r6 (proposed): §13.2's T110-2 (6), adjudication-r6 R6-02's binding (S1) text ("the ring re-derived from the new routes") — our own plain English, no reference phrasing
+C3	s or the edge of	2633	2.7 Walls, gates, towers, castle, bridge	no	model	-	-	
+C3	so it crosses the boundary	2585	2.7 Walls, gates, towers, castle, bridge	no	model	-	-	
+C3	state and the test that	2683	2.7 Walls, gates, towers, castle, bridge	no	model	-	-	
+C3	the foot of the ramp	2631	2.7 Walls, gates, towers, castle, bridge	no	model	-	-	
+C3	waiting on the other the	18672	13.2 Per-stage invariants, statistics, c	no	scope	-	scope	coherence/repair-scope-r6 (proposed): §13.2's T114-3, adjudication-r6 R6-02's binding (S3) text ("neither waiting on the other, the landfall's undo restoring both") — our own plain English, no reference phrasing

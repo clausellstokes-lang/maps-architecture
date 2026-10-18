@@ -1,0 +1,84 @@
+{
+ "id": "W-09",
+ "status": "landed",
+ "records": [
+  "/Users/cstokes/Desktop/Maps/docs/calibration/E09-mfcg-derived-graph.md",
+  "/Users/cstokes/Desktop/Maps/docs/calibration/E09-mfcg-derived-graph.json",
+  "/Users/cstokes/Desktop/Maps/docs/calibration/E09-mfcg-derived-graph.seeds.json",
+  "/Users/cstokes/Desktop/Maps/docs/calibration/E09-mfcg-derived-graph.vectors.json",
+  "/Users/cstokes/Desktop/Maps/docs/calibration/E09-mfcg-derived-graph.selftest.json"
+ ],
+ "outputs": [
+  "/Users/cstokes/Desktop/Maps/research/baselines/derived_graph.py",
+  "/Users/cstokes/Desktop/Maps/docs/calibration/E09-mfcg-derived-graph.md",
+  "/Users/cstokes/Desktop/Maps/docs/calibration/E09-mfcg-derived-graph.json",
+  "/Users/cstokes/Desktop/Maps/docs/calibration/E09-mfcg-derived-graph.seeds.json",
+  "/Users/cstokes/Desktop/Maps/docs/calibration/E09-mfcg-derived-graph.vectors.json",
+  "/Users/cstokes/Desktop/Maps/docs/calibration/E09-mfcg-derived-graph.selftest.json",
+  "/Users/cstokes/Desktop/Maps/docs/calibration/results/W-09.json"
+ ],
+ "checks": [
+  {
+   "check": "planarity: no two edges of the derived graph cross",
+   "passed": true,
+   "receipt": "derived_graph.py (final run, sha 6eccbc9b, exit 0): 40 of 40 maps (5 fixtures + 35 sweep files) with 0 proper crossings: PASS"
+  },
+  {
+   "check": "face count",
+   "passed": true,
+   "receipt": "40 of 40 maps: street-space Euler number (Gray's bit quads) = skeleton's = raw graph's, so raw faces E - V + C = street-space holes (24 230); spur pruning keeps all; the merge's internal edges (<= 3.82 m, limit 4 m) close 71 faces on 34 maps and final = pruned - those (24 159); 0 chain anomalies; 2 zero-length hole loops kept (size130-plain-10): PASS"
+  },
+  {
+   "check": "the blocks' area sum <= the walled area",
+   "passed": true,
+   "receipt": "40 of 40 maps; largest intramural sum / enclosure 0.7741; intramural block overlap 0.00 m2 on every map: PASS"
+  },
+  {
+   "check": "the seed-to-seed CV handed to W-14",
+   "passed": true,
+   "receipt": "16 of 16 CVs (sgd.tShare, sgd.deadEnds, blockc.perHa, blockc.lotsPer x 4 families) over the usable seeds, sample and population SD in E09 JSON summaries; --from-seeds reproduces the JSON with every key equal: PASS (largest plain CV 0.255, sgd.deadEnds at TOWN; none > 0.3)"
+  },
+  {
+   "check": "one vector per usable seed per size",
+   "passed": true,
+   "receipt": "vectors file: 10 / 10 / 10 R-10 vectors at TOWN / CITY / METROPOLIS = exactly the usable plain seeds (130/plain/8 no-export absent, index 10 present), each with its lane companion; no dispersion (R-40): PASS"
+  },
+  {
+   "check": "lane checks: cluster twin and sample",
+   "passed": true,
+   "receipt": "clusters equal measure_ftg.py's own on 40 of 40 maps; 44 summaries over 10 / 10 / 10 / 3 usable seeds, no failed seed in any, failed indices listed (130/plain/8 no-export; 80/river+coast/1 and /4 retry): PASS"
+  },
+  {
+   "check": "self-test S0-S5",
+   "passed": true,
+   "receipt": "--selftest (sha 6eccbc9b): S0 Euler on 4 shapes; S1 LUT closing = PIL filters 305/305; S2 run fill = floodfill 305/305; S3 tiled = whole thinning 72/72, 107/107 passes; S4 cluster_blocks_lut = measure_ftg's on 8 maps; S5 m_signature equal on 8: ALL PASS, exit 0"
+  },
+  {
+   "check": "red run proves every check goes red",
+   "passed": true,
+   "receipt": "--red (seven plants, one per check: crossing, extra face, area sum past enclosure, CV dropped, vector dropped, twin unequal, failed seed in a summary): 7 of 7 FAIL, exit 1"
+  },
+  {
+   "check": "determinism and reproduction",
+   "passed": true,
+   "receipt": "6 maps re-measured in a separate process: 6 of 6 per-seed records identical in every field (block rows included), 3 of 3 vectors identical; run 4 (pre red-widening) and the final run's per-seed records and summaries identical; --from-seeds reproduces E09 JSON exactly"
+  },
+  {
+   "check": "plan.py --check after the writes; no plat/ write; content scan",
+   "passed": true,
+   "receipt": "plan.py --check SAME after the run (plan.json da68f069) and at landing (plan.json 6ad28659 after FTG slot binds by the recording seat; MFCG sample unchanged key for key), metrics.m-1.json 8a0efa7e; neither written by this lane; doc_checks.py on E09: C1 0, C2 0, C4 0, S1 0, S2 0, C3 28 hits / 26 unreviewed, all read (common phrases and our own digit runs); no plat/ file, no git, no site, no bundle opened"
+  }
+ ],
+ "rows": 44,
+ "owner_notes": [
+  "Nothing needs the owner. MFCG's street-graph and block values per size (TOWN, CITY, METROPOLIS from 10 seeds each, the stress variant from 3) and the 30 variety vectors are measured and recorded; W-15 turns them into rows and forms the variety dispersions later. No site was touched."
+ ],
+ "notes": [
+  "OUTCOME (CONFIRMED, executed): derived_graph.py built and run on the 5 fixtures + all 35 M-1 sweep files; the W-09 checker column passes (7 of 7 PASS, exit 0); values are measured values, not rows (R-47 (a)); 'rows' = 44 per-family summaries (11 metric keys x 4 families) in E09-mfcg-derived-graph.json. The lane continued from its files after the 02:15 pause (run 3 had been cut); the 02:01 fixes stood; a first full run (01:47, never landed) is superseded.",
+  "KEY VALUES (median [p10, p90], n = 10 at TOWN / CITY / METROPOLIS): sgd.tShare 0.441 [0.405, 0.494] / 0.454 [0.422, 0.483] / 0.457 [0.449, 0.471]; sgd.deadEnds 2.32 / 1.43 / 0.96 per km; blockc.perHa 2.56 / 2.31 / 2.53; blockc.lotsPer 9.0 / 9.0 / 9.0 (means 8.6 / 8.9 / 9.5); block.courtShare 0.810 / 0.810 / 0.814, pooled 0.8145 over 10 015 deep blocks (MFCG inner-plot removal, for W-12's MFCG preset court cell; NG 0.43). CVs all <= 0.255 on plain families (stress sgd.deadEnds 0.352 at n = 3, descriptive family).",
+  "FINDINGS routed (E09 9.2): F1 minor design text for the next design seat's intake - ARCHITECTURE's granularity table anchor 'MFCG ~ 18.6 plots per block' is a profiler count (partition leaves per region, research/findings/profile-mfcg.md), not blockc.lotsPer (measured ~9); name the quantity or cite the measured value at W-15's shift record. F2 for W-15 (a ruling between two decided texts) - R-10's components 2-5 on MFCG read only the exported roads (density 8.4/4.1/2.4 km/km2 at TOWN) while V12 3.4.1 says lane-reading metrics on MFCG read the derived graph (companion 33.5/33.1/28.3; FTG all-way ~27-37 inner); both vectors written per seed; lean: the companion (PLAUSIBLE). F3 info for W-12 (court share 0.81 vs NG 0.43).",
+  "JUDGMENT (J122, vetoable, E09 9.1 D1-D14): clusters = measure_ftg's union-find; blocks hole-filled; intramural by area-weighted footprint centroid; water out of the domain on the stress family; R-22's raster medial axis = Golay-L sequential thinning (homotopic; bias vs straight skeleton is T-V12-3's at M1, W-14's runs the proxy); m-adjacency graph with zero-length hole loops; spur on simplified length, iterated, again after merge; merge single-linkage 2 m with internal edges <= 4 m removed and collapsed faces counted; derived graph = all street-space parts reaching the domain edge (both river banks; pockets reported, none found); arms at 10 m; court thresholds from all footprints' medians; R-10 vector unchanged with the lane companion beside; CV = sample SD / mean; retries measured but excluded. The red mode was widened from 4 to 7 plants (one per check) this session.",
+  "HAND-OFFS: W-12 reads per-block rows (area, MRR sides, deep, court) and courtPooled; W-13 the per-seed values; W-14 the CVs plus --fixtures --step 0.25 / --spur 6 / --spur 10 (one JSON line per map), and E14 must call it a proxy (R-47 (g)); W-15 the summaries and the vectors file (R-10 + companion, F2); W-08 the block rows or the tool's Map class; W-17 restates section 2 for R-20 (7)'s digest.",
+  "CONFIRMED vs PLAUSIBLE: every number and check is CONFIRMED by execution (final run, selftest, red, determinism, --from-seeds, plan.py --check, doc_checks); F1's numbers CONFIRMED by reading and measuring; PLAUSIBLE only: the thinning lies within T-V12-3's tolerance (M1 decides), F2's lean and its shrinkage argument, and the reading that the 71 collapsed faces (0.29 %) are junction artefacts."
+ ]
+}

@@ -1,0 +1,419 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm3/before/docs/volumes/V02-buildings.md",
+ "input_doc_sha256": "c4d398371f6549f3c3b538ba0771170eb344e899f945f167cd5a29e23acca9a3",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm3/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "dd2bfafa96aba31b89a5f1a1afba6b48261653c0e889ed40e48a3155599a5ed0",
+ "files": [
+  {
+   "file": "repair-r3-V02.md",
+   "sha256": "18e48286920acfbdc9e961ce6a8e9811056a04ec334fc023a7cc415c59a5751e",
+   "lines": 932,
+   "blocks": 14,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "repair-r3-V02.md #1 (l. 2) REPLACE ### 1b The wiring table — every new piece, what feeds it and what it feeds",
+   "file": "repair-r3-V02.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "### 1b The wiring table — every new piece, what feeds it and what it feeds",
+   "body_lines": 123,
+   "body_sha256": "870b354ef16a31f0aa8e02a6c6d1a0188be2633b41103d00999baa46da5ac627",
+   "target_line": 162,
+   "section_old": "162–283",
+   "section_old_n": 122,
+   "section_new_n": 124,
+   "new_headings": [
+    "### 1b The wiring table — every new piece, what feeds it and what it feeds"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "repair-r3-V02.md #2 (l. 128) REPLACE ### 1c The base hooks consumed (by section)",
+   "file": "repair-r3-V02.md",
+   "index": 2,
+   "line": 128,
+   "kind": "REPLACE",
+   "heading": "### 1c The base hooks consumed (by section)",
+   "body_lines": 46,
+   "body_sha256": "3d3eb387e9a9979d2d29978d467cf3c86aab1e44dc09bb6129ebbac02ef59c6f",
+   "target_line": 286,
+   "section_old": "286–331",
+   "section_old_n": 46,
+   "section_new_n": 47,
+   "new_headings": [
+    "### 1c The base hooks consumed (by section)"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "repair-r3-V02.md #3 (l. 177) REPLACE ### 2.4 Derived at read (never stored)",
+   "file": "repair-r3-V02.md",
+   "index": 3,
+   "line": 177,
+   "kind": "REPLACE",
+   "heading": "### 2.4 Derived at read (never stored)",
+   "body_lines": 39,
+   "body_sha256": "df83f6939468fd4fce28d363d14c1e5334fc9e07eb38323d5419981c59352374",
+   "target_line": 544,
+   "section_old": "544–576",
+   "section_old_n": 33,
+   "section_new_n": 40,
+   "new_headings": [
+    "### 2.4 Derived at read (never stored)"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "repair-r3-V02.md #4 (l. 219) REPLACE ### 2.5 Identity and lifecycle of every state field",
+   "file": "repair-r3-V02.md",
+   "index": 4,
+   "line": 219,
+   "kind": "REPLACE",
+   "heading": "### 2.5 Identity and lifecycle of every state field",
+   "body_lines": 32,
+   "body_sha256": "5696da20c088f8e92bd3b75f09abc63d6f742f78a39218961203967937dcfe92",
+   "target_line": 584,
+   "section_old": "584–616",
+   "section_old_n": 33,
+   "section_new_n": 33,
+   "new_headings": [
+    "### 2.5 Identity and lifecycle of every state field"
+   ]
+  },
+  {
+   "seq": 5,
+   "block": "repair-r3-V02.md #5 (l. 254) REPLACE ### 3.1 Where stage 3 runs",
+   "file": "repair-r3-V02.md",
+   "index": 5,
+   "line": 254,
+   "kind": "REPLACE",
+   "heading": "### 3.1 Where stage 3 runs",
+   "body_lines": 19,
+   "body_sha256": "a34866002ca926f2ab29ce5add003a597de2e23e492686a503ce2b80f9b5fa26",
+   "target_line": 757,
+   "section_old": "757–775",
+   "section_old_n": 19,
+   "section_new_n": 20,
+   "new_headings": [
+    "### 3.1 Where stage 3 runs"
+   ]
+  },
+  {
+   "seq": 6,
+   "block": "repair-r3-V02.md #6 (l. 276) REPLACE ### 3.18 Edges — every mechanism at its limits (principle (11))",
+   "file": "repair-r3-V02.md",
+   "index": 6,
+   "line": 276,
+   "kind": "REPLACE",
+   "heading": "### 3.18 Edges — every mechanism at its limits (principle (11))",
+   "body_lines": 122,
+   "body_sha256": "e96bed8d4a17e6d922933f52ea4937b5cd7add48a8987a05ebec3f8b6d924f46",
+   "target_line": 2434,
+   "section_old": "2434–2554",
+   "section_old_n": 121,
+   "section_new_n": 123,
+   "new_headings": [
+    "### 3.18 Edges — every mechanism at its limits (principle (11))"
+   ]
+  },
+  {
+   "seq": 7,
+   "block": "repair-r3-V02.md #7 (l. 401) REPLACE ### 5.7 Ruin and disaster on the exterior (items 123 (d), 122)",
+   "file": "repair-r3-V02.md",
+   "index": 7,
+   "line": 401,
+   "kind": "REPLACE",
+   "heading": "### 5.7 Ruin and disaster on the exterior (items 123 (d), 122)",
+   "body_lines": 134,
+   "body_sha256": "03e318fe183c810418e1c17d4c523ec783fd89ffa574ca3a7e51cf4a59f3ce13",
+   "target_line": 3029,
+   "section_old": "3029–3121",
+   "section_old_n": 93,
+   "section_new_n": 135,
+   "new_headings": [
+    "### 5.7 Ruin and disaster on the exterior (items 123 (d), 122)"
+   ]
+  },
+  {
+   "seq": 8,
+   "block": "repair-r3-V02.md #8 (l. 538) REPLACE ### 6.3 Memory",
+   "file": "repair-r3-V02.md",
+   "index": 8,
+   "line": 538,
+   "kind": "REPLACE",
+   "heading": "### 6.3 Memory",
+   "body_lines": 16,
+   "body_sha256": "49bd31abc09e5a7c2e2916f128b3ee58c0b92fd4e1c9bd0bd8a590ef30ba6da9",
+   "target_line": 3237,
+   "section_old": "3237–3248",
+   "section_old_n": 12,
+   "section_new_n": 17,
+   "new_headings": [
+    "### 6.3 Memory"
+   ]
+  },
+  {
+   "seq": 9,
+   "block": "repair-r3-V02.md #9 (l. 557) REPLACE ### 6.6 Ruin and disaster on the exterior (items 123 (d), 122)",
+   "file": "repair-r3-V02.md",
+   "index": 9,
+   "line": 557,
+   "kind": "REPLACE",
+   "heading": "### 6.6 Ruin and disaster on the exterior (items 123 (d), 122)",
+   "body_lines": 21,
+   "body_sha256": "74a08c6b7f2c6e6a70b9f500f627823ebdbfb5b654ed1d21e4b7ce6efe186e90",
+   "target_line": 3302,
+   "section_old": "3302–3318",
+   "section_old_n": 17,
+   "section_new_n": 22,
+   "new_headings": [
+    "### 6.6 Ruin and disaster on the exterior (items 123 (d), 122)"
+   ]
+  },
+  {
+   "seq": 10,
+   "block": "repair-r3-V02.md #10 (l. 581) REPLACE ### 7.2 Conformance (C) — hard bars, 100 % unless stated",
+   "file": "repair-r3-V02.md",
+   "index": 10,
+   "line": 581,
+   "kind": "REPLACE",
+   "heading": "### 7.2 Conformance (C) — hard bars, 100 % unless stated",
+   "body_lines": 177,
+   "body_sha256": "c8929b4b82749a81ecbcf0c3583c29216c0e87ad3e32196a7c30cbb118cbddde",
+   "target_line": 3355,
+   "section_old": "3355–3532",
+   "section_old_n": 178,
+   "section_new_n": 178,
+   "new_headings": [
+    "### 7.2 Conformance (C) — hard bars, 100 % unless stated"
+   ]
+  },
+  {
+   "seq": 11,
+   "block": "repair-r3-V02.md #11 (l. 761) REPLACE ### 7.6 Cost, memory and exports",
+   "file": "repair-r3-V02.md",
+   "index": 11,
+   "line": 761,
+   "kind": "REPLACE",
+   "heading": "### 7.6 Cost, memory and exports",
+   "body_lines": 25,
+   "body_sha256": "548297c6db62d4c3f090961b53dfdaf4a6506be5832e8fdf2de45daf49e099a7",
+   "target_line": 3590,
+   "section_old": "3590–3615",
+   "section_old_n": 26,
+   "section_new_n": 26,
+   "new_headings": [
+    "### 7.6 Cost, memory and exports"
+   ]
+  },
+  {
+   "seq": 12,
+   "block": "repair-r3-V02.md #12 (l. 789) REPLACE ### 7.8 Ruin and disaster on the exterior",
+   "file": "repair-r3-V02.md",
+   "index": 12,
+   "line": 789,
+   "kind": "REPLACE",
+   "heading": "### 7.8 Ruin and disaster on the exterior",
+   "body_lines": 62,
+   "body_sha256": "ef7bdb1e5c536367acd7b903854a836f5534e8117f165659822d8847a7ae4ecd",
+   "target_line": 3734,
+   "section_old": "3734–3782",
+   "section_old_n": 49,
+   "section_new_n": 63,
+   "new_headings": [
+    "### 7.8 Ruin and disaster on the exterior"
+   ]
+  },
+  {
+   "seq": 13,
+   "block": "repair-r3-V02.md #13 (l. 854) REPLACE ### 8.6 Ruin and disaster in the build (items 123, 122)",
+   "file": "repair-r3-V02.md",
+   "index": 13,
+   "line": 854,
+   "kind": "REPLACE",
+   "heading": "### 8.6 Ruin and disaster in the build (items 123, 122)",
+   "body_lines": 9,
+   "body_sha256": "9249839fdafa8534d8963de9875c2bb129f3ded07fe875e8c6bfeeba56fcba5f",
+   "target_line": 3874,
+   "section_old": "3874–3883",
+   "section_old_n": 10,
+   "section_new_n": 10,
+   "new_headings": [
+    "### 8.6 Ruin and disaster in the build (items 123, 122)"
+   ]
+  },
+  {
+   "seq": 14,
+   "block": "repair-r3-V02.md #14 (l. 866) REPLACE ## 13 Fix list",
+   "file": "repair-r3-V02.md",
+   "index": 14,
+   "line": 866,
+   "kind": "REPLACE",
+   "heading": "## 13 Fix list",
+   "body_lines": 63,
+   "body_sha256": "eceb37086b0d4bca231591992bf7fbbe40467b7e758a84ada5929eb627dcb43b",
+   "target_line": 4133,
+   "section_old": "4133–4196",
+   "section_old_n": 64,
+   "section_new_n": 64,
+   "new_headings": [
+    "## 13 Fix list"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "repair-r3-V02.md #1 (l. 2) REPLACE ### 1b The wiring table — every new piece, what feeds it and what it feeds",
+    "kind": "REPLACE",
+    "heading": "### 1b The wiring table — every new piece, what feeds it and what it feeds",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V02.md #2 (l. 128) REPLACE ### 1c The base hooks consumed (by section)",
+    "kind": "REPLACE",
+    "heading": "### 1c The base hooks consumed (by section)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V02.md #3 (l. 177) REPLACE ### 2.4 Derived at read (never stored)",
+    "kind": "REPLACE",
+    "heading": "### 2.4 Derived at read (never stored)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V02.md #4 (l. 219) REPLACE ### 2.5 Identity and lifecycle of every state field",
+    "kind": "REPLACE",
+    "heading": "### 2.5 Identity and lifecycle of every state field",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V02.md #5 (l. 254) REPLACE ### 3.1 Where stage 3 runs",
+    "kind": "REPLACE",
+    "heading": "### 3.1 Where stage 3 runs",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V02.md #6 (l. 276) REPLACE ### 3.18 Edges — every mechanism at its limits (principle (11))",
+    "kind": "REPLACE",
+    "heading": "### 3.18 Edges — every mechanism at its limits (principle (11))",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V02.md #7 (l. 401) REPLACE ### 5.7 Ruin and disaster on the exterior (items 123 (d), 122)",
+    "kind": "REPLACE",
+    "heading": "### 5.7 Ruin and disaster on the exterior (items 123 (d), 122)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V02.md #8 (l. 538) REPLACE ### 6.3 Memory",
+    "kind": "REPLACE",
+    "heading": "### 6.3 Memory",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V02.md #9 (l. 557) REPLACE ### 6.6 Ruin and disaster on the exterior (items 123 (d), 122)",
+    "kind": "REPLACE",
+    "heading": "### 6.6 Ruin and disaster on the exterior (items 123 (d), 122)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V02.md #10 (l. 581) REPLACE ### 7.2 Conformance (C) — hard bars, 100 % unless stated",
+    "kind": "REPLACE",
+    "heading": "### 7.2 Conformance (C) — hard bars, 100 % unless stated",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V02.md #11 (l. 761) REPLACE ### 7.6 Cost, memory and exports",
+    "kind": "REPLACE",
+    "heading": "### 7.6 Cost, memory and exports",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V02.md #12 (l. 789) REPLACE ### 7.8 Ruin and disaster on the exterior",
+    "kind": "REPLACE",
+    "heading": "### 7.8 Ruin and disaster on the exterior",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V02.md #13 (l. 854) REPLACE ### 8.6 Ruin and disaster in the build (items 123, 122)",
+    "kind": "REPLACE",
+    "heading": "### 8.6 Ruin and disaster in the build (items 123, 122)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V02.md #14 (l. 866) REPLACE ## 13 Fix list",
+    "kind": "REPLACE",
+    "heading": "## 13 Fix list",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 797,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 77,
+  "headings_after": 77,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 16,
+  "fence_lines_after": 16,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 547395,
+  "doc_bytes_after": 561207,
+  "doc_lines_before": 4126,
+  "doc_lines_after": 4205,
+  "rationale_bytes_before": 697152,
+  "rationale_bytes_after": 697152,
+  "rationale_lines_before": 2378,
+  "rationale_lines_after": 2378,
+  "blocks_total": 14,
+  "blocks_applied": 14,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "4696951caa15e7ffe32522c2f5159b676a8c0da14ad45a4f10d2febe45d82e40",
+  "output_rationale_sha256": "dd2bfafa96aba31b89a5f1a1afba6b48261653c0e889ed40e48a3155599a5ed0"
+ }
+}

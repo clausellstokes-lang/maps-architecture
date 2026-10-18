@@ -1,0 +1,2 @@
+### 3.2 Numeric policy: words 2215 -> 2288 (+73); lines 124 -> 128
+  lines over 121 chars (outside the Frame interface): 1

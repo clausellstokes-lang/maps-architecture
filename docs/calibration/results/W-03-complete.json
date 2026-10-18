@@ -1,0 +1,34 @@
+{
+ "loads_used": 2,
+ "reexport_identical": true,
+ "retry": "froze again: J161 load 2 (2026-10-03 16:34:54 local) of capture/MFCG/130/plain/8 (seed 1413909430) logged one attempt at the plan seed and every generation stage (last stage line 2.1 s after navigation), then gave no Blob or download event in 180 s (waited 181.8 s), did not answer a non-input evaluate within 10 s (main thread busy) or a screenshot within 20 s, and made no emblem-host request (good loads make 3). With J159 load 29 the seed froze on 2 of 2 loads (CONFIRMED reproduced). Recorded in sample.failed as no-export, loads 2, no files (E03.json, export-check.json C6). Stopped; J161 load 3 not used - a substitute waits for the ruling seat's replacement-seed rule.",
+ "files": [
+  "/Users/cstokes/Desktop/Maps/docs/calibration/results/W-03-complete.json",
+  "/Users/cstokes/Desktop/Maps/docs/calibration/E03-mfcg-sweep.md",
+  "/Users/cstokes/Desktop/Maps/docs/calibration/E03-mfcg-sweep.json",
+  "/Users/cstokes/Desktop/Maps/research/baselines/mfcg_j161_m1.mjs",
+  "/Users/cstokes/Desktop/Maps/research/baselines/check_w03.py",
+  "/Users/cstokes/Desktop/Maps/captures/mfcg/exports-sweep-m1-2026-10-03/j161/",
+  "/Users/cstokes/Desktop/Maps/captures/mfcg/exports-sweep-m1-2026-10-03/README.md",
+  "/Users/cstokes/Desktop/Maps/captures/mfcg/exports-sweep-m1-2026-10-03/export-check.json",
+  "/Users/cstokes/Desktop/Maps/captures/mfcg/exports-sweep-m1-2026-10-03/stats.md",
+  "/Users/cstokes/Desktop/Maps/captures/mfcg/exports-sweep-m1-2026-10-03/stats.json"
+ ],
+ "owner_notes": [
+  "J161 use: 2 of 3 loads, 0 downloads. Every download the page started was denied (3 on load 1, none on load 2); the files are the in-page Blob's bytes, the 0-download route E03 sec 5 offered. One public game-page fetch for the build-id check (16:34, still 12710731, no pin shift). The page's own requests: html-classic.itch.zone 33, itch.io 2, static.itch.io 2, armoria.herokuapp.com 3 (load 1 only). No login, account, payment, terms or consent prompt; the site asked nothing else.",
+  "J161's third load is unused and kept for a substitute for capture/MFCG/130/plain/8, after the M-1 ruling seat sets the replacement-seed rule (or rules that METROPOLIS plain stands at n = 9).",
+  "W-03's row now has 3 of 4 checks passing. '35 of 35 exports' cannot be met on this build with this seed: it stands at 34/35 until a substitute is ruled and captured."
+ ],
+ "notes": [
+  "CONFIRMED: seed 0's cold re-export (fresh scratch profile, empty cache) gave JSON 525367 B sha1 eaa7701b and SVG 584676 B sha1 f41234c3, byte-identical to the stored files (cmp and checker C8); the screenshot was identical too (032cd974); 1 attempt at the plan seed, href = plan, same-load window JSON re-export identical, 1 document.",
+  "Delegated calls (J122, vetoable; E03 sec 9.4): downloads denied with files from the in-page Blob (Blob = download held on 68/68 files and 33 re-exports); a new tool, research/baselines/mfcg_j161_m1.mjs, with its own ledger j161/loads.jsonl (cap 2), so the landed sweep tool and the J159 ledger stay as recorded; no-overwrite writes; one bounded non-input liveness question on a failed load, asked after the record is on disk; the cold files are kept under j161/ (1.4 MB) for cmp.",
+  "Before any live load the tool was mock-tested on a file:// page with no network: green + compare, a freeze after load (record first, 'busy', exit at 40 s), cap, refusal of an already-loaded name, no overwrite, and a red compare. The test found one bug (comparing after writing into the same folder), now fixed.",
+  "check_w03.py extended in place (now 11256 B, sha256 60ce9f3e): C6 counts a slot's J161 loads, C7 checks the J161 ledger, C8 checks the cold re-export. Real folder: C1-C8 PASS, exit 0. Three red APFS clones (a flipped byte under j161/, a third ledger line, a download marked completed) each exit 1.",
+  "stats.py re-run as sweep_m1.sh runs it: stats.md and stats.json are byte-identical, because no file was added to the folder (130/plain/8 gave none).",
+  "The wave verifier's correction is applied in E03 sec 6 and the README: 2 of 10 size-40 seeds exceed TOWN's 1500 buildings (1571, 1576), not 4. W-03.json is left as history.",
+  "Schema change: in E03.json and export-check.json, sample.failed[].detail for 130/plain/8 is now a list (one entry per load) and has a new 'loads' field.",
+  "PLAUSIBLE: that the seed freezes on every load of this build (2 of 2 observed); that the hang lies after the model's stages, before the emblem fetch and the export (drawing or labelling; nothing was profiled).",
+  "E03 self-check (doc_checks --doc E03 --heads ARCHITECTURE, 2026-10-03 corpus rule): C1 1/0, C3 30/28 unreviewed, C2/C4/S1/S2 0, exit 1. The C3 hits are generic phrases, the build path and digit runs; this file is not in the design set, so no allow rows. The new j161 JSON duplicates a file already in the corpus, so the corpus gains nothing.",
+  "No git command run, nothing written into plat/. The scratch Chrome profile (92 MB) was deleted and no Chrome remained. 11-12 GiB free throughout."
+ ]
+}

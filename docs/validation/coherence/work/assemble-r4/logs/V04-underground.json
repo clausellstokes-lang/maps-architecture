@@ -1,0 +1,523 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm4/before/docs/volumes/V04-underground.md",
+ "input_doc_sha256": "0e3bcacd8f5cc61680509b213757a3cc3a94252d6647acd26938bce7b263f162",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm4/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "e7b59eac90a75327c91ec60a281e34b9c14919b5208f282d48b7026bf1324b5c",
+ "files": [
+  {
+   "file": "repair-r4-V04.md",
+   "sha256": "a919c6aa328f86c93e64426ab869971de1a5c89350b68d72a544a1be0cc0f4b7",
+   "lines": 1845,
+   "blocks": 18,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "repair-r4-V04.md #1 (l. 2) REPLACE ### 1.2 The base hooks this volume consumes (cited, never restated)",
+   "file": "repair-r4-V04.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "### 1.2 The base hooks this volume consumes (cited, never restated)",
+   "body_lines": 82,
+   "body_sha256": "6f876a3432f82441d4955ad243d4fddb9f32e7ee66426a2772f54795ca8b3f62",
+   "target_line": 114,
+   "section_old": "114–196",
+   "section_old_n": 83,
+   "section_new_n": 83,
+   "new_headings": [
+    "### 1.2 The base hooks this volume consumes (cited, never restated)"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "repair-r4-V04.md #2 (l. 87) REPLACE ### 1.3 Out of scope, with the reason",
+   "file": "repair-r4-V04.md",
+   "index": 2,
+   "line": 87,
+   "kind": "REPLACE",
+   "heading": "### 1.3 Out of scope, with the reason",
+   "body_lines": 55,
+   "body_sha256": "45ae902b2558aeba8ed877c8c74240428a1509c673dfe99909b4698870b1503b",
+   "target_line": 197,
+   "section_old": "197–252",
+   "section_old_n": 56,
+   "section_new_n": 56,
+   "new_headings": [
+    "### 1.3 Out of scope, with the reason"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "repair-r4-V04.md #3 (l. 145) REPLACE ### 1b.1 Records, fields and tables",
+   "file": "repair-r4-V04.md",
+   "index": 3,
+   "line": 145,
+   "kind": "REPLACE",
+   "heading": "### 1b.1 Records, fields and tables",
+   "body_lines": 51,
+   "body_sha256": "e28a374c222055ad381c92acc32280fc35cc104b5c2236ef59297391a8d8a7c1",
+   "target_line": 259,
+   "section_old": "259–310",
+   "section_old_n": 52,
+   "section_new_n": 52,
+   "new_headings": [
+    "### 1b.1 Records, fields and tables"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "repair-r4-V04.md #4 (l. 199) REPLACE ### 1b.2 Stage outputs and interfaces",
+   "file": "repair-r4-V04.md",
+   "index": 4,
+   "line": 199,
+   "kind": "REPLACE",
+   "heading": "### 1b.2 Stage outputs and interfaces",
+   "body_lines": 40,
+   "body_sha256": "1c47c70d0452f43e268fb66bfc721170e98849c54c413625708415b18b9af966",
+   "target_line": 311,
+   "section_old": "311–351",
+   "section_old_n": 41,
+   "section_new_n": 41,
+   "new_headings": [
+    "### 1b.2 Stage outputs and interfaces"
+   ]
+  },
+  {
+   "seq": 5,
+   "block": "repair-r4-V04.md #5 (l. 242) REPLACE ### 1b.3 Edit kinds (each with its tool, lifecycle row and undo)",
+   "file": "repair-r4-V04.md",
+   "index": 5,
+   "line": 242,
+   "kind": "REPLACE",
+   "heading": "### 1b.3 Edit kinds (each with its tool, lifecycle row and undo)",
+   "body_lines": 23,
+   "body_sha256": "d1538abda7621c76d23877e7e419a33c8249cdeccf5e867d318606556f42c080",
+   "target_line": 352,
+   "section_old": "352–375",
+   "section_old_n": 24,
+   "section_new_n": 24,
+   "new_headings": [
+    "### 1b.3 Edit kinds (each with its tool, lifecycle row and undo)"
+   ]
+  },
+  {
+   "seq": 6,
+   "block": "repair-r4-V04.md #6 (l. 268) REPLACE ### 2.6 The lifecycle of every state field this volume adds or gives a producer",
+   "file": "repair-r4-V04.md",
+   "index": 6,
+   "line": 268,
+   "kind": "REPLACE",
+   "heading": "### 2.6 The lifecycle of every state field this volume adds or gives a producer",
+   "body_lines": 41,
+   "body_sha256": "68bfc9d33e3c267bdb2d282646f553aa63910cbb38955bc5e4145cf746e1b61f",
+   "target_line": 839,
+   "section_old": "839–880",
+   "section_old_n": 42,
+   "section_new_n": 42,
+   "new_headings": [
+    "### 2.6 The lifecycle of every state field this volume adds or gives a producer"
+   ]
+  },
+  {
+   "seq": 7,
+   "block": "repair-r4-V04.md #7 (l. 312) REPLACE ### 3.5 U-SYS — the void systems",
+   "file": "repair-r4-V04.md",
+   "index": 7,
+   "line": 312,
+   "kind": "REPLACE",
+   "heading": "### 3.5 U-SYS — the void systems",
+   "body_lines": 683,
+   "body_sha256": "e96271e62691db2d1b3f2c11b5d9dc46883742baf307538a79b48a32f7a91e58",
+   "target_line": 1277,
+   "section_old": "1277–1957",
+   "section_old_n": 681,
+   "section_new_n": 684,
+   "new_headings": [
+    "### 3.5 U-SYS — the void systems"
+   ]
+  },
+  {
+   "seq": 8,
+   "block": "repair-r4-V04.md #8 (l. 998) REPLACE ### 3.10 U-FADE and the underground at an epoch (item 11; J-V4.28 – J-V4.30)",
+   "file": "repair-r4-V04.md",
+   "index": 8,
+   "line": 998,
+   "kind": "REPLACE",
+   "heading": "### 3.10 U-FADE and the underground at an epoch (item 11; J-V4.28 – J-V4.30)",
+   "body_lines": 129,
+   "body_sha256": "d362eadd891b7af8f9f0c1a12d1166e0c0c1d62db949a9b93d7a5bcae06d793e",
+   "target_line": 2229,
+   "section_old": "2229–2354",
+   "section_old_n": 126,
+   "section_new_n": 130,
+   "new_headings": [
+    "### 3.10 U-FADE and the underground at an epoch (item 11; J-V4.28 – J-V4.30)"
+   ]
+  },
+  {
+   "seq": 9,
+   "block": "repair-r4-V04.md #9 (l. 1130) REPLACE ### 3.11 Failure handling (no whole-map retry; §5)",
+   "file": "repair-r4-V04.md",
+   "index": 9,
+   "line": 1130,
+   "kind": "REPLACE",
+   "heading": "### 3.11 Failure handling (no whole-map retry; §5)",
+   "body_lines": 99,
+   "body_sha256": "a2b5292f4bd2583e5a4ffc95cf5d7641ad12be006ee3876e2259b9735412eea9",
+   "target_line": 2359,
+   "section_old": "2359–2458",
+   "section_old_n": 100,
+   "section_new_n": 100,
+   "new_headings": [
+    "### 3.11 Failure handling (no whole-map retry; §5)"
+   ]
+  },
+  {
+   "seq": 10,
+   "block": "repair-r4-V04.md #10 (l. 1232) REPLACE ### 4.1 Declarations — points in, shape out (item 101 (i); item 355)",
+   "file": "repair-r4-V04.md",
+   "index": 10,
+   "line": 1232,
+   "kind": "REPLACE",
+   "heading": "### 4.1 Declarations — points in, shape out (item 101 (i); item 355)",
+   "body_lines": 27,
+   "body_sha256": "1e06a54d77508509979c7cea3ff8f4eb7e3b4269839d693de4dc3ab964d99544",
+   "target_line": 2513,
+   "section_old": "2513–2540",
+   "section_old_n": 28,
+   "section_new_n": 28,
+   "new_headings": [
+    "### 4.1 Declarations — points in, shape out (item 101 (i); item 355)"
+   ]
+  },
+  {
+   "seq": 11,
+   "block": "repair-r4-V04.md #11 (l. 1262) REPLACE ### 4.3 Locality (§7.3; J-V4.14)",
+   "file": "repair-r4-V04.md",
+   "index": 11,
+   "line": 1262,
+   "kind": "REPLACE",
+   "heading": "### 4.3 Locality (§7.3; J-V4.14)",
+   "body_lines": 22,
+   "body_sha256": "df671e3fa676b0f11d12d89648c6110281b981d9edd1782ce41c23d45fd6a8d4",
+   "target_line": 2560,
+   "section_old": "2560–2583",
+   "section_old_n": 24,
+   "section_new_n": 23,
+   "new_headings": [
+    "### 4.3 Locality (§7.3; J-V4.14)"
+   ]
+  },
+  {
+   "seq": 12,
+   "block": "repair-r4-V04.md #12 (l. 1287) REPLACE ### 5.1 The underground view (§8.4; item 413; J-V4.31)",
+   "file": "repair-r4-V04.md",
+   "index": 12,
+   "line": 1287,
+   "kind": "REPLACE",
+   "heading": "### 5.1 The underground view (§8.4; item 413; J-V4.31)",
+   "body_lines": 68,
+   "body_sha256": "dff189d38e25d6d82361aea6399bda319b8f8b5e1c1d7a4eec83b3ffab30f563",
+   "target_line": 2692,
+   "section_old": "2692–2749",
+   "section_old_n": 58,
+   "section_new_n": 69,
+   "new_headings": [
+    "### 5.1 The underground view (§8.4; item 413; J-V4.31)"
+   ]
+  },
+  {
+   "seq": 13,
+   "block": "repair-r4-V04.md #13 (l. 1358) REPLACE ### 5.4 Labels (§9; items 423, 445; J-V4.34)",
+   "file": "repair-r4-V04.md",
+   "index": 13,
+   "line": 1358,
+   "kind": "REPLACE",
+   "heading": "### 5.4 Labels (§9; items 423, 445; J-V4.34)",
+   "body_lines": 17,
+   "body_sha256": "729f59208382f8c6483e886d9481049503b2c2884549e7c1b8d616840fc05218",
+   "target_line": 2850,
+   "section_old": "2850–2866",
+   "section_old_n": 17,
+   "section_new_n": 18,
+   "new_headings": [
+    "### 5.4 Labels (§9; items 423, 445; J-V4.34)"
+   ]
+  },
+  {
+   "seq": 14,
+   "block": "repair-r4-V04.md #14 (l. 1378) REPLACE ### 5.6 Damage below ground — cellars, crypts and underground buildings (g item 123; J-V4.130)",
+   "file": "repair-r4-V04.md",
+   "index": 14,
+   "line": 1378,
+   "kind": "REPLACE",
+   "heading": "### 5.6 Damage below ground — cellars, crypts and underground buildings (g item 123; J-V4.130)",
+   "body_lines": 78,
+   "body_sha256": "ff75687911cabe1d31fdd4e43469df558d8172716fe2a637228fe5ec9ea08396",
+   "target_line": 2888,
+   "section_old": "2888–2963",
+   "section_old_n": 76,
+   "section_new_n": 79,
+   "new_headings": [
+    "### 5.6 Damage below ground — cellars, crypts and underground buildings (g item 123; J-V4.130)"
+   ]
+  },
+  {
+   "seq": 15,
+   "block": "repair-r4-V04.md #15 (l. 1459) REPLACE ## 6 Performance budgets",
+   "file": "repair-r4-V04.md",
+   "index": 15,
+   "line": 1459,
+   "kind": "REPLACE",
+   "heading": "## 6 Performance budgets",
+   "body_lines": 93,
+   "body_sha256": "39dac0cba1a60ad5fa73d954ad23bb12d127e13cf95ec5aa5374b7c366ab34d3",
+   "target_line": 2967,
+   "section_old": "2967–3058",
+   "section_old_n": 92,
+   "section_new_n": 94,
+   "new_headings": [
+    "## 6 Performance budgets"
+   ]
+  },
+  {
+   "seq": 16,
+   "block": "repair-r4-V04.md #16 (l. 1555) REPLACE ## 7 Tests and acceptance bars",
+   "file": "repair-r4-V04.md",
+   "index": 16,
+   "line": 1555,
+   "kind": "REPLACE",
+   "heading": "## 7 Tests and acceptance bars",
+   "body_lines": 114,
+   "body_sha256": "bc48a4fa2b2ce8a7086f18f1a4a6831b355fc077cf070a44abce961513dc044d",
+   "target_line": 3061,
+   "section_old": "3061–3175",
+   "section_old_n": 115,
+   "section_new_n": 115,
+   "new_headings": [
+    "## 7 Tests and acceptance bars"
+   ]
+  },
+  {
+   "seq": 17,
+   "block": "repair-r4-V04.md #17 (l. 1672) REPLACE ## 9 Decisions (each vetoable)",
+   "file": "repair-r4-V04.md",
+   "index": 17,
+   "line": 1672,
+   "kind": "REPLACE",
+   "heading": "## 9 Decisions (each vetoable)",
+   "body_lines": 138,
+   "body_sha256": "360c1e4a246dacd688482f2971812964bc776fbdf3797556402b3f6d0b3a8ddd",
+   "target_line": 3285,
+   "section_old": "3285–3423",
+   "section_old_n": 139,
+   "section_new_n": 139,
+   "new_headings": [
+    "## 9 Decisions (each vetoable)"
+   ]
+  },
+  {
+   "seq": 18,
+   "block": "repair-r4-V04.md #18 (l. 1813) REPLACE ## 13 Fix list",
+   "file": "repair-r4-V04.md",
+   "index": 18,
+   "line": 1813,
+   "kind": "REPLACE",
+   "heading": "## 13 Fix list",
+   "body_lines": 30,
+   "body_sha256": "1fca68276fae439547d4a840a8c8b164abde1d2330dd8ba391c336a0c8e2fae5",
+   "target_line": 3577,
+   "section_old": "3577–3607",
+   "section_old_n": 31,
+   "section_new_n": 31,
+   "new_headings": [
+    "## 13 Fix list"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "repair-r4-V04.md #1 (l. 2) REPLACE ### 1.2 The base hooks this volume consumes (cited, never restated)",
+    "kind": "REPLACE",
+    "heading": "### 1.2 The base hooks this volume consumes (cited, never restated)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V04.md #2 (l. 87) REPLACE ### 1.3 Out of scope, with the reason",
+    "kind": "REPLACE",
+    "heading": "### 1.3 Out of scope, with the reason",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V04.md #3 (l. 145) REPLACE ### 1b.1 Records, fields and tables",
+    "kind": "REPLACE",
+    "heading": "### 1b.1 Records, fields and tables",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V04.md #4 (l. 199) REPLACE ### 1b.2 Stage outputs and interfaces",
+    "kind": "REPLACE",
+    "heading": "### 1b.2 Stage outputs and interfaces",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V04.md #5 (l. 242) REPLACE ### 1b.3 Edit kinds (each with its tool, lifecycle row and undo)",
+    "kind": "REPLACE",
+    "heading": "### 1b.3 Edit kinds (each with its tool, lifecycle row and undo)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V04.md #6 (l. 268) REPLACE ### 2.6 The lifecycle of every state field this volume adds or gives a producer",
+    "kind": "REPLACE",
+    "heading": "### 2.6 The lifecycle of every state field this volume adds or gives a producer",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V04.md #7 (l. 312) REPLACE ### 3.5 U-SYS — the void systems",
+    "kind": "REPLACE",
+    "heading": "### 3.5 U-SYS — the void systems",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V04.md #8 (l. 998) REPLACE ### 3.10 U-FADE and the underground at an epoch (item 11; J-V4.28 – J-V4.30)",
+    "kind": "REPLACE",
+    "heading": "### 3.10 U-FADE and the underground at an epoch (item 11; J-V4.28 – J-V4.30)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V04.md #9 (l. 1130) REPLACE ### 3.11 Failure handling (no whole-map retry; §5)",
+    "kind": "REPLACE",
+    "heading": "### 3.11 Failure handling (no whole-map retry; §5)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V04.md #10 (l. 1232) REPLACE ### 4.1 Declarations — points in, shape out (item 101 (i); item 355)",
+    "kind": "REPLACE",
+    "heading": "### 4.1 Declarations — points in, shape out (item 101 (i); item 355)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V04.md #11 (l. 1262) REPLACE ### 4.3 Locality (§7.3; J-V4.14)",
+    "kind": "REPLACE",
+    "heading": "### 4.3 Locality (§7.3; J-V4.14)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V04.md #12 (l. 1287) REPLACE ### 5.1 The underground view (§8.4; item 413; J-V4.31)",
+    "kind": "REPLACE",
+    "heading": "### 5.1 The underground view (§8.4; item 413; J-V4.31)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V04.md #13 (l. 1358) REPLACE ### 5.4 Labels (§9; items 423, 445; J-V4.34)",
+    "kind": "REPLACE",
+    "heading": "### 5.4 Labels (§9; items 423, 445; J-V4.34)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V04.md #14 (l. 1378) REPLACE ### 5.6 Damage below ground — cellars, crypts and underground buildings (g item 123; J-V4.130)",
+    "kind": "REPLACE",
+    "heading": "### 5.6 Damage below ground — cellars, crypts and underground buildings (g item 123; J-V4.130)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V04.md #15 (l. 1459) REPLACE ## 6 Performance budgets",
+    "kind": "REPLACE",
+    "heading": "## 6 Performance budgets",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V04.md #16 (l. 1555) REPLACE ## 7 Tests and acceptance bars",
+    "kind": "REPLACE",
+    "heading": "## 7 Tests and acceptance bars",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V04.md #17 (l. 1672) REPLACE ## 9 Decisions (each vetoable)",
+    "kind": "REPLACE",
+    "heading": "## 9 Decisions (each vetoable)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V04.md #18 (l. 1813) REPLACE ## 13 Fix list",
+    "kind": "REPLACE",
+    "heading": "## 13 Fix list",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 805,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 59,
+  "headings_after": 59,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 12,
+  "fence_lines_after": 12,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 520064,
+  "doc_bytes_after": 527003,
+  "doc_lines_before": 3605,
+  "doc_lines_after": 3628,
+  "rationale_bytes_before": 704669,
+  "rationale_bytes_after": 704669,
+  "rationale_lines_before": 2386,
+  "rationale_lines_after": 2386,
+  "blocks_total": 18,
+  "blocks_applied": 18,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "6aebc1e136c8778c9fcac983b98590a4ef3e74b5daf5dd036edd09b82505dff1",
+  "output_rationale_sha256": "e7b59eac90a75327c91ec60a281e34b9c14919b5208f282d48b7026bf1324b5c"
+ }
+}

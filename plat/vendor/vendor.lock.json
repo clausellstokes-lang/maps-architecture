@@ -1,0 +1,156 @@
+{
+  "libraries": {
+    "delaunator@5.1.0": {
+      "files": {
+        "LICENSE": "0b348fff56384b43dbb37593906904e56d0f9deb51eae590d4dc6d427fbf1808",
+        "README.md": "9433f4fc6ec738ec7b373e6e38d31d8d1b1034f8183d7bccbf5c89591b000e4e",
+        "delaunator.js": "ff68508ba98a8951126289cdc13baa57fec6fd86b426ee3ed2eb38b4cc9cb684",
+        "delaunator.min.js": "d376e0148f1c1cc3787891d96fe8028ca09cdd62c99bfab20ed1c690e3753f02",
+        "index.d.ts": "66f7d7366a4f2cfa791df8fbcf754a42dee73197f65493a8007ea28a136d00c2",
+        "index.js": "40e6fb9c4f90fbf5c1e626047177d6653b74d648f6bc863f643c84751e1c10ae",
+        "package.json": "ef32765003933fd4155d0f0714a134f20a05b946a0bb0040a37fd7416984d919"
+      },
+      "integrity": "sha512-AGrQ4QSgssa1NGmWmLPqN5NY2KajF5MqxetNEO+o0n3ZwZZeTmt7bBnvzHWrmkZFxGgr4HdyFgelzgi06otLuQ==",
+      "licence": "ISC",
+      "name": "delaunator",
+      "original": {
+        "delaunator.js": "33db0578d3d651c5bcc31f7b4939e50f353c1281608ea79020eacbb121b66ba1",
+        "delaunator.min.js": "bfe30439db2a04cb19e23525f7e203636e4faa4f1143876e649caba24629bab6",
+        "index.js": "1a941d291859ebe1f6755dfbc2024686103c5ab2f31659177c01088ab88c2ca3",
+        "package.json": "5b934aa3dc1e415e5e4f7cd60bc223b0782253e46fb42eff32cab8570c2e8bb5"
+      },
+      "packageJsonEdits": [
+        "removed scripts",
+        "removed devDependencies",
+        "dependency robust-predicates: ^3.0.2 -> workspace:3.0.3"
+      ],
+      "patch": "patches/delaunator@5.1.0.json",
+      "patchSha256": "8f3ce1a44f2fa241243b97ddfd3e3240aa7df8dc5f44534b8339d737f64139f7",
+      "tarball": "delaunator-5.1.0.tgz",
+      "version": "5.1.0"
+    },
+    "flatbush@4.6.2": {
+      "files": {
+        "LICENSE": "08a9d45b1300baf1925a966bcbec26cf9bd4137883d96b79089cba2c72d872bc",
+        "README.md": "65e8cc0ed25fe6a9b16d82cb98fbcbc8f45ba9147b9b7bf7d50c3640c57c3dc9",
+        "flatbush.js": "b1a7838eb7753a2bc617cbd504408c2e3e240badead3611cfd32c99e25853827",
+        "index.d.ts": "707a4214c28a3730cb4bcf0895cf7333b9bae17ec1964e5def0af67d2c0e9ff0",
+        "index.js": "7bba0670e35931c3a52400bf7bda05fd7342e0da60877547211e8c72465ab7b0",
+        "package.json": "b193fe9dcb422d8cb9b3279ee259e8b5066259f0f6dbf2ada6a37dc02ff0ae08"
+      },
+      "integrity": "sha512-nNT7MFJ58Q4IAm3aYsEg+zgZGpdRcmR1i4U+aa8c+r91jmYZg7FTQwNnIMC0FyBqVZTbClKdAnrJkKkfp1BOvw==",
+      "licence": "ISC",
+      "name": "flatbush",
+      "original": {
+        "flatbush.js": "918d03a3572f0e210ea6b26cf8d2f54aec134afb23e38b114389c29de0be4c29",
+        "index.js": "03a0292b03e580efe4b5f42b506ed766ad6a868180751837e4360b6ca4e3b850",
+        "package.json": "bba765e651b5323964c7368911c047a7c57d7120c59089c5c393db0d782a6d79"
+      },
+      "packageJsonEdits": [
+        "removed scripts",
+        "removed devDependencies",
+        "dependency flatqueue: ^3.1.0 -> workspace:3.1.0"
+      ],
+      "patch": "patches/flatbush@4.6.2.json",
+      "patchSha256": "8e4e640f2c17eeac9d55b7e81a4b368194e411f2e75e55cef488ed2912d7f21a",
+      "tarball": "flatbush-4.6.2.tgz",
+      "version": "4.6.2"
+    },
+    "flatqueue@3.1.0": {
+      "files": {
+        "LICENSE": "dda6815257c8b5dd1c557507e0f49b592001a515fe4e9f152a2e7683f9d3a3b5",
+        "README.md": "7aa2be7be4165f86be2deba58a953e5f51f6bef92df9e4c430aac265bf7fce9b",
+        "index.d.ts": "78d0a7bc8f502fc9e8c3a85afa01b52d66d872b8189e12331c660d4b7058160c",
+        "index.js": "f621295eb3bdebcd3e0189fb18004b8c43af9707bdc7f6caa5d913ecdbcf149e",
+        "package.json": "8c3584c4a65c7d0d353bc96bd7c61dfee65b35444fdf2024f16596fe31fcdee9"
+      },
+      "integrity": "sha512-Ia4qIYrrsEqIRx3c3XhkT+QDLQuUV5ovsr6ah1rIgKT5wclhoGK3lAMS1bWRAWxlx7wtlTBpV7QXB5d9fOSRxA==",
+      "licence": "ISC",
+      "name": "flatqueue",
+      "original": {
+        "package.json": "1b9a1af82b63e6bd903b4340a0d001deb98dc8fcb585ce39571974e719381588"
+      },
+      "packageJsonEdits": [
+        "removed scripts",
+        "removed devDependencies"
+      ],
+      "patch": null,
+      "patchSha256": null,
+      "tarball": "flatqueue-3.1.0.tgz",
+      "version": "3.1.0"
+    },
+    "robust-predicates@3.0.3": {
+      "files": {
+        "LICENSE": "88d9b4eb60579c191ec391ca04c16130572d7eedc4a86daa58bf28c6e14c9bcd",
+        "README.md": "6feda9e9aa15c9717487b1e8035ccdaa8865089639fed9cc56027d172a304fdf",
+        "esm/incircle.js": "784e4c897b00289869c9a9e51e0281ac550853e399a8df664afaf29494fe85b5",
+        "esm/insphere.js": "6782ad663d713b0da8d0710d88123a89ad388a6359c4bc81ed89ac5f682a12ea",
+        "esm/orient2d.js": "ba1af2b1ea71924fa2e0a3e50b8972d3a83ab9a9f406dd73e851c9763a8eb741",
+        "esm/orient3d.js": "6e122bc0c0b461d0cdf37e2caa458a823556630a20b044069e57391641acd97a",
+        "esm/util.js": "7b6ed8737cbee96fb413a312e6aaadd84ce9e9594847949f7b4bc8b3dac2cd14",
+        "index.d.ts": "5e038e34ef4ee190e45fdd4545cb1932a1c244c76c87ba40a9a301a73ec94dae",
+        "index.js": "1e26fb2e616a0fa84dadb3a15633d9743671884d82f1abb124e20292fd0ab86d",
+        "package.json": "244244c60d876e3df15fec67d4beaf6cdd20ef383a085af8907901af3994c3b5",
+        "umd/incircle.js": "b43917bcb12bb3ab6636ad4c506d3f94bb2df2fb999d9956cf354f698a0ce1b9",
+        "umd/incircle.min.js": "3ee76f5a7e8259598b2f860635fda2b46d111b83d51b37ffdca04c66a1398534",
+        "umd/insphere.js": "44090e1ddd4b4ee34a1a0772481b40cf8ea8f58b663f6c62c18ef051d300987d",
+        "umd/insphere.min.js": "37ef91543c48f7238a94a7eddfabd86e96ea70f99f81972872234233df00fe98",
+        "umd/orient2d.js": "2a95a367eab27584f45e69298c56920fc0069c4b024eb00a3c438fa1281da6c0",
+        "umd/orient2d.min.js": "aa8e935aa57a5555240b541af7939d4bc4150aab628c8549b895cf170483f18b",
+        "umd/orient3d.js": "ffc8ac470649fa0187dbecc350824488e318f5c97a037f102b3f17197cfc6681",
+        "umd/orient3d.min.js": "3c9ab8425d25c7abceeedd4ba7a0eda7658b839e2463883faa3a14ea81b03411",
+        "umd/predicates.js": "66f7b47a185e1390b01bf3b1bc815d010c6c22101feb9cd3699276b70e6c3166",
+        "umd/predicates.min.js": "edf5b9900ced14356d4a76da76121c56bde473661c5b243eb81d021b4024fafd"
+      },
+      "integrity": "sha512-NS3levdsRIUOmiJ8FZWCP7LG3QpJyrs/TE0Zpf1yvZu8cAJJ6QMW92H1c7kWpdIHo8RvmLxN/o2JXTKHp74lUA==",
+      "licence": "Unlicense",
+      "name": "robust-predicates",
+      "original": {
+        "package.json": "55881c0db678074120592e7de7cc2418c265e2ec6cbb51f9c02794db2ee20813"
+      },
+      "packageJsonEdits": [
+        "removed scripts",
+        "removed devDependencies"
+      ],
+      "patch": null,
+      "patchSha256": null,
+      "tarball": "robust-predicates-3.0.3.tgz",
+      "version": "3.0.3"
+    },
+    "simplex-noise@4.0.3": {
+      "files": {
+        "LICENSE": "01951c4f7d8e7ce92540c4f575a2aec39738b39d25a06a96059d82ed83fb594e",
+        "README.md": "77e8299eef43f4ed448f31efba96bbc49aae88b93894176ef1ad4b8479faf8f6",
+        "dist/cjs/simplex-noise.d.ts": "cb43742e945005e0c84545ccdeb0b93c9522e90d11b55611f601266d7f404ae9",
+        "dist/cjs/simplex-noise.js": "14870de437b4ab3b76aa7d0d9a85f0515f28725d753a98d0b0e0f396bd83ed62",
+        "dist/cjs/simplex-noise.js.map": "a81067de467d9aecd9e41a734f9650f641ccb6298bab260ad55c8a549884eb69",
+        "dist/esm/package.json": "48e847860dd4f0907ce91e346dbb00a4a12213163ad3d80a953c343eb9a11979",
+        "dist/esm/simplex-noise.d.ts": "cb43742e945005e0c84545ccdeb0b93c9522e90d11b55611f601266d7f404ae9",
+        "dist/esm/simplex-noise.js": "cd52ccbd3b97cf138d9ef72de038ddb382a9b5b947349566429271cbc2b8b40e",
+        "dist/esm/simplex-noise.js.map": "e37b34b4d5808174abf1e5758a9b7273e36b262b15354619f75386386f90c1e3",
+        "package.json": "425071a18598d7cdcb7fb4933458cb84b430c567ff3ad328271afa5ef90115fa",
+        "simplex-noise.ts": "15ecb551b9af25e31e80910ddb7f93269893eac05b65a21d762aeec99e87f56c"
+      },
+      "integrity": "sha512-qSE2I4AngLQG7BXqoZj51jokT4WUXe8mOBrvfOXpci8+6Yu44+/dD5zqDpOx3Ux792eamTd2lLcI8jqFntk/lg==",
+      "licence": "MIT",
+      "name": "simplex-noise",
+      "original": {
+        "dist/cjs/simplex-noise.d.ts": "b40c82d5fe5f17bc9bdf7fd460e032e175f82aa5698571ccfe6edeb23281ad0c",
+        "dist/cjs/simplex-noise.js": "99c7c2aad863a20aa9b544b88f2223a6c53435fe7e43bc21b8dd1f8de78ff107",
+        "dist/esm/simplex-noise.d.ts": "b40c82d5fe5f17bc9bdf7fd460e032e175f82aa5698571ccfe6edeb23281ad0c",
+        "dist/esm/simplex-noise.js": "64e571e6d28da06fdd230110b8ce242285e76137e7258938f3b68a0fd6ff8146",
+        "package.json": "9549a06c228e610471a104795c318b1c008e9994ec63807f66cfa43328938b6c",
+        "simplex-noise.ts": "54ed75fe5352210fb47247c38d2cc0e8ab565f469e6515ddcea04e24d44313ea"
+      },
+      "packageJsonEdits": [
+        "removed scripts",
+        "removed devDependencies"
+      ],
+      "patch": "patches/simplex-noise@4.0.3.json",
+      "patchSha256": "52320d0f07198a908d2e5dbf1df805a958a1e6d2710a0668725ff8db5de59cfe",
+      "tarball": "simplex-noise-4.0.3.tgz",
+      "version": "4.0.3"
+    }
+  },
+  "lockVersion": 1
+}

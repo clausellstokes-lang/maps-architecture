@@ -1,0 +1,33 @@
+VV12-r2-04, VV12-r2-05, END VV56-r2-06 §1b exteriorDamage row  x1
+VV1112-r2-09 §1b the registration rows of T-V2-59 (d) and T-V2-60 (c)  x1
+VV12-r2-05 §1c §8.1 and §8.9 hook row  x1
+VV12-r2-04 §2.4 look.pattern  x1
+VV12-r2-05, END VV56-r2-06 §2.4 the element fields  x1
+VV12-r2-05 §2.4 where it runs and its path  x1
+VV12-r2-05 §2.5 lifecycle row  x1
+VV12-r2-05 §3.1 the exterior damage row  x1
+END VAF-R2T-01 §3.18 (e) roofless row  x1
+END VV56-r2-06 §3.18 (e) restoration row  x1
+VV12-r2-04, END VAT2-r2-09 §3.18 (e) ruined-look row  x1
+VV12-r2-05 §3.18 (d) the marks with the delta  x1
+END VAT2-r2-09, VV12-r2-04 §5.7 (1)  x1
+END VV56-r2-06 §5.7 (2) the states (one comparison; the per-element peak)  x1
+END VAF-R2T-01 §5.7 (2) the roofless case cites §2.6 step 7  x1
+VV12-r2-04 §5.7 (4) the pattern  x1
+VV12-r2-05 §5.7 (7) exports from the transient list  x1
+VV12-r2-05 §5.7 (8) where it runs, the marks, the re-emission, the tile worker  x1
+VV12-r2-05 §6.3 the damage marks bullet  x1
+VV12-r2-05 §6.6 table  x1
+VV12-r2-05 §6.6 memo row  x1
+VV12-r2-05 §6.6 the generation share, the measurement and fallback (c)  x1
+VAP-r2-02 T-V2-58 head and (f)  x1
+VCS-r2-05 T-V2-24  x1
+END VV56-r2-06, VV12-r2-04 §7.8 fixtures  x1
+VAP-r2-02, VV1112-r2-09, VV12-r2-05, END VAF-R2T-01, END VV56-r2-06 T-V2-59  x1
+VV1112-r2-09, VV12-r2-05, END VAT2-r2-09, VV12-r2-04 T-V2-60  x1
+VV12-r2-04, VV12-r2-05, VV1112-r2-09 §8.6 M6b row  x1
+END VAF-R2T-01, END VV56-r2-06 X34  x1
+VV12-r2-04 X35  x1
+END VV56-r2-06, END VAT2-r2-09 X36  x1
+VV12-r2-05 X37  x1
+VV1112-r2-09 X-V12-11 received  x1

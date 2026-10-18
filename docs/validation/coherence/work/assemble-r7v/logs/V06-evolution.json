@@ -1,0 +1,289 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm7v/before/docs/volumes/V06-evolution.md",
+ "input_doc_sha256": "324609e5ef5b1ff164f56dfcd6edae152f043d6608bbd0ea4372100f1e402f4b",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm7v/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "7e172500f6a791c5cf1e667c657309b6a49ee067dc130a05d82e605a06579c39",
+ "files": [
+  {
+   "file": "b-repair-r7v-V06.md",
+   "sha256": "96bd93cc48aa1e1d251fe0a07955005c8c19ce2edd25e561d893d384533da703",
+   "lines": 1339,
+   "blocks": 9,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "b-repair-r7v-V06.md #1 (l. 1) REPLACE ## 1b Wiring table — every new piece, what feeds it and what it feeds",
+   "file": "b-repair-r7v-V06.md",
+   "index": 1,
+   "line": 1,
+   "kind": "REPLACE",
+   "heading": "## 1b Wiring table — every new piece, what feeds it and what it feeds",
+   "body_lines": 130,
+   "body_sha256": "84c50097366c18597ea3b0793c723761900df137cdd2f43aa6db2004bdf2251b",
+   "target_line": 277,
+   "section_old": "277–407",
+   "section_old_n": 131,
+   "section_new_n": 131,
+   "new_headings": [
+    "## 1b Wiring table — every new piece, what feeds it and what it feeds"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "b-repair-r7v-V06.md #2 (l. 133) REPLACE ### 2.10 The epoch report and the chronicle (non-canonical, rebuilt by replay)",
+   "file": "b-repair-r7v-V06.md",
+   "index": 2,
+   "line": 133,
+   "kind": "REPLACE",
+   "heading": "### 2.10 The epoch report and the chronicle (non-canonical, rebuilt by replay)",
+   "body_lines": 68,
+   "body_sha256": "4bc2a7f1dc2efc1c07f842ab9d225d09b56932294b5aac14730186cf8a0bdcfe",
+   "target_line": 740,
+   "section_old": "740–808",
+   "section_old_n": 69,
+   "section_new_n": 69,
+   "new_headings": [
+    "### 2.10 The epoch report and the chronicle (non-canonical, rebuilt by replay)"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "b-repair-r7v-V06.md #3 (l. 203) REPLACE ### 3.6 Growth — fill first, crowd next, spread last",
+   "file": "b-repair-r7v-V06.md",
+   "index": 3,
+   "line": 203,
+   "kind": "REPLACE",
+   "heading": "### 3.6 Growth — fill first, crowd next, spread last",
+   "body_lines": 61,
+   "body_sha256": "154f87b9361686d0e590b3d3161d5248b20d53c71db2e79d0f304903014f214e",
+   "target_line": 1390,
+   "section_old": "1390–1450",
+   "section_old_n": 61,
+   "section_new_n": 62,
+   "new_headings": [
+    "### 3.6 Growth — fill first, crowd next, spread last"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "b-repair-r7v-V06.md #4 (l. 266) REPLACE ### 3.7 Fortification — new circuits, old rings, shorter rings",
+   "file": "b-repair-r7v-V06.md",
+   "index": 4,
+   "line": 266,
+   "kind": "REPLACE",
+   "heading": "### 3.7 Fortification — new circuits, old rings, shorter rings",
+   "body_lines": 232,
+   "body_sha256": "5d6bb7d68569b3aca22eade38f0f68d4d68a2d6d9b42b7d12a0195bb59301f2a",
+   "target_line": 1452,
+   "section_old": "1452–1680",
+   "section_old_n": 229,
+   "section_new_n": 233,
+   "new_headings": [
+    "### 3.7 Fortification — new circuits, old rings, shorter rings"
+   ]
+  },
+  {
+   "seq": 5,
+   "block": "b-repair-r7v-V06.md #5 (l. 500) REPLACE ### 3.17 Failure handling — never a whole-map retry (§5)",
+   "file": "b-repair-r7v-V06.md",
+   "index": 5,
+   "line": 500,
+   "kind": "REPLACE",
+   "heading": "### 3.17 Failure handling — never a whole-map retry (§5)",
+   "body_lines": 36,
+   "body_sha256": "fbd2e9d50b7be69a82d687bc1f30eead40e69744e68b6b54930afee9a8d651dd",
+   "target_line": 2482,
+   "section_old": "2482–2517",
+   "section_old_n": 36,
+   "section_new_n": 37,
+   "new_headings": [
+    "### 3.17 Failure handling — never a whole-map retry (§5)"
+   ]
+  },
+  {
+   "seq": 6,
+   "block": "b-repair-r7v-V06.md #6 (l. 538) REPLACE ### 3.19 Item 110 over epochs — raised ways, retaining walls and decks (item 110 (a), (b), (d); J-V6",
+   "file": "b-repair-r7v-V06.md",
+   "index": 6,
+   "line": 538,
+   "kind": "REPLACE",
+   "heading": "### 3.19 Item 110 over epochs — raised ways, retaining walls and decks (item 110 (a), (b), (d); J-V6.82–J-V6.95)",
+   "body_lines": 383,
+   "body_sha256": "a29a9c0ba36fb36649f1240bf16b741441d7e55c38212a22656f52c9645f7a7d",
+   "target_line": 2753,
+   "section_old": "2753–3133",
+   "section_old_n": 381,
+   "section_new_n": 384,
+   "new_headings": [
+    "### 3.19 Item 110 over epochs — raised ways, retaining walls and decks (item 110 (a), (b), (d); J-V6.82–J-V6.95)"
+   ]
+  },
+  {
+   "seq": 7,
+   "block": "b-repair-r7v-V06.md #7 (l. 923) REPLACE ### 3.21 Edges — every mechanism at its limits (principle (11))",
+   "file": "b-repair-r7v-V06.md",
+   "index": 7,
+   "line": 923,
+   "kind": "REPLACE",
+   "heading": "### 3.21 Edges — every mechanism at its limits (principle (11))",
+   "body_lines": 77,
+   "body_sha256": "4ab89c8f9b0a54be2827803645422cf7de0bd1cb8493c1190a41b48fc58d1c87",
+   "target_line": 3296,
+   "section_old": "3296–3373",
+   "section_old_n": 78,
+   "section_new_n": 78,
+   "new_headings": [
+    "### 3.21 Edges — every mechanism at its limits (principle (11))"
+   ]
+  },
+  {
+   "seq": 8,
+   "block": "b-repair-r7v-V06.md #8 (l. 1002) REPLACE ## 7 Tests and acceptance bars",
+   "file": "b-repair-r7v-V06.md",
+   "index": 8,
+   "line": 1002,
+   "kind": "REPLACE",
+   "heading": "## 7 Tests and acceptance bars",
+   "body_lines": 186,
+   "body_sha256": "53b9772336374ce6b658ca239a8c9d22d6568930fe9c495fae488b68fecf2ce7",
+   "target_line": 4078,
+   "section_old": "4078–4261",
+   "section_old_n": 184,
+   "section_new_n": 187,
+   "new_headings": [
+    "## 7 Tests and acceptance bars"
+   ]
+  },
+  {
+   "seq": 9,
+   "block": "b-repair-r7v-V06.md #9 (l. 1190) REPLACE ## 9 Decisions (each \"chose X over Y because Z\"; vetoable)",
+   "file": "b-repair-r7v-V06.md",
+   "index": 9,
+   "line": 1190,
+   "kind": "REPLACE",
+   "heading": "## 9 Decisions (each \"chose X over Y because Z\"; vetoable)",
+   "body_lines": 147,
+   "body_sha256": "b36c3c9d02ea95221ac7fa61182a3c4741aa10e54b7262865a17e7c5053be5c2",
+   "target_line": 4409,
+   "section_old": "4409–4556",
+   "section_old_n": 148,
+   "section_new_n": 148,
+   "new_headings": [
+    "## 9 Decisions (each \"chose X over Y because Z\"; vetoable)"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "b-repair-r7v-V06.md #1 (l. 1) REPLACE ## 1b Wiring table — every new piece, what feeds it and what it feeds",
+    "kind": "REPLACE",
+    "heading": "## 1b Wiring table — every new piece, what feeds it and what it feeds",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7v-V06.md #2 (l. 133) REPLACE ### 2.10 The epoch report and the chronicle (non-canonical, rebuilt by replay)",
+    "kind": "REPLACE",
+    "heading": "### 2.10 The epoch report and the chronicle (non-canonical, rebuilt by replay)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7v-V06.md #3 (l. 203) REPLACE ### 3.6 Growth — fill first, crowd next, spread last",
+    "kind": "REPLACE",
+    "heading": "### 3.6 Growth — fill first, crowd next, spread last",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7v-V06.md #4 (l. 266) REPLACE ### 3.7 Fortification — new circuits, old rings, shorter rings",
+    "kind": "REPLACE",
+    "heading": "### 3.7 Fortification — new circuits, old rings, shorter rings",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7v-V06.md #5 (l. 500) REPLACE ### 3.17 Failure handling — never a whole-map retry (§5)",
+    "kind": "REPLACE",
+    "heading": "### 3.17 Failure handling — never a whole-map retry (§5)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7v-V06.md #6 (l. 538) REPLACE ### 3.19 Item 110 over epochs — raised ways, retaining walls and decks (item 110 (a), (b), (d); J-V6",
+    "kind": "REPLACE",
+    "heading": "### 3.19 Item 110 over epochs — raised ways, retaining walls and decks (item 110 (a), (b), (d); J-V6.82–J-V6.95)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7v-V06.md #7 (l. 923) REPLACE ### 3.21 Edges — every mechanism at its limits (principle (11))",
+    "kind": "REPLACE",
+    "heading": "### 3.21 Edges — every mechanism at its limits (principle (11))",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7v-V06.md #8 (l. 1002) REPLACE ## 7 Tests and acceptance bars",
+    "kind": "REPLACE",
+    "heading": "## 7 Tests and acceptance bars",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7v-V06.md #9 (l. 1190) REPLACE ## 9 Decisions (each \"chose X over Y because Z\"; vetoable)",
+    "kind": "REPLACE",
+    "heading": "## 9 Decisions (each \"chose X over Y because Z\"; vetoable)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 805,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 65,
+  "headings_after": 65,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 28,
+  "fence_lines_after": 28,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 706957,
+  "doc_bytes_after": 708994,
+  "doc_lines_before": 4655,
+  "doc_lines_after": 4667,
+  "rationale_bytes_before": 704813,
+  "rationale_bytes_after": 704813,
+  "rationale_lines_before": 2386,
+  "rationale_lines_after": 2386,
+  "blocks_total": 9,
+  "blocks_applied": 9,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "132b96bbcd7239eeee139171bedcec11695e69e9e509695d4753e76a447b2824",
+  "output_rationale_sha256": "7e172500f6a791c5cf1e667c657309b6a49ee067dc130a05d82e605a06579c39"
+ }
+}

@@ -1,0 +1,322 @@
+[
+ {
+  "section": "### 1.1 What this volume builds",
+  "tag": "VV56-r3-01",
+  "count": 1
+ },
+ {
+  "section": "## 1b Wiring table — every new piece, what feeds it and what it feeds",
+  "tag": "END VAL-R3-03 (W64)",
+  "count": 1
+ },
+ {
+  "section": "## 1b Wiring table — every new piece, what feeds it and what it feeds",
+  "tag": "R4-09 sweep (W68)",
+  "count": 1
+ },
+ {
+  "section": "## 1b Wiring table — every new piece, what feeds it and what it feeds",
+  "tag": "VM-R3T-03 sweep (W79)",
+  "count": 1
+ },
+ {
+  "section": "## 1b Wiring table — every new piece, what feeds it and what it feeds",
+  "tag": "VV56-r3-01 (W91)",
+  "count": 1
+ },
+ {
+  "section": "## 1b Wiring table — every new piece, what feeds it and what it feeds",
+  "tag": "R4-16 sweep (W91)",
+  "count": 1
+ },
+ {
+  "section": "### 2.1 The engine's interfaces (`@plat/evolve`)",
+  "tag": "END VAL-R3-03 (EpochScope.raised)",
+  "count": 1
+ },
+ {
+  "section": "### 2.8 The new conversion kinds and `Way.formerClass`",
+  "tag": "END VEW-r3-04 (repairRaised)",
+  "count": 1
+ },
+ {
+  "section": "### 2.10 The epoch report and the chronicle (non-canonical, rebuilt by replay)",
+  "tag": "R4-09 sweep (walls report)",
+  "count": 1
+ },
+ {
+  "section": "### 3.5 Decline",
+  "tag": "VEL3-r3-01 (1)",
+  "count": 1
+ },
+ {
+  "section": "### 3.6 Growth — fill first, crowd next, spread last",
+  "tag": "VEL3-r3-01 sweep (3.6 (1))",
+  "count": 1
+ },
+ {
+  "section": "### 3.6 Growth — fill first, crowd next, spread last",
+  "tag": "END VEW-r3-01 (3.6 (4))",
+  "count": 1
+ },
+ {
+  "section": "### 3.7 Fortification — new circuits, old rings, shorter rings",
+  "tag": "END R4-09 (3.7.1)",
+  "count": 1
+ },
+ {
+  "section": "### 3.7 Fortification — new circuits, old rings, shorter rings",
+  "tag": "VM-R3T-03 (3.7.2 (2))",
+  "count": 1
+ },
+ {
+  "section": "### 3.7 Fortification — new circuits, old rings, shorter rings",
+  "tag": "VM-R3T-03 sweep (3.7.2 (3))",
+  "count": 1
+ },
+ {
+  "section": "### 3.7 Fortification — new circuits, old rings, shorter rings",
+  "tag": "END R4-09 (3.7.6 (5) footprint)",
+  "count": 1
+ },
+ {
+  "section": "### 3.7 Fortification — new circuits, old rings, shorter rings",
+  "tag": "END R4-09 (3.7.6 (5) crossing)",
+  "count": 1
+ },
+ {
+  "section": "### 3.7 Fortification — new circuits, old rings, shorter rings",
+  "tag": "END R4-09 (3.7.6 (5) continuity)",
+  "count": 1
+ },
+ {
+  "section": "### 3.7 Fortification — new circuits, old rings, shorter rings",
+  "tag": "VM-R3T-03 (3.7.6 (5))",
+  "count": 1
+ },
+ {
+  "section": "### 3.11 Hazards — fire, flood, collapse and drought",
+  "tag": "END VEW-r3-04 (3.11.4)",
+  "count": 1
+ },
+ {
+  "section": "### 3.19 Item 110 over epochs — raised ways, retaining walls and decks (item 110 (a), (b), (d); J-V6.82–J-V6.95)",
+  "tag": "END VEW-r3-01 (3.19 lead)",
+  "count": 1
+ },
+ {
+  "section": "### 3.19 Item 110 over epochs — raised ways, retaining walls and decks (item 110 (a), (b), (d); J-V6.82–J-V6.95)",
+  "tag": "END VEW-r3-04 (3.19.2 (3))",
+  "count": 1
+ },
+ {
+  "section": "### 3.19 Item 110 over epochs — raised ways, retaining walls and decks (item 110 (a), (b), (d); J-V6.82–J-V6.95)",
+  "tag": "END VEW-r3-04 (3.19.2 (4) topple)",
+  "count": 1
+ },
+ {
+  "section": "### 3.19 Item 110 over epochs — raised ways, retaining walls and decks (item 110 (a), (b), (d); J-V6.82–J-V6.95)",
+  "tag": "END VEW-r3-04 (3.19.2 (4) landfall)",
+  "count": 1
+ },
+ {
+  "section": "### 3.19 Item 110 over epochs — raised ways, retaining walls and decks (item 110 (a), (b), (d); J-V6.82–J-V6.95)",
+  "tag": "END VEW-r3-04 (3.19.2 (5))",
+  "count": 1
+ },
+ {
+  "section": "### 3.20 The history replay at generation (item 113)",
+  "tag": "VAT3-r3-10 (3.20.2)",
+  "count": 1
+ },
+ {
+  "section": "### 3.21 Edges — every mechanism at its limits (principle (11))",
+  "tag": "VV56-r3-01 (3.21 dossier-bound)",
+  "count": 1
+ },
+ {
+  "section": "### 3.21 Edges — every mechanism at its limits (principle (11))",
+  "tag": "R4-16 sweep (3.21 dossier-bound)",
+  "count": 1
+ },
+ {
+  "section": "### 3.21 Edges — every mechanism at its limits (principle (11))",
+  "tag": "VEL3-r3-01 (3.21 decline edge)",
+  "count": 1
+ },
+ {
+  "section": "### 3.21 Edges — every mechanism at its limits (principle (11))",
+  "tag": "VEL3-r3-01 (3.21 decline outcome)",
+  "count": 1
+ },
+ {
+  "section": "### 3.21 Edges — every mechanism at its limits (principle (11))",
+  "tag": "VAT3-r3-10 (3.21 replay edge)",
+  "count": 1
+ },
+ {
+  "section": "### 3.21 Edges — every mechanism at its limits (principle (11))",
+  "tag": "VAT3-r3-10 (3.21 replay outcome)",
+  "count": 1
+ },
+ {
+  "section": "### 3.21 Edges — every mechanism at its limits (principle (11))",
+  "tag": "VV56-r2-06 (3.21 decay edge)",
+  "count": 1
+ },
+ {
+  "section": "### 3.21 Edges — every mechanism at its limits (principle (11))",
+  "tag": "VV56-r2-06 (3.21 decay outcome)",
+  "count": 1
+ },
+ {
+  "section": "### 3.23 The decay level of a building lineage (item 123)",
+  "tag": "VV56-r2-06 (decayPeak comment)",
+  "count": 1
+ },
+ {
+  "section": "### 3.23 The decay level of a building lineage (item 123)",
+  "tag": "VV56-r2-06 (3)",
+  "count": 1
+ },
+ {
+  "section": "## 6 Performance budgets",
+  "tag": "VV56-r3-01 (6.8 lead)",
+  "count": 1
+ },
+ {
+  "section": "## 6 Performance budgets",
+  "tag": "R4-16 sweep (6.8 (1) formula)",
+  "count": 1
+ },
+ {
+  "section": "## 6 Performance budgets",
+  "tag": "R4-16 sweep (6.8 (1) N, a, b)",
+  "count": 1
+ },
+ {
+  "section": "## 6 Performance budgets",
+  "tag": "VV56-r3-01 (6.8 (3))",
+  "count": 1
+ },
+ {
+  "section": "## 6 Performance budgets",
+  "tag": "R4-16 sweep (6.8 (6) one epoch fits)",
+  "count": 1
+ },
+ {
+  "section": "## 6 Performance budgets",
+  "tag": "R4-16 (6.8 (6) coarse epochs' batches)",
+  "count": 1
+ },
+ {
+  "section": "## 6 Performance budgets",
+  "tag": "END VV56-r2-04 (6.8 (6) over-budget clause)",
+  "count": 1
+ },
+ {
+  "section": "## 6 Performance budgets",
+  "tag": "R4-03 sweep (6.9)",
+  "count": 1
+ },
+ {
+  "section": "## 7 Tests and acceptance bars",
+  "tag": "END VM-R3T-05/VCS-r3-06 + T114 (7 lead)",
+  "count": 1
+ },
+ {
+  "section": "## 7 Tests and acceptance bars",
+  "tag": "END VM-R3T-05/VCS-r3-06 (table row)",
+  "count": 1
+ },
+ {
+  "section": "## 7 Tests and acceptance bars",
+  "tag": "VAP-r3-06 (table row)",
+  "count": 1
+ },
+ {
+  "section": "## 7 Tests and acceptance bars",
+  "tag": "VM-R3T-03 (T-V6-11)",
+  "count": 1
+ },
+ {
+  "section": "## 7 Tests and acceptance bars",
+  "tag": "END VV56-r2-04 (T-V6-24 what)",
+  "count": 1
+ },
+ {
+  "section": "## 7 Tests and acceptance bars",
+  "tag": "END VV56-r2-04 (T-V6-24 bar)",
+  "count": 1
+ },
+ {
+  "section": "## 7 Tests and acceptance bars",
+  "tag": "END VM-R3T-05/VCS-r3-06 + R4-09 (T-V6-47)",
+  "count": 1
+ },
+ {
+  "section": "## 7 Tests and acceptance bars",
+  "tag": "VEL3-r3-01 (T-V6-70 (f))",
+  "count": 1
+ },
+ {
+  "section": "## 7 Tests and acceptance bars",
+  "tag": "VAT3-r3-10 (T-V6-71)",
+  "count": 1
+ },
+ {
+  "section": "## 7 Tests and acceptance bars",
+  "tag": "VAP-r3-06 (T-V6-73 head)",
+  "count": 1
+ },
+ {
+  "section": "## 7 Tests and acceptance bars",
+  "tag": "VAP-r3-06 (T-V6-73 clause)",
+  "count": 1
+ },
+ {
+  "section": "## 7 Tests and acceptance bars",
+  "tag": "VV56-r2-06 (T-V6-76 (b))",
+  "count": 1
+ },
+ {
+  "section": "## 9 Decisions (each \"chose X over Y because Z\"; vetoable)",
+  "tag": "R4-09 sweep (J-V6.91)",
+  "count": 1
+ },
+ {
+  "section": "## 9 Decisions (each \"chose X over Y because Z\"; vetoable)",
+  "tag": "VM-R3T-03 (J-V6.114)",
+  "count": 1
+ },
+ {
+  "section": "## 9 Decisions (each \"chose X over Y because Z\"; vetoable)",
+  "tag": "VM-R3T-03 (J-V6.140)",
+  "count": 1
+ },
+ {
+  "section": "## 9 Decisions (each \"chose X over Y because Z\"; vetoable)",
+  "tag": "R4-16 sweep (J-V6.136 price)",
+  "count": 1
+ },
+ {
+  "section": "## 9 Decisions (each \"chose X over Y because Z\"; vetoable)",
+  "tag": "R4-16 sweep (J-V6.136 over-budget)",
+  "count": 1
+ },
+ {
+  "section": "## 9 Decisions (each \"chose X over Y because Z\"; vetoable)",
+  "tag": "VV56-r2-06 (J-V6.139)",
+  "count": 1
+ },
+ {
+  "section": "## 9 Decisions (each \"chose X over Y because Z\"; vetoable)",
+  "tag": "VV56-r2-06 (J-V6.139 because)",
+  "count": 1
+ },
+ {
+  "section": "## 12 CONFIRMED versus PLAUSIBLE",
+  "tag": "R4-16 sweep (12 (1))",
+  "count": 1
+ }
+]

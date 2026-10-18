@@ -1,0 +1,62 @@
+{
+ "key": "coherence/verify-agree-layers-r6t",
+ "file": "docs/validation/coherence/verify-agree-layers-r6t.md",
+ "issues": [
+  {
+   "id": "VAL-R6-01",
+   "severity": "major",
+   "kind": "HANDOFF-OPEN",
+   "owner": "model",
+   "claim": "repair-r6-V04's one HAND-OFF (left open, assemble-r6 §2.1, §9) is unanswered: a locked arch vault in a `vault` span a wall comes to stand over at a regeneration or an epoch. V04 §3.11's UC18 (l. 2459) keeps it ('a reconcile or regeneration that would re-lay, collapse or delete it keeps it — at an epoch reported with E_LOCKED's cause'), as V06 §3.1's protection and §7.2 do; the base's crossing table, *beneath* (l. 2640–2646), says such a span has 'no arch vault in it', whatever the runs' condition, and T-V6-47 bars '0 arch vaults in a `vault` span under a wall'. No trace rule keeps a wall off a locked vault: the pull and cost field avoid only ramps, stairs, feet and an aqueduct's standing supports. So an epoch circuit, contraction or re-anchored stretch, or a ring after New random, laid across the span gives two outcomes: the chamber standing in the band (V04) or removed against its lock (base). At an edit both already refuse (§7.1's lock row; UC18's E_LOCKED).",
+   "required_change": "Model, §2.7's crossing table *beneath*, after '…so it reads `vault` again, V04 laying its chamber again, once no band or strip lies there.' add: 'A `vault` span whose arch vault is locked or pinned (V04 §3.11's UC18) is held against every wall: a trace laid by the `EnceinteStrategy`'s pull or cost field at a regeneration or an epoch treats its under-deck strip as impassable, as it treats an aqueduct's standing supports; a stretch of the bent group bends locally to cross under the nearest span holding none; a trace that can do neither takes its own ladder (F-WALL at a regeneration, `walls.waited` at an epoch); and by hand a wall over it is refused (`refuse.locked`, §7.1's lock row). So no locked arch vault stands under a wall.' The C8 column description, after 'a lock or pin never refusing work that passes beneath (§7.1's lock row)', adds '— the raised way's lock; a locked arch vault holds its span against a wall (*beneath*)'. V04's END: UC18's outcome adds, after 'refused E_LOCKED until it is unlocked': '; no wall comes to stand over a locked arch vault's span — a trace laid at a regeneration or an epoch keeps clear of its under-deck strip or takes its own ladder, and a hand wall over it is refused E_LOCKED (§2.7's crossing table, *beneath*)'; T-V4-80 (i) adds 'on a CITY fixture whose aqueduct's `vault` span holds a locked arch vault, an epoch circuit across the aqueduct crossing under another span, the vault kept and no wall over it, and a hand `drawWall` across that span refused E_LOCKED'. Scope's END: T110-2 (4) adds 'an epoch circuit across a standing aqueduct whose `vault` span's arch vault is locked — the trace crossing under the nearest span holding none, the vault kept'. (If the program rules instead that a wall outranks the vault's lock at an epoch, UC18 and V06 §3.1 name that exception in the same words, checked against item 101 R13.)"
+  },
+  {
+   "id": "VAL-R6-02",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "owner": "V07",
+   "claim": "V07 §3.5a (3) *Under a span* (l. 1591–1595) defers to §4.3 *Lattice and costs* ('A tracker crosses the under-deck strip only where §4.3 … admits a part-0 way'), then ends 'a `cleared` span's ground is free, as a `cleared` support's is ((2))'. The base's crossing rule — §4.3 (l. 5743–5747) and the way-and-channel table's lead (l. 2573–2578), whose `cleared` clause this round wrote for supports only — keeps a `vault` span's under-deck strip impassable (and, by (6)'s lead, a reservation) whatever the span's `state`, and lets a way cross the rest only under a span within clear width, clearance and `squareDeg`, never along the strip. A cleared `vault` span keeps its arch vault, `collapsed` (V04 §3.5.4 (d) (2)). So after V06 §3.19.2's decline clears a span at a village, the village tracker may cross a cleared `vault` span's strip over its chamber, and a cleared `open` span's at any angle; the base forbids the first and bounds the second. Two builders build different village networks.",
+   "required_change": "V07 §3.5a (3) *Under a span*: replace 'a `cleared` span's ground is free, as a `cleared` support's is ((2))' with 'a `cleared` support's ring is open ground ((2); §4.3 *Lattice and costs*), and a span is crossed by this rule whatever its `state`'. (If the program rules instead that a cleared span's strip is open ground at every rung, §4.3 *Lattice and costs* and the way-and-channel table's lead say so, V04 §3.5.4 (d) (3) removes a collapsed arch vault a way comes to cross, and V07 keeps its clause citing §4.3.)"
+  },
+  {
+   "id": "VAL-R6-03",
+   "severity": "major",
+   "kind": "MATRIX-GAP",
+   "owner": "rendering",
+   "claim": "The crossing table's *beneath* (l. 2640–2646) rules a `vault` span under a wall 'read `open` by every reader of its `use` … its record unchanged' (the record keeps `use: 'vault'`, l. 2293). R6-02's (R3) conformed §11.1's 3-D row ('closed by its end walls but one under a wall, read `open`'), but §11.1's GeoJSON row (l. 16034), the GeoJSON exporter's home, still exports 'each span a Polygon of kind `span` (`use`, `state` …)'. A builder serialises the record's `vault` there, another writes `open`; the first contradicts the same map's glTF (open, no end walls) and CityJSON (no `BridgeRoom`). The matrix lists no subject for the span's `use` between model and rendering.",
+   "required_change": "§11.1's GeoJSON row: replace 'each span a Polygon of kind `span` (`use`, `state` — item 244's, absent when standing)' with 'each span a Polygon of kind `span` (`use` as §2.7's crossing table reads it — `open` for a `vault` span under a wall (*beneath*) —, `state` — item 244's, absent when standing)'."
+  },
+  {
+   "id": "VAL-R6-04",
+   "severity": "minor",
+   "kind": "DISAGREE",
+   "owner": "V07",
+   "claim": "V07 §5.1 (l. 3248–3249) calls the shade map 'a `setLayer` toggle, never on by default'. The shade map is V09 §5.4's thematic view, chosen by the per-viewer view key `thematic` at `shade` (§2.9, l. 3500; §4.5, l. 6239), which sends no event; `setLayer` is a logged edit of a model layer's `LayerSpec` (§8.4, l. 13677, which now adds 'no drawing group by `setLayer`', the thematic overrides being §2.1's drawing groups). V05 (l. 228) calls it volume 9's. The village supplies only VS1's `daylight.terrain`, so nothing built changes.",
+   "required_change": "V07 §5.1: replace 'a `setLayer` toggle, never on by default' with 'shown by the per-viewer view key `thematic` at `shade` (§2.9; V09 §5.4), `none` by default'."
+  },
+  {
+   "id": "VAL-R6-05",
+   "severity": "minor",
+   "kind": "DISAGREE",
+   "owner": "V06",
+   "claim": "R6-02's V06 END (V6-3) widened `EpochScope.raised` (V06 l. 465) to raised ways whose `vault` span a wall now stands over or no longer stands over. V04 §3.5.0 *At an epoch* (l. 1338–1342) reads the foundations over 'the raised-way piers of the raised ways in `scope.raised` whose `feet`, `supports` or `spans` the epoch changed', but the caller, V06 §3.18.1 (6) (l. 2603–2607), still applies `Foundations.apply` over 'the supports of the parts in `scope.raised`'. The two units state two scopes for one call (V04 owns the function, so nothing built changes).",
+   "required_change": "V06 §3.18.1 (6): replace 'the supports of the parts in `scope.raised`' with 'the supports of the parts in `scope.raised` whose `feet`, `supports` or `spans` the epoch changed (V04 §3.5.0 *At an epoch*; a raised way there only because a wall now stands, or no longer stands, over its `vault` span takes the arch-vault reconcile alone)'."
+  },
+  {
+   "id": "VAL-R6-06",
+   "severity": "minor",
+   "kind": "HANDOFF-OPEN",
+   "owner": "V07",
+   "claim": "The crossing table's row W9, the hand-off down (l. 2706), names T-V7-48 in C3, C4, C5, C6, C8, C10 and C13, each 'as C2'. T-V7-48 (l. 3683) hands down a CITY fixture only with its raised way standing (C2), with its frame growth (C12) and in a later Regenerate. No clause hands down a raised way with a span fallen, a support cleared or toppled, a `vault` span breached, or the way held, repaired or edited. R6-02 (b) (i) asks each cell to name a test that runs it; V05 did this for W12, V07 not for W9. The outcome is the same as C2's by construction, so this is a test list omitting a case its cell names.",
+   "required_change": "T-V7-48 adds, after 'carried down and meeting the palisade as a standing raised way does;': 'the carried-down CITY fixture handed down again with, before the hand-off, a span over the planned palisade's band `ruined` and, on further runs, every such span fallen, a support by the band `cleared` and one `ruined`, its `vault` span breached, the raised way locked, repaired by `repairRaised`, and its Arch spacing edited — each an *unchanged meeting* at the hand-off (§2.7's crossing table, row W9), the palisade then meeting it as *beneath* reads that state;'."
+  },
+  {
+   "id": "VAL-R6-07",
+   "severity": "minor",
+   "kind": "DISAGREE",
+   "owner": "pipeline",
+   "claim": "§4.13's raised-way `wall` cell (l. 9060, R6-02's (P11)) ends '*Rung:* — (defined)', meaning no failure rung. The crossing table's *down before the wall* (l. 2606–2614) gives one: a road deck with fixed ends is 'at generation not built, reported; at an epoch waiting (`raised.waited`)', and a priced deck that cannot come down is 're-routed by the solver's ladder or not built, reported'. The same row's river cell states such a rung ('leave out and report (generated); simpler shape (declared, bent)'). The crossing table governs, so nothing built changes.",
+   "required_change": "§4.13's raised-way `wall` cell: replace '*Rung:* — (defined)' with '*Rung:* leave out and report (a road deck that cannot come down before a standing trace, at generation; at an epoch it waits, V06 §3.19 (5)); simpler shape (declared, bent: `bend.raised.wall`, `bend.wall.aqueductArch`)'."
+  }
+ ]
+}

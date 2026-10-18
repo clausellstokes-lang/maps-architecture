@@ -1,0 +1,56 @@
+{
+  "table": "fields",
+  "version": 1,
+  "section": "§4.5",
+  "rows": {
+    "prosperity": {
+      "plaza.weight": {"value": 0.3, "unit": "weight", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "plaza.radiusM": {"value": 800, "unit": "m", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "market.weight": {"value": 0.15, "unit": "weight", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "market.radiusM": {"value": 400, "unit": "m", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "mainStreet.weight": {"value": 0.15, "unit": "weight", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "mainStreet.radiusM": {"value": 150, "unit": "m", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "gate.weight": {"value": 0.05, "unit": "weight", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "gate.radiusM": {"value": 200, "unit": "m", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "water.weight": {"value": 0.1, "unit": "weight", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "water.radiusM": {"value": 300, "unit": "m", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "elevation.weight": {"value": 0.1, "unit": "weight", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "lowDamp.weight": {"value": -0.1, "unit": "weight", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "wall.weight": {"value": -0.05, "unit": "weight", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "wall.radiusM": {"value": 60, "unit": "m", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "wealthGradient.weight": {"value": 0.15, "unit": "weight", "provenance": "architecture 2026-09-25", "calibratable": false, "extension": {"over": "both", "mode": "weight"}},
+      "daylight.weight": {"value": 0, "unit": "weight", "provenance": "architecture 2026-09-25", "calibratable": false, "extension": {"over": "both", "mode": "weight"}, "note": "C-0049: built as a soft term at weight 0 at M0; its rows are M2b"},
+      "waterTerm.weight": {"value": 0, "unit": "weight", "provenance": "architecture 2026-09-25", "calibratable": false, "extension": {"over": "both", "mode": "weight"}, "note": "C-0049: built as a soft term at weight 0 at M0; its rows are M2b"}
+    },
+    "density": {
+      "plaza.weight": {"value": 0.4, "unit": "weight", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "plaza.radiusM": {"value": 800, "unit": "m", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "market.weight": {"value": 0.15, "unit": "weight", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "market.radiusM": {"value": 400, "unit": "m", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "mainStreet.weight": {"value": 0.25, "unit": "weight", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "mainStreet.radiusM": {"value": 150, "unit": "m", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "gate.weight": {"value": 0.1, "unit": "weight", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "gate.radiusM": {"value": 200, "unit": "m", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "water.weight": {"value": 0.05, "unit": "weight", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "water.radiusM": {"value": 300, "unit": "m", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "wall.weight": {"value": 0.05, "unit": "weight", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "wall.radiusM": {"value": 100, "unit": "m", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"}
+    },
+    "greenery": {
+      "water.weight": {"value": 0.3, "unit": "weight", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "water.radiusM": {"value": 300, "unit": "m", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "elevation.weight": {"value": 0.2, "unit": "weight", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "lowDamp.weight": {"value": 0.1, "unit": "weight", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "plaza.weight": {"value": -0.3, "unit": "weight", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "plaza.radiusM": {"value": 800, "unit": "m", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "mainStreet.weight": {"value": -0.2, "unit": "weight", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "mainStreet.radiusM": {"value": 150, "unit": "m", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"}
+    },
+    "settings": {
+      "cellM": {"value": 32, "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "coarseCellM": {"value": 48, "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "epsilonShare": {"value": 0.15, "unit": "share", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "gaussianSigmaM.CITY": {"value": 60, "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false}
+    }
+  }
+}

@@ -1,0 +1,282 @@
+{
+ "units": {
+  "V01": {
+   "found": 34,
+   "applied": 34,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/volumes/V01-neighbourhoods.md"
+   ],
+   "words_before": 46278,
+   "words_after": 49416,
+   "bytes_before": 282015,
+   "bytes_after": 301089,
+   "whole_files": []
+  },
+  "V02": {
+   "found": 1,
+   "applied": 1,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/volumes/V02-buildings.md"
+   ],
+   "words_before": 82668,
+   "words_after": 85913,
+   "bytes_before": 494200,
+   "bytes_after": 513788,
+   "whole_files": [
+    "docs/volumes/V02-buildings.md"
+   ]
+  },
+  "V03": {
+   "found": 23,
+   "applied": 23,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/volumes/V03-interiors.md"
+   ],
+   "words_before": 50387,
+   "words_after": 54619,
+   "bytes_before": 296717,
+   "bytes_after": 321642,
+   "whole_files": []
+  },
+  "V04": {
+   "found": 1,
+   "applied": 1,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/volumes/V04-underground.md"
+   ],
+   "words_before": 74624,
+   "words_after": 79203,
+   "bytes_before": 460463,
+   "bytes_after": 488215,
+   "whole_files": [
+    "docs/volumes/V04-underground.md"
+   ]
+  },
+  "V05": {
+   "found": 1,
+   "applied": 1,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/volumes/V05-sky.md"
+   ],
+   "words_before": 60743,
+   "words_after": 66710,
+   "bytes_before": 360317,
+   "bytes_after": 394900,
+   "whole_files": [
+    "docs/volumes/V05-sky.md"
+   ]
+  },
+  "V06": {
+   "found": 1,
+   "applied": 1,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/volumes/V06-evolution.md"
+   ],
+   "words_before": 96675,
+   "words_after": 102706,
+   "bytes_before": 593982,
+   "bytes_after": 629860,
+   "whole_files": [
+    "docs/volumes/V06-evolution.md"
+   ]
+  },
+  "V07": {
+   "found": 2,
+   "applied": 1,
+   "skipped": 1,
+   "skipped_detail": [
+    "#2 MALFORMED === RULING REQUEST VV78-21 === — malformed \"=== \" header line; its text skipped"
+   ],
+   "targets": [
+    "docs/volumes/V07-village.md"
+   ],
+   "words_before": 92729,
+   "words_after": 96143,
+   "bytes_before": 561556,
+   "bytes_after": 580760,
+   "whole_files": [
+    "docs/volumes/V07-village.md"
+   ]
+  },
+  "V08": {
+   "found": 1,
+   "applied": 1,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/volumes/V08-settlementforge.md"
+   ],
+   "words_before": 77159,
+   "words_after": 79800,
+   "bytes_before": 489825,
+   "bytes_after": 505231,
+   "whole_files": [
+    "docs/volumes/V08-settlementforge.md"
+   ]
+  },
+  "V09": {
+   "found": 56,
+   "applied": 56,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/volumes/V09-application.md"
+   ],
+   "words_before": 90896,
+   "words_after": 94566,
+   "bytes_before": 545196,
+   "bytes_after": 569017,
+   "whole_files": []
+  },
+  "V10": {
+   "found": 41,
+   "applied": 40,
+   "skipped": 1,
+   "skipped_detail": [
+    "#41 MALFORMED === RULING REQUEST VAT-20 === — malformed \"=== \" header line; its text skipped"
+   ],
+   "targets": [
+    "docs/volumes/V10-clerk.md"
+   ],
+   "words_before": 65825,
+   "words_after": 67751,
+   "bytes_before": 410186,
+   "bytes_after": 419881,
+   "whole_files": []
+  },
+  "V11": {
+   "found": 29,
+   "applied": 29,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/volumes/V11-content.md"
+   ],
+   "words_before": 80470,
+   "words_after": 83289,
+   "bytes_before": 480653,
+   "bytes_after": 498466,
+   "whole_files": []
+  },
+  "V12": {
+   "found": 25,
+   "applied": 25,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/volumes/V12-calibration.md"
+   ],
+   "words_before": 50565,
+   "words_after": 54276,
+   "bytes_before": 306537,
+   "bytes_after": 329503,
+   "whole_files": []
+  },
+  "determinism": {
+   "found": 14,
+   "applied": 13,
+   "skipped": 1,
+   "skipped_detail": [
+    "#14 MALFORMED === RULING REQUEST VDC0-33 === — malformed \"=== \" header line; its text skipped"
+   ],
+   "targets": [
+    "docs/ARCHITECTURE.md"
+   ],
+   "words_before": 62568,
+   "words_after": 66244,
+   "bytes_before": 390752,
+   "bytes_after": 413909,
+   "whole_files": []
+  },
+  "kernel": {
+   "found": 5,
+   "applied": 5,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/ARCHITECTURE.md"
+   ],
+   "words_before": 14494,
+   "words_after": 14561,
+   "bytes_before": 89538,
+   "bytes_after": 89999,
+   "whole_files": []
+  },
+  "model": {
+   "found": 9,
+   "applied": 9,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/ARCHITECTURE.md"
+   ],
+   "words_before": 54002,
+   "words_after": 58351,
+   "bytes_before": 342767,
+   "bytes_after": 370244,
+   "whole_files": []
+  },
+  "pipeline": {
+   "found": 26,
+   "applied": 26,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/ARCHITECTURE.md"
+   ],
+   "words_before": 101399,
+   "words_after": 107019,
+   "bytes_before": 635354,
+   "bytes_after": 670173,
+   "whole_files": []
+  },
+  "rendering": {
+   "found": 20,
+   "applied": 20,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/ARCHITECTURE.md"
+   ],
+   "words_before": 66931,
+   "words_after": 77116,
+   "bytes_before": 399689,
+   "bytes_after": 461379,
+   "whole_files": []
+  },
+  "scope": {
+   "found": 19,
+   "applied": 19,
+   "skipped": 0,
+   "skipped_detail": [],
+   "targets": [
+    "docs/ARCHITECTURE.md",
+    "docs/volumes/INDEX.md"
+   ],
+   "words_before": 82570,
+   "words_after": 87309,
+   "bytes_before": 504913,
+   "bytes_after": 533526,
+   "whole_files": [
+    "docs/volumes/INDEX.md"
+   ]
+  }
+ },
+ "total": {
+  "found": 308,
+  "applied": 305,
+  "skipped": 3
+ }
+}

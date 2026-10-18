@@ -1,0 +1,216 @@
+{
+ "docs/ARCHITECTURE.md": {
+  "before": 153,
+  "after": 153,
+  "added": [],
+  "retitled": [
+   {
+    "level": 3,
+    "old": "0.2 Where the owner's late rules land — items 1–7 (`docs/AMENDMENTS-2026-09-25.md`), 8–31 (`AMENDMENTS-2026-09-25b`), 32–88 and 101 (`AMENDMENTS-2026-09-27c`, `-d`, `-e`), 102–119 (file g) and the base change requests 200–585 (file f)",
+    "new": "0.2 Where the owner's late rules land — items 1–7 (`docs/AMENDMENTS-2026-09-25.md`), 8–31 (`AMENDMENTS-2026-09-25b`), 32–88 and 101 (`AMENDMENTS-2026-09-27c`, `-d`, `-e`), file g's items and the base change requests 200–585 (file f)"
+   }
+  ],
+  "removed": []
+ },
+ "docs/volumes/INDEX.md": {
+  "before": 9,
+  "after": 9,
+  "added": [],
+  "retitled": [],
+  "removed": []
+ },
+ "docs/volumes/V01-neighbourhoods.md": {
+  "before": 123,
+  "after": 123,
+  "added": [],
+  "retitled": [],
+  "removed": []
+ },
+ "docs/volumes/V02-buildings.md": {
+  "before": 73,
+  "after": 77,
+  "added": [
+   {
+    "level": 3,
+    "title": "5.7 Ruin and disaster on the exterior (items 123 (d), 122)",
+    "line": 3016
+   },
+   {
+    "level": 3,
+    "title": "6.6 Ruin and disaster on the exterior (items 123 (d), 122)",
+    "line": 3242
+   },
+   {
+    "level": 3,
+    "title": "7.8 Ruin and disaster on the exterior",
+    "line": 3669
+   },
+   {
+    "level": 3,
+    "title": "8.6 Ruin and disaster in the build (items 123, 122)",
+    "line": 3795
+   }
+  ],
+  "retitled": [],
+  "removed": []
+ },
+ "docs/volumes/V03-interiors.md": {
+  "before": 47,
+  "after": 48,
+  "added": [
+   {
+    "level": 3,
+    "title": "5.6 The damage layer — a decayed or ruined plan, and a disaster's look in it (items 123, 122 (d); J-V3.136 – J-V3.139)",
+    "line": 2638
+   }
+  ],
+  "retitled": [],
+  "removed": []
+ },
+ "docs/volumes/V04-underground.md": {
+  "before": 58,
+  "after": 59,
+  "added": [
+   {
+    "level": 3,
+    "title": "5.6 Damage below ground — cellars, crypts and underground buildings (g item 123; J-V4.130)",
+    "line": 2865
+   }
+  ],
+  "retitled": [],
+  "removed": []
+ },
+ "docs/volumes/V05-sky.md": {
+  "before": 62,
+  "after": 62,
+  "added": [],
+  "retitled": [],
+  "removed": []
+ },
+ "docs/volumes/V06-evolution.md": {
+  "before": 63,
+  "after": 65,
+  "added": [
+   {
+    "level": 3,
+    "title": "3.22 Crisis looks and the epoch path — the hand-over (item 122)",
+    "line": 3286
+   },
+   {
+    "level": 3,
+    "title": "3.23 The decay level of a building lineage (item 123)",
+    "line": 3346
+   }
+  ],
+  "retitled": [],
+  "removed": []
+ },
+ "docs/volumes/V07-village.md": {
+  "before": 57,
+  "after": 58,
+  "added": [
+   {
+    "level": 3,
+    "title": "5.6 Crisis looks at the village rungs (item 122, the village's part; J-V7.146)",
+    "line": 3387
+   }
+  ],
+  "retitled": [],
+  "removed": []
+ },
+ "docs/volumes/V08-settlementforge.md": {
+  "before": 63,
+  "after": 63,
+  "added": [],
+  "retitled": [
+   {
+    "level": 3,
+    "old": "2.8 Custom content — the records, the chains and the optional library input (item 104's host side)",
+    "new": "2.8 Custom content — the records, the chains and the definition fields (item 104's host side)"
+   },
+   {
+    "level": 3,
+    "old": "3.11 The staged records, the per-settlement values, the realm block and the audience in use",
+    "new": "3.11 The staged records, the per-settlement values and the audience in use"
+   },
+   {
+    "level": 3,
+    "old": "3.13 Custom content's arrival — records, keywords, chains, services and the library (item 104's host side)",
+    "new": "3.13 Custom content's arrival — records, keywords, chains, services and the definition fields (item 104's host side)"
+   },
+   {
+    "level": 3,
+    "old": "3.16 The port side of items 111, 114, 115, 117, 118 and 120",
+    "new": "3.16 The port side of items 111, 114, 115, 117, 118, 120, 122, 125 and 126"
+   }
+  ],
+  "removed": []
+ },
+ "docs/volumes/V09-application.md": {
+  "before": 110,
+  "after": 110,
+  "added": [],
+  "retitled": [
+   {
+    "level": 3,
+    "old": "4.12 Touch, pen and small screens — decided",
+    "new": "4.12 Touch, pen and window sizes — decided"
+   },
+   {
+    "level": 3,
+    "old": "4.21 Items 111–119 on screen",
+    "new": "4.21 Items 111–126 on screen"
+   }
+  ],
+  "removed": []
+ },
+ "docs/volumes/V10-clerk.md": {
+  "before": 86,
+  "after": 86,
+  "added": [],
+  "retitled": [
+   {
+    "level": 3,
+    "old": "3.9a The underground, the crypt and a plan's causes, explained (items 109, 110; J-V10.40)",
+    "new": "3.9a The underground, the crypt, a plan's causes and its damage, explained (items 109, 110, 123; J-V10.40)"
+   },
+   {
+    "level": 3,
+    "old": "3.9b Water, a past, walls, grandeur, seasons, festivals and Find, explained (items 111, 113–118, 120)",
+    "new": "3.9b Water, a past, walls, grandeur, seasons, festivals, Find and crises, explained (items 111, 113–118, 120, 122)"
+   }
+  ],
+  "removed": []
+ },
+ "docs/volumes/V11-content.md": {
+  "before": 58,
+  "after": 58,
+  "added": [],
+  "retitled": [
+   {
+    "level": 3,
+    "old": "2.8d The row types of items 113–119",
+    "new": "2.8d The row types of items 113–119 and 122–124"
+   },
+   {
+    "level": 3,
+    "old": "3.25 The rows of the owner's rules of 29 and 30 September (items 111, 113–119)",
+    "new": "3.25 The rows of the owner's rules of 29 September to 1 October (items 111, 113–119, 122–124)"
+   }
+  ],
+  "removed": []
+ },
+ "docs/volumes/V12-calibration.md": {
+  "before": 67,
+  "after": 67,
+  "added": [],
+  "retitled": [
+   {
+    "level": 3,
+    "old": "3.15 The owner rules 111–120 on the harness",
+    "new": "3.15 The owner rules 111–126 on the harness"
+   }
+  ],
+  "removed": []
+ }
+}

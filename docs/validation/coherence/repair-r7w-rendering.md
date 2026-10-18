@@ -1,0 +1,1177 @@
+# Repair round 7, second family fix pass — rendering (base §8, §9, §11, §12)
+
+> PENDING FABLE REVIEW — written by opus standing in for the Fable seat coherence/repair-rendering-r7w; covered by the whole-design retrovalidation (J84).
+
+# Block file per the BLOCK PROTOCOL (docs/validation/amendments-b/apply-blocks.py): text before the first block header
+# is ignored. Base: docs/ARCHITECTURE.md sha256 2612044ee57e7324… (assemble-r7v's output, the live file); rationale
+# 7e172500f6a791c5… (untouched). Each REPLACE body is the live subsection with count-asserted substitutions (each old
+# text found exactly once, each new text present once after) — generator gen.py in the seat's scratch
+# (/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/repair-rendering-r7w/);
+# every untouched line is verbatim. §8.2 holds no lower heading, so its one edit site per change needs its REPLACE.
+# Blocks: 2 REPLACE (§8.2, §8.3). No J-ROWS or RATIONALE-A block. Ruling requests: 0.
+# Binding rulings applied: adjudication-r7w.md (its head: How to read; the decision table; Part H · rendering: R1, in
+# its words where they differ from the finding's; Part H · V01's V1-2 read for the other half); adjudication-r7.md's
+# R7-01 (2) sweep and Part H's head (cite the laws by law and clause number, never restate); every earlier ruling not
+# superseded by name. No review id, ruling id or Part P marker is written into design text.
+#
+# PROGRESS (lane coherence/repair-rendering-r7w, 2026-10-02)
+# - [x] P0 brief read whole (FAMILY FIX PASS NOTES, ORCHESTRATION NOTES); no output and no LANDED line (fresh run)
+# - [x] P1 adjudication-r7w read: head, decision table, class ruling, Part H · rendering (R1) and · V01 (V1-2, the END
+#       of VF7v-RDR-01, V01's own), builders' choices, held notes (note 6 names this unit's slot table: closed by R1)
+# - [x] P2 issue source famverify-readers-r7v.md (VF7v-RDR-01, sections 1–4) read; live §8.2 and §8.3 read whole;
+#       §8.1 item 3, §8.4's surface layer, slab list and casters, §8.8's tile layers, §11.1's SVG and PNG rows, §11.2's
+#       hit stack read; §2.7's laws, law 1 (2), (3), (5) and §4.3's "drawn above what it crosses" checked at their homes
+# - [x] P3 blocks composed (gen.py; 2 REPLACE)
+# - [x] P4 dry run on a copy (below)
+# - [x] P5 report, result saved, LANDED
+#
+# ISSUES → WHERE FIXED (1 routed id, VF7v-RDR-01; adjudication-r7w: FIX, major; nothing to a fix list)
+#  §8.2  VF7v-RDR-01 (major; FIX, R1, in the adjudication's words):
+#        (1) the layer-order table: row 14 "| 14 | piers and bridges; raised decks (`raisedWay`), on the vector rung
+#            their shadows drawn in a derived pass just before this slot over everything below, roofs included | MFCG:
+#            piers; a deck may stand above the roofs beside it |" → "| 14 | piers and bridges | MFCG: piers |"; and the
+#            row "| 19a | raised decks (`raisedWay`), on the vector rung their shadows drawn in a derived pass just before
+#            this slot over everything below, roofs, walls, towers and gate blocks included | new: drawn above what it
+#            crosses (§4.3; item 110 (b)) — a deck may stand above the roofs beside it, and a wall running beneath it
+#            (under a road deck's span or an aqueduct's arch, or with an aqueduct merged into it) and a gate, postern or
+#            tower under an aqueduct's arch that clears it draw beneath it (§2.7's laws, law 1 (2), (3), (5)); every other
+#            list that places raised decks cites this slot |" inserted after "| 19 | towers and gate blocks | MFCG:
+#            towers |" (before row 19b, so festival decorations and crisis looks still draw over every deck);
+#        (2) *Slot resolution*: "exact pier, bridge-deck and raised-deck entries in slot 14 outranking the prefix" →
+#            "exact pier and bridge-deck entries in slot 14 and the raised-deck entry in slot 19a outranking the prefix"
+#            (the two lines re-wrapped, each ≤ 120 characters);
+#        (3) the presets table's `hatched` row: "raised decks in slot 14 with their shadow pass before it" → "raised decks
+#            in slot 19a with their shadow pass before it" (V01 §5.1's order list, whose own row 19a is V01's END V1-2).
+#  §8.3  VF7v-RDR-01, R1's census line: the item-110 marks row "every raised deck over the ways it crosses (0 junction
+#        marks where they cross) with its piers in slot 12" → "every raised deck over the ways, walls, towers and gate
+#        blocks it crosses (0 junction marks where they cross; its slot 19a) with its piers in slot 12" — the bar on a
+#        wall beneath a deck the readers lens found missing; §8.3's draw-order row already asserts the slot order the new
+#        row sets (non-decreasing in the slot table), so the census now passes the build that keeps item 110 (b).
+#  Where the adjudication's words differ from the finding's (row 19a's reason: "a wall running beneath it (… )" for "a
+#  wall that runs beneath it — … —", and the added "every other list that places raised decks cites this slot"; the
+#  census line, the adjudication's own), the adjudication's govern (its How to read).
+#  Nothing lost: row 14's "a deck may stand above the roofs beside it" and its shadow pass ("on the vector rung … in a
+#  derived pass just before this slot over everything below, roofs included") move whole into row 19a, widened to walls,
+#  towers and gate blocks; row 14 keeps "piers and bridges" with "MFCG: piers", so MFCG's recorded order stays a
+#  subsequence (order parity: raised decks are no reference semantic, declared at 19a with a reason); NG 1.2.2's
+#  subsequence in `hatched` is untouched.
+#
+# END LINES WRITTEN (Part H · rendering): none — no other unit's finding asks an END of this unit (the table's "writes"
+#  column and Part H searched for rendering, §8, §9, §11, §12, slot, draw order, SVG, PNG and hit stack). VF7v-RDR-01's
+#  END for V01 (V01 §5.1.2, §5.1.3; V1-2) is V01's own, written by its seat: not written here (FAMILY FIX PASS NOTES (2)).
+#
+# SWEEP (R7-01 (2)) — §8, §9, §11, §12 grepped for every restatement of a text R1 changes: "slot 14", "slot 19", "deck
+#  slot", "raised deck", "raised-deck", `raisedWay`, "raised part", "deck", "above what", "drawn above", "over the ways",
+#  "beneath it", "passes over", "slots 1–20", "slots 11–20":
+#  * changed: the four sites of R1 (above); no other restatement of a raised deck's slot stands in the unit.
+#  * unchanged, checked, agreeing with slot 19a: §8.1 item 3 (slot-major order; a mark's slot by §8.2's resolution);
+#    §8.2's "A bridge or pier (slot 14) is cased along its sides only" (bridges and piers stay in slot 14; a raised deck
+#    draws by `raisedWay`'s parapet lines, no casing); §8.2's row 12 and the census's "piers in slot 12" (piers stay);
+#    the harbour chain "drawn with the gate (slot 19)"; the post operations and the light pass over "slots 1–20" (19a
+#    lies inside them); §8.8's base raster "slots 1–20" and the `path`-sun split `under` (slots 1–9) / `over` (slots
+#    11–20) — the deck and its shadow pass in `over`, as before; §8.4's surface layer, slab list and casters (the deck a
+#    slab from its soffit — light, not order); §11.1's SVG row ("raised parts in their own group `layer.ground.raised`
+#    above ground part 0") and PNG row (a raised part its own PNG), which already put the deck above walls; §11.2's hit
+#    stack ("top first by §8.2's draw order — a raised part above ground part 0"), which slot 19a now makes one reading
+#    with the draw; T-ER-10 – -12 (light, labels, exports), which name no slot.
+#  * outside the unit, read for agreement only: V07's painterly role ("the deck band drawn above everything it crosses")
+#    and V09's hit stack agree with slot 19a; V01 §5.1.2 and §5.1.3 are V01's END (V1-2); no other volume and no §13 bar
+#    places a raised deck in slot 14 (the set grepped for "slot 14", "deck slot" and "19a").
+#  * held, no text (adjudication-r7w "Held for the next full round", outside the family or closed): note 6 (fields, trees
+#    and boundary treatments over decks) is closed by R1 as written — slots 15–17 now lie below 19a; notes 5 and 7
+#    (§8.2's `raisedWay` program and the vault's infill; §8.4's casters on a `breached` or `dismantled` run) get no text.
+#
+# HAND-OFFS: none. The other half of VF7v-RDR-01 is ruled at V01 (V1-2), which cites §8.2's slot 19a.
+#
+# CHECKS (executed on copies in the seat's scratch folder; nothing live was written but this file, the result and the log)
+#  - apply-blocks.py (unchanged) alone on the live base + rationale: 2 found, 2 applied, 0 skipped, audit not OK 0,
+#    headings 153 → 153, fences balanced (140 → 140), title block unchanged; document 24 116 → 24 118 lines; the
+#    rationale byte-identical (7e172500…). The diff touches exactly the live lines 14147, 14153 (+1 after), 14176–14177
+#    (→ 3 lines), 14198 and 14307. No other r7w repair file holds a §8 block (all ten listed and grepped), and none may
+#    write §8, §9, §11 or §12, so no overlap.
+#  - refs.py (assemble-r7v's, on mirrors of the set, live and with these blocks): base resolved 18 958 → 18 960 (§4.3,
+#    §2.7 in row 19a), ambiguous 19 → 19, external 30 → 30, resolved-form 5 → 5, BROKEN 0 → 0; every volume and
+#    INDEX.md unchanged.
+#  - doc_checks.py (whole document): live exit 0 — C1 5/0, C2 1/0, C3 1 774/0, C4 6/0, S1 0/0, S2 314/0; with these
+#    blocks C3 1 775/1 (the run "law 1 2 3 5": row 19a's binding citation "(§2.7's laws, law 1 (2), (3), (5))"), the rest
+#    unchanged — exit 0 with the one proposed row below on a copy of the allow file. **WARNING printed: reference corpus
+#    INCOMPLETE (missing: captures, research/patreon, research/devlogs, research/ftg-docs, research/external) —
+#    clean-room results are NOT authoritative; provisional** (orchestration note).
+#  - Proposed allow row (docs/validation/doc-checks-allow.tsv; for the assembler, who alone writes it):
+#   C3	law 1 2 3 5	coherence/repair-rendering-r7w (proposed): §8.2's layer-order table, row 19a, adjudication-r7w R1's binding citation "(§2.7's laws, law 1 (2), (3), (5))" — numbered law pointers of the citation form Part H's head binds, no reference phrasing
+#  - Added text: no review id, ruling id or adjudication marker; no round number; no deferral wording; S1 holds (row 19a
+#    has the table's three cells, no bare pipe); the re-wrapped prose lines ≤ 120 characters.
+#
+# WORDS: §8.2 18 823 → 18 905 (+82); §8.3 4 749 → 4 757 (+8); the unit (§8, §9, §11, §12) 96 915 → 97 005 (+90,
+#  +0.09 %). Sources of removal: none — the fix moves the deck to its own row with the reason and citation the ruling
+#  words (one restated clause, row 14's, removed by moving it whole); the shrink goal is the pass's, not this family
+#  repair's (FAMILY FIX PASS NOTES (5): "this pass should be small").
+#
+# DISPOSITIONS NOT WRITTEN: none routed to this unit beyond VF7v-RDR-01 (VF7v-RDR-02 – -05 and VF7-RDR-02 belong to
+#  V01, V09, V10, V06 and pipeline; VF7v-RDR-05 is VALID CHOICE LISTED, VF7v-EPO-02 MERGED — no text here).
+#
+# RESULT: {"unit": "rendering", "file": "docs/validation/coherence/repair-r7w-rendering.md", "blocks": 2, "ruling_requests": 0}
+
+=== REPLACE ### 8.2 Style sheets as data: roles, contrast, symbolisation, paint programs, layer order, presets (G-R2) ===
+### 8.2 Style sheets as data: roles, contrast, symbolisation, paint programs, layer order, presets (G-R2)
+
+A style sheet maps (semantic, attribute predicates, band) to **paint programs** over a palette of **roles** and a
+**symbolisation table**:
+
+```ts
+interface StyleSheet {
+  id: string; version: string; family: 'ink'|'lit'|'hatched'|'painterly';
+  palette: Record<Role, Color | Color[]>;                               // multi-colour roles: the pick rule below
+  variants?: Partial<Record<CvdVariant, Partial<Record<Role, Color | Color[]>>>>;   // the checked colour-deficiency variants (item 112, below)
+  symbols: Record<string /* semantic */, Partial<Record<LodBand, Symbolisation>>>;
+  order: Record<LodBand, OrderSlot[]>;                                   // draw order per band, with reasons
+  programs: Record<string /* semantic */, Partial<Record<LodBand, PaintProgram[]>>>;
+  roofConstruction: 'plain'|'skeletonHip'|'skeletonGable'|'fakeGablePerWing'|'roofscape';   // over stored wings (§2.6); 'roofscape' (V02 §5.2): every shipped family's default once stage 3 registers (M6; file f item 406)
+  roads?: { mode: 'full'|'outlined'|'dashed'|'hidden'; widthRatio: number /* hatched 0.4 */ };   // the close-up's road surfaces (V01 §5.1; M5, file f item 405)
+  hatch?: { pitchM: number /* a world length, calibrated at M5 */; minPx: number /* 1.5: below it every second line */; details: boolean };   // the per-facet hatch (V01 §5.1; M5)
+  closeup?: { vignette: 'none'|'fade'|'plateau' };                       // the close-up's framing (V01 §5.1; M5)
+  groups?: { trees: boolean; pins: boolean };   // the drawing groups (§2.1's wording) T12 `dress`'s switches hide: `trees` every tree instance (§8.10) and block tree (V01 §5.1.3's slot 16), `pins` every model pin and hood pin, a `large_tree` pin among them, and every ground-access symbol (V01 §5.1.3's slot 10); absent, or a member absent, true; set by a logged `setStyle` (§7.4's row: style state, outside the model digest, undone as a style edit), kept under a viewer's `stylePreset` as the document's rows are (§11.3); a group switched off draws none of its marks — no shadow cast, no surface written, no hit — and a picture draws what the style draws
+  plate?: { waterQualifier: boolean; populationRound: number /* 1; 10 under the `VG` preset */ };   // the title plate (§9.5; V07 §5.3; the village product, file f item 424)
+  labels: LabelStyle;                                                    // faces, floors, halo rule (§9.4)
+  light: LightingSpec;                                                   // the lighting model, its sun and moon and the vector rung's look (§8.4; item 68)
+  raised: { on: boolean; offsetM: [number, number]; minPx: number; maxPx: number;
+            ratio: { semantic?: string; classes?: string[]; ratio: number }[] };   // K06: the base offset × the first matching class row's ratio (below; item 54)
+  overrides: ThematicRow[];                                              // thematic layers, materials, season, weather, tints
+  states: StateRow[];                                                    // decline, condition, Works-stage and layer-state classes (the table below); a family defines every row
+  post: PostOp[];                                                        // per-tile post operations
+  referenceBackend: 'canvas2d';                                          // every shipped preset (§8.9)
+}
+type CvdVariant = 'protan'|'deutan'|'tritan';
+interface LabelStyle { face: string /* the label face (§17.2) */; smallCapsCut?: string /* the family's bundled OFL small-caps cut, where one exists (§9.2's per-face path) */;
+  floorsPx?: Partial<Record<LabelEntity['kind'], number>> /* raises §9.4's floors per kind; never below them */; haloPx: number /* 1.5, §9.4 */;
+  leaders: 'small'|'always' /* §9.3: 'small' the 12-px rule */ }       // read by S13b (§9.2) and the tile worker's composition (§8.8)
+interface ThematicRow { id: string; key: 'prosperity'|'use'|'epoch'|'owner'|'material'|'identity'|'power'|'sector'|'bandRange'|'season'|'weather'|'condition'|'favourite';
+  match: string | [number, number];      // the attribute value, or a numeric range
+  bands?: LodBand[]; paint: Partial<{ role: Role; colour: Color; pattern: string; alpha: number }>;   // the tone or texture laid over the mark's programs
+  cue?: { kind: 'pattern'|'lineStyle'|'label'|'shape'; value: string };   // item 112's second cue (below)
+  legend?: string }                      // the legend key's words (§9.5); absent: the row draws no key
+type PostOp = { op: 'greyscale'|'sepia' } | { op: 'wash'; colour: Color; strength: number } | { op: 'edgeFade'; strength: number }
+  | { op: 'pixelate'; cellPx: number } | { op: 'dotScreen'; cellPx: number; angleCdeg: number } | { op: 'scanline'; periodPx: number; alpha: number }
+  | { op: 'crosshatchNoise'; periodPx: number; alpha: number };  // read by the tile worker, the GPU pass and the CPU reference in §8.4 (f)'s order
+interface Symbolisation { mode: 'model'|'paper'; k?: number /* drawn = k × model width */; minPx?: number; maxPx?: number; px?: number /* paper width at 1× */ }
+interface OrderSlot {
+  slot: number;                     // its row of the layer-order table below; several entries may share a row
+  semantic: string;                 // a semantic ('way.pier') or a dotted prefix ending in '.*' ('way.*')
+  passes?: number[];                // the MarkTable passes (§8.1) of that semantic this entry places; absent = every pass
+  derived?: 'raised'|'shadow';      // instead of the matched marks' draws: the per-tile raised under-copy or projected shadows over them (§8.4)
+  seamClose?: boolean;              // its fills also get a ½-px same-colour stroke underneath (§8.8's seam rule); set in the shipped sheets on ground.block, masses, yard parts and the `shadow` entry; read by the tile backend's draw sequence (§8.9)
+  reason: string; recordedAs?: string /* the reference step it matches, for order parity (§8.3) */ }
+interface StateRow {                 // one row per (kind, state) that §2.8's ladders and the state fields of §2.5 to §2.7 can produce, the undeclined defaults excepted (§8.3's census); the shipped rows are the table below
+  kind: 'building'|'wall'|'gate'|'tunnel'|'island'|'passage'|'plotLine'|'access'|'gallery'|'chamber'|'link'|'retaining'|'raised'|'deck'|'skyAccess'|'landUse';
+  state: string /* an Existence value (§2.8), Building.condition (§2.6), SkyIsland.state (§2.7), 'superseded' for an enceinte whose supersededBy is set (§2.7), 'sealed' for a passage whose Passage.sealed is set (§2.5);
+    a `WorksStage` (§4.11) for a target under a Works at the drawn week — the mark's `worksStage` column, §8.1 — which wins over the ladder state while the Works runs (item 67); 'pendingRemoval' or 'staked' for a plot line in transition (item 67 (g));
+    an `AccessPoint.state` (II.7.4; item 64); a gallery's or chamber's system kind with its state (II.7.6; item 65); an `UndergroundLink.kind` (II.7.6; item 65);
+    a run's `Enceinte.condition` (§2.7; g item 114), the row then drawing that run of the trace alone */;
+  worksKind?: WorksRow['kind'] /* the row matches only a target whose running Works is of this kind (§8.1's `worksKind` column) and is an `override` laid over the row the stage resolves without it (J-A67.83) */;
+  bands?: LodBand[] /* absent: every band the kind is drawn at */; paint: 'replace'|'override'; programs: PaintProgram[];
+  legend?: string /* the row's legend entry, a catalogue key (V09 §4.9) §9.5's legend draws while a mark in that state is on the map: the wall runs' `legend.wall.<state>` (g item 114); absent: no entry */ }   // replace: drawn instead of the entity's programs; override: the row's tone, alpha, glyph and roof-construction changes laid over them
+```
+
+**Roles.** `paper` (margin, background), `road` (way bodies, squares, bridges; = `paper` in the ink family, so streets
+are negative space), `ground` (built-block ground, yards at the city band, settled ground), `court` (enclosed in-block
+courts), `garden` (private planted yard parts), `green` (parks, greens, commons, churchyards), `tree`, `field`, `verge`,
+`water`, `building`, `roof`, `wall`, `ink` (every outline and text), `label`, `shadow`, `ambience`, `light`, `sand`,
+`plank`, `grid`, `snow`, `glow`; the wall-material roles `wall.dry_stone`, `wall.earth_bank` and `wall.timber_crib` (item
+110 (a); file f item 412); `furniture` (the plan draw's furniture, V03 §5.1; M6-P); `rock` and `void` (the underground's
+halo and floors, V04 §5; M6-U); `sky.ground` (a sky island's land, never `ground` itself, V05 §5.1; M6-sky); the
+wall-condition role `wall.worn` and the six **patch looks** `patch.timber`, `patch.wattle`, `patch.earth`,
+`patch.drystone`, `patch.stakes` and `patch.brush` (g item 114; each row of V11's `walls.patchMaterials` names its look);
+the season roles `ice` and the eight **leaf colours** `leaf.gold`, `leaf.amber`, `leaf.orange`, `leaf.scarlet`,
+`leaf.crimson`, `leaf.russet`, `leaf.bronze` and `leaf.brown` (g item 117; V11's `season.leaf` weights name them); the
+festival roles `festival.a`, `festival.b`, `festival.c`, `festival.d` and `festival.sacred` (g item 118; V11's
+`festival.motifs` rows name them, never a colour); the eight **chip colours** `find.1` … `find.8` (g item 120 (d): a Find
+chip's colour by its index); the crisis roles `crisis.tent`, `crisis.ash` (burned and ruined ground, the ruined tone),
+`crisis.mark` (a marked door's cross, a cordon) and `crisis.army.a` … `crisis.army.d` (a coalition's armies; g item
+122); and `fog` (fog's colour, §8.4 (i); g item 124). A role never
+changes meaning across the bands or the presets of one family; the reference schemas (MFCG 13 keys, NG 26, VG 40) map
+onto it without loss. **The light roles (item 68):** `shadow` is the vector rung's shadow tone (the ink at the family's
+alpha); `ambience` the vector rung's night wash and the two-tone roof's dark mix; `light` a lit window's or a light mark's
+glyph tone; `glow` the vector rung's glow sprite. On rungs 1–2 of §8.4's ladder the light pass computes light over
+the albedo instead of those tones. **Night variants:** the vector rung reads a role's `@night` value when the view is
+night (rungs 1–2 light the day albedo, so a family's night is its day palette under the night's light); a sheet may state
+it, else it is derived — the day value in linear light × 0.4, mixed 20 % toward `ambience` — `ink`, `label`, `light` and
+`glow` keeping their day values (labels are composed after the light, §8.4 (f)). `tree@autumn` serves only the season
+rows' off form (below).
+
+**Contrast matrix (O12 f).** Pairs that must separate wherever both roles are drawn (the city band unless the row says
+otherwise):
+
+| pair | ΔE2000 ≥ | ΔL* ≥ |
+|---|---|---|
+| road / ground | 6 | 5 |
+| ground / building | 12 | 12 |
+| road / building | 15 | 15 |
+| garden / building; green / building | 10 | — |
+| tree / water | 10 | — |
+| green / road; tree / green | 8 | — |
+| water / road; water / ground | 8 | — |
+| wall / water | 20 | — |
+| field / road; field / ground | 4 | — |
+| court / road (district band and finer: courts are drawn as `ground` at the city band, §8.5) | 4 | — |
+| court / ground (district band and finer) | 3 | — |
+| ink / road; ink / ground; ink / paper (text, its halo and outlines: the **label floor**, §9.4) | 40 | 50 |
+| ink / building (outlines and landmark rims; text crosses masses only on a halo, §9.4) | 30 | 40 |
+| ink / tree (crown outlines) | 25 | 30 |
+| snow / road (snow lies on ground, fields and roofs while `road` keeps its value) | 8 | 5 |
+| ice / water (frozen water reads apart from open water and its leads) | 10 | 8 |
+| ice / road; ice / ground | 6 | — |
+| patch.* / wall (a patch reads apart from the wall it mends, beside its narrower strip and its pattern); patch.* / ground | 8; 10 | — |
+| leaf.* / water (fallen leaves on still water); ink / leaf.* (crown outlines, as ink / tree) | 10; 25 | —; 30 |
+| festival.* / road; festival.* / ground | 15 | — |
+| find.* / paper, road and ground (a chip's halo and pin on the veiled map); crisis.army.*, crisis.mark / road and ground | 15 | — |
+| sand / water; plank / water | 8 | — |
+| grid / paper | 10 | — |
+
+Checked on every palette when loaded (built-in, user-edited, random) and on rendered city-band images in B-ZOOM (the
+mean CIELAB of the pixels whose top mark, read from the pick buffer, has each role, for every pair in the view). A failing
+user edit is shown with the failing pair and kept only with an explicit "accept low contrast" flag, recorded in the
+report. MFCG's default palette has garden = building (ΔE2000 0.6) and tree = water (0.0) — reference weaknesses not to
+copy (VIS-2).
+
+**Random styles and their bounded repair (N-26).** A random style draws each role's L* within ± 12 of the family's
+shipped value, chroma in [0, 34] in `ink` and [0, 60] otherwise (the families' role caps, below), any hue, keeping `road` = `paper` where the family ties
+them — a style-time draw from the `style.random` stream (§6.1) written into the `setStyle` event as row operations, so a
+replay never re-draws it. A failing draw is repaired in bounded steps: take the first failing pair in the matrix's row
+order; raise its lighter role's L* by 1 (up to 97), or, if that is at 97, lower its darker role's L* by 1 (down to 3);
+re-check every pair; stop when all pass or after 100 steps; the result must still pass after conversion to sRGB. A draw
+whose repair fails is redrawn (attempts 0–2); after three failures the family's shipped palette is used and the report
+says so — ≤ 300 steps by construction (J-R30). On 2 000 seeded draws per family around the role values below
+(`docs/validation/bench/amendc_rendering_palette.out`): 9–27 % pass as drawn, 96–97 % after the first repair (median 4–12
+steps, p95 16–39), 100 % within three attempts; the fallback does not fire. **Confirmation (M3b, where random styles ship):** shipped-palette fallback ≤ 2 % of 10 000 draws
+per family; pre-decided fallback: the L* window narrows to ± 8 and the run repeats.
+
+**Role values** (our own; calibratable rows; placed on the palette targets below, item 69). Every matrix
+pair, outline rows included, passes on these sRGB values (`docs/validation/bench/amendc_rendering_palette.out`, re-running
+the pair check of `fixall_rendering_r2_palette.py` on them; e.g. `ink` road / ground 8.4 / 8.9, ground / building
+16.7 / 21.2, tree / water 29.2, court / ground 4.7, ink / building 42.5 / 48.8; `lit` ink / building 41.4 / 46.1;
+`hatched` 37.4 / 40.7), and every shipped family's paper and ink sit on the targets — paper luma 235.3 and warmth 36, the
+ink's luma 35.8–36.3 and warmth 20:
+
+| role | `ink` (default) | `lit` | `hatched` |
+|---|---|---|---|
+| paper | `#F7EAD3` | `#F7EAD3` | `#F7EAD3` |
+| road | `#F7EAD3` (= paper) | `#DDCFC1` | `#C4A683` |
+| ground | `#E8CFA6` | `#D4B78F` | `#F7EAD3` (= paper) |
+| court | `#F4DFAC` | `#D8C4A3` | `#B5BC6A` |
+| building / roof (lit side) | `#AE947B` | `#BD855B` | `#B9723D` |
+| ink / label | `#2D2219` | `#2C2218` | `#2C2218` |
+| wall | `#2D2219` (= ink) | `#8B7964` | `#74593D` |
+| water | `#9ABDD1` | `#2DA0D3` | `#71B4D3` |
+| green | `#B4CC94` | `#8AB85D` | `#A9B951` |
+| garden | `#C4CF96` | `#7BAF43` | `#9DB541` |
+| tree | `#70946A` | `#447F33` | `#5E9434` |
+| field | `#F5DEA0` | `#E3BC5D` | `#F3D580` |
+| verge | `#D7DEB1` | `#A5BF7C` | `#B7C278` |
+| shadow (the vector rung) | ink at α 0.35 | ink at α 0.45 | ink at α 0.40 |
+| ambience | `#5A5048` | `#3E4A63` | `#4A4A5A` |
+| light | `#FFF1CF` (a value, `mono`) | `#F5C45A` | `#F2C15A` |
+| glow | `light`, α 0.6 at the centre falling to 0 at the sprite's radius | the same | the same |
+| sand | `#EADBB0` | `#E6CF96` | `#EDDCA9` |
+| plank | `#B39B78` | `#9A7650` | `#A07A4C` |
+| grid | ink at α 0.25 | ink at α 0.25 | ink at α 0.25 |
+| snow | `#FFFFFF` | `#FFFFFF` | `#FFFFFF` |
+| tree@autumn | `#9A8A5E` | `#B8782F` | `#B0843C` |
+| wall.dry_stone / wall.earth_bank / wall.timber_crib | `wall` / `ground` lerped 30 % toward ink / `plank` | `#8E8574` / `#9C8460` / `#8A6A45` | `#7E6A50` / `#8C7450` / `#7A5A38` |
+| wall.worn (`wall` lerped 40 % toward ink, linear light) | `#2D2219` (= wall: its notches carry the state) | `#716250` | `#5F4932` |
+| patch.timber / .wattle / .earth / .drystone / .stakes / .brush | `#B39B78` / `#BAA27E` / `#B8A380` / `#60584D` / `#A79070` / `#ABA77F` | `#A78F75` / `#A88F72` / `#A39175` / `#9C9280` / `#A59077` / `#99956A` | `#A6835A` / `#BBA080` / `#9B8668` / `#998871` / `#A28562` / `#B9BF98` |
+| ice | `#DCE6EA` | `#C9E1EC` | `#D3E5EC` |
+| leaf.gold / .amber / .orange / .scarlet / .crimson / .russet / .bronze / .brown | `#DEC489` / `#D5A878` / `#CE946F` / `#BB7366` / `#B5696B` / `#B6775D` / `#BD8C61` / `#A3785B` | `#D2AC3F` / `#D18D32` / `#D07432` / `#C24B3B` / `#B5444E` / `#AA5E3E` / `#A97649` / `#8D6448` | `#DDB749` / `#DD973D` / `#DC7E3C` / `#CE5544` / `#C14F57` / `#B56848` / `#B48152` / `#986E51` |
+| festival.a / .b / .c / .d / .sacred | `#9E5652` / `#A38852` / `#15719F` / `#3C8463` / `#60578D` | `#B94142` / `#AD8617` / `#0872A1` / `#26865E` / `#605790` | as `lit` |
+| find.1 … find.8, in order | `#AE6160` / `#996E41` / `#717D41` / `#398562` / `#02848B` / `#157FAD` / `#7271AB` / `#A2628B` | `#D0474F` / `#AA6805` / `#668101` / `#02885B` / `#02848B` / `#0580AE` / `#646DD4` / `#C0499B` | as `lit` |
+| crisis.army.a / .b / .c / .d; crisis.mark | `#9D5156` / `#666C31` / `#027477` / `#5B649D`; `#964E49` | `#BF3249` / `#616F01` / `#027477` / `#3D62C7`; `#B53335` | as `lit` |
+| crisis.tent / crisis.ash / fog | `#D9C8AD` / `#B4A080` / `#D1C6B2` | `#CFBCA3` / `#A48D6E` / `#CFC5B6` | `#D1BDA2` / `#BFB5A2` / `#D0C5B4` |
+| furniture; rock; void; sky.ground | ink at α 0.5; V04 §5 (the 40 %-ink cross-hatch at 1.2 paper px); `paper`; one step lighter than `ground` | a wood tone of the sheet (`plank`); V04 §5 (a dark stone fill); V04 §5; `ground`'s albedo | ink at α 0.5; V04 §5 (its dense hatch); V04 §5; the patch tone (V05 §5.1) |
+
+The matrix's snow, sand, plank and grid rows pass on these values (snow / road ΔE2000 10.7 / 12.6 / 25.1, ΔL* 6.8 / 16.1
+/ 30.1 in `ink` / `lit` / `hatched`; sand / water ≥ 29.0; plank / water ≥ 28.5; `tree@autumn` against water, green and
+ink ≥ 21.2 / 21.2 / 38.3; each wall-material role against water ≥ 28.5; computed by our CIEDE2000 on the sRGB values, the
+loader re-checking them). The rows of items 114, 117 and 118 are placed by rule (`docs/validation/bench/
+coh_repair_rendering_r1_palette.out`): a patch look is its material's tone (`plank`, a wall-material role, or `tree`, lerped
+toward `ground` or `ink` by look) lifted toward `paper` until its L* is the wall's + 15, then darkened, hue and chroma kept,
+to the lightness at which its grey ΔE2000 against `ground` is 11 where it would pass it (the wall states' greyscale bar,
+below); a leaf colour its name's CIELCh hue at the family's lightness, its chroma under the family's cap (`ink` 34, the
+others 60); `ice` a pale blue-grey; the festival roles five hues at L* 40–58 under the same caps. Their pairs pass: ice /
+water ≥ 13.7 (ΔL* ≥ 15.9), ice / road ≥ 13.7, ice / ground ≥ 16.3, patch.* / wall ≥ 8.5, patch.* / ground ≥ 11.8,
+leaf.* / water ≥ 32.0, ink / leaf.* ≥ 26.9 (ΔL* ≥ 30.9), festival.* / road ≥ 16.7 and / ground ≥ 18.9. The rows of items
+120, 122 and 124 are placed by rule too (`docs/validation/bench/coh_repair_rendering_r2_roles.out`): `find.k` the CIELCh
+hue 25° + 45° (k − 1) at L* 50, `crisis.army.a` … `.d` the hues 20°, 110°, 200° and 290° at L* 44 and `crisis.mark` 30°
+at L* 42, each at the family's chroma cap or the largest chroma sRGB holds there; `crisis.tent`, `crisis.ash` and `fog`
+`plank` lerped 50 % toward `paper`, `ink` lerped 55 % toward `ground` and `paper` lerped 35 % toward `ambience`, in
+linear light. Their pairs pass: find.* among themselves ≥ 14.3, find.* / paper, road and ground ≥ 21.9, find.* / ink
+≥ 31.1; crisis.army.* among themselves ≥ 26.1 and / road and ground ≥ 30.4; crisis.mark / road and ground ≥ 35.7;
+crisis.ash / road and ground ≥ 8.9 (drawn with its rubble stipple); `crisis.tent` and `fog` lie 3.4–11.1 from road and
+ground and are never a mark's only cue (a tent has its ink rim, fog is a wash).
+`ink` keeps its character by value steps (O12's restraint: one ink, 4–8 roles): eight city-band colours — paper
+(= road), ground, building, ink (= wall = label), water, green, tree, field; courts drawn as `ground` at the city band
+(§8.5); the raised under-copy and the vector rung's shadows the ink at an alpha, and its light a change of value only
+(`LightingSpec.mono`, §8.4); no role above CIELAB chroma 34 (`field` highest, 33.3) — the cap the palette targets set
+(below; J-A69.82); walls in ink and courts as ground at the city band (J-R28, J-R29).
+
+**Palette targets — the owner-opened corpus bands (item 69; owner: "Adopt the corpus measured color targets"; J-A69.81 –
+J-A69.84).** These bands of the corpus's measured palette, released by the owner (item 69 (a)), are the only corpus
+content in this design: every other corpus fact stays with the staged calibration phase (§13.9), and the program reads no
+corpus file (the bands came as figures within the owner's item). They are **targets** — bands a rendered plate must land
+in — never a palette to copy; the role values above are our own, placed inside them.
+
+| axis | the measure (our definition, J-A69.81) | band | target | provenance |
+|---|---|---|---|---|
+| paper lightness | the Rec. 601 luma of the median 8-bit sRGB colour of the pixels whose top mark (the pick buffer) is `paper` | 226–244 | 235 | `corpus`, "owner-opened corpus palette exception, 2026-09-27 (item 69)" |
+| paper warmth | R − B of that median colour, in 8-bit sRGB units | 20–50 | pinned at 36 | the same |
+| darkest ink | the Rec. 601 luma of the darkest 0.5 % of all pixels ("full ink") | ≤ 45 | — | the same |
+| ink warmth | the mean R − B of those pixels | 15–25 (our tolerance) | 20 | the same; the tolerance `own` |
+| plate chroma | the mean CIELAB C*ab (D65) over every pixel | 18–70 | median 43; `ink` 20–30 (J-A69.82; J-C2) | the same; `ink`'s range `own` |
+
+**Where they bind.** Every shipped family's paper and ink take the paper and ink targets (J-A69.84), hence one paper
+value for all three. The `ink` family's other roles keep their L* and hue and take the least chroma scale whose plate
+chroma reaches 20, never past 30 — MFCG's restraint in the default map, the corpus's colour at its lower range
+(J-A69.82; J-C2); `lit`, `hatched`, `parchment` (a shipping ink-family variant of the presets table, the one exception
+to `ink`'s 20–30) and the reserved `painterly` aim at the median (43), each by the chroma scale nearest it that clips no
+role in sRGB and puts none above C* 60 (J-A69.83) — on today's values `lit` ≈ 29 and `hatched` ≈ 30, inside the band,
+short of the median. The dependent roles (road = paper, ground, court, field, building, the shadow alpha) move with them,
+and the bounded repair's L* steps re-check every contrast-matrix pair, leaving the new warmths as they are. The plate
+figures are a **plate model**'s — the city-band role shares of a plate-framed render, stated in the receipt — PLAUSIBLE
+until the **measurement render** confirms them: a fixed render of the `ink`, `lit` and `hatched` families at
+plate-equivalent resolution and framing (§13.3's golden TOWN and CITY framed by §9.5's rule at 300 dpi on A3, labels and
+furniture on, default view, day, no pointer), measured on the resolution-stable axes only (paper luma and warmth,
+darkest-ink luma and warmth, plate chroma) by our own code written from the definitions above — no corpus instrument
+enters `plat/`. A scripted sweep re-finds each family's chroma scale on that render at the milestone that ships its four
+bands (`ink` at M1, where its values ship, and M2b; `lit` at M2b; the ink-family variants at M3b; `hatched` at M5;
+§13.4's bar), re-signing the table's values. The corpus's own instrument measured the bands, and its definitions are
+beyond this program's reach: a definitional mismatch is re-signed at the reconciliation stage (§13.9), never by opening
+the corpus earlier. MFCG parity stays judged by style class (the `MFCG` preset needs no MFCG colours), and §17.1 (5)'s
+palette audit — no three colours within ΔE2000 2 of a reference palette — compares with the references' palettes only
+(the corpus is the owner's material, no reference).
+
+**Symbolisation table (VIS-1).** Drawn width px = clamp(k × model width × px per metre, minPx, maxPx) in `model` mode, or
+a fixed paper width at 1× (× the device pixel ratio) in `paper` mode; no length is written in any reference's private
+unit. Exaggeration never enters the model, GeoJSON, VTT, glTF or CityJSON (model widths); styled SVG and PNG carry drawn
+widths. The `ink` rows are calibrated on MFCG's metre-unit export at the matched view scale (MFCG size 40 at 0.816 px/m,
+1.23 m/px): walls 7.6 m wide, towers 15.2 m across, road cores 8 m, piers 4.8 m; its SVG writes them in its 4 m internal
+unit (wall 1.9, road 2) (MN-1, MFP-8).
+
+| semantic | bands | mode | rule | at MFCG size 40's scale |
+|---|---|---|---|---|
+| `wall.curtain` | city, district | model | k = 3 on each run's thickness — the enceinte's `thicknessCm` on a `full` run, the thickness its `walls.barriers` row gives on a `parapet` run (`stretchClass`, §2.7, §4.8), read along the trace by `sampleProfile` (§3.4) — 2.5 m → 7.5 m on a `full` run; minPx 2, maxPx 12 | ≈ 6.1 px (MFCG 6.2) |
+| `wall.tower` | city, district | model | diameter = 2 × drawn wall width, never below the model diameter | ≈ 12.2 px (MFCG 12.4) |
+| `wall.gate` | city, district | model | a gap in the wall stroke = max(model opening, 1.2 × drawn wall), flanked by two square blocks of side 2 × drawn wall | ≈ 12 px blocks |
+| `way.through`, `way.primary` body | all | model | k = 1, minPx 1.5 | 8 m core ≈ 6.5 px |
+| `way.secondary`, lane symbol body | city | model | k = 1, minPx 1 | — |
+| way casing | all | paper | h = 0.5 px each side (casing = body + 2h) | — |
+| `way.pier`, bridge deck | city, district | model | k = 1, minPx 1 | 4.8 m ≈ 3.9 px |
+| raised way (`way.*` on a ground part ≥ 1; item 110 (b)) | all | model | deck k = 1, minPx 1.5, a parapet line each side at the outline weight; piers their model footprints, minPx 1 | — |
+| retaining wall (item 110 (a)) | all | paper | city band: one line at 2 × the building outline weight with low-side ticks 1 px long every 4 px; district and finer: the `retaining` program | — |
+| stair and ramp intervals of a way (item 110 (a)) | district and finer | paper | the `way.stair` program over the way's body | — |
+| building outline | city | paper | 0.5 px × clamp(s ÷ 8, ⅓, 1), s = median footprint side in px at the zoom stop (MFCG's Thin lines as a law) | — |
+| building outline | district and finer | paper | 0.5 px | — |
+| raised under-copy offset | city, district | model | (+0.4 m, −1.0 m) east / north × the class ratio — `raised.ratio`'s first matching row: landmark footprints (the landmark semantic of slot 12, `building.landmark`: keeps, temples, churches, halls) 2, the farmstead class and its outbuildings 0.6, every other building 1 (provenance `ref:MFCG 12710731 raise ratios (code)`, P15; item 54), read from the mark's semantic and `class` column (§8.1), no model field — drawn length clamped to [0.3 px, 2.5 px] × the ratio | — |
+| informal cluster structure (a plot of §4.7 S11's `cluster` arrangement; item 70) | city | model | each structure its own small roof mark over the plot's footpath web drawn in `ground`, never closed into one mass across the paths (§8.5 (2)'s exception); a structure below the 2-px floor a settlement dot; from the district band a footprint with its entrance tick like any building | — |
+| harbour-mouth chain (`Gate.mouth`, §2.7; g item 106 (e)) | district and finer; its towers at every band | paper | between the `water` gate's two towers, by the era row's `harbourChain` (V11's `EraRow`): `raised` — a solid line across the entrance in `wall` at ½ the drawn wall width (minPx 1), drawn with the gate (slot 19); `lowered` — the same line dashed (2 px on, 2 px off) in slot 7, under the shore marks and everything above the water | — |
+| boundary treatment (fence, hedge, yard wall, railing) | district and finer | paper | ≤ ½ the building outline weight, never filled, gaps at gates | — |
+| entrance tick (`Entrance.role`, §2.6; item 29) | district and finer | paper | a tick across the footprint edge at the entrance vertex: `main` 1.5 px long at the outline weight; `side`, `rear`, `yard` and `service` 1 px at ½ the outline weight; at the building band the plan's door leaf | — |
+| frontage treatment (`BuildingSlot.frontage`, §2.5; item 19) | district and finer | paper | a run along the main slot's frontage edge at ≤ ½ the outline weight: `lean_to` and `stall` as short ticks at bay spacing, `shopfront` a bar inset ½ px, `arcade` arcs at bay spacing; `none`, `gate` and `wall` draw nothing beyond the boundary treatment | — |
+| passage arch (a `passage` face, §2.5; item 30) | district, neighbourhood | paper | an arch glyph on the front building's outline (`Passage.frontBuilding`; none while the passage has none, §2.6's `BaseWing.spans`) at each end of the face — where it meets its way and its court — 3 px wide at 1×, never below 2 px; the face's floor takes `road`; none at the city band, where the spanning building's mass covers it (§8.5 (2); J-A30.84, J-A30.87) | — |
+| minimum feature | all | — | 2 px, met by masses and settlement dots (§8.5), never by enlarging one footprint | — |
+
+Curtain walls draw after footprints, and the wall symbol is clipped on its inner side to the band's inner edge minus the
+setback, so it overhangs only outward (berm, moat, glacis) and never covers a plot. **Dry ditch:** the `ditch` residue on
+the town side of an `on_enceinte` bailey (§4.7 S10 (0), §4.8) takes the glacis parts' role in a dry-ditch variant — fill
+5 ΔL* darker than the glacis fill and, at the district band and finer, a short inward hachure along its inner edge; at
+the city band the glacis parts' plain fill; the overhang rule covers it.
+
+**Paint programs.** `fill`; `stroke(width by symbolisation, join, cap)`; `casing(w, h)` (ink at `w + 2h` in the casing
+pass, body at `w` in the body pass); `bands(N, W, exponent, ramp)` (VG's water law); `raised(offset, classRatio)`;
+`shadowPass(mode, colour, alpha, penumbraPx)` (§8.4); `hatch(angle | ridge, pitch, taper)`; `roof(construction,
+dark = lit × lerp(ambience, shadow, α))`; `crown(library)`; `halo(role rule)` (§9.4); `glyphAlongSpine`;
+`pattern(texture, tintRole, metresPerTile)` (tinted seamless textures); `faceLight(dir)` (a per-face tone from the face
+normal and the light: roof faces from the skeleton or the wings, wall sides); `ramp(field, stops)` (per-tile pixels from
+a field raster: water depth, terrain colour); `hillshade(sun, strength)` (Lambert on bilinear-interpolated cell normals
+of the terrain field, water masked, strength from the `shadow` role's alpha, multiply-composited after fills and way
+bodies and before buildings and trees, no blur); `contourMarks(levels, mode: contour | hachure | grass)`;
+`foam(widthM, alpha)` (from the shore-distance field on `open` segments, half alpha on `river`, none on `sheltered` and
+`quay`); `feather(widthM)` (three inset vector bands at α ⅔, ⅓, 0 toward open ground, no bitmap blur; COV-FTG-I05);
+`outlineMix(factor)` (an outline's ink lerped toward its district's tint by `factor`: the tint rule's 0.3, below);
+`tint(method, strength)`; `weathering(amplitude)`; `instances(library)` (§8.10); `vignette` (a program: the painterly
+family's spotlight vignette, drawn per mark in its slot; distinct from the post operation `edgeFade`);
+`retaining` (item 110 (a): the wall as a double line in `wall` — its face and its coping — with short ticks toward the low
+side every 1 m, buttresses as small filled rectangles on the low side; drawn by its run's state row); `raisedWay` (item
+110 (b): the deck body in `road` — an aqueduct's channel in `water` between two `wall` lines — with a parapet line in
+`wall` along each side, the piers as filled footprints in `wall`, the spans' openings as a dashed outline in the strip at
+the district band and finer; the MFCG under-copy keeps the name `raised`); `way.stair` (item 110 (a): a way's stair
+interval draws step ticks across the way over the interval only, every 1.2 m of ground length at the thin stroke; a ramp
+interval draws the way's body with two hairlines converging toward its upper end; neither changes the way's shape or its
+other marks); `roofscape(tone)`, `dormer`, `porch`, `towerRoof` (V02 §5.3; M6); `surface(kind)` (a shared stamp tile per
+road-surface kind), `steps`, the hood pin symbols and the ground-access symbols (V01 §5.1; M5); `planWallShade` (a soft
+band inside each plan wall, broken at openings; V03 §5.1; M6-P);
+`wallPatch(look)` (g item 114: a patched run's strip in its look's role and pattern, the wall rows below); `iceFill`,
+`leafCover` and `creeper` (g item 117's season rows, above);
+`ruin` (outline dashed by an entity-keyed pattern, fill at 30 % alpha, rubble stipple: the `ruined` state's program, with
+the `none` roof kind, §2.6); `trace(kind)` (a footprint, ring or centreline drawn as a broken hairline with no fill — a
+cleared building, a superseded wall's old line, a closed tunnel — at the district band and finer); `vault` (a barrel-vault
+hatch along an underground cell's long axis over the `flat` roof kind, II.7.3); `symbol(glyph)` (a point symbol for every
+`Pin.kind` of §2.7, for every `AccessPoint.kind` of II.7.4 where the point breaks the surface, for each end of a `passage`
+face (an arch, §8.3) and for §8.5's change marker); `glow(radiusPx, role)` (the vector rung's light sprite at a `light`
+mark, §8.4); the **Works programs** (item 67) — `stake` (a dashed footprint with a material-pile glyph in the yard),
+`pit` (a cellar pit or trench: a darker ground fill with a hachured rim, and a spoil-heap stipple beside it),
+`scaffold(ringPx)` (a hatch ring outside a footprint's walls), `frame` (the roof construction's lines without fill:
+rafters and ridge) and `charred` (a blackened roofless shell); and the **underground system programs** (item 65) —
+`ossuary` (a catacomb gallery's band with niche ticks), `cavern` (a natural gallery's irregular fill with a rock
+stipple), `quarry` (a worked gallery's band with pillar squares, laid at `roomM` pitch with side √pillarShare × `roomM`
+along a `workings` chamber's OBB axis, V04 §5), `ruinMasonry` (g item 109 (g): an ancient ruin system's double-lined
+masonry walls 30 cm apart, 60 cm column dots in halls and temples, rubble stipple where collapsed; M6-U, file f item
+407), `unexcavated` (g item 109 (j) (2): dashed kerbs at 40 % alpha, no fill, no light; drawn for an `unexcavated` cluster
+only for a `secret` key while the view key `showUnexcavated` is on, and for a `lost` cluster for every key that admits
+its elements, whatever `showUnexcavated` (V04 §5.2; g item 113 (e)); M6-U) and `chamber` (a chamber's floor, the undercity's in
+`ground` with its buildings drawn as buildings). Which states select these programs and which tone overrides they take
+is the `states` table below, keyed by §2.8's ladders and §4.11's Works stages. On rungs 1–2 of §8.4's ladder
+`faceLight`, the two-tone `roof`, `hillshade` and the `lit` crowns emit the albedo — the lit side's tone, no face
+shading — and write their normals into the surface layer, and the light pass lights them once; on rung 3 they light as
+written here (J-A68.87). In the state the ladders leave undeclined, a tunnel draws by
+its `Tunnel.kind` — a cased band for a `main`, a hairline pair for a `drain` or `culvert`, a `passage` as a `main` with
+arch glyphs at its ends — and an underground building (one on the underground arena) draws its footprint in
+`building`, a vault class with the `vault` hatch, both through the underground layer's cut-away (§8.4); access points and gratings are `symbol`s on the
+ground layer where they break the surface. A lane's body and casing end square at
+the kerb of the way it meets; the junction wedge belongs to the higher-class way (GEO-21's renderer half). Hairlines and
+casings are in paper px; ribbons and symbols follow the symbolisation table.
+
+**Relief tier (VN-029, VN-031; base should-have, optional, off by default).** Contour, hachure and grass marks are
+extracted per render tile from the terrain `field` by marching squares over the tile's cells plus a margin, then
+resampled evenly along each level line, and clipped to the land faces in vector space before emission, so no contour
+crosses a shore (F-CONTOUR, §5.2; the coast construction is §4.2 S1 (2)); `hillshade` runs on the same field.
+VG-specific looks (spotlight vignette, dramatic forest) stay in the reserved `painterly` family.
+
+**Multi-colour roles (XB17).** A role may hold a list: an individual mark (building, roof, tree, stall) takes index
+`RH32(role, key, salt[, instance ordinal], style id) mod n` (§8.1 item 5); aggregate fills (block ground, city-band
+masses, wood fills) take index 0.
+
+**Tints and weathering (K12).** `tint`: per district a hue from a greedy colouring of the district adjacency graph in
+address order (§6.3) — hue = base + 137.5° × colour index, stepped by 30° until every neighbour differs by ≥ 30°; method
+`spectrum` (hue at fixed saturation and value), `brightness` (value scaled) or `overlay` (blend toward the hue), strength
+0–1; applied to the roofs of built districts; outlines take lerp(ink, tint, 0.3) (`outlineMix(0.3)`); recomputed when the
+palette changes; off in `ink` by default. S14 writes each mark's district colouring index into the `tintKey` column
+(§8.1), which the `tint` and `outlineMix` programs read. `weathering`: each roof's RGB × (1 + u·w), u ∈ [−1, 1] from
+`RH32('weathering', key, salt, style id)`, w = 0.04 (ink), 0.06 (hatched), 0.08 (lit).
+
+**Materials and weather (COV-FTG-F20, K06).** Override rows may key roof and wall colours by `roof.material` and the
+enceinte's wall material. A material is a rendering attribute only (§2.6; item 19): its rows change colour and texture
+roles, never a mark's geometry, so a `setAttr` of a material re-keys the same marks' look and moves nothing.
+**Wealth in the roof's colour, as FTG draws it (§2.6; items 19, 23; J-A19.81).** The `lit` family's default sheet keys
+the `roof` role by the building's prosperity band — one override row per band of `prosperity.bands` (§4.5), keyed by the
+band's name and read from the mark's `prosperity` column banded by §4.5's rule (the field, as labels and descriptions
+read it; never `builtBand`, below) — the richest roofs the deepest clay, the poorest the greyest: `rich` `#C17C46`,
+`prosperous` `#C08051`, `comfortable` `#BD855B` (the role's own value), `modest` `#BA8765`, `poor` `#B48B6E`, `squalid`
+`#AF8E78` — our own calibratable rows, moved by `lit`'s chroma scale with its role values (item 69;
+`amendc_rendering_palette.out`), each passing, as the loader checks, every contrast-matrix pair of the `building` role
+whose value the lit roof side shares (ground, road, garden, green, ink). In `lit` the material picks the roof's
+`pattern` texture and the band row its tint, so the two never contend; a sheet that also keys a roof colour by material
+applies it after the band row; a band without a row takes §4.5's interpolation between the nearest rowed bands. `ink`
+keeps MFCG's one roof role and `hatched` NG's two tones. The retaining walls' material roles (`wall.dry_stone`, `wall.earth_bank`,
+`wall.timber_crib`) are picked by `RetainingWall.material` (V11's `MaterialRow` key) as the wall-material rows are. The
+view key `weather` ∈ {clear, overcast, snow} (§2.9): `snow` lays the `snow` role over ground, fields and roofs while
+`road` keeps its value; `overcast` removes the global light's direct term — its shadows go, the ambient and the
+occlusion stay, and on the vector rung projected shadows are off (the raised under-copy stays). The model and its hash
+are untouched.
+
+**Seasons (g item 117; J128): a look, never a change of the map.** The view's season is its **year position** — §2.9's
+`yearWeek`, 0–51 from the first week of spring on SettlementForge's grid (spring 0–12, summer 13–25, autumn 26–38,
+winter 39–51; the named seasons the picks of their middle weeks 6, 19, 32 and 45) — which follows the dossier's week
+under §2.9's follow flag (§7.7's DR42) and is midsummer, 19, standalone; the look reads it with the biome's climate row
+and its season columns (§4.2 S0, §10.2; V11 §3.25.6: the winter's severity and the bands of weeks of leaf colour, leaf
+fall, blossom, growing, harvest, hay, ice and snow, a band wrapping the year's end when it starts after it ends; DR42's
+height correction). Nothing below moves, adds or removes a mark's geometry or reaches a model value, a digest or a
+save; the tile worker draws it from the display list (§8.1 item 8), so a week change re-skins tiles (§8.8's key; §12.5)
+and re-emits nothing.
+* **Surfaces through the year (item 117 (f)).** Each land-use, green, garden, orchard and vineyard face, each wood floor
+  and each deciduous crown and hedge reads the V11 `season.surfaces` row its `season` column names (§8.1 item 8): at week w,
+  the look of the row's last phase whose week — its anchor band's end, plus its offset — lies at or before w, read
+  cyclically; a village field by its crop and rotation slot, its strips offset strip by strip (V07 §5.1). The looks,
+  each a linear-light lerp of the family's own roles (our own, calibratable):
+
+  | look | paint | pattern |
+  |---|---|---|
+  | `field.sown` | `ground` lerped 30 % toward `green` | drill rows: 1-px `field` lines every 3 px along the field's long axis |
+  | `field.green` | `field` lerped 60 % toward `green` | — |
+  | `field.ripe` | `field` | — |
+  | `field.harvest` | `field` | stooks: 2-px `plank` dots in rows every 6 px |
+  | `field.stubble` | `field` lerped 35 % toward `paper` | stubble rows: 1-px `field` lines every 3 px |
+  | `field.ploughed` | `ground` lerped 18 % toward `ink` | furrows: 1-px lines every 3 px in `ground` lerped 30 % toward `ink` |
+  | `meadow.green`, `grass.green`, `garden.green`, `orchard.leaf`, `vine.leaf`, `crown.leaf`, `wood.floor` | the mark's own role | — (the map as drawn) |
+  | `meadow.high` | its fill lerped 25 % toward `tree` | tall-grass ticks: 1 × 2 px every 4 px |
+  | `meadow.mown` | its fill lerped 40 % toward `field` | swaths: 2-px lines every 6 px |
+  | `meadow.winter` | its fill lerped 55 % toward `verge` | — |
+  | `meadow.dry` | its fill lerped 60 % toward `sand` | — |
+  | `grass.autumn` | its fill lerped 45 % toward `field` | — |
+  | `commons.bracken` | `green` lerped 45 % toward `leaf.russet` | bracken: 2-px `leaf.russet` ticks every 4 px |
+  | `garden.bare` | `garden` lerped 55 % toward `ground` | — |
+  | `orchard.blossom` | the crowns | 1-px `paper` dots over 30 % of each crown |
+  | `orchard.fruit`, `vine.fruit` | the crowns; the vine rows | 1-px dots over 15 %, in `leaf.scarlet` (orchard) or `leaf.crimson` (vine) |
+  | `orchard.colour`, `vine.colour`, `crown.colour` | each crown's leaf colour (below) | — |
+  | `orchard.bare`, `vine.bare`, `crown.bare` | the bare-crown symbol in `tree`; a vine's rows as their stakes | — |
+  | `wood.floor.leaves` | the wood's fill | the leaf cover (below) |
+
+  "Its fill" is the face's own role (`green` or `field`, as the sheet fills that land use). A look stands where its role
+  stands, so it takes that role's matrix rows — a field look the field / road and field / ground pairs, a meadow or grass
+  look those of its fill, a garden look the `garden` ones, a crown look the `tree` ones —
+  checked as the palette is; every look passes on the shipped families
+  (`docs/validation/bench/coh_repair_rendering_r1_looks.out` (B)).
+* **Autumn's covers (item 117 (f2)).** Through the leaf-colour band each deciduous crown — §8.10's instances whose
+  `leafType` is deciduous, a hedge's, an orchard's, a vine's and a creeper's included — takes its own colour: the keyed
+  draw `RH32('crown.leaf', key, salt, ordinal)` picks one of its species' `season.leaf` colours by weight, drawn in that
+  `leaf.<colour>` role (a species with no row is evergreen and keeps its look all year); a crown stays green while
+  `RH32('crown.early', key, salt, ordinal)` ÷ 2³² is under `earlyGreenShare` × (1 − t), t the share of the leaf-colour
+  band elapsed up to its middle week (none past it). From the leaf-fall band's last third the crowns thin: each is drawn
+  at alpha 1 − f over its bare-crown symbol, f rising from 0 to 1 across that third. **Fallen-leaf cover** lies by V11's
+  `season.cover` rows on the marks of each surface — `underTrees` (a deciduous crown's footprint × 1.5); `street`, the way
+  bodies of the `through`, `primary` and `secondary` classes (§2.4's `WayClass`); `lane`, those of the `lane`, `alley`,
+  `cul_de_sac` and `track` classes; `green` and `lawn`, green and lawn faces and a village's crofts and closes; `garden`,
+  garden yard parts and a village's toft yard parts (V07 §5.1 names which faces are crofts, closes and toft yards);
+  `churchyard`, churchyard faces; `roof`, roofs; and `stillWater`, the `pond`, `moat`, `millpond` and `lake` water marks:
+  on a world-aligned grid of 1.5 m cells, a cell within the row's `driftM` of a
+  deciduous crown (or under one) takes a 1-px leaf dot where `RH32('leaf.cover', key, salt, cell)` ÷ 2³² is under the
+  row's share — `start` at the first leaf-fall week rising linearly to `end` at the last, then fading to none over
+  `fadeWk` weeks, none while snow lies — × `edgeFactor` within 1 m of a wall line (a palisade's and a yard wall's among
+  them), a hedge or a kerb; the dot takes the nearest deciduous crown's leaf colour, so the cover deepens week by week and
+  gathers at walls, hedges and kerbs. **Creepers:** a
+  building whose draw `RH32('creeper', key, salt)` ÷ 2³² is under 0.15 carries a creeper along its longest street-facing
+  wall at the neighbourhood band and finer — in `green` through the leaf weeks, in its `season.leaf` creeper colour
+  through the leaf-colour band, gone when bare. Bracken goes rust and stubble gold by their looks above.
+* **Water in winter (item 117 (e)).** Each water mark's ice kind (§8.1 item 8's `season` column) — `pond` for a pond,
+  an oxbow or a ditch; `moat`; `millpond` for a canal (a leat or a mill cut); `lake`; `slowRiver` for a river,
+  tributary, distributary or islet channel whose course falls under 0.5 m per km on average, `river` for the rest;
+  `harbourEdge` for a harbour basin; `seaShore` for a sea's or an estuary's `sheltered` shore segments (§8.1 item 2's
+  exposure); none for a water body carrying a `spring`, an oasis, which never freezes — is frozen at week w when the climate's winter is at least its
+  `season.water` row's `freezesFrom` and w lies in the climate's ice band shortened by the row's `lagWk` at each end
+  (V11 §3.25.6), so still water freezes first and flowing water last; a `harbourEdge` freezes within 20 m of the basin's
+  shore and a `seaShore` within 30 m of its segment, the rest of that water staying open (our own cells). A frozen face
+  draws by `iceFill`: the `ice` role, crack lines — 1-px hairlines in `water`, three per 1 000 m² of face, each a
+  three-segment polyline keyed by `RH32('ice.crack', key, salt, k)` — and, while snow lies, a `snow` stipple over 30 % of
+  it. **Open leads** stay water over the ice: S14's `water.lead` marks (§8.1 item 8) — a river's stretches whose course
+  falls 2 m per km or more (its fast current), each water mill's frontage reach (its weir and race), and a 12 m disc at each
+  spring point, each outfall (§2.3; II.7.3) and each leat's take-off (the weir where a mill's canal leaves its river; V07
+  §5.1 names a village's leat) — drawn in `water` with a ragged rim. **Boats** (§8.10) are drawn hauled
+  up on the bank while their water is frozen.
+* **Snow and the sun (item 117 (g)).** While a viewer has set no `weather`, it is `snow` in the climate row's snow band
+  when the winter is `cold` or `severe`, and `clear` otherwise — an arid row never snows by default; a viewer's value
+  stands until the viewer changes it, except on an `arid` row and on any row whose winter does not freeze (`winter`
+  `none`, or no `snow` band; V11 §3.25.6), where a `snow` value draws as `clear` in every week whatever the view holds:
+  no snow lies there and none falls (*Weather effects*, below; item 124 (c); T124-3). The view sun's default
+  height follows the week (§8.4's *Sun*); item 102's model
+  daylight never does.
+* **Checks and the off form.** Every look, leaf colour and the ice pass the contrast matrix (above) in every family; a
+  season changes no legend meaning — its colours are looks, never legend categories — so the deficiency variants need
+  nothing new and every colour-coded category keeps its second cue in every week. A document whose pinned tables hold no
+  item-117 season rows (V11's off form) draws the four named seasons' override rows by the season its year position
+  falls in — autumn re-skins deciduous crowns (by `leafType`, deciduous when absent) by `tree@autumn`, winter draws the
+  bare-crown symbol in `tree`, spring and summer the map as drawn — and keeps the sheet's sun.
+
+**Post operations (K07; `PostOp`).** `greyscale`, `sepia`, `wash(colour, strength)` (a whole-tile tint), `edgeFade` (the
+view's vignette), `pixelate(cellPx)`, `dotScreen(cellPx, angle)`, `scanline(periodPx, alpha)`,
+`crosshatchNoise(periodPx, alpha)` — named apart from the per-mark programs `tint` and `vignette` — each applied once to a
+tile's base picture (slots 1–20, below), never to the labels, live overlays and furniture composed over it: by Canvas2D
+in the tile worker after the base's marks (≈ 1–2 ms per 512² tile) where the light pass does not run, after it where it
+does (§8.4 (f)'s order), so no light re-colours a greyscale, sepia or tinted base. The cell operations (`pixelate`,
+`dotScreen`) take their cells and weights by §8.4 (f), so a view and an export of one frame agree. PNG export applies
+them per tile; SVG carries greyscale, sepia and wash as one colour-matrix filter over its lit base (the wrapper group of
+§11.1's SVG row) and omits the pixel operations, which the export report lists.
+
+**Live layers (K13, N-4).** `interface LiveLayerProvider { id: string; target: 'base'|'overlay'; readsElaborations?: boolean; marks(view: ViewState, model: ModelView, region: Box, elaborations?: readonly ElaborationRecord[]): MarkTable }`
+adds display-list groups that are view data (never hashed). Providers run in the generation worker, which calls one when
+the view state it reads, the model, the visible region (dilated by one tile) or — for a provider declaring
+`readsElaborations`, such as `live.stale` — the elaboration records (`Document.derived.elaborations`, §2.8, §2.9; passed
+as `elaborations`) change, so a click that writes only the cache (§7.3) re-runs it; it delivers its marks as a
+`DisplayDelta` of group `live.<id>` (§8.9). `overlay` marks are drawn in the tile worker's composition step (§8.8), so a
+selection or a moving person re-composes tiles without re-rastering; a `base` provider (a thematic recolouring) is part
+of the tile key (§8.8). Shipped: `live.selection` (overlay); `live.stale` (overlay: §8.5's change markers, one glyph per building or district whose
+elaboration record reads `stale`, read from `Document.derived.elaborations` beside the model view, outside every digest;
+J-A28.81); `live.favourites` (base: the view state's `favourites` as a
+thematic override); `live.ghost` (overlay; item 101: the pending dry run's preview — the derived shape of a points form,
+the plots and buildings the declaration would make or move in `ink` at α 0.5, its handles and the anchor of §9.5's count
+badge — delivered while a declaration is being drawn or a clerk's proposal waits, removed on commit or cancel, never a
+model change; R1, R3, R14); `live.windows` (base; item 68: a `light` mark for each lit window at the view's hour and
+drawn week by §10.3's rule, read by the light-map bake, §8.4); `live.shade` (base; g item 102 (f): the daylight-share
+driver's raster as six stepped ink veils under the building fills, an island's shade strip outlined by V05's
+`sky.island.shadeStrip` and `sky.island.shadePending` rows — V09 §5.4); `live.links` (overlay; g item 105 (j): the bound
+supply links as curved provider-to-consumer arcs by volume and good — V09 §5.4); `live.find` (overlay; g item 120: V09's
+provider of Find's marks, drawn by *Find* below — the veil, the halos, the pins, count bubbles and ghost pins, and Show
+gaps' dashed outlines, which are the Coverage view's one successor: item 103 (f)'s catchments that lack a member of a
+class, V01 §5.4 (3)'s `gapUnits` over V01's `catchmentOf`, item 120 (i)); `live.voids` (overlay: the
+underground systems' footprints on the ground with the districts above them, from V01's `districtsAbove`, admitted by
+§9.2's function); `live.history` (overlay; V06 §5: then-and-now between two weeks — `live.history.added`, `.removed` as
+a dashed ghost from the earlier frame, `.changed` as a tint; M6-E); `live.people` (overlay: favourite persons' positions
+from the occupancy at the view-state hour, one categorical colour per person; registered by the simulation module
+through §14's `LiveLayerProvider` registry, §10.3); `live.festival` (base; g item 118: the festival decorations, below);
+and `live.crises` (base; g item 122: the crisis looks, below). The model view a provider receives offers
+`fieldDriver(id: 'daylight'): { cellCm: number; origin: PointCm; w: number; h: number; values: Uint8Array }` — the
+field's driver raster as §4.5 holds it, or computed on demand by g item 102 (a)'s sampler and cached per document state
+when the field skipped it; read-only (file f item 411). A ghost a clerk's `preview` delivers carries `source: 'clerk'` and
+draws the AI mark beside its count badge (R19; file f item 518).
+
+**Festival decorations (g item 118; J129): a look, never a change of the map.** While the view's year position (the
+season rows above) lies in a festival's weeks, the base live layer `live.festival` draws its decorations: the festivals
+are §7.7's DR43 schedule of the dossier's `traditions` (each with its weeks, kind, staging places and deity, a window
+wrapping the year's end when it ends before it starts) and the festival display is §2.9's (following the schedule, off,
+or previewing one festival — standalone, one of V11's `festival.generic` rows); nothing reaches a model value, a digest
+or a save, and with no festival shown nothing is drawn, the tiles byte-identical to the map without the layer (the
+no-op pin).
+* **What, by tier and band.** The rows of V11's `festival.decorations` for the map's rung (§10.2's shape; V11 §3.25.7),
+  `SKY` on a sky island's land (V05): each tier draws its own rows and never a larger tier's, each from its row's `band`,
+  the coarsest it shows at; a row with `alt` is one choice per festival, by `RH32('festival.place', the town root's key,
+  salt, H32(festival id))` ÷ 2³² against its weight.
+* **Where.** A row's place, as DR43 resolves the festival's staging (V11's `festival.staging` keywords, else its kind's
+  `fallback` row; a place the dossier names wins), stands on the map as:
+
+  | place | where it stands |
+  |---|---|
+  | `heart` | the root reservation's square (§4.2 S3); at a village rung V07's heart |
+  | `square` | the main square (the root plaza); a staging `hall` key's square before the hall; at a village rung the open space that carries the market, else the flanking square, else a street market's frontage by the heart (V07 §5.1) |
+  | `market` | the market squares, highest `rank` first (§4.2); at a village rung as `square` |
+  | `green` | the greens, largest first; at a village rung V07's green, else the first nucleus's open space, else the heart |
+  | `church`, `temple`, `deityTemple` | the plot of the largest church, or temple, use; `deityTemple` the festival deity's temple where one stands, else `temple` |
+  | `waterfront` | the `quay` shore runs and the landings, with their boats (§8.10) |
+  | `gate`, `gates` | the gates on `through` and `primary` ways; at a village rung the palisade's gate on the through road, else the through road's perimeter entry |
+  | `fairField` | the fair field where one stands (V07), else the largest green outside the walls |
+  | `castle` | the castle's bailey; at a village rung the manor house's plot |
+  | `fieldEdge` | the edge of the arable land nearest the green |
+  | `processionRoute` | the procession route: the shortest path on the part-0 way graph from the festival's religious place (`deityTemple`, else `church`) to the main square, along `through` and `primary` ways where they connect, ties broken by address order |
+  | `doors` | the `main` entrance ticks along the main ways within 150 m of the heart |
+  | `churchLane` | V07's church lane, else the shortest way from the church's door to the green |
+  | `towers`, `walls` | the enceintes' towers and their `standing`, `worn` and `patched` runs |
+  | `hall` | the front of the town hall's or guildhall's plot |
+  | `mainWays` | the `through` and `primary` ways |
+  | `boats` | the boats at the waterfront (§8.10) |
+  | `rims`, `landings` | a sky island's rim chain and its landings (V05) |
+
+  A place that does not stand takes the next of its kind's fallback places, and the heart when none stands.
+* **Placement, keyed and stable.** An item's count is a keyed draw in its row's `count` range per its `per` unit (per
+  place, per 100 m of run, per square, per tower, per boat). A point item — maypole, bonfire, stall, table, pavilion,
+  stage, a garland at the heart — takes, in rank order, the cells of a 3 m world grid inside its place's face less 2 m
+  from its edges, less every way's carriageway and every gate's passage (its opening and 4 m along its way each side),
+  ranked by `RH32('festival.place', the place's render key, salt, H32(festival id) + 64 × item index + ordinal)`; a place
+  too small for its count takes as many as fit and the count left out is reported in the view telemetry. A run item —
+  bunting, lantern strings, lanterns, banners lining a way, garlands on doors, pennants along walls and rims — stands at
+  its spacing along its chain from an offset drawn the same way; bunting spans a way from front to facing front, above its
+  carriageway; banners and pennants stand on their gate, hall, tower or wall run. The seed (through the render keys), the
+  festival's id and the place fix every decoration, so a festival draws the same in every view and export (byte-stable
+  tiles per seed), and two festivals in one week both draw, in window order.
+* **The glyphs** (our own; drawn in the festival's two colour roles, alternating along strings; each at least 3 px at
+  1×, not drawn coarser than its row's band): `garland` a swag of five motif beads (3 m); `bonfire` a stacked-wood disc in
+  `plank` with a flame star in the first role (3 m); `maypole` a 1 m disc with six ribbons 4 m long; `bunting` a line
+  hung with triangular flags every 1 m; `stall` a 3 × 2 m rectangle under a striped canopy; `table` a 4 × 1 m `plank`
+  rectangle with bench lines; `banner` a 1 × 2 m panel on a pole tick bearing a motif; `lanternString` a line beaded
+  every 2 m; `lantern` a 1 m dot in a ring; `pennant` a 2 m triangle on a pole tick; `pavilion` a 6 m disc with radial
+  seams; `stage` an 8 × 5 m `plank` platform with a front step; `boatDecor` a pennant on a boat's mast; `routeColour`
+  the route's way bodies overlaid in the first role at α 0.5 with chevrons every 20 px along the route. **Motifs and
+  colours:** the culture's `festival.motifs` row (`site.culture`, else `mixed`) gives the motif glyphs and the two
+  colour roles — `festival.sacred` replacing them for a festival that names a deity — and the year position's
+  `season/<name>` row adds its motifs; banners, pennants, pavilions and stall canopies carry a motif, and garlands and
+  bunting string them, cycling the culture's then the season's by a keyed draw. The motif glyphs: `wreath` a ring of six
+  dots; `ribbon` a bow; `knot` an interlace; `laurel` two leafed arcs; `lanternPierced` a dotted ring; `garlandFlower`
+  and `flowers` five-dot flowers, strung or scattered; `canopy` a scalloped edge; `lanternPaper` a ribbed oval; `streamer`
+  a wavy tail; `sunDisc` a rayed disc; `pennantSwallowtail` a forked pennant; `sheaf` three strokes tied; `evergreenBough`
+  a feathered stroke.
+* **Read without colour; never over a label or a passage (item 118 (c), (f)).** Every decoration is told by its glyph
+  shape and the route colour by its chevrons (the colour-deficiency table above); the colours name no legend category.
+  Nothing is placed in a gate's passage or stood on a carriageway, and the layer draws in slot 19b, under slot 23's labels
+  and their halos (§9.4), so no decoration covers a label. Decorations add no light: the lanterns are glyphs (§8.4's
+  lights are §2.7's records and the derived ones).
+* **The layer.** `live.festival` runs in the generation worker (*Live layers* above) over the model (the places, the
+  way graph, walls, towers, gates, the boats by §8.10's function), the view state and DR43's schedule; it delivers
+  `glyph` and `ribbon` marks of semantics `festival.<item>` for the visible region dilated by one tile, re-run when the
+  year position crosses a window's edge, the festival display changes, the model changes or the view moves — so
+  decorations are made lazily, tile by tile as they come into view (§12.5) — and, a `base` layer, joins the tile key (§8.8).
+
+**Crisis looks (g item 122, with (h)–(i); J135, J138): a look, never a change of the map.** While a crisis look stands —
+a `ConditionOverlay` whose weeks hold the view's week (§2.7's reader comment: §2.9's `week` in [`sinceWeek`, `untilWeek`),
+never `yearWeek`) whose `crisis.map` row gives a look, admitted at the viewer's key by §7.7's DR44 — or one is
+previewed, under §2.9's per-viewer key `crises` (`follow` draws the standing looks, `off` none, `preview` one look kind
+at §10.2's `previewSeverity` whatever the week, with or without a dossier), the base live layer `live.crises` draws it:
+its kind's row of §10.2's `crisis.looks` — its place, band, scale by severity and rung or by headcount, and priority —
+placed by §10.2's *Crisis looks* (d)–(f) on the render keys (render tag `crisis.place`, §8.1), the camped ground that
+does not fit drawn on §8.8's surrounding ring. Nothing reaches a model value, a digest or a save; a condition the key
+withholds is never drawn, legended or counted; with no look standing and none previewed nothing is drawn, the tiles
+byte-identical (`item122.crises`; T122-7).
+* **By band** (item 122 (d)). A look shows from its row's `band` (V11's value: the first column below holding a part)
+  and adds detail at each finer band; its parts:
+
+  | look | city band | district band adds | neighbourhood band adds |
+  |---|---|---|---|
+  | `siege` | each army's camp a `campCluster` under its smoke; the siege line — the trench a 1.5 px `ink` line, its earthwork bank a 3 px `crisis.ash` band 6 m outward — round the walled arcs at the standoff; burned farmsteads as `crisis.ash` footprints | the tents in rows, the horse lines, the engines facing their gate or wall run, each army's banners | fires, carts, the trench's spoil |
+  | `blockade` | a `campCluster` on each approach road's verges (§10.2 (d)'s `approachRoads`) | its tents; a `barricade` across the road | fires, carts |
+  | `refugeeCamp` | the camp's `campCluster` on its land by the gate, its smoke | tents and `shanty` glyphs in rows along lanes; carts | cooking fires |
+  | `quarantine` | the fenced camp's `campCluster`, its smoke | its fence, `hut` glyphs, the `pestHouse`, the `graveRow`s | in the affected quarter, `markedDoor`s and the `cordon` |
+  | `famine` | its fields bare (`bareField`, over item 117's crop stage) | its pens empty (`emptyPen`) | the principal market's stalls under `shutter` bars |
+  | `beast` | — | the edge's torn palisade sections (the `breached` wall-run row, below), `watchFire`s along the edge | `stakes` barricades |
+  | `raiders` | burned outlying farms (`crisis.ash` footprints), smoke | abandoned carts; a `barricade` across each approach road | — |
+  | `disaster` | its units in the `ruinTone` (districts; at THORP, HAMLET and VILLAGE V07 §5.6 (3)'s units, on the plots `villageUnitPlots` gives each) | — (its buildings' damage, below) | rubble at the frontages; by its pattern, scorched (`crisis.ash`) or flood-marked (a `water` stipple at α 0.3 below the flood line) ground |
+  | `occupation` | the garrison camp's `campCluster` | its tents; foreign `banner`s on the main gates and the castle, else the principal plaza | — |
+  | `rebellion` | — | a `barricade` at each junction of the principal market's streets | — |
+  | `boom` | — | `scaffold` on the frontages (the Works rows' program, below) | — |
+  | `bust` | — | `shutter` bars on the shops' frontages | — |
+
+* **The glyphs** (our own; each at least 3 px at 1×; never drawn coarser than its look's band): `campCluster` a camp's
+  camped ground as its hull at α 0.35 — in its army's colour (`crisis.army.*` by the army's index i in its coalition,
+  (i − 1) mod 4), else in `crisis.tent` with an `ink` rim — dotted in `ink`, one 1-px dot per 400 m² of camp; `tent` a 4 × 3 m
+  `crisis.tent` rectangle with an `ink` rim and a ridge tick; `shanty` a 3 × 3 m `plank` square with a broken rim; `hut` a
+  4 × 4 m `plank` square with an `ink` rim; `pestHouse` an 8 × 6 m `plank` rectangle with a cross tick; `engine` a 6 m
+  `plank` frame with a throwing-arm tick toward its target (a trebuchet), or, aimed at a gate, a 6 × 3 m roofed shed
+  (a ram); `banner` the festival banner's panel on a pole tick (above) in its army's colour, bearing its army's glyph;
+  `fire` a 2 m star in `light`; `smoke` a 40 m plume of 1-px `ambience` stipple at α 0.35, thinning outward and leaning
+  downwind; `cart` a 2 × 1 m `plank` rectangle with two wheel ticks; `fence` a 1 px `ink` line with a post every 2 m;
+  `cordon` a dashed `crisis.mark` line with a post every 5 m; `graveRow` a row of 1 × 2 m `ground` mounds with `ink` rims;
+  `markedDoor` a `crisis.mark` cross over the door's entrance tick; `barricade` a 1.5 px `ink` zig-zag across the way;
+  `stakes` a row of 1 px `ink` ticks at 45°; `watchFire` a `fire` on a 2 m `crisis.ash` disc; `shutter` a 1.5 px `ink`
+  bar across a frontage; `bareField` the field's own texture at 40 % of its contrast over `field` lerped 40 % toward
+  `crisis.ash`; `emptyPen` the pen's outline with no stock; `ruinTone` a unit's faces — a district's, or at the village
+  rungs its unit's plots' (V07 §5.6 (3)) — under a `crisis.ash` wash at α 0.35 with 1-px `ink` rubble dots where
+  `RH32('crisis.place', key, salt, cell)` ÷ 2³² < 0.15.
+* **Placement, scale and the land** are §10.2's (d)–(f): keyed, by severity and rung — a hamlet's war band, a city's full
+  siege line — or by the dossier's headcounts at `areaPerHeadM2` (two armies twice the ground; engines one per
+  `enginesPerBesiegers`), several looks sharing the outskirts by `priority` under `densityCap`, a look standing only
+  where §10.2 (d) admits it — never on water, a gate's passage or a label's keep-out, and on a way's carriageway only a
+  barrier across it — a `barricade` (item 122 (b)'s barricaded roads and street barricades: `blockade`, `raiders`,
+  `rebellion`), `beast`'s `stakes` where the edge crosses a way, and the quarantine's `cordon` where it crosses a way into
+  its quarter (§10.2 (d), (f)) — no camp, tent, cart, engine or other part. The buildings of a disaster look's units
+  (§10.2 (d)) draw item 123's damage layer at its row's `lookLevel` by severity, or at their own decay level where that
+  is higher (§8.6; item 122 (d)), and their units (V01 §3.16 (1)) the `ruinTone` at the city band; the look leaves each
+  building in the week V06 §3.22 (3)'s `crisisLookYields` turns true on it — a Works other than a `decay` Works begun on
+  it by the view's week, unless finished before the overlay's `sinceWeek` — so no week draws both the look and the
+  rebuild's stage; a building no rebuild reaches keeps it until its condition no longer stands; a unit's `ruinTone`
+  stands while the look stands over any of its buildings (§10.2 (f)). A preview never hands over (`crisisLookYields` is
+  false with no overlay): a previewed ruin draws over every building of its units whatever their Works.
+* **Read without colour; never over a label** (item 122 (d); item 112). Each look is told by its glyph shapes — an army
+  by its banner's glyph — plain, cross, chevron, saltire and pale, by (i − 1) mod 5 against the four `crisis.army.*`
+  colours by (i − 1) mod 4, so armies i and i + 4 differ in glyph and colour and glyph first repeat together at the 21st
+  army — beside its colour, a marked door by its cross, the ruined tone by its rubble —; the parts draw in slot 19b,
+  under slot 23's labels and their halos (§9.4), famine's bare fields in slot 15b over the fields' crop stage. The legend
+  lists each look standing by its row's `label` (V11 §3.25.9) with its condition and weeks (§9.5) — the evaluation
+  §11.2's `looks` reader answers.
+* **The layer.** `live.crises` runs in the generation worker over the model the view draws — the head, or at a drawn
+  week whose frame is not the head that frame (V06 §3.15.2), as V06's `frontierFor` reads it — (the places of §10.2 (d),
+  V01's `campLand` and `disasterDistricts`, V06's `frontierFor` and `crisisLookYields`, the walls and gates), the view
+  state (`week`, `crises`, the key) and DR44's standing looks; it delivers marks of semantics `crisis.<part>` for the
+  visible region dilated by one tile, re-run when the week crosses a condition's edge or a Works' start week on a
+  building of a standing disaster look, the crisis display or the key changes, the model the view draws changes (a
+  commit, or the week crossing to another frame) or the view moves — so looks are made lazily, tile by tile (§12.5) —
+  and, a `base` layer, joins the tile key (§8.8). Each mark carries its look: in `entity`, the interned handle (§2.1) of
+  the `ConditionOverlay` whose look draws it — a preview, drawn alone, carries no condition, so its marks are every
+  crisis mark drawn — so one look's marks are told apart; V09 §4.21.12 (5)'s **Show** and Find's **Go to** on a look
+  read them so, asking the provider in the generation worker for one look's marks at its row's `band` over the map's
+  `bounds` and §8.8's ring, whatever the view, and frame by V09 §4.21.12 (5)'s rule (the box of those marks; a
+  `disaster` look the union of its units' `FindArea` shapes; the town's own frame where the look draws nothing).
+  The handle serves that reading only: §8.9's hit-test slices leave `live.crises`' marks out, so a click, §11.2's
+  `HitAnswer` and V10's `entity { at }` reach what lies beneath them (V09 §4.20.8). Its rows carry
+  the `extension` marker (§8.4 (h)): the parity presets draw no crisis look. Show crises and the preview land at M3b
+  (§16).
+
+**Find (g item 120; J133): a view, never a change.** While §2.9's per-viewer key `find` holds a chip, the overlay
+provider `live.find` (V09's) delivers the marks below for the visible region dilated by one tile, over each chip's
+matches as §11.2's gazetteer match listing gives them at the view's effective key and drawn week — §9.2's admission, so
+a thing the key withholds is never suggested, counted, drawn or hinted at (no glow, pin, ghost pin, gap or legend chip
+of it; T120-3) — re-run at every commit, regenerate, undo, redo, advance, load and migration, whenever the key, band,
+layer, year position or drawn week (§2.9's `week`) changes, and when the view moves (item 120 (f)). **At a drawn week
+whose frame is not the head** (V06 §3.15.2) each chip's matches are §11.2's listing at that week (the `gazetteer`
+query's `week`; *At a drawn week*): the frame's own — a building matched by its use at that week, never its head use, and
+an entity or use the frame holds matched though the head has since closed, moved or demolished it —, one the frame lacks
+or holds otherwise not drawn, pinned, counted or gapped there, a chip with none there reading count 0 for that week, and
+the chips themselves unchanged. An `overlay` layer, it is composed
+with the labels (§8.8) — at the device's pixel ratio — and never re-renders a base tile; with no chip it delivers
+nothing — Show gaps reads the kind chips (V09 §4.21.10 (10)), so `gaps` alone draws no veil — the tiles byte-identical
+(`item120.find`; T120-1). It draws over whichever Show view is on, and under every style preset (§8.4 (h)).
+* **The veil** (item 120 (e)). `paper` at α 0.55 (our default) over the view, cut out at each match's shapes — a
+  building's footprint, a plot's or place's face, a way's body, an area's faces — so the matches show undimmed
+  while everything else reads slightly opaque; on the underground layer it lies over the band's rock, voids and the
+  cut-away's ghost alike (V04 §5.1).
+* **The halo.** Round each match's shapes, a 2 CSS-px outline in its chip's colour in its chip's dash pattern, and
+  outside it a soft glow in that colour fading from α 0.6 to 0 over 8 CSS px; the match's placed label glyphs (§9.2, at
+  the stop) are drawn again over the veil. At the interior band the rooms a matched institution uses glow on the storey
+  shown (V03 §5.5's `findRooms`).
+* **An area chip** — a district, neighbourhood, quarter or region (V01 §5.4's `FindArea`), an island (V05 §5.6), a
+  village's end (V07 §5.5) — lifts its whole area from the veil and draws the halo along its boundary; a hole in it
+  stays under the veil.
+* **Pins and count bubbles** (the city band). A match whose drawn extent at the stop is under 6 CSS px — or an area
+  whose shape is — also carries a **pin** at its anchor (a building's footprint pole of inaccessibility, an area's
+  `FindArea.anchor`): a 14 CSS-px teardrop in its chip's colour with an `ink` rim and its chip's glyph in `paper`. Pins
+  whose anchors lie closer than 24 CSS px merge, greedily in address order, into a **count bubble** — a 20 CSS-px `ink`
+  disc holding the count in `paper` —, only among pins of one layer and, on Sky, of one island (V05 §5.6 (2)); a click on a
+  bubble zooms to the stop at which its pins part. So no match is a lost speck, at item 116's limit or at the METROPOLIS
+  cap (T120-5).
+* **Ghost pins** (item 120 (f)). A match on a layer other than the one shown — the view's working layer (§8.4), whatever
+  other layers the view draws — is its pin at α 0.35, with no halo, at the anchor where
+  its marks are drawn (an island's displaced under `offset`, V05 §5.6 (3)); a match Below that holds no element in the
+  band shown — from Ground, from Sky, or on Below itself — carries beside its glyph its shallowest band's depth range as
+  the band ladder writes it, kept above the veil (V04 §5.1 (2)–(3)).
+* **Show gaps' outline** (item 120 (i)). With `gaps` on, each of V01 §5.4 (3)'s gap units for each kind chip, on the
+  layer shown (the view's working layer), is outlined dashed in its chip's colour (1.5 CSS px, 4 on and 3 off) and labelled "none here" once per
+  component — overlay text at the component's pole of inaccessibility, composed after the labels from the glyph atlas at
+  the point labels' floor (6 px cap, §9.4), and left out at a stop where its box meets a placed label's (it is view data, never a
+  `LabelEntity`, §9.1) — while a unit holding a match lies lifted with its matches.
+* **Each chip's colour and second cue** (item 120 (d); g item 112). Chip k, its index in `chips` from 1, draws in
+  `find.((k − 1) mod 8 + 1)`; its second cue is its **glyph** on its pins — circle, square, triangle, diamond, star,
+  cross, hexagon, bar and ring, by (k − 1) mod 9 — and its **dash pattern** on its halo's outline — solid, long dash,
+  short dash, dash-dot, dot, dash-dot-dot, long-short, double, by (k − 1) mod 8 — so chips k and k + 8, one colour and
+  one dash, differ in glyph, no two of the first 72 chips share colour and glyph, and a chip never rests on hue alone;
+  the legend and V09's panel show both beside the colour (§9.5).
+* **Layer and budget.** The marks' semantics `find.veil`, `find.halo`, `find.pin`, `find.bubble`, `find.ghost` and
+  `find.gap` draw in slot 25, the veil first and the gaps last; never in a base raster, a light pass or a digest; the
+  interaction budget §12.5's (R12-35). Find lands at M5 (§16).
+
+**Weather effects (g item 124; J137): drawn over the map, never in it.** The spell in force (§2.9's *Weather effects*:
+its kind from V11's climate weather columns for the climate row at the year position — §2.9's `yearWeek`, never the
+drawn week; §6.1's stream —, its strength s by its phase) is
+drawn by §8.8's effects layer every frame, light in density and opacity, in each family's own hand — its marks here, its
+light terms §8.4 (i). Positions, lengths and sways come from the spell's own draws on §6.1's `view.weather` stream
+(keyed by the spell's entity key, from its index, folded with the frame's world-aligned cell — §6.1's `view.weather`
+row), so a spell replays from its session seed and clock
+(T124-9):
+
+  | kind | `ink`, `hatched` and the ink-family variants | `lit` | densest, per 10 000 CSS px² |
+  |---|---|---|---|
+  | `rain` | fine `ink` strokes 8–12 CSS px long, 1 px, at α 0.3, slanted by the wind ≤ 20° from the vertical, falling 600 CSS px a second | soft translucent streaks of `paper`, 10–16 px, at α 0.25 | 5 |
+  | `drizzle` | as rain, 4–6 px, α 0.2 | as rain, 6–10 px, α 0.18 | 8 |
+  | `snow` | `ink` dots of 1.5 px at α 0.3, drifting down at 40 CSS px a second with a sideways sway | `snow` dots of 2 px with a 1-px soft edge at α 0.7 | 4 |
+  | `mist` | 1-px `ink` stipple at α 0.12 drifting slowly, beside its light term | a translucent `fog` band at α 0.15, beside its light term | — |
+  | `fog`, `dust`, `cloudShadow`, `shimmer` | their light terms (§8.4 (i)); `dust` adds `sand` motes of 1 px at α 0.15 | the same | `dust` 1 |
+  | `leaves` | 2-px dots in the leaf colours V11's `season.leaf` row weights for the climate row, tumbling with the wind | the same at 3 px | 0.5 |
+
+  The densities are s × the column's figure. During rain each water cell of §8.8's water mask may draw a **ripple** —
+  a 1-px ring in `ink` (`lit`: `paper`) at α 0.2 growing from 0 to 6 CSS px over 0.6 s — at most 2 per 10 000 CSS px² of
+  water.
+* **The hard rules** (item 124 (c)). On an `arid` row and on any row whose winter does not freeze, no snow
+  falls — a `snow` spell there draws nothing, and V11's compile check makes none — and none lies (*Snow and the sun*,
+  above); rain in arid country comes only as V11's row allows it (T124-3, T124-4).
+* **Never in the way** (item 124 (e)). The layer lies above the tiles and below the labels, the chrome and every overlay
+  (§8.8; T124-6); no lightning or flash (§8.4 (i)); its rows carry the `extension` marker, so the parity presets draw
+  none (§8.4 (h)); it is off with V09's switch (`AppPrefs.weatherEffects`: off by default on the low tier and under
+  reduced motion; T124-5) and the first thing Auto gives up (§8.4 (g)); no export draws it (§11.1). It lands at M3b
+  (§16).
+
+**Thematic layers.** FTG D7's matchers are override rows (`ThematicRow`) keyed by entity attributes (`prosperity`, `use`,
+`epoch`, `owner`, `material`) — data, not code; the tile worker applies them over a mark's programs from its `attrs`
+columns, and §9.5's legend reads their `legend` and `cue` cells. A row keyed by `use` or `owner` draws unthemed a mark
+whose `knownTo` column (§8.1) §9.2's admission function does not admit at the band, and a theme's legend key lists only
+the values drawn, so no theme colour and no legend key names a withheld purpose; while such a row is active the
+knowledge key joins the tile key (§8.8) (J-A30.85). A front's building themes as its front; its concealed use (item 63;
+§9.2) has no theme colour and no legend key for a key that does not admit it. **Character themes (item 72; J-A72.81):**
+override rows keyed by a district's `identity`, by the share of a power (`CircumstanceSlice.powers`, §7.7) or of a
+sector among its significance-weighted plots, and by its band range (§4.5), like FTG D7's matchers. **Conditions
+(item 88; staged):** a `ConditionOverlay` (§2.7) draws as a settlement-wide thematic row — a `wash` plus a legend row,
+keyed by its archetype and severity, no geometry — the rows schema-complete and empty in the base until the port fills
+the records; the shipped rows `condition.siege`,
+`condition.quarantine` and `condition.occupation`, the view `supplyChains` (a chain drawn only when §9.2's function admits
+every joined node) and the `states` row `worked-out` are V08 §5.2's, in every shipped family (SettlementForge stage; file f
+item 410). **Oases (g item 111):** a spring-fed water body draws as water with a `symbol('spring')` at its spring point;
+its grove is the `Greenery` of kind `grove`, drawn by the `instances` program with the climate row's species; its gardens
+are `LandUse` faces of kind `garden`; a `water` hairline channel is drawn from the water body to each garden its `fedBy`
+names, derived at render, never stored — existing roles and programs, one new point symbol (§8.3's catalogue).
+
+**Colour-deficiency safety (g item 112; J122).** Every family and thematic view that encodes a meaning in colour carries a
+second cue, so no meaning rests on hue alone:
+
+| colour-coded meaning | second cue |
+|---|---|
+| district tints (`tint`) | the district's name label (§9.4) and, at a tint change, the district boundary's line style |
+| prosperity (`lit`'s roof-by-band rows; the prosperity theme) | a hatch density by band — none for the richest band, one step denser per band down |
+| ownership (`owner`-keyed rows) | a pattern per owner category (dots, stripes, crosshatch, grid, wave, cycling in legend order) |
+| knowledge (the admitted tiers of a thematic or game-master view) | the outline's line style: `local` dashed, `secret` dotted |
+| the underground's systems (§8.2's gallery, chamber and link rows) | the system's program glyph (niche ticks, rock stipple, pillar squares, masonry double lines, vault hatch) |
+| water classes (`waterKind`) | the shore program's line style and the water body's label |
+| the procession route's colour (g item 118) | its chevrons; every other decoration its glyph shape |
+| a Find chip's colour (g item 120) | its glyph on its pins and its dash pattern on its halo's outline (*Find* above) |
+| a crisis look's colours (g item 122) | an army's banner glyph; a marked door's cross; the ruined tone's rubble stipple (*Crisis looks* above) |
+| a wall run's condition (g item 114) | its line style: the solid band, the notched band, a patch look's pattern on a narrower strip, the gap with its rubble spill, the dashed trace (the wall rows below) |
+| ground classes (land-use kinds) | the land-use `pattern` texture in textured families, a glyph stipple per kind in `ink` |
+
+The cues are drawn at the legend-bearing zoom stops (those at which §9.5's legend shows the meaning) and in every
+thematic view; elsewhere the default sheets keep their look. Each such sheet ships a checked variant per common
+deficiency — `StyleSheet.variants` for `protan`, `deutan` and `tritan`: role substitutions the loader lays over the
+palette — selected by the per-viewer view key `cvdVariant` (§2.9's key: absent, V09's machine default `AppPrefs.cvdDefault`;
+V09 §4.21.2), which joins the tile
+key (§8.8). A missing variant draws the sheet's palette with its cues and is reported by the loader. **The style check**
+measures every variant: under each of `protan`, `deutan` and `tritan` it simulates the swatches of every pair of
+categories a legend distinguishes (Machado, Oliveira and Fernandes 2009 at severity 1.0, applied in linear sRGB — our own
+code from the published matrices) and passes when their CIEDE2000 is at least **`cvdContrastMin`** — the
+deficiency-contrast threshold, one cell of V11's `palette` table for every sheet: ΔE2000 10 (our own; calibratable at
+M3b, V12's register line). §13.2's T112-1 reads it; item 114's greyscale bar (J-V12.91) compares the pairs' CIE L*
+greys against the same cell (the wall states below). §9.5's legend shows each category's cue.
+
+**Decline, condition and layer states (items 8, 11, 31; II.6, II.7; J-A8.81).** `StyleSheet.states` is a rule table
+keyed by kind × state, read after an entity's programs are resolved: a `replace` row draws its programs instead of the
+entity's at the row's bands, an `override` row lays its changes over them. The shipped rows, one set per family (`ink`
+shown; `lit` and `hatched` keep the same geometry and glyphs with their own tones):
+
+| kind | state (§2.8's value unless noted) | bands | row |
+|---|---|---|---|
+| building | `abandoned` (vacant) | all | override: roof tone lerped 30 % toward `ground`, no raised under-copy |
+| building | `decayed` (derelict, roofless: `RoofSpec.kind 'none'`, §2.6) | all | override: no roof construction, the outline dashed by the entity-keyed pattern, fill at 60 % alpha |
+| building | `ruined` | all | replace: the `ruin` program, with the `none` roof kind |
+| building | `cleared` (a footprint trace) | district and finer | replace: `trace('footprint')` — a broken hairline, no fill; no mass at the city band |
+| building | `reused` (a trace worked as the kind `Building.reusedAs` names — garden, orchard or field, §2.6; J-A8.22) | all | replace: the trace's face filled as that kind — `garden` (`ground` at the city band, a yard there), an orchard's `grid` instances, `field` — with `trace('footprint')` over it at the district band and finer; no mass; a successor raised on the old foundations is a building of its own (`Building.predecessor`) and takes its class's programs |
+| building | `condition` `worn` / `neglected` (§2.6; item 31) | district and finer | override: `weathering` amplitude × 2 / × 4 and, at the neighbourhood band and finer, a roof `pattern` variant with patched courses — texture and colour only (item 19); no change at the city band |
+| wall, gate | `abandoned` (neglected) | all | override: the wall stroke's casing dropped, its tone 20 % toward `ground` |
+| wall, gate | `decayed` (a run of `Enceinte.condition` not `standing`, §2.7) | all | override: nothing on the enceinte as a whole — each run draws by its row below; a gate on a `breached` or `dismantled` run draws its blocks as that run's towers draw |
+| wall | a run `worn` (`Enceinte.condition`, §2.7; file f item 575, g item 114) | district and finer | override the run: its stroke in `wall.worn`, its outer edge notched — a notch ⌈w ÷ 2⌉ px deep and 1 px long every 3 px of run from its first vertex, w the drawn wall width (the broken crenellations); its towers unchanged; at the city band the run draws as `standing`; legend `legend.wall.worn` |
+| wall | a run `patched` | all | replace the run: `wallPatch(look)` — a strip 0.6 × w wide (minPx 1) centred on the trace in the look's role and line pattern (the patch looks below), the look the `look` of the V11 `walls.patchMaterials` row the run's `conditionMaterial` names (§2.7) — a material no row names (a pack withdrew it) takes the look of its wall kind's first row there and is reported; its towers stand; legend `legend.wall.patched`, one entry per look drawn, naming its row's `label` |
+| wall | a run `breached` | all | replace the run: no wall stroke — a clear break — with a bar across the trace in `wall`, 1 px by w, at each end of the gap, and the **rubble spill**: 1-px dots in `ink` over the run's band and one band width outward, a pixel drawn where `RH32('wall.rubble', key, salt, cell)` ÷ 2³² < 0.40, `cell` the pixel's world-aligned cell at the stop (seamless across tiles); its towers stand; legend `legend.wall.breached` |
+| wall | a run `dismantled` | all | replace the run: no wall stroke; a 1-px `ink` hairline along the trace, 2 px on and 2 px off from the run's first vertex; its towers as trace discs (`trace('ring')` on each tower's footprint); legend `legend.wall.dismantled` |
+| wall | `superseded` (`Enceinte.supersededBy` set, §2.7) | all | replace: `trace('ring')` — the old line as a hairline lighter than a wall, under the new ring's stroke |
+| tunnel (II.7) | `abandoned` (silted) / `decayed` (caved in) / `ruined` (`Tunnel.closure` collapsed or sealed) | the underground layer | override: the band dashed / the band broken at the caved stretch with rubble stipple / the band as `trace('centreline')` with a closure glyph at each sealed end |
+| island (II.6) | `floating` / `waning` / `settled` (`SkyIsland.state`, §2.7) | the sky layer | override: none / the layer's alpha × 0.8 / × 0.6 — under `ghost` occlusion the island drawn at (1 − `ghostAlpha`) × that factor, the covered ground showing through at the rest (no separate raise) (§8.4); the shadow follows `elevationCm` by itself |
+| island | `fallen` | the ground layer (the `fallen_island` decoration's members, V05 §3.16) | replace: the `ruin` program's rubble stipple over the members' faces and bands (M6-sky; file f item 408) |
+| island | `removed` | the sky layer | replace: nothing drawn, no label, no shadow (V05 §4.2) |
+| skyAccess | its states (V05 §5.1) | the sky and ground layers | V05 §5.1's rows (M6-sky; file f item 415) |
+| retaining (item 110 (a)) | per run of `RetainingWall.state` (§2.7): `standing` / `decayed` / `ruined` | all | override: none / a bulged, broken stretch (the double line wavered, ticks broken) / replace: the bank alone (the low side's ticks as a hachure, no wall line) |
+| raised (item 110 (b)) | in use / `abandoned` (neglected: no traffic, weathered; an aqueduct run dry) / a span `ruined` (fallen) / supports alone | all | override: none / the deck's casing dropped, its tone 20 % toward `ground` / replace the span: rubble stipple at the span's foot, the arch gone, the supports standing; a vault under a fallen span not drawn (collapsed) / the piers alone as filled footprints |
+| deck (item 110 (d)) | its host's existence (file f item 246): `decayed` / `ruined` | all | override: a charred timber deck (the deck in `ground` lerped 40 % toward ink) / replace: the carriageway broken (dashed), the piers or the mole standing; the buildings on its deck plots by their own ruined rows until tombstoned |
+| landUse (a deposit) | `worked-out` (V08 §5.2) | district and finer | as V08 §5.2 states (SettlementForge stage) |
+| passage | `sealed` (`Passage.sealed`, §2.5; item 30) | district, neighbourhood | override: the arch glyph at each end drawn closed (a bar across the arch); the plots behind it take their buildings' own rows (vacant, §4.11) |
+| building | Works `staked` (item 67; §4.11) | all | replace: `stake`; no mass at the city band, the stage glyph (§8.5) on the dashed footprint |
+| building | Works `groundBroken` | all | replace: `pit` over the footprint; the stage glyph at the city band |
+| building | Works `foundations` | district and finer | replace: the footprint's walls as low wall bands (outline weight × 2) or a sill frame, no roof; the city band a mass at 40 % alpha with the stage glyph |
+| building | Works `wallsRising` | all | override: no roof construction, the interior floor in `ground`, `scaffold` round the walls; the heights of `heightsAt` (§4.11), so shadows grow storey by storey |
+| building | Works `roofFramed` / `roofed` | all | override: `frame` without fill and `scaffold` / the roof drawn with `scaffold` still up; a work yard in `ground` |
+| building | Works `emptied` / `stripped` / `rooflessShell` / `rubble` (a demolition) | all | override: openings as gaps / `frame` over bare rafters / the `decayed` row with rubble stipple inside / the `ruin` program as wall stubs with rubble heaps; `cleared` is the existing row |
+| building | Works `decaying` (on the way to `decayed`) | all | override: the roof with gaps along its ridge — where the building's plan is in force, V02 §5.7's holes in their place — the outline dashed at 30 % |
+| building | Works `roofless` / `collapsed` / `overgrown` (a decay Works' ruin stages, item 67 (f); §4.11's *Works* (4)) | all | as the `decayed` row / as the `ruined` row / replace: the footprint as a grassy mound — a `green` stipple fill, `trace('footprint')` over it at the district band and finer — with no mass |
+| building | a `repair` Works at any stage of the decay ladder — `abandoned`, `decaying`, `roofless`, `collapsed`, `overgrown` (`worksKind: 'repair'`; §4.11's *Works* (4): the decay stages backwards under a scaffold; item 67) | all | override, laid over the row the stage resolves: `scaffold` round the walls and a work yard in `ground`; the city band's stage glyph (§8.5) |
+| building | `charred` (a fire, item 67) | all | replace: `charred` — the blackened roofless shell, until a clearance or repair Works starts |
+| building | Works `refit` (a conversion without a geometry step) | district and finer | override: `scaffold` along the frontage |
+| plotLine | `pendingRemoval` / `staked` (item 67 (g); §4.11's Works lines) | district and finer | replace: the old boundary treatment dashed / the new line as stakes, dashed, until its fence or wall stands |
+| access | `open` / `locked` / `bricked` (`AccessPoint.state`, II.7.4; item 64) / collapsed (its derived reading while its element is closed, II.6) | the ground layer where it breaks the surface, and the underground layer | override: the kind's `symbol` / with a bar / filled solid in `wall` / as a trace with rubble stipple; a secret one drawn only for a key that admits it (§9.2) |
+| gallery | its system's kind — `catacomb`, `cavern`, `quarry`, `vaults`, `buried` (a buried old town's street), `dug` — or an undercity walkway (II.7.5, II.7.6; item 65), with the closure states of II.6's table | the underground layer | replace: `ossuary`, `cavern`, `quarry`, the `vault` hatch, the old street as a lane's body in `ground` with its buried shells as `trace` outlines, a dug passage as a `passage` tunnel, a walkway as a lane's body in `ground`; its closure states as the tunnel row above, `flooded` in `water` |
+| chamber | its `Chamber.kind` (V04's `ChamberKind`; II.7.6, II.7.5) | the underground layer | replace: `chamber` with the kind's fill — `ossuary` niche ticks densening with its complex's `fill`, `workings` the quarry pillars, `cistern` in `water`, `streetVault` and `bridgeVault` the `vault` hatch, `archVault` the `vault` hatch (its floor at grade, its door a daylight opening; V04 §5.2), `market` as the undercity's plaza (the ring walkway and stalls; V04 §5.2), `storey` and `square` as buried-town floors, `cellar` and `storage` as `dug`, the ruin's kinds by `ruinMasonry`; a flooded chamber in `water`; a collapsed one as a trace with rubble stipple; an unexcavated one by `unexcavated` (M6-U; file f item 407) |
+| link | `UndergroundLink.kind` — `open` / `gated` / `secret` / `collapsed` / `flooded` (II.7.6; item 65) | the underground layer | replace: a hairline pair / with a gate bar / dashed and drawn only for a key that admits it / broken with rubble stipple / in `water` |
+
+**The patch looks and reading the wall without colour (g item 114 (e); item 112).** `wallPatch` draws its strip by the
+look's pattern, along the run from its first vertex: `patch.timber` planks — the strip solid, a 1-px joint every 4 px;
+`patch.wattle` a weave — diagonal bands 2 px wide every 4 px; `patch.earth` a bank — the strip solid, its outer edge
+dotted (every second pixel); `patch.drystone` stones — blocks one strip-height long with a 1-px gap between; `patch.stakes`
+posts — a 1-px post every 3 px; `patch.brush` a broken fill — 2-px runs with one run in three left out, the gap stepping
+one pixel per row. The five states therefore differ in line style first — the solid band, the notched band, a patch's
+pattern on a narrower strip, the gap with its rubble, the dashed trace — and that is their second cue. **The greyscale
+bar** (J-V12.91; V12's `BenchBarDef` T114-6, its statistic `bar.T114-6`, V12 §3.15.4): one run rendered in each of two
+states at the band is compared with itself
+pixel by pixel on CIE L* alone, and the mean grey ΔE2000 over the pixels where either render draws a mark must reach
+`cvdContrastMin`, for every pair of different states at every band where both draw (the patch looks among themselves are
+one state, told apart by pattern); on the shipped values the least is 11.1 (`lit`, `standing` against `worn` at a 12-px
+wall), over every drawn width from 2 to 12 px (`docs/validation/bench/coh_repair_rendering_r1_looks.out` (A)). **A short
+run:** a run whose drawn length at the stop is under 2 px (the minimum feature) is drawn 2 px long, centred on its middle,
+over its neighbours' strokes, so no condition vanishes at a coarse stop. The standing wall keeps its symbol-key entry;
+each other state's entry shows while a run in it is on the map (§9.5).
+A Works stage named like a ladder state — the decay Works' `abandoned` and the demolition's `cleared` — takes that
+state's row above; `before` draws the target's prior state and `finished` its own programs, the two stages §8.3's census
+exempts as undeclined (item 67 (f)). A row naming a `worksKind` is the one exception to one row per (kind, state): it
+matches only a target whose running Works is of that kind and is laid over the row its stage resolves without it
+(J-A67.83), so a repair draws the decay stages backwards under its scaffold. No reference draws a declined, worn or
+hidden state, a building in progress or an underground (item 23): the rows are ours and act only on an entity carrying
+the state or a running Works, so a town that never passes an epoch, a scheduled edit or a hand conversion renders as the
+references' would.
+`builtBand` and the geometry floor (§4.11) are read by no render rule: condition follows `Building.condition`, and
+labels and descriptions follow the prosperity field (J-P1).
+
+**Layer order** (data; `ink` shown; one list for the city and district bands). MFCG's recorded order (water → road casing
+→ road body → river → landmarks → wards → piers → fields → walls → towers → grid → scale bar → compass → labels → title) is
+a subsequence (order parity, §8.3); NG 1.2.2's (greens → roads → shadows → buildings → props → large-tree pins under buildings,
+block trees above them → title; item 58 (d)) is a subsequence of the `hatched` sheet's slots.
+
+| # | slot | reason |
+|---|---|---|
+| 1 | paper | background; streets and squares are paper by omission |
+| 2 | water | MFCG: water |
+| 3 | ground.block | new: the figure-ground contract (§8.5) |
+| 4 | relief (hillshade, contour marks; off by default) | new: under everything built (VG) |
+| 5 | way casings (`way.*`, pass 1), every class drawn at the band | MFCG: road casing |
+| 6 | way bodies (`way.*`, pass 2) | MFCG: road body |
+| 7 | river casing and body | MFCG: river |
+| 8 | shore marks | new: on the water edge, after water and river |
+| 8b | open leads (`water.lead`) and boats (§8.10; g item 117) | new: on the water or hauled up on its bank |
+| 9 | greens, parks, yard parts by role | new: the plot model |
+| 9b | retaining walls (`retaining`; item 110 (a)) | new: over the ground they hold, under the shadows |
+| 10 | projected shadows — the vector rung only (§8.4; `derived: 'shadow'` over the casters) | new: after roads, before buildings (NG) |
+| 11 | raised under-copy (`derived: 'raised'` over footprints and masses) | part of MFCG's building draw |
+| 12 | landmark footprints (solid ink); raised-way piers (in `wall`) | MFCG: landmarks |
+| 13 | building masses / footprints / roof detail — each building's wings in stack order (`BaseWing.on`, §8.6), a tier over the tier below | MFCG: wards |
+| 13b | leaf cover and creepers (g item 117) | new: on ground, streets, greens and roofs, under the crowns |
+| 14 | piers and bridges | MFCG: piers |
+| 15 | fields and hinterland land use | MFCG: fields |
+| 15b | famine's bare fields (`live.crises`' `crisis.bareField`; g item 122) | new: over the fields' crop stage, under the trees |
+| 16 | trees: wood fills and crowns | MFCG's tree slot: after fields, before walls; woods may cover track casings (K16) |
+| 17 | boundary treatments (district band) | new: over yards, under curtain walls |
+| 18 | curtain walls | MFCG: walls, after buildings |
+| 19 | towers and gate blocks | MFCG: towers |
+| 19a | raised decks (`raisedWay`), on the vector rung their shadows drawn in a derived pass just before this slot over everything below, roofs, walls, towers and gate blocks included | new: drawn above what it crosses (§4.3; item 110 (b)) — a deck may stand above the roofs beside it, and a wall running beneath it (under a road deck's span or an aqueduct's arch, or with an aqueduct merged into it) and a gate, postern or tower under an aqueduct's arch that clears it draw beneath it (§2.7's laws, law 1 (2), (3), (5)); every other list that places raised decks cites this slot |
+| 19b | festival decorations and crisis looks (`live.festival`, `live.crises`; g items 118, 122) | new: over everything built, under the grid, labels and furniture |
+| 20 | grid | MFCG: grid |
+| 21 | scale bar | MFCG: scale bar |
+| 22 | compass | MFCG: compass |
+| 23 | labels (glyphs composed onto each tile, §8.8) | MFCG: labels |
+| 24 | title, legend, emblem | MFCG: title |
+| 25 | live layers (Find's marks, `live.find`, among them), annotations, measure overlay | new: view data on top |
+
+A bridge or pier (slot 14) is cased along its sides only — its ends are open where it meets its way — so no later casing
+crosses an earlier body. Slots 1–20 are the base raster; slot 23 and slot 25's world-space live marks and annotations are
+composed onto each tile by the tile worker (§8.8); slots 21, 22, 24 and the measure overlay are screen-space furniture
+drawn by the main thread over the composed tiles (§9.5). **The light pass** (§8.4; item 68) runs over slots 1–20 and
+before slot 21: labels, live overlays and furniture are never lit. §8.3's census checks every tile's draw calls against
+this table.
+
+**Slot resolution.** When a sheet is loaded (built-in, user-edited, random, host-supplied) the loader takes, per band,
+every (semantic, pass) pair the entity registry says S14 emits at that band and the sheet paints, and resolves it against
+the band's entries without `derived`: candidates are the entries whose pattern matches the semantic (equal, or a prefix
+`x.*` with the semantic under `x.`) and whose `passes` include the pass or are absent; the winner is the most specific —
+an exact semantic before any prefix, a longer prefix before a shorter. The sheet is **refused** when a pair has no
+candidate, when two candidates tie at the highest specificity, or when one `derived` kind is placed in two slots of a
+band. The result is §8.1 item 3's table, cached per style version. Shipped sheets: `{ slot: 5, semantic: 'way.*',
+passes: [1] }` and `{ slot: 6, semantic: 'way.*', passes: [2] }` for way casings and bodies; exact pier and bridge-deck
+entries in slot 14 and the raised-deck entry in slot 19a outranking the prefix, and `way.stair` in slot 6's pass 3; one
+entry with no `passes` for a
+river's casing and body in slot 7; the sky's entries in every shipped sheet — the presets table's `ink`, `lit`,
+`hatched`, the ink-family variants `parchment`, `bw-print` and `night`, `painterly` once volume 7 ships it (V07 §8's
+V-M1), and the parity presets — `sky.island.land` slot 3, `sky.island.underside` slot 2, `sky.island.rim` and `sky.mist`
+slot 8, `sky.island.shadow` slot 10, `sky.island.tether` slot 17, `sky.fall` and `sky.access.*` slot 19,
+`sky.island.shadeStrip` and `sky.island.shadePending` slot 25, each with the per-family facts of V05 §5.1's slot table
+(M6-sky; file f item 408); and the underground's `under.*` entries in every shipped sheet, drawn in the underground
+layer's own order (V04 §5.2) with V04 §5.2's per-family facts (M6-U). A CI test
+loads every shipped sheet at every band (§8.3). A refused user edit is shown in the style dialog with each unresolved or
+ambiguous pair and not applied; a `setStyle` event carrying a refused sheet fails its dry run with the conflict action
+`invalid` (§7.1), so no document holds a sheet two loaders could order differently (J-R39).
+
+**Presets — each family defines all four bands with invariant roles (VIS-9).** Detail is added band by band, never
+re-coloured, and cross-fades over the band's hysteresis interval (α 0 → 1, §8.5). **Role continuity:** B-ZOOM checks mean
+roof and mean ground colour ΔE2000 < 2 across every band switch within a family, from the milestone that ships the
+family's four bands: `ink` and `lit` at M2b, the ink-family variants at M3b, `hatched` at M5 (§13.4, §16; N-23).
+
+| family | city | district | neighbourhood | building (stage-3 hook) |
+|---|---|---|---|---|
+| **`ink`** (default; MFCG family) | figure-ground contract (§8.5), masses, symbolised walls / towers / gates, raised under-copy on (K06), the lighting model's cast shadows on in value only (§8.4; J-A68.81), casings `w + 2h` with round joins and caps, hairline furrows, quarter and district labels in letter-spaced small caps, grid, scale bar with old-style figures, 8-ray compass | footprints with thin outlines, yards by role, boundary treatments, every way stroked, way names, library crowns | ink close-up: ridge hairlines by the roof construction (`skeletonHip` by default), tapered ticks in ink at α 0.5 on the roof colour, cast shadows by the light pass (prism shadows at ink α 0.25 on the vector rung), cobbles as ink stipple, pins as ink symbols, every named way labelled | wings as ink outlines; the plan rung's storey (§8.5): walls by kind as hairlines (exterior at the outline weight, partitions at ½), openings as gaps with a door tick, windows as wall breaks, the stair core's flights, chimney squares, abstract furniture at ink α 0.5, room labels |
+| **`lit`** (FTG family; second preset) | tinted pattern textures at city scale, flat roof tones, raised under-copy with a 2-px penumbra, filled corridors in `road` over `ground` | + `faceLight` on roofs, soft cast shadows (§8.4), hedgerow instances along field bounds, stone-patterned wall band with tower nodes, harbour basin tone with pontoon bars, water `ramp` and `foam` | + pre-shaded crowns per instance, depth-sorted trees, props | wings with per-face light; the plan as `ink`'s, the storey's floor in the roof's lit tone |
+| **`hatched`** (NG family; the stage-2 close-up) | masses in the lit roof tone, ground = paper, the street stripe in `road`, wood fills | two-tone roofs by `fakeGablePerWing`; by `roofscape` once stage 3 registers (V02 §5.3) | hatching per roof facet of the sheet's roof construction at a world pitch (`StyleSheet.hatch`), each sloped facet's lines parallel to its eave and clipped to the facet (a gable or hip wing's parallel to its ridge), with two ridge tapers per ridge-bearing wing (15–20 triangles per gable or hip wing), one prism shadow pass, lobed crowns in two greens, large-tree pins under the buildings and block trees above them (item 58 (d)), chimneys, pin and ground-access symbols, road surfaces and modes, stepped ticks; its neighbourhood and building bands take V01 §5.1's order list (the `pins` and `trees` drawing groups named, `StyleSheet.groups`; slot 8b retaining walls, the piers in slot 11, raised decks in slot 19a with their shadow pass before it, slot 12's stack order with tier shadows) (M5; file f item 405) | per-wing hatching; the plan as `ink`'s |
+| `parchment`, `bw-print`, `night` | ink-family variants: parchment texture role, its plate chroma aimed at the median (above); monochrome; `night` — the `ink` family whose sheet opens the view at night (`LightingSpec.defaultLight`, §8.4 (e)), its `@night` roles and `glow` sprites on the vector rung | same | same | same |
+| `painterly` (reserved; VG family for the village product) | colour ramps, water bands, relief tier on, spotlight vignette, selective outlining | same | same | same |
+
+Faces follow §17.2 (the default label face, D-1); small caps and old-style figures come by §9.2's per-face path (N-12).
+
+**Light by family (item 68; the model is §8.4's).** `ink` and `lit` are lit by the field model with the cursor sun by
+default and cast shadows on (J-A68.81; J-C1): `ink` in value only (`mono`) and gently (ambient 1.3, so a day shadow on
+open ground keeps roughly two thirds of its lit value under the fixed sun's 45° — the ink family's shadow alpha 0.35),
+`lit` in colour (ambient 0.85); `hatched` by its own vector prism pass (`LightingSpec.model 'vector'`, §8.4 (g); the
+look of NG 1.2.2, §8.4 (h)) with its night glow; each family's night is its day albedo under the night's light (its
+`@night` roles on the vector rung). The `MFCG` preset draws no cast shadow and no light; the `FTG` preset draws FTG's
+sun, moon, weather rule and entrance window lights (§8.4 (h)).
+
+**`lit` on the reference backend (VIS-7).** Every `lit` program — every mark of every family — runs on Canvas2D, the
+lighting a post operation over the Canvas2D base, never a second drawing path (§8.4; J-R4, J-A68.82). Textures are
+`pattern` fills of greyscale seamless tiles tinted by the role colour (multiply), which rungs 1–2 light as *Paint
+programs* states; on the vector rung lighting is `faceLight` per face from stored geometry, one directional light from
+the sheet's sun (with a `path` sun, its light step, §8.4), and soft shadows are `shadowPass` polygons with `penumbraPx`
+— the shadow polygon plus two outward offset rings at ½ and 1 penumbra with α ⅔ and ⅓, vector, no bitmap filter
+(avoiding Fantasy Manor's ≈ 90 % bitmap-shadow cost); canopy shading is baked into the crown sprites per (style, light
+step) (§8.10); water depth ramp and foam are `ramp` and `foam` over the shore-distance field, per tile (≈ 1.3 ms per 512²
+tile). Relief lighting across roofs and walls comes from the light pass and the surface layer's normals, with no
+normal-map texture; on the vector rung the style dialog says the light is per face (J-R4). **Texture set** (our own, procedural: generated by
+`plat/tools/textures/` in the product repository (§17.1 (3)) with fixed seeds; every file in `plat/assets/textures/`
+names that script and its seed (§17.1 (5)); no third-party texture): tilled soil, grain, pasture, meadow, orchard
+ground, marsh, sand, pebble, rock / cliff, paving stone, clay tile, thatch / shingle, wall stone, water ripple, parchment
+— 15 greyscale 256 × 256 px toroidal tiles (≈ 1 MB raw, ≈ 0.6 MB as PNG), metres per tile per band in the sheet; crop and
+livestock variants of the arable and pasture tiles chosen by `LandUse.crop` and `LandUse.livestock` when present (VS27),
+by the land-use kind otherwise; authored in M2b (≈ 1 person-week).
+
+**Style constraints.** The contrast matrix; the option-interaction matrix test (no option silently disables another —
+MFCG's Block mode dropping trees); every preset survives a render with no fills and one with no outlines (R13).
+=== END ===
+
+=== REPLACE ### 8.3 Symbol catalogue and draw-style census ===
+### 8.3 Symbol catalogue and draw-style census
+
+**Catalogue.** Filled faces with hairline outlines; cased ribbons with square lane ends at kerbs; shore marks per bank
+segment; repeated-offset shoreline bands; raised under-copies and prism shadows from heights; library crowns (§8.10);
+clipped hatching at a per-face angle and tapered ticks; one composited shadow pass per layer; tinted pattern textures with
+per-face light; field-raster ramps, hillshade and contour / hachure marks; curved per-glyph text with a role halo; a
+point symbol for every `Pin.kind` of §2.7; screen-space furniture (§9.5); door ticks by entrance role, frontage-treatment runs and the passage arch (§8.2's rows;
+items 19, 29, 30); trace hairlines, the vault hatch and the overrides of §8.2's `states` table; access-point symbols on
+the ground layer (II.7.4); the change marker (§8.5); the Works programs — stakes, pits, scaffolds, roof frames, the
+charred shell — and the underground systems' programs (item 65, 67; §8.2); the vector rung's glow sprite at each light
+mark and the lit picture of §8.4's light pass (item 68); retaining walls, raised decks and piers, stair ticks and ramp
+hairlines (item 110); the harbour-mouth chain, raised or lowered (g item 106 (e)); the spring symbol (g item 111); the
+`occupation` symbol (V08 §5.2); each colour-coded category's
+second cue (g item 112, §8.2). Every semantic visible at a band has exactly one registry glyph, from which the legend is
+generated (O12 d).
+
+**Draw-style census** (G-R2 / G-R18): a regression suite per preset, run on the golden suite (§13.3) and in B-ZOOM
+(§13.4). **Order parity** (VIS-16): the reference's recorded order is a subsequence of the preset's, and every semantic the
+reference never drew sits at a declared slot with a reason (§8.2's `OrderSlot`s).
+
+| check | presets | pass |
+|---|---|---|
+| casing Δ = 2h on every ribbon, at every settled view | all | ± 0.1 px (hairline fidelity) |
+| 0.5-px hairline ink coverage at 1× | ink | 50 % ± 10 % |
+| round joins and caps | ink | ≥ 99.9 % |
+| drawn wall, tower, road-core, gate-block and pier widths and the gate gap against MFCG at the matched scale (MFCG size 40, 0.816 px/m) | ink | within ± 15 % of 6.2 / 12.4 / 6.5 / 12 / 3.9 px; the gate gap = max(model opening, 1.2 × drawn wall) within ± 0.5 px |
+| outline share of footprint pixels at the city band, default view, every rung | ink | ≤ 25 % |
+| walls after buildings; wall-symbol pixels inside plots | ink | order holds; 0 pixels |
+| order parity | all | subsequence and declared slots |
+| draw order: the (slot, pass) sequence of every tile's draw calls, logged by an instrumented raster (N-7) | all | non-decreasing in the slot table, then in pass, in every tile |
+| sliced rasters: per preset and band, the golden views' densest district- and neighbourhood-band tiles and a whole-CITY city-band view, each tile rastered by one `step(Infinity)`, by `step(1)` until done, and by `step(1)` with another tile's job, a furniture query and a band answer for districts outside the tile served between every two steps (§8.9) | all | pixel-identical in the three runs; logged (slot, pass, z, key) call sequence identical |
+| sliced placement: per preset, every golden view's stop and the stop of an A2 300-dpi export of a golden CITY, S13b by one `step(Infinity)` and by one unit per step, with a furniture query, a raster step and a band answer for districts outside the view served between every two steps (§8.9, §9.2) | all | identical placement digests (§13.3) |
+| light steps (the vector rung): a METROPOLIS view in `lit` on rung 3 with `prism` shadows and a `path` sun advanced one 1° step per frame across three light steps, then stopped, on a tier with shadow layers and one without, both at tile DPR 1 (§8.4, §8.8) | lit | after the stop every cached `under` and `over` (or `base`) tile carries the final light step; the two tiers' tiles equal outside the projected-shadow pixels; the view pixel-identical to a fresh render at the final sun |
+| slot resolution by §8.2's rule | every shipped sheet at every band in CI; every sheet at load | 0 unresolved, 0 ambiguous; each `derived` kind in one slot per band |
+| contrast matrix (§8.2) on the rendered city band | all | every pair present at or above its floors |
+| text against its halo, every placed glyph (N-3) | all | the label floor (§8.2), halo role by §9.4's rule |
+| foam on `quay` and `sheltered` shore segments | lit | 0 % |
+| tree marks over a tier-1/2 casing at the city band | all | 0 pixels |
+| casing pixels inside junction mouths on district boundaries | all | 0 |
+| role continuity across band switches | each family | §8.2's bar |
+| decoration stability over a city → neighbourhood → city sweep, for stamped classes (woods, gardens, parks, scatter) and `grid` (orchards) and `line` (avenues, hedgerows) classes (N-10) | all | each instance appears at most once and keeps its position; every coarser band's set is a subset of the finer's; an unchanged view re-renders pixel-identically |
+| render-time keys: an unchanged model saved, reloaded and rendered, and derived in two district orders | all | tiles pixel-identical to the first render |
+| render keys across seeds: two B-CITY-lite seeds per rung, every pair of entities with equal lineage hashes | all | the render keys differ for every pair |
+| stamp tiles: the H128 of each (class, tile index) tile of the shipped asset — its points' cm coordinates and ranks in point-index order (§8.10) | all | as loaded in the generation and tile workers: equal to the stored value (PR tier; every session checks it too, §8.10); as rebuilt by `plat/tools/stamptiles/`: byte-identical to the shipped asset on the five engines (Node x86 / arm64, Chromium, Firefox, WebKit; nightly); a moved stored value is a view shift (§13.3) |
+| stamp-tile seams: per stamped class, all 256 2 × 2 arrangements of cells drawing its four tiles (every ordered pair side by side in both directions, every corner), for the full point sets and each band's rank subset (§8.10's r < s_b) | all | 0 pairs of points in different cells closer than r₀ (an integer test on tile cm); `plat/tools/stamptiles/` refuses to write a failing asset, and the PR tier re-runs the check on the loaded asset |
+| roof lines outside their footprint (the F-SKELETON plain downgrade) | all | 0 |
+| per wing, `hatched` | hatched | 15–20 hatch triangles per wing, counting the two filled tapers laid along the ridge, each 30 to 50 per cent of its length (item 58 (e)); no ridge stroke; outline = footprint only (NG BG-3; N35) |
+| two-tone roof law with our palette | hatched | dark = lit × lerp(ambience, shadow, α) within ± 0.02 (IMP-15) |
+| water bands | painterly | band widths follow W · (i / N)^1.5 for our N and W within 1e-4 |
+| label floors, counts, collisions | all | §9.4 |
+| street-edge recoverability, access ways drawn | ink | §8.5 |
+| states: every (kind, state) pair that §2.8's ladders, `Building.condition`, `SkyIsland.state`, `Enceinte.supersededBy`, `Enceinte.condition` (`standing` · `worn` · `patched` · `breached` · `dismantled`, g item 114), `RetainingWall.state`, the raised parts' and decks' conditions and `Passage.sealed` can produce — other than the undeclined defaults (`kept`, and the Existence values `generated`, `built`, `altered` and `converted`), which draw the entity's own programs, and `demolished`, a tombstone that is never drawn — resolves one `states` row (§8.2) per band the kind is drawn at, in every shipped sheet (CI, and at every sheet load) | all | 0 unresolved; a golden TOWN converted by hand once through every building, wall, gate and passage conversion of §4.11 draws those kinds' rows, and a hand-built CITY fixture holding one tunnel, one island record, one retaining wall and one raised way with a deck plot in each state (§2.7's schema) draws their rows until their stages register |
+| hidden courts (item 30): on B-CITY-lite seeds whose hidden share is > 0, every court face reached only through a passage (§4.6), at the city band | ink | drawn in `ground` under its block's masses and enclosed by drawn masses or outlines on ≥ 3 sides; 0 hidden plots drawn as `road` or `paper` voids; §8.5's figure-ground metrics within 0.01 of the same seeds at hidden share 0 |
+| knowledge (item 30): a golden CITY rendered at the `public` tier and at `secret` under the shipped `knowledge.admit` rows (§9.2), with no thematic row and with a `use`-keyed one (§8.2) | all | with no theme the base tiles pixel-identical, with the `use` theme differing only on the marks of places `public` does not admit, which draw unthemed; the composed tiles differ only where label glyphs lie; at `public` no glyph run of a `local` name at the city or district band, none of a `secret` name above the building band and no legend key of a withheld use; each tier's per-stop placement digests equal §13.3's |
+| entrances (item 29): the golden views' district-band tiles | all | exactly one `main` tick per building, placed where §2.6's rule 1 puts it (its frontage, the court or path from the plot's street gate, or a hidden plot's access face); every `side` or `rear` tick on an access edge of its plot beyond the frontage, every `yard` or `service` tick facing a yard or court part of its plot (§2.6's rules 2–3) |
+| change markers (item 28): B-ZOOM over a document holding three `stale` rungs (a designation change, a re-let, a dossier event) | all | a marker at every band for each stale building and one for its district at the city band; none after the click; the base tiles unchanged by the marker |
+| plots-only view (item 28; §8.5): the golden views at the city and district bands with `plotsOnly` on | all | every plot boundary drawn, 0 building marks; the default view's base tiles pixel-identical once the key is off |
+| passages (item 30; §8.5 (2)): B-CITY-lite seeds whose hidden share is > 0, every passage with a `frontBuilding` | ink | at the city band the span ring of every base wing that spans it (§8.5 (2)) inside its block's mass (0 `ground`, `road` or `paper` pixels over any); at the district band its floor in `road` with an arch glyph at each end, drawn closed where `Passage.sealed` |
+| passages left uncovered (item 30; §8.2's row; §2.6's `BaseWing.spans`): B-CITY-lite seeds whose hidden share is > 0, every front building over a passage cleared by hand (`clear`), then each clear undone | ink | while a passage has no `frontBuilding`, no span mark over it in any band's mark table and no arch glyph at any band, its floor in `road` at the district band; after the undos every tile pixel-identical to the render before the clears |
+| the plan draw (item 28; §8.5, §8.6): every B-PLAN fixture of §13.2, building band, `ink` and its `night` variant | all | every drawn room label inside its room's ring at a cap height within §9.4's room-label range, a room left unlabelled only where its label does not fit at the range's bottom or where it is a structural face (a stack, a shaft, a column; V03 §2.4; file f item 482), and 0 S13b glyphs over one; one light per lit room, at its spine summit, and none in an unlit room; one stack per `Chimney` and no decorative chimney on the building |
+| roof by band (items 19, 23; §8.2): the `lit` default sheet on a golden CITY, textures off | lit | each building's roof tone, read through the pick buffer, is its prosperity band's row; every row passes the contrast matrix's `building` pairs |
+| raised under-copy by class (item 54; §8.2's symbolisation row): a golden TOWN holding houses, landmarks and a farmstead | ink | each footprint's under-copy offset = the base offset × its class row's ratio (house 1, landmark 2, farm building 0.6) within ± 0.1 px before the clamp; the same offsets by day, at night and on every rung |
+| palette targets on the measurement render (item 69; §8.2) — the check; the gate is §13.4's B-ZOOM bar | ink, lit, hatched | paper luma 226–244 and warmth 20–50 (at 36 ± 2 for the shipped values); darkest-0.5 % luma ≤ 45 and warmth 15–25; plate chroma 18–70, `ink` 20–30 |
+| lighting, one spot lit from every side (item 68; §8.4 (c)): a caster at the centre of four equal lights at its four sides — the receipt's three fixtures (4 × 4 m casters 6 m and 4 m tall, a 6 × 6 m caster 8 m tall) — night, CPU reference | ink, lit | at every ground pixel within the lights' radius outside the caster the summed visibility-weighted term ≥ 0.5 of the unoccluded sum — the lights the caster does not block carry at least half of every such pixel's light (`docs/validation/bench/amendc_repair_rendering_r1_light.out` (A): worst 0.60) — so no dark shadow; each light's own term alone shows the caster's shadow away from it |
+| lighting, a shadow never climbs a taller roof (item 68): a 4 m hovel beside a 30 m tower, the sun at 64 azimuths × 3 altitudes and the cursor sun at 100 pointer positions, CPU reference | ink, lit | 0 pixels of the tower's roof whose sun term the hovel lowers |
+| lighting, the shadow on a lower roof is shortened by that roof's height (item 68): the same fixture | ink, lit | where the tower's shadow crosses the hovel's roof, its tip lies at the similar-triangles position — d × (h_tower − h_roof) ÷ (H − h_tower) past the tower for a source at height H and ground distance d, (h_tower − h_roof) × cot(altitude) for the fixed sun — within max(1 px, the diagonal of §8.4 (c)'s floor cell at that distance), and it continues beyond the hovel onto the ground |
+| lighting, the cursor sun (§8.4 (d)): 200 pointer positions and `sunHeight` 1, 4, 64 on a golden TOWN | ink | every caster's shadow tip at d · h ÷ (H − h) beyond the caster — d · H ÷ (H − h) from the sun's ground point G, d the caster's distance from G — within max(1 px, the diagonal of §8.4 (c)'s floor cell at that distance); wherever \|G − V\| > D, the largest angle between two casters' shadow bearings ≤ 2 · asin(D ÷ \|G − V\|) + 0.1° — the angle the view subtends from G, which falls as `sunHeight` rises (`amendc_repair_rendering_r1_light.out` (B)); nearer, the shadows are radial and the bearing bar is void |
+| lighting, long shadows across tile lines (item 68; §8.4 (c)'s window): a 45 m tower and a 20 m house at the 1:500 stop, tile DPR 2 and 1, under the fixed sun and a 15° path sun, each rendered with the tile grid offset by 0, ¼, ½ and ¾ of a tile side, CPU reference and GPU pass | ink, lit | the shadow's start on the caster's centre line (V = 0.5) within max(1 px, the diagonal of §8.4 (c)'s floor cell there) of the similar-triangles point h ÷ (m − σ ÷ 2) past the caster's near face, lengthened never shortened, identical at all four offsets — no step at any tile line (the receipts: §8.4 (c)) |
+| lighting, narrow casters (item 68; §8.4 (c)'s traversal): towers 2, 6 and 12 m wide and 30 m tall under a 15° path sun at the 1:500 stop, tile DPR 1 and 2 | ink, lit | one unbroken shadow along each tower's axis with no lit pixel inside its similar-triangles shadow (receipt (2)); across the shadow at distance t, its width within one floor cell's diagonal per side of the caster's (receipt (3)) |
+| lighting, a mountainous site (item 68; §8.4 (c), §8.8's first ring and ring blocks): a golden CITY whose site request is `mountainous` with a hill primitive whose top stands 3 000 m over the datum inside its frame (§4.2 S1), the view at the 1:500 stop in the valley on the hill's shadow side at tile DPR 2 and 1, under a 15° path sun and one at 7°, the tile grid at offsets 0 and ½ of a side, CPU reference and GPU pass; and an A2 300-dpi lit export of the view's area at the 1:500 scale | ink, lit | the hill's shadow edge across the view at its similar-triangles position within max(1 px, the diagonal of §8.4 (c)'s floor cell there), identical at both offsets and equal to a CPU-reference render with every level held everywhere (no blocks; `amendc_repair_rendering_r3_blocks.out` (1)); every block cell equal to that cell in a pyramid built at any band, the city band carrying every caster at the heights its band draws (§8.1 item 2); a building of two base wings — a 10 m hall and a 30 m tower — two rings outside the view at the building band (and, from their stages, a composed building and a close-up's caster), its shadow in the view identical before and after a pan brings it into the first ring; first-ring positions and blocks within §8.8's counts, their memory within B; the GPU pass within §13.4's tolerance of the reference; the lit settle within §12.5's bound, or its pre-decided fallback taken and reported; the export within §12.7's lit-export bound, its window within §8.8's, its shadow edge where the view's reference render puts it |
+| hand lantern (item 68; §8.4 (b), (f)): the underground layer of a golden CITY at the depth band holding a tunnel with frontage plots (§8.4's default band), `handLantern` on at nine pointer points and off, CPU reference and GPU pass, and each export of that view | ink, lit | the GPU within §13.4's tolerance of the reference, which evaluates the lantern by §8.4 (c)'s law at each given pointer point; 0 lit pixels from the lantern's term beyond its radius (§8.4 (b)) of the pointer's floor point; with `handLantern` off, every pixel equal to the render without it; no lantern term in any export |
+| island shadow (item 68; §8.4 (a), (c); II.6): a hand-built island record 100 m above a golden TOWN whose highest roof is ≈ 40 m, `ghost` occlusion, the fixed sun, the view at the 1:500 stop with the island inside it and again two rings outside it, CPU reference and GPU pass | ink, lit | the shadow's near edge at the similar-triangles distance past the outline within max(1 px, the diagonal of §8.4 (c)'s floor cell there), equal in both placements, the GPU within §13.4's tolerance |
+| lighting, which sun draws (item 68; §8.4 (d)): a golden TOWN in the `FTG` preset with a viewer's `sunMode` `cursor`, and in `ink` under each of the three modes, each with a pointer, without one (a still, an export, a touch screen's first map) and on rung 3 | FTG, ink | `FTG` draws its fixed or path sun whatever the key; `ink` the viewer's mode; with no pointer, and on rung 3, `fixed` — each render's tiles equal to a render at the mode §8.4 (d)'s rule names |
+| lighting, the sheet's default light (item 68; §8.4 (e)): a viewer whose view state holds no `light` value choosing the `night` preset as its `stylePreset`, then setting `light` to `day`; and a document drawn in its own `night` style opened by such a viewer | night | the view opens at night (its tiles equal to a render at `light` `night`); the viewer's `day` holds after the change and after its view state is reloaded; every other shipped sheet opens at §2.9's `day` |
+| post operations after the light (item 68; §8.4 (f)): `greyscale`, `sepia`, `wash`, `pixelate` and `dotScreen` on a golden CITY at night under coloured point lights — a rungs 1–2 view against the CPU-reference export of the same frame, and on rung 3 | ink, lit | base pixels grey (R = G = B), sepia or washed after the light, the view within §13.4's tolerance of the export; label, halo and overlay pixels equal to the render without the operation; the cell operations' cells on each tile's own grid, weighted as §8.4 (f) states, in view and export alike |
+| item 110's marks (the second known-city fixture of §13, M3a): its retaining walls, raised way and aqueduct, stairs, ramps, deck plots and stepped temple at every band in `ink` and `lit`, day and night, on every rung | ink, lit | every retaining wall drawn with its low-side ticks and a shadow on its low side only; every raised deck over the ways, walls, towers and gate blocks it crosses (0 junction marks where they cross; its slot 19a) with its piers in slot 12; each tier of a stepped building its own shadow (rungs 1–2: a shadow on the tier below from each tier's eave; rung 3: one prism per tier); every stair or ramp interval drawn by `way.stair` |
+| colour-deficiency variants (g item 112; §8.2): every shipped sheet with a colour-coded row, each of `protan`, `deutan`, `tritan`, at a legend-bearing stop and in each thematic view | all | every category pair a legend distinguishes passes §13's style check in the variant; each category's second cue drawn; the default view's tiles pixel-identical with `cvdVariant` `none` |
+| light-map keys (item 68; §8.4 (f), §8.8): a lit view of a golden CITY at night holding a concealed front and a secret access, through `plotsOnly`, `depthBand`, a model-layer toggle and a knowledge-key change, each toggled on and then off | all | after each toggle every lit tile equal to a fresh render of that view state; a pointer move or a zoom inside a stop re-bakes no light map (counted) |
+| lighting, CPU reference and GPU pass (item 68; §6.5 (9), §13.4): the golden views, day and night, fixed sun | ink, lit | the CPU reference byte-identical on the five engines; the GPU pass within §13.4's tolerance of it on the reference and low-end devices |
+| lighting, the fallback ladder (F-LIGHT): each golden view forced onto each of the three rungs in turn, plus a lost GPU context mid-pan | all | a frame on every rung; the rung counted in the telemetry; no error; the model digest unchanged |
+| lighting, night legibility (item 68; §9.4): the golden views at night | all | every placed glyph's text / halo pair at the label floor, read from the rendered pixels (labels composed after the pass) |
+| night light by the rows (item 68; §4.7's light table; T68 schedules it): B-CITY-lite seeds at night, CPU reference | ink | the ground illuminance at every 2 m sample along each lit way's centre line ≥ its row's target at the way's band value; 0 lit pixels on a hidden or clandestine plot that no row lights |
+| Works stages (item 67; §8.2's rows, §8.1 item 7): a golden TOWN with one Works of every kind — a `repair` begun on a `collapsed` building among them — scrubbed week by week forward and back through its span | ink, lit | every (kind, stage) other than `before` and `finished` (§8.2) resolves one `states` row, and each decay stage the repair passes draws that row with the `repair` row's `scaffold` laid over it; the tiles at a week byte-identical whether reached directly or by scrubbing; a pending plot line dashed until its clearing stage |
+| informal clusters (item 70; §8.5 (2)): B-CITY-lite seeds whose shanty districts hold clusters, city band | ink | every structure ≥ 1 `building` pixel or a settlement dot; the footpath web in `ground`; 0 masses closed across a footpath; no cluster plot left as a blank block |
+| concealed parts (item 63; §9.2): a golden CITY with one front of each mode, at the `public` tier and at `secret` | all | at `public` 0 pixels of a concealed room, the concealed entrance's tick, a concealed access point or link at every band, the building's mass and public parts drawn; at `secret` all drawn; the base tiles otherwise pixel-identical |
+| concealed parts at night and underground (items 63 (c), 64, 68; §8.1 item 7): the same CITY with one secret access — its shaft and a lamp at its foot — at the `public` and `secret` tiers, night, the underground layer shown at the access's depth band, CPU reference and GPU pass, and each tier's `.dd2vtt`, glTF and GeoJSON exports | all | at `public` every pixel equal to the render with those hosts' lights removed — 0 pixels lit by a concealed or secret host's light, glow or shaft — and no such light in any export; at `secret` the lights drawn and exported |
+| festival decorations (g item 118; §8.2's decoration rows): a THORP, a HAMLET, a VILLAGE, a TOWN, a CITY and a METROPOLIS fixture, each with a religious, a market, a harvest and a water festival from a dossier and with a generic preview, swept through all 52 weeks, and each with no traditions | all | the model digest equal with decorations on and off and in every week; each festival drawn exactly in its window's weeks; each tier drawing its own rows and none of a larger tier's; every item on its named or keyed place, else its fallback's; 0 decoration pixels in a gate's passage or standing on a carriageway, 0 over a label or its halo; the tiles byte-identical across two views and the PNG export of the same frame; with no traditions and no preview, tiles byte-identical to the fixture without the layer |
+| seasons (g item 117; §8.2's season rows, §8.4's sun through the year): a golden TOWN on each climate row at the four named weeks and at every week of its leaf-colour, leaf-fall, ice and snow bands, in `ink`, `lit` and `hatched`, and the same TOWN with no season tables pinned | ink, lit, hatched | the model digest equal in all 52 weeks; in a temperate-deciduous autumn week ≥ 5 distinct leaf colours among the deciduous crowns and the cover share rising week by week through the leaf-fall band; still water drawn frozen before flowing water and leads open at fast reaches, mill reaches, springs and outfalls, the boats hauled up exactly while their water is frozen; on the `arid` row no ice and no default snow; every look passing the matrix rows of its role; the off form drawing the four named rows with the sheet's sun |
+| wall runs in decay and repair (g item 114; §8.2's wall rows): a fixture holding one run in each condition and a `patched` run of every look, at every band, in `ink`, `lit` and `hatched`, with each run 1 px long at the city band's coarsest stop | ink, lit, hatched | each run drawn by its row — `worn` as standing at the city band — a `parapet` run's width its `stretchClass` thickness's (§8.2's `wall.curtain` row); every pair of different states passes §8.2's greyscale bar at every band where both draw; every short run drawn 2 px long; each state's legend entry present exactly while a run in it is drawn; the run's tiles pixel-identical after save → load, after a material undone and redone, and on a migrated document whose runs read `standing` and robust |
+| access points and the underground systems (items 64, 65; §8.2's rows, §8.4's depth bands): a hand-built CITY fixture holding one access of each state, one gallery and chamber of each system and one link of each kind, the underground layer shown at each depth band | all | every (kind, state) resolves one row; a crossing of two parts drawn with the deeper one's trace under the upper; 0 pixels of a `secret` link or access at `public` |
+=== END ===

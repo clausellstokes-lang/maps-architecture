@@ -1,0 +1,7 @@
+# ambiguous-diff.txt (coherence/assemble-r7w, P4): ambiguous-form references, untouched set -> final set (after the 3 G-cite fixes)
+# untouched 97, final 98
+GONE (no longer ambiguous):
+   V06 [4184] §2.7 | ff that run's former band and a span over it (§2.7's support step (3)), crossing it in the | now: [('resolved', 4193)]
+NEW:
+   base [19310] §3.2 | edWays` step, repairs no run of it: V06 §3.1, §3.2, V06 §3.7.5; a lock decides no meeting,
+   V06 [4255] §3.2 | edWays` step, repairs no run of it: V06 §3.1, §3.2, V06 §3.7.5; §2.7's laws, law 2 *Entry*

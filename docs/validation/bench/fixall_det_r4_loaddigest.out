@@ -1,0 +1,6 @@
+rung=CITY entities=30000 leafWords=26 vertices=150000 faces(all levels)=15212 ringSteps=2418625
+  plat level digests 25.1 ms | entity leaves 1.4 ms | interior nodes + root 6.9 ms | total 33.5 ms (median of 7; min 31.5, max 37.0)
+  root identical across runs: true
+rung=METROPOLIS entities=80000 leafWords=26 vertices=400000 faces(all levels)=40520 ringSteps=5948672
+  plat level digests 78.7 ms | entity leaves 3.4 ms | interior nodes + root 18.9 ms | total 101.0 ms (median of 7; min 94.6, max 103.0)
+  root identical across runs: true

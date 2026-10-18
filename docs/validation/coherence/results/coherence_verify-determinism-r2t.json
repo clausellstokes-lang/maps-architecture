@@ -1,0 +1,142 @@
+{
+ "key": "coherence/verify-determinism-r2t",
+ "file": "docs/validation/coherence/verify-determinism-r2t.md",
+ "issues": [
+  {
+   "id": "VDC2-01",
+   "severity": "major",
+   "kind": "EDGE-UNDEFINED",
+   "claim": "§6.1 *The weather stream* (new, item 124) draws spell i's clear gap, kind and length in that order and says \"A spell's kind and length are fixed when it starts, so a change of the year position or of the climate row takes effect from the next spell\". V11 §3.25.11 makes the gap exponential with mean 3 600 ÷ R s, R the live kinds' summed rate, and \"a week with no live kind brings no spell\". Two edges have no defined outcome. (a) A gap drawn while R = 0 — a map opened, or a spell ending, in a week with no live kind (the `arid` row's weeks 0–9 and 50–51) — has an infinite mean, so read as written the timeline brings no spell for the rest of the session, even after the year position moves into live weeks (a scrub, or a dossier whose latest tick moves the present week). (b) A gap drawn at one week's rate runs on unchanged after the year position, the climate row or the sites change: a scrub from the arid wet weeks (R ≈ 0.8 an hour) into a temperate winter waits about 75 minutes for its first spell. Item 124 (b)–(c) ties the spells to season and region. The text also calls the timeline a pure function of (session seed, view time, climate row and year position, presses), but V11 §3.25.11's rates also depend on the sites read from the model at the view's head (coast, riverside, hills, forest) and, under `light: 'time'`, on the view's hour (`hours`). §6.5 (9)'s weather-timeline test fixes no change of year position. (V11's repair also asks §6.1 to cite V11 §3.25.11 for the gap's, kind's and length's reading.)",
+   "required_change": "In §6.1 *The weather stream*, replace \"its uniforms draw, in order, the clear gap before it, its kind by the climate row's weather columns for the week band of §2.9's `yearWeek` (V11) and its length inside that column's range. A spell's kind and length are fixed when it starts, so a change of the year position or of the climate row takes effect from the next spell.\" with \"its uniforms draw, in order, the clear gap before it as a unit exponential E = −ln(1 − u) (`dmath.log`), its kind and its length (V11 §3.25.11's reading of the columns). The gap is spent at the live rate: from the end of spell i − 1, or the map's opening, the clear time runs until the integral over view time of R(t) ÷ 3 600 reaches E, where R(t) is the summed `perHour` of the kinds live at view time t. The live kinds are read from the climate row's weather cells for the week band of §2.9's `yearWeek`, with V11's site factors read from the model at the view's head and, under `light: 'time'`, the kinds' `hours`. So a time with no live kind (R = 0) spends none of the gap and brings no spell, and a change of the year position, the climate row, the sites or the hour changes the rate from that moment, the drawn E kept. The kind is drawn when the spell starts, kind k with chance perHour_k ÷ R at that moment, and the length uniform in that kind's `lengthS`. A spell's kind and length are fixed once it starts; a change acts on a running spell only through §8.2's hard rules (a `snow` spell on a row where snow cannot fall draws nothing).\" Replace \"a pure function of (the session seed, the view's time since the map opened, the climate row and year position in force, the presses)\" with \"a pure function of (the session seed, the view's time since the map opened, the climate row, year position, sites and view hour in force at each moment, the presses)\". In §6.5 (9)'s *weather timeline* test add: \"a scripted year-position change from a week with no live kind into a live week, and back, replays identically on the five engines, a spell starting in the live week (T124-9)\".",
+   "owner": "determinism"
+  },
+  {
+   "id": "VDC2-02",
+   "severity": "minor",
+   "kind": "WIRING",
+   "claim": "§8.2's *Weather effects* (rendering, this round) draws each spell's marks — positions, lengths and sways — on `view.weather` \"keyed by the spell index and the frame's world-aligned cell\"; rendering's repair hands this to determinism. §6.1's `view.weather` row (\"keyed from the session seed by the spell index\") and *The weather stream* state only the spell's three draws, and §6.1's stream key has no cell component. The registry row is \"the one statement of how its draws are keyed; a reader's section cites it\", so §8.2's keying has no home.",
+   "required_change": "§6.1's `view.weather` row: after \"keyed from the session seed by the spell index\" add \"; the spell's marks (§8.2's *Weather effects*: positions, lengths and sways) on further keys of the same concern — the spell's entity key folded through the one mixer with the frame's world-aligned cell as structured components — so a mark stays put while its spell lasts\". In *The weather stream*, after the stream-key sentence, add \"Its marks draw per world-aligned cell on the spell's entity key folded with the cell (the registry row).\"",
+   "owner": "determinism"
+  },
+  {
+   "id": "VDC2-03",
+   "severity": "minor",
+   "kind": "WIRING",
+   "claim": "§6.5 (9)'s new *weather timeline* test compares spells (kind, start and length) on the five engines, and the gap is an exponential, which needs a logarithm. §6.5 (2) routes every real function but `sqrt` through `dmath`, and §6.1's draw helpers send \"every power of a draw\" through `dmath` by §6.5 (3). But (3)'s lint scope does not name the weather timeline. That scope covers the model packages, the view code reaching a bit-compared digest, §8.10's instance function and the CPU reference light pass. The timeline lives in the compositor's layer (§8.8), part of \"the rest of `@plat/render` — paint programs, backends, compositing — [which] stays outside\". A `Math.log` there passes the lint and can break T124-9 across engines.",
+   "required_change": "§6.5 (3): after \"…stays outside (J-A68.62)\" (the CPU reference light pass clause) add \"; and the weather stream's timeline function (§6.1 *The weather stream*: the spell draws, the gap's exponential through `dmath.log`, the rate integral, the kind's pick and the length) with every function it calls, whose spells (9)'s weather-timeline test compares across engines (T124-9)\".",
+   "owner": "determinism"
+  },
+  {
+   "id": "VDC2-04",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "§6.1 says \"**Start a shower now** (V09) starts a spell of the season's commonest kind at once as the next spell index\" and gives no outcome for a week with no live kind. The volumes disagree on that edge. V11 §3.25.11, the home of \"the commonest kind\", says \"a week with no live kind starts none\". V09 §4.21.14 (4), its edge row 93 and T-V9-87 say \"where they give none — an arid row's dry weeks — it starts dust haze\"; `dust` is not live on the `arid` row in weeks 0–9 and 50–51. The base mechanism states no outcome, and the two volumes state two.",
+   "required_change": "§6.1 *The weather stream*: after \"starts a spell of the season's commonest kind at once as the next spell index, its length drawn there,\" add \"the commonest kind V11 §3.25.11's (the live kind of greatest rate after the sites' factors); in a week with no live kind a press starts none, and V09 disables the button there with its reason (§7.8: never a silent no-op),\".",
+   "owner": "determinism"
+  },
+  {
+   "id": "VDC2-05",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "V09 §4.21.14 (4) has Start a shower now start \"dust haze\" \"where they give none — an arid row's dry weeks\". Row 93 of V09 §3.16 and T-V9-87 say the same. V11 §3.25.11 says \"a week with no live kind starts none\", and a kind absent from a band \"stays absent through it (the arid dry months)\". §6.1 takes V11's reading (VDC2-04). The volume restates the press with a value its home does not give, and a press that starts nothing must not be a silent no-op (§7.8).",
+   "required_change": "V09 §4.21.14 (4): \"where they give none — an arid row's dry weeks — it starts dust haze\" → \"where they give none — an arid row's dry weeks — it starts none: the button is disabled there with its reason row in V09's words (§7.8: never a silent no-op; V11 §3.25.11)\". Row 93's outcome \"dust haze\" → \"the button disabled, its reason shown\". T-V9-87's \"dust haze in an arid row's dry weeks\" → \"the button disabled with its reason in an arid row's dry weeks\".",
+   "owner": "V09"
+  },
+  {
+   "id": "VDC2-06",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "§6.3 *Plan damage* says \"[lo, hi] its element kind's range by material (V11's rows: …)\". V11 §3.25.10's `damage.elements` keys a range by `DamageElementKind` alone (`DamageElementRow { kind; range; states }`). The walls material acts only through V06's decay rate (`damage.materials`, `ratePerYear`). R2-38 (2) and the canon's dated ruling read \"t = lo + u·(hi − lo) by element kind (V11's ranges)\". V11's repair hands this to determinism.",
+   "required_change": "§6.3 *Plan damage*: \"[lo, hi] its element kind's range by material (V11's rows: outer walls and ground floors late, partitions and upper floors early; item 123 (c))\" → \"[lo, hi] its element kind's range (V11 §3.25.10's `damage.elements` row: outer walls and ground floors late, partitions and upper floors early; item 123 (c)); the walls material acts only through the decay level's rate (V06's `decayLevel`, V11's `damage.materials`)\".",
+   "owner": "determinism"
+  },
+  {
+   "id": "VDC2-07",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "§2.6 step 7 says each element is shown damaged \"whose t it has reached (level ≥ t), the one comparison every reader makes\", with t in [0, 1). Three other units word it differently: §6.3 *Plan damage* (the threshold's home), V03 §5.6 (2) (a) and V11 §3.25.10 all say \"the level above 0 and at least t\". V11 admits lo = 0: `0 ≤ lo < hi ≤ 1`, and a range moves freely inside its states' shares, with `abandoned` at [0, 1/3]. A draw u = 0 is lawful. So under \"level ≥ t\" a never-decayed building (level 0) can show an element damaged. That breaks item 123 (f)'s no-op bar (`item123.damage`), which the same paragraph states. The set states \"the one comparison\" in two forms.",
+   "required_change": "§2.6 step 7: \"shows damaged every element whose t it has reached (level ≥ t), the one comparison every reader makes\" → \"shows damaged every element whose t it has reached (the level above 0 and at least t, §6.3 — so a level of 0 damages nothing), the one comparison every reader makes\".",
+   "owner": "model"
+  },
+  {
+   "id": "VDC2-08",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "§8.6 *The damaged plan* reads \"(V06's `decayLevel`; level ≥ t, the one comparison every reader makes)\". As VDC2-07: §6.3, V03 §5.6 (2) (a) and V11 §3.25.10 state \"the level above 0 and at least t\", and \"level ≥ t\" damages an element of a never-decayed building when its threshold is 0, against `item123.damage`.",
+   "required_change": "§8.6: \"(V06's `decayLevel`; level ≥ t, the one comparison every reader makes)\" → \"(V06's `decayLevel`; the level above 0 and at least t, the one comparison every reader makes, §6.3)\".",
+   "owner": "rendering"
+  },
+  {
+   "id": "VDC2-09",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "DR44's rule cell says every SettlementForge stressor type and condition archetype \"has exactly one, a look kind or `none`, the regional_* pressures `none`\". Item 122 (b) names `regional_migration_pressure` under mass immigration: \"**mass immigration** (regional_migration_pressure, REFUGEE_WAVE)\". V11 §3.25.9's `map` rows give `regional_migration_pressure` → `refugeeCamp`, and only \"the other `regional_*` pressures\" its \"no look\". DR44 denies the refugee camp its main source. V11's repair hands this to determinism.",
+   "required_change": "DR44: \"the regional_* pressures `none`\" → \"`regional_migration_pressure` the refugee camp (item 122 (b)'s mass immigration), the other regional_* pressures `none`\".",
+   "owner": "determinism"
+  },
+  {
+   "id": "VDC2-10",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "§10.2 *Crisis looks* (b) ends \"the regional_* pressures are `none`\". As VDC2-09, this contradicts item 122 (b) and V11 §3.25.9's `regional_migration_pressure` → `refugeeCamp` row. V11's repair hands it to pipeline.",
+   "required_change": "§10.2 *Crisis looks* (b): \"the regional_* pressures are `none`\" → \"`regional_migration_pressure` reads its `refugeeCamp` row (item 122 (b)'s mass immigration) and the other regional_* pressures are `none`\".",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VDC2-11",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "§7.7 item 1, rewritten for item 125, says \"the bearings, latitude and cell words they would give are the dossier's where it carries them, else the generator's defaults or the user's settings (DR1, DR3, DR19, DR29, DR42)\". No rule gives a bearing a dossier source: - layer 2's *Bearing* takes a partner's bearing from the user's setting, else `gate.pick`, and says \"no host input gives one\"; - DR3 reads no bearing field; - `hinterland.outside` calls a deposit's bearing one \"which no input gives\"; - item 125 (b) and V08 §3.16 (9) make \"the neighbours' bearings … our generator's defaults or the user's settings\". The sentence implies a dossier-carried bearing that no row reads, and rendering's §11.1 reads it that way (VDC2-12).",
+   "required_change": "§7.7 item 1: \"the bearings, latitude and cell words they would give are the dossier's where it carries them, else the generator's defaults or the user's settings (DR1, DR3, DR19, DR29, DR42)\" → \"the latitude and the site's words they would give are the dossier's where it carries them — its culture (DR29), its terrain type, access and deposits (DR1, DR19, DR42) — else the generator's defaults; the partners' and the deposits' bearings are the generator's draws or the user's settings, never an input (layer 2's *Bearing*, DR3, DR19; item 125 (b))\".",
+   "owner": "determinism"
+  },
+  {
+   "id": "VDC2-12",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "§11.1 (rendering, this round) says \"For a dossier-bound map whose dossier carries its partners' true bearings (§7.7 layer 2's *Bearing*; item 125 (b)), the port sets the anchor's `bearingDeg` to the turn of model north that fits the derived gates to those bearings, as the key's documented default\". Every other statement says no such input exists: - §7.7 layer 2: \"No input sends a true bearing after creation (item 125 (a)): … the geo anchor's `bearingDeg` (§11.1) stays a user setting\". - Item 125 (b) and V08 §3.16 (9) make the neighbours' bearings the generator's or the user's. - The dossier carries no partner bearing (V08 §2.4's field table). - J-A125.01 retires \"the realm fit's north-first turn\". The clause names a producer that does not exist and contradicts §7.7. The hand-offs of determinism's and V08's repairs name it.",
+   "required_change": "§11.1: replace \"For a dossier-bound map whose dossier carries its partners' true bearings (§7.7 layer 2's *Bearing*; item 125 (b)), the port sets the anchor's `bearingDeg` to the turn of model north that fits the derived gates to those bearings, as the key's documented default; with none the default stands; no geometry moves for it.\" with \"No input sets it — a dossier carries no true bearing and a host sends none (item 125 (a), (b); §7.7 layer 2's *Bearing*) — so the anchor stays (0°, 0°, 0°) until the user sets it; no geometry moves for it.\"",
+   "owner": "rendering"
+  },
+  {
+   "id": "VDC2-13",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "§4.7's *Custom chains* bullet (l.6901) feeds an import's first consumer \"through a store (a warehouse, a yard) at the gate or quay facing its partner's bearing (the realm block's, items 77, 85), else the main gate or the harbour\". Item 125 (a) retires the realm block as an input (§7.7 item 1; J-A125.01), and a partner's bearing is now §7.7 layer 2's (the user's setting, else `gate.pick`). The parenthesis names a source that no longer exists, so read literally the store always falls back to the main gate.",
+   "required_change": "§4.7 *Custom chains*: \"facing its partner's bearing (the realm block's, items 77, 85)\" → \"facing its partner's bearing (§7.7 layer 2's *Bearing*; items 77, 85)\".",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VDC2-14",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "V06 §1b's dossier-input table (l.399) still has the row \"| the realm latitude | the realm block's latitude | DR29 | item 102's sampler, …\". DR29 now reads `site.culture` through `tables/dossier/cultures`, else 50° N, the generator's default (item 125 (b)). The realm block is no input (item 125 (a); V08 J-V8.130). The row names a retired input as DR29's source.",
+   "required_change": "V06 l.399: \"| the realm latitude | the realm block's latitude | DR29 |\" → \"| the site latitude | `site.culture` through `tables/dossier/cultures`, else 50° N — `Intent.latitudeDeg`, a map fact the user may edit (item 125 (b)) | DR29 |\", the reader cell unchanged.",
+   "owner": "V06"
+  },
+  {
+   "id": "VDC2-15",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "V07 §3.2 (l.1232) says \"The option `river: 'descent'` (the base's descent trace) is taken when a dossier's realm block gives a river course (V07 §3.11)\". DR1 no longer reads the realm cell's river, item 125 (a) retires the realm block, and V07 §3.11 states no such trigger. The option's only trigger has no producer.",
+   "required_change": "V07 §3.2: \"is taken when a dossier's realm block gives a river course (V07 §3.11)\" → \"is taken only when the blueprint or the user sets it; no input gives a river course (item 125 (a); §7.7's DR1)\".",
+   "owner": "V07"
+  },
+  {
+   "id": "VDC2-16",
+   "severity": "minor",
+   "kind": "WIRING",
+   "claim": "Pipeline's round-2 II.7.6 step 3 adds a refusal for `addUndergroundAccess`. A connector route \"the search does not find (`E_NO_PATH`, §3.1: the basement ring enclosed … or the water table above every floor …)\" makes \"the dry run [refuse] with its reason, naming the blocking building or the water table (F-EDIT, §5.2)\". Pipeline's repair hands this to determinism. E-07 calls itself \"the one home of every refusal, conflict and bend cause of a dry run\". Its `addUndergroundAccess` row lists only the terrain gate and the route's bound. Its key cell, \"V09 §4.17's rows\", names no catalogue key: V09 §4.17 and §4.9 hold no row for these outcomes. So T-V9-15's walker (\"every key §7.1's dry-run outcome table names has its row\") cannot reach them.",
+   "required_change": "§7.1's outcome table, the `addUndergroundAccess` row: - cause cell → \"an `addUndergroundAccess` whose terrain rules out every basement form (§2.6's requested-mode ladder), or whose connector passes its route's bound or finds no route (II.7.6 step 3: `E_NO_PATH`, the basement ring enclosed by other footprints, basement rings or dug passages, or the water table above every floor between it and the target)\"; - action cell → \"the nearest lawful basement form (half cellar, walk-out, a hatch to a crawl space); else the refusal naming the terrain, the route's bound, or the blocking building or the water table; the basement not laid\"; - key cell → \"`bend.under.basement`, `refuse.under.basement`, `refuse.under.route`\" (V09 §4.9's rows, VDC2-17).",
+   "owner": "determinism"
+  },
+  {
+   "id": "VDC2-17",
+   "severity": "minor",
+   "kind": "WIRING",
+   "claim": "The receiving end of VDC2-16. V09's catalogue has no row for the `addUndergroundAccess` outcomes of §7.1's row (the basement form bent, the terrain refusal, the route's bound or no route). §7.1 points at \"V09 §4.17's rows\", which do not exist. T-V9-15 requires a row for every key the outcome table names, and every `refuse.*` row ending with `button.showWhy`.",
+   "required_change": "V09 §4.9: add `bend.under.basement` (the nearest lawful basement form, named, e.g. \"No full cellar fits here, so {building} gets {form}.\"), `refuse.under.basement` (no basement form the terrain admits, naming the gate) and `refuse.under.route` (the route's bound, or no route, naming the blocking building or the water table), each in V09's own words. The `refuse.*` rows end with `button.showWhy`. Cite them from V09 §4.17's `addUndergroundAccess` flow.",
+   "owner": "V09"
+  }
+ ]
+}

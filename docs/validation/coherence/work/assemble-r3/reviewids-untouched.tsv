@@ -1,0 +1,105 @@
+class	unit	line	id	section	context
+design	base	6659	DXC-06	# PART I — THE BASE (stage 1): the MFCG ⊕ FTG town/city generator with	without values; DXC-06, KXC-02).** Every plot: `minPlotWidth` 2.5 m and
+design	base	6659	KXC-02	# PART I — THE BASE (stage 1): the MFCG ⊕ FTG town/city generator with	without values; DXC-06, KXC-02).** Every plot: `minPlotWidth` 2.5 m and `minInte
+design	base	8911	DWG-01	# PART I — THE BASE (stage 1): the MFCG ⊕ FTG town/city generator with	8. **A bug abort ends in a defined state** (DWG-01). Three ladders end in a bug rather than a rung:
+design	base	9238	DIC-02	# PART I — THE BASE (stage 1): the MFCG ⊕ FTG town/city generator with	its own cap overrides the default (DIC-02: no concern's number of draws changes);
+design	base	11266	DWG-02	# PART I — THE BASE (stage 1): the MFCG ⊕ FTG town/city generator with	// shown before commit, recomputed on demand, never stored (DWG-02); §14's migrate returns it
+design	base	11337	MC-11	# PART I — THE BASE (stage 1): the MFCG ⊕ FTG town/city generator with	used — 'roster.classes', 'siting.families', 'dossier.kinds', 'era' … (MC-11); the key a SliceRef (§2.8), Recipe.tablePins (§2
+design	base	11378	V12-XCONF-2	# PART I — THE BASE (stage 1): the MFCG ⊕ FTG town/city generator with	never moves an output version (V12-XCONF-2; V11 §3.2.1 step 7 computes it so). A **reference
+design	base	11562	MC-11	# PART I — THE BASE (stage 1): the MFCG ⊕ FTG town/city generator with	ead against §4.7 S11's designation template (item 19); typed in §2.6 (MC-11) */;
+design	V05	313	MC-07	## 2 Data model	them (file f item 251; MC-07: the island arena's own ring, no stored position)
+design	V05	685	MC-05	## 2 Data model	| `ContextVector.arena 'sky'` (§2.5, file f item 213; MC-05) | the unit run's context read | every arena-keye
+design	V08	619	R2-40	## 2 Data model	host field — the week, the realm and a custom library are no inputs (R2-40). A required key's own absence is no absent
+design	V08	2178	R2-40	## 3 Generation — the port pipeline, end to end	(`HostContext.customLibrary` is retired, R2-40). A definition whose fields the dossier does not
+design	V08	2412	R2-40	## 3 Generation — the port pipeline, end to end	sets it: `HostContext.week` is retired (R2-40), and the client sends no week of its own. A host
+design	V08	2551	R2-40	## 3 Generation — the port pipeline, end to end	`.customLibrary` are retired as inputs (R2-40): the week is (4)'s, the climate the terrain's ((
+design	V08	3278	R2-36	## 8 Build plan	rows item 122's census is checked against (a dossier row set at M-SF; R2-36) (V11 §8,
+design	V08	3297	R2-32	## 8 Build plan	h V09's Find (V08 §3.16 (6); item 120, which lands at M5 before M-SF, R2-32; a reading of carried facts and binding rows, ins
+design	V09	321	R2-39	## 1b Wiring table	`handLantern`, `weather` (its `snow` offered only where snow can lie, R2-39 (b)), favourites, notes, public notes, view pins,
+design	V09	329	R2-22	## 1b Wiring table	fates, one undo step; the history line (4.10); T-V9-12 | §7.4; §10.3; R2-22 |
+design	V09	370	R2-30	## 1b Wiring table	ds` fits the viewport's short side, plus one; stop 0 where none fits, R2-30), over the bounds of town and camps while a crisi
+design	V09	378	R2-38	## 1b Wiring table	ge`) at V06's `decayLevel(doc, lineage, week)` by the one comparison (R2-38 (4)), or a disaster look's `lookLevel` | the plan
+design	V09	598	V09-XAGREE-1	## 2 Data model	**The tables' shape** is V11 §4.2's (V09-XAGREE-1): the key forms `uid:`, `cat:`, `cls:` and `use:`
+design	V09	1000	R2-30	## 2 Data model	9's *The crisis framing*) — and the viewport; stop 0 where none fits (R2-30) | the zoom controls and their tooltip, Fit the t
+design	V09	1298	R2-42	## 3 Generation — the application's runtime flows	(§11.2's `stopAfter`; R2-42) — the job folding at most that many epochs and w
+design	V09	1610	R2-30	## 3 Generation — the application's runtime flows	s the union of town and every camp; stop 0 with `info.zoom.coarsest` (R2-30) | simpler shape | T-V9-76; T-V9-85 |
+design	V09	1612	R2-39	## 3 Generation — the application's runtime flows	ken; dust haze; rain, never snow; the button disabled; drawn `clear` (R2-39); the export without the effects (item 124 (h)) |
+design	V09	1725	R2-22	## 4 Editing — every screen's declarations, the tool binding, the cler	reviewed with its fates, one undo step (§10.3; §7.4's regenerate row; R2-22); **Try again** (New random) with its scope chips
+design	V09	2118	V06-AGREE-1	## 4 Editing — every screen's declarations, the tool binding, the cler	§4.20.3); every delete dry-run line of V06 §3.19.3 (6) and V06 §4.2 (V06-AGREE-1) |
+design	V09	2174	R2-30	## 4 Editing — every screen's declarations, the tool binding, the cler	his window." | — | the same at stop 0, where no stop fits the bounds (R2-30; V09 §4.21.6) |
+design	V09	2186	R2-38	## 4 Editing — every screen's declarations, the tool binding, the cler	where it was broken" | — | V03's damage layer at V06's `decayLevel` (R2-38 (4)): the plan panel's and the why card's lines (
+design	V09	2191	R2-31	## 4 Editing — every screen's declarations, the tool binding, the cler	quiet line for an open's verification replay (V09 §4.21.9, V09 §3.9; R2-31 (c), R2-42) |
+design	V09	2191	R2-42	## 4 Editing — every screen's declarations, the tool binding, the cler	for an open's verification replay (V09 §4.21.9, V09 §3.9; R2-31 (c), R2-42) |
+design	V09	2854	R2-22	## 4 Editing — every screen's declarations, the tool binding, the cler	(V09 §4.10) (R2-22).
+design	V09	2877	R2-39	## 4 Editing — every screen's declarations, the tool binding, the cler	e winter does not freeze, where a carried `snow` reads `clear` (§8.2; R2-39 (b)) |
+design	V09	3273	V09-ICONF-4	## 4 Editing — every screen's declarations, the tool binding, the cler	a shape — stated once in V09 §5.4's cue column, one channel per cue (V09-ICONF-4's rule); the
+design	V09	3284	VM-R1T-14	## 4 Editing — every screen's declarations, the tool binding, the cler	}, ageYears, scars: [] })` — §2.7's standalone form of `HistoryHint` (VM-R1T-14; R2-23) — the
+design	V09	3284	R2-23	## 4 Editing — every screen's declarations, the tool binding, the cler	, scars: [] })` — §2.7's standalone form of `HistoryHint` (VM-R1T-14; R2-23) — the
+design	V09	3340	R2-30	## 4 Editing — every screen's declarations, the tool binding, the cler	plus one stop of margin (item 116 (a)), or stop 0 where no stop fits (R2-30) — over the bounds of town and camps
+design	V09	3353	R2-30	## 4 Editing — every screen's declarations, the tool binding, the cler	as its limit, and one whose bounds fit at no stop takes stop 0 (R2-30); a crisis starting or ending moves only the limi
+design	V09	3364	R2-40	## 4 Editing — every screen's declarations, the tool binding, the cler	`triggeredAt`, its calamities' and its history's ticks (item 125 (b); R2-40 (1)) — read at open and at each
+design	V09	3372	R2-39	## 4 Editing — every screen's declarations, the tool binding, the cler	an `arid` row or one whose winter does not freeze (V09 §4.21.14 (5); R2-39); the view sun's default height follows the week
+design	V09	3401	R2-31	## 4 Editing — every screen's declarations, the tool binding, the cler	ithin it in total, coarsened to fit by V06 §6.8 (item 119 (a2); J132; R2-31). An open's wait ends at the
+design	V09	3402	R2-31	## 4 Editing — every screen's declarations, the tool binding, the cler	mplete map: its load-verification replay runs after it, off the path (R2-31 (c)), shown only as the view
+design	V09	3418	R2-42	## 4 Editing — every screen's declarations, the tool binding, the cler	generation, through `generate`'s `signal` (§11.2; R2-42), where a stopped history-first generation leaves
+design	V09	3440	R2-33	## 4 Editing — every screen's declarations, the tool binding, the cler	and never crosses a bridge — a host message never sets a chip (§11.3; R2-33). Only **Clear**
+design	V09	3504	R2-34	## 4 Editing — every screen's declarations, the tool binding, the cler	by V11 §2.3's `CoverageSpec` (R2-34), on every layer, an island's units by V05 §5.6 (
+design	V09	3525	R2-32	## 4 Editing — every screen's declarations, the tool binding, the cler	AP11; R2-32), beside V01's area and gap services.
+design	V09	3553	R2-36	## 4 Editing — every screen's declarations, the tool binding, the cler	at M4 with the performance tiers (V09 §8.1's AP11; R2-36).
+design	V09	3557	R2-37	## 4 Editing — every screen's declarations, the tool binding, the cler	r view key `crises` — `{ mode: 'follow' }` on, `{ mode: 'off' }` off (R2-37 (2)). It is a switch beside the
+design	V09	3567	R2-37	## 4 Editing — every screen's declarations, the tool binding, the cler	3. **When a look stands** (R2-37 (1), (3)). A condition's look stands while §2.9's
+design	V09	3597	R2-37	## 4 Editing — every screen's declarations, the tool binding, the cler	**Framing and the limit** (item 122 (i); §2.9's *The crisis framing*; R2-37 (8); R2-30). While a look stands drawn —
+design	V09	3597	R2-30	## 4 Editing — every screen's declarations, the tool binding, the cler	nd the limit** (item 122 (i); §2.9's *The crisis framing*; R2-37 (8); R2-30). While a look stands drawn —
+design	V09	3609	R2-36	## 4 Editing — every screen's declarations, the tool binding, the cler	and the preview land at M3b with the base parts they read (R2-36), the dossier's looks and their numbers with V08'
+design	V09	3613	R2-38	## 4 Editing — every screen's declarations, the tool binding, the cler	1. **One plan, damaged** (item 123 (a); R2-38). The plan is the one the building was built with
+design	V09	3616	R2-38	## 4 Editing — every screen's declarations, the tool binding, the cler	V03's damage layer read at V06's `decayLevel(doc, lineage, week)` by R2-38's one
+design	V09	3625	R2-38	## 4 Editing — every screen's declarations, the tool binding, the cler	whose op set the building `abandoned` (V06's reading, R2-38 (3)) and dropped for a building with no abandonme
+design	V09	3629	R2-37	## 4 Editing — every screen's declarations, the tool binding, the cler	3. **A crisis look's damage** (item 122 (d); R2-37 (7)). In a district a disaster look ruins, a buil
+design	V09	3634	R2-38	## 4 Editing — every screen's declarations, the tool binding, the cler	3 (f)); a higher level's lines are a superset of a lower's (monotone, R2-38 (2)).
+design	V09	3637	R2-36	## 4 Editing — every screen's declarations, the tool binding, the cler	the existence state alone at V11's default age (R2-36; R2-38 (3)).
+design	V09	3637	R2-38	## 4 Editing — every screen's declarations, the tool binding, the cler	the existence state alone at V11's default age (R2-36; R2-38 (3)).
+design	V09	3644	R2-41	## 4 Editing — every screen's declarations, the tool binding, the cler	**The defaults** (item 124 (g), less its phone clause: item 126 (a2); R2-41). With no value stored the switch reads
+design	V09	3653	R2-39	## 4 Editing — every screen's declarations, the tool binding, the cler	4. **Start a shower now** (item 124 (g); R2-39 (b)). It starts at once, as the timeline's next s
+design	V09	3658	R2-39	## 4 Editing — every screen's declarations, the tool binding, the cler	5. **The cover control** (R2-39 (a), (b)). The Light group's **Weather** (V09 §4.
+design	V09	3663	R2-36	## 4 Editing — every screen's declarations, the tool binding, the cler	lands at M3b with item 117's season looks it reads (R2-36).
+design	V09	3800	V09-ICONF-4	## 5 Rendering, labels, exports — the screens and the dialogs	carries the goods family only (V09-ICONF-4). With nothing selected, at the city band, the 15
+design	V09	4231	R2-35	## 7 Tests and acceptance bars	(R2-35).
+design	V09	4258	R2-36	## 7 Tests and acceptance bars	the catalogue (`refuse.phone` absent; T126-3) | M2a (T126-2, T126-3; R2-36); M3a (every tool's touch script) |
+design	V09	4312	R2-30	## 7 Tests and acceptance bars	0 and 600 × 480 CSS px the limit is stop 0 with `info.zoom.coarsest` (R2-30); while a crisis look stands the opening view con
+design	V09	4312	R2-36	## 7 Tests and acceptance bars	he milestone §16's row for item 116 names; the crisis clauses at M3b (R2-36) |
+design	V09	4313	R2-39	## 7 Tests and acceptance bars	Weather control offers no `snow` and a carried `snow` draws `clear` (R2-39); a dossier with no stamped tick opens on week 19
+design	V09	4313	R2-36	## 7 Tests and acceptance bars	milestone §16's row for item 117 names; the item-125 clauses at M-SF (R2-36) |
+design	V09	4318	R2-32	## 7 Tests and acceptance bars	100 ms after a click (V09 §6.4; V12's T-V12-52 reports T120-6) | M5 (R2-32) |
+design	V09	4319	R2-36	## 7 Tests and acceptance bars	ent, its hash and an export byte-identical across every setting | M4 (R2-36) |
+design	V09	4320	R2-36	## 7 Tests and acceptance bars	witch and the preview); M-SF (the dossier's looks and their numbers) (R2-36) |
+design	V09	4321	R2-36	## 7 Tests and acceptance bars	e later of V03's damaged-plan step and M3b; the decay levels at M6-E (R2-36) |
+design	V09	4322	R2-36	## 7 Tests and acceptance bars	itch, a spell and the button; a picture export draws no effect | M3b (R2-36) |
+design	V09	4531	R2-36	## 8 Build plan	layout classes with the medium layout's 600 × 480 minimum (item 126; R2-36) | T-V9-2 to -7, -12, -13, -16 (go back), -17, -2
+design	V09	4539	R2-22	## 8 Build plan	"Where is", the family tree, the clock, **Re-derive people** (§10.3; R2-22) | T-V9-46 | 0.75–1.25 |
+design	V09	4541	R2-32	## 8 Build plan	me, the week's fallback at M-SF (item 125); **Find** at M5 (item 120; R2-32) — the panel, type-ahead, chip grid, results, `li
+design	V09	4541	R2-36	## 8 Build plan	es with V03's damaged-plan step, the decay levels at M6-E (item 123) (R2-36); the game-master trial before the public release
+record	V03	3111	VAF-R0S-16	## 9 Decisions (each vetoable)	, because a template family is never a class (§2.6's `BuildingClass`; VAF-R0S-16), no building's class names them, several familie
+record	V03	3259	VAF-R0S-03	## 13 Fix list	| model (VAF-R0S-03) | `AccessHead` declared at §2.6 and cited here |
+record	V03	3260	VAF-R0S-16	## 13 Fix list	| model (VAF-R0S-16) | the class rows keyed on §2.6's `BuildingClass`
+record	V03	3261	VAF-R0S-20	## 13 Fix list	| pipeline (VAF-R0S-20) | §4.5's discrete-cell rule cited | V03 §2.4, V0
+record	V03	3262	VDC0-11	## 13 Fix list	| determinism (VDC0-11) | the plan edits' reach bend `bend.room.unreacha
+record	V03	3263	VV34-07	## 13 Fix list	| V10 (VV34-07) | the notes keyed `info.plan.note.<id>` | V03 §4
+record	V03	3264	VAP-21	## 13 Fix list	| V11 (VAP-21), V12 | `exposureAllStoreys`'s preset entries fal
+record	V08	3489	R2-37	## 9 Decisions (each vetoable)	ks from the `conditions` row, because the map rows' values are V11's (R2-37 (3)) and the census is what their totality is che
+record	V08	3491	R2-40	## 9 Decisions (each vetoable)	.climate`, the `climates` row's climate words and `realm_block_used` (R2-40) — the week the dossier's latest stamped tick (`p
+record	V09	4738	V09-XAGREE-3	## 9 Decisions (each vetoable)	end owns its id and a key no producer emits is a row no user can see (V09-XAGREE-3) |
+record	V09	4746	R2-41	## 9 Decisions (each vetoable)	no phone default, since no map is offered on a phone (item 126 (a2); R2-41) — with Start a shower now enabled only while the
+record	V09	4747	VAH-r1-04	## 9 Decisions (each vetoable)	outcome and the clerk's cards read the same buttons (V10 §3.5 step 3; VAH-r1-04) |
+record	V09	4748	VAT-08	## 9 Decisions (each vetoable)	e`'s `moveVertex` on an island's key, which no other gesture reaches (VAT-08) |
+record	V09	4749	R2-22	## 9 Decisions (each vetoable)	ple acts on households and the People panel is where they are chosen (R2-22; VAH-r1-03) |
+record	V09	4749	VAH-r1-03	## 9 Decisions (each vetoable)	s on households and the People panel is where they are chosen (R2-22; VAH-r1-03) |
+record	V09	4751	R2-42	## 9 Decisions (each vetoable)	Stop ended with `advance`'s `stopAfter` (its journalled count; §11.2, R2-42) over a timed `cancelAdvance` on the job's progre
+record	V09	4751	VV910-r1-02	## 9 Decisions (each vetoable)	och starts, so only a count reproduces the journalled `logHeadAfter` (VV910-r1-02) |
+record	V09	4764	V09-XCONF-1	## 10 Base change requests	d's `PlatKey`, or the underground, its band the view key `depthBand`; V09-XCONF-1) and `restore/<id>` | file f item 277 | §2.9 *Vie
+record	V09	4792	V01-XCONF-2	## 10 Base change requests	| BCR-V9-31 | item 110 in the formats (with the one VTT rule of V01-XCONF-2: a retaining wall joins `line_of_sight` where its
+record	V09	4798	VV910-r1-02	## 10 Base change requests	vance's epoch count — `advance`'s `stopAfter?: number` (V09 §3.8 (3); VV910-r1-02) | adjudication-r2's R2-42, written by the cohere
+record	V09	4798	R2-42	## 10 Base change requests	`stopAfter?: number` (V09 §3.8 (3); VV910-r1-02) | adjudication-r2's R2-42, written by the coherence pass's rendering repair
+record	V09	4810	V09-XAGREE-1	## 10 Base change requests	dTo?, avoid?, cut? }` with their three meanings | V11 §4.2, the union V09-XAGREE-1 rules; V09 §2.6 cites it |
+record	V09	4813	V09-XAGREE-2	## 10 Base change requests	runs of V09 §4.17.5 (e) | V03 §3.7.4 (the rank cap `crypt.rankShare`; V09-XAGREE-2) |
+record	V09	4830	V10-XAGREE-3	## 10 Base change requests	the size words name V09 §4.5's quantiles, never a population number (V10-XAGREE-3) | V10 §3.3 |
+record	V10	3343	V10-XAGREE-3	## 9 Decisions (each vetoable)	ers, because a word asked and a chip picked must give one population (V10-XAGREE-3) |

@@ -1,0 +1,73 @@
+VV34-01, G120-V03	## 0 In plain words	count 1
+G120-V03, VV34-01	## 1 Scope, the base hooks consumed, and what is out of scop	count 1
+VV34-01	## 1 Scope, the base hooks consumed, and what is out of scop	count 1
+G120-V03	## 1 Scope, the base hooks consumed, and what is out of scop	count 1
+VAF-R0S-28	## 1 Scope, the base hooks consumed, and what is out of scop	count 1
+VAF-R0S-24	## 1 Scope, the base hooks consumed, and what is out of scop	count 1
+G120-V03, VV34-01	## 1 Scope, the base hooks consumed, and what is out of scop	count 1
+VV34-01, G120-V03	## 1 Scope, the base hooks consumed, and what is out of scop	count 1
+G120-V03, VV34-01	## 1 Scope, the base hooks consumed, and what is out of scop	count 1
+hand-off model VAF-R0S-16	## 1b Wiring table	count 1
+hand-off model VAF-R0S-03	## 1b Wiring table	count 1
+VAF-R0S-28	## 1b Wiring table	count 1
+VV34-09	## 1b Wiring table	count 1
+G120-V03	## 1b Wiring table	count 1
+G120-V03	## 1b Wiring table	count 1
+G120-V03	## 1b Wiring table	count 1
+hand-off model VAF-R0S-03	### 2.1 Record additions (typed)	count 1
+VV34-09	### 2.3 The plan report (non-canonical)	count 1
+hand-off V10 VV34-07	### 2.3 The plan report (non-canonical)	count 1
+hand-off pipeline VAF-R0S-20	### 2.4 The rule tables and the default rows	count 1
+hand-off V11 VAP-21	### 2.4 The rule tables and the default rows	count 1
+hand-off model VAF-R0S-16	### 2.4 The rule tables and the default rows	count 1
+hand-off model VAF-R0S-16	### 2.4 The rule tables and the default rows	count 1
+hand-off model VAF-R0S-16	### 2.4 The rule tables and the default rows	count 1
+hand-off model VAF-R0S-16	### 2.4 The rule tables and the default rows	count 1
+hand-off model VAF-R0S-16	### 2.4 The rule tables and the default rows	count 1
+hand-off model VAF-R0S-16	### 2.4 The rule tables and the default rows	count 1
+hand-off model VAF-R0S-16	### 2.4 The rule tables and the default rows	count 1
+hand-off model VAF-R0S-16	### 2.4 The rule tables and the default rows	count 1
+hand-off model VAF-R0S-16	### 2.4 The rule tables and the default rows	count 1
+hand-off model VAF-R0S-16	### 2.4 The rule tables and the default rows	count 1
+hand-off model VAF-R0S-16	### 2.4 The rule tables and the default rows	count 1
+hand-off model VAF-R0S-16	### 2.4 The rule tables and the default rows	count 1
+VAF-R0S-18	### 2.4 The rule tables and the default rows	count 1
+hand-off model VAF-R0S-16	### 2.4 The rule tables and the default rows	count 1
+hand-off model VAF-R0S-16	### 2.4 The rule tables and the default rows	count 1
+hand-off model VAF-R0S-16	### 2.4 The rule tables and the default rows	count 1
+hand-off model VAF-R0S-16	### 2.4 The rule tables and the default rows	count 1
+hand-off model VAF-R0S-16	### 2.5 Lifecycle of every new state field	count 1
+G120-V03	### 2.5 Lifecycle of every new state field	count 1
+hand-off pipeline VAF-R0S-20	### 3.2 A — the programme	count 1
+VK0-15	### 3.4 Seed pieces per storey	count 1
+VAF-R0S-28	### 3.7 Basements, the crypt and the heads of the ways down	count 1
+hand-off model VAF-R0S-03	### 3.7 Basements, the crypt and the heads of the ways down	count 1
+VK0-15	### 3.13 Edges at their limits (principle (11))	count 1
+hand-off determinism VDC0-11	### 3.13 Edges at their limits (principle (11))	count 1
+G120-V03, VV34-01	### 3.13 Edges at their limits (principle (11))	count 1
+hand-off determinism VDC0-11	### 4.2 The edits the plan needs, each with its semantics an	count 1
+G120-V03	### 4.4 What is not an edit	count 1
+G120-V03	### 4.5 The click, the storey switcher and the plan panel — 	count 1
+VV34-09	### 4.5 The click, the storey switcher and the plan panel — 	count 1
+VV34-09	### 4.5 The click, the storey switcher and the plan panel — 	count 1
+G120-V03	### 4.5 The click, the storey switcher and the plan panel — 	count 1
+hand-off V10 VV34-07	### 4.6 The clerk's view — plan queries and "why?"	count 1
+G120-V03	### 5.2 Picture exports	count 1
+G120-V03	## 6 Performance budgets	count 1
+VV34-01	## 6 Performance budgets	count 1
+hand-off model VAF-R0S-16	## 7 Tests and acceptance bars	count 1
+hand-off determinism VDC0-11	## 7 Tests and acceptance bars	count 1
+hand-off V10 VV34-07	## 7 Tests and acceptance bars	count 1
+VAF-R0S-12	## 7 Tests and acceptance bars	count 1
+hand-off V11 VAP-21, V12	## 7 Tests and acceptance bars	count 1
+VV34-09	## 7 Tests and acceptance bars	count 1
+VV34-01, G120-V03	## 7 Tests and acceptance bars	count 1
+VV34-01, G120-V03	## 8 Build plan	count 1
+VAF-R0S-28	## 8 Build plan	count 1
+VAF-R0S-18	## 9 Decisions (each vetoable)	count 1
+VV34-01, G120-V03, hand-off model VAF-R0S-16	## 9 Decisions (each vetoable)	count 1
+VV34-01, G120-V03	## 12 CONFIRMED versus PLAUSIBLE	count 1
+VAF-R0S-18	## 13 Fix list	count 1
+VV34-09, G120-V03	## 13 Fix list	count 1
+hand-offs closed	## 13 Fix list	count 1
+G120-V03	APPEND ## 5 Rendering, labels, exports

@@ -1,0 +1,139 @@
+[
+ {
+  "id": "VAF-R0S-04",
+  "severity": "major",
+  "kind": "DUPLICATE-HOME",
+  "claim": "Persists in part. \u00a72.7 now declares `type RaisedKind = 'viaduct'|'elevated'|'aqueduct'` (l.2227) and V06 and V11 cite it, but V01 \u00a72.3 restates the enumeration inline twice: `DistrictContext.raised[].kind: 'viaduct'|'elevated'|'aqueduct'` (l.455) and `WayNamingContext.raised?: 'viaduct'|'elevated'|'aqueduct'` (l.525) \u2014 model's hand-off (\"V01 \u00a72.3's DistrictContext.raised.kind and WayNamingContext.raised read RaisedKind (\u00a72.7)\") not applied.",
+  "required_change": "V01 \u00a72.3 l.455: `kind: RaisedKind /* \u00a72.7 */`; l.525: `raised?: RaisedKind /* \u00a72.7: a raised way's kind, for naming.way's guard (V01 \u00a73.7.2) */`.",
+  "owner": "V01",
+  "reported_by": "verify-agree-fabric-r1t"
+ },
+ {
+  "id": "VAF-R0S-15",
+  "severity": "major",
+  "kind": "DUPLICATE-HOME",
+  "claim": "Persists in part. \u00a710.2 now declares `SquareQuotaRow` (l.14378, the base table read from M2b; pipeline's choice of the issue's first option), and V01 \u00a72.2 (l.387) still declares the identical shape: two homes of one record (= VPC-R1-11). The registry row's pointer to V01 \u00a72.2 is VAF-R1T-06.",
+  "required_change": "V01 \u00a72.2: replace the `interface SquareQuotaRow { \u2026 }` line by \"// SquareQuotaRow is \u00a710.2's (the base table `squares.quota`, read by S7b (3) from M2b and by S9b); this volume authors its default rows (V01 \u00a73.5.2; V11 registry row 91)\", keeping the two comment lines above it.",
+  "owner": "V01",
+  "reported_by": "verify-agree-fabric-r1t"
+ },
+ {
+  "id": "VAF-R1T-05",
+  "severity": "major",
+  "kind": "DUPLICATE-HOME",
+  "claim": "Pipeline's repair (VPC-14, VAF-R0S-08) declared `NeighbourhoodRequest` and `NeighbourhoodResult` at II.1 (l.19116\u201319131) with their presence rules as comments \u2014 `seam`, `context`, `params` and `closeup` absent exactly when `laid` is empty, the unit runner building each district's `DistrictContext` and `SeamContract` from `SkyUnitInput` or `HoodRecipe`; `hoodPins` refine-only; `districts` in partition order, written by SKY-F to `SkyIsland.districts`; \"the mode is derived, never passed (J-V1.3) \u2026\"; \"A sky island's reason is SkyIsland.reason (\u00a72.7), not a request field\" \u2014 and `SeamReport.landingsReached` (l.19113). V01 \u00a72.4 (l.550\u2013560) states every one of these again in prose; the interface now has two homes.",
+  "required_change": "V01 \u00a72.4: \"`NeighbourhoodRequest`, `NeighbourhoodResult` and `SeamReport` are II.1's (item 539), with their fields' presence rules and the derived mode (J-V1.3); this volume's unit runner, close-ups and SKY-F hand-over fill them (V01 \u00a73.8\u2013V01 \u00a73.11)\" \u2014 delete the restated presence, mode and reason sentences.",
+  "owner": "V01",
+  "reported_by": "verify-agree-fabric-r1t"
+ },
+ {
+  "id": "VAF-R1T-07",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "Build-plan dependency of item 120's parts. V03 lands its part of Find \"with the later of P5 and the milestone that lands Find (V09 \u00a78)\" and holds T-V3-38 at that exit (V03 \u00a78, l.2675\u20132680). V01 puts T-V1-59 in W11, M5's verification (\"T-V1-59 Find's, on V09's app harness from V09's Find\", l.3317) and states the M5 total and \u00a716's M5 row unchanged (l.3326\u20133328), so M5's exit carries a bar that needs V09's Find panel and `live.find` \u2014 and V09 \u00a78 places Find at no milestone (G120-V09). If Find lands after M5, M5's exit cannot close.",
+  "required_change": "V01 \u00a78.2's W11 line and \u00a77's T-V1-59 row: \"T-V1-59 joins the exit of the later of M5 and the milestone that lands Find (V09 \u00a78), as T-V3-38 does (V03 \u00a78)\"; `findAreas` and `gapUnits` stay in W10 at M5.",
+  "owner": "V01",
+  "reported_by": "verify-agree-fabric-r1t"
+ },
+ {
+  "id": "G122-V01",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "claim": "Item 122 routes \"V01: neighbourhoods as disaster targets; the outskirts' common land\". V01 has no part (\"item 122\" 0 times).",
+  "required_change": "V01 states the disaster look's units \u2014 which neighbourhoods (districts) a disaster's ruined share takes, by the calamity's `targets` first, else the pattern (fire downwind through contiguous blocks, flood the low ground by the water, earthquake scattered) \u2014 and the outskirts' common or fallow land a refugee camp may take (item 122 (a)\u2013(c)), with its test.",
+  "owner": "V01",
+  "reported_by": "verify-agree-fabric-r1t, verify-agree-time-r1t, verify-edges-world-r1t, verify-vol-V01-V02-r1t",
+  "also_reported": [
+   {
+    "by": "verify-agree-time-r1t",
+    "claim": "g item 122 routes to V01 'neighbourhoods as disaster targets; the outskirts' common land' (canon's dated ruling for items 121\u2013123; item 122 (b)'s disaster pattern and its immigration camp 'on common or fallow land along the main approach road by a gate'). V01 has no item-122 text.",
+    "required_change": "Write V01's item-122 part at build depth. (1) **Disaster targets**: a draw-free service over committed state, `crisisUnits(doc, pattern)`, giving the neighbourhoods and districts a disaster look may ruin and their block adjacency: fire spreading through contiguous blocks downwind, flood taking the low ground by the water (the terrain raster), earthquake scattering. The calamity's `targets` win where the dossier names the place hit, and the share follows severity (item 122 (b)). (2) **The outskirts' common land**: the commons and fallow faces at a district's outer edge along the main approach roads, read by \u00a710.2's camp placement, never on water, a gate's passage or a keep-out. (3) Edges: a standalone neighbourhood document; no common land (the approach road's verge); a target the key withholds. (4) A T-V1 test: the units equal the rule's on fixtures and the hash is unchanged.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-edges-world-r1t",
+    "claim": "Item 122 (J135) names V01: neighbourhoods as disaster targets, and the outskirts' common land. V01 has no crisis part.",
+    "required_change": "V01: the disaster look's unit is the close-up neighbourhood (a district, J-V1.35). State the share of whole neighbourhoods drawn ruined by severity, the pattern by disaster (fire through contiguous blocks downwind, flood on the low ground by the water, earthquake scattered) and the calamity's `targets` naming a place. The outskirts' common and fallow land is the ground the refugee and quarantine camps take. Edges: a town of one district; the hinterland pseudo-district; a standalone neighbourhood document.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-vol-V01-V02-r1t",
+    "claim": "g item 122's V01 part (\"neighbourhoods as disaster targets; the outskirts' common land\"; canon, \"File g items 121, 122 and 123 routed\", J135) is absent: V01 carries nothing of item 122.",
+    "required_change": "V01 writes its part at build depth as new design. It is a look only: never the model, the document or its hash (item 122 (a)). **(1) Disaster targets:** a pure `@plat/hood` service choosing, for a `disaster` condition standing in the view's week, the districts drawn in a temporary ruined state (a neighbourhood is the district a close-up opens, J-V1.35). The share follows severity and rung; the pattern follows the disaster (fire: contiguous blocks downwind from a keyed seed block; flood: the low ground by the water, from the terrain raster and the water faces; earthquake: scattered keyed blocks). The calamity's `targets` win where the dossier names a place (matched by name to a district, quarter or `HoodPlace`; an unmatched target reported, the pattern used). Draws are keyed by the seed, the condition's id and the district (item 122 (c)); never on water, a gate's passage or a label's keep-out. For plague, the affected quarter whose doors are marked and cordoned at the neighbourhood band (item 122 (b), (d)). **(2) The outskirts' common land:** which hinterland faces (commons, fallow, the approach road's verge by a gate) a camp may take. They are ranked for the siege, quarantine and refugee camps by item 122 (c)'s priority under the density cap, the refugee camp on the faces V06's growth frontier would build (item 122 (a)). **(3)** Knowledge admission of a condition and its targets (item 122 (e); \u00a711.2). **(4)** Find's listing of the looks by area (V01 \u00a75.4; item 122 (f)). **(5)** The wiring: \u00a71b, \u00a71.2's g-item-122 row, \u00a72.7's derived list. **(6)** \u00a73.18's edges: no district; one district; severity 0 and 1; a target naming no place the map holds; several crises at once; a look standing when V06's real aftermath arrives. **(7)** V01 \u00a76's line: lazy per visible tile, an interaction (item 119 (d)). **(8)** A new T-V1 bar: the hash identical with crises on and off and in every week; each look only in its condition's weeks; byte-stable per seed; the ruined share monotone in severity; the dossier's targets win; nothing on water, a gate's passage or a keep-out; with no condition and no preview, byte-identical (the no-op pin). **(9)** A decision row, and V01 \u00a711's file-g list naming item 122.",
+    "severity": "major"
+   }
+  ]
+ },
+ {
+  "id": "VAH-r1-12",
+  "severity": "minor",
+  "kind": "BROKEN-REFERENCE",
+  "claim": "A shared type cited at a home it left this round. Repair r1 moved the reader's and the oracle's types \u2014 `MapBrief`, `EntityCard`, `SiteCandidate`, `MeasureAnswer`, `FrameAnswer`, `RuleAnswer`, `ProfileAnswer`, `WhyAnswer`, `WhySection`, `WhyCause`, `WhyFamily`, `WhyPull`, `WhyLink`, `FieldDrivers` \u2014 from V10 \u00a72.13 to base \u00a711.2 (rendering's VAT-03, V10's VAT-04). V10 \u00a72.13 now opens 'The reader's and the oracle's types are \u00a711.2's' and keeps only `WhyProvider`, `WhySectionProvider`, the solver's explanation, `raisedOutcome`, `LookAnswer` and `FindAnswer`. This unit still names V10 as the home of moved types at: V01 l.187 (hook row '| V10 \u00a72.13 | `WhyProvider`, `WhyAnswer` (`drifted`, `members`, `closure`), `WhyPull` with V11's families |') and l.2734 ('`WhyPull.family`, V10 \u00a72.13'). The chain resolves only through V10's pointer, and the text names the wrong owner of a shared type (principle (1)).",
+  "required_change": "V01's hook row splits into '| \u00a711.2 | `WhyAnswer` (`drifted`, `members`, `closure`), `WhyPull` with V11's families |' and '| V10 \u00a72.13 | `WhyProvider` |'; l.2734 reads '`WhyPull.family`, \u00a711.2'.",
+  "owner": "V01",
+  "reported_by": "verify-agree-host-r1t"
+ },
+ {
+  "id": "VAP-r1-07",
+  "severity": "major",
+  "kind": "HANDOFF-OPEN",
+  "claim": "T-V1-29 (l. 3203) gained \"**item 119's one-time waits** (V01 \u00a76; J-V1.103)\" \u2014 stage 2's generate, close-up, switch, sky unit-run and export waits within 10 s, progress past 1 s, every slower step with its `perf.qualitySpend` row \u2014 which are T119-2, T119-3 and T119-4's clauses on stage 2; VCS-10 hands the stage-2 take-over row \"T119-2 and T119-3's stage-2 clauses (T-V1-29)\" (and V01's repair asked the same of scope), but V01 names no T119 bar (0 occurrences).",
+  "required_change": "T-V1-29's clause reads \"**item 119's one-time waits** (V01 \u00a76; J-V1.103; takes T119-2 and T119-3's stage-2 clauses)\".",
+  "owner": "V01",
+  "reported_by": "verify-agree-proof-r1t"
+ },
+ {
+  "id": "VM-R1T-03",
+  "severity": "minor",
+  "kind": "RESTATEMENT",
+  "claim": "V01 \u00a72.6 still declares `interface HoodRecipe` in full, while \u00a72.9 now declares it ('declared here, V01 \u00a72.6 cites it'; MC-11 via VAF-R0S-03): two declarations of one record across the set.",
+  "required_change": "V01 \u00a72.6: replace the ts block's `interface HoodRecipe { \u2026 }` with a citation \u2014 '`HoodRecipe` (Recipe.hood, item 272) is \u00a72.9's; its rules are V01 \u00a73.10.1's' \u2014 and keep the closing note on the layers a standalone neighbourhood document may hold (V01 \u00a73.10.1 (7)).",
+  "owner": "V01",
+  "reported_by": "verify-model-r1t"
+ },
+ {
+  "id": "VM-R1T-04",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "V01 \u00a72.1 reads '`FabricStrategyId` (a `hood.templates` row key) \u2026 declared in \u00a72.5', but \u00a72.5 now defines it as the id of any registered FabricStrategy, V07's 'village-ways' included, 'which is no hood.templates row' (VM-R0S-17's fix).",
+  "required_change": "V01 \u00a72.1: '`FabricStrategyId` (a registered fabric: `bent-cut`, a `hood.templates` row key or V07's `village-ways`), `BlockKind`, `SquareType`, `SeamRun` and `TypedBoundary` are declared in \u00a72.5'.",
+  "owner": "V01",
+  "reported_by": "verify-model-r1t"
+ },
+ {
+  "id": "VPC-R1-11",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "`SquareQuotaRow` is now declared twice. \u00a710.2 (l. 14378) declares it as the base table read from M2b (VAF-R0S-15, option 1), and V01 \u00a72.2 (l. 387) still declares the identical shape. The pipeline repair's hand-off ('V01: \u00a72.2 cites \u00a710.2's `SquareQuotaRow` instead of declaring it') was not applied (principle (1)).",
+  "required_change": "In V01 \u00a72.2 replace the `interface SquareQuotaRow { \u2026 }` line with `// SquareQuotaRow is \u00a710.2's (the base table 'squares.quota', read by S7b (3) from M2b and S9b); this volume authors its default rows (V01 \u00a73.5.2; V11 registry row 91)`.",
+  "owner": "V01",
+  "reported_by": "verify-pipeline-r1t"
+ },
+ {
+  "id": "VV12-r1-03",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "claim": "Three units define the coverage unit at a plot differently. **V01 \u00a73.16 `catchmentOf`**: `walk` is the plots whose front points lie within `per` m along the way graph; `households` is the plots of the nearest `per` households by that metric; `parish` is the plots whose nearest parish church by that metric is the same. **V11 \u00a72.3 `CoverageSpec`** (the canon's home, canon l.332): `walk` counts members in the disc of radius `per` m on the 16 m raster; `households` uses the disc of radius \u221a(per \u00d7 a_res \u00f7 \u03c0); `parish` is the Voronoi cells of the church members over residential land. **V12 \u00a73.6 `servedShare`** reads the discs and cells \"as V11 \u00a72.3 counts\". V01 names the base solver's coverage term (V11's `cov/<class>` rows) among `catchmentOf`'s callers. V01 \u00a75.4 (3)'s Show gaps (its per-plot walk, \"the plots V12 \u00a73.6's `servedShare` counts\") and T-V1-59 (b) are built on V01's reading. The solver, the bars and Find's gaps can therefore disagree on whether a plot is served. T-V1-42 checks only the `district` unit, where all three agree. Pre-existing; V01's round-1 repair flagged it for this round.",
+  "required_change": "V01 \u00a73.16's `catchmentOf` reads `walk`, `households` and `parish` at a plot as V11 \u00a72.3's `CoverageSpec` defines them, cited and not restated. It keeps only what V11 does not state: `neighbourhood` read as `district` (J-V1.35); `underDistance` in place of the disc's radius on an underground arena (V04 \u00a73.6a (1)); a sky island as one `walk` unit (V05 \u00a73.5 (3)); a district with no residential plot holding no unit (V11's skipped term). Three dependents follow: V01 \u00a75.4 (3)'s *Evaluation* (one pass per member over the raster discs and cells, replacing the way-graph walk), V01 \u00a76's `catchmentOf` and Show-gaps lines with their fallbacks, and J-V1.102's reason. T-V1-42 and T-V1-59 (b) assert, plot by plot, that `gapUnits`' unserved plots equal those `servedShare` counts on every unit (`walk`, `households`, `parish`, `district`).",
+  "owner": "V01",
+  "reported_by": "verify-vol-V01-V02-r1t"
+ },
+ {
+  "id": "VV12-r1-04",
+  "severity": "minor",
+  "kind": "TERM",
+  "claim": "V01 \u00a70's paragraph added this round (l.89) says \"making a standalone neighbourhood\", the retired form of G-standalone (term: standalone neighbourhood document).",
+  "required_change": "l.89 reads \"making a standalone neighbourhood document\".",
+  "owner": "V01",
+  "reported_by": "verify-vol-V01-V02-r1t"
+ },
+ {
+  "id": "VV1112-r1-05",
+  "severity": "minor",
+  "kind": "ELEGANCE",
+  "claim": "VAH-32 (an elegance ruling: one named type for item 108's five step values) is applied in V11 and V08 but not in V01: V01 \u00a72.3's district view (l. 466) still reads `records: { record: Id; step: 'COUNT'|'QUARTER'|'GUILD'|'SIZE'|'REPLACEMENT'; \u2026 }[]`, a second statement of V11 \u00a72.6's `LadderStep` (V11's repair handed the change to V01).",
+  "required_change": "In V01 \u00a72.3 write `step: LadderStep /* V11 \u00a72.6 */`.",
+  "owner": "V01",
+  "reported_by": "verify-vol-V11-V12-r1t"
+ }
+]

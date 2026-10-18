@@ -1,0 +1,58 @@
+== (1) VRC1-01: the tile-line cut. Sun toward +x (azimuth 0), shadow toward -x; ground pixels at texel centres on the
+   caster's centre line; the V = 0.5 point of the exact law is at t = h / (m - sigma/2) from the caster's near face.
+   1:500, DPR 2, fixed sun 45 deg, 45 m tower: texel 6.62 cm, tile side 33.9 m; V = 0.5 at 45.11 m from the near face
+     tile grid offset 0.00 S: shadow starts 45.094 m from the face under the exact law (-0.2 px from V = 0.5), 45.160 m under floor law c (+1.0 px from exact; the law's cell there 4 px)
+     tile grid offset 0.25 S: shadow starts 45.160 m from the face under the exact law (+0.8 px from V = 0.5), 45.160 m under floor law c (+0.0 px from exact; the law's cell there 4 px)
+     tile grid offset 0.50 S: shadow starts 45.094 m from the face under the exact law (-0.2 px from V = 0.5), 45.160 m under floor law c (+1.0 px from exact; the law's cell there 4 px)
+     tile grid offset 0.75 S: shadow starts 45.160 m from the face under the exact law (+0.8 px from V = 0.5), 45.160 m under floor law c (+0.0 px from exact; the law's cell there 4 px)
+   1:500, DPR 1, path sun 15 deg, 30 m tower: texel 13.22 cm, tile side 67.7 m; V = 0.5 at 112.95 m from the near face
+     tile grid offset 0.00 S: shadow starts 112.847 m from the face under the exact law (-0.8 px from V = 0.5), 112.980 m under floor law c (+1.0 px from exact; the law's cell there 4 px)
+     tile grid offset 0.25 S: shadow starts 112.847 m from the face under the exact law (-0.8 px from V = 0.5), 112.980 m under floor law c (+1.0 px from exact; the law's cell there 4 px)
+     tile grid offset 0.50 S: shadow starts 112.847 m from the face under the exact law (-0.8 px from V = 0.5), 112.980 m under floor law c (+1.0 px from exact; the law's cell there 4 px)
+     tile grid offset 0.75 S: shadow starts 112.847 m from the face under the exact law (-0.8 px from V = 0.5), 112.980 m under floor law c (+1.0 px from exact; the law's cell there 4 px)
+   1:500, DPR 2, path sun 15 deg, 45 m tower: texel 6.62 cm, tile side 33.9 m; V = 0.5 at 169.43 m from the near face
+     tile grid offset 0.00 S: shadow starts 169.420 m from the face under the exact law (-0.2 px from V = 0.5), 170.280 m under floor law c (+13.0 px from exact; the law's cell there 16 px)
+     tile grid offset 0.25 S: shadow starts 169.420 m from the face under the exact law (-0.2 px from V = 0.5), 170.280 m under floor law c (+13.0 px from exact; the law's cell there 16 px)
+     tile grid offset 0.50 S: shadow starts 169.420 m from the face under the exact law (-0.2 px from V = 0.5), 170.280 m under floor law c (+13.0 px from exact; the law's cell there 16 px)
+     tile grid offset 0.75 S: shadow starts 169.420 m from the face under the exact law (-0.2 px from V = 0.5), 170.280 m under floor law c (+13.0 px from exact; the law's cell there 16 px)
+   1:500, DPR 2, fixed sun 45 deg, 20 m house (control): texel 6.62 cm, tile side 33.9 m; V = 0.5 at 20.05 m from the near face
+     tile grid offset 0.00 S: shadow starts 20.035 m from the face under the exact law (-0.2 px from V = 0.5), 20.101 m under floor law c (+1.0 px from exact; the law's cell there 2 px)
+     tile grid offset 0.25 S: shadow starts 20.101 m from the face under the exact law (+0.8 px from V = 0.5), 20.101 m under floor law c (+0.0 px from exact; the law's cell there 2 px)
+     tile grid offset 0.50 S: shadow starts 20.035 m from the face under the exact law (-0.2 px from V = 0.5), 20.101 m under floor law c (+1.0 px from exact; the law's cell there 2 px)
+     tile grid offset 0.75 S: shadow starts 20.101 m from the face under the exact law (+0.8 px from V = 0.5), 20.101 m under floor law c (+0.0 px from exact; the law's cell there 2 px)
+== (2) VRC1-02: striping. A 6 m x 6 m tower 30 m tall under a 15 deg path sun, 1:500 DPR 1; ground pixels along the
+   shadow axis at 0.1 m; runs of V < 0.5 (1 = one unbroken shadow).
+   caster 6 m wide: 1 run(s); 0 of 1117 samples inside the similar-triangles shadow read lit
+   caster 12 m wide: 1 run(s); 0 of 1117 samples inside the similar-triangles shadow read lit
+   caster 2 m wide: 1 run(s); 0 of 1117 samples inside the similar-triangles shadow read lit
+== (3) lateral flare at the far end of a long shadow (the 45 m tower, 15 deg path sun, 1:500 DPR 2): the width of
+   V < 0.5 across the shadow at distance t from the tower: the exact law, floor law c, and the interval-max variant
+   (the verifier's VRC1-02 text: N = 32 samples, each the greatest height over its interval from the pyramid).
+   t =  20.0 m: exact 6.091 m; law c 6.224 m (flare +1.0 px per side; the cell there 2 px, t/128 = 2 px); interval-max variant 16.950 m (flare +82.0 px per side)
+   t =  60.0 m: exact 6.091 m; law c 6.356 m (flare +2.0 px per side; the cell there 4 px, t/128 = 7 px); interval-max variant 16.950 m (flare +82.0 px per side)
+   t = 120.0 m: exact 6.091 m; law c 6.886 m (flare +6.0 px per side; the cell there 8 px, t/128 = 14 px); interval-max variant 29.994 m (flare +180.5 px per side)
+   t = 160.0 m: exact 6.091 m; law c 7.416 m (flare +10.0 px per side; the cell there 16 px, t/128 = 19 px); interval-max variant 29.994 m (flare +180.5 px per side)
+== (4) cost: cells visited per pixel and source, and pixels whose V differs from the exact law, on a seeded town
+   1:500 DPR 2, fixed sun 315 / 45, law c: cells visited median 17, p90 26, p99 36, max 47
+   1:500 DPR 2, fixed sun 315 / 45, exact: cells visited median 17, p90 26, p99 36, max 47
+   1:500 DPR 2, fixed sun 315 / 45: pixels whose V differs from the exact law by > 0.01: 0 of 1500
+   1:500 DPR 2, path sun 15 deg, law c: cells visited median 21, p90 39, p99 57, max 78
+   1:500 DPR 2, path sun 15 deg, exact: cells visited median 22, p90 41, p99 62, max 86
+   1:500 DPR 2, path sun 15 deg: pixels whose V differs from the exact law by > 0.01: 4 of 1500
+   1:500 DPR 1, fixed sun 315 / 45, law c: cells visited median 16, p90 25, p99 35, max 42
+   1:500 DPR 1, fixed sun 315 / 45, exact: cells visited median 16, p90 25, p99 35, max 42
+   1:500 DPR 1, fixed sun 315 / 45: pixels whose V differs from the exact law by > 0.01: 0 of 1500
+   1:500 DPR 1, path sun 15 deg, law c: cells visited median 22, p90 39, p99 54, max 70
+   1:500 DPR 1, path sun 15 deg, exact: cells visited median 22, p90 39, p99 55, max 73
+   1:500 DPR 1, path sun 15 deg: pixels whose V differs from the exact law by > 0.01: 2 of 1500
+== (5) memory: the ring tiles' heights with their pyramid (⅓ MB per full-resolution tile, 4^-L at level L; ring j >= 2
+   held from level floor(log2(4 (j - 1))), the finest any visible pixel resolves there by law c); a first ring and every ring out to k
+   reference view DPR 2: P = 35 (a 7, b 5); first ring 9.33 MB, all rings to k = 64 11.82 MB (bound (2(a + b) + 4)/3 + 3 = 12.33); visible pyramids P/12 = 2.92 MB; need 155.8 + 2.92 + 12.33 = 171.0 MB
+   reference view DPR 1.5: P = 24 (a 6, b 4); first ring 8.00 MB, all rings to k = 64 10.32 MB (bound (2(a + b) + 4)/3 + 3 = 11.00); visible pyramids P/12 = 2.00 MB; need 109.0 + 2.00 + 11.00 = 122.0 MB
+   reference view DPR 1.5, full precision: P = 24 (a 6, b 4); first ring 8.00 MB, all rings to k = 64 10.32 MB (bound (2(a + b) + 4)/3 + 3 = 11.00); visible pyramids P/12 = 2.00 MB; need 163.0 + 2.00 + 11.00 = 176.0 MB
+   reference view DPR 1, full precision: P = 12 (a 4, b 3); first ring 6.00 MB, all rings to k = 64 8.07 MB (bound (2(a + b) + 4)/3 + 3 = 9.00); visible pyramids P/12 = 1.00 MB; need 85.0 + 1.00 + 9.00 = 95.0 MB
+   low-end 1 366 x 768 DPR 1: P = 12 (a 4, b 3); first ring 6.00 MB, all rings to k = 64 8.07 MB (bound (2(a + b) + 4)/3 + 3 = 9.00); visible pyramids P/12 = 1.00 MB; need 58.0 + 1.00 + 9.00 = 68.0 MB
+   low-end 1 920 x 1 080 DPR 1: P = 20 (a 5, b 4); first ring 7.33 MB, all rings to k = 64 9.57 MB (bound (2(a + b) + 4)/3 + 3 = 10.33); visible pyramids P/12 = 1.67 MB; need 92.0 + 1.67 + 10.33 = 104.0 MB
+   the export tile's window (one 512^2 export tile, float32: 12 B per pixel for its own surface and 4 B per cell for
+   its pyramid and its rings' heights with theirs; ring j >= 2 from the level law c gives it):
+     own surface 3.00 MB + own pyramid 0.33 MB + first ring 10.67 MB + every further ring 6.66 MB = 20.66 MB, whatever the window

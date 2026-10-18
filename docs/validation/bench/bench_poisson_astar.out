@@ -1,0 +1,10 @@
+== Poisson-disc, k = 50 all evaluated ==
+use | domain | r (m) | points | steps | candidate tests | ms | µs per point
+S4 lattice CITY (5 km frame, 25 m) | 5000x5000 m | 25 | 25667 | 51333 | 2566650 | 310.1 | 12.08
+S4 lattice METRO (8 km frame, 25 m) | 8000x8000 m | 25 | 65632 | 131263 | 6563150 | 783.7 | 11.94
+one wood 300x300 m, 4 m trees | 300x300 m | 4 | 3637 | 7273 | 363650 | 41.5 | 11.42
+wood 600x600 m (36 ha), 4 m | 600x600 m | 4 | 14477 | 28953 | 1447650 | 169.7 | 11.72
+garden block 120x120 m, 5 m | 120x120 m | 5 | 395 | 789 | 39450 | 4.4 | 11.15
+== S4 A* on a 25 m jittered triangular lattice (6-neighbour), slope cost ==
+CITY 5 km: 46000 nodes (graph build 16.4 ms, excluded) | 12 plaza->frame-edge queries | 16.6 ms | expanded 35364 nodes (2947 per query)
+METRO 8 km: 118080 nodes (graph build 27.3 ms, excluded) | 12 plaza->frame-edge queries | 30.4 ms | expanded 88869 nodes (7406 per query)

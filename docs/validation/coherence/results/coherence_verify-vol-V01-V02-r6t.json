@@ -1,0 +1,22 @@
+{
+  "key": "coherence/verify-vol-V01-V02-r6t",
+  "file": "docs/validation/coherence/verify-vol-V01-V02-r6t.md",
+  "issues": [
+    {
+      "id": "VV12-r6-01",
+      "severity": "minor",
+      "kind": "CONFLICT",
+      "owner": "V01",
+      "claim": "R6-10's END rewrote V01 §5.1.3's lead to '**Group switches** (T12's `setStyle` of `StyleSheet.groups`, §8.2; NG F1): the hood pins, model pins and access symbols belong to the `pins` group and block trees to the `trees` group', but left the sentence's end, 'so the view bar hides them as Neighbourhood's keys do' (l. 3037–3039). The switches are the Dress panel's: V09 §4.5's T12 `dress` row (l. 1825: 'the **Trees** and **Pins** switches (V01 §5.1.3's group switches …)') and §5.7 (l. 4003), base §8.2's `groups` comment ('T12 `dress`'s switches hide …') and base l. 13676–13678 (a layer's own visibility by '§7.8's layer controls … a logged `setLayer`; the trees and pins drawing groups … switched by `StyleSheet.groups` … and no drawing group by `setLayer`'). V09's view bar (l. 3799) holds the layer toggles (§7.8) and no group switch. V01 now says one panel and V09 another; the switch's builder follows V09, the interface's home, so nothing built changes. The same defect as verify-agree-tools-r6t's VAT-r6-03 (1) and verify-vol-V09-V10-r6t's VV910-r6-03 (one fix).",
+      "required_change": "V01 §5.1.3: \"so the view bar hides them as Neighbourhood's keys do\" → \"so the Dress panel's **Trees** and **Pins** switches hide them (V09 §4.5's T12 row), as Neighbourhood's keys do\"."
+    },
+    {
+      "id": "VV12-r6-02",
+      "severity": "minor",
+      "kind": "COHESION",
+      "owner": "V02",
+      "claim": "Round 6's §8.6 paragraph (VV12-r5-02's fix and its class sweep under R6-01 (2) and R6-09) now lists the T-V2-59 and T-V2-60 clauses that run after M6b because their provider lands with V06's E2, and its repair report says every other clause 'runs as before'. One more clause of the class is missing. T-V2-59 (e) (l. 3773–3774) runs 'a plan derived while the building stood, the building then abandoned by an epoch's `vacate`, stays in force with its `wings` and `rooms` rungs `current`' (V02 §3.18 (e)'s row at l. 2555 names T-V2-59 for it). An epoch's `vacate` is issued only by V06's `departures` step (V06 §3.2's step table, row 7: 'the departure matching, `relet` down, `vacate` | V06 §3.5.1'). That step is not among the nine base phases E1 runs (V06 W36: prelude, demand, field, dossier, siting, growth, lapse, character, works; T-V6-1: the grow-by-stage strategy 'reproduces M4's grow path' with them). It lands with E2 ('E2 — decline and regrowth | departures, …'). M6b's exit can come before E2 (M6 may start after M5 while M6-E runs beside it, INDEX §3, the premise §8.6 itself states). With the list now enumerated, a builder reads (e) as an M6b clause. INDEX §5 risk 2 moves it 'to the first exit after the provider (each named in its volume)', so a build agent applies that rule; nothing built changes (the class of VV12-r5-02, graded minor).",
+      "required_change": "V02 §8.6's paragraph, after \"since until E2 lands V02 reads X36's stand-in — nothing repaired, the look standing until its condition no longer stands;\", add \" T-V2-59 (e)'s plan in force after an epoch's `vacate` runs at the later of M6b and V06's E2 (V06 §3.5.1's departure matching, which issues `vacate`);\"."
+    }
+  ]
+}

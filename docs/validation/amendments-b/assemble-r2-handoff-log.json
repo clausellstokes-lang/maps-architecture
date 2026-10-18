@@ -1,0 +1,452 @@
+{
+ "input_doc_sha256": "79f3288edbf715fc6f0e87894b6a40cf3f0d5f07bb1650d5a0d1e09bea56bcdc",
+ "input_rationale_sha256": "886c56cdd4b3426a5402cff007cf4253c28081ef33eecd7bd6221b763a27c766",
+ "index": {
+  "table_header_line": 12428,
+  "ids_swapped": [
+   "J-DET-2",
+   "J-DET-53",
+   "J-A31.71",
+   "J-A12.31",
+   "J-A28.23",
+   "J-A28.26",
+   "J-A31.44",
+   "J-A31.48",
+   "J-A12.71",
+   "J-A20.75",
+   "J-A22.74",
+   "J-A31.75",
+   "J-A28.34",
+   "J-A30.23",
+   "J-A28.29",
+   "J-A24.43",
+   "J-A26.44",
+   "J-A31.40",
+   "J-A30.85",
+   "J-A30.87"
+  ],
+  "swaps": [
+   {
+    "id": "J-DET-2",
+    "older_line": 12485,
+    "appended_line": 12891,
+    "old_row_sha256": "b79f26152caec002f2a4690f879c39a5b51f541815a6ec3ed164d346891bd793",
+    "new_row_sha256": "c4c1230a2cbedaca8f05c1d483fb68bdb93d7a74b2944064ef6cb62fcd6d64b8",
+    "old_row": "| J-DET-2 | lineage kept only for entities surviving un-derived; successors get the address only *(amended by amendments b: a mutation — a fusion, a splitting, a ladder step, an interior re-cut — continues lineage; only New random takes fresh lineage; J-A31.73, J-A28.63, J-A8.61)* | §6.3 |",
+    "new_row": "| J-DET-2 | lineage kept only for entities surviving un-derived; successors get the address only *(amended by amendments b: a mutation — a fusion, a splitting, a ladder step, an interior re-cut — continues lineage; only a re-derivation takes fresh lineage; J-A31.73, J-A28.63, J-A8.61)* | §6.3 |"
+   },
+   {
+    "id": "J-DET-53",
+    "older_line": 12536,
+    "appended_line": 12892,
+    "old_row_sha256": "deebc6a5b4b019470c0bb5bb6a77bd8079ae75782dd8aab923a9bd3ca579e719",
+    "new_row_sha256": "b47ee8599bd2a40fc51da5dbbdb89cc6afeee5cc9e538fdb338e21ca9a851887",
+    "old_row": "| J-DET-53 | a transparent successor seed (seed + 1) for Enter | §6.1 |",
+    "new_row": "| J-DET-53 | a transparent successor seed (seed + 1) for Enter *(amended by amendments b: Enter keeps the dossier — the new document's creation prefix holds one `creation` `assign` per live dossier-backed assignment, without its placement; item 22 (d), J-A22.74)* | §6.1 |"
+   },
+   {
+    "id": "J-A31.71",
+    "older_line": 12727,
+    "appended_line": 12893,
+    "old_row_sha256": "2db1ff730f8b9e025af6fbf813ce3c6b458ed67408887bf234c7773b9eb11b6a",
+    "new_row_sha256": "665ac12e1e70fd0e749ff886a2a240171f6372f2da97aa43d41f30198565bcab",
+    "old_row": "| J-A31.71 | `setAttr(builtBand)` refused; the attribute moves only by rung-3 and redevelopment-class edits that re-derive the stock | §7.1, §7.4 |",
+    "new_row": "| J-A31.71 | `setAttr(builtBand)` refused; the attribute is written only by the paths §4.11 lists (J-A31.44), each of which re-derives or re-sets the stock to the band it records | §7.1, §7.4 |"
+   },
+   {
+    "id": "J-A12.31",
+    "older_line": 12731,
+    "appended_line": 12898,
+    "old_row_sha256": "3e96bc5496dfebd80ddff97da098614061c36f6de0a7a102a259143fd7be5142",
+    "new_row_sha256": "34c0b6a5fd7f70a2cd1e53900c5ba1fdd7e813e97eb03a0fe1cbc2045fc964ed",
+    "old_row": "| J-A12.31 | `kerb`, `corridorUnion` and `bandUnion` on every arena, the half-width read from the chain's linear entity — a tunnel's bore plus wall — so the tunnel's external wall is the kerb the underground plots front; no arena-specific band operation | §3.7 |",
+    "new_row": "| J-A12.31 | `kerb`, `corridorUnion` and `bandUnion` on every arena, the half-width read from the chain's linear entity — half a tunnel's bore plus its wall (`widthCm ÷ 2 + wallCm`) — so the tunnel's external wall is the kerb the underground plots front; no arena-specific band operation | §3.7 |"
+   },
+   {
+    "id": "J-A28.23",
+    "older_line": 12740,
+    "appended_line": 12901,
+    "old_row_sha256": "d57d22f7b7c03e2fc8a06221268e355d594eeddef0199b85159bfa5cc76617bb",
+    "new_row_sha256": "215b5554534188b9550be2cab79e1836db59b82d3e74e878014c5f8270359b80",
+    "old_row": "| J-A28.23 | the owner's \"the more rooms for more occupying families the richer a building gets\" read as the shell's capacity, and one integer capacity function stated in §2.6 that S10b, `relet` and F-PLAN all read | §2.6 |",
+    "new_row": "| J-A28.23 | the owner's \"the more rooms for more occupying families the richer a building gets\" read as the shell's capacity, and one integer capacity function stated in §2.6 that the generation fill (S10b's placement, S11's write), `relet` and F-PLAN all read | §2.6 |"
+   },
+   {
+    "id": "J-A28.26",
+    "older_line": 12743,
+    "appended_line": 12902,
+    "old_row_sha256": "a6adbe5791a6c8a6affbddbe766bad76cff4e0245ff5252019c9c86f577dc44e",
+    "new_row_sha256": "e1cc07674e5309a038a4e1f0a55b125c6de326bf6433da5ab22edcf74bc07fa5",
+    "old_row": "| J-A28.26 | the re-cut's canonical chain — rows first, then households, from the as-built plan — with the fixed set and the kept-room rule; a stored plan re-cut inside its changing event | §2.6 |",
+    "new_row": "| J-A28.26 | the re-cut's canonical chain — rows first, then households, from the as-built plan — with the shell reopened as the arena's seed rings (the wings' extents clipped to tile, the span ring, the basement ring), the entrances and hearths as anchors, the stair bay, stacks, passage room, composer's rooms and kept rooms as `fixed` rings, and the kept-room rule read on the room's clipped seed ring; a stored plan re-cut inside its changing event, the shell's identity across it read without the `composition`-role vertices its new walls add | §2.6 |"
+   },
+   {
+    "id": "J-A31.44",
+    "older_line": 12805,
+    "appended_line": 12909,
+    "old_row_sha256": "0373956a5e957e60a7ef4cce30c87597899e1091f03407b88ec9426cf1f90a95",
+    "new_row_sha256": "0081ad525a69cf14a70a328eb04b024f8c6646a28f1efa47f07a5747b348834a",
+    "old_row": "| J-A31.44 | `builtBand` written by generation, rung-3 events, rung 2's back court for its new rear plots only, the hand edits of rung 3's kind (`fill` and the block's New random among them), the authorial re-derivations (brush, `FieldBands` `setAttr`, `Adjust`) and a completed upward refurbishment; lowered only by those writers (§4.11: \"Nothing else lowers it\"), never by rungs 1 and 2 | §4.11, §7.2 |",
+    "new_row": "| J-A31.44 | `builtBand` written by generation, rung-3 events (an `amalgamate` that builds nothing keeping its anchor member's), rung 2's back court for its new rear plots only, the hand edits of rung 3's kind (`fill` and the block's New random among them), the authorial re-derivations (brush, `FieldBands` `setAttr`, `Adjust`) and a completed upward refurbishment; lowered only by those writers (§4.11: \"Nothing else lowers it\"), never by rungs 1 and 2; over epochs lowered only through rung 3 | §4.11, §7.2 |"
+   },
+   {
+    "id": "J-A31.48",
+    "older_line": 12809,
+    "appended_line": 12910,
+    "old_row_sha256": "d783aea27ea6c697cac381e8d9780d32af341ff14aac4ed8f08ad0516f74d09a",
+    "new_row_sha256": "b4be7ac52effa95a51b27acb9bd5eae2a36cbccade976105ec356c02dfea75ba",
+    "old_row": "| J-A31.48 | the pipeline's reading of J-A31.73 (§6.3): fusion and splitting continue lineage by §6.3's JOIN and SPLIT rule, every ladder event is a mutation that continues lineage, only New random takes fresh lineage | §4.11, §6.3 |",
+    "new_row": "| J-A31.48 | the pipeline's reading of J-A31.73 (§6.3): fusion and splitting continue lineage by §6.3's JOIN and SPLIT rule, every ladder event is a mutation that continues lineage, only a re-derivation takes fresh lineage (§6.3's succession rule) | §4.11, §6.3 |"
+   },
+   {
+    "id": "J-A12.71",
+    "older_line": 12862,
+    "appended_line": 12895,
+    "old_row_sha256": "4eb9963cb71fa099ffcc13083a256ab1601bb6fae8882e8116305ad3944a542e",
+    "new_row_sha256": "a02b78c3fae20db2adfd6b06805badc70679f8ec1e46d2c2fe937381ef9858fb",
+    "old_row": "| J-A12.71 | a tunnel is drawn by `drawTunnel` (a `tunnel` chain on the underground arena, never `drawWay`) and an access point created by `placeAccess`; a tunnel's condition is no `setAttr` path (a condition change is the matching `convert`, J-A11.21) and its profile preset is the network's, not a tunnel field | §7.1, §7.4 |",
+    "new_row": "| J-A12.71 | a tunnel is drawn by `drawTunnel` (a `tunnel` chain on the underground arena, never `drawWay`) and an access point created by `placeAccess`; a tunnel's condition is no `setAttr` path (a condition change is the matching `convert`, J-A11.21) and its profile preset is the network's, not a tunnel field; an access point's tunnel end moves by `moveVertex` on its `access_point` vertex and its opening by `setAttr` on `ground.at`, re-hosted by `pointLocate` on the ground's `PlatKey` and refused as F-EDIT outside II.7.3's admitted ground | §7.1, §7.4 |"
+   },
+   {
+    "id": "J-A20.75",
+    "older_line": 12863,
+    "appended_line": 12894,
+    "old_row_sha256": "4ee49a077ae1446ee00474b0dce6d820ef4fe2832eba786baf1db741ea0b749e",
+    "new_row_sha256": "7fa471c4305dfc52703dd2c835823cb22f2d82a3c1cdea3c590718b5577aa3e5",
+    "old_row": "| J-A20.75 | a map `unassign`, or a map `setAttr` of use or class, on a dossier-backed element is refused as F-EDIT with `rejectSite` and `placeAt` offered — never recorded as a removal or a re-designation | §7.7, §7.1, §7.2, §5.2 |",
+    "new_row": "| J-A20.75 | a map event — one without `EditBase.dossier` — that would close, remove or re-designate a dossier-backed element is refused as F-EDIT with `rejectSite` and `placeAt` offered: an `unassign`, a `setAttr` of its use or class, a `convert` `closeUse` of its use or `mutate` of its plot to another designation, a conversion that empties or removes the building that houses it, a plot `join` or `split` whose fate would demolish that building; a map `delete` is recorded as `rejectSite`; never recorded as a removal or a re-designation | §7.7, §7.1, §7.2, §5.2 |"
+   },
+   {
+    "id": "J-A22.74",
+    "older_line": 12864,
+    "appended_line": 12890,
+    "old_row_sha256": "069642b07ce1534c3329bae82441df068550cc4850cfaa32160b44f3f667b819",
+    "new_row_sha256": "31e03ba4287a72879b8e19492564b6e5a7284a70cae9303a20a80eb01d8c2307",
+    "old_row": "| J-A22.74 | the creation prefix — the blueprint's and the creation dossier's `assign` events at positions 0…k, flagged `EditBase.creation` — is read by the base derivation's S2 as fixed rows before it runs, the fold's one declared read-ahead; folding those events records the run's placements and places nothing twice (amends J-DET-6) | §7.4, §7.1, §6.2, §7.7 |",
+    "new_row": "| J-A22.74 | the creation prefix — the blueprint's and the creation dossier's `assign` events at positions 0…k, flagged `EditBase.creation` — is read by the base derivation's S2 as fixed rows before it runs, the fold's one declared read-ahead; folding those events records the run's placements and places nothing twice (amends J-DET-6); a `creation` event belongs to the base derivation it feeds, never an `undo`, `redo` or `revert` target and never truncated — a blueprint assignment is removed by `unassign`, a dossier element only by a dossier event | §7.4, §7.1, §6.2, §7.7 |"
+   },
+   {
+    "id": "J-A31.75",
+    "older_line": 12868,
+    "appended_line": 12889,
+    "old_row_sha256": "5e0838db0a440e38c109d2f230cf672e99271941f06b938f6e847b623f5cdd70",
+    "new_row_sha256": "7f702cfccad75ebab67b693657412aa2ec35ef97fba9bdfccfad6c7b882cf9f4",
+    "old_row": "| J-A31.75 | the epoch invariant compares the touched plots' frontage edges and their buildings' shells with their pre-epoch values, each difference matched to a lifecycle event recorded in the epoch (rung 3, rung 2's back-court split or its reversal, a designation or renovation mutation, a decline, terrain-and-water, island or carve conversion), in place of \"ring and shells unchanged without a rung-3 event\" | §5.3 |",
+    "new_row": "| J-A31.75 | the epoch invariant compares the touched plots' frontage edges and their buildings' shells with their pre-epoch values, every difference matched to a lifecycle event recorded in the epoch — a rung-3 event; rung 1's yard buildings (`densify … infill`, `thin … infill`) or rung 2's back-court split or its reversal, the ladder's only geometry below rung 3; a designation or renovation mutation; any other `ConversionOp` (decline, terrain-and-water, island, carve, `wallToWay`, `contractWall`); the growth step's own builds, declared `demolish` and corridor re-cuts — in place of \"ring and shells unchanged without a rung-3 event\" | §5.3 |"
+   },
+   {
+    "id": "J-A28.34",
+    "older_line": 12870,
+    "appended_line": 12899,
+    "old_row_sha256": "5ad1c86a4c38c7d03697923a5f4e918ddaaeb91ced92215b7295d54d6066fbfa",
+    "new_row_sha256": "6b665703bd124460f48485a1c67f37a878710c06734571a44b6e3e8b7191671a",
+    "old_row": "| J-A28.34 | a transient arena's seed and fixed rings enter as exact topology — no attraction; a vertex on another ring's side splits that side within the hot pixel — the seeds tiling (overlapping wings clipped by the caller) and each fixed ring inside one seed, anything else refused with `E_DEGENERATE`; so a kept room re-enters unmoved (amends J-A28.31's insertion and J-A28.33's read-back claim) | §3.4, §3.10 |",
+    "new_row": "| J-A28.34 | a transient arena's seed and fixed rings enter as exact topology — no attraction; a vertex on another ring's side splits that side within the hot pixel — the seeds tiling (overlapping wings clipped by the caller) and each fixed ring inside one seed, anything else refused with `E_DEGENERATE`; so a kept room re-enters unmoved (amends J-A28.31's insertion and J-A28.33's read-back claim); vertices on a fixed edge placed against its input sides (the arena's routes); overlapping seeds clipped from one overlay (`tileRings`) | §3.4, §3.10 |"
+   },
+   {
+    "id": "J-A30.23",
+    "older_line": 12871,
+    "appended_line": 12900,
+    "old_row_sha256": "017644f2a207b202cdf2958dc924f3e1ecac7f5774a2ee290293fec58469fd40",
+    "new_row_sha256": "db22ce32e8e27627fbaf76e9db54b29ac6d5d7a058a97092ad27d21cbf58c48f",
+    "old_row": "| J-A30.23 | the passage a wing spans is a room of the spanning building's plan at the ground storey: its span ring (the part of the `Passage` face under the wing) a seed ring and a `fixed` ring there, the wing's extent above; the fourth rung and J-P48's room check read the storeys' extents; the arches are `passage` openings, not entrances (amends J-A30.21's union sentence and J-A28.26's \"reserved passage cells\") | §2.6 |",
+    "new_row": "| J-A30.23 | the passage a wing spans is a room of the spanning building's plan at the ground storey: its span ring (the part of the `Passage` face under the wing) a seed ring and a `fixed` ring there, the wing's extent above; `spans` on the base wing, which S11 writes and a composition inherits, so the capacity, the leaf digest and the span mark read it before any composition exists; the carry also runs when the spanned passage face changes under a stored composition; the fourth rung and J-P48's room check read the storeys' extents; the arches are `passage` openings, not entrances (amends J-A30.21's union sentence and J-A28.26's \"reserved passage cells\") | §2.6, §2.5 |"
+   },
+   {
+    "id": "J-A28.29",
+    "older_line": 12876,
+    "appended_line": 12903,
+    "old_row_sha256": "11209e8ff6f54848d48bdcef7de0197a42654a89d60b4f2ea708095df8b8d79b",
+    "new_row_sha256": "bde2f86538b9530c4bdb76fe9d295e77986243a5192fbb0436bcdfb48cea80b9",
+    "old_row": "| J-A28.29 | who occupies a building, at which band: the housed are `households` (with the live-in `dwelling`) and `Building.occupants` is retired; the occupants' band is the plot's current field sample banded by §4.5's rule; `ClassRules.pick` takes the field band and the manifested band as explicit inputs | §2.6 |",
+    "new_row": "| J-A28.29 | who occupies a building, at which band: the housed are `households` (with the live-in `dwelling`) and `Building.occupants` is retired; the occupants' band is the plot's current field sample banded by §4.5's rule against the plot's own band memory, `Plot.fieldBand`, which every epoch re-bands; `ClassRules.pick` takes the field band and the manifested band as explicit inputs | §2.6, §2.5 |"
+   },
+   {
+    "id": "J-A24.43",
+    "older_line": 12878,
+    "appended_line": 12906,
+    "old_row_sha256": "31ebe9f9bf3629a717872423042e7a6c8c0dd0d0f13e6c4a705a44ba6a16313c",
+    "new_row_sha256": "569d726f2869817bb62dc94575f0b84dae3c8973b9b9ff220ee9c7ce83afd253",
+    "old_row": "| J-A24.43 | the harbour's kind weight raised to the plaza's (1.0) and its trade term read against the reference port (`portRef`, the median port demand fraction of B-CITY's harbour seeds, computed from S2 alone): the harbour wins from ⅚ of the median upward, so T24-1's port bar is attainable at the defaults while every inland comparison still lands on the plaza (amends J-A24.41's default weights) | §4.2 S3 (12) |",
+    "new_row": "| J-A24.43 | the harbour's kind weight raised to the plaza's (1.0) and its trade term read against the reference port (`portRef`, the median port demand fraction of B-CITY's harbour seeds, computed by running S0–S2 alone, stored in `market.siting` and checked by a contract test): the harbour wins from ⅚ of the median upward, so T24-1's port bar is attainable at the defaults while every inland comparison still lands on the plaza (amends J-A24.41's default weights) | §4.2 S3 (12) |"
+   },
+   {
+    "id": "J-A26.44",
+    "older_line": 12879,
+    "appended_line": 12907,
+    "old_row_sha256": "df2b07c0846e9a581740595c04b10465489c2a6a95d3e000e3ac4e9094b022e1",
+    "new_row_sha256": "7a8753bb0cc4ec05aea5fed22cbd5f51579fe9e409a37e799f07660637b70740",
+    "old_row": "| J-A26.44 | FTG's four farmland settings named truly and all three layouts adopted: `rivers` a third mode (fields within `riverBandM` of a river, else as `perimeter`), FTG's climate override in the `ClimateTable` row, `perimeter` made FTG's own (no farmsteads, the farm households housed in the settlement), the `along rivers` field-system preset folded into the mode | §4.9, §4.2 S2 |",
+    "new_row": "| J-A26.44 | FTG's four farmland settings named truly and all three layouts adopted: `rivers` a third mode (fields within `riverBandM` of a river, else as `perimeter`), FTG's climate override in the `ClimateTable` row, `perimeter` made FTG's own (no farmsteads, the farm households housed in the settlement), the `along rivers` field-system preset folded into the mode and the `farmsteads` preset into `fill`; a river band too small for the arable demand continues as `perimeter`, its shortfall reported | §4.9, §4.2 S2 |"
+   },
+   {
+    "id": "J-A31.40",
+    "older_line": 12880,
+    "appended_line": 12908,
+    "old_row_sha256": "be966eb4402166bae1ea53c132951e1585ef84c9afc0798611673258e1d0f57c",
+    "new_row_sha256": "9f09570b7a51ac9315099aab249cc33ad1620406551712592c5a7ad36b4d669a",
+    "old_row": "| J-A31.40 | rung 2's back court is the one ring change below rung 3: `densify … back_court` splits the yard off by S10 (7)'s incremental re-cut (frontages and shells kept; the front plot keeps its address, lineage and `builtBand`, the rear plots are §6.3's split children with their new stock's band), and `thin … back_court` clears a court only after its households are re-homed and its buildings vacated, the vacant rear row returning to the front plot by rung 3's `amalgamate` | §4.11, §4.6 |",
+    "new_row": "| J-A31.40 | rung 2's back court is the one ring change below rung 3: `densify … back_court` splits the yard off by S10 (7)'s incremental re-cut (frontages and shells kept; the front plot keeps its address and `builtBand`, every child's lineage continued by §6.3's SPLIT rule, the rear plots taking their new stock's band), and `thin` clears a court, or a yard's infill, only after its households are re-homed and its buildings vacated, the vacant rear row returning to the front plot by rung 3's `amalgamate` | §4.11, §4.6 |"
+   },
+   {
+    "id": "J-A30.85",
+    "older_line": 12884,
+    "appended_line": 12915,
+    "old_row_sha256": "fd29ea2b1a10502b3ec6dfbe059c2da8d4623dbe7656a98c723cae20ae7db021",
+    "new_row_sha256": "be6efb0bfb6780b6bbe4168f0bacefaf9c1080f29af54c8ca4584f038fcbe113",
+    "old_row": "| J-A30.85 | the knowledge filter's reach: every `query` kind; readers and files without a band admit as at the city band; a `use`- or `owner`-keyed theme skips withheld places; the document formats go only to a key of tier `secret`, the key being no secrecy boundary for a client that holds the document (amends J-A30.83) | §11.2 and §11.1, with §8.2 and §9.2 |",
+    "new_row": "| J-A30.85 | the knowledge filter's reach: every `query` kind; readers and files without a band admit as at the city band; a `use`- or `owner`-keyed theme skips withheld places; the document formats and permalinks go only to a key of tier `secret`, a refused bridged export answered by `export.refused`; the key is no secrecy boundary for a client that holds the document (amends J-A30.83) | §11.2 and §11.1, with §8.2, §9.2 and §11.3 |"
+   },
+   {
+    "id": "J-A30.87",
+    "older_line": 12886,
+    "appended_line": 12916,
+    "old_row_sha256": "adb3e67e5872382c87b7f2636683685ceb512fb6596a4848b3be2578b3162733",
+    "new_row_sha256": "0452d12ed89037ab115afb83badc5dcfc5bbbae62b0f7a2a5a93b048a5ee0b34",
+    "old_row": "| J-A30.87 | a building over a passage carries a span mark — the passage's span ring, cut with the footprint until the building is composed — filled into its block's mass at the city band, a shadow caster from the passage's headroom, and extruded over the passage in glTF and CityJSON (amends J-A30.84's mechanism) | §8.5, §8.4, §11.1 |",
+    "new_row": "| J-A30.87 | a building over a passage carries a span mark — the passage's span ring under the base wing that spans it — filled into its block's mass at the city band, a shadow caster from the passage's headroom, and extruded over the passage in glTF and CityJSON (amends J-A30.84's mechanism) | §8.5, §8.4, §11.1 |"
+   }
+  ]
+ },
+ "part_a": {
+  "table_header_line": 45,
+  "ids_swapped": [
+   "J-DET-2",
+   "J-DET-53",
+   "J-A31.71",
+   "J-A12.31",
+   "J-A28.23",
+   "J-A28.26",
+   "J-A31.44",
+   "J-A31.48",
+   "J-A20.01",
+   "J-A28.01",
+   "J-A12.71",
+   "J-A20.75",
+   "J-A22.74",
+   "J-A31.75",
+   "J-A28.34",
+   "J-A30.23",
+   "J-A28.29",
+   "J-A24.43",
+   "J-A26.44",
+   "J-A31.40",
+   "J-A30.85",
+   "J-A30.87"
+  ],
+  "swaps": [
+   {
+    "id": "J-DET-2",
+    "older_line": 102,
+    "appended_line": 508,
+    "old_row_sha256": "8c7e279e275c031b5d98c3823fdbcf1c1c8dc60c41f30c4652e7f662a52facd6",
+    "new_row_sha256": "8e4825a1bed01c0e2ed97ed3d0e6ec6a33183044773c0e1549a099f781cc96f2",
+    "old_row": "| J-DET-2 | Chose to keep the lineage (and so the draws) only for entities that survive un-derived, and to hand only the address to an anchor-matched successor, over carrying the lineage in both cases, because New random must really re-roll its scope while names, locks and assignments must follow the building the user means (§6.3). *(amended by amendments b: a mutation — a fusion, a splitting, a ladder step, an interior re-cut — continues lineage; only New random takes fresh lineage; J-A31.73, J-A28.63, J-A8.61)* |",
+    "new_row": "| J-DET-2 | Chose to keep the lineage (and so the draws) only for entities that survive un-derived, and to hand only the address to an anchor-matched successor, over carrying the lineage in both cases, because New random must really re-roll its scope while names, locks and assignments must follow the building the user means (§6.3). *(amended by amendments b: a mutation — a fusion, a splitting, a ladder step, an interior re-cut — continues lineage; only a re-derivation takes fresh lineage; J-A31.73, J-A28.63, J-A8.61)* |"
+   },
+   {
+    "id": "J-DET-53",
+    "older_line": 153,
+    "appended_line": 509,
+    "old_row_sha256": "37a720ef6633639cadc788e54f1a0b0edc7e15a0b4efdca082a702f40111b5fa",
+    "new_row_sha256": "28c2ba219771e38aa031607fd49b5260802b13702b5425159b7f70426f92d91c",
+    "old_row": "| J-DET-53 | *Chose a transparent successor (seed + 1) over deriving the next seed from the generator's stream state because seed + 1 survives any change of draw order and is readable in the link.* The references derive their successor from the stream state, which is reproducible within one build (VG's Enter chain replays per build, `coverage-audit-vg.md` VN-007; MFCG's successor is its deterministic stream state) but moves whenever a build changes its draw order; MFCG's Enter also drops explicit parameters and takes size and flags from a non-seeded source — PLAT does neither. (§6.1 Enter, archived l. 5334–5340) *(New row added by the consistency pass, 2026-09-26: the canon gave this inline passage, which had no row, the next free id.)* |",
+    "new_row": "| J-DET-53 | *Chose a transparent successor (seed + 1) over deriving the next seed from the generator's stream state because seed + 1 survives any change of draw order and is readable in the link.* The references derive their successor from the stream state, which is reproducible within one build (VG's Enter chain replays per build, `coverage-audit-vg.md` VN-007; MFCG's successor is its deterministic stream state) but moves whenever a build changes its draw order; MFCG's Enter also drops explicit parameters and takes size and flags from a non-seeded source — PLAT does neither. (§6.1 Enter, archived l. 5334–5340) *(New row added by the consistency pass, 2026-09-26: the canon gave this inline passage, which had no row, the next free id.)* *(amended by amendments b: Enter keeps the current document's dossier — the new document's creation prefix holds one `creation` `assign` event per live dossier-backed assignment, without `placed`, `target` or `use`, which name the old town's entities — over dropping it with the map's assignments, because item 20 (b) makes everything the dossier specifies exist on every map the module returns and item 22 (d) puts every element of an existing dossier on a brand-new map from the start, while rejections and positive placements are the old map's own edits; J-A22.74)* |"
+   },
+   {
+    "id": "J-A31.71",
+    "older_line": 344,
+    "appended_line": 510,
+    "old_row_sha256": "b3c5e24f90eba7cf07b9b4af1ee2b8f4ea661ab3572494f4655743ab0271b49b",
+    "new_row_sha256": "e9eb8af30dbd8f84239de11d0bff64b51c74d34285513f4087c99fdc53534ab7",
+    "old_row": "| J-A31.71 | Chose to refuse a direct `setAttr` of `builtBand` as derived state — the attribute is written only by the rung-3 kinds (`join`, `split`, `rebuild`, a redevelopment) and the redevelopment-class edits, each of which re-derives the stock to the band it sets — over allowing a bare value change, because a value that disagreed with the standing stock would make the floor lie (§7.1, §7.4). |",
+    "new_row": "| J-A31.71 | Chose to refuse a direct `setAttr` of `builtBand` as derived state — the attribute is written only by the paths §4.11 lists (J-A31.44), each of which re-derives or re-sets the stock to the band it records — over allowing a bare value change, because a value that disagreed with the standing stock would make the floor lie (§7.1, §7.4; restated by repair round 2 for VD1-07, to follow J-A31.44's list). |"
+   },
+   {
+    "id": "J-A12.31",
+    "older_line": 348,
+    "appended_line": 515,
+    "old_row_sha256": "4ebd3ae9eadf77b49aad3a2bf76230a71bca61fd336dfb3780d4f707913a3184",
+    "new_row_sha256": "1cff800aa7bc28a1b9693b3bd876143d4bd38b53d075fe44bf611e28508d840f",
+    "old_row": "| J-A12.31 | Chose to run `kerb`, `corridorUnion` and `bandUnion` unchanged on the underground arena — the half-width of a bounding chain read from the entity that owns its `(role, entity)` row, a way's width profile on the ground and a tunnel's bore plus its wall below it, so the tunnel is the underground street, its band the corridor and the band's outer ring (the tunnel's external wall) the kerb every frontage plot's lines end on — over a dedicated underground band operation or a per-arena kerb rule, because the owner's rule (\"each plot can only occupy an adjacent space next to a sewer line … flush against the external wall of the sewer\") is exactly what the ground's corridor construction already guarantees for a street's plots, one function on every arena is what §3.7 promises, and a second construction would give the underground a second attraction and placement behaviour to test (§3.7; item 12; amendments-b, kernel seat). |",
+    "new_row": "| J-A12.31 | Chose to run `kerb`, `corridorUnion` and `bandUnion` unchanged on the underground arena — the half-width of a bounding chain read from the entity that owns its `(role, entity)` row, a way's width profile on the ground and half a tunnel's bore plus its wall below it (`widthCm ÷ 2 + wallCm`, II.7.2), so the tunnel is the underground street, its band the corridor and the band's outer ring (the tunnel's external wall) the kerb every frontage plot's lines end on — over a dedicated underground band operation or a per-arena kerb rule, because the owner's rule (\"each plot can only occupy an adjacent space next to a sewer line … flush against the external wall of the sewer\") is exactly what the ground's corridor construction already guarantees for a street's plots, one function on every arena is what §3.7 promises, and a second construction would give the underground a second attraction and placement behaviour to test (§3.7; item 12; amendments-b, kernel seat; restated by repair-kernel-r2 after verify-kernel-r1's VK1-09). |"
+   },
+   {
+    "id": "J-A28.23",
+    "older_line": 357,
+    "appended_line": 518,
+    "old_row_sha256": "c31ee95b1b537f758db568856405c1d44c63e5c95776ddbcd04c2bd0000643e5",
+    "new_row_sha256": "74a83605c1d14748c231fc8dc63db101a90c34c15f769c5e99e83e0693e3f8cc",
+    "old_row": "| J-A28.23 | Chose to read the owner's last sentence — \"the more rooms for more occupying families the richer a building gets\" — on the building, as its capacity, and to state one integer capacity function in §2.6 (the smaller of the template row's `households.max` at the plot's `builtBand` and the storeys' exact twice-area less the circulation share over the smallest unit form's minimum area) that S10b's fill, `relet` and F-PLAN all read, over reading the sentence on the occupants or letting each path compute its own bound, because read on the occupants the sentence contradicts the same message's first clause (\"more prosperity means a larger home for a smaller family\"), while read on the building it is exactly the shell's rooms to let, rising with the band it was built for; and one function in exact integers is the only way the solver and the plan agree on every host (§2.6; item 28 (f); with the pipeline's J-A28.44). |",
+    "new_row": "| J-A28.23 | Chose to read the owner's last sentence — \"the more rooms for more occupying families the richer a building gets\" — on the building, as its capacity, and to state one integer capacity function in §2.6 (the smaller of the template row's `households.max` at the plot's `builtBand` and the storeys' exact twice-area less the circulation share over the smallest unit form's minimum area) that the generation fill (S10b's placement, written by S11 once the building's wings exist, since the capacity reads their extents and S10b runs before them), `relet` and F-PLAN all read, over reading the sentence on the occupants or letting each path compute its own bound, because read on the occupants the sentence contradicts the same message's first clause (\"more prosperity means a larger home for a smaller family\"), while read on the building it is exactly the shell's rooms to let, rising with the band it was built for; and one function in exact integers is the only way the solver and the plan agree on every host (§2.6; item 28 (f); with the pipeline's J-A28.44; repair round 2: V-MAB1-03). |"
+   },
+   {
+    "id": "J-A28.26",
+    "older_line": 360,
+    "appended_line": 519,
+    "old_row_sha256": "b5ae4c2a3df44315be50612c24b106b8ee2c22be2c26f5ce896742726b113c3c",
+    "new_row_sha256": "3e5c21d73cfd9c74d689b3a7896e8dae084f49968d769152bb7d9caa28fd9714",
+    "old_row": "| J-A28.26 | Chose the canonical chain as the re-cut's definition — the plan for a band row and a household count derived from the as-built plan by least-disruption steps in one fixed order, the rows first (one band at a time, the count clamped into each row's range) and then the households (one at a time) — with the fixed set (wing rings, stair core, entrances, hearths and stacks, reserved passage cells, basement ring) and the kept-room rule stated once, and a stored plan re-cut inside its changing event, over the cached result at click time or households-first, because a chain from committed state makes the plan a function of its inputs alone (§6.2, §6.5 (9)) and returns the as-built plan exactly when the households are re-united; rows first lets each household step happen with the final unit form, so the interior degrades before it multiplies, which is cheaper and what real subdivision did (§2.6; item 28 (f); with J-A28.71 amended and the kernel's J-A28.33). |",
+    "new_row": "| J-A28.26 | Chose the canonical chain as the re-cut's definition — the plan for a band row and a household count derived from the as-built plan by least-disruption steps in one fixed order, the rows first (one band at a time, the count clamped into each row's range) and then the households (one at a time) — with what stays stated once in the forms the kernel's transient arena takes (the shell — each storey's seed rings: the wings' extents clipped to tile, the span ring at the ground storey, the basement ring below it — opened again unchanged as the arena's seeds; the entrances and the hearths as anchors placed before any cut; the stair core's bay, the chimney stacks, the passage room, the composer's rooms and the kept rooms as `fixed` rings), the kept-room rule read on the seed ring the room lies in as the arena clips it, and a stored plan re-cut inside its changing event with the shell's identity across it read on rings stripped of the `composition`-role vertices its new walls add, over the cached result at click time or households-first, over a fixed list that passed seeds and vertices as `fixed` rings, and over a kept-room rule read on the wing's unclipped ring, because a chain from committed state makes the plan a function of its inputs alone (§6.2, §6.5 (9)) and returns the as-built plan exactly when the households are re-united; rows first lets each household step happen with the final unit form, so the interior degrades before it multiplies, which is cheaper and what real subdivision did; a wing ring or a basement ring passed as a `fixed` ring would be one uncut face and an entrance is a vertex, not a ring (§3.4's contract); after item 18 changes an earlier overlapping wing a later wing's clipped seed moves although its ring does not, so a room kept by its wing ring would be refused by the arena (`overlap`); and J-P48 (1) makes every new wall end on an exterior wall a footprint vertex in the same event — a split that moves nothing — so the shell's byte-identity bars read the shell without those vertices, as §7.3 item 7 (ii) does (§2.6; item 28 (f); with J-A28.71 amended and the kernel's J-A28.33; repair round 2: V-MAB1-06, V-MAB1-08, V-MAB1-09, VK1-03). |"
+   },
+   {
+    "id": "J-A31.44",
+    "older_line": 422,
+    "appended_line": 526,
+    "old_row_sha256": "93828e7788fd8e6241448f34867a9a585042ba2ded44a0fe000ca316528306be",
+    "new_row_sha256": "2be419a7ef74c2b4136d545eaafe4e0a60ff5ba87ceb51ca581ca066829fbaed",
+    "old_row": "| J-A31.44 | Chose that `builtBand` is written by generation, by rung-3 events, by rung 2's back court for the rear plots it creates (their new stock's band; the front plot keeps its own), by the hand edits of rung 3's kind — `rebuild`, `demolish` then `build`, `amalgamate`, `subdivide`, `fill`, a `replace` close-up and a New random of the block, each re-deriving the stock by the user's act — by the authorial re-derivations (a field brush's and a `FieldBands` `setAttr`'s re-derivation, and `Adjust`) and by a completed upward refurbishment, and is lowered by nothing else — rungs 1 and 2 never lower a standing plot's record, and wealth change over epochs moves it only through rung 3 — over resetting it at rungs 1 and 2 or making brushes floor-bound, because a brush, `fill`, a New random and `Adjust` are how a user designs a town — the static base keeps today's behaviour exactly — while the floor governs wealth change over epochs; the owner's \"refurbished housing … gets to a middle class outcome\" favours a renovation raising the record so that the improvement is kept (amended 2026-09-27, repair round 1: `fill`, a New random and rung 2's rear plots named, \"lowered only by a rung-3 event\" corrected; §4.11, §7.2; item 31). |",
+    "new_row": "| J-A31.44 | Chose that `builtBand` is written by generation, by rung-3 events (an `amalgamate` that builds nothing — a thinned rear row or a cleared plot returned to its neighbour — keeping the `builtBand` of the member whose frontage anchor the joined plot keeps), by rung 2's back court for the rear plots it creates (their new stock's band; the front plot keeps its own), by the hand edits of rung 3's kind — `rebuild`, `demolish` then `build`, `amalgamate`, `subdivide`, `fill`, a `replace` close-up and a New random of the block, each re-deriving the stock by the user's act — by the authorial re-derivations (a field brush's and a `FieldBands` `setAttr`'s re-derivation, and `Adjust`) and by a completed upward refurbishment, and is lowered by nothing else — rungs 1 and 2 never lower a standing plot's record, and wealth change over epochs lowers it only through rung 3 — over resetting it at rungs 1 and 2 or making brushes floor-bound, because a brush, `fill`, a New random and `Adjust` are how a user designs a town — the static base keeps today's behaviour exactly — while the floor governs wealth change over epochs; the owner's \"refurbished housing … gets to a middle class outcome\" favours a renovation raising the record so that the improvement is kept (amended 2026-09-27, repair round 1: `fill`, a New random and rung 2's rear plots named, \"lowered only by a rung-3 event\" corrected; repair round 2: \"moves it only through rung 3\" corrected to \"lowers\", since a refurbishment raises it and rung 2's rear plots take their stock's band, and the no-build `amalgamate` stated; §4.11, §7.2; item 31). |"
+   },
+   {
+    "id": "J-A31.48",
+    "older_line": 426,
+    "appended_line": 527,
+    "old_row_sha256": "4be1b5d7be0c543acb854ff772dddd30741e68746b3878187240f1374f33b29b",
+    "new_row_sha256": "04d39d427eb23ede6e1ff7bdb5ba525711e791a214e5f9d0e9977855699b362b",
+    "old_row": "| J-A31.48 | Chose to state the ladder's lineage by pointer to §6.3's JOIN and SPLIT rule (J-A31.73) — a fused plot continuing its largest parent's lineage by area, a split plot's children keyed by the parent's lineage plus the child index, a resurrected member's `builtBand` from the re-cut event — and to make every ladder event a mutation that continues lineage, only New random taking fresh lineage, over fresh lineage for every successor (the J-DET-2 default) or a second statement of the rule in §4.11, because the owner's seed rule (\"modifications and variations of the original seed\") requires the survivors' buildings to keep their streams and the rule has one home, §6.3 (amended 2026-09-27, repair round 1: the pipeline's reading of J-A31.73, no restatement; §4.11, §6.3; item 31). |",
+    "new_row": "| J-A31.48 | Chose to state the ladder's lineage by pointer to §6.3's JOIN and SPLIT rule (J-A31.73) — a fused plot continuing its largest parent's lineage by area, a split plot's children keyed by the parent's lineage plus the child index, a resurrected member's `builtBand` from the re-cut event — and to make every ladder event a mutation that continues lineage, only a re-derivation taking fresh lineage (§6.3's succession rule: New random and the successors a re-derived scope's matching gives), over fresh lineage for a mutation's successors too (the J-DET-2 default) or a second statement of the rule in §4.11, because the owner's seed rule (\"modifications and variations of the original seed\") requires the survivors' buildings to keep their streams and the rule has one home, §6.3 (amended 2026-09-27, repair round 1: the pipeline's reading of J-A31.73, no restatement; repair round 2: \"only New random\" corrected to \"only a re-derivation\", which §6.3's succession rule requires; §4.11, §6.3; item 31). |"
+   },
+   {
+    "id": "J-A20.01",
+    "older_line": 468,
+    "appended_line": 536,
+    "old_row_sha256": "84911f503a2104339d069a9b0b507ab5c69d96ac1c8339652abd6119c6b32521",
+    "new_row_sha256": "0a58ae87504fb76eb2126366f81b25dfa8f9a7ee9d7cee7bca5e127d45822fbe",
+    "old_row": "| J-A20.01 | Chose to state the dossier contract's tests — T20-1 – T20-5 and T22-1 – T22-4, T20-5 the one-way door of item 20 (a), proved by an enumeration of the bridge's message kinds and by `report.changed` carrying every record a B-EDIT sequence made (added by repair round 1, VS-04) — in §13.2, to name the contract's hooks in the staged SettlementForge row and to give O10 a letter for it, over leaving them in the determinism seat's notes, because R9 makes §13 the one home of every test and the owner's authority rule (\"the map does not edit the dossier\") deserves an acceptance letter a milestone can fail (§13.2, §15.2, *Staged by the owner's roadmap*). |",
+    "new_row": "| J-A20.01 | Chose to state the dossier contract's tests — T20-1 – T20-5 and T22-1 – T22-4, T20-5 the one-way door of item 20 (a), proved by an enumeration of the bridge's message kinds and by `report.changed` carrying every record a B-EDIT sequence made (added by repair round 1, VS-04), T20-2's epoch clause from M4, where the epoch path is built (verify-scope-r1's VS1-01; J-A17.01) — in §13.2, to name the contract's hooks in the staged SettlementForge row and to give O10 a letter for it, over leaving them in the determinism seat's notes, because R9 makes §13 the one home of every test and the owner's authority rule (\"the map does not edit the dossier\") deserves an acceptance letter a milestone can fail (§13.2, §15.2, *Staged by the owner's roadmap*). |"
+   },
+   {
+    "id": "J-A28.01",
+    "older_line": 474,
+    "appended_line": 537,
+    "old_row_sha256": "0f286f5f3d0c73d7c9e11779a3924fca7674d8f571f5ae32aec0c4cf62aedaca",
+    "new_row_sha256": "dff47aa416a2b02587134a8f847772464d661afab3dfa589ed5af61f5862662a",
+    "old_row": "| J-A28.01 | Chose to state the plan rung's bars as one B-PLAN group in §13.2 — the eight hard bars and soft bands of the Fable synthesis with the plan block's schema bar (T28-19), the four elaboration tests and the six bars of item 28 (f) (T28-13 – T28-18) — with the shell bar (T28-14) checked by the shell's leaf digest (§2.6's bar, §5.3's interior-ladder row) and §3.10's seed-tiling row proving only the tiling; the bars whose mechanism the base builds — the click-order and cache tests T28-9 and T28-11, T28-12's `wings` clause, the interior ladder's schema test T28-16, T28-17's housing clause and T28-18's `relet` clause — run from M3a and the rest from stage 3's intake; and the plan's soft bands form a §13.7 row that gates nothing; over scattering the bars through §2.6, §5.2 and §12.7 or running every B-PLAN bar from stage 3's intake, because R9 makes §13 the one home of every acceptance bar, the synthesis's numbers (5 ms, 20 ms, 4 KB, 8 MB) are budgets of §12.7 and §12.8 that the bars cite, and a bar whose mechanism the base builds must run when the base builds it — the owner's own concern, every household housed without a new plot, would otherwise first run at stage 3 (§13.2, §13.7, §16; the milestone split, T28-18 and T28-19 by repair round 1: VS-03, VS-20, VS-23, VK-18). |",
+    "new_row": "| J-A28.01 | Chose to state the plan rung's bars as one B-PLAN group in §13.2 — the eight hard bars and soft bands of the Fable synthesis with the plan block's schema bar (T28-19), the four elaboration tests and the six bars of item 28 (f) (T28-13 – T28-18) — with the shell bar (T28-14) checked by the shell's leaf digest (§2.6's bar, §5.3's interior-ladder row) and §3.10's seed-tiling row proving only the tiling; the bars whose mechanism the base builds — the click-order and cache tests T28-9 and T28-11, T28-12's `wings` clause, the interior ladder's schema test T28-16, T28-17's housing clause and T28-18's `relet` clause — run from M3a and the rest from stage 3's intake; and the plan's soft bands form a §13.7 row that gates nothing; over scattering the bars through §2.6, §5.2 and §12.7 or running every B-PLAN bar from stage 3's intake, because R9 makes §13 the one home of every acceptance bar, the synthesis's numbers (5 ms, 20 ms, 4 KB, 8 MB) are budgets of §12.7 and §12.8 that the bars cite, and a bar whose mechanism the base builds must run when the base builds it — the owner's own concern, every household housed without a new plot, would otherwise first run at stage 3 (§13.2, §13.7, §16; the milestone split, T28-18 and T28-19 by repair round 1: VS-03, VS-20, VS-23, VK-18). Repair round 2 made two bars read what their homes state: T28-13 houses every household of the building (`Building.households`, §2.6; J-A28.29), where the drafted consequence of item 28 (f) said \"every dossier household\" — the count it meant is the households per building that item 31's rung 1 sets, dossier-backed or not, and \"dossier\" elsewhere in the design names SettlementForge's authority (§7.7), so the old words would have bound only dossier-backed households; and T28-14 reads a stored plan's rings with the `composition`-role vertices its re-cut adds removed, as §2.6 and §5.3 read the shell's identity, because that re-cut establishes J-P48 (1) for its new walls in the same event and would otherwise move the digest of a shell that did not change (verify-scope-r1's VS1-07 and VS1-10, with verify-model-r1's V-MAB1-09 – V-MAB1-11). |"
+   },
+   {
+    "id": "J-A12.71",
+    "older_line": 479,
+    "appended_line": 512,
+    "old_row_sha256": "221827e35451f17dc9ad713ec3be94046877eb6a5b81ec037065253229f0ec72",
+    "new_row_sha256": "8184f53d458f7d10e385fd82ac0b800709ed10ce27e1512b5d9384a5a377bb84",
+    "old_row": "| J-A12.71 | Chose to give the underground's editable records their own create events — `drawTunnel`, which inserts a `tunnel` chain on the underground arena with its kind and its width and headroom (from II.7.2's profile row unless given), and `placeAccess`, which creates an `AccessPoint` with its ground point and its `access_point` vertex on the tunnel's kerb — and to leave a tunnel's condition and its profile preset off the `setAttr` list, over drawing tunnels with `drawWay` and creating access points through `setAttr`, because U2 forbids `way` chains underground, a `setAttr` edits a record that exists and cannot create one, a tunnel's condition is a reading of its existence and closure (J-A11.21) that changes only through `silt`, `caveIn`, `seal` and `reopen`, and the preset is the network's choice, not a field of the tunnel (§7.1, §7.4, II.7). |",
+    "new_row": "| J-A12.71 | Chose to give the underground's editable records their own create events — `drawTunnel`, which inserts a `tunnel` chain on the underground arena with its kind and its width and headroom (from II.7.2's profile row unless given), and `placeAccess`, which creates an `AccessPoint` with its ground point and its `access_point` vertex on the tunnel's kerb — and to leave a tunnel's condition and its profile preset off the `setAttr` list, over drawing tunnels with `drawWay` and creating access points through `setAttr`, because U2 forbids `way` chains underground, a `setAttr` edits a record that exists and cannot create one, a tunnel's condition is a reading of its existence and closure (J-A11.21) that changes only through `silt`, `caveIn`, `seal` and `reopen`, and the preset is the network's choice, not a field of the tunnel (§7.1, §7.4, II.7). An access point's two ends are edited apart — its tunnel end by `moveVertex` on its `access_point` vertex, its opening by `setAttr` on `ground.at`, re-hosted by `pointLocate` on the ground's `PlatKey` with `ground.host` rewritten and refused as F-EDIT outside II.7.3's admitted ground — over moving the opening only with the tunnel end, because the opening stands in a street, yard or cellar of the ground, which no underground edit writes, and everything stays editable (added by repair round 2 for VD1-11). |"
+   },
+   {
+    "id": "J-A20.75",
+    "older_line": 480,
+    "appended_line": 511,
+    "old_row_sha256": "1cba808a0e3461ddc8c49a1b7b38e2a7f4bbe685e39ce44b11757cdb94d33816",
+    "new_row_sha256": "351aee6d33469619456fae91672f0d2b62268f51c7b5fd828bd8dfd9e60525ce",
+    "old_row": "| J-A20.75 | Chose to refuse a map `unassign`, or a map `setAttr` of use or class, on a dossier-backed element as an F-EDIT conflict whose actions are `rejectSite` (move the element) and `placeAt` (designate the plot for something else, the element re-placed), over recording it as a removal, a re-designation or a silent rejection, because the owner ruled that only an instruction from the dossier removes, adds or re-designates a dossier-backed element, a map `delete` already has its own meaning (a rejection), and the two actions offered are exactly what a user can do to such an element on the map (§7.7, §7.1, §7.2, §5.2). |",
+    "new_row": "| J-A20.75 | Chose to refuse every map event — one without `EditBase.dossier` — that would close, remove or re-designate a dossier-backed element as an F-EDIT conflict whose actions are `rejectSite` (move the element) and `placeAt` (designate the plot for something else, the element re-placed) — an `unassign`, a `setAttr` of its use or class, a `convert` `closeUse` of its use or `mutate` of its plot to another designation, a conversion that empties or removes the building that houses it, a plot `join` or `split` whose fate would demolish that building — over recording such an event as a removal, a re-designation or a silent rejection, or refusing only `unassign` and `setAttr`, because the owner ruled that only an instruction from the dossier removes, adds or re-designates a dossier-backed element and each of these routes reaches the same removal or re-designation; a map `delete` already has its own meaning (a rejection), a move (`relocateUse`, `swapUse`) is a map edit and stays allowed, and the two actions offered are exactly what a user can do to such an element on the map (§7.7, §7.1, §7.2, §5.2, §5.3; widened by repair round 2 for VD1-08). |"
+   },
+   {
+    "id": "J-A22.74",
+    "older_line": 481,
+    "appended_line": 507,
+    "old_row_sha256": "ccf8cf962ed5c36c59df0050cb312ccf1c7e104fafa52c56960fb1c2b5ded372",
+    "new_row_sha256": "c0177ba043fd57e2a11146d69419183f58df104fa8db0ab025f6f1393b6e2785",
+    "old_row": "| J-A22.74 | Chose to let the base derivation's S2 read the log's creation prefix — the blueprint's and the creation dossier's `assign` events at positions 0…k, flagged `EditBase.creation` by `generate` — as fixed rows before it runs, the fold's one declared read-ahead, folding those events afterwards recording the generation run's placements and placing nothing a second time, over copying the creation assignments into the recipe or placing them only when their events fold, because a brand-new map from an existing dossier must hold every element from the start (item 22 (d)), so S2 must count them before any fabric is cut, while the log must stay the one source of truth for assignments (LC-24) — a recipe copy would be a second one — and a replay must reach the session's map without reading any other event ahead (§7.4, §7.1, §6.2, §7.7; amends J-DET-6). |",
+    "new_row": "| J-A22.74 | Chose to let the base derivation's S2 read the log's creation prefix — the blueprint's and the creation dossier's `assign` events at positions 0…k, flagged `EditBase.creation` by `generate` — as fixed rows before it runs, the fold's one declared read-ahead, folding those events afterwards recording the generation run's placements and placing nothing a second time, over copying the creation assignments into the recipe or placing them only when their events fold, because a brand-new map from an existing dossier must hold every element from the start (item 22 (d)), so S2 must count them before any fabric is cut, while the log must stay the one source of truth for assignments (LC-24) — a recipe copy would be a second one — and a replay must reach the session's map without reading any other event ahead (§7.4, §7.1, §6.2, §7.7; amends J-DET-6). A `creation` event therefore belongs to the base derivation it feeds, not an edit of the map it made: it is never an `undo`, `redo` or `revert` target and never truncated — the undo key and `revert` skip it, and an `undo(h, of)` naming it returns F-EDIT offering `unassign` for a blueprint assignment and `rejectSite` and `placeAt` for a dossier element — over giving it an undo of its own, because its fold owns no placement to restore (generation made it) and dropping it would change what S2 reads ahead, so the replayed town would differ from the log with the pair kept and truncation identity (§6.5 (9)) would fail (added by repair round 2 for VD1-02; §5.2). |"
+   },
+   {
+    "id": "J-A31.75",
+    "older_line": 485,
+    "appended_line": 506,
+    "old_row_sha256": "0acf377430f052da3e8bf89701caa6e27d4cb7c936d23d0e291ab08beb7b0fc8",
+    "new_row_sha256": "4f09f6951be17dda21a99c42cee9fbe9bcee84c7e8cf30e5958cb378ec117f8d",
+    "old_row": "| J-A31.75 | Chose to state the epoch invariant as a comparison of the touched plots' frontage edges and their buildings' shell subtrees (wings, heights, entrances, roof, basement) with their pre-epoch values, each difference matched to a lifecycle event recorded in the epoch — a rung-3 event, rung 2's `densify … back_court` split or its `thin … back_court` reversal, a designation or renovation mutation, or a decline, terrain-and-water, island or carve conversion — while rungs 1 and 2 change no frontage and shrink or re-cut no shell toward a poorer band, over \"a plot without a rung-3 event keeps its ring and its buildings' shells\", because the owner's rung 2 fragments the holding into a back court \"without the front changing\", renovation extends shells when an area grows rich and decline changes geometry, so the old row aborted ordinary epochs, while the owner's guarantee is the unchanged front and the shell that never falls toward poverty (§5.3, with §4.11's rung 2). |",
+    "new_row": "| J-A31.75 | Chose to state the epoch invariant as a comparison of the touched plots' frontage edges and their buildings' shell subtrees (wings, heights, entrances, roof, basement) with their pre-epoch values, every difference matched to a lifecycle event recorded in the epoch — a rung-3 event; rung 1's yard buildings (`densify … infill`, `thin … infill`) or rung 2's `densify … back_court` split or its `thin … back_court` reversal, the only geometry the ladder makes below rung 3; a designation or renovation mutation; any other conversion of §4.11's `ConversionOp` (a decline, terrain-and-water, island, carve, `wallToWay` or `contractWall` conversion); or the growth step's own changes (regrowth's builds, the built-face legality's declared `demolish` and its corridor re-cuts) — while rungs 1 and 2 change no frontage and shrink or re-cut no shell toward a poorer band, and no difference is matched only to a rung-1 or rung-2 `LadderOp` beyond those yard buildings and that back court, over \"a plot without a rung-3 event keeps its ring and its buildings' shells\" and over a closed list of rung 3, the back court, a mutation and four conversion kinds, because the owner's rung 2 fragments the holding into a back court \"without the front changing\", rung 1 fills and clears the yard, renovation extends shells when an area grows rich, decline changes geometry and an ordinary growth epoch demolishes and re-cuts where a new corridor passes, so each narrower list aborted ordinary epochs, while the owner's guarantee is the unchanged front and the shell that never falls toward poverty (§5.3, with §4.11's rungs and growth step; restated by repair round 2 for VD1-01). |"
+   },
+   {
+    "id": "J-A28.34",
+    "older_line": 487,
+    "appended_line": 516,
+    "old_row_sha256": "6b0e6246090d7385845067500badba17431a068517fdad9e611fc7d4041b515d",
+    "new_row_sha256": "3eac06a68159f2d3ae8d3afdd0ea8205b19c3c4922fef2bd33a3a5bbad84a56e",
+    "old_row": "| J-A28.34 | Chose to build a transient arena's input rings as exact topology — a lattice point two rings share one vertex, a side two rings share one edge, a vertex within the hot pixel of another ring's side splitting that side, no attraction — refusing with `E_DEGENERATE` (detail `seed`, `fixed` or `overlap`) a ring that would break `minEdge`, clearance or simplicity and any overlap, which one winding walk finds; to require seed rings that tile, a caller whose wings overlap passing each clipped against the wings before it; and to require each fixed ring inside one seed ring — over inserting the rings as `mandatory` chains under §3.6's attraction, as J-A28.31 first chose, and over accepting overlapping seeds, or fixed rings anywhere in the seeds' union. Attraction would move a kept room on a re-cut: an earlier cut may split a vertex onto a wall 25.29–26 cm from its corner (§3.2 (2)), and re-inserting it would move it onto that corner, so J-A28.33's promise that a kept room re-enters unchanged would fail for a share of rooms; a refusal is typed and caught by F-PLAN (§5.2) where a silent move would change a kept room. Overlapping seeds would count their overlap twice in the tiling check, enclose it in fixed edges no merge may delete (a forced room) and make `readBack`'s seed tags ambiguous; a fixed ring across a party wall would be split by it into two faces, although a fixed ring is a face no cut divides. The construction is a second door for edges beside `insertChain`, confined to a transient arena's opening as §3.9's load is to a stored plat. It amends J-A28.31's insertion and J-A28.33's claim that a kept room reads back byte-identical: a new wall ending on a kept room adds a vertex within the hot pixel of its side, so the room keeps its polygon — its vertices unmoved and in order — rather than its bytes (§3.4, §3.10; items 28, 28 (f); repair-kernel-r1 after verify-kernel-r0's VK-02 and VK-03). |",
+    "new_row": "| J-A28.34 | Chose to build a transient arena's input rings as exact topology — a lattice point two rings share one vertex, a side two rings share one edge, a vertex within the hot pixel of another ring's side splitting that side, no attraction — refusing with `E_DEGENERATE` (detail `seed`, `fixed` or `overlap`) a ring that would break `minEdge`, clearance or simplicity and any overlap, which one winding walk finds; to require seed rings that tile, a caller whose wings overlap passing each clipped against the wings before it; and to require each fixed ring inside one seed ring — over inserting the rings as `mandatory` chains under §3.6's attraction, as J-A28.31 first chose, and over accepting overlapping seeds, or fixed rings anywhere in the seeds' union. Attraction would move a kept room on a re-cut: an earlier cut may split a vertex onto a wall 25.29–26 cm from its corner (§3.2 (2)), and re-inserting it would move it onto that corner, so J-A28.33's promise that a kept room re-enters unchanged would fail for a share of rooms; a refusal is typed and caught by F-PLAN (§5.2) where a silent move would change a kept room. Overlapping seeds would count their overlap twice in the tiling check, enclose it in fixed edges no merge may delete (a forced room) and make `readBack`'s seed tags ambiguous; a fixed ring across the joint between two wings would be split by it into two faces, although a fixed ring is a face no cut divides. The construction is a second door for edges beside `insertChain`, confined to a transient arena's opening as §3.9's load is to a stored plat. Every vertex a face partitioner places on a fixed edge is placed against the input sides that edge lies on, as passed — the input sides are the arena's routes, as a plat's coarser route is for the Steiner vertices on it — over placing it against the sub-edge an earlier split left, because on a one-level arena each sub-edge would be its own route, and same-level splits of a rotated side then drift its later vertices beyond the hot pixel of the straight line, where the construction cannot split the side when a kept room re-enters and refuses the room (a model of §3.6's rule: one side in nine split four times, worst 1.6 cm, `docs/validation/bench/amendb_verify_kernel_r1_drift.out`; placed against the input side, no vertex beyond the hot pixel, no failed search and no refused kept corner over 400 000 splits, `docs/validation/bench/amendb_repair_kernel_r2_routes.out`). Overlapping wings are clipped as the faces of one overlay of the storey's rings, each face going to the first ring in wing order that contains it (`tileRings`), over one `booleans('difference', …)` per ring, because separate overlays leave an earlier ring without the crossing vertices a later one gains and can place a T's second crossing off the bar's straight side (1.3 % of cases, worst 1.06 cm), refusing a valid building's seeds; one overlay gives every ring each crossing vertex, so the joints are shared vertex for vertex. A piece left with a hole — an earlier wing wholly inside a later one — is refused, because a seed is one ring and which wing takes the enclosed rooms is the plan rung's choice, not the kernel's. It amends J-A28.31's insertion and J-A28.33's claim that a kept room reads back byte-identical: a new wall ending on a kept room adds a vertex within the hot pixel of its side, so the room keeps its polygon — its vertices unmoved and in order — rather than its bytes (§3.4, §3.10; items 28, 28 (f); repair-kernel-r1 after verify-kernel-r0's VK-02 and VK-03; amended by repair-kernel-r2 after verify-kernel-r1's VK1-01 and VK1-10). |"
+   },
+   {
+    "id": "J-A30.23",
+    "older_line": 488,
+    "appended_line": 517,
+    "old_row_sha256": "e5e3ddefb4c2a925a5179fa55e06d565c96050c2bc9a4bcb66906068c3132739",
+    "new_row_sha256": "41747b6cc49692b8489b9fdb2cc4a64000e13e7d3c1a942b13fa452166f40043",
+    "old_row": "| J-A30.23 | Chose to make the passage a wing spans a room of the spanning building's plan at the ground storey — its span ring, the part of the `Passage` face under the wing (the face cut by the lines that continue the wing's front and rear sides across it), added as a seed ring and passed whole as a `fixed` ring of role `passage` and scope `circulation`, its two end walls carrying the arch openings — while the stage-3 union contract keeps reading the wings' ground rings and every storey above extends over the span ring, and to read the plan's fourth rung, its capacity and J-P48's room check on each storey's extents, over leaving the passage outside the ground storey's plan or folding it into the wing's ground ring, because item 30 (c) has the plan rung reserve the passage cells before partitioning as a room of kind passage, the kernel's transient arena accepts a `fixed` ring only inside its seeds (the kernel verifier's VK-04), a passage face that runs on past the building to its court must not put yard ground into the plan, and a ground ring left unchanged keeps the footprint, O17 (i)'s footprint hash and the passage face's own L3 identity as they were; the arches are openings of the passage room, not entrances of the building — a door from the building onto the passage is a side entrance facing `passage` — because an `Entrance` is a footprint vertex and the arch is a public way. Amends J-A30.21's union sentence and J-A28.26's \"reserved passage cells\" (§2.6; items 28, 30; repair round 1: V-MAB-01, VK-04, VK-21). |",
+    "new_row": "| J-A30.23 | Chose to make the passage a wing spans a room of the spanning building's plan at the ground storey — its span ring, the part of the `Passage` face under the wing (the face cut by the lines that continue the wing's front and rear sides across it), added as a seed ring and passed whole as a `fixed` ring of role `passage` and scope `circulation`, its two end walls carrying the arch openings — while the stage-3 union contract keeps reading the wings' ground rings and every storey above extends over the span ring, and to read the plan's fourth rung, its capacity and J-P48's room check on each storey's extents, over leaving the passage outside the ground storey's plan or folding it into the wing's ground ring, because item 30 (c) has the plan rung reserve the passage cells before partitioning as a room of kind passage, the kernel's transient arena accepts a `fixed` ring only inside its seeds (the kernel verifier's VK-04), a passage face that runs on past the building to its court must not put yard ground into the plan, and a ground ring left unchanged keeps the footprint, O17 (i)'s footprint hash and the passage face's own L3 identity as they were; the arches are openings of the passage room, not entrances of the building — a door from the building onto the passage is a side entrance facing `passage` — because an `Entrance` is a footprint vertex and the arch is a public way. The span is recorded on the base wing (`BaseWing.spans`), which S11 writes when it builds or re-fits the passage's front building and a composition inherits, over a field of the composed wing alone, because the capacity the generation fill reads, the building's leaf digest and §8.5's span mark all need the span before any composition exists, and a stepped front building has several quads, of which only those along the passage span it; and the carry also runs when the spanned passage face or one of its vertices changes under a stored composition, because the span ring is derived from that face, so a move of the passage's far side, kerb or court end would otherwise leave the stored rooms over it untiled. Amends J-A30.21's union sentence and J-A28.26's \"reserved passage cells\" (§2.6, §2.5; items 28, 30; repair round 1: V-MAB-01, VK-04, VK-21; repair round 2: V-MAB1-01, V-MAB1-12). |"
+   },
+   {
+    "id": "J-A28.29",
+    "older_line": 493,
+    "appended_line": 520,
+    "old_row_sha256": "eebf33c765c14d3d19bb3357ec107eafc1f6f853ce95afe4ef6860e713f84857",
+    "new_row_sha256": "b8462d9b004f195f7c861101ac4af4c51b180090efffe05668b6000d08d64f0f",
+    "old_row": "| J-A28.29 | Chose to state once who occupies a building and at which band — the housed are `Building.households` (with a workplace's live-in `dwelling`), the people who work there are §10's `Posting` records, and the undefined `Building.occupants` list is retired; the occupants' band and value are the plot's current prosperity field sample banded by §4.5's rule, which is the context vector's at the plot's derivation and follows the field after it without re-deriving the plot; and `ClassRules.pick` takes the field band and the manifested band as explicit inputs — over a third list of people on the building, an interior read from the context vector as it stood at derivation, or a `pick` left to find a manifested band its arguments cannot give, because people are derived and never materialised (§10.3), an epoch moves the field without re-deriving plots (item 31) so a band frozen at derivation would leave interiors behind their occupants, and the manifested band needs `builtBand` and `FieldBands.middle`, which the context vector does not carry (§2.6; items 28 (f), 19, 31; repair round 1: V-MAB-22, V-MAB-23, V-MAB-32). |",
+    "new_row": "| J-A28.29 | Chose to state once who occupies a building and at which band — the housed are `Building.households` (with a workplace's live-in `dwelling`), the people who work there are §10's `Posting` records, and the undefined `Building.occupants` list is retired; the occupants' band and value are the plot's current prosperity field sample banded by §4.5's rule, which is the context vector's at the plot's derivation and follows the field after it without re-deriving the plot, its hysteresis read against the plot's own persisted band memory, `Plot.fieldBand` — set by every derivation that reads the current field and re-banded after S6 at every epoch, in the model digest; and `ClassRules.pick` takes the field band and the manifested band as explicit inputs — over a third list of people on the building, an interior read from the context vector as it stood at derivation, a hysteresis read against `DerivationRecord.band`, or a `pick` left to find a manifested band its arguments cannot give, because people are derived and never materialised (§10.3); an epoch moves the field without re-deriving plots (item 31), so a band frozen at derivation would leave interiors behind their occupants, and a memory only a derivation rewrites lets a value that fell past a cut and came part of the way back return the old band without re-crossing the cut — a value oscillating about the cut would flip the band and re-cut a stored plan at every epoch (J-A28.72), against §4.5's rule that a band is kept until its value crosses a cut by more than the hysteresis; and the manifested band needs `builtBand` and `FieldBands.middle`, which the context vector does not carry (§2.6, §2.5, §2.8; items 28 (f), 19, 31; repair round 1: V-MAB-22, V-MAB-23, V-MAB-32; repair round 2: V-MAB1-05). |"
+   },
+   {
+    "id": "J-A24.43",
+    "older_line": 495,
+    "appended_line": 523,
+    "old_row_sha256": "246072d9443bd2347ac35f4b84d2f0041c6168e216e097b31b671972538ea7bf",
+    "new_row_sha256": "001a2197ca766d8ea0117db6e0bed2a45ed8e844fed7b33dd8c33d0f26bf06c7",
+    "old_row": "| J-A24.43 | Chose to raise the harbour's kind weight in S3 (12)'s trade-convergence score from 0.4 to the plaza's 1.0 and to read its trade term against a reference port — 0.6 × min(1.5, p ÷ `portRef`), `p` the manifest's share of buildings whose class requires the coast and `portRef` the median `p` over B-CITY's harbour seeds, which S2 alone computes because the roster needs no geometry — so that at the median port the harbour scores 1.6 against the plaza's 1.5 and the two tie at ⅚ of the median, over keeping the weights and making T24-1's port share a descriptive figure, because under the former weights no non-plaza site could win in a single-nucleus port (1.5 against at most 1.0), which made J-A24.01's ruled threshold unattainable by construction and the owner's \"may not [be central] elsewhere\" a sentence the defaults never realised; reading the port term against the reference port keeps the comparison independent of the roster's absolute coastal shares, every inland comparison still lands on the plaza (1.5 against at most 0.9) so MFCG remains the default where it applies, and the parity presets still pin the plaza (amends J-A24.41's default weights; §4.2 S3 (12); item 24). |",
+    "new_row": "| J-A24.43 | Chose to raise the harbour's kind weight in S3 (12)'s trade-convergence score from 0.4 to the plaza's 1.0 and to read its trade term against a reference port — 0.6 × min(1.5, p ÷ `portRef`), `p` the manifest's share of buildings whose class requires the coast and `portRef` the median `p` over B-CITY's harbour seeds, computed by running S0–S2 alone because the roster needs no layout, and stored as a `market.siting` cell that a scripted pass re-computes whenever a shipped roster row changes (a table-version bump with its declared shift) and a contract test checks — so that at the median port the harbour scores 1.6 against the plaza's 1.5 and the two tie at ⅚ of the median, over keeping the weights and making T24-1's port share a descriptive figure, because under the former weights no non-plaza site could win in a single-nucleus port (1.5 against at most 1.0), which made J-A24.01's ruled threshold unattainable by construction and the owner's \"may not [be central] elsewhere\" a sentence the defaults never realised; reading the port term against the reference port keeps the comparison independent of the roster's absolute coastal shares, every inland comparison still lands on the plaza (1.5 against at most 0.9) so MFCG remains the default where it applies, and the parity presets still pin the plaza (amends J-A24.41's default weights; amended 2026-09-27, repair round 2: `portRef`'s maintenance path, in place of a pointer to the staged corpus interface; §4.2 S3 (12); item 24). |"
+   },
+   {
+    "id": "J-A26.44",
+    "older_line": 496,
+    "appended_line": 524,
+    "old_row_sha256": "1744c8abffb575fbb6b61ae9e54ad55fc375cdc03cfa0f747d58b34f9bbda867",
+    "new_row_sha256": "3bd5f6fd09f2261020ad8a02d5b0f4252b60c3c5472757d45b3f7b219e835e7b",
+    "old_row": "| J-A26.44 | Chose to name FTG's farmland settings truly — four, a `Default` choosing among `Farmsteads`, `Around perimeter` and `Around rivers` by size and landscape with its climate presets overriding (`research/findings/ftg-docs-params.md` §4.6) — and to adopt all three layouts: `rivers` as a third `FarmModeRow` value (fields only within `riverBandM`, default 300 m, of a river's banks, and `perimeter`'s behaviour where the frame has no river, FTG's stated rule), FTG's climate override as the `ClimateTable` row's farm layout (arid → `rivers`, cold → `perimeter`, temperate → the rung × landscape row), and `perimeter` corrected to FTG's own — no farmsteads, the farm households living in the settlement, their fields close to it — with the former `along rivers` field-system preset folded into the mode, over calling two modes \"FTG's two\" or leaving `Around rivers` out by ruling, because a `ref:` provenance must name the reference's behaviour truly (§17.1 (6)), item 23 makes FTG's modes the default, and a `perimeter` with farmsteads contradicted the very layout it claimed; the mode is a pure function of the rung, the climate row and S1's relief and resources, so S2 reads it before it demands the farm plots (§4.9, §4.2 S2; item 26). |",
+    "new_row": "| J-A26.44 | Chose to name FTG's farmland settings truly — four, a `Default` choosing among `Farmsteads`, `Around perimeter` and `Around rivers` by size and landscape with its climate presets overriding (`research/findings/ftg-docs-params.md` §4.6) — and to adopt all three layouts: `rivers` as a third `FarmModeRow` value (fields only within `riverBandM`, default 300 m, of a river's banks, and `perimeter`'s behaviour where the frame has no river, FTG's stated rule), FTG's climate override as the `ClimateTable` row's farm layout (arid → `rivers`, cold → `perimeter`, temperate → the rung × landscape row), and `perimeter` corrected to FTG's own — no farmsteads, the farm households living in the settlement, their fields close to it — with the former `along rivers` field-system preset folded into the mode and the `farmsteads` preset into `fill` (the mode, never a preset, decides whether farmsteads exist), over calling two modes \"FTG's two\" or leaving `Around rivers` out by ruling, because a `ref:` provenance must name the reference's behaviour truly (§17.1 (6)), item 23 makes FTG's modes the default, and a `perimeter` with farmsteads contradicted the very layout it claimed; the mode is a pure function of the rung, the climate row and S1's relief and resources, so S2 reads it before it demands the farm plots (amended 2026-09-27, repair round 2 on verify-pipeline-r1: a river band too small for the arable demand continues as `perimeter` beyond the band, its shortfall reported and never a failure, because the farm table's per-capita bar holds in every mode; the `farmsteads` preset folded into `fill`; §4.9, §4.2 S2; item 26). |"
+   },
+   {
+    "id": "J-A31.40",
+    "older_line": 497,
+    "appended_line": 525,
+    "old_row_sha256": "e3d482505b6dfc4a39a485f802ddbe3f2efe19e242da690a4e62f2c261225828",
+    "new_row_sha256": "490758c4184e6c8f82f3244785834d6c0c742ad960b9f2f3d75edfb657a0d727",
+    "old_row": "| J-A31.40 | Chose to treat rung 2's back court as the one legitimate ring change below rung 3 — `densify … back_court` splits the yard off the plot into rear plots and a passage face by S10 (7)'s incremental re-cut, every frontage and main shell standing, the front plot (the child that keeps the frontage anchor) keeping its address, lineage and `builtBand`, the rear plots keyed as §6.3's split children and taking their new stock's band — and to clear a court (`thin … back_court`) only after its uses relocate, its households are re-homed (item 17's relocation, or a `relet` up within §2.6's capacity) and its buildings are vacated, the vacant rear row returning to the front plot's garden by rung 3's `amalgamate`, over holding back courts until a rung-3 event or clearing a court with its tenants in it, because the owner's rung 2 is \"the holding fragments without the front changing: a yard becomes a back court with its passage\", which is a plot split, while \"no occupied building is demolished by a band change\" forbids clearing housing before its households have gone; the frontages, the shells and the middle-floored stock, which takes no back court, keep the floor's guarantees, so the epoch invariant of §5.3 and §13.2's T31-9 read the frontage and the shells, the ring changing only by this split and its reversal (§4.11, §4.6; items 31 and 30). |",
+    "new_row": "| J-A31.40 | Chose to treat rung 2's back court as the one legitimate ring change below rung 3 — `densify … back_court` splits the yard off the plot into rear plots and a passage face by S10 (7)'s incremental re-cut, every frontage and main shell standing, the front plot (the child that keeps the frontage anchor) keeping its address and `builtBand`, its lineage continued by §6.3's SPLIT rule as every child's is, the rear plots keyed as §6.3's split children and taking their new stock's band — and to clear a court (`thin … back_court`), or a yard's infill (`thin … infill`), only after its uses relocate, its households are re-homed (item 17's relocation, or a `relet` up within §2.6's capacity) and its buildings are vacated, the vacant rear row returning to the front plot's garden by rung 3's `amalgamate`, over holding back courts until a rung-3 event or clearing a court with its tenants in it, because the owner's rung 2 is \"the holding fragments without the front changing: a yard becomes a back court with its passage\", which is a plot split, while \"no occupied building is demolished by a band change\" forbids clearing housing before its households have gone; the frontages, the shells and the middle-floored stock, which takes no back court, keep the floor's guarantees, so the epoch invariant of §5.3 and §13.2's T31-9 read the frontage and the shells, the ring changing only by this split and its reversal (amended 2026-09-27, repair round 2: the front plot's lineage continued by §6.3's SPLIT rule rather than kept, and infill re-homed before it is cleared; §4.11, §4.6; items 31 and 30). |"
+   },
+   {
+    "id": "J-A30.85",
+    "older_line": 501,
+    "appended_line": 532,
+    "old_row_sha256": "afc33dd0bb3e56578970d0bb046f56edd02903769acb4df36a3ea5ebeaa52cad",
+    "new_row_sha256": "3cba5c6874ae9635734228f83e7f665b880a149fd06b95352acf51201180cae3",
+    "old_row": "| J-A30.85 | Chose to carry the knowledge filter to every reader and file — every `query` kind, `people`, `whereIs` and `relations` giving a withheld workplace or household by its address and withholding a profession that is the place's use; every reader or file without a band admitting as at the city band; a `use`- or `owner`-keyed theme skipping a withheld place and naming no withheld value in its legend — and to offer the document formats (`.plat`, the compact twin, the JSON schema) only to a key of tier `secret`, refusing any other with `E_KNOWLEDGE_TIER`, over filtering only the view-bound readers and every export alike, because the owner's rule is that the future clerk answers about secret places only to a viewer who knows them, and a list, a theme colour or a file that named what the town view withholds would break it; because a reader without a band must take one column, and the city band's is the one the town view shows; and because the document formats are the model — withholding a name there would break their byte-identical round trip — so the honest rule is that the key governs what the module shows and writes, not what a client that holds the document holds: a host that keeps a place secret from a client sends it pictures and interchange exports, never the document (§11.1, §11.2, §8.2, §9.2; item 30 (d); repair round 1: VR-09, VR-10, VR-11). Amends J-A30.83. |",
+    "new_row": "| J-A30.85 | Chose to carry the knowledge filter to every reader and file — every `query` kind, `people`, `whereIs` and `relations` giving a withheld workplace or household by its address and withholding a profession that is the place's use; every reader or file without a band admitting as at the city band; a `use`- or `owner`-keyed theme skipping a withheld place and naming no withheld value in its legend — and to offer the document formats (`.plat`, the compact twin, the JSON schema, a permalink) only to a key of tier `secret`, refusing any other with `E_KNOWLEDGE_TIER`, which the host bridge answers with a message of its own, `export.refused`, beside `export.ready`, over filtering only the view-bound readers and every export alike, because the owner's rule is that the future clerk answers about secret places only to a viewer who knows them, and a list, a theme colour or a file that named what the town view withholds would break it; because a reader without a band must take one column, and the city band's is the one the town view shows; and because the document formats are the model — withholding a name there would break their byte-identical round trip, and a permalink's recipe and log, or the document its `&doc=` names, rebuild every name — so the honest rule is that the key governs what the module shows and writes, not what a client that holds the document holds: a host that keeps a place secret from a client sends it pictures and interchange exports, never the document; because a bridged host's `export.request` must be answered either way, and `doc.rejected` answers document events only; and `fates` pages and a `confirm` result, which only an editing role receives, stay unfiltered because `confirm` needs its lists back unchanged and that client holds the document it loaded, not because of any tier (§11.1, §11.2, §11.3, §8.2, §9.2; item 30 (d); repair round 1: VR-09, VR-10, VR-11; repair round 2: VR1-03, VR1-04, VR1-05). Amends J-A30.83. |"
+   },
+   {
+    "id": "J-A30.87",
+    "older_line": 503,
+    "appended_line": 533,
+    "old_row_sha256": "8ee222274076f525ee573129b9b6b94eaf179623ceb6918eb034cc4a5c388365",
+    "new_row_sha256": "b4eff66db832d795cd8abb69470b576df763b4ff5798a958392a60205937bd4f",
+    "old_row": "| J-A30.87 | Chose to cover a spanned passage by a span mark — the passage's span ring (§2.6's cut of the `Passage` face under the spanning wing, made with the building's footprint ring until the building is composed), emitted by S14 at every band with the building's block and a base raised by the passage's `headroomCm` — which the city band's mass closing reads like a footprint, the finer bands read only as a shadow caster, and the glTF and CityJSON exports extrude over the passage from the headroom to the eave, over widening the footprint across the passage or leaving the covering to the composed wing alone, because the footprint must end at the passage's edge (the stage-3 contract reads that ring), because the city band is drawn before any building is composed (item 28's click) and a passage wider than the 1.5-px closing would otherwise show as a ground-tone gap in the streetwall, and because the mass, the shadows and the 3-D export must read one covering to agree (§8.5, §8.4, §11.1; item 30 (c); repair round 1: VR-06). Amends J-A30.84's mechanism, not its choice. |",
+    "new_row": "| J-A30.87 | Chose to cover a spanned passage by a span mark — the passage's span ring (§2.6's cut of the `Passage` face under the base wing that spans it, `BaseWing.spans`, which a composition inherits), emitted by S14 at every band with the building's block and a base raised by the passage's `headroomCm` — which the city band's mass closing reads like a footprint, the finer bands read only as a shadow caster, and the glTF and CityJSON exports extrude over the passage from the headroom to the eave, over widening the footprint across the passage or leaving the covering to the composed wing alone, because the footprint must end at the passage's edge (the stage-3 contract reads that ring), because the city band is drawn before any building is composed (item 28's click), the base wing carrying the span from S11 on (J-A30.23), and a passage wider than the 1.5-px closing would otherwise show as a ground-tone gap in the streetwall, and because the mass, the shadows and the 3-D export must read one covering to agree (§8.5, §8.4, §11.1; item 30 (c); repair round 1: VR-06; repair round 2: VR1-02, with the model's V-MAB1-01). Amends J-A30.84's mechanism, not its choice. |"
+   }
+  ]
+ },
+ "vs1_04": {
+  "line": 12419,
+  "old": [
+   "PART III), 5, 6 or 7 determinism (the section family that states the rule: §5, §6 or §7) and 8 rendering (§8, §9, §11",
+   "and §12). Each has its Part A entry like every other row."
+  ],
+  "new": [
+   "PART III), 5, 6 or 7 determinism (§5–§7) and 8 rendering (§8, §9, §11 and §12). Each has its Part A entry like every",
+   "other row."
+  ]
+ },
+ "substitutions": [],
+ "output_doc_sha256": "831efd429092adf3849b6eec3cd8703816c790ae53404a96b4cb3c23166be584",
+ "output_rationale_sha256": "f2c2a1ca11a0f1da5da2891ee69c70588806000066b77bdd7242d1e5fb64dae1"
+}

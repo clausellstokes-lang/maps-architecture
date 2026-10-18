@@ -1,0 +1,94 @@
+{
+ "key": "coherence/verify-edges-life-r0s",
+ "file": "docs/validation/coherence/verify-edges-life-r0s.md",
+ "issues": [
+  {
+   "id": "VEL0-01",
+   "severity": "blocker",
+   "kind": "EDGE-UNDEFINED",
+   "owner": "determinism",
+   "claim": "A dossier event that must change something the user has LOCKED has two contradictory outcomes and no test. §7.7's precedence (l.10870-10878) reads 'lock > dossier existence', puts every dossier-owned value 'below the lock' and says 'A host that must override a lock sends an unlock first' (J-DET-11); §7.1's outcome table row 1 (l.9671) refuses an edit that 'targets … a locked or pinned entity or attribute path'. But §7.7 item 5 (l.10986-10989) applies a dossier event 'around' protected entities, orphaning 'an edit it can no longer honour' and superseding a user's value, and V08 §3.3 (l.1477) says the port's events 'are never refused by map locks or pins'. The port diffs whole dossiers and never sends an unlock, so cases that land ON the locked thing — a rename (F15) on a locked name path, a `ruined` (F5) or `removed` (F2) state for an institution whose building is locked (its `ruin`/`closeUse` converts a locked building), a class change (F3) on a locked class path, a dossier `knownTo` on a locked path, a dossier population fall over a district whose dwellings are all locked (V06 §3.1 never strikes a locked one) — are refused by one reading (the absorb fails; the map contradicts the dossier, against items 20 and 22) and land by the other. The catalogue marked C-dossier-lock DEFINED by a quote about a user declaration meeting a lock (the opposite direction); T20-1–T20-13, T22-1–T22-4 and V08 §3.17's editing row (pins only) test none of it.",
+   "required_change": "In §7.7's precedence (the one statement), by principle (3)'s precedence (items 20, 22 first): 'A dossier event is never refused by a lock or a pin. A lock or pin on a dossier-owned value, or on a dossier-backed element's existence, state, name, kind or membership, holds against every map event, re-derivation and epoch; a dossier event that changes it supersedes it — the lock or pin reported orphaned in the event's disruption report (`why`: the dossier fact), kept in the log as history (§7.7 item 5); a lock on anything else the event touches is honoured, the event applied around it by its least-disruption order.' State the outcome of a dossier population fall the unlocked dwellings cannot absorb. Limit J-DET-11's 'a host that must override a lock sends an unlock first' and §7.1's outcome row 1 to a host's MAP events (no `EditBase.dossier`). Add to §13.2's T20 group: a dossier rename on a locked name path, a `ruined` and a `removed` state on an institution whose building is locked — each lands, the lock reported orphaned, every other locked entity byte-identical — and the population-fall fixture with its stated outcome."
+  },
+  {
+   "id": "VEL0-02",
+   "severity": "blocker",
+   "kind": "EDGE-UNDEFINED",
+   "owner": "V09",
+   "claim": "Crash recovery silently loses an `advance`. V09 §2.11's `JournalCall` (l.906-912) and §3.8 (1) (l.1225-1229) journal `edit`, `regenerate`, `adjust`, `undo`, `redo` and a shared `setView`; `advance` — its own §11.2 call (l.14287) that appends a whole `group` of `epoch` events (V06 §4.1) — is not journalled. Compaction runs after 50 done entries, after 60 s idle 'after at least one entry', or on `visibilitychange` (l.1232-1236); an advance makes no entry, so a tab killed after an advance (or mid-group, epochs already folded) and before the page is hidden recovers to the snapshot with none of the epochs — 'A clean recovery says nothing' (l.1246): up to a century of history lost silently; any later journalled call fails its `logHeadBefore`, recovery stops and quarantines the rest. V09 §3.16 row 16 and T-V9-17 (200-edit sessions, l.3816) do not cover it; the catalogue has no advance × autosave combination.",
+   "required_change": "Add `| { api: 'advance'; req: AdvanceRequest; stoppedAfter?: number /* the epochs folded when Stop ended it */ }` to V09 §2.11's `JournalCall`; V09 §3.8 (1) lists `advance` among the journalled calls (pending before the call with `logHeadBefore`; done with `logHeadAfter`, `seqs` and, when Stop ended it, `stoppedAfter`); recovery re-issues it from `logHeadBefore`, a stopped one halting after `stoppedAfter` epochs, a trailing pending one re-issued whole. Add to V09 §3.16 row 16 and T-V9-17: a 100-epoch advance killed after its last epoch and before compaction, one killed mid-group, and one stopped at epoch 40, each reopening at the journalled head."
+  },
+  {
+   "id": "VEL0-03",
+   "severity": "major",
+   "kind": "EDGE-UNDEFINED",
+   "owner": "determinism",
+   "claim": "§7.1 *Drawing at the authoring boundary* gives one input two outcomes: 'a stroke that resamples to fewer than two points, or a ring to zero area, is an empty edit' (l.9520-9521; *Empty edits* l.9608-9611: appends nothing), but for `drawBoundary` 'a zero-area polygon, the cell under its first point' (l.9525: a one-cell district bend, which appends an event). A zero-area `drawBoundary` from the API, a skeleton file or a host bridge (V09's canvas sends none; V10's encoders refuse a lasso of < 3 non-collinear points) either appends nothing or makes a one-cell district. The positive-area bend — a polygon covering no cell by half takes 'the cell it covers most' (EI-DETERMINISM-EDGESOBSERVED-005) — has no test in §13.2, V09 or V10.",
+   "required_change": "§7.1: replace '(ties by address; a zero-area polygon, the cell under its first point)' with '(ties by address); a zero-area polygon is an empty edit (below)'; add to *Empty edits*' B-EDIT test: 'a zero-area `drawBoundary` leaves `nextSeq` and both digests unchanged; a thin polygon covering no L1 cell by half commits the one-cell bend with its line, the cell the one it covers most (ties by address)'."
+  },
+  {
+   "id": "VEL0-04",
+   "severity": "major",
+   "kind": "EDGE-UNDEFINED",
+   "owner": "determinism",
+   "claim": "§7.4's *Every kind at the edit boundary* frame row (l.10456) leaves its lock cell and its undo / save-and-load cells '—' and says for regenerate only 'fixed by the rung; a rung change is a Re-derive from S0', so the catalogue's C-frame-lock and C-frame-regen stay undefined. §3.2 (9) promises the frame never shrinks only 'where §4.11 grows it at an epoch' (l.3203-3208); a Re-derive from S0 or S2 — a rung change from T1's size chips, an Adjust of the population (§7.1 l.9485-9489) — recomputes the frame by `frameLaw` (A ∝ population, l.3194-3196), so it can shrink. No text states what becomes of locked, pinned or declared entities and drawn constraints (locked by default, §7.2) left outside the smaller frame: a lock cannot be *kept* outside the arena, carry-over has no successor, and §7.1 clips a drawn feature to the frame — the fate list would have to invent a fate for a protection.",
+   "required_change": "§7.4's frame row — lock cell: 'locked, pinned and declared entities and every drawn constraint are fixed inputs of the frame: a re-derivation whose frame law gives a frame not enclosing them takes the smallest frame of the rule (the frame's `aspect`, centred on (0, 0)) that does, named in the dry run's one line (`bend.frame.held`) — never an *orphaned* fate for a protection'; undo cell: 'the Re-derive's undo (a whole-town event, undoable while latest)'; save-and-load cell: 'the frame is the recipe's and the log's, re-derived identically'; §3.2 (9) adds 'a re-derivation never shrinks the frame below its protected content'; a B-EDIT fixture: CITY → TOWN with a locked building and a drawn wall beyond TOWN's frame keeps both, the frame held and reported."
+  },
+  {
+   "id": "VEL0-05",
+   "severity": "major",
+   "kind": "EDGE-UNDEFINED",
+   "owner": "determinism",
+   "claim": "§7.4 *Replay semantics* (l.10248-10256) excludes from `undo`, `redo` and `revert` the `creation` events, every event with `EditBase.dossier` set and 'an `epoch` that carried one in `EpochInputs.dossier`'. The port's cadence epochs (V08 §3.6 (3), l.1757-1767: every year end in an absorb's span, each population crossing, each calamity week) carry the dossier's population target and slices, but one at a week with no element change carries no `EpochInputs.dossier`, and `EditBase.dossierChange` holds one change (V08 §3.6 (5)), so a catch-up's year-end epoch with no change of its own is not guaranteed `EditBase.dossier`. Such an epoch is a live event of session `host:port`: the user's undo key skips it (no user stack holds it), but an owner's `undo(h, of)` (§7.4 *Targets*, l.10333-10334; §11.2) and V09's 'Go back to here' (V09 §3.9, l.1262-1265, stopping only at 'the latest one that is not undoable') may target it — undoing a dossier population and a year of the host's clock without a dossier instruction, the reason §7.4 gives for the rule (item 20 (c)), while V06 §4.1 (l.3246-3247) says 'a dossier-bound history is undone only by the host'.",
+   "required_change": "In §7.4 *Replay semantics* replace 'every later dossier event (`EditBase.dossier` set) — … — is likewise no `undo`, `redo` or `revert` target of a map event, and neither is an `epoch` that carried one in `EpochInputs.dossier`' with one rule: 'every event of the port's reserved session `host:port` (§7.1; V08 §3.6 (6)) — dossier events, `dossierFacts`, `dossierRecord` and the port's epochs alike — is no `undo`, `redo` or `revert` target of a map event'; §7.1's `refuse.undo.dossier` row names 'an event of session `host:port`'; a B-EDIT fixture: an owner's `undo(h, of)` naming a port year-end epoch with no dossier event returns F-EDIT and changes nothing."
+  },
+  {
+   "id": "VEL0-06",
+   "severity": "major",
+   "kind": "EDGE-UNDEFINED",
+   "owner": "determinism",
+   "claim": "§6.1's stream key packs the epoch component as u16 (l.8571), live epochs numbered from 1 and the history replay's coarse epochs `0x8000 + r` 'so no replay draw can equal a live epoch's' (l.8621-8623). No text states a cap or an outcome for live epoch 32 768 (0x8000) and above, which keys into the replay's half — on a document generated from its history, live epoch 0x8000 + r draws the same streams as replay epoch r. It is reachable over centuries of map time: a standalone town advanced repeatedly at a one-week cadence (`advance.maxEpochs` bends only within one request, V06 §3.3.2), or a long campaign with frequent population crossings (V08 §3.6 (3)). The u16 `salt`, bumped by every town-wide `rerollLayer` (l.8624), has no cap or wrap rule either, unlike the reroll's 32 767 (l.8612-8615).",
+   "required_change": "§6.1: widen the epoch component to u32 — (stage id u16, concern id u16, reroll u16, attempt u8, epoch u32, salt u16) is 104 bits, inside the key's four 32-bit words — the replay keying its coarse epochs `0x8000_0000 + r`, the textual form unchanged; and state the salt's cap: 'a salt at 0xFFFF is not advanced; `rerollLayer` reports `no_alternative` with the cap named, as a reroll at its cap does (§5.1 (6))'. §6.5 (9) gains a fixture folding live epochs across 0x8000 on a replayed document, none equal to a replay epoch's key."
+  },
+  {
+   "id": "VEL0-07",
+   "severity": "major",
+   "kind": "EDGE-UNTESTED",
+   "owner": "determinism",
+   "claim": "§7.4 *Records on other clients and after a reload* (l.10377-10383) defines the oversized record — 'a single record larger than the cap is not saved, and its target's undo after a reload rebuilds it' (EI-DETERMINISM-EDGESOBSERVED-009, now defined) — but no test exercises it: §7.4's measurements (l.10398-10403), the enumeration test and §13.2's B-EDIT list name none; the same holds for the rebase or redo record past the cap ('withdrawn with a notice', l.10306-10310). A regression would lose the undo after a reload — an epoch undone after a save, the owner-named combination, at METROPOLIS.",
+   "required_change": "Add to §7.4 *Checkpoints*' measurements (or §13.2's B-EDIT list): '(M2a) a METROPOLIS district re-derivation and a METROPOLIS epoch whose undo record exceeds 20 MB are saved without the record; after a reload each undo rebuilds it by replay and gives the pre-edit digest; a rebase whose previous base passes the cap withdraws its undo with the notice'."
+  },
+  {
+   "id": "VEL0-08",
+   "severity": "major",
+   "kind": "EDGE-UNDEFINED",
+   "owner": "V08",
+   "claim": "V08 §3.17 (b), row 'river, coast, harbour' (l.2418): 'a harbour record on a site with no coast or river has no admissible site, so S10b's F-SITING rung leaves it out and reports it'. The base gives the opposite outcome for the same self-contradicting dossier: §7.7 item 2 (l.10940-10944: 'F-SITING never drops it'), §5.2's F-SITING row (l.8367: 'a dossier element that no plot satisfies takes its first closest option … never omitted') and §5.3's dossier-existence row (l.8417, a hard batch-local, stage-end and save invariant), under owner items 20 and 22. A harbour institution on an inland site with no water word is omitted by V08's rule and placed by the base's; the map then fails §5.3's hard row.",
+   "required_change": "In V08 §3.17 (b) replace the harbour clause with: 'a harbour record on a site with no coast or river takes F-SITING's dossier rung — its first closest option (the plot nearest water, else nearest the main gate), the water hard row it fails reported — never omitted (§7.7 item 2; §5.2 F-SITING); no harbour basin is drawn on dry land'; T-V8-49 (m) asserts it."
+  },
+  {
+   "id": "VEL0-09",
+   "severity": "major",
+   "kind": "CATALOGUE-GAP",
+   "owner": "pipeline",
+   "claim": "Missed edge, verdict UNDEFINED: an absorb (between epochs) whose dossier adds more dossier-backed singular records than the current map can seat. §7.7 item 2 (l.10940-10944) requires every dossier element live and placed on every map; between epochs nothing grows land (S2's eager claim for dossier elements runs at creation only, §7.7 *One path*, l.10884-10886); S10b's `dossier` request (§4.7, l.6420-6449) seats on a vacant or under-used plot, else by displacing one use one level deep, else by a join, else 'at its first closest option'. When every candidate holds a dossier-backed use (unclosable, §7.7 item 2, movable one level only) — reachable when a DM adds a few dozen custom institutions (item 104) to a THORP or HAMLET dossier, or SettlementForge lists a hamlet with more institutions than plots — the text yields either two dossier-backed uses on one plot (undefined: a building holds one use) or an unplaced element (against items 20, 22 and §5.3's hard dossier row). V08 §3.17's 'cap' class (l.2370) and rows do not name it; the catalogue lists no such edge.",
+   "required_change": "§4.7 S10b's `dossier` request gains its last rung, stated once: 'when no plot of the current map passes for a dossier-backed element at displacement depth 1 and after a join, the element takes a new plot cut from the hinterland face nearest its affinity district along the busiest arterial (the overflow ladder's edge-belt rule, V06 §3.6 (2) (iii)), its building by S11's template, reported `dossier_edge` — the hinterland always has ground, so the rung never fails; the next epoch's siting may move it inward by the least-disruption order'; V08 §3.17 (a)'s digest row names the case, with a T-V8-49 (f) fixture: a THORP dossier with 40 custom institutions absorbed at once places every one, none omitted, the report naming each edge plot."
+  },
+  {
+   "id": "VEL0-10",
+   "severity": "major",
+   "kind": "EDGE-UNDEFINED",
+   "owner": "V10",
+   "claim": "The clerk at its session limit: V10 §3.2 (l.1226-1232) carries into each new segment 'the referents with their names … and one line per earlier turn of the session' — the referents capped (32, l.782), the turn lines not. Once a session's turn lines approach `cache.segmentTokenLimit` (80 000, l.767), every new segment opens at or over the limit and closes again (`length`) after its first request, and later its opening request passes the model's context and the API refuses it (row 21's 'bad request'). V10 §3.23 has no row for it.",
+   "required_change": "Add `memoryTokens` to `clerk.content.limits` (l.750, l.782; default 4 000, range below `cache.segmentTokenLimit` less the brief); V10 §3.2: 'the memory block carries the referents and the lines of the newest turns that fit `limits.memoryTokens`, older turns counted in one harness-written line (\"{n} earlier turns: {a} accepted, {d} dropped\"), so a new segment always opens below its limit'; V10 §3.23 gains '| 31 | segments (V10 §3.2) | a session whose turn lines exceed `memoryTokens` | the newest lines that fit and the count line | simpler shape | T-V10-50 (30) |'."
+  },
+  {
+   "id": "VEL0-11",
+   "severity": "major",
+   "kind": "CATALOGUE-GAP",
+   "owner": "V11",
+   "claim": "Missed edge, verdict UNDEFINED: a table row delete that removes what readers fall back to. V11 §4.1's edit rule (l.4464-4473) refuses only a dangling `ref`, a type error or an owner rule; V11 §3.26's general rule (l.4387-4389) and row M-V11-599-E5 (l.4399) send a reader meeting an absent row to the table's declared default (era `c14`, biome `temperate-deciduous`, religion `faith`, the recipe's default government kind). No outcome is defined when an `editTable` row `delete` or a pack's patch removes the default row itself, a `TotalityRule.allowFallback` target (`generic-<family>`, l.258-260), the only row covering a `coversEnum` value (a `landuse` row for a live `LandUse.kind`), or every row of a table: §3.2.3 (c) (l.1078-1080) covers only a pack deleting a `ref` target, the empty-table rule (l.274-279) only tables shipped empty. The reader is left with no row and no default — a crash or a silent arbitrary value.",
+   "required_change": "V11 §4.1's edit rule adds: 'a row `delete` — by `editTable` or a pack's patch — of a row the schema names as a reader's declared default, as a `TotalityRule.allowFallback` target, or as the only row covering a `coversEnum` value, is refused as a dangling reference (F-EDIT, `refuse.tableRequired`) naming the readers, with the alternative \"edit its cells\"; a delete that would leave a registry table empty is refused the same way'; V11 §3.26 gains the row and T-V11-45 the clause '(s) each such delete refused naming its readers; a cell edit of the same row applies'; V09 §4.9 carries the key."
+  }
+ ]
+}

@@ -1,0 +1,144 @@
+== (1) soundness and partition independence. 1:500 stop, tile DPR 2 (texel 6.62 cm, tile side S = 33.87 m); the
+   reference view (7 x 5 positions). A terraced hill sunward of the view (the mountainous fixture's shape) and towers
+   of 45, 30 and 20 m in rings 1-3; ground pixels on a 9 x 7 grid over the view, plus pixels along the hill's
+   terminator; V by the law over the held structures against V over a world pyramid with no partition.
+   hill 300 m, sun 15 deg at azimuth 0: 84 pixels, 36 in shadow; cells resolved 38, of them in blocks 38 (orders [4], levels up to 7); cells outside their structure's levels 0; pixels whose V differs from the unpartitioned law 0
+   hill 300 m, sun 15 deg at azimuth 45: 84 pixels, 36 in shadow; cells resolved 47, of them in blocks 46 (orders [4], levels up to 7); cells outside their structure's levels 0; pixels whose V differs from the unpartitioned law 0
+   hill 1000 m, sun 15 deg at azimuth 0: 84 pixels, 46 in shadow; cells resolved 59, of them in blocks 59 (orders [6], levels up to 8); cells outside their structure's levels 0; pixels whose V differs from the unpartitioned law 0
+   hill 1000 m, sun 15 deg at azimuth 45: 84 pixels, 64 in shadow; cells resolved 70, of them in blocks 69 (orders [5], levels up to 8); cells outside their structure's levels 0; pixels whose V differs from the unpartitioned law 0
+   hill 3000 m, sun 15 deg at azimuth 0: 84 pixels, 58 in shadow; cells resolved 84, of them in blocks 84 (orders [8], levels up to 10); cells outside their structure's levels 0; pixels whose V differs from the unpartitioned law 0
+   hill 3000 m, sun 15 deg at azimuth 45: 84 pixels, 84 in shadow; cells resolved 84, of them in blocks 83 (orders [7], levels up to 10); cells outside their structure's levels 0; pixels whose V differs from the unpartitioned law 0
+   hill 3000 m, sun 7 deg at azimuth 0: 84 pixels, 69 in shadow; cells resolved 84, of them in blocks 84 (orders [0, 9], levels up to 11); cells outside their structure's levels 0; pixels whose V differs from the unpartitioned law 0
+   hill 3000 m, sun 7 deg at azimuth 45: 84 pixels, 84 in shadow; cells resolved 84, of them in blocks 83 (orders [8], levels up to 11); cells outside their structure's levels 0; pixels whose V differs from the unpartitioned law 0
+   total: 0 differing pixels or out-of-level cells (0 = the partition changes no value)
+== (2) the held set at the 1:500 stop with the window reaching the whole frame (the worst case: a low sun over
+   relief at least the frame's extent), 64 placements each: 24 near the frame's centre, 24 anywhere, 16 at a corner;
+   memory at 1 B per cell (the view), 2 B (the full-precision surface, VRC2-03); first ring 1/3 MB (2/3 MB) each,
+   a block at most 128^2 cells with its levels above (21 845 cells = 1/48 MB at 1 B), from its nearest position's level
+   1440 x 900 at DPR 1    TOWN (2.0 km + 30 % margins)                  : first ring  18, blocks  150 over orders 0- 3 (largest per order 50); held  168; first ring  6.00 MB + blocks  2.05 MB (2 B: 12.00 +  4.09 MB; every block from its order's level m + 2:  3.13 MB)
+   1440 x 900 at DPR 1    CITY (5.0 km + margins)                       : first ring  18, blocks  214 over orders 0- 5 (largest per order 50); held  232; first ring  6.00 MB + blocks  2.83 MB (2 B: 12.00 +  5.67 MB; every block from its order's level m + 2:  4.46 MB)
+   1440 x 900 at DPR 1    METROPOLIS target (8.0 km + margins)          : first ring  18, blocks  222 over orders 0- 5 (largest per order 48); held  240; first ring  6.00 MB + blocks  2.98 MB (2 B: 12.00 +  5.97 MB; every block from its order's level m + 2:  4.63 MB)
+   1440 x 900 at DPR 1    the cap, square (12.4 km + margins)           : first ring  18, blocks  247 over orders 0- 6 (largest per order 48); held  265; first ring  6.00 MB + blocks  3.40 MB (2 B: 12.00 +  6.79 MB; every block from its order's level m + 2:  5.15 MB)
+   1440 x 900 at DPR 1    the cap, aspect 2 (17.53 x 8.76 km + margins) : first ring  18, blocks  238 over orders 0- 6 (largest per order 50); held  256; first ring  6.00 MB + blocks  3.30 MB (2 B: 12.00 +  6.60 MB; every block from its order's level m + 2:  4.96 MB)
+   1366 x 768 at DPR 1    TOWN (2.0 km + 30 % margins)                  : first ring  18, blocks  150 over orders 0- 3 (largest per order 50); held  168; first ring  6.00 MB + blocks  2.05 MB (2 B: 12.00 +  4.09 MB; every block from its order's level m + 2:  3.13 MB)
+   1366 x 768 at DPR 1    CITY (5.0 km + margins)                       : first ring  18, blocks  214 over orders 0- 5 (largest per order 50); held  232; first ring  6.00 MB + blocks  2.83 MB (2 B: 12.00 +  5.67 MB; every block from its order's level m + 2:  4.46 MB)
+   1366 x 768 at DPR 1    METROPOLIS target (8.0 km + margins)          : first ring  18, blocks  222 over orders 0- 5 (largest per order 48); held  240; first ring  6.00 MB + blocks  2.98 MB (2 B: 12.00 +  5.97 MB; every block from its order's level m + 2:  4.63 MB)
+   1366 x 768 at DPR 1    the cap, square (12.4 km + margins)           : first ring  18, blocks  247 over orders 0- 6 (largest per order 48); held  265; first ring  6.00 MB + blocks  3.40 MB (2 B: 12.00 +  6.79 MB; every block from its order's level m + 2:  5.15 MB)
+   1366 x 768 at DPR 1    the cap, aspect 2 (17.53 x 8.76 km + margins) : first ring  18, blocks  238 over orders 0- 6 (largest per order 50); held  256; first ring  6.00 MB + blocks  3.30 MB (2 B: 12.00 +  6.60 MB; every block from its order's level m + 2:  4.96 MB)
+   1920 x 1080 at DPR 1   TOWN (2.0 km + 30 % margins)                  : first ring  22, blocks  165 over orders 0- 3 (largest per order 58); held  187; first ring  7.33 MB + blocks  2.33 MB (2 B: 14.67 +  4.66 MB; every block from its order's level m + 2:  3.44 MB)
+   1920 x 1080 at DPR 1   CITY (5.0 km + margins)                       : first ring  22, blocks  217 over orders 0- 5 (largest per order 58); held  239; first ring  7.33 MB + blocks  2.94 MB (2 B: 14.67 +  5.89 MB; every block from its order's level m + 2:  4.52 MB)
+   1920 x 1080 at DPR 1   METROPOLIS target (8.0 km + margins)          : first ring  22, blocks  237 over orders 0- 5 (largest per order 58); held  259; first ring  7.33 MB + blocks  3.19 MB (2 B: 14.67 +  6.38 MB; every block from its order's level m + 2:  4.94 MB)
+   1920 x 1080 at DPR 1   the cap, square (12.4 km + margins)           : first ring  22, blocks  262 over orders 0- 6 (largest per order 58); held  284; first ring  7.33 MB + blocks  3.60 MB (2 B: 14.67 +  7.20 MB; every block from its order's level m + 2:  5.46 MB)
+   1920 x 1080 at DPR 1   the cap, aspect 2 (17.53 x 8.76 km + margins) : first ring  22, blocks  263 over orders 0- 7 (largest per order 58); held  285; first ring  7.33 MB + blocks  3.53 MB (2 B: 14.67 +  7.05 MB; every block from its order's level m + 2:  5.48 MB)
+   1440 x 900 at DPR 1.5  TOWN (2.0 km + 30 % margins)                  : first ring  24, blocks  181 over orders 0- 4 (largest per order 72); held  205; first ring  8.00 MB + blocks  2.65 MB (2 B: 16.00 +  5.29 MB; every block from its order's level m + 2:  3.77 MB)
+   1440 x 900 at DPR 1.5  CITY (5.0 km + margins)                       : first ring  24, blocks  261 over orders 0- 6 (largest per order 72); held  285; first ring  8.00 MB + blocks  3.47 MB (2 B: 16.00 +  6.94 MB; every block from its order's level m + 2:  5.44 MB)
+   1440 x 900 at DPR 1.5  METROPOLIS target (8.0 km + margins)          : first ring  24, blocks  250 over orders 0- 6 (largest per order 72); held  274; first ring  8.00 MB + blocks  3.61 MB (2 B: 16.00 +  7.23 MB; every block from its order's level m + 2:  5.21 MB)
+   1440 x 900 at DPR 1.5  the cap, square (12.4 km + margins)           : first ring  24, blocks  282 over orders 0- 7 (largest per order 52); held  306; first ring  8.00 MB + blocks  3.91 MB (2 B: 16.00 +  7.81 MB; every block from its order's level m + 2:  5.87 MB)
+   1440 x 900 at DPR 1.5  the cap, aspect 2 (17.53 x 8.76 km + margins) : first ring  24, blocks  297 over orders 0- 7 (largest per order 72); held  321; first ring  8.00 MB + blocks  4.05 MB (2 B: 16.00 +  8.09 MB; every block from its order's level m + 2:  6.19 MB)
+   1366 x 768 at DPR 1.5  TOWN (2.0 km + 30 % margins)                  : first ring  24, blocks  181 over orders 0- 4 (largest per order 72); held  205; first ring  8.00 MB + blocks  2.65 MB (2 B: 16.00 +  5.29 MB; every block from its order's level m + 2:  3.77 MB)
+   1366 x 768 at DPR 1.5  CITY (5.0 km + margins)                       : first ring  24, blocks  261 over orders 0- 6 (largest per order 72); held  285; first ring  8.00 MB + blocks  3.47 MB (2 B: 16.00 +  6.94 MB; every block from its order's level m + 2:  5.44 MB)
+   1366 x 768 at DPR 1.5  METROPOLIS target (8.0 km + margins)          : first ring  24, blocks  250 over orders 0- 6 (largest per order 72); held  274; first ring  8.00 MB + blocks  3.61 MB (2 B: 16.00 +  7.23 MB; every block from its order's level m + 2:  5.21 MB)
+   1366 x 768 at DPR 1.5  the cap, square (12.4 km + margins)           : first ring  24, blocks  282 over orders 0- 7 (largest per order 52); held  306; first ring  8.00 MB + blocks  3.91 MB (2 B: 16.00 +  7.81 MB; every block from its order's level m + 2:  5.87 MB)
+   1366 x 768 at DPR 1.5  the cap, aspect 2 (17.53 x 8.76 km + margins) : first ring  24, blocks  297 over orders 0- 7 (largest per order 72); held  321; first ring  8.00 MB + blocks  4.05 MB (2 B: 16.00 +  8.09 MB; every block from its order's level m + 2:  6.19 MB)
+   1920 x 1080 at DPR 1.5 TOWN (2.0 km + 30 % margins)                  : first ring  28, blocks  196 over orders 0- 4 (largest per order 57); held  224; first ring  9.33 MB + blocks  2.85 MB (2 B: 18.67 +  5.70 MB; every block from its order's level m + 2:  4.08 MB)
+   1920 x 1080 at DPR 1.5 CITY (5.0 km + margins)                       : first ring  28, blocks  267 over orders 0- 5 (largest per order 57); held  295; first ring  9.33 MB + blocks  3.64 MB (2 B: 18.67 +  7.28 MB; every block from its order's level m + 2:  5.56 MB)
+   1920 x 1080 at DPR 1.5 METROPOLIS target (8.0 km + margins)          : first ring  28, blocks  262 over orders 0- 6 (largest per order 57); held  290; first ring  9.33 MB + blocks  3.76 MB (2 B: 18.67 +  7.51 MB; every block from its order's level m + 2:  5.46 MB)
+   1920 x 1080 at DPR 1.5 the cap, square (12.4 km + margins)           : first ring  28, blocks  294 over orders 0- 7 (largest per order 57); held  322; first ring  9.33 MB + blocks  4.09 MB (2 B: 18.67 +  8.19 MB; every block from its order's level m + 2:  6.12 MB)
+   1920 x 1080 at DPR 1.5 the cap, aspect 2 (17.53 x 8.76 km + margins) : first ring  28, blocks  282 over orders 0- 7 (largest per order 57); held  310; first ring  9.33 MB + blocks  4.03 MB (2 B: 18.67 +  8.06 MB; every block from its order's level m + 2:  5.87 MB)
+   1440 x 900 at DPR 2    TOWN (2.0 km + 30 % margins)                  : first ring  28, blocks  219 over orders 0- 4 (largest per order 57); held  247; first ring  9.33 MB + blocks  2.91 MB (2 B: 18.67 +  5.81 MB; every block from its order's level m + 2:  4.56 MB)
+   1440 x 900 at DPR 2    CITY (5.0 km + margins)                       : first ring  28, blocks  253 over orders 0- 6 (largest per order 57); held  281; first ring  9.33 MB + blocks  3.61 MB (2 B: 18.67 +  7.23 MB; every block from its order's level m + 2:  5.27 MB)
+   1440 x 900 at DPR 2    METROPOLIS target (8.0 km + margins)          : first ring  28, blocks  291 over orders 0- 6 (largest per order 57); held  319; first ring  9.33 MB + blocks  4.02 MB (2 B: 18.67 +  8.03 MB; every block from its order's level m + 2:  6.06 MB)
+   1440 x 900 at DPR 2    the cap, square (12.4 km + margins)           : first ring  28, blocks  298 over orders 0- 7 (largest per order 57); held  326; first ring  9.33 MB + blocks  4.27 MB (2 B: 18.67 +  8.54 MB; every block from its order's level m + 2:  6.21 MB)
+   1440 x 900 at DPR 2    the cap, aspect 2 (17.53 x 8.76 km + margins) : first ring  28, blocks  296 over orders 0- 8 (largest per order 57); held  324; first ring  9.33 MB + blocks  4.21 MB (2 B: 18.67 +  8.43 MB; every block from its order's level m + 2:  6.17 MB)
+   1366 x 768 at DPR 2    TOWN (2.0 km + 30 % margins)                  : first ring  26, blocks  204 over orders 0- 4 (largest per order 66); held  230; first ring  8.67 MB + blocks  2.83 MB (2 B: 17.33 +  5.66 MB; every block from its order's level m + 2:  4.25 MB)
+   1366 x 768 at DPR 2    CITY (5.0 km + margins)                       : first ring  26, blocks  256 over orders 0- 6 (largest per order 66); held  282; first ring  8.67 MB + blocks  3.52 MB (2 B: 17.33 +  7.04 MB; every block from its order's level m + 2:  5.33 MB)
+   1366 x 768 at DPR 2    METROPOLIS target (8.0 km + margins)          : first ring  26, blocks  288 over orders 0- 6 (largest per order 66); held  314; first ring  8.67 MB + blocks  3.86 MB (2 B: 17.33 +  7.72 MB; every block from its order's level m + 2:  6.00 MB)
+   1366 x 768 at DPR 2    the cap, square (12.4 km + margins)           : first ring  26, blocks  307 over orders 0- 7 (largest per order 66); held  333; first ring  8.67 MB + blocks  4.29 MB (2 B: 17.33 +  8.57 MB; every block from its order's level m + 2:  6.40 MB)
+   1366 x 768 at DPR 2    the cap, aspect 2 (17.53 x 8.76 km + margins) : first ring  26, blocks  308 over orders 0- 8 (largest per order 66); held  334; first ring  8.67 MB + blocks  4.20 MB (2 B: 17.33 +  8.40 MB; every block from its order's level m + 2:  6.42 MB)
+   1920 x 1080 at DPR 2   TOWN (2.0 km + 30 % margins)                  : first ring  34, blocks  245 over orders 0- 4 (largest per order 80); held  279; first ring 11.33 MB + blocks  3.40 MB (2 B: 22.67 +  6.80 MB; every block from its order's level m + 2:  5.10 MB)
+   1920 x 1080 at DPR 2   CITY (5.0 km + margins)                       : first ring  34, blocks  321 over orders 0- 5 (largest per order 80); held  355; first ring 11.33 MB + blocks  4.11 MB (2 B: 22.67 +  8.22 MB; every block from its order's level m + 2:  6.69 MB)
+   1920 x 1080 at DPR 2   METROPOLIS target (8.0 km + margins)          : first ring  34, blocks  317 over orders 0- 6 (largest per order 80); held  351; first ring 11.33 MB + blocks  4.34 MB (2 B: 22.67 +  8.68 MB; every block from its order's level m + 2:  6.60 MB)
+   1920 x 1080 at DPR 2   the cap, square (12.4 km + margins)           : first ring  34, blocks  339 over orders 0- 7 (largest per order 80); held  373; first ring 11.33 MB + blocks  4.58 MB (2 B: 22.67 +  9.16 MB; every block from its order's level m + 2:  7.06 MB)
+   1920 x 1080 at DPR 2   the cap, aspect 2 (17.53 x 8.76 km + margins) : first ring  34, blocks  330 over orders 0- 8 (largest per order 80); held  364; first ring 11.33 MB + blocks  4.56 MB (2 B: 22.67 +  9.13 MB; every block from its order's level m + 2:  6.87 MB)
+   1440 x 900 at DPR 3    TOWN (2.0 km + 30 % margins)                  : first ring  38, blocks  271 over orders 0- 5 (largest per order 84); held  309; first ring 12.67 MB + blocks  3.86 MB (2 B: 25.33 +  7.73 MB; every block from its order's level m + 2:  5.65 MB)
+   1440 x 900 at DPR 3    CITY (5.0 km + margins)                       : first ring  38, blocks  342 over orders 0- 6 (largest per order 84); held  380; first ring 12.67 MB + blocks  4.63 MB (2 B: 25.33 +  9.25 MB; every block from its order's level m + 2:  7.12 MB)
+   1440 x 900 at DPR 3    METROPOLIS target (8.0 km + margins)          : first ring  38, blocks  358 over orders 0- 7 (largest per order 84); held  396; first ring 12.67 MB + blocks  4.96 MB (2 B: 25.33 +  9.92 MB; every block from its order's level m + 2:  7.46 MB)
+   1440 x 900 at DPR 3    the cap, square (12.4 km + margins)           : first ring  38, blocks  366 over orders 0- 8 (largest per order 84); held  404; first ring 12.67 MB + blocks  5.06 MB (2 B: 25.33 + 10.12 MB; every block from its order's level m + 2:  7.62 MB)
+   1440 x 900 at DPR 3    the cap, aspect 2 (17.53 x 8.76 km + margins) : first ring  38, blocks  381 over orders 0- 8 (largest per order 84); held  419; first ring 12.67 MB + blocks  5.20 MB (2 B: 25.33 + 10.41 MB; every block from its order's level m + 2:  7.94 MB)
+   1366 x 768 at DPR 3    TOWN (2.0 km + 30 % margins)                  : first ring  36, blocks  268 over orders 0- 5 (largest per order 96); held  304; first ring 12.00 MB + blocks  3.83 MB (2 B: 24.00 +  7.67 MB; every block from its order's level m + 2:  5.58 MB)
+   1366 x 768 at DPR 3    CITY (5.0 km + margins)                       : first ring  36, blocks  324 over orders 0- 6 (largest per order 96); held  360; first ring 12.00 MB + blocks  4.44 MB (2 B: 24.00 +  8.88 MB; every block from its order's level m + 2:  6.75 MB)
+   1366 x 768 at DPR 3    METROPOLIS target (8.0 km + margins)          : first ring  36, blocks  370 over orders 0- 7 (largest per order 96); held  406; first ring 12.00 MB + blocks  4.99 MB (2 B: 24.00 +  9.98 MB; every block from its order's level m + 2:  7.71 MB)
+   1366 x 768 at DPR 3    the cap, square (12.4 km + margins)           : first ring  36, blocks  367 over orders 0- 8 (largest per order 72); held  403; first ring 12.00 MB + blocks  5.05 MB (2 B: 24.00 + 10.10 MB; every block from its order's level m + 2:  7.65 MB)
+   1366 x 768 at DPR 3    the cap, aspect 2 (17.53 x 8.76 km + margins) : first ring  36, blocks  393 over orders 0- 8 (largest per order 96); held  429; first ring 12.00 MB + blocks  5.23 MB (2 B: 24.00 + 10.47 MB; every block from its order's level m + 2:  8.19 MB)
+   1920 x 1080 at DPR 3   TOWN (2.0 km + 30 % margins)                  : first ring  46, blocks  298 over orders 0- 5 (largest per order 102); held  344; first ring 15.33 MB + blocks  4.22 MB (2 B: 30.67 +  8.45 MB; every block from its order's level m + 2:  6.21 MB)
+   1920 x 1080 at DPR 3   CITY (5.0 km + margins)                       : first ring  46, blocks  369 over orders 0- 6 (largest per order 102); held  415; first ring 15.33 MB + blocks  5.02 MB (2 B: 30.67 + 10.03 MB; every block from its order's level m + 2:  7.69 MB)
+   1920 x 1080 at DPR 3   METROPOLIS target (8.0 km + margins)          : first ring  46, blocks  368 over orders 0- 8 (largest per order 102); held  414; first ring 15.33 MB + blocks  5.12 MB (2 B: 30.67 + 10.24 MB; every block from its order's level m + 2:  7.67 MB)
+   1920 x 1080 at DPR 3   the cap, square (12.4 km + margins)           : first ring  46, blocks  391 over orders 0- 8 (largest per order 102); held  437; first ring 15.33 MB + blocks  5.46 MB (2 B: 30.67 + 10.92 MB; every block from its order's level m + 2:  8.15 MB)
+   1920 x 1080 at DPR 3   the cap, aspect 2 (17.53 x 8.76 km + margins) : first ring  46, blocks  384 over orders 0- 8 (largest per order 102); held  430; first ring 15.33 MB + blocks  5.41 MB (2 B: 30.67 + 10.81 MB; every block from its order's level m + 2:  8.00 MB)
+   the blocks of all orders together at 1 B, the largest over every frame and alignment above:
+     DPR 1, view 4 x 3 positions: blocks <= 3.40 MB (2 B: 6.79 MB)
+     DPR 1, view 5 x 4 positions: blocks <= 3.60 MB (2 B: 7.20 MB)
+     DPR 1.5, view 6 x 4 positions: blocks <= 4.05 MB (2 B: 8.09 MB)
+     DPR 1.5, view 7 x 5 positions: blocks <= 4.09 MB (2 B: 8.19 MB)
+     DPR 2, view 7 x 4 positions: blocks <= 4.29 MB (2 B: 8.57 MB)
+     DPR 2, view 7 x 5 positions: blocks <= 4.27 MB (2 B: 8.54 MB)
+     DPR 2, view 9 x 6 positions: blocks <= 4.58 MB (2 B: 9.16 MB)
+     DPR 3, view 10 x 6 positions: blocks <= 5.23 MB (2 B: 10.47 MB)
+     DPR 3, view 10 x 7 positions: blocks <= 5.20 MB (2 B: 10.41 MB)
+     DPR 3, view 13 x 8 positions: blocks <= 5.46 MB (2 B: 10.92 MB)
+== (3) a lit export tile's window (one 512^2 export tile; the CPU reference in float32: its surface 12 B per pixel,
+   4 B per pyramid cell): its own surface 3 MB and pyramid 1/3 MB, its first ring (8 positions, 1 MB of heights and
+   1/3 MB of pyramid each), and its blocks (4 B per cell in float32), for 300-dpi export tiles at the 1:500 scale
+   (S = 21.67 m) and at the whole-frame A2 scale, the window reaching the whole frame, 64 placements:
+   TOWN (2.0 km + 30 % margins)                   at 1:500                               : S    21.7 m, first ring 8, blocks 151 (orders 0-5); window 23.15 MB (own 3.33 + first ring 10.67 + blocks  9.15)
+   TOWN (2.0 km + 30 % margins)                   at the frame on A2 (long side 0.594 m) : S   233.5 m, first ring 8, blocks  61 (orders 0-2); window 17.71 MB (own 3.33 + first ring 10.67 + blocks  3.71)
+   CITY (5.0 km + margins)                        at 1:500                               : S    21.7 m, first ring 8, blocks 189 (orders 0-6); window 24.94 MB (own 3.33 + first ring 10.67 + blocks 10.94)
+   CITY (5.0 km + margins)                        at the frame on A2 (long side 0.594 m) : S   583.8 m, first ring 8, blocks  61 (orders 0-2); window 17.71 MB (own 3.33 + first ring 10.67 + blocks  3.71)
+   METROPOLIS target (8.0 km + margins)           at 1:500                               : S    21.7 m, first ring 8, blocks 205 (orders 0-7); window 26.27 MB (own 3.33 + first ring 10.67 + blocks 12.27)
+   METROPOLIS target (8.0 km + margins)           at the frame on A2 (long side 0.594 m) : S   934.1 m, first ring 8, blocks  61 (orders 0-2); window 17.71 MB (own 3.33 + first ring 10.67 + blocks  3.71)
+   the cap, square (12.4 km + margins)            at 1:500                               : S    21.7 m, first ring 8, blocks 223 (orders 0-8); window 27.08 MB (own 3.33 + first ring 10.67 + blocks 13.08)
+   the cap, square (12.4 km + margins)            at the frame on A2 (long side 0.594 m) : S  1447.9 m, first ring 8, blocks  61 (orders 0-2); window 17.71 MB (own 3.33 + first ring 10.67 + blocks  3.71)
+   the cap, aspect 2 (17.53 x 8.76 km + margins)  at 1:500                               : S    21.7 m, first ring 8, blocks 225 (orders 0-8); window 27.06 MB (own 3.33 + first ring 10.67 + blocks 13.06)
+   the cap, aspect 2 (17.53 x 8.76 km + margins)  at the frame on A2 (long side 0.594 m) : S  2046.9 m, first ring 8, blocks  44 (orders 0-2); window 16.73 MB (own 3.33 + first ring 10.67 + blocks  2.73)
+   the largest export-tile window above: 27.08 MB
+== (4) the alternatives, at the 1:500 stop
+   (a) the r2 text: every ring position held out to R (the verifier's rings receipt reproduces it: 5 440 positions for
+       300 m of relief under a 15 deg sun at DPR 2, 53 788 for 1 000 m).
+   (b) positions held one by one out to ring j0 = 16, reference view at DPR 2: 1408 positions, each a raster job and
+       a transfer (the held set of (2) instead: see its "held" column),
+       and a whole-frame far field from level 6 (4.23 m cells) over TOWN (2.0 km + 30 % margins):   0.57 M cells,   0.73 MB at 1 B,   1.45 MB at 2 B
+       and a whole-frame far field from level 6 (4.23 m cells) over CITY (5.0 km + margins):   3.57 M cells,   4.54 MB at 1 B,   9.08 MB at 2 B
+       and a whole-frame far field from level 6 (4.23 m cells) over METROPOLIS target (8.0 km + margins):   9.14 M cells,  11.63 MB at 1 B,  23.26 MB at 2 B
+       and a whole-frame far field from level 6 (4.23 m cells) over the cap, square (12.4 km + margins):  21.97 M cells,  27.93 MB at 1 B,  55.87 MB at 2 B
+       and a whole-frame far field from level 6 (4.23 m cells) over the cap, aspect 2 (17.53 x 8.76 km + margins):  21.94 M cells,  27.90 MB at 1 B,  55.79 MB at 2 B
+   (b) positions held one by one out to ring j0 = 16, reference view at DPR 3: 1568 positions, each a raster job and
+       a transfer (the held set of (2) instead: see its "held" column),
+       and a whole-frame far field from level 6 (2.82 m cells) over TOWN (2.0 km + 30 % margins):   1.29 M cells,   1.64 MB at 1 B,   3.27 MB at 2 B
+       and a whole-frame far field from level 6 (2.82 m cells) over CITY (5.0 km + margins):   8.04 M cells,  10.22 MB at 1 B,  20.44 MB at 2 B
+       and a whole-frame far field from level 6 (2.82 m cells) over METROPOLIS target (8.0 km + margins):  20.58 M cells,  26.16 MB at 1 B,  52.33 MB at 2 B
+       and a whole-frame far field from level 6 (2.82 m cells) over the cap, square (12.4 km + margins):  49.42 M cells,  62.84 MB at 1 B, 125.68 MB at 2 B
+       and a whole-frame far field from level 6 (2.82 m cells) over the cap, aspect 2 (17.53 x 8.76 km + margins):  49.35 M cells,  62.75 MB at 1 B, 125.51 MB at 2 B
+   (c) a cap on R at N tile sides: a caster beyond N·S never shades the view, while the same caster shades it at a
+       coarser stop whose tiles are larger, so a shadow's presence would change with the zoom stop (J-A68.84).
+== (5) the canvas need with the light pass: Q = P/12 + (2(a + b) + 4)/3 + B at 1 B; Q_f = P/6 + 2(2(a + b) + 4)/3 + 2B
+   at the full-precision surface (16-bit pyramids, first-ring heights and blocks); B by the tile DPR, rounded up from
+   (2)'s largest: 3.75 MB at DPR 1, 4.25 at 1.5, 4.75 at 2, 5.5 at 3. Base needs are §8.8's (4.25P + 7 MB; 6.5P + 7 MB at
+   full precision); the export-time canvases add 15 MB, or drop the coarser-stop set (P MB) first (§12.8).
+   (each B above is >= the largest (2) found at its DPR: checked)
+   reference view 1 440 x 900, DPR 2 (high tier)       : P = 35 (a 7, b 5); base 155.75 + Q 17.00 = 172.75 MB, fits 192; with an export 187.75, its coarser-stop set dropped 152.75
+   reference view, DPR 1.5 (mid tier)                  : P = 24 (a 6, b 4); base 109.00 + Q 14.25 = 123.25 MB, fits 128; with an export 138.25, its coarser-stop set dropped 114.25
+   low-end 1 366 x 768, DPR 1 (low tier)               : P = 12 (a 4, b 3); base  58.00 + Q 10.75 =  68.75 MB, fits 72; with an export  83.75, its coarser-stop set dropped  71.75
+   low-end 1 920 x 1 080, DPR 1 (low tier)             : P = 20 (a 5, b 4); base  92.00 + Q 12.75 = 104.75 MB, over 72; with an export 119.75, its coarser-stop set dropped  99.75
+   reference view, DPR 2, full precision (high tier)   : P = 35 (a 7, b 5); base 234.50 + Q 34.00 = 268.50 MB, over 192; with an export 283.50, its coarser-stop set dropped 248.50
+   reference view, DPR 1.5, full precision (high tier) : P = 24 (a 6, b 4); base 163.00 + Q 28.50 = 191.50 MB, fits 192; with an export 206.50, its coarser-stop set dropped 182.50
+   reference view, DPR 1.5, full precision (mid tier)  : P = 24 (a 6, b 4); base 163.00 + Q 28.50 = 191.50 MB, over 128; with an export 206.50, its coarser-stop set dropped 182.50
+   reference view, DPR 1, full precision (mid tier)    : P = 12 (a 4, b 3); base  85.00 + Q 21.50 = 106.50 MB, fits 128; with an export 121.50, its coarser-stop set dropped 109.50
+   low-end 1 366 x 768, DPR 1, full precision (low tier): P = 12 (a 4, b 3); base  85.00 + Q 21.50 = 106.50 MB, over 72; with an export 121.50, its coarser-stop set dropped 109.50
+== (6) the build-time model of the blocks over a whole frame at the finest stop (PLAUSIBLE until M2b): each block
+   reads the city band's marks that meet it (each mark of the frame met by the blocks of one partition about once:
+   ~1 us each), the terrain field's samples meeting it (~2 ns each) and writes its 21 845 cells (~0.05 ms per block);
+   marks ~11.5 per building (§8.1 item 6: ~60 000 marks for ~5 200 buildings); terrain cells 5 / 8 / 10 m (§2.3).
+   TOWN target       : ~   15525 marks, ~0.41 M samples, <= 450 blocks (2): ~  38.8 ms
+   CITY target       : ~   60375 marks, ~1.00 M samples, <= 450 blocks (2): ~  84.9 ms
+   METROPOLIS target : ~  155250 marks, ~1.64 M samples, <= 450 blocks (2): ~ 181.0 ms
+   the cap           : ~  402500 marks, ~3.94 M samples, <= 450 blocks (2): ~ 432.9 ms

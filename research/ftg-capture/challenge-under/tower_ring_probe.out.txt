@@ -1,0 +1,27 @@
+=== galeiaward : towers 17 ; districts 4
+ towers that are an EXACT vertex of some district ring: 17/17 ; unmatched tower ids: []
+  ring Beer Forest      verts=44 towers-on-ring=17 ring-indices=[0, 19, 20, 22, 24, 27, 29, 32, 33, 34, 35, 36, 38, 39, 41, 42, 43] gaps=[19, 1, 2, 2, 3, 2, 3, 1, 1, 1, 1, 2, 1, 2, 1, 1] consecutive=False
+    ring seg (all) m: median 28.5 min 3.3 max 50.0 ; ring seg along tower stretch: n/a
+  ring Rustic Village   verts=42 towers-on-ring=11 ring-indices=[20, 21, 22, 23, 25, 26, 28, 29, 30, 31, 32] gaps=[1, 1, 1, 2, 1, 2, 1, 1, 1, 1] consecutive=False
+    ring seg (all) m: median 34.2 min 3.9 max 64.7 ; ring seg along tower stretch: n/a
+  ring Ash Town         verts=55 towers-on-ring=6 ring-indices=[32, 34, 37, 39, 41, 42] gaps=[2, 3, 2, 2, 1] consecutive=False
+    ring seg (all) m: median 30.3 min 4.3 max 60.5 ; ring seg along tower stretch: n/a
+ tower chain (by id) seg m: min 18.9 med 39.3 max 72.3 n=16 ; first->last 472.5 m
+ towers coincident with a road-graph node: 17/17 ; edge types incident to those nodes: {7: 32, 0: 6, 1: 1}
+  ring Beer Forest      vertices coincident with a road-graph node: 44/44
+  ring Rustic Village   vertices coincident with a road-graph node: 42/42
+  ring Ash Town         vertices coincident with a road-graph node: 55/55
+  ring Green Wood       vertices coincident with a road-graph node: 40/40
+=== nevervalley : towers 29 ; districts 3
+ towers that are an EXACT vertex of some district ring: 29/29 ; unmatched tower ids: []
+  ring Metal Heath      verts=75 towers-on-ring=19 ring-indices=[0, 44, 47, 48, 50, 51, 52, 53, 55, 58, 59, 62, 64, 66, 67, 70, 71, 73, 74] gaps=[44, 3, 1, 2, 1, 1, 1, 2, 3, 1, 3, 2, 2, 1, 3, 1, 2, 1] consecutive=False
+    ring seg (all) m: median 12.6 min 2.4 max 50.3 ; ring seg along tower stretch: n/a
+  ring Bread Village    verts=61 towers-on-ring=12 ring-indices=[36, 37, 38, 40, 41, 44, 45, 47, 49, 52, 53, 56] gaps=[1, 1, 2, 1, 3, 1, 2, 2, 3, 1, 3] consecutive=False
+    ring seg (all) m: median 29.8 min 2.4 max 96.0 ; ring seg along tower stretch: n/a
+  ring Turnpike Dale    verts=64 towers-on-ring=10 ring-indices=[41, 42, 44, 46, 48, 49, 51, 52, 53, 54] gaps=[1, 2, 2, 2, 1, 2, 1, 1, 1] consecutive=False
+    ring seg (all) m: median 20.0 min 2.9 max 65.2 ; ring seg along tower stretch: n/a
+ tower chain (by id) seg m: min 4.4 med 36.1 max 462.6 n=28 ; first->last 59.5 m
+ towers coincident with a road-graph node: 29/29 ; edge types incident to those nodes: {7: 54, 0: 6, 14: 3, 1: 1}
+  ring Metal Heath      vertices coincident with a road-graph node: 75/75
+  ring Bread Village    vertices coincident with a road-graph node: 61/61
+  ring Turnpike Dale    vertices coincident with a road-graph node: 64/64

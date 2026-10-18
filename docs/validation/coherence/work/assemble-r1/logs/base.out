@@ -1,0 +1,15 @@
+files 6; blocks 92 found, 91 applied, 1 skipped
+  SKIPPED repair-r1-determinism.md #14 (l. 2645) MALFORMED === RULING REQUEST VDC0-33 === — malformed "=== " header line; its text skipped
+  NOTE repair-r1-scope.md #1 (l. 1) REPLACE # ARCHITECTURE — PLAT, the fused town/city generator (base), neighbourhood composition (stage 2), an — REPLACE retitles the heading ['# ARCHITECTURE — PLAT, the fused town/city generator (base),' -> '# ARCHITECTURE — PLAT, the fused town/city generator (base),']
+  NOTE repair-r1-scope.md #18 (l. 3842) RATIONALE-A — DUPLICATE ID inserted (an id the table already holds): ['J-A73.06']
+audit: 91 blocks; not OK: 0
+  j_rows_without_part_a: []
+  part_a_without_j_rows: ['J-A73.06']
+  j_ids_in_two_blocks: {}
+  document index rows: 788
+  document index duplicate ids: []
+  Part A rows: 789
+  Part A duplicate ids: ['J-A73.06']
+headings 153 -> 153 (+3 / -3); fences balanced True (132 -> 140 fence lines); title block unchanged False; PENDING FABLE REVIEW lines 0 -> 0
+document 2615627 -> 2787468 bytes, 20306 -> 21449 lines, sha256 137ecc0e4fe12c4408eacf842770d1c428e5031cd8faad18e0a3f37b57d7d9b5
+rationale 685208 -> 689078 bytes, 2362 -> 2370 lines, sha256 74f41df2a7896ea22c34e4d71157cc6a01980eb396b737f4ba6fe1be564be636

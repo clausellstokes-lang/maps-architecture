@@ -1,0 +1,84 @@
+{
+ "file": "docs/validation/coherence/wiring.md",
+ "nodes": 20178,
+ "edges": 32037,
+ "orphans": 22,
+ "dangling": 22,
+ "one_ended_hooks": 25,
+ "dossier_fields": 104,
+ "dossier_unreached": 23,
+ "gaps_by_unit": [
+  {
+   "unit": "model",
+   "gaps": 6
+  },
+  {
+   "unit": "kernel",
+   "gaps": 8
+  },
+  {
+   "unit": "pipeline",
+   "gaps": 17
+  },
+  {
+   "unit": "determinism",
+   "gaps": 8
+  },
+  {
+   "unit": "rendering",
+   "gaps": 8
+  },
+  {
+   "unit": "scope",
+   "gaps": 5
+  },
+  {
+   "unit": "V01",
+   "gaps": 3
+  },
+  {
+   "unit": "V02",
+   "gaps": 3
+  },
+  {
+   "unit": "V03",
+   "gaps": 1
+  },
+  {
+   "unit": "V04",
+   "gaps": 5
+  },
+  {
+   "unit": "V05",
+   "gaps": 1
+  },
+  {
+   "unit": "V06",
+   "gaps": 2
+  },
+  {
+   "unit": "V07",
+   "gaps": 4
+  },
+  {
+   "unit": "V08",
+   "gaps": 4
+  },
+  {
+   "unit": "V09",
+   "gaps": 7
+  },
+  {
+   "unit": "V10",
+   "gaps": 7
+  },
+  {
+   "unit": "V11",
+   "gaps": 1
+  },
+  {
+   "unit": "V12",
+   "gaps": 0
+  }
+ ]
+}

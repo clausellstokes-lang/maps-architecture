@@ -1,0 +1,146 @@
+[
+ {
+  "id": "VAH-r2-01",
+  "severity": "major",
+  "kind": "MATRIX-GAP",
+  "owner": "determinism",
+  "claim": "A condition's knowledge tier is a shared subject the matrix missed, and its routed home states nothing. The canon routes 'knowledge admission of a condition' for item 122 to determinism \u00a77.7 (canon.md l.5595). DR44 (base l.11896) says only 'knowledge admission at the viewer's effective key (\u00a79.2's admission function, \u00a711.2)'. \u00a79.2's admit(knownTo, key, band) reads a target's knownTo; ConditionOverlay (\u00a72.7, l.2424) carries none, and \u00a79.2 names no source for one. The one rule is V08 \u00a73.16 (7) (e) (l.2513-2517; J-V8.128): public where the crisis.map row gives a look, secret where it is none, a key form listing the overlay admitting it whatever its tier. V08 words it as 'DR44 admits a condition \u2026 at the tier its look gives it', a statement DR44 does not hold. DR44's admission therefore has a dangling input, and its readers (V09 \u00a74.21.12 (6), V10 \u00a73.9b (8), \u00a710.2 (a), \u00a78.2's look rows) cite DR44 for a rule only V08 writes. Verdict: the members agree in substance; the home is DR44.",
+  "required_change": "DR44's rule cell, after 'knowledge admission at the viewer's effective key (\u00a79.2's admission function, \u00a711.2)', adds: 'a condition's knownTo is public where its map row gives a look (a camp, a quarantine, smoke and ruins are sights) and secret where the row is none; a key form listing the overlay's address admits it whatever its tier (V08 \u00a73.16 (7) (e); J-V8.128)'. V08 \u00a73.16 (7) (e) then reads as a citation of DR44.",
+  "reported_by": "verify-agree-host-r2t"
+ },
+ {
+  "id": "VAL-R2-03",
+  "severity": "minor",
+  "kind": "AMBIGUOUS",
+  "owner": "determinism",
+  "claim": "\u00a76.3 *Plan damage* (l. 9786\u20139792), the home of the threshold's key, lists 'the id's parts \u2014 its element kind and V03 \u00a72.2's plan-part id (`wall:`, `op:`, `win:`, `core:`, `furn:`), a floor area and the roof bay over a room by their room's address'. It has no form for V04 \u00a75.6 (2)'s room-keyed kinds below ground (l. 2887\u20132889): `cellarVault` keyed by 'the room's id' and `cryptVault` by '(its room's id, the cell's grid node (i, j)) \u2026 a key, never a new id', each cell with its own threshold ('a rubble heap filling the cell, its columns standing'). Read as exhaustive, \u00a76.3 folds every `cryptVault` cell of a crypt to one key (kind and room address), so every bay falls at one level, against V04's per-cell thresholds and T-V4-82 (c). VV34-r2-03 raises the other half (which node names a cell).",
+  "required_change": "\u00a76.3's sentence reads: '\u2026 a floor area, the roof bay over a room and a `cellarVault` by their room's address, and a `cryptVault` cell by its room's address and the cell's grid node (V04 \u00a75.6 (2)) \u2014 folded into the key \u2026'. ONE FIX with VV34-r2-03, whose V04 end fixes the node that names the cell.",
+  "reported_by": "verify-agree-layers-r2t"
+ },
+ {
+  "id": "VDC2-01",
+  "severity": "major",
+  "kind": "EDGE-UNDEFINED",
+  "claim": "\u00a76.1 *The weather stream* (new, item 124) draws spell i's clear gap, kind and length in that order and says \"A spell's kind and length are fixed when it starts, so a change of the year position or of the climate row takes effect from the next spell\". V11 \u00a73.25.11 makes the gap exponential with mean 3 600 \u00f7 R s, R the live kinds' summed rate, and \"a week with no live kind brings no spell\". Two edges have no defined outcome. (a) A gap drawn while R = 0 \u2014 a map opened, or a spell ending, in a week with no live kind (the `arid` row's weeks 0\u20139 and 50\u201351) \u2014 has an infinite mean, so read as written the timeline brings no spell for the rest of the session, even after the year position moves into live weeks (a scrub, or a dossier whose latest tick moves the present week). (b) A gap drawn at one week's rate runs on unchanged after the year position, the climate row or the sites change: a scrub from the arid wet weeks (R \u2248 0.8 an hour) into a temperate winter waits about 75 minutes for its first spell. Item 124 (b)\u2013(c) ties the spells to season and region. The text also calls the timeline a pure function of (session seed, view time, climate row and year position, presses), but V11 \u00a73.25.11's rates also depend on the sites read from the model at the view's head (coast, riverside, hills, forest) and, under `light: 'time'`, on the view's hour (`hours`). \u00a76.5 (9)'s weather-timeline test fixes no change of year position. (V11's repair also asks \u00a76.1 to cite V11 \u00a73.25.11 for the gap's, kind's and length's reading.)",
+  "required_change": "In \u00a76.1 *The weather stream*, replace \"its uniforms draw, in order, the clear gap before it, its kind by the climate row's weather columns for the week band of \u00a72.9's `yearWeek` (V11) and its length inside that column's range. A spell's kind and length are fixed when it starts, so a change of the year position or of the climate row takes effect from the next spell.\" with \"its uniforms draw, in order, the clear gap before it as a unit exponential E = \u2212ln(1 \u2212 u) (`dmath.log`), its kind and its length (V11 \u00a73.25.11's reading of the columns). The gap is spent at the live rate: from the end of spell i \u2212 1, or the map's opening, the clear time runs until the integral over view time of R(t) \u00f7 3 600 reaches E, where R(t) is the summed `perHour` of the kinds live at view time t. The live kinds are read from the climate row's weather cells for the week band of \u00a72.9's `yearWeek`, with V11's site factors read from the model at the view's head and, under `light: 'time'`, the kinds' `hours`. So a time with no live kind (R = 0) spends none of the gap and brings no spell, and a change of the year position, the climate row, the sites or the hour changes the rate from that moment, the drawn E kept. The kind is drawn when the spell starts, kind k with chance perHour_k \u00f7 R at that moment, and the length uniform in that kind's `lengthS`. A spell's kind and length are fixed once it starts; a change acts on a running spell only through \u00a78.2's hard rules (a `snow` spell on a row where snow cannot fall draws nothing).\" Replace \"a pure function of (the session seed, the view's time since the map opened, the climate row and year position in force, the presses)\" with \"a pure function of (the session seed, the view's time since the map opened, the climate row, year position, sites and view hour in force at each moment, the presses)\". In \u00a76.5 (9)'s *weather timeline* test add: \"a scripted year-position change from a week with no live kind into a live week, and back, replays identically on the five engines, a spell starting in the live week (T124-9)\".",
+  "owner": "determinism",
+  "reported_by": "verify-determinism-r2t"
+ },
+ {
+  "id": "VDC2-02",
+  "severity": "minor",
+  "kind": "WIRING",
+  "claim": "\u00a78.2's *Weather effects* (rendering, this round) draws each spell's marks \u2014 positions, lengths and sways \u2014 on `view.weather` \"keyed by the spell index and the frame's world-aligned cell\"; rendering's repair hands this to determinism. \u00a76.1's `view.weather` row (\"keyed from the session seed by the spell index\") and *The weather stream* state only the spell's three draws, and \u00a76.1's stream key has no cell component. The registry row is \"the one statement of how its draws are keyed; a reader's section cites it\", so \u00a78.2's keying has no home.",
+  "required_change": "\u00a76.1's `view.weather` row: after \"keyed from the session seed by the spell index\" add \"; the spell's marks (\u00a78.2's *Weather effects*: positions, lengths and sways) on further keys of the same concern \u2014 the spell's entity key folded through the one mixer with the frame's world-aligned cell as structured components \u2014 so a mark stays put while its spell lasts\". In *The weather stream*, after the stream-key sentence, add \"Its marks draw per world-aligned cell on the spell's entity key folded with the cell (the registry row).\"",
+  "owner": "determinism",
+  "reported_by": "verify-determinism-r2t"
+ },
+ {
+  "id": "VDC2-03",
+  "severity": "minor",
+  "kind": "WIRING",
+  "claim": "\u00a76.5 (9)'s new *weather timeline* test compares spells (kind, start and length) on the five engines, and the gap is an exponential, which needs a logarithm. \u00a76.5 (2) routes every real function but `sqrt` through `dmath`, and \u00a76.1's draw helpers send \"every power of a draw\" through `dmath` by \u00a76.5 (3). But (3)'s lint scope does not name the weather timeline. That scope covers the model packages, the view code reaching a bit-compared digest, \u00a78.10's instance function and the CPU reference light pass. The timeline lives in the compositor's layer (\u00a78.8), part of \"the rest of `@plat/render` \u2014 paint programs, backends, compositing \u2014 [which] stays outside\". A `Math.log` there passes the lint and can break T124-9 across engines.",
+  "required_change": "\u00a76.5 (3): after \"\u2026stays outside (J-A68.62)\" (the CPU reference light pass clause) add \"; and the weather stream's timeline function (\u00a76.1 *The weather stream*: the spell draws, the gap's exponential through `dmath.log`, the rate integral, the kind's pick and the length) with every function it calls, whose spells (9)'s weather-timeline test compares across engines (T124-9)\".",
+  "owner": "determinism",
+  "reported_by": "verify-determinism-r2t"
+ },
+ {
+  "id": "VDC2-04",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "\u00a76.1 says \"**Start a shower now** (V09) starts a spell of the season's commonest kind at once as the next spell index\" and gives no outcome for a week with no live kind. The volumes disagree on that edge. V11 \u00a73.25.11, the home of \"the commonest kind\", says \"a week with no live kind starts none\". V09 \u00a74.21.14 (4), its edge row 93 and T-V9-87 say \"where they give none \u2014 an arid row's dry weeks \u2014 it starts dust haze\"; `dust` is not live on the `arid` row in weeks 0\u20139 and 50\u201351. The base mechanism states no outcome, and the two volumes state two.",
+  "required_change": "\u00a76.1 *The weather stream*: after \"starts a spell of the season's commonest kind at once as the next spell index, its length drawn there,\" add \"the commonest kind V11 \u00a73.25.11's (the live kind of greatest rate after the sites' factors); in a week with no live kind a press starts none, and V09 disables the button there with its reason (\u00a77.8: never a silent no-op),\".",
+  "owner": "determinism",
+  "reported_by": "verify-determinism-r2t"
+ },
+ {
+  "id": "VDC2-06",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "\u00a76.3 *Plan damage* says \"[lo, hi] its element kind's range by material (V11's rows: \u2026)\". V11 \u00a73.25.10's `damage.elements` keys a range by `DamageElementKind` alone (`DamageElementRow { kind; range; states }`). The walls material acts only through V06's decay rate (`damage.materials`, `ratePerYear`). R2-38 (2) and the canon's dated ruling read \"t = lo + u\u00b7(hi \u2212 lo) by element kind (V11's ranges)\". V11's repair hands this to determinism.",
+  "required_change": "\u00a76.3 *Plan damage*: \"[lo, hi] its element kind's range by material (V11's rows: outer walls and ground floors late, partitions and upper floors early; item 123 (c))\" \u2192 \"[lo, hi] its element kind's range (V11 \u00a73.25.10's `damage.elements` row: outer walls and ground floors late, partitions and upper floors early; item 123 (c)); the walls material acts only through the decay level's rate (V06's `decayLevel`, V11's `damage.materials`)\".",
+  "owner": "determinism",
+  "reported_by": "verify-determinism-r2t"
+ },
+ {
+  "id": "VDC2-09",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "DR44's rule cell says every SettlementForge stressor type and condition archetype \"has exactly one, a look kind or `none`, the regional_* pressures `none`\". Item 122 (b) names `regional_migration_pressure` under mass immigration: \"**mass immigration** (regional_migration_pressure, REFUGEE_WAVE)\". V11 \u00a73.25.9's `map` rows give `regional_migration_pressure` \u2192 `refugeeCamp`, and only \"the other `regional_*` pressures\" its \"no look\". DR44 denies the refugee camp its main source. V11's repair hands this to determinism.",
+  "required_change": "DR44: \"the regional_* pressures `none`\" \u2192 \"`regional_migration_pressure` the refugee camp (item 122 (b)'s mass immigration), the other regional_* pressures `none`\".",
+  "owner": "determinism",
+  "reported_by": "verify-determinism-r2t"
+ },
+ {
+  "id": "VDC2-11",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "\u00a77.7 item 1, rewritten for item 125, says \"the bearings, latitude and cell words they would give are the dossier's where it carries them, else the generator's defaults or the user's settings (DR1, DR3, DR19, DR29, DR42)\". No rule gives a bearing a dossier source: - layer 2's *Bearing* takes a partner's bearing from the user's setting, else `gate.pick`, and says \"no host input gives one\"; - DR3 reads no bearing field; - `hinterland.outside` calls a deposit's bearing one \"which no input gives\"; - item 125 (b) and V08 \u00a73.16 (9) make \"the neighbours' bearings \u2026 our generator's defaults or the user's settings\". The sentence implies a dossier-carried bearing that no row reads, and rendering's \u00a711.1 reads it that way (VDC2-12).",
+  "required_change": "\u00a77.7 item 1: \"the bearings, latitude and cell words they would give are the dossier's where it carries them, else the generator's defaults or the user's settings (DR1, DR3, DR19, DR29, DR42)\" \u2192 \"the latitude and the site's words they would give are the dossier's where it carries them \u2014 its culture (DR29), its terrain type, access and deposits (DR1, DR19, DR42) \u2014 else the generator's defaults; the partners' and the deposits' bearings are the generator's draws or the user's settings, never an input (layer 2's *Bearing*, DR3, DR19; item 125 (b))\".",
+  "owner": "determinism",
+  "reported_by": "verify-determinism-r2t"
+ },
+ {
+  "id": "VDC2-16",
+  "severity": "minor",
+  "kind": "WIRING",
+  "claim": "Pipeline's round-2 II.7.6 step 3 adds a refusal for `addUndergroundAccess`. A connector route \"the search does not find (`E_NO_PATH`, \u00a73.1: the basement ring enclosed \u2026 or the water table above every floor \u2026)\" makes \"the dry run [refuse] with its reason, naming the blocking building or the water table (F-EDIT, \u00a75.2)\". Pipeline's repair hands this to determinism. E-07 calls itself \"the one home of every refusal, conflict and bend cause of a dry run\". Its `addUndergroundAccess` row lists only the terrain gate and the route's bound. Its key cell, \"V09 \u00a74.17's rows\", names no catalogue key: V09 \u00a74.17 and \u00a74.9 hold no row for these outcomes. So T-V9-15's walker (\"every key \u00a77.1's dry-run outcome table names has its row\") cannot reach them.",
+  "required_change": "\u00a77.1's outcome table, the `addUndergroundAccess` row: - cause cell \u2192 \"an `addUndergroundAccess` whose terrain rules out every basement form (\u00a72.6's requested-mode ladder), or whose connector passes its route's bound or finds no route (II.7.6 step 3: `E_NO_PATH`, the basement ring enclosed by other footprints, basement rings or dug passages, or the water table above every floor between it and the target)\"; - action cell \u2192 \"the nearest lawful basement form (half cellar, walk-out, a hatch to a crawl space); else the refusal naming the terrain, the route's bound, or the blocking building or the water table; the basement not laid\"; - key cell \u2192 \"`bend.under.basement`, `refuse.under.basement`, `refuse.under.route`\" (V09 \u00a74.9's rows, VDC2-17).",
+  "owner": "determinism",
+  "reported_by": "verify-determinism-r2t"
+ },
+ {
+  "id": "VKr2-04",
+  "severity": "minor",
+  "kind": "WIRING",
+  "owner": "determinism",
+  "claim": "II.7.6 step 3's new refusal (l. 21252\u201321256, VPC-R1-23), for a dug connector the path search cannot route, 'naming the blocking building or the water table (F-EDIT, \u00a75.2)', has no row in \u00a77.1's outcome table. \u00a75.2 F-EDIT detects 'every refusal and conflict cause of \u00a77.1's dry-run outcome table', and \u00a77.1 calls the table 'the one home of every refusal, conflict and bend cause of a dry run'. Yet the table's `addUndergroundAccess` row (l. 10380) covers only 'terrain rules out every basement form \u2026 or whose connector passes its route's bound (II.7.6)'. So the refusal has no catalogue key or action. repair-r2-pipeline.md lists this as a HAND-OFF for round 3 that no repair applied; T66-2 (l. 17740\u201317747) already tests the outcome.",
+  "required_change": "\u00a77.1's outcome table, the `addUndergroundAccess` row: replace 'or whose connector passes its route's bound (II.7.6)' with 'or whose connector passes its route's bound or finds no route (II.7.6 step 3, `E_NO_PATH`)'; in its actions cell, replace 'else the refusal naming the terrain or the route's bound' with 'else the refusal naming the terrain, the route's bound, or the building or water table that blocks the route'.",
+  "reported_by": "verify-kernel-r2t"
+ },
+ {
+  "id": "VKr2-06",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "owner": "determinism",
+  "claim": "\u00a77.1's `drawWay` comment (l. 10073) reads 'raised?: true /* item 110 (b): the deck in its own ground arena part (\u00a73.4), its two ends ramps or stairs joined to ground vertices, \u2026'. A drawn raised course beyond the frame is bent to the ring (\u00a72.7 *At the frame*, item 101 R2), and that end carries no ramp or stair (`RaisedFoot`). The comment contradicts the one statement R2-26 (a) rules.",
+  "required_change": "\u00a77.1 `drawWay`: replace 'its two ends ramps or stairs joined to ground vertices' with 'its two ends its feet (\u00a72.7's `RaisedWayRecord.feet`)'.",
+  "reported_by": "verify-kernel-r2t"
+ },
+ {
+  "id": "VM-R2T-05",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "\u00a77.1's `drawWay` `raised` comment (l. 10073) reads 'its two ends ramps or stairs joined to ground vertices', while a drawn course beyond the frame bends to the ring and ends there with no ramp (\u00a72.7 *At the frame*, `RaisedFoot`; VKr1-02).",
+  "required_change": "\u00a77.1, `drawWay`'s `raised` comment: 'its two ends ramps or stairs joined to ground vertices, or an end on the arena's outer ring (\u00a72.7 *At the frame*: a stroke drawn beyond the frame bends to the ring)'.",
+  "owner": "determinism",
+  "reported_by": "verify-model-r2t"
+ },
+ {
+  "id": "VPC-R2-02",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "claim": "\u00a77.7's DR44 (l. 11896) has the same clause in its rule column: 'every SettlementForge stressor type and condition archetype at the pinned baseline has exactly one, a look kind or `none`, the regional_* pressures `none`'. This contradicts owner rule 122 (b) and V11 \u00a73.25.9 (l. 4559, 4562), which map `regional_migration_pressure` \u2192 `refugeeCamp` (see VPC-R2-01).",
+  "required_change": "DR44, l. 11896: replace 'the regional_* pressures `none`' with 'the regional_* pressures other than `regional_migration_pressure` (item 122 (b)'s mass immigration) `none`'.",
+  "owner": "determinism",
+  "reported_by": "verify-pipeline-r2t"
+ },
+ {
+  "id": "VPC-R2-18",
+  "severity": "minor",
+  "kind": "WIRING",
+  "claim": "Repair r2 gave II.7.6 step 3 (l. 21252\u201321256) a new refusal: a connector route the search does not find (`E_NO_PATH`: the basement ring enclosed within `foundationClearM`, or the water table above every floor). The dry run refuses it, naming the blocking building or the water table (F-EDIT), and T66-2 tests it (l. 17742\u201317747). \u00a77.1's dry-run outcome table (E-07) is 'the one home of every refusal, conflict and bend cause of a dry run', but its `addUndergroundAccess` row (l. 10380) lists only a terrain that rules out every basement form and a route past its bound. The row gives no key of its own ('V09 \u00a74.17's rows', where V09 has no such row). The pipeline repair recorded the row as a HAND-OFF to determinism, which was not applied.",
+  "required_change": "E-07's `addUndergroundAccess` row, l. 10380: read 'an `addUndergroundAccess` whose terrain rules out every basement form (\u00a72.6's requested-mode ladder), or whose connector passes its route's bound or finds no route (II.7.6 step 3: `E_NO_PATH`) | bent, else refused | the nearest lawful basement form \u2026; else the refusal naming the terrain, the route's bound, or the blocking building or the water table | `refuse.access.route`'. V09 \u00a74.9's catalogue gains the key's message (the receiving end, R2-05).",
+  "owner": "determinism",
+  "reported_by": "verify-pipeline-r2t"
+ },
+ {
+  "id": "VV34-r2-16",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "\u00a76.3 *Plan damage* keys each element's draw by its kind and \"V03 \u00a72.2's plan-part id (`wall:`, `op:`, `win:`, `core:`, `furn:`), a floor area and the roof bay over a room by their room's address\". It omits three element ids its units key: V03 \u00a75.6 (1)'s choir flight (kind `stair`, \"a flight by its room's address\"); V04 \u00a75.6 (2)'s `cellarVault` (the room's id); and V04 \u00a75.6 (2)'s `cryptVault` cell (\"(its room's id, the cell's grid node (i, j))\").",
+  "required_change": "\u00a76.3 *Plan damage*: \"the id's parts \u2014 its element kind and V03 \u00a72.2's plan-part id (`wall:`, `op:`, `win:`, `core:`, `furn:`); a floor area, the roof bay over a room, a choir flight and a cellar vault by their room's address; a crypt vault cell by its room's address and its grid node (V04 \u00a75.6 (2)) \u2014 folded into the key \u2026\".",
+  "owner": "determinism",
+  "reported_by": "verify-vol-V03-V04-r2t"
+ }
+]

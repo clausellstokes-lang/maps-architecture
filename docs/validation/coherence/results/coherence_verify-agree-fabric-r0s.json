@@ -1,0 +1,238 @@
+{
+ "key": "coherence/verify-agree-fabric-r0s",
+ "file": "docs/validation/coherence/verify-agree-fabric-r0s.md",
+ "issues": [
+  {
+   "id": "VAF-R0S-01",
+   "severity": "blocker",
+   "kind": "DISAGREE",
+   "claim": "V02's M5 sunlit choice reads the latitude from \"§8.4 `Sun.latitudeDeg` (item 102's sampler, DR29)\" (V02 l.157 §1b, l.270 §1c, l.905 M5's `sunDir`). §8.4's `SunSpec.latitudeDeg` is the style sheet's view sun (l.12216: \"the view's default is the latitude in force … while the model-side sampler reads the recipe's latitude itself\"), and §4.5 (l.5527) forbids the model to read it: \"never the style's `sun.latitudeDeg`, which is view data\". The model-side latitude is §7.7's `Intent.latitudeDeg` (l.10811; DR29 fills it; absent reads 50). As written, the massing (model data, in the leaf digest) would change with a viewer's style sheet.",
+   "required_change": "In V02 l.157, l.270 and l.905 replace \"§8.4 `Sun.latitudeDeg`\" by \"§7.7's `Intent.latitudeDeg` (DR29 on a dossier map; absent 50) — the latitude item 102's model sampler reads (§4.5), never the style's `SunSpec.latitudeDeg`\".",
+   "owner": "V02"
+  },
+  {
+   "id": "VAF-R0S-02",
+   "severity": "major",
+   "kind": "MATRIX-GAP",
+   "claim": "`PorchKind` is used as a type by V02 (l.418, l.469 `CompositionRow.porch: Record<PorchKind | 'none', number>`, l.497 `PorchKindRow.kind: PorchKind`, l.2457 the `porch` op) and declared nowhere in the set: the rewrite dropped V02's declaration (archive V02 l.549 `type PorchKind = 'hood' | 'gabled' | 'twoStorey' | 'recessed' | 'halfRound'`) because §2.6 holds the record, but §2.6 types `Porch.kind` with an inline union and declares no name. A shared subject (model `Porch` ↔ V02's porch tables) the matrix missed; verdict: dangling type.",
+   "required_change": "§2.6 declares `type PorchKind = 'hood'|'gabled'|'twoStorey'|'recessed'|'halfRound';` beside `Porch` and types `Porch.kind?: PorchKind` (absent: gabled); V02's uses cite §2.6.",
+   "owner": "model"
+  },
+  {
+   "id": "VAF-R0S-03",
+   "severity": "major",
+   "kind": "MATRIX-GAP",
+   "claim": "MC-11's ruling (\"every type a base record uses is declared in the base … the volumes that declared them cite the base declaration\") was applied to its seven listed types only; §2's records still use six types declared only in a volume: `AccessHead` (`Plan.heads`, l.1344; V03 §2.1), `DormerRow` (`Wing.dormerRows`, l.1330; V02 §2.2), `HoodRecipe` (`Recipe.hood`, l.2773; V01 §2.6), `TierLay` (the chamber's `monument.lay`, l.2240; V02 §2.6), `NetworkRule` (`wayFall`, l.1029; V04), `RaisedReasonKey` (`RaisedWayRecord.reason`, l.2132, and `suppress.reason`, l.2479; V06 §2.13). The canon names none of them.",
+   "required_change": "§2 declares each of the six beside the record that uses it (fields and meanings unchanged, as MC-11 did for its seven); V01 §2.6, V02 §2.2 and §2.6, V03 §2.1, V04 and V06 §2.13 cite the §2 declaration instead of declaring.",
+   "owner": "model"
+  },
+  {
+   "id": "VAF-R0S-04",
+   "severity": "major",
+   "kind": "DUPLICATE-HOME",
+   "claim": "The raised-way kind is one enumeration with three declarations: §2.7 `RaisedWayRecord.kind: 'viaduct'|'elevated'|'aqueduct'` (inline, l.2132), V11 §2.8c `type RaisedKind = 'viaduct'|'elevated'|'aqueduct'` (l.626) and V06 §2.13 `type RaisedKind = …` (l.847); V01 restates it inline twice (`DistrictContext.raised.kind`, l.439; `WayNamingContext.raised`, l.486). The record is the base's (g item 110 (b), \"one record for every volume\").",
+   "required_change": "§2.7 declares `type RaisedKind = 'viaduct'|'elevated'|'aqueduct';` and types `RaisedWayRecord.kind: RaisedKind`; V01 §2.3's two fields read `RaisedKind`.",
+   "owner": "model"
+  },
+  {
+   "id": "VAF-R0S-05",
+   "severity": "major",
+   "kind": "DUPLICATE-HOME",
+   "claim": "V11 §2.8c declares `type RaisedKind` (l.626) for the raised-way rows' `kind`, `maxPierM` and `vaultShare` keys — a second home of the base record's enumeration (VAF-R0S-04).",
+   "required_change": "Delete V11's declaration; V11 §2.8c reads \"`RaisedKind` is §2.7's\".",
+   "owner": "V11"
+  },
+  {
+   "id": "VAF-R0S-06",
+   "severity": "major",
+   "kind": "DUPLICATE-HOME",
+   "claim": "V06 §2.13 declares `type RaisedKind` (l.847) for `RaisedReasonKey.kind` — a third home of the same enumeration (VAF-R0S-04; V09 l.3002 cites V06's).",
+   "required_change": "Delete V06's declaration and cite §2.7's `RaisedKind` (with `RaisedReasonKey` declared in §2.7 by VAF-R0S-03, V06 §2.13 cites both).",
+   "owner": "V06"
+  },
+  {
+   "id": "VAF-R0S-07",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "One name, two records: §2.2 `type RoleRow = { role: RoleName; entity: Id; ordinal?: number }` (l.577; the plat's role-table row, read by §3.4's `insertChain`, `splitThrough`, `retypeEdges`) and V11 §2.8 `interface RoleRow { role: string; footprintShare: number; houses: boolean }` (l.549; the structure-role defaults, table of V11 §3.6.5). The matrix lists `RoleRow` as an agreeing model–V11 subject; the two differ in every field and in meaning, against principle (2) and the set's one namespace (`@plat/model` and `@plat/tables` both export it).",
+   "required_change": "Rename V11's record `StructureRoleRow` at V11 §2.8 (l.549) and V11 §3.6.5's heading (l.2005); the table, its rows and readers are unchanged.",
+   "owner": "V11"
+  },
+  {
+   "id": "VAF-R0S-08",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "II.1's comment (l.18009–18010) homes four types at V01 §2.4: \"NeighbourhoodRequest and NeighbourhoodResult, with DistrictContext and TypedBoundary, are V01 §2.4's\". `TypedBoundary` is declared at §2.5 (l.1082, MC-11's home; \"V01 §2.3 cites it\"; V01 §2.1 l.325 \"declared in §2.5 (item 505)\") and `DistrictContext` at V01 §2.3 (l.420), neither at V01 §2.4. (The request and the result being declared nowhere is VPC-14.)",
+   "required_change": "II.1's comment reads \"…`DistrictContext` is V01 §2.3's and `TypedBoundary` §2.5's\" (and names the request's and result's one declaration once VPC-14 places it).",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VAF-R0S-09",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "§10.2's `RosterTables.settings` comment lists the `roster.settings` row's fields as \"rosterMode …, unemploymentThreshold, propagation.depth, placement.extensionWeight, detourFactor, crypt.rankShare (V11 §3.5.1)\" (l.13520), without `coverage.rosterWeight`, which V11's row has (registry row 24, l.869; V11 §3.5.1, l.1351, 0.5, `extension`) and which §10.2 itself reads (l.13598).",
+   "required_change": "Replace the restated list by \"the one row of V11 §3.5.1 (registry row 24)\", or add `coverage.rosterWeight` to it.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VAF-R0S-10",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "§2.6 *Basements* restates the crypt rank as \"the principal crypt, the cathedral's, strictly the largest, every other trimmed to `crypt.rankShare` × its area\" (l.1818–1820). Its home, V03 §3.7.4 (3), caps every other crypt \"at `crypt.rankShare` × the principal's area\" (trimmed only where it exceeds the cap; the principal the cathedral's, else the `always` building's with the largest ring, else none). Read literally, \"× its area\" trims every other crypt to a share of its own area, and \"trimmed to\" trims crypts already below the cap — a different result.",
+   "required_change": "Replace the clause by \"ranked by V03 §3.7.4 (3) — the principal crypt (the cathedral's; else the `always` building's with the largest ring) the largest, every other capped at `crypt.rankShare` × the principal's area\", or by the pointer alone.",
+   "owner": "model"
+  },
+  {
+   "id": "VAF-R0S-11",
+   "severity": "major",
+   "kind": "DUPLICATE-HOME",
+   "claim": "The crypt column's rule (`always`: the no-refusal ladder full, half, raised, exempt from the wet-ground refusal; `basement`: a crypt exactly when a full, half or walk-out basement is drawn, the cellar row its chance; `never`; a crypt part of its basement, never a catacomb source) is stated in full at §10.2's `BuildingClassRow.crypt` comment (l.13539) and again at V11 §2.3 (l.383–391), the canon's home of the column (V11-0133), with the ladder itself at §2.6 *Basements*.",
+   "required_change": "§10.2's comment keeps the type and cites its homes: `crypt: 'always'|'basement'|'never' /* item 109 (k) (2); default 'never'; the values V11 §2.3, the ladder §2.6 */`.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VAF-R0S-12",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "V02's T-V2-35 says \"The clause that the poor manor's plan houses at least three units in its main range is V03's (T-V3-25's manor clause)\" (V02 l.3116–3117; X30 \"T-V3-25 carries the poor manor's three-units clause\"), but T-V3-25 (V03 l.2494) reads only \"a rich manor whose occupants fall to the poor band has no `hall` or `solar` room and houses its units in the main range\" — no count. The bar V02 hands over is held by no test.",
+   "required_change": "T-V3-25's manor clause reads \"… and houses at least three units in its main range\" (or, if three is not the bar, V02's T-V2-35 and X30 state the clause T-V3-25 carries).",
+   "owner": "V03"
+  },
+  {
+   "id": "VAF-R0S-13",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "V02 reads its stand-ins `deck.fallbackM2` [20, 60] m² and `deck.fallbackFloors` 2 \"only while V11's `deck` table is not registered\" (V02 §3.16 (2) l.2268–2270; §3.10.9 l.1794; X16; V11's X-V11-7 l.4952). V11 §2.1's empty-table rule (J-V11.84) registers every registry row from C0, before M1, so `deck` (row 82) is always registered — empty until its rows land — and a deck plot exists only where `deck.offer` drew yes (V02 itself, l.2270; §4.7 l.6281). The stand-ins can never be read: two constants with no consumer, and a condition that contradicts V11's rule (V11 §3.24.4 also \"brackets V02's stopgap band\").",
+   "required_change": "V02 removes `deck.fallbackM2` and `deck.fallbackFloors` (§3.10.9's constants row and register line, §1b's rows, §3.16 (2)'s stand-in sentence, X16's stand-in column) with a one-line statement that no deck plot exists without a `deck` row; V11 drops X-V11-7's row and §3.24.4's \"bracket V02's stopgap band\" clause.",
+   "owner": "V02"
+  },
+  {
+   "id": "VAF-R0S-14",
+   "severity": "major",
+   "kind": "DUPLICATE-HOME",
+   "claim": "V01 §3.10.1 restates the base's dense-core plot share as a literal in two formulas — \"`areaHa = buildings × plotArea(band) ÷ 0.62 ÷ 10 000` (0.62, §4.2 S2's dense-core plot share)\" (l.1738) and \"`L_hood` the outline face's built land (area × 0.62)\" (l.1762) — whose home is §4.2 S2's `plotShare` (l.4794, \"dense core 0.62\", a measured value). A recalibrated `plotShare` would not reach V01's formulas.",
+   "required_change": "Both formulas read §4.2 S2's `plotShare` (dense core) by name and state no number.",
+   "owner": "V01"
+  },
+  {
+   "id": "VAF-R0S-15",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "Three units give `squares.quota` three homes: §4.5 S7b (3) and §4.7 S9 cite \"§10.2\" for it (l.5633–5634, l.6120: \"the one base table `squares.quota` … §10.2\"), but §10.2 has no such table or row type; V01 §2.2 declares `SquareQuotaRow` (l.371) as \"a base table … whose rows this volume authors\"; V11's registry row 91 gives the schema's `owner` as `'base'` (file f item 301 (d): the base table, built at M2b in `@plat/tables`).",
+   "required_change": "§10.2 declares `SquareQuotaRow` (the base table read by S7b (3) from M2b), V01 §2.2 cites it, and §4.5/§4.7's pointers stand; or, keeping V01's declaration, §4.5/§4.7 cite V01 §2.2 and V11 row 91's `owner` becomes `'V01'`.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VAF-R0S-16",
+   "severity": "major",
+   "kind": "MATRIX-GAP",
+   "claim": "The building-class vocabulary (`BuildingClass`) is declared nowhere and has no named producer, though five units key on it: §2.6 `Building.class`, `BuildingInput.cls`, `ClassRules.pick → cls`; §4.7 S11 `Designation.cls` beside `use` (\"the roster class id\"), §4.11's `rebuild`/`build`/`reuse` ops, §7.1 `RosterLine.cls`; V03 A1 (4) \"the building-class row of §2.6's `Building.class`\" and V03 §2.4's class rows. §2.6's example list (hovel, cottage, house, row_house, hall, inn, workshop, warehouse, chapel, church, temple, manor, keep, tower, mill, tent, shack, lean_to_shelter) and V03's rows `hall`, `keep`, `tower`, `mill`, `temple` are no class of V11's ladder (V11 §3.5 has `watermill`, `tower_house`, `great_temple`, …; `hall`, `tower`, `mill` are template families), and no rule says how a building's class follows from its use's roster class. The matrix takes `BuildingClass` as \"defined\" at model.",
+   "required_change": "§2.6 declares `type BuildingClass` with its values' one home (a list, or \"a `roster.classes` id\") and §4.7 S11 states the rule that writes `Designation.cls` / `Building.class` from the roster class (or V11 §2.3 adds the compiled column that maps a class to its building class); V03 §2.4's building-class rows then key on that list only.",
+   "owner": "model"
+  },
+  {
+   "id": "VAF-R0S-17",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "V02's X17 (l.3711) states the culture specialisations as \"`stepped_temple` (temple and great temple, by the region and era rows), `terraced_palace` (palace) and `tiered_tower` (tower)\". V11 §3.24.3 (their home, registry row 84) keys the rows by culture × class only (no region or era): `stepped_temple` on `great_temple`, `cathedral` and `church`; `tiered_tower` on `tower_house`, `mage_tower`, `watchtower`; there is no `temple` or `tower` class. V02's own body agrees with V11 (l.2623).",
+   "required_change": "X17 reads \"the specialisations of V11 §3.24.3 (culture × class rows: `stepped_temple`, `terraced_palace`, `tiered_tower`), each naming its composition key …\".",
+   "owner": "V02"
+  },
+  {
+   "id": "VAF-R0S-18",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "V03 §2.4 says V11 \"carries `stepped_temple`, `terraced_palace` and `tiered_tower` as specialisation values of the classes whose culture and era build in tiers (V11 §3.6.2)\" (l.749–750; J-V3.93 l.2672 likewise). V11 holds them in §3.24.3, keyed by culture and class only (§3.6.2 is the specialisations by band, and says the stepped ones are §3.24.3's).",
+   "required_change": "V03 l.749–750 and J-V3.93 read \"… of the classes whose culture builds in tiers (V11 §3.24.3)\".",
+   "owner": "V03"
+  },
+  {
+   "id": "VAF-R0S-19",
+   "severity": "major",
+   "kind": "DUPLICATE-HOME",
+   "claim": "The culture specialisation draw (file f item 259) is stated in full twice: §4.7 S11 (l.6496–6500: once per use, `siteplan` keyed by (the use's lineage, `'spec'`), against `chance`, cap `max(capMin, ⌊capShare × S2's building count⌋)` in roster order, the exemptions, the replacement of `composition` and `heights`) and V11 §3.24.3's *The draw and the cap* (the same rule). The mechanism is the base's S11; V11 owns the rows and values.",
+   "required_change": "V11 §3.24.3's bullet keeps what is V11's (the row chosen: the first row of the use's culture and class; the village cap through V07) and cites §4.7 S11 for the draw, the stream, the cap formula and the exemptions.",
+   "owner": "V11"
+  },
+  {
+   "id": "VAF-R0S-20",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "The value of a discrete four-column band cell at a band without a row (`comfortable`, `squalid`) has two rules and one gap: V03 reads \"`squalid` the poor cell, `comfortable` the modest cell\" (l.434, l.933–935; J-V3.28); V11 §3.6.1 compiles a template's `comfortable` row as \"the interpolation\", its discrete columns \"switching at the cut\" (l.1862–1864); §4.5's band table gives `comfortable` \"interpolated between modest and prosperous\" (l.5566) and §4.7 S11/§10.2 \"discrete ones switch at the cut\" (l.6893, l.13560) without saying which cut a one-row-per-band compiled `comfortable` row takes. The same kind of rule (principle (9)) reads differently in V03's and V11's tables, and V11's compiled `comfortable` row is undefined for its discrete columns.",
+   "required_change": "§4.5's band-set paragraph states once how a band without a row reads a discrete cell (e.g. the nearest rowed band below — V03's J-V3.28 — or the band whose centre is nearer), §4.7 S11 and §10.2 name it in place of \"the cut\", and V11 §3.6.1 and V03 §3.2 cite it.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VAF-R0S-21",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "II.2 lays the ring template's rings \"from the district's ring centre (its area centroid) outward\" (l.18091). V01 §3.4.4 (1), which this volume fixes for the template machine, sets the centre as the template face's area centroid where it lies inside the face at ≥ `eLo` from its boundary, else the pole of inaccessibility (`centroid`), or the anchoring reservation's centroid (`landmark`), and lays the rings in the template face, not the district. On a concave or C-shaped district the two statements place the rings differently.",
+   "required_change": "II.2 reads \"from the ring centre (V01 §3.4.4 (1))\", dropping \"(its area centroid)\".",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VAF-R0S-22",
+   "severity": "major",
+   "kind": "DUPLICATE-HOME",
+   "claim": "The ring spacing law is stated in full at II.2 (first spacing `e_lo` plus a uniform share of the radius left to the inset; one growth factor `g = 1 + f`, `f` the folded four-uniform bell, drawn once per district on `cut.arc`, index 0 and 1; each spacing the previous × `g`) and again at V01 §3.4.4 (3) (`s₁ = eLo + u (R − eLo)`, `g = 1 + bell4`, `s_k = s₁ × g^(k−1)`, the same creation indices), although V01 §3.4.4's own lead says \"II.2 states … the spacing law\".",
+   "required_change": "V01 §3.4.4 (3) cites II.2 for `s₁`, `g` and `s_k` and keeps only what II.2 lacks (`R`, `r₁ = s₁ / 2`, `r_k = r_{k−1} + s_k`, the fit and land-budget stop).",
+   "owner": "V01"
+  },
+  {
+   "id": "VAF-R0S-23",
+   "severity": "major",
+   "kind": "DUPLICATE-HOME",
+   "claim": "§10.2's *Relation templates* paragraph restates eight V11 class rows with their values as \"for instance\" defaults (l.13637–13643: the tannery's `downstream`/`nearWater`/`extramural` and `hides` 800 m, `bark` 2 000 m; the brewery's `malt` 1 000 m; the maltings' `grain` 3 000 m; the bakery's `flour` 600 m; the warehouse's `nearHarbour` 150 m; the inn's `frontage` and `nearGate` 150 m; the market hall's `nearMarket` 60 m; the mill's `nearWater`), and V11 §3.5's rows (l.1411–1490) cite those as \"§10.2's example\" — two homes for V11's cells, against the canon's rule S2 (a unit citing a V11 cell states no number).",
+   "required_change": "§10.2's paragraph names the rule (hard only for a physical need; references' rules where one exists, soft tendencies otherwise) and cites V11 §3.5's rows by class without numbers; V11's rows drop \"(§10.2's example)\".",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VAF-R0S-24",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "V03 §1 cites `CompositionRow.rooms.gateHallM` at \"(V02 §3.13, V02 §2.2)\" (l.144); the cell is declared in V02 §2.3 (l.471, `composition.json`'s rows) and read in V02 §3.8 (l.1330); V02 §2.2 does not hold it.",
+   "required_change": "Cite \"V02 §2.3, V02 §3.8\" (V02 §3.13 stays for F-COMPOSE (3)).",
+   "owner": "V03"
+  },
+  {
+   "id": "VAF-R0S-25",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "V11 §3.24.1's compile bar cites \"the base's `plinthCm` 30 and `skirtMaxCm` 300, §2.2, read from their tables\" (l.3750); both cells are §2.6's (*Heights and the ground datum*, l.1610, l.1628), and the values are restated.",
+   "required_change": "Cite §2.6 and drop the two numbers (\"the base's `plinthCm` and `skirtMaxCm`, §2.6\").",
+   "owner": "V11"
+  },
+  {
+   "id": "VAF-R0S-26",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "§2.6 *Basements* calls the retaining wall's step \"volume 1's `stepProfile`\" (l.1803); `stepProfile(wall)` is declared at §2.7 (l.2148, \"a derived view, never stored\", file f item 245) and V01 cites §2.7 for it (V01 l.277, l.492, l.2008).",
+   "required_change": "Read \"(§2.7's `stepProfile`)\".",
+   "owner": "model"
+  },
+  {
+   "id": "VAF-R0S-27",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "J-V2.98 (l.3551) names \"V05's `levelledGroundCm`\" and \"V01's `stepProfile`\", and J-V2.72 (l.3525) \"V01's `stepProfile`\": `levelledGroundCm` is §4.7's (l.6265, the one reader of levelled heights; V02 §1c itself cites §4.7) and `stepProfile` §2.7's (l.2148).",
+   "required_change": "Read \"§4.7's `levelledGroundCm`\" and \"§2.7's `stepProfile`\" in J-V2.72 and J-V2.98.",
+   "owner": "V02"
+  },
+  {
+   "id": "VAF-R0S-28",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "V03 attributes `stepProfile(wall)` to volume 1 — \"Volume 1: a `RetainingWall`'s step `stepProfile(wall)` (BCR-V1-43; V01 §3.11 (7))\" (l.137–138), \"volume 1's `stepProfile(wall)`\" (l.241, l.1521 \"(V01 §3.11 (7))\", l.2536) — while §2.7 declares it (l.2148) and V01 §3.11 (7) itself reads \"(`stepProfile`, §2.7)\".",
+   "required_change": "Cite \"§2.7's `stepProfile(wall)` (file f item 245)\" at l.137, l.241, l.1521 and l.2536.",
+   "owner": "V03"
+  },
+  {
+   "id": "VAF-R0S-29",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "V11 §3.1's *Readers* column — \"the one list of each table's readers\" (E-34; §7.6's invalidation map) — disagrees with the members' reads: row 5 `heights` names S11 and U-SYS but not the plan rung, which reads `HeightsRow.storeyCm` (and `towerStoreyCm`) for every storey's height and `floorCm` (V03 §3.3 l.1093–1101, S1 l.1115; V03 §1b l.238); row 80 `raisedWays` omits S8 and `S8.seed`, whose seeds, fans and bent-cut lanes read `raisedWays.structure.clearanceCm` to cross under an arch (V01 §3.17.3 (3)); row 81 `ways.crossing` gives \"S9b (V01's lanes)\", but V01's lanes and seeds are laid by S8 and `S8.seed` (V01 §3.1; S9b lays no way), and the stair-stepped way's threshold (`rampMaxGrade`, V01 §3.6 (3)) is read by S13a's naming context and S14's step ticks.",
+   "required_change": "Row 5 adds \"modules: the plan rung (V03 §3.3's storey heights)\"; row 80 adds `S8` and `S8.seed` (V01 §3.17.3 (3)); row 81 replaces \"S9b (V01's lanes)\" by \"`S8` and `S8.seed` (V01's lanes and seeds, V01 §3.17.1 (5))\" and adds `S13a` and `S14` (V01 §3.6 (3)).",
+   "owner": "V11"
+  }
+ ]
+}

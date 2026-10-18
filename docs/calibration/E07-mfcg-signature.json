@@ -1,0 +1,2848 @@
+{
+ "checks": [
+  {
+   "check": "R4 gates4 60/120/250 within 0.02 of 0.84/0.58/0.32",
+   "detail": "0.8402 (diff +0.0002) / 0.5791 (diff -0.0009) / 0.3175 (diff -0.0025)",
+   "passed": true
+  },
+  {
+   "check": "R4 every city of mfcg_orient.out within 0.02 (T-V12-6)",
+   "detail": "size40-gates4 r60 0.840 vs 0.84; size40-gates4 r120 0.579 vs 0.58; size40-gates4 r250 0.318 vs 0.32; size40-gates9 r60 0.866 vs 0.86; size40-gates9 r120 0.650 vs 0.65; size40-gates9 r250 0.395 vs 0.39; size80-river-coast r60 0.971 vs 0.97; size80-river-coast r120 0.893 vs 0.88; size80-river-coast r250 0.689 vs 0.68",
+   "passed": true
+  },
+  {
+   "check": "wall alignment gates0 87/70/58 % within one point",
+   "detail": "86.67% / 70.00% / 57.98%",
+   "passed": true
+  },
+  {
+   "check": "wall alignment every dry city and band of mfcg_wallalign.out within one point (T-V12-6)",
+   "detail": "size40-gates0 0 86.7 vs 87 (n 135 vs 135); size40-gates0 40 70.0 vs 70 (n 190 vs 192); size40-gates0 100 58.0 vs 58 (n 257 vs 254); size40-gates4 0 87.6 vs 88 (n 193 vs 193); size40-gates4 40 60.1 vs 60 (n 321 vs 320); size40-gates4 100 37.7 vs 38 (n 377 vs 378); size40-gates9 0 84.3 vs 84 (n 172 vs 173); size40-gates9 40 55.2 vs 56 (n 250 vs 248); size40-gates9 100 50.0 vs 49 (n 322 vs 322)",
+   "passed": true
+  },
+  {
+   "check": "walled 0.98/0.97/0.92/0.82/0.30 to two decimals",
+   "detail": "0.9809 / 0.9676 / 0.9192 / 0.8231 / 0.3015",
+   "passed": true
+  },
+  {
+   "check": "gates 0/1/4/9/7 exact",
+   "detail": "[0, 1, 4, 9, 7]",
+   "passed": true
+  },
+  {
+   "check": "towers 33/32/29/24 exact (dry cities)",
+   "detail": "[33, 32, 29, 24]",
+   "passed": true
+  },
+  {
+   "check": "coastal city: 24 shore vertices and 20 towers (T-V12-32)",
+   "detail": "shore vertices 24, towers 20 (15 city + 5 castle), water gates 1",
+   "passed": true
+  },
+  {
+   "check": "gate law hits on the 2026-09-25 sweep reported",
+   "detail": "plain 6/12; the fit's sizes 10-250 5/10; size-3 0 vs 1; size-5 2 vs 2; size-10 2 vs 2; size-15 3 vs 2; size-24 4 vs 3; size-40 5 vs 5; size-60 7 vs 6; size-80 8 vs 8; size-120 12 vs 11; size-130 12 vs 12; size-200 18 vs 18; size-200-rivercoast 14 vs 18; size-250 21 vs 22",
+   "passed": true
+  },
+  {
+   "check": "D24 markets: one square in every exported file and one market geometry built in every recorded generation",
+   "detail": "squares per file [1] over 18 files; market geometries built per generation [1] over 12 generations (markets created [1, 2, 7]); secondary 0, adjacent 0 everywhere",
+   "passed": true
+  },
+  {
+   "check": "mfcg_orient.py re-run live equals its .out",
+   "detail": "9 lines, identical=True",
+   "passed": true
+  },
+  {
+   "check": "mfcg_wallalign.py re-run live equals its .out",
+   "detail": "12 lines, identical=True",
+   "passed": true
+  },
+  {
+   "check": "mfcg_ribbon.py re-run live equals its .out",
+   "detail": "4 lines, identical=True",
+   "passed": true
+  },
+  {
+   "check": "sweep stats.md: buildings, walled share and ha, gates, towers (dry), districts, plaza and castle ha, gen ms exact",
+   "detail": "all equal",
+   "passed": true
+  }
+ ],
+ "checksFailed": 0,
+ "draw": {
+  "2026-09-21T05-03-24/gen-0": {
+   "caps": 4063,
+   "casingLaw": true,
+   "casingViolations": [],
+   "cores": [
+    1.081,
+    1.881,
+    2.0,
+    7.138
+   ],
+   "coresPaired": 4,
+   "coresTotal": 4,
+   "coresUncased": [],
+   "joins": 4063,
+   "logDropped": 0,
+   "roundCaps": 4026,
+   "roundJoins": 4062,
+   "t": 0.119,
+   "unpairedDarkWidths": [
+    0.267,
+    0.533,
+    1.9
+   ],
+   "wallsAfterBuildings": true,
+   "widthsNotInLog": []
+  },
+  "2026-09-21T05-03-24/gen-1": {
+   "caps": 3901,
+   "casingLaw": true,
+   "casingViolations": [],
+   "cores": [
+    1.079,
+    1.879,
+    2.0,
+    6.854
+   ],
+   "coresPaired": 4,
+   "coresTotal": 4,
+   "coresUncased": [],
+   "joins": 3901,
+   "logDropped": 0,
+   "roundCaps": 3853,
+   "roundJoins": 3900,
+   "t": 0.121,
+   "unpairedDarkWidths": [
+    0.267,
+    0.533,
+    1.9
+   ],
+   "wallsAfterBuildings": true,
+   "widthsNotInLog": []
+  },
+  "2026-09-21T05-03-24/gen-2": {
+   "caps": 12492,
+   "casingLaw": true,
+   "casingViolations": [],
+   "cores": [
+    1.755,
+    2.0,
+    13.012
+   ],
+   "coresPaired": 3,
+   "coresTotal": 3,
+   "coresUncased": [],
+   "joins": 12492,
+   "logDropped": 0,
+   "roundCaps": 12475,
+   "roundJoins": 12491,
+   "t": 0.245,
+   "unpairedDarkWidths": [
+    0.267,
+    0.533,
+    1.9
+   ],
+   "wallsAfterBuildings": true,
+   "widthsNotInLog": []
+  },
+  "2026-09-21T05-03-24/gen-3": {
+   "caps": 4983,
+   "casingLaw": true,
+   "casingViolations": [],
+   "cores": [
+    1.057,
+    2.0
+   ],
+   "coresPaired": 2,
+   "coresTotal": 2,
+   "coresUncased": [],
+   "joins": 4983,
+   "logDropped": 0,
+   "roundCaps": 4945,
+   "roundJoins": 4982,
+   "t": 0.143,
+   "unpairedDarkWidths": [
+    0.267,
+    0.533,
+    1.9
+   ],
+   "wallsAfterBuildings": true,
+   "widthsNotInLog": []
+  },
+  "2026-09-21T05-06-58/gen-0": {
+   "caps": 104728,
+   "casingLaw": true,
+   "casingViolations": [],
+   "cores": [
+    0.644,
+    1.444,
+    2.0,
+    18.94
+   ],
+   "coresPaired": 4,
+   "coresTotal": 4,
+   "coresUncased": [],
+   "joins": 104728,
+   "logDropped": 79879,
+   "roundCaps": 104647,
+   "roundJoins": 104727,
+   "t": 0.556,
+   "unpairedDarkWidths": [],
+   "wallsAfterBuildings": null,
+   "widthsNotInLog": [
+    0.267,
+    0.533,
+    1.067,
+    1.9
+   ]
+  },
+  "2026-09-21T05-06-58/gen-1": {
+   "caps": 247324,
+   "casingLaw": true,
+   "casingViolations": [],
+   "cores": [
+    0.295,
+    13.548
+   ],
+   "coresPaired": 2,
+   "coresTotal": 2,
+   "coresUncased": [],
+   "joins": 247324,
+   "logDropped": 269985,
+   "roundCaps": 247281,
+   "roundJoins": 247323,
+   "t": 0.905,
+   "unpairedDarkWidths": [],
+   "wallsAfterBuildings": null,
+   "widthsNotInLog": [
+    0.267,
+    0.533,
+    1.067,
+    1.9
+   ]
+  },
+  "2026-09-21T05-06-58/gen-2": {
+   "caps": 91208,
+   "casingLaw": true,
+   "casingViolations": [],
+   "cores": [
+    0.622,
+    1.422,
+    2.0,
+    14.379
+   ],
+   "coresPaired": 4,
+   "coresTotal": 4,
+   "coresUncased": [],
+   "joins": 91208,
+   "logDropped": 61821,
+   "roundCaps": 91124,
+   "roundJoins": 91207,
+   "t": 0.578,
+   "unpairedDarkWidths": [],
+   "wallsAfterBuildings": null,
+   "widthsNotInLog": [
+    0.267,
+    0.533,
+    1.067,
+    1.9
+   ]
+  },
+  "2026-09-21T11-25-32/gen-0": {
+   "caps": 9014,
+   "casingLaw": true,
+   "casingViolations": [],
+   "cores": [
+    2.0
+   ],
+   "coresPaired": 1,
+   "coresTotal": 1,
+   "coresUncased": [],
+   "joins": 9014,
+   "logDropped": 0,
+   "roundCaps": 8979,
+   "roundJoins": 9013,
+   "t": 0.163,
+   "unpairedDarkWidths": [
+    0.267,
+    0.533,
+    1.9
+   ],
+   "wallsAfterBuildings": true,
+   "widthsNotInLog": []
+  },
+  "2026-09-21T11-25-32/gen-1": {
+   "caps": 53431,
+   "casingLaw": true,
+   "casingViolations": [],
+   "cores": [
+    0.714,
+    1.514,
+    2.0,
+    17.996
+   ],
+   "coresPaired": 4,
+   "coresTotal": 4,
+   "coresUncased": [],
+   "joins": 53431,
+   "logDropped": 11434,
+   "roundCaps": 53369,
+   "roundJoins": 53430,
+   "t": 0.486,
+   "unpairedDarkWidths": [],
+   "wallsAfterBuildings": null,
+   "widthsNotInLog": [
+    0.267,
+    0.533,
+    1.9
+   ]
+  },
+  "2026-09-25T10-05-23/gen-0": {
+   "caps": 5785,
+   "casingLaw": false,
+   "casingViolations": [],
+   "cores": [
+    2.0
+   ],
+   "coresPaired": 0,
+   "coresTotal": 1,
+   "coresUncased": [
+    2.0
+   ],
+   "joins": 5785,
+   "logDropped": 0,
+   "roundCaps": 5756,
+   "roundJoins": 5784,
+   "t": 0.122,
+   "unpairedDarkWidths": [
+    0.267,
+    0.533,
+    1.067,
+    1.9
+   ],
+   "wallsAfterBuildings": true,
+   "widthsNotInLog": []
+  },
+  "2026-09-25T10-05-38/gen-0": {
+   "caps": 10286,
+   "casingLaw": true,
+   "casingViolations": [],
+   "cores": [
+    2.0
+   ],
+   "coresPaired": 1,
+   "coresTotal": 1,
+   "coresUncased": [],
+   "joins": 10286,
+   "logDropped": 0,
+   "roundCaps": 10260,
+   "roundJoins": 10285,
+   "t": 0.14,
+   "unpairedDarkWidths": [
+    0.267,
+    0.533,
+    1.067,
+    1.9
+   ],
+   "wallsAfterBuildings": true,
+   "widthsNotInLog": []
+  },
+  "2026-09-25T10-05-44/gen-0": {
+   "caps": 8456,
+   "casingLaw": true,
+   "casingViolations": [],
+   "cores": [
+    2.0
+   ],
+   "coresPaired": 1,
+   "coresTotal": 1,
+   "coresUncased": [],
+   "joins": 8456,
+   "logDropped": 0,
+   "roundCaps": 8429,
+   "roundJoins": 8455,
+   "t": 0.164,
+   "unpairedDarkWidths": [
+    0.267,
+    0.533,
+    1.9
+   ],
+   "wallsAfterBuildings": true,
+   "widthsNotInLog": []
+  }
+ },
+ "findingCoastalWallAlign": [
+  {
+   "bandLoM": 0,
+   "held": 92,
+   "nHeld": 527,
+   "nRing": 526,
+   "nSplit": 305,
+   "ringVariantShare15": 91.82509505703422,
+   "shoreSplitShare15": 89.18032786885246
+  },
+  {
+   "bandLoM": 40,
+   "held": 65,
+   "nHeld": 782,
+   "nRing": 787,
+   "nSplit": 483,
+   "ringVariantShare15": 65.18424396442185,
+   "shoreSplitShare15": 56.7287784679089
+  },
+  {
+   "bandLoM": 100,
+   "held": 52,
+   "nHeld": 1148,
+   "nRing": 1143,
+   "nSplit": 774,
+   "ringVariantShare15": 51.793525809273845,
+   "shoreSplitShare15": 40.95607235142119
+  }
+ ],
+ "inputs": "research/baselines/inputs/MFCG/itch-12710731",
+ "marketCoverage": {
+  "2026-09-21T05-03-24/gen-0": {
+   "marketGeometriesBuilt": 1,
+   "marketWardsCreated": 1
+  },
+  "2026-09-21T05-03-24/gen-1": {
+   "marketGeometriesBuilt": 1,
+   "marketWardsCreated": 1
+  },
+  "2026-09-21T05-03-24/gen-2": {
+   "marketGeometriesBuilt": 1,
+   "marketWardsCreated": 1
+  },
+  "2026-09-21T05-03-24/gen-3": {
+   "marketGeometriesBuilt": 1,
+   "marketWardsCreated": 1
+  },
+  "2026-09-21T05-06-58/gen-0": {
+   "marketGeometriesBuilt": 1,
+   "marketWardsCreated": 2
+  },
+  "2026-09-21T05-06-58/gen-1": {
+   "marketGeometriesBuilt": 1,
+   "marketWardsCreated": 1
+  },
+  "2026-09-21T05-06-58/gen-2": {
+   "marketGeometriesBuilt": 1,
+   "marketWardsCreated": 7
+  },
+  "2026-09-21T11-25-32/gen-0": {
+   "marketGeometriesBuilt": 1,
+   "marketWardsCreated": 1
+  },
+  "2026-09-21T11-25-32/gen-1": {
+   "marketGeometriesBuilt": 1,
+   "marketWardsCreated": 1
+  },
+  "2026-09-25T10-05-23/gen-0": {
+   "marketGeometriesBuilt": 1,
+   "marketWardsCreated": 1
+  },
+  "2026-09-25T10-05-38/gen-0": {
+   "marketGeometriesBuilt": 1,
+   "marketWardsCreated": 1
+  },
+  "2026-09-25T10-05-44/gen-0": {
+   "marketGeometriesBuilt": 1,
+   "marketWardsCreated": 1
+  }
+ },
+ "matchedWidthsPx": {
+  "s555001-size40-gates0": {
+   "pier": 5.2428,
+   "pxPerM": 1.09225,
+   "roadCore": 8.738,
+   "svgScale": 4.369,
+   "tower": 16.6022,
+   "wall": 8.3011
+  },
+  "s555001-size40-gates1": {
+   "pier": 4.5708,
+   "pxPerM": 0.95225,
+   "roadCore": 7.618,
+   "svgScale": 3.809,
+   "tower": 14.4742,
+   "wall": 7.2371
+  },
+  "s555001-size40-gates4": {
+   "pier": 3.9155999999999995,
+   "pxPerM": 0.81575,
+   "roadCore": 6.526,
+   "svgScale": 3.263,
+   "tower": 12.399399999999998,
+   "wall": 6.199699999999999
+  },
+  "s555001-size40-gates9": {
+   "pier": 3.9059999999999997,
+   "pxPerM": 0.81375,
+   "roadCore": 6.51,
+   "svgScale": 3.255,
+   "tower": 12.369,
+   "wall": 6.1845
+  }
+ },
+ "perSeed": {
+  "exports-2026-09-25/s555001-size40-gates0": {
+   "bldg.r4.120": {
+    "median": 0.6707381176867029,
+    "p25": 0.43751187248606516,
+    "p75": 0.8730310024904431,
+    "samples": 826
+   },
+   "bldg.r4.250": {
+    "median": 0.38484588626186134,
+    "p25": 0.1714227944214349,
+    "p75": 0.6695053546846015,
+    "samples": 835
+   },
+   "bldg.r4.60": {
+    "median": 0.8847907623223411,
+    "p25": 0.7091095010291102,
+    "p75": 0.9701688460568252,
+    "samples": 822
+   },
+   "bldg.wallAlign": {
+    "b0_40": {
+     "median": 3.5645724604937796,
+     "n": 135,
+     "share15": 0.8666666666666667
+    },
+    "b100_200": {
+     "median": 12.20713553760875,
+     "n": 257,
+     "share15": 0.5797665369649806
+    },
+    "b40_100": {
+     "median": 8.482958567897859,
+     "n": 190,
+     "share15": 0.7
+    }
+   },
+   "buildings": 838,
+   "capture": "exports-2026-09-25/s555001-size40-gates0",
+   "castle.area": {
+    "polygons": 1,
+    "value": 2.6056074384
+   },
+   "castle.compact": {
+    "value": 0.8236719900750976
+   },
+   "district.area": {
+    "max": 17.5550659767,
+    "median": 10.7130449642,
+    "min": 5.6850377575,
+    "n": 5
+   },
+   "gate.count": {
+    "value": 0,
+    "water": 0
+   },
+   "gateLaw": {
+    "expected": 0,
+    "hit": true,
+    "landLaw": 5,
+    "law": 5,
+    "measured": 0,
+    "requested": 0,
+    "waterfront": false
+   },
+   "market.adjacent": {
+    "value": 0
+   },
+   "market.secondary": {
+    "squares": 1,
+    "value": 0
+   },
+   "options": {
+    "citadel": 1,
+    "coast": 0,
+    "gates": 0,
+    "greens": 0,
+    "plaza": 1,
+    "river": 0,
+    "seed": 555001,
+    "shantytown": 0,
+    "size": 40,
+    "temple": 1,
+    "urban_castle": 0,
+    "walls": 1
+   },
+   "plaza.area": {
+    "value": 0.5373495322999999
+   },
+   "quarter.count": {
+    "value": 5
+   },
+   "ribbon.share": {
+    "extramural": 16,
+    "value": 0.0625,
+    "within": 1
+   },
+   "rung": "TOWN",
+   "shoreVertices": 0,
+   "towers": {
+    "castle": 5,
+    "city": 28,
+    "value": 33
+   },
+   "wall.barrierShare": {
+    "value": 0.0
+   },
+   "wall.nodeSpacing": {
+    "n": 31,
+    "p50": 89.6058144597771
+   },
+   "wall.towerSpacing": {
+    "n": 31,
+    "p50": 89.6058144597771
+   },
+   "wallRingVertices": 32,
+   "wallVertexSpacingP50": 87.76684275919104,
+   "walled.share": {
+    "inside": 822,
+    "n": 838,
+    "value": 0.9809069212410502
+   },
+   "walledHa": 58.34803317029998,
+   "water": "none"
+  },
+  "exports-2026-09-25/s555001-size40-gates1": {
+   "bldg.r4.120": {
+    "median": 0.5707660517457231,
+    "p25": 0.39181503604764706,
+    "p75": 0.716692664441258,
+    "samples": 1490
+   },
+   "bldg.r4.250": {
+    "median": 0.30084706856239635,
+    "p25": 0.20477044870521838,
+    "p75": 0.4196070717334601,
+    "samples": 1499
+   },
+   "bldg.r4.60": {
+    "median": 0.8206286458780848,
+    "p25": 0.6061678039649174,
+    "p75": 0.9367389907321072,
+    "samples": 1485
+   },
+   "bldg.wallAlign": {
+    "b0_40": {
+     "median": 3.311773841740652,
+     "n": 231,
+     "share15": 0.9134199134199135
+    },
+    "b100_200": {
+     "median": 15.382685957305883,
+     "n": 458,
+     "share15": 0.4890829694323144
+    },
+    "b40_100": {
+     "median": 9.502592494509985,
+     "n": 345,
+     "share15": 0.6231884057971014
+    }
+   },
+   "buildings": 1513,
+   "capture": "exports-2026-09-25/s555001-size40-gates1",
+   "castle.area": {
+    "polygons": 1,
+    "value": 2.6056074384
+   },
+   "castle.compact": {
+    "value": 0.8236719900750976
+   },
+   "district.area": {
+    "max": 16.521230355349992,
+    "median": 15.851677004349996,
+    "min": 5.598834992900001,
+    "n": 5
+   },
+   "gate.count": {
+    "value": 1,
+    "water": 0
+   },
+   "gateLaw": {
+    "expected": 1,
+    "hit": true,
+    "landLaw": 5,
+    "law": 5,
+    "measured": 1,
+    "requested": 1,
+    "waterfront": false
+   },
+   "market.adjacent": {
+    "value": 0
+   },
+   "market.secondary": {
+    "squares": 1,
+    "value": 0
+   },
+   "options": {
+    "citadel": 1,
+    "coast": 0,
+    "gates": 1,
+    "greens": 0,
+    "plaza": 1,
+    "river": 0,
+    "seed": 555001,
+    "shantytown": 0,
+    "size": 40,
+    "temple": 1,
+    "urban_castle": 0,
+    "walls": 1
+   },
+   "plaza.area": {
+    "value": 0.5373495322999999
+   },
+   "quarter.count": {
+    "value": 5
+   },
+   "ribbon.share": {
+    "extramural": 49,
+    "value": 0.7142857142857143,
+    "within": 35
+   },
+   "rung": "TOWN",
+   "shoreVertices": 0,
+   "towers": {
+    "castle": 5,
+    "city": 27,
+    "value": 32
+   },
+   "wall.barrierShare": {
+    "value": 0.0
+   },
+   "wall.nodeSpacing": {
+    "n": 31,
+    "p50": 88.39150993732369
+   },
+   "wall.towerSpacing": {
+    "n": 30,
+    "p50": 90.67908932563512
+   },
+   "wallRingVertices": 32,
+   "wallVertexSpacingP50": 88.15104240425242,
+   "walled.share": {
+    "inside": 1464,
+    "n": 1513,
+    "value": 0.9676140118968936
+   },
+   "walledHa": 58.29273111709999,
+   "water": "none"
+  },
+  "exports-2026-09-25/s555001-size40-gates4": {
+   "bldg.r4.120": {
+    "median": 0.5790541662619231,
+    "p25": 0.42484160438315083,
+    "p75": 0.746140096649687,
+    "samples": 1280
+   },
+   "bldg.r4.250": {
+    "median": 0.31752395603151296,
+    "p25": 0.2366547421404065,
+    "p75": 0.4299613563223506,
+    "samples": 1292
+   },
+   "bldg.r4.60": {
+    "median": 0.8402147314970355,
+    "p25": 0.6565677373485848,
+    "p75": 0.9250534358154335,
+    "samples": 1268
+   },
+   "bldg.wallAlign": {
+    "b0_40": {
+     "median": 4.437501952983895,
+     "n": 193,
+     "share15": 0.8756476683937824
+    },
+    "b100_200": {
+     "median": 19.10704175005302,
+     "n": 377,
+     "share15": 0.376657824933687
+    },
+    "b40_100": {
+     "median": 12.205742992873105,
+     "n": 321,
+     "share15": 0.6012461059190031
+    }
+   },
+   "buildings": 1299,
+   "capture": "exports-2026-09-25/s555001-size40-gates4",
+   "castle.area": {
+    "polygons": 1,
+    "value": 2.6056074384
+   },
+   "castle.compact": {
+    "value": 0.8236719900750976
+   },
+   "district.area": {
+    "max": 16.8250671955,
+    "median": 6.772265728599999,
+    "min": 2.6056074384,
+    "n": 9
+   },
+   "gate.count": {
+    "value": 4,
+    "water": 0
+   },
+   "gateLaw": {
+    "expected": 4,
+    "hit": true,
+    "landLaw": 5,
+    "law": 5,
+    "measured": 4,
+    "requested": 4,
+    "waterfront": false
+   },
+   "market.adjacent": {
+    "value": 0
+   },
+   "market.secondary": {
+    "squares": 1,
+    "value": 0
+   },
+   "options": {
+    "citadel": 1,
+    "coast": 0,
+    "gates": 4,
+    "greens": 0,
+    "plaza": 1,
+    "river": 0,
+    "seed": 555001,
+    "shantytown": 0,
+    "size": 40,
+    "temple": 1,
+    "urban_castle": 0,
+    "walls": 1
+   },
+   "plaza.area": {
+    "value": 0.38262506429999993
+   },
+   "quarter.count": {
+    "value": 9
+   },
+   "ribbon.share": {
+    "extramural": 105,
+    "value": 0.7428571428571429,
+    "within": 78
+   },
+   "rung": "TOWN",
+   "shoreVertices": 0,
+   "towers": {
+    "castle": 5,
+    "city": 24,
+    "value": 29
+   },
+   "wall.barrierShare": {
+    "value": 0.0
+   },
+   "wall.nodeSpacing": {
+    "n": 31,
+    "p50": 88.15125143184298
+   },
+   "wall.towerSpacing": {
+    "n": 27,
+    "p50": 94.99308084276458
+   },
+   "wallRingVertices": 32,
+   "wallVertexSpacingP50": 87.49213291894883,
+   "walled.share": {
+    "inside": 1194,
+    "n": 1299,
+    "value": 0.9191685912240185
+   },
+   "walledHa": 58.23734409999999,
+   "water": "none"
+  },
+  "exports-2026-09-25/s555001-size40-gates9": {
+   "bldg.r4.120": {
+    "median": 0.650043112125807,
+    "p25": 0.4922628614920498,
+    "p75": 0.7904616228516281,
+    "samples": 1220
+   },
+   "bldg.r4.250": {
+    "median": 0.3950648476417495,
+    "p25": 0.2238803953750576,
+    "p75": 0.5284572446085563,
+    "samples": 1227
+   },
+   "bldg.r4.60": {
+    "median": 0.8657052888289127,
+    "p25": 0.7024293396878925,
+    "p75": 0.9419722939765391,
+    "samples": 1193
+   },
+   "bldg.wallAlign": {
+    "b0_40": {
+     "median": 4.5269385460829845,
+     "n": 172,
+     "share15": 0.8430232558139535
+    },
+    "b100_200": {
+     "median": 15.08398876001409,
+     "n": 322,
+     "share15": 0.5
+    },
+    "b40_100": {
+     "median": 12.394021979841147,
+     "n": 250,
+     "share15": 0.552
+    }
+   },
+   "buildings": 1227,
+   "capture": "exports-2026-09-25/s555001-size40-gates9",
+   "castle.area": {
+    "polygons": 1,
+    "value": 2.6056074384
+   },
+   "castle.compact": {
+    "value": 0.8236719900750976
+   },
+   "district.area": {
+    "max": 17.355248893,
+    "median": 8.272870110050002,
+    "min": 2.358218104699999,
+    "n": 11
+   },
+   "gate.count": {
+    "value": 9,
+    "water": 0
+   },
+   "gateLaw": {
+    "expected": 9,
+    "hit": true,
+    "landLaw": 5,
+    "law": 5,
+    "measured": 9,
+    "requested": 9,
+    "waterfront": false
+   },
+   "market.adjacent": {
+    "value": 0
+   },
+   "market.secondary": {
+    "squares": 1,
+    "value": 0
+   },
+   "options": {
+    "citadel": 1,
+    "coast": 0,
+    "gates": 9,
+    "greens": 0,
+    "plaza": 1,
+    "river": 0,
+    "seed": 555001,
+    "shantytown": 0,
+    "size": 40,
+    "temple": 1,
+    "urban_castle": 0,
+    "walls": 1
+   },
+   "plaza.area": {
+    "value": 0.5004394770999999
+   },
+   "quarter.count": {
+    "value": 11
+   },
+   "ribbon.share": {
+    "extramural": 217,
+    "value": 0.8433179723502304,
+    "within": 183
+   },
+   "rung": "TOWN",
+   "shoreVertices": 0,
+   "towers": {
+    "castle": 5,
+    "city": 19,
+    "value": 24
+   },
+   "wall.barrierShare": {
+    "value": 0.0
+   },
+   "wall.nodeSpacing": {
+    "n": 31,
+    "p50": 88.15125143184298
+   },
+   "wall.towerSpacing": {
+    "n": 22,
+    "p50": 100.20218787752242
+   },
+   "wallRingVertices": 32,
+   "wallVertexSpacingP50": 87.4129731520957,
+   "walled.share": {
+    "inside": 1010,
+    "n": 1227,
+    "value": 0.8231458842705787
+   },
+   "walledHa": 57.82356292025,
+   "water": "none"
+  },
+  "exports-2026-09-25/s777001-size80-river-coast": {
+   "bldg.r4.120": {
+    "median": 0.8933187623305179,
+    "p25": 0.7031886422995179,
+    "p75": 0.9606337295593506,
+    "samples": 1499
+   },
+   "bldg.r4.250": {
+    "median": 0.6890461018688367,
+    "p25": 0.4703927278005923,
+    "p75": 0.8377732590903062,
+    "samples": 1500
+   },
+   "bldg.r4.60": {
+    "median": 0.971478711466207,
+    "p25": 0.8921412696001441,
+    "p75": 0.991308435359965,
+    "samples": 1489
+   },
+   "bldg.wallAlign": {
+    "b0_40": {
+     "median": 3.6151269931763084,
+     "n": 305,
+     "share15": 0.8918032786885246
+    },
+    "b100_200": {
+     "median": 20.294556523879013,
+     "n": 774,
+     "share15": 0.4095607235142119
+    },
+    "b40_100": {
+     "median": 12.1464138791762,
+     "n": 483,
+     "share15": 0.567287784679089
+    }
+   },
+   "bldg.wallAlign.ringVariant": {
+    "b0_40": {
+     "median": 3.6338453421062535,
+     "n": 526,
+     "share15": 0.9182509505703422
+    },
+    "b100_200": {
+     "median": 13.94190604694041,
+     "n": 1143,
+     "share15": 0.5179352580927384
+    },
+    "b40_100": {
+     "median": 7.805156262469605,
+     "n": 787,
+     "share15": 0.6518424396442185
+    }
+   },
+   "buildings": 15393,
+   "capture": "exports-2026-09-25/s777001-size80-river-coast",
+   "castle.area": {
+    "polygons": 1,
+    "value": 3.3558754366999994
+   },
+   "castle.compact": {
+    "value": 0.7755895900481229
+   },
+   "district.area": {
+    "max": 376.1594054014499,
+    "median": 29.342858290199995,
+    "min": 2.459416445050001,
+    "n": 17
+   },
+   "gate.count": {
+    "value": 7,
+    "water": 1
+   },
+   "gateLaw": {
+    "expected": 7,
+    "hit": true,
+    "landLaw": 8,
+    "law": 7,
+    "measured": 7,
+    "requested": null,
+    "waterfront": true
+   },
+   "market.adjacent": {
+    "value": 0
+   },
+   "market.secondary": {
+    "squares": 1,
+    "value": 0
+   },
+   "options": {
+    "citadel": 1,
+    "coast": 1,
+    "gates": -1,
+    "greens": 1,
+    "plaza": 1,
+    "river": 1,
+    "sea": 0,
+    "seed": 777001,
+    "shantytown": 1,
+    "size": 80,
+    "temple": 1,
+    "urban_castle": 0,
+    "walls": 1
+   },
+   "plaza.area": {
+    "value": 0.3579769827
+   },
+   "quarter.count": {
+    "value": 17
+   },
+   "ribbon.share": {
+    "extramural": 10752,
+    "value": 0.28134300595238093,
+    "within": 3025
+   },
+   "rung": "CITY",
+   "shoreVertices": 24,
+   "towers": {
+    "castle": 5,
+    "city": 15,
+    "value": 20
+   },
+   "wall.barrierShare": {
+    "value": 0.38357824561510123
+   },
+   "wall.nodeSpacing": {
+    "n": 24,
+    "p50": 175.90333416545627
+   },
+   "wall.towerSpacing": {
+    "n": 16,
+    "p50": 261.44394269621796
+   },
+   "wallRingVertices": 48,
+   "wallVertexSpacingP50": 142.34325448267575,
+   "walled.share": {
+    "inside": 4641,
+    "n": 15393,
+    "value": 0.3015006821282401
+   },
+   "walledHa": 247.71950749190003,
+   "water": "coast+river"
+  },
+  "exports-sweep-2026-09-25/size-10": {
+   "bldg.r4.120": {
+    "median": 0.3561196477065901,
+    "p25": 0.29996929291898417,
+    "p75": 0.4542861474643546,
+    "samples": 76
+   },
+   "bldg.r4.250": {
+    "median": 0.28044694715440727,
+    "p25": 0.26615887772158453,
+    "p75": 0.28218153402102875,
+    "samples": 77
+   },
+   "bldg.r4.60": {
+    "median": 0.5629251506881557,
+    "p25": 0.4038489148991925,
+    "p75": 0.7589181395878751,
+    "samples": 73
+   },
+   "bldg.wallAlign": {
+    "b0_40": {
+     "median": 9.371373390044498,
+     "n": 40,
+     "share15": 0.675
+    },
+    "b100_200": {
+     "median": null,
+     "n": 0,
+     "share15": null
+    },
+    "b40_100": {
+     "median": 21.08040890566097,
+     "n": 26,
+     "share15": 0.4230769230769231
+    }
+   },
+   "buildings": 77,
+   "capture": "exports-sweep-2026-09-25/size-10",
+   "castle.area": {
+    "polygons": 1,
+    "value": 1.1969300187499998
+   },
+   "castle.compact": {
+    "value": 0.7867639527676296
+   },
+   "district.area": {
+    "max": 4.178436635649999,
+    "median": 1.4499525485000002,
+    "min": 1.0840320101,
+    "n": 3
+   },
+   "gate.count": {
+    "value": 2,
+    "water": 0
+   },
+   "gateLaw": {
+    "expected": 2,
+    "hit": true,
+    "landLaw": 2,
+    "law": 2,
+    "measured": 2,
+    "requested": null,
+    "waterfront": false
+   },
+   "market.adjacent": {
+    "value": 0
+   },
+   "market.secondary": {
+    "squares": 1,
+    "value": 0
+   },
+   "options": {
+    "citadel": 1,
+    "coast": 0,
+    "gates": -1,
+    "greens": 0,
+    "plaza": 1,
+    "river": 0,
+    "seed": 555001,
+    "shantytown": 0,
+    "size": 10,
+    "temple": 1,
+    "urban_castle": 0,
+    "walls": 1
+   },
+   "plaza.area": {
+    "value": 0.21182814749999998
+   },
+   "quarter.count": {
+    "value": 3
+   },
+   "ribbon.share": {
+    "extramural": 11,
+    "value": 0.8181818181818182,
+    "within": 9
+   },
+   "rung": null,
+   "shoreVertices": 0,
+   "towers": {
+    "castle": 4,
+    "city": 10,
+    "value": 14
+   },
+   "wall.barrierShare": {
+    "value": 0.0
+   },
+   "wall.nodeSpacing": {
+    "n": 16,
+    "p50": 50.84026940356114
+   },
+   "wall.towerSpacing": {
+    "n": 13,
+    "p50": 53.71126757953118
+   },
+   "wallRingVertices": 16,
+   "wallVertexSpacingP50": 50.84026940356119,
+   "walled.share": {
+    "inside": 66,
+    "n": 77,
+    "value": 0.8571428571428571
+   },
+   "walledHa": 4.4314591654,
+   "water": "none"
+  },
+  "exports-sweep-2026-09-25/size-120": {
+   "bldg.r4.120": {
+    "median": 0.8682931211472469,
+    "p25": 0.6864434895712178,
+    "p75": 0.9519770830163673,
+    "samples": 1475
+   },
+   "bldg.r4.250": {
+    "median": 0.6474491588630185,
+    "p25": 0.44213939164577554,
+    "p75": 0.8042819791468417,
+    "samples": 1497
+   },
+   "bldg.r4.60": {
+    "median": 0.9694876898709368,
+    "p25": 0.8857029638399144,
+    "p75": 0.9888410575416869,
+    "samples": 1461
+   },
+   "bldg.wallAlign": {
+    "b0_40": {
+     "median": 1.946104657318819,
+     "n": 605,
+     "share15": 0.9570247933884297
+    },
+    "b100_200": {
+     "median": 6.259254276453782,
+     "n": 1661,
+     "share15": 0.7471402769416015
+    },
+    "b40_100": {
+     "median": 3.9812390976583925,
+     "n": 1099,
+     "share15": 0.8908098271155596
+    }
+   },
+   "buildings": 11772,
+   "capture": "exports-sweep-2026-09-25/size-120",
+   "castle.area": {
+    "polygons": 1,
+    "value": 2.079368443149992
+   },
+   "castle.compact": {
+    "value": 0.7524093982860116
+   },
+   "district.area": {
+    "max": 76.39309117815,
+    "median": 33.8227794334,
+    "min": 2.079368443149992,
+    "n": 17
+   },
+   "gate.count": {
+    "value": 12,
+    "water": 0
+   },
+   "gateLaw": {
+    "expected": 11,
+    "hit": false,
+    "landLaw": 11,
+    "law": 11,
+    "measured": 12,
+    "requested": null,
+    "waterfront": false
+   },
+   "market.adjacent": {
+    "value": 0
+   },
+   "market.secondary": {
+    "squares": 1,
+    "value": 0
+   },
+   "options": {
+    "citadel": 1,
+    "coast": 0,
+    "gates": -1,
+    "greens": 0,
+    "plaza": 1,
+    "river": 0,
+    "seed": 555001,
+    "shantytown": 0,
+    "size": 120,
+    "temple": 1,
+    "urban_castle": 0,
+    "walls": 1
+   },
+   "plaza.area": {
+    "value": 0.35763958265
+   },
+   "quarter.count": {
+    "value": 17
+   },
+   "ribbon.share": {
+    "extramural": 1070,
+    "value": 0.5186915887850467,
+    "within": 555
+   },
+   "rung": null,
+   "shoreVertices": 0,
+   "towers": {
+    "castle": 3,
+    "city": 35,
+    "value": 38
+   },
+   "wall.barrierShare": {
+    "value": 0.0
+   },
+   "wall.nodeSpacing": {
+    "n": 50,
+    "p50": 155.1744959830071
+   },
+   "wall.towerSpacing": {
+    "n": 37,
+    "p50": 158.9411881483211
+   },
+   "wallRingVertices": 50,
+   "wallVertexSpacingP50": 155.17449598300692,
+   "walled.share": {
+    "inside": 10702,
+    "n": 11772,
+    "value": 0.9091063540604825
+   },
+   "walledHa": 473.50489855425,
+   "water": "none"
+  },
+  "exports-sweep-2026-09-25/size-130": {
+   "bldg.r4.120": {
+    "median": 0.8094463711911755,
+    "p25": 0.6184104544647726,
+    "p75": 0.9396202304144754,
+    "samples": 1485
+   },
+   "bldg.r4.250": {
+    "median": 0.5904470524320464,
+    "p25": 0.37704087968418515,
+    "p75": 0.7762300602525001,
+    "samples": 1497
+   },
+   "bldg.r4.60": {
+    "median": 0.9573881036182235,
+    "p25": 0.8530388926769601,
+    "p75": 0.9871039437318997,
+    "samples": 1474
+   },
+   "bldg.wallAlign": {
+    "b0_40": {
+     "median": 3.5061278482754483,
+     "n": 592,
+     "share15": 0.9341216216216216
+    },
+    "b100_200": {
+     "median": 11.888023270892344,
+     "n": 1576,
+     "share15": 0.5824873096446701
+    },
+    "b40_100": {
+     "median": 6.094357690782182,
+     "n": 1005,
+     "share15": 0.7810945273631841
+    }
+   },
+   "buildings": 13091,
+   "capture": "exports-sweep-2026-09-25/size-130",
+   "castle.area": {
+    "polygons": 1,
+    "value": 8.693316201050003
+   },
+   "castle.compact": {
+    "value": 0.7966002072313316
+   },
+   "district.area": {
+    "max": 119.38427855869999,
+    "median": 27.403116236849996,
+    "min": 5.192636334750007,
+    "n": 18
+   },
+   "gate.count": {
+    "value": 12,
+    "water": 0
+   },
+   "gateLaw": {
+    "expected": 12,
+    "hit": true,
+    "landLaw": 12,
+    "law": 12,
+    "measured": 12,
+    "requested": null,
+    "waterfront": false
+   },
+   "market.adjacent": {
+    "value": 0
+   },
+   "market.secondary": {
+    "squares": 1,
+    "value": 0
+   },
+   "options": {
+    "citadel": 1,
+    "coast": 0,
+    "gates": -1,
+    "greens": 0,
+    "plaza": 1,
+    "river": 0,
+    "seed": 555001,
+    "shantytown": 0,
+    "size": 130,
+    "temple": 1,
+    "urban_castle": 0,
+    "walls": 1
+   },
+   "plaza.area": {
+    "value": 0.5834828777000001
+   },
+   "quarter.count": {
+    "value": 18
+   },
+   "ribbon.share": {
+    "extramural": 1263,
+    "value": 0.49406175771971494,
+    "within": 624
+   },
+   "rung": "METROPOLIS",
+   "shoreVertices": 0,
+   "towers": {
+    "castle": 5,
+    "city": 39,
+    "value": 44
+   },
+   "wall.barrierShare": {
+    "value": 0.0
+   },
+   "wall.nodeSpacing": {
+    "n": 54,
+    "p50": 154.9669441735711
+   },
+   "wall.towerSpacing": {
+    "n": 42,
+    "p50": 177.91908909455265
+   },
+   "wallRingVertices": 55,
+   "wallVertexSpacingP50": 153.21174327381038,
+   "walled.share": {
+    "inside": 11828,
+    "n": 13091,
+    "value": 0.9035215033228936
+   },
+   "walledHa": 548.089008554,
+   "water": "none"
+  },
+  "exports-sweep-2026-09-25/size-15": {
+   "bldg.r4.120": {
+    "median": 0.36164797367509627,
+    "p25": 0.25245875955542807,
+    "p75": 0.5196781400501411,
+    "samples": 172
+   },
+   "bldg.r4.250": {
+    "median": 0.10495266802115663,
+    "p25": 0.07990824078397278,
+    "p75": 0.15022241909297399,
+    "samples": 174
+   },
+   "bldg.r4.60": {
+    "median": 0.6462817561954971,
+    "p25": 0.5139777692460168,
+    "p75": 0.8350311845718894,
+    "samples": 167
+   },
+   "bldg.wallAlign": {
+    "b0_40": {
+     "median": 11.704037691239712,
+     "n": 55,
+     "share15": 0.6545454545454545
+    },
+    "b100_200": {
+     "median": 13.456909638294572,
+     "n": 18,
+     "share15": 0.5555555555555556
+    },
+    "b40_100": {
+     "median": 19.90121217215009,
+     "n": 64,
+     "share15": 0.375
+    }
+   },
+   "buildings": 174,
+   "capture": "exports-sweep-2026-09-25/size-15",
+   "castle.area": {
+    "polygons": 1,
+    "value": 1.1173863968500004
+   },
+   "castle.compact": {
+    "value": 0.8160358513838268
+   },
+   "district.area": {
+    "max": 4.60121326305,
+    "median": 2.318209975025,
+    "min": 1.1173863968500004,
+    "n": 6
+   },
+   "gate.count": {
+    "value": 3,
+    "water": 0
+   },
+   "gateLaw": {
+    "expected": 2,
+    "hit": false,
+    "landLaw": 2,
+    "law": 2,
+    "measured": 3,
+    "requested": null,
+    "waterfront": false
+   },
+   "market.adjacent": {
+    "value": 0
+   },
+   "market.secondary": {
+    "squares": 1,
+    "value": 0
+   },
+   "options": {
+    "citadel": 1,
+    "coast": 0,
+    "gates": -1,
+    "greens": 0,
+    "plaza": 1,
+    "river": 0,
+    "seed": 555001,
+    "shantytown": 0,
+    "size": 15,
+    "temple": 1,
+    "urban_castle": 0,
+    "walls": 1
+   },
+   "plaza.area": {
+    "value": 0.217279037
+   },
+   "quarter.count": {
+    "value": 6
+   },
+   "ribbon.share": {
+    "extramural": 37,
+    "value": 0.972972972972973,
+    "within": 36
+   },
+   "rung": null,
+   "shoreVertices": 0,
+   "towers": {
+    "castle": 6,
+    "city": 12,
+    "value": 18
+   },
+   "wall.barrierShare": {
+    "value": 0.0
+   },
+   "wall.nodeSpacing": {
+    "n": 17,
+    "p50": 65.13961158158682
+   },
+   "wall.towerSpacing": {
+    "n": 14,
+    "p50": 69.81615547485394
+   },
+   "wallRingVertices": 17,
+   "wallVertexSpacingP50": 65.13961158158682,
+   "walled.share": {
+    "inside": 137,
+    "n": 174,
+    "value": 0.7873563218390804
+   },
+   "walledHa": 9.529688777399999,
+   "water": "none"
+  },
+  "exports-sweep-2026-09-25/size-200": {
+   "bldg.r4.120": {
+    "median": 0.883242988836356,
+    "p25": 0.6837138418736673,
+    "p75": 0.9615092302739899,
+    "samples": 1485
+   },
+   "bldg.r4.250": {
+    "median": 0.6458701507908543,
+    "p25": 0.45973218916343495,
+    "p75": 0.8039008906701686,
+    "samples": 1497
+   },
+   "bldg.r4.60": {
+    "median": 0.9693376104936803,
+    "p25": 0.8834637534179404,
+    "p75": 0.9909276220673054,
+    "samples": 1471
+   },
+   "bldg.wallAlign": {
+    "b0_40": {
+     "median": 2.895379413342439,
+     "n": 1067,
+     "share15": 0.9315838800374883
+    },
+    "b100_200": {
+     "median": 12.825418923860745,
+     "n": 2892,
+     "share15": 0.5356154910096819
+    },
+    "b40_100": {
+     "median": 5.773456400051324,
+     "n": 1828,
+     "share15": 0.7264770240700219
+    }
+   },
+   "buildings": 31951,
+   "capture": "exports-sweep-2026-09-25/size-200",
+   "castle.area": {
+    "polygons": 1,
+    "value": 12.743938666700002
+   },
+   "castle.compact": {
+    "value": 0.7799005435247914
+   },
+   "district.area": {
+    "max": 197.89989555610003,
+    "median": 56.73438052197501,
+    "min": 9.467826269550004,
+    "n": 22
+   },
+   "gate.count": {
+    "value": 18,
+    "water": 0
+   },
+   "gateLaw": {
+    "expected": 18,
+    "hit": true,
+    "landLaw": 18,
+    "law": 18,
+    "measured": 18,
+    "requested": null,
+    "waterfront": false
+   },
+   "market.adjacent": {
+    "value": 0
+   },
+   "market.secondary": {
+    "squares": 1,
+    "value": 0
+   },
+   "options": {
+    "citadel": 1,
+    "coast": 0,
+    "gates": -1,
+    "greens": 0,
+    "plaza": 1,
+    "river": 0,
+    "seed": 555001,
+    "shantytown": 0,
+    "size": 200,
+    "temple": 1,
+    "urban_castle": 0,
+    "walls": 1
+   },
+   "plaza.area": {
+    "value": 0.46966854199999997
+   },
+   "quarter.count": {
+    "value": 22
+   },
+   "ribbon.share": {
+    "extramural": 2765,
+    "value": 0.4209764918625678,
+    "within": 1164
+   },
+   "rung": null,
+   "shoreVertices": 0,
+   "towers": {
+    "castle": 4,
+    "city": 38,
+    "value": 42
+   },
+   "wall.barrierShare": {
+    "value": 0.0
+   },
+   "wall.nodeSpacing": {
+    "n": 59,
+    "p50": 209.85288699467537
+   },
+   "wall.towerSpacing": {
+    "n": 40,
+    "p50": 299.33548734939905
+   },
+   "wallRingVertices": 59,
+   "wallVertexSpacingP50": 209.85288699467537,
+   "walled.share": {
+    "inside": 29186,
+    "n": 31951,
+    "value": 0.9134612375199525
+   },
+   "walledHa": 1274.4703519602501,
+   "water": "none"
+  },
+  "exports-sweep-2026-09-25/size-200-rivercoast": {
+   "bldg.r4.120": {
+    "median": 0.9392259321279952,
+    "p25": 0.824315033957037,
+    "p75": 0.9816040692465509,
+    "samples": 1468
+   },
+   "bldg.r4.250": {
+    "median": 0.7963701507379807,
+    "p25": 0.5856975942489632,
+    "p75": 0.9008638054015,
+    "samples": 1496
+   },
+   "bldg.r4.60": {
+    "median": 0.9830788642077498,
+    "p25": 0.9438331811646111,
+    "p75": 0.9964602129502744,
+    "samples": 1467
+   },
+   "bldg.wallAlign": {
+    "b0_40": {
+     "median": 1.9533527912210955,
+     "n": 1080,
+     "share15": 0.9472222222222222
+    },
+    "b100_200": {
+     "median": 6.094144129734497,
+     "n": 3076,
+     "share15": 0.6836801040312094
+    },
+    "b40_100": {
+     "median": 4.311234725638175,
+     "n": 1870,
+     "share15": 0.793048128342246
+    }
+   },
+   "bldg.wallAlign.ringVariant": {
+    "b0_40": {
+     "median": 2.044650499383181,
+     "n": 1723,
+     "share15": 0.950667440510737
+    },
+    "b100_200": {
+     "median": 7.8777544853387695,
+     "n": 4598,
+     "share15": 0.6839930404523706
+    },
+    "b40_100": {
+     "median": 4.470450051581371,
+     "n": 2856,
+     "share15": 0.8049719887955182
+    }
+   },
+   "buildings": 53908,
+   "capture": "exports-sweep-2026-09-25/size-200-rivercoast",
+   "castle.area": {
+    "polygons": 1,
+    "value": 19.005678032499972
+   },
+   "castle.compact": {
+    "value": 0.7500898929590427
+   },
+   "district.area": {
+    "max": 602.1434925202998,
+    "median": 52.00529717727497,
+    "min": 6.11368591775,
+    "n": 20
+   },
+   "gate.count": {
+    "value": 14,
+    "water": 1
+   },
+   "gateLaw": {
+    "expected": 18,
+    "hit": false,
+    "landLaw": 23,
+    "law": 18,
+    "measured": 14,
+    "requested": null,
+    "waterfront": true
+   },
+   "market.adjacent": {
+    "value": 0
+   },
+   "market.secondary": {
+    "squares": 1,
+    "value": 0
+   },
+   "options": {
+    "citadel": 1,
+    "coast": 1,
+    "gates": -1,
+    "greens": 0,
+    "plaza": 1,
+    "river": 1,
+    "sea": 0,
+    "seed": 555001,
+    "shantytown": 0,
+    "size": 200,
+    "temple": 1,
+    "urban_castle": 0,
+    "walls": 1
+   },
+   "plaza.area": {
+    "value": 0.5111920346
+   },
+   "quarter.count": {
+    "value": 20
+   },
+   "ribbon.share": {
+    "extramural": 4994,
+    "value": 0.27573087705246296,
+    "within": 1377
+   },
+   "rung": null,
+   "shoreVertices": 43,
+   "towers": {
+    "castle": 4,
+    "city": 26,
+    "value": 30
+   },
+   "wall.barrierShare": {
+    "value": 0.3423975566373184
+   },
+   "wall.nodeSpacing": {
+    "n": 43,
+    "p50": 294.72697730102664
+   },
+   "wall.towerSpacing": {
+    "n": 27,
+    "p50": 546.7510724501758
+   },
+   "wallRingVertices": 85,
+   "wallVertexSpacingP50": 245.49867476628052,
+   "walled.share": {
+    "inside": 48914,
+    "n": 53908,
+    "value": 0.9073606885805446
+   },
+   "walledHa": 2246.79100858175,
+   "water": "coast+river"
+  },
+  "exports-sweep-2026-09-25/size-24": {
+   "bldg.r4.120": {
+    "median": 0.5018300777592817,
+    "p25": 0.338148288464423,
+    "p75": 0.6236667053450926,
+    "samples": 411
+   },
+   "bldg.r4.250": {
+    "median": 0.2856664258088558,
+    "p25": 0.1402510684624193,
+    "p75": 0.4079671397841875,
+    "samples": 411
+   },
+   "bldg.r4.60": {
+    "median": 0.7470540756436415,
+    "p25": 0.5106989194484413,
+    "p75": 0.8673540464079056,
+    "samples": 397
+   },
+   "bldg.wallAlign": {
+    "b0_40": {
+     "median": 6.5794726200029,
+     "n": 104,
+     "share15": 0.7019230769230769
+    },
+    "b100_200": {
+     "median": 19.425859739775603,
+     "n": 116,
+     "share15": 0.35344827586206895
+    },
+    "b40_100": {
+     "median": 16.91051611901183,
+     "n": 136,
+     "share15": 0.47794117647058826
+    }
+   },
+   "buildings": 411,
+   "capture": "exports-sweep-2026-09-25/size-24",
+   "castle.area": {
+    "polygons": 1,
+    "value": 1.77864530945
+   },
+   "castle.compact": {
+    "value": 0.7707275168828407
+   },
+   "district.area": {
+    "max": 9.945363693000001,
+    "median": 7.053362348649999,
+    "min": 1.77864530945,
+    "n": 6
+   },
+   "gate.count": {
+    "value": 4,
+    "water": 0
+   },
+   "gateLaw": {
+    "expected": 3,
+    "hit": false,
+    "landLaw": 3,
+    "law": 3,
+    "measured": 4,
+    "requested": null,
+    "waterfront": false
+   },
+   "market.adjacent": {
+    "value": 0
+   },
+   "market.secondary": {
+    "squares": 1,
+    "value": 0
+   },
+   "options": {
+    "citadel": 1,
+    "coast": 0,
+    "gates": -1,
+    "greens": 0,
+    "plaza": 1,
+    "river": 0,
+    "seed": 555001,
+    "shantytown": 0,
+    "size": 24,
+    "temple": 1,
+    "urban_castle": 0,
+    "walls": 1
+   },
+   "plaza.area": {
+    "value": 0.42231481514999997
+   },
+   "quarter.count": {
+    "value": 6
+   },
+   "ribbon.share": {
+    "extramural": 47,
+    "value": 0.8936170212765957,
+    "within": 42
+   },
+   "rung": null,
+   "shoreVertices": 0,
+   "towers": {
+    "castle": 4,
+    "city": 16,
+    "value": 20
+   },
+   "wall.barrierShare": {
+    "value": 0.0
+   },
+   "wall.nodeSpacing": {
+    "n": 23,
+    "p50": 73.6236715330063
+   },
+   "wall.towerSpacing": {
+    "n": 19,
+    "p50": 74.40946365886532
+   },
+   "wallRingVertices": 24,
+   "wallVertexSpacingP50": 73.16475659099251,
+   "walled.share": {
+    "inside": 364,
+    "n": 411,
+    "value": 0.8856447688564477
+   },
+   "walledHa": 23.0939943312,
+   "water": "none"
+  },
+  "exports-sweep-2026-09-25/size-250": {
+   "bldg.r4.120": {
+    "median": 0.9064389045120342,
+    "p25": 0.7406997608559637,
+    "p75": 0.9693801941330432,
+    "samples": 1490
+   },
+   "bldg.r4.250": {
+    "median": 0.6793587555618388,
+    "p25": 0.504429061456303,
+    "p75": 0.8354395612912178,
+    "samples": 1498
+   },
+   "bldg.r4.60": {
+    "median": 0.9732247531667158,
+    "p25": 0.9031528448277409,
+    "p75": 0.9917945111095944,
+    "samples": 1473
+   },
+   "bldg.wallAlign": {
+    "b0_40": {
+     "median": 1.8686789670981834,
+     "n": 1242,
+     "share15": 0.9170692431561996
+    },
+    "b100_200": {
+     "median": 12.957763056613064,
+     "n": 3528,
+     "share15": 0.5385487528344671
+    },
+    "b40_100": {
+     "median": 5.312844417241319,
+     "n": 2176,
+     "share15": 0.7284007352941176
+    }
+   },
+   "buildings": 48379,
+   "capture": "exports-sweep-2026-09-25/size-250",
+   "castle.area": {
+    "polygons": 1,
+    "value": 9.412836934000003
+   },
+   "castle.compact": {
+    "value": 0.7523796622099
+   },
+   "district.area": {
+    "max": 432.9742925921,
+    "median": 52.37998403410001,
+    "min": 7.412996774399991,
+    "n": 24
+   },
+   "gate.count": {
+    "value": 21,
+    "water": 0
+   },
+   "gateLaw": {
+    "expected": 22,
+    "hit": false,
+    "landLaw": 22,
+    "law": 22,
+    "measured": 21,
+    "requested": null,
+    "waterfront": false
+   },
+   "market.adjacent": {
+    "value": 0
+   },
+   "market.secondary": {
+    "squares": 1,
+    "value": 0
+   },
+   "options": {
+    "citadel": 1,
+    "coast": 0,
+    "gates": -1,
+    "greens": 0,
+    "plaza": 1,
+    "river": 0,
+    "seed": 555001,
+    "shantytown": 0,
+    "size": 250,
+    "temple": 1,
+    "urban_castle": 0,
+    "walls": 1
+   },
+   "plaza.area": {
+    "value": 0.51493375065
+   },
+   "quarter.count": {
+    "value": 24
+   },
+   "ribbon.share": {
+    "extramural": 4542,
+    "value": 0.4194187582562748,
+    "within": 1905
+   },
+   "rung": null,
+   "shoreVertices": 0,
+   "towers": {
+    "castle": 3,
+    "city": 43,
+    "value": 46
+   },
+   "wall.barrierShare": {
+    "value": 0.0
+   },
+   "wall.nodeSpacing": {
+    "n": 67,
+    "p50": 244.59568275216952
+   },
+   "wall.towerSpacing": {
+    "n": 45,
+    "p50": 298.5623878387905
+   },
+   "wallRingVertices": 67,
+   "wallVertexSpacingP50": 244.59568275216952,
+   "walled.share": {
+    "inside": 43837,
+    "n": 48379,
+    "value": 0.906116290125881
+   },
+   "walledHa": 1942.0344266458005,
+   "water": "none"
+  },
+  "exports-sweep-2026-09-25/size-3": {
+   "bldg.r4.120": {
+    "median": 0.34746952850013124,
+    "p25": 0.2976729999643087,
+    "p75": 0.36924176534411,
+    "samples": 18
+   },
+   "bldg.r4.250": {
+    "median": 0.34746952850013124,
+    "p25": 0.34746952850013124,
+    "p75": 0.34746952850013124,
+    "samples": 18
+   },
+   "bldg.r4.60": {
+    "median": 0.6216983970682282,
+    "p25": 0.4741793651683238,
+    "p75": 0.6708656831870612,
+    "samples": 15
+   },
+   "bldg.wallAlign": {
+    "b0_40": {
+     "median": 2.9440155499478714e-05,
+     "n": 1,
+     "share15": 1.0
+    },
+    "b100_200": {
+     "median": null,
+     "n": 0,
+     "share15": null
+    },
+    "b40_100": {
+     "median": null,
+     "n": 0,
+     "share15": null
+    }
+   },
+   "buildings": 18,
+   "capture": "exports-sweep-2026-09-25/size-3",
+   "castle.area": {
+    "polygons": 1,
+    "value": 0.5406776693500001
+   },
+   "castle.compact": {
+    "value": 0.7930210055484573
+   },
+   "district.area": {
+    "max": 1.25223140725,
+    "median": 0.66473610515,
+    "min": 0.5286604036000001,
+    "n": 3
+   },
+   "gate.count": {
+    "value": 0,
+    "water": 0
+   },
+   "gateLaw": {
+    "expected": 1,
+    "hit": false,
+    "landLaw": 1,
+    "law": 1,
+    "measured": 0,
+    "requested": null,
+    "waterfront": false
+   },
+   "market.adjacent": {
+    "value": 0
+   },
+   "market.secondary": {
+    "squares": 1,
+    "value": 0
+   },
+   "options": {
+    "citadel": 1,
+    "coast": 0,
+    "gates": -1,
+    "greens": 0,
+    "plaza": 1,
+    "river": 0,
+    "seed": 555001,
+    "shantytown": 0,
+    "size": 3,
+    "temple": 1,
+    "urban_castle": 0,
+    "walls": 1
+   },
+   "plaza.area": {
+    "value": 0.30872213205000004
+   },
+   "quarter.count": {
+    "value": 3
+   },
+   "ribbon.share": {
+    "extramural": 17,
+    "value": 1.0,
+    "within": 17
+   },
+   "rung": null,
+   "shoreVertices": 0,
+   "towers": {
+    "castle": 7,
+    "city": 3,
+    "value": 10
+   },
+   "wall.barrierShare": {
+    "value": 0.0
+   },
+   "wall.nodeSpacing": {
+    "n": 6,
+    "p50": 50.49286644370926
+   },
+   "wall.towerSpacing": {
+    "n": 6,
+    "p50": 50.49286644370926
+   },
+   "wallRingVertices": 6,
+   "wallVertexSpacingP50": 50.492866443709254,
+   "walled.share": {
+    "inside": 1,
+    "n": 18,
+    "value": 0.05555555555555555
+   },
+   "walledHa": 0.66473610515,
+   "water": "none"
+  },
+  "exports-sweep-2026-09-25/size-40": {
+   "bldg.r4.120": {
+    "median": 0.5975373586062112,
+    "p25": 0.38874395317404353,
+    "p75": 0.7609748087563044,
+    "samples": 1462
+   },
+   "bldg.r4.250": {
+    "median": 0.34204887911071724,
+    "p25": 0.2093756975897483,
+    "p75": 0.44949841327382245,
+    "samples": 1470
+   },
+   "bldg.r4.60": {
+    "median": 0.8464919751990578,
+    "p25": 0.6897615259546087,
+    "p75": 0.9436606244750327,
+    "samples": 1451
+   },
+   "bldg.wallAlign": {
+    "b0_40": {
+     "median": 3.5490988957196707,
+     "n": 216,
+     "share15": 0.875
+    },
+    "b100_200": {
+     "median": 19.754874332637538,
+     "n": 453,
+     "share15": 0.423841059602649
+    },
+    "b40_100": {
+     "median": 8.654734932866432,
+     "n": 328,
+     "share15": 0.6646341463414634
+    }
+   },
+   "buildings": 1475,
+   "capture": "exports-sweep-2026-09-25/size-40",
+   "castle.area": {
+    "polygons": 1,
+    "value": 2.6056074384
+   },
+   "castle.compact": {
+    "value": 0.8236719900750976
+   },
+   "district.area": {
+    "max": 21.45203462555,
+    "median": 3.805911413049999,
+    "min": 2.358218104699999,
+    "n": 9
+   },
+   "gate.count": {
+    "value": 5,
+    "water": 0
+   },
+   "gateLaw": {
+    "expected": 5,
+    "hit": true,
+    "landLaw": 5,
+    "law": 5,
+    "measured": 5,
+    "requested": null,
+    "waterfront": false
+   },
+   "market.adjacent": {
+    "value": 0
+   },
+   "market.secondary": {
+    "squares": 1,
+    "value": 0
+   },
+   "options": {
+    "citadel": 1,
+    "coast": 0,
+    "gates": -1,
+    "greens": 0,
+    "plaza": 1,
+    "river": 0,
+    "seed": 555001,
+    "shantytown": 0,
+    "size": 40,
+    "temple": 1,
+    "urban_castle": 0,
+    "walls": 1
+   },
+   "plaza.area": {
+    "value": 0.38262506429999993
+   },
+   "quarter.count": {
+    "value": 9
+   },
+   "ribbon.share": {
+    "extramural": 111,
+    "value": 0.8468468468468469,
+    "within": 94
+   },
+   "rung": "TOWN",
+   "shoreVertices": 0,
+   "towers": {
+    "castle": 5,
+    "city": 23,
+    "value": 28
+   },
+   "wall.barrierShare": {
+    "value": 0.0
+   },
+   "wall.nodeSpacing": {
+    "n": 31,
+    "p50": 88.15125143184298
+   },
+   "wall.towerSpacing": {
+    "n": 26,
+    "p50": 94.25328342439741
+   },
+   "wallRingVertices": 32,
+   "wallVertexSpacingP50": 87.49213291894883,
+   "walled.share": {
+    "inside": 1364,
+    "n": 1475,
+    "value": 0.9247457627118644
+   },
+   "walledHa": 58.16792270789998,
+   "water": "none"
+  },
+  "exports-sweep-2026-09-25/size-5": {
+   "bldg.r4.120": {
+    "median": 0.5082287674286944,
+    "p25": 0.5082287674286944,
+    "p75": 0.5082287674286944,
+    "samples": 13
+   },
+   "bldg.r4.250": {
+    "median": 0.5082287674286944,
+    "p25": 0.5082287674286944,
+    "p75": 0.5082287674286944,
+    "samples": 13
+   },
+   "bldg.r4.60": {
+    "median": 0.5623193110928711,
+    "p25": 0.5225550152271432,
+    "p75": 0.6492707557732483,
+    "samples": 10
+   },
+   "bldg.wallAlign": {
+    "b0_40": {
+     "median": 13.306984313241108,
+     "n": 12,
+     "share15": 0.5
+    },
+    "b100_200": {
+     "median": null,
+     "n": 0,
+     "share15": null
+    },
+    "b40_100": {
+     "median": null,
+     "n": 0,
+     "share15": null
+    }
+   },
+   "buildings": 13,
+   "capture": "exports-sweep-2026-09-25/size-5",
+   "castle.area": {
+    "polygons": 1,
+    "value": 0.8516031867
+   },
+   "castle.compact": {
+    "value": 0.8074337816573331
+   },
+   "district.area": {
+    "max": 1.3008376959999999,
+    "median": 1.018298056025,
+    "min": 0.73575841605,
+    "n": 2
+   },
+   "gate.count": {
+    "value": 2,
+    "water": 0
+   },
+   "gateLaw": {
+    "expected": 2,
+    "hit": true,
+    "landLaw": 2,
+    "law": 2,
+    "measured": 2,
+    "requested": null,
+    "waterfront": false
+   },
+   "market.adjacent": {
+    "value": 0
+   },
+   "market.secondary": {
+    "squares": 1,
+    "value": 0
+   },
+   "options": {
+    "citadel": 1,
+    "coast": 0,
+    "gates": -1,
+    "greens": 0,
+    "plaza": 1,
+    "river": 0,
+    "seed": 555001,
+    "shantytown": 0,
+    "size": 5,
+    "temple": 1,
+    "urban_castle": 0,
+    "walls": 1
+   },
+   "plaza.area": {
+    "value": 0.38753553239999994
+   },
+   "quarter.count": {
+    "value": 2
+   },
+   "ribbon.share": {
+    "extramural": 1,
+    "value": 0.0,
+    "within": 0
+   },
+   "rung": null,
+   "shoreVertices": 0,
+   "towers": {
+    "castle": 5,
+    "city": 6,
+    "value": 11
+   },
+   "wall.barrierShare": {
+    "value": 0.0
+   },
+   "wall.nodeSpacing": {
+    "n": 10,
+    "p50": 40.01207215954028
+   },
+   "wall.towerSpacing": {
+    "n": 8,
+    "p50": 46.10390779028664
+   },
+   "wallRingVertices": 10,
+   "wallVertexSpacingP50": 40.01207215954028,
+   "walled.share": {
+    "inside": 12,
+    "n": 13,
+    "value": 0.9230769230769231
+   },
+   "walledHa": 1.2533455894,
+   "water": "none"
+  },
+  "exports-sweep-2026-09-25/size-60": {
+   "bldg.r4.120": {
+    "median": 0.6836112537048282,
+    "p25": 0.5312621882403983,
+    "p75": 0.8063057377445304,
+    "samples": 1479
+   },
+   "bldg.r4.250": {
+    "median": 0.36251169303477526,
+    "p25": 0.2477791646996177,
+    "p75": 0.4834810572679236,
+    "samples": 1492
+   },
+   "bldg.r4.60": {
+    "median": 0.886827176378106,
+    "p25": 0.7473333622627146,
+    "p75": 0.9640206785126625,
+    "samples": 1460
+   },
+   "bldg.wallAlign": {
+    "b0_40": {
+     "median": 4.194431882523197,
+     "n": 254,
+     "share15": 0.889763779527559
+    },
+    "b100_200": {
+     "median": 13.200637425298307,
+     "n": 622,
+     "share15": 0.5418006430868167
+    },
+    "b40_100": {
+     "median": 8.130937028470715,
+     "n": 427,
+     "share15": 0.702576112412178
+    }
+   },
+   "buildings": 2617,
+   "capture": "exports-sweep-2026-09-25/size-60",
+   "castle.area": {
+    "polygons": 1,
+    "value": 3.2042492126000006
+   },
+   "castle.compact": {
+    "value": 0.7691248481299219
+   },
+   "district.area": {
+    "max": 31.547045220199994,
+    "median": 10.146430660800002,
+    "min": 3.2042492126000006,
+    "n": 13
+   },
+   "gate.count": {
+    "value": 7,
+    "water": 0
+   },
+   "gateLaw": {
+    "expected": 6,
+    "hit": false,
+    "landLaw": 6,
+    "law": 6,
+    "measured": 7,
+    "requested": null,
+    "waterfront": false
+   },
+   "market.adjacent": {
+    "value": 0
+   },
+   "market.secondary": {
+    "squares": 1,
+    "value": 0
+   },
+   "options": {
+    "citadel": 1,
+    "coast": 0,
+    "gates": -1,
+    "greens": 0,
+    "plaza": 1,
+    "river": 0,
+    "seed": 555001,
+    "shantytown": 0,
+    "size": 60,
+    "temple": 1,
+    "urban_castle": 0,
+    "walls": 1
+   },
+   "plaza.area": {
+    "value": 0.50095195375
+   },
+   "quarter.count": {
+    "value": 13
+   },
+   "ribbon.share": {
+    "extramural": 334,
+    "value": 0.6976047904191617,
+    "within": 233
+   },
+   "rung": null,
+   "shoreVertices": 0,
+   "towers": {
+    "castle": 5,
+    "city": 25,
+    "value": 30
+   },
+   "wall.barrierShare": {
+    "value": 0.0
+   },
+   "wall.nodeSpacing": {
+    "n": 34,
+    "p50": 114.34921330599991
+   },
+   "wall.towerSpacing": {
+    "n": 27,
+    "p50": 121.40574684915032
+   },
+   "wallRingVertices": 35,
+   "wallVertexSpacingP50": 114.7559058175221,
+   "walled.share": {
+    "inside": 2283,
+    "n": 2617,
+    "value": 0.8723729461215132
+   },
+   "walledHa": 121.82263714615004,
+   "water": "none"
+  },
+  "exports-sweep-2026-09-25/size-80": {
+   "bldg.r4.120": {
+    "median": 0.7183936860742992,
+    "p25": 0.4982772277558707,
+    "p75": 0.8745480849460376,
+    "samples": 1464
+   },
+   "bldg.r4.250": {
+    "median": 0.46755350820413794,
+    "p25": 0.3069338006522431,
+    "p75": 0.6319962618159479,
+    "samples": 1495
+   },
+   "bldg.r4.60": {
+    "median": 0.9174699263692963,
+    "p25": 0.7439422694268483,
+    "p75": 0.9747447972637986,
+    "samples": 1450
+   },
+   "bldg.wallAlign": {
+    "b0_40": {
+     "median": 4.301767015593906,
+     "n": 397,
+     "share15": 0.8564231738035264
+    },
+    "b100_200": {
+     "median": 16.270835455858215,
+     "n": 991,
+     "share15": 0.479313824419778
+    },
+    "b40_100": {
+     "median": 10.746666956526276,
+     "n": 646,
+     "share15": 0.6238390092879257
+    }
+   },
+   "buildings": 5242,
+   "capture": "exports-sweep-2026-09-25/size-80",
+   "castle.area": {
+    "polygons": 1,
+    "value": 1.2577391520000005
+   },
+   "castle.compact": {
+    "value": 0.7524347916555894
+   },
+   "district.area": {
+    "max": 54.2070360235,
+    "median": 18.980948916750002,
+    "min": 2.97833070945,
+    "n": 12
+   },
+   "gate.count": {
+    "value": 8,
+    "water": 0
+   },
+   "gateLaw": {
+    "expected": 8,
+    "hit": true,
+    "landLaw": 8,
+    "law": 8,
+    "measured": 8,
+    "requested": null,
+    "waterfront": false
+   },
+   "market.adjacent": {
+    "value": 0
+   },
+   "market.secondary": {
+    "squares": 1,
+    "value": 0
+   },
+   "options": {
+    "citadel": 1,
+    "coast": 0,
+    "gates": -1,
+    "greens": 0,
+    "plaza": 1,
+    "river": 0,
+    "seed": 555001,
+    "shantytown": 0,
+    "size": 80,
+    "temple": 1,
+    "urban_castle": 0,
+    "walls": 1
+   },
+   "plaza.area": {
+    "value": 0.3239499521
+   },
+   "quarter.count": {
+    "value": 12
+   },
+   "ribbon.share": {
+    "extramural": 424,
+    "value": 0.5754716981132075,
+    "within": 244
+   },
+   "rung": "CITY",
+   "shoreVertices": 0,
+   "towers": {
+    "castle": 3,
+    "city": 33,
+    "value": 36
+   },
+   "wall.barrierShare": {
+    "value": 0.0
+   },
+   "wall.nodeSpacing": {
+    "n": 45,
+    "p50": 121.7283324292257
+   },
+   "wall.towerSpacing": {
+    "n": 36,
+    "p50": 135.9089654319032
+   },
+   "wallRingVertices": 45,
+   "wallVertexSpacingP50": 121.72833242922535,
+   "walled.share": {
+    "inside": 4818,
+    "n": 5242,
+    "value": 0.9191148416634872
+   },
+   "walledHa": 220.45401348485,
+   "water": "none"
+  }
+ },
+ "referenceBuild": "itch:12710731",
+ "schema": "research.e07/1",
+ "script": "research:baselines/measure_mfcg.py",
+ "timeModel": {
+  "exports-2026-09-25": {
+   "probe-gates4-json": {
+    "attempts": 1,
+    "genMs": 35
+   },
+   "s555001-size40-gates0": {
+    "attempts": 1,
+    "genMs": 45
+   },
+   "s555001-size40-gates1": {
+    "attempts": 1,
+    "genMs": 52
+   },
+   "s555001-size40-gates4": {
+    "attempts": 1,
+    "genMs": 50
+   },
+   "s555001-size40-gates9": {
+    "attempts": 1,
+    "genMs": 32
+   },
+   "s777001-size80-river-coast": {
+    "attempts": 2,
+    "genMs": 174
+   }
+  },
+  "sweep-2026-09-25": {
+   "size-10": {
+    "attempts": 1,
+    "genMs": 25
+   },
+   "size-120": {
+    "attempts": 1,
+    "genMs": 137
+   },
+   "size-130": {
+    "attempts": 1,
+    "genMs": 156
+   },
+   "size-15": {
+    "attempts": 1,
+    "genMs": 23
+   },
+   "size-200": {
+    "attempts": 2,
+    "genMs": 236
+   },
+   "size-200-rivercoast": {
+    "attempts": 1,
+    "genMs": 471
+   },
+   "size-24": {
+    "attempts": 1,
+    "genMs": 39
+   },
+   "size-250": {
+    "attempts": 1,
+    "genMs": 409
+   },
+   "size-3": {
+    "attempts": 1,
+    "genMs": 8
+   },
+   "size-40": {
+    "attempts": 1,
+    "genMs": 57
+   },
+   "size-5": {
+    "attempts": 1,
+    "genMs": 8
+   },
+   "size-60": {
+    "attempts": 1,
+    "genMs": 71
+   },
+   "size-80": {
+    "attempts": 1,
+    "genMs": 131
+   }
+  }
+ }
+}

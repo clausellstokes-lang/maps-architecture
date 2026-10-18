@@ -1,0 +1,88 @@
+{
+ "id": "W-07",
+ "status": "landed",
+ "records": [
+  "docs/calibration/E07-mfcg-signature.md",
+  "docs/calibration/E07-mfcg-signature.json"
+ ],
+ "outputs": [
+  "research/baselines/adapters/mfcg.py (MFCG JSON export -> MeasureInput by V12 3.2.2 with the shore split; sha256 3200e91f)",
+  "research/baselines/measure_mfcg.py (D7, D8, D9, D24, D28 metrics by V12 3.4.2; --check runs the W-07 checker column plus the runnable T-V12-6 / T-V12-32 clauses; --red; sha256 f6336e41)",
+  "research/baselines/inputs/MFCG/itch-12710731/*.metric.geojson.gz (18 MeasureInputs: 5 fixtures of exports-2026-09-25 + 13 files of exports-sweep-2026-09-25; 8.0 MB; byte-reproducible)",
+  "docs/calibration/E07-mfcg-signature.json (per-seed values, draw census, matched widths, timings, market coverage, checks; sha256 55b8b186)",
+  "docs/calibration/E07-mfcg-signature.md (record; sha256 fd8738a3)"
+ ],
+ "checks": [
+  {
+   "check": "R4 gates4 0.84 / 0.58 / 0.32 within 0.02 (the centroid change)",
+   "passed": true,
+   "receipt": "measure_mfcg.py --check: 0.8402 / 0.5791 / 0.3175 (diff +0.0002 / -0.0009 / -0.0025); all 9 values of mfcg_orient.out within 0.02 (largest gap 0.013)"
+  },
+  {
+   "check": "wall alignment 87 / 70 / 58 % (gates0)",
+   "passed": true,
+   "receipt": "86.67 / 70.00 / 57.98 % (within one point, T-V12-6's tolerance; rounds to 87 / 70 / 58); every dry city and band of mfcg_wallalign.out within one point"
+  },
+  {
+   "check": "walled 0.98 / 0.97 / 0.92 / 0.82 / 0.30",
+   "passed": true,
+   "receipt": "0.9809 / 0.9676 / 0.9192 / 0.8231 / 0.3015"
+  },
+  {
+   "check": "gates 0 / 1 / 4 / 9 / 7",
+   "passed": true,
+   "receipt": "[0, 1, 4, 9, 7] exact (coastal city also 1 water gate, kept apart)"
+  },
+  {
+   "check": "towers 33 / 32 / 29 / 24",
+   "passed": true,
+   "receipt": "[33, 32, 29, 24] exact; coastal city through the shore split 24 shore vertices and 20 towers (T-V12-32)"
+  },
+  {
+   "check": "gate law hits on the sweep reported",
+   "passed": true,
+   "receipt": "2026-09-25 sweep: 5 of 10 hits on the fitted sizes 10-250 (misses by one at 15, 24, 60, 120, 250), 6 of 12 plain sizes; river+coast 200: 14 vs 18 (waterfront law), descriptive"
+  },
+  {
+   "check": "held scripts and sweep stats reproduce",
+   "passed": true,
+   "receipt": "mfcg_orient/wallalign/ribbon.py re-run live byte-identical to their .out; stats.md buildings, walled share/ha, gates, dry towers, districts, plaza and castle ha, gen ms equal at all 13 sizes"
+  },
+  {
+   "check": "D24 measurable",
+   "passed": true,
+   "receipt": "one square in 18/18 exports; one market geometry built in 12/12 recorded generations (coverage counts); market.secondary 0, market.adjacent 0 everywhere"
+  },
+  {
+   "check": "checker goes red; determinism",
+   "passed": true,
+   "receipt": "--red (R4 +0.03, tower +1): 2 FAIL, exit 1; adapter outputs and E07 JSON sha256-identical on re-run"
+  },
+  {
+   "check": "record clean-room scans",
+   "passed": true,
+   "receipt": "doc_checks.py --doc E07.md: C1 0, C2 0, C4 0, S1 0, S2 0, C3 29 unreviewed (capture paths, dates, digit runs, our own findings' phrases); make_denylist.py scan E07 md+json: TOK 0, ID 0, COL 0, SET 0, PHR 0 (after rewording one phrase), FILE 0, TRI 91 (paths, dates, numbers)"
+  },
+  {
+   "check": "disk above 1 GB",
+   "passed": true,
+   "receipt": "df -h /Users/cstokes: 15 GB free before and after (8.0 MB written)"
+  }
+ ],
+ "rows": 18,
+ "build_ids": [
+  "itch:12710731"
+ ],
+ "owner_notes": [
+  "W-07 is done for the files already on disk: the MFCG numbers the design quotes (lot orientation, wall alignment, walled share, gates, towers) were re-measured with the new tool and all match. Nothing touched any website and nothing went into plat/.",
+  "Three design sentences quote MFCG numbers that turn out narrower than they read (coastal wall alignment, the outside-the-wall ribbon share, a district-size median); a design seat should correct them. None blocks the build."
+ ],
+ "notes": [
+  "rows = 18 per-seed MeasureInputs measured (fixture pass); W-07 writes no baselines row yet: the per-size rows (ten plan seeds per matched size) are wave 2, same two scripts on captures/mfcg/exports-sweep-m1-2026-10-03 (W-03: 34 of 35 seeds; 130/plain/8 no-export; 80/river+coast 1 and 4 retry).",
+  "Rulings owed (E07 section 8), Fable/design seat: F1 major - through the shore split the coastal city's wall alignment is 89.2 / 56.7 / 41.0 % vs held 92 / 65 / 52 % (whole-ring variant reproduces 91.8 / 65.2 / 51.8), so T-V12-32's 'keep T-V12-6's values' fails on that clause; recommend restricting T-V12-6's wall-alignment clause to the dry cities. F2 major - section 13.5's ribbon band '71-85 % (sweep)' is the size-40 gate fixtures'; the 2026-09-25 sweep gives 0.85 / 0.58 / 0.49 at sizes 40 / 80 / 130 (declared shift ahead). F3 minor - 'median 29 ha at size 80' is the river+coast city's 29.3 ha; plain size 80 gives 19.0 ha. F4 - split bldg.wallAlign into .median (deg) and .share15 (share); register draw.* members draw.casingLaw, draw.roundJoins, draw.roundCaps, draw.widthPx, draw.wallsAfterBuildings (no numeric draw.order) - W-15 registers.",
+  "D24: the plan's pre-decided 'descriptive' outcome assumed a market could exist without exported geometry; coverage shows one market per delivered city, so a target row with value 0 is possible - Fable seat rules target vs descriptive.",
+  "D28 values: casing law 11/11 records with a cased ribbon (gates-0 city's one road is uncased), 7/7 on the 2026-09-21 records; one non-round join per record in 12/12 (4062/4063 first); widths at 0.8157 px/m wall 6.20, tower 12.40, road core 6.53, pier 3.92 px; walls after buildings 8/8 measurable records; time.model 57 / 131 / 156 ms at sizes 40 / 80 / 130 re-summed from logs (no timing run).",
+  "Declared twin choices: R4 stream random.Random(sha256('<metric>|<capture>')[:16]); wall-alignment ties by (distance, vertex, vertex); water gate = ring vertex within 0.5 m of a river centreline not land gate / castle-shared / inside a shore closure; castle gate kept research-side; exported square classed market; largest wall ring = city (differs from 'first ring' only at size 3).",
+  "CONFIRMED: every number above (executed). PLAUSIBLE: F1's recommended resolution; that markets created 2 and 7 times are per-attempt; that R4's rise with size survives ten seeds."
+ ]
+}

@@ -1,0 +1,5 @@
+{
+  "$comment": "M0-d-09's test frame (C-0268 (2)): the spike city's two derivations on a 400 ha frame with 12 ha walled, so a test derives a seed in about half a minute; the bar's run is CITY's own frame (no size input). Seeds 1, 3 and 4 run every stage here; seed 2's site spike is refused at S5 (C-0264 (13)'s known rare refusals, reported in the run's bugs).",
+  "areaHa": 400,
+  "walledHa": 12
+}

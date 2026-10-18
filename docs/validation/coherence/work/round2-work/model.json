@@ -1,0 +1,335 @@
+[
+ {
+  "id": "VAF-R1T-03",
+  "severity": "major",
+  "kind": "HANDOFF-OPEN",
+  "claim": "V11's repair (VM-R0S-16) added the `village` district-kind row (V11 \u00a73.9 l.2301: affinity `village` 1.0, set by VS5, never scored; display word \"village\") and handed model \"\u00a72.5's `village` kind comment cites V11 \u00a73.9's row\". \u00a72.5's `District.kind` comment (l.1100) still names the village pseudo-district by PART III (4) and V07 \u00a73.7 only, while it names the sky kinds by their \u00a710.2 rows.",
+  "required_change": "\u00a72.5 l.1100: \"village (the village product's one district covering its settlement, PART III (4), V07 \u00a73.7; its row V11 \u00a73.9's)\".",
+  "owner": "model",
+  "reported_by": "verify-agree-fabric-r1t"
+ },
+ {
+  "id": "G120-model",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "claim": "Item 120 (J133) routes \"model: \u00a72.9 (the per-viewer view key `find` \u2014 chips and the gaps switch \u2014 outside the document, its hash and the log; kept in view pins)\". \u00a72.9's view state has no `find` key (\"`find`\" 0 times in \u00a72), while V01 \u00a75.4, V03 \u00a75.5 (and V04, V05, V07) read \"\u00a72.9: the chips and the Show gaps switch\" and V03 \u00a72.5 \"the view key is not undone (\u00a72.9)\".",
+  "required_change": "\u00a72.9: the per-viewer key `find` \u2014 `{ chips: { kind: 'class'|'area'|'place'|'person'|'institution'; ids: string[] /* class ids, a FindArea.id (V01 \u00a75.4), an address, a dossier binding key */ }[]; showGaps: boolean }` \u2014 outside every digest, the log and undo, kept in view pins like the other view keys, never over a bridge unless \u00a711.3 says so; written by V09's Find panel and V10's \"show me\"; read by V09's `live.find`, V01 \u00a75.4, V03 \u00a75.5, V04, V05, V07 and \u00a711.1's picture exports (item 120 (a), (i)).",
+  "owner": "model",
+  "reported_by": "verify-agree-fabric-r1t, verify-agree-layers-r1t, verify-edges-world-r1t, verify-model-r1t",
+  "also_reported": [
+   {
+    "by": "verify-agree-layers-r1t",
+    "claim": "g item 120 (Find; J133; canon's dated ruling \"File g item 120 routed\": \"model: \u00a72.9 (the per-viewer view key `find` \u2014 chips and the gaps switch \u2014 outside the document, its hash and the log; kept in view pins)\") is absent: \u00a72.9 has no `find` key (0 matches for `find`, Find or Show gaps in the base), and \u00a72.9's `thematic` still lists `coverage` (base l. 3218\u20133219), the view item 120 (i) folds into Find's Show gaps. The three volumes of this lane already read the key: V04 \u00a71b.1 l. 301 and \u00a75.1 *Find on Below* (\"\u00a72.9's per-viewer view key `find`\"), V05 \u00a75.6 (\"its state is the per-viewer view key `find` (\u00a72.9: the chips and the gaps switch)\"), V07 \u00a75.5 and W83.",
+    "required_change": "\u00a72.9 declares the per-viewer view key `find` \u2014 its chips (each a class, a named institution, an area or a named place, with its colour index and second cue, item 120 (d)) and the Show gaps switch \u2014 outside the document, its hash and the edit log, kept across zooms, bands, layers, the year position, epochs and edits, saved in view pins, ended only by Clear or the panel's close (item 120 (a)), its writers V09's Find panel and V10's \"show me\", its readers `live.find`, \u00a78.2's Find rows, \u00a711.1's picture exports, V04 \u00a75.1, V05 \u00a75.6 and V07 \u00a75.5; `thematic` drops `coverage` (Show gaps replaces it, item 120 (i)) with its migration (an older view's `coverage` read as Show gaps on); its lifecycle rows (persist in view pins, untouched by undo, redo, regenerate and migrate).",
+    "severity": "major"
+   },
+   {
+    "by": "verify-edges-world-r1t",
+    "claim": "Item 120 (Find; J133) names model \u00a72.9: 'the per-viewer view key `find` \u2014 chips and the gaps switch \u2014 outside the document, its hash and the log; kept in view pins'. The live \u00a72.9 has no `find` key. The base mentions item 120 nowhere, while V01 \u00a75.4, V03 \u00a75.5, V04 \u00a75.1, V05 \u00a75.6 and V07 \u00a75.5 all cite '\u00a72.9's per-viewer view key `find`'.",
+    "required_change": "\u00a72.9's view state: declare `find?: { chips: FindChip[]; showGaps: boolean }` (a chip: its kind, class, area, place or person target, colour index and glyph). It is per viewer, never in the document, its hash or the log. It is kept across zoom, band, layer, season, epoch and edit (item 120 (a)), persisted only in view pins, and ended only by Clear or closing the panel. Undo and redo never touch it; migration reads an absent key as no chips. A chip whose target the document no longer holds stays at count 0, dark (the volumes' rule).",
+    "severity": "major"
+   },
+   {
+    "by": "verify-model-r1t",
+    "claim": "g item 120 (canon: 'model: \u00a72.9 (the per-viewer view key `find` \u2014 chips and the gaps switch \u2014 outside the document, its hash and the log; kept in view pins)') is absent: \u00a72.9's view state names no `find` key, while V01 \u00a75.4, V03 \u00a75.5, V04 \u00a75.1, V05, V07 \u00a75.5, V08 (W95) and V10 (`type FindView = ViewState['find']`, its `find` action's `chips` and `gaps`) all read '\u00a72.9's view key `find`' \u2014 a dangling input across seven volumes. Expected missing this round (model's repair began before the filing).",
+    "required_change": "\u00a72.9, view state, as new design at build depth (g item 120 (a), (d), (f), (i)): `find?: { chips: FindChip[] /* in selection order; each one target \u2014 a class (a roster.classes id, or a word chip naming several, 'all smiths'), a named institution (its binding key, else its address), an area (a district, neighbourhood or quarter address) or a named place; its colour and second cue by its index, the colours repeating past eight */; gaps: boolean /* Show gaps, the former Coverage */ }` \u2014 per viewer, never over a bridge, outside the document's digests, its hash and the edit log, never read by the model; kept through zoom, pan, layer, season, advance of time and every commit; saved in view pins with the other view keys; emptied only by Clear or by closing the panel (absent = Find off; a chip whose target is gone stays at count 0); written by V09's Find panel and V10's `find` action; read by V09's `live.find`, \u00a78.2's veil, halo, outline, pin and bubble rows, \u00a711.1's picture exports, V03's `findRooms`, V04's `underFindPlaces` and V10's `FindView`; named in *What the snapshot holds* and in the per-viewer key list.",
+    "severity": "major"
+   }
+  ]
+ },
+ {
+  "id": "G122-model",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "claim": "Item 122 (J135) routes \"model: \u00a72.7 (`ConditionOverlay` read for the look; nothing added to the model)\". `ConditionOverlay` (\u00a72.7 l.2364) names its readers as \"\u00a78.2's thematic overlay, \u00a74.11's Works share and the clerk\"; the crisis look is not among them and \u00a72 says nothing of item 122.",
+  "required_change": "\u00a72.7 `ConditionOverlay`'s comment adds \"the crisis look (item 122: drawn while the view's week lies in [sinceWeek, untilWeek), \u00a78.2's look rows, \u00a710.2's look table; a look only \u2014 nothing added to the model or its hash)\".",
+  "owner": "model",
+  "reported_by": "verify-agree-fabric-r1t, verify-agree-layers-r1t, verify-edges-world-r1t, verify-model-r1t",
+  "also_reported": [
+   {
+    "by": "verify-agree-layers-r1t",
+    "claim": "g item 122 (crisis looks; J135; canon: \"model: \u00a72.7 (`ConditionOverlay` read for the look; nothing added to the model)\") is absent: \u00a72.7's `ConditionOverlay` names only item 67's Works share as its reader; 0 matches for \"crisis\" in the base.",
+    "required_change": "\u00a72.7's `ConditionOverlay` comment names its look reader \u2014 \u00a78.2's crisis look rows through \u00a77.7's look-kind derivation row, drawn while the overlay stands in the view's week \u2014 and states that the look adds no field, record or digest input to the model (item 122 (a)).",
+    "severity": "major"
+   },
+   {
+    "by": "verify-edges-world-r1t",
+    "claim": "Item 122 (crisis looks; J135) names model \u00a72.7: '`ConditionOverlay` read for the look; nothing added to the model'. \u00a72.7's `ConditionOverlay` names no crisis-look reader. Its readers are still item 67's Works share only.",
+    "required_change": "\u00a72.7 `ConditionOverlay`: its readers gain the crisis look. It is drawn while the view's week (item 117's year position) lies in [sinceWeek, untilWeek], by \u00a77.7's look row and \u00a710.2's table, with no field added and nothing written. State the edges: a condition with no `untilWeek` (shown until its status ends); a week outside every window (no look); the hash identical with crises on and off.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-model-r1t",
+    "claim": "g item 122 (canon: 'model: \u00a72.7 (`ConditionOverlay` read for the look; nothing added to the model)') is absent: `ConditionOverlay`'s comment names its readers as '\u00a78.2's thematic overlay, \u00a74.11's Works share and the clerk', and *The dossier's staged records* names no crisis look; nothing states that the look reads the overlay and adds no model data.",
+    "required_change": "\u00a72.7 `ConditionOverlay`: add to its readers '\u00a78.2's crisis look rows (g item 122), through \u00a77.7's look row (archetype \u2192 a look kind or none; severity and tier \u2192 scale), while the condition stands in the view's week, under knowledge admission'; and to *The dossier's staged records*: 'a crisis look (item 122) reads the standing `ConditionOverlay`s and adds nothing to the model \u2014 no record, field, digest or hash moves with it; what a crisis leaves reaches the map only through the epoch path (V06's hazard phase and growth)'.",
+    "severity": "major"
+   }
+  ]
+ },
+ {
+  "id": "G122h-model",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "claim": "Item 122 (h)\u2013(i) (J138) routes \"model: \u00a72.9 (the default framing and the widened zoom-out limit as view state while a look stands)\". \u00a72.9 has neither.",
+  "required_change": "\u00a72.9: the opening view, Fit and item 116's zoom-out limit read the bounds of the town and its crisis camps while a look stands, and return to item 116's when it ends; a view the user moved is never changed (item 122 (i)).",
+  "owner": "model",
+  "reported_by": "verify-agree-fabric-r1t, verify-agree-layers-r1t, verify-edges-world-r1t",
+  "also_reported": [
+   {
+    "by": "verify-agree-layers-r1t",
+    "claim": "g item 122 (h)\u2013(i)'s model part (canon: \"\u00a72.9 (the default framing and the widened zoom-out limit as view state while a look stands)\") is absent from \u00a72.9.",
+    "required_change": "\u00a72.9 records the opening view, Fit and item 116's zoom-out limit widened to the town and its camps as view state while a crisis look stands, restored when it ends, a view the user moved never yanked.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-edges-world-r1t",
+    "claim": "Item 122 (h)\u2013(i) (J138) names model \u00a72.9: 'the default framing and the widened zoom-out limit as view state while a look stands'. \u00a72.9 has neither.",
+    "required_change": "\u00a72.9: while a crisis look stands, the opening view and Fit take in the town and its camps, and item 116's limit widens to their joint bounds; both return when the crisis ends. A view the user has moved is never changed. Nothing is written to the document or the frame (see VEW-r1-05 for the limit at the cap).",
+    "severity": "major"
+   }
+  ]
+ },
+ {
+  "id": "G123-model",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "claim": "Item 123 (J136) routes \"model: \u00a72.6 (step 7: the damage layer over the same plan; the decay level read)\". \u00a72.6's plan rung step 7 still draws \"a `decayed` or `ruined` building its fallen walls and open rooms \u2014 a drawing of the same plan\" uniformly; no decay level, no damage layer.",
+  "required_change": "\u00a72.6 step 7: the damage layer over the same plan \u2014 every element's keyed threshold (\u00a76.3) against the building's decay level (0\u20131, from its existence state and years since abandoned, V06; material rates V11), monotone, no new ids, restoration reversing it in patch material; never a re-derivation of the plan.",
+  "owner": "model",
+  "reported_by": "verify-agree-fabric-r1t, verify-agree-layers-r1t, verify-edges-world-r1t, verify-model-r1t",
+  "also_reported": [
+   {
+    "by": "verify-agree-layers-r1t",
+    "claim": "g item 123 (a ruined building's floor plans; J136; canon: \"model: \u00a72.6 (step 7: the damage layer over the same plan; the decay level read)\") is absent: \u00a72.6 step 7 has no damage layer or decay level (0 matches for \"damage layer\" or \"decay level\" in the base).",
+    "required_change": "\u00a72.6 step 7 states the damage layer over the same plan \u2014 every room, wall, opening and id unchanged \u2014 and the decay level (0\u20131, from the existence state and the years since abandoned, V06) it reads, monotone (a higher level's damage \u2287 a lower's), restoration lowering it, a never-decayed building byte-identical to today's plan.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-edges-world-r1t",
+    "claim": "Item 123 (a ruined building's floor plans; J136) names model \u00a72.6: 'step 7: the damage layer over the same plan; the decay level read'. \u00a72.6 step 7 still draws a decayed or ruined plan uniformly.",
+    "required_change": "\u00a72.6 step 7: a building's plan is derived once from its as-built band and era and never re-derived because it decays. Ruin is a damage layer over the same plan, shown by the building's decay level (0\u20131, from its existence state and the years since it was abandoned; V06). A building first met already ruined still gets its as-built plan; restoration lowers the level. No id is added. Edges: a building never decayed is byte-identical (the no-op pin); `reused` reverses the damage in order.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-model-r1t",
+    "claim": "g item 123 (canon: 'model: \u00a72.6 (step 7: the damage layer over the same plan; the decay level read)') is absent: \u00a72.6's plan rung step 7 still draws 'a `decayed` or `ruined` building its fallen walls and open rooms \u2014 a drawing of the same plan, nothing stored', uniformly, with no decay level, no per-element threshold, no progression and no restoration.",
+    "required_change": "\u00a72.6 step 7, as new design at build depth (g item 123 (a), (b), (f)): 'A building's plan is derived once, as built (its built band and era), and never re-derived because it decays; a building first met abandoned, decayed or ruined (generated so, or by item 113's replay) gets its as-built plan. Ruin is a **damage layer** over that plan: each plan element (a wall run, a floor area, a door, a window, a stair, the roof bay over a room, a furniture piece) has one keyed threshold in [0, 1) (\u00a76.3: by the building's lineage and the element's id; no new id), and the building's **decay level** (0\u20131, a reading of its existence state and the years since it was abandoned, V06; the material's rate V11's) shows every element whose threshold it has passed \u2014 monotone (a higher level's damage contains a lower's; nothing relocates); a restoration (`reused`, a repair) lowers the level and the damage leaves in reverse order, a repaired element drawn in patch material (item 114). Every room, wall, opening and id is unchanged and nothing is stored; a building never decayed draws byte-identically. Its drawing is V03 \u00a75.1's and \u00a78.6's, its battle-map walls \u00a711.1's.'",
+    "severity": "major"
+   }
+  ]
+ },
+ {
+  "id": "G124-model",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "claim": "Item 124 (J137) routes \"model: \u00a72.9 (the effects switch as device state; the spell in force as session-transient view state; `weather` kept as the cover)\". \u00a72.9 lists `weather` with no statement that it stays the seasonal cover and names neither the switch nor the spell.",
+  "required_change": "\u00a72.9: `weather` stays the seasonal cover (part of the tile key); the weather-effects switch is device state (`AppPrefs`, V09); the spell in force is session-transient view state, never in a document, digest or tile key (item 124 (a), (g)).",
+  "owner": "model",
+  "reported_by": "verify-agree-fabric-r1t, verify-agree-layers-r1t, verify-edges-world-r1t, verify-model-r1t",
+  "also_reported": [
+   {
+    "by": "verify-agree-layers-r1t",
+    "claim": "g item 124 (intermittent light weather; J137; canon: \"model: \u00a72.9 (the effects switch as device state; the spell in force as session-transient view state; `weather` kept as the cover)\") is absent from \u00a72.9 (verify-model-r1t's G124-model).",
+    "required_change": "\u00a72.9 records the Weather effects switch as device state (`AppPrefs`, never the document), the spell in force as session-transient view state (never saved, never hashed), and `weather` kept as the seasonal cover.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-edges-world-r1t",
+    "claim": "Item 124 (light weather effects; J137) names model \u00a72.9: 'the effects switch as device state; the spell in force as session-transient view state; `weather` kept as the cover'. \u00a72.9 has neither.",
+    "required_change": "\u00a72.9: `AppPrefs.weatherEffects` (device state; default on with headroom, off on the low tier, on phones and under reduced motion) and the session-transient spell in force (never saved, never in the document or hash). The `weather` key stays the seasonal cover.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-model-r1t",
+    "claim": "g item 124 (canon: 'model: \u00a72.9 (the effects switch as device state; the spell in force as session-transient view state; `weather` kept as the cover)') is absent: \u00a72.9's view state lists `weather` with no statement that it stays the seasonal cover, and names neither the weather-effects switch nor the spell in force.",
+    "required_change": "\u00a72.9, as new design: 'Weather effects (g item 124): the **Weather effects** switch is device state (V09's `AppPrefs`, never in the document; on by default where the tier has headroom, off on the low tier, on phones and under reduced motion), and the **spell in force** (its kind, its start and its phase on \u00a76.1's view-only weather stream, seeded per session) is session-transient view state \u2014 never saved, never over a bridge, never in a digest, the hash or the tile key, never read by the model; `weather` stays the seasonal cover (snow lying, overcast), a saved per-viewer key in the tile key as today; exports draw no effect (\u00a711)'.",
+    "severity": "major"
+   }
+  ]
+ },
+ {
+  "id": "G125-model",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "claim": "Item 125 (J139) routes \"model: \u00a72.9 (the week's source: the dossier's latest stamped tick, else the user's season control)\". \u00a72.9 still defaults `yearWeek` under `seasonFollow` to \"\u00a77.7's DR42 (the campaign week mod 52)\" and the `week` key to \"a campaign's under a host\" \u2014 the `HostContext.week` source item 125 retires.",
+  "required_change": "\u00a72.9: the dossier-bound map's week is the dossier's latest stamped tick (its conditions' `triggeredAt`, its calamities' and history's ticks), else the user's season control (standalone midsummer); `seasonFollow` follows that week; no host input.",
+  "owner": "model",
+  "reported_by": "verify-agree-fabric-r1t, verify-agree-layers-r1t, verify-edges-world-r1t",
+  "also_reported": [
+   {
+    "by": "verify-agree-layers-r1t",
+    "claim": "g item 125 (the dossier the only data input; J139; canon: \"model: \u00a72.9 (the week's source: the dossier's latest stamped tick, else the user's season control)\") is absent: \u00a72.9's `yearWeek` follows \"\u00a77.7's DR42 (the campaign week mod 52)\" (base l. 3232), and DR42's input is \"`HostContext.week` (the campaign's `calendar.elapsedWeeks`, \u00a714)\" (base l. 11625), the input item 125 retires.",
+    "required_change": "\u00a72.9 states the week's source: the dossier's own latest stamped tick (its conditions' `triggeredAt`, its calamities' and history's ticks) where it carries one, else the user's season control (standalone midsummer) \u2014 never `HostContext.week`.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-edges-world-r1t",
+    "claim": "Item 125 (the dossier the only input; J139) names model \u00a72.9: 'the week's source: the dossier's latest stamped tick, else the user's season control'. \u00a72.9's `yearWeek` under `seasonFollow` still defaults to \u00a77.7's DR42 ('the campaign week mod 52'), whose input is `HostContext.week`; the dossier's stamped ticks are not its source.",
+    "required_change": "\u00a72.9: the view's week follows the dossier's latest stamped tick (its conditions' `triggeredAt`, its calamities' and history's ticks), else the user's season control (standalone midsummer); `HostContext.week` is no input.",
+    "severity": "major"
+   }
+  ]
+ },
+ {
+  "id": "VAL-18",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "Partly fixed. \u00a79.1 now reads \"built by S6 (\u00a74.5) \u2014 a sky island's root node by S13a over the island's districts after its unit run (V05 \u00a73.14) \u2014; named by S13a\" (base l. 13865) and *What the tree holds* adds the island roots (l. 13884). Model \u00a72.5's comment, which round 0's required change named, still reads \"// Quarters are \u00a79.1's QuarterNode merge tree, built by S6 (\u00a74.5); its city cut is the city-LOD label unit (\u00a79.4)\" (base l. 1128): the model's statement of the producer omits the S13a-built island roots that \u00a79.1 and V05 \u00a73.14 / V05 \u00a71b (V05 l. 285) state. (verify-rendering-r1t raised the same line as VRC1T-11.)",
+  "required_change": "Model \u00a72.5's comment reads \"// Quarters are \u00a79.1's QuarterNode merge tree, built by S6 (\u00a74.5) \u2014 a sky island's root node by S13a over the island's districts after its unit run (V05 \u00a73.14); its city cut is the city-LOD label unit (\u00a79.4)\".",
+  "owner": "model",
+  "reported_by": "verify-agree-layers-r1t"
+ },
+ {
+  "id": "VDC1-20",
+  "severity": "minor",
+  "kind": "WIRING",
+  "claim": "\u00a77.4's regenerate row (new this round, VDC0-14) gives `Household.tableVersion` a writer: 'a `people` scope re-derives the chosen households' people under the current person tables (`Household.tableVersion` advanced)' (l.10745). The field's home still reads 'tableVersion: string /* person tables at creation */' (\u00a72.7, l.2296). The writer is unnamed at the home, and the comment contradicts it.",
+  "required_change": "\u00a72.7 `Household.tableVersion`: '/* the person tables its people derive under: those current at the household's creation, advanced by a `regenerate` of scope `people` (\u00a710.3's re-derive people; \u00a77.4) */'.",
+  "owner": "model",
+  "reported_by": "verify-determinism-r1t"
+ },
+ {
+  "id": "VEL1-01",
+  "severity": "major",
+  "kind": "EDGE-UNDEFINED",
+  "claim": "A repair this round created a new conflict at an edge. The VEL0-01 fix (\u00a77.7's precedence, l.11379-11382) lets a dossier population fall empty a locked or pinned dwelling by a `relet` down: 'even a protected dwelling's last household, its building then standing empty but never `vacate`d, so it keeps its state, shell, existence and every locked path'. \u00a72.6's one statement of the clamp (l.2110-2111) says 'a residential building's `households` count lies in [1, capacity]' and that 'the bound holds through every change'; \u00a74.11's `relet` reads that clamp. The edge now has two outcomes. Under \u00a77.7, a building that is not vacant holds 0 households, which \u00a72.6 forbids. Under \u00a72.6, the clamp keeps 1 household, so the dossier's population is not met, against item 8 (f) and \u00a77.7. No text defines how the readers of `Building.households` treat a non-vacant residential building with no household. Those readers are S11's fill, F-PLAN and the plan rung, V06's ledger and departures, and \u00a710.3.",
+  "required_change": "\u00a72.6's clamp (l.2110-2111) reads: 'a residential building's `households` count lies in [1, capacity] \u2014 0 only for a `vacant` building (\u00a74.11's `vacate`) and for a locked or pinned dwelling a dossier population fall has emptied (\u00a77.7's precedence), which keeps its occupancy state, shell and every locked path and is let again by regrowth's `relet` up like any standing shell \u2014 and a non-residential building's is 0'. F-PLAN and the plan rung read that case as a vacant shell's plan (no unit housed), and the generation fill never produces it. \u00a75.3's capacity row gains the lower bound with the same exception.",
+  "owner": "model",
+  "reported_by": "verify-edges-life-r1t"
+ },
+ {
+  "id": "VEW-04",
+  "severity": "major",
+  "kind": "EDGE-UNDEFINED",
+  "claim": "Partly fixed. The pipeline repair now gives the moat one water level, derived from its `flowFrom` source (\u00a74.2 S3 (10): 'the source's surface at its shore point nearest the moat \u2026 which every reader of the moat's water reads (\u00a78.4's water at its level, V04 \u00a73.2 N2 and N7, \u00a72.6's water table)'), and carves a wet stretch only where the ground stands 0 to `moat.maxFallCm` (400 cm) above that level. But \u00a72.6's water table, one of the named readers, still reads 'the nearest water body's surface elevation (its shore's terrain sample)'. For a carved moat that sample is the bank top, up to 4 m above the derived level. So two base homes give two values for one water surface. A plot beside a wet moat on a slope reads a water table up to 4 m too high, and its cellar or crypt takes the half-sunk or crawl-space rung where a full one is lawful. That is a silent wrong result at the moat \u00d7 slope edge EP-22 names. (V04 N7's own wording is VEW-r1-07.)",
+  "required_change": "\u00a72.6, the water-table sentence: 'The water table is the nearest water body's surface elevation \u2014 a moat's the one level \u00a74.2 S3 (10) derives from its `flowFrom` source, every other body's shore terrain sample \u2014 plus the freeboard \u2026'. Add to EP-22's hill-town fixture (\u00a74.13; B-EDGE): 'a plot within `waterTableM` of a wet moat reads the derived level + `freeboardCm` as its water table'.",
+  "owner": "model",
+  "reported_by": "verify-edges-world-r1t"
+ },
+ {
+  "id": "VEW-r1-02",
+  "severity": "blocker",
+  "kind": "EDGE-UNDEFINED",
+  "claim": "An `on_enceinte` castle \u00d7 item 114's wall condition (walls \u00d7 the castle at their limits; not in the catalogue). The castle's curtain is its own `Enceinte` of kind `bailey` (\u00a72.7 `Castle.curtain`). Along `Castle.cityWeld` the bailey's outer arc and the town wall are 'one wall carrying both enceintes' `wall` roles' (\u00a72.7; \u00a74.8: 'the shared edge is one wall'). Each `Enceinte` carries its own `condition`, `conditionMaterial` and `conditionEpoch` profiles, and every writer works per enceinte: S7's generation row 'writes each run's `Enceinte.condition` and material' for every enceinte it furnishes, the bailey included (\u00a74.8 *Condition at generation*; DR41: 'the enceintes and their stretches'); V06 \u00a73.7.7 decays and repairs each ring on `stream(EVO_FORT, enceinte)` with its own local weight \u03bb; `DeclineOp`'s `breach`/`dismantle` and `wearWall`/`repairWall` name one enceinte. No text says which profile governs the welded stretch. So the one wall is routinely `breached` on the town's profile and `standing` on the castle's, or patched in two materials. \u00a78.2 then draws a whole wall line over a breach, and \u00a711.1 exports the same edge as a wall and as an opening (a battle map's line of sight through a standing curtain). That is a silent contradictory result at TOWN and above wherever the castle sits on the wall and `walls.condition.atGeneration` is on, and at every epoch.",
+  "required_change": "\u00a72.7, *An enceinte's condition by run*: add 'Along an `on_enceinte` castle's shared stretch (`Castle.cityWeld`) the town enceinte's three profiles are the stretch's one condition, material and epoch: the bailey's profiles there mirror them, written in the same batch by every writer \u2014 S7's generation row (one draw for the stretch, on the town enceinte), `DeclineOp`'s `breach` and `dismantle`, `wearWall`, `repairWall` and V06 \u00a73.7.7's transitions, whichever of the two enceintes the op names \u2014 and never written apart.' \u00a74.8 *Condition at generation* and V06 \u00a73.7.7 (2)\u2013(3) cite it (V06: the stretch decays and is repaired on the town ring's draws and \u03bb). Add to \u00a713.2's item-114 group a CITY fixture with an `on_enceinte` castle at a vulnerable, poor town's generation shares and over 10 epochs: the welded stretch's two profiles equal at every commit; \u00a78.2 draws one state; \u00a711.1's VTT gives one wall-or-opening answer per edge.",
+  "owner": "model",
+  "reported_by": "verify-edges-world-r1t"
+ },
+ {
+  "id": "VEW-r1-03",
+  "severity": "major",
+  "kind": "EDGE-UNDEFINED",
+  "claim": "A raised way crossing a city wall \u00d7 the round-1 support step (VEW-11 \u00d7 VEW-12, both repairs). \u00a72.7's support step (3) now makes 'an enceinte's wall strip (`Enceinte.strips`)' an obstacle that no pier may stand in. It also adds the clear-span bound: a merged clear span longer than `raisedWays.structure.maxClearSpanM` (masonry 30 m, timber 20 m; V11 \u00a73.24.2) drops a generated course (`raised_too_long`) and bends a declared one. The only crossings of a wall allowed are 'on a gate's line or as the aqueduct's wall arch' (\u00a74.3 *Where it may not go*; \u00a74.13's wall row: '\u2026 no support in a wall strip'). The strips are band 2\u20133 m + inner setback 6\u201310 m + outer setback and glacis 10\u201320 m: 18\u201333 m (\u00a74.8). With a moat it is band + inner setback + berm + the channel (c14 `era.moatWidthM` 8\u201316 m, c15 10\u201318 m), and the intervallum lane or a gate plaza is a further obstacle. So the span over a wall runs about 18\u201342 m. Every timber viaduct, and a large share of masonry aqueducts and viaducts, that must cross the wall is dropped. Two things then contradict it: \u00a74.3, which carries a generated aqueduct 'crossing the wall through an arch', and V06 \u00a73.7's raised gate, 'a gate whose tower carries the deck' \u2014 'the deck's support' standing in the strip.",
+  "required_change": "\u00a72.7's support step (3): add 'Where the course crosses an enceinte's trace \u2014 on a gate's line or as the aqueduct's wall arch (\u00a74.3) \u2014 one station stands on the trace: the raised gate's tower (a viaduct or elevated road; V06 \u00a73.7) or the curtain under the aqueduct's arch carries the deck there, its pier the wall's band (no footprint of its own); the strip's setback and glacis parts, the berm and the moat stay clear, and the clear-span bound reads the spans on either side of that station.' \u00a74.13's wall cell reads 'no support in a wall strip but the crossing's station on the band'. V06 \u00a73.7's 'a wall opening under an aqueduct is no support' is amended to match: the opening carries the span, and its stretch is taken as a raised gate's stretch is, after the aqueduct goes. T110-2 gains: a CITY masonry aqueduct across a moated c15 wall with an intervallum, and a timber viaduct on a gate's line \u2014 both built, 0 piers in a setback, glacis, berm or moat, every clear span \u2264 its bound.",
+  "owner": "model",
+  "reported_by": "verify-edges-world-r1t"
+ },
+ {
+  "id": "VKr1-02",
+  "severity": "major",
+  "kind": "EDGE-UNDEFINED",
+  "owner": "model",
+  "claim": "Round 1 gave every raised way `feet: [RaisedFoot, RaisedFoot]` (\u00a72.7, l. 2219, 2233\u20132238): 'the deck's two ends \u2026 where its ramps or stairs meet ground part 0 \u2026 so no document holds one without them'. \u00a73.10's stored-references row (l. 4516) requires both feet. But \u00a72.7 *At the frame* (l. 2526\u20132533) lays an aqueduct sourced beyond the frame 'up to the arena's outer ring, its deck ending there without a ramp', and a declared course drawn beyond the frame bends to the ring; T110-2 builds exactly that fixture (l. 17121\u201317124). At that end no ramp or stair meets part 0, so four things are undefined: the foot's ground end and its `raised_foot` vertex; the support step's L, measured 'between its two feet (where its ramps or stairs meet part 0)' (l. 2440\u20132441); \u00a72.7's opening line, 'its two ends ramps or stairs joined to ground vertices' (l. 2438); and what a frame growth (\u00a73.2 (9)), which strips the old ring, does to that end. The hard stored-references row then fails with E_INVARIANT at stage end on T110-2's fixture. This is the raised-way \u00d7 frame combination (principle (11)), opened by this round's feet record.",
+  "required_change": "\u00a72.7: in RaisedFoot's comment block after 're-placed by the way's re-derivation, one transaction per part (\u00a73.4)', and in *At the frame* after 'its deck ending there without a ramp', add: 'At a deck end on the arena's outer ring \u2014 an aqueduct sourced beyond the frame, a declared course bent to the ring \u2014 foot i is that ring point: its ground end a `raised_foot` vertex placed by `splitThrough` on ground part 0's `margin` chain at the deck's end point, its deck end the spine's end on the part's own `margin` ring; no ramp or stair is drawn there. A frame growth (\u00a73.2 (9)) extends the deck to the new ring as \u00a74.11 continues a through-road, the raised way's re-derivation re-placing both ends of that foot on the new rings, one transaction per part (\u00a73.4).' In the same section, l. 2438: replace 'its two ends ramps or stairs joined to ground vertices' with 'its two ends ramps or stairs joined to ground vertices, or an end on the outer ring (*At the frame*)'. In the support step (l. 2440\u20132441): replace 'between its two feet (where its ramps or stairs meet part 0)' with 'between its two feet (`RaisedWayRecord.feet`)'.",
+  "reported_by": "verify-kernel-r1t"
+ },
+ {
+  "id": "VKr1-07",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "owner": "model",
+  "claim": "\u00a72.2's Plat.frame comment (l. 567) reads 'set at creation; replaced only by the frame growth of an epoch's upward rung crossing (\u00a74.11; J-A81.41), which only grows it'. That contradicts \u00a73.2 (9)'s round-1 sentence (l. 3403\u20133405), \u00a77.4's frame row and \u00a77.1's bend.frame.held row: a Re-derive \u2014 a rung change or a population adjust \u2014 recomputes the frame by its law and may make it smaller, never below its protected content.",
+  "required_change": "\u00a72.2 Plat: 'frame: Frame /* \u00a73.2 (9): set at creation; replaced by the frame growth of an epoch's upward rung crossing (\u00a74.11; J-A81.41), which only grows it, and by a Re-derive that recomputes the frame (a rung change or a population adjust), which never shrinks it below its protected content (\u00a77.4's frame row) */'.",
+  "reported_by": "verify-kernel-r1t"
+ },
+ {
+  "id": "VM-R1T-01",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "claim": "The repair (VAF-R0S-03) declared `type OutlineTemplateId = string` in \u00a72.9 beside HoodRecipe ('a row key of the outline templates \u2026 star, star_round, street_strip, plaza_frame, disc, D-shape, lozenge, crescent, spindle; the standalone rows V01 \u00a73.10.2's'), while pipeline's repair (VV12-05; the canon homes the type at \u00a74.2) declared it at \u00a74.2 S1 (2) as the closed union 'star'|'star_round'|'street_strip'|'plaza_frame'|'disc'|'d_shape'|'lozenge'|'crescent'|'spindle'. One type has two declarations in the base, one open (string) and one closed, with two spellings of one row (D-shape / d_shape); V01 \u00a72.1 names \u00a74.2 S1 (2) as its home.",
+  "required_change": "\u00a72.9: delete the `type OutlineTemplateId = \u2026` line; HoodRecipe's `outline` keeps `{ template: OutlineTemplateId }` with the comment '\u00a74.2 S1 (2)'s row key' \u2014 the one declaration stays \u00a74.2 S1 (2)'s (the canon's home, VV12-05).",
+  "owner": "model",
+  "reported_by": "verify-model-r1t"
+ },
+ {
+  "id": "VM-R1T-02",
+  "severity": "minor",
+  "kind": "RESTATEMENT",
+  "claim": "\u00a72.9's new `HoodRecipe` (moved from V01 \u00a72.6 under VAF-R0S-03) states `size?` 'the chips: `buildings` \u2248 85, 700, 1 050 (NG's bands)' and `leafy?` 'court greening \u00d7 1.5' \u2014 values whose one home is V01's cells `size.small`, `size.medium`, `size.large` and `green.leafyCourt` (V01's register: 85, 700, 1 050; 1.5); live V01 \u00a72.6 already names the cells. The base copy restates calibratable constants (principle (1)) and drifts when they are calibrated.",
+  "required_change": "\u00a72.9 HoodRecipe: `size?` comment 'the chips: `buildings` \u2248 `size.small`, `size.medium`, `size.large` (NG's bands; V01 \u00a73.14)'; `leafy?` comment 'greenery 0.9 and court greening \u00d7 `green.leafyCourt` (NG's `leafy`)' \u2014 as V01 \u00a72.6 reads.",
+  "owner": "model",
+  "reported_by": "verify-model-r1t"
+ },
+ {
+  "id": "VM-R1T-12",
+  "severity": "minor",
+  "kind": "WIRING",
+  "claim": "\u00a72.7 `Household.transit`'s comment names its readers 'the epoch's siting (V06 \u00a73.8.1), the occupancy readers (\u00a710.3) and \u00a75.3's Works row'; \u00a710.3 never reads the field (grep 'transit' over \u00a710: 0 hits) and cannot \u2014 the field never outlives the epoch's last batch (the runner's close asserts the ledger's pool empty, V06 \u00a72.1), while \u00a710.3 derives from committed state. A one-ended reader claim.",
+  "required_change": "\u00a72.7 `Household.transit`: 'read by the epoch's siting (V06 \u00a73.8.1), the runner's close (V06 \u00a72.1: the ledger's pool empty at the epoch's end, T-V6-52) and \u00a75.3's Works row' \u2014 drop 'the occupancy readers (\u00a710.3)'.",
+  "owner": "model",
+  "reported_by": "verify-model-r1t"
+ },
+ {
+  "id": "VM-R1T-13",
+  "severity": "minor",
+  "kind": "ELEGANCE",
+  "claim": "The repair declared `type BuildingClass = string` as 'a row id of the roster's class table `roster.classes` \u2014 \u00a710.2's BuildingClassRow.id \u2026 the one vocabulary Building.class, BuildingInput.cls, ClassRules.pick, \u00a74.7's Designation.cls, \u00a74.11's build and rebuild and \u00a77.1's RosterLine.cls name', but the same vocabulary keeps a bare `string` elsewhere in \u00a72: `Use.cls: string /* the roster class it is (\u00a710.2's BuildingClassRow.id) */` (\u00a72.7) and \u00a72.5's allocation `rows: { cls: string; \u2026 }`; pipeline's `Designation.use` and `PlacementItem.cls` (\u00a74.7) likewise. One concept under two type names (principle (9): names and record shapes uniform).",
+  "required_change": "\u00a72.7: `Use.cls: BuildingClass`; \u00a72.5: the allocation rows' `cls: BuildingClass`; add `Use.cls` and the allocation rows to BuildingClass's vocabulary list (pipeline's \u00a74.7 `Designation.use` and `PlacementItem.cls` to follow).",
+  "owner": "model",
+  "reported_by": "verify-model-r1t"
+ },
+ {
+  "id": "VM-R1T-14",
+  "severity": "minor",
+  "kind": "EDGE-UNDEFINED",
+  "claim": "\u00a72.7's `HistoryHint` (VM-R0S-11's fix) says 'standalone, the blueprint's history option fills `peak` (\u00a74.2 S0)' but not with what: `peak` is `{ tier; population?; symbolic; evidence }`, and a user's pick has no evidence kind of V08 \u00a73.15 (3) and no stated `symbolic`; and `events`, `tiers`, `population`, `calamities` are typed required although the record says 'a recipe written before item 113 reads its fields absent or empty' and a standalone history carries none of them. The option's writers (V09 \u00a74.21.3 (1), V10 \u00a74.1's T1 row) therefore write a shape the record does not admit.",
+  "required_change": "\u00a72.7 `HistoryHint`: mark `events`, `tiers`, `population` and `calamities` optional (absent read as [] \u2014 the existing migration sentence), and state the standalone form: 'the blueprint's history option writes `ageYears`, `scars: []` and `peak: { tier: the picked rung, symbolic: false, evidence: [] }` (a declared peak, as a recorded `peakTier` is; no population: DR36 sizes the peak by its tier); the item-113 lists absent'.",
+  "owner": "model",
+  "reported_by": "verify-model-r1t"
+ },
+ {
+  "id": "VPC-R1-10",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "`OutlineTemplateId` is declared twice, with different types, both added in round 1:\n- \u00a72.9 (l. 2951): `type OutlineTemplateId = string;   // a row key \u2026 \u2014 star, star_round, street_strip, plaza_frame, disc, D-shape, lozenge, crescent, spindle \u2026`.\n- \u00a74.2 S1 (2) (l. 4873): `type OutlineTemplateId = 'star'|'star_round'|'street_strip'|'plaza_frame'|'disc'|'d_shape'|'lozenge'|'crescent'|'spindle'`.\nOne is an open string key, the other a closed union, and the two spell the D-shape differently ('D-shape' against `d_shape`). V01 (l. 342) names \u00a74.2 S1 (2) as its home ('`OutlineTemplateId` is \u00a74.2 S1 (2)'s row key').",
+  "required_change": "In \u00a72.9 replace the line `type OutlineTemplateId = string; // \u2026` with the comment `// OutlineTemplateId is \u00a74.2 S1 (2)'s (the outline template rows' key: star, star_round, street_strip, plaza_frame, disc, d_shape, lozenge, crescent, spindle; the standalone rows V01 \u00a73.10.2's)`.",
+  "owner": "model",
+  "reported_by": "verify-pipeline-r1t"
+ },
+ {
+  "id": "VPC-R1-12",
+  "severity": "minor",
+  "kind": "WIRING",
+  "claim": "`DistrictKind` is used as a type by \u00a72.5 (`District.kind`, l. 1099; `districtKind`, l. 1200), \u00a72.9's `HoodRecipe.kind` (l. 2944), \u00a710.2's new `SquareQuotaRow.kind: Partial<Record<DistrictKind, number>>` (l. 14379) and V01 (l. 365, 387, 407, 437, 590). It is declared nowhere in the set; its values live only in \u00a72.5's comment ('central, market \u2026, docks, gate, \u2026'). The pipeline repair observed this as the model's.",
+  "required_change": "In \u00a72.5 declare `type DistrictKind = string /* a hood.kinds / district-kind row key, data-defined, never a social class: central, market, docks, gate, riverbank, \u2026 (the values \u00a72.5's District.kind comment lists; the rows V01 \u00a73.10.1 and \u00a710.2's districtKinds) */` beside `District`, and make `District.kind`'s comment cite it.",
+  "owner": "model",
+  "reported_by": "verify-pipeline-r1t"
+ },
+ {
+  "id": "VPC-R1-17",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "\u00a72.3's `WaterBody.spring.flow` (l. 965) is ranged '(0, 1]; 1 when made', excluding 0. V06 \u00a73.12.1, the field's one epoch writer (V06 l. 2159), sets a lost spring's `flow` to 0 and keeps a spring at `flow` 0 for `spring.dryMarshAfterYears` (l. 2177). The pipeline's repaired S3 (6) and EP-14 read that case: 'a spring at `flow` 0 pulls nothing while its water body stands'. The model's range makes the value both other units write impossible.",
+  "required_change": "In \u00a72.3 change the comment to '`flow: number /* share of the spring's full flow, [0, 1]; 1 when made; 0 a lost spring (V06 \u00a73.12.1), its body standing */`'.",
+  "owner": "model",
+  "reported_by": "verify-pipeline-r1t"
+ },
+ {
+  "id": "VRC1T-11",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "owner": "model",
+  "claim": "\u00a79.1 (rendering's round-1 block, VAL-18) now builds a sky island's root `QuarterNode` by S13a over the island's districts after its unit run (V05 \u00a73.14); \u00a72.5's comment still reads \"Quarters are \u00a79.1's QuarterNode merge tree, built by S6 (\u00a74.5)\", restating the producer in part (rendering's hand-off to model).",
+  "required_change": "\u00a72.5's comment reads \"Quarters are \u00a79.1's `QuarterNode` merge tree \u2014 built by S6 on the ground (\u00a74.5) and, for a sky island's root, by S13a (\u00a79.1; V05 \u00a73.14) \u2014; its city cut is the city-LOD label unit (\u00a79.4)\".",
+  "reported_by": "verify-rendering-r1t"
+ },
+ {
+  "id": "VV12-r1-01",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "claim": "`OutlineTemplateId` now has two declarations in the base with different types: \u00a72.9 l.2951 `type OutlineTemplateId = string;` (with a comment naming the nine rows), added by model's round-1 repair (repair-r1-model.md l.2591), and \u00a74.2 S1 (2) l.4873 `type OutlineTemplateId = 'star'|'star_round'|'street_strip'|'plaza_frame'|'disc'|'d_shape'|'lozenge'|'crescent'|'spindle'`, pipeline's fix of VV12-05 at the canon's home (V01-0133 \u2192 \u00a74.2). Two declarations of one type is a build error and two homes for one fact; V01 \u00a72.1 and II.1 point at \u00a74.2.",
+  "required_change": "\u00a72.9 drops its `type OutlineTemplateId = string;` line (or replaces it with the comment `// OutlineTemplateId is \u00a74.2 S1 (2)'s closed union`). The one declaration is \u00a74.2 S1 (2)'s union, which `HoodRecipe.outline`, `TemplateRow.outline`, `hood.kinds` and `NeighbourhoodRequest.outlineTemplate` read.",
+  "owner": "model",
+  "reported_by": "verify-vol-V01-V02-r1t"
+ }
+]

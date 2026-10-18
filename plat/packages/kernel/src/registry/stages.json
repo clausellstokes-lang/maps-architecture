@@ -1,0 +1,33 @@
+{
+  "$comment": "The stage-id registry of §6.1 — versioned data inside @plat/kernel (C-0005), append-only: stage ids are u16, each row keeps the id it was appended with, never renumbered or reused; adding one moves no existing key. M0 registers the base's stages in §4.1's drawn order, then S7c, S9b and S8.seed (C-0020); the evolution engine's EVO_* stages and the village product's VS* stages are appended when their milestones land. STAGE_VIEW (0xffff) is reserved for paint programs and furniture and is no row. `title` is §4.1's; `reservedUntil` is set where the design itself places a stage's registration or first user after M0 (§4.1: S7c and S9b are stage 2's, M5; SKY is the sky layer's, M6-sky; §6.1: S8.seed's first user M5). Item M0-d-01.",
+  "registry": "stages",
+  "version": 1,
+  "view": { "name": "STAGE_VIEW", "id": 65535, "title": "paint programs and furniture (§6.1, §14 Rng.stream)" },
+  "rows": [
+    { "id": 0, "name": "S0", "title": "Blueprint" },
+    { "id": 1, "name": "S1", "title": "Site" },
+    { "id": 2, "name": "S2", "title": "Programme" },
+    { "id": 3, "name": "S3", "title": "Siting, reservations, stage-1 boundary + trace" },
+    { "id": 4, "name": "S4", "title": "Backbone" },
+    { "id": 5, "name": "S5", "title": "Stage k (S5a boundary + trace + gates, S5b main roads, S5c secondaries, S5d capacity check)" },
+    { "id": 6, "name": "S6", "title": "Districts, quarters, field pass 1" },
+    { "id": 7, "name": "S7", "title": "Wall strips + fortification lines" },
+    { "id": 8, "name": "S7b", "title": "Allocation + district claims" },
+    { "id": 9, "name": "SKY", "title": "Islands and their ground landing claims (staged)", "reservedUntil": "M6-sky" },
+    { "id": 10, "name": "S12a", "title": "Hinterland siting" },
+    { "id": 11, "name": "S8", "title": "Infill (per district)" },
+    { "id": 12, "name": "S9", "title": "Corridors (L2; districts + hinterland)" },
+    { "id": 13, "name": "S10a", "title": "Block allocation + field pass 2" },
+    { "id": 14, "name": "S10", "title": "Plots (with step (0), the shared-edge bands)" },
+    { "id": 15, "name": "S10b", "title": "Placement" },
+    { "id": 16, "name": "S11", "title": "Site plans + footprints" },
+    { "id": 17, "name": "S12b", "title": "Greenery" },
+    { "id": 18, "name": "S12c", "title": "Character" },
+    { "id": 19, "name": "S13a", "title": "Names + label candidates" },
+    { "id": 20, "name": "S14", "title": "Display list" },
+    { "id": 21, "name": "S15", "title": "Simulation (optional module)" },
+    { "id": 22, "name": "S7c", "title": "Fabric selection (S7b's hook; stage 2)", "reservedUntil": "M5" },
+    { "id": 23, "name": "S9b", "title": "Block dispatch (S10a's hook after step (i); stage 2)", "reservedUntil": "M5" },
+    { "id": 24, "name": "S8.seed", "title": "A template's seed ways and plazas (distinct from S8's lanes)", "reservedUntil": "M5" }
+  ]
+}

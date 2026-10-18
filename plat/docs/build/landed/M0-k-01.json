@@ -1,0 +1,50 @@
+{
+  "schema": "plat-landed-record/1",
+  "item": "M0-k-01",
+  "lane": "build/M0-k-01",
+  "lanes": ["build/M0-k-01"],
+  "wave": "wave-4",
+  "snapshotTaken": "2026-10-04T07:37:46.161Z",
+  "date": "2026-10-04T09:10:29.650Z",
+  "ownsSource": "docs/build/M0-work.json",
+  "owns": ["plat/packages/testkit/src/fuzz/", "plat/packages/testkit/test/fuzz/"],
+  "counts": { "created": 21, "changed": 1, "unchanged": 0, "deleted": 0 },
+  "files": [
+    { "path": "plat/packages/testkit/src/fuzz/arb.ts", "status": "created", "sha256": "527463b5f75a283dd4f55ab34036229a143ea37b42f0561f880f15c778ac7e87", "size": 1204 },
+    { "path": "plat/packages/testkit/src/fuzz/chain.ts", "status": "created", "sha256": "d7f2dd7e93b008365781030f32e911b0efafc7049300128bb534f07afd1a0985", "size": 5359 },
+    { "path": "plat/packages/testkit/src/fuzz/classes.ts", "status": "created", "sha256": "c7d58ee2f8e2ef4a3aa552858d133a9865e9aa836ee56da84a0fd90b3b318ea7", "size": 13659 },
+    { "path": "plat/packages/testkit/src/fuzz/collinear.ts", "status": "created", "sha256": "48d8c22e7740cc2508ae2fed7f026b3e4bdda2afc3fb5ae9ca27ea3fe7b6052d", "size": 5149 },
+    { "path": "plat/packages/testkit/src/fuzz/degenerate.ts", "status": "created", "sha256": "ac9007dfa411857d45145f6a4193b57d712f0bddf0339659b3d2822d34e312ab", "size": 5534 },
+    { "path": "plat/packages/testkit/src/fuzz/faces.ts", "status": "created", "sha256": "4d96fbbc2d681d6aab152ec2d241d8209125835f3fb24a46ce61f8e5293a8ce7", "size": 11809 },
+    { "path": "plat/packages/testkit/src/fuzz/field.ts", "status": "created", "sha256": "39b6439f7050a98a20be33bb76e5e80822ecbe3615112158917a666bb04f6a3e", "size": 6813 },
+    { "path": "plat/packages/testkit/src/fuzz/holed.ts", "status": "created", "sha256": "e7dd96299c4b79dbec61c1b326fbc2cb31e80ec1c1b1ea05b937cafc272eb737", "size": 7205 },
+    { "path": "plat/packages/testkit/src/fuzz/index.ts", "status": "changed", "sha256": "6025d6ac4f8adaecc67080b6a0130ea7297dfcd7491ae9ae1113777d62e278ea", "size": 2109 },
+    { "path": "plat/packages/testkit/src/fuzz/lattice.ts", "status": "created", "sha256": "ef0fe59d3ebe2006fbcd62f785bdb12ace54887751d5760bbaa01cffaa5710ae", "size": 11952 },
+    { "path": "plat/packages/testkit/src/fuzz/polygon.ts", "status": "created", "sha256": "6dd20c2fe6a005efe6fc42f904409b31c1d66a880e864500bea11ad08cd13abb", "size": 4381 },
+    { "path": "plat/packages/testkit/src/fuzz/regular.ts", "status": "created", "sha256": "76a02675bba1340d03e0e1ce9a047602edea1bb5325fb93e96ab60508884b8da", "size": 3030 },
+    { "path": "plat/packages/testkit/src/fuzz/seeds.ts", "status": "created", "sha256": "7d210f93885d29ad58e2094edff76e7c8a926818393b43b1d4bb931328452d2d", "size": 2953 },
+    { "path": "plat/packages/testkit/src/fuzz/thin.ts", "status": "created", "sha256": "5028775f9ff1884097ab6ef2737d3bebc8df748805117ec70e6445c45f7a85f6", "size": 5779 },
+    { "path": "plat/packages/testkit/src/fuzz/touching.ts", "status": "created", "sha256": "170dd064a75aa8d0b22d6b4a1ed94eed38292e24677bc7dbc57e4dc52710748c", "size": 5333 },
+    { "path": "plat/packages/testkit/src/fuzz/types.ts", "status": "created", "sha256": "26888b1924d500c3a671e76dd8101ee2e6927cf1d06fb09ce98019985b0fd26e", "size": 1978 },
+    { "path": "plat/packages/testkit/test/fuzz/contacts.test.ts", "status": "created", "sha256": "c9eed1cf7984ab6aaa2aa681d6624f71fb235bc8c4e5ae64010a5f14587aaaf1", "size": 8805 },
+    { "path": "plat/packages/testkit/test/fuzz/coverage.test.ts", "status": "created", "sha256": "592e4dcd718e611dab9c3c2d15196fa1fa80b041dce9d31c271067aaf3b666b5", "size": 6310 },
+    { "path": "plat/packages/testkit/test/fuzz/lattice.test.ts", "status": "created", "sha256": "c0f55c7b5f302391b3c5e54c7fc7295582c512690017577300c5384d61a982a6", "size": 2746 },
+    { "path": "plat/packages/testkit/test/fuzz/seeds.test.ts", "status": "created", "sha256": "3432c997b89338bdfad093acaf36638f1ebc130ed7a9176da0dd9c4b58bf8a20", "size": 4864 },
+    { "path": "plat/packages/testkit/test/fuzz/shapes.test.ts", "status": "created", "sha256": "49ad71785d10d63f5ab6d2d2e00c716279d6e102d8b205c7c1f56d4b076cb132", "size": 13595 },
+    { "path": "plat/packages/testkit/test/fuzz/support.ts", "status": "created", "sha256": "f4629abea0cbc7228db796739288cdd8772f83b6075afc2e0da469dbcc6e986b", "size": 7354 }
+  ],
+  "appends": [
+    {
+      "file": "plat/CLEAN-ROOM.md",
+      "ids": ["L-0082"],
+      "lines": ["2eb58527d902727c"],
+      "removed": []
+    },
+    {
+      "file": "plat/docs/build/choices.md",
+      "ids": ["C-0161"],
+      "lines": ["77974a3576034f2d"],
+      "removed": []
+    }
+  ]
+}

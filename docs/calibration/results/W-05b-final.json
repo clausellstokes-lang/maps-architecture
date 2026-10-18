@@ -1,0 +1,86 @@
+{
+ "id": "m1/W-05b-final",
+ "status": "landed",
+ "records": [
+  "docs/calibration/E05-ftg-metrics.md (sections 9.6-9.10 appended after pass 1's 9.1-9.5; 387 lines added, 0 removed)",
+  "docs/calibration/E05-ftg-metrics.slots.json (rewritten by this pass, sha256 8898b640...; 28 captures; pass 1's 90349d49... is in git at bef102c)"
+ ],
+ "outputs": [
+  "research/baselines/measure_ftg_slots.py (sha256 f218a9d3...: 28-value size class incl. TOWN's one stage, check 4 against E02 37.3 by number/absent/word pattern and by name against ftg_capture_post.py SIZE_DEPENDENT, wall rows over walled payloads, --lane, per-slot tables in three parts)",
+  "research/baselines/inputs/FTG/ftg-2026-10-04_<hash>/<stamp>.metric.geojson.gz x 19 (slots 8-26; folder now 29 files, 8.8 MB)",
+  "docs/calibration/E05-ftg-metrics.slots.json",
+  "docs/calibration/E05-ftg-metrics.md sections 9.6-9.10",
+  "docs/calibration/results/W-05b-final.json"
+ ],
+ "checks": [
+  {
+   "check": "row check 1: each slot's MeasureInput equals a fresh run",
+   "passed": true,
+   "receipt": "measure_ftg_slots.py --check, exit 0: 28 of 28 stored gzips byte-equal to a fresh adapter write and JSON-equal; record hashes = files (pass 1's nine files unchanged, 19 new)"
+  },
+  {
+   "check": "row check 2: every value's captures equal the plan's slots",
+   "passed": true,
+   "receipt": "BIG_TOWN 0,2,4,10,12,14,16,18,20,22; BIG_CITY 1,3,5,11,13,15,17,19,21,23; METROPOLIS 6-9; CITY rec. 0, 24, 25; TOWN 26; water rows over the coast+river slots (6/6/3/2); wall rows = E02's wall counts (all but slot 12); 0 problems; plan.json 11a9b357; slots decided since the pass began: none"
+  },
+  {
+   "check": "row check 3: the 2026-09-25 payload is in no sample (R-04)",
+   "passed": true,
+   "receipt": "0 hits in samples, water and wall samples, vectors and per-slot entries; it stands once in CITY failed, reason setting"
+  },
+  {
+   "check": "row check 4: E02's same-size values reproduced from the requests",
+   "passed": true,
+   "receipt": "28/28 on all 28 captures against E02 section 37.3 (20 rows number/absent exact, 8 word rows by pattern); every later capture 28/28 against the first of its size; tool rows 28 = post script SIZE_DEPENDENT 28 by name"
+  },
+  {
+   "check": "the checks discriminate (--red)",
+   "passed": true,
+   "receipt": "--check --red on the final record: 0 of 4 pass, exit 1, nothing written"
+  },
+  {
+   "check": "the new parts discriminate (extra planted faults, in memory)",
+   "passed": true,
+   "receipt": "R1 tool row removed, R2 E02 word pattern broken, R3 TOWN absent cell given a number, R4 class name added in the post script, R5 slot 10 text leaf altered: each fails check 4 only; R6 slot 12 put into the wall rows fails check 2 only; baseline 4/4 before and after"
+  },
+  {
+   "check": "pass 1 reproduced",
+   "passed": true,
+   "receipt": "run 1 vs pass 1's JSON for slots 0-7 + CITY rec. 0: every per-slot key equal except sizeValues, whose 17 earlier values are equal (+11 new keys)"
+  },
+  {
+   "check": "determinism",
+   "passed": true,
+   "receipt": "run 2 = run 1 byte for byte; run 3 (the record, final tool) = run 1 in every perSlot entry, differing only in wallRows and check 2's receipt; run 4 = run 3 byte for byte, tables included"
+  },
+  {
+   "check": "plan untouched; plan.py --check",
+   "passed": true,
+   "receipt": "SAME, SAME at start and end (plan.json 11a9b357, metrics.m-1.json 8a0efa7e); this lane wrote neither"
+  },
+  {
+   "check": "clean-room self-check on E05",
+   "passed": true,
+   "receipt": "doc_checks.py --doc E05 --heads ARCHITECTURE.md: C1 0, C2 0, C4 0, S1 0, S2 0; C3 77 hits / 73 unreviewed, every one read (digit runs, dates, capture stamps, table rows of our numbers, our own phrases; none a reference word list, palette, grammar or identifier); exit 1 by the unreviewed count, as every non-design record reads"
+  }
+ ],
+ "rows": 28,
+ "owner_notes": [
+  "All 27 FTG towns saved so far are measured, plus the older 2026-09-21 city, and every check passed. W-15 now has ten big towns, ten big cities, four metropolises, three cities and one town to work from.",
+  "The last town (slot 27, on the coast with rivers) was never created: its recording stopped because the window moved by itself. If it is recorded later, one more short run measures it; nothing here needs redoing.",
+  "One town (slot 12) came out with no wall, although a wall was asked for. I left it out of the wall measurements, because counting 'no wall' as 'no unguarded crossings' would make FTG look more like us than it is. You can veto that.",
+  "One question still needs a ruling seat, not you: FTG draws coasts either every 15 m or every 50 m, so its 'outline step' comes out as two groups (14-17 m and 50-70 m). Someone has to decide how that number is read before W-15 uses it. Our own limit (25 m) is not affected.",
+  "Nothing was bought, no website was touched, nothing was written into plat/, and no git command was run."
+ ],
+ "notes": [
+  "Outcome: final pass of the rolling item covers every bound slot (0-26, none failed) plus capture/FTG/CITY/coast+river/0 = 28 captures; slot 27 open (seat stopped before create, E02 section 38; not failed in plan.json) and listed as such. If slot 27 binds: python3 research/baselines/measure_ftg_slots.py --write --lane <key>, then --check.",
+  "Samples for W-15 (R-34): BIG_TOWN n 10 type7 (water rows 6, wall rows 9: slot 12 noWall), BIG_CITY n 10 type7 (water 6, wall 10), METROPOLIS n 4 minmax (water 3), CITY n 3 minmax (rec. 0, 24, 25; water 2), TOWN n 1 research-side. Vectors only, no dispersion (R-40); measured values, not rows (R-47 (a)).",
+  "DC-35: the ten-slot type7 turning band lies inside the declared exception at both sizes (BIG_TOWN 7.411-8.797 in 4.212-12.636; BIG_CITY 8.329-13.718 in 4.675-14.026): R-34's PLAUSIBLE is now CONFIRMED for these draws.",
+  "Fixed the gap E02 37.3 finding 9 named: the tool read 17 class values by position and stopped on the one-stage TOWN request; it now reads all 28 by name (absent -> null, text -> 12-hex digest, no request string in the record), and check 4 fails if the post script's class and the tool's rows ever differ.",
+  "Fixed the finding E02 23.3 routed here: slot 12 has no wall; W05b-D11 (vetoable) makes the wall rows read walled payloads only, checked against E02's wall counts.",
+  "Routed, needs the session to assign a ruling seat (no item names it yet): the water.step definition. Coasts are drawn at 14.9-16.2 m (10 of 17) or 50.0 m (7 of 17), rivers at 50 m; pooled per-slot step is bimodal (14.49-17.47 vs 50.00-70.17 m). Whether to keep W05-D8's 1-degree drop or read raw spacing, and whether FTG's reference is one value or per coast step, must be ruled before W-15 sharpens it (E05 9.8 (2)); R-48's <= 25 m bound unaffected.",
+  "Pass 1's note 9.3 (3) (none vs coast+river junction split) does not hold as a separation at n = 10 (E05 9.8 (4)); pass 1's text left as written.",
+  "Calls W05b-D11..D15 in E05 9.9 (vetoable). CONFIRMED: every number in E05 9.6-9.8 and every receipt above (executed). PLAUSIBLE: that slot 12's missing wall is generator variation; that the town's values follow from its single gaps stage; the client-timing readings of 9.5.",
+  "11 GiB free at the end; long outputs in the session scratchpad m1w2/w05bf/ (runs 1-4, check/red outputs, red_extra.py, wall_test.py, doc_checks.out)."
+ ]
+}

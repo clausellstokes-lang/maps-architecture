@@ -1,0 +1,120 @@
+{
+ "edits": 36,
+ "tags": [
+  "1.2-122-calamity",
+  "1.2-122-sources",
+  "1b-disaster-in",
+  "1b-disaster-village",
+  "1b-campLand-in",
+  "1b-dossier-row",
+  "2.3-unit",
+  "2.3-calamity",
+  "3.4.1-holes",
+  "3.6-7-band",
+  "3.16-doc",
+  "3.16-1-units",
+  "3.16-2-calamity",
+  "3.16-3-targets",
+  "3.16-5-stable",
+  "3.16-campLand",
+  "3.18-b-village",
+  "3.18-e-disaster",
+  "3.18-e-outskirts",
+  "3.18-f-cliff",
+  "5.4-6-village",
+  "7-T45",
+  "7-T60-head",
+  "7-T60-a",
+  "7-T60-c",
+  "7-T60-d",
+  "7-T60-e",
+  "9-J104-calamity",
+  "9-J104-unit",
+  "9-J105-land",
+  "9-J105-common",
+  "12-shapes",
+  "7-T60-when",
+  "8.1-M3b-village",
+  "9-J104-stable",
+  "9-J105-village"
+ ],
+ "blocks": 12,
+ "inventory": [
+  {
+   "kind": "REPLACE",
+   "target": "### 1.2 The base hooks this volume consumes",
+   "lines": 55,
+   "words": 2032
+  },
+  {
+   "kind": "REPLACE",
+   "target": "### 1b WIRING TABLE — every new piece, what feeds it and what it feeds",
+   "lines": 103,
+   "words": 4345
+  },
+  {
+   "kind": "REPLACE",
+   "target": "### 2.3 Views and services (derived, never stored)",
+   "lines": 135,
+   "words": 2591
+  },
+  {
+   "kind": "REPLACE",
+   "target": "#### 3.4.1 The template face",
+   "lines": 14,
+   "words": 261
+  },
+  {
+   "kind": "REPLACE",
+   "target": "### 3.6 Context features (stage-2 feature S2)",
+   "lines": 56,
+   "words": 982
+  },
+  {
+   "kind": "REPLACE",
+   "target": "### 3.16 Services other volumes call (`@plat/hood`)",
+   "lines": 110,
+   "words": 1877
+  },
+  {
+   "kind": "REPLACE",
+   "target": "### 3.18 Edges — every mechanism at its limits (principle (11))",
+   "lines": 127,
+   "words": 4470
+  },
+  {
+   "kind": "REPLACE",
+   "target": "### 5.4 Find over the town — areas and gaps (item 120, the town's part; J-V1.102)",
+   "lines": 98,
+   "words": 1704
+  },
+  {
+   "kind": "REPLACE",
+   "target": "## 7 Tests and acceptance bars",
+   "lines": 76,
+   "words": 7526
+  },
+  {
+   "kind": "REPLACE",
+   "target": "### 8.1 Where it slots into §16",
+   "lines": 59,
+   "words": 970
+  },
+  {
+   "kind": "REPLACE",
+   "target": "## 9 Decisions",
+   "lines": 112,
+   "words": 8727
+  },
+  {
+   "kind": "REPLACE",
+   "target": "## 12 CONFIRMED versus PLAUSIBLE",
+   "lines": 48,
+   "words": 807
+  }
+ ],
+ "orig_sha": "fb2d14965bdcae74be2f7d138804e64aafe2ed5569e53f1aeb5d07ed52ac1901",
+ "new_sha": "8260b2a828b75099869def006f4d621ec063c5bb0f47526162e9942a4a81becc",
+ "words_before": 84670,
+ "words_after": 85852
+}

@@ -1,0 +1,78 @@
+{
+ "key": "coherence/verify-vol-V09-V10-r2t",
+ "file": "docs/validation/coherence/verify-vol-V09-V10-r2t.md",
+ "issues": [
+  {
+   "id": "VV910-r2-01",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "claim": "V09 §4.21.14 (4) (l.3651–3656) starts dust haze \"where they give none — an arid row's dry weeks\"; §3.16 row 93 (l.1612) gives \"dust haze\" as that edge's outcome; T-V9-87 (l.4322) asserts \"dust haze in an arid row's dry weeks\". V11 §3.25.11, the weather cells' home, rules otherwise: \"a week with no live kind starts none\" (V11 l.4645–4647), EI-V11-EDGE-6 \"no spell comes, and Start a shower now starts none\" (T-V11-48), and \"a kind absent from a band stays absent through it (the arid dry months)\". V11's arid row (l.4676) makes V09's example wrong both ways: in its dry weeks 13–38 the commonest live kind is heat shimmer (2 an hour, dust 1), and in weeks 0–9 and 50–51 no kind is live, so V09 would start a kind V11's band holds absent. V09's hand-off to V11 for the dust-haze case was not taken.",
+   "required_change": "V09 §4.21.14 (4) reads \"It starts at once, as the timeline's next spell, the commonest live kind of the view's week (V11 §3.25.11's rule over the climate row's weather cells); in a week with no live kind it starts none, and the button is disabled with `settings.weather.noneThisWeek` (\"No weather comes here this week.\"). It never starts snow on an `arid` row or on a row whose winter does not freeze (V11's compile rules hold the columns to it, and the button checks it again).\" — the dust-haze clause deleted; §4.9's `settings.weather.<word>` row adds `noneThisWeek`; §3.16 row 93's outcome \"dust haze\" reads \"the commonest live kind (heat shimmer in an arid row's dry weeks), or, with none live, the button disabled with `settings.weather.noneThisWeek`\"; T-V9-87's \"dust haze in an arid row's dry weeks\" reads \"heat shimmer in an arid row's dry weeks, and in a week with no live kind the button disabled with its line (V11 §3.25.11; T-V11-48)\".",
+   "owner": "V09"
+  },
+  {
+   "id": "VV910-r2-02",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "claim": "V09 §4.21.7 (2) (l.3369–3370): \"A host's `view.set { week }` (§11.3) is a command, never an input (item 125 (c)): it moves the control as a user's pick does, turning the switch off\" — with §3.16 row 94 (l.1613), T-V9-77 (l.4313: \"a host's `view.set { week }` moves the control and turns the switch off\") and J-V9.148 (l.4750). The base's homes say otherwise: §2.9's `week` (l.3297–3300) is item 67's drawn week, which \"a host's `view.set { week }` sets … as a view command\"; *The week's source* (l.3376–3377) calls it \"a view command, as a user's scrub is\"; `yearWeek`'s writers are V09's Season control and DR42 only (l.3330–3332), `seasonFollow` turns false on a user's \"pick of a week or a season\" (l.3341), \"The `week` key … stays a different key … `yearWeek` is a look only\" (l.3370–3371); and §11.3 (l.16278–16281) keeps `yearWeek` and `seasonFollow` among the per-viewer keys that never cross the bridge. V09's clause makes a host message write two per-viewer keys and flip the viewer's follow switch, against V09's own §4.21.7 (1) (\"per viewer, never over a bridge\").",
+   "required_change": "V09 §4.21.7 (2)'s sentence reads \"A host's `view.set { week }` (§11.3) is a command, never an input (item 125 (c)): it sets §2.9's `week` key — item 67's drawn week, which the Works and the crisis looks are read against — as a user's timeline scrub does, and never writes the year position or the follow switch, per-viewer keys no host message sets (§2.9, §11.3).\"; §3.16 row 94's edge \"a host's `view.set { week }` against a moved control\" has the outcome \"the drawn week moves; the Season control and its switch stay as the viewer left them\"; T-V9-77's clause reads \"a host's `view.set { week }` moves the drawn week and leaves the Season control and its switch unchanged (item 125 (c); §11.3)\"; J-V9.148 drops \"and to read a host's `view.set { week }` as a user's pick that turns the switch off\".",
+   "owner": "V09"
+  },
+  {
+   "id": "VV910-r2-03",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "Find's address chip names four target kinds in §2.9's `FindChip` (base l.3042: \"a place, an area (a FindArea.id, V01 §5.4), a person or an institution\"), R2-33 (a) and V09 §4.21.10 (1); V10 names three in three places — §2.13's `FindAnswer.chips[].id` comment (l.1019: \"a place, an area (V01 §5.4's FindArea) or a person — or a dossier chip's anchor\"), §3.9b (7) (l.1960: \"an address the chip for that place, area or person\") and §3.13 step 4's find form (l.2241: \"a place, an area or a person\").",
+   "required_change": "each of the three reads \"a place, an area (V01 §5.4's `FindArea`), a person or an institution\", as §2.9's `FindChip` names them.",
+   "owner": "V10"
+  },
+  {
+   "id": "VV910-r2-04",
+   "severity": "minor",
+   "kind": "WIRING",
+   "claim": "A disaster look's units — V01's `disasterDistricts(doc, overlay, key)` (V01 §3.16), at the village rungs V07's units — have no reading in V09 (0 hits), though V09 uses them three times: §4.21.12 (4)'s `info.crisis.ruinedFor` on \"a building in a district a disaster look ruins\" (l.3580), §4.21.12 (5)'s **Show** \"framing the look's camps\" (l.3588–3589; a disaster look has no camps) and (7)'s **Go to**, \"as the card's **Show** does\". V01 names \"volume 9's crisis card **Show** and Find's `crises` row\" as consumers (V01 l.282) and states the frame — the union of the units' `FindArea` shapes (V01 §5.4 (6), l.3205–3210); V10 §2.13's `LookAnswer.crises.looks[].districts` (l.1010) reads them \"as V09 §4.21.12 (4) reads them\", a reading that section does not state, and CVR-V10-22 asks V09 for it.",
+   "required_change": "V09 §4.21.12 (4): \"… a building in a district a disaster look ruins — one of the districts V01's `disasterDistricts(doc, overlay, key)` returns at `effectiveKey()` (V01 §3.16), at the village rungs V07's units — …\"; (5): \"**Show**, framing the look's place — its camps, or for a `disaster` look the union of its units' `FindArea` shapes (V01 §5.4 (6)) — as **Fit the town** frames the town\"; §1b's crisis-lines row adds the input \"V01's `disasterDistricts` for a disaster look's units (V01 §3.16)\". V10 l.1010's citation and CVR-V10-22 then resolve.",
+   "owner": "V09"
+  },
+  {
+   "id": "VV910-r2-05",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "V09 §4.21.13 (1) (l.3614–3616) gives the damage lines to \"the plan panel … and the why card's `plan` section\", and (3) (l.3629–3631) draws a disaster district's building's lines \"at the look's `lookLevel` … under the head `info.crisis.ruinedFor`\". The why card's sections are §11.2's `WhySection` rows (V09 §2.7), here V03 §4.6's `plan` provider, which carries the building's own level only — \"A disaster's look is no row: the clerk tells it from the look read (V10 §3.9b (8)), and the panel shows it (V03 §4.5)\" (V03 l.2384); V10 §3.9a and V10 §3.23 C10 (\"the `plan` rows stay the building's own\"); V03 §4.5 (l.2318–2322) puts the look's lines on the plan panel only. So the why card and the clerk would list different damage for one building, and T-V9-86's last clause (\"volume 10's explanation of the same building renders the same keys\", after the disaster clause) asserts the opposite of C10.",
+   "required_change": "V09 §4.21.13 (3) reads \"In a district a disaster look ruins, the plan panel (V03 §4.5) shows the building's lines at the look's `lookLevel` by severity, or at its own level where that is higher, under the head `info.crisis.ruinedFor` — a look: nothing stored, ids and digests unchanged; the why card's `plan` section keeps the `plan` provider's rows at the building's own level (V03 §4.6), the look named by the card's `facts` row `info.crisis.ruinedFor` (V09 §4.21.12 (4)), as volume 10 tells it (V10 §3.9a; V10 §3.23 C10).\"; T-V9-86's last clause reads \"volume 10's explanation of each fixture building renders the same `info.damage.*` rows at the building's own level, and for the building in the disaster's district names the look by `info.crisis.*` (V10 §3.23 C10)\".",
+   "owner": "V09"
+  },
+  {
+   "id": "VV910-r2-06",
+   "severity": "minor",
+   "kind": "ID",
+   "claim": "Two first uses written this round lack the tool word (canon ID-TOOL): l.1481 (§3.5 step 3, \"(V10 §4.1's T1 row)\") and l.2337 (§3.16's `dossier` row, \"(V10 §4.1's T1 row)\").",
+   "required_change": "both read \"V10 §4.1's T1 `intend` row\".",
+   "owner": "V10"
+  },
+  {
+   "id": "VV910-r2-07",
+   "severity": "minor",
+   "kind": "COHESION",
+   "claim": "INDEX l.33 (V10's row: \"C3's Find content at M5's exit\") and §16's M3c row (base l.19741: \"C3's item-120 content landing with M5's exit\") place Find's clerk content in C3; V10 §8 holds it in C4 (\"item 120's find form and read (V10 §3.9b (7)), landing with V09's Find panel at M5 …, inside C4's range\"; its total \"item 120's find form and read lie within C4's range\"), and C3 holds none (repair-r2-V10's VAP-r1-13 note: R2-32 (2)'s \"C3\" names the row that does not hold it).",
+   "required_change": "INDEX l.33 reads \"C4's Find content (the find form and read) at M5's exit\" and §16's M3c row \"V10 §8's exits (C4's item-120 content — the find form and read — landing with M5's exit)\".",
+   "owner": "scope"
+  },
+  {
+   "id": "VV910-r2-08",
+   "severity": "minor",
+   "kind": "WIRING",
+   "claim": "The crisis card's **Ask the assistant** (V09 §4.21.12 (5), l.3589) is \"V10's `why` entry\", which V10 §3.1 (l.1091) and V09 §4.11 (l.2491–2492) define as the why card's question \"with the fetched `WhyAnswer` attached\" on the `explain` route; a crisis look has no `WhyAnswer` (V10 J-V10.125: a look is per viewer and per week, never a model-side section), so the entry's input is undefined.",
+   "required_change": "V09 §4.21.12 (5): \"**Ask the assistant** — the card's line as the question on V10's `drawer` entry (`ClerkHandle.send(text, 'drawer')`, no attachment), the clerk reading the look by `read_map { kind: 'look' }` (V10 §3.9b (8); prompt rule 21) — hidden without an enabled clerk\".",
+   "owner": "V09"
+  },
+  {
+   "id": "VV910-r2-09",
+   "severity": "major",
+   "kind": "EDGE-UNDEFINED",
+   "claim": "Find at a drawn week whose frame is not the head (principle (11); V09's end of verify-rendering-r2t's VRC2T-07). V09 §4.21.10 (7) (l.3483) rebuilds the index \"once per commit, regenerate, undo, redo, advance, load and migration, and at each `onEffectiveKey`\" over §11.2's gazetteer listing, which answers over the head; (1) keeps the filter \"through zoom, pan, band, layer, season, advance …\" — never naming a change of §2.9's `week` (a timeline scrub, V09 §5.6; a host's `view.set { week }`). On a scrubbed past frame (V06 §3.15.2) the panel's counts, results, pins, ghost pins and gaps are undefined: by the text they glow, count and list buildings the frame does not hold. §3.16 rows 86–88 and T-V9-83 test no week change.",
+   "required_change": "V09 §4.21.10 (7)'s triggers add \"each change of §2.9's `week` (a timeline scrub, a host's `view.set { week }`)\", and (8) states: \"At a drawn week whose frame is not the head (V06 §3.15.2), each chip's matches — its glow, pins, ghost pins, gaps, counts and results — are §11.2's listing restricted to the entities that frame holds: a match the frame lacks is neither drawn, pinned, counted nor listed, a chip with none there reads count 0 for that week (`find.none`), and the chips themselves are unchanged.\"; §3.16 row 87 adds the edge \"a scrub to a week before a matched building was built, and after a closed use's end\" with that outcome; T-V9-83 (e) adds the scrub; V10 §3.9b (7)'s `read_map find` reads the same restriction (the clerk counts what the panel shows). The base end (§8.2's *Find*, T-ER-25) is VRC2T-07's.",
+   "owner": "V09"
+  }
+ ]
+}

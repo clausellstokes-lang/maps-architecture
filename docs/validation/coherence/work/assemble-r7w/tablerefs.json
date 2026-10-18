@@ -1,0 +1,60 @@
+{
+ "defined": {
+  "outcomes": [
+   "beneath",
+   "down before the wall",
+   "over the band",
+   "unchanged meeting"
+  ],
+  "crossing_rows": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14
+  ],
+  "crossing_cols": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13
+  ],
+  "way_channel_rows": [
+   "a",
+   "b",
+   "c",
+   "d",
+   "e"
+  ]
+ },
+ "cites": {
+  "V04 cell": 1,
+  "V04 outcome": 1,
+  "V06 cell": 2,
+  "V06 outcome": 4,
+  "V09 outcome": 2,
+  "V11 wc-row": 1,
+  "base cell": 103,
+  "base outcome": 25,
+  "base wc-row": 10
+ },
+ "bad": []
+}

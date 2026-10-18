@@ -1,0 +1,62 @@
+## pass2 §5-c00
+XC ¦ F-NUM E_OUT_OF_RANGE classed as optional-chain precision failure (re-propose) vs §3.1 'caller bug, never stored' (= kernel KXC-01) ¦ minor ¦ §5.2 F-NUM
+EDGE ¦ F-NUM mandatory chain E_OUT_OF_RANGE 'aborts the batch with its stream key': the stage's outcome after an aborted batch (which rung, what the report says, whether the stage continues) is not stated ¦ major? ¦ §5.2 F-NUM
+REF? ¦ §5.1 (7) 'bars of §13.5's requested-feature delivery row (§15.2)' - verify row exists in §13.5
+REF? ¦ §5.1 (6) reroll.maxAdvance 'a table value' - not in §7.6 registry list (0500 note) and verify any table carries it
+## pass2 §5-c01
+EDGE ¦ 'a bug that aborts the rung/batch with its stream key' (F-NUM mandatory, F-PLAN seed/passage/composer ring refusal, F-PLAN tier 6 count) - the observable outcome of an abort (building without plan? stage result? report field?) has no defined home; §5.4 report has no abort/bug field (verify) ¦ major
+CHK ¦ §6.5 (9) cited by F-WORK (time dilation), F-SITING (derived-complete digest across district orders), F-LIGHT (CPU reference byte-identical across engines) - verify (9) carries all three
+IC ¦ §5.3 intro defines five scopes (batch-local, stage-end, save, load, CI-only) and uses 'load' (stored binding row); §5.4 invariants[].scope enum lacks 'load' (0122) - verify in §5.4
+ELEG ¦ F-EDIT detection column is a catalogue of ~25 refusal causes restated from §7.1/§7.3/§7.4/§7.5/§7.7 - a refusal-reason table (reason code -> home -> offered alternative) would be the one home; §7.1 dry run and §7.7 restate (0347)
+## pass2 §5-c02/c03
+IC-CONFIRMED ¦ report invariants[].scope 'batch'|'stage'|'save'|'ci' lacks 'load' while §5.3 defines load scope and has three load rows (stored binding = fold; neighbourhood character recomputation; decoded snapshot roots; replayed roots) ¦ minor ¦ 0122, §5.3, §5.4
+WG ¦ 'a bug that aborts the batch/rung with its stream key' (F-NUM mandatory E_OUT_OF_RANGE, F-PLAN refusals and count) - GenerationReport has no field for it (ladderUses records ladder rungs only; §5.3 'hard invariants abort the batch ... while its ladder continues' covers invariant failures, not bugs): the stream key has no home and whether the ladder continues after a bug-abort is undefined ¦ major ¦ §5.2 F-NUM, F-PLAN, §5.4
+IC ¦ cause codes: F-WORK 'report work_cut with the count', F-BUDGET-TIME 'telemetry records time_over' - report/telemetry fields are kernel.workLimitHits, stages[].work and Telemetry.timeOver (camelCase list of StageId); no enumeration of ladderUses.cause codes exists (cause: string) - the codes named in §5.2 (work_cut, time_over, W_CUT_SLID..., 'not built', 'no crossing', 'unserved', 'no alternative within the ladder') have no one registry ¦ minor
+UNDEF ¦ GenerationReport.stages[].attempts: number - no text says what it counts; requestedVsBuilt: Diff[] - Diff not defined in unit (check base); autoResolved producer not named in §5 (check §7.6/§7.7) ¦ minor
+XC ¦ §5.4 kernel.warnings lists 8 of 12 Warning codes (= KXC-05) ¦ minor
+REF? ¦ §11.2 report.changed - verify
+CONFIRMED ¦ §13.5 requested-feature delivery row exists (line 13903) - ref OK
+WG-CONFIRMED ¦ type Diff (GenerationReport.requestedVsBuilt: Diff[]; §14 migrate returns diff: Diff) is defined nowhere in the base or the volumes (grep) ¦ minor
+WG-CONFIRMED ¦ reroll.maxAdvance 'a table value, default 3' (§5.1 (6), §6.3, §7.3 item 10) - no table in §7.6's registry, §14's @plat/tables list or V11's table registry carries it (grep: only prose + J-DET-20) ¦ minor
+## pass2 §6-c00
+IC ¦ 'attempt cap' semantics ambiguous: §6.1 attempt 'cap ... 3 for every geometric ladder (tier 3)', tier table '≤ 3 attempts per reroll', F-CUT attempts 0..2 (k×36°, 2 turns), style.random 'attempt 0-2' read as 3 attempts (cap = count); but many concerns declare 'attempt cap 0' (use.relocate, plan.program/roles/furnish, reserve.market, cut.interior, cut.stop, works, pin.light, render.stampTiles) which under cap=count would mean no draw at all - so cap must be the highest attempt index there, which makes 'cap 3' four tries. One definition needed. ¦ minor
+NARR ¦ §6.1 registry prose 'Appended by the amendments of 2026-09-25 (items 17, 18, 28, 29)', 'Appended with them (items 24 and 30)', 'Appended by the amendments of 2026-09-27 (items 34, 67, 68)', 'Retired by the same amendments', 'Readers the amendments of 2026-09-27 and 2026-09-28 add' - evolution narration (principle 5)
+ELEG ¦ concern registry is a table in disguise: ~70 concerns across 6 prose paragraphs with per-concern attributes (geometry?, rerollable, attempt cap, readers, keying, extra readers) - one table (id, kind, rerollable, cap, keyed by, readers, home) keeps every value; nuance: each concern's keying sentence stays as its row's cell
+## pass2 §6-c01
+DUP ¦ 'Histories, not states' (continuity over path independence) stated §6.2 and again §7.7 item 6 Continuity (0177 / 0557)
+DUP ¦ elaboration-cache-outside-digests + rung reroll counters stored absolutely in regenerate events: §6.1 stage-3 rungs bullet and §6.2 elaboration cache paragraph state the same rule
+## pass2 §6-c02
+NARR ¦ '(J-DET-2, amended so)' §6.3 JOIN/SPLIT
+CHK ¦ anchor table kinds vs §2.8 entity registry kinds: kinds with no anchor row (yard part, Frontage record, quarter, wing, Rejection, Allocation/FieldBands, institution/faction/relation, MaterialLedger, alley/lane as ways?) - succession undefined for them? verify against §2.8 registry
+CHK ¦ crossing.searchBandM 'default 120 m' called a table value - verify a table carries it (0500 note)
+## pass2 §6-c03
+CONFIRMED ¦ §6.5 (9) carries time dilation, derived-complete digest, lighting (CPU reference) - F-WORK/F-SITING/F-LIGHT refs resolve
+CHK ¦ §6.5 (3) lint over @plat/port adapter key list (item 73) - verify V08 names the lint as its constraint (wiring both ends)
+## pass2 §7-c00
+TYPE ¦ moveStairCore.bay: Polygon - every other event polygon is PolygonCm (0289) ¦ minor
+ELEG ¦ Rename {id, from, to} (§7.1) and ReportEntry 'rename' {id, from, to} (§5.4) are one shape; also DisruptionReport.moved {use, from, to} vs ReportEntry relocate {use, from?, to?} - candidate one shape each
+CHK ¦ E_REBASE_AT (§14) - verify defined in §14
+## pass2 §7-c01
+CHK ¦ setLayer: logged event (EditEvent), 'setLayer on underground is the CITY/METROPOLIS visibility toggle (§7.8)', 'layers, style: setLayer...; view keys are not logged' - verify §7.4 lifecycle row for setLayer and whether its effect is model/digest or view
+## pass2 §7-c02
+WG-MAJOR ¦ principle (7) 'every edit kind has its tool (item 101)': the twelve-tools table maps only ~35 of the ~62 EditEvent kinds; no tool emits delete, merge, swapUse, setAttrMany, instance (tree brush), rejectSite, unassign, drawBoundary (named only in points-form prose), unlock, unpin, moveVertex (named only as a handle drag), drawPassage, drawTunnel, drawChamber, addLink, addUndergroundAccess, placeAccess, convert (every ConversionOp incl. relet/openUse/sealPassage), startWorks, cancelWorks, placeLight, closeup, editTable, editPreset, rerollLayer, epoch, rebase, upgrade, undo, redo; §7.4 rows cite 'the Works tools (§7.1)' and 'the light tool (§7.1)' which do not exist (0432, 0433) ¦ major (verify V09/V10 do not map them)
+TERM ¦ tool ids T1..T12 (§7.1 toolkit; '§16 item 101's T2-T8') share the T-prefix namespace with test ids (T19-4, T65, T73-8, T66-5; §13.2 T<item>-<n>) - 'T8' and 'T12' readable as either; principle (4) wants test ids unique ¦ minor
+## pass2 §7-c03/c04
+REFONLY ¦ §7.4 create column names tools absent from §7.1's twelve (the underground tools; a building's context action; the Works tools; the light tool) - part of WG-MAJOR tool mapping
+## pass2 §7-c05
+AMB ¦ §7.4 delete/merge/split/join/convert row: migrate cell 'same' - no referent stated (previous row's 'replays; unmapped host plot re-creates a plot'? or 'the same geometry replays'?) (0435) ¦ minor
+RESOLVED ¦ setLayer = style state outside the model digest (§7.4 row) - consistent with §7.1 visibility toggle
+## pass2 §7-c06
+NARR ¦ §7.4 'Independence through the input layer (Fable review 2026-09-27; J-Fdet-1)' - review-round narration in a heading
+## pass2 §7-c07
+NARR ¦ §7.5 'The schema transforms the amendments of 2026-09-25 add' / 'of 2026-09-27 and 2026-09-28 add'; §7.6 table list 'the rows the amendments of 2026-09-25 add', 'the rows the amendments of 2026-09-27 and 2026-09-28 add' - narration
+XP-DUP? ¦ §7.6 editable-table registry (prose list of ~60 tables) vs V11 content's table registry (numbered rows incl. workLimits) - two registries of the same tables; check V11 claims to be the registry home
+## pass2 §7-c08/c09
+IC ¦ §7.7 item 10 says the derivation table is an INDEX whose rule is 'stated there, never here', but DR21's chance cell restates §6.1's `works` keying (start offset then duration, keyed by target lineage with week and epoch component) (0572) ¦ minor
+## pass2 §7-c10/c11
+TERM ¦ 'item n' namespace collision: §7.7's header makes '§7.7 item n' the dossier contract's item n, but inside §7.7 bare 'item 12/13/14/16' mean contract items (Assignment.state 'through item 14's rows'; DR25 'item 14'; 'item 16 below') while the owner's amendment items 12 (underground neighbourhoods), 13, 14 (existence by tier), 15, 16 (relation templates) exist and are cited bare elsewhere (§7.1 RosterLine 'item 16's relation templates'; §7.8 'items 13, 14, 15') ¦ minor
+NARR ¦ §7.7 item 13 'the ten rows the survey's verification corrected' - narration
+CHK ¦ receipt rows F6, F7, F9-F13, F16, F17, F19, F21 'data rows of the same type' - their responses stated nowhere in §7.7; verify V08 states them
+DEFER? ¦ Forms catalogue '(should-have; the schema is the must-have hook)' - priority wording that leaves whether the 13 rows ship open (0586) ¦ minor
+TYPO ¦ §7.8 'a proxy is  bit-identical' double space (0591); §5.4 'wasjoined' (0125)
+CHK ¦ proxy budgets (§7.8) vs §12.5

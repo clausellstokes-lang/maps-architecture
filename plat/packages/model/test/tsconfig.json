@@ -1,0 +1,26 @@
+{
+  "extends": "../../../tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "outDir": "../dist/types/test",
+    "types": [
+      "node"
+    ]
+  },
+  "include": [
+    "**/*",
+    "**/*.json"
+  ],
+  "exclude": [
+    "fixtures/**",
+    "tsconfig.json"
+  ],
+  "references": [
+    {
+      "path": ".."
+    },
+    {
+      "path": "../../kernel"
+    }
+  ]
+}

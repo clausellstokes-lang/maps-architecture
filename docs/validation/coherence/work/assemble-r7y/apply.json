@@ -1,0 +1,132 @@
+{
+ "base": {
+  "target": "docs/ARCHITECTURE.md",
+  "found": 13,
+  "applied": 13,
+  "skipped": 0,
+  "skipped_detail": [],
+  "audit_not_ok": 0,
+  "headings": [
+   153,
+   153
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   140,
+   140
+  ],
+  "title_block_unchanged": true,
+  "bytes": [
+   3209864,
+   3218661
+  ],
+  "sha256_out": "c13613c5771a99e583726d3258b55700eb68afd793e0933a7aaa0f162e6d147d",
+  "rationale_unchanged": true,
+  "rationale_sha256_out": "7e172500f6a791c5cf1e667c657309b6a49ee067dc130a05d82e605a06579c39",
+  "notes": []
+ },
+ "V05-sky": {
+  "target": "docs/volumes/V05-sky.md",
+  "found": 1,
+  "applied": 1,
+  "skipped": 0,
+  "skipped_detail": [],
+  "audit_not_ok": 0,
+  "headings": [
+   62,
+   62
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   14,
+   14
+  ],
+  "title_block_unchanged": true,
+  "bytes": [
+   404696,
+   404941
+  ],
+  "sha256_out": "4517619dfe10fe5c5273e800e65eb09c331a9332397aea355a45bea55defe940",
+  "rationale_unchanged": true,
+  "rationale_sha256_out": "7e172500f6a791c5cf1e667c657309b6a49ee067dc130a05d82e605a06579c39",
+  "notes": []
+ },
+ "V06-evolution": {
+  "target": "docs/volumes/V06-evolution.md",
+  "found": 3,
+  "applied": 3,
+  "skipped": 0,
+  "skipped_detail": [],
+  "audit_not_ok": 0,
+  "headings": [
+   65,
+   65
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   28,
+   28
+  ],
+  "title_block_unchanged": true,
+  "bytes": [
+   710168,
+   710864
+  ],
+  "sha256_out": "72fe7007503922403f6e2b7185016ed4deb532fb42e3098cdd123c1c3e1a10b6",
+  "rationale_unchanged": true,
+  "rationale_sha256_out": "7e172500f6a791c5cf1e667c657309b6a49ee067dc130a05d82e605a06579c39",
+  "notes": []
+ },
+ "V07-village": {
+  "target": "docs/volumes/V07-village.md",
+  "found": 7,
+  "applied": 7,
+  "skipped": 0,
+  "skipped_detail": [],
+  "audit_not_ok": 0,
+  "headings": [
+   58,
+   58
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   18,
+   18
+  ],
+  "title_block_unchanged": true,
+  "bytes": [
+   622038,
+   622965
+  ],
+  "sha256_out": "a93d1f64212153ee5c594762050286b2624bba4e408d9c599257630ce3a198c7",
+  "rationale_unchanged": true,
+  "rationale_sha256_out": "7e172500f6a791c5cf1e667c657309b6a49ee067dc130a05d82e605a06579c39",
+  "notes": []
+ },
+ "V09-application": {
+  "target": "docs/volumes/V09-application.md",
+  "found": 3,
+  "applied": 3,
+  "skipped": 0,
+  "skipped_detail": [],
+  "audit_not_ok": 0,
+  "headings": [
+   110,
+   110
+  ],
+  "fences_balanced": true,
+  "fence_lines": [
+   24,
+   24
+  ],
+  "title_block_unchanged": true,
+  "bytes": [
+   779775,
+   781054
+  ],
+  "sha256_out": "1394a5ee0e0e25cbdf5c884ebc0052f84d5a4c56df5718d84319bb669358dfd0",
+  "rationale_unchanged": true,
+  "rationale_sha256_out": "7e172500f6a791c5cf1e667c657309b6a49ee067dc130a05d82e605a06579c39",
+  "notes": []
+ }
+}

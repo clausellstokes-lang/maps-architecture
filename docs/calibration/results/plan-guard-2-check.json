@@ -1,0 +1,62 @@
+{
+ "id": "m1/plan-guard-2-check",
+ "status": "landed",
+ "records": [
+  "docs/calibration/results/plan-guard-2-check.json"
+ ],
+ "checks": [
+  {
+   "check": "Scratch mirrors are faithful: built from the live files (plan.py 68709ba8, plan.json f6972b91, metrics.m-1.json 8a0efa7e, V12 1bacd39d), an unedited regeneration writes byte-equal files and --check reads SAME",
+   "passed": true,
+   "receipt": "CONFIRMED, executed (case A0): regenerate exit 0, plan.json f6972b91 and metrics 8a0efa7e byte-unchanged, then --check SAME SAME exit 0. Every case below ran on its own fresh mirror (research/baselines/, docs/volumes/V12, captures/ftg/ with empty fake folders for binds); the schedule edits were made by replacing the FTG_SCHEDULE / FTG_PREMIUM_SCHEDULE / FTG_RECORDED_CITY blocks and re-importing the mirror module to assert the tables took."
+  },
+  {
+   "check": "The three cases of plan-fix-3-check's finding are refused, and they wrote before the change (red reproduced on fad7b21d)",
+   "passed": true,
+   "receipt": "CONFIRMED, executed. R1 programme-1 rows 2 and 4 swapped: exit 2, 'slot 2 ... day 3 -> 5', 'slot 4 ... day 5 -> 3', nothing written. R2 slot 5's day 6 -> 7: exit 2, 'day 6 -> 7'. R3 programme 1's last row moved to programme 2's head: exit 2, 'programme 1 -> 2; day 6 -> None'. Under W-01b's plan.py fad7b21d (the maker's rollback copy, hash checked) the same three edits exit 0 and write: slots 2/4 with days 5/3, slot 5 with day 7, slot 5 with programme 2 and day null, captures kept."
+  },
+  {
+   "check": "Each frozen field of a recorded slot is refused: label, size, water, day, programme; and a recorded slot's removal; bound and failed slots alike",
+   "passed": true,
+   "receipt": "CONFIRMED, executed; every case exit 2 with plan.json and metrics byte-unchanged and no .tmp left. Label alone (L1): CITY none moved to programme 2's head (allowed, exit 0), slot 6 bound, then a third recorded-CITY row with water none: the message names only 'label capture/FTG/CITY/none/0 -> capture/FTG/CITY/none/1' (size, water, programme, day equal), so the label field is guarded on its own. Label in programme 1 (L2, rows 0/1 swapped): R-36 and the guard both fire. Size: Z1 slot 1 BIG_CITY -> BIG_TOWN; Z2 bound slot 6 METROPOLIS -> BIG_CITY ('ftgSize METROPOLIS -> BIG_CITY', guard only). Water: W1 slot 0 none -> coast+river; W2 bound slot 6 none -> coast+river. Day: D1 slot 0 1 -> 9; D2 slot 3 4 -> 40 (guard only). Programme: P1 bound slot 6 moved into programme 1 at day 7 ('programme 2 -> 1; day None -> 7'); P2 slot 6 bound and slot 7 failed, both moved (both slots named, 'failed: create-failed'). Failed slot: F1 slot 7 (failed) water coast+river -> none. Removal: X1 slot 6's row struck; X2 every programme-2 row struck ('no longer in the schedule')."
+  },
+  {
+   "check": "The guard holds on every write path",
+   "passed": true,
+   "receipt": "CONFIRMED, executed with R1's edit: --check exit 2 (not 1), --bind-ftg 6 exit 2 (slot 6 not bound), --fail-ftg 6 exit 2, --extend capture/MFCG/40/plain 11 exit 2; nothing written in any. Red: --bind-ftg 6 under fad7b21d exits 0, binds slot 6 and writes the swapped days."
+  },
+  {
+   "check": "Striking or reordering unrecorded tail rows still writes, as do bind, fail and extend; the written plan differs from fad7b21d's only in the two restated texts",
+   "passed": true,
+   "receipt": "CONFIRMED, executed; each exit 0 and written. A1 last programme-2 row struck (27 slots, slots 0-5 bound); A2 slot 6 bound, TOWN pair struck (26 slots, slot 6 still bound); A3 slot 6 bound, CITY rows of slots 24/25 swapped; A4 slot 6 bound, slot 7's row struck; A5 slot 6 bound and slot 7 failed, rows of slots 10/11 swapped; A6 bind 6 then --check SAME; A7 fail 6; A8 extend MFCG/40/plain to 11 then --check SAME; A9 CITY none moved to programme 2's head. Each A case also ran under fad7b21d: same exit codes, and a JSON diff of the two written plan.json files shows only amendments and ftg.slotRule."
+  },
+  {
+   "check": "Every reordering of programme 1 is refused (the plan header's 'refusing any reordering of the first six')",
+   "passed": true,
+   "receipt": "CONFIRMED, executed in process through the installed compute() against the live bindings (build_metrics and catalogue_diff cached; they do not read the schedule). Identity order: no problem. All 719 other orders refused, 0 written: 716 by R-36's first-six labels, 3 by the guard only ((0,1,2,5,4,3), (0,1,4,3,2,5), (0,1,4,5,2,3): the equal-key swaps of rows 3/5, 2/4 and both); the guard fires in all 719. This equals the maker's count."
+  },
+  {
+   "check": "python3 research/baselines/plan.py --check on the live files reads SAME",
+   "passed": true,
+   "receipt": "CONFIRMED, executed: 'SAME research/baselines/plan.json (64041 bytes, sha256 f6972b91265f5b6c)', 'SAME research/baselines/metrics.m-1.json (111059 bytes, sha256 8a0efa7e61592ef3)', exit 0. Live plan.py 68709ba8 (equal to the maker's installed hash); bindings slots 0-5 as recorded, slot 6 open; no .tmp in research/baselines/. A JSON diff of the pre-install plan.json ee28c604 (maker's base copy) against the live f6972b91 shows only amendments and ftg.slotRule."
+  },
+  {
+   "check": "The code change is confined to the guard",
+   "passed": true,
+   "receipt": "CONFIRMED by reading the diff fad7b21d -> 68709ba8 (50 diff lines): the new constant FTG_RECORDED_FROZEN, the guard's key list and its message suffix ('or moved'), the docstring, the FTG_FIRST_LABELS and compute() comments, ftg.slotRule and one amendments entry. No other logic changed."
+  },
+  {
+   "check": "Scope: scratch mirrors only; no plat/, no website, no benchmark, no git state change",
+   "passed": true,
+   "receipt": "CONFIRMED. Live files were only read (the live --check writes nothing; hashes unchanged after). Written: this file and my lane-events lines. Scratch runs took about 20 s of CPU in all."
+  }
+ ],
+ "new_dcs": [],
+ "notes": [
+  "OUTCOME: m1/plan-guard-2 holds. 35 of 35 mirror cases behave as the brief requires, all 719 programme-1 reorders are refused, and the live --check reads SAME. The three finding cases wrote under fad7b21d and are refused under 68709ba8.",
+  "PROBE BEYOND THE BRIEF (CONFIRMED, case O1): editing a fixed table, not the schedule, can still move a recorded slot's derived field. CITY coast+river was moved to programme 2's head and slot 6 bound. Then a third FTG_RECORDED_CITY row with water none was added. The regeneration exits 0, and slot 6's family order goes from 2 to 3 while its label and the other four frozen fields stay equal. MY CALL UNDER J122 (vetoable): this is not a defect. The maker's five-field call states that the other fields follow from the five and the fixed tables, and this is that case. Editing FTG_RECORDED_CITY means re-deciding R-02. A correction to FTG_NOMINAL or FTG_RUNG should reach recorded slots, because measure_ftg_slots.py reads rung and nominalPopulation from them. A veto takes the every-field guard (all fields except capture and failed), as the maker's record says.",
+  "I agree with the maker's ruling on the three present-tense sentences (M-1-work.json seedFamilies.FTG.orderRule, M-1-plan.md line 358, checklist line 365). Each says plan.py refuses a change to label, size or water. That is still true, none says 'only', and the checklist also says never to edit rows at or before the last recorded slot.",
+  "CONFIRMED: every check above was executed or read today, 22:41-22:49. PLAUSIBLE: none.",
+  "Scratch: /private/tmp/claude-502/-Users-cstokes-Desktop-Maps/35f80c37-a71f-4b8a-aa2a-ae5f9064cf55/scratchpad/followups/plan-guard-2-check/ (check_cases.py, check_more.py, results-cases.json, results-more.json, code-diff.txt, base/ with the live copies and fad7b21d)."
+ ]
+}

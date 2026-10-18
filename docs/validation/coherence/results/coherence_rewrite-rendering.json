@@ -1,0 +1,22 @@
+{
+  "key": "coherence/rewrite-rendering",
+  "dir": "docs/validation/coherence/new/base/rendering",
+  "old_kb": 344.7,
+  "new_kb": 408.5,
+  "facts_mapped": 704,
+  "facts_unmapped": 0,
+  "f_applied": ["405","406","407","408","409","410","411","412","413","414","415","416","417","418","419","420","421","422","423","424","447","448","449","450","451","452","453","454","455","456","457","458","459","460","461","462","463","464","465","466","467","468","469","470","471","472","473","474","475","476","477","478","480","481","572","583","202 (part)","223 (part)","232 (part)","245 (part)","278 (part)","296 (part)","365 (part)","372 (part)","391 (part)","482 (part)","518 (part)","575 (part)","g102","g109","g110","g111","g112","479: no rendering text (target is §4.11; note to pipeline)","568: nothing in this part"],
+  "conflicts_resolved": 11,
+  "cross_notes": [
+    "scope §14: ObstacleSource.protectedExtents kind 'room' (RXC-01); LabelTable pinDirCdeg/pinLines if §14 lists columns; LiveLayerProvider registry gains live.shade, live.links, live.coverage, live.voids, live.history and live.people's registration; keymap PageUp/PageDown (item 413); T1 time card and app history panel (458 (b)); @plat/clerk (518)",
+    "scope §13: register T-ER-01..21 in §13.2 by pointer (bars at §8.11, §9.7, §11.6); g item 112's style check test that §8.2/§8.3 cite; B-ZOOM pop check of the band entry stops (RWG-03)",
+    "scope §16: item 474 (d) M5 row and effort line; daylight term measured at M2b (R12-29); item 568 totals",
+    "model §2.9: view keys cvdVariant (g 112), showUnexcavated (278 (a)), roomNumbers (420); docId comment (459); §2.7: Enceinte.walkCm read by §11.1 glTF wall top (W-FLD-05); oasis spring/grove records read by §8.2, §9.1, §11.1 (g 111)",
+    "determinism: §5.2 F-LIGHT detection cites §8.4 (g)'s and §8.8's triggers (RXC-02); F-EDIT messages as MsgRef (463, 470 (c)); §5.4 GenerationReport.prefix (470 (d)); §6.1 island.place and §6.3 sky-access anchor (476); §6.3 host-given docId (459); §7.3 item 10 committed forms (461) and item 9 (d) dwelling closure (372); §7.1 proposedBy through the skeleton (365); §7.7 Intent.latitudeDeg with DR29 (391)",
+    "pipeline: §4.11 order (c) 'who leaves is the departure matching's' (item 479); §10.3 names and registers live.people (RWG-07); §10.4 naming feature formerWall (409 (c)); II.5 per-district regeneration figure (474 (c)); II.7.1 cites §11.1 Layers for exportSeparately (RWG-06); §4.5 daylight term cites §12.4's row/R12-29; if W-IF-07 removes door (4), §11.2 registerProvider and §11.4 door (4) go too",
+    "V01: raised-way program is the base's `raisedWay` (MFCG under-copy keeps `raised`); `retaining` and `way.stair` defined in base §8.2; V1-5.3 VTT row cites §11.1 (V01-XCONF-2)",
+    "V04: underground masonry program is `ruinMasonry`, unexcavated style the `unexcavated` program (§8.2)",
+    "V08: §5.4 states the export-bundle call and §7 its test (V08-XCONF-5; base §11.4 cites); V09: view settings offer cvdVariant; V02: V02-WGAP-1 cells land in §8.2; V10: §2.13 stays home of the reader kinds' types",
+    "shrink goal NOT met: 59 158 -> 70 004 words (+18 %); removed 3 158 (restatement ~1 250, narration ~170, duplicated mechanisms ~1 550, verbose prose ~190); added 14 004 ruled content (f/BCR ~8 900, g 110-112 ~900, wiring ~700, edges ~1 700, register ~1 800); a deep verbose-prose pass was not made (est. 10-15 % potential)"
+  ]
+}

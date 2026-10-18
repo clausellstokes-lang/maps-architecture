@@ -1,0 +1,13 @@
+{
+  "$comment": "The typed ratio-division fixtures' TypeScript project (rules.test.mjs lints them with type information). Never built: no tsconfig references it.",
+  "extends": "../../../../../tsconfig.base.json",
+  "compilerOptions": {
+    "composite": false,
+    "declaration": false,
+    "declarationMap": false,
+    "emitDeclarationOnly": false,
+    "noEmit": true,
+    "rootDir": "."
+  },
+  "include": ["*.ts"]
+}

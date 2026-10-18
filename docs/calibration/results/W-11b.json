@@ -1,0 +1,87 @@
+{
+ "id": "m1/W-11b",
+ "status": "landed",
+ "records": [
+  "docs/calibration/E11-ng-rows.md section 10 (10.1-10.11 appended; sections 1-9, W-11's record, unedited; file sha256 9a82c204)"
+ ],
+ "outputs": [
+  "docs/calibration/E11-ng-rows.plan.json (new, 5a30648e..., 2.06 MB): measured values for W-15 (R-47 (a)) - medium per template and pooled (13 scalars incl. junction.angles median/p5, distributions block.area, block.areaRel, plot.minWidth with spreadKS.p90 per template), sizeSweepD3 (D3 minor extents small/medium/large for W-12), registration, per-map records, checks",
+  "research/baselines/candidates/ng-faces.hoods.json (new, 7530098b...): plan section 7b hoods[] for the 20 medium hoods (ids 0-19 in plan order, referenceBuild, template, seedLabel, capture, outlineCm; R-08 hull, outlineKind 1) plus a research-side sidecar",
+  "research/baselines/inputs/NG/itch-11441280/plan-seeds/ (new): 44 MeasureInput files (declared scale, R-01; registered road frame) and index.json (ed973ee2...), 5.1 MB on disk",
+  "research/baselines/adapters/ng.py (59f7c13e...): --plan mode (plan.json's twelve NG families in plan order, cross-checked against meta.json); way vertices merged within 1 mm and duplicate edges collapsed before the face walk (census counts only when non-zero); fixture mode byte-unchanged",
+  "research/baselines/measure_ng.py (9d7c6b5c...): --plan (rulings R-01, R-05, R-06, R-07, R-08, R-19, R-23, R-44, R-47 (a)/(d)) and --red; fixture mode byte-unchanged",
+  "docs/calibration/results/W-11b.json (this file)",
+  "plan.json and metrics.m-1.json NOT written (524830f5 / 7a21bb29); nothing written in plat/"
+ ],
+ "checks": [
+  {
+   "check": "checker 1: the fixture run still reproduces T1 and T2",
+   "passed": true,
+   "receipt": "measure_ng.py --check --json <scratch> on the 2026-09-25 fixtures, 21:22-21:25: T1 PASS (40 lines vs 40, 36 rows, 0 differing), T2 PASS (8 vs 8 rows), internal checks 41/41, CHECKER PASS, exit 0; JSON sha256 4efbbca0 = the landed E11-ng-rows.json byte for byte; adapter fixture mode re-run into scratch 8/8 files sha256-identical to the landed inputs"
+  },
+  {
+   "check": "checker 2: registration <= 2 crossings per map on all 44 (the +-1 px neighbours reported)",
+   "passed": true,
+   "receipt": "measure_ng.py --plan --check into scratch, 21:22-21:26, exit 0: footprints crossed by a road centreline at the registered offset max 2 over 44 maps (38 maps 0, 5 maps 1, 1 map 2); max 3 at the four +-1 px neighbours; built-block counts equal at every neighbour on every map; court share moves <= 0.0625, gap count <= 0.30 per 100 m"
+  },
+  {
+   "check": "checker 3: every row's sample.indices [0, 5)",
+   "passed": true,
+   "receipt": "same run: every medium family's measured indices exactly [0, 5) (x4 templates, usable 5, failed none) and every small/large family's [0, 3) (x8); each value block in E11-ng-rows.plan.json carries indices [0, 5), usable 5, failed []"
+  },
+  {
+   "check": "identity: each of the 44 maps is its plan.json entry (label, seed, folder, template, size, index; header scale declared, unitM = 0.35 / paint scale, seedLabel)",
+   "passed": true,
+   "receipt": "same run: PASS, 44 maps in plan order (plan.json 524830f5)"
+  },
+  {
+   "check": "graph: Euler E - V + C = faces - components, way graph equals the adapter's, footprints counted once",
+   "passed": true,
+   "receipt": "same run: 44/44 (after the adapter's duplicate-edge / 1 mm fix, E11 10.1; before it 4 maps failed)"
+  },
+  {
+   "check": "T1 on the plan seeds: paths_stats tables rebuilt from the MeasureInput files equal W-04's paths-stats.md",
+   "passed": true,
+   "receipt": "same run: 176 rows (44 x 4 tables) and 4 headers byte-identical"
+  },
+  {
+   "check": "hood outlines: plan section 7b research-side checks (integer ids and cm, closed simple rings, cm area = hull area within 0.1 %, C2 patterns, referenceBuild on each)",
+   "passed": true,
+   "receipt": "same run: 20/20 PASS"
+  },
+  {
+   "check": "determinism: outputs re-created byte-identical",
+   "passed": true,
+   "receipt": "relaunched seat's scratch re-runs (21:09-21:26): adapter --plan 45/45 files (44 inputs + index.json) sha256-identical; E11-ng-rows.plan.json 5a30648e and ng-faces.hoods.json 7530098b identical (the first seat's two runs were identical too)"
+  },
+  {
+   "check": "red tests: planted faults turn the checks red, controls stay green",
+   "passed": true,
+   "receipt": "measure_ng.py --red, exit 0, RED TESTS PASS: 7 faults red (20 px footprint shift 417 crossed vs 0; missing index 4; wrong seedLabel; footprint vertex moved 0.5 px fails T1; self-crossing hood ring; non-integer coordinate; hood without referenceBuild), 3 controls green"
+  },
+  {
+   "check": "content scan of E11 after section 10: C1, C2, C4, S1, S2 zero; every C3 hit read",
+   "passed": true,
+   "receipt": "doc_checks.py --doc docs/calibration/E11-ng-rows.md --heads docs/ARCHITECTURE.md (21:10-21:17): C1 0, C2 0, C4 0, S1 0, S2 0, C3 50 hits / 46 unreviewed (40/38 before section 10); the 8 new hits read: our dates, digit runs and our own phrases (e.g. 'the foot of the perpendicular', 'unit is the map's'), no reference word list, palette, grammar or identifier; exit 1 by that count; records carry no allow rows (W-10/W-11 practice)"
+  },
+  {
+   "check": "scope: no write into plat/, plan.json or metrics.m-1.json; no third-party site; no bundle read; no benchmark or timing; disk",
+   "passed": true,
+   "receipt": "plan.json 524830f5 and metrics.m-1.json 7a21bb29 unchanged; plan.py --check (read-only) refuses with 'catalogue mismatch: missing bldg.wallAlign.median, bldg.wallAlign.share15, cut.length; extra bldg.wallAlign' - caused by design/m1-corrections-1's V12 edit, W-01b's registry to follow (plan-fix-3 NOTE 21:03), not this lane; 12 GB free"
+  }
+ ],
+ "rows": 15,
+ "owner_notes": [
+  "The NG measurements on the 44 new NG recordings are done and pass every check; the numbers are ready for the seat that turns them into rows (W-15) and for the depth re-fit (W-12).",
+  "One defect in our own adapter was found and fixed: on 3 of 44 maps a road segment was stored twice and two neighbouring blocks merged into one. Fixed by merging duplicates; the old test captures are unaffected.",
+  "The street template's block-size row is almost powerless with five seeds (its towns have 2-17 blocks), so its spread is 1.0; the block count carries that template's information instead."
+ ],
+ "notes": [
+  "rows = 15 metric ids with measured values per template at medium (5 seeds each) and pooled over 20: bldg.pairing (D2, reading B), street.detour, junction.share4 (merged, R-06), street.cyclesPerKm2 (declared), fg.streetwallGap100 (declared, R-07), block.courtShare (D5), block.countTemplate (D15), junction.angles, bldg.partyShare, bldg.attached, plot.moran, plot.cvDistrict (D27/D35, R-23), and the distributions block.area (D15, spreadKS.p90 per template), block.areaRel, plot.minWidth. They are measured values; W-15 forms the rows (R-47 (a)). NG time.model descriptive, values.n 0, reason contended (R-44).",
+  "Pooled medium (type-7 p10-p90, median): pairing B 0.389-0.453 (0.421); detour 1.219-1.304 (1.254); share4 0.026-0.077 (0.052); cycles/km2 81.4-331.2 (197.9); court share 0.295-0.542 (0.457; R-19 median 0.457, count ratio 276/597 = 0.462); blocks 5-61 (20); partyShare 0.409-0.463; attached 0.983-0.992; Moran -0.235..+0.064; cvDistrict 0.300-0.497. block.area spreadKS.p90 binned: area 0.327, street 1.000, square 0.703, ring 0.819.",
+  "Hand-offs (E11 10.8): W-10b - read plan-seeds/index.json as the registered frame, use 10.6's hood ids, and collapse duplicate edges before its face walk (square/medium/3 is in its 20); W-12 - sizeSweepD3 and r19Median20; W-15 - medium, mediumPooled, spreadKS and 10.7 (1); design seat via the session - 10.4's formula ranges beyond the floor for DC-04 (share4 0-12 % per seed), DC-24 (partyShare 0.37-0.49 per seed) and DC-25 (Moran -0.36..+0.23 per seed), R-03.",
+  "Calls under delegation, vetoable (J122; E11 10.10): the adapter's duplicate-edge collapse and 1 mm vertex merge; KS on binned CDFs as the primary spreadKS (raw ECDF beside); cvDistrict with the population standard deviation and the hood as the district; plan-seed inputs in a subfolder and a separate .plan.json so wave 1's files stay as landed; hood rings closed and rounded half to even.",
+  "Session note: the first W-11b seat stopped at 21:06 before writing this file (its doc_checks log was cut short); the relaunched seat (21:09) kept the record and outputs, re-ran every receipt into scratch and found all outputs byte-identical; it edited E11 section 10 in three places only (a rounding 0.063 -> 0.0625, the heading's end time, a relaunch sentence in 10.9).",
+  "CONFIRMED (executed): every check above and every number in E11 10.1-10.7. PLAUSIBLE (reasoning): the single raw degree-4 node is a snapping artefact; street/small/1's faceless hood is NG's own layout; the street template's weak block row comes from its few blocks per hood."
+ ]
+}

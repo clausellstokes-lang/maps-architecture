@@ -1,0 +1,4 @@
+H0 perfect regenerator, K=50, n=400: false campaign failures 21/2000 = 0.0105 (target <= 0.01)
+H1 too-snug regenerator (0.6x spread), K=50, n=400: campaigns failed 100/100 (power)
+H0 perfect regenerator, K=99, n=400: false campaign failures 22/2000 = 0.0110 (target <= 0.01)
+H1 too-snug regenerator (0.6x spread), K=99, n=400: campaigns failed 100/100 (power)

@@ -1,0 +1,48 @@
+{
+ "key": "coherence/famverify-hand-r7y",
+ "file": "docs/validation/coherence/famverify-hand-r7y.md",
+ "issues": [
+  {
+   "id": "VF7y-HND-01",
+   "severity": "minor",
+   "kind": "READERS (a hand bend's citation narrower than F4)",
+   "owner": "determinism",
+   "claim": "§7.1's outcome table, its last row ('every other infeasible declaration (item 101 R2) | bent | the nearest lawful declaration, named in one line', base l. 11354), lists 'the course an aqueduct drawn across a standing wall takes over or through it by its level (§2.7's laws, law 1 (2), (5))'. The bend's operator text, §7.1 Raised ways (l. 11161-11163), bends 'a course §2.7's laws do not admit ... to the nearest course they admit, else refused (item 363; §2.7's laws, law 1 (2)-(6), (9)-(11); law 2 (a), (c), law 3 ...)', and its key bend.wall.aqueductArch (V09 l. 2103) cites law 1 (2)-(6), (9)-(11), law 2 (a), law 3. adjudication-r7x.md's F4 writes a hand bend with that whole set and adjudication-r7y.md's F1 paragraph conforms 'a citation that sets a narrower set than F1 for a line'; this row was swept by neither pass. A builder taking the row's set bends the course for the aqueduct's level and a gate or tower (5) but not off a raised way's ends under a band (4), a fixed place (6), a held building's strip (9), a shape-locked wall's merge (10) or a Tier-1 footprint (11); §7.1 Raised ways decides the case and §5.3's law-1 row rejects any other build at the commit - a reader narrower than the step it names (adjudication-r7y.md's class grade).",
+   "required_change": "§7.1's outcome table, the row 'every other infeasible declaration (item 101 R2)' (base l. 11354): \"the course an aqueduct drawn across a standing wall takes over or through it by its level (§2.7's laws, law 1 (2), (5))\" → \"the course an aqueduct drawn across a standing wall takes over or through it by its level (§2.7's laws, law 1 (2)–(6), (9)–(11), law 2 (a), law 3; `bend.wall.aqueductArch`)\"."
+  },
+  {
+   "id": "VF7y-HND-02",
+   "severity": "minor",
+   "kind": "CATALOGUE (a hand bend whose cause no row names)",
+   "owner": "determinism; END V09",
+   "claim": "A warp and a revert move a wall's trace by hand and are bent where the moved stretch meets a standing raised way: §7.1's warp paragraph resolves 'each meeting the warp makes of a wall-like structure and a raised way ... by §2.7's laws (law 2 A warp), the raised way the older where it moved both' (base l. 11121-11123); law 2 (a) gives 'a warp's result' 'the lawful shape law 3 picks nearest it' (l. 2810-2811); Order dates what 'a re-shape, a warp, a revert' move (l. 2682-2683); law 4 lists 'a warp, a revert' (l. 2862); §7.1's lead names every bend 'in one line' (l. 11301-11303). The raised way's side has its cause (bend.raised.wall's source cell, 'a raised way's own edit ... its worked example the crossing table's C13', V09 l. 2102; C13 naming 'a warp that moves it, a revert', l. 3312). The wall's side has none: §7.1's bend.wall.raisedCrossing row lists 'a hand drawWall, a moved trace vertex, a re-anchored stretch, repairWall's new stretch ..., a run a hand carve or moved river re-traces or a run a hand setAttr re-sections ..., a placeGate or a gate's slid crossing ..., or a castle sited or resized by hand' (l. 11351), and V09's source cell 'a hand stretch across or beneath a standing raised way' (V09 l. 2104) reads W2's list (l. 3347), which names no warp or revert; the warp's own rows are the kernel's (bend.warp.halved, refuse.warp, V09 l. 1996, 1999). One builder names a warped or reverted stretch's moves in bend.wall.raisedCrossing's line, another in the catch-all line or none; the geometry is the laws' in every build and no bar counts lines (VF7x-HND-01's and VF7w-HND-02's class).",
+   "required_change": "(1) §7.1's outcome table, the bend.wall.raisedCrossing row, its cause (base l. 11351): \"a hand `drawWall`, a moved trace vertex, a re-anchored stretch,\" → \"a hand `drawWall`, a moved trace vertex (a `moveVertex`, or a stretch a `warp` or a `revert` moves: §2.7's laws, law 2 *A warp*, law 4), a re-anchored stretch,\". (2) END at V09, §4.9's bend.wall.raisedCrossing, its source cell (V09 l. 2104): \"§7.1's outcome row for a hand stretch across or beneath a standing raised way,\" → \"§7.1's outcome row for a hand stretch across or beneath a standing raised way (a stretch a `warp` or a `revert` moves among them),\"."
+  },
+  {
+   "id": "VF7y-HND-03",
+   "severity": "minor",
+   "kind": "TESTS (a hand cell's outcome its named test does not set up)",
+   "owner": "scope",
+   "claim": "Row W14 (a hand setAttr of a stretch's grade or of the enceinte's kind, re-derived by §7.3's S7 operator (H)) gives in its C2 cell 'its standing towers and gates kept, a re-section whose new footprint of one would lie where law 1 (5) bars it, or whose new top would leave one in a crossing law 1 (5) bars (an aqueduct's arch no longer clearing the wall), having no lawful shape there (law 2 (c))', naming 'T110-2 (4) (H), T-V7-48 (E)' (base l. 3359); by hand that outcome is (G3), refuse.raised.meeting (l. 11352). T-V7-48 runs only the epoch REPLACEMENT's wait (V07 l. 3715); T110-2 (4)'s two hand re-sections - a light stretch re-graded to full under the aqueduct (l. 19488-19491) and the hand drawWall's kind set to a wider band (l. 19541-19543) - set up no kept gate. So the hand refusal is run by no bar: a build that keeps the old section on the stretch under the arch, or refuses with another key, keeps law 1 and passes T110-4 (c) (l. 19693-19719) and every other bar; one that moves the gate or leaves its footprint under the arch fails §5.3's law-1 row (law 1 (11), (5)). A test gap whose wrong build keeps law 1 (VF7x-TST-02's class).",
+   "required_change": "§13.2's T110-2 (4) (base l. 19541-19543): after \"a hand `setAttr` of the hand `drawWall`'s kind, under the aqueduct, to a kind whose band is wider (W14), as the grade change;\" insert \" and, on a variant whose hand `drawWall` makes its gate for a ground way under the aqueduct's arch in an over crossing whose span clears the wall's top and the gatehouse (§2.7's laws, law 1 (5)), that `setAttr` to a kind whose gatehouse or top that span would no longer clear — refused `refuse.raised.meeting`, nothing of either written, the gate unmoved (§2.7's laws, law 1 (5), (11), law 2 (c); its worked example row W14);\"."
+  },
+  {
+   "id": "VF7y-HND-04",
+   "severity": "minor",
+   "kind": "READERS (the shape lock restated wider than law 1 (10))",
+   "owner": "V09",
+   "claim": "V09 §4.20.2 (4) ends its list of hand ops that bring a wall and a raised way together - among them 'a Change over time breach, dismantle or delete of a wall beneath a deck' and a carve - with 'each the same with either side placement-locked, pinned or neither, a placement-locked thing's change shown as the fate reshaped (a shape-locked one's never made: §2.7's laws, law 1 (10))' (V09 l. 3037-3039): read as written, a shape-locked thing's change is never made. Law 1 (10) bars less - 'no op makes or deepens (commit) a meeting with a shape-held thing that changes it: a wall-like line, band or strip newly across the strip of a vault-use span of it, an aqueduct merged into it, a soffit lowered over a run of it, a gate made in it' (base l. 2741-2743), its first half holding outline and size - and The soft readings follow what stands 'at every step - whichever side's op puts something across a strip or takes the last thing off it' (l. 2776-2779). So a hand delete of a wall beneath a shape-locked raised way's vault span lays its chamber again (W11·C8 'as W11·C2': 'V04 lays again an arch vault the run stood over', l. 3356; Part P pass 8, PRB7H-LCK-02). A build of V09's words that refuses that delete, or keeps the chamber off, departs from the laws; §7.1's Delete and V04's reconcile run the step and the laws decide it, and T110-2 (4)'s shape-locked C8 run of W11 over the state sweep (l. 19479-19496, 19289-19290) with §5.3's law-1 row (law 1 (8)) catches either build - a reader wider than the laws it cites (adjudication-r7y.md's class grade). J150's hand-off does not reach it: a delete is no undo, redo, re-grade or repair (PRB7H-LCK-02).",
+   "required_change": "V09 §4.20.2 (4) (V09 l. 3038-3039): \"a placement-locked thing's change shown as the fate *reshaped* (a shape-locked one's never made: §2.7's laws, law 1 (10))\" → \"a placement-locked thing's change shown as the fate *reshaped*, and no meeting made or deepened that changes a shape-locked one, its readings otherwise following what stands (§2.7's laws, law 1 (10); *The soft readings*)\"."
+  }
+ ],
+ "held_notes": [
+  {
+   "site": "base §7.3 (b) 3 (l. 11703) × §4.11's carve (l. 8961)",
+   "note": "'it cuts every other way the new channel ⊕ bank setback meets' names no exception for a raised way whose deck passes over a moved river's new channel, where a carve keeps it by the way-and-channel table's row (e) — raised way × water; persisting as adjudication-r7y.md's held note 4."
+  },
+  {
+   "site": "V09 §4.9's refuse.undo.dependent (V09 l. 2009) × base §7.1's undo row (l. 11319) and §7.4 Independence (l. 12038-12041)",
+   "note": "the line 'Later changes by {authors} depend on this. Undo those first.' is the refusal's only form, while §7.1's undo row never offers an event of session host:port to undo first and §7.4 keeps a target such an event depends on live: an undo whose only dependent is a port event asks the user to undo what no session may undo, and no form says the target stays — undo × dossier, no wall meeting needed."
+  }
+ ]
+}

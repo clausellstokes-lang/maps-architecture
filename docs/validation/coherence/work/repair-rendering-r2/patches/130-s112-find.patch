@@ -1,0 +1,41 @@
+# §11.2: G120-rendering (the gazetteer's class counts and its match listing by class, area and layer under knowledge
+# admission — the listing V09's panel and `live.find`, V10's FindAnswer, V01's gapUnits and V12 read; T120-2's definition).
+@@ FILE 11.2.md
+<<<<
+  | { kind: 'gazetteer'; text?: string; kinds?: string[]; page?: number }
+====
+  | { kind: 'gazetteer'; text?: string; kinds?: string[]; counts?: boolean /* g item 120 (b): the class counts */;
+      chips?: FindChip[] /* item 120 (g): each chip's match listing; §2.9's FindChip */; gaps?: boolean /* with chips: Show gaps' units, V01 §5.4 (3) */;
+      page?: number }   // answered as GazetteerAnswer (below)
+>>>>
+<<<<
+  sub?: { id: Id; path: string /* the sub-part under the point: 'spans/<ordinal>' of a raised way, 'crossings/<retaining wall id>' of a way, 'tiers/<k>' of a stepped building */ } }   // computed on the main thread from the hit-test slices (§8.9) within 1 ms
+====
+  sub?: { id: Id; path: string /* the sub-part under the point: 'spans/<ordinal>' of a raised way, 'crossings/<retaining wall id>' of a way, 'tiers/<k>' of a stepped building */ } }   // computed on the main thread from the hit-test slices (§8.9) within 1 ms
+// The gazetteer's answer (§14's non-visual route; g item 120 (b), (g)–(i), J133): the list and search over what the document holds, Find's
+// class counts and each chip's match listing — every row, count, match and gap computed after *Knowledge* (below) at the caller's key as at
+// the city band, so a thing the key withholds is never suggested, counted, listed or hinted at (item 120 (h)).
+type FindLayer = 'ground'|'underground'|'sky';   // the arena a row lies on: Find's Ground, Below and Sky (V10's FindAnswer reads it)
+interface GazetteerAnswer {
+  rows: { id: Id; kind: string /* the registry kind when withheld */; name?: string; withheld?: true; cls?: BuildingClass /* a use's or institution's class; absent when withheld */;
+    district?: Id; layer: FindLayer; tier: FactTier }[];   // `text` matched against names, V11 §2.3's labels and synonyms and the dossier's names; `kinds` filtering; kind, then address order; ≤ 64 KB a page
+  classes?: { cls: BuildingClass; count: number; layers: { layer: FindLayer; count: number }[] }[];   // with `counts`: each class of which the document holds an admitted use, its count per layer ("Blacksmith · 4"); a class it lacks is absent
+  matches?: { chip: number /* its index in `chips` */; count: number; layers: { layer: FindLayer; count: number }[];
+    byClass: { cls: BuildingClass; count: number }[] /* a word chip's split by class */; byArea: { area: Id /* the district a match lies in */; count: number }[];
+    ids: Id[] /* this page's matches: the layer the caller names first, then address order */; none?: Id[] /* with `gaps`, a kind chip: V01 §5.4 (3)'s gap units' ids, ≤ limits.members */ }[];
+  page: number; more: boolean }
+>>>>
+<<<<
+every joined node (a relation, never a `withheld: true` row); an inactive one is not listed (V08 §5.2; file f item 410).
+====
+every joined node (a relation, never a `withheld: true` row); an inactive one is not listed (V08 §5.2; file f item 410).
+**Find's match listing (g item 120; J133).** A chip's matches are, by its kind: a **kind chip** — every entity holding
+an admitted `Use` whose `cls` is among its classes, a building or plot on Ground, an underground or island entity on
+Below and Sky (V04 §5.1's `underFindPlaces` and V05 §5.6 read their places), one match per entity whatever its uses; an
+**address chip** — its target, a place, an institution or an area (a `FindArea`, V01 §5.4), or a person's household
+dwelling and workplace (§10.3); a **dossier chip** — the address `entity { dossierKey }` answers for its key, else its
+anchor (V08 §3.16 (6) (e)). A target the document no longer holds, or the key withholds, matches nothing and counts 0.
+This listing is T120-2's definition of a chip's matches; V09's panel and `live.find`, V10's `FindAnswer`, V01's
+`gapUnits` (its members) and V12's statistics read it, from the generation worker's Find index, rebuilt once per commit
+(§12.5).
+>>>>

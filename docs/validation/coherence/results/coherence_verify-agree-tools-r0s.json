@@ -1,0 +1,206 @@
+{
+ "key": "coherence/verify-agree-tools-r0s",
+ "file": "docs/validation/coherence/verify-agree-tools-r0s.md",
+ "issues": [
+  {
+   "id": "VAT-01",
+   "severity": "blocker",
+   "kind": "DISAGREE",
+   "claim": "The oasis flag of a lake's point-and-level form sits in two different places. Base §7.1 (l.9366, l.9388) puts it in the points form: `PointsForm.spring?: true`, so a drawn oasis is `drawWater { …, from: { points: [p], levelCm, spring: true } }`, and `drawWater` has no top-level `spring`. V09 writes it at the event's top level in three places: §4.5's T2 mapper (l.1726: `drawWater { kind: 'lake', from: { points: [p], levelCm }, spring? }`), §4.21.1 (2) (l.3100–3101: `drawWater { kind: 'lake', from: { points: [p], levelCm }, spring: true }`) and T-V9-71 (l.3870), which commits that shape 'byte-equal to V10's encoding'. A schema built from §7.1 then refuses the canvas's oasis. A lax reader instead drops the flag and lays a plain lake. Either way the generator behaves differently from §7.1.",
+   "required_change": "V09 §4.5's T2 mapper row (l.1726) and §4.21.1 (2) (l.3100–3101): write the oasis as `drawWater { kind: 'lake', add: [], from: { points: [p], levelCm, spring: true } }`, the flag inside the points form (§7.1's `PointsForm.spring`; item 111 (a)). T-V9-71 (l.3870) names that shape.",
+   "owner": "V09"
+  },
+  {
+   "id": "VAT-02",
+   "severity": "blocker",
+   "kind": "DISAGREE",
+   "claim": "V10 §4.1's `lake` encoder (l.2571) writes `drawWater { kind: 'lake', add: [], from: { points: [p], levelCm: ground(p) + depthM × 100 } }` and says 'with `spring` the event carries `spring: true` … byte for byte V09 §4.21.1 (2)'s **Spring-fed (oasis)** mapper'. That is the top-level flag V09 writes. Base §7.1 declares the flag only on the points form (`PointsForm.spring`, l.9366; `drawWater.from`, l.9388). So the clerk's oasis either fails §7.1's schema or comes out as a plain lake (T-V10-45's drawn-oasis fixture).",
+   "required_change": "V10 §4.1's `lake` row (l.2571): 'with `spring` the points form carries the flag — `from: { points: [p], levelCm: ground(p) + depthM × 100, spring: true }` (§7.1's `PointsForm.spring`; item 111 (a)), byte for byte V09 §4.21.1 (2)'s mapper as VAT-01 corrects it'.",
+   "owner": "V10"
+  },
+  {
+   "id": "VAT-03",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "The reader's seven kinds are declared twice, with different shapes. Base §11.2's `Query` (l.14329–14330) declares `{ kind: 'sites' } | { kind: 'measure' } | { kind: 'frame' } | { kind: 'rule' } | { kind: 'profile' }` with no fields and no answer types: 'each member's fields and its answer type … exactly as V10 §2.13's `ClerkQuery` gives them'. V10 §2.13 (l.949–959) declares the same members with fields — `sites { cls; near?; radiusM?; district?; k? }`, `measure { from; to; by? }`, `frame { week; near?; radiusM?; page? }`, `rule { table; key }`, `profile { cls }` — plus the answer types MapBrief … FieldDrivers (l.962–1060). V10 then calls itself their home: 'These are base types … declared here once; §11.2 cites them (item 468)' (l.936). File f item 468 is BCR-V10-1 applied as written (archive V10 l.3052–3075). It puts into §11.2 itself both the seven members 'exactly as V10 §2.13's ClerkQuery gives them' and, after the union, 'the declarations of MapBrief …, EntityCard, SiteCandidate, MeasureAnswer, FrameAnswer, RuleAnswer, ProfileAnswer, WhyAnswer …, WhySection, WhyCause, WhyFamily, WhyPull, WhyLink and FieldDrivers exactly as V10 §2.13 gives them, with QueryResult for these kinds being that type'. The archive base had none of these members, and the rewrite added them field-less. As it stands, a typed `query({ kind: 'sites', cls })` is no §11.2 `Query`. The base's M3a oracle and reader (item 468: BASE, M3a) also hang on a staged volume's (M3c) declarations, against principle (1), S1 and S3. The matrix homed these subjects at V10 by 'most-stated' only.",
+   "required_change": "§11.2: give the `sites`, `measure`, `frame`, `rule` and `profile` members V10 §2.13's fields, as the `entity` member already has them. After the `Query` union, declare `MapBrief`, `EntityCard`, `SiteCandidate`, `MeasureAnswer`, `FrameAnswer`, `RuleAnswer`, `ProfileAnswer`, `WhyAnswer`, `WhySection`, `WhyCause`, `WhyFamily`, `WhyPull`, `WhyLink` and `FieldDrivers` as V10 §2.13 gives them, with `QueryResult` for each of these kinds that type (file f item 468 as written). Drop the comment 'exactly as V10 §2.13's `ClerkQuery` gives them'.",
+   "owner": "rendering"
+  },
+  {
+   "id": "VAT-04",
+   "severity": "major",
+   "kind": "DUPLICATE-HOME",
+   "claim": "V10 §2.13 re-declares base records. `PlacementOrder` is declared at V10 l.1079 and also at base §2.8 l.2486. File f item 271 (BCR-V10-15 as written: 'with `PlacementOrder` declared after it exactly as V10 §2.13 gives it') put the declaration in the base. V10's copy also lacks the base comment on `k`: 'claims first, then item 105 (f)'s anchors first'. Separately, V10 §2.13's opening (l.936) claims the home of the item-468 types, 'declared here once; §11.2 cites them', which file f item 468 gives to §11.2 (VAT-03).",
+   "required_change": "V10 §2.13: drop the `PlacementOrder` declaration (l.1078–1079) and cite §2.8's. With VAT-03 applied, replace the `ClerkQuery` union and the `MapBrief` … `FieldDrivers` declarations with a citation of §11.2. Keep this volume's own declarations: `LookAnswer`, the row-id family table, and those file f items 311, 270 and 290 home here (`ExplainRequest`, `Explanation`, `WhyProvider`, `WhySectionProvider`, `raisedOutcome`, `RaisedOutcome`). The opening sentence reads: 'The reader's and the oracle's types are §11.2's (file f item 468); this section declares the volume's own and those file f items 270, 290 and 311 place here'.",
+   "owner": "V10"
+  },
+  {
+   "id": "VAT-05",
+   "severity": "major",
+   "kind": "DUPLICATE-HOME",
+   "claim": "`MsgRef` is declared twice. Base §11.2 (l.14299) declares `type MsgRef = { key: string; args?: Record<string, string | number | { id: Id }> }`, 'declared in @plat/model … (file f item 463)'. V09 §2.9 (l.704) declares `type MsgRef = { key: MsgKey; args?: … }` again. File f item 463 (BCR-V9-12 as written) declares it in `@plat/model`, the base. §5.2's F-EDIT row, §7.1's outcome table, `PreviewResult`, `ConflictAction` and V10's `DraftItem.bent` all use the one type. The matrix homed `MsgRef` at V09 by 'most-stated' only.",
+   "required_change": "V09 §2.9: drop `type MsgRef = …` (l.704). Keep its two comment rules as a note on §11.2's type: 'MsgRef is §11.2's (@plat/model; file f item 463), its key a `MsgKey` of this catalogue; an `{ id }` argument is an address rendered under a key …; a line a panel builds from band-less data … under the view's effectiveKey()'.",
+   "owner": "V09"
+  },
+  {
+   "id": "VAT-06",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "A refusal's own catalogue line has no carrier in the API, and three units read three different fields for it. §7.1 (l.9667) says 'Each outcome carries its catalogue key (V09 §4.9) as a `MsgRef`', and §5.2's F-EDIT row (l.8380) gives 'the action … as a `MsgRef`'. V09 §3.3 (step 6; *Refused and bent*, l.1030, l.1051–1058) draws the refusal card from the row of the engine's code (V09 §4.9's codes column: 'F-EDIT `dossier-owned`', '`E_LOCKED`; `ConflictAction` `unlock`', 'F-EDIT naming a staged layer', l.1881–1900). V09 §2.9 (l.738) reads a `ConflictAction`'s `msg` as its button's words. V10 §2.9 (l.698) takes `ClerkRefusal.msg` as 'the dry run's MsgRef, V09 §4.9's refuse.* row for the code', and V10 §4.2 (1) (l.2636) shows 'its actions … as refusals'. §11.2's results carry only `actions: ConflictAction[]` on conflict (`ApplyResult`, l.14303; `PreviewResult`, l.14309), whose kinds are moveTo · unlock · unassign · reroute · stale · invalid. With that alone, `refuse.locked`, `refuse.water` and `refuse.warp` all arrive as an `unlock` action and cannot be told apart. And `refuse.staged`, `refuse.dossierOwned`, `refuse.dossierRemove` (its `rejectSite`/`placeAt`), `refuse.undo.creation` and `refuse.roster.dossier` match no kind, so neither surface can word them.",
+   "required_change": "§11.2: `ApplyResult`'s conflict member becomes `{ status: 'conflict'; outcome: MsgRef /* the row of §7.1's dry-run outcome table: its key (refuse.* …) with its arguments, rendered per caller (§9.2) */; actions: ConflictAction[] }`. `PreviewResult`'s `ok|conflict` member gains `outcome?: MsgRef /* on conflict: as ApplyResult's */`. §11.3's `doc.rejected { conflicts }` carries the same. `ConflictAction.msg` is stated to word its own button (V09 §2.9). §5.2's F-EDIT action cell then reads 'the outcome's key and the actions that table gives the cause, each a `MsgRef`'. V09 §3.3 step 6 and V10 §2.9's `ClerkRefusal.msg` cite `outcome`.",
+   "owner": "rendering"
+  },
+  {
+   "id": "VAT-07",
+   "severity": "major",
+   "kind": "DUPLICATE-HOME",
+   "claim": "E-04 unified the event-to-tool mapping into one table, yet §7.1 still carries two that disagree. One is the toolkit's layer table with 'the events it emits' (l.9728–9741); the other is E-04's binding (l.9748–9762), and E-04's ruling named 'the partial twelve-tools table' among the pieces it replaces. The two differ throughout:\n- the binding homes at T6 `drawChamber`, `placeAccess`, `addUndergroundAccess`, `unassign`, `rejectSite`, `openUse`/`closeUse`/`relocateUse`/`mutate` and `swapUse`, none of which the layer table's T6 row emits;\n- T2's `convert` terrain ops and `setAttr` on `geology` are homed but not emitted;\n- T3's `convert` wall ops and `setAttr` on a retaining wall or the castle are homed but not emitted;\n- T10's `unlock`, `unpin` and `rerollLayer` are homed but not emitted;\n- T11's `setAttr(knownTo)`, `setAttr(displayText)` and `rerollLayer(naming)` are homed but not emitted;\n- T12's `placeLight`, a light's `setAttr`/`delete` and its `rerollLayer`s are homed but not emitted;\n- the layer table's T9 row lists `drawFootprint`, which the binding homes at T6.\nThe tests disagree on which table counts. T101-1 (l.16029–16030) checks 'every tool maps to its declaration kinds in §7.1's table'. V10 §4.1 (l.2550, l.2613–2616) and T-V10-1 (l.2898) restrict each clerk tool to 'its row of §7.1's toolkit table', the layer table. §7.1 (l.9744–9745) says T-V10-1 checks the binding. V10's own T3 `repair`/`wear` encoders emit `convert`, which the layer table's T3 row does not list.",
+   "required_change": "§7.1: the layer table keeps its layer and tool columns (and the sky sentence). Its 'the events it emits' column is replaced by one sentence: 'the events each tool homes are the binding's below; a mode may also emit a kind another tool homes (toolkit.json's `emits`, V09 §2.3), as T9's footprint drag emits `drawFootprint`' (E-04, one table). T101-1 and T101-2 (§13.2, l.16029–16031) read 'the binding (§7.1)'. V10 §4.1 (l.2550, l.2613–2616) and T-V10-1 (l.2898) then read 'its tool's rows of §7.1's binding' in place of 'its row of §7.1's toolkit table'.",
+   "owner": "determinism"
+  },
+  {
+   "id": "VAT-08",
+   "severity": "major",
+   "kind": "MATRIX-GAP",
+   "claim": "The binding has no home tool for several (kind, target) pairs that V09 emits, so V09-ICONF-2's unit of the binding is incomplete. §7.1 homes `moveVertex` only on a gate's crossing and a retaining wall's chain (T3) and on an access point (T9). It homes `instance` only as 'adding a hood pin' (T6), 'groups of trees' (T8) and 'on furniture' (T9). The handles of V09 §3.5 (l.1137–1160) emit `moveVertex` on a road or wall chain point, a wall stretch's anchor vertex, and a raised way's `rampEnd` and interior point. V09 §4.6 (l.1745–1746) moves a decoration or a hood pin by `instance { op: 'move' }`. §7.1's own edit-target rows add `moveVertex` on shores and coasts (l.9627), on a tunnel (l.9638) and on an island's key (l.9639). None of these pairs has a home in §7.1 or a row in V09 §4.3. T-V9-12 (l.3811) walks the `HandleSet` emits against the binding, and T101-2 enumerates the table, so both find these pairs unbound (principle (7): every edit kind has its tool).",
+   "required_change": "§7.1's binding adds:\n- T2 `ground`: '`moveVertex` on a shore or coast';\n- T3 `wall`: '`moveVertex` on an enceinte's trace, a stretch's anchor vertex among them';\n- T4 `road`: '`moveVertex` on a way's, a raised way's (its ends onto ground vertices) or a tunnel's chain';\n- T9 `shape`: '`moveVertex` on an island's key';\n- T6 `place`: 'instance adding a hood pin' becomes '`instance` on a hood pin (add, move, remove, restyle)';\n- T8 `fill`: 'instance groups of trees' becomes '`instance` on trees and §8.10's other decoration instances (add, move, remove, restyle)'.\nV09 §4.3 adds each pair's row with V09 §3.5's handles and V09 §4.6's move as its gestures.",
+   "owner": "determinism"
+  },
+  {
+   "id": "VAT-09",
+   "severity": "major",
+   "kind": "MATRIX-GAP",
+   "claim": "The client-side form of a points-form event is a subject shared by the canvas (V09), the clerk (V10) and the event schema (§7.1), and only V10 states it. V10 §4.1 (l.2552–2554) says 'a geometry field the dry run resolves is written empty in the points form — `points: []`, `boundary: []`, `add: []` as the base's own events have it'. No base text says so: §7.1 types `drawWay.points`, `drawWall.points`, `drawTunnel.points`, `drawWater.add`, `drawBoundary.polygon`, `drawChamber.polygon` and `quarter.boundary` as required fields and only says the dry run stores the derived shape in them. Only `placeAt`'s `plot: ''` is stated (item 367). V09's mappers write these events without the fields (VAT-22), while T101-3, T-V10-4 and T-V9-71 demand that the canvas and the clerk emit one byte sequence.",
+   "required_change": "§7.1's *Points in, shape out* bullet adds: 'A client sends a points-form event with each geometry field the dry run resolves written empty — `points: []` (`drawWay`, `drawWall`, `drawTunnel`), `boundary: []` (`quarter`), `add: []` (`drawWater`), `polygon: []` (`drawBoundary`, `drawChamber`), and a `placeAt`'s `plot: ''` (item 367) — beside its `from`; the dry run fills them, so every surface writes one byte form (T101-3)'. V10 §4.1 (l.2552–2554) then cites it.",
+   "owner": "determinism"
+  },
+  {
+   "id": "VAT-10",
+   "severity": "major",
+   "kind": "MATRIX-GAP",
+   "claim": "Three causes that produce `invalid` are stated outside E-07's one-home outcome table, each citing §7.1 for an outcome §7.1 does not hold:\n- §8.2 (l.12018–12020): 'a `setStyle` event carrying a refused sheet fails its dry run with the conflict action `invalid` (§7.1)';\n- §9.2 (l.13189): 'an `editTable` fails its dry run with `invalid` (§7.1)' when `knowledge.admit` would let more knowledge show less;\n- V10 §2.10 (l.708–711): an `editTable` on `clerk.ops` from a document's override layer, a skeleton or a host is refused `invalid` with `refuse.clerk.opsDevice` (V09's row, l.2168).\n§7.1's outcome table (l.9669–9703, 'the one home of every refusal, conflict and bend cause') has none of the three. VDC0-36 proposes retiring `ConflictAction` `invalid` if no row produces it, which would orphan all three.",
+   "required_change": "§7.1's outcome table adds three rows:\n- 'a `setStyle` whose sheet leaves an unresolved or ambiguous layer-order pair (§8.2; J-R39) | conflict `invalid` | the pairs, listed in the style dialog; nothing applied | V09 §4.9's row';\n- 'an `editTable` on `knowledge.admit` by which a `public` row would admit finer than `city` or a higher tier finer than a lower one (§9.2) | conflict `invalid` | the offending rows | V09 §4.9's row';\n- 'an `editTable` on `clerk.ops` from a document's override layer, a skeleton or a host (V10 §2.10) | refused `invalid` | — | `refuse.clerk.opsDevice`'.\nThe table states that these are the rows producing `ConflictAction` `invalid`. §8.2, §9.2 and V10 §2.10 cite the rows. V09 §4.9 gains the two catalogue rows (T-V9-15).",
+   "owner": "determinism"
+  },
+  {
+   "id": "VAT-11",
+   "severity": "major",
+   "kind": "MATRIX-GAP",
+   "claim": "`EditBase.group` (§7.1 l.9354: `group?: number /* one undo step */`) has no rule for who mints it or how it stays unique. §7.4's *Targets* (l.10330) says only that 'a `group` counts as one step and `of` names its first event'. Two clients write groups into one user session: V09's canvas (§3.3 step 7's committed group, §3.6, §3.7, §3.9's Go back, §4.6's move, each 'one group') and V10's harness (§4.2 (1): 'one fresh `group` for the whole proposal'). If they choose the same number, two separate commits become one undo step. If they choose different numbers for one batch, an accepted proposal's undo splits. The matrix lists no subject for it.",
+   "required_change": "§7.1's `group` comment: 'one undo step: every event of one `edit` (or `confirm`) call that carries `group` shares it; the engine writes it at commit as the `seq` of that call's first event, whatever number the client sent, so a group is unique in the log and `undo.of` names it'. §7.4's *Targets* cites it. V09 §3.3 step 7 and V10 §4.2 (1) cite §7.1 for the value.",
+   "owner": "determinism"
+  },
+  {
+   "id": "VAT-12",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "V09 §4.3's T10 row (l.1651) binds `rerollLayer('forest')` and offers 'the woods' trees' among Try again's scope chips at a village rung. Base §6.1 registers no `forest` concern; the rerollable set (l.8693–8721) is naming, naming.emblem, style.jitter, style.crowns, style.compass, render.instances and village.track. `rerollLayer.concern` is `RerollableConcern`, generated from that registry (§7.1 l.9442), and §7.1's T10 row (l.9759) homes only `rerollLayer('village.track')`. So the application would send an event the schema refuses. VDC0-15 and VV78-13 fix V07's side only. V09's J-V9.101 (l.4251) also still argues from '§7.1's T10 row lists no layer re-roll', which the live binding contradicts.",
+   "required_change": "V09 §4.3's T10 row (l.1651): drop `rerollLayer('forest')` and the woods' trees from Try again's village scope chips. A village's woods re-roll with T12's **New trees**, `rerollLayer('render.instances')` as §6.1 registers it and §7.1 binds it, the form VDC0-15 gives V07. J-V9.101 (l.4251) reads '…because §7.1's T10 row homes only the village track's re-roll'.",
+   "owner": "V09"
+  },
+  {
+   "id": "VAT-13",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "V10 §4.1's T9 `tiers` encoder (l.2597) writes `setMassing { id: target, op: 'tiers', count, insetCm, top, stairs, stairWidthCm }`. Base §7.1 (l.9432) declares the event as `{ t: 'setMassing'; building: Id; op: MassingOp }`: the target field is `building`, not `id`. V10's event therefore fails §7.1's schema. T-V10-4's golden would carry a shape the canvas, whose V09 §4.20.5 mapper writes `setMassing { op: 'tiers' … }` on the selected building, cannot match.",
+   "required_change": "V10 §4.1's `tiers` row (l.2597): `setMassing { building: target, op: 'tiers', count, insetCm: insetM × 100, top, stairs, stairWidthCm: stairWidthM × 100 }`: §7.1's `building` field, the op V02 §4.6 (1)'s `MassingOp` `tiers` member.",
+   "owner": "V10"
+  },
+  {
+   "id": "VAT-14",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "V10 §4.3 (l.2656–2658) says that once later events follow an accepted proposal, 'the `owner` role's `undo(h, of)` runs the independence check …, and an `editor` is sent to the history panel, where the group is undone like any other'. No such editor path exists. §11.2 (l.14279) gives `undo(h, of?)` with '`of` only for the `owner` role', and V09 §4.10's history controls (l.2222) offer **Undo this** to the owner role only (`undo(h, of)`). An editor's card keeps **Undo** (V10 §2.6: 'the harness offers `undo` from acceptance on'; V09 §4.11) for a group it cannot undo.",
+   "required_change": "V10 §4.3: replace 'and an `editor` is sent to the history panel, where the group is undone like any other (§7.4)' with: 'for an `editor` the card's **Undo** is drawn only while the group is the session's latest live group, `undo(h)` (§11.2 names an earlier event for the `owner` role only, and V09 §4.10's **Undo this** is the owner's)'. V10 §2.6's 'the harness offers `undo` from acceptance on' carries the same condition for an editor's session.",
+   "owner": "V10"
+  },
+  {
+   "id": "VAT-15",
+   "severity": "major",
+   "kind": "DUPLICATE-HOME",
+   "claim": "The twelve tools' id enumeration is declared twice. V09 §2.3 (l.467) has `type ToolId = 'intend'|'ground'|'wall'|'road'|'quarter'|'place'|'roster'|'fill'|'shape'|'hold'|'name'|'dress'`. V10 §2.3 (l.423) restates the same twelve in `type ToolName = 'intend'|…|'dress' | 'read_map'|'why'|'check_draft'|'critique'`. V10's own `useTool` already describes its tool as 'one of the twelve canvas tools (V09 §2.3's ToolId)' (l.584).",
+   "required_change": "V10 §2.3 (l.423–424): `type ToolName = ToolId /* V09 §2.3: the twelve tools of §7.1 */ | 'read_map'|'why'|'check_draft'|'critique';`.",
+   "owner": "V10"
+  },
+  {
+   "id": "VAT-16",
+   "severity": "major",
+   "kind": "MATRIX-GAP",
+   "claim": "`advance` on a dossier-bound document is refused, and the refusal has no words or control in V09. §11.2 (l.14287: 'refused on a dossier-bound document') and V06 §2.3 (l.607–609; J-V6.2) state the refusal: 'the host's clock owns its time … The refusal offers its alternative: \"Make a what-if copy and advance it\" (`forkAt` at the head, detached, V06 §4.4)'. V09 hosts the time card's **Advance** (§4.3 l.1661, l.1665; §5.6). Yet V09 §4.9 has no row for this refusal or its what-if alternative (no 'what-if' anywhere in V09), and V09 states no rule for Advance in a dossier-bound document. T-V9-15 treats a refusal the engine can emit with no row as a CI failure. The matrix lists no subject for it.",
+   "required_change": "V09 §4.9 adds the row `refuse.dossierClock` ('SettlementForge keeps this town's time; make a what-if copy to run it ahead.') with codes '§11.2's `advance` refusal on a dossier-bound document (V06 §2.3)' and buttons `button.whatIf` app(`openCopy` at the head: a detached `forkAt`, V06 §4.4; in host mode by `HostSlots.newDocuments`) · `button.showWhy` why. V09 §5.6 states that the time card's **Advance** shows that row on a dossier-bound document.",
+   "owner": "V09"
+  },
+  {
+   "id": "VAT-17",
+   "severity": "major",
+   "kind": "HANDOFF-OPEN",
+   "claim": "Hand-off XV-V9-34 (V09 §10.2 l.4366: '`downgradeWay`, `upgradeWay` and `repairRaised` on T9, as §7.1's binding homes them → V06 §4.2') is not closed at its destination. V06 §4.2's row 'let a lane go, bring it back' (l.3256) still reads 'T4 `road`'s class chip on a way (`path` ↔ its former class) | `convert` `downgradeWay` / `upgradeWay`'. Base §7.1's binding homes both at T9 `shape` (l.9758), and V09 §4.3 (l.1624) does too (J-V9.104).",
+   "required_change": "V06 §4.2 (l.3256): 'T9 `shape`'s class chip on a selected way (`path` ↔ its former class; §7.1's binding)'.",
+   "owner": "V06"
+  },
+  {
+   "id": "VAT-18",
+   "severity": "major",
+   "kind": "HANDOFF-OPEN",
+   "claim": "V06's hand-off X6 to V09 (agreement.json V06:X6: 'the forward path from the past') is not closed at V09. V06 §5.1's timeline paragraph (l.3426–3429) says that while the thumb is off 'now' the map shows the band 'Year N — viewing the past' and 'every disabled tool offers the way forward: V09's \"Open a copy from here\" (a `forkAt` at the seq of the frame on screen …; item 101 R2)'. V09 §5.6 (l.3442–3443) disables the tools 'with V06's \"viewing the past\" band' but offers no way forward. V09 §4.9 has no row for the band or its button: `button.openCopy` appears only on `refuse.restore.dossier` (l.1905). So the past view's disabled tools are dead ends, against item 101 R2.",
+   "required_change": "V09 §5.6 (after l.3443): 'and every disabled tool offers **Open a copy from here**: `forkAt` at the seq of the frame on screen (V06 §5.1; V09 §3.9; in host mode by `HostSlots.newDocuments`)'. V09 §4.9 adds the band's row `info.past.viewing` ('Year {year} — viewing the past', V06 §5.1's words) with `button.openCopy` app(`openCopy`, the frame's seq).",
+   "owner": "V09"
+  },
+  {
+   "id": "VAT-25",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "V09 has no screen for a district's terracing, which §7.1's binding gives to T8. §7.1's binding T8 row (l.9757) homes `setAttr(fabric)`, `setAttr(fabricParams.*)` and `setAttr(terrace)` with their `regenerate`, and its layer table (l.9737) names 'the Terraces chip, one undo group'. V01 §1b (l.274) names 'T8's Terraces chip (`setAttr`)' as the writer of `District.terrace`. V09 §4.3's T8 layout row (l.1642) lists only `setAttr(fabric)` + `regenerate` and `setAttr(fabricParams.*)`, and §4.5's T8 row (l.1732) has only the Layout card. V09 has no Terraces chip anywhere, so T-V9-12's pair-by-pair check finds (`setAttr`, `District.terrace`) with no screen.",
+   "required_change": "V09 §4.3's T8 layout row (l.1642): '`setAttr(fabric)` + `regenerate`, `setAttr(fabricParams.*)`, `setAttr(terrace)` + `regenerate` | T8 `fill` (layout card on a district, with its **Terraces** chip, V01's `terrace`: on · off)'. V09 §4.5's T8 row (l.1732) adds the chip to its modes, its mapper reading 'terraces → `setAttr(district.terrace)` + `regenerate` (grouped, V01)'.",
+   "owner": "V09"
+  },
+  {
+   "id": "VAT-19",
+   "severity": "minor",
+   "kind": "DISAGREE",
+   "claim": "V10 states that §7.1's T10 row lists no re-roll, but it does. `HoldInput`'s comment (l.901) says 'no layer re-roll: T10's row lists no rerollLayer', and J-V10.84 (l.3158) builds on the same premise. §7.1's binding (l.9759) and §7.4's `rerollLayer` row (l.10291) home `rerollLayer('village.track')` at T10. The village track's re-roll then reaches the clerk only through `hold`'s `events` escape hatch, which V10 §4.5 (l.2688) and T-V10-25 (l.2922) do not list among the scoped layer re-rolls (names, compass, emblem, trees).",
+   "required_change": "V10 §2.12's `HoldInput` comment (l.901): 'the village track's re-roll, §7.1's T10 `rerollLayer('village.track')`, reaches the model through `events` (V10 §4.1's escape hatch); new names are name.newNames (T11), a display re-roll dress.restyle (T12)'. J-V10.84's premise reads 'T10's row homes only the village track's re-roll'. V10 §4.5 and T-V10-25 add the village track to the layer re-rolls.",
+   "owner": "V10"
+  },
+  {
+   "id": "VAT-20",
+   "severity": "minor",
+   "kind": "DISAGREE",
+   "claim": "V10 §3.16's `rule` category (l.2213) misfiles four codes. It names 'the rung' and 'a warp or new water reaching a held record' as dry-run refusals that are neither dossier nor lock, and lists `refuse.warp`, `refuse.water` and `refuse.islandsRung` among the engine's codes. But §7.1's first outcome row (l.9671) refuses `refuse.warp` and `refuse.water` for a lock or pin, which is V10's `lock` category. And `refuse.islandsRung` is no dry-run outcome. V09 §4.9 (l.1901) words it for §7.8's disabled control. V05 §3.23 (l.1755) bends an API or clerk sky declaration below CITY to a ground quarter, refusing it only where the rung is a dossier fact, and §7.1 has no rung row.",
+   "required_change": "V10 §3.16: the `lock` row's 'when' reads 'an F-EDIT naming a lock or pin — `refuse.locked`, `refuse.water`, `refuse.warp` (§7.1's first row)'. The `rule` row drops 'the rung', 'a warp or new water reaching a held record', `refuse.warp`, `refuse.water` and `refuse.islandsRung`. A sky declaration below CITY reaches the card as V05 §3.23's bend.",
+   "owner": "V10"
+  },
+  {
+   "id": "VAT-21",
+   "severity": "minor",
+   "kind": "DISAGREE",
+   "claim": "§7.1 types `drawWay.from` as 'two points: the route derived by S4's router' (l.9387), and its points-form bullet says 'a road joins two points' (l.9794). §4.3's *Two-point roads* (l.5211–5219) admits two or more points, each consecutive pair routed, and V10 §4.1's T4 encoder writes `from: { points: [from, ...via, to] }` (l.2580). Read by §7.1, a `via` point has no meaning.",
+   "required_change": "§7.1 l.9387: `from?: PointsForm /* two or more points: each consecutive pair routed by S4's router at the dry run (§4.3); with raised, by the raised-way course solver */`. l.9794: 'a road joins its points, pair by pair, by S4's router with its class (§4.3)'.",
+   "owner": "determinism"
+  },
+  {
+   "id": "VAT-22",
+   "severity": "minor",
+   "kind": "DISAGREE",
+   "claim": "V09 §4.5's mapper column writes points-form events without the geometry fields V10 §4.1 writes empty, while both volumes claim to emit the same bytes. The rows: T2's lake, river and harbour, with no `add: []` (the harbour also lacks `kind`, which V10 gives as 'harbour_basin'); T3's `drawWall { points or from: { points }, kind, closed }`; T4's `drawWay { class, widthCm, from: { points: [a, b] } }`, with no `points: []`; T5's `quarter { kind, name?, band?, from }`, with no `boundary: []` (l.1726–1729). §4.21.1 (2) (l.3100) does the same. V10 §4.1 (l.2571–2581) and T-V9-71 (l.3870, 'byte-equal to V10's encoding') claim byte equality (T101-3).",
+   "required_change": "V09 §4.5's mapper paragraph (l.1710–1713) adds 'points forms are written as §7.1 states, each resolved geometry field empty (VAT-09)'. The harbour mapper reads `drawWater { kind: 'harbour_basin', add: [], from: { points: [shore], levelCm, sizeM2 } }`.",
+   "owner": "V09"
+  },
+  {
+   "id": "VAT-23",
+   "severity": "minor",
+   "kind": "DISAGREE",
+   "claim": "`interface Draft` names two different records: V09 §2.4's (l.494, the canvas's live gesture: tool, mode, points, strokes) and V10 §2.4's (l.491, the clerk's draft of items with its scratch and forkHead). The canon's defined terms list 'draft' twice, with homes V09 and V10 and two meanings (canon glossary rows of 'draft'). V09 §2.10 (l.795–796) names its types 'so that none collides with volume 10's', a rule this name breaks (principle (2)).",
+   "required_change": "V10: rename the type `Draft` to `ClerkDraft` at its four references (l.242, l.452, l.491, l.1111). `DraftItem`, `CreatedRef` and the words 'the draft' stay as they are.",
+   "owner": "V10"
+  },
+  {
+   "id": "VAT-24",
+   "severity": "minor",
+   "kind": "DISAGREE",
+   "claim": "The canon's glossary row G-newrandom (canon l.154) rules that 'Try again' is only New random's catalogue label, and V09 §4.9 (l.1853) repeats it ('the re-roll control's \"Try again\" is New random'). Yet V09 gives the same label to two other actions. The drawer's proposal card reads '**Try again** → `retry`' (l.2320), a new clerk turn that V10 §5.4 (l.2755) lists among the card's buttons. And `button.tryAgain` 'Try again' (l.2080) words `error.exportFailed`'s export retry (l.1925). The same label then names three different actions, on the canvas and on the card beside it.",
+   "required_change": "V09 §4.11 (l.2320): the card's `retry` is worded **Ask again** (V10's `clerk.alt.stale.retry` words, now used for every card), and V10 §5.4's list (l.2755) follows. `button.tryAgain` (l.2080) becomes `button.retry` 'Retry' for `error.exportFailed` (l.1925; its text 'Try again?' becomes 'Retry?'). 'Try again' stays New random's label alone.",
+   "owner": "V09"
+  }
+ ]
+}

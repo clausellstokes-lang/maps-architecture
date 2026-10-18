@@ -1,0 +1,54 @@
+{
+  "table": "ways",
+  "version": 1,
+  "section": "§4.3",
+  "rows": {
+    "through": {
+      "widthM.TOWN": {"value": [8, 12], "unit": "m", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "widthM.CITY": {"value": [10, 14], "unit": "m", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "widthM.METROPOLIS": {"value": [12, 16], "unit": "m", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "minRadiusM": {"value": 60, "unit": "m", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "separationM": {"value": 60, "unit": "m", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "bridgeAllowed": {"value": false, "unit": "none", "provenance": "architecture 2026-09-25", "calibratable": false}
+    },
+    "primary": {
+      "widthM.TOWN": {"value": [6, 10], "unit": "m", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "widthM.CITY": {"value": [8, 12], "unit": "m", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "widthM.METROPOLIS": {"value": [10, 14], "unit": "m", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "minRadiusM": {"value": 40, "unit": "m", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "separationM": {"value": 40, "unit": "m", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "bridgeAllowed": {"value": false, "unit": "none", "provenance": "architecture 2026-09-25", "calibratable": false}
+    },
+    "secondary": {
+      "widthM.TOWN": {"value": [5, 7], "unit": "m", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "widthM.CITY": {"value": [6, 8], "unit": "m", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "widthM.METROPOLIS": {"value": [6, 9], "unit": "m", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "minRadiusM": {"value": 25, "unit": "m", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "separationM": {"value": 30, "unit": "m", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "bridgeAllowed": {"value": true, "unit": "none", "provenance": "architecture 2026-09-25", "calibratable": false}
+    },
+    "lane": {
+      "widthM.TOWN": {"value": [3, 5], "unit": "m", "provenance": "ref:NG 1.2.2 width law (code), P8", "calibratable": false},
+      "widthM.CITY": {"value": [3, 5], "unit": "m", "provenance": "ref:NG 1.2.2 width law (code), P8", "calibratable": false},
+      "widthM.METROPOLIS": {"value": [3, 5], "unit": "m", "provenance": "ref:NG 1.2.2 width law (code), P8", "calibratable": false},
+      "minRadiusM": {"value": 12, "unit": "m", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "separationM": {"value": 15, "unit": "m", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "bridgeAllowed": {"value": true, "unit": "none", "provenance": "architecture 2026-09-25", "calibratable": false}
+    },
+    "alley": {
+      "widthM.TOWN": {"value": [2, 3], "unit": "m", "provenance": "ref:NG 1.2.2 width law (code), P8", "calibratable": false},
+      "widthM.CITY": {"value": [2, 3], "unit": "m", "provenance": "ref:NG 1.2.2 width law (code), P8", "calibratable": false},
+      "widthM.METROPOLIS": {"value": [2, 3], "unit": "m", "provenance": "ref:NG 1.2.2 width law (code), P8", "calibratable": false},
+      "minRadiusM": {"value": 6, "unit": "m", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "separationM": {"value": 8, "unit": "m", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "bridgeAllowed": {"value": false, "unit": "none", "provenance": "architecture 2026-09-25", "calibratable": false}
+    },
+    "graph": {
+      "junctionMergeM": {"value": 8, "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "minCrossingCdeg": {"value": 3000, "unit": "cdeg", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "deckNormalTolCdeg": {"value": 1000, "unit": "cdeg", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "chaikinPasses": {"value": 2, "unit": "count", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "kSlope": {"value": 100, "unit": "ratio", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"}
+    }
+  }
+}

@@ -1,0 +1,80 @@
+SEAT coherence/adjudicate-r7-laws — the Maps program's coherence pass, round 7 (family-only), the LAWS (orchestrator brief, 2026-10-02).
+
+WHAT THIS SEAT IS
+The owner directed the program to work the raised-way × wall family alone until it is solved (J144), and set the lock rule: a lock on walls, aqueducts and similar structures holds placement, not shape (J144, with the program's guardrails G1–G3). Round 7's adjudication (docs/validation/coherence/adjudication-r7.md) wrote the family as an enumerated table, R7-02: 13+ wall events × 13 raised-way states × paths. Three probe passes then attacked it and found 20, 13 and 31 majors. They are not converging. Each pass finds editor operations, generation steps and epoch paths that the table has no row for:
+  - a castle's keep dragged, a terrain stroke, a warp, a width or class change, a revert;
+  - a skeleton's creation prefix, a replay's burial, a harbour chain, a village pathway;
+  - S3's order before S4 commits, T over priced decks, S5d's top-up.
+The owner chose a different method (J146, docs/PROGRESS.md; the owner's words: "Laws + examples (Recommended)"):
+  - the family is governed by a small set of normative LAWS, stated once at §2.7;
+  - R7-02's tables become WORKED EXAMPLES; where an example and the laws differ, the laws govern, and a case no example lists is decided by the laws;
+  - a finding in this family is MAJOR only where the laws give two outcomes or none for a case, contradict an owner rule, or no bar checks an invariant of law 1. A case missing from the examples is no finding.
+You write the laws and decide every open finding against them. You amend docs/validation/coherence/adjudication-r7.md in place; the repair seats write the design text from it.
+
+READ FIRST, WHOLE:
+  1. docs/PROGRESS.md: the J144, J145 and J146 rows.
+  2. adjudication-r7.md: R7-01, R7-02 (the lock, bent-group and fixed-place sentences, the tables, the veto list), R7-03 – R7-07, and Part P (passes 1 and 2).
+  3. The pass-3 probe files: docs/validation/coherence/probe-r7c-locks.md, probe-r7c-gen.md and probe-r7c-time.md (40 findings, ids PRB7C-*).
+  4. The owner rules: docs/AMENDMENTS-2026-09-28g.md items 110 (b), (f) and 114; item 101 (R2, and R13 as J144 reads it); J141's severity standard.
+  5. The live §2.7 support step, read by grep and in ranges.
+
+WRITE THE LAWS: "Part L — the family's laws", a new section placed before Part F, normative. Keep it short: at most about two pages of rules. Every sentence must be one a builder can implement once, as a general resolver.
+
+LAW 1 — WHAT A VALID MEETING IS: the invariants. One list that holds after EVERY commit, at every rung and on every path. Derive it from item 110 (b) and (f), J144 and the rulings that stand. It covers at least:
+  - no junction between a raised way and a ground way;
+  - an aqueduct crosses a wall's line only under a span, never at a support;
+  - a road deck never crosses a standing wall's line; it comes down before it, to a gate on ground part 0;
+  - no wall band, strip or line over a ramp, stair or foot;
+  - no gate's, postern's or tower's footprint in an under-deck strip;
+  - no fixed place, with its footprint, in a fixed-place zone. Define fixed place once, as a class (a place the wall's own law fixes: a river's water gate, an anchor and its tower, a castle's weld vertices, its town-side gate and vertex towers, a harbour-mouth chain), not as a list to extend;
+  - a run beneath a span capped at its soffit;
+  - a vault span read open, with no chamber, while anything lies across its strip (define "anything" once);
+  - a held building's chamber and footprint untouched;
+  - every structure's placement as held by its lock.
+Define "strip", "zone", "footprint", "beyond the foot" and "the band" ONCE, as functions of the structures that stand. Several raised ways are their union. Village kinds take their section.
+
+LAW 2 — ONE WAY TO RESOLVE ANY MEETING, whatever op made it:
+  (a) The op that creates or changes the meeting reshapes its OWN structure first, locally (G1).
+  (b) Failing that, it reshapes the standing structure's local shape only: gates, posterns and towers moved along that structure's line; a vault span read open. Never its placement (J144), never a fixed place, never a held building.
+  (c) Failing that, the op gives way (G3):
+      - by hand: refused, with the nearest lawful alternative (item 101 R2), and never an Unlock offered for a blocker that is not locked;
+      - at generation or a regeneration: the newer structure is not built, or the stage takes its ladder, with what an unwalled stage then reads stated once;
+      - at an epoch: it waits, except an op that cannot wait (a river already moved), which takes one named fallback;
+      - in a replay: the same as an epoch.
+  State which structure is "newer" for every path once: generation stage order, an epoch's op order, a creation prefix's log order, a regeneration's held-before-every-stage.
+  Things that do not stand yet when a step reads them — footprints, widths, stations before S4 commits — are read from the rows they will be built by.
+
+LAW 3 — ONE TIE-BREAK among lawful shapes: the least displacement, measured along the line it moves on, then a fixed order (spine order, then address). Deterministic.
+
+LAW 4 — EVERY OP RE-CHECKS. Every op on every path that changes the geometry, kind, width, class, existence or held state of a wall-like structure or a raised way re-checks law 1 for the meetings it touches, in its own commit, and resolves them by laws 2–3. That includes every generation stage, every epoch op, every village step, every hand tool, warp, revert, split or merge, a replay, a skeleton import and undo. Undo is the event's inverse.
+  - G2 stands: every reshape of a held thing is shown, as a fate by hand and a report entry otherwise.
+  - A bend of the user's own stroke is a bend, not a fate.
+  - The types must exist: EditFate's `reshaped` with what it met and the change, and the report entry.
+
+THE INVARIANT IS CHECKED AT RUNTIME. Add §5.3's row: law 1 checked at every stage end and every commit. Add ONE property bar: T110-2's new clause, or a new T-, that runs law 1 after every commit across the family's fixtures, the state sweep, a randomised op sequence on fixed seeds, and every path. That bar is what makes a missing example harmless.
+
+THE EXAMPLES. Keep R7-02's tables, Part P's amendments and the three sentences as worked examples, marked non-normative, each citing the law it illustrates. Remove from them anything that contradicts the laws, and fix the example rather than the law unless the law is wrong. Shorten them where a law now says it.
+
+DECIDE EVERY OPEN FINDING. Add "## Part P — Pass 3 under the laws (J146)". One row per PRB7C id:
+  - CLOSED BY LAW n: the laws decide it uniquely; say how in one line;
+  - LAW REFINED: the laws were ambiguous here; quote the refinement written into Part L;
+  - OWNER-RULE CLASH: flag it at the head of Part P;
+  - REJECTED: with the reason.
+Then re-check every pass-1 and pass-2 amendment (PRB7-*, PRB7B-*) against the laws, and list any you supersede. Every major the round's verify could raise against a law must be impossible to raise against an example.
+
+ENDS. Write ENDs so that:
+  - the design's home, §2.7's support step (6), states Part L's laws normatively, with the examples after them marked as such;
+  - every reader and restatement (§4.x, §5.3, §7.1–§7.4, §8, §11, the volumes' sites the round's Part H names) cites "§2.7's laws" instead of restating;
+  - the tests carry the property bar.
+Restate the owner's veto list for the family: keep only behaviours a builder would see, and mark which law each comes from.
+
+OUTPUT. adjudication-r7.md, amended in place: Part L added, R7-02 marked as examples, the pass-3 Part P added, ENDs and Part H updated. Mark each change "(J146)". Write results/coherence_adjudicate-r7-laws.json:
+  {"file": "docs/validation/coherence/adjudication-r7.md", "laws": n, "pass3": {"closed_by_law": n, "law_refined": n, "owner_clash": n, "rejected": n}, "superseded_amendments": [ids], "veto_items": n}
+Log lines to docs/lane-events.log:
+  - a CHECKPOINT after reading;
+  - a CHECKPOINT after Part L;
+  - a CHECKPOINT after the pass-3 decisions;
+  - a LANDED line.
+If a Part L with your CHECKPOINT already exists, RESUME from it.
+
+RULES. Run no state-changing git commands (no add, commit, push, checkout, reset, stash). Change no design text. Never change an owner rule. Never record your reading of the owner's words as the owner's. Your final message must be exactly the JSON result object, nothing else.

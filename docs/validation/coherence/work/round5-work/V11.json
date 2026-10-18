@@ -1,0 +1,11 @@
+[
+ {
+  "id": "VV1112-r4-03",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "owner": "V11",
+  "claim": "V11 \u00a74.1 (l. 4834\u20134840) cites J-V11.113 for its whole delete refusal. Since round 3 that refusal includes \"a table's named row (V11 \u00a72.1's settings form \u2014 `settings`, `structure`, `festival.staging`'s `fallback` \u2014, whose cells its readers read with no fallback)\". This round, \u00a77.1's row (base l. 10586; VV1112-r3-04) and V09's `refuse.table.required` row (l. 2006; VV1112-r3-05) were conformed to it. J-V11.113 (l. 5280) still records four cases \u2014 \"what readers fall back to \u2014 a table's `defaultRow`, an `allowFallback` target, a totality rule's only cover, the last row of a table not `mayEmpty`\". It is the third restatement of the same rule, and the sweep missed it. A stale record; nothing built changes.",
+  "required_change": "J-V11.113: \"chose to refuse a row delete that would remove what readers fall back to \u2014 a table's `defaultRow`, an `allowFallback` target, a totality rule's only cover, the last row of a table not `mayEmpty` \u2014\" \u2192 \"chose to refuse a row delete that would remove what readers fall back to or need \u2014 a table's `defaultRow`, an `allowFallback` target, a totality rule's only cover, a table's named row (V11 \u00a72.1's settings form), the last row of a table not `mayEmpty` \u2014\"; the rest of the record stands.",
+  "reported_by": "verify-vol-V11-V12-r4t"
+ }
+]

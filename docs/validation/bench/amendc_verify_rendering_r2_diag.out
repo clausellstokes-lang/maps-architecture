@@ -1,0 +1,7 @@
+== the floor law under a diagonal sun (azimuth 45 deg in this frame = the fixed sun 315 deg mirrored); shadow start along pixel-centre diagonals, law c against the exact law
+  1:500 DPR 2, fixed sun 45 deg altitude, 45 m tower 6 m wide: floor cell there 4 px (level 2); 724 line-offset pairs; worst lengthening 4.24 px (corner offset 3 px, line -90) = 1.06 x the cell side; shortened on 0; on the centre lines (|line| <= 2) worst 4.24 px = 1.06 x the cell side (corner offset 3 px)
+  1:500 DPR 2, fixed sun 45 deg altitude, 20 m house 6 m wide: floor cell there 2 px (level 1); 362 line-offset pairs; worst lengthening 1.41 px (corner offset 1 px, line -90) = 0.71 x the cell side; shortened on 0; on the centre lines (|line| <= 2) worst 1.41 px = 0.71 x the cell side (corner offset 1 px)
+  1:500 DPR 2, path sun 15 deg altitude, 45 m tower 6 m wide: floor cell there 16 px (level 4); 2896 line-offset pairs; worst lengthening 21.21 px (corner offset 15 px, line -90) = 1.33 x the cell side; shortened on 0; on the centre lines (|line| <= 2) worst 21.21 px = 1.33 x the cell side (corner offset 15 px)
+== axis-aligned control (azimuth 0, the repair receipt's frame), same law and scan along pixel-centre rows
+  1:500 DPR 2, fixed sun 45 deg altitude, 45 m tower 6 m wide: floor cell 4 px; worst lengthening over every corner offset 3.00 px = 0.75 x the cell side
+  1:500 DPR 2, path sun 15 deg altitude, 45 m tower 6 m wide: floor cell 16 px; worst lengthening over every corner offset 15.00 px = 0.94 x the cell side

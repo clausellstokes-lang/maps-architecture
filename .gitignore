@@ -1,0 +1,42 @@
+# Maps program — private repository (owner, 2026-09-29: "upload this all to a github repository").
+# Kept LOCAL ONLY, and why:
+#  - captures/              2.5 GB of recorded sessions of the reference generators, including their program bundles
+#                            (third-party code; the clean-room rule forbids handing it to implementers) and session logs
+#  - reference/             third-party source repositories (TownGeneratorOS, a Foundry module) with their own .git
+#  - research/patreon/      995 MB archive of watabou's Patreon posts (third-party, copyrighted)
+#  - research/devlogs/      itch.io devlog copies (third-party)
+#  - research/ftg-docs/     copies of the Fantasy Town Generator's guide pages (third-party)
+#  - research/external/     fetched third-party pages
+#  - research/reference-maps/ copyrighted study images (Wizards of the Coast, Larian)
+#  - profiler/.profiles/    browser profiles used for capture (may hold site logins)
+#  - profiler/node_modules/ installable dependencies (npm install restores them)
+#  - backups/               local snapshot tarballs (git history replaces them)
+captures/
+reference/
+# (no trailing slash: on the owner's Mac these five are symbolic links to ~/Desktop/research/, and a pattern ending
+#  in '/' matches only real directories)
+research/patreon
+research/devlogs
+research/ftg-docs
+research/external
+research/reference-maps
+profiler/.profiles/
+profiler/node_modules/
+backups/
+.claude/*
+# shared harness settings (J177: the workflow concurrent-agent gate) travel with the repository
+!.claude/settings.json
+.DS_Store
+**/.DS_Store
+*.lock
+__pycache__/
+*.pyc
+# The build (plat/): installable dependencies and build output are restored by `pnpm install` and `pnpm build`
+node_modules/
+.pnpm-store/
+plat/**/dist/
+*.tsbuildinfo
+plat/**/coverage/
+
+# machine-local lane tracker (tools/lanes.py; absolute journal paths of this session)
+docs/ACTIVE-RUN.json

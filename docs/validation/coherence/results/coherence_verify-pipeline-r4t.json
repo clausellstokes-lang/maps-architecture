@@ -1,0 +1,30 @@
+{
+ "key": "coherence/verify-pipeline-r4t",
+ "file": "docs/validation/coherence/verify-pipeline-r4t.md",
+ "issues": [
+  {
+   "id": "VPC-R4-01",
+   "severity": "major",
+   "kind": "EDGE-UNDEFINED",
+   "claim": "The support step's last run at generation (§2.7 (6) (a), l. 2586–2591) treats S5b's and S5c's ways as obstacles, and 'a station this run can neither slide nor omit within `maxClearSpanM` and `maxPierM` keeps the place the earlier run gave it, and the S7 part it meets gives way'. It gives no outcome for an S5b or S5c way the station meets. §4.3's new generation half (l. 5629–5632) lets a later stage's way cross an unlocked raised way's strip anywhere its soffit meets *The clearance*. That way keeps off only ramps, stairs and feet, not the earlier run's pier rings, and §4.3 says the last run 'slides the supports off it' with no exception. §4.8's lead (l. 7590–7593) and §4.1's S7 row (l. 4932) name only the S7 part. A pier may be impossible to slide (both neighbouring spans must stay ≤ 1.5 × the band's top, 12 m for timber) and impossible to omit (merged clear span ≤ 20 m timber, 30 m masonry; V11 §3.24.2), for example a wide corridor under a timber viaduct or two ways close together. There an S5c street or S5b road under an S4 or S5b viaduct either keeps the pier in its corridor or is bent, depending on the builder. T110-2 (3) (l. 18412–18413) counts no pier in a way corridor, and its clause (5) covers epochs only. repair-r4-pipeline's hand-off 1 names this gap.",
+   "required_change": "§2.7's support step (6) (a), after '… a quay, pier, mole or castle path ending at the ring and resuming beyond it —': add 'and an S5b or S5c way whose corridor it stands in is bent in that batch round its ring to cross under the nearest span beside it whose clear width holds the way's width + `raisedWays.structure.clearWidthM` (§4.3), else ended at the under-deck strip as at a reservation (§4.4 S5c's legality), an arterial so ended re-routed by F-ROUTE's ladder (§5.2) —'. The adjudicator may rule another last rung, provided no pier stands in a way's corridor, no span or pier passes its bound and the raised way stands. END at pipeline: §4.3 l. 5631–5632 'and the support step's last run (*The slot*, below) slides the supports off it ((6) (a))' reads 'and the support step's last run (*The slot*, below) slides or omits the supports off it, a way meeting one it can do neither for giving way round its ring ((6) (a))'; §4.8's lead l. 7592 and §4.1's S7 row l. 4932 read 'the S7 part, or the S5b or S5c way, it meets'. END at scope: T110-2 (3) l. 18412–18413 adds 'or an S5b or S5c way's corridor' to its 0-pier list, with a CITY fixture whose S4 timber viaduct is crossed by a `through` S5b road and an S5c street at stations no slide or omission clears.",
+   "owner": "model"
+  },
+  {
+   "id": "VPC-R4-02",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "claim": "In §4.11 *The clock* (4) (l. 8447–8451), a calamity carried late rides the absorb's first epoch: 'with none, the port folds one at the absorb's week for it', and 'with the absorb's week itself before the last epoch's (V08 §3.6's degenerate row) it folds no epoch'. V08 §3.6 (3) (l. 1862–1863), its §3.17 row (l. 2674) and T-V8-49 (g) instead give no epoch when '`W₁` not after `W₀` (a clock turned back, or no week past the last epoch's)'. Take a second sync in the same week as the last epoch (a population move folds one at `W₁`) that carries a calamity dated earlier. The base folds an epoch at `W₀` on top of the last one, with `years` 0 and its event at `W₀` + 1, outside that epoch's span (`EpochInputs.events[].week` lies in (the previous epoch's week, week], l. 8325). V08 folds no epoch and applies the changes finished. The two units give two outcomes for one case (R3-03 (b)), and the base's outcome is impossible. The citation 'V08 §3.6's degenerate row' also names a row that sits in V08 §3.17's edge table.",
+   "required_change": "§4.11 *The clock* (4) l. 8450–8451: 'with the absorb's week itself before the last epoch's (V08 §3.6's degenerate row) it folds no epoch' reads 'with the absorb's week itself not after the last epoch's (a clock turned back, or no week past it; V08 §3.17's row for V08 §3.6) it folds no epoch'. END at scope: T76-1's late-calamity fixture (l. 18174–18175) adds 'and one carried by an absorb at the last epoch's own week — no epoch, its dated changes applied finished, noted'.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VPC-R4-03",
+   "severity": "minor",
+   "kind": "WIRING",
+   "claim": "Round 4 adds the warning `W_RAISED_CROSSING`. S5a's carve reports it (§4.4 *Outer moats*, l. 5878), and so does the last support run after S7 (§2.7 (6) (a); §4.8's lead 'reported'). §5.4's `stages[].warnings` comment (l. 9253) lists a stage's own non-kernel warning codes: S3's `W_WALLED_BY_BARRIERS` and `W_MOAT_DRY`, S10b's `W_DOSSIER_EDGE` and the underground's. It does not list `W_RAISED_CROSSING`, so the list omits a code its own rule reports (R3-03's minor class).",
+   "required_change": "§5.4 l. 9253, the `warnings` comment: after 'S10b's `W_DOSSIER_EDGE` (§4.7 S10b)' add ', S5a's and S7's `W_RAISED_CROSSING` (§2.7's support step (6); §4.4 *Outer moats*; §4.8)'.",
+   "owner": "determinism"
+  }
+ ]
+}

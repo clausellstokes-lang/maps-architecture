@@ -1,0 +1,39 @@
+== NR4-1: stamp-tile variants with a shared border band; 5 seeds x 4 configurations; tile 64 m, r0 4 m ==
+
+CHOSEN (band r0/2, cut)
+  points per tile 158–167 (median 162); shared band share of a tile's points 0.11–0.14; build per class (band + 4 fills + 4 ranks, software exp) median 19.5 ms
+  within-tile toroidal min distance 1.00 x r0; quarter-prefix spread 1.52–1.77 x r0
+  256 2x2 arrangements x 5 seeds, all ranks: cell-crossing pairs < r0: 0 (< r0/2: 0); closest in mixed-variant blocks 1.00 x r0, in same-variant blocks 1.00 x r0
+  256 2x2 arrangements x 5 seeds, rank < 0.6 (district band): cell-crossing pairs < r0: 0 (< r0/2: 0); closest in mixed-variant blocks 1.00 x r0, in same-variant blocks 1.00 x r0
+  256 2x2 arrangements x 5 seeds, rank < 0.25: cell-crossing pairs < r0: 0 (< r0/2: 0); closest in mixed-variant blocks 1.00 x r0, in same-variant blocks 1.67 x r0
+  by edge distance [0,W) / [W,W+r0) / beyond (W = band half-width; INDEP uses W = r0): points per 100 m2 3.63–4.44 / 3.57–4.35 / 3.85–4.14
+     largest empty circle 1.20 / 1.07 / 1.08 x r0; insertable area (nearest point > r0) 0.57 % / 0.05 % / 0.05 %; whole tile 0.112 %
+
+WIDE (band r0, cut)
+  points per tile 154–172 (median 163); shared band share of a tile's points 0.20–0.25; build per class (band + 4 fills + 4 ranks, software exp) median 18.4 ms
+  within-tile toroidal min distance 1.00 x r0; quarter-prefix spread 1.50–1.79 x r0
+  256 2x2 arrangements x 5 seeds, all ranks: cell-crossing pairs < r0: 0 (< r0/2: 0); closest in mixed-variant blocks 1.01 x r0, in same-variant blocks 1.01 x r0
+  256 2x2 arrangements x 5 seeds, rank < 0.6 (district band): cell-crossing pairs < r0: 0 (< r0/2: 0); closest in mixed-variant blocks 1.01 x r0, in same-variant blocks 1.02 x r0
+  256 2x2 arrangements x 5 seeds, rank < 0.25: cell-crossing pairs < r0: 0 (< r0/2: 0); closest in mixed-variant blocks 1.02 x r0, in same-variant blocks 1.66 x r0
+  by edge distance [0,W) / [W,W+r0) / beyond (W = band half-width; INDEP uses W = r0): points per 100 m2 3.44–4.17 / 3.49–4.57 / 3.65–4.25
+     largest empty circle 1.18 / 1.08 / 1.10 x r0; insertable area (nearest point > r0) 0.30 % / 0.08 % / 0.04 %; whole tile 0.108 %
+
+BANDBR (band r0, Bridson in band)
+  points per tile 157–173 (median 166); shared band share of a tile's points 0.27–0.31; build per class (band + 4 fills + 4 ranks, software exp) median 16.0 ms
+  within-tile toroidal min distance 1.00 x r0; quarter-prefix spread 1.53–1.76 x r0
+  256 2x2 arrangements x 5 seeds, all ranks: cell-crossing pairs < r0: 0 (< r0/2: 0); closest in mixed-variant blocks 1.00 x r0, in same-variant blocks 1.00 x r0
+  256 2x2 arrangements x 5 seeds, rank < 0.6 (district band): cell-crossing pairs < r0: 0 (< r0/2: 0); closest in mixed-variant blocks 1.00 x r0, in same-variant blocks 1.01 x r0
+  256 2x2 arrangements x 5 seeds, rank < 0.25: cell-crossing pairs < r0: 0 (< r0/2: 0); closest in mixed-variant blocks 1.00 x r0, in same-variant blocks 1.53 x r0
+  by edge distance [0,W) / [W,W+r0) / beyond (W = band half-width; INDEP uses W = r0): points per 100 m2 4.69–5.31 / 2.76–3.61 / 3.65–4.25
+     largest empty circle 1.06 / 1.09 / 1.10 x r0; insertable area (nearest point > r0) 0.02 % / 0.05 % / 0.04 %; whole tile 0.040 %
+
+INDEP (four independent tiles)
+  points per tile 157–171 (median 164); shared band share of a tile's points 0.00–0.00; build per class (band + 4 fills + 4 ranks, software exp) median 17.4 ms
+  within-tile toroidal min distance 1.00 x r0; quarter-prefix spread 1.51–1.75 x r0
+  256 2x2 arrangements x 5 seeds, all ranks: cell-crossing pairs < r0: 16672 (< r0/2: 2368); closest in mixed-variant blocks 0.12 x r0, in same-variant blocks 1.00 x r0
+  256 2x2 arrangements x 5 seeds, rank < 0.6 (district band): cell-crossing pairs < r0: 6480 (< r0/2: 864); closest in mixed-variant blocks 0.23 x r0, in same-variant blocks 1.01 x r0
+  256 2x2 arrangements x 5 seeds, rank < 0.25: cell-crossing pairs < r0: 1056 (< r0/2: 32); closest in mixed-variant blocks 0.50 x r0, in same-variant blocks 1.51 x r0
+  by edge distance [0,W) / [W,W+r0) / beyond (W = band half-width; INDEP uses W = r0): points per 100 m2 3.13–4.38 / 3.37–4.69 / 3.73–4.12
+     largest empty circle 1.05 / 1.06 / 1.08 x r0; insertable area (nearest point > r0) 0.04 % / 0.05 % / 0.04 %; whole tile 0.042 %
+
+asset (each tile self-contained: 6 B per point + a 16-B stored hash; the format of §8.10): ~3.86 KB per class; ~30.9 KB for 8 classes

@@ -1,0 +1,53 @@
+{
+  "table": "cut",
+  "version": 1,
+  "section": "§4.6",
+  "rows": {
+    "stop": {
+      "uniforms": {"value": 4, "unit": "count", "provenance": "ref:NG 1.2.2 per-face stop threshold (code), P1", "calibratable": false}
+    },
+    "t": {
+      "uniforms": {"value": 3, "unit": "count", "provenance": "ref:NG 1.2.2 centroid-and-bell position (code), P2", "calibratable": false},
+      "holedMarginMax": {"value": 0.45, "unit": "share", "provenance": "ref:NG 1.2.2 centroid-and-bell position (code), P2", "calibratable": false}
+    },
+    "corner": {
+      "holedOffsetShare": {"value": 0.5, "unit": "share", "provenance": "ref:NG 1.2.2 corner-first rule (code), P4", "calibratable": false}
+    },
+    "sides": {
+      "turnTolCdeg": {"value": 1000, "unit": "cdeg", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "tangentWindowM": {"value": 5, "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false}
+    },
+    "arc": {
+      "minSamplePoints": {"value": 3, "unit": "count", "provenance": "ref:NG 1.2.2 fillet rule (code), P6", "calibratable": false}
+    },
+    "width": {
+      "pMin": {"value": 0.5, "unit": "ratio", "provenance": "ref:NG 1.2.2 width law (code), P8", "calibratable": false},
+      "pMax": {"value": 2, "unit": "ratio", "provenance": "ref:NG 1.2.2 width law (code), P8", "calibratable": false},
+      "alleyM": {"value": [2, 3], "unit": "m", "provenance": "ref:NG 1.2.2 width law (code), P8", "calibratable": false},
+      "laneM": {"value": [3, 5], "unit": "m", "provenance": "ref:NG 1.2.2 width law (code), P8", "calibratable": false}
+    },
+    "ladder": {
+      "turnCdeg": {"value": 3600, "unit": "cdeg", "provenance": "ref:NG 1.2.2 rotated-frame retry (code), P7", "calibratable": false},
+      "maxFrames": {"value": 3, "unit": "count", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "maxKernelCalls": {"value": 6, "unit": "count", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "slideStepAttract": {"value": 2, "unit": "ratio", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "substitutionAreaFactor": {"value": 2, "unit": "ratio", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "substitutionSoftShare": {"value": 0.05, "unit": "share", "provenance": "architecture 2026-09-25", "calibratable": false}
+    },
+    "slope": {
+      "thresholdSlope": {"value": 0.05, "unit": "ratio", "provenance": "own", "calibratable": false, "extension": {"over": "both", "mode": "option"}},
+      "weightMax": {"value": 0.5, "unit": "ratio", "provenance": "own", "calibratable": false, "extension": {"over": "both", "mode": "option"}},
+      "slopeScale": {"value": 0.3, "unit": "ratio", "provenance": "own", "calibratable": false, "extension": {"over": "both", "mode": "option"}}
+    },
+    "settings": {
+      "bendMode": {"value": "flatten", "unit": "none", "provenance": "ref:NG 1.2.2 flatten test (code), P5", "calibratable": false, "presets": {"MFCG": {"value": "straightFirst", "provenance": "ref:MFCG 12710731 square test (code), P5"}}},
+      "flattenM": {"value": 0.7, "unit": "m", "provenance": "own", "calibratable": true, "presets": {"MFCG": {"value": 8, "provenance": "ref:MFCG 12710731 square test (code), P5"}}},
+      "flattenShare": {"value": 0.02, "unit": "share", "provenance": "ref:NG 1.2.2 flatten test (code), P5", "calibratable": false},
+      "straightCross2": {"value": 0.99, "unit": "ratio", "provenance": "ref:MFCG 12710731 square test (code), P5", "calibratable": false},
+      "continuationCdeg": {"value": 600, "unit": "cdeg", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "portalGapMinM": {"value": 6, "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "portalGapLaneFactor": {"value": 2, "unit": "ratio", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "portalArrivalCdeg": {"value": [8500, 9500], "unit": "cdeg", "provenance": "architecture 2026-09-25", "calibratable": false}
+    }
+  }
+}

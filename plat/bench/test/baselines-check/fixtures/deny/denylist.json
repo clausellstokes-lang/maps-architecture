@@ -1,0 +1,40 @@
+{
+  "schema": "plat.denylist/1",
+  "normalisationVersion": 1,
+  "digestHexDigits": 16,
+  "date": "2026-10-03T22:04:00Z",
+  "corpusCut": "2026-10-01T00:00:00Z",
+  "salt": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+  "counts": {
+    "tokens": 4,
+    "trigrams": 2
+  },
+  "tokens": [
+    "08abcb1883ae7b47",
+    "46e9bc3476c92ea2",
+    "b1ad9ff6eb8dad4a",
+    "b6b5bcaab8dc5b28"
+  ],
+  "trigrams": [
+    "b9817549cc546b0e",
+    "f060319a77c405da"
+  ],
+  "colours": [
+    "b63888b6e03e0b6b"
+  ],
+  "files": [],
+  "lists": [
+    {
+      "id": 1,
+      "words": [
+        "0065abd009780926",
+        "5e0c9af16adecb2a",
+        "d4ea834145ae8a79"
+      ]
+    }
+  ],
+  "spell": [
+    "6a840baf5d8c3ff2",
+    "74d7151be70fb7de"
+  ]
+}

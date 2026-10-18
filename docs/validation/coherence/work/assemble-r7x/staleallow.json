@@ -1,0 +1,76 @@
+[
+ {
+  "line": 2353,
+  "run": "1 4 is a gate and",
+  "was_in": [
+   "docs/ARCHITECTURE.md"
+  ],
+  "block_reason": "coherence/assemble-r7 (2026-10-02): the assembler's review — §2.7's worked examples, the way-and-channel table's row (d) (repair-r7-model.md's §2.7 block): \"(th"
+ },
+ {
+  "line": 2354,
+  "run": "1 5 6 4 3",
+  "was_in": [
+   "docs/ARCHITECTURE.md"
+  ],
+  "block_reason": "coherence/assemble-r7 (2026-10-02): the assembler's review — §2.7's worked examples, *over the band* (repair-r7-model.md's §2.7 block): \"(law 1 (5), (6); §4.3 *"
+ },
+ {
+  "line": 2369,
+  "run": "clear it is placed along the",
+  "was_in": [
+   "docs/ARCHITECTURE.md"
+  ],
+  "block_reason": "coherence/assemble-r7 (2026-10-02): the assembler's review — §2.7's worked examples, *over the band* (repair-r7-model.md's §2.7 block): \"where the arches do not"
+ },
+ {
+  "line": 2382,
+  "run": "law 1 2 4 of",
+  "was_in": [
+   "docs/ARCHITECTURE.md"
+  ],
+  "block_reason": "coherence/assemble-r7 (2026-10-02): the assembler's review — §2.7's worked examples, the bent-group sentence (*a lawful crossing*) (repair-r7-model.md's §2.7 bl"
+ },
+ {
+  "line": 2383,
+  "run": "law 1 2 5 6",
+  "was_in": [
+   "docs/ARCHITECTURE.md",
+   "docs/volumes/V09-application.md"
+  ],
+  "block_reason": "coherence/assemble-r7: the reviewed row proposed by repair-r7-determinism and repair-r7-scope — coherence/repair-determinism-r7 (proposed): §7.1 *Raised ways*, "
+ },
+ {
+  "line": 2389,
+  "run": "moved to the edge a",
+  "was_in": [
+   "docs/ARCHITECTURE.md"
+  ],
+  "block_reason": "coherence/assemble-r7: the reviewed row proposed by repair-r7-determinism — coherence/repair-determinism-r7 (proposed): §7.1's `bend.wall.raisedCrossing` row, a"
+ },
+ {
+  "line": 2403,
+  "run": "the gate and the wall and",
+  "was_in": [
+   "docs/ARCHITECTURE.md"
+  ],
+  "block_reason": "coherence/assemble-r7 (2026-10-02): the assembler's review — §2.7's worked examples, the way-and-channel table's row (b) and the crossing table's row W13 (repai"
+ },
+ {
+  "line": 2404,
+  "run": "the gate and the wall and the way",
+  "was_in": [
+   "docs/ARCHITECTURE.md"
+  ],
+  "block_reason": "coherence/assemble-r7 (2026-10-02): the assembler's review — §2.7's worked examples, the way-and-channel table's row (b) (repair-r7-model.md's §2.7 block): \"unl"
+ },
+ {
+  "line": 2419,
+  "run": "law 1 2 5 6 10",
+  "was_in": [
+   "docs/ARCHITECTURE.md",
+   "docs/volumes/V09-application.md"
+  ],
+  "block_reason": "coherence/assemble-r7w: the reviewed row proposed by repair-r7w-determinism — coherence/repair-determinism-r7w (proposed): §7.1 *Raised ways*, adjudication-r7w "
+ }
+]

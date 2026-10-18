@@ -1,0 +1,8 @@
+{
+  "$comment": "§17.4: dev-only dependencies outside the allowlist, each with its reason. Never bundled or shipped; the licence check reports them and fails only on the production closure (M0-s-01, C-0058).",
+  "lightningcss": "MPL-2.0 (file-level copyleft): vite 8's CSS transformer, pulled in by vitest's vite peer; runs only inside the test runner, never linked into a PLAT bundle",
+  "lightningcss-darwin-arm64": "MPL-2.0: lightningcss's native binary for this machine; dev-only like lightningcss",
+  "lightningcss-darwin-x64": "MPL-2.0: lightningcss's native binary for an x64 Node (the Mac's Rosetta leg, M0-d-06); dev-only like lightningcss",
+  "lightningcss-linux-x64-gnu": "MPL-2.0: lightningcss's native binary for the Linux x64 cloud container (2026-10-04 move, J174); dev-only like lightningcss",
+  "minimatch": "BlueOak-1.0.0 (permissive): a glob matcher inside typescript-eslint's parser; lint tooling only"
+}

@@ -1,0 +1,53 @@
+{
+ "lane": "m1/W-02b-verifyb",
+ "id": "W-02b-verifyb",
+ "status": "landed",
+ "date": "2026-10-04",
+ "role": "independent verifier of FTG programme 2 (slots 6-27); no site contact, no create, no git state change",
+ "slots": [
+  {"slot": 6, "verdict": "confirmed", "problems": []},
+  {"slot": 7, "verdict": "confirmed", "problems": []},
+  {"slot": 8, "verdict": "confirmed", "problems": []},
+  {"slot": 9, "verdict": "confirmed", "problems": []},
+  {"slot": 10, "verdict": "confirmed", "problems": []},
+  {"slot": 11, "verdict": "confirmed", "problems": []},
+  {"slot": 12, "verdict": "confirmed", "problems": []},
+  {"slot": 13, "verdict": "confirmed", "problems": []},
+  {"slot": 14, "verdict": "confirmed", "problems": []},
+  {"slot": 15, "verdict": "confirmed", "problems": []},
+  {"slot": 16, "verdict": "confirmed", "problems": []},
+  {"slot": 17, "verdict": "confirmed", "problems": []},
+  {"slot": 18, "verdict": "confirmed", "problems": []},
+  {"slot": 19, "verdict": "confirmed", "problems": []},
+  {"slot": 20, "verdict": "confirmed", "problems": []},
+  {"slot": 21, "verdict": "confirmed", "problems": []},
+  {"slot": 22, "verdict": "confirmed", "problems": []},
+  {"slot": 23, "verdict": "confirmed", "problems": []},
+  {"slot": 24, "verdict": "confirmed", "problems": []},
+  {"slot": 25, "verdict": "confirmed", "problems": []},
+  {"slot": 26, "verdict": "confirmed", "problems": [
+   "non-blocking residual of the R-41 widening, not a capture defect: 2 of the 11 added names (.layoutParameters.stages[1].buildingMaterial and .layoutParameters.stages[1].placeWallAfter) take a form control's value at the two-stage sizes, so at a size's FIRST capture (same-size check vacuous) a planted change to either now passes all 10 checks (planted on slots 24 and 6: exit 0 under 28 names, exit 1 under 17). No landed slot is affected: under the 17-name class slots 0-25 pass 10/10, so those leaves equal the base at every two-stage capture, and slot 27 (TOWN) has no second stage. The seat disclosed this cost (E02 37.4 call 1); the post script's comment names only the building material, not the wall flag. A stage-list-shape rule (the nine second-stage names admitted only when the request has one stage) would close it but changes R-24's by-name pinning: the session's call."
+  ]},
+  {"slot": 27, "verdict": "confirmed", "problems": []}
+ ],
+ "privacy_ok": true,
+ "privacy_notes": [
+  "Identifiers gathered in memory only from the local recordings (authorization tokens and their decoded claims: email, display name, account and identity-provider user ids; analytics client ids from the cookie-derived collect parameters): 7 classes, never printed or written.",
+  "Scanned 5 107 files under docs/ (calibration/, lane-events.log, lanes-snapshots.jsonl and the rest), research/ (baselines/ included), tools/ and workflows/: 0 hits for any gathered value, 0 'eyJ' token-prefix hits, 0 Bearer hits, 0 full settlement ids in docs/calibration/, research/baselines/ or docs/lane-events.log.",
+  "Email-pattern hits in scope are false positives: package@version strings in docs/lane-events.log lines 4741 and 4753, and binary text inside two gzipped MFCG geojson inputs under research/baselines/inputs/MFCG/.",
+  "Also scanned the 166 seat-written files inside the programme-1 and programme-2 capture folders (session/ recordings excluded): 0 hits. The one unredacted 'Signed in as' fragment in a steps.jsonl (slot 1, programme 1) is two punctuation characters, not a name."
+ ],
+ "evidence": {
+  "postCheckOnly": "ftg_capture_post.py <stamp> --slot K --signed-in --premium --check-only re-run for slots 6-26: exit 0, 10 of 10 each; stored capture-facts.json equals the re-run in hash, referenceBuild, counts, border, payload bytes, listed population and account wording",
+  "payloadReDecode": "tools/pb_raw.py re-run on each layout body: exit 0, output equal to the stored structure.md apart from its title line; an independent decode gives the same buildings, edges, nodes, towers, water bodies and districts as capture-facts.json, all four border extents at the size's half width (METROPOLIS 3000, BIG_CITY 2750, CITY 2500, BIG_TOWN 2000, TOWN 1750 m), no top-level field outside 1-27",
+  "request": "exactly one non-intercepted PUT per slot, status 200; sha256 of the postData equals requestHash; create-request.json parses equal to the postData; size, coastType and rivers equal plan.json's slot; resource list equals the water setting's list; leaf diffs against slot 0 and the 2026-09-21 base, classified independently, leave 0 leaves outside slot keys, water-implied and SIZE_DEPENDENT; every later capture repeats the 28 values of every earlier capture of its size; every same-cell pair differs only in the 45 partner ids",
+  "formSteps": "the click/clicktext/select/wheel commands of steps.jsonl equal slot 1's (none) or slot 3's (coast+river) for every slot 6-26 with the size select abstracted (slot 26: without it); one 'Create Settlement' click per slot",
+  "firstOfSize": "red first reproduced in-process: under the 16 pre-slot-6 names slots 6-9 fail requestDiff and vsSlot0 on .layoutParameters.stages[1].maxSpokesInStage only and slots 0-5 pass; under 17 names slot 26 fails on exactly the 11 added names and slots 0-25 pass; under 28 names 0-26 pass. Slot 24 adds nothing (it passes even under 16 names). The client bundle in the slot 6, 24 and 26 recordings (one sha256, 0827e8502411d469) builds two stages (dense, gaps) for sizes above TOWN and the gaps stage alone for SMALL_TOWN and TOWN, and its per-size gaps-stage table gives the spoke cap 2 at METROPOLIS and 1 at BIG_TOWN, CITY and BIG_CITY, and TOWN's values equal slot 26's one stage: the 12 added leaves are size-option-only differences (not refuted)",
+  "planAndBinding": "plan.py --check SAME (plan.json 11a9b3577f6d3d63, metrics.m-1.json 8a0efa7e61592ef3; plan.py 68709ba8 unchanged); slots 6-26 bound in slot order with ascending stamps, none failed, slot 27 open (capture null, failed null); plan.json differs from HEAD only in the capture fields of slots 19-26; the post script differs from HEAD only in the 11 names and their comment (slot 6's one name is in bd12389)",
+  "settlementCount": "list readings chain across seats: each slot's first reading equals the previous slot's last as id sets, +1 row per create (6->7 ... 26->27), the one added id is the PUT's and its size is the slot's, no duplicate ids; slot 6's first attempt made no settlements call; slot 27's attempt read 27 rows and made no PUT",
+  "records": "E02-ftg-captures.json entries for slots 6-26 and the W-02-slot<K>b result files agree with capture-facts.json; failed [], 3 stopped attempts, slotsByProgramme 2 = 21 of 22, slot 27 open"
+ },
+ "confirmedVsPlausible": "CONFIRMED by executed re-runs, decodes, diffs, list readings, the bundle read and the scans: every row above. PLAUSIBLE: nothing this verdict rests on.",
+ "disk": "11 GiB free before and after",
+ "wrote": ["docs/calibration/results/W-02b-verifyb.json", "docs/lane-events.log (this lane's lines)"]
+}

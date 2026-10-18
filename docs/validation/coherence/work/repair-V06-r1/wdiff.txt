@@ -1,0 +1,411 @@
+[replace] …new fact is stated once, here. ⟦-**Citations:**⟧ ⟦+**Citations** (canon S7):⟧
+[insert] …a bare `§n` or `II.n` is ⟦-⟧ ⟦+always⟧
+[delete] …`§n` or `II.n` is the base's; ⟦-`Vnn §n` is⟧ ⟦+⟧
+[replace] …`Vnn §n` is a design volume's ⟦-section,⟧ ⟦+section always carries its prefix, `Vnn §n` —⟧
+[replace] …is a design volume's section, this ⟦-one⟧ ⟦+one's⟧
+[replace] …volume's section, this one included (`V06 ⟦-§3.2`);⟧ ⟦+§3.2`), and in⟧
+[replace] …one included (`V06 §3.2`); a list ⟦-after a volume prefix stays in that volume⟧ ⟦+too⟧
+[replace] …stays in that volume (`V04 §3.5, ⟦-§3.10` is two sections of volume 4);⟧ ⟦+V04 §3.10`);⟧
+[replace] …is an amendment item — items ⟦-1–116⟧ ⟦+1–119⟧
+[replace] …of twelve thousand"), and the whole ⟦-replay takes⟧ ⟦+replay, with the town built at its start, finishes within ten⟧
+[replace] …and the whole replay takes seconds ⟦-for⟧ ⟦+at any size — in steps longer than⟧
+[replace] …whole replay takes seconds for a ⟦-town and under⟧ ⟦+decade where⟧
+[replace] …for a town and under a ⟦-minute for a metropolis,⟧ ⟦+long history needs them, the steps it took reported —⟧
+[replace] …how many houses it gains or ⟦-loses.⟧ ⟦+loses; an advance of any length finishes within ten seconds, in longer steps where it must, and says how long its steps were.⟧
+[replace] …terrain-and-water phases placed in it (V06 ⟦-§3.1–§3.2;⟧ ⟦+§3.1–V06 §3.2;⟧
+[replace] …the absorbed wall of `absorbWall`) (V06 ⟦-§3.6–§3.7).⟧ ⟦+§3.6–V06 §3.7).⟧
+[insert] …(`contractWall`)'s trigger and trace (V06 §3.5, ⟦-⟧ ⟦+V06⟧
+[insert] …forks, the animated export (V06 §3.15, ⟦-⟧ ⟦+V06⟧
+[insert] …export (V06 §3.15, §5). 14. **Budgets** ⟦-⟧ ⟦+— the targets⟧
+[replace] …an epoch and a century per ⟦-rung (V06⟧ ⟦+rung, and the ten-second comfort level that `advance` and the history replay each keep in total by one estimate that coarsens their cadence (item 119 (a), (a2); V06⟧
+[insert] …before the growth decision (V06 §2.1, ⟦-⟧ ⟦+V06⟧
+[insert] …these (V06 §3.19, V06 §3.7.6 (5), ⟦-⟧ ⟦+V06⟧
+[insert] …(V06 §3.19, V06 §3.7.6 (5), §3.11, ⟦-⟧ ⟦+V06⟧
+[insert] …264, 266) | `MutationPlan` (V06 §2.5, ⟦-⟧ ⟦+V06⟧
+[insert] …| their epoch halves (V06 §3.7.6, ⟦-⟧ ⟦+V06⟧
+[replace] …V03's | II.7.3, II.7.5, II.7.6; V04 ⟦-§2.2–§2.3,⟧ ⟦+§2.2–V04 §2.3, V04⟧
+[insert] …II.7.3, II.7.5, II.7.6; V04 §2.2–§2.3, §3.5, ⟦-⟧ ⟦+V04⟧
+[insert] …hook, the two conversions (V06 §3.2, ⟦-⟧ ⟦+V06⟧
+[insert] …and report (V06 §3.17) | | ⟦-⟧ ⟦+§12's targets and its ten-second comfort level for one-time waits, the progress rule, the measured-gain rule | §12 (item 119 (a)–(f); the owner's "Total" for long runs of time, item 119 (a2)) | the targets of V06 §6.1–V06 §6.7; the comfort estimate that coarsens an `advance`'s cadence and the replay's epoch length (V06 §6.8) | |⟧
+[insert] …`CatacombGrowth.grow`, `QuarryWorkings.extend`, `AccessPass.run`, `UndercityEpoch.reread` (V04 §1b.2, ⟦-⟧ ⟦+V04⟧
+[insert] …rules and their tables (V04 §2.3, ⟦-⟧ ⟦+V04⟧
+[insert] …| `EpochPhase`, `EpochContext`, `EpochOps` (V06 §2.1, ⟦-⟧ ⟦+V06⟧
+[insert] …W3 | `EpochParticipant` registrations (V06 §2.1, ⟦-⟧ ⟦+V06⟧
+[insert] …`advance` request (V06 §2.3, V06 §3.3.2, ⟦-⟧ ⟦+V06⟧
+[replace] …in one `group`, each with its ⟦-`EpochInputs`⟧ ⟦+`EpochInputs`, at the cadence W91's estimate admits⟧
+[insert] …typed reading of `EpochInputs.events` (V06 §2.4, ⟦-⟧ ⟦+V06⟧
+[insert] …| W6 | `BuildingShadeMask` (V06 §2.6, ⟦-⟧ ⟦+V06⟧
+[insert] …| W9 | `Enceinte.pathway` (V06 §2.7, ⟦-⟧ ⟦+V06⟧
+[insert] …| W12 | `Use.strain` (V06 §2.9, ⟦-⟧ ⟦+V06⟧
+[insert] …| W13 | `MutationPlan` (V06 §2.5, ⟦-⟧ ⟦+V06⟧
+[insert] …and the timeline entry's (V06 §2.3, ⟦-⟧ ⟦+V06⟧
+[insert] …| `ProductDecl.phases` and `.participants` (V06 §2.1, ⟦-⟧ ⟦+V06⟧
+[insert] …| `HouseholdLedger` (`EpochContext.households`), `EpochOps.displaced`, `EpochOps.demandTaken`, `Household.transit` ⟦-⟧ ⟦+(§2.7)⟧
+[insert] …and accessible void clusters (V04 §3.4, ⟦-⟧ ⟦+V04⟧
+[replace] …kind and the lineages it names; ⟦-the base's raised-way stream,⟧ ⟦+`raised.reason` (§6.1),⟧
+[insert] …collapse or a void made `lost` ⟦-⟧ ⟦+after `siting`⟧
+[insert] …`households.undergroundVacated`; T-V6-52 | V04 §3.4 F6, ⟦-⟧ ⟦+V04⟧
+[insert] …way-surface re-lay (V06 §3.2 row 4, ⟦-⟧ ⟦+V06⟧
+[replace] …| `setAttr` ops on `Way.surface` (author ⟦-`engine`,⟧ ⟦+`epoch`, §7.1's `EditBase.author`;⟧
+[delete] …| | W88 | the replay's ⟦-generation⟧ ⟦+⟧
+[replace] …§6.7) | V11's `history.epochYears`; the rung; ⟦-§12's generation budget;⟧ ⟦+W91's estimate against `replay.budgetMs`;⟧
+[insert] …when the estimate exceeds the budget; ⟦-⟧ ⟦+`ReplayPlan.epochYears` and `.coarsened`,⟧
+[replace] …estimate exceeds the budget; the report's ⟦-`replay.ms`, `replay.coarsened`;⟧ ⟦+`replay.epochYears` and `.coarsened` (V06 §2.10);⟧
+[insert] …T-V6-71's budget clause | §4.1 (laziness); ⟦-⟧ ⟦+§12 (item 119's comfort level);⟧
+[replace] …(3)); the ceiling table (V11) as ⟦-§4.2⟧ ⟦+§4.7⟧
+[replace] …a stored record exceeds it) | ⟦-§4.2⟧ ⟦+§4.7⟧
+[insert] …| §4.2 S10b, §10.2 (item 115) ⟦-⟧ ⟦+| | W91 | the comfort estimate and the cadence it chooses — `advance` and the history replay each inside the ten-second comfort level in total (item 119 (a2); V06 §3.3.2, V06 §3.20.4, V06 §6.8) | an `advance` request's epochs (V06 §3.3.2's expansion) or the replay plan's (V06 §3.20.1); the rung of each epoch's target; the islands that may stand (from the first CITY or METROPOLIS epoch, with the recipe's island setting) and the islands and hand-placed accesses standing at an `advance`'s request; the rises in the targets; `epoch.costMs`, `epoch.islandMs`, `epoch.handAccessMs`, `epoch.stageMs`, `epoch.stageMsPerBuilding`, `advance.budgetMs`, `replay.budgetMs` (V06 §2.2) | the cadence an `advance` group folds at (its epochs' weeks, W4) and the replay's epoch length (W83); the card's and the clerk's bend line naming the cadence chosen; the report's `advance` section and `replay.epochYears` (V06 §2.10), read by the history panel and the clerk; V09's progress view, counting the epochs at that cadence; T-V6-23, T-V6-24, T-V6-71 | §12 (item 119's comfort level); §4.11 *The clock*⟧
+[insert] …this volume's (file f item 317). ⟦-⟧ ⟦+`EvolutionStrategy` itself is §4.11's (its phase rule is V06 §3.1 (4)'s); `DisplaceCause` — every cause a household enters the ledger with, `destruction` (the replay's destruction epoch, V06 §3.20.5 (2)) among them — and `Household.transit` are §2.7's (file f item 335).⟧
+[delete] …V06 §3.2's order (twenty steps); fixed ⟦-interface EvolutionStrategy { id: string; phases: EpochPhase[] /* one per step it implements, in EpochStep order; a step with no phase runs nothing (V06 §3.1) */ }⟧ ⟦+⟧
+[delete] …raise): `siting` subtracts them */ } ⟦-type DisplaceCause = 'fire'|'flood'|'topple'|'contraction'|'works'|'island'|'void'|'clearance'|'redevelopment';⟧ ⟦+⟧
+[replace] …left this epoch */ } // ⟦-on §2.7's Household (file f item 335): epoch-local,⟧ ⟦+DisplaceCause and Household.transit (epoch-local,⟧
+[replace] …item 335): epoch-local, never in a ⟦-snapshot transit?: { cause: DisplaceCause; since: number /*⟧ ⟦+snapshot) are §2.7's;⟧
+[replace] …cause: DisplaceCause; since: number /* the ⟦-week it was displaced */ }⟧ ⟦+ledger above writes and clears transit⟧
+[insert] …was displaced */ } ``` `Household.transit` ⟦-⟧ ⟦+(§2.7)⟧
+[replace] …share of the town's households … ⟦-(§3.6)⟧ ⟦+(V06 §3.6)⟧
+[replace] …or this count, whichever is smaller ⟦-(§3.6)⟧ ⟦+(V06 §3.6)⟧
+[replace] …× factor⌉, never above §2.6's capacity ⟦-(§3.6)⟧ ⟦+(V06 §3.6)⟧
+[replace] …middle band (§4.5) | who crowds ⟦-(§3.6)⟧ ⟦+(V06 §3.6)⟧
+[replace] …forces a stage whatever the quantum ⟦-(§3.6)⟧ ⟦+(V06 §3.6)⟧
+[replace] …takes the `ribbon` regime, else `suburb` ⟦-(§3.6)⟧ ⟦+(V06 §3.6)⟧
+[replace] …§2.4's rows | the hazard operators ⟦-(§3.11)⟧ ⟦+(V06 §3.11)⟧
+[replace] …as a share of its eave ⟦-(§3.4);⟧ ⟦+(V06 §3.4);⟧
+[replace] …falls due, drawn once per plan ⟦-(§3.10)⟧ ⟦+(V06 §3.10)⟧
+[replace] …0.5 · 0.25 | below these ⟦-flows,⟧ ⟦+flows —⟧
+[replace] …0.25 | below these flows, held ⟦-`land.fallowAfterYears`,⟧ ⟦+`land.fallowAfterYears` —⟧
+[replace] …held `land.fallowAfterYears`, an oasis's gardens turn ⟦-`commons`⟧ ⟦+`commons`,⟧
+[insert] …an oasis's gardens turn `commons` and ⟦-⟧ ⟦+— held `land.scrubAfterYears` —⟧
+[replace] …overflow ladder's last rung pitches on ⟦-(§3.6)⟧ ⟦+(V06 §3.6)⟧
+[insert] …it the cadence bends (V06 §3.3.2) ⟦-⟧ ⟦+— at the reference cost rows the comfort estimate binds first (V06 §6.8)⟧
+[replace] …rung derived (V06 §3.20.4) | | ⟦-`replay.epochCostMs`⟧ ⟦+`epoch.costMs`⟧
+[replace] …| TOWN and the village rungs ⟦-140⟧ ⟦+150⟧
+[replace] …the village rungs 140 · CITY ⟦-420⟧ ⟦+430⟧
+[replace] …· CITY 420 · METROPOLIS 1 ⟦-300⟧ ⟦+310⟧
+[insert] …1 300 | the per-epoch cost ⟦-⟧ ⟦+both comfort estimates sum — an `advance`'s and⟧
+[insert] …300 | the per-epoch cost the ⟦-⟧ ⟦+history⟧
+[replace] …| the per-epoch cost the replay's ⟦-estimate sums,⟧ ⟦+—⟧
+[insert] …the replay's estimate sums, by the ⟦-⟧ ⟦+rung of the⟧
+[replace] …replay's estimate sums, by the epoch's ⟦-rung⟧ ⟦+target: V06 §6.1's total with V06 §6.2's participants, rounded up to the next 10 ms⟧
+[replace] …sums, by the epoch's rung (V06 ⟦-§3.20.4,⟧ ⟦+§6.7,⟧
+[replace] …the epoch's rung (V06 §3.20.4, V06 ⟦-§6.7)⟧ ⟦+§6.8) | | `epoch.islandMs` | TOWN and CITY 230 · METROPOLIS 260 | added per epoch for each island that may stand: one resize with its generated accesses' tops and feet (V06 §6.2's worst case) (V06 §6.8) | | `epoch.handAccessMs` | 60 | added per epoch for each hand-placed access standing at the request: its top's and its foot's placements at V05 §6's 30 ms each, at its island's resize (V06 §6.2, V06 §6.8) | | `epoch.stageMs` · `epoch.stageMsPerBuilding` | 6 · 0.06 | the growth stages in the estimate: per epoch whose target rises, plus per building the rises add (§12.6's scoped law; V06 §6.2, V06 §6.8) | | `advance.budgetMs` | 9 000 | an `advance`'s share of item 119's ten-second comfort level; above it the cadence coarsens (V06 §3.3.2, V06 §6.8)⟧
+[replace] …| `replay.budgetMs` | TOWN and below ⟦-5⟧ ⟦+9⟧
+[replace] …and below 5 000 · CITY ⟦-20 000⟧ ⟦+8 500⟧
+[replace] …· CITY 20 000 · METROPOLIS ⟦-40⟧ ⟦+7⟧
+[replace] …METROPOLIS 40 000 | the replay's ⟦-budget⟧ ⟦+share of the comfort level⟧
+[replace] …the replay's budget by the peak's ⟦-rung;⟧ ⟦+rung — the ten seconds less the peak's generation and first map at the rung's band top (§12.3, §12.5) and a 500 ms reserve;⟧
+[replace] …the epochs coarsen (V06 §3.20.4, V06 ⟦-§6.7)⟧ ⟦+§6.7, V06 §6.8)⟧
+[replace] …V06 §6.7) | **Not calibratable** (J-V6.111). ⟦-Sixteen⟧ ⟦+Twenty-one⟧
+[replace] …`advance.maxEpochs`, `history.checkpointStride`, `uses.openCandidates`, `uses.moveWhyRows`, `replay.maxEpochs`, `replay.detailRetainYears`, ⟦-`replay.epochCostMs`, `replay.budgetMs`⟧ ⟦+the comfort estimate's `epoch.costMs`, `epoch.islandMs`, `epoch.handAccessMs`, `epoch.stageMs`, `epoch.stageMsPerBuilding`, `advance.budgetMs` and `replay.budgetMs`,⟧
+[replace] …the `chronicle.*` shares (they shape the ⟦-cost⟧ ⟦+cost, the cadence a long run takes under item 119's comfort level,⟧
+[replace] …the non-canonical report, never a history's ⟦-meaning);⟧ ⟦+rules);⟧
+[replace] …§2.14). The history store's memory and ⟦-frame settings⟧ ⟦+the frames kept in memory⟧
+[insert] …frame settings are per-device app settings ⟦-⟧ ⟦+— V09 §5.12's, by default 256 MB on the desktop tier, 96 MB on the low-end tier and 8 frames⟧
+[replace] …settings are per-device app settings (V09 ⟦-§9),⟧ ⟦+§2.11's `AppPrefs.history`) —⟧
+[replace] …foundation collapse or a void made ⟦-lost,⟧ ⟦+lost after `siting`,⟧
+[insert] …*/; detail: 'model'|'full' /* V06 §3.20.4 ⟦-⟧ ⟦+*/; epochYears: number /* the plan's epoch length (ReplayPlan.epochYears) */; coarsened: boolean /* longer than history.epochYears (V06 §3.20.1 (3), V06 §6.8)⟧
+[insert] …a replay epoch only (V06 §3.20) ⟦-⟧ ⟦+*/; advance?: { index: number; of: number; cadenceWeeks: number /* the cadence the group folds at */; requestedWeeks: number /* the cadence asked, after advance.maxEpochs' bend */; estimateMs: number /* V06 §6.8's estimate at cadenceWeeks */ } /* an advance group's epochs (V06 §3.3.2): the cadence chosen reported, coarsened when cadenceWeeks > requestedWeeks⟧
+[replace] …(V06 §3.4 (9): a `setAttr`, author ⟦-`engine`,⟧ ⟦+`epoch`,⟧
+[insert] …undo after a reload (V06 §3.15.2, ⟦-⟧ ⟦+V06⟧
+[replace] …frames) | V09's settings panel (V09 ⟦-§9)⟧ ⟦+§5.12; V09 §2.11's `AppPrefs.history`)⟧
+[replace] …| a reason key's uniform | ⟦-the base's raised-way stream,⟧ ⟦+`raised.reason` (§6.1),⟧
+[replace] …reason key and the ledger ```ts ⟦-type⟧ ⟦+//⟧
+[replace] …and the ledger ```ts type RaisedKind ⟦-= 'viaduct'|'elevated'|'aqueduct'; interface⟧ ⟦+and⟧
+[insert] …RaisedKind; a: Id; b?: Id } ⟦-⟧ ⟦+are §2.7's (beside RaisedWayRecord); this volume's readings fill a and b:⟧
+[insert] …at the present (yearsAgo 0) */; ⟦-⟧ ⟦+epochYears: number /* the epoch length the plan runs at: history.epochYears, or the coarsened length (V06 §3.20.1 (3)) */;⟧
+[insert] …(yearsAgo 0) */; coarsened: boolean /* ⟦-⟧ ⟦+epochYears > history.epochYears:⟧
+[replace] …the span needed more than replay.maxEpochs ⟦-epochs of history.epochYears, so⟧ ⟦+epochs, or⟧
+[replace] …replay.maxEpochs epochs of history.epochYears, so the ⟦-epoch length grew⟧ ⟦+estimate exceeded replay.budgetMs⟧
+[replace] …so the epoch length grew (V06 ⟦-§3.20.1)⟧ ⟦+§3.20.1 (3), V06 §6.8)⟧
+[replace] …at severity 0 and 1, linear ⟦-between⟧ ⟦+between; for effect 'destroy', the first end is the severity at or above which the event destroys, below it recorded only (V11 §3.25.2)⟧
+[replace] …declares `siting` and `growth`), **else the ⟦-strategy's**;⟧ ⟦+strategy's** (one phase per step the strategy implements, in `EpochStep` order — §4.11's `EvolutionStrategy.phases`);⟧
+[insert] …that fall due | V06 §3.8.4, ⟦-⟧ ⟦+V06⟧
+[insert] …101 R2's bend, never a refusal. ⟦-⟧ ⟦+**Then the comfort level** (item 119 (a2), the owner's "Total"; J132; J-V6.135): V06 §6.8's estimate of those epochs, their targets by the rules below, is compared with `advance.budgetMs`; above it the cadence becomes the smallest whole number of weeks, tried upward from the cadence so far, whose epochs' estimate fits — fewer, longer epochs, as V06 §3.20.1 (3) coarsens the replay; one epoch at the span's end always fits (V06 §6.8 (3)) — and the card and the clerk say so in the same one line with the cadence chosen ("a century runs in 5-year steps to finish within ten seconds"): a bend, never a refusal and never a shorter span. The estimate reads the request and the document at the request only, never a measured time, so the cadence is deterministic and a replay of the log folds the same epochs; every epoch of the group reports the cadence it folds at and the one asked (`EpochReport.advance`, V06 §2.10). `cadenceWeeks` below is the cadence so chosen.⟧
+[replace] …a cancellable background job whose progress ⟦-is visible⟧ ⟦+shows past one second (V09 §4.21.9's progress view, counting the epochs at the cadence chosen)⟧
+[replace] …span (default 200 years at 52-week ⟦-cadence)⟧ ⟦+cadence, coarsened under the comfort level as any `advance`; the founding's generation, §12.3's law at the ladder's floor, fits inside `advance.budgetMs`'s one-second reserve, V06 §6.8)⟧
+[replace] …writes one `setAttr` of `Way.surface` (author ⟦-`engine`,⟧ ⟦+`epoch`,⟧
+[insert] …allocation and U-FRONT's placement (V04 §3.4, ⟦-⟧ ⟦+V04⟧
+[replace] …4. **Neutral values** (the no-op pin): ⟦-`walls.condition.meansLow`⟧ ⟦+V11 §3.24.0's `walls.condition` off form — `atGeneration` false (every run `standing` at generation), `meansLow`⟧
+[replace] …directly at `walls.breachChancePerYear`) and `needReturnYears` 0 ⟦-reproduce⟧ ⟦+— reproduces⟧
+[replace] …before item 114 byte for byte ⟦-(T-V6-73;⟧ ⟦+(T-V6-73); V06's E3 seat registers H-100 and H-WALLS on⟧
+[replace] …114 byte for byte (T-V6-73; V12 ⟦-registers the pin).⟧ ⟦+§2.13's `item114.condition` (V12 §3.7.8's engine).⟧
+[replace] …derelict ones (a repair, a ledger ⟦-debit);⟧ ⟦+debit) — a building with no storeyed wing (V02 §3.15's solid monument, every wing `solid`) takes no roof step: its decay removes no roof it lacks and a repair (`reoccupy` from derelict) adds none, so a solid monument is never re-roofed (V02 X23);⟧
+[replace] …ceiling on dwelling grandeur by rung ⟦-(§4.2⟧ ⟦+(§4.7⟧
+[replace] …a `setAttr` op on `Use.strain` (author ⟦-`engine`),⟧ ⟦+`epoch`),⟧
+[replace] …stayed below `spring.groveMinFlow` for its drawn ⟦-`land.scrubAfterYears`:⟧ ⟦+`land.scrubAfterYears` (drawn once on `stream(EVO_TERRAIN, water body)` keyed with the epoch the flow fell below):⟧
+[replace] …above the threshold for its drawn ⟦-`land.fallowAfterYears`;⟧ ⟦+`land.fallowAfterYears` (drawn likewise, keyed with the epoch it rose);⟧
+[replace] …op and no draw — T-V6-72's ⟦-no-op pin).⟧ ⟦+spring-less-site clause).⟧
+[insert] …its changes apply finished (V06 §3.20.4). ⟦-⟧ ⟦+A building with no storeyed wing (V02 §3.15's solid monument, every wing `solid`) takes no roof step: its decay removes no roof it lacks and a repair (`reoccupy` from derelict) adds none — a solid monument is never re-roofed (V02 X23).⟧
+[replace] …(LRU, the device's frame setting, V09 ⟦-§9);⟧ ⟦+§5.12);⟧
+[replace] …past the device's store setting (V09 ⟦-§9)⟧ ⟦+§5.12)⟧
+[replace] …V06 §3.19; its gate draws stay ⟦-the base's raised-way stream's,⟧ ⟦+`raised.reason`'s (§6.1),⟧
+[insert] …town root's key. A replay epoch ⟦-⟧ ⟦+r (r = 1 … R, V06 §3.20.3)⟧
+[delete] …root's key. A replay epoch keys ⟦-as any epoch,⟧ ⟦+⟧
+[insert] …epoch keys as any epoch, its ⟦-⟧ ⟦+draws with §6.1's replay⟧
+[replace] …as any epoch, its epoch component ⟦-its place in⟧ ⟦+for r —⟧
+[replace] …epoch component its place in the ⟦-log (V06 §3.20.3).⟧ ⟦+upper half of the epoch component's range, reserved to the history replay (J-A113.61) — so no replay draw equals a live epoch's.⟧
+[replace] …one uniform per reason key on ⟦-the base's raised-way stream⟧ ⟦+`raised.reason` (§6.1)⟧
+[replace] …is a no-op by V06 §3.3.2's ⟦-rules;⟧ ⟦+rules, and one whose estimate exceeds `advance.budgetMs` coarsens its cadence by them (V06 §6.8), never shortened or refused;⟧
+[replace] …tables and their build-depth algorithms (V04 ⟦-§2.2–§2.3,⟧ ⟦+§2.2–V04 §2.3, V04⟧
+[insert] …their build-depth algorithms (V04 §2.2–§2.3, §3.5, ⟦-⟧ ⟦+V04⟧
+[insert] …build-depth algorithms (V04 §2.2–§2.3, §3.5, §3.8, ⟦-⟧ ⟦+V04⟧
+[replace] …uniform per (building lineage, `dig`, void ⟦-kind)**⟧ ⟦+kind)**, its key carrying the wing key of a wing V02's mutator adds (V04 §3.5.7 (d); J-VI.17 H2),⟧
+[replace] …draw (a basement added, a deeper ⟦-cellar), and⟧ ⟦+cellar). A building draws once per void kind, plus once for each wing V02's mutator adds over⟧
+[replace] …added, a deeper cellar), and a ⟦-building never draws twice for one kind:⟧ ⟦+void (a `MutationPlan` step or a rung-3 op, in `scope.basementGrown`):⟧
+[insert] …`voidLost` and `voidVacated`, counted `under.voidsLost`. A ⟦-⟧ ⟦+cluster turned `lost` in an `afterGrowth` participant's commit (`under.extend`'s `Foundations.apply` or `ArchVaults.reconcile`, `under.access`, `under.undercity`) has its dwellings vacated in that batch and its households re-housed inside that participant by the in-participant rule below, never through the ledger (whose pool `siting` has already drained); chronicled and counted the same. A⟧
+[replace] …shrinking undercity, `clearUndercity`, a hand-down's bound ⟦-0) and⟧ ⟦+0),⟧
+[insert] …a floor a foundation collapses ((6)) ⟦-⟧ ⟦+and those of a cluster turned `lost` after `siting` (above)⟧
+[replace] …the most burials now, ties by ⟦-source address;⟧ ⟦+rank (V04 §3.5.1 (5): the formation order, rank 1 at generation);⟧
+[replace] …holds one uniform `u`, drawn on ⟦-the base's raised-way stream⟧ ⟦+`raised.reason` (§6.1)⟧
+[replace] …one uniform the step draws on ⟦-the raised-way stream⟧ ⟦+`raised.reason` (§6.1)⟧
+[insert] …under-deck strip (the deck's width plus ⟦-⟧ ⟦+V01 §3.14's⟧
+[replace] …METROPOLIS only), never a cell. The ⟦-one row not V11's⟧ ⟦+strip margin⟧
+[insert] …The one row not V11's is ⟦-⟧ ⟦+V01 §3.14's⟧
+[replace] …one row not V11's is `raised.stripMarginM` ⟦-(1 m), the base's⟧ ⟦+(V01 §3.17.3 (2)'s⟧
+[replace] …`raised.stripMarginM` (1 m), the base's under-deck ⟦-strip row (§4.3).⟧ ⟦+strip).⟧
+[replace] …the user repairs it by hand ⟦-(T4's⟧ ⟦+(T9 `shape`'s⟧
+[replace] …repairs it by hand (T4's inspector, ⟦-"repair").⟧ ⟦+**Repair**; V06 §4.2).⟧
+[replace] …epoch's week by a `setAttr` (author ⟦-`engine`)⟧ ⟦+`epoch`)⟧
+[replace] …that fits both, `coarsened` set and ⟦-reported.⟧ ⟦+the length chosen reported (`ReplayPlan.epochYears`; the report's `replay.epochYears`).⟧
+[insert] …destruction path (V06 §3.20.5), where the ⟦-⟧ ⟦+event's severity is at or above the⟧
+[replace] …path (V06 §3.20.5), where the row's ⟦-severity threshold⟧ ⟦+threshold, the first end of its `severityScale` (V06 §2.14; V11 §3.25.2); an event below it⟧
+[replace] …where the row's severity threshold is ⟦-met;⟧ ⟦+recorded only;⟧
+[replace] …20); * `replay` — V06 §2.14's ⟦-provenance.⟧ ⟦+provenance; the epoch's draws are keyed with §6.1's replay epoch component for its index (V06 §3.16).⟧
+[insert] …known history, and a history-first generation's ⟦-⟧ ⟦+— the whole wait, the start's generation, the replay and the first map, inside item 119's ten-second comfort level (item 119 (a2); V06 §6.8) —⟧
+[replace] …are these: * **The estimate** — ⟦-`Σ replay.epochCostMs[rung of the epoch's target]`⟧ ⟦+V06 §6.8's estimate⟧
+[replace] …epoch's target]` over the plan's epochs ⟦-(V06 §6.7's per-epoch costs),⟧ ⟦+(`epoch.costMs` by the rung of each epoch's target, the islands that may stand, the growth stages),⟧
+[insert] …costs), a function of the plan ⟦-⟧ ⟦+and the recipe⟧
+[insert] …when it exceeds `replay.budgetMs[the peak's rung]` ⟦-⟧ ⟦+— the comfort level's share left after the peak's generation and the first map⟧
+[replace] …it exceeds `replay.budgetMs[the peak's rung]` (V06 ⟦-§6.7),⟧ ⟦+§6.8 (2)) —⟧
+[replace] …The measured time is a bar ⟦-(T-V6-71),⟧ ⟦+(T-V6-24, T-V6-71),⟧
+[insert] …epoch (its ruined buildings, its ways ⟦-⟧ ⟦+retired or⟧
+[delete] …its ways effaced to traces, its ⟦-dismantled⟧ ⟦+⟧
+[replace] …effaced to traces, its dismantled enceinte ⟦-stretches⟧ ⟦+runs whose condition is `dismantled` — and, for a destruction's fabric, the runs V06 §3.20.5 (2) left `breached` — with the towers⟧
+[replace] …traces, its dismantled enceinte stretches and ⟦-ruined gates)⟧ ⟦+gates drawn on them; a tower or a gate carries no state, file f item 575)⟧
+[replace] …and byte-identical to it (T-V6-71's no-op ⟦-pin;⟧ ⟦+pin `item113.history`, registered by V06's E9 seat on⟧
+[replace] …to it (T-V6-71's no-op pin; V12 ⟦-registers it).⟧ ⟦+§3.7.8's engine).⟧
+[replace] …result the kernel refuses (`E_DEGENERATE`, `E_BELOW_MIN_EDGE`, ⟦-`E_NON_SIMPLE`⟧ ⟦+`E_SELF_INTERSECT`, `E_INVARIANT`⟧
+[replace] …rate; a negative target; every epoch ⟦-clamped⟧ ⟦+clamped; an estimate above `advance.budgetMs` at the cadence asked⟧
+[replace] …time still passes when the population ⟦-holds⟧ ⟦+holds; the cadence coarsened to the smallest that fits, one epoch at the span's end the floor (V06 §6.8 (3)), its line naming the cadence chosen⟧
+[replace] …holds | repair locally (bend or ⟦-no-op)⟧ ⟦+no-op); simpler shape (coarser epochs)⟧
+[replace] …repair locally (bend or no-op) | ⟦-T-V6-23⟧ ⟦+T-V6-23; T-V6-24⟧
+[insert] …(b) | | `MutationPlan` (V06 §2.5, ⟦-⟧ ⟦+V06⟧
+[insert] …the building shade mask (V06 §2.6, ⟦-⟧ ⟦+V06⟧
+[replace] …runner and the phase order (V06 ⟦-§3.1–§3.2)⟧ ⟦+§3.1–V06 §3.2)⟧
+[insert] …no clock: the bend (V06 §1.3, ⟦-⟧ ⟦+V06⟧
+[insert] …(§7.4) of `epoch` events, one per ⟦-⟧ ⟦+step of the⟧
+[replace] …of `epoch` events, one per cadence ⟦-step (V06 §3.3.2),⟧ ⟦+V06 §3.3.2 chooses (the comfort level's coarsening included, V06 §6.8),⟧
+[replace] …cancellable background job in the generation ⟦-worker with a⟧ ⟦+worker, the⟧
+[replace] …the generation worker with a progress ⟦-bar over the epochs;⟧ ⟦+view (V09 §4.21.9) counting its epochs past one second;⟧
+[replace] …101's three-variations rule applied to time). ⟦-Above⟧ ⟦+Where⟧
+[insert] …rule applied to time). Above `advance.maxEpochs` ⟦-⟧ ⟦+or the comfort level needs a coarser cadence,⟧
+[replace] …time). Above `advance.maxEpochs` the card bends ⟦-the cadence⟧ ⟦+it⟧
+[insert] …bends the cadence and says so ⟦-⟧ ⟦+with the cadence chosen⟧
+[replace] …the cadence and says so (V06 ⟦-§3.3.2).⟧ ⟦+§3.3.2); each variation's run takes its own estimate's cadence (V06 §6.8), the first shown as it completes. **Accept** appends the chosen variation's epochs: while the document's head is still the preview fork's base, the commit takes the fork's folded state with its history images and reports — the same events folded from the same state give the same bytes (§6.5), and the verification replay re-checks them off the path (V06 §3.15.2) — so the accept's wait is its commit; otherwise the epochs fold again under the estimate the preview ran with.⟧
+[replace] …lane go, bring it back | ⟦-T4 `road`'s⟧ ⟦+T9 `shape`'s⟧
+[insert] …T4 `road`'s class chip on a ⟦-⟧ ⟦+selected⟧
+[replace] …a way (`path` ↔ its former ⟦-class)⟧ ⟦+class; §7.1's binding, V09 §4.3)⟧
+[replace] …or a deck by hand | ⟦-T4's⟧ ⟦+T9 `shape`'s⟧
+[replace] …T4's inspector on a raised way ⟦-("repair"),⟧ ⟦+(**Repair**),⟧
+[replace] …("repair"), on a bridge or pier ⟦-("rebuild⟧ ⟦+(**Rebuild⟧
+[replace] …a bridge or pier ("rebuild the ⟦-deck")⟧ ⟦+deck**; §7.1's binding, V09 §4.3)⟧
+[replace] …`rerunFrom` and the hand forms of ⟦-4.2⟧ ⟦+V06 §4.2⟧
+[replace] …year, then −1 %, then +1 ⟦-%); every⟧ ⟦+%). Every row below is a **target** — as fast as possible (item 119 (a)); the two waits a user sits through once that this volume makes, an `advance` and a history-first generation, each finish inside §12's ten-second **comfort level** in total, whatever their span, by V06 §6.8's estimate and coarsening (item 119 (a2); J132). A row E0 measures above its target is a declared target⟧
+[replace] …%, then +1 %); every miss ⟦-re-declares⟧ ⟦+inside the comfort level (D-18), with⟧
+[replace] …+1 %); every miss re-declares its ⟦-row⟧ ⟦+pre-decided fallback stated; a step runs slower than its target only⟧
+[insert] …every miss re-declares its row for ⟦-⟧ ⟦+a recorded measured gain (item 119 (b); §12.10);⟧
+[replace] …miss re-declares its row for the ⟦-owner's veto with the fallback stated (D-18).⟧ ⟦+interactive rows of 6.4 keep their budgets (item 119 (d)).⟧
+[replace] …through re-binds — a declared shift ⟦-for⟧ ⟦+by §13.3's protocol,⟧
+[replace] …— a declared shift for the ⟦-owner's veto);⟧ ⟦+miss it answers a declared target miss inside the comfort level);⟧
+[replace] …are the sums this volume's century ⟦-bound assumes,⟧ ⟦+targets and V06 §6.8's `epoch.costMs` assume,⟧
+[insert] …per island (V05 §6) | | ⟦-⟧ ⟦+`village.plan` (scope: a village rung) | 0 | 0 | 0 | V07 §6: no ops at TOWN and above — its gate's one early return | | `village.density` (scope: a superseded `VillagePlan`, under any product) | 6 | 6 | 6 | V07 §6: ≤ 6 ms p95 at a base-product epoch while a superseded `VillagePlan` stands (VS2's raster over the old core's box); 0 without one | | `village.pins` (scope: a village rung) | 0 | 0 | 0 | V07 §6: no ops at TOWN and above (≤ 2 ms inside a village epoch) | |⟧
+[replace] …per-event island work excluded) | **≤ ⟦-34**⟧ ⟦+40**⟧
+[replace] …excluded) | **≤ 34** | **≤ ⟦-75**⟧ ⟦+81**⟧
+[replace] …34** | **≤ 75** | **≤ ⟦-151**⟧ ⟦+157**⟧
+[insert] …75** | **≤ 151** | | ⟦-⟧ ⟦+A village-rung epoch is V07 §6's (≤ 60 ms at the VILLAGE target, its participants inside), below TOWN's row, which bounds it in V06 §6.8's estimate.⟧
+[replace] …at METROPOLIS): * **The sky's island ⟦-events** are priced at⟧ ⟦+events**, derived from⟧
+[replace] …events** are priced at V05 §6's ⟦-rows, cited by name as⟧ ⟦+rows (their home; J-V6.118),⟧
+[replace] …rows, cited by name as the ⟦-century's inputs (V05 §6 is their home; J-V6.118):⟧ ⟦+CITY / METROPOLIS columns, a TOWN reading CITY's (its islands no larger):⟧
+[replace] …J-V6.118): "a resize, a rim reshape" ⟦-(a growing resize with every⟧ ⟦+— ≤ 5 ms + §12.6's scoped regeneration of each receiving district and of the district whose institution claim is re-searched (at most k ≤ 3 in all) + §12.6's scoped-regeneration law once over the plots the event re-cuts outside those districts + 30 ms per⟧
+[insert] …(a growing resize with every re-claimed ⟦-⟧ ⟦+landing⟧
+[replace] …resize with every re-claimed yard's top ⟦-placed and every foot⟧ ⟦+placement (one per access) + 30 ms per⟧
+[insert] …top placed and every foot re-landed ⟦-⟧ ⟦+foot's placement; "`fallIsland`"⟧
+[delete] …placed and every foot re-landed ≤ ⟦-228 ms at CITY and ≤ 255 ms at METROPOLIS; a shrink ≤ 209 / 227 ms), "`fallIsland`" (≤⟧ ⟦+⟧
+[replace] …ms), "`fallIsland`" (≤ 80 / 110 ⟦-ms), and⟧ ⟦+ms;⟧
+[replace] …ms), and a raise at `raiseIsland`'s ⟦-parts⟧ ⟦+parts,⟧
+[replace] …by "declaring an island after generation" ⟦-(≤⟧ ⟦+≤⟧
+[replace] …after generation" (≤ 120 / 160 ⟦-ms);⟧ ⟦+ms. With an island's buildings ≤ 5 % of the town's (V05 §6's unit-run row: ≈ 2–5 % of the town's plots) at the default request's buildings (§12.5's table: ≈ 1 500 at TOWN, ≈ 6 000 at CITY, ≈ 15 000 at METROPOLIS), ≤ 300 / 750 at CITY / METROPOLIS, §12.6's law (≤ 3 ms + 60 µs × the buildings in scope, plus ≤ 3 ms of deltas, once per district) gives⟧
+[replace] …(≤ 120 / 160 ms); a ⟦-TOWN reads CITY's rows⟧ ⟦+growing resize re-deriving all three of its districts ≈ 3 × 6 ms + 60 µs × 300 / 750 ≈ 36 / 63 ms, and a shrink re-deriving at most the claim's district (a third of the island) ≈ 12 / 21 ms; the plots re-cut outside those districts, one scope, are a growing resize's yards' (≤ 3 plots a yard by V05 §6's basis, ≤ 9 buildings: ≈ 7 ms) and a shrink's rim ring⟧
+[replace] …a TOWN reads CITY's rows (its ⟦-islands no larger). The worst case⟧ ⟦+eroded band ≤ 0.025 · r a year, below; at most a third of the island: ≈ 12 / 21 ms). **The access bound:** the century⟧
+[replace] …no larger). The worst case is ⟦-every⟧ ⟦+priced on an island's **generated** accesses, at most `accessCount.max` (3; V05 §2.4) — each yard's top placed and each foot re-landed, 3 × 30 ≈ 90 ms for the tops and as much for the feet — so a growing resize costs ≈ 5 + 36 + 7 + 90 + 90 ≈ 228 ms at CITY and ≈ 5 + 63 + 7 + 90 + 90 ≈ 255 ms at METROPOLIS, a shrink ≈ 5 + 12 + 12 + 90 + 90 ≈ 209 ms and ≈ 5 + 21 + 21 + 90 + 90 ≈ 227 ms. **Each hand-placed access** (at most `accessCount.handMax`, 6 an island; V05 §4.2, J-V5.82) is the user's own edit, priced beside the bound at V05 §6's row: 30 ms for its top and 30 ms for its foot at each resize of its island, ≈ 60 ms a resize (its yard's ≤ 3 plots inside the rounding) — at the cap + 360 ms a resize (≈ 588 ms for a growing resize at CITY), so an⟧
+[insert] …The worst case is every island ⟦-⟧ ⟦+with six hand-placed accesses⟧
+[replace] …is every island resized at every ⟦-epoch, since V05⟧ ⟦+epoch adds ≈ 36 s to a century at the port's cadence; V06 §6.8's estimate charges it for the accesses that stand (`epoch.handAccessMs`). * **V05⟧
+[insert] …below one re-landing per foot per ⟦-⟧ ⟦+resize.** A vertical access's foot re-lands only when its top's move leaves its landing plot (a slanted one only past its run), but a⟧
+[replace] …one re-landing per foot per resize ⟦-(a⟧ ⟦+moves the⟧
+[replace] …per foot per resize (a rim ⟦-moving⟧ ⟦+by the buffer distance, at most `growthPerYear` · years · A ÷ P⟧
+[insert] …(a rim moving ≤ 0.025 · ⟦-⟧ ⟦+years ·⟧
+[insert] …rim moving ≤ 0.025 · r ⟦-⟧ ⟦+for the disc of the island's area (the least perimeter for an area; V05 §2.4's dynamics row), ≈ 4.5 m⟧
+[replace] …≤ 0.025 · r a year ⟦-crosses⟧ ⟦+at CITY's `areaHaMax` and ≈ 6.3 m at METROPOLIS's, while⟧
+[insert] …· r a year crosses a ⟦-⟧ ⟦+ground plot may be⟧
+[replace] …a year crosses a 3 m ⟦-plot within a century)⟧ ⟦+wide (§15.2's O5 (b)),⟧
+[replace] …plot within a century) and a ⟦-fall, which⟧ ⟦+top moves along its ray at least as far as the rim does, so one resize can carry a foot off its plot; over a century the rim can travel 2.5 · r (≈ 450 / 630 m), ≈ 150 / 210 least plot widths, more than the century's 100 resizes; and a target that moves back and forth carries a foot across the same plot line at every resize. So the worst case is every island resized at every epoch with every yard's top placed and every foot re-landed. **A fall does not raise it:** a fall⟧
+[delete] …settled dwell of at least 10 ⟦-unresized⟧ ⟦+⟧
+[insert] …of at least 10 unresized years ⟦-⟧ ⟦+in which the island is not resized⟧
+[replace] …least 10 unresized years (V05 §3.15 ⟦-(3)–(4)),⟧ ⟦+(3)–(4); V05 §2.4's dynamics row), and a fall with a raise in one epoch (≈ 80 + 120 / 110 + 160 ms)⟧
+[insert] …§3.15 (3)–(4)), costs less than the ⟦-⟧ ⟦+ten⟧
+[replace] …(3)–(4)), costs less than the resizes ⟦-it forgoes:⟧ ⟦+the dwell forgoes. So, at worst:⟧
+[replace] …row admits no island (V05 §3.15 ⟦-(1)),⟧ ⟦+(1): the target 0, and no slot re-opens),⟧
+[replace] …resize one epoch in five or ⟦-fewer,⟧ ⟦+fewer (V05's hysteresis 0.05 against a target that follows a town growing 1 % a year),⟧
+[replace] …1.2 / 2.1 s. * **The ⟦-sum**:⟧ ⟦+sum** — the century's cost at the port's cadence, the target its rows add up to:⟧
+[replace] …sum**: TOWN 100 × (103 + ⟦-34)⟧ ⟦+40)⟧
+[replace] …9.6 s + 0.75 s ≈ ⟦-24.8⟧ ⟦+25.4⟧
+[replace] …s; CITY 100 × (343 + ⟦-75)⟧ ⟦+81)⟧
+[replace] …68.4 s + 1.2 s ≈ ⟦-112.7⟧ ⟦+113.3⟧
+[replace] …METROPOLIS 100 × (1 150 + ⟦-151)⟧ ⟦+157)⟧
+[replace] …76.5 s + 2.1 s ≈ ⟦-211.3 s. **The bounds: TOWN ≤ 25⟧ ⟦+211.9⟧
+[replace] …**The bounds: TOWN ≤ 25 s, ⟦-CITY ≤ 115 s, METROPOLIS ≤ 215 s** (the sums rounded up to the next 5 s,⟧ ⟦+each hand-placed access adding its 60 ms a resize beside them. No user waits⟧
+[replace] …to the next 5 s, for ⟦-the owner's veto; D-18; J-V6.118); if E0 measures⟧ ⟦+these sums: an `advance` of⟧
+[replace] …D-18; J-V6.118); if E0 measures a ⟦-sum above its bound, the bound is re-declared⟧ ⟦+century folds⟧
+[replace] …the bound is re-declared at the ⟦-measured sum for⟧ ⟦+cadence V06 §6.8's estimate admits, inside⟧
+[replace] …at the measured sum for the ⟦-owner's veto (D-18).⟧ ⟦+ten-second comfort level in total — in steps of several years where these sums say a year at a time would not fit (V06 §6.8 (4)).⟧
+[replace] …runs as a background job with ⟦-progress,⟧ ⟦+progress past one second (V09 §4.21.9),⟧
+[replace] …verifies within V06 §6.2's CITY century ⟦-bound⟧ ⟦+sum⟧
+[replace] …store ≤ the device's setting (V09 ⟦-§9)⟧ ⟦+§5.12: 256 MB desktop, 96 MB low-end; V06 §2.2)⟧
+[replace] …no images). The per-epoch cost rows ⟦-`replay.epochCostMs`⟧ ⟦+`epoch.costMs`⟧
+[replace] …(our own, not calibratable: a cost ⟦-bound)⟧ ⟦+bound; read by both of V06 §6.8's estimates)⟧
+[replace] …are TOWN and the village rungs ⟦-140⟧ ⟦+150⟧
+[replace] …the village rungs 140 ms, CITY ⟦-420⟧ ⟦+430⟧
+[replace] …ms, CITY 420 ms, METROPOLIS 1 ⟦-300⟧ ⟦+310⟧
+[replace] …420 ms, METROPOLIS 1 300 ms ⟦-(6.1's⟧ ⟦+— 6.1's⟧
+[replace] …300 ms (6.1's total with 6.2's ⟦-participants,⟧ ⟦+participants (≤ 143 / 424 / 1 307 ms),⟧
+[replace] …(6.1's total with 6.2's participants, rounded ⟦-up);⟧ ⟦+up to⟧
+[replace] …with 6.2's participants, rounded up); the ⟦-budget⟧ ⟦+next 10 ms; the replay's share of the comfort level,⟧
+[replace] …the budget `replay.budgetMs` by the peak's ⟦-rung⟧ ⟦+rung,⟧
+[replace] …peak's rung is TOWN and below ⟦-5⟧ ⟦+9⟧
+[replace] …TOWN and below 5 s, CITY ⟦-20⟧ ⟦+8.5⟧
+[replace] …5 s, CITY 20 s, METROPOLIS ⟦-40⟧ ⟦+7⟧
+[replace] …CITY 20 s, METROPOLIS 40 s ⟦-(our own, for the owner's veto; D-18).⟧ ⟦+(V06 §6.8 (2)).⟧
+[replace] …veto; D-18). So, at the owner's ⟦-decade:⟧ ⟦+decade (V11's `history.epochYears`), the sky layer off:⟧
+[replace] …So, at the owner's decade: a ⟦-town⟧ ⟦+town's⟧
+[delete] …owner's decade: a town history of ⟦-up to⟧ ⟦+⟧
+[replace] …of up to 300 years (30 ⟦-epochs)⟧ ⟦+epochs at TOWN,⟧
+[replace] …to 300 years (30 epochs) ≈ ⟦-4.2 s;⟧ ⟦+4.5 s, with its growth's stages ≈ 4.8 s) fits whole; a city-to-village history like H-HISTORY's (25 epochs, about ten of them at CITY: ≈ 4.3 + 2.3 ≈ 6.6 s) fits whole; a metropolis grown from its founding over 300 years — about ten epochs each at TOWN, CITY and METROPOLIS, ≈ 18.9 s, and its 35 000 buildings' stages ≈ 2.1 s — runs in 50-year epochs (six, ≈ 5.9 s); with the sky layer on, every epoch from the first at CITY also charges three islands' resizes (V06 §6.8 (1)), coarsening⟧
+[replace] …epochs) ≈ 4.2 s; a city's ⟦-of up to 470 years (47 epochs) fits whole, a 500-year one coarsened to 11-year epochs;⟧ ⟦+or⟧
+[replace] …coarsened to 11-year epochs; a metropolis's ⟦-of up to 300 years at decades (30 epochs), an 800-year one in 27-year epochs.⟧ ⟦+history further.⟧
+[replace] …at the peak's size, before the ⟦-replay.⟧ ⟦+replay, and the present's first map §12.5's, after it — both inside the ten seconds by `replay.budgetMs`'s derivation.⟧
+[replace] …refounded one, a metropolis in decline), ⟦-and⟧ ⟦+the measured wait⟧
+[replace] …a metropolis in decline), and a ⟦-measured sum above its budget re-declares the row (D-18).⟧ ⟦+bar (T-V6-24), never an input.⟧
+[insert] …targets kept, only its grain coarser. ⟦-⟧ ⟦+**6.8 The comfort level — `advance` and the history replay in total** (item 119 (a), (a2): the owner's "Total", 2026-10-01; J132; J-V6.135). §12's ten-second comfort level binds each of this volume's two one-time waits, from the click to the complete result — the map's final complete frame — on §12.1's reference hardware, at every rung to the metropolis cap: an **`advance`** (the time card's Accept, the clerk's, the CLI's; V12's `wait.advanceTime`) and a **history-first generation** (the start's generation, the replay and the present's first map; V12's `wait.historyReplay`). The rows of 6.1–6.7 stay the targets; this is how both waits stay inside the ten seconds whatever span they are given: 1. **The estimate** — one function for both, of the epochs it is given and of the document (an `advance`) or the recipe (the replay) at the request, never of a measured time, so the cadence it decides is deterministic and a replay of the log folds the same epochs: `E = Σ_i (epoch.costMs[r_i] + I_i × epoch.islandMs[r_i] + H × epoch.handAccessMs) + epoch.stageMs × g + epoch.stageMsPerBuilding × ΔB`, where * `r_i` is the rung of epoch i's target by the registered products' ladders (§1.1's router; a village rung reads TOWN's row); * `I_i` is the islands that may stand at epoch i: V05's three slots (V05 §3.2) at every epoch from the first whose rung is CITY or METROPOLIS while the recipe's `layers.islands` is on — islands carried below CITY wane, settle and fall over later epochs (V05 §3.15) — and before it the islands standing at the request: an `advance`'s document's, none in a replay (a start below CITY generates none, II.6 (2)); each may resize at every epoch (V06 §6.2's worst case); * `H` is the hand-placed accesses standing at the request (an `advance` only; a replay runs before any edit), each re-landed at each resize of its island (V06 §6.2's edit-borne cost); * `g` is the epochs whose target rises above the previous one (each may grow a stage) and `ΔB` the buildings the rises add, Σ max(0, target_i − target_{i−1}) ÷ 3.4 (§12.2's persons a building) — §12.6's scoped law for the stages (V06 §6.2's growth term), the one part a coarser cadence does not shrink. 2. **The budgets.** `advance.budgetMs` (9 000 ms) leaves one second of the ten for the expansion and the estimate, the last epoch's redraw (§12.5's settle, ≤ 250 ms at METROPOLIS) and the group's commit; `replay.budgetMs` by the peak's rung (TOWN and below 9 000, CITY 8 500, METROPOLIS 7 000 ms) leaves the start's generation and the present's first map at the rung's band top (§12.5's T(B): 246 / 589 / 2 290 ms) and a 500 ms reserve for the `HistoryRecord`, the report and the commit. The history images an epoch writes (V06 §3.15.2) are captured in its commit as copy-on-write references and compressed into the store after the wait completes, at background priority, so no image costs the wait (the store is non-canonical; until compressed, a frame reads the references). 3. **The coarsening.** An `advance`'s cadence (V06 §3.3.2) becomes the smallest whole number of weeks, tried upward from the cadence asked (after `advance.maxEpochs`' bend), whose epochs' `E` is at most `advance.budgetMs`; the replay's epoch length (V06 §3.20.1 (3)) the smallest whole number of years, tried upward from `history.epochYears`, whose epochs' `E` is at most `replay.budgetMs[the peak's rung]` and whose count is at most `replay.maxEpochs`. One epoch over the whole span always fits: its `E` is at most 1 310 + 3 × 260 + 18 × 60 + 6 + 0.06 × 35 000 ≈ 5.3 s at the metropolis cap with the hand-placed cap on three islands, inside both budgets — so no request is refused and no span shortened (item 101 R2). The cadence chosen is reported: the card's and the clerk's one line, `EpochReport.advance`, `ReplayPlan.epochYears` and the report's `replay.epochYears` (V06 §2.10, V06 §2.14); V09's progress view counts the epochs at it. 4. **What a user sees** (at the reference rows; PLAUSIBLE until E0): a century held at its size, the sky layer off, folds at TOWN in 87-week steps (60 epochs, ≈ 9.0 s), at CITY in 5-year steps (20, ≈ 8.6 s) and at METROPOLIS in ≈ 17-year steps (6, ≈ 7.9 s); with the sky layer on, at CITY in 12½-year steps (8) and at METROPOLIS in 25-year steps (4); a growing century coarser by its stages' share; a ten-year advance at TOWN keeps its yearly cadence (≈ 1.5 s); the replay as 6.7's examples. 5. **Progress and Stop** — past one second, the progress view (V09 §4.21.9): an `advance`'s epochs ("Year {year} of {years}", at the cadence chosen), each epoch's `DisplayDelta` drawn as it folds; the replay's ("Replaying the town's past: {year}"); Stop ends an `advance` after the running epoch (V06 §4.1); a cancelled history-first generation leaves no document (V06 §3.20.4). 6. **Slower only for a measured gain; the low tier; the dossier's clock** (item 119 (b), (e)). This volume declares no step slower than its target for a gain; a cost row E0 raises (the fallbacks of 6.1 and 6.7) coarsens the cadence further, inside the comfort level, never relaxing it. The low tier aims at the same ten seconds; a size it cannot reach is declared per device (§12.1). A dossier-bound document's epochs are the port's cadence (§4.11 *The clock*) and are never coarsened — the host's clock owns its time (item 20) — each priced at 6.1–6.2 inside §12's waits for a dossier change and an open from SettlementForge.⟧
+[insert] …## 7 Tests and acceptance bars ⟦-⟧ ⟦+They take over the base's evolution bars as §13.2 names them (the take-over table, the evolution row: T8-1 – T8-7, T17-2, T17-3, T18-1 – T18-4's epoch-spread form, T20-2's and T20-6's epoch clauses, T25-1, T31-2, T31-3, T31-8 – T31-12, T67-1 – T67-6, T70-1 – T70-4 over epochs, T72-1 – T72-9's epoch clauses, T76-1's per-year clause, T81-1, T108-4 over epochs, T111-1 – T111-5's epoch form, T113-1 – T113-3, T113-6, T113-7, T114-1 – T114-5 and T114-8's epoch clause, and T115-1 and T115-2 across a rung change), each test naming the bar and the clause it takes; the table after the fixtures maps them.⟧
+[insert] …bench weekly on 200 seeds (§13.8). ⟦-⟧ ⟦+**The base bars these tests take** (§13.2's take-over table, the evolution row; each test names the bar and the clause it takes there too): | base bar | taken by | the clause it takes | |---|---|---| | T8-1 | T-V6-70 (f) | every `DeclineOp` kind the strike pool applies over H-100's decline undone with its epoch to byte identity | | T8-2 | T-V6-7 | the regrowth-first fixture over epochs: no new face while the old plan holds capacity, each band's vacancy share kept | | T8-3 | T-V6-3 | over H-100's epochs every ruin, trace and superseded ring keeps its address; no cleared building tombstoned unless demolished or succeeded; a front building made a trace or demolished frees its passage | | T8-4 | T-V6-5 | the exposure field monotone in each driver's weight, its chance share the table's | | T8-5 | T-V6-6 | the salvage ledger's credits equal the yields of the robbed and the cleared, never negative, every shortfall reported | | T8-6 | T-V6-30 | a CITY fallen below 10 000 inhabitants loses its islands over their dwell spans, never in one epoch | | T8-7 | T-V6-5 | after a fall no building with a surviving household reads `vacant`; every `relet` down stales an unstored plan and re-cuts a stored one inside its event | | T17-2 | T-V6-4; T-V6-13 | a pinned assignment never moves under an epoch (T-V6-4); the `use` row of the churn cap holds (T-V6-13) | | T17-3 | T-V6-2 | one seed with one circumstance timeline replays to one digest of openings, closings and moves | | T18-1 – T18-4, the epoch-spread form | T-V6-15 | each `MutationPlan` step keeps the kept parts byte-identical, touches nothing outside its scope and never subtracts a locked part; the return applies the inverse; the steps in full equal the one-shot mutation of the same record | | T20-2, its epoch clause | T-V6-27 | a rejection lapses at the first epoch past the roster tolerance and on no drift inside it; the undo of a lapsing epoch with no dossier event restores the hold | | T20-6, its epoch clause | T-V6-27; T-V6-4 | a dossier-backed use never closed, its building emptied or removed only after it moved (T-V6-4, T-V6-27); an `undo` naming an epoch that carried a dossier event F-EDIT (T-V6-27) | | T25-1 | T-V6-18 | an epoch's `reclaim` and `siltReach` byte-identical outside their footprint and undone exactly with the epoch | | T31-2, T31-3, T31-9 – T31-11 | T-V6-29 | granularity within each band's target; the churn caps per kind, district and block; the floor's bars — at every epoch of the soak | | T31-8 | T-V6-26 | every class's replaceability and every ladder row's durations present, as the ladder phase reads them | | T31-12 | T-V6-1 | with no epoch, `builtBand` the generation band and the geometry band the field band | | T67-1, T67-3 | T-V6-21 | the stage drawn at week w a pure function of the Works and w; the old boundary shown until clearing | | T67-2, T67-4, T67-6 | T-V6-19 | access at every week; rehousing before a demolition's first stage; the epoch's Works share and a decay Works' dwell band | | T67-5 | T-V6-1; the parity paragraph below | no Works at generation and none under the parity presets | | T70-1 – T70-4, over epochs | T-V6-32 | every informal cluster the overflow ladder or a stage makes over epochs | | T72-1 – T72-9, their epoch clauses | T-V6-29 | the character step's output after every epoch of the soak | | T76-1, its per-year clause | T-V6-25 | per-year rates give equal expected firings at 13-, 52- and 520-week cadence | | T81-1 | T-V6-50 | a rung-crossing epoch grows the frame by §3.2 (9)'s batches, every address and ring outside the growth kept | | T108-4, over epochs | T-V6-45 | a promotion or a demotion by least disruption | | T111-1 – T111-5, the epoch form | T-V6-72 | a failing spring weakens its pull over epochs; the `item111.water` pin on H-100 | | T113-1 – T113-3, T113-6, T113-7 | T-V6-71 | the city-to-village fixture; one digest per seed and history on the five engines; the refounded fixture; a symbolic peak only with evidence; the `item113.history` pin | | T114-1 – T114-5, T114-8 (item 114 (g)) | T-V6-73 | the transitions over epochs on H-WALLS; the `item114.condition` pin | | T115-1, T115-2, across a rung change | T-V6-74 | no grand dwelling but the one manor at a village epoch, the manor only with a lord or a dossier record, across H-RUNG's rung changes |⟧
+[replace] …the lapse, character and Works steps ⟦-run)⟧ ⟦+run); with no epoch every plot's `builtBand` equals its generation band and its geometry band its field band, a town and a metropolis each resolving their own middle band (T31-12)⟧
+[replace] …fixture and on the catch-up fixture's ⟦-log⟧ ⟦+log; exact (T31-12)⟧
+[replace] …epoch recurs identically at replay (V06 ⟦-§3.17)⟧ ⟦+§3.17); one seed with one circumstance timeline replays to one digest of openings, closings and moves (T17-3)⟧
+[replace] …week and report and changes nothing ⟦-else⟧ ⟦+else; over H-100 every ruin, trace and superseded ring keeps its address, no cleared building is tombstoned unless demolished or succeeded, and a front building the pool makes a footprint trace or demolishes leaves its passage with no `frontBuilding` and no base wing spanning it (T8-3's epoch form)⟧
+[insert] …entity changes no other entity's draws ⟦-⟧ ⟦+(T17-2; T20-6's epoch clause)⟧
+[replace] …first; a core dwelling can still ⟦-empty⟧ ⟦+empty; the exposure field is monotone in each driver's weight and its chance share equals the table's (T8-4); after each fall of H-100 no building with a surviving household reads `vacant`, and every `relet` down marks an unstored plan rung `stale` and re-cuts a stored plan inside its own event (T8-7's epoch form)⟧
+[replace] …0 in ≥ 5 % of ⟦-seeds⟧ ⟦+seeds; exact (T8-4, T8-7)⟧
+[replace] …> plot boundary > street > ⟦-wall⟧ ⟦+wall; the salvage ledger's credits equal the yields of the robbed and the cleared at every epoch, are never negative, and every shortfall is reported (T8-5)⟧
+[replace] …% of seeds over a 60-year ⟦-decline⟧ ⟦+decline; exact (T8-5)⟧
+[insert] …band keeping its turnover share vacant ⟦-⟧ ⟦+(T8-2's epoch form)⟧
+[replace] …byte-identical to a history without the ⟦-mask;⟧ ⟦+mask (the no-op pin `item102.sun`: H-100, registered by V06's E5 seat on V12 §3.7.8's engine);⟧
+[insert] …the `use` cap holds per district ⟦-⟧ ⟦+(T17-2's churn-cap clause)⟧
+[replace] …before the plan's creation clamps to ⟦-it⟧ ⟦+it; each step keeps every kept part byte-identical, touches nothing outside its event's effective scope and never subtracts a locked part, and the steps applied in full give the design the one-shot mutation of the same record gives, byte-identical (T18-1 – T18-4's epoch-spread form)⟧
+[replace] …within ± 30 % of the ⟦-table's⟧ ⟦+table's; every epoch-applied `reclaim` and `siltReach` is byte-identical outside its footprint, in the carve fixtures' form, and undoes exactly with its epoch (T25-1's epoch form)⟧
+[replace] …Works leaves a plot without access ⟦-(T67-2)⟧ ⟦+(T67-2); a demolition's households are rehoused before its first stage (T67-4); on the hook fixture an epoch's share of buildings in works lies within ± 3 s.e. of growth × mean duration ÷ span, and a decay Works within its dwell band (T67-6)⟧
+[replace] …(T67-2) | KS p > 0.01; ⟦-exact⟧ ⟦+exact; within ± 3 s.e.⟧
+[replace] …after a reload equals the replayed ⟦-prefix's⟧ ⟦+prefix's; the stage drawn at week w is a pure function of the Works record and w, reached directly or by scrubbing, and no model digest moves (T67-1); a merge or a split shows the old boundary until its clearing stage (T67-3)⟧
+[insert] …end state equals the committed end ⟦-⟧ ⟦+state, and an accept on an unchanged head takes the preview's folded⟧
+[insert] …state equals the committed end state ⟦-⟧ ⟦+byte-identical to a re-fold; **the comfort level** (V06 §3.3.2, V06 §6.8): a request whose estimate exceeds `advance.budgetMs` folds at the smallest cadence that fits — the same cadence on every host and in a replay of the log, its epochs' weeks at it — its one line naming the cadence chosen and every epoch's `EpochReport.advance` carrying it and the cadence asked; a 500-year METROPOLIS request with three islands and the hand-placed cap folds, never refused or shortened⟧
+[replace] …V06 §6's rows on the reference ⟦-hardware,⟧ ⟦+hardware as targets (item 119 (f): its bars T119-1 – T119-5, §13.2, are taken by V12's T-V12-50 and V09's T-V9-79; this test is the volume's own measurement, read beside them): each row reported target met or target miss, a slower row only with its recorded gain, the interactive rows of V06 §6.4 unchanged; **the comfort level** (V06 §6.8): an `advance` of 1, 10, 100 and 500 years — held, growing 1 % a year and falling 1 % a year — and a history-first generation of H-HISTORY, H-REFOUND and a metropolis grown from its founding over 300 years, each at every rung's band top and at the metropolis cap, the sky layer off and on, timed from the click to the complete result (V12's `wait.advanceTime`, `wait.historyReplay`) | every row reported against its target (a miss a declared target miss, D-18); every wait's p95 ≤ 10 000 ms, its measured time at most its estimate plus its reserve (else the cost rows rise,⟧
+[replace] …on the reference hardware, V06 §6.7's ⟦-replay budget included | each row⟧ ⟦+fallback); progress⟧
+[replace] …budget included | each row within ⟦-budget or re-declared (D-18)⟧ ⟦+1 000 ms of the click for every wait over one second⟧
+[replace] …statistics | cadence independence (item 76 ⟦-(5)):⟧ ⟦+(5); T76-1's per-year clause):⟧
+[insert] …row is read by a phase ⟦-⟧ ⟦+or V06 §6.8's estimate⟧
+[replace] …read by a phase (a source ⟦-scan);⟧ ⟦+scan), every class carrying a replaceability and every ladder row a duration per direction and replaceability as the ladder phase reads them (T31-8);⟧
+[replace] …goes unplaced at any batch (§5.3's ⟦-row)⟧ ⟦+row); a rejection lapses at the first epoch whose population target has moved past the roster tolerance (± 5 %) from the one it recorded, a drift inside it lapsing nothing, and an undo of a lapsing epoch that carried no dossier event restores the hold (T20-2's epoch clause); an `undo` naming an epoch that carried a dossier event returns F-EDIT and changes nothing (T20-6's epoch clause)⟧
+[replace] …bounds; the digest is stable across ⟦-replays⟧ ⟦+replays; at every epoch granularity lies within each band's target ± tolerance and the churn caps hold per kind, district and block (T31-2, T31-3); the floor's bars hold over the soak — no rung-1 or rung-2 event moves a plot's frontage edge or shrinks a shell toward a poorer band, `builtBand` is the new stock's after a building rung 3 and the kept member's after an `amalgamate` that builds nothing, and a rich → poor → rich run with no rung-3 event leaves rings and shells byte-identical (T31-9 – T31-11); the character step's output after every epoch passes T72-1 – T72-9's epoch clauses — the vector recomputed from the saved model equal, a name changed only past the hysteresis or by a rename, every building's prosperity-driven state inside its district's band range, every household an epoch places inside its district's written range⟧
+[replace] …in their step (V05 §3.15, V04 ⟦-§3.10)⟧ ⟦+§3.10); on the sky fixture a CITY dropped below 10 000 inhabitants loses its islands over their dwell spans — waning, settled, fallen — never in one epoch (T8-6)⟧
+[replace] …houses everyone (tent belt) and reports ⟦-it⟧ ⟦+it; every informal cluster the overflow ladder or a stage makes over epochs gives each structure its own door on a footpath reaching an access edge, keeps the fire-gap minimum and the households per structure within its row and capacity, and stands on no plot whose geometry floor is the middle band or above, in no district whose band range excludes the squalid band and in no wall strip (T70-1 – T70-4 over epochs)⟧
+[replace] …belt) and reports it | 0 ⟦-unhoused⟧ ⟦+unhoused; 0 violations⟧
+[insert] …a lineage draws its dig once ⟦-⟧ ⟦+per void kind⟧
+[replace] …dig once in its life across ⟦-replays⟧ ⟦+replays, plus once for each wing V02's mutator adds over a void⟧
+[replace] …exactly one draw per (lineage, void ⟦-kind)⟧ ⟦+kind, added-wing key)⟧
+[insert] …T-V6-44 | goldens | the web's ⟦-⟧ ⟦+and the spread's⟧
+[replace] …| goldens | the web's no-op ⟦-pin:⟧ ⟦+pins, `item105.web` and `item107.spread` (H-100, registered by V06's E4 seat on V12 §3.7.8's engine):⟧
+[insert] …byte-identical to the history without item ⟦-⟧ ⟦+105, and with T107-4's cells at 0 too, to the history without items⟧
+[insert] …to the history without item 105 ⟦-⟧ ⟦+and 107⟧
+[insert] …its shop keeps its use, unbound ⟦-⟧ ⟦+(T108-4 over epochs)⟧
+[replace] …on at that epoch at any ⟦-cadence⟧ ⟦+cadence; an epoch whose target crosses a band upward changes the rung's row and grows the frame by §3.2 (9)'s batches, every entity outside the growth's region keeping its address and every face outside it its ring, owner and nested faces (T81-1)⟧
+[replace] …and a spent cap, undone and ⟦-reloaded;⟧ ⟦+reloaded, and every `DeclineOp` kind the pool applies over H-100's decline undone with its epoch to byte identity (T8-1's epoch form);⟧
+[replace] …replay at generation** (item 113; V06 ⟦-§3.20):⟧ ⟦+§3.20; takes T113-1, T113-2, T113-3, T113-6 and T113-7):⟧
+[replace] …and history are byte-identical, epoch by ⟦-epoch;⟧ ⟦+epoch, on the five engines (T113-2);⟧
+[replace] …byte-identical to the base (the no-op ⟦-pin, V12's registration);⟧ ⟦+pin `item113.history`: the history fixtures, registered by V06's E9 seat on V12 §3.7.8's engine);⟧
+[insert] …estimate stays within `replay.budgetMs` by coarsening, ⟦-⟧ ⟦+the epoch length chosen reported (`ReplayPlan.epochYears`, `replay.epochYears`),⟧
+[replace] …within `replay.budgetMs` by coarsening, and the ⟦-measured time within⟧ ⟦+whole wait inside⟧
+[replace] …and the measured time within the ⟦-budget on the reference hardware⟧ ⟦+comfort level (T-V6-24)⟧
+[replace] …the baseline on 50 seeds; within ⟦-budget (or re-declared, D-18)⟧ ⟦+the comfort level⟧
+[replace] …over epochs** (item 111 (b); V06 ⟦-§3.12.1),⟧ ⟦+§3.12.1; takes T111-1 – T111-5's epoch form),⟧
+[replace] …with one — shows no change ⟦-(the no-op pin:⟧ ⟦+(a conformance clause:⟧
+[replace] …springs' rules removed on a spring-less ⟦-site)⟧ ⟦+site); the no-op pin `item111.water` (H-100, registered by V06's E5 seat on V12 §3.7.8's engine): with V11 §3.24.0's `climate` dry cells off, H-100 is byte-identical to its off-state set⟧
+[insert] …on a spring-less site) | exact; ⟦-⟧ ⟦+byte-identical;⟧
+[replace] …need and means** (item 114; V06 ⟦-§3.7.7),⟧ ⟦+§3.7.7; takes T114-1 – T114-5 and T114-8),⟧
+[replace] …the `enceinte` provider tells its story; ⟦-the item-114 cells at their neutral values reproduce⟧ ⟦+V11 §3.24.0's `walls.condition` off form reproduces⟧
+[replace] …114 byte for byte (the no-op ⟦-pin)⟧ ⟦+pin `item114.condition`: H-100 and H-WALLS, registered by V06's E3 seat on V12 §3.7.8's engine)⟧
+[replace] …rung change** (item 115 (e); V06 ⟦-§3.8.5),⟧ ⟦+§3.8.5; takes T115-1 and T115-2 across a rung change),⟧
+[replace] …is simply absent). Priced below at ⟦-**29.5–41.75⟧ ⟦+**29.75–42.25⟧
+[replace] …at **29.5–41.75 person-weeks**, the owner's items ⟦-111⟧ ⟦+111, 113–115⟧
+[replace] …person-weeks**, the owner's items 111 and ⟦-113–115⟧ ⟦+119⟧
+[replace] …epoch's cost at each rung (V06 ⟦-§6.7)⟧ ⟦+§6.7); the history images' capture and compression per epoch; the `epoch.*` cost rows set from the measured costs (V06 §6.8)⟧
+[replace] …`WhyProvider`s; the exports (item 447's raised-way ⟦-properties)⟧ ⟦+properties); the comfort estimate and the coarsened cadence of an `advance` with its one line, the report's `advance` section and the accept's adoption of the preview's fold (item 119 (a2); V06 §6.8)⟧
+[replace] …exports (item 447's raised-way properties) | ⟦-T-V6-21–23,⟧ ⟦+T-V6-21–24,⟧
+[replace] …raised-way properties) | T-V6-21–23, 53 | ⟦-3–4.25⟧ ⟦+3.25–4.75⟧
+[replace] …the last epoch's dossier step), the ⟦-budget,⟧ ⟦+budget — the comfort level's share,⟧
+[insert] …dossier step), the budget, its coarsening ⟦-⟧ ⟦+reported (item 119 (a2); V06 §6.8) —⟧
+[replace] …story's reads, the no-op pin | ⟦-T-V6-71⟧ ⟦+T-V6-71; T-V6-24's replay clause⟧
+[replace] …| | **total** | | | ⟦-**29.5–41.75**⟧ ⟦+**29.75–42.25**⟧
+[insert] …`tables/evolution.json` (registry row 60; V06 §2.2, ⟦-⟧ ⟦+V06⟧
+[replace] …E4, `calamities` and `works.partStartAt` at E5, ⟦-`history.checkpointStride`⟧ ⟦+`history.checkpointStride`, the `epoch.*` rows and `advance.budgetMs`⟧
+[insert] …`fallback` run decide (V12 §3.7.1 (b), ⟦-⟧ ⟦+V12⟧
+[insert] …lint (T-V12-20) and does not exit. ⟦-⟧ ⟦+**The no-op pins** (E-20; V12 §2.13): each seat registers its pins' suites on V12 §3.7.8's engine in the change that lands its exit, each `NoOpPin` reading its off form from V11 §3.24.0 where V11 states it — E1 `item110.raised`, `.terrace`, `.deck` and `.stepped` (H-100, H-AQUA, H-TERRACE, H-DECK; T-V6-65), E3 `item114.condition` (H-100, H-WALLS; T-V6-73), E4 `item105.web` and `item107.spread` (H-100; T-V6-44), E5 `item102.sun` and `item111.water` (H-100; T-V6-12, T-V6-72), E9 `item113.history` (the history fixtures; T-V6-71).⟧
+[replace] …recorded; one draw per (lineage, void ⟦-kind)⟧ ⟦+kind, added-wing key)⟧
+[replace] …until then); E2's ceiling part needs ⟦-§4.2⟧ ⟦+§4.7⟧
+[replace] …then the re-score rotation of V06 ⟦-§6.1, for⟧ ⟦+§6.1 — a declared target miss inside⟧
+[replace] …rotation of V06 §6.1, for the ⟦-owner's veto.⟧ ⟦+comfort level (D-18), V06 §6.8's coarsening absorbing it.⟧
+[replace] …§6.7's (fewer full epochs, then coarser ⟦-ones), for⟧ ⟦+ones) —⟧
+[replace] …epochs, then coarser ones), for the ⟦-owner's veto.⟧ ⟦+wait inside the comfort level by V06 §6.8, only its grain coarser.⟧
+[replace] …century's worst case from those rows ⟦-(every⟧ ⟦+on an island's generated accesses (≤ `accessCount.max`: every⟧
+[replace] …yard's top placed and every foot ⟦-re-landed:⟧ ⟦+re-landed —⟧
+[insert] …over plots ≥ 3 m wide), ⟦-⟧ ⟦+each hand-placed access (≤ `accessCount.handMax`) priced beside it as⟧
+[replace] …plots ≥ 3 m wide), the ⟦-century bounds TOWN ≤ 25⟧ ⟦+user's edit at 60 ms a resize of its island, the century's sums at the port's cadence the targets (TOWN ≈ 25.4⟧
+[replace] …bounds TOWN ≤ 25 s, CITY ⟦-≤ 115⟧ ⟦+≈ 113.3⟧
+[replace] …s, CITY ≤ 115 s, METROPOLIS ⟦-≤ 215 s under D-18,⟧ ⟦+≈ 211.9 s) and the same worst case charged per epoch by V06 §6.8's comfort estimate where islands may stand (J-V6.135),⟧
+[replace] …excluding the island events from the ⟦-century bound,⟧ ⟦+century,⟧
+[replace] …from the century bound, raising the ⟦-per-epoch⟧ ⟦+`sky.islands`⟧
+[delete] …row to the worst case, keeping ⟦-the bounds on⟧ ⟦+⟧
+[insert] …(a resize one epoch in five), ⟦-⟧ ⟦+pricing every island at the nine-access worst case,⟧
+[delete] …5 to defer its re-landings, because ⟦-the century bound is⟧ ⟦+⟧
+[insert] …is what a user waits for ⟦-⟧ ⟦+is the comfort level (item 119 (a2))⟧
+[insert] …proved by the rows, a per-epoch ⟦-⟧ ⟦+row at the⟧
+[replace] …per-epoch worst case would overstate every ⟦-other epoch,⟧ ⟦+epoch without an island, a hand-placed access is the user's own edit (J-V5.82) whose cost the estimate charges only where it stands,⟧
+[insert] …the ordinary fold (item 22) | ⟦-⟧ ⟦+| J-V6.135 | chose, for item 119's comfort level on long runs of time (the owner's "Total", J132), one deterministic estimate for both waits — `epoch.costMs` by the rung of each epoch's target (the replay's per-epoch rows, renamed as both estimates now read them, re-summed with V07's participants), the islands that may stand at V06 §6.2's worst case, the hand-placed accesses standing at the request, and the growth stages at §12.6's law — that coarsens an `advance`'s cadence to the smallest whole number of weeks, and the replay's epoch length to the smallest whole number of years, whose estimate fits `advance.budgetMs` (9 s) or `replay.budgetMs` by the peak's rung (9 / 8.5 / 7 s: the ten seconds less the peak's generation and first map at the rung's band top and a reserve), the cadence chosen reported and the accept adopting the preview's fold on an unchanged head (V06 §3.3.2, V06 §3.20.4, V06 §4.1, V06 §6.8), over a fixed cadence with the ten seconds a target only, a comfort level per visible step, an adaptive cadence timed on the running machine, or refusing a long request, because the owner chose a total wait, a cadence timed on the machine would fold different epochs on different hosts (a replay and §6.5's engines must agree), an estimate charging the worst case keeps the ten seconds a ceiling on the reference hardware, and one epoch over the whole span always fits, so no request is refused or shortened (item 101 R2) |⟧
+[replace] …S7b (6) | Items 111, 113, ⟦-114⟧ ⟦+114, 115⟧
+[replace] …| Items 111, 113, 114 and ⟦-115⟧ ⟦+119⟧
+[replace] …`Enceinte.condition` ladder and §7.7's condition row; ⟦-§4.2⟧ ⟦+§4.7⟧
+[replace] …row; §4.2 S10b's ceiling and §10.2's ⟦-table);⟧ ⟦+table; §12's targets and comfort level);⟧
+[replace] …§3.8.5, V06 §3.11.7, V06 §3.12.1, V06 ⟦-§3.20).⟧ ⟦+§3.20, V06 §6.8).⟧
+[replace] …M5 (J122). It is priced at ⟦-29.5–41.75⟧ ⟦+29.75–42.25⟧
+[insert] …words cited; V08 §3.5.1 (c)–(d) and ⟦-⟧ ⟦+V08⟧
+[replace] …`CalamityRef`; V11's cells this volume reads ⟦-(§2.3's⟧ ⟦+(V11 §2.3's⟧
+[insert] …register lint as V06 §8 names ⟦-⟧ ⟦+them; file g's item 119 (a) and (a2) as V06 §6.8 applies⟧
+[replace] …of V06 §6 — the per-epoch ⟦-rows,⟧ ⟦+rows (the targets), V06⟧
+[replace] …— the per-epoch rows, §6.2's century ⟦-bounds⟧ ⟦+sums at the port's cadence⟧
+[replace] …per-epoch rows, §6.2's century bounds (TOWN ⟦-≤ 25⟧ ⟦+≈ 25.4⟧
+[replace] …bounds (TOWN ≤ 25 s, CITY ⟦-≤ 115⟧ ⟦+≈ 113.3⟧
+[replace] …s, CITY ≤ 115 s, METROPOLIS ⟦-≤ 215⟧ ⟦+≈ 211.9⟧
+[replace] …≤ 5 % of the default ⟦-request's),⟧ ⟦+request's and its generated accesses),⟧
+[replace] …% of the default request's), V06 ⟦-§6.7's replay budget,⟧ ⟦+§6.8's cost rows and budgets — that its estimate bounds the measured waits on the reference hardware —,⟧
+[insert] …and E9 time them; 2. that ⟦-⟧ ⟦+V06⟧
+[replace] …resized at every epoch, every foot ⟦-re-landed)⟧ ⟦+re-landed, each hand-placed access priced beside it)⟧
+[insert] …every default of V06 §2.2's table, ⟦-⟧ ⟦+V06⟧
+[insert] …protocol and pre-decided fallback (V06 §6, ⟦-⟧ ⟦+V06⟧
+[insert] …here" (a `forkAt`) | V06 §4.1; ⟦-⟧ ⟦+V06⟧

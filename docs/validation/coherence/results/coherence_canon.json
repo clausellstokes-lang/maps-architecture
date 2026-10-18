@@ -1,0 +1,18 @@
+{
+ "file": "docs/validation/coherence/canon.md",
+ "facts": 9816,
+ "multi_stated": 407,
+ "conflicts": 168,
+ "terms_retired": 35,
+ "f_items_routed": 386,
+ "id_collisions": 2,
+ "elegance_unify": 34,
+ "elegance_keep_apart": 5,
+ "agreement_pairs": 153,
+ "shared_subjects": 8087,
+ "disagreements": 59,
+ "handoffs_open": 132,
+ "edge_cases": 2706,
+ "edges_undefined": 832,
+ "combinations": 1147
+}

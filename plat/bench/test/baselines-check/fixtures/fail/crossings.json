@@ -1,0 +1,19 @@
+[
+  {
+    "file": "bench/test/baselines-check/fixtures/fail/baselines.json",
+    "sha256": "7cc7587c070d7701f0c727846dad0d8932e1e66cf72dd097335ab23b26d860ee",
+    "rows": 3,
+    "date": "2026-10-05",
+    "checks": [
+      "C1",
+      "C2",
+      "C3",
+      "C4",
+      "C5",
+      "C6",
+      "C7"
+    ],
+    "checkerSeat": "L-0900",
+    "statement": "synthetic record for the bench test; read only the file"
+  }
+]

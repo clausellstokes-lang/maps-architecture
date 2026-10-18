@@ -1,0 +1,556 @@
+{
+ "input_doc_sha256": "5bc8340ffd294206e96990e9e059491f18674e2c5c61707ecbd59786c92a3b36",
+ "input_rationale_sha256": "88ebdee5cab06be15d5d3c3f690bebe01eef2f3ff472f03e6f865526f03d8f46",
+ "index": {
+  "table_header_line": 12288,
+  "ids_swapped": [
+   "J-DET-2",
+   "J-DET-6",
+   "J-A20.74",
+   "J-A25.61",
+   "J-A28.61",
+   "J-A30.71",
+   "J-A21.31",
+   "J-A30.31",
+   "J-A23.41",
+   "J-A26.43",
+   "J-A31.43",
+   "J-A31.44",
+   "J-A31.48",
+   "J-A20.41",
+   "J-A28.42",
+   "J-A30.83",
+   "J-A28.83",
+   "J-A28.84",
+   "J-A16.01",
+   "J-A23.01",
+   "J-A27.01",
+   "J-A28.01",
+   "J-A28.02"
+  ],
+  "swaps": [
+   {
+    "id": "J-DET-2",
+    "older_line": 12345,
+    "appended_line": 12726,
+    "old_row_sha256": "2bc27ca516292c6283d2e87bd6230093124c232d7ffab8aaa2def96117249712",
+    "new_row_sha256": "b79f26152caec002f2a4690f879c39a5b51f541815a6ec3ed164d346891bd793",
+    "old_row": "| J-DET-2 | lineage kept only for entities surviving un-derived; successors get the address only | §6.3 |",
+    "new_row": "| J-DET-2 | lineage kept only for entities surviving un-derived; successors get the address only *(amended by amendments b: a mutation — a fusion, a splitting, a ladder step, an interior re-cut — continues lineage; only New random takes fresh lineage; J-A31.73, J-A28.63, J-A8.61)* | §6.3 |"
+   },
+   {
+    "id": "J-DET-6",
+    "older_line": 12349,
+    "appended_line": 12727,
+    "old_row_sha256": "8b60d7efcfd9e5fb0b04d065d17eeff2e62843a1a818b646f1cb664707bd297c",
+    "new_row_sha256": "927af1a0766d2dd0dffcc59a4775241d68fd26ae0cd122399f837a80ce12e2f1",
+    "old_row": "| J-DET-6 | one ordered replay fold for constraints, epochs, rebases and upgrades | §7.2, §7.4 |",
+    "new_row": "| J-DET-6 | one ordered replay fold for constraints, epochs, rebases and upgrades *(amended by amendments b: the creation prefix is the fold's one declared read-ahead, J-A22.72, J-A22.74)* | §7.2, §7.4 |"
+   },
+   {
+    "id": "J-A20.74",
+    "older_line": 12573,
+    "appended_line": 12722,
+    "old_row_sha256": "cd39ec1c801e0f840488cc55671b898ebe66ca371cd231299b233fb13e57bc42",
+    "new_row_sha256": "6bed587391b4a2d8df7798ab6ca7b9db43d2fcfa27f12c9536281b73ed93d61c",
+    "old_row": "| J-A20.74 | a map delete of a dossier-backed element is `rejectSite`; its lapse is written by the lapsing epoch or dossier event, never logged on its own | §7.1, §7.4, §7.7 |",
+    "new_row": "| J-A20.74 | a map delete of a dossier-backed element is `rejectSite`; its hold lapses at the first epoch whose population target differs from the one the rejection recorded (`Rejection.held.populationTarget`: the settlement grew or declined) or at a dossier event whose scope holds its block — J-A20.41's test adopted at the home; the lapse written by the lapsing event, never logged on its own | §7.7, §7.1, §7.4 |"
+   },
+   {
+    "id": "J-A25.61",
+    "older_line": 12578,
+    "appended_line": 12723,
+    "old_row_sha256": "89b8e0a17ae17ec8344ddbb25e9b7173a000340f3820b486db045631d864af9d",
+    "new_row_sha256": "bab923c12a4ebe371b7f9322024e88875be2520f989d793db77e26923a32537b",
+    "old_row": "| J-A25.61 | terrain and water conversions draw on `epoch.transform` by the body's lineage and repair through S1's water operator; no new concern | §6.1, §7.3 |",
+    "new_row": "| J-A25.61 | terrain and water conversions draw on `epoch.transform` by the body's lineage and repair through S1's terrain or water operator or the carve (a marsh's `reclaim` the terrain operator; `siltReach`, `shiftCourse` and a foreshore's `reclaim` the water operator; `digCanal` the carve); no new concern | §6.1, §7.3, §7.1, §7.4 |"
+   },
+   {
+    "id": "J-A28.61",
+    "older_line": 12580,
+    "appended_line": 12724,
+    "old_row_sha256": "34ef3f3639b97ac3a6cd76cabf8f3a0291fc12bf30d1f21d0d22b7c0c0fc6856",
+    "new_row_sha256": "cebc00c207b2a3c87aff4c30d7653ae9e8bbc16125e21542c90f0f8eb3cb6d4d",
+    "old_row": "| J-A28.61 | the plan rung's concerns keyed with the rung's own reroll; `regenerate` gains `rung` | §6.1, §7.1 |",
+    "new_row": "| J-A28.61 | the stage-3 rungs keep one absolute reroll counter per `regenerate.rung` value, keyed `<building id>#<rung>` in the event's map and never in the elaboration record; a stage-3 concern's stream mixes its own level's counter and every coarser one, so a finer re-roll leaves every coarser stream unchanged; a rung's New random is checked on the rung's own derived content; `regenerate` gains `rung` | §6.1, §7.1, §7.4, §5.1 |"
+   },
+   {
+    "id": "J-A30.71",
+    "older_line": 12586,
+    "appended_line": 12725,
+    "old_row_sha256": "1aef1273caa7dcc21ef259895ac37aaef7b1f3327e733cc904ff40dbcde2862f",
+    "new_row_sha256": "ebf6fb261af79c8bca7bfb2e57e1c8f4bc5ecf352c9a0187b40507e82f5e3c4e",
+    "old_row": "| J-A30.71 | a sealed passage is an access-row flag skipped by the reachability walk, no geometry change; a map override of a dossier-backed place's `knownTo` yields to the next dossier value, reported | §7.4, §5.3, §7.7 |",
+    "new_row": "| J-A30.71 | a sealed passage is `Passage.sealed`, §2.5's one stored fact (J-A30.21): its access rows read sealed and §5.3's reachability walk skips them, no geometry change; a map override of a dossier-backed place's `knownTo` yields to the next dossier value, reported | §7.4, §5.3, §7.7 |"
+   },
+   {
+    "id": "J-A21.31",
+    "older_line": 12593,
+    "appended_line": 12736,
+    "old_row_sha256": "68d78da2002be0d5164f498a1ed79916afd7f1983e1b5a05c9dc6a6d646bdd56",
+    "new_row_sha256": "4ba3a31339ba61ca8753de089adc329e8ecb2537e214225813b228baba96fbfe",
+    "old_row": "| J-A21.31 | the straight skeleton stays in-house; CGAL rejected on the stack and one-engine grounds, no longer on its licence (J-K5's licence clause superseded) | §3.1 |",
+    "new_row": "| J-A21.31 | the straight skeleton stays in-house; CGAL rejected on its licence (§17.4's permissive-only closure under the private licence, J-A21.01) and on the stack and one-engine grounds; J-K5 stands whole | §3.1 |"
+   },
+   {
+    "id": "J-A30.31",
+    "older_line": 12597,
+    "appended_line": 12737,
+    "old_row_sha256": "ebd27d82016ac05026cdfb40cf063827a97b8495361fa854bb19c5e77d4ec44f",
+    "new_row_sha256": "b39d6eca1d01d9a329fa0e691b37b55d591649ec565a6bab2a99d4d55110982f",
+    "old_row": "| J-A30.31 | a passage is a face of one level (an L3 alley face or an L4 site-plan part, the model's choice) with the wing above it a composition ring; no nesting exception, no new kernel operation; a seal is an attribute | §3.10 |",
+    "new_row": "| J-A30.31 | a passage is an L3 `passage` face (the form J-A30.21 and J-A30.43 took) with the wing above it a composition ring; no nesting exception, no new kernel operation; a seal is the `Passage` record's bit | §3.10 |"
+   },
+   {
+    "id": "J-A23.41",
+    "older_line": 12632,
+    "appended_line": 12747,
+    "old_row_sha256": "eb0895f636e56c69f76ae810bb55e5f901b2d398b812fc96a622b5d1322acf19",
+    "new_row_sha256": "f0114ed7c24fcbc4d42224a9567e32bc114709a051f1b749cf10380e5c4bba44",
+    "old_row": "| J-A23.41 | the reading rule for absolutes stated once for the pipeline part in §4.1, pointing to §7.6's marker; the parity presets set every `extension` row to its off value | §4.1, §7.6 |",
+    "new_row": "| J-A23.41 | the pipeline part reads item 23 by one pointer in §4.1 to §7.6's emulation rule, reading rule for absolutes and marker (J-A23.71), `RelationRule.extension` and `placement.extensionWeight` being the placement family's form of the marker; no second statement of the rule in the pipeline | §4.1, §7.6 |"
+   },
+   {
+    "id": "J-A26.43",
+    "older_line": 12639,
+    "appended_line": 12748,
+    "old_row_sha256": "dbf757794ce61dc2481c83984724e5114bffbeb2ce04bdec5650ce903c77788a",
+    "new_row_sha256": "f3f6a49cc665bc930199a8af85b015d786336eeaeca7bc3a52f90d07d78a606e",
+    "old_row": "| J-A26.43 | FTG's two farmland modes as a rung × landscape row, the field-system presets laid inside a mode; the arable reserve off by default as an S5c pricing term | §4.9, §4.4 |",
+    "new_row": "| J-A26.43 | FTG's farmland layouts as a rung × landscape `FarmModeRow` playing FTG's `Default` (`fill`, `perimeter`, `rivers`), the field-system presets laid inside a mode; the arable reserve off by default as an S5c pricing term | §4.9, §4.4 |"
+   },
+   {
+    "id": "J-A31.43",
+    "older_line": 12664,
+    "appended_line": 12750,
+    "old_row_sha256": "4cb204767fa0d41232507c7af3f35c2f93bef8840491bc0e419063c6d0922299",
+    "new_row_sha256": "8832a1fa9edfbfdd5e92b39d4c9a31423f7a1f02298b437e465e25c3190d9a63",
+    "old_row": "| J-A31.43 | the geometry floor at plot granularity: `builtBand` and `builtProsperity` persisted, `geometryFloor` derived as min(builtBand, middle); the manifested band and value (max of field and floor) for everything built, the field for use, condition and labels; block-level due marks | §4.11, §2.5 |",
+    "new_row": "| J-A31.43 | the geometry floor at plot granularity: `builtBand` and `builtProsperity` persisted, `geometryFloor` derived as min(builtBand, middle); the manifested band and value (max of field and floor) for everything built, the field for use, condition and labels; a block-level read takes the floor of its standing plots' area-weighted median; block-level due marks | §4.11, §2.5 |"
+   },
+   {
+    "id": "J-A31.44",
+    "older_line": 12665,
+    "appended_line": 12751,
+    "old_row_sha256": "e61fd09b63e80dd7b76c7f5088569d0e427dab340b3a00ff6d2b0da0a15be055",
+    "new_row_sha256": "0373956a5e957e60a7ef4cce30c87597899e1091f03407b88ec9426cf1f90a95",
+    "old_row": "| J-A31.44 | `builtBand` written by generation, rung-3 events, the hand edits of rung 3's kind, the authorial re-derivations (brush, `FieldBands` `setAttr`, `Adjust`) and a completed upward refurbishment; lowered by rung 3 only | §4.11, §7.2 |",
+    "new_row": "| J-A31.44 | `builtBand` written by generation, rung-3 events, rung 2's back court for its new rear plots only, the hand edits of rung 3's kind (`fill` and the block's New random among them), the authorial re-derivations (brush, `FieldBands` `setAttr`, `Adjust`) and a completed upward refurbishment; lowered only by those writers (§4.11: \"Nothing else lowers it\"), never by rungs 1 and 2 | §4.11, §7.2 |"
+   },
+   {
+    "id": "J-A31.48",
+    "older_line": 12669,
+    "appended_line": 12752,
+    "old_row_sha256": "f84a9f4f92579f73f7d602f65751daec04460c204dcad70458af1188d4fa8c7f",
+    "new_row_sha256": "d783aea27ea6c697cac381e8d9780d32af341ff14aac4ed8f08ad0516f74d09a",
+    "old_row": "| J-A31.48 | a fused plot continues its largest parent's lineage by area, split children take the parent's lineage plus the child index, a resurrected member's `builtBand` comes from the re-cut event; ladder events are mutations that continue lineage (the J-DET-2 exception stated) | §4.11, §6.3 |",
+    "new_row": "| J-A31.48 | the pipeline's reading of J-A31.73 (§6.3): fusion and splitting continue lineage by §6.3's JOIN and SPLIT rule, every ladder event is a mutation that continues lineage, only New random takes fresh lineage | §4.11, §6.3 |"
+   },
+   {
+    "id": "J-A20.41",
+    "older_line": 12671,
+    "appended_line": 12746,
+    "old_row_sha256": "0326aa37f6e3ceb05721160ceadd49b98cd64ad367824eab72b7e0794be10102",
+    "new_row_sha256": "ddfb55024165f41ee9e44d8d3718dc25215609d01340ba254c63ada92f35959c",
+    "old_row": "| J-A20.41 | a live placement rejection is re-checked as the epoch's last step and lapses on growth or decline since the rejection (the population target changed) or a dossier event touching its block — the pipeline reading of §7.7's rule | §4.11, §7.7 |",
+    "new_row": "| J-A20.41 | the epoch's step (h) applies §7.7's lapse rule to every live placement rejection and writes `lapsedAt` inside the epoch's touched set; the condition — the population-target test this entry first chose — is stated once, at the home (J-A20.74), and the pipeline restates none | §4.11, §7.7 |"
+   },
+   {
+    "id": "J-A28.42",
+    "older_line": 12675,
+    "appended_line": 12749,
+    "old_row_sha256": "a932c4c82496fb3b43e68f2110ad8df5c6a5d93c3c33bfc21f2adbac13454861",
+    "new_row_sha256": "1e2e304918a3d3db134c2d5e0cb49221774e5f1c29e6965e4830fdd685576f86",
+    "old_row": "| J-A28.42 | click semantics: a neighbourhood click derives the close-up and the wings rung, a building click the plan rung (wings first), rungs ordered, viewing never re-derives a current rung, a stale one is re-derived by mutating the cached state; eager footprints kept at city zoom (J33) | §4.1, II.4 |",
+    "new_row": "| J-A28.42 | click semantics: a neighbourhood click derives the close-up and the wings rung, a building click the plan rung (wings first), rungs ordered, viewing never re-derives a current rung, a stale one re-derives from its canonical prior (J-A28.71), never from the cache; eager footprints kept at city zoom (J33) | §4.1, II.4 |"
+   },
+   {
+    "id": "J-A30.83",
+    "older_line": 12692,
+    "appended_line": 12758,
+    "old_row_sha256": "eed4c762b3aa720ea433dd199648aa4b18531913e0afdd6feef4c10f1cfdb88a",
+    "new_row_sha256": "a9340d0ddd3c39611853dc657a7ff1cd000bb4f82928e15b9441e067687785c1",
+    "old_row": "| J-A30.83 | the reader and every export withhold a place's name and purpose by the same table, never its geometry or kind; a secret place shows on its own building view | §9.5, §11.1, §11.2 |",
+    "new_row": "| J-A30.83 | the reader and every picture and interchange export withhold a place's name and purpose by the same table, never its geometry or kind; a secret place shows at the building band, its own view (the document formats: J-A30.85) | §9.5, §11.1, §11.2 |"
+   },
+   {
+    "id": "J-A28.83",
+    "older_line": 12698,
+    "appended_line": 12756,
+    "old_row_sha256": "84a00e602752f0b26d66e43da05851eebf548784b33ec3858fc14e67fd912a6c",
+    "new_row_sha256": "45220c035167f5fe0026a96d2deefb00cd4f164ab936ce657e5e1767aa173c91",
+    "old_row": "| J-A28.83 | the plan budget (≤ 5 ms median, ≤ 20 ms p95 per building; a re-cut chain ≤ steps × that) with the cache's memory line (8 MB LRU, ≤ 4 KB a storey), adopted as PLAUSIBLE until B-PLAN's spike; the module doubling as the fallback | §12.7, §12.8 |",
+    "new_row": "| J-A28.83 | the plan budget (≤ 5 ms median, ≤ 20 ms p95 per building; a re-cut chain ≤ steps × that, its steps at most the band set's rows less one plus the capacity less one) with the cache's memory line (8 MB LRU, ≤ 4 KB a storey), adopted as PLAUSIBLE until §13.2's T28-8 measures it over the B-PLAN group; the module doubling as the fallback | §12.7, §12.8 |"
+   },
+   {
+    "id": "J-A28.84",
+    "older_line": 12699,
+    "appended_line": 12757,
+    "old_row_sha256": "767f5776614fb0884eb90cd21e139844964df503ba29f2a88837ca22f8bb092d",
+    "new_row_sha256": "8935b438da6197bd2759521b5e36ecd51f4956d3bf06f2255c4ea6114529a612",
+    "old_row": "| J-A28.84 | the JSON schema's plan block and one VTT scene per storey in our own schema — rooms with their household unit and entry opening, walls, openings, stair cores and chimneys, with addresses and integer centimetres — never a cell grid | §11.1 |",
+    "new_row": "| J-A28.84 | the JSON schema's plan block and one VTT scene per storey in our own schema — rooms with their scope and household unit, and each unit's form and entry opening, walls, openings, stair cores and chimneys, with addresses and integer centimetres — never a cell grid | §11.1 |"
+   },
+   {
+    "id": "J-A16.01",
+    "older_line": 12709,
+    "appended_line": 12766,
+    "old_row_sha256": "8a0d66122fa1535f7cbda0e97f6328942ad914d455094203df04fec844ad4cdb",
+    "new_row_sha256": "10bf5a59b8130689d614f96cb514b491aa41271e0a336e23ae26b22d2c7483e4",
+    "old_row": "| J-A16.01 | amendments b's build work priced: +12–15 pw itemised over seven lines of §16 and carried by M1, M2b, M3a and M4; the total 165–219; the staged engines unpriced by the roadmap | §16, D-20 |",
+    "new_row": "| J-A16.01 | amendments b's build work priced: +13–16 pw itemised over seven lines of §16 — O14-core's farmland work on the must line O17 + O18 + O19, the knowledge key and filter on the O11 line, the `states` and glyph rows absorbed by O12 — and carried by M1, M2b, M3a and M4; the total 166–220; the staged engines unpriced by the roadmap | §16, D-20 |"
+   },
+   {
+    "id": "J-A23.01",
+    "older_line": 12713,
+    "appended_line": 12767,
+    "old_row_sha256": "476bc281c894cf80759129e54a52400aac0f64b6d0df1f088bc0c5d3f457624a",
+    "new_row_sha256": "1cad6e9b1123e70d15a9daa86f3984f76f08206d08502a986ccaad0870bbfcf0",
+    "old_row": "| J-A23.01 | the parity presets as item 23's proof (T23-1); §17.1 (6)'s provenance values `ref:…` beside §7.6's `extension` marker; §1.4 states the principle once | §1.4, §13.2, §17.1 |",
+    "new_row": "| J-A23.01 | the parity presets as item 23's proof (T23-1); §17.1 (6)'s provenance values `ref:…` read beside §7.6's `extension` marker; §1.4 points to the principle's home, §7.6 | §1.4, §13.2, §17.1 |"
+   },
+   {
+    "id": "J-A27.01",
+    "older_line": 12716,
+    "appended_line": 12769,
+    "old_row_sha256": "88278cd657a383767c7014435dfaf2b993d9e3891ff4eaf05dcacb5c858c2514",
+    "new_row_sha256": "80cd0ff166fc815583466f335cace31d3c0353a9cc965c39604289a69250875a",
+    "old_row": "| J-A27.01 | FTG's lifestyle distribution and MFCG's ward-class shares as descriptive §13.5 rows; the band set's schema test and the shanty fixture as T27 | §13.5, §13.2 |",
+    "new_row": "| J-A27.01 | FTG's lifestyle distribution a descriptive §13.5 row; MFCG's ward-class shares — the 2017 open-source model's ward deck, the live MFCG typing no ward by class — a note with no baseline row; the band set's schema test and the shanty fixture as T27 | §13.5, §13.2 |"
+   },
+   {
+    "id": "J-A28.01",
+    "older_line": 12717,
+    "appended_line": 12770,
+    "old_row_sha256": "b46b9666c731da8912dcc70708658a0766e99d3eef1bb2bcf68ae6cbaa36a32b",
+    "new_row_sha256": "48e0edc1e23a9a60e1f6d409fadd27f0a2e92826a482bfe5f43dbcfd491a9287",
+    "old_row": "| J-A28.01 | the eight plan bars, the four elaboration tests and the five interior-ladder bars as one B-PLAN group in §13.2, the shell bar citing §3.10's seed-tiling row; the plan's soft bands a §13.7 row that gates nothing | §13.2, §13.7 |",
+    "new_row": "| J-A28.01 | the eight plan bars with the plan block's schema bar, the four elaboration tests and the six interior-ladder bars as one B-PLAN group in §13.2, the shell bar citing §2.6's leaf-digest bar and §3.10's seed-tiling row for the tiling; those whose mechanism the base builds run from M3a, the rest from stage 3's intake; the plan's soft bands a §13.7 row that gates nothing | §13.2, §13.7, §16 |"
+   },
+   {
+    "id": "J-A28.02",
+    "older_line": 12718,
+    "appended_line": 12771,
+    "old_row_sha256": "efc0bca978c076f7587f1c9e35d5ad3e77f305ac7f8b9125e57a42673ad1ba08",
+    "new_row_sha256": "97719453637cef981e21bba589f2b2fef30d06b375b45fac23e02ec07892f9d3",
+    "old_row": "| J-A28.02 | the one-page summary amended by an appended paragraph, never replaced (the pass's guard): the markets, the shell's floor and the interior's freedom, the dossier, the licence and the effort figure it supersedes | the summary |",
+    "new_row": "| J-A28.02 | the one-page summary amended by an appended paragraph, its superseded figures folded in place by the repair round (R11): the markets, the shell's floor and the interior's freedom, the dossier, the licence | the summary |"
+   }
+  ]
+ },
+ "part_a": {
+  "table_header_line": 45,
+  "ids_swapped": [
+   "J-DET-2",
+   "J-DET-6",
+   "J-A20.74",
+   "J-A25.61",
+   "J-A28.61",
+   "J-A30.71",
+   "J-A12.32",
+   "J-A21.31",
+   "J-A28.33",
+   "J-A30.31",
+   "J-A23.41",
+   "J-A26.43",
+   "J-A31.43",
+   "J-A31.44",
+   "J-A31.48",
+   "J-A20.41",
+   "J-A28.42",
+   "J-A30.83",
+   "J-A28.83",
+   "J-A28.84",
+   "J-A16.01",
+   "J-A20.01",
+   "J-A21.01",
+   "J-A23.01",
+   "J-A27.01",
+   "J-A28.01",
+   "J-A28.02"
+  ],
+  "swaps": [
+   {
+    "id": "J-DET-2",
+    "older_line": 102,
+    "appended_line": 483,
+    "old_row_sha256": "c8d59e6feac62588b8538bd4684e747b2569626e53fb48d0fb72a9017d21e225",
+    "new_row_sha256": "8c7e279e275c031b5d98c3823fdbcf1c1c8dc60c41f30c4652e7f662a52facd6",
+    "old_row": "| J-DET-2 | Chose to keep the lineage (and so the draws) only for entities that survive un-derived, and to hand only the address to an anchor-matched successor, over carrying the lineage in both cases, because New random must really re-roll its scope while names, locks and assignments must follow the building the user means (§6.3). |",
+    "new_row": "| J-DET-2 | Chose to keep the lineage (and so the draws) only for entities that survive un-derived, and to hand only the address to an anchor-matched successor, over carrying the lineage in both cases, because New random must really re-roll its scope while names, locks and assignments must follow the building the user means (§6.3). *(amended by amendments b: a mutation — a fusion, a splitting, a ladder step, an interior re-cut — continues lineage; only New random takes fresh lineage; J-A31.73, J-A28.63, J-A8.61)* |"
+   },
+   {
+    "id": "J-DET-6",
+    "older_line": 106,
+    "appended_line": 484,
+    "old_row_sha256": "fe9882caa0d9f8c4eee36fd3eefafe8664659909302aa3d6f12c6b4dbcc8dbc5",
+    "new_row_sha256": "83016a48780b768753603a06f005c7410648a09ca3d81730b181a777bbf52f73",
+    "old_row": "| J-DET-6 | Chose one ordered replay fold — drawn constraints, epochs, rebases and upgrades applied at their log positions — over hoisting drawn constraints before their stage, because hoisting makes every reload regenerate a different town than the one on screen; hoisting survives only as the explicit \"Rebuild around my drawings\" rebase (§7.2, §7.4). |",
+    "new_row": "| J-DET-6 | Chose one ordered replay fold — drawn constraints, epochs, rebases and upgrades applied at their log positions — over hoisting drawn constraints before their stage, because hoisting makes every reload regenerate a different town than the one on screen; hoisting survives only as the explicit \"Rebuild around my drawings\" rebase (§7.2, §7.4). *(amended by amendments b: the creation prefix is the fold's one declared read-ahead, J-A22.72, J-A22.74)* |"
+   },
+   {
+    "id": "J-A20.74",
+    "older_line": 330,
+    "appended_line": 479,
+    "old_row_sha256": "3f59e0bb78fa3e8d756647a45796a79837c2c1bfde93277b039f6c1a0eed4db0",
+    "new_row_sha256": "ed6d9e0ae72a60a4b2687349144b3224084b47e2eb50519aea7d243d14f58bc6",
+    "old_row": "| J-A20.74 | Chose to make the map's delete of a dossier-backed element a `rejectSite` event whose hold lapses at the first epoch or dossier event whose scope holds the site's block — the lapse written by that event inside its own touched set, so its undo restores the hold and the log gains no event — over a lapse as its own event or a rejection that never lapses, because the owner ruled the rejection \"is not permanent\" and lapses when the settlement grows or declines, and a derived change that an existing event causes must live in that event's undo record to keep replay = session exact (§7.1, §7.4, §7.7). |",
+    "new_row": "| J-A20.74 | Chose to make the map's delete of a dossier-backed element a `rejectSite` event whose hold lapses at the first epoch whose population target differs from the one the rejection recorded (`Rejection.held.populationTarget` — the settlement has grown or declined) or at the first dossier event whose effective scope holds the site's block, the lapse written by that event inside its own touched set so that its undo restores the hold and the log gains no event, over a lapse at every epoch, a lapse at every epoch touching the block, a lapse as an event of its own or a rejection that never lapses, because the owner ruled the rejection \"is not permanent\" and lapses \"if a settlement grows or declines\", the population target is the one recorded measure of growth or decline (an epoch that only lets years pass, or changes prosperity alone, is neither — vetoable), J-A20.41 and §13.2's T20-2 already test it, three differing statements of the rule could not all hold, and a derived change an existing event causes must live in that event's undo record to keep replay = session exact (§7.7, §7.1, §7.4; amended by the repair round of amendments b: J-A20.41's test adopted at the home, `held.blockSeq` replaced by `populationTarget`). |"
+   },
+   {
+    "id": "J-A25.61",
+    "older_line": 335,
+    "appended_line": 480,
+    "old_row_sha256": "77147869e87ca00e0df0bcee5d00e471303f2c2ed1fd3ba53851a213a6c166b8",
+    "new_row_sha256": "47abd5d3b9b8e4b548833107baab83fca72ca3066137eba5d9a4894a7f077afb",
+    "old_row": "| J-A25.61 | Chose to draw the slow terrain and water conversions (reclamation, silting, a course shift) from the existing `epoch.transform` concern keyed by the water body's or land-use face's lineage, repaired through S1's water operator, over a new concern, because an epoch's transformations are one purpose and the lineage already separates the draws (§6.1, §7.3). |",
+    "new_row": "| J-A25.61 | Chose to draw the slow terrain and water conversions (reclamation, silting, a course shift) from the existing `epoch.transform` concern keyed by the water body's or land-use face's lineage, and to repair each through the operator the base already has for what it changes — a marsh's reclamation through S1's terrain operator (a marsh is a land-use face, not water), a foreshore's reclamation, `siltReach` and `shiftCourse` through S1's water operator, `digCanal` through the carve — over a new concern or one water operator for every kind, because an epoch's transformations are one purpose and the lineage already separates the draws, and a repair must follow what its conversion changes, as §4.11, their home, states (§6.1, §7.3, §7.1, §7.4; amended by the repair round of amendments b). |"
+   },
+   {
+    "id": "J-A28.61",
+    "older_line": 337,
+    "appended_line": 481,
+    "old_row_sha256": "b1c1c95ca81a0341a9ef62e3e6d59d95dca8e00f23de30fd05b3c5254e1d6d86",
+    "new_row_sha256": "11b660aa1a568c79d1f2f62178a83169f0806213cf1d3633b419f240bd55252f",
+    "old_row": "| J-A28.61 | Chose to key the plan rung's four concerns with the rung's own reroll — the derivation unit being the building's plan rung, its count advanced only by a `regenerate` naming the rung and stored absolutely in that event — over the building's reroll, because the reference's restrictive re-rolls (walls kept, labels re-rolled, and the reverse) hold only when a rung's New random advances nothing else, and the event must carry the count for replay (§6.1, §7.1). |",
+    "new_row": "| J-A28.61 | Chose to give the stage-3 rungs one absolute reroll counter per `regenerate.rung` value — `wings`, `rooms`, `plan`, `plan.layout`, `plan.roles`, `plan.furnish` — each advanced only by a `regenerate` naming its rung and stored in that event's map under `<building id>#<rung>`, with a stage-3 concern's stream mixing its own level's counter and every coarser one (the building's entity key taken through one finaliser round per coarser counter, its own counter as the reroll component), and to check a rung's New random on the rung's own derived content, over one counter for the whole plan rung read from the elaboration record, because one counter would re-roll the layout whenever the roles were re-rolled (breaking \"re-rolling the roles moves no wall\"), the wings and rooms rungs had no key, the elaboration record is a droppable cache outside both digests (a count kept there could not survive an eviction or a replay), and an unstored rung lies outside every digest, so the building's content digest could never see its re-roll (§6.1, §7.1, §7.4, §5.1 (6); amended by the repair round of amendments b). |"
+   },
+   {
+    "id": "J-A30.71",
+    "older_line": 343,
+    "appended_line": 482,
+    "old_row_sha256": "887b6803044c479eb40f57fdfc85974404036545ef23dd080fdc40c17bf617a4",
+    "new_row_sha256": "4d0f8b174adaa65cf94c810b8c5c36a1b1aa5adfe0247137ce48b11faaae2df7",
+    "old_row": "| J-A30.71 | Chose to model a sealed passage as a flag on the access row that §5.3's reachability walk skips (no geometry moves, the plot reads sealed, its buildings decay as vacant), and to let a map `setAttr(knownTo)` on a dossier-backed place stand as a map override that the next dossier value re-imposes, reported, over removing the passage face or refusing the edit, because the owner asked for a reversible sealing and for everything to be editable while the dossier keeps its authority over its own facts (§7.4, §5.3, §7.7). |",
+    "new_row": "| J-A30.71 | Chose to model a sealed passage as `Passage.sealed`, §2.5's one stored fact (J-A30.21) — its access rows read sealed and §5.3's reachability walk skips them, no geometry moves, the plots behind it read sealed and their buildings decay as vacant — and to let a map `setAttr(knownTo)` on a dossier-backed place stand as a map override that the next dossier value re-imposes, reported, over a flag on the access row, removing the passage face or refusing the edit, because the model already stores the seal once, on the passage (the role table has no flag column), the owner asked for a reversible sealing, and everything stays editable while the dossier keeps its authority over its own facts (§7.4, §5.3, §7.7; amended by the repair round of amendments b). |"
+   },
+   {
+    "id": "J-A12.32",
+    "older_line": 349,
+    "appended_line": 493,
+    "old_row_sha256": "d4e9ca9f7c88f5c990cef9cab5c5cd480eb8427836dabfc056f16aef144940bc",
+    "new_row_sha256": "d59df53354d90188704f30426dfe1c34c1f5f01bc9412af688933201a93c24bb",
+    "old_row": "| J-A12.32 | Chose to let a transaction write only the arena its `key` names while every service reads any arena by its key — the underground stage testing its bands, plots and buildings against the ground's water, wall, gate, keep and reservation faces by `pointLocate` and `resolve` on the ground's `PlatKey` — over cross-arena writes or copied ground geometry inside the underground arena, because §2.2 rule 1 already keeps the arenas free of shared topology and makes cross-arena links entity ids, the owner's surface constraints (no rooms under water, walls, gates or the keep) are pure reads, and a copy would go stale on the first ground edit (§3.4, §3.10; item 12 (c)). |",
+    "new_row": "| J-A12.32 | Chose to let a transaction write only the arena its `key` names while the services read any arena by its key — the underground stage testing what it lays against the ground by `pointLocate` and `resolve` on the ground's `PlatKey`, what it tests and what excludes a sample being II.7.3's surface constraint — over cross-arena writes or copied ground geometry inside the underground arena, because §2.2 rule 2 already keeps the arenas free of shared topology and makes cross-arena links entity ids, the owner's surface constraints (no rooms under water, walls, gates or the keep) are pure reads, and a copy would go stale on the first ground edit; and to catch a slot handed to the wrong arena in a debug build, which carries every slot stamped with the key and version of the result that gave it, over an assertion in every build, because a slot is a plain number that cannot name its arena (§3.4, §3.10; item 12 (c); restated by repair-kernel-r1 after verify-kernel-r0's VK-08 to VK-11). |"
+   },
+   {
+    "id": "J-A21.31",
+    "older_line": 350,
+    "appended_line": 494,
+    "old_row_sha256": "f1ebc783391a21e8aa53ead573c6f571e4e7d39e0dbfb6c354bb085ba560f939",
+    "new_row_sha256": "95ca0f9225a0eb3ee4925c4fa7417b7f6ba2bc2eab053dfb6ae10a3e67ad7866",
+    "old_row": "| J-A21.31 | Chose to keep the straight skeleton in-house and to re-ground CGAL's rejection on the stack and the one-engine rule — a C++ library is not the TypeScript kernel every host runs (D-4; no WASM kernel, §3.7) and its doubles could not be held byte-identical to §3.8's validated construction — over adopting CGAL now that the module's own GPL-3 licence (§17.3, item 21) makes its licence compatible, because the licence was never the load-bearing reason: J-K5's \"no permissive, mature port exists\" is superseded on its licence clause only, and every other ground of J-K5 stands (§3.1; item 21). |",
+    "new_row": "| J-A21.31 | Chose to keep the straight skeleton in-house and to state CGAL's rejection on all its grounds — its licence (its straight-skeleton package is GPL, the rest of CGAL LGPL), which §17.4's permissive-only production closure excludes while the module stays private (§17.3, D-22; the owner's ruling of 2026-09-27, J-A21.01), and the stack and one-engine rule: a C++ library is not the TypeScript kernel every host runs (D-4; no WASM kernel, §3.7) and its doubles could not be held byte-identical to §3.8's validated construction — over re-grounding the rejection on the stack alone, as this entry first chose under the owner's GPL-3 intent of 2026-09-25, because that intent was withdrawn on 2026-09-27 and a copyleft dependency would constrain the owner's licensing choice; J-K5 stands whole (§3.1; item 21; amendments-b, kernel seat; restated by repair-kernel-r1 after verify-kernel-r0's VK-01). |"
+   },
+   {
+    "id": "J-A28.33",
+    "older_line": 353,
+    "appended_line": 495,
+    "old_row_sha256": "3392adb3162cb7f9a26b88e9a08e10ef465d1cc2ce34a60d5699bcf869f33b52",
+    "new_row_sha256": "104204558fe9d8e270f2de09467b364285bff437cee650cae1b02849e70f6a79",
+    "old_row": "| J-A28.33 | Chose to give item 28 (f)'s interior re-cut no operation of its own — a re-cut is the ordinary `transientArena` call opened from the same seed rings (the shell that item 31's geometry floor fixed), with the rooms §2.6's interior ladder keeps and the anchors that never move (the stair core's bay, the hearths' chimney stacks, a passage) passed as `fixed` rings and the rest cut, each step of a least-disruption chain its own open, cut and read-back — over a `repartition` operation that edits a kept arena, and over the route's \"kernel: no new text\", because no arena outlives its call (J-A28.31), so there is nothing to edit; a kept ring re-inserted on the lattice points it left with moves nothing and reads back byte-identical, which makes the least-disruption promise a property of insertion rather than of a new operation; the seed-tiling row then covers every re-cut without a new row, so the owner's \"same building geometry but not the interior\" is a checked invariant, not a convention; and the model seat, which runs next, needs the kernel form of a re-cut stated where the arena is defined, or it could assume a mutable arena against J-A28.31 (§3.4, §3.10; item 28 (f); amendments-b, kernel seat). |",
+    "new_row": "| J-A28.33 | Chose to give item 28 (f)'s interior re-cut no operation of its own — a re-cut is the ordinary `transientArena` call opened from the same seed rings (the shell that item 31's geometry floor fixed), with the rooms §2.6's interior ladder keeps and the anchors that never move (the stair core's bay, the hearths' chimney stacks, a passage) passed as `fixed` rings and the rest cut, each step of §2.6's canonical chain (J-A28.26) its own open, cut and read-back — over a `repartition` operation that edits a kept arena, and over the route's \"kernel: no new text\", because no arena outlives its call (J-A28.31), so there is nothing to edit; a kept ring re-inserted exactly on the lattice points it left with keeps its polygon, its vertices unmoved and in order (the exact insertion of J-A28.34), which makes the least-disruption promise a property of insertion rather than of a new operation; the seed-tiling row then covers every re-cut without a new row, so the owner's \"same building geometry but not the interior\" is a checked invariant, not a convention; and the model seat, which runs next, needs the kernel form of a re-cut stated where the arena is defined, or it could assume a mutable arena against J-A28.31 (§3.4, §3.10; item 28 (f); amendments-b, kernel seat; restated by repair-kernel-r1 after verify-kernel-r0's VK-02 and VK-12). |"
+   },
+   {
+    "id": "J-A30.31",
+    "older_line": 354,
+    "appended_line": 497,
+    "old_row_sha256": "d44950a7b69a188c4a648c15a52828c96f41893e0ea8021dc8225527cacd36d7",
+    "new_row_sha256": "ddbb9f62aaa281ddc2372ffed4c9fe0f15516e02a12b044a4ffe1ed692b90892",
+    "old_row": "| J-A30.31 | Chose to represent a passage through a building as a face of one level in one parent — an L3 alley face beside the plots it serves or an L4 site-plan part inside the front plot, the model editor's choice (§2.5, §4.7 S10) — with the wing above it a composition ring and a seal an attribute of the plot's record, over an L1 `passage` way and over an exception to the nesting invariant, because an L1 way's corridor would cut the footprint above it and split the block (and S10 never writes L1), a nesting exception would break the index-checked containment every level relies on, and the face form needs no new kernel operation: `splitFace` or `claimSubFace` makes it, `faceNeighbours` walks it for §5.3's reachability, and sealing changes no geometry (§3.10; item 30). |",
+    "new_row": "| J-A30.31 | Chose to represent a passage through a building as an L3 face of kind `passage` in one parent (§2.5's `Passage`; J-A30.21, J-A30.43), cut by S10 along a side line of the front plot by `splitFace` or `claimSubFace` as any alley face is, with the wing above it a composition ring and a seal the `Passage` record's bit, over an L1 `passage` way and over an exception to the nesting invariant, because an L1 way's corridor would cut the footprint above it and split the block (and S10 never writes L1), a nesting exception would break the index-checked containment every level relies on, and the face form needs no new kernel operation: `splitFace` or `claimSubFace` makes it, `faceNeighbours` walks it for §5.3's reachability, and sealing changes no geometry (§3.10; item 30; restated by repair-kernel-r1 after verify-kernel-r0's VK-06 and verify-model-r0's V-MAB-04, which withdrew the L3-or-L4 alternative that the model's J-A30.21 and J-A30.43 had decided and the seal on the plot's record). |"
+   },
+   {
+    "id": "J-A23.41",
+    "older_line": 389,
+    "appended_line": 506,
+    "old_row_sha256": "341122fd04cd546c79b689517ce8d452c9a20813632edc2618fb458e9d29844e",
+    "new_row_sha256": "5d0f1ad6e23e57d031f6ddf17a10a6d8708b2dd6b615c4c53c43ee94fc3ed0ce",
+    "old_row": "| J-A23.41 | Chose to state item 23's reading rule for the pipeline part once, as a bullet of §4.1 that points to §7.6's provenance marker — every stage rule's default cell reproduces the reference behaviour it emulates or is marked `extension`, and an \"always\", \"never\" or \"first … then\" in §4 reads as that row's default value — and to have the parity presets set every `extension` row to its off value, over a per-section rewording of each absolute or a second statement of the principle in §4, because the principle's home is §7.6 (the route's ruling) and one pointer keeps single source, while the absolutes that carried a wrong claim (the centre fused with the market, the shanty rule's enceinte clause, §4.11's fixed decline order) are corrected where they stand; engineering invariants are named as outside the rule so no one reads \"never re-rolled\" as a table value (§4.1, §7.6; item 23). |",
+    "new_row": "| J-A23.41 | Chose to point the pipeline part to item 23's rule by one bullet of §4.1 — every stage rule's default and extensions, and every \"always\", \"never\" or \"first … then\" in §4, follow §7.6's emulation rule, its reading rule for absolutes and its marker (J-A23.71), §10.2's `RelationRule.extension` and §4.7 S10b's `placement.extensionWeight` being the placement family's form of the marker — over a second statement of the rule in §4 or a per-section rewording of each absolute, because the principle's home is §7.6 (the route's ruling) and a paraphrase in §4 had grown into a near-verbatim copy of §7.6's text; the absolutes that carried a wrong claim (the centre fused with the market, the shanty rule's enceinte clause, §4.11's fixed decline order) stay corrected where they stand (amended 2026-09-27, repair round 1: the bullet reduced to the pointer; §4.1, §7.6; item 23). |"
+   },
+   {
+    "id": "J-A26.43",
+    "older_line": 396,
+    "appended_line": 507,
+    "old_row_sha256": "2279372452a72cef91261ce2c275eaa7ff79ab974c92a73bb12688f9eea82e82",
+    "new_row_sha256": "64429b79410a89b3e95c3556975fc70ec99d362b7224579e327d12cd85e1e6a7",
+    "old_row": "| J-A26.43 | Chose to express FTG's two farmland modes — farmsteads filling the remaining countryside, or lots around the perimeter along the main roads out — as a `FarmModeRow` keyed by rung and by the site's relief and fertility, with the field-system presets laying fields inside either mode, and to make the minimum-hinterland clearance an off-by-default `reserveArable` flag whose only effect is a soft price on fertile cells in S5c's extramural growth, over choosing a mode per biome only or reserving arable land as a hard barrier, because the owner's item names size and landscape as the choosers and asks for the clearance only when demand requires it, and a hard reserve would be the fixed law item 23 forbids (§4.9, §4.4; item 26). |",
+    "new_row": "| J-A26.43 | Chose to express FTG's farmland layouts — `Farmsteads` (farmsteads filling the remaining countryside), `Around perimeter` (no farmsteads, the fields close to the settlement along the main roads out) and `Around rivers` — as a `FarmModeRow` keyed by rung and by the site's relief and fertility that plays FTG's `Default` (`fill`, `perimeter`, `rivers`), with the field-system presets laying fields inside any mode, and to make the minimum-hinterland clearance an off-by-default `reserveArable` flag whose only effect is a soft price on fertile cells in S5c's extramural growth, over choosing a mode per biome only or reserving arable land as a hard barrier, because the owner's item names size and landscape as the choosers and asks for the clearance only when demand requires it, and a hard reserve would be the fixed law item 23 forbids (amended 2026-09-27, repair round 1: \"FTG's two\" corrected to FTG's layouts as they are, J-A26.44; §4.9, §4.4; item 26). |"
+   },
+   {
+    "id": "J-A31.43",
+    "older_line": 421,
+    "appended_line": 509,
+    "old_row_sha256": "95d8e075460a5c71f2bcc96218671dcb28941771f9b3e17164860b09c45f18e0",
+    "new_row_sha256": "365dda0766c811b731edc22a2d05ebbc50d8e306d7faaa5a4ce0b54efd77bc9d",
+    "old_row": "| J-A31.43 | Chose to persist `builtBand` and `builtProsperity` per plot, derive `geometryFloor` = min(builtBand, the settlement's middle band), and read max(field, floor) for everything built and the field itself for use, condition, specialisation and labels, at plot granularity with block-level due marks, over a district-level floor or a floor stated on the band alone, because the owner's \"generally gets to a middle class outcome\" is met by the aggregate of plots while a district switch would move every plot at once; the continuous companion keeps the interpolated rules (coverage, size, greenery) bounded as the bands are, honouring \"a gradient and a band\"; labels stay on the field (J-P1) so the description of a poor quarter in grand shells is honest (§4.11, §2.5; item 31). |",
+    "new_row": "| J-A31.43 | Chose to persist `builtBand` and `builtProsperity` per plot, derive `geometryFloor` = min(builtBand, the settlement's middle band), and read max(field, floor) for everything built and the field itself for use, condition, specialisation and labels, at plot granularity with block-level due marks, over a district-level floor or a floor stated on the band alone, because the owner's \"generally gets to a middle class outcome\" is met by the aggregate of plots while a district switch would move every plot at once; the continuous companion keeps the interpolated rules (coverage, size, greenery) bounded as the bands are, honouring \"a gradient and a band\"; labels stay on the field (J-P1) so the description of a poor quarter in grand shells is honest; and a block-level read — S10 (2)'s granularity rows, II.3's dispatch — takes max(the block's band, the floor of its standing plots' area-weighted median), over the most or the least restrictive plot's floor, because a block of mixed stock should read as what most of its ground carries and the median by area moves only when that majority changes (amended 2026-09-27, repair round 1: the block-level read added; §4.11, §2.5; item 31). |"
+   },
+   {
+    "id": "J-A31.44",
+    "older_line": 422,
+    "appended_line": 510,
+    "old_row_sha256": "51ebb2df0acc58d6c58a5b1e821deff4928fb35584c190e9bf2ab36f516df547",
+    "new_row_sha256": "93828e7788fd8e6241448f34867a9a585042ba2ded44a0fe000ca316528306be",
+    "old_row": "| J-A31.44 | Chose that `builtBand` is written by generation, by rung-3 events, by the hand edits of rung 3's kind, by the authorial re-derivations (a field brush's and a `FieldBands` `setAttr`'s re-derivation, and `Adjust`) and by a completed upward refurbishment, and is lowered only by a rung-3 event, over resetting it at rungs 1 and 2 or making brushes floor-bound, because a brush and `Adjust` are how a user designs a town — the static base keeps today's behaviour exactly — while the floor governs wealth change over epochs; the owner's \"refurbished housing … gets to a middle class outcome\" favours a renovation raising the record so that the improvement is kept (§4.11, §7.2; item 31). |",
+    "new_row": "| J-A31.44 | Chose that `builtBand` is written by generation, by rung-3 events, by rung 2's back court for the rear plots it creates (their new stock's band; the front plot keeps its own), by the hand edits of rung 3's kind — `rebuild`, `demolish` then `build`, `amalgamate`, `subdivide`, `fill`, a `replace` close-up and a New random of the block, each re-deriving the stock by the user's act — by the authorial re-derivations (a field brush's and a `FieldBands` `setAttr`'s re-derivation, and `Adjust`) and by a completed upward refurbishment, and is lowered by nothing else — rungs 1 and 2 never lower a standing plot's record, and wealth change over epochs moves it only through rung 3 — over resetting it at rungs 1 and 2 or making brushes floor-bound, because a brush, `fill`, a New random and `Adjust` are how a user designs a town — the static base keeps today's behaviour exactly — while the floor governs wealth change over epochs; the owner's \"refurbished housing … gets to a middle class outcome\" favours a renovation raising the record so that the improvement is kept (amended 2026-09-27, repair round 1: `fill`, a New random and rung 2's rear plots named, \"lowered only by a rung-3 event\" corrected; §4.11, §7.2; item 31). |"
+   },
+   {
+    "id": "J-A31.48",
+    "older_line": 426,
+    "appended_line": 511,
+    "old_row_sha256": "b5cc6d66672ce1de4b3c3b7e18d689e7059f0f18140faa119a775212b197a0c0",
+    "new_row_sha256": "4be1b5d7be0c543acb854ff772dddd30741e68746b3878187240f1374f33b29b",
+    "old_row": "| J-A31.48 | Chose that a fused plot continues its largest parent's lineage by area and a split plot's children take the parent's lineage plus the child index, a resurrected member's `builtBand` coming from the re-cut event and not from its tombstone, over fresh lineage for every successor (the J-DET-2 default) or the anchor member's lineage, because the owner's seed rule (\"modifications and variations of the original seed\") requires the survivors' buildings to keep their streams and the largest parent is the one most of them stand on; the address still follows §6.3's anchor rule, so ids stay stable, and only New random takes fresh lineage (§4.11, §6.3; item 31). |",
+    "new_row": "| J-A31.48 | Chose to state the ladder's lineage by pointer to §6.3's JOIN and SPLIT rule (J-A31.73) — a fused plot continuing its largest parent's lineage by area, a split plot's children keyed by the parent's lineage plus the child index, a resurrected member's `builtBand` from the re-cut event — and to make every ladder event a mutation that continues lineage, only New random taking fresh lineage, over fresh lineage for every successor (the J-DET-2 default) or a second statement of the rule in §4.11, because the owner's seed rule (\"modifications and variations of the original seed\") requires the survivors' buildings to keep their streams and the rule has one home, §6.3 (amended 2026-09-27, repair round 1: the pipeline's reading of J-A31.73, no restatement; §4.11, §6.3; item 31). |"
+   },
+   {
+    "id": "J-A20.41",
+    "older_line": 428,
+    "appended_line": 505,
+    "old_row_sha256": "620e14ef4254d6619a7d0bf37a9ab3a142e034ebb4986010f83329713bee5aa0",
+    "new_row_sha256": "d2d5c1da17ff3aa0bff34264d1921b6204b1f96f677bd17f75beb503b4028d31",
+    "old_row": "| J-A20.41 | Chose to re-check every live placement rejection as the epoch's last step and to lapse it when the settlement has grown or declined since the rejection — the epoch's population target differs from the target recorded with it — or a dossier event touched its block, over lapsing at every epoch or never, because the owner ties the lapse to growth or decline (\"if a settlement grows or declines that might be appropriate to put something there\") and an epoch with an unchanged target has neither; §7.7 holds the record and the rule, §4.11 the step (§4.11, §7.7; item 20). |",
+    "new_row": "| J-A20.41 | Chose to have the epoch's last step (h) apply §7.7's lapse rule to every live placement rejection — the epoch writing `lapsedAt` inside its own touched set, a lapsed site eligible again from the next placement on — and to state the lapse condition only at the home, over a second statement of it in §4.11, because the rule has one home (§7.7), two statements of it had already diverged, and the condition this entry first chose — the settlement having grown or declined since the rejection, read as the epoch's population target differing from the one the rejection recorded, the owner's \"if a settlement grows or declines that might be appropriate to put something there\" — is the one the home now states with the record field it needs (`Rejection.held.populationTarget`; J-A20.74) (amended 2026-09-27, repair round 1: the condition's one statement moved to §7.7, §4.11 pointing to it; §4.11, §7.7; item 20). |"
+   },
+   {
+    "id": "J-A28.42",
+    "older_line": 432,
+    "appended_line": 508,
+    "old_row_sha256": "23654f2df76a5aee5d0e354231125d9d047d8be10734c6961d9d97d10b86e23e",
+    "new_row_sha256": "6592c4dd0c419d726f70e402895ef46f55453b7c47b7f19638cec80d069f9d68",
+    "old_row": "| J-A28.42 | Chose the click semantics — a neighbourhood click derives the close-up and brings its buildings' wings rung to current, a building click brings the plan rung to current deriving wings first, the rungs ordered, viewing never re-deriving a current rung, a stale one re-derived by mutating the cached state — with eager footprints kept at city zoom, over a bare-plot city view by default or a re-derivation on every click, because the owner asks for generated content that is saved and marked when the simulator changes it, and the city view must keep the references' look (J33) (§4.1, II.4; item 28). |",
+    "new_row": "| J-A28.42 | Chose the click semantics — a neighbourhood click derives the close-up and brings its buildings' wings rung to current, a building click brings the plan rung to current deriving wings first, the rungs ordered, viewing never re-deriving a current rung, a stale one re-derived from its canonical prior (the stored plan, else the as-built plan carried along §2.6's interior ladder; amended 2026-09-27 for J-A28.71) — with eager footprints kept at city zoom, over a bare-plot city view by default or a re-derivation on every click, because the owner asks for generated content that is saved and marked when the simulator changes it, and the city view must keep the references' look (J33) (§4.1, II.4; item 28). |"
+   },
+   {
+    "id": "J-A30.83",
+    "older_line": 449,
+    "appended_line": 517,
+    "old_row_sha256": "4766371920d4136627d6efc0e1d3d7157ea5f10287f669247bc6704052f6c929",
+    "new_row_sha256": "102741d1d3aaf2873ae70c0320dfcfa7d61a5dd801a3410c07a03f476d6acb68",
+    "old_row": "| J-A30.83 | Chose that the reader — hover, the gazetteer, `hit`, `inView`, a content provider's answers — and every export withhold a local or secret place's name and purpose by exactly §9.2's table and never its geometry, kind or address, with a secret place admitted on its own building view, over hiding the place's marks or letting exports carry every name, because the owner's rule is that the place is on the map and only the knowledge of it is restricted, because a shared SVG or GeoJSON made from a `public` view must not leak what the view withholds, and because the building band is the building's own view — whoever stands inside it knows what it is (§11.2, §11.1, §9.5; item 30 (d)). |",
+    "new_row": "| J-A30.83 | Chose that the reader — hover, every `query` kind, a content provider's answers — and every picture and interchange export withhold a local or secret place's name and purpose by exactly §9.2's table and never its geometry, kind or address, with a secret place admitted at the building band — the building's own view — over hiding the place's marks or letting exports carry every name, because the owner's rule is that the place is on the map and only the knowledge of it is restricted, because a shared SVG or GeoJSON made from a `public` view must not leak what the view withholds, and because the building band is the building's own view — whoever stands inside it knows what it is — while a condition on which building a view is \"on\" could be neither tested by a filter keyed by (row, stop, key) nor kept in per-stop digests (§11.2, §11.1, §9.5; item 30 (d)). Restated in repair round 1 (VR-08); the document formats and the readers without a band are J-A30.85. |"
+   },
+   {
+    "id": "J-A28.83",
+    "older_line": 455,
+    "appended_line": 515,
+    "old_row_sha256": "014ca8e70b24987d88f68ee7e88155f1177822f2d9ba7781c04dd12dcb5419d1",
+    "new_row_sha256": "d81c0afa0b95ed58d218abc8ce53b89438c8d31b9b8f529ff1fe4c2661f14e86",
+    "old_row": "| J-A28.83 | Chose to adopt the synthesis's plan budget — `plan()` ≤ 5 ms per building median and ≤ 20 ms p95, one plan per click, a re-cut chain bounded by steps × that with the step count known before the first open — and its cache line — ≤ 1 KB per wings rung, ≤ 4 KB per plan storey, an 8 MB LRU per document evicting to `absent` — as PLAUSIBLE rows confirmed by the B-PLAN spike and the stage-3 intake, with the wing-local module doubling (50 → 100 cm, a declared view shift) as the pre-decided fallback, over leaving the rung unbudgeted until stage 3, because §12.1 requires every budget to name its confirming milestone and its fallback now, because the reference's whole house costs 2–8 ms with a role search our cut does not need, and because the interior ladder's re-cut (item 28 (f)) must be priced as a chain of the same step or it would be an unbounded click (§12.7, §12.8; items 28, 28 (f)). |",
+    "new_row": "| J-A28.83 | Chose to adopt the synthesis's plan budget — `plan()` ≤ 5 ms per building median and ≤ 20 ms p95, one plan per click, a re-cut chain bounded by steps × that with the step count known before the first open (at most the band set's rows less one — five for the default six bands — plus the building's capacity less one, §2.6's canonical chain) — and its cache line — ≤ 1 KB per wings rung, ≤ 4 KB per plan storey, an 8 MB LRU per document evicting to `absent` — as PLAUSIBLE rows confirmed by §13.2's T28-8 on the B-PLAN fixtures and by the stage-3 intake, with the wing-local module doubling (50 → 100 cm, a declared view shift) as the pre-decided fallback, over leaving the rung unbudgeted until stage 3, because §12.1 requires every budget to name its confirming milestone and its fallback now, because the reference's whole house costs 2–8 ms with a role search our cut does not need, and because the interior ladder's re-cut (item 28 (f)) must be priced as a chain of the same step or it would be an unbounded click (§12.7, §12.8; items 28, 28 (f)). Restated in repair round 1 (VR-04, VK-25, V-MAB-34): the chain's bound follows §2.6's canonical chain and the band set's six default rows, and the confirming measurement is §13.2's T28-8, §16 naming no spike. |"
+   },
+   {
+    "id": "J-A28.84",
+    "older_line": 456,
+    "appended_line": 516,
+    "old_row_sha256": "07f2895c791df1603dd117d9b68ddb3d8c0a31f9fa4d003f6f7ef535a4cfa872",
+    "new_row_sha256": "06c1ab65620b1beaef42c61067cfcb8a09678bcf084ca7d92996b925ead91466",
+    "old_row": "| J-A28.84 | Chose to export a derived plan as a `plan` block of our own JSON schema — storeys of rooms carrying their address, integer-centimetre ring, role, household unit and entry opening, walls by kind, openings, windows, stair cores and chimneys, with the output version and the supersedes table — and as one virtual-tabletop scene per storey with the stair core as a named portal, over a cell-grid model in the reference's shape or one scene per building, because the base's rooms are polygons on a lattice and not cells, because the host holds the households and an exported plan must say who lives where (item 28 (f)), and because a tabletop scene is one level by construction (§11.1; item 28 (d)). |",
+    "new_row": "| J-A28.84 | Chose to export a derived plan as a `plan` block of our own JSON schema — storeys of rooms carrying their address, integer-centimetre ring, role, scope and, for a household's own room, its household unit; the plan's units, each with its household, unit form and entry opening; walls by kind, openings, windows, stair cores and chimneys, with the output version and the supersedes table — and as one virtual-tabletop scene per storey with the stair core as a named portal, over a cell-grid model in the reference's shape or one scene per building, because the base's rooms are polygons on a lattice and not cells, because the host holds the households and an exported plan must say who lives where and in what form (item 28 (f)), and because a tabletop scene is one level by construction (§11.1; item 28 (d)). Restated in repair round 1 (VR-05): the block carries §2.6's `Room.scope`, `Room.unit` and `Plan.units` as they are, never merged into one field. |"
+   },
+   {
+    "id": "J-A16.01",
+    "older_line": 466,
+    "appended_line": 525,
+    "old_row_sha256": "25dc47d45a853dae3073d80aeaf346ebe19d6263068d0abca69a7c9c5be353d4",
+    "new_row_sha256": "b46272b305bde561ca3ee6522f7397f1617fe86f501bf855782f133e6e056a33",
+    "old_row": "| J-A16.01 | Chose to price amendments b's build work by widening seven lines of §16's effort table by itemised amounts — O10 +4–5 pw (the one placement solver with its relation and supply data, the designation mutator, the dossier contract), O17 + O18 + O19 +2–3 (designation templates and the compatibility table, the band set, the entrance set and basements, exposure, hidden shares and passages), O9 +2 (the `Use` record and hand relocation, the plan rung's base hooks, the wealth-ladder edit kinds), the should-have tiers +1 (FTG's farmland modes, the fuel and timber rows, the reserve), the content line +1 (the parity presets and the marker, the new tables' rows), the verification rig +1 (the hook, B-PLAN and underground fixtures, the parity-preset run) and the unpriced-mechanisms line +1–2 (the transient arena and the M4 hooks) — +12–15 pw in all, carried by the milestone rows M1 +1 / +1, M2b +3 / +4, M3a +6 / +7 and M4 +2 / +3, so the rows still sum to the total of 165–219, over absorbing the work silently or re-estimating the whole plan, because §16's own rule is \"a pass that adds build work prices it here\", and J-S43 set the precedent; the staged engines themselves are not priced, by the roadmap (§16, D-20). |",
+    "new_row": "| J-A16.01 | Chose to price amendments b's build work by widening seven lines of §16's effort table by itemised amounts — O10 +4–5 pw (the one placement solver with its relation and supply data, the designation mutator, the dossier contract), O17 + O18 + O19 with O14-core +3–4 (designation templates and the compatibility table, the band set, the entrance set and basements, exposure, hidden shares and passages, and O14-core's farmland modes, fuel and timber rows and arable reserve), O9 +2 (the `Use` record and hand relocation, the plan rung's base hooks, the wealth-ladder edit kinds and the regrowth-first order of the grow path), O11 +1 (the knowledge key and filter with the reader's and every export's withholding, `report.changed`), the content line +1 (the parity presets and the marker, the new tables' rows), the verification rig +1 (the hook, B-PLAN and underground fixtures, the parity-preset run) and the unpriced-mechanisms line +1–2 (the transient arena and the M4 hooks) — +13–16 pw in all, the `states`, entrance-tick and arch-glyph rows and `live.stale` absorbed by the O12 line, carried by the milestone rows M1 +1 / +1, M2b +3 / +4, M3a +7 / +8 and M4 +2 / +3, so the rows still sum to the total of 166–220 (153–204 before amendments b), over absorbing the work silently or re-estimating the whole plan, because §16's own rule is \"a pass that adds build work prices it here\", and J-S43 set the precedent; the staged engines themselves are not priced, by the roadmap. Repair round 1 (2026-09-27) moved O14-core's farmland work from the should-have line, which the cuts paragraph offers for the owner's veto, to the must line O17 + O18 + O19, because it serves a must letter (O14-core (h)) and item 26's emulation default (VS-06); and it priced the rendering part's knowledge work on the O11 line rather than naming it absorbed, because it spans the reader, every export and the bridge as well as the app's lists (VS-22); the cuts then leave ≈ 135–174 pw for the base and ≈ 149–192 in total (§16, D-20). |"
+   },
+   {
+    "id": "J-A20.01",
+    "older_line": 468,
+    "appended_line": 526,
+    "old_row_sha256": "a9d0e06fb059d6a93191c6a08d893449a10179e29fbed2f7a30ef2d85f700128",
+    "new_row_sha256": "84911f503a2104339d069a9b0b507ab5c69d96ac1c8339652abd6119c6b32521",
+    "old_row": "| J-A20.01 | Chose to state the dossier contract's tests — T20-1 – T20-4 and T22-1 – T22-4 — in §13.2, to name the contract's hooks in the staged SettlementForge row and to give O10 a letter for it, over leaving them in the determinism seat's notes, because R9 makes §13 the one home of every test and the owner's authority rule (\"the map does not edit the dossier\") deserves an acceptance letter a milestone can fail (§13.2, §15.2, *Staged by the owner's roadmap*). |",
+    "new_row": "| J-A20.01 | Chose to state the dossier contract's tests — T20-1 – T20-5 and T22-1 – T22-4, T20-5 the one-way door of item 20 (a), proved by an enumeration of the bridge's message kinds and by `report.changed` carrying every record a B-EDIT sequence made (added by repair round 1, VS-04) — in §13.2, to name the contract's hooks in the staged SettlementForge row and to give O10 a letter for it, over leaving them in the determinism seat's notes, because R9 makes §13 the one home of every test and the owner's authority rule (\"the map does not edit the dossier\") deserves an acceptance letter a milestone can fail (§13.2, §15.2, *Staged by the owner's roadmap*). |"
+   },
+   {
+    "id": "J-A21.01",
+    "older_line": 469,
+    "appended_line": 527,
+    "old_row_sha256": "f10624a3216a370764572b080bff49ba36daf32bac5bef3a4991fa966b85f8b3",
+    "new_row_sha256": "fa67ba62c1ef55d5338a5d72d56b46f491b5a5b6ea5f51c4470a9d16bee2838f",
+    "old_row": "| J-A21.01 | Chose to keep the licence private — §17.3 and D-22 byte for byte, J-S10 standing — and to record that the owner's GPL-3 intent of 2026-09-25 was withdrawn on 2026-09-27 (\"then lets stay private for now\", after the inspired-versus-derived distinction), over folding the GPL-3 consequences the amendment had drafted into §17, because the owner's later word is the authority and the proprietary default is the option-preserving one (an open licence can be granted later by one act and never withdrawn). Consequences: TownGeneratorOS stays an idea source only, its 2026-09-25 permission to consult and adapt code withdrawn, which §17.1 (1) now says in one sentence; dependencies stay permissive-only (§17.4), so no library ever constrains the choice; the module stays a separate program talking to SettlementForge through a data-only bridge (§11.3), retained by choice because it keeps every later option open, not because a licence requires it; the design records that the work is inspired, not derived — methods, measured behaviour and published descriptions re-implemented independently, provable by the clean-room chain, the document checks and the notices file. The kernel seat's J-A21.31 (CGAL rejected on the stack and one-engine grounds, no longer on its licence) stays valid on its own reasons; its premise that the module would be GPL-3 is superseded by this entry, and D-14's and §17.4's GPL exclusions stand unchanged. |",
+    "new_row": "| J-A21.01 | Chose to keep the licence private — §17.3 and D-22 byte for byte, J-S10 standing — and to record that the owner's GPL-3 intent of 2026-09-25 was withdrawn on 2026-09-27 (\"then lets stay private for now\", after the inspired-versus-derived distinction), over folding the GPL-3 consequences the amendment had drafted into §17, because the owner's later word is the authority and the proprietary default is the option-preserving one (an open licence can be granted later by one act and never withdrawn). Consequences: TownGeneratorOS stays an idea source only, its 2026-09-25 permission to consult and adapt code withdrawn, which §17.1 (1) already states, so no sentence was added there (the owner's instruction); dependencies stay permissive-only (§17.4), so no library ever constrains the choice; the module stays a separate program talking to SettlementForge through a data-only bridge (§11.3), retained by choice because it keeps every later option open, not because a licence requires it; the design records that the work is inspired, not derived — methods, measured behaviour and published descriptions re-implemented independently, provable by the clean-room chain, the document checks and the notices file. The kernel seat's J-A21.31, re-stated under this ruling, keeps CGAL's licence ground (§17.4's permissive-only closure) beside its stack and one-engine grounds; its first premise, that the module would be GPL-3, is withdrawn with that intent, and D-14's and §17.4's GPL exclusions stand unchanged. |"
+   },
+   {
+    "id": "J-A23.01",
+    "older_line": 470,
+    "appended_line": 528,
+    "old_row_sha256": "6e40f74cb48ad93e54f9b91b55eb04145b6857b0d23124a59679221eae9c65bf",
+    "new_row_sha256": "cb5c4a6615d35441e26681d639264e104ccddabb631e31f9a3cdf9113ff696ad",
+    "old_row": "| J-A23.01 | Chose the parity presets `MFCG` and `FTG` as the proof of item 23 — T23-1: with a parity preset every `extension` cell reads 0 or off and B-REF's rows hold; with the default preset the extensions run — and §17.1 (6)'s provenance values `ref:⟨reference⟩ ⟨behaviour⟩` beside §7.6's `extension` marker as the way a reader tells an emulated default from our own tendency, stating the principle once in §1.4 beneath the fusion table, over a marker only in §17.1 or a principle stated in every stage section, because the determinism seat's cell schema (J-A23.71) already carries the marker and a principle stated more than once would be a duplicate (§1.4, §7.6, §13.2, §17.1). |",
+    "new_row": "| J-A23.01 | Chose the parity presets `MFCG` and `FTG` as the proof of item 23 — T23-1: with a parity preset every `extension` cell reads 0 or off and B-REF's rows hold; with the default preset the extensions run — and §17.1 (6)'s provenance values `ref:⟨reference⟩ ⟨behaviour⟩` beside §7.6's `extension` marker as the way a reader tells an emulated default from our own tendency, with §1.4 and §17.1 (6) pointing to the principle's home, §7.6, in one sentence each, over a marker only in §17.1 or a principle stated in every stage section, because the determinism seat's cell schema (J-A23.71) already carries the marker and a principle stated more than once would be a duplicate — repair round 1 cut §1.4's paragraph and §17.1 (6)'s restatement to those pointers (VD-35b, VS-38) (§1.4, §7.6, §13.2, §17.1). |"
+   },
+   {
+    "id": "J-A27.01",
+    "older_line": 473,
+    "appended_line": 530,
+    "old_row_sha256": "b89bbcf81ecc49a19005740f955dcdc5f791e56c9ea65d2869f7160b82b86968",
+    "new_row_sha256": "03d7e94d42b411aa1806cf112940590a476673b09fca3a34a5da928ed015d4f0",
+    "old_row": "| J-A27.01 | Chose to carry FTG's lifestyle distribution and MFCG's ward-class shares as descriptive §13.5 rows and to prove the default band set by a schema test and the shanty fixture (T27-1, T27-2), over a target row, because the default band set reproduces those distributions by construction and the parity preset equals them by definition — a target that passes by construction proves nothing (J-S1's classes), while the schema test catches a band set without a middle band or a table without a row for a band (§13.5, §13.2). |",
+    "new_row": "| J-A27.01 | Chose to carry FTG's lifestyle distribution as a descriptive §13.5 row and MFCG's ward-class shares as a note with no baseline row — the shares are the 2017 open-source model's ward-deck composition (§4.5's receipt), because the live MFCG types no ward by class (§1.4) and a `baselines.json` row needs a capture and a build — and to prove the default band set by a schema test and the shanty fixture (T27-1, T27-2), over a target row, because the default band set reproduces those distributions by construction and the parity preset equals them by definition — a target that passes by construction proves nothing (J-S1's classes), while the schema test catches a band set without a middle band or a table without a row for a band (§13.5, §13.2; the note's form by repair round 1, VS-16). |"
+   },
+   {
+    "id": "J-A28.01",
+    "older_line": 474,
+    "appended_line": 531,
+    "old_row_sha256": "f7215caaffdca5e485f2e83097600f95afac5fda6a61653fa30431f8f774f263",
+    "new_row_sha256": "0f286f5f3d0c73d7c9e11779a3924fca7674d8f571f5ae32aec0c4cf62aedaca",
+    "old_row": "| J-A28.01 | Chose to state the plan rung's bars as one B-PLAN group in §13.2 — the eight hard bars and soft bands of the Fable synthesis, the four elaboration tests and the five bars of item 28 (f) — with the shell bar citing §3.10's seed-tiling row per storey rather than restating it, and the plan's soft bands as a §13.7 row that gates nothing, over scattering them through §2.6, §5.2 and §12.7, because R9 makes §13 the one home of every acceptance bar and the synthesis's numbers (5 ms, 20 ms, 4 KB, 8 MB) are budgets of §12.7 and §12.8 that the bars cite (§13.2, §13.7). |",
+    "new_row": "| J-A28.01 | Chose to state the plan rung's bars as one B-PLAN group in §13.2 — the eight hard bars and soft bands of the Fable synthesis with the plan block's schema bar (T28-19), the four elaboration tests and the six bars of item 28 (f) (T28-13 – T28-18) — with the shell bar (T28-14) checked by the shell's leaf digest (§2.6's bar, §5.3's interior-ladder row) and §3.10's seed-tiling row proving only the tiling; the bars whose mechanism the base builds — the click-order and cache tests T28-9 and T28-11, T28-12's `wings` clause, the interior ladder's schema test T28-16, T28-17's housing clause and T28-18's `relet` clause — run from M3a and the rest from stage 3's intake; and the plan's soft bands form a §13.7 row that gates nothing; over scattering the bars through §2.6, §5.2 and §12.7 or running every B-PLAN bar from stage 3's intake, because R9 makes §13 the one home of every acceptance bar, the synthesis's numbers (5 ms, 20 ms, 4 KB, 8 MB) are budgets of §12.7 and §12.8 that the bars cite, and a bar whose mechanism the base builds must run when the base builds it — the owner's own concern, every household housed without a new plot, would otherwise first run at stage 3 (§13.2, §13.7, §16; the milestone split, T28-18 and T28-19 by repair round 1: VS-03, VS-20, VS-23, VK-18). |"
+   },
+   {
+    "id": "J-A28.02",
+    "older_line": 475,
+    "appended_line": 532,
+    "old_row_sha256": "af185882437674dfd67e2a8c42988c1d89867a603d2d82a8901bb28df9d813d4",
+    "new_row_sha256": "8d84f5d751c1dd68bfe20b97606587e9a653d62408d0ec52c43c2935224f1c81",
+    "old_row": "| J-A28.02 | Chose to amend the one-page summary by one appended paragraph that names what it supersedes — \"the market square\" (item 24), the effort figure (J-A16.01) — and adds the owner's later rules in plain words (the shell's floor and the interior's freedom, the dossier as authority, the private licence), over replacing the summary, because the pass's guard forbids a REPLACE of the title block and the summary while another pass may rewrite the banner beneath the title; the assembler or a later finishing seat may fold the two superseded phrases in place, and the paragraph says so. |",
+    "new_row": "| J-A28.02 | Chose to amend the one-page summary by one appended paragraph that adds the owner's later rules in plain words (the markets, the shell's floor and the interior's freedom, the dossier as authority, the private licence), over rewriting the summary around them, because the pass's guard forbade its editors a REPLACE of the title block and the summary while another pass might rewrite the banner beneath the title; the superseded phrases the paragraph first named — \"the market square\", the effort figure (J-A16.01) — were folded in place by repair round 1 under canon R11 (the summary carries only canonical figures), the banner above the summary's heading untouched (the summary; VS-08). |"
+   }
+  ]
+ },
+ "vs40": {
+  "line": 12277,
+  "old": [
+   "The rows `J-A⟨item⟩.⟨n⟩` are the amendments-b pass's (items 8–31 of the second amendments file; 2026-09-26/27):",
+   "⟨item⟩ is the amendment ruled on, and the first digit of ⟨n⟩ names the ruling's home — 0 for the scope part (§0's",
+   "landing table, §1, §13–§17 and the lists), otherwise the number of the section family that states the rule. Each has",
+   "its Part A entry like every other row."
+  ],
+  "new": [
+   "The rows `J-A⟨item⟩.⟨n⟩` are the amendments-b pass's (items 8–31 of the second amendments file; 2026-09-26/27):",
+   "⟨item⟩ is the amendment ruled on, and the first digit of ⟨n⟩ names the part whose seat ruled — 0 the scope part (§0's",
+   "landing table, §1, §13–§17 and the lists), 2 the model (§2), 3 the kernel (§3), 4 the pipeline (§4, §10, PART II and",
+   "PART III), 5, 6 or 7 determinism (the section family that states the rule: §5, §6 or §7) and 8 rendering (§8, §9, §11",
+   "and §12). Each has its Part A entry like every other row."
+  ]
+ },
+ "substitutions": [
+  {
+   "item": "rendering (2) §2.6 Room.lit pointer (VR-07, VK-24 (2))",
+   "line": 988,
+   "old": "lit: boolean /* a light at the room's spine summit (§8.5; J-A28.32); corridors unlit */",
+   "new": "lit: boolean /* a light at the room's spine summit (§8.5, §11.1; J-A28.32); corridors unlit */"
+  },
+  {
+   "item": "rendering (3) §7.6 table enumeration (VR-30)",
+   "line": 7092,
+   "old": "the farmland modes `FarmModeRow` (§4.9) and the reach weights (§4.6) —",
+   "new": "the farmland modes `FarmModeRow` (§4.9), the reach weights (§4.6) and the knowledge admission table `knowledge.admit` (§9.2) —"
+  },
+  {
+   "item": "rendering (4) §2.9 reach of the knowledge key (VR-10)",
+   "line": 2024,
+   "old": "reader (§11.2) and every export (§11.1) admit by §9.2's table",
+   "new": "reader (§11.2) and every picture and interchange export (§11.1) admit by §9.2's table"
+  }
+ ],
+ "output_doc_sha256": "365e19f24743c88a5814e5cfddcc086ee961b03c0cd4697fab9afe5f23d0a2b3",
+ "output_rationale_sha256": "50a94f2d6fca8b86609398b5a6ee6136511adc323f8d2e29f6c3d736e9d82a9a"
+}

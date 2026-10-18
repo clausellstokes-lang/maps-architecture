@@ -1,0 +1,134 @@
+{
+ "key": "coherence/verify-rendering-r1t",
+ "file": "docs/validation/coherence/verify-rendering-r1t.md",
+ "issues": [
+  {
+   "id": "G120-rendering",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "owner": "rendering",
+   "claim": "g item 120's rendering part is absent (expected this round: rendering's repair began before the 02:33 filing). §8–§12 hold no Find look, tool, export or budget — no reader of §2.9's `find` key, no veil, halo, outline, pin or count-bubble row, no Find tool in §9.5, no export rule in §11.1, no gazetteer class counts or match listing by class, area and layer in §11.2, no overlay budget in §12.5 — while V09 (the Find panel and its `live.find` provider), V11 row 55 (\"Find's lists, counts and glow\"), V12 §3.15.10 and §3.15.9 (5) (\"Find's suggestions and glow\") read them.",
+   "required_change": "Write rendering's part as the canon's dated ruling ('File g item 120 routed') names it, at build depth: §8.2 — the Find overlay rows: the veil (the style's `paper` at α 0.55 over everything but the matches), each match drawn above it at full strength with the halo (a soft outer glow in its chip's colour fading to nothing over about 8 px, inside a 2 px outline, its label kept above the veil), an area chip lifting its whole area and glowing along its boundary, at the city band a pin with the chip's glyph where a match is under about 6 px and pins closer than about 24 px merged into a count bubble, faint ghost pins for matches on another layer; each chip's colour from the thematic palette and its second cue (its pin glyph and a dash pattern on its halo's outline; colours repeating past eight chips, the glyph telling them apart); an overlay above the tiles that never re-renders a base tile, labels and chrome above it; §9.5 — Find among the tools; §11.1 — picture exports draw Find as shown with its chips in the legend, battle-map exports leave it off unless asked; §11.2 — the gazetteer's class counts and its match listing by class, area and layer (with the counts on other layers), under §9.2's admission function; §12.5 — the overlay's interaction budget (suggestions within about 50 ms of a key, a chip's glow within about 100 ms of the click, its index rebuilt once per commit, held at the metropolis cap) with an R12 row beside R12-34's interaction rows; §8.11 — the edges (no match; every band and layer; a commit, regenerate, undo, advance and season change re-evaluating the chips; the knowledge canary never drawn)."
+  },
+  {
+   "id": "G121-rendering",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "owner": "rendering",
+   "claim": "g item 121's rendering part is absent (filed after every round-1 repair began). §8.8 keeps three hardware tiers and the tile-DPR steps 3 → 2 → 1.5 → 1 with no Resolution setting, no steps below 1, no ultra tier, no 4K live-view ceiling and no live Auto loop; §8.4 (g)'s light ladder states no order of what Auto gives up; §12.1, §12.5 and §12.8 name neither the ultra tier nor the loop.",
+   "required_change": "§8.8 — the Resolution setting (Auto, the default · 4K · 1440p · 1080p · 720p; V09's `AppPrefs.resolution`, device state, never the document, its hash or the log): a manual level's tile DPR d = min(the device pixel ratio, the level's height ÷ the screen's CSS height) rounded down to the ladder 3 · 2 · 1.5 · 1 · 0.75 · 0.5 (the two steps below 1 drawn below CSS density and scaled up); the live view's 4K ceiling (at most 3 840 × 2 160 device px for the whole view, a larger screen drawn at the 4K-equivalent DPR and scaled up); the ultra tier (canvas ceiling 512 MB, tile-DPR cap 3); the Auto loop (a frame-time p95 over the tier's frame budget through 2 s steps one rung down; under 60 % of it through 10 s with the canvas need fitting, one rung up; applied only when the view settles, at most once per 10 s; a device-pixel-ratio change re-evaluating at once); a manual level the device cannot hold drawing the nearest level that fits and saying so; exports byte-identical whatever the setting (§8.7's any DPI stands); §8.4 (g) — Auto gives up, in order, lighting detail (full precision → the standard surface → the half-resolution global term), sharpness (the DPR down to 1), the light pass (the vector rung), then the steps below 1, while labels, text, the chrome and every overlay stay at the device's full pixel ratio; §12.1 — `bench/calibrate` picks ultra only where the device reports its memory and clears the tier's bar; §12.5 — the frame budgets the loop holds (60 fps on the reference and higher tiers, 30 fps on the low tier) and the settle rule; §12.8 — memory per tier with ultra (native 4K lit at full precision within 512 MB); §8.11 — the edges (a fixture at its threshold, no oscillation; a monitor change; a manual level beyond the device; a gesture in progress)."
+  },
+  {
+   "id": "G122-rendering",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "owner": "rendering",
+   "claim": "g item 122's rendering part is absent (filed after every round-1 repair began). §8.2 draws a `ConditionOverlay` only as a settlement-wide wash with a legend row (`condition.siege` …); no crisis look, its placement, its tile key, its exports or its budget exists in §8.2, §8.8, §11.1 or §12.5.",
+   "required_change": "§8.2 — the crisis look rows by tier and band, read from §10.2's crisis look table through §7.7's derivation row for every condition standing in the view's week (item 117's year position): siege — camps beyond bowshot (≈ 300 m), the trench and earthwork line, engines facing the gates or the weakest stretch (item 114's), burned farmsteads, blockade camps on an unwalled place's approaches; mass immigration — a tent and shanty camp on common or fallow land by a gate, carts and fires, sized by the arrivals; disease — a fenced quarantine camp with huts, pest-house, grave rows and smoke, marked doors and a cordon at the neighbourhood band; famine — bare withered fields over item 117's crop stage, empty pens, shuttered stalls; beast attack, raiders, occupation, rebellion, boom and bust as item 122 (b) lists; disaster — whole neighbourhoods in a temporary ruined state, the share by severity, the pattern by kind (fire downwind through contiguous blocks, flood on low ground by the terrain raster, earthquake scattered), the calamity's `targets` winning; the regional pressures no look; every element placed by keyed draws of the seed, the condition's id and the place, several crises sharing the outskirts by priority (siege, quarantine, refugees) under a density cap, never on water, a gate's passage or a label's keep-out; city band clusters, the siege line, smoke and the ruined tone, district band engines, tents and fences, neighbourhood band doors, rubble and detail, each with its second cue; a `base` live layer joining the tile key; the Show crises switch and a manual preview (view state); a condition the viewer's key withholds not drawn (§9.2's admission); §11.1 — picture exports draw the looks, battle-map exports in the image only, never walls or obstacles; §12.5 — drawn lazily per visible tile; §8.11 — the edges and the no-op pin (no condition and no preview: tiles byte-identical)."
+  },
+  {
+   "id": "G123-rendering",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "owner": "rendering",
+   "claim": "g item 123's rendering part is absent (filed after every round-1 repair began). §8.6 draws a decayed or ruined building's plan uniformly (V03 §5.1's broken ink over rubble stipple), with no partial, progressive damage; §11.1's battle-map rows take `line_of_sight` from every plan wall with no damage reading.",
+   "required_change": "§8.6 — the damaged plan drawn over the same plan: each plan element (wall run, floor area, door, window, stair, roof bay over a room, furniture piece) drawn broken where the building's decay level has passed that element's keyed threshold (§6.3) — `abandoned` dust, debris and doors off; `decayed` floor holes, fallen partitions, roof holes, rooms marked unsafe; `ruined` broken outer walls, upper storeys floorless over the void, rubble heaps, cellars and crypts by their own thresholds; a restored element in patch material (item 114) — the damage monotone in the level and never relocated, and the building band's exterior drawing the same damage (a roof hole over a room; a broken outer wall a gap in the footprint's outline); §11.1 — battle-map exports follow the damage: a fallen wall run leaves `line_of_sight`, a doorless opening is a gap, rubble heaps and floor holes drawn in the image only, never invented as walls; §8.11 — the edges and the no-op pin (a building never decayed byte-identical to today's plan)."
+  },
+  {
+   "id": "G124-rendering",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "owner": "rendering",
+   "claim": "g item 124's rendering part is absent (filed after every round-1 repair began). §8.2's `weather` key is the only weather (cover rows); §8.4 has no shower dimming, fog scattering or night halos; §8.8 no effects layer; §11 and §12.5 no rule or budget. §8.2's snow default ('a viewer's value stands') and V11 §3.25.6 ('a user may still switch the `snow` weather on') still let the `snow` cover lie where the climate's winter does not freeze, against item 124 (c)'s hard rule (no snow, falling or lying).",
+   "required_change": "§8.2 — the weather effects' marks per style family (fine ink strokes for rain, dots for snow, stipple for mist in `ink` and `hatched`, soft translucent streaks in `lit`, faint ripples on water during rain; no lightning or flash, every change of light taking seconds) and the hard rule: neither falling snow nor the `snow` cover is drawn where the climate row's winter is `none`, whatever the viewer's `weather`; §8.4 — the shower's dimming of the global light's direct term and its softened shadows, fog's scattering (soft, faint shadows, the map fading toward the fog's colour away from the view's centre, a soft halo round every `LightSource` at night) as per-frame light terms, the vector rung a wash and the halos only; §8.8 — the effects layer above the tiles and below labels, the chrome and every overlay, never in the tile key; §11 — every export leaves the effects out, byte-identical with them on or off; §12.5 — about 1 ms per frame at the densest spell on the reference hardware, the first thing item 121 (e)'s Auto gives up; §8.11 — the edges (reduced motion, the low tier and phones off by default; a spell during an export; the timeline replayed from its seed and clock)."
+  },
+  {
+   "id": "VRC1T-01",
+   "severity": "minor",
+   "kind": "F-MISSING",
+   "owner": "rendering",
+   "claim": "g item 119 (a2)'s rendering part is not written: §12.1's comfort-level list reads \"an advance of time and item 113's history replay, read as V06 §6 states them\" and R12-31 \"an advance of time and the history replay as V06 §6 reads them\" (the repair's 'Held (VV56-07)'); the owner chose TOTAL (J132) and the canon routes to rendering \"§12 lists advance and the replay among the one-time waits in total\", as V06 §6.8, V12 §3.15.9 (2) and V12's `wait.advanceTime` / `wait.historyReplay` rows now state.",
+   "required_change": "§12.1 reads \"… an `advance` of time and a history-first generation (item 113's replay with the peak's generation before it), each in total, never per epoch (item 119 (a2); V06 §6.8 coarsens the cadence until its estimate fits) …\", and R12-31's wait list reads \"… an advance of time and the history replay, each in total (item 119 (a2)) …\"."
+  },
+  {
+   "id": "VRC1T-02",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "owner": "rendering",
+   "claim": "Which view keys cross the bridge disagrees between §11.3 (the home §2.9 names) and §2.9 and V09. §2.9 (model's round-1 block) declares `yearWeek`, `seasonFollow`, `festival` and `cvdVariant` \"four per-viewer keys (never over a bridge, §11.3)\"; V09's state table says the per-viewer keys travel \"never (§11.3)\" (listing those four with `thematic`, `workingLayer`, `underlay`, `showUnexcavated` and V09 §4.19's keys) and T-V9-45 tests that \"the per-viewer keys never cross a bridge\"; §11.3's replaced *View state* bullet says \"Every view key of §2.9 …, the per-viewer keys among them, travels as `view.set` / `view.changed`, except the pointer that moves the cursor sun and the `underlay` image\". A bridge built to §11.3 fails T-V9-45 and carries the keys §2.9 keeps local.",
+   "required_change": "§11.3's *View state* bullet reads \"Every view key of §2.9 (…) travels as `view.set` / `view.changed`, except the pointer that moves the cursor sun, the `underlay` image (§9.5) and the per-viewer keys a viewer's client keeps — `yearWeek`, `seasonFollow`, `festival`, `cvdVariant` (§2.9), `thematic`, `workingLayer`, `showUnexcavated` and V09 §4.19's per-viewer keys —, which never cross the bridge; `knowledge`, which the host sets per viewer (below; J-A30.82), travels.\""
+  },
+  {
+   "id": "VRC1T-03",
+   "severity": "major",
+   "kind": "EDGE-UNDEFINED",
+   "owner": "rendering",
+   "claim": "The parity presets × this round's looks (principle (11): every toggle and preset). §8.4 (h): \"Every default row of ours — the field model, the cursor sun, the moon, the point lights, the ambient, occlusion and spill terms — carries the `extension` marker, so the parity presets switch it off\"; the new rows of ours — §8.2's season looks, leaf colours, leaf cover, creepers, ice and leads and the climate snow default, §8.4's sun through the year, `live.festival` and §8.10's `boats` class (drawn in every week) — state nothing for the presets. At the standalone default (week 19) the `FTG` preset's fixed sun would stand 23.44° above its sheet's altitude and meadows draw `meadow.mown` swaths, and `MFCG` and `FTG` would draw boats, so the presets' look and §13.5's parity metrics move with no stated outcome.",
+   "required_change": "§8.4 (h)'s sentence reads \"Every default row of ours — the field model, the cursor sun, the moon, the point lights, the ambient, occlusion and spill terms, item 117's season rows and sun through the year (§8.2, *Sun* below), item 118's decorations (`live.festival`) and §8.10's boats — carries the `extension` marker, so the parity presets switch it off: a parity preset draws the map as drawn, under its sheet's sun, in every week\"; T-ER-23 and T-ER-24 add a parity-preset fixture whose tiles are equal in all 52 weeks and with a festival shown."
+  },
+  {
+   "id": "VRC1T-04",
+   "severity": "major",
+   "kind": "EDGE-UNDEFINED",
+   "owner": "rendering",
+   "claim": "§8.4's new *Sun through the year* sets the fixed sun at `altitudeCdeg` + δ(w) (δ down to −23.44° at midwinter) and the cursor sun's h₀ = `heightRatio` × tan(that altitude) ÷ tan(`altitudeCdeg`), and `SunSpec.altitudeCdeg` has no declared range (a sheet is data: saved, edited or a preset's). A sheet under 23.44° puts the fixed sun at or below the horizon in its midwinter weeks (h₀ ≤ 0; sin α_f ≤ 0 in E_key = E_g · (a + sin α_f)), and a sheet at 0° divides by tan 0; no outcome, fallback or test is stated (T-ER-23 sweeps the weeks on the shipped 45° sheets only).",
+   "required_change": "§8.4's *Sun through the year* clamps the drawn altitude to [atan ⅛ ≈ 7.1°, 89°] (the altitude at which *Sun*'s 8× shadow cap starts) and takes the cursor ratio as tan(the clamped altitude) ÷ tan(max(`altitudeCdeg`, 7.1°)); the sheet loader clamps a `SunSpec.altitudeCdeg` outside (0°, 90°) into it and reports it; T-ER-23 adds sheets at 10° and at 0° swept through all 52 weeks (the sun above the horizon in every week, every value finite)."
+  },
+  {
+   "id": "VRC1T-05",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "owner": "rendering",
+   "claim": "The export comfort level's scope contradicts itself. §12.1 binds it to \"an export, in every format the export dialog offers at its sizes up to A2 at 300 dpi\", while §12.7's PNG fallback ends \"(R12-31; a wait past the comfort level is never offered)\" and R12-31 times \"an export of every offered format and size\"; V09's export dialog offers custom pixels and §8.7 exports at any DPI (item 121 (b): \"§8.7's any DPI stands\"), so a custom size past A2 at 300 dpi is both offered and, by §12.7, never offered, with no stated outcome against the comfort level.",
+   "required_change": "§12.7's parenthesis reads \"(R12-31: no preset print size whose export would pass the comfort level is offered; a custom pixel size or DPI past A2 at 300 dpi stays offered, §8.7, outside the comfort level as §12.1 scopes it, its progress shown by §12.1's rule)\", and R12-31's export clause reads \"an export of every offered format at every preset size up to A2 at 300 dpi\"."
+  },
+  {
+   "id": "VRC1T-06",
+   "severity": "minor",
+   "kind": "WIRING",
+   "owner": "rendering",
+   "claim": "§11.2's new `Progress` posts `wait` kinds 'epoch' | 'history' | 'dossier' | 'export' | 'migrate'. V09 §4.21.9 and V09 §3.9's Go back to here read `progress.undo` (events undone of the total), which no `Progress` member posts — and `edit`, which carries that grouped undo jump, takes no `onProgress` — a dangling input; and `open`'s comment folds \"the replay of load verification and a migration\" into 'migrate', which V09 words \"Updating this town to this version\", so a plain open's verification is named a migration.",
+   "required_change": "`Progress`'s `wait` gains `'undo'` (events undone or redone of the total) and `'verify'` (an open's load-verification replay: events replayed of the total); `edit` takes `opts.onProgress?: (p: Progress) => void`, posted as `'undo'` for a group of `undo` or `redo` events; `open`'s comment reads \"the load verification replay ('verify') and a migration ('migrate')\"; V09's `progress.<wait>` row gains `verify` (V09's follow-up)."
+  },
+  {
+   "id": "VRC1T-07",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "owner": "rendering",
+   "claim": "§8.8's zoom-out limit restates a V11 cell's value: \"the margin is V11's base settings cell (1 stop, V11 §3.25.5)\"; V11's registry row 92 (J-V11.106) holds `view.zoomOutMarginStops` \"here … the base cites the cells by name and states no value\", as the base does for the row's other cells (`reroll.maxAdvance`, `crossing.searchBandM`, `index.gridCellM`) (principle (1)).",
+   "required_change": "§8.8 reads \"… and the margin is the base settings cell `view.zoomOutMarginStops` (V11 §3.25.5)\" — the value \"1 stop\" dropped."
+  },
+  {
+   "id": "VRC1T-08",
+   "severity": "minor",
+   "kind": "TERM",
+   "owner": "rendering",
+   "claim": "T-ER-23 (§8.11, new) names two identifiers declared nowhere in the set — \"a water mark with no `iceKind`\" and \"a face with no `seasonKind`\"; §8.1 item 8 carries both as the halves of each mark's `season` column (its ice kind in the high 16 bits, its `season.surfaces` row index in the low 16, ~0 where it has none).",
+   "required_change": "T-ER-23's cases read \"a water mark whose `season` column holds no ice kind; a face whose `season` column names no `season.surfaces` row (§8.1 item 8)\"."
+  },
+  {
+   "id": "VRC1T-09",
+   "severity": "minor",
+   "kind": "WIRING",
+   "owner": "scope",
+   "claim": "Rendering's round-1 block adds T-ER-22, T-ER-23 and T-ER-24 to §8.11, but §13.2's index still reads \"T-ER-01 – T-ER-12 (§8.11), T-ER-13 – T-ER-18 (§9.7) and T-ER-19 – T-ER-21 (§11.6)\" and §13.8's CI-tier row \"T-ER-01 – T-ER-21\", so the three rows have no scheduled tier (rendering's hand-off to scope).",
+   "required_change": "§13.2's line reads \"T-ER-01 – T-ER-12 and T-ER-22 – T-ER-24 (§8.11), T-ER-13 – T-ER-18 (§9.7) and T-ER-19 – T-ER-21 (§11.6)\"; §13.8's row reads \"T-ER-01 – T-ER-24 (the rendering, label and export edges: §8.11, §9.7, §11.6)\"."
+  },
+  {
+   "id": "VRC1T-10",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "owner": "rendering",
+   "claim": "`cvdVariant`'s default disagrees: §8.2 selects the variant \"by the per-viewer view key `cvdVariant` (`'none'` default; V09's view settings)\"; §2.9, the key's home, reads an absent or unknown value as V09's machine default `AppPrefs.cvdDefault` ('none' until the user sets it), written by V09 §4.21.2's Colour vision chip — so a viewer whose machine default is set reads 'none' by §8.2.",
+   "required_change": "§8.2's parenthesis reads \"(§2.9's key: absent, V09's machine default `AppPrefs.cvdDefault`; V09 §4.21.2)\"."
+  },
+  {
+   "id": "VRC1T-11",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "owner": "model",
+   "claim": "§9.1 (rendering's round-1 block, VAL-18) now builds a sky island's root `QuarterNode` by S13a over the island's districts after its unit run (V05 §3.14); §2.5's comment still reads \"Quarters are §9.1's QuarterNode merge tree, built by S6 (§4.5)\", restating the producer in part (rendering's hand-off to model).",
+   "required_change": "§2.5's comment reads \"Quarters are §9.1's `QuarterNode` merge tree — built by S6 on the ground (§4.5) and, for a sky island's root, by S13a (§9.1; V05 §3.14) —; its city cut is the city-LOD label unit (§9.4)\"."
+  }
+ ]
+}

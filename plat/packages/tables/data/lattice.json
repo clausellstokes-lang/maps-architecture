@@ -1,0 +1,18 @@
+{
+  "table": "lattice",
+  "version": 1,
+  "section": "§2.2",
+  "rows": {
+    "arena": {
+      "unitCm": {"value": 1, "unit": "cm", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "minEdgeCm": {"value": 25, "unit": "cm", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "attractCm": {"value": 26, "unit": "cm", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "minFaceAngleCdeg": {"value": 500, "unit": "cdeg", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "rangeCm": {"value": 8388608, "unit": "cm", "provenance": "architecture 2026-09-25", "calibratable": false}
+    },
+    "route": {
+      "spacingM": {"value": 25, "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "jitterM": {"value": 5, "unit": "m", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"}
+    }
+  }
+}

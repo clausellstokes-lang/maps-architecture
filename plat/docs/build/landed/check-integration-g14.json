@@ -1,0 +1,23 @@
+{
+  "schema": "plat-landed-record/1",
+  "item": "check-integration-g14",
+  "lane": "check/integration-flow-7-g14",
+  "lanes": ["check/integration-flow-7-g14"],
+  "wave": "flow-7",
+  "snapshotTaken": "2026-10-04T20:46:52.985Z",
+  "date": "2026-10-07T16:14:08.764Z",
+  "ownsSource": "declared",
+  "owns": ["plat/docs/build/checks/integration-g14.md"],
+  "counts": { "created": 1, "changed": 0, "unchanged": 0, "deleted": 0 },
+  "files": [
+    { "path": "plat/docs/build/checks/integration-g14.md", "status": "created", "sha256": "5b01acf65d82173f367dbe8e3807d60140579775ccebe16ab08543bf8291cae8", "size": 14262 }
+  ],
+  "appends": [
+    {
+      "file": "plat/CLEAN-ROOM.md",
+      "ids": ["L-0324"],
+      "lines": ["da4a49a8887bad95"],
+      "removed": []
+    }
+  ]
+}

@@ -1,0 +1,159 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm7/before/docs/volumes/V11-content.md",
+ "input_doc_sha256": "0e2767c1b7ec2b438a3bd8e3027b67696791d9f3cf54757e8c89a0d520fec702",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm7/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "a3f45a3f3ad67dc46ac506c244d2497775848195cdf2e0c022cd654f372f70f0",
+ "files": [
+  {
+   "file": "b-repair-r7-V11.md",
+   "sha256": "7d3a835f3e6be18841e5a5949a1ef60842d2b1573de6bd12b3eb0c9db3ed4bf3",
+   "lines": 709,
+   "blocks": 4,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "b-repair-r7-V11.md #1 (l. 2) REPLACE ### 1b Wiring table",
+   "file": "b-repair-r7-V11.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "### 1b Wiring table",
+   "body_lines": 99,
+   "body_sha256": "19adaa6ab9172f6e05c9b89597913a7fa664f817d7732f97fcedd6968813158e",
+   "target_line": 150,
+   "section_old": "150–249",
+   "section_old_n": 100,
+   "section_new_n": 100,
+   "new_headings": [
+    "### 1b Wiring table"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "b-repair-r7-V11.md #2 (l. 105) REPLACE ### 2.10 Lifecycle of every new state field",
+   "file": "b-repair-r7-V11.md",
+   "index": 2,
+   "line": 105,
+   "kind": "REPLACE",
+   "heading": "### 2.10 Lifecycle of every new state field",
+   "body_lines": 44,
+   "body_sha256": "a2621b2a65fb0ce3742ea7bfa365599249d927c92444d8ca70157284a0d0e2b2",
+   "target_line": 837,
+   "section_old": "837–881",
+   "section_old_n": 45,
+   "section_new_n": 45,
+   "new_headings": [
+    "### 2.10 Lifecycle of every new state field"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "b-repair-r7-V11.md #3 (l. 153) REPLACE ### 3.1 The complete catalogue of tables",
+   "file": "b-repair-r7-V11.md",
+   "index": 3,
+   "line": 153,
+   "kind": "REPLACE",
+   "heading": "### 3.1 The complete catalogue of tables",
+   "body_lines": 181,
+   "body_sha256": "472f9c51132aeb74ef42ff76da5121178d2bf958e57bf6fd5d8f2c0f20b01a0f",
+   "target_line": 891,
+   "section_old": "891–1072",
+   "section_old_n": 182,
+   "section_new_n": 182,
+   "new_headings": [
+    "### 3.1 The complete catalogue of tables"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "b-repair-r7-V11.md #4 (l. 338) REPLACE ### 3.24 Item 110's rows — terraces, raised ways, stepped massing, decks and their landmarks",
+   "file": "b-repair-r7-V11.md",
+   "index": 4,
+   "line": 338,
+   "kind": "REPLACE",
+   "heading": "### 3.24 Item 110's rows — terraces, raised ways, stepped massing, decks and their landmarks",
+   "body_lines": 368,
+   "body_sha256": "a9bcecea7a33c3bc4ad7e576bb670a2407a88ecdd28569ffbac17512a7f069e5",
+   "target_line": 3796,
+   "section_old": "3796–4160",
+   "section_old_n": 365,
+   "section_new_n": 370,
+   "new_headings": [
+    "### 3.24 Item 110's rows — terraces, raised ways, stepped massing, decks and their landmarks"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "b-repair-r7-V11.md #1 (l. 2) REPLACE ### 1b Wiring table",
+    "kind": "REPLACE",
+    "heading": "### 1b Wiring table",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7-V11.md #2 (l. 105) REPLACE ### 2.10 Lifecycle of every new state field",
+    "kind": "REPLACE",
+    "heading": "### 2.10 Lifecycle of every new state field",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7-V11.md #3 (l. 153) REPLACE ### 3.1 The complete catalogue of tables",
+    "kind": "REPLACE",
+    "heading": "### 3.1 The complete catalogue of tables",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7-V11.md #4 (l. 338) REPLACE ### 3.24 Item 110's rows — terraces, raised ways, stepped massing, decks and their landmarks",
+    "kind": "REPLACE",
+    "heading": "### 3.24 Item 110's rows — terraces, raised ways, stepped massing, decks and their landmarks",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 805,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 58,
+  "headings_after": 58,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 22,
+  "fence_lines_after": 22,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 679521,
+  "doc_bytes_after": 681412,
+  "doc_lines_before": 5465,
+  "doc_lines_after": 5470,
+  "rationale_bytes_before": 704813,
+  "rationale_bytes_after": 704813,
+  "rationale_lines_before": 2386,
+  "rationale_lines_after": 2386,
+  "blocks_total": 4,
+  "blocks_applied": 4,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "67c7c0b837e1c53a1c428d75485da9c5e54c193428a0c9ba86a36f71aae86dfc",
+  "output_rationale_sha256": "a3f45a3f3ad67dc46ac506c244d2497775848195cdf2e0c022cd654f372f70f0"
+ }
+}

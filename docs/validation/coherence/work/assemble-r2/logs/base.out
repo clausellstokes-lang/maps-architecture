@@ -1,0 +1,14 @@
+files 6; blocks 71 found, 71 applied, 0 skipped
+  NOTE repair-r2-scope.md #2 (l. 118) REPLACE ### 0.2 Where the owner's late rules land — items 1–7 (`docs/AMENDMENTS-2026-09-25.md`), 8–31 (`AMEN — REPLACE retitles the heading ["### 0.2 Where the owner's late rules land — items 1–7 (`docs" -> "### 0.2 Where the owner's late rules land — items 1–7 (`docs"]
+  NOTE repair-r2-scope.md #15 (l. 3474) RATIONALE-A — DUPLICATE ID inserted (an id the table already holds): ['J-DET-11', 'J-A20.71', 'J-A113.61', 'J-A114.01', 'J-A568.01', 'J-A76.41']
+audit: 71 blocks; not OK: 0
+  j_rows_without_part_a: []
+  part_a_without_j_rows: ['J-A113.61', 'J-A114.01', 'J-A20.71', 'J-A568.01', 'J-A76.41', 'J-DET-11']
+  j_ids_in_two_blocks: {}
+  document index rows: 797
+  document index duplicate ids: []
+  Part A rows: 803
+  Part A duplicate ids: ['J-A113.61', 'J-A114.01', 'J-A20.71', 'J-A568.01', 'J-A76.41', 'J-DET-11']
+headings 153 -> 153 (+1 / -1); fences balanced True (140 -> 140 fence lines); title block unchanged True; PENDING FABLE REVIEW lines 0 -> 0
+document 2787468 -> 2934933 bytes, 21449 -> 22470 lines, sha256 4ed292e94f2442e5db7cb25e3da110806f5c5e7ccb9037d6fe32375a51504f76
+rationale 688889 -> 700099 bytes, 2369 -> 2384 lines, sha256 24b3df75f437481a808767febf87db62c4d2aedc0f028895454c82011cf46abb

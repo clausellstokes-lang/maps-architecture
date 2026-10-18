@@ -1,0 +1,23 @@
+{
+  "name": "@plat/bench",
+  "version": "0.0.0",
+  "private": true,
+  "description": "the bench: calibration, the timing harness and phase, the CI tiers, and the M0 spike harnesses (§12.1, §13.8, §16); run through tsx, never bundled",
+  "license": "UNLICENSED",
+  "type": "module",
+  "exports": {
+    ".": {
+      "plat-source": "./src/index.ts",
+      "types": "./dist/types/src/index.d.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "dependencies": {
+    "@plat/kernel": "workspace:*",
+    "@plat/layout": "workspace:*",
+    "@plat/model": "workspace:*",
+    "@plat/site": "workspace:*",
+    "@plat/tables": "workspace:*",
+    "@plat/testkit": "workspace:*"
+  }
+}

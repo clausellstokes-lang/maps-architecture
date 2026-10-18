@@ -1,0 +1,713 @@
+[
+ {
+  "anchor": "§4.4 S5a *Trace* (2) (the pull and the pin rule)",
+  "home": "base",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 12,
+  "citations_installed": 16,
+  "by_unit_installed": {
+   "base": 15,
+   "V06": 1
+  }
+ },
+ {
+  "anchor": "the pull's search band (§4.4 S5a)",
+  "home": "base",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 5,
+  "citations_installed": 10,
+  "by_unit_installed": {
+   "base": 10
+  }
+ },
+ {
+  "anchor": "§4.4 S5a *Outer moats*",
+  "home": "base",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 5,
+  "citations_installed": 6,
+  "by_unit_installed": {
+   "base": 6
+  }
+ },
+ {
+  "anchor": "§4.3 *Where it may not go*",
+  "home": "base",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 7,
+  "citations_installed": 7,
+  "by_unit_installed": {
+   "base": 7
+  }
+ },
+ {
+  "anchor": "§4.8 *The harbour mouth* (its chain: at the nearest lawful heads, else not laid)",
+  "home": "base",
+  "defined_untouched": false,
+  "defined_installed": true,
+  "citations_untouched": 0,
+  "citations_installed": 0,
+  "by_unit_installed": {}
+ },
+ {
+  "anchor": "`W_RAISED_MEETING` (§5.4's warnings)",
+  "home": "base",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 9,
+  "citations_installed": 10,
+  "by_unit_installed": {
+   "base": 8,
+   "V07": 2
+  }
+ },
+ {
+  "anchor": "§4.2 S3 (7) (the gate re-solve, `T = t_1`)",
+  "home": "base",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 30,
+  "citations_installed": 32,
+  "by_unit_installed": {
+   "base": 32
+  }
+ },
+ {
+  "anchor": "§4.2 S3 (9) (a)'s unwalled stage",
+  "home": "base",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 10,
+  "citations_installed": 10,
+  "by_unit_installed": {
+   "base": 6,
+   "V01": 1,
+   "V06": 3
+  }
+ },
+ {
+  "anchor": "V06 §3.7.4 (2)'s cost field",
+  "home": "V06",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 2,
+  "citations_installed": 2,
+  "by_unit_installed": {
+   "base": 1,
+   "V06": 1
+  }
+ },
+ {
+  "anchor": "V06 §3.7.1 (a new circuit; its F-WALL sentence)",
+  "home": "V06",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 18,
+  "citations_installed": 19,
+  "by_unit_installed": {
+   "base": 2,
+   "V06": 17
+  }
+ },
+ {
+  "anchor": "V06 §3.7.6 (5)",
+  "home": "V06",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 6,
+  "citations_installed": 8,
+  "by_unit_installed": {
+   "V06": 7,
+   "V11": 1
+  }
+ },
+ {
+  "anchor": "V06 §3.17 (3)",
+  "home": "V06",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 0,
+  "citations_installed": 0,
+  "by_unit_installed": {}
+ },
+ {
+  "anchor": "V06 §3.19 (5)",
+  "home": "V06",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 15,
+  "citations_installed": 15,
+  "by_unit_installed": {
+   "base": 8,
+   "V06": 7
+  }
+ },
+ {
+  "anchor": "V06 §3.1, V06 §3.2, V06 §3.7.5 (T110-2 (1), T-V6-73)",
+  "home": "V06",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 0,
+  "citations_installed": 2,
+  "by_unit_installed": {
+   "base": 1,
+   "V06": 1
+  }
+ },
+ {
+  "anchor": "*Where the line crosses* (*beneath*)",
+  "home": "base",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 1,
+  "citations_installed": 6,
+  "by_unit_installed": {
+   "base": 6
+  }
+ },
+ {
+  "anchor": "**Line and band** (*beneath*)",
+  "home": "base",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 1,
+  "citations_installed": 3,
+  "by_unit_installed": {
+   "base": 3
+  }
+ },
+ {
+  "anchor": "the term **the ends** (§2.7's laws' terms)",
+  "home": "base",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 0,
+  "citations_installed": 5,
+  "by_unit_installed": {
+   "base": 4,
+   "V06": 1
+  }
+ },
+ {
+  "anchor": "***over the band***",
+  "home": "base",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 30,
+  "citations_installed": 30,
+  "by_unit_installed": {
+   "base": 19,
+   "V06": 8,
+   "V07": 1,
+   "V09": 2
+  }
+ },
+ {
+  "anchor": "***beneath***",
+  "home": "base",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 123,
+  "citations_installed": 126,
+  "by_unit_installed": {
+   "base": 89,
+   "V01": 5,
+   "V04": 9,
+   "V06": 11,
+   "V07": 6,
+   "V09": 5,
+   "V10": 1
+  }
+ },
+ {
+  "anchor": "§2.7 *At the frame*",
+  "home": "base",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 7,
+  "citations_installed": 7,
+  "by_unit_installed": {
+   "base": 7
+  }
+ },
+ {
+  "anchor": "the fixed-place sentence",
+  "home": "base",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 26,
+  "citations_installed": 28,
+  "by_unit_installed": {
+   "base": 20,
+   "V06": 5,
+   "V07": 2,
+   "V09": 1
+  }
+ },
+ {
+  "anchor": "the bent-group sentence and its item (i)",
+  "home": "base",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 20,
+  "citations_installed": 21,
+  "by_unit_installed": {
+   "base": 13,
+   "V06": 1,
+   "V07": 4,
+   "V09": 3
+  }
+ },
+ {
+  "anchor": "law 3's sentence (END-L3): \"… leaves it on the side it entered from\"",
+  "home": "base",
+  "defined_untouched": false,
+  "defined_installed": true,
+  "citations_untouched": 0,
+  "citations_installed": 1,
+  "by_unit_installed": {
+   "base": 1
+  }
+ },
+ {
+  "anchor": "F-WALL (§5.2 row) and its raised-way rung",
+  "home": "base",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 5,
+  "citations_installed": 10,
+  "by_unit_installed": {
+   "base": 9,
+   "V06": 1
+  }
+ },
+ {
+  "anchor": "F-ROUTE (§5.2 row)",
+  "home": "base",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 34,
+  "citations_installed": 35,
+  "by_unit_installed": {
+   "base": 30,
+   "V06": 1,
+   "V07": 3,
+   "V11": 1
+  }
+ },
+ {
+  "anchor": "F-REDERIVE (§5.2 row)",
+  "home": "base",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 30,
+  "citations_installed": 31,
+  "by_unit_installed": {
+   "base": 28,
+   "V02": 1,
+   "V09": 1,
+   "V11": 1
+  }
+ },
+ {
+  "anchor": "F-V-RAISED (V07 §3.13 row)",
+  "home": "V07",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 11,
+  "citations_installed": 12,
+  "by_unit_installed": {
+   "base": 7,
+   "V07": 5
+  }
+ },
+ {
+  "anchor": "`walls.waited` (V06 §2.10's report: walls { … waited })",
+  "home": "V06",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 15,
+  "citations_installed": 19,
+  "by_unit_installed": {
+   "base": 13,
+   "V06": 5,
+   "V07": 1
+  }
+ },
+ {
+  "anchor": "`raised.waited` (V06 §2.10's report: raised { … waited })",
+  "home": "V06",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 16,
+  "citations_installed": 16,
+  "by_unit_installed": {
+   "base": 6,
+   "V06": 10
+  }
+ },
+ {
+  "anchor": "§7.1 *Raised ways, aqueducts and retaining walls*",
+  "home": "base",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 1,
+  "citations_installed": 1,
+  "by_unit_installed": {
+   "V09": 1
+  }
+ },
+ {
+  "anchor": "`bend.wall.raisedCrossing` (§7.1 row)",
+  "home": "base",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 26,
+  "citations_installed": 27,
+  "by_unit_installed": {
+   "base": 18,
+   "V07": 2,
+   "V09": 7
+  }
+ },
+ {
+  "anchor": "`bend.wall.raisedCrossing` (V09 §4.9 row)",
+  "home": "V09",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 26,
+  "citations_installed": 27,
+  "by_unit_installed": {
+   "base": 18,
+   "V07": 2,
+   "V09": 7
+  }
+ },
+ {
+  "anchor": "`bend.raised.wall` (V09 §4.9 row) and its keep-clear form",
+  "home": "V09",
+  "defined_untouched": false,
+  "defined_installed": true,
+  "citations_untouched": 8,
+  "citations_installed": 8,
+  "by_unit_installed": {
+   "base": 4,
+   "V07": 2,
+   "V09": 2
+  }
+ },
+ {
+  "anchor": "`bend.wall.aqueductArch` (V09 §4.9 row)",
+  "home": "V09",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 8,
+  "citations_installed": 8,
+  "by_unit_installed": {
+   "base": 4,
+   "V09": 4
+  }
+ },
+ {
+  "anchor": "`bend.raised.underSpan` (V09 §4.9 row)",
+  "home": "V09",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 17,
+  "citations_installed": 17,
+  "by_unit_installed": {
+   "base": 9,
+   "V09": 8
+  }
+ },
+ {
+  "anchor": "`refuse.raised.meeting` (§7.1)",
+  "home": "base",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 31,
+  "citations_installed": 33,
+  "by_unit_installed": {
+   "base": 27,
+   "V04": 1,
+   "V07": 2,
+   "V09": 2,
+   "V10": 1
+  }
+ },
+ {
+  "anchor": "§7.3 (b) 3",
+  "home": "base",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 17,
+  "citations_installed": 18,
+  "by_unit_installed": {
+   "base": 15,
+   "V09": 2,
+   "V11": 1
+  }
+ },
+ {
+  "anchor": "§7.3's S7 operator row",
+  "home": "base",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 8,
+  "citations_installed": 8,
+  "by_unit_installed": {
+   "base": 8
+  }
+ },
+ {
+  "anchor": "`setAttr(castle, site)` (§7.4's edit table)",
+  "home": "base",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 5,
+  "citations_installed": 6,
+  "by_unit_installed": {
+   "base": 5,
+   "V09": 1
+  }
+ },
+ {
+  "anchor": "`wall.barrierReachM`",
+  "home": "base",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 18,
+  "citations_installed": 19,
+  "by_unit_installed": {
+   "base": 11,
+   "V06": 1,
+   "V07": 2,
+   "V09": 1,
+   "V11": 2,
+   "V12": 2
+  }
+ },
+ {
+  "anchor": "`convert` `gateToJunction` (§4.11's ConversionOp)",
+  "home": "base",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 14,
+  "citations_installed": 15,
+  "by_unit_installed": {
+   "base": 9,
+   "V06": 4,
+   "V07": 1,
+   "V09": 1
+  }
+ },
+ {
+  "anchor": "`absorbWall` (V06 §2.8's EvolveOp)",
+  "home": "V06",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 36,
+  "citations_installed": 37,
+  "by_unit_installed": {
+   "base": 14,
+   "V04": 1,
+   "V06": 17,
+   "V07": 4,
+   "V09": 1
+  }
+ },
+ {
+  "anchor": "§8.11's T-ER-12",
+  "home": "base",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 1,
+  "citations_installed": 2,
+  "by_unit_installed": {
+   "base": 2
+  }
+ },
+ {
+  "anchor": "T110-2 (§13.2)",
+  "home": "base",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 127,
+  "citations_installed": 130,
+  "by_unit_installed": {
+   "base": 114,
+   "V06": 13,
+   "V09": 1,
+   "V10": 1,
+   "V12": 1
+  }
+ },
+ {
+  "anchor": "T110-2 (4)'s hand `convert` `gateToJunction` (W6) and `absorbWall` (W8) runs",
+  "home": "base",
+  "defined_untouched": false,
+  "defined_installed": true,
+  "citations_untouched": 3,
+  "citations_installed": 5,
+  "by_unit_installed": {
+   "base": 5
+  }
+ },
+ {
+  "anchor": "T-V7-48 (V07 ## 7) and its decay clause beneath the declared viaduct",
+  "home": "V07",
+  "defined_untouched": false,
+  "defined_installed": true,
+  "citations_untouched": 41,
+  "citations_installed": 43,
+  "by_unit_installed": {
+   "base": 33,
+   "V07": 10
+  }
+ },
+ {
+  "anchor": "V07 §3.5a (3) (VS4's tracker; `raised.supportClearM`)",
+  "home": "V07",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 14,
+  "citations_installed": 15,
+  "by_unit_installed": {
+   "base": 2,
+   "V07": 10,
+   "V11": 3
+  }
+ },
+ {
+  "anchor": "T-V6-73",
+  "home": "V06",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 37,
+  "citations_installed": 37,
+  "by_unit_installed": {
+   "base": 15,
+   "V06": 13,
+   "V11": 4,
+   "V12": 5
+  }
+ },
+ {
+  "anchor": "T-V6-47",
+  "home": "V06",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 29,
+  "citations_installed": 29,
+  "by_unit_installed": {
+   "base": 18,
+   "V06": 11
+  }
+ },
+ {
+  "anchor": "T-V4-63",
+  "home": "V04",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 6,
+  "citations_installed": 6,
+  "by_unit_installed": {
+   "base": 4,
+   "V04": 2
+  }
+ },
+ {
+  "anchor": "T-V9-52",
+  "home": "V09",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 10,
+  "citations_installed": 10,
+  "by_unit_installed": {
+   "base": 4,
+   "V09": 6
+  }
+ },
+ {
+  "anchor": "V09 §4.20.6 (2)",
+  "home": "V09",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 6,
+  "citations_installed": 6,
+  "by_unit_installed": {
+   "base": 1,
+   "V09": 2,
+   "V10": 3
+  }
+ },
+ {
+  "anchor": "EVO_FORT (a registered epoch-phase id, V11 §3.1 row 60)",
+  "home": "V11",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 18,
+  "citations_installed": 20,
+  "by_unit_installed": {
+   "base": 1,
+   "V06": 10,
+   "V11": 9
+  }
+ },
+ {
+  "anchor": "J-V11.109",
+  "home": "V11",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 4,
+  "citations_installed": 5,
+  "by_unit_installed": {
+   "V11": 5
+  }
+ },
+ {
+  "anchor": "`structure.stripMarginM`",
+  "home": "base, V01, V06, V07, V11, V12",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 20,
+  "citations_installed": 22,
+  "by_unit_installed": {
+   "base": 5,
+   "V01": 1,
+   "V06": 4,
+   "V07": 3,
+   "V11": 9
+  }
+ },
+ {
+  "anchor": "`structure.span.deckDepthCm`",
+  "home": "base, V09, V11",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 6,
+  "citations_installed": 7,
+  "by_unit_installed": {
+   "base": 3,
+   "V09": 1,
+   "V11": 3
+  }
+ },
+ {
+  "anchor": "§2.7's support step (6)",
+  "home": "base",
+  "defined_untouched": true,
+  "defined_installed": true,
+  "citations_untouched": 9,
+  "citations_installed": 9,
+  "by_unit_installed": {
+   "base": 6,
+   "V01": 1,
+   "V06": 2
+  }
+ }
+]

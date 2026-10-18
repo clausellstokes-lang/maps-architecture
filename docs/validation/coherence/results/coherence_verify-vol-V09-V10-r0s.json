@@ -1,0 +1,174 @@
+{
+ "key": "coherence/verify-vol-V09-V10-r0s",
+ "file": "docs/validation/coherence/verify-vol-V09-V10-r0s.md",
+ "issues": [
+  {
+   "id": "VV910-01",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "File f item 348's §9.5 part (BCR-V9-16, applied as written: plus and minus step the declaration's size by (band max − band min) ÷ 8) is applied nowhere. Base §9.5 *Authoring surfaces* (l.13431) still reads the count badge's 'plus and minus that re-run the dry run at one more or one fewer'. V09 §4.5's T5 row (l.1729) steps `sizeM2` by (band max − band min) ÷ 8 citing item 348. V10 cites §9.5 through BCR-V10-12. The canon routed item 348 to determinism only, so §7.1 got its `sizeM2` part (l.9367) and §9.5 got none. The base and V09 now give two rules for one control.",
+   "required_change": "Base §9.5 *Authoring surfaces*: replace 'with plus and minus that re-run the dry run at one more or one fewer' with BCR-V9-16's text: 'with plus and minus that re-run the dry run at the next step of the declaration's size — a quarter's `sizeM2` by (its band's maximum − its minimum) ÷ 8, clamped into the band, from the median when unset; a fill's density dial by one step (V09 §4.5); a roster's badge has none (its size is its lines)' (file f item 348).",
+   "owner": "rendering"
+  },
+  {
+   "id": "VV910-02",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "claim": "V10 reads the calibration register from a file that never ships. V10 §1b.1 (l.254) reads 'each cell's calibration register entry from V12 §2.6's `register.json`'. §2.13's `RuleAnswer.register` (l.1018–1019) is `{ id; status; method; due }`, 'the cell's entry in V12 §2.6's plat/calibration/register.json'. V12 §2.10 (l.759–777) makes `dist/evidence.json` the one shipped copy that the clerk's `RuleAnswer` reads: it takes `entry`, `status` (with 'owner' for a stamped cell), `method` and `due`, and an absent or mismatched file shows the provenance source alone; `plat/calibration/` never ships. V09 §4.14 (l.344, l.2454) already reads `dist/evidence.json`. So the two readers of one record disagree, and V10 names a field (`id`) that the file does not have. V12's cross-part note 2 and the assembler's report flag the same.",
+   "required_change": "V10 §2.13: `register?: { entry: string; status: CalibrationEntry['status'] | 'owner'; method?: CalibrationEntry['method']; due?: string } /* the cell's row in V12 §2.10's dist/evidence.json, where one exists; an absent file or one of other table versions: the provenance source alone */`. V10 §1b.1 l.254: '… each cell's calibration record from V12 §2.10's `dist/evidence.json`'. Any 'details' text that names `id` names `entry`.",
+   "owner": "V10"
+  },
+  {
+   "id": "VV910-03",
+   "severity": "major",
+   "kind": "LOST",
+   "claim": "The history store's device defaults (256 MB on the desktop tier, 96 MB on the low-end tier; 8 frames kept in memory) are stated nowhere in the set.\n- Archive: V09 §5.12 stated them (inventory V09-0701, which the canon homes at V09 §5.12) and so did AppPrefs.history (V09-0151).\n- Live V09 replaced them: §2.11 (l.892) has 'their defaults and ranges are V06 §2.2's' and §5.12 (l.3592) points to V06 §2.2.\n- Live V06 §2.2 (l.570) and §6.5 (l.3585) point back to 'V09 §9', so the pointers form a loop.\n- V06 §6.5's '≈ 150 CITY or ≈ 60 METROPOLIS epochs' now rests on an unstated size.\nVV56-02 (blocker, owner V06) found the same loss but makes V06 §2.2 the home. The canon makes V09 the home: V09-0701 is a home at V09 §5.12, and V06-0100 is a reference to V09. The two fixes must agree on that one home.",
+   "required_change": "V09 §5.12's History line: 'History — history store memory (default 256 MB on the desktop tier, 96 MB on the low-end tier) and frames kept in memory (default 8); per-device, outside the recipe, the log and every digest (V06 §2.2 reads them)'. V09 §2.11 `AppPrefs.history`: `{ storeMB: number /* default 256 desktop, 96 low-end tier (V09 §5.12) */; frames: number /* default 8 */ }`, replacing 'their defaults and ranges are V06 §2.2's'. Resolve VV56-02 to the same home: V06 cites, V09 states.",
+   "owner": "V09"
+  },
+  {
+   "id": "VV910-04",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "V06 §2.2 (l.570) and §6.5 (l.3585) cite 'V09 §9' for the history store's device settings. V09 §9 is the decisions table. The settings are V09 §2.11 (`AppPrefs.history`) and §5.12 (the Settings dialog). V06 §6.5 (the home of V06-0319) also dropped its '256 MB desktop, 96 MB low-end' bound.",
+   "required_change": "V06 §2.2 and §6.5: cite 'V09 §5.12' (and V09 §2.11's `AppPrefs.history`) in place of 'V09 §9'. V06 §6.5 reads '≤ the device's setting (V09 §5.12: 256 MB desktop, 96 MB low-end)', the values V09 states under VV910-03.",
+   "owner": "V06"
+  },
+  {
+   "id": "VV910-05",
+   "severity": "major",
+   "kind": "WIRING",
+   "claim": "Item 119 (c)'s progress view reads a worker message the base never declares fully.\n- V09 §4.21.9 (3) (l.3256–3258) and V09 §1b's row (l.354) say stage progress 'reaches the shell from the generation worker as each stage starts (the worker host's messages, §1.7's worker boundary; §12's progress rule), never polled', for every one-time wait in §4.21.9 (1).\n- Base §11.2's `PlatApi` gives `generate` an `onProgress?: (p: Progress)` whose `Progress` type is declared nowhere (l.14265).\n- `advance` has its own `{ epoch; of }` (l.14287).\n- `open` (a migration, opening from SettlementForge), `regenerate`, `adjust` (Re-derive) and `export` have no progress option at all.\nThe hook is one-ended (V09's cross-part note 5). VRC0S-05 writes §12's progress rule but not this interface.",
+   "required_change": "Base §11.2: declare `type Progress = { stage: StageId; index: number; of: number } /* posted as each StageDecl starts */ | { wait: 'epoch'|'history'|'dossier'|'export'|'migrate'; done: number; of: number }`. Give `open`, `regenerate`, `adjust` and `export` the same `opts.onProgress?: (p: Progress) => void` that `generate` has. Make `advance`'s callback that `Progress` (`wait: 'epoch'`). §12's progress rule cites it.",
+   "owner": "rendering"
+  },
+  {
+   "id": "VV910-06",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "V09 places the worker boundary in base §1.7, which is the tech stack (§1.7 'Tech stack (reasons; …)'):\n- §1b's progress-view row (l.354): '§1.7's boundary';\n- §4.21.9 (3) (l.3257–3258): '§1.7's worker boundary'.\nThe worker boundary and its messages are §11.2 ('The embedding API and the worker boundary').",
+   "required_change": "V09 l.354 and l.3257–3258: replace '§1.7's boundary' and '§1.7's worker boundary' with '§11.2's worker boundary (`onProgress`)'.",
+   "owner": "V09"
+  },
+  {
+   "id": "VV910-07",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "claim": "E-04 makes §7.1's binding table the one home that V09 §4.3 cites and T-V9-12 checks pair by pair (V09-ICONF-2). Two homes disagree with V09 §4.3 and V06 §4.2:\n- (a) `setAttr` on `Enceinte.pathway` (a ring's fate: road, absorb or keep) is homed at T3 `wall` by V09 §4.3 (l.1620) and V06 §4.2 (l.3253). §7.1's T3 row (l.9752) does not name it, so the T9 catch-all ('every `setAttr` path no other row homes', l.9758) homes it at T9 `shape`.\n- (b) `setAttr` on `WaterBody.spring.flow` (§2.3, item 111) is homed at T2 `ground` by V09 §4.3 (l.1615) and V06 §4.2 (l.3258). §7.1's T2 row (l.9751) names only `geology`, a bank class and a site feature, and a spring is not a `SiteFeature` (§2.3: hill, spur, valley, terrace, cliff, ravine), so it too falls to T9.\nThe other two mismatches in the same table, `wearWall` and `rerollLayer('forest')`, are already raised (VDC0-04; VDC0-15, VV78-13).",
+   "required_change": "Base §7.1's binding table: the T3 `wall` row adds '`setAttr` on `Enceinte.pathway`', and the T2 `ground` row adds '`setAttr` on `WaterBody.spring.flow`', so each has one home, matching V09 §4.3 and V06 §4.2.",
+   "owner": "determinism"
+  },
+  {
+   "id": "VV910-08",
+   "severity": "minor",
+   "kind": "WIRING",
+   "claim": "V05's island bends under J-VI.4 have no catalogue rows beyond the two VV56-24 already names (`bend.island.handMax`, `bend.island.belowCity`):\n- (a) 'At most three islands float here; this quarter joins {island}' (V05 l.708);\n- (c) 'An island keeps one way up; moved to {site}' with the alternative 'Place a different access' (V05 l.1924–1925);\n- (b) an access foot moved off a standing raised part 'naming the deck or raised-way pier in the way', and an access kind bent to the nearest admitted kind (V05 l.1931–1933).\nV09 §4.9 has only `bend.island.keepRoom` and `bend.island.rimStop` (l.2039–2040). T-V9-13 (l.3812) lists `bend.island.*` among J-VI.4's bends whose rows must render, and T-V9-15 needs a row for each, so both bars fail on these.",
+   "required_change": "V09 §4.9 adds four `bend.island.*` rows, each 'its text, single source, from volume 5' (V05 §3.23, V05 §4.2; J-VI.4):\n- `bend.island.join`: 'At most three islands float here; this quarter joins {island}.'\n- `bend.island.lastAccess`: 'An island keeps one way up; moved to {site}.', with the alternative `button.placeOtherAccess` 'Place a different access'.\n- `bend.island.footMoved`: 'The way up lands clear of {pier}.'\n- `bend.island.accessKind`: 'This way up can only be a {kind} here.'\nThe last two are worded here, since V05 names these bends but quotes no line. T-V9-13's list covers all four.",
+   "owner": "V09"
+  },
+  {
+   "id": "VV910-09",
+   "severity": "minor",
+   "kind": "WIRING",
+   "claim": "V10 §3.16 (l.2228–2229) names V05's island lines as two keys, '(`bend.island.keepRoom`, `bend.island.rimStop`, V05 §4.2)'. V05's cross-part note 10 (V05-WGAP-2b) and J-VI.4 carry every island bend into the clerk's `bend` category. The hand cap, the rung bend and the J-VI.4 (a)–(c) lines are missing from V10's list.",
+   "required_change": "V10 §3.16: replace the two keys with the family, 'V05's island lines (every `bend.island.*` row of V09 §4.9; V05 §4.2, V05 §3.23)', so the list follows V09's rows (VV56-24, VV910-08).",
+   "owner": "V10"
+  },
+  {
+   "id": "VV910-10",
+   "severity": "minor",
+   "kind": "WIRING",
+   "claim": "V09 §3.9 (l.1270–1271) now shows the undo, restore and go-back wait through 'the progress view (V09 §4.21.9) counting the events undone of the total' past `progress.showAfterMs`. But §4.21.9 (1) (l.3241–3244) does not list that wait among the one-time waits. §4.9's `progress.<wait>` row (l.2065) has only `epoch`, `history`, `dossier`, `export` and `migrate`. The wait has no line text, and T-V9-15 and T-V9-79 do not cover it.",
+   "required_change": "V09 §4.21.9 (1) adds 'Go back to here and a restore jump past `progress.showAfterMs`'. §4.9's `progress.<wait>` row adds `undo` 'Going back: {n} of {total} changes'. V09 §3.9 cites `progress.undo`.",
+   "owner": "V09"
+  },
+  {
+   "id": "VV910-11",
+   "severity": "minor",
+   "kind": "WIRING",
+   "claim": "V06 §3.20.4 (l.3072–3073): cancelling a history-first generation leaves no document, and its dialog offers 'Generate without its history' (the one-click path with `history.replay` false). V09 has neither the control nor its words:\n- §4.21.9 (2) (l.3251–3252) offers **Stop** only 'where the wait can stop (V06's advance; an export)', although the history replay is one of its waits;\n- no catalogue row or button carries 'Generate without its history'.\nThe hook is one-ended.",
+   "required_change": "V09 §4.21.9 (2): **Stop** also on item 113's history replay. V09 §4.9 adds a row `info.history.cancelled` 'No town was made.' with `button.generateWithoutHistory` 'Generate without its history', which commits the one-click path with `history.replay` false (V06 §3.20.4).",
+   "owner": "V09"
+  },
+  {
+   "id": "VV910-12",
+   "severity": "minor",
+   "kind": "WIRING",
+   "claim": "Base §7.1 *Empty edits* (l.9611) says an empty edit's 'dry run reports it empty with the reason (V09 §4.9)'. The determinism rewrite's note to V09 asked for 'a message row for an empty edit (\"nothing to apply\")', and VRC0S-29's carrier `PreviewResult.empty` points to V09 §4.9's `edge.*` rows. V09 §4.9's `edge.<case>` row (l.2066) has no case for an empty edit. The base's citation has nothing to land on.",
+   "required_change": "V09 §4.9's `edge.<case>` row adds `nothingToApply` 'Nothing to change: {reason}.' with the reasons of §7.1's empty forms (no strokes; too short a stroke or a zero-area ring; a query matching nothing; no lines; no quarters; no face in scope; no alternative; every cell kept by locked ground). V09 §3.16 names the outcome.",
+   "owner": "V09"
+  },
+  {
+   "id": "VV910-13",
+   "severity": "minor",
+   "kind": "WIRING",
+   "claim": "V09 §4.21.9 (3)'s stage groups (l.3254–3256) end at `drawing` (S14 and the tiles of the first map). They leave out base S15 Simulation (optional module, §4.10). By §4.21.9 (2)'s rule 'a volume's stage taking the group of the base stage before it', the tail stages (`phase: 'tail'`, V04's underground layer, which runs after the first map, §4.1) would take S15's missing group, or S14's 'Drawing the map', which misnames them. So T-V9-79's 'every registered `StageDecl` resolves to a group row' (l.3878) fails, or passes only with a wrong line.",
+   "required_change": "V09 §4.21.9 (3) and §4.9's `progress.stage.<group>` row add:\n- `people` S15 'Settling the people' (when the module is on);\n- `below` for every `phase: 'tail'` stage, 'Digging the underground'.\nThe inheritance rule reads 'a volume's main-phase stage takes the group of the base stage before it'.",
+   "owner": "V09"
+  },
+  {
+   "id": "VV910-14",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "V09 §3.16 row 22 (l.1466) makes 'a kind with two home tools; a kind with none' a CI failure of T-V9-12. Canon V09-ICONF-2 rules that the unit of the binding is one home tool per (event kind, target class or path). `split`, `merge`, `delete`, `setAttr` and `instance` legitimately have several home tools by target (§7.1, V09 §4.3), so the row as written fails the binding it checks.",
+   "required_change": "V09 §3.16 row 22: 'a (kind, target class or path) pair with two home tools; a pair with none'.",
+   "owner": "V09"
+  },
+  {
+   "id": "VV910-15",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "V09 §4.9's opening (l.1850–1852) says 'each `bend.*` and `refuse.*` row is the message key of one row of §7.1's dry-run outcome table … and T-V9-15 checks the two sets one to one'. Its own refusal rows include eight with no row in §7.1's outcome table (l.9663–9705): `refuse.viewer`, `refuse.layer`, `refuse.islandsRung`, `refuse.phone`, `refuse.exportTier`, `refuse.restore.dossier`, `refuse.stale` and the `refuse.clerk.<category>` family. The same paragraph calls the viewer role, the staged layer, the rung and the screen 'availability gates, not bends'. As written, the one-to-one check fails. `refuse.stale`'s missing §7.1 row is VDC0-36.",
+   "required_change": "V09 §4.9: 'each `bend.*` row, and each `refuse.*` row of a dry-run cause, is the message key of one row of §7.1's outcome table … one to one; the gate rows (`refuse.viewer`, `.layer`, `.islandsRung`, `.phone`, `.exportTier`, `.restore.dossier`) and the clerk's `refuse.clerk.<category>` family are outside that table, each checked against its producer (§11.2's roles, V05, V09 §4.12, V09 §5.10, V08, V10 §3.16)'. T-V9-15's wording follows.",
+   "owner": "V09"
+  },
+  {
+   "id": "VV910-16",
+   "severity": "minor",
+   "kind": "LOST",
+   "claim": "V09 §1.1 (9) (l.162), the list of volume 10's screens that this volume builds, dropped the archive's 'key entry'. §2.10 (l.836, l.874) and §4.11 still design the own-key card where a configuration enables the built-in clerk (V09-J121-4), and `enterKey` is a catalogue row (l.2144). The scope list no longer names a screen the volume builds.",
+   "required_change": "V09 §1.1 (9): '… volume 10's drawer view model, the own-key card where a configuration enables the built-in clerk (V09 §4.11; J121), data notice, …'.",
+   "owner": "V09"
+  },
+  {
+   "id": "VV910-17",
+   "severity": "minor",
+   "kind": "TERM",
+   "claim": "V10 §3.5 step 3 (l.1499) gives **Change the stairs** as an example `subject` button. J-V9.136 (V09 l.4286) retired `button.changeStairs` with the massing bend set in favour of V02 §1b's ids, and no catalogue row carries the label.",
+   "required_change": "V10 §3.5 step 3: drop **Change the stairs** from the example list, leaving '(**Show a different name**, **Change the building's shape**)'.",
+   "owner": "V10"
+  },
+  {
+   "id": "VV910-18",
+   "severity": "minor",
+   "kind": "TERM",
+   "claim": "V09 calls item 119's ten seconds 'the ten-second ceiling' (l.200, 258, 3243, 3661, 3693, 3878). The owner's rule (g item 119 (a), revised 2026-09-30: 'note where our comfort levels really are'), the canon's §12 routing and the sibling volumes (V11 l.4377, l.4576; V12 l.2210, l.2425–2430) name it the comfort level, with §12's laws staying the targets. One concept carries two terms (principles (2), (10)). 'Ceiling' also reads as a target, which the revised rule ended.",
+   "required_change": "V09: replace 'ten-second ceiling' with 'ten-second comfort level' at each of the six places (l.200: 'the ten-second comfort level of a one-time wait, §12's laws staying the targets, and its progress rule (item 119)').",
+   "owner": "V09"
+  },
+  {
+   "id": "VV910-19",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "Two ambiguous-form references from assemble-r0's list read wrongly under S7 (a bare §x is the base's):\n- l.1438, '**(a) Data, state and flows (V09 §2, §3)**': V09 §3 (the runtime flows) is meant; base §3 is the kernel.\n- l.2157, '(V08 §13 X12: §4.2's controls and undo words, §5.1's strips and banner rows, …)': V08 §4.2 (the host-side actions) and V08 §5.1 (the Map tab) are meant; base §4.2 is S0–S3 and base §5.1 the failure tiers.\nThe other seven V09/V10 entries in the list (V09 l.302, 3831, 4190, 4246 ×3; V10 l.1824, 2568, 2593) read correctly as the base.",
+   "required_change": "V09 l.1438: '(V09 §2, V09 §3)'. V09 l.2157: '(V08 §13 X12: V08 §4.2's controls and undo words, V08 §5.1's strips and banner rows, …)'.",
+   "owner": "V09"
+  },
+  {
+   "id": "VV910-20",
+   "severity": "minor",
+   "kind": "ID",
+   "claim": "Canon ID-TOOL (DIC-06): a bare T1–T12 is written with its tool word at first use in a paragraph or table row (T8 `fill`). V09 keeps about 344 first uses without the word, the same count as the archive (344), so the ruling was not applied to this unit. Examples:\n- l.130: 'T3's **Retaining wall** mode and T2's **Terrace** mode … T4's **Raised** toggle … T6 on deck faces … T9's tier controls';\n- l.207: 'V01's parameters on T1, T6, T8 and T12';\n- the wiring table's '(4.5 T6)', '(4.5 T5)' and '(3.7, 4.5 T12)' (l.286, 287, 301).",
+   "required_change": "V09: at the first use of each T1–T12 in every paragraph and table row, add its tool word: T1 `intend`, T2 `ground`, T3 `wall`, T4 `road`, T5 `quarter`, T6 `place`, T7 `roster`, T8 `fill`, T9 `shape`, T10 `hold`, T11 `name`, T12 `dress` (e.g. 'T3 `wall`'s **Retaining wall** mode'; '(V09 §4.5's T6 `place` row)'). Run the paragraph-and-row scan again: zero bare first uses.",
+   "owner": "V09"
+  },
+  {
+   "id": "VV910-21",
+   "severity": "minor",
+   "kind": "ID",
+   "claim": "Canon ID-TOOL (DIC-06; units V09 and V10) is applied only in part in V10: about 74 first uses in a paragraph or row still lack the tool word (96 in the archive). Examples:\n- l.251: 'V09's T6 alternatives';\n- l.259: 'the T11 `newNames` town form and the T12 `restyle` encoders' (encoder names, not tool words);\n- l.284: 'the canvas's T8 tray';\n- l.320: 'T9's row gains …', 'T10's row gains …', 'reach T2, T3, T4 and T9'.",
+   "required_change": "V10: at the first use of each T1–T12 in every paragraph and table row, add its tool word (T6 `place`, T8 `fill`, T9 `shape`, T10 `hold`, T11 `name`, T12 `dress`, …). Run the paragraph-and-row scan again: zero bare first uses, l.5's statement of the rule aside.",
+   "owner": "V10"
+  }
+ ]
+}

@@ -1,0 +1,289 @@
+[
+ {
+  "id": "VAF-R0S-13",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "Persists at V11. V02 removed `deck.fallbackM2` / `deck.fallbackFloors` and states \"No deck plot without a `deck` row \u2026 V02 keeps no stand-in\" (V02 \u00a73.16 (3), l.2319\u20132321), but V11 \u00a73.24.4 still says \"The footprints bracket V02's stopgap band ([20, 60] m\u00b2)\" (l.3977\u20133978) and V11 \u00a710b keeps X-V11-7, \"`deck.fallbackM2` and `deck.fallbackFloors` are read only while the `deck` table is unregistered\" (l.5037) \u2014 V02's repair handed V11 the removal (= VV12-r1-07).",
+  "required_change": "V11 \u00a73.24.4 (l.3977\u20133978): delete the sentence \"The footprints bracket V02's stopgap band ([20, 60] m\u00b2), and V02's T-V2-47 reads whichever row is loaded.\" (with no stand-in there is no other row; T-V2-47 reads the `deck` row); V11 \u00a710b: delete the X-V11-7 row.",
+  "owner": "V11",
+  "reported_by": "verify-agree-fabric-r1t"
+ },
+ {
+  "id": "VAF-R0S-20",
+  "severity": "major",
+  "kind": "HANDOFF-OPEN",
+  "claim": "Persists at V11. \u00a74.5 (l.5879\u20135883) now states the discrete-cell rule once \u2014 a discrete cell at a band without a row reads the nearest rowed band below, `squalid` the poor cell and `comfortable` the modest cell \u2014 naming \"V11 \u00a73.6.1\" among its readers; pipeline's repair handed V11 the citation. V11 \u00a73.6.1 (l.1910\u20131912) still reads \"`squalid` reads the poor row, `comfortable` the interpolation), continuous columns interpolated along the value, discrete columns switching at the cut (\u00a74.7 S11)\", and V11 \u00a72.1's `ColumnSpec.interp` (l.256) \"step: switches at the cut\" \u2014 neither says which value a compiled `comfortable` row's discrete column takes.",
+  "required_change": "V11 \u00a73.6.1: \"(\u00a74.5's four-row tables: continuous columns interpolated along the value \u2014 `comfortable` the interpolation of modest and prosperous \u2014, discrete columns read by \u00a74.5's discrete-cell rule: `squalid` the poor row's, `comfortable` the modest row's)\"; V11 \u00a72.1 l.256: \"step: read by \u00a74.5's discrete-cell rule (a band without a row reads the nearest rowed band below)\".",
+  "owner": "V11",
+  "reported_by": "verify-agree-fabric-r1t"
+ },
+ {
+  "id": "VAF-R0S-23",
+  "severity": "major",
+  "kind": "HANDOFF-OPEN",
+  "claim": "Persists at V11. \u00a710.2's *Relation templates* paragraph no longer restates V11's rows (l.14428\u201314431, \"the rows and their values are V11 \u00a73.5's, by class\"), but V11 \u00a73.5's class rows still annotate their placement cells \"(\u00a710.2's example)\" or \"(\u00a710.2's example as file f item 440 rewrites it)\" \u2014 at `bakery` l.1460, `brewery` l.1466, `maltings` l.1467, `watermill` l.1469, `tannery` l.1487, `market_hall` l.1524, `warehouse` l.1528, `inn` l.1539 \u2014 pointing at text \u00a710.2 no longer holds (pipeline's hand-off to V11 not applied; = VPC-R1-14).",
+  "required_change": "Delete \"(\u00a710.2's example)\" from those rows, and \"(\u00a710.2's example as file f item 440 rewrites it)\" down to \"(file f item 440)\" where that is the row's provenance.",
+  "owner": "V11",
+  "reported_by": "verify-agree-fabric-r1t"
+ },
+ {
+  "id": "VAF-R1T-02",
+  "severity": "major",
+  "kind": "MATRIX-GAP",
+  "claim": "The matrix rules `ClimateTable` / `ClimateRow` agreeing (pairs pipeline\u2013V11, V02\u2013V11); one field disagrees and has no authored value. \u00a74.9 (l.7504\u20137506, l.7587) types the climate row's farm-mode override `farmLayout: 'rows'|'perimeter'|'rivers'` \u2014 the arid row `rivers`, the cold row `perimeter` (FTG's Desert and Polar presets), a temperate row's `rows` leaving the rung \u00d7 landscape choice \u2014 and S12a's farm-mode choice reads it. V11 \u00a72.8 declares `farmLayout: string /* a \u00a74.9 farm-mode override key or 'none' */` (l.565: a different \"no override\" value, `'none'`, and `rows` is no farm mode of \u00a74.9's `FarmModeRow.mode` `'fill'|'perimeter'|'rivers'`), and V11 \u00a73.17.1's climate table \u2014 the rows' home \u2014 has no `farmLayout` column at all (l.3358\u20133365), so the arid and cold overrides \u00a74.9 states are held by no cell. Verdict: disagree (pipeline's repair recorded it as observed, not routed).",
+  "required_change": "V11 \u00a72.8: `farmLayout: 'rows'|'perimeter'|'rivers' /* \u00a74.9: the farm modes' climate override; 'rows' leaves the rung \u00d7 landscape choice */`; V11 \u00a73.17.1's table gains the column `farm layout` \u2014 `temperate-deciduous`, `temperate-coniferous`, `mixed`, `maritime` `rows`; `arid` `rivers`; `cold` `perimeter` (`ref:FTG Desert and Polar presets`; not calibratable, an enumeration) \u2014 and registry row 43's readers name S12a's farm modes (\u00a74.9).",
+  "owner": "V11",
+  "reported_by": "verify-agree-fabric-r1t"
+ },
+ {
+  "id": "VAF-R1T-06",
+  "severity": "major",
+  "kind": "HANDOFF-OPEN",
+  "claim": "Pipeline's repair handed V11 \"row 24's shape now \u00a710.2's `RosterSettings`; row 91's owner stays 'base'\". V11 \u00a73.1 row 24's row-type column (l.905) still lists the seven cells (\"one row: `rosterMode`, \u2026, `coverage.rosterWeight`\") where every other row names its type, and row 91's row-type column (l.973) still reads \"`SquareQuotaRow` (V01 \u00a72.2: `band`, `haPer1000`, the `kind` factors; key `band`)\", homing the shape at V01 \u00a72.2 though \u00a710.2 declares it (l.14378; VAF-R0S-15).",
+  "required_change": "Row 24's row type: \"`RosterSettings` (\u00a710.2; its one row `settings`, cells V11 \u00a73.5.1)\"; row 91's row type: \"`SquareQuotaRow` (\u00a710.2; key `band`)\".",
+  "owner": "V11",
+  "reported_by": "verify-agree-fabric-r1t"
+ },
+ {
+  "id": "G122-V11",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "claim": "Item 122 routes \"V11: the look, symbol, scale and placement tables\". V11 has none (\"item 122\" 0 times; no registry row).",
+  "required_change": "V11 writes the crisis look rows (one per stressor type and archetype, the closed mapping), their symbols, scale by severity and tier, placement and priority cells and the density cap, with a registry row, lifecycle row and compile test.",
+  "owner": "V11",
+  "reported_by": "verify-agree-fabric-r1t, verify-agree-host-r1t, verify-edges-life-r1t, verify-vol-V11-V12-r1t",
+  "also_reported": [
+   {
+    "by": "verify-agree-host-r1t",
+    "claim": "Item 122's V11 part (the look, symbol, scale and placement tables; canon dated ruling) is absent. V11 has no crisis look table, symbol rows, scale by severity and tier or placement priorities.",
+    "required_change": "V11 writes its part of item 122 \u2014 the look, symbol, scale and placement tables \u2014 as registry rows with their row types, values and provenance, lifecycle rows (V11 \u00a72.10), T-V11 bars and its C9 slot.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-edges-life-r1t",
+    "claim": "Item 122 assigns V11 'the look, symbol, scale and placement tables'. V11 has no item-122 part: 'item 122' appears 0 times, and \u00a73.25 covers items 111 and 113\u2013119.",
+    "required_change": "V11 \u00a73.25 gains the crisis tables, with \u00a72.8d row types and \u00a73.1 catalogue entries. (a) The look per archetype: siege, migration, plague, famine, beast, raiders, disaster, occupation, rebellion, boom and bust, with the regional_* pressures as 'no look'. (b) Symbols per style family. (c) Scale by severity and tier. (d) Placement rules and priorities: siege camp, then quarantine camp, then refugees; never on water, a gate's passage or a keep-out. (e) The density cap. Every enumeration column is `calibratable: false`. A \u00a73.26 edge row covers an unknown archetype and a scale at severity 0 and 1, and T-V11 gets a clause.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-vol-V11-V12-r1t",
+    "claim": "The ruling names V11 for item 122: \"the look, symbol, scale and placement tables\". V11 has no part (\"item 122\" 0 times; no crisis registry row, row type, value, lifecycle row or test).",
+    "required_change": "V11 writes item 122's tables at build depth as new design (an addition; \u00a710.2's table shape is the pipeline's, G122-pipeline): registry rows and \u00a72.8d row types for the crisis look rows \u2014 (1) the closed mapping's look kind per SettlementForge stressor type and condition archetype, or an explicit \"no look\" (item 122 (b): siege, mass immigration, disease, famine, beast attack, raiders, disaster with its fire, flood and earthquake patterns, occupation, rebellion, boom, bust; the `regional_*` pressures none), keyed as V08's closed mapping keys them; (2) the symbol rows \u2014 what each look draws (camps, trenches and earthworks, engines, burned farmsteads, blockade camps, tents and carts, the quarantine fence, huts, pest-house and grave rows, marked doors and cordon, bare fields, empty pens and shuttered stalls, torn palisade and watch-fires, barricades, banners, scaffolding) with \u00a78.2's role keys, never colours; (3) the scale rows by severity and tier (a hamlet a war band's camp, a city a full siege line); (4) the placement rows (the siege camps \u2248 300 m beyond the walls, the refugee camp on common or fallow land by a gate's approach road, the quarantine camp outside the town, the outskirts' priority siege \u2192 quarantine \u2192 refugees, the density cap, never on water, a gate's passage or a keep-out) \u2014 `own`, their numeric cells calibratable with ranges and register lines, the enumerations `calibratable: false`, each read by the renderer only (a look: no model StageId reader), with \u00a72.10's lifecycle rows, \u00a73.1's catalogue rows, the totality check (every type and archetype of V08's mapping has its row) in T-V11's compile bars, \u00a73.26's edge rows and a J-V11 row.",
+    "severity": "major"
+   }
+  ]
+ },
+ {
+  "id": "G122h-V11",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "claim": "Item 122 (h)\u2013(i) routes \"V11: the rates\". V11 has none.",
+  "required_change": "V11 writes the rates' cells (area per head, engine rate, the ring's massed-mark threshold) with ranges, provenance and register entries.",
+  "owner": "V11",
+  "reported_by": "verify-agree-fabric-r1t, verify-agree-host-r1t, verify-edges-life-r1t, verify-vol-V11-V12-r1t",
+  "also_reported": [
+   {
+    "by": "verify-agree-host-r1t",
+    "claim": "Item 122 (h)\u2013(i)'s V11 part (the rates (45 m\u00b2 a head; one engine per 1 500 besiegers; the coalition's spread); canon dated ruling) is absent. V11 holds none of item 122 (h)'s rates.",
+    "required_change": "V11 writes its part of item 122 (h)\u2013(i) \u2014 the rates (45 m\u00b2 a head; one engine per 1 500 besiegers; the coalition's spread) \u2014 as registry rows with their row types, values and provenance, lifecycle rows (V11 \u00a72.10), T-V11 bars and its C9 slot.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-edges-life-r1t",
+    "claim": "Item 122 (h)\u2013(i) assigns V11 'the rates'. V11 has no such row: 'item 122' appears 0 times.",
+    "required_change": "V11's crisis tables (G122-V11) gain the rates, each calibratable with its register entry: (a) camp area 45 m\u00b2 a head, for armies and travelling groups alike; (b) one siege engine per 1 500 besiegers, capped by the gates and wall stretches it can face; (c) the coalition's spread round the town, each army its own camp and colours. A \u00a73.26 edge row covers a headcount of 0 and a rate cell at its range ends.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-vol-V11-V12-r1t",
+    "claim": "The ruling \"File g item 122 (h)\u2013(i) and item 125 routed\" names V11 for item 122 (h)\u2013(i): \"the rates\". V11 has none.",
+    "required_change": "V11 writes item 122 (h)'s rates as calibratable cells of the crisis look rows (new design, beside G122-V11's tables): the camped area per head, 45 m\u00b2 (a force's or a travelling group's camp sized by its headcount, each army its own camp), the siege-engine rate, one per 1 500 besiegers (capped by the gates and wall stretches the engines can face), and the coalition's spread round the town (each army's own camp and colours, the ring fuller as the coalition grows) \u2014 each `own`, with its range, provenance (\"general historical knowledge, not corpus-witnessed\": Roman marching camps and present-day refugee-camp standards near 30\u201345 m\u00b2 a head), its register line, its lifecycle row and its compile check, and the fallback when the dossier gives no size (item 122 (b)'s scale by severity and tier, the condition's own counts where it has them).",
+    "severity": "major"
+   }
+  ]
+ },
+ {
+  "id": "G123-V11",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "claim": "Item 123 routes \"V11: the thresholds' tables by material and element kind\". V11 has none.",
+  "required_change": "V11 writes the damage-threshold rows by material and element kind (timber faster than stone), with a registry row, ranges and register entries.",
+  "owner": "V11",
+  "reported_by": "verify-agree-fabric-r1t, verify-agree-host-r1t, verify-edges-life-r1t, verify-vol-V11-V12-r1t",
+  "also_reported": [
+   {
+    "by": "verify-agree-host-r1t",
+    "claim": "Item 123's V11 part (the thresholds' tables by material and element kind; canon dated ruling) is absent. V11 has no damage threshold or decay-rate rows by material and element kind (timber rotting faster than stone, item 123 (b)).",
+    "required_change": "V11 writes its part of item 123 \u2014 the thresholds' tables by material and element kind \u2014 as registry rows with their row types, values and provenance, lifecycle rows (V11 \u00a72.10), T-V11 bars and its C9 slot.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-edges-life-r1t",
+    "claim": "Item 123 assigns V11 'the thresholds' tables by material and element kind'. V11 has no item-123 part: 'item 123' appears 0 times.",
+    "required_change": "V11 gains the damage tables, with \u00a72.8d row types, \u00a73.1 entries and a \u00a73.25 subsection. (a) Per material, the decay rate per year (timber faster than stone). (b) Per element kind (wall run, floor area, door, window, stair, roof bay, furniture), the share of the threshold range it occupies, so partitions fall before outer walls and upper floors before ground floors (item 123 (c)). (c) Cellars and crypts by their own rows. A \u00a73.26 edge row covers a material with no row (the default row) and a rate of 0. T-V11 gets a clause.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-vol-V11-V12-r1t",
+    "claim": "The ruling names V11 for item 123: \"the thresholds' tables by material and element kind\". V11 has none.",
+    "required_change": "V11 writes item 123's tables at build depth as new design: the decay-level rates by material (timber rotting faster than stone; item 123 (b)), which V06's decay level reads with the existence state and the years since abandonment, and the threshold rows by plan element kind (wall run, floor area, door, window, stair, roof bay over a room, furniture piece; cellars and crypts by their own rows, V04) that map each element's one keyed draw (\u00a76.3) to the decay level at which it breaks \u2014 `own`, calibratable with ranges and register lines, with \u00a72.10's lifecycle rows (a table edit never re-derives a plan, only re-reads the levels), \u00a73.1's catalogue rows, compile bars (monotone, every element kind covered) and \u00a73.26's edge rows (decay level 0 and 1; a material with no row).",
+    "severity": "major"
+   }
+  ]
+ },
+ {
+  "id": "G124-V11",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "claim": "Item 124 routes \"V11: the climate row's weather columns per week band and the two hard rules\". `ClimateRow` (V11 \u00a72.8 l.562\u2013567) has no weather columns.",
+  "required_change": "V11 adds the climate row's weather columns per band of weeks (each kind's frequency and duration) with item 124 (c)'s defaults, and the two hard rules (no falling or lying snow where winter does not freeze; arid rain rare) as compile bars.",
+  "owner": "V11",
+  "reported_by": "verify-agree-fabric-r1t, verify-agree-host-r1t, verify-edges-life-r1t, verify-vol-V11-V12-r1t",
+  "also_reported": [
+   {
+    "by": "verify-agree-host-r1t",
+    "claim": "Item 124's V11 part (the climate row's weather columns per week band and the two hard rules; canon dated ruling) is absent. V11's climate rows carry no weather columns, and the two hard rules (no snow where winter does not freeze; rain rare in arid country) are not stated.",
+    "required_change": "V11 writes its part of item 124 \u2014 the climate row's weather columns per week band and the two hard rules \u2014 as registry rows with their row types, values and provenance, lifecycle rows (V11 \u00a72.10), T-V11 bars and its C9 slot.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-edges-life-r1t",
+    "claim": "Item 124 assigns V11 'the climate row's weather columns per week band and the two hard rules'. V11 has no item-124 part: 'item 124' appears 0 times, and the climate rows of item 117 carry season columns only.",
+    "required_change": "V11's climate rows gain weather columns per week band: each effect kind's frequency and duration (rain, drizzle, snow, mist, fog, leaves, cloud shadows, heat shimmer, dust haze), with item 124 (c)'s defaults per climate. The compiler enforces the two hard rules: no snow, falling or lying, in a row whose winter does not freeze, and in arid country rain rare, with none in its dry months. A \u00a73.26 edge row covers a band with no column (no effect) and a row violating a hard rule (refused at compile). T-V11 gets a clause.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-vol-V11-V12-r1t",
+    "claim": "The ruling \"File g item 124 routed\" names V11: \"the climate row's weather columns per week band and the two hard rules\". V11's climate rows carry no weather columns (\"item 124\" 0 times).",
+    "required_change": "V11 writes item 124 (c)'s columns at build depth as new design: on every climate row, per band of weeks, each effect kind's frequency and spell length (light rain, drizzle, falling snow, drifting mist, fog, wind-blown leaves, cloud shadows, heat shimmer, dust haze), with item 124 (c)'s defaults by region (desert and arid, coastal, riverside and lowland, temperate plains, hills and mountains, forest, cold) and the gradual turn of the weeks, and item 124 (d)'s fog (cool mornings, autumn, low ground by water, burning off through the day); the two hard rules as compile checks \u2014 no snow, falling or lying, on a row whose winter does not freeze; arid rain rare (brief showers in its short wet weeks, none in its dry months); a view-only table (no model StageId reader), `own`, calibratable, with lifecycle, catalogue, register and edge rows.",
+    "severity": "major"
+   }
+  ]
+ },
+ {
+  "id": "VAH-r1-07",
+  "severity": "minor",
+  "kind": "DUPLICATE-HOME",
+  "claim": "The meaning of an absent family in `familyWeights` is stated only by V09. Round 0's VAH-22, as applied, makes V11 \u00a74.2 the home of the cell's 'values and meaning' and V09 \u00a72.6 the home of its words. V09 \u00a72.6 (l.582) still states a value fact: 'a family the cell does not hold reads Normal \u2014 a multiplier of 1'. V09's repair kept it because V11 \u00a74.2 does not state it (repair-r1-V09.md, last note). V11 \u00a74.2's comment (l.4561-4562) says only '\u00d7 that family's soft terms \u2026; hard needs unscaled'. V10 \u00a72.12 writes the same cell.",
+  "required_change": "V11 \u00a74.2's `familyWeights` comment adds 'a family the cell does not hold multiplies by 1'. V09 \u00a72.6 then reads '\u2026 and a family the cell does not hold reads Normal (V11 \u00a74.2)', with no value of its own.",
+  "owner": "V11",
+  "reported_by": "verify-agree-host-r1t"
+ },
+ {
+  "id": "VAH-r1-10",
+  "severity": "minor",
+  "kind": "BROKEN-REFERENCE",
+  "claim": "A shared type cited at a home it left this round. Repair r1 moved the reader's and the oracle's types \u2014 `MapBrief`, `EntityCard`, `SiteCandidate`, `MeasureAnswer`, `FrameAnswer`, `RuleAnswer`, `ProfileAnswer`, `WhyAnswer`, `WhySection`, `WhyCause`, `WhyFamily`, `WhyPull`, `WhyLink`, `FieldDrivers` \u2014 from V10 \u00a72.13 to base \u00a711.2 (rendering's VAT-03, V10's VAT-04). V10 \u00a72.13 now opens 'The reader's and the oracle's types are \u00a711.2's' and keeps only `WhyProvider`, `WhySectionProvider`, the solver's explanation, `raisedOutcome`, `LookAnswer` and `FindAnswer`. This unit still names V10 as the home of moved types at: V11 W44 (l.190: 'V10's `WhyPull.row` and `FieldDrivers`') and l.476 ('which V10's `FieldDrivers` and the \"why is this quarter poor\" answer cite'). The chain resolves only through V10's pointer, and the text names the wrong owner of a shared type (principle (1)).",
+  "required_change": "V11 l.190 and l.476 read '\u00a711.2's `WhyPull.row` and `FieldDrivers`' and '\u00a711.2's `FieldDrivers`'.",
+  "owner": "V11",
+  "reported_by": "verify-agree-host-r1t"
+ },
+ {
+  "id": "VAH-r1-19",
+  "severity": "minor",
+  "kind": "BROKEN-REFERENCE",
+  "claim": "Derivation rows cited by names \u00a77.7 does not carry. This round numbered the item-117 and item-118 derivation rows DR42 and DR43 (base l.11625-11626; aliases 'the item-117 row' and 'the item-118 row'). V08 cites them by number everywhere (J-VI.13's rule for the port's rows). \u00a77.7 has no 'calendar row' or 'traditions row'. 'The calendar row' is \u00a74.11's season table (\u00a74.11 *The clock* (3)), and `traditions` is V08's digest field. This unit still cites them by the old names at: V11 W84 (l.230: '\u00a77.7's calendar \u2026') and W85 (l.231: '\u00a77.7's `traditions` row').",
+  "required_change": "V11 W84 and W85 cite '\u00a77.7's DR42' and '\u00a77.7's DR43'.",
+  "owner": "V11",
+  "reported_by": "verify-agree-host-r1t"
+ },
+ {
+  "id": "VAH-r1-21",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "V11's dossier trace for item 118 names a field the port never reads. V11 W85 (l.231), the wiring row of the festival tables, has a 'dossier field and derivation row' cell that reads '`traditions[]` (window, staging, kind by V08's `festivals` row set), `culturalIdentity`, deities'. V08 \u00a72.4's field table puts `culturalIdentity` on an `ignored` row ('prose beyond a description seed (\u00a77.7 item 1)', l.656). V08 \u00a73.16 (5) says the decorations take 'their colours and motifs from `site.culture` (the culture's key, never the `culturalIdentity` prose)'. DR43 reads `site.culture` and the deity (base l.11626). The trace therefore names an input that the closed digest forbids (principle (7): every derived map fact traces to its dossier inputs).",
+  "required_change": "V11 W85's dossier cell: '`traditions[]` (window, staging, kind by V08's `festivals` row set) and `customContentRoster.traditions`; `site.culture` (from `config.cultureProfileKey`, V08 \u00a72.4) and the deity \u2014 \u00a77.7's DR43'.",
+  "owner": "V11",
+  "reported_by": "verify-agree-host-r1t"
+ },
+ {
+  "id": "VAP-r1-05",
+  "severity": "major",
+  "kind": "HANDOFF-OPEN",
+  "claim": "The content take-over row (base l. 17255) reads \"every content row a bar reads, T117-3 (T-V11-42)\", and \u00a713.2's item-117 group calls T117-3 \"volume 11's compile check, T-V11-42\"; V11 names T117-3 nowhere (0 occurrences) \u2014 T-V11-42 (l. 4743) opens \"item 117's rows:\".",
+  "required_change": "T-V11-42 opens \"item 117's rows (takes T117-3):\".",
+  "owner": "V11",
+  "reported_by": "verify-agree-proof-r1t"
+ },
+ {
+  "id": "VDC1-11",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "claim": "Lifecycle disagreement on regenerate for item 114's condition. \u00a77.4's new wearWall / repairWall row (l.10744) says the condition is 'held by the run's knot profile (\u00a72.2 rule 5): \u2026 a re-derivation never re-derives a condition'. \u00a72.2 rule 5's *Regenerate* carries a stretch-state profile's knots over a re-derivation by lattice point. \u00a76.1's `walls.condition` and DR41 lay the condition at generation only ('S3's and S7's generation-time condition'). V11 \u00a72.10's lifecycle row for the `walls.condition` cells (V11 l.827) instead says 'the generation-time condition re-derives with its enceinte (\u00a77.7's row)', so the two homes disagree on what a re-derivation, or a table edit followed by one, does to an unedited run's condition. Precedence (principle (3)): the base's homes (\u00a72.2 rule 5, \u00a77.4, DR41) over a volume's restatement.",
+  "required_change": "V11 \u00a72.10's row for item 114's `walls.condition` cells and `walls.patchMaterials` rows: replace 'the generation-time condition re-derives with its enceinte (\u00a77.7's row)' by 'the generation-time condition is laid with its enceinte at generation (\u00a77.7's DR41) and carried through every re-derivation by its knot profile (\u00a72.2 rule 5; \u00a77.4's wearWall / repairWall row), so a cell edit reaches a new generation and the epochs that read the cells in force'.",
+  "owner": "V11",
+  "reported_by": "verify-determinism-r1t"
+ },
+ {
+  "id": "VPC-R1-01",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "V11 \u00a72.8d (l. 745\u2013750) declares `GrandeurCeilingRow` and `GrandeurCeilingSettings`. Item 115's HOMES and the canon (J127) home 'the ceiling table's shape' at the base's \u00a710.2, and V11's own registry row 97 and \u00a73.25.4's head say 'the table's shape \u00a710.2 as item 115 homes it'. V11 therefore both declares the shape and points away from itself for it. Once \u00a710.2 declares it (VPC-01), V11 holds a second home (principle (1)).",
+  "required_change": "In V11 \u00a72.8d replace the `GrandeurCeilingRow` and `GrandeurCeilingSettings` declarations with the comment line `// GrandeurCeilingRow and its named row 'settings' (GrandeurCeilingSettings, grandClasses): \u00a710.2's shape (item 115 homes it there); table 'grandeur.ceiling' (registry row 97), rows V11 \u00a73.25.4`. Keep registry row 97's and \u00a73.25.4's pointers to \u00a710.2 as they are.",
+  "owner": "V11",
+  "reported_by": "verify-pipeline-r1t"
+ },
+ {
+  "id": "VPC-R1-07",
+  "severity": "minor",
+  "kind": "BROKEN-REFERENCE",
+  "claim": "After V04's rename to `UnderOpeningRow` (V04 \u00a72.3), V11 still names the row `OpeningRow`: l. 177 (W31 'V04 \u00a72.3's `OpeningRow`'), l. 616 (\u00a72.8b), l. 940 (registry row 58a's shape column), l. 3611 and l. 3705 (\u00a73.23.7). V04's hand-off row to V11 (l. 3424) asks for 'registry row 58a and V11 \u00a73.23.7 naming `UnderOpeningRow`'.",
+  "required_change": "In V11 l. 177, 616, 940, 3611 and 3705 replace `OpeningRow` (V04's opening row) with `UnderOpeningRow`.",
+  "owner": "V11",
+  "reported_by": "verify-pipeline-r1t"
+ },
+ {
+  "id": "VPC-R1-14",
+  "severity": "minor",
+  "kind": "BROKEN-REFERENCE",
+  "claim": "Repair r1 cut \u00a710.2's placement examples (VAF-R0S-23: 'the rows and their values are V11 \u00a73.5's'), but V11 \u00a73.5's class rows still annotate their placement cells '(\u00a710.2's example)' or '(\u00a710.2's example as file f item 440 rewrites it)', pointing at text \u00a710.2 no longer holds: `bakery` l. 1460, `brewery` l. 1466, `maltings` l. 1467, `watermill` l. 1469, `tannery` l. 1487, `market_hall` l. 1524, `warehouse` l. 1528, `inn` l. 1539. The pipeline repair's hand-off ('V11: rows drop \"(\u00a710.2's example)\"') was not applied.",
+  "required_change": "In V11 \u00a73.5's class table delete '(\u00a710.2's example)' from the `bakery`, `brewery`, `maltings`, `watermill`, `market_hall` and `warehouse` rows and '(\u00a710.2's example as file f item 440 rewrites it)' from the `tannery` and `inn` rows, keeping 'file f item 440' where it is the row's provenance.",
+  "owner": "V11",
+  "reported_by": "verify-pipeline-r1t"
+ },
+ {
+  "id": "VPC-R1-15",
+  "severity": "minor",
+  "kind": "WIRING",
+  "claim": "Two V11 registry rows miss what pipeline r1 added at their base homes, and the pipeline repair's hand-offs to V11 were not applied:\n(a) Row 13 `walls` lists `castle.minInnerM`, `wall.smoothPasses`, the gates' waterfront share and spacing, but not the two new cells \u00a74.2 S3 (10) reads, `moat.waterReachM` (400 m) and `moat.maxFallCm` (400 cm).\n(b) Row 81 `ways.crossing` lists its readers where a way crosses a retaining wall and at the raised ways' ends, but not the new class grade limit's readers: \u00a74.3 *Lattice and costs* makes `rampMaxGrade` the routed class's grade limit, read by S3 (5)'s gate routes, S4's routes, S5b and S5c, and \u00a77.3 (a) 5's steepness report.",
+  "required_change": "(a) Registry row 13's cell list adds '`moat.waterReachM`, `moat.maxFallCm` (\u00a74.2 S3 (10))'. (b) Row 81's readers add 'S3 (5), S4, S5b and S5c (the class grade limit on routed edges, \u00a74.3 *Lattice and costs*), \u00a77.3 (a) 5 (the steepness report)'.",
+  "owner": "V11",
+  "reported_by": "verify-pipeline-r1t"
+ },
+ {
+  "id": "VV12-r1-07",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "claim": "V02's round-1 repair (VAF-R0S-13) removed the stand-ins `deck.fallbackM2` and `deck.fallbackFloors`; V02 \u00a73.16 (3) now reads \"No deck plot without a `deck` row \u2026 V02 keeps no stand-in\", and V02's received table dropped \"V11 X-V11-7\". V11 still states the opposite in two places: \u00a710b's X-V11-7 row (l.5037: \"`deck.fallbackM2` and `deck.fallbackFloors` are read only while the `deck` table is unregistered\", citing V02 \u00a73.16 (2), which no longer says it), and \u00a73.24.4 (l.3977: \"The footprints bracket V02's stopgap band ([20, 60] m\u00b2), and V02's T-V2-47 reads whichever row is loaded\"). This is VAF-R0S-13's V11 half (verify-agree-fabric-r0s), which V11's round-1 repair did not carry (repair-r1-V02.md, HAND-OFFS).",
+  "required_change": "V11 deletes X-V11-7's row from \u00a710b. It deletes from \u00a73.24.4 the sentence \"The footprints bracket V02's stopgap band ([20, 60] m\u00b2), and V02's T-V2-47 reads whichever row is loaded\", since T-V2-47 reads V11's `deck` rows (V02 \u00a73.16 (3)).",
+  "owner": "V11",
+  "reported_by": "verify-vol-V01-V02-r1t"
+ },
+ {
+  "id": "VV34-r1-06",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "V04's repair (VAL-05) moved `accessForecastMin` to II.7.4's `UndergroundRule` (V04 \u00a72.3's comment l. 634, V04 \u00a73.3 P7 'II.7.4's `UndergroundRule`, 0.5', V04 \u00a78's U3b row 'owner `base`'). V11 \u00a73.23.6 still reads 'Scattered void dwellings (`voidDwellings`), the forecast floor (`accessForecastMin`) and the ruin's magic lights (`magicLightChance`, V04 \u00a73.9) are V04's cells, cited' \u2014 two homes stated for one cell.",
+  "required_change": "In V11 \u00a73.23.6 read 'Scattered void dwellings (`voidDwellings`) and the ruin's magic lights (`magicLightChance`, V04 \u00a73.9) are V04's cells, and the forecast floor `accessForecastMin` II.7.4's `UndergroundRule` cell (V04 \u00a73.3 P7 reads it), each cited.'",
+  "owner": "V11",
+  "reported_by": "verify-vol-V03-V04-r1t"
+ },
+ {
+  "id": "VV78-04",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "owner": "V11",
+  "claim": "Persists from round 0, now at V11's end. V07 \u00a73.8 now cites V08 \u00a73.16 (3), and V08 \u00a73.16 (3) (b), J-V8.122, W63, T-V8-53 and the V08 \u00a73.17 items row admit a dossier government whose villageSeat names the manor house, seigneurial or crown (V11 \u00a73.21.1 maps both to v.manor_house), at every village rung. V11's round-1 repair (VV1112-09) restated V08's pre-round reading: V11 W83 (l.229, last column) and V11 \u00a73.25.4's 'Specified' bullet (l.4251-4252) read 'a dossier-bound record of a grandClasses class, or a seigneurial government's forced manor'. So a crown HAMLET dossier's manor is specified by V08 and V07 and not by V11. V08's repair landed after V11's and handed this off to V11.",
+  "required_change": "In V11 W83's last column and V11 \u00a73.25.4's 'Specified' bullet, cite V08 \u00a73.16 (3) without restating it: \"'specified' is V08 \u00a73.16 (3)'s reading\". If a gloss is kept, it must read 'a dossier-bound record of a grandClasses class, or a dossier government whose villageSeat names the manor house \u2014 seigneurial or crown (V11 \u00a73.21.1)'.",
+  "reported_by": "verify-vol-V07-V08-r1t"
+ },
+ {
+  "id": "VV1112-r1-04",
+  "severity": "minor",
+  "kind": "BROKEN-REFERENCE",
+  "claim": "V11 \u00a72.6's new declaration reads \"`type LadderStep = 'COUNT'|'QUARTER'|'GUILD'|'SIZE'|'REPLACEMENT'` // item 108's step types; V08 \u00a72.3, V08 \u00a72.5, V10 \u00a72.13 and V01 \u00a72.3 type their fields by it\". V08 \u00a72.3 and \u00a72.5 do (`step?: LadderStep /* V11 \u00a72.6 */`), but V10 \u00a72.13 holds no ladder-step field \u2014 the oracle's `WhyAnswer`, whose `members.step` VAH-32 named, is declared in base \u00a711.2 (l. 15236 \u2013 15248) \u2014 and V01 \u00a72.3 (l. 466) and \u00a711.2 still write the union inline. The comment names a wrong home and states a use that does not exist.",
+  "required_change": "In V11 \u00a72.6's comment write \"item 108's step types; V08 \u00a72.3's `CarriedFact`, V08 \u00a72.5's `DossierInstitution.step`, V01 \u00a72.3's district view and \u00a711.2's `WhyAnswer.members.step` type their fields by it\" (true once VV1112-r1-05 and VV1112-r1-06 land).",
+  "owner": "V11",
+  "reported_by": "verify-vol-V11-V12-r1t"
+ }
+]

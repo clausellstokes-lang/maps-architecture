@@ -1,0 +1,183 @@
+{
+ "units": [
+  {
+   "unit": "base",
+   "old_bytes": 2304442,
+   "new_bytes": 2615627,
+   "old_words": 372998,
+   "new_words": 422575,
+   "old_lines": 17297,
+   "new_lines": 20306
+  },
+  {
+   "unit": "V01",
+   "old_bytes": 585123,
+   "new_bytes": 464158,
+   "old_words": 93140,
+   "new_words": 76024,
+   "old_lines": 4454,
+   "new_lines": 3441
+  },
+  {
+   "unit": "V02",
+   "old_bytes": 637179,
+   "new_bytes": 494200,
+   "old_words": 103630,
+   "new_words": 82668,
+   "old_lines": 4829,
+   "new_lines": 3759
+  },
+  {
+   "unit": "V03",
+   "old_bytes": 505716,
+   "new_bytes": 388143,
+   "old_words": 82788,
+   "new_words": 65917,
+   "old_lines": 3855,
+   "new_lines": 2852
+  },
+  {
+   "unit": "V04",
+   "old_bytes": 530576,
+   "new_bytes": 460463,
+   "old_words": 83966,
+   "new_words": 74624,
+   "old_lines": 4168,
+   "new_lines": 3335
+  },
+  {
+   "unit": "V05",
+   "old_bytes": 495910,
+   "new_bytes": 360317,
+   "old_words": 81161,
+   "new_words": 60743,
+   "old_lines": 3808,
+   "new_lines": 2790
+  },
+  {
+   "unit": "V06",
+   "old_bytes": 665661,
+   "new_bytes": 593982,
+   "old_words": 106357,
+   "new_words": 96675,
+   "old_lines": 4631,
+   "new_lines": 4112
+  },
+  {
+   "unit": "V07",
+   "old_bytes": 648060,
+   "new_bytes": 561556,
+   "old_words": 104422,
+   "new_words": 92729,
+   "old_lines": 4520,
+   "new_lines": 3809
+  },
+  {
+   "unit": "V08",
+   "old_bytes": 545534,
+   "new_bytes": 489825,
+   "old_words": 84356,
+   "new_words": 77159,
+   "old_lines": 3864,
+   "new_lines": 3363
+  },
+  {
+   "unit": "V09",
+   "old_bytes": 690061,
+   "new_bytes": 635793,
+   "old_words": 111610,
+   "new_words": 105485,
+   "old_lines": 4919,
+   "new_lines": 4439
+  },
+  {
+   "unit": "V10",
+   "old_bytes": 538604,
+   "new_bytes": 466617,
+   "old_words": 84658,
+   "new_words": 75073,
+   "old_lines": 4047,
+   "new_lines": 3347
+  },
+  {
+   "unit": "V11",
+   "old_bytes": 650238,
+   "new_bytes": 608701,
+   "old_words": 106185,
+   "new_words": 101973,
+   "old_lines": 5411,
+   "new_lines": 5069
+  },
+  {
+   "unit": "V12",
+   "old_bytes": 482479,
+   "new_bytes": 430397,
+   "old_words": 76414,
+   "new_words": 69784,
+   "old_lines": 3566,
+   "new_lines": 3106
+  },
+  {
+   "unit": "INDEX",
+   "old_bytes": 34420,
+   "new_bytes": 25407,
+   "old_words": 5890,
+   "new_words": 4250,
+   "old_lines": 297,
+   "new_lines": 217
+  },
+  {
+   "unit": "rationale",
+   "old_bytes": 675351,
+   "new_bytes": 685208,
+   "old_words": 113979,
+   "new_words": 115671,
+   "old_lines": 2317,
+   "new_lines": 2362
+  }
+ ],
+ "totals": {
+  "base + volumes": {
+   "old_bytes": 9279583,
+   "new_bytes": 8569779,
+   "old_words": 1491685,
+   "new_words": 1401429,
+   "old_lines": 69369,
+   "new_lines": 63728
+  },
+  "volumes": {
+   "old_bytes": 6975141,
+   "new_bytes": 5954152,
+   "old_words": 1118687,
+   "new_words": 978854,
+   "old_lines": 52072,
+   "new_lines": 43422
+  },
+  "base + volumes + INDEX": {
+   "old_bytes": 9314003,
+   "new_bytes": 8595186,
+   "old_words": 1497575,
+   "new_words": 1405679,
+   "old_lines": 69666,
+   "new_lines": 63945
+  }
+ },
+ "duplicate_definitions": {
+  "base index J rows": [],
+  "base D-n": [],
+  "base T-ER": [],
+  "V01 T-V/J-V": [],
+  "V02 T-V/J-V": [],
+  "V03 T-V/J-V": [],
+  "V04 T-V/J-V": [],
+  "V05 T-V/J-V": [],
+  "V06 T-V/J-V": [],
+  "V07 T-V/J-V": [],
+  "V08 T-V/J-V": [],
+  "V09 T-V/J-V": [],
+  "V10 T-V/J-V": [],
+  "V11 T-V/J-V": [],
+  "V12 T-V/J-V": [],
+  "_integrate J-VI": []
+ }
+}

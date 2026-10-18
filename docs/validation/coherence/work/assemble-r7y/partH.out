@@ -1,0 +1,26 @@
+pairs 87; new text present 85; absent 2
+by unit {'model': 13, 'pipeline': 28, 'determinism': 12, 'scope': 9, 'V05': 1, 'V06': 7, 'V07': 9, 'V09': 8}
+insertions {'pipeline': 1, 'scope': 4, 'V05': 1, 'V06': 2, 'V07': 1, 'V09': 1} present 8
+CHECK model | new present True | old 1 -> 1
+   old: a shape-locked one never merged into (law 1 (10)) · T110-2 (1), (2), T-V7-48 (V)
+   new: a shape-locked one never merged into (law 1 (10)) · T110-2 (1), (2), T-V7-48 (V), T110-4 (c) (its shape-locked ring)
+CHECK pipeline | new present True | old 1 -> 1
+   old: k = 1 — S5a L1: S3's trace with its gate vertices
+   new: k = 1 — S5a L1: S3's trace with its gate vertices, a carried way §4.2 S3 (7) re-routes by §2.7's laws, law 2 (b), re-laid in it
+CHECK determinism | new present True | old 1 -> 1
+   old: ; a harbour-mouth chain not laid, §4.8;
+   new: ; a harbour-mouth chain not laid, §4.8; a merged pair's cross wall not laid, §4.2 S3 (6);
+CHECK determinism | new present True | old 1 -> 1
+   old: every walled port gets its harbour-mouth chain (item 106 (e))
+   new: every walled port gets its harbour-mouth chain (item 106 (e)), save one §2.7's laws leave out for a raised way, reported (law 2 (c): `W_RAISED_MEETING
+CHECK scope | new present False | old 0 -> 0
+   old: ; and (3)'s table-edit variant regenerated" (after "law 2 *Carried way*)") insert "; on a sixth whose skeleton seats a building in the arch vault of t
+   new: ; a walled port whose skeleton declares a viaduct along its harbour's shore, a head of its harbour mouth in that viaduct's fixed-place zone — S7's cha
+   missing: ; a walled port whose skeleton declares a viaduct along its harbour's shore, a head of its harbour mouth in that viaduct
+   missing: . (This file's clauses, so that each major's fix is held by a bar as the tests lens asks of every new outcome (VF7x-TST-
+   missing: and (4)'s hand rows W4, W5 and W10 (M4; V06's E3) at the later of their milestone and those providers
+   missing: . (The finding's words.) **S4 · FIX for VF7x-TST-02** — §13.2 (the finding's items 1, 3 and 4; V06's items 2 and 5 are V
+CHECK V06 | new present False | old 0 -> 0
+   old: every crossing under a span §4.3 admits;
+   new:  on an H-AQUA variant whose METROPOLIS circuit's boundary falls on its viaduct's far ramp, the main approach road's pin moved along it to the nearest 
+   missing: . §13.8's T110 row and V06's E3 cell take it with (4)'s other epoch clauses. (The finding's words.) **V6-2 · END for VF7

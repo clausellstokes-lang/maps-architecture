@@ -1,0 +1,263 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm4/before/docs/volumes/V02-buildings.md",
+ "input_doc_sha256": "4696951caa15e7ffe32522c2f5159b676a8c0da14ad45a4f10d2febe45d82e40",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm4/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "e7b59eac90a75327c91ec60a281e34b9c14919b5208f282d48b7026bf1324b5c",
+ "files": [
+  {
+   "file": "repair-r4-V02.md",
+   "sha256": "8a10e19e0130501b253ed7276d2369d0b2d18f4d33465b72578b5cd7a8929ea1",
+   "lines": 707,
+   "blocks": 8,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "repair-r4-V02.md #1 (l. 2) REPLACE ### 1b The wiring table — every new piece, what feeds it and what it feeds",
+   "file": "repair-r4-V02.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "### 1b The wiring table — every new piece, what feeds it and what it feeds",
+   "body_lines": 123,
+   "body_sha256": "651c4ab27cbeea07d72235478e65a2877b57914399d7d1e3c4eb07ade0893d41",
+   "target_line": 162,
+   "section_old": "162–285",
+   "section_old_n": 124,
+   "section_new_n": 124,
+   "new_headings": [
+    "### 1b The wiring table — every new piece, what feeds it and what it feeds"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "repair-r4-V02.md #2 (l. 128) REPLACE ### 1d Out of scope (and where it lives)",
+   "file": "repair-r4-V02.md",
+   "index": 2,
+   "line": 128,
+   "kind": "REPLACE",
+   "heading": "### 1d Out of scope (and where it lives)",
+   "body_lines": 37,
+   "body_sha256": "6c834f72f0415b40acca1f34fc1bb7967f618c692464e020fc3803a6e1943f41",
+   "target_line": 333,
+   "section_old": "333–370",
+   "section_old_n": 38,
+   "section_new_n": 38,
+   "new_headings": [
+    "### 1d Out of scope (and where it lives)"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "repair-r4-V02.md #3 (l. 168) REPLACE ### 3.18 Edges — every mechanism at its limits (principle (11))",
+   "file": "repair-r4-V02.md",
+   "index": 3,
+   "line": 168,
+   "kind": "REPLACE",
+   "heading": "### 3.18 Edges — every mechanism at its limits (principle (11))",
+   "body_lines": 122,
+   "body_sha256": "115e4437d2aad3566cd83f5c408e386f67b1790c462944900a46621423248e84",
+   "target_line": 2434,
+   "section_old": "2434–2556",
+   "section_old_n": 123,
+   "section_new_n": 123,
+   "new_headings": [
+    "### 3.18 Edges — every mechanism at its limits (principle (11))"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "repair-r4-V02.md #4 (l. 293) REPLACE ### 5.7 Ruin and disaster on the exterior (items 123 (d), 122)",
+   "file": "repair-r4-V02.md",
+   "index": 4,
+   "line": 293,
+   "kind": "REPLACE",
+   "heading": "### 5.7 Ruin and disaster on the exterior (items 123 (d), 122)",
+   "body_lines": 136,
+   "body_sha256": "63298549185b3575f9f4990c8675e3c41b990379ac060d6fab3d73ccc9d7c2de",
+   "target_line": 3029,
+   "section_old": "3029–3163",
+   "section_old_n": 135,
+   "section_new_n": 137,
+   "new_headings": [
+    "### 5.7 Ruin and disaster on the exterior (items 123 (d), 122)"
+   ]
+  },
+  {
+   "seq": 5,
+   "block": "repair-r4-V02.md #5 (l. 432) REPLACE ### 7.8 Ruin and disaster on the exterior",
+   "file": "repair-r4-V02.md",
+   "index": 5,
+   "line": 432,
+   "kind": "REPLACE",
+   "heading": "### 7.8 Ruin and disaster on the exterior",
+   "body_lines": 71,
+   "body_sha256": "5bcf4d97d25b56f6ac29137888bdc84d1e7d473b562570b4040881d3d5c33f18",
+   "target_line": 3736,
+   "section_old": "3736–3798",
+   "section_old_n": 63,
+   "section_new_n": 72,
+   "new_headings": [
+    "### 7.8 Ruin and disaster on the exterior"
+   ]
+  },
+  {
+   "seq": 6,
+   "block": "repair-r4-V02.md #6 (l. 506) REPLACE ### 8.6 Ruin and disaster in the build (items 123, 122)",
+   "file": "repair-r4-V02.md",
+   "index": 6,
+   "line": 506,
+   "kind": "REPLACE",
+   "heading": "### 8.6 Ruin and disaster in the build (items 123, 122)",
+   "body_lines": 10,
+   "body_sha256": "169cb0c6e3a2ff407fd4999247568e12e96bb9e0a8c579661575553570d2913c",
+   "target_line": 3885,
+   "section_old": "3885–3894",
+   "section_old_n": 10,
+   "section_new_n": 11,
+   "new_headings": [
+    "### 8.6 Ruin and disaster in the build (items 123, 122)"
+   ]
+  },
+  {
+   "seq": 7,
+   "block": "repair-r4-V02.md #7 (l. 519) REPLACE ## 9 Decisions",
+   "file": "repair-r4-V02.md",
+   "index": 7,
+   "line": 519,
+   "kind": "REPLACE",
+   "heading": "## 9 Decisions",
+   "body_lines": 120,
+   "body_sha256": "a4b74c0f76715b79015f12b74123e864695bcdbab13395da163d8c7d60c31137",
+   "target_line": 3896,
+   "section_old": "3896–4016",
+   "section_old_n": 121,
+   "section_new_n": 121,
+   "new_headings": [
+    "## 9 Decisions"
+   ]
+  },
+  {
+   "seq": 8,
+   "block": "repair-r4-V02.md #8 (l. 642) REPLACE ## 13 Fix list",
+   "file": "repair-r4-V02.md",
+   "index": 8,
+   "line": 642,
+   "kind": "REPLACE",
+   "heading": "## 13 Fix list",
+   "body_lines": 63,
+   "body_sha256": "111697cfb4fdd53c8a0dd15034889edc54452293cf359bd3531183d9918f50aa",
+   "target_line": 4145,
+   "section_old": "4145–4208",
+   "section_old_n": 64,
+   "section_new_n": 64,
+   "new_headings": [
+    "## 13 Fix list"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "repair-r4-V02.md #1 (l. 2) REPLACE ### 1b The wiring table — every new piece, what feeds it and what it feeds",
+    "kind": "REPLACE",
+    "heading": "### 1b The wiring table — every new piece, what feeds it and what it feeds",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V02.md #2 (l. 128) REPLACE ### 1d Out of scope (and where it lives)",
+    "kind": "REPLACE",
+    "heading": "### 1d Out of scope (and where it lives)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V02.md #3 (l. 168) REPLACE ### 3.18 Edges — every mechanism at its limits (principle (11))",
+    "kind": "REPLACE",
+    "heading": "### 3.18 Edges — every mechanism at its limits (principle (11))",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V02.md #4 (l. 293) REPLACE ### 5.7 Ruin and disaster on the exterior (items 123 (d), 122)",
+    "kind": "REPLACE",
+    "heading": "### 5.7 Ruin and disaster on the exterior (items 123 (d), 122)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V02.md #5 (l. 432) REPLACE ### 7.8 Ruin and disaster on the exterior",
+    "kind": "REPLACE",
+    "heading": "### 7.8 Ruin and disaster on the exterior",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V02.md #6 (l. 506) REPLACE ### 8.6 Ruin and disaster in the build (items 123, 122)",
+    "kind": "REPLACE",
+    "heading": "### 8.6 Ruin and disaster in the build (items 123, 122)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V02.md #7 (l. 519) REPLACE ## 9 Decisions",
+    "kind": "REPLACE",
+    "heading": "## 9 Decisions",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r4-V02.md #8 (l. 642) REPLACE ## 13 Fix list",
+    "kind": "REPLACE",
+    "heading": "## 13 Fix list",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 805,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 77,
+  "headings_after": 77,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 16,
+  "fence_lines_after": 16,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 561207,
+  "doc_bytes_after": 563512,
+  "doc_lines_before": 4205,
+  "doc_lines_after": 4217,
+  "rationale_bytes_before": 704669,
+  "rationale_bytes_after": 704669,
+  "rationale_lines_before": 2386,
+  "rationale_lines_after": 2386,
+  "blocks_total": 8,
+  "blocks_applied": 8,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "2579cb1696f494b6b265f13a6d4e649a0fbbe111b54f7b6d2f196a56b2d67da4",
+  "output_rationale_sha256": "e7b59eac90a75327c91ec60a281e34b9c14919b5208f282d48b7026bf1324b5c"
+ }
+}

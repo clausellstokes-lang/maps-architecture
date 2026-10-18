@@ -1,0 +1,11 @@
+# Revision receipt for V12 §3.4.4 (revise-V12, 2026-09-29): which research inputs mention item 110's subjects (case-insensitive, whole phrase). Files: docs/CONFIDENCE.md, docs/validation/coverage-audit-*.md, captures/mfcg/exports-2026-09-25/README.md, captures/mfcg/exports-sweep-2026-09-25/README.md, docs/validation/bench/README.md, partitioned/README.md, research/findings/*.md
+files: 48
+retaining: 0 files
+viaduct: 0 files
+aqueduct: 0 files
+elevated road: 0 files
+raised way: 0 files
+raised road: 0 files
+deck plot: 0 files
+bridge house: 0 files
+houses on a bridge: 0 files

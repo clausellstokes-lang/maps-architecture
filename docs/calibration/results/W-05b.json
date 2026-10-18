@@ -1,0 +1,79 @@
+{
+ "id": "m1/W-05b",
+ "status": "landed",
+ "records": [
+  "docs/calibration/E05-ftg-metrics.md (section 9, subsections 9.1-9.5 appended)",
+  "docs/calibration/E05-ftg-metrics.slots.json (sha256 90349d49...)"
+ ],
+ "outputs": [
+  "research/baselines/measure_ftg_slots.py (new W-05b tool; sha256 193f6325...)",
+  "research/baselines/measure_ftg.py (metric half of measure() split out as metrics(mi), no behaviour change: W-05 --check 7 PASS, E05-ftg-metrics.json byte-identical 243bca8e...)",
+  "research/baselines/inputs/FTG/ftg-2026-10-0<d>_<hash>/<stamp>.metric.geojson.gz x 8 (slots 0-7; 3.10 MB)",
+  "docs/calibration/E05-ftg-metrics.slots.json",
+  "docs/calibration/E05-ftg-metrics.md section 9",
+  "docs/calibration/results/W-05b.json"
+ ],
+ "checks": [
+  {
+   "check": "row check 1: each slot's MeasureInput equals a fresh run",
+   "passed": true,
+   "receipt": "measure_ftg_slots.py --check, exit 0: 9 of 9 stored gzips byte-equal to a fresh adapter write and JSON-equal (slots 0-7 9ea13272, d639cbb1, f7cdc815, 15a4010d, 952cae11, e7121470, d31a6a69, 4d638c8d; CITY rec. 0 e8377e6e, W-05's file unchanged)"
+  },
+  {
+   "check": "row check 2: every value's captures equal the plan's slots",
+   "passed": true,
+   "receipt": "per size, grouped by each request's own size and water, in slot order: BIG_TOWN 0,2,4; BIG_CITY 1,3,5; METROPOLIS 6,7; CITY rec. 0; water rows BIG_TOWN 2,4, BIG_CITY 3,5, METROPOLIS 7; each referenceBuild = capture-facts and E02; 0 problems. The pass reads the slots decided at its start (0-7); the final --check against the live plan (b60b1889) passes and lists slots 8 and 9, bound since, for the next pass"
+  },
+  {
+   "check": "row check 3: the 2026-09-25 payload is in no sample (R-04)",
+   "passed": true,
+   "receipt": "0 hits for its capture id or request hash in samples, water samples, vectors or per-slot entries; it stands once in CITY failed, reason setting"
+  },
+  {
+   "check": "row check 4: E02's same-size values reproduced from the requests",
+   "passed": true,
+   "receipt": "from each capture's own PUT body: 17/17 on all nine captures against E02's latest size table (section 17.3: METROPOLIS, BIG_CITY, BIG_TOWN, CITY); every later capture 17/17 against the first of its size (slot 7 against slot 6 included); 0 rows missing or unmapped"
+  },
+  {
+   "check": "the checks discriminate (--red)",
+   "passed": true,
+   "receipt": "--check --red: 0 of 4 pass, exit 1, nothing written (planted: stored hash altered, two BIG_TOWN slots swapped, the 2026-09-25 capture pooled into CITY, one E02 value moved); an extra planted fault (BIG_TOWN column removed, slot 2's request moved) failed the first-of-size path naming slot 2"
+  },
+  {
+   "check": "determinism",
+   "passed": true,
+   "receipt": "runs 1-4 agree on every value of slots 0-5 and CITY (only a run-state flag, since removed, the checks block and the added water note differ); run 5 (the record) = run 4 on those seven after the metric split; run 7 (--through 7) = the record in every key but the live plan hash and check 2's later-slot receipt; value tables identical"
+  },
+  {
+   "check": "W-05's fixture twin unchanged by the metrics() split",
+   "passed": true,
+   "receipt": "measure_ftg.py --check --json <scratch>: exit 0, 7 PASS, output byte-identical to docs/calibration/E05-ftg-metrics.json (243bca8e)"
+  },
+  {
+   "check": "plan untouched; plan.py --check",
+   "passed": true,
+   "receipt": "SAME, SAME at start and end (metrics.m-1.json 8a0efa7e; plan.json moved only with the slot seats' binds of slots 6-9); this lane wrote neither"
+  },
+  {
+   "check": "clean-room self-check on E05",
+   "passed": true,
+   "receipt": "doc_checks.py --doc E05 --heads ARCHITECTURE.md: C1 0, C2 0, C4 0, S1 0, S2 0; C3 60 hits / 57 unreviewed, every one read (digit runs, dates, capture stamps, our own phrases; none a reference word list, palette, grammar or identifier); exit 1 by the unreviewed count as every non-design record reads"
+  }
+ ],
+ "rows": 9,
+ "owner_notes": [
+  "FTG's first eight towns are measured: the three big towns, the three big cities and the first two metropolises. The 2026-09-21 city is measured with them. Every check passed. Each town now has its measurements on file for the later step (W-15) that turns them into the comparison targets.",
+  "Two more metropolises (slots 8 and 9) were saved while this ran. They will be measured in the next pass, together with whatever the recording seats add after them. Nothing was lost.",
+  "One question needs a ruling seat, not you: how to measure the water outline's step. FTG draws its rivers and most coasts at a steady 50 m. The current rule drops nearly straight points first, so the result mixes in how long the straight stretches are. Our own target (outline step at most 25 m) is not affected. The numbers for that ruling are in E05 section 9.3.",
+  "Nothing was bought, no website was touched, nothing was written into plat/, and no git command was run."
+ ],
+ "notes": [
+  "Outcome: pass 1 of the rolling item covers slots 0-7 (all bound at its start; slots 6-7 bound during the lane by m1/W-02-slot6b and -slot7b) plus capture/FTG/CITY/coast+river/0; slots 8-27 open at the pass (8 and 9 bound since: next pass); no slot failed. Next pass: python3 research/baselines/measure_ftg_slots.py --write, then --check; the last pass after slot 27 or the programme's stop.",
+  "Vectors only, no dispersion (R-40); measured values, not rows (R-47 (a)). Per-size samples: BIG_TOWN n 3 minmax (water rows 2), BIG_CITY n 3 minmax (water 2), METROPOLIS n 2 minmax (water 1), CITY n 1 single; TOWN none (slots 26-27 open). No type7 band yet (DC-35: printed at n >= 10); the turning sample lies inside the declared exception at every size.",
+  "R-47 (e): server time.model per slot (2.6/1.9/2.2 s BIG_TOWN, 5.7/6.3/6.0 s BIG_CITY, 11.1/15.2 s METROPOLIS) and client times (layout at the client, first map shot) with every slot flagged contended; the scene-build moment is not recoverable (no CPU profile), so the first-map clause has no M-1 reference value: the E19 entry is for W-20 to list.",
+  "Routed (recorded in E05 9.3 (1), not deferred silently): water.step's W05-D8 1-degree drop keeps 4 vertices on straight 50 m coasts and 24-86 % on rivers, so the pooled step mixes the drawing step (raw 50.0 m on every river and 3 of 5 coasts; 16.2 / 14.9 m on slots 5 and 7) with run lengths; whether to read the raw vertex spacing is a definition call for a ruling seat before W-15 sharpens FTG's reference value; our fixed bound <= 25 m (R-48) is unaffected.",
+  "Judgment calls W05b-D1..D10 in E05 9.4 (vetoable), among them: the snapshot rule for a pass (D9), the measure_ftg.py split because slot 6's raw payload holds a degenerate footprint the fixture twin divides by (D10), and check 4 reading E02's latest size table plus the first-of-size rule (D7).",
+  "CONFIRMED: every number in E05 9.1-9.3 and all receipts above (executed). PLAUSIBLE: that the interceptor's body-file write time marks the layout's arrival within milliseconds; that the click precedes the PUT by milliseconds; the 6.4 / 7.0 s attribution of the roadlength100 README; that the ten-slot type7 turning band will lie inside the exception.",
+  "Disk 9.7 GiB free at the end; long outputs in the session scratchpad m1w2/ (w05b-*)."
+ ]
+}

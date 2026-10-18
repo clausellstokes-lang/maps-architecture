@@ -1,0 +1,6 @@
+rung=CITY derivationRecords=10900 (256 B leaf) namingRecords=3500 (164 B leaf) partitions=23 hashedBytes=3364400
+  record leaves 1.10 ms | partition nodes + root (incl. sort) 2.88 ms | total 3.99 ms (median of 7; min 3.91, max 4.08)
+  root identical across runs: true
+rung=METROPOLIS derivationRecords=29300 (256 B leaf) namingRecords=9500 (164 B leaf) partitions=46 hashedBytes=9058800
+  record leaves 2.86 ms | partition nodes + root (incl. sort) 8.61 ms | total 11.44 ms (median of 7; min 11.20, max 11.74)
+  root identical across runs: true

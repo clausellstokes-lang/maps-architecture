@@ -1,0 +1,289 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm6/before/docs/volumes/V12-calibration.md",
+ "input_doc_sha256": "1e305ebe07843db09c56f838d12143ffb521538339239c838a45ad875e85e9a5",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm6/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "a480f02e58a893fea57cacc5977b83489f633ced23901f578adbcfbd8059c52a",
+ "files": [
+  {
+   "file": "repair-r6-V12.md",
+   "sha256": "65fd1a2934bcf29dfac89b2e2e2bc56a08aacdd4a844bb01a016c2974695295b",
+   "lines": 1082,
+   "blocks": 9,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "repair-r6-V12.md #1 (l. 2) REPLACE ## 0 In plain words",
+   "file": "repair-r6-V12.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "## 0 In plain words",
+   "body_lines": 63,
+   "body_sha256": "4ea173f656c42dc0648f4edbbc8bbc2c3ab5540c7e390730ef880ae360ede7bb",
+   "target_line": 16,
+   "section_old": "16–79",
+   "section_old_n": 64,
+   "section_new_n": 64,
+   "new_headings": [
+    "## 0 In plain words"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "repair-r6-V12.md #2 (l. 68) REPLACE ## 1b Wiring table",
+   "file": "repair-r6-V12.md",
+   "index": 2,
+   "line": 68,
+   "kind": "REPLACE",
+   "heading": "## 1b Wiring table",
+   "body_lines": 65,
+   "body_sha256": "1cfaf2075d48eea09e17080df477f8f4d6a118def63789e4e81171a769f9d7fc",
+   "target_line": 162,
+   "section_old": "162–227",
+   "section_old_n": 66,
+   "section_new_n": 66,
+   "new_headings": [
+    "## 1b Wiring table"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "repair-r6-V12.md #3 (l. 136) REPLACE ### 2.13 The no-op pins (V12 §3.7.8; E-20)",
+   "file": "repair-r6-V12.md",
+   "index": 3,
+   "line": 136,
+   "kind": "REPLACE",
+   "heading": "### 2.13 The no-op pins (V12 §3.7.8; E-20)",
+   "body_lines": 66,
+   "body_sha256": "c3b7a819606a79814bde409ce7d26923a30d53528023d2bbdcf1b4f570d2877b",
+   "target_line": 877,
+   "section_old": "877–942",
+   "section_old_n": 66,
+   "section_new_n": 67,
+   "new_headings": [
+    "### 2.13 The no-op pins (V12 §3.7.8; E-20)"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "repair-r6-V12.md #4 (l. 205) REPLACE ### 3.4 The metric suite",
+   "file": "repair-r6-V12.md",
+   "index": 4,
+   "line": 205,
+   "kind": "REPLACE",
+   "heading": "### 3.4 The metric suite",
+   "body_lines": 173,
+   "body_sha256": "0777052eec39c7bc4f2eeaa72a0d6c0a948f57d2054992bf4a596d4cc4867000",
+   "target_line": 1082,
+   "section_old": "1082–1255",
+   "section_old_n": 174,
+   "section_new_n": 174,
+   "new_headings": [
+    "### 3.4 The metric suite"
+   ]
+  },
+  {
+   "seq": 5,
+   "block": "repair-r6-V12.md #5 (l. 381) REPLACE ### 3.7 Tuning runs — table-version bumps with declared shifts",
+   "file": "repair-r6-V12.md",
+   "index": 5,
+   "line": 381,
+   "kind": "REPLACE",
+   "heading": "### 3.7 Tuning runs — table-version bumps with declared shifts",
+   "body_lines": 171,
+   "body_sha256": "6687594ad15adceea2eec521f19d5691608995af35917af0c34bb665282603e1",
+   "target_line": 1591,
+   "section_old": "1591–1762",
+   "section_old_n": 172,
+   "section_new_n": 172,
+   "new_headings": [
+    "### 3.7 Tuning runs — table-version bumps with declared shifts"
+   ]
+  },
+  {
+   "seq": 6,
+   "block": "repair-r6-V12.md #6 (l. 555) REPLACE ### 3.12 Failure handling — every failure, its rung, its report",
+   "file": "repair-r6-V12.md",
+   "index": 6,
+   "line": 555,
+   "kind": "REPLACE",
+   "heading": "### 3.12 Failure handling — every failure, its rung, its report",
+   "body_lines": 47,
+   "body_sha256": "284baffc51bb9595edb881849d864b6f2602e3983c5357bf5413b4b881b8145e",
+   "target_line": 2303,
+   "section_old": "2303–2350",
+   "section_old_n": 48,
+   "section_new_n": 48,
+   "new_headings": [
+    "### 3.12 Failure handling — every failure, its rung, its report"
+   ]
+  },
+  {
+   "seq": 7,
+   "block": "repair-r6-V12.md #7 (l. 605) REPLACE ### 3.15 The owner rules 111–126 on the harness",
+   "file": "repair-r6-V12.md",
+   "index": 7,
+   "line": 605,
+   "kind": "REPLACE",
+   "heading": "### 3.15 The owner rules 111–126 on the harness",
+   "body_lines": 387,
+   "body_sha256": "2d32ee06105cc89f8bf9289636813a91794733b621cde61a0c2aa1396c495d56",
+   "target_line": 2448,
+   "section_old": "2448–2834",
+   "section_old_n": 387,
+   "section_new_n": 388,
+   "new_headings": [
+    "### 3.15 The owner rules 111–126 on the harness"
+   ]
+  },
+  {
+   "seq": 8,
+   "block": "repair-r6-V12.md #8 (l. 995) REPLACE ### 7.1 The bars",
+   "file": "repair-r6-V12.md",
+   "index": 8,
+   "line": 995,
+   "kind": "REPLACE",
+   "heading": "### 7.1 The bars",
+   "body_lines": 65,
+   "body_sha256": "fefd2f61f38a768af16db94c3696cd74cd86ac6640b848c2a25b6cbc6766a1f0",
+   "target_line": 3119,
+   "section_old": "3119–3184",
+   "section_old_n": 66,
+   "section_new_n": 66,
+   "new_headings": [
+    "### 7.1 The bars"
+   ]
+  },
+  {
+   "seq": 9,
+   "block": "repair-r6-V12.md #9 (l. 1063) REPLACE ### 8.2 Steps, estimates and exits (person-weeks, expert; PLAUSIBLE)",
+   "file": "repair-r6-V12.md",
+   "index": 9,
+   "line": 1063,
+   "kind": "REPLACE",
+   "heading": "### 8.2 Steps, estimates and exits (person-weeks, expert; PLAUSIBLE)",
+   "body_lines": 17,
+   "body_sha256": "6a85d401feea466b96d63bfcc6cf5615fa1a73e764cb03320f9584b714069214",
+   "target_line": 3212,
+   "section_old": "3212–3229",
+   "section_old_n": 18,
+   "section_new_n": 18,
+   "new_headings": [
+    "### 8.2 Steps, estimates and exits (person-weeks, expert; PLAUSIBLE)"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "repair-r6-V12.md #1 (l. 2) REPLACE ## 0 In plain words",
+    "kind": "REPLACE",
+    "heading": "## 0 In plain words",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-V12.md #2 (l. 68) REPLACE ## 1b Wiring table",
+    "kind": "REPLACE",
+    "heading": "## 1b Wiring table",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-V12.md #3 (l. 136) REPLACE ### 2.13 The no-op pins (V12 §3.7.8; E-20)",
+    "kind": "REPLACE",
+    "heading": "### 2.13 The no-op pins (V12 §3.7.8; E-20)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-V12.md #4 (l. 205) REPLACE ### 3.4 The metric suite",
+    "kind": "REPLACE",
+    "heading": "### 3.4 The metric suite",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-V12.md #5 (l. 381) REPLACE ### 3.7 Tuning runs — table-version bumps with declared shifts",
+    "kind": "REPLACE",
+    "heading": "### 3.7 Tuning runs — table-version bumps with declared shifts",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-V12.md #6 (l. 555) REPLACE ### 3.12 Failure handling — every failure, its rung, its report",
+    "kind": "REPLACE",
+    "heading": "### 3.12 Failure handling — every failure, its rung, its report",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-V12.md #7 (l. 605) REPLACE ### 3.15 The owner rules 111–126 on the harness",
+    "kind": "REPLACE",
+    "heading": "### 3.15 The owner rules 111–126 on the harness",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-V12.md #8 (l. 995) REPLACE ### 7.1 The bars",
+    "kind": "REPLACE",
+    "heading": "### 7.1 The bars",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-V12.md #9 (l. 1063) REPLACE ### 8.2 Steps, estimates and exits (person-weeks, expert; PLAUSIBLE)",
+    "kind": "REPLACE",
+    "heading": "### 8.2 Steps, estimates and exits (person-weeks, expert; PLAUSIBLE)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 805,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 67,
+  "headings_after": 67,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 30,
+  "fence_lines_after": 30,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 524105,
+  "doc_bytes_after": 525576,
+  "doc_lines_before": 3558,
+  "doc_lines_after": 3560,
+  "rationale_bytes_before": 704770,
+  "rationale_bytes_after": 704770,
+  "rationale_lines_before": 2386,
+  "rationale_lines_after": 2386,
+  "blocks_total": 9,
+  "blocks_applied": 9,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "006b8ef1d304cee55b9e0754a7c8d26fe3de43a65fd9e88eddcb5be0cd60a51d",
+  "output_rationale_sha256": "a480f02e58a893fea57cacc5977b83489f633ced23901f578adbcfbd8059c52a"
+ }
+}

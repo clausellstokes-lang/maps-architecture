@@ -1,0 +1,46 @@
+{
+  "schema": "plat-landed-record/1",
+  "item": "M0-a-12",
+  "lane": "build/M0-a-12-consolidate-1",
+  "lanes": ["build/M0-a-12-consolidate-1"],
+  "wave": "flow-7",
+  "snapshotTaken": "2026-10-04T20:46:52.985Z",
+  "date": "2026-10-13T19:57:17.809Z",
+  "ownsSource": "docs/build/M0-work.json",
+  "owns": ["plat/packages/kernel/src/medial/", "plat/packages/kernel/src/adapters/delaunator.ts", "plat/packages/kernel/test/medial/", "plat/bench/src/skeleton/", "plat/bench/fixtures/skeleton-corpus/ (the synthetic irregular footprints, numbers-only JSON, committed)", "plat/docs/build/summaries/M0-a-12.json", "plat/bench/test/skeleton/"],
+  "counts": { "created": 0, "changed": 4, "unchanged": 14, "deleted": 0 },
+  "files": [
+    { "path": "plat/bench/fixtures/skeleton-corpus/footprints.json", "status": "unchanged", "sha256": "ba127abb3a1452970703644acf63251e5c1331afe88de7b6b959a576b901161d", "size": 222595 },
+    { "path": "plat/bench/src/skeleton/corpus.ts", "status": "unchanged", "sha256": "1fce37ea8ae03284354ddf58b92dd0b234f9876438b7935253e791fac086aa40", "size": 17704 },
+    { "path": "plat/bench/src/skeleton/index.ts", "status": "changed", "sha256": "22fe5d49f41a4319f05d3cd49c73191e285b4e7ebbe9879a4946cd278c7fe1c7", "size": 7849 },
+    { "path": "plat/bench/src/skeleton/runner.ts", "status": "unchanged", "sha256": "b474e45035e4454cfa94d24c9819db582dac81f58c502866fd6b5616351086c4", "size": 11196 },
+    { "path": "plat/bench/test/skeleton/corpus.test.ts", "status": "unchanged", "sha256": "fcc6c48f6c2791ef3368306907b226fe46477948c98549af0c6dc523276ef958", "size": 6343 },
+    { "path": "plat/bench/test/skeleton/fixtures/failing/footprints.json", "status": "unchanged", "sha256": "0082f2ab8cddaf11f2f9ca614cefa23b0d0cb71a23c6fdd972008147bca4f991", "size": 410 },
+    { "path": "plat/bench/test/skeleton/medial.test.ts", "status": "changed", "sha256": "7d13696a91c3eab7cc3cf157f0f03e3be3da908442a0a09476159071a763580a", "size": 3604 },
+    { "path": "plat/bench/test/skeleton/runner.test.ts", "status": "unchanged", "sha256": "a442ef8feb017a954ddf65fb45cd703d8dae5185f1f2cfe01fb0e2b4ba500e4c", "size": 14599 },
+    { "path": "plat/bench/test/skeleton/timing.test.ts", "status": "unchanged", "sha256": "07012fb2b1890ad8c67bf963bb0ea894d732588be61bd4b6d6e64167232f3f17", "size": 4331 },
+    { "path": "plat/docs/build/summaries/M0-a-12.json", "status": "unchanged", "sha256": "c8f82f39306590f659b68c43c4723672268c62ec2d65ba7c8b1242275fa09225", "size": 1953 },
+    { "path": "plat/packages/kernel/src/adapters/delaunator.ts", "status": "unchanged", "sha256": "86bc0e4cef94b2b259644e9988ca7eea5abbb9d0c37a562ce76f6bb96a5cf558", "size": 4965 },
+    { "path": "plat/packages/kernel/src/medial/axis.ts", "status": "changed", "sha256": "9d433c8658d5e7b7a111580732d0d2649e63ba984de5e1543126eefd6d202f9b", "size": 29542 },
+    { "path": "plat/packages/kernel/src/medial/dual.ts", "status": "unchanged", "sha256": "87a70347775b68cd7c2b8202d41b66fa4e636a01a59821d632d0ad339d86c0b3", "size": 2862 },
+    { "path": "plat/packages/kernel/src/medial/index.ts", "status": "changed", "sha256": "bf4b15659ccd0f111da7fcfb6a07c4dbb48d5b47cc40bea78ffcba5b84567892", "size": 883 },
+    { "path": "plat/packages/kernel/test/medial/axis.test.ts", "status": "unchanged", "sha256": "e28455fd971e9f2677b9bb5053621a763a2b2a4f4927fd749a92f7f9daa07b4f", "size": 35416 },
+    { "path": "plat/packages/kernel/test/medial/delaunay.test.ts", "status": "unchanged", "sha256": "523afd8139d52348ee187c4f01dd62dc9917968f785a7a0109d46fcb02c48708", "size": 7270 },
+    { "path": "plat/packages/kernel/test/medial/dual.test.ts", "status": "unchanged", "sha256": "dd28c780d4bf8e34fecc4c499afe830a27b50d6d9d13112a39ead30ed417ef1e", "size": 5283 },
+    { "path": "plat/packages/kernel/test/medial/support.ts", "status": "unchanged", "sha256": "86fbf12641ef314f83b6f5dd44622f94ac993a036e84c0700d7638eead1e951e", "size": 5679 }
+  ],
+  "appends": [
+    {
+      "file": "plat/CLEAN-ROOM.md",
+      "ids": ["L-0513"],
+      "lines": ["0fd661f3144f97f7"],
+      "removed": []
+    },
+    {
+      "file": "plat/docs/build/choices.md",
+      "ids": ["C-0355"],
+      "lines": ["1611b7b16afb3c49"],
+      "removed": []
+    }
+  ]
+}

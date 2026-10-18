@@ -1,0 +1,11 @@
+[
+ {
+  "id": "VV1112-r6-02",
+  "severity": "minor",
+  "kind": "WIRING",
+  "owner": "V11",
+  "claim": "Registry row 80 is \"the one list of each table's readers\" (V11 \u00a73.1 *Readers*, l. 898; E-34; T-V11-1 (b): \"0 unlisted stage readers\"). This round rewrote its reader cell (l. 1006) and W50's consumer cell (l. 208) to name the crossing table's readers of `structure.stripMarginM` as \"S5a and S7\" only. The crossing table also runs at VS3. V07 \u00a73.5a (4) (V07 l. 1604\u20131610), rewritten this round, reads \"A palisade meets a raised way by \u00a72.7's crossing table\". Under *beneath* (base l. 2628\u20132631), VS3's trace is \"a stretch laid by neither\" pull nor cost field, and it \"is bent locally, between its nearest points clear of the raised way's under-deck strip\", which VS3 computes at `stripMarginM`. Before this round VS3 never bent clear of the strip (pre-round V07 l. 1604\u20131610), so this read is new. The same cell also omits the village readers V07 \u00a73.5a (5) names (V07 l. 1616\u20131621: \"VS5, VS6 and S10 \u2014 no house under the arches. The under-deck strip \u2014 \u2026 widened each side by `raisedWays.structure.stripMarginM` (V11 \u00a73.24.2)\"; V07's settings row l. 609: \"read, never copied\"). Row 80 lists VS4 only of V07's stages. The registering seats write their stages in (J-V11.85), and T-V11-1 (b) fails an unlisted reader it records, so nothing built changes. A list omitting readers the rule names: MINOR.",
+  "required_change": "V11 registry row 80's reader cell (l. 1006): after \"VS4 (V07's trackers crossing an under-deck strip by the same rule and cells, V07 \u00a73.5a (3)),\" add \" VS3 (the palisade meeting a raised way by \u00a72.7's crossing table, its line bent clear of the under-deck strip at `structure.stripMarginM`, V07 \u00a73.5a (4)), VS5, VS6 and S10 at the village rungs (no toft yard part or building in the under-deck strip at `structure.stripMarginM`, V07 \u00a73.5a (5)),\". W50's consumer cell (l. 208): \"\u00a72.7's crossing table at S5a and S7 (`stripMarginM`)\" \u2192 \"\u00a72.7's crossing table at S5a, S7 and VS3, V07 \u00a73.5a (5)'s VS5, VS6 and S10 (`stripMarginM`)\".",
+  "reported_by": "verify-vol-V11-V12-r6t"
+ }
+]

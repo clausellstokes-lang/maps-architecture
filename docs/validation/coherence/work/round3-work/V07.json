@@ -1,0 +1,83 @@
+[
+ {
+  "id": "VAL-R2-05",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "owner": "V07",
+  "claim": "Same defect as VM-R2T-11 (verify-model) and VV78-r2-04 (vol-V07-V08). V07 \u00a75.5 (l. 3323\u20133325) says Find's state is 'saved only in view pins \u2014 never in the document, its hash or the log', and V07 \u00a73.17's Find row (l. 2948) 'the `find` key never in the document \u2014 saved in view pins only'. \u00a72.9, the key's home (R2-33 (a)), saves it 'with the other view keys (`Document.view`; item 120 (a))' (l. 3360), and V09 \u00a74.21.10 (1) 'with the other view keys in the document's `view` section'. A load restores Find under the base and V09, and not under V07.",
+  "required_change": "ONE FIX with VM-R2T-11 and VV78-r2-04, in VV78-r2-04's words: V07 \u00a75.5 '\u2026 and saved only in view pins \u2014 never in the document, its hash or the log' \u2192 '\u2026 and saved with the other view keys in the document's `view` section and in view pins (\u00a72.9) \u2014 never in its canonical form, a digest, its hash or the log'; V07 \u00a73.17's Find row 'the `find` key never in the document \u2014 saved in view pins only' \u2192 'the `find` key in no digest \u2014 saved with the other view keys (\u00a72.9) and in view pins'.",
+  "reported_by": "verify-agree-layers-r2t"
+ },
+ {
+  "id": "VAL-R2-09",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "owner": "V07",
+  "claim": "Same defect as VV78-r2-03 (vol-V07-V08): model's week source against the village. \u00a72.9 *The week's source* (l. 3372\u20133377; R2-40 (1): 'one sentence in every unit') and \u00a74.11 *The clock* (1) make a dossier-bound map's present week 'the dossier's own latest stamped tick', 'never the campaign's calendar or any host input'. V07 still reads the retired input: its dossier trace (l. 324\u2013325) 'the campaign calendar's week and season \u2192 \u00a77.7's DR42 \u2192 W80', W80's dossier column (l. 288) 'the campaign calendar's week and season (V08)', and T-V7-65 (l. 3664) 'a campaign dossier opens on its own week'.",
+  "required_change": "ONE FIX with VV78-r2-03, in its words: V07 \u00a71b's dossier trace \u2192 'the dossier's present week \u2014 its latest stamped tick (V08 \u00a73.16 (4); item 125 (b)) \u2192 \u00a77.7's DR42 \u2192 W80'; W80's dossier column \u2192 'the dossier's present week, its latest stamped tick (V08 \u00a73.16 (4))'; T-V7-65 \u2192 'a dossier village opens on its present week (its latest stamped tick), one with no stamped tick on the season control's midsummer'.",
+  "reported_by": "verify-agree-layers-r2t"
+ },
+ {
+  "id": "VAT2-r2-07",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "owner": "V07",
+  "claim": "V07 drops the protected dwelling's exception at desertion. V07 \u00a73.12 *Decline and desertion* (l.2542-2543) reads 'A deserted village \u2014 a target below 1, or no household left \u2014 is an outcome \u2026: every dwelling vacates and decays over the dwell bands', and T-V7-16 (l.3615) bars 'a target of 0 vacates every dwelling'. The village's decline is V06's engine (V07 l.2505: 'the engine's strike lottery (V06 \u00a73.5)'). V06 \u00a73.5.1 (5) (l.1236-1238) never vacates a locked or pinned building: its last household 'lets out by a `relet` down to 0, the building keeping its state (\u00a77.7's precedence)'. R2-18 (a) words the same exception at \u00a72.6's clamp, \u00a74.11 step (c), `LadderOp.relet` and \u00a75.3's capacity row (l.9037). A deserted village holding a locked or pinned dwelling is therefore vacated by V07's statement and its bar, and kept by the engine's rule; T-V7-16 fails on a fixture that holds one.",
+  "required_change": "V07 l.2542-2543: 'every dwelling vacates and decays over the dwell bands' \u2192 'every dwelling vacates and decays over the dwell bands \u2014 a locked or pinned dwelling excepted, whose last household leaves by a `relet` down to 0, the building keeping its state (V06 \u00a73.5.1 (5); \u00a77.7's precedence)'. T-V7-16: 'a target of 0 vacates every dwelling' \u2192 'a target of 0 vacates every dwelling but a locked or pinned one, which keeps its state with 0 households (V06 \u00a73.5.1 (5))'.",
+  "reported_by": "verify-agree-time-r2t"
+ },
+ {
+  "id": "VDC2-15",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "V07 \u00a73.2 (l.1232) says \"The option `river: 'descent'` (the base's descent trace) is taken when a dossier's realm block gives a river course (V07 \u00a73.11)\". DR1 no longer reads the realm cell's river, item 125 (a) retires the realm block, and V07 \u00a73.11 states no such trigger. The option's only trigger has no producer.",
+  "required_change": "V07 \u00a73.2: \"is taken when a dossier's realm block gives a river course (V07 \u00a73.11)\" \u2192 \"is taken only when the blueprint or the user sets it; no input gives a river course (item 125 (a); \u00a77.7's DR1)\".",
+  "owner": "V07",
+  "reported_by": "verify-determinism-r2t"
+ },
+ {
+  "id": "VM-R2T-11",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "G120's agreement: V07 \u00a75.5 (l. 3324\u20133325) says Find's key is 'saved only in view pins \u2014 never in the document, its hash or the log'; \u00a72.9 (and V09 l. 3439) save it 'with the other view keys (`Document.view`; item 120 (a))' \u2014 in the saved document's non-canonical `view` section, outside every digest.",
+  "required_change": "V07 \u00a75.5: 'kept across zooms, bands, layers, the season, epochs and edits until **Clear** or the panel's close, and saved with the other view keys in the document's `view` section (\u00a72.9) \u2014 never in its canonical form, a digest, its hash or the log'.",
+  "owner": "V07",
+  "reported_by": "verify-model-r2t"
+ },
+ {
+  "id": "VV78-r2-01",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "owner": "V07",
+  "claim": "Item 125's retirements reach V07. V07 \u00a73.0's VS1 row (l. 1138) restates V08 \u00a72.5's latitude rule as '(`CircumstanceSlice.port.latitudeDeg`, else the blueprint's `Intent.latitudeDeg`, else 50)'. V08's round-2 repair retired `PortValues.latitudeDeg`, and V08 \u00a72.5 now reads 'the site latitude \u2014 Intent.latitudeDeg (DR29), else 50' ('no later latitude arrives', item 125 (a)). J-V7.110's reason 'the port already delivers it in the intent and the epoch's slice' is likewise no longer true. V08's repair handed this off to V07.",
+  "required_change": "V07 VS1 row (l. 1138): '(`CircumstanceSlice.port.latitudeDeg`, else the blueprint's `Intent.latitudeDeg`, else 50)' \u2192 '(`Intent.latitudeDeg`, DR29, else 50)'. J-V7.110 gains the mark '\u2014 amended by item 125: the port delivers the latitude in the intent alone (DR29; V08 \u00a72.5), no slice carries one'.",
+  "reported_by": "verify-vol-V07-V08-r2t"
+ },
+ {
+  "id": "VV78-r2-02",
+  "severity": "minor",
+  "kind": "WIRING",
+  "owner": "V07",
+  "claim": "V07 \u00a73.2 (2) (l. 1231\u20131232): 'The option `river: 'descent'` (the base's descent trace) is taken when a dossier's realm block gives a river course (V07 \u00a73.11)'. Item 125 (a) retired the realm block, V08 \u00a72.6b (3) dropped its course line this round, and V07 \u00a73.11 states no such trigger. The option has no producer: a dangling input. No blueprint, request or user setting selects a village's `RiverStrategy` (the base names 'descent' nowhere; V07 registers 'course-first'). Same defect as verify-determinism-r2t VDC2-15, whose wording 'taken only when the blueprint or the user sets it' would name a setting that does not exist.",
+  "required_change": "ONE FIX with VDC2-15, in this form. V07 \u00a73.2 (2): replace the sentence 'The option `river: 'descent'` (the base's descent trace) is taken when a dossier's realm block gives a river course (V07 \u00a73.11).' by 'No input selects the base's descent trace at the village rungs: every village river is course-first (item 125 (a) retired the realm block's river course; V08 \u00a72.6b (3)).'",
+  "reported_by": "verify-vol-V07-V08-r2t"
+ },
+ {
+  "id": "VV78-r2-03",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "owner": "V07",
+  "claim": "V07 reads the week as the campaign calendar's \u2014 `HostContext.week`, the campaign's `calendar.elapsedWeeks`, which item 125 (a) retired. The dossier trace (l. 324\u2013325) reads 'the campaign calendar's week and season \u2192 \u00a77.7's DR42 \u2192 W80', and W80's dossier column (l. 288) 'the campaign calendar's week and season (V08)'. T-V7-65 says 'a campaign dossier opens on its own week'. R2-40 (1) ('the week, one sentence in every unit'), DR42 and V08 \u00a73.16 (4) make it the dossier's latest stamped tick, else week 0 on the season control's midsummer.",
+  "required_change": "V07 \u00a71b's dossier trace: 'the campaign calendar's week and season \u2192 \u00a77.7's DR42 \u2192 W80' \u2192 'the dossier's present week \u2014 its latest stamped tick (V08 \u00a73.16 (4); item 125 (b)) \u2192 \u00a77.7's DR42 \u2192 W80'. W80's dossier column: 'the dossier's present week, its latest stamped tick (V08 \u00a73.16 (4))'. T-V7-65: 'a campaign dossier opens on its own week' \u2192 'a dossier village opens on its present week (its latest stamped tick), one with no stamped tick on the season control's midsummer'.",
+  "reported_by": "verify-vol-V07-V08-r2t"
+ },
+ {
+  "id": "VV78-r2-04",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "owner": "V07",
+  "claim": "V07 \u00a75.5 (l. 3324\u20133325) says Find's key is 'saved only in view pins \u2014 never in the document, its hash or the log', and V07 \u00a73.17's Find row (l. 2948) 'the `find` key never in the document \u2014 saved in view pins only'. \u00a72.9, the key's home, saves it 'with the other view keys (`Document.view`; item 120 (a))' \u2014 the document's view section, outside every digest \u2014 and item 120 (a) says 'saved in view pins like the other view keys'. Same defect as verify-model-r2t VM-R2T-11, which names \u00a75.5 only.",
+  "required_change": "ONE FIX with VM-R2T-11. V07 \u00a75.5: '\u2026 until **Clear** or the panel's close, and saved only in view pins \u2014 never in the document, its hash or the log' \u2192 '\u2026 until **Clear** or the panel's close, and saved with the other view keys in the document's `view` section and in view pins (\u00a72.9) \u2014 never in its canonical form, a digest, its hash or the log'. V07 \u00a73.17's Find row: 'the `find` key never in the document \u2014 saved in view pins only' \u2192 'the `find` key in no digest \u2014 saved with the other view keys (\u00a72.9) and in view pins'.",
+  "reported_by": "verify-vol-V07-V08-r2t"
+ }
+]

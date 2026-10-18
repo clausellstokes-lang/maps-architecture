@@ -1,0 +1,63 @@
+{
+ "id": "W-01",
+ "status": "landed",
+ "records": [
+  "docs/calibration/E01-capture-plan.md",
+  "docs/calibration/E01-capture-plan.json"
+ ],
+ "outputs": [
+  "research/baselines/plan.py",
+  "research/baselines/plan.json",
+  "research/baselines/metrics.m-1.json"
+ ],
+ "checks": [
+  {
+   "check": "W-01 row: capture/MFCG/40/plain/0 -> 2003595629, capture/MFCG/80/river+coast/9 -> 1452355484 (PM), capture/NG/area/medium/0 -> 259196530 reproduce docs/validation/bench/v12_h32_vectors.out byte for byte",
+   "passed": true,
+   "receipt": "python3 research/baselines/plan.py --vectors <3 labels> | cmp against line 1 + the 3 matching lines of v12_h32_vectors.out: identical (both sha256 b1187d9d79df0faf...); re-run at landing: identical (CONFIRMED)"
+  },
+  {
+   "check": "whole vector files reproduce",
+   "passed": true,
+   "receipt": "plan.py --vectors over all 18 labels of v12_h32_vectors.out: cmp identical (19 lines); over the 10 labels of v12_rev_h32.out: identical less its comment line; bench script v12_h32_vectors.py on the 3 labels: cmp identical to plan.py (CONFIRMED)"
+  },
+  {
+   "check": "plan entries carry the vector seeds; seeds in MINSTD range; no collisions",
+   "passed": true,
+   "receipt": "asserted inside plan.py on every run: capture/MFCG/40/plain/0 seed 2003595629, capture/NG/area/medium/0 seed 259196530; 79 seeds all in 1..2147483646; 0 collisions (CONFIRMED)"
+  },
+  {
+   "check": "refusal path (red first) and determinism",
+   "passed": true,
+   "receipt": "scratch copy with one expected vector off by 1: SELF-TEST FAILED, nothing written, exit 2, plan.json byte-unchanged; plan.py --check: SAME for both files (CONFIRMED)"
+  },
+  {
+   "check": "metrics.m-1.json covers V12 section 3.4.2's catalogue",
+   "passed": true,
+   "receipt": "plan.py --catalogue-check: 182 catalogue ids vs 182 registered, 0 missing, 0 extra (CONFIRMED)"
+  },
+  {
+   "check": "FTG slot lifecycle (bind, fail, regenerate)",
+   "passed": true,
+   "receipt": "scratch copy: out-of-order bind, missing folder, rebind, reused folder, malformed reason each refused exit 1; valid bind and fail recorded; regeneration kept both; --check SAME; families identical to the real plan (CONFIRMED)"
+  }
+ ],
+ "rows": 85,
+ "build_ids": [
+  "MFCG itch:12710731 (JSON 0.11.5; re-resolved at capture time)",
+  "NG itch:11441280 (1.2.2)",
+  "FM 890 (itch upload 2851818)",
+  "FTG per capture: ftg:<server date>+<request sha256 12 hex>"
+ ],
+ "owner_notes": [
+  "None needed: W-01 touched no third-party site, downloaded nothing, wrote nothing into plat/ and ran no git."
+ ],
+ "notes": [
+  "SIDE EFFECT, needs a fix outside this seat (CONFIRMED by executed runs): docs/validation/bench/doc_checks.py reads every JSON under research/ as reference corpus, so plan.json and metrics.m-1.json turn the design-set check red. V12-calibration.md goes from 0 to 33 C3 + 4 C4 unreviewed hits (exit 0 to 1); ARCHITECTURE.md from 0 to 14 C3 + 2 C4 (exit 0 to 1). All the hits are our own vocabulary (MetricDef keys, unit names, way classes, V12 row names); C1 and C2 are unchanged. Fix: leave research/baselines/ out of doc_checks.py corpus_files (line 62) and json_files (line 108). W-16's make_denylist.py already excludes it (EXCLUDE, line 49). E01 section 7 has the details.",
+  "rows = plan entries (35 MFCG exports with 70 files, 44 NG generations, 6 FTG slots); Fantasy Manor's 41 recorded buildings are listed as a sample. W-01 writes no baseline row.",
+  "Calls recorded vetoably in E01 section 3: every metric at version 1.0.0 (the product's metrics.json must match or C6 fails at M1); the hash carried inside plan.py; FTG family per size with slots bound in order via --bind-ftg/--fail-ftg (W-02 records each capture this way); inferred units labelled 'inferred'; FM referenceBuild 890; the MFCG query strings kept research-side only.",
+  "Findings for other seats (E01 section 5, CONFIRMED by reading): street.detour, street.cyclesPerKm2, plot.minWidth and fg.streetwallGap100 (D4) and block.area (D15) need metres, but NG inputs are relative, so they would read notApplicable and leave their M-1 cells failing. Per km2 and a count per 100 m are not MetricUnits. These are owned by W-11 plus a design seat. 8 open fields in total; 19 catalogue (metric, reference) pairs no M-1 item fills, listed in metrics.m-1.json m1Uncovered for W-15.",
+  "Deferred and documented: the panel identifier files (V12 section 3.2.1 says plan.py writes fm-/dw-captures.json and vg-seeds.json; the M-1 plan leaves them to M1, M5, M6c and V-M4); member ids of draw.* (W-07) and wealth.* (W-05); VG (V07, V-M4).",
+  "Disk 18 GiB free before and after; no capture folder made."
+ ]
+}

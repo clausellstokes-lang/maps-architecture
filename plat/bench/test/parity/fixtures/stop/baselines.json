@@ -1,0 +1,80 @@
+[
+  {
+    "id": "syn/junction.share4/NG/medium/all",
+    "metric": "junction.share4",
+    "unit": "share",
+    "reference": "NG",
+    "referenceBuild": "1.2.2",
+    "capture": "research:captures-ng/plan-seeds",
+    "script": "research:baselines/measure.py",
+    "date": "2026-10-04",
+    "metricVersion": "1.0.0",
+    "estimator": "type7",
+    "scale": "metric",
+    "role": "target",
+    "values": {
+      "p10": 0.026,
+      "p50": 0.052,
+      "p90": 0.077,
+      "n": 20,
+      "seeds": 20
+    },
+    "sample": {
+      "family": "capture/NG",
+      "captures": [
+        "ng/seed-0",
+        "ng/seed-1",
+        "ng/seed-2",
+        "ng/seed-3",
+        "ng/seed-4",
+        "ng/seed-5",
+        "ng/seed-6",
+        "ng/seed-7",
+        "ng/seed-8",
+        "ng/seed-9",
+        "ng/seed-10",
+        "ng/seed-11",
+        "ng/seed-12",
+        "ng/seed-13",
+        "ng/seed-14",
+        "ng/seed-15",
+        "ng/seed-16",
+        "ng/seed-17",
+        "ng/seed-18",
+        "ng/seed-19"
+      ]
+    },
+    "note": "synthetic row for the bench test"
+  },
+  {
+    "id": "syn/sgd.tShare/MFCG/80/plain/all",
+    "metric": "sgd.tShare",
+    "unit": "share",
+    "reference": "MFCG",
+    "referenceBuild": "12710731",
+    "script": "research:baselines/measure.py",
+    "date": "2026-10-04",
+    "metricVersion": "1.0.0",
+    "estimator": "type7",
+    "scale": "metric",
+    "matched": {
+      "rung": "CITY",
+      "mfcgSize": 80
+    },
+    "role": "target",
+    "values": {
+      "p10": 0.4,
+      "p50": 0.45,
+      "p90": 0.5,
+      "n": 10,
+      "seeds": 10
+    },
+    "sample": {
+      "family": "capture/MFCG/80/plain",
+      "indices": [
+        0,
+        10
+      ]
+    }
+  }
+]

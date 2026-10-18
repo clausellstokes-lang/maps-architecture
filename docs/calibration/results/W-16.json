@@ -1,0 +1,68 @@
+{
+ "id": "W-16",
+ "status": "partial",
+ "records": [
+  "docs/calibration/E16-denylist.md",
+  "docs/calibration/E16-denylist.json"
+ ],
+ "outputs": [
+  "research/baselines/make_denylist.py (build / scan / selftest; stdlib, 681 lines)",
+  "research/baselines/denylist/denylist.v1.json.gz (plat.denylist/1, 8 719 621 B, sha256 60e6cc70c224; salted 16-hex digests only: tok 1369, id 130, tri 971690, col 7248, file 2076, phr 75, 235 word sets)",
+  "research/baselines/denylist/salt.hex (generated once 13:06, kept with the list)",
+  "research/baselines/denylist/refmap-names.digests (91 transcribed study-map names as digests only; transcription kept outside the project)",
+  "research/baselines/denylist/spell-supplement.txt (179-word supplement to web2)",
+  "research/baselines/denylist/design-allow.tsv (292 reviewed rows; doc-checks-allow.tsv's 6203 rows carried by the script)"
+ ],
+ "checks": [
+  {
+   "check": "every doc_checks.py C1 identifier hits",
+   "passed": true,
+   "receipt": "selftest: 36/36 ID hits"
+  },
+  {
+   "check": "every corpus colour hits",
+   "passed": true,
+   "receipt": "selftest: 7248/7248 written-colour values; 297234 bare six-hex runs (decimals, coordinates) deliberately not listed"
+  },
+  {
+   "check": "every check-(vi) list hits",
+   "passed": true,
+   "receipt": "selftest: 210/210 of the 478 in-scope C4 lists that hold >= 5 indexed words (268 hold fewer and can never be a C4 hit); 234/234 of all kept lists"
+  },
+  {
+   "check": "tokens, identifiers, files, sampled 3-grams, map names all hit",
+   "passed": true,
+   "receipt": "selftest: tok 1329/1329, id 130/130, files 9561/9561, 3-grams 2004/2004 sampled, names 91/91 covered (90 direct, 1 by map A's set)"
+  },
+  {
+   "check": "planted leaks are caught",
+   "passed": true,
+   "receipt": "selftest: 20/20 six-token findings runs (TRI), 20/20 alphabetised lists (SET), 20/20 upper-case colours (COL) in a scratch copy of volumes/INDEX.md"
+  },
+  {
+   "check": "salt kept with the list; build deterministic",
+   "passed": true,
+   "receipt": "header salt == salt.hex; build 6 (digests file merged, no transcription) byte-identical to build 5 (cmp, sha256 60e6cc70...)"
+  },
+  {
+   "check": "design set scanned -> 0 unreviewed hits with doc-checks-allow.tsv's reviewed rows carried",
+   "passed": false,
+   "receipt": "selftest: 17 occurrences / 5 distinct unreviewed after carrying 6203 rows and 292 new reviewed rows: one Building field name equal to an FTG Foundry-module field name (base l. 1369, 1488, 16013; V03 l. 310; V11 l. 1433; TOK+ID) and three study-map name phrases (base l. 15533, V01 l. 3163, V09 l. 4475, V10 l. 37/2347/3200, V12 l. 1534 coincidence) - routed, not allowed"
+  }
+ ],
+ "rows": 0,
+ "build_ids": [],
+ "owner_notes": [
+  "The deny-list is built and works; it is not landed clean because it found real issues in the design that this research seat may not settle: (1) a Building field in the base (l. 1369, 1488, 16013) and V03/V11 reuses a field name of FTG's Foundry module, which ARCHITECTURE 17.1 (9) forbids (it entered via red-team FTG-11; the old check never covered field names); (2) design examples use the place names of the Baldur's Gate study map (its three city regions at base l. 15533 and V01 l. 3163; the clerk examples at V10 l. 37/2347/3200; a landmark at V09 l. 4475), which that map's README bars. A design seat should rename/reword them (or Fable rule them ordinary words); then rerun make_denylist.py selftest.",
+  "Vetoable calls (E16 section 5): SettlementForge (research/sf) and M-1's own research/baselines are left out of the list; colour values only as written colours; spell list = system dictionary plus our 179-word supplement; word sets use check (vi)'s one-word index; two classes added (case-kept identifiers for C1 parity, multi-word map names for namesClean); corpus frozen at the clean-room record's time.",
+  "doc_checks.py now reports 14 C3 + 2 C4 unreviewed phantom hits on the base from JSON M-1 lanes wrote today (research/baselines, capture records); the seat that owns doc_checks should exclude research/baselines/ and captures' own record files, as E01/E02 also ask."
+ ],
+ "notes": [
+  "CONFIRMED: every count and self-test result (builds 5-6, selftest 5, 2026-10-03 14:05-14:25); the field-name reuse (17.1 (9) and payload-visual 7.3 read against the base). PLAUSIBLE: that the study-map phrases came from the known-city experiment; that V11's roster overlap with FTG's (39 of 108 classes, FTG's coinages absent) is independent selection; that the 244 stitched 3-gram runs are not copies.",
+  "Corpus cut 2026-10-03T07:25:59-04:00 (the clean-room record): today's two M-1 capture folders (391 files) are not in this list; rebuild at M-1's exit with --as-of now, same salt, after excluding the capture lanes' own record files (they made 6 TOK + 5 SET design hits in build 4), then rerun selftest and review only new hits.",
+  "The list goes into plat/packages/testkit/baselines/ and its generation record (E16 section 2) into plat/CLEAN-ROOM.md section 4 at the crossing (W-20, the baseline seat); this seat wrote nothing in plat/.",
+  "Product hazard: three of C1's identifiers are web-platform names (message posting and pointer/mouse move events); plat's UI code will hit them and need allow entries, as check (i) would.",
+  "The study-map transcription (91 names) exists only in the session scratchpad; re-transcription is needed only if the normalisation changes. No bundle (.js/.wasm) was opened; fonts were not hashed (OFL, shipped by the product).",
+  "Disk: 18 GB free at start, 15 GB at end (other lanes' captures); this lane wrote about 9 MB."
+ ]
+}

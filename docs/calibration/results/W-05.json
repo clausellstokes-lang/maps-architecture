@@ -1,0 +1,87 @@
+{
+ "id": "W-05",
+ "status": "landed",
+ "records": [
+  "docs/calibration/E05-ftg-metrics.md",
+  "docs/calibration/E05-ftg-metrics.json"
+ ],
+ "outputs": [
+  "research/baselines/adapters/ftg.py (payload -> MeasureInput, schema research.measure-input/1; main -> arterial, road inside a district ring -> street, outside -> lane, dirt road / small road / trail -> track; walls, towers, buildings, water, piers, trees, fields, districts; sha256 782e636f)",
+  "research/baselines/measure_ftg.py (twin of the existing scripts plus every FTG metric of D14, D25, D26 and the variety signature by V12 section 3.4.2; --check, --red; sha256 2c0b2acc)",
+  "research/baselines/inputs/FTG/ftg-2026-09-21_26c4ad3e075b/2026-09-21T05-23-58.metric.geojson.gz (sha256 e8377e6e)",
+  "research/baselines/inputs/FTG/ftg-2026-09-25_ba02af9ca044/2026-09-25T10-13-51.metric.geojson.gz (sha256 8097f383)",
+  "docs/calibration/E05-ftg-metrics.json (per-capture values, twin, checks, pre-registered extension; sha256 243bca8e)"
+ ],
+ "checks": [
+  {
+   "check": "the twin reproduces the roadlength100 outputs: runs 50.5 / 30.25 / 50.25 / 30.00 / 14.70 m",
+   "passed": true,
+   "receipt": "measure_ftg.py --check: PASS runs, got 50.5, 30.25, 50.25, 30.00 / 30.00, 14.70 / 14.70 / 14.70, 50.5; length_precision.out.txt reproduced line for line, 31 / 31 and 26 / 26 lines (name lines excluded)"
+  },
+  {
+   "check": "2798 and 2813 building counts",
+   "passed": true,
+   "receipt": "PASS: decoder 2798 / 2813, MeasureInput 2798 / 2813"
+  },
+  {
+   "check": "17 / 29 towers",
+   "passed": true,
+   "receipt": "PASS: decoder 17 / 29, MeasureInput 17 / 29; all on curtain vertices (17 / 17, 29 / 29)"
+  },
+  {
+   "check": "turning per 100 m and heading entropy agree with _critic-ftg.md section 4 rows 7-9 within the declared 10 m-resampling change",
+   "passed": true,
+   "receipt": "rows 7-9 twin exact on their payload (2026-09-21): type-0 bins 12..18 = 28/19/16/0/0/1/0, arms p50 90.02 n 5213 58.2 %, max heading bin 7.8 %. Criteria fixed before the first run, on that payload: raw way-vertex bins 15/16 = 0/0, junction.angles median 90.15, resampled heading spectrum max bin 10.5 % (< 11.1), turn100 8.021 deg/100 m and entropy50 1.507 bits exist. Declared change: 1.03 % of 10 m steps above 15 deg. Extension to 2026-09-25 (not a row check): criterion (i) fails by data (one type-0 vertex at 16 deg, found by row 7's own method too; one trail vertex at 15 deg), (ii)-(iv) pass: 90.52, 9.7 %, 8.494 / 1.180"
+  },
+  {
+   "check": "the stored MeasureInput files equal a fresh adapter run",
+   "passed": true,
+   "receipt": "measureInputEqualsAdapterRun true / true; way features hold 1499 / 1157 segments = the type 0+1+2+10(+13) edge counts"
+  },
+  {
+   "check": "checker goes red when it should",
+   "passed": true,
+   "receipt": "measure_ftg.py --check --red (run 50.5 -> 50.0): FAIL runs, exit 1, no JSON written"
+  },
+  {
+   "check": "deterministic outputs",
+   "passed": true,
+   "receipt": "two further full runs: E05-ftg-metrics.json sha256 equal (243bca8e), stdout identical"
+  },
+  {
+   "check": "referenceBuild rule equals W-02's",
+   "passed": true,
+   "receipt": "adapter provenance() read-only on 2026-10-03T17-19-06 returns ftg:2026-10-03+aa8ba6c213b6, 274285 bytes, 2.553 s = that capture's README; no geometry measured there"
+  },
+  {
+   "check": "record carries no reference identifiers, colours or lists",
+   "passed": true,
+   "receipt": "doc_checks.py --doc E05-ftg-metrics.md --heads ARCHITECTURE.md: C1 0, C2 0, C4 0, S1 0, S2 0; C3 36 unreviewed digit runs, dates, capture stamps and own phrases (exit 1 by that count; record outside the design set). First run C4 2 on a feature-count list, reworded. E05 json: 0 town names or labels (grep)"
+  },
+  {
+   "check": "disk above 1 GB",
+   "passed": true,
+   "receipt": "df -h /Users/cstokes 15 GiB free at start and end; outputs 0.36 MB MeasureInput + 32 KB JSON; no capture folder made"
+  }
+ ],
+ "rows": 0,
+ "build_ids": [
+  "ftg:2026-09-21+26c4ad3e075b",
+  "ftg:2026-09-25+ba02af9ca044"
+ ],
+ "owner_notes": [
+  "W-05 is done. FTG's measurements were re-run, using the design's exact definitions, on the two FTG towns already on disk. Nothing touched a website and nothing went into plat/.",
+  "Five FTG reference numbers in the design change when measured exactly. Tree spacing goes from 9.7 to 10.6 m: the old script skipped isolated trees. Ungated wall crossings go from 6 and 2 to 3 and 1: the old count included the wall's ends. The water outline step of 50 m holds for one town only; the other's coast is drawn at 15 m. Outline anisotropy goes from 0.20-0.33 to 0.33-0.37. FTG's 15-degree turn limit has one exception in the second town. A Fable seat should rule on the section 13.5 wording (E05 section 8).",
+  "The design names a 'signature vector' for between-seed variety but never defines its parts. W-05 proposed a definition (E05 section 6). W-09 (MFCG) must use the same one, so it needs a ruling.",
+  "FTG's per-size rows and its variety floor are computed when the six daily captures are in (day 1 is done). No new code is needed."
+ ],
+ "notes": [
+  "CONFIRMED: every number in E05 (executed on the two CITY payloads and their MeasureInput files). PLAUSIBLE: the farm-texture identification (W05-D15), the cause of the second town's lower street turning, the second town's wider rivers and finer coast being generator variation.",
+  "rows 0 by design: the two CITY payloads are fixtures, not plan slots (C7), so no baselines.json row can be built from them; about 30 metric values per fixture are in E05-ftg-metrics.json.",
+  "V12 values (2026-09-21 / 2026-09-25): turn100 8.02 / 8.49 deg per 100 m (without tracks 9.01 / 5.95); entropy50 1.51 / 1.18 bits; junction median 90.15 / 90.52, p5 69.7 / 60.0; share4 0.28 / 0.30; runs arterial 55.2 / 57.6, street 42.0 / 49.6, lane 40.2 / 44.7 m; footprint median 102.7 / 96.4, p95 153.7 / 189.0 m2; quad side 10.34 / 10.12 m; worst corner p95 22.9 / 21.5; attached 0.07 / 0.11; tower spacing 38.6 / 35.6 m; ungated (arterial) 3 / 1; water step 50.4 / 15.7 m; river width 31.3 / 48.5 m; tree NN p1 0.90 / 1.12, median 10.59 / 10.57 m; persons per building 3.40 / 3.38 (nominal); server 4267 / 3717 ms; outline CV 0.365 / 0.333, road ratio 1.16 / 1.21.",
+  "Fixed here for W-15: wealth member ids wealth.tier1..tier6 = request shares 0.0109 / 0.0109 / 0.2174 / 0.4348 / 0.2174 / 0.1087 (descriptive; the payload resolves tier pairs only). Proposed variety.dispersion absFloor 0.1. metrics.m-1.json was not edited (W-01's landed file).",
+  "18 vetoable decisions W05-D1..D18 in E05 section 7. The largest effect is D1, mapping dirt roads, small roads and trails to the track class: it moves turn100 on the second town from 5.95 to 8.49.",
+  "The cluster-block finding is for W-09. FTG's constant gap of about 1.5 m exceeds V12's 1.0 m cluster gap, so 2588 of 2617 and 2495 of 2565 cluster blocks are single footprints.",
+  "No git command ran, nothing was deleted, no captured bundle was read, and no third-party site was contacted."
+ ]
+}

@@ -1,0 +1,717 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/before/docs/volumes/V12-calibration.md",
+ "input_doc_sha256": "70d691f5152b5a6078128856bea49ece640a6bba1180a1f2725cf4c675db679b",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "adebaafcfd89def12553256f75108264cffe35a93a9b71c9318ff1989a440564",
+ "files": [
+  {
+   "file": "repair-r1-V12.md",
+   "sha256": "389c8dc801413d05560a337b56036b6814836fb9a884e6779ae83430fb92f5f7",
+   "lines": 2071,
+   "blocks": 25,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "repair-r1-V12.md #1 (l. 2) REPLACE ## 0 In plain words",
+   "file": "repair-r1-V12.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "## 0 In plain words",
+   "body_lines": 58,
+   "body_sha256": "d633bdfcf43a9e3c3259067bd19b51e88319d019e66511a320567a43daf86d05",
+   "target_line": 16,
+   "section_old": "16–73",
+   "section_old_n": 58,
+   "section_new_n": 59,
+   "new_headings": [
+    "## 0 In plain words"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "repair-r1-V12.md #2 (l. 63) REPLACE ## 1 Scope, the base hooks consumed, and what is out of scope",
+   "file": "repair-r1-V12.md",
+   "index": 2,
+   "line": 63,
+   "kind": "REPLACE",
+   "heading": "## 1 Scope, the base hooks consumed, and what is out of scope",
+   "body_lines": 75,
+   "body_sha256": "de6eaaa63ddb2254270c25abeca3e8af50202d87cae76081f379f194357b86de",
+   "target_line": 75,
+   "section_old": "75–150",
+   "section_old_n": 76,
+   "section_new_n": 76,
+   "new_headings": [
+    "## 1 Scope, the base hooks consumed, and what is out of scope"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "repair-r1-V12.md #3 (l. 141) REPLACE ## 1b Wiring table",
+   "file": "repair-r1-V12.md",
+   "index": 3,
+   "line": 141,
+   "kind": "REPLACE",
+   "heading": "## 1b Wiring table",
+   "body_lines": 56,
+   "body_sha256": "c3fe898cdc0b7f5aee2be6b56e5495530937236a7090c0544cf3ff3f6d1a3eb4",
+   "target_line": 151,
+   "section_old": "151–205",
+   "section_old_n": 55,
+   "section_new_n": 57,
+   "new_headings": [
+    "## 1b Wiring table"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "repair-r1-V12.md #4 (l. 200) REPLACE ### 2.7b Share, sweep, paired and two-sample bars",
+   "file": "repair-r1-V12.md",
+   "index": 4,
+   "line": 200,
+   "kind": "REPLACE",
+   "heading": "### 2.7b Share, sweep, paired and two-sample bars",
+   "body_lines": 77,
+   "body_sha256": "684de78c7f0545346d89216d79fa6a9d13faecca519ec1f0e2e8c5fc69f0b3f3",
+   "target_line": 588,
+   "section_old": "588–662",
+   "section_old_n": 75,
+   "section_new_n": 78,
+   "new_headings": [
+    "### 2.7b Share, sweep, paired and two-sample bars"
+   ]
+  },
+  {
+   "seq": 5,
+   "block": "repair-r1-V12.md #5 (l. 280) REPLACE ### 2.8 Panels and sittings",
+   "file": "repair-r1-V12.md",
+   "index": 5,
+   "line": 280,
+   "kind": "REPLACE",
+   "heading": "### 2.8 Panels and sittings",
+   "body_lines": 59,
+   "body_sha256": "0364be9c8bb51ec157f8edb1e3af1d936f183934a4c915c200b6489bca552cae",
+   "target_line": 666,
+   "section_old": "666–716",
+   "section_old_n": 51,
+   "section_new_n": 60,
+   "new_headings": [
+    "### 2.8 Panels and sittings"
+   ]
+  },
+  {
+   "seq": 6,
+   "block": "repair-r1-V12.md #6 (l. 342) REPLACE ### 2.13 The no-op pins (V12 §3.7.8; E-20)",
+   "file": "repair-r1-V12.md",
+   "index": 6,
+   "line": 342,
+   "kind": "REPLACE",
+   "heading": "### 2.13 The no-op pins (V12 §3.7.8; E-20)",
+   "body_lines": 38,
+   "body_sha256": "4a2c61516dc75ac1ce576bec87a72998185a4106bceabb8266f58e73a34fa2ab",
+   "target_line": 856,
+   "section_old": "856–890",
+   "section_old_n": 35,
+   "section_new_n": 39,
+   "new_headings": [
+    "### 2.13 The no-op pins (V12 §3.7.8; E-20)"
+   ]
+  },
+  {
+   "seq": 7,
+   "block": "repair-r1-V12.md #7 (l. 383) REPLACE ### 3.4 The metric suite",
+   "file": "repair-r1-V12.md",
+   "index": 7,
+   "line": 383,
+   "kind": "REPLACE",
+   "heading": "### 3.4 The metric suite",
+   "body_lines": 163,
+   "body_sha256": "ebc49c2db9bc82e2d594d370d151e9971ec1378f39388e216d76cb141dc57998",
+   "target_line": 1033,
+   "section_old": "1033–1194",
+   "section_old_n": 162,
+   "section_new_n": 164,
+   "new_headings": [
+    "### 3.4 The metric suite"
+   ]
+  },
+  {
+   "seq": 8,
+   "block": "repair-r1-V12.md #8 (l. 549) REPLACE ### 3.6b Share, sweep, paired and two-sample bars",
+   "file": "repair-r1-V12.md",
+   "index": 8,
+   "line": 549,
+   "kind": "REPLACE",
+   "heading": "### 3.6b Share, sweep, paired and two-sample bars",
+   "body_lines": 181,
+   "body_sha256": "ff16c9ca52ff326d4771f56c62dd0c42101d05ad5ce6f3c396f3285ae9a5ca28",
+   "target_line": 1350,
+   "section_old": "1350–1529",
+   "section_old_n": 180,
+   "section_new_n": 182,
+   "new_headings": [
+    "### 3.6b Share, sweep, paired and two-sample bars"
+   ]
+  },
+  {
+   "seq": 9,
+   "block": "repair-r1-V12.md #9 (l. 733) REPLACE ### 3.7 Tuning runs — table-version bumps with declared shifts",
+   "file": "repair-r1-V12.md",
+   "index": 9,
+   "line": 733,
+   "kind": "REPLACE",
+   "heading": "### 3.7 Tuning runs — table-version bumps with declared shifts",
+   "body_lines": 151,
+   "body_sha256": "bcfce32bfbb19d1afc12951b6cae8b6779dd748eb24ce0c2272200927ee07c3f",
+   "target_line": 1532,
+   "section_old": "1532–1676",
+   "section_old_n": 145,
+   "section_new_n": 152,
+   "new_headings": [
+    "### 3.7 Tuning runs — table-version bumps with declared shifts"
+   ]
+  },
+  {
+   "seq": 10,
+   "block": "repair-r1-V12.md #10 (l. 887) REPLACE ### 3.9 The owner's sittings — one panel engine",
+   "file": "repair-r1-V12.md",
+   "index": 10,
+   "line": 887,
+   "kind": "REPLACE",
+   "heading": "### 3.9 The owner's sittings — one panel engine",
+   "body_lines": 85,
+   "body_sha256": "74db451a0ecbc4b2fcad6848c5ff153f5bc2e16a53baa4d24edaa5ef2c420ffb",
+   "target_line": 1699,
+   "section_old": "1699–1782",
+   "section_old_n": 84,
+   "section_new_n": 86,
+   "new_headings": [
+    "### 3.9 The owner's sittings — one panel engine"
+   ]
+  },
+  {
+   "seq": 11,
+   "block": "repair-r1-V12.md #11 (l. 975) REPLACE ### 3.11 The calibration register — no provisional number dangles",
+   "file": "repair-r1-V12.md",
+   "index": 11,
+   "line": 975,
+   "kind": "REPLACE",
+   "heading": "### 3.11 The calibration register — no provisional number dangles",
+   "body_lines": 277,
+   "body_sha256": "9058ef2c8ae5939ce7cf4983e49588f9a22a214222f075dab60138e4f03b23d1",
+   "target_line": 1934,
+   "section_old": "1934–2207",
+   "section_old_n": 274,
+   "section_new_n": 278,
+   "new_headings": [
+    "### 3.11 The calibration register — no provisional number dangles"
+   ]
+  },
+  {
+   "seq": 12,
+   "block": "repair-r1-V12.md #12 (l. 1255) REPLACE ### 3.12 Failure handling — every failure, its rung, its report",
+   "file": "repair-r1-V12.md",
+   "index": 12,
+   "line": 1255,
+   "kind": "REPLACE",
+   "heading": "### 3.12 Failure handling — every failure, its rung, its report",
+   "body_lines": 41,
+   "body_sha256": "fa4e1a08fdd29cd673271594d060c9ebdeba75fed8e80af3126464b803ca402c",
+   "target_line": 2212,
+   "section_old": "2212–2252",
+   "section_old_n": 41,
+   "section_new_n": 42,
+   "new_headings": [
+    "### 3.12 Failure handling — every failure, its rung, its report"
+   ]
+  },
+  {
+   "seq": 13,
+   "block": "repair-r1-V12.md #13 (l. 1299) REPLACE ### 3.14 The known-city fixtures — one engine for both (item 110 (e), (f); J78; T101-6)",
+   "file": "repair-r1-V12.md",
+   "index": 13,
+   "line": 1299,
+   "kind": "REPLACE",
+   "heading": "### 3.14 The known-city fixtures — one engine for both (item 110 (e), (f); J78; T101-6)",
+   "body_lines": 82,
+   "body_sha256": "2aa53febc65fb79f28ade4a8a5b75f30230b2d225c5cdfb7db7da477fdb97168",
+   "target_line": 2268,
+   "section_old": "2268–2350",
+   "section_old_n": 83,
+   "section_new_n": 83,
+   "new_headings": [
+    "### 3.14 The known-city fixtures — one engine for both (item 110 (e), (f); J78; T101-6)"
+   ]
+  },
+  {
+   "seq": 14,
+   "block": "repair-r1-V12.md #14 (l. 1384) REPLACE ### 3.15 The owner rules 111–119 on the harness",
+   "file": "repair-r1-V12.md",
+   "index": 14,
+   "line": 1384,
+   "kind": "REPLACE",
+   "heading": "### 3.15 The owner rules 111–119 on the harness",
+   "body_lines": 189,
+   "body_sha256": "bab40e0e6db1987e447534b643ce2248dfbc8c9d9d1caf2f2a0e2db9df0f9617",
+   "target_line": 2351,
+   "section_old": "2351–2483",
+   "section_old_n": 133,
+   "retitled_to": "### 3.15 The owner rules 111–120 on the harness",
+   "section_new_n": 190,
+   "new_headings": [
+    "### 3.15 The owner rules 111–120 on the harness"
+   ]
+  },
+  {
+   "seq": 15,
+   "block": "repair-r1-V12.md #15 (l. 1576) REPLACE ### 3.16 Edges and combinations (principle (11))",
+   "file": "repair-r1-V12.md",
+   "index": 15,
+   "line": 1576,
+   "kind": "REPLACE",
+   "heading": "### 3.16 Edges and combinations (principle (11))",
+   "body_lines": 86,
+   "body_sha256": "7a0951b9bb977f968d6288de4d7f40c5fda9a6a53f771024c4cbea68bf1362f3",
+   "target_line": 2541,
+   "section_old": "2541–2626",
+   "section_old_n": 86,
+   "section_new_n": 87,
+   "new_headings": [
+    "### 3.16 Edges and combinations (principle (11))"
+   ]
+  },
+  {
+   "seq": 16,
+   "block": "repair-r1-V12.md #16 (l. 1665) REPLACE ## 6 Performance budgets",
+   "file": "repair-r1-V12.md",
+   "index": 16,
+   "line": 1665,
+   "kind": "REPLACE",
+   "heading": "## 6 Performance budgets",
+   "body_lines": 41,
+   "body_sha256": "e0b39d41813b969e614265bca44468431d937958fa5bba261242a3e2a5316706",
+   "target_line": 2767,
+   "section_old": "2767–2807",
+   "section_old_n": 41,
+   "section_new_n": 42,
+   "new_headings": [
+    "## 6 Performance budgets"
+   ]
+  },
+  {
+   "seq": 17,
+   "block": "repair-r1-V12.md #17 (l. 1709) REPLACE ### 7.1 The bars",
+   "file": "repair-r1-V12.md",
+   "index": 17,
+   "line": 1709,
+   "kind": "REPLACE",
+   "heading": "### 7.1 The bars",
+   "body_lines": 58,
+   "body_sha256": "95f10936dd0dcfe2b736232be24c023e9154159b119ad1f367bdd50fd426b83c",
+   "target_line": 2811,
+   "section_old": "2811–2868",
+   "section_old_n": 58,
+   "section_new_n": 59,
+   "new_headings": [
+    "### 7.1 The bars"
+   ]
+  },
+  {
+   "seq": 18,
+   "block": "repair-r1-V12.md #18 (l. 1770) REPLACE ### 7.2 Parity metrics for this volume's own subject",
+   "file": "repair-r1-V12.md",
+   "index": 18,
+   "line": 1770,
+   "kind": "REPLACE",
+   "heading": "### 7.2 Parity metrics for this volume's own subject",
+   "body_lines": 8,
+   "body_sha256": "75e8cdd7fa7cbac21198c6268fc9612c3a339ca9b949550efdabc3b2039d0bd1",
+   "target_line": 2870,
+   "section_old": "2870–2878",
+   "section_old_n": 9,
+   "section_new_n": 9,
+   "new_headings": [
+    "### 7.2 Parity metrics for this volume's own subject"
+   ]
+  },
+  {
+   "seq": 19,
+   "block": "repair-r1-V12.md #19 (l. 1781) REPLACE ### 8.1 Where it slots into §16",
+   "file": "repair-r1-V12.md",
+   "index": 19,
+   "line": 1781,
+   "kind": "REPLACE",
+   "heading": "### 8.1 Where it slots into §16",
+   "body_lines": 12,
+   "body_sha256": "912d9f57c05d62d75d69cc30d019a6a3bf1c9112a26700eba69a9a3297592e29",
+   "target_line": 2881,
+   "section_old": "2881–2893",
+   "section_old_n": 13,
+   "section_new_n": 13,
+   "new_headings": [
+    "### 8.1 Where it slots into §16"
+   ]
+  },
+  {
+   "seq": 20,
+   "block": "repair-r1-V12.md #20 (l. 1796) REPLACE ### 8.2 Steps, estimates and exits (person-weeks, expert; PLAUSIBLE)",
+   "file": "repair-r1-V12.md",
+   "index": 20,
+   "line": 1796,
+   "kind": "REPLACE",
+   "heading": "### 8.2 Steps, estimates and exits (person-weeks, expert; PLAUSIBLE)",
+   "body_lines": 14,
+   "body_sha256": "de8d2ef5022a0f28636fc387aa83caab151bef99cd5d7a00779aceb22a4b399b",
+   "target_line": 2894,
+   "section_old": "2894–2908",
+   "section_old_n": 15,
+   "section_new_n": 15,
+   "new_headings": [
+    "### 8.2 Steps, estimates and exits (person-weeks, expert; PLAUSIBLE)"
+   ]
+  },
+  {
+   "seq": 21,
+   "block": "repair-r1-V12.md #21 (l. 1813) REPLACE ### 8.3 Risks, spikes and their pre-decided outcomes",
+   "file": "repair-r1-V12.md",
+   "index": 21,
+   "line": 1813,
+   "kind": "REPLACE",
+   "heading": "### 8.3 Risks, spikes and their pre-decided outcomes",
+   "body_lines": 40,
+   "body_sha256": "21049759a6bcd3d6af3fbe6eb7baed5e358c6ed02778594f7d946fe845d01bfa",
+   "target_line": 2909,
+   "section_old": "2909–2949",
+   "section_old_n": 41,
+   "section_new_n": 41,
+   "new_headings": [
+    "### 8.3 Risks, spikes and their pre-decided outcomes"
+   ]
+  },
+  {
+   "seq": 22,
+   "block": "repair-r1-V12.md #22 (l. 1856) REPLACE ## 9 Decisions (each vetoable)",
+   "file": "repair-r1-V12.md",
+   "index": 22,
+   "line": 1856,
+   "kind": "REPLACE",
+   "heading": "## 9 Decisions (each vetoable)",
+   "body_lines": 105,
+   "body_sha256": "c9cb2c6b82a38021a7e96e08a8935efc76bd2de6f5764b74dd49a0b7a3f02cbc",
+   "target_line": 2950,
+   "section_old": "2950–3053",
+   "section_old_n": 104,
+   "section_new_n": 106,
+   "new_headings": [
+    "## 9 Decisions (each vetoable)"
+   ]
+  },
+  {
+   "seq": 23,
+   "block": "repair-r1-V12.md #23 (l. 1964) REPLACE ### 10.2 Hand-offs from this volume — each closed at its destination",
+   "file": "repair-r1-V12.md",
+   "index": 23,
+   "line": 1964,
+   "kind": "REPLACE",
+   "heading": "### 10.2 Hand-offs from this volume — each closed at its destination",
+   "body_lines": 23,
+   "body_sha256": "32727a4d06614ce854d3d7bb2e3508d49c6de66d7211525381d0feec8001dce0",
+   "target_line": 3088,
+   "section_old": "3088–3111",
+   "section_old_n": 24,
+   "section_new_n": 24,
+   "new_headings": [
+    "### 10.2 Hand-offs from this volume — each closed at its destination"
+   ]
+  },
+  {
+   "seq": 24,
+   "block": "repair-r1-V12.md #24 (l. 1990) REPLACE ### 10.3 Hand-offs to this volume — closed here",
+   "file": "repair-r1-V12.md",
+   "index": 24,
+   "line": 1990,
+   "kind": "REPLACE",
+   "heading": "### 10.3 Hand-offs to this volume — closed here",
+   "body_lines": 15,
+   "body_sha256": "68f4bddc135654f0e4074785a55134be85c9aedd801f720fb168632c22728eb9",
+   "target_line": 3112,
+   "section_old": "3112–3127",
+   "section_old_n": 16,
+   "section_new_n": 16,
+   "new_headings": [
+    "### 10.3 Hand-offs to this volume — closed here"
+   ]
+  },
+  {
+   "seq": 25,
+   "block": "repair-r1-V12.md #25 (l. 2008) REPLACE ## 12 CONFIRMED versus PLAUSIBLE",
+   "file": "repair-r1-V12.md",
+   "index": 25,
+   "line": 2008,
+   "kind": "REPLACE",
+   "heading": "## 12 CONFIRMED versus PLAUSIBLE",
+   "body_lines": 61,
+   "body_sha256": "da282b6829af47fbc241f7843bea7e14d57c935250389970722a50bb78afa37e",
+   "target_line": 3139,
+   "section_old": "3139–3188",
+   "section_old_n": 50,
+   "section_new_n": 62,
+   "new_headings": [
+    "## 12 CONFIRMED versus PLAUSIBLE"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [
+  {
+   "block": "repair-r1-V12.md #14 (l. 1384) REPLACE ### 3.15 The owner rules 111–119 on the harness",
+   "note": "REPLACE retitles the heading",
+   "old": "### 3.15 The owner rules 111–119 on the harness",
+   "new": "### 3.15 The owner rules 111–120 on the harness"
+  }
+ ],
+ "audit": {
+  "blocks": [
+   {
+    "block": "repair-r1-V12.md #1 (l. 2) REPLACE ## 0 In plain words",
+    "kind": "REPLACE",
+    "heading": "## 0 In plain words",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r1-V12.md #2 (l. 63) REPLACE ## 1 Scope, the base hooks consumed, and what is out of scope",
+    "kind": "REPLACE",
+    "heading": "## 1 Scope, the base hooks consumed, and what is out of scope",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r1-V12.md #3 (l. 141) REPLACE ## 1b Wiring table",
+    "kind": "REPLACE",
+    "heading": "## 1b Wiring table",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r1-V12.md #4 (l. 200) REPLACE ### 2.7b Share, sweep, paired and two-sample bars",
+    "kind": "REPLACE",
+    "heading": "### 2.7b Share, sweep, paired and two-sample bars",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r1-V12.md #5 (l. 280) REPLACE ### 2.8 Panels and sittings",
+    "kind": "REPLACE",
+    "heading": "### 2.8 Panels and sittings",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r1-V12.md #6 (l. 342) REPLACE ### 2.13 The no-op pins (V12 §3.7.8; E-20)",
+    "kind": "REPLACE",
+    "heading": "### 2.13 The no-op pins (V12 §3.7.8; E-20)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r1-V12.md #7 (l. 383) REPLACE ### 3.4 The metric suite",
+    "kind": "REPLACE",
+    "heading": "### 3.4 The metric suite",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r1-V12.md #8 (l. 549) REPLACE ### 3.6b Share, sweep, paired and two-sample bars",
+    "kind": "REPLACE",
+    "heading": "### 3.6b Share, sweep, paired and two-sample bars",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r1-V12.md #9 (l. 733) REPLACE ### 3.7 Tuning runs — table-version bumps with declared shifts",
+    "kind": "REPLACE",
+    "heading": "### 3.7 Tuning runs — table-version bumps with declared shifts",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r1-V12.md #10 (l. 887) REPLACE ### 3.9 The owner's sittings — one panel engine",
+    "kind": "REPLACE",
+    "heading": "### 3.9 The owner's sittings — one panel engine",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r1-V12.md #11 (l. 975) REPLACE ### 3.11 The calibration register — no provisional number dangles",
+    "kind": "REPLACE",
+    "heading": "### 3.11 The calibration register — no provisional number dangles",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r1-V12.md #12 (l. 1255) REPLACE ### 3.12 Failure handling — every failure, its rung, its report",
+    "kind": "REPLACE",
+    "heading": "### 3.12 Failure handling — every failure, its rung, its report",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r1-V12.md #13 (l. 1299) REPLACE ### 3.14 The known-city fixtures — one engine for both (item 110 (e), (f); J78; T101-6)",
+    "kind": "REPLACE",
+    "heading": "### 3.14 The known-city fixtures — one engine for both (item 110 (e), (f); J78; T101-6)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r1-V12.md #14 (l. 1384) REPLACE ### 3.15 The owner rules 111–119 on the harness",
+    "kind": "REPLACE",
+    "heading": "### 3.15 The owner rules 111–119 on the harness",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r1-V12.md #15 (l. 1576) REPLACE ### 3.16 Edges and combinations (principle (11))",
+    "kind": "REPLACE",
+    "heading": "### 3.16 Edges and combinations (principle (11))",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r1-V12.md #16 (l. 1665) REPLACE ## 6 Performance budgets",
+    "kind": "REPLACE",
+    "heading": "## 6 Performance budgets",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r1-V12.md #17 (l. 1709) REPLACE ### 7.1 The bars",
+    "kind": "REPLACE",
+    "heading": "### 7.1 The bars",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r1-V12.md #18 (l. 1770) REPLACE ### 7.2 Parity metrics for this volume's own subject",
+    "kind": "REPLACE",
+    "heading": "### 7.2 Parity metrics for this volume's own subject",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r1-V12.md #19 (l. 1781) REPLACE ### 8.1 Where it slots into §16",
+    "kind": "REPLACE",
+    "heading": "### 8.1 Where it slots into §16",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r1-V12.md #20 (l. 1796) REPLACE ### 8.2 Steps, estimates and exits (person-weeks, expert; PLAUSIBLE)",
+    "kind": "REPLACE",
+    "heading": "### 8.2 Steps, estimates and exits (person-weeks, expert; PLAUSIBLE)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r1-V12.md #21 (l. 1813) REPLACE ### 8.3 Risks, spikes and their pre-decided outcomes",
+    "kind": "REPLACE",
+    "heading": "### 8.3 Risks, spikes and their pre-decided outcomes",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r1-V12.md #22 (l. 1856) REPLACE ## 9 Decisions (each vetoable)",
+    "kind": "REPLACE",
+    "heading": "## 9 Decisions (each vetoable)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r1-V12.md #23 (l. 1964) REPLACE ### 10.2 Hand-offs from this volume — each closed at its destination",
+    "kind": "REPLACE",
+    "heading": "### 10.2 Hand-offs from this volume — each closed at its destination",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r1-V12.md #24 (l. 1990) REPLACE ### 10.3 Hand-offs to this volume — closed here",
+    "kind": "REPLACE",
+    "heading": "### 10.3 Hand-offs to this volume — closed here",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r1-V12.md #25 (l. 2008) REPLACE ## 12 CONFIRMED versus PLAUSIBLE",
+    "kind": "REPLACE",
+    "heading": "## 12 CONFIRMED versus PLAUSIBLE",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 781,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 67,
+  "headings_after": 67,
+  "headings_added": [
+   "### 3.15 The owner rules 111–120 on the harness"
+  ],
+  "headings_removed": [
+   "### 3.15 The owner rules 111–119 on the harness"
+  ],
+  "fences_balanced": true,
+  "fence_lines_before": 30,
+  "fence_lines_after": 30,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 430397,
+  "doc_bytes_after": 453363,
+  "doc_lines_before": 3106,
+  "doc_lines_after": 3217,
+  "rationale_bytes_before": 685208,
+  "rationale_bytes_after": 685208,
+  "rationale_lines_before": 2362,
+  "rationale_lines_after": 2362,
+  "blocks_total": 25,
+  "blocks_applied": 25,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "a5e98d8add156a46de6b92e8c4390b993e7a5159fcf55e22eb9a8e97ac3252e0",
+  "output_rationale_sha256": "adebaafcfd89def12553256f75108264cffe35a93a9b71c9318ff1989a440564"
+ }
+}

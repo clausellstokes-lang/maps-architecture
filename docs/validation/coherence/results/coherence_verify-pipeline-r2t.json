@@ -1,0 +1,158 @@
+{
+ "key": "coherence/verify-pipeline-r2t",
+ "file": "docs/validation/coherence/verify-pipeline-r2t.md",
+ "issues": [
+  {
+   "id": "VPC-R1-01",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "Partly fixed. V11 §2.8d (l. 775) now carries only the comment citing §10.2 for `GrandeurCeilingRow` and `GrandeurCeilingSettings`, as R2-13 rules. Two V11 pointers still name V11 §2.8d as their home: §3.25.4's *settings* bullet (l. 4303: 'The `settings` row (V11 §2.8d's `GrandeurCeilingSettings`)') and §3.25's lead (l. 4146–4147: 'the types are V11 §2.8 and V11 §2.8d's'). Item 115's ceiling shapes and item 122's crisis shapes are §10.2's (l. 15005–15027), so both pointers resolve to a comment.",
+   "required_change": "V11 l. 4303: read 'The `settings` row (§10.2's `GrandeurCeilingSettings`)'. V11 l. 4146–4147: read 'the types are V11 §2.8 and V11 §2.8d's, and §10.2's for item 115's ceiling and item 122's crisis tables'.",
+   "owner": "V11"
+  },
+  {
+   "id": "VPC-R2-01",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "claim": "§10.2 *Crisis looks* (b) (l. 15358) reads 'the regional_* pressures are `none`'. Owner rule 122 (b) maps mass immigration from 'regional_migration_pressure, REFUGEE_WAVE' to the refugee camp, and gives 'no look' only to the other regional_* pressures. V11 §3.25.9, which holds the values, maps `regional_migration_pressure` → `refugeeCamp` (l. 4559) and says 'the other `regional_*` pressures are its no look' (l. 4562–4563). The base rule, read as written, sends the owner's mass-immigration archetype to `none`, so a regional migration would silently draw no camp. Owner rules come first (principle (3)).",
+   "required_change": "§10.2 *Crisis looks* (b), l. 15358: replace 'the regional_* pressures are `none`' with 'the regional_* pressures other than `regional_migration_pressure` — item 122 (b)'s mass immigration, a refugee camp — are `none`'.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VPC-R2-02",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "claim": "§7.7's DR44 (l. 11896) has the same clause in its rule column: 'every SettlementForge stressor type and condition archetype at the pinned baseline has exactly one, a look kind or `none`, the regional_* pressures `none`'. This contradicts owner rule 122 (b) and V11 §3.25.9 (l. 4559, 4562), which map `regional_migration_pressure` → `refugeeCamp` (see VPC-R2-01).",
+   "required_change": "DR44, l. 11896: replace 'the regional_* pressures `none`' with 'the regional_* pressures other than `regional_migration_pressure` (item 122 (b)'s mass immigration) `none`'.",
+   "owner": "determinism"
+  },
+  {
+   "id": "VPC-R2-03",
+   "severity": "major",
+   "kind": "WIRING",
+   "claim": "The owner's disaster look (item 122 (b)) has no source from a dossier. Only V11's `crisis.map` row `event` · `calamity` → `disaster` maps to it (V11 l. 4560), and V11 adds 'Every calamity draws `disaster`' (l. 4568–4569). No archetype or stressor row maps to `disaster`, and `reconstruction` and `custom_crisis` read `none`. A condition takes its `event` row only when V08 sets `event`. V08 §3.16 (7) (b) (l. 2496–2499) and V08 §2.5's digest field (l. 731) set `event` only from `triggeredAt.sourceEventType` when the crisis census lists the word, and the census's crisis events are `PLAGUE`, `REFUGEE_WAVE` and `RAID_OR_MONSTER_ATTACK` (l. 2492–2493). No unit writes an overlay whose `event` is `calamity`, and V08 never makes an overlay from `calamityHistory`. §10.2 (b) (l. 15356–15358) and DR44 restate the same source rule. So the `calamity` row is never read. A dossier calamity draws no ruined neighbourhoods, and the disaster look appears only as a preview. Yet V08 (d) ('The calamity behind a disaster look', l. 2507) and T-V6-75 ('a fire calamity under a `disaster` condition') both presuppose such an overlay.",
+   "required_change": "V08 §3.16 (7) (b): add after 'every other condition reads the `archetype` row of its archetype': 'except that a condition linked to a carried calamity by (d) whose own row is `none` (the `reconstruction` condition SettlementForge raises after a calamity among them) carries `event` `calamity` and reads that row: the disaster look stands for that condition's weeks, its districts the calamity's `targets` first (V01's `disasterDistricts`), each building's ruin yielding to its rebuild (V06 §3.22 (3)); a calamity linked to no condition draws no look, its aftermath DR28's epoch event'. V08 §2.5's `event` comment (l. 731) names the `calamity` word. §10.2 *Crisis looks* (b) and DR44 cite V08 §3.16 (7) (b) for an overlay's source instead of restating it (principle (1)). T-V8-59 gains a calamity-linked `reconstruction` fixture that draws `disaster`.",
+   "owner": "V08"
+  },
+  {
+   "id": "VPC-R2-04",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "§4.4 S5a step 1 (l. 5715–5719) ends the stage-k ≥ 2 rule with 'a stage with no approachable arc takes §4.2 S3 (9)'s *every arc closed* — walled on the closing arcs whose row carries a wall, with one gate there, or walling nothing and recording no enceinte where no closing row carries one — and the arcs a land barrier closes are impassable to routes as the wall is (§4.2 S3 (7), (9))'. The last clause is unscoped, so it also covers S3 (9) (a)'s unwalled stage. But S3 (9) (a) (l. 5385–5390) lets that stage's routes 'enter across the barriers where §4.3's class grade limit admits an edge', and S3 (7) states the impassable rule only 'In a walled stage' (l. 5351). For an unwalled k ≥ 2 stage ringed by sheer faces or gorges, the two texts give opposite outcomes for a route crossing a barrier.",
+   "required_change": "§4.4 S5a step 1, l. 5718–5719: replace '— and the arcs a land barrier closes are impassable to routes as the wall is (§4.2 S3 (7), (9))' with '— and in a walled stage the arcs a land barrier closes are impassable to routes as the wall is (§4.2 S3 (7)), while an unwalled one's routes cross them where §4.3's class grade limit admits an edge, else F-ROUTE's `unserved` (§4.2 S3 (9) (a))'.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VPC-R2-05",
+   "severity": "minor",
+   "kind": "WIRING",
+   "claim": "This hook has one end. Repair r2 made every cliff inside a district S8's hole (§4.6, l. 6332–6339), and the base adds 'V01's fabrics read the band's two edges as V01 §3.6 (7)'s hard `cliff` run'. V01 §3.6 (7) (l. 1428–1432) types only 'A boundary run on a barrier-closure arc … by II.1's seam typing'. The cliff band's edges lie inside a district and are no boundary run, so V01 never reads them: the rear-plot rule, portal-free and no wall street are undefined there for V01's fabrics. V01's combination row (l. 2680) likewise covers only 'a cliff and a district (a hard `cliff` run)'. The pipeline repair recorded this as a HAND-OFF to V01, which was not applied.",
+   "required_change": "V01 §3.6 (7): add 'The two edges of §4.6 S8's cliff band inside a district — an S1 `cliff` feature or ground over `walls.barriers`' `cliff` threshold, widened by `shoreSetback`'s `cliff` distance — read the same way: a hard `cliff` run, portal-free, the rear-plot rule, never a wall street; no seed, fan or lane of a fabric lies in or crosses the band (§4.6)'. Extend the combination row at l. 2680 to 'a cliff inside a district or on its boundary', with T-V1-45 gaining a fixture of a cliff across a district's interior.",
+   "owner": "V01"
+  },
+  {
+   "id": "VPC-R2-06",
+   "severity": "major",
+   "kind": "EDGE-UNDEFINED",
+   "claim": "§4.7's new step regions (l. 6743–6745) split a step above `stepMaxCm` into ⌈step ÷ `stepMaxCm`⌉ equal parts, 'so every wall on the line retains more than `stepMaxCm` ÷ 2 and at most `stepMaxCm`'. §4.7 (l. 6731–6732) and V11 (l. 3858) also say a step below `terrace.stepMinCm` is never a wall (the plinth). T-V11-32 (a) (l. 3855) bounds only `plinthCm < stepMinCm < skirtMaxCm < stepMaxCm`. A lawful edited row therefore yields an intermediate wall retaining less than `stepMinCm`: the base's `skirtMaxCm` is 300 cm and `stepMaxCm` 400, so `stepMinCm` 250 passes, and a 450 cm step splits into two 225 cm walls. That contradicts the stepMinCm rule, and EP-24's bar (every wall's `stepProfile` in (`stepMinCm`, `stepMaxCm`]) fails. The pipeline repair handed V11 the guard; it was not applied.",
+   "required_change": "V11 T-V11-32 (a), l. 3855: add '`stepMinCm` < `stepMaxCm` ÷ 2 (so every intermediate wall of §4.7's step regions, more than `stepMaxCm` ÷ 2, is a wall)'. The tables editor's clamp (l. 3860) and V11 §3.24.1's range column then hold it.",
+   "owner": "V11"
+  },
+  {
+   "id": "VPC-R2-07",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "R2-18 (a) words the one exception at every reader as 'a locked or pinned dwelling a dossier population fall emptied (§7.7's precedence)', V06 §3.5.1 (5) among them. The base applies it so at §2.6's clamp (l. 2163), §4.11 step (c) (l. 7989), `LadderOp.relet` (l. 8044), the strike pool (l. 8454) and §5.3's capacity row (l. 9037): 0 households only after a dossier fall. V06 §3.5.1 (5) (l. 1236–1238) instead reads 'never at a locked or pinned building, whose last household (4) lets out by a `relet` down to 0', and (4) (l. 1232–1235) lets any fall do so, a standalone `advance` included. Under a standalone fall that reaches a protected dwelling's last household, V06 emits `relet` to 0, which the base's clamp and `LadderOp` forbid, and the base would `vacate`, which V06 and the lock forbid.",
+   "required_change": "V06 §3.5.1 (5): read '`relet` down where a building keeps households, `vacate` at the last — never at a locked or pinned building: a locked or pinned dwelling a dossier population fall emptied lets its last household out by a `relet` down to 0, the building keeping its state (§7.7's precedence); under any other fall its last household stays (§2.6's clamp)'. (4)'s 'keeps one household fewer' adds 'down to one, or to 0 under a dossier fall', the held household counted in `uses.heldByProtection`.",
+   "owner": "V06"
+  },
+  {
+   "id": "VPC-R2-08",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "II.7.2's per-bank outfall sentence (l. 20636–20642, VAL-R1-07's text under R2-25 (b)) gives the no-outfall case only to 'a bank whose stretch of the boundary lies wholly on water and that holds no candidate'. Its home, V04 §3.2 N2 (l. 990–991), reads 'A bank whose stretch is empty or lies wholly on water … and that holds no candidate makes none', and T-V4-80 (j) tests 'a stretch empty or wholly on water'. The base text sends an empty-stretch bank down 'else its own field outfall', but a field outfall follows a stretch cell's D8 path, so such a bank has none to follow. The base thus gives a different outcome from its home.",
+   "required_change": "II.7.2, l. 20638–20639: read 'and a bank whose stretch of the boundary is empty or lies wholly on water and that holds no candidate drains by gutter and pit, its area reported unsewered'.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VPC-R2-09",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "§10.2 *Crisis looks* (f) (l. 15412) ends the disaster look as a whole: '`disaster`: (d)'s `neighbourhoods`, ending in the week its `reconstruction` Works begins (V06: no week draws both)'. V06 §3.22 (3) (l. 3326–3336) and J-V6.138 (l. 4383) instead end the look building by building. Each building's ruin ends when `crisisLookYields` turns true, that is when a Works other than `decay` has started on it, and 'a building no rebuild reaches keeps the look until its condition ends'. J-V6.138 records this as chosen over 'ending the whole look in the week the first rebuild's Works begins'. Read literally, the base ends every building's ruin at the first rebuild's week, which disagrees with V06, the look's hand-over home.",
+   "required_change": "§10.2 *Crisis looks* (f), l. 15412: read '`disaster`: (d)'s `neighbourhoods`, each building's ruin ending in the week a rebuild Works on it begins (V06 §3.22 (3)'s `crisisLookYields`; a `decay` Works never ends it) and a building no rebuild reaches keeping it until its condition ends, so no week draws both'.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VPC-R2-10",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "§8.2 *Crisis looks* (l. 12924–12925) ends the disaster look 'in the week its `reconstruction` Works begins (V06)'. V06 §3.22 (3) ends it per building through `crisisLookYields` (see VPC-R2-09) and names §8.2's disaster look row as a reader of `crisisLookYields`. §8.2's `live.crises` input list (l. 12931–12933: §10.2's places, V01's `campLand` and `disasterDistricts`, V06's `frontierFor`, the walls and gates) omits `crisisLookYields`, so this reader's end of the hook is unwritten.",
+   "required_change": "§8.2, l. 12924–12925: read 'each building's ruin ends in the week a rebuild Works on it begins (V06 §3.22 (3)'s `crisisLookYields`)'. In *The layer*, l. 12932, add 'V06's `frontierFor` and `crisisLookYields`'.",
+   "owner": "rendering"
+  },
+  {
+   "id": "VPC-R2-11",
+   "severity": "minor",
+   "kind": "WIRING",
+   "claim": "Inputs dangle before their milestones. §10.2's crisis looks land at M3b (l. 15345–15346; R2-36). Their placement reads V01's `disasterDistricts` for `neighbourhoods` and for `affectedQuarter`'s target matching (l. 15385, 15393), which V01 builds in W10 at M5 (V01 l. 3418), and V06's `frontierFor` for `approachByGate` (l. 15381–15382), which V06 builds in E2 at M6-E (V06 l. 4112). The village rungs' units are V07's later steps. From M3b to those milestones these inputs are absent and the base states no outcome, so between M3b and M5 a standing disaster condition or a preview has no districts to ruin, and a refugee camp has no ranking. R2-36's 'a look or view whose subject is not yet built draws nothing of that part' is written in no design text.",
+   "required_change": "§10.2 *Crisis looks*, after 'every condition reads `none`' (l. 15347): add 'Until V01's W10 (M5) the `disaster` look draws no district (its legend line and Find's listing stand) and `affectedQuarter` is the district with the most households per hectare; until V06's E2 (M6-E) `approachByGate` ranks the main approach road's `campLand` faces by nearness to its gate (V06 §3.22 (2) (d)'s no-frontier answer); at the village rungs before V07's step the village draws no disaster unit — a part whose subject is not yet built draws nothing (R2-36)'.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VPC-R2-12",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "The declared shape and its rows disagree on their columns. §10.2's `CrisisLookRow` (l. 15014–15019) declares `kind`, `place`, `band`, `scale`, `priority` and `lookLevel?`. V11 §3.25.9's look rows, which cite it as their shape (V11 l. 796–797), also carry a `label` column ('Siege camps', …, l. 4518–4530), listed among 'the display cells (`label`, `icon?` … on … crisis looks)' (V11 l. 860). Registry row 107 says V09's Show crises list and 'Find's list of looks by `label`' read it (l. 1029), and §8.2's legend names each look standing. The base shape has no such field (principle (10): the same table and columns).",
+   "required_change": "§10.2's `CrisisLookRow`: add `label: string; icon?: string /* the display cells (V11 §2.3, V11 §3.1's *Display cells*): the words V09's Show crises list, Find's list of looks and §8.2's legend give the look; read by no stage */`.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VPC-R2-13",
+   "severity": "minor",
+   "kind": "COHESION",
+   "claim": "V11's lists of the tables carrying the display cells disagree. The lifecycle row (l. 860) lists crisis looks among the tables with `label` and `icon?`. W77 (l. 235) and §2.3's *display cells* paragraph (l. 440–443: 'the profile families, the goods, the district kinds, the style sheets and the patch materials') omit them, although §3.25.9's rows carry `label`.",
+   "required_change": "V11 l. 235 (W77) and l. 440–443: add 'and the crisis looks (V11 §3.25.9)' to the tables that carry `label` and `icon?`.",
+   "owner": "V11"
+  },
+  {
+   "id": "VPC-R2-14",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "§10.2 *Crisis looks* is ambiguous about how a look's camped ground divides among its camps. (c) (l. 15363–15365) sizes by headcount with 'each army its own camp of `areaPerHeadM2` × its heads', but (d)'s `approachRoads` (l. 15379–15380) places 'one camp per road'. With the dossier's forces given, a one-army blockade of a town with four approach roads is one camp by (c) and four by (d). With none given, the text does not say whether the row's `scale` (the look's camped ground at the rung, V11 l. 4515–4517) is divided among the roads' camps or taken by each.",
+   "required_change": "§10.2 *Crisis looks* (d), `approachRoads`: read '— the verges of each arterial leaving the settlement beyond its built edge, one camp per road, the look's camped ground divided equally among them (the remainder to the roads in trade-weight order); with the dossier's forces, each army's camp (c) whole on one road, the armies in descending size onto the roads in trade-weight order, a road taking a second army only when every road holds one; …'.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VPC-R2-15",
+   "severity": "minor",
+   "kind": "WIRING",
+   "claim": "Repair r2 (R2-28 (a)) makes S1 (10)'s mining test read `miningCellShare`, 'V11 §3.23.1's `under.systems` cavern-row cell' (l. 5123–5125), and S1 runs at every generation from M1. The cell is a value of `under.systems`' cavern row (registry row 59), which ships with the underground layer's rows (V04's U3; V12 l. 2156 measures it 'at `V4-U3`'). The text states no outcome when that row is absent: before the layer's rows ship, or in a pack without the cavern row. 'At least `miningCellShare` of the frame's land cells' then has no value, and S1 still writes `Terrain.mining`.",
+   "required_change": "§4.2 S1 (10): after the test add 'with no `under.systems` cavern row (before the underground layer's rows ship), the ore clause reads false and the flag rests on the roster and dossier clauses — its one reader, II.7.6's cavern rule, runs only with that layer, and §7.6's table-edit invalidation re-derives S1 when the row lands'.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VPC-R2-16",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "§4.7 S10b's supply web (l. 6900–6901) places an import's store 'at the gate or quay facing its partner's bearing (the realm block's, items 77, 85)'. Owner rule 125 (a) retires the realm block as an input: §7.7 item 1 (l. 11704–11707) says 'item 396's realm block is no input: the bearings … are the dossier's where it carries them, else the generator's defaults or the user's settings (DR1, DR3, DR19…)', and J-A125.01 records 'the realm block and `realmBlockFrom` retired'. The base thus still names a retired source for the partner's bearing.",
+   "required_change": "§4.7, l. 6901: replace '(the realm block's, items 77, 85)' with '(the trade slice's partner bearing, §7.7 layer 2 and DR3; item 77)'.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VPC-R2-17",
+   "severity": "minor",
+   "kind": "TERM",
+   "claim": "R2-11 (canon change): §7.7's derivation rows are cited by number (J-VI.13). The item-117 week-and-season row is DR42, the item-114 generation-condition row DR41, and the unnumbered '§7.7's calendar row' wording is retired. This unit still cites rows by description in four places: §4.2 S0 (l. 4943), §4.9 (l. 7773) and §10.2 *Seasons* (l. 15332) read '§7.7's season derivation row'; §4.8 *Condition at generation* (l. 7493) reads '§7.7's condition row'.",
+   "required_change": "l. 4943, 7773 and 15332: replace '§7.7's season derivation row' with '§7.7's DR42'. l. 7493: replace '§7.7's condition row' with '§7.7's DR41'.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VPC-R2-18",
+   "severity": "minor",
+   "kind": "WIRING",
+   "claim": "Repair r2 gave II.7.6 step 3 (l. 21252–21256) a new refusal: a connector route the search does not find (`E_NO_PATH`: the basement ring enclosed within `foundationClearM`, or the water table above every floor). The dry run refuses it, naming the blocking building or the water table (F-EDIT), and T66-2 tests it (l. 17742–17747). §7.1's dry-run outcome table (E-07) is 'the one home of every refusal, conflict and bend cause of a dry run', but its `addUndergroundAccess` row (l. 10380) lists only a terrain that rules out every basement form and a route past its bound. The row gives no key of its own ('V09 §4.17's rows', where V09 has no such row). The pipeline repair recorded the row as a HAND-OFF to determinism, which was not applied.",
+   "required_change": "E-07's `addUndergroundAccess` row, l. 10380: read 'an `addUndergroundAccess` whose terrain rules out every basement form (§2.6's requested-mode ladder), or whose connector passes its route's bound or finds no route (II.7.6 step 3: `E_NO_PATH`) | bent, else refused | the nearest lawful basement form …; else the refusal naming the terrain, the route's bound, or the blocking building or the water table | `refuse.access.route`'. V09 §4.9's catalogue gains the key's message (the receiving end, R2-05).",
+   "owner": "determinism"
+  }
+ ]
+}

@@ -1,0 +1,71 @@
+# §11.3: VAT-06 (doc.rejected's conflicts carry the outcome), VRC0S-14 (party.render's viewer refusal, file f item 472),
+# VRC0S-06 (the export bundle's one exception to E_HOST_FORMAT, V08 §5.4 (2)).
+@@ FILE 11.3.md
+<<<<
+  `doc.applied { logHead }`, `doc.rejected { reason: 'stale'|'invalid'|'role'|'version', currentLogHead, conflicts? }`,
+====
+  `doc.applied { logHead }`, `doc.rejected { reason: 'stale'|'invalid'|'role'|'version', currentLogHead, conflicts? }`
+  (`conflicts` as §11.2's conflict member: `{ outcome: MsgRef; actions: ConflictAction[] }`),
+>>>>
+<<<<
+  the party key, never the view's knowledge key) and `party.render { party, since? }` (owner or editor only; not an
+  export: the module resolves `party` to a key form, draws the party picture set under it as `knowledge` and lists its
+====
+  the party key, never the view's knowledge key) and `party.render { party, since? }` (owner or editor only, a viewer's
+  answered `doc.rejected { reason: 'role' }`; not an export: the module resolves `party` to a key form, draws the party
+  picture set under it as `knowledge` and lists its
+>>>>
+<<<<
+  `export.request` becomes `export.request { fmt, opts, displayNames?, knowledge?: Admission }` (§11.1's *Knowledge*:
+  `knowledge` lowers the requester's key for that export only; `displayNames` as §11.1's *Display names*); in host mode
+  the module answers an `export.request` for any format other than `png`, `svg` and `print` with `export.refused { error:
+  'E_HOST_FORMAT' }` (V08 §5.4), which never applies to `doc.snapshot`. PLAT → host gains `dossier.result { status,
+====
+  `export.request` becomes `export.request { fmt, opts, displayNames?, knowledge?: Admission, bundle?: true }` (§11.1's
+  *Knowledge*: `knowledge` lowers the requester's key for that export only; `displayNames` as §11.1's *Display names*);
+  in host mode the module answers an `export.request` for any format other than `png`, `svg` and `print` with
+  `export.refused { error: 'E_HOST_FORMAT' }` (V08 §5.4), save a `bundle: true` request for `dd2vtt` or `foundry` (the
+  export bundle from M-SF, §11.4; V08 §5.4 (2)), rendered under the calling key's §11.1 rules and answered
+  `export.ready { bytes }`; `bundle` with any other format, or those formats without it, is refused; neither rule applies
+  to `doc.snapshot`. PLAT → host gains `dossier.result { status,
+>>>>
+# §11.1: VK0-03 / VRC0S-21 (the antenna pointer), VRC0S-15 (the frame's range is §3.2 (1)), VRC0S-24 (the unexcavated
+# clause scoped to `unexcavated` elements; a `lost` element as V04 states).
+@@ FILE 11.1.md
+<<<<
+faces as Polygons with holes, emitted without antennae (§3.6 (6));
+====
+faces as Polygons with holes, emitted without antennae (an antenna: §3.6 rule 3);
+>>>>
+<<<<
+(≈ 15.7 km from the centre at aspect 2, §3.2 (9)).
+====
+(≈ 15.7 km from the centre at aspect 2, §3.2 (1)).
+>>>>
+<<<<
+marks too (J-A63.81), nor the lights, glows and shafts those hosts carry (§8.1 item 7). An unexcavated cavern or ruin
+element (V04's excavation reading), its label, its links and its lights are admitted only at tier `secret`: a picture
+draws them only when the request's view has `showUnexcavated` on, GeoJSON and glTF carry them only at `secret`, and a VTT
+scene never (M6-U, file f item 278). **The document formats** — `.plat`, the compact twin, the JSON schema, a permalink
+====
+marks too (J-A63.81), nor the lights, glows and shafts those hosts carry (§8.1 item 7). An `unexcavated` cavern or ruin
+element (V04's excavation reading), its label, its links and its lights are admitted only at tier `secret`: a picture
+draws them only when the request's view has `showUnexcavated` on, GeoJSON and glTF carry them only at `secret`, and a VTT
+scene never (M6-U, file f item 278); a `lost` element is admitted as its `knownTo` says, drawn by the `unexcavated`
+program in every picture whatever `showUnexcavated`, and written with `excavation: 'lost'` (V04 §5.2; g item 113 (e)).
+**The document formats** — `.plat`, the compact twin, the JSON schema, a permalink
+>>>>
+@@ FILE 11.6.md
+<<<<
+degenerate geometry (none in the model, §3.1; faces written without antennae, §3.6 (6));
+====
+degenerate geometry (none in the model, §3.1; faces written without antennae, §11.1; an antenna: §3.6 rule 3);
+>>>>
+# §12.2: VRC0S-15 (the cap frame's range is §3.2 (1); the square cap frame kept beside the table row).
+@@ FILE 12.2.md
+<<<<
+* Within a rung the frame scales with the requested population; the cap's frame and its headroom are §3.2 (9)'s.
+====
+* Within a rung the frame scales with the requested population; the cap's frame is the table's last row — 12.4 km
+  square (19.8 km with the margins) — and the arena's coordinate range and its headroom at it are §3.2 (1)'s.
+>>>>

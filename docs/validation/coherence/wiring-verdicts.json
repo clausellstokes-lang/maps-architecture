@@ -1,0 +1,2925 @@
+{
+ "field:AppPrefs.highContrastChrome": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "V09 §5.12",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:AppPrefs.largeTargets": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "V09 §5.12",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:AppPrefs.reducedMotion": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "V09 §4.15, §5.1",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:AppPrefs.uiScale": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "V09 §4.2, §5.1",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:Block.depthClass": {
+  "class": "orphan-field",
+  "defect_id": "W-FLD-13",
+  "link": "see W-FLD-13",
+  "note": "MW-03/MW-04: named only in its declaration and in V01 BCR text quoting it",
+  "severity": "minor",
+  "unit": "model",
+  "verdict": "DEFECT"
+ },
+ "field:Bridge.spanCm": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "read by S7 and V01 §3.17 (bridge decks)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:CalendarRow.monthEnds": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "§4.11's calendar row: the month of a week (DR21's season; the chronicle's dates)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:CalendarRow.weeksPerYear": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "§4.11's calendar row",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:Castle.keepAt": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "§4.8's castle template rule places the keep opposite the gate, on the highest ground or central, by row",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:Castle.keepShape": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "§4.8: keep shape rect (lir), square, octagon, round, cruciform by era and rank rows; S11 builds it",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:Castle.siteScore": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "S3's castle siting score (§4.2 S3); read by V05 §3.10",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:ClerkSecret.apiKey": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "V10 §2.14, §3.20",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:ClerkSession.fallbackState": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "V10 §3.17",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:ClerkSettings.keepHistory": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "V09 §5.12, V10 §2.14",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:ClerkSettings.keyStorage": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "V09's remembered key and Forget key (V09 §4.x, §5.12)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:ClimateRow.groundRole": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "comment names §8.2",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:ClimateRow.scatterPerHa": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "§4.9's ambient scatter (0.5-2 single trees per ha by biome row)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:ClusterRow.householdsPerStructure": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "§4.7, §10.3",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:CommitRecord.edgesAdded": {
+  "class": "orphan-field",
+  "defect_id": "W-FLD-02",
+  "link": "§3.3 names each reader of CommitRecord.edgesAdded, edgesRemoved, steinerAdded, steinerDissolved, work and owners (§5.4's kernel counts, §13.2's cost-model test for work, §7.3's locality closure or §8.1's dirty set for owners) or drops the fields — the inventory's KWG-05",
+  "note": "no reader anywhere in the set (KWG-05)",
+  "severity": "minor",
+  "unit": "kernel",
+  "verdict": "DEFECT"
+ },
+ "field:CommitRecord.edgesRemoved": {
+  "class": "orphan-field",
+  "defect_id": "W-FLD-02",
+  "link": "§3.3 names each reader of CommitRecord.edgesAdded, edgesRemoved, steinerAdded, steinerDissolved, work and owners (§5.4's kernel counts, §13.2's cost-model test for work, §7.3's locality closure or §8.1's dirty set for owners) or drops the fields — the inventory's KWG-05",
+  "note": "no reader anywhere in the set (KWG-05)",
+  "severity": "minor",
+  "unit": "kernel",
+  "verdict": "DEFECT"
+ },
+ "field:CommitRecord.steinerAdded": {
+  "class": "orphan-field",
+  "defect_id": "W-FLD-02",
+  "link": "§3.3 names each reader of CommitRecord.edgesAdded, edgesRemoved, steinerAdded, steinerDissolved, work and owners (§5.4's kernel counts, §13.2's cost-model test for work, §7.3's locality closure or §8.1's dirty set for owners) or drops the fields — the inventory's KWG-05",
+  "note": "no reader anywhere in the set (KWG-05)",
+  "severity": "minor",
+  "unit": "kernel",
+  "verdict": "DEFECT"
+ },
+ "field:CommitRecord.steinerDissolved": {
+  "class": "orphan-field",
+  "defect_id": "W-FLD-02",
+  "link": "§3.3 names each reader of CommitRecord.edgesAdded, edgesRemoved, steinerAdded, steinerDissolved, work and owners (§5.4's kernel counts, §13.2's cost-model test for work, §7.3's locality closure or §8.1's dirty set for owners) or drops the fields — the inventory's KWG-05",
+  "note": "no reader anywhere in the set (KWG-05)",
+  "severity": "minor",
+  "unit": "kernel",
+  "verdict": "DEFECT"
+ },
+ "field:ContextVector.roadWidthM": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "read by §4.6, §4.11, II.2",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:ContextVector.rosterAssignment": {
+  "class": "orphan-field",
+  "defect_id": "W-FLD-04",
+  "link": "§2.5 names the producer of ContextVector.rosterAssignment (S10b when a roster assignment claims the plot) and its reader (S11's designation template or the class-mix step), or drops it beside `assignment` (MW-04)",
+  "note": "no producer and no reader named anywhere in the set (MW-04)",
+  "severity": "minor",
+  "unit": "model",
+  "verdict": "DEFECT"
+ },
+ "field:CorpusMap.populationEstimate": {
+  "class": "orphan-field",
+  "defect_id": "W-FLD-10",
+  "link": "§13.9 (or V12's corpus stage, V12 §3.x) names the reader of CorpusMap.populationEstimate (matching a corpus map to its rung) or drops it",
+  "note": "no reader in the set",
+  "severity": "minor",
+  "unit": "scope",
+  "verdict": "DEFECT"
+ },
+ "field:CrossingRecord.fileHash": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "§17.1",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:CrossingRecord.scanVersion": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "the crossing record's scan provenance, read with the record by §17.1's check",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:DeckRow.fillShare": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "V05 §1b",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:DerivationRecord.allocationRow": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "§4.5 S7b; V01",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:District.subDistricts": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "read by §4.5, §4.7",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:District.venueMix": {
+  "class": "orphan-field",
+  "defect_id": "W-FLD-09",
+  "link": "§4.5 (S6 typing or S12c's character step) names the producer of District.venueMix (the district's use mix computed from its uses at S12c and at each epoch's character step) — its readers (§4.10's description, §2.5's ContextVector.venueMix, II.1's DistrictContext) are named (MW-04)",
+  "note": "read by S13a's description and the context vector; no producer named (MW-04)",
+  "severity": "minor",
+  "unit": "pipeline",
+  "verdict": "DEFECT"
+ },
+ "field:DistrictContext.characterSource": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "comment names V1-3.2",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:DistrictContext.identityRow": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "V01 §3.3.3, §3.7.1",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:DistrictContext.templateFace": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "V01 §3.4.1",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:DistrictIntent.functionMix": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "§7.7 layer 2",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:DistrictSignature.bearingOrder": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "a component of the signature read whole by T-V1-5's classifier (V01 §7) and fabricSignature (V04 §3.5.0a (7))",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:DistrictSignature.contourAligned": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "as bearingOrder",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:DistrictSignature.edgeAligned": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "as bearingOrder",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:DistrictSignature.loopShare": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "as bearingOrder",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:DistrictSignature.spineShare": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "as bearingOrder",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:DistrictSignature.squareShare": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "as bearingOrder",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:DormerKindRow.atEave": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "V02 §3.7, §3.10",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:DossierFixtureRow.generatedBy": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "the fixture manifest, read by B-DOSSIER-lite and the re-cut scripts (§13.2)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:DossierFixtureRow.neverPublish": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "read by T85-2 (W-10)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:DossierFixtureRow.ourRung": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "the manifest row B-DOSSIER-lite checks the refusal and rung against (§13.2)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:DossierFixtureRow.pairsWith": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "as generatedBy",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:DossierFixtureRow.sfLine": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "as generatedBy",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:Enceinte.setbackCm": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "read by S7b and V01 (setback strips)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:Enceinte.walkCm": {
+  "class": "orphan-field",
+  "defect_id": "W-FLD-05",
+  "link": "§2.7 names the reader of Enceinte.walkCm (the rampart's walk: §11.1's VTT and glTF wall tops, or §8.3's close-up wall symbol) and its writer (S7's wall row), or drops it; thicknessCm and heightCm are read (V04 §3.5's stone budget; §8.4 heights)",
+  "note": "no reader anywhere in the set (MW-03 listed Enceinte walk/thickness/height; thickness and height are read)",
+  "severity": "minor",
+  "unit": "model",
+  "verdict": "DEFECT"
+ },
+ "field:EraRow.marketPaved": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "comment names §4.9",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:EraRow.materialRows": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "comment names V11 §3.19.3",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:EraRow.publicLighting": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "comment names §4.7's light rows",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:EraRow.pumpFromYear": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "comment names V07's pump date (VS8)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:EraRow.suburbRegime": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "comment names §4.4",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:F5Record.fallbacksApplied": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "§16's first-five-minutes fallbacks",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:FrameAnswer.epochWeek": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "V06 §3.15.2",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:GeomTable.coords": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "as geomStart",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:GovernmentRow.barracksFrom": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "§10.2's government rows (barracks at CITY and above)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:GovernmentRow.guardPerThousand": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "§10.2's government rows (guard posts per 1 000 inhabitants)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:GuardSet.cBars": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "V12 §3.7",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:GuardSet.ownerRuleBars": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "V12 §3.7",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:GuardSet.parityRows": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "V12 §3.7",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:GuardSet.townGuard": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "comment names V12 §3.7.4",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:HistoryDiff.toWeek": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "V06 §3.19, V09 §5.6",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:HistoryIndex.baseSeq": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "comment names V6 §3.15.5",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:HistoryIndex.baseWeek": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "as baseSeq",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:HistoryIndex.creationWeek": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "the timeline bar (V06 §3.15)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:HistoryIndex.currentWeek": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "as creationWeek",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:HistoryRow.notUndoable": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "V09 §3.9, §4.10",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:HoodKindRow.maxWealth": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "the declaration states the rule its kind chooser applies (shanty only when intent.wealth ≤ it)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:HoodPin.angleCdeg": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "V01 §3.x",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:HoodPin.host2": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "comment names what it stands on",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:HoodPlace.courtOrdinal": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "comment names §4.7 S10 (6)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:HostContent.inputHash": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "read on replay instead of calling the host (§11.4)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:HouseholdRow.liveInStaff": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "V11 §3.21 roster.households (staff = live-in servants), read by the household sizes (§10.3)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:InputCaps.coarsePointer": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "V09 §2.11, §4.12",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:InputCaps.finePointer": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "as coarsePointer",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:InputCaps.physicalKeyboard": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "its comment names the readers (hints' wording, V9 §5.9)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:InstanceTable.overrideRows": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "§8.10",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:InstanceTable.speciesRows": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "the decoration stamps' species rows (§8.1, §8.10, §12.8)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:Intent.coastSideCdeg": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "S0/S1 (§4.2)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:Intent.wealthGradientCdeg": {
+  "class": "orphan-field",
+  "defect_id": "W-FLD-07",
+  "link": "§4.5's prosperity field names Intent.wealthGradientCdeg as a driver (a directional term toward the gradient's bearing, weight and default in the field's driver table) or §7.7 drops the field (determinism)",
+  "note": "written by the intent (T1, §7.7 layer 1) and read by no rule of the field",
+  "severity": "minor",
+  "unit": "pipeline",
+  "verdict": "DEFECT"
+ },
+ "field:InteriorLadderRow.unitRooms": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "read by V03 §3.x",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:ItemRow.basePrice": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "@plat/sim stub (§10.3; WG-PIPE-10) — WIRED-BY the module",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:KernelTx.onFail": {
+  "class": "orphan-field",
+  "defect_id": "W-FLD-01",
+  "link": "§3.3 defines who sets KernelTx.expect and onFail (StageDecl.invariants / the caller's class floors), which op checks expect at commit (returning E_BELOW_MIN_AREA / _WIDTH / _ANGLE) and what each onFail value does (reject: the code; repair: §5 local repair on the overlay; downgrade: the stage's ladder rung), each consumer named in §5.1-§5.2 — the inventory's KWG-03",
+  "note": "declared, set by no named producer, read by no named consumer (KWG-03)",
+  "severity": "major",
+  "unit": "kernel",
+  "verdict": "DEFECT"
+ },
+ "field:KnownCityFixture.emulationSubset": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "V12 §3.14",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:LabelTable.pinAnchor": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "read by S13b's pin pass (§9.2; RWG-01 names the pin columns)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:LabelTable.pinSizePx": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "as pinAnchor",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:LabelTable.pinSpine": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "as pinAnchor",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:LabelTable.pinStop": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "as pinAnchor",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:LatticeSpec.minEdgeCm": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "declaration comment names its readers: §3.2 (2) and §3.10",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:LatticeSpec.minFaceAngleCdeg": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "as minEdgeCm",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:LatticeSpec.rangeCm": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "as minEdgeCm",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:LatticeSpec.unitCm": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "as minEdgeCm",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:Level.populationScale": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "comment (a population sweep's factor)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:LevelFaces.holesStart": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "kernel arena storage (§3.2)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:LevelFaces.nextOfOwner": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "kernel arena storage (§3.2)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:LevelFaces.ownerHead": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "kernel arena storage; §3.3 names the owner table",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:LifecycleFlags.lockedPaths": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "§7.2",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:LocalDocRecord.appVersion": {
+  "class": "orphan-field",
+  "defect_id": "W-FLD-11",
+  "link": "V09 §2.11 names what reads LocalDocRecord.appVersion (as DraftMirror.appVersion is read at open: a record from a newer app opened read-only, or the 'saved by' line) or drops it",
+  "note": "no reader; DraftMirror.appVersion has one",
+  "severity": "minor",
+  "unit": "V09",
+  "verdict": "DEFECT"
+ },
+ "field:LocalDocRecord.deletedAt": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "V9 §5.12 (Recently deleted)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:LocalDocRecord.savedAt": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "the recent list (V09 §3.8, §7.1)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:MarkTable.geomLen": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "as geomStart",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:MarkTable.geomStart": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "display-list columns read by the backends (§8.1, §8.9)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:MassingFamilyRow.sideWeights": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "V02 §3 (regularCourt: side count by the row's weights)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:MeasureAnswer.walkMinutes": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "an answer record returned to the model (V10 §2.13)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:NeighbourhoodResult.hoodPins": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "V01 §3.12",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:NetworkForecast.navigableRunM": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "V04 §3.2-§3.4",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:NoOpPin.switchedOn": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "V12 §2.13 and its readers",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:OpeningRow.closeH": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "read by V02 §3.10, V03",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:OpeningRow.openH": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "read by V02 §3.3",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:OrderSlot.recordedAs": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "comment names §8.3 order parity",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:PanelRender.heightPx": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "the panel renderer's constants (V12 §3.9)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:PanelRender.mPerPx": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "as heightPx",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:PanelRender.stripMetadata": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "as heightPx",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:PanelRender.widthPx": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "as heightPx",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:ParityReport.runId": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "MilestoneRecord.parity, CalibrationRun (§13.5, §13.9)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:Passage.frontPlot": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "read by V02 §3.2, V04",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:PersonTraits.traits": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "as ItemRow",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:PlacementItem.pinnedTo": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "§7.7 positive placement",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:PlanReport.chainSteps": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "§2.6, V03 §3.11 diagnostics",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:PlanReport.circulationShare": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "§13.7's circulation band",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:Plat.halfEdges": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "kernel arena storage, read by the kernel's own traversal and resolution ops (§3.2, §3.4)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:Plot.derivedFrom": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "§2.8 DerivationRecord, read by §6.3 and the volumes",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:Plot.frontageCm": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "read throughout (§4.7, V01, V02)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:Plot.partyWalls": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "read by V02 §4.2, §5.3, §2.6",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:PlotBound.ownedBy": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "read by V01, V03, V04",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:PortReport.ignoredKeys": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "the adapter reports every key it dropped (§7.7 item 1); dossier.result.report (V08 §2.2)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:PortReport.renamesAsRemoveAdd": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "B-DOSSIER-lite: a rename without receipt reported as a removal plus an addition (§13.2)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:PortReport.renamesRebound": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "as renamesAsRemoveAdd",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:PortReport.stateMatchesAbsorbed": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "§7.7 item 5: the report names the earlier absorbed state",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:PortReport.unreceipted": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "§7.7 item 13, §13.2",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:Posting.filledBy": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "@plat/sim (§10.3, M4b) — WIRED-BY the module",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:PresenceWhen.defenceMin": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "declaration names V07 §2.4's readings",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:PreviewState.draftId": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "comment (latest wins)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:ProductEpochContext.productRows": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "V06 §3.5",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:ProfessionRow.perWorkplace": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "@plat/sim (M4b)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:Recipe.presetId": {
+  "class": "orphan-field",
+  "defect_id": "W-FLD-06",
+  "link": "§2.9 names the reader of Recipe.presetId ('provenance only': the recipe panel's or the report's 'made from preset …' line, V09) — a provenance field still needs its named reader — or drops it",
+  "note": "documented as provenance only; no reader named",
+  "severity": "minor",
+  "unit": "model",
+  "verdict": "DEFECT"
+ },
+ "field:RegularFit.phaseCdeg": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "comment states its use by the fit",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:Religion.deities": {
+  "class": "orphan-field",
+  "defect_id": "W-DOS-04",
+  "link": "§10.2's religion rows name the producer of Religion.deities (the religion row's pantheon, or the dossier's `religion.deityKey`/`deityName` through a §7.7 row — see the dossier trace D-16) and §10.4 names the reader (the temple's dedication and description)",
+  "note": "no producer and no reader in the set; the dossier's deity fields (DossierDigest.religion) also reach nothing (W-03)",
+  "severity": "minor",
+  "unit": "pipeline",
+  "verdict": "DEFECT"
+ },
+ "field:ReligionRow.shrinePin": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "V11 §3.21, V07 §2.4",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:ReligionRow.templeClass": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "V11 §3.21, V10 §3.14",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:ReligionRow.worshipperShare": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "§10.2",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:Reservation.areaBandM2": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "S3 states each reservation's area band and its claim stops at it (§4.2 S3, §4.8)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:Reservation.compactnessMin": {
+  "class": "orphan-field",
+  "defect_id": "W-FLD-03",
+  "link": "§4.2 S3's claim step names the compactness floor it enforces on a reservation (Reservation.compactnessMin against the ring's `compactness`, §3.4 RegularFit/obb) and its failure rung, or §2.5 drops the field (model)",
+  "note": "declared optional in §2.5; no stage writes or reads it (S3's claim text states area bands only)",
+  "severity": "minor",
+  "unit": "pipeline",
+  "verdict": "DEFECT"
+ },
+ "field:RoleTable.edgeFirst": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "kernel role-table storage (§3.2)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:RoleTable.nextInSet": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "kernel role-table storage (§3.2)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:RoleTable.nextSameKey": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "kernel role-table storage (§3.2)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:RoleTable.vertexFirst": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "kernel role-table storage (§3.2)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:RungProfile.districtCountLaw": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "comment names §4.5, §4.8",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:RungProfile.gateLaw": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "comment names §4.5, §4.8",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:RungProfile.populationBand": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "the band chooses the rung (§1.1, §5.1, §12.2)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:SeamContract.alleysOnBoundary": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "II.5, §4.12 (its own boundary plot lines and alleys)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:SeamContract.plotLinesOnBoundary": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "as alleysOnBoundary",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:SeamContract.sharedGeometry": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "II.5, V01 §3.11",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:Segment.promptTokens": {
+  "class": "orphan-field",
+  "defect_id": "W-FLD-12",
+  "link": "V10 names the reader of Segment.promptTokens (the context-budget rule that starts a new segment or compacts when the last prompt nears the model's window, V10 §3.x) or drops it",
+  "note": "no reader in the set",
+  "severity": "minor",
+  "unit": "V10",
+  "verdict": "DEFECT"
+ },
+ "field:ServiceRow.basePrice": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "as ItemRow",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:SitePlan.ruleRow": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "read as the site plan's rule row (V01, V04, V05, V07)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:SkyAccess.topLanding": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "V05 §2.6, §3.10",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:SkyAccessRow.maxAltitudeM": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "V05 §2.4's access table (limits) read by §3.x's kind choice among admitted rows",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:SkyAccessRow.needsLandBelow": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "as maxAltitudeM",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:StatBlockPack.professionModifiers": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "as ItemRow",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:StringTable.utf8": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "as geomStart",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:StyleSheet.referenceBackend": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "§8.9",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:TableSchema.rowType": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "V11 §3.2 compile",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:TableSchema.sliceKinds": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "§7.4, §7.6",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:Telemetry.stageMs": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "§5.4: the worker host measures timings, the UI shows them",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:Telemetry.timeOver": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "§5.2",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:Telemetry.verifyMs": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "§5.4 (the UI)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:TemplateFamilyRow.cellarProb": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "comment names V11 §3.6.1",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:Terrain.reliefLimitCm": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "the declared range every write is checked against (§7.2)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:Terrain.seaLevelCm": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "read by S1 (§4.2), §7.1, §11.1 (sea level)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:ToolModeRow.pointsForm": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "V09 §4",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:TunnelProfileRow.navigableMinHeadroomCm": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "II.7.2: navigable = widthCm ≥ 110 ∧ headroomCm ≥ 160, the thresholds table values",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:TunnelProfileRow.navigableMinWidthCm": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "as headroom",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:UndercityRule.disorderGain": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "II.7.5's size law: g",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:UndercityRule.povertyRef": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "II.7.5's size law: P_ref",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:UndergroundFadeRule.sealBase": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "U-FADE: a seal's weight × (1 + orderGain × (1 − disorder)) (V04 §3.10)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:Usage.byModel": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "V10 §3.10, V09 §5.10",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:VillagePlan.formSource": {
+  "class": "orphan-field",
+  "defect_id": "W-FLD-08",
+  "link": "V07 §2.3 names the reader of VillagePlan.formSource and roadsSource (V10's why for the village form and road topology, V09's panel line, or the re-derivation that keeps an 'edit' or 'dossier' source through an epoch) or drops them",
+  "note": "provenance fields with no reader in the set",
+  "severity": "minor",
+  "unit": "V07",
+  "verdict": "DEFECT"
+ },
+ "field:VillagePlan.roadsSource": {
+  "class": "orphan-field",
+  "defect_id": "W-FLD-08",
+  "link": "V07 §2.3 names the reader of VillagePlan.formSource and roadsSource (V10's why for the village form and road topology, V09's panel line, or the re-derivation that keeps an 'edit' or 'dossier' source through an epoch) or drops them",
+  "note": "provenance fields with no reader in the set",
+  "severity": "minor",
+  "unit": "V07",
+  "verdict": "DEFECT"
+ },
+ "field:WallBarrierRow.anchorTower": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "§4.8's anchor towers (g item 106; V11 W11)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:WallBarrierRow.heightFactor": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "§4.8's graded furniture (g item 106, applied by the Assemble seat; V11 W11)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:WallBarrierRow.thicknessFactor": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "as heightFactor",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:WallBarrierRow.towerSpacingFactor": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "as heightFactor",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:WarpStroke.innerRadiusCm": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "V09 §4.5's warp gesture",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:WaterBody.widthProfile": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "read by §3.7, §4.2, §11.1",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:WaterfrontThreatRow.minRung": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "V11 §3.16",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:WaterfrontThreatRow.seaGates": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "V06, V07, V09",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "field:WhyCardModel.dossierLine": {
+  "class": "orphan-field",
+  "link": null,
+  "note": "V09 §5.8",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "iface:WhyProvider:V04": {
+  "class": "interface-no-implementer",
+  "defect_id": "W-IF-01",
+  "link": "V04 §1b.2 adds the underground section provider (WhySectionProvider 'underground', BCR-V10-3) and V04's WhyProvider for its kinds (systems, AccessPoint, UndergroundLink, RuinRecord, CatacombComplex, void clusters) with implementer @plat/under and callers V10's why query and V09's why card; V04 §4.5 states its rows (the ruin.node line, AccessPoint.cause, reusedBy, archVault span reason, Chamber.monument tiers, FoundationsResult footings, CatacombComplex.blockedBy, the terminal cistern) with their info.under.* catalogue keys, and a T-V4 bar covers them; the integration notes IN-V04-7/8 fold into the body (V04-WGAP-5)",
+  "note": "V10 §3.9's owed table names V04 §4.5 as the provider and BCR-V10-3's completeness test checks it; V04 names no WhyProvider (0 occurrences) and its §1b.2 has no provider row",
+  "severity": "major",
+  "unit": "V04",
+  "verdict": "DEFECT"
+ },
+ "xvol:V01:412:consumer:V04": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V01:414:consumer:V10": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V01:414:producer:V05": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V01:414:producer:V12": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V01:420:producer:V05": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V01:423:consumer:V04": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V01:428:consumer:V04": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V01:429:consumer:V09": {
+  "class": "one-ended-hook",
+  "defect_id": "W-IF-04",
+  "link": "V09 §4.14's tables editor states its cell inspector: per cell the calibration register entry (V12 §2.6 CalibrationEntry: status, reference, due milestone, history lines) read from dist/evidence.json and register.json — folding IN-V09-7 into the body (see V09-WGAP-2)",
+  "note": "the register → tables-editor edge exists only in V09's integration note IN-V09-7; V01 §1b and V12 §1b name the cell inspector as the register's consumer",
+  "severity": "minor",
+  "unit": "V09",
+  "verdict": "DEFECT"
+ },
+ "xvol:V01:429:consumer:V10": {
+  "class": "one-ended-hook",
+  "defect_id": "W-IF-05",
+  "link": "V10 §2.13's RuleAnswer (the clerk's provenance answer) gains the cell's calibration register entry — status ('provisional'|'measured'|'rated'|'owner'), reference and due milestone from V12 §2.6's CalibrationEntry — and V10 §1b.1 lists register.json as an input; or V01 §1b and V12 §1b drop 'the clerk's provenance answer' as a consumer",
+  "note": "V12 §1b and V01 §1b name 'the clerk's provenance answer (V10)' as a consumer of the register; V10's RuleAnswer carries only the cell's provenance string",
+  "severity": "minor",
+  "unit": "V10",
+  "verdict": "DEFECT"
+ },
+ "xvol:V01:429:consumer:V12": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V01:452:consumer:V09": {
+  "class": "agreement-hook",
+  "defect_id": "W-IF-03",
+  "link": "V10 §3.9's owed table lists V01's three providers (terrace, ward-edge wall, under-deck strip; V01 §4.5) for their kinds, and V10's own RetainingWall and deck-plot rows (V10 §3.9) cite them as V01's — one provider per kind (BCR-V10-3's completeness test checks the owed list)",
+  "note": "V01 §1b registers three why providers feeding V10's why; V10's owed table does not list them and V10 §3.9 answers RetainingWall and deck plots with its own rows: two homes for one answer",
+  "severity": "minor",
+  "unit": "V10",
+  "verdict": "DEFECT"
+ },
+ "xvol:V01:452:consumer:V10": {
+  "class": "agreement-hook",
+  "defect_id": "W-IF-03",
+  "link": "V10 §3.9's owed table lists V01's three providers (terrace, ward-edge wall, under-deck strip; V01 §4.5) for their kinds, and V10's own RetainingWall and deck-plot rows (V10 §3.9) cite them as V01's — one provider per kind (BCR-V10-3's completeness test checks the owed list)",
+  "note": "V01 §1b registers three why providers feeding V10's why; V10's owed table does not list them and V10 §3.9 answers RetainingWall and deck plots with its own rows: two homes for one answer",
+  "severity": "minor",
+  "unit": "V10",
+  "verdict": "DEFECT"
+ },
+ "xvol:V02:264:consumer:V06": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V02:270:consumer:V03": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V02:270:consumer:V04": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V02:270:producer:V03": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V02:270:producer:V04": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V02:283:consumer:V06": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V02:288:consumer:V12": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V02:303:consumer:V10": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V02:305:consumer:V06": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V02:307:consumer:V03": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V02:309:consumer:V03": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V02:311:consumer:V03": {
+  "class": "one-ended-hook",
+  "defect_id": "W-IF-06",
+  "link": "V02 §1b's row for terrace.wallBandCm names its real consumer only (the wing-vertex datum sample, V02 §3.10.9); V03's basement walk-out reads the retaining wall by its own 2 × cellar.insetCm band (V03 §3.7.1), not wallBandCm — or V03 §3.7.1 reads terrace.wallBandCm if the two bands are meant to be one",
+  "note": "V02 §1b claims V03's walk-out consumes terrace.wallBandCm; V03 §3.7.1 never reads it (it uses 2 × cellar.insetCm)",
+  "severity": "minor",
+  "unit": "V02",
+  "verdict": "DEFECT"
+ },
+ "xvol:V02:313:producer:V04": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V02:323:consumer:V05": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V02:325:producer:V11": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V02:333:consumer:V03": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V03:309:producer:V07": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V03:309:producer:V11": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V03:367:producer:V02": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V04:377:producer:V01": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V04:387:consumer:V10": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "V10's end exists in words (V10 §3.9's owed table row for V04: arch vaults and their span reason, ruin monuments, terminal cisterns, footings; V10 §3.9a); V04's implementer side is the defect XV-WHY-V04 (V04-WGAP-5)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V04:389:consumer:V10": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "V10's end exists in words (V10 §3.9's owed table row for V04: arch vaults and their span reason, ruin monuments, terminal cisterns, footings; V10 §3.9a); V04's implementer side is the defect XV-WHY-V04 (V04-WGAP-5)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V04:389:consumer:V12": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "V10's end exists in words (V10 §3.9's owed table row for V04: arch vaults and their span reason, ruin monuments, terminal cisterns, footings; V10 §3.9a); V04's implementer side is the defect XV-WHY-V04 (V04-WGAP-5)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V04:390:consumer:V10": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "V10's end exists in words (V10 §3.9's owed table row for V04: arch vaults and their span reason, ruin monuments, terminal cisterns, footings; V10 §3.9a); V04's implementer side is the defect XV-WHY-V04 (V04-WGAP-5)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V04:390:consumer:V12": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "V10's end exists in words (V10 §3.9's owed table row for V04: arch vaults and their span reason, ruin monuments, terminal cisterns, footings; V10 §3.9a); V04's implementer side is the defect XV-WHY-V04 (V04-WGAP-5)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V04:404:consumer:V10": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "V10's end exists in words (V10 §3.9's owed table row for V04: arch vaults and their span reason, ruin monuments, terminal cisterns, footings; V10 §3.9a); V04's implementer side is the defect XV-WHY-V04 (V04-WGAP-5)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V04:405:consumer:V10": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "V10's end exists in words (V10 §3.9's owed table row for V04: arch vaults and their span reason, ruin monuments, terminal cisterns, footings; V10 §3.9a); V04's implementer side is the defect XV-WHY-V04 (V04-WGAP-5)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V04:406:consumer:V10": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "V10's end exists in words (V10 §3.9's owed table row for V04: arch vaults and their span reason, ruin monuments, terminal cisterns, footings; V10 §3.9a); V04's implementer side is the defect XV-WHY-V04 (V04-WGAP-5)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V04:410:consumer:V10": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "V10's end exists in words (V10 §3.9's owed table row for V04: arch vaults and their span reason, ruin monuments, terminal cisterns, footings; V10 §3.9a); V04's implementer side is the defect XV-WHY-V04 (V04-WGAP-5)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V04:415:consumer:V10": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "V10's end exists in words (V10 §3.9's owed table row for V04: arch vaults and their span reason, ruin monuments, terminal cisterns, footings; V10 §3.9a); V04's implementer side is the defect XV-WHY-V04 (V04-WGAP-5)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V04:417:consumer:V10": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V04:425:consumer:V01": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V04:433:consumer:V01": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V05:359:consumer:V12": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V05:367:consumer:V01": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V05:376:consumer:V09": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V05:384:producer:V11": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V05:391:producer:V11": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V05:393:consumer:V01": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V05:394:producer:V11": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V05:401:producer:V02": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V05:401:producer:V11": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V06:413:consumer:V09": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V06:413:consumer:V10": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V06:441:producer:V08": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V06:447:producer:V04": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V06:453:producer:V07": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V06:455:producer:V04": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V06:455:producer:V08": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V06:458:consumer:V09": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V06:458:consumer:V10": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V06:467:consumer:V09": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V06:467:consumer:V10": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V06:479:consumer:V09": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V06:485:consumer:V01": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V06:485:consumer:V02": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V06:485:consumer:V05": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V07:424:consumer:V10": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V07:425:producer:V11": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V07:442:producer:V11": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V07:443:producer:V11": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V07:451:consumer:V04": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V07:451:consumer:V09": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V07:451:consumer:V10": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V07:451:producer:V08": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V07:452:consumer:V04": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V07:454:consumer:V02": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V07:454:consumer:V03": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V07:454:consumer:V04": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V07:455:consumer:V04": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V07:462:producer:V08": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V07:468:producer:V02": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V07:469:producer:V04": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V07:469:producer:V11": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V07:473:producer:V04": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V08:275:consumer:V05": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V08:275:consumer:V06": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V08:303:consumer:V09": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V08:309:consumer:V05": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V08:311:consumer:V01": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V08:311:consumer:V10": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V08:316:consumer:V06": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V08:316:consumer:V10": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V08:316:consumer:V11": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V08:317:consumer:V10": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V08:319:consumer:V06": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V08:320:consumer:V02": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V08:320:consumer:V11": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V08:329:consumer:V06": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V08:332:producer:V09": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V09:317:producer:V06": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V09:319:producer:V06": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V09:331:consumer:V11": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V09:342:consumer:V10": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V09:349:producer:V04": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V09:350:consumer:V04": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V09:354:consumer:V08": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V09:358:consumer:V06": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V09:361:producer:V10": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V09:362:producer:V02": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V09:363:consumer:V10": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V09:371:consumer:V06": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V09:372:producer:V02": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V09:372:producer:V03": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V09:372:producer:V04": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V09:381:consumer:V02": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V09:381:consumer:V12": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V10:351:consumer:V09": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V10:372:consumer:V08": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V10:383:producer:V07": {
+  "class": "one-ended-hook",
+  "defect_id": "W-IF-02",
+  "link": "V07 §4.5 registers V07's WhyProvider for the kinds V10 §3.9's owed table assigns it (VillagePlan, VillageField, VillageEnd) through BCR-V10-3's interface, with its rows' catalogue keys (info.village.*) and a T-V7 bar (the completeness test of BCR-V10-3 checks exactly this provider); V07 §1b adds the row",
+  "note": "V10 §3.9's owed table lists V07 §4.5 as the provider for the village records and BCR-V10-3's completeness test checks it; V07 names no WhyProvider anywhere (its §4.5 lists the answers in prose only): an interface with a caller and no implementer",
+  "severity": "major",
+  "unit": "V07",
+  "verdict": "DEFECT"
+ },
+ "xvol:V10:386:consumer:V06": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V11:237:consumer:V09": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V11:241:consumer:V06": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V11:241:consumer:V10": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V11:245:consumer:V06": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V11:246:consumer:V08": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V11:247:consumer:V05": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V11:247:consumer:V07": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V11:250:consumer:V06": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V11:255:consumer:V07": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V11:258:consumer:V01": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V11:258:consumer:V05": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V11:258:consumer:V06": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V11:262:consumer:V09": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V11:265:consumer:V07": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V11:265:consumer:V09": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V11:265:consumer:V10": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V11:266:consumer:V06": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V11:266:consumer:V07": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V11:267:consumer:V07": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V11:269:consumer:V04": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V11:277:consumer:V01": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V11:284:consumer:V05": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V11:288:consumer:V10": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V11:288:consumer:V12": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V11:312:consumer:V12": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V11:314:producer:V04": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V12:278:producer:V11": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V12:280:consumer:V09": {
+  "class": "one-ended-hook",
+  "defect_id": "W-IF-04",
+  "link": "as the V01 row: V09 §4.14 cell inspector reads register.json (fold IN-V09-7)",
+  "note": "same edge from V12 §1b",
+  "severity": "minor",
+  "unit": "V09",
+  "verdict": "DEFECT"
+ },
+ "xvol:V12:280:consumer:V10": {
+  "class": "one-ended-hook",
+  "defect_id": "W-IF-05",
+  "link": "as #6",
+  "note": "same edge from V12 §1b",
+  "severity": "minor",
+  "unit": "V10",
+  "verdict": "DEFECT"
+ },
+ "xvol:V12:293:consumer:V04": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V12:293:producer:V02": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V12:293:producer:V04": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V12:293:producer:V06": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V12:293:producer:V11": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "described in words at both ends; the seam rounds r0-r6 checked this pair",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V12:300:consumer:V01": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V12:300:consumer:V03": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V12:300:consumer:V04": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V12:300:consumer:V10": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V12:301:producer:V02": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V12:301:producer:V04": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V12:301:producer:V05": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V12:301:producer:V06": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V12:301:producer:V07": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V12:301:producer:V11": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V12:306:consumer:V04": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V12:306:consumer:V11": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V12:306:producer:V04": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ },
+ "xvol:V12:309:producer:V08": {
+  "class": "one-ended-hook",
+  "link": null,
+  "note": "other end found at the named volume under its own wording (checked by concept grep, lane coherence/wiring)",
+  "severity": null,
+  "unit": null,
+  "verdict": "WIRED"
+ }
+}

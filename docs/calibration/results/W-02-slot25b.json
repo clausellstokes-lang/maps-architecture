@@ -1,0 +1,89 @@
+{
+ "slot": 25,
+ "status": "landed",
+ "capture": "2026-10-04T07-50-43",
+ "checks": [
+  {
+   "check": "resume/continue state before the site",
+   "passed": true,
+   "receipt": "no results/W-02-slot25b.json and no lane line for m1/W-02-slot25b or any earlier slot-25 key; owner-go.json ftg true; plan.json slots 0-24 bound, slot 25 open (CITY, coast+river); plan.py --check SAME (0fd7aae1/8a0efa7e); newest folder 2026-10-04T07-34-12 = slot 24's (its one PUT is slot 24's; its list after the create: 25 rows, BIG_TOWN 10, BIG_CITY 10, METROPOLIS 4, CITY 1)"
+  },
+  {
+   "check": "isolated runner and clean start/stop",
+   "passed": true,
+   "receipt": "scratchpad m1w2/ftg/runner copies cmp identical (session.mjs e199be5d, drive.mjs 597eb62d, package.json 25e7d362, lib/common.mjs 3b948576, lib/instrument.js cca253ac); port 9341 free before; no FTG process, no Singleton*, no .session before; 'session closed' after drive.mjs stop; no Singleton*, both .session files absent, port 9341 free, pgrep -fl profiles/ftg empty at once and again about three minutes later (nothing signalled)"
+  },
+  {
+   "check": "landing signed in, no consent notice, no other hand (H2, I2, I10)",
+   "passed": true,
+   "receipt": "'Signed in as [name]', 'Sign out', 'Home' (redacted reading), no consent notice (shot 001); .root-component scrollTop 0 at the first reading and 0 just before the Home click, hover empty both times; Home 1 of 2 matches hit-testable (896,931); later hovers only at the seat's own click points (one reading after the form opened named the dialog's full-window layer under the New Settlement point; elementFromPoint there = that layer, 0,0,1440,632); focus from the first settlements-view reading (after the seat's Home click), as in slots 22-24; one background identity-provider call on the landing (200, no prompt), as in slots 8 and 13"
+  },
+  {
+   "check": "account list before (I2)",
+   "passed": true,
+   "receipt": "intercepted GET .../prod/settlements: 25 rows (BIG_TOWN 10, BIG_CITY 10, METROPOLIS 4, CITY 1) = the earlier settlement + slots 1-24; one CITY row (slot 24's), so no slot-25 create had happened"
+  },
+  {
+   "check": "CITY option chosen by its request key (plan 2.1b (2), I4, slot-24 note); metropolis not chosen",
+   "passed": true,
+   "receipt": "each option's React element key = its text + the request key; 3 of 12 keys end in CITY, so the seat matched the whole remainder after the text: exactly 1 of 12 is CITY ('City (~10000 people)'); selected by exact text; remainder re-read 'CITY' after the select and in the form-final reading; request size key CITY"
+  },
+  {
+   "check": "form set by guarded steps (H12, H14)",
+   "passed": true,
+   "receipt": "form-final eval: selects City, Medieval europe, Wood, Generic fantasy, Generic religions, Comfortable, Temperate (deciduous trees), Coastal; name field (found by its placeholder) empty; rivers, farms, forests, reserve, walled on; dialog open. Every click/select its own command after text + shot (+ elementFromPoint for coordinates: rivers 1008,498; forests 1008,556; scroll 720,400 inside the dialog; reserve 1008,367; walled 1008,396); the coast select moved no box; the 23 checkbox states, the box coordinates and selects 1-7 at form-final equal slots 22 and 23's; the 13 commands equal every signed-in coast+river capture's (slots 2-5, 7-9, 12, 13, 16, 17, 20-23) but the size text"
+  },
+  {
+   "check": "one create, retry rule (plan 2.1b (6))",
+   "passed": true,
+   "receipt": "CHECKPOINT line at 03:54 before the click; 'Create Settlement' 1 of 1 hit-testable (947,522) inside the dialog, pre-create shot 013 after the hit test, clicked once; PUT 200 with a 274 293-byte body; layout GET intercepted (intercept-0037); list after: 26 rows (CITY 2), the new row carries the PUT's settlement id (listed population 9 407); no retry"
+  },
+  {
+   "check": "same-size rule R-41: 17 values equal slot 24's; SIZE_DEPENDENT not widened",
+   "passed": true,
+   "receipt": "sameSize 17 of 17 equal slot 24 (2026-10-04T07-34-12); SIZE_DEPENDENT untouched (post script 735922948e3970fb before and after); leaf diffs outside the script: vs the 2026-09-21 CITY base 0 semantic (45 partner ids only), vs the 2026-09-25 capture 1 (stage-2 road step 100 there, 60 here: the R-04 setting), vs slot 24 8 (2 water keys + 6 water-implied), vs BIG_TOWN coast+river slots 12 each (size key + 11), vs BIG_CITY coast+river slots 11 each (size key + 10), vs METROPOLIS coast+river slots 16 each (size key + 15), other 0 everywhere; measure_ftg_slots.py e02_table() parse equal before and after the E02 edit"
+  },
+  {
+   "check": "ftg_capture_post.py all checks",
+   "passed": true,
+   "receipt": "--slot 25 --signed-in --premium: --check-only exit 0 on the first run (and a second identical run), writing run exit 0, 10/10 (calls, sizeKey, waterKeys, requestDiff other 0, vsSlot0 other 0, sameSize 17/17 = slot 24, decode, border 2500.00 m, noResidentField, pbRaw); red: as every other slot 0-24, 26, 27 exit 1 (as 24: waterKeys, requestDiff, vsSlot0; as 0/1/6/26: sizeKey, waterKeys, requestDiff, vsSlot0, border; as 10/11/14/15/18/19: + sameSize; as coast+river slots of other sizes: sizeKey, sameSize, border; as 27: sizeKey, border); check-only runs wrote nothing"
+  },
+  {
+   "check": "payload and request facts",
+   "passed": true,
+   "receipt": "2 770 buildings, 5 131 edges, 4 195 nodes, 13 towers, 27 wall (type-7) edges in one open line (526 m, within 289 m), 6 water bodies, 3 districts, border half width 2 500.00 m (5 000 m square); payload 638 724 bytes sha256 96ad0e51eec619ba, 198 distinct paths (exactly the union of slots 0-24; structure.md = fresh pb_raw apart from the title path); requestHash b7db525fe189 (274 293 bytes, recomputed outside the script; create-request.json parses equal); referenceBuild ftg:2026-10-04+b7db525fe189; server time 5.245 s (contended); population 9 500 nominal, listed 9 407"
+  },
+  {
+   "check": "slot bound, plan SAME",
+   "passed": true,
+   "receipt": "plan.json byte-equal to the pre-flight copy just before the bind; plan.py --bind-ftg 25=2026-10-04T07-50-43: one line changed; --check SAME immediately after (plan.json d9c1109e2f34f509, metrics.m-1.json 8a0efa7e61592ef3 unchanged); plan.py unchanged 68709ba8"
+  },
+  {
+   "check": "records written",
+   "passed": true,
+   "receipt": "E02 header update + section 36 (capture, checks, findings, calls; 171 lines added, none removed); E02-ftg-captures.json: days entry for slot 25, slotsTaken 26, sizeDependentClass.secondCity, next.programme2, slotsByProgramme 2 = 20 of 22 (append-only otherwise; prior days equal); checklist section I slot-25 note (14 lines added, none removed); capture README with the seat's notes"
+  },
+  {
+   "check": "privacy grep of the files written (H11, H14)",
+   "passed": true,
+   "receipt": "README, capture-facts.json, create-request.json, request-diff.txt, structure.md, steps.jsonl, E02 section 36 + header (and the whole E02 .md and .json), the JSON entry, the checklist note, the notes, this result file and this lane's lane-events.log lines: 0 email patterns, 0 display-name matches, 0 token prefixes (the checklist's one 'eyJ' is H11's own rule text, pre-existing); full ids only in create-request.json (the 45 client partner ids) and steps.jsonl (written by drive.mjs: the new settlement's id a989de8e... in the map-page address and the scratchpad session folder 35f80c37...; neither an account id, as in slots 1-24); every record written by hand keeps 8 hex at most"
+  },
+  {
+   "check": "disk",
+   "passed": true,
+   "receipt": "df -h /Users/cstokes: 11 GiB free before the session, 11 GiB after it and at the end; capture folder 37 MB"
+  }
+ ],
+ "account_limit": "not reached: premium account (J164, unlimited); no counter shown; list 25 rows before, 26 after (BIG_TOWN 10, BIG_CITY 10, METROPOLIS 4, CITY 2); no payment, upgrade, limit, sign-in or terms prompt appeared.",
+ "owner_notes": [
+  "Slot 25 is done. It is the second ordinary city (about 9 500 people), on the coast with a river. One new settlement was saved in your account, which now holds 26. Nothing was bought, accepted or changed, and you are still signed in.",
+  "The recording window was left alone; the seat saw no other hand."
+ ],
+ "notes": [
+  "CONFIRMED: the one create (PUT 200, list 25 -> 26, the new row is the PUT's settlement); 10/10 post checks on the first run with the 17 size-dependent values equal to slot 24's (SIZE_DEPENDENT unchanged); the request equals the 2026-09-21 CITY base request apart from the 45 partner ids, so the two are draws of one request and the CITY family now has three usable captures (base, slot 24, slot 25); the slot bound with --check SAME. PLAUSIBLE only: the cause of the wall's shape, that the server's seed makes equal requests differ, what the six water polygons are, what raised the window's focus, and that the listed population (9 407) is the generated resident count.",
+  "Findings (E02 36.3): the same request as the base gives a different town (2 770 against 2 798 buildings, 13 against 17 towers, 6 against 4 water bodies; finding 4); 13 towers are the fewest of any walled capture in slots 0-25, the wall one open line closing the harbour quarter (finding 5); six water bodies, three of them PLAUSIBLY ponds (finding 6); the payload's 198 paths are exactly the earlier union (finding 8).",
+  "For slots 26-27 (TOWN): slot 26 is the next first-of-size capture under R-41 (checklist I9); the form opens at the TOWN option, so its key remainder TOWN is confirmed by eval rather than selected (checklist I slot-25 note).",
+  "No leftover Chrome helper this run (as in slots 18 to 24); nothing was signalled. One background identity-provider call on the landing (as in slots 8 and 13), no prompt. No git command was run.",
+  "Files: captures/ftg/2026-10-04T07-50-43/ (README.md, capture-facts.json, create-request.json, request-diff.txt, structure.md, session/, steps/ 20 shots), research/baselines/plan.json (via plan.py), research/baselines/ftg_capture_checklist.md, docs/calibration/E02-ftg-captures.md, docs/calibration/E02-ftg-captures.json, docs/calibration/results/W-02-slot25b.json, docs/lane-events.log (this lane's lines)."
+ ]
+}

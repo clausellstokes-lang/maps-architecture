@@ -1,0 +1,53 @@
+{
+  "file": "/Users/cstokes/Desktop/Maps/docs/calibration/M-1-plan.md",
+  "work_file": "/Users/cstokes/Desktop/Maps/docs/calibration/M-1-work.json",
+  "experiments": 19,
+  "new_captures": [
+    "FTG: six free captures at BIG_TOWN and BIG_CITY — per size one with water options nearest none and two nearest coast+river — one per day over six days on the one-temporary-settlement-per-IP-per-day allowance, driven step by step with profiler/session.mjs + drive.mjs, payload intercepted at the Fetch stage, README per capture with id, WaterSetting, population (nominal 5600 / 24500 expected: the payload holds no resident count), server time, buildings, request hash (W-02; ~170 MB)",
+    "MFCG: 35 exports by V12 §3.2.1's formula — capture/MFCG/<size>/plain/<i>, i = 0..9 at sizes 40 / 80 / 130, plus capture/MFCG/80/river+coast/<i>, i = 0..4 (stress, descriptive) — one cold navigation per export via profiler/export.mjs, JSON + SVG + screenshot per seed (W-03; ~325 MB; ~5 minutes)",
+    "NG: 44 single-generation vertex recordings (record.mjs --passes draw --vertices, one plan seed each) — medium 5 seeds and small / large 3 seeds per template area / street / square / ring (W-04; ~450-600 MB)",
+    "MFCG renders: the 30 plain SVGs rasterised at the city band's metres per pixel for §8.5's recoverability metric (W-08; ~60 MB)"
+  ],
+  "already_covered": [
+    "NG bent-cut signature (sigma 0.066 / 0.098, corner at mid-course 380/519, arrivals >= 85 degrees 96 %, 53 % filleted) and its per-face-class re-measurement for M0 (b): captures/neighbourhood/2026-09-25T10-55-{19,36,47,59} with captures/neighbourhood/bentcut_*.py (W-10)",
+    "NG ⟨M-1⟩ rows — detour, 4-way share, cycles per km², plot minimum width, streetwall gap per 100 m (IMPROVEMENTS §7.2), adjacent-footprint pairing (#10), hollow-block court share, block counts and areas per template at medium, party walls, Moran's I, hood time: the same four vertex captures via paths_stats.py, plot_granularity_baseline.py and the rebuilt road graph (W-11)",
+    "FTG turning per 100 m, step histogram, heading entropy, outline anisotropy, junction angles and 4-way share, street runs by class, footprints, party walls, towers and gates, water, trees, population ratio, server and scene times, lifestyle weights: the two CITY payloads captures/ftg/2026-09-21T05-23-58 and 2026-09-25T10-13-51 via tools/pb_raw.py, research/ftg-capture/analyse_layout.py, roadlength100/*.py and docs/validation/bench/ftg_anisotropy.py — re-run by V12 §3.4.2's exact definitions (36 sectors of 10 degrees; 10 m resampling) and declared where the number moves (W-05)",
+    "FTG face recovery (#5): planar face walk over the same payloads' road graphs inside district rings; plot depth, frontage and plot share withdrawn by item 49 (W-06)",
+    "MFCG lot-orientation coherence R4, wall alignment, walled and ribbon shares, gross cover, district areas, gates and towers, castle and plaza, draw style and the 57 / 131 / 156 ms timings: captures/mfcg/exports-2026-09-25 and exports-sweep-2026-09-25 via mfcg_orient.py, mfcg_wallalign.py, mfcg_ribbon.py, stats.py, gates_towers.py and the draw records — these existing files are the T-V12-6 fixtures the twin must reproduce; the rows themselves come from the plan-seed sweep (W-07)",
+    "MFCG cluster blocks, court share, streetwall, T / Y share, dead ends, blocks per ha, lots per block and variety: computable on the existing exports first (fixtures), rows from the sweep (W-09)",
+    "The seed twin: docs/validation/bench/v12_h32_vectors.py and its vectors (capture/MFCG/40/plain/0 -> 2003595629 PM; capture/NG/area/medium/0 -> 259196530 PM) (W-01)"
+  ],
+  "owner_gated": [
+    "FTG: six daily uses of fantasytowngenerator.com's free one-temporary-settlement-per-IP-per-day allowance from the owner's connection under the existing guest browser profile (profiler/.profiles/ftg); the site's cookie-consent notice; each capture sends FTG's ~430 KB configuration body to its server (no personal data); no account, login or purchase — the premium tier is ruled out (J122 Q-V12-1)",
+    "MFCG on itch.io: 35 automated loads of the public build and the 70 browser downloads it triggers (35 JSON + 35 SVG, ~260 MB from html-classic.itch.zone); the build-id fetch of the public game page",
+    "NG on itch.io: 44 automated loads of the public build (screenshots and draw records, no download); the build-id fetch",
+    "Build drift: if itch serves a build other than MFCG 12710731 or NG 11441280 the new captures carry the new build and the pin moves as a declared baseline shift (V12 §3.8, J-V12.13) — told to the owner before the sweep runs",
+    "Disk: no seat deletes or moves data; if space falls short the owner decides what moves off the volume (candidates captures/dwellings 1.5 GB; the browser profiles 270 MB, the FTG one stays)",
+    "Dependencies: none new planned (Node 24.12, puppeteer-core, Python 3.9 + PIL, Chrome are present); any new package is a download and is asked for first",
+    "The crossing's git commit into plat/ — baselines.json, the deny-list, plat/docs/digest/, known-defects.json entries, plat/CLEAN-ROOM.md rows — is the session's on the owner's word (this workflow's lanes run no state-changing git)",
+    "Design cells moved by the depth-row re-fit (item 34) or by a band recomputation that flips a gate land by amendment with doc_checks.py and the shift record — reported, not asked, unless a flip changes a signed golden"
+  ],
+  "disk_estimate_mb": 1155,
+  "first_wave": [
+    "W-01 the capture plan (research/baselines/plan.py -> plan.json) and metrics.m-1.json — computation, start now",
+    "W-02 day 1: FTG BIG_TOWN nearest none — the six-day clock starts the day the owner says go",
+    "W-03 the MFCG sweep (35 exports, ~5 min) — after the owner's go and the build-id check",
+    "W-10 NG bent-cut signature per face class on the existing vertex captures — M0 (b)'s input",
+    "W-11 NG ⟨M-1⟩ rows on the existing vertex captures — M0 (b)'s input",
+    "W-05 the FTG twin on the two existing CITY payloads",
+    "W-07 the MFCG twin on the 2026-09-25 exports (T-V12-6 fixtures; M0 (c)'s street-signature rows)",
+    "W-16 the hashed deny-list (make_denylist.py) — once lane catchup/cleanroom's authoritative corpus check lands"
+  ],
+  "notes": [
+    "Plan only: no capture was taken, nothing was written into plat/, no git state was changed (CONFIRMED).",
+    "Free space: df read 2.7 GB at 03:28 and 19 GB at 03:42 (CONFIRMED); the plan still budgets under the brief's 3 GB rule — total ~1 155 MB, ~1 345 MB with S-V12-1's 20-seed contingency — ordered FTG -> MFCG -> NG medium -> NG small/large with a df check between folders and a stop under 1 GB.",
+    "The FTG payload's top level carries no resident count (CONFIRMED on the 2026-09-21 payload's field list), so §13.6 (2)'s nominal fallback (BIG_TOWN 5 600, BIG_CITY 24 500 from FTG's own size ladder, CONFIRMED in research/ftg-capture/presets.json) is expected for all six captures and re-checked per payload.",
+    "Every MFCG export on disk holds exactly one square polygon (CONFIRMED), so the ⟨M-1⟩ secondary-market rows are expected to become descriptive by the ⟨M-1⟩ rule unless the SVG or districts show a second square (PLAUSIBLE until W-07).",
+    "Design inconsistency found for a design seat: §4.5 (ARCHITECTURE line 7425) says the hidden-share base weights are 'fitted at M-1 on B-CITY', but B-CITY needs the product, so that fit is M1's (CONFIRMED by reading).",
+    "plat/CLEAN-ROOM.md lives at plat/ root by build choice C-0002, not at plat/docs/ as §17.1 (7) says (CONFIRMED by reading the file); the plan names the actual path.",
+    "V12 §3.2.1 fixes the river-and-coast variant at size 80 with five seeds (stress, descriptive) where §16's row says 'plus a river-and-coast variant'; the plan follows V12; the M1 panel's coast+river pairs at TOWN and METROPOLIS are M1's own exports and feed no row.",
+    "The M-1 twin of V12 §3.4.1's derived street graph is a raster medial axis (declared); M1's product straight-skeleton value supersedes the row by J-V12.1, and spike S-V12-2 decides descriptive status first (PLAUSIBLE design of the twin).",
+    "Clean-room self-check on the plan (CONFIRMED): doc_checks.py over the full corpus — C2 0, C4 0, S1 0, S2 0, C1 4 reviewed generic hits, C3 65 hits all our own paths, dates and README phrasing; the file is a research-side record outside the design set.",
+    "Records: 19 docs/calibration/E01..E19 records are named in M-1-work.json; the first (E01) is written by W-01."
+  ]
+}

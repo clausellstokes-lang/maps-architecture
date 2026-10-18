@@ -1,0 +1,10 @@
+{
+ "file": "docs/validation/coherence/assemble-r7.md",
+ "old_kb": 9704.0,
+ "new_kb": 9878.2,
+ "broken_references": 0,
+ "doc_check_hits": 3756,
+ "unplaced": [
+  "repair-r7-determinism.md l. 1600: === RULING REQUEST E-D7 === — skipped, never applied (ROUND-7 NOTES (2), (9) (f)); accepted by the orchestrator, its names carried by determinism's other blocks"
+ ]
+}

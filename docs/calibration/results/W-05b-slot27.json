@@ -1,0 +1,91 @@
+{
+ "id": "m1/W-05b-slot27",
+ "status": "landed",
+ "records": [
+  "docs/calibration/E05-ftg-metrics.md (section 9.11 appended after 9.10; 9.8 (2) METROPOLIS river widths 22.37-31.66 m; +199 / -1 lines, sha256 cd15943d...)",
+  "docs/calibration/E05-ftg-metrics.slots.json (rewritten by the pass, sha256 f48d2882...; 29 captures; the final pass's 8898b640... is in commit a5542d0)",
+  "docs/calibration/E06-ftg-faces.json (slot 27's measureInputStoredEqualsFresh null -> true, one line; sha256 290166d0... -> 3d15a080...)",
+  "docs/calibration/E06-ftg-faces.md (13.3 item 3 reworded to one base; 13.9 addendum note appended; +17 / -1 lines)"
+ ],
+ "outputs": [
+  "research/baselines/inputs/FTG/ftg-2026-10-04_2842892ac3a8/2026-10-04T09-33-54.metric.geojson.gz (slot 27's MeasureInput, sha256 1f0228e8..., 108 KB; folder now 30 files, 8.9 MB)",
+  "docs/calibration/E05-ftg-metrics.slots.json",
+  "docs/calibration/E05-ftg-metrics.md section 9.11",
+  "docs/calibration/E06-ftg-faces.json",
+  "docs/calibration/E06-ftg-faces.md section 13.9",
+  "docs/calibration/results/W-05b-slot27.json"
+ ],
+ "checks": [
+  {
+   "check": "row check 1: each slot's MeasureInput equals a fresh run",
+   "passed": true,
+   "receipt": "measure_ftg_slots.py --check exit 0: 29 of 29 stored gzips byte-equal to a fresh adapter write and JSON-equal, slot 27's 1f0228e8 included; the 29 earlier files' sha256 list before and after differs only by the new line"
+  },
+  {
+   "check": "row check 2: every value's captures equal the plan's slots",
+   "passed": true,
+   "receipt": "BIG_TOWN/BIG_CITY/METROPOLIS/CITY as in W-05b-final; TOWN 2 (26, 27), water rows slot 27, wall rows both; 0 problems; plan.json 9ed325bd; the pass reads slots 0-27, decided since: none"
+  },
+  {
+   "check": "row check 3: the 2026-09-25 payload is in no sample (R-04)",
+   "passed": true,
+   "receipt": "0 hits; it stands once in CITY failed with reason setting"
+  },
+  {
+   "check": "row check 4: E02's same-size values reproduced from the requests",
+   "passed": true,
+   "receipt": "E02 37.3 (line 3722) 28/28 on all 29 captures; slot 27 = slot 26 (first TOWN) 28/28; 28 tool rows = 28 SIZE_DEPENDENT names"
+  },
+  {
+   "check": "the checks discriminate (--red)",
+   "passed": true,
+   "receipt": "--check --red: 0 of 4 pass, exit 1, nothing written"
+  },
+  {
+   "check": "every earlier slot byte-unchanged",
+   "passed": true,
+   "receipt": "against 8898b640: 28/28 per-slot entries serialise to the same bytes and each entry's line block occurs verbatim in both files, order kept; 28/28 vectors equal; samples BIG_TOWN, BIG_CITY, METROPOLIS, CITY and turningBesideException, outlineBandInputs, serverTimes equal; only TOWN, lane, plan hash, throughSlot, slot 27's status row and receipts differ (48 lines removed, all in those keys)"
+  },
+  {
+   "check": "determinism",
+   "passed": true,
+   "receipt": "run 2 (the record) = run 1 byte for byte, tables included; slot 27 measured alone through the tool's functions = its entry byte for byte"
+  },
+  {
+   "check": "verifier item (a): E06 --check reproduces after slot 27's file exists",
+   "passed": true,
+   "receipt": "measure_ftg_faces.py --check on the refreshed JSON: 6 of 6, 'the record reproduces: True', exit 0; red control on the unrefreshed copy: 'reproduces: False', exit 1"
+  },
+  {
+   "check": "verifier items (b) and (c): text fixes",
+   "passed": true,
+   "receipt": "E05 9.8 (2) reads 22.37-31.66 m (slot 7 31.665 prints 31.66); E06 13.3 (3) reads 2 772 cuts over 24 044 chains (fixture's 36 / 342 excluded; 2 808 / 24 386 with it), recounted from per-ring cutsChecked and cuts"
+  },
+  {
+   "check": "plan untouched; plan.py --check",
+   "passed": true,
+   "receipt": "SAME, SAME at start and end (plan.json 9ed325bd, metrics.m-1.json 8a0efa7e); tools f218a9d3, 212e3f9d, c6d20992, 782e636f unchanged"
+  },
+  {
+   "check": "clean-room self-check on E05 and E06",
+   "passed": true,
+   "receipt": "doc_checks.py E05: C1 0 C2 0 C4 0 S1 0 S2 0, C3 87 hits / 83 unreviewed; E06: C1 0 C2 0 C4 0 S1 0 S2 0, C3 192 / 192; every hit read (digit runs, dates, stamps, our paths and phrases; none a reference list, palette, grammar or identifier); exit 1 by the unreviewed count, as every non-design record reads"
+  }
+ ],
+ "rows": 29,
+ "design_corrections": [],
+ "owner_notes": [
+  "The last FTG town (slot 27) is now measured, so all 28 planned FTG towns plus the older city are done, and every check passes. Nothing measured earlier changed.",
+  "FTG's own list calls this town a big town of 5 725 people, though we asked for a town (3 625). I recorded both numbers. Our reading uses 3 625, as an earlier ruling (R-37) says, because the request was a town and the two towns differ only in their water. The bigger number is printed beside it. It changes no row, since towns are research-only.",
+  "The block-measurement record (W-06) needed one flag updated now that slot 27's file exists. It reproduces again, and its numbers did not change.",
+  "Nothing was written into plat/, no website was touched, and no git command was run."
+ ],
+ "notes": [
+  "Outcome: landed. W-05b's row is complete: the last pass covers slot 27 (TOWN, coast+river, 2026-10-04T09-33-54). 29 captures are measured with tool f218a9d3, unchanged. TOWN n 1 -> 2, water rows 0 -> 1. Every sample W-15 forms into a row is byte-unchanged.",
+  "Population (E02 39.3 finding 1): nominal 3 625 (populationSource nominal) and listed 5 725 (+57.9 %; slots 1-26 -1.9 to +11.1 %) are both recorded in E05 9.11. The function-of-population reading uses nominal by R-37 (not re-decided). The request carries no population; slots 26/27 are a water-only pair; the listed figure's meaning is PLAUSIBLE; both lie in the TOWN rung. Printed beside it: persons per building 2.066 at nominal vs 3.262 at listed (others 2.98-3.48 / 3.243-3.431).",
+  "Slot 27 (one draw): river 67.46 m wide (others 22.37-55.99), street run 49.0 m (others 31.6-47.5), worst-corner p95 38.06 deg (others 16.02-29.52). The coast is at the fine step (coasts now 11 of 18 fine, 7 at 50 m; rivers 24 of 24 at 50 m). Both TOWN draws have attached share 0 and block CV 0.62/0.74; slot 26's high 4-way share does not repeat (0.206).",
+  "Calls under J122 (vetoable, E05 9.11): W05b-D16 the listed population stays out of the slots JSON (R-37; adding it would change 28 entries); W05b-D17 E06's flag is refreshed by a one-value edit in the tool's own format rather than a re-run of W-06; W05b-D18 E06 gains a dated 13.9 note naming the new JSON hash.",
+  "CONFIRMED: every number and receipt above (executed). PLAUSIBLE: that the listed figure is FTG's generated resident count (so 2.066 is an artefact of the nominal figure); that both TOWN draws' attached share and block CV follow from the single layout stage; the cause of slot 27's outlying values.",
+  "Scratch: /private/tmp/claude-502/-Users-cstokes-Desktop-Maps/35f80c37-a71f-4b8a-aa2a-ae5f9064cf55/scratchpad/m1w3/w05b27/ (pre-state copies, run1/run2, compare.py, slot27_probe.py, e06_flag.py, check, red and doc_checks outputs). 11 GiB free at the end."
+ ]
+}

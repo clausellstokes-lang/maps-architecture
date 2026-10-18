@@ -1,0 +1,157 @@
+== ink: chroma scale k = 1.94, repair steps 0; modelled plate chroma 20.0 (shipped 10.8)
+   paper    #F6EDDE -> #F7EAD3   luma  235.3  warmth   36  L*  93.2  C*  12.8
+   road     #F6EDDE -> #F7EAD3   luma  235.3  warmth   36  L*  93.2  C*  12.8
+   ground   #DED0BB -> #E8CFA6   luma  209.8  warmth   66  L*  84.2  C*  23.7
+   court    #ECE0C6 -> #F4DFAC   luma  223.5  warmth   72  L*  89.4  C*  27.7
+   building #A49689 -> #AE947B   luma  152.9  warmth   51  L*  63.0  C*  17.8
+   ink      #292522 -> #2D2219   luma   36.3  warmth   20  L*  14.2  C*   8.9
+   wall     #292522 -> #2D2219   luma   36.3  warmth   20  L*  14.2  C*   8.9
+   water    #AABBC5 -> #9ABDD1   luma  180.8  warmth  -55  L*  74.7  C*  15.7
+   green    #BCC8AB -> #B4CC94   luma  190.4  warmth   32  L*  79.1  C*  31.0
+   garden   #C7CCAF -> #C4CF96   luma  197.2  warmth   46  L*  81.1  C*  30.2
+   tree     #7E907A -> #70946A   luma  132.4  warmth    6  L*  57.7  C*  27.8
+   field    #ECDFBF -> #F5DEA0   luma  221.8  warmth   85  L*  89.0  C*  33.3
+   verge    #D9DCC5 -> #D7DEB1   luma  214.8  warmth   38  L*  86.9  C*  23.5
+   paper luma 235.3 (band 226-244, target 235), warmth 36 (pinned 36); ink luma 36.3 (<= 45), warmth 20 (about 20)
+   max role chroma 33.3 (the family cap)
+   road    /ground   dE=  8.4 (>=6) dL=  8.9 (>=5) OK
+   ground  /building dE= 16.7 (>=12) dL= 21.2 (>=12) OK
+   road    /building dE= 22.2 (>=15) dL= 30.1 (>=15) OK
+   garden  /building dE= 22.5 (>=10) dL= 18.0 (>=0) OK
+   green   /building dE= 24.1 (>=10) dL= 16.0 (>=0) OK
+   tree    /water    dE= 29.2 (>=10) dL= 17.0 (>=0) OK
+   green   /road     dE= 18.3 (>=8) dL= 14.1 (>=0) OK
+   tree    /green    dE= 17.5 (>=8) dL= 21.3 (>=0) OK
+   water   /road     dE= 25.5 (>=8) dL= 18.4 (>=0) OK
+   water   /ground   dE= 29.1 (>=8) dL=  9.5 (>=0) OK
+   wall    /water    dE= 60.5 (>=20) dL= 60.5 (>=0) OK
+   field   /road     dE= 10.5 (>=4) dL=  4.1 (>=0) OK
+   field   /ground   dE=  6.2 (>=4) dL=  4.8 (>=0) OK
+   court   /road     dE=  8.2 (>=4) dL=  3.8 (>=0) OK
+   court   /ground   dE=  4.7 (>=3) dL=  5.1 (>=0) OK
+   ink     /road     dE= 76.4 (>=40) dL= 78.9 (>=50) OK
+   ink     /ground   dE= 70.5 (>=40) dL= 70.0 (>=50) OK
+   ink     /paper    dE= 76.4 (>=40) dL= 78.9 (>=50) OK
+   ink     /building dE= 42.5 (>=30) dL= 48.8 (>=40) OK
+   ink     /tree     dE= 43.1 (>=25) dL= 43.5 (>=30) OK
+   all matrix pairs pass: True
+    halo under paper   : paper
+    halo under road    : road
+    halo under ground  : ground
+    halo under court   : court
+    halo under garden  : garden
+    halo under green   : green
+    halo under tree    : ground
+    halo under field   : field
+    halo under verge   : verge
+    halo under water   : water
+    halo under building: ground
+   k trail: [(1.0, 'repair failed'), (1.01, 'repair failed'), (1.02, 'repair failed'), (1.03, 'repair failed'), (1.04, 'repair failed'), (1.05, 'repair failed')] ... [(1.92, 19.94, 0), (1.93, 19.96, 0), (1.94, 20.04, 0)]
+== lit: chroma scale k = 1.74, repair steps 0; modelled plate chroma 29.1 (shipped 16.7)
+   paper    #DED6CC -> #F7EAD3   luma  235.3  warmth   36  L*  93.2  C*  12.8
+   road     #D8D0C8 -> #DDCFC1   luma  209.6  warmth   28  L*  83.9  C*   9.1
+   ground   #CBB9A2 -> #D4B78F   luma  187.1  warmth   69  L*  76.0  C*  24.6
+   court    #D1C5B2 -> #D8C4A3   luma  198.2  warmth   53  L*  80.0  C*  19.2
+   building #AD8A72 -> #BD855B   luma  145.0  warmth   98  L*  60.2  C*  35.3
+   ink      #34281E -> #2C2218   luma   35.8  warmth   20  L*  14.1  C*   9.0
+   wall     #857A6E -> #8B7964   luma  124.0  warmth   39  L*  51.9  C*  14.5
+   water    #6D9CB9 -> #2DA0D3   luma  131.4  warmth -166  L*  62.0  C*  37.7
+   green    #9AB37F -> #8AB85D   luma  159.9  warmth   45  L*  69.8  C*  51.4
+   garden   #8EA96D -> #7BAF43   luma  147.1  warmth   56  L*  66.0  C*  60.0
+   tree     #5B7A4F -> #447F33   luma  100.7  warmth   17  L*  47.8  C*  49.1
+   field    #D8BE89 -> #E3BC5D   luma  188.8  warmth  134  L*  77.9  C*  52.5
+   verge    #ADBB95 -> #A5BF7C   luma  175.6  warmth   41  L*  74.0  C*  37.0
+   paper luma 235.3 (band 226-244, target 235), warmth 36 (pinned 36); ink luma 35.8 (<= 45), warmth 20 (about 20)
+   max role chroma 60.0 (the family cap)
+   road    /ground   dE= 10.5 (>=6) dL=  7.9 (>=5) OK
+   ground  /building dE= 15.3 (>=12) dL= 15.8 (>=12) OK
+   road    /building dE= 22.8 (>=15) dL= 23.7 (>=15) OK
+   garden  /building dE= 34.6 (>=10) dL=  5.8 (>=0) OK
+   green   /building dE= 33.7 (>=10) dL=  9.6 (>=0) OK
+   tree    /water    dE= 46.5 (>=10) dL= 14.2 (>=0) OK
+   green   /road     dE= 25.8 (>=8) dL= 14.1 (>=0) OK
+   tree    /green    dE= 20.0 (>=8) dL= 22.0 (>=0) OK
+   water   /road     dE= 33.6 (>=8) dL= 21.9 (>=0) OK
+   water   /ground   dE= 40.6 (>=8) dL= 14.0 (>=0) OK
+   wall    /water    dE= 34.5 (>=20) dL= 10.1 (>=0) OK
+   field   /road     dE= 19.1 (>=4) dL=  6.0 (>=0) OK
+   field   /ground   dE= 10.8 (>=4) dL=  2.0 (>=0) OK
+   court   /road     dE=  7.2 (>=4) dL=  3.9 (>=0) OK
+   court   /ground   dE=  4.4 (>=3) dL=  4.0 (>=0) OK
+   ink     /road     dE= 69.6 (>=40) dL= 69.8 (>=50) OK
+   ink     /ground   dE= 59.3 (>=40) dL= 61.9 (>=50) OK
+   ink     /paper    dE= 76.6 (>=40) dL= 79.1 (>=50) OK
+   ink     /building dE= 41.4 (>=30) dL= 46.1 (>=40) OK
+   ink     /tree     dE= 36.4 (>=25) dL= 33.7 (>=30) OK
+   all matrix pairs pass: True
+    halo under paper   : paper
+    halo under road    : road
+    halo under ground  : ground
+    halo under court   : court
+    halo under garden  : garden
+    halo under green   : green
+    halo under tree    : ground
+    halo under field   : field
+    halo under verge   : verge
+    halo under water   : ground
+    halo under building: ground
+   k trail: [(1.0, 17.86, 0), (1.01, 17.94, 0), (1.02, 18.17, 0), (1.03, 18.36, 0), (1.04, 18.41, 0), (1.05, 18.62, 0)] ... [(1.73, 28.99, 0), (1.74, 29.08, 0), (1.75, 'clip or cap')]
+== hatched: chroma scale k = 2.50, repair steps 0; modelled plate chroma 29.9 (shipped 12.6)
+   paper    #D4CABF -> #F7EAD3   luma  235.3  warmth   36  L*  93.2  C*  12.8
+   road     #B6A99B -> #C4A683   luma  171.0  warmth   65  L*  69.9  C*  23.0
+   ground   #D4CABF -> #F7EAD3   luma  235.3  warmth   36  L*  93.2  C*  12.8
+   court    #B7B898 -> #B5BC6A   luma  176.6  warmth   75  L*  74.1  C*  43.1
+   building #9D7D68 -> #B9723D   luma  129.2  warmth  124  L*  54.7  C*  46.6
+   ink      #2A231D -> #2C2218   luma   35.8  warmth   20  L*  14.1  C*   9.0
+   wall     #685C51 -> #74593D   luma   93.9  warmth   55  L*  39.9  C*  21.7
+   water    #98AFBB -> #71B4D3   luma  163.5  warmth  -98  L*  70.1  C*  25.8
+   green    #B0B48C -> #A9B951   luma  168.4  warmth   88  L*  72.0  C*  54.0
+   garden   #A8AF83 -> #9DB541   luma  160.6  warmth   92  L*  69.9  C*  59.7
+   tree     #798C67 -> #5E9434   luma  120.9  warmth   42  L*  55.9  C*  56.0
+   field    #E5D6B5 -> #F3D580   luma  212.3  warmth  115  L*  86.1  C*  45.7
+   verge    #BBBEA1 -> #B7C278   luma  182.3  warmth   63  L*  76.1  C*  39.1
+   paper luma 235.3 (band 226-244, target 235), warmth 36 (pinned 36); ink luma 35.8 (<= 45), warmth 20 (about 20)
+   max role chroma 59.7 (the family cap)
+   road    /ground   dE= 17.4 (>=6) dL= 23.2 (>=5) OK
+   ground  /building dE= 33.3 (>=12) dL= 38.4 (>=12) OK
+   road    /building dE= 17.3 (>=15) dL= 15.2 (>=15) OK
+   garden  /building dE= 35.2 (>=10) dL= 15.1 (>=0) OK
+   green   /building dE= 33.8 (>=10) dL= 17.3 (>=0) OK
+   tree    /water    dE= 42.7 (>=10) dL= 14.2 (>=0) OK
+   green   /road     dE= 20.1 (>=8) dL=  2.1 (>=0) OK
+   tree    /green    dE= 15.7 (>=8) dL= 16.2 (>=0) OK
+   water   /road     dE= 33.0 (>=8) dL=  0.1 (>=0) OK
+   water   /ground   dE= 31.5 (>=8) dL= 23.1 (>=0) OK
+   wall    /water    dE= 43.3 (>=20) dL= 30.2 (>=0) OK
+   field   /road     dE= 16.0 (>=4) dL= 16.2 (>=0) OK
+   field   /ground   dE= 14.9 (>=4) dL=  7.0 (>=0) OK
+   court   /road     dE= 17.1 (>=4) dL=  4.2 (>=0) OK
+   court   /ground   dE= 20.2 (>=3) dL= 19.1 (>=0) OK
+   ink     /road     dE= 51.2 (>=40) dL= 55.8 (>=50) OK
+   ink     /ground   dE= 76.6 (>=40) dL= 79.1 (>=50) OK
+   ink     /paper    dE= 76.6 (>=40) dL= 79.1 (>=50) OK
+   ink     /building dE= 37.4 (>=30) dL= 40.7 (>=40) OK
+   ink     /tree     dE= 42.7 (>=25) dL= 41.8 (>=30) OK
+   all matrix pairs pass: True
+    halo under paper   : paper
+    halo under road    : road
+    halo under ground  : ground
+    halo under court   : court
+    halo under garden  : garden
+    halo under green   : green
+    halo under tree    : ground
+    halo under field   : field
+    halo under verge   : verge
+    halo under water   : water
+    halo under building: ground
+   k trail: [(1.0, 14.84, 0), (1.01, 14.84, 0), (1.02, 15.05, 0), (1.03, 15.13, 1), (1.04, 15.21, 1), (1.05, 15.36, 1)] ... [(2.49, 29.66, 1), (2.5, 29.85, 0), (2.51, 'clip or cap')]
+== random-style repair, ink: 2000 draws (L* +-12, chroma window [0, 34]): as drawn 0.265; first repair 0.958; within 3 attempts 1.000; fallback 0.000; steps median 4, p95 16
+== random-style repair, lit: 2000 draws (L* +-12, chroma window [0, 60]): as drawn 0.090; first repair 0.961; within 3 attempts 1.000; fallback 0.000; steps median 12, p95 39
+== random-style repair, hatched: 2000 draws (L* +-12, chroma window [0, 60]): as drawn 0.110; first repair 0.968; within 3 attempts 1.000; fallback 0.000; steps median 11, p95 37
+== lit roof rows by band, chroma scale 1.729 (the building role's own)
+   rich        #AE8364 -> #C17C46  C*  45.5  building pairs: all pass
+   prosperous  #AE866B -> #C08051  C*  40.5  building pairs: all pass
+   comfortable #AD8A72 -> #BD855B  C*  35.3  building pairs: all pass
+   modest      #AB8C78 -> #BA8765  C*  30.1  building pairs: all pass
+   poor        #A88F7E -> #B48B6E  C*  24.4  building pairs: all pass
+   squalid     #A59184 -> #AF8E78  C*  18.8  building pairs: all pass

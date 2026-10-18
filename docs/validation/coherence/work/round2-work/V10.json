@@ -1,0 +1,167 @@
+[
+ {
+  "id": "VAH-r1-01",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "Two members give opposite rules for whether SettlementForge's own assistant may set Find's chips. V10 \u00a73.9b (7), new this round (l.1895-1897), says: 'A host's own assistant (configuration C) sets the chips as it sets any per-viewer view key, by \u00a711.3's `view.set`'. V08 \u00a73.16 (6) (g), new this round, says SettlementForge's assistant 'answers \"where are the smiths\" in words from the `gazetteer` query and sets no chip \u2014 no host message sets the frame's view but `view.set { week }`'. J-V8.127 records the choice ('to let SettlementForge's assistant answer in words without setting chips, over \u2026 a host message that drives the frame's Find \u2026 Find is the viewer's view, never the host's'). V08's repair handed this to V10 (repair-r1-V08.md HAND-OFFS: 'V10 (item 120): SettlementForge's assistant sets no Find chip (J-V8.127)'), but V10 had already landed with the opposite sentence. Configuration C is SettlementForge's assistant, so one host would both drive and not drive the frame's Find.",
+  "required_change": "V10 \u00a73.9b (7)'s last two sentences read: 'SettlementForge's own assistant (configuration C) sets no chip: it answers in words from the `gazetteer` query (V08 \u00a73.16 (6) (g); J-V8.127), and a host proposal carries no find form.' V10 \u00a73.17 adds no `find` path for a host.",
+  "owner": "V10",
+  "reported_by": "verify-agree-host-r1t"
+ },
+ {
+  "id": "VAH-r1-18",
+  "severity": "minor",
+  "kind": "BROKEN-REFERENCE",
+  "claim": "Derivation rows cited by names \u00a77.7 does not carry. This round numbered the item-117 and item-118 derivation rows DR42 and DR43 (base l.11625-11626; aliases 'the item-117 row' and 'the item-118 row'). V08 cites them by number everywhere (J-VI.13's rule for the port's rows). \u00a77.7 has no 'calendar row' or 'traditions row'. 'The calendar row' is \u00a74.11's season table (\u00a74.11 *The clock* (3)), and `traditions` is V08's digest field. This unit still cites them by the old names at: V10 l.358 ('the inputs of DR1\u2013DR40 and of the condition, calendar and traditions rows (\u00a77.7 item 10)'), l.375 ('\u00a77.7's calendar and traditions rows'), l.986 ('\u00a77.7's calendar row'), l.988 and l.1848 ('\u00a77.7's traditions row').",
+  "required_change": "V10 l.358 reads 'the inputs of DR1\u2013DR43 (\u00a77.7 item 10)'; l.375, l.986, l.988 and l.1848 cite '\u00a77.7's DR42' and '\u00a77.7's DR43'.",
+  "owner": "V10",
+  "reported_by": "verify-agree-host-r1t"
+ },
+ {
+  "id": "G122-V10",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "claim": "Item 122's V10 part ('the explanations'; J135) is absent. V10 has no crisis section, row or prompt rule, so 'Why?' and the clerk cannot name a crisis and its weeks (item 122 (f)).",
+  "required_change": "V10 adds the crisis explanations: a section provider row or a \u00a73.9b entry naming the crisis look, its condition, archetype and weeks ('Refugee camp: the Northmarch migration, weeks 12\u201320'), with the look read through `ClerkMount.view`, a withheld condition never named (\u00a711.2's admission), catalogue keys, a T-V10 bar and the C4 step.",
+  "owner": "V10",
+  "reported_by": "verify-agree-host-r1t, verify-agree-tools-r1t, verify-edges-life-r1t, verify-vol-V09-V10-r1t",
+  "also_reported": [
+   {
+    "by": "verify-agree-tools-r1t",
+    "claim": "File g item 122 (crisis looks; J135), routed by canon.md's ruling 'File g items 121, 122 and 123 routed', names V10's part, the explanations: the clerk names the crisis and its weeks (item 122 (f)). It is absent: V10 has no crisis section, look read or prompt rule.",
+    "required_change": "Write item 122's V10 part at build depth as new design. The clerk's and the why answer's lines name a crisis look and its weeks ('Refugee camp: the Northmarch migration, weeks 12\u201320'), from the `ConditionOverlay`s standing in the view's week, read like V10 \u00a73.9b (5)'s look read (view state, never a model fact, never in the map block). A condition the session's key withholds is never named or hinted at. Add the prompt rule and its tests.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-edges-life-r1t",
+    "claim": "Item 122 assigns V10 'the explanations' (item 122 (f): the clerk names the crisis and its weeks). V10 has no item-122 part: 'item 122' appears 0 times, and \u00a73.9b covers items 111\u2013120.",
+    "required_change": "V10 \u00a73.9b gains the crisis explanations. A `why` on a crisis look names the condition, its archetype and its weeks ('Refugee camp: the Northmarch migration, weeks 12\u201320'), and says it is a look that changes nothing on the map, under the key's admission (a withheld condition is never named). A \u00a73.23 row covers no condition and a withheld one, and a T-V10 bar tests both.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-vol-V09-V10-r1t",
+    "claim": "Item 122's V10 part (canon: the explanations; item 122 (f): the Why? card and the clerk name the crisis and its weeks) is absent: V10 has no crisis section, look read or prompt rule (0 hits for crisis or ConditionOverlay).",
+    "required_change": "V10 \u00a73.9b adds item 122 at build depth: the look read (V10 \u00a73.9b (5)) gains the conditions standing in the view's week, each with its look kind, weeks and words ('Refugee camp: the Northmarch migration, weeks 12\u201320'), a condition the session's key withholds absent (\u00a77.7's admission); a crisis look explained as a look, never a model fact, its aftermath through the epoch path (V06's hand-over: the camp at the growth frontier, reconstruction as Works); a prompt-rule clause, LookAnswer's field in V10 \u00a72.13, T-V10-50 edge clauses (no condition; a withheld condition) and a T-V10 test.",
+    "severity": "major"
+   }
+  ]
+ },
+ {
+  "id": "G123-V10",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "claim": "Item 123's V10 part ('the explanations'; J136) is absent. V10 \u00a73.9a's `plan` section has no damage rows, so the clerk cannot say 'roof fallen in over the hall; the upper floor is gone' (item 123 (e)).",
+  "required_change": "V10 \u00a73.9a adds the damage rows of a decayed or ruined building's plan (V03's damage layer, read through V03 \u00a74.6's provider): the elements fallen by the decay level, with their keys and `en` words, and a T-V10 bar.",
+  "owner": "V10",
+  "reported_by": "verify-agree-host-r1t, verify-agree-tools-r1t, verify-edges-life-r1t, verify-vol-V09-V10-r1t",
+  "also_reported": [
+   {
+    "by": "verify-agree-tools-r1t",
+    "claim": "File g item 123 (a ruined building's plans damaged, never redrawn; J136), routed by canon.md's ruling 'File g items 121, 122 and 123 routed', names V10's part, the explanations (item 123 (e): the clerk says 'roof fallen in over the hall; the upper floor is gone'). It is absent: V10 \u00a73.9a's `plan` section has no damage rows and nothing explains the decay level.",
+    "required_change": "V10 \u00a73.9a's `plan` section adds the damage rows \u2014 each broken element by room and storey, and the decay level with its source (existence state and years since abandoned, V06) \u2014 worded as item 123 (e) ('roof fallen in over the hall; the upper floor is gone'), under the session's key. Add its tests.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-edges-life-r1t",
+    "claim": "Item 123 assigns V10 'the explanations'. V10 has no item-123 part: 'item 123' appears 0 times.",
+    "required_change": "V10 \u00a73.9a (the plan's causes) gains the damage explanations. A `why` on a damaged plan names the decay level, the existence state and its years, and the elements fallen, all read from the damage layer and never invented. It answers 'why is this floor gone' from the element's threshold against the level. A \u00a73.23 row covers level 0 and a withheld building, and a T-V10 bar tests them.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-vol-V09-V10-r1t",
+    "claim": "Item 123's V10 part (canon: the explanations; item 123 (e): the clerk says 'roof fallen in over the hall; the upper floor is gone') is absent: V10 \u00a73.9a's `plan` section has no damage rows and nothing explains the decay level.",
+    "required_change": "V10 \u00a73.9a's `plan` table gains the damage rows of V03's damage layer \u2014 one key per element kind and state (`info.plan.damage.<kind>`) with their en words, each row's ref the element, the decay level read from V06 (existence state, years since abandoned) \u2014 a never-decayed building showing none; T-V10-29's words walker and a T-V10 clause cover them.",
+    "severity": "major"
+   }
+  ]
+ },
+ {
+  "id": "VAP-r1-04",
+  "severity": "major",
+  "kind": "HANDOFF-OPEN",
+  "claim": "The clerk's take-over row (base l. 17251) reads \"T101-6's clerk path, T115-3's clerk form (T-V10-48)\"; V10 names T115-3 nowhere (0 occurrences) \u2014 T-V10-48 (l. 2967) opens \"item 115's ceiling:\".",
+  "required_change": "T-V10-48 opens \"item 115's ceiling (takes T115-3's clerk form):\".",
+  "owner": "V10",
+  "reported_by": "verify-agree-proof-r1t"
+ },
+ {
+  "id": "VAP-r1-13",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "V10 \u00a78's C3 builds \"item 120's find form and read (V10 \u00a73.9b (7)), built with V09's Find panel\", and C4's exit (M3c) lists T-V10-51 (Find from words: `read_map find`'s counts \"equal \u00a711.2's gazetteer listing \u2026 and the panel's own counts\"). V09 \u00a78 places Find at no milestone (G120-V09), so M3c's exit carries a bar whose provider may land after it. V03 (T-V3-38 \"with the later of P5 and the milestone that lands Find (V09 \u00a78)\"), V04 (T-V4-81 at \"the later of U5 and the step that lands V09's Find panel\"), V08 (T-V8-58 \"with V09's Find step\"), V07 (risk (13)) and V12 (T-V12-52 \"the milestone that lands Find\") each defer to Find's landing; V10 alone does not (V01's same gap is VAF-R1T-07).",
+  "required_change": "V10 \u00a78's C4 row reads \"\u2026 T-V10-47 \u2013 T-V10-49, and T-V10-51 at the exit of the later of M3c and the milestone that lands Find (V09 \u00a78), with the find form and read\" and C3's content \"item 120's find form and read (V10 \u00a73.9b (7)), landing with V09's Find panel at the later of M3c and Find's milestone, inside C4's range\"; T-V10-51's tier cell reads \"PR, from the later of M3c and Find's milestone\".",
+  "owner": "V10",
+  "reported_by": "verify-agree-proof-r1t"
+ },
+ {
+  "id": "VAT-20",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "claim": "Not fixed in its rung clause. V10's repair moved `refuse.warp` and `refuse.water` to the `lock` row and dropped 'a warp or new water reaching a held record' from the `rule` row. It also states a sky quarter below CITY as V05 \u00a73.23's `bend.island.belowCity`. For the rung clause ('The `rule` row drops \"the rung\" \u2026 and `refuse.islandsRung`') V10 wrote '=== RULING REQUEST VAT-20 ===' in place of a fix (repair-r1-V10.md l.3041). Its reason: \u00a77.1 now holds the islands row ('an `adjust` of the islands setting \u2026 below CITY \u2026 | refused, the rung | \u2026 | `refuse.islandsRung`', VAH-11), so the clause's premise no longer holds. assemble-r1 skipped the block, and the live `rule` row (V10 \u00a73.16) keeps 'the rung of \u00a77.1's islands row' and `refuse.islandsRung`.",
+  "required_change": "Per VAT-20: V10 \u00a73.16's `rule` row drops 'the rung of \u00a77.1's islands row' and `refuse.islandsRung` \u2014 unless the adjudicator rules the clause INVALID as superseded by \u00a77.1's islands row (VAH-11), in which case the row stands as it is (ruling requested by V10: see repair-r1-V10.md).",
+  "owner": "V10",
+  "reported_by": "verify-agree-tools-r1t, verify-vol-V09-V10-r1t",
+  "also_reported": [
+   {
+    "by": "verify-vol-V09-V10-r1t",
+    "claim": "VAT-20 (verify-agree-tools-r0s) is fixed in V10 \u00a73.16 but for its rung clause, which V10 sent to the adjudicator as a RULING REQUEST (never applied, assemble-r1 \u00a72): the live `rule` row (l.2223) keeps 'the rung of \u00a77.1's islands row' and `refuse.islandsRung`, which VAT-20 asked to drop.",
+    "required_change": "Per VAT-20: V10 \u00a73.16's `rule` row drops 'the rung' and `refuse.islandsRung` \u2014 or keeps them if the adjudicator rules the clause INVALID as superseded by VAH-11's \u00a77.1 islands row. (ruling requested by V10: see repair-r1-V10.md)",
+    "severity": "minor"
+   }
+  ]
+ },
+ {
+  "id": "VAT-R1-02",
+  "severity": "major",
+  "kind": "MATRIX-GAP",
+  "claim": "The clerk can propose an `advance` that a dossier-bound document refuses, and V10 has no words or alternative for it. V10 \u00a74.1's T1 `intend` edit-mode row encodes `advance` as 'V06 \u00a74.1's request, run on the scratch', with V06 \u00a74.1's three shapes as its variations (V10 \u00a73.11). V09 \u00a74.3 names 'the clerk's proposal' as a route to `advance`. But \u00a711.2 refuses `advance` on a dossier-bound document (V06 \u00a72.3; J-V6.2), and nothing in V10 states this. V10 \u00a73.16's `dossier` row names `refuse.dossierOwned`, `refuse.dossierRemove` and `refuse.roster.dossier` as its engine cases, not `refuse.dossierClock`. That row's only alternative, `button.whatIf` app(`openCopy` at the head, detached), is an `app` button. V10 \u00a73.5 step 3 maps no `app` button: it says no dry-run row carries one. The clerk does have `fork` (V10 \u00a72.6). So the canvas offers the what-if copy while the clerk's card either fails unworded or proposes an advance that cannot run. That breaks T101-3's 'one vocabulary'.",
+  "required_change": "V10 \u00a74.1's T1 `intend` edit-mode row: 'on a dossier-bound document no `advance` is encoded: the item is refused in V10 \u00a73.16's `dossier` category with V09 \u00a74.9's `refuse.dossierClock` (\u00a711.2; V06 \u00a72.3), its alternative a `fork` `ClerkAction` at the head, detached (V06 \u00a74.4; V10 \u00a72.6), worded by `button.whatIf`'. V10 \u00a73.16's `dossier` row adds `refuse.dossierClock` among its engine cases with that alternative. V10 \u00a73.5 step 3 adds 'a row's `app` button `openCopy` (`refuse.dossierClock`'s) maps to that `fork` action, the one `app` button a clerk card meets'. V10 \u00a73.23 adds the edge (an advance asked on a dossier-bound document), tested in T-V10-50.",
+  "owner": "V10",
+  "reported_by": "verify-agree-tools-r1t"
+ },
+ {
+  "id": "VAT-R1-03",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "The clerk's declaration step reads, from `edit`'s answer, fields \u00a711.2's `ApplyResult` does not carry. V10 \u00a73.5 step 3 runs `edit(scratch, events, { filtered: true })`. It then reads 'an answer carrying a `bent` `MsgRef` \u2026 its alternatives `propose` actions \u2014 for a placement bend each of the preview's plots', and step 4 returns 'its bend line \u2026, its counts, its fates counted by kind \u2026, its effects'. These also fill `DraftItem.bent`, `.counts`, `.fates`. \u00a711.2's `ApplyResult` `ok` member is `{ status: 'ok'; logHead; changed; created }`, with no `bent`, `alternatives`, `counts` or `effects`. Its `confirm` member has fates and per-fate counts but no plot, household or building counts and no `bent`. Only `PreviewResult` carries `bent`, `alternatives`, `counts` and `effects`. A bent declaration that commits `ok` on the scratch therefore reaches the model with no bend line and no counts, and the item cannot become `bent`. This contradicts V10's own rule that a bent item is shown as bent (prompt rule 10, V10 \u00a73.16).",
+  "required_change": "V10 \u00a73.5 step 3 reads: '`preview(scratch, events, { filtered: true })` \u2014 its `bent`, `alternatives`, `counts`, `fates`, `renames`, `effects` and, on `conflict`, its `outcome` and `actions` are the item's (a `refused` `role` answer the `role` refusal) \u2014 then, unless the preview is a `conflict` or `refused`, `edit(scratch, events)` with the preview's fates and renames filled (\u00a711.2's resubmission form, as V10 \u00a74.2 (1) commits), whose `created` names what the item made (item 470)'. V10 \u00a76.1's declaration row counts the dry run with the commit.",
+  "owner": "V10",
+  "reported_by": "verify-agree-tools-r1t"
+ },
+ {
+  "id": "VAT-R1-04",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "claim": "V10 \u00a74.1's T6 `place` `where.locus` row still says 'T6 `place`'s row carries the one-line roster (V09's request on \u00a77.1's toolkit table)'. After VAT-07's repair, \u00a77.1's toolkit table is the layer table: it lists tools by layer and carries no events. The one-line `roster` lives on the binding's T6 `place` row ('`roster` of one line (a place by a locus \u2026; item 570)'). The citation now points at a table that does not hold the fact.",
+  "required_change": "V10 \u00a74.1, `where.locus` row: 'T6 `place`'s row of \u00a77.1's binding carries the one-line roster (file f item 570)'.",
+  "owner": "V10",
+  "reported_by": "verify-agree-tools-r1t"
+ },
+ {
+  "id": "VAT-R1-06",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "claim": "The scratch document's session is named two ways. \u00a711.2's `scratch(h)` comment says the API mints it: 'its session 'clerk:<n>', its role and knowledge key h's'. V10 \u00a73.5's declarations step 1 says '`scratch(h)` (item 469), its session `clerk:<session>.<turn>`'. `scratch` takes only the handle, so the clerk cannot choose that value. The two units state different values for one minted identifier.",
+  "required_change": "V10 \u00a73.5, declarations step 1: 'The turn's first declaration makes the scratch: `scratch(h)` (item 469), its session the one `scratch` mints (`clerk:<n>`, \u00a711.2)'.",
+  "owner": "V10",
+  "reported_by": "verify-agree-tools-r1t"
+ },
+ {
+  "id": "VM-R1T-16",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "claim": "V10 \u00a74.1's T1 `intend` row writes the blueprint's history as `{ peak: { rung: onceA }, ageYears: \u2026, scars: [] }` 'as V09 \u00a74.21.3 (1)'s History chip writes it'; \u00a72.7's `HistoryHint.peak` is `{ tier; population?; symbolic; evidence }`, so the replay finds no tier (the same silent wrong result as V09's).",
+  "required_change": "V10 \u00a74.1, the T1 `intend` row: '`history` \u2192 the blueprint's `history` (\u00a72.7's `HistoryHint`), `{ peak: { tier: onceA, symbolic: false, evidence: [] }, ageYears: ageYears ?? V09's `history.defaultAgeYears`, scars: [] }`' \u2014 \u00a72.7's standalone form (VM-R1T-14).",
+  "owner": "V10",
+  "reported_by": "verify-model-r1t"
+ },
+ {
+  "id": "VV910-r1-04",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "claim": "Whether a host's own assistant may set the viewer's Find chips disagrees between two units both written this round. V10 \u00a73.9b (7) (item 120's part): 'A host's own assistant (configuration C) sets the chips as it sets any per-viewer view key, by \u00a711.3's view.set'. V08 \u00a73.16 (g): SettlementForge's assistant 'answers \u2026 in words from the gazetteer query and sets no chip \u2014 no host message sets the frame's view but view.set { week } \u2026 while the in-frame clerk's \"show me \u2026\" is V10's (item 120 (i); J-V8.127)', which V08's repair handed to V10. \u00a72.9 and V09 (T-V9-45) keep per-viewer keys, find among them, off the bridge (VRC1T-02). SettlementForge is the host (J121), so configuration C's assistant is V08's.",
+  "required_change": "V10 \u00a73.9b (7) 'Absent and at its limits': replace that sentence with 'A host's own assistant (configuration C) sets no Find chip: it answers in words from the gazetteer query (V08 \u00a73.16 (g); J-V8.127), the per-viewer keys never crossing a bridge (\u00a72.9), and a host proposal carries no find form; \"show me \u2026\" is the in-frame clerk's (this section).' T-V10-51 adds 'a host message never sets a chip'.",
+  "owner": "V10",
+  "reported_by": "verify-vol-V09-V10-r1t"
+ }
+]

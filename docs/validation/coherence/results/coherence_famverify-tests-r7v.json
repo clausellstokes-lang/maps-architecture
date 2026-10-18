@@ -1,0 +1,80 @@
+{
+ "key": "coherence/famverify-tests-r7v",
+ "file": "docs/validation/coherence/famverify-tests-r7v.md",
+ "issues": [
+  {
+   "id": "VF7-TST-01",
+   "severity": "major",
+   "kind": "TEST-FAILS-CORRECT-BUILD",
+   "owner": "scope",
+   "claim": "Persisting, partly fixed. T-V7-48's half landed (V07 l. 3710). T110-2 (4)'s first run is now placed 'nearer its foot than the deck's first lawful crossing' (ARCHITECTURE l. 19389-19390), but the bent-group sentence's (i) picks 'the nearer, by law 3, of the first lawful crossing under its deck and the one beyond the foot' (l. 3201-3202). That one is 'the first point beyond the foot', past the foot by the wall strips' width with a gate's footprint (l. 2619-2622), and law 3's key (2) measures the crossing's move along the deck line (l. 2846-2852). The first lawful deck crossing also lies past the ramp's deck end by the wall strips' width (law 1 (4)), so the bar's words hold for every crossing point x < (L + w)/2 from the foot, while law 3 picks the beyond-foot crossing only below about L/2. A stroke at the ramp's midpoint meets the bar's words and a correct build bends it under the deck: the bar fails that build.",
+   "required_change": "§13.2 T110-2 (4) (l. 19389-19392): 'and one across a viaduct's ramp nearer its foot than the deck's first lawful crossing — bent beyond its foot through a gate on the carried way's ground course —, and, on a second run, one across that ramp nearer the deck — bent under the deck's first span clear of the ramp' → 'and one across a viaduct's ramp nearer the first point beyond its foot than the deck's first lawful crossing, each measured along the deck line (§2.7's laws, law 3) — bent beyond its foot through a gate on the carried way's ground course —, and, on a second run, one across that ramp nearer the deck's first lawful crossing than the first point beyond its foot — bent under the deck's first span clear of the ramp'."
+  },
+  {
+   "id": "VF7v-TST-01",
+   "severity": "major",
+   "kind": "TEST-FAILS-CORRECT-BUILD",
+   "owner": "scope",
+   "claim": "T110-2 (1)'s clause added by the fix pass (l. 19303-19306; adjudication-r7v S10) takes a hand aqueduct 'whose channel at the wall runs above the wall's top by less than the deck's depth' and asserts 'its course bent to the nearest crossing whose span clears the wall's top'. A stroke 'takes the lawful shape law 3 picks nearest it' (law 2 (a), l. 2810-2811). Law 1 (2) admits over (channel above the top, every span over the band clearing it) and merged (channel within the wall's height) (l. 2705-2713). §7.1 Raised ways bends such a course 'to the nearest course that can' cross 'over it on an arch, or merged into it' (l. 11146-11149). From a crossing whose channel stands δ (< deckDepth) above the top, a merged crossing needs the channel-to-top margin to fall by δ, and a clearing span needs a rise of more than deckDepth − δ. Wherever δ is small the merged crossing is typically nearer and law 3 picks it; the fixture rules nothing out. The bar fixes the over form and so fails that correct build: the J149 class of VF7-TST-01 and -03.",
+   "required_change": "§13.2 T110-2 (1) (l. 19303-19306): 'its course bent to the nearest crossing whose span clears the wall's top, with `bend.wall.aqueductArch`, else refused `refuse.raised.meeting` (§2.7's laws, law 1 (2), law 2 (a), (c))' → 'its course bent to the nearest crossing law 3 picks among those in a form its level there gives — over, under a span that clears the wall's top, or merged, where its channel runs within the wall's height —, with `bend.wall.aqueductArch` in that form, else refused `refuse.raised.meeting` (§2.7's laws, law 1 (2), law 2 (a), (c), law 3)'."
+  },
+  {
+   "id": "VF7v-TST-02",
+   "severity": "major",
+   "kind": "TEST-FAILS-CORRECT-BUILD",
+   "owner": "scope",
+   "claim": "T110-2 (8)'s second run (l. 19554-19557): with the intervallum under the `vault` span, 'the ring road crossing under it by the crossing rule, and a hand `delete` of the intervallum then laying the chamber again with its id'. The ring road is laid under that span because it reads `open` (row (c): 'else `open` (the ring road itself read as laid after the op)', l. 2915). Law 1 (8) reads a span `open` 'while anything lies across its strip' (l. 2731), and a way's corridor is such a thing (l. 2644-2645). Beneath says no chamber is laid again while any 'way's corridor or channel laid while it read `open`' crosses the strip (l. 3112-3115). After the intervallum's delete the ring road still crosses, so a correct build lays no chamber, and the bar fails every correct build. The text is E-S7 (amended, PRB7-13), marked fixed in round 7 (VM-R6T-02).",
+   "required_change": "§13.2 T110-2 (8) (l. 19555-19557): 'the ring road crossing under it by the crossing rule, and a hand `delete` of the intervallum then laying the chamber again with its id' → 'the ring road crossing under it by the crossing rule, a hand `delete` of the intervallum leaving the span read `open` while the ring road lies across its strip, and a hand `delete` of the ring road then laying the chamber again with its id (§2.7's laws, law 1 (8); its worked example *beneath*)'."
+  },
+  {
+   "id": "VF7v-TST-03",
+   "severity": "major",
+   "kind": "TEST-FAILS-CORRECT-BUILD",
+   "owner": "scope",
+   "claim": "T110-2 (6)'s third run, added by the fix pass (l. 19528-19531; adjudication-r7v S1), seeks a seed 'so that §2.7's laws admit no gate for that way where the boundary crosses its ground course' and asserts the way 're-routed by law 2 (b)'. Carried way re-routes only where 'law 2 (a) leaves the way no lawful gate in it' (l. 2790-2793). Law 2 (a) moves what the newer structure lays along its line ('a gate … along its own wall's line … a crossing along the line it crosses', l. 2803-2805), law 3 measures 'a gate the op's own wall lays on a standing way, along that way' (l. 2849), and at generation S5a's pin is 'moved and the trace laid through it' (l. 3147-3148). A gate barred at the crossing point is therefore moved along the carried way, with no re-route. The seed condition tests one point, and seeds meeting it usually leave law 2 (a) a lawful gate nearby; on those seeds the re-route bar fails a correct build. This is the failure adjudication-r7v's S1 note itself names.",
+   "required_change": "§13.2 T110-2 (6) (l. 19528-19530): 'and, on a third run whose seed is searched so that §2.7's laws admit no gate for that way where the boundary crosses its ground course, the way re-routed by law 2 (b)' → 'and, on a third run whose seed is searched so that §2.7's laws admit no gate for that way anywhere law 2 (a) may place one — at the boundary's crossing of its ground course or moved along that course, the trace re-laid locally through it, within the trace's reach —, the way re-routed by law 2 (b)'."
+  },
+  {
+   "id": "VF7-TST-11",
+   "severity": "minor",
+   "kind": "CELL-TEST",
+   "owner": "scope",
+   "claim": "Persisting, partly fixed. Row (d)'s test cell is fixed (l. 2916). W1·C8's village path names 'T110-4 (c) (V: its village rung, a raised way placement-locked)' (l. 3340). T110-4 (c) gives raised ways only to its CITY and METROPOLIS maps; 'and a village rung' (l. 19572-19575) holds no stated raised way, locked or not, and T-V7-48 locks none (V07 l. 3710). So no bar runs VS3 against a placement-locked raised way. A placement lock decides no meeting (law 2 Entry), so no law-1 invariant goes unchecked and nothing built changes.",
+   "required_change": "§13.2 T110-4 (c) (l. 19574-19575): '— the shape-locked runs from the milestone that carries the shape lock, J147, J150) and a village rung —' → '— the shape-locked runs from the milestone that carries the shape lock, J147, J150) and a village rung holding a declared viaduct and aqueduct, one of them placement-locked —'."
+  },
+  {
+   "id": "VF7v-TST-04",
+   "severity": "minor",
+   "kind": "SCHEDULING",
+   "owner": "V06",
+   "claim": "V06 §7's T110-2 row now has T-V6-47 take '(4)'s other epoch clauses — … the epoch `shiftCourse` at E5' (V06 l. 4163), and §13.8 runs that clause at E5, which builds the terrain candidates (l. 20431). V06 §8's E3 cell runs T-V6-47 at E3 save its arch-vault clauses (E8) and its `topple` runs (E5) (V06 l. 4281), and its E5 cell names only the `topple` runs (V06 l. 4283). Against INDEX §5 risk 2, the clause is scheduled before its provider in its own volume. Nothing built changes.",
+   "required_change": "V06 §8's E3 cell (V06 l. 4281): 'the state sweep's `topple` runs of T-V6-11, T-V6-47 and T-V6-73 at E5, which builds the hazards)' → 'the state sweep's `topple` runs of T-V6-11, T-V6-47 and T-V6-73, and T-V6-47's epoch `shiftCourse` clause (T110-2 (4)'s), at E5, which builds the hazards and the terrain candidates)'; V06 §8's E5 cell (V06 l. 4283): 'the state sweep's `topple` runs of T-V6-11, T-V6-47 and T-V6-73' → 'the state sweep's `topple` runs of T-V6-11, T-V6-47 and T-V6-73; T-V6-47's epoch `shiftCourse` clause'."
+  },
+  {
+   "id": "VF7v-TST-05",
+   "severity": "minor",
+   "kind": "TAKE-OVER",
+   "owner": "scope (with V06)",
+   "claim": "VF7-TST-13's class, for T110-2 (1) and (2). The runs sentence (l. 19602-19604) and the take-over row (l. 19850) have volume 6 take only '(1)'s founding across a decayed ring and (2)'s founded viaduct across a standing ring (T-V6-73)'. Three base epoch clauses are taken by no volume test: (1)'s founding across a retaining wall drawn by hand and placement-locked (l. 19295-19297); (2)'s epoch route through a standing gate (l. 19325-19326); and (2)'s epoch walled stage with its S5b spawned primary (l. 19327-19331). §13.8's T110 row lists the epoch clauses moved to M4 and volume 6's engine as '(1)'s and (2)'s foundings, …' (l. 20431), which, read as a list, leaves (2)'s epoch route and walled stage at M3a, before the epoch engine. The base clause still states each case, and nothing built changes.",
+   "required_change": "Runs sentence (l. 19602-19604) and take-over row (l. 19850): '(1)'s founding across a decayed ring and (2)'s founded viaduct across a standing ring (T-V6-73)' → '(1)'s foundings across a decayed ring and across a ring and a retaining wall drawn by hand and placement-locked, and (2)'s founded viaduct across a standing ring, its epoch route through a standing gate and its epoch walled stage's spawned primary (T-V6-73)'; §13.8's T110 row (l. 20431): '(1)'s and (2)'s foundings,' → '(1)'s and (2)'s foundings, (2)'s epoch route and walled stage,'; END at V06, V06 §7's T110-2 founding row (V06 l. 4164), at the end of its last cell add '; and the founding across a retaining wall drawn by hand and placement-locked, (2)'s epoch route through a standing gate and its epoch walled stage's spawned primary, as T110-2 (1) and (2) state them'."
+  },
+  {
+   "id": "VF7v-TST-06",
+   "severity": "minor",
+   "kind": "FIXTURE",
+   "owner": "scope (with V04)",
+   "claim": "VF7-EPO-02's class, at three other sites. Each asserts an arch vault laid again after a hand delete of the wall over its span: T110-2 (4)'s epoch circuit under a placement-locked arch vault ('and after a hand `delete` of that run the chamber laid again, locked, with the same id', l. 19421-19422); T-V4-63 ('and the hand wall's delete laying it again with the same id', V04 l. 3164); and T-V4-80 (i) ('the wall's delete laying it again locked with the same id', V04 l. 3181). Law 1 (8) keeps the span `open` while any way's corridor laid while it read `open` still crosses its strip (l. 2731-2733; beneath, l. 3112-3115): an intervallum the S7 operator lays at a CITY era row, or a street the epoch grows. The fixtures state no such condition, so a correct build may lay no chamber. Nothing built changes.",
+   "required_change": "In each of the three clauses, after the quoted words add ' (the fixture's seed searched so that no way, square or channel — an intervallum among them — is laid across that span's strip while the wall stands over it; §2.7's laws, law 1 (8))'."
+  }
+ ],
+ "held_notes": [
+  {
+   "site": "V09 T-V9-52 (V09 l. 4428)",
+   "note": "'a road drawn across a viaduct crosses under its nearest `open` span … with `bend.raised.underSpan`', where the way-and-channel table's row (b) moves it 'to cross under the nearest span that admits it' (ARCHITECTURE l. 2914: clear width, clearance, squareness by §4.3's crossing rule). On a viaduct whose nearest `open` span is too narrow or too low for the road, the bar fails a correct build. This is a raised way meeting a ground way, with no wall."
+  },
+  {
+   "site": "V07 §3.12 item 7 (V07 l. 2627) and T-V7-51 (V07 l. 3713)",
+   "note": "'Item 110's state crosses held' and 'a village's declared raised way crosses the hand-off up held' mean carried unchanged, while §2.7's *held* now means locked and the support step's (6) renamed its own word 'kept'. This is a rung hand-off with no wall meeting."
+  }
+ ]
+}

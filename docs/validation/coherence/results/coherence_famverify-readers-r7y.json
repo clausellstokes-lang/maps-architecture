@@ -1,0 +1,72 @@
+{
+ "key": "coherence/famverify-readers-r7y",
+ "file": "docs/validation/coherence/famverify-readers-r7y.md",
+ "issues": [
+  {
+   "id": "VF7y-RDR-01",
+   "severity": "major",
+   "kind": "REGISTRY READERS",
+   "owner": "V11",
+   "claim": "V11 §3.1 makes each row's readers cell the one list of a table's readers, a read recorded under the StageId of the stage function that reads, \"so every table a stage or phase reads names that stage, and T-V11-1 (b) holds it\" (V11 l. 898–915); T-V11-1 (b) asserts every recorded (stage, table) pair over the golden fixtures has the stage among the table's compiled `stageReaders`, \"0 unlisted stage readers\" (V11 l. 4983; J-V11.90, l. 5265). At generation S4, S5b and S6 lay the viaducts, elevated roads and aqueducts before S7 builds a trace's furniture (§4.1, base l. 5715–5718); `Enceinte.thicknessCm`, `walkCm`, `heightCm` are \"written by S7\" (l. 2263) and \"the wall's thickness, height, walk and tower spacing read its class's row (V11's `walls.barriers`)\" (l. 8371–8373). Yet §2.7's laws make those stages read the band, wall strips and top: §4.3 *Where it may not go* has every course, \"a viaduct's priced in a route's solve among them\", search \"only the courses those laws admit (law 1 (2)–(6), (9)–(11), read with their terms …)\", an aqueduct crossing each wall at its level (l. 6510); the support step keeps a station off \"an enceinte's band (`Enceinte.band`, or before S10 has built it the band beside the standing trace, read as these laws' *the band* and *Not yet built* read it)\" (l. 2542–2544); *Not yet built* reads \"a band's width, a wall's top … before S7 writes them … as the rows that build it will build it\" (l. 2769–2775). Every generated aqueduct on a walled town crosses its enceinte at S6, its terminal inside the outermost enceinte (l. 6495; V06 l. 2871; *over the band*, l. 3025–3027). With no stored source named before S7 and S10, a correct build reads row 14 (`walls.barriers`: thicknessFactor, heightFactor, wall, walk; V11 l. 551) and §4.8's section rows under S4, S5b and S6. Row 14's readers are \"S3 (9), S5a, S7 …, VS3 …, SKY …, EVO_GROWTH and EVO_FORT …\" (V11 l. 939), row 13's (`walls`, §4.8's table) \"S3, S5a, S7\" (l. 938); the `S5` group does not reach S5b where a row names S5a (l. 917–918). So T-V11-1 (b) records (S6, `walls.barriers`) on a walled CITY or METROPOLIS golden with a generated aqueduct and fails a correct build. Major (a named test fails a correct build); not VF7w-RDR-02's minor grade, since here the design sends the read to the rows with no stored source and the case is the generator's ordinary path on a walled golden. Row 80 lists the walls' stages as readers of the raised way's cells through the same laws (l. 1006); rows 13 and 14 do not list the raised-way stages.",
+   "required_change": "1. V11 row 14 (V11 l. 939), its readers cell: \"EVO_GROWTH and EVO_FORT (a new circuit and a ring's contraction under barrier closure, V06 §3.7)\" → \"EVO_GROWTH and EVO_FORT (a new circuit and a ring's contraction under barrier closure, V06 §3.7), S4, S5b and S6 (the raised-way generator's course solve and §2.7's support step meeting a trace before S7 lays its furniture: each stretch's band, wall strips and top read from its class's row as §2.7's laws' *the band* and *Not yet built* read them, law 1 (2), (4)–(7); §2.7's support step (3); §4.3 *Where it may not go*)\". 2. V11 row 13 (V11 l. 938), its readers cell: \"S3, S5a, S7\" → \"S3, S5a, S7, and S4, S5b and S6 (§4.8's rows a trace's band, wall strips and gatehouses are built from, read before S7 builds them by §2.7's laws' *Not yet built*, law 1 (4)–(6))\" (an over-listed reader is only reported, J-V11.90)."
+  },
+  {
+   "id": "VF7y-RDR-02",
+   "severity": "minor",
+   "kind": "LINE FORM",
+   "owner": "V09",
+   "claim": "The fourth fix pass wrote the raised road's gate in law 2's order: §7.1 *Raised ways*, \"a gate §2.7's laws bar there (law 1, read with its terms; chiefly (5), (10): a shape-locked wall's among them) resolved by those laws, law 2, in its order: (a) the way's crossing of the wall moved to the nearest place they admit its gate, (b) else the way re-routed through the nearest gate of that wall a way of its class may pass, (c) else refused\" (base l. 11155–11159), and V09 §4.20.2 (4) the same, naming its key: \"the crossing moved, else the way re-routed through the nearest gate of that wall, else refused (…; `bend.raised.wall`)\" (V09 l. 3016–3020). Both moves change the user's own stroke, so each is part of its bend line, never a fate (§2.7's laws, law 4, l. 2872), named by §7.1's catch-all `bend.raised.wall` (l. 11354). V09 §4.9's `bend.raised.wall` line cell words the meeting only as \"The raised road comes down before the {wall} and passes through its gate.\" (V09 l. 2102): no form for a crossing moved {m} m along the wall, none for a road gone round to another gate. Minor: VF7x-HND-01's grade (a line form; the geometry is the laws' and no bar counts lines).",
+   "required_change": "V09 l. 2102, `bend.raised.wall`'s line cell: after \"\"The raised road comes down before the {wall} and passes through its gate.\"\" insert \" — and, where §2.7's laws bar its road's gate there (law 1, read with its terms, chiefly (5), (10); law 2, in its order, law 3; *Carried way*), for the road's crossing of {wall} moved along it, \"The raised road comes down before the {wall}; its road crosses the wall {m} m along, where a gate can stand.\", and for the road re-routed through a standing gate, \"The raised road comes down before the {wall}; its road goes round to {gate}.\" — `{gate}` the gate's name, else its kind's word\"."
+  },
+  {
+   "id": "VF7y-RDR-03",
+   "severity": "minor",
+   "kind": "RESTATEMENT",
+   "owner": "V04",
+   "claim": "V04 §3.5.4 (d) (1) glosses a span the laws read `open` under a wall as \"— under a wall the arch beneath the band walled up by the run —\" (V04 l. 1696–1697). The laws give the run's top beneath a raised way by law 1 (2) and (7): *the cap*, \"the lower of its own top and the lowest soffit there … (the soffit lower: the arch walled up to its crown; the run lower: the arch open above it); beneath an aqueduct, over or merged, and beneath a fallen span, a support bearing none or no deck, its own top\" (base l. 3094–3100), and law 1 (2)'s over form has \"every span above the band clearing the wall's top, the band passing beneath the arch\" (l. 2708–2709). Under an aqueduct's over crossing, and under a road deck whose soffit stands above the run's top, the arch is open above the run; the gloss also names \"the band\" where the wall strips alone may read the span `open` (law 1 (8)'s *anything across a strip*, l. 2644–2645). Minor: no rule, drawing or bar reads the gloss (the chamber rule is \"none in a span they read `open`\"); a restatement the laws already decide.",
+   "required_change": "V04 l. 1696–1697: \"— under a wall the arch beneath the band walled up by the run —\" → \"— under a wall its arch open above the run or walled up to its crown by it, as §2.7's laws give the run's top there (law 1 (2), (7); its worked example *the cap* in *beneath*) —\"."
+  },
+  {
+   "id": "VF7y-RDR-04",
+   "severity": "minor",
+   "kind": "REGISTRY READER",
+   "owner": "V11",
+   "claim": "V11's table-edit pattern (V11 l. 863) resolves by §2.7's laws the meetings each item-110 cell's edit makes — `stripMarginM` (\"every meeting the widened strip, zone or ends make with a wall-like structure resolved by §2.7's laws (law 4; law 1 (11), J148; law 2 (a)–(c), by hand the edit refused), never kept against them\"), §4.8's band and setback rows and `palisade.bandM` (\"as `stripMarginM`'s does\"), `deckDepthCm` and the rows that give a wall's top (\"re-checks each crossing … by §2.7's laws (law 4; …)\"). Its clause for the support step's own bounds says only \"a `slideMaxFactor` or `maxClearSpanM` edit re-runs the support step on the generated ways (keys kept by item 244 (5)), a standing way a lowered bound now refuses kept and listed with the remove offer, as the pattern keeps it\". The re-run moves and merges stations, so it can bring a ring or a span's strip onto what the laws bar there — a gate's or tower's footprint in the setbacks (law 1 (5): \"never on a support's ring\"), a held building's span (law 1 (9)) — which law 4 re-checks for \"a width, class or table edit\" (base l. 2863). Minor: the laws govern and §5.3's row catches a wrong build; a reader of an op path omitting the re-check its sibling clauses name.",
+   "required_change": "V11 l. 863: \"a `slideMaxFactor` or `maxClearSpanM` edit re-runs the support step on the generated ways (keys kept by item 244 (5)), a standing way a lowered bound now refuses kept and listed with the remove offer, as the pattern keeps it;\" → \"a `slideMaxFactor` or `maxClearSpanM` edit re-runs the support step on the generated ways (keys kept by item 244 (5)), a standing way a lowered bound now refuses kept and listed with the remove offer, as the pattern keeps it — and every meeting a station it moves or a span it merges makes with a wall-like structure or a held building resolved by §2.7's laws (law 4; law 2 (a)–(c), by hand the edit refused), never kept against them, as `stripMarginM`'s does;\"."
+  }
+ ],
+ "held_notes": [
+  {
+   "site": "V12 l. 1195 (`raised.junctions`) and T-V12-38 (V12 l. 3163) × base §2.7's `RaisedFoot` (l. 2310), §4.6's ramp-or-stair rule and V01 §3.17.3 (4) (V01 l. 2478)",
+   "note": "Persisting (adjudication-r7y.md held note 5): the metric counts a node of degree ≥ 3 \"anywhere but a ramp foot\" while a raised way's ends are ramps or stairs, so an elevated road's stair foot reads as a junction — a raised way with a ground way, no wall."
+  },
+  {
+   "site": "V04 l. 2892 (§5.5's CityJSON row) × base §11.1's CityJSON row (l. 16738)",
+   "note": "Persisting (held note 6): an arch vault a TunnelHollowSpace of the vaults system's Tunnel and a BridgeRoom of its raised way's Bridge — two objects for one chamber."
+  },
+  {
+   "site": "V04 l. 222–223, 395, 2726–2728 × base §8.2's `raisedWay` program (l. 13566–13569)",
+   "note": "Persisting (held note 7): V04 leaves the vault's infill wall and door on the ground view to the base, whose program draws neither."
+  },
+  {
+   "site": "V09 l. 559, 3262 and base §11.2's hit `sub` (l. 17117); T-V9-58 (V09 l. 4438); base §4.5 (l. 6895) and §8.4 (l. 14421–14422, 14646–14647)",
+   "note": "Persisting (held note 8): the span paths `spans/<n>` and `'spans/<ordinal>'` against §7.1's `spans/<a>-<b>`; T-V9-58's walled-up span fixture; the casters on a `breached` or `dismantled` run."
+  },
+  {
+   "site": "Base §8.2's slot resolution (l. 14191–14192) × slot 10 (l. 14158) × slot 19a (l. 14170)",
+   "note": "Persisting (held note 9): a sheet is refused when one `derived` kind is placed in two slots of a band, while slot 19a draws the decks' shadows in a derived pass with no `derived` kind named."
+  },
+  {
+   "site": "Base §8.2's `OrderSlot.slot: number` (l. 13323) × the lettered rows 8b, 9b, 13b, 15b, 19a, 19b",
+   "note": "Persisting (held note 10): no numeric form of a lettered slot is stated."
+  },
+  {
+   "site": "V09 §5.7's Report panel (V09 l. 4002–4013) × base §5.4's `stages[].warnings` (l. 9992) and `ReportCode` (l. 10016); T-V9-15",
+   "note": "New: the panel lists requested, unplaced, unserved, changes, the ladder uses and \"the kernel warnings\", and V09's catalogue has no row for a stage's non-kernel warning codes, so no panel renders W_WALLED_BY_BARRIERS, W_MOAT_DRY, W_DOSSIER_EDGE, W_RAISED_CROSSING or W_RAISED_MEETING — the report's display of stage warnings, every stage's alike."
+  },
+  {
+   "site": "Base §2.7's support step (6) (l. 2569–2571) × V11 l. 863",
+   "note": "New: (6) says nothing laid later re-runs the support step on a raised way, \"only an op that names it changes it (its edits, V06 §3.19's ops, a landfall, a frame growth's extension …)\", while V11's pattern re-runs the step on the generated ways at a `slideMaxFactor` or `maxClearSpanM` edit; whether a table edit names a raised way is unstated — a raised way × a table edit, no wall meeting (its wall meetings are VF7y-RDR-04)."
+  }
+ ]
+}

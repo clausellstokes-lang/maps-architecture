@@ -1,0 +1,30 @@
+# spell-supplement.txt — ordinary vocabulary added to /usr/share/dict/words (Webster's 2nd) for the deny-list's token
+# class (make_denylist.py; ARCHITECTURE §17.1 (5): single tokens "not in the spell-check word list §9.6 already needs").
+# Our own list (lane m1/W-16, 2026-10-03): words a 1934 dictionary lacks but any modern English, software or map text
+# uses, and the references' and platforms' own names, which §17.1 (6)'s provenance cites by design. A word here is
+# never a single-token hit; it still counts in the 3-gram and list classes. Inflections (-s, -es, -ed, -ing, -er, -ly)
+# and British spellings of a listed word are covered by the script's rules.
+#
+# software, web, data formats, geometry
+url href svg tspan defs lineargradient radialgradient metadata mimetype enum eval iterator stmt ctor prev obj dir
+bbox obb byte bytes readme utils util hashkey hasnext desktop xlarge xsmall linenumber columnnumber
+geojson geometrycollection multipoint multipolygon multilinestring linestring coordinate coordinates stats baseline
+gettext getrect getpos getpoly get_bottom get_center get_left get_length get_right get_tangent get_top
+top_left top_right bottom_left bottom_right file_name first_name last_name full_name firstname lastname
+created_at deleted_at edited_at published_at unpublished_at scheduled_for user_id owner_id owner_type media_id
+media_type post_type image_url image_urls image_file image_small_url large_url download_url edit_url thumb_url
+thumbnail_large thumbnail_small size_bytes json_bytes svg_bytes tile_w tile_h table_rows table_cols max_depth
+like_count comment_count post_count text_only one_liner user_defined
+json jsonl png jpg jpeg gif webp html css http https www arg args api config utf download downloads
+# ordinary English words the 1934 dictionary lacks (modern, compound or British forms)
+backpack battleaxe bullseye healthcare farmhand farmland glassblower harbourmaster harbormaster lanternmaker
+pastrycook winemaker woodcarver longship longsword shortsword shortbow greatsword warhammer warhorse sledgehammer
+spellbook morningstar wyvern lapis piton shoreline storey storeys customisation customization palazzo
+bathhouse groundfloor topfloor townhouse gatehouse warehouse farmstead marketplace
+# the references, their creators and the platforms the captures came from (cited by name under §17.1 (6))
+mfcg ftg watabou procgen procjam gamedev devlog devlogs wip itch patreon facebook google instagram reddit spotify
+tiktok vimeo youtube discord twitter github
+# lane m1/W-16b, 2026-10-04: ordinary words and standard abbreviations that normalisation 1's underscore split (R-17) made
+# token candidates (each read in its corpus sources: creator posts, capture keys, one pre-M-1 record key of our own; none
+# a reference coinage); without them every use in our design and in plat/'s sources would be a token hit
+app avatar bldg def diff est ext hideout paid screenshot upfront

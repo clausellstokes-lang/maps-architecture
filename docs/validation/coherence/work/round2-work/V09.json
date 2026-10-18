@@ -1,0 +1,422 @@
+[
+ {
+  "id": "VAH-r1-03",
+  "severity": "major",
+  "kind": "HANDOFF-OPEN",
+  "claim": "Binding pairs that \u00a77.1 (E-04, the one binding) gained this round have no row in V09 \u00a74.3, the table that 'gives each row its screen' and that T-V9-12 checks 'pair by pair'. Determinism's repair handed them to V09 ('V09 \u00a74.3: a row per binding pair VAT-08 added \u2026'; repair-r1-determinism.md, CROSS-UNIT NOTES), and VDC0-14's fix added one more. V09's repair landed before it and the rows are absent: `moveVertex` on a shore or coast (T2 `ground`, base l.10211; V09 l.1629 lists none); `moveVertex` on an enceinte's trace, a stretch's anchor vertex (T3 `wall`, l.10212; V09 l.1632 has only a gate's crossing); `moveVertex` on a tunnel's chain (T4 `road`, l.10213; V09 l.1642's handles '\u2014'); `moveVertex` on an island's key (T9 `shape`, l.10218; V09 l.1670 none); `instance` on a hood pin as move, remove and restyle (T6 `place`, l.10215; V09 l.1653 'add' only); `instance` on \u00a78.10's other decoration instances (T8 `fill`, l.10217; V09 l.1657 trees only); and `regenerate` of scope `people`, \u00a710.3's 're-derive people' (T10 `hold`, l.10219, `EditScope` l.9816, \u00a77.4's regenerate row). V09 \u00a74.3's T10 row (l.1667) and V09 \u00a74.18's People panel offer no control for the last, so the action \u00a710.3 states has no user surface.",
+  "required_change": "V09 \u00a74.3 adds each pair to its home tool's row with its gesture: on T2 `ground`, `moveVertex` on a shore or coast (the shore and coast handles, V09 \u00a73.5); on T3 `wall`, `moveVertex` on an enceinte's trace, a stretch's anchor vertex among them (the trace's vertex handles); on T4 `road`, `moveVertex` on a tunnel's chain (the run's handles on Below); on T9 `shape`, `moveVertex` on an island's key (its key handle, V05 \u00a74.2); on T6 `place`, `instance` move, remove and restyle of a hood pin (a drag, Delete, its chips); on T8 `fill`, `instance` add, move, remove and restyle of \u00a78.10's other decoration instances; on T10 `hold`, `regenerate` of scope `people` \u2014 **Re-derive people** on the households chosen in V09 \u00a74.18's People panel or on a household's card, previewed with its fates and one undo step (\u00a710.3; \u00a77.4's regenerate row). V09 \u00a74.18 gains that control, and T-V9-12's walker covers the pairs.",
+  "owner": "V09",
+  "reported_by": "verify-agree-host-r1t"
+ },
+ {
+  "id": "VAH-r1-04",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "V09 \u00a74.9's undo refusals offer actions other than the ones E-07, the one home of each outcome's action, names. E-07's `refuse.undo.dossier` row (base l.10126) gives 'rejectSite and placeAt for each dossier element it placed or re-designated (a dossier unassign leaves none)'. V09's row (l.1936) offers `button.otherNameHere` (a rename) and `button.showWhy`, so it has no rejectSite or placeAt. E-07's `refuse.undo.creation` row (l.10125) gives 'unassign (a blueprint assignment); rejectSite and placeAt (a dossier element)'. V09's row (l.1935) offers only `button.unassign`, so a dossier element placed at creation gets no move or not-here action. V10 reads its cards' buttons from these rows (V10 \u00a73.5 step 3), so canvas and clerk both depart from the base.",
+  "required_change": "V09 \u00a74.9: `refuse.undo.dossier`'s buttons are, for a dossier element the event placed or re-designated, `button.moveIt` show(`thing`) \u00b7 `button.notHere` commit(`event:notHere`), E-07's `rejectSite` and `placeAt` as `refuse.dossierRemove`'s row offers them, then `button.showWhy` why. `button.otherNameHere` is kept only for a dossier rename. Its text reads 'Changes from SettlementForge can't be undone here; you can move {thing} or mark this spot as not for it.' `refuse.undo.creation` adds the same two buttons when the creation event placed a dossier element, keeping `button.unassign` for a blueprint assignment. The codes cells cite E-07's rows.",
+  "owner": "V09",
+  "reported_by": "verify-agree-host-r1t"
+ },
+ {
+  "id": "VAH-r1-05",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "claim": "V09 \u00a72.6 (l.583) says 'a single place is moved (`relocateUse`) or pinned (`placeAt`, T10 `hold`)'. \u00a77.1's binding homes `placeAt` at T6 `place` (l.10215), and V09 \u00a74.3's own row (l.1649) puts **Free this plot** (`placeAt { lift: true }`) under T6. T10 `hold` homes `pin`, not `placeAt`. This round's tool-word pass turned the former 'T10' into 'T10 `hold`', which makes the wrong home explicit.",
+  "required_change": "V09 \u00a72.6: 'pinned (`placeAt`, T6 `place`)'.",
+  "owner": "V09",
+  "reported_by": "verify-agree-host-r1t"
+ },
+ {
+  "id": "VAH-r1-08",
+  "severity": "minor",
+  "kind": "BROKEN-REFERENCE",
+  "claim": "A shared type cited at a home it left this round. Repair r1 moved the reader's and the oracle's types \u2014 `MapBrief`, `EntityCard`, `SiteCandidate`, `MeasureAnswer`, `FrameAnswer`, `RuleAnswer`, `ProfileAnswer`, `WhyAnswer`, `WhySection`, `WhyCause`, `WhyFamily`, `WhyPull`, `WhyLink`, `FieldDrivers` \u2014 from V10 \u00a72.13 to base \u00a711.2 (rendering's VAT-03, V10's VAT-04). V10 \u00a72.13 now opens 'The reader's and the oracle's types are \u00a711.2's' and keeps only `WhyProvider`, `WhySectionProvider`, the solver's explanation, `raisedOutcome`, `LookAnswer` and `FindAnswer`. This unit still names V10 as the home of moved types at: V09 l.157 ('every answer a panel shows is volume 10's `WhyAnswer` (V10 \u00a72.13)'), l.293 (W row 'V10's `WhyAnswer`'), l.592 ('The oracle's answer is volume 10's `WhyAnswer` (V10 \u00a72.13, placed in \u00a711.2 by file f item 468 \u2026)'), l.630 ('V10 \u00a72.13's `WhySection`'), l.3557 ('projected from volume 10's `WhyAnswer`') and l.4163 (AP3: 'V10's `WhyAnswer`'). The chain resolves only through V10's pointer, and the text names the wrong owner of a shared type (principle (1)).",
+  "required_change": "V09 cites each as base \u00a711.2's: 'the oracle's answer is \u00a711.2's `WhyAnswer` (file f item 468), produced by each kind's `WhyProvider` (V10 \u00a72.13; file f item 270)' at l.592, and '\u00a711.2's `WhyAnswer`' / '\u00a711.2's `WhySection`' at the other sites. The decision rows J-V9.25, J-V9.33 and BCR-V9-6 keep their wording as records.",
+  "owner": "V09",
+  "reported_by": "verify-agree-host-r1t"
+ },
+ {
+  "id": "VAH-r1-17",
+  "severity": "minor",
+  "kind": "BROKEN-REFERENCE",
+  "claim": "Derivation rows cited by names \u00a77.7 does not carry. This round numbered the item-117 and item-118 derivation rows DR42 and DR43 (base l.11625-11626; aliases 'the item-117 row' and 'the item-118 row'). V08 cites them by number everywhere (J-VI.13's rule for the port's rows). \u00a77.7 has no 'calendar row' or 'traditions row'. 'The calendar row' is \u00a74.11's season table (\u00a74.11 *The clock* (3)), and `traditions` is V08's digest field. This unit still cites them by the old names at: V09 l.357 ('\u00a77.7's traditions row'), l.388 ('\u00a77.7's calendar row (item 117 (c))'), l.389 ('\u00a77.7's traditions row (item 118)'), l.964 ('\u00a77.7's calendar row sets the week'), l.3273 ('the week is \u00a77.7's calendar row's') and l.3285 ('each festival \u00a77.7's traditions row \u2026').",
+  "required_change": "V09 cites the rows by number at each site: '\u00a77.7's DR42' for the calendar week and season, '\u00a77.7's DR43' for the festivals.",
+  "owner": "V09",
+  "reported_by": "verify-agree-host-r1t"
+ },
+ {
+  "id": "G120-V09",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "claim": "Item 120's V09 part (the Find panel, type-ahead, chip grid, results list, the `live.find` overlay provider, Coverage folded into Show gaps (V09 \u00a75.4's table and cue column amended), across bands and layers, the phone bottom sheet, its tests; canon dated ruling) is absent. V09 has no Find: no panel, `live.find` provider, chip grid or Show gaps. Coverage still stands as its own Show view (l.3430-3431, l.3483) with its `live.coverage` provider (l.298), against item 120 (i)'s one mechanism. V08 \u00a73.16 (6), V10 \u00a73.9b (7), V11 \u00a72.3 and V03/V04/V05's new parts all name V09's Find panel as their consumer.",
+  "required_change": "V09 writes its part of item 120 at build depth as new design \u2014 the Find panel, type-ahead, chip grid, results list, the `live.find` overlay provider, Coverage folded into Show gaps (V09 \u00a75.4's table and cue column amended), across bands and layers, the phone bottom sheet, its tests \u2014 with its catalogue rows, lifecycle rows (V09 \u00a72.12), edge rows (V09 \u00a73.16) and T-V9 bars.",
+  "owner": "V09",
+  "reported_by": "verify-agree-host-r1t, verify-agree-tools-r1t, verify-edges-life-r1t, verify-vol-V09-V10-r1t",
+  "also_reported": [
+   {
+    "by": "verify-agree-tools-r1t",
+    "claim": "File g item 120 (Find; J133), routed by canon.md's dated ruling 'File g item 120 routed', names V09's part: the Find panel, type-ahead, chip grid, results list, the `live.find` overlay provider, Coverage folded into Show gaps (with \u00a75.4's table and cue column amended), coverage across bands and layers, the phone bottom sheet, and its tests. It is absent, as expected: V09's repair began before the filing. V09 has no Find panel, no `live.find` and no Show gaps. \u00a75.4 keeps Coverage and its `live.coverage` provider. V10's repair also handed V09 the `find` action's end: `ClerkHandle.run`'s comment still counts 'seven kinds', and \u00a74.11's action list and the `clerk.alt.*` family lack `find` and `clerk.alt.find.*`. Meanwhile V10 \u00a72.6, \u00a73.9b (7) and \u00a75.1 already drive 'the Find panel' and 'V09's `live.find` provider'.",
+    "required_change": "Write item 120's V09 part at build depth as new design. The Find panel lists what the town holds at `effectiveKey()` by the gazetteer: institution kinds with counts, named institutions with the dossier's names first, districts, neighbourhoods and quarters, named places, and people through Where is. With the box empty it shows the kinds as a grid grouped by V11's groups. Type-ahead matches display labels, V11's synonyms, the dossier's names and place names by prefix and whole word, forgiving one-letter typos in words of five letters or more, grouped with counts, and offers an 'all smiths' chip for a word matching several kinds. The chip grid shows the union of its chips; each chip has its colour and second cue, and is added, removed or cleared. The results list gives name, kind and district, with **Go to**, **Next**, **Previous** and each chip's count. The `live.find` overlay provider draws on every band and layer, on Below and Sky with '2 more Below' and **Go there**, and at the interior band on the rooms an institution uses. The chips are re-evaluated at every commit, regenerate, undo, advance and season change. Coverage becomes Find's **Show gaps** switch: \u00a75.4's Coverage row and its `live.coverage` provider are replaced, each item of their behaviour kept; Find draws over any Show view. On a phone the panel is a bottom sheet. The `find` action from the clerk: `ClerkHandle.run`'s comment counts it among the application's kinds (eight), \u00a74.11's action list adds it, and the `clerk.alt.find.*` rows join the `clerk.alt.*` family. Add its catalogue rows and its tests (item 120 (k): the hash identical on and off, chips equal to the gazetteer at the key, the knowledge canary, the filter surviving every band, layer, commit, advance and undo, a pin or bubble for every match at the city band, a second cue per chip, the budgets at the metropolis cap).",
+    "severity": "major"
+   },
+   {
+    "by": "verify-edges-life-r1t",
+    "claim": "Item 120 assigns V09 the Find panel, type-ahead, chip grid, results list, the `live.find` overlay provider, Coverage folded into Show gaps (\u00a75.4's table and cue column amended), behaviour across bands and layers, the phone bottom sheet and its tests. V09 has none of it: 'item 120' appears 0 times and `live.find` 0 times. \u00a75.4 (l.3430-3431, l.3483) still keeps **Coverage** with its `live.coverage` provider as a separate view, which item 120 (i) forbids ('so the two never coexist'). V08 \u00a73.16 (6), V10 \u00a73.9b (7), V10's W rows and V12 \u00a73.15.10 all read 'V09's Find panel' and its `live.find` provider, so those readers point at a panel and provider that V09 does not define.",
+    "required_change": "V09 writes Find at build depth, with these parts. (a) The panel, listing what the town holds at the effective key from \u00a711.2's gazetteer query (dossier names first, by V08 \u00a73.16 (6)). (b) Type-ahead over V11 \u00a72.3's lexicon, following item 120 (c)'s matching rules. (c) The chip grid: union, colours with second cues past eight chips, Clear. (d) The results list with Go to, Next and Previous. (e) The `live.find` overlay provider: the veil at \u03b1 0.55, the halo, the outline, and pins and count bubbles under \u2248 6 px at the city band. (f) Ghost pins and '2 more Below' with Go there for other layers, and room glow at the interior band. (g) Show gaps replacing Coverage: \u00a75.4's row and cue column and `live.coverage` retired, every Coverage behaviour kept. (h) The phone bottom sheet. (i) The `find.*` and `find.group.<key>` catalogue rows. (j) The \u00a72.12 lifecycle row for the view key `find`. (k) A \u00a73.16 edge row: no match, a chip whose class leaves the town (count 0, dark), a withheld kind never offered, a re-key followed by its anchor, the metropolis cap within item 120 (j)'s budgets. (l) A T-V9 bar taking T120-1 to T120-6's interface clauses.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-vol-V09-V10-r1t",
+    "claim": "Item 120's V09 part (canon 'File g item 120 routed': the Find panel, type-ahead, chip grid, results list, the `live.find` overlay provider, Coverage folded into Show gaps with \u00a75.4's table and cue column amended, across bands and layers, the phone bottom sheet, its tests) is absent: V09 has no Find panel and no `live.find`; \u00a75.4 still offers Coverage with `live.coverage` (l.298, l.3430\u20133431, l.3483, l.3702); ClerkHandle.run's comment (l.842\u2013844, 'seven kinds') and \u00a74.11 do not run V10's new `find` action (V10 \u00a72.6, V10 \u00a73.9b (7)); V09 \u00a78 names no Find milestone; the title block's range stops at 119. V10's find action and the interfaces V01 (findAreas, gapUnits), V03 \u00a75.5 (findRooms), V04 \u00a75.1 (underFindPlaces), V05 \u00a75.6 and V07 \u00a75.5 wrote for Find have no caller.",
+    "required_change": "Add V09 \u00a74.21.10 'Find (item 120)' at build depth: (a) the per-viewer view key `find` (\u00a72.9: chips and the gaps switch) edited by the panel, kept across zoom, pan, layer, season, advance and edits, saved in view pins, ended only by Clear or closing; never the model, document, hash or log. (b) The list by the gazetteer at the view's effective key \u2014 institution kinds with counts; named institutions, V08's dossier entries first, a dossier chip re-evaluated by key and anchor (V08 \u00a73.16; J-V8.127); V01's findAreas; named places; people through 'Where is' (V09 \u00a74.18); the empty box's grid under V11's nine findGroup headings as `find.group.<key>` rows. (c) Type-ahead over V11 \u00a72.3's lexicon, the dossier's names and place names (prefix and whole-word, one-letter typos at five letters or more, grouped with counts, arrows and Enter, an 'all smiths' chip). (d) The chip grid: union, each chip's colour and second cue (glyph, dash; item 112), colours repeating past eight. (e) `live.find`: veil (paper \u03b1 0.55), halo \u2248 8 px inside a 2 px outline, labels above the veil, area lift with boundary glow, pins under \u2248 6 px and count bubbles at \u2248 24 px zooming in on click. (f) Ghost pins on Below and Sky with '{n} more Below' / '{n} on Sky' and Go there (V04 \u00a75.1's underFindPlaces, V05 \u00a75.6), the interior band's rooms by V03 \u00a75.5's findRooms, V07 \u00a75.5's village targets and ends as gaps' units; re-evaluation at every commit, regenerate, undo, advance and season change. (g) Results with Go to, Next, Previous (keys too) and counts. (h) Knowledge admission and View as on every suggestion, count, glow and pin. (i) \u00a75.4's Coverage row, its cue-column row and `live.coverage` replaced by Find's Show gaps over V01's gapUnits (dashed outline, 'none here'), every Coverage behaviour kept; \u00a71.1's coverage line and wiring rows l.298, l.3702 follow; the application runs V10's `find` action (set, add, remove, clear, gaps; ClerkHandle.run's comment eight kinds; \u00a74.11's action list); picture exports draw Find with chips in the legend, battle maps off unless asked. (j) Suggestions \u2248 50 ms, glow \u2248 100 ms (V09 \u00a76 rows), index rebuilt once per commit, base tiles never re-rendered; the phone's bottom sheet (V09 \u00a74.12). Plus \u00a71b rows, a \u00a72.12 row for `find`, \u00a73.16 edge rows, \u00a74.9 rows (panel words, 'none here', Go there, Go to, Next, Previous, Clear, find.group.*), a J-V9 decision; (k) a T-V9 row with item 120 (k)'s bars, V12 \u00a73.15.10's fixtures on V09's harness; V09 \u00a78.1 places Find's landing (cited by V03 \u00a78, V04 \u00a78, V10 \u00a78's C4); the title block's range 102\u2013125.",
+    "severity": "major"
+   }
+  ]
+ },
+ {
+  "id": "G121-V09",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "claim": "Item 121's V09 part (Settings \u203a Display \u203a Resolution, `AppPrefs.resolution`, the view-status chip and its why, the message of item 121 (f), its tests; canon dated ruling) is absent. V09 has no Resolution setting, `AppPrefs.resolution`, view-status chip or the message of item 121 (f).",
+  "required_change": "V09 writes its part of item 121 at build depth as new design \u2014 Settings \u203a Display \u203a Resolution, `AppPrefs.resolution`, the view-status chip and its why, the message of item 121 (f), its tests \u2014 with its catalogue rows, lifecycle rows (V09 \u00a72.12), edge rows (V09 \u00a73.16) and T-V9 bars.",
+  "owner": "V09",
+  "reported_by": "verify-agree-host-r1t, verify-agree-tools-r1t, verify-edges-life-r1t, verify-vol-V09-V10-r1t",
+  "also_reported": [
+   {
+    "by": "verify-agree-tools-r1t",
+    "claim": "File g item 121 (the resolution adjuster; J134), routed by canon.md's ruling 'File g items 121, 122 and 123 routed', names V09's part: Settings \u203a Display \u203a Resolution, `AppPrefs.resolution`, the view-status chip and its why, item 121 (f)'s message, and its tests. It is absent: V09 \u00a75.12 has no Display group, `AppPrefs` has no `resolution`, and no chip, message or bar exists.",
+    "required_change": "Write item 121's V09 part at build depth as new design. Settings \u203a Display \u203a **Resolution** offers **Auto** (the default) \u00b7 **4K** \u00b7 **1440p** \u00b7 **1080p (HD)** \u00b7 **720p**. The choice is `AppPrefs.resolution`, device state never in the document, its hash or the log (V09 \u00a72.11, \u00a72.12 lifecycle row). Levels above the screen's own resolution are greyed ('your screen is 1440p'), and choosing a level turns Auto off. The view-status chip shows the level in force ('Auto \u00b7 1440p'), with a tooltip saying why Auto chose it. Item 121 (f)'s message: '4K needs more graphics memory than this device has; showing 1440p'. Add its V09 \u00a74.9 rows and tests (item 121 (h): Auto the default on a fresh install, a manual level honoured or explained, labels and chrome at the device pixel ratio).",
+    "severity": "major"
+   },
+   {
+    "by": "verify-edges-life-r1t",
+    "claim": "Item 121 assigns V09 'Settings \u203a Display \u203a Resolution, `AppPrefs.resolution`, the view-status chip and its why, the message of item 121 (f), its tests'. V09 has none of them: 'item 121' appears 0 times, \u00a72.11's `AppPrefs` has no `resolution`, and \u00a75.12's Settings has no Display \u203a Resolution.",
+    "required_change": "V09 writes these parts. (a) Settings \u203a Display \u203a Resolution: Auto (default) \u00b7 4K \u00b7 1440p \u00b7 1080p (HD) \u00b7 720p, held in `AppPrefs.resolution` as device state, never in the document, its hash or the log, with a \u00a72.12 lifecycle row. (b) Levels above the screen's resolution are greyed ('your screen is 1440p'). (c) The view-status chip ('Auto \u00b7 1440p'), with a tooltip saying why Auto chose that level. (d) A manual choice turns Auto off. A level the device cannot hold draws the nearest level that fits, with item 121 (f)'s message ('4K needs more graphics memory than this device has; showing 1440p'), never a refusal or a crash. (e) A change of the device pixel ratio re-evaluates at once, and a level change waits for the view to settle. (f) \u00a74.9's rows for these words. (g) \u00a73.16 edge rows: a level above the screen; a level the device cannot hold; a monitor change mid-gesture; Auto at its lowest rung. (h) A T-V9 bar taking T121's interface clauses.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-vol-V09-V10-r1t",
+    "claim": "Item 121's V09 part (canon 'File g items 121, 122 and 123 routed': Settings \u203a Display \u203a Resolution, AppPrefs.resolution, the view-status chip and its why, the message of item 121 (f), its tests) is absent: \u00a75.12 has no Display group, \u00a72.11 no `resolution`, no chip or message exists.",
+    "required_change": "V09 \u00a75.12 gains Display \u203a Resolution: Auto (default) \u00b7 4K \u00b7 1440p \u00b7 1080p (HD) \u00b7 720p; \u00a72.11 `AppPrefs.resolution` (device state, never in the document, hash or log; another machine takes its own); levels above the screen greyed ('your screen is 1440p'); the view status shows the level in force ('Auto \u00b7 1440p') with a tooltip saying why Auto chose it; a manual level the device cannot hold draws the nearest that fits with item 121 (f)'s line ('4K needs more graphics memory than this device has; showing 1440p'), never a refusal or crash; \u00a71b, \u00a72.12 and \u00a74.9 rows; \u00a73.16 edges (never during a gesture; a device-pixel-ratio change re-evaluates; a level above capacity); a T-V9 row for item 121 (h)'s V09 bars (Auto default on a fresh install; manual level honoured or explained; labels and chrome at the device pixel ratio at every level; exports byte-identical across settings).",
+    "severity": "major"
+   }
+  ]
+ },
+ {
+  "id": "G122-V09",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "claim": "Item 122's V09 part (Show crises, the preview, the why lines, Find's listing; canon dated ruling) is absent. V09 has no Show crises switch, no manual crisis preview, no crisis why lines and no crisis entries in a Find listing.",
+  "required_change": "V09 writes its part of item 122 at build depth as new design \u2014 Show crises, the preview, the why lines, Find's listing \u2014 with its catalogue rows, lifecycle rows (V09 \u00a72.12), edge rows (V09 \u00a73.16) and T-V9 bars.",
+  "owner": "V09",
+  "reported_by": "verify-agree-host-r1t, verify-agree-tools-r1t, verify-edges-life-r1t, verify-vol-V09-V10-r1t",
+  "also_reported": [
+   {
+    "by": "verify-agree-tools-r1t",
+    "claim": "File g item 122 (crisis looks; J135), routed by canon.md's ruling 'File g items 121, 122 and 123 routed', names V09's part: Show crises, the preview, the why lines and Find's listing. It is absent: V09 has no crisis look anywhere.",
+    "required_change": "Write item 122's V09 part at build depth as new design: the **Show crises** switch, on by default; the manual crisis preview for maps without a dossier (as item 118 (b)'s festival preview); the why lines naming the crisis and its weeks ('Refugee camp: the Northmarch migration, weeks 12\u201320'); Find's listing of the crisis looks (item 122 (f)); a condition the view's key withholds neither drawn nor named (View as). Add its V09 \u00a74.9 rows, lifecycle rows and tests.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-edges-life-r1t",
+    "claim": "Item 122 assigns V09 'Show crises, the preview, the why lines, Find's listing'. V09 has no item-122 part: 'item 122' and 'crisis' appear 0 times.",
+    "required_change": "V09 writes these parts. (a) A **Show crises** switch (on by default) as view state, with its \u00a72.12 lifecycle row. (b) The manual crisis preview for a map without a dossier (as item 118 (b)), never in the document or its hash. (c) The why lines ('Refugee camp: the Northmarch migration, weeks 12\u201320') and their \u00a74.9 rows. (d) Find's listing of crisis looks (item 120). (e) View-as admission: a withheld condition is not drawn. (f) A \u00a73.16 edge row: no condition, several crises at once, a crisis ending while shown, a preview on a dossier map. (g) A T-V9 bar.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-vol-V09-V10-r1t",
+    "claim": "Item 122's V09 part (canon: Show crises, the preview, the why lines, Find's listing) is absent: V09 has no crisis look anywhere (0 hits for crisis, ConditionOverlay or Show crises).",
+    "required_change": "V09 adds at build depth: a Show crises switch in \u00a75.4's Show menu (on by default); a manual crisis preview for a map without a dossier, as item 118 (b)'s festival preview; \u00a75.8's why lines naming the crisis and its weeks ('Refugee camp: the Northmarch migration, weeks 12\u201320'); the looks listed in item 120's Find panel (G120-V09); a condition the viewer's key withholds neither drawn nor listed (View as, V09 \u00a74.8); \u00a74.9, \u00a71b and \u00a72.12 rows; \u00a73.16 edges (no condition and no preview: byte-identical to the base); a T-V9 row for item 122 (g)'s V09 bars.",
+    "severity": "major"
+   }
+  ]
+ },
+ {
+  "id": "G122h-V09",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "claim": "Item 122 (h)\u2013(i)'s V09 part (Fit, the opening view, the limit, the panel's numbers; canon dated ruling) is absent. V09's Fit, opening view and zoom-out limit (V09 \u00a74.21.6) do not widen to the town and camps while a crisis look stands, and no panel gives the forces' numbers.",
+  "required_change": "V09 writes its part of item 122 (h)\u2013(i) at build depth as new design \u2014 Fit, the opening view, the limit, the panel's numbers \u2014 with its catalogue rows, lifecycle rows (V09 \u00a72.12), edge rows (V09 \u00a73.16) and T-V9 bars.",
+  "owner": "V09",
+  "reported_by": "verify-agree-host-r1t, verify-agree-tools-r1t, verify-edges-life-r1t, verify-vol-V09-V10-r1t",
+  "also_reported": [
+   {
+    "by": "verify-agree-tools-r1t",
+    "claim": "File g item 122 (h)\u2013(i) (crisis looks sized by the dossier's forces; framing and the limit; J138), routed by canon.md's last ruling 'File g item 122 (h)\u2013(i) and item 125 routed', names V09's part: Fit, the opening view, the limit, and the panel's numbers. It is absent: V09 \u00a74.21.6's Fit the town and `info.zoom.limit` know only item 116's bounds.",
+    "required_change": "Write item 122 (i)'s V09 part. While crisis looks stand, the opening view and **Fit the town** take in the town and its camps, and item 116's zoom-out limit widens to the bounds of town and camps together, both returning to item 116's when the crisis ends. A view the user has already moved is never yanked. The crisis panel gives the full number ('about 24 000 besiegers, three armies'). Add V09 \u00a74.9 rows and tests (the opening view contains every camp; the limit restored when the crisis ends).",
+    "severity": "major"
+   },
+   {
+    "by": "verify-edges-life-r1t",
+    "claim": "Item 122 (h)\u2013(i) assigns V09 'Fit, the opening view, the limit, the panel's numbers'. V09 has no such part: 'item 122' appears 0 times, and \u00a74.19 and \u00a75.6 bind Fit and the zoom-out stop to item 116's bounds only.",
+    "required_change": "V09 writes these parts. (a) While a crisis look stands, the opening view and **Fit** frame the town and its camps, and item 116's zoom-out limit widens to the bounds of town and camps together. When the crisis ends, both return to item 116's. A view the user has moved is never changed: only the opening view, Fit and the limit change. (b) The crisis panel's numbers ('about 24 000 besiegers, three armies'). (c) A \u00a73.16 edge row: a crisis starting and ending while the view is moved, a force drawn as massed marks on the ring, two crises at once. (d) A T-V9 bar.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-vol-V09-V10-r1t",
+    "claim": "Item 122 (h)\u2013(i)'s V09 part (canon 'File g item 122 (h)\u2013(i) and item 125 routed': Fit, the opening view, the limit, the panel's numbers) is absent: V09 \u00a74.21.6 (l.3253), Fit the town, info.zoom.limit ('This is the whole town.') and T-V9-76 know only item 116's limit.",
+    "required_change": "V09 \u00a74.21.6: while crisis looks stand, the opening view and Fit the town take in the town and its camps, and item 116's zoom-out limit widens to the bounds of town and camps together, both returning to item 116's when the crisis ends; a view the user has moved is never yanked; the panel gives the full number for a force drawn as massed camp marks on the ring ('about 24 000 besiegers, three armies'); info.zoom.limit's line while a look stands; T-V9-76 adds 'the opening view contains every camp' and 'the limit restored when the crisis ends'.",
+    "severity": "major"
+   }
+  ]
+ },
+ {
+  "id": "G123-V09",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "claim": "Item 123's V09 part (the panel lines; canon dated ruling) is absent. V09's panels carry no damage lines for a ruined building's plan.",
+  "required_change": "V09 writes its part of item 123 at build depth as new design \u2014 the panel lines \u2014 with its catalogue rows, lifecycle rows (V09 \u00a72.12), edge rows (V09 \u00a73.16) and T-V9 bars.",
+  "owner": "V09",
+  "reported_by": "verify-agree-host-r1t, verify-agree-tools-r1t, verify-edges-life-r1t, verify-vol-V09-V10-r1t",
+  "also_reported": [
+   {
+    "by": "verify-agree-tools-r1t",
+    "claim": "File g item 123 (a ruined building's plans damaged, never redrawn; J136), routed by canon.md's ruling 'File g items 121, 122 and 123 routed', names V09's part, the panel lines. It is absent: V09's plan panel and why card have no line for a damaged plan.",
+    "required_change": "V09's plan panel and why card gain item 123 (e)'s damage lines ('roof fallen in over the hall; the upper floor is gone'), read from the damage layer at the building's decay level, as V09 \u00a74.9 rows with their tests.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-edges-life-r1t",
+    "claim": "Item 123 assigns V09 'the panel lines' (item 123 (e): 'roof fallen in over the hall; the upper floor is gone'). V09 has no item-123 part: 'item 123' appears 0 times.",
+    "required_change": "V09 writes the damaged plan's panel lines in \u00a74.9's catalogue: the rooms that are unsafe, roof holes, floorless storeys and fallen walls, each worded from the damage layer's elements. The plan panel shows the decay level and its state. A \u00a73.16 edge row covers a building never decayed (no line) and a fully ruined one (ground floor only). A T-V9 bar tests them.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-vol-V09-V10-r1t",
+    "claim": "Item 123's V09 part (canon: the panel lines) is absent: V09's plan panel and why card have no line for a damaged plan (item 123 (e): 'roof fallen in over the hall; the upper floor is gone').",
+    "required_change": "V09's plan panel (its contents V03 \u00a74.5's, V09 l.236) and \u00a75.8's card show the damage lines of V03's damage layer for a building abandoned, decayed, ruined or restored with patches \u2014 one line per damaged element kind at the building's decay level, words a catalogue family loaded from V10 and V03 \u2014 with \u00a74.9's family row and a T-V9 row (a never-decayed building shows none; a higher decay level's lines a superset).",
+    "severity": "major"
+   }
+  ]
+ },
+ {
+  "id": "G124-V09",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "claim": "Item 124's V09 part (the advanced panel's switch, Start a shower now, the defaults (on with headroom; off on the low tier, phones and reduced motion); canon dated ruling) is absent. V09's advanced panel has no Weather effects switch, no Start a shower now and no defaults by tier, phone or reduced motion.",
+  "required_change": "V09 writes its part of item 124 at build depth as new design \u2014 the advanced panel's switch, Start a shower now, the defaults (on with headroom; off on the low tier, phones and reduced motion) \u2014 with its catalogue rows, lifecycle rows (V09 \u00a72.12), edge rows (V09 \u00a73.16) and T-V9 bars.",
+  "owner": "V09",
+  "reported_by": "verify-agree-host-r1t, verify-agree-tools-r1t, verify-edges-life-r1t, verify-vol-V09-V10-r1t",
+  "also_reported": [
+   {
+    "by": "verify-agree-tools-r1t",
+    "claim": "File g item 124 (intermittent light weather; J137), routed by canon.md's ruling 'File g item 124 routed', names V09's part: the advanced panel's switch, Start a shower now, and the defaults. It is absent from V09 \u00a74.14 and \u00a72.11.",
+    "required_change": "V09 \u00a74.14's advanced panel gains **Weather effects** on / off, device state in `AppPrefs` (V09 \u00a72.11, \u00a72.12 lifecycle row), with **Start a shower now** (a spell of the season's commonest kind). Default ON where the tier has headroom; OFF on the low tier, on phones and wherever the system asks to reduce motion. Add V09 \u00a74.9 rows and tests (item 124 (i)'s defaults and the labels never covered).",
+    "severity": "major"
+   },
+   {
+    "by": "verify-edges-life-r1t",
+    "claim": "Item 124 assigns V09 'the advanced panel's switch, Start a shower now, the defaults (on with headroom; off on the low tier, phones and reduced motion)'. V09 has no item-124 part: 'item 124' appears 0 times, and neither \u00a74.14's advanced panel nor `AppPrefs` has a weather-effects switch.",
+    "required_change": "V09 writes these parts. (a) **Weather effects** on/off in the advanced panel (\u00a74.14), held in `AppPrefs` as device state with a \u00a72.12 lifecycle row. It defaults to ON where the tier has headroom and OFF on the low tier, on phones and under reduced motion. (b) **Start a shower now** starts a spell of the season's commonest kind. In a climate whose winter does not freeze it never starts snow; in an arid week it starts the row's kind, or dust haze. (c) \u00a74.9's words. (d) A \u00a73.16 edge row: the switch under reduced motion, on the low tier, during a gesture, and Start a shower now in a dry month. (e) A T-V9 bar.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-vol-V09-V10-r1t",
+    "claim": "Item 124's V09 part (canon 'File g item 124 routed': the advanced panel's switch, Start a shower now, the defaults \u2014 on with headroom; off on the low tier, phones and reduced motion) is absent from V09 \u00a74.14 and \u00a72.11.",
+    "required_change": "V09 \u00a74.14's advanced panel gains Weather effects on/off (device state, AppPrefs) with Start a shower now (a spell of the season's commonest kind); defaults on where the tier has headroom, off on the low tier, on phones and wherever the system or V09 \u00a75.12's reduced-motion setting asks; \u00a72.11's field, \u00a72.12's row, \u00a74.9 rows, \u00a73.16 edges (the switch never changes a tile or the hash); a T-V9 row for item 124 (i)'s V09 bars.",
+    "severity": "major"
+   }
+  ]
+ },
+ {
+  "id": "G125-V09",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "claim": "Item 125's V09 part (the season control as the week's fallback; canon dated ruling) is absent. V09 \u00a74.21.7's season control is the follow switch's alternative, not the week's fallback when the dossier carries no stamped tick; V09 still reads 'the campaign calendar's week' (l.388).",
+  "required_change": "V09 writes its part of item 125 at build depth as new design \u2014 the season control as the week's fallback \u2014 with its catalogue rows, lifecycle rows (V09 \u00a72.12), edge rows (V09 \u00a73.16) and T-V9 bars.",
+  "owner": "V09",
+  "reported_by": "verify-agree-host-r1t, verify-agree-tools-r1t, verify-edges-life-r1t, verify-vol-V09-V10-r1t",
+  "also_reported": [
+   {
+    "by": "verify-agree-tools-r1t",
+    "claim": "File g item 125 (the dossier the only data input; J139), routed by canon.md's last ruling 'File g item 122 (h)\u2013(i) and item 125 routed' (with its \u00a74.11 completion), names V09's part: the season control as the week's fallback. It is absent. V09 still takes the week from the retired campaign input: \u00a71b's dossier table row ('the campaign calendar's week and season') and \u00a74.21.7's follow switch.",
+    "required_change": "V09 \u00a71b's row and \u00a74.21.7: with **Follow SettlementForge** on, the week is the dossier's own latest stamped tick (its conditions' `triggeredAt`, its calamities' and history's ticks), else the season control's value (standalone midsummer, item 125 (b)), never the campaign calendar. Add its `view.season.noWeek` wording and tests.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-edges-life-r1t",
+    "claim": "Item 125 assigns V09 'the season control as the week's fallback'. V09 has no item-125 part: 'item 125' appears 0 times. Its season control (item 117) follows SettlementForge's week as the host sends it, with no rule for a dossier that carries no stamped tick.",
+    "required_change": "V09's season control becomes the week's fallback. On a dossier map whose dossier carries a stamped tick, the follow flag reads that tick's week. With no tick, or standalone, the control's own position holds (midsummer by default), labelled as the map's choice and not SettlementForge's. A host's `view.set { week }` moves the view as a user's pick would. A \u00a73.16 edge row covers no tick, a tick far in the past and a host command against a user's moved control. A T-V9 bar tests them.",
+    "severity": "major"
+   },
+   {
+    "by": "verify-vol-V09-V10-r1t",
+    "claim": "Item 125's V09 part (canon: the season control as the week's fallback) is absent: V09 still takes the week from the retired campaign input \u2014 \u00a71b's dossier table row (l.388) 'the campaign calendar's week and season', \u00a74.21.7 (2) 'the dossier's current week and season', (5) 'A dossier with no week falls back to midsummer with the switch on'. Item 125 (a)\u2013(b) retires HostContext.week: the week is the dossier's latest stamped tick where it has one, else the user's season control.",
+    "required_change": "V09 l.388: the dossier field reads 'the dossier's latest stamped tick \u2014 its conditions' triggeredAt, its calamities' and history's ticks (item 125 (b))'; \u00a74.21.7 (2): Follow SettlementForge follows that tick; (5): a dossier without a stamped tick leaves the week to the Season control at midsummer, with view.season.noWeek; a host's view.set { week } is a command, not an input (item 125 (c)); T-V9-77 adds item 125 (e)'s V09 clause (the same dossier with and without a host context opens on the same week).",
+    "severity": "major"
+   }
+  ]
+ },
+ {
+  "id": "VAP-11",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "Persists from round 0 (its scope half fixed). Scope's repair wrote M3c's clerk session into \u00a713.4 (\"At M3c's exit a clerk session of five such participants, the built-in clerk connected, runs T-V10-26's clerk task \u2026, its result an exit criterion of M3c's `MilestoneRecord`\", base l. 17406\u2013 17408), \u00a713.8's schedule row (\"M2a (the pipeline session), M3a (midpoint and exit), M3c (the clerk task, T-V10-26)\", l. 17846) and \u00a713.3's `MilestoneRecord.ux` readers; INDEX \u00a75 repeats it. Its hand-off \"V09 \u00a77.3 (1) to name M3c's clerk session (VAP-11's last clause)\" (repair-r1-scope.md preamble) was not taken: V09 \u00a77.3 (1) (l. 4036\u20134044), \"how it is run\", still holds only the two M3a sessions and M2a's pipeline session, and (3) \"no clerk unless the session tests it\" names no session that does.",
+  "required_change": "V09 \u00a77.3 (1) adds: \"**At M3c's exit** a clerk session (\u00a713.4): five participants on the same terms, the built-in clerk connected, each asking it for 'a walled harbour town with a temple quarter' and making one follow-up change (T-V10-26), timed and recorded as below; its result is an exit criterion of M3c's `MilestoneRecord`, written to `plat/goldens/ux/M3c/f5.json`.\"",
+  "owner": "V09",
+  "reported_by": "verify-agree-proof-r1t"
+ },
+ {
+  "id": "VAP-r1-03",
+  "severity": "major",
+  "kind": "HANDOFF-OPEN",
+  "claim": "The application take-over row (base l. 17252) hands volume 9 \"the screens of items 111\u2013119 (T-V9-71 \u2013 T-V9-79: T114-6's legend, T115-3's hand form, T116-1's view controls, T117-6, T118-2 and T119-3 among them)\". V09 names none of the six (0 occurrences): T-V9-74 \u2013 T-V9-79 (l. 3950\u20133955) cite \"(V09 \u00a74.21.n; item 11n)\" only, and V09 \u00a77.1's take-over paragraph (l. 3869\u20133871) stops at T101-1 \u2013 T101-9.",
+  "required_change": "T-V9-74's head reads \"(V09 \u00a74.21.4; item 114; takes T114-6's legend clause on the canvas)\"; T-V9-75's \"(V09 \u00a74.21.5; item 115; takes T115-3's hand form)\"; T-V9-76's \"(V09 \u00a74.21.6; item 116; takes T116-1's view-control clause)\"; T-V9-77's \"(V09 \u00a74.21.7; item 117; takes T117-6's season-control clause)\"; T-V9-78's \"(V09 \u00a74.21.8; item 118; takes T118-2's festival-list clause)\"; T-V9-79's \"(V09 \u00a74.21.9; item 119; takes T119-3)\"; V09 \u00a77.1's paragraph adds \"and the screens of items 114\u2013119: T114-6 by T-V9-74, T115-3 by T-V9-75, T116-1 by T-V9-76, T117-6 by T-V9-77, T118-2 by T-V9-78 and T119-3 by T-V9-79\".",
+  "owner": "V09",
+  "reported_by": "verify-agree-proof-r1t"
+ },
+ {
+  "id": "VAP-r1-14",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "\u00a716's M2b row (base l. 18727) lands \"item 114's generation-time condition \u2026 with \u00a78.2's `worn` and `patched` state rows and their legend\", \u00a716's M3a row (l. 18728) \"T3 `wall`'s repair with a material and `wearWall` (item 114)\" beside T2 `ground`'s spring flag, and \u00a713.8 schedules T114-6 \u2014 whose legend clause the take-over row hands V09 (T-V9-74) \u2014 at M2b. V09's AP11 (l. 4172) puts \"the wall's Repair material and legend at M6-E (with V06 \u00a73.7.7)\" and T-V9-74's milestone is \"M6-E\", while it puts the parallel oasis toggle at M3a with AP3. So from M2b to M6-E generated walls show `worn`, `patched` and `breached` runs with no legend lines of V09's and from M3a no canvas form for the base's repair-with-material event; and V10's T-V10-47, an exit of C4 at M3c, compares the clerk's `wall { op: 'repair' | 'wear' }` \"with V09 \u00a74.21.4's Repair (each material), Wear and Back in use events byte for byte\" before V09 builds them.",
+  "required_change": "V09 \u00a78.1's AP11 row reads \"\u2026 the wall states in the legend (V09 \u00a74.21.4 (3)) at M2b with \u00a78.2's state rows, the Repair mode's **Material** chip and **Wear** at M3a (with AP3 and \u00a716's M3a T3 repair), **Back in use**, the last-change epoch on the panel line and the ring's story at M6-E (with V06 \u00a73.7.3 \u2013 \u00a73.7.7) \u2026\", inside AP11's price; T-V9-74's milestone cell reads \"M2b (the legend); M3a (Repair with a material, Wear); M6-E (Back in use, the epoch lines)\".",
+  "owner": "V09",
+  "reported_by": "verify-agree-proof-r1t"
+ },
+ {
+  "id": "G126-V09",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "claim": "Item 126 (a2) routes to V09 \"no phone screen, notice, catalogue row or Send button: the narrow layout class retired; below the medium class the medium layout holds at its 600 \u00d7 480 minimum and the page scrolls; `refuse.phone` withdrawn (no tool is ever greyed for a phone); item 120's phone sheet and item 124's phone default removed; T-V9-22 keeps its tablet half\". V09 still carries the narrow class everywhere: `type LayoutClass = 'wide' | 'medium' | 'narrow'` (l. 412), the tool rows' `narrow` flag (l. 475) and every table's \"narrow \u00b7 coarse\" column (l. 1742, 2815), the phone paragraph of \u00a70 (l. 99\u2013101), \u00a71's \"what a phone may do\" (l. 142), the frame's edge row 48 (l. 1513), the rail's and panels' narrow forms (l. 1574, 1691, 2350, 3349\u20133350, 3391), \u00a74.12's narrow class (l. 2452\u20132457), the tools' narrow notes (l. 2885, 2937, 2990, 3193), `refuse.phone` (l. 1877, 1941), T-V9-22's narrow clause (l. 3898) and J-V9.9 (l. 4240).",
+  "required_change": "V09 retires the narrow class: `LayoutClass = 'wide' | 'medium'`, the `narrow` flag and every \"narrow\" column, row and form removed; \u00a70's paragraph reads \"**On a tablet.** A tablet gets every tool with touch (press and hold opens the menu a right-click opens). The map is not offered on a phone (item 126)\"; \u00a74.12 states the two classes and that a window below 600 \u00d7 480 keeps the medium layout at that minimum and scrolls, nothing re-generated; the edge row 48 reads \"a viewport below 600 \u00d7 480 | the medium layout at its minimum, the page scrolling | T-V9-22\"; `refuse.phone`'s catalogue row and its uses withdrawn; T-V9-22 keeps its tablet half and gains \"below the medium class the medium layout holds, and the document, view and selection are byte-identical across a resize over the threshold\"; J-V9.9 rewritten to the two classes (item 126 (a2), J140). G120-V09's \"phone bottom sheet\" and G124-V09's \"phones\" default, which peers' required changes still ask for, are not written (item 126 supersedes items 120 (j) and 124 (g)).",
+  "owner": "V09",
+  "reported_by": "verify-agree-proof-r1t",
+  "orchestrator_note": "ORCHESTRATOR NOTE: item 126 was REVISED by the owner the same day (item 126 (a2); canon 'g item 126 (a2) \u2014 revised'): \u201cwe will simply not have the option of viewing the map in the phone in the first place\u201d \u2014 write NO phone screen, notice, catalogue row or Send button; the narrow layout class is retired; below the medium class the medium layout holds at its 600 \u00d7 480 minimum and the page scrolls. The routing text quoted above predates the revision where it names a screen."
+ },
+ {
+  "id": "VAT-06",
+  "severity": "major",
+  "kind": "HANDOFF-OPEN",
+  "claim": "Partly fixed. Repair round 1 gave the API a carrier for a refusal's own catalogue line: \u00a711.2's `ApplyResult` conflict member is `{ status: 'conflict'; outcome: MsgRef /* the row of \u00a77.1's dry-run outcome table \u2026 */; actions: ConflictAction[] }`, `PreviewResult` gains `outcome?`, `ConflictAction.msg` words its own button, and \u00a711.3's `doc.rejected` carries `{ outcome, actions }`. V10 \u00a72.9 (`ClerkRefusal.msg`) and V10 \u00a73.5 step 3 now read `outcome`. V09, the canvas, still names no source for the refusal card's line. V09 \u00a73.3 *Refused and bent* reads '`conflict` draws the refusal card (V09 \u00a75.3) at the draft's last point: the plain reason and the row's buttons'. Step 6 reads 'the refusal card when `status: 'conflict'`', and V09 \u00a75.3 reads 'the catalogue's text'. None of them says the line is the `outcome`'s row. Rendering's repair handed this end to V09 (repair-r1-rendering.md \u00a73: 'V09 \u00a73.3 step 6 and V10 \u00a72.9 cite `ApplyResult.outcome`'), and V09's repair did not apply it. So on the canvas, `refuse.locked`, `refuse.water` and `refuse.warp` still have no stated source that tells them apart, which was the round-0 defect. \u00a75.2's F-EDIT cell, the determinism end of the same fix, is VDC1-05 (verify-determinism-r1t) and is not raised again here.",
+  "required_change": "V09 \u00a73.3 *Refused and bent*: '`conflict` draws the refusal card (V09 \u00a75.3) at the draft's last point: the line of the conflict's `outcome` (\u00a711.2's `PreviewResult.outcome`, `ApplyResult.outcome`: \u00a77.1's outcome row's key with its arguments, rendered by its V09 \u00a74.9 row) and that row's buttons \u2014 a `commit` from a `ConflictAction` carrying that action (\"Unlock\", \"Put it at {site}\" at its `target`, \"Remove the assignment\"), worded by the action's own `msg` (V09 \u00a72.9) \u2026'. Step 6's output cell: 'the refusal card, from `outcome`, when `status: 'conflict'`'. Step 8's `conflict` and V09 \u00a75.3's *Refusal card*: 'the catalogue's text of the conflict's `outcome`'.",
+  "owner": "V09",
+  "reported_by": "verify-agree-tools-r1t"
+ },
+ {
+  "id": "VAT-08",
+  "severity": "major",
+  "kind": "HANDOFF-OPEN",
+  "claim": "Partly fixed. \u00a77.1's binding now homes every pair VAT-08 named. T2 `ground` has `moveVertex` on a shore or coast. T3 `wall` has it on an enceinte's trace, a stretch's anchor vertex and a gate's crossing among them. T4 `road` has it on a way's, a raised way's or a tunnel's chain. T9 `shape` has it on an island's key. T6 `place` has `instance` on a hood pin (add, move, remove, restyle). T8 `fill` has `instance` on trees and \u00a78.10's other decoration instances (add, move, remove, restyle). Determinism's repair handed V09 \u00a74.3 'a row per binding pair VAT-08 added' (repair-r1-determinism.md, cross-unit notes). V09's repair did not write them. V09 \u00a74.3 binds `moveVertex` only on a gate's crossing (T3), a retaining wall's chain (T3) and an access point (T9). It names way handles only in an 'also from' cell. It has no shore or coast, enceinte-trace, stretch-anchor, tunnel-chain or island-key `moveVertex` pair. Its T6 row is '`instance` add (a hood pin)' and its T8 row '`instance` groups of trees' (plant, thin, restyle). Yet V09 \u00a73.5's handles emit `moveVertex` on road and wall chain points, a wall stretch's end, a `rampEnd` and a raised interior point, and V09 \u00a74.6 moves 'a decoration, tree or hood pin by `instance { op: 'move' }`'. T-V9-12 checks both tables pair by pair against the union, so it finds these pairs with no row. That breaks principle (7): every edit kind has its tool and its screen. The same gap, together with this round's `regenerate` of scope `people`, is VAH-r1-03 (verify-agree-host-r1t). This id is kept because the finding persists from round 0.",
+  "required_change": "V09 \u00a74.3 adds the pairs with their screens. (1) T2 `ground`: '`moveVertex` on a shore or coast \u2014 a coast's chain points by V09 \u00a73.5's open-chain rule (a lake keeps its level handle alone, J-V9.47)', with V09 \u00a73.5 adding the coast chain to its handle list. (2) T3 `wall`'s row reads '`drawWall`, `placeGate`; `moveVertex` on an enceinte's trace \u2014 its chain points, a stretch's anchor vertex (the stretch end handle) and a gate's crossing (V09 \u00a73.5)'. (3) T4 `road`'s rows add '`moveVertex` on a way's chain (its chain-point handles), a raised way's (`rampEnd` onto a ground vertex, interior points on its part) and, on Below, a tunnel's chain'. (4) T9 `shape`: '`moveVertex` on an island's key (on Sky, a vertex of the island's own arena)'. (5) T6 `place`'s hood-pin row: '`instance` on a hood pin \u2014 add (the furniture stamp), move (V09 \u00a74.6's drag), remove (Delete), restyle (its panel)'. (6) T8 `fill`'s row: '`instance` on trees and \u00a78.10's other decoration instances \u2014 add, remove and restyle by the **Trees** brush (plant, thin, restyle), move by V09 \u00a74.6's drag'.",
+  "owner": "V09",
+  "reported_by": "verify-agree-tools-r1t"
+ },
+ {
+  "id": "VAT-R1-05",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "claim": "V09's decision J-V9.83 still reads 'chose a BCR adding a one-line `roster` to T6 `place`'s row of \u00a77.1's toolkit table (file f item 570)'. After VAT-07, \u00a77.1's toolkit table holds no events. The one-line roster is a row of \u00a77.1's binding (T6 `place`: '`roster` of one line \u2026; item 570'). The row therefore cites the wrong home.",
+  "required_change": "V09 \u00a79, J-V9.83: '\u2026 adding a one-line `roster` to T6 `place`'s row of \u00a77.1's binding (file f item 570) \u2026'.",
+  "owner": "V09",
+  "reported_by": "verify-agree-tools-r1t"
+ },
+ {
+  "id": "VDC1-13",
+  "severity": "minor",
+  "kind": "WIRING",
+  "claim": "\u00a75.4's new `GenerationReport.recipe` (l.8902, VM-R0S-24) names its reader: '/* the recipe line, read by V09's Report panel */' (with l.8949-8951). V09 \u00a75.7's Report panel (V09 l.3525-3535) shows 'What you asked for', 'Couldn't place', the dossier sections, 'What moved', 'What its past left' and 'Details' (ladder uses, kernel warnings, timings). It has no recipe line. V09 shows the preset only in the advanced panel's head, read from `Recipe.presetId` directly (`info.recipe.preset`, V09 l.2105, l.2498). The report's recipe line has a producer and no consumer.",
+  "required_change": "V09 \u00a75.7's Report: show the recipe line \u2014 'Made from seed {seed} at {rung}' and, when present, the preset (`info.recipe.preset`) \u2014 from `GenerationReport.recipe` (\u00a75.4), in Details or under the head, and name it in V09 \u00a71b's wiring row for \u00a75.4.",
+  "owner": "V09",
+  "reported_by": "verify-determinism-r1t"
+ },
+ {
+  "id": "VDC1-14",
+  "severity": "minor",
+  "kind": "WIRING",
+  "claim": "V09 \u00a74.9's catalogue disagrees with the outcomes now stated in V11 \u00a74.1 and with \u00a77.1 once VDC1-01 lands. It keeps `refuse.table.ownerRule` (V09 l.1945: 'a stamped owner-rule cell'), although V11 \u00a74.1 now says a stamped cell is edited like any cell (VV1112-04). It has no row for V11 \u00a74.1's `refuse.table.required` (the required-row delete, J-V11.113). V11's repair file hands both to V09 (repair-r1-V11.md l.110-111). V09 l.746 still turns a `reroute` `ConflictAction` into 'the draft through its `at`', a kind \u00a77.1's *The returned kinds* says no row returns (see VDC1-15).",
+  "required_change": "V09 \u00a74.9: withdraw the `refuse.table.ownerRule` row. Add `refuse.table.required` with V09's words (for instance '{row} is what {readers} fall back to; edit its cells instead.'), button `button.showWhy`. Add the rows for the keys \u00a77.1 adds under VDC1-03 (`refuse.epoch.cap`) and VDC1-04 (`refuse.water.reservation`, its action the Re-derive from S3). Drop l.746's '`reroute` the draft through its `at`' clause, and \u00a78's PLAUSIBLE note on `reroute`, with \u00a711.2's kind (VDC1-15).",
+  "owner": "V09",
+  "reported_by": "verify-determinism-r1t"
+ },
+ {
+  "id": "VEL0-11",
+  "severity": "major",
+  "kind": "EDGE-UNDEFINED",
+  "claim": "Partly fixed. V11 now refuses a delete of a row that readers fall back to, with the key `refuse.table.required`. It is stated in V11 \u00a74.1 (l.4543-4550), \u00a73.26's EI-V11-EDGE-3 (l.4497), \u00a74's lifecycle row (l.4604) and T-V11-45 (s). The other end the round-0 change named, 'V09 \u00a74.9 carries the key', is not written. V09 \u00a74.9 holds `refuse.table.rung`, `.ownerRule`, `.invalid` and `.knowledge` (l.1944-1947) but no `refuse.table.required`. So the tables editor has no words, no button and no producer row for this refusal, and T-V9-15 ('every code the engine can emit has a catalogue row') fails on it. V11's repair handed this to V09; it was not applied.",
+  "required_change": "V09 \u00a74.9 gains the row '| `refuse.table.required` | \"{row} is what {readers} fall back to, so it stays; edit its cells instead.\" \u2014 `{readers}` the reading stages or tables V11 \u00a74.1 names | `button.showWhy` why | \u00a77.1's table-edit row for a row readers fall back to (V11 \u00a74.1: a `defaultRow`, an `allowFallback` target, a totality rule's only cover, the last row of a table not `mayEmpty`), the row marked in the tables editor (V09 \u00a74.14) |'. T-V9-15's fixtures include a delete of `era`'s default row `c14` from the tables editor, which shows this row.",
+  "owner": "V09",
+  "reported_by": "verify-edges-life-r1t"
+ },
+ {
+  "id": "VM-R1T-15",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "claim": "V09 \u00a74.21.3 (1) maps the History chip to `adjust('history', { peak: { rung }, ageYears, scars: [] })`, 'the blueprint's `history` (\u00a74.2 S0's `HistoryHint`)'; \u00a72.7's `HistoryHint` (declared in full by VM-R0S-11's fix) has `peak: { tier; population?; symbolic; evidence }` \u2014 no `rung` \u2014 so DR36 and V06's `ReplayPlan`, which read the peak's tier, find none and a standalone 'Once a city' would replay nothing: a silent wrong result.",
+  "required_change": "V09 \u00a74.21.3 (1): 'A pick maps to `adjust('history', { peak: { tier: rung, symbolic: false, evidence: [] }, ageYears, scars: [] })`' \u2014 the form \u00a72.7 states for the standalone option (VM-R1T-14).",
+  "owner": "V09",
+  "reported_by": "verify-model-r1t"
+ },
+ {
+  "id": "VV34-r1-01",
+  "severity": "major",
+  "kind": "WIRING",
+  "claim": "V03's repair (VV34-09) keys each `PlanReport.warnings` panel line as `report.plan.<code>`, 'the `en` text of the key \u2026 of volume 9's catalogue (V09 \u00a74.9), written here' (V03 \u00a74.5; V03 \u00a72.3's comment; V03 \u00a71b; T-V3-36 (m)), and V03 \u00a713 hands V09 'the family `report.plan.<code>` in V09 \u00a74.9's family table'. V09 \u00a74.9 holds no `report.plan.*` row or family (0 hits for `report.plan` in V09); its family table's lead names only volume 10's and volume 7's sections as homes of words, and T-V9-15's list of the codes the engine can emit does not include V03's warnings. The seven keys are read by the panel and written by no catalogue: T-V9-15 and the shipped-locale check never cover them.",
+  "required_change": "In V09 \u00a74.9's family table add the row `report.plan.<code>` | one key per `PlanReport.warnings` code of V03 \u00a72.3's union (`W_TIER_UNREACHED`, `W_STOREY_RUN`, `W_ENTRANCE_NO_STOREY`, `W_STACK_ACCESS`, `W_DECK_ACCESS`, `W_GRADE_FACE_TUNNEL`, `W_CHURCH_CATACOMB_HEAD`) | V03 \u00a74.5's plan-warning lines; widen the table's lead to 'volume 10's, volume 7's for the village lines, or volume 3's for the plan panel's warnings'; and add V03's `PlanReport.warnings` codes to T-V9-15's list of the codes the engine can emit.",
+  "owner": "V09",
+  "reported_by": "verify-vol-V03-V04-r1t"
+ },
+ {
+  "id": "VV34-r1-03",
+  "severity": "major",
+  "kind": "WIRING",
+  "claim": "This round's V03 and V04 repairs added two interfaces for item 120 whose only named caller is V09's `live.find`: `findRooms(plan, b, target)` (V03 \u00a75.5; V03 \u00a71b: 'V09's `live.find` overlay \u2026 the storey switcher's and the plan panel's marks') and `underFindPlaces(doc, ids)` (V04 \u00a75.1, V04 \u00a71b.2: 'V09's `live.find` overlay provider \u2026 for the ids \u00a711.2's gazetteer match listing gives on underground parts'); V03 \u00a713 and V04 \u00a713 hand the calls to V09. V09 has 0 hits for `live.find`, `findRooms` or `underFindPlaces`, and V09 \u00a78 names no Find milestone, which V03 \u00a78 ('the milestone that lands Find (V09 \u00a78)') and V04 \u00a78 ('the step that lands V09's Find panel') cite. Both interfaces are orphans and both build placements dangle.",
+  "required_change": "In V09's item-120 part (G120-V09, at build depth): `live.find` calls V03 \u00a75.5's `findRooms` for each matched building whose plan draws at the interior band (the rooms' union outline and halo, the storey switcher's glyph marks and its '{n} found', the plan panel's room-list marks) and V04 \u00a75.1's `underFindPlaces` for the ids \u00a711.2's listing gives on underground parts (the glow in the drawn band, the ghost pins carrying their band, the band ladder's per-band counts, the panel's 'N more Below', **Go there** setting `depthBand`, an area chip's lift Below); V09 \u00a71b's wiring rows name both; and V09 \u00a78 places Find's landing as the milestone V03 \u00a78 and V04 \u00a78 cite.",
+  "owner": "V09",
+  "reported_by": "verify-vol-V03-V04-r1t"
+ },
+ {
+  "id": "VV34-r1-02",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "V09 \u00a74.9's family row `info.plan.*` reads 'the eleven item-110 room causes and the three `PlanReport.notes` ids, keyed as V03 \u00a74.6 states (`info.plan.cause.<cause>`)', naming one key form for both; V03 \u00a74.6, V03 \u00a72.3, T-V3-12 and V10 \u00a73.9a key the notes `info.plan.note.<id>` (the cause and the note named `stackCarried` keeping two keys). One family, two key forms stated (principle (10)).",
+  "required_change": "In V09 \u00a74.9's `info.plan.*` row read '\u2026 keyed as V03 \u00a74.6 states (`info.plan.cause.<cause>` for the causes, `info.plan.note.<id>` for the notes)'.",
+  "owner": "V09",
+  "reported_by": "verify-vol-V03-V04-r1t"
+ },
+ {
+  "id": "VV56-r1-08",
+  "severity": "minor",
+  "kind": "WIRING",
+  "claim": "V05 \u00a75.6 (2)\u2013(4) (and \u00a71.2's V09 row) rely on V09's Find: the panel's \"on Sky\" count, **Go there** setting V09 \u00a74.2's working layer to Sky with the island menu's `key` on the match's island, ghost pins of sky matches on Ground and Below at their drawn positions (a hidden sky layer's kept), pins merged into bubbles only within one layer and, on Sky, one island, and Show gaps over V05 \u00a73.5 (3)'s island units. V09 holds no Find text (no `live.find`, \"Go there\" or \"Show gaps\"), so each is a hook with one end. To be closed with G120-V09.",
+  "required_change": "V09's Find panel (G120-V09) states for Sky, citing V05 \u00a75.6: the \"{n} on Sky\" count; **Go there** (Sky working, the island `key` set to the match's island, a hidden sky layer shown, the band that shows the match); the ghost pins of sky matches on Ground and Below at their drawn positions, a hidden sky layer's included; bubbles merged only within one layer and, on Sky, one island; Show gaps over the island units V05 \u00a75.6 (4) names.",
+  "owner": "V09",
+  "reported_by": "verify-vol-V05-V06-r1t"
+ },
+ {
+  "id": "VV910-20",
+  "severity": "minor",
+  "kind": "ID",
+  "claim": "Partly fixed. The ID-TOOL pass inserted 350 tool words, all correct, but two first uses in a paragraph still lack theirs: l.2666 (\u00a74.17.4) 'a T6 `placeAt` of a dwelling class' and l.3239 (\u00a74.21.5 (1)) 'A T6 placement or a T9 `shape` reshape' \u2014 the repair's scan read `placeAt` and 'placement' as the word `place`.",
+  "required_change": "V09 l.2666: 'a T6 `place` `placeAt` of a dwelling class'; l.3239: 'A T6 `place` placement or a T9 `shape` reshape'. Re-run the scan with a whole-word tool-word match: 0 bare first uses.",
+  "owner": "V09",
+  "reported_by": "verify-vol-V09-V10-r1t"
+ },
+ {
+  "id": "G119a2-V09",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "claim": "Item 119 (a2)'s V09 part (canon J132: 'the progress view shows the coarsened cadence') is absent. V06 now coarsens an advance's cadence and the replay's epoch length to fit the comfort level in total (V06 \u00a76.8) and hands V09 the epoch line at the cadence chosen from EpochReport.advance; V09's progress.<wait> row (l.2116) has `epoch` 'Year {year} of {years}' and `history` 'Replaying the town's past: {year}' with no cadence, and \u00a74.21.9 (1) (l.3302\u20133304) and T-V9-79 defer to 'V06's part of item 119'.",
+  "required_change": "V09 \u00a74.9: `epoch` 'Year {year} of {years}, in {n}-year steps' (EpochReport.advance.cadenceWeeks against .requestedWeeks) and `history` 'Replaying the town's past: {year}, in {n}-year steps' (ReplayPlan.epochYears when coarsened), each step clause shown when the run coarsened; \u00a74.21.9 (1): an advance and a history-first generation each complete within the ten-second comfort level in total (item 119 (a2); J132), coarsened to fit; T-V9-79 asserts the line names the cadence chosen.",
+  "owner": "V09",
+  "reported_by": "verify-vol-V09-V10-r1t"
+ },
+ {
+  "id": "VV910-r1-02",
+  "severity": "minor",
+  "kind": "EDGE-UNDEFINED",
+  "claim": "V09 \u00a73.8 (3) (l.1253\u20131256; J-V9.137, new this round) re-issues a journalled advance that Stop ended by having 'the shell call cancelAdvance when the job's onProgress (\u00a711.2) reports epoch stoppedAfter running'. \u00a712's progress rule (l.15658\u201315660) posts a non-stage wait's Progress 'as each of its own steps completes', so no message reports epoch 1 running (a stop after the first epoch can never be reproduced) and any other stop holds only if the cancel crosses threads before the next epoch starts. The re-issued group then folds more epochs than journalled, its logHeadAfter mismatches and recovery stops with error.recoveryPartial \u2014 contradicting T-V9-17's 'no epoch lost and no recovery line shown' (l.3893).",
+  "required_change": "V09 \u00a73.8 (3): a stopped advance is re-issued with its epoch count \u2014 `advance(h, req, { stopAfter: stoppedAfter, onProgress })`, the job folding at most that many epochs and writing stoppedAt on the last as Stop does (V06 \u00a72.3, V06 \u00a74.1) \u2014 dropping the timed cancelAdvance; V09 \u00a710.1 lists the request that \u00a711.2's `advance` opts gain `stopAfter?: number`; T-V9-17 adds an advance stopped after its first epoch and killed before compaction reopening at its logHeadAfter.",
+  "owner": "V09",
+  "reported_by": "verify-vol-V09-V10-r1t"
+ },
+ {
+  "id": "VV910-r1-03",
+  "severity": "minor",
+  "kind": "TERM",
+  "claim": "Three term slips in subsections this round replaced (principle (2); canon glossary): l.1628 (\u00a74.3 T1 row) 'a standalone neighbourhood's outline' (G-standalone retires it; base \u00a77.1's T1 row says 'a standalone neighbourhood document's outline'); l.959 (\u00a72.12) 'holds through Regenerate, scoped re-rolls, reloads and epochs' (G-newrandom retires 'scoped re-roll'); l.2116 and l.3305 'a restore jump', a new name for Go back to here from a restore point (V09 \u00a73.9), which names no separate action and \u00a73.9 never uses.",
+  "required_change": "V09 l.1628: 'a standalone neighbourhood document's outline'; l.959: 'holds through Regenerate, New random, reloads and epochs'; l.2116 and l.3305: 'Go back to here (from a history row or a restore point, V09 \u00a73.9)' in place of 'Go back to here and a restore jump'.",
+  "owner": "V09",
+  "reported_by": "verify-vol-V09-V10-r1t"
+ }
+]

@@ -1,0 +1,64 @@
+(1) every case, on a tier that passes the tolerance (standard surface) and on one that misses it (full precision)
+== the reference viewport: 1440 x 900 CSS px at D = 2; P at D = 35; the 4K ceiling d <= 2
+   low   standard: d = 0.5, rung 3 (vector)       , P =   6, need   25.00 + text  35 =   60.00 MB
+   low   full    : d = 0.5, rung 3 (vector)       , P =   6, need   25.00 + text  35 =   60.00 MB
+   mid   standard: d = 1, lit, standard surface , P =  12, need   68.75 + text  35 =  103.75 MB
+   mid   full    : d = 1, rung 3 (vector)       , P =  12, need   43.00 + text  35 =   78.00 MB
+   high  standard: d = 2, lit, standard surface , P =  35, need  172.75 + text   0 =  172.75 MB
+   high  full    : d = 1, lit, full precision   , P =  12, need  106.50 + text  35 =  141.50 MB
+   ultra standard: d = 2, lit, standard surface , P =  35, need  172.75 + text   0 =  172.75 MB
+   ultra full    : d = 2, lit, full precision   , P =  35, need  268.50 + text   0 =  268.50 MB
+== the low-end device: 1366 x 768 CSS px at D = 1; P at D = 12; the 4K ceiling d <= 2
+   low   standard: d = 1, lit, standard surface , P =  12, need   68.75 + text   0 =   68.75 MB
+   low   full    : d = 1, rung 3 (vector)       , P =  12, need   43.00 + text   0 =   43.00 MB
+   mid   standard: d = 1, lit, standard surface , P =  12, need   68.75 + text   0 =   68.75 MB
+   mid   full    : d = 1, lit, full precision   , P =  12, need  106.50 + text   0 =  106.50 MB
+   high  standard: d = 1, lit, standard surface , P =  12, need   68.75 + text   0 =   68.75 MB
+   high  full    : d = 1, lit, full precision   , P =  12, need  106.50 + text   0 =  106.50 MB
+   ultra standard: d = 1, lit, standard surface , P =  12, need   68.75 + text   0 =   68.75 MB
+   ultra full    : d = 1, lit, full precision   , P =  12, need  106.50 + text   0 =  106.50 MB
+== the low-end device: 1920 x 1080 CSS px at D = 1; P at D = 20; the 4K ceiling d <= 2
+   low   standard: d = 1, rung 3 (vector)       , P =  20, need   67.00 + text   0 =   67.00 MB
+   low   full    : d = 1, rung 3 (vector)       , P =  20, need   67.00 + text   0 =   67.00 MB
+   mid   standard: d = 1, lit, standard surface , P =  20, need  104.75 + text   0 =  104.75 MB
+   mid   full    : d = 1, rung 3 (vector)       , P =  20, need   67.00 + text   0 =   67.00 MB
+   high  standard: d = 1, lit, standard surface , P =  20, need  104.75 + text   0 =  104.75 MB
+   high  full    : d = 1, lit, full precision   , P =  20, need  162.50 + text   0 =  162.50 MB
+   ultra standard: d = 1, lit, standard surface , P =  20, need  104.75 + text   0 =  104.75 MB
+   ultra full    : d = 1, lit, full precision   , P =  20, need  162.50 + text   0 =  162.50 MB
+== a native-4K view: 1920 x 1080 CSS px at D = 2; P at D = 54; the 4K ceiling d <= 2
+   low   standard: d = 0.5, rung 3 (vector)       , P =   9, need   34.00 + text  35 =   69.00 MB (text layer at 1.5)
+   low   full    : d = 0.5, rung 3 (vector)       , P =   9, need   34.00 + text  35 =   69.00 MB (text layer at 1.5)
+   mid   standard: d = 1, rung 3 (vector)       , P =  20, need   67.00 + text  54 =  121.00 MB
+   mid   full    : d = 1, rung 3 (vector)       , P =  20, need   67.00 + text  54 =  121.00 MB
+   high  standard: d = 1, lit, standard surface , P =  20, need  104.75 + text  54 =  158.75 MB
+   high  full    : d = 1, rung 3 (vector)       , P =  20, need   67.00 + text  54 =  121.00 MB
+   ultra standard: d = 2, lit, standard surface , P =  54, need  257.08 + text   0 =  257.08 MB
+   ultra full    : d = 2, lit, full precision   , P =  54, need  399.17 + text   0 =  399.17 MB
+== a 5K screen: 2560 x 1440 CSS px at D = 2; P at D = 77; the 4K ceiling d <= 1.5
+   low   standard: d = 0.5, rung 3 (vector)       , P =  12, need   43.00 + text  24 =   67.00 MB (text layer at 1)
+   low   full    : d = 0.5, rung 3 (vector)       , P =  12, need   43.00 + text  24 =   67.00 MB (text layer at 1)
+   mid   standard: d = 0.5, rung 3 (vector)       , P =  12, need   43.00 + text  77 =  120.00 MB
+   mid   full    : d = 0.5, rung 3 (vector)       , P =  12, need   43.00 + text  77 =  120.00 MB
+   high  standard: d = 1, rung 3 (vector)       , P =  24, need   79.00 + text  77 =  156.00 MB
+   high  full    : d = 1, rung 3 (vector)       , P =  24, need   79.00 + text  77 =  156.00 MB
+   ultra standard: d = 1.5, lit, standard surface , P =  54, need  256.58 + text  77 =  333.58 MB
+   ultra full    : d = 1.5, lit, full precision   , P =  54, need  398.17 + text  77 =  475.17 MB
+== an 8K screen: 3840 x 2160 CSS px at D = 2; P at D = 160; the 4K ceiling d <= 1
+   low   standard: d = 0.5, rung 3 (vector)       , P =  20, need   67.00 + text   0 =   67.00 MB (text layer at 0.5)
+   low   full    : d = 0.5, rung 3 (vector)       , P =  20, need   67.00 + text   0 =   67.00 MB (text layer at 0.5)
+   mid   standard: d = 0.5, rung 3 (vector)       , P =  20, need   67.00 + text  54 =  121.00 MB (text layer at 1)
+   mid   full    : d = 0.5, rung 3 (vector)       , P =  20, need   67.00 + text  54 =  121.00 MB (text layer at 1)
+   high  standard: d = 0.5, rung 3 (vector)       , P =  20, need   67.00 + text 104 =  171.00 MB (text layer at 1.5)
+   high  full    : d = 0.5, rung 3 (vector)       , P =  20, need   67.00 + text 104 =  171.00 MB (text layer at 1.5)
+   ultra standard: d = 1, lit, standard surface , P =  54, need  256.08 + text 160 =  416.08 MB
+   ultra full    : d = 1, rung 3 (vector)       , P =  54, need  169.00 + text 160 =  329.00 MB
+
+(2) the full-precision steps of the reference viewport (1 440 x 900 at D = 2) and the low-end device (1 366 x 768 at D = 1)
+   1440 x 900, d = 2: full precision 268.50 + text 0 = 268.50 MB; rung 3 at d = 1: 78.00 MB
+   1440 x 900, d = 1.5: full precision 191.50 + text 35 = 226.50 MB; rung 3 at d = 1: 78.00 MB
+   1440 x 900, d = 1: full precision 106.50 + text 35 = 141.50 MB; rung 3 at d = 1: 78.00 MB
+   1366 x 768, d = 1: full precision 106.50 + text 0 = 106.50 MB; rung 3 at d = 1: 43.00 MB
+
+(3) no fitted frame on a full-precision tier is drawn on the standard surface: True
+native 4K at d = D (P = 54): unlit 169.00, lit 257.08, full precision 399.17 MB

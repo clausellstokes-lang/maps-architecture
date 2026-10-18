@@ -1,0 +1,265 @@
+{
+ "edits": 85,
+ "tags": [
+  "VV12-r1-04 §0",
+  "VAH-r1-12 §1.2 hook row",
+  "VAH-r1-12 §4.5 WhyPull.family",
+  "VAH-r1-12 §4.5 drifted",
+  "VAH-r1-12 §4.5 members",
+  "VAH-r1-12 §4.5 closure",
+  "VM-R1T-04 §2.1",
+  "VAF-R0S-15/VPC-R1-11 §2.2",
+  "VAF-R0S-04 §2.3 DistrictContext.raised",
+  "VAF-R0S-04 §2.3 WayNamingContext.raised",
+  "VV1112-r1-05 §2.3 records.step",
+  "VAF-R1T-05 §2.4",
+  "VAF-R1T-05 §2.4 callers (the services of V01 §3.16)",
+  "VM-R1T-03 §2.6",
+  "VM-R1T-03 §1.2 §2.9 row",
+  "VM-R1T-03 §1b HoodRecipe row",
+  "VM-R1T-03 §1b HoodRecipe.edges.slope row",
+  "VM-R1T-03 §1b hood.kinds row",
+  "R2-26 (d) §3.14 values cited",
+  "R2-26 (d) §3.14 column row",
+  "R2-26 (d) §3.17.3 (2)",
+  "R2-26 (d) §12 PLAUSIBLE",
+  "VAP-r1-07 T-V1-29",
+  "VV12-r1-03 §3.16 catchmentOf",
+  "VV12-r1-03 §2.3 signature",
+  "VV12-r1-03 §2.3 parts table",
+  "VV12-r1-03 §1b row",
+  "VV12-r1-03 §3.18 services row",
+  "VV12-r1-03 §5.4 (3) partition units",
+  "VV12-r1-03 §5.4 (3) Evaluation",
+  "VV12-r1-03 §6 services line",
+  "VV12-r1-03 §6 Show gaps line",
+  "VV12-r1-03 T-V1-42",
+  "R2-35 T-V1-59 head",
+  "R2-35 T-V1-59 (a)",
+  "R2-35 T-V1-59 (a) listing",
+  "VV12-r1-03 T-V1-59 (b)",
+  "R2-35 T-V1-59 (c)",
+  "VAF-R1T-07 T-V1-59 milestone (R2-32)",
+  "VAF-R1T-07 §8.2 W11 (R2-32)",
+  "VV12-r1-03 J-V1.102",
+  "VV12-r1-03 J-V1.102 reason",
+  "VV12-r1-03 §12 PLAUSIBLE Find lines",
+  "G122-V01 §0",
+  "G122-V01 §1.1 item 14",
+  "G122-V01 §1.2 hook row",
+  "G122-V01 §1.3",
+  "G122-V01 §1b rows",
+  "G122-V01 §1b dossier row",
+  "G122-V01 §1b dossier change",
+  "G122-V01 §2.3 records",
+  "G122-V01 §2.3 signatures",
+  "G122-V01 §2.7 derived",
+  "G122-V01 §3.12",
+  "G122-V01 §3.14 camp.reachM",
+  "G122-V01 §3.16 intro",
+  "G122-V01 §3.16 crisis services",
+  "G122-V01 §3.18 (c)",
+  "G122-V01 §3.18 (e)",
+  "G122-V01 §3.18 (f)",
+  "G122-V01 §5.1.4",
+  "G122-V01 §5.3",
+  "G122-V01 §5.4 (6)",
+  "G122-V01 §6 line",
+  "G122-V01 §6 interactions",
+  "G122-V01 T-V1-60",
+  "G122-V01 §8.1 count",
+  "G122-V01 §8.1 M3b",
+  "G122-V01 §8.2 W10",
+  "G122-V01 §8.2 W11",
+  "G122-V01 §8.2 W11 T-V1-60",
+  "G122-V01 §8.2 total",
+  "G122-V01 §8.2 note",
+  "G122-V01 §8.2 above base",
+  "G122-V01 §8.2 above base list",
+  "G122-V01 §8.3",
+  "G122-V01 J-V1.26",
+  "G122-V01 J-V1.104, J-V1.105",
+  "G122-V01 §11",
+  "G122-V01 §12 CONFIRMED",
+  "G122-V01 §12 PLAUSIBLE constants",
+  "G122-V01 §12 PLAUSIBLE lines",
+  "G122-V01 §12 PLAUSIBLE patterns",
+  "G122-V01 §12 PLAUSIBLE early reads",
+  "G122-V01 §3.18 (b) village row"
+ ],
+ "blocks": 28,
+ "inventory": [
+  {
+   "kind": "REPLACE",
+   "target": "## 0 In plain words",
+   "lines": 87,
+   "words": 1591
+  },
+  {
+   "kind": "REPLACE",
+   "target": "### 1.1 What this volume builds (to build depth)",
+   "lines": 56,
+   "words": 899
+  },
+  {
+   "kind": "REPLACE",
+   "target": "### 1.2 The base hooks this volume consumes",
+   "lines": 55,
+   "words": 1994
+  },
+  {
+   "kind": "REPLACE",
+   "target": "### 1.3 Out of scope, and whose it is",
+   "lines": 35,
+   "words": 508
+  },
+  {
+   "kind": "REPLACE",
+   "target": "### 1b WIRING TABLE — every new piece, what feeds it and what it feeds",
+   "lines": 103,
+   "words": 4206
+  },
+  {
+   "kind": "REPLACE",
+   "target": "### 2.1 Identifiers and the fabric table",
+   "lines": 9,
+   "words": 61
+  },
+  {
+   "kind": "REPLACE",
+   "target": "### 2.2 Rows (editable tables, §7.6)",
+   "lines": 79,
+   "words": 1313
+  },
+  {
+   "kind": "REPLACE",
+   "target": "### 2.3 Views and services (derived, never stored)",
+   "lines": 135,
+   "words": 2590
+  },
+  {
+   "kind": "REPLACE",
+   "target": "### 2.4 The request, the result and the report",
+   "lines": 14,
+   "words": 179
+  },
+  {
+   "kind": "REPLACE",
+   "target": "### 2.6 The standalone neighbourhood document's recipe",
+   "lines": 4,
+   "words": 38
+  },
+  {
+   "kind": "REPLACE",
+   "target": "### 2.7 Lifecycle of every state field this volume adds (create · read · persist · regenerate · undo · migrate)",
+   "lines": 29,
+   "words": 1399
+  },
+  {
+   "kind": "REPLACE",
+   "target": "### 3.12 Determinism",
+   "lines": 43,
+   "words": 605
+  },
+  {
+   "kind": "REPLACE",
+   "target": "### 3.14 Constants (with provenance and table home)",
+   "lines": 77,
+   "words": 2142
+  },
+  {
+   "kind": "REPLACE",
+   "target": "### 3.16 Services other volumes call (`@plat/hood`)",
+   "lines": 101,
+   "words": 1642
+  },
+  {
+   "kind": "REPLACE",
+   "target": "#### 3.17.3 Raised ways in the close-up (J-V1.65)",
+   "lines": 35,
+   "words": 538
+  },
+  {
+   "kind": "REPLACE",
+   "target": "### 3.18 Edges — every mechanism at its limits (principle (11))",
+   "lines": 127,
+   "words": 4220
+  },
+  {
+   "kind": "REPLACE",
+   "target": "### 4.5 The clerk's view and the \"why\" providers (item 101; volume 10 builds the clerk)",
+   "lines": 50,
+   "words": 803
+  },
+  {
+   "kind": "REPLACE",
+   "target": "#### 5.1.4 Night and states",
+   "lines": 8,
+   "words": 121
+  },
+  {
+   "kind": "REPLACE",
+   "target": "### 5.3 Exports",
+   "lines": 19,
+   "words": 621
+  },
+  {
+   "kind": "REPLACE",
+   "target": "### 5.4 Find over the town — areas and gaps (item 120, the town's part; J-V1.102)",
+   "lines": 97,
+   "words": 1696
+  },
+  {
+   "kind": "REPLACE",
+   "target": "## 6 Performance budgets",
+   "lines": 52,
+   "words": 2281
+  },
+  {
+   "kind": "REPLACE",
+   "target": "## 7 Tests and acceptance bars",
+   "lines": 76,
+   "words": 7258
+  },
+  {
+   "kind": "REPLACE",
+   "target": "### 8.1 Where it slots into §16",
+   "lines": 57,
+   "words": 938
+  },
+  {
+   "kind": "REPLACE",
+   "target": "### 8.2 M5's work items, dependencies and estimates (person-weeks, expert; PLAUSIBLE)",
+   "lines": 38,
+   "words": 1373
+  },
+  {
+   "kind": "REPLACE",
+   "target": "### 8.3 `@plat/hood`'s contents (§14, item 505)",
+   "lines": 17,
+   "words": 207
+  },
+  {
+   "kind": "REPLACE",
+   "target": "## 9 Decisions",
+   "lines": 112,
+   "words": 8626
+  },
+  {
+   "kind": "REPLACE",
+   "target": "## 11 Owner questions",
+   "lines": 8,
+   "words": 183
+  },
+  {
+   "kind": "REPLACE",
+   "target": "## 12 CONFIRMED versus PLAUSIBLE",
+   "lines": 47,
+   "words": 794
+  }
+ ],
+ "orig_sha": "1480993bec654309ab5bddc9186d5d0fc9d67d912d4dbdf08e95668161c826de",
+ "new_sha": "fb2d14965bdcae74be2f7d138804e64aafe2ed5569e53f1aeb5d07ed52ac1901",
+ "words_before": 80754,
+ "words_after": 84670
+}

@@ -1,0 +1,53 @@
+{
+  "schema": "plat-landed-record/1",
+  "item": "M0-x-05",
+  "lane": "build/M0-x-05",
+  "lanes": ["build/M0-x-05"],
+  "wave": "flow-7",
+  "snapshotTaken": "2026-10-04T20:46:52.985Z",
+  "date": "2026-10-08T18:18:27.277Z",
+  "ownsSource": "docs/build/M0-work.json",
+  "owns": ["plat/packages/testkit/src/ladders/", "plat/packages/testkit/test/ladders/", "plat/bench/src/ladder-coverage/", "plat/docs/build/summaries/M0-x-05.json", "plat/bench/test/ladder-coverage/"],
+  "counts": { "created": 18, "changed": 1, "unchanged": 0, "deleted": 0 },
+  "files": [
+    { "path": "plat/bench/src/ladder-coverage/index.ts", "status": "changed", "sha256": "c5cf487c646c85cc320052f3b4d599925f8c08b04578f0f01fe10974f2ab2778", "size": 4834 },
+    { "path": "plat/bench/test/ladder-coverage/entry.test.ts", "status": "created", "sha256": "5ec2192b616b90a7ef064da962fff2baf720f62df97917a0e1c7471bd7664d99", "size": 6921 },
+    { "path": "plat/docs/build/summaries/M0-x-05.json", "status": "created", "sha256": "d4a65c0fcd78393c19c1ca159075ca4302b257243e943087cb550328f40d09b3", "size": 3101 },
+    { "path": "plat/packages/testkit/src/ladders/chain.ts", "status": "created", "sha256": "12301a4e0287b06caad36d9569144e2a6401bfb0657ba2e0c1ba02a1d82fbed4", "size": 13890 },
+    { "path": "plat/packages/testkit/src/ladders/coverage.ts", "status": "created", "sha256": "8ec0989addff262f15dc7edd31203146cf41ebedd5dc3e7674e258bf0a55cabb", "size": 6872 },
+    { "path": "plat/packages/testkit/src/ladders/fixtures.ts", "status": "created", "sha256": "c3d6a0a95abfef0c59e0adb73ff06b487fa821988b9e3f7940faa4ab4f7a7cca", "size": 19027 },
+    { "path": "plat/packages/testkit/src/ladders/index.ts", "status": "created", "sha256": "5fdbfee9c80d3707906ed6327ce8f97d9c7d09e17ed43d3ac23ca3caf7155ad6", "size": 1437 },
+    { "path": "plat/packages/testkit/src/ladders/readers.ts", "status": "created", "sha256": "107e1886fcb0acd3e36d55197a63198de6292d63048903718e510173370033a3", "size": 6767 },
+    { "path": "plat/packages/testkit/src/ladders/support.ts", "status": "created", "sha256": "257958c915ed9e900c057c606cb6333187048d8942014ef2632b2389628043ca", "size": 13773 },
+    { "path": "plat/packages/testkit/src/ladders/table.ts", "status": "created", "sha256": "8dabaaec5ef17e3626b8fea904106d643391fc90adee85f3d5660dd6b5c5555c", "size": 14409 },
+    { "path": "plat/packages/testkit/src/ladders/types.ts", "status": "created", "sha256": "8e6748e8fc56a510692ba6d91e0d9e71bc9f7b5c0616a3262cf71e5c75117a93", "size": 3860 },
+    { "path": "plat/packages/testkit/test/ladders/chain.test.ts", "status": "created", "sha256": "752834bccbd35862f73b7d52a26ccfb1d8f720a74e610fcb7da627de43acffd1", "size": 3194 },
+    { "path": "plat/packages/testkit/test/ladders/coverage.test.ts", "status": "created", "sha256": "489d087d874c1b7ea07b089434689806f1bdc8320c61402ce7bc226269612f31", "size": 9675 },
+    { "path": "plat/packages/testkit/test/ladders/plain.test.ts", "status": "created", "sha256": "d8664101f906ba470bc58e2ad090eaa05ef73475c84fc4d3fd5b21d4109d112f", "size": 1863 },
+    { "path": "plat/packages/testkit/test/ladders/rungs-growth.test.ts", "status": "created", "sha256": "1890c48f3fd8a0afed892a818b9d1d51983f793efd74fc20ca2347acc14595b4", "size": 9162 },
+    { "path": "plat/packages/testkit/test/ladders/rungs-river.test.ts", "status": "created", "sha256": "d62473cf285fb93a71ccf878a832141695ea397076fd603af8c8f3585239224a", "size": 7004 },
+    { "path": "plat/packages/testkit/test/ladders/rungs-route.test.ts", "status": "created", "sha256": "c182b95db8e03fdf4233eef29d288cec7b9ed70fa1ac894dde5bfde647a0c6d7", "size": 4516 },
+    { "path": "plat/packages/testkit/test/ladders/rungs-s8.test.ts", "status": "created", "sha256": "96ce562e013ace063c70e953780d9b77480b5b3f1a01caf88cf9a97d1ba3aec5", "size": 9875 },
+    { "path": "plat/packages/testkit/test/ladders/table.test.ts", "status": "created", "sha256": "df2646f8ff61f5fb81f59b0c0eba044b2c64362e4a11b4962c3c6fa1f05fe6be", "size": 9893 }
+  ],
+  "appends": [
+    {
+      "file": "plat/CLEAN-ROOM.md",
+      "ids": ["L-0335"],
+      "lines": ["2c49bae62754ee67"],
+      "removed": []
+    },
+    {
+      "file": "plat/docs/build/choices.md",
+      "ids": ["C-0269"],
+      "lines": ["60f8c66e78647ed6"],
+      "removed": []
+    },
+    {
+      "file": "plat/packages/testkit/src/index.ts",
+      "ids": ["ladders"],
+      "lines": ["a296cdc2fead47d5"],
+      "removed": []
+    }
+  ]
+}

@@ -1,0 +1,137 @@
+[
+ {
+  "id": "VAL-R3-07",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "owner": "pipeline",
+  "claim": "Same defect as VPC-R3-03 (verify-pipeline), in this lane's pipeline\u2013V07 seam. \u00a710.2 (d), rewritten this round (l. 15512-15516), admits on a way's carriageway 'only a `barricade` across it \u2026 \u2014 never a camp or any other part'. \u00a78.2's placement sentence (l. 13009-13011) states the same. V07 \u00a75.6 (7) (l. 3494-3495) puts a beast attack's 'stake barricades at its way crossings' where the village has no walled stretch. Those are `stakes` parts (\u00a78.2's glyph) on the carriageways of the ways the perimeter crosses. The base draws none there and V07 draws them.",
+  "required_change": "ONE FIX with VPC-R3-03, in its words: \u00a710.2 (d)'s carriageway rule admits `beast`'s `stakes` where the edge crosses a way (and the quarantine's `cordon`), and \u00a78.2's placement sentence and T-ER-27 follow. V07 \u00a75.6 (7) then stands as written.",
+  "reported_by": "verify-agree-layers-r3t"
+ },
+ {
+  "id": "VAL-R3-08",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "owner": "pipeline",
+  "claim": "\u00a710.2 (d)'s `neighbourhoods` bullet (l. 15555-15559) reads 'at THORP, HAMLET and VILLAGE V07's ends (V07). Every building of a returned district draws item 123's damage'. V07 \u00a75.6 (3)'s units are its ends, or in an end-less thorp its toft groups, and a unit's buildings are those on the plots `villageUnitPlots` gives it. The model's \u00a72.6 step 7 (l. 2104-2106) also says 'A building of a district a disaster look ruins'. \u00a710.2 (d)'s lead already reads every place at the village rungs 'as V07 \u00a75.6 (2) states', and that row's `neighbourhoods` is '(3)'s units'. So a builder reaches V07's units and nothing built changes, but the bullet and \u00a72.6 step 7 name a narrower set. The same family as VV12-r3-01 and VV12-r3-04.",
+  "required_change": "\u00a710.2 (d)'s bullet: 'at THORP, HAMLET and VILLAGE V07's ends (V07). Every building of a returned district draws' \u2192 'at THORP, HAMLET and VILLAGE V07 \u00a75.6 (3)'s units (`villageDisasterUnits`: its ends, or an end-less thorp's toft groups). Every building of a returned district, or on a returned unit's plots (`villageUnitPlots`), draws'. Model's END: \u00a72.6 step 7's 'A building of a district a disaster look ruins (item 122 (d))' \u2192 'A building on a unit a disaster look ruins (item 122 (d); \u00a710.2 (d)'s `neighbourhoods`, at the village rungs V07 \u00a75.6 (3)'s units)'.",
+  "reported_by": "verify-agree-layers-r3t"
+ },
+ {
+  "id": "VAT3-r3-01",
+  "severity": "major",
+  "kind": "EDGE-UNDEFINED",
+  "owner": "pipeline",
+  "claim": "R3-17's new trigger at \u00a74.11 *The clock* (4) (l.8352-8356) folds 'an epoch \u2026 at the week of each newly carried calamity that no other epoch falls on'; V08 \u00a73.6 (3) (l.1838-1847) bounds the year ends to '(W\u2080, W\u2081]' but not the calamities. A calamity newly carried at an absorb but dated at or before the last epoch's week W\u2080 (a backdated record, a host whose clock turned back and forward again) has no defined outcome: an epoch 'at its week' would follow an epoch already folded at a later week, with `years` (l.8237) zero or negative and its event outside `EpochInputs.events[].week` 'in (the previous epoch's week, week]' (l.8239), against \u00a76.1's order by week; no epoch of the absorb holds its week either. V08's edge row (l.2645) defines only the whole absorb before the last epoch (W\u2081 < W\u2080). V01 \u00a73.16 (2) (l.2336-2338) assumes such calamities exist ('one dated at or before the last absorbed week'). One builder folds an epoch out of week order, another drops the calamity from the epoch path (DR28's strike, V06 \u00a73.22 (1)'s aftermath and its deaths into the burial need lost), a third attaches it to the absorb's first epoch.",
+  "required_change": "\u00a74.11 *The clock* (4): after '\u2026 that no other epoch falls on (DR28: a destructive event is epoch content; V08 \u00a73.6 (3); J-V8.55)' add '\u2014 a newly carried calamity dated at or before the last epoch's week folds no epoch at its own week: it rides the first epoch the absorb folds (with none, the port folds one at the absorb's week for it), its `EpochInputs.events` entry at that epoch's first week (the last epoch's week + 1), its own tick kept in its receipt, so its hazard strikes and its deaths reach the burial need; with the absorb's week itself before the last epoch's (V08 \u00a73.6's degenerate row) it folds no epoch and its dated changes apply finished, noted'. V08 \u00a73.6 (3)'s calamity clause and its edge row (l.2645) cite it (the row naming the case among its degenerate inputs); T76-1's cadence clause (VPC-R3-01) adds a fixture of a calamity carried one year late.",
+  "reported_by": "verify-agree-time-r3t"
+ },
+ {
+  "id": "VEW-r3-01",
+  "severity": "blocker",
+  "kind": "EDGE-UNDEFINED",
+  "claim": "CATALOGUE-GAP (raised ways x part-0 ways laid after them; the catalogue pairs raised with edit and epoch only by keyword). Once a raised way stands, a part-0 way laid across its under-deck strip has no rule keeping it off the piers or out of a `vault` span. \u00a72.7's support step (3) slides piers off 'a part-0 way's corridor' (base l.2528-2529) and the span rule opens a span over a way (l.2575-2577) only for the ways standing when they run, and nothing re-runs them for a later way: only (6) for a trace or moat and \u00a74.11's carve for a channel (l.8128). The later ways carry no support obstacle: \u00a74.3's lattice costs (l.5559-5563: water, reservation, wall, existing fabric, land value, the class grade limit) name none; S5c's legality (l.5855-5860: spines, shores, wall setback bands, reservations, the stage boundary, walls, water) none; \u00a77.1's ground `drawWay` (l.10295-10297) and E-07 have no bend or refusal for a pier (V09's `bend.raised.*` keys cover raised strokes only). V06 runs `raisedWays` (step 10a) before `growth` (step 14; V06 l.1004, l.1008), and the growth's S5-S13 on new faces re-runs no support step. Only a raised course (V06 \u00a73.19 (5), l.2797), a new trace (V06 \u00a73.7.6 (5), l.1581-1582), stage 2's own laying (V01 \u00a73.17.3 (3), l.2469-2477: 'never along the strip, never through a pier') and S8's holes (\u00a74.6 l.6375-6379) keep off the piers. So an epoch growing a stage over a standing aqueduct's or viaduct's land (H-AQUA's case), an epoch route re-solve, or a hand road drawn across a viaduct lays a street over pier rings or through an arch-vault chamber. Masonry piers stand every 8-15 m, each 0.2 of its span wide (V11 l.3949), so most such crossings meet one. Nothing catches it: \u00a75.3 holds no support invariant, T110-2's 'zero junctions' passes, and S8's holes keep only plots out. A street through a masonry pier is an impossible result on a CITY epoch's common path, the same class as 'a support standing in water'.",
+  "required_change": "Pipeline: \u00a74.3 *Lattice and costs* adds: 'A standing raised way's support rings and the under-deck strips of its `vault` spans are impassable to every route and growth proposal on ground part 0. Its under-deck strip is crossed only under an `open` span whose clear width holds the way's corridor + `raisedWays.structure.clearWidthM` and whose soffit meets \u00a72.7's clearance for the crossed class, within \u00b1 `raisedWays.structure.squareDeg` of square to the deck. The route's crossing shifts along the strip to the nearest such span, else the route takes another course by F-ROUTE's ladder.' \u00a74.4 S5c's legality adds: 'a proposal meeting a standing raised way's strip anywhere else is deflected along it to the nearest such span, or ends at the strip as at a reservation.' This is the one rule V01 \u00a73.17.3 (3) states for stage 2. Its two cells move to V11 \u00a73.24.2's `raisedWays.structure` (`clearWidthM` 1 m, `squareDeg` 30\u00b0), and V01 \u00a73.17.3 (3) cites \u00a74.3 (principle (9): one mechanism; equivalence: V01's crossing rule, ladder and values unchanged). Ends (R3-01): determinism \u00a77.1, a ground `drawWay` or a moved way crossing a standing raised way's strip elsewhere is bent at its dry run to the nearest such span (E-07's row; V09 \u00a74.9 `bend.raised.underSpan`); V06 \u00a73.6 and \u00a73.19 cite \u00a74.3 for the growth and route re-solves; scope \u00a713.2 T110-2 adds 'an H-AQUA epoch growing a stage over a standing aqueduct's land, an epoch route re-solved under a viaduct, and a hand road drawn across one: 0 way corridors over a support ring or a `vault` span, every crossing under an `open` span'. At generation, VEW-r3-02's re-run slides the piers off the ways S5b and S5c grew.",
+  "owner": "pipeline",
+  "reported_by": "verify-edges-world-r3t"
+ },
+ {
+  "id": "VKr3-01",
+  "severity": "major",
+  "kind": "WIRING",
+  "claim": "\u00a73.2 (9) (l. 3612\u20133615, this round) and \u00a72.7 RaisedFoot (l. 2310\u20132311) hand a raised way's ring-end foot at a frame growth to 'the raised way's re-derivation', which extends the deck to the new ring and re-places both ends of that foot; \u00a73.2 (9) also grows each raised part by (a) and (b), (a) clearing its region faces' finer content. \u00a74.11 'The rung at an epoch' (l. 8372\u20138392), the epoch's one statement of what runs after the growth, names S4, S12a and the re-deriving stages of the hinterland, districts, underground, buried and dug parts, but no raised part and no raised way's re-derivation. A builder of \u00a74.11 runs nothing there: the deck stays ending on the old raised ring while its ground end is already on part 0's new ring, and T110-2's 'after \u00a74.11 both ends of its ring-end foot on the new rings' (l. 18219\u201318220) cannot pass. One-ended hook (principle (7)). \u00a74.11 (l. 8382) and J-A81.41 also still say 'an L0 batch replacing the margin chain', against part 0's split (repair-r3-kernel.md HAND-OFFS 1\u20132, unwritten).",
+  "required_change": "(1) \u00a74.11, l. 8392: after '`corridorUnion` (\u00a73.7), which draws nothing' and before the closing ')', insert '; on each raised part of the ground layer \u00a73.2 (9) grows, its raised way's re-derivation (\u00a73.4) for that part's cleared faces, which also extends a deck ending on the old ring to the new ring and re-places both ends of that foot (\u00a72.7 `RaisedFoot`)'. (2) \u00a74.11, l. 8382: replace 'an L0 batch replacing the `margin` chain,' with 'an L0 batch replacing the `margin` chain (on part 0 two, a raised way's ring-end foot moved between them, \u00a73.2 (9)),'. (3) Rationale J-A81.41: replace 'an L0 batch that replaces the margin chain' with 'an L0 batch that replaces the margin chain (on part 0 two where a raised way's foot lies at a deck end on the old ring)'.",
+  "owner": "pipeline",
+  "reported_by": "verify-kernel-r3t"
+ },
+ {
+  "id": "VM-R3T-04",
+  "severity": "major",
+  "kind": "EDGE-UNDEFINED",
+  "owner": "pipeline",
+  "claim": "\u00a72.7's new support step (6) has a trace that would leave a crossing's clear span past `maxClearSpanM` (or a pier past `maxPierM`) give way, at generation by 'S5a: its stage trace takes the next lattice boundary node off that span, reported' (l. 2564-2565). \u00a74.4 S5a, the stage trace's home (named in the model's round-3 HAND-OFFS), states none of it: which node is next, in what order, how many are tried, the warning key, or the outcome where none fits. None fits wherever the ground the outer span must clear is wider than the bound all round the ring: a timber course (maxClearSpanM timber 20 m, V11 \u00a73.24.2) crossed by a stage-2 ring with `moat: 'all'` at a c14 or c15 width (8-16 / 10-18 m, V11 \u00a73.19.1) beyond a 2-5 m berm and the band's half (\u00a74.8) \u2014 up to about 24.5 m from the crossing station to the first lawful pier, the same at every node. Step (6) forbids dropping the standing raised way and forcing the span, and S5a has no later epoch to wait for: an undefined outcome on a generation path (CITY and METROPOLIS, item 110's raised ways, an outer moat).",
+  "required_change": "\u00a74.4 S5a *Outer moats*, after '(S7 lays both, \u00a74.8 *Gates*).': 'Where \u00a72.7's support step (6) finds a crossing of a standing raised way whose clear span would pass `maxClearSpanM` or whose pier would pass `maxPierM`, S5a moves that crossing to the stage boundary's lattice nodes off that span, nearest first along the boundary (ties to the lower node index), each tried once, between the gates on either side, reported (`W_RAISED_CROSSING`); where none fits, the stage's outer strip is not laid under the deck \u2014 its glacis line and the moat's channel stop on either side of the raised way's under-deck strip, the channel ending there against the ground as against a berm (\u00a74.2 S3 (10)) \u2014 so the outer span clears only the band's half and the berm, reported; the raised way and the stage's wall both stand.' \u00a72.7's step (6) cites it ('S5a: \u00a74.4 *Outer moats*'s walk and last rung'); \u00a713.2's T110-2 gains (scope's end) 'a CITY c15 town with `moat: 'all'` whose S4 timber viaduct is crossed by stage 2's ring at the widest moat row: the crossing found by the walk or the strip stopped at the deck, every clear span within 20 m, no support in water, the viaduct kept, reported'. (The adjudicator may rule another last rung, provided it keeps the raised way, lays no span or pier past its bound and is stated with its warning.)",
+  "reported_by": "verify-model-r3t"
+ },
+ {
+  "id": "VM-R3T-08",
+  "severity": "minor",
+  "kind": "WIRING",
+  "owner": "pipeline",
+  "claim": "\u00a72.7's support step (3) (l. 2547-2548) makes S7's generation row read a `breached` draw on the band's stretch under a crossing station as `worn` while the deck stands; \u00a74.8 *Condition at generation* (l. 7541-7549), the row's home, cites \u00a72.7 for the castle's welded stretch but not for this exception (named in the model's round-3 HAND-OFFS).",
+  "required_change": "\u00a74.8 *Condition at generation*, after 'a `patched` run's material from `walls.patchMaterials` by the enceinte's kind and culture': '\u2014 a `breached` draw on the band's stretch under a raised way's crossing station read as `worn` while its deck stands (\u00a72.7's support step (3)) \u2014'.",
+  "reported_by": "verify-model-r3t"
+ },
+ {
+  "id": "VM-R3T-10",
+  "severity": "minor",
+  "kind": "NEW-PROBLEM",
+  "owner": "pipeline",
+  "claim": "VRC2T-16's end at \u00a710.2 (g) (l. 15581-15583) keeps '(model \u00a72.9; the limit's stop 0 where nothing fits, \u00a78.8)': 'model' is the coherence pass's unit key, not a design home (R3-02: design text names the design home).",
+  "required_change": "\u00a710.2 (g): '(model \u00a72.9; \u2026' \u2192 '(\u00a72.9's *The crisis framing*; \u2026'.",
+  "reported_by": "verify-model-r3t"
+ },
+ {
+  "id": "VPC-R3-02",
+  "severity": "major",
+  "kind": "WIRING",
+  "owner": "pipeline",
+  "claim": "\u00a710.2 *Crisis looks*' new lead (l. 15482\u201315486, R3-15) states the outcome before each service the looks read has landed \u2014 V01's W10 (M5), V06's E2 (M6-E) for `frontierFor`, V07's step \u2014 but omits V06's `crisisLookYields`, built in the same E2 (V06 W93; V06 \u00a78 l. 4279). Its readers land earlier or apart: \u00a78.2's disaster row at M5 with W10 ('a district's `ruinTone` stands while any of its buildings still draws the look', l. 13013\u201313016) and V02's ruined exterior at M6. \u00a716's M6-E 'runs beside M5', so between W10 and E2 a standing disaster look reads an input with no producer and no stated outcome \u2014 the class R3-15 graded MAJOR for VPC-R2-11. The rule reads only base records (`Building.works`, \u00a72.6; \u00a74.11 *Works* (9)).",
+  "required_change": "\u00a710.2 *Crisis looks*' lead, after '\u2026by nearness to its gate (V06 \u00a73.22 (2) (d)'s no-frontier answer);', add: 'until V06's E2 (M6-E) a building leaves the `disaster` look by V06 \u00a73.22 (3)'s rule read directly over the base's records \u2014 a Works other than a `decay` Works begun on it by the view's week and not finished before the overlay's `sinceWeek` (`Building.works`, \u00a72.6; the lifecycle's weeks once a record retires, \u00a74.11 *Works* (9)), never for a preview \u2014 so \u00a78.2's `ruinTone` and the buildings' damage read one answer from the look's first milestone;'.",
+  "reported_by": "verify-pipeline-r3t"
+ },
+ {
+  "id": "VPC-R3-03",
+  "severity": "major",
+  "kind": "EDGE-UNDEFINED",
+  "owner": "pipeline",
+  "claim": "\u00a710.2 (d)'s rewritten carriageway rule (l. 15514\u201315516) admits on a way's carriageway 'only a `barricade` across it ((f)'s `raiders` barricaded roads and `rebellion` street barricades, \u00a78.2's `blockade` barricade; item 122 (b)) \u2014 never a camp or any other part'. Item 122 (b) names two more barriers: the beast attack's 'stake barricades' and disease's 'cordon'. V07 \u00a75.6 (7) (l. 3495) puts 'stake barricades at its way crossings'; V01 \u00a73.16 (l. 2325) reads `affectedQuarter` as 'the quarter its cordon closes', yet a cordon that may not cross the ways entering the quarter cannot close it, and no text states the cordon's course. Two builders draw a quarantine cordon differently (closed across the streets, against \u00a710.2 (d) and T-ER-27's 'none on a carriageway but a barricade's'; or gapped at every street, against V01's 'closes'), and V07's stakes contradict the base.",
+  "required_change": "\u00a710.2 (d), l. 15514\u201315516: read 'and on a way's carriageway only a barrier across it \u2014 a `barricade` ((f)'s `raiders` barricaded roads and `rebellion` street barricades, \u00a78.2's `blockade` barricade), `beast`'s `stakes` where the edge crosses a way, and the quarantine's `cordon` where it crosses a way into its quarter; item 122 (b) \u2014 never a camp or any other part'. \u00a710.2 (f) `quarantine`: '\u2026 marked doors and a cordon closing the `affectedQuarter` \u2014 along its boundary on the quarter's side of each bounding way's corridor, across each way that enters it'. END at rendering: \u00a78.2's placement sentence (l. 13006\u201313011) names the same three barriers, and T-ER-27's 'none on a carriageway but a barricade's' reads 'but a barricade's, a `stakes` barricade's or a cordon's across it', with a quarantine fixture whose quarter ways enter.",
+  "reported_by": "verify-pipeline-r3t"
+ },
+ {
+  "id": "VPC-R3-06",
+  "severity": "minor",
+  "kind": "BROKEN-REFERENCE",
+  "owner": "pipeline",
+  "claim": "\u00a74.8 *Gates*' round-3 sentence (l. 7566\u20137567) reads 'the part-0 way beneath, if any, taking its own ground gate by the gate law (\u00a74.4 *Outer moats*)'. \u00a74.4 *Outer moats* states the ground gate, not the gate law, whose home is \u00a74.2 S3 (4) (B5, item 46).",
+  "required_change": "\u00a74.8 l. 7567: 'by the gate law (\u00a74.4 *Outer moats*)' reads 'by the gate law (\u00a74.2 S3 (4); \u00a74.4 *Outer moats*)'.",
+  "reported_by": "verify-pipeline-r3t"
+ },
+ {
+  "id": "VPC-R3-07",
+  "severity": "minor",
+  "kind": "BROKEN-REFERENCE",
+  "owner": "pipeline",
+  "claim": "\u00a710.2 (d)'s `approachRoads` bullet (R3-14's binding text, l. 15532) cites '(V01 \u00a73.16 (2))' for `campLand`'s verges. In V01 \u00a73.16 the numbered item (2) is `disasterSource`'s **The calamity** (V01 l. 2333); the verges are clause (2) inside the `campLand` entry (V01 l. 2375). \u00a710.2 (c)'s 'V01 \u00a73.16 (5)' in the same subsection rightly means the numbered (5), so the form misleads.",
+  "required_change": "\u00a710.2 (d) `approachRoads`, l. 15532: '(V01 \u00a73.16 (2))' reads '(V01 \u00a73.16's `campLand` (2))'.",
+  "reported_by": "verify-pipeline-r3t"
+ },
+ {
+  "id": "VV12-r3-05",
+  "severity": "minor",
+  "kind": "BROKEN-REFERENCE",
+  "owner": "pipeline",
+  "claim": "\u00a710.2 (d)'s `approachRoads` bullet (l. 15532, R3-14's binding text) cites the verges as '(V01 \u00a73.16 (2))'. V01 \u00a73.16's numbered item (2) is `disasterSource`'s '**The calamity**'; the verges are `campLand`'s inline part (2) in the next bullet. The reference resolves, to the wrong rule (repair-r3-V01's hand-off (2)). Beside it, \u00a710.2 (d)'s `neighbourhoods` bullet reads 'at THORP, HAMLET and VILLAGE V07's ends (V07)', where V01 \u00a73.16 (1) now reads V07 \u00a75.6 (3)'s `villageDisasterUnits`, ends or toft groups.",
+  "required_change": "\u00a710.2 (d)'s `approachRoads` reads \"(V01 \u00a73.16's `campLand` (2))\" for \"(V01 \u00a73.16 (2))\"; its `neighbourhoods` reads \"at THORP, HAMLET and VILLAGE V07 \u00a75.6 (3)'s units (its ends, or an end-less thorp's toft groups)\" for \"at THORP, HAMLET and VILLAGE V07's ends (V07)\".",
+  "reported_by": "verify-vol-V01-V02-r3t"
+ },
+ {
+  "id": "VV56-r3-03",
+  "severity": "major",
+  "kind": "EDGE-UNDEFINED",
+  "owner": "pipeline",
+  "claim": "\u00a710.2 (d)'s `approachByGate` (l. 15538\u201315542, VV56-r2-07's fix) ranks the faces 'nearest V06's `frontierFor(doc, h)`, `h` the households the sequential roster adds between the present population and that population plus the camp's heads'. The roster's delta is prefix-stable over persons (\u00a74.11, l. 7880), so a camp of fewer heads than one household \u2014 a dossier group's size of a few heads, by which (c) sizes the camp \u2014 can add 0 households; V06 \u00a73.22 (2) d. answers 'Zero households answer none', and 'nearest' an empty answer has no outcome (the bullet's fallbacks cover only 'no main approach road'). One builder ties every face and takes the keyed draw, another falls to the reference point: two placements.",
+  "required_change": "\u00a710.2 (d)'s `approachByGate`: '\u2026 `h` the households the sequential roster adds between the present population and that population plus the camp's heads (its headcount by (c), else its camped ground \u00f7 `areaPerHeadM2`), at least 1 \u2014 a camp smaller than one household seated where the next household would be \u2026'; T-ER-27 adds a refugee camp of two heads (the overflow belt by the gate, never undefined).",
+  "reported_by": "verify-vol-V05-V06-r3t"
+ },
+ {
+  "id": "VV1112-r3-02",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "owner": "pipeline",
+  "claim": "\u00a710.2 (c), written this round (l. 15503\u201315505): \"a share s of a place's n units takes round(s \u00d7 n) clamped to [1, n] where s > 0 and none where s \u2264 0, V01 \u00a73.16 (5)'s count, one rule for every place at every rung.\" V01 \u00a73.16 (5), the home of the disaster's units and unchanged since before this round, draws \"the first max(k, |`matched`|) units of the order \u2014 all of a shorter fire order, the shortfall reported\". For the `neighbourhoods` place the two units state two outcomes when a calamity's matched targets outnumber k or a fire's order ends short (R3-03 (b)); \u00a710.2 (d)'s \"the calamity's `targets` first\" does not decide it. V12's new count copied the base sentence (VV1112-r3-01).",
+  "required_change": "\u00a710.2 (c): \"V01 \u00a73.16 (5)'s count, one rule for every place at every rung.\" \u2192 \"V01 \u00a73.16 (5)'s count, one rule for every place at every rung; the `neighbourhoods` place then draws at least every matched target (max(k, |`matched`|)) and, by fire, stops where its order ends, the shortfall reported (V01 \u00a73.16 (5)).\"",
+  "reported_by": "verify-vol-V11-V12-r3t"
+ }
+]

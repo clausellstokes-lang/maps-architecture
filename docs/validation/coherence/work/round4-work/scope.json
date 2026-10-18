@@ -1,0 +1,119 @@
+[
+ {
+  "id": "VAP-r3-09",
+  "severity": "minor",
+  "kind": "MATRIX-GAP",
+  "owner": "scope",
+  "claim": "Round 3 gave volume 4 a part of item 122, the disaster look over a storey below 0 (V04 \u00a71.2 l. 152; U5 'the look over a storey below 0'; T-V4-82 (i), 'g item 122 (d)'s look below ground'). The base's lists of item 122's units omit it: \u00a70.2's item-122 row (base l. 261) 'volumes 1, 2, 3, 6, 7, 8, 9, 10, 11 and 12', and \u00a713.2's item-122 runs list (l. 18412\u201318417), whose volumes that 'test their own parts' (T-V1-60, T-V2-60, T-V8-60, T-V10-52) leave out T-V4-82 (i); V12 \u00a73.15.12's head repeats that list (l. 2679\u20132682). A list omitting an id the test names: nothing built changes.",
+  "required_change": "\u00a70.2's item-122 row reads '\u2026 volumes 1, 2, 3, 4, 6, 7, 8, 9, 10, 11 and 12'; \u00a713.2's item-122 runs list reads '\u2026 volume 1's units and land (T-V1-60), volume 2's ruined look, with T122-1 and T122-7's registration (T-V2-60), volume 4's look below ground (T-V4-82 (i)), volume 8's forces (T-V8-60) and volume 10's explanations (T-V10-52) test their own parts'. (V12's end: \u00a73.15.12's head adds V04's T-V4-82 (i) beside V01's T-V1-60.)",
+  "reported_by": "verify-agree-proof-r3t"
+ },
+ {
+  "id": "VAT3-r3-03",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "owner": "scope",
+  "claim": "T114-4 (\u00a713.2 l.18280-18281) reads 'recovery replaces patches oldest first, by each run's epoch of last change (volume 12's spec `T114g.oldestFirst`)'. \u00a76.1 orders epochs by their weeks and numbers a replay epoch `0x8000_0000 + r`, above every live epoch's 1, 2, \u2026; V06 \u00a73.7.7 (3) (l.1636-1638), V06 \u00a73.21 (l.3302) and T-V6-73 (l.4140) replace 'oldest patch first (by the week of the run's last-change epoch \u2014 `EpochRecord.inputs.week` of its `conditionEpoch`, generation's epoch 0 first, a replay epoch's week before every live epoch's, \u00a76.1 \u2026)'. Read by `conditionEpoch`'s number, T114-4 puts every replay-era patch after every live-era one on a history-first document \u2014 the reverse order \u2014 so the bar fails a correct build or passes the wrong order (J141: a bar that passes a wrong result).",
+  "required_change": "T114-4: 'by each run's epoch of last change' \u2192 'by the week of each run's last-change epoch (`EpochRecord.inputs.week` of its `conditionEpoch`; generation's epoch 0 first, every replay epoch's week before every live one's \u2014 \u00a76.1, V06 \u00a73.7.7 (3)), never the epoch's number'; the T114 group's runs list keeps T-V6-73's history-first clause as its replay case.",
+  "reported_by": "verify-agree-time-r3t"
+ },
+ {
+  "id": "VDC3-10",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "\u00a713.2's T124-9 (l.18443\u201318444) reads \"the timeline replays from its session seed and clock\". \u00a76.1 *The weather stream* now makes the timeline a function of the session seed, view time, the climate row, year position, sites and view hour in force at each moment, and the presses. \u00a76.5 (9) runs under T124-9 the scripted year-position change, a press at a moment with no live kind and a view hour crossing a kind's `hours`. The bar's head names none of them. This is bookkeeping (R3-03 (a)).",
+  "required_change": "\u00a713.2's T124-9: \"the timeline replays from its session seed and clock\" \u2192 \"the timeline replays from its session seed, clock and presses with the climate row, year position, sites, `light` mode and view hour in force at each moment (\u00a76.1 *The weather stream*) \u2014 a year-position change from a week with no live kind into a live one and back, a press at a moment with no live kind and a view hour crossing a kind's `hours` among its fixtures\".",
+  "owner": "scope",
+  "reported_by": "verify-determinism-r3t"
+ },
+ {
+  "id": "VKr3-03",
+  "severity": "major",
+  "kind": "EDGE-UNTESTED",
+  "claim": "\u00a713.1's kernel set (l. 17422\u201317423) grows a frame only in 'a frame growth whose frame and arena would be no larger (nothing runs)' and 'a village \u2192 town fold'; T81-1 (l. 18100, a band crossed upward) and T110-2 grow across a crossing's step. No fixture moves a side by no more than attractCm, the edge VKr3-02 defines (principle (11): an untested edge is a major).",
+  "required_change": "\u00a713.1, l. 17422: replace 'a frame growth whose frame and arena would be no larger (nothing runs)' with 'a frame growth whose frame and arena would be no larger (nothing runs), and one whose law would move a side out by at most `attractCm` \u2014 a CITY frame kept through a decline below 10 000 people, re-crossing two people above its peak (frame and arena kept, nothing runs, no chain stripped; \u00a73.2 (9))'.",
+  "owner": "scope",
+  "reported_by": "verify-kernel-r3t"
+ },
+ {
+  "id": "VM-R3T-05",
+  "severity": "major",
+  "kind": "EDGE-UNTESTED",
+  "owner": "scope",
+  "claim": "No bar exercises \u00a72.7 support step (6)'s giving way. T110-2's step-(6) fixtures (an S4 viaduct crossed by stage 2's moated ring; an epoch circuit across a standing aqueduct; l. 18227-18230) and V06's T-V6-47 are crossings that fit. V06's 'retraces by the margin rule \u2026 and then waits for a later epoch, reported (`walls.waited`)' for a raised-way crossing that cannot keep its bounds (V06 \u00a73.7.6 (5), l. 1590-1593) and a hand `drawWall`'s bend 'to the nearest one whose crossing fits' (l. 2566-2567) have no fixture (no T-V6 bar names `walls.waited`).",
+  "required_change": "\u00a713.2's T110-2 adds 'an epoch circuit across a standing timber elevated road whose crossing cannot keep its clear spans within `maxClearSpanM`: the circuit retraced by the margin rule, then waiting (`walls.waited` counted), the raised way's stations and keys unchanged; a hand `drawWall` across it bent to the nearest trace whose crossing fits, named in one line (item 101 R2)'; V06's T-V6-47 takes the epoch clause on H-AQUA (V06's end).",
+  "reported_by": "verify-model-r3t"
+ },
+ {
+  "id": "VPC-R3-01",
+  "severity": "major",
+  "kind": "EDGE-UNTESTED",
+  "owner": "scope",
+  "claim": "\u00a74.11 *The clock* (4) (l. 8352\u20138357, round 3, R3-17) now folds an epoch at three triggers: each 52-week boundary, a population move past the roster tolerance, and the week of each newly carried calamity no other epoch falls on (V08 \u00a73.6 (3); J-V8.55). Its bar, \u00a713.2's T76-1 cadence clause (l. 17996\u201317998), still names two ('an epoch folds at each 52-week boundary and at a population move past the roster tolerance, none on a 2 % drift'), and no volume test covers a mid-year calamity fold (T-V8-42's calamity rides a week-52 year end; T-V6-25 and T-V6-59 test cadence independence only). An implementation without the calamity trigger passes every bar. repair-r3-pipeline listed this as a new hand-off to scope; it is unwritten.",
+  "required_change": "\u00a713.2 T76-1's cadence clause (l. 17997) reads: 'an epoch folds at each 52-week boundary, at a population move past the roster tolerance and at the week of each newly carried calamity no other epoch falls on, none on a 2 % drift, with `years` = \u0394weeks \u00f7 52 \u2014 on fixtures adding a calamity carried at a mid-year week with no population crossing (one epoch at its week, the calamity in its `EpochInputs.events`), one at a week-52 boundary (no second epoch) and one inside a coarsened catch-up (riding the coarse epoch that holds its week, V06 \u00a76.8 (6))'.",
+  "reported_by": "verify-pipeline-r3t"
+ },
+ {
+  "id": "VRC3T-03",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "owner": "scope",
+  "claim": "T121-2 (\u00a713.8, l. 18384\u201318386): 'no level change while a pan, zoom or drag is in progress \u2014 a change lands only at \u00a78.8's settle \u2014'. Under \u00a78.8's rule as repaired (VRC2T-08; J-A121.07) a change decided while the view is idle lands at once, with no settle event, and T-ER-26's bar runs T121-2 with 'with the view idle the DPR change and the step-down each applied within one frame of the decision (T121-2, T121-7)'. The two bars disagree on the idle case; T121-2 as written fails a correct implementation.",
+  "required_change": "T121-2's dash clause reads '\u2014 a change lands only while the view is settled: at once when no gesture runs, at \u00a78.8's settle after one \u2014'.",
+  "reported_by": "verify-rendering-r3t"
+ },
+ {
+  "id": "VCS-r3-01",
+  "severity": "minor",
+  "kind": "COHESION",
+  "owner": "scope",
+  "claim": "\u00a713.2's take-over table, calibration row (itemised this round by VAP-r2-01's text), lists less than V12's tests run. T-V12-46 is given \"T113-2 and T113-5's registration\" but also holds `item113.history` (T113-7's pin; V12 l. 3151). T-V12-47 is given \"T114-4 \u2013 T114-7\" but also holds `item114.condition` (T114-8's pin) at generation and over epochs (V12 l. 3152). T-V12-49 is given \"T117-2 and T118-2 \u2013 T118-6\" but also holds `item117.season` (T117-1), `item118.festival` (T118-1) and the specs `T117i.arid`, `T117i.ice` and `T117i.styles` (T117-4, T117-5, T117-7) (V12 l. 3154). The same section's runs lists say volume 12 runs \"the specs, the pin and the register lines (T-V12-47)\" and \"the specs and the pin (T-V12-49)\", so table and lists disagree (R3-26: they carry the same ids). Bookkeeping (R3-03 (a)).",
+  "required_change": "In \u00a713.2's take-over table, the calibration row's clauses read \"T113-2, T113-5's registration and T113-7's pin (T-V12-46); T114-4 \u2013 T114-8 (T-V12-47); \u2026 T117-1, T117-2, T117-4, T117-5, T117-7 and T118-1 \u2013 T118-6 (T-V12-49)\", the rest unchanged. Item 113's runs list reads \"\u2026 volume 12 their register lines, T113-7's pin and the replay's budget (T-V12-46)\". V12's heads follow (VCS-r3-02).",
+  "reported_by": "verify-scope-r3t"
+ },
+ {
+  "id": "VCS-r3-06",
+  "severity": "minor",
+  "kind": "WIRING",
+  "owner": "scope",
+  "claim": "T110-2's epoch circuit clause (new this round, VEW-r2-01's END: an epoch circuit across a standing aqueduct, one crossing station, 0 piers in a setback, glacis, berm or moat, the raised way kept) runs, by \u00a713.8 (l. 19050), \"on volume 6's engine with M6-E's E3\". Yet no volume test takes it by name: the take-over table's evolution row lists no T110 bar, the T110 group has no runs list for it, and T-V6-47 (V06 l. 4114) names no base bar, though it runs that case in substance (H-AQUA: an aqueduct crossed by a new circuit and a later contraction). Bookkeeping (R3-03 (a)).",
+  "required_change": "In \u00a713.2's take-over table, the evolution row adds \"T110-2's epoch circuit clause (T-V6-47),\" after \"T108-4 over epochs (T-V6-45),\". The T110 group adds \"Volume 6 runs T110-2's epoch circuit clause on its engine (T-V6-47).\" after T110-7's registration list. V06's end: T-V6-47's text adds \"(takes T110-2's epoch circuit clause)\".",
+  "reported_by": "verify-scope-r3t"
+ },
+ {
+  "id": "VCS-r3-08",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "owner": "scope",
+  "claim": "T122-6 (base l. 18407\u201318408) bars a look \"on water, in a gate's passage or over a label's keep-out\" with the statistic `crisis.blocked` 0. That statistic, rewritten this round (V12 \u00a73.15.12 l. 2706 and T-V12-54, VRC2T-04 per R3-14 (3)), is \"`crisis.blocked` 0 \u2014 water, a gate's passage and a label's keep-out, and a way's carriageway save a `barricade` across it\", the rule \u00a710.2 (d) states (l. 15513\u201315516) and T-ER-27 tests. The bar's one statement is narrower than its own statistic. Nothing tested changes.",
+  "required_change": "T122-6 reads \"(T122-6) nothing stands on water, in a gate's passage or over a label's keep-out, and on a way's carriageway only a `barricade` across it (\u00a710.2 (d)), and several crises share the outskirts by `priority` under `densityCap` (\u00a710.2's placement; `crisis.blocked` 0)\".",
+  "reported_by": "verify-scope-r3t"
+ },
+ {
+  "id": "VV34-r3-04",
+  "severity": "minor",
+  "kind": "COHESION",
+  "owner": "scope",
+  "claim": "V04 \u00a75.6 (6), \u00a78's U5 row and J-V4.130 land item 123's damage below ground 'at the later of U5 and V03's P4' (VV34-r2-06's fix); \u00a716's M6-U row (base l. 19996) still reads 'item 123's damage below ground at U5'. V04's HAND-OFFS name it.",
+  "required_change": "\u00a716's M6-U row, content cell: 'item 123's damage below ground at the later of U5 and V03's P4 (V04 \u00a75.6 (6))'.",
+  "reported_by": "verify-vol-V03-V04-r3t"
+ },
+ {
+  "id": "VV78-r3-05",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "owner": "scope",
+  "claim": "V08's round-3 fallbacks and new note kind are not carried by \u00a714's port types, the shapes their writers fill. (a) `PortNote.kind` (l. 19402\u201319404) lists `field_fallback` but not V08 \u00a72.4's new `line_differs` (class `report`, V08 \u00a74.6). `field_fallback`'s comment reads 'a field \u2026 that the dossier lacks or leaves empty', while V08 now notes an unreadable value too. (b) `DossierDigest.settlement.key`'s comment reads '`settlement:<id>`, the dossier's own id (\u00a77.7 item 12)' and `seed`'s 'H32(\"plat:sf-seed\" \u2016 the dossier's seed)'. Port item 2's ONE-WAY SEED sentence is the same. Yet V08 \u00a72.4's `id` and `_seed` rows fill them with the bound or minted key (`settlement:map:<mapId>`) and with H32 of the key. repair-r3-V08 hands both to scope. The key law's conflict itself is verify-determinism-r3t's VDC3-03 (major, determinism), not raised again; this is its \u00a714 bookkeeping, one fix with it.",
+  "required_change": "\u00a714: `PortNote.kind` adds `|'line_differs' /* item 125 (e): HostContext.line names a registered, accepting line the dossier's own selection did not take (V08 \u00a72.4) */`, and `field_fallback`'s comment 'that the dossier lacks or leaves empty' \u2192 'that the dossier lacks, leaves empty or gives unreadable'. `DossierDigest.settlement.key`'s comment \u2192 '`settlement:<id>`, the dossier's own id, else V08 \u00a72.4's `id` fallback (\u00a77.7 item 12)'. `seed`'s comment \u2192 'H32(\"plat:sf-seed\" \u2016 the dossier's seed, else \u2016 the settlement key \u2014 V08 \u00a72.4's `_seed` row): derived, never the host's seed (below)'. Port item 2's ONE-WAY SEED sentence adds after '\u2016 the dossier's seed)': ' \u2014 an empty or unreadable seed read as the settlement key (V08 \u00a72.4) \u2014'. One fix with VDC3-03.",
+  "reported_by": "verify-vol-V07-V08-r3t"
+ },
+ {
+  "id": "VV1112-r3-08",
+  "severity": "minor",
+  "kind": "WIRING",
+  "owner": "scope",
+  "claim": "\u00a713.2's T122-6 (l. 18407\u201318408) gives one statistic for both its clauses: \"nothing stands on water, in a gate's passage or over a label's keep-out, and several crises share the outskirts by `priority` under `densityCap` (\u00a710.2's placement; `crisis.blocked` 0)\". V12 now measures the sharing clause with `crisis.share` (V12 \u00a73.4.2, \u00a73.15.12, T-V12-54), `crisis.blocked` holding only the placement exclusions. The bar omits the statistic its own clause runs on (bookkeeping, R3-03 (a)). It composes with scope's VCS-r3-08, whose proposed T122-6 text keeps \"`crisis.blocked` 0\" alone.",
+  "required_change": "T122-6's parenthesis reads \"(\u00a710.2's placement; `crisis.blocked` 0 and `crisis.share` 0)\", in VCS-r3-08's rewritten T122-6 the same.",
+  "reported_by": "verify-vol-V11-V12-r3t"
+ }
+]

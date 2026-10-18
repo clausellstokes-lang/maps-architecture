@@ -1,0 +1,5016 @@
+{
+ "record": "docs/calibration/E14-spike-derived-graph.md",
+ "workItem": "W-14",
+ "lane": "m1/W-14",
+ "spike": "S-V12-2",
+ "script": "research:baselines/spike_derived_graph.py",
+ "scriptSha256": "80ee0d364a8a",
+ "uses": {
+  "derived_graph.py": "6eccbc9b7ad2",
+  "measure_ftg.py": "c6d2099282c5",
+  "measure_ng.py": "9d7c6b5c88ff",
+  "measure_mfcg.py": "f907f2003d7b"
+ },
+ "python": "3.9.6",
+ "inputs": {
+  "E09-mfcg-derived-graph.json": "512e682c6a16",
+  "E09-mfcg-derived-graph.seeds.json": "9f23b5fbd638",
+  "e09ScriptSha256": "6eccbc9b7ad2",
+  "e09Plan": {
+   "file": "research/baselines/plan.json",
+   "sha256": "da68f06933a2"
+  }
+ },
+ "metricVersion": "1.0.0",
+ "referenceBuild": "itch:12710731",
+ "rule": {
+  "spike": "S-V12-2 (V12 section 8.3 (2); plan section 8 (3); the W-14 row)",
+  "text": "a metric whose seed-to-seed CV exceeds 0.3 becomes descriptive by the <M-1> rule (a descriptive row in C-0116 form, an E19 entry); applied per row (metric x plain family) on the sample CV (sample SD / mean, E09 D13)",
+  "limit": 0.3,
+  "metrics": [
+   "sgd.tShare",
+   "sgd.deadEnds",
+   "blockc.perHa",
+   "blockc.lotsPer"
+  ],
+  "companion": "block.courtShare",
+  "values": "measured values and verdicts, not rows (R-47 (a)): W-15 forms the rows"
+ },
+ "parameters": {
+  "base": {
+   "rasterStepM": 0.5,
+   "spurM": 8.0,
+   "mergeM": 2.0
+  },
+  "step025": {
+   "rasterStepM": 0.25,
+   "spurM": 8.0,
+   "mergeM": 2.0
+  },
+  "spur6": {
+   "rasterStepM": 0.5,
+   "spurM": 6.0,
+   "mergeM": 2.0
+  },
+  "spur10": {
+   "rasterStepM": 0.5,
+   "spurM": 10.0,
+   "mergeM": 2.0
+  }
+ },
+ "tolerance": {
+  "rel": 0.005,
+  "unit": {
+   "sgd.tShare": 0.001,
+   "sgd.deadEnds": 0.01,
+   "blockc.perHa": 0.01,
+   "blockc.lotsPer": 0.1
+  },
+  "text": "T-V12-3: 0.5 % relative or one unit of the last printed digit (E09 section 5), whichever is larger"
+ },
+ "fixtures": [
+  "exports-2026-09-25.s555001-size40-gates0",
+  "exports-2026-09-25.s555001-size40-gates1",
+  "exports-2026-09-25.s555001-size40-gates4",
+  "exports-2026-09-25.s555001-size40-gates9",
+  "exports-2026-09-25.s777001-size80-river-coast"
+ ],
+ "schema": "m1.e14/1",
+ "sample": [
+  {
+   "family": "capture/MFCG/40/plain",
+   "size": 40,
+   "options": "plain",
+   "rung": "TOWN",
+   "purpose": "rows",
+   "indices": [
+    0,
+    10
+   ],
+   "declaredN": 10,
+   "captured": [
+    "size40-plain-0",
+    "size40-plain-1",
+    "size40-plain-2",
+    "size40-plain-3",
+    "size40-plain-4",
+    "size40-plain-5",
+    "size40-plain-6",
+    "size40-plain-7",
+    "size40-plain-8",
+    "size40-plain-9"
+   ],
+   "usable": [
+    "size40-plain-0",
+    "size40-plain-1",
+    "size40-plain-2",
+    "size40-plain-3",
+    "size40-plain-4",
+    "size40-plain-5",
+    "size40-plain-6",
+    "size40-plain-7",
+    "size40-plain-8",
+    "size40-plain-9"
+   ],
+   "failed": [],
+   "failedStems": []
+  },
+  {
+   "family": "capture/MFCG/80/plain",
+   "size": 80,
+   "options": "plain",
+   "rung": "CITY",
+   "purpose": "rows",
+   "indices": [
+    0,
+    10
+   ],
+   "declaredN": 10,
+   "captured": [
+    "size80-plain-0",
+    "size80-plain-1",
+    "size80-plain-2",
+    "size80-plain-3",
+    "size80-plain-4",
+    "size80-plain-5",
+    "size80-plain-6",
+    "size80-plain-7",
+    "size80-plain-8",
+    "size80-plain-9"
+   ],
+   "usable": [
+    "size80-plain-0",
+    "size80-plain-1",
+    "size80-plain-2",
+    "size80-plain-3",
+    "size80-plain-4",
+    "size80-plain-5",
+    "size80-plain-6",
+    "size80-plain-7",
+    "size80-plain-8",
+    "size80-plain-9"
+   ],
+   "failed": [],
+   "failedStems": []
+  },
+  {
+   "family": "capture/MFCG/130/plain",
+   "size": 130,
+   "options": "plain",
+   "rung": "METROPOLIS",
+   "purpose": "rows",
+   "indices": [
+    0,
+    11
+   ],
+   "declaredN": 10,
+   "captured": [
+    "size130-plain-0",
+    "size130-plain-1",
+    "size130-plain-2",
+    "size130-plain-3",
+    "size130-plain-4",
+    "size130-plain-5",
+    "size130-plain-6",
+    "size130-plain-7",
+    "size130-plain-9",
+    "size130-plain-10"
+   ],
+   "usable": [
+    "size130-plain-0",
+    "size130-plain-1",
+    "size130-plain-2",
+    "size130-plain-3",
+    "size130-plain-4",
+    "size130-plain-5",
+    "size130-plain-6",
+    "size130-plain-7",
+    "size130-plain-9",
+    "size130-plain-10"
+   ],
+   "failed": [
+    {
+     "label": "capture/MFCG/130/plain/8",
+     "reason": "no-export",
+     "loads": 2,
+     "filesKept": false
+    }
+   ],
+   "failedStems": [
+    "size130-plain-8"
+   ]
+  },
+  {
+   "family": "capture/MFCG/80/river+coast",
+   "size": 80,
+   "options": "river+coast",
+   "rung": "CITY",
+   "purpose": "stress (descriptive)",
+   "indices": [
+    0,
+    5
+   ],
+   "declaredN": 5,
+   "captured": [
+    "size80-rivercoast-0",
+    "size80-rivercoast-1",
+    "size80-rivercoast-2",
+    "size80-rivercoast-3",
+    "size80-rivercoast-4"
+   ],
+   "usable": [
+    "size80-rivercoast-0",
+    "size80-rivercoast-2",
+    "size80-rivercoast-3"
+   ],
+   "failed": [
+    {
+     "label": "capture/MFCG/80/river+coast/1",
+     "reason": "retry",
+     "attempts": 2,
+     "filesKept": true
+    },
+    {
+     "label": "capture/MFCG/80/river+coast/4",
+     "reason": "retry",
+     "attempts": 3,
+     "filesKept": true
+    }
+   ],
+   "failedStems": [
+    "size80-rivercoast-1",
+    "size80-rivercoast-4"
+   ]
+  }
+ ],
+ "cv": {
+  "capture/MFCG/40/plain": {
+   "family": "capture/MFCG/40/plain",
+   "rung": "TOWN",
+   "size": 40,
+   "options": "plain",
+   "purpose": "rows",
+   "n": 10,
+   "metrics": {
+    "sgd.tShare": {
+     "n": 10,
+     "usable": 10,
+     "values": {
+      "size40-plain-0": 0.427562,
+      "size40-plain-1": 0.406417,
+      "size40-plain-2": 0.437143,
+      "size40-plain-3": 0.47619,
+      "size40-plain-4": 0.493421,
+      "size40-plain-5": 0.494545,
+      "size40-plain-6": 0.466667,
+      "size40-plain-7": 0.44582,
+      "size40-plain-8": 0.432836,
+      "size40-plain-9": 0.388406
+     },
+     "recomputed": {
+      "n": 10,
+      "mean": 0.44690069999999993,
+      "sd": 0.03560809671362213,
+      "cv": 0.07967787187091481,
+      "sdPop": 0.033780806627580706,
+      "cvPop": 0.07558906626814572
+     },
+     "stored": {
+      "n": 10,
+      "mean": 0.44690069999999993,
+      "sd": 0.03560809671362213,
+      "cv": 0.07967787187091481,
+      "sdPop": 0.033780806627580706,
+      "cvPop": 0.07558906626814572
+     },
+     "equal": true
+    },
+    "sgd.deadEnds": {
+     "n": 10,
+     "usable": 10,
+     "values": {
+      "size40-plain-0": 2.245102,
+      "size40-plain-1": 2.62447,
+      "size40-plain-2": 2.2141,
+      "size40-plain-3": 2.4463,
+      "size40-plain-4": 1.550839,
+      "size40-plain-5": 2.387525,
+      "size40-plain-6": 1.669971,
+      "size40-plain-7": 3.639637,
+      "size40-plain-8": 1.887441,
+      "size40-plain-9": 2.631575
+     },
+     "recomputed": {
+      "n": 10,
+      "mean": 2.329696,
+      "sd": 0.5933775375299533,
+      "cv": 0.25470170250966356,
+      "sdPop": 0.5629273592930086,
+      "cvPop": 0.2416312511559485
+     },
+     "stored": {
+      "n": 10,
+      "mean": 2.329696,
+      "sd": 0.5933775375299533,
+      "cv": 0.25470170250966356,
+      "sdPop": 0.5629273592930086,
+      "cvPop": 0.2416312511559485
+     },
+     "equal": true
+    },
+    "blockc.perHa": {
+     "n": 10,
+     "usable": 10,
+     "values": {
+      "size40-plain-0": 2.414772,
+      "size40-plain-1": 2.908025,
+      "size40-plain-2": 2.727241,
+      "size40-plain-3": 2.211087,
+      "size40-plain-4": 2.640059,
+      "size40-plain-5": 2.116826,
+      "size40-plain-6": 2.207896,
+      "size40-plain-7": 2.479817,
+      "size40-plain-8": 2.667067,
+      "size40-plain-9": 2.719884
+     },
+     "recomputed": {
+      "n": 10,
+      "mean": 2.5092674,
+      "sd": 0.2659218459201876,
+      "cv": 0.10597588998294385,
+      "sdPop": 0.25227561381124414,
+      "cvPop": 0.10053755682285759
+     },
+     "stored": {
+      "n": 10,
+      "mean": 2.5092674,
+      "sd": 0.2659218459201876,
+      "cv": 0.10597588998294385,
+      "sdPop": 0.25227561381124414,
+      "cvPop": 0.10053755682285759
+     },
+     "equal": true
+    },
+    "blockc.lotsPer": {
+     "n": 10,
+     "usable": 10,
+     "values": {
+      "size40-plain-0": 9.0,
+      "size40-plain-1": 8.0,
+      "size40-plain-2": 9.0,
+      "size40-plain-3": 10.0,
+      "size40-plain-4": 8.0,
+      "size40-plain-5": 8.0,
+      "size40-plain-6": 9.0,
+      "size40-plain-7": 9.0,
+      "size40-plain-8": 8.0,
+      "size40-plain-9": 9.0
+     },
+     "recomputed": {
+      "n": 10,
+      "mean": 8.7,
+      "sd": 0.6749485577105528,
+      "cv": 0.07758029398971872,
+      "sdPop": 0.6403124237432849,
+      "cvPop": 0.07359912916589482
+     },
+     "stored": {
+      "n": 10,
+      "mean": 8.7,
+      "sd": 0.6749485577105528,
+      "cv": 0.07758029398971872,
+      "sdPop": 0.6403124237432849,
+      "cvPop": 0.07359912916589482
+     },
+     "equal": true
+    },
+    "block.courtShare": {
+     "n": 10,
+     "usable": 10,
+     "values": {
+      "size40-plain-0": 0.833333,
+      "size40-plain-1": 0.815385,
+      "size40-plain-2": 0.819444,
+      "size40-plain-3": 0.866667,
+      "size40-plain-4": 0.854545,
+      "size40-plain-5": 0.804878,
+      "size40-plain-6": 0.761905,
+      "size40-plain-7": 0.746032,
+      "size40-plain-8": 0.737705,
+      "size40-plain-9": 0.771429
+     },
+     "recomputed": {
+      "n": 10,
+      "mean": 0.8011322999999999,
+      "sd": 0.04499039296227582,
+      "cv": 0.05615850585761656,
+      "sdPop": 0.042681634376040445,
+      "cvPop": 0.05327663655059277
+     },
+     "stored": {
+      "n": 10,
+      "mean": 0.8011322999999999,
+      "sd": 0.04499039296227582,
+      "cv": 0.05615850585761656,
+      "sdPop": 0.042681634376040445,
+      "cvPop": 0.05327663655059277
+     },
+     "equal": true
+    }
+   }
+  },
+  "capture/MFCG/80/plain": {
+   "family": "capture/MFCG/80/plain",
+   "rung": "CITY",
+   "size": 80,
+   "options": "plain",
+   "purpose": "rows",
+   "n": 10,
+   "metrics": {
+    "sgd.tShare": {
+     "n": 10,
+     "usable": 10,
+     "values": {
+      "size80-plain-0": 0.454092,
+      "size80-plain-1": 0.461456,
+      "size80-plain-2": 0.454359,
+      "size80-plain-3": 0.440241,
+      "size80-plain-4": 0.43743,
+      "size80-plain-5": 0.484624,
+      "size80-plain-6": 0.48269,
+      "size80-plain-7": 0.423789,
+      "size80-plain-8": 0.457098,
+      "size80-plain-9": 0.401794
+     },
+     "recomputed": {
+      "n": 10,
+      "mean": 0.4497573,
+      "sd": 0.025272543876925235,
+      "cv": 0.056191514572248705,
+      "sdPop": 0.02397564027528775,
+      "cvPop": 0.05330795136685441
+     },
+     "stored": {
+      "n": 10,
+      "mean": 0.4497573,
+      "sd": 0.025272543876925235,
+      "cv": 0.056191514572248705,
+      "sdPop": 0.02397564027528775,
+      "cvPop": 0.05330795136685441
+     },
+     "equal": true
+    },
+    "sgd.deadEnds": {
+     "n": 10,
+     "usable": 10,
+     "values": {
+      "size80-plain-0": 1.383562,
+      "size80-plain-1": 1.914261,
+      "size80-plain-2": 1.761464,
+      "size80-plain-3": 1.524357,
+      "size80-plain-4": 1.079139,
+      "size80-plain-5": 1.446726,
+      "size80-plain-6": 1.43327,
+      "size80-plain-7": 1.11483,
+      "size80-plain-8": 1.359578,
+      "size80-plain-9": 1.417538
+     },
+     "recomputed": {
+      "n": 10,
+      "mean": 1.4434725,
+      "sd": 0.2541789242667237,
+      "cv": 0.17608851174284493,
+      "sdPop": 0.24113530016828724,
+      "cvPop": 0.16705223006900877
+     },
+     "stored": {
+      "n": 10,
+      "mean": 1.4434725,
+      "sd": 0.2541789242667237,
+      "cv": 0.17608851174284493,
+      "sdPop": 0.24113530016828724,
+      "cvPop": 0.16705223006900877
+     },
+     "equal": true
+    },
+    "blockc.perHa": {
+     "n": 10,
+     "usable": 10,
+     "values": {
+      "size80-plain-0": 2.294738,
+      "size80-plain-1": 1.989442,
+      "size80-plain-2": 2.115972,
+      "size80-plain-3": 2.665212,
+      "size80-plain-4": 2.032595,
+      "size80-plain-5": 2.101935,
+      "size80-plain-6": 2.318036,
+      "size80-plain-7": 3.161003,
+      "size80-plain-8": 3.189693,
+      "size80-plain-9": 2.627596
+     },
+     "recomputed": {
+      "n": 10,
+      "mean": 2.4496222,
+      "sd": 0.44610804090334694,
+      "cv": 0.18211299722191732,
+      "sdPop": 0.4232152475310407,
+      "cvPop": 0.17276755882235256
+     },
+     "stored": {
+      "n": 10,
+      "mean": 2.4496222,
+      "sd": 0.44610804090334694,
+      "cv": 0.18211299722191732,
+      "sdPop": 0.4232152475310407,
+      "cvPop": 0.17276755882235256
+     },
+     "equal": true
+    },
+    "blockc.lotsPer": {
+     "n": 10,
+     "usable": 10,
+     "values": {
+      "size80-plain-0": 10.0,
+      "size80-plain-1": 9.0,
+      "size80-plain-2": 9.0,
+      "size80-plain-3": 9.0,
+      "size80-plain-4": 10.0,
+      "size80-plain-5": 9.0,
+      "size80-plain-6": 8.0,
+      "size80-plain-7": 7.0,
+      "size80-plain-8": 7.0,
+      "size80-plain-9": 8.0
+     },
+     "recomputed": {
+      "n": 10,
+      "mean": 8.6,
+      "sd": 1.0749676997731399,
+      "cv": 0.12499624415966744,
+      "sdPop": 1.0198039027185568,
+      "cvPop": 0.11858184915332057
+     },
+     "stored": {
+      "n": 10,
+      "mean": 8.6,
+      "sd": 1.0749676997731399,
+      "cv": 0.12499624415966744,
+      "sdPop": 1.0198039027185568,
+      "cvPop": 0.11858184915332057
+     },
+     "equal": true
+    },
+    "block.courtShare": {
+     "n": 10,
+     "usable": 10,
+     "values": {
+      "size80-plain-0": 0.862595,
+      "size80-plain-1": 0.805,
+      "size80-plain-2": 0.842795,
+      "size80-plain-3": 0.834677,
+      "size80-plain-4": 0.814685,
+      "size80-plain-5": 0.835616,
+      "size80-plain-6": 0.793651,
+      "size80-plain-7": 0.717073,
+      "size80-plain-8": 0.704846,
+      "size80-plain-9": 0.752941
+     },
+     "recomputed": {
+      "n": 10,
+      "mean": 0.7963878999999999,
+      "sd": 0.05427987832920533,
+      "cv": 0.06815758794075769,
+      "sdPop": 0.051494413991131124,
+      "cvPop": 0.06465996531480593
+     },
+     "stored": {
+      "n": 10,
+      "mean": 0.7963878999999999,
+      "sd": 0.05427987832920533,
+      "cv": 0.06815758794075769,
+      "sdPop": 0.051494413991131124,
+      "cvPop": 0.06465996531480593
+     },
+     "equal": true
+    }
+   }
+  },
+  "capture/MFCG/130/plain": {
+   "family": "capture/MFCG/130/plain",
+   "rung": "METROPOLIS",
+   "size": 130,
+   "options": "plain",
+   "purpose": "rows",
+   "n": 10,
+   "metrics": {
+    "sgd.tShare": {
+     "n": 10,
+     "usable": 10,
+     "values": {
+      "size130-plain-0": 0.465884,
+      "size130-plain-1": 0.454785,
+      "size130-plain-2": 0.449341,
+      "size130-plain-3": 0.453328,
+      "size130-plain-4": 0.44926,
+      "size130-plain-5": 0.47969,
+      "size130-plain-6": 0.460071,
+      "size130-plain-7": 0.459762,
+      "size130-plain-9": 0.470363,
+      "size130-plain-10": 0.448175
+     },
+     "recomputed": {
+      "n": 10,
+      "mean": 0.4590659,
+      "sd": 0.010336289345472744,
+      "cv": 0.022515916223515498,
+      "sdPop": 0.00980586506586747,
+      "cvPop": 0.021360473661553754
+     },
+     "stored": {
+      "n": 10,
+      "mean": 0.4590659,
+      "sd": 0.010336289345472744,
+      "cv": 0.022515916223515498,
+      "sdPop": 0.00980586506586747,
+      "cvPop": 0.021360473661553754
+     },
+     "equal": true
+    },
+    "sgd.deadEnds": {
+     "n": 10,
+     "usable": 10,
+     "values": {
+      "size130-plain-0": 1.088906,
+      "size130-plain-1": 0.82035,
+      "size130-plain-2": 1.21348,
+      "size130-plain-3": 1.094974,
+      "size130-plain-4": 0.79713,
+      "size130-plain-5": 0.788627,
+      "size130-plain-6": 0.865585,
+      "size130-plain-7": 0.945738,
+      "size130-plain-9": 0.968358,
+      "size130-plain-10": 0.997512
+     },
+     "recomputed": {
+      "n": 10,
+      "mean": 0.958066,
+      "sd": 0.14338817247752492,
+      "cv": 0.14966419064816508,
+      "sdPop": 0.13602996436741424,
+      "cvPop": 0.1419839179841621
+     },
+     "stored": {
+      "n": 10,
+      "mean": 0.958066,
+      "sd": 0.14338817247752492,
+      "cv": 0.14966419064816508,
+      "sdPop": 0.13602996436741424,
+      "cvPop": 0.1419839179841621
+     },
+     "equal": true
+    },
+    "blockc.perHa": {
+     "n": 10,
+     "usable": 10,
+     "values": {
+      "size130-plain-0": 2.421437,
+      "size130-plain-1": 2.838348,
+      "size130-plain-2": 2.28962,
+      "size130-plain-3": 2.477063,
+      "size130-plain-4": 2.732327,
+      "size130-plain-5": 2.571774,
+      "size130-plain-6": 2.6486,
+      "size130-plain-7": 2.476193,
+      "size130-plain-9": 2.490791,
+      "size130-plain-10": 2.808335
+     },
+     "recomputed": {
+      "n": 10,
+      "mean": 2.5754487999999998,
+      "sd": 0.1780897100363871,
+      "cv": 0.06914900037476462,
+      "sdPop": 0.16895073346617942,
+      "cvPop": 0.06560050173242793
+     },
+     "stored": {
+      "n": 10,
+      "mean": 2.5754487999999998,
+      "sd": 0.1780897100363871,
+      "cv": 0.06914900037476462,
+      "sdPop": 0.16895073346617942,
+      "cvPop": 0.06560050173242793
+     },
+     "equal": true
+    },
+    "blockc.lotsPer": {
+     "n": 10,
+     "usable": 10,
+     "values": {
+      "size130-plain-0": 10.0,
+      "size130-plain-1": 8.0,
+      "size130-plain-2": 10.0,
+      "size130-plain-3": 9.0,
+      "size130-plain-4": 9.0,
+      "size130-plain-5": 9.0,
+      "size130-plain-6": 9.0,
+      "size130-plain-7": 9.0,
+      "size130-plain-9": 9.0,
+      "size130-plain-10": 9.0
+     },
+     "recomputed": {
+      "n": 10,
+      "mean": 9.1,
+      "sd": 0.5676462121975466,
+      "cv": 0.06237870463709304,
+      "sdPop": 0.5385164807134504,
+      "cvPop": 0.059177635243236305
+     },
+     "stored": {
+      "n": 10,
+      "mean": 9.1,
+      "sd": 0.5676462121975466,
+      "cv": 0.06237870463709304,
+      "sdPop": 0.5385164807134504,
+      "cvPop": 0.059177635243236305
+     },
+     "equal": true
+    },
+    "block.courtShare": {
+     "n": 10,
+     "usable": 10,
+     "values": {
+      "size130-plain-0": 0.807133,
+      "size130-plain-1": 0.788494,
+      "size130-plain-2": 0.816296,
+      "size130-plain-3": 0.806785,
+      "size130-plain-4": 0.812233,
+      "size130-plain-5": 0.787356,
+      "size130-plain-6": 0.827211,
+      "size130-plain-7": 0.843164,
+      "size130-plain-9": 0.861492,
+      "size130-plain-10": 0.849642
+     },
+     "recomputed": {
+      "n": 10,
+      "mean": 0.8199806000000001,
+      "sd": 0.025080537989090726,
+      "cv": 0.030586745575554745,
+      "sdPop": 0.023793487496371793,
+      "cvPop": 0.029017134669249236
+     },
+     "stored": {
+      "n": 10,
+      "mean": 0.8199806000000001,
+      "sd": 0.025080537989090726,
+      "cv": 0.030586745575554745,
+      "sdPop": 0.023793487496371793,
+      "cvPop": 0.029017134669249236
+     },
+     "equal": true
+    }
+   }
+  },
+  "capture/MFCG/80/river+coast": {
+   "family": "capture/MFCG/80/river+coast",
+   "rung": "CITY",
+   "size": 80,
+   "options": "river+coast",
+   "purpose": "stress (descriptive)",
+   "n": 3,
+   "metrics": {
+    "sgd.tShare": {
+     "n": 3,
+     "usable": 3,
+     "values": {
+      "size80-rivercoast-0": 0.447876,
+      "size80-rivercoast-2": 0.44748,
+      "size80-rivercoast-3": 0.475845
+     },
+     "recomputed": {
+      "n": 3,
+      "mean": 0.45706700000000006,
+      "sd": 0.016263430357707456,
+      "cv": 0.03558215832188159,
+      "sdPop": 0.013279035281224323,
+      "cvPop": 0.029052710611845358
+     },
+     "stored": {
+      "n": 3,
+      "mean": 0.45706700000000006,
+      "sd": 0.016263430357707456,
+      "cv": 0.03558215832188159,
+      "sdPop": 0.013279035281224323,
+      "cvPop": 0.029052710611845358
+     },
+     "equal": true
+    },
+    "sgd.deadEnds": {
+     "n": 3,
+     "usable": 3,
+     "values": {
+      "size80-rivercoast-0": 1.885665,
+      "size80-rivercoast-2": 0.903332,
+      "size80-rivercoast-3": 1.394579
+     },
+     "recomputed": {
+      "n": 3,
+      "mean": 1.3945253333333334,
+      "sd": 0.4911665021989318,
+      "cv": 0.35221052673521297,
+      "sdPop": 0.4010357697116583,
+      "cvPop": 0.28757869084605486
+     },
+     "stored": {
+      "n": 3,
+      "mean": 1.3945253333333334,
+      "sd": 0.4911665021989318,
+      "cv": 0.35221052673521297,
+      "sdPop": 0.4010357697116583,
+      "cvPop": 0.28757869084605486
+     },
+     "equal": true
+    },
+    "blockc.perHa": {
+     "n": 3,
+     "usable": 3,
+     "values": {
+      "size80-rivercoast-0": 2.352792,
+      "size80-rivercoast-2": 2.331364,
+      "size80-rivercoast-3": 2.188974
+     },
+     "recomputed": {
+      "n": 3,
+      "mean": 2.291043333333333,
+      "sd": 0.08904157119757795,
+      "cv": 0.03886507509573279,
+      "sdPop": 0.07270213844325508,
+      "cvPop": 0.03173320093316513
+     },
+     "stored": {
+      "n": 3,
+      "mean": 2.291043333333333,
+      "sd": 0.08904157119757795,
+      "cv": 0.03886507509573279,
+      "sdPop": 0.07270213844325508,
+      "cvPop": 0.03173320093316513
+     },
+     "equal": true
+    },
+    "blockc.lotsPer": {
+     "n": 3,
+     "usable": 3,
+     "values": {
+      "size80-rivercoast-0": 9.0,
+      "size80-rivercoast-2": 9.0,
+      "size80-rivercoast-3": 10.0
+     },
+     "recomputed": {
+      "n": 3,
+      "mean": 9.333333333333334,
+      "sd": 0.5773502691896257,
+      "cv": 0.06185895741317418,
+      "sdPop": 0.4714045207910317,
+      "cvPop": 0.050507627227610534
+     },
+     "stored": {
+      "n": 3,
+      "mean": 9.333333333333334,
+      "sd": 0.5773502691896257,
+      "cv": 0.06185895741317418,
+      "sdPop": 0.4714045207910317,
+      "cvPop": 0.050507627227610534
+     },
+     "equal": true
+    },
+    "block.courtShare": {
+     "n": 3,
+     "usable": 3,
+     "values": {
+      "size80-rivercoast-0": 0.686747,
+      "size80-rivercoast-2": 0.82381,
+      "size80-rivercoast-3": 0.830357
+     },
+     "recomputed": {
+      "n": 3,
+      "mean": 0.7803046666666665,
+      "sd": 0.08108941698109152,
+      "cv": 0.10392019994894072,
+      "sdPop": 0.06620923171448392,
+      "cvPop": 0.08485048794763575
+     },
+     "stored": {
+      "n": 3,
+      "mean": 0.7803046666666665,
+      "sd": 0.08108941698109152,
+      "cv": 0.10392019994894072,
+      "sdPop": 0.06620923171448392,
+      "cvPop": 0.08485048794763575
+     },
+     "equal": true
+    }
+   }
+  }
+ },
+ "verdicts": [
+  {
+   "metric": "sgd.tShare",
+   "family": "capture/MFCG/40/plain",
+   "rung": "TOWN",
+   "size": 40,
+   "n": 10,
+   "mean": 0.44690069999999993,
+   "sd": 0.03560809671362213,
+   "cv": 0.07967787187091481,
+   "cvPop": 0.07558906626814572,
+   "status": "target",
+   "ruled": true,
+   "fires": false,
+   "firesPop": false,
+   "reason": "seed-to-seed CV 0.0797 <= 0.3 over 10 usable seeds (sample SD / mean, E09 D13): the pre-decided rule does not fire: the row stays target"
+  },
+  {
+   "metric": "sgd.deadEnds",
+   "family": "capture/MFCG/40/plain",
+   "rung": "TOWN",
+   "size": 40,
+   "n": 10,
+   "mean": 2.329696,
+   "sd": 0.5933775375299533,
+   "cv": 0.25470170250966356,
+   "cvPop": 0.2416312511559485,
+   "status": "target",
+   "ruled": true,
+   "fires": false,
+   "firesPop": false,
+   "reason": "seed-to-seed CV 0.2547 <= 0.3 over 10 usable seeds (sample SD / mean, E09 D13): the pre-decided rule does not fire: the row stays target"
+  },
+  {
+   "metric": "blockc.perHa",
+   "family": "capture/MFCG/40/plain",
+   "rung": "TOWN",
+   "size": 40,
+   "n": 10,
+   "mean": 2.5092674,
+   "sd": 0.2659218459201876,
+   "cv": 0.10597588998294385,
+   "cvPop": 0.10053755682285759,
+   "status": "target",
+   "ruled": true,
+   "fires": false,
+   "firesPop": false,
+   "reason": "seed-to-seed CV 0.1060 <= 0.3 over 10 usable seeds (sample SD / mean, E09 D13): the pre-decided rule does not fire: the row stays target"
+  },
+  {
+   "metric": "blockc.lotsPer",
+   "family": "capture/MFCG/40/plain",
+   "rung": "TOWN",
+   "size": 40,
+   "n": 10,
+   "mean": 8.7,
+   "sd": 0.6749485577105528,
+   "cv": 0.07758029398971872,
+   "cvPop": 0.07359912916589482,
+   "status": "target",
+   "ruled": true,
+   "fires": false,
+   "firesPop": false,
+   "reason": "seed-to-seed CV 0.0776 <= 0.3 over 10 usable seeds (sample SD / mean, E09 D13): the pre-decided rule does not fire: the row stays target"
+  },
+  {
+   "metric": "sgd.tShare",
+   "family": "capture/MFCG/80/plain",
+   "rung": "CITY",
+   "size": 80,
+   "n": 10,
+   "mean": 0.4497573,
+   "sd": 0.025272543876925235,
+   "cv": 0.056191514572248705,
+   "cvPop": 0.05330795136685441,
+   "status": "target",
+   "ruled": true,
+   "fires": false,
+   "firesPop": false,
+   "reason": "seed-to-seed CV 0.0562 <= 0.3 over 10 usable seeds (sample SD / mean, E09 D13): the pre-decided rule does not fire: the row stays target"
+  },
+  {
+   "metric": "sgd.deadEnds",
+   "family": "capture/MFCG/80/plain",
+   "rung": "CITY",
+   "size": 80,
+   "n": 10,
+   "mean": 1.4434725,
+   "sd": 0.2541789242667237,
+   "cv": 0.17608851174284493,
+   "cvPop": 0.16705223006900877,
+   "status": "target",
+   "ruled": true,
+   "fires": false,
+   "firesPop": false,
+   "reason": "seed-to-seed CV 0.1761 <= 0.3 over 10 usable seeds (sample SD / mean, E09 D13): the pre-decided rule does not fire: the row stays target"
+  },
+  {
+   "metric": "blockc.perHa",
+   "family": "capture/MFCG/80/plain",
+   "rung": "CITY",
+   "size": 80,
+   "n": 10,
+   "mean": 2.4496222,
+   "sd": 0.44610804090334694,
+   "cv": 0.18211299722191732,
+   "cvPop": 0.17276755882235256,
+   "status": "target",
+   "ruled": true,
+   "fires": false,
+   "firesPop": false,
+   "reason": "seed-to-seed CV 0.1821 <= 0.3 over 10 usable seeds (sample SD / mean, E09 D13): the pre-decided rule does not fire: the row stays target"
+  },
+  {
+   "metric": "blockc.lotsPer",
+   "family": "capture/MFCG/80/plain",
+   "rung": "CITY",
+   "size": 80,
+   "n": 10,
+   "mean": 8.6,
+   "sd": 1.0749676997731399,
+   "cv": 0.12499624415966744,
+   "cvPop": 0.11858184915332057,
+   "status": "target",
+   "ruled": true,
+   "fires": false,
+   "firesPop": false,
+   "reason": "seed-to-seed CV 0.1250 <= 0.3 over 10 usable seeds (sample SD / mean, E09 D13): the pre-decided rule does not fire: the row stays target"
+  },
+  {
+   "metric": "sgd.tShare",
+   "family": "capture/MFCG/130/plain",
+   "rung": "METROPOLIS",
+   "size": 130,
+   "n": 10,
+   "mean": 0.4590659,
+   "sd": 0.010336289345472744,
+   "cv": 0.022515916223515498,
+   "cvPop": 0.021360473661553754,
+   "status": "target",
+   "ruled": true,
+   "fires": false,
+   "firesPop": false,
+   "reason": "seed-to-seed CV 0.0225 <= 0.3 over 10 usable seeds (sample SD / mean, E09 D13): the pre-decided rule does not fire: the row stays target"
+  },
+  {
+   "metric": "sgd.deadEnds",
+   "family": "capture/MFCG/130/plain",
+   "rung": "METROPOLIS",
+   "size": 130,
+   "n": 10,
+   "mean": 0.958066,
+   "sd": 0.14338817247752492,
+   "cv": 0.14966419064816508,
+   "cvPop": 0.1419839179841621,
+   "status": "target",
+   "ruled": true,
+   "fires": false,
+   "firesPop": false,
+   "reason": "seed-to-seed CV 0.1497 <= 0.3 over 10 usable seeds (sample SD / mean, E09 D13): the pre-decided rule does not fire: the row stays target"
+  },
+  {
+   "metric": "blockc.perHa",
+   "family": "capture/MFCG/130/plain",
+   "rung": "METROPOLIS",
+   "size": 130,
+   "n": 10,
+   "mean": 2.5754487999999998,
+   "sd": 0.1780897100363871,
+   "cv": 0.06914900037476462,
+   "cvPop": 0.06560050173242793,
+   "status": "target",
+   "ruled": true,
+   "fires": false,
+   "firesPop": false,
+   "reason": "seed-to-seed CV 0.0691 <= 0.3 over 10 usable seeds (sample SD / mean, E09 D13): the pre-decided rule does not fire: the row stays target"
+  },
+  {
+   "metric": "blockc.lotsPer",
+   "family": "capture/MFCG/130/plain",
+   "rung": "METROPOLIS",
+   "size": 130,
+   "n": 10,
+   "mean": 9.1,
+   "sd": 0.5676462121975466,
+   "cv": 0.06237870463709304,
+   "cvPop": 0.059177635243236305,
+   "status": "target",
+   "ruled": true,
+   "fires": false,
+   "firesPop": false,
+   "reason": "seed-to-seed CV 0.0624 <= 0.3 over 10 usable seeds (sample SD / mean, E09 D13): the pre-decided rule does not fire: the row stays target"
+  },
+  {
+   "metric": "sgd.tShare",
+   "family": "capture/MFCG/80/river+coast",
+   "rung": "CITY",
+   "size": 80,
+   "n": 3,
+   "mean": 0.45706700000000006,
+   "sd": 0.016263430357707456,
+   "cv": 0.03558215832188159,
+   "cvPop": 0.029052710611845358,
+   "status": "descriptive (by the plan)",
+   "ruled": false,
+   "fires": false,
+   "firesPop": false,
+   "reason": "the stress family is descriptive by the plan whatever its CV (plan section 3, R-23); its CV 0.0356 over 3 seeds is reported, not ruled (the rule would not fire on it)"
+  },
+  {
+   "metric": "sgd.deadEnds",
+   "family": "capture/MFCG/80/river+coast",
+   "rung": "CITY",
+   "size": 80,
+   "n": 3,
+   "mean": 1.3945253333333334,
+   "sd": 0.4911665021989318,
+   "cv": 0.35221052673521297,
+   "cvPop": 0.28757869084605486,
+   "status": "descriptive (by the plan)",
+   "ruled": false,
+   "fires": true,
+   "firesPop": false,
+   "reason": "the stress family is descriptive by the plan whatever its CV (plan section 3, R-23); its CV 0.3522 over 3 seeds is reported, not ruled (the rule would fire on it)"
+  },
+  {
+   "metric": "blockc.perHa",
+   "family": "capture/MFCG/80/river+coast",
+   "rung": "CITY",
+   "size": 80,
+   "n": 3,
+   "mean": 2.291043333333333,
+   "sd": 0.08904157119757795,
+   "cv": 0.03886507509573279,
+   "cvPop": 0.03173320093316513,
+   "status": "descriptive (by the plan)",
+   "ruled": false,
+   "fires": false,
+   "firesPop": false,
+   "reason": "the stress family is descriptive by the plan whatever its CV (plan section 3, R-23); its CV 0.0389 over 3 seeds is reported, not ruled (the rule would not fire on it)"
+  },
+  {
+   "metric": "blockc.lotsPer",
+   "family": "capture/MFCG/80/river+coast",
+   "rung": "CITY",
+   "size": 80,
+   "n": 3,
+   "mean": 9.333333333333334,
+   "sd": 0.5773502691896257,
+   "cv": 0.06185895741317418,
+   "cvPop": 0.050507627227610534,
+   "status": "descriptive (by the plan)",
+   "ruled": false,
+   "fires": false,
+   "firesPop": false,
+   "reason": "the stress family is descriptive by the plan whatever its CV (plan section 3, R-23); its CV 0.0619 over 3 seeds is reported, not ruled (the rule would not fire on it)"
+  }
+ ],
+ "companions": {
+  "populationCv": {
+   "reading": "the population SD / mean (n, not n - 1)",
+   "verdictsDiffer": []
+  },
+  "anyFamily": {
+   "reading": "a metric is descriptive at every rung when any plain family exceeds the limit",
+   "perMetric": {
+    "sgd.tShare": {
+     "maxCv": 0.07967787187091481,
+     "fires": false
+    },
+    "sgd.deadEnds": {
+     "maxCv": 0.25470170250966356,
+     "fires": false
+    },
+    "blockc.perHa": {
+     "maxCv": 0.18211299722191732,
+     "fires": false
+    },
+    "blockc.lotsPer": {
+     "maxCv": 0.12499624415966744,
+     "fires": false
+    }
+   },
+   "verdictsDiffer": []
+  },
+  "courtShare": {
+   "reading": "block.courtShare (D5 / D32, a target per class; not a D11 metric) read under the same rule",
+   "perFamily": {
+    "capture/MFCG/40/plain": {
+     "cv": 0.05615850585761656,
+     "cvPop": 0.05327663655059277,
+     "n": 10,
+     "fires": false
+    },
+    "capture/MFCG/80/plain": {
+     "cv": 0.06815758794075769,
+     "cvPop": 0.06465996531480593,
+     "n": 10,
+     "fires": false
+    },
+    "capture/MFCG/130/plain": {
+     "cv": 0.030586745575554745,
+     "cvPop": 0.029017134669249236,
+     "n": 10,
+     "fires": false
+    },
+    "capture/MFCG/80/river+coast": {
+     "cv": 0.10392019994894072,
+     "cvPop": 0.08485048794763575,
+     "n": 3,
+     "fires": false
+    }
+   },
+   "wouldFire": []
+  }
+ },
+ "sensitivity": {
+  "summary": {
+   "step025": {
+    "sgd.tShare": {
+     "maxAbsRel": 0.15327633544793917,
+     "medianAbsRel": 0.054302903478943156,
+     "maxAbs": 0.058784999999999976,
+     "signedRel": [
+      -0.013362409773764874,
+      0.15327633544793917,
+      0.054302903478943156,
+      0.0403171993831007,
+      0.07135611598866687
+     ],
+     "withinT3Tolerance": 0,
+     "fixtures": 5,
+     "maxSdUnits": 1.650888573820104,
+     "invariant": false
+    },
+    "sgd.deadEnds": {
+     "maxAbsRel": 0.39374323808027534,
+     "medianAbsRel": 0.23357155186091147,
+     "maxAbs": 0.882177,
+     "signedRel": [
+      0.39374323808027534,
+      0.17731063119681462,
+      0.23357155186091147,
+      0.22120101685705773,
+      0.33930258005292524
+     ],
+     "withinT3Tolerance": 0,
+     "fixtures": 5,
+     "maxSdUnits": 1.7115817184885103,
+     "invariant": false
+    },
+    "blockc.perHa": {
+     "maxAbsRel": 0.0,
+     "medianAbsRel": 0.0,
+     "maxAbs": 0.0,
+     "signedRel": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "withinT3Tolerance": 5,
+     "fixtures": 5,
+     "maxSdUnits": 0.0,
+     "invariant": true
+    },
+    "blockc.lotsPer": {
+     "maxAbsRel": 0.0,
+     "medianAbsRel": 0.0,
+     "maxAbs": 0.0,
+     "signedRel": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "withinT3Tolerance": 5,
+     "fixtures": 5,
+     "maxSdUnits": 0.0,
+     "invariant": true
+    }
+   },
+   "spur6": {
+    "sgd.tShare": {
+     "maxAbsRel": 0.1726892255011533,
+     "medianAbsRel": 0.11697145917820809,
+     "maxAbs": 0.07262099999999999,
+     "signedRel": [
+      0.11697145917820809,
+      0.08002909864597421,
+      0.1726892255011533,
+      0.13402756603164914,
+      0.07131414180279128
+     ],
+     "withinT3Tolerance": 0,
+     "fixtures": 5,
+     "maxSdUnits": 2.0394518860149664,
+     "invariant": false
+    },
+    "sgd.deadEnds": {
+     "maxAbsRel": 2.328657453733203,
+     "medianAbsRel": 1.5417364192659482,
+     "maxAbs": 4.766864,
+     "signedRel": [
+      1.7905442921363561,
+      1.072782483670336,
+      1.4434277490005454,
+      1.5417364192659482,
+      2.328657453733203
+     ],
+     "withinT3Tolerance": 0,
+     "fixtures": 5,
+     "maxSdUnits": 11.746705627201706,
+     "invariant": false
+    },
+    "blockc.perHa": {
+     "maxAbsRel": 0.0,
+     "medianAbsRel": 0.0,
+     "maxAbs": 0.0,
+     "signedRel": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "withinT3Tolerance": 5,
+     "fixtures": 5,
+     "maxSdUnits": 0.0,
+     "invariant": true
+    },
+    "blockc.lotsPer": {
+     "maxAbsRel": 0.0,
+     "medianAbsRel": 0.0,
+     "maxAbs": 0.0,
+     "signedRel": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "withinT3Tolerance": 5,
+     "fixtures": 5,
+     "maxSdUnits": 0.0,
+     "invariant": true
+    }
+   },
+   "spur10": {
+    "sgd.tShare": {
+     "maxAbsRel": 0.008113347106384037,
+     "medianAbsRel": 0.0038403918864289765,
+     "maxAbs": 0.0031809999999999894,
+     "signedRel": [
+      -0.008113347106384037,
+      -0.0019138356760872552,
+      0.0038403918864289765,
+      -0.00021432390750048333,
+      0.005356372497580639
+     ],
+     "withinT3Tolerance": 3,
+     "fixtures": 5,
+     "maxSdUnits": 0.09088914876104891,
+     "invariant": false
+    },
+    "sgd.deadEnds": {
+     "maxAbsRel": 0.3287966728676967,
+     "medianAbsRel": 0.27307134306607345,
+     "maxAbs": 0.7366650000000001,
+     "signedRel": [
+      -0.3287966728676967,
+      -0.27307134306607345,
+      -0.2785051511342259,
+      -0.23499230241794644,
+      -0.26275656439057454
+     ],
+     "withinT3Tolerance": 0,
+     "fixtures": 5,
+     "maxSdUnits": 1.3254521434927096,
+     "invariant": false
+    },
+    "blockc.perHa": {
+     "maxAbsRel": 0.0,
+     "medianAbsRel": 0.0,
+     "maxAbs": 0.0,
+     "signedRel": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "withinT3Tolerance": 5,
+     "fixtures": 5,
+     "maxSdUnits": 0.0,
+     "invariant": true
+    },
+    "blockc.lotsPer": {
+     "maxAbsRel": 0.0,
+     "medianAbsRel": 0.0,
+     "maxAbs": 0.0,
+     "signedRel": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "withinT3Tolerance": 5,
+     "fixtures": 5,
+     "maxSdUnits": 0.0,
+     "invariant": true
+    }
+   }
+  },
+  "table": {
+   "step025": {
+    "parameters": {
+     "rasterStepM": 0.25,
+     "spurM": 8.0,
+     "mergeM": 2.0
+    },
+    "perFixture": {
+     "exports-2026-09-25.s555001-size40-gates0": {
+      "sgd.tShare": {
+       "base": 0.39207,
+       "value": 0.386831,
+       "abs": -0.005238999999999994,
+       "rel": -0.013362409773764874
+      },
+      "sgd.deadEnds": {
+       "base": 2.240488,
+       "value": 3.122665,
+       "abs": 0.882177,
+       "rel": 0.39374323808027534
+      },
+      "blockc.perHa": {
+       "base": 1.696715,
+       "value": 1.696715,
+       "abs": 0.0,
+       "rel": 0.0
+      },
+      "blockc.lotsPer": {
+       "base": 8.0,
+       "value": 8.0,
+       "abs": 0.0,
+       "rel": 0.0
+      },
+      "graph": {
+       "base": {
+        "nodes": 270,
+        "edges": 368,
+        "faces": 99,
+        "lengthKm": 17.40692
+       },
+       "value": {
+        "nodes": 302,
+        "edges": 400,
+        "faces": 99,
+        "lengthKm": 17.613158
+       },
+       "degree1": [
+        39,
+        55
+       ],
+       "degree3": [
+        227,
+        243
+       ],
+       "tNodes": [
+        89,
+        94
+       ],
+       "thinningPasses": [
+        72,
+        143
+       ],
+       "rasterCells": [
+        3244395,
+        12851852
+       ],
+       "courtShare": [
+        0.707317,
+        0.717949
+       ]
+      }
+     },
+     "exports-2026-09-25.s555001-size40-gates1": {
+      "sgd.tShare": {
+       "base": 0.383523,
+       "value": 0.442308,
+       "abs": 0.058784999999999976,
+       "rel": 0.15327633544793917
+      },
+      "sgd.deadEnds": {
+       "base": 2.459328,
+       "value": 2.895393,
+       "abs": 0.4360649999999997,
+       "rel": 0.17731063119681462
+      },
+      "blockc.perHa": {
+       "base": 2.676148,
+       "value": 2.676148,
+       "abs": 0.0,
+       "rel": 0.0
+      },
+      "blockc.lotsPer": {
+       "base": 9.0,
+       "value": 9.0,
+       "abs": 0.0,
+       "rel": 0.0
+      },
+      "graph": {
+       "base": {
+        "nodes": 412,
+        "edges": 567,
+        "faces": 156,
+        "lengthKm": 21.95722
+       },
+       "value": {
+        "nodes": 433,
+        "edges": 588,
+        "faces": 156,
+        "lengthKm": 22.104078
+       },
+       "degree1": [
+        54,
+        64
+       ],
+       "degree3": [
+        352,
+        364
+       ],
+       "tNodes": [
+        135,
+        161
+       ],
+       "thinningPasses": [
+        107,
+        214
+       ],
+       "rasterCells": [
+        3244395,
+        12851852
+       ],
+       "courtShare": [
+        0.819444,
+        0.819444
+       ]
+      }
+     },
+     "exports-2026-09-25.s555001-size40-gates4": {
+      "sgd.tShare": {
+       "base": 0.42053,
+       "value": 0.443366,
+       "abs": 0.022835999999999967,
+       "rel": 0.054302903478943156
+      },
+      "sgd.deadEnds": {
+       "base": 2.294252,
+       "value": 2.830124,
+       "abs": 0.5358719999999999,
+       "rel": 0.23357155186091147
+      },
+      "blockc.perHa": {
+       "base": 2.352442,
+       "value": 2.352442,
+       "abs": 0.0,
+       "rel": 0.0
+      },
+      "blockc.lotsPer": {
+       "base": 9.0,
+       "value": 9.0,
+       "abs": 0.0,
+       "rel": 0.0
+      },
+      "graph": {
+       "base": {
+        "nodes": 356,
+        "edges": 492,
+        "faces": 137,
+        "lengthKm": 20.05011
+       },
+       "value": {
+        "nodes": 376,
+        "edges": 512,
+        "faces": 137,
+        "lengthKm": 20.14046
+       },
+       "degree1": [
+        46,
+        57
+       ],
+       "degree3": [
+        302,
+        309
+       ],
+       "tNodes": [
+        127,
+        137
+       ],
+       "thinningPasses": [
+        68,
+        135
+       ],
+       "rasterCells": [
+        3214715,
+        12733708
+       ],
+       "courtShare": [
+        0.71875,
+        0.707692
+       ]
+      }
+     },
+     "exports-2026-09-25.s555001-size40-gates9": {
+      "sgd.tShare": {
+       "base": 0.452586,
+       "value": 0.470833,
+       "abs": 0.018247000000000013,
+       "rel": 0.0403171993831007
+      },
+      "sgd.deadEnds": {
+       "base": 3.09188,
+       "value": 3.775807,
+       "abs": 0.6839269999999997,
+       "rel": 0.22120101685705773
+      },
+      "blockc.perHa": {
+       "base": 1.677517,
+       "value": 1.677517,
+       "abs": 0.0,
+       "rel": 0.0
+      },
+      "blockc.lotsPer": {
+       "base": 11.0,
+       "value": 11.0,
+       "abs": 0.0,
+       "rel": 0.0
+      },
+      "graph": {
+       "base": {
+        "nodes": 293,
+        "edges": 389,
+        "faces": 97,
+        "lengthKm": 17.465104
+       },
+       "value": {
+        "nodes": 315,
+        "edges": 411,
+        "faces": 97,
+        "lengthKm": 17.479705
+       },
+       "degree1": [
+        54,
+        66
+       ],
+       "degree3": [
+        232,
+        240
+       ],
+       "tNodes": [
+        105,
+        113
+       ],
+       "thinningPasses": [
+        80,
+        161
+       ],
+       "rasterCells": [
+        3214715,
+        12733708
+       ],
+       "courtShare": [
+        0.85,
+        0.833333
+       ]
+      }
+     },
+     "exports-2026-09-25.s777001-size80-river-coast": {
+      "sgd.tShare": {
+       "base": 0.428835,
+       "value": 0.459435,
+       "abs": 0.03059999999999996,
+       "rel": 0.07135611598866687
+      },
+      "sgd.deadEnds": {
+       "base": 1.282183,
+       "value": 1.717231,
+       "abs": 0.4350479999999999,
+       "rel": 0.33930258005292524
+      },
+      "blockc.perHa": {
+       "base": 2.078964,
+       "value": 2.078964,
+       "abs": 0.0,
+       "rel": 0.0
+      },
+      "blockc.lotsPer": {
+       "base": 9.0,
+       "value": 9.0,
+       "abs": 0.0,
+       "rel": 0.0
+      },
+      "graph": {
+       "base": {
+        "nodes": 1200,
+        "edges": 1712,
+        "faces": 514,
+        "lengthKm": 76.432123
+       },
+       "value": {
+        "nodes": 1258,
+        "edges": 1770,
+        "faces": 514,
+        "lengthKm": 76.867918
+       },
+       "degree1": [
+        98,
+        132
+       ],
+       "degree3": [
+        1082,
+        1097
+       ],
+       "tNodes": [
+        464,
+        504
+       ],
+       "thinningPasses": [
+        169,
+        338
+       ],
+       "rasterCells": [
+        18063825,
+        71964617
+       ],
+       "courtShare": [
+        0.733591,
+        0.733591
+       ]
+      }
+     }
+    }
+   },
+   "spur6": {
+    "parameters": {
+     "rasterStepM": 0.5,
+     "spurM": 6.0,
+     "mergeM": 2.0
+    },
+    "perFixture": {
+     "exports-2026-09-25.s555001-size40-gates0": {
+      "sgd.tShare": {
+       "base": 0.39207,
+       "value": 0.437931,
+       "abs": 0.04586100000000004,
+       "rel": 0.11697145917820809
+      },
+      "sgd.deadEnds": {
+       "base": 2.240488,
+       "value": 6.252181,
+       "abs": 4.011693,
+       "rel": 1.7905442921363561
+      },
+      "blockc.perHa": {
+       "base": 1.696715,
+       "value": 1.696715,
+       "abs": 0.0,
+       "rel": 0.0
+      },
+      "blockc.lotsPer": {
+       "base": 8.0,
+       "value": 8.0,
+       "abs": 0.0,
+       "rel": 0.0
+      },
+      "graph": {
+       "base": {
+        "nodes": 270,
+        "edges": 368,
+        "faces": 99,
+        "lengthKm": 17.40692
+       },
+       "value": {
+        "nodes": 411,
+        "edges": 509,
+        "faces": 99,
+        "lengthKm": 17.913747
+       },
+       "degree1": [
+        39,
+        112
+       ],
+       "degree3": [
+        227,
+        290
+       ],
+       "tNodes": [
+        89,
+        127
+       ],
+       "thinningPasses": [
+        72,
+        72
+       ],
+       "rasterCells": [
+        3244395,
+        3244395
+       ],
+       "courtShare": [
+        0.707317,
+        0.707317
+       ]
+      }
+     },
+     "exports-2026-09-25.s555001-size40-gates1": {
+      "sgd.tShare": {
+       "base": 0.383523,
+       "value": 0.414216,
+       "abs": 0.03069299999999997,
+       "rel": 0.08002909864597421
+      },
+      "sgd.deadEnds": {
+       "base": 2.459328,
+       "value": 5.097652,
+       "abs": 2.638324,
+       "rel": 1.072782483670336
+      },
+      "blockc.perHa": {
+       "base": 2.676148,
+       "value": 2.676148,
+       "abs": 0.0,
+       "rel": 0.0
+      },
+      "blockc.lotsPer": {
+       "base": 9.0,
+       "value": 9.0,
+       "abs": 0.0,
+       "rel": 0.0
+      },
+      "graph": {
+       "base": {
+        "nodes": 412,
+        "edges": 567,
+        "faces": 156,
+        "lengthKm": 21.95722
+       },
+       "value": {
+        "nodes": 530,
+        "edges": 685,
+        "faces": 156,
+        "lengthKm": 22.363238
+       },
+       "degree1": [
+        54,
+        114
+       ],
+       "degree3": [
+        352,
+        408
+       ],
+       "tNodes": [
+        135,
+        169
+       ],
+       "thinningPasses": [
+        107,
+        107
+       ],
+       "rasterCells": [
+        3244395,
+        3244395
+       ],
+       "courtShare": [
+        0.819444,
+        0.819444
+       ]
+      }
+     },
+     "exports-2026-09-25.s555001-size40-gates4": {
+      "sgd.tShare": {
+       "base": 0.42053,
+       "value": 0.493151,
+       "abs": 0.07262099999999999,
+       "rel": 0.1726892255011533
+      },
+      "sgd.deadEnds": {
+       "base": 2.294252,
+       "value": 5.605839,
+       "abs": 3.3115869999999994,
+       "rel": 1.4434277490005454
+      },
+      "blockc.perHa": {
+       "base": 2.352442,
+       "value": 2.352442,
+       "abs": 0.0,
+       "rel": 0.0
+      },
+      "blockc.lotsPer": {
+       "base": 9.0,
+       "value": 9.0,
+       "abs": 0.0,
+       "rel": 0.0
+      },
+      "graph": {
+       "base": {
+        "nodes": 356,
+        "edges": 492,
+        "faces": 137,
+        "lengthKm": 20.05011
+       },
+       "value": {
+        "nodes": 491,
+        "edges": 627,
+        "faces": 137,
+        "lengthKm": 20.514326
+       },
+       "degree1": [
+        46,
+        115
+       ],
+       "degree3": [
+        302,
+        365
+       ],
+       "tNodes": [
+        127,
+        180
+       ],
+       "thinningPasses": [
+        68,
+        68
+       ],
+       "rasterCells": [
+        3214715,
+        3214715
+       ],
+       "courtShare": [
+        0.71875,
+        0.71875
+       ]
+      }
+     },
+     "exports-2026-09-25.s555001-size40-gates9": {
+      "sgd.tShare": {
+       "base": 0.452586,
+       "value": 0.513245,
+       "abs": 0.06065899999999996,
+       "rel": 0.13402756603164914
+      },
+      "sgd.deadEnds": {
+       "base": 3.09188,
+       "value": 7.858744,
+       "abs": 4.766864,
+       "rel": 1.5417364192659482
+      },
+      "blockc.perHa": {
+       "base": 1.677517,
+       "value": 1.677517,
+       "abs": 0.0,
+       "rel": 0.0
+      },
+      "blockc.lotsPer": {
+       "base": 11.0,
+       "value": 11.0,
+       "abs": 0.0,
+       "rel": 0.0
+      },
+      "graph": {
+       "base": {
+        "nodes": 293,
+        "edges": 389,
+        "faces": 97,
+        "lengthKm": 17.465104
+       },
+       "value": {
+        "nodes": 460,
+        "edges": 556,
+        "faces": 97,
+        "lengthKm": 18.069046
+       },
+       "degree1": [
+        54,
+        142
+       ],
+       "degree3": [
+        232,
+        302
+       ],
+       "tNodes": [
+        105,
+        155
+       ],
+       "thinningPasses": [
+        80,
+        80
+       ],
+       "rasterCells": [
+        3214715,
+        3214715
+       ],
+       "courtShare": [
+        0.85,
+        0.85
+       ]
+      }
+     },
+     "exports-2026-09-25.s777001-size80-river-coast": {
+      "sgd.tShare": {
+       "base": 0.428835,
+       "value": 0.459417,
+       "abs": 0.030581999999999998,
+       "rel": 0.07131414180279128
+      },
+      "sgd.deadEnds": {
+       "base": 1.282183,
+       "value": 4.267948,
+       "abs": 2.985765,
+       "rel": 2.328657453733203
+      },
+      "blockc.perHa": {
+       "base": 2.078964,
+       "value": 2.078964,
+       "abs": 0.0,
+       "rel": 0.0
+      },
+      "blockc.lotsPer": {
+       "base": 9.0,
+       "value": 9.0,
+       "abs": 0.0,
+       "rel": 0.0
+      },
+      "graph": {
+       "base": {
+        "nodes": 1200,
+        "edges": 1712,
+        "faces": 514,
+        "lengthKm": 76.432123
+       },
+       "value": {
+        "nodes": 1646,
+        "edges": 2158,
+        "faces": 514,
+        "lengthKm": 78.023441
+       },
+       "degree1": [
+        98,
+        333
+       ],
+       "degree3": [
+        1082,
+        1269
+       ],
+       "tNodes": [
+        464,
+        583
+       ],
+       "thinningPasses": [
+        169,
+        169
+       ],
+       "rasterCells": [
+        18063825,
+        18063825
+       ],
+       "courtShare": [
+        0.733591,
+        0.733591
+       ]
+      }
+     }
+    }
+   },
+   "spur10": {
+    "parameters": {
+     "rasterStepM": 0.5,
+     "spurM": 10.0,
+     "mergeM": 2.0
+    },
+    "perFixture": {
+     "exports-2026-09-25.s555001-size40-gates0": {
+      "sgd.tShare": {
+       "base": 0.39207,
+       "value": 0.388889,
+       "abs": -0.0031809999999999894,
+       "rel": -0.008113347106384037
+      },
+      "sgd.deadEnds": {
+       "base": 2.240488,
+       "value": 1.503823,
+       "abs": -0.7366650000000001,
+       "rel": -0.3287966728676967
+      },
+      "blockc.perHa": {
+       "base": 1.696715,
+       "value": 1.696715,
+       "abs": 0.0,
+       "rel": 0.0
+      },
+      "blockc.lotsPer": {
+       "base": 8.0,
+       "value": 8.0,
+       "abs": 0.0,
+       "rel": 0.0
+      },
+      "graph": {
+       "base": {
+        "nodes": 270,
+        "edges": 368,
+        "faces": 99,
+        "lengthKm": 17.40692
+       },
+       "value": {
+        "nodes": 245,
+        "edges": 343,
+        "faces": 99,
+        "lengthKm": 17.289267
+       },
+       "degree1": [
+        39,
+        26
+       ],
+       "degree3": [
+        227,
+        216
+       ],
+       "tNodes": [
+        89,
+        84
+       ],
+       "thinningPasses": [
+        72,
+        72
+       ],
+       "rasterCells": [
+        3244395,
+        3244395
+       ],
+       "courtShare": [
+        0.707317,
+        0.707317
+       ]
+      }
+     },
+     "exports-2026-09-25.s555001-size40-gates1": {
+      "sgd.tShare": {
+       "base": 0.383523,
+       "value": 0.382789,
+       "abs": -0.0007340000000000124,
+       "rel": -0.0019138356760872552
+      },
+      "sgd.deadEnds": {
+       "base": 2.459328,
+       "value": 1.787756,
+       "abs": -0.6715720000000003,
+       "rel": -0.27307134306607345
+      },
+      "blockc.perHa": {
+       "base": 2.676148,
+       "value": 2.676148,
+       "abs": 0.0,
+       "rel": 0.0
+      },
+      "blockc.lotsPer": {
+       "base": 9.0,
+       "value": 9.0,
+       "abs": 0.0,
+       "rel": 0.0
+      },
+      "graph": {
+       "base": {
+        "nodes": 412,
+        "edges": 567,
+        "faces": 156,
+        "lengthKm": 21.95722
+       },
+       "value": {
+        "nodes": 382,
+        "edges": 537,
+        "faces": 156,
+        "lengthKm": 21.815061
+       },
+       "degree1": [
+        54,
+        39
+       ],
+       "degree3": [
+        352,
+        337
+       ],
+       "tNodes": [
+        135,
+        129
+       ],
+       "thinningPasses": [
+        107,
+        107
+       ],
+       "rasterCells": [
+        3244395,
+        3244395
+       ],
+       "courtShare": [
+        0.819444,
+        0.819444
+       ]
+      }
+     },
+     "exports-2026-09-25.s555001-size40-gates4": {
+      "sgd.tShare": {
+       "base": 0.42053,
+       "value": 0.422145,
+       "abs": 0.0016149999999999776,
+       "rel": 0.0038403918864289765
+      },
+      "sgd.deadEnds": {
+       "base": 2.294252,
+       "value": 1.655291,
+       "abs": -0.6389610000000001,
+       "rel": -0.2785051511342259
+      },
+      "blockc.perHa": {
+       "base": 2.352442,
+       "value": 2.352442,
+       "abs": 0.0,
+       "rel": 0.0
+      },
+      "blockc.lotsPer": {
+       "base": 9.0,
+       "value": 9.0,
+       "abs": 0.0,
+       "rel": 0.0
+      },
+      "graph": {
+       "base": {
+        "nodes": 356,
+        "edges": 492,
+        "faces": 137,
+        "lengthKm": 20.05011
+       },
+       "value": {
+        "nodes": 330,
+        "edges": 466,
+        "faces": 137,
+        "lengthKm": 19.936076
+       },
+       "degree1": [
+        46,
+        33
+       ],
+       "degree3": [
+        302,
+        289
+       ],
+       "tNodes": [
+        127,
+        122
+       ],
+       "thinningPasses": [
+        68,
+        68
+       ],
+       "rasterCells": [
+        3214715,
+        3214715
+       ],
+       "courtShare": [
+        0.71875,
+        0.71875
+       ]
+      }
+     },
+     "exports-2026-09-25.s555001-size40-gates9": {
+      "sgd.tShare": {
+       "base": 0.452586,
+       "value": 0.452489,
+       "abs": -9.700000000001374e-05,
+       "rel": -0.00021432390750048333
+      },
+      "sgd.deadEnds": {
+       "base": 3.09188,
+       "value": 2.365312,
+       "abs": -0.7265680000000003,
+       "rel": -0.23499230241794644
+      },
+      "blockc.perHa": {
+       "base": 1.677517,
+       "value": 1.677517,
+       "abs": 0.0,
+       "rel": 0.0
+      },
+      "blockc.lotsPer": {
+       "base": 11.0,
+       "value": 11.0,
+       "abs": 0.0,
+       "rel": 0.0
+      },
+      "graph": {
+       "base": {
+        "nodes": 293,
+        "edges": 389,
+        "faces": 97,
+        "lengthKm": 17.465104
+       },
+       "value": {
+        "nodes": 268,
+        "edges": 364,
+        "faces": 97,
+        "lengthKm": 17.333869
+       },
+       "degree1": [
+        54,
+        41
+       ],
+       "degree3": [
+        232,
+        221
+       ],
+       "tNodes": [
+        105,
+        100
+       ],
+       "thinningPasses": [
+        80,
+        80
+       ],
+       "rasterCells": [
+        3214715,
+        3214715
+       ],
+       "courtShare": [
+        0.85,
+        0.85
+       ]
+      }
+     },
+     "exports-2026-09-25.s777001-size80-river-coast": {
+      "sgd.tShare": {
+       "base": 0.428835,
+       "value": 0.431132,
+       "abs": 0.0022969999999999935,
+       "rel": 0.005356372497580639
+      },
+      "sgd.deadEnds": {
+       "base": 1.282183,
+       "value": 0.945281,
+       "abs": -0.33690200000000003,
+       "rel": -0.26275656439057454
+      },
+      "blockc.perHa": {
+       "base": 2.078964,
+       "value": 2.078964,
+       "abs": 0.0,
+       "rel": 0.0
+      },
+      "blockc.lotsPer": {
+       "base": 9.0,
+       "value": 9.0,
+       "abs": 0.0,
+       "rel": 0.0
+      },
+      "graph": {
+       "base": {
+        "nodes": 1200,
+        "edges": 1712,
+        "faces": 514,
+        "lengthKm": 76.432123
+       },
+       "value": {
+        "nodes": 1150,
+        "edges": 1662,
+        "faces": 514,
+        "lengthKm": 76.167797
+       },
+       "degree1": [
+        98,
+        72
+       ],
+       "degree3": [
+        1082,
+        1060
+       ],
+       "tNodes": [
+        464,
+        457
+       ],
+       "thinningPasses": [
+        169,
+        169
+       ],
+       "rasterCells": [
+        18063825,
+        18063825
+       ],
+       "courtShare": [
+        0.733591,
+        0.733591
+       ]
+      }
+     }
+    }
+   }
+  }
+ },
+ "proxyNote": "PROXY, not the raster-against-skeleton bias (no product skeleton exists research-side; T-V12-3 at M1 decides, R-22): on the five 2026-09-25 fixtures, against the declared twin (step 0.5 m, spur 8 m, merge 2 m), step 0.25 m: sgd.tShare largest change 15.3 % (median 5.4 %), within T-V12-3 tolerance on 0 of 5 fixtures, sgd.deadEnds largest change 39.4 % (median 23.4 %), within T-V12-3 tolerance on 0 of 5 fixtures, blockc.perHa invariant, blockc.lotsPer invariant; spur 6 m: sgd.tShare largest change 17.3 % (median 11.7 %), within T-V12-3 tolerance on 0 of 5 fixtures, sgd.deadEnds largest change 232.9 % (median 154.2 %), within T-V12-3 tolerance on 0 of 5 fixtures, blockc.perHa invariant, blockc.lotsPer invariant; spur 10 m: sgd.tShare largest change 0.8 % (median 0.4 %), within T-V12-3 tolerance on 3 of 5 fixtures, sgd.deadEnds largest change 32.9 % (median 27.3 %), within T-V12-3 tolerance on 0 of 5 fixtures, blockc.perHa invariant, blockc.lotsPer invariant.",
+ "variants": {
+  "base": {
+   "exports-2026-09-25.s555001-size40-gates0": {
+    "stem": "exports-2026-09-25.s555001-size40-gates0",
+    "buildings": 838,
+    "enclosureHa": 58.348033,
+    "medianFootprint": {
+     "areaM2": 426.752905,
+     "shortSideM": 17.771956
+    },
+    "clusters": {
+     "n": 115,
+     "singletons": 23,
+     "largestFootprintCount": 18
+    },
+    "blockc.perHa": {
+     "value": 1.696715,
+     "blocks": 99,
+     "walledHa": 58.348033
+    },
+    "blockc.lotsPer": {
+     "value": 8.0,
+     "mean": 8.30303,
+     "p90": 14.0,
+     "max": 18,
+     "singletonShare": 0.070707
+    },
+    "waterTakenOut": {
+     "sea": 0,
+     "river": 0
+    },
+    "blockAreas": {
+     "intramuralSumM2": 441783.75,
+     "enclosureM2": 583480.331703,
+     "ratio": 0.757153,
+     "intramuralOverlapM2": 0.0,
+     "intramuralClosedSumM2": 391481.5
+    },
+    "streetSpace": {
+     "areaM2": 142118.25,
+     "parts": 1,
+     "domainM2": 583902.0,
+     "pockets": 0,
+     "pocketAreaM2": 0,
+     "largestPocketM2": 0.0
+    },
+    "raster": {
+     "stepM": 0.5,
+     "width": 1855,
+     "height": 1749,
+     "thinningPasses": 72,
+     "eulerStreetSpace": -98,
+     "eulerSkeleton": -98
+    },
+    "graphRaw": {
+     "nodes": 1097,
+     "edges": 1195,
+     "degrees": {
+      "1": 452,
+      "2": 3,
+      "3": 636,
+      "4": 6
+     },
+     "anomalies": 0
+    },
+    "topology": {
+     "eulerStreetSpace": -98,
+     "eulerSkeleton": -98,
+     "eulerGraphRaw": -98,
+     "componentsRaw": 1,
+     "isolatedNodes": 0,
+     "holesStreetSpace": 99,
+     "nodeClusterHoleLoops": 0,
+     "facesRaw": 99,
+     "facesPruned": 99,
+     "facesMerged": 99,
+     "mergeCollapsedFaces": 0,
+     "mergeInternalLongestM": 1.802776,
+     "mergedGroups": 2,
+     "internalEdgesRemoved": 2,
+     "chainAnomalies": 0
+    },
+    "graphParts": 1,
+    "crossings": 0,
+    "sgd.tShare": {
+     "value": 0.39207,
+     "tNodes": 89,
+     "degree3": 227
+    },
+    "sgd.deadEnds": {
+     "value": 2.240488,
+     "degree1": 39,
+     "lengthKm": 17.40692
+    },
+    "graph": {
+     "nodes": 270,
+     "edges": 368,
+     "degrees": {
+      "1": 39,
+      "3": 227,
+      "4": 4
+     },
+     "faces": 99,
+     "lengthKm": 17.40692
+    },
+    "block.courtShare": {
+     "value": 0.707317,
+     "deep": 41,
+     "courtDeep": 29,
+     "courtShallow": 6,
+     "blocks": 99,
+     "thresholds": {
+      "deepRadiusM": 26.657934,
+      "dilateM": 0.888598,
+      "courtCellM": 0.25,
+      "subdivision": 2,
+      "minCourtM2": 213.376452
+     },
+     "exactTransforms": 22
+    },
+    "measureInputSha256": "d4f13e0bf8993e81ca5e187dc7517ee8f6e1765b68bb71f8697a9957baff7517",
+    "header": {
+     "source": "MFCG",
+     "build": "itch:12710731",
+     "rung": "TOWN",
+     "water": "none",
+     "size": 40
+    }
+   },
+   "exports-2026-09-25.s555001-size40-gates1": {
+    "stem": "exports-2026-09-25.s555001-size40-gates1",
+    "buildings": 1513,
+    "enclosureHa": 58.292731,
+    "medianFootprint": {
+     "areaM2": 209.542418,
+     "shortSideM": 12.445184
+    },
+    "clusters": {
+     "n": 190,
+     "singletons": 33,
+     "largestFootprintCount": 27
+    },
+    "blockc.perHa": {
+     "value": 2.676148,
+     "blocks": 156,
+     "walledHa": 58.292731
+    },
+    "blockc.lotsPer": {
+     "value": 9.0,
+     "mean": 9.384615,
+     "p90": 15.0,
+     "max": 27,
+     "singletonShare": 0.057692
+    },
+    "waterTakenOut": {
+     "sea": 0,
+     "river": 0
+    },
+    "blockAreas": {
+     "intramuralSumM2": 408822.0,
+     "enclosureM2": 582927.311171,
+     "ratio": 0.701326,
+     "intramuralOverlapM2": 0.0,
+     "intramuralClosedSumM2": 352061.0
+    },
+    "streetSpace": {
+     "areaM2": 174526.5,
+     "parts": 1,
+     "domainM2": 583348.5,
+     "pockets": 0,
+     "pocketAreaM2": 0,
+     "largestPocketM2": 0.0
+    },
+    "raster": {
+     "stepM": 0.5,
+     "width": 1855,
+     "height": 1749,
+     "thinningPasses": 107,
+     "eulerStreetSpace": -156,
+     "eulerSkeleton": -156
+    },
+    "graphRaw": {
+     "nodes": 1593,
+     "edges": 1749,
+     "degrees": {
+      "1": 639,
+      "2": 11,
+      "3": 935,
+      "4": 8
+     },
+     "anomalies": 0
+    },
+    "topology": {
+     "eulerStreetSpace": -156,
+     "eulerSkeleton": -156,
+     "eulerGraphRaw": -156,
+     "componentsRaw": 1,
+     "isolatedNodes": 0,
+     "holesStreetSpace": 157,
+     "nodeClusterHoleLoops": 0,
+     "facesRaw": 157,
+     "facesPruned": 157,
+     "facesMerged": 156,
+     "mergeCollapsedFaces": 1,
+     "mergeInternalLongestM": 2.943175,
+     "mergedGroups": 5,
+     "internalEdgesRemoved": 6,
+     "chainAnomalies": 0
+    },
+    "graphParts": 1,
+    "crossings": 0,
+    "sgd.tShare": {
+     "value": 0.383523,
+     "tNodes": 135,
+     "degree3": 352
+    },
+    "sgd.deadEnds": {
+     "value": 2.459328,
+     "degree1": 54,
+     "lengthKm": 21.95722
+    },
+    "graph": {
+     "nodes": 412,
+     "edges": 567,
+     "degrees": {
+      "1": 54,
+      "3": 352,
+      "4": 6
+     },
+     "faces": 156,
+     "lengthKm": 21.95722
+    },
+    "block.courtShare": {
+     "value": 0.819444,
+     "deep": 72,
+     "courtDeep": 59,
+     "courtShallow": 19,
+     "blocks": 156,
+     "thresholds": {
+      "deepRadiusM": 18.667776,
+      "dilateM": 0.622259,
+      "courtCellM": 0.25,
+      "subdivision": 2,
+      "minCourtM2": 104.771209
+     },
+     "exactTransforms": 39
+    },
+    "measureInputSha256": "f59bbbd2ddaf2638ba076b3729339a30288bdf89e1d180648a1633a73081d2e4",
+    "header": {
+     "source": "MFCG",
+     "build": "itch:12710731",
+     "rung": "TOWN",
+     "water": "none",
+     "size": 40
+    }
+   },
+   "exports-2026-09-25.s555001-size40-gates4": {
+    "stem": "exports-2026-09-25.s555001-size40-gates4",
+    "buildings": 1299,
+    "enclosureHa": 58.237344,
+    "medianFootprint": {
+     "areaM2": 254.560513,
+     "shortSideM": 13.76604
+    },
+    "clusters": {
+     "n": 190,
+     "singletons": 47,
+     "largestFootprintCount": 19
+    },
+    "blockc.perHa": {
+     "value": 2.352442,
+     "blocks": 137,
+     "walledHa": 58.237344
+    },
+    "blockc.lotsPer": {
+     "value": 9.0,
+     "mean": 8.715328,
+     "p90": 14.0,
+     "max": 19,
+     "singletonShare": 0.109489
+    },
+    "waterTakenOut": {
+     "sea": 0,
+     "river": 0
+    },
+    "blockAreas": {
+     "intramuralSumM2": 422956.5,
+     "enclosureM2": 582373.441,
+     "ratio": 0.726263,
+     "intramuralOverlapM2": 0.0,
+     "intramuralClosedSumM2": 372758.5
+    },
+    "streetSpace": {
+     "areaM2": 159820.5,
+     "parts": 1,
+     "domainM2": 582777.0,
+     "pockets": 0,
+     "pocketAreaM2": 0,
+     "largestPocketM2": 0.0
+    },
+    "raster": {
+     "stepM": 0.5,
+     "width": 1855,
+     "height": 1733,
+     "thinningPasses": 68,
+     "eulerStreetSpace": -137,
+     "eulerSkeleton": -137
+    },
+    "graphRaw": {
+     "nodes": 1397,
+     "edges": 1534,
+     "degrees": {
+      "1": 566,
+      "2": 5,
+      "3": 812,
+      "4": 14
+     },
+     "anomalies": 0
+    },
+    "topology": {
+     "eulerStreetSpace": -137,
+     "eulerSkeleton": -137,
+     "eulerGraphRaw": -137,
+     "componentsRaw": 1,
+     "isolatedNodes": 0,
+     "holesStreetSpace": 138,
+     "nodeClusterHoleLoops": 0,
+     "facesRaw": 138,
+     "facesPruned": 138,
+     "facesMerged": 137,
+     "mergeCollapsedFaces": 1,
+     "mergeInternalLongestM": 2.943175,
+     "mergedGroups": 6,
+     "internalEdgesRemoved": 7,
+     "chainAnomalies": 0
+    },
+    "graphParts": 1,
+    "crossings": 0,
+    "sgd.tShare": {
+     "value": 0.42053,
+     "tNodes": 127,
+     "degree3": 302
+    },
+    "sgd.deadEnds": {
+     "value": 2.294252,
+     "degree1": 46,
+     "lengthKm": 20.05011
+    },
+    "graph": {
+     "nodes": 356,
+     "edges": 492,
+     "degrees": {
+      "1": 46,
+      "3": 302,
+      "4": 8
+     },
+     "faces": 137,
+     "lengthKm": 20.05011
+    },
+    "block.courtShare": {
+     "value": 0.71875,
+     "deep": 64,
+     "courtDeep": 46,
+     "courtShallow": 14,
+     "blocks": 137,
+     "thresholds": {
+      "deepRadiusM": 20.649059,
+      "dilateM": 0.688302,
+      "courtCellM": 0.25,
+      "subdivision": 2,
+      "minCourtM2": 127.280256
+     },
+     "exactTransforms": 37
+    },
+    "measureInputSha256": "f9cdb32dd0b49ffd15403b7e5e7191baec8891a40d283245ad20fb2d097b555f",
+    "header": {
+     "source": "MFCG",
+     "build": "itch:12710731",
+     "rung": "TOWN",
+     "water": "none",
+     "size": 40
+    }
+   },
+   "exports-2026-09-25.s555001-size40-gates9": {
+    "stem": "exports-2026-09-25.s555001-size40-gates9",
+    "buildings": 1227,
+    "enclosureHa": 57.823563,
+    "medianFootprint": {
+     "areaM2": 271.921604,
+     "shortSideM": 14.168616
+    },
+    "clusters": {
+     "n": 175,
+     "singletons": 48,
+     "largestFootprintCount": 26
+    },
+    "blockc.perHa": {
+     "value": 1.677517,
+     "blocks": 97,
+     "walledHa": 57.823563
+    },
+    "blockc.lotsPer": {
+     "value": 11.0,
+     "mean": 10.412371,
+     "p90": 16.0,
+     "max": 26,
+     "singletonShare": 0.051546
+    },
+    "waterTakenOut": {
+     "sea": 0,
+     "river": 0
+    },
+    "blockAreas": {
+     "intramuralSumM2": 425599.75,
+     "enclosureM2": 578235.629202,
+     "ratio": 0.736032,
+     "intramuralOverlapM2": 0.0,
+     "intramuralClosedSumM2": 348573.75
+    },
+    "streetSpace": {
+     "areaM2": 153015.0,
+     "parts": 1,
+     "domainM2": 578614.75,
+     "pockets": 0,
+     "pocketAreaM2": 0,
+     "largestPocketM2": 0.0
+    },
+    "raster": {
+     "stepM": 0.5,
+     "width": 1855,
+     "height": 1733,
+     "thinningPasses": 80,
+     "eulerStreetSpace": -97,
+     "eulerSkeleton": -97
+    },
+    "graphRaw": {
+     "nodes": 1157,
+     "edges": 1254,
+     "degrees": {
+      "1": 482,
+      "2": 4,
+      "3": 666,
+      "4": 5
+     },
+     "anomalies": 0
+    },
+    "topology": {
+     "eulerStreetSpace": -97,
+     "eulerSkeleton": -97,
+     "eulerGraphRaw": -97,
+     "componentsRaw": 1,
+     "isolatedNodes": 0,
+     "holesStreetSpace": 98,
+     "nodeClusterHoleLoops": 0,
+     "facesRaw": 98,
+     "facesPruned": 98,
+     "facesMerged": 97,
+     "mergeCollapsedFaces": 1,
+     "mergeInternalLongestM": 2.943175,
+     "mergedGroups": 5,
+     "internalEdgesRemoved": 6,
+     "chainAnomalies": 0
+    },
+    "graphParts": 1,
+    "crossings": 0,
+    "sgd.tShare": {
+     "value": 0.452586,
+     "tNodes": 105,
+     "degree3": 232
+    },
+    "sgd.deadEnds": {
+     "value": 3.09188,
+     "degree1": 54,
+     "lengthKm": 17.465104
+    },
+    "graph": {
+     "nodes": 293,
+     "edges": 389,
+     "degrees": {
+      "1": 54,
+      "3": 232,
+      "4": 7
+     },
+     "faces": 97,
+     "lengthKm": 17.465104
+    },
+    "block.courtShare": {
+     "value": 0.85,
+     "deep": 60,
+     "courtDeep": 51,
+     "courtShallow": 9,
+     "blocks": 97,
+     "thresholds": {
+      "deepRadiusM": 21.252924,
+      "dilateM": 0.708431,
+      "courtCellM": 0.25,
+      "subdivision": 2,
+      "minCourtM2": 135.960802
+     },
+     "exactTransforms": 23
+    },
+    "measureInputSha256": "6db1cd2eab4856ebd50cfe7f53c317fc63eea7700241a58e666ae669b45015a0",
+    "header": {
+     "source": "MFCG",
+     "build": "itch:12710731",
+     "rung": "TOWN",
+     "water": "none",
+     "size": 40
+    }
+   },
+   "exports-2026-09-25.s777001-size80-river-coast": {
+    "stem": "exports-2026-09-25.s777001-size80-river-coast",
+    "buildings": 15393,
+    "enclosureHa": 247.719507,
+    "medianFootprint": {
+     "areaM2": 252.587472,
+     "shortSideM": 13.407332
+    },
+    "clusters": {
+     "n": 1890,
+     "singletons": 339,
+     "largestFootprintCount": 37
+    },
+    "blockc.perHa": {
+     "value": 2.078964,
+     "blocks": 515,
+     "walledHa": 247.719507
+    },
+    "blockc.lotsPer": {
+     "value": 9.0,
+     "mean": 9.01165,
+     "p90": 14.0,
+     "max": 25,
+     "singletonShare": 0.048544
+    },
+    "waterTakenOut": {
+     "sea": 1,
+     "river": 1
+    },
+    "blockAreas": {
+     "intramuralSumM2": 1695495.75,
+     "enclosureM2": 2477195.074919,
+     "ratio": 0.684442,
+     "intramuralOverlapM2": 0.0,
+     "intramuralClosedSumM2": 1455383.75
+    },
+    "streetSpace": {
+     "areaM2": 615669.5,
+     "parts": 2,
+     "domainM2": 2311162.5,
+     "pockets": 0,
+     "pocketAreaM2": 0,
+     "largestPocketM2": 0.0
+    },
+    "raster": {
+     "stepM": 0.5,
+     "width": 3783,
+     "height": 4775,
+     "thinningPasses": 169,
+     "eulerStreetSpace": -512,
+     "eulerSkeleton": -512
+    },
+    "graphRaw": {
+     "nodes": 4867,
+     "edges": 5379,
+     "degrees": {
+      "1": 1928,
+      "2": 20,
+      "3": 2886,
+      "4": 33
+     },
+     "anomalies": 0
+    },
+    "topology": {
+     "eulerStreetSpace": -512,
+     "eulerSkeleton": -512,
+     "eulerGraphRaw": -512,
+     "componentsRaw": 2,
+     "isolatedNodes": 0,
+     "holesStreetSpace": 514,
+     "nodeClusterHoleLoops": 0,
+     "facesRaw": 514,
+     "facesPruned": 514,
+     "facesMerged": 514,
+     "mergeCollapsedFaces": 0,
+     "mergeInternalLongestM": 2.118034,
+     "mergedGroups": 15,
+     "internalEdgesRemoved": 15,
+     "chainAnomalies": 0
+    },
+    "graphParts": 2,
+    "crossings": 0,
+    "sgd.tShare": {
+     "value": 0.428835,
+     "tNodes": 464,
+     "degree3": 1082
+    },
+    "sgd.deadEnds": {
+     "value": 1.282183,
+     "degree1": 98,
+     "lengthKm": 76.432123
+    },
+    "graph": {
+     "nodes": 1200,
+     "edges": 1712,
+     "degrees": {
+      "1": 98,
+      "3": 1082,
+      "4": 20
+     },
+     "faces": 514,
+     "lengthKm": 76.432123
+    },
+    "block.courtShare": {
+     "value": 0.733591,
+     "deep": 259,
+     "courtDeep": 190,
+     "courtShallow": 41,
+     "blocks": 515,
+     "thresholds": {
+      "deepRadiusM": 20.110998,
+      "dilateM": 0.670367,
+      "courtCellM": 0.25,
+      "subdivision": 2,
+      "minCourtM2": 126.293736
+     },
+     "exactTransforms": 123
+    },
+    "measureInputSha256": "b14a836c2cffe1cd7fc2c219b00c98a35402456b27b70d2c2fb6d0f667fae8db",
+    "header": {
+     "source": "MFCG",
+     "build": "itch:12710731",
+     "rung": "CITY",
+     "water": "coast+river",
+     "size": 80
+    }
+   }
+  },
+  "step025": {
+   "exports-2026-09-25.s555001-size40-gates0": {
+    "stem": "exports-2026-09-25.s555001-size40-gates0",
+    "buildings": 838,
+    "enclosureHa": 58.348033,
+    "medianFootprint": {
+     "areaM2": 426.752905,
+     "shortSideM": 17.771956
+    },
+    "clusters": {
+     "n": 115,
+     "singletons": 23,
+     "largestFootprintCount": 18
+    },
+    "blockc.perHa": {
+     "value": 1.696715,
+     "blocks": 99,
+     "walledHa": 58.348033
+    },
+    "blockc.lotsPer": {
+     "value": 8.0,
+     "mean": 8.30303,
+     "p90": 14.0,
+     "max": 18,
+     "singletonShare": 0.070707
+    },
+    "waterTakenOut": {
+     "sea": 0,
+     "river": 0
+    },
+    "blockAreas": {
+     "intramuralSumM2": 438830.125,
+     "enclosureM2": 583480.331703,
+     "ratio": 0.752091,
+     "intramuralOverlapM2": 0.0,
+     "intramuralClosedSumM2": 388648.25
+    },
+    "streetSpace": {
+     "areaM2": 144864.6875,
+     "parts": 1,
+     "domainM2": 583694.8125,
+     "pockets": 0,
+     "pocketAreaM2": 0,
+     "largestPocketM2": 0.0
+    },
+    "raster": {
+     "stepM": 0.25,
+     "width": 3692,
+     "height": 3481,
+     "thinningPasses": 143,
+     "eulerStreetSpace": -98,
+     "eulerSkeleton": -98
+    },
+    "graphRaw": {
+     "nodes": 1259,
+     "edges": 1357,
+     "degrees": {
+      "1": 532,
+      "2": 2,
+      "3": 722,
+      "4": 3
+     },
+     "anomalies": 0
+    },
+    "topology": {
+     "eulerStreetSpace": -98,
+     "eulerSkeleton": -98,
+     "eulerGraphRaw": -98,
+     "componentsRaw": 1,
+     "isolatedNodes": 0,
+     "holesStreetSpace": 99,
+     "nodeClusterHoleLoops": 0,
+     "facesRaw": 99,
+     "facesPruned": 99,
+     "facesMerged": 99,
+     "mergeCollapsedFaces": 0,
+     "mergeInternalLongestM": 0.75,
+     "mergedGroups": 2,
+     "internalEdgesRemoved": 2,
+     "chainAnomalies": 0
+    },
+    "graphParts": 1,
+    "crossings": 0,
+    "sgd.tShare": {
+     "value": 0.386831,
+     "tNodes": 94,
+     "degree3": 243
+    },
+    "sgd.deadEnds": {
+     "value": 3.122665,
+     "degree1": 55,
+     "lengthKm": 17.613158
+    },
+    "graph": {
+     "nodes": 302,
+     "edges": 400,
+     "degrees": {
+      "1": 55,
+      "3": 243,
+      "4": 4
+     },
+     "faces": 99,
+     "lengthKm": 17.613158
+    },
+    "block.courtShare": {
+     "value": 0.717949,
+     "deep": 39,
+     "courtDeep": 28,
+     "courtShallow": 7,
+     "blocks": 99,
+     "thresholds": {
+      "deepRadiusM": 26.657934,
+      "dilateM": 0.888598,
+      "courtCellM": 0.25,
+      "subdivision": 1,
+      "minCourtM2": 213.376452
+     },
+     "exactTransforms": 23
+    },
+    "measureInputSha256": "d4f13e0bf8993e81ca5e187dc7517ee8f6e1765b68bb71f8697a9957baff7517",
+    "header": {
+     "source": "MFCG",
+     "build": "itch:12710731",
+     "rung": "TOWN",
+     "water": "none",
+     "size": 40
+    }
+   },
+   "exports-2026-09-25.s555001-size40-gates1": {
+    "stem": "exports-2026-09-25.s555001-size40-gates1",
+    "buildings": 1513,
+    "enclosureHa": 58.292731,
+    "medianFootprint": {
+     "areaM2": 209.542418,
+     "shortSideM": 12.445184
+    },
+    "clusters": {
+     "n": 190,
+     "singletons": 33,
+     "largestFootprintCount": 27
+    },
+    "blockc.perHa": {
+     "value": 2.676148,
+     "blocks": 156,
+     "walledHa": 58.292731
+    },
+    "blockc.lotsPer": {
+     "value": 9.0,
+     "mean": 9.384615,
+     "p90": 15.0,
+     "max": 27,
+     "singletonShare": 0.057692
+    },
+    "waterTakenOut": {
+     "sea": 0,
+     "river": 0
+    },
+    "blockAreas": {
+     "intramuralSumM2": 405990.125,
+     "enclosureM2": 582927.311171,
+     "ratio": 0.696468,
+     "intramuralOverlapM2": 0.0,
+     "intramuralClosedSumM2": 348318.875
+    },
+    "streetSpace": {
+     "areaM2": 177150.1875,
+     "parts": 1,
+     "domainM2": 583140.3125,
+     "pockets": 0,
+     "pocketAreaM2": 0,
+     "largestPocketM2": 0.0
+    },
+    "raster": {
+     "stepM": 0.25,
+     "width": 3692,
+     "height": 3481,
+     "thinningPasses": 214,
+     "eulerStreetSpace": -156,
+     "eulerSkeleton": -156
+    },
+    "graphRaw": {
+     "nodes": 1845,
+     "edges": 2001,
+     "degrees": {
+      "1": 768,
+      "2": 2,
+      "3": 1070,
+      "4": 5
+     },
+     "anomalies": 0
+    },
+    "topology": {
+     "eulerStreetSpace": -156,
+     "eulerSkeleton": -156,
+     "eulerGraphRaw": -156,
+     "componentsRaw": 1,
+     "isolatedNodes": 0,
+     "holesStreetSpace": 157,
+     "nodeClusterHoleLoops": 0,
+     "facesRaw": 157,
+     "facesPruned": 157,
+     "facesMerged": 156,
+     "mergeCollapsedFaces": 1,
+     "mergeInternalLongestM": 2.0,
+     "mergedGroups": 4,
+     "internalEdgesRemoved": 5,
+     "chainAnomalies": 0
+    },
+    "graphParts": 1,
+    "crossings": 0,
+    "sgd.tShare": {
+     "value": 0.442308,
+     "tNodes": 161,
+     "degree3": 364
+    },
+    "sgd.deadEnds": {
+     "value": 2.895393,
+     "degree1": 64,
+     "lengthKm": 22.104078
+    },
+    "graph": {
+     "nodes": 433,
+     "edges": 588,
+     "degrees": {
+      "1": 64,
+      "3": 364,
+      "4": 5
+     },
+     "faces": 156,
+     "lengthKm": 22.104078
+    },
+    "block.courtShare": {
+     "value": 0.819444,
+     "deep": 72,
+     "courtDeep": 59,
+     "courtShallow": 19,
+     "blocks": 156,
+     "thresholds": {
+      "deepRadiusM": 18.667776,
+      "dilateM": 0.622259,
+      "courtCellM": 0.25,
+      "subdivision": 1,
+      "minCourtM2": 104.771209
+     },
+     "exactTransforms": 37
+    },
+    "measureInputSha256": "f59bbbd2ddaf2638ba076b3729339a30288bdf89e1d180648a1633a73081d2e4",
+    "header": {
+     "source": "MFCG",
+     "build": "itch:12710731",
+     "rung": "TOWN",
+     "water": "none",
+     "size": 40
+    }
+   },
+   "exports-2026-09-25.s555001-size40-gates4": {
+    "stem": "exports-2026-09-25.s555001-size40-gates4",
+    "buildings": 1299,
+    "enclosureHa": 58.237344,
+    "medianFootprint": {
+     "areaM2": 254.560513,
+     "shortSideM": 13.76604
+    },
+    "clusters": {
+     "n": 190,
+     "singletons": 47,
+     "largestFootprintCount": 19
+    },
+    "blockc.perHa": {
+     "value": 2.352442,
+     "blocks": 137,
+     "walledHa": 58.237344
+    },
+    "blockc.lotsPer": {
+     "value": 9.0,
+     "mean": 8.715328,
+     "p90": 14.0,
+     "max": 19,
+     "singletonShare": 0.109489
+    },
+    "waterTakenOut": {
+     "sea": 0,
+     "river": 0
+    },
+    "blockAreas": {
+     "intramuralSumM2": 420244.0625,
+     "enclosureM2": 582373.441,
+     "ratio": 0.721606,
+     "intramuralOverlapM2": 0.0,
+     "intramuralClosedSumM2": 369446.0
+    },
+    "streetSpace": {
+     "areaM2": 162325.25,
+     "parts": 1,
+     "domainM2": 582569.3125,
+     "pockets": 0,
+     "pocketAreaM2": 0,
+     "largestPocketM2": 0.0
+    },
+    "raster": {
+     "stepM": 0.25,
+     "width": 3692,
+     "height": 3449,
+     "thinningPasses": 135,
+     "eulerStreetSpace": -137,
+     "eulerSkeleton": -137
+    },
+    "graphRaw": {
+     "nodes": 1548,
+     "edges": 1685,
+     "degrees": {
+      "1": 641,
+      "2": 1,
+      "3": 897,
+      "4": 9
+     },
+     "anomalies": 0
+    },
+    "topology": {
+     "eulerStreetSpace": -137,
+     "eulerSkeleton": -137,
+     "eulerGraphRaw": -137,
+     "componentsRaw": 1,
+     "isolatedNodes": 0,
+     "holesStreetSpace": 138,
+     "nodeClusterHoleLoops": 0,
+     "facesRaw": 138,
+     "facesPruned": 138,
+     "facesMerged": 137,
+     "mergeCollapsedFaces": 1,
+     "mergeInternalLongestM": 2.0,
+     "mergedGroups": 7,
+     "internalEdgesRemoved": 8,
+     "chainAnomalies": 0
+    },
+    "graphParts": 1,
+    "crossings": 0,
+    "sgd.tShare": {
+     "value": 0.443366,
+     "tNodes": 137,
+     "degree3": 309
+    },
+    "sgd.deadEnds": {
+     "value": 2.830124,
+     "degree1": 57,
+     "lengthKm": 20.14046
+    },
+    "graph": {
+     "nodes": 376,
+     "edges": 512,
+     "degrees": {
+      "1": 57,
+      "3": 309,
+      "4": 10
+     },
+     "faces": 137,
+     "lengthKm": 20.14046
+    },
+    "block.courtShare": {
+     "value": 0.707692,
+     "deep": 65,
+     "courtDeep": 46,
+     "courtShallow": 14,
+     "blocks": 137,
+     "thresholds": {
+      "deepRadiusM": 20.649059,
+      "dilateM": 0.688302,
+      "courtCellM": 0.25,
+      "subdivision": 1,
+      "minCourtM2": 127.280256
+     },
+     "exactTransforms": 34
+    },
+    "measureInputSha256": "f9cdb32dd0b49ffd15403b7e5e7191baec8891a40d283245ad20fb2d097b555f",
+    "header": {
+     "source": "MFCG",
+     "build": "itch:12710731",
+     "rung": "TOWN",
+     "water": "none",
+     "size": 40
+    }
+   },
+   "exports-2026-09-25.s555001-size40-gates9": {
+    "stem": "exports-2026-09-25.s555001-size40-gates9",
+    "buildings": 1227,
+    "enclosureHa": 57.823563,
+    "medianFootprint": {
+     "areaM2": 271.921604,
+     "shortSideM": 14.168616
+    },
+    "clusters": {
+     "n": 175,
+     "singletons": 48,
+     "largestFootprintCount": 26
+    },
+    "blockc.perHa": {
+     "value": 1.677517,
+     "blocks": 97,
+     "walledHa": 57.823563
+    },
+    "blockc.lotsPer": {
+     "value": 11.0,
+     "mean": 10.412371,
+     "p90": 16.0,
+     "max": 26,
+     "singletonShare": 0.051546
+    },
+    "waterTakenOut": {
+     "sea": 0,
+     "river": 0
+    },
+    "blockAreas": {
+     "intramuralSumM2": 424780.375,
+     "enclosureM2": 578235.629202,
+     "ratio": 0.734615,
+     "intramuralOverlapM2": 0.0,
+     "intramuralClosedSumM2": 345209.9375
+    },
+    "streetSpace": {
+     "areaM2": 153641.125,
+     "parts": 1,
+     "domainM2": 578421.5,
+     "pockets": 0,
+     "pocketAreaM2": 0,
+     "largestPocketM2": 0.0
+    },
+    "raster": {
+     "stepM": 0.25,
+     "width": 3692,
+     "height": 3449,
+     "thinningPasses": 161,
+     "eulerStreetSpace": -96,
+     "eulerSkeleton": -96
+    },
+    "graphRaw": {
+     "nodes": 1310,
+     "edges": 1406,
+     "degrees": {
+      "1": 561,
+      "3": 745,
+      "4": 4
+     },
+     "anomalies": 0
+    },
+    "topology": {
+     "eulerStreetSpace": -96,
+     "eulerSkeleton": -96,
+     "eulerGraphRaw": -96,
+     "componentsRaw": 1,
+     "isolatedNodes": 0,
+     "holesStreetSpace": 97,
+     "nodeClusterHoleLoops": 0,
+     "facesRaw": 97,
+     "facesPruned": 97,
+     "facesMerged": 97,
+     "mergeCollapsedFaces": 0,
+     "mergeInternalLongestM": 1.903943,
+     "mergedGroups": 7,
+     "internalEdgesRemoved": 7,
+     "chainAnomalies": 0
+    },
+    "graphParts": 1,
+    "crossings": 0,
+    "sgd.tShare": {
+     "value": 0.470833,
+     "tNodes": 113,
+     "degree3": 240
+    },
+    "sgd.deadEnds": {
+     "value": 3.775807,
+     "degree1": 66,
+     "lengthKm": 17.479705
+    },
+    "graph": {
+     "nodes": 315,
+     "edges": 411,
+     "degrees": {
+      "1": 66,
+      "3": 240,
+      "4": 9
+     },
+     "faces": 97,
+     "lengthKm": 17.479705
+    },
+    "block.courtShare": {
+     "value": 0.833333,
+     "deep": 60,
+     "courtDeep": 50,
+     "courtShallow": 10,
+     "blocks": 97,
+     "thresholds": {
+      "deepRadiusM": 21.252924,
+      "dilateM": 0.708431,
+      "courtCellM": 0.25,
+      "subdivision": 1,
+      "minCourtM2": 135.960802
+     },
+     "exactTransforms": 21
+    },
+    "measureInputSha256": "6db1cd2eab4856ebd50cfe7f53c317fc63eea7700241a58e666ae669b45015a0",
+    "header": {
+     "source": "MFCG",
+     "build": "itch:12710731",
+     "rung": "TOWN",
+     "water": "none",
+     "size": 40
+    }
+   },
+   "exports-2026-09-25.s777001-size80-river-coast": {
+    "stem": "exports-2026-09-25.s777001-size80-river-coast",
+    "buildings": 15393,
+    "enclosureHa": 247.719507,
+    "medianFootprint": {
+     "areaM2": 252.587472,
+     "shortSideM": 13.407332
+    },
+    "clusters": {
+     "n": 1890,
+     "singletons": 339,
+     "largestFootprintCount": 37
+    },
+    "blockc.perHa": {
+     "value": 2.078964,
+     "blocks": 515,
+     "walledHa": 247.719507
+    },
+    "blockc.lotsPer": {
+     "value": 9.0,
+     "mean": 9.01165,
+     "p90": 14.0,
+     "max": 25,
+     "singletonShare": 0.048544
+    },
+    "waterTakenOut": {
+     "sea": 1,
+     "river": 1
+    },
+    "blockAreas": {
+     "intramuralSumM2": 1683835.375,
+     "enclosureM2": 2477195.074919,
+     "ratio": 0.679735,
+     "intramuralOverlapM2": 0.0,
+     "intramuralClosedSumM2": 1441852.4375
+    },
+    "streetSpace": {
+     "areaM2": 626706.125,
+     "parts": 7,
+     "domainM2": 2310537.9375,
+     "pockets": 0,
+     "pocketAreaM2": 0,
+     "largestPocketM2": 0.0
+    },
+    "raster": {
+     "stepM": 0.25,
+     "width": 7549,
+     "height": 9533,
+     "thinningPasses": 338,
+     "eulerStreetSpace": -507,
+     "eulerSkeleton": -507
+    },
+    "graphRaw": {
+     "nodes": 5621,
+     "edges": 6133,
+     "degrees": {
+      "1": 2302,
+      "2": 6,
+      "3": 3300,
+      "4": 13
+     },
+     "anomalies": 0
+    },
+    "topology": {
+     "eulerStreetSpace": -507,
+     "eulerSkeleton": -507,
+     "eulerGraphRaw": -507,
+     "componentsRaw": 7,
+     "isolatedNodes": 5,
+     "holesStreetSpace": 514,
+     "nodeClusterHoleLoops": 0,
+     "facesRaw": 514,
+     "facesPruned": 514,
+     "facesMerged": 514,
+     "mergeCollapsedFaces": 0,
+     "mergeInternalLongestM": 2.06066,
+     "mergedGroups": 26,
+     "internalEdgesRemoved": 27,
+     "chainAnomalies": 0
+    },
+    "graphParts": 2,
+    "crossings": 0,
+    "sgd.tShare": {
+     "value": 0.459435,
+     "tNodes": 504,
+     "degree3": 1097
+    },
+    "sgd.deadEnds": {
+     "value": 1.717231,
+     "degree1": 132,
+     "lengthKm": 76.867918
+    },
+    "graph": {
+     "nodes": 1258,
+     "edges": 1770,
+     "degrees": {
+      "1": 132,
+      "3": 1097,
+      "4": 28,
+      "5": 1
+     },
+     "faces": 514,
+     "lengthKm": 76.867918
+    },
+    "block.courtShare": {
+     "value": 0.733591,
+     "deep": 259,
+     "courtDeep": 190,
+     "courtShallow": 41,
+     "blocks": 515,
+     "thresholds": {
+      "deepRadiusM": 20.110998,
+      "dilateM": 0.670367,
+      "courtCellM": 0.25,
+      "subdivision": 1,
+      "minCourtM2": 126.293736
+     },
+     "exactTransforms": 117
+    },
+    "measureInputSha256": "b14a836c2cffe1cd7fc2c219b00c98a35402456b27b70d2c2fb6d0f667fae8db",
+    "header": {
+     "source": "MFCG",
+     "build": "itch:12710731",
+     "rung": "CITY",
+     "water": "coast+river",
+     "size": 80
+    }
+   }
+  },
+  "spur6": {
+   "exports-2026-09-25.s555001-size40-gates0": {
+    "stem": "exports-2026-09-25.s555001-size40-gates0",
+    "buildings": 838,
+    "enclosureHa": 58.348033,
+    "medianFootprint": {
+     "areaM2": 426.752905,
+     "shortSideM": 17.771956
+    },
+    "clusters": {
+     "n": 115,
+     "singletons": 23,
+     "largestFootprintCount": 18
+    },
+    "blockc.perHa": {
+     "value": 1.696715,
+     "blocks": 99,
+     "walledHa": 58.348033
+    },
+    "blockc.lotsPer": {
+     "value": 8.0,
+     "mean": 8.30303,
+     "p90": 14.0,
+     "max": 18,
+     "singletonShare": 0.070707
+    },
+    "waterTakenOut": {
+     "sea": 0,
+     "river": 0
+    },
+    "blockAreas": {
+     "intramuralSumM2": 441783.75,
+     "enclosureM2": 583480.331703,
+     "ratio": 0.757153,
+     "intramuralOverlapM2": 0.0,
+     "intramuralClosedSumM2": 391481.5
+    },
+    "streetSpace": {
+     "areaM2": 142118.25,
+     "parts": 1,
+     "domainM2": 583902.0,
+     "pockets": 0,
+     "pocketAreaM2": 0,
+     "largestPocketM2": 0.0
+    },
+    "raster": {
+     "stepM": 0.5,
+     "width": 1855,
+     "height": 1749,
+     "thinningPasses": 72,
+     "eulerStreetSpace": -98,
+     "eulerSkeleton": -98
+    },
+    "graphRaw": {
+     "nodes": 1097,
+     "edges": 1195,
+     "degrees": {
+      "1": 452,
+      "2": 3,
+      "3": 636,
+      "4": 6
+     },
+     "anomalies": 0
+    },
+    "topology": {
+     "eulerStreetSpace": -98,
+     "eulerSkeleton": -98,
+     "eulerGraphRaw": -98,
+     "componentsRaw": 1,
+     "isolatedNodes": 0,
+     "holesStreetSpace": 99,
+     "nodeClusterHoleLoops": 0,
+     "facesRaw": 99,
+     "facesPruned": 99,
+     "facesMerged": 99,
+     "mergeCollapsedFaces": 0,
+     "mergeInternalLongestM": 1.802776,
+     "mergedGroups": 6,
+     "internalEdgesRemoved": 6,
+     "chainAnomalies": 0
+    },
+    "graphParts": 1,
+    "crossings": 0,
+    "sgd.tShare": {
+     "value": 0.437931,
+     "tNodes": 127,
+     "degree3": 290
+    },
+    "sgd.deadEnds": {
+     "value": 6.252181,
+     "degree1": 112,
+     "lengthKm": 17.913747
+    },
+    "graph": {
+     "nodes": 411,
+     "edges": 509,
+     "degrees": {
+      "1": 112,
+      "3": 290,
+      "4": 9
+     },
+     "faces": 99,
+     "lengthKm": 17.913747
+    },
+    "block.courtShare": {
+     "value": 0.707317,
+     "deep": 41,
+     "courtDeep": 29,
+     "courtShallow": 6,
+     "blocks": 99,
+     "thresholds": {
+      "deepRadiusM": 26.657934,
+      "dilateM": 0.888598,
+      "courtCellM": 0.25,
+      "subdivision": 2,
+      "minCourtM2": 213.376452
+     },
+     "exactTransforms": 22
+    },
+    "measureInputSha256": "d4f13e0bf8993e81ca5e187dc7517ee8f6e1765b68bb71f8697a9957baff7517",
+    "header": {
+     "source": "MFCG",
+     "build": "itch:12710731",
+     "rung": "TOWN",
+     "water": "none",
+     "size": 40
+    }
+   },
+   "exports-2026-09-25.s555001-size40-gates1": {
+    "stem": "exports-2026-09-25.s555001-size40-gates1",
+    "buildings": 1513,
+    "enclosureHa": 58.292731,
+    "medianFootprint": {
+     "areaM2": 209.542418,
+     "shortSideM": 12.445184
+    },
+    "clusters": {
+     "n": 190,
+     "singletons": 33,
+     "largestFootprintCount": 27
+    },
+    "blockc.perHa": {
+     "value": 2.676148,
+     "blocks": 156,
+     "walledHa": 58.292731
+    },
+    "blockc.lotsPer": {
+     "value": 9.0,
+     "mean": 9.384615,
+     "p90": 15.0,
+     "max": 27,
+     "singletonShare": 0.057692
+    },
+    "waterTakenOut": {
+     "sea": 0,
+     "river": 0
+    },
+    "blockAreas": {
+     "intramuralSumM2": 408822.0,
+     "enclosureM2": 582927.311171,
+     "ratio": 0.701326,
+     "intramuralOverlapM2": 0.0,
+     "intramuralClosedSumM2": 352061.0
+    },
+    "streetSpace": {
+     "areaM2": 174526.5,
+     "parts": 1,
+     "domainM2": 583348.5,
+     "pockets": 0,
+     "pocketAreaM2": 0,
+     "largestPocketM2": 0.0
+    },
+    "raster": {
+     "stepM": 0.5,
+     "width": 1855,
+     "height": 1749,
+     "thinningPasses": 107,
+     "eulerStreetSpace": -156,
+     "eulerSkeleton": -156
+    },
+    "graphRaw": {
+     "nodes": 1593,
+     "edges": 1749,
+     "degrees": {
+      "1": 639,
+      "2": 11,
+      "3": 935,
+      "4": 8
+     },
+     "anomalies": 0
+    },
+    "topology": {
+     "eulerStreetSpace": -156,
+     "eulerSkeleton": -156,
+     "eulerGraphRaw": -156,
+     "componentsRaw": 1,
+     "isolatedNodes": 0,
+     "holesStreetSpace": 157,
+     "nodeClusterHoleLoops": 0,
+     "facesRaw": 157,
+     "facesPruned": 157,
+     "facesMerged": 156,
+     "mergeCollapsedFaces": 1,
+     "mergeInternalLongestM": 2.943175,
+     "mergedGroups": 7,
+     "internalEdgesRemoved": 8,
+     "chainAnomalies": 0
+    },
+    "graphParts": 1,
+    "crossings": 0,
+    "sgd.tShare": {
+     "value": 0.414216,
+     "tNodes": 169,
+     "degree3": 408
+    },
+    "sgd.deadEnds": {
+     "value": 5.097652,
+     "degree1": 114,
+     "lengthKm": 22.363238
+    },
+    "graph": {
+     "nodes": 530,
+     "edges": 685,
+     "degrees": {
+      "1": 114,
+      "3": 408,
+      "4": 8
+     },
+     "faces": 156,
+     "lengthKm": 22.363238
+    },
+    "block.courtShare": {
+     "value": 0.819444,
+     "deep": 72,
+     "courtDeep": 59,
+     "courtShallow": 19,
+     "blocks": 156,
+     "thresholds": {
+      "deepRadiusM": 18.667776,
+      "dilateM": 0.622259,
+      "courtCellM": 0.25,
+      "subdivision": 2,
+      "minCourtM2": 104.771209
+     },
+     "exactTransforms": 39
+    },
+    "measureInputSha256": "f59bbbd2ddaf2638ba076b3729339a30288bdf89e1d180648a1633a73081d2e4",
+    "header": {
+     "source": "MFCG",
+     "build": "itch:12710731",
+     "rung": "TOWN",
+     "water": "none",
+     "size": 40
+    }
+   },
+   "exports-2026-09-25.s555001-size40-gates4": {
+    "stem": "exports-2026-09-25.s555001-size40-gates4",
+    "buildings": 1299,
+    "enclosureHa": 58.237344,
+    "medianFootprint": {
+     "areaM2": 254.560513,
+     "shortSideM": 13.76604
+    },
+    "clusters": {
+     "n": 190,
+     "singletons": 47,
+     "largestFootprintCount": 19
+    },
+    "blockc.perHa": {
+     "value": 2.352442,
+     "blocks": 137,
+     "walledHa": 58.237344
+    },
+    "blockc.lotsPer": {
+     "value": 9.0,
+     "mean": 8.715328,
+     "p90": 14.0,
+     "max": 19,
+     "singletonShare": 0.109489
+    },
+    "waterTakenOut": {
+     "sea": 0,
+     "river": 0
+    },
+    "blockAreas": {
+     "intramuralSumM2": 422956.5,
+     "enclosureM2": 582373.441,
+     "ratio": 0.726263,
+     "intramuralOverlapM2": 0.0,
+     "intramuralClosedSumM2": 372758.5
+    },
+    "streetSpace": {
+     "areaM2": 159820.5,
+     "parts": 1,
+     "domainM2": 582777.0,
+     "pockets": 0,
+     "pocketAreaM2": 0,
+     "largestPocketM2": 0.0
+    },
+    "raster": {
+     "stepM": 0.5,
+     "width": 1855,
+     "height": 1733,
+     "thinningPasses": 68,
+     "eulerStreetSpace": -137,
+     "eulerSkeleton": -137
+    },
+    "graphRaw": {
+     "nodes": 1397,
+     "edges": 1534,
+     "degrees": {
+      "1": 566,
+      "2": 5,
+      "3": 812,
+      "4": 14
+     },
+     "anomalies": 0
+    },
+    "topology": {
+     "eulerStreetSpace": -137,
+     "eulerSkeleton": -137,
+     "eulerGraphRaw": -137,
+     "componentsRaw": 1,
+     "isolatedNodes": 0,
+     "holesStreetSpace": 138,
+     "nodeClusterHoleLoops": 0,
+     "facesRaw": 138,
+     "facesPruned": 138,
+     "facesMerged": 137,
+     "mergeCollapsedFaces": 1,
+     "mergeInternalLongestM": 2.943175,
+     "mergedGroups": 7,
+     "internalEdgesRemoved": 8,
+     "chainAnomalies": 0
+    },
+    "graphParts": 1,
+    "crossings": 0,
+    "sgd.tShare": {
+     "value": 0.493151,
+     "tNodes": 180,
+     "degree3": 365
+    },
+    "sgd.deadEnds": {
+     "value": 5.605839,
+     "degree1": 115,
+     "lengthKm": 20.514326
+    },
+    "graph": {
+     "nodes": 491,
+     "edges": 627,
+     "degrees": {
+      "1": 115,
+      "3": 365,
+      "4": 11
+     },
+     "faces": 137,
+     "lengthKm": 20.514326
+    },
+    "block.courtShare": {
+     "value": 0.71875,
+     "deep": 64,
+     "courtDeep": 46,
+     "courtShallow": 14,
+     "blocks": 137,
+     "thresholds": {
+      "deepRadiusM": 20.649059,
+      "dilateM": 0.688302,
+      "courtCellM": 0.25,
+      "subdivision": 2,
+      "minCourtM2": 127.280256
+     },
+     "exactTransforms": 37
+    },
+    "measureInputSha256": "f9cdb32dd0b49ffd15403b7e5e7191baec8891a40d283245ad20fb2d097b555f",
+    "header": {
+     "source": "MFCG",
+     "build": "itch:12710731",
+     "rung": "TOWN",
+     "water": "none",
+     "size": 40
+    }
+   },
+   "exports-2026-09-25.s555001-size40-gates9": {
+    "stem": "exports-2026-09-25.s555001-size40-gates9",
+    "buildings": 1227,
+    "enclosureHa": 57.823563,
+    "medianFootprint": {
+     "areaM2": 271.921604,
+     "shortSideM": 14.168616
+    },
+    "clusters": {
+     "n": 175,
+     "singletons": 48,
+     "largestFootprintCount": 26
+    },
+    "blockc.perHa": {
+     "value": 1.677517,
+     "blocks": 97,
+     "walledHa": 57.823563
+    },
+    "blockc.lotsPer": {
+     "value": 11.0,
+     "mean": 10.412371,
+     "p90": 16.0,
+     "max": 26,
+     "singletonShare": 0.051546
+    },
+    "waterTakenOut": {
+     "sea": 0,
+     "river": 0
+    },
+    "blockAreas": {
+     "intramuralSumM2": 425599.75,
+     "enclosureM2": 578235.629202,
+     "ratio": 0.736032,
+     "intramuralOverlapM2": 0.0,
+     "intramuralClosedSumM2": 348573.75
+    },
+    "streetSpace": {
+     "areaM2": 153015.0,
+     "parts": 1,
+     "domainM2": 578614.75,
+     "pockets": 0,
+     "pocketAreaM2": 0,
+     "largestPocketM2": 0.0
+    },
+    "raster": {
+     "stepM": 0.5,
+     "width": 1855,
+     "height": 1733,
+     "thinningPasses": 80,
+     "eulerStreetSpace": -97,
+     "eulerSkeleton": -97
+    },
+    "graphRaw": {
+     "nodes": 1157,
+     "edges": 1254,
+     "degrees": {
+      "1": 482,
+      "2": 4,
+      "3": 666,
+      "4": 5
+     },
+     "anomalies": 0
+    },
+    "topology": {
+     "eulerStreetSpace": -97,
+     "eulerSkeleton": -97,
+     "eulerGraphRaw": -97,
+     "componentsRaw": 1,
+     "isolatedNodes": 0,
+     "holesStreetSpace": 98,
+     "nodeClusterHoleLoops": 0,
+     "facesRaw": 98,
+     "facesPruned": 98,
+     "facesMerged": 97,
+     "mergeCollapsedFaces": 1,
+     "mergeInternalLongestM": 2.943175,
+     "mergedGroups": 12,
+     "internalEdgesRemoved": 13,
+     "chainAnomalies": 0
+    },
+    "graphParts": 1,
+    "crossings": 0,
+    "sgd.tShare": {
+     "value": 0.513245,
+     "tNodes": 155,
+     "degree3": 302
+    },
+    "sgd.deadEnds": {
+     "value": 7.858744,
+     "degree1": 142,
+     "lengthKm": 18.069046
+    },
+    "graph": {
+     "nodes": 460,
+     "edges": 556,
+     "degrees": {
+      "1": 142,
+      "3": 302,
+      "4": 16
+     },
+     "faces": 97,
+     "lengthKm": 18.069046
+    },
+    "block.courtShare": {
+     "value": 0.85,
+     "deep": 60,
+     "courtDeep": 51,
+     "courtShallow": 9,
+     "blocks": 97,
+     "thresholds": {
+      "deepRadiusM": 21.252924,
+      "dilateM": 0.708431,
+      "courtCellM": 0.25,
+      "subdivision": 2,
+      "minCourtM2": 135.960802
+     },
+     "exactTransforms": 23
+    },
+    "measureInputSha256": "6db1cd2eab4856ebd50cfe7f53c317fc63eea7700241a58e666ae669b45015a0",
+    "header": {
+     "source": "MFCG",
+     "build": "itch:12710731",
+     "rung": "TOWN",
+     "water": "none",
+     "size": 40
+    }
+   },
+   "exports-2026-09-25.s777001-size80-river-coast": {
+    "stem": "exports-2026-09-25.s777001-size80-river-coast",
+    "buildings": 15393,
+    "enclosureHa": 247.719507,
+    "medianFootprint": {
+     "areaM2": 252.587472,
+     "shortSideM": 13.407332
+    },
+    "clusters": {
+     "n": 1890,
+     "singletons": 339,
+     "largestFootprintCount": 37
+    },
+    "blockc.perHa": {
+     "value": 2.078964,
+     "blocks": 515,
+     "walledHa": 247.719507
+    },
+    "blockc.lotsPer": {
+     "value": 9.0,
+     "mean": 9.01165,
+     "p90": 14.0,
+     "max": 25,
+     "singletonShare": 0.048544
+    },
+    "waterTakenOut": {
+     "sea": 1,
+     "river": 1
+    },
+    "blockAreas": {
+     "intramuralSumM2": 1695495.75,
+     "enclosureM2": 2477195.074919,
+     "ratio": 0.684442,
+     "intramuralOverlapM2": 0.0,
+     "intramuralClosedSumM2": 1455383.75
+    },
+    "streetSpace": {
+     "areaM2": 615669.5,
+     "parts": 2,
+     "domainM2": 2311162.5,
+     "pockets": 0,
+     "pocketAreaM2": 0,
+     "largestPocketM2": 0.0
+    },
+    "raster": {
+     "stepM": 0.5,
+     "width": 3783,
+     "height": 4775,
+     "thinningPasses": 169,
+     "eulerStreetSpace": -512,
+     "eulerSkeleton": -512
+    },
+    "graphRaw": {
+     "nodes": 4867,
+     "edges": 5379,
+     "degrees": {
+      "1": 1928,
+      "2": 20,
+      "3": 2886,
+      "4": 33
+     },
+     "anomalies": 0
+    },
+    "topology": {
+     "eulerStreetSpace": -512,
+     "eulerSkeleton": -512,
+     "eulerGraphRaw": -512,
+     "componentsRaw": 2,
+     "isolatedNodes": 0,
+     "holesStreetSpace": 514,
+     "nodeClusterHoleLoops": 0,
+     "facesRaw": 514,
+     "facesPruned": 514,
+     "facesMerged": 514,
+     "mergeCollapsedFaces": 0,
+     "mergeInternalLongestM": 2.118034,
+     "mergedGroups": 32,
+     "internalEdgesRemoved": 32,
+     "chainAnomalies": 0
+    },
+    "graphParts": 2,
+    "crossings": 0,
+    "sgd.tShare": {
+     "value": 0.459417,
+     "tNodes": 583,
+     "degree3": 1269
+    },
+    "sgd.deadEnds": {
+     "value": 4.267948,
+     "degree1": 333,
+     "lengthKm": 78.023441
+    },
+    "graph": {
+     "nodes": 1646,
+     "edges": 2158,
+     "degrees": {
+      "1": 333,
+      "3": 1269,
+      "4": 44
+     },
+     "faces": 514,
+     "lengthKm": 78.023441
+    },
+    "block.courtShare": {
+     "value": 0.733591,
+     "deep": 259,
+     "courtDeep": 190,
+     "courtShallow": 41,
+     "blocks": 515,
+     "thresholds": {
+      "deepRadiusM": 20.110998,
+      "dilateM": 0.670367,
+      "courtCellM": 0.25,
+      "subdivision": 2,
+      "minCourtM2": 126.293736
+     },
+     "exactTransforms": 123
+    },
+    "measureInputSha256": "b14a836c2cffe1cd7fc2c219b00c98a35402456b27b70d2c2fb6d0f667fae8db",
+    "header": {
+     "source": "MFCG",
+     "build": "itch:12710731",
+     "rung": "CITY",
+     "water": "coast+river",
+     "size": 80
+    }
+   }
+  },
+  "spur10": {
+   "exports-2026-09-25.s555001-size40-gates0": {
+    "stem": "exports-2026-09-25.s555001-size40-gates0",
+    "buildings": 838,
+    "enclosureHa": 58.348033,
+    "medianFootprint": {
+     "areaM2": 426.752905,
+     "shortSideM": 17.771956
+    },
+    "clusters": {
+     "n": 115,
+     "singletons": 23,
+     "largestFootprintCount": 18
+    },
+    "blockc.perHa": {
+     "value": 1.696715,
+     "blocks": 99,
+     "walledHa": 58.348033
+    },
+    "blockc.lotsPer": {
+     "value": 8.0,
+     "mean": 8.30303,
+     "p90": 14.0,
+     "max": 18,
+     "singletonShare": 0.070707
+    },
+    "waterTakenOut": {
+     "sea": 0,
+     "river": 0
+    },
+    "blockAreas": {
+     "intramuralSumM2": 441783.75,
+     "enclosureM2": 583480.331703,
+     "ratio": 0.757153,
+     "intramuralOverlapM2": 0.0,
+     "intramuralClosedSumM2": 391481.5
+    },
+    "streetSpace": {
+     "areaM2": 142118.25,
+     "parts": 1,
+     "domainM2": 583902.0,
+     "pockets": 0,
+     "pocketAreaM2": 0,
+     "largestPocketM2": 0.0
+    },
+    "raster": {
+     "stepM": 0.5,
+     "width": 1855,
+     "height": 1749,
+     "thinningPasses": 72,
+     "eulerStreetSpace": -98,
+     "eulerSkeleton": -98
+    },
+    "graphRaw": {
+     "nodes": 1097,
+     "edges": 1195,
+     "degrees": {
+      "1": 452,
+      "2": 3,
+      "3": 636,
+      "4": 6
+     },
+     "anomalies": 0
+    },
+    "topology": {
+     "eulerStreetSpace": -98,
+     "eulerSkeleton": -98,
+     "eulerGraphRaw": -98,
+     "componentsRaw": 1,
+     "isolatedNodes": 0,
+     "holesStreetSpace": 99,
+     "nodeClusterHoleLoops": 0,
+     "facesRaw": 99,
+     "facesPruned": 99,
+     "facesMerged": 99,
+     "mergeCollapsedFaces": 0,
+     "mergeInternalLongestM": 1.802776,
+     "mergedGroups": 2,
+     "internalEdgesRemoved": 2,
+     "chainAnomalies": 0
+    },
+    "graphParts": 1,
+    "crossings": 0,
+    "sgd.tShare": {
+     "value": 0.388889,
+     "tNodes": 84,
+     "degree3": 216
+    },
+    "sgd.deadEnds": {
+     "value": 1.503823,
+     "degree1": 26,
+     "lengthKm": 17.289267
+    },
+    "graph": {
+     "nodes": 245,
+     "edges": 343,
+     "degrees": {
+      "1": 26,
+      "3": 216,
+      "4": 3
+     },
+     "faces": 99,
+     "lengthKm": 17.289267
+    },
+    "block.courtShare": {
+     "value": 0.707317,
+     "deep": 41,
+     "courtDeep": 29,
+     "courtShallow": 6,
+     "blocks": 99,
+     "thresholds": {
+      "deepRadiusM": 26.657934,
+      "dilateM": 0.888598,
+      "courtCellM": 0.25,
+      "subdivision": 2,
+      "minCourtM2": 213.376452
+     },
+     "exactTransforms": 22
+    },
+    "measureInputSha256": "d4f13e0bf8993e81ca5e187dc7517ee8f6e1765b68bb71f8697a9957baff7517",
+    "header": {
+     "source": "MFCG",
+     "build": "itch:12710731",
+     "rung": "TOWN",
+     "water": "none",
+     "size": 40
+    }
+   },
+   "exports-2026-09-25.s555001-size40-gates1": {
+    "stem": "exports-2026-09-25.s555001-size40-gates1",
+    "buildings": 1513,
+    "enclosureHa": 58.292731,
+    "medianFootprint": {
+     "areaM2": 209.542418,
+     "shortSideM": 12.445184
+    },
+    "clusters": {
+     "n": 190,
+     "singletons": 33,
+     "largestFootprintCount": 27
+    },
+    "blockc.perHa": {
+     "value": 2.676148,
+     "blocks": 156,
+     "walledHa": 58.292731
+    },
+    "blockc.lotsPer": {
+     "value": 9.0,
+     "mean": 9.384615,
+     "p90": 15.0,
+     "max": 27,
+     "singletonShare": 0.057692
+    },
+    "waterTakenOut": {
+     "sea": 0,
+     "river": 0
+    },
+    "blockAreas": {
+     "intramuralSumM2": 408822.0,
+     "enclosureM2": 582927.311171,
+     "ratio": 0.701326,
+     "intramuralOverlapM2": 0.0,
+     "intramuralClosedSumM2": 352061.0
+    },
+    "streetSpace": {
+     "areaM2": 174526.5,
+     "parts": 1,
+     "domainM2": 583348.5,
+     "pockets": 0,
+     "pocketAreaM2": 0,
+     "largestPocketM2": 0.0
+    },
+    "raster": {
+     "stepM": 0.5,
+     "width": 1855,
+     "height": 1749,
+     "thinningPasses": 107,
+     "eulerStreetSpace": -156,
+     "eulerSkeleton": -156
+    },
+    "graphRaw": {
+     "nodes": 1593,
+     "edges": 1749,
+     "degrees": {
+      "1": 639,
+      "2": 11,
+      "3": 935,
+      "4": 8
+     },
+     "anomalies": 0
+    },
+    "topology": {
+     "eulerStreetSpace": -156,
+     "eulerSkeleton": -156,
+     "eulerGraphRaw": -156,
+     "componentsRaw": 1,
+     "isolatedNodes": 0,
+     "holesStreetSpace": 157,
+     "nodeClusterHoleLoops": 0,
+     "facesRaw": 157,
+     "facesPruned": 157,
+     "facesMerged": 156,
+     "mergeCollapsedFaces": 1,
+     "mergeInternalLongestM": 2.943175,
+     "mergedGroups": 5,
+     "internalEdgesRemoved": 6,
+     "chainAnomalies": 0
+    },
+    "graphParts": 1,
+    "crossings": 0,
+    "sgd.tShare": {
+     "value": 0.382789,
+     "tNodes": 129,
+     "degree3": 337
+    },
+    "sgd.deadEnds": {
+     "value": 1.787756,
+     "degree1": 39,
+     "lengthKm": 21.815061
+    },
+    "graph": {
+     "nodes": 382,
+     "edges": 537,
+     "degrees": {
+      "1": 39,
+      "3": 337,
+      "4": 6
+     },
+     "faces": 156,
+     "lengthKm": 21.815061
+    },
+    "block.courtShare": {
+     "value": 0.819444,
+     "deep": 72,
+     "courtDeep": 59,
+     "courtShallow": 19,
+     "blocks": 156,
+     "thresholds": {
+      "deepRadiusM": 18.667776,
+      "dilateM": 0.622259,
+      "courtCellM": 0.25,
+      "subdivision": 2,
+      "minCourtM2": 104.771209
+     },
+     "exactTransforms": 39
+    },
+    "measureInputSha256": "f59bbbd2ddaf2638ba076b3729339a30288bdf89e1d180648a1633a73081d2e4",
+    "header": {
+     "source": "MFCG",
+     "build": "itch:12710731",
+     "rung": "TOWN",
+     "water": "none",
+     "size": 40
+    }
+   },
+   "exports-2026-09-25.s555001-size40-gates4": {
+    "stem": "exports-2026-09-25.s555001-size40-gates4",
+    "buildings": 1299,
+    "enclosureHa": 58.237344,
+    "medianFootprint": {
+     "areaM2": 254.560513,
+     "shortSideM": 13.76604
+    },
+    "clusters": {
+     "n": 190,
+     "singletons": 47,
+     "largestFootprintCount": 19
+    },
+    "blockc.perHa": {
+     "value": 2.352442,
+     "blocks": 137,
+     "walledHa": 58.237344
+    },
+    "blockc.lotsPer": {
+     "value": 9.0,
+     "mean": 8.715328,
+     "p90": 14.0,
+     "max": 19,
+     "singletonShare": 0.109489
+    },
+    "waterTakenOut": {
+     "sea": 0,
+     "river": 0
+    },
+    "blockAreas": {
+     "intramuralSumM2": 422956.5,
+     "enclosureM2": 582373.441,
+     "ratio": 0.726263,
+     "intramuralOverlapM2": 0.0,
+     "intramuralClosedSumM2": 372758.5
+    },
+    "streetSpace": {
+     "areaM2": 159820.5,
+     "parts": 1,
+     "domainM2": 582777.0,
+     "pockets": 0,
+     "pocketAreaM2": 0,
+     "largestPocketM2": 0.0
+    },
+    "raster": {
+     "stepM": 0.5,
+     "width": 1855,
+     "height": 1733,
+     "thinningPasses": 68,
+     "eulerStreetSpace": -137,
+     "eulerSkeleton": -137
+    },
+    "graphRaw": {
+     "nodes": 1397,
+     "edges": 1534,
+     "degrees": {
+      "1": 566,
+      "2": 5,
+      "3": 812,
+      "4": 14
+     },
+     "anomalies": 0
+    },
+    "topology": {
+     "eulerStreetSpace": -137,
+     "eulerSkeleton": -137,
+     "eulerGraphRaw": -137,
+     "componentsRaw": 1,
+     "isolatedNodes": 0,
+     "holesStreetSpace": 138,
+     "nodeClusterHoleLoops": 0,
+     "facesRaw": 138,
+     "facesPruned": 138,
+     "facesMerged": 137,
+     "mergeCollapsedFaces": 1,
+     "mergeInternalLongestM": 2.943175,
+     "mergedGroups": 6,
+     "internalEdgesRemoved": 7,
+     "chainAnomalies": 0
+    },
+    "graphParts": 1,
+    "crossings": 0,
+    "sgd.tShare": {
+     "value": 0.422145,
+     "tNodes": 122,
+     "degree3": 289
+    },
+    "sgd.deadEnds": {
+     "value": 1.655291,
+     "degree1": 33,
+     "lengthKm": 19.936076
+    },
+    "graph": {
+     "nodes": 330,
+     "edges": 466,
+     "degrees": {
+      "1": 33,
+      "3": 289,
+      "4": 8
+     },
+     "faces": 137,
+     "lengthKm": 19.936076
+    },
+    "block.courtShare": {
+     "value": 0.71875,
+     "deep": 64,
+     "courtDeep": 46,
+     "courtShallow": 14,
+     "blocks": 137,
+     "thresholds": {
+      "deepRadiusM": 20.649059,
+      "dilateM": 0.688302,
+      "courtCellM": 0.25,
+      "subdivision": 2,
+      "minCourtM2": 127.280256
+     },
+     "exactTransforms": 37
+    },
+    "measureInputSha256": "f9cdb32dd0b49ffd15403b7e5e7191baec8891a40d283245ad20fb2d097b555f",
+    "header": {
+     "source": "MFCG",
+     "build": "itch:12710731",
+     "rung": "TOWN",
+     "water": "none",
+     "size": 40
+    }
+   },
+   "exports-2026-09-25.s555001-size40-gates9": {
+    "stem": "exports-2026-09-25.s555001-size40-gates9",
+    "buildings": 1227,
+    "enclosureHa": 57.823563,
+    "medianFootprint": {
+     "areaM2": 271.921604,
+     "shortSideM": 14.168616
+    },
+    "clusters": {
+     "n": 175,
+     "singletons": 48,
+     "largestFootprintCount": 26
+    },
+    "blockc.perHa": {
+     "value": 1.677517,
+     "blocks": 97,
+     "walledHa": 57.823563
+    },
+    "blockc.lotsPer": {
+     "value": 11.0,
+     "mean": 10.412371,
+     "p90": 16.0,
+     "max": 26,
+     "singletonShare": 0.051546
+    },
+    "waterTakenOut": {
+     "sea": 0,
+     "river": 0
+    },
+    "blockAreas": {
+     "intramuralSumM2": 425599.75,
+     "enclosureM2": 578235.629202,
+     "ratio": 0.736032,
+     "intramuralOverlapM2": 0.0,
+     "intramuralClosedSumM2": 348573.75
+    },
+    "streetSpace": {
+     "areaM2": 153015.0,
+     "parts": 1,
+     "domainM2": 578614.75,
+     "pockets": 0,
+     "pocketAreaM2": 0,
+     "largestPocketM2": 0.0
+    },
+    "raster": {
+     "stepM": 0.5,
+     "width": 1855,
+     "height": 1733,
+     "thinningPasses": 80,
+     "eulerStreetSpace": -97,
+     "eulerSkeleton": -97
+    },
+    "graphRaw": {
+     "nodes": 1157,
+     "edges": 1254,
+     "degrees": {
+      "1": 482,
+      "2": 4,
+      "3": 666,
+      "4": 5
+     },
+     "anomalies": 0
+    },
+    "topology": {
+     "eulerStreetSpace": -97,
+     "eulerSkeleton": -97,
+     "eulerGraphRaw": -97,
+     "componentsRaw": 1,
+     "isolatedNodes": 0,
+     "holesStreetSpace": 98,
+     "nodeClusterHoleLoops": 0,
+     "facesRaw": 98,
+     "facesPruned": 98,
+     "facesMerged": 97,
+     "mergeCollapsedFaces": 1,
+     "mergeInternalLongestM": 2.943175,
+     "mergedGroups": 4,
+     "internalEdgesRemoved": 5,
+     "chainAnomalies": 0
+    },
+    "graphParts": 1,
+    "crossings": 0,
+    "sgd.tShare": {
+     "value": 0.452489,
+     "tNodes": 100,
+     "degree3": 221
+    },
+    "sgd.deadEnds": {
+     "value": 2.365312,
+     "degree1": 41,
+     "lengthKm": 17.333869
+    },
+    "graph": {
+     "nodes": 268,
+     "edges": 364,
+     "degrees": {
+      "1": 41,
+      "3": 221,
+      "4": 6
+     },
+     "faces": 97,
+     "lengthKm": 17.333869
+    },
+    "block.courtShare": {
+     "value": 0.85,
+     "deep": 60,
+     "courtDeep": 51,
+     "courtShallow": 9,
+     "blocks": 97,
+     "thresholds": {
+      "deepRadiusM": 21.252924,
+      "dilateM": 0.708431,
+      "courtCellM": 0.25,
+      "subdivision": 2,
+      "minCourtM2": 135.960802
+     },
+     "exactTransforms": 23
+    },
+    "measureInputSha256": "6db1cd2eab4856ebd50cfe7f53c317fc63eea7700241a58e666ae669b45015a0",
+    "header": {
+     "source": "MFCG",
+     "build": "itch:12710731",
+     "rung": "TOWN",
+     "water": "none",
+     "size": 40
+    }
+   },
+   "exports-2026-09-25.s777001-size80-river-coast": {
+    "stem": "exports-2026-09-25.s777001-size80-river-coast",
+    "buildings": 15393,
+    "enclosureHa": 247.719507,
+    "medianFootprint": {
+     "areaM2": 252.587472,
+     "shortSideM": 13.407332
+    },
+    "clusters": {
+     "n": 1890,
+     "singletons": 339,
+     "largestFootprintCount": 37
+    },
+    "blockc.perHa": {
+     "value": 2.078964,
+     "blocks": 515,
+     "walledHa": 247.719507
+    },
+    "blockc.lotsPer": {
+     "value": 9.0,
+     "mean": 9.01165,
+     "p90": 14.0,
+     "max": 25,
+     "singletonShare": 0.048544
+    },
+    "waterTakenOut": {
+     "sea": 1,
+     "river": 1
+    },
+    "blockAreas": {
+     "intramuralSumM2": 1695495.75,
+     "enclosureM2": 2477195.074919,
+     "ratio": 0.684442,
+     "intramuralOverlapM2": 0.0,
+     "intramuralClosedSumM2": 1455383.75
+    },
+    "streetSpace": {
+     "areaM2": 615669.5,
+     "parts": 2,
+     "domainM2": 2311162.5,
+     "pockets": 0,
+     "pocketAreaM2": 0,
+     "largestPocketM2": 0.0
+    },
+    "raster": {
+     "stepM": 0.5,
+     "width": 3783,
+     "height": 4775,
+     "thinningPasses": 169,
+     "eulerStreetSpace": -512,
+     "eulerSkeleton": -512
+    },
+    "graphRaw": {
+     "nodes": 4867,
+     "edges": 5379,
+     "degrees": {
+      "1": 1928,
+      "2": 20,
+      "3": 2886,
+      "4": 33
+     },
+     "anomalies": 0
+    },
+    "topology": {
+     "eulerStreetSpace": -512,
+     "eulerSkeleton": -512,
+     "eulerGraphRaw": -512,
+     "componentsRaw": 2,
+     "isolatedNodes": 0,
+     "holesStreetSpace": 514,
+     "nodeClusterHoleLoops": 0,
+     "facesRaw": 514,
+     "facesPruned": 514,
+     "facesMerged": 514,
+     "mergeCollapsedFaces": 0,
+     "mergeInternalLongestM": 2.118034,
+     "mergedGroups": 14,
+     "internalEdgesRemoved": 14,
+     "chainAnomalies": 0
+    },
+    "graphParts": 2,
+    "crossings": 0,
+    "sgd.tShare": {
+     "value": 0.431132,
+     "tNodes": 457,
+     "degree3": 1060
+    },
+    "sgd.deadEnds": {
+     "value": 0.945281,
+     "degree1": 72,
+     "lengthKm": 76.167797
+    },
+    "graph": {
+     "nodes": 1150,
+     "edges": 1662,
+     "degrees": {
+      "1": 72,
+      "3": 1060,
+      "4": 18
+     },
+     "faces": 514,
+     "lengthKm": 76.167797
+    },
+    "block.courtShare": {
+     "value": 0.733591,
+     "deep": 259,
+     "courtDeep": 190,
+     "courtShallow": 41,
+     "blocks": 515,
+     "thresholds": {
+      "deepRadiusM": 20.110998,
+      "dilateM": 0.670367,
+      "courtCellM": 0.25,
+      "subdivision": 2,
+      "minCourtM2": 126.293736
+     },
+     "exactTransforms": 123
+    },
+    "measureInputSha256": "b14a836c2cffe1cd7fc2c219b00c98a35402456b27b70d2c2fb6d0f667fae8db",
+    "header": {
+     "source": "MFCG",
+     "build": "itch:12710731",
+     "rung": "CITY",
+     "water": "coast+river",
+     "size": 80
+    }
+   }
+  }
+ },
+ "checks": [
+  {
+   "id": "C1",
+   "check": "the row's checker: the seed-to-seed CV of sgd.* and blockc.* per family, recomputed from E09's per-seed file over the usable seeds, equals E09's stored summary exactly (n, mean, sd, cv, sdPop, cvPop), n = the usable seeds",
+   "passed": true,
+   "receipt": "16 of 16 CVs equal"
+  },
+  {
+   "id": "C2",
+   "check": "every row's status follows from its sample CV by the pre-decided rule (CV > 0.3 -> descriptive), and no companion reading (population CV, any-family, block.courtShare) changes a ruled verdict",
+   "passed": true,
+   "receipt": "12 ruled rows (0 descriptive, 12 target); 4 stress rows descriptive by the plan"
+  },
+  {
+   "id": "C3",
+   "check": "the base variant (step 0.5 m, spur 8 m, merge 2 m) equals E09's stored fixture records field for field on 21 keys (the same code at the same parameters: a determinism receipt)",
+   "passed": true,
+   "receipt": "5 of 5 fixtures equal"
+  },
+  {
+   "id": "C4",
+   "check": "blockc.perHa and blockc.lotsPer are identical under every variant (the block count and the footprints per block come from the union-find and the centroid test, not from the raster, so their sensitivity is exactly 0)",
+   "passed": true,
+   "receipt": "40 of 40 values equal"
+  },
+  {
+   "id": "C5",
+   "check": "every variant's derived graph on every fixture is planar (0 proper crossings) and keeps E09's face-count identity at every stage (Euler numbers equal; raw faces = street-space holes = pruned faces; merged faces = pruned less the collapsed; internal edges <= 2 x merge; 0 chain anomalies)",
+   "passed": true,
+   "receipt": "20 of 20 variant-fixture graphs hold"
+  },
+  {
+   "id": "C6",
+   "check": "the sample read from E09 is the plan's: 10 usable seeds per plain family, the stress family's 3, no failed seed among them, the failed indices listed",
+   "passed": true,
+   "receipt": "10 / 10 / 10 / 3 usable; failed: capture/MFCG/130/plain/8 no-export; capture/MFCG/80/river+coast/1 retry; capture/MFCG/80/river+coast/4 retry"
+  },
+  {
+   "id": "C7",
+   "check": "the sensitivity table is complete: 4 variants x 5 fixtures, each record at its declared raster step (the spur and merge thresholds are the call's; --verify re-forms the record byte for byte from the stored measurements)",
+   "passed": true,
+   "receipt": "20 of 20 records"
+  }
+ ],
+ "checksFailed": 0
+}

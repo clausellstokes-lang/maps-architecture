@@ -1,0 +1,96 @@
+{
+  "$comment": "M0-a-06's batch fixtures (§13.1, §13.2): sequences of transactions as data, slot-free, for this item's own identity checks (fixtures.test.ts: each sequence run twice gives identical arenas and commit records; a declared batch's ops in reverse give the same) and for M0-d-08's determinism harness (wave 9: the callback-form issue order and the slot-renumbering identity, with M0-d-04's digests). A sequence starts from an L0 square frame of side `frame` cm (a closed `margin` chain on `terrain:1`, as M0-a-05's test support builds it). A batch: `level`; `form` 'callback' (ops applied in the order listed, each refusal ending the batch) or 'declared' (ops applied in §3.3's canonical order: op-kind rank, lineage, index); optional `stage` and `rederivesFrom` (u16 stage ids, the rank of each its id), `workLimit`; `expect` 'commit' or 'refuse:<code>'. An op: insertChain {points, roles, cls, opts?}; splitThrough {edge: [a, b] — the edge between the vertices at lattice points a and b, at, row?}; removeEdges {ref, profiles?}; retypeEdges {ref, add, remove, rekey?}; clearFiner {faces, clearLevel}; setOwner {at: lattice points inside the faces at the batch's level, owner}. A ref's stretch ends are lattice points [x, y] or VertexRefs. Declared ops carry `lineage` [low, high] and `index`.",
+  "sequences": [
+    {
+      "name": "grid, lanes, a lane removed, blocks re-owned",
+      "frame": 3000,
+      "batches": [
+        { "level": 1, "form": "declared", "expect": "commit", "ops": [
+          { "op": "insertChain", "lineage": [1, 0], "index": 0, "points": [[1000, 0], [1000, 3000]], "roles": [{ "role": "way", "entity": "way:v1" }], "cls": "mandatory" },
+          { "op": "insertChain", "lineage": [2, 0], "index": 0, "points": [[2000, 0], [2000, 3000]], "roles": [{ "role": "way", "entity": "way:v2" }], "cls": "mandatory" },
+          { "op": "insertChain", "lineage": [3, 0], "index": 0, "points": [[0, 1000], [3000, 1000]], "roles": [{ "role": "way", "entity": "way:h1" }], "cls": "mandatory" },
+          { "op": "insertChain", "lineage": [4, 0], "index": 0, "points": [[0, 2000], [3000, 2000]], "roles": [{ "role": "way", "entity": "way:h2" }], "cls": "mandatory" }
+        ] },
+        { "level": 1, "form": "callback", "stage": 6, "rederivesFrom": 6, "expect": "commit", "ops": [
+          { "op": "setOwner", "at": [[500, 500], [1500, 500], [2500, 500]], "owner": "district:s" },
+          { "op": "setOwner", "at": [[500, 1500], [1500, 1500], [2500, 1500], [500, 2500], [1500, 2500], [2500, 2500]], "owner": "district:n" }
+        ] },
+        { "level": 2, "form": "callback", "expect": "commit", "ops": [
+          { "op": "insertChain", "points": [[1500, 1000], [1500, 2000]], "roles": [{ "role": "kerb", "entity": "lane:1" }], "cls": "mandatory" },
+          { "op": "insertChain", "points": [[1000, 1500], [1500, 1500]], "roles": [{ "role": "kerb", "entity": "lane:2" }], "cls": "mandatory" },
+          { "op": "insertChain", "points": [[1510, 1700], [2000, 1700]], "roles": [{ "role": "kerb", "entity": "lane:3" }], "cls": "mandatory" }
+        ] },
+        { "level": 2, "form": "callback", "expect": "commit", "ops": [
+          { "op": "removeEdges", "ref": { "role": "kerb", "entity": "lane:2" } }
+        ] },
+        { "level": 1, "form": "callback", "stage": 8, "rederivesFrom": 6, "expect": "commit", "ops": [
+          { "op": "clearFiner", "faces": { "owner": "district:n", "level": 1 }, "clearLevel": 1 }
+        ] }
+      ]
+    },
+    {
+      "name": "a profiled way split by rekey and re-joined",
+      "frame": 4000,
+      "batches": [
+        { "level": 1, "form": "callback", "expect": "commit", "ops": [
+          { "op": "insertChain", "points": [[0, 2000], [1000, 2200], [2000, 2000], [3000, 2200], [4000, 2000]], "roles": [{ "role": "way", "entity": "way:1" }], "cls": "mandatory",
+            "opts": { "knots": [{ "index": 0, "role": "width_knot", "ordinal": 0 }, { "index": 2, "role": "width_knot", "ordinal": 1 }, { "index": 4, "role": "width_knot", "ordinal": 2 }] } }
+        ] },
+        { "level": 1, "form": "callback", "expect": "commit", "ops": [
+          { "op": "retypeEdges", "ref": { "chain": { "role": "way", "entity": "way:1" }, "from": [3000, 2200], "to": [4000, 2000] }, "add": [], "remove": [],
+            "rekey": { "from": "way:1", "to": "way:2", "profiles": [{ "from": { "knotRole": "width_knot", "values": [400, 800, 600], "interp": "linear" } }] } }
+        ] },
+        { "level": 1, "form": "callback", "expect": "commit", "ops": [
+          { "op": "insertChain", "points": [[3000, 2200], [3000, 4000]], "roles": [{ "role": "way", "entity": "way:3" }], "cls": "mandatory" }
+        ] }
+      ]
+    },
+    {
+      "name": "a stretch removed between two junctions, its far part rekeyed first; then one removed without a rekey (refused)",
+      "frame": 4000,
+      "batches": [
+        { "level": 1, "form": "declared", "expect": "commit", "ops": [
+          { "op": "insertChain", "lineage": [10, 0], "index": 0, "points": [[0, 2000], [1000, 2100], [3000, 2100], [4000, 2000]], "roles": [{ "role": "way", "entity": "way:1" }], "cls": "mandatory" },
+          { "op": "insertChain", "lineage": [11, 0], "index": 0, "points": [[1000, 0], [1000, 4000]], "roles": [{ "role": "way", "entity": "way:2" }], "cls": "mandatory" },
+          { "op": "insertChain", "lineage": [12, 0], "index": 0, "points": [[3000, 0], [3000, 4000]], "roles": [{ "role": "way", "entity": "way:3" }], "cls": "mandatory" }
+        ] },
+        { "level": 1, "form": "callback", "expect": "refuse:E_INVARIANT", "ops": [
+          { "op": "removeEdges", "ref": { "chain": { "role": "way", "entity": "way:1" }, "from": [1000, 2100], "to": [3000, 2100] } }
+        ] },
+        { "level": 1, "form": "callback", "expect": "commit", "ops": [
+          { "op": "retypeEdges", "ref": { "chain": { "role": "way", "entity": "way:1" }, "from": [3000, 2100], "to": [4000, 2000] }, "add": [], "remove": [], "rekey": { "from": "way:1", "to": "way:9" } },
+          { "op": "removeEdges", "ref": { "chain": { "role": "way", "entity": "way:1" }, "from": [1000, 2100], "to": [3000, 2100] } }
+        ] }
+      ]
+    },
+    {
+      "name": "contact names placed by a declared preparation batch, then stripped by their VertexRefs",
+      "frame": 4000,
+      "batches": [
+        { "level": 1, "form": "callback", "expect": "commit", "ops": [
+          { "op": "insertChain", "points": [[0, 2000], [2000, 2100], [4000, 2000]], "roles": [{ "role": "district_bound", "entity": "district:1" }], "cls": "mandatory" }
+        ] },
+        { "level": 1, "form": "declared", "expect": "commit", "ops": [
+          { "op": "splitThrough", "lineage": [7, 0], "index": 0, "edge": [[0, 2000], [2000, 2100]], "at": [1000, 2050], "row": { "role": "anchor", "entity": "district:1" } },
+          { "op": "splitThrough", "lineage": [7, 0], "index": 1, "edge": [[2000, 2100], [4000, 2000]], "at": [3000, 2050], "row": { "role": "anchor", "entity": "district:1" } }
+        ] },
+        { "level": 1, "form": "declared", "expect": "commit", "ops": [
+          { "op": "removeEdges", "lineage": [8, 0], "index": 0, "ref": { "role": "anchor", "entity": "district:1", "ordinal": 0 } },
+          { "op": "removeEdges", "lineage": [8, 0], "index": 1, "ref": { "role": "anchor", "entity": "district:1", "ordinal": 1 } }
+        ] }
+      ]
+    },
+    {
+      "name": "crowded ends in one declared batch (attraction decides by the canonical order)",
+      "frame": 4000,
+      "batches": [
+        { "level": 1, "form": "declared", "expect": "commit", "ops": [
+          { "op": "insertChain", "lineage": [21, 0], "index": 0, "points": [[1000, 1000], [2000, 1000]], "roles": [{ "role": "way", "entity": "way:a" }], "cls": "mandatory" },
+          { "op": "insertChain", "lineage": [22, 0], "index": 0, "points": [[2000, 1020], [3000, 1020]], "roles": [{ "role": "way", "entity": "way:b" }], "cls": "mandatory" },
+          { "op": "insertChain", "lineage": [23, 0], "index": 0, "points": [[3010, 1005], [3000, 3000]], "roles": [{ "role": "way", "entity": "way:c" }], "cls": "mandatory" },
+          { "op": "insertChain", "lineage": [24, 7], "index": 0, "points": [[1015, 990], [1000, 3000], [2990, 3010]], "roles": [{ "role": "way", "entity": "way:d" }], "cls": "mandatory" }
+        ] }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+{
+ "key": "coherence/famverify-epochs-r7v",
+ "file": "docs/validation/coherence/famverify-epochs-r7v.md",
+ "issues": [
+  {
+   "id": "VF7v-EPO-01",
+   "severity": "major",
+   "kind": "FIXTURE-AGAINST-ORDER (a named test fails a correct build)",
+   "owner": "V06; END scope",
+   "claim": "T-V6-73 (V06 l. 4246) runs T110-2 (1)'s founding across a decayed ring (l. 19291–19293) on H-AQUA: 'H-AQUA's aqueduct founded at its CITY epoch where the ring's run at its course is `breached` … (by a hand `convert` the fixture logs before that epoch) — *over the band* …, the gap left a gap beneath the arch, no `repairWall`'. The epoch runs `fortification` (step 9) before `raisedWays` (step 10a) (V06 §3.2, l. 1006, 1008; the founding reads 'the state after `terrainWater` and (B)', V06 §3.19 (2), l. 2784). At step 9, V06 §3.7.5 (l. 1551–1554) repairs a ring in use's hand `breach` 'at the next `fortification` phase', item 114 making it the NEED-`high` rows (V06 §3.7.7 (3), l. 1668). H-AQUA's recipe (V06 l. 4101–4122) scripts no threat, yet needs a METROPOLIS circuit (its METROPOLIS span and far foot; T-V6-47), which fires only while 'threat ≥ walls.threatMin' (V06 §3.7.1, l. 1455); with its one site threat NEED is `high` at the CITY epoch (V06 §3.7.7 (1), l. 1636–1639). A correct build therefore repairs the breach (patched or robust) before the founding, which meets a standing run: the clause's 'the gap left a gap beneath the arch, no `repairWall`' fails a correct build. No build passes both this clause and the fixture's METROPOLIS circuit on one threat — VF7-EPO-01's class (J151: a test that would fail a correct build stays MAJOR). The `dismantled` run is never repaired, so only the `breached` run fails.",
+   "required_change": "T-V6-73 (V06 l. 4246): \"(by a hand `convert` the fixture logs before that epoch)\" → \"(by a hand `convert` the fixture logs before that epoch, the site's threat scripted below `walls.threatMin` from the fixture's start through that epoch, so that NEED is not `high` and the epoch's `fortification` step, which runs before its `raisedWays` step, repairs no breach of the ring: V06 §3.2, §3.7.5, §3.7.7 (1), (3))\". END at scope, T110-2 (1) (l. 19291–19292): \"the same aqueduct founded by V06 §3.19 at a CITY epoch across the ring where its run is `breached` and, on a second run, `dismantled` —\" → \"the same aqueduct founded by V06 §3.19 at a CITY epoch across the ring where its run is `breached` (the ring's NEED not `high` through that epoch, so that the epoch's `fortification` step, before its `raisedWays` step, repairs no breach: V06 §3.2, §3.7.5, §3.7.7 (3)) and, on a second run, `dismantled` —\"."
+  },
+  {
+   "id": "VF7v-EPO-02",
+   "severity": "minor",
+   "kind": "READER (law 1 (8)'s superseded chamber clause restated)",
+   "owner": "V06",
+   "claim": "END-L1 narrowed law 1 (8) to 'a span read `vault` has the chamber V04 §3.5.4 (d) lays' (l. 2734–2735), V04 §3.5.4 (d) (1) laying none in a span whose inset rectangle falls below `minEdge` (V04 l. 1707–1708); V04's bars were conformed (V4-3). V06 §3.2's reconcile paragraph still states the old clause: 'a chamber for each standing `vault` span that §2.7's laws read `vault`' (l. 1041) and 'every `vault` span they read `vault` has its chamber (`collapsed` where V04 §3.5.4 (d) (2) says)' (l. 1047–1049) (assemble-r7v's open note). A restatement; the reconcile is V04's and no V06 bar asserts it (T-V6-64 takes V04's one wording), so nothing built changes.",
+   "required_change": "V06 §3.2 (l. 1041): \"a chamber for each standing `vault` span that §2.7's laws read `vault`\" → \"the chamber V04 §3.5.4 (d) (1) lays in each standing `vault` span that §2.7's laws read `vault`\"; (l. 1048–1049): \"and that every `vault` span they read `vault` has its chamber (`collapsed` where V04 §3.5.4 (d) (2) says)\" → \"and that every `vault` span they read `vault` has the chamber V04 §3.5.4 (d) lays (none in one too small for a chamber, reported; `collapsed` where V04 §3.5.4 (d) (2) says)\"."
+  },
+  {
+   "id": "VF7v-EPO-03",
+   "severity": "minor",
+   "kind": "CITATION (the way-and-channel table cited alone)",
+   "owner": "V07",
+   "claim": "Part H's head binds every family text to cite \"§2.7's laws\" with the law's number, a row following as its worked example; VF7-EPO-06's sweep conformed V06 and V05 but not V07. T-V7-48 (V07 l. 3710): 'the ring road by §2.7's way-and-channel table (row c)'. It resolves to an existing row; nothing built changes.",
+   "required_change": "T-V7-48 (V07 l. 3710): \"the ring road by §2.7's way-and-channel table (row c)\" → \"the ring road by §2.7's laws (law 1 (1), (8); its worked example the way-and-channel table's row (c))\"."
+  },
+  {
+   "id": "VF7v-EPO-04",
+   "severity": "minor",
+   "kind": "LIST (a shape-locked raised way's `vault`-use span left out where a held building's strip is named)",
+   "owner": "V06; END V07, determinism",
+   "claim": "VF7-EPO-04's class at four more restatements. Law 1 (10) keeps a wall-like line, band or strip newly off a shape-locked raised way's `vault`-use spans as law 1 (9) keeps a held building's strip (l. 2736–2743); V06 §2.10 and §3.7.6 (5) now name both (V06 l. 755, 1621–1623). These name the held building alone: V06 §3.7.1's `t_k` rule (V06 l. 1471); V07 §3.13's F-V-RAISED detection (V07 l. 2770); §5.2's F-WALL detection, which binds an epoch circuit (V06 §3.7.1, l. 1477–1478) (l. 9852); §5.2's F-REDERIVE raised-way detection, which an epoch's water op takes (l. 9869). Each one's 'no lawful crossing' already covers it, and no op makes a shape lock before round 8 designs it, so nothing built or tested changes.",
+   "required_change": "V06 §3.7.1 (l. 1471): \"— never a held building's strip, which the trace keeps clear (law 1 (9))\" → \"— never a held building's strip or a shape-locked raised way's `vault`-use span's strip, which the trace keeps clear (law 1 (9), (10))\". END at V07, §3.13's F-V-RAISED (V07 l. 2770): \"or a held building's widened strip it cannot keep clear (§2.7's laws, law 2 (c);\" → \"or a held building's widened strip or a shape-locked raised way's `vault`-use span's strip it cannot keep clear (§2.7's laws, law 2 (c), law 1 (9), (10);\". END at determinism, §5.2's F-WALL (l. 9852): \"a held building's widened strip it cannot keep clear, or a carried way\" → \"a held building's widened strip or a shape-locked raised way's `vault`-use span's strip it cannot keep clear, or a carried way\", and \"(§2.7's laws, law 2 (c), law 1 (6), (9), law 2 *Carried way*;\" → \"(§2.7's laws, law 2 (c), law 1 (6), (9), (10), law 2 *Carried way*;\"; §5.2's F-REDERIVE (l. 9869): \"or a held building's widened strip it cannot keep clear (§2.7's laws, law 2 (c), law 1 (6), (9);\" → \"or a held building's widened strip or a shape-locked raised way's `vault`-use span's strip it cannot keep clear (§2.7's laws, law 2 (c), law 1 (6), (9), (10);\"."
+  },
+  {
+   "id": "VF7v-EPO-05",
+   "severity": "minor",
+   "kind": "READER (the founding's restatement of the meeting omits two cases its cited laws decide)",
+   "owner": "V06",
+   "claim": "V06 §3.19 (5) (l. 2850–2860): a founded course 'meets a standing curtain — locked, pinned, declared or not … — by §2.7's laws … (law 1 (2)–(6), law 2): an aqueduct *over the band* … — over …, merged where its channel runs within the wall's height (law 1 (2)) —, …; a road deck *down before the wall* …, founded with its two ends fixed, so not founded where its course would cross a standing curtain: it waits'. Left out: a shape-locked curtain is never merged into (law 1 (10), l. 2739–2743; *over the band*, l. 3028–3029; §4.3 *Where it may not go*, l. 6502, the solver (5) calls); and a road deck whose fixed end a curtain's line, band or wall strips would lie over waits too (law 1 (4), l. 2721–2723 — VF7-EPO-01's case, fixed in H-AQUA's recipe, not in the rule). §2.10's `raised.waited` (V06 l. 770) reads ends only 'against a standing trace's gates, posterns, towers or fixed places'. The cited laws decide both and the solver carries the shape lock, so nothing built changes.",
+   "required_change": "V06 §3.19 (5) (l. 2851–2852): \"and meets a standing curtain — locked, pinned, declared or not,\" → \"and meets a standing curtain — placement-locked, pinned, declared or not,\"; (l. 2856–2857): \"merged where its channel runs within the wall's height (law 1 (2)) —,\" → \"merged where its channel runs within the wall's height, a shape-locked curtain never merged into (law 1 (2), (10)) —,\"; (l. 2859–2860): \"founded with its two ends fixed, so not founded where its course would cross a standing curtain:\" → \"founded with its two ends fixed, so not founded where its course would cross a standing curtain or a curtain's line, band or wall strips would lie over an end of it (law 1 (4)):\". §2.10's `raised.waited` (V06 l. 770): \"no course keeps lawful against a standing trace's gates, posterns, towers or fixed places (law 1 (4)–(6), law 2 (c);\" → \"no course keeps lawful against a standing trace's line, band and wall strips, gates, posterns, towers or fixed places (law 1 (2), (4)–(6), (10), law 2 (c);\"."
+  },
+  {
+   "id": "VF7v-EPO-06",
+   "severity": "minor",
+   "kind": "VALID CHOICE (an elevated road's anchor where its end would lie over a wall)",
+   "owner": "V06",
+   "claim": "V06 §3.19 (2) (l. 2802–2805) reads an elevated-road endpoint's anchor as 'its highest part-0 way vertex inside it or on its boundary', filtering by §2.7's laws (law 1 (4), (6)) only for a citadel. A high ward or terraced district bounded by an enceinte can have that vertex at a gate's junction on its boundary or beside the inner setback line, so that the road's end lies under the wall's band or wall strips (law 1 (4), l. 2721). Two outcomes, both lawful: (i) the ends fixed (V06 §3.19 (5), l. 2859; *down before the wall*, l. 3044–3047), no lawful course — the candidate waits, `raised.waited` (law 2 (c)); (ii) the anchor read, as the citadel's, as the highest part-0 way vertex at which the road's ends keep clear of every enclosing wall's line, band and wall strips (law 1 (4); law 2 (a)). Each keeps every law-1 invariant and owner rule, passes the check and fails no named test (T-V6-57, T110-3). S6's end reads the same readings (§4.3, l. 6478).",
+   "required_change": "None in the design text; list in fix-list.md: \"V06 §3.19 (2): an elevated road's non-citadel anchor whose end would lie under an enclosing wall's line, band or wall strips — the candidate waits (`raised.waited`, its ends fixed), or the anchor is the highest part-0 way vertex at which the road's ends keep clear of them, as the citadel's anchor (§2.7's laws, law 1 (4), law 2 (a), (c)); the builder picks one.\""
+  },
+  {
+   "id": "VF7v-EPO-07",
+   "severity": "minor",
+   "kind": "LIST (the harbour-mouth chain left out of 'raised ways on every trace')",
+   "owner": "V06",
+   "claim": "V06 §3.7.6 (5) (l. 1601–1603) binds 'every trace this section makes — a circuit, a shorter ring, a re-anchored or repaired stretch, the waterfront's quay wall —' to meet standing raised ways by §2.7's laws, but not (3)'s harbour-mouth chain (l. 1580–1583: two towers on the heads and a water gate across the entrance, 'A tower or fort already standing at a mole head … is the chain's anchor there'), a fixed place (the laws' terms, l. 2627–2631). The fixed-place sentence names the op ('A harbour-mouth chain laid after the raised way (S7, V06 §3.7.6 (3), …) is laid … whose gate and towers lie where law 1 (5) and (6) admit them; with none it … waits at an epoch (`walls.waited`)', l. 3256–3259), and `walls.waited`'s comment (V06 l. 755) counts only 'traces'. Law 4 binds the chain op and the laws give one outcome, so nothing built changes.",
+   "required_change": "V06 §3.7.6 (5) (l. 1601–1603): \"Every trace this section makes — a circuit, a shorter ring, a re-anchored or repaired stretch, the waterfront's quay wall — meets the standing raised ways by §2.7's laws\" → \"Every trace this section makes — a circuit, a shorter ring, a re-anchored or repaired stretch, the waterfront's quay wall — and (3)'s harbour-mouth chain meet the standing raised ways by §2.7's laws\"; (3)'s chain bullet (l. 1582–1583): after \"a tower is added only at a head where none stands\" add \"; its gate and towers stand only where §2.7's laws, law 1 (5) and (6), admit them — at the nearest heads or shore points along the entrance that do, a standing tower barred there being no anchor, else the chain waiting (`walls.waited`; law 2 (a), (c); its worked example the fixed-place sentence)\"; `walls.waited`'s comment (V06 l. 755): \"and traces that no lawful crossing of a standing raised way or clear point for a fixed place admits\" → \"and traces and harbour-mouth chains (V06 §3.7.6 (3)) that no lawful crossing of a standing raised way or clear point for a fixed place admits\"."
+  },
+  {
+   "id": "VF7v-EPO-08",
+   "severity": "minor",
+   "kind": "TEST-CASE (a fixture names a raised way §4.3 excludes)",
+   "owner": "scope",
+   "claim": "T110-4 (a) (l. 19565–19566) runs §5.3's law-1 row on 'T-V6-48 (with a declared viaduct over its harbour mouth)', the one fixture meant to set a harbour-mouth chain laid at an epoch (T-V6-48, V06 l. 4221) against a raised way (the fixed-place sentence's chain laid after the raised way, l. 3256–3259). §4.3 *Where it may not go* (l. 6500–6501) treats 'the harbour basin and its mouth … as excluded (masts must pass; a stroke across it is bent to end at its last ground vertex before the basin …)', so no declared viaduct stands over the mouth and the variant cannot hold its case. The bar asserts only law 1, so a correct build passes; the case is unrun (R6-11's class).",
+   "required_change": "T110-4 (a) (l. 19565–19566): \"T-V6-48 (with a declared viaduct over its harbour mouth)\" → \"T-V6-48 (with a declared viaduct along its harbour's shore whose fixed-place zone holds a head of its harbour mouth before the chain is laid, its course kept off the basin and the mouth by §4.3 *Where it may not go*)\"."
+  },
+  {
+   "id": "VF7v-EPO-09",
+   "severity": "minor",
+   "kind": "EXAMPLE-AGAINST-LAW (row W14 waits where law 1 (5) admits a gate)",
+   "owner": "model",
+   "claim": "Row W14 (l. 3353), the palisade REPLACEMENT at a village epoch: its event cell 'the REPLACEMENT waiting where a standing gate's stone footprint would meet a strip, or its new top would rise past the soffit of an aqueduct's arch over a kept gate (law 1 (5))', its C2 cell 'a re-section whose new footprint of one would meet a strip, or whose new top would leave one in a crossing law 1 (5) bars …, having no lawful shape there (law 2 (c))'. Law 1 (5) (l. 2724–2725) admits a gate's or tower's footprint in an aqueduct's strip in an over crossing whose every span over it clears its top, and law 2 tries (c) only where (a) leaves no lawful shape (l. 2752–2754); V07 §3.11 (V07 l. 2313–2315) and T-V7-48 (V07 l. 3710) word it by the law. The example makes the REPLACEMENT wait under an arch that clears the stone gatehouse and the wall; the laws govern (l. 2893–2894), so a minor, the example corrected.",
+   "required_change": "Row W14 (l. 3353), event cell: \"the REPLACEMENT waiting where a standing gate's stone footprint would meet a strip,\" → \"the REPLACEMENT waiting where a standing gate's stone footprint would lie where law 1 (5) bars it (in a road deck's under-deck strip, or in an aqueduct's but under arches that clear it),\"; its C2 cell: \"a re-section whose new footprint of one would meet a strip,\" → \"a re-section whose new footprint of one would lie where law 1 (5) bars it,\"."
+  }
+ ],
+ "held_notes": [
+  {
+   "site": "V07 §3.5a (5) (V07 l. 1635–1642) × (7) (V07 l. 1650–1651) × §2.7's support step (6)'s lead (l. 2575–2578)",
+   "note": "(5) lets crofts, closes and paddocks pass beneath a deck and lays a toft slot meeting the strip as a close, while (7) says inside the perimeter the strip holds no plot and (6) makes each `vault` span's strip a reservation later work gives way to — a plot under a `vault` span (raised way × plots, outside the wall family)."
+  },
+  {
+   "site": "V06 §3.11.6 (V06 l. 2173–2182) and II.7.6's `raiseGrade` (l. 22798–22808)",
+   "note": "No text says what a raised region does to an enceinte run or a raised way standing in it — whether a run's base and top rise with the ground, a pier's height, a span's headroom and its arch vault's ceiling — which law 1 (2), (7) and the span rule read (wall × terrain, raised way × terrain); the family's law 4 re-checks whatever the op is given to do."
+  }
+ ]
+}

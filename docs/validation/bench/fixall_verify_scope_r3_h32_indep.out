@@ -1,0 +1,5 @@
+verif x86_32  = 0xB0F57EE3 (published 0xB0F57EE3)
+verif x86_128 = 0xB3ECE62A (published 0xB3ECE62A)
+d5/M1/TOWN/none/0 1221236157
+d5/M1/TOWN/coast+river/4 3998735106
+d5-mfcg/M1/TOWN/none/0 1965791930 -> 1965791931

@@ -1,0 +1,315 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm3/before/docs/volumes/V04-underground.md",
+ "input_doc_sha256": "2786cc53670c4db923fc1607e6b958a6ee9c8790d9fd075b76dcb3db1c7fb905",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm3/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "dd2bfafa96aba31b89a5f1a1afba6b48261653c0e889ed40e48a3155599a5ed0",
+ "files": [
+  {
+   "file": "repair-r3-V04.md",
+   "sha256": "d15724179b01e8d84cffcf44e8fdd74e2d471e42188cc490522814829c1d0ad4",
+   "lines": 1046,
+   "blocks": 10,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "repair-r3-V04.md #1 (l. 2) REPLACE ### 1.2 The base hooks this volume consumes (cited, never restated)",
+   "file": "repair-r3-V04.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "### 1.2 The base hooks this volume consumes (cited, never restated)",
+   "body_lines": 82,
+   "body_sha256": "85036eeddc97951046089e5b8fd1078f7f57f6eea82bb973502a6de88ea59451",
+   "target_line": 114,
+   "section_old": "114–195",
+   "section_old_n": 82,
+   "section_new_n": 83,
+   "new_headings": [
+    "### 1.2 The base hooks this volume consumes (cited, never restated)"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "repair-r3-V04.md #2 (l. 87) REPLACE ### 1b.1 Records, fields and tables",
+   "file": "repair-r3-V04.md",
+   "index": 2,
+   "line": 87,
+   "kind": "REPLACE",
+   "heading": "### 1b.1 Records, fields and tables",
+   "body_lines": 51,
+   "body_sha256": "6876b64e304755b22bc520f42882eb162e8be72f4ae3ad234ce28becc2b5e365",
+   "target_line": 259,
+   "section_old": "259–310",
+   "section_old_n": 52,
+   "section_new_n": 52,
+   "new_headings": [
+    "### 1b.1 Records, fields and tables"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "repair-r3-V04.md #3 (l. 141) REPLACE ### 3.2 U-NET — the sewer network by medieval rules",
+   "file": "repair-r3-V04.md",
+   "index": 3,
+   "line": 141,
+   "kind": "REPLACE",
+   "heading": "### 3.2 U-NET — the sewer network by medieval rules",
+   "body_lines": 213,
+   "body_sha256": "9326e102b37488085e228892ebd11f03e5c567d204376725c7b0f45532d9ca89",
+   "target_line": 947,
+   "section_old": "947–1157",
+   "section_old_n": 211,
+   "section_new_n": 214,
+   "new_headings": [
+    "### 3.2 U-NET — the sewer network by medieval rules"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "repair-r3-V04.md #4 (l. 357) REPLACE ### 3.11 Failure handling (no whole-map retry; §5)",
+   "file": "repair-r3-V04.md",
+   "index": 4,
+   "line": 357,
+   "kind": "REPLACE",
+   "heading": "### 3.11 Failure handling (no whole-map retry; §5)",
+   "body_lines": 99,
+   "body_sha256": "3cd739e57724e15b89306fb8c81892194c7959bc692e4bb25a2a54606091319f",
+   "target_line": 2352,
+   "section_old": "2352–2451",
+   "section_old_n": 100,
+   "section_new_n": 100,
+   "new_headings": [
+    "### 3.11 Failure handling (no whole-map retry; §5)"
+   ]
+  },
+  {
+   "seq": 5,
+   "block": "repair-r3-V04.md #5 (l. 459) REPLACE ### 5.1 The underground view (§8.4; item 413; J-V4.31)",
+   "file": "repair-r3-V04.md",
+   "index": 5,
+   "line": 459,
+   "kind": "REPLACE",
+   "heading": "### 5.1 The underground view (§8.4; item 413; J-V4.31)",
+   "body_lines": 57,
+   "body_sha256": "835db19a66a36cbe012951eb2362aca9e6a40da92c67621e0d536785c316f8a9",
+   "target_line": 2686,
+   "section_old": "2686–2742",
+   "section_old_n": 57,
+   "section_new_n": 58,
+   "new_headings": [
+    "### 5.1 The underground view (§8.4; item 413; J-V4.31)"
+   ]
+  },
+  {
+   "seq": 6,
+   "block": "repair-r3-V04.md #6 (l. 519) REPLACE ### 5.6 Damage below ground — cellars, crypts and underground buildings (g item 123; J-V4.130)",
+   "file": "repair-r3-V04.md",
+   "index": 6,
+   "line": 519,
+   "kind": "REPLACE",
+   "heading": "### 5.6 Damage below ground — cellars, crypts and underground buildings (g item 123; J-V4.130)",
+   "body_lines": 75,
+   "body_sha256": "73df01179322fd3b875af7fbd13ac135e3b9f51e8673a82fccf1f1cc2e892e7f",
+   "target_line": 2870,
+   "section_old": "2870–2935",
+   "section_old_n": 66,
+   "section_new_n": 76,
+   "new_headings": [
+    "### 5.6 Damage below ground — cellars, crypts and underground buildings (g item 123; J-V4.130)"
+   ]
+  },
+  {
+   "seq": 7,
+   "block": "repair-r3-V04.md #7 (l. 597) REPLACE ## 7 Tests and acceptance bars",
+   "file": "repair-r3-V04.md",
+   "index": 7,
+   "line": 597,
+   "kind": "REPLACE",
+   "heading": "## 7 Tests and acceptance bars",
+   "body_lines": 114,
+   "body_sha256": "26f6cfbe4c743a48e36f00f8ec80129082bf8728ef9e5a471cfee5d25abc5361",
+   "target_line": 3038,
+   "section_old": "3038–3152",
+   "section_old_n": 115,
+   "section_new_n": 115,
+   "new_headings": [
+    "## 7 Tests and acceptance bars"
+   ]
+  },
+  {
+   "seq": 8,
+   "block": "repair-r3-V04.md #8 (l. 714) REPLACE ## 8 Build plan",
+   "file": "repair-r3-V04.md",
+   "index": 8,
+   "line": 714,
+   "kind": "REPLACE",
+   "heading": "## 8 Build plan",
+   "body_lines": 108,
+   "body_sha256": "ad18b78af61b2cb8be5ea295fac58e0e4aa69cc92454e2a17488ba0ed7c36e1b",
+   "target_line": 3153,
+   "section_old": "3153–3261",
+   "section_old_n": 109,
+   "section_new_n": 109,
+   "new_headings": [
+    "## 8 Build plan"
+   ]
+  },
+  {
+   "seq": 9,
+   "block": "repair-r3-V04.md #9 (l. 825) REPLACE ## 9 Decisions (each vetoable)",
+   "file": "repair-r3-V04.md",
+   "index": 9,
+   "line": 825,
+   "kind": "REPLACE",
+   "heading": "## 9 Decisions (each vetoable)",
+   "body_lines": 138,
+   "body_sha256": "8e36fca34c89195952956537a69695cabbdc3b11be42848367397ca3464c1c92",
+   "target_line": 3262,
+   "section_old": "3262–3400",
+   "section_old_n": 139,
+   "section_new_n": 139,
+   "new_headings": [
+    "## 9 Decisions (each vetoable)"
+   ]
+  },
+  {
+   "seq": 10,
+   "block": "repair-r3-V04.md #10 (l. 966) REPLACE ## 12 CONFIRMED versus PLAUSIBLE",
+   "file": "repair-r3-V04.md",
+   "index": 10,
+   "line": 966,
+   "kind": "REPLACE",
+   "heading": "## 12 CONFIRMED versus PLAUSIBLE",
+   "body_lines": 78,
+   "body_sha256": "5ae3b5632a0dc3a186cfb8458f00c214d4cc44aaa41f4eec0f15f95006ee5bfa",
+   "target_line": 3475,
+   "section_old": "3475–3553",
+   "section_old_n": 79,
+   "section_new_n": 79,
+   "new_headings": [
+    "## 12 CONFIRMED versus PLAUSIBLE"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "repair-r3-V04.md #1 (l. 2) REPLACE ### 1.2 The base hooks this volume consumes (cited, never restated)",
+    "kind": "REPLACE",
+    "heading": "### 1.2 The base hooks this volume consumes (cited, never restated)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V04.md #2 (l. 87) REPLACE ### 1b.1 Records, fields and tables",
+    "kind": "REPLACE",
+    "heading": "### 1b.1 Records, fields and tables",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V04.md #3 (l. 141) REPLACE ### 3.2 U-NET — the sewer network by medieval rules",
+    "kind": "REPLACE",
+    "heading": "### 3.2 U-NET — the sewer network by medieval rules",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V04.md #4 (l. 357) REPLACE ### 3.11 Failure handling (no whole-map retry; §5)",
+    "kind": "REPLACE",
+    "heading": "### 3.11 Failure handling (no whole-map retry; §5)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V04.md #5 (l. 459) REPLACE ### 5.1 The underground view (§8.4; item 413; J-V4.31)",
+    "kind": "REPLACE",
+    "heading": "### 5.1 The underground view (§8.4; item 413; J-V4.31)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V04.md #6 (l. 519) REPLACE ### 5.6 Damage below ground — cellars, crypts and underground buildings (g item 123; J-V4.130)",
+    "kind": "REPLACE",
+    "heading": "### 5.6 Damage below ground — cellars, crypts and underground buildings (g item 123; J-V4.130)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V04.md #7 (l. 597) REPLACE ## 7 Tests and acceptance bars",
+    "kind": "REPLACE",
+    "heading": "## 7 Tests and acceptance bars",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V04.md #8 (l. 714) REPLACE ## 8 Build plan",
+    "kind": "REPLACE",
+    "heading": "## 8 Build plan",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V04.md #9 (l. 825) REPLACE ## 9 Decisions (each vetoable)",
+    "kind": "REPLACE",
+    "heading": "## 9 Decisions (each vetoable)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r3-V04.md #10 (l. 966) REPLACE ## 12 CONFIRMED versus PLAUSIBLE",
+    "kind": "REPLACE",
+    "heading": "## 12 CONFIRMED versus PLAUSIBLE",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 797,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 59,
+  "headings_after": 59,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 12,
+  "fence_lines_after": 12,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 514605,
+  "doc_bytes_after": 520064,
+  "doc_lines_before": 3590,
+  "doc_lines_after": 3605,
+  "rationale_bytes_before": 697152,
+  "rationale_bytes_after": 697152,
+  "rationale_lines_before": 2378,
+  "rationale_lines_after": 2378,
+  "blocks_total": 10,
+  "blocks_applied": 10,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "0e3bcacd8f5cc61680509b213757a3cc3a94252d6647acd26938bce7b263f162",
+  "output_rationale_sha256": "dd2bfafa96aba31b89a5f1a1afba6b48261653c0e889ed40e48a3155599a5ed0"
+ }
+}

@@ -1,0 +1,17 @@
+# fixall_scope_r3_o9c_n800.py receipts (lane fixall/draft-scope-r3, 2026-09-25): args 1 (default campaign counts), seeds 91000000+ per case; 8 worker processes; 8 min 07 s wall
+# PENDING FABLE REVIEW — written by opus standing in for the Fable seat fixall/draft-scope-r3 (2026-09-25); queued in docs/FABLE-REVIEW-QUEUE.md.
+K=50 bin widths=[6, 5, 5, 5, 5, 5, 5, 5, 5, 5]; Holm family-wise 0.01 over four statistics
+H0 continuous rho=0.8                        n= 800:    31/ 3000 = 0.0103  (95% Wilson lower 0.0073; fail-twice per night 0.0001)  [60s]
+H0 continuous rho=0.0                        n= 800:    15/ 1500 = 0.0100  (95% Wilson lower 0.0061; fail-twice per night 0.0001)  [35s]
+H0 discrete, heavy ties, rho=0.8             n= 800:    14/ 1000 = 0.0140  (95% Wilson lower 0.0084; fail-twice per night 0.0002)  [43s]
+H1 bias +0.25 sd rho=0.0                     n= 800:  2000/ 2000 = 1.0000  (95% Wilson lower 0.9981; fail-twice per night 1.0000)  [51s]
+H1 snug 0.8x rho=0.0                         n= 800:  2000/ 2000 = 1.0000  (95% Wilson lower 0.9981; fail-twice per night 1.0000)  [51s]
+H1 bias +0.25 sd rho=0.8                     n= 800:  2000/ 2000 = 1.0000  (95% Wilson lower 0.9981; fail-twice per night 1.0000)  [51s]
+H1 snug 0.8x rho=0.8                         n= 800:  2000/ 2000 = 1.0000  (95% Wilson lower 0.9981; fail-twice per night 1.0000)  [49s]
+H1 bias +0.25 sd rho=1.0                     n= 800:  1985/ 2000 = 0.9925  (95% Wilson lower 0.9877; fail-twice per night 0.9851)  [48s]
+H1 snug 0.8x rho=1.0                         n= 800:  1994/ 2000 = 0.9970  (95% Wilson lower 0.9935; fail-twice per night 0.9940)  [49s]
+H1 snug 0.6x rho=0.8                         n= 800:   500/  500 = 1.0000  (95% Wilson lower 0.9924; fail-twice per night 1.0000)  [13s]
+H1 loose 1.5x rho=0.8                        n= 800:   500/  500 = 1.0000  (95% Wilson lower 0.9924; fail-twice per night 1.0000)  [12s]
+H1 bias +0.25 sd rho=0.8 (n=400, reference)  n= 400:   922/ 1000 = 0.9220  (95% Wilson lower 0.9037; fail-twice per night 0.8501)  [12s]
+H1 snug 0.8x rho=0.8 (n=400, reference)      n= 400:   952/ 1000 = 0.9520  (95% Wilson lower 0.9369; fail-twice per night 0.9063)  [12s]
+python3 fixall_scope_r3_o9c_n800.py 1  3499.48s user 19.76s system 722% cpu 8:07.28 total

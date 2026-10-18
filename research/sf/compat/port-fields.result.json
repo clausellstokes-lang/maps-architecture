@@ -1,0 +1,30 @@
+{
+ "file": "/Users/cstokes/Desktop/Maps/research/sf/compat/port-fields.md",
+ "json": "/Users/cstokes/Desktop/Maps/research/sf/compat/port-fields.json",
+ "fields": 131,
+ "required_by_port": 14,
+ "in_development": [
+  "D01 armies: each force's headcount and allegiance (item 122 (h)); no path at 5d699cc68; fallback arrivals/exodus, else item 122 (b) scale",
+  "D02 coalitions: the coalition key joining armies (item 122 (h)); fallback each army alone",
+  "D03 travelling groups: heads and groupKind (item 122 (h)); fallback as armies",
+  "D04 a current-week stamp on the dossier (item 125 (d)); fallback presentWeek = latest stamped tick, else week 0 / midsummer",
+  "D05 custom definition fields in customContentRoster/customContentProvenance (authority, defenseRole, economicWeight, criticality, produces, requires, subsumes, ...); none carried at the pin; fallback item 104 generic siting",
+  "D06 crisis census words (15 stressor types, archetypes, PLAGUE/REFUGEE_WAVE/RAID_OR_MONSTER_ATTACK) - PLAUSIBLE until SF0's census",
+  "D07 the condition the calamity kernel raises after a calamity (disaster-look source) - PLAUSIBLE",
+  "D08 the 20 history template words beyond the nine rows; festival type words - PLAUSIBLE",
+  "D09 a power relation's pulse week (F-V8-1) - no path named",
+  "D10 the reroll receipt F21 - no path named",
+  "D11 a climate field (climates row) - none at the pin",
+  "D12 a raid/piracy word (raider threat) - none on the line",
+  "D13 item 20 (h) (iv) optional slots (stable institution id, location hint, instance count, named front, controls/funds/staffs/protects ids) - not generated, not read"
+ ],
+ "notes": [
+  "OUTCOME (CONFIRMED by reading the design and research files; SettlementForge NOT read, per the brief): 131 rows = 130 dossier paths the port reads plus the derived presentWeek composite, each with type/shape, values relied on, required/optional, item 125 (b) fallback, digest field, DR/receipt readers, design section and mapping row; every V08 §2.4 field-table path is covered (scripted cross-check, 0 missing).",
+  "REQUIRED (14): top-level values id, name, tier, population, _seed, schemaVersion, simulationVersion, generatorVersion, institutions, stressors (key absence refuses E_UNKNOWN_SHAPE; an unreadable value falls back) and record names institutions[].name, institutions[].category, factions[].faction, npcs[].name (quarantine). Every other path falls back and never refuses. 21 of the 41 requiredKeys are read; 8 optionalKeys are read.",
+  "MAJOR FINDINGS (CONFIRMED, documents read; fixes on our side, J121): F-a field table npcs[].replacedBy vs replacedNpc (base key law, J-V8.76, mapping-verify V6); F-b institutions[].inactive vs _worldPulseInactive (base F2, status rows); F-e base receipt F18 reads decrees[], a top-level key in neither key list, so step 3 drops it and F18 cannot fire; F-k neighbourNetwork[] read by the field table but in neither key list (dropped as ignored_key); F-l root destroyedByEventId and lifecyclePatch read but in neither key list (lifecyclePatch's stored shape PLAUSIBLE).",
+  "MINOR/NOTES: F-c factions[].id (power key law) unnamed; F-d F14's _cutRoutes/_userRoutes unnamed; F-f F15 rename receipts and F20 memberBirths have no dossier path (PLAUSIBLE); F-g F13 resourceEdits, F10 rawPower unnamed; F-h institutionHistory[] has no join field; F-i F21 reroll receipt unnamed; F-j ancientRuin marker path unnamed; F-m base §14 digest comment lists only file f's additions; F-n custom record fields read vs present unspecified; F-o a condition record's required field unstated.",
+  "NON-DOSSIER INPUTS (16): HostContext.line (checked, never chosen), .audience, .displayNames (none a data input); HostContext.week, .realm, .customLibrary listed as RETIRED by item 125 (a); view.set {week}/{select} and setLayer as commands; dossier.offer dossierHash and create.mapId; MapHostConfig, MountSpec, MapRecord, party and clerk channels; and the build-time read of SF's catalogue, ladder file and crisis vocabularies (names only).",
+  "PLAUSIBLE rows (the design's own): condition duration reading (elapsedTicks/expiresAtTicks, T-V8-18), scene tokens on custom records, customContentRoster beyond identities, template/festival/census words, nearbyResourcesState container shape, the ancientRuin and root lifecycle paths.",
+  "Mac catch-up context: this is the port side the final local check (V08 §3.16 (9) (c)) walks against SettlementForge's local checkout (00b648c9d); the SF-side read is the sibling lane's. Generator (one source, both files): /private/tmp/claude-502/-Users-cstokes-Desktop-Maps/2367ceda-b0ec-4fa5-94a3-059f82e2d4b7/scratchpad/catchup/gen_port_fields.py. No design text, plat/ or PROGRESS.md changed; no git state changed."
+ ]
+}

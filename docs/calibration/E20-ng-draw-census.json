@@ -1,0 +1,5094 @@
+{
+ "checks": [
+  {
+   "check": "row (1a): 2026-09-25 draw records reproduce the hatch figure (pooled hatchPerWing rounds to 17.4 at one decimal)",
+   "passed": false,
+   "receipt": "pooled over the 8 records 17.5072 (maps 17.1732-17.6476; gen-0 only 17.4361; profile rule 17.4145)",
+   "rowChecker": true
+  },
+  {
+   "check": "row (1b): 2026-09-25 draw records reproduce the shadow figure (pooled shadowQuadsPerWing rounds to 2.33 at two decimals)",
+   "passed": true,
+   "receipt": "pooled over the 8 records 2.3295 (maps 2.2489-2.5186; gen-0 only 2.314; profile rule 2.3589; per gable/hip wing 2.3941)",
+   "rowChecker": true
+  },
+  {
+   "check": "provenance: on the 2026-09-21 source records (profile section 5.4) the census counts the same triangles and quads, and the figure's record (gen-0) over that table's 296 wings gives 17.4 and 2.33",
+   "passed": true,
+   "receipt": "triangles 5 150 / 11 330 / 5 959 / 8 446 and quads 690 / 1 533 / 765 / 1 136 equal the table; gen-0 17.3986 and 2.3311 over 296 wings; census wings 302 / 662 / 327 / 510 (gable/hip 293 / 657 / 312 / 488) against the table's 296 / 658 / 315 / 492, census ratios 17.3515, 2.2848 / 17.2055, 2.3157 / 18.8718, 2.3394 / 16.9754, 2.2275; the table's own printed ratios that its counts do not round to: ['gen-3 8446/492 = 17.1667 printed 17.1']",
+   "rowChecker": false
+  },
+  {
+   "check": "all 44 W-04 recordings measured in plan order; segments = vertices on every logged polygon path; every paint of the vertex layer in the sequence (the truncated log completed)",
+   "passed": true,
+   "receipt": "44 maps; polygon paths checked 900 475, equal 900 442, the rest {'1->4': 33} (segments -> vertices; none in the 3- or 5-segment classes the census reads); truncated logs capture/NG/ring/large/2 (dropped 2406, completed 2 405 paints from paths.json, paints 62 405)",
+   "rowChecker": false
+  },
+  {
+   "check": "the count includes the two ridge tapers: gable/hip wings carrying exactly two heavy-base triangles",
+   "passed": true,
+   "receipt": "33 383 of 33 636 wings (0.9925) over 52 records with a vertex layer; worst record 0.9601",
+   "rowChecker": false
+  },
+  {
+   "check": "attribution: the triangles the census gives a gable/hip wing lie on that wing (centroid inside its footprint fill)",
+   "passed": true,
+   "receipt": "603 730 of 604 534 (0.9987) over 52 records; worst record 0.9929",
+   "rowChecker": false
+  },
+  {
+   "check": "caps: square caps never exceed the street strokes, and round-capped street strokes occur only on maps with a filled street",
+   "passed": true,
+   "receipt": "capSquare 1 on 33 of 44 maps; below 1 on capture/NG/square/medium/0 (41/44, street fills 1), capture/NG/square/medium/1 (43/46, street fills 1), capture/NG/square/medium/2 (63/66, street fills 1), capture/NG/square/medium/3 (73/76, street fills 1), capture/NG/square/medium/4 (89/92, street fills 1), capture/NG/square/small/0 (33/36, street fills 1), capture/NG/square/small/1 (21/24, street fills 1), capture/NG/square/small/2 (19/22, street fills 1), capture/NG/square/large/0 (171/174, street fills 1), capture/NG/square/large/1 (353/356, street fills 1), capture/NG/square/large/2 (131/134, street fills 1)",
+   "rowChecker": false
+  },
+  {
+   "check": "row (2): no colour value in the record (no recorded style key, no colour literal, no label text, no canvas key in E20-ng-draw-census.md or its JSON); a planted style key is caught",
+   "passed": true,
+   "receipt": "scanned json, md against 580 recorded style keys, 56 label texts and 917 canvas keys: hits 0; planted control caught 2",
+   "rowChecker": true
+  }
+ ],
+ "checksFailed": 1,
+ "declared": {
+  "band": [
+   15,
+   20
+  ],
+  "capSquare": "square-capped strokes / street-style strokes",
+  "digits": "ratios at four decimals (rulings-2 R-47 (k))",
+  "hatchPerWing": "per gable/hip wing, its 3-segment ink fills (hatch tapers and the two ridge tapers); map value the mean; pooled = sum / sum",
+  "heavyTaper": "shortest side >= 1.3 x the map modal hatch-taper base (paths.json, canvas px)",
+  "quantiles": "type 7",
+  "role": {
+   "draw.capSquare": "target",
+   "draw.hatchPerWing": "target",
+   "draw.roofLumaRatio": "descriptive",
+   "draw.shadowQuadsPerWing": "target"
+  },
+  "roles": "found at run time per record: ink = darkest stroke style (Rec. 601 luma); buildings canvas = most ink 3-segment fills; shadow style = non-ink style with most 5-segment fills; street style = stroke style with most distinct widths",
+  "roofLumaRatio": "per gable/hip wing luma(second fill) / luma(first fill); map value the median; descriptive",
+  "shadowQuadsPerWing": "5-segment shadow-style fills on the shadow canvas / wings",
+  "wing": "one roof unit on the buildings canvas (a run of consecutive non-ink fills plus the ink strokes and triangles after it); gable/hip wing = a unit of exactly two fills"
+ },
+ "fixtures2026_09_25": {
+  "pooled": {
+   "draw.capSquare": {
+    "mapMin": 0.94,
+    "mapsAt1": 6,
+    "pooled": 0.9943
+   },
+   "draw.hatchPerWing": {
+    "mapMax": 17.6476,
+    "mapMin": 17.1732,
+    "mapsMeanOutside15to20": 0,
+    "mapsMeanOutside17to19": 0,
+    "mean": 17.5072,
+    "median": 18.0,
+    "p10": 12.0,
+    "p90": 22.0,
+    "shareIn15to20": 0.5663
+   },
+   "draw.roofLumaRatio": {
+    "mean": 0.7993,
+    "median": 0.7985,
+    "n": 5702,
+    "p10": 0.7955,
+    "p90": 0.8009
+   },
+   "draw.shadowQuadsPerWing": {
+    "mapMax": 2.5186,
+    "mapMin": 2.2489,
+    "pooled": 2.3295
+   },
+   "gableHipWings": 5702,
+   "maps": 8,
+   "sensitivity": {
+    "hatchPerProfileWing": 17.4145,
+    "quadsPerGableHipWing": 2.3941,
+    "quadsPerProfileWing": 2.3589
+   },
+   "wings": 5860
+  },
+  "pooledGen0": {
+   "draw.capSquare": {
+    "mapMin": 0.94,
+    "mapsAt1": 3,
+    "pooled": 0.9946
+   },
+   "draw.hatchPerWing": {
+    "mapMax": 17.6476,
+    "mapMin": 17.1732,
+    "mapsMeanOutside15to20": 0,
+    "mapsMeanOutside17to19": 0,
+    "mean": 17.4361,
+    "median": 18.0,
+    "p10": 12.0,
+    "p90": 22.0,
+    "shareIn15to20": 0.556
+   },
+   "draw.roofLumaRatio": {
+    "mean": 0.8002,
+    "median": 0.7985,
+    "n": 2912,
+    "p10": 0.7955,
+    "p90": 0.8011
+   },
+   "draw.shadowQuadsPerWing": {
+    "mapMax": 2.3591,
+    "mapMin": 2.2489,
+    "pooled": 2.314
+   },
+   "gableHipWings": 2912,
+   "maps": 4,
+   "sensitivity": {
+    "hatchPerProfileWing": 17.389,
+    "quadsPerGableHipWing": 2.376,
+    "quadsPerProfileWing": 2.3446
+   },
+   "wings": 2990
+  },
+  "records": [
+   {
+    "attribution": {
+     "insideOwnWing": 22793,
+     "share": 0.9981,
+     "triangles": 22836
+    },
+    "capsOther": 0,
+    "capsRound": 11987,
+    "capsSquare": 249,
+    "capture": "2026-09-25T10-55-19",
+    "draw.capSquare": 1.0,
+    "draw.hatchPerWing": {
+     "mean": 17.6476,
+     "median": 18.0,
+     "n": 1294,
+     "p10": 12.0,
+     "p90": 22.0,
+     "shareIn15to20": 0.5549
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.7997,
+     "median": 0.7984,
+     "n": 1294,
+     "p10": 0.7955,
+     "p90": 0.8009,
+     "shareBelow1": 0.9969
+    },
+    "draw.shadowQuadsPerWing": 2.3591,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 41442,
+     "mismatches": {
+      "1->4": 3
+     },
+     "paints": 41441,
+     "paintsInLog": 41441,
+     "pathsFile": true,
+     "polygonPaths": 41419,
+     "segsEqualVertices": 41416
+    },
+    "gableHipWings": 1294,
+    "gen": "gen-0",
+    "otherInkFillsOnBuildings": 1,
+    "ridgeTapers": {
+     "exactlyTwo": 1282,
+     "heavyPerWing": {
+      "1": 12,
+      "2": 1282
+     },
+     "shareExactlyTwo": 0.9907,
+     "wings": 1294
+    },
+    "roofFills": 2628,
+    "roofKinds": {
+     "1": 40,
+     "2": 1294
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 17.5807,
+     "profileRuleWings": 1314.0,
+     "quadsPerGableHipWing": 2.432,
+     "quadsPerProfileWing": 2.395
+    },
+    "shadowBlobs": 70,
+    "shadowOther": 0,
+    "shadowQuads": 3147,
+    "streetFills": 0,
+    "streetStrokes": 249,
+    "strokesTotal": 12236,
+    "tags": "ring,medium",
+    "triangles": 23101,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 22836,
+    "wings": 1334
+   },
+   {
+    "attribution": {
+     "insideOwnWing": 21412,
+     "share": 0.9982,
+     "triangles": 21450
+    },
+    "capsOther": 0,
+    "capsRound": 11554,
+    "capsSquare": 216,
+    "capture": "2026-09-25T10-55-19",
+    "draw.capSquare": 1.0,
+    "draw.hatchPerWing": {
+     "mean": 17.6253,
+     "median": 18.0,
+     "n": 1217,
+     "p10": 12.0,
+     "p90": 22.0,
+     "shareIn15to20": 0.5588
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.7984,
+     "median": 0.7985,
+     "n": 1217,
+     "p10": 0.7949,
+     "p90": 0.8009,
+     "shareBelow1": 1.0
+    },
+    "draw.shadowQuadsPerWing": 2.3719,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 39422,
+     "mismatches": {
+      "1->4": 6
+     },
+     "paints": 39421,
+     "paintsInLog": 39421,
+     "pathsFile": true,
+     "polygonPaths": 39398,
+     "segsEqualVertices": 39392
+    },
+    "gableHipWings": 1217,
+    "gen": "gen-1",
+    "otherInkFillsOnBuildings": 1,
+    "ridgeTapers": {
+     "exactlyTwo": 1203,
+     "heavyPerWing": {
+      "0": 1,
+      "1": 13,
+      "2": 1203
+     },
+     "shareExactlyTwo": 0.9885,
+     "wings": 1217
+    },
+    "roofFills": 2495,
+    "roofKinds": {
+     "1": 49,
+     "2": 1217,
+     "4": 3
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 17.4261,
+     "profileRuleWings": 1247.5,
+     "quadsPerGableHipWing": 2.4733,
+     "quadsPerProfileWing": 2.4128
+    },
+    "shadowBlobs": 112,
+    "shadowOther": 0,
+    "shadowQuads": 3010,
+    "streetFills": 0,
+    "streetStrokes": 216,
+    "strokesTotal": 11770,
+    "tags": "ring,medium",
+    "triangles": 21739,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 21450,
+    "wings": 1269
+   },
+   {
+    "attribution": {
+     "insideOwnWing": 15828,
+     "share": 0.9975,
+     "triangles": 15868
+    },
+    "capsOther": 0,
+    "capsRound": 8349,
+    "capsSquare": 173,
+    "capture": "2026-09-25T10-55-36",
+    "draw.capSquare": 1.0,
+    "draw.hatchPerWing": {
+     "mean": 17.1732,
+     "median": 18.0,
+     "n": 924,
+     "p10": 12.0,
+     "p90": 22.0,
+     "shareIn15to20": 0.5606
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.8003,
+     "median": 0.7985,
+     "n": 924,
+     "p10": 0.7955,
+     "p90": 0.8013,
+     "shareBelow1": 0.9957
+    },
+    "draw.shadowQuadsPerWing": 2.2845,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 28808,
+     "mismatches": {
+      "1->4": 3
+     },
+     "paints": 28807,
+     "paintsInLog": 28807,
+     "pathsFile": true,
+     "polygonPaths": 28791,
+     "segsEqualVertices": 28788
+    },
+    "gableHipWings": 924,
+    "gen": "gen-0",
+    "otherInkFillsOnBuildings": 2,
+    "ridgeTapers": {
+     "exactlyTwo": 912,
+     "heavyPerWing": {
+      "1": 12,
+      "2": 912
+     },
+     "shareExactlyTwo": 0.987,
+     "wings": 924
+    },
+    "roofFills": 1873,
+    "roofKinds": {
+     "1": 25,
+     "2": 924
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 17.1287,
+     "profileRuleWings": 936.5,
+     "quadsPerGableHipWing": 2.3463,
+     "quadsPerProfileWing": 2.315
+    },
+    "shadowBlobs": 43,
+    "shadowOther": 0,
+    "shadowQuads": 2168,
+    "streetFills": 0,
+    "streetStrokes": 173,
+    "strokesTotal": 8522,
+    "tags": "area,medium",
+    "triangles": 16041,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 15868,
+    "wings": 949
+   },
+   {
+    "attribution": {
+     "insideOwnWing": 14689,
+     "share": 0.9994,
+     "triangles": 14698
+    },
+    "capsOther": 0,
+    "capsRound": 7549,
+    "capsSquare": 139,
+    "capture": "2026-09-25T10-55-36",
+    "draw.capSquare": 1.0,
+    "draw.hatchPerWing": {
+     "mean": 17.4976,
+     "median": 18.0,
+     "n": 840,
+     "p10": 14.0,
+     "p90": 22.0,
+     "shareIn15to20": 0.5821
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.7983,
+     "median": 0.7984,
+     "n": 840,
+     "p10": 0.7949,
+     "p90": 0.8009,
+     "shareBelow1": 1.0
+    },
+    "draw.shadowQuadsPerWing": 2.2774,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 26340,
+     "mismatches": {},
+     "paints": 26339,
+     "paintsInLog": 26339,
+     "pathsFile": true,
+     "polygonPaths": 26331,
+     "segsEqualVertices": 26331
+    },
+    "gableHipWings": 840,
+    "gen": "gen-1",
+    "otherInkFillsOnBuildings": 1,
+    "ridgeTapers": {
+     "exactlyTwo": 836,
+     "heavyPerWing": {
+      "1": 4,
+      "2": 836
+     },
+     "shareExactlyTwo": 0.9952,
+     "wings": 840
+    },
+    "roofFills": 1701,
+    "roofKinds": {
+     "1": 17,
+     "2": 840,
+     "4": 1
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 17.4039,
+     "profileRuleWings": 850.5,
+     "quadsPerGableHipWing": 2.3262,
+     "quadsPerProfileWing": 2.2975
+    },
+    "shadowBlobs": 51,
+    "shadowOther": 0,
+    "shadowQuads": 1954,
+    "streetFills": 0,
+    "streetStrokes": 139,
+    "strokesTotal": 7688,
+    "tags": "area,medium",
+    "triangles": 14802,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 14698,
+    "wings": 858
+   },
+   {
+    "attribution": {
+     "insideOwnWing": 7690,
+     "share": 1.0,
+     "triangles": 7690
+    },
+    "capsOther": 0,
+    "capsRound": 3935,
+    "capsSquare": 79,
+    "capture": "2026-09-25T10-55-47",
+    "draw.capSquare": 1.0,
+    "draw.hatchPerWing": {
+     "mean": 17.3982,
+     "median": 18.0,
+     "n": 442,
+     "p10": 12.0,
+     "p90": 22.0,
+     "shareIn15to20": 0.5814
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.7983,
+     "median": 0.7985,
+     "n": 442,
+     "p10": 0.7949,
+     "p90": 0.8009,
+     "shareBelow1": 1.0
+    },
+    "draw.shadowQuadsPerWing": 2.2489,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 13782,
+     "mismatches": {},
+     "paints": 13781,
+     "paintsInLog": 13781,
+     "pathsFile": true,
+     "polygonPaths": 13768,
+     "segsEqualVertices": 13768
+    },
+    "gableHipWings": 442,
+    "gen": "gen-0",
+    "otherInkFillsOnBuildings": 0,
+    "ridgeTapers": {
+     "exactlyTwo": 442,
+     "heavyPerWing": {
+      "2": 442
+     },
+     "shareExactlyTwo": 1.0,
+     "wings": 442
+    },
+    "roofFills": 892,
+    "roofKinds": {
+     "1": 8,
+     "2": 442
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 17.4193,
+     "profileRuleWings": 446.0,
+     "quadsPerGableHipWing": 2.2896,
+     "quadsPerProfileWing": 2.2691
+    },
+    "shadowBlobs": 20,
+    "shadowOther": 0,
+    "shadowQuads": 1012,
+    "streetFills": 0,
+    "streetStrokes": 79,
+    "strokesTotal": 4014,
+    "tags": "street,medium",
+    "triangles": 7769,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 7690,
+    "wings": 450
+   },
+   {
+    "attribution": {
+     "insideOwnWing": 7705,
+     "share": 0.9999,
+     "triangles": 7706
+    },
+    "capsOther": 0,
+    "capsRound": 3900,
+    "capsSquare": 81,
+    "capture": "2026-09-25T10-55-47",
+    "draw.capSquare": 1.0,
+    "draw.hatchPerWing": {
+     "mean": 17.5936,
+     "median": 18.0,
+     "n": 438,
+     "p10": 14.0,
+     "p90": 22.0,
+     "shareIn15to20": 0.6096
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.7985,
+     "median": 0.7985,
+     "n": 438,
+     "p10": 0.7958,
+     "p90": 0.801,
+     "shareBelow1": 1.0
+    },
+    "draw.shadowQuadsPerWing": 2.2879,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 13681,
+     "mismatches": {
+      "1->4": 3
+     },
+     "paints": 13680,
+     "paintsInLog": 13680,
+     "pathsFile": true,
+     "polygonPaths": 13665,
+     "segsEqualVertices": 13662
+    },
+    "gableHipWings": 438,
+    "gen": "gen-1",
+    "otherInkFillsOnBuildings": 4,
+    "ridgeTapers": {
+     "exactlyTwo": 438,
+     "heavyPerWing": {
+      "2": 438
+     },
+     "shareExactlyTwo": 1.0,
+     "wings": 438
+    },
+    "roofFills": 886,
+    "roofKinds": {
+     "1": 10,
+     "2": 438
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 17.4357,
+     "profileRuleWings": 443.0,
+     "quadsPerGableHipWing": 2.3402,
+     "quadsPerProfileWing": 2.3138
+    },
+    "shadowBlobs": 11,
+    "shadowOther": 0,
+    "shadowQuads": 1025,
+    "streetFills": 0,
+    "streetStrokes": 81,
+    "strokesTotal": 3981,
+    "tags": "street,medium",
+    "triangles": 7724,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 7706,
+    "wings": 448
+   },
+   {
+    "attribution": {
+     "insideOwnWing": 4366,
+     "share": 0.9968,
+     "triangles": 4380
+    },
+    "capsOther": 0,
+    "capsRound": 2265,
+    "capsSquare": 47,
+    "capture": "2026-09-25T10-55-59",
+    "draw.capSquare": 0.94,
+    "draw.hatchPerWing": {
+     "mean": 17.381,
+     "median": 16.0,
+     "n": 252,
+     "p10": 12.0,
+     "p90": 22.0,
+     "shareIn15to20": 0.5
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.8057,
+     "median": 0.7985,
+     "n": 252,
+     "p10": 0.7958,
+     "p90": 0.8011,
+     "shareBelow1": 0.9841
+    },
+    "draw.shadowQuadsPerWing": 2.3035,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 7873,
+     "mismatches": {},
+     "paints": 7872,
+     "paintsInLog": 7872,
+     "pathsFile": true,
+     "polygonPaths": 7870,
+     "segsEqualVertices": 7870
+    },
+    "gableHipWings": 252,
+    "gen": "gen-0",
+    "otherInkFillsOnBuildings": 0,
+    "ridgeTapers": {
+     "exactlyTwo": 248,
+     "heavyPerWing": {
+      "1": 4,
+      "2": 248
+     },
+     "shareExactlyTwo": 0.9841,
+     "wings": 252
+    },
+    "roofFills": 509,
+    "roofKinds": {
+     "1": 5,
+     "2": 252
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 17.3045,
+     "profileRuleWings": 254.5,
+     "quadsPerGableHipWing": 2.3492,
+     "quadsPerProfileWing": 2.3261
+    },
+    "shadowBlobs": 10,
+    "shadowOther": 0,
+    "shadowQuads": 592,
+    "streetFills": 1,
+    "streetStrokes": 50,
+    "strokesTotal": 2312,
+    "tags": "square,medium",
+    "triangles": 4404,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 4380,
+    "wings": 257
+   },
+   {
+    "attribution": {
+     "insideOwnWing": 5198,
+     "share": 1.0,
+     "triangles": 5198
+    },
+    "capsOther": 0,
+    "capsRound": 2739,
+    "capsSquare": 59,
+    "capture": "2026-09-25T10-55-59",
+    "draw.capSquare": 0.9516,
+    "draw.hatchPerWing": {
+     "mean": 17.6203,
+     "median": 18.0,
+     "n": 295,
+     "p10": 14.0,
+     "p90": 22.0,
+     "shareIn15to20": 0.5898
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.7984,
+     "median": 0.7985,
+     "n": 295,
+     "p10": 0.7961,
+     "p90": 0.8009,
+     "shareBelow1": 1.0
+    },
+    "draw.shadowQuadsPerWing": 2.5186,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 9396,
+     "mismatches": {},
+     "paints": 9395,
+     "paintsInLog": 9395,
+     "pathsFile": true,
+     "polygonPaths": 9384,
+     "segsEqualVertices": 9384
+    },
+    "gableHipWings": 295,
+    "gen": "gen-1",
+    "otherInkFillsOnBuildings": 0,
+    "ridgeTapers": {
+     "exactlyTwo": 295,
+     "heavyPerWing": {
+      "2": 295
+     },
+     "shareExactlyTwo": 1.0,
+     "wings": 295
+    },
+    "roofFills": 590,
+    "roofKinds": {
+     "2": 295
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 17.6203,
+     "profileRuleWings": 295.0,
+     "quadsPerGableHipWing": 2.5186,
+     "quadsPerProfileWing": 2.5186
+    },
+    "shadowBlobs": 16,
+    "shadowOther": 0,
+    "shadowQuads": 743,
+    "streetFills": 1,
+    "streetStrokes": 62,
+    "strokesTotal": 2798,
+    "tags": "square,medium",
+    "triangles": 5198,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 5198,
+    "wings": 295
+   }
+  ]
+ },
+ "inputs": {
+  "fixtures": [
+   "2026-09-25T10-55-19",
+   "2026-09-25T10-55-36",
+   "2026-09-25T10-55-47",
+   "2026-09-25T10-55-59"
+  ],
+  "plan": "captures/neighbourhood/ng-programme-m1-2026-10-03/index.json",
+  "source": "2026-09-21T05-04-54"
+ },
+ "lane": "m1/W-22",
+ "plan": {
+  "all": {
+   "draw.capSquare": {
+    "mapMin": 0.8636,
+    "mapsAt1": 33,
+    "pooled": 0.9938
+   },
+   "draw.hatchPerWing": {
+    "mapMax": 21.0979,
+    "mapMin": 15.7606,
+    "mapsMeanOutside15to20": 4,
+    "mapsMeanOutside17to19": 20,
+    "mean": 18.0679,
+    "median": 18.0,
+    "p10": 12.0,
+    "p90": 24.0,
+    "shareIn15to20": 0.5286
+   },
+   "draw.roofLumaRatio": {
+    "mean": 0.8006,
+    "median": 0.7985,
+    "n": 27934,
+    "p10": 0.7955,
+    "p90": 0.8011
+   },
+   "draw.shadowQuadsPerWing": {
+    "mapMax": 2.5369,
+    "mapMin": 1.9737,
+    "pooled": 2.2869
+   },
+   "gableHipWings": 27934,
+   "maps": 44,
+   "sensitivity": {
+    "hatchPerProfileWing": 17.9318,
+    "quadsPerGableHipWing": 2.3646,
+    "quadsPerProfileWing": 2.321
+   },
+   "wings": 28883
+  },
+  "bySize": {
+   "large": {
+    "draw.capSquare": {
+     "mapMin": 0.9776,
+     "mapsAt1": 9,
+     "pooled": 0.9963
+    },
+    "draw.hatchPerWing": {
+     "mapMax": 21.008,
+     "mapMin": 15.7606,
+     "mapsMeanOutside15to20": 1,
+     "mapsMeanOutside17to19": 7,
+     "mean": 18.0423,
+     "median": 18.0,
+     "p10": 12.0,
+     "p90": 24.0,
+     "shareIn15to20": 0.5268
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.801,
+     "median": 0.7985,
+     "n": 13099,
+     "p10": 0.7955,
+     "p90": 0.8012
+    },
+    "draw.shadowQuadsPerWing": {
+     "mapMax": 2.4176,
+     "mapMin": 1.9737,
+     "pooled": 2.2538
+    },
+    "gableHipWings": 13099,
+    "maps": 12,
+    "sensitivity": {
+     "hatchPerProfileWing": 17.9135,
+     "quadsPerGableHipWing": 2.3259,
+     "quadsPerProfileWing": 2.2865
+    },
+    "wings": 13518
+   },
+   "medium": {
+    "draw.capSquare": {
+     "mapMin": 0.9318,
+     "mapsAt1": 15,
+     "pooled": 0.9934
+    },
+    "draw.hatchPerWing": {
+     "mapMax": 21.0979,
+     "mapMin": 16.2459,
+     "mapsMeanOutside15to20": 3,
+     "mapsMeanOutside17to19": 11,
+     "mean": 18.0597,
+     "median": 18.0,
+     "p10": 12.0,
+     "p90": 24.0,
+     "shareIn15to20": 0.5247
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.8005,
+     "median": 0.7985,
+     "n": 12084,
+     "p10": 0.7955,
+     "p90": 0.8009
+    },
+    "draw.shadowQuadsPerWing": {
+     "mapMax": 2.5369,
+     "mapMin": 2.1594,
+     "pooled": 2.2995
+    },
+    "gableHipWings": 12084,
+    "maps": 20,
+    "sensitivity": {
+     "hatchPerProfileWing": 17.9284,
+     "quadsPerGableHipWing": 2.3733,
+     "quadsPerProfileWing": 2.3321
+    },
+    "wings": 12472
+   },
+   "small": {
+    "draw.capSquare": {
+     "mapMin": 0.8636,
+     "mapsAt1": 9,
+     "pooled": 0.984
+    },
+    "draw.hatchPerWing": {
+     "mapMax": 19.2727,
+     "mapMin": 17.3333,
+     "mapsMeanOutside15to20": 0,
+     "mapsMeanOutside17to19": 2,
+     "mean": 18.2254,
+     "median": 18.0,
+     "p10": 14.0,
+     "p90": 24.0,
+     "shareIn15to20": 0.5543
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.799,
+     "median": 0.7985,
+     "n": 2751,
+     "p10": 0.7955,
+     "p90": 0.8009
+    },
+    "draw.shadowQuadsPerWing": {
+     "mapMax": 2.5276,
+     "mapMin": 2.1647,
+     "pooled": 2.3871
+    },
+    "gableHipWings": 2751,
+    "maps": 12,
+    "sensitivity": {
+     "hatchPerProfileWing": 18.0324,
+     "quadsPerGableHipWing": 2.5104,
+     "quadsPerProfileWing": 2.4355
+    },
+    "wings": 2893
+   }
+  },
+  "groups": {
+   "area/large": {
+    "draw.capSquare": {
+     "mapMin": 1.0,
+     "mapsAt1": 3,
+     "pooled": 1.0
+    },
+    "draw.hatchPerWing": {
+     "mapMax": 18.0695,
+     "mapMin": 15.7606,
+     "mapsMeanOutside15to20": 0,
+     "mapsMeanOutside17to19": 1,
+     "mean": 17.1204,
+     "median": 18.0,
+     "p10": 12.0,
+     "p90": 22.0,
+     "shareIn15to20": 0.5299
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.8058,
+     "median": 0.7985,
+     "n": 3065,
+     "p10": 0.7949,
+     "p90": 0.8013
+    },
+    "draw.shadowQuadsPerWing": {
+     "mapMax": 2.2927,
+     "mapMin": 2.1051,
+     "pooled": 2.2094
+    },
+    "gableHipWings": 3065,
+    "maps": 3,
+    "sensitivity": {
+     "hatchPerProfileWing": 16.9577,
+     "quadsPerGableHipWing": 2.2894,
+     "quadsPerProfileWing": 2.2476
+    },
+    "wings": 3176
+   },
+   "area/medium": {
+    "draw.capSquare": {
+     "mapMin": 1.0,
+     "mapsAt1": 5,
+     "pooled": 1.0
+    },
+    "draw.hatchPerWing": {
+     "mapMax": 19.2611,
+     "mapMin": 17.2967,
+     "mapsMeanOutside15to20": 0,
+     "mapsMeanOutside17to19": 1,
+     "mean": 17.8769,
+     "median": 18.0,
+     "p10": 12.0,
+     "p90": 24.0,
+     "shareIn15to20": 0.5454
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.7993,
+     "median": 0.7985,
+     "n": 3898,
+     "p10": 0.7955,
+     "p90": 0.8012
+    },
+    "draw.shadowQuadsPerWing": {
+     "mapMax": 2.3491,
+     "mapMin": 2.1594,
+     "pooled": 2.2451
+    },
+    "gableHipWings": 3898,
+    "maps": 5,
+    "sensitivity": {
+     "hatchPerProfileWing": 17.8128,
+     "quadsPerGableHipWing": 2.2814,
+     "quadsPerProfileWing": 2.2614
+    },
+    "wings": 3961
+   },
+   "area/small": {
+    "draw.capSquare": {
+     "mapMin": 1.0,
+     "mapsAt1": 3,
+     "pooled": 1.0
+    },
+    "draw.hatchPerWing": {
+     "mapMax": 19.2727,
+     "mapMin": 18.9664,
+     "mapsMeanOutside15to20": 0,
+     "mapsMeanOutside17to19": 2,
+     "mean": 19.1417,
+     "median": 18.0,
+     "p10": 14.0,
+     "p90": 24.0,
+     "shareIn15to20": 0.53
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.8009,
+     "median": 0.7985,
+     "n": 734,
+     "p10": 0.7955,
+     "p90": 0.8012
+    },
+    "draw.shadowQuadsPerWing": {
+     "mapMax": 2.375,
+     "mapMin": 2.1718,
+     "pooled": 2.2805
+    },
+    "gableHipWings": 734,
+    "maps": 3,
+    "sensitivity": {
+     "hatchPerProfileWing": 18.955,
+     "quadsPerGableHipWing": 2.3924,
+     "quadsPerProfileWing": 2.3258
+    },
+    "wings": 770
+   },
+   "ring/large": {
+    "draw.capSquare": {
+     "mapMin": 1.0,
+     "mapsAt1": 3,
+     "pooled": 1.0
+    },
+    "draw.hatchPerWing": {
+     "mapMax": 21.008,
+     "mapMin": 17.8534,
+     "mapsMeanOutside15to20": 1,
+     "mapsMeanOutside17to19": 2,
+     "mean": 19.3133,
+     "median": 18.0,
+     "p10": 14.0,
+     "p90": 26.0,
+     "shareIn15to20": 0.5179
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.8003,
+     "median": 0.7985,
+     "n": 4663,
+     "p10": 0.7949,
+     "p90": 0.8012
+    },
+    "draw.shadowQuadsPerWing": {
+     "mapMax": 2.4176,
+     "mapMin": 2.3185,
+     "pooled": 2.3657
+    },
+    "gableHipWings": 4663,
+    "maps": 3,
+    "sensitivity": {
+     "hatchPerProfileWing": 19.2257,
+     "quadsPerGableHipWing": 2.4154,
+     "quadsPerProfileWing": 2.388
+    },
+    "wings": 4761
+   },
+   "ring/medium": {
+    "draw.capSquare": {
+     "mapMin": 1.0,
+     "mapsAt1": 5,
+     "pooled": 1.0
+    },
+    "draw.hatchPerWing": {
+     "mapMax": 21.0979,
+     "mapMin": 16.4156,
+     "mapsMeanOutside15to20": 1,
+     "mapsMeanOutside17to19": 3,
+     "mean": 18.0143,
+     "median": 18.0,
+     "p10": 12.0,
+     "p90": 24.0,
+     "shareIn15to20": 0.512
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.8013,
+     "median": 0.7985,
+     "n": 5164,
+     "p10": 0.7955,
+     "p90": 0.8009
+    },
+    "draw.shadowQuadsPerWing": {
+     "mapMax": 2.4065,
+     "mapMin": 2.2341,
+     "pooled": 2.3231
+    },
+    "gableHipWings": 5164,
+    "maps": 5,
+    "sensitivity": {
+     "hatchPerProfileWing": 17.8362,
+     "quadsPerGableHipWing": 2.4253,
+     "quadsPerProfileWing": 2.3691
+    },
+    "wings": 5391
+   },
+   "ring/small": {
+    "draw.capSquare": {
+     "mapMin": 1.0,
+     "mapsAt1": 3,
+     "pooled": 1.0
+    },
+    "draw.hatchPerWing": {
+     "mapMax": 18.495,
+     "mapMin": 17.4158,
+     "mapsMeanOutside15to20": 0,
+     "mapsMeanOutside17to19": 0,
+     "mean": 17.7989,
+     "median": 18.0,
+     "p10": 12.0,
+     "p90": 24.0,
+     "shareIn15to20": 0.554
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.7983,
+     "median": 0.7984,
+     "n": 1323,
+     "p10": 0.7949,
+     "p90": 0.8009
+    },
+    "draw.shadowQuadsPerWing": {
+     "mapMax": 2.5028,
+     "mapMin": 2.414,
+     "pooled": 2.4733
+    },
+    "gableHipWings": 1323,
+    "maps": 3,
+    "sensitivity": {
+     "hatchPerProfileWing": 17.5713,
+     "quadsPerGableHipWing": 2.6266,
+     "quadsPerProfileWing": 2.5337
+    },
+    "wings": 1405
+   },
+   "square/large": {
+    "draw.capSquare": {
+     "mapMin": 0.9776,
+     "mapsAt1": 0,
+     "pooled": 0.9864
+    },
+    "draw.hatchPerWing": {
+     "mapMax": 19.8407,
+     "mapMin": 16.5354,
+     "mapsMeanOutside15to20": 0,
+     "mapsMeanOutside17to19": 2,
+     "mean": 17.3961,
+     "median": 18.0,
+     "p10": 12.0,
+     "p90": 22.0,
+     "shareIn15to20": 0.5244
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.7993,
+     "median": 0.7985,
+     "n": 3110,
+     "p10": 0.7958,
+     "p90": 0.8009
+    },
+    "draw.shadowQuadsPerWing": {
+     "mapMax": 2.2908,
+     "mapMin": 1.9737,
+     "pooled": 2.1684
+    },
+    "gableHipWings": 3110,
+    "maps": 3,
+    "sensitivity": {
+     "hatchPerProfileWing": 17.2451,
+     "quadsPerGableHipWing": 2.2527,
+     "quadsPerProfileWing": 2.2056
+    },
+    "wings": 3231
+   },
+   "square/medium": {
+    "draw.capSquare": {
+     "mapMin": 0.9318,
+     "mapsAt1": 0,
+     "pooled": 0.9537
+    },
+    "draw.hatchPerWing": {
+     "mapMax": 20.8824,
+     "mapMin": 17.7,
+     "mapsMeanOutside15to20": 1,
+     "mapsMeanOutside17to19": 2,
+     "mean": 18.8331,
+     "median": 18.0,
+     "p10": 14.0,
+     "p90": 24.0,
+     "shareIn15to20": 0.518
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.8002,
+     "median": 0.7985,
+     "n": 1558,
+     "p10": 0.7958,
+     "p90": 0.8009
+    },
+    "draw.shadowQuadsPerWing": {
+     "mapMax": 2.469,
+     "mapMin": 2.2605,
+     "pooled": 2.3306
+    },
+    "gableHipWings": 1558,
+    "maps": 5,
+    "sensitivity": {
+     "hatchPerProfileWing": 18.7002,
+     "quadsPerGableHipWing": 2.4069,
+     "quadsPerProfileWing": 2.3592
+    },
+    "wings": 1609
+   },
+   "square/small": {
+    "draw.capSquare": {
+     "mapMin": 0.8636,
+     "mapsAt1": 0,
+     "pooled": 0.8902
+    },
+    "draw.hatchPerWing": {
+     "mapMax": 18.5161,
+     "mapMin": 17.3333,
+     "mapsMeanOutside15to20": 0,
+     "mapsMeanOutside17to19": 0,
+     "mean": 17.9286,
+     "median": 18.0,
+     "p10": 14.0,
+     "p90": 22.0,
+     "shareIn15to20": 0.5812
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.7984,
+     "median": 0.7985,
+     "n": 308,
+     "p10": 0.7949,
+     "p90": 0.8013
+    },
+    "draw.shadowQuadsPerWing": {
+     "mapMax": 2.3306,
+     "mapMin": 2.1647,
+     "pooled": 2.2698
+    },
+    "gableHipWings": 308,
+    "maps": 3,
+    "sensitivity": {
+     "hatchPerProfileWing": 17.8019,
+     "quadsPerGableHipWing": 2.3214,
+     "quadsPerProfileWing": 2.2843
+    },
+    "wings": 315
+   },
+   "street/large": {
+    "draw.capSquare": {
+     "mapMin": 1.0,
+     "mapsAt1": 3,
+     "pooled": 1.0
+    },
+    "draw.hatchPerWing": {
+     "mapMax": 18.5421,
+     "mapMin": 16.9558,
+     "mapsMeanOutside15to20": 0,
+     "mapsMeanOutside17to19": 2,
+     "mean": 17.5595,
+     "median": 18.0,
+     "p10": 12.0,
+     "p90": 22.0,
+     "shareIn15to20": 0.544
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.7984,
+     "median": 0.7985,
+     "n": 2261,
+     "p10": 0.7955,
+     "p90": 0.8009
+    },
+    "draw.shadowQuadsPerWing": {
+     "mapMax": 2.2457,
+     "mapMin": 2.1473,
+     "pooled": 2.2047
+    },
+    "gableHipWings": 2261,
+    "maps": 3,
+    "sensitivity": {
+     "hatchPerProfileWing": 17.445,
+     "quadsPerGableHipWing": 2.2915,
+     "quadsPerProfileWing": 2.2429
+    },
+    "wings": 2350
+   },
+   "street/medium": {
+    "draw.capSquare": {
+     "mapMin": 1.0,
+     "mapsAt1": 5,
+     "pooled": 1.0
+    },
+    "draw.hatchPerWing": {
+     "mapMax": 20.7684,
+     "mapMin": 16.2459,
+     "mapsMeanOutside15to20": 1,
+     "mapsMeanOutside17to19": 5,
+     "mean": 17.8839,
+     "median": 18.0,
+     "p10": 12.0,
+     "p90": 24.0,
+     "shareIn15to20": 0.5219
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.8009,
+     "median": 0.7985,
+     "n": 1464,
+     "p10": 0.7955,
+     "p90": 0.8011
+    },
+    "draw.shadowQuadsPerWing": {
+     "mapMax": 2.5369,
+     "mapMin": 2.1959,
+     "pooled": 2.3243
+    },
+    "gableHipWings": 1464,
+    "maps": 5,
+    "sensitivity": {
+     "hatchPerProfileWing": 17.7374,
+     "quadsPerGableHipWing": 2.3989,
+     "quadsPerProfileWing": 2.3586
+    },
+    "wings": 1511
+   },
+   "street/small": {
+    "draw.capSquare": {
+     "mapMin": 1.0,
+     "mapsAt1": 3,
+     "pooled": 1.0
+    },
+    "draw.hatchPerWing": {
+     "mapMax": 18.4868,
+     "mapMin": 17.5429,
+     "mapsMeanOutside15to20": 0,
+     "mapsMeanOutside17to19": 0,
+     "mean": 18.1813,
+     "median": 18.0,
+     "p10": 14.0,
+     "p90": 24.0,
+     "shareIn15to20": 0.5803
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.7984,
+     "median": 0.7985,
+     "n": 386,
+     "p10": 0.7955,
+     "p90": 0.8009
+    },
+    "draw.shadowQuadsPerWing": {
+     "mapMax": 2.5276,
+     "mapMin": 2.2179,
+     "pooled": 2.3821
+    },
+    "gableHipWings": 386,
+    "maps": 3,
+    "sensitivity": {
+     "hatchPerProfileWing": 18.053,
+     "quadsPerGableHipWing": 2.487,
+     "quadsPerProfileWing": 2.4242
+    },
+    "wings": 403
+   }
+  },
+  "maps": [
+   {
+    "attribution": {
+     "insideOwnWing": 13497,
+     "share": 0.9979,
+     "triangles": 13526
+    },
+    "capsOther": 0,
+    "capsRound": 6951,
+    "capsSquare": 131,
+    "capture": "2026-10-03T19-05-32",
+    "draw.capSquare": 1.0,
+    "draw.hatchPerWing": {
+     "mean": 17.2967,
+     "median": 18.0,
+     "n": 782,
+     "p10": 12.0,
+     "p90": 22.0,
+     "shareIn15to20": 0.555
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.8019,
+     "median": 0.7985,
+     "n": 782,
+     "p10": 0.7958,
+     "p90": 0.8012,
+     "shareBelow1": 0.9923
+    },
+    "draw.shadowQuadsPerWing": 2.1594,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 24216,
+     "mismatches": {},
+     "paints": 24215,
+     "paintsInLog": 24215,
+     "pathsFile": true,
+     "polygonPaths": 24210,
+     "segsEqualVertices": 24210
+    },
+    "gableHipWings": 782,
+    "index": 0,
+    "label": "capture/NG/area/medium/0",
+    "otherInkFillsOnBuildings": 0,
+    "ridgeTapers": {
+     "exactlyTwo": 774,
+     "heavyPerWing": {
+      "1": 8,
+      "2": 774
+     },
+     "shareExactlyTwo": 0.9898,
+     "wings": 782
+    },
+    "roofFills": 1585,
+    "roofKinds": {
+     "1": 21,
+     "2": 782
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 17.1356,
+     "profileRuleWings": 792.5,
+     "quadsPerGableHipWing": 2.2174,
+     "quadsPerProfileWing": 2.188
+    },
+    "shadowBlobs": 64,
+    "shadowOther": 0,
+    "shadowQuads": 1734,
+    "size": "medium",
+    "streetFills": 0,
+    "streetStrokes": 131,
+    "strokesTotal": 7082,
+    "template": "area",
+    "triangles": 13580,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 13526,
+    "wings": 803
+   },
+   {
+    "attribution": {
+     "insideOwnWing": 5588,
+     "share": 1.0,
+     "triangles": 5588
+    },
+    "capsOther": 0,
+    "capsRound": 2796,
+    "capsSquare": 53,
+    "capture": "2026-10-03T19-05-47",
+    "draw.capSquare": 1.0,
+    "draw.hatchPerWing": {
+     "mean": 19.0717,
+     "median": 18.0,
+     "n": 293,
+     "p10": 14.0,
+     "p90": 24.0,
+     "shareIn15to20": 0.5461
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.7986,
+     "median": 0.7986,
+     "n": 293,
+     "p10": 0.7956,
+     "p90": 0.8013,
+     "shareBelow1": 1.0
+    },
+    "draw.shadowQuadsPerWing": 2.5369,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 9909,
+     "mismatches": {},
+     "paints": 9908,
+     "paintsInLog": 9908,
+     "pathsFile": true,
+     "polygonPaths": 9896,
+     "segsEqualVertices": 9896
+    },
+    "gableHipWings": 293,
+    "index": 0,
+    "label": "capture/NG/street/medium/0",
+    "otherInkFillsOnBuildings": 1,
+    "ridgeTapers": {
+     "exactlyTwo": 293,
+     "heavyPerWing": {
+      "2": 293
+     },
+     "shareExactlyTwo": 1.0,
+     "wings": 293
+    },
+    "roofFills": 591,
+    "roofKinds": {
+     "1": 5,
+     "2": 293
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 19.0525,
+     "profileRuleWings": 295.5,
+     "quadsPerGableHipWing": 2.5802,
+     "quadsPerProfileWing": 2.5584
+    },
+    "shadowBlobs": 17,
+    "shadowOther": 0,
+    "shadowQuads": 756,
+    "size": "medium",
+    "streetFills": 0,
+    "streetStrokes": 53,
+    "strokesTotal": 2849,
+    "template": "street",
+    "triangles": 5630,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 5588,
+    "wings": 298
+   },
+   {
+    "attribution": {
+     "insideOwnWing": 2464,
+     "share": 0.9944,
+     "triangles": 2478
+    },
+    "capsOther": 0,
+    "capsRound": 1324,
+    "capsSquare": 41,
+    "capture": "2026-10-03T19-05-53",
+    "draw.capSquare": 0.9318,
+    "draw.hatchPerWing": {
+     "mean": 17.7,
+     "median": 18.0,
+     "n": 140,
+     "p10": 11.8,
+     "p90": 24.0,
+     "shareIn15to20": 0.5143
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.8116,
+     "median": 0.7986,
+     "n": 140,
+     "p10": 0.7958,
+     "p90": 0.8015,
+     "shareBelow1": 0.9714
+    },
+    "draw.shadowQuadsPerWing": 2.469,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 4546,
+     "mismatches": {
+      "1->4": 3
+     },
+     "paints": 4545,
+     "paintsInLog": 4545,
+     "pathsFile": true,
+     "polygonPaths": 4543,
+     "segsEqualVertices": 4540
+    },
+    "gableHipWings": 140,
+    "index": 0,
+    "label": "capture/NG/square/medium/0",
+    "otherInkFillsOnBuildings": 0,
+    "ridgeTapers": {
+     "exactlyTwo": 136,
+     "heavyPerWing": {
+      "1": 4,
+      "2": 136
+     },
+     "shareExactlyTwo": 0.9714,
+     "wings": 140
+    },
+    "roofFills": 285,
+    "roofKinds": {
+     "1": 5,
+     "2": 140
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 17.586,
+     "profileRuleWings": 142.5,
+     "quadsPerGableHipWing": 2.5571,
+     "quadsPerProfileWing": 2.5123
+    },
+    "shadowBlobs": 4,
+    "shadowOther": 0,
+    "shadowQuads": 358,
+    "size": "medium",
+    "streetFills": 1,
+    "streetStrokes": 44,
+    "strokesTotal": 1365,
+    "template": "square",
+    "triangles": 2506,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 2478,
+    "wings": 145
+   },
+   {
+    "attribution": {
+     "insideOwnWing": 17632,
+     "share": 0.9973,
+     "triangles": 17680
+    },
+    "capsOther": 0,
+    "capsRound": 7901,
+    "capsSquare": 124,
+    "capture": "2026-10-03T19-05-59",
+    "draw.capSquare": 1.0,
+    "draw.hatchPerWing": {
+     "mean": 21.0979,
+     "median": 20.0,
+     "n": 838,
+     "p10": 16.0,
+     "p90": 26.0,
+     "shareIn15to20": 0.4308
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.8027,
+     "median": 0.7985,
+     "n": 838,
+     "p10": 0.7949,
+     "p90": 0.8009,
+     "shareBelow1": 0.9905
+    },
+    "draw.shadowQuadsPerWing": 2.3168,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 29926,
+     "mismatches": {},
+     "paints": 29925,
+     "paintsInLog": 29925,
+     "pathsFile": true,
+     "polygonPaths": 29917,
+     "segsEqualVertices": 29917
+    },
+    "gableHipWings": 838,
+    "index": 0,
+    "label": "capture/NG/ring/medium/0",
+    "otherInkFillsOnBuildings": 6,
+    "ridgeTapers": {
+     "exactlyTwo": 826,
+     "heavyPerWing": {
+      "1": 12,
+      "2": 826
+     },
+     "shareExactlyTwo": 0.9857,
+     "wings": 838
+    },
+    "roofFills": 1709,
+    "roofKinds": {
+     "1": 29,
+     "2": 838,
+     "4": 1
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 20.873,
+     "profileRuleWings": 854.5,
+     "quadsPerGableHipWing": 2.3998,
+     "quadsPerProfileWing": 2.3534
+    },
+    "shadowBlobs": 84,
+    "shadowOther": 0,
+    "shadowQuads": 2011,
+    "size": "medium",
+    "streetFills": 0,
+    "streetStrokes": 124,
+    "strokesTotal": 8025,
+    "template": "ring",
+    "triangles": 17836,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 17680,
+    "wings": 868
+   },
+   {
+    "attribution": {
+     "insideOwnWing": 19150,
+     "share": 1.0,
+     "triangles": 19150
+    },
+    "capsOther": 0,
+    "capsRound": 9899,
+    "capsSquare": 197,
+    "capture": "2026-10-03T19-06-06",
+    "draw.capSquare": 1.0,
+    "draw.hatchPerWing": {
+     "mean": 17.3303,
+     "median": 18.0,
+     "n": 1105,
+     "p10": 12.0,
+     "p90": 22.0,
+     "shareIn15to20": 0.562
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.7984,
+     "median": 0.7985,
+     "n": 1105,
+     "p10": 0.7949,
+     "p90": 0.8013,
+     "shareBelow1": 1.0
+    },
+    "draw.shadowQuadsPerWing": 2.2605,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 34420,
+     "mismatches": {},
+     "paints": 34419,
+     "paintsInLog": 34419,
+     "pathsFile": true,
+     "polygonPaths": 34406,
+     "segsEqualVertices": 34406
+    },
+    "gableHipWings": 1105,
+    "index": 1,
+    "label": "capture/NG/area/medium/1",
+    "otherInkFillsOnBuildings": 0,
+    "ridgeTapers": {
+     "exactlyTwo": 1105,
+     "heavyPerWing": {
+      "2": 1105
+     },
+     "shareExactlyTwo": 1.0,
+     "wings": 1105
+    },
+    "roofFills": 2225,
+    "roofKinds": {
+     "1": 11,
+     "2": 1105,
+     "4": 1
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 17.3088,
+     "profileRuleWings": 1112.5,
+     "quadsPerGableHipWing": 2.2851,
+     "quadsPerProfileWing": 2.2697
+    },
+    "shadowBlobs": 72,
+    "shadowOther": 0,
+    "shadowQuads": 2525,
+    "size": "medium",
+    "streetFills": 0,
+    "streetStrokes": 197,
+    "strokesTotal": 10096,
+    "template": "area",
+    "triangles": 19256,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 19150,
+    "wings": 1117
+   },
+   {
+    "attribution": {
+     "insideOwnWing": 6994,
+     "share": 0.9989,
+     "triangles": 7002
+    },
+    "capsOther": 0,
+    "capsRound": 3810,
+    "capsSquare": 67,
+    "capture": "2026-10-03T19-06-13",
+    "draw.capSquare": 1.0,
+    "draw.hatchPerWing": {
+     "mean": 16.2459,
+     "median": 16.0,
+     "n": 431,
+     "p10": 12.0,
+     "p90": 22.0,
+     "shareIn15to20": 0.5174
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.7982,
+     "median": 0.7984,
+     "n": 431,
+     "p10": 0.7949,
+     "p90": 0.8009,
+     "shareBelow1": 1.0
+    },
+    "draw.shadowQuadsPerWing": 2.2982,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 12826,
+     "mismatches": {
+      "1->4": 3
+     },
+     "paints": 12825,
+     "paintsInLog": 12825,
+     "pathsFile": true,
+     "polygonPaths": 12823,
+     "segsEqualVertices": 12820
+    },
+    "gableHipWings": 431,
+    "index": 1,
+    "label": "capture/NG/street/medium/1",
+    "otherInkFillsOnBuildings": 0,
+    "ridgeTapers": {
+     "exactlyTwo": 427,
+     "heavyPerWing": {
+      "1": 4,
+      "2": 427
+     },
+     "shareExactlyTwo": 0.9907,
+     "wings": 431
+    },
+    "roofFills": 867,
+    "roofKinds": {
+     "1": 5,
+     "2": 431
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 16.1845,
+     "profileRuleWings": 433.5,
+     "quadsPerGableHipWing": 2.3248,
+     "quadsPerProfileWing": 2.3114
+    },
+    "shadowBlobs": 14,
+    "shadowOther": 0,
+    "shadowQuads": 1002,
+    "size": "medium",
+    "streetFills": 0,
+    "streetStrokes": 67,
+    "strokesTotal": 3877,
+    "template": "street",
+    "triangles": 7016,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 7002,
+    "wings": 436
+   },
+   {
+    "attribution": {
+     "insideOwnWing": 3550,
+     "share": 1.0,
+     "triangles": 3550
+    },
+    "capsOther": 0,
+    "capsRound": 1557,
+    "capsSquare": 43,
+    "capture": "2026-10-03T19-06-19",
+    "draw.capSquare": 0.9348,
+    "draw.hatchPerWing": {
+     "mean": 20.8824,
+     "median": 20.0,
+     "n": 170,
+     "p10": 14.0,
+     "p90": 26.2,
+     "shareIn15to20": 0.4176
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.7987,
+     "median": 0.7986,
+     "n": 170,
+     "p10": 0.7959,
+     "p90": 0.8013,
+     "shareBelow1": 1.0
+    },
+    "draw.shadowQuadsPerWing": 2.3333,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 6007,
+     "mismatches": {},
+     "paints": 6006,
+     "paintsInLog": 6006,
+     "pathsFile": true,
+     "polygonPaths": 5999,
+     "segsEqualVertices": 5999
+    },
+    "gableHipWings": 170,
+    "index": 1,
+    "label": "capture/NG/square/medium/1",
+    "otherInkFillsOnBuildings": 0,
+    "ridgeTapers": {
+     "exactlyTwo": 170,
+     "heavyPerWing": {
+      "2": 170
+     },
+     "shareExactlyTwo": 1.0,
+     "wings": 170
+    },
+    "roofFills": 350,
+    "roofKinds": {
+     "1": 6,
+     "2": 170,
+     "4": 1
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 20.6629,
+     "profileRuleWings": 175.0,
+     "quadsPerGableHipWing": 2.4294,
+     "quadsPerProfileWing": 2.36
+    },
+    "shadowBlobs": 6,
+    "shadowOther": 0,
+    "shadowQuads": 413,
+    "size": "medium",
+    "streetFills": 1,
+    "streetStrokes": 46,
+    "strokesTotal": 1600,
+    "template": "square",
+    "triangles": 3616,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 3550,
+    "wings": 177
+   },
+   {
+    "attribution": {
+     "insideOwnWing": 21359,
+     "share": 0.9978,
+     "triangles": 21406
+    },
+    "capsOther": 0,
+    "capsRound": 11878,
+    "capsSquare": 322,
+    "capture": "2026-10-03T19-06-24",
+    "draw.capSquare": 1.0,
+    "draw.hatchPerWing": {
+     "mean": 16.4156,
+     "median": 16.0,
+     "n": 1304,
+     "p10": 12.0,
+     "p90": 22.0,
+     "shareIn15to20": 0.5046
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.8018,
+     "median": 0.7985,
+     "n": 1304,
+     "p10": 0.7958,
+     "p90": 0.8009,
+     "shareBelow1": 0.9923
+    },
+    "draw.shadowQuadsPerWing": 2.4065,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 39799,
+     "mismatches": {},
+     "paints": 39798,
+     "paintsInLog": 39798,
+     "pathsFile": true,
+     "polygonPaths": 39787,
+     "segsEqualVertices": 39787
+    },
+    "gableHipWings": 1304,
+    "index": 1,
+    "label": "capture/NG/ring/medium/1",
+    "otherInkFillsOnBuildings": 1,
+    "ridgeTapers": {
+     "exactlyTwo": 1290,
+     "heavyPerWing": {
+      "1": 14,
+      "2": 1290
+     },
+     "shareExactlyTwo": 0.9893,
+     "wings": 1304
+    },
+    "roofFills": 2635,
+    "roofKinds": {
+     "1": 27,
+     "2": 1304
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 16.3879,
+     "profileRuleWings": 1317.5,
+     "quadsPerGableHipWing": 2.4563,
+     "quadsPerProfileWing": 2.4311
+    },
+    "shadowBlobs": 20,
+    "shadowOther": 0,
+    "shadowQuads": 3203,
+    "size": "medium",
+    "streetFills": 0,
+    "streetStrokes": 322,
+    "strokesTotal": 12200,
+    "template": "ring",
+    "triangles": 21591,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 21406,
+    "wings": 1331
+   },
+   {
+    "attribution": {
+     "insideOwnWing": 8104,
+     "share": 0.999,
+     "triangles": 8112
+    },
+    "capsOther": 0,
+    "capsRound": 4016,
+    "capsSquare": 73,
+    "capture": "2026-10-03T19-06-32",
+    "draw.capSquare": 1.0,
+    "draw.hatchPerWing": {
+     "mean": 18.4784,
+     "median": 18.0,
+     "n": 439,
+     "p10": 14.0,
+     "p90": 24.0,
+     "shareIn15to20": 0.5695
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.8004,
+     "median": 0.7985,
+     "n": 439,
+     "p10": 0.7957,
+     "p90": 0.8009,
+     "shareBelow1": 0.9954
+    },
+    "draw.shadowQuadsPerWing": 2.3491,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 14270,
+     "mismatches": {},
+     "paints": 14269,
+     "paintsInLog": 14269,
+     "pathsFile": true,
+     "polygonPaths": 14267,
+     "segsEqualVertices": 14267
+    },
+    "gableHipWings": 439,
+    "index": 2,
+    "label": "capture/NG/area/medium/2",
+    "otherInkFillsOnBuildings": 0,
+    "ridgeTapers": {
+     "exactlyTwo": 437,
+     "heavyPerWing": {
+      "1": 2,
+      "2": 437
+     },
+     "shareExactlyTwo": 0.9954,
+     "wings": 439
+    },
+    "roofFills": 883,
+    "roofKinds": {
+     "1": 5,
+     "2": 439
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 18.4009,
+     "profileRuleWings": 441.5,
+     "quadsPerGableHipWing": 2.3759,
+     "quadsPerProfileWing": 2.3624
+    },
+    "shadowBlobs": 34,
+    "shadowOther": 0,
+    "shadowQuads": 1043,
+    "size": "medium",
+    "streetFills": 0,
+    "streetStrokes": 73,
+    "strokesTotal": 4089,
+    "template": "area",
+    "triangles": 8124,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 8112,
+    "wings": 444
+   },
+   {
+    "attribution": {
+     "insideOwnWing": 5969,
+     "share": 0.9965,
+     "triangles": 5990
+    },
+    "capsOther": 0,
+    "capsRound": 3313,
+    "capsSquare": 77,
+    "capture": "2026-10-03T19-06-38",
+    "draw.capSquare": 1.0,
+    "draw.hatchPerWing": {
+     "mean": 16.5014,
+     "median": 16.0,
+     "n": 363,
+     "p10": 12.0,
+     "p90": 22.0,
+     "shareIn15to20": 0.5234
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.8035,
+     "median": 0.7985,
+     "n": 363,
+     "p10": 0.7958,
+     "p90": 0.8015,
+     "shareBelow1": 0.989
+    },
+    "draw.shadowQuadsPerWing": 2.1959,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 11202,
+     "mismatches": {},
+     "paints": 11201,
+     "paintsInLog": 11201,
+     "pathsFile": true,
+     "polygonPaths": 11192,
+     "segsEqualVertices": 11192
+    },
+    "gableHipWings": 363,
+    "index": 2,
+    "label": "capture/NG/street/medium/2",
+    "otherInkFillsOnBuildings": 0,
+    "ridgeTapers": {
+     "exactlyTwo": 355,
+     "heavyPerWing": {
+      "1": 8,
+      "2": 355
+     },
+     "shareExactlyTwo": 0.978,
+     "wings": 363
+    },
+    "roofFills": 754,
+    "roofKinds": {
+     "1": 24,
+     "2": 363,
+     "4": 1
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 16.2573,
+     "profileRuleWings": 377.0,
+     "quadsPerGableHipWing": 2.3471,
+     "quadsPerProfileWing": 2.2599
+    },
+    "shadowBlobs": 18,
+    "shadowOther": 0,
+    "shadowQuads": 852,
+    "size": "medium",
+    "streetFills": 0,
+    "streetStrokes": 77,
+    "strokesTotal": 3390,
+    "template": "street",
+    "triangles": 6129,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 5990,
+    "wings": 388
+   },
+   {
+    "attribution": {
+     "insideOwnWing": 8113,
+     "share": 0.9994,
+     "triangles": 8118
+    },
+    "capsOther": 0,
+    "capsRound": 3732,
+    "capsSquare": 63,
+    "capture": "2026-10-03T19-06-43",
+    "draw.capSquare": 0.9545,
+    "draw.hatchPerWing": {
+     "mean": 19.5614,
+     "median": 20.0,
+     "n": 415,
+     "p10": 14.0,
+     "p90": 25.2,
+     "shareIn15to20": 0.4916
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.7984,
+     "median": 0.7985,
+     "n": 415,
+     "p10": 0.7955,
+     "p90": 0.8009,
+     "shareBelow1": 1.0
+    },
+    "draw.shadowQuadsPerWing": 2.35,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 13825,
+     "mismatches": {
+      "1->4": 3
+     },
+     "paints": 13824,
+     "paintsInLog": 13824,
+     "pathsFile": true,
+     "polygonPaths": 13822,
+     "segsEqualVertices": 13819
+    },
+    "gableHipWings": 415,
+    "index": 2,
+    "label": "capture/NG/square/medium/2",
+    "otherInkFillsOnBuildings": 0,
+    "ridgeTapers": {
+     "exactlyTwo": 413,
+     "heavyPerWing": {
+      "1": 2,
+      "2": 413
+     },
+     "shareExactlyTwo": 0.9952,
+     "wings": 415
+    },
+    "roofFills": 835,
+    "roofKinds": {
+     "1": 5,
+     "2": 415
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 19.4922,
+     "profileRuleWings": 417.5,
+     "quadsPerGableHipWing": 2.3783,
+     "quadsPerProfileWing": 2.3641
+    },
+    "shadowBlobs": 16,
+    "shadowOther": 0,
+    "shadowQuads": 987,
+    "size": "medium",
+    "streetFills": 1,
+    "streetStrokes": 66,
+    "strokesTotal": 3795,
+    "template": "square",
+    "triangles": 8138,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 8118,
+    "wings": 420
+   },
+   {
+    "attribution": {
+     "insideOwnWing": 17149,
+     "share": 0.9963,
+     "triangles": 17212
+    },
+    "capsOther": 0,
+    "capsRound": 9259,
+    "capsSquare": 193,
+    "capture": "2026-10-03T19-06-49",
+    "draw.capSquare": 1.0,
+    "draw.hatchPerWing": {
+     "mean": 17.1605,
+     "median": 18.0,
+     "n": 1003,
+     "p10": 12.0,
+     "p90": 22.0,
+     "shareIn15to20": 0.5294
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.8019,
+     "median": 0.7985,
+     "n": 1003,
+     "p10": 0.7949,
+     "p90": 0.8009,
+     "shareBelow1": 0.992
+    },
+    "draw.shadowQuadsPerWing": 2.3324,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 31568,
+     "mismatches": {},
+     "paints": 31567,
+     "paintsInLog": 31567,
+     "pathsFile": true,
+     "polygonPaths": 31556,
+     "segsEqualVertices": 31556
+    },
+    "gableHipWings": 1003,
+    "index": 2,
+    "label": "capture/NG/ring/medium/2",
+    "otherInkFillsOnBuildings": 5,
+    "ridgeTapers": {
+     "exactlyTwo": 981,
+     "heavyPerWing": {
+      "1": 22,
+      "2": 981
+     },
+     "shareExactlyTwo": 0.9781,
+     "wings": 1003
+    },
+    "roofFills": 2053,
+    "roofKinds": {
+     "1": 43,
+     "2": 1003,
+     "4": 1
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 16.9654,
+     "profileRuleWings": 1026.5,
+     "quadsPerGableHipWing": 2.4347,
+     "quadsPerProfileWing": 2.379
+    },
+    "shadowBlobs": 48,
+    "shadowOther": 0,
+    "shadowQuads": 2442,
+    "size": "medium",
+    "streetFills": 0,
+    "streetStrokes": 193,
+    "strokesTotal": 9452,
+    "template": "ring",
+    "triangles": 17415,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 17212,
+    "wings": 1047
+   },
+   {
+    "attribution": {
+     "insideOwnWing": 12890,
+     "share": 1.0,
+     "triangles": 12890
+    },
+    "capsOther": 0,
+    "capsRound": 6720,
+    "capsSquare": 135,
+    "capture": "2026-10-03T19-06-56",
+    "draw.capSquare": 1.0,
+    "draw.hatchPerWing": {
+     "mean": 17.3954,
+     "median": 18.0,
+     "n": 741,
+     "p10": 12.0,
+     "p90": 22.0,
+     "shareIn15to20": 0.5412
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.7984,
+     "median": 0.7985,
+     "n": 741,
+     "p10": 0.7949,
+     "p90": 0.8012,
+     "shareBelow1": 1.0
+    },
+    "draw.shadowQuadsPerWing": 2.3436,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 23245,
+     "mismatches": {
+      "1->4": 3
+     },
+     "paints": 23244,
+     "paintsInLog": 23244,
+     "pathsFile": true,
+     "polygonPaths": 23238,
+     "segsEqualVertices": 23235
+    },
+    "gableHipWings": 741,
+    "index": 3,
+    "label": "capture/NG/area/medium/3",
+    "otherInkFillsOnBuildings": 0,
+    "ridgeTapers": {
+     "exactlyTwo": 741,
+     "heavyPerWing": {
+      "2": 741
+     },
+     "shareExactlyTwo": 1.0,
+     "wings": 741
+    },
+    "roofFills": 1489,
+    "roofKinds": {
+     "1": 7,
+     "2": 741
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 17.3929,
+     "profileRuleWings": 744.5,
+     "quadsPerGableHipWing": 2.3657,
+     "quadsPerProfileWing": 2.3546
+    },
+    "shadowBlobs": 44,
+    "shadowOther": 0,
+    "shadowQuads": 1753,
+    "size": "medium",
+    "streetFills": 0,
+    "streetStrokes": 135,
+    "strokesTotal": 6855,
+    "template": "area",
+    "triangles": 12949,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 12890,
+    "wings": 748
+   },
+   {
+    "attribution": {
+     "insideOwnWing": 3639,
+     "share": 0.9954,
+     "triangles": 3656
+    },
+    "capsOther": 0,
+    "capsRound": 1883,
+    "capsSquare": 31,
+    "capture": "2026-10-03T19-07-02",
+    "draw.capSquare": 1.0,
+    "draw.hatchPerWing": {
+     "mean": 19.5508,
+     "median": 20.0,
+     "n": 187,
+     "p10": 14.0,
+     "p90": 26.0,
+     "shareIn15to20": 0.492
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.8081,
+     "median": 0.7985,
+     "n": 187,
+     "p10": 0.7958,
+     "p90": 0.8009,
+     "shareBelow1": 0.9786
+    },
+    "draw.shadowQuadsPerWing": 2.2812,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 6594,
+     "mismatches": {},
+     "paints": 6593,
+     "paintsInLog": 6593,
+     "pathsFile": true,
+     "polygonPaths": 6591,
+     "segsEqualVertices": 6591
+    },
+    "gableHipWings": 187,
+    "index": 3,
+    "label": "capture/NG/street/medium/3",
+    "otherInkFillsOnBuildings": 0,
+    "ridgeTapers": {
+     "exactlyTwo": 183,
+     "heavyPerWing": {
+      "1": 4,
+      "2": 183
+     },
+     "shareExactlyTwo": 0.9786,
+     "wings": 187
+    },
+    "roofFills": 379,
+    "roofKinds": {
+     "1": 5,
+     "2": 187
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 19.3668,
+     "profileRuleWings": 189.5,
+     "quadsPerGableHipWing": 2.3422,
+     "quadsPerProfileWing": 2.3113
+    },
+    "shadowBlobs": 55,
+    "shadowOther": 0,
+    "shadowQuads": 438,
+    "size": "medium",
+    "streetFills": 0,
+    "streetStrokes": 31,
+    "strokesTotal": 1914,
+    "template": "street",
+    "triangles": 3670,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 3656,
+    "wings": 192
+   },
+   {
+    "attribution": {
+     "insideOwnWing": 6646,
+     "share": 0.9994,
+     "triangles": 6650
+    },
+    "capsOther": 0,
+    "capsRound": 3302,
+    "capsSquare": 73,
+    "capture": "2026-10-03T19-07-07",
+    "draw.capSquare": 0.9605,
+    "draw.hatchPerWing": {
+     "mean": 17.7333,
+     "median": 18.0,
+     "n": 375,
+     "p10": 14.0,
+     "p90": 22.0,
+     "shareIn15to20": 0.5413
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.8008,
+     "median": 0.7985,
+     "n": 375,
+     "p10": 0.7955,
+     "p90": 0.8009,
+     "shareBelow1": 0.9947
+    },
+    "draw.shadowQuadsPerWing": 2.2605,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 11725,
+     "mismatches": {},
+     "paints": 11724,
+     "paintsInLog": 11724,
+     "pathsFile": true,
+     "polygonPaths": 11722,
+     "segsEqualVertices": 11722
+    },
+    "gableHipWings": 375,
+    "index": 3,
+    "label": "capture/NG/square/medium/3",
+    "otherInkFillsOnBuildings": 0,
+    "ridgeTapers": {
+     "exactlyTwo": 373,
+     "heavyPerWing": {
+      "1": 2,
+      "2": 373
+     },
+     "shareExactlyTwo": 0.9947,
+     "wings": 375
+    },
+    "roofFills": 755,
+    "roofKinds": {
+     "1": 5,
+     "2": 375
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 17.6636,
+     "profileRuleWings": 377.5,
+     "quadsPerGableHipWing": 2.2907,
+     "quadsPerProfileWing": 2.2755
+    },
+    "shadowBlobs": 16,
+    "shadowOther": 0,
+    "shadowQuads": 859,
+    "size": "medium",
+    "streetFills": 1,
+    "streetStrokes": 76,
+    "strokesTotal": 3375,
+    "template": "square",
+    "triangles": 6668,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 6650,
+    "wings": 380
+   },
+   {
+    "attribution": {
+     "insideOwnWing": 21287,
+     "share": 0.9985,
+     "triangles": 21318
+    },
+    "capsOther": 0,
+    "capsRound": 11311,
+    "capsSquare": 228,
+    "capture": "2026-10-03T19-07-12",
+    "draw.capSquare": 1.0,
+    "draw.hatchPerWing": {
+     "mean": 17.6182,
+     "median": 18.0,
+     "n": 1210,
+     "p10": 12.0,
+     "p90": 22.0,
+     "shareIn15to20": 0.5479
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.7999,
+     "median": 0.7985,
+     "n": 1210,
+     "p10": 0.7955,
+     "p90": 0.8009,
+     "shareBelow1": 0.9967
+    },
+    "draw.shadowQuadsPerWing": 2.2341,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 39093,
+     "mismatches": {},
+     "paints": 39092,
+     "paintsInLog": 39092,
+     "pathsFile": true,
+     "polygonPaths": 39047,
+     "segsEqualVertices": 39047
+    },
+    "gableHipWings": 1210,
+    "index": 3,
+    "label": "capture/NG/ring/medium/3",
+    "otherInkFillsOnBuildings": 12,
+    "ridgeTapers": {
+     "exactlyTwo": 1202,
+     "heavyPerWing": {
+      "1": 8,
+      "2": 1202
+     },
+     "shareExactlyTwo": 0.9934,
+     "wings": 1210
+    },
+    "roofFills": 2526,
+    "roofKinds": {
+     "1": 94,
+     "2": 1210,
+     "4": 3
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 17.285,
+     "profileRuleWings": 1263.0,
+     "quadsPerGableHipWing": 2.4132,
+     "quadsPerProfileWing": 2.312
+    },
+    "shadowBlobs": 60,
+    "shadowOther": 0,
+    "shadowQuads": 2920,
+    "size": "medium",
+    "streetFills": 0,
+    "streetStrokes": 228,
+    "strokesTotal": 11539,
+    "template": "ring",
+    "triangles": 21831,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 21318,
+    "wings": 1307
+   },
+   {
+    "attribution": {
+     "insideOwnWing": 16006,
+     "share": 1.0,
+     "triangles": 16006
+    },
+    "capsOther": 0,
+    "capsRound": 7402,
+    "capsSquare": 157,
+    "capture": "2026-10-03T19-07-18",
+    "draw.capSquare": 1.0,
+    "draw.hatchPerWing": {
+     "mean": 19.2611,
+     "median": 20.0,
+     "n": 831,
+     "p10": 14.0,
+     "p90": 24.0,
+     "shareIn15to20": 0.5054
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.7984,
+     "median": 0.7985,
+     "n": 831,
+     "p10": 0.7958,
+     "p90": 0.8009,
+     "shareBelow1": 1.0
+    },
+    "draw.shadowQuadsPerWing": 2.1649,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 27509,
+     "mismatches": {},
+     "paints": 27508,
+     "paintsInLog": 27508,
+     "pathsFile": true,
+     "polygonPaths": 27494,
+     "segsEqualVertices": 27494
+    },
+    "gableHipWings": 831,
+    "index": 4,
+    "label": "capture/NG/area/medium/4",
+    "otherInkFillsOnBuildings": 0,
+    "ridgeTapers": {
+     "exactlyTwo": 831,
+     "heavyPerWing": {
+      "2": 831
+     },
+     "shareExactlyTwo": 1.0,
+     "wings": 831
+    },
+    "roofFills": 1683,
+    "roofKinds": {
+     "1": 17,
+     "2": 831,
+     "4": 1
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 19.18,
+     "profileRuleWings": 841.5,
+     "quadsPerGableHipWing": 2.2118,
+     "quadsPerProfileWing": 2.1842
+    },
+    "shadowBlobs": 73,
+    "shadowOther": 0,
+    "shadowQuads": 1838,
+    "size": "medium",
+    "streetFills": 0,
+    "streetStrokes": 157,
+    "strokesTotal": 7559,
+    "template": "area",
+    "triangles": 16140,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 16006,
+    "wings": 849
+   },
+   {
+    "attribution": {
+     "insideOwnWing": 3946,
+     "share": 1.0,
+     "triangles": 3946
+    },
+    "capsOther": 0,
+    "capsRound": 1768,
+    "capsSquare": 31,
+    "capture": "2026-10-03T19-07-24",
+    "draw.capSquare": 1.0,
+    "draw.hatchPerWing": {
+     "mean": 20.7684,
+     "median": 20.0,
+     "n": 190,
+     "p10": 16.0,
+     "p90": 26.0,
+     "shareIn15to20": 0.5211
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.7982,
+     "median": 0.7984,
+     "n": 190,
+     "p10": 0.7949,
+     "p90": 0.8009,
+     "shareBelow1": 1.0
+    },
+    "draw.shadowQuadsPerWing": 2.3553,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 6671,
+     "mismatches": {},
+     "paints": 6670,
+     "paintsInLog": 6670,
+     "pathsFile": true,
+     "polygonPaths": 6664,
+     "segsEqualVertices": 6664
+    },
+    "gableHipWings": 190,
+    "index": 4,
+    "label": "capture/NG/street/medium/4",
+    "otherInkFillsOnBuildings": 5,
+    "ridgeTapers": {
+     "exactlyTwo": 190,
+     "heavyPerWing": {
+      "2": 190
+     },
+     "shareExactlyTwo": 1.0,
+     "wings": 190
+    },
+    "roofFills": 387,
+    "roofKinds": {
+     "1": 7,
+     "2": 190
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 20.4961,
+     "profileRuleWings": 193.5,
+     "quadsPerGableHipWing": 2.4421,
+     "quadsPerProfileWing": 2.3979
+    },
+    "shadowBlobs": 12,
+    "shadowOther": 0,
+    "shadowQuads": 464,
+    "size": "medium",
+    "streetFills": 0,
+    "streetStrokes": 31,
+    "strokesTotal": 1799,
+    "template": "street",
+    "triangles": 3966,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 3946,
+    "wings": 197
+   },
+   {
+    "attribution": {
+     "insideOwnWing": 8546,
+     "share": 1.0,
+     "triangles": 8546
+    },
+    "capsOther": 0,
+    "capsRound": 4332,
+    "capsSquare": 89,
+    "capture": "2026-10-03T19-07-29",
+    "draw.capSquare": 0.9674,
+    "draw.hatchPerWing": {
+     "mean": 18.6594,
+     "median": 18.0,
+     "n": 458,
+     "p10": 14.0,
+     "p90": 24.0,
+     "shareIn15to20": 0.5611
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.7983,
+     "median": 0.7984,
+     "n": 458,
+     "p10": 0.7958,
+     "p90": 0.8009,
+     "shareBelow1": 1.0
+    },
+    "draw.shadowQuadsPerWing": 2.3265,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 15420,
+     "mismatches": {
+      "1->4": 3
+     },
+     "paints": 15419,
+     "paintsInLog": 15419,
+     "pathsFile": true,
+     "polygonPaths": 15411,
+     "segsEqualVertices": 15408
+    },
+    "gableHipWings": 458,
+    "index": 4,
+    "label": "capture/NG/square/medium/4",
+    "otherInkFillsOnBuildings": 0,
+    "ridgeTapers": {
+     "exactlyTwo": 458,
+     "heavyPerWing": {
+      "2": 458
+     },
+     "shareExactlyTwo": 1.0,
+     "wings": 458
+    },
+    "roofFills": 954,
+    "roofKinds": {
+     "1": 26,
+     "2": 458,
+     "4": 3
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 18.4403,
+     "profileRuleWings": 477.0,
+     "quadsPerGableHipWing": 2.4738,
+     "quadsPerProfileWing": 2.3753
+    },
+    "shadowBlobs": 18,
+    "shadowOther": 0,
+    "shadowQuads": 1133,
+    "size": "medium",
+    "streetFills": 1,
+    "streetStrokes": 92,
+    "strokesTotal": 4421,
+    "template": "square",
+    "triangles": 8796,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 8546,
+    "wings": 487
+   },
+   {
+    "attribution": {
+     "insideOwnWing": 15400,
+     "share": 0.9994,
+     "triangles": 15410
+    },
+    "capsOther": 0,
+    "capsRound": 7775,
+    "capsSquare": 126,
+    "capture": "2026-10-03T19-07-34",
+    "draw.capSquare": 1.0,
+    "draw.hatchPerWing": {
+     "mean": 19.0482,
+     "median": 18.0,
+     "n": 809,
+     "p10": 14.0,
+     "p90": 24.0,
+     "shareIn15to20": 0.5328
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.8006,
+     "median": 0.7985,
+     "n": 809,
+     "p10": 0.7949,
+     "p90": 0.8009,
+     "shareBelow1": 0.9951
+    },
+    "draw.shadowQuadsPerWing": 2.3246,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 27544,
+     "mismatches": {},
+     "paints": 27543,
+     "paintsInLog": 27543,
+     "pathsFile": true,
+     "polygonPaths": 27525,
+     "segsEqualVertices": 27525
+    },
+    "gableHipWings": 809,
+    "index": 4,
+    "label": "capture/NG/ring/medium/4",
+    "otherInkFillsOnBuildings": 0,
+    "ridgeTapers": {
+     "exactlyTwo": 805,
+     "heavyPerWing": {
+      "1": 4,
+      "2": 805
+     },
+     "shareExactlyTwo": 0.9951,
+     "wings": 809
+    },
+    "roofFills": 1650,
+    "roofKinds": {
+     "1": 28,
+     "2": 809,
+     "4": 1
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 18.9309,
+     "profileRuleWings": 825.0,
+     "quadsPerGableHipWing": 2.4079,
+     "quadsPerProfileWing": 2.3612
+    },
+    "shadowBlobs": 119,
+    "shadowOther": 0,
+    "shadowQuads": 1948,
+    "size": "medium",
+    "streetFills": 0,
+    "streetStrokes": 126,
+    "strokesTotal": 7901,
+    "template": "ring",
+    "triangles": 15618,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 15410,
+    "wings": 838
+   },
+   {
+    "attribution": {
+     "insideOwnWing": 4499,
+     "share": 0.9967,
+     "triangles": 4514
+    },
+    "capsOther": 0,
+    "capsRound": 2213,
+    "capsSquare": 51,
+    "capture": "2026-10-03T19-07-43",
+    "draw.capSquare": 1.0,
+    "draw.hatchPerWing": {
+     "mean": 18.9664,
+     "median": 18.0,
+     "n": 238,
+     "p10": 14.0,
+     "p90": 24.0,
+     "shareIn15to20": 0.5756
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.8063,
+     "median": 0.7985,
+     "n": 238,
+     "p10": 0.7958,
+     "p90": 0.8013,
+     "shareBelow1": 0.9832
+    },
+    "draw.shadowQuadsPerWing": 2.2976,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 7983,
+     "mismatches": {},
+     "paints": 7982,
+     "paintsInLog": 7982,
+     "pathsFile": true,
+     "polygonPaths": 7970,
+     "segsEqualVertices": 7970
+    },
+    "gableHipWings": 238,
+    "index": 0,
+    "label": "capture/NG/area/small/0",
+    "otherInkFillsOnBuildings": 0,
+    "ridgeTapers": {
+     "exactlyTwo": 234,
+     "heavyPerWing": {
+      "1": 4,
+      "2": 234
+     },
+     "shareExactlyTwo": 0.9832,
+     "wings": 238
+    },
+    "roofFills": 490,
+    "roofKinds": {
+     "1": 14,
+     "2": 238
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 18.7633,
+     "profileRuleWings": 245.0,
+     "quadsPerGableHipWing": 2.4328,
+     "quadsPerProfileWing": 2.3633
+    },
+    "shadowBlobs": 11,
+    "shadowOther": 0,
+    "shadowQuads": 579,
+    "size": "small",
+    "streetFills": 0,
+    "streetStrokes": 51,
+    "strokesTotal": 2264,
+    "template": "area",
+    "triangles": 4597,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 4514,
+    "wings": 252
+   },
+   {
+    "attribution": {
+     "insideOwnWing": 3494,
+     "share": 1.0,
+     "triangles": 3494
+    },
+    "capsOther": 0,
+    "capsRound": 1750,
+    "capsSquare": 41,
+    "capture": "2026-10-03T19-07-49",
+    "draw.capSquare": 1.0,
+    "draw.hatchPerWing": {
+     "mean": 18.4868,
+     "median": 18.0,
+     "n": 189,
+     "p10": 14.0,
+     "p90": 24.0,
+     "shareIn15to20": 0.6032
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.7985,
+     "median": 0.7985,
+     "n": 189,
+     "p10": 0.7958,
+     "p90": 0.8009,
+     "shareBelow1": 1.0
+    },
+    "draw.shadowQuadsPerWing": 2.3535,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 6220,
+     "mismatches": {},
+     "paints": 6219,
+     "paintsInLog": 6219,
+     "pathsFile": true,
+     "polygonPaths": 6209,
+     "segsEqualVertices": 6209
+    },
+    "gableHipWings": 189,
+    "index": 0,
+    "label": "capture/NG/street/small/0",
+    "otherInkFillsOnBuildings": 0,
+    "ridgeTapers": {
+     "exactlyTwo": 189,
+     "heavyPerWing": {
+      "2": 189
+     },
+     "shareExactlyTwo": 1.0,
+     "wings": 189
+    },
+    "roofFills": 390,
+    "roofKinds": {
+     "1": 8,
+     "2": 189,
+     "4": 1
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 18.1744,
+     "profileRuleWings": 195.0,
+     "quadsPerGableHipWing": 2.4656,
+     "quadsPerProfileWing": 2.3897
+    },
+    "shadowBlobs": 5,
+    "shadowOther": 0,
+    "shadowQuads": 466,
+    "size": "small",
+    "streetFills": 0,
+    "streetStrokes": 41,
+    "strokesTotal": 1791,
+    "template": "street",
+    "triangles": 3544,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 3494,
+    "wings": 198
+   },
+   {
+    "attribution": {
+     "insideOwnWing": 2296,
+     "share": 1.0,
+     "triangles": 2296
+    },
+    "capsOther": 0,
+    "capsRound": 1104,
+    "capsSquare": 33,
+    "capture": "2026-10-03T19-07-54",
+    "draw.capSquare": 0.9167,
+    "draw.hatchPerWing": {
+     "mean": 18.5161,
+     "median": 18.0,
+     "n": 124,
+     "p10": 14.0,
+     "p90": 22.0,
+     "shareIn15to20": 0.5726
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.7986,
+     "median": 0.7986,
+     "n": 124,
+     "p10": 0.7958,
+     "p90": 0.8012,
+     "shareBelow1": 1.0
+    },
+    "draw.shadowQuadsPerWing": 2.3306,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 4001,
+     "mismatches": {
+      "1->4": 3
+     },
+     "paints": 4000,
+     "paintsInLog": 4000,
+     "pathsFile": true,
+     "polygonPaths": 3995,
+     "segsEqualVertices": 3992
+    },
+    "gableHipWings": 124,
+    "index": 0,
+    "label": "capture/NG/square/small/0",
+    "otherInkFillsOnBuildings": 0,
+    "ridgeTapers": {
+     "exactlyTwo": 124,
+     "heavyPerWing": {
+      "2": 124
+     },
+     "shareExactlyTwo": 1.0,
+     "wings": 124
+    },
+    "roofFills": 248,
+    "roofKinds": {
+     "2": 124
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 18.5161,
+     "profileRuleWings": 124.0,
+     "quadsPerGableHipWing": 2.3306,
+     "quadsPerProfileWing": 2.3306
+    },
+    "shadowBlobs": 5,
+    "shadowOther": 0,
+    "shadowQuads": 289,
+    "size": "small",
+    "streetFills": 1,
+    "streetStrokes": 36,
+    "strokesTotal": 1137,
+    "template": "square",
+    "triangles": 2296,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 2296,
+    "wings": 124
+   },
+   {
+    "attribution": {
+     "insideOwnWing": 8586,
+     "share": 1.0,
+     "triangles": 8586
+    },
+    "capsOther": 0,
+    "capsRound": 4908,
+    "capsSquare": 94,
+    "capture": "2026-10-03T19-08-00",
+    "draw.capSquare": 1.0,
+    "draw.hatchPerWing": {
+     "mean": 17.4158,
+     "median": 16.0,
+     "n": 493,
+     "p10": 14.0,
+     "p90": 22.0,
+     "shareIn15to20": 0.5639
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.7983,
+     "median": 0.7984,
+     "n": 493,
+     "p10": 0.7949,
+     "p90": 0.8009,
+     "shareBelow1": 1.0
+    },
+    "draw.shadowQuadsPerWing": 2.5028,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 16309,
+     "mismatches": {},
+     "paints": 16308,
+     "paintsInLog": 16308,
+     "pathsFile": true,
+     "polygonPaths": 16292,
+     "segsEqualVertices": 16292
+    },
+    "gableHipWings": 493,
+    "index": 0,
+    "label": "capture/NG/ring/small/0",
+    "otherInkFillsOnBuildings": 0,
+    "ridgeTapers": {
+     "exactlyTwo": 493,
+     "heavyPerWing": {
+      "2": 493
+     },
+     "shareExactlyTwo": 1.0,
+     "wings": 493
+    },
+    "roofFills": 1037,
+    "roofKinds": {
+     "1": 39,
+     "2": 493,
+     "4": 3
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 17.0376,
+     "profileRuleWings": 518.5,
+     "quadsPerGableHipWing": 2.716,
+     "quadsPerProfileWing": 2.5824
+    },
+    "shadowBlobs": 24,
+    "shadowOther": 0,
+    "shadowQuads": 1339,
+    "size": "small",
+    "streetFills": 0,
+    "streetStrokes": 94,
+    "strokesTotal": 5002,
+    "template": "ring",
+    "triangles": 8834,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 8586,
+    "wings": 535
+   },
+   {
+    "attribution": {
+     "insideOwnWing": 4660,
+     "share": 1.0,
+     "triangles": 4660
+    },
+    "capsOther": 0,
+    "capsRound": 2400,
+    "capsSquare": 49,
+    "capture": "2026-10-03T19-08-05",
+    "draw.capSquare": 1.0,
+    "draw.hatchPerWing": {
+     "mean": 19.177,
+     "median": 18.0,
+     "n": 243,
+     "p10": 14.0,
+     "p90": 24.0,
+     "shareIn15to20": 0.4979
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.7984,
+     "median": 0.7985,
+     "n": 243,
+     "p10": 0.795,
+     "p90": 0.8013,
+     "shareBelow1": 1.0
+    },
+    "draw.shadowQuadsPerWing": 2.375,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 8470,
+     "mismatches": {},
+     "paints": 8469,
+     "paintsInLog": 8469,
+     "pathsFile": true,
+     "polygonPaths": 8459,
+     "segsEqualVertices": 8459
+    },
+    "gableHipWings": 243,
+    "index": 1,
+    "label": "capture/NG/area/small/1",
+    "otherInkFillsOnBuildings": 0,
+    "ridgeTapers": {
+     "exactlyTwo": 243,
+     "heavyPerWing": {
+      "2": 243
+     },
+     "shareExactlyTwo": 1.0,
+     "wings": 243
+    },
+    "roofFills": 502,
+    "roofKinds": {
+     "1": 12,
+     "2": 243,
+     "4": 1
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 19.012,
+     "profileRuleWings": 251.0,
+     "quadsPerGableHipWing": 2.5021,
+     "quadsPerProfileWing": 2.4223
+    },
+    "shadowBlobs": 36,
+    "shadowOther": 0,
+    "shadowQuads": 608,
+    "size": "small",
+    "streetFills": 0,
+    "streetStrokes": 49,
+    "strokesTotal": 2449,
+    "template": "area",
+    "triangles": 4772,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 4660,
+    "wings": 256
+   },
+   {
+    "attribution": {
+     "insideOwnWing": 1228,
+     "share": 1.0,
+     "triangles": 1228
+    },
+    "capsOther": 0,
+    "capsRound": 672,
+    "capsSquare": 15,
+    "capture": "2026-10-03T19-08-12",
+    "draw.capSquare": 1.0,
+    "draw.hatchPerWing": {
+     "mean": 17.5429,
+     "median": 16.0,
+     "n": 70,
+     "p10": 14.0,
+     "p90": 22.0,
+     "shareIn15to20": 0.6
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.7985,
+     "median": 0.7985,
+     "n": 70,
+     "p10": 0.7958,
+     "p90": 0.8013,
+     "shareBelow1": 1.0
+    },
+    "draw.shadowQuadsPerWing": 2.2179,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 2337,
+     "mismatches": {},
+     "paints": 2336,
+     "paintsInLog": 2336,
+     "pathsFile": true,
+     "polygonPaths": 2329,
+     "segsEqualVertices": 2329
+    },
+    "gableHipWings": 70,
+    "index": 1,
+    "label": "capture/NG/street/small/1",
+    "otherInkFillsOnBuildings": 0,
+    "ridgeTapers": {
+     "exactlyTwo": 70,
+     "heavyPerWing": {
+      "2": 70
+     },
+     "shareExactlyTwo": 1.0,
+     "wings": 70
+    },
+    "roofFills": 148,
+    "roofKinds": {
+     "1": 8,
+     "2": 70
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 17.6892,
+     "profileRuleWings": 74.0,
+     "quadsPerGableHipWing": 2.4714,
+     "quadsPerProfileWing": 2.3378
+    },
+    "shadowBlobs": 5,
+    "shadowOther": 0,
+    "shadowQuads": 173,
+    "size": "small",
+    "streetFills": 0,
+    "streetStrokes": 15,
+    "strokesTotal": 687,
+    "template": "street",
+    "triangles": 1309,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 1228,
+    "wings": 78
+   },
+   {
+    "attribution": {
+     "insideOwnWing": 1874,
+     "share": 1.0,
+     "triangles": 1874
+    },
+    "capsOther": 0,
+    "capsRound": 1009,
+    "capsSquare": 21,
+    "capture": "2026-10-03T19-08-17",
+    "draw.capSquare": 0.875,
+    "draw.hatchPerWing": {
+     "mean": 17.6792,
+     "median": 18.0,
+     "n": 106,
+     "p10": 14.0,
+     "p90": 22.0,
+     "shareIn15to20": 0.6321
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.7981,
+     "median": 0.7981,
+     "n": 106,
+     "p10": 0.7949,
+     "p90": 0.8009,
+     "shareBelow1": 1.0
+    },
+    "draw.shadowQuadsPerWing": 2.283,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 3443,
+     "mismatches": {},
+     "paints": 3442,
+     "paintsInLog": 3442,
+     "pathsFile": true,
+     "polygonPaths": 3434,
+     "segsEqualVertices": 3434
+    },
+    "gableHipWings": 106,
+    "index": 1,
+    "label": "capture/NG/square/small/1",
+    "otherInkFillsOnBuildings": 0,
+    "ridgeTapers": {
+     "exactlyTwo": 106,
+     "heavyPerWing": {
+      "2": 106
+     },
+     "shareExactlyTwo": 1.0,
+     "wings": 106
+    },
+    "roofFills": 212,
+    "roofKinds": {
+     "2": 106
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 17.6792,
+     "profileRuleWings": 106.0,
+     "quadsPerGableHipWing": 2.283,
+     "quadsPerProfileWing": 2.283
+    },
+    "shadowBlobs": 22,
+    "shadowOther": 0,
+    "shadowQuads": 242,
+    "size": "small",
+    "streetFills": 1,
+    "streetStrokes": 24,
+    "strokesTotal": 1030,
+    "template": "square",
+    "triangles": 1874,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 1874,
+    "wings": 106
+   },
+   {
+    "attribution": {
+     "insideOwnWing": 7472,
+     "share": 1.0,
+     "triangles": 7472
+    },
+    "capsOther": 0,
+    "capsRound": 3927,
+    "capsSquare": 76,
+    "capture": "2026-10-03T19-08-23",
+    "draw.capSquare": 1.0,
+    "draw.hatchPerWing": {
+     "mean": 18.495,
+     "median": 18.0,
+     "n": 404,
+     "p10": 14.0,
+     "p90": 24.0,
+     "shareIn15to20": 0.5569
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.7982,
+     "median": 0.7984,
+     "n": 404,
+     "p10": 0.7951,
+     "p90": 0.8009,
+     "shareBelow1": 1.0
+    },
+    "draw.shadowQuadsPerWing": 2.4977,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 13654,
+     "mismatches": {},
+     "paints": 13653,
+     "paintsInLog": 13653,
+     "pathsFile": true,
+     "polygonPaths": 13639,
+     "segsEqualVertices": 13639
+    },
+    "gableHipWings": 404,
+    "index": 1,
+    "label": "capture/NG/ring/small/1",
+    "otherInkFillsOnBuildings": 0,
+    "ridgeTapers": {
+     "exactlyTwo": 404,
+     "heavyPerWing": {
+      "2": 404
+     },
+     "shareExactlyTwo": 1.0,
+     "wings": 404
+    },
+    "roofFills": 835,
+    "roofKinds": {
+     "1": 23,
+     "2": 404,
+     "4": 1
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 18.3521,
+     "profileRuleWings": 417.5,
+     "quadsPerGableHipWing": 2.646,
+     "quadsPerProfileWing": 2.5605
+    },
+    "shadowBlobs": 17,
+    "shadowOther": 0,
+    "shadowQuads": 1069,
+    "size": "small",
+    "streetFills": 0,
+    "streetStrokes": 76,
+    "strokesTotal": 4003,
+    "template": "ring",
+    "triangles": 7662,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 7472,
+    "wings": 428
+   },
+   {
+    "attribution": {
+     "insideOwnWing": 4876,
+     "share": 1.0,
+     "triangles": 4876
+    },
+    "capsOther": 0,
+    "capsRound": 2315,
+    "capsSquare": 55,
+    "capture": "2026-10-03T19-08-29",
+    "draw.capSquare": 1.0,
+    "draw.hatchPerWing": {
+     "mean": 19.2727,
+     "median": 18.0,
+     "n": 253,
+     "p10": 14.0,
+     "p90": 26.0,
+     "shareIn15to20": 0.5178
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.7984,
+     "median": 0.7985,
+     "n": 253,
+     "p10": 0.7958,
+     "p90": 0.8009,
+     "shareBelow1": 1.0
+    },
+    "draw.shadowQuadsPerWing": 2.1718,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 8515,
+     "mismatches": {},
+     "paints": 8514,
+     "paintsInLog": 8514,
+     "pathsFile": true,
+     "polygonPaths": 8510,
+     "segsEqualVertices": 8510
+    },
+    "gableHipWings": 253,
+    "index": 2,
+    "label": "capture/NG/area/small/2",
+    "otherInkFillsOnBuildings": 0,
+    "ridgeTapers": {
+     "exactlyTwo": 253,
+     "heavyPerWing": {
+      "2": 253
+     },
+     "shareExactlyTwo": 1.0,
+     "wings": 253
+    },
+    "roofFills": 518,
+    "roofKinds": {
+     "1": 8,
+     "2": 253,
+     "4": 1
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 19.0811,
+     "profileRuleWings": 259.0,
+     "quadsPerGableHipWing": 2.249,
+     "quadsPerProfileWing": 2.1969
+    },
+    "shadowBlobs": 31,
+    "shadowOther": 0,
+    "shadowQuads": 569,
+    "size": "small",
+    "streetFills": 0,
+    "streetStrokes": 55,
+    "strokesTotal": 2370,
+    "template": "area",
+    "triangles": 4942,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 4876,
+    "wings": 262
+   },
+   {
+    "attribution": {
+     "insideOwnWing": 2296,
+     "share": 1.0,
+     "triangles": 2296
+    },
+    "capsOther": 0,
+    "capsRound": 1168,
+    "capsSquare": 27,
+    "capture": "2026-10-03T19-08-36",
+    "draw.capSquare": 1.0,
+    "draw.hatchPerWing": {
+     "mean": 18.0787,
+     "median": 18.0,
+     "n": 127,
+     "p10": 12.0,
+     "p90": 24.0,
+     "shareIn15to20": 0.5354
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.798,
+     "median": 0.7981,
+     "n": 127,
+     "p10": 0.7949,
+     "p90": 0.8006,
+     "shareBelow1": 1.0
+    },
+    "draw.shadowQuadsPerWing": 2.5276,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 4085,
+     "mismatches": {},
+     "paints": 4084,
+     "paintsInLog": 4084,
+     "pathsFile": true,
+     "polygonPaths": 4076,
+     "segsEqualVertices": 4076
+    },
+    "gableHipWings": 127,
+    "index": 2,
+    "label": "capture/NG/street/small/2",
+    "otherInkFillsOnBuildings": 0,
+    "ridgeTapers": {
+     "exactlyTwo": 127,
+     "heavyPerWing": {
+      "2": 127
+     },
+     "shareExactlyTwo": 1.0,
+     "wings": 127
+    },
+    "roofFills": 254,
+    "roofKinds": {
+     "2": 127
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 18.0787,
+     "profileRuleWings": 127.0,
+     "quadsPerGableHipWing": 2.5276,
+     "quadsPerProfileWing": 2.5276
+    },
+    "shadowBlobs": 4,
+    "shadowOther": 0,
+    "shadowQuads": 321,
+    "size": "small",
+    "streetFills": 0,
+    "streetStrokes": 27,
+    "strokesTotal": 1195,
+    "template": "street",
+    "triangles": 2296,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 2296,
+    "wings": 127
+   },
+   {
+    "attribution": {
+     "insideOwnWing": 1352,
+     "share": 1.0,
+     "triangles": 1352
+    },
+    "capsOther": 0,
+    "capsRound": 777,
+    "capsSquare": 19,
+    "capture": "2026-10-03T19-08-42",
+    "draw.capSquare": 0.8636,
+    "draw.hatchPerWing": {
+     "mean": 17.3333,
+     "median": 16.0,
+     "n": 78,
+     "p10": 12.0,
+     "p90": 22.0,
+     "shareIn15to20": 0.5256
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.7984,
+     "median": 0.7985,
+     "n": 78,
+     "p10": 0.7949,
+     "p90": 0.8017,
+     "shareBelow1": 1.0
+    },
+    "draw.shadowQuadsPerWing": 2.1647,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 2610,
+     "mismatches": {},
+     "paints": 2609,
+     "paintsInLog": 2609,
+     "pathsFile": true,
+     "polygonPaths": 2599,
+     "segsEqualVertices": 2599
+    },
+    "gableHipWings": 78,
+    "index": 2,
+    "label": "capture/NG/square/small/2",
+    "otherInkFillsOnBuildings": 0,
+    "ridgeTapers": {
+     "exactlyTwo": 78,
+     "heavyPerWing": {
+      "2": 78
+     },
+     "shareExactlyTwo": 1.0,
+     "wings": 78
+    },
+    "roofFills": 166,
+    "roofKinds": {
+     "1": 6,
+     "2": 78,
+     "4": 1
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 16.8916,
+     "profileRuleWings": 83.0,
+     "quadsPerGableHipWing": 2.359,
+     "quadsPerProfileWing": 2.2169
+    },
+    "shadowBlobs": 17,
+    "shadowOther": 0,
+    "shadowQuads": 184,
+    "size": "small",
+    "streetFills": 1,
+    "streetStrokes": 22,
+    "strokesTotal": 796,
+    "template": "square",
+    "triangles": 1402,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 1352,
+    "wings": 85
+   },
+   {
+    "attribution": {
+     "insideOwnWing": 7490,
+     "share": 1.0,
+     "triangles": 7490
+    },
+    "capsOther": 0,
+    "capsRound": 4004,
+    "capsSquare": 72,
+    "capture": "2026-10-03T19-08-48",
+    "draw.capSquare": 1.0,
+    "draw.hatchPerWing": {
+     "mean": 17.5822,
+     "median": 18.0,
+     "n": 426,
+     "p10": 12.0,
+     "p90": 22.0,
+     "shareIn15to20": 0.5399
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.7984,
+     "median": 0.7984,
+     "n": 426,
+     "p10": 0.7952,
+     "p90": 0.801,
+     "shareBelow1": 1.0
+    },
+    "draw.shadowQuadsPerWing": 2.414,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 13713,
+     "mismatches": {
+      "1->4": 3
+     },
+     "paints": 13712,
+     "paintsInLog": 13712,
+     "pathsFile": true,
+     "polygonPaths": 13703,
+     "segsEqualVertices": 13700
+    },
+    "gableHipWings": 426,
+    "index": 2,
+    "label": "capture/NG/ring/small/2",
+    "otherInkFillsOnBuildings": 0,
+    "ridgeTapers": {
+     "exactlyTwo": 426,
+     "heavyPerWing": {
+      "2": 426
+     },
+     "shareExactlyTwo": 1.0,
+     "wings": 426
+    },
+    "roofFills": 871,
+    "roofKinds": {
+     "1": 15,
+     "2": 426,
+     "4": 1
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 17.4581,
+     "profileRuleWings": 435.5,
+     "quadsPerGableHipWing": 2.5047,
+     "quadsPerProfileWing": 2.4501
+    },
+    "shadowBlobs": 21,
+    "shadowOther": 0,
+    "shadowQuads": 1067,
+    "size": "small",
+    "streetFills": 0,
+    "streetStrokes": 72,
+    "strokesTotal": 4076,
+    "template": "ring",
+    "triangles": 7603,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 7490,
+    "wings": 442
+   },
+   {
+    "attribution": {
+     "insideOwnWing": 11768,
+     "share": 0.9929,
+     "triangles": 11852
+    },
+    "capsOther": 0,
+    "capsRound": 6753,
+    "capsSquare": 171,
+    "capture": "2026-10-03T19-08-54",
+    "draw.capSquare": 1.0,
+    "draw.hatchPerWing": {
+     "mean": 15.7606,
+     "median": 16.0,
+     "n": 752,
+     "p10": 10.0,
+     "p90": 20.0,
+     "shareIn15to20": 0.484
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.8069,
+     "median": 0.7985,
+     "n": 752,
+     "p10": 0.7958,
+     "p90": 0.8013,
+     "shareBelow1": 0.9814
+    },
+    "draw.shadowQuadsPerWing": 2.1051,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 22392,
+     "mismatches": {},
+     "paints": 22391,
+     "paintsInLog": 22391,
+     "pathsFile": true,
+     "polygonPaths": 22382,
+     "segsEqualVertices": 22382
+    },
+    "gableHipWings": 752,
+    "index": 0,
+    "label": "capture/NG/area/large/0",
+    "otherInkFillsOnBuildings": 1,
+    "ridgeTapers": {
+     "exactlyTwo": 722,
+     "heavyPerWing": {
+      "1": 30,
+      "2": 722
+     },
+     "shareExactlyTwo": 0.9601,
+     "wings": 752
+    },
+    "roofFills": 1551,
+    "roofKinds": {
+     "1": 47,
+     "2": 752
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 15.4971,
+     "profileRuleWings": 775.5,
+     "quadsPerGableHipWing": 2.2367,
+     "quadsPerProfileWing": 2.1689
+    },
+    "shadowBlobs": 51,
+    "shadowOther": 0,
+    "shadowQuads": 1682,
+    "size": "large",
+    "streetFills": 0,
+    "streetStrokes": 171,
+    "strokesTotal": 6924,
+    "template": "area",
+    "triangles": 12018,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 11852,
+    "wings": 799
+   },
+   {
+    "attribution": {
+     "insideOwnWing": 15872,
+     "share": 1.0,
+     "triangles": 15872
+    },
+    "capsOther": 0,
+    "capsRound": 7931,
+    "capsSquare": 149,
+    "capture": "2026-10-03T19-09-01",
+    "draw.capSquare": 1.0,
+    "draw.hatchPerWing": {
+     "mean": 18.5421,
+     "median": 18.0,
+     "n": 856,
+     "p10": 14.0,
+     "p90": 24.0,
+     "shareIn15to20": 0.5304
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.7984,
+     "median": 0.7985,
+     "n": 856,
+     "p10": 0.7955,
+     "p90": 0.8012,
+     "shareBelow1": 1.0
+    },
+    "draw.shadowQuadsPerWing": 2.1473,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 28464,
+     "mismatches": {},
+     "paints": 28463,
+     "paintsInLog": 28463,
+     "pathsFile": true,
+     "polygonPaths": 28429,
+     "segsEqualVertices": 28429
+    },
+    "gableHipWings": 856,
+    "index": 0,
+    "label": "capture/NG/street/large/0",
+    "otherInkFillsOnBuildings": 11,
+    "ridgeTapers": {
+     "exactlyTwo": 856,
+     "heavyPerWing": {
+      "2": 856
+     },
+     "shareExactlyTwo": 1.0,
+     "wings": 856
+    },
+    "roofFills": 1788,
+    "roofKinds": {
+     "1": 64,
+     "2": 856,
+     "4": 3
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 18.2718,
+     "profileRuleWings": 894.0,
+     "quadsPerGableHipWing": 2.3154,
+     "quadsPerProfileWing": 2.217
+    },
+    "shadowBlobs": 62,
+    "shadowOther": 0,
+    "shadowQuads": 1982,
+    "size": "large",
+    "streetFills": 0,
+    "streetStrokes": 149,
+    "strokesTotal": 8080,
+    "template": "street",
+    "triangles": 16335,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 15872,
+    "wings": 923
+   },
+   {
+    "attribution": {
+     "insideOwnWing": 16589,
+     "share": 0.9979,
+     "triangles": 16624
+    },
+    "capsOther": 0,
+    "capsRound": 8783,
+    "capsSquare": 171,
+    "capture": "2026-10-03T19-09-08",
+    "draw.capSquare": 0.9828,
+    "draw.hatchPerWing": {
+     "mean": 17.0678,
+     "median": 17.0,
+     "n": 974,
+     "p10": 12.0,
+     "p90": 22.0,
+     "shareIn15to20": 0.5585
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.8012,
+     "median": 0.7985,
+     "n": 974,
+     "p10": 0.7958,
+     "p90": 0.8009,
+     "shareBelow1": 0.9938
+    },
+    "draw.shadowQuadsPerWing": 1.9737,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 30387,
+     "mismatches": {},
+     "paints": 30386,
+     "paintsInLog": 30386,
+     "pathsFile": true,
+     "polygonPaths": 30365,
+     "segsEqualVertices": 30365
+    },
+    "gableHipWings": 974,
+    "index": 0,
+    "label": "capture/NG/square/large/0",
+    "otherInkFillsOnBuildings": 11,
+    "ridgeTapers": {
+     "exactlyTwo": 964,
+     "heavyPerWing": {
+      "1": 10,
+      "2": 964
+     },
+     "shareExactlyTwo": 0.9897,
+     "wings": 974
+    },
+    "roofFills": 2005,
+    "roofKinds": {
+     "1": 53,
+     "2": 974,
+     "4": 1
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 16.812,
+     "profileRuleWings": 1002.5,
+     "quadsPerGableHipWing": 2.0832,
+     "quadsPerProfileWing": 2.0239
+    },
+    "shadowBlobs": 152,
+    "shadowOther": 0,
+    "shadowQuads": 2029,
+    "size": "large",
+    "streetFills": 1,
+    "streetStrokes": 174,
+    "strokesTotal": 8954,
+    "template": "square",
+    "triangles": 16854,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 16624,
+    "wings": 1028
+   },
+   {
+    "attribution": {
+     "insideOwnWing": 28760,
+     "share": 1.0,
+     "triangles": 28760
+    },
+    "capsOther": 0,
+    "capsRound": 12745,
+    "capsSquare": 219,
+    "capture": "2026-10-03T19-09-15",
+    "draw.capSquare": 1.0,
+    "draw.hatchPerWing": {
+     "mean": 21.008,
+     "median": 20.0,
+     "n": 1369,
+     "p10": 16.0,
+     "p90": 26.0,
+     "shareIn15to20": 0.4646
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.7983,
+     "median": 0.7985,
+     "n": 1369,
+     "p10": 0.7949,
+     "p90": 0.8009,
+     "shareBelow1": 1.0
+    },
+    "draw.shadowQuadsPerWing": 2.4176,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 48296,
+     "mismatches": {},
+     "paints": 48295,
+     "paintsInLog": 48295,
+     "pathsFile": true,
+     "polygonPaths": 48289,
+     "segsEqualVertices": 48289
+    },
+    "gableHipWings": 1369,
+    "index": 0,
+    "label": "capture/NG/ring/large/0",
+    "otherInkFillsOnBuildings": 5,
+    "ridgeTapers": {
+     "exactlyTwo": 1369,
+     "heavyPerWing": {
+      "2": 1369
+     },
+     "shareExactlyTwo": 1.0,
+     "wings": 1369
+    },
+    "roofFills": 2746,
+    "roofKinds": {
+     "1": 8,
+     "2": 1369
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 20.9614,
+     "profileRuleWings": 1373.0,
+     "quadsPerGableHipWing": 2.4317,
+     "quadsPerProfileWing": 2.4246
+    },
+    "shadowBlobs": 116,
+    "shadowOther": 0,
+    "shadowQuads": 3329,
+    "size": "large",
+    "streetFills": 0,
+    "streetStrokes": 219,
+    "strokesTotal": 12964,
+    "template": "ring",
+    "triangles": 28780,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 28760,
+    "wings": 1377
+   },
+   {
+    "attribution": {
+     "insideOwnWing": 20261,
+     "share": 0.9957,
+     "triangles": 20348
+    },
+    "capsOther": 0,
+    "capsRound": 10735,
+    "capsSquare": 201,
+    "capture": "2026-10-03T19-09-24",
+    "draw.capSquare": 1.0,
+    "draw.hatchPerWing": {
+     "mean": 17.0848,
+     "median": 18.0,
+     "n": 1191,
+     "p10": 12.0,
+     "p90": 22.0,
+     "shareIn15to20": 0.5239
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.8082,
+     "median": 0.7985,
+     "n": 1191,
+     "p10": 0.7949,
+     "p90": 0.8013,
+     "shareBelow1": 0.9782
+    },
+    "draw.shadowQuadsPerWing": 2.1993,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 36924,
+     "mismatches": {
+      "1->4": 3
+     },
+     "paints": 36923,
+     "paintsInLog": 36923,
+     "pathsFile": true,
+     "polygonPaths": 36915,
+     "segsEqualVertices": 36912
+    },
+    "gableHipWings": 1191,
+    "index": 1,
+    "label": "capture/NG/area/large/1",
+    "otherInkFillsOnBuildings": 0,
+    "ridgeTapers": {
+     "exactlyTwo": 1161,
+     "heavyPerWing": {
+      "1": 30,
+      "2": 1161
+     },
+     "shareExactlyTwo": 0.9748,
+     "wings": 1191
+    },
+    "roofFills": 2420,
+    "roofKinds": {
+     "1": 38,
+     "2": 1191
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 16.9355,
+     "profileRuleWings": 1210.0,
+     "quadsPerGableHipWing": 2.2695,
+     "quadsPerProfileWing": 2.2339
+    },
+    "shadowBlobs": 95,
+    "shadowOther": 0,
+    "shadowQuads": 2703,
+    "size": "large",
+    "streetFills": 0,
+    "streetStrokes": 201,
+    "strokesTotal": 10936,
+    "template": "area",
+    "triangles": 20492,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 20348,
+    "wings": 1229
+   },
+   {
+    "attribution": {
+     "insideOwnWing": 13470,
+     "share": 1.0,
+     "triangles": 13470
+    },
+    "capsOther": 0,
+    "capsRound": 6903,
+    "capsSquare": 113,
+    "capture": "2026-10-03T19-09-30",
+    "draw.capSquare": 1.0,
+    "draw.hatchPerWing": {
+     "mean": 16.9647,
+     "median": 18.0,
+     "n": 794,
+     "p10": 12.0,
+     "p90": 22.0,
+     "shareIn15to20": 0.5693
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.7984,
+     "median": 0.7985,
+     "n": 794,
+     "p10": 0.7951,
+     "p90": 0.8009,
+     "shareBelow1": 1.0
+    },
+    "draw.shadowQuadsPerWing": 2.2457,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 24009,
+     "mismatches": {},
+     "paints": 24008,
+     "paintsInLog": 24008,
+     "pathsFile": true,
+     "polygonPaths": 23999,
+     "segsEqualVertices": 23999
+    },
+    "gableHipWings": 794,
+    "index": 1,
+    "label": "capture/NG/street/large/1",
+    "otherInkFillsOnBuildings": 5,
+    "ridgeTapers": {
+     "exactlyTwo": 794,
+     "heavyPerWing": {
+      "2": 794
+     },
+     "shareExactlyTwo": 1.0,
+     "wings": 794
+    },
+    "roofFills": 1600,
+    "roofKinds": {
+     "1": 12,
+     "2": 794
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 16.895,
+     "profileRuleWings": 800.0,
+     "quadsPerGableHipWing": 2.2796,
+     "quadsPerProfileWing": 2.2625
+    },
+    "shadowBlobs": 12,
+    "shadowOther": 0,
+    "shadowQuads": 1810,
+    "size": "large",
+    "streetFills": 0,
+    "streetStrokes": 113,
+    "strokesTotal": 7016,
+    "template": "street",
+    "triangles": 13516,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 13470,
+    "wings": 806
+   },
+   {
+    "attribution": {
+     "insideOwnWing": 24522,
+     "share": 1.0,
+     "triangles": 24522
+    },
+    "capsOther": 0,
+    "capsRound": 13450,
+    "capsSquare": 353,
+    "capture": "2026-10-03T19-09-35",
+    "draw.capSquare": 0.9916,
+    "draw.hatchPerWing": {
+     "mean": 16.5354,
+     "median": 16.0,
+     "n": 1483,
+     "p10": 12.0,
+     "p90": 22.0,
+     "shareIn15to20": 0.5199
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.7984,
+     "median": 0.7985,
+     "n": 1483,
+     "p10": 0.7958,
+     "p90": 0.8009,
+     "shareBelow1": 1.0
+    },
+    "draw.shadowQuadsPerWing": 2.2908,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 45455,
+     "mismatches": {},
+     "paints": 45454,
+     "paintsInLog": 45454,
+     "pathsFile": true,
+     "polygonPaths": 45429,
+     "segsEqualVertices": 45429
+    },
+    "gableHipWings": 1483,
+    "index": 1,
+    "label": "capture/NG/square/large/1",
+    "otherInkFillsOnBuildings": 5,
+    "ridgeTapers": {
+     "exactlyTwo": 1483,
+     "heavyPerWing": {
+      "2": 1483
+     },
+     "shareExactlyTwo": 1.0,
+     "wings": 1483
+    },
+    "roofFills": 3016,
+    "roofKinds": {
+     "1": 42,
+     "2": 1483,
+     "4": 2
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 16.445,
+     "profileRuleWings": 1508.0,
+     "quadsPerGableHipWing": 2.3587,
+     "quadsPerProfileWing": 2.3196
+    },
+    "shadowBlobs": 66,
+    "shadowOther": 0,
+    "shadowQuads": 3498,
+    "size": "large",
+    "streetFills": 1,
+    "streetStrokes": 356,
+    "strokesTotal": 13803,
+    "template": "square",
+    "triangles": 24799,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 24522,
+    "wings": 1527
+   },
+   {
+    "attribution": {
+     "insideOwnWing": 25816,
+     "share": 1.0,
+     "triangles": 25816
+    },
+    "capsOther": 0,
+    "capsRound": 13227,
+    "capsSquare": 296,
+    "capture": "2026-10-03T19-09-42",
+    "draw.capSquare": 1.0,
+    "draw.hatchPerWing": {
+     "mean": 17.8534,
+     "median": 18.0,
+     "n": 1446,
+     "p10": 12.0,
+     "p90": 24.0,
+     "shareIn15to20": 0.5484
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.7984,
+     "median": 0.7985,
+     "n": 1446,
+     "p10": 0.7949,
+     "p90": 0.8012,
+     "shareBelow1": 1.0
+    },
+    "draw.shadowQuadsPerWing": 2.3792,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 46186,
+     "mismatches": {
+      "1->4": 3
+     },
+     "paints": 46185,
+     "paintsInLog": 46185,
+     "pathsFile": true,
+     "polygonPaths": 46172,
+     "segsEqualVertices": 46169
+    },
+    "gableHipWings": 1446,
+    "index": 1,
+    "label": "capture/NG/ring/large/1",
+    "otherInkFillsOnBuildings": 0,
+    "ridgeTapers": {
+     "exactlyTwo": 1446,
+     "heavyPerWing": {
+      "2": 1446
+     },
+     "shareExactlyTwo": 1.0,
+     "wings": 1446
+    },
+    "roofFills": 2899,
+    "roofKinds": {
+     "1": 7,
+     "2": 1446
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 17.8544,
+     "profileRuleWings": 1449.5,
+     "quadsPerGableHipWing": 2.3907,
+     "quadsPerProfileWing": 2.385
+    },
+    "shadowBlobs": 102,
+    "shadowOther": 0,
+    "shadowQuads": 3457,
+    "size": "large",
+    "streetFills": 0,
+    "streetStrokes": 296,
+    "strokesTotal": 13523,
+    "template": "ring",
+    "triangles": 25880,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 25816,
+    "wings": 1453
+   },
+   {
+    "attribution": {
+     "insideOwnWing": 20238,
+     "share": 0.9982,
+     "triangles": 20274
+    },
+    "capsOther": 0,
+    "capsRound": 10211,
+    "capsSquare": 199,
+    "capture": "2026-10-03T19-09-55",
+    "draw.capSquare": 1.0,
+    "draw.hatchPerWing": {
+     "mean": 18.0695,
+     "median": 18.0,
+     "n": 1122,
+     "p10": 14.0,
+     "p90": 24.0,
+     "shareIn15to20": 0.5668
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.8023,
+     "median": 0.7985,
+     "n": 1122,
+     "p10": 0.7949,
+     "p90": 0.8012,
+     "shareBelow1": 0.9911
+    },
+    "draw.shadowQuadsPerWing": 2.2927,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 36071,
+     "mismatches": {},
+     "paints": 36070,
+     "paintsInLog": 36070,
+     "pathsFile": true,
+     "polygonPaths": 36062,
+     "segsEqualVertices": 36062
+    },
+    "gableHipWings": 1122,
+    "index": 2,
+    "label": "capture/NG/area/large/2",
+    "otherInkFillsOnBuildings": 1,
+    "ridgeTapers": {
+     "exactlyTwo": 1108,
+     "heavyPerWing": {
+      "1": 14,
+      "2": 1108
+     },
+     "shareExactlyTwo": 0.9875,
+     "wings": 1122
+    },
+    "roofFills": 2273,
+    "roofKinds": {
+     "1": 25,
+     "2": 1122,
+     "4": 1
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 17.978,
+     "profileRuleWings": 1136.5,
+     "quadsPerGableHipWing": 2.3458,
+     "quadsPerProfileWing": 2.3159
+    },
+    "shadowBlobs": 87,
+    "shadowOther": 0,
+    "shadowQuads": 2632,
+    "size": "large",
+    "streetFills": 0,
+    "streetStrokes": 199,
+    "strokesTotal": 10410,
+    "template": "area",
+    "triangles": 20432,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 20274,
+    "wings": 1148
+   },
+   {
+    "attribution": {
+     "insideOwnWing": 10349,
+     "share": 0.9989,
+     "triangles": 10360
+    },
+    "capsOther": 0,
+    "capsRound": 5458,
+    "capsSquare": 135,
+    "capture": "2026-10-03T19-10-09",
+    "draw.capSquare": 1.0,
+    "draw.hatchPerWing": {
+     "mean": 16.9558,
+     "median": 16.0,
+     "n": 611,
+     "p10": 12.0,
+     "p90": 22.0,
+     "shareIn15to20": 0.5303
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.7983,
+     "median": 0.7985,
+     "n": 611,
+     "p10": 0.7958,
+     "p90": 0.8009,
+     "shareBelow1": 1.0
+    },
+    "draw.shadowQuadsPerWing": 2.2367,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 18845,
+     "mismatches": {
+      "1->4": 3
+     },
+     "paints": 18844,
+     "paintsInLog": 18844,
+     "pathsFile": true,
+     "polygonPaths": 18835,
+     "segsEqualVertices": 18832
+    },
+    "gableHipWings": 611,
+    "index": 2,
+    "label": "capture/NG/street/large/2",
+    "otherInkFillsOnBuildings": 1,
+    "ridgeTapers": {
+     "exactlyTwo": 607,
+     "heavyPerWing": {
+      "1": 4,
+      "2": 607
+     },
+     "shareExactlyTwo": 0.9935,
+     "wings": 611
+    },
+    "roofFills": 1232,
+    "roofKinds": {
+     "1": 10,
+     "2": 611
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 16.9594,
+     "profileRuleWings": 616.0,
+     "quadsPerGableHipWing": 2.2733,
+     "quadsPerProfileWing": 2.2549
+    },
+    "shadowBlobs": 41,
+    "shadowOther": 0,
+    "shadowQuads": 1389,
+    "size": "large",
+    "streetFills": 0,
+    "streetStrokes": 135,
+    "strokesTotal": 5593,
+    "template": "street",
+    "triangles": 10447,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 10360,
+    "wings": 621
+   },
+   {
+    "attribution": {
+     "insideOwnWing": 12956,
+     "share": 1.0,
+     "triangles": 12956
+    },
+    "capsOther": 0,
+    "capsRound": 5982,
+    "capsSquare": 131,
+    "capture": "2026-10-03T19-10-31",
+    "draw.capSquare": 0.9776,
+    "draw.hatchPerWing": {
+     "mean": 19.8407,
+     "median": 20.0,
+     "n": 653,
+     "p10": 14.0,
+     "p90": 26.0,
+     "shareIn15to20": 0.4839
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.7983,
+     "median": 0.7985,
+     "n": 653,
+     "p10": 0.7958,
+     "p90": 0.8009,
+     "shareBelow1": 1.0
+    },
+    "draw.shadowQuadsPerWing": 2.1879,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 22324,
+     "mismatches": {
+      "1->4": 3
+     },
+     "paints": 22323,
+     "paintsInLog": 22323,
+     "pathsFile": true,
+     "polygonPaths": 22310,
+     "segsEqualVertices": 22307
+    },
+    "gableHipWings": 653,
+    "index": 2,
+    "label": "capture/NG/square/large/2",
+    "otherInkFillsOnBuildings": 6,
+    "ridgeTapers": {
+     "exactlyTwo": 653,
+     "heavyPerWing": {
+      "2": 653
+     },
+     "shareExactlyTwo": 1.0,
+     "wings": 653
+    },
+    "roofFills": 1332,
+    "roofKinds": {
+     "1": 22,
+     "2": 653,
+     "4": 1
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 19.7087,
+     "profileRuleWings": 666.0,
+     "quadsPerGableHipWing": 2.2649,
+     "quadsPerProfileWing": 2.2207
+    },
+    "shadowBlobs": 64,
+    "shadowOther": 0,
+    "shadowQuads": 1479,
+    "size": "large",
+    "streetFills": 1,
+    "streetStrokes": 134,
+    "strokesTotal": 6113,
+    "template": "square",
+    "triangles": 13126,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 12956,
+    "wings": 676
+   },
+   {
+    "attribution": {
+     "insideOwnWing": 35396,
+     "share": 0.9976,
+     "triangles": 35482
+    },
+    "capsOther": 0,
+    "capsRound": 17279,
+    "capsSquare": 306,
+    "capture": "2026-10-03T19-11-04",
+    "draw.capSquare": 1.0,
+    "draw.hatchPerWing": {
+     "mean": 19.2002,
+     "median": 18.0,
+     "n": 1848,
+     "p10": 14.0,
+     "p90": 24.0,
+     "shareIn15to20": 0.5335
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.8033,
+     "median": 0.7985,
+     "n": 1848,
+     "p10": 0.7955,
+     "p90": 0.8012,
+     "shareBelow1": 0.9892
+    },
+    "draw.shadowQuadsPerWing": 2.3185,
+    "facts": {
+     "completedFromPaths": 2405,
+     "logDropped": 2406,
+     "logEntries": 60000,
+     "mismatches": {},
+     "paints": 62405,
+     "paintsInLog": 60000,
+     "pathsFile": true,
+     "polygonPaths": 59963,
+     "segsEqualVertices": 59963
+    },
+    "gableHipWings": 1848,
+    "index": 2,
+    "label": "capture/NG/ring/large/2",
+    "otherInkFillsOnBuildings": 14,
+    "ridgeTapers": {
+     "exactlyTwo": 1827,
+     "heavyPerWing": {
+      "0": 1,
+      "1": 20,
+      "2": 1827
+     },
+     "shareExactlyTwo": 0.9886,
+     "wings": 1848
+    },
+    "roofFills": 3788,
+    "roofKinds": {
+     "1": 80,
+     "2": 1848,
+     "4": 3
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 19.0169,
+     "profileRuleWings": 1894.0,
+     "quadsPerGableHipWing": 2.4226,
+     "quadsPerProfileWing": 2.3638
+    },
+    "shadowBlobs": 108,
+    "shadowOther": 0,
+    "shadowQuads": 4477,
+    "size": "large",
+    "streetFills": 0,
+    "streetStrokes": 306,
+    "strokesTotal": 17585,
+    "template": "ring",
+    "triangles": 36018,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 35482,
+    "wings": 1931
+   }
+  ],
+  "medium": {
+   "draw.capSquare": {
+    "mapMin": 0.9318,
+    "mapsAt1": 15,
+    "pooled": 0.9934
+   },
+   "draw.hatchPerWing": {
+    "mapMax": 21.0979,
+    "mapMin": 16.2459,
+    "mapsMeanOutside15to20": 3,
+    "mapsMeanOutside17to19": 11,
+    "mean": 18.0597,
+    "median": 18.0,
+    "p10": 12.0,
+    "p90": 24.0,
+    "shareIn15to20": 0.5247
+   },
+   "draw.roofLumaRatio": {
+    "mean": 0.8005,
+    "median": 0.7985,
+    "n": 12084,
+    "p10": 0.7955,
+    "p90": 0.8009
+   },
+   "draw.shadowQuadsPerWing": {
+    "mapMax": 2.5369,
+    "mapMin": 2.1594,
+    "pooled": 2.2995
+   },
+   "gableHipWings": 12084,
+   "maps": 20,
+   "sensitivity": {
+    "hatchPerProfileWing": 17.9284,
+    "quadsPerGableHipWing": 2.3733,
+    "quadsPerProfileWing": 2.3321
+   },
+   "wings": 12472
+  },
+  "roofChannelRatios": {
+   "mean": [
+    0.7891,
+    0.8031,
+    0.8347
+   ],
+   "median": [
+    0.7869,
+    0.8,
+    0.8333
+   ],
+   "n": 27934,
+   "note": "descriptive receipt only, not a row: the three per-channel ratios of the shaded to the lit roof tone"
+  }
+ },
+ "referenceBuild": "itch:11441280",
+ "rowChecksFailed": 1,
+ "schema": "m1.E20/1",
+ "script": "research:baselines/ng_draw_census.py",
+ "source2026_09_21": {
+  "gen1ChannelRatioMeans": [
+   0.7867,
+   0.8009,
+   0.8332
+  ],
+  "pooled": {
+   "draw.capSquare": {
+    "mapMin": 1.0,
+    "mapsAt1": 4,
+    "pooled": 1.0
+   },
+   "draw.hatchPerWing": {
+    "mapMax": 18.8718,
+    "mapMin": 16.9754,
+    "mapsMeanOutside15to20": 0,
+    "mapsMeanOutside17to19": 1,
+    "mean": 17.4629,
+    "median": 18.0,
+    "p10": 12.0,
+    "p90": 22.0,
+    "shareIn15to20": 0.5394
+   },
+   "draw.roofLumaRatio": {
+    "mean": 0.8004,
+    "median": 0.7985,
+    "n": 1750,
+    "p10": 0.7949,
+    "p90": 0.8009
+   },
+   "draw.shadowQuadsPerWing": {
+    "mapMax": 2.3394,
+    "mapMin": 2.2275,
+    "pooled": 2.2898
+   },
+   "gableHipWings": 1750,
+   "maps": 4,
+   "sensitivity": {
+    "hatchPerProfileWing": 17.3804,
+    "quadsPerGableHipWing": 2.3566,
+    "quadsPerProfileWing": 2.3208
+   },
+   "wings": 1801
+  },
+  "records": [
+   {
+    "attribution": null,
+    "capsOther": 0,
+    "capsRound": 2769,
+    "capsSquare": 53,
+    "capture": "2026-09-21T05-04-54",
+    "draw.capSquare": 1.0,
+    "draw.hatchPerWing": {
+     "mean": 17.3515,
+     "median": 18.0,
+     "n": 293,
+     "p10": 12.0,
+     "p90": 22.0,
+     "shareIn15to20": 0.5495
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.7983,
+     "median": 0.7984,
+     "n": 293,
+     "p10": 0.7949,
+     "p90": 0.8009,
+     "shareBelow1": 1.0
+    },
+    "draw.shadowQuadsPerWing": 2.2848,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 9410,
+     "mismatches": {},
+     "paints": null,
+     "paintsInLog": 9409,
+     "pathsFile": false,
+     "polygonPaths": 0,
+     "segsEqualVertices": 0
+    },
+    "gableHipWings": 293,
+    "gen": "gen-0",
+    "otherInkFillsOnBuildings": 0,
+    "ridgeTapers": null,
+    "roofFills": 598,
+    "roofKinds": {
+     "1": 8,
+     "2": 293,
+     "4": 1
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 17.2241,
+     "profileRuleWings": 299.0,
+     "quadsPerGableHipWing": 2.3549,
+     "quadsPerProfileWing": 2.3077
+    },
+    "shadowBlobs": 39,
+    "shadowOther": 0,
+    "shadowQuads": 690,
+    "streetFills": 0,
+    "streetStrokes": 53,
+    "strokesTotal": 2822,
+    "triangles": 5150,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 5084,
+    "wings": 302
+   },
+   {
+    "attribution": null,
+    "capsOther": 0,
+    "capsRound": 6246,
+    "capsSquare": 105,
+    "capture": "2026-09-21T05-04-54",
+    "draw.capSquare": 1.0,
+    "draw.hatchPerWing": {
+     "mean": 17.2055,
+     "median": 18.0,
+     "n": 657,
+     "p10": 12.0,
+     "p90": 22.0,
+     "shareIn15to20": 0.5601
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.7984,
+     "median": 0.7985,
+     "n": 657,
+     "p10": 0.7955,
+     "p90": 0.8012,
+     "shareBelow1": 1.0
+    },
+    "draw.shadowQuadsPerWing": 2.3157,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 20973,
+     "mismatches": {},
+     "paints": null,
+     "paintsInLog": 20972,
+     "pathsFile": false,
+     "polygonPaths": 0,
+     "segsEqualVertices": 0
+    },
+    "gableHipWings": 657,
+    "gen": "gen-1",
+    "otherInkFillsOnBuildings": 0,
+    "ridgeTapers": null,
+    "roofFills": 1319,
+    "roofKinds": {
+     "1": 5,
+     "2": 657
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 17.1797,
+     "profileRuleWings": 659.5,
+     "quadsPerGableHipWing": 2.3333,
+     "quadsPerProfileWing": 2.3245
+    },
+    "shadowBlobs": 127,
+    "shadowOther": 0,
+    "shadowQuads": 1533,
+    "streetFills": 0,
+    "streetStrokes": 105,
+    "strokesTotal": 6351,
+    "triangles": 11330,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 11304,
+    "wings": 662
+   },
+   {
+    "attribution": null,
+    "capsOther": 0,
+    "capsRound": 3057,
+    "capsSquare": 63,
+    "capture": "2026-09-21T05-04-54",
+    "draw.capSquare": 1.0,
+    "draw.hatchPerWing": {
+     "mean": 18.8718,
+     "median": 18.0,
+     "n": 312,
+     "p10": 14.0,
+     "p90": 24.0,
+     "shareIn15to20": 0.5224
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.8042,
+     "median": 0.7985,
+     "n": 312,
+     "p10": 0.7949,
+     "p90": 0.8015,
+     "shareBelow1": 0.9872
+    },
+    "draw.shadowQuadsPerWing": 2.3394,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 10675,
+     "mismatches": {},
+     "paints": null,
+     "paintsInLog": 10674,
+     "pathsFile": false,
+     "polygonPaths": 0,
+     "segsEqualVertices": 0
+    },
+    "gableHipWings": 312,
+    "gen": "gen-2",
+    "otherInkFillsOnBuildings": 0,
+    "ridgeTapers": null,
+    "roofFills": 639,
+    "roofKinds": {
+     "1": 15,
+     "2": 312
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 18.651,
+     "profileRuleWings": 319.5,
+     "quadsPerGableHipWing": 2.4519,
+     "quadsPerProfileWing": 2.3944
+    },
+    "shadowBlobs": 53,
+    "shadowOther": 0,
+    "shadowQuads": 765,
+    "streetFills": 0,
+    "streetStrokes": 63,
+    "strokesTotal": 3120,
+    "triangles": 5959,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 5888,
+    "wings": 327
+   },
+   {
+    "attribution": null,
+    "capsOther": 0,
+    "capsRound": 4694,
+    "capsSquare": 85,
+    "capture": "2026-09-21T05-04-54",
+    "draw.capSquare": 1.0,
+    "draw.hatchPerWing": {
+     "mean": 16.9754,
+     "median": 16.0,
+     "n": 488,
+     "p10": 12.0,
+     "p90": 22.0,
+     "shareIn15to20": 0.5164
+    },
+    "draw.roofLumaRatio": {
+     "mean": 0.8019,
+     "median": 0.7985,
+     "n": 488,
+     "p10": 0.7949,
+     "p90": 0.8009,
+     "shareBelow1": 0.9918
+    },
+    "draw.shadowQuadsPerWing": 2.2275,
+    "facts": {
+     "completedFromPaths": 0,
+     "logDropped": 0,
+     "logEntries": 15686,
+     "mismatches": {},
+     "paints": null,
+     "paintsInLog": 15685,
+     "pathsFile": false,
+     "polygonPaths": 0,
+     "segsEqualVertices": 0
+    },
+    "gableHipWings": 488,
+    "gen": "gen-3",
+    "otherInkFillsOnBuildings": 0,
+    "ridgeTapers": null,
+    "roofFills": 998,
+    "roofKinds": {
+     "1": 22,
+     "2": 488
+    },
+    "sensitivity": {
+     "hatchPerProfileWing": 16.9259,
+     "profileRuleWings": 499.0,
+     "quadsPerGableHipWing": 2.3279,
+     "quadsPerProfileWing": 2.2766
+    },
+    "shadowBlobs": 95,
+    "shadowOther": 0,
+    "shadowQuads": 1136,
+    "streetFills": 0,
+    "streetStrokes": 85,
+    "strokesTotal": 4779,
+    "triangles": 8446,
+    "trianglesBeforeFirstRoof": 0,
+    "trianglesInGableHip": 8284,
+    "wings": 510
+   }
+  ]
+ },
+ "sourceTableSlips": [
+  "gen-3 8446/492 = 17.1667 printed 17.1"
+ ],
+ "status": "measured values for W-15 (R-47 (a)): rows are formed at W-15, not here"
+}

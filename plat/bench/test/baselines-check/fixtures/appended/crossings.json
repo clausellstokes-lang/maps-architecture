@@ -1,0 +1,36 @@
+[
+  {
+    "file": "bench/test/baselines-check/fixtures/appended/baselines.json",
+    "sha256": "4fdf299e2bf4d458b98217c313a600c3885cb6960d52dd583f35014345f1deb5",
+    "rows": 2,
+    "date": "2026-10-05",
+    "checks": [
+      "C1",
+      "C2",
+      "C3",
+      "C4",
+      "C5",
+      "C6",
+      "C7"
+    ],
+    "checkerSeat": "L-0900",
+    "statement": "synthetic record for the bench test; read only the file"
+  },
+  {
+    "file": "bench/test/baselines-check/fixtures/appended/baselines.json",
+    "sha256": "36ccd4b3b75a386e37f1d82b86808d333182f931b7e4a2a3dd7e90be0a5d38ed",
+    "rows": 3,
+    "date": "2026-10-05",
+    "checks": [
+      "C1",
+      "C2",
+      "C3",
+      "C4",
+      "C5",
+      "C6",
+      "C7"
+    ],
+    "checkerSeat": "L-0900",
+    "statement": "synthetic record for the bench test; read only the file"
+  }
+]

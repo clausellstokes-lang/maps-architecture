@@ -1,0 +1,40 @@
+{
+ "id": "m1/W-06-final",
+ "status": "landed",
+ "records": [
+  "docs/calibration/E06-ftg-faces.md (section 13 appended, lines 344-671; pass 1's lines 1-342 unchanged; sha256 c8fde428...)",
+  "docs/calibration/E06-ftg-faces.json (replaced by the last pass: 30 payloads through slot 27; sha256 290166d0..., 743 KB; pass 1's JSON 7726227b... is in commit bef102c)"
+ ],
+ "outputs": [
+  "research/baselines/measure_ftg_faces.py (sha256 212e3f9d...; three changes, no measured number changed: --md handles a payload without a wall, the JSON names its lane and pass 1, --red adds a live plant for check 3)",
+  "docs/calibration/E06-ftg-faces.md",
+  "docs/calibration/E06-ftg-faces.json",
+  "docs/calibration/results/W-06-final.json"
+ ],
+ "checks": [
+  {"check": "row check 1: faces close (Euler per ring subgraph)", "passed": true, "receipt": "measure_ftg_faces.py exit 0: 134 of 134 rings on 30 payloads (2 CITY fixtures + slots 0-27); every walk closes; 0 crossings / 0 off-node contacts after W06-D2; 0 ways crossing the outline; V - E + F = C on 134/134; 10 720/10 720 seeded points each in exactly one face; 9 255 faces"},
+  {"check": "row check 2: face areas sum to the ring area within 1 %", "passed": true, "receipt": "worst relative difference 1.06e-6 (2026-09-21 ring 0) over 134 rings"},
+  {"check": "row check 3: the last pass postdates the FTG programme's close (R-47)", "passed": true, "receipt": "slot 27 bound 05:45 (plan.json 9ed325bd, no open slot; E02 JSON 22/22 taken); the pass (05:46-05:48) read through slot 27 = the last decided slot; --red's live plant (through slot 26) fails, the recorded pass passes; slot 27 confirmed by m1/W-02b-verifyc at 06:01; plan.json still 9ed325bd at the landing"},
+  {"check": "twin: challenge probes' tower numbers and the critic's ring areas reproduce on the fixtures", "passed": true, "receipt": "0 differences"},
+  {"check": "samples equal the plan's slots in order; the 2026-09-25 payload in no sample (R-04)", "passed": true, "receipt": "BIG_TOWN 10, BIG_CITY 10, METROPOLIS 4, CITY 3 (recorded member + slots 24, 25), TOWN 2 (26, 27); each slot's request size and water equal its label"},
+  {"check": "scanline integrates each ring within 0.1 % of its shoelace area", "passed": true, "receipt": "worst 1.20e-4 (slot 27 ring 1)"},
+  {"check": "the record reproduces (--check) and the checks discriminate (--red)", "passed": true, "receipt": "--check exit 0: fresh run equals the JSON in every key but the checks and the live plan hash, 6/6; --red exit 0: 6 of 6 planted faults caught (live lastPass plant included, green control passes)"},
+  {"check": "re-check of pass 1 (reuse what still holds)", "passed": true, "receipt": "pre-pass over slots 0-26 reproduced pass 1's 14 per-payload entries key for key except the stored-file flag of slots 8-11 (None -> True: W-05b-final wrote their files); the last pass's 29 shared entries and the BIG_TOWN/BIG_CITY/METROPOLIS/CITY samples equal the pre-pass's"},
+  {"check": "independent checks of new payloads (scratch, not the tool)", "passed": true, "receipt": "1 m raster flood fill on slots 12/13/24/26: walk 97/343/157/44 vs raster 96/342/157/44, within 1 per ring; all 10 new node-free crossings (slots 12, 13, 17, 20, 23, 27) at 0.0 cm from a water polygon edge; 25 of 25 crossings over both passes on the water outline"},
+  {"check": "plan.py --check (no plan.json write by this lane)", "passed": true, "receipt": "SAME plan.json 9ed325bd and metrics.m-1.json 8a0efa7e"},
+  {"check": "clean-room self-check on E06", "passed": true, "receipt": "doc_checks.py --doc E06 --heads ARCHITECTURE.md on the final text: C1 0, C2 0, C4 0, S1 0, S2 0; C3 191 hits all read (table digit runs, our paths, our record's phrases), none a reference list, palette, grammar or identifier; exit 1 = that unreviewed count (record outside the design set, no allow rows, pass 1's precedent)"}
+ ],
+ "rows": 30,
+ "owner_notes": [
+  "The block measurements for FTG's towns are finished. All 28 planned towns are saved and measured, plus the two older test cities, and all six checks pass, including the one that required waiting for the last town. The row-building step (W-15) can now use these numbers.",
+  "What the full set shows: FTG's city blocks are about 2 300-2 400 square metres at the median whatever the town's size, and at most about 86-89 % of the land inside the districts can be plots. Our design's 0.62 dense-core figure sits comfortably inside that range, so nothing needs changing.",
+  "One new side finding. On the last town (the coastal town that FTG's own list calls a big town), two towers stand at the water's edge away from the wall, one on the sea side and one on the river side. Every other tower on every town sits on a wall corner or bend. It is a description of FTG, and no change to our design is asked."
+ ],
+ "notes": [
+  "Outcome: landed. The last pass (05:46-05:48) postdates programme 2's close (slot 27 bound 05:45) and covers every bound FTG payload: 2 CITY fixtures + slots 0-27 = 30 payloads, 134 rings, 9 255 faces (28 water, 9 227 blocks). E06 section 13 holds the pass; sections 1-12 (pass 1) are unchanged, and 13.4 lists the pass 1 sentences that the full sample corrects. Those are 'five' payloads with crossings (pass 1's JSON shows four), 'every tower on a wall vertex' (slot 27 breaks it) and 'no change to the tool'.",
+  "Measured (CONFIRMED): pooled median block 2 305 / 2 347 / 2 362 / 2 438 m2 at BIG_TOWN / BIG_CITY / METROPOLIS / CITY (n 10 type7 / 10 type7 / 4 minmax / 3 minmax), TOWN 2 594 (n 2, research-side). plotShare bound 0.857-0.887 (R-04 fixture 0.889), less paved 0.452-0.862, footprint floor 0.398-0.554. 2 772 sibling cuts: 0.52-0.59 across the long axis. October CITY slots 24/25 read 0.51/0.49 across, so size does not explain September's 0.78/0.81. Towers 1 081/1 083 on wall vertices on the slots: slot 27 has 2 on the water outline, 11.8 m apart, 68-80 m from the wall. A straight wall vertex where a way meets is towered 37/859 times. 48 market squares, each exactly one face, never sharing or neighbouring.",
+  "Decisions under J122, vetoable, reasons in E06 13.1: W06F-D1 the --md pooled tower agreements read walled payloads only (slot 12 has no wall); W06F-D2 the JSON carries lane m1/W-06-final + earlierPass; W06F-D3 a live --red plant for check 3; W06F-D4 the JSON is replaced and E06.md appended (pass 1's JSON in commit bef102c); W06F-D5 slot 27 stays TOWN by its request despite FTG's list label (TOWN has no row, R-34); W06F-D6 slot 27 measured from the fresh adapter output.",
+  "Hand-offs (E06 13.6): W-15 forms ftg.ringBlock from samples.<size> of E06-ftg-faces.json 290166d0; its note must state W06-D2/D3 (now ten payloads, 25 bridge crossings). Slot 27 has no stored MeasureInput file yet: W-05b, the owner, must write it before W-15's provenance names it (W-05b-final ran before slot 27). The C11 tower description gains slot 27's water-edge pair; no design change asked.",
+  "Housekeeping: nothing in plat/, no git state change (status/log/diff only), no site, no bundle, no benchmark; plan.json not written; 10-11 GiB free throughout. Scratch: m1w2/w06f/ (pre-pass, probes, pass 1 copies)."
+ ]
+}

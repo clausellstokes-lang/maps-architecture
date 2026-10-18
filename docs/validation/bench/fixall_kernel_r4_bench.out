@@ -1,0 +1,19 @@
+== A  VK3-6: bytes per item of a static partition, and the frozen copy with its partitions ==
+1000 items in one partition: 0.04 MB, 38.4 B per item
+9000 items in one partition: 0.33 MB, 38.4 B per item
+60000 items in one partition: 2.20 MB, 38.4 B per item
+90000 items in one partition: 3.30 MB, 38.4 B per item
+210000 items in one partition: 7.69 MB, 38.4 B per item
+CITY one-click freeze (L0-L2 + step (0) L3): 60000-90000 items -> 2.2-3.3 MB of static partitions
+CITY after edits (L0-L4 of a finished town): 190000-230000 items -> 7.0-8.4 MB of static partitions
+METROPOLIS one-click freeze (x 2.5): 150000-225000 items -> 5.5-8.2 MB of static partitions
+frozen-copy memory copy (one per pool worker, then transferred):
+12 MB: 1.11 ms per copy; 3 workers 3.34 ms
+15 MB: 1.67 ms per copy; 3 workers 5.02 ms
+20 MB: 2.10 ms per copy; 3 workers 6.30 ms
+38 MB: 4.02 ms per copy; 3 workers 12.07 ms
+== B  VK3-5: rebuilding, at the freeze, the static partitions edits left dirty ==
+one district partition at L3 and one at L4 (a plot edit): 2 partitions, 7000 items: 2.01 ms (median of 9)
+five districts' L3 and L4 partitions (20 scattered edits): 10 partitions, 35000 items: 10.19 ms (median of 9)
+the arena-wide L1 partition (an edited street) and one L2 district partition: 2 partitions, 19000 items: 5.78 ms (median of 9)
+worst case: every partition of a finished CITY (L0-L1 per arena, L2-L4 per district, 18 districts): 56 partitions, 199800 items: 59.32 ms (median of 9)

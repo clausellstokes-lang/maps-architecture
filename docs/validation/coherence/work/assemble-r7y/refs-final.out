@@ -1,0 +1,16 @@
+headings {'base': 147, 'V01': 121, 'V02': 99, 'V03': 53, 'V04': 66, 'V05': 60, 'V06': 135, 'V07': 56, 'V08': 61, 'V09': 128, 'V10': 84, 'V11': 153, 'V12': 127, 'INDEX': 8} ids defined 3468
+all references by class {'resolved': 57293, 'external': 131, 'ambiguous': 97, 'resolved-form': 6, 'resolved-generic': 1}
+base   {'ambiguous': 19, 'external': 30, 'resolved': 19074, 'resolved-form': 5}
+V01    {'ambiguous': 15, 'external': 17, 'resolved': 3416}
+V02    {'ambiguous': 13, 'external': 11, 'resolved': 2723}
+V03    {'ambiguous': 12, 'external': 6, 'resolved': 2807, 'resolved-form': 1}
+V04    {'ambiguous': 1, 'external': 11, 'resolved': 2874}
+V05    {'ambiguous': 4, 'external': 1, 'resolved': 2099}
+V06    {'ambiguous': 5, 'external': 8, 'resolved': 3756}
+V07    {'ambiguous': 2, 'external': 20, 'resolved': 3625}
+V08    {'external': 12, 'resolved': 2831}
+V09    {'ambiguous': 7, 'external': 3, 'resolved': 4625}
+V10    {'ambiguous': 6, 'external': 2, 'resolved': 2723}
+V11    {'ambiguous': 11, 'external': 3, 'resolved': 3714}
+V12    {'ambiguous': 2, 'external': 7, 'resolved': 2915}
+INDEX  {'resolved': 111, 'resolved-generic': 1}

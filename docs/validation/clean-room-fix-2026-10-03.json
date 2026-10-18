@@ -1,0 +1,203 @@
+{
+ "renamed": [
+  {
+   "old": "the FTG Foundry module's field name (not written here; sha256[:16] d3793e0bf78931c2; research/findings/ftg-payload-visual.md l. 719, its 7.3)",
+   "new": "facilities",
+   "files": [
+    "docs/ARCHITECTURE.md",
+    "docs/volumes/V03-interiors.md",
+    "docs/volumes/V11-content.md",
+    "docs/volumes/critique/V11.md"
+   ],
+   "count": 8
+  },
+  {
+   "old": "SubLocation (the record type)",
+   "new": "Facility",
+   "files": [
+    "docs/ARCHITECTURE.md",
+    "docs/volumes/V03-interiors.md",
+    "docs/volumes/V11-content.md",
+    "docs/volumes/critique/V03.md"
+   ],
+   "count": 15
+  },
+  {
+   "old": "SubLocationRow",
+   "new": "FacilityRow",
+   "files": [
+    "docs/ARCHITECTURE.md"
+   ],
+   "count": 2
+  },
+  {
+   "old": "SubLocationRoleRow",
+   "new": "FacilityRoleRow",
+   "files": [
+    "docs/ARCHITECTURE.md",
+    "docs/volumes/V03-interiors.md",
+    "docs/volumes/critique/V03.md"
+   ],
+   "count": 9
+  },
+  {
+   "old": "subLocation (Room/ProgramRoom field, origin literal, findRooms kind)",
+   "new": "facility",
+   "files": [
+    "docs/ARCHITECTURE.md",
+    "docs/volumes/V03-interiors.md",
+    "docs/volumes/critique/V03.md"
+   ],
+   "count": 20
+  },
+  {
+   "old": "perSubLocation (count law)",
+   "new": "perFacility",
+   "files": [
+    "docs/ARCHITECTURE.md",
+    "docs/volumes/V03-interiors.md"
+   ],
+   "count": 3
+  },
+  {
+   "old": "prose sub-locations / Sub-locations (titles of base 2.6 and 10.3 included)",
+   "new": "facilities / Facilities",
+   "files": [
+    "docs/ARCHITECTURE.md",
+    "docs/volumes/V03-interiors.md",
+    "docs/volumes/V08-settlementforge.md",
+    "docs/volumes/INDEX.md",
+    "docs/volumes/critique/V02.md",
+    "docs/volumes/critique/V03.md",
+    "docs/volumes/critique/seam-stage2-3-r0.md",
+    "docs/AMENDMENTS-2026-09-28f.md"
+   ],
+   "count": 34
+  },
+  {
+   "old": "prose sub-location",
+   "new": "facility",
+   "files": [
+    "docs/ARCHITECTURE.md",
+    "docs/volumes/V02-buildings.md",
+    "docs/volumes/V03-interiors.md",
+    "docs/volumes/V08-settlementforge.md",
+    "docs/volumes/V11-content.md",
+    "docs/volumes/critique/V02.md",
+    "docs/volumes/critique/V03.md",
+    "docs/volumes/critique/seam-stage2-3-r0.md",
+    "docs/AMENDMENTS-2026-09-28g.md"
+   ],
+   "count": 24
+  }
+ ],
+ "reworded": [
+  "docs/ARCHITECTURE.md l. 15533 (RegionGroup.members): the study map's three region names -> 'a region such as the Kiln Hill, the Saltings or the Far Bank'",
+  "docs/volumes/V01-neighbourhoods.md l. 3163-3164 (Regions bullet): the same three names -> the same invented phrase, re-wrapped",
+  "docs/volumes/V09-application.md l. 4475: the map's two-word cemetery landmark name -> 'cliffs with a graveyard along their top'",
+  "docs/volumes/V09-application.md l. 4476 (beyond the listed lines, CF-4): the region names' adjectives in parentheses -> 'three region labels (our own names) over the upper town, the lower port and the sprawl'",
+  "docs/volumes/V10-clerk.md l. 37: a region name of the map plus two more of its place words -> 'make the river quarter denser', 'move the chapels nearer the castle'",
+  "docs/volumes/V10-clerk.md l. 2347-2349: the same examples and their mechanics -> river quarter fill; read_map sites for the chapel class near the castle and a place { move } per chapel",
+  "docs/volumes/V10-clerk.md l. 3200 (evaluation set D): -> 'the river quarter should feel denser'; 'move the chapels nearer the castle'",
+  "docs/AMENDMENTS-2026-09-27e.md l. 54 (item 101 (c) T11; beyond the listed lines, CF-4): the three region names -> '(say, the Kiln Hill, the Saltings, the Far Bank)'",
+  "docs/AMENDMENTS-2026-09-27e.md l. 66-67 (item 101 (d) (4); the source of V10's examples, CF-4): -> ('the river quarter should feel denser', 'move the chapels nearer the castle')",
+  "research/baselines/denylist/design-allow.tsv: one PHR row for V12 l. 1534's table-cell-boundary coincidence, with its reason and the text-key hazard stated"
+ ],
+ "corpus_exclusions": [
+  "rule in docs/validation/bench/doc_checks.py reference(f), commented with the rule, the date (2026-10-03) and E01 7, E02 7, E16 5 and 7; summary line prints own_outputs_left_out; completeness warning unchanged",
+  "research/sf/ - 18 files (SettlementForge, the owner's program, 17.1 (3), (6))",
+  "research/baselines/ - 5 files read by extension (plan.json, metrics.m-1.json, ftg_capture_checklist.md, denylist/design-allow.tsv, denylist/spell-supplement.txt; 17.1 (4))",
+  "captures/ftg/2026-10-03T17-19-06/: README.md, capture-facts.json",
+  "captures/mfcg/exports-sweep-m1-2026-10-03/: README.md, export-check.json, stats.json, probe/ui.json, probe/*/ack-*.json (11), probe/size40-plain-0/ui-as-saved.json",
+  "captures/neighbourhood/ng-programme-m1-2026-10-03/: README.md, build-check.json, index.json",
+  "kept: every recording (session/, draw/, steps/, network bodies, MFCG exports, FTG create-request.json, recorder meta.json/session.json; 526 files in the M-1 folders at 16:35) and every pre-M-1 capture",
+  "effect on the base: old checker C3 2050/14 C4 28/5 exit 1 -> new checker C3 1889/0 C4 24/0 exit 0; corpus 10661 colour files, 10177 JSON, 976674 3-grams, 815 lists -> 10618, 10152, 953357, 513"
+ ],
+ "doc_checks": [
+  {
+   "doc": "docs/ARCHITECTURE.md",
+   "exit": 0
+  },
+  {
+   "doc": "docs/volumes/V01-neighbourhoods.md",
+   "exit": 0
+  },
+  {
+   "doc": "docs/volumes/V02-buildings.md",
+   "exit": 0
+  },
+  {
+   "doc": "docs/volumes/V03-interiors.md",
+   "exit": 0
+  },
+  {
+   "doc": "docs/volumes/V08-settlementforge.md",
+   "exit": 0
+  },
+  {
+   "doc": "docs/volumes/V09-application.md",
+   "exit": 0
+  },
+  {
+   "doc": "docs/volumes/V10-clerk.md",
+   "exit": 0
+  },
+  {
+   "doc": "docs/volumes/V11-content.md",
+   "exit": 0
+  },
+  {
+   "doc": "docs/volumes/V12-calibration.md",
+   "exit": 0
+  },
+  {
+   "doc": "docs/volumes/INDEX.md",
+   "exit": 0
+  },
+  {
+   "doc": "docs/validation/clean-room-fix-2026-10-03.md",
+   "exit": 0
+  },
+  {
+   "doc": "docs/volumes/critique/V02.md",
+   "exit": 1
+  },
+  {
+   "doc": "docs/volumes/critique/V03.md",
+   "exit": 1
+  },
+  {
+   "doc": "docs/volumes/critique/V11.md",
+   "exit": 1
+  },
+  {
+   "doc": "docs/volumes/critique/seam-stage2-3-r0.md",
+   "exit": 1
+  },
+  {
+   "doc": "docs/AMENDMENTS-2026-09-27e.md",
+   "exit": 1
+  },
+  {
+   "doc": "docs/AMENDMENTS-2026-09-28f.md",
+   "exit": 1
+  },
+  {
+   "doc": "docs/AMENDMENTS-2026-09-28g.md",
+   "exit": 1
+  }
+ ],
+ "selftest": "python3 research/baselines/make_denylist.py selftest (no transcription; check 9 skipped): exit 0, pass true, 7 min 19 s. Design-set line: 15 documents, TOK 116/0, ID 15/0, TRI 6059/0, COL 0/0, SET 104/0, PHR 9/0, FILE 0/0, design_unreviewed_total 0 (was 17 occurrences / 5 distinct). Other checks: C1 36/36, colours 7248/7248, check-(vi) lists 210/210, kept lists 234/234, tokens 1329/1329, identifiers 130/130, files 9561/9561, 3-grams 2004 sampled 0 missed, planted 20/20 TRI SET COL, salt matches",
+ "bundle": "python3 tools/bundle_architecture.py: wrote docs/ARCHITECTURE-FULL.md, 72975 lines from 14 sources; --check UP TO DATE (re-checked 17:22); the bundle holds no form of the old family",
+ "record": "docs/validation/clean-room-fix-2026-10-03.md",
+ "notes": [
+  "Outcome: done. The module's field name and its family are renamed to the Facility family (115 replacements in 12 files; section numbers, test ids and J-ids unchanged); the study-map names are gone from the design (9 rewordings plus one V12 allow row); doc_checks.py now leaves our own outputs (44 files) out of its corpus. Base and every touched design volume exit 0; deny-list scan of the design set 0 unreviewed; selftest pass.",
+  "Allow-file changes: design-allow.tsv +1 PHR row (V12 coincidence, as the brief asks). doc-checks-allow.tsv: no row added; two existing reviewed C3 rows (l. 944, 1003; source our own design page research/findings/dwellings-synthesis.md) re-keyed in place to their shortened text, because each lost its last token (the renamed field). Without that the base's first run after the edits left 2 unreviewed (exit 1).",
+  "The seven touched records (critique V02, V03, V11, seam-stage2-3-r0; amendments e, f, g) exit 1 on backlogs that predate this lane (16 to 165 unreviewed each, never held to exit 0); each untouched backup copy gives identical counts and identical unreviewed sets against the same corpus, so these edits add none (CF-7). Clearing those backlogs would need hundreds of new allow rows for our own words, which the brief forbids.",
+  "Vetoable calls (J122), record section 5: CF-1 the name Facility (absent from research/ and captures/ outside SettlementForge, text-mode search); CF-2 whole family incl. section titles of 2.6 and 10.3; CF-3 critique and amendment records renamed too; CF-4 V09 l. 4476 and amendments e l. 54 and 66-67 reworded beyond the listed lines; CF-5 V10's two further place words (a class and a landmark) replaced by our classes chapel and castle; CF-6 capture-record rule = folder dated >= 2026-10-03 plus record-name pattern, pre-M-1 records kept; CF-7 records held to no-new-hit; CF-8 allow rows re-keyed not added; CF-9 V12 allow row added (rewording V12's cell would avoid the text-key hazard).",
+  "For the session (outside write scope): plat/ has no occurrence of the old name, the new name or the study-map phrases, so nothing to hand over. The old field name remains in history outside the design: docs/validation (98 files), docs/archive (17), docs/retrovalidation/blocks-model.md, docs/lane-events.log (W-16 checkpoint), one coherence lane prompt, and research/findings (the 7.3 source and our own dwellings-synthesis.md). The study map's names remain in docs/experiments/known-city-authoring.md (the experiment record). tools/integrate/arch-order.json (stale snapshot) and workflows/17-volumes.js carry the old prose title. make_denylist.py's EXCLUDE should adopt the same capture-record rule at its rebuild at M-1's exit (E16 7).",
+  "No git command that changes state was run; nothing was written into plat/. Backups of 21 files (every edited file, the regenerated bundle and V12; SHA256SUMS for the first 20) are in the scratchpad's m1r/backup/; the apply script (m1r/cr/apply_fix.py) refused to write any file changed since its backup, and a replay check confirmed every edited file holds exactly this lane's changes.",
+  "CONFIRMED (executed or read): every count, exit code, the before/after copy comparisons, the scan, the selftest, the bundle check, the exclusion listing and the absence checks. PLAUSIBLE: that the invented names (Kiln Hill, the Saltings, Far Bank, river quarter) match no name on either study map (the deny-list's 91 transcribed names do not hit them, but check 9 was skipped per the brief); that V10's two further words were the place words E16 meant; that no other own-output file sits in the corpus beyond those named and the synthesis page.",
+  "Git state (read only): the session's checkpoint commit fd08933 (17:06) already holds this lane's design, checker and allow-file edits; the record and this result file were written after it and are untracked, for the session to commit."
+ ]
+}

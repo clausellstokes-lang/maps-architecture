@@ -1,0 +1,76 @@
+{
+ "id": "W-12",
+ "status": "landed",
+ "records": [
+  "/Users/cstokes/Desktop/Maps/docs/calibration/E12-depth-refit.md",
+  "/Users/cstokes/Desktop/Maps/docs/calibration/E12-depth-refit.json"
+ ],
+ "outputs": [
+  "/Users/cstokes/Desktop/Maps/docs/calibration/E12-depth-refit.md",
+  "/Users/cstokes/Desktop/Maps/docs/calibration/results/W-12.json",
+  "/Users/cstokes/Desktop/Maps/docs/calibration/results/W-12-fit.json",
+  "/Users/cstokes/Desktop/Maps/docs/calibration/E12-depth-refit.json",
+  "/Users/cstokes/Desktop/Maps/research/baselines/fit_depth_rows.py"
+ ],
+ "checks": [
+  {
+   "check": "the fitted [e_lo, e_hi] reproduce the inputs' p10 / p90 within rounding (plan row W-12, first check) - on the RULED values at the signed whole-metre step",
+   "passed": true,
+   "receipt": "w12_ruled_check.py (scratchpad m1w3, sha256 9303a8bdce77eab0; imports fit_depth_rows.py 37d9c65efbc653b3 unmodified and the EB tables of E12-depth-refit.json 43b9c4a53a17578a), 5 / 5 PASS, exit 0: R1 the ruled modest block range [48, 96] m (d = [24, 48]) reproduces the NG area/medium template's p10 / p90 30.04 / 54.64 under EB in a fresh seeded 400 000-block simulation: V1 30.23 / 54.85 (dev +0.19 / +0.21, tol +-0.65 / +-1.05, worst 0.29 of tolerance), V2 0.24, V3 0.25; R2 MFCG's pooled EB-V1 fit at whole metres [37, 351] reproduces MFCG pooled 28.86 / 70.34 as 28.93 / 70.58 (tol +-0.43 / +-0.96, worst 0.25), its lo end 37 m adopted as the dense-core floor's lo. Part I's F1 27 / 27 and F2 72 / 72 at 0.1 m stand for every candidate."
+  },
+  {
+   "check": "the shares of every band sum to 1 (plan row W-12, second check) - at the signed precision",
+   "passed": true,
+   "receipt": "R4 PASS: three decimals by largest remainder - poor 0.355 / 0.248 / 0.298 / 0.099, modest 0.457 / 0.296 / 0.148 / 0.099, prosperous 0.659 / 0.146 / 0.049 / 0.146, rich 0.761 / 0.096 / 0.000 / 0.143, MFCG preset row Rb 0.813 / 0.000 / 0.000 / 0.187 - each sums to 1.000 exactly, every share in [0, 1]; Part I's C1 stands (unrounded within 1e-12)."
+  },
+  {
+   "check": "no block band is signed before W-12 lands (J-A34.01; plan row W-12, third check)",
+   "passed": true,
+   "receipt": "re-checked at the ruling's close: 0 m1/W-15 or m1/W-20 LANDED lines in docs/lane-events.log, no W-15 / W-20 result file, no rows.py / bands.py / cross_check.py in research/baselines, no M-1 seat row in plat/CLEAN-ROOM.md's ledger (its 7 'm1/' mentions are M0 build rows' text). This record signs no band; its landing releases J-A34.01's hold (E12 section 13, C-9)."
+  },
+  {
+   "check": "the ruled rows run forward keep the band order and the modest row sits near every NG set",
+   "passed": true,
+   "receipt": "R3 PASS (EB-V1, 400 000 blocks per band, CITY): poor 20.1 / 28.2 / 36.5 (dense core, floored [37, 64]: 22.7 / 31.6 / 40.4), modest 30.2 / 42.3 / 54.9, prosperous 41.3 / 57.7 / 74.6, rich 51.9 / 73.1 / 97.0 m - p10, p50 and p90 each rise with the band; modest against NG: area +0.2 / +2.5 / +0.2, street +6.2 / +2.8 / -1.6, square -0.2 / +1.6 / -5.9, ring +3.7 / +3.9 / -3.2, pooled +2.5 / +3.2 / -2.1 m. The design today gives modest 21.9 / 30.5 / 38.8 m (J-A34.01's prediction confirmed)."
+  },
+  {
+   "check": "the deep-rule census behind correction D-1",
+   "passed": true,
+   "receipt": "R5 PASS (reproduces E11's 597 catalogue-deep blocks / 276 courts over the 20 medium hoods): the design's test thickness > 2 d-bar admits 98 of 597 (court share 0.418) at d-bar 24 m and 3 (court 0) at the ruled d-bar 36 m; > 1 x d-bar admits 578 (0.478) / 318 (0.472); > 0.75 x d-bar 597 (0.462) / 535 (0.486); the reference's deep population is thickness > 21.6 m (0.9 d-bar today, 0.6 d-bar ruled)."
+  },
+  {
+   "check": "content scan of E12 as landed (doc_checks.py --doc ... --heads docs/ARCHITECTURE.md)",
+   "passed": true,
+   "receipt": "C1 0, C2 0, C4 0, S1 0, S2 0; C3 97 hits / 80 unreviewed, every one read: our own digit runs (share rows, deviations, thresholds, metre ranges), our own phrases, design pointers and the appendix script's path and loop text; no reference word list, palette, grammar or identifier; exit 1 by that count (record outside the design set, no allow rows: the W-10 / W-11b / W-12-fit precedent)."
+  },
+  {
+   "check": "machine rules and the clean room",
+   "passed": true,
+   "receipt": "nothing written into plat/; no website, no program bundle, no benchmark, no state-changing git command; one process at a time at nice 10; disk 11 GiB free at start and end; memory 72-73 % free; CHECKPOINT lines at 06:2x and 06:3x in docs/lane-events.log."
+  }
+ ],
+ "rows": 0,
+ "design_corrections": [
+  "C-1..C-4 (section 4.7 S10 (2) band table, 'depth (m)'): poor 12-20 -> 16-32; modest 18-30 -> 24-48; prosperous 25-40 -> 33-64; rich 30-60 -> 40-96 m - provenance M-1 2026-10-04 (E12); modest from NG area/medium (EB-V1 [47.6, 96.4] m), the others by the ratios lo x 1.3222 / hi x 1.6067",
+  "C-5 (section 4.4 stage regimes, dense core): block-depth band floor 30-45 m -> 37-45 m (the lo re-fitted on MFCG's intramural blocks, EB-V1 pooled 36.9; the hi not re-fitted); walled rings 45-70, ribbon 30-50, suburb 40-60 unchanged, recorded as not re-fitted",
+  "C-6 (section 4.6 step 5): cut.flattenM 0.7 m stands; its provenance note gains the M-1 receipt (lowest kept NG bend 0.59 m declared, 3 of 731 below 0.7 m, one-bend share 0.658 vs 0.660; M0-b-05b calibrates on NG's recorded faces, J-A37.01); the MFCG preset's 8 m unchanged, not measured",
+  "C-7 (section 4.6 deep-interior rule, default shares): poor 0.355 / 0.248 / 0.298 / 0.099; modest 0.457 / 0.296 / 0.148 / 0.099; prosperous 0.659 / 0.146 / 0.049 / 0.146; rich 0.761 / 0.096 / 0 / 0.143; MFCG preset row 0.813 / 0 / 0 / 0.187 - provenance M-1 2026-10-04 (E12; R-19)",
+  "C-8 / C-9: section 4.6 step 1's re-fit clause gains '(E12, 2026-10-04)'; section 13.5's blocks-row condition is met - W-15 may sign block.area",
+  "D-1 (section 4.6 deep-interior rule / section 2.5 Block.depthClass / section 13.5 deep-interior row): the deep test 'thickness > 2 x the band's plot depth' admits 98 of NG's 597 deep blocks today and 3 at the ruled d-bar 36 m, so the keep-test would judge an empty population; recommended like-for-like population = the reference row's definition (inscribed radius > 1.5 x the band's median footprint short side; 21.6 m thickness on NG), or a d-bar factor <= 0.6 - a design-seat correction, vetoable",
+  "D-2 (section 7.6 preset resolution): under the NG parity preset the deep-interior shares would resolve to the MFCG entry (0.813); the NG preset should read the default row for rows M-1 calibrated on NG (0.457 at modest) - mechanism the design seat's",
+  "D-3 (section 7.6 'Rows carried with presets entries'): add the deep-interior shares (the MFCG entry 0.813 / 0 / 0 / 0.187; FTG reads the default)",
+  "Consequences recorded, no cell asked: e_hi is a tail parameter under the per-face law (tau's p90 under modest [48, 96] is 67 m while e_hi is 96), so e_hi^2 (J-A34.42: district claims, the substitution bound) rises 2.6x at CITY (modest 0.36 -> 0.92 ha, rich 1.44 -> 3.69 ha); d-bar moves 24 -> 36 m at modest (the reflex pre-cut and step 8 read it); the modest hi end is weakly identified (bootstrap e_hi 78-153 m), M0-b-05a's reference run confirms it; the rung depth factors stand against MFCG's measured 1.00 / 1.00 / 0.98"
+ ],
+ "owner_notes": [
+  "No owner step: plan section 5 (8) - W-12's re-fitted cells land by amendment, reported not asked (J-A34.01); every ruling in E12 section 11 is vetoable (J122). The two a veto would most plausibly reach: O-2 (the NG area template over the pooled 20 hoods - a veto gives modest 20-80 m and the pooled ratios) and O-6 (the dense-core floor's lo only). D-1 is a design correction the measurement requires (the deep test at 2 d-bar admits 3 of NG's 597 deep blocks after the re-fit): the design seat applies it by amendment; the owner may prefer a different form.",
+  "J-A34.01's hold on the block bands releases with this landing: W-15 may sign block.area."
+ ],
+ "notes": [
+  "This is the ruling half of W-12 (Fable over the Opus fit m1/W-12-fit). E12 Part II (sections 11-17) holds: the fifteen rulings O-1..O-15 with reasons (section 11), the numbers table with provenance M-1 2026-10-04 (section 12), the hand-off note to the design seat with every cell as section / old / new plus the three corrections D-1..D-3 and four consequences (section 13), the digest entry texts R-20 (2) and (6) for W-17 (section 14), the ruled checks R1-R5 with the script as an appendix (section 15), the delegation calls and CONFIRMED / PLAUSIBLE (section 16), the scan (section 17).",
+  "Rulings in one line each: O-1 EB (the recursion's leaves; J-A34.01's own reason), V1 primary. O-2 NG area/medium (section 13.6 (2)'s pairing; the pooled hi end is pulled by the ring and street tails; the ruled range sits within 2.5 / 3.2 / -2.1 m of the pooled p10 / p50 / p90). O-3 declared metres. O-4 the modest plot-depth row (M0-b-05a applies the depth rows to NG's faces; a floor would not reach it). O-5 the other bands by the modest ratios. O-6 the dense-core floor's lo from MFCG pooled EB (36.9 -> 37), the hi not re-fitted (MFCG's spread is a footprint-union tail). O-7 the other floors unchanged. O-8 rung factors kept, measurement recorded. O-9 whole metres. O-10 cut.flattenM 0.7 m stands. O-11 the relative term 0.02 stands, the 23 bends carried to M0-b-05b. O-12 R-19's estimator 0.457, the deep test routed as D-1. O-13 three decimals. O-14 MFCG court 0.813, remainder Rb (rear plots). O-15 all intramural MFCG blocks.",
+  "The crux the ruling could not dissolve: under the per-face law e_hi is a tail parameter (the law's leaves cannot spread less than 1.74 and reach NG's 1.8-2.05 only at e_hi / e_lo of 2-4), while e_hi = 2 d_hi ties it to the plot-depth row and e_hi^2 reads it as the deepest block. The area template keeps every sibling consumer realistic (modest plots 24-48 m, e_hi^2 0.92 ha); the pooled fit would not (plots 20-80 m, e_hi 159 m). Recorded for the design seat as consequence 1 of section 13.",
+  "CONFIRMED (executed): every number in E12 sections 12-15, the five ruled checks (5 / 5, exit 0), the J1 re-check, the scan. PLAUSIBLE: that the area template is the modest comparator; that EB's rectangles carry the law's quantiles to real faces closely enough for a start value (M0's S8 harness settles it, V12 section 3.7.1 (c)); that the three sub-0.7 m bends are reading noise; that M0's per-template band passes on the ruled rows; that NG's own relative flatten test uses a length other than the snapped chord.",
+  "Deliberately not done (documented): no design file edited; no baselines.json row (none for D21 / D32); the walled-rings, ribbon and suburb floors, the rung depth factors and the MFCG preset's 8 m not re-fitted (no input in the row); no memory file written by this seat (the session may record: the per-face stop law's leaves cannot spread less than about 1.74 so e_hi is a tail parameter; and the design's deep test at 2 d-bar admits 3 of NG's 597 deep blocks after the re-fit). The ruled-check script lives in the session scratchpad (m1w3/w12_ruled_check.py) and as E12 appendix 15.1; the brief named no new tool file.",
+  "Fit-half note kept: E12-depth-refit.json (43b9c4a5) and fit_depth_rows.py (37d9c65e) are unchanged by the ruling; W-12-fit.json stays as the fit half's result."
+ ]
+}

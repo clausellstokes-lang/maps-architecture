@@ -1,0 +1,48 @@
+{
+ "key": "coherence/famverify-epochs-r7w",
+ "file": "docs/validation/coherence/famverify-epochs-r7w.md",
+ "issues": [
+  {
+   "id": "VF7w-EPO-01",
+   "severity": "minor",
+   "kind": "LIST",
+   "owner": "V06 (END at model, pipeline, scope)",
+   "claim": "Law 1 (4) keeps a wall's band in a raised way's strip only to cross its deck line (l. 2721-2723), so an anchor, which ends its wall's line, lies in no raised way's strip (correction 7; the fixed-place sentence 'an anchor out of it always (law 1 (4))', l. 3259-3260; *No gate and no tower*, l. 3153-3154; (7), l. 3370; *Paths and tests*, l. 3331; W8·C1, l. 3347). Five restatements of law 1 (6) in or behind this lens still admit an anchor under a clearing arch: the founding's impassables, V06 §3.19 (5) (V06 l. 2853-2855: 'each fixed place of a standing curtain, with its footprint, ... to an aqueduct's under-deck strip but where law 1 (5) admits a gate or tower there'); the solver it calls, §4.3 *Where it may not go* (l. 6503: 'no gate, postern, tower or fixed place of the trace under it but where its arches clear them'); its worked example *over the band* (l. 3018-3019); V06 §3.7.1's t_k rule (V06 l. 1474-1475); V06 §3.7.6 (5) (V06 l. 1622); and T110-2 (3)'s bar names anchors and admits them so (l. 19380-19383). Each site cites law 1 (4) or the laws whole, law 2 (a) searches only shapes law 1 admits, §5.3's law-1 row and T110-4 check law 1 (4), and T110-2 (1)'s anchor variant (l. 19327-19330) runs the solver's case: a restatement the laws already decide, nothing built changes (as VF7v-TBL-03 and VF7v-EPO-05 were graded).",
+   "required_change": "V06 §3.19 (5) (V06 l. 2854-2855): \"and to an aqueduct's under-deck strip but where law 1 (5) admits a gate or tower there (law 1 (6) with law 2;\" -> \"and to an aqueduct's under-deck strip but where law 1 (5) admits a gate or tower there, an anchor with its tower always (law 1 (4), (6) with law 2;\". V06 §3.7.1 (V06 l. 1474-1475): \"nor in an aqueduct's strip but where law 1 (5) admits a gate or tower there (law 1 (6) with law 2;\" -> \"nor in an aqueduct's strip but where law 1 (5) admits a gate or tower there, an anchor in none (law 1 (4), (6) with law 2;\". V06 §3.7.6 (5) (V06 l. 1622-1623): \"nor in an aqueduct's strip but where law 1 (5) admits one (law 1 (6) with law 2;\" -> \"nor in an aqueduct's strip but where law 1 (5) admits one, an anchor in none (law 1 (4), (6) with law 2;\". END at pipeline, §4.3 *Where it may not go* (l. 6503): \"no gate, postern, tower or fixed place of the trace under it but where its arches clear them,\" -> \"no gate, postern, tower or fixed place of the trace under it but where its arches clear them, an anchor under none,\". END at model, *over the band* (l. 3018-3019): \"a gate, postern, tower or fixed place of the trace stands under it only where the crossing is over and its arches clear them,\" -> \"a gate, postern, tower or fixed place of the trace stands under it only where the crossing is over and its arches clear them, an anchor under none (law 1 (4)),\". END at scope, T110-2 (3) (l. 19382-19383): \"in a road deck's fixed-place zone or in an aqueduct's under-deck strip but where §2.7's laws, law 1 (5) and (6), admit one,\" -> \"in a road deck's fixed-place zone or in an aqueduct's under-deck strip but where §2.7's laws, law 1 (5) and (6), admit one, an anchor in none (law 1 (4)),\"."
+  },
+  {
+   "id": "VF7w-EPO-02",
+   "severity": "minor",
+   "kind": "READER",
+   "owner": "V06 (END at determinism, pipeline)",
+   "claim": "Law 2 (c) gives an epoch's trace with no lawful shape one outcome, 'At an epoch and in a replay: the op waits that epoch (walls.waited, raised.waited)' (l. 2836-2837); (G3) repeats it (l. 2958-2959) and V06 §3.7.6 (5) counts it (V06 l. 1627-1631). The texts an epoch circuit's builder follows first do not: V06 §3.7.1 (V06 l. 1479-1480: 'F-WALL's ladder (§5.2) binds the trace; a trace that fails it leaves the stage unwalled, the circuit re-evaluated at the next growth (reported)') and V06 §3.17 (3) (V06 l. 2496-2497) send it to F-WALL, whose detection names the raised-way meeting (l. 9855) while its ladder cell gives that meeting a rung only 'at generation, a regeneration and a village derivation' and a hand op none, the epoch unnamed; S5a's pin rule, which an epoch's new stage and contractWall run, ends 'that crossing takes F-WALL's raised-way rung' with no path (l. 6603). A builder may run the generation rung at an epoch (the band widened to wall.barrierReachM) or leave the stage unwalled with no walls.waited count. Both keep law 1; law 2 (c) decides the epoch's outcome and T110-2 (4)'s table-edit variant asserts it ('an epoch circuit across the standing aqueduct waiting (walls.waited)', l. 19490-19492), so a wrong build fails a named bar: a minor.",
+   "required_change": "V06 §3.7.1 (V06 l. 1479-1480): \"a trace that fails it leaves the stage unwalled, the circuit re-evaluated at the next growth (reported).\" -> \"a trace that fails it leaves the stage unwalled, the circuit re-evaluated at the next growth (reported) — a trace §2.7's laws give no lawful meeting of a standing raised way, a held building's strip or a shape-locked raised way's `vault`-use span among them, which takes no rung of that ladder and is counted `walls.waited` (§2.7's laws, law 2 (c); V06 §3.7.6 (5)).\" V06 §3.17 (3) (V06 l. 2496-2497): \"a circuit whose trace fails leaves the stage unwalled (V06 §3.7.1)\" -> \"a circuit whose trace fails leaves the stage unwalled (V06 §3.7.1; one with no lawful meeting of a standing raised way counted `walls.waited`, never taking F-WALL's raised-way rung: §2.7's laws, law 2 (c))\". END at determinism, §5.2's F-WALL ladder cell (l. 9855): after \"reading then as §4.2 S3 (9) (a)'s unwalled stage (§2.7's laws, law 2 (c));\" insert \" at an epoch it takes no rung of it: the epoch's circuit, contraction or stretch waits that epoch, counted `walls.waited` (V06 §2.10; V06 §3.7.1; §2.7's laws, law 2 (c));\". END at pipeline, §4.4 S5a *Trace* (2) (l. 6603): \"that crossing takes F-WALL's raised-way rung (§2.7's laws, law 1 (5); law 2 *Not yet built*, (a), (c))\" -> \"that crossing takes F-WALL's raised-way rung, at an epoch its trace waiting (`walls.waited`) (§2.7's laws, law 1 (5); law 2 *Not yet built*, (a), (c))\"."
+  },
+  {
+   "id": "VF7w-EPO-03",
+   "severity": "minor",
+   "kind": "LIST",
+   "owner": "V06",
+   "claim": "T110-2 (1) runs the CITY-epoch founding on a third run across a ring drawn by hand and placement-locked and on a fourth across a retaining wall drawn so (l. 19311-19316); the base's runs sentence (l. 19647-19649), take-over row (l. 19897) and T-V6-73's head (V06 l. 4255) say T-V6-73 takes '(1)'s foundings across a decayed ring and across a ring and a retaining wall drawn by hand and placement-locked', and T-V6-73's body runs the ring. V06 §7's take-over row for those clauses (V06 l. 4173), written by V6-7, names 'the founding across a retaining wall drawn by hand and placement-locked' and not the ring. T-V6-73 still runs it, so nothing built or tested changes.",
+   "required_change": "V06 §7's T110-2 founding row (V06 l. 4173): \"and the founding across a retaining wall drawn by hand and placement-locked,\" -> \"and the foundings across a ring and a retaining wall drawn by hand and placement-locked,\"."
+  },
+  {
+   "id": "VF7w-EPO-04",
+   "severity": "minor",
+   "kind": "CITATION",
+   "owner": "scope; V06",
+   "claim": "The lock VF7v-EPO-01's fix adds cites the epoch's phase order as 'V06 §3.1, §3.2, V06 §3.7.5' at T110-2 (1) (l. 19310) and at T-V6-73 (V06 l. 4255). By the canon's S7 citation form (canon.md l. 83: 'Base: bare §x.y. A volume: Vnn §x.y everywhere, self-references included'), the bare '§3.2' is the base's §3.2, *Numeric policy* (l. 4334), not V06 §3.2's phase order the clause relies on ('the epoch's fortification step, which runs before its raisedWays step'); assemble-r7w left it for the verifier (section 8). T-V6-11 cites it rightly ('V06 §3.2, V06 §3.19 (2)', V06 l. 4193). Nothing built changes.",
+   "required_change": "T110-2 (1) (l. 19310): \"V06 §3.1, §3.2, V06 §3.7.5\" -> \"V06 §3.1, V06 §3.2, V06 §3.7.5\"; T-V6-73 (V06 l. 4255): \"V06 §3.1, §3.2, V06 §3.7.5\" -> \"V06 §3.1, V06 §3.2, V06 §3.7.5\"."
+  }
+ ],
+ "held_notes": [
+  {
+   "site": "V06 §3.7.1 (V06 l. 1479-1480) × §3.7.6 (2) (V06 l. 1573-1574) × §3.17 (3), (7) (V06 l. 2496-2497, 2508-2510)",
+   "note": "A circuit trace that fails F-WALL leaves the stage unwalled, the circuit re-evaluated at the next growth, while one that cannot hold water access and the occupied-footprint rule 'waits for a later epoch': for the latter, whether the walled stage grows unwalled that epoch or waits whole, and whether the circuit is tried again at the next epoch or only at the next growth (V06 §3.7.1: 'Evaluated once, when the growth phase grows a stage'), is unstated — wall × water and footprints, no raised way."
+  },
+  {
+   "site": "adjudication-r7w.md held notes 1 and 2 (V07 §3.5a (5), (7) × §2.7's support step (6); V06 §3.11.6 and II.7.6's raiseGrade)",
+   "note": "Persist as written there: a plot under a `vault` span at a village rung (raised way × plots), and what a raised region does to an enceinte run or a raised way standing in it (wall × terrain, raised way × terrain)."
+  }
+ ]
+}

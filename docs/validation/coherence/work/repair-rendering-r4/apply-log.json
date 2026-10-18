@@ -1,0 +1,368 @@
+[
+{
+"where": "010-8.1-box.patch:4",
+"file": "8.1.md",
+"old_w": 37,
+"new_w": 72
+},
+{
+"where": "020-8.2-crisis.patch:7",
+"file": "8.2.md",
+"old_w": 38,
+"new_w": 54
+},
+{
+"where": "020-8.2-crisis.patch:12",
+"file": "8.2.md",
+"old_w": 33,
+"new_w": 48
+},
+{
+"where": "020-8.2-crisis.patch:20",
+"file": "8.2.md",
+"old_w": 172,
+"new_w": 219
+},
+{
+"where": "030-8.2-find.patch:6",
+"file": "8.2.md",
+"old_w": 82,
+"new_w": 119
+},
+{
+"where": "030-8.2-find.patch:19",
+"file": "8.2.md",
+"old_w": 26,
+"new_w": 42
+},
+{
+"where": "030-8.2-find.patch:25",
+"file": "8.2.md",
+"old_w": 46,
+"new_w": 50
+},
+{
+"where": "040-8.4-working-layer.patch:5",
+"file": "8.4.md",
+"old_w": 30,
+"new_w": 124
+},
+{
+"where": "040-8.4-working-layer.patch:17",
+"file": "8.4.md",
+"old_w": 21,
+"new_w": 30
+},
+{
+"where": "040-8.4-working-layer.patch:23",
+"file": "8.4.md",
+"old_w": 33,
+"new_w": 47
+},
+{
+"where": "040-8.4-working-layer.patch:31",
+"file": "8.4.md",
+"old_w": 48,
+"new_w": 57
+},
+{
+"where": "050-8.6-damage.patch:6",
+"file": "8.6.md",
+"old_w": 56,
+"new_w": 69
+},
+{
+"where": "050-8.6-damage.patch:11",
+"file": "8.6.md",
+"old_w": 23,
+"new_w": 31
+},
+{
+"where": "050-8.6-damage.patch:16",
+"file": "8.6.md",
+"old_w": 99,
+"new_w": 102
+},
+{
+"where": "060-8.8.patch:5",
+"file": "8.8.md",
+"old_w": 14,
+"new_w": 14
+},
+{
+"where": "060-8.8.patch:10",
+"file": "8.8.md",
+"old_w": 23,
+"new_w": 23
+},
+{
+"where": "060-8.8.patch:15",
+"file": "8.8.md",
+"old_w": 41,
+"new_w": 44
+},
+{
+"where": "060-8.8.patch:23",
+"file": "8.8.md",
+"old_w": 19,
+"new_w": 21
+},
+{
+"where": "060-8.8.patch:28",
+"file": "8.8.md",
+"old_w": 33,
+"new_w": 44
+},
+{
+"where": "060-8.8.patch:36",
+"file": "8.8.md",
+"old_w": 19,
+"new_w": 22
+},
+{
+"where": "070-8.11-tests.patch:6",
+"file": "8.11.md",
+"old_w": 14,
+"new_w": 24
+},
+{
+"where": "070-8.11-tests.patch:11",
+"file": "8.11.md",
+"old_w": 20,
+"new_w": 36
+},
+{
+"where": "070-8.11-tests.patch:16",
+"file": "8.11.md",
+"old_w": 29,
+"new_w": 52
+},
+{
+"where": "070-8.11-tests.patch:21",
+"file": "8.11.md",
+"old_w": 13,
+"new_w": 13
+},
+{
+"where": "070-8.11-tests.patch:26",
+"file": "8.11.md",
+"old_w": 7,
+"new_w": 7
+},
+{
+"where": "070-8.11-tests.patch:31",
+"file": "8.11.md",
+"old_w": 15,
+"new_w": 25
+},
+{
+"where": "070-8.11-tests.patch:36",
+"file": "8.11.md",
+"old_w": 12,
+"new_w": 29
+},
+{
+"where": "070-8.11-tests.patch:41",
+"file": "8.11.md",
+"old_w": 9,
+"new_w": 31
+},
+{
+"where": "070-8.11-tests.patch:46",
+"file": "8.11.md",
+"old_w": 10,
+"new_w": 17
+},
+{
+"where": "070-8.11-tests.patch:51",
+"file": "8.11.md",
+"old_w": 11,
+"new_w": 13
+},
+{
+"where": "070-8.11-tests.patch:56",
+"file": "8.11.md",
+"old_w": 14,
+"new_w": 20
+},
+{
+"where": "070-8.11-tests.patch:61",
+"file": "8.11.md",
+"old_w": 10,
+"new_w": 27
+},
+{
+"where": "070-8.11-tests.patch:66",
+"file": "8.11.md",
+"old_w": 15,
+"new_w": 20
+},
+{
+"where": "070-8.11-tests.patch:71",
+"file": "8.11.md",
+"old_w": 7,
+"new_w": 17
+},
+{
+"where": "070-8.11-tests.patch:76",
+"file": "8.11.md",
+"old_w": 12,
+"new_w": 42
+},
+{
+"where": "070-8.11-tests.patch:81",
+"file": "8.11.md",
+"old_w": 11,
+"new_w": 22
+},
+{
+"where": "080-9-labels.patch:4",
+"file": "9.2.md",
+"old_w": 58,
+"new_w": 72
+},
+{
+"where": "080-9-labels.patch:15",
+"file": "9.1.md",
+"old_w": 19,
+"new_w": 19
+},
+{
+"where": "090-11.1.patch:4",
+"file": "11.1.md",
+"old_w": 33,
+"new_w": 54
+},
+{
+"where": "090-11.1.patch:12",
+"file": "11.1.md",
+"old_w": 16,
+"new_w": 18
+},
+{
+"where": "100-11.2.patch:8",
+"file": "11.2.md",
+"old_w": 15,
+"new_w": 15
+},
+{
+"where": "100-11.2.patch:13",
+"file": "11.2.md",
+"old_w": 13,
+"new_w": 13
+},
+{
+"where": "100-11.2.patch:18",
+"file": "11.2.md",
+"old_w": 30,
+"new_w": 35
+},
+{
+"where": "100-11.2.patch:25",
+"file": "11.2.md",
+"old_w": 30,
+"new_w": 162
+},
+{
+"where": "100-11.2.patch:39",
+"file": "11.2.md",
+"old_w": 9,
+"new_w": 47
+},
+{
+"where": "100-11.2.patch:46",
+"file": "11.2.md",
+"old_w": 21,
+"new_w": 35
+},
+{
+"where": "100-11.2.patch:51",
+"file": "11.2.md",
+"old_w": 6,
+"new_w": 205
+},
+{
+"where": "100-11.2.patch:66",
+"file": "11.2.md",
+"old_w": 13,
+"new_w": 35
+},
+{
+"where": "100-11.2.patch:71",
+"file": "11.2.md",
+"old_w": 16,
+"new_w": 74
+},
+{
+"where": "100-11.2.patch:79",
+"file": "11.2.md",
+"old_w": 17,
+"new_w": 45
+},
+{
+"where": "100-11.2.patch:84",
+"file": "11.2.md",
+"old_w": 25,
+"new_w": 80
+},
+{
+"where": "100-11.2.patch:90",
+"file": "11.2.md",
+"old_w": 20,
+"new_w": 33
+},
+{
+"where": "100-11.2.patch:96",
+"file": "11.2.md",
+"old_w": 85,
+"new_w": 180
+},
+{
+"where": "110-11.3.patch:4",
+"file": "11.3.md",
+"old_w": 28,
+"new_w": 34
+},
+{
+"where": "110-11.3.patch:12",
+"file": "11.3.md",
+"old_w": 20,
+"new_w": 20
+},
+{
+"where": "120-11.6.patch:4",
+"file": "11.6.md",
+"old_w": 110,
+"new_w": 216
+},
+{
+"where": "120-11.6.patch:9",
+"file": "11.6.md",
+"old_w": 11,
+"new_w": 11
+},
+{
+"where": "120-11.6.patch:14",
+"file": "11.6.md",
+"old_w": 18,
+"new_w": 29
+},
+{
+"where": "130-12.patch:4",
+"file": "12.5.md",
+"old_w": 29,
+"new_w": 47
+},
+{
+"where": "130-12.patch:13",
+"file": "12.10.md",
+"old_w": 7,
+"new_w": 7
+},
+{
+"where": "130-12.patch:18",
+"file": "12.10.md",
+"old_w": 13,
+"new_w": 13
+}
+]

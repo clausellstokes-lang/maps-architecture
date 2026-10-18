@@ -1,0 +1,108 @@
+{
+  "key": "coherence/famverify-readers-r7",
+  "file": "docs/validation/coherence/famverify-readers-r7.md",
+  "issues": [
+    {
+      "id": "VF7-RDR-01",
+      "severity": "major",
+      "kind": "CHECK-FAILS-CORRECT-BUILD",
+      "owner": "V12",
+      "claim": "Law 1 (1) makes a deck passing over a wall no crossing of the gate law (base l. 2700-2702) and law 1 (3) lays a ring dated after a road deck beneath it ungated (l. 2714-2718; row (d) l. 2914; T110-2 (3)'s c14 fixture, l. 19308-19314: 'the arterial on the deck pinning no gate and S5b's count read on ground part 0'). §4.8 Gates (l. 8369, 'so counted') and §5.3's gate row (l. 9938, 'on ground part 0; a deck passing over a trace is no crossing') count so; two readers do not. V12's geo metric `wall.ungated` (V12 l. 1167: 'arterial ways crossing a curtain at no gate'), computed alike on the references' 2-D captures and our MeasureInput whose ways carry `part` (l. 350, 1406), and whose reading rules (l. 1124-1129) exclude only `retaining`, counts the S4 arterial's deck over a stage-2 curtain; base §13.5's P row 'towers and gates' (l. 20059: 'ungated crossings 0 ... roads leaving each walled stage = its N main gates, plus a harbour gate') has no part-0 qualifier and no carried way's gate. On a parity seed whose viaduct passes over a later ring a correct build fails the P bar under the literal reading and passes under law 1 (1): two builders, two values, a named check failing a correct build. One fix with scope (§13.5).",
+      "required_change": "1. V12 l. 1167, the `wall.ungated` cell: \"arterial ways crossing a curtain at no gate\" -> \"arterial ways on ground part 0 crossing a curtain at no gate (a way's `part` >= 1 never counted: a deck passing over a curtain is no crossing, §2.7's laws, law 1 (1), (3); §5.3's gate row)\". 2. V12 l. 1128, after \"`wall.*`, `gate.count` and `wall.ungated` read `wall` features only, never `retaining`\" add \"; `wall.ungated` reads ways of `part` 0 only (§2.7's laws, law 1 (1))\". 3. END for scope, base §13.5's \"towers and gates\" row (l. 20059): \"ungated crossings 0\" -> \"ungated crossings 0 (on ground part 0; a deck passing over a trace is no crossing, §2.7's laws, law 1 (1))\"; and \"roads leaving each walled stage = its N main gates, plus a harbour gate of §4.2 S3 (7) where one was placed\" -> \"roads leaving each walled stage on ground part 0 = its gate count by §5.3's gate row (its N main gates, a harbour gate of §4.2 S3 (7) where one was placed, and any gate a carried way standing before the stage takes, §2.7's laws, law 2 *Carried way*)\"."
+    },
+    {
+      "id": "VF7-RDR-02",
+      "severity": "major",
+      "kind": "CHECK-FAILS-CORRECT-BUILD",
+      "owner": "model",
+      "claim": "Law 1 (8) (base l. 2729-2733): from the commit that lays a raised way's arch vaults 'a span read `vault` has its chamber' with no exception. V04 §3.5.4 (d) (1), the one rule that lays it, makes none on a degenerate span: 'An inset rectangle below `minEdge` on a side is no chamber: the span stays unvaulted in the model and is reported' (V04 l. 1707-1708; U-SYS edge row l. 2389). Reachable: the support step (3) slides a station with only an upper bound on its neighbouring spans (base l. 2547-2549) and (4) widens each pier to max(0.2 x span, 1.5 m) (l. 2559-2560), so two stations slid together leave a span whose 60 cm-inset rectangle (V04 l. 623) falls under `minEdgeCm` 25 (base l. 602); the span rule never reads that width (l. 3376-3393) and nothing lies across, so law 1 (8) reads it `vault`. The readers already split: V09's badge counts 'the arch vaults V04 §3.5.4 (d) lays' (V09 l. 3060-3062), V10 names 'its arch vault where V04 §3.5.4 (d) lays one' (V10 l. 1686), CityJSON's `BridgeRoom` follows the chamber (l. 16703), while glTF closes the span by end walls (l. 16702) and GeoJSON exports `vault` (l. 16698), against T-ER-12's 'one reading' (l. 15463). A correct V04 build breaks law 1 (8) and fails T-V4-62 ('an arch vault in exactly each `vault` span §2.7's laws read `vault`', V04 l. 3163) and T110-4's 'law 1 after every commit' (l. 2887) wherever a degenerate span arises. One fix with V04 and rendering.",
+      "required_change": "1. Model, law 1 (8) (base l. 2732-2733): \"a span read `vault` has its chamber (`collapsed` where V04 §3.5.4 (d) (2) says) and a span read `open` none\" -> \"a span read `vault` has its chamber (`collapsed` where V04 §3.5.4 (d) (2) says; none in a degenerate one, its inset rectangle below `minEdge` on a side, reported, V04 §3.5.4 (d) (1)) and a span read `open` none\". 2. END for V04, T-V4-62 (V04 l. 3163): \"an arch vault in exactly each `vault` span §2.7's laws read `vault` (law 1 (8); its worked example *beneath*)\" -> \"an arch vault in exactly each `vault` span §2.7's laws read `vault` but a degenerate one, which holds none and is reported (V04 §3.5.4 (d) (1); law 1 (8); its worked example *beneath*)\". 3. END for rendering, §8.11's T-ER-12 outcome cell (l. 15463): \"a span's `use` one reading in GeoJSON's `span` feature, glTF's end walls and CityJSON's `BridgeRoom`\" -> \"a span's `use` one reading in GeoJSON's `span` feature and glTF's end walls, and CityJSON's `BridgeRoom` wherever V04 lays its arch vault (law 1 (8))\"."
+    },
+    {
+      "id": "VF7-RDR-03",
+      "severity": "minor",
+      "kind": "CITATION",
+      "owner": "rendering",
+      "claim": "E-R2 has §11.1's 'CityJSON `BridgeRoom` a span's reading as law 1 (8) gives it', but the CityJSON row (base l. 16703) reads only 'an arch vault a `BridgeRoom`', citing no law; and §2.7's *beneath* (l. 3098) cites 'no end walls (§11.1's 3-D and CityJSON rows)' for a span read `open`, while the CityJSON row says nothing of end walls (its reading is the absent `BridgeRoom`, T-ER-12 l. 15463). Same outcome by construction; nothing built changes. One fix with the model.",
+      "required_change": "§11.1's CityJSON row: \"an arch vault a `BridgeRoom`\" -> \"an arch vault a `BridgeRoom` — none in a span §2.7's laws read `open` (law 1 (8); its worked example *beneath*)\". END for the model, §2.7's *beneath* (l. 3098): \"no end walls (§11.1's 3-D and CityJSON rows)\" -> \"no end walls (§11.1's 3-D row) and no `BridgeRoom` (its CityJSON row)\"."
+    },
+    {
+      "id": "VF7-RDR-04",
+      "severity": "minor",
+      "kind": "RESTATEMENT",
+      "owner": "pipeline",
+      "claim": "§4.5's daylight casters (base l. 6873) restate law 1 (7) and narrow it: 'walls (a run beneath a road deck's standing span capped at the lowest soffit there, an aqueduct capping none: §2.7's laws, law 1 (7))'. Law 1 (7) caps the band beneath a standing span 'or a standing support bearing one' (l. 2726-2728) and *the cap* caps a run across a support at the lowest soffit of the spans it bears (l. 3087-3091; T110-2 (3) l. 19311). The citation governs, so the top is one, but the model's shade, §8.4 (l. 14386-14387, 14611-14612) and §11.1 must read one top, and only the latter are under T-ER-12. Part H's head: a clause restating a law is written as its citation.",
+      "required_change": "§4.5, *The casters*: \"walls (a run beneath a road deck's standing span capped at the lowest soffit there, an aqueduct capping none: §2.7's laws, law 1 (7))\" -> \"walls (each run at its top as §2.7's laws give it, law 1 (7); its worked example *the cap* in *beneath*)\"."
+    },
+    {
+      "id": "VF7-RDR-05",
+      "severity": "minor",
+      "kind": "EXAMPLE-VS-LAW",
+      "owner": "determinism",
+      "claim": "§5.4's `reshaped` entry (base l. 9991) names its `entity` 'a locked, pinned or declared wall, raised way or arch vault whose shape a meeting changed'. Law 4's (G2) shows only a change to a thing held in placement — 'a placement-locked structure, part or way' (l. 2865-2869) — and *held* says a thing declared or placed by hand holds nothing unless locked (l. 2656-2657; Part L's correction 6); the entry's own `ReshapeChange` has `wayRerouted`, a held ground way's course (l. 9992; law 2 (b) l. 2818-2819), whose entity the list omits. V09's `report.moved.reshaped` line (V09 l. 2093) and the history's report-entry lines show what the entry holds. Law 4 governs; the comment is the slip.",
+      "required_change": "§5.4, the `reshaped` variant's comment: \"a locked, pinned or declared wall, raised way or arch vault whose shape a meeting changed\" -> \"a placement-locked (a pin among them) wall-like structure, raised way, arch vault or ground way whose shape a meeting changed\"."
+    },
+    {
+      "id": "VF7-RDR-06",
+      "severity": "minor",
+      "kind": "CITATION",
+      "owner": "V09",
+      "claim": "V09 §4.9's `fate.reshaped` row (V09 l. 2033) words the change 'by the fate's `change` (§5.4's `reshaped` entry's)'; §5.4's entry calls the field `reshape` (base l. 9991) and §7.1's `EditFate` says `change?: ReshapeChange` 'as §5.4's `reshaped` entry's `reshape`' (l. 10970); assemble-r7 §2.3 lists the site. The six kinds it words agree; nothing built changes.",
+      "required_change": "V09 l. 2033: \"its change by the fate's `change` (§5.4's `reshaped` entry's)\" -> \"its change by the fate's `change` (§7.1's `EditFate`, a `ReshapeChange` as §5.4's `reshaped` entry's `reshape`)\"."
+    },
+    {
+      "id": "VF7-RDR-07",
+      "severity": "minor",
+      "kind": "VALID-CHOICE",
+      "owner": "V09",
+      "claim": "§7.1's row names a hand stretch's bend 'in one line' (base l. 11323) and V09's `bend.wall.raisedCrossing` and `bend.wall.aqueductArch` give it one `{way}` and one form (V09 l. 2103-2104). Unstated: (i) a stroke meeting several raised ways in different forms (a viaduct it runs beneath, an aqueduct merged round it), which the laws read one by one (l. 2580-2582; *Several raised ways* l. 3184-3191; T110-2 (4)'s variant); (ii) a gate the stroke makes for a ground way and moves along that way (§7.1's row), for which the gate form's 'moves {m} m along {wall}' is wrong. Outcomes: (a) one line per raised way in its form, the made gate's move in the stretch's keep-clear form; (b) one line for the first raised way met, the rest among the effects, the made gate likewise. Each keeps law 1 and the owner rules, passes the check, fails no named test (T-V9-52, T110-2 (4) assert the key).",
+      "required_change": "fix-list.md's builders' choices list: \"`bend.wall.raisedCrossing` and `bend.wall.aqueductArch` for a stroke meeting several raised ways (one line per raised way in its form, or one line for the first met with the rest in the effects), and a gate the stroke makes for a ground way and moves along that way (the stretch's keep-clear form)\"."
+    },
+    {
+      "id": "VF7-RDR-08",
+      "severity": "minor",
+      "kind": "CITATION",
+      "owner": "V09",
+      "claim": "V09 §4.9's source cells cite §2.7's tables, not §2.7's laws (Part H's head), and one restates its trigger without law 1 (5)'s J149 exception: `bend.raised.wall` '(§2.7's crossing table, *down before the wall*)' (V09 l. 2102); `bend.raised.underSpan` 'or crossing an enceinte's trace inside that strip (§2.7's way-and-channel table, row (b))' and '(§2.7's way-and-channel table, row (e))' (l. 2105), where §7.1's row (base l. 11325) cites law 1 (1), (5), (8) and row (b) bars a gate only in a road deck's strip or an aqueduct's whose arches do not clear it (l. 2912); `bend.raised.around` '§2.7's way-and-channel table, row (e)' (l. 2106). §7.1's rows produce the keys; nothing built changes.",
+      "required_change": "V09 l. 2102: \"(§2.7's crossing table, *down before the wall*)\" -> \"(§2.7's laws, law 1 (3), law 2 *Carried way*; its worked example *down before the wall*)\". l. 2105: \"or crossing an enceinte's trace inside that strip (§2.7's way-and-channel table, row (b))\" -> \"or crossing an enceinte's trace inside that strip where §2.7's laws bar a gate (law 1 (1), (5), (8); its worked example the way-and-channel table's row (b))\", and \"(§2.7's way-and-channel table, row (e))\" -> \"(§2.7's laws, law 1 (1), (8); its worked example the way-and-channel table's row (e))\". l. 2106: \"§2.7's way-and-channel table, row (e)\" -> \"§2.7's laws, law 1 (8); its worked example the way-and-channel table's row (e)\"."
+    },
+    {
+      "id": "VF7-RDR-09",
+      "severity": "minor",
+      "kind": "WORDING",
+      "owner": "V01",
+      "claim": "(a) V01 §3.17.3 (6) (l. 2481-2483: 'an aqueduct's arch over a curtain and a deck over a wall laid after it give no gate portal, no `gate` rank or kind factor, no gate plaza, no wall-side feature and no S9b square') and the gate approach (l. 1423-1424) predate J149: a gate may stand beneath an aqueduct's arch that clears it (law 1 (5), base l. 2722-2723; l. 3135-3136) and an aqueduct may be merged into the wall (law 1 (2), l. 2707-2710); (6) can be read to withhold a lawful gate's portal and plaza, while V01's portal rule ranks every part-0 gate (l. 976-978). (b) Citations by the tables' names: l. 978 '§2.7's crossing table', l. 2468 '(§2.7's crossing table, *beneath*)', l. 2481 'by §2.7's crossing table'. (c) V01 §1.2's hook row (l. 201) lists `raisedWays.structure` (`clearanceCm`, `clearWidthM`, `squareDeg`) though §3.17.3 (2) reads `stripMarginM` (l. 2464; V01's constants line l. 2139). Nothing built changes.",
+      "required_change": "(a) V01 l. 2481-2483: \"never with a gate or an opening: an aqueduct's arch over a curtain and a deck over a wall laid after it give no gate portal, no `gate` rank or kind factor, no gate plaza, no wall-side feature and no S9b square.\" -> \"never with a gate or an opening (§2.7's laws, law 1 (1), (2)): an aqueduct crossing a curtain, over it on an arch or merged into it, and a deck over a wall laid after it give no gate portal, no `gate` rank or kind factor, no gate plaza, no wall-side feature and no S9b square — a gate standing beneath an aqueduct's arch that clears it (law 1 (5)) being a part-0 gate as any, with its portal, rank and plaza.\"; l. 1423-1424: \"An aqueduct's arch over a curtain wall is no gate: no gate portal, no gate plaza and no wall-side feature reads it (V01 §3.17.3 (6)).\" -> \"An aqueduct's arch over or in a curtain wall is no gate: no gate portal, no gate plaza and no wall-side feature reads the arch (V01 §3.17.3 (6)); a gate standing beneath it is a gate as any (§2.7's laws, law 1 (5)).\" (b) l. 978: \"§2.7's crossing table)\" -> \"§2.7's laws, law 1 (1))\"; l. 2468: \"(§2.7's crossing table, *beneath*)\" -> \"(§2.7's laws, law 1 (7), (8); its worked example *beneath*)\"; l. 2481: \"A raised way meets a wall by §2.7's crossing table,\" -> \"A raised way meets a wall by §2.7's laws (its worked example the crossing table),\". (c) l. 201: \"`raisedWays.structure` (`clearanceCm`, `clearWidthM`, `squareDeg`)\" -> \"`raisedWays.structure` (`clearanceCm`, `stripMarginM`, `clearWidthM`, `squareDeg`)\", its third cell adding \"the under-deck strip (V01 §3.17.3 (2)),\"."
+    },
+    {
+      "id": "VF7-RDR-10",
+      "severity": "minor",
+      "kind": "WORDING",
+      "owner": "V09",
+      "claim": "V09's `effect.vault.removed` (V09 l. 2148) reads 'The arch vault under {way} goes, with what is in it.' for every arch vault removed. At a meeting §2.7 keeps what an unlocked chamber seats: 'A building seated there and not locked holds nothing: its chamber is removed under a wall laid later as any chamber is, the building kept in existence as its kind's are' (base l. 3133-3135; *held* l. 2656-2657, 'it keeps its existence'; veto item 10). The effects line tells the user the building goes where the model keeps it. Words only.",
+      "required_change": "V09 l. 2148, after its line add: \"— and, where §2.7's laws come to read its span `open` (law 1 (8): a wall or anything else across its strip), 'The arch vault under {way} closes while {met} lies across it; what stood in it is kept.' — `{met}` the thing across, its name, else its kind's word; the line taking its form by its cause\"."
+    },
+    {
+      "id": "VF7-RDR-11",
+      "severity": "minor",
+      "kind": "CITATION",
+      "owner": "V12",
+      "claim": "E-V12-1's register line (V12 l. 2177) says `stripMarginM` is 'read by §4.6 S8 and by §2.7's laws — the strip, the ends, the zone and a held building's strip of their terms —'. A held building's strip is a span's strip — 'the deck's plan between its two piers' inner faces without that margin' (base l. 2614-2616) — widened by the wall strips' width (l. 2640-2641); it reads no margin. A register line naming a reader the cell does not have; nothing built changes.",
+      "required_change": "V12 l. 2177: \"— the strip, the ends, the zone and a held building's strip of their terms —\" -> \"— the strip, the ends and the zone of their terms (a span's strip and a held building's strip read no margin) —\"."
+    }
+  ],
+  "held_notes": [
+    {
+      "site": "V09 §4.20.8 (2) (l. 3256-3258)",
+      "note": "A span selected in the hit stack carries the path `spans/<n>`, while §7.1's binding, V09 §4.20.6 (2) and V10's `span` row key a span `spans/<a>-<b>` by its bounding piers' keys (E-D15)."
+    },
+    {
+      "site": "V09 T-V9-58 (l. 4433) and §4.20.8 (2)",
+      "note": "'On a viaduct over a street with a walled-up span: ... the deck, the span, the arch vault and the street' — a street's corridor across a span keeps it `open` (law 1 (8)), so the fixture needs the street under a neighbouring span within the hit radius; it does not say so."
+    },
+    {
+      "site": "base §4.5 The casters (l. 6871-6874) and §8.4 Shadow casters (l. 14611-14612)",
+      "note": "'walls' and 'curtain walls' cast with no word on a `breached` or `dismantled` run (item 114), which glTF and CityJSON draw as none (§11.1); the model's daylight term may differ by builder."
+    }
+  ]
+}

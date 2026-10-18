@@ -1,0 +1,26 @@
+fdlibm 5.3 (Freely Distributable LIBM), developed at Sun Microsystems, Inc.
+Source: https://www.netlib.org/fdlibm/ (read 2026-10-03; each file's URL and SHA-256 in plat/CLEAN-ROOM.md section 5).
+PLAT's dmath (packages/kernel/src/dmath/) is a TypeScript port of the routines listed in vendor/fdlibm-5.3/README.md.
+The ported files carry one of Sun's two notices, preserved here as the notices require.
+
+The notice of the 1993 files (e_log.c, e_atan2.c, e_rem_pio2.c, k_rem_pio2.c, k_sin.c, k_cos.c, s_sin.c, s_cos.c,
+s_atan.c, s_scalbn.c, s_copysign.c, s_floor.c, s_fabs.c):
+
+====================================================
+Copyright (C) 1993 by Sun Microsystems, Inc. All rights reserved.
+
+Developed at SunSoft, a Sun Microsystems, Inc. business.
+Permission to use, copy, modify, and distribute this
+software is freely granted, provided that this notice
+is preserved.
+====================================================
+
+The notice of the 2004 files (e_pow.c, e_exp.c, fdlibm.h):
+
+====================================================
+Copyright (C) 2004 by Sun Microsystems, Inc. All rights reserved.
+
+Permission to use, copy, modify, and distribute this
+software is freely granted, provided that this notice
+is preserved.
+====================================================

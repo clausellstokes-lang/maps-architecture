@@ -1,0 +1,211 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm7w/before/docs/volumes/V06-evolution.md",
+ "input_doc_sha256": "132b96bbcd7239eeee139171bedcec11695e69e9e509695d4753e76a447b2824",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm7w/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "7e172500f6a791c5cf1e667c657309b6a49ee067dc130a05d82e605a06579c39",
+ "files": [
+  {
+   "file": "b-repair-r7w-V06.md",
+   "sha256": "7af6cba3099ccd4d59f758a71f83fee9b10221ae57dfba2d8b5922b8ef155c8f",
+   "lines": 1122,
+   "blocks": 6,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "b-repair-r7w-V06.md #1 (l. 1) REPLACE ### 2.10 The epoch report and the chronicle (non-canonical, rebuilt by replay)",
+   "file": "b-repair-r7w-V06.md",
+   "index": 1,
+   "line": 1,
+   "kind": "REPLACE",
+   "heading": "### 2.10 The epoch report and the chronicle (non-canonical, rebuilt by replay)",
+   "body_lines": 68,
+   "body_sha256": "e7802914698f9b6b9a341f8fe83c4a0fce25a556fac479b22fcd044eec0ca0e5",
+   "target_line": 740,
+   "section_old": "740–808",
+   "section_old_n": 69,
+   "section_new_n": 69,
+   "new_headings": [
+    "### 2.10 The epoch report and the chronicle (non-canonical, rebuilt by replay)"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "b-repair-r7w-V06.md #2 (l. 71) REPLACE ### 3.2 The phase order",
+   "file": "b-repair-r7w-V06.md",
+   "index": 2,
+   "line": 71,
+   "kind": "REPLACE",
+   "heading": "### 3.2 The phase order",
+   "body_lines": 89,
+   "body_sha256": "a65dcc8ee3cabd435e1e40568d941fe7c037ecd26ae028d7bfdbd7f3fce7d777",
+   "target_line": 992,
+   "section_old": "992–1080",
+   "section_old_n": 89,
+   "section_new_n": 90,
+   "new_headings": [
+    "### 3.2 The phase order"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "b-repair-r7w-V06.md #3 (l. 162) REPLACE ### 3.7 Fortification — new circuits, old rings, shorter rings",
+   "file": "b-repair-r7w-V06.md",
+   "index": 3,
+   "line": 162,
+   "kind": "REPLACE",
+   "heading": "### 3.7 Fortification — new circuits, old rings, shorter rings",
+   "body_lines": 237,
+   "body_sha256": "f5abef1545426a7d9746fea8ff16c8918b4f3afd1af1d054e3c230932e99c480",
+   "target_line": 1453,
+   "section_old": "1453–1685",
+   "section_old_n": 233,
+   "section_new_n": 238,
+   "new_headings": [
+    "### 3.7 Fortification — new circuits, old rings, shorter rings"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "b-repair-r7w-V06.md #4 (l. 401) REPLACE ### 3.19 Item 110 over epochs — raised ways, retaining walls and decks (item 110 (a), (b), (d); J-V6",
+   "file": "b-repair-r7w-V06.md",
+   "index": 4,
+   "line": 401,
+   "kind": "REPLACE",
+   "heading": "### 3.19 Item 110 over epochs — raised ways, retaining walls and decks (item 110 (a), (b), (d); J-V6.82–J-V6.95)",
+   "body_lines": 386,
+   "body_sha256": "959f5186740d80d4c0fa1fa6b04ef89effac7a35b8f5c36f72ee3ccfe12518c4",
+   "target_line": 2759,
+   "section_old": "2759–3142",
+   "section_old_n": 384,
+   "section_new_n": 387,
+   "new_headings": [
+    "### 3.19 Item 110 over epochs — raised ways, retaining walls and decks (item 110 (a), (b), (d); J-V6.82–J-V6.95)"
+   ]
+  },
+  {
+   "seq": 5,
+   "block": "b-repair-r7w-V06.md #5 (l. 789) REPLACE ## 7 Tests and acceptance bars",
+   "file": "b-repair-r7w-V06.md",
+   "index": 5,
+   "line": 789,
+   "kind": "REPLACE",
+   "heading": "## 7 Tests and acceptance bars",
+   "body_lines": 186,
+   "body_sha256": "f273e4a5b9321e322c3fbaa69e8221aef201c55e65838b1f4b4eff62f6a42e50",
+   "target_line": 4087,
+   "section_old": "4087–4273",
+   "section_old_n": 187,
+   "section_new_n": 187,
+   "new_headings": [
+    "## 7 Tests and acceptance bars"
+   ]
+  },
+  {
+   "seq": 6,
+   "block": "b-repair-r7w-V06.md #6 (l. 977) REPLACE ## 8 Build plan",
+   "file": "b-repair-r7w-V06.md",
+   "index": 6,
+   "line": 977,
+   "kind": "REPLACE",
+   "heading": "## 8 Build plan",
+   "body_lines": 143,
+   "body_sha256": "2eb1e5a6e3074a0d6d12a8f7178fc3d65ec4683b025da1044526abd1872fbfb9",
+   "target_line": 4274,
+   "section_old": "4274–4417",
+   "section_old_n": 144,
+   "section_new_n": 144,
+   "new_headings": [
+    "## 8 Build plan"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "b-repair-r7w-V06.md #1 (l. 1) REPLACE ### 2.10 The epoch report and the chronicle (non-canonical, rebuilt by replay)",
+    "kind": "REPLACE",
+    "heading": "### 2.10 The epoch report and the chronicle (non-canonical, rebuilt by replay)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7w-V06.md #2 (l. 71) REPLACE ### 3.2 The phase order",
+    "kind": "REPLACE",
+    "heading": "### 3.2 The phase order",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7w-V06.md #3 (l. 162) REPLACE ### 3.7 Fortification — new circuits, old rings, shorter rings",
+    "kind": "REPLACE",
+    "heading": "### 3.7 Fortification — new circuits, old rings, shorter rings",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7w-V06.md #4 (l. 401) REPLACE ### 3.19 Item 110 over epochs — raised ways, retaining walls and decks (item 110 (a), (b), (d); J-V6",
+    "kind": "REPLACE",
+    "heading": "### 3.19 Item 110 over epochs — raised ways, retaining walls and decks (item 110 (a), (b), (d); J-V6.82–J-V6.95)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7w-V06.md #5 (l. 789) REPLACE ## 7 Tests and acceptance bars",
+    "kind": "REPLACE",
+    "heading": "## 7 Tests and acceptance bars",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7w-V06.md #6 (l. 977) REPLACE ## 8 Build plan",
+    "kind": "REPLACE",
+    "heading": "## 8 Build plan",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 805,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 65,
+  "headings_after": 65,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 28,
+  "fence_lines_after": 28,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 708994,
+  "doc_bytes_after": 710863,
+  "doc_lines_before": 4667,
+  "doc_lines_after": 4676,
+  "rationale_bytes_before": 704813,
+  "rationale_bytes_after": 704813,
+  "rationale_lines_before": 2386,
+  "rationale_lines_after": 2386,
+  "blocks_total": 6,
+  "blocks_applied": 6,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "abce709f7c49a3a0d29edfd48aaada44dbf7a40bdd43298cd9bd3c86a0264455",
+  "output_rationale_sha256": "7e172500f6a791c5cf1e667c657309b6a49ee067dc130a05d82e605a06579c39"
+ }
+}

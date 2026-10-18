@@ -1,0 +1,191 @@
+{
+ "review_id_tokens_known": 8827,
+ "prb_sites": 0,
+ "prb": [],
+ "design_text_sites": 0,
+ "design_text_by_unit": {},
+ "in_records": 25,
+ "in_records_by_unit": {
+  "V03": 9,
+  "V09": 15,
+  "V10": 1
+ },
+ "sites": [],
+ "record_sites": [
+  {
+   "unit": "V03",
+   "line": 3131,
+   "id": "VAF-R0S-16",
+   "section": "## 9 Decisions (each vetoable)",
+   "context": ", because a template family is never a class (§2.6's `BuildingClass`; VAF-R0S-16), no building's class names them, several familie"
+  },
+  {
+   "unit": "V03",
+   "line": 3282,
+   "id": "VAF-R0S-03",
+   "section": "## 13 Fix list",
+   "context": "| model (VAF-R0S-03) | `AccessHead` declared at §2.6 and cited here |"
+  },
+  {
+   "unit": "V03",
+   "line": 3283,
+   "id": "VAF-R0S-16",
+   "section": "## 13 Fix list",
+   "context": "| model (VAF-R0S-16) | the class rows keyed on §2.6's `BuildingClass`"
+  },
+  {
+   "unit": "V03",
+   "line": 3284,
+   "id": "VAF-R0S-20",
+   "section": "## 13 Fix list",
+   "context": "| pipeline (VAF-R0S-20) | §4.5's discrete-cell rule cited | V03 §2.4, V0"
+  },
+  {
+   "unit": "V03",
+   "line": 3285,
+   "id": "VDC0-11",
+   "section": "## 13 Fix list",
+   "context": "| determinism (VDC0-11) | the plan edits' reach bend `bend.room.unreacha"
+  },
+  {
+   "unit": "V03",
+   "line": 3286,
+   "id": "VV34-07",
+   "section": "## 13 Fix list",
+   "context": "| V10 (VV34-07) | the notes keyed `info.plan.note.<id>` | V03 §4"
+  },
+  {
+   "unit": "V03",
+   "line": 3287,
+   "id": "VAP-21",
+   "section": "## 13 Fix list",
+   "context": "| V11 (VAP-21), V12 | `exposureAllStoreys`'s preset entries fal"
+  },
+  {
+   "unit": "V03",
+   "line": 3293,
+   "id": "VV56-r2-06",
+   "section": "## 13 Fix list",
+   "context": "| V06 (VV56-r2-06, VAT2-r2-09) | `decayPeak` read per element from"
+  },
+  {
+   "unit": "V03",
+   "line": 3293,
+   "id": "VAT2-r2-09",
+   "section": "## 13 Fix list",
+   "context": "| V06 (VV56-r2-06, VAT2-r2-09) | `decayPeak` read per element from each element"
+  },
+  {
+   "unit": "V09",
+   "line": 4854,
+   "id": "V09-XAGREE-3",
+   "section": "## 9 Decisions (each vetoable)",
+   "context": "end owns its id and a key no producer emits is a row no user can see (V09-XAGREE-3) |"
+  },
+  {
+   "unit": "V09",
+   "line": 4862,
+   "id": "R2-41",
+   "section": "## 9 Decisions (each vetoable)",
+   "context": "no phone default, since no map is offered on a phone (item 126 (a2); R2-41) — with Start a shower now enabled only while the"
+  },
+  {
+   "unit": "V09",
+   "line": 4863,
+   "id": "VAH-r1-04",
+   "section": "## 9 Decisions (each vetoable)",
+   "context": "outcome and the clerk's cards read the same buttons (V10 §3.5 step 3; VAH-r1-04) |"
+  },
+  {
+   "unit": "V09",
+   "line": 4864,
+   "id": "VAT-08",
+   "section": "## 9 Decisions (each vetoable)",
+   "context": "e`'s `moveVertex` on an island's key, which no other gesture reaches (VAT-08) |"
+  },
+  {
+   "unit": "V09",
+   "line": 4865,
+   "id": "R2-22",
+   "section": "## 9 Decisions (each vetoable)",
+   "context": "ple acts on households and the People panel is where they are chosen (R2-22; VAH-r1-03) |"
+  },
+  {
+   "unit": "V09",
+   "line": 4865,
+   "id": "VAH-r1-03",
+   "section": "## 9 Decisions (each vetoable)",
+   "context": "s on households and the People panel is where they are chosen (R2-22; VAH-r1-03) |"
+  },
+  {
+   "unit": "V09",
+   "line": 4867,
+   "id": "R2-42",
+   "section": "## 9 Decisions (each vetoable)",
+   "context": "Stop ended with `advance`'s `stopAfter` (its journalled count; §11.2, R2-42) over a timed `cancelAdvance` on the job's progre"
+  },
+  {
+   "unit": "V09",
+   "line": 4867,
+   "id": "VV910-r1-02",
+   "section": "## 9 Decisions (each vetoable)",
+   "context": "och starts, so only a count reproduces the journalled `logHeadAfter` (VV910-r1-02) |"
+  },
+  {
+   "unit": "V09",
+   "line": 4880,
+   "id": "V09-XCONF-1",
+   "section": "## 10 Base change requests",
+   "context": "d's `PlatKey`, or the underground, its band the view key `depthBand`; V09-XCONF-1) and `restore/<id>` | file f item 277 | §2.9 *Vie"
+  },
+  {
+   "unit": "V09",
+   "line": 4908,
+   "id": "V01-XCONF-2",
+   "section": "## 10 Base change requests",
+   "context": "| BCR-V9-31 | item 110 in the formats (with the one VTT rule of V01-XCONF-2: a retaining wall joins `line_of_sight` where its"
+  },
+  {
+   "unit": "V09",
+   "line": 4914,
+   "id": "VV910-r1-02",
+   "section": "## 10 Base change requests",
+   "context": "vance's epoch count — `advance`'s `stopAfter?: number` (V09 §3.8 (3); VV910-r1-02) | adjudication-r2's R2-42, written by the cohere"
+  },
+  {
+   "unit": "V09",
+   "line": 4914,
+   "id": "R2-42",
+   "section": "## 10 Base change requests",
+   "context": "`stopAfter?: number` (V09 §3.8 (3); VV910-r1-02) | adjudication-r2's R2-42, written by the coherence pass's rendering repair"
+  },
+  {
+   "unit": "V09",
+   "line": 4926,
+   "id": "V09-XAGREE-1",
+   "section": "## 10 Base change requests",
+   "context": "dTo?, avoid?, cut? }` with their three meanings | V11 §4.2, the union V09-XAGREE-1 rules; V09 §2.6 cites it |"
+  },
+  {
+   "unit": "V09",
+   "line": 4929,
+   "id": "V09-XAGREE-2",
+   "section": "## 10 Base change requests",
+   "context": "runs of V09 §4.17.5 (e) | V03 §3.7.4 (the rank cap `crypt.rankShare`; V09-XAGREE-2) |"
+  },
+  {
+   "unit": "V09",
+   "line": 4946,
+   "id": "V10-XAGREE-3",
+   "section": "## 10 Base change requests",
+   "context": "the size words name V09 §4.5's quantiles, never a population number (V10-XAGREE-3) | V10 §3.3 |"
+  },
+  {
+   "unit": "V10",
+   "line": 3394,
+   "id": "V10-XAGREE-3",
+   "section": "## 9 Decisions (each vetoable)",
+   "context": "ers, because a word asked and a chip picked must give one population (V10-XAGREE-3) |"
+  }
+ ]
+}

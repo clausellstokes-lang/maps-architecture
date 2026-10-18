@@ -1,0 +1,65 @@
+{
+ "swap": {
+  "index": {
+   "ids_swapped": [],
+   "swaps": [],
+   "rows_after": 788,
+   "duplicate_ids_after": []
+  },
+  "part_a": {
+   "ids_swapped": [
+    "J-A73.06"
+   ],
+   "swaps": [
+    {
+     "id": "J-A73.06",
+     "older_line": 791,
+     "appended_line": 835,
+     "old_row_sha256": "caf68f2fd0feaa69e42b653165e67c7c156da78c85eca056e59f9dfcfc3c77c1",
+     "new_row_sha256": "8259e35405009e57b3c331688a869cc675698d21151c0621bff8e8e3c4da9837",
+     "old_row": "| J-A73.06 | Chose to drop `government.previous` over naming a reader, because no mechanism of the set reads it and inventing one is new design; §7.7 item 1 lists the key as never read. |",
+     "new_row": "| J-A73.06 | Chose to drop `government.previous` over naming a reader, because no mechanism of the set reads it and inventing one is new design; the adapter still reads `powerStructure.previousGovernments[].tick` as a dating rung (§4.11). |"
+    }
+   ],
+   "rows_after": 788,
+   "duplicate_ids_after": []
+  },
+  "index_equals_part_a": true
+ },
+ "substitutions": [
+  {
+   "file": "docs/volumes/V10-clerk.md",
+   "line": 12,
+   "old": "items 1–119 the owner's instructions and file g's rules",
+   "new": "items 1–120 the owner's instructions and file g's rules",
+   "requested_by": "repair-r1-V10.md preamble, HAND-OFFS: \"Title block (assembler or close): 'items 1–119' → 'items 1–120'.\"",
+   "line_before_sha256": "8911255d4f7b69ea7bd9a4ec324e678e10df2ce56dbe546dec091452944e360d",
+   "line_after_sha256": "b49e6545023613b1af2f06c77b52d4079f0c1d88ccd9877e5d0261219d912ded"
+  },
+  {
+   "file": "docs/volumes/V11-content.md",
+   "line": 11,
+   "old": "items 1–101 the owner's instructions, 102–119",
+   "new": "items 1–101 the owner's instructions, 102–120",
+   "requested_by": "repair-r1-V11.md preamble: \"The preamble under the volume's title … still reads '102–119' … The assembler may widen the preamble's range to '102–120' by hand.\"",
+   "line_before_sha256": "d96564e37d38e418e17b16b5805113a30cac57ca8e2ab6e0763ab239a81193a2",
+   "line_after_sha256": "5b9f4caf1958604ce90085b275d5280eb7a5e42386514310afbbd15d2227ec85"
+  },
+  {
+   "file": "docs/volumes/V12-calibration.md",
+   "line": 8,
+   "old": "1–101 the owner's instructions, 102–119 file g's owner and program rules",
+   "new": "1–101 the owner's instructions, 102–120 file g's owner and program rules",
+   "requested_by": "repair-r1-V12.md preamble, note (8) ASSEMBLE NOTE: \"it should read '102–120'. One token; assemble applies it in place (no other text there changes).\"",
+   "line_before_sha256": "fea5a66decb1190ddb56691401328d452dd87752956496025ef6f8776f2ae0a8",
+   "line_after_sha256": "74ca46987b8599bebdefc2a4788a65c61569346c6b4bcde6d028e9de188e199b"
+  }
+ ],
+ "final_sha256": {
+  "docs/ARCHITECTURE.md": "137ecc0e4fe12c4408eacf842770d1c428e5031cd8faad18e0a3f37b57d7d9b5",
+  "docs/ARCHITECTURE-RATIONALE.md": "630da95935076a85bca38148d5c07208f6e3bf61c9648eefb15967351a8a2928",
+  "docs/volumes/V10-clerk.md": "f8f591b329d79c6f8cf5bec915aeed5f5f56a59b9b0a7b4b20c1ffaff60eff29",
+  "docs/volumes/V11-content.md": "9481453bcd0fd7577c4d0ac5b9766587adc01316a433c7ddce123ebf2539549d",
+  "docs/volumes/V12-calibration.md": "996dee3b5baba28b5658b300f85c0550adb5d798a00f353e28c51f4e755d6fa4"
+ }
+}

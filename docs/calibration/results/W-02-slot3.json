@@ -1,0 +1,80 @@
+{
+ "slot": 3,
+ "status": "stopped",
+ "capture": "",
+ "checks": [
+  {
+   "check": "pre-flight: isolated runner, own port and session file",
+   "passed": true,
+   "receipt": "scratchpad ftg/runner copies cmp-identical to profiler/ (session.mjs e199be5d, drive.mjs 597eb62d, package.json 25e7d362, lib/common.mjs 3b948576, lib/instrument.js cca253ac); port 9341 free; no FTG browser process; no Singleton* in the profile; shared profiler/.session absent before and after"
+  },
+  {
+   "check": "signed in, no consent notice, counter before the run",
+   "passed": true,
+   "receipt": "landing: 'Signed in as [name]', Sign out, Home, no consent notice (shot 001); settlements view counter 3 / 10 (shot 003)"
+  },
+  {
+   "check": "form steps set with a reading and a shot before each and an eval after",
+   "passed": true,
+   "receipt": "size to the BIG_CITY option, coast to the coastal option, rivers and forests on, dialog scrolled (shots 005-010, steps.jsonl 22:30:38-22:31:13 UTC); reserve-area and walled boxes not set"
+  },
+  {
+   "check": "a checked reading before every click",
+   "passed": false,
+   "receipt": "two box clicks (22:31:18.32 at 1008,367; 22:31:20.69 at 1008,396) were sent in the same command as their readings, which already showed the dialog gone; both fell on blank page area (shots 011, 012); checklist H12 adds guarded clicks"
+  },
+  {
+   "check": "the session window was used only by this seat",
+   "passed": false,
+   "receipt": "between 22:31:13.06 and 22:31:16.73 UTC, with no command of this seat, the create dialog closed; shot 011 shows the pointer on the logout control and shot 012 on the settings control, where the driver had not moved it; then settings page (22:31:21), Patreon membership/checkout/login (22:31:28-34), Google sign-in twice (22:31:39-22:32:02), back to the account list (22:32:31); stop shot 013 (Patreon payment page, 22:32:29)"
+  },
+  {
+   "check": "exactly one settlement created for slot 3",
+   "passed": false,
+   "receipt": "none created: no PUT .../prod/settlements row in captures/ftg/2026-10-03T22-29-23/session/network/index.jsonl; the create control was never clicked"
+  },
+  {
+   "check": "no account write during the attempt",
+   "passed": true,
+   "receipt": "after 22:31 the only calls to the site's account service are reads (the settings page's user read; the list read at 22:32:31 listing 3 settlements: BIG_CITY 1, BIG_TOWN 2, as before); no POST/PUT to the site's API"
+  },
+  {
+   "check": "ftg_capture_post.py --slot 3 (10 checks)",
+   "passed": false,
+   "receipt": "not run: no capture to process"
+  },
+  {
+   "check": "slot 3 bound in plan.json",
+   "passed": false,
+   "receipt": "not bound and not marked failed; plan.json unchanged (sha256 f41df82b, slot 3 capture null); plan.py --check SAME for plan.json and metrics.m-1.json"
+  },
+  {
+   "check": "session stopped cleanly",
+   "passed": true,
+   "receipt": "drive.mjs stop -> 'session closed' by 22:32:55 UTC; no Singleton* in profiler/.profiles/ftg; no FTG process; shared profiler/.session absent"
+  },
+  {
+   "check": "privacy: no account identifier in files written",
+   "passed": true,
+   "receipt": "grep of the attempt README, E02 section 12 and JSON entry, checklist H12, this file and this lane's lane-events.log lines for an email pattern, the display name, 'eyJ' and full 32/36-char ids: no match; the recording under captures/ (git-ignored) is not quoted"
+  },
+  {
+   "check": "disk",
+   "passed": true,
+   "receipt": "df: 12 GiB free before and after (stop line 1 GB)"
+  }
+ ],
+ "account_limit": "free account limit 10; counter 3 / 10 before; the list read at 22:32:31 UTC still lists 3 settlements (no create happened); 7 creates left, 3 slots (3, 4, 5) still to make",
+ "owner_notes": [
+  "STOPPED, nothing created. While slot 3's form was being filled in (22:31 UTC), someone or something other than this seat used the automated browser window on your Mac. It closed the form, opened the account's Settings page, clicked 'Support me on Patreon!', went to Patreon's membership page ($6 a month), its checkout and login pages, and a Google sign-in page twice. Then it came back to your settlements list. The seat clicked none of those. Stop shot: captures/ftg/2026-10-03T22-29-23/steps/013-stop-external-actor.png (also 011 and 012).",
+  "If that was you: nothing is wrong. Your FTG account still lists 3 settlements (3 / 10), and no FTG setting was changed. Please leave the automated Chrome window alone while a capture seat runs, and say when slot 3 may be retried. If it was not you, check your Google and Patreon accounts for unexpected sign-in attempts.",
+  "The local recording of that window (captures/ftg/2026-10-03T22-29-23/session/) holds the Google sign-in pages' traffic, which may include what was typed into Google's sign-in box. It is git-ignored, never pushed and not quoted anywhere. The seat did not delete it (deleting is your call).",
+  "Ruling asked: slot 3 was NOT marked failed in plan.json, because the site did not refuse it and it can be retried today. Veto this if you want the attempt recorded as a failed day."
+ ],
+ "notes": [
+  "Outcome: no settlement, slot 3 open (plan.json unchanged, f41df82b). Attempt folder captures/ftg/2026-10-03T22-29-23 is not a capture; its README gives the timeline. A retry seat must use a new lane key (this key now has a result and a LANDED line) and the guarded clicks of checklist H12.",
+  "Records: E02 section 12 and E02-ftg-captures.json stoppedAttempts[0] plus next.note; checklist section H item 12 (guarded clicks, no click in the same command as its reading, stop at any sign of another hand).",
+  "Seat error, stated plainly: two box clicks were chained after their readings in one command. Both readings already showed the dialog gone, and both clicks fell on blank page area. No request followed the first click. The settings page loaded 1.2 s after the second click, but shot 012 had already shown the pointer resting on the settings control 1.3 s before it. That navigation is therefore PLAUSIBLY (strongly) the other user's.",
+  "CONFIRMED: no create call, no account write, 3 settlements listed after, the external navigation sequence (network index + shots 011-013 + steps.jsonl holding only this seat's commands), clean stop. PLAUSIBLE: who or what drove the window (a person at the Mac is likeliest, given the hover-then-click pattern and the sign-in retries)."
+ ]
+}

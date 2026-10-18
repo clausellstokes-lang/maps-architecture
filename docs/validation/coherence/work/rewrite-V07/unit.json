@@ -1,0 +1,1002 @@
+{
+ "words": 104422,
+ "state": [
+  "V07-0001",
+  "V07-0002",
+  "V07-0003",
+  "V07-0004",
+  "V07-0005",
+  "V07-0006",
+  "V07-0007",
+  "V07-0009",
+  "V07-0010",
+  "V07-0013",
+  "V07-0019",
+  "V07-0020",
+  "V07-0021",
+  "V07-0022",
+  "V07-0023",
+  "V07-0024",
+  "V07-0025",
+  "V07-0026",
+  "V07-0027",
+  "V07-0028",
+  "V07-0029",
+  "V07-0030",
+  "V07-0031",
+  "V07-0032",
+  "V07-0033",
+  "V07-0034",
+  "V07-0035",
+  "V07-0036",
+  "V07-0037",
+  "V07-0038",
+  "V07-0039",
+  "V07-0040",
+  "V07-0041",
+  "V07-0042",
+  "V07-0043",
+  "V07-0044",
+  "V07-0045",
+  "V07-0046",
+  "V07-0047",
+  "V07-0048",
+  "V07-0049",
+  "V07-0050",
+  "V07-0051",
+  "V07-0052",
+  "V07-0053",
+  "V07-0054",
+  "V07-0055",
+  "V07-0056",
+  "V07-0057",
+  "V07-0058",
+  "V07-0059",
+  "V07-0060",
+  "V07-0061",
+  "V07-0062",
+  "V07-0063",
+  "V07-0064",
+  "V07-0065",
+  "V07-0066",
+  "V07-0067",
+  "V07-0068",
+  "V07-0069",
+  "V07-0070",
+  "V07-0071",
+  "V07-0072",
+  "V07-0073",
+  "V07-0074",
+  "V07-0075",
+  "V07-0076",
+  "V07-0077",
+  "V07-0078",
+  "V07-0079",
+  "V07-0080",
+  "V07-0081",
+  "V07-0082",
+  "V07-0083",
+  "V07-0084",
+  "V07-0085",
+  "V07-0086",
+  "V07-0087",
+  "V07-0088",
+  "V07-0089",
+  "V07-0090",
+  "V07-0091",
+  "V07-0092",
+  "V07-0093",
+  "V07-0094",
+  "V07-0095",
+  "V07-0097",
+  "V07-0098",
+  "V07-0099",
+  "V07-0102",
+  "V07-0103",
+  "V07-0104",
+  "V07-0105",
+  "V07-0106",
+  "V07-0107",
+  "V07-0108",
+  "V07-0109",
+  "V07-0110",
+  "V07-0111",
+  "V07-0112",
+  "V07-0113",
+  "V07-0114",
+  "V07-0115",
+  "V07-0116",
+  "V07-0117",
+  "V07-0118",
+  "V07-0119",
+  "V07-0121",
+  "V07-0122",
+  "V07-0124",
+  "V07-0125",
+  "V07-0126",
+  "V07-0127",
+  "V07-0128",
+  "V07-0129",
+  "V07-0130",
+  "V07-0131",
+  "V07-0132",
+  "V07-0133",
+  "V07-0134",
+  "V07-0135",
+  "V07-0136",
+  "V07-0137",
+  "V07-0138",
+  "V07-0139",
+  "V07-0140",
+  "V07-0141",
+  "V07-0142",
+  "V07-0143",
+  "V07-0144",
+  "V07-0145",
+  "V07-0146",
+  "V07-0147",
+  "V07-0148",
+  "V07-0149",
+  "V07-0150",
+  "V07-0151",
+  "V07-0152",
+  "V07-0153",
+  "V07-0154",
+  "V07-0155",
+  "V07-0156",
+  "V07-0157",
+  "V07-0158",
+  "V07-0159",
+  "V07-0160",
+  "V07-0161",
+  "V07-0162",
+  "V07-0163",
+  "V07-0164",
+  "V07-0165",
+  "V07-0166",
+  "V07-0167",
+  "V07-0169",
+  "V07-0170",
+  "V07-0171",
+  "V07-0172",
+  "V07-0173",
+  "V07-0174",
+  "V07-0176",
+  "V07-0177",
+  "V07-0178",
+  "V07-0179",
+  "V07-0180",
+  "V07-0181",
+  "V07-0182",
+  "V07-0183",
+  "V07-0184",
+  "V07-0185",
+  "V07-0186",
+  "V07-0187",
+  "V07-0188",
+  "V07-0189",
+  "V07-0190",
+  "V07-0191",
+  "V07-0192",
+  "V07-0193",
+  "V07-0194",
+  "V07-0195",
+  "V07-0196",
+  "V07-0197",
+  "V07-0198",
+  "V07-0199",
+  "V07-0200",
+  "V07-0201",
+  "V07-0202",
+  "V07-0203",
+  "V07-0204",
+  "V07-0205",
+  "V07-0206",
+  "V07-0207",
+  "V07-0208",
+  "V07-0209",
+  "V07-0210",
+  "V07-0211",
+  "V07-0212",
+  "V07-0213",
+  "V07-0214",
+  "V07-0215",
+  "V07-0216",
+  "V07-0217",
+  "V07-0218",
+  "V07-0219",
+  "V07-0220",
+  "V07-0221",
+  "V07-0222",
+  "V07-0223",
+  "V07-0224",
+  "V07-0225",
+  "V07-0226",
+  "V07-0227",
+  "V07-0228",
+  "V07-0229",
+  "V07-0230",
+  "V07-0231",
+  "V07-0232",
+  "V07-0233",
+  "V07-0234",
+  "V07-0235",
+  "V07-0236",
+  "V07-0237",
+  "V07-0238",
+  "V07-0239",
+  "V07-0240",
+  "V07-0241",
+  "V07-0242",
+  "V07-0243",
+  "V07-0244",
+  "V07-0245",
+  "V07-0246",
+  "V07-0247",
+  "V07-0248",
+  "V07-0249",
+  "V07-0250",
+  "V07-0251",
+  "V07-0252",
+  "V07-0253",
+  "V07-0254",
+  "V07-0255",
+  "V07-0256",
+  "V07-0257",
+  "V07-0258",
+  "V07-0259",
+  "V07-0260",
+  "V07-0261",
+  "V07-0262",
+  "V07-0263",
+  "V07-0264",
+  "V07-0265",
+  "V07-0266",
+  "V07-0267",
+  "V07-0268",
+  "V07-0269",
+  "V07-0270",
+  "V07-0271",
+  "V07-0272",
+  "V07-0274",
+  "V07-0275",
+  "V07-0276",
+  "V07-0277",
+  "V07-0278",
+  "V07-0279",
+  "V07-0280",
+  "V07-0281",
+  "V07-0282",
+  "V07-0283",
+  "V07-0284",
+  "V07-0285",
+  "V07-0286",
+  "V07-0287",
+  "V07-0288",
+  "V07-0289",
+  "V07-0290",
+  "V07-0291",
+  "V07-0292",
+  "V07-0293",
+  "V07-0294",
+  "V07-0295",
+  "V07-0296",
+  "V07-0297",
+  "V07-0298",
+  "V07-0299",
+  "V07-0300",
+  "V07-0301",
+  "V07-0302",
+  "V07-0303",
+  "V07-0304",
+  "V07-0305",
+  "V07-0306",
+  "V07-0307",
+  "V07-0308",
+  "V07-0309",
+  "V07-0310",
+  "V07-0311",
+  "V07-0312",
+  "V07-0313",
+  "V07-0314",
+  "V07-0315",
+  "V07-0316",
+  "V07-0317",
+  "V07-0318",
+  "V07-0319",
+  "V07-0320",
+  "V07-0321",
+  "V07-0322",
+  "V07-0323",
+  "V07-0324",
+  "V07-0333"
+ ],
+ "reference": [
+  {
+   "id": "V07-0008",
+   "home_unit": "scope",
+   "home_sec": "\u00a717.1",
+   "fact": null,
+   "match": "section"
+  },
+  {
+   "id": "V07-0011",
+   "home_unit": "scope",
+   "home_sec": "\u00a71.1",
+   "fact": "SCOPE-0651",
+   "match": "fact"
+  },
+  {
+   "id": "V07-0012",
+   "home_unit": "model",
+   "home_sec": "\u00a72.7",
+   "fact": null,
+   "match": "section"
+  },
+  {
+   "id": "V07-0096",
+   "home_unit": "owner",
+   "home_sec": null,
+   "fact": null,
+   "match": "section"
+  },
+  {
+   "id": "V07-0100",
+   "home_unit": "kernel",
+   "home_sec": "\u00a73.1",
+   "fact": null,
+   "match": "section"
+  },
+  {
+   "id": "V07-0101",
+   "home_unit": "model",
+   "home_sec": "\u00a72.9",
+   "fact": null,
+   "match": "section"
+  },
+  {
+   "id": "V07-0120",
+   "home_unit": "scope",
+   "home_sec": "\u00a717.1",
+   "fact": null,
+   "match": "section"
+  },
+  {
+   "id": "V07-0123",
+   "home_unit": "model",
+   "home_sec": "\u00a72.7",
+   "fact": "MODEL-0200",
+   "match": "near"
+  },
+  {
+   "id": "V07-0168",
+   "home_unit": "model",
+   "home_sec": "\u00a72.3",
+   "fact": "MODEL-0454",
+   "match": "near"
+  },
+  {
+   "id": "V07-0273",
+   "home_unit": "determinism",
+   "home_sec": "\u00a77.1",
+   "fact": "DETERMINISM-0244",
+   "match": "near"
+  }
+ ],
+ "bcr_pointer": [
+  {
+   "id": "V07-0325",
+   "bcr": "BCR-V7-1",
+   "f_item": 201
+  },
+  {
+   "id": "V07-0326",
+   "bcr": "BCR-V7-1",
+   "f_item": 201
+  },
+  {
+   "id": "V07-0327",
+   "bcr": "BCR-V6-1",
+   "f_item": 317
+  },
+  {
+   "id": "V07-0328",
+   "bcr": "BCR-V7-19",
+   "f_item": 357
+  },
+  {
+   "id": "V07-0329",
+   "bcr": "BCR-V7-25",
+   "f_item": 292
+  },
+  {
+   "id": "V07-0330",
+   "bcr": "BCR-V6-26",
+   "f_item": 291
+  },
+  {
+   "id": "V07-0331",
+   "bcr": "BCR-V7-36",
+   "f_item": 576
+  }
+ ],
+ "history_out": [],
+ "glossary_items": [
+  "V07-0175"
+ ],
+ "index_rows": [],
+ "handoff_items": [
+  "V07-0014",
+  "V07-0015",
+  "V07-0016",
+  "V07-0017",
+  "V07-0018"
+ ],
+ "owner_questions": [
+  "V07-0332"
+ ],
+ "conflicts": [
+  "DIC-06",
+  "MC-11",
+  "V02-ICONF-1",
+  "V07-ICONF-1",
+  "V07-ICONF-2",
+  "V07-ICONF-3",
+  "V07-ICONF-4",
+  "V07-ICONF-5",
+  "V07-XCONF-1",
+  "V07-XCONF-2",
+  "CANON-C01",
+  "CANON-C03",
+  "CANON-C04"
+ ],
+ "f_items": [],
+ "f_items_concerning": [
+  201,
+  202,
+  209,
+  214,
+  215,
+  244,
+  245,
+  255,
+  267,
+  268,
+  276,
+  279,
+  283,
+  287,
+  290,
+  292,
+  310,
+  312,
+  314,
+  315,
+  316,
+  317,
+  322,
+  326,
+  344,
+  357,
+  377,
+  378,
+  413,
+  418,
+  424,
+  430,
+  431,
+  436,
+  495,
+  505,
+  506,
+  516,
+  527,
+  528,
+  565,
+  568,
+  576,
+  577,
+  579
+ ],
+ "g_parts": [
+  {
+   "item": 111,
+   "class": "new design at build depth in every named unit; F-MISSING if absent",
+   "part": "the village crowding map's water pull and oasis villages"
+  },
+  {
+   "item": 113,
+   "class": "new design at build depth in every named unit; F-MISSING if absent",
+   "part": "a village over a former city (the remnants at village rungs) and refounding at village rungs"
+  }
+ ],
+ "wiring": [
+  "W-IF-02",
+  "W-FLD-08",
+  "V07-WGAP-1",
+  "V07-WGAP-2"
+ ],
+ "elegance": [
+  "E-01",
+  "E-24",
+  "E-30",
+  "E-31",
+  "E-38"
+ ],
+ "id_rulings": [
+  "ID-BCR",
+  "ID-TOOL",
+  "ID-WX",
+  "ID-DR",
+  "ID-DUPDEF"
+ ],
+ "terms": [
+  {
+   "id": "G-firstmap",
+   "retired": "first paint",
+   "term": "first map",
+   "count": 9,
+   "lines": [
+    1315,
+    2866,
+    2939,
+    3186,
+    3256,
+    3457
+   ]
+  },
+  {
+   "id": "G-cite",
+   "retired": "V1-3.8.7, V4 \u00a73.5, V6 \u00a72.8, V9 \u00a74.9 \u2026",
+   "term": "Vnn \u00a7x.y (e.g. V04 \u00a73.2); the base is bare \u00a7x.y",
+   "count": 144,
+   "lines": [
+    307,
+    314,
+    339,
+    348,
+    349,
+    358
+   ]
+  },
+  {
+   "id": "G-dwell",
+   "retired": "D, D_b, D_v, D_o for dwellings",
+   "term": "N (N_b, N_v = N \u2212 N_o); D(x) is item 102's daylight share everywhere",
+   "count": 30,
+   "lines": [
+    428,
+    1430,
+    1436,
+    1437,
+    1438,
+    1481
+   ]
+  },
+  {
+   "id": "G-DR",
+   "retired": "DR-V1.1, DR-SKY, DR-V6.1, DR-V8.1 \u2026 DR-V8.8",
+   "term": "DR26\u2013DR35 (ID-DR)",
+   "count": 2,
+   "lines": [
+    448,
+    4003
+   ]
+  },
+  {
+   "id": "G-digest",
+   "retired": "nearbyResources[], site.terrainType",
+   "term": "site.deposits; site.terrain",
+   "count": 1,
+   "lines": [
+    4375
+   ]
+  },
+  {
+   "id": "G-portpath",
+   "retired": "PortRungPath, registerRungPath, its own port path",
+   "term": "ProductDecl in StrategyRegistry.products (file f item 202)",
+   "count": 1,
+   "lines": [
+    3968
+   ]
+  },
+  {
+   "id": "G-floorvault",
+   "retired": "floor vaults (wet ground)",
+   "term": "no crypt; ledger slabs in the chancel floor (V03 \u00a73.7.4)",
+   "count": 2,
+   "lines": [
+    295,
+    454
+   ]
+  }
+ ],
+ "cohesion": [
+  "The volume's \u00a78 build plan agrees with INDEX \u00a73/\u00a74 and \u00a716: milestone id (M6 = V02's stage 3; M6-U, M6-sky, M6-E, M6-P, V-M, M-CAL, M-SF, M3c), start-after, runs-beside, price (its own estimate), and J122's slot.",
+  "The volume's \u00a711 marks every owner question answered (OWNER_Q) and its body reads each decision (J121 inputs; J122 decisions).",
+  "The volume's \u00a71b wiring table names each piece's producer and consumer in the set (principle (7)); every hand-off it lists is closed at its destination or routed here.",
+  "One marker line; no stacked banners, PROGRESS ledgers, reconciliation or finalization records (S9)."
+ ],
+ "open_findings": [
+  "VOL-V07-V08-RESTATEMENTS-001",
+  "VOL-V07-V08-RESTATEMENTS-002",
+  "VOL-V07-V08-RESTATEMENTS-003",
+  "VOL-V07-V08-RESTATEMENTS-004",
+  "VOL-V07-V08-RESTATEMENTS-005",
+  "VOL-V07-V08-RESTATEMENTS-006",
+  "VOL-V07-V08-RESTATEMENTS-007",
+  "V07-RESTATE-1",
+  "V07-RESTATE-2",
+  "V07-RESTATE-3",
+  "V07-RESTATE-4",
+  "V07-DUP-1",
+  "V07-DUP-2",
+  "V07-ICONF-1",
+  "V07-ICONF-2",
+  "V07-ICONF-3",
+  "V07-ICONF-4",
+  "V07-ICONF-5",
+  "V07-XCONF-1",
+  "V07-XCONF-2",
+  "V07-ELEG-1",
+  "V07-ELEG-2",
+  "V07-ELEG-3",
+  "V07-WGAP-1",
+  "V07-WGAP-2",
+  "V07-TERM-1",
+  "V07-TERM-2",
+  "V07-TERM-3",
+  "V07-TERM-4",
+  "V07-DEFER-1",
+  "V07-DEFER-2",
+  "V07-DEFER-3",
+  "V07-DEFER-4",
+  "V07-NARR-1",
+  "V07-NARR-2",
+  "V07-NARR-3",
+  "V07-NARR-4",
+  "V07-NARR-5",
+  "V07-NARR-6",
+  "V07-NARR-7",
+  "V07-NARR-8",
+  "V07-NARR-9",
+  "V07-NARR-10",
+  "V07-BREF-1",
+  "TX-04",
+  "SR6-04 (b)-(c)",
+  "SR6-08",
+  "V07:IN-V07-1",
+  "V07:IN-V07-2",
+  "V07:IN-V07-3",
+  "V07:IN-V07-4",
+  "V07:IN-V07-5",
+  "V07:IN-V07-6",
+  "V07:IN-V07-7"
+ ],
+ "handoffs_to_close": [
+  "V02:X13",
+  "V02:X26",
+  "V06:X4",
+  "V06:X22",
+  "V06:X27",
+  "V06:X32",
+  "V06:X34",
+  "V06:X36",
+  "V06:X43",
+  "V08:X7",
+  "V08:X14",
+  "V08:X22",
+  "V08:X23",
+  "V09:XV-V9-9",
+  "V10:CVR-V10-14",
+  "V11:X-V11-2",
+  "V11:X-V11-8",
+  "V11:X-V11-14",
+  "V11:X-V11-15",
+  "V11:X-V11-17",
+  "V12:X-V12-2",
+  "V12:X-V12-11",
+  "V12:X-V12-14",
+  "V12:X-V12-16",
+  "V12:X-V12-15",
+  "V12:X-V12-17"
+ ],
+ "agreement_disagreements": [
+  {
+   "subject": "J-V7.82",
+   "with": "V02",
+   "rulings": [
+    "V02-ICONF-1"
+   ]
+  },
+  {
+   "subject": "TableId",
+   "with": "V11",
+   "rulings": [
+    "MC-11"
+   ]
+  },
+  {
+   "subject": "TableId",
+   "with": "model",
+   "rulings": [
+    "MC-11"
+   ]
+  }
+ ],
+ "edges_undefined": 38,
+ "edges_untested": 44,
+ "combos_owned_undefined": 0,
+ "requests_in_f": [
+  {
+   "request": "BCR-V7-1",
+   "id_after": "BCR-V7-1",
+   "f_item": 201,
+   "base_section": "1.1 What is built, in what order; the two size ladders"
+  },
+  {
+   "request": "BCR-V7-11",
+   "id_after": "BCR-V7-11",
+   "f_item": 202,
+   "base_section": "1.1 What is built, in what order; the two size ladders"
+  },
+  {
+   "request": "BCR-V7-17",
+   "id_after": "BCR-V7-17",
+   "f_item": 202,
+   "base_section": "1.1 What is built, in what order; the two size ladders"
+  },
+  {
+   "request": "BCR-V7-18",
+   "id_after": "BCR-V7-18",
+   "f_item": 202,
+   "base_section": "1.1 What is built, in what order; the two size ladders"
+  },
+  {
+   "request": "BCR-V7-22",
+   "id_after": "BCR-V7-22",
+   "f_item": 209,
+   "base_section": "2.4 Ways (the skeleton) and typed edges"
+  },
+  {
+   "request": "BCR-V7-4",
+   "id_after": "BCR-V7-4",
+   "f_item": 214,
+   "base_section": "2.5 Districts, quarters, blocks, plots \u2014 the PLOT MODEL, reservations, allocations and the context vector"
+  },
+  {
+   "request": "BCR-V7-5",
+   "id_after": "BCR-V7-5",
+   "f_item": 215,
+   "base_section": "2.5 Districts, quarters, blocks, plots \u2014 the PLOT MODEL, reservations, allocations and the context vector"
+  },
+  {
+   "request": "BCR-V7-6",
+   "id_after": "BCR-V7-6",
+   "f_item": 255,
+   "base_section": "2.7 Walls, gates, towers, castle, bridges; greenery, land use, decorations, pins; labels; content entities; the staged layers' records"
+  },
+  {
+   "request": "BCR-V7-3",
+   "id_after": "BCR-V7-3",
+   "f_item": 267,
+   "base_section": "2.8 Identity, lifecycle, provenance, the entity registry"
+  },
+  {
+   "request": "BCR-V7-32",
+   "id_after": "BCR-V7-32",
+   "f_item": 268,
+   "base_section": "2.8 Identity, lifecycle, provenance, the entity registry"
+  },
+  {
+   "request": "BCR-V7-12",
+   "id_after": "BCR-V7-12",
+   "f_item": 276,
+   "base_section": "2.9 The document and serialisation"
+  },
+  {
+   "request": "BCR-V7-30",
+   "id_after": "BCR-V7-30",
+   "f_item": 279,
+   "base_section": "3.2 Numeric policy"
+  },
+  {
+   "request": "BCR-V7-29",
+   "id_after": "BCR-V7-29",
+   "f_item": 283,
+   "base_section": "4.1 Stage graph, evaluation model, laziness contract, transactions, the worker"
+  },
+  {
+   "request": "BCR-V7-2",
+   "id_after": "BCR-V7-2",
+   "f_item": 287,
+   "base_section": "4.2 S0 Blueprint \u00b7 S1 Site \u00b7 S2 Programme \u00b7 S3 Siting, reservations, the stage-1 boundary and its trace"
+  },
+  {
+   "request": "BCR-V7-33",
+   "id_after": "BCR-V7-33",
+   "f_item": 290,
+   "base_section": "4.3 S4 Backbone \u2014 arterials routed between named destinations, built as one graph"
+  },
+  {
+   "request": "BCR-V7-35",
+   "id_after": "BCR-V7-35",
+   "f_item": 290,
+   "base_section": "4.3 S4 Backbone \u2014 arterials routed between named destinations, built as one graph"
+  },
+  {
+   "request": "BCR-V7-25",
+   "id_after": "BCR-V7-25",
+   "f_item": 292,
+   "base_section": "4.3 S4 Backbone \u2014 arterials routed between named destinations, built as one graph"
+  },
+  {
+   "request": "BCR-V7-24",
+   "id_after": "BCR-V7-24",
+   "f_item": 310,
+   "base_section": "4.7 S9 Corridors \u00b7 S10a Block allocation \u00b7 S10 Plots \u00b7 S10b Placement \u00b7 S11 Site plans and footprints \u2014 the plot model"
+  },
+  {
+   "request": "BCR-V7-20",
+   "id_after": "BCR-V7-20",
+   "f_item": 312,
+   "base_section": "4.8 S7 Fortification furniture (per enceinte) \u00b7 the castle \u00b7 water furniture"
+  },
+  {
+   "request": "BCR-V7-7",
+   "id_after": "BCR-V7-7",
+   "f_item": 314,
+   "base_section": "4.9 S12a Hinterland siting and the hinterland unit \u00b7 S12b Greenery \u2014 the rule tables (O14 / O19)"
+  },
+  {
+   "request": "BCR-V7-8",
+   "id_after": "BCR-V7-8",
+   "f_item": 315,
+   "base_section": "4.9 S12a Hinterland siting and the hinterland unit \u00b7 S12b Greenery \u2014 the rule tables (O14 / O19)"
+  },
+  {
+   "request": "BCR-V7-28",
+   "id_after": "BCR-V7-28",
+   "f_item": 316,
+   "base_section": "4.9 S12a Hinterland siting and the hinterland unit \u00b7 S12b Greenery \u2014 the rule tables (O14 / O19)"
+  },
+  {
+   "request": "BCR-V7-18",
+   "id_after": "BCR-V7-18",
+   "f_item": 317,
+   "base_section": "4.11 Incremental mode, transformations and conversions (the evolution hook; one path built in the base)"
+  },
+  {
+   "request": "BCR-V7-26",
+   "id_after": "BCR-V7-26",
+   "f_item": 322,
+   "base_section": "4.11 Incremental mode, transformations and conversions (the evolution hook; one path built in the base)"
+  },
+  {
+   "request": "BCR-V7-11",
+   "id_after": "BCR-V7-11",
+   "f_item": 326,
+   "base_section": "4.12 The strategy interface, stage registration by declared I/O, and the stage-2 seam (pointer)"
+  },
+  {
+   "request": "BCR-V7-15",
+   "id_after": "BCR-V7-15",
+   "f_item": 344,
+   "base_section": "6.1 RNG and stream design"
+  },
+  {
+   "request": "BCR-V7-19",
+   "id_after": "BCR-V7-19",
+   "f_item": 357,
+   "base_section": "7.1 Edits are ordered events on addresses; the named actions; the edit targets; dry-run validation"
+  },
+  {
+   "request": "BCR-V7-13",
+   "id_after": "BCR-V7-13",
+   "f_item": 377,
+   "base_section": "7.6 The override layer and editable tables (G-P12; owner amendment 5)"
+  },
+  {
+   "request": "BCR-V7-14",
+   "id_after": "BCR-V7-14",
+   "f_item": 378,
+   "base_section": "7.6 The override layer and editable tables (G-P12; owner amendment 5)"
+  },
+  {
+   "request": "BCR-V7-9",
+   "id_after": "BCR-V7-9",
+   "f_item": 418,
+   "base_section": "8.5 Level of detail, the city-band figure-ground contract, way selection, first paint"
+  },
+  {
+   "request": "BCR-V7-31",
+   "id_after": "BCR-V7-31",
+   "f_item": 424,
+   "base_section": "9.5 Furniture, framing and tools"
+  },
+  {
+   "request": "BCR-V7-21",
+   "id_after": "BCR-V7-21",
+   "f_item": 430,
+   "base_section": "10.2 Roster (data-driven, replaceable; sequential and prefix-stable; our values)"
+  },
+  {
+   "request": "BCR-V7-22",
+   "id_after": "BCR-V7-22",
+   "f_item": 431,
+   "base_section": "10.2 Roster (data-driven, replaceable; sequential and prefix-stable; our values)"
+  },
+  {
+   "request": "BCR-V7-23",
+   "id_after": "BCR-V7-23",
+   "f_item": 495,
+   "base_section": "13.5 Reference-parity metrics (B-REF), read from one numbers-only baseline file"
+  },
+  {
+   "request": "BCR-V7-10",
+   "id_after": "BCR-V7-10",
+   "f_item": 505,
+   "base_section": "\u00a714 Package and module layout, key interfaces, dependency rules, extension points"
+  },
+  {
+   "request": "BCR-V7-34",
+   "id_after": "BCR-V7-34",
+   "f_item": 506,
+   "base_section": "\u00a714 Package and module layout, key interfaces, dependency rules, extension points"
+  },
+  {
+   "request": "BCR-V7-16",
+   "id_after": "BCR-V7-16",
+   "f_item": 527,
+   "base_section": "\u00a716 Build plan \u2014 calibration and spikes first, then a viewable town, then editing, then parity, then stage 2"
+  },
+  {
+   "request": "BCR-V7-17",
+   "id_after": "BCR-V7-17",
+   "f_item": 528,
+   "base_section": "\u00a716 Build plan \u2014 calibration and spikes first, then a viewable town, then editing, then parity, then stage 2"
+  },
+  {
+   "request": "BCR-V7-27",
+   "id_after": "BCR-V7-27",
+   "f_item": 565,
+   "base_section": "II.7.6 Catacombs, caverns and quarries; depth bands and the connection graph (item 65)"
+  },
+  {
+   "request": "BCR-V7-36",
+   "id_after": "BCR-V7-36",
+   "f_item": 576,
+   "base_section": "10.2 Roster (data-driven, replaceable; sequential and prefix-stable; our values)"
+  },
+  {
+   "request": "BCR-V7-37",
+   "id_after": "BCR-V7-37",
+   "f_item": 577,
+   "base_section": "PART III \u2014 What a later village product needs from the base (one page; the hooks are concrete)"
+  },
+  {
+   "request": "BCR-V7-38",
+   "id_after": "BCR-V7-38",
+   "f_item": 579,
+   "base_section": "4.7 S9 Corridors \u00b7 S10a Block allocation \u00b7 S10 Plots \u00b7 S10b Placement \u00b7 S11 Site plans and footprints \u2014 the plot model"
+  }
+ ],
+ "owner_questions_answered": [
+  {
+   "q": "Q1",
+   "subject": "when the village is built",
+   "answer": "J122: (a) right after M4, parallel with M5; the tracker spike V-M0 right after M0"
+  }
+ ],
+ "shrink": {
+  "words_before": 104422,
+  "goal_band_words_after": [
+   62653,
+   78316
+  ],
+  "narration_ranges_words": 14533,
+  "restatement_items": 10,
+  "bcr_blocks_to_pointers": 7
+ }
+}

@@ -1,0 +1,110 @@
+{
+ "key": "coherence/verify-vol-V01-V02-r1t",
+ "file": "docs/validation/coherence/verify-vol-V01-V02-r1t.md",
+ "issues": [
+  {
+   "id": "VV12-08",
+   "severity": "major",
+   "kind": "CHANGED",
+   "claim": "E-27's `valleyReach` reads a `shed` `Y`'s whole run in both modes, where the archived integer form read `Y.halfSpanCm`. So `facadeBays`' usable run (bays, dormers, lit windows; byte-identical data) changes for a building whose valley ends on a shed. The canon's E-27 ruled no shed case. V02's round-1 repair recorded the choice as J-V2.109 (V02 §9; V02 §3.7 now cites it) and handed the confirmation to the adjudicator (repair-r1-V02.md, HAND-OFFS: \"adjudicator: VV12-08 — confirm J-V2.109 as the shed ruling E-27 left open\"). No adjudication file exists yet.",
+   "required_change": "The adjudicator confirms J-V2.109 as the ruling E-27 left open (a `shed` `Y`'s whole run in both modes; E-27's two equivalences kept; T-V2-54) and records it in its adjudication file; no further text change (ruling requested by V02: see repair-r1-V02.md).",
+   "owner": "V02"
+  },
+  {
+   "id": "VV12-r1-01",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "claim": "`OutlineTemplateId` now has two declarations in the base with different types: §2.9 l.2951 `type OutlineTemplateId = string;` (with a comment naming the nine rows), added by model's round-1 repair (repair-r1-model.md l.2591), and §4.2 S1 (2) l.4873 `type OutlineTemplateId = 'star'|'star_round'|'street_strip'|'plaza_frame'|'disc'|'d_shape'|'lozenge'|'crescent'|'spindle'`, pipeline's fix of VV12-05 at the canon's home (V01-0133 → §4.2). Two declarations of one type is a build error and two homes for one fact; V01 §2.1 and II.1 point at §4.2.",
+   "required_change": "§2.9 drops its `type OutlineTemplateId = string;` line (or replaces it with the comment `// OutlineTemplateId is §4.2 S1 (2)'s closed union`). The one declaration is §4.2 S1 (2)'s union, which `HoodRecipe.outline`, `TemplateRow.outline`, `hood.kinds` and `NeighbourhoodRequest.outlineTemplate` read.",
+   "owner": "model"
+  },
+  {
+   "id": "VV12-r1-02",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "II.1's new comment (l.19132) reads \"DistrictContext is V01 §2.3's and TypedBoundary V01 §2.5's\". `TypedBoundary` is declared at base §2.5 (l.1121: \"assembled from District.seams on demand; V01 §2.3 cites it\"); V01 §2.5 is the close-up's records (`CloseupParams`, `CloseupRecord`) and does not state it.",
+   "required_change": "l.19132 reads \"DistrictContext is V01 §2.3's and TypedBoundary §2.5's\".",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VV12-r1-03",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "claim": "Three units define the coverage unit at a plot differently. **V01 §3.16 `catchmentOf`**: `walk` is the plots whose front points lie within `per` m along the way graph; `households` is the plots of the nearest `per` households by that metric; `parish` is the plots whose nearest parish church by that metric is the same. **V11 §2.3 `CoverageSpec`** (the canon's home, canon l.332): `walk` counts members in the disc of radius `per` m on the 16 m raster; `households` uses the disc of radius √(per × a_res ÷ π); `parish` is the Voronoi cells of the church members over residential land. **V12 §3.6 `servedShare`** reads the discs and cells \"as V11 §2.3 counts\". V01 names the base solver's coverage term (V11's `cov/<class>` rows) among `catchmentOf`'s callers. V01 §5.4 (3)'s Show gaps (its per-plot walk, \"the plots V12 §3.6's `servedShare` counts\") and T-V1-59 (b) are built on V01's reading. The solver, the bars and Find's gaps can therefore disagree on whether a plot is served. T-V1-42 checks only the `district` unit, where all three agree. Pre-existing; V01's round-1 repair flagged it for this round.",
+   "required_change": "V01 §3.16's `catchmentOf` reads `walk`, `households` and `parish` at a plot as V11 §2.3's `CoverageSpec` defines them, cited and not restated. It keeps only what V11 does not state: `neighbourhood` read as `district` (J-V1.35); `underDistance` in place of the disc's radius on an underground arena (V04 §3.6a (1)); a sky island as one `walk` unit (V05 §3.5 (3)); a district with no residential plot holding no unit (V11's skipped term). Three dependents follow: V01 §5.4 (3)'s *Evaluation* (one pass per member over the raster discs and cells, replacing the way-graph walk), V01 §6's `catchmentOf` and Show-gaps lines with their fallbacks, and J-V1.102's reason. T-V1-42 and T-V1-59 (b) assert, plot by plot, that `gapUnits`' unserved plots equal those `servedShare` counts on every unit (`walk`, `households`, `parish`, `district`).",
+   "owner": "V01"
+  },
+  {
+   "id": "VV12-r1-04",
+   "severity": "minor",
+   "kind": "TERM",
+   "claim": "V01 §0's paragraph added this round (l.89) says \"making a standalone neighbourhood\", the retired form of G-standalone (term: standalone neighbourhood document).",
+   "required_change": "l.89 reads \"making a standalone neighbourhood document\".",
+   "owner": "V01"
+  },
+  {
+   "id": "VV12-r1-05",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "V02 §6.4's new estimate (l.3056) reads \"≈ 35 µs for the roofscape's facets (V02 §6.2's mean)\". V02 §6.2 states no mean: its `roofscape` row gives a median of ≤ 25 µs and a p99 of ≤ 150 µs, and its tile row estimates 20 µs a building.",
+   "required_change": "Either V02 §6.2's `roofscape` row gains its mean (\"mean ≈ 35 µs, the p99 tail of large manors included\", as the export estimate assumes), or l.3056 reads \"≈ 35 µs for the roofscape's facets (V02 §6.2's ≤ 25 µs median with its ≤ 150 µs p99 tail)\".",
+   "owner": "V02"
+  },
+  {
+   "id": "VV12-r1-06",
+   "severity": "minor",
+   "kind": "COHESION",
+   "claim": "V02's citations paragraph (l.7) states file g's numbering as \"file g 102–120\"; file g now holds items 102–125 (items 121–125 filed 2026-10-01, J134–J139). V01's citations paragraph states no range.",
+   "required_change": "l.7 reads \"file g 102–125\".",
+   "owner": "V02"
+  },
+  {
+   "id": "VV12-r1-07",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "claim": "V02's round-1 repair (VAF-R0S-13) removed the stand-ins `deck.fallbackM2` and `deck.fallbackFloors`; V02 §3.16 (3) now reads \"No deck plot without a `deck` row … V02 keeps no stand-in\", and V02's received table dropped \"V11 X-V11-7\". V11 still states the opposite in two places: §10b's X-V11-7 row (l.5037: \"`deck.fallbackM2` and `deck.fallbackFloors` are read only while the `deck` table is unregistered\", citing V02 §3.16 (2), which no longer says it), and §3.24.4 (l.3977: \"The footprints bracket V02's stopgap band ([20, 60] m²), and V02's T-V2-47 reads whichever row is loaded\"). This is VAF-R0S-13's V11 half (verify-agree-fabric-r0s), which V11's round-1 repair did not carry (repair-r1-V02.md, HAND-OFFS).",
+   "required_change": "V11 deletes X-V11-7's row from §10b. It deletes from §3.24.4 the sentence \"The footprints bracket V02's stopgap band ([20, 60] m²), and V02's T-V2-47 reads whichever row is loaded\", since T-V2-47 reads V11's `deck` rows (V02 §3.16 (3)).",
+   "owner": "V11"
+  },
+  {
+   "id": "VV12-r1-08",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "V12 §3.11's `deck` register line (l.2100) ends \"V02's stand-ins `deck.fallbackM2` and `deck.fallbackFloors` close `fixed: superseded by V11's deck row` when that row lands\". V02 no longer has those constants or their register entries (V02 §3.10.9, §3.10.10 and §3.16 (3), round 1), so the clause names entries that never exist.",
+   "required_change": "The line ends at \"the panel rule\", with the clause removed.",
+   "owner": "V12"
+  },
+  {
+   "id": "VV12-r1-09",
+   "severity": "minor",
+   "kind": "COHESION",
+   "claim": "§14's `@plat/hood` entry (l.17990–17995) lists \"the services catchmentOf / districtsAbove / fabricSignature\". V01 §8.3 places five services and one writer in the package: `catchmentOf`, `districtsAbove`, `fabricSignature`, `skyDistrictCount`, `findAreas`, `gapUnits` and `plantRimWalk`. Item 120's two (V01 §5.4) and the sky pair are missing from the base's package map.",
+   "required_change": "§14's entry reads \"the services catchmentOf / districtsAbove / fabricSignature / skyDistrictCount / findAreas / gapUnits and the writer plantRimWalk (V01 §3.16, V01 §5.4)\".",
+   "owner": "scope"
+  },
+  {
+   "id": "G122-V01",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "g item 122's V01 part (\"neighbourhoods as disaster targets; the outskirts' common land\"; canon, \"File g items 121, 122 and 123 routed\", J135) is absent: V01 carries nothing of item 122.",
+   "required_change": "V01 writes its part at build depth as new design. It is a look only: never the model, the document or its hash (item 122 (a)). **(1) Disaster targets:** a pure `@plat/hood` service choosing, for a `disaster` condition standing in the view's week, the districts drawn in a temporary ruined state (a neighbourhood is the district a close-up opens, J-V1.35). The share follows severity and rung; the pattern follows the disaster (fire: contiguous blocks downwind from a keyed seed block; flood: the low ground by the water, from the terrain raster and the water faces; earthquake: scattered keyed blocks). The calamity's `targets` win where the dossier names a place (matched by name to a district, quarter or `HoodPlace`; an unmatched target reported, the pattern used). Draws are keyed by the seed, the condition's id and the district (item 122 (c)); never on water, a gate's passage or a label's keep-out. For plague, the affected quarter whose doors are marked and cordoned at the neighbourhood band (item 122 (b), (d)). **(2) The outskirts' common land:** which hinterland faces (commons, fallow, the approach road's verge by a gate) a camp may take. They are ranked for the siege, quarantine and refugee camps by item 122 (c)'s priority under the density cap, the refugee camp on the faces V06's growth frontier would build (item 122 (a)). **(3)** Knowledge admission of a condition and its targets (item 122 (e); §11.2). **(4)** Find's listing of the looks by area (V01 §5.4; item 122 (f)). **(5)** The wiring: §1b, §1.2's g-item-122 row, §2.7's derived list. **(6)** §3.18's edges: no district; one district; severity 0 and 1; a target naming no place the map holds; several crises at once; a look standing when V06's real aftermath arrives. **(7)** V01 §6's line: lazy per visible tile, an interaction (item 119 (d)). **(8)** A new T-V1 bar: the hash identical with crises on and off and in every week; each look only in its condition's weeks; byte-stable per seed; the ruined share monotone in severity; the dossier's targets win; nothing on water, a gate's passage or a keep-out; with no condition and no preview, byte-identical (the no-op pin). **(9)** A decision row, and V01 §11's file-g list naming item 122.",
+   "owner": "V01"
+  },
+  {
+   "id": "G122-V02",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "g item 122's V02 part (\"the ruined look of a disaster's buildings\"; canon, J135) is absent: V02 carries nothing of item 122.",
+   "required_change": "V02 writes its part at build depth as new design. It is a look only: `MassingRef`, the wings, the composition and the hash unchanged (item 122 (a)). **(1) Which buildings:** in the districts V01's part targets while the condition stands, a keyed share by severity (keyed by the condition's id and the building's lineage). **(2) What each draws:** fire, roofs burnt open and wings blackened; flood, lower storeys stained and outbuildings down; earthquake, fallen wings, towers and roof holes. Each is drawn over the roofscape and the massing, never re-laid. **(3) At each band** (item 122 (d)): the ruined quarters' tone at the city band, broken roofs at the district band, rubble and detail at the neighbourhood band, with item 112's second cues. **(4)** Agreement with V03's item-123 damage drawn as a look inside them (item 122 (d)). **(5) Exports:** pictures draw it, battle maps in the image only (item 122 (f)). **(6) The hand-over** to V06's aftermath: a building whose real fate (a ruin through the epoch path, `reconstruction`'s Works scaffolding) arrives takes it, and the look stops. **(7)** The wiring: the paint-program rows it reads (§8.2's crisis rows), §1b and §1c. **(8)** §3.18's edges and toggles: Show crises off gives byte-identical tiles; a building with no roofscape; a deck or underground building. **(9)** V02 §6's lazy per-tile line. **(10)** A new T-V2 bar and a decision row.",
+   "owner": "V02"
+  },
+  {
+   "id": "G123-V02",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "g item 123's V02 part (\"the exterior agreeing with the plan's damage\", item 123 (d); canon, J136) is absent: V02 carries nothing of item 123.",
+   "required_change": "V02 writes its part at build depth as new design. **(1) The exterior's damage:** for an `abandoned`, `decayed` or `ruined` building (§2.7 `Existence`) whose plan carries V03's damage layer, the building band's exterior draws the same damage. A roof bay over a room whose keyed threshold the decay level has passed is a hole in the roofscape facet over that room (each facet tied to the plan's roof-bay elements). A fallen outer wall run is a gap in the footprint's outline, broken ink over rubble. A lost upper storey shows as its wing's roof gone. **(2) The source:** V03's per-element thresholds (lineage and element id, §6.3), monotone in V06's decay level, never redrawn: wings, `MassingRef` and their ids unchanged (item 123 (a), (b)). Restoration (`reused`, a repair) reverses it, a repaired element in patch material (item 114's patchwork). **(3)** The district and city bands' tone. **(4) Exports:** pictures draw it; V02 states whether the glTF, OBJ and CityJSON exports carry the damage or leave it out. **(5)** The wiring: §1b and §1c rows. **(6)** §3.18's edges: a building never decayed byte-identical (the no-op pin); decay levels 0 and 1; a building first met ruined, its plan the one it had when built (item 123 (a)). **(7)** A new T-V2 bar: the exterior agrees with the plan on every element at every decay level; damage monotone; restoring reverses it; never-decayed byte-identical (item 123 (f)). **(8)** A decision row.",
+   "owner": "V02"
+  }
+ ]
+}

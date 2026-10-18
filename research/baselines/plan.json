@@ -1,0 +1,2713 @@
+{
+ "schema": "research.capture-plan/1",
+ "lane": "m1/W-01",
+ "planDate": "2026-10-03",
+ "script": "research:baselines/plan.py",
+ "amendments": [
+  {
+   "lane": "m1/W-01b",
+   "date": "2026-10-03",
+   "item": "W-01b (M-1-plan section 2; record E01 section 9)",
+   "what": "the recorded CITY family's block (ftg.recordedCity; R-02, R-04); mfcgExport: one load per seed (R-16); --extend, kept in a family's extension block (R-13); ftg.slotRule and programme 2's procedure (section I) restated"
+  },
+  {
+   "lane": "m1/plan-guard-2",
+   "date": "2026-10-03",
+   "item": "m1/plan-fix-3-check's finding (record M-1-plan-fix-3.md, section Guard round 2)",
+   "what": "the recorded-slot guard also keeps a recorded slot's programme and day; ftg.slotRule restated"
+  },
+  {
+   "lane": "m1/round3-apply",
+   "date": "2026-10-04",
+   "item": "M-1-rulings-3.md R-51 and E15 F2 (record E15 section 13)",
+   "what": "the recorded MFCG draw family's block (mfcgRecordedDraw; R-51, R-02's precedent): the twelve profiler draw recordings in recording order, a member kept against the prior plan.json and the family extended only by appending; the registry twin's id water.channelWidth (E15 F2)"
+  }
+ ],
+ "seedRule": {
+  "formula": "seedOf(family, [i]) = reduce(H32(family + '/' + i)); H32 = MurmurHash3 x86_128 h1, seed 0, of the UTF-8 label (V12 section 2.4)",
+  "parkMiller": "1 + (H32 mod 2147483646), the MINSTD state range 1 .. 2147483646 (ARCHITECTURE section 13.6 (2))",
+  "collisionDomain": "capture families are excluded from the collision domain (they seed a reference, not us; V12 section 2.4), so no capture path ever gains /r1",
+  "smhasherVerification": "0xb3ece62a",
+  "checkVectors": [
+   {
+    "label": "capture/MFCG/40/plain/0",
+    "h32": 2003595628,
+    "parkMiller": 2003595629
+   },
+   {
+    "label": "capture/MFCG/80/river+coast/9",
+    "h32": 1452355483,
+    "parkMiller": 1452355484
+   },
+   {
+    "label": "capture/NG/area/medium/0",
+    "h32": 259196529,
+    "parkMiller": 259196530
+   }
+  ],
+  "checkVectorNote": "capture/MFCG/80/river+coast/9 checks the formula at an index beyond the plan's five stress seeds (i = 0..4); it is no plan entry"
+ },
+ "referenceBuilds": {
+  "MFCG": {
+   "build": "itch:12710731",
+   "url": "https://html-classic.itch.zone/html/12710731/bin/index.html",
+   "json": "0.11.5",
+   "rule": "re-resolved by profiler/lib/common.mjs resolveTargetUrl at capture time; a newer build is a declared pin shift and the owner is told before the sweep (M-1-plan sections 5, 9)"
+  },
+  "NG": {
+   "build": "itch:11441280",
+   "version": "1.2.2",
+   "rule": "the same re-resolution rule"
+  },
+  "FTG": {
+   "build": "ftg:<server date>+<sha256 of the create-request body, 12 hex>, per capture"
+  },
+  "FM": {
+   "build": "890",
+   "version": "1.0.0",
+   "itchUpload": "2851818"
+  }
+ },
+ "mfcgExport": {
+  "tool": "research/baselines/mfcg_sweep_m1.mjs (W-03, J159); research/baselines/mfcg_j161_m1.mjs (J161: m1/W-03-complete and W-03b); both modelled on profiler/export.mjs",
+  "perSeed": "one load per seed (R-16): the JSON by the URL export key on load (the entry's exports[0]), the SVG by the app's own export window in the same page (E03); exports[1], the SVG key of the 2026-09-25 sweep's one-load-per-file method, is kept for reference and never loaded",
+  "loads": "J159: 35, one per declared seed (W-03); J161: 3 -- seed 0's cold re-export and the retry of capture/MFCG/130/plain/8 (m1/W-03-complete) and R-13's extension to index 10 (W-03b); any further load is a new owner's approval (M-1-plan section 5)",
+  "modelledOn": "captures/mfcg/exports-sweep-2026-09-25/sweep.sh",
+  "retryRule": "an export whose console trace shows a second attempt (a different internal seed under the same href) is recorded in the row's sample.failed with reason retry, never dropped (C7)",
+  "extendRule": "R-13 (M-1-rulings-1.md): a formula family whose usable count falls below its declared n extends by the next formula index until n usable -- never a hand-chosen seed; the failed index stays in the row's sample.failed; every added index is a load under an owner's approval; set by plan.py --extend and kept by every regeneration"
+ },
+ "ngRecord": {
+  "tool": "profiler/record.mjs",
+  "perSeed": "one cold load per seed, no regeneration, so every generation is the plan's seed"
+ },
+ "families": [
+  {
+   "family": "capture/MFCG/40/plain",
+   "reference": "MFCG",
+   "reduce": "parkMiller",
+   "priority": 3,
+   "setting": {
+    "mfcgSize": 40,
+    "options": "plain",
+    "rung": "TOWN"
+   },
+   "purpose": "rows",
+   "indices": [
+    0,
+    10
+   ],
+   "workItem": "W-03",
+   "entries": [
+    {
+     "i": 0,
+     "label": "capture/MFCG/40/plain/0",
+     "seed": 2003595629,
+     "name": "size40-plain-0",
+     "query": "size=40&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=2003595629",
+     "exports": [
+      "size=40&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=2003595629&export=json",
+      "size=40&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=2003595629&export=svg"
+     ],
+     "hrefExpect": {
+      "size": "40",
+      "seed": "2003595629",
+      "shantytown": "0",
+      "greens": "0",
+      "river": "0",
+      "coast": "0"
+     }
+    },
+    {
+     "i": 1,
+     "label": "capture/MFCG/40/plain/1",
+     "seed": 992112889,
+     "name": "size40-plain-1",
+     "query": "size=40&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=992112889",
+     "exports": [
+      "size=40&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=992112889&export=json",
+      "size=40&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=992112889&export=svg"
+     ],
+     "hrefExpect": {
+      "size": "40",
+      "seed": "992112889",
+      "shantytown": "0",
+      "greens": "0",
+      "river": "0",
+      "coast": "0"
+     }
+    },
+    {
+     "i": 2,
+     "label": "capture/MFCG/40/plain/2",
+     "seed": 900856892,
+     "name": "size40-plain-2",
+     "query": "size=40&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=900856892",
+     "exports": [
+      "size=40&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=900856892&export=json",
+      "size=40&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=900856892&export=svg"
+     ],
+     "hrefExpect": {
+      "size": "40",
+      "seed": "900856892",
+      "shantytown": "0",
+      "greens": "0",
+      "river": "0",
+      "coast": "0"
+     }
+    },
+    {
+     "i": 3,
+     "label": "capture/MFCG/40/plain/3",
+     "seed": 51029561,
+     "name": "size40-plain-3",
+     "query": "size=40&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=51029561",
+     "exports": [
+      "size=40&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=51029561&export=json",
+      "size=40&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=51029561&export=svg"
+     ],
+     "hrefExpect": {
+      "size": "40",
+      "seed": "51029561",
+      "shantytown": "0",
+      "greens": "0",
+      "river": "0",
+      "coast": "0"
+     }
+    },
+    {
+     "i": 4,
+     "label": "capture/MFCG/40/plain/4",
+     "seed": 1304928856,
+     "name": "size40-plain-4",
+     "query": "size=40&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1304928856",
+     "exports": [
+      "size=40&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1304928856&export=json",
+      "size=40&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1304928856&export=svg"
+     ],
+     "hrefExpect": {
+      "size": "40",
+      "seed": "1304928856",
+      "shantytown": "0",
+      "greens": "0",
+      "river": "0",
+      "coast": "0"
+     }
+    },
+    {
+     "i": 5,
+     "label": "capture/MFCG/40/plain/5",
+     "seed": 1883485116,
+     "name": "size40-plain-5",
+     "query": "size=40&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1883485116",
+     "exports": [
+      "size=40&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1883485116&export=json",
+      "size=40&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1883485116&export=svg"
+     ],
+     "hrefExpect": {
+      "size": "40",
+      "seed": "1883485116",
+      "shantytown": "0",
+      "greens": "0",
+      "river": "0",
+      "coast": "0"
+     }
+    },
+    {
+     "i": 6,
+     "label": "capture/MFCG/40/plain/6",
+     "seed": 1560054321,
+     "name": "size40-plain-6",
+     "query": "size=40&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1560054321",
+     "exports": [
+      "size=40&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1560054321&export=json",
+      "size=40&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1560054321&export=svg"
+     ],
+     "hrefExpect": {
+      "size": "40",
+      "seed": "1560054321",
+      "shantytown": "0",
+      "greens": "0",
+      "river": "0",
+      "coast": "0"
+     }
+    },
+    {
+     "i": 7,
+     "label": "capture/MFCG/40/plain/7",
+     "seed": 1173894402,
+     "name": "size40-plain-7",
+     "query": "size=40&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1173894402",
+     "exports": [
+      "size=40&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1173894402&export=json",
+      "size=40&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1173894402&export=svg"
+     ],
+     "hrefExpect": {
+      "size": "40",
+      "seed": "1173894402",
+      "shantytown": "0",
+      "greens": "0",
+      "river": "0",
+      "coast": "0"
+     }
+    },
+    {
+     "i": 8,
+     "label": "capture/MFCG/40/plain/8",
+     "seed": 610932995,
+     "name": "size40-plain-8",
+     "query": "size=40&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=610932995",
+     "exports": [
+      "size=40&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=610932995&export=json",
+      "size=40&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=610932995&export=svg"
+     ],
+     "hrefExpect": {
+      "size": "40",
+      "seed": "610932995",
+      "shantytown": "0",
+      "greens": "0",
+      "river": "0",
+      "coast": "0"
+     }
+    },
+    {
+     "i": 9,
+     "label": "capture/MFCG/40/plain/9",
+     "seed": 936396370,
+     "name": "size40-plain-9",
+     "query": "size=40&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=936396370",
+     "exports": [
+      "size=40&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=936396370&export=json",
+      "size=40&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=936396370&export=svg"
+     ],
+     "hrefExpect": {
+      "size": "40",
+      "seed": "936396370",
+      "shantytown": "0",
+      "greens": "0",
+      "river": "0",
+      "coast": "0"
+     }
+    }
+   ]
+  },
+  {
+   "family": "capture/MFCG/80/plain",
+   "reference": "MFCG",
+   "reduce": "parkMiller",
+   "priority": 3,
+   "setting": {
+    "mfcgSize": 80,
+    "options": "plain",
+    "rung": "CITY"
+   },
+   "purpose": "rows",
+   "indices": [
+    0,
+    10
+   ],
+   "workItem": "W-03",
+   "entries": [
+    {
+     "i": 0,
+     "label": "capture/MFCG/80/plain/0",
+     "seed": 1057909441,
+     "name": "size80-plain-0",
+     "query": "size=80&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1057909441",
+     "exports": [
+      "size=80&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1057909441&export=json",
+      "size=80&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1057909441&export=svg"
+     ],
+     "hrefExpect": {
+      "size": "80",
+      "seed": "1057909441",
+      "shantytown": "0",
+      "greens": "0",
+      "river": "0",
+      "coast": "0"
+     }
+    },
+    {
+     "i": 1,
+     "label": "capture/MFCG/80/plain/1",
+     "seed": 326645150,
+     "name": "size80-plain-1",
+     "query": "size=80&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=326645150",
+     "exports": [
+      "size=80&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=326645150&export=json",
+      "size=80&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=326645150&export=svg"
+     ],
+     "hrefExpect": {
+      "size": "80",
+      "seed": "326645150",
+      "shantytown": "0",
+      "greens": "0",
+      "river": "0",
+      "coast": "0"
+     }
+    },
+    {
+     "i": 2,
+     "label": "capture/MFCG/80/plain/2",
+     "seed": 1832027109,
+     "name": "size80-plain-2",
+     "query": "size=80&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1832027109",
+     "exports": [
+      "size=80&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1832027109&export=json",
+      "size=80&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1832027109&export=svg"
+     ],
+     "hrefExpect": {
+      "size": "80",
+      "seed": "1832027109",
+      "shantytown": "0",
+      "greens": "0",
+      "river": "0",
+      "coast": "0"
+     }
+    },
+    {
+     "i": 3,
+     "label": "capture/MFCG/80/plain/3",
+     "seed": 1016906889,
+     "name": "size80-plain-3",
+     "query": "size=80&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1016906889",
+     "exports": [
+      "size=80&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1016906889&export=json",
+      "size=80&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1016906889&export=svg"
+     ],
+     "hrefExpect": {
+      "size": "80",
+      "seed": "1016906889",
+      "shantytown": "0",
+      "greens": "0",
+      "river": "0",
+      "coast": "0"
+     }
+    },
+    {
+     "i": 4,
+     "label": "capture/MFCG/80/plain/4",
+     "seed": 1787087151,
+     "name": "size80-plain-4",
+     "query": "size=80&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1787087151",
+     "exports": [
+      "size=80&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1787087151&export=json",
+      "size=80&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1787087151&export=svg"
+     ],
+     "hrefExpect": {
+      "size": "80",
+      "seed": "1787087151",
+      "shantytown": "0",
+      "greens": "0",
+      "river": "0",
+      "coast": "0"
+     }
+    },
+    {
+     "i": 5,
+     "label": "capture/MFCG/80/plain/5",
+     "seed": 368320464,
+     "name": "size80-plain-5",
+     "query": "size=80&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=368320464",
+     "exports": [
+      "size=80&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=368320464&export=json",
+      "size=80&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=368320464&export=svg"
+     ],
+     "hrefExpect": {
+      "size": "80",
+      "seed": "368320464",
+      "shantytown": "0",
+      "greens": "0",
+      "river": "0",
+      "coast": "0"
+     }
+    },
+    {
+     "i": 6,
+     "label": "capture/MFCG/80/plain/6",
+     "seed": 1893549258,
+     "name": "size80-plain-6",
+     "query": "size=80&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1893549258",
+     "exports": [
+      "size=80&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1893549258&export=json",
+      "size=80&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1893549258&export=svg"
+     ],
+     "hrefExpect": {
+      "size": "80",
+      "seed": "1893549258",
+      "shantytown": "0",
+      "greens": "0",
+      "river": "0",
+      "coast": "0"
+     }
+    },
+    {
+     "i": 7,
+     "label": "capture/MFCG/80/plain/7",
+     "seed": 817490467,
+     "name": "size80-plain-7",
+     "query": "size=80&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=817490467",
+     "exports": [
+      "size=80&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=817490467&export=json",
+      "size=80&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=817490467&export=svg"
+     ],
+     "hrefExpect": {
+      "size": "80",
+      "seed": "817490467",
+      "shantytown": "0",
+      "greens": "0",
+      "river": "0",
+      "coast": "0"
+     }
+    },
+    {
+     "i": 8,
+     "label": "capture/MFCG/80/plain/8",
+     "seed": 983352665,
+     "name": "size80-plain-8",
+     "query": "size=80&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=983352665",
+     "exports": [
+      "size=80&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=983352665&export=json",
+      "size=80&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=983352665&export=svg"
+     ],
+     "hrefExpect": {
+      "size": "80",
+      "seed": "983352665",
+      "shantytown": "0",
+      "greens": "0",
+      "river": "0",
+      "coast": "0"
+     }
+    },
+    {
+     "i": 9,
+     "label": "capture/MFCG/80/plain/9",
+     "seed": 1069210667,
+     "name": "size80-plain-9",
+     "query": "size=80&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1069210667",
+     "exports": [
+      "size=80&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1069210667&export=json",
+      "size=80&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1069210667&export=svg"
+     ],
+     "hrefExpect": {
+      "size": "80",
+      "seed": "1069210667",
+      "shantytown": "0",
+      "greens": "0",
+      "river": "0",
+      "coast": "0"
+     }
+    }
+   ]
+  },
+  {
+   "family": "capture/MFCG/130/plain",
+   "reference": "MFCG",
+   "reduce": "parkMiller",
+   "priority": 3,
+   "setting": {
+    "mfcgSize": 130,
+    "options": "plain",
+    "rung": "METROPOLIS"
+   },
+   "purpose": "rows",
+   "indices": [
+    0,
+    11
+   ],
+   "workItem": "W-03",
+   "entries": [
+    {
+     "i": 0,
+     "label": "capture/MFCG/130/plain/0",
+     "seed": 1178932495,
+     "name": "size130-plain-0",
+     "query": "size=130&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1178932495",
+     "exports": [
+      "size=130&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1178932495&export=json",
+      "size=130&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1178932495&export=svg"
+     ],
+     "hrefExpect": {
+      "size": "130",
+      "seed": "1178932495",
+      "shantytown": "0",
+      "greens": "0",
+      "river": "0",
+      "coast": "0"
+     }
+    },
+    {
+     "i": 1,
+     "label": "capture/MFCG/130/plain/1",
+     "seed": 380855225,
+     "name": "size130-plain-1",
+     "query": "size=130&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=380855225",
+     "exports": [
+      "size=130&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=380855225&export=json",
+      "size=130&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=380855225&export=svg"
+     ],
+     "hrefExpect": {
+      "size": "130",
+      "seed": "380855225",
+      "shantytown": "0",
+      "greens": "0",
+      "river": "0",
+      "coast": "0"
+     }
+    },
+    {
+     "i": 2,
+     "label": "capture/MFCG/130/plain/2",
+     "seed": 1562318027,
+     "name": "size130-plain-2",
+     "query": "size=130&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1562318027",
+     "exports": [
+      "size=130&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1562318027&export=json",
+      "size=130&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1562318027&export=svg"
+     ],
+     "hrefExpect": {
+      "size": "130",
+      "seed": "1562318027",
+      "shantytown": "0",
+      "greens": "0",
+      "river": "0",
+      "coast": "0"
+     }
+    },
+    {
+     "i": 3,
+     "label": "capture/MFCG/130/plain/3",
+     "seed": 1854483063,
+     "name": "size130-plain-3",
+     "query": "size=130&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1854483063",
+     "exports": [
+      "size=130&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1854483063&export=json",
+      "size=130&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1854483063&export=svg"
+     ],
+     "hrefExpect": {
+      "size": "130",
+      "seed": "1854483063",
+      "shantytown": "0",
+      "greens": "0",
+      "river": "0",
+      "coast": "0"
+     }
+    },
+    {
+     "i": 4,
+     "label": "capture/MFCG/130/plain/4",
+     "seed": 1597314254,
+     "name": "size130-plain-4",
+     "query": "size=130&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1597314254",
+     "exports": [
+      "size=130&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1597314254&export=json",
+      "size=130&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1597314254&export=svg"
+     ],
+     "hrefExpect": {
+      "size": "130",
+      "seed": "1597314254",
+      "shantytown": "0",
+      "greens": "0",
+      "river": "0",
+      "coast": "0"
+     }
+    },
+    {
+     "i": 5,
+     "label": "capture/MFCG/130/plain/5",
+     "seed": 1658332635,
+     "name": "size130-plain-5",
+     "query": "size=130&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1658332635",
+     "exports": [
+      "size=130&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1658332635&export=json",
+      "size=130&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1658332635&export=svg"
+     ],
+     "hrefExpect": {
+      "size": "130",
+      "seed": "1658332635",
+      "shantytown": "0",
+      "greens": "0",
+      "river": "0",
+      "coast": "0"
+     }
+    },
+    {
+     "i": 6,
+     "label": "capture/MFCG/130/plain/6",
+     "seed": 1616577459,
+     "name": "size130-plain-6",
+     "query": "size=130&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1616577459",
+     "exports": [
+      "size=130&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1616577459&export=json",
+      "size=130&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1616577459&export=svg"
+     ],
+     "hrefExpect": {
+      "size": "130",
+      "seed": "1616577459",
+      "shantytown": "0",
+      "greens": "0",
+      "river": "0",
+      "coast": "0"
+     }
+    },
+    {
+     "i": 7,
+     "label": "capture/MFCG/130/plain/7",
+     "seed": 1269412869,
+     "name": "size130-plain-7",
+     "query": "size=130&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1269412869",
+     "exports": [
+      "size=130&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1269412869&export=json",
+      "size=130&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1269412869&export=svg"
+     ],
+     "hrefExpect": {
+      "size": "130",
+      "seed": "1269412869",
+      "shantytown": "0",
+      "greens": "0",
+      "river": "0",
+      "coast": "0"
+     }
+    },
+    {
+     "i": 8,
+     "label": "capture/MFCG/130/plain/8",
+     "seed": 1413909430,
+     "name": "size130-plain-8",
+     "query": "size=130&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1413909430",
+     "exports": [
+      "size=130&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1413909430&export=json",
+      "size=130&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1413909430&export=svg"
+     ],
+     "hrefExpect": {
+      "size": "130",
+      "seed": "1413909430",
+      "shantytown": "0",
+      "greens": "0",
+      "river": "0",
+      "coast": "0"
+     }
+    },
+    {
+     "i": 9,
+     "label": "capture/MFCG/130/plain/9",
+     "seed": 1502932918,
+     "name": "size130-plain-9",
+     "query": "size=130&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1502932918",
+     "exports": [
+      "size=130&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1502932918&export=json",
+      "size=130&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1502932918&export=svg"
+     ],
+     "hrefExpect": {
+      "size": "130",
+      "seed": "1502932918",
+      "shantytown": "0",
+      "greens": "0",
+      "river": "0",
+      "coast": "0"
+     }
+    },
+    {
+     "i": 10,
+     "label": "capture/MFCG/130/plain/10",
+     "seed": 1179968783,
+     "name": "size130-plain-10",
+     "query": "size=130&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1179968783",
+     "exports": [
+      "size=130&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1179968783&export=json",
+      "size=130&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1179968783&export=svg"
+     ],
+     "hrefExpect": {
+      "size": "130",
+      "seed": "1179968783",
+      "shantytown": "0",
+      "greens": "0",
+      "river": "0",
+      "coast": "0"
+     }
+    }
+   ],
+   "extension": {
+    "declaredN": 10,
+    "n": 11,
+    "added": [
+     10
+    ],
+    "by": "plan.py --extend",
+    "rule": "R-13 (M-1-rulings-1.md): a formula family whose usable count falls below its declared n extends by the next formula index until n usable -- never a hand-chosen seed; the failed index stays in the row's sample.failed; every added index is a load under an owner's approval; set by plan.py --extend and kept by every regeneration",
+    "note": "index 8 froze twice (no-export, 2 loads: W-03 and m1/W-03-complete's retry); index 10 is J161's third load, W-03b (R-13, R-39)"
+   }
+  },
+  {
+   "family": "capture/MFCG/80/river+coast",
+   "reference": "MFCG",
+   "reduce": "parkMiller",
+   "priority": 3,
+   "setting": {
+    "mfcgSize": 80,
+    "options": "river+coast",
+    "rung": "CITY"
+   },
+   "purpose": "stress (descriptive)",
+   "indices": [
+    0,
+    5
+   ],
+   "workItem": "W-03",
+   "entries": [
+    {
+     "i": 0,
+     "label": "capture/MFCG/80/river+coast/0",
+     "seed": 1277715861,
+     "name": "size80-rivercoast-0",
+     "query": "size=80&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=1&coast=1&seed=1277715861",
+     "exports": [
+      "size=80&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=1&coast=1&seed=1277715861&export=json",
+      "size=80&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=1&coast=1&seed=1277715861&export=svg"
+     ],
+     "hrefExpect": {
+      "size": "80",
+      "seed": "1277715861",
+      "shantytown": "0",
+      "greens": "0",
+      "river": "1",
+      "coast": "1"
+     }
+    },
+    {
+     "i": 1,
+     "label": "capture/MFCG/80/river+coast/1",
+     "seed": 969798778,
+     "name": "size80-rivercoast-1",
+     "query": "size=80&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=1&coast=1&seed=969798778",
+     "exports": [
+      "size=80&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=1&coast=1&seed=969798778&export=json",
+      "size=80&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=1&coast=1&seed=969798778&export=svg"
+     ],
+     "hrefExpect": {
+      "size": "80",
+      "seed": "969798778",
+      "shantytown": "0",
+      "greens": "0",
+      "river": "1",
+      "coast": "1"
+     }
+    },
+    {
+     "i": 2,
+     "label": "capture/MFCG/80/river+coast/2",
+     "seed": 1811725741,
+     "name": "size80-rivercoast-2",
+     "query": "size=80&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=1&coast=1&seed=1811725741",
+     "exports": [
+      "size=80&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=1&coast=1&seed=1811725741&export=json",
+      "size=80&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=1&coast=1&seed=1811725741&export=svg"
+     ],
+     "hrefExpect": {
+      "size": "80",
+      "seed": "1811725741",
+      "shantytown": "0",
+      "greens": "0",
+      "river": "1",
+      "coast": "1"
+     }
+    },
+    {
+     "i": 3,
+     "label": "capture/MFCG/80/river+coast/3",
+     "seed": 1482787121,
+     "name": "size80-rivercoast-3",
+     "query": "size=80&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=1&coast=1&seed=1482787121",
+     "exports": [
+      "size=80&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=1&coast=1&seed=1482787121&export=json",
+      "size=80&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=1&coast=1&seed=1482787121&export=svg"
+     ],
+     "hrefExpect": {
+      "size": "80",
+      "seed": "1482787121",
+      "shantytown": "0",
+      "greens": "0",
+      "river": "1",
+      "coast": "1"
+     }
+    },
+    {
+     "i": 4,
+     "label": "capture/MFCG/80/river+coast/4",
+     "seed": 1312004405,
+     "name": "size80-rivercoast-4",
+     "query": "size=80&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=1&coast=1&seed=1312004405",
+     "exports": [
+      "size=80&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=1&coast=1&seed=1312004405&export=json",
+      "size=80&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=1&coast=1&seed=1312004405&export=svg"
+     ],
+     "hrefExpect": {
+      "size": "80",
+      "seed": "1312004405",
+      "shantytown": "0",
+      "greens": "0",
+      "river": "1",
+      "coast": "1"
+     }
+    }
+   ]
+  },
+  {
+   "family": "capture/NG/area/medium",
+   "reference": "NG",
+   "reduce": "parkMiller",
+   "priority": 3,
+   "setting": {
+    "template": "area",
+    "size": "medium",
+    "scale": "relative"
+   },
+   "purpose": "rows",
+   "indices": [
+    0,
+    5
+   ],
+   "workItem": "W-04",
+   "entries": [
+    {
+     "i": 0,
+     "label": "capture/NG/area/medium/0",
+     "seed": 259196530,
+     "name": "area-medium-0",
+     "record": [
+      "--target",
+      "neighbourhood",
+      "--runs",
+      "0",
+      "--passes",
+      "draw",
+      "--vertices",
+      "--seed",
+      "259196530",
+      "--query",
+      "tags=area,medium"
+     ]
+    },
+    {
+     "i": 1,
+     "label": "capture/NG/area/medium/1",
+     "seed": 232825077,
+     "name": "area-medium-1",
+     "record": [
+      "--target",
+      "neighbourhood",
+      "--runs",
+      "0",
+      "--passes",
+      "draw",
+      "--vertices",
+      "--seed",
+      "232825077",
+      "--query",
+      "tags=area,medium"
+     ]
+    },
+    {
+     "i": 2,
+     "label": "capture/NG/area/medium/2",
+     "seed": 1353336801,
+     "name": "area-medium-2",
+     "record": [
+      "--target",
+      "neighbourhood",
+      "--runs",
+      "0",
+      "--passes",
+      "draw",
+      "--vertices",
+      "--seed",
+      "1353336801",
+      "--query",
+      "tags=area,medium"
+     ]
+    },
+    {
+     "i": 3,
+     "label": "capture/NG/area/medium/3",
+     "seed": 632875219,
+     "name": "area-medium-3",
+     "record": [
+      "--target",
+      "neighbourhood",
+      "--runs",
+      "0",
+      "--passes",
+      "draw",
+      "--vertices",
+      "--seed",
+      "632875219",
+      "--query",
+      "tags=area,medium"
+     ]
+    },
+    {
+     "i": 4,
+     "label": "capture/NG/area/medium/4",
+     "seed": 1985887065,
+     "name": "area-medium-4",
+     "record": [
+      "--target",
+      "neighbourhood",
+      "--runs",
+      "0",
+      "--passes",
+      "draw",
+      "--vertices",
+      "--seed",
+      "1985887065",
+      "--query",
+      "tags=area,medium"
+     ]
+    }
+   ]
+  },
+  {
+   "family": "capture/NG/street/medium",
+   "reference": "NG",
+   "reduce": "parkMiller",
+   "priority": 3,
+   "setting": {
+    "template": "street",
+    "size": "medium",
+    "scale": "relative"
+   },
+   "purpose": "rows",
+   "indices": [
+    0,
+    5
+   ],
+   "workItem": "W-04",
+   "entries": [
+    {
+     "i": 0,
+     "label": "capture/NG/street/medium/0",
+     "seed": 785771709,
+     "name": "street-medium-0",
+     "record": [
+      "--target",
+      "neighbourhood",
+      "--runs",
+      "0",
+      "--passes",
+      "draw",
+      "--vertices",
+      "--seed",
+      "785771709",
+      "--query",
+      "tags=street,medium"
+     ]
+    },
+    {
+     "i": 1,
+     "label": "capture/NG/street/medium/1",
+     "seed": 1598584932,
+     "name": "street-medium-1",
+     "record": [
+      "--target",
+      "neighbourhood",
+      "--runs",
+      "0",
+      "--passes",
+      "draw",
+      "--vertices",
+      "--seed",
+      "1598584932",
+      "--query",
+      "tags=street,medium"
+     ]
+    },
+    {
+     "i": 2,
+     "label": "capture/NG/street/medium/2",
+     "seed": 13886769,
+     "name": "street-medium-2",
+     "record": [
+      "--target",
+      "neighbourhood",
+      "--runs",
+      "0",
+      "--passes",
+      "draw",
+      "--vertices",
+      "--seed",
+      "13886769",
+      "--query",
+      "tags=street,medium"
+     ]
+    },
+    {
+     "i": 3,
+     "label": "capture/NG/street/medium/3",
+     "seed": 1773949171,
+     "name": "street-medium-3",
+     "record": [
+      "--target",
+      "neighbourhood",
+      "--runs",
+      "0",
+      "--passes",
+      "draw",
+      "--vertices",
+      "--seed",
+      "1773949171",
+      "--query",
+      "tags=street,medium"
+     ]
+    },
+    {
+     "i": 4,
+     "label": "capture/NG/street/medium/4",
+     "seed": 1679123909,
+     "name": "street-medium-4",
+     "record": [
+      "--target",
+      "neighbourhood",
+      "--runs",
+      "0",
+      "--passes",
+      "draw",
+      "--vertices",
+      "--seed",
+      "1679123909",
+      "--query",
+      "tags=street,medium"
+     ]
+    }
+   ]
+  },
+  {
+   "family": "capture/NG/square/medium",
+   "reference": "NG",
+   "reduce": "parkMiller",
+   "priority": 3,
+   "setting": {
+    "template": "square",
+    "size": "medium",
+    "scale": "relative"
+   },
+   "purpose": "rows",
+   "indices": [
+    0,
+    5
+   ],
+   "workItem": "W-04",
+   "entries": [
+    {
+     "i": 0,
+     "label": "capture/NG/square/medium/0",
+     "seed": 515542992,
+     "name": "square-medium-0",
+     "record": [
+      "--target",
+      "neighbourhood",
+      "--runs",
+      "0",
+      "--passes",
+      "draw",
+      "--vertices",
+      "--seed",
+      "515542992",
+      "--query",
+      "tags=square,medium"
+     ]
+    },
+    {
+     "i": 1,
+     "label": "capture/NG/square/medium/1",
+     "seed": 357012674,
+     "name": "square-medium-1",
+     "record": [
+      "--target",
+      "neighbourhood",
+      "--runs",
+      "0",
+      "--passes",
+      "draw",
+      "--vertices",
+      "--seed",
+      "357012674",
+      "--query",
+      "tags=square,medium"
+     ]
+    },
+    {
+     "i": 2,
+     "label": "capture/NG/square/medium/2",
+     "seed": 1487799455,
+     "name": "square-medium-2",
+     "record": [
+      "--target",
+      "neighbourhood",
+      "--runs",
+      "0",
+      "--passes",
+      "draw",
+      "--vertices",
+      "--seed",
+      "1487799455",
+      "--query",
+      "tags=square,medium"
+     ]
+    },
+    {
+     "i": 3,
+     "label": "capture/NG/square/medium/3",
+     "seed": 1551289944,
+     "name": "square-medium-3",
+     "record": [
+      "--target",
+      "neighbourhood",
+      "--runs",
+      "0",
+      "--passes",
+      "draw",
+      "--vertices",
+      "--seed",
+      "1551289944",
+      "--query",
+      "tags=square,medium"
+     ]
+    },
+    {
+     "i": 4,
+     "label": "capture/NG/square/medium/4",
+     "seed": 1809810844,
+     "name": "square-medium-4",
+     "record": [
+      "--target",
+      "neighbourhood",
+      "--runs",
+      "0",
+      "--passes",
+      "draw",
+      "--vertices",
+      "--seed",
+      "1809810844",
+      "--query",
+      "tags=square,medium"
+     ]
+    }
+   ]
+  },
+  {
+   "family": "capture/NG/ring/medium",
+   "reference": "NG",
+   "reduce": "parkMiller",
+   "priority": 3,
+   "setting": {
+    "template": "ring",
+    "size": "medium",
+    "scale": "relative"
+   },
+   "purpose": "rows",
+   "indices": [
+    0,
+    5
+   ],
+   "workItem": "W-04",
+   "entries": [
+    {
+     "i": 0,
+     "label": "capture/NG/ring/medium/0",
+     "seed": 1081967957,
+     "name": "ring-medium-0",
+     "record": [
+      "--target",
+      "neighbourhood",
+      "--runs",
+      "0",
+      "--passes",
+      "draw",
+      "--vertices",
+      "--seed",
+      "1081967957",
+      "--query",
+      "tags=ring,medium"
+     ]
+    },
+    {
+     "i": 1,
+     "label": "capture/NG/ring/medium/1",
+     "seed": 444492668,
+     "name": "ring-medium-1",
+     "record": [
+      "--target",
+      "neighbourhood",
+      "--runs",
+      "0",
+      "--passes",
+      "draw",
+      "--vertices",
+      "--seed",
+      "444492668",
+      "--query",
+      "tags=ring,medium"
+     ]
+    },
+    {
+     "i": 2,
+     "label": "capture/NG/ring/medium/2",
+     "seed": 286417888,
+     "name": "ring-medium-2",
+     "record": [
+      "--target",
+      "neighbourhood",
+      "--runs",
+      "0",
+      "--passes",
+      "draw",
+      "--vertices",
+      "--seed",
+      "286417888",
+      "--query",
+      "tags=ring,medium"
+     ]
+    },
+    {
+     "i": 3,
+     "label": "capture/NG/ring/medium/3",
+     "seed": 1753136892,
+     "name": "ring-medium-3",
+     "record": [
+      "--target",
+      "neighbourhood",
+      "--runs",
+      "0",
+      "--passes",
+      "draw",
+      "--vertices",
+      "--seed",
+      "1753136892",
+      "--query",
+      "tags=ring,medium"
+     ]
+    },
+    {
+     "i": 4,
+     "label": "capture/NG/ring/medium/4",
+     "seed": 359026657,
+     "name": "ring-medium-4",
+     "record": [
+      "--target",
+      "neighbourhood",
+      "--runs",
+      "0",
+      "--passes",
+      "draw",
+      "--vertices",
+      "--seed",
+      "359026657",
+      "--query",
+      "tags=ring,medium"
+     ]
+    }
+   ]
+  },
+  {
+   "family": "capture/NG/area/small",
+   "reference": "NG",
+   "reduce": "parkMiller",
+   "priority": 3,
+   "setting": {
+    "template": "area",
+    "size": "small",
+    "scale": "relative"
+   },
+   "purpose": "size sweep (CONFIDENCE section 6 #2)",
+   "indices": [
+    0,
+    3
+   ],
+   "workItem": "W-04",
+   "entries": [
+    {
+     "i": 0,
+     "label": "capture/NG/area/small/0",
+     "seed": 126607485,
+     "name": "area-small-0",
+     "record": [
+      "--target",
+      "neighbourhood",
+      "--runs",
+      "0",
+      "--passes",
+      "draw",
+      "--vertices",
+      "--seed",
+      "126607485",
+      "--query",
+      "tags=area,small"
+     ]
+    },
+    {
+     "i": 1,
+     "label": "capture/NG/area/small/1",
+     "seed": 358222298,
+     "name": "area-small-1",
+     "record": [
+      "--target",
+      "neighbourhood",
+      "--runs",
+      "0",
+      "--passes",
+      "draw",
+      "--vertices",
+      "--seed",
+      "358222298",
+      "--query",
+      "tags=area,small"
+     ]
+    },
+    {
+     "i": 2,
+     "label": "capture/NG/area/small/2",
+     "seed": 404975847,
+     "name": "area-small-2",
+     "record": [
+      "--target",
+      "neighbourhood",
+      "--runs",
+      "0",
+      "--passes",
+      "draw",
+      "--vertices",
+      "--seed",
+      "404975847",
+      "--query",
+      "tags=area,small"
+     ]
+    }
+   ]
+  },
+  {
+   "family": "capture/NG/street/small",
+   "reference": "NG",
+   "reduce": "parkMiller",
+   "priority": 3,
+   "setting": {
+    "template": "street",
+    "size": "small",
+    "scale": "relative"
+   },
+   "purpose": "size sweep (CONFIDENCE section 6 #2)",
+   "indices": [
+    0,
+    3
+   ],
+   "workItem": "W-04",
+   "entries": [
+    {
+     "i": 0,
+     "label": "capture/NG/street/small/0",
+     "seed": 978382261,
+     "name": "street-small-0",
+     "record": [
+      "--target",
+      "neighbourhood",
+      "--runs",
+      "0",
+      "--passes",
+      "draw",
+      "--vertices",
+      "--seed",
+      "978382261",
+      "--query",
+      "tags=street,small"
+     ]
+    },
+    {
+     "i": 1,
+     "label": "capture/NG/street/small/1",
+     "seed": 636321768,
+     "name": "street-small-1",
+     "record": [
+      "--target",
+      "neighbourhood",
+      "--runs",
+      "0",
+      "--passes",
+      "draw",
+      "--vertices",
+      "--seed",
+      "636321768",
+      "--query",
+      "tags=street,small"
+     ]
+    },
+    {
+     "i": 2,
+     "label": "capture/NG/street/small/2",
+     "seed": 1275069081,
+     "name": "street-small-2",
+     "record": [
+      "--target",
+      "neighbourhood",
+      "--runs",
+      "0",
+      "--passes",
+      "draw",
+      "--vertices",
+      "--seed",
+      "1275069081",
+      "--query",
+      "tags=street,small"
+     ]
+    }
+   ]
+  },
+  {
+   "family": "capture/NG/square/small",
+   "reference": "NG",
+   "reduce": "parkMiller",
+   "priority": 3,
+   "setting": {
+    "template": "square",
+    "size": "small",
+    "scale": "relative"
+   },
+   "purpose": "size sweep (CONFIDENCE section 6 #2)",
+   "indices": [
+    0,
+    3
+   ],
+   "workItem": "W-04",
+   "entries": [
+    {
+     "i": 0,
+     "label": "capture/NG/square/small/0",
+     "seed": 707853513,
+     "name": "square-small-0",
+     "record": [
+      "--target",
+      "neighbourhood",
+      "--runs",
+      "0",
+      "--passes",
+      "draw",
+      "--vertices",
+      "--seed",
+      "707853513",
+      "--query",
+      "tags=square,small"
+     ]
+    },
+    {
+     "i": 1,
+     "label": "capture/NG/square/small/1",
+     "seed": 1890188727,
+     "name": "square-small-1",
+     "record": [
+      "--target",
+      "neighbourhood",
+      "--runs",
+      "0",
+      "--passes",
+      "draw",
+      "--vertices",
+      "--seed",
+      "1890188727",
+      "--query",
+      "tags=square,small"
+     ]
+    },
+    {
+     "i": 2,
+     "label": "capture/NG/square/small/2",
+     "seed": 409499837,
+     "name": "square-small-2",
+     "record": [
+      "--target",
+      "neighbourhood",
+      "--runs",
+      "0",
+      "--passes",
+      "draw",
+      "--vertices",
+      "--seed",
+      "409499837",
+      "--query",
+      "tags=square,small"
+     ]
+    }
+   ]
+  },
+  {
+   "family": "capture/NG/ring/small",
+   "reference": "NG",
+   "reduce": "parkMiller",
+   "priority": 3,
+   "setting": {
+    "template": "ring",
+    "size": "small",
+    "scale": "relative"
+   },
+   "purpose": "size sweep (CONFIDENCE section 6 #2)",
+   "indices": [
+    0,
+    3
+   ],
+   "workItem": "W-04",
+   "entries": [
+    {
+     "i": 0,
+     "label": "capture/NG/ring/small/0",
+     "seed": 304900102,
+     "name": "ring-small-0",
+     "record": [
+      "--target",
+      "neighbourhood",
+      "--runs",
+      "0",
+      "--passes",
+      "draw",
+      "--vertices",
+      "--seed",
+      "304900102",
+      "--query",
+      "tags=ring,small"
+     ]
+    },
+    {
+     "i": 1,
+     "label": "capture/NG/ring/small/1",
+     "seed": 1442993248,
+     "name": "ring-small-1",
+     "record": [
+      "--target",
+      "neighbourhood",
+      "--runs",
+      "0",
+      "--passes",
+      "draw",
+      "--vertices",
+      "--seed",
+      "1442993248",
+      "--query",
+      "tags=ring,small"
+     ]
+    },
+    {
+     "i": 2,
+     "label": "capture/NG/ring/small/2",
+     "seed": 338509678,
+     "name": "ring-small-2",
+     "record": [
+      "--target",
+      "neighbourhood",
+      "--runs",
+      "0",
+      "--passes",
+      "draw",
+      "--vertices",
+      "--seed",
+      "338509678",
+      "--query",
+      "tags=ring,small"
+     ]
+    }
+   ]
+  },
+  {
+   "family": "capture/NG/area/large",
+   "reference": "NG",
+   "reduce": "parkMiller",
+   "priority": 3,
+   "setting": {
+    "template": "area",
+    "size": "large",
+    "scale": "relative"
+   },
+   "purpose": "size sweep (CONFIDENCE section 6 #2)",
+   "indices": [
+    0,
+    3
+   ],
+   "workItem": "W-04",
+   "entries": [
+    {
+     "i": 0,
+     "label": "capture/NG/area/large/0",
+     "seed": 1752556562,
+     "name": "area-large-0",
+     "record": [
+      "--target",
+      "neighbourhood",
+      "--runs",
+      "0",
+      "--passes",
+      "draw",
+      "--vertices",
+      "--seed",
+      "1752556562",
+      "--query",
+      "tags=area,large"
+     ]
+    },
+    {
+     "i": 1,
+     "label": "capture/NG/area/large/1",
+     "seed": 1090102981,
+     "name": "area-large-1",
+     "record": [
+      "--target",
+      "neighbourhood",
+      "--runs",
+      "0",
+      "--passes",
+      "draw",
+      "--vertices",
+      "--seed",
+      "1090102981",
+      "--query",
+      "tags=area,large"
+     ]
+    },
+    {
+     "i": 2,
+     "label": "capture/NG/area/large/2",
+     "seed": 477074889,
+     "name": "area-large-2",
+     "record": [
+      "--target",
+      "neighbourhood",
+      "--runs",
+      "0",
+      "--passes",
+      "draw",
+      "--vertices",
+      "--seed",
+      "477074889",
+      "--query",
+      "tags=area,large"
+     ]
+    }
+   ]
+  },
+  {
+   "family": "capture/NG/street/large",
+   "reference": "NG",
+   "reduce": "parkMiller",
+   "priority": 3,
+   "setting": {
+    "template": "street",
+    "size": "large",
+    "scale": "relative"
+   },
+   "purpose": "size sweep (CONFIDENCE section 6 #2)",
+   "indices": [
+    0,
+    3
+   ],
+   "workItem": "W-04",
+   "entries": [
+    {
+     "i": 0,
+     "label": "capture/NG/street/large/0",
+     "seed": 998667101,
+     "name": "street-large-0",
+     "record": [
+      "--target",
+      "neighbourhood",
+      "--runs",
+      "0",
+      "--passes",
+      "draw",
+      "--vertices",
+      "--seed",
+      "998667101",
+      "--query",
+      "tags=street,large"
+     ]
+    },
+    {
+     "i": 1,
+     "label": "capture/NG/street/large/1",
+     "seed": 1535414009,
+     "name": "street-large-1",
+     "record": [
+      "--target",
+      "neighbourhood",
+      "--runs",
+      "0",
+      "--passes",
+      "draw",
+      "--vertices",
+      "--seed",
+      "1535414009",
+      "--query",
+      "tags=street,large"
+     ]
+    },
+    {
+     "i": 2,
+     "label": "capture/NG/street/large/2",
+     "seed": 1041970032,
+     "name": "street-large-2",
+     "record": [
+      "--target",
+      "neighbourhood",
+      "--runs",
+      "0",
+      "--passes",
+      "draw",
+      "--vertices",
+      "--seed",
+      "1041970032",
+      "--query",
+      "tags=street,large"
+     ]
+    }
+   ]
+  },
+  {
+   "family": "capture/NG/square/large",
+   "reference": "NG",
+   "reduce": "parkMiller",
+   "priority": 3,
+   "setting": {
+    "template": "square",
+    "size": "large",
+    "scale": "relative"
+   },
+   "purpose": "size sweep (CONFIDENCE section 6 #2)",
+   "indices": [
+    0,
+    3
+   ],
+   "workItem": "W-04",
+   "entries": [
+    {
+     "i": 0,
+     "label": "capture/NG/square/large/0",
+     "seed": 396387888,
+     "name": "square-large-0",
+     "record": [
+      "--target",
+      "neighbourhood",
+      "--runs",
+      "0",
+      "--passes",
+      "draw",
+      "--vertices",
+      "--seed",
+      "396387888",
+      "--query",
+      "tags=square,large"
+     ]
+    },
+    {
+     "i": 1,
+     "label": "capture/NG/square/large/1",
+     "seed": 1692923774,
+     "name": "square-large-1",
+     "record": [
+      "--target",
+      "neighbourhood",
+      "--runs",
+      "0",
+      "--passes",
+      "draw",
+      "--vertices",
+      "--seed",
+      "1692923774",
+      "--query",
+      "tags=square,large"
+     ]
+    },
+    {
+     "i": 2,
+     "label": "capture/NG/square/large/2",
+     "seed": 880974761,
+     "name": "square-large-2",
+     "record": [
+      "--target",
+      "neighbourhood",
+      "--runs",
+      "0",
+      "--passes",
+      "draw",
+      "--vertices",
+      "--seed",
+      "880974761",
+      "--query",
+      "tags=square,large"
+     ]
+    }
+   ]
+  },
+  {
+   "family": "capture/NG/ring/large",
+   "reference": "NG",
+   "reduce": "parkMiller",
+   "priority": 3,
+   "setting": {
+    "template": "ring",
+    "size": "large",
+    "scale": "relative"
+   },
+   "purpose": "size sweep (CONFIDENCE section 6 #2)",
+   "indices": [
+    0,
+    3
+   ],
+   "workItem": "W-04",
+   "entries": [
+    {
+     "i": 0,
+     "label": "capture/NG/ring/large/0",
+     "seed": 470968935,
+     "name": "ring-large-0",
+     "record": [
+      "--target",
+      "neighbourhood",
+      "--runs",
+      "0",
+      "--passes",
+      "draw",
+      "--vertices",
+      "--seed",
+      "470968935",
+      "--query",
+      "tags=ring,large"
+     ]
+    },
+    {
+     "i": 1,
+     "label": "capture/NG/ring/large/1",
+     "seed": 1263018650,
+     "name": "ring-large-1",
+     "record": [
+      "--target",
+      "neighbourhood",
+      "--runs",
+      "0",
+      "--passes",
+      "draw",
+      "--vertices",
+      "--seed",
+      "1263018650",
+      "--query",
+      "tags=ring,large"
+     ]
+    },
+    {
+     "i": 2,
+     "label": "capture/NG/ring/large/2",
+     "seed": 1801952899,
+     "name": "ring-large-2",
+     "record": [
+      "--target",
+      "neighbourhood",
+      "--runs",
+      "0",
+      "--passes",
+      "draw",
+      "--vertices",
+      "--seed",
+      "1801952899",
+      "--query",
+      "tags=ring,large"
+     ]
+    }
+   ]
+  }
+ ],
+ "ftg": {
+  "seedable": false,
+  "why": "the server draws its own seed; the plan lists capture slots in capture order (V12 section 3.2.1)",
+  "slotRule": "slot k is the k-th capture taken, slots filled in slot order (bind refuses a slot while an earlier one is open); a slot never taken is recorded failed with its reason, never faked (M-1-plan section 9; ARCHITECTURE 13.6 (12)); the list is the concatenation of the two declared programmes below, and an extension can only append (R-36: the first six labels and the uniqueness of every label are checked before any write); a recorded slot (bound or failed) keeps its label, size, water, programme and day against the prior plan.json and is never removed, so a schedule edit cannot relabel, re-date, move or drop a capture (m1/plan-fix-3, m1/plan-guard-2); rows after the last recorded slot may be struck or reordered (the owner's veto of R-33)",
+  "programmes": [
+   {
+    "programme": 1,
+    "slots": [
+     0,
+     6
+    ],
+    "rulings": "J159 (slot 0, guest, one per day); J163 (slots 1-5, the owner's signed-in account, one sitting)",
+    "plan": "M-1-plan section 2.1"
+   },
+   {
+    "programme": 2,
+    "slots": [
+     6,
+     28
+    ],
+    "rulings": "J164 (one premium month; M-1-rulings-2.md R-33 .. R-36)",
+    "plan": "M-1-plan section 2.1b",
+    "order": "by slot number: METROPOLIS first, then BIG_TOWN and BIG_CITY alternating, then CITY and TOWN",
+    "premiumOnlySizes": [
+     "METROPOLIS"
+    ],
+    "procedure": "research/baselines/ftg_capture_checklist.md section I (programme 2's procedure, written by m1/plan-fix-3 from M-1-plan section 2.1b: section H with the premium differences)"
+   }
+  ],
+  "perSize": {
+   "BIG_TOWN": {
+    "slots": 10,
+    "none": 4,
+    "coast+river": 6
+   },
+   "BIG_CITY": {
+    "slots": 10,
+    "none": 4,
+    "coast+river": 6
+   },
+   "METROPOLIS": {
+    "slots": 4,
+    "none": 1,
+    "coast+river": 3
+   },
+   "CITY": {
+    "slots": 2,
+    "none": 1,
+    "coast+river": 1
+   },
+   "TOWN": {
+    "slots": 2,
+    "none": 1,
+    "coast+river": 1
+   }
+  },
+  "recordedCity": [
+   {
+    "family": "capture/FTG/CITY",
+    "order": 0,
+    "capture": "2026-09-21T05-23-58",
+    "water": "coast+river",
+    "label": "capture/FTG/CITY/coast+river/0",
+    "ftgSize": "CITY",
+    "rung": "TOWN",
+    "nominalPopulation": 9500,
+    "status": "usable",
+    "failed": null
+   },
+   {
+    "family": "capture/FTG/CITY",
+    "order": 1,
+    "capture": "2026-09-25T10-13-51",
+    "water": "coast+river",
+    "label": "capture/FTG/CITY/coast+river/1",
+    "ftgSize": "CITY",
+    "rung": "TOWN",
+    "nominalPopulation": 9500,
+    "status": "failed",
+    "failed": "setting"
+   }
+  ],
+  "recordedRule": "as recorded (R-02; the Fantasy Manor sample is the precedent, V12 section 3.2.1): the two CITY captures made before the plan hold the family's first two indices; the 2026-09-25 one is a declared non-default setting, kept in sample.failed with reason setting and pooled in no row (R-04); the planned CITY slots continue the per-water index and the family order after them, so with slots 24 and 25 the family reaches three usable, minmax (R-33, R-34)",
+  "halfWidthM": {
+   "BIG_TOWN": 2000.0,
+   "BIG_CITY": 2750.0,
+   "METROPOLIS": 3000.0,
+   "CITY": 2500.0,
+   "TOWN": 1750.0
+  },
+  "populationSource": "nominal unless the decoded payload holds a resident count (re-checked per capture); the account list's per-settlement population is recorded beside it, never used (R-37)",
+  "workItem": "W-02 (programme 1), W-02b (programme 2)",
+  "slots": [
+   {
+    "slot": 0,
+    "programme": 1,
+    "day": 1,
+    "family": "capture/FTG/BIG_TOWN",
+    "order": 0,
+    "label": "capture/FTG/BIG_TOWN/none/0",
+    "ftgSize": "BIG_TOWN",
+    "rung": "TOWN",
+    "water": "none",
+    "waterOptions": "nearest none: no coast, rivers off",
+    "nominalPopulation": 5600,
+    "premiumOnly": false,
+    "seed": null,
+    "capture": "2026-10-03T17-19-06",
+    "failed": null
+   },
+   {
+    "slot": 1,
+    "programme": 1,
+    "day": 2,
+    "family": "capture/FTG/BIG_CITY",
+    "order": 0,
+    "label": "capture/FTG/BIG_CITY/none/0",
+    "ftgSize": "BIG_CITY",
+    "rung": "CITY",
+    "water": "none",
+    "waterOptions": "nearest none: no coast, rivers off",
+    "nominalPopulation": 24500,
+    "premiumOnly": false,
+    "seed": null,
+    "capture": "2026-10-03T22-04-25",
+    "failed": null
+   },
+   {
+    "slot": 2,
+    "programme": 1,
+    "day": 3,
+    "family": "capture/FTG/BIG_TOWN",
+    "order": 1,
+    "label": "capture/FTG/BIG_TOWN/coast+river/0",
+    "ftgSize": "BIG_TOWN",
+    "rung": "TOWN",
+    "water": "coast+river",
+    "waterOptions": "nearest coast+river: coastal, rivers on",
+    "nominalPopulation": 5600,
+    "premiumOnly": false,
+    "seed": null,
+    "capture": "2026-10-03T22-21-00",
+    "failed": null
+   },
+   {
+    "slot": 3,
+    "programme": 1,
+    "day": 4,
+    "family": "capture/FTG/BIG_CITY",
+    "order": 1,
+    "label": "capture/FTG/BIG_CITY/coast+river/0",
+    "ftgSize": "BIG_CITY",
+    "rung": "CITY",
+    "water": "coast+river",
+    "waterOptions": "nearest coast+river: coastal, rivers on",
+    "nominalPopulation": 24500,
+    "premiumOnly": false,
+    "seed": null,
+    "capture": "2026-10-03T22-43-28",
+    "failed": null
+   },
+   {
+    "slot": 4,
+    "programme": 1,
+    "day": 5,
+    "family": "capture/FTG/BIG_TOWN",
+    "order": 2,
+    "label": "capture/FTG/BIG_TOWN/coast+river/1",
+    "ftgSize": "BIG_TOWN",
+    "rung": "TOWN",
+    "water": "coast+river",
+    "waterOptions": "nearest coast+river: coastal, rivers on (second)",
+    "nominalPopulation": 5600,
+    "premiumOnly": false,
+    "seed": null,
+    "capture": "2026-10-03T22-57-34",
+    "failed": null
+   },
+   {
+    "slot": 5,
+    "programme": 1,
+    "day": 6,
+    "family": "capture/FTG/BIG_CITY",
+    "order": 2,
+    "label": "capture/FTG/BIG_CITY/coast+river/1",
+    "ftgSize": "BIG_CITY",
+    "rung": "CITY",
+    "water": "coast+river",
+    "waterOptions": "nearest coast+river: coastal, rivers on (second)",
+    "nominalPopulation": 24500,
+    "premiumOnly": false,
+    "seed": null,
+    "capture": "2026-10-03T23-10-37",
+    "failed": null
+   },
+   {
+    "slot": 6,
+    "programme": 2,
+    "day": null,
+    "family": "capture/FTG/METROPOLIS",
+    "order": 0,
+    "label": "capture/FTG/METROPOLIS/none/0",
+    "ftgSize": "METROPOLIS",
+    "rung": "METROPOLIS",
+    "water": "none",
+    "waterOptions": "nearest none: no coast, rivers off",
+    "nominalPopulation": 49500,
+    "premiumOnly": true,
+    "seed": null,
+    "capture": "2026-10-04T02-55-56",
+    "failed": null
+   },
+   {
+    "slot": 7,
+    "programme": 2,
+    "day": null,
+    "family": "capture/FTG/METROPOLIS",
+    "order": 1,
+    "label": "capture/FTG/METROPOLIS/coast+river/0",
+    "ftgSize": "METROPOLIS",
+    "rung": "METROPOLIS",
+    "water": "coast+river",
+    "waterOptions": "nearest coast+river: coastal, rivers on",
+    "nominalPopulation": 49500,
+    "premiumOnly": true,
+    "seed": null,
+    "capture": "2026-10-04T03-13-14",
+    "failed": null
+   },
+   {
+    "slot": 8,
+    "programme": 2,
+    "day": null,
+    "family": "capture/FTG/METROPOLIS",
+    "order": 2,
+    "label": "capture/FTG/METROPOLIS/coast+river/1",
+    "ftgSize": "METROPOLIS",
+    "rung": "METROPOLIS",
+    "water": "coast+river",
+    "waterOptions": "nearest coast+river: coastal, rivers on (second)",
+    "nominalPopulation": 49500,
+    "premiumOnly": true,
+    "seed": null,
+    "capture": "2026-10-04T03-26-16",
+    "failed": null
+   },
+   {
+    "slot": 9,
+    "programme": 2,
+    "day": null,
+    "family": "capture/FTG/METROPOLIS",
+    "order": 3,
+    "label": "capture/FTG/METROPOLIS/coast+river/2",
+    "ftgSize": "METROPOLIS",
+    "rung": "METROPOLIS",
+    "water": "coast+river",
+    "waterOptions": "nearest coast+river: coastal, rivers on (third)",
+    "nominalPopulation": 49500,
+    "premiumOnly": true,
+    "seed": null,
+    "capture": "2026-10-04T03-40-45",
+    "failed": null
+   },
+   {
+    "slot": 10,
+    "programme": 2,
+    "day": null,
+    "family": "capture/FTG/BIG_TOWN",
+    "order": 3,
+    "label": "capture/FTG/BIG_TOWN/none/1",
+    "ftgSize": "BIG_TOWN",
+    "rung": "TOWN",
+    "water": "none",
+    "waterOptions": "nearest none: no coast, rivers off (second)",
+    "nominalPopulation": 5600,
+    "premiumOnly": false,
+    "seed": null,
+    "capture": "2026-10-04T03-53-59",
+    "failed": null
+   },
+   {
+    "slot": 11,
+    "programme": 2,
+    "day": null,
+    "family": "capture/FTG/BIG_CITY",
+    "order": 3,
+    "label": "capture/FTG/BIG_CITY/none/1",
+    "ftgSize": "BIG_CITY",
+    "rung": "CITY",
+    "water": "none",
+    "waterOptions": "nearest none: no coast, rivers off (second)",
+    "nominalPopulation": 24500,
+    "premiumOnly": false,
+    "seed": null,
+    "capture": "2026-10-04T04-07-26",
+    "failed": null
+   },
+   {
+    "slot": 12,
+    "programme": 2,
+    "day": null,
+    "family": "capture/FTG/BIG_TOWN",
+    "order": 4,
+    "label": "capture/FTG/BIG_TOWN/coast+river/2",
+    "ftgSize": "BIG_TOWN",
+    "rung": "TOWN",
+    "water": "coast+river",
+    "waterOptions": "nearest coast+river: coastal, rivers on (third)",
+    "nominalPopulation": 5600,
+    "premiumOnly": false,
+    "seed": null,
+    "capture": "2026-10-04T04-20-04",
+    "failed": null
+   },
+   {
+    "slot": 13,
+    "programme": 2,
+    "day": null,
+    "family": "capture/FTG/BIG_CITY",
+    "order": 4,
+    "label": "capture/FTG/BIG_CITY/coast+river/2",
+    "ftgSize": "BIG_CITY",
+    "rung": "CITY",
+    "water": "coast+river",
+    "waterOptions": "nearest coast+river: coastal, rivers on (third)",
+    "nominalPopulation": 24500,
+    "premiumOnly": false,
+    "seed": null,
+    "capture": "2026-10-04T04-35-38",
+    "failed": null
+   },
+   {
+    "slot": 14,
+    "programme": 2,
+    "day": null,
+    "family": "capture/FTG/BIG_TOWN",
+    "order": 5,
+    "label": "capture/FTG/BIG_TOWN/none/2",
+    "ftgSize": "BIG_TOWN",
+    "rung": "TOWN",
+    "water": "none",
+    "waterOptions": "nearest none: no coast, rivers off (third)",
+    "nominalPopulation": 5600,
+    "premiumOnly": false,
+    "seed": null,
+    "capture": "2026-10-04T04-53-21",
+    "failed": null
+   },
+   {
+    "slot": 15,
+    "programme": 2,
+    "day": null,
+    "family": "capture/FTG/BIG_CITY",
+    "order": 5,
+    "label": "capture/FTG/BIG_CITY/none/2",
+    "ftgSize": "BIG_CITY",
+    "rung": "CITY",
+    "water": "none",
+    "waterOptions": "nearest none: no coast, rivers off (third)",
+    "nominalPopulation": 24500,
+    "premiumOnly": false,
+    "seed": null,
+    "capture": "2026-10-04T05-07-56",
+    "failed": null
+   },
+   {
+    "slot": 16,
+    "programme": 2,
+    "day": null,
+    "family": "capture/FTG/BIG_TOWN",
+    "order": 6,
+    "label": "capture/FTG/BIG_TOWN/coast+river/3",
+    "ftgSize": "BIG_TOWN",
+    "rung": "TOWN",
+    "water": "coast+river",
+    "waterOptions": "nearest coast+river: coastal, rivers on (fourth)",
+    "nominalPopulation": 5600,
+    "premiumOnly": false,
+    "seed": null,
+    "capture": "2026-10-04T05-24-24",
+    "failed": null
+   },
+   {
+    "slot": 17,
+    "programme": 2,
+    "day": null,
+    "family": "capture/FTG/BIG_CITY",
+    "order": 6,
+    "label": "capture/FTG/BIG_CITY/coast+river/3",
+    "ftgSize": "BIG_CITY",
+    "rung": "CITY",
+    "water": "coast+river",
+    "waterOptions": "nearest coast+river: coastal, rivers on (fourth)",
+    "nominalPopulation": 24500,
+    "premiumOnly": false,
+    "seed": null,
+    "capture": "2026-10-04T05-40-57",
+    "failed": null
+   },
+   {
+    "slot": 18,
+    "programme": 2,
+    "day": null,
+    "family": "capture/FTG/BIG_TOWN",
+    "order": 7,
+    "label": "capture/FTG/BIG_TOWN/none/3",
+    "ftgSize": "BIG_TOWN",
+    "rung": "TOWN",
+    "water": "none",
+    "waterOptions": "nearest none: no coast, rivers off (fourth)",
+    "nominalPopulation": 5600,
+    "premiumOnly": false,
+    "seed": null,
+    "capture": "2026-10-04T06-00-29",
+    "failed": null
+   },
+   {
+    "slot": 19,
+    "programme": 2,
+    "day": null,
+    "family": "capture/FTG/BIG_CITY",
+    "order": 7,
+    "label": "capture/FTG/BIG_CITY/none/3",
+    "ftgSize": "BIG_CITY",
+    "rung": "CITY",
+    "water": "none",
+    "waterOptions": "nearest none: no coast, rivers off (fourth)",
+    "nominalPopulation": 24500,
+    "premiumOnly": false,
+    "seed": null,
+    "capture": "2026-10-04T06-30-03",
+    "failed": null
+   },
+   {
+    "slot": 20,
+    "programme": 2,
+    "day": null,
+    "family": "capture/FTG/BIG_TOWN",
+    "order": 8,
+    "label": "capture/FTG/BIG_TOWN/coast+river/4",
+    "ftgSize": "BIG_TOWN",
+    "rung": "TOWN",
+    "water": "coast+river",
+    "waterOptions": "nearest coast+river: coastal, rivers on (fifth)",
+    "nominalPopulation": 5600,
+    "premiumOnly": false,
+    "seed": null,
+    "capture": "2026-10-04T06-42-05",
+    "failed": null
+   },
+   {
+    "slot": 21,
+    "programme": 2,
+    "day": null,
+    "family": "capture/FTG/BIG_CITY",
+    "order": 8,
+    "label": "capture/FTG/BIG_CITY/coast+river/4",
+    "ftgSize": "BIG_CITY",
+    "rung": "CITY",
+    "water": "coast+river",
+    "waterOptions": "nearest coast+river: coastal, rivers on (fifth)",
+    "nominalPopulation": 24500,
+    "premiumOnly": false,
+    "seed": null,
+    "capture": "2026-10-04T06-55-42",
+    "failed": null
+   },
+   {
+    "slot": 22,
+    "programme": 2,
+    "day": null,
+    "family": "capture/FTG/BIG_TOWN",
+    "order": 9,
+    "label": "capture/FTG/BIG_TOWN/coast+river/5",
+    "ftgSize": "BIG_TOWN",
+    "rung": "TOWN",
+    "water": "coast+river",
+    "waterOptions": "nearest coast+river: coastal, rivers on (sixth)",
+    "nominalPopulation": 5600,
+    "premiumOnly": false,
+    "seed": null,
+    "capture": "2026-10-04T07-07-33",
+    "failed": null
+   },
+   {
+    "slot": 23,
+    "programme": 2,
+    "day": null,
+    "family": "capture/FTG/BIG_CITY",
+    "order": 9,
+    "label": "capture/FTG/BIG_CITY/coast+river/5",
+    "ftgSize": "BIG_CITY",
+    "rung": "CITY",
+    "water": "coast+river",
+    "waterOptions": "nearest coast+river: coastal, rivers on (sixth)",
+    "nominalPopulation": 24500,
+    "premiumOnly": false,
+    "seed": null,
+    "capture": "2026-10-04T07-21-10",
+    "failed": null
+   },
+   {
+    "slot": 24,
+    "programme": 2,
+    "day": null,
+    "family": "capture/FTG/CITY",
+    "order": 2,
+    "label": "capture/FTG/CITY/none/0",
+    "ftgSize": "CITY",
+    "rung": "TOWN",
+    "water": "none",
+    "waterOptions": "nearest none: no coast, rivers off",
+    "nominalPopulation": 9500,
+    "premiumOnly": false,
+    "seed": null,
+    "capture": "2026-10-04T07-34-12",
+    "failed": null
+   },
+   {
+    "slot": 25,
+    "programme": 2,
+    "day": null,
+    "family": "capture/FTG/CITY",
+    "order": 3,
+    "label": "capture/FTG/CITY/coast+river/2",
+    "ftgSize": "CITY",
+    "rung": "TOWN",
+    "water": "coast+river",
+    "waterOptions": "nearest coast+river: coastal, rivers on (third)",
+    "nominalPopulation": 9500,
+    "premiumOnly": false,
+    "seed": null,
+    "capture": "2026-10-04T07-50-43",
+    "failed": null
+   },
+   {
+    "slot": 26,
+    "programme": 2,
+    "day": null,
+    "family": "capture/FTG/TOWN",
+    "order": 0,
+    "label": "capture/FTG/TOWN/none/0",
+    "ftgSize": "TOWN",
+    "rung": "TOWN",
+    "water": "none",
+    "waterOptions": "nearest none: no coast, rivers off",
+    "nominalPopulation": 3625,
+    "premiumOnly": false,
+    "seed": null,
+    "capture": "2026-10-04T08-06-17",
+    "failed": null
+   },
+   {
+    "slot": 27,
+    "programme": 2,
+    "day": null,
+    "family": "capture/FTG/TOWN",
+    "order": 1,
+    "label": "capture/FTG/TOWN/coast+river/0",
+    "ftgSize": "TOWN",
+    "rung": "TOWN",
+    "water": "coast+river",
+    "waterOptions": "nearest coast+river: coastal, rivers on",
+    "nominalPopulation": 3625,
+    "premiumOnly": false,
+    "seed": null,
+    "capture": "2026-10-04T09-33-54",
+    "failed": null
+   }
+  ]
+ },
+ "mfcgRecordedDraw": {
+  "family": "capture/MFCG/draw/recorded",
+  "reference": "MFCG",
+  "build": "12710731",
+  "priority": 3,
+  "rule": "as recorded (R-51; R-02 and the Fantasy Manor sample are the precedents, V12 section 3.2.1): the twelve draw recordings made before the plan hold the family capture/MFCG/draw/recorded in recording order; a row lists in sample.failed the members its metric cannot read (truncated-log for the four logs cut at 60 000 entries; uncased for the one recording that draws its road without a casing) and pools nothing else; the family extends only by a new recording appended in order, under an approval (J171: none now)",
+  "workItem": "W-07 (E07 section 7); rows at W-15 (R-51)",
+  "records": [
+   {
+    "family": "capture/MFCG/draw/recorded",
+    "order": 0,
+    "label": "capture/MFCG/draw/recorded/0",
+    "record": "2026-09-21T05-03-24/gen-0",
+    "capture": "2026-09-21T05-03-24",
+    "generation": "gen-0",
+    "size": 25,
+    "water": "river+coast",
+    "logComplete": true,
+    "casedRibbon": true
+   },
+   {
+    "family": "capture/MFCG/draw/recorded",
+    "order": 1,
+    "label": "capture/MFCG/draw/recorded/1",
+    "record": "2026-09-21T05-03-24/gen-1",
+    "capture": "2026-09-21T05-03-24",
+    "generation": "gen-1",
+    "size": 24,
+    "water": "river+coast",
+    "logComplete": true,
+    "casedRibbon": true
+   },
+   {
+    "family": "capture/MFCG/draw/recorded",
+    "order": 2,
+    "label": "capture/MFCG/draw/recorded/2",
+    "record": "2026-09-21T05-03-24/gen-2",
+    "capture": "2026-09-21T05-03-24",
+    "generation": "gen-2",
+    "size": 31,
+    "water": "river",
+    "logComplete": true,
+    "casedRibbon": true
+   },
+   {
+    "family": "capture/MFCG/draw/recorded",
+    "order": 3,
+    "label": "capture/MFCG/draw/recorded/3",
+    "record": "2026-09-21T05-03-24/gen-3",
+    "capture": "2026-09-21T05-03-24",
+    "generation": "gen-3",
+    "size": 31,
+    "water": "coast",
+    "logComplete": true,
+    "casedRibbon": true
+   },
+   {
+    "family": "capture/MFCG/draw/recorded",
+    "order": 4,
+    "label": "capture/MFCG/draw/recorded/4",
+    "record": "2026-09-21T05-06-58/gen-0",
+    "capture": "2026-09-21T05-06-58",
+    "generation": "gen-0",
+    "size": 80,
+    "water": "river+coast",
+    "logComplete": false,
+    "casedRibbon": true
+   },
+   {
+    "family": "capture/MFCG/draw/recorded",
+    "order": 5,
+    "label": "capture/MFCG/draw/recorded/5",
+    "record": "2026-09-21T05-06-58/gen-1",
+    "capture": "2026-09-21T05-06-58",
+    "generation": "gen-1",
+    "size": 80,
+    "water": "river+coast",
+    "logComplete": false,
+    "casedRibbon": true
+   },
+   {
+    "family": "capture/MFCG/draw/recorded",
+    "order": 6,
+    "label": "capture/MFCG/draw/recorded/6",
+    "record": "2026-09-21T05-06-58/gen-2",
+    "capture": "2026-09-21T05-06-58",
+    "generation": "gen-2",
+    "size": 80,
+    "water": "river+coast",
+    "logComplete": false,
+    "casedRibbon": true
+   },
+   {
+    "family": "capture/MFCG/draw/recorded",
+    "order": 7,
+    "label": "capture/MFCG/draw/recorded/7",
+    "record": "2026-09-21T11-25-32/gen-0",
+    "capture": "2026-09-21T11-25-32",
+    "generation": "gen-0",
+    "size": 40,
+    "water": "plain",
+    "logComplete": true,
+    "casedRibbon": true
+   },
+   {
+    "family": "capture/MFCG/draw/recorded",
+    "order": 8,
+    "label": "capture/MFCG/draw/recorded/8",
+    "record": "2026-09-21T11-25-32/gen-1",
+    "capture": "2026-09-21T11-25-32",
+    "generation": "gen-1",
+    "size": 71,
+    "water": "river+coast",
+    "logComplete": false,
+    "casedRibbon": true
+   },
+   {
+    "family": "capture/MFCG/draw/recorded",
+    "order": 9,
+    "label": "capture/MFCG/draw/recorded/9",
+    "record": "2026-09-25T10-05-23/gen-0",
+    "capture": "2026-09-25T10-05-23",
+    "generation": "gen-0",
+    "size": 40,
+    "water": "plain",
+    "logComplete": true,
+    "casedRibbon": false
+   },
+   {
+    "family": "capture/MFCG/draw/recorded",
+    "order": 10,
+    "label": "capture/MFCG/draw/recorded/10",
+    "record": "2026-09-25T10-05-38/gen-0",
+    "capture": "2026-09-25T10-05-38",
+    "generation": "gen-0",
+    "size": 40,
+    "water": "plain",
+    "logComplete": true,
+    "casedRibbon": true
+   },
+   {
+    "family": "capture/MFCG/draw/recorded",
+    "order": 11,
+    "label": "capture/MFCG/draw/recorded/11",
+    "record": "2026-09-25T10-05-44/gen-0",
+    "capture": "2026-09-25T10-05-44",
+    "generation": "gen-0",
+    "size": 40,
+    "water": "plain",
+    "logComplete": true,
+    "casedRibbon": true
+   }
+  ]
+ },
+ "fm": {
+  "reference": "FM",
+  "build": "890",
+  "capture": "2026-09-25T11-25-38",
+  "n": 41,
+  "sample": "gen-0 (cold load) and gen-1 .. gen-40 (regenerations), all settled, as recorded; no new capture (V02 section 7.4; captures/manor/README-frequencies.md)",
+  "generations": [
+   "gen-0",
+   "gen-1",
+   "gen-2",
+   "gen-3",
+   "gen-4",
+   "gen-5",
+   "gen-6",
+   "gen-7",
+   "gen-8",
+   "gen-9",
+   "gen-10",
+   "gen-11",
+   "gen-12",
+   "gen-13",
+   "gen-14",
+   "gen-15",
+   "gen-16",
+   "gen-17",
+   "gen-18",
+   "gen-19",
+   "gen-20",
+   "gen-21",
+   "gen-22",
+   "gen-23",
+   "gen-24",
+   "gen-25",
+   "gen-26",
+   "gen-27",
+   "gen-28",
+   "gen-29",
+   "gen-30",
+   "gen-31",
+   "gen-32",
+   "gen-33",
+   "gen-34",
+   "gen-35",
+   "gen-36",
+   "gen-37",
+   "gen-38",
+   "gen-39",
+   "gen-40"
+  ],
+  "rowsAt": "M6c (V02); not an M-1 row"
+ },
+ "notInThisPlan": [
+  "VG: V07 section 7 owns its recordings and rows; they cross at V-M4 (V12 section 3.4.4)",
+  "the panel identifier files (fm-captures.json, dw-captures.json, vg-seeds.json; ftg-captures.json; ng-counts.json) are written for their panels at M1, M5, M6c and V-M4 (M-1-plan section 1, Not M-1's)"
+ ],
+ "counts": {
+  "mfcgExports": 36,
+  "mfcgFiles": 72,
+  "ngGenerations": 44,
+  "formulaExtensions": {
+   "capture/MFCG/130/plain": 11
+  },
+  "ftgSlots": 28,
+  "ftgProgramme1": 6,
+  "ftgProgramme2": 22,
+  "fmBuildings": 41,
+  "mfcgRecordedDraw": 12,
+  "seedCollisions": []
+ }
+}

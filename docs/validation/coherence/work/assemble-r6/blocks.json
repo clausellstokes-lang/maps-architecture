@@ -1,0 +1,2843 @@
+{
+ "repair_files": [
+  {
+   "file": "docs/validation/coherence/repair-r6-V01.md",
+   "sha256": "658c474945a0787b03008cc0ad47c2570260682f1b9a7a1434519b2bd46ac44f",
+   "lines": 860,
+   "file_lines": [
+    {
+     "line": 142,
+     "target": "docs/volumes/V01-neighbourhoods.md"
+    }
+   ],
+   "blocks": [],
+   "tail_nonblank_lines_after_last_END": 0
+  },
+  {
+   "file": "docs/validation/coherence/repair-r6-V02.md",
+   "sha256": "24fa09d2e6edee593e49284bc81c9d9dd83cc7ee4ee0f578df1cb0dfc6d98547",
+   "lines": 134,
+   "file_lines": [
+    {
+     "line": 114,
+     "target": "docs/volumes/V02-buildings.md"
+    }
+   ],
+   "blocks": [],
+   "tail_nonblank_lines_after_last_END": 0
+  },
+  {
+   "file": "docs/validation/coherence/repair-r6-V03.md",
+   "sha256": "7aea4b547b52921b56c4b5a813c782f3a8a7ad98793fbd881ab84ced7c8b1831",
+   "lines": 333,
+   "file_lines": [
+    {
+     "line": 114,
+     "target": "docs/volumes/V03-interiors.md"
+    }
+   ],
+   "blocks": [],
+   "tail_nonblank_lines_after_last_END": 0
+  },
+  {
+   "file": "docs/validation/coherence/repair-r6-V04.md",
+   "sha256": "bb43437f005eccbfad96a040c29055d361e4ea7bf5c69d3dd72d6f2739fc0b83",
+   "lines": 1882,
+   "file_lines": [
+    {
+     "line": 140,
+     "target": "docs/volumes/V04-underground.md"
+    }
+   ],
+   "blocks": [],
+   "tail_nonblank_lines_after_last_END": 0
+  },
+  {
+   "file": "docs/validation/coherence/repair-r6-V05.md",
+   "sha256": "6980ed1537bce097a013909a3c65cbe3c2eccf14b1c50007262bd0d416e65f0b",
+   "lines": 673,
+   "file_lines": [
+    {
+     "line": 114,
+     "target": "docs/volumes/V05-sky.md"
+    }
+   ],
+   "blocks": [],
+   "tail_nonblank_lines_after_last_END": 0
+  },
+  {
+   "file": "docs/validation/coherence/repair-r6-V06.md",
+   "sha256": "08b4edb354d03e1d0e2eb2ce3ef42f55968e11164d998932f80d6020b8d706f4",
+   "lines": 2099,
+   "file_lines": [
+    {
+     "line": 215,
+     "target": "docs/volumes/V06-evolution.md"
+    }
+   ],
+   "blocks": [],
+   "tail_nonblank_lines_after_last_END": 0
+  },
+  {
+   "file": "docs/validation/coherence/repair-r6-V07.md",
+   "sha256": "9cc5a8c6007827e7e66282cf06c85e13095b0dd035473effae1b38070e2ddd32",
+   "lines": 716,
+   "file_lines": [
+    {
+     "line": 124,
+     "target": "docs/volumes/V07-village.md"
+    }
+   ],
+   "blocks": [],
+   "tail_nonblank_lines_after_last_END": 0
+  },
+  {
+   "file": "docs/validation/coherence/repair-r6-V08.md",
+   "sha256": "fb4317fee78a6899d9495575e0e5f6fb4dbcc7bb382f4cb52cde21e5d981524a",
+   "lines": 1040,
+   "file_lines": [
+    {
+     "line": 153,
+     "target": "docs/volumes/V08-settlementforge.md"
+    }
+   ],
+   "blocks": [],
+   "tail_nonblank_lines_after_last_END": 0
+  },
+  {
+   "file": "docs/validation/coherence/repair-r6-V09.md",
+   "sha256": "32f89c2a2155bfe0378acbe00af96a688e4566d5c9bac51df5345c51058f3891",
+   "lines": 1744,
+   "file_lines": [
+    {
+     "line": 109,
+     "target": "docs/volumes/V09-application.md"
+    }
+   ],
+   "blocks": [],
+   "tail_nonblank_lines_after_last_END": 0
+  },
+  {
+   "file": "docs/validation/coherence/repair-r6-V10.md",
+   "sha256": "76452c02700620d43013069ff46adefa0f7b79b4fff6361d898095a1ced97222",
+   "lines": 1385,
+   "file_lines": [
+    {
+     "line": 127,
+     "target": "docs/volumes/V10-clerk.md"
+    }
+   ],
+   "blocks": [],
+   "tail_nonblank_lines_after_last_END": 0
+  },
+  {
+   "file": "docs/validation/coherence/repair-r6-V11.md",
+   "sha256": "3c568ed1f657299f7d3beb5fd33e5b9477efd50cfe7e035298d8ee904430cd07",
+   "lines": 1584,
+   "file_lines": [
+    {
+     "line": 139,
+     "target": "docs/volumes/V11-content.md"
+    }
+   ],
+   "blocks": [],
+   "tail_nonblank_lines_after_last_END": 0
+  },
+  {
+   "file": "docs/validation/coherence/repair-r6-V12.md",
+   "sha256": "eb14b36f3bebb9a9d9b7bc1c31db76d642c486b509be085666288261e53a2885",
+   "lines": 1226,
+   "file_lines": [
+    {
+     "line": 144,
+     "target": "docs/volumes/V12-calibration.md"
+    }
+   ],
+   "blocks": [],
+   "tail_nonblank_lines_after_last_END": 0
+  },
+  {
+   "file": "docs/validation/coherence/repair-r6-determinism.md",
+   "sha256": "89b8696ce8ffebeee4b8ab2ba02c80b58dfced17adfc4f009b35ebd882256200",
+   "lines": 2039,
+   "file_lines": [],
+   "blocks": [],
+   "tail_nonblank_lines_after_last_END": 0
+  },
+  {
+   "file": "docs/validation/coherence/repair-r6-model.md",
+   "sha256": "88552b3a51df012fca0dbc84d37dd51955bedb0568c4594831e63b3f3558cedf",
+   "lines": 1233,
+   "file_lines": [],
+   "blocks": [],
+   "tail_nonblank_lines_after_last_END": 0
+  },
+  {
+   "file": "docs/validation/coherence/repair-r6-pipeline.md",
+   "sha256": "05f4362aa3b1bcca0be3f23184ee67b69c9ca2ba2f3816faf8e78a76c02104a4",
+   "lines": 2795,
+   "file_lines": [],
+   "blocks": [],
+   "tail_nonblank_lines_after_last_END": 0
+  },
+  {
+   "file": "docs/validation/coherence/repair-r6-rendering.md",
+   "sha256": "dffa38a809ccc17691b5bd8e2dd247e5113755bdf442bbf4d1310b6d06f75967",
+   "lines": 2415,
+   "file_lines": [],
+   "blocks": [],
+   "tail_nonblank_lines_after_last_END": 0
+  },
+  {
+   "file": "docs/validation/coherence/repair-r6-scope.md",
+   "sha256": "cf07dc46810122405f7f85c2b8182c1ae689177341106693517bb0b930182be3",
+   "lines": 1966,
+   "file_lines": [],
+   "blocks": [],
+   "tail_nonblank_lines_after_last_END": 0
+  }
+ ],
+ "targets": {
+  "docs/volumes/V01-neighbourhoods.md": {
+   "split_dir": "docs/validation/coherence/work/assemble-r6/split/V01-neighbourhoods",
+   "files": [
+    "repair-r6-V01.md"
+   ],
+   "blocks": [
+    {
+     "repair": "repair-r6-V01.md",
+     "index": 1,
+     "line_in_split": 2,
+     "kind": "REPLACE",
+     "target": "#### 3.4.2 What every seed primitive shares",
+     "closed": true,
+     "body_lines": 50,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      972,
+      1023
+     ],
+     "pre_level": 4,
+     "body_headings": 1,
+     "body_first": "#### 3.4.2 What every seed primitive shares"
+    },
+    {
+     "repair": "repair-r6-V01.md",
+     "index": 2,
+     "line_in_split": 55,
+     "kind": "REPLACE",
+     "target": "### 3.6 Context features (stage-2 feature S2)",
+     "closed": true,
+     "body_lines": 55,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      1394,
+      1451
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 3.6 Context features (stage-2 feature S2)"
+    },
+    {
+     "repair": "repair-r6-V01.md",
+     "index": 3,
+     "line_in_split": 113,
+     "kind": "REPLACE",
+     "target": "### 3.16 Services other volumes call (`@plat/hood`)",
+     "closed": true,
+     "body_lines": 113,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      2278,
+      2392
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 3.16 Services other volumes call (`@plat/hood`)"
+    },
+    {
+     "repair": "repair-r6-V01.md",
+     "index": 4,
+     "line_in_split": 229,
+     "kind": "REPLACE",
+     "target": "#### 3.17.3 Raised ways in the close-up (J-V1.65)",
+     "closed": true,
+     "body_lines": 33,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      2456,
+      2492
+     ],
+     "pre_level": 4,
+     "body_headings": 1,
+     "body_first": "#### 3.17.3 Raised ways in the close-up (J-V1.65)"
+    },
+    {
+     "repair": "repair-r6-V01.md",
+     "index": 5,
+     "line_in_split": 265,
+     "kind": "REPLACE",
+     "target": "#### 3.17.4 Raised-way land and the slot",
+     "closed": true,
+     "body_lines": 16,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      2492,
+      2508
+     ],
+     "pre_level": 4,
+     "body_headings": 1,
+     "body_first": "#### 3.17.4 Raised-way land and the slot"
+    },
+    {
+     "repair": "repair-r6-V01.md",
+     "index": 6,
+     "line_in_split": 284,
+     "kind": "REPLACE",
+     "target": "### 3.18 Edges — every mechanism at its limits (principle (11))",
+     "closed": true,
+     "body_lines": 127,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      2586,
+      2714
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 3.18 Edges — every mechanism at its limits (principle (11))"
+    },
+    {
+     "repair": "repair-r6-V01.md",
+     "index": 7,
+     "line_in_split": 414,
+     "kind": "REPLACE",
+     "target": "### 4.2 The tool parameters (items 272, 349, 350)",
+     "closed": true,
+     "body_lines": 23,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      2757,
+      2781
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 4.2 The tool parameters (items 272, 349, 350)"
+    },
+    {
+     "repair": "repair-r6-V01.md",
+     "index": 8,
+     "line_in_split": 440,
+     "kind": "REPLACE",
+     "target": "#### 5.1.3 Layer order at the neighbourhood and building bands (`hatched`)",
+     "closed": true,
+     "body_lines": 41,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      3000,
+      3042
+     ],
+     "pre_level": 4,
+     "body_headings": 1,
+     "body_first": "#### 5.1.3 Layer order at the neighbourhood and building bands (`hatched`)"
+    },
+    {
+     "repair": "repair-r6-V01.md",
+     "index": 9,
+     "line_in_split": 484,
+     "kind": "REPLACE",
+     "target": "## 7 Tests and acceptance bars",
+     "closed": true,
+     "body_lines": 76,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      3295,
+      3372
+     ],
+     "pre_level": 2,
+     "body_headings": 1,
+     "body_first": "## 7 Tests and acceptance bars"
+    },
+    {
+     "repair": "repair-r6-V01.md",
+     "index": 10,
+     "line_in_split": 563,
+     "kind": "REPLACE",
+     "target": "### 8.2 M5's work items, dependencies and estimates (person-weeks, expert; PLAUSIBLE)",
+     "closed": true,
+     "body_lines": 38,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      3434,
+      3473
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 8.2 M5's work items, dependencies and estimates (person-weeks, expert; PLAUSIBLE)"
+    },
+    {
+     "repair": "repair-r6-V01.md",
+     "index": 11,
+     "line_in_split": 604,
+     "kind": "REPLACE",
+     "target": "## 9 Decisions",
+     "closed": true,
+     "body_lines": 112,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      3516,
+      3629
+     ],
+     "pre_level": 2,
+     "body_headings": 1,
+     "body_first": "## 9 Decisions"
+    }
+   ]
+  },
+  "docs/volumes/V02-buildings.md": {
+   "split_dir": "docs/validation/coherence/work/assemble-r6/split/V02-buildings",
+   "files": [
+    "repair-r6-V02.md"
+   ],
+   "blocks": [
+    {
+     "repair": "repair-r6-V02.md",
+     "index": 1,
+     "line_in_split": 2,
+     "kind": "REPLACE",
+     "target": "### 8.6 Ruin and disaster in the build (items 123, 122)",
+     "closed": true,
+     "body_lines": 16,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      3888,
+      3899
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 8.6 Ruin and disaster in the build (items 123, 122)"
+    }
+   ]
+  },
+  "docs/volumes/V03-interiors.md": {
+   "split_dir": "docs/validation/coherence/work/assemble-r6/split/V03-interiors",
+   "files": [
+    "repair-r6-V03.md"
+   ],
+   "blocks": [
+    {
+     "repair": "repair-r6-V03.md",
+     "index": 1,
+     "line_in_split": 2,
+     "kind": "REPLACE",
+     "target": "### 3.13 Edges at their limits (principle (11))",
+     "closed": true,
+     "body_lines": 37,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      2063,
+      2101
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 3.13 Edges at their limits (principle (11))"
+    },
+    {
+     "repair": "repair-r6-V03.md",
+     "index": 2,
+     "line_in_split": 42,
+     "kind": "REPLACE",
+     "target": "### 5.2 Picture exports",
+     "closed": true,
+     "body_lines": 16,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      2478,
+      2495
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 5.2 Picture exports"
+    },
+    {
+     "repair": "repair-r6-V03.md",
+     "index": 3,
+     "line_in_split": 61,
+     "kind": "REPLACE",
+     "target": "## 7 Tests and acceptance bars",
+     "closed": true,
+     "body_lines": 88,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      2835,
+      2924
+     ],
+     "pre_level": 2,
+     "body_headings": 1,
+     "body_first": "## 7 Tests and acceptance bars"
+    },
+    {
+     "repair": "repair-r6-V03.md",
+     "index": 4,
+     "line_in_split": 152,
+     "kind": "REPLACE",
+     "target": "## 8 Build plan",
+     "closed": true,
+     "body_lines": 65,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      2924,
+      2990
+     ],
+     "pre_level": 2,
+     "body_headings": 1,
+     "body_first": "## 8 Build plan"
+    }
+   ]
+  },
+  "docs/volumes/V04-underground.md": {
+   "split_dir": "docs/validation/coherence/work/assemble-r6/split/V04-underground",
+   "files": [
+    "repair-r6-V04.md"
+   ],
+   "blocks": [
+    {
+     "repair": "repair-r6-V04.md",
+     "index": 1,
+     "line_in_split": 2,
+     "kind": "REPLACE",
+     "target": "## 0 In plain words",
+     "closed": true,
+     "body_lines": 76,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      13,
+      90
+     ],
+     "pre_level": 2,
+     "body_headings": 1,
+     "body_first": "## 0 In plain words"
+    },
+    {
+     "repair": "repair-r6-V04.md",
+     "index": 2,
+     "line_in_split": 81,
+     "kind": "REPLACE",
+     "target": "### 1.2 The base hooks this volume consumes (cited, never restated)",
+     "closed": true,
+     "body_lines": 82,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      113,
+      196
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 1.2 The base hooks this volume consumes (cited, never restated)"
+    },
+    {
+     "repair": "repair-r6-V04.md",
+     "index": 3,
+     "line_in_split": 166,
+     "kind": "REPLACE",
+     "target": "### 1b.2 Stage outputs and interfaces",
+     "closed": true,
+     "body_lines": 40,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      310,
+      351
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 1b.2 Stage outputs and interfaces"
+    },
+    {
+     "repair": "repair-r6-V04.md",
+     "index": 4,
+     "line_in_split": 209,
+     "kind": "REPLACE",
+     "target": "### 1b.3 Edit kinds (each with its tool, lifecycle row and undo)",
+     "closed": true,
+     "body_lines": 23,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      351,
+      375
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 1b.3 Edit kinds (each with its tool, lifecycle row and undo)"
+    },
+    {
+     "repair": "repair-r6-V04.md",
+     "index": 5,
+     "line_in_split": 235,
+     "kind": "REPLACE",
+     "target": "### 2.6 The lifecycle of every state field this volume adds or gives a producer",
+     "closed": true,
+     "body_lines": 41,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      838,
+      880
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 2.6 The lifecycle of every state field this volume adds or gives a producer"
+    },
+    {
+     "repair": "repair-r6-V04.md",
+     "index": 6,
+     "line_in_split": 279,
+     "kind": "REPLACE",
+     "target": "### 3.5 U-SYS — the void systems",
+     "closed": true,
+     "body_lines": 686,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      1276,
+      1959
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 3.5 U-SYS — the void systems"
+    },
+    {
+     "repair": "repair-r6-V04.md",
+     "index": 7,
+     "line_in_split": 968,
+     "kind": "REPLACE",
+     "target": "### 3.10 U-FADE and the underground at an epoch (item 11; J-V4.28 – J-V4.30)",
+     "closed": true,
+     "body_lines": 131,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      2227,
+      2356
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 3.10 U-FADE and the underground at an epoch (item 11; J-V4.28 – J-V4.30)"
+    },
+    {
+     "repair": "repair-r6-V04.md",
+     "index": 8,
+     "line_in_split": 1102,
+     "kind": "REPLACE",
+     "target": "### 3.11 Failure handling (no whole-map retry; §5)",
+     "closed": true,
+     "body_lines": 99,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      2356,
+      2456
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 3.11 Failure handling (no whole-map retry; §5)"
+    },
+    {
+     "repair": "repair-r6-V04.md",
+     "index": 9,
+     "line_in_split": 1204,
+     "kind": "REPLACE",
+     "target": "### 4.1 Declarations — points in, shape out (item 101 (i); item 355)",
+     "closed": true,
+     "body_lines": 27,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      2510,
+      2538
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 4.1 Declarations — points in, shape out (item 101 (i); item 355)"
+    },
+    {
+     "repair": "repair-r6-V04.md",
+     "index": 10,
+     "line_in_split": 1234,
+     "kind": "REPLACE",
+     "target": "### 4.2 Attribute paths (`setAttr`), with ranges and effects",
+     "closed": true,
+     "body_lines": 18,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      2538,
+      2557
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 4.2 Attribute paths (`setAttr`), with ranges and effects"
+    },
+    {
+     "repair": "repair-r6-V04.md",
+     "index": 11,
+     "line_in_split": 1255,
+     "kind": "REPLACE",
+     "target": "### 4.3 Locality (§7.3; J-V4.14)",
+     "closed": true,
+     "body_lines": 23,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      2557,
+      2580
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 4.3 Locality (§7.3; J-V4.14)"
+    },
+    {
+     "repair": "repair-r6-V04.md",
+     "index": 12,
+     "line_in_split": 1281,
+     "kind": "REPLACE",
+     "target": "### 4.4 Undo and the closure record",
+     "closed": true,
+     "body_lines": 15,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      2580,
+      2595
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 4.4 Undo and the closure record"
+    },
+    {
+     "repair": "repair-r6-V04.md",
+     "index": 13,
+     "line_in_split": 1299,
+     "kind": "REPLACE",
+     "target": "### 4.6 Migration (§7.5)",
+     "closed": true,
+     "body_lines": 27,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      2638,
+      2666
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 4.6 Migration (§7.5)"
+    },
+    {
+     "repair": "repair-r6-V04.md",
+     "index": 14,
+     "line_in_split": 1329,
+     "kind": "REPLACE",
+     "target": "### 5.2 Marks and programs (§8.1, §8.2)",
+     "closed": true,
+     "body_lines": 71,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      2758,
+      2830
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 5.2 Marks and programs (§8.1, §8.2)"
+    },
+    {
+     "repair": "repair-r6-V04.md",
+     "index": 15,
+     "line_in_split": 1403,
+     "kind": "REPLACE",
+     "target": "### 5.6 Damage below ground — cellars, crypts and underground buildings (g item 123; J-V4.130)",
+     "closed": true,
+     "body_lines": 79,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      2885,
+      2964
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 5.6 Damage below ground — cellars, crypts and underground buildings (g item 123; J-V4.130)"
+    },
+    {
+     "repair": "repair-r6-V04.md",
+     "index": 16,
+     "line_in_split": 1485,
+     "kind": "REPLACE",
+     "target": "## 7 Tests and acceptance bars",
+     "closed": true,
+     "body_lines": 114,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      3058,
+      3173
+     ],
+     "pre_level": 2,
+     "body_headings": 1,
+     "body_first": "## 7 Tests and acceptance bars"
+    },
+    {
+     "repair": "repair-r6-V04.md",
+     "index": 17,
+     "line_in_split": 1602,
+     "kind": "REPLACE",
+     "target": "## 9 Decisions (each vetoable)",
+     "closed": true,
+     "body_lines": 138,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      3282,
+      3421
+     ],
+     "pre_level": 2,
+     "body_headings": 1,
+     "body_first": "## 9 Decisions (each vetoable)"
+    }
+   ]
+  },
+  "docs/volumes/V05-sky.md": {
+   "split_dir": "docs/validation/coherence/work/assemble-r6/split/V05-sky",
+   "files": [
+    "repair-r6-V05.md"
+   ],
+   "blocks": [
+    {
+     "repair": "repair-r6-V05.md",
+     "index": 1,
+     "line_in_split": 2,
+     "kind": "REPLACE",
+     "target": "### 3.16 The fall and the landfall (`fallIsland`)",
+     "closed": true,
+     "body_lines": 57,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      1311,
+      1370
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 3.16 The fall and the landfall (`fallIsland`)"
+    },
+    {
+     "repair": "repair-r6-V05.md",
+     "index": 2,
+     "line_in_split": 62,
+     "kind": "REPLACE",
+     "target": "## 7 Tests and acceptance bars",
+     "closed": true,
+     "body_lines": 422,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      2419,
+      2831
+     ],
+     "pre_level": 2,
+     "body_headings": 1,
+     "body_first": "## 7 Tests and acceptance bars"
+    },
+    {
+     "repair": "repair-r6-V05.md",
+     "index": 3,
+     "line_in_split": 487,
+     "kind": "REPLACE",
+     "target": "## 8 Build plan",
+     "closed": true,
+     "body_lines": 69,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      2831,
+      2900
+     ],
+     "pre_level": 2,
+     "body_headings": 1,
+     "body_first": "## 8 Build plan"
+    }
+   ]
+  },
+  "docs/volumes/V06-evolution.md": {
+   "split_dir": "docs/validation/coherence/work/assemble-r6/split/V06-evolution",
+   "files": [
+    "repair-r6-V06.md"
+   ],
+   "blocks": [
+    {
+     "repair": "repair-r6-V06.md",
+     "index": 1,
+     "line_in_split": 1,
+     "kind": "REPLACE",
+     "target": "## 1b Wiring table — every new piece, what feeds it and what it feeds",
+     "closed": true,
+     "body_lines": 130,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      276,
+      407
+     ],
+     "pre_level": 2,
+     "body_headings": 1,
+     "body_first": "## 1b Wiring table — every new piece, what feeds it and what it feeds"
+    },
+    {
+     "repair": "repair-r6-V06.md",
+     "index": 2,
+     "line_in_split": 133,
+     "kind": "REPLACE",
+     "target": "### 2.1 The engine's interfaces (`@plat/evolve`)",
+     "closed": true,
+     "body_lines": 72,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      415,
+      488
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 2.1 The engine's interfaces (`@plat/evolve`)"
+    },
+    {
+     "repair": "repair-r6-V06.md",
+     "index": 3,
+     "line_in_split": 207,
+     "kind": "REPLACE",
+     "target": "### 2.8 The new conversion kinds and `Way.formerClass`",
+     "closed": true,
+     "body_lines": 25,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      709,
+      735
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 2.8 The new conversion kinds and `Way.formerClass`"
+    },
+    {
+     "repair": "repair-r6-V06.md",
+     "index": 4,
+     "line_in_split": 234,
+     "kind": "REPLACE",
+     "target": "### 2.10 The epoch report and the chronicle (non-canonical, rebuilt by replay)",
+     "closed": true,
+     "body_lines": 67,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      739,
+      807
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 2.10 The epoch report and the chronicle (non-canonical, rebuilt by replay)"
+    },
+    {
+     "repair": "repair-r6-V06.md",
+     "index": 5,
+     "line_in_split": 303,
+     "kind": "REPLACE",
+     "target": "### 2.12 Lifecycle of every new state (create · read · persist · regenerate · undo · migrate)",
+     "closed": true,
+     "body_lines": 48,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      826,
+      875
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 2.12 Lifecycle of every new state (create · read · persist · regenerate · undo · migrate)"
+    },
+    {
+     "repair": "repair-r6-V06.md",
+     "index": 6,
+     "line_in_split": 353,
+     "kind": "REPLACE",
+     "target": "### 3.2 The phase order",
+     "closed": true,
+     "body_lines": 87,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      988,
+      1073
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 3.2 The phase order"
+    },
+    {
+     "repair": "repair-r6-V06.md",
+     "index": 7,
+     "line_in_split": 442,
+     "kind": "REPLACE",
+     "target": "### 3.6 Growth — fill first, crowd next, spread last",
+     "closed": true,
+     "body_lines": 60,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      1382,
+      1443
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 3.6 Growth — fill first, crowd next, spread last"
+    },
+    {
+     "repair": "repair-r6-V06.md",
+     "index": 8,
+     "line_in_split": 504,
+     "kind": "REPLACE",
+     "target": "### 3.7 Fortification — new circuits, old rings, shorter rings",
+     "closed": true,
+     "body_lines": 217,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      1443,
+      1677
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 3.7 Fortification — new circuits, old rings, shorter rings"
+    },
+    {
+     "repair": "repair-r6-V06.md",
+     "index": 9,
+     "line_in_split": 723,
+     "kind": "REPLACE",
+     "target": "### 3.11 Hazards — fire, flood, collapse and drought",
+     "closed": true,
+     "body_lines": 105,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      2078,
+      2177
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 3.11 Hazards — fire, flood, collapse and drought"
+    },
+    {
+     "repair": "repair-r6-V06.md",
+     "index": 10,
+     "line_in_split": 830,
+     "kind": "REPLACE",
+     "target": "### 3.17 Failure handling — never a whole-map retry (§5)",
+     "closed": true,
+     "body_lines": 35,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      2467,
+      2502
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 3.17 Failure handling — never a whole-map retry (§5)"
+    },
+    {
+     "repair": "repair-r6-V06.md",
+     "index": 11,
+     "line_in_split": 867,
+     "kind": "REPLACE",
+     "target": "### 3.19 Item 110 over epochs — raised ways, retaining walls and decks (item 110 (a), (b), (d); J-V6.82–J-V6.95)",
+     "closed": true,
+     "body_lines": 364,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      2734,
+      3103
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 3.19 Item 110 over epochs — raised ways, retaining walls and decks (item 110 (a), (b), (d); J-V6.82–J-V6.95)"
+    },
+    {
+     "repair": "repair-r6-V06.md",
+     "index": 12,
+     "line_in_split": 1233,
+     "kind": "REPLACE",
+     "target": "### 3.21 Edges — every mechanism at its limits (principle (11))",
+     "closed": true,
+     "body_lines": 77,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      3260,
+      3338
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 3.21 Edges — every mechanism at its limits (principle (11))"
+    },
+    {
+     "repair": "repair-r6-V06.md",
+     "index": 13,
+     "line_in_split": 1312,
+     "kind": "REPLACE",
+     "target": "### 3.22 Crisis looks and the epoch path — the hand-over (item 122)",
+     "closed": true,
+     "body_lines": 66,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      3338,
+      3404
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 3.22 Crisis looks and the epoch path — the hand-over (item 122)"
+    },
+    {
+     "repair": "repair-r6-V06.md",
+     "index": 14,
+     "line_in_split": 1380,
+     "kind": "REPLACE",
+     "target": "### 4.4 Editing the past — forks and re-runs",
+     "closed": true,
+     "body_lines": 26,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      3607,
+      3633
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 4.4 Editing the past — forks and re-runs"
+    },
+    {
+     "repair": "repair-r6-V06.md",
+     "index": 15,
+     "line_in_split": 1408,
+     "kind": "REPLACE",
+     "target": "## 7 Tests and acceptance bars",
+     "closed": true,
+     "body_lines": 180,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      4040,
+      4214
+     ],
+     "pre_level": 2,
+     "body_headings": 1,
+     "body_first": "## 7 Tests and acceptance bars"
+    },
+    {
+     "repair": "repair-r6-V06.md",
+     "index": 16,
+     "line_in_split": 1590,
+     "kind": "REPLACE",
+     "target": "## 8 Build plan",
+     "closed": true,
+     "body_lines": 143,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      4214,
+      4357
+     ],
+     "pre_level": 2,
+     "body_headings": 1,
+     "body_first": "## 8 Build plan"
+    },
+    {
+     "repair": "repair-r6-V06.md",
+     "index": 17,
+     "line_in_split": 1735,
+     "kind": "REPLACE",
+     "target": "## 9 Decisions (each \"chose X over Y because Z\"; vetoable)",
+     "closed": true,
+     "body_lines": 147,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      4357,
+      4505
+     ],
+     "pre_level": 2,
+     "body_headings": 1,
+     "body_first": "## 9 Decisions (each \"chose X over Y because Z\"; vetoable)"
+    }
+   ]
+  },
+  "docs/volumes/V07-village.md": {
+   "split_dir": "docs/validation/coherence/work/assemble-r6/split/V07-village",
+   "files": [
+    "repair-r6-V07.md"
+   ],
+   "blocks": [
+    {
+     "repair": "repair-r6-V07.md",
+     "index": 1,
+     "line_in_split": 2,
+     "kind": "REPLACE",
+     "target": "## 1b Wiring table",
+     "closed": true,
+     "body_lines": 127,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      202,
+      331
+     ],
+     "pre_level": 2,
+     "body_headings": 1,
+     "body_first": "## 1b Wiring table"
+    },
+    {
+     "repair": "repair-r6-V07.md",
+     "index": 2,
+     "line_in_split": 132,
+     "kind": "REPLACE",
+     "target": "### 3.5a A raised way on a village map (item 110 (b); J-V7.83)",
+     "closed": true,
+     "body_lines": 100,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      1559,
+      1661
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 3.5a A raised way on a village map (item 110 (b); J-V7.83)"
+    },
+    {
+     "repair": "repair-r6-V07.md",
+     "index": 3,
+     "line_in_split": 235,
+     "kind": "REPLACE",
+     "target": "### 3.12a A village over a former town, and refounding at village rungs (item 113, the village's part; J-V7.138)",
+     "closed": true,
+     "body_lines": 65,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      2667,
+      2733
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 3.12a A village over a former town, and refounding at village rungs (item 113, the village's part; J-V7.138)"
+    },
+    {
+     "repair": "repair-r6-V07.md",
+     "index": 4,
+     "line_in_split": 303,
+     "kind": "REPLACE",
+     "target": "### 3.17 Edges — every mechanism at its limits (principle (11))",
+     "closed": true,
+     "body_lines": 67,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      2925,
+      2994
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 3.17 Edges — every mechanism at its limits (principle (11))"
+    },
+    {
+     "repair": "repair-r6-V07.md",
+     "index": 5,
+     "line_in_split": 373,
+     "kind": "REPLACE",
+     "target": "### 4.5 The clerk's view",
+     "closed": true,
+     "body_lines": 67,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      3096,
+      3163
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 4.5 The clerk's view"
+    },
+    {
+     "repair": "repair-r6-V07.md",
+     "index": 6,
+     "line_in_split": 443,
+     "kind": "REPLACE",
+     "target": "## 7 Tests and acceptance bars",
+     "closed": true,
+     "body_lines": 100,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      3617,
+      3719
+     ],
+     "pre_level": 2,
+     "body_headings": 1,
+     "body_first": "## 7 Tests and acceptance bars"
+    },
+    {
+     "repair": "repair-r6-V07.md",
+     "index": 7,
+     "line_in_split": 546,
+     "kind": "REPLACE",
+     "target": "## 12 CONFIRMED versus PLAUSIBLE",
+     "closed": true,
+     "body_lines": 44,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      4029,
+      4073
+     ],
+     "pre_level": 2,
+     "body_headings": 1,
+     "body_first": "## 12 CONFIRMED versus PLAUSIBLE"
+    }
+   ]
+  },
+  "docs/volumes/V08-settlementforge.md": {
+   "split_dir": "docs/validation/coherence/work/assemble-r6/split/V08-settlementforge",
+   "files": [
+    "repair-r6-V08.md"
+   ],
+   "blocks": [
+    {
+     "repair": "repair-r6-V08.md",
+     "index": 1,
+     "line_in_split": 2,
+     "kind": "REPLACE",
+     "target": "## 1b Wiring table",
+     "closed": true,
+     "body_lines": 116,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      217,
+      334
+     ],
+     "pre_level": 2,
+     "body_headings": 1,
+     "body_first": "## 1b Wiring table"
+    },
+    {
+     "repair": "repair-r6-V08.md",
+     "index": 2,
+     "line_in_split": 121,
+     "kind": "REPLACE",
+     "target": "### 2.3 The binding in practice — the carried facts and their hash",
+     "closed": true,
+     "body_lines": 69,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      498,
+      568
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 2.3 The binding in practice — the carried facts and their hash"
+    },
+    {
+     "repair": "repair-r6-V08.md",
+     "index": 3,
+     "line_in_split": 193,
+     "kind": "REPLACE",
+     "target": "### 2.7 Lifecycle of every new state field",
+     "closed": true,
+     "body_lines": 46,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      1279,
+      1327
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 2.7 Lifecycle of every new state field"
+    },
+    {
+     "repair": "repair-r6-V08.md",
+     "index": 4,
+     "line_in_split": 242,
+     "kind": "REPLACE",
+     "target": "### 3.2 When a dossier is offered, and coalescing",
+     "closed": true,
+     "body_lines": 20,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      1522,
+      1541
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 3.2 When a dossier is offered, and coalescing"
+    },
+    {
+     "repair": "repair-r6-V08.md",
+     "index": 5,
+     "line_in_split": 265,
+     "kind": "REPLACE",
+     "target": "### 3.6 From changes to events and epochs",
+     "closed": true,
+     "body_lines": 110,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      1849,
+      1959
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 3.6 From changes to events and epochs"
+    },
+    {
+     "repair": "repair-r6-V08.md",
+     "index": 6,
+     "line_in_split": 378,
+     "kind": "REPLACE",
+     "target": "### 3.8 Versions and migrations on both sides",
+     "closed": true,
+     "body_lines": 37,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      2015,
+      2051
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 3.8 Versions and migrations on both sides"
+    },
+    {
+     "repair": "repair-r6-V08.md",
+     "index": 7,
+     "line_in_split": 418,
+     "kind": "REPLACE",
+     "target": "### 3.17 Edges — every mechanism at its limits (principle (11))",
+     "closed": true,
+     "body_lines": 74,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      2669,
+      2744
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 3.17 Edges — every mechanism at its limits (principle (11))"
+    },
+    {
+     "repair": "repair-r6-V08.md",
+     "index": 8,
+     "line_in_split": 495,
+     "kind": "REPLACE",
+     "target": "### 4.6 The DM's view of what the dossier did",
+     "closed": true,
+     "body_lines": 112,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      2888,
+      3001
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 4.6 The DM's view of what the dossier did"
+    },
+    {
+     "repair": "repair-r6-V08.md",
+     "index": 9,
+     "line_in_split": 610,
+     "kind": "REPLACE",
+     "target": "## 6 Performance budgets",
+     "closed": true,
+     "body_lines": 36,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      3197,
+      3234
+     ],
+     "pre_level": 2,
+     "body_headings": 1,
+     "body_first": "## 6 Performance budgets"
+    },
+    {
+     "repair": "repair-r6-V08.md",
+     "index": 10,
+     "line_in_split": 649,
+     "kind": "REPLACE",
+     "target": "### 7.1 The bars (T-V8-n)",
+     "closed": true,
+     "body_lines": 90,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      3236,
+      3326
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 7.1 The bars (T-V8-n)"
+    },
+    {
+     "repair": "repair-r6-V08.md",
+     "index": 11,
+     "line_in_split": 742,
+     "kind": "REPLACE",
+     "target": "## 9 Decisions (each vetoable)",
+     "closed": true,
+     "body_lines": 143,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      3451,
+      3595
+     ],
+     "pre_level": 2,
+     "body_headings": 1,
+     "body_first": "## 9 Decisions (each vetoable)"
+    }
+   ]
+  },
+  "docs/volumes/V09-application.md": {
+   "split_dir": "docs/validation/coherence/work/assemble-r6/split/V09-application",
+   "files": [
+    "repair-r6-V09.md"
+   ],
+   "blocks": [
+    {
+     "repair": "repair-r6-V09.md",
+     "index": 1,
+     "line_in_split": 2,
+     "kind": "REPLACE",
+     "target": "### 2.7 The answers the panels render",
+     "closed": true,
+     "body_lines": 89,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      613,
+      700
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 2.7 The answers the panels render"
+    },
+    {
+     "repair": "repair-r6-V09.md",
+     "index": 2,
+     "line_in_split": 94,
+     "kind": "REPLACE",
+     "target": "### 2.12 Lifecycle of every new state field",
+     "closed": true,
+     "body_lines": 49,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      963,
+      1013
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 2.12 Lifecycle of every new state field"
+    },
+    {
+     "repair": "repair-r6-V09.md",
+     "index": 3,
+     "line_in_split": 146,
+     "kind": "REPLACE",
+     "target": "### 3.16 Edges — every mechanism at its limits (principle (11))",
+     "closed": true,
+     "body_lines": 143,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      1475,
+      1618
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 3.16 Edges — every mechanism at its limits (principle (11))"
+    },
+    {
+     "repair": "repair-r6-V09.md",
+     "index": 4,
+     "line_in_split": 292,
+     "kind": "REPLACE",
+     "target": "### 4.3 The tool binding table — every edit kind and where a user reaches it",
+     "closed": true,
+     "body_lines": 69,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      1685,
+      1755
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 4.3 The tool binding table — every edit kind and where a user reaches it"
+    },
+    {
+     "repair": "repair-r6-V09.md",
+     "index": 5,
+     "line_in_split": 364,
+     "kind": "REPLACE",
+     "target": "### 4.5 The twelve tools at build depth",
+     "closed": true,
+     "body_lines": 31,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      1791,
+      1823
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 4.5 The twelve tools at build depth"
+    },
+    {
+     "repair": "repair-r6-V09.md",
+     "index": 6,
+     "line_in_split": 398,
+     "kind": "REPLACE",
+     "target": "### 4.9 The words — the message catalogue's rows (English, our own)",
+     "closed": true,
+     "body_lines": 404,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      1925,
+      2331
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 4.9 The words — the message catalogue's rows (English, our own)"
+    },
+    {
+     "repair": "repair-r6-V09.md",
+     "index": 7,
+     "line_in_split": 805,
+     "kind": "REPLACE",
+     "target": "#### 4.20.2 Raised ways and aqueducts (item 110 (b))",
+     "closed": true,
+     "body_lines": 67,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      2997,
+      3066
+     ],
+     "pre_level": 4,
+     "body_headings": 1,
+     "body_first": "#### 4.20.2 Raised ways and aqueducts (item 110 (b))"
+    },
+    {
+     "repair": "repair-r6-V09.md",
+     "index": 8,
+     "line_in_split": 875,
+     "kind": "REPLACE",
+     "target": "#### 4.20.6 The new records' panels, handles, spans, crossings and why lines",
+     "closed": true,
+     "body_lines": 43,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      3174,
+      3214
+     ],
+     "pre_level": 4,
+     "body_headings": 1,
+     "body_first": "#### 4.20.6 The new records' panels, handles, spans, crossings and why lines"
+    },
+    {
+     "repair": "repair-r6-V09.md",
+     "index": 9,
+     "line_in_split": 921,
+     "kind": "REPLACE",
+     "target": "### 4.21 Items 111–126 on screen",
+     "closed": true,
+     "body_lines": 511,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      3265,
+      3774
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 4.21 Items 111–126 on screen"
+    },
+    {
+     "repair": "repair-r6-V09.md",
+     "index": 10,
+     "line_in_split": 1435,
+     "kind": "REPLACE",
+     "target": "### 5.7 The other panels",
+     "closed": true,
+     "body_lines": 32,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      3971,
+      4004
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 5.7 The other panels"
+    },
+    {
+     "repair": "repair-r6-V09.md",
+     "index": 11,
+     "line_in_split": 1470,
+     "kind": "REPLACE",
+     "target": "### 5.8 The \"Why here?\" card",
+     "closed": true,
+     "body_lines": 25,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      4004,
+      4030
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 5.8 The \"Why here?\" card"
+    },
+    {
+     "repair": "repair-r6-V09.md",
+     "index": 12,
+     "line_in_split": 1498,
+     "kind": "REPLACE",
+     "target": "### 5.15 Every new thing: drawn, labelled, exported, persisted",
+     "closed": true,
+     "body_lines": 41,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      4147,
+      4189
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 5.15 Every new thing: drawn, labelled, exported, persisted"
+    },
+    {
+     "repair": "repair-r6-V09.md",
+     "index": 13,
+     "line_in_split": 1542,
+     "kind": "REPLACE",
+     "target": "### 7.1 The bars",
+     "closed": true,
+     "body_lines": 91,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      4348,
+      4440
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 7.1 The bars"
+    }
+   ]
+  },
+  "docs/volumes/V10-clerk.md": {
+   "split_dir": "docs/validation/coherence/work/assemble-r6/split/V10-clerk",
+   "files": [
+    "repair-r6-V10.md"
+   ],
+   "blocks": [
+    {
+     "repair": "repair-r6-V10.md",
+     "index": 1,
+     "line_in_split": 2,
+     "kind": "REPLACE",
+     "target": "### 1.2 The base hooks this volume consumes (cited, never restated)",
+     "closed": true,
+     "body_lines": 53,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      162,
+      216
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 1.2 The base hooks this volume consumes (cited, never restated)"
+    },
+    {
+     "repair": "repair-r6-V10.md",
+     "index": 2,
+     "line_in_split": 58,
+     "kind": "REPLACE",
+     "target": "### 1b.1 Records, tables and derived views",
+     "closed": true,
+     "body_lines": 60,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      250,
+      311
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 1b.1 Records, tables and derived views"
+    },
+    {
+     "repair": "repair-r6-V10.md",
+     "index": 3,
+     "line_in_split": 121,
+     "kind": "REPLACE",
+     "target": "### 2.12 The tools' inputs (the vocabulary the model writes; schemas generated, V10 §3.4)",
+     "closed": true,
+     "body_lines": 123,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      838,
+      962
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 2.12 The tools' inputs (the vocabulary the model writes; schemas generated, V10 §3.4)"
+    },
+    {
+     "repair": "repair-r6-V10.md",
+     "index": 4,
+     "line_in_split": 247,
+     "kind": "REPLACE",
+     "target": "### 2.13 The reader's and the oracle's typed results (item 468 – item 297, item 271)",
+     "closed": true,
+     "body_lines": 102,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      962,
+      1060
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 2.13 The reader's and the oracle's typed results (item 468 – item 297, item 271)"
+    },
+    {
+     "repair": "repair-r6-V10.md",
+     "index": 5,
+     "line_in_split": 352,
+     "kind": "REPLACE",
+     "target": "### 3.3 The system prompt, the map block and the vocabulary block",
+     "closed": true,
+     "body_lines": 165,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      1197,
+      1361
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 3.3 The system prompt, the map block and the vocabulary block"
+    },
+    {
+     "repair": "repair-r6-V10.md",
+     "index": 6,
+     "line_in_split": 520,
+     "kind": "REPLACE",
+     "target": "### 3.5 Running the tools",
+     "closed": true,
+     "body_lines": 117,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      1428,
+      1546
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 3.5 Running the tools"
+    },
+    {
+     "repair": "repair-r6-V10.md",
+     "index": 7,
+     "line_in_split": 640,
+     "kind": "REPLACE",
+     "target": "### 3.9a The underground, the crypt, a plan's causes and its damage, explained (items 109, 110, 123; J-V10.40)",
+     "closed": true,
+     "body_lines": 120,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      1766,
+      1884
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 3.9a The underground, the crypt, a plan's causes and its damage, explained (items 109, 110, 123; J-V10.40)"
+    },
+    {
+     "repair": "repair-r6-V10.md",
+     "index": 8,
+     "line_in_split": 763,
+     "kind": "REPLACE",
+     "target": "### 3.9b Water, a past, walls, grandeur, seasons, festivals, Find and crises, explained (items 111, 113–118, 120, 122)",
+     "closed": true,
+     "body_lines": 190,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      1884,
+      2063
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 3.9b Water, a past, walls, grandeur, seasons, festivals, Find and crises, explained (items 111, 113–118, 120, 122)"
+    },
+    {
+     "repair": "repair-r6-V10.md",
+     "index": 9,
+     "line_in_split": 956,
+     "kind": "REPLACE",
+     "target": "### 3.17 The host clerk seam",
+     "closed": true,
+     "body_lines": 99,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      2442,
+      2542
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 3.17 The host clerk seam"
+    },
+    {
+     "repair": "repair-r6-V10.md",
+     "index": 10,
+     "line_in_split": 1058,
+     "kind": "REPLACE",
+     "target": "### 3.23 Edges — every mechanism at its limits (principle (11))",
+     "closed": true,
+     "body_lines": 79,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      2648,
+      2728
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 3.23 Edges — every mechanism at its limits (principle (11))"
+    },
+    {
+     "repair": "repair-r6-V10.md",
+     "index": 11,
+     "line_in_split": 1140,
+     "kind": "REPLACE",
+     "target": "### 7.1 Tests",
+     "closed": true,
+     "body_lines": 57,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      3089,
+      3147
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 7.1 Tests"
+    },
+    {
+     "repair": "repair-r6-V10.md",
+     "index": 12,
+     "line_in_split": 1200,
+     "kind": "REPLACE",
+     "target": "## 8 Build plan",
+     "closed": true,
+     "body_lines": 55,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      3216,
+      3272
+     ],
+     "pre_level": 2,
+     "body_headings": 1,
+     "body_first": "## 8 Build plan"
+    }
+   ]
+  },
+  "docs/volumes/V11-content.md": {
+   "split_dir": "docs/validation/coherence/work/assemble-r6/split/V11-content",
+   "files": [
+    "repair-r6-V11.md"
+   ],
+   "blocks": [
+    {
+     "repair": "repair-r6-V11.md",
+     "index": 1,
+     "line_in_split": 2,
+     "kind": "REPLACE",
+     "target": "### 1b Wiring table",
+     "closed": true,
+     "body_lines": 99,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      149,
+      249
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 1b Wiring table"
+    },
+    {
+     "repair": "repair-r6-V11.md",
+     "index": 2,
+     "line_in_split": 104,
+     "kind": "REPLACE",
+     "target": "### 3.1 The complete catalogue of tables",
+     "closed": true,
+     "body_lines": 181,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      890,
+      1072
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 3.1 The complete catalogue of tables"
+    },
+    {
+     "repair": "repair-r6-V11.md",
+     "index": 3,
+     "line_in_split": 288,
+     "kind": "REPLACE",
+     "target": "### 3.24 Item 110's rows — terraces, raised ways, stepped massing, decks and their landmarks",
+     "closed": true,
+     "body_lines": 363,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      3795,
+      4160
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 3.24 Item 110's rows — terraces, raised ways, stepped massing, decks and their landmarks"
+    },
+    {
+     "repair": "repair-r6-V11.md",
+     "index": 4,
+     "line_in_split": 654,
+     "kind": "REPLACE",
+     "target": "### 3.25 The rows of the owner's rules of 29 September to 1 October (items 111, 113–119, 122–124)",
+     "closed": true,
+     "body_lines": 571,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      4160,
+      4731
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 3.25 The rows of the owner's rules of 29 September to 1 October (items 111, 113–119, 122–124)"
+    },
+    {
+     "repair": "repair-r6-V11.md",
+     "index": 5,
+     "line_in_split": 1228,
+     "kind": "REPLACE",
+     "target": "### 3.26 Edges and combinations",
+     "closed": true,
+     "body_lines": 88,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      4731,
+      4820
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 3.26 Edges and combinations"
+    },
+    {
+     "repair": "repair-r6-V11.md",
+     "index": 6,
+     "line_in_split": 1319,
+     "kind": "REPLACE",
+     "target": "## 9 Decisions (each vetoable)",
+     "closed": true,
+     "body_lines": 124,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      5165,
+      5290
+     ],
+     "pre_level": 2,
+     "body_headings": 1,
+     "body_first": "## 9 Decisions (each vetoable)"
+    }
+   ]
+  },
+  "docs/volumes/V12-calibration.md": {
+   "split_dir": "docs/validation/coherence/work/assemble-r6/split/V12-calibration",
+   "files": [
+    "repair-r6-V12.md"
+   ],
+   "blocks": [
+    {
+     "repair": "repair-r6-V12.md",
+     "index": 1,
+     "line_in_split": 2,
+     "kind": "REPLACE",
+     "target": "## 0 In plain words",
+     "closed": true,
+     "body_lines": 63,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      15,
+      79
+     ],
+     "pre_level": 2,
+     "body_headings": 1,
+     "body_first": "## 0 In plain words"
+    },
+    {
+     "repair": "repair-r6-V12.md",
+     "index": 2,
+     "line_in_split": 68,
+     "kind": "REPLACE",
+     "target": "## 1b Wiring table",
+     "closed": true,
+     "body_lines": 65,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      161,
+      227
+     ],
+     "pre_level": 2,
+     "body_headings": 1,
+     "body_first": "## 1b Wiring table"
+    },
+    {
+     "repair": "repair-r6-V12.md",
+     "index": 3,
+     "line_in_split": 136,
+     "kind": "REPLACE",
+     "target": "### 2.13 The no-op pins (V12 §3.7.8; E-20)",
+     "closed": true,
+     "body_lines": 66,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      876,
+      942
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 2.13 The no-op pins (V12 §3.7.8; E-20)"
+    },
+    {
+     "repair": "repair-r6-V12.md",
+     "index": 4,
+     "line_in_split": 205,
+     "kind": "REPLACE",
+     "target": "### 3.4 The metric suite",
+     "closed": true,
+     "body_lines": 173,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      1080,
+      1254
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 3.4 The metric suite"
+    },
+    {
+     "repair": "repair-r6-V12.md",
+     "index": 5,
+     "line_in_split": 381,
+     "kind": "REPLACE",
+     "target": "### 3.7 Tuning runs — table-version bumps with declared shifts",
+     "closed": true,
+     "body_lines": 171,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      1589,
+      1761
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 3.7 Tuning runs — table-version bumps with declared shifts"
+    },
+    {
+     "repair": "repair-r6-V12.md",
+     "index": 6,
+     "line_in_split": 555,
+     "kind": "REPLACE",
+     "target": "### 3.12 Failure handling — every failure, its rung, its report",
+     "closed": true,
+     "body_lines": 47,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      2301,
+      2349
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 3.12 Failure handling — every failure, its rung, its report"
+    },
+    {
+     "repair": "repair-r6-V12.md",
+     "index": 7,
+     "line_in_split": 605,
+     "kind": "REPLACE",
+     "target": "### 3.15 The owner rules 111–126 on the harness",
+     "closed": true,
+     "body_lines": 387,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      2446,
+      2833
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 3.15 The owner rules 111–126 on the harness"
+    },
+    {
+     "repair": "repair-r6-V12.md",
+     "index": 8,
+     "line_in_split": 995,
+     "kind": "REPLACE",
+     "target": "### 7.1 The bars",
+     "closed": true,
+     "body_lines": 65,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      3116,
+      3182
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 7.1 The bars"
+    },
+    {
+     "repair": "repair-r6-V12.md",
+     "index": 9,
+     "line_in_split": 1063,
+     "kind": "REPLACE",
+     "target": "### 8.2 Steps, estimates and exits (person-weeks, expert; PLAUSIBLE)",
+     "closed": true,
+     "body_lines": 17,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      3209,
+      3227
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 8.2 Steps, estimates and exits (person-weeks, expert; PLAUSIBLE)"
+    }
+   ]
+  },
+  "docs/ARCHITECTURE.md": {
+   "split_dir": "docs/validation/coherence/work/assemble-r6/split/base",
+   "files": [
+    "repair-r6-determinism.md",
+    "repair-r6-model.md",
+    "repair-r6-pipeline.md",
+    "repair-r6-rendering.md",
+    "repair-r6-scope.md"
+   ],
+   "blocks": [
+    {
+     "repair": "repair-r6-determinism.md",
+     "index": 1,
+     "line_in_split": 1,
+     "kind": "REPLACE",
+     "target": "### 5.3 The invariant suite, by scope (SCL-1)",
+     "closed": true,
+     "body_lines": 90,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      9190,
+      9281
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 5.3 The invariant suite, by scope (SCL-1)"
+    },
+    {
+     "repair": "repair-r6-determinism.md",
+     "index": 2,
+     "line_in_split": 94,
+     "kind": "REPLACE",
+     "target": "### 5.4 The generation report",
+     "closed": true,
+     "body_lines": 73,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      9281,
+      9355
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 5.4 The generation report"
+    },
+    {
+     "repair": "repair-r6-determinism.md",
+     "index": 3,
+     "line_in_split": 170,
+     "kind": "REPLACE",
+     "target": "### 7.1 Edits are ordered events on addresses; the named actions; the edit targets; dry-run validation",
+     "closed": true,
+     "body_lines": 496,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      10254,
+      10750
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 7.1 Edits are ordered events on addresses; the named actions; the edit targets; dry-run validation"
+    },
+    {
+     "repair": "repair-r6-determinism.md",
+     "index": 4,
+     "line_in_split": 669,
+     "kind": "REPLACE",
+     "target": "### 7.3 Locality — effective scope, local operators, edit fates, recorded inputs, the oracle (G-P3)",
+     "closed": true,
+     "body_lines": 359,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      10817,
+      11177
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 7.3 Locality — effective scope, local operators, edit fates, recorded inputs, the oracle (G-P3)"
+    },
+    {
+     "repair": "repair-r6-determinism.md",
+     "index": 5,
+     "line_in_split": 1031,
+     "kind": "REPLACE",
+     "target": "### 7.4 Lifecycle of every edit kind (create · read · persist · regenerate · undo · migrate) — G-P8",
+     "closed": true,
+     "body_lines": 256,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      11177,
+      11434
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 7.4 Lifecycle of every edit kind (create · read · persist · regenerate · undo · migrate) — G-P8"
+    },
+    {
+     "repair": "repair-r6-determinism.md",
+     "index": 6,
+     "line_in_split": 1290,
+     "kind": "REPLACE",
+     "target": "### 7.7 Intent, character, constraints, assignments, the forms catalogue (O10; the ASSIGN hook)",
+     "closed": true,
+     "body_lines": 597,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      11693,
+      12290
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 7.7 Intent, character, constraints, assignments, the forms catalogue (O10; the ASSIGN hook)"
+    },
+    {
+     "repair": "repair-r6-model.md",
+     "index": 1,
+     "line_in_split": 1,
+     "kind": "REPLACE",
+     "target": "### 2.1 Layers, coordinates, units, ids",
+     "closed": true,
+     "body_lines": 50,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      528,
+      579
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 2.1 Layers, coordinates, units, ids"
+    },
+    {
+     "repair": "repair-r6-model.md",
+     "index": 2,
+     "line_in_split": 54,
+     "kind": "REPLACE",
+     "target": "### 2.7 Walls, gates, towers, castle, bridges; greenery, land use, decorations, pins; labels; content entities; the staged layers' records",
+     "closed": true,
+     "body_lines": 612,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      2247,
+      2761
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 2.7 Walls, gates, towers, castle, bridges; greenery, land use, decorations, pins; labels; content entities; the stag"
+    },
+    {
+     "repair": "repair-r6-model.md",
+     "index": 3,
+     "line_in_split": 669,
+     "kind": "REPLACE",
+     "target": "### 2.9 The document and serialisation",
+     "closed": true,
+     "body_lines": 430,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      3064,
+      3495
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 2.9 The document and serialisation"
+    },
+    {
+     "repair": "repair-r6-pipeline.md",
+     "index": 1,
+     "line_in_split": 1,
+     "kind": "REPLACE",
+     "target": "### 4.1 Stage graph, evaluation model, laziness contract, transactions, the worker",
+     "closed": true,
+     "body_lines": 216,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      4822,
+      5039
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 4.1 Stage graph, evaluation model, laziness contract, transactions, the worker"
+    },
+    {
+     "repair": "repair-r6-pipeline.md",
+     "index": 2,
+     "line_in_split": 220,
+     "kind": "REPLACE",
+     "target": "### 4.3 S4 Backbone — arterials routed between named destinations, built as one graph",
+     "closed": true,
+     "body_lines": 167,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      5626,
+      5800
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 4.3 S4 Backbone — arterials routed between named destinations, built as one graph"
+    },
+    {
+     "repair": "repair-r6-pipeline.md",
+     "index": 3,
+     "line_in_split": 390,
+     "kind": "REPLACE",
+     "target": "### 4.4 S5 Growth stages — boundary and wall first, main roads, then FTG-shaped growth, then a capacity check",
+     "closed": true,
+     "body_lines": 200,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      5800,
+      6012
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 4.4 S5 Growth stages — boundary and wall first, main roads, then FTG-shaped growth, then a capacity check"
+    },
+    {
+     "repair": "repair-r6-pipeline.md",
+     "index": 4,
+     "line_in_split": 593,
+     "kind": "REPLACE",
+     "target": "### 4.5 S6 Districts, quarters and fields · S7b Allocation and district claims",
+     "closed": true,
+     "body_lines": 454,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      6012,
+      6467
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 4.5 S6 Districts, quarters and fields · S7b Allocation and district claims"
+    },
+    {
+     "repair": "repair-r6-pipeline.md",
+     "index": 5,
+     "line_in_split": 1050,
+     "kind": "REPLACE",
+     "target": "### 4.8 S7 Fortification furniture (per enceinte) · the castle · water furniture",
+     "closed": true,
+     "body_lines": 130,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      7605,
+      7754
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 4.8 S7 Fortification furniture (per enceinte) · the castle · water furniture"
+    },
+    {
+     "repair": "repair-r6-pipeline.md",
+     "index": 6,
+     "line_in_split": 1183,
+     "kind": "REPLACE",
+     "target": "### 4.9 S12a Hinterland siting and the hinterland unit · S12b Greenery — the rule tables (O14 / O19)",
+     "closed": true,
+     "body_lines": 209,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      7754,
+      7964
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 4.9 S12a Hinterland siting and the hinterland unit · S12b Greenery — the rule tables (O14 / O19)"
+    },
+    {
+     "repair": "repair-r6-pipeline.md",
+     "index": 7,
+     "line_in_split": 1395,
+     "kind": "REPLACE",
+     "target": "### 4.11 Incremental mode, transformations and conversions (the evolution hook; one path built in the base)",
+     "closed": true,
+     "body_lines": 908,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      7983,
+      8913
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 4.11 Incremental mode, transformations and conversions (the evolution hook; one path built in the base)"
+    },
+    {
+     "repair": "repair-r6-pipeline.md",
+     "index": 8,
+     "line_in_split": 2306,
+     "kind": "REPLACE",
+     "target": "### 4.13 Edges and meeting points — the defined outcome at every limit",
+     "closed": true,
+     "body_lines": 57,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      8969,
+      9027
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 4.13 Edges and meeting points — the defined outcome at every limit"
+    },
+    {
+     "repair": "repair-r6-pipeline.md",
+     "index": 9,
+     "line_in_split": 2366,
+     "kind": "REPLACE",
+     "target": "### II.7.6 Catacombs, caverns and quarries; depth bands and the connection graph (item 65)",
+     "closed": true,
+     "body_lines": 257,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      21587,
+      21846
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### II.7.6 Catacombs, caverns and quarries; depth bands and the connection graph (item 65)"
+    },
+    {
+     "repair": "repair-r6-rendering.md",
+     "index": 1,
+     "line_in_split": 1,
+     "kind": "REPLACE",
+     "target": "### 8.2 Style sheets as data: roles, contrast, symbolisation, paint programs, layer order, presets (G-R2)",
+     "closed": true,
+     "body_lines": 966,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      12538,
+      13501
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 8.2 Style sheets as data: roles, contrast, symbolisation, paint programs, layer order, presets (G-R2)"
+    },
+    {
+     "repair": "repair-r6-rendering.md",
+     "index": 2,
+     "line_in_split": 970,
+     "kind": "REPLACE",
+     "target": "### 8.4 Layers, shadows, heights",
+     "closed": true,
+     "body_lines": 365,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      13592,
+      13957
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 8.4 Layers, shadows, heights"
+    },
+    {
+     "repair": "repair-r6-rendering.md",
+     "index": 3,
+     "line_in_split": 1338,
+     "kind": "REPLACE",
+     "target": "### 8.9 Backends, text, threads and the worker boundary",
+     "closed": true,
+     "body_lines": 133,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      14450,
+      14584
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 8.9 Backends, text, threads and the worker boundary"
+    },
+    {
+     "repair": "repair-r6-rendering.md",
+     "index": 4,
+     "line_in_split": 1474,
+     "kind": "REPLACE",
+     "target": "### 8.11 Edges and combinations (principle (11))",
+     "closed": true,
+     "body_lines": 27,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      14730,
+      14758
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 8.11 Edges and combinations (principle (11))"
+    },
+    {
+     "repair": "repair-r6-rendering.md",
+     "index": 5,
+     "line_in_split": 1504,
+     "kind": "REPLACE",
+     "target": "### 9.5 Furniture, framing and tools",
+     "closed": true,
+     "body_lines": 89,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      15070,
+      15160
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 9.5 Furniture, framing and tools"
+    },
+    {
+     "repair": "repair-r6-rendering.md",
+     "index": 6,
+     "line_in_split": 1596,
+     "kind": "REPLACE",
+     "target": "### 11.1 Formats",
+     "closed": true,
+     "body_lines": 223,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      15976,
+      16200
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 11.1 Formats"
+    },
+    {
+     "repair": "repair-r6-rendering.md",
+     "index": 7,
+     "line_in_split": 1822,
+     "kind": "REPLACE",
+     "target": "### 11.2 The embedding API and the worker boundary (SCL-6)",
+     "closed": true,
+     "body_lines": 435,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      16200,
+      16631
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 11.2 The embedding API and the worker boundary (SCL-6)"
+    },
+    {
+     "repair": "repair-r6-rendering.md",
+     "index": 8,
+     "line_in_split": 2260,
+     "kind": "REPLACE",
+     "target": "### 11.6 Edges (principle (11))",
+     "closed": true,
+     "body_lines": 7,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      16846,
+      16854
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 11.6 Edges (principle (11))"
+    },
+    {
+     "repair": "repair-r6-scope.md",
+     "index": 1,
+     "line_in_split": 1,
+     "kind": "REPLACE",
+     "target": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-EDIT",
+     "closed": true,
+     "body_lines": 1101,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      17729,
+      18774
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-EDIT"
+    },
+    {
+     "repair": "repair-r6-scope.md",
+     "index": 2,
+     "line_in_split": 1105,
+     "kind": "REPLACE",
+     "target": "### 13.8 CI tiers and compute budgets (SCL-18; D-34)",
+     "closed": true,
+     "body_lines": 111,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      19295,
+      19407
+     ],
+     "pre_level": 3,
+     "body_headings": 1,
+     "body_first": "### 13.8 CI tiers and compute budgets (SCL-18; D-34)"
+    },
+    {
+     "repair": "repair-r6-scope.md",
+     "index": 3,
+     "line_in_split": 1219,
+     "kind": "REPLACE",
+     "target": "## §14 Package and module layout, key interfaces, dependency rules, extension points",
+     "closed": true,
+     "body_lines": 531,
+     "found_in_pre_round_text": 1,
+     "pre_range": [
+      19466,
+      19998
+     ],
+     "pre_level": 2,
+     "body_headings": 1,
+     "body_first": "## §14 Package and module layout, key interfaces, dependency rules, extension points"
+    },
+    {
+     "repair": "repair-r6-scope.md",
+     "index": 4,
+     "line_in_split": 1753,
+     "kind": "J-ROWS",
+     "target": "",
+     "closed": true,
+     "body_lines": 1
+    },
+    {
+     "repair": "repair-r6-scope.md",
+     "index": 5,
+     "line_in_split": 1757,
+     "kind": "RATIONALE-A",
+     "target": "",
+     "closed": true,
+     "body_lines": 1
+    }
+   ]
+  }
+ },
+ "ruling_requests": [],
+ "census": {
+  "docs/volumes/V01-neighbourhoods.md": {
+   "blocks": 11,
+   "by_kind": {
+    "REPLACE": 11
+   },
+   "missing": [],
+   "ambiguous": [],
+   "unclosed": [],
+   "overlaps": []
+  },
+  "docs/volumes/V02-buildings.md": {
+   "blocks": 1,
+   "by_kind": {
+    "REPLACE": 1
+   },
+   "missing": [],
+   "ambiguous": [],
+   "unclosed": [],
+   "overlaps": []
+  },
+  "docs/volumes/V03-interiors.md": {
+   "blocks": 4,
+   "by_kind": {
+    "REPLACE": 4
+   },
+   "missing": [],
+   "ambiguous": [],
+   "unclosed": [],
+   "overlaps": []
+  },
+  "docs/volumes/V04-underground.md": {
+   "blocks": 17,
+   "by_kind": {
+    "REPLACE": 17
+   },
+   "missing": [],
+   "ambiguous": [],
+   "unclosed": [],
+   "overlaps": []
+  },
+  "docs/volumes/V05-sky.md": {
+   "blocks": 3,
+   "by_kind": {
+    "REPLACE": 3
+   },
+   "missing": [],
+   "ambiguous": [],
+   "unclosed": [],
+   "overlaps": []
+  },
+  "docs/volumes/V06-evolution.md": {
+   "blocks": 17,
+   "by_kind": {
+    "REPLACE": 17
+   },
+   "missing": [],
+   "ambiguous": [],
+   "unclosed": [],
+   "overlaps": []
+  },
+  "docs/volumes/V07-village.md": {
+   "blocks": 7,
+   "by_kind": {
+    "REPLACE": 7
+   },
+   "missing": [],
+   "ambiguous": [],
+   "unclosed": [],
+   "overlaps": []
+  },
+  "docs/volumes/V08-settlementforge.md": {
+   "blocks": 11,
+   "by_kind": {
+    "REPLACE": 11
+   },
+   "missing": [],
+   "ambiguous": [],
+   "unclosed": [],
+   "overlaps": []
+  },
+  "docs/volumes/V09-application.md": {
+   "blocks": 13,
+   "by_kind": {
+    "REPLACE": 13
+   },
+   "missing": [],
+   "ambiguous": [],
+   "unclosed": [],
+   "overlaps": []
+  },
+  "docs/volumes/V10-clerk.md": {
+   "blocks": 12,
+   "by_kind": {
+    "REPLACE": 12
+   },
+   "missing": [],
+   "ambiguous": [],
+   "unclosed": [],
+   "overlaps": []
+  },
+  "docs/volumes/V11-content.md": {
+   "blocks": 6,
+   "by_kind": {
+    "REPLACE": 6
+   },
+   "missing": [],
+   "ambiguous": [],
+   "unclosed": [],
+   "overlaps": []
+  },
+  "docs/volumes/V12-calibration.md": {
+   "blocks": 9,
+   "by_kind": {
+    "REPLACE": 9
+   },
+   "missing": [],
+   "ambiguous": [],
+   "unclosed": [],
+   "overlaps": []
+  },
+  "docs/ARCHITECTURE.md": {
+   "blocks": 31,
+   "by_kind": {
+    "J-ROWS": 1,
+    "RATIONALE-A": 1,
+    "REPLACE": 29
+   },
+   "missing": [],
+   "ambiguous": [],
+   "unclosed": [],
+   "overlaps": []
+  }
+ }
+}

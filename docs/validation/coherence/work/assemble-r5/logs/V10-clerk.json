@@ -1,0 +1,315 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm5/before/docs/volumes/V10-clerk.md",
+ "input_doc_sha256": "3fd16e696cb259f51f1c17f72618d1193e7e594d672ce12c8a1b11422761f7fa",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm5/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "a480f02e58a893fea57cacc5977b83489f633ced23901f578adbcfbd8059c52a",
+ "files": [
+  {
+   "file": "repair-r5-V10.md",
+   "sha256": "5acf7c6a7cc683f39797b49191f79aa4e7d8da4aaad49573f7c493764b59c036",
+   "lines": 876,
+   "blocks": 10,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "repair-r5-V10.md #1 (l. 2) REPLACE ### 1.2 The base hooks this volume consumes (cited, never restated)",
+   "file": "repair-r5-V10.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "### 1.2 The base hooks this volume consumes (cited, never restated)",
+   "body_lines": 53,
+   "body_sha256": "f9793088bb8aaf2193b26e844009c3811392488e568e6232cd883c749827efcd",
+   "target_line": 163,
+   "section_old": "163–216",
+   "section_old_n": 54,
+   "section_new_n": 54,
+   "new_headings": [
+    "### 1.2 The base hooks this volume consumes (cited, never restated)"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "repair-r5-V10.md #2 (l. 58) REPLACE ### 1b.1 Records, tables and derived views",
+   "file": "repair-r5-V10.md",
+   "index": 2,
+   "line": 58,
+   "kind": "REPLACE",
+   "heading": "### 1b.1 Records, tables and derived views",
+   "body_lines": 60,
+   "body_sha256": "67199bb326f4d8ea55e86f817cc6f0ec149ef0092f5bbaa48fc67d137dbe7c97",
+   "target_line": 251,
+   "section_old": "251–311",
+   "section_old_n": 61,
+   "section_new_n": 61,
+   "new_headings": [
+    "### 1b.1 Records, tables and derived views"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "repair-r5-V10.md #3 (l. 121) REPLACE ### 1b.2 Interfaces (implementer and caller)",
+   "file": "repair-r5-V10.md",
+   "index": 3,
+   "line": 121,
+   "kind": "REPLACE",
+   "heading": "### 1b.2 Interfaces (implementer and caller)",
+   "body_lines": 25,
+   "body_sha256": "b426eed06659c86f866509cf28e3f3b7520b539f04f98d84031200f92dfdf514",
+   "target_line": 312,
+   "section_old": "312–337",
+   "section_old_n": 26,
+   "section_new_n": 26,
+   "new_headings": [
+    "### 1b.2 Interfaces (implementer and caller)"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "repair-r5-V10.md #4 (l. 149) REPLACE ### 2.13 The reader's and the oracle's typed results (item 468 – item 297, item 271)",
+   "file": "repair-r5-V10.md",
+   "index": 4,
+   "line": 149,
+   "kind": "REPLACE",
+   "heading": "### 2.13 The reader's and the oracle's typed results (item 468 – item 297, item 271)",
+   "body_lines": 97,
+   "body_sha256": "6914753d9cefc0210f7f353738c9fbe3d4673e21ab36b4fda026cf4fcc905687",
+   "target_line": 963,
+   "section_old": "963–1058",
+   "section_old_n": 96,
+   "section_new_n": 98,
+   "new_headings": [
+    "### 2.13 The reader's and the oracle's typed results (item 468 – item 297, item 271)"
+   ]
+  },
+  {
+   "seq": 5,
+   "block": "repair-r5-V10.md #5 (l. 249) REPLACE ### 3.5 Running the tools",
+   "file": "repair-r5-V10.md",
+   "index": 5,
+   "line": 249,
+   "kind": "REPLACE",
+   "heading": "### 3.5 Running the tools",
+   "body_lines": 117,
+   "body_sha256": "6200f978395107eed134c76115ef7e6401644e5d04b1c048020940b9f18aa88b",
+   "target_line": 1429,
+   "section_old": "1429–1546",
+   "section_old_n": 118,
+   "section_new_n": 118,
+   "new_headings": [
+    "### 3.5 Running the tools"
+   ]
+  },
+  {
+   "seq": 6,
+   "block": "repair-r5-V10.md #6 (l. 369) REPLACE ### 3.9 The oracle at depth — providers, sections, the solver's explanation and the field's drivers",
+   "file": "repair-r5-V10.md",
+   "index": 6,
+   "line": 369,
+   "kind": "REPLACE",
+   "heading": "### 3.9 The oracle at depth — providers, sections, the solver's explanation and the field's drivers",
+   "body_lines": 124,
+   "body_sha256": "320babbe50a483b9aaa1a05a883c1f3fc119a3144ee5fe4e248612b6733601e4",
+   "target_line": 1642,
+   "section_old": "1642–1766",
+   "section_old_n": 125,
+   "section_new_n": 125,
+   "new_headings": [
+    "### 3.9 The oracle at depth — providers, sections, the solver's explanation and the field's drivers"
+   ]
+  },
+  {
+   "seq": 7,
+   "block": "repair-r5-V10.md #7 (l. 496) REPLACE ### 3.9b Water, a past, walls, grandeur, seasons, festivals, Find and crises, explained (items 111, ",
+   "file": "repair-r5-V10.md",
+   "index": 7,
+   "line": 496,
+   "kind": "REPLACE",
+   "heading": "### 3.9b Water, a past, walls, grandeur, seasons, festivals, Find and crises, explained (items 111, 113–118, 120, 122)",
+   "body_lines": 178,
+   "body_sha256": "5ac517ba33b9af05bd500c2d70428866b6430aab5cf9cdfbf50ea1984f78cf26",
+   "target_line": 1885,
+   "section_old": "1885–2062",
+   "section_old_n": 178,
+   "section_new_n": 179,
+   "new_headings": [
+    "### 3.9b Water, a past, walls, grandeur, seasons, festivals, Find and crises, explained (items 111, 113–118, 120, 122)"
+   ]
+  },
+  {
+   "seq": 8,
+   "block": "repair-r5-V10.md #8 (l. 677) REPLACE ### 3.23 Edges — every mechanism at its limits (principle (11))",
+   "file": "repair-r5-V10.md",
+   "index": 8,
+   "line": 677,
+   "kind": "REPLACE",
+   "heading": "### 3.23 Edges — every mechanism at its limits (principle (11))",
+   "body_lines": 79,
+   "body_sha256": "550fbc0c127f276e82d7c78d4078e7cfa55b0fc4b92d1c1a5d6a21784a674124",
+   "target_line": 2649,
+   "section_old": "2649–2728",
+   "section_old_n": 80,
+   "section_new_n": 80,
+   "new_headings": [
+    "### 3.23 Edges — every mechanism at its limits (principle (11))"
+   ]
+  },
+  {
+   "seq": 9,
+   "block": "repair-r5-V10.md #9 (l. 759) REPLACE ### 7.1 Tests",
+   "file": "repair-r5-V10.md",
+   "index": 9,
+   "line": 759,
+   "kind": "REPLACE",
+   "heading": "### 7.1 Tests",
+   "body_lines": 57,
+   "body_sha256": "b2941e5819bd6ffdfa3798b07089bb4e59987859763ce36328e55b41408c1e26",
+   "target_line": 3090,
+   "section_old": "3090–3147",
+   "section_old_n": 58,
+   "section_new_n": 58,
+   "new_headings": [
+    "### 7.1 Tests"
+   ]
+  },
+  {
+   "seq": 10,
+   "block": "repair-r5-V10.md #10 (l. 819) REPLACE ## 8 Build plan",
+   "file": "repair-r5-V10.md",
+   "index": 10,
+   "line": 819,
+   "kind": "REPLACE",
+   "heading": "## 8 Build plan",
+   "body_lines": 55,
+   "body_sha256": "7f52d57f3d18ae28e9745c8fc37f6a26777c2d9da1f8ae0a311f0e27c5497f57",
+   "target_line": 3217,
+   "section_old": "3217–3272",
+   "section_old_n": 56,
+   "section_new_n": 56,
+   "new_headings": [
+    "## 8 Build plan"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "repair-r5-V10.md #1 (l. 2) REPLACE ### 1.2 The base hooks this volume consumes (cited, never restated)",
+    "kind": "REPLACE",
+    "heading": "### 1.2 The base hooks this volume consumes (cited, never restated)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V10.md #2 (l. 58) REPLACE ### 1b.1 Records, tables and derived views",
+    "kind": "REPLACE",
+    "heading": "### 1b.1 Records, tables and derived views",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V10.md #3 (l. 121) REPLACE ### 1b.2 Interfaces (implementer and caller)",
+    "kind": "REPLACE",
+    "heading": "### 1b.2 Interfaces (implementer and caller)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V10.md #4 (l. 149) REPLACE ### 2.13 The reader's and the oracle's typed results (item 468 – item 297, item 271)",
+    "kind": "REPLACE",
+    "heading": "### 2.13 The reader's and the oracle's typed results (item 468 – item 297, item 271)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V10.md #5 (l. 249) REPLACE ### 3.5 Running the tools",
+    "kind": "REPLACE",
+    "heading": "### 3.5 Running the tools",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V10.md #6 (l. 369) REPLACE ### 3.9 The oracle at depth — providers, sections, the solver's explanation and the field's drivers",
+    "kind": "REPLACE",
+    "heading": "### 3.9 The oracle at depth — providers, sections, the solver's explanation and the field's drivers",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V10.md #7 (l. 496) REPLACE ### 3.9b Water, a past, walls, grandeur, seasons, festivals, Find and crises, explained (items 111, ",
+    "kind": "REPLACE",
+    "heading": "### 3.9b Water, a past, walls, grandeur, seasons, festivals, Find and crises, explained (items 111, 113–118, 120, 122)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V10.md #8 (l. 677) REPLACE ### 3.23 Edges — every mechanism at its limits (principle (11))",
+    "kind": "REPLACE",
+    "heading": "### 3.23 Edges — every mechanism at its limits (principle (11))",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V10.md #9 (l. 759) REPLACE ### 7.1 Tests",
+    "kind": "REPLACE",
+    "heading": "### 7.1 Tests",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V10.md #10 (l. 819) REPLACE ## 8 Build plan",
+    "kind": "REPLACE",
+    "heading": "## 8 Build plan",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 805,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 86,
+  "headings_after": 86,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 24,
+  "fence_lines_after": 24,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 515733,
+  "doc_bytes_after": 518300,
+  "doc_lines_before": 3555,
+  "doc_lines_after": 3558,
+  "rationale_bytes_before": 704770,
+  "rationale_bytes_after": 704770,
+  "rationale_lines_before": 2386,
+  "rationale_lines_after": 2386,
+  "blocks_total": 10,
+  "blocks_applied": 10,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "847b3189f56daf453a5741f5077631f3be30c301acc85cf89190896116247f08",
+  "output_rationale_sha256": "a480f02e58a893fea57cacc5977b83489f633ced23901f578adbcfbd8059c52a"
+ }
+}

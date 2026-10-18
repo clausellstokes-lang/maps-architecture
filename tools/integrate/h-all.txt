@@ -1,0 +1,109 @@
+V03>V04a|V04|Basement\.crypt
+V03>V04b|V04|gradeFaces
+V03>V04c|V04|ruinColumns
+V03>V02a|V02|tomb[- ]door
+V03>V02b|V02|Chimney\.levels
+V03>V02c|V02|orphan
+V03>V06a|V06|Basement\.crypt
+V03>V06b|V06|BCR-V3-28|outside[- ]ground digest|outside digest
+V03>V06c|V06|BCR-V3-29|wing-relative
+V03>V01|V01|Basement\.crypt
+V03>V09a|V09|basement/crypt/ring
+V03>V09b|V09|Basement\.crypt
+V03>V10|V10|landingDoor
+V03>V11a|V11|storeyCm
+V03>V12|V12|B-PLAN
+V04>V06a|V06|ArchVaults|archVault|arch vault
+V04>V06b|V06|levelled
+V04>V11a|V11|Arches
+V04>V11b|V11|stepped-shrine
+V04>V03|V03|ruinColumns
+V04>V09|V09|monument
+V04>V10|V10|monument
+V04>V12|V12|T-V4-6[2-9]|T-V4-70
+V05>V01|V01|skyHandover
+V05>V04|V04|sky|island
+V05>V06a|V06|demandTaken
+V05>V06b|V06|sky\.clearance
+V05>V06c|V06|reclearIsland
+V05>V06d|V06|skyAccessObstacles
+V05>V09a|V09|removeIsland
+V05>V09b|V09|info\.remove\.holds
+V05>V10a|V10|removed by you
+V05>V10b|V10|raised clear
+V05>V10c|V10|sources
+V05>V11a|V11|sheer
+V05>V11b|V11|sky-
+V05>V12|V12|deckGapM
+V05>V04d|V04|landfall
+V06>V04a|V04|rankCap
+V06>V04b|V04|UndergroundFade
+V06>V04c|V04|EpochScope
+V06>V04d|V04|raiseGrade
+V06>V08a|V08|CalamityRef
+V06>V08b|V08|EpochInputs
+V06>V09a|V09|Change from here
+V06>V09b|V09|forkAt
+V06>V10a|V10|advance
+V06>V11|V11|always-crypt|always
+V06>V12a|V12|T-V6-38
+V06>V12b|V12|raised\.generatedBelowCity
+V06>V05|V05|demandTaken
+V06>V01|V01|hood\.fabric
+V06>V07|V07|BCR-V6-1
+V08>V11a|V11|sustained
+V08>V11b|V11|Cemetery network|cemetery_network
+V08>V11c|V11|implies
+V08>V11d|V11|toll_bridge
+V08>V06|V06|deaths
+V08>V07|V07|[Tt]oll[ _]bridge
+V08>V10|V10|kept removed
+V08>V09|V09|host\.
+V08>V04a|V04|ruinEvidence
+V08>V04b|V04|DR-V8\.3|DR-V8\.4
+V11>V07a|V07|walls\.barriers
+V11>V10|V10|WhyPull
+V11>V04a|V04|growthCapShare
+V11>V04b|V04|CatacombRule
+V11>V02a|V02|specialisation
+V11>V02b|V02|fallbackM2
+V11>V01|V01|WayNamingContext
+V11>V07b|V07|slopeMin
+V11>V06a|V06|structures
+V11>V06b|V06|useRules
+V11>V12|V12|evidence
+V11>V09a|V09|siting\.declared
+V11>V09b|V09|linkEdits
+V11>V09c|V09|minSpanM
+V12>V11a|V11|historical:
+V12>V11b|V11|ownerRule
+V12>V11c|V11|1\.5[^\n]{0,60}0\.15|block-area ratio
+V12>V09a|V09|evidence\.json
+V12>V09b|V09|K2-4|jetties outside the basin
+V12>V10|V10|the owner's rule
+V12>V06a|V06|reason, never its course|keyed to (its|the) reason
+V12>V06b|V06|terrace\.enabled|deck\.offer
+V12>V04a|V04|voids
+V12>V04b|V04|CatacombComplex\.id|lineage
+V12>V07|V07|V-M4
+V09>V11a|V11|cls:
+V09>V11b|V11|avoid
+V09>V11c|V11|retainingReachM
+V09>V11d|V11|landmarkMinSpanM
+V09>V04a|V04|showUnexcavated
+V09>V04b|V04|under/wayIn|wayIn
+V09>V04c|V04|span
+V09>V03a|V03|crypt bend|bent|MsgRef
+V09>V10a|V10|ClerkSlot|ClerkHandle
+V09>V10b|V10|MsgRef
+V09>V07|V07|showCircuit
+V09>V05|V05|T10
+V10>V04a|V04|catacombOutcome
+V10>V03a|V03|info\.crypt
+V10>V03b|V03|landingDoor
+V10>V01a|V01|SUNLIGHT|'sun'
+V10>V01b|V01|terraced-ward|terraced ward
+V10>V02|V02|deck/landmarks
+V10>V11|V11|says
+V10>V08|V08|connect-src
+V10>V06|V06|detail\.why

@@ -1,0 +1,5 @@
+A 3-grams 26236, shared 1196, runs of >= 3 shared 3-grams 47 (45 distinct)
+B list 1 (building types): 105 members, pasted alphabetised five-member lines caught by C4 40 / 40
+B list 2 (professions): 135 members, pasted alphabetised five-member lines caught by C4 40 / 40
+C table rows whose cell count differs from the header: 1
+C   l. 10660: 3 cells against 2 (row J-I15)

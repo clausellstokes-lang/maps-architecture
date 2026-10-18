@@ -1,0 +1,13 @@
+files 1; blocks 34 found, 34 applied, 0 skipped
+  NOTE repair-r1-V01.md #25 (l. 1401) REPLACE ### 5.3 Exports — REPLACE body holds heading(s) of the target level or higher after its first line: ["### 5.4 Find over the town — areas and gaps (item 120, the town's part; J-V1.102)"]
+audit: 34 blocks; not OK: 0
+  j_rows_without_part_a: []
+  part_a_without_j_rows: []
+  j_ids_in_two_blocks: {}
+  document index rows: 0
+  document index duplicate ids: []
+  Part A rows: 781
+  Part A duplicate ids: []
+headings 122 -> 123 (+1 / -0); fences balanced True (14 -> 14 fence lines); title block unchanged True; PENDING FABLE REVIEW lines 1 -> 1
+document 464158 -> 492604 bytes, 3441 -> 3615 lines, sha256 1480993bec654309ab5bddc9186d5d0fc9d67d912d4dbdf08e95668161c826de
+rationale 685208 -> 685208 bytes, 2362 -> 2362 lines, sha256 adebaafcfd89def12553256f75108264cffe35a93a9b71c9318ff1989a440564

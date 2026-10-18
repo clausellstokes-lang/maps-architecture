@@ -1,0 +1,34 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist/types/src",
+    "types": [
+      "node"
+    ]
+  },
+  "include": [
+    "src/**/*",
+    "src/**/*.json"
+  ],
+  "references": [
+    {
+      "path": "../packages/kernel"
+    },
+    {
+      "path": "../packages/model"
+    },
+    {
+      "path": "../packages/tables"
+    },
+    {
+      "path": "../packages/site"
+    },
+    {
+      "path": "../packages/layout"
+    },
+    {
+      "path": "../packages/testkit"
+    }
+  ]
+}

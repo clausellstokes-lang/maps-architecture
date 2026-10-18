@@ -1,0 +1,72 @@
+MODE raw
+edges 5326 nodes 4303
+node bbox m: x 0.0..5000.0 y 0.0..5000.0
+degree hist {1: 83, 2: 2678, 3: 969, 4: 561, 5: 10, 6: 2}
+total road length km 361.0
+  type  0 n= 1214 median=50.5 m modes(1m bins): [(60, 385), (29, 239), (61, 81), (51, 30), (100, 25), (50, 23)]
+  type  1 n=  207 median=65.5 m modes(1m bins): [(200, 46), (121, 14), (101, 8), (24, 7), (4, 7), (60, 5)]
+  type  2 n=   19 median=100.0 m modes(1m bins): [(100, 11), (28, 3), (14, 1), (40, 1), (84, 1), (86, 1)]
+  type  3 n=   14 median=1501.3 m modes(1m bins): [(1123, 2), (66, 1), (2247, 1), (0, 1), (672, 1), (70, 1)]
+  type  4 n= 2575 median=29.4 m modes(1m bins): [(29, 690), (30, 209), (20, 105), (60, 85), (23, 71), (22, 69)]
+  type  6 n=  853 median=111.1 m modes(1m bins): [(100, 20), (200, 19), (99, 18), (6, 16), (22, 15), (16, 14)]
+  type  7 n=   25 median=48.0 m modes(1m bins): [(66, 2), (33, 2), (79, 2), (94, 1), (18, 1), (48, 1)]
+  type 10 n=   59 median=200.0 m modes(1m bins): [(200, 37), (63, 2), (100, 2), (115, 1), (149, 1), (121, 1)]
+  type 12 n=   12 median=151.1 m modes(1m bins): [(151, 10), (128, 1), (149, 1)]
+  type 14 n=  348 median=100.0 m modes(1m bins): [(100, 145), (99, 54), (101, 48), (102, 16), (98, 14), (30, 4)]
+  turn type  0 n<45= 206  max<45=34.09  bins 12..18: {12: 24, 13: 20, 14: 16, 15: 0, 16: 0, 17: 1, 18: 0}  >=45: 20
+  turn type  1 n<45=  70  max<45=35.87  bins 12..18: {12: 5, 13: 2, 14: 6, 15: 0, 16: 0, 17: 0, 18: 0}  >=45: 5
+  turn type  2 n<45=  15  max<45=12.71  bins 12..18: {12: 1, 13: 0, 14: 0, 15: 0, 16: 0, 17: 0, 18: 0}  >=45: 0
+  turn type  3 n<45=   0  max<45=0.00  bins 12..18: {12: 0, 13: 0, 14: 0, 15: 0, 16: 0, 17: 0, 18: 0}  >=45: 4
+  turn type  4 n<45= 759  max<45=42.98  bins 12..18: {12: 26, 13: 12, 14: 17, 15: 16, 16: 6, 17: 10, 18: 9}  >=45: 348
+  turn type  6 n<45= 377  max<45=44.86  bins 12..18: {12: 14, 13: 10, 14: 14, 15: 7, 16: 1, 17: 2, 18: 3}  >=45: 448
+  turn type  7 n<45=  12  max<45=33.49  bins 12..18: {12: 1, 13: 0, 14: 0, 15: 1, 16: 0, 17: 0, 18: 0}  >=45: 2
+  turn type 10 n<45=  43  max<45=40.56  bins 12..18: {12: 2, 13: 6, 14: 3, 15: 0, 16: 0, 17: 0, 18: 0}  >=45: 0
+  turn type 14 n<45= 299  max<45=32.12  bins 12..18: {12: 0, 13: 0, 14: 0, 15: 0, 16: 0, 17: 0, 18: 0}  >=45: 2
+junction arm angle p50 90.02 (n=5213); 80-100 band 56.4%
+heading bins %: [8.0, 5.6, 5.1, 5.4, 7.1, 7.8, 5.1, 5.0, 5.0, 7.6, 5.4, 5.6, 4.6, 5.2, 4.9, 3.5, 4.3, 4.8]
+buildings 2798 vertex hist {3: 9, 4: 2514, 5: 188, 6: 54, 7: 15, 8: 14, 9: 1, 12: 2, 14: 1}
+footprint m2: mean 433.8 median 406.0 p5 198 p95 613 max 6399 total 1213721
+quad side m: median 20.66 p5 12.0 p95 27.2
+quad worst corner dev: median 0.91 p95 27.5 p99 68.5
+buildings sharing an exact vertex with another: 178 (6.4%)
+centroid bbox m x 6..3905 y -39..4518 ; CoM (441,681) m; radius p50 487 p90 954 p99 1524 max 5169
+  temple         verts=12 area=371 m2 bbox 52x30 m
+  temple         verts=12 area=1401 m2 bbox 53x56 m
+  temple         verts=8 area=2645 m2 bbox 78x69 m
+  temple         verts=14 area=1702 m2 bbox 61x56 m
+  theatre        verts=9 area=3866 m2 bbox 123x97 m
+  market square  verts=5 area=3769 m2 bbox 54x118 m
+  market square  verts=4 area=4672 m2 bbox 103x103 m
+districts:
+  Beer Forest     verts=44 area=18.8 ha perim=2492 m minseg=6.64 selfX=2 anchor=(339,167) m buildings_in=464
+  Rustic Village  verts=42 area=4.2 ha perim=2687 m minseg=7.78 selfX=1 anchor=(48,355) m buildings_in=613
+  Ash Town        verts=55 area=23.4 ha perim=3518 m minseg=8.58 selfX=2 anchor=(153,475) m buildings_in=616
+  Green Wood      verts=40 area=19.5 ha perim=2430 m minseg=1.74 selfX=0 anchor=(951,837) m buildings_in=290
+water:
+  id=1 pts=9 bbox x 272..649 y 22..347 m area=58848 m2 seg median 100.0 m
+  id=2 pts=102 bbox x 1096..4010 y 1091..5000 m area=305912 m2 seg median 99.9 m
+  id=3 pts=133 bbox x 15..5000 y 343..3023 m area=286199 m2 seg median 99.9 m
+  id=4 pts=129 bbox x 20..5000 y 22..5000 m area=5589977 m2 seg median 100.0 m
+towers 17 chain seg m min 37.9 med 76.1 max 101.3 ; first->last 340.1 m
+  11.8 instances=240 variants={0: 40, 1: 40, 2: 32, 3: 32, 4: 32, 5: 32, 6: 32} NN m: min 0.28 median 3.00 mean 3.25 p5 1.3; bbox x 437..653 y 10..233
+  11.9 instances=4125 variants={0: 590, 1: 590, 2: 589, 3: 589, 4: 589, 5: 589, 6: 589} NN m: min 0.28 median 14.14 mean 15.94 p5 3.6; bbox x 1..5000 y 0..4996
+    11.9 poly verts=61 area=7.27 km2 f32=1.0
+    11.9 poly verts=179 area=6.35 km2 f32=1.0
+  11.2 n=14 bbox x 5..791 y 148..996
+  11.4 n=14 bbox x 3..1108 y 162..942
+  11.5 n=14 bbox x 36..1273 y 14..1190
+lots:
+  group  2 lots=  51 median area 1710 m2 total 4555.4 ha max 12473040 m2
+  group 18 lots= 901 median area 1764 m2 total 243.5 ha max 206606 m2
+    block edge modes: [(29, 1856), (60, 777), (30, 440), (31, 132), (20, 131), (23, 106)] median 29.4
+    blocks with 0 buildings 116/901 ; mean buildings/block 3.39 ; occupied mean area 2977 m2 ; m2 per building 766 ; buildings inside blocks 3052
+  group  8 lots=  15 median area 1666 m2 total 18.1 ha max 31139 m2
+  group 11 lots=  34 median area 101595 m2 total 332.6 ha max 143871 m2
+  group  1 lots=  31 median area 89550 m2 total 276.4 ha max 148400 m2
+  group  0 lots=  33 median area 95939 m2 total 322.1 ha max 151123 m2
+  group 13 lots=  30 median area 99275 m2 total 304.4 ha max 151679 m2
+  group  3 lots=  40 median area 107335 m2 total 404.2 ha max 148280 m2
+  group 12 lots=  35 median area 99845 m2 total 326.1 ha max 149235 m2
+  group  4 lots=   2 median area 7270746 m2 total 1362.4 ha max 7270746 m2
+  group 20 lots=   4 median area 660609 m2 total 152.9 ha max 744521 m2
+22.5 raw [12, 14] zz [6, 7] 22.2 9 22.1 b'Monday'

@@ -1,0 +1,47 @@
+{
+  "files": [],
+  "references": [
+    {
+      "path": "packages/kernel"
+    },
+    {
+      "path": "packages/model"
+    },
+    {
+      "path": "packages/tables"
+    },
+    {
+      "path": "packages/site"
+    },
+    {
+      "path": "packages/layout"
+    },
+    {
+      "path": "packages/testkit"
+    },
+    {
+      "path": "bench"
+    },
+    {
+      "path": "packages/kernel/test"
+    },
+    {
+      "path": "packages/model/test"
+    },
+    {
+      "path": "packages/tables/test"
+    },
+    {
+      "path": "packages/site/test"
+    },
+    {
+      "path": "packages/layout/test"
+    },
+    {
+      "path": "packages/testkit/test"
+    },
+    {
+      "path": "bench/test"
+    }
+  ]
+}

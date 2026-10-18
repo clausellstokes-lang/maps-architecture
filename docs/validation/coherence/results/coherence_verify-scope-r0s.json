@@ -1,0 +1,166 @@
+{
+ "key": "coherence/verify-scope-r0s",
+ "file": "docs/validation/coherence/verify-scope-r0s.md",
+ "issues": [
+  {
+   "id": "VCS-01",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "File g item 114 (walls decay into gaps and patchwork, and recover) is routed to scope by the canon's dated ruling of 2026-09-30 ('§13.2 (the bars of item 114 (g)); the judgment index row'), and neither part exists: the live base has no T114-n bar, no 'item 114' anywhere in the scope sections, no J-A114.n index row or Part A entry; §13.8's bar schedule and §13.2's take-over table have no item-114 row, while V12 §3.15.4 registers base-owned BenchBarDefs T114g.oldestFirst, T114g.sustained, T114g.greyscale and T114g.generation that no base bar carries.",
+   "required_change": "In §13.2 after item 113's group add '*Walls that decay and recover (item 114; §2.7, §7.1, §7.4, §7.7, §8.2, §11).*' with bars T114-1 – T114-8 at build depth, one per item 114 (g) clause: (T114-1) a poor, threatened fixture shows patched runs and no robust rebuild; (T114-2) a rich, threatened one rebuilds in stone; (T114-3) a safe one decays through `worn` to `breached`; (T114-4) recovery replaces patches oldest first (V12's spec `T114g.oldestFirst`); (T114-5) no condition changes without a sustained driver — no flicker across two epochs at a threshold (`T114g.sustained`); (T114-6) every state distinguishable in greyscale at the bands stated, `worn` at district and finer (`T114g.greyscale`, T112-1's check on luma); (T114-7) the generation-time condition derives from readiness and wealth by §7.7's row at its table shares (`T114g.generation`); (T114-8) with need and means at neutral values the existing neglect and repair are reproduced (a `NoOpPin`, `item114.condition`). Add a take-over row naming V06's T-V6-73, V07's T-V7-62, V08's T-V8-52, V09's T-V9-74, V10's T-V10-47, V11's T-V11-40 and V12's T-V12-47; add §13.8 schedule rows (the generation-time clauses from the milestone §16 names for §7.7's condition row, the transitions and T114-4/T114-5 at M6-E in the milestone tier over epochs, T114-6 nightly with visual regression); add index row J-A114.01 (the T114-n ids with V12's `T114g.*` spec ids kept beside them, as J-A110.01) with its Part A entry.",
+   "owner": "scope"
+  },
+  {
+   "id": "VCS-02",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "File g item 115 (a ceiling on building grandeur by settlement tier) is routed to scope ('§13.2 (the bars of item 115 (f)); the judgment index row'); neither exists — no T115-n bar, no schedule or take-over row, no J-A115.n row or Part A entry — although V12 §3.15.5 names the rung pin `item115.ceiling` and the statistic `bldg.grandeur` as bars of the base's item 115 (f).",
+   "required_change": "In §13.2 add '*The grandeur ceiling (item 115; §4.2 S10b, §10.2).*' with (T115-1) rich THORP, HAMLET and VILLAGE fixtures at the wealth maximum hold no `H`, `U`, court, tower or turret dwelling but the manor (`bldg.grandeur`); (T115-2) at most one manor, only with a lord (seigneurial government) or a dossier record; (T115-3) a dossier-named hall, and a building the user places or reshapes by hand, keeps its full design above the ceiling (item 101 R2; never refused); (T115-4) TOWN rungs and above byte-identical to the build without the ceiling table (the rung pin `item115.ceiling`, a `NoOpPin`); name the take-over tests (V06's T-V6-74, V07's T-V7-63, V08's T-V8-53, V09's T-V9-75, V10's T-V10-48, V11's T-V11-41, V12's T-V12-48, and V02's composition-ceiling bars once volume 2 writes its item-115 part); add the §13.8 schedule row (from the milestone §16 names for S10b's rung ceiling; `bldg.grandeur` nightly); add index row J-A115.01 with its Part A entry.",
+   "owner": "scope"
+  },
+  {
+   "id": "VCS-03",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "File g item 116 (a per-map zoom-out limit) is routed to scope ('§13.2 (the bars of item 116 (e)); the judgment index row'); no T116-n bar, no index row, and §13.4's B-ZOOM still reads '(1:50 000 → 1:500, the default view of every rung)', i.e. every rung zoomed out to 1:50 000, which item 116 (a) forbids; V12 §3.15.6 already runs `view.limitStop` as a conformance sweep 'on B-ZOOM (§13.4)'.",
+   "required_change": "In §13.2 add '*The zoom-out limit (item 116; §8.8, §9.5, §12.5).*' with (T116-1) at every rung from THORP to the METROPOLIS cap the zoom-out limit's view shows the whole `bounds` and no stop beyond the limit is reachable in the view (B-ZOOM over B-CITY-lite's seeds of every rung and V07's village fixtures; V12's `view.limitStop`); (T116-2) the first view unchanged; (T116-3) an epoch or hand edit that grows the bounds moves the limit with them; (T116-4) exports frame within the limit; T-ER-08's restatement stays rendering's. Rewrite §13.4's B-ZOOM parenthesis to '(from each map's zoom-out limit, §8.8, to 1:500; the default view of every rung)'. Name the take-over tests (V07's T-V7-64, V09's T-V9-76, V12's T-V12-48); add the §13.8 schedule row (B-ZOOM nightly, from the milestone §16 names for §8.8's limit); add index row J-A116.01 with its Part A entry.",
+   "owner": "scope"
+  },
+  {
+   "id": "VCS-04",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "File g item 117 (seasons, a look only, following SettlementForge's calendar) is routed to scope ('§13.2 (the bars of item 117 (i)); the judgment index row'); no T117-n bar, no schedule or take-over row, no index row — while V12 §3.15.7 registers base-owned specs `T117i.crowns`, `T117i.leafCover`, `T117i.arid`, `T117i.ice`, `T117i.styles` and the pin `item117.season`.",
+   "required_change": "In §13.2 add '*Seasons (item 117; §2.9, §7.7, §8.2, §4.2 S0, §10.2, §11, §12.5).*' with (T117-1) the same document hashes identically in all 52 weeks (the pin `item117.season`); (T117-2) an autumn fixture shows at least five distinct crown colours across its deciduous trees at the leaf-colour weeks' middle week (`T117i.crowns`) and leaf cover on the ground deepening week by week through the leaf-fall weeks (`T117i.leafCover`); (T117-3) every climate's season rows cover all 52 weeks with no gap (V11's compile check); (T117-4) an arid fixture never draws ice or snow over its 52 weeks (`T117i.arid`); (T117-5) a cold fixture freezes every still water at or before every flowing water and draws no ice on a mill race or weir (`T117i.ice`); (T117-6) a campaign dossier opens on its own week; (T117-7) each season's look passes T112-1's contrast and colour-blind checks at each season's middle week (`T117i.styles`); (T117-8) switching season re-skins cached tiles within §12.5's budget (`time.reskin`). Name the take-over tests (V07's T-V7-65, V08's T-V8-54, V09's T-V9-77, V10's T-V10-49, V11's T-V11-42, V12's T-V12-49); add §13.8 schedule rows (the pin and T117-2/T117-4/T117-5 nightly, all 52 weeks at milestones, per V12 §6); add index row J-A117.01 with its Part A entry.",
+   "owner": "scope"
+  },
+  {
+   "id": "VCS-05",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "File g item 118 (festival decorations, a look only) is routed to scope ('§13.2 (the bars of item 118 (h)); the judgment index row'); no T118-n bar, schedule or take-over row, or index row exists, while V12 §3.15.8 registers base-owned `T118h.window`, `T118h.stable`, `T118h.tier`, `T118h.stage` and the pin `item118.festival`.",
+   "required_change": "In §13.2 add '*Festival decorations (item 118; §2.9, §7.7, §8.2, §10.2, §11, §12.5).*' with (T118-1) the same document hashes identically with decorations on and off and in every week, and with no traditions and no preview its tiles are byte-identical to the base (the pin `item118.festival`, a `NoOpPin`); (T118-2) a festival shows exactly in its window's weeks (`T118h.window`); (T118-3) the same festival draws identically across views and exports, byte-stable tiles per seed (`T118h.stable`); (T118-4) each tier fixture shows its tier's kinds and no larger (`T118h.tier`); (T118-5) staging lands on the named or keyed place, else its fallback (`T118h.stage`); (T118-6) nothing blocks a gate's passage or covers a label's keep-out (`festival.blocked` 0). Name the take-over tests (V07's T-V7-66, V08's T-V8-55, V09's T-V9-78, V10's T-V10-49, V11's T-V11-43, V12's T-V12-49, and V05's pennant bar once volume 5 writes its item-118 part); add the §13.8 schedule row (alternate nights on the festival fixtures, per V12 §6); add index row J-A118.01 with its Part A entry.",
+   "owner": "scope"
+  },
+  {
+   "id": "VCS-06",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "File g item 119 (as fast as possible; ten seconds of total time the comfort level) names scope for '§1 (the performance statement), §13.2 (bars), D-18's entry and the judgment index row'; none is written: §1.1 *Budgets inside a rung* and §1.2 state only §12's laws with 'the misses are declared (D-18)'; D-18 still reads '(*owner veto on the misses above the knees*) … The owner may veto the two declared misses', which item 119 (a) ends ('D-18's two misses stay declared as TARGET misses, now inside the comfort level (no longer a veto question)'); no T119-n bar and no index row; V12 §3.15.9 registers the base-owned BenchBarDef `T119f.waits`; the summary still says 'with the two declared misses at the largest sizes (D-18)'.",
+   "required_change": "(1) §1.1 *Budgets inside a rung* gains: '§12's laws are the targets — as fast as possible; every wait a user sits through once (generate, regenerate, open from SettlementForge, a dossier change applied, advance time and item 113's history replay, an export, a migration) takes at most ten seconds from the click to the complete result on §12.1's reference hardware at every size up to the metropolis cap, the comfort level past which a wait fails; a step runs slower than its target only for a recorded measured gain inside the comfort level; a wait beyond about one second shows progress; interaction budgets (frame, pan, zoom, drag, preview, hover, inspect, undo, the season and festival switches) are unchanged (item 119; §12)'. (2) §13.2 adds '*As fast as possible (item 119; §12).*' with (T119-1) §12's target laws measured and reported at every rung as target met or target miss; (T119-2) every one-time wait at every rung's top and the metropolis cap within 10 000 ms at p95 on the reference hardware (V12's `T119f.waits`); (T119-3) progress shown within 1 000 ms of the click for every wait over one second, never an empty screen; (T119-4) every §12.10 row declaring a step slower than its target names its measured gain, shown by the release's runs; (T119-5) no interaction row of §12.10 relaxed against the previous release; take-over V09's T-V9-79 and V12's T-V12-50; schedule row: §12.1's timing phase, M1 (TOWN, CITY), M2b (METROPOLIS), M6-E (the replay) per V12 §6. (3) D-18 drops '*owner veto on the misses above the knees*' and 'The owner may veto the two declared misses', and reads 'the two declared misses — O3 (d)'s model bars above the sizes §12.3 states and O12 (g)'s first-map bar above the knee §12.5 states — are target misses inside item 119's ten-second comfort level (§12)'. (4) Index row J-A119.01 with its Part A entry. (5) The summary's last *What you see* sentence reads '… with the two declared target misses at the largest sizes, inside the ten-second comfort level (D-18; item 119)'.",
+   "owner": "scope"
+  },
+  {
+   "id": "VCS-07",
+   "severity": "minor",
+   "kind": "COHESION",
+   "claim": "The unit's lists of owner items stop at item 113 although file g now runs to 119: §0.2's one landing table (E-22, CO-05: it lands file g) has no rows for items 114–119, its prose reads '102–113 `docs/AMENDMENTS-2026-09-28g.md` (file g)' and 'Items 63–72, 101, 102–111 and 113 are the owner's rules', and its heading still names only 'items 1–7 …, items 8–31 … and items 32–88 and 101 …'; Appendix A reads 'The SettlementForge facts of items 73–88 and 102–113' and 'The owner rules (items 1–31, 63–72, 20 (h), 101–111, 113)'; §13.2's convention reads 'The bars `T⟨item⟩-⟨n⟩` of items 8–113'.",
+   "required_change": "§0.2: add rows '114 walls decay and recover | §2.7 (`Enceinte.condition`, each run's material), §7.7 (the condition row), §8.2 (state rows); T114-1 – T114-8; volume 6 | §2.7', '115 a grandeur ceiling by tier | §4.2 S10b, §10.2; T115-1 – T115-4 | §4.2 S10b', '116 a zoom-out limit | §8.8; T116-1 – T116-4 | §8.8', '117 seasons | §2.9, §7.7, §8.2, §4.2 S0, §10.2; T117-1 – T117-8 | §8.2', '118 festival decorations | §2.9, §7.7, §8.2, §10.2; T118-1 – T118-6 | §8.2', '119 as fast as possible; the comfort level | §12; T119-1 – T119-5 | §12'; the prose reads '102–119 … (file g)' and 'Items 63–72, 101, 102–111 and 113–119 are the owner's rules'; the heading reads '### 0.2 Where the owner's late rules land — items 1–7 (…), 8–31 (…), 32–88 and 101 (…), 102–119 (file g) and the base change requests 200–585 (file f)'. Appendix A: 'items 73–88, 102–113, 117 and 118' for the SettlementForge facts (the calendar and `traditions`), and 'items 1–31, 63–72, 20 (h), 101–111, 113–119' for the owner rules. §13.2: 'of items 8–119'.",
+   "owner": "scope"
+  },
+  {
+   "id": "VCS-08",
+   "severity": "major",
+   "kind": "COHESION",
+   "claim": "§16's lines disagree with the volumes' §8 prices after the volumes' rewrites priced their owner-item parts (each volume says '§16 carries it'): M6-E 25.25–35.75 vs V06 §8's 29.5–41.75; the village 26.5–36.5 vs V07 §8's 29.75–41.75; M-SF 15.75–21.5 vs V08 §8's 18–24.5; M3c 10.25–13.75 vs V10 §8's 11–14.75, and the O11 line's and M3a row's oracle 'volume 10's C1, 3.25–4.75' vs V10's C1 3.25–5 plus the second transcript 0.25 (+3.5–5.25, item 531); V09 §8's AP11 (2–2.75 pw, items 111–119 on screen; V09 total 21.5–31.75) on no line; V11 §8's C9 (0.75–1.25 pw, the rows of items 111 and 113–119; V11's g share now +4.75–7.5) on no line; V12 §8.2's W7 (0.75–1.25 pw, items 114–119's specs and pins) outside the rig line's 'V12 §8.2; 6–9'. So the first total 221.5–300.5, the staged total 170.75–238.75 and the whole program 392.25–539.25 (item 568's 'computed once') are not true of the set; D-20 and J-A568.01 repeat them.",
+   "required_change": "Carry each volume's own price in §16: the staged rows and lines M6-E 29.5–41.75 (V06 §8), the village 29.75–41.75 (V07 §8), M-SF 18–24.5 (V08 §8), M3c 11–14.75 (V10 §8); the O11 line's and M3a row's oracle 3.5–5.25 (C1 3.25–5 with the second transcript 0.25; V10 §8, item 531); the rig line's V12 share 6.75–10.25 (W1 – W7, V12 §8.2) — or W7 named as absorbed with its reason; V11's C9 (0.75–1.25) on the content line beside file g's rows; V09's AP11 (2–2.75) split between the application line and the staged-screens line as V09 §8.1 places its parts; keep the milestone rows equal to the first total (the M1, M2b, M3a and M3b rows gain the base shares of AP11, C9 and W7); recompute the base subtotal, the first total, the staged total and the whole program once, and carry the new figures into D-20, J-A568.01's index row and Part A entry, the calendar estimate if it moves, and INDEX §1 (VCS-18).",
+   "owner": "scope"
+  },
+  {
+   "id": "VCS-09",
+   "severity": "major",
+   "kind": "COHESION",
+   "claim": "§16 places none of items 114–119's base mechanisms at a milestone, yet the volumes cite those rows: V09 §8's AP11 builds 'the zoom-out stop, the season control and the festival list at the milestones §16's rows for items 116–118 name' (T-V9-76 – T-V9-78), V11 §8's C9 exits 'at the exits of the milestones that build each item's base mechanism (§16's rows for items 111–119 …)', V12 §8.2's W7 lands 'the milestones that land items 115–118' — dangling references, and the §13.8 schedule rows VCS-01 – VCS-06 add need them. Also §16's M6-E row reads '(V06 §8: E0–E8)' while V06 §8 builds E0–E9, E9 being item 113's history replay at generation (after E8, V04's `BuriedFormer.lay` and V11's `history.*` cells).",
+   "required_change": "In §16's base milestone rows name the milestone that lands each base part of items 114–119 — §7.7's condition row with `Enceinte.condition`'s `worn` and `patched` runs and §8.2's state rows (item 114; its transitions V06's E3 at M6-E), S10b's rung ceiling with §10.2's ceiling table (item 115), §8.8's per-map zoom-out limit (item 116), §2.9's year position and festival display with §8.2's season and decoration rows and §10.2's climate, decoration and keyword tables (items 117, 118; their dossier rows with M-SF), and §12's comfort-level measurement at M1 (TOWN, CITY) and M2b (METROPOLIS) with the replay's at M6-E (item 119; V12 §6) — each priced by absorption into a named line or an itemised widening under §16's pricing rule; the M6-E row reads '(V06 §8: E0–E9)' and adds 'E9, the history replay at generation, after E8, V04's `BuriedFormer.lay` and V11's `history.*` cells'.",
+   "owner": "scope"
+  },
+  {
+   "id": "VCS-10",
+   "severity": "major",
+   "kind": "COHESION",
+   "claim": "§13's take-over table (CO-06/W-05: which volume tests take each base hook bar) and the other volume-range citations in §13.2 and §16 are stale against the volumes' own §7s: T-V1-1 – T-V1-54 (§13.2 table, §16 M5) vs V01's T-V1-58; T-V2-1 – T-V2-53 vs T-V2-57; T-V3-1 – T-V3-34 vs T-V3-36; T-V4-1 – T-V4-75 vs T-V4-80; T-V5-1 – T-V5-32 vs T-V5-33; T-V6-1 – T-V6-69 vs T-V6-74; T-V7-1 – T-V7-57 vs T-V7-66; T-V8-1 – T-V8-47 vs T-V8-57; T-V9-1 – T-V9-70 vs T-V9-80; T-V11-0 – T-V11-37 vs T-V11-45; T-V12-1 – T-V12-41 vs T-V12-51. The rows' base-bar columns miss what the new tests take over: T113-4 and T113-5 are listed for volume 4, but the tests that take them, T-V4-77 and T-V4-76, lie outside the cited family; V07's T-V7-59 takes T113-1 and T113-3's village halves and T-V7-58, T-V7-62 – T-V7-66 the village bars of items 111 and 114–118; V06's T-V6-71 – T-V6-74 items 113, 111, 114, 115; V08's T-V8-50 – T-V8-55 the port's bars of items 111, 113, 114, 115, 117, 118 (the V01, V04–V08 rewrites' cross-part notes to scope).",
+   "required_change": "Update every volume range in §13.2 (the islands group 'T-V5-1 – T-V5-33', the plan rung 'T-V3-1 – T-V3-36', stage 3 'T-V2-1 – T-V2-57', 'Volume 4's T-V4-1 – T-V4-80', the SettlementForge stage 'T-V8-1 – T-V8-57'), the take-over table (V6 T-V6-1 – T-V6-74, V5 T-V5-1 – T-V5-33, V4 T-V4-1 – T-V4-80, V3 T-V3-1 – T-V3-36, V2 T-V2-1 – T-V2-57, V1 T-V1-1 – T-V1-58, V7 T-V7-1 – T-V7-66, V8 T-V8-1 – T-V8-57, V9 T-V9-1 – T-V9-80, V12 T-V12-1 – T-V12-51, V11 T-V11-0 – T-V11-45) and §16's M5 exit (T-V1-1 – T-V1-58); and add to the base-bar column the bars the new tests take — the village row 'T113-1 and T113-3's village halves (T-V7-59), T111-1 – T111-5 (T-V7-58) and the village clauses of T114-n – T118-n (T-V7-62 – T-V7-66)'; the evolution row T111-n's epoch form, T114-n's transitions and T115-n's epoch clause (T-V6-72 – T-V6-74); the SettlementForge row the port's clauses of T111-n, T113-n, T114-n, T115-n, T117-n and T118-n (T-V8-50 – T-V8-55); the underground row naming T-V4-76 (T113-5) and T-V4-77 (T113-4).",
+   "owner": "scope"
+  },
+  {
+   "id": "VCS-11",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "§1.1's village rows give the frame at the target as THORP 1.2 km², HAMLET 5.8 km², VILLAGE 20 km², the values of the retired stored `territory.haPerHead` 2.3; E-38 (canon) makes the area per head derived, 2.275 ha, and V07 §3.2 (1) / §3.9 (1)'s law `A_T = max(minKm2, a · P ÷ usableShare ÷ 100)` gives 1.14 km² (1.1), 5.69 km² (5.7) and 19.9 km² at the targets 40, 200 and 700 (V07's cross-part note 1 to scope); §1.1 and V07 disagree on the same values.",
+   "required_change": "§1.1's THORP row reads '1.1 km² (1.1 km), territory law; minimum 0.36 km²', the HAMLET row '5.7 km² (2.4 km); minimum 1.0 km²' (VILLAGE's 20 km² (4.5 km) stands, 19.9 exactly), and the rows cite 'the territory law of V07 §3.2 (1), its area per head V07 §3.9 (1)'s derived 2.275 ha'.",
+   "owner": "scope"
+  },
+  {
+   "id": "VCS-12",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "Continuation pointers after a volume pointer read, by the set's rule ('§x.y' is the base, 'Vnn §x.y' a volume), as base sections that do not state the fact (the assembler's ambiguous-reference list, scope lines): T28-1 '(V03 §3.1 step 2, §3.2 A5 (b), §2.3)' (base §3.2 is the numeric policy, §2.3 terrain; V03's cross-part note), where `solidMonument` is also a `PlanReport.notes` id (E-28), not a report tier; §13.2 stage 3 'V02 §7.6 and §7.7'; T101-6 '(V10 §3.15, §7.3 group A)'; `MilestoneRecord.ux` '(V09 §7.3, §7.4)'; §13.5's village rows '(volume 7 §2.7, §3.1 (8))'; §13.7's JT '(V12 §3.7, §3.10)'; §14's `@plat/tables` 'V09 §2.9, §4.9' and `@plat/app` '(V08 §3.1, §5.1)'; §15.1's F2 'V02 §3.5 M5, §5.2'; J-A509.01's row 'V08 §2.5 and §2.8'.",
+   "required_change": "Prefix each continuation with its volume: 'V03 §3.1 step 2, V03 §3.2 A5 (b), V03 §2.3' and 'dropped under the plan report's note `solidMonument` (E-28)'; 'V02 §7.6 and V02 §7.7'; 'V10 §3.15, V10 §7.3 group A'; 'V09 §7.3, V09 §7.4'; 'V07 §2.7, V07 §3.1 (8)'; 'V12 §3.7, V12 §3.10'; 'V09 §2.9, V09 §4.9'; 'V08 §3.1, V08 §5.1'; 'V02 §3.5 M5, V02 §5.2'; 'V08 §2.5 and V08 §2.8'.",
+   "owner": "scope"
+  },
+  {
+   "id": "VCS-13",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "Appendix A's one-sentence grade now says every mechanism, constant, budget, band, effort figure, milestone and decision 'in the set' is PLAUSIBLE 'until M-1 and M0 execute it, the … harnesses measure it, and each volume's milestone runs its bars', while §0.3 says 'the set's mechanisms, constants and budgets are PLAUSIBLE until the milestones of §16 measure them (Appendix A)'; the archived amendments paragraphs' rule — 'PLAUSIBLE until the milestone named beside it in §16 executes it' — was folded only into §0.3, so the base's M1–M5 mechanisms are graded by M-1 and M0 in one place and by their own milestone in the other.",
+   "required_change": "Appendix A's sentence reads '… is **PLAUSIBLE** — reasoning from that evidence — until the milestone §16 names for it executes it (M-1 and M0 for the calibration and the spikes), the B-CITY / B-EDIT / B-FUZZ / B-REF / B-ZOOM harnesses measure it, and, for a volume's subject, its volume's milestone runs its bars.'",
+   "owner": "scope"
+  },
+  {
+   "id": "VCS-14",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "SCOPE-C01 (FIX-BY-F, file f item 202) rules that '§1.1, T73-9, D-33, J-A81.71's index row, §14 and the Staged list carry the one wording' — the refusal of a dossier below 1 500 holds only while no village product is registered; §1.1, D-33, J-A81.71, §14 and the Staged list do, but T73-9 still reads 'the three refusal fixtures refused with `E_RUNG_UNAVAILABLE` naming the village product, at birth and after their ticks', unqualified.",
+   "required_change": "T73-9 reads '(T73-9) while no village product is registered, the three refusal fixtures refused with `E_RUNG_UNAVAILABLE` naming the village product, at birth and after their ticks (§1.1, §7.7 item 15); with volume 7's `ProductDecl` registered they route to its rungs (V08's T-V8-19 on V07's rows)'.",
+   "owner": "scope"
+  },
+  {
+   "id": "VCS-15",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "J-A73.06's index row and its Part A entry state '§7.7 item 1 lists `powerStructure.previousGovernments` as never read', but §7.7 item 1's never-read list names no such key, and §4.11's dating rungs read `previousGovernments[].tick` to date a change of government — the key is read (for dating), only the digest field `government.previous` has no reader.",
+   "required_change": "J-A73.06's row reads '`DossierDigest.government.previous` dropped, no mechanism of the set reading it; the adapter still reads `powerStructure.previousGovernments[].tick` as a dating rung (§4.11)', and its Part A entry drops '§7.7 item 1 lists the key as never read' for the same sentence.",
+   "owner": "scope"
+  },
+  {
+   "id": "VCS-16",
+   "severity": "minor",
+   "kind": "WIRING",
+   "claim": "W-DOS-05 (canon) and the base (§14's `DossierDigest.government` without `previous`; J-A73.06) drop `government.previous` because nothing reads it, and scope's cross-part note asked V08 to drop it from its digest and adapter; V08 §2.4's field table still maps `powerStructure.previousGovernments[]` → `government.previous` with consumers 'V06's chronicle; V10's history answer', and neither V06 nor V10 names the field — a produced field with no reader, and a disagreement with the base's digest.",
+   "required_change": "V08 §2.4's row reads '`powerStructure.previousGovernments[]` | — (read only for the ticks that date a change of government, §4.11's rungs) | —', and no V08 type or adapter step fills `government.previous`; or, if V06's chronicle or V10's history answer is to read past governments, that reader is written at its home and the base digest regains the field by a ruling — not both states at once.",
+   "owner": "V08"
+  },
+  {
+   "id": "VCS-17",
+   "severity": "minor",
+   "kind": "COHESION",
+   "claim": "The document title still reads '… neighbourhood composition (stage 2), and what a village would need (later)', framing the village as a later, hook-only subject, while §1.1, §16 and J122 build the village product at build depth right after M4 (V-M1 – V-M4, V-M0 right after M0) and the canon's cohesion check requires the set described with no 'hooks only' framing (SCOPE-C04, CO-01).",
+   "required_change": "The title reads '# ARCHITECTURE — PLAT, the fused town/city generator (base), neighbourhood composition (stage 2), and the hooks the village product (volume 7) builds on', with the assembler's heading map updated to match.",
+   "owner": "scope"
+  },
+  {
+   "id": "VCS-18",
+   "severity": "major",
+   "kind": "COHESION",
+   "claim": "INDEX.md §1 (the product map, which scope rewrites; '§1's table stands' was kept unedited) restates prices and build slots that the volumes have since changed: V06 '**M6-E** (E0–E8) … 25.25–35.75' (V06 §8: E0–E9, 29.5–41.75), V07 26.5–36.5 (29.75–41.75), V08 15.75–21.5 (18–24.5), V09 19.5–29 (21.5–31.75), V10 13.5–18.5 (14–19 …) (14.5–20; 15–20.5 with `plat clerk`), V11 12.25–17.0 (13.0–18.25), V12 '6–9 base side' (6.75–10.25 with W7), and V01 carries narration '(replacing the base's 14–18 pw M5 row)'; INDEX §4 says every price is its volume's own §8 estimate, so §1 contradicts the volumes it maps.",
+   "required_change": "INDEX §1's price column gives each volume's current §8 figure (V06 29.5–41.75 and 'E0–E9'; V07 29.75–41.75; V08 18–24.5; V09 21.5–31.75; V10 14.5–20 (15–20.5 with the command-line clerk); V11 13.0–18.25; V12 6.75–10.25 base side, M-CAL 4.75–8) or cites '(V0n §8)' in place of the figure, and V01's cell drops '(replacing the base's 14–18 pw M5 row)'.",
+   "owner": "scope"
+  },
+  {
+   "id": "VCS-19",
+   "severity": "minor",
+   "kind": "NARRATION",
+   "claim": "INDEX.md, written by the scope part, keeps narration principle (5) and S9 remove: a 'PROGRESS (lane `volumes/_finalize`, 2026-09-29)' ledger under its marker line; an intro saying file f is 'not yet applied', file g is 'items 102–113' and 'Both are applied to the base by the coherence pass'; §5 risk 6's spike 'the coherence pass applies g, then f, before the staged work'; and §8's lane record ('CONFIRMED (executed in this lane): every in-place edit of the finalization …', 'that the recommended order of §4 is the one the owner will choose') — the order is J122's decision.",
+   "required_change": "Remove the PROGRESS ledger; the intro reads 'The base carries files f (items 200–585) and g (items 102–119), applied by the coherence pass'; §5 risk 6's spike cell reads '— (files f and g are applied)' and its fallback keeps the named fallbacks; §8 states what is CONFIRMED and PLAUSIBLE about the set's prices and order (the totals computed once in §16, PLAUSIBLE until the milestones run; the order J122's) and moves the finalization lane's record to its validation file.",
+   "owner": "scope"
+  },
+  {
+   "id": "VCS-20",
+   "severity": "minor",
+   "kind": "CHANGED",
+   "claim": "E-21's equivalence requires every bar's tier carried exactly into §13.8's schedule; the archived tiers ran T88-1 'in the PR tier on the golden suite from M1' and T88-2 'on B-DOSSIER-lite from M2b', but the schedule puts T88-1 in the M1 row whose tier is 'PR (B-DOSSIER-lite: the nine at-rung births × 5 seeds …)' and T88-2 in the M2b row 'PR; nightly on B-CITY' (B-CITY carries no dossier) — the two bars' fixture sets are swapped.",
+   "required_change": "§13.8's schedule lists T88-1 in an M1 row 'PR on the golden suite' (outside the B-DOSSIER-lite row) and T88-2 in an M2b row 'PR (B-DOSSIER-lite)'; the M2b row 'T16-1, … , T88-2 | PR; nightly on B-CITY' drops T88-2.",
+   "owner": "scope"
+  }
+ ]
+}

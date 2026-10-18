@@ -1,0 +1,17 @@
+items | build ms (median of 15)
+1000 | 0.243
+2000 | 0.521
+4000 | 1.103
+8000 | 2.270
+17000 | 4.938
+20000 | 5.835
+42000 | 12.523
+60000 | 17.964
+--- stage totals (level grows linearly to its final size over the stage) ---
+CITY S10: one L3 commit per block (~1 750 blocks; L3 -> ~8 000 faces: plots+residue): 1.94 s
+CITY S11: one L4 commit per plot (5 500 plots; L4 -> ~17 000 faces: footprints+yard parts): 13.37 s
+METRO S10: ~4 400 blocks; L3 -> ~20 000: 12.65 s
+METRO S11: 13 750 plots; L4 -> ~42 000: 84.93 s
+--- one edit (full level already built) ---
+CITY single plot edit: 1 L3 + 1 L4 rebuild: 7.33 ms
+METRO single plot edit: 1 L3 + 1 L4 rebuild: 18.76 ms

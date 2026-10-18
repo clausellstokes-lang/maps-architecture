@@ -1,0 +1,33 @@
+{
+ "record": "the CLEAN-ROOM.md section 4 G-row cells for this candidate (entered by the deny-list seat when it crosses at W-20; never the tokens)",
+ "id": "G-nnnn, assigned under the id rule (C-0104) when the row is entered",
+ "date": "2026-10-04T05:56:16-04:00",
+ "seat": "built by m1/W-16b (Opus); the row is entered by the deny-list seat at W-20",
+ "file": "packages/testkit/baselines/denylist.json",
+ "fileSha256": "7b3d79936f32dccd0770bf37cf7381a747555a1a0a543b185749842f18c223c6",
+ "bytes": 24227888,
+ "normalisationVersion": 1,
+ "digestHexDigits": 16,
+ "corpusCut": "2026-10-04T05:56:16-04:00",
+ "sources": [
+  "S01 research findings",
+  "S02 structured capture records",
+  "S03 leniently parsed capture bodies",
+  "S04 reference prose",
+  "S05 module field names",
+  "S06 provenance citations",
+  "S07 image and body bytes",
+  "S08 study-map names (transcribed research-side)",
+  "S09 spell exclusion (web2 and our supplement)"
+ ],
+ "counts": {
+  "tokens": 894,
+  "trigrams": 1026020,
+  "colours": 7358,
+  "files": 2523,
+  "lists": 260,
+  "listWords": 3461,
+  "spell": 234593
+ },
+ "notes": "salted SHA-256 digests truncated to 16 hex digits (digestHexDigits 16); the file carries its salt as the format requires, and the salt file itself stays research-side, generated once and never regenerated; the research twin of the scanner and its self-test ran on this file before it was proposed"
+}

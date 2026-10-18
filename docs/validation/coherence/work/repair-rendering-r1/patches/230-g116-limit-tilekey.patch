@@ -1,0 +1,90 @@
+# VRC0S-02 (major, F-MISSING): g item 116's rendering part — §8.8's per-map zoom-out limit on the pyramid and the view,
+# the export frames within the whole bounds (§8.7, §11.1), §9.5's framing within it, §12.5 (fewer stops, never more),
+# T-ER-08 restated.
+# VRC0S-11 (minor, WIRING): the tile key gains `cvdVariant` and `showUnexcavated`; with them the year position (g item
+# 117), the fixed sun's seasonal altitude and the festival display (g item 118, a `base` live layer); §8.9's raster-export
+# request carries the same switches.
+@@ FILE 8.8.md
+<<<<
+  (≈ 1:1 414), the building band at 24 (≈ 1:707) — read by §8.5's hysteresis and §9.2's placement. Tiles are 512 × 512 device px at the view's **tile DPR** d
+====
+  (≈ 1:1 414), the building band at 24 (≈ 1:707) — read by §8.5's hysteresis and §9.2's placement. **The zoom-out limit
+  (g item 116; J127).** Each map's coarsest stop is its limit k_min = max(0, k_fit − `view.zoomOutMarginStops`), where
+  k_fit is the finest stop at which the whole `bounds` (§8.1's `DisplayList.bounds`: a town's frame, a village's
+  township — land the frame laws already cap, §3.2 (9)) fits the viewport's short side — the largest k ≤ 34 with
+  max(the bounds' width, height) ≤ the short side in CSS px × m_k — and the margin is V11's base settings cell (1 stop,
+  V11 §3.25.5). The view never settles at a stop coarser than k_min — a zoom-out gesture stops there and the zoom control
+  is disabled at it (V09) — and the pyramid rasters, caches and keeps no tile coarser, the gestures' coarser-stop set
+  included; the zoom-in end is unchanged. k_min is recomputed whenever `bounds` changes — an epoch or a hand edit that
+  grows the frame moves it — or the viewport is resized, a view left coarser than a new limit settling to it; every rung
+  thus draws every stop from its limit inward (T-ER-08). Tiles are 512 × 512 device px at the view's **tile DPR** d
+>>>>
+<<<<
+  `under`, `shadow`, `over` —, style version, the view-state switches that change the layer's pixels: season, weather,
+  shadows on or off and their mode, model-layer toggles, `plotsOnly` (city and district bands), `storey` (building
+  band), `depthBand` (the underground layer), the knowledge key while a `use`- or `owner`-keyed thematic row is active
+====
+  `under`, `shadow`, `over` —, style version, the view-state switches that change the layer's pixels: the year position
+  while the pinned tables hold item 117's season rows (under their off form the named season) and `weather` (§8.2's
+  season rows), `cvdVariant` while the sheet ships a variant (§8.2), shadows on or off and their mode, model-layer
+  toggles, `plotsOnly` (city and district bands), `storey` (building band), `depthBand` and, for a `secret` key,
+  `showUnexcavated` (the underground layer; §8.4), the knowledge key while a `use`- or `owner`-keyed thematic row is active
+>>>>
+<<<<
+  item 7), the `light` key on the vector rung (its `@night` roles), `base` live layers; for the `shadow` layer — or, while projected
+====
+  item 7), the `light` key on the vector rung (its `@night` roles), `base` live layers (the festival display among them,
+  through `live.festival`, §8.2); for the `shadow` layer — or, while projected
+>>>>
+<<<<
+  `fixed` mode the sheet's sun belongs to the style version). Content version = the combination of the drawn marks'
+====
+  `fixed` mode the sheet's sun belongs to the style version and, its altitude following the week, to the year position,
+  §8.4's *Sun*). Content version = the combination of the drawn marks'
+>>>>
+@@ FILE 8.9.md
+<<<<
+§8.8's view-state switches (season, weather, shadow mode, model-layer toggles, `base` live layers, `plotsOnly`, `storey`, `depthBand`, the drawn week, `light`),
+====
+§8.8's view-state switches (the year position, `weather`, `cvdVariant`, shadow mode, model-layer toggles, `base` live layers — the festival display's `live.festival` among them —, `plotsOnly`, `storey`, `depthBand`, `showUnexcavated`, the drawn week, `light`),
+>>>>
+@@ FILE 8.7.md
+<<<<
+export scale. VTT exports carry model widths only, on a declared grid with exact pixels per cell (§11.1). The scale bar's
+accuracy is §9.5's.
+====
+export scale. VTT exports carry model widths only, on a declared grid with exact pixels per cell (§11.1). Every export
+frames within the map's zoom-out limit — the whole `bounds` at most (g item 116 (c); §8.8): a requested frame reaching
+past `bounds` is cut to them, and one that misses them wholly is T-ER-07's empty frame. The scale bar's accuracy is §9.5's.
+>>>>
+@@ FILE 11.1.md
+<<<<
+* **Scope:** a rectangle or a district chosen by the user — by default the current view snapped to whole grid squares.
+====
+* **Scope:** a rectangle or a district chosen by the user — by default the current view snapped to whole grid squares —
+  cut to the map's `bounds` as every export frame is (§8.7; g item 116 (c)).
+>>>>
+@@ FILE 9.5.md
+<<<<
+  the viewport's short side (no letterbox: the long side shows more context). River tails and ribbon tips beyond the
+====
+  the viewport's short side (no letterbox: the long side shows more context), never coarser than the map's zoom-out
+  limit (§8.8; g item 116) — the circle lies inside `bounds`, so the first view is the framing rule's at every rung, a
+  village's V07 §5.2's — and the view's **Fit the town** frames the whole `bounds` at the limit's stop less its margin
+  (V07 §5.2's township view at a village rung; V09). River tails and ribbon tips beyond the
+>>>>
+@@ FILE 8.11.md
+<<<<
+| T-ER-08 | the pyramid at every rung (§8.8): stops and band entry are scales, the same at every rung; an empty tile is paper | every rung draws every stop; a frame smaller than the view shows paper beyond `bounds` | each rung from THORP to the cap swept through stops 0–34: 0 pops beyond B-ZOOM's bar, 0 errors |
+====
+| T-ER-08 | the pyramid at every rung (§8.8): stops and band entry are scales, the same at every rung; each map's zoom-out limit k_min (g item 116); an empty tile is paper; `bounds` grown by an epoch or a hand edit; a resized viewport; a `bounds` that fits at stop 34 | every rung draws every stop from its limit inward (k_min … 34) and no stop beyond it is reachable; the first view unchanged; k_min moves with `bounds` and the viewport; k_fit capped at 34; a view at the limit shows paper beyond `bounds` | each rung from THORP to the cap swept from stop 34 outward until the zoom stops: it stops at k_min, where the whole `bounds` fits the short side, less the margin; 0 tiles rastered or cached coarser; 0 pops beyond B-ZOOM's bar, 0 errors; the first view's stop the framing rule's; after a hand edit growing `bounds`, the new k_min |
+>>>>
+@@ FILE 12.5.md
+<<<<
+**Seasons and festivals (g items 117 (i), 118; item 119 (d)).**
+====
+**The zoom-out limit (g item 116).** The limit (§8.8) removes stops and never adds one: no budget above grows, a map
+whose limit lies finer than stop 0 caches fewer stops, and a gesture at the limit shows that stop's own tiles.
+
+**Seasons and festivals (g items 117 (i), 118; item 119 (d)).**
+>>>>

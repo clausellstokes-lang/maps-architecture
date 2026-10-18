@@ -1,0 +1,20 @@
+# §8.2 VV910-r4-02 (R5-08 (b); Part H amended): each `live.crises` mark carries its look in `entity` — the
+# ConditionOverlay's interned handle — so V09's Show and Find's Go to frame one look; a preview carries no condition.
+@@ FILE 8.2.md
+<<<<
+  and, a `base` layer, joins the tile key (§8.8). Its rows carry
+====
+  and, a `base` layer, joins the tile key (§8.8). Each mark carries its look: in `entity`, the interned handle (§2.1) of
+  the `ConditionOverlay` whose look draws it — a preview, drawn alone, carries no condition, so its **Show** frames every
+  crisis mark — so one look's marks are told apart; V09 §4.21.12 (5)'s **Show** and Find's **Go to** on a look read them
+  so, asking the provider in the generation worker for one look's marks at its row's `band` over the map's `bounds` and
+  §8.8's ring, whatever the view, and framing their box. Its rows carry
+>>>>
+# §8.2 sweep (R5-01 (2) with VRC4T-04 / R5-05 (b)): the Find budget's restatement, stale once §12.5 adds the key
+# trigger and the drawn week's re-evaluation, becomes a reference to its home.
+<<<<
+  interaction budget §12.5's (suggestions ≈ 50 ms of a key, a chip's glow ≈ 100 ms of the click, the index rebuilt
+  once per commit). Find lands at M5 (§16).
+====
+  interaction budget §12.5's (R12-35). Find lands at M5 (§16).
+>>>>

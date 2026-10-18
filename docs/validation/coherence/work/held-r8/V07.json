@@ -1,0 +1,11 @@
+[
+ {
+  "id": "VAL-R6-04",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "owner": "V07",
+  "claim": "V07 \u00a75.1 (l. 3248\u20133249) calls the shade map 'a `setLayer` toggle, never on by default'. The shade map is V09 \u00a75.4's thematic view, chosen by the per-viewer view key `thematic` at `shade` (\u00a72.9, l. 3500; \u00a74.5, l. 6239), which sends no event; `setLayer` is a logged edit of a model layer's `LayerSpec` (\u00a78.4, l. 13677, which now adds 'no drawing group by `setLayer`', the thematic overrides being \u00a72.1's drawing groups). V05 (l. 228) calls it volume 9's. The village supplies only VS1's `daylight.terrain`, so nothing built changes.",
+  "required_change": "V07 \u00a75.1: replace 'a `setLayer` toggle, never on by default' with 'shown by the per-viewer view key `thematic` at `shade` (\u00a72.9; V09 \u00a75.4), `none` by default'.",
+  "reported_by": "verify-agree-layers-r6t"
+ }
+]

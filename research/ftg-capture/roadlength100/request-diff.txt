@@ -1,0 +1,6 @@
+Diff: research/ftg-capture/create-request.json (Galeiaward, 2026-09-21) -> research/ftg-capture/roadlength100/create-request.json (Nevervalley, 2026-09-25)
+total differing leaves: 46
+semantic differences (1):
+  .layoutParameters.stages[1].roadLength: 60 -> 100
+non-semantic: 45 x .racePartners[i].partnerId (client-generated random UUIDs), e.g. .racePartners[0].partnerId: ea67cfc1-0035-46bb-9252-45e2b3c45fa3 -> c41ce1a1-2c38-448d-9a33-a14b1c3423c3
+unchanged, for the record: layoutParameters.customStages = False (still false although the form preset was switched to Custom); stages[0].roadLength = 50 ; suburb.roadLength = 30 ; size = CITY ; seed = None

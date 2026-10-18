@@ -1,0 +1,128 @@
+[
+ {
+  "id": "VAL-R3-02",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "owner": "model",
+  "claim": "A raised way crossing a village palisade gets two builds. \u00a72.7's support step (3) (l. 2539-2551) gives every course 'across an enceinte's trace \u2014 on a gate's line or as an aqueduct's wall arch, the only crossings \u00a74.3 allows' one crossing station on the trace. There 'the wall carries the deck': for a viaduct or an elevated road a raised gate 'whose tower carries the deck', for an aqueduct the curtain under its arch. Every other pier slides out of the wall strip. Support step (6), new this round (l. 2559-2567), re-sites a standing raised way's stations whenever a trace is laid across it. \u00a74's raised-way edge row 'wall' (l. 8886) states the same. The village palisade is an `Enceinte` of stage 1 (V07 \u00a73.4; `VillagePlan.palisade`). V07 \u00a73.5a (4) (l. 1597-1602; J-V7.83; V07 \u00a73.17's row 'a raised way over the palisade'; T-V7-52) rules otherwise for a raised way on a village map, declared or carried down. VS3's palisade 'abuts' each standing support in its band, 'the support is never moved and never a gate', the trace passes beneath every span, and 'a raised way crossing the circuit makes no gate (its deck passes over)'. VS3 lays the palisade across an already standing raised way at every village derivation, and a hand `drawWall` can do the same. Under the base the stations move onto a crossing station whose tower carries the deck on the palisade, and the other piers slide out of its band. Under V07 every support stays where it stands and no gate is drawn. A timber palisade also cannot carry a deck tower.",
+  "required_change": "\u00a72.7's support step (3): after '\u2014 on a gate's line or as an aqueduct's wall arch, the only crossings \u00a74.3 allows \u2014' add '(a village map's palisade, `VillagePlan.palisade`, excepted: its trace abuts each support standing in its band where it stands and passes beneath every span, with no crossing station and no gate; V07 \u00a73.5a (4))'. Support step (6)'s list of traces adds '\u2014 a village palisade's excepted (V07 \u00a73.5a (4)) \u2014'. Pipeline's END: the raised-way edge row 'wall' (\u00a74, l. 8886) reads 'crosses a town enceinte only on a gate's line or as the aqueduct's arch; no support in a wall strip but the crossing's station on the band (\u00a72.7's support step (3)); a village palisade abuts its supports, the deck passing over with no gate (V07 \u00a73.5a (4))'.",
+  "reported_by": "verify-agree-layers-r3t"
+ },
+ {
+  "id": "VAT3-r3-02",
+  "severity": "major",
+  "kind": "EDGE-UNDEFINED",
+  "owner": "model",
+  "claim": "The present at creation is the dossier's latest stamped tick, which may be a calamity's own `tick` (\u00a74.11 *The clock* (1) l.8327-8328; V08 l.672). `HistoryHint.calamities` (\u00a72.7 l.2452) and its writer V08 \u00a73.15 (2) (l.2318) take '`calamityHistory` before the creation week', which before R3-18 meant strictly before the present. A calamity at the present week itself is carried at creation (V08 l.1287), so no later absorb carries it 'newly' and V08 \u00a73.6 (3) never gives it an epoch: it reaches neither DR37's replay, nor the `HistoryRecord`'s story, nor DR28's epoch path \u2014 the case of a map made right after a disaster, a common request. The peers' two fixes word the bound two ways (VM-R3T-02 'before the present at creation', VPC-R3-05 'up to the present at creation'): one builder drops that calamity, the other replays it.",
+  "required_change": "\u00a72.7's `HistoryHint.calamities` comment reads '`calamityHistory` up to and including the present at creation (\u00a74.11 *The clock* (1)) \u2014 every calamity the creation carries (DR36's losses; DR37's events)' \u2014 the endpoint of VM-R3T-02's and VPC-R3-05's text, one bound for both; V08 \u00a73.15 (2)'s `calamities` bullet (l.2318) reads the same in the same round; V08's history test (T-V8-51) adds a dossier whose latest stamped tick is a calamity's, that calamity in the hint and in the last replay epoch (VAT3-r3-10).",
+  "reported_by": "verify-agree-time-r3t"
+ },
+ {
+  "id": "VAT3-r3-08",
+  "severity": "minor",
+  "kind": "DISAGREE",
+  "owner": "model",
+  "claim": "Model \u00a72.6 step 7 (l.2100-2101; R3-06's binding text) reads 'one item 113's replay abandons or ruins ages from that replay epoch's week'. V06 \u00a73.23 (4) (l.3423-3426), the home, starts it 'from the week (1) gives its change in that replay epoch \u2014 the epoch's week where the epoch runs at model level and starts no Works (V06 \u00a73.20.4)'. A replay epoch ending within `replay.detailRetainYears` (50) of the present runs its Works (V06 \u00a73.13 (1), \u00a73.20.4), so its `vacate`'s or hazard's change shows at the Works' start, anywhere in a `history.epochYears` (10-year) span. R3-06 (a) governs where a run starts. Every reader calls V06's `decayLevel`, so nothing built changes.",
+  "required_change": "Model \u00a72.6 step 7: 'one item 113's replay abandons or ruins ages from that replay epoch's week' \u2192 'one item 113's replay abandons or ruins ages from the week its change shows in that replay epoch (V06 \u00a73.23 (4): the epoch's week where it starts no Works)'.",
+  "reported_by": "verify-agree-time-r3t"
+ },
+ {
+  "id": "VEW-r3-02",
+  "severity": "major",
+  "kind": "EDGE-UNDEFINED",
+  "claim": "CATALOGUE-GAP (the support step x S7 at generation). At generation the support step reads obstacles that later stages lay. It runs 'after its course and deck level are fixed' (\u00a72.7 l.2523-2524), and the raised parts commit at S4 (viaducts), S5b (a stage's viaducts) and S6's end (elevated roads and aqueducts) (\u00a74.3 *The slot* l.5634-5636; \u00a74.1's stage table). S7 comes after S6. It cuts the wall strips (`Enceinte.strips`, 'the two L1 wall-strip faces S7 cuts off', l.2255) and writes the band's thickness (`thicknessCm` 'written by S7', l.2258; a `parapet` run's by S7's `stretchClass`). It also claims the gate plazas and lays the quays, piers and moles (l.7515-7527, l.7557, l.7635-7640). S5c grows the secondaries round an S4 or S5b viaduct before then. So (3)'s obstacles do not yet exist when the step runs: 'an enceinte's wall strip (`Enceinte.strips`)', 'the strip's setback and glacis parts, the berm' (l.2530-2531, l.2545-2546), 'a part-0 way's corridor (\u2026 a pier's, a mole's or a quay's deck among them)', and 'a square \u2026 or a reservation'. No text runs the step again after S7. (6), new this round, re-runs it 'in the same commit' as an S5a trace (l.2559-2563) and slides 'the stations in the new strips' setbacks, glacis, berm or channel', but S7 has not cut those strips; only the channel S5a carves exists. Two builders differ. One leaves the piers where the commit put them: in the setback and glacis, in a gate plaza, under a quay, against T110-2's '0 piers in a setback, glacis, berm or moat' (l.18225-18231), with no \u00a75.3 invariant to catch it. Another derives the strips early from values S7 has not written.",
+  "required_change": "\u00a72.7's support step adds: 'At generation the support step runs once more on every raised way after S7's batches and before S7b (1), its span rule then running at its eager time, each station keeping its key by (5). The obstacles then standing include S5b's and S5c's ways and S7's wall strips, gate plazas, castle paths, quays, piers and moles. The run at a raised part's commit (S4, S5b, S6) and (6)'s run at an S5a trace read the obstacles standing then, the channel S5a carves among them; the strips are taken at this later run.' Pipeline end (R3-01): \u00a74.3 *The slot* and \u00a74.8's lead state 'after S7, \u00a72.7's support step re-runs on every raised way, its keys kept (\u00a72.7 (5))'. T110-2's CITY masonry aqueduct and its c14 viaduct fixtures already run at generation and then bar it.",
+  "owner": "model",
+  "reported_by": "verify-edges-world-r3t"
+ },
+ {
+  "id": "VEW-r3-03",
+  "severity": "major",
+  "kind": "EDGE-UNDEFINED",
+  "claim": "CATALOGUE-GAP (a trace meeting a raised way's ramp or foot; opened by this round's (6)). (6) defines a trace that crosses a standing raised way between its feet at deck level. Nothing defines a trace, its strips or its moat that meet the raised way's ramp or a foot. The feet are ground vertices where the ramps or stairs meet part 0 (\u00a72.7 `RaisedWayRecord.feet`, l.2287; \u00a74.6 l.6617-6618, ramps at the class grade). Nothing ties the trace's place to them. At generation a later stage's boundary on the S3 lattice may fall at a valley's rim, where an S4 viaduct comes down. At an epoch V06 \u00a73.7.1's widening counts supports as footprints but no foot or ramp (V06 l.1448-1450), and V06 \u00a73.7.6 (5)'s cost field makes only the supports impassable (l.1581-1582). Three outcomes follow. (6)'s crossing station is then 'one added' on the ramp: a raised gate whose tower carries a deck a metre above the ground. The strip's setback and glacis, or the berm and the channel S5a carves 'outside the outer half-band and a berm' (l.5805-5806), take the ramp and the foot. S5a's *Outer moats* adds 'no part-0 deck' for a raised gate because 'the deck itself' crosses the channel (l.5809-5812). So a part-0 arterial leaving a foot between the band and the channel's outer bank meets the channel with no deck, against \u00a75.3's hard invariant 'a way crosses water only on a deck' (l.9114), or the foot's ground vertex lies in the water face itself. (6)'s give-way names only a clear span past `maxClearSpanM` or a pier past `maxPierM`.",
+  "required_change": "\u00a72.7's support step (6) adds: 'A crossing station stands where the deck is at its level, never on a ramp or a stair. Where the new trace, its strips or its moat channel would meet a ramp, a stair or a foot of the raised way (`RaisedWayRecord.feet`), the trace gives way as for a span past its bound. S5a: its stage trace takes the next lattice boundary node off the ramp, reported. V06: it retraces by the margin rule and waits (`walls.waited`). A hand `drawWall`: its dry run bends the trace clear of it (item 101 R2). So no foot, ramp or stair stands in a setback, glacis, berm or channel, and the part-0 way beyond a foot never meets the channel.' Ends (R3-01): \u00a74.4 S5a *Outer moats* (pipeline) cites it beside 'no part-0 deck added for it'. V06 \u00a73.7.6 (5)'s continuity bullet adds the ramp and the foot to what makes a trace retrace and wait. \u00a713.2 T110-2 (scope) adds 'a stage-2 moated ring whose lattice boundary falls on an S4 viaduct's ramp at a valley rim: the trace moved off the ramp, reported, the foot and ramp outside the strips and the channel, the raised way kept'.",
+  "owner": "model",
+  "reported_by": "verify-edges-world-r3t"
+ },
+ {
+  "id": "VEW-r3-04",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "claim": "A crossing station's support is the wall. (3) makes 'that station's support `ring` \u2026 the band's stretch under the deck, the wall's own masonry (no pier raised, no pier-height test)' (l.2543-2545), and round 3 holds that stretch while the deck stands (l.2546-2553). The raised way's own support ops still treat that `supports` entry as a pier, with no rule tying them to the stretch's `condition`. (a) V06 \u00a73.19.2 (3)'s salvage takes 'a support both of whose spans are ruined or cleared \u2026 \u2192 `dismantle` on the support (cleared)' (V06 l.2900-2901). At a station that is the wall's masonry under the deck. \u00a72.7 (3) instead makes the stretch 'an ordinary run' from the first epoch after both spans have fallen, decaying by V06 \u00a73.7.7. So the same masonry has two outcomes: taken as the raised way's salvage, or kept as a wall run. (b) V06 \u00a73.19.2 (4)'s `topple` 'takes a support, weighted by its height, and breaks both spans beside it' (l.2908). A station has no pier height, and a toppled station leaves its support `ruined` while the held stretch's `condition` stays `standing`. (c) A landfall breaches the stretch and ruins the support (V05 \u00a73.16's wall and pier rows, V05 l.1338 and l.1342; \u00a72.7 (3)). V06 \u00a73.19.2 (5)'s `repairRaised` then re-stands the spans beside it, 'its ruined supports with it' (l.2917). No text repairs the stretch, so the repaired deck stands on a `breached` gate tower, or on a stretch that the ordinary run's decay (V06 \u00a73.7.7 (2)) dismantled meanwhile. Two units state two outcomes for one case: MAJOR by R3-03 (b).",
+  "required_change": "\u00a72.7's support step (3) adds: 'A crossing station's `supports` entry carries no `state` of its own. It reads its stretch's `condition`: `standing`, `worn` or `patched` is a standing support; `breached` or `dismantled` is a ruined one. The raised way's support ops pass over it: V06 \u00a73.19.2 (3)'s salvage `dismantle` and (4)'s `topple` never take it, and its stretch decays as the wall's once both spans have fallen. A landfall's breach of the stretch ruins the spans beside it (V05 \u00a73.16). A `repairRaised` of a span beside a station whose stretch is `breached` or `dismantled`, whether V06 \u00a73.19.2 (5)'s or a hand Repair, first repairs that stretch by `repairWall` in the same batch, in item 114's patch material, so no deck stands on a fallen wall.' Ends (R3-01): V06 \u00a73.19.2 (3)-(5) cite it, the salvage and topple candidates excluding a station and the repair naming its wall step. V05 \u00a73.16's raised-way pier row adds '(a crossing station's support is its wall stretch, \u00a72.7: the wall row's breach)'. \u00a713.2's item-114 group (scope) adds 'a landfall over a raised gate, then the deck's repair: the stretch repaired with the deck, never a deck on a breached run; a station whose spans have both fallen keeps its stretch as a wall run, never dismantled as a support'.",
+  "owner": "model",
+  "reported_by": "verify-edges-world-r3t"
+ },
+ {
+  "id": "VEW-r3-05",
+  "severity": "minor",
+  "kind": "EDGE-UNDEFINED",
+  "claim": "The enumerations of what (6) covers are narrower than its rule. (6)'s 'a later stage's S5a trace and outer moat at generation' (l.2560-2561) and \u00a74.8's '(a later stage's trace across an S4 viaduct, elevated road or aqueduct \u2026)' (l.7562-7563) both miss one case. Stage k's S5b may raise a viaduct (l.5824). That viaduct is committed before stage k's own S5a trace (\u00a74.1's S5 row: S5b's L1 batch, then S5a's), and the trace can cross it, but stage k's trace is not 'a later stage's'. And at generation an elevated road or an aqueduct is laid at S6's end, after every trace (l.5634-5636), so no generation trace crosses one standing. (6)'s governing clause ('a trace or moat laid across a standing raised way') covers the case, so a builder reaches it. Only the lists and T110-2's fixtures name less.",
+  "required_change": "\u00a72.7 (6): 'a stage's S5a trace and outer moat at generation across an S4 viaduct or a viaduct an S5b laid before it, the stage's own included'. Pipeline end, \u00a74.8: '(at generation a stage's trace across an S4 or S5b viaduct; at an epoch, or by a hand `drawWall`, any trace across a standing raised way, its crossing station put on the trace by \u00a72.7's support step (6))'. Scope's T110-2 adds 'a stage-2 S5b viaduct crossed by stage 2's own moated ring'.",
+  "owner": "model",
+  "reported_by": "verify-edges-world-r3t"
+ },
+ {
+  "id": "VKr3-04",
+  "severity": "minor",
+  "kind": "WIRING",
+  "claim": "\u00a72.7's RaisedFoot comment (l. 2310\u20132311) states a frame growth's effect on a ring-end foot as 'A frame growth (\u00a73.2 (9)) extends the deck to the new ring as \u00a74.11 continues a through-road, the raised way's re-derivation re-placing both ends of that foot on the new rings', and its writer list (l. 2304\u20132305) names the generator, the operators and the way's re-derivation. Since this round the kernel's growth itself first moves the ground end's row onto the new ring (\u00a73.2 (9)'s foot batch), so the record's description omits a writer (principle (7)). Nothing built changes, because \u00a73.2 (9) is explicit.",
+  "required_change": "\u00a72.7, l. 2310\u20132311: replace 'A frame growth (\u00a73.2 (9)) extends the deck to the new ring as \u00a74.11 continues a through-road,' with 'A frame growth (\u00a73.2 (9)) first moves the foot's ground end onto the new ring (its foot batch, between part 0's two L0 batches), then extends the deck to the new ring as \u00a74.11 continues a through-road,'.",
+  "owner": "model",
+  "reported_by": "verify-kernel-r3t"
+ },
+ {
+  "id": "VM-R3T-01",
+  "severity": "minor",
+  "kind": "TERM",
+  "owner": "model",
+  "claim": "Repair round 3 renamed the plan rung's Works input 'its running build Works' stage' (a `decay` or `repair` Works is none) at \u00a72.8's `ElaborationRecord.inputs` (l. 2856) and stale list (l. 2864) and at \u00a72.6 step 7's drawing sentence (l. 2068-2069), but the two other statements of the same input keep the old term: \u00a72.6's `BuildingInput.stage` (l. 1489: 'its running Works' stage at the drawn week (\u00a74.11), which the plan's drawing shows') and \u00a72.6 step 1's inputs (l. 1991: 'the running Works' stage (item 67)'). Read literally they hand volume 3's plan() a `decay` Works' stage as a plan input, which \u00a72.8, step 7 and V03 \u00a73.11 (b) exclude; 'build Works' is also defined nowhere against `Works.kind`'s seven values (l. 2425).",
+  "required_change": "\u00a72.6 `BuildingInput.stage` comment: 'item 67: its running build Works' stage at the drawn week (\u00a74.11; a `decay` or `repair` Works is none, step 7), which the plan's drawing shows (below)'; \u00a72.6 step 1: 'the running build Works' stage (item 67; a `decay` or `repair` Works is none, step 7)'; \u00a72.6 step 7's first use: 'A building whose running build Works \u2014 a Works of any kind but `decay` and `repair` (\u00a72.7's `Works.kind`) \u2014 stands before FINISHED \u2026'.",
+  "reported_by": "verify-model-r3t"
+ },
+ {
+  "id": "VM-R3T-02",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "owner": "model",
+  "claim": "R3-18 (written at \u00a74.11 *The clock* (1), l. 8330-8334) makes 'the creation week' the week of the `generate` event \u2014 on a history-first document the replay's start, W_p \u2212 round(52 \u00d7 start.yearsAgo) \u2014 and 'the present at creation' the dossier's present week, 'one name each, everywhere'. \u00a72.7's `HistoryHint.calamities` (l. 2452) still reads 'calamityHistory before the creation week (DR36's losses; DR37's events)', and V08 \u00a73.15 (l. 2318), which writes it, the same. Under the ruled meaning a history-first document's hint holds only calamities before the replay's start, yet V06 \u00a73.20.2 maps each `calamityHistory` entry into the replay epochs between the start and the present (one before the start is not replayed) and DR37 reads them from `Recipe.history` (item 125: the port is the dossier's only reader): one builder replays every calamity, another none. `HistoryHint.ageYears`' 'the settlement's age at creation' (l. 2444) has the same two readings, while V06 \u00a73.20.1 (2) reads it as 'history.ageYears before the present'.",
+  "required_change": "\u00a72.7 `HistoryHint.ageYears`: 'the settlement's age at the present at creation (\u00a74.11 *The clock* (1)) \u2014 never advanced by \u00a74.11's clock'; `HistoryHint.calamities`: 'calamityHistory before the present at creation (\u00a74.11 *The clock* (1); DR36's losses; DR37's events)'; V08 \u00a73.15 (l. 2318): '`calamities` \u2014 `calamityHistory[]` before the present at creation (\u00a74.11 *The clock* (1)), \u2026' (V08's end, written in the same round).",
+  "reported_by": "verify-model-r3t"
+ },
+ {
+  "id": "VM-R3T-06",
+  "severity": "major",
+  "kind": "EDGE-UNDEFINED",
+  "owner": "model",
+  "claim": "\u00a72.7 support step (6) re-runs (1)-(5) on any standing raised way a trace crosses \u2014 'the nearest interior station within p \u00f7 2 moved there, keeping its key, else one added', the stations in the new strips 'slid or omitted by (3)' \u2014 with no exception for a locked or pinned raised way, whose deck and piers \u00a77.4's lock column holds (l. 11261: 'its deck and piers held') and which V06 \u00a73.1's *Protection* ('a locked or pinned entity is never struck, converted or moved') keeps out of every engine change. An epoch circuit, or a Re-derive's S5a trace, across a locked aqueduct has two contradictory rules \u2014 move the held piers, or cross with no station on the trace and piers left in the new strip (against (3)) \u2014 and no third outcome: step (6)'s give-way names only the span and pier bounds. A hand `drawWall` across it meets E-07's lock row, which step (6) does not cite.",
+  "required_change": "\u00a72.7's support step (6), after 'slid or omitted by (3);': 'a locked or pinned raised way (its deck and piers held, \u00a77.4) is never re-sited: where its crossing would need a station moved, added or omitted, the trace gives way as where a span would pass its bound (S5a's walk, \u00a74.4; V06: it retraces and waits, `walls.waited`), and a hand `drawWall` across it is E-07's lock conflict (`refuse.locked`, its action `unlock`);'; \u00a713.2's T110-2 gains (scope's end) 'a locked aqueduct crossed by an epoch circuit: no pier moved or added, the circuit retraced or waiting, reported'.",
+  "reported_by": "verify-model-r3t"
+ },
+ {
+  "id": "VM-R3T-07",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "owner": "model",
+  "claim": "\u00a72.6 step 7 (l. 2104-2106): 'A building of a district a disaster look ruins (item 122 (d)) draws the same layer at the look's level by severity \u2026 \u2014 a look only.' R3-10 makes the look leave building by building (V06 \u00a73.22 (3)'s `crisisLookYields`: a Works other than a `decay` Works begun on it), a preview never handing over; \u00a710.2 (f) and V03 \u00a75.6 (4) (l. 2722-2727) say so, step 7 still covers every building of the district (and its build-stage sentence gives such a building a second drawing). Minor: V03 \u00a75.6 (4), which builds the drawing, states the hand-over.",
+  "required_change": "\u00a72.6 step 7: 'A building of a district a disaster look ruins (item 122 (d))' \u2192 'A building over which a disaster look stands (item 122 (d); \u00a710.2 (f): each building of its districts until V06 \u00a73.22 (3)'s `crisisLookYields` turns true on it, a preview never handing over)'.",
+  "reported_by": "verify-model-r3t"
+ },
+ {
+  "id": "VPC-R3-05",
+  "severity": "minor",
+  "kind": "TERM",
+  "owner": "model",
+  "claim": "R3-18 (applied at \u00a74.11 *The clock* (1), l. 8330\u20138335) makes 'creation week' the `generate` event's week (the replay's start on a history-first document) and 'present at creation' the dossier's present, one name each everywhere. \u00a72.7's `HistoryHint.calamities` comment (l. 2452) still reads 'calamityHistory before the creation week'; under the new names that drops the calamities between the replay's start and the present, which DR37's replay maps. The port fills the hint before any replay plan exists, so the intended bound is the present; the word is stale.",
+  "required_change": "\u00a72.7 l. 2452: 'calamityHistory before the creation week' reads 'calamityHistory up to the present at creation (\u00a74.11 *The clock* (1))'.",
+  "reported_by": "verify-pipeline-r3t"
+ },
+ {
+  "id": "VRC3T-02",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "owner": "model",
+  "claim": "R3-21 (a) rules the layers shown document style state \u2014 `LayerSpec.visible` set by a logged `setLayer`, never a `view.set` key \u2014 and \u00a711.3 now says '`LayerSpec` is the document's style state, \u00a78.4, and no view key, so `view.set` never carries it'. \u00a72.9 *View state* still opens 'time, location, favourites, notes and public notes, view pins, layer choices, `stylePreset` \u2026' (l. 3318), the per-viewer, unlogged state outside every digest. One builder makes the layers shown a per-viewer view key, another a logged, undoable, shared event (\u00a77.1's T12 `dress`; \u00a78.4).",
+  "required_change": "\u00a72.9's *View state* list drops 'layer choices' and adds after the list: 'The layers shown are no view key: `LayerSpec.visible` is the document's style state, set by a logged `setLayer` (\u00a78.4, \u00a77.1; \u00a711.3).'",
+  "reported_by": "verify-rendering-r3t"
+ }
+]

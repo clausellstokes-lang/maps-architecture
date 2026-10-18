@@ -1,0 +1,13 @@
+VV12-r3-01 §1b exteriorDamage input cell  x1
+VV12-r3-01 §1d the other homes (the verifier's "§2.4 paragraph", l. 367)  x1
+VV12-r3-01 sweep (Part H note) §3.18 (b) the village rungs' row, l. 2455  x1
+VV12-r3-01 §5.7 (1) the units  x1
+VV12-r3-01, VAP-r3-03 sweep §3.18 (e) the ruined-look row  x1
+VAP-r3-03 sweep, VV12-r3-01 sweep §3.18 (e) the damage-marks row  x1
+VAT3-r3-06 §3.18 (e) the aftermath row  x1
+VAT3-r3-06 §5.7 (6)  x1
+VV12-r3-01, VAP-r3-03 §7.8 the look fixture  x1
+VV12-r3-01, VAP-r3-03 §7.8 T-V2-60 (a), (e), (g)  x1
+VV12-r3-01 §8.6 the village units' wait  x1
+VV12-r3-01 sweep (Part H note) J-V2.113, l. 4003  x1
+VV12-r3-01 §13 X35  x1

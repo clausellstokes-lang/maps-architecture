@@ -1,0 +1,212 @@
+[
+ {
+  "id": "hf50",
+  "native": {
+   "ink_L": "70.2",
+   "paper_L": "236.6",
+   "chroma": "66.7",
+   "grain": "2.98",
+   "wash": "4.44",
+   "iqr": "19.5",
+   "ratio": "3.5"
+  },
+  "at1500": {
+   "ink_L": 70.0,
+   "paper_L": 236.6,
+   "chroma": 66.6,
+   "grain": 2.73,
+   "wash": 4.04,
+   "iqr": 6.4,
+   "ratio": 2.5
+  }
+ },
+ {
+  "id": "hf30",
+  "native": {
+   "ink_L": "37.0",
+   "paper_L": "222.9",
+   "chroma": "57.4",
+   "grain": "3.41",
+   "wash": "4.37",
+   "iqr": "18.2",
+   "ratio": "3.6"
+  },
+  "at1500": {
+   "ink_L": 36.8,
+   "paper_L": 222.9,
+   "chroma": 57.3,
+   "grain": 3.25,
+   "wash": 3.8,
+   "iqr": 13.7,
+   "ratio": 3.0
+  }
+ },
+ {
+  "id": "hf3",
+  "native": {
+   "ink_L": "53.9",
+   "paper_L": "238.0",
+   "chroma": "41.5",
+   "grain": "2.25",
+   "wash": "3.19",
+   "iqr": "9.8",
+   "ratio": "3.25"
+  },
+  "at1500": {
+   "ink_L": 55.0,
+   "paper_L": 238.0,
+   "chroma": 41.5,
+   "grain": 2.1,
+   "wash": 3.06,
+   "iqr": 9.8,
+   "ratio": 2.5
+  }
+ },
+ {
+  "id": "hf26",
+  "native": {
+   "ink_L": "30.8",
+   "paper_L": "227.3",
+   "chroma": "53.1",
+   "grain": "2.87",
+   "wash": "4.24",
+   "iqr": "28.7",
+   "ratio": "5.33"
+  },
+  "at1500": {
+   "ink_L": 31.2,
+   "paper_L": 227.3,
+   "chroma": 53.1,
+   "grain": 2.81,
+   "wash": 4.0,
+   "iqr": 23.4,
+   "ratio": 6.0
+  }
+ },
+ {
+  "id": "hf369",
+  "native": {
+   "ink_L": "65.8",
+   "paper_L": "244.0",
+   "chroma": "30.2",
+   "grain": "1.17",
+   "wash": "0.85",
+   "iqr": "1.9",
+   "ratio": "2.25"
+  },
+  "at1500": {
+   "ink_L": 68.2,
+   "paper_L": 244.0,
+   "chroma": 29.8,
+   "grain": 1.08,
+   "wash": 0.96,
+   "iqr": 1.6,
+   "ratio": 1.5
+  }
+ },
+ {
+  "id": "hf165",
+  "native": {
+   "ink_L": "38.4",
+   "paper_L": "246.6",
+   "chroma": "27.6",
+   "grain": "0.9",
+   "wash": "1.38",
+   "iqr": "153.0",
+   "ratio": "11.5"
+  },
+  "at1500": {
+   "ink_L": 38.3,
+   "paper_L": 246.6,
+   "chroma": 27.3,
+   "grain": 0.83,
+   "wash": 2.1,
+   "iqr": 152.3,
+   "ratio": 14.0
+  }
+ },
+ {
+  "id": "hf389",
+  "native": {
+   "ink_L": "38.4",
+   "paper_L": "245.0",
+   "chroma": "31.1",
+   "grain": "1.42",
+   "wash": "1.64",
+   "iqr": "14.1",
+   "ratio": "4.0"
+  },
+  "at1500": {
+   "ink_L": 38.1,
+   "paper_L": 245.1,
+   "chroma": 30.9,
+   "grain": 1.31,
+   "wash": 1.68,
+   "iqr": 6.6,
+   "ratio": 3.5
+  }
+ },
+ {
+  "id": "hf34",
+  "native": {
+   "ink_L": "41.3",
+   "paper_L": "221.9",
+   "chroma": "58.4",
+   "grain": "",
+   "wash": "3.53",
+   "iqr": "51.7",
+   "ratio": "3.75"
+  },
+  "at1500": {
+   "ink_L": 41.0,
+   "paper_L": 221.9,
+   "chroma": 58.4,
+   "grain": null,
+   "wash": 3.24,
+   "iqr": 53.0,
+   "ratio": 2.5
+  }
+ },
+ {
+  "id": "hf62",
+  "native": {
+   "ink_L": "45.4",
+   "paper_L": "228.7",
+   "chroma": "55.7",
+   "grain": "3.18",
+   "wash": "3.65",
+   "iqr": "8.0",
+   "ratio": "4.0"
+  },
+  "at1500": {
+   "ink_L": 45.8,
+   "paper_L": 228.7,
+   "chroma": 55.6,
+   "grain": 3.02,
+   "wash": 3.38,
+   "iqr": 4.1,
+   "ratio": 3.0
+  }
+ },
+ {
+  "id": "hf327",
+  "native": {
+   "ink_L": "48.3",
+   "paper_L": "245.7",
+   "chroma": "27.5",
+   "grain": "0.76",
+   "wash": "0.99",
+   "iqr": "20.0",
+   "ratio": "3.17"
+  },
+  "at1500": {
+   "ink_L": 48.5,
+   "paper_L": 245.7,
+   "chroma": 27.0,
+   "grain": 0.66,
+   "wash": 1.37,
+   "iqr": 25.6,
+   "ratio": 3.0
+  }
+ }
+]

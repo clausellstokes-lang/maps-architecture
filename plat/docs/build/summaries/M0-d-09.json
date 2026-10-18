@@ -1,0 +1,243 @@
+{
+  "item": "M0-d-09",
+  "size": "city",
+  "seeds": 2,
+  "stages": 17,
+  "verdict": "incomplete",
+  "crosshost": {
+    "verdict": "incomplete",
+    "cellsPerRun": 34,
+    "ran": 2,
+    "blocked": 8,
+    "failed": 0,
+    "runs": [
+      {
+        "run": "node-arm64/off",
+        "status": "blocked"
+      },
+      {
+        "run": "node-arm64/on",
+        "status": "blocked"
+      },
+      {
+        "run": "node-x64-rosetta/off",
+        "status": "ran"
+      },
+      {
+        "run": "node-x64-rosetta/on",
+        "status": "ran",
+        "agrees": true
+      },
+      {
+        "run": "chromium/off",
+        "status": "blocked"
+      },
+      {
+        "run": "chromium/on",
+        "status": "blocked"
+      },
+      {
+        "run": "firefox/off",
+        "status": "blocked"
+      },
+      {
+        "run": "firefox/on",
+        "status": "blocked"
+      },
+      {
+        "run": "webkit/off",
+        "status": "blocked"
+      },
+      {
+        "run": "webkit/on",
+        "status": "blocked"
+      }
+    ],
+    "differences": 0
+  },
+  "inProcess": {
+    "seeds": 1,
+    "agrees": true
+  },
+  "distinctness": {
+    "seeds": 1,
+    "streams": {
+      "distinct": 19103,
+      "reused": 7057,
+      "collisions": 0
+    },
+    "lineages": {
+      "distinct": 15512,
+      "reused": 20498,
+      "collisions": 0
+    },
+    "entityLineages": {
+      "entities": 11736,
+      "duplicates": 0
+    },
+    "pass": true
+  },
+  "oracle": {
+    "seeds": 1,
+    "batches": 104,
+    "mismatches": 0,
+    "endFailures": 0,
+    "pass": true
+  },
+  "asked": {
+    "inProcessSeeds": 1,
+    "checkSeeds": 1,
+    "pairs": 2
+  },
+  "dilation": {
+    "seeds": 1,
+    "runs": 2,
+    "differing": 0,
+    "reads": 0,
+    "pass": true
+  },
+  "opOrder": {
+    "seeds": 1,
+    "runs": 1,
+    "differing": 0,
+    "permutedBatches": 6,
+    "pass": true
+  },
+  "matching": {
+    "pairs": 2,
+    "perKind": [
+      {
+        "kind": "water",
+        "old": 1,
+        "fresh": 0,
+        "survive": 1,
+        "succeed": 0,
+        "tombstone": 0,
+        "fresh_": 0,
+        "unanchored": 0
+      },
+      {
+        "kind": "enceinte",
+        "old": 4,
+        "fresh": 2,
+        "survive": 2,
+        "succeed": 2,
+        "tombstone": 0,
+        "fresh_": 0,
+        "unanchored": 0
+      },
+      {
+        "kind": "junction",
+        "old": 5843,
+        "fresh": 5708,
+        "survive": 44,
+        "succeed": 1093,
+        "tombstone": 4706,
+        "fresh_": 4615,
+        "unanchored": 0
+      },
+      {
+        "kind": "gate",
+        "old": 30,
+        "fresh": 16,
+        "survive": 14,
+        "succeed": 14,
+        "tombstone": 2,
+        "fresh_": 2,
+        "unanchored": 0
+      },
+      {
+        "kind": "portal",
+        "old": 650,
+        "fresh": 634,
+        "survive": 0,
+        "succeed": 100,
+        "tombstone": 550,
+        "fresh_": 534,
+        "unanchored": 0
+      },
+      {
+        "kind": "block",
+        "old": 2661,
+        "fresh": 2614,
+        "survive": 0,
+        "succeed": 414,
+        "tombstone": 2247,
+        "fresh_": 2200,
+        "unanchored": 23
+      },
+      {
+        "kind": "cell",
+        "old": 0,
+        "fresh": 0,
+        "survive": 0,
+        "succeed": 0,
+        "tombstone": 0,
+        "fresh_": 0,
+        "unanchored": 0
+      },
+      {
+        "kind": "bridge",
+        "old": 34,
+        "fresh": 0,
+        "survive": 34,
+        "succeed": 0,
+        "tombstone": 0,
+        "fresh_": 0,
+        "unanchored": 0
+      },
+      {
+        "kind": "way",
+        "old": 2953,
+        "fresh": 2877,
+        "survive": 28,
+        "succeed": 471,
+        "tombstone": 2454,
+        "fresh_": 2406,
+        "unanchored": 0
+      },
+      {
+        "kind": "district",
+        "old": 84,
+        "fresh": 75,
+        "survive": 0,
+        "succeed": 73,
+        "tombstone": 11,
+        "fresh_": 2,
+        "unanchored": 0
+      },
+      {
+        "kind": "seam",
+        "old": 287,
+        "fresh": 268,
+        "survive": 0,
+        "succeed": 121,
+        "tombstone": 166,
+        "fresh_": 147,
+        "unanchored": 0
+      }
+    ],
+    "totals": {
+      "survive": 123,
+      "succeed": 2288,
+      "tombstone": 10136,
+      "fresh": 9906
+    },
+    "duplicateIds": 0,
+    "suffixed": 3043,
+    "silentRebinds": 0,
+    "standing": {
+      "entities": 123,
+      "missing": 0,
+      "editedLater": 28
+    },
+    "pass": true
+  },
+  "refused": 0,
+  "firstDifference": null,
+  "timings": {
+    "stamps": 2,
+    "contended": 2,
+    "authoritative": 0
+  }
+}

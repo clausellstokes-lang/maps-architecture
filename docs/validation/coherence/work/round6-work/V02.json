@@ -1,0 +1,11 @@
+[
+ {
+  "id": "VV12-r5-02",
+  "severity": "minor",
+  "kind": "COHESION",
+  "owner": "V02",
+  "claim": "repair-r5-V02's sweep added to \u00a77.8's damage sub-fixture the house 'once reoccupied from derelict by another household (V06 \u00a73.8.2 (2)), its re-cut (V03 \u00a73.11) minting rooms for them while its `repair` Works runs past its epoch's week' and to T-V2-59 (c) the bar on its minted roof bays and outer runs. That case needs an epoch's regrowth tier (2) and V06 \u00a73.23 (3)'s restoration-end week, which land with V06's E2 (V06 \u00a78: 'E2 \u2014 decline and regrowth \u2026'; 'V03's damage layer reading every building at V11's default age until E2 lands'). T-V2-59 runs at V02 \u00a78.6's M6b ('the exterior's damage at the later of M6b and V03's item-123 plan step'), and M6 (V02) may start after M5 while M6-E runs beside M5 (INDEX \u00a73), so M6b's exit can come before E2. \u00a78.6's note covers the level ('until V06's decay level lands (M6-E) the level is read from the existence state alone at V11's default age') but names no later exit for the epoch case; INDEX \u00a75 risk 2 moves such a clause 'to the first exit after the provider (each named in its volume)', and T-V3-39 runs the same case 'from M6-E, week by week over V06's decay runs'. A build agent applies risk 2's rule \u2014 nothing built changes (the class of VV12-r4-04 and R5-05 (c)).",
+  "required_change": "V02 \u00a78.6's paragraph, after \"until V06's decay level lands (M6-E) the level is read from the existence state alone at V11's default age (V06);\", add \"T-V2-59 (c)'s house reoccupied from derelict at an epoch (\u00a77.8's damage sub-fixture; V06 \u00a73.8.2 (2)) and its restoring re-cut's minted elements run at the later of M6b and V06's E2 (V06 \u00a78: its regrowth tiers and the decay level with its restorations, V06 \u00a73.23 (3));\".",
+  "reported_by": "verify-vol-V01-V02-r5t"
+ }
+]

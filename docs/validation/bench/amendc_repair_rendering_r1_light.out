@@ -1,0 +1,13 @@
+(A) one spot lit from every side
+  caster 4 x 4 m, 6 m high; lights 5 m out, 2.5 m high, radius 10 m: worst ratio 0.598 at (-2.25, -1.5); samples below 0.5: 0/4736; least lights reaching a pixel: 1 (so "at least two lights" is not the reason; the unblocked lights carry >= 0.5)
+  caster 4 x 4 m, 4 m high; lights 6 m out, 2.5 m high, radius 10 m: worst ratio 0.642 at (-2.25, -1.25); samples below 0.5: 0/4736; least lights reaching a pixel: 1 (so "at least two lights" is not the reason; the unblocked lights carry >= 0.5)
+  caster 6 x 6 m, 8 m high; lights 8 m out, 3.5 m high, radius 12 m: worst ratio 0.622 at (-3.25, -2.5); samples below 0.5: 0/6588; least lights reaching a pixel: 1 (so "at least two lights" is not the reason; the unblocked lights carry >= 0.5)
+(B) the cursor sun
+  tip: d=300 h=10 H=60: beyond the caster d*h/(H-h) = 60.0; from G d*H/(H-h) = 360.0; similar triangles from G: 360.0
+  200 pointer positions x sunHeight 1, 4, 64: spread above 2*asin(D/|G-V|) + 0.1 deg: 0/600; least margin 0.100 deg; spread rising with sunHeight once |G-V| > D: 0
+(C) the bounce-only spill
+  ink: open level ground reads 1.0000 x albedo (the old spill read 1.0528); a shadow keeps a/(a+sin45) = 0.648 before the lift
+  lit: open level ground reads 1.0000 x albedo (the old spill read 1.0681); a shadow keeps a/(a+sin45) = 0.546 before the lift
+  hatched: open level ground reads 1.0000 x albedo (the old spill read 1.0604); a shadow keeps a/(a+sin45) = 0.598 before the lift
+  ink, a 3 m shadow strip: lit ground 1.0000-1.0000 x albedo; shadow centre 0.686 (unlifted 0.648)
+  ink, a 20 m shadow strip: lit ground 1.0000-1.0000 x albedo; shadow centre 0.648 (unlifted 0.648)

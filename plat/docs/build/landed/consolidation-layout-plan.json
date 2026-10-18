@@ -1,0 +1,23 @@
+{
+  "schema": "plat-landed-record/1",
+  "item": "consolidation-layout-plan",
+  "lane": "session/consolidation-layout",
+  "lanes": ["session/consolidation-layout"],
+  "wave": "flow-7",
+  "snapshotTaken": "2026-10-04T20:46:52.985Z",
+  "date": "2026-10-12T05:45:04.643Z",
+  "ownsSource": "declared",
+  "owns": ["plat/docs/build/consolidation/layout-plan.md"],
+  "counts": { "created": 1, "changed": 0, "unchanged": 0, "deleted": 0 },
+  "files": [
+    { "path": "plat/docs/build/consolidation/layout-plan.md", "status": "created", "sha256": "a7f0701ac0c1c85f0a2f07059aef823442eb87f551dd644f26b259f7d189d332", "size": 65935 }
+  ],
+  "appends": [
+    {
+      "file": "plat/CLEAN-ROOM.md",
+      "ids": ["L-0457"],
+      "lines": ["97284804b2375cc5"],
+      "removed": []
+    }
+  ]
+}

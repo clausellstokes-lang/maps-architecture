@@ -1,0 +1,16 @@
+[
+ {
+  "unit": "V06",
+  "file": "docs/volumes/V06-evolution.md",
+  "fixes": 2,
+  "sha256_before": "abce709f7c49a3a0d29edfd48aaada44dbf7a40bdd43298cd9bd3c86a0264455",
+  "sha256_after": "f829ee6a91265e76b508310705167c8a27eb05a1a96cd2394401cfe567f187c1"
+ },
+ {
+  "unit": "base",
+  "file": "docs/ARCHITECTURE.md",
+  "fixes": 1,
+  "sha256_before": "fe67093c3f28a6e4aa356c514de9d041d8f7f2545ca958a375f3aac584d10896",
+  "sha256_after": "561d554110258e3bef6f756b46200b8a3d8b2f00f3c4c72853e33c9fde678f77"
+ }
+]

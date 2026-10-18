@@ -1,0 +1,7 @@
+rotated sides, 1 splits: vertices 20000, farther than 0.71 cm from the straight side 0 (0.00 %), worst 0.696 cm; sides with >=1 such vertex 0/20000 (0.0 %)
+rotated sides, 2 splits: vertices 40000, farther than 0.71 cm from the straight side 502 (1.25 %), worst 1.210 cm; sides with >=1 such vertex 502/20000 (2.5 %)
+rotated sides, 3 splits: vertices 60000, farther than 0.71 cm from the straight side 1431 (2.38 %), worst 1.550 cm; sides with >=1 such vertex 1325/20000 (6.6 %)
+rotated sides, 4 splits: vertices 80000, farther than 0.71 cm from the straight side 2628 (3.29 %), worst 1.410 cm; sides with >=1 such vertex 2249/20000 (11.2 %)
+rotated sides, 6 splits: vertices 120000, farther than 0.71 cm from the straight side 5858 (4.88 %), worst 1.604 cm; sides with >=1 such vertex 4392/20000 (22.0 %)
+axis-aligned sides, 4 splits: vertices 80000, farther than 0.71 cm 0, worst 0.000 cm
+T clip, second crossing on the bar's straight side: 265/20000 (1.32 %) farther than 0.71 cm, worst 1.057 cm

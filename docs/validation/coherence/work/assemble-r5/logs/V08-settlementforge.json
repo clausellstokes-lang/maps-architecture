@@ -1,0 +1,420 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm5/before/docs/volumes/V08-settlementforge.md",
+ "input_doc_sha256": "4675c05ecf19eb56966b4dbaeb69e70ac4af690b7fbd6f0c9cf651127006b7bd",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm5/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "a480f02e58a893fea57cacc5977b83489f633ced23901f578adbcfbd8059c52a",
+ "files": [
+  {
+   "file": "repair-r5-V08.md",
+   "sha256": "5c061c0ec5b805ed0a463c1a5be7a83116fff779520301d566ff2e6bdb7aef40",
+   "lines": 1608,
+   "blocks": 14,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "repair-r5-V08.md #1 (l. 2) REPLACE ## 1b Wiring table",
+   "file": "repair-r5-V08.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "## 1b Wiring table",
+   "body_lines": 116,
+   "body_sha256": "a9519e3e91ac2de1a8b61d809795f29b05ecec2e2cc0a1288fb337c40200b81e",
+   "target_line": 218,
+   "section_old": "218–333",
+   "section_old_n": 116,
+   "section_new_n": 117,
+   "new_headings": [
+    "## 1b Wiring table"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "repair-r5-V08.md #2 (l. 121) REPLACE ### 2.2 The bridge additions and the host client",
+   "file": "repair-r5-V08.md",
+   "index": 2,
+   "line": 121,
+   "kind": "REPLACE",
+   "heading": "### 2.2 The bridge additions and the host client",
+   "body_lines": 103,
+   "body_sha256": "dc0f2bd55460e429a1dc41553a95fa4da441d8e2977af83fc41c898b1a3eec9b",
+   "target_line": 395,
+   "section_old": "395–498",
+   "section_old_n": 104,
+   "section_new_n": 104,
+   "new_headings": [
+    "### 2.2 The bridge additions and the host client"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "repair-r5-V08.md #3 (l. 227) REPLACE ### 2.3 The binding in practice — the carried facts and their hash",
+   "file": "repair-r5-V08.md",
+   "index": 3,
+   "line": 227,
+   "kind": "REPLACE",
+   "heading": "### 2.3 The binding in practice — the carried facts and their hash",
+   "body_lines": 69,
+   "body_sha256": "29246133bc865ebb61715de6529e546019caff1e6a611abb20bd56b5f2e57f6c",
+   "target_line": 499,
+   "section_old": "499–568",
+   "section_old_n": 70,
+   "section_new_n": 70,
+   "new_headings": [
+    "### 2.3 The binding in practice — the carried facts and their hash"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "repair-r5-V08.md #4 (l. 299) REPLACE ### 2.4 The adapter manifest, the registry, the field table and the port's notes",
+   "file": "repair-r5-V08.md",
+   "index": 4,
+   "line": 299,
+   "kind": "REPLACE",
+   "heading": "### 2.4 The adapter manifest, the registry, the field table and the port's notes",
+   "body_lines": 155,
+   "body_sha256": "ba8c60cfa6a1eed76d4a3f6c5212dc17544d4eae2dc3fc27ed8f248145150195",
+   "target_line": 569,
+   "section_old": "569–723",
+   "section_old_n": 155,
+   "section_new_n": 156,
+   "new_headings": [
+    "### 2.4 The adapter manifest, the registry, the field table and the port's notes"
+   ]
+  },
+  {
+   "seq": 5,
+   "block": "repair-r5-V08.md #5 (l. 457) REPLACE ### 2.7 Lifecycle of every new state field",
+   "file": "repair-r5-V08.md",
+   "index": 5,
+   "line": 457,
+   "kind": "REPLACE",
+   "heading": "### 2.7 Lifecycle of every new state field",
+   "body_lines": 47,
+   "body_sha256": "5b745fb1887f11da9cfb287b6596ea2978b545b0c2ff736baf084438232be2ff",
+   "target_line": 1280,
+   "section_old": "1280–1326",
+   "section_old_n": 47,
+   "section_new_n": 48,
+   "new_headings": [
+    "### 2.7 Lifecycle of every new state field"
+   ]
+  },
+  {
+   "seq": 6,
+   "block": "repair-r5-V08.md #6 (l. 507) REPLACE ### 3.5 `digest` and the diff — from a whole dossier to a list of changes",
+   "file": "repair-r5-V08.md",
+   "index": 6,
+   "line": 507,
+   "kind": "REPLACE",
+   "heading": "### 3.5 `digest` and the diff — from a whole dossier to a list of changes",
+   "body_lines": 250,
+   "body_sha256": "0fc3808afb8c85fb5a7be77e8afeadd3678558fec25d959fa7e163cd75c22a85",
+   "target_line": 1599,
+   "section_old": "1599–1843",
+   "section_old_n": 245,
+   "section_new_n": 251,
+   "new_headings": [
+    "### 3.5 `digest` and the diff — from a whole dossier to a list of changes",
+    "#### 3.5.1 The institution ladders (item 108)"
+   ]
+  },
+  {
+   "seq": 7,
+   "block": "repair-r5-V08.md #7 (l. 760) REPLACE ### 3.6 From changes to events and epochs",
+   "file": "repair-r5-V08.md",
+   "index": 7,
+   "line": 760,
+   "kind": "REPLACE",
+   "heading": "### 3.6 From changes to events and epochs",
+   "body_lines": 109,
+   "body_sha256": "dde3a21ad989f0ea8c34d800d0df7f11e3d1db29d9017905a0b03559deff7bb7",
+   "target_line": 1850,
+   "section_old": "1850–1945",
+   "section_old_n": 96,
+   "section_new_n": 110,
+   "new_headings": [
+    "### 3.6 From changes to events and epochs"
+   ]
+  },
+  {
+   "seq": 8,
+   "block": "repair-r5-V08.md #8 (l. 872) REPLACE ### 3.16 The port side of items 111, 114, 115, 117, 118, 120, 122, 125 and 126",
+   "file": "repair-r5-V08.md",
+   "index": 8,
+   "line": 872,
+   "kind": "REPLACE",
+   "heading": "### 3.16 The port side of items 111, 114, 115, 117, 118, 120, 122, 125 and 126",
+   "body_lines": 247,
+   "body_sha256": "a986cf9bfc7b0d8feb313032e1b2e29e2d660542fc5f48accad12e99f027dc38",
+   "target_line": 2422,
+   "section_old": "2422–2668",
+   "section_old_n": 247,
+   "section_new_n": 248,
+   "new_headings": [
+    "### 3.16 The port side of items 111, 114, 115, 117, 118, 120, 122, 125 and 126"
+   ]
+  },
+  {
+   "seq": 9,
+   "block": "repair-r5-V08.md #9 (l. 1122) REPLACE ### 3.17 Edges — every mechanism at its limits (principle (11))",
+   "file": "repair-r5-V08.md",
+   "index": 9,
+   "line": 1122,
+   "kind": "REPLACE",
+   "heading": "### 3.17 Edges — every mechanism at its limits (principle (11))",
+   "body_lines": 74,
+   "body_sha256": "e969c264c80032fd27c288afea9ea5b23e2985f1001ef39135417b5d18ba18ee",
+   "target_line": 2670,
+   "section_old": "2670–2744",
+   "section_old_n": 75,
+   "section_new_n": 75,
+   "new_headings": [
+    "### 3.17 Edges — every mechanism at its limits (principle (11))"
+   ]
+  },
+  {
+   "seq": 10,
+   "block": "repair-r5-V08.md #10 (l. 1199) REPLACE ### 4.6 The DM's view of what the dossier did",
+   "file": "repair-r5-V08.md",
+   "index": 10,
+   "line": 1199,
+   "kind": "REPLACE",
+   "heading": "### 4.6 The DM's view of what the dossier did",
+   "body_lines": 112,
+   "body_sha256": "f12c3cb6799322ca75cefa3a2a688643666cdf134a5f70c409fc1174195dc7a5",
+   "target_line": 2889,
+   "section_old": "2889–3001",
+   "section_old_n": 113,
+   "section_new_n": 113,
+   "new_headings": [
+    "### 4.6 The DM's view of what the dossier did"
+   ]
+  },
+  {
+   "seq": 11,
+   "block": "repair-r5-V08.md #11 (l. 1314) REPLACE ### 5.5 Labels",
+   "file": "repair-r5-V08.md",
+   "index": 11,
+   "line": 1314,
+   "kind": "REPLACE",
+   "heading": "### 5.5 Labels",
+   "body_lines": 15,
+   "body_sha256": "e7b1c1e62938d5bb44fabc5bf031e904bdc3502ff28c3cc21cec9f08b3eaa275",
+   "target_line": 3182,
+   "section_old": "3182–3197",
+   "section_old_n": 16,
+   "section_new_n": 16,
+   "new_headings": [
+    "### 5.5 Labels"
+   ]
+  },
+  {
+   "seq": 12,
+   "block": "repair-r5-V08.md #12 (l. 1332) REPLACE ## 6 Performance budgets",
+   "file": "repair-r5-V08.md",
+   "index": 12,
+   "line": 1332,
+   "kind": "REPLACE",
+   "heading": "## 6 Performance budgets",
+   "body_lines": 36,
+   "body_sha256": "42a978145e0fab03ca01b36af9a5914fbc8e649318951a93a552ee91aa2ed236",
+   "target_line": 3198,
+   "section_old": "3198–3234",
+   "section_old_n": 37,
+   "section_new_n": 37,
+   "new_headings": [
+    "## 6 Performance budgets"
+   ]
+  },
+  {
+   "seq": 13,
+   "block": "repair-r5-V08.md #13 (l. 1371) REPLACE ### 7.1 The bars (T-V8-n)",
+   "file": "repair-r5-V08.md",
+   "index": 13,
+   "line": 1371,
+   "kind": "REPLACE",
+   "heading": "### 7.1 The bars (T-V8-n)",
+   "body_lines": 89,
+   "body_sha256": "2d79cc8920b0ceffedc5c68a53775b829c49f4543708323aa09d6f66fd5864e0",
+   "target_line": 3237,
+   "section_old": "3237–3318",
+   "section_old_n": 82,
+   "section_new_n": 90,
+   "new_headings": [
+    "### 7.1 The bars (T-V8-n)"
+   ]
+  },
+  {
+   "seq": 14,
+   "block": "repair-r5-V08.md #14 (l. 1463) REPLACE ## 9 Decisions (each vetoable)",
+   "file": "repair-r5-V08.md",
+   "index": 14,
+   "line": 1463,
+   "kind": "REPLACE",
+   "heading": "## 9 Decisions (each vetoable)",
+   "body_lines": 143,
+   "body_sha256": "f21538eff134c6113557dca6182903dd74553b23b72eace991d9d6d7821b4800",
+   "target_line": 3452,
+   "section_old": "3452–3595",
+   "section_old_n": 144,
+   "section_new_n": 144,
+   "new_headings": [
+    "## 9 Decisions (each vetoable)"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "repair-r5-V08.md #1 (l. 2) REPLACE ## 1b Wiring table",
+    "kind": "REPLACE",
+    "heading": "## 1b Wiring table",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V08.md #2 (l. 121) REPLACE ### 2.2 The bridge additions and the host client",
+    "kind": "REPLACE",
+    "heading": "### 2.2 The bridge additions and the host client",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V08.md #3 (l. 227) REPLACE ### 2.3 The binding in practice — the carried facts and their hash",
+    "kind": "REPLACE",
+    "heading": "### 2.3 The binding in practice — the carried facts and their hash",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V08.md #4 (l. 299) REPLACE ### 2.4 The adapter manifest, the registry, the field table and the port's notes",
+    "kind": "REPLACE",
+    "heading": "### 2.4 The adapter manifest, the registry, the field table and the port's notes",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V08.md #5 (l. 457) REPLACE ### 2.7 Lifecycle of every new state field",
+    "kind": "REPLACE",
+    "heading": "### 2.7 Lifecycle of every new state field",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V08.md #6 (l. 507) REPLACE ### 3.5 `digest` and the diff — from a whole dossier to a list of changes",
+    "kind": "REPLACE",
+    "heading": "### 3.5 `digest` and the diff — from a whole dossier to a list of changes",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V08.md #7 (l. 760) REPLACE ### 3.6 From changes to events and epochs",
+    "kind": "REPLACE",
+    "heading": "### 3.6 From changes to events and epochs",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V08.md #8 (l. 872) REPLACE ### 3.16 The port side of items 111, 114, 115, 117, 118, 120, 122, 125 and 126",
+    "kind": "REPLACE",
+    "heading": "### 3.16 The port side of items 111, 114, 115, 117, 118, 120, 122, 125 and 126",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V08.md #9 (l. 1122) REPLACE ### 3.17 Edges — every mechanism at its limits (principle (11))",
+    "kind": "REPLACE",
+    "heading": "### 3.17 Edges — every mechanism at its limits (principle (11))",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V08.md #10 (l. 1199) REPLACE ### 4.6 The DM's view of what the dossier did",
+    "kind": "REPLACE",
+    "heading": "### 4.6 The DM's view of what the dossier did",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V08.md #11 (l. 1314) REPLACE ### 5.5 Labels",
+    "kind": "REPLACE",
+    "heading": "### 5.5 Labels",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V08.md #12 (l. 1332) REPLACE ## 6 Performance budgets",
+    "kind": "REPLACE",
+    "heading": "## 6 Performance budgets",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V08.md #13 (l. 1371) REPLACE ### 7.1 The bars (T-V8-n)",
+    "kind": "REPLACE",
+    "heading": "### 7.1 The bars (T-V8-n)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r5-V08.md #14 (l. 1463) REPLACE ## 9 Decisions (each vetoable)",
+    "kind": "REPLACE",
+    "heading": "## 9 Decisions (each vetoable)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 805,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 63,
+  "headings_after": 63,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 18,
+  "fence_lines_after": 18,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 572529,
+  "doc_bytes_after": 579431,
+  "doc_lines_before": 3698,
+  "doc_lines_after": 3730,
+  "rationale_bytes_before": 704770,
+  "rationale_bytes_after": 704770,
+  "rationale_lines_before": 2386,
+  "rationale_lines_after": 2386,
+  "blocks_total": 14,
+  "blocks_applied": 14,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "8b5b52439f96a352d878de641d3311f2ab8db1deee01cc1983f740036ded4f7d",
+  "output_rationale_sha256": "a480f02e58a893fea57cacc5977b83489f633ced23901f578adbcfbd8059c52a"
+ }
+}

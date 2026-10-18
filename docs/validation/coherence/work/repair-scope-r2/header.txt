@@ -1,0 +1,230 @@
+# Repair round 2 — scope (title, summary, §0, §1, §13–§17, Delegated decisions, Judgment calls, Staged, Appendix A, INDEX.md) — lane coherence/repair-scope-r2
+
+> PENDING FABLE REVIEW — written by opus standing in for the Fable seat coherence/repair-scope-r2; covered by the whole-design retrovalidation (J84).
+
+# Block file per the BLOCK PROTOCOL (docs/validation/amendments-b/apply-blocks.py): text before the first block header is
+# ignored; the FILE line routes the last block to docs/volumes/INDEX.md, every block above it to docs/ARCHITECTURE.md.
+# Live targets (assemble-r1's install, unchanged at landing): base 137ecc0e4fe12c44…, rationale 630da95935076a85…,
+# INDEX 9efc19e34883b520…. Every REPLACE body is the live section with count-asserted substitutions (generator
+# docs/validation/coherence/work/repair-scope-r2/build.py over edits_a.py … edits_h.py: 165 substitutions, each asserted
+# to match exactly its count, each tagged with its issue or ruling in build-log.json); every untouched line is verbatim.
+# Blocks: 16 — 13 REPLACE on the base (the one-page summary; §0.2, retitled; §1.1; §13.1; §13.2; §13.4; §13.8; §14;
+# §16; Delegated decisions; Judgment calls; Staged; Appendix A), J-ROWS (9 rows), RATIONALE-A (15 rows: 9 new, 6
+# restated), and one REPLACE of INDEX.md's title section (the whole file, its intro sitting under the title). Ruling
+# requests: 0. Binding rulings applied: adjudication-r2's R2-05, R2-06, R2-07, R2-08, R2-14, R2-17, R2-18, R2-19, R2-20,
+# R2-26, R2-27, R2-30, R2-32, R2-35, R2-36, R2-37, R2-38, R2-40, R2-41 (Part H · scope), with R2-09 and R2-11 where they
+# reach §13.2 (the pins' kinds; DR41 – DR44 cited by number).
+#
+# PROGRESS
+# - P0 brief read whole (33 issues; ROUND-2 NOTES, NEW OWNER RULES, ORCHESTRATION NOTES); adjudication-r2's TOC, Part H ·
+#   scope and R2-05 – R2-42 read whole: done
+# - P1 issue sources (round2-work JSON, verify-*-r1t), canon routings 120–126 with 126 (a2), file g items 120–126 with
+#   122 (h)–(i) whole, the landed round-2 files of every sibling (model, kernel, pipeline, determinism, rendering, V01–V12)
+#   for the names and ids this unit cites and their hand-offs to scope, every live section concerned read whole: done
+# - P2 count-asserted edits, everything but the prices (edits_a – edits_g): done
+# - P3 PRICES LAST (R2-06 (b)): after all twelve volume seats logged LANDED (V02 07:30, V06 07:35, V09 07:39, V04 07:43,
+#   V10 08:03, V12 08:05, V01 08:09, V11 08:17, V07 08:18, V05 08:19, V08 08:27, V03 08:41 — no poll was needed past
+#   08:41), §16, D-20, J-A568.01 and INDEX §1 written from each volume's round-2 §8 total (edits_h; prices.py): done
+# - P4 dry run on copies, references, document checks, result saved, LANDED: done (CHECKS below)
+#
+# WHERE EACH VOLUME'S FIGURE WAS READ (R2-06 (b), (c)): every volume's round-2 repair file states its §8 total in its first
+# lines, and every one of them replaces its §8 (or the subsection holding the total) — so each figure is the round-2
+# file's: V01 27.5–36.75 (repair-r2-V01.md l.5; W10 +0.25–0.5); V02 23–33.5 (l.5; M6 18.75–28.5 + spikes 2.25, 2–2.75 at
+# M3a); V03 19–26 (l.5; M6-P 18.25–25, PE 0.75–1, item 123 at P4 and P5); V04 28.5–39.5 (l.5; U5); V05 18–24.75 (l.5,
+# unchanged); V06 31–44 (l.5; E2 +1–1.5, E6 +0.25); V07 30.5–43 (l.5; V-M3 +0.25–0.5); V08 18.5–25.25 (l.5; SF3, SF4);
+# V09 23.75–34.75 (l.5; its §8.1: base line 16.0–23.5, staged 3.25–5.0, AP11 4.5–6.25 itemised); V10 14.75–20.25
+# (l.5; M3c 11.25–15, C1 and the transcript 3.5–5.25 unchanged); V11 13.6–19.1 (l.5; its §8: first-total share
+# 11.75–16.5 = 8.25–10.75 non-g + C2's g share 1.0–2.0, C4a 0.5, C3b 0.75–1.25, C9 1.25–2.0; staged C4b 1.1–1.6 + C8
+# 0.75–1.0 = 1.85–2.6); V12 7.25–11 base side (l.5; W1–W6 6–9, W7 1.25–2; M-CAL 4.75–8 unchanged).
+# THE RESULT (prices.py, re-summed from the new text): the milestone rows = the first total 230.75–315.25 (was
+# 225.5–307); the base lines 203.25–278.5; the staged lines 187.85–264.1 (was 182.5–255.75); the whole program
+# 418.6–579.35 (was 408–562.75); the calendar about 115–158 weeks (the first total ÷ 2 implementers); the cuts leave
+# ≈ 213.75–287.25. Row changes: M2b −0.25/−0.25 (C2's g share 1.75–2.75 → 1.0–2.0, + C4a 0.5; the ladders' rows are C4b,
+# staged); M3b +1.5/+2.5 (items 122 and 124's base parts, 0.75–1.25 each, item 122's with V01's `campLand` ≈ 0.25); M4
+# +0.75/+1.25 (item 121's base parts); the carried row 10.75–16.25 → 13.75–20.5 (V09 7.75–11.5 → 7.5–11, narrowed by item
+# 126; AP11's base parts 1.25–1.75 → 3.5–5; C9 0.75–1.25 → 1.25–2; W6 0.25–0.5; W7 0.75–1.25 → 1.25–2); M5 = V01's total.
+# Line changes: O12 8.5–13 → 10.75–16.75 (items 121, 122, 124); the content line 13.75–19.75 → 14–20.25 (VV1112-r1-01's
+# split: C4b off the first total; C9 up); the reference app 17.5–25.75 → 19.5–28.5; the rig 16.25–23.25 → 16.75–24.
+#
+# ISSUES → WHERE FIXED (33 routed ids, 31 distinct; all FIXED in text or written as NEW DESIGN; 0 INVALID; 0 parked)
+#  VAL-R1-01 (FIX)  §14's `StrategyRegistry.underground` comment names the stages in V04 §3.1's order — the systems, the
+#        access pass (U-ACCESS), II.7.3's sewer-front neighbourhoods (U-FRONT), the undercity, the connection stage — the
+#        V04 pointer written "(V04 §3.1)" in place of "in V04 §3.1's order" so the comment's own "§4.1's order" stays the
+#        base's (the resolver read the open V04 list as ambiguous; the meaning is the issue's).
+#  VAL-R1-04 (FIX per R2-06 (a))  §13.2's *The underground layer built* reads "Every T-V4 test (V04 §7)"; the take-over
+#        row's family cell "every T-V4 test (V04 §7)"; item 120's group names T-V4-81 (T120-4, T120-5) per R2-35.
+#  VAL-R1-13 (FIX per R2-06 (b), R2-07)  §16's M6-sky row and effort line 18–24.75; the village row "items 111, 113–120 and
+#        122 at the village rungs | 30.5–43 pw" (V07 §8 as round 2 leaves it; V07 applies items 119, 120 and 122 at its
+#        rungs: T-V7-67 – T-V7-69); INDEX §1's V05 and V07 cells.
+#  VAP-r1-09 (FIX per R2-08)  the stage-3 take-over row adds T119-2's stage-3 clauses (T-V2-22, T-V2-24), the sky row
+#        T119-2 – T119-5's island clauses (T-V5-18); item 119's runs list names volumes 1, 2, 3, 4, 5 and 7's waits.
+#  VAP-r1-15 (FIX per R2-17)  §16's staged row "(V11: C4b at M-SF, C8 at M6-U)"; INDEX §1's V11 cell is VAP-r1-15's text.
+#  G126-scope (NEW DESIGN per R2-41, R2-35, R2-36)  §1.1 *Where the map is seen* (no phone view of any kind; the narrow
+#        class retired; a smaller window keeps the medium layout at 600 × 480 and scrolls; M2a); §13.2's group T126-1 –
+#        T126-3 with its volume ends (T-V9-22, T-V8-62, T-V12-59); §13.8's row (M2a); §13.4's sessions on tablets and
+#        desktops only; §16's reference-app line "touch and the two layout classes (wide and medium; item 126 retires the
+#        narrow class)" priced with V09's narrowed base line, M2a's row naming the layout; §0.2's row; J-A126.01 with its
+#        Part A entry; the summary's sentence. No phone screen, notice, catalogue row or Send button is written (126 (a2)).
+#  VDC1-16 = VEL0-06 = VPC-R1-26 (ONE FIX per R2-20, VEL0-06's text)  J-A113.61's index row and Part A entry read
+#        `0x8000_0000 + r`, the u32 range's upper half (live epochs 1 … 2³¹ − 1).
+#  VDC1-17 (FIX per R2-18 (d), R2-19)  T20-2's undo clause and T20-6's revert and undo clauses read VDC1-17's text, each
+#        citing "§7.4 *Replay semantics*"; its fixtures are T20-14 – T20-16 (with VEL0-01).
+#  VDC1-18 (FIX per R2-27 (d))  T114-9 in the item-114 group, its head naming §5.3; §13.8's row (M4; the village clause
+#        with V07's T-V7-59); the village take-over row names it.
+#  VDC1-19 = VEL0-01's Part A clauses (ONE FIX per R2-18 (e))  J-DET-11's and J-A20.71's Part A entries restated as VEL0-01
+#        words them (swap: NOTE FOR ASSEMBLE (1)); R25 in Part F (scripted substitution: NOTE (2)).
+#  VEL0-01 (FIX per R2-18 (d), (e))  T20-14, T20-15 and T20-16 in the T20 group (R2-18 (d)'s ids and texts, T20-16 the
+#        all-locked fall); §13.8: T20-14 PR on B-DOSSIER-lite from M3a, T20-15 and T20-16 from M4; Part A as above.
+#  G120-scope (NEW DESIGN per R2-35, R2-32, R2-07)  §13.2's *Find* group T120-1 – T120-6 with every volume end R2-35 names
+#        (T-V9-83, T-V12-52, T-V1-59, T-V3-38, T-V4-81, T-V5-36, T-V7-68, T-V8-58, T-V10-51); §13.8's rows from M5; the
+#        convention reads "of the owner items" (R2-07 for "items 8–125"); §16's M5 row names Find's base parts, V09's panel
+#        and V01's services, the carried row's AP11 list "Find (M5)"; §0.2's row; J-A120.01 with its Part A entry.
+#  G121-scope (NEW DESIGN per R2-35, R2-36)  the *resolution adjuster* group T121-1 – T121-8 (T-V9-84, T-V12-53); §13.8's
+#        rows at M4; §16's M4 row and the O12 line (0.75–1.25 pw); §0.2's row; J-A121.01.
+#  G122-scope (NEW DESIGN per R2-35, R2-36, R2-37)  the *Crisis looks* group T122-1 – T122-7, item 122 (h)–(i)'s four bars
+#        left V12's (T-V12-55), the volume ends (T-V12-54, T-V11-46, T-V8-59, T-V9-85, T-V6-75, T-V7-69, T-V3-40); §13.8's
+#        rows (M3b; T122-4 and the dossier's fixtures with M-SF); §16's M3b row and the O12 line (0.75–1.25 pw, V01's
+#        `campLand` among it); §0.2's row; J-A122.01.
+#  G123-scope (NEW DESIGN per R2-35, R2-36, R2-38)  the *ruined building's plans* group T123-1 – T123-7 (T-V3-39, T-V4-82,
+#        T-V2-59, T-V6-76, determinism §6.5 (9), T-V12-56); §13.8's row at volume 3's P4 (V03 §8), the decay level with
+#        M6-E; §16's M6-P row (P4 and P5, with §2.6 step 7, §6.3 and §8.6's base parts, priced in V03 §8); §0.2; J-A123.01.
+#  G124-scope (NEW DESIGN per R2-35, R2-36; MOOT in part, R2-41)  the *Light weather* group T124-1 – T124-9, T124-5
+#        without phones (the low tier and reduced motion); the volume ends (T-V11-48, T-V9-87, §6.5 (9), T-V12-57); §13.8's
+#        rows at M3b; §16's M3b row and the O12 line (0.75–1.25 pw); §0.2; J-A124.01.
+#  G125-scope (NEW DESIGN per R2-35, R2-36, R2-40)  the *dossier the only data input* group T125-1 – T125-3 (T-V8-61,
+#        T-V12-58); §13.8: T125-n at M-SF and T117-6's row "births whose dossier carries a stamped tick … and one with
+#        none"; T117-6's bar reads the dossier's latest stamped tick (§4.11 *The clock*; DR42); §14 (R2-40 (2)'s receiving
+#        end): `HostContext` keeps `audience`, `displayNames`, `line` with R2-40's comments, loses `week`, `realm`,
+#        `customLibrary`; `RealmBlock`, the client's `realmBlockFrom` and the `realm_block_used` note retire, `field_fallback`
+#        joins `PortNote` (V08's hand-off); item 4 dates by §4.11 *The clock* (2)'s rungs; item 5 rewritten; the Staged
+#        section drops "the realm block's supply"; §0.2's row; J-A125.01 (it amends J-A20.79, J-A73.02, J-A77.72,
+#        supersedes J-A77.06) and J-A76.41 restated (pipeline's hand-off, VPC-R1-27's note).
+#  VM-R0S-14 (FIX)  §13.1's *stretch-state writes* bar (§2.2 rule 5's *Write*) with its negative control.
+#  VM-R0S-17 (FIX)  §14's comment: "FabricStrategyId is §2.5's: the id of a registered fabric — `bent-cut`, a
+#        hood.templates row (V01 §2.2) or V07's `village-ways`".
+#  VM-R1T-10 (FIX per R2-26 (b))  T110-2 gains the obstacles and the clear-span bound (a square, a grove, a 200 m river:
+#        dropped generated, bent declared); T110-5 the moat-bridge deck-plot case; R2-26 (c)'s receiving end in the same
+#        clause: VEW-r1-03's two fixtures (a moated c15 aqueduct, a timber viaduct on a gate's line), the crossing's one
+#        station on the trace as the wall's band. VM-R1T-10's "aqueduct across a wall strip, 0 piers" is that fixture
+#        under R2-26 (c) — the station on the band is the wall's own masonry, no pier in setback, glacis, berm or moat.
+#  VRC1T-09 (FIX per R2-06 (a))  §13.2: "the T-ER rows of §8.11, §9.7 and §11.6"; §13.8's row likewise (it also registers
+#        and schedules rendering's T-ER-22 – T-ER-29 by their rows' milestones — rendering's hand-off).
+#  VCS-08 (FIX per R2-06 (b))  §16's staged rows, effort lines, totals and calendar, D-20 and J-A568.01 (index and
+#        Part A, restated) from the round-2 figures above, not the issue's.
+#  VCS-10 (FIX per R2-06 (a), R2-08)  every "T-Vn-1 – T-Vn-m" naming a whole volume reads "every T-Vn test (Vnn §7)" in
+#        §13.2 and §16 (M5's exit); the groups' runs lists (items 115, 117, 118, 119) and the take-over base-bar column as
+#        the issue words them, with every round-2 volume test that takes a clause (V01 – V12's hand-offs).
+#  VCS-18 (FIX per R2-06 (b))  INDEX §1's price column, every cell from the round-2 figures.
+#  VCS-r1-01 (FIX per R2-07)  §0.2's heading "file g's items", its prose "102 onward" and "113–126", rows 120–126;
+#        Appendix A's two lists brought to item 126 (subsets, explicit); §13.2's convention "of the owner items" and the
+#        group head "File g's items"; INDEX's intro "file g's items, the owner's rules"; the summary's sentence on items
+#        120–124 with items 125 and 126.
+#  VCS-r1-02 (FIX)  the summary's item-114 and item-115 clauses as the issue words them.
+#  VCS-r1-03 (FIX per R2-14)  T115-2 is VCS-r1-03's text with R2-14's gloss; T115-3's retired "hall or similar record"
+#        reads "a grand building the dossier specifies (V08 §3.16 (3))" (R2-14 retires the wording everywhere).
+#  VV12-r1-09 (FIX)  §14's @plat/hood services as the issue lists them, with V01 r2's `disasterSource` /
+#        `disasterDistricts` and `campLand` (V01 §8.3) and the package's first landing at M3b for `campLand` (V01 §8.1).
+#  VV56-r1-09 (FIX)  INDEX §2's V05 row "V01 (the island's unit inputs)".
+#  VV78-12 (FIX per R2-06 (b))  §16's village row and effort line, INDEX's V07 cell: 30.5–43 (V07 r2), items as above.
+#  VV1112-r1-01 (FIX per R2-06 (b), R2-17)  §16's content line split as the issue words it — C2's g share 1.0–2.0 and C4a
+#        0.5 (and C3b 0.75–1.25, which J-A568.02 had placed in the same figure) in the first total, C4b and C8 on the staged
+#        line — M2b's row carrying C4a and no C4b; the staged row "C4b at M-SF"; INDEX's V11 cell.
+#
+# RECEIVING ENDS AND SIBLING HAND-OFFS CLOSED HERE (R2-05)
+#  R2-26 (c) T110-2's two fixtures; R2-27 (a) T114-10 — VEW-r1-02's CITY fixture (the welded stretch's profiles equal at
+#  every commit, one drawn state, one battle-map answer per edge), §13.8 M2b, its epochs with M6-E; R2-30 T116-1 and
+#  T116-4 "or stop 0 where the bounds are wider than the window at stop 0" (and the crisis framing's bounds), J-A116.02
+#  recording the narrowing (J122); R2-32 / R2-36 §16's M5, M3b, M4, M2a, M6-E, M6-P, M6, M6-U, M-SF and carried rows and
+#  §13.8's rows; R2-40 (2) §14; R2-07 INDEX. Sibling hand-offs: pipeline (T66-2's enclosed basement, VPC-R1-23; B-EDGE
+#  "its EP rows"; J-A76.41 restated), determinism (§14 item 5's realm and `realm_block_used`; J-A77.72 amended by
+#  J-A125.01), model (§14 `HostContext`), rendering (the T-ER rows registered and scheduled), V01 (`campLand` in M3b's
+#  line), V04 (the underground row), V05 (the sky row), V06 (T122-1's and T123-4's clauses), V07 (the village row), V08
+#  (§14's port types; the SettlementForge row), V09, V10, V11, V12 (their rows; V12's convention (6) note), V03 (its row).
+#
+# NOTES FOR ASSEMBLE
+# (1) RATIONALE-A's last six rows RESTATE existing Part A entries — J-DET-11, J-A20.71, J-A113.61, J-A114.01 (T114-1 –
+#     T114-10), J-A568.01 (stage 3's round-2 split) and J-A76.41 (the week's source): swap each into its older row's
+#     place (the precedent of J-A73.06, assemble-r1's handoff.py), so Part A keeps one row per id. Their index rows are
+#     changed in place by this file's REPLACE of the judgment index. Simulated: Part A 797 rows = the index's 797, 0
+#     duplicate ids, 0 ids in one and not the other.
+# (2) R2-18 (e) / VEL0-01 also name R25 in the rationale's Part F (a verbatim record, by judgment id, which no block kind
+#     reaches): replace, once, the quoted sentence under "#### R25 — §7.7 → J-DET-11"
+#       OLD: > *Chose the lock above the assignment because the owner's hook asks for precedence over the generator's own
+#            class rules, not over the user's locks; a host that must override a lock sends an unlock first, and the log
+#            records it.*
+#       NEW: > *Chose the lock above the assignment because the owner's hook asks for precedence over the generator's own
+#            class rules, not over the user's locks; a host's map event that must override a lock sends an unlock first,
+#            which the log records; a dossier event is never refused by a lock — it supersedes the lock on what it changes,
+#            the lock reported orphaned (§7.7's precedence; items 20, 22).*
+#     (each one line in the file; dryrun.py's R25_OLD / R25_NEW hold the exact strings; asserted once.)
+# (3) The §0.2 REPLACE retitles its heading ("102–119 (file g)" → "file g's items", R2-07); nothing cites the heading's text.
+# (4) The INDEX block follows the FILE line and replaces INDEX.md's level-1 title section, i.e. the whole file (its intro
+#     lies under the title): apply-blocks reports its title block changed — the intro's R2-07 range, intended.
+# (5) DOCUMENT CHECKS: append the 19 reviewed rows below to docs/validation/doc-checks-allow.tsv (grep '^# ALLOW ' <this
+#     file> | sed 's/^# ALLOW //'): each a C3 run of this file's new text made only of our own section pointers, item and
+#     volume numbers and person-week figures with one ordinary word.
+#
+# INTERPRETATIONS AND JUDGMENT CALLS (vetoable; J122 where new design; each an addition, no other decision changed)
+#  1. Pricing items 120–126's base parts under §16's rule (J-A120.01 – J-A126.01, J-A568.05; PLAUSIBLE): items 121, 122 and
+#     124 widen the O12 line by 0.75–1.25 pw each (the Auto loop with its ultra tier and split composition; the crisis
+#     looks over item 118's engine with V01's `campLand`; the weather layer), placed in M4's and M3b's rows; items 120,
+#     123 and 125 are absorbed — Find's base parts (key, roles, listing, export) by the O11 and O12 lines, its overlay
+#     provider and panel being V09's AP11; item 123's by V03's P4 and P5, with which they land (V03 §8 prices them);
+#     item 125's by the O10 and O11 lines (V08's SF3 prices the port's side).
+#  2. AP11's split (V09 gives the parts' prices, not their milestone split): 3.5–5 with the application line — items
+#     111–119's base parts (J-A568.04's 1.25–1.75), Find 1.25–1.75 (M5), the resolution setting 0.25–0.5 (M4), the crisis
+#     looks' screens 0.5–0.75 (M3b, their dossier numbers with M-SF as AP5b's host step is) and the weather switch 0.25
+#     (M3b) — and 1–1.25 on the staged-screens line (items 111–119's staged 0.75–1, the damage lines 0.25 with P4).
+#  3. J-A76.41 is restated (pipeline's hand-off asks its row to read the dossier's tick) rather than marked amended; the
+#     other rows item 125 touches keep their text and carry *amended by J-A125.01* (J-A20.79, J-A73.02, J-A77.72) or
+#     *superseded by J-A125.01* (J-A77.06), the convention's form, since their index text stays true.
+#  4. T20-16 (R2-18 (d)'s third bar) states the suffix order and the orphan reports; T122-2 keeps item 122 (e)'s "a
+#     condition the viewer's key withholds is not drawn" inside R2-35's T122-2 (no id is added).
+#  5. The convention's (5) names the pins' three new off forms (`view`, `input`, `entityScope`) by V12 §3.7.8 (5) so every
+#     pin of items 120–126 has a stated off form; (6) names items 120–126's statistics as conformance clauses (V12 §3.15).
+#  6. Seven phrasings were changed only to clear C3 hits on ordinary words (no meaning changed): "the device's pixel
+#     ratio", T114-9's "and nowhere else", T110-2's "; the support step's", §14 item 5's "no field of the three", T123-5's
+#     "an opening in its roof … an open stretch of the footprint's edge", T123-7's "keeps its plan byte for byte".
+#
+# HAND-OFFS (R2-05 (3): ends no ruling names, for round 3's verifiers; none is open wording in the design text)
+#  - rendering: its round-2 judgments 1–11 (the split composition, the 60 s hold, the ultra bar, the ring) are recorded in
+#    its report, not as J-A12x.8x index rows; the judgment index may take them as rendering's rows (part digit 8).
+#  - V08: its judgment 2 — `line` can decide between two registered lines' readings of one dossier — meets R2-40 (2)'s
+#    "none able to change a document a dossier makes" and T125-2; §14 states R2-40's words (the adjudicator's to weigh).
+#  - V01: `campLand` in `@plat/hood` lands at M3b before the package's M5 (V01 §8.1); §14 states the first landing creates
+#    the package with that one service (the precedent of `@plat/buildings` and M6-P).
+#
+# CHECKS (executed on copies; receipts in docs/validation/coherence/work/repair-scope-r2/: dryrun.py → dryrun.json,
+# fullstate.py, prices.py, build-log.json)
+#  - apply-blocks.py (two-pass, unchanged): alone on the live base + rationale 15 found, 15 applied, 0 skipped, audit not-OK
+#    0, headings 153 → 153, fences balanced, title block unchanged; notes: the §0.2 retitle and RATIONALE-A's six restated
+#    ids (NOTE (1)). INDEX 1/1, audit 0, the rationale untouched. Combined with the landed base r2 files of determinism,
+#    kernel, model, pipeline and rendering (assemble's name order): 71/71 applied, audit 0, headings 153 → 153, and every
+#    section this file replaces byte-identical to the alone run (no sibling block touches them).
+#  - With NOTE (1)'s swap and NOTE (2)'s R25 substitution simulated: Part A 797 rows = the judgment index's 797, 0 duplicate
+#    ids in either, 0 ids in one only.
+#  - §16 re-summed from the new text: the milestone rows 230.75–315.25 = the first total; the base lines 203.25–278.5 =
+#    the base subtotal; the staged lines 187.85–264.1 = the staged total; whole 418.6–579.35; each staged row's estimate
+#    equals its effort line; INDEX §1's cells equal §16's and the volumes' §8 totals.
+#  - References (assemble-r1's refs.py over a mirror of the full post-round-2 set: base = the five landed base r2 files +
+#    this one, each volume with its landed r2 file, INDEX with this one): 0 BROKEN (53 896 resolved; every id this file
+#    cites — T-V1-59/60, T-V2-58/59/60, T-V3-37 – T-V3-40, T-V4-32/81/82, T-V5-18/34/35/36, T-V6-75/76, T-V7-59/67/68/69,
+#    T-V8-58 – T-V8-62, T-V9-22/81 – T-V9-87, T-V10-51 – T-V10-53, T-V11-46/48, T-V12-52 – T-V12-59, V06 §3.23 — resolves;
+#    and the sibling cites of T20-14 – T20-16, T114-9, T120-n – T126-n now resolve); the base's ambiguous forms 24 → 14
+#    (none in this file's new text; §1.1's one, l. 300, predates it); 2 FIX are V12's own (§3.15.16 in its X-V12-20 and §13).
+#  - doc_checks.py --sections "The whole design,0,1,13,14,15,16,17,Delegated decisions,Judgment calls,Staged,Appendix A"
+#    — WARNING printed: reference corpus INCOMPLETE (captures, research/patreon, research/devlogs, research/ftg-docs,
+#    research/external) — NOT authoritative, provisional. Live: C1 5/0, C2 1/0, C3 403/0, C4 1/0, S1 0/0, S2 183/0, exit 0.
+#    New (alone): C1 5/0, C2 1/0, C3 384/19 → 0 with the 19 rows below, C4 1/0, S1 0/0, S2 187/0. (On the combined copy
+#    S2 shows 4 unreviewed hits in rendering's and pipeline's new lines — their proposed rows, not this unit's.)
+#
+# WORDS (wc-style, before → after; principle (9)): summary 1 860 → 2 008; §0.2 2 632 → 3 159; §1.1 1 908 → 2 039; §13.1
+#  3 088 → 3 214; §13.2 17 074 → 19 814; §13.4 1 076 → 1 088; §13.8 2 165 → 2 617; §14 9 214 → 9 371; §16 9 138 → 9 750;
+#  Delegated 3 138 → 3 139; the index 16 506 → 16 558 (+567 in J-ROWS); Staged 1 296 → 1 290; Appendix A 571 → 575;
+#  INDEX.md 4 026 → 4 049 — 73 692 → 78 671 (+4 979, +6.8 %), Part A +1 925 (9 new entries, 6 restated). The unit grows:
+#  what holds it is the new design owner items 120–126 require of this unit (seven bar groups ≈ 2 750 words, their
+#  §13.8 rows, §0.2 rows, §1.1's statement, §16's placements and prices, eight index rows) and the round's defined edges
+#  (T20-14 – T20-16, T110-2's and T110-5's cases, T114-9, T114-10, T66-2's enclosed basement, §13.1's write bar); the words
+#  removed are restatement only — every restated upper test id (R2-06 (a)), the retired realm block's interface and the
+#  host inputs item 125 retires — no rule, value, case, bar or decision dropped.
+#

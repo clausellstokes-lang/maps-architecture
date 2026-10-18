@@ -1,0 +1,6 @@
+K=50 stats=1 rho=0.0: per-regeneration pass rate of a perfect regenerator = 0.912; n=100: kcrit=88, P(fail)=0.166; n=400: kcrit=368, P(fail)=0.733; n=1000: kcrit=932, P(fail)=0.990
+K=50 stats=4 rho=0.0: per-regeneration pass rate of a perfect regenerator = 0.702; n=100: kcrit=88, P(fail)=1.000; n=400: kcrit=368, P(fail)=1.000; n=1000: kcrit=932, P(fail)=1.000
+K=50 stats=4 rho=0.5: per-regeneration pass rate of a perfect regenerator = 0.748; n=100: kcrit=88, P(fail)=1.000; n=400: kcrit=368, P(fail)=1.000; n=1000: kcrit=932, P(fail)=1.000
+K=100 stats=1 rho=0.0: per-regeneration pass rate of a perfect regenerator = 0.931; n=100: kcrit=88, P(fail)=0.043; n=400: kcrit=368, P(fail)=0.217; n=1000: kcrit=932, P(fail)=0.567
+K=100 stats=4 rho=0.0: per-regeneration pass rate of a perfect regenerator = 0.760; n=100: kcrit=88, P(fail)=0.999; n=400: kcrit=368, P(fail)=1.000; n=1000: kcrit=932, P(fail)=1.000
+K=100 stats=4 rho=0.5: per-regeneration pass rate of a perfect regenerator = 0.794; n=100: kcrit=88, P(fail)=0.991; n=400: kcrit=368, P(fail)=1.000; n=1000: kcrit=932, P(fail)=1.000

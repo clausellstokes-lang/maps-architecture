@@ -1,0 +1,296 @@
+{
+ "input_doc_sha256": "3094f2486ad8c673ca8a6d68e6e0e1c0ec2ce2fc3a8fff90f9bef95591aa03de",
+ "input_rationale_sha256": "3a36bfe5f10f1b27f284350211c8d30e9a5468575088eee0af23b3962eb9a7cc",
+ "blockfiles": {
+  "repair-r2-determinism.md": "bb86c4e3a39235f4c66c2858fd23ca9a8c566e8466e4e84f96c20d3ab620d023",
+  "repair-r2-kernel.md": "cb11169faa7ff660cbbc183130afcafe35415d5206efd9f1de20021498fb5466",
+  "repair-r2-model.md": "fd7be707610fbadcd36f1fde55f8666063485a175d3f913d0771a602c50b5b76",
+  "repair-r2-pipeline.md": "60ce1b04b0d3dacf4aef49a4de9491e2aae7edd63f8c277fc7d6408dbb2f2b48",
+  "repair-r2-rendering.md": "be53dba14b9ae9150585b1f2adc999f58528794dbf89a75d84217582f1c67b3f",
+  "repair-r2-scope.md": "dd849bac37a555cf0052133298142a52af0741a60a5edfabf593baa6bacae42b"
+ },
+ "index": {
+  "table_header_line": 16420,
+  "ids_swapped": [
+   "J-A65.46",
+   "J-A68.83",
+   "J-A68.85",
+   "J-A68.89",
+   "J-A68.73",
+   "J-A63.22",
+   "J-A72.50",
+   "J-A65.49",
+   "J-A88.42"
+  ],
+  "swaps": [
+   {
+    "id": "J-A65.46",
+    "older_line": 16996,
+    "appended_line": 17151,
+    "old_row_sha256": "1f6734a3e5f3a3e9fb24943aba3f8649ebacf5a1a6e75a4645850e88e7b591c3",
+    "new_row_sha256": "0fb9f242d9d020ddee6cba44d06292bb0c225dd5f5a677696e77ea8687105853",
+    "old_row": "| J-A65.46 | a buried old town is the `raiseGrade` conversion: the old grade's records end on the ground and fresh records of the `buried` part become its galleries and chambers, the conversion recording the system it made; the ground above is re-derived on the new grade | II.7.6 |",
+    "new_row": "| J-A65.46 | a buried old town is the `raiseGrade` conversion: the old grade's records end on the ground and fresh records of the `buried` part become its galleries and chambers, the conversion recording the system it made; the ground above is re-derived on the new grade; at generation one exists only where the port's history hint names a fire or flood scar of severity ≥ 0.5 — the most severe laid under the growth-stage-1 districts at 200 + 200 × severity cm, the town above generated as it stands, no event recorded | II.7.6 |"
+   },
+   {
+    "id": "J-A68.83",
+    "older_line": 17058,
+    "appended_line": 17160,
+    "old_row_sha256": "8f6eaee70755966ea56022861ddc060e3c3bd8c35cc204d82e50bb2433feb09e",
+    "new_row_sha256": "9f3622439fcdbbde5fb670973637b8dd2fd4a0a89d3c6fd65327e834b184a1ff",
+    "old_row": "| J-A68.83 | the light model: a per-tile surface layer (normal, height, unlit coverage) plus a slab list for casters over drawn ground; brightness a sum over sources of inverse-square light with a smooth cutoff, soft visibility marched at the source's height by one march law for the CPU reference, the GPU pass and the bake (N samples, quadratically spaced over a march length that only the source, the pixel and the surface decide), ambient occlusion and a bounce-only spill, so open level ground keeps exactly its albedo; light in value only in `ink` | §8.4 |",
+    "new_row": "| J-A68.83 | the light model: a per-tile surface layer (normal, height, unlit coverage) plus a slab list for casters over drawn ground; brightness a sum over sources of inverse-square light with a smooth cutoff, soft visibility found by one traversal law for the CPU reference, the GPU pass and the bake — the minimum over the texels the ray crosses, read through a max-height pyramid, each cell resolved to its texel within half a tile side and to at most 1⁄128 of its distance beyond, a cell that cannot lower the minimum skipped — ambient occlusion and a bounce-only spill, so open level ground keeps exactly its albedo; light in value only in `ink` | §8.4 |"
+   },
+   {
+    "id": "J-A68.85",
+    "older_line": 17060,
+    "appended_line": 17161,
+    "old_row_sha256": "056fef18b11816a55798164449c38e22dc62e8bbddaa42f413a91841f0f20eaa",
+    "new_row_sha256": "0dceb8900c6f9d51262dc1e87c04e95da6a849a9706d8efbffc9a25e4fa0e989",
+    "old_row": "| J-A68.85 | the fallback ladder: the GPU pass at the tile DPR → with a half-resolution global term → the vector pass; chosen per tier at app start, lowered on a lost context or three frames over budget, never raised mid-session; a tier missing §13.4's tolerance first takes a full-precision surface, the march unchanged; the bake's fallback a declared view shift on every host; exports always on the CPU reference; `hatched` on its vector prism pass by design | §8.4, §8.8, §12.7 |",
+    "new_row": "| J-A68.85 | the fallback ladder: the GPU pass at the tile DPR → with a half-resolution global term → the vector pass; chosen per tier at app start, lowered on a lost context or three frames over budget, never raised mid-session; a tier missing §13.4's tolerance first takes a full-precision surface, the traversal unchanged; the bake's fallback — its point lights' traversal one pyramid level coarser — a declared view shift on every host; exports always on the CPU reference; `hatched` on its vector prism pass by design | §8.4, §8.8, §12.7 |"
+   },
+   {
+    "id": "J-A68.89",
+    "older_line": 17064,
+    "appended_line": 17162,
+    "old_row_sha256": "58e52cfc6c952884d87a5966257c5b20b9205090bfb7d63123ec9a9fd804308d",
+    "new_row_sha256": "e24c223f2940f04ddfa53ac8ae33a7b0785cc839fd77cc39e6cf607933e900bc",
+    "old_row": "| J-A68.89 | the canvas need with the light pass is 4.25P + 7 MB; the tile DPR steps down until it fits, else the vector rung | §8.8, §12.8 |",
+    "new_row": "| J-A68.89 | the canvas need with the light pass is 4.25P + 7 MB + Q, Q = P ÷ 12 + (2(a + b) + 4) ÷ 3 + 3 MB for the pyramids and the rings the global light's window reaches; the tile DPR steps down until it fits, else the vector rung | §8.8, §12.8 |"
+   },
+   {
+    "id": "J-A68.73",
+    "older_line": 17127,
+    "appended_line": 17145,
+    "old_row_sha256": "8b88fb83790464ddcc89047eb145fde65590eef01db583cd886c49cb772e3086",
+    "new_row_sha256": "05cb32316fdeb0d2726d6909c099543f6b3f0a9171afdbb2365a0fbb0d3ba34d",
+    "old_row": "| J-A68.73 | the warp's mean-value rule carries three more point records — a light's point (a door light by its entrance vertex's displacement), an access point's opening and a Works' kept rings and lines; a light or an access point re-seated at its clearance, else re-placed or orphaned as a pin is; a Works' rings never re-seated | §7.4 |",
+    "new_row": "| J-A68.73 | the warp's mean-value rule carries three more point records — a light's point, an access point's opening and a Works' kept rings and lines — each in its host's face, for every host §4.7's light rows or `placeLight` give a light (of several faces, the one `pointLocate` returns); a light (a door light excepted: it keeps its entrance vertex's displacement, never re-seated) or an access point re-seated at its clearance, else re-placed or orphaned as a pin is; a Works' rings never re-seated | §7.4 |"
+   },
+   {
+    "id": "J-A63.22",
+    "older_line": 17130,
+    "appended_line": 17147,
+    "old_row_sha256": "ca7e8af21d89258ca9c6e4e7b1059c6e05d378cfb7ea061d55d1458c7210b14f",
+    "new_row_sha256": "d3807cf5695a30b7c20c3325938be9789031a35a1ad09fcd87a4494b8fe9b80d",
+    "old_row": "| J-A63.22 | `Use.concealmentSource` names only the map-side origin of a concealment mode (an assignment, the class table or an edit) and is absent while the dossier sets the mode; whether the mode is a dossier fact is `factTier`'s (J-A20.23), never a stored value | §2.7 |",
+    "new_row": "| J-A63.22 | `Use.concealmentSource` names only the map-side origin of a concealment mode (an assignment, the class table or an edit) and is absent while the dossier sets the mode; whether the mode is a dossier fact is `factTier`'s (J-A20.23), never a stored value; a dossier event that sets the mode clears the source, and one that withdraws the dossier's mode re-resolves the mode from the map-side sources by §4.7's concealment rule as its least-disruption mutation, writing their source; a map `setAttr` of a mode the dossier set is refused as dossier-owned (J-A20.77) | §2.7 |"
+   },
+   {
+    "id": "J-A72.50",
+    "older_line": 17134,
+    "appended_line": 17149,
+    "old_row_sha256": "131c7a682713e10fe6159ab613d5a79374c5f48fcc5054e77031668c76bf827a",
+    "new_row_sha256": "287c877a8bab3944fbf3ca196e5e3b0d98c819977c1d9e5e8ae44d5bdd96f0d1",
+    "old_row": "| J-A72.50 | S7b allocates by a provisional, unstored band range, the one the district's pass-1 value gives; S10a writes the range from pass 2 and re-homes any household outside it before distributing to blocks, each move reported | §4.5, §4.7 |",
+    "new_row": "| J-A72.50 | S7b allocates by a provisional, unstored band range, the one the district's pass-1 value gives; S10a writes the range from pass 2 and re-homes any household outside it before distributing to blocks, each move reported; a household no district's range admits housed in the district of the nearest range at that range's nearest band, reported, and one of a dossier's population that no capacity holds kept in its own district for §4.7's re-provision; F-SITING only for a household outside a dossier's population that no capacity holds | §4.5, §4.7 |"
+   },
+   {
+    "id": "J-A65.49",
+    "older_line": 17136,
+    "appended_line": 17152,
+    "old_row_sha256": "2081002b0c2acd406cefd7fa201d8ece7e4d06d770d77cae841f2e0f29241f81",
+    "new_row_sha256": "4b2b7b6118a7723d52bdf655aca860efb7932e7a6ea6ed38e895d9e3a798f7fd",
+    "old_row": "| J-A65.49 | the geology flag an S0 toggle (auto, ordinary, soluble, volcanic); `auto` resolved at S1 by the feature table's geology row at the relief class, against one uniform S0 draws on `blueprint.features`; ordinary on a sky island and in the parity presets | §4.2 |",
+    "new_row": "| J-A65.49 | the geology flag an S0 toggle (auto, ordinary, soluble, volcanic); `auto` resolved at S1 by the feature table's geology row at S0's relief class, against one uniform S0 draws on `blueprint.features`; ordinary on a sky island and in the parity presets; the relief class itself an S0 site-request toggle (auto, plain, rolling, hilly, mountainous) whose `auto` the feature table's relief row draws (plain and rolling 0.35 each, hilly 0.2, mountainous 0.1), a dossier's `site.terrain` setting it by DR1 | §4.2, §4.9 |"
+   },
+   {
+    "id": "J-A88.42",
+    "older_line": 17139,
+    "appended_line": 17150,
+    "old_row_sha256": "abec9ca0f1a5f861cef55303408f8faaa13376ce0f90ea8058a86fbad5bc0770",
+    "new_row_sha256": "c97270aafef83b34eef5e71e72bb4ba6201f207dd5cdf607b7127fda1a94f627",
+    "old_row": "| J-A88.42 | the staged inputs' readers stated at their homes: `HistoryHint` the stage count (min(K, ⌈age ÷ yearsPerStage⌉)) and a fire or flood scar the buried old town only; `PowerRelation` a soft typing row and an alliance's spill in the political component; legitimacy on the governing power's amplification; a non-physical impairment on the institution term; the import share on the arable demand — each inert while empty | §4.2 S2, §4.5, §4.9, II.7.6 |",
+    "new_row": "| J-A88.42 | the staged inputs' readers stated at their homes: `HistoryHint` the stage count (min(K, ⌈age ÷ yearsPerStage⌉)) and a fire or flood scar the buried old town only; `PowerRelation` a soft typing row and an alliance's spill in the political component; legitimacy on the governing power's amplification; a dossier institution's visible non-physical impairment on that institution's own dial term; the import share on the arable demand — each inert while empty | §4.2 S2, §4.5, §4.9, II.7.6 |"
+   }
+  ],
+  "rows_after": 733,
+  "id_set_sha256": "13c66b12dca846ac646e92305075848dc1d2d1a7e646633dd7ff94b87234f6a4"
+ },
+ "part_a": {
+  "table_header_line": 45,
+  "ids_swapped": [
+   "J-A65.46",
+   "J-A68.83",
+   "J-A68.85",
+   "J-A68.89",
+   "J-A68.73",
+   "J-A63.22",
+   "J-A72.50",
+   "J-A65.49",
+   "J-A88.42",
+   "J-A66.01"
+  ],
+  "swaps": [
+   {
+    "id": "J-A65.46",
+    "older_line": 621,
+    "appended_line": 776,
+    "old_row_sha256": "515e2be6a407ad656f91b26224d340e26728d0dafeea784b299757e40167adfd",
+    "new_row_sha256": "8c9fa4f300b3470c0d5c958042dabec552d2270224dbef05a2660b288e59e219",
+    "old_row": "| J-A65.46 | Chose to make a buried old town the conversion `raiseGrade { region; raiseCm; cause }`, by an epoch or by hand: the region's ground is raised by S1's terrain operator, its records at the old grade end on the ground (`cleared`) and fresh records of the `buried` part — minted from the conversion event as a mutation's added parts are — become the `buried` system's galleries (the old streets) and chambers (the old ground storeys), the conversion recording the system it created or extended in `RaiseGrade.system` so that a replay reads its part number there, while the ground above is re-derived regrowth-first on the old centrelines, over copying the old town into the underground, succeeding each old record into another part or deriving buried towns at generation, because no geometry may live in two arenas at once (J-A12.43), an address names its part and no batch writes two (§3.4), the cleared records keep each old place's history addressable, and \"the evolution log supplies it\" — a settlement without that history has none, unless the staged port names such a scar (II.7.6; item 65 (b)(1), ruling 5; amendments-c, pipeline seat D; repair round 1, VKC-10, VPR0-09). |",
+    "new_row": "| J-A65.46 | Chose to make a buried old town the conversion `raiseGrade { region; raiseCm; cause }`, by an epoch or by hand: the region's ground is raised by S1's terrain operator, its records at the old grade end on the ground (`cleared`) and fresh records of the `buried` part — minted from the conversion event as a mutation's added parts are — become the `buried` system's galleries (the old streets) and chambers (the old ground storeys), the conversion recording the system it created or extended in `RaiseGrade.system` so that a replay reads its part number there, while the ground above is re-derived regrowth-first on the old centrelines, over copying the old town into the underground, succeeding each old record into another part or deriving buried towns at generation without a recorded cause, because no geometry may live in two arenas at once (J-A12.43), an address names its part and no batch writes two (§3.4), the cleared records keep each old place's history addressable, and \"the evolution log supplies it\" — a settlement without that history has none. Chose, where the staged port names such a history, that the most severe `fire` or `flood` scar of `HistoryHint` whose severity reaches the `buried` row's `scarSeverity` (0.5; ties the oldest) makes one `buried` system at generation, after vaults in the systems' order — its region the districts of growth stage 1, its galleries their way centrelines and its chambers their buildings' ground storeys, laid 200 + 200 × severity cm below the present grade, the town above generated on the present grade as it stands, no `raiseGrade` recorded and nothing cleared, our own calibratable rows and an `extension` — over a `raiseGrade` replayed at creation or no buried town before an epoch, because the creation week shows a finished town (J-A67.47), so nothing is cleared or re-derived at creation, a scar is the dossier's record of the earlier town, the oldest core is what a fire or a flood rebuilt over, and a rule that reads only the scar and the stage-1 geometry draws nothing, so a seed reproduces it (II.7.6; item 65 (b)(1), ruling 5; item 88; amendments-c, pipeline seat D; repair round 1, VKC-10, VPR0-09; repair round 2, VPR1-04). |"
+   },
+   {
+    "id": "J-A68.83",
+    "older_line": 683,
+    "appended_line": 785,
+    "old_row_sha256": "2afceb11cdccc7c6a86919166dd0b599be37ed763f3c75de7519969d46b09db4",
+    "new_row_sha256": "eb25c017e42b6250f5fa177591a52738b8994d94879a4291537cbab0528acced",
+    "old_row": "| J-A68.83 | Chose one light model over a per-tile surface layer — per pixel a normal, a height above the tile's datum and the unlit coverage — with a slab list for casters whose covered ground the view draws (a sky island under ghost or offset occlusion, the span marks over a passage, a deck over drawn water), brightness the sum over sources of inverse-square light with the smooth cutoff (1 − x⁴)² at each light's radius, a soft visibility marched from the surface toward the source at the source's height, ambient occlusion from the horizon in eight directions and a bounce spill — the blurred direct light's excess over the pixel's own, max(0, B(D) − D) — over a single-valued height field alone or ground-only projected shadows, because the owner's points 3 and 4 ask for exactly these properties — shadows as gradients and the absence of one light, cancelled where other lights reach, indirect light lifting them, a tall shadow crossing and shortened on a lower roof but never climbing a taller one, fall-off with \"optimal distances\" — while a slab is needed only where the ground under an overhang is drawn (a crown's ground is never seen from above, so crowns stay in the field); `ink` takes the light in value only, keeping its restraint. Restated in the repair round (VRC-04, VRC-07): the spill is bounce only, over blurring the whole direct light, because that spill lifted open level ground 5–7 % above its albedo (`ink` +5.3 %, `lit` +6.8 %) and moved item 69's paper target on the lit map, while bounce light is by nature the lift of a darker pixel by its lit surroundings, zero on uniform ground, so E_key = E_g · (a + sin 45°) holds exactly (`amendc_repair_rendering_r1_light.out` (C)); and the visibility is marched by one law — N samples at t_k = T · ((k + ½) ÷ N)², N = 32 for the global light and 24 for a point light, T set by the source, the pixel and the surface alone — which the CPU reference, the GPU pass and the light map's bake all use, over a sample count per implementation, because §13.4 can hold the GPU pass to the reference only where both sample the same points (§8.4; item 68, rulings 3 and (a)–(c)). |",
+    "new_row": "| J-A68.83 | Chose one light model over a per-tile surface layer — per pixel a normal, a height above the tile's datum and the unlit coverage — with a slab list for casters whose covered ground the view draws (a sky island under ghost or offset occlusion, the span marks over a passage, a deck over drawn water), brightness the sum over sources of inverse-square light with the smooth cutoff (1 − x⁴)² at each light's radius, a soft visibility found along the ray from the surface toward the source at the source's height, ambient occlusion from the horizon in eight directions and a bounce spill — the blurred direct light's excess over the pixel's own, max(0, B(D) − D) — over a single-valued height field alone or ground-only projected shadows, because the owner's points 3 and 4 ask for exactly these properties — shadows as gradients and the absence of one light, cancelled where other lights reach, indirect light lifting them, a tall shadow crossing and shortened on a lower roof but never climbing a taller one, fall-off with \"optimal distances\" — while a slab is needed only where the ground under an overhang is drawn (a crown's ground is never seen from above, so crowns stay in the field); `ink` takes the light in value only, keeping its restraint. Restated in the repair round (VRC-04, VRC-07): the spill is bounce only, over blurring the whole direct light, because that spill lifted open level ground 5–7 % above its albedo (`ink` +5.3 %, `lit` +6.8 %) and moved item 69's paper target on the lit map, while bounce light is by nature the lift of a darker pixel by its lit surroundings, zero on uniform ground, so E_key = E_g · (a + sin 45°) holds exactly (`amendc_repair_rendering_r1_light.out` (C)); and one law finds the visibility for the CPU reference, the GPU pass and the light map's bake, over a law per implementation, because §13.4 can hold the GPU pass to the reference only where both evaluate the same thing. Restated again in repair round 2 (VRC1-02): that law is a traversal — the minimum over the texels the ray crosses, read through each surface layer's max-height pyramid, a cell resolved to its texel within half a tile side and to at most 1⁄128 of its distance beyond (the resolution floor), a cell whose bound cannot lower the minimum skipped whole — over N fixed samples along the ray, because fixed samples step over a caster narrower than their spacing and stripe its shadow (a 6 m tower under a 15° path sun: 8 alternating runs, `amendc_verify_rendering_r1_ring.out` (2a)), while the traversal meets every caster the ray crosses (one unbroken shadow behind towers 2, 6 and 12 m wide, `amendc_repair_rendering_r2_traversal.out` (2)); and over the verifier's proposal of N samples each reading its interval's greatest height from the pyramid, because the pyramid cell that covers a far interval spans metres beside the ray and flares the shadow sideways (+82 px per side at 20 m and +180 px at 120 m behind a 45 m tower at the 1:500 stop, receipt (3)), while under the floor the flare stays within one floor cell (+1 to +10 px); the skipping changes no value, since no cell's bound exceeds its children's, and the traversal visits 17–22 cells per pixel at the median and ≤ 62 at the 99th percentile on a seeded town at the 1:500 stop (receipt (4)) against the 32 samples it replaces — PLAUSIBLE until M2b (§8.4; item 68, rulings 3 and (a)–(c)). |"
+   },
+   {
+    "id": "J-A68.85",
+    "older_line": 685,
+    "appended_line": 786,
+    "old_row_sha256": "dd7bab7ade94669ec1f1ac8fc524fa9eb2c5779b53d1a14b5f09717b458f11c6",
+    "new_row_sha256": "fa3b916f16f4580129fa34e9d8e66b9498b996223e03c5cd3222dab2c899dcba",
+    "old_row": "| J-A68.85 | Chose a three-rung fallback ladder — the GPU pass at the tile DPR, the GPU pass with a half-resolution global term, the vector pass (projected shadows, night roles and glow sprites) — chosen per hardware tier at app start from the canvas budget and the measured frame time, lowered at run time on a lost GPU context or three consecutive frames over budget and never raised mid-session, with every export on the CPU reference and `hatched` on its prism pass by design, over refusing the lit view to devices without a capable GPU or letting the rung flicker with load, because the owner's day and night views must reach every device the base supports and a picture that changes rung under a moving pointer would read as a defect; each rung is counted, never an error, and never a model change. Restated in the repair round (VRC-07, VRC-08): a tier whose GPU pass misses §13.4's tolerance first transfers its surface at full precision (13 B per pixel, counted by §8.8 as 6.5P + 7 MB) with the march unchanged, and only then draws rung 3, over halving the march step on that tier, because the reference samples the points of §8.4 (c)'s one march law and a GPU marching other points would be held to a picture it does not compute; and a light-map bake that misses at M2b halves the point-light march on every host and in the CPU reference alike, a declared view shift (§13.3), over a per-device change, because a reference that varied by device could not be byte-identical on the five engines (§8.4, §8.8, §12.7; item 68; F-LIGHT is §5.2's). |",
+    "new_row": "| J-A68.85 | Chose a three-rung fallback ladder — the GPU pass at the tile DPR, the GPU pass with a half-resolution global term, the vector pass (projected shadows, night roles and glow sprites) — chosen per hardware tier at app start from the canvas budget and the measured frame time, lowered at run time on a lost GPU context or three consecutive frames over budget and never raised mid-session, with every export on the CPU reference and `hatched` on its prism pass by design, over refusing the lit view to devices without a capable GPU or letting the rung flicker with load, because the owner's day and night views must reach every device the base supports and a picture that changes rung under a moving pointer would read as a defect; each rung is counted, never an error, and never a model change. Restated in the repair round (VRC-07, VRC-08): a tier whose GPU pass misses §13.4's tolerance first transfers its surface at full precision (13 B per pixel, counted by §8.8 as 6.5P + 7 MB + Q) with the traversal unchanged, and only then draws rung 3, over coarsening that tier's traversal, because the reference resolves the cells of §8.4 (c)'s one law and a GPU resolving other cells would be held to a picture it does not compute; and a light-map bake that misses at M2b resolves its point lights' traversal one pyramid level coarser on every host and in the CPU reference alike, a declared view shift (§13.3), over a per-device change, because a reference that varied by device could not be byte-identical on the five engines (§8.4, §8.8, §12.7; item 68; F-LIGHT is §5.2's; restated in repair round 2 with the traversal, VRC1-02, VRC1-13). |"
+   },
+   {
+    "id": "J-A68.89",
+    "older_line": 689,
+    "appended_line": 787,
+    "old_row_sha256": "28a1cf16f20e389e089149af821e673c6220f13e86faff16d862a62cf130cd67",
+    "new_row_sha256": "7e6e8bbab84b76beae26cc56da4253f4282d5239373e5a65aba57c7cac9bfa52",
+    "old_row": "| J-A68.89 | Chose to count the light pass's per-position textures (a 1 MB surface layer and a ¼ MB light map on the main thread) in the canvas budget as 4.25P + 7 MB, stepping the tile DPR down until it fits and drawing the vector rung where it does not fit even at DPR 1, over holding the DPR and dropping to the vector rung first, because the owner's default view is the lit one and a lit picture at DPR 1.5 reads better than an unlit one at 2, while the tier ceilings of J-R22 stay as they are (worked: the reference view lit at DPR 2 on the high tier and 1.5 on the mid tier; the low-end 1 920 × 1 080 view on the vector rung) (§8.8, §12.8; item 68, ruling 9). |",
+    "new_row": "| J-A68.89 | Chose to count the light pass's textures — per position a 1 MB surface layer with its 1⁄12 MB max-height pyramid and a ¼ MB light map on the main thread, and the height pyramids of the rings of positions the global light's window reaches (J-A68.90) — in the canvas budget as 4.25P + 7 MB + Q, Q = P ÷ 12 + (2(a + b) + 4) ÷ 3 + 3 MB, stepping the tile DPR down until it fits and drawing the vector rung where it does not fit even at DPR 1, over holding the DPR and dropping to the vector rung first, because the owner's default view is the lit one and a lit picture at DPR 1.5 reads better than an unlit one at 2, while the tier ceilings of J-R22 stay as they are (worked: the reference view lit at DPR 2 on the high tier, 171 MB, and at 1.5 on the mid tier, 122 MB; the low-end 1 366 × 768 view lit at DPR 1, 68 MB; the 1 920 × 1 080 view on the vector rung); restated in repair round 2 (VRC1-01), because the rings the pass reads had not been counted (§8.8, §12.8; item 68, ruling 9). |"
+   },
+   {
+    "id": "J-A68.73",
+    "older_line": 752,
+    "appended_line": 770,
+    "old_row_sha256": "8245dd6d41dc6585093543c14e1755e45d0d9f5b17ea7b657ce9bc63f26afbf6",
+    "new_row_sha256": "d8c45b2357d9531014ed745882b5a7f6c162f36a171c92cf5e488bf4096f1cc8",
+    "old_row": "| J-A68.73 | Chose to carry a light's point, an access point's opening and a Works' kept rings and lines by the warp's one mean-value rule (§7.4), each in its host's face — a light in the face its host stands on, an access point in its ground host's face, a Works' rings in its target's plot face — with a light or an access point re-seated at its clearance or, when the inset is empty, re-placed by its placement rule if generated and orphaned if placed by hand, a door light taking its entrance vertex's displacement instead, and a Works' rings never re-seated, over leaving these records at their old points or re-deriving them after every warp, because each is a stored world point that §2.7 and II.7.4 say moves with its host, a warp during a running demolition must not draw the kept shell where the ground no longer is (the write that survives one path and ghosts another), a door light, which stands at its door on the footprint's edge, would be pushed indoors by the clearance inset, and a Works' kept rings are drawn history rather than things that must stand inside a face (§7.4; items 64, 67, 68; repair r1, V-MC0-04). |",
+    "new_row": "| J-A68.73 | Chose to carry a light's point, an access point's opening and a Works' kept rings and lines by the warp's one mean-value rule (§7.4), each in its host's face — a light in the face its host stands on, for every host §4.7's light rows name and any entity `placeLight` names or finds (a junction light in its tunnel's band faces, an access point's foot light in the faces of the element it reaches, a castle's lights in its inner ward, bailey or gatehouse, a shrine's in its decoration's face), the one `pointLocate` returns for the point where the host has several; an access point in its ground host's face; a Works' rings in its target's plot face — with a light or an access point re-seated at its clearance or, when the inset is empty, re-placed by its placement rule if generated and orphaned if placed by hand, a door light taking its entrance vertex's displacement instead and never re-seated, and a Works' rings never re-seated, over leaving these records at their old points or re-deriving them after every warp, because each is a stored world point that §2.7 and II.7.4 say moves with its host, a warp during a running demolition must not draw the kept shell where the ground no longer is (the write that survives one path and ghosts another), a light whose host names no face would have neither a carry nor a re-seat test, a door light stands at its door on the footprint's edge, where any clearance test would push it indoors on every warp and, were it locked, halve every step near it, and a Works' kept rings are drawn history rather than things that must stand inside a face (§7.4; items 64, 67, 68; repair r1, V-MC0-04; repair r2, VD1-04, VD1-05). |"
+   },
+   {
+    "id": "J-A63.22",
+    "older_line": 755,
+    "appended_line": 772,
+    "old_row_sha256": "dca758849da8c1ae9d186176c0a9256df49a7da9a0c1f3b6f51028b229c04245",
+    "new_row_sha256": "5c9696f9b549c63c08d9eb5ad41eed26a7bacfd963490d6dbd4ff7f4d175bc9b",
+    "old_row": "| J-A63.22 | Chose to keep in `Use.concealmentSource` only the map-side origin of a concealed use's mode — an assignment, the class table or an edit — and to leave it absent while the dossier sets the mode, over storing a `dossier` value there, because whether a value is a dossier fact is already derived at read by `factTier` from what the document stores (J-A20.23), and a stored copy would go stale when a dossier event clears the fact. |",
+    "new_row": "| J-A63.22 | Chose to keep in `Use.concealmentSource` only the map-side origin of a concealed use's mode — an assignment, the class table or an edit — and to leave it absent while the dossier sets the mode, over storing a `dossier` value there, because whether a value is a dossier fact is already derived at read by `factTier` from what the document stores (J-A20.23), and a stored copy would go stale when a dossier event clears the fact. Chose, for the field's two dossier paths, that a dossier event setting the mode clears the source (a user's `setAttr` it displaces reported and orphaned, J-A20.73), and that one withdrawing the dossier's mode re-resolves the mode from the map-side sources by §4.7's concealment rule — a map assignment's value, else the class table on the institution's own keyed `siting` draw, else `none`, the use then placed as an open use — as that event's least-disruption mutation, writing their source, over keeping the dossier's last mode as a map value with no source, because a withdrawn value is no longer the dossier's, and what the dossier does not supply the map derives by its own rules (item 20 (h)); the keyed draw gives the mode the use's first placement would have given, so a withdrawal gives back the reading the map's rules give instead of freezing the dossier's. A map `setAttr` of a mode the dossier set is refused as dossier-owned, as J-A20.77 rules for every dossier fact (§2.7; items 63, 20 (h); repair round 2, V-MC1-01, VD1-08). |"
+   },
+   {
+    "id": "J-A72.50",
+    "older_line": 759,
+    "appended_line": 774,
+    "old_row_sha256": "58c33a1507c1254ec4d2a26d24d2f52e91fe3d4cbb39926e57a976be8b3f87dc",
+    "new_row_sha256": "0b73a4d1281d1481f3a4c791d59ef1d51186a3f833d3c3723462f5c4235ffb79",
+    "old_row": "| J-A72.50 | Chose to let S7b allocate by the band range `bandRanges` gives at the district's pass-1 value — a provisional reading, never stored — and to have S10a, which writes the range from pass 2, re-home any household allocated outside it into the earliest district, in S7b's order, whose written range admits it and whose capacity holds it, before it distributes households to blocks, each move reported and a household no district holds left to F-SITING's ladder, over moving the range's writer to S7b or letting S10b's reconcile move households between districts, because S7b runs before pass 2 exists, pass 2's institution kernels may move a district's value, S10b's reconcile never reaches into another district (§4.7), and S10a is the last eager town-wide step before the pooled districts read the range (§4.5's (5) and §4.7's S10a; item 72 (d‴); repair round 1, VPR0-03). |",
+    "new_row": "| J-A72.50 | Chose to let S7b allocate by the band range `bandRanges` gives at the district's pass-1 value — a provisional reading, never stored — and to have S10a, which writes the range from pass 2, re-home any household allocated outside it into the earliest district, in S7b's order, whose written range admits it and whose capacity holds it, before it distributes households to blocks, each move reported — a household no district's range admits going to the district, in the same order, of the nearest range whose capacity holds it, its band read at that range's nearest end (a derived band, reported), and one that fills a dossier's population and that no capacity holds staying in its own district, where §4.7's re-provision houses it (J-A20.72), F-SITING's ladder left only for a household outside a dossier's population that no capacity holds — over moving the range's writer to S7b, letting S10b's reconcile move households between districts, or sending every household no range admits to F-SITING's ladder, because S7b runs before pass 2 exists, pass 2's institution kernels may move a district's value, S10b's reconcile never reaches into another district (§4.7), S10a is the last eager town-wide step before the pooled districts read the range, and F-SITING's last rung reduces the manifest, which must never drop a household that fills a dossier's population (§7.7 item 2; §5.2; T19-4), while reading a band at the nearest range's end is the rule every prosperity-driven state of a building already obeys (§4.5's (5) and §4.7's S10a; item 72 (d‴); repair round 1, VPR0-03; repair round 2, VPR1-01). |"
+   },
+   {
+    "id": "J-A65.49",
+    "older_line": 761,
+    "appended_line": 777,
+    "old_row_sha256": "1ffb0a8cc492adac562cbed7746d305480028ccee52116903121101ecedca0c5",
+    "new_row_sha256": "2be83ebc618988c45199b3ee4b01d077b47d133e85f88524d51192d313271655",
+    "old_row": "| J-A65.49 | Chose to make the site's geology an S0 landscape toggle whose `auto` S1 resolves from the feature table's geology row at the relief class it drew — P(soluble) from 0.10 on plain ground to 0.30 on hilly and mountainous ground, P(volcanic) from 0 to 0.10, our own calibratable rows — against one uniform S0 draws on `blueprint.features` with the other auto features, over a draw at S1 on a terrain concern or a flag fixed by the biome, because every auto feature is S0's single draw, taken ahead of all stages and never redrawn by a later rung, the chance depends on the relief S1 draws, one uniform read against monotone thresholds changes the result only where the relief changes it, and a user or a dossier that knows the rock sets the toggle (§4.2 S0, S1 (10); item 65; seat D note 9 (a); repair round 1, VPR0-12). |",
+    "new_row": "| J-A65.49 | Chose to make the site's geology an S0 landscape toggle whose `auto` S1 resolves from the feature table's geology row at S0's relief class — P(soluble) from 0.10 on plain ground to 0.30 on hilly and mountainous ground, P(volcanic) from 0 to 0.10, our own calibratable rows — against one uniform S0 draws on `blueprint.features` with the other auto features, and to give the relief class that row, S1 (1)'s amplitude and §4.9's farm modes read one source of its own — an S0 site-request toggle (`auto`, `plain`, `rolling`, `hilly`, `mountainous`) whose `auto` the feature table's relief row draws on the same stream (our own weights — plain and rolling 0.35 each, hilly 0.2, mountainous 0.1 — calibratable; not an `extension`, since S1 (1) scales its heightfield by a relief class under every preset), a dossier's `site.terrain` setting it by DR1 — over a draw at S1 on a terrain concern, a flag fixed by the biome or a relief class no rule chooses, because every auto feature is S0's single draw, taken ahead of all stages and never redrawn by a later rung, the geology chance depends on the relief, one uniform read against monotone thresholds changes the result only where the relief changes it, a key three rules read needs one writer, and a user or a dossier that knows the rock or the relief sets the toggle (§4.2 S0, S1 (1), S1 (10), §4.9; item 65; seat D note 9 (a); repair round 1, VPR0-12; repair round 2, VPR1-12). |"
+   },
+   {
+    "id": "J-A88.42",
+    "older_line": 764,
+    "appended_line": 775,
+    "old_row_sha256": "65ee960181e312a8b3608bddc3c83c7d5c2928d8971f5099cd9be10bb95a95c2",
+    "new_row_sha256": "7551db8f5c1f6b3bc727966f2aaf41f53e9fd74a35ca932faba5d9f4a0eb81e4",
+    "old_row": "| J-A88.42 | Chose to state at each home the one reading of every staged dossier input item 88 declared — `HistoryHint` setting the stage count to min(K, ⌈ageYears ÷ yearsPerStage⌉), the later walled stages folding into the last kept one, its fire and flood scars read only by II.7.6's buried old town and every other scar by no rule, the creation week showing a finished town (J-A67.47); `PowerRelation` a soft `adjacent` or `avoid` typing row between the kinds its powers' identity rows name and, for an alliance, a spill of 0.25 × its strength between the two powers' political alignments; `PortRows.legitimacy` multiplying the governing power's amplification; a non-physical impairment lowering the institution term; the hinterland row's import share multiplying the arable demand — each inert while the port leaves it empty, over naming the readers only in the records' comments, because a hook the design names must be a mechanism at the stage that reads it, and each, while empty, leaves the base as it is, so no emulation changes (§4.2 S2, §4.5, §4.9, II.7.6; item 88; repair round 1, V-MC0-17, VPR0-15). |",
+    "new_row": "| J-A88.42 | Chose to state at each home the one reading of every staged dossier input item 88 declared — `HistoryHint` setting the stage count to min(K, ⌈ageYears ÷ yearsPerStage⌉), the later walled stages folding into the last kept one, its fire and flood scars read only by II.7.6's buried old town and every other scar by no rule, the creation week showing a finished town (J-A67.47); `PowerRelation` a soft `adjacent` or `avoid` typing row between the kinds its powers' identity rows name and, for an alliance, a spill of 0.25 × its strength between the two powers' political alignments; `PortRows.legitimacy` multiplying the governing power's amplification; a dossier institution's visible non-physical impairment lowering the impaired institution's own dial term, read from that institution's impairments and never from a settlement-wide `ConditionOverlay`; the hinterland row's import share multiplying the arable demand — each inert while the port leaves it empty, over naming the readers only in the records' comments, because a hook the design names must be a mechanism at the stage that reads it, each, while empty, leaves the base as it is, so no emulation changes, and an impairment is a fact of one institution (§7.7's F4 row), so it moves that institution's term alone (§4.2 S2, §4.5, §4.9, II.7.6; item 88; repair round 1, V-MC0-17, VPR0-15; repair round 2, VPR1-03). |"
+   },
+   {
+    "id": "J-A66.01",
+    "older_line": 768,
+    "appended_line": 789,
+    "old_row_sha256": "ffdbe82c2a75da8fcfa4d9fe320298a8c457ccded851a4b581920b4e465a9d89",
+    "new_row_sha256": "f53d1c69d67932a910ef3fec4f44215bd114a38ec43d2964480b4f5e6e285dde",
+    "old_row": "| J-A66.01 | Chose to schedule the access edit — `addUndergroundAccess` with its closure generators and its staged-layer refusal — and its bars T66-1 – T66-4 at M4 with the underground layer's hooks, and to land at M3a the closure rule itself with its first base instance, a concealed front's missing concealed door (item 63), proved by a new bar T66-5, together with the basement's requested-mode ladder, over building the access edit at M3a, because the pieces its closure creates — a `dug` system, a connector gallery in its depth band, an `AccessPoint`, the links (§7.3 item 9 (d)) — are records whose schema and tools §16 lands at M4, so T66-2 and T66-4 could not run at M3a, while the concealed door needs only §2.6's entrance rules, which M2b builds; until the underground layer's stages exist the access edit's dry run returns F-EDIT naming the staged layer (§7.3 item 9 (d); J-A66.71), and on the layer's hook fixture its bars run as every staged engine's do (J-A63.01); 0.5 pw of carriage moves with it — M3a to 27.5–35.5 pw and M4 to 16.5–23.5 pw, the pricing paragraph's M3a share to +4.5 / +7.5 pw and M4's to +3.5 / +4.5 pw — the total unchanged, the concealed-door instance absorbed by item 63's M3a work (§16, §13.2; item 66; repair r1, VSC-01). |",
+    "new_row": "| J-A66.01 | Chose to schedule the access edit — `addUndergroundAccess` with its closure generators (the basement's requested-mode ladder of §2.6 among them, the access edit its only caller) and its staged-layer refusal — and its bars T66-1 – T66-4 at M4 with the underground layer's hooks, and to land at M3a the closure rule itself with its first base instance, a concealed front's missing concealed door (item 63), proved by a new bar T66-5, over building the access edit at M3a, because the pieces its closure creates — a `dug` system, a connector gallery in its depth band, an `AccessPoint`, the links (§7.3 item 9 (d)) — are records whose schema and tools §16 lands at M4, so T66-2 and T66-4 could not run at M3a, while the concealed door needs only §2.6's entrance rules, which M2b builds; until the underground layer's stages exist the access edit's dry run returns F-EDIT naming the staged layer (§7.3 item 9 (d); J-A66.71), and on the layer's hook fixture its bars run as every staged engine's do (J-A63.01); 0.5 pw of carriage moves with it — M3a to 27.5–35.5 pw and M4 to 16.5–23.5 pw, the pricing paragraph's M3a share to +4.5 / +7.5 pw and M4's to +3.5 / +4.5 pw — the total unchanged, the concealed-door instance absorbed by item 63's M3a work (§16, §13.2; item 66; repair r1, VSC-01; repair r2, VS1-07). |"
+   }
+  ],
+  "rows_after": 733,
+  "id_set_sha256": "13c66b12dca846ac646e92305075848dc1d2d1a7e646633dd7ff94b87234f6a4"
+ },
+ "substitutions": [
+  {
+   "item": "rendering 2a — J-A20.82 index row: §2.8's marker -> §2.8's `factTier` (V-MC1-09 = VD1-11 = VRC1-10)",
+   "file": "document",
+   "scope": "J-A20.82",
+   "line": 17075,
+   "old": "every answer and every export mark each fact's tier by §2.8's marker (`dossier`, `declared`, `map`)",
+   "new": "every answer and every export mark each fact's tier by §2.8's `factTier` (`dossier`, `declared`, `map`)"
+  },
+  {
+   "item": "rendering 2b — J-A20.82 Part A: §2.8's marker -> §2.8's `factTier`",
+   "file": "rationale",
+   "scope": "J-A20.82",
+   "line": 700,
+   "old": "each fact's tier by §2.8's marker — `dossier`, `declared` or `map` —",
+   "new": "each fact's tier by §2.8's `factTier` — `dossier`, `declared` or `map` —"
+  },
+  {
+   "item": "rendering 3 — J-A68.86 Part A: the readings' clause (VRC1-16)",
+   "file": "rationale",
+   "scope": "J-A68.86",
+   "line": 686,
+   "old": "the FTG, NG and Fantasy Manor cells carry their builds and their readings' sections, their P-ids P22–P24, and no constant",
+   "new": "the FTG, NG and Fantasy Manor cells carry their builds and their P-ids P22–P24 (the readings' sections are `research/findings/code-impact.md` §(d)'s), and no constant"
+  },
+  {
+   "item": "rendering 4 — II.7.3 the shaft sentence: a secret shaft lit only under a key that draws it (VRC1-03's note; after pipeline's II.7.3 REPLACE)",
+   "file": "document",
+   "scope": "### II.7.3 The underground neighbourhoods (item 12): the owner's three rules as invariants, the occupants, the cut, the surface constraint, access, depth, lifecycle, order",
+   "line": 15707,
+   "old": "every access that breaks the surface — is a light shaft for §8.4's lighting:",
+   "new": "every access that breaks the surface — is a light shaft for §8.4's lighting, a secret one lit only for a key under\nwhich it draws (§8.1 item 7):"
+  },
+  {
+   "item": "rendering 5 — §13.4 light-pass fallback: 'the march unchanged' -> 'the traversal unchanged' (§8.4 (c)'s traversal)",
+   "file": "document",
+   "scope": "### 13.4 Visual regression, B-ZOOM and the app harness",
+   "line": 13717,
+   "old": "  — the march unchanged — and is re-measured;",
+   "new": "  — the traversal unchanged — and is re-measured;"
+  }
+ ],
+ "checks": [
+  {
+   "check": "pipeline hand-off (2) a — §5.2 F-SITING detection cell as pipeline r2 wrote it (folded by determinism r2, its preamble (3))",
+   "heading": "### 5.2 Failure classes: detection, ladder, test",
+   "text": "finds no district whose capacity holds a household that fills no dossier's population (a household no district's range admits housed at the nearest range, J-A72.50)",
+   "state": "SATISFIED (present once, whitespace-normalised)"
+  },
+  {
+   "check": "pipeline hand-off (2) b — §5.2 F-SITING: reported with the refusing capacities",
+   "heading": "### 5.2 Failure classes: detection, ladder, test",
+   "text": "reported with the capacities that refused it",
+   "state": "SATISFIED (present once, whitespace-normalised)"
+  },
+  {
+   "check": "kernel cross-part note 1 — §2.2 rule 1 states the further part's ring (VKC1-02, J-A65.22), the target of §3.2 (9)'s pointer",
+   "heading": "### 2.2 The plat — one arena per layer, five refinement levels as views, roles instead of stored indices",
+   "text": "the ground's frame plus its context margin, as the sewer's is (II.7.2)",
+   "state": "SATISFIED (present once, whitespace-normalised)"
+  },
+  {
+   "check": "scope hand-off (2) a — the S0 relief toggle of pipeline's §4.2 (VPR1-12)",
+   "heading": "### 4.2 S0 Blueprint · S1 Site · S2 Programme · S3 Siting, reservations, the stage-1 boundary and its trace",
+   "text": "relief: 'auto'",
+   "state": "SATISFIED (present 1 times)"
+  },
+  {
+   "check": "scope hand-off (2) b — §6.1's geology-then-relief draw order (VPR1-15)",
+   "heading": "### 6.1 RNG and stream design",
+   "text": "relief",
+   "state": "SATISFIED (present 1 times)"
+  }
+ ],
+ "output_doc_sha256": "3daa0b0731b8c76fce91f4c92c044c724a37b3c177bcd4e9bdb4308349b4a09c",
+ "output_rationale_sha256": "bfa20419ca4dd6e5d407c78688802e10fe1b4a0639a3b06bf38f91c80501b98a"
+}

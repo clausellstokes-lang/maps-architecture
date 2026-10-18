@@ -1,0 +1,341 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm6/before/docs/volumes/V08-settlementforge.md",
+ "input_doc_sha256": "8b5b52439f96a352d878de641d3311f2ab8db1deee01cc1983f740036ded4f7d",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm6/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "a480f02e58a893fea57cacc5977b83489f633ced23901f578adbcfbd8059c52a",
+ "files": [
+  {
+   "file": "repair-r6-V08.md",
+   "sha256": "b491747de426c898f11af63e9695c02d9527eef5f364fa5f798f0cd3d06e638b",
+   "lines": 887,
+   "blocks": 11,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "repair-r6-V08.md #1 (l. 2) REPLACE ## 1b Wiring table",
+   "file": "repair-r6-V08.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "## 1b Wiring table",
+   "body_lines": 116,
+   "body_sha256": "3951521e43fe4eae78bba6b2c0fffd727c92be02c511c1eeb6caba577d905e7c",
+   "target_line": 218,
+   "section_old": "218–334",
+   "section_old_n": 117,
+   "section_new_n": 117,
+   "new_headings": [
+    "## 1b Wiring table"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "repair-r6-V08.md #2 (l. 121) REPLACE ### 2.3 The binding in practice — the carried facts and their hash",
+   "file": "repair-r6-V08.md",
+   "index": 2,
+   "line": 121,
+   "kind": "REPLACE",
+   "heading": "### 2.3 The binding in practice — the carried facts and their hash",
+   "body_lines": 69,
+   "body_sha256": "4e2b32fffb7a6fb10f92675c5e09a161d94efd6f55e55e04138aa0afc2685214",
+   "target_line": 499,
+   "section_old": "499–568",
+   "section_old_n": 70,
+   "section_new_n": 70,
+   "new_headings": [
+    "### 2.3 The binding in practice — the carried facts and their hash"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "repair-r6-V08.md #3 (l. 193) REPLACE ### 2.7 Lifecycle of every new state field",
+   "file": "repair-r6-V08.md",
+   "index": 3,
+   "line": 193,
+   "kind": "REPLACE",
+   "heading": "### 2.7 Lifecycle of every new state field",
+   "body_lines": 46,
+   "body_sha256": "39a45b533dad152964c9dc1a0b3a5a6d9123959bdbc883c0f5f84636e29a184f",
+   "target_line": 1280,
+   "section_old": "1280–1327",
+   "section_old_n": 48,
+   "section_new_n": 47,
+   "new_headings": [
+    "### 2.7 Lifecycle of every new state field"
+   ]
+  },
+  {
+   "seq": 4,
+   "block": "repair-r6-V08.md #4 (l. 242) REPLACE ### 3.2 When a dossier is offered, and coalescing",
+   "file": "repair-r6-V08.md",
+   "index": 4,
+   "line": 242,
+   "kind": "REPLACE",
+   "heading": "### 3.2 When a dossier is offered, and coalescing",
+   "body_lines": 20,
+   "body_sha256": "18e2a9ddc7542e6347d8f56c57584b8fd0d5e049748fb9763bca64dd4be32263",
+   "target_line": 1522,
+   "section_old": "1522–1540",
+   "section_old_n": 19,
+   "section_new_n": 21,
+   "new_headings": [
+    "### 3.2 When a dossier is offered, and coalescing"
+   ]
+  },
+  {
+   "seq": 5,
+   "block": "repair-r6-V08.md #5 (l. 265) REPLACE ### 3.6 From changes to events and epochs",
+   "file": "repair-r6-V08.md",
+   "index": 5,
+   "line": 265,
+   "kind": "REPLACE",
+   "heading": "### 3.6 From changes to events and epochs",
+   "body_lines": 110,
+   "body_sha256": "5ec107d7236dbca2141e0de5f145bf549c3a416b1bbe33d5eead21f665aca0a3",
+   "target_line": 1851,
+   "section_old": "1851–1960",
+   "section_old_n": 110,
+   "section_new_n": 111,
+   "new_headings": [
+    "### 3.6 From changes to events and epochs"
+   ]
+  },
+  {
+   "seq": 6,
+   "block": "repair-r6-V08.md #6 (l. 378) REPLACE ### 3.8 Versions and migrations on both sides",
+   "file": "repair-r6-V08.md",
+   "index": 6,
+   "line": 378,
+   "kind": "REPLACE",
+   "heading": "### 3.8 Versions and migrations on both sides",
+   "body_lines": 37,
+   "body_sha256": "f1da7d1b87334411869ec9b24bb456da0731d655ca8ceca1a2321e3b5cbe9fec",
+   "target_line": 2018,
+   "section_old": "2018–2053",
+   "section_old_n": 36,
+   "section_new_n": 38,
+   "new_headings": [
+    "### 3.8 Versions and migrations on both sides"
+   ]
+  },
+  {
+   "seq": 7,
+   "block": "repair-r6-V08.md #7 (l. 418) REPLACE ### 3.17 Edges — every mechanism at its limits (principle (11))",
+   "file": "repair-r6-V08.md",
+   "index": 7,
+   "line": 418,
+   "kind": "REPLACE",
+   "heading": "### 3.17 Edges — every mechanism at its limits (principle (11))",
+   "body_lines": 74,
+   "body_sha256": "2e5f1cc11c2071c612d46a754edab2b5154d9edc0a8b777fec67980cbd56bae8",
+   "target_line": 2674,
+   "section_old": "2674–2748",
+   "section_old_n": 75,
+   "section_new_n": 75,
+   "new_headings": [
+    "### 3.17 Edges — every mechanism at its limits (principle (11))"
+   ]
+  },
+  {
+   "seq": 8,
+   "block": "repair-r6-V08.md #8 (l. 495) REPLACE ### 4.6 The DM's view of what the dossier did",
+   "file": "repair-r6-V08.md",
+   "index": 8,
+   "line": 495,
+   "kind": "REPLACE",
+   "heading": "### 4.6 The DM's view of what the dossier did",
+   "body_lines": 112,
+   "body_sha256": "6140112637d850f711dec56cbf97ebd873ac89573adc711e7ba7756c8a1d1510",
+   "target_line": 2893,
+   "section_old": "2893–3005",
+   "section_old_n": 113,
+   "section_new_n": 113,
+   "new_headings": [
+    "### 4.6 The DM's view of what the dossier did"
+   ]
+  },
+  {
+   "seq": 9,
+   "block": "repair-r6-V08.md #9 (l. 610) REPLACE ## 6 Performance budgets",
+   "file": "repair-r6-V08.md",
+   "index": 9,
+   "line": 610,
+   "kind": "REPLACE",
+   "heading": "## 6 Performance budgets",
+   "body_lines": 36,
+   "body_sha256": "5ec3dc5f947602d728b994066f6ec6827af101df1d0b91bf53867301b8d2c7dc",
+   "target_line": 3202,
+   "section_old": "3202–3238",
+   "section_old_n": 37,
+   "section_new_n": 37,
+   "new_headings": [
+    "## 6 Performance budgets"
+   ]
+  },
+  {
+   "seq": 10,
+   "block": "repair-r6-V08.md #10 (l. 649) REPLACE ### 7.1 The bars (T-V8-n)",
+   "file": "repair-r6-V08.md",
+   "index": 10,
+   "line": 649,
+   "kind": "REPLACE",
+   "heading": "### 7.1 The bars (T-V8-n)",
+   "body_lines": 90,
+   "body_sha256": "3a1649de366c65e0d7f17d78be2be2646871fb6095c0ba7a0e7300bae31fb034",
+   "target_line": 3241,
+   "section_old": "3241–3330",
+   "section_old_n": 90,
+   "section_new_n": 91,
+   "new_headings": [
+    "### 7.1 The bars (T-V8-n)"
+   ]
+  },
+  {
+   "seq": 11,
+   "block": "repair-r6-V08.md #11 (l. 742) REPLACE ## 9 Decisions (each vetoable)",
+   "file": "repair-r6-V08.md",
+   "index": 11,
+   "line": 742,
+   "kind": "REPLACE",
+   "heading": "## 9 Decisions (each vetoable)",
+   "body_lines": 143,
+   "body_sha256": "46d45f97601600ce1b71e806372ccf8af85191c2a6303f44a7e4d2e2763ef592",
+   "target_line": 3457,
+   "section_old": "3457–3600",
+   "section_old_n": 144,
+   "section_new_n": 144,
+   "new_headings": [
+    "## 9 Decisions (each vetoable)"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "repair-r6-V08.md #1 (l. 2) REPLACE ## 1b Wiring table",
+    "kind": "REPLACE",
+    "heading": "## 1b Wiring table",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-V08.md #2 (l. 121) REPLACE ### 2.3 The binding in practice — the carried facts and their hash",
+    "kind": "REPLACE",
+    "heading": "### 2.3 The binding in practice — the carried facts and their hash",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-V08.md #3 (l. 193) REPLACE ### 2.7 Lifecycle of every new state field",
+    "kind": "REPLACE",
+    "heading": "### 2.7 Lifecycle of every new state field",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-V08.md #4 (l. 242) REPLACE ### 3.2 When a dossier is offered, and coalescing",
+    "kind": "REPLACE",
+    "heading": "### 3.2 When a dossier is offered, and coalescing",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-V08.md #5 (l. 265) REPLACE ### 3.6 From changes to events and epochs",
+    "kind": "REPLACE",
+    "heading": "### 3.6 From changes to events and epochs",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-V08.md #6 (l. 378) REPLACE ### 3.8 Versions and migrations on both sides",
+    "kind": "REPLACE",
+    "heading": "### 3.8 Versions and migrations on both sides",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-V08.md #7 (l. 418) REPLACE ### 3.17 Edges — every mechanism at its limits (principle (11))",
+    "kind": "REPLACE",
+    "heading": "### 3.17 Edges — every mechanism at its limits (principle (11))",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-V08.md #8 (l. 495) REPLACE ### 4.6 The DM's view of what the dossier did",
+    "kind": "REPLACE",
+    "heading": "### 4.6 The DM's view of what the dossier did",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-V08.md #9 (l. 610) REPLACE ## 6 Performance budgets",
+    "kind": "REPLACE",
+    "heading": "## 6 Performance budgets",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-V08.md #10 (l. 649) REPLACE ### 7.1 The bars (T-V8-n)",
+    "kind": "REPLACE",
+    "heading": "### 7.1 The bars (T-V8-n)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "repair-r6-V08.md #11 (l. 742) REPLACE ## 9 Decisions (each vetoable)",
+    "kind": "REPLACE",
+    "heading": "## 9 Decisions (each vetoable)",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 805,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 63,
+  "headings_after": 63,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 18,
+  "fence_lines_after": 18,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 579431,
+  "doc_bytes_after": 582193,
+  "doc_lines_before": 3730,
+  "doc_lines_after": 3735,
+  "rationale_bytes_before": 704770,
+  "rationale_bytes_after": 704770,
+  "rationale_lines_before": 2386,
+  "rationale_lines_after": 2386,
+  "blocks_total": 11,
+  "blocks_applied": 11,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "83382cac1e496ffb29d7ca1d9ea1ed3c7b37978ddedd915ee50f73c89ca1b491",
+  "output_rationale_sha256": "a480f02e58a893fea57cacc5977b83489f633ced23901f578adbcfbd8059c52a"
+ }
+}

@@ -1,0 +1,111 @@
+{
+ "verdict": "partial",
+ "items": [
+  {
+   "id": "W-12",
+   "verdict": "confirmed",
+   "reexecuted": [
+    "fit_depth_rows.py (sha 37d9c65e, unmodified copy) re-run in a scratch mirror holding git HEAD's pre-correction ARCHITECTURE.md and the lane log cut at W-12's LANDED line: 12 / 12 checks PASS (D0, S1, S2, I1-I4, T1, F1 27 EA pairs, F2 72 EB pairs, C1, J1) in 183 s; the JSON written is byte-identical to docs/calibration/E12-depth-refit.json (sha256 43b9c4a5...), and all 217 markdown table lines the tool prints occur verbatim in E12",
+    "fit_depth_rows.py --red in the mirror: 6 / 6 as expected (design -> D0, input -> I1, ehiEA -> F1, ehiEB -> F2, share -> C1, control -> none)",
+    "independent re-derivation (our own code, scratch vab/w12_indep.py; imports neither W-12 script): NG area/medium 5 hoods 194 blocks p10/p50/p90 30.04 / 39.73 / 54.64 m; NG medium pooled 608 blocks 27.76 / 39.02 / 57.02; street / square / ring templates equal R3's inputs; MFCG 30 plain seeds 20 359 intramural blocks 28.86 / 45.53 / 70.34 m (by size 27.2/72.5, 28.4/73.5, 29.1/69.1); NG court median 0.45664, pooled 276 / 597; MFCG court median 0.81346, pooled 8 157 / 10 015 - each equal to E12",
+    "independent recursion simulation of section 4.6 steps 1-2 on squares of side 8-16 x e_hi (200 000 blocks per band): poor 20.1 / 28.16 / 36.58, dense-core poor 22.7 / 31.6 / 40.38, modest [48, 96] 30.22 / 42.23 / 54.83, prosperous 41.32 / 57.72 / 74.72, rich 52.0 / 73.18 / 96.94, old modest [36, 60] 21.93 / 30.51 / 38.85 m - every value within 0.12 m of E12 section 12; modest reproduces NG area p10 / p90 at +0.18 / +0.19 m (tolerance +-0.65 / +-1.05); MFCG [37, 351] gives 29.05 / 70.64 against 28.86 / 70.34 (+0.19 / +0.30, tolerance +-0.43 / +-0.96)",
+    "R-19 shares recomputed: ratio 0.45664 / 0.45 = 1.01476, the rest renormalised in design proportions, 3-decimal largest remainder: poor 0.355/0.248/0.298/0.099, modest 0.457/0.296/0.148/0.099, prosperous 0.659/0.146/0.049/0.146 (plain rounding would give court 0.660; largest remainder keeps the stated rule and the sum), rich 0.761/0.096/0.000/0.143, MFCG Rb 0.813/0/0/0.187 - each sums to 1.000, equal to E12 and the design",
+    "R5 deep census recomputed from E11's per-block inscribed radii (thickness = 2 r x median short side x 0.35): d-bar 24 m: 98 / 578 / 597 / 597 (court 0.418 / 0.478 / 0.462 / 0.462); d-bar 36 m: 3 / 318 / 535 / 597 (0.000 / 0.472 / 0.486 / 0.462) - equal to E12 section 15",
+    "J1 historically: rows.py / bands.py / cross_check.py were born 07:34-07:45 and m1/W-15's first line is 07:21, after m1/W-12 LANDED at 06:38; ratio rule arithmetic (12 x 1.3222 -> 16, 20 x 1.6067 -> 32, 25 -> 33, 40 -> 64, 30 -> 40, 60 -> 96) and the e_hi^2 consequences (0.36 -> 0.92 ha modest, 0.64 -> 1.64, 1.44 -> 3.69) checked"
+   ],
+   "problems": [
+    "Hazard for later re-runs, not a defect: fit_depth_rows.py run in the live tree now fails D0 (m1-corrections-2 moved the design cells it pins) and J1 (W-15 has landed); a reproduction needs a mirror with git HEAD's design and the lane log cut at W-12's landing, as done here"
+   ]
+  },
+  {
+   "id": "W-16b",
+   "verdict": "confirmed",
+   "reexecuted": [
+    "find -L research captures -newer 2026-10-04 05:56:16, own trees excluded: 0 corpus files changed after the cut",
+    "make_denylist.py build --format m0 --as-of/--date 2026-10-04T05:56:16-04:00 with the session-scratch transcription, run in a scratch mirror (real corpus by symlink, a copy of research/baselines/denylist/): denylist.json, denylist.v1.json.gz, generation-record.json and refmap-names.digests byte-identical (cmp) to the landed files (denylist.json 7b3d7993..., 24 227 888 bytes; v1 00bb0d65...); 264 s",
+    "make_denylist.py selftest --lists research,m0 on the rebuilt lists: both PASS. Research: C1 36/36, colours 7 358/7 358, check-(vi) lists 237/237, kept lists 261/261, tokens 855/855, identifiers 130/130, files 12 005/12 005, 3-grams 2 004 sampled 0 missed, planted TOK TRI SET COL FILE ID PHR 20/20 each, map names 92 (91 direct, 1 by set), salt and header, design set 0 unreviewed. M0: C1 0 missed (29 R-17 gap), identifiers 90 carriable (40 gap), map names 47 direct + 1 set + 44 gap, planted five classes 20/20, 20 spell words 0 hits, 0 token digests in spell, design set 0 unreviewed; json_files_in_scope 10 441, values-only 1",
+    "check 11 now runs on the post-correction design set (m1-corrections-2 landed after W-16b): still 0 unreviewed on both lists",
+    "own format check of denylist.json: keys schema, normalisationVersion 1, digestHexDigits 16, date, corpusCut, salt, counts, tokens 894, trigrams 1 026 020, colours 7 358, files 2 523, lists 260, spell 234 593; every digest array sorted, unique, 16 lower-hex; ASCII only; salt = salt.hex in both lists; research list counts tok 894, tri 1 026 020, col 7 358, file 2 523, sets 260, id 130, phr 75",
+    "attachment C known answers recomputed by hand (test salt 00..1f): abc 42fd4a8c529fdb40, the invented token 3ed08da5d2df31e8, salt fed as text c053f380bd02c003",
+    "cross_check.py --kind denylist on denylist.json: C1 C4 C10 PASS, ACCEPTED (1 274 853 strings scanned, 0 hits)"
+   ],
+   "problems": []
+  },
+  {
+   "id": "W-15",
+   "verdict": "partial",
+   "reexecuted": [
+    "bands.py --selftest 11/11; rows.py --check SAME, SAME (candidate e6d65954 and E15-baselines.json recomputed byte-equal, so the dispersions, W-13's addendum, the flips and the hand-off reproduce); rows.py --red 3/3 RED",
+    "cross_check.py on the candidate: C1-C10 PASS, ACCEPTED, 478 rows, 10 224 strings, 0 six-digit numbers, scan 0 hits on string values and keys; --kind ng-faces ACCEPTED (20 hoods, 374 faces, leaf deviation 1.69e-4); --kind denylist ACCEPTED; --fixtures 41/41",
+    "independent checks (scratch vab/w15_indep.py, own code): 478 rows, 478 distinct ids, FTG 223 / MFCG 110 / NG 145, target 247 / weakness 92 / descriptive 139; 0 forbidden members (absFloor, sign, floor, band, signIndefinite); 0 missing referenceBuild / capture / script / date; 0 numbers with six consecutive digits",
+    "C7 recomputed: all 223 FTG rows' sample.captures equal plan.json's slots of their size in slot order (CITY: the recorded family first) - 0 problems",
+    "values recomputed independently: 81 FTG scalar rows from E05's per-slot values, 36 MFCG rows from E07's per-seed values, 2 NG rows from E11 (type 7 / minmax by n) - 0 mismatches; 128 band-rule bands recomputed from V12 3.5.2 with the registry's absFloor (value or relToReferenceMedian) - 0 mismatches",
+    "both dispersions recomputed from E09's vectors and E05's signature vectors (sample SD over the union per rung, mean pairwise distance): MFCG 1.8061 / 1.5611 / 1.7378, FTG 3.2901 / 3.4795 / 3.3631 (companion lanes) and the R-10 form 1.3049 / 2.7405, 1.3842 / 2.5337, 1.4991 / 2.1561 - all equal",
+    "the FTG pin recomputed: sha256 of the newline-joined per-capture builds of the 27 captures in plan order by size = 07526ccf921b",
+    "coverage: the 24 metric ids of the 26 <M-1> cells (13.5 rows marked <M-1> at HEAD and V12 3.4.2's six) each have rows; 102 registry m1 entries all have a row, a held row or an m1NoRow entry",
+    "the whole-text scan of the candidate re-run with both lists: 70 TRI runs per list (69 unreviewed + 1), every one a run of numbers, some ending in the key n"
+   ],
+   "problems": [
+    "T-V12-28 is recorded as passed, but cross_check.py's own --tv12-28 mode exits 1 with FAIL on baselines.json (140 whole-text hits); the pass holds only under D13's strings-and-keys reading, which E15 itself flags for veto, and V12's T-V12-28 says the file passes the scanner with 0 hits. It should read 'passes under D13 (vetoable); fails whole-text until N-26 is ruled', not a plain pass (the partial status and N-26 already carry the substance)",
+    "N-26's count is overstated: '140 three-gram runs' is 70 distinct number runs, each hit once on each of the two lists (70 + 70); E15 Outcome, sections 3 and 11 and W-15.json (C1-C10 receipt and T-V12-28) say 140 runs",
+    "E15 section 2 says 'the members outside failed equal values.seeds' on every row, but the 19 values.n 0 rows (FTG 8, MFCG 7, NG 4) carry values.seeds equal to their member count with every member in failed; cross_check.py exempts n 0 rows, so a reader implementing the stated rule literally (digest entry 9 repeats it) would refuse them - F5 states the n-0 convention, but the sentence should carry the exception"
+   ]
+  },
+  {
+   "id": "design/m1-corrections-2",
+   "verdict": "partial",
+   "reexecuted": [
+    "design files unchanged since the corrections' last write (sha256 = mc2_apply.state.json: base cde0c228, V12 ae77045f, V01 a59cfac9, V11 cce719fb)",
+    "make_denylist.py scan on the four edited files: research TOK 7/0, ID 13/0, TRI 2887/0, COL 0/0, SET 56/0, PHR 7/0, FILE 0/0, exit 0; m0 TOK 7/0, TRI 2887/0, COL 0/0, SET 56/0, FILE 0/0, exit 0 - equal to the receipts; and W-16b's selftest check 11 on the whole current design set: 0 unreviewed on both lists",
+    "tools/bundle_architecture.py --check: UP TO DATE",
+    "plan.py --check: exit 2, 'PLAN CHECK FAILED, nothing written:' / 'catalogue mismatch: missing ['water.channelWidth'] extra ['water.riverWidth']' (verbatim); plan.json 9ed325bd and metrics.m-1.json 8a0efa7e unchanged",
+    "values traced: every E15 hand-off figure in the record's 1.2 table checked against E15 section 8 / the candidate (turning, junctions, runs, MFCG signature, courts, fg, footprints, party walls, Moran, walled and ribbon, anchors, outline, towers, water, trees, population, time, dispersion); E12 C-1..C-7 values equal E12 sections 12-13 and this lane's recomputation; old values grepped across the base and all volumes (12-20 / 18-30 depth rows, 30-45 floor, old shares, 2 x deep test, riverWidth): only history clauses or unrelated cells remain; 0.066 survives only as history",
+    "D-1's adapted form tested on NG's blocks: thickness > 0.6 x 36 m admits 593 of the 597 catalogue-deep blocks and no other block (court share 0.465 vs 0.462), so J-1's claim that it reproduces the reference's deep population holds at modest",
+    "doc_checks.py --doc docs/validation/m1-corrections-2.md --heads docs/ARCHITECTURE.md: exit 0; C1 0/0, C2 0/0, C3 5/0, C4 0/0, S1 0/0, S2 1/0 (hits/unreviewed) - equal to the record receipt",
+    "the earlier verifier's (m1-corrections-2.verify.json) findings re-checked: FTG's 39 m tower spacing still stands as the current reference at ARCHITECTURE.md line 8419 (4.8 S7), line 21462 (15.2 O8 (c) '[P - FTG 39 m]') and V11-content.md line 3485; the O6 / O17 / O19 rows the record places in section 16 are in 15.2 (lines 21452-21461; 16 starts at 21486) and the '1.4 calibration-target list' is 0.3 (line 271); the 4.7 S10 (2) poor and modest anchor cells were changed (git diff) but are not listed in the record's section 1 or 5; M0-work.json's M0-b-04 exit bar, M0-b-05 section, M0-b-05a section and exit bar, M0-b-05b section and afterM1Needs M0-b-05a still quote 0.066 / 0.098 - now carried to M0 by session/handoff-2's N-28 row in plat/docs/build/checks/M0-spec-notes.md (09:36)"
+   ],
+   "problems": [
+    "CONFIRMED still open (the earlier verifier's miss, not yet fixed): three sentences keep FTG's 39 m tower spacing as the current reference (ARCHITECTURE.md 4.8 S7 line 8419, 15.2 O8 (c) evidence line 21462, V11 line 3485) while 13.5 now quotes 34.9 / 33.4 / 32.7 m; under the record's own rule they are corrections owed (or listed in its section 4 with a reason)",
+    "record wording: O6 / O17 / O19 are section 15.2 rows, not section 16; the '1.4' calibration-target list is section 0.3; the 4.7 S10 (2) poor and modest anchor edits (NG 0.987 / 0.441; FTG 10.24 / 10.33 / 9.95 m and 96 / 99 / 91 m2) are made but not listed",
+    "PLAUSIBLE scope note for the owner's veto, not a defect: J-2 extends E12 D-2 (which named the deep-interior shares) to cut.bendMode with cut.flattenM, so the NG parity preset now resolves to flatten 0.7 m instead of MFCG's straightFirst 8 m; recorded vetoably",
+    "the minor wording the earlier verifier noted stands: 13.5's deep block interiors cell (line 20251) says MFCG's 0.810 / 0.810 / 0.814 are over the reference's deep blocks 'section 4.6's deep-interior rule', while the reference rows use the inscribed-radius definition"
+   ]
+  },
+  {
+   "id": "W-17 draft",
+   "verdict": "partial",
+   "reexecuted": [
+    "the eleven files' sha256 (first 16) equal W-17-draft.json's outputSha256First16, so the files are the draft's final bytes",
+    "make_denylist.py scan of the ten crossing files with no allow file: m0 list TOK 0, TRI 0, COL 0, SET 0, FILE 0, exit 0; research list TOK 0, ID 0, TRI 0, COL 0, SET 0, PHR 0, FILE 0, exit 0 (on the final bytes, entries 01 and 06 included - the re-run the seat owed)",
+    "doc_checks.py --doc <file> --heads docs/ARCHITECTURE.md on each of the ten crossing files, sequential: INDEX, 01, 02, 03, 04, 05, 06, 07, 08, 09: C1 0, C2 0, C3 0, C4 0, S1 0, S2 0 hits on every file, exit 0 each (110-168 s per run; scratch vab/q10..q19.out) - the five runs the draft lacked and the re-runs on 01 and 06 included",
+    "row ids: 58 distinct baselines.json ids cited (the <size> forms expanded), 0 missing from the candidate; 45 quoted p50 [p10, p90] values compared with the rows, 0 mismatches",
+    "every number of E12 section 14 occurs in entries 2 and 6 (139 distinct; the only absent token is the ruling id R-19)",
+    "entry 4's MFCG per-size deep counts sum to 8 157 / 10 015 = 0.8145 pooled; entry 9's slots 24 / 25 are plan.json's CITY slots"
+   ],
+   "problems": [
+    "entries 4 (section 3) and 6 (section 4) describe the design's deep test as 'local thickness above twice the band's plot depth' and tell M0-c-07a to read the reference's population 'until the amendment lands'; design/m1-corrections-2 landed at 09:05 with D-1 applied as thickness > 0.6 x the band's plot depth (J-1), and entry 6 section 3 still calls the 7.6 changes 'routed' (applied, with J-2's extension to cut.bendMode / cut.flattenM). The continuation must restate both entries on the applied design (m1-corrections-2 section 4 asks the same)",
+    "E17 section 1's byte column is wrong for all eleven files (e.g. INDEX 4 160 listed vs 3 340 on disk, 02 9 668 vs 8 390 with its hash matching) and its hashes for 01 and 06 are stale (dcd648cf / fb1f6e9a listed; c54775ad / cfa1ea16 on disk)",
+    "E17's Outcome states doc_checks clean on each file and receipts in section 4, while section 4 is still the '<!-- RECEIPTS -->' placeholder and the draft ran 5 of 10 per-file checks; this lane's runs now supply the missing ten, but the record must carry them before W-18",
+    "entry 9 section 4 repeats E15's 'members outside failed = the row's seed count' rule, which the 19 values.n 0 rows do not meet (see W-15)",
+    "status stays partial by the seat's own CONTINUE rule (no LANDED line); nothing in the ten files hits either list or doc_checks"
+   ]
+  },
+  {
+   "id": "W-05b slot-27 addendum",
+   "verdict": "confirmed",
+   "reexecuted": [
+    "measure_ftg_slots.py --check: 4 / 4 PASS (29 of 29 MeasureInputs equal a fresh adapter write, slot 27's 1f0228e8 included; captures equal the plan's slots; the 2026-09-25 payload in no sample; E02's 28 same-size values on all 29 captures, slot 27 = slot 26), exit 0",
+    "measure_ftg_slots.py --check --red: 0 of 4 pass, exit 1",
+    "measure_ftg_faces.py --check: 6 / 6 PASS, 'fresh run equals docs/calibration/E06-ftg-faces.json: True', exit 0 (the slot-27 flag refresh holds)",
+    "full re-measure to scratch (measure_ftg_slots.py --json/--md to the scratchpad, 284 s): the JSON is byte-identical to docs/calibration/E05-ftg-metrics.slots.json (f48d2882...); every slot-27 cell of the tool's tables (30) occurs in E05 9.11, and the tool's other 28 table lines equal E05's 9.6-9.10 lines with the slot-27 column dropped",
+    "against git a5542d0's slots file (8898b640): 28 earlier perSlot entries and 28 vectors equal, samples BIG_TOWN / BIG_CITY / METROPOLIS / CITY, turningBesideException, outlineBandInputs and serverTimes equal; only lane, plan, pass, slotStatus (slot 27 open -> bound), TOWN, the new entry and checks differ",
+    "E06-ftg-faces.json differs from HEAD in one line only: slot 27's measureInputStoredEqualsFresh null -> true",
+    "slot 27 measured independently from its MeasureInput (own shoelace code): 1 755 buildings, footprint median 90.09 m2, p95 190.5 m2 = E05; nominal 3 625 / 1 755 = 2.066 and listed 5 725 / 1 755 = 3.262 persons per building as recorded",
+    "E06 13.3 (3)'s 2 772 cuts over 24 044 chains recounted from perCapture rings: 2 808 / 24 386 over every capture, less the R-04 fixture's 36 / 342"
+   ],
+   "problems": [
+    "plan.py --check, recorded SAME at the addendum's start and end, now exits 2 because design/m1-corrections-2's later F2 rename left the registry's catalogue mismatched; expected and owned by the registry writer, not this item"
+   ]
+  }
+ ]
+}

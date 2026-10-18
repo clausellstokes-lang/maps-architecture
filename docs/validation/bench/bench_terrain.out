@@ -1,0 +1,7 @@
+case | cells | fBm5 ms (ns/eval) | priority-flood ms | D8 ms | accum ms | marching x10 levels ms | S1 subtotal ms | raster Dijkstra ms | Gaussian sigma=60 m ms | 3-box ms
+TOWN frame 2 km @5 m | 160000 | 22.2 (27.7) | 17.4 | 5.6 | 0.8 | 6.8 | 52.8 | 31.3 | 41.6 (r=36) | 2.7
+CITY frame 5 km @8 m (the budgeted 625^2) | 390625 | 53.5 (27.4) | 44.3 | 13.1 | 2.0 | 12.5 | 125.5 | 69.7 | 67.0 (r=23) | 6.4
+CITY frame+30% margin 8 km @8 m | 1000000 | 137.0 (27.4) | 125.2 | 33.5 | 5.8 | 31.8 | 333.1 | 184.4 | 176.0 (r=23) | 24.2
+METRO frame 8 km @10 m | 640000 | 87.7 (27.4) | 79.3 | 23.5 | 4.5 | 72.3 | 267.3 | 114.5 | 88.6 (r=18) | 10.5
+METRO frame+margin 12.8 km @10 m | 1638400 | 224.0 (27.3) | 195.0 | 54.1 | 10.2 | 52.0 | 535.3 | 298.2 | 229.2 (r=18) | 33.3
+CITY built extent refined 2.5 km @2.5 m | 1000000 | 138.7 (27.7) | 117.0 | 35.0 | 6.9 | 31.7 | 329.3 | 251.0 | 504.3 (r=72) | 22.0

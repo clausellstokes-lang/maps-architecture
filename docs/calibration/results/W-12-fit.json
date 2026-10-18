@@ -1,0 +1,76 @@
+{
+ "id": "W-12-fit",
+ "status": "landed",
+ "records": [
+  "/Users/cstokes/Desktop/Maps/docs/calibration/E12-depth-refit.md",
+  "/Users/cstokes/Desktop/Maps/docs/calibration/E12-depth-refit.json"
+ ],
+ "outputs": [
+  "/Users/cstokes/Desktop/Maps/research/baselines/fit_depth_rows.py",
+  "/Users/cstokes/Desktop/Maps/docs/calibration/E12-depth-refit.md",
+  "/Users/cstokes/Desktop/Maps/docs/calibration/E12-depth-refit.json",
+  "/Users/cstokes/Desktop/Maps/docs/calibration/results/W-12-fit.json"
+ ],
+ "checks": [
+  {
+   "check": "the fitted [e_lo, e_hi] reproduce the inputs' p10 / p90 within rounding (plan row W-12, first check)",
+   "passed": true,
+   "receipt": "fit_depth_rows.py final run (tool sha 37d9c65e, JSON 43b9c4a5, exit 0): F1 PASS 27 / 27 EA pairs at the published step (0.1 m; 0.01 relative), closed form, worst deviation 0.974 of the half-step rounding envelope; F2 PASS 72 / 72 fitted EB pairs re-simulated independently (400 000 blocks, seeded) within the rounding envelope + 3 MC standard errors, worst 0.983; 9 EB pairs (NG small area/street/square x 3 variants, descriptive size sets, none a candidate) have no fit because their p90/p10 (1.43-1.61) is below the recursion's minimum spread (1.740-1.745) - reported, not fitted"
+  },
+  {
+   "check": "the shares of every band sum to 1 (plan row W-12, second check)",
+   "passed": true,
+   "receipt": "C1 PASS: R-19's four rows (modest court 0.45664, ratio 1.0148; poor 0.3552, prosperous 0.6596, rich 0.7611; others renormalised in design proportions) sum to 1 within 1e-12 and exactly in the 2- and 3-decimal largest-remainder forms; the count-ratio and area-template alternative rows and the MFCG preset rows (court 0.8135; remainders Ra, Rb) sum to 1; all shares in [0, 1], court cells <= 1"
+  },
+  {
+   "check": "no block band is signed before W-12 lands (J-A34.01; plan row W-12, third check)",
+   "passed": true,
+   "receipt": "J1 PASS at 05:58: no m1/W-15 or m1/W-20 LANDED line in docs/lane-events.log, no W-15 / W-20 result file, no rows.py / bands.py / cross_check.py in research/baselines, no M-1 seat row in plat/CLEAN-ROOM.md's ledger; this fit half signs nothing (W-12 lands with its Fable ruling)"
+  },
+  {
+   "check": "inputs reproduce their records (I1-I4) and the design cells are the design's text (D0)",
+   "passed": true,
+   "receipt": "D0 20 / 20 design strings found in ARCHITECTURE.md; I1 NG minor extents re-pooled = E11 sizeSweepD3 (12 families, both units); I2 NG court median 0.45664 and 276 / 597 = E11; I3 MFCG 30 seeds' block rows = blockc.perHa blocks, deep/court counts and medians = E09 courtPooled; I4 1 107 cuts, 372 straight, 731 one-bend = E10 section 9"
+  },
+  {
+   "check": "stop-law constants and EB tables (S1, S2, T1)",
+   "passed": true,
+   "receipt": "g mean 7/30 within 1e-9 by exact CDF; g p10/p50/p90 0.0376/0.2014/0.4767 agree with 200 000 draws within 0.005; EB smoothed p10 and p90 strictly increasing over r in [1, 32] for V1-V3 (degree-6 smooth, residual RMS <= 0.0010 / 0.0034 of e_lo)"
+  },
+  {
+   "check": "determinism",
+   "passed": true,
+   "receipt": "a second process wrote E12-depth-refit.json and the markdown tables byte-identical (sha256 43b9c4a53a17... both)"
+  },
+  {
+   "check": "planted faults (--red)",
+   "passed": true,
+   "receipt": "6 / 6 as expected: design string -> D0 only, 2 % input scale -> I1 only, +1 m EA e_hi -> F1 only, +2 m EB e_hi -> F2 only, zeroed share -> C1 only, control -> none"
+  },
+  {
+   "check": "content scan of E12 (doc_checks.py --doc ... --heads docs/ARCHITECTURE.md)",
+   "passed": true,
+   "receipt": "C1 0, C2 0, C4 0, S1 0, S2 0; C3 50 hits / 43 unreviewed, all read: our own digit runs and phrases, no reference word list, palette, grammar or identifier; exit 1 by that count (record outside the design set, no allow rows: W-10 / W-11b precedent)"
+  }
+ ],
+ "rows": 0,
+ "design_corrections": [
+  "PENDING THE W-12 RULING (not decided here) - O-11: the design's flatten rule term 0.02 x |A-foot| would flatten 23 of NG's 731 kept bends (one-bend share 0.6603 -> 0.6396); the largest factor flattening none is 0.013",
+  "PENDING THE W-12 RULING - O-12: section 13.5's deep-interior keep-test reads the court share over design-deep blocks (local thickness > 2 d-bar), while the reference row (V12 catalogue block.courtShare) is over catalogue-deep blocks (inscribed radius > 1.5 x median footprint short side); only 98 of NG's 597 catalogue-deep blocks are design-deep (court share 0.418 vs 0.457)",
+  "PENDING THE W-12 RULING - O-14: section 7.6's list of rows carrying presets entries lacks the deep-interior shares, which R-19's MFCG preset court cell needs",
+  "PENDING THE W-12 RULING - O-10: plan row W-12 fits cut.flattenM at M-1 while V12 section 3.7.1 (c) and J-A37.01 place its calibration at M0's S8 harness"
+ ],
+ "owner_notes": [
+  "No owner step: plan section 5 (8) - W-12's re-fitted cells land by amendment, reported, not asked; the remaining half of W-12 is a Fable ruling seat's"
+ ],
+ "notes": [
+  "This is the fit half of W-12: every value is a DRAFT candidate; section 5 of E12 lists the 15 open choices O-1..O-15 for the Fable ruling seat. The provenance-stamped numbers table, the hand-off note to the design seat and R-20 (2)/(6)'s digest entry texts are deliberately deferred to the ruling half (their values do not exist until it chooses).",
+  "Crux O-1: the plan does not say which quantity of the stop law the reference blocks match. Threshold reading EA: NG medium pooled [26.1, 134.5] m, area template [28.5, 111.5]. Recursion reading EB (J-A34.01's stated reason): [39.6, 159.2] and [47.6, 96.4]. The design's modest range today [36, 60] m, run forward under EB, gives blocks p10/p90 21.9/38.8 m against NG's 27.8/57.0.",
+  "MFCG's intramural cluster blocks (p50 45-46 m, p90/p10 2.4-2.7) read as dense-core floors give e_hi 193-233 m (EA) or 313-492 m (EB), which would become every band's block-range top in the dense core; whether MFCG cluster blocks are the floor's comparator is O-6.",
+  "Size: MFCG block p50 is 1.00 / 1.00 / 0.98 of CITY's at TOWN / CITY / METROPOLIS against the design's rung depth factors 1.10 / 1.00 / 0.95 (O-8; not in W-12's list).",
+  "cut.flattenM: NG's kept bends go down to 1.68 model units (0.59 m declared); 3 of 731 are below 0.7 m; candidates FM-1 0.7 m, FM-2 0.58 m, FM-3 defer to M0.",
+  "Calls under delegation (J122, vetoable): both readings fitted; EB on rectangles with three start variants, a degree-6 smooth and inversion on the spread's running maximum (a first run interpolating PAVA tables failed F2 on 2 of 72 pairs at 1.15 x tolerance from table noise and is superseded); tolerance = half-step rounding envelope (+3 MC SE for EB); hood/seed bootstrap; free cut ends at the drawn end; all intramural MFCG blocks primary; CITY depth factor basis; largest-remainder share rounding; design-deep proxy at the current d-bar 24 m.",
+  "CONFIRMED (executed): every number in E12 section 4, the 12 tool checks, determinism, the red runs, the scan. PLAUSIBLE: that EB's rectangles transfer the law's quantiles to NG's / MFCG's irregular faces; NG medium = modest comparator; MFCG cluster blocks stand for its blocks; the three sub-0.7 m bends are virtual-corner reading noise on filleted bends; the seat's leans (EB in O-1; FM-1 or FM-3 in O-10).",
+  "No memory entry written (this seat writes only what its brief names); the session may want to record: the stop law's recursion cannot produce a block p90/p10 below ~1.74, and the catalogue's 'deep' differs from the design's deep by ~6x in NG block count."
+ ]
+}

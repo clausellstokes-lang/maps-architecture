@@ -1,0 +1,1844 @@
+# Amendments f — the design volumes' base change requests, consolidated (2026-09-29)
+
+> PENDING FABLE REVIEW — written by opus standing in for the Fable seat volumes/_integrate; covered by the whole-design retrovalidation (J84).
+> PENDING FABLE REVIEW — reconciled by opus standing in for the Fable seat volumes/reconcile-BASE-F-r1 (2026-09-29, against the round-0 seam checks; see *Reconciliation round 1* at the end); covered by the whole-design retrovalidation (J84).
+> PENDING FABLE REVIEW — written by opus standing in for the Fable seat volumes/reconcile-BASE-F-r2 (2026-09-29, against the round-1 seam checks; see *Reconciliation round 2* at the end); covered by the whole-design retrovalidation (J84).
+> PENDING FABLE REVIEW — written by opus standing in for the Fable seat volumes/reconcile-BASE-F-r3 (2026-09-29, against the round-2 seam checks; see *Reconciliation round 3* at the end); covered by the whole-design retrovalidation (J84).
+> PENDING FABLE REVIEW — written by opus standing in for the Fable seat volumes/reconcile-BASE-F-r4 (2026-09-29, against the round-3 seam checks; see *Reconciliation round 4* at the end); covered by the whole-design retrovalidation (J84).
+> PENDING FABLE REVIEW — continued by opus standing in for the Fable seat volumes/_integrate (2026-09-29, the integration continuation after reconciliation round 4; see *Integration continuation* at the end); covered by the whole-design retrovalidation (J84).
+> PENDING FABLE REVIEW — continued by opus standing in for the Fable seat volumes/reconcile-BASE-F-r1 (2026-09-29, SCC-R0C-1 from the round-0 content-calibration continuation; see *Reconciliation round 1 — continuation* at the end); covered by the whole-design retrovalidation (J84).
+> PENDING FABLE REVIEW — continued by opus standing in for the Fable seat volumes/reconcile-BASE-F-r2 (2026-09-29, S23R1-18, SR-32 and SCC-R1C-4 from the round-1 seam continuations; see *Reconciliation round 2 — continuation* at the end); covered by the whole-design retrovalidation (J84).
+> PENDING FABLE REVIEW — continued by opus standing in for the Fable seat volumes/reconcile-BASE-F-r3 (2026-09-29, S23R2-09, SR2-20, SR2-21 and SR2-29 from the round-2 seam continuations; see *Reconciliation round 3 — continuation* at the end); covered by the whole-design retrovalidation (J84).
+> PENDING FABLE REVIEW — item 497's note written by opus standing in for the Fable seat volumes/reconcile-V12-r3 (2026-09-29, SCC-R2C-6 of the round-2 content-calibration continuation, a V12-owned finding whose required change names this note); covered by the whole-design retrovalidation (J84).
+> PENDING FABLE REVIEW — continued by opus standing in for the Fable seat volumes/reconcile-BASE-F-r4 (2026-09-29, SCC-R3C-5, S23R3-13, SR3-15 and SCC-R3C-10 from the round-3 seam continuations; see *Reconciliation round 4 — continuation* at the end); covered by the whole-design retrovalidation (J84).
+> PENDING FABLE REVIEW — written by opus standing in for the Fable seat volumes/reconcile-BASE-F-r5 (2026-09-29, against the round-4 seam checks: SCC-88, SCC-89, S23R4-05, SLR4-10, TV-05, SR4-03 and SR4-05; see *Reconciliation round 5* at the end); covered by the whole-design retrovalidation (J84).
+> PENDING FABLE REVIEW — written by opus standing in for the Fable seat volumes/reconcile-BASE-F-r6 (2026-09-29, against the round-5 seam checks: S23R5-04, SLR5-05, SR5-15 and SCC-101, with seam-time-r5 TW-03 (3)'s file-f half; see *Reconciliation round 6* at the end); covered by the whole-design retrovalidation (J84).
+> PENDING FABLE REVIEW — refreshed by opus standing in for the Fable seat volumes/_finalize (2026-09-29, after the round-6 seam checks: TX-02's file-f half and the file-f minors SCC-114 and S23R6-08; see *Finalization* at the end); covered by the whole-design retrovalidation (J84).
+
+
+Numbered from **200** (file g's owner rules occupy 102 onward). **NOT APPLIED** — the coherence, cohesion and wiring pass
+(`workflows/18-coherence.js`) applies these items to `docs/ARCHITECTURE.md` (md5 01fea21f… when this file was written) as
+it applies file g's; it applies file g first, since several items below add to what g homes (item 110's records, item
+102's daylight term, items 103–109's rows). Source: every `## 10` section of `docs/volumes/V01`–`V12` as landed by their
+second-round revisions and corrected by the integration lane (`docs/volumes/_integrate.md`, decisions J-VI.n; the
+volumes' "Integration notes" sections).
+
+**How to read an item.** *Single source*: the requesting volume's BCR holds the exact heading, the current text quoted
+once and the new text or mechanism; an item names it and does not copy it (V01 and V04 number their requests `BCR-n`
+and are cited "V01 BCR-n", "V04 BCR-n"). An item cites a request by its id and its volume's §10 — the id opens the request's
+bold heading there, one per volume (census-checked) — never by a line number, which every edit to the volume moves (SLR1-18;
+reconciliation round 2). An item that consolidates several requests, or resolves a conflict between
+them, states the merged change in full. File g's base mechanisms are cited by item, never restated. **Needed by** lists
+the requesting volume and every volume whose text cites the request. **BASE** means the change is built within the
+base's milestones (M-1 to M4b, §16), with the milestone named; **STAGED** means it is applied to the design now and
+built with the named staged milestone (the owner's roadmap). **BASE design, built at M6-U** marks a change file g homes in
+the base design whose construction the roadmap stages (g item 109: "BASE design; built with the underground layer as the
+roadmap stages it"): its fields are base fields from that milestone, absent before it, and every earlier reader reads them
+as absent (J-RF1.3) — item 226's half-cellar raise excepted, BASE at M2b with §2.6's basement gate (S23R1-05). A volume-11 item is labelled by the row of volume 11 §8 that builds it (C0 … C8) and the §16 milestone
+that row names (SCC-29). Order: base-section order of the design; within one
+section, consolidated items first, then the requests in the order listed, which is the application order wherever two
+touch one sentence (the notes say so); a note that orders two items ("applied before item N") overrides the listed order.
+
+**Four rules bind every item** (the integrator's rulings, `_integrate.md` §2.2): **(R-a) item 101 R2** (J-VI.4) — where a
+request's new text says an infeasible declaration is "refused" for any reason but a dossier fact or a lock, the pass
+writes the bend J-VI.4 names ("bent to the nearest lawful …", the request's offer becoming the bend or its first
+alternative); **(R-b) one vocabulary** — the raised way's reason words `drop`/`link`/`water` (J-VI.2) and the six
+closure-arc barrier kinds `shore`/`cliff`/`gorge`/`marsh`/`sheer`/`enceinte` (J-VI.3) wherever a request spells them
+otherwise; **(R-c) volume 11 owns values** — where a request restates a value volume 11's tables hold (the catacomb
+growth cap, J-VI.6; the deck landmark span, J-VI.8), the table's cell is cited and the restated number dropped.
+**(R-d) milestone ids** (J-VI.22) — "M6" is volume 2's stage 3 (M6a–M6c); the underground layer's milestone is **M6-U**
+(volume 4's §16 row, V04 BCR-13), beside M6-sky and M6-E; the plan rung's is **M6-P** (volume 3 §8; item 567; J-S23.3).
+
+*Not items* (listed so nothing is re-found): V04 BCR-34 — carried in V04 BCR-14's DR17 cell; a pointer, no text of its own; V04 BCR-44 — carried in V04 BCR-3's `Tunnel` line; BCR-V5-23 — a request to volume 6 (§2.1 `EpochOps.demandTaken`), carried there (V06 X10); BCR-V5-28 — a request to volume 6 (the participant table), carried by IN-V06-3; BCR-V11-9 — a request to volume 8 (`kinds` pseudo-classes, `goodWords`), carried by X-V11-1; BCR-V9-4 — withdrawn by volume 9 (J-V9.36); BCR-V9-6 — withdrawn by volume 9 (J-V9.33). The clean-room scan's
+recommendation (widening `doc_checks.py`'s C1 corpus, `_integrate.md` §4) is RV-pc-2 (a)'s, routed by the retrovalidation
+with its exact text; it is not repeated here.
+
+---
+
+
+### 1.1 What is built, in what order; the two size ladders
+
+**200.** V01 BCR-27 (V01 §10) — the STAGE 2 row's depth cell points to volume 1. *Needed by:* V01. **STAGED (M5, stage 2).**
+
+**201.** BCR-V7-1 (V07 §10) — the village rows of the ladder. *Needed by:* V07. **STAGED (the village product, V-M0 to V-M4).**
+
+**202.** **The village product's one registration** (SS-19; reconciliation round 1). **Consolidated.** The one registration is `ProductDecl` in `StrategyRegistry.products: Map<'base'|'village', ProductDecl>` (V07 §2.1's type; BCR-V7-11); `LadderRouter.route` reads it — a registered product's rung for a population inside that product's range, the base's clamp otherwise. The port asks `LadderRouter` whether a population lies in a registered product's range, at `creation` and at every `absorb`, and registers nothing itself: BCR-V8-9's `PortRungPath` and `registerRungPath` are dropped (withdrawn into this item). §1.1 *Requests at the ends of the ladder*: the routing sentence names the registration ("… to the village product registered in `StrategyRegistry.products` (§4.12; PART III)"); the refusal of a dossier below 1 500 (there and in §7.7 item 15) holds only while no village product is registered; with one registered, an absorb whose population is 0 routes to THORP and runs volume 7's desertion (V07 §3.12; an outcome, not a refusal), while a creation below 1 stays refused (BCR-V7-17); the product at an epoch is item 322's fold (§4.11). §1.1's sentence "A dossier's rung follows its population by these bands, at creation and at each epoch's target (§4.11), while its own tier word titles the map (§9.5)." reads "A dossier's rung follows its population by these bands at creation and, at each epoch's target, by §4.11's rung at an epoch (inside the hand-off band item 322 brings to §4.11 from volume 7 §2.1, the previous product's edge row), while its own tier word titles the map (§9.5)." (SR1-29; reconciliation round 2). §4.12: BCR-V7-11's pipeline-order sentence as written. PART III gains one line: "the product registers its `ProductDecl` in `StrategyRegistry.products` (§4.12); the port consults `LadderRouter` at creation and at every absorb; one document crosses the 1 500 boundary by item 322's fold"; and in PART III's last paragraph "waits for the village product's own port path, which registers its rung rows behind the same port (§14) rather than a second one" reads "waits for the village product's registration (its `ProductDecl`, §4.12), which the one port consults through `LadderRouter`" (SR1-29; reconciliation round 2). **The records hook** (seam-time-r5 TW-03 (3), seam-settlements-r5 SR5-15 (a); reconciliation round 6): `ProductDecl.records?` (V07 §2.1; an `EpochPlacement`, V6 §2.1, with its placement and, for a removed record, its removal) and its calls as BCR-V7-18 words them are hooks of this registration — at an epoch whose product (item 322's fold) declares it, the dossier step's (§4.11's order (e)) for each `assign` it places — a record it adds, a member a count step adds, or the greater a REPLACEMENT re-key places new (V08 §3.5.1 (c)'s second and third cases, (d)); a re-key whose greater keeps the lesser's thing is a `rebind`, never offered (seam-time-r6 TX-06) — and for the records it removes; and for an absorb without an epoch at a rung of that product, the placement of each record it adds and the removal call after each it removes — and so are, before volume 6 lands, the product's two phase overrides (`siting`, `growth`), which `grow-by-stage` consults, and its participants — all at **the call points** this item adds to the grow path's order in §4.11 (a)–(j), at the places V6 §3.2's table gives the same steps, so volume 6's runner reproduces them (T-V6-1): the `siting` override in place of step (f)'s placement and the `growth` override in place of step (g)'s; the records placement's `place` inside step (e) before each added record's *One path* placement and its `remove` after each §7.7 item 2 removal; the participants registered at `afterField` after step (a) and before (b), at `decline` at the end of (c), and at `afterGrowth` after (g) and before (h), each in (order, id) order, each run's ops one batch of the `epoch` event. They are called with volume 6's `ProductEpochContext` (V6 §2.1: doc, epoch, seq, week, prevWeek, years, inputs, tables, product, rung, productRows?, stream(stage, entity), scope()), which the grow path fills and which lands with this item beside `EpochPhase`, `EpochParticipant`, `EpochPlacement` and `ProductDeclEpoch`; the placement takes the five-member pick (doc, tables, product, rung, week) an absorb fills; volume 6's `EpochContext` extends it at M6-E (seam-time-r6 TX-02; finalization). Volume 4's own M4 hooks stay BCR-6's sentences at their fixed places. They land with this registration on M4's grow path (V07 §8's V-M2 row; TW-03 (1), (2)), and BCR-V6-1 (a) carries them into its phase interface at M6-E (item 317). The absorb-path placement call is inserted in §7.7's *One path — placement, then mutation* sentence "every `assign` event … is placed by §4.7 S10b's one solver for its scope": at a rung of a product that declares `ProductDecl.records`, an added record is first offered to that placement, which places it or declines it, and a declined record takes S10b's placement as that sentence gives it. The requests' "§7.7 item 2's placement" means this sentence; §7.7's item 2 is *Existence* and places nothing, and its removal of a record (through `closeUse`) is what the removal call follows. *Requests:* BCR-V7-11, BCR-V8-9, BCR-V7-17, BCR-V7-18 (its `records` member and calls, and its grow-path overrides and participants; its phases in the phase interface with item 317). Also touches: §4.11 (the dossier step's call; the grow path's call points), §4.12, §7.7, PART III. *Needed by:* V06, V07, V08. **STAGED (the village product, V-M0 to V-M4; the port's consultation with the SettlementForge stage, SF0 to SF7).**
+
+
+### 2.2 The plat — one arena per layer, five refinement levels as views, roles instead of stored indices
+
+**203.** BCR-V5-2 (V05 §10) — the sky arena's key, levels and roles; the part counter. Also touches: §6.3, §2.9. *Needed by:* V05. **STAGED (M6-sky).**
+
+**204.** BCR-V5-24 (V05 §10) — the void face at L0 (C5-44). *Needed by:* V05. **STAGED (M6-sky).**
+
+
+### 2.3 Terrain and water
+
+**205.** V04 BCR-1 (V04 §10) — the outfall type and its producer. Also touches: §4.2. *Needed by:* V04. **STAGED (M6-U, the underground layer).**
+
+**206.** BCR-V6-6 (V06 §10) — the oxbow. *Needed by:* V06. **STAGED (M6-E, the evolution engine).**
+
+
+### 2.4 Ways (the skeleton) and typed edges
+
+**207.** V01 BCR-6 (V01 §10) — a way's `surface` derived at S10a's end; `slopeP95` always present; `HoodPlace` in §2.7 and the entity registry. Also touches: §2.7. *Note:* Applied after item 208 and before item 209 (SL-18): its (a) `slopeP95` text is written on the `Way` line as item 208 leaves it (without `flowToward`), its comment's last clause reading "volume 1's stepped rule reads it (V1-3.6; the sewer reads `wayFall`, V04 BCR-2)" in place of "the sewer hook and volume 1's stepped rule read it (V1-3.6)". The order is the text's, not the build's: item 208's `flowToward` is built at M6-U and absent before it. *Build (SCC-R3C-5; reconciliation round 4, continuation):* as volume 1 §8.1 schedules it — (b), `interface HoodPlace` in §2.7 with its entity-registry row and no producer before M5, at M1 with the schema; (a), `slopeP95` written by S9 for every way and the `surface` comment with the way-surface rule (V1-3.7.3) run at S10a's end after field pass 2 (items 280 and 300 place it), at M2b, since the close-up bands of `lit` and `ink` draw surfaces from M2b — so the M4 goldens hold both (T-V1-4). *Needed by:* V01, V04. **BASE (M1) for (b), `HoodPlace` declared with its registry row; BASE (M2b) for (a), `slopeP95` and the way-surface rule (volume 1 §8.1).**
+
+**208.** V04 BCR-2 (V04 §10) — `flowToward` derived; junctions on the underground. *Note:* Applied first of the three items on the `Way` line (SL-18): before item 207 (V01 BCR-6 (a), whose `slopeP95` text is written on the line as this item leaves it) and before item 209 (BCR-V6-5 (b)), which then inserts `formerClass` into the line without `flowToward`. After items 208, 207 and 209 the line reads `slopeP95: number /* item 207's comment */; corridor?: FaceRef /* L2 view */; formerClass?: WayClass /* BCR-V6-5 (b)'s comment */; lifecycle: Lifecycle }`. *Needed by:* V04. **STAGED (M6-U, the underground layer).**
+
+**209.** BCR-V6-5 (V06 §10) — the engine's new conversion kinds and `Way.formerClass`, **with BCR-V7-22 absorbed** (ST-25; reconciliation round 1). The land retype is one op: `EvolveOp`'s `{ op: 'retypeLand'; landUse: Id; to: LandUse['kind']; crop?: string; rotation?: { scheme: string; slot: number } }` — volume 6's name and fields with volume 7's two optional fields — serving the hinterland's fallow ladder and its reversal (V06 §3.5.3) and the village's furlongs to pasture (V07 §3.12); one hand form (T2 `ground`'s land-use chip on a `LandUse` face; volume 7's T9 line re-pointed to it), one undo record and one §7.4 lifecycle row (cause `convert:retypeLand`); BCR-V7-22's separate `ConversionOp` member is not added. *Note:* Its (b) inserts into the `Way` line as items 208 and 207 leave it (SL-18). `repairRaised` among its `EvolveOp`s is BASE at M3a with item 110 (b) (volume 6's X13); `repairRetaining` lands with the earlier of M6-sky and M6-E, since volume 5's landfall (M6-sky) can decay a retaining stretch before the engine's pool does, as `repairRaised` restores a span from M3a (TR-23 (c); reconciliation round 2). *Requests:* BCR-V6-5, BCR-V7-22. *Needed by:* V06, V07. **STAGED (M6-E, the evolution engine; the land retype also with the village product, V-M0 to V-M4, whichever lands first; `repairRetaining` with the earlier of M6-sky and M6-E).**
+
+
+### 2.5 Districts, quarters, blocks, plots — the PLOT MODEL, reservations, allocations and the context vector
+
+**210.** V01 BCR-5 (V01 §10) — `Block` gains `content`, `squareType`, `ringCentre`, `voidCorner`; `boundary` a derived view; migration rows. *Note:* Co-applies with BCR-V7-14 (the `District.fabric` comment and `fabricParams.depthRatio`). *Build (SCC-R3C-5; reconciliation round 4, continuation):* as volume 1 §8.1 schedules it — at M1, with the schema, (a)'s `content` (always `ordinary` before M5) and `overrides?`, (b)'s `boundary` comment (a derived view over seams, never serialised, which II.5's readiness reads) and (d)'s first migration row (a block without `content` reads `ordinary`); at M5 (a)'s `squareType?`, `ringCentre?` and `voidCorner?`, (c), (d)'s second row (a stored square type `market` reads `trading`) and (e). *Needed by:* V01. **BASE (M1) for (a)'s `content` and `overrides?`, (b) and (d)'s first row; STAGED (M5, stage 2) for the rest.**
+
+**211.** V01 BCR-41 (V01 §10) — `District.terrace` (a declared terracing). *Needed by:* V01. **BASE (M3a, item 110 (V01 §8.1)).**
+
+**212.** V04 BCR-4 (V04 §10) — the undercity's core and the outskirts' writer. Also touches: §2.8. *Note:* Co-applies with V01 BCR-41 on the `District` record (`core?` and `terrace?`). *Needed by:* V04. **STAGED (M6-U, the underground layer).**
+
+**213.** BCR-V5-6 (V05 §10) — the plot model's sky fields. Also touches: §10.2. *Needed by:* V01 (its S9b hook declares the keys, SLR1-03), V05, V11. **STAGED (M6-sky).**
+
+**214.** BCR-V7-4 (V07 §10) — the `village` district kind. *Needed by:* V07. **STAGED (the village product, V-M0 to V-M4).**
+
+**215.** BCR-V7-5 (V07 §10) — the green reservation. *Needed by:* V07. **STAGED (the village product, V-M0 to V-M4).**
+
+
+### 2.6 Buildings, heights and ground datum, wings, materials, facilities, the stage-3 interface
+
+**216.** BCR-V2-01 (V02 §10) — wing roles and keys, from M1. *Needed by:* V01 (V1-5.1.3's stack ties by wing key; S23R1-18), V02, V03. **BASE (M1, fields carried so stage 3 needs no migration).**
+
+**217.** BCR-V2-02 (V02 §10) — the building's massing reference and next key. *Needed by:* V02. **BASE (M1, fields carried so stage 3 needs no migration).**
+
+**218.** BCR-V2-03 (V02 §10) — a composed wing names its base wing. *Needed by:* V02, V03. **STAGED (M6, stage 3).**
+
+**219.** BCR-V2-04 (V02 §10) — porch kinds. *Needed by:* V02, V03. **STAGED (M6, stage 3).**
+
+**220.** BCR-V2-05 (V02 §10) — composed towers name their tower wing; composition row and grammar. *Needed by:* V02. **STAGED (M6, stage 3).**
+
+**221.** BCR-V2-06 (V02 §10) — the path-shape rows become the massing family rows. *Needed by:* V02. **STAGED (M6, stage 3).**
+
+**222.** BCR-V2-07 (V02 §10) — the `shed` roof. *Needed by:* V02. **STAGED (M6, stage 3).**
+
+**223.** BCR-V2-22 (V02 §10) — the stage-3 contract and the admission bounds. Also touches: §12.7. *Needed by:* V02. **STAGED (M6, stage 3).**
+
+**224.** BCR-V2-23 (V02 §10) — the entrance hint. *Note (SCC-R0C-1; reconciliation round 1, continuation):* one build unit with item 229; applied before items 228 (BCR-V2-38), which rewrites this clause, and 230 (BCR-V2-41), which keeps rule 1 as this item leaves it. Built at M3a because M3a's stepped and oval buildings already carry `Building.massing.entrance` (item 229 brings BCR-V2-02's `MassingRef` with its `entrance`): the clause applies wherever that field is set (non-null) — before M6 only a stepped or oval building's, from M6 also stage 3's composed buildings' — and where it is null or absent rule 1 reads as before, so no other building's door moves. *Needed by:* V02. **BASE (M3a, with items 228 and 230: the hint clause applies wherever `Building.massing.entrance` is set, before M6 a stepped or oval building's).**
+
+**225.** BCR-V2-27 (V02 §10) — wings named by key under stage 3 (the revision, V2C-09). *Needed by:* V02, V03. **STAGED (M6, stage 3).**
+
+**226.** BCR-V2-28 (V02 §10) — the raised crypt (the revision, V2C-18 (b3); J111), with its round-1 extension (S23-10, S23-31: the half cellar's raise). Also touches: §5.3. *Note:* For its crypt parts — `kind 'raised'`, the crypt ladder and lift, and the extension's (c) — applied after item 238 (it reads `Basement.crypt` and the seed rule); one build unit with items 238 and 436 (S23-20). Its round-1 extension (a) and (b) — the half cellar's raise: the datum term in *Heights and the ground datum* and the *Basements* floor clause — applied after items 370 (BCR-V2-32) and 231 (BCR-V2-42), whose datum sentence (a) extends; the crypt-only case of the half raise — since the finalization (seam S23R6-02) the wings over the crypt's ring, the extension's clause (a) keyed on the basement's ring and (b) naming "its seed wings where volume V03 §3.7.4 keeps a derived half-sunk crypt under them"; the raised form's lift likewise acts on the ground wings over the basement's ring — is inert until M6-U, as item 238's fields are absent before it (seam S23R6-08) (S23R1-05; reconciliation round 2). Its bar T-V2-52 enters §13.2 at M2b by item 522's bullet (SCC-R1C-4; reconciliation round 2, continuation). *Needed by:* V02, V03, V06, V11. **BASE (M2b, with §2.6's basement gate) for the half cellar's raise — its round-1 extension (a) and (b), applied after items 370 (BCR-V2-32) and 231 (BCR-V2-42), whose datum sentence (a) extends, and before the milestone that builds the gate (else J-V2.91's declared one-time shift); BASE design, built at M6-U for the raised crypt, the crypt parts (c) and `kind 'raised'` (item 109 (k)'s crypt rule, with the underground layer; J111; S23-20, SCC-29).**
+
+**227.** BCR-V2-31 (V02 §10) — stacked and solid wings (item 110 (c); item 110 fold). *Needed by:* V01 (`BaseWing.on` and `solid`: the stack order and tier shadows, V1-5.1.2 – V1-5.1.3; S23R1-18), V02, V03. **BASE (M3a, item 110 (c)–(d) through the base outline builder (BCR-V2-39)).**
+
+**228.** BCR-V2-38 (V02 §10) — the main door on the part of its side the footprint keeps (item 110 fold). *Needed by:* V02, V03. **BASE (M3a, item 110 (c)–(d) through the base outline builder (BCR-V2-39)).**
+
+**229.** BCR-V2-39 (V02 §10) — the base outline builder's stepped and deck constructions, from M3a (item 110 (c), (d), (e); item 110 fold). *Note (SCC-R0C-1; reconciliation round 1, continuation):* one build unit with items 224 (the hint clause of *Entrances* rule 1, which its `MassingRef.entrance` feeds) and 426 (the designation template's `composition?`, whose `stepped` row its gate reads), and with item 303's hole sentence (every footprint hole a `court` yard part; S23R1-17, S23R1-18; reconciliation round 2, continuation); its bars T-V2-44 – T-V2-47, T-V2-50 and T-V2-51 enter §13.2 at M3a by item 522's bullet (SCC-R1C-4). *Needed by:* V02, V03, V04, V11, V12. **BASE (M3a, item 110 (c)–(d) through the base outline builder (BCR-V2-39)).**
+
+**230.** BCR-V2-41 (V02 §10) — a solid stack's entrance and the plan's root (second revision, V2C-53; J-V2.83). *Note:* Applied before BCR-V3-26; carries rule 5 for both volumes. *Needed by:* V02, V03. **BASE (M3a, item 110 (c)–(d) through the base outline builder (BCR-V2-39)).**
+
+**231.** BCR-V2-42 (V02 §10) — the wall-side datum sample (second revision, V2C-57; J-V2.72 amended). *Note:* Reads the `RetainingWall` record's chain; applied after item 309 (BCR-V5-30; S23R2-02) and item 370. *Needed by:* V02, V03. **BASE (M3a, item 110 (c)–(d) through the base outline builder (BCR-V2-39)).**
+
+**232.** BCR-V3-2 (V03 §10) — the plan records. Also touches: §12.8. *Needed by:* V03. **STAGED (M6-P, the plan rung).**
+
+**233.** BCR-V3-12 (V03 §10) — a stair and a landing in the capacity. *Note (S23R3-06; reconciliation round 4):* `R(s)` changes an eager fact — *One capacity function*, which S10b's placement and the capacity rule's re-homing read before any plan exists — so the request is built with that function, not with the plan rung (volume 3 §8's PE row; S23R3-05); of `PlanGeometryRow` its two `stair` cells, `stair.ladder` and `stair.landingCm`, ship then, in the base's `roomProgram.json`; five more ship at M3a with items 241, 242 and 578 — `datum.maxSteps`, `stair.riserCm` and `exposureAllStoreys` (item 241's `Entrance.storey` and rule 4), `moduleCm` and `door.mainCm` (item 578's `basementDoor(b)` and W2's outside-ground sample; volume 3 §8's PE); the rest of the row with M6-P (seam S23R2-09; reconciliation round 3, continuation). *Needed by:* V03. **BASE (M2b, with *One capacity function*; its two `PlanGeometryRow.stair` cells shipped then; S23R3-05).**
+
+**234.** BCR-V3-13 (V03 §10) — template part names. *Needed by:* V02, V03. **BASE (M3a, the base outline builder's templates carry their part names; S23-20).**
+
+**235.** BCR-V3-15 (V03 §10) — declared rooms. Also touches: §2.8. *Note:* Applied after item 261 (BCR-V2-13): its additions go to the `plan` rung's inputs in the per-rung `inputs` comment and `stale` sentence (S23-39; reconciliation round 1). *Needed by:* V03. **STAGED (M6-P, the plan rung).**
+
+**236.** BCR-V3-17 (V03 §10) — floor openings. *Needed by:* V03. **STAGED (M6-P, the plan rung).**
+
+**237.** BCR-V3-19 (V03 §10) — every access a building hosts is a plan anchor. Also touches: §2.8. *Note:* Applied after item 261 (BCR-V2-13): its additions go to the `plan` rung's inputs in the per-rung `inputs` comment and `stale` sentence (S23-39; reconciliation round 1). *Needed by:* V03. **STAGED (M6-P, the plan rung).**
+
+**238.** BCR-V3-20 (V03 §10) — the crypt on the basement. *Note (S23-20, SCC-29; reconciliation round 1):* applied before item 226. One build unit with items 226 and 436 and volume 2's seed function `cryptSeedWings` (V02 §3.14.5 (c); S23-31): `Basement.crypt`, the no-refusal crypt ladder with its `raised` form and the seed wings' lift, the seed rule and the rank are base fields and functions from M6-U and absent before it (migration: absent = no crypt; before M6-U, with no `crypt` column yet (item 436), a church takes its class row's ordinary basement draw). Its build leaves volume 3's P2 (re-priced by −0.25 pw) for §16's M6-U row (V04 BCR-13), whose content gains "the crypt derivation — volume 3 §3.7.4's seed, growth and rank; volume 2 §3.14.5's crypt ladder and lift; the stair-entered test and the whole basement of a crypt no stair reaches (volume 3 §3.7.4; seam S23R5-01); volume 3 §3.7.1's crypt clause of `basementDoor(b)` (the door point off the crypt's vault; item 578), whose first reading — a walk-out church's outside door moved off its crypt, volume 1's entrance reserve with it — M6-U's shift record declares with the crypt's first derivation" in volume 4 §8's U4 line (+0.25 pw, unchanged; volume 3 §8's PE; seam S23R5-04; reconciliation round 6); the crypt's plan, columns, stairs and choir flights stay volume 3's (P2). *Needed by:* V01, V02, V03, V04, V10, V11. **BASE design, built at M6-U (item 109 (k)'s crypt rule, with the underground layer; J111; S23-20, SCC-29).**
+
+**239.** BCR-V3-21 (V03 §10) — the tunnel frontage. *Needed by:* V03, V04. **STAGED (M6-P, the plan rung).**
+
+**240.** BCR-V3-25 (V03 §10) — the levels a wing reaches, in the plan rung and the fourth rung. *Needed by:* V03. **STAGED (M6-P, the plan rung).**
+
+**241.** BCR-V3-26 (V03 §10) — the storey an entrance opens on. *Note:* Its rule-5 text is dropped: BCR-V2-41 carries rule 5 (V03's own condition; group with BCR-V2-41). Its `Entrance.storey` field and rule-4 change apply; both are eager facts of S11's entrance derivation, read before any plan exists, so they are built with item 230's rule 5, not with the plan rung (volume 3 §8's PE row; S23R3-05, S23R3-06; reconciliation round 4). Its cells `datum.maxSteps`, `stair.riserCm` and `exposureAllStoreys` ship with it at M3a (item 233's note; S23R2-09, reconciliation round 3, continuation). *Needed by:* V01 (the entrance set with rule 4's non-derivation: the entrance reserve, V1-3.8.2 step 5; S23R1-18), V03. **BASE (M3a, with item 110 (a), (c) and item 230 (BCR-V2-41) — S11's entrance derivation; S23R3-05).**
+
+**242.** BCR-V3-27 (V03 §10) — the walk-out at a retaining wall. *Note (S23R3-06; reconciliation round 4):* the walk-out at a wall sets `Basement.access` in S11's basement decision, an eager fact, so it is built with item 110 (a)'s retaining walls, not with the plan rung (volume 3 §8's PE row; S23R3-05), and with it `basementDoor(b)` (item 578), whose door volume 1's entrance reserve reads. *Needed by:* V01, V02, V03. **BASE (M3a, with item 110 (a)'s retaining walls — S11's basement decision; S23R3-05).**
+
+**578.** BCR-V3-32 (V03 §10) — the outside door of an external basement: the plan rung's step 3 and §13.2's T28-3 read `basementDoor(b)` (S23R3-01), volume 3 §3.7.1's derived function — pure, draw-free, of eager records only, null unless `Basement.access` is `external` — so the wall walk-out, the tomb door and the fall walk-out have one producer. Also touches: §13.2 (T28-3). *Note (S23R3-06; reconciliation round 4):* applied after items 371 (BCR-V2-33) and 242 (BCR-V3-27). `basementDoor(b)` itself, implemented in `@plat/plots`, lands with item 242 at M3a, so volume 1's entrance reserve (M5) can call it; the step-3 and T28-3 texts are the plan rung's. `basementDoor(b)` reads `moduleCm` and `door.mainCm`, shipped with it at M3a (item 233's note), and the basement gate's `cellar.insetCm` and `cellar.depthCm` (M2b) (S23R2-09; reconciliation round 3, continuation). The step-3 text's crypt clause and `basementDoor(b)`'s door point off the crypt's vault read `Basement.crypt` (item 238) and are built with it at M6-U, inert before; their first reading moves a walk-out church's door off its crypt once, volume 1's entrance reserve with it, declared in M6-U's shift record (item 238's note; volume 3 §8's PE; seams S23R4-03, S23R5-04; reconciliation round 6). *Needed by:* V01, V02, V03. **STAGED (M6-P, the plan rung) for the step-3 and T28-3 texts; `basementDoor(b)` itself BASE (M3a, with item 242), its crypt clause with item 238 (M6-U).**
+
+**243.** V04 BCR-43 (V04 §10) — a forced basement for a subterranean institution on the surface (C4-02 (4), C4-07). *Needed by:* V04. **STAGED (M6-U, the underground layer).**
+
+
+### 2.7 Walls, gates, towers, castle, bridges; greenery, land use, decorations, pins; labels; content entities; the staged layers' records
+
+**244.** **The raised-way record** (g item 110 (b), homed by the coherence pass) — one record for all volumes. **Consolidated (J-VI.2, J-VI.15, J-VI.21).** A raised way is a `Way` (§2.4) on a ground arena part ≥ 1 whose `Way` record gains `raised?: RaisedWayRecord`, declared in §2.7: `{ kind: 'viaduct'|'elevated'|'aqueduct'; reason?: RaisedReasonKey /* generated ways; volume 6 §2.13; the reason WORD shown by readers and exports is derived: viaduct → 'drop', elevated → 'link', aqueduct → 'water' */; underuseSince?: number /* volume 6 */; supports: { key: number; ring: Polygon; state?: 'ruined'|'cleared' }[]; spans: { a: number; b: number; use: 'open'|'vault'; reason: 'way'|'water'|'flood'|'tall'|'low'|'slope'|'chance'|'cap'|'land'|'user'; soffitCm: Cm /* derived */; held?: true; state?: 'ruined'|'cleared' }[]; terminal?: { kind: 'basin'|'cistern'|'fountain'; at: PointCm; building?: Id }; feeds?: Id[]; waterUse?: Id; clearanceCm?: Cm /* held once a user edits it (BCR-V9-33); absent: derived, below */; spanSpacingCm?: Cm /* held once edited (BCR-V9-33); absent: drawn, below */ }`. **The support step** (J-VI.27; integration continuation, 2026-09-29), run for every raised way — generated, declared or drawn — after its course and deck level are fixed and before the span rule, from ground part 0 only: (1) the deck's centre-line between its two feet (where its ramps or stairs meet part 0) has length L m; the pitch p is `spanSpacingCm` ÷ 100 where held, else one uniform on the raised-way stream keyed by (the way's lineage, `pitch`) inside the `pierSpacingM` band of the way's material (volume 11's `raisedWays.structure`, the material drawn by its `material` row by band; an aqueduct never timber); (2) n = max(1, round(L ÷ p)) spans, the n − 1 interior stations evenly spaced at L ÷ n; (3) a station whose pier would meet a part-0 way's corridor or a water face slides along the deck to the nearest clear position at which both neighbouring spans stay ≤ `raisedWays.structure.slideMaxFactor` × the band's upper bound (1.5; volume 11's cell, row 80; own, calibrate-later, `extension`; seam SCC-114), else it is omitted and the merged span is `open` by the span rule's step (2); (4) each pier's `ring` is a rectangle centred on its station, across the deck of the deck's width and along it of max(`pierWidthShare` × the realised span, `pierMinCm` ÷ 100) m; a pier higher than `maxPierM[kind]` (the deck's level less `levelledGroundCm` at its station) drops a generated course (`raised_too_tall`, volume 11) and makes a declared one's dry run bend it to the nearest course the pier heights admit (item 101 R2; rule R-a); (5) keys are minted in order along the deck and never reused (V04 BCR-45): an unchanged course re-derives the same stations from the same stream key and so keeps its keys; a changed course keeps the key of every station within p ÷ 2 of a former one and mints the rest after the largest key the way has held. **The clearance:** over each crossed part-0 way the deck stands at least `clearanceCm` + `raised.deckDepthCm` above that way's levelled ground, `clearanceCm` the held value or, absent, volume 11's `raisedWays.structure.clearanceCm` for the crossed class (cart or foot); the course solver reads it as the deck's lower bound there (volume 11: the cells bound the deck's level, never set it), and a held value below the crossed class's is bent up to it (`bend.raised.clearance`, BCR-V9-33). The piers the step lays are read by volume 1's crossings and under-deck strip, volume 4's arch vaults and foundations, volume 5's access siting, volume 6's decay and clearance, volume 7's obstacles, volume 9's **Deck height** and **Arch spacing** steppers and the exports (item 447). Sources of the fields: BCR-V9-33 (`clearanceCm`, `spanSpacingCm`; the support step, J-VI.27), V04 BCR-45 (supports, spans and **the span rule**, terminal, feeds, `raised.deckDepthCm` 150 and `raised.supportFoundationCm` 400), BCR-V6-25 (b) (reason key, `underuseSince`, the span and support `state`), BCR-V8-28 (`waterUse`), J-VI.2 as amended by ST-06 (the derived source and word), J-VI.9 (`terminal.kind` `cistern` only under a conduit house the roster or dossier holds). A raised way's **source** is derived at read, never stored (ST-06; reconciliation round 1): `declared` when the way's lifecycle cause is an edit or a skeleton file, else `generated` (volume 6 §3.19.1 (2)); there is no `carried` value — a reader that says "carried down from year N" reads the lifecycle and the epochs' rungs (volume 6 §4.5) — and no stored founding rung (the founding epoch's `EpochRecord` holds it). Lifecycle: generated ways re-derive with their reason key; declared ways are held; a removal of a generated way is a suppression (the suppression item); undo is the log's; migration: absent `raised` is a ground way. The **II.7.6 Vaults** sentence is V04 BCR-45's. *Requests:* V04 BCR-45, BCR-V8-28, BCR-V9-33. *Needed by:* V01, V04, V05, V06, V07, V08, V09, V11. **BASE (M3a (the record, the support step and the span rule); the arch-vault chambers M6-U).**
+
+**245.** **The `RetainingWall` record** (g item 110 (a)) — one record for all volumes. **Consolidated.** `RetainingWall { id; chain: ChainRef /* on the ground layer, or on a sky island's arena (BCR-V5-27) */; highSide: 'left'|'right' /* resolved at the dry run when drawn without it (BCR-V9-26 (a)); generated: the side D holds (V01 BCR-42) */; closed: boolean /* a platform, high side inside (BCR-V9-26 (a)) */; material: string /* volume 11's MaterialRow key (BCR-V11-30) */; buttresses?: …; towers?: … /* decorative, a table row */; source: 'generated'|'declared'; state?: RetainingState | ChainProfile<RetainingState> /* 'retaining_state_knot' on the chain, step (§2.2 rule 5, J-K10): the wall's condition by stretch; a constant state is a scalar; absent = 'standing' throughout (TR-14) */ }` with `type RetainingState = 'standing'|'decayed'|'ruined'`; the step profile is a **derived view** `stepProfile(wall)` never stored (V01 BCR-43). §2.2 rule 7's knot roles gain `retaining_state_knot` (indexed, as every knot role). Never an `Enceinte`; no gate, no circuit, no barrier closure. Lifecycle as item 110 (a) states, and for `state`: **The state profile** (TR-14; reconciliation round 2). *Writers:* BCR-V6-26's retaining member (`breach` → `decayed`, `dismantle` → `ruined`), `repairRetaining` (a `decayed` run back to `standing`; volume 6 §2.8, item 209) and volume 5's landfall (`decayed` over its covered length, V5 §3.16 (4)); volume 7's house-platform walls decay through volume 6's pool (V07 §3.12). Each writes over its `StretchRef` — the whole chain when it names none — by a knot at each end, an end that is no vertex placed first by `splitThrough` (§3.4): the near knot carries the new state, the far knot the state that held there before; since a step profile is constant before its first knot (§2.2 rule 5), an open wall's profile always keeps a knot on the chain's first vertex (placed with the value that held there when a scalar is first expanded), a closed wall's needs none. The writer then drops every knot whose value equals the knot before it (never an open chain's first-vertex knot), stores a profile whose values are all equal as that scalar, and a scalar `standing` as absent — one canonical form, so the digest (§6.3) is stable. *Read* by `sampleProfile` by arc length (§3.4; a closed wall's profile cyclic): the pool and the restoration rule (volume 6 §3.19.4), volume 4's footings (a footing stands where the wall stands), the renderer (each run drawn by its state row, BCR-V6-26's §8.2 rows), item 447's export and the clerk. *Persisted* as the knot rows and values. *Regenerated:* a generated wall re-derived where an epoch levels keeps its profile while it is not restored (volume 6 §3.19.4 (1), (6)): a knot stays on its vertex while the vertex survives (carry-over by lattice point, §3.10, §6.3); a knot whose vertex is gone is re-placed by `splitThrough` at the new chain's point nearest its old point when that point lies within `retaining.settings.stateSnapCm` (volume 11's `retaining` table, its named `settings` row; 100 cm; our own, calibrate-later; seam SCC-114), else dropped and its run merged into the run before it (an open wall's first-vertex knot always re-placed on the new chain's first vertex); the restoration writes `standing` over the re-levelled length. A cut or join of the chain carries the profile by J-K23's `rekey` pairing. *Undo:* the writing op's undo record restores the former profile, knot rows included. *Migrate:* absent reads `standing`; a document holding the pre-round-2 scalar reads it as the constant profile. *Requests:* V01 BCR-43, BCR-V5-27; the state profile TR-14 (integration). *Needed by:* V01, V04, V05, V06, V07, V09. **BASE (M3a; the island form M6-sky; the state profile's writers with their ops — M6-E, M6-sky).**
+
+**246.** **Deck plots** (g item 110 (d)) — the record's fields. **Consolidated (volume 2's X28, BCR-V9-30).** A deck plot is a `Plot` whose record gains `deck?: { host: Id; kind: 'bridge'|'pier'|'mole'|'quay'; surfaceCm: Cm | null /* null: a quay platform built on the bank, ground */; landmark: boolean /* a mole's head or mid-mole slot, or a bridge's mid-span slot */ }`; S11 copies it to volume 2's `DeckContext`. A `Bridge` of kind `ford` or `draw`, or with no `deckCm`, offers no deck plot. The landmark slots are a mole's head and midpoint and, on a bridge whose deck span is at least volume 11's `deck.landmarks/bridgeMid/minSpanM` (40 m), one mid-span slot, offered to a tower or fort class only; registry path `deck/landmarks/<head|mid>` (IN-V02-3). Budget and admission are volume 11's `deck` rows and `deckOk` column. A deck's condition is its host's lifecycle existence (ST-56; reconciliation round 1): `deck.host` names a `Bridge` for a bridge deck and a `pier` or `quay` way for a mole, pier or quay platform; volume 6's `breach` makes the host `decayed`, `ruin` makes it `ruined` and `repairRaised` restores its former existence from the op's undo record (BCR-V6-26); `Bridge.state` (`site`|`built`) is untouched, a ruined bridge's crossing closed by its way's existence. *Requests:* BCR-V9-30. *Needed by:* V01, V02, V05, V06, V09, V10, V11. **BASE (M3a).**
+
+**575.** **An enceinte's condition by stretch** (integration; reconciliation round 2, found beside TR-14). **Consolidated.** §4.11's wall ladder marks a breached or partly dismantled stretch by a `StretchRef` ("the gap a `StretchRef`") and §8.2's `decayed` row draws "a gap glyph over each breached stretch", but a `StretchRef` is batch-local and never stored (§3.4), so no field holds which stretch is breached — the defect TR-14 found in the retaining wall. `Enceinte` (§2.7) gains `condition?: WallCondition | ChainProfile<WallCondition> /* 'wall_state_knot' on the trace, step (§2.2 rule 5, J-K10); absent = 'standing' throughout */` with `type WallCondition = 'standing'|'breached'|'dismantled'`, written, read, persisted, carried through a re-derivation, cut or joined, undone and migrated exactly as item 245's `state` profile (its canonical form included); its writers: `DeclineOp`'s `breach` (→ `breached`) and `dismantle` (→ `dismantled`) over their `stretch`, the whole trace when they name none; volume 5's landfall over the walls it covers (→ `breached`); volume 6's `repairWall` (a `breached` run back to `standing`; on a `dismantled` run it bends as volume 6 §2.8 states; with no stretch, volume 6's lift of the ring's `neglect` (V6 §2.8)). The record's `lifecycle` stays the ops' (`abandoned` on `neglect`, until volume 6's no-stretch `repairWall` lifts it — back to the pre-neglect existence when every run is `standing`, else `decayed`; `decayed` while any run is not `standing`; back to its former state when `repairWall` leaves every run `standing`). §2.2 rule 7's knot roles gain `wall_state_knot`. §8.2's `decayed` row draws its gap glyph over each `breached` run and the towers of each `dismantled` run as trace discs; §11.1's wall LineStrings split per run of equal condition, each run's LineString carrying its enceinte's `id` (§11.1's entity address) and `run`, its ordinal from the trace's first vertex in vertex order, as item 447's retaining runs do (SCC-86; reconciliation round 4), `condition` absent when standing. *Note:* Applied after item 254 (BCR-V6-3), whose `pathway` and `underuseSince` it follows on the `Enceinte` line. The no-stretch `repairWall` and the exit from `abandoned` are volume 6's hand-off X42 (seam TV-05, TU-02's residual; reconciliation round 5): no field changes, the op being BCR-V6-5's `EvolveOp` as V6 §2.8 states it (J-V6.115). *Requests:* — (integration). *Needed by:* V05, V06, V12 (V12 §2.2 merges the runs by the enceinte's `id`, T-V12-4 reads them; SCC-86). **BASE (M4, with §4.11's decline table and `DeclineOp`).**
+
+**247.** V04 BCR-3 (V04 §10) — tunnels and chambers. *Needed by:* V04. **STAGED (M6-U, the underground layer).**
+
+**248.** V04 BCR-32 (V04 §10) — the system's variant and name (C4-53). *Needed by:* V04. **STAGED (M6-U, the underground layer).**
+
+**249.** V04 BCR-33 (V04 §10) — a link's cause; reuse (C4-54). *Needed by:* V04. **STAGED (M6-U, the underground layer).**
+
+**250.** V04 BCR-46 (V04 §10) — the chamber's arch vault, span and monument (C4-110-1, C4-110-8). *Needed by:* V04. **STAGED (M6-U, the underground layer).**
+
+**251.** BCR-V5-1 (V05 §10) — the island record and the access record. Also touches: §2.8. *Needed by:* V01, V05 (volume 1's `terraceState` on an island reads `terrainEcho.reliefClass`, V1-3.17.7 (2); SLR3-03; seam SLR4-10 (b), reconciliation round 5). **STAGED (M6-sky).**
+
+**252.** BCR-V5-9 (V05 §10) — the landfall decoration and the waterfall. Also touches: §2.3. *Needed by:* V04, V05, V06 (volume 6's clearance writes the decoration's `members`, volume 4's closures read them; TT-10 (b)). **STAGED (M6-sky).**
+
+**253.** BCR-V5-26 (V05 §10) — the landfall's quarried land (C5-25). *Needed by:* V05. **STAGED (M6-sky).**
+
+**254.** BCR-V6-3 (V06 §10) — `Enceinte.pathway` and `Enceinte.underuseSince`. *Needed by:* V06. **STAGED (M6-E, the evolution engine).**
+
+**255.** BCR-V7-6 (V07 §10) — two pin kinds. *Needed by:* V07. **STAGED (the village product, V-M0 to V-M4).**
+
+**256.** BCR-V8-14 (V08 §10) — custom chains and services as staged records, and their keys (g item 104). Also touches: §7.7. *Needed by:* V08. **STAGED (SettlementForge stage, SF0 to SF7).**
+
+**257.** BCR-V8-26 (V08 §10) — the power relation's sign and visibility (C8-10). *Needed by:* V08. **STAGED (SettlementForge stage, SF0 to SF7).**
+
+**258.** BCR-V11-5 (V11 §10) — the wall rows (g item 106). *Needed by:* V11. **BASE (M2b, V11 C4's wall rows with item 106's base).**
+
+**259.** BCR-V11-27 (V11 §10) — the culture specialisation (item 110 (c); V11C-35). Also touches: §4.7. *Note (SCC-R0C-1; reconciliation round 1, continuation):* its S11 replacement writes the band template's `composition`, the field item 426 (BCR-V2-09) declares, built with it at M3a. *Needed by:* V11. **BASE (M3a, V11 C3b).**
+
+
+### 2.8 Identity, lifecycle, provenance, the entity registry
+
+**260.** **Removals that hold**: one suppression rule for re-adding generators, in two record forms (J-VI.14; amended by reconciliation round 1, ST-05, ST-15). BCR-V6-24 as written, its `suppress.kind` widened to `'raised'|'harbourChain'|'quayWall'|'retaining'|'deckPlot'`: a generated retaining wall is keyed by its chain's lineage address, a generated deck plot by its deck host's id and its slot ordinal along the deck; the re-derivation of walls where an epoch levels and the deck-face tier skip a suppressed key and count it as held (volume 6 §2.13, §3.19.4 (1), §3.19.5 (1)). **Islands and sky accesses keep volume 5's record form** and are never written to `detail.suppress`: `SkyIsland.removed` and `.removedAccesses`, written by `convert removeIsland` and by the fold of an access's `delete`, read through `removedSlots(doc)` (volume 5 §2.1, §3.15 (5)). One lift rule for both forms: only the removal's undo, or the user's own re-add serving the same key; a cap increase opens only new keys (volume 8's X8, C5-51). BCR-V8-31 (§7.7 item 3: generated content no dossier record binds is deleted as any generated content, and the deletion holds through regeneration, every absorb and every epoch) applies beside it. *Requests:* BCR-V6-24, BCR-V8-31. *Needed by:* V01, V02, V05, V06, V08, V09, V10. **BASE (M3a (raised way, harbour chain, quay wall, retaining wall, deck plot); islands and accesses M6-sky).**
+
+**261.** BCR-V2-13 (V02 §10) — the rungs' recorded inputs. *Needed by:* V02. **STAGED (M6, stage 3).**
+
+**262.** BCR-V3-22 (V03 §10) — plan addresses in the explainer registry. *Needed by:* V03. **STAGED (M6-P, the plan rung).**
+
+**263.** BCR-V3-28 (V03 §10) — the outside ground among a plan's inputs. *Note:* Applied after item 261 (BCR-V2-13): its additions go to the `plan` rung's inputs in the per-rung `inputs` comment and `stale` sentence (S23-39; reconciliation round 1). *Needed by:* V03, V06. **STAGED (M6-P, the plan rung).**
+
+**264.** BCR-V6-7 (V06 §10) — `MutationPlan` in the registry and the step on `mutate`; the registry's new paths. Also touches: §7.1. *Needed by:* V06. **STAGED (M6-E, the evolution engine).**
+
+**265.** BCR-V6-20 (V06 §10) — why rows on lifecycle events (J-V6.71). *Needed by:* V06. **BASE (M3a, item 110 (b)'s generation and removal holds).**
+
+**266.** BCR-V6-21 (V06 §10) — the epoch-spread mutation as the history engine applies it (item 18 (c), (e); J-V6.27). *Needed by:* V06. **STAGED (M6-E, the evolution engine).**
+
+**267.** BCR-V7-3 (V07 §10) — three entity kinds. *Needed by:* V07. **STAGED (the village product, V-M0 to V-M4).**
+
+**268.** BCR-V7-32 (V07 §10) — the ways' decline ladder. *Needed by:* V06 (its decline and regrowth issue `retireWay`, `effaceWay` and `reopenWay`, TR-03), V07. **STAGED (the village product, V-M0 to V-M4).**
+
+**269.** BCR-V9-19 (V09 §10) — a label and a help anchor per edit path. *Note:* Applied after BCR-V10-3. *Needed by:* V09. **BASE (M1–M3b, the reference UI (AP1–AP4)).**
+
+**270.** BCR-V10-3 (V10 §10) — each kind's explainer in the registry. *Note:* Applied before BCR-V9-19 (same registry paragraph). *Needed by:* V01, V02, V03, V06, V09, V10. **BASE (M3a, the oracle and the tool API (item 101)).**
+
+**271.** BCR-V10-15 (V10 §10) — the placement order on the derivation record. Also touches: §4.7. *Needed by:* V10. **BASE (M3a, the oracle and the tool API (item 101)).**
+
+
+### 2.9 The document and serialisation
+
+**272.** V01 BCR-12 (V01 §10) — `Recipe.product` and `HoodRecipe` for a standalone neighbourhood; the `closeup` event. Also touches: §7.1. *Build (SCC-R3C-5; reconciliation round 4, continuation):* (a)'s `product?` at M1 with the schema, absent (read `town`) until M5's standalone neighbourhood (volume 1 §8.1); (a)'s `hood?`, (b), (c) and (d) at M5. *Needed by:* V01. **BASE (M1) for (a)'s `Recipe.product`; STAGED (M5, stage 2) for the rest.**
+
+**273.** BCR-V3-8 (V03 §10) — the report in the cache. *Needed by:* V03. **STAGED (M6-P, the plan rung).**
+
+**274.** BCR-V5-21 (V05 §10) — the island's shade basis on load (C5-01). *Needed by:* V05, V06. **STAGED (M6-sky).**
+
+**275.** BCR-V6-13 (V06 §10) — the building shade mask (g item 102 (b), (e)). *Needed by:* V06. **STAGED (M6-E, the evolution engine).**
+
+**276.** BCR-V7-12 (V07 §10) — the recipe's rung. *Needed by:* V07. **STAGED (the village product, V-M0 to V-M4).**
+
+**277.** BCR-V9-3 (V09 §10) — three view keys. *Needed by:* V09. **BASE (M1–M3b, the reference UI (AP1–AP4)).**
+
+**278.** BCR-V9-20 (V09 §10) — the hidden-voids view key and its knowledge rule (item 109 (j) (2); V9C-04; J-V9.38). Also touches: §11.3, §11.1. *Needed by:* V04, V09. **STAGED (M6-U, with the underground layer (AP6)).**
+
+
+### 3.2 Numeric policy
+
+**279.** BCR-V7-30 (V07 §10) — the frame law's reader. *Needed by:* V07. **STAGED (the village product, V-M0 to V-M4).**
+
+
+### 4.1 Stage graph, evaluation model, laziness contract, transactions, the worker
+
+**280.** V01 BCR-3 (V01 §10) — the stage graph gains S7c fabric selection and S9b block dispatch. *Build (SCC-R3C-5; reconciliation round 4, continuation):* (a)'s "(+ the way-surface rule)" after S10a's field pass 2 is built at M2b with the rule (item 207 (a)); (a)'s two hook annotations name the hook points item 323 declares at M2b and are built with their registrations at M5, as (b)–(d) are. *Needed by:* V01. **BASE (M2b) for (a)'s way-surface clause; STAGED (M5, stage 2) for the rest.**
+
+**281.** V04 BCR-25 (V04 §10) — the underground's read-ahead (C4-09). *Needed by:* V04. **STAGED (M6-U, the underground layer).**
+
+**282.** BCR-V5-3 (V05 §10) — the sky stage in the stage graph. *Needed by:* V01 (its S9b hook declares the keys, SLR1-03), V05. **STAGED (M6-sky).**
+
+**283.** BCR-V7-29 (V07 §10) — the village writer order. *Note:* Applied after BCR-V5-3 (the village order has no SKY step). *Needed by:* V07. **STAGED (the village product, V-M0 to V-M4).**
+
+
+### 4.2 S0 Blueprint · S1 Site · S2 Programme · S3 Siting, reservations, the stage-1 boundary and its trace
+
+**284.** V01 BCR-8 (V01 §10) — S2's land demand includes the block dispatch's land share λ_b. *Needed by:* V01. **STAGED (M5, stage 2).**
+
+**285.** V01 BCR-13 (V01 §10) — S1 (2)'s outline template rows gain volume 1's shapes. *Needed by:* V01. **STAGED (M5, stage 2).**
+
+**580.** V01 BCR-45 (V01 §10) — a sky island's crossing sites (SLR3-07, S23R3-04; J-V1.91): (a) S1 (5) gains a second producer of built bridges — on an island's arena, where no S4, S5 or S7 runs, volume 1's unit run lays each site's span before its seeds, builds each span a street reaches by §4.8's bridge rule after its S8 and before its S9 (so S10's deck plots and S11's `DeckContext` read a built deck) and lays the furniture in its closing batch, an unlaid or unreached site staying a `site`, reported; (b) §4.8's *Water furniture* sentence names the unit run as the rule's caller on an island. Also touches: §4.8. *Note (reconciliation round 4):* written by volume 1's round-4 lane and found by this file's census (J-RF1.7). *Note (seam SLR4-10; reconciliation round 5):* (a)'s build takes each span's `deckCm` through `levelledGroundCm` on the island's key — the raster fallback item 309 builds with this item, nothing being levelled on the island before S10. *Needed by:* V01, V05 (BCR-V5-30's reader list names this build, seam SLR4-04). **STAGED (M5, stage 2 — built by volume 1's W8 on a fixture island; in use on real islands with M6-sky).**
+
+**286.** BCR-V5-19 (V05 §10) — reservations an institution island leaves (C5-02). Also touches: §2.5. *Needed by:* V05. **STAGED (M6-sky).**
+
+**287.** BCR-V7-2 (V07 §10) — the blueprint's village block and rung. *Needed by:* V07. **STAGED (the village product, V-M0 to V-M4).**
+
+**288.** BCR-V11-18 (V11 §10) — the hinterland's land uses as providers (V11C-06 (2)). *Needed by:* V11. **BASE (M2b, V11 C2).**
+
+**289.** BCR-V11-28 (V11 §10) — the terraced-edges column (item 110 (a)). *Needed by:* V11. **BASE (M3a, V11 C3b).**
+
+
+### 4.3 S4 Backbone — arterials routed between named destinations, built as one graph
+
+**290.** **The raised ways' generation**: slot, stream, ledger, rung gate, data key and read-only outcome (g item 110 (b)). **Consolidated.** (1) The slot: every generated raised part is committed before S7b (1) — a viaduct inside S4's route solve priced against the detour, an elevated road and an aqueduct at S6's end — reading the ground arena only and, for the aqueduct's need, S2's whole population (V01 BCR-39 (a)–(c); BCR-V5-29 (a) is the same slot, applied once). (2) The derivation unit and stream: volume 6's `RaisedReasonKey`, one uniform per key on the raised-way stream (epoch component 0), the kind order aqueduct, viaduct, elevated, and the `RaisedWayLedger` against volume 11's caps, suppressed keys skipped (BCR-V6-25 (a), (c), (d)). (3) The rung gate: the router prices a span only when the routed rung is CITY or METROPOLIS (BCR-V7-33, provenance owner). (4) `raised` as a stage-graph data key (BCR-V7-35). (5) Endpoints bind to reservations, ground-arena entities only, water from ground sources, `skyAccessObstacles` read after SKY, no way into the sky (BCR-V5-29 (b)–(f), **as J-VI.4 (d) bends it**). (6) `raisedOutcome(model, subject)`, read-only (BCR-V10-21). Raised ways and retaining walls are casters of item 102's daylight driver (BCR-V6-25 (d)). *Requests:* V01 BCR-39, BCR-V6-25, BCR-V7-33, BCR-V7-35, BCR-V5-29, BCR-V10-21. *Needed by:* V01, V05, V06, V07, V10. **BASE (M3a; (5)'s sky clauses with M6-sky).**
+
+**291.** BCR-V6-26 (V06 §10) — raised ways, retaining walls and decks in the decline table and `DeclineOp` (C6-41–C6-43; J-V6.87–J-V6.89, J-V6.93). *Note:* Its `DeclineOp` members write the raised-way, retaining-wall and deck `state` fields of the consolidated records — the retaining member as knots of item 245's `state` profile at its `StretchRef`'s ends (TR-14; reconciliation round 2). *Needed by:* V04, V06, V11, V12 (V11 §3.18 cites its persistence rows `retaining` and `raised`; V12 §3.11 registers their cells, owner `base`; SCC-86). **STAGED (M6-E, the evolution engine).**
+
+**292.** BCR-V7-25 (V07 §10) — way widths at village rungs. *Needed by:* V07. **STAGED (the village product, V-M0 to V-M4).**
+
+
+### 4.4 S5 Growth stages — boundary and wall first, main roads, then FTG-shaped growth, then a capacity check
+
+**293.** BCR-V6-19 (V06 §10) — the suburb regime in a history (J-V6.18). *Needed by:* V06. **STAGED (M6-E, the evolution engine).**
+
+
+### 4.5 S6 Districts, quarters and fields · S7b Allocation and district claims
+
+**294.** V01 BCR-4 (V01 §10) — S7c sets a district's fabric from its context; S7b (1)'s capacity net of dispatch land. *Needed by:* V01. **STAGED (M5, stage 2).**
+
+**295.** BCR-V5-5 (V05 §10) — S7b (5) and the landing kernel. *Needed by:* V05. **STAGED (M6-sky).**
+
+**296.** BCR-V5-15 (V05 §10) — the islands in the daylight term, and the model sampler (item 102; applied beside the coherence pass's application of g item 102, cited, never restated). Also touches: §8.4, §13.2. *Note:* Applied after BCR-V5-5 (same Fields sentence). *Needed by:* V05. **STAGED (M6-sky).**
+
+**297.** BCR-V10-4 (V10 §10) — the prosperity field's driver decomposition. *Needed by:* V10, V11. **BASE (M3a, the oracle and the tool API (item 101)).**
+
+
+### 4.6 S8 Infill — the measured bent cut as a kernel transaction, per district, with the deep-interior rule
+
+**298.** V01 BCR-7 (V01 §10) — S8's strategy slot registers `TemplateFabric` over the template rows. *Needed by:* V01. **STAGED (M5, stage 2).**
+
+**299.** BCR-V5-20 (V05 §10) — a ground landing's attach as an infill destination (C5-07). *Needed by:* V05. **STAGED (M6-sky).**
+
+
+### 4.7 S9 Corridors · S10a Block allocation · S10 Plots · S10b Placement · S11 Site plans and footprints — the plot model
+
+**300.** V01 BCR-9 (V01 §10) — S10a calls its `afterDrivers` hooks (S9b); a square, green or yard block has capacity 0. *Build (SCC-R3C-5; reconciliation round 4, continuation):* its closing clause, "S10a's end runs the way-surface rule (V1-3.7.3)", is built at M2b with the rule (item 207 (a)); the hook call it names is item 323's, declared at M2b and empty until M5 registers S9b; the rest — S9b's typing and the capacity, manor, `voidCorner`, join, class-draw and furniture clauses — at M5. *Needed by:* V01. **BASE (M2b) for the way-surface clause; STAGED (M5, stage 2) for the rest.**
+
+**301.** V01 BCR-32 (V01 §10) — one square quota: S7b claims above a block's size, S9b's dispatch below. Also touches: §4.5, §4.8. *Build (SCC-R3C-5; reconciliation round 4, continuation):* as volume 1 §8.1 schedules it (J-V1.39) — at M2b the base table `squares.quota` ((d), in `@plat/tables`, item 505) and S7b (3)'s claims of the squares larger than a block from it ((a)'s S7b half and (b)), because S7b's claims are base behaviour from M2b and a stage-2 table must not drive a base stage; at M5 (a)'s dispatch clause (S9b's squares below a block's size, from the same table, so the quota is counted once) and (c) (a forecourt from S9b's dispatch or an S11 yard part), the typed squares M5 adds being a declared shift of the default-preset goldens (volume 1 §8.1, §8.4 (6)). *Needed by:* V01, V11 (its table registry's `squares.quota` row, seam SCC-R3C-4). **BASE (M2b) for (a)'s S7b half, (b) and (d) — `squares.quota` and S7b (3)'s claims above a block's size; STAGED (M5, stage 2) for (a)'s dispatch clause and (c).**
+
+**302.** V01 BCR-42 (V01 §10) — the district-edge source of retaining walls; one producer per wall line (item 110 (a)). *Note:* The district-edge source of `RetainingWall`s (the record item). *Needed by:* V01. **BASE (M3a, item 110 (V01 §8.1)).**
+
+**303.** BCR-V2-24 (V02 §10) — S11 and the massing. Also touches: §2.6. *Note:* Applied before BCR-V2-34 (`BuildingInput`). Its hole sentence — "S11's yard partition types every hole of a footprint face as a yard part of kind `court`" — is built at M3a, one build unit with item 229: volume 2's `massOval` arena and the base's court-institution construction lay holed footprints from M3a, and volume 2's T-V2-42, volume 1's hood-pin sites (V1-3.8.2 step 1) with T-V1-26 and T-V1-54, and volume 3's court openings read the floor as a `court`; the request's other sentences (the outline registration, `BuildingInput`'s stage-3 fields) have no reader before M6 (S23R1-17, volume 2's half; S23R1-18; reconciliation round 2, continuation). *Needed by:* V01 (the typed court: V1-3.8.2 step 1's sites and the `ovalCourt` exclusion; S23R1-18), V02. **BASE (M3a, with item 229's base outline builder) for its hole sentence — S11's yard partition types every hole of a footprint face as a yard part of kind `court`; STAGED (M6, stage 3) for the rest** (S23R1-17).
+
+**304.** BCR-V2-29 (V02 §10) — attached structures (the revision, V2C-21, V2C-22). *Needed by:* V02. **STAGED (M6, stage 3).**
+
+**305.** BCR-V2-34 (V02 §10) — the deck input; no cellar on a deck (item 110 (d); item 110 fold). *Note (rule R-a; S23-17, reconciliation round 1):* its *A requested basement* clause is written as a bend, not as the ladder's refusal rung: after "(4) otherwise a refusal naming the gate each form failed" it adds "— on a deck plot over water every form fails at once and the request bends (item 101 R2) to the same request on the nearest building on the ground of its plot group, else of its block, else the nearest building on the ground (volume 3 §4.2), named (`bend.deck.basement`, volume 2 §1b's bend list)" — the third rung, volume 3's, added by reconciliation round 2 (S23R1-14) so a deck block with no ground building, a bridge's shop row, has a target; volume 2's BCR-V2-34 clause reads the same. *Needed by:* V01 (`DeckContext`: V1-3.10.3 (4), T-V1-21; S23R1-18), V02, V03, V09, V10. **BASE (M3a, item 110 (c)–(d) through the base outline builder (BCR-V2-39)).**
+
+**306.** V04 BCR-39 (V04 §10) — light rows under no magic, and by biome (C4-28). *Needed by:* V04. **STAGED (M6-U, the underground layer).**
+
+**307.** BCR-V5-8 (V05 §10) — the sky light rows. *Needed by:* V05. **STAGED (M6-sky).**
+
+**308.** BCR-V5-16 (V05 §10) — siting across arenas and custom chains on islands (items 103 and 104; applied beside the coherence pass's application of g items 103 and 104). Also touches: §4.5, §10.2, §13.2. *Needed by:* V01, V05 (volume 1's χ̃ reads the sky pseudo-district's point in S7b (1)'s supply term, V1-3.2 (5); SLR3-12, reconciliation round 4). **STAGED (M6-sky).**
+
+**309.** BCR-V5-30 (V05 §10) — levelling as datums, the field's receivers unlevelled (C5-54; applied once the coherence pass has applied item 110). *Note (S23R2-02; reconciliation round 3):* applied before items 370 (BCR-V2-32) and 231 (BCR-V2-42), whose datum samples read `levelledGroundCm` (S23R2-01, volume 2's half). The request's closing clause ("Should the application need levelled heights in the raster, …") is not taken: levelled heights are datums only, read through the one reader function, and no raster carries them. Its ground part — the platform-datum rule, the field readers' unlevelled raster and `levelledGroundCm` on the ground arena — is built with item 110 (a)'s levelling, whose ground readers build at M3a: volume 1's `stepProfile` (V1-8.1), volume 2's datum step (items 370, 231), the ways' stair-or-ramp crossing rule, volume 4's BCR-45 span rule (item 244) and volume 3's W2 outside ground (V03 3.6; S23R2-06); so no levelled ground exists without its reader, and no terraced building's datum shifts at a later milestone. Before M3a nothing is levelled and the reader equals the raster sampler everywhere. Volume 4's other readers — its wall-face knots, arch-vault floors, foundation obstacles and the buried floor under a raised grade (V4 §3.2, §3.5.0, §3.5.4, §3.5.5) — read it from M6-U, and its village working's depth test (V4 §3.5.7 (a)), which runs at village rungs only, from the later of M6-U and the village product (V-M0 to V-M4) (SLR3-12 with TU-07 (c); reconciliation round 4); volume 1's island bridge build after S8, `deckCm` from the two bank elevations on the island's key (V1-3.10.3 (4); item 580), from M5 on volume 1's fixture island, where nothing is levelled before S10, so it returns the island's raster (seam SLR4-10 (a), with volume 5's SLR4-04; reconciliation round 5); the sky key's raster fallback is built with item 580, its datums (V05 §3.22 (4)) with M6-sky, where the sky readers (V5 §3.9 (4)–(5), §3.10 (5)) read them. *Needed by:* V01, V02, V03, V04, V05 (`levelledGroundCm`'s readers). **BASE (M3a, with item 110 (a)'s levelling) for the platform-datum rule and `levelledGroundCm` on the ground arena; STAGED (M5, stage 2, with item 580) for the sky key's raster fallback, read by volume 1's island bridge build; STAGED (M6-sky) for the sky key's datums (V05 §3.22 (4)) and the sky readers (V5 §3.9 (4)–(5), §3.10 (5)).**
+
+**310.** BCR-V7-24 (V07 §10) — a declared split, and split pairs across a rung change. *Note (SR2-01 with SR2-15; reconciliation round 3):* carries the request as seam SR2-15 reduces it (volume 7's half): the `RungProfile.splitSites` clause is not applied — the generated split's off switch is volume 11 §3.7.4's `siting.web.splitEnabled` — and the declared-split and never-merged clauses apply as written. The title follows volume 7's (TU-07 (b), SR3-05; reconciliation round 4). *Needed by:* V07. **STAGED (the village product, V-M0 to V-M4).**
+
+**579.** BCR-V7-38 (V07 §10) — S11's furniture pins at village rungs (SR3-02): on *Furniture pins* (its sentence "The main plaza always gets one centrepiece", which occurs once), the step places nothing at the rungs whose `RungProfile.frameLaw` is `territory`, where the village product's own pin stage (volume 7's VS8, V07 §3.6 (5), §3.10) places the whole furniture — so no statue, fountain, bandstand or monument, no second set of stalls and no furnished fair field. *Note (SR3-05; reconciliation round 4):* carried under the id next free in volume 7 §10, the round-4 volume-7 lane told through the lane events log (as item 574 was written, J-RF2.6). *Needed by:* V07. **STAGED (the village product, V-M0 to V-M4).**
+
+**311.** BCR-V10-2 (V10 §10) — the solver's read-only explanation. *Needed by:* V10, V11. **BASE (M3a, the oracle and the tool API (item 101)).**
+
+
+### 4.8 S7 Fortification furniture (per enceinte) · the castle · water furniture
+
+**312.** BCR-V7-20 (V07 §10) — furniture and stretches at village kinds. *Needed by:* V07. **STAGED (the village product, V-M0 to V-M4).**
+
+
+### 4.9 S12a Hinterland siting and the hinterland unit · S12b Greenery — the rule tables (O14 / O19)
+
+**313.** V01 BCR-10 (V01 §10) — §4.9's greenery rule table: the court-greening row and the green-and-yard-blocks row; the parks row widened to a green block's or a `park` plaza's green at any size; (c) the rim walk's row, planted once per island by volume 1's `plantRimWalk`, never by a district's S12b; and §2.7's `Greenery.along.way` optional for that row alone. Also touches: §2.7. *Note (seam SLR5-05; reconciliation round 6):* the item named two of the request's four parts until this round (volume 1's cross-volume note (36)). *Needed by:* V01, V05 (the rim walk, J-V5.26, V5 §3.12). **STAGED (M5, stage 2; the rim-walk row and the optional `way` built by volume 1's W8 on a fixture island, in use on real islands with M6-sky).**
+
+**314.** BCR-V7-7 (V07 §10) — the farm mode at village rungs. *Needed by:* V07. **STAGED (the village product, V-M0 to V-M4).**
+
+**315.** BCR-V7-8 (V07 §10) — the village field-system presets. *Needed by:* V07. **STAGED (the village product, V-M0 to V-M4).**
+
+**316.** BCR-V7-28 (V07 §10) — the village's ponds. *Needed by:* V07. **STAGED (the village product, V-M0 to V-M4).**
+
+
+### 4.11 Incremental mode, transformations and conversions (the evolution hook; one path built in the base)
+
+**317.** The phase-based evolution strategy, with the product override. BCR-V6-1 (a), with BCR-V7-18 absorbed into it (volume 6's X4) and its runner sentence reading: a step's phase is the override `ProductDecl.phases` of the product the epoch's fold gives (item 322; V07 §2.1's hand-off band) declares, else the strategy's (ST-02). BCR-V6-1 (b) (the package) as written. *Note:* Applied after item 322, whose fold this runner reads (ST-02; reconciliation round 1). The `records` member, its calls and the two phase overrides on the grow path land with item 202 (the village product's registration, on M4's grow path); BCR-V6-1 (a) carries them into the phase interface (seam-time-r5 TW-03 (3); reconciliation round 6), re-using the interfaces item 202 landed with `EpochContext` extending item 202's `ProductEpochContext` (seam-time-r6 TX-02; finalization). *Requests:* BCR-V6-1, BCR-V7-18 (its phases in the phase interface; its `records` member and calls, and its grow-path overrides and participants, with item 202). *Needed by:* V06, V07. **STAGED (M6-E).**
+
+**318.** BCR-V2-40 (V02 §10) — a stack's heights under Works (second revision, V2C-51; J-V2.82). *Needed by:* V02, V06. **STAGED (M6, stage 3).**
+
+**319.** V04 BCR-6 (V04 §10) — the underground at an epoch. *Note:* applied after item 574 (BCR-V6-28), whose step (6) its second bullet quotes as that item leaves it (TT-07 (b); TU-07 (a), reconciliation round 4). *Needed by:* V04, V06 (ST-17). **STAGED (M6-U, the underground layer).**
+
+**320.** BCR-V5-7 (V05 §10) — the island laws over time and the landfall. *Needed by:* V05. **STAGED (M6-sky).**
+
+**321.** BCR-V6-2 (V06 §10) — Works retirement keyed to the epoch's span start. *Needed by:* V06. **STAGED (M6-E, the evolution engine).**
+
+**322.** BCR-V7-26 (V07 §10) — a small dossier reaches the village product. *Note:* Applied before item 317, whose runner reads this fold (ST-02; reconciliation round 1); item 202's §1.1 text cites it. *Needed by:* V06, V07, V08. **STAGED (the village product, V-M0 to V-M4).**
+
+**573.** BCR-V6-27 (V06 §10) — an epoch event that carries a calamity (ST-30, ST-31): `EpochInputs.events` with `week?`, `params?` and `calamity?: CalamityRef`, `deaths` included. *Note:* left to the finalize pass by reconciliation round 1 and carried here (TR-23 (a); reconciliation round 2); the entry shape the port writes (volume 8 §3.6) and whose `deaths` volume 4's `CatacombGrowth` reads through volume 6. *Needed by:* V04, V06, V08. **STAGED (M6-E, the evolution engine).**
+
+**574.** BCR-V6-28 (V06 §10; TR-09; J-V6.109) — the crowding hook's void part at any rung: households also seated in accessible cavern and ruin clusters at any rung, not only on sewer runs where `Features.sewers` is on (item 109 (j) (4)); §4.11 *Regrowth-first* step (6) and II.7.3 (c), BCR-V6-28 (V06 §10) as written. Also touches: §4.5 S7b (6) (the request's part (c); TT-10 (a), reconciliation round 3). *Note:* Applied before item 319 (V04 BCR-6), which quotes step (6) as this item leaves it ("(6) new faces of a new stage — the underground crowding hook first sends") and appends its addition after S11 of the new stage (TR-23 (d); reconciliation round 2; TU-07 (a), reconciliation round 4). *Needed by:* V04, V06. **STAGED (M6-U, the underground layer; with item 319).**
+
+
+### 4.12 The strategy interface, stage registration by declared I/O, and the stage-2 seam (pointer)
+
+**323.** V01 BCR-26 (V01 §10) — §4.12: PART II's base requirements listed with volume 1's hooks. *Build (SCC-R3C-5; reconciliation round 4, continuation):* (b)'s hook points — `StageHookDecl`, `StrategyRegistry.hooks` and the two call sites, S7b (1)'s `S7b.afterGreedy` and S10a's `S10a.afterDrivers` — are declared at M2b with no registration until M5, so they do nothing and the host stages are unchanged (volume 1 §8.1); (a)'s sentence is applied with them; the registrations, S7c and S9b, are items 294 and 300's, at M5. *Needed by:* V01. **BASE (M2b) — the hook points declared, empty until M5 (volume 1 §8.1).**
+
+**324.** BCR-V3-23 (V03 §10) — the plan stage's work unit. *Needed by:* V03. **STAGED (M6-P, the plan rung).**
+
+**325.** V04 BCR-5 (V04 §10) — the tail. Also touches: §4.1. *Needed by:* V04. **STAGED (M6-U, the underground layer).**
+
+**326.** BCR-V7-11 (V07 §10) — products in the registry. **Merged into item 202** (SS-19; reconciliation round 1); its §4.12 pipeline-order sentence applies there. *Needed by:* V07. **STAGED (with item 202).**
+
+
+### 5.2 Failure classes: detection, ladder, test
+
+**327.** V01 BCR-18 (V01 §10) — failure classes F-TEMPLATE, F-DISPATCH, F-UNIT. *Needed by:* V01. **STAGED (M5, stage 2).**
+
+**328.** BCR-V2-16 (V02 §10) — F-MASSING and F-COMPOSE. *Needed by:* V02. **STAGED (M6, stage 3).**
+
+**329.** BCR-V3-10 (V03 §10) — the stair's kind fallback inside F-PLAN's tier 2. *Needed by:* V03. **STAGED (M6-P, the plan rung).**
+
+**330.** V04 BCR-7 (V04 §10) — F-NET. *Needed by:* V04. **STAGED (M6-U, the underground layer).**
+
+**331.** BCR-V5-11 (V05 §10) — the sky's failure rows and invariants. Also touches: §5.3. *Needed by:* V05. **STAGED (M6-sky).**
+
+
+### 5.3 The invariant suite, by scope (SCL-1)
+
+**332.** BCR-V2-17 (V02 §10) — invariants. *Needed by:* V02. **STAGED (M6, stage 3).**
+
+**333.** BCR-V2-35 (V02 §10) — stacked wings in the invariants and the carry check (item 110 (c); item 110 fold). Also touches: §2.6. *Needed by:* V02. **BASE (M3a, item 110 (c)–(d) through the base outline builder (BCR-V2-39)).**
+
+**334.** BCR-V3-11 (V03 §10) — shared access in the unit rule. *Needed by:* V03. **STAGED (M6-P, the plan rung).**
+
+**335.** BCR-V6-17 (V06 §10) — households between an epoch's batches. *Needed by:* V06. **STAGED (M6-E, the evolution engine).**
+
+**336.** BCR-V6-18 (V06 §10) — the history engine's tiers and its two stage exceptions (J-V6.17). *Needed by:* V06. **STAGED (M6-E, the evolution engine).**
+
+
+### 5.4 The generation report
+
+**337.** Two generator report codes (volume 8, X10; J-VI.15). §5.4's report vocabulary gains `aqueduct_no_source` (an aqueduct reason met with no higher source within reach, V08 §2.6b (1) (b)) and `toll_bridge_dry` (a dossier toll bridge on a site with no water to cross, V08 §2.6b (3)), each a `MsgRef` key with its arguments. *Requests:* — (integration). *Needed by:* the volumes named. **STAGED (SettlementForge stage).**
+
+**338.** V04 BCR-41 (V04 §10) — a stage's own warnings (C4-30 (g)). *Needed by:* V04. **STAGED (M6-U, the underground layer).**
+
+**339.** BCR-V6-14 (V06 §10) — the epoch report. *Needed by:* V06, V10. **STAGED (M6-E, the evolution engine).**
+
+
+### 6.1 RNG and stream design
+
+**340.** V01 BCR-11 (V01 §10) — the stream registry gains `fabric.select`, `hood.dispatch`, `hood.template`; the hood's seed key. Also touches: §6.2. *Build (SCC-R3C-5; reconciliation round 4, continuation):* (a)'s three stream ids are appended to §6.1's append-only registry at M1, beside item 345's `S8.seed`, so no id a base milestone appends later moves them (volume 1 §8.1); they draw nothing before M5; (b) and (c) at M5. *Needed by:* V01. **BASE (M1) for (a), the three ids reserved; STAGED (M5, stage 2) for (b) and (c).**
+
+**341.** BCR-V2-10 (V02 §10) — stage 3's concerns. *Needed by:* V02. **STAGED (M6, stage 3).**
+
+**342.** BCR-V6-8 (V06 §10) — the engine's stage ids. *Needed by:* V06. **STAGED (M6-E, the evolution engine).**
+
+**343.** BCR-V6-9 (V06 §10) — the epoch's wealth level and its provenance. *Needed by:* V06. **STAGED (M6-E, the evolution engine).**
+
+**344.** BCR-V7-15 (V07 §10) — the village concerns. *Needed by:* V07. **STAGED (the village product, V-M0 to V-M4).**
+
+
+### 6.3 Identity: address ids, lineage keys, carry-over (and the scope of stability, stated)
+
+**345.** V01 BCR-31 (V01 §10) — a template's seed ways and plazas take the stage id `S8.seed` in their lineage key. *Build (SCC-R3C-5; reconciliation round 4, continuation):* §6.1's stage-id registry gains `S8.seed` at M1, reserved (append-only; volume 1 §8.1); the lineage-key sentence has its first user, a template's seed, at M5. *Needed by:* V01. **BASE (M1) — the `S8.seed` id reserved, with the lineage-key sentence (no user before M5).**
+
+**346.** BCR-V2-11 (V02 §10) — wing anchors. *Note:* With BCR-V3-29 on the same §6.3 table (a new row before the room row; the room row amended). *Needed by:* V02. **STAGED (M6, stage 3).**
+
+**347.** BCR-V3-29 (V03 §10) — a stacked wing's rooms re-matched by wing-relative storey. *Needed by:* V03, V06. **STAGED (M6-P, the plan rung).**
+
+
+### 7.1 Edits are ordered events on addresses; the named actions; the edit targets; dry-run validation
+
+**582.** **A placement with no fitting plot, over budget, or on an occupied join — bent, not refused** (item 101 R2; J-VI.4's "R2 governs every tool", applied by the integration continuation, J-VI.30). **Consolidated.** §7.1's sentence "while a user's positive placement over budget, or one that no plot satisfies inside the hard rows, returns F-EDIT with the closest acceptable sites (§4.7 S10b). A `join` or `split` of plots that would remove an occupied building returns F-EDIT — "vacate first", item 17's relocation — unless the user confirms the demolition as a fate (item 31)." reads: "while a user's positive placement that no plot satisfies inside the hard rows is bent by its dry run to the closest acceptable site (the site §4.7 S10b ranks first), and one over budget to the closest acceptable site within the budget, the bend naming the site and the reason in one line and offering the other acceptable sites — and, for one over budget, the exact site with its disruption — as alternatives (item 101 R2). A `join` or `split` of plots that would remove an occupied building is bent to carry the demolition as a fate, its households relocated by item 17, which the dry run names in one line; accepting the dry run is the confirmation item 31 asks for, and the alternative 'keep the building' withdraws the edit." §5.2's F-EDIT row reads, in place of "a post-build placement — an assignment, a positive placement (`placeAt`) or the re-placement a `rejectSite` causes (§7.7) — that no plot satisfies inside the hard rows, or a user's positive placement over its disruption budget (§7.7); a plot `join` or `split` that would remove an occupied building (item 31, §7.1);": "an assignment, or the re-placement a `rejectSite` causes (§7.7), that no plot satisfies inside the hard rows (a dossier fact's conflict); a user's positive placement and an occupied join or split bend instead (§7.1);".  Volume 9's message rows are `bend.place.noSite`, `bend.place.overBudget` and `bend.vacate` (IN-V09-16). *Needed by:* V09, V10. **BASE (M3a, the authoring toolkit).**
+
+**348.** A quarter's target size in its points form, and the badge's plus and minus. One text (C10-21 (3)): BCR-V10-12's `sizeM2` comment and *Points in, shape out* sentence (identical to BCR-V9-16 (a)), applied once; BCR-V9-16's `### 9.5` part (plus and minus step the declaration's size by (band max − band min) ÷ 8) applied as written. *Requests:* BCR-V10-12, BCR-V9-16. *Needed by:* V09, V10. **BASE (M3a).**
+
+**349.** V01 BCR-35 (V01 §10) — the skeleton `quarter` event and the toolkit's events columns gain `fabric`. *Needed by:* V01. **STAGED (M5, stage 2).**
+
+**350.** V01 BCR-44 (V01 §10) — the `quarter` event's `terrace`; T8's Terraces chip and the sugar expansion. *Needed by:* V01. **BASE (M3a, item 110 (V01 §8.1)).**
+
+**351.** BCR-V2-12 (V02 §10) — the two event kinds, the key paths, and their lifecycle rows. Also touches: §7.4. *Note:* Applied before items 352 and 374 (S23-21): in the `Edit` union the members after `setRoomUnit` read `setMassing`, `setComposition`, then `setHearth`; in the buildings row, item 374 appends "`setHearth`, `instance` on a room's furniture" to this item's new text. *Needed by:* V02, V03. **STAGED (M6, stage 3).**
+
+**352.** BCR-V3-3 (V03 §10) — hearth and stair-kind edits, and the count of plan events. Also touches: §0.2, §13.2, §14. *Note:* Applied after item 351: `setHearth` follows its `setComposition` (S23-21). *Needed by:* V03. **STAGED (M6-P, the plan rung).**
+
+**353.** BCR-V3-16 (V03 §10) — the toolkit's rows and the `instance` lifecycle for plan rooms. Also touches: §7.4. *Needed by:* V03. **STAGED (M6-P, the plan rung).**
+
+**354.** BCR-V3-24 (V03 §10) — door leaves and window kinds are editable. *Needed by:* V03. **STAGED (M6-P, the plan rung).**
+
+**355.** V04 BCR-8 (V04 §10) — points forms and paths of the underground tools. *Note:* Its `drawChamber` gains BCR-V9-21's `system` union; its `depthOffsetCm` "refused past the cover limit" reads "bent to the cover limit" (J-VI.4). *Needed by:* V04. **STAGED (M6-U, the underground layer).**
+
+**356.** BCR-V5-10 (V05 §10) — the edit events and targets. Also touches: §7.8. *Note:* Edited in place for J-VI.4: the T4 stroke to a rim is bent, never refused. *Needed by:* V05. **STAGED (M6-sky).**
+
+**357.** BCR-V7-19 (V07 §10) — the village edit forms. *Note:* `drawWay` also carries BCR-V9-26's `raised?`. *Needed by:* V07. **STAGED (the village product, V-M0 to V-M4).**
+
+**358.** BCR-V8-6 (V08 §10) — the two host-only event kinds. Also touches: §7.4. *Needed by:* V08. **STAGED (SettlementForge stage, SF0 to SF7).**
+
+**359.** BCR-V8-19 (V08 §10) — the port's reserved session (C8-15). *Needed by:* V08. **STAGED (SettlementForge stage, SF0 to SF7).**
+
+**360.** BCR-V9-13 (V09 §10) — a wall stretch's grade as an edit (item 106 (c)). *Needed by:* V09. **BASE (M1–M3b, the reference UI (AP1–AP4)).**
+
+**361.** BCR-V9-21 (V09 §10) — a chamber that starts a system, and the catacomb bend ladder (item 109 (h), (k) as revised ~20:05, J111; V9C-05, V9C-08; J-V9.39). *Note:* Merged with V04 BCR-8's `from?: PointsForm`: `drawChamber { system: Id | { newKind: 'ruin'|'cavern'|'catacomb' }; polygon; floorCm?; from? }`. *Needed by:* V09. **STAGED (M6-U, with the underground layer (AP6)).**
+
+**362.** BCR-V9-26 (V09 §10) — item 110's events (item 110 (a), (b), (f); V9C-52; J-V9.59; one text for volumes 9 and 10, XV-V9-10). Also touches: §2.4. *Note:* `drawWay` carries both `raised?: true` (this BCR) and BCR-V7-19's `walk?`; its retaining form is the `RetainingWall` record's producer; its uphill-aqueduct last resort is the bend to a well (J-VI.4 (h)); its island strokes bend per J-VI.4 (d)–(e). *Needed by:* V09, V10. **BASE (M1–M3b, the reference UI (AP1–AP4)).**
+
+**363.** BCR-V9-29 (V09 §10) — a raised way and a town wall (item 110 (b); V9C-54 (4); J-V9.61). Also touches: §7.3. *Needed by:* V09. **BASE (M1–M3b, the reference UI (AP1–AP4)).**
+
+**364.** BCR-V9-33 (V09 §10) — a crossing's form and a raised way's measures (V9C-76). *Note (integration continuation, J-VI.27):* the two measures are item 244's held fields `clearanceCm` and `spanSpacingCm`, read by item 244's support step and the course solver; this item adds only their edit targets and bends. *Needed by:* V09. **BASE (M1–M3b, the reference UI (AP1–AP4)).**
+
+**365.** BCR-V10-16 (V10 §10) — a clerk-made creation prefix keeps its authorship. Also touches: §11.1. *Needed by:* V10. **STAGED (M3c, the built-in clerk).**
+
+**366.** BCR-V10-17 (V10 §10) — one flatten mode on a terrain stroke. *Needed by:* V09, V10. **BASE (M3a, the oracle and the tool API (item 101)).**
+
+**367.** BCR-V10-18 (V10 §10) — a points-form `placeAt`'s plot. *Needed by:* V10. **BASE (M3a, the oracle and the tool API (item 101)).**
+
+**368.** BCR-V10-20 (V10 §10) — `delete` joins T10. *Note:* `delete` in T10: its dry run of a generated re-addable entity names the suppression (BCR-V6-24). *Needed by:* V09, V10. **BASE (M3a, the oracle and the tool API (item 101)).**
+
+**570.** BCR-V9-35 (V09 §10) — a place by a locus is T6's one-line roster (SS-13; J-V9.83). *Note:* Applied after item 368 (BCR-V10-20), item 353 (BCR-V3-16) and item 272 (V01 BCR-12 (c)) on the authoring toolkit's T6 and T10 rows: T6's row ends with the kinds those add, then this request's one-line `roster`; T7's row keeps `roster` for a list (SR-02; reconciliation round 2). *Needed by:* V09, V10. **BASE (M1–M3b, the reference UI (AP1–AP4)).**
+
+**571.** BCR-V10-23 (V10 §10) — an unnamed roster line (SS-12; J-V10.81). *Note:* On §7.1's sugar paragraph; one text with item 570 for the one-line `roster` a place by a locus emits (volume 9 §4.5, volume 10 §4.1) (SR-02; reconciliation round 2). *Needed by:* V09, V10. **BASE (M3a, the oracle and the tool API (item 101)).**
+
+
+### 7.3 Locality — effective scope, local operators, edit fates, recorded inputs, the oracle (G-P3)
+
+**369.** V01 BCR-33 (V01 §10) — a district re-derivation's effective scope includes its bounding ways' surface and naming records. Also touches: II.4. *Build (found beside SCC-R3C-5; reconciliation round 4, continuation; J-RF4.9):* §7.3 item 1's sentence is built with what it scopes — the naming record at M2a, where §7.3's scoped regeneration is built (§16 M2a) over names conditioned on the naming context since M1 (item 444), and the `surface` attribute at M2b with the way-surface rule (item 207 (a)) — else a scoped re-derivation rewrites a bounding way's name or surface outside its declared scope (volume 1 V1-3.7.2 – V1-3.7.3; T-V1-17); II.4's copy (BCR-23 (d), item 545) at M5. *Needed by:* V01. **BASE (M2a for the naming record; M2b for the `surface` attribute); STAGED (M5, stage 2) for II.4's copy.**
+
+**370.** BCR-V2-32 (V02 §10) — the datum of a stacked wing and of a deck building (item 110 (c), (d); item 110 fold). Also touches: §7.4, §2.6. *Note:* Applied after item 309 (BCR-V5-30; S23R2-02) and before BCR-V2-42 (the datum sentence). *Needed by:* V02, V03, V06. **BASE (M3a, item 110 (c)–(d) through the base outline builder (BCR-V2-39)).**
+
+**371.** BCR-V2-33 (V02 §10) — the storeys a wing reaches (item 110 (c); item 110 fold). Also touches: §2.6, §5.3, §7.4, §10.2, §13.2 (T29-4), Judgment calls (J-A29.25) — its round-4 extension (S23R3-03; volume 2's lane note to reconciliation round 4). *Needed by:* V01 (`Basement.access` `external`: the entrance reserve's second rectangle, V1-3.8.2 step 5; S23R1-18), V02, V03. **BASE (M3a, item 110 (c)–(d) through the base outline builder (BCR-V2-39)).**
+
+**372.** BCR-V9-22 (V09 §10) — dwellings in a sealed void as a closure (item 109 (j) (4); V9C-07; J-V9.40). Also touches: §11.2 (`PreviewResult.alternatives`' comment; applied after item 463 (BCR-V9-12), which writes that comment; SR2-21). *Note:* Applied after V04 BCR-24 (item 561; both extend §7.3 item 9 (d)) and after item 463 (BCR-V9-12) on §11.2's `alternatives` comment, and applied as BCR-V9-22 reads after reconcile-V09-r2's second brief (SR-32, SR-36; J-V9.102, J-V9.112), no rung of its ladder an F-EDIT (J-VI.4): a dug access from the ground building nearest above the cluster whose dig floor lies within `DigRule.maxM` of it (cause `edit`), else a public opening at the nearest of volume 4 §3.5.7 (e)'s candidates, its chance waived (cause `edit`), else a public opening of kind `collapsed_shaft` at the point of public ground over the cluster nearest, in plan, to its shallowest element, cause `edit`; where no public ground lies over the cluster, the dry run bends the declaration onto ground part 0 over the same footprint, named `bend.under.noAccess` with "add a way down" (item 101 R2) (SR-32; reconciliation round 2, continuation); with the dug access the dry run lists in `PreviewResult.alternatives` the further buildings the same rule qualifies, in its order (plan distance, then address), at most three, and an `addUndergroundAccess` with no `target`, grouped before a dwelling declaration on the cluster from one of those buildings, targets the cluster's element nearest in plan to that building's footprint (ties by address), so the declaration's closure finds the cluster reachable and generates no access of its own (SR2-21; reconciliation round 3, continuation). *Needed by:* V04 (V4 §3.8's U-DIG digs the closure's access and the grouped access's target, with seam SR3-11; SR3-15, reconciliation round 4, continuation), V09, V10 (V10 §3.16's dry-run bends turn those buildings into **Use another building** proposals, with seam SR2-22). **STAGED (M6-U, with the underground layer (AP6)).**
+
+
+### 7.4 Lifecycle of every edit kind (create · read · persist · regenerate · undo · migrate) — G-P8
+
+**373.** V01 BCR-25 (V01 §10) — the `closeup` row's undo cell. *Needed by:* V01. **STAGED (M5, stage 2).**
+
+**374.** BCR-V3-4 (V03 §10) — furniture through `instance`. *Note:* Applied after item 351: its buildings-row addition is appended to item 351's new text (S23-21). *Needed by:* V03. **STAGED (M6-P, the plan rung).**
+
+**375.** BCR-V5-25 (V05 §10) — the lifecycle rows of the sky's events (C5-44). *Needed by:* V05. **STAGED (M6-sky).**
+
+
+### 7.6 The override layer and editable tables (G-P12; owner amendment 5)
+
+**376.** BCR-V2-14 (V02 §10) — the `FM` building-scope preset. *Note:* With BCR-V7-13: `extension.over: 'MFCG'|'FTG'|'VG'|'FM'|'both'|'none'`; `presets` gains `VG?` and `FM?` (and `NG?` by item 584, which adds no `extension.over` value). Its scope sentence is applied as seam SCC-52 corrects it (volume 2's half; SCC-53, reconciliation round 3): "A third, **building-scope** parity preset, `FM`, resolves only the cells that carry a `presets.FM` entry — `composition.json`'s (volume 2 §3.10.8) and volume 11 §3.24.0's item-110 chance and offer cells (0) — and sets the `fantasyShapes` option on; it zeroes no `extension` cell and changes nothing else; it is the stage-3 parity harness's setting (§13.5) and a user may choose it as a building look; `extension.over` gains `'FM'`." *Needed by:* V02, V11, V12. **STAGED (M6, stage 3).**
+
+**377.** BCR-V7-13 (V07 §10) — the `VG` parity preset. *Note:* See BCR-V2-14 (one union with `FM`). *Needed by:* V07, V11, V12 (V11 §2.2's source cell, §3.24.0, §3.7.4; V12 §2.5's `layer: { preset }`, §3.7.6; SCC-53). **STAGED (the village product, V-M0 to V-M4).**
+
+**581.** BCR-V11-31 (V11 §10) — the `VG` preset's scope over categorical option cells (reconciliation round 4, SCC-77; J-V11.77; amended in V11's round-4 continuation, SCC-R3C-15; J-V11.91). *Note (amended by reconciliation round 5, seams SCC-88 and SR4-05):* Applied with item 377 (BCR-V7-13), which it narrows, and before item 584 (V01's BCR-46). The text is BCR-V11-31's as V11 §10 now words it: a categorical `option` cell's entry is required for `MFCG` and `FTG` on every table, and for `VG` on the tables a stage of the village product reads (volume 11 §3.2.1 step 4) — so §7.6's per-preset sentence names the tables each parity preset requires an entry on. Under `VG` every other table resolves by §7.6's order, so an epoch at a village rung reads its tables at their parity values (volume 6 §2.2's cells "0 in the parity presets" among them), and a categorical `option` cell of such a table resolves to its `MFCG` entry (SCC-R3C-15; volume 11 §3.2.2). The round-4 clause "and a village document's loader resolves no other table under `VG`" is withdrawn. Found uncarried by the integration continuation's request census — the request landed with volume 11's round-4 lane (07:32) after this file's round-4 lane (07:19) (J-VI.24). *Needed by:* V06 (its epoch tables read at their parity values under `VG`, V6 §2.2; SCC-88), V07 (V07 §3.15 and W67 read the loader under `VG`), V11, V12. **STAGED (the village product, V-M0 to V-M4, with item 377).**
+
+**584.** V01 BCR-46 (V01 §10) — the `NG` parity preset (SCC-R3C-3; J-V1.41, J-V1.98): a zeroing parity preset for the stage-2 comparisons with Neighbourhood 1.2.2 (§13.5's NG rows, §13.6 (2)), under which a cell resolves to its own `presets.NG` entry, else as it resolves under `MFCG`, so the base under `NG` is the base under `MFCG`; its entries stand only on volume 1's `hood.constants` (V1-3.15). *Note (SCC-R3C-5's last clause; reconciliation round 4, continuation):* applied after items 376, 377 and 581, whose texts it extends — §7.6's parity-preset list gains `NG`, `presets?` gains `NG?` beside `VG?` and `FM?` (item 376's union), the per-preset paragraph gains the `NG` sentence after the `FM` and `VG` sentences and item 581's, and `extension.over` gains no value for it; item 497's `PresetArm` spelling names `'NG'` (seam SCC-R3C-6's file-f half). Written by volume 1's round-4 continuation under the id this lane announced in the lane events log (J-RF4.2's protocol). *Needed by:* V01, V11 (its `PresetId`, source cell and registry row 73, seam SCC-R3C-2), V12 (`PresetArm`, the `@NG` register suffix and the M5 panel's arm, seam SCC-R3C-6). **STAGED (M5, stage 2) — the milestone of the first `NG` entry, a stage-2 column of `hood.constants` (V01 §2.2, V1-3.15, W17); `squares.quota` and every base table carry none.**
+
+**378.** BCR-V7-14 (V07 §10) — the depth ratio as a fabric parameter. *Needed by:* V07. **STAGED (the village product, V-M0 to V-M4).**
+
+**379.** BCR-V11-6 (V11 §10) — the table list becomes the registry. *Needed by:* V11. **BASE (M0 (b), V11 C0).**
+
+**380.** BCR-V11-10 (V11 §10) — document-only tables (g items 104 (a) (1), 105 (j)). *Needed by:* V09, V11. **BASE (M3a, V11 C3).**
+
+**381.** BCR-V12-5 (V12 §10) — provenance evidence and owner-rule stamps. *Needed by:* V11, V12. **BASE (M-1–M4, the calibration rig).**
+
+**382.** BCR-V12-22 (V12 §10) — the historical pack's slot. *Needed by:* V12. **STAGED (M-CAL, the corpus reconciliation).**
+
+
+### 7.7 Intent, character, constraints, assignments, the forms catalogue (O10; the ASSIGN hook)
+
+**383.** **Derivation-row numbers** (J-VI.13). The rows the volumes add after DR25 are numbered: DR26 = V01's DR-V1.1 (V01 BCR-29); DR27 = V05's DR-SKY (BCR-V5-12); DR28 = V06's DR-V6.1 = V08's DR-V8.6, one row (BCR-V6-12, BCR-V8-30); DR29–DR33 = DR-V8.1–DR-V8.5; DR34 = DR-V8.7; DR35 = DR-V8.8 (BCR-V8-11, BCR-V8-30 and V08 §2.6a–§2.6b). The volumes' working names stay as aliases. Each row's text is its volume's BCR (listed under §7.7 below); this item fixes only the numbers. *Requests:* — (integration). *Needed by:* the volumes named. **BASE (numbers).**
+
+**384.** V01 BCR-29 (V01 §10) — the derivation row DR-V1.1 (DR26): a district's fabric and block content derived. *Note:* Its DR-V1.1 is numbered DR26. *Needed by:* V01. **STAGED (M5, stage 2).**
+
+**385.** BCR-V2-08 (V02 §10) — `DriftBounds` typed. *Needed by:* V02. **STAGED (M6, stage 3).**
+
+**386.** V04 BCR-14 (V04 §10) — the dossier's underground facts. *Needed by:* V04. **STAGED (M6-U, the underground layer).**
+
+**387.** BCR-V5-12 (V05 §10) — the dossier's islands row. *Note:* Its DR-SKY is numbered DR27. *Needed by:* V05. **STAGED (M6-sky).**
+
+**388.** BCR-V6-12 (V06 §10) — the dossier's calamities as hazard events. *Note:* Its DR-V6.1 is numbered DR28 (one row with DR-V8.6). *Needed by:* V06, V08. **STAGED (M6-E, the evolution engine).**
+
+**389.** BCR-V8-7 (V08 §10) — per-settlement values on the circumstance slice. Also touches: §10.2. *Needed by:* V08. **STAGED (SettlementForge stage, SF0 to SF7).**
+
+**390.** BCR-V8-8 (V08 §10) — the binding's additions. Also touches: §5.4 (`GenerationReport.dossierNotes`; SR-23). *Needed by:* V08, V09 (V9 §5.7's report panel lists `dossierNotes`; SR2-29). **STAGED (SettlementForge stage, SF0 to SF7).**
+
+**391.** BCR-V8-11 (V08 §10) — the latitude row (g item 102). Also touches: §14, §8.4. *Needed by:* V08. **STAGED (SettlementForge stage, SF0 to SF7).**
+
+**392.** BCR-V8-12 (V08 §10) — coverage inside a collective range (g item 103 (f)). *Needed by:* V08. **STAGED (SettlementForge stage, SF0 to SF7).**
+
+**393.** BCR-V8-20 (V08 §10) — the change and receipt vocabularies for the port's own kinds (C8-16). *Needed by:* V08. **STAGED (SettlementForge stage, SF0 to SF7).**
+
+**394.** BCR-V8-21 (V08 §10) — a custom assignment's revision (C8-17). *Needed by:* V08. **STAGED (SettlementForge stage, SF0 to SF7).**
+
+**395.** BCR-V8-22 (V08 §10) — the creation prefix's staged records read ahead (C8-18). *Needed by:* V08. **STAGED (SettlementForge stage, SF0 to SF7).**
+
+**396.** BCR-V8-24 (V08 §10) — the realm block computed by the host glue (C8-21). Also touches: §14. *Needed by:* V08. **STAGED (SettlementForge stage, SF0 to SF7).**
+
+**397.** BCR-V8-25 (V08 §10) — the institution's own political role in DR12 (C8-32). *Needed by:* V08. **STAGED (SettlementForge stage, SF0 to SF7).**
+
+**398.** BCR-V8-30 (V08 §10) — the port's derivation rows (C8-02, C8-06, C8-09, C8-41, C8-43). *Note:* Its DR-V8.x rows are numbered DR28–DR35. *Needed by:* V08. **STAGED (SettlementForge stage, SF0 to SF7).**
+
+**399.** BCR-V8-32 (V08 §10) — a toll bridge on a dry site (C8-45; g item 110). *Needed by:* V08, V09. **STAGED (SettlementForge stage, SF0 to SF7).**
+
+**400.** BCR-V11-7 (V11 §10) — the era table. *Needed by:* V11. **BASE (M1, V11 C1).**
+
+**401.** BCR-V11-29 (V11 §10) — the aqueduct's terminal criteria row (item 110 (b); V11C-40). *Needed by:* V11. **BASE (M3a, V11 C3b).**
+
+
+### 7.8 Controls: monotone, continuous, documented; the control-surface budget (O16 f, R15)
+
+**402.** BCR-V2-30 (V02 §10) — the `fantasyShapes` control (the revision, V2C-23). *Needed by:* V02, V09. **STAGED (M6, stage 3).**
+
+**403.** V04 BCR-9 (V04 §10) — the network's two controls. *Needed by:* V04. **STAGED (M6-U, the underground layer).**
+
+**404.** V04 BCR-35 (V04 §10) — the ruins toggle (C4-55; D-3). *Needed by:* V04. **STAGED (M6-U, the underground layer).**
+
+
+### 8.2 Style sheets as data: roles, contrast, symbolisation, paint programs, layer order, presets (G-R2)
+
+**405.** V01 BCR-14 (V01 §10) — the `hatched` preset's neighbourhood cell and the style roles of volume 1's marks. *Needed by:* V01. **STAGED (M5, stage 2).**
+
+**406.** BCR-V2-15 (V02 §10) — the roofscape construction, the façade bays and the paint programs. Also touches: §8.6, §2.6. *Note:* Applied after item 405 (V01 BCR-14; S23-03) and before BCR-V2-36 (§8.6's sentence order). *Needed by:* V01 (`roofscape` and the construction switch: V1-5.1.1 – V1-5.1.2's per-facet hatch; S23R1-18), V02, V03. **STAGED (M6, stage 3).**
+
+**407.** V04 BCR-40 (V04 §10) — the chamber fill by kind, the ruin program, the unexcavated style (C4-29, C4-56). *Needed by:* V04. **STAGED (M6-U, the underground layer).**
+
+**408.** BCR-V5-18 (V05 §10) — the sky's marks in the style sheets (C5-20). *Needed by:* V05. **STAGED (M6-sky).**
+
+**409.** BCR-V6-15 (V06 §10) — the history layer, the exports and the ring road's name. Also touches: §11.1, §10.4. *Note:* Its GeoJSON clause for raised ways is item 447's properties (ST-32). *Needed by:* V06. **STAGED (M6-E, the evolution engine).**
+
+**410.** BCR-V8-15 (V08 §10) — drawing rows and export attributes for the records. Also touches: §8.3, §11.1, §11.2 (the `gazetteer` query's `customChain` rows, listed only when the key admits every joined node; SR-25). *Needed by:* V08, V09 (V9 §5.4's **SettlementForge's chains** entry reads the `customChain` rows; SR2-29). **STAGED (SettlementForge stage, SF0 to SF7).**
+
+**411.** BCR-V9-7 (V09 §10) — two live layers and the model view's field driver (item 102 (f), item 105 (j)). *Needed by:* V09. **BASE (M1–M3b, the reference UI (AP1–AP4)).**
+
+**412.** BCR-V11-30 (V11 §10) — the retaining walls' materials (item 110 (a); V11C-43). *Needed by:* V11. **BASE (M3a, V11 C3b).**
+
+
+### 8.4 Layers, shadows, heights
+
+**413.** `LayerSpec` gains `showCircuit` and `underView`; `showUnexcavated` is a view key. BCR-V9-25's `showCircuit` and V04 BCR-10's `underView` are added to `LayerSpec`. **Conflict resolved (J-VI.19):** V04 BCR-10 also put `showUnexcavated` on `LayerSpec`; volume 9 made it a per-viewer view key (BCR-V9-20; J-V9.38; XV-V9-3). Applied: the view key of BCR-V9-20 only; V04 BCR-10's `LayerSpec.showUnexcavated` is dropped and V04 reads the view key (IN-V04-11). V04 BCR-10's §8.2 roles and §14 keymap parts apply as written. *Requests:* BCR-V9-25, V04 BCR-10. *Needed by:* V04, V07, V09. **BASE (showCircuit, M3a) / STAGED (underView, M6-U).**
+
+**414.** V04 BCR-38 (V04 §10) — the light shaft's opening and shadow (C4-17, C4-32; SL-16: the render's shadow term only, never item 102's model share). *Needed by:* V04. **STAGED (M6-U, the underground layer).**
+
+**415.** BCR-V5-13 (V05 §10) — light, shadow, labels and exports. Also touches: §8.2, §9.1, §9.2, §11.1. *Needed by:* V05. **STAGED (M6-sky).**
+
+**416.** BCR-V5-22 (V05 §10) — the global light's window without the slabs (C5-08). Also touches: §8.1. *Needed by:* V05. **STAGED (M6-sky).**
+
+
+### 8.5 Level of detail, the city-band figure-ground contract, way selection, first paint
+
+**417.** V01 BCR-15 (V01 §10) — §8.5's figure-ground: a `square` block drawn as road, a `green` block as green. *Needed by:* V01. **STAGED (M5, stage 2).**
+
+**418.** BCR-V7-9 (V07 §10) — the village's first view. *Needed by:* V07. **STAGED (the village product, V-M0 to V-M4).**
+
+
+### 8.6 Stage-2 render tier and stage-3 LOD
+
+**419.** BCR-V2-36 (V02 §10) — the stack order in the per-wing constructions (item 110 (c); item 110 fold). *Needed by:* V01 (the per-wing constructions' stack order and treads: `hatched` before M6b, volume 2's X24 fallback; S23R1-18), V02. **BASE (M3a, item 110 (c)–(d) through the base outline builder (BCR-V2-39)).**
+
+
+### 8.8 Tiles, zoom stops, print and the canvas budget
+
+**420.** BCR-V3-6 (V03 §10) — the building band's stops, threshold, detail ladder, furniture role and wall shade. Also touches: §8.5, §8.2, §2.9. *Needed by:* V03. **STAGED (M6-P, the plan rung).**
+
+
+### 8.10 Decoration instances (trees, scatter, crowns, roof detail)
+
+**421.** V01 BCR-34 (V01 §10) — hood pins: `InstanceStyle.pinKind` and pin spacing. *Needed by:* V01. **STAGED (M5, stage 2).**
+
+
+### 9.1 What is model and what is view
+
+**422.** V01 BCR-17 (V01 §10) — every `HoodPlace` takes a `place` label. *Needed by:* V01. **STAGED (M5, stage 2).**
+
+**423.** V04 BCR-17 (V04 §10) — label kinds. *Needed by:* V04. **STAGED (M6-U, the underground layer).**
+
+
+### 9.5 Furniture, framing and tools
+
+**424.** BCR-V7-31 (V07 §10) — the title plate's qualifier and rounding. *Needed by:* V07. **STAGED (the village product, V-M0 to V-M4).**
+
+
+### 10.2 Roster (data-driven, replaceable; sequential and prefix-stable; our values)
+
+**425.** `PortRows.customKinds`: the fallback class retired. **Conflict resolved (J-VI.20):** BCR-V11-26 retires `fallbackClass` (a custom kind's class is item 104 (a)'s resolution, V11 §3.13); BCR-V8-29 kept the row type with it. Applied: BCR-V8-29's row type **without** `fallbackClass`, with its comment ("the rows in force are this table's, empty in the base, overlaid at read time by one row per carried custom institution …"); V08's `customKinds` write no class (X-V11-1). *Requests:* BCR-V11-26, BCR-V8-29. *Needed by:* V08, V11. **BASE (M1, the row type without the cell, with the dossier port's creation half; the read-time overlay STAGED with the SettlementForge stage, V11 C4).**
+
+**426.** BCR-V2-09 (V02 §10) — the composition key on the template; the heights row named. *Note (SCC-R0C-1; reconciliation round 1, continuation):* one build unit with item 229. Built at M3a because two M3a items use the field: item 259 (BCR-V11-27, V11 C3b) has S11 replace the band template's `composition` with the culture specialisation row's, and item 229 (BCR-V2-39) lays the stepped construction for a class whose designation template's `composition` names a `stepped` row; before M6 those are its only writer and reader, and stage 3's massing and composer read it from M6. Both `composition?` fields (the template's and each `structures` entry's) and the `heights` comment change no base behaviour before a writer: absent, the base outline builder lays its ordinary constructions (from M6, volume 2 §3.2's resolution chain decides). *Needed by:* V02, V11. **BASE (M3a, with items 229 and 259 — V11 C3b writes the template's `composition` by BCR-V11-27's replacement and the base outline builder reads it; both `composition?` fields and the `heights` comment, which change no base behaviour before a writer).**
+
+**427.** BCR-V2-26 (V02 §10) — three heights columns on the family-keyed heights row (the revision, V2C-02). **Absorbed by item 435** (SCC-49; reconciliation round 2): V11 §2.8's `HeightsRow`, which BCR-V11-8 declares, already carries `attic`, `parapetCm` and `towerStoreyCm` (SCC-20), and the V11 §2.8 text this request quotes as current no longer exists; nothing of it is applied separately, and its STAGED (M6) label is withdrawn (the columns are built with item 435's row, read by volume 2 from M6). *Needed by:* V02, V11. **BASE (with item 435: M0 (b), V11 C0).**
+
+**428.** BCR-V3-1 (V03 §10) — the plan tables and the programme cells. Also touches: §14. *Needed by:* V03. **STAGED (M6-P, the plan rung).**
+
+**429.** BCR-V6-4 (V06 §10) — the use step's memory, and its durations in years. *Needed by:* V06. **STAGED (M6-E, the evolution engine).**
+
+**430.** BCR-V7-21 (V07 §10) — the class's village form. *Note:* Carried by item 432's field list (BCR-V11-1's `villageForm?: string`) and applied once (SS-30), its comment reading "the class that plays this class at village rungs — a `v.` class key (volume 11 §2.3, §2.9; SS-01); absent, the class plays itself". *Needed by:* V07, V11. **STAGED (the village product, V-M0 to V-M4).**
+
+**431.** BCR-V7-22 (V07 §10) — the land-use retype. **Absorbed into item 209** (ST-25; reconciliation round 1): one op, `retypeLand` with `to`, `crop?` and `rotation?`. *Needed by:* V07. **STAGED (with item 209).**
+
+**432.** BCR-V11-1 (V11 §10) — the class row's profile and columns (g items 103 (a), 105 (h), 107 (a); V07's BCR-V7-21). *Needed by:* V02, V03, V11. **BASE (M0 (b)–M1 for the row's shape, V11 C0–C1; the profile columns M2b, C2; `deckOk` M3a, C3b; `crypt` and `cryptM2` with item 436, M6-U).**
+
+**576.** BCR-V7-36 (V07 §10) — a class's presence entries, the context readings and the government step at village rungs (SR1-01; J-V7.101; the title as volume 7 sets it by SR3-01, SR3-05): (a) `BuildingClassRow.presence?` with the types `PLaw` and `PresenceWhen`, read by S2 only at the rungs whose `RungProfile.frameLaw` is `territory`; (b) `ContextVector.dist` at those rungs, in the text seam SR2-02 widens it to (volume 7's half: `dist.market` and `dist.harbour` beside `dist.centre` and `dist.gate`); (c) on §10.2's *Government (COV-FTG-B13)* sentence, the paragraph under (a)'s heading ("the blueprint's `government` circumstance selects a `GovernmentRow` whose offices force seats"): at those rungs the government step reads the row's `villageSeat` alone and reads neither the row's seat class, nor its offices' seat classes, nor its military share (SR3-01, volume 7's half; SR3-05, reconciliation round 4). Also touches: §2.5 (part (b)); part (c) is in §10.2 with (a), §4.2 S2's citation of the sentence unchanged (seam SR4-03; reconciliation round 5). *Note (SR2-01; reconciliation round 3):* (a) applied after item 432 (BCR-V11-1), which extends the same interface; volume 11's compiler carries the column as volume 7 types it (V11 §2.3). Found uncarried by the round-2 seam check: volume 7's round 2 landed after this file's round-2 census. *Needed by:* V07, V11. **STAGED (the village product, V-M0 to V-M4).**
+
+**433.** BCR-V11-2 (V11 §10) — derived rows, ids, coverage and feature classes (g item 103 (a), (f)). *Needed by:* V11. **BASE (M2b, V11 C2).**
+
+**434.** BCR-V11-3 (V11 §10) — the goods columns (g items 105 (b), 107 (b)). *Needed by:* V11. **BASE (M2b, V11 C2).**
+
+**435.** BCR-V11-8 (V11 §10) — the row types the base names without declaring; the roster mode's home (RV-pc-5). *Needed by:* V02, V11. **BASE (M0 (b), V11 C0; item 110's row types M3a, C3b).**
+
+**436.** BCR-V11-13 (V11 §10) — the crypt column (g item 109 (k) (2) as revised ~20:05, J111). *Note:* One build unit with items 238 and 226 (S23-20, SCC-29); its rows are volume 11's C8. *Needed by:* V02, V03, V07, V11. **BASE design, built at M6-U (item 109 (k)'s crypt rule, with the underground layer; V11 C8; J111).**
+
+**437.** BCR-V11-16 (V11 §10) — relative upstream, downstream, upwind and downwind (V11C-05). Also touches: §4.7. *Needed by:* V11. **BASE (M2b, V11 C2).**
+
+**438.** BCR-V11-17 (V11 §10) — the district kinds' affinity (V11C-04 (e)). *Needed by:* V11. **BASE (M2b, V11 C2).**
+
+**439.** BCR-V11-19 (V11 §10) — `definedBy` (V11C-08). *Needed by:* V11. **BASE (M2b, V11 C2's identities; the ladder's identity with C4, STAGED at the SettlementForge stage).**
+
+**440.** BCR-V11-20 (V11 §10) — soft, not hard (item 103 (c); V11C-09). *Needed by:* V11. **BASE (M2b, V11 C2).**
+
+**441.** BCR-V11-24 (V11 §10) — distribution (V11C-19 (1)). *Needed by:* V11. **BASE (M1, V11 C1; the QUARTER clause with C4, STAGED at the SettlementForge stage).**
+
+**442.** BCR-V11-25 (V11 §10) — quarter identities (V11C-19 (2)). *Needed by:* V11. **BASE (M2b, V11 C2).**
+
+
+### 10.3 People, households, relations, facilities, schedules
+
+**443.** BCR-V6-10 (V06 §10) — lifespans and entry ages. *Needed by:* V06. **STAGED (M6-E, the evolution engine).**
+
+
+### 10.4 Names, descriptions and setting packs
+
+**444.** V01 BCR-16 (V01 §10) — local names: S13a names ways by `WayNamingContext` and names `HoodPlace`s. *Build (SCC-R3C-5; reconciliation round 4, continuation):* its first clause — S13a conditions every way's name on its `WayNamingContext` (V1-2.3, V1-3.7.2; the type in `@plat/model` from M1, item 505, reconciliation round 5), the M1 grammar authored against its features — at M1, since names are eager model data in every golden from M1 (J-V1.14, J-V1.33); the features that read M5's squares and places (`to`, `placeOnIt`) and a contour street's `terraceIndex` take values from M5, a declared shift of those ways' names (volume 1 §8.1, §13.3); the `HoodPlace` names and the district features at M5. *Needed by:* V01. **BASE (M1) for the way-naming context; STAGED (M5, stage 2) for the names of local places and the district features.**
+
+**445.** V04 BCR-18 (V04 §10) — naming slices. *Needed by:* V04. **STAGED (M6-U, the underground layer).**
+
+**446.** BCR-V11-12 (V11 §10) — the undefined "EVO" term (RV-pc-10). *Needed by:* V11. **BASE (M2b–M3b, V11 C5).**
+
+
+### 11.1 Formats
+
+**447.** GeoJSON: closures (item 106) and item 110's entities — one text for both variants. **Conflict resolved (J-VI.18):** BCR-V9-31 (a) and BCR-V12-17 name the same entities differently. Applied in this order: BCR-V12-15 (a) and (b) (closing edges as LineStrings of kind `closure` carrying the barrier kind of J-VI.3's six, the enclosure Polygon, gate kinds; the metric variant's properties); then one item-110 clause for both GeoJSON variants: every way carries `part` (0 the ground); a raised way's LineString adds `raisedKind` (`viaduct` · `elevated` · `aqueduct`), `source` (`generated` · `declared` — item 244's derived reading, ST-06), `reason` (`drop` · `link` · `water`, absent when declared; J-VI.2), `deckMinCm`, `deckMaxCm` and `underuseSince` (week, absent when in use; ST-33); each support a Polygon of kind `raisedSupport` (`way`, `key`, `state`); each span a Polygon of kind `span` (`use`, `state` — item 244's, absent when standing; ST-33); an aqueduct's channel is its way's LineString (class `aqueduct`); a retaining wall one LineString of kind `retaining` per run of equal state along its chain (`wall` its id, `run` the run's ordinal from the chain's first vertex in vertex order, `highSide` of the vertex order, `stepMinCm` and `stepMaxCm` over the run, `material`, `state` — item 245's profile value, absent when standing; TR-14, reconciliation round 2); stairs and ramps as `stair` and `ramp` flags on the way segments they occupy; a plot or building on a deck `onDeck` (its deck kind) and `deck` (the host's id); a stepped building `tiers` (the count). BCR-V9-31 (b) (SVG, PNG) and (c) (VTT) and its CityJSON and glTF clauses apply as written. *Requests:* BCR-V12-15, BCR-V12-17, BCR-V9-31. *Needed by:* V09, V12. **BASE (M3a (item 110) and M2b (item 106)).**
+
+**448.** V01 BCR-40 (V01 §10) — the `.dd2vtt` profile's `line_of_sight` gains retaining walls and raised supports. *Needed by:* V01. **BASE (M3a, item 110 (V01 §8.1)).**
+
+**449.** BCR-V2-21 (V02 §10) — exports. *Needed by:* V02. **STAGED (M6, stage 3).**
+
+**450.** BCR-V3-7 (V03 §10) — interiors in CityJSON and glTF. *Needed by:* V03. **STAGED (M6-P, the plan rung).**
+
+**451.** BCR-V3-18 (V03 §10) — entrance portals at the plan's widths. *Needed by:* V03. **STAGED (M6-P, the plan rung).**
+
+**452.** V04 BCR-16 (V04 §10) — the VTT underground scene. *Needed by:* V04. **STAGED (M6-U, the underground layer).**
+
+**453.** BCR-V9-14 (V09 §10) — an export's knowledge tier, lowered only. *Needed by:* V08, V09 (V08 §2.2's `export.request.knowledge` and `exportPicture`, BCR-V8-1; SR2-19). **BASE (M1–M3b, the reference UI (AP1–AP4)).**
+
+**454.** BCR-V9-15 (V09 §10) — the tabletop scene's four details (R18). *Needed by:* V09. **BASE (M1–M3b, the reference UI (AP1–AP4)).**
+
+**455.** BCR-V9-32 (V09 §10) — removals in the skeleton (V9C-66; J-V9.70). *Needed by:* V09. **BASE (M1–M3b, the reference UI (AP1–AP4)).**
+
+**456.** BCR-V11-23 (V11 §10) — `exportWhy` (V11C-18). *Note:* Its raised-way, retaining-wall and deck clauses are superseded by item 447 (J-VI.18; SCC-02): `exportWhy` writes only each use's `cls`, `family`, `specialisation`, `significance` and its top three why ids (a raised way's `rw/<kind>` id travels there, never as `reason`). *Needed by:* V11, V12. **BASE (M3a, V11 C3).**
+
+
+### 11.2 The embedding API and the worker boundary (SCL-6)
+
+**457.** BCR-V3-5 (V03 §10) — the clerk's plan queries. *Needed by:* V03. **STAGED (M6-P, the plan rung).**
+
+**458.** BCR-V6-11 (V06 §10) — the API and the app. *Note:* See BCR-V9-2 for the shared T1 cell. *Needed by:* V06, V09. **STAGED (M6-E, the evolution engine).**
+
+**459.** BCR-V8-2 (V08 §10) — a host-minted document id and the creation prefix at `generate`. Also touches: §2.9, §6.3. *Note:* `generate`'s options also carry BCR-V10-5's `scratch?`. *Needed by:* V08. **STAGED (SettlementForge stage, SF0 to SF7).**
+
+**460.** BCR-V9-5 (V09 §10) — the `links` query kind (item 105 (j)). *Note:* Applied after BCR-V10-1 (the `why` member as BCR-V10-1 extends it); the `members` query stays withdrawn. *Needed by:* V09, V10. **BASE (M1–M3b, the reference UI (AP1–AP4)).**
+
+**461.** BCR-V9-10 (V09 §10) — variations through the preview, and their thumbnails (merged with BCR-V10-6 (b); V9C-09, V9C-25; J-V9.41). *Needed by:* V09, V10. **BASE (M1–M3b, the reference UI (AP1–AP4)).**
+
+**462.** BCR-V9-11 (V09 §10) — the wall's arcs in its preview (item 106 (a), (c), (g)). *Note:* Its `arcs.barrier` takes J-VI.3's six kinds; applied before BCR-V9-12 and BCR-V9-27 (same `PreviewResult`). *Needed by:* V09. **BASE (M1–M3b, the reference UI (AP1–AP4)).**
+
+**463.** BCR-V9-12 (V09 §10) — message keys in the preview, and placement alternatives (merged with BCR-V10-6 (c) and BCR-V10-1; V9C-10; J-V9.42). *Note:* Applied after BCR-V9-11, before BCR-V9-27, and before item 372 (BCR-V9-22), which adds the dug-access clause to the `alternatives` comment this item writes (SR2-21; reconciliation round 3, continuation). *Needed by:* V09, V10. **BASE (M1–M3b, the reference UI (AP1–AP4)).**
+
+**464.** BCR-V9-23 (V09 §10) — "View as" as a display filter (V9C-18; J-V9.46). Also touches: §9.2. *Needed by:* V08, V09, V10 (V08 §2.2, §3.1 step 7 (c), §3.14 (5); V10 §1b.1, T-V10-6; SR2-19). **BASE (M1–M3b, the reference UI (AP1–AP4)).**
+
+**465.** BCR-V9-27 (V09 §10) — a preview's effects (V9C-56; J-V9.64). *Note:* Applied last of the three `PreviewResult` changes. *Needed by:* V09, V10. **BASE (M1–M3b, the reference UI (AP1–AP4)).**
+
+**466.** BCR-V9-28 (V09 §10) — the hit stack (V9C-57; J-V9.65). Also touches: §8.9. *Needed by:* V09, V10. **BASE (M1–M3b, the reference UI (AP1–AP4)).**
+
+**467.** BCR-V9-34 (V09 §10) — a removed thing's last shape (V9C-55 (4); J-V9.77). *Note:* applied after item 468 (BCR-V10-1), which adds the `entity` member this request answers on, and before item 583 (BCR-V9-36) (found beside SR2-20; reconciliation round 3, continuation). *Needed by:* V09. **BASE (M1–M3b, the reference UI (AP1–AP4)).**
+
+**468.** BCR-V10-1 (V10 §10) — the reader's new kinds and the oracle's typed answer. *Note:* applied before items 467 (BCR-V9-34) and 583 (BCR-V9-36), which extend the `entity` member it adds (SR2-20; reconciliation round 3, continuation). *Needed by:* V09, V10. **BASE (M3a, the oracle and the tool API (item 101)).**
+
+**583.** BCR-V9-36 (V09 §10) — an entity by its binding key (SR-22; J-V9.108). *Note:* applied after item 468 (BCR-V10-1, which adds the `entity` member from volume 10 §2.13's `ClerkQuery`) and item 467 (BCR-V9-34, the same member's tombstone answer), on the same member: its input reads `id`, `at`, `layer`, `below` and `dossierKey`. Written by volume 9's round-2 continuation (09:49) after this file's round-2 continuation census (09:27), and carried here by seam SR2-20 (reconciliation round 3, continuation). *Needed by:* V08, V09, V10 (V08 §4.6 item 2's resolution of a note's keys through the binding table, and V08 §3.1 step 7 (b)'s party lines with seam SR2-24; V10 §2.13's `ClerkQuery` `entity` member with seam SR2-25 (c)). **STAGED (SettlementForge stage, SF0 to SF7), with volume 9's AP5b (T-V9-69).**
+
+**469.** BCR-V10-5 (V10 §10) — scratch documents. *Note:* `generate`'s options: `scratch?` (this BCR) with BCR-V8-2's `docId?` and `prefix?`, one signature. *Needed by:* V09, V10. **STAGED (M3c, the built-in clerk).**
+
+**470.** BCR-V10-6 (V10 §10) — what a client needs from a dry run. Also touches: §5.2, §5.4. *Needed by:* V09, V10. **BASE (M3a, the oracle and the tool API (item 101)).**
+
+**471.** BCR-V10-13 (V10 §10) — the clerk's tool API adds for every client, not for the clerk alone. *Needed by:* V10. **BASE (M3a, the oracle and the tool API (item 101)).**
+
+**572.** BCR-V10-22 (V10 §10) — a caller may lower a read's admission (SS-10; J-V10.83). *Note:* Applied after item 464 (BCR-V9-23) and item 470 (BCR-V10-6), on the same options: `query` gains `opts?`, and `edit`'s and `preview`'s options gain `admitAs?` beside BCR-V10-6 (b)'s `filtered` (SR-02; reconciliation round 2). *Needed by:* V08, V09, V10 (V08 §3.14 (1), (2) (c): the party render's `admitAs`; SR2-19). **BASE (M3a, the oracle and the tool API (item 101)).**
+
+
+### 11.3 The host bridge — the host is the store (FTG-12)
+
+**472.** BCR-V8-1 (V08 §10) — the bridge's vocabulary for the port. *Note (SR2-19; reconciliation round 3):* its `export.request.knowledge` is BCR-V9-14's union (item 453, applied before it; volume 8's text by seam SR2-06): one field, one type. `Admission` is item 572's type, applied before it; its text also carries `party.render` and `party.rendered` (V08's round 3, J-V8.91), applied by reference (SR3-09; reconciliation round 4). *Needed by:* V08, V09. **STAGED (SettlementForge stage, SF0 to SF7).**
+
+**473.** BCR-V10-7 (V10 §10) — the clerk's configuration over the bridge. *Needed by:* V08, V09, V10. **STAGED (M3c, the built-in clerk).**
+
+
+### 12.4 CITY per-stage split (SCL-3)
+
+**474.** V01 BCR-19 (V01 §10) — budgets: S7c and S9b in the CITY split; the neighbourhood band; the build plan's stage-2 row. Also touches: §12.5, §12.6, §16. *Note:* Its (d)'s total ("185.5–248.5" → "198.75–266.75") is not applied; §16's totals are item 568's (S23-19 (b)). Its M5 row, estimate and effort-table line apply. *Needed by:* V01. **STAGED (M5, stage 2).**
+
+**475.** V04 BCR-11 (V04 §10) — the tail's budget row. Also touches: §12.8. *Needed by:* V04. **STAGED (M6-U, the underground layer).**
+
+**476.** BCR-V5-14 (V05 §10) — budgets, tests, packages, the build plan, streams and anchors. Also touches: §13.2, §14, §16, §6.1, §6.3. *Needed by:* V05. **STAGED (M6-sky).**
+
+**477.** BCR-V11-22 (V11 §10) — the siting feature rasters in the CITY split (V11C-17). *Needed by:* V11. **BASE (M2b, V11 C2).**
+
+
+### 12.6 Edits, regeneration, replay and warp, as functions of scope (SCL-9)
+
+**478.** BCR-V6-22 (V06 §10) — an epoch's replay cost under the history strategy. *Needed by:* V06. **STAGED (M6-E, the evolution engine).**
+
+**479.** BCR-V6-23 (V06 §10) — who leaves is the departure matching's (C6-30). *Needed by:* V06. **STAGED (M6-E, the evolution engine).**
+
+**480.** BCR-V8-16 (V08 §10) — the stage's budgets. *Needed by:* V08. **STAGED (SettlementForge stage, SF0 to SF7).**
+
+
+### 12.8 Memory (what is counted, per rung)
+
+**481.** BCR-V10-19 (V10 §10) — the clerk's scratch document in the memory lines. *Needed by:* V10. **STAGED (M3c, the built-in clerk).**
+
+
+### 13.2 Per-stage invariants, statistics, cost-model tests, contract tests, B-EDIT
+
+**482.** BCR-V3-9 (V03 §10) — the volume's bars and the structural faces. Also touches: §8.3. *Needed by:* V03. **STAGED (M6-P, the plan rung).**
+
+**483.** BCR-V3-14 (V03 §10) — T28-1 on a building with no storeyed wing, and T28-2 with structural faces, concealed suites and the storey-less plan (seams S23R2-10, S23R3-12). *Needed by:* V02 (T-V2-45's sealed stack, the storey-less plan the amended bars test; S23R3-13), V03. **STAGED (M6-P, the plan rung).**
+
+**484.** V04 BCR-15 (V04 §10) — the bars. *Needed by:* V04. **STAGED (M6-U, the underground layer).**
+
+**485.** V04 BCR-22 (V04 §10) — T14-1's parity clause (C4-01). *Needed by:* V04. **STAGED (M6-U, the underground layer).**
+
+**486.** BCR-V8-17 (V08 §10) — the stage's bars in the suites. Also touches: §13.8. *Needed by:* V08. **STAGED (SettlementForge stage, SF0 to SF7).**
+
+**487.** BCR-V10-11 (V10 §10) — the clerk's path in the acceptance fixtures. Also touches: §13.4. *Needed by:* V10. **STAGED (M3c, the built-in clerk).**
+
+**488.** BCR-V12-13 (V12 §10) — one harness for every random baseline. *Needed by:* V12. **BASE (M-1–M4, the calibration rig).**
+
+**489.** BCR-V12-16 (V12 §10) — the second known-city fixture (item 110 (e)). *Needed by:* V12. **BASE (M-1–M4, the calibration rig).**
+
+
+### 13.3 Seed goldens with the declared-shift protocol (G-P11, G-R9), from M1
+
+**490.** BCR-V9-24 (V09 §10) — the editor's sittings in the milestone record (V9C-38). *Note:* Its `ux?` follows BCR-V12-20's `d5` array. *Needed by:* V09. **BASE (M1–M3b, the reference UI (AP1–AP4)).**
+
+**491.** BCR-V12-7 (V12 §10) — seeds by formula for the benches and the goldens. Also touches: §13.2. *Needed by:* V12. **BASE (M-1–M4, the calibration rig).**
+
+**492.** BCR-V12-19 (V12 §10) — a fixture in a shift record. *Needed by:* V12. **BASE (M-1–M4, the calibration rig).**
+
+**493.** BCR-V12-20 (V12 §10) — several panels per milestone and the register's statuses in exits. *Note:* `d5` becomes the array; BCR-V9-24's `ux?` follows it. *Needed by:* V12. **BASE (M-1–M4, the calibration rig).**
+
+
+### 13.4 Visual regression, B-ZOOM and the app harness
+
+**494.** BCR-V9-17 (V09 §10) — when the first-five-minutes sessions run. Also touches: §16. *Needed by:* V09. **BASE (§16 bookkeeping).**
+
+
+### 13.5 Reference-parity metrics (B-REF), read from one numbers-only baseline file
+
+**495.** BCR-V7-23 (V07 §10) — the village bench and the VG baselines. Also touches: §13.8. *Note:* Its `reference` union is BCR-V12-1's. *Needed by:* V07, V12. **STAGED (the village product, V-M0 to V-M4).**
+
+**496.** BCR-V12-1 (V12 §10) — the baseline row and the band rule. *Note:* Its `reference` union (with `VG`, `FM`) is the one text; BCR-V7-23's baseline additions apply beside it. *Needed by:* V12. **BASE (M-1–M4, the calibration rig).**
+
+**497.** BCR-V12-2 (V12 §10) — the parity report. *Note:* its report row's `preset` is required and spelled as volume 12 §2.1's `PresetArm` — `'default'` (no parity preset: the O and C rows) or `'MFCG'`, `'FTG'`, `'NG'`, `'VG'`, `'FM'` (`'NG'` with item 584; seam SCC-R3C-6's file-f half, reconciliation round 4, continuation) — the base's optional `preset?: string` retired (SCC-R2C-6; V12's reconciliation round 3, continuation). *Needed by:* V12. **BASE (M-1–M4, the calibration rig).**
+
+
+### 13.6 The owner's side-by-side protocol (D-5)
+
+**498.** V01 BCR-21 (V01 §10) — the D-5 panel's `square` pairs use the carved plaza. *Needed by:* V01, V12. **STAGED (M5, stage 2).**
+
+**499.** BCR-V2-25 (V02 §10) — the owner's stage-3 panel. *Needed by:* V02, V12. **STAGED (M6, stage 3).**
+
+**500.** BCR-V12-6 (V12 §10) — the panel engine. *Needed by:* V12. **BASE (M-1–M4, the calibration rig).**
+
+
+### 13.7 Thresholds without a reference source (IMP-6, DEF-1; D-30)
+
+**501.** BCR-V12-12 (V12 §10) — J-T and the correlation row. *Needed by:* V11, V12. **BASE (M-1–M4, the calibration rig).**
+
+**585.** BCR-V3-33 (V03 §10) — the plan soft band's fallback never moves the capacity (SCC-R3C-8; J-V3.123): §13.7's *item 28 plan soft bands* fallback steps the layout pattern's circulation cell, never the cell of the class's programme at the band set's poorest band, which §2.6's capacity reads (J-A28.28); a miss there is reported and the cell stays. *Note (reconciliation round 4, continuation):* written by volume 3's round-4 continuation after this lane began and found by this file's census (J-RF1.7). *Note (reconciliation round 6, seam SCC-101, SCC-91's file-f half):* the capacity's two cells are never tuned: each class row's poorest-band `circulation` on volume 12 §3.11's default line from M2b; the `room` role's area on its `area` column's entry, written at M2b by that line and restated in place at P1 by volume 3 §2.4's first register line, measured at V3-P6 and never tuned (volume 3 §2.4; J-V3.123). *Needed by:* V03. **STAGED (M6-P, the plan rung), whose intake runs the band.**
+
+
+### 13.8 CI tiers and compute budgets (SCL-18; D-34)
+
+**502.** BCR-V12-14 (V12 §10) — the tiers. *Needed by:* V12. **BASE (M-1–M4, the calibration rig).**
+
+
+### 13.9 The corpus-calibration interface (staged by the owner; DEF-9)
+
+**503.** BCR-V12-3 (V12 §10) — the calibration run, generalised. *Needed by:* V12. **STAGED (M-CAL, the corpus reconciliation).**
+
+**504.** BCR-V12-4 (V12 §10) — the reconciliation's rules. *Needed by:* V12. **STAGED (M-CAL, the corpus reconciliation).**
+
+
+### §14 Package and module layout, key interfaces, dependency rules, extension points
+
+**505.** The package list: four new packages after `@plat/hood`. V01 BCR-1 replaces the `@plat/hood` line and extends `@plat/tables` and `@plat/model`; after it, in this order, BCR-V2-18's `@plat/buildings` line (with its dependency-rule changes), then BCR-V3-31's plan-rung additions to that line and rule (S23-37; reconciliation round 1), V04 BCR-12's `@plat/under` line and BCR-V7-10's `@plat/village` line. The four package lines quote the same current line; they add, none removes another's. Texts: V01 §10, V02 §10, V03 §10, V04 §10, V07 §10. *Requests:* V01 BCR-1, BCR-V2-18, BCR-V3-31, V04 BCR-12, BCR-V7-10. *Build (SCC-R3C-5; reconciliation round 4, continuation; revised by reconciliation round 5, seams SCC-89 and S23R4-05, volume 1's cross-volume note (35)):* V01 BCR-1's early parts are built as volume 1 §8.1 schedules them — at M1 `@plat/model`'s `HoodPlace`, `DistrictContext`, `TypedBoundary` and `WayNamingContext` (S13a's naming input, item 444) with the `FabricStrategy` comment (the base's `FabricStrategy.partition` and `District.boundary` already name the two views; items 207 (b), 210), and `@plat/tables`' `hood.constants` — its one `settings` row (volume 1 V1-2.2's `HoodSettings`) shipped whole, every column of volume 1 V1-3.14's column table at its default, the naming context reading four of its columns (item 444), every calibratable column taking its register entry at M1 (volume 1 §8.1; J-V1.99); at M2b `way.surface` and `squares.quota` (items 207 (a), 301); at M3a `TerraceState`, `terraceState` and `stepProfile` (items 211, 245) with `hood.templates`' `stepped` row, shipped whole, whose `params.terraceSpacingM` `terraceState` reads with `hood.constants`' `terrace.siteShare` (landed at M1), every calibratable column of `hood.templates` taking its register entry at M3a (volume 1 §8.1, with its seam SCC-92); the `@plat/hood` line, every other stage-2 table cell (`hood.templates`' other rows among them, their columns' entries written at M3a) and the other `@plat/model` types at M5 (volume 1 §8.1's register clause names each milestone's cells). *Needed by:* V01, V02, V03, V04, V07. **BASE (M1, M2b, M3a) for V01 BCR-1's early parts as the note lists them; STAGED for the rest, each line with its own stage (M5, M6 for stage 3, M6-P for the plan rung, M6-U for the underground, the village product).**
+
+**506.** BCR-V7-34 (V07 §10) — the fabric's levelled units. *Needed by:* V01, V07. **BASE (M3a, item 110 (b)'s rung gate and data key).**
+
+**507.** BCR-V8-3 (V08 §10) — the host client package and the embed entry. *Needed by:* V08, V09. **STAGED (SettlementForge stage, SF0 to SF7).**
+
+**508.** BCR-V8-4 (V08 §10) — the adapter manifest, the registry and the port's new results. *Needed by:* V08. **STAGED (SettlementForge stage, SF0 to SF7).**
+
+**509.** BCR-V8-5 (V08 §10) — the digest's additions. *Needed by:* V08. **STAGED (SettlementForge stage, SF0 to SF7).**
+
+**510.** **The dossier row sets of §14 item 7, written once** (SS-29; reconciliation round 1). **Consolidated.** BCR-V8-10 and BCR-V11-4 extend the same list; applied once: the list gains `tags`, `categories`, `crime`, `cultures`, `archetypes`, `categorySynonyms`, `keywords`, `relations`, `historyScars`, `magic`, `era`, `materials`, `customWeights` (J-V8.108; SCC-R3C-10, reconciliation round 4, continuation), `isolation`, `chainStatus`, `dependencySeverity`, `calamitySeverity`, `qualifiers`, `threats` and `ruinEvidence` (V08 §2.6, §2.6a), `ladders` (`LadderStepRow`, V11 §2.6, carrying `identity`) and `goodWords`; and after "§7.7 states the rules that read them" it adds "; volume V08 §2.6 writes the default rows of every set §7.7 does not; the shapes of `kinds`, `archetypes`, `categorySynonyms` and `keywords` are volume V08's (the `archetypes` row's optional `village` cell typed by volume V11 §2.8), the shapes of `ladders` and `goodWords`, and the rows of all six, volume V11's (V11 §3.11–§3.13); `dossier.catalogue`'s `ladderPairs` is V08's committed data (V11 §3.1 row 77)". *Requests:* BCR-V8-10, BCR-V11-4. *Needed by:* V08, V11. **STAGED (SettlementForge stage, SF0 to SF7; V11 C4).**
+
+**511.** BCR-V8-13 (V08 §10) — custom content's inputs (g item 104). Also touches: §7.7. *Needed by:* V08. **STAGED (SettlementForge stage, SF0 to SF7).**
+
+**512.** BCR-V8-23 (V08 §10) — one spelling of the line id (C8-19). *Needed by:* V08. **STAGED (SettlementForge stage, SF0 to SF7).**
+
+**513.** BCR-V8-27 (V08 §10) — the player's row of the audience table (C8-01). *Needed by:* V08. **STAGED (SettlementForge stage, SF0 to SF7).**
+
+**514.** BCR-V9-1 (V09 §10) — the reference UI's contents. *Needed by:* V09. **BASE (M1–M3b, the reference UI (AP1–AP4)).**
+
+**515.** BCR-V9-2 (V09 §10) — the walls control and the keymap. Also touches: §7.8. *Note:* BCR-V6-11 (b) edits the same T1 cell; both apply (T1's gesture: the walls chip and the time card). *Needed by:* V09. **BASE (M1–M3b, the reference UI (AP1–AP4)).**
+
+**516.** BCR-V9-8 (V09 §10) — the application's tables. *Needed by:* V07, V08, V09, V10, V11 (volume 11 writes the `label`, `icon`, `synonyms` and `commonness` cells, volume 7 its `v.` rows' cells; volume 8's notes and the refusal V10 renders read the label; seam-settlements-r5 SR5-15 (b), SR5-03, SR5-10; reconciliation round 6). **BASE (M1–M3b, the reference UI (AP1–AP4)).**
+
+**517.** BCR-V9-9 (V09 §10) — the feature snap by role. *Needed by:* V09. **BASE (M1–M3b, the reference UI (AP1–AP4)).**
+
+**518.** BCR-V10-8 (V10 §10) — the package, its dependency rule, its extension point and the tools table's clerk row. Also touches: §8.2. *Needed by:* V10. **STAGED (M3c, the built-in clerk).**
+
+**519.** BCR-V10-14 (V10 §10) — §14's clerk paragraph follows the design. *Needed by:* V10. **STAGED (M3c, the built-in clerk).**
+
+**520.** BCR-V11-4 (V11 §10) — the dossier row sets V11 writes (g item 108; item 104). **Merged into item 510** (SS-29; reconciliation round 1). *Needed by:* V11. **STAGED (with item 510; V11 C4).**
+
+**521.** BCR-V12-10 (V12 §10) — the package. *Needed by:* V12. **BASE (M-1–M4, the calibration rig).**
+
+
+### 15.1 Parity matrix — every capability row of `docs/confidence/*.md` (rows per `judge-parity.md` §2), plus the audit rows the matrix lacked
+
+**522.** BCR-V2-19 (V02 §10) — parity rows and the test pointer. Also touches: §13.2, §13.5. *Note (SCC-R1C-4; reconciliation round 2, continuation):* its §13.2 bullet enters the base's test catalogue at M2b, so the base's M2b and M3a exits name the bars of volume 2 §7.7 whose subject a BASE item lands before M6 — T-V2-52 (the half cellar's raise) with item 226 at M2b; T-V2-44 – T-V2-47, T-V2-50 and T-V2-51 with item 229 at M3a — and the bullet's other bars run from M6, as it states; the §15.1 Fantasy Manor rows and the §13.5 rows are stage 3's. *Needed by:* V02, V12. **BASE (M2b) for BCR-V2-19's §13.2 bullet — its T-V2-52 clause from M2b, its T-V2-44 – T-V2-47, T-V2-50, T-V2-51 clause from M3a with item 229; STAGED (M6, stage 3) for the §15.1 Fantasy Manor rows and the §13.5 rows.**
+
+
+### 15.2 Improvement matrix — every must-have / should-have / hook / stage-2 item of `docs/IMPROVEMENTS.md` §5
+
+**523.** V01 BCR-24 (V01 §10) — the improvement matrix's S4 (c) squares reading. *Needed by:* V01. **STAGED (M5, stage 2).**
+
+
+### §16 Build plan — calibration and spikes first, then a viewable town, then editing, then parity, then stage 2
+
+**524.** BCR-V2-20 (V02 §10) — the milestone, the effort and the staged row. *Note:* Its effort line is one of item 568's staged lines, and volume 2 §8.3's stated total ("202.75–273.25") is not applied (S23-19 (b)); item 567's M6-P row follows its M6 row. *Needed by:* V02, V03. **STAGED (M6, stage 3).**
+
+**525.** BCR-V2-37 (V02 §10) — the effort with the item 110 fold (restated by the second revision, V2C-73). *Needed by:* V02. **BASE (M3a, item 110 (c)–(d) through the base outline builder (BCR-V2-39)).**
+
+**526.** V04 BCR-13 (V04 §10) — the build plan. *Needed by:* V04. **STAGED (M6-U, the underground layer).**
+
+**527.** BCR-V7-16 (V07 §10) — the village's price. *Needed by:* V07. **STAGED (the village product, V-M0 to V-M4).**
+
+**528.** BCR-V7-17 (V07 §10) — the village rung path at the port. **Merged into item 202** (SS-19; reconciliation round 1): it rides on the one registration, not on `registerRungPath`. *Needed by:* V07. **STAGED (with item 202).**
+
+**529.** BCR-V8-18 (V08 §10) — the stage in the build plan. *Needed by:* V08, V12. **STAGED (SettlementForge stage, SF0 to SF7).**
+
+**530.** BCR-V9-18 (V09 §10) — the application's pricing. *Needed by:* V09. **BASE (§16 bookkeeping).**
+
+**531.** BCR-V10-10 (V10 §10) — the build plan, as deltas. *Needed by:* V10. **BASE (M3a, the oracle and the tool API (item 101)).**
+
+**532.** BCR-V11-11 (V11 §10) — the price of file g's content rows. *Note:* Its "the §16 total moves by the same amount" is item 568's computation. *Needed by:* V11. **BASE (§16 bookkeeping, V11 §8).**
+
+**533.** BCR-V12-9 (V12 §10) — the build plan and its price. *Needed by:* V12. **BASE (M-1–M4, the calibration rig).**
+
+**567.** BCR-V3-30 (V03 §10) — the plan rung's milestone **M6-P** (S23-19 (a); J-S23.3; J-V3.109; reconciliation round 1): a §16 row after item 524's M6 row, its effort-table line (one of item 568's staged lines) and the stage-3 row's pointer to volume 3; its estimate BCR-V3-30's — volume 3's total after item 238 moves the crypt derivation to M6-U (S23-20), less volume 3's PE row (S23R3-05). *Note:* Applied after item 524. Every item this file labels for the plan rung reads **STAGED (M6-P, the plan rung)**. Volume 3's PE row (S23R3-05) — the eager halves carried by items 233, 241, 242 and item 578's `basementDoor(b)` — is built within M2b and M3a: BCR-V3-30 adds its effort, as volume 3 §8 states it, to the base's M2b and M3a rows as deltas, which item 568 counts inside the first total, and prices M6-P's line without it (J-RF4.3; reconciliation round 4). *Needed by:* V02, V03. **STAGED (M6-P) — §16 bookkeeping.**
+
+**568.** **§16's totals, computed once** (S23-19 (b); reconciliation round 1). **Consolidated.** No request states §16's total: V01 BCR-19 (d)'s "198.75–266.75", volume 2 §8.3's "202.75–273.25", BCR-V11-11's "the §16 total moves by the same amount" and every other restated total are not applied. The coherence pass first adds every request's effort-table line and milestone-row delta (items 474, 524–533, 567 — volume 3's PE row in the base's M2b and M3a rows, item 567's note — and any the finalize pass adds), then computes, once: the **total** — the base subtotal (M-1 to M4b) plus stage 2 (M5), as §16 counts it now, equal to the milestone rows' sum (J-A16.01) — and, on a second line, the **total with the staged stages** — that total plus each staged milestone's own line: M6 (stage 3, volume 2), M6-P (the plan rung, volume 3), M6-U (the underground layer, volume 4), M6-sky (volume 5), M6-E (volume 6), the village product (volume 7), the SettlementForge stage (volume 8), M3c (the built-in clerk, volume 10) and M-CAL (volume 12), each priced by its own row and outside the first total until the owner orders it (V04 BCR-13's rule, now every staged row's). §16's plain words, D-20 and the one-page summary cite the two computed figures; every volume cites this item instead of stating a total. *Requests:* V01 BCR-19 (d), BCR-V2-20, BCR-V2-37, BCR-V11-11 and the §16 items above. *Needed by:* V01, V02, V03, V04, V05, V06, V07, V08, V09, V10, V11, V12. **BASE (§16 bookkeeping).**
+
+
+### 17.1 The clean-room chain (IMP-1; D-29)
+
+**534.** BCR-V11-21 (V11 §10) — the provenance grammar (V11C-16). *Needed by:* V11. **BASE (M0 (b), V11 C0).**
+
+**535.** BCR-V12-8 (V12 §10) — the crossing. *Needed by:* V12. **BASE (M-1–M4, the calibration rig).**
+
+**536.** BCR-V12-18 (V12 §10) — the reference maps' names in the deny-list. *Needed by:* V12. **BASE (M-1–M4, the calibration rig).**
+
+**537.** BCR-V12-21 (V12 §10) — the statistical methods. *Needed by:* V12. **BASE (M-1–M4, the calibration rig).**
+
+
+### 17.4 Dependencies (IMP-14)
+
+**538.** BCR-V10-9 (V10 §10) — the provider's SDK as a production dependency. *Needed by:* V10. **STAGED (M3c, the built-in clerk).**
+
+
+### II.1 The district → neighbourhood interface
+
+**539.** V01 BCR-2 (V01 §10) — the neighbourhood request and result replaced by volume 1's close-up interface. *Needed by:* V01. **STAGED (M5, stage 2).**
+
+**540.** V01 BCR-28 (V01 §10) — `type Sample` declared beside `Seam` (RV-pc-6). *Build (found beside SCC-R3C-5; reconciliation round 4, continuation; J-RF4.10):* the base's `Seam` records exist from M1 (§2.5's `District.seams`, "from milestone 1") and type their `boundarySamples` and the contract's `interiorSamples` as `Sample[]`, so the declaration is built at M1, or is met there by RV-pc-6's block if that lands first (the request's own condition). *Needed by:* V01. **BASE (M1).**
+
+**541.** V01 BCR-30 (V01 §10) — seam edge types gain `marsh`; J-P37's typing sentence (g item 106 (a)). *Needed by:* V01. **STAGED (M5, stage 2).**
+
+
+### II.2 Templates as fabric strategies (NG B2, B7, B8)
+
+**542.** V01 BCR-20 (V01 §10) — the `square` template's default mode becomes the carved plaza. *Needed by:* V01. **STAGED (M5, stage 2).**
+
+**543.** V01 BCR-38 (V01 §10) — the ring template's spacing grows by one factor per district. *Needed by:* V01. **STAGED (M5, stage 2).**
+
+
+### II.3 Block content dispatch, pins, local identities (stage-2 feature S2: context features)
+
+**544.** V01 BCR-22 (V01 §10) — II.3's block content dispatch table replaced by volume 1's rows. *Needed by:* V01. **STAGED (M5, stage 2).**
+
+
+### II.4 The render tier, the workflow and the close-up's persistence status (stage-2 features S5, S6)
+
+**545.** V01 BCR-23 (V01 §10) — II.4's workflow: open any outline; a layout card is T8's `fabric`, a block's content T9's. *Needed by:* V01. **STAGED (M5, stage 2).**
+
+
+### II.6 The staged layers — floating islands and sewers: the hooks the base carries now
+
+**546.** BCR-V5-4 (V05 §10) — the island rule's supplies, rows and strategy. Also touches: §4.9. *Needed by:* V05. **STAGED (M6-sky).**
+
+**547.** BCR-V5-17 (V05 §10) — the magical node in the town supply. *Needed by:* V05. **STAGED (M6-sky).**
+
+
+### II.7.1 Existence by tier (item 14): the rung row, the S0 draw, the toggle as visibility, the drain rule
+
+**548.** V04 BCR-28 (V04 §10) — culverts connect plots (C4-21; J-V4.73). *Needed by:* V04. **STAGED (M6-U, the underground layer).**
+
+**549.** V04 BCR-37 (V04 §10) — the TOWN toggle's locality (C4-04). Also touches: §7.8. *Needed by:* V04. **STAGED (M6-U, the underground layer).**
+
+**550.** BCR-V6-16 (V06 §10) — sewers re-resolved at each epoch (item 14; J-V6.60). *Needed by:* V06. **STAGED (M6-E, the evolution engine).**
+
+
+### II.7.3 The underground neighbourhoods (item 12): the owner's three rules as invariants, the occupants, the cut, the surface constraint, access, depth, lifecycle, order
+
+**551.** V04 BCR-19 (V04 §10) — the sewer-front allocation's prediction (RV-pc-4). Also touches: §4.5. *Needed by:* V04. **STAGED (M6-U, the underground layer).**
+
+**552.** V04 BCR-27 (V04 §10) — the surface rule within reach of the ground (C4-18; applied only if T-V4-41 fails at U2, J-V4.60). *Needed by:* V04. **STAGED (M6-U, the underground layer).**
+
+**553.** BCR-V11-15 (V11 §10) — the cellar trades (J111). *Needed by:* V11. **STAGED (M6-U, the underground layer).**
+
+
+### II.7.4 The hook interfaces and the base's part
+
+**554.** `AccessPoint.kind` gains `sinkhole`, `collapsed_shaft`, `ruin_entrance` (g item 109 (j) (3) (ii)). A duplicate pair: V04 BCR-29 and V01 BCR-37 request the same three kinds; applied once, with V01's comment clause appended ("each public opening of role `access` a `HoodPlace` of kind `opening` on the surface, volume 1 V1-3.7.1"; SL-07). *Requests:* V04 BCR-29, V01 BCR-37. *Needed by:* V01, V04. **STAGED (M6-U, the underground layer).**
+
+**555.** V04 BCR-21 (V04 §10) — an access's state follows its host. *Needed by:* V04. **STAGED (M6-U, the underground layer).**
+
+**556.** V04 BCR-23 (V04 §10) — the underground's shares are extension cells (C4-01). Also touches: §7.6. *Needed by:* V04. **STAGED (M6-U, the underground layer).**
+
+**557.** V04 BCR-30 (V04 §10) — an access's cause (C4-48). *Needed by:* V04. **STAGED (M6-U, the underground layer).**
+
+
+### II.7.5 The undercity (item 65): what it requires, existence and the 1–3 bound, a shadow of the settlement
+
+**558.** V04 BCR-42 (V04 §10) — a ruin under the historical preset (C4-54 (4); J-V4.58). *Needed by:* V04. **STAGED (M6-U, the underground layer).**
+
+
+### II.7.6 Catacombs, caverns and quarries; depth bands and the connection graph (item 65)
+
+**559.** The Vaults bullet: the cistern sentence. V04 BCR-45's Vaults sentence supersedes V04 BCR-20's cistern sentence (V04 BCR-46's note); BCR-20's squares clause and its `II.6` `SewerStrategy` part apply as written. *Requests:* V04 BCR-20. *Needed by:* V04. **STAGED (M6-U).**
+
+**560.** **The catacomb's entrance** (g item 109 (k) (2) as revised ~20:05; SL-17, reconciliation round 1). **Consolidated.** V01 BCR-36 and V04 BCR-36 both replace II.7.6's "an entrance stair from the source's building (an `AccessPoint` of source `system`)"; applied once, as: "an entrance stair on the source's burial face, its head in the face's chapel where one stands, never inside a church-class building — a churchyard's catacomb is entered from the churchyard, and through its church only by the crypt join; a quarry ossuary by its working's shaft and a stair at the working's surface head — (an `AccessPoint` of source `system`; the underground volume §3.5.1 (9))". V04 BCR-36's other two replacements (the sources with their chances; the burial share) apply as written, the chances being the cells of volume 11's `CatacombRule` rows (V11 §3.23.8; rule R-c). Volume 1 makes the entrance a place (V1-3.7.1). *Requests:* V04 BCR-36, V01 BCR-36. *Needed by:* V01, V04, V11. **STAGED (M6-U, the underground layer; volume 1's place for it with M5).**
+
+**561.** V04 BCR-24 (V04 §10) — the `dug` system's generation-time creators (C4-06). Also touches: §7.3. *Note:* Applied before BCR-V9-22 in §7.3 item 9 (d). *Needed by:* V04. **STAGED (M6-U, the underground layer).**
+
+**562.** V04 BCR-26 (V04 §10) — the connection stage's interface (C4-12). *Needed by:* V04. **STAGED (M6-U, the underground layer).**
+
+**563.** V04 BCR-31 (V04 §10) — the ruin's depth band (C4-51; J-V4.57). *Needed by:* V04. **STAGED (M6-U, the underground layer).**
+
+**564.** V04 BCR-36 (V04 §10) — the catacomb's sources, share and entrance (C4-49). **Merged into item 560** (SL-17; reconciliation round 1). *Needed by:* V04, V11. **STAGED (with item 560, M6-U).**
+
+**565.** BCR-V7-27 (V07 §10) — caverns and ruins below TOWN. *Needed by:* V04, V07. **STAGED (the village product, V-M0 to V-M4).**
+
+**566.** BCR-V11-14 (V11 §10) — crypts are not catacombs (J111). *Needed by:* V11. **STAGED (M6-U, the underground layer).**
+
+
+### PART III — What a later village product needs from the base (one page; the hooks are concrete)
+
+**577.** BCR-V7-37 (V07 §10) — the village classes are rows of their own (SR1-31): PART III's *Placement and designation (items 16–19)* sentence. *Note (SR2-01; reconciliation round 3):* applied with item 202's PART III lines (another sentence of the same part; neither reads the other's words). *Needed by:* V07. **STAGED (with item 202).**
+
+
+### Staged by the owner's roadmap (this document defers nothing)
+
+**569.** BCR-V12-11 (V12 §10) — the staged row: the corpus calibration built at depth as M-CAL. *Note:* found unlisted by
+reconciliation round 1's census (every volume's BCR against this file; J-RF1.7). *Needed by:* V12. **STAGED (M-CAL, the corpus
+reconciliation).**
+
+---
+
+## Reconciliation round 1 (2026-09-29)
+
+> PENDING FABLE REVIEW — written by opus standing in for the Fable seat volumes/reconcile-BASE-F-r1; covered by the whole-design retrovalidation (J84).
+
+Against the round-0 seam checks (`docs/volumes/critique/seam-*-r0.md`). **Fifteen issues** were routed to this file — 1 blocker,
+10 majors, 4 minors — and **all fifteen are fixed**; none is left for later (no fix list). Items keep their numbers; merged
+items become pointers ("merged into item N"); new items are 567–569.
+
+| issue | sev. | items | what changed |
+|---|---|---|---|
+| ST-02 | blocker | 317, 322 | 317's runner reads the product of item 322's fold (V07 §2.1's hand-off band); 322 applied before 317, *Needed by* V06, V08 |
+| S23-17 | major | 305 | the deck basement request bends to the nearest ground building of its plot group, else block, named `bend.deck.basement` (rule R-a) |
+| S23-19 | major | 474, 524, 567, 568; V03 relabels | the plan rung is M6-P (item 567 = BCR-V3-30); §16's totals computed once, with a second "with the staged stages" line (item 568); 27 plan-rung items read **STAGED (M6-P, the plan rung)** |
+| S23-20 | major | 226, 234, 238, 436 | part names BASE at M3a; the crypt chain one build unit, **BASE design, built at M6-U**, 238 before 226; header defines the label |
+| SL-17 | major | 560, 564 | one catacomb-entrance sentence (V04's with V01's "never inside a church-class building"; a quarry ossuary by its shaft and surface-head stair) |
+| SL-18 | major | 207, 208, 209 | the `Way` line applied 208 → 207 → 209, 207's comment names `wayFall` for the sewer |
+| ST-05 | major | 260 | islands and accesses keep volume 5's record form; `suppress.kind` = raised, harbourChain, quayWall, retaining, deckPlot (with ST-15); one lift rule |
+| ST-06 | major | 244, 447 | the raised way's `source` derived at read (generated · declared); `carried` and `foundedRung` dropped |
+| ST-25 | major | 209, 431 | one op `retypeLand` with `crop?` and `rotation?`, one hand form (T2 `ground`), one lifecycle row; 431 absorbed |
+| SS-19 | major | 202, 326, 528 | one registration, `ProductDecl` in `StrategyRegistry.products`; `PortRungPath` and `registerRungPath` dropped |
+| SCC-29 | major | 226, 238, 436; 26 V11 items | (a) the crypt label as S23-20; (b) every volume-11 item labelled by volume 11 §8's row and its §16 milestone; (c) V06's X1 and J-V6.53 |
+| S23-21 | minor | 351, 352, 374 | application order at `setRoomUnit` and in the buildings row |
+| ST-33 | minor | 447 | span `state` and the way's `underuseSince` exported |
+| SS-29 | minor | 510, 520 | one §14 item-7 list with the shape-and-row split |
+| SS-30 | minor | 430 | carried by item 432, applied once, naming a `v.` key |
+
+**File-f halves of volume-owned issues, applied here** (this file is this lane's): S23-03 (406 after 405), S23-37 (505 gains
+BCR-V3-31), S23-39 (235, 237, 263 after 261), SL-07 (554's comment), ST-17 (319 *Needed by* V06), ST-32 (409 points to 447),
+ST-56 (246: a deck's condition is its host's existence), SCC-02 (456 superseded by 447). **Left to the finalize pass:** ST-30's
+new item for BCR-V6-27, which volume 6 had not yet written when this lane closed [carried by reconciliation round 2 as item 573].
+
+**Volume halves applied by this lane.** The workflow routed issues whose owner cell read "V03 + BASE-F" to this lane alone,
+so their volume sides reached no volume lane; each was applied as an exact-match replacement on the live file (backups in the
+session scratchpad), with a dated note in each volume touched: V01 (SL-17's "surface head" in §0, the ledger, V1-3.5.12 (4),
+V1-3.7.1, T-V1-47 and BCR-36; SL-18's BCR-6 comment; S23-19's BCR-19 (d) and §8 totals; ST-06's IN-V01-4), V02 (S23-17's
+BCR-V2-34 bend; S23-20's §8.1 and R8; S23-19's §8.3 total), V03 (S23-20: P2 without the crypt derivation, 3–4.25 pw, the total
+18.5–25.25 pw; volume 3's own lane applied its halves of S23-17 and S23-19, J-V3.110), V04 (the crypt derivation in U4,
++0.25 pw), V06 (SCC-29 (c); ST-25's op fields), V07 (ST-25's rename; SS-19's registration wording), V12 and `_integrate.md`
+J-VI.2 (ST-06).
+
+**Decisions (vetoable).**
+* **J-RF1.1** — Chose to apply the volume halves routed only here (above) over leaving them for round 2, because no volume lane
+  received them and each required text is spelled out in its seam issue; every replacement asserted a unique match, and the two
+  that collided with a concurrent lane's edit (volume 4's U4 price and total) were re-read and re-applied on the live text.
+* **J-RF1.2** — Chose to place new items 567–568 in the §16 section and 569 under its own heading (base-section order, as the
+  coherence pass applies this file) over appending them at the file's end, because the file's order is its application order.
+* **J-RF1.3** — Chose "BASE design, built at M6-U" for the crypt chain (S23-20) over SCC-29's "M3a unless the coherence pass
+  names another", because file g item 109 states "BASE design; built with the underground layer" and the chain's readers
+  (volume 4's crypt join, volume 11's C8 rows) land at M6-U; the header defines the label, since this file's BASE otherwise means
+  M-1 to M4b.
+* **J-RF1.4** — Chose to price the crypt derivation at 0.25 pw, moved from volume 3's P2 to volume 4's U4, over leaving the price
+  with volume 3, because the build unit moved with its label (PLAUSIBLE; a seed call, a growth to `cryptM2` and one closing rank
+  pass with their tests).
+* **J-RF1.5** — Chose the lowest number to hold each merged text (202, 209, 510, 560) and pointers in the others, over new
+  numbers, because numbers are kept and each lowest number already sits where the coherence pass applies the text.
+* **J-RF1.6** — Chose to keep stage 2 (M5) inside §16's first total (item 568) and to put M6, M6-P, M6-U, M6-sky, M6-E, the
+  village product, the SettlementForge stage, M3c and M-CAL on the "with the staged stages" line, over moving M5 out, because
+  §16 already prices M5 inside 185.5–248.5 and S23-19 lists the staged milestones from M6.
+* **J-RF1.7** — Chose to add BCR-V12-11 (item 569), found by a census of every volume BCR against this file, over leaving it to
+  the finalize pass, because an unlisted request never reaches the base.
+* **J-RF1.8** — Chose multi-milestone labels for volume-11 items that span two of its rows (432, 435, 439, 441, 425) over one
+  label per item, because volume 11 §8 builds their parts at different milestones.
+
+**CONFIRMED versus PLAUSIBLE.** CONFIRMED by execution: every edit was an exact-match replacement that asserted one match
+(scripts in the session scratchpad), no plan-rung or "content milestones" label remains (grep: 0 and 0), `retypeLandUse` is
+gone from volume 7's model text, and the tokens this round added to the file hit none of the reference identifiers
+(`ref-idents.json`: 0). CONFIRMED by reading: each fix against its seam issue and the live volume text. PLAUSIBLE: the 0.25 pw
+price of the crypt derivation, and that the concurrent volume lanes leave the replaced sentences as written here.
+
+---
+
+## Reconciliation round 2 (2026-09-29)
+
+> PENDING FABLE REVIEW — written by opus standing in for the Fable seat volumes/reconcile-BASE-F-r2; covered by the whole-design retrovalidation (J84).
+
+Against the round-1 seam checks (`docs/volumes/critique/seam-*-r1.md`). **Ten issues** were routed to this file — 0 blockers,
+3 majors, 7 minors — and **all ten are fixed**; none is invalid and none is left for later (the fix list is empty). Items keep
+their numbers; new items are 570–575.
+
+| issue | sev. | items | what changed |
+|---|---|---|---|
+| S23R1-05 | major | 226; header | the half cellar's raise (BCR-V2-28's round-1 extension (a), (b)) is **BASE (M2b, with §2.6's basement gate)**, applied after items 370 and 231 and before the gate's milestone (else J-V2.91's declared shift); the raised crypt, (c) and `kind 'raised'` stay **BASE design, built at M6-U**; the 238/436 build-unit note scoped to the crypt parts; the crypt-only clause inert until M6-U; the header names the exception |
+| TR-14 | major | 245, 291, 447; V06 §2.12 | `RetainingWall.state` is a step knot profile along the chain (`retaining_state_knot`; `standing` · `decayed` · `ruined`, absent = standing): writers knot at their `StretchRef`'s ends by `splitThrough`, one canonical form, carried through re-derivation, cut, undo and migration; item 447 exports one LineString per run of equal state; V6 §2.12's row cites the profile |
+| SR-02 | major | 570, 571, 572 | BCR-V9-35 and BCR-V10-23 under §7.1, BCR-V10-22 under §11.2, with SR-02's order notes and labels |
+| S23R1-14 | minor | 305; V02 BCR-V2-34, V2 §1b | the deck-basement bend gains V03's third rung, "else the nearest building on the ground", one text in file f, BCR-V2-34 and V2 §1b's bend row |
+| SLR1-18 | minor | 213, 282, 309; every item | V01 added to 213 and 282; 309 reads V01, V02, V04, V05; all 350 line pointers dropped (every one was stale) — an item cites the request's id and §10, the id heading the request (header rule); eight titles the generator had truncated completed from their headings |
+| TR-23 | minor | 209, 268, 573, 574 | (a) item 573 carries BCR-V6-27, STAGED (M6-E); (b) 268 *Needed by* V06, V07; (c) `repairRetaining` lands with the earlier of M6-sky and M6-E; (d) item 574 carries BCR-V6-28, applied before item 319, with a pointer to TR-09's text until volume 6 writes it |
+| TR-24 | minor | `_integrate.md` J-VI.5, H3, J-VI.14 | the withdrawn low-building exception replaced by V02's X23 as reconciled (every building meeting the supports or strip cleared by V6 §3.19 (7), cause `clearance`); J-VI.14 lists item 260's five kinds and returns islands and accesses to volume 5's record form; a dated note after §2.2's table |
+| SR1-29 | minor | 202 | §1.1's "at each epoch's target" sentence reads §4.11's rung at an epoch (inside the hand-off band, the previous product's edge row); PART III's "own port path … registers its rung rows" clause reads the village product's registration, consulted by the one port through `LadderRouter` |
+| SR1-30 | minor | 510 | the `archetypes` row's optional `village` cell named as typed by V11 §2.8 |
+| SCC-49 | minor | 427; V02 BCR-V2-26 | item 427 absorbed by item 435, its STAGED (M6) label withdrawn; V02's BCR-V2-26 marked absorbed |
+
+**Found beside the issues and fixed here.** (1) *Census* (every volume's bold BCR headings against this file's items, their
+*Requests* lists and the *Not items* paragraph): the four requests SR-02 and TR-23 (a) name were the only ones uncarried; now
+0 (J-RF1.7's census repeated). (2) *Item 575*: the base's own `Enceinte` has the defect TR-14 found — §4.11's breached or
+dismantled stretch is a `StretchRef`, never stored, while §8.2 draws a gap glyph over "each breached stretch" — so the wall
+gains the same profile (`Enceinte.condition`, `wall_state_knot`; BASE at M4 with the decline table). (3) The note in round 1
+that left BCR-V6-27 to the finalize pass now points to item 573.
+
+**Shared-file halves applied by this lane** (exact-string replacements, each anchor asserted unique, re-read before
+writing; each with a note in the lane events log): V02 — BCR-V2-34's clause and V2 §1b's `bend.deck.basement` row (S23R1-14), an
+*Absorbed* paragraph after BCR-V2-26 (SCC-49); V06 — §2.12's retaining-stretch row (TR-14); `_integrate.md` — J-VI.5's V06
+consequence and H3 (TR-24, with volume 2's S23R1-13, which asks for the same two cells: one merged text, the V02 lane told),
+J-VI.14 (TR-24), J-VI.18's retaining clause and its deferral to item 447 (TR-14, ST-33), and a dated note after §2.2's table.
+
+**Decisions (vetoable).**
+* **J-RF2.1** — Chose to drop every line pointer (350, all stale) and cite a request by its id and §10 over recomputing the
+  numbers, because five volume lanes are editing their files now and any recomputed number goes stale at their next write,
+  while each id heads exactly one bold heading in its volume (census: 397 headings, no duplicate). SLR1-18 (b) offered both.
+* **J-RF2.2** — Chose the knot role name `retaining_state_knot` over TR-14's `retaining.state`, because §2.2 rule 7's
+  registry spells every knot role `<attribute>_knot` (`width_knot`, `base_knot`, `invert_knot`, `bank_knot`,
+  `shore_class_knot`); `wall_state_knot` (item 575) follows the same rule.
+* **J-RF2.3** — Chose one canonical form for a state profile (an open wall's first-vertex knot kept, equal consecutive knots
+  merged, an all-equal profile stored as a scalar, `standing` stored as absent) over storing knots as written, because a step
+  profile is constant before its first knot (§2.2 rule 5), so a knot at the chain's start is needed for a partial write, and
+  the digest must not depend on the history of writes that led to the same condition.
+* **J-RF2.4** — Chose to carry a knot through a re-derivation on its surviving vertex, else to the nearest point of the new
+  chain within `retaining.settings.stateSnapCm` (volume 11's `retaining` table, its named `settings` row; 100 cm; our own, calibrate-later), else to drop it, over moving knots by arc-length
+  fraction, because a lengthened or shortened wall would slide a slumped stretch along its line under fractions (PLAUSIBLE:
+  the 100 cm tolerance is unmeasured; the confirming measurement is T-V6-62's H-TERRACE century, run with this carry, keeping every decayed run within 100 cm of its old place across each re-derivation (volume 6 §8's `stateSnapCm` line on `bar.T-V6-62`, restating the default entry; seams SCC-110, SCC-111, SCC-114), and the pre-decided fallback, if a fixture drops a knot that should survive, is the
+  wall's own `stepProfile` sample spacing as the tolerance).
+* **J-RF2.5** — Chose to add item 575 (the enceinte's condition) as an integration item now over routing it to a later seam
+  round, because it is TR-14's defect in the base's own record, its mechanism is item 245's, and no volume text changes
+  (volume 6's and volume 5's ops already name the stretch); vetoable as any integration item (337, 383).
+* **J-RF2.6** — Chose to write item 574 for BCR-V6-28 before volume 6 has written the request, with a pointer to TR-09's
+  required text as the fallback, over waiting, because TR-23 (d) asks for the item and its order before item 319 belongs in
+  this file; labelled M6-U because the cavern and ruin clusters it seats households in exist only from the underground layer.
+* **J-RF2.7** — Chose to apply volume 2's S23R1-13 together with TR-24 as one text in `_integrate.md` over leaving the V02
+  lane to rewrite the same two cells, because both issues replace the same withdrawn clause with compatible words and two
+  writers of one cell would contradict; the merged cells cite both (X23, V2 §3.17 (b), S23-01, ST-08).
+* **J-RF2.8** — Chose "the earlier of M6-sky and M6-E" for `repairRetaining` (TR-23 (c)) without the village product,
+  because volume 7's house-platform walls decay through volume 6's pool (V07 §3.12), so only the landfall and the pool can
+  decay a stretch first.
+
+**CONFIRMED versus PLAUSIBLE.** CONFIRMED by execution: every edit asserted exactly one match of its anchor on the live file;
+the census finds 0 uncarried BCRs and 376 items numbered 200–575 without gap or duplicate; no `l. N` pointer remains; the
+eight completed titles match their volumes' headings; the tokens this round added hit none of the reference identifiers
+(`ref-idents.json`, the round-1 method); `doc_checks.py` over the file (headings resolved against the base) gives C1, C2 and S1 0 before and after, C3 25 → 34 hits (the new runs are item-number digit runs and ordinary phrases such as "asks for the same two"), C4 0 → 1 (item 245's line holds six ordinary words — gate, knot, point, side, view, wall — that one corpus list also holds; reviewed, not a copied list) and S2 8 → 17 (volume-local pointers such as V6 §2.12 and V6 §3.19, which resolve in their volumes, not the base). CONFIRMED by reading: each fix against its seam issue and the live volume text
+(V02 BCR-V2-26, -28, -34; V03 §4.2; V06 §2.12, §2.8, BCR-V6-26, -27; V09 BCR-V9-35; V10 BCR-V10-22, -23; V11 §2.8
+`HeightsRow`; base §1.1, §2.2 rule 5, §3.4, §4.11, PART III, §16 M2b). PLAUSIBLE: the 100 cm snap tolerance (J-RF2.4), and
+that the concurrent volume lanes (V01, V02, V03, V04, V05 round 2) leave the shared sentences as written here.
+
+**Fix list.** Empty — every issue routed here is fixed (the owner's no-defer directive).
+
+---
+
+## Reconciliation round 3 (2026-09-29)
+
+> PENDING FABLE REVIEW — written by opus standing in for the Fable seat volumes/reconcile-BASE-F-r3; covered by the whole-design retrovalidation (J84).
+
+Against the round-2 seam checks (`docs/volumes/critique/seam-*-r2.md`). **Six issues** were routed to this file — 0 blockers,
+2 majors, 4 minors — and **all six are fixed**; none is invalid and none is left for later (the fix list is empty). Items keep
+their numbers; new items are 576–577.
+
+| issue | sev. | items | what changed |
+|---|---|---|---|
+| S23R2-02 | major | 309; 370, 231 | item 309 (BCR-V5-30) reads **BASE (M3a, with item 110 (a)'s levelling)** for the platform-datum rule and `levelledGroundCm` on the ground arena and **STAGED (M6-sky)** for the sky key and the sky readers; applied before items 370 and 231, whose datum samples read the reader (S23R2-01), and those two items now name the order from their end; the request's closing clause (levelled heights in a raster) is not taken; its readers include volume 3's W2 outside ground; *Needed by* V01, V02, V03, V04, V05 |
+| SR2-01 | major | 576, 577, 310; new PART III heading | item 576 carries BCR-V7-36 ((a) on §10.2's `BuildingClassRow` after item 432; (b) on §2.5's `ContextVector.dist` as SR2-02 widens it), *Needed by* V07, V11, STAGED (the village product); item 577 carries BCR-V7-37 under a PART III heading, applied with item 202's PART III lines, STAGED (with item 202); item 310 carries BCR-V7-24 as SR2-15 reduces it (`RungProfile.splitSites` not applied; V11 §3.7.4's `splitEnabled` is the off switch) |
+| TT-10 | minor | 574, 252 | (a) item 574 drops its pointer to a critique file and applies BCR-V6-28 (V06 §10) as written, touching §4.5 S7b (6) as well; (b) item 252 (BCR-V5-9) is *Needed by* V04, V05, V06 |
+| SR2-09 | minor | `_integrate.md` J-VI.16 | reads `v.parish_church` counted (SR1-24) and the village cap of the specialisation rows as V07's `rules.tiers.capPerSettlement`, per settlement (V11 §3.24.3 has no rung column; SS-31, SR1-10, SR1-11), with a dated round note after §2.2's table |
+| SR2-19 | minor | 464, 453, 572, 472 | 464 *Needed by* V08, V09, V10; 453 V08, V09 (V08's citation with SR2-06); 572 V08, V09, V10 (with SR2-07); 472's note: its `export.request.knowledge` is BCR-V9-14's union (item 453, applied before it), one field, one type |
+| SCC-53 | minor | 376, 377 | 376's note carries SCC-52's scope sentence as the applied text (`FM` resolves only the cells carrying a `presets.FM` entry — `composition.json`'s and volume 11 §3.24.0's item-110 chance and offer cells — and zeroes no `extension` cell); 376 *Needed by* V02, V11, V12; 377 V07, V11, V12 |
+
+**Census repeated** (J-RF1.7's, the script of round 2): 400 bold BCR headings across the twelve volumes, no duplicate id; before
+this round two were uncarried (BCR-V7-36, BCR-V7-37, exactly SR2-01's), now 0; 378 items numbered 200–577 without gap or
+duplicate.
+
+**Shared-file half applied by this lane:** `_integrate.md` J-VI.16 (SR2-09) and a dated note after §2.2's table, one
+exact-string replacement each, anchor asserted unique on the live file. No volume text was edited: the volume halves of
+S23R2-01/-06 (V02, V03), SR2-02/-15 (V07), SR2-06/-07 (V08) and SCC-52 (V02) are their lanes', and the items above cite them.
+
+**Decisions (vetoable).**
+* **J-RF3.1** — Chose to place item 577 under a new `PART III` heading between II.7.6 and *Staged by the owner's roadmap* (the
+  base's order) over placing it beside item 202 in §1.1, because this file's order is its application order and PART III is
+  577's only target; its note ties it to item 202.
+* **J-RF3.2** — Chose to place item 576 in §10.2 directly after item 432, with "Also touches: §2.5", over the §2.5 section,
+  because its part (a) must follow item 432 on the same interface (SR2-01 orders it so), as items 573–575 sit by the items they
+  follow.
+* **J-RF3.3** — Chose to write item 310's reduction as a note naming the clause not applied over waiting for volume 7 to reduce
+  BCR-V7-24, because the note holds whether or not volume 7's lane has written SR2-15 when the coherence pass runs; the text of
+  the clauses that do apply stays volume 7's.
+* **J-RF3.4** — Chose to name, beside the three volumes S23R2-02 lists, volume 4's BCR-45 span rule among item 309's M3a
+  readers (item 244 builds it at M3a and BCR-V5-30 lists it as a reader), and to state that before M3a nothing is levelled so
+  the reader equals the raster sampler everywhere, over the seam's text alone, because the first makes the M3a label follow from
+  every ground reader and the second shows that item 226's M2b half-cellar raise owes no declared shift when the reader arrives.
+* **J-RF3.5** — Chose to write the order note on items 370 and 231 as well as on item 309 over item 309's note alone, because an
+  applier reading the datum items would otherwise meet the order only from the far end.
+* **J-RF3.6** — Chose to list V08 in items 453 and 572 now, naming the seam issue that brings V08's citation, over waiting for
+  volume 8's lane, because the coherence pass reads this file after every round-3 lane and SR2-19 asks for the lists.
+
+**CONFIRMED versus PLAUSIBLE.** CONFIRMED by execution: every edit asserted exactly one match of its anchor on the live file,
+whose md5 was checked unchanged since it was read (file f `a85996a2…`, `_integrate.md` `a8c72fb4…`); the census (above);
+the tokens this round added hit none of the reference identifiers (`ref-idents.json`, 3 193 identifiers, the round-1
+method: 0 in file f, 0 in `_integrate.md`); `doc_checks.py` over the file with headings resolved against the base, run on the
+pre-round backup and on the result (this note included) against one corpus snapshot: C1, C2 and S1 0 before and after, C4
+2 → 2 (item 245's six ordinary words, reviewed in round 2), C3 35 → 40 (the round stamp's phrase, this note's "CONFIRMED
+versus PLAUSIBLE" opening, and "nothing else it is the stage 3" in item 376's applied sentence and in this note's table —
+ordinary words) and S2 19 → 24 (V05 §3.22 and V08 §3.14 in items 309 and 464 and in this note, volume-local pointers); the
+baseline differs from round 2's closing counts (34, 1, 17) by corpus drift, not by this file. CONFIRMED by
+reading: each fix against its seam issue and the live text — V05 BCR-V5-30 and §1b's reader row, V01 §1b and V1-2.3
+(`stepProfile` reads `levelledGroundCm`), V03's W2 row, V06 BCR-V6-28 (parts (a)–(c)) and X34, V07 BCR-V7-24, -36, -37 and
+IN-V07-2, V11 §2.3 (`presence?`), V02 BCR-V2-14, and the census counts of the V08, V09 and V10 citations of BCR-V9-23, -14 and
+BCR-V10-22. PLAUSIBLE: that the volume lanes now running (V01–V05 round 3) and the V07 and V08 halves (SR2-02, SR2-06, SR2-07,
+SR2-15) land as their seam issues require, which items 309, 453, 472, 572, 576 and 310 read.
+
+**Fix list.** Empty — every issue routed here is fixed (the owner's no-defer directive).
+
+---
+
+## Reconciliation round 4 (2026-09-29)
+
+> PENDING FABLE REVIEW — written by opus standing in for the Fable seat volumes/reconcile-BASE-F-r4; covered by the whole-design retrovalidation (J84).
+
+Against the round-3 seam checks (`docs/volumes/critique/seam-*-r3.md`). **Six issues** were routed to this file — 0 blockers,
+0 majors, 6 minors — and **all six are fixed**; none is invalid and none is left for later (the fix list is empty). Items keep
+their numbers; new items are 578–580.
+
+| issue | sev. | items | what changed |
+|---|---|---|---|
+| S23R3-06 | minor | 233, 241, 242, 578; 567, 568 | 233 (BCR-V3-12) **BASE (M2b, with *One capacity function*)**, its two `PlanGeometryRow.stair` cells shipped then; 241 (BCR-V3-26) **BASE (M3a, with item 110 (a), (c) and item 230)**; 242 (BCR-V3-27) **BASE (M3a, with item 110 (a)'s retaining walls)**, *Needed by* V01, V02, V03 — each as volume 3's PE row builds it (S23R3-05); new item 578 carries BCR-V3-32 (step 3 and T28-3 read `basementDoor(b)`), applied after items 371 and 242, *Needed by* V01, V02, V03, **STAGED (M6-P)** for the texts with `basementDoor(b)` itself BASE (M3a, with item 242); 567 and 568 count PE in the base's rows (J-RF4.3) |
+| SLR3-12 | minor | 308, 309 | 308 *Needed by* V01, V05 (volume 1's χ̃ reads the sky pseudo-district's point, V1-3.2 (5)); 309's volume-4 readers gain the buried floor under a raised grade and the village working's depth test, with their sections (merged with TU-07 (c), J-RF4.1) |
+| TU-07 | minor | 574, 319, 310, 309 | (a) 574's note says item 319 quotes step (6) as 574 leaves it and appends after S11; 319 names the order from its end; (b) 310's title is volume 7's; (c) 309's village working reads it from the later of M6-U and the village product (J-RF4.1) |
+| SR3-05 | minor | 310, 576, 579 | 310's title as TU-07 (b); 576 titled as SR3-01 sets volume 7's title, carrying part (c) on §4.2's S2 *Government* sentence, "Also touches: §2.5 (part (b)), §4.2 (part (c))"; new item 579 carries SR3-02's request on §4.7 *Furniture pins* as BCR-V7-38, **STAGED (the village product)**; census re-run: 0 uncarried |
+| SR3-09 | minor | 453, 572, 472 | 453 and 572 cite V08's landed text (§2.2's `export.request.knowledge` and `exportPicture`; §3.14 (1), (2) (c)'s `admitAs`) in place of the "once … lands" conditions; 472's note: `Admission` is item 572's type, applied before it, and BCR-V8-1 also carries `party.render` and `party.rendered` (J-V8.91), applied by reference |
+| SCC-86 | minor | 575, 291 | 575: each wall run's LineString carries its enceinte's `id` and `run` (its ordinal from the trace's first vertex), as item 447's retaining runs do, *Needed by* V05, V06, V12; 291 *Needed by* V04, V06, V11, V12 |
+
+**Census repeated** (J-RF1.7's script) at the round's close: 402 bold BCR headings across the twelve volumes, no duplicate
+id, 0 uncarried; 381 items numbered 200–580 without gap or duplicate. The two new headings are volume 3's BCR-V3-32, written
+by its round-4 lane under item 578's id (it cites item 578 and its order), and volume 1's BCR-45, written by its round-4 lane
+(SLR3-07, S23R3-04) and carried as item 580. Item 579's BCR-V7-38 is written by volume 7's lane when it runs (SR3-02), told
+the id in the lane events log.
+
+**Found beside the issues and fixed here.** (1) Volume 3's PE row (S23R3-05) moves work from the plan rung into M2b and M3a,
+so §16's first total, which item 568 computes, gains PE's effort and M6-P's staged line loses it (the total with the staged
+stages is unchanged); volume 3's round 4 wrote BCR-V3-30 so (M6-P's row without PE, the M2b and M3a rows' deltas), and items
+567 and 568 now cite it instead of item 567's former estimate (J-RF4.3). (2) *Census:* V01 BCR-45 (a sky island's crossing
+sites, SLR3-07) was uncarried — item 580 carries it (J-RF4.6). No volume text was edited by this lane.
+
+**Decisions (vetoable).**
+* **J-RF4.1** — Chose, for item 309's village working, "from the later of M6-U and the village product" over SLR3-12's "from
+  M6-U" or TU-07 (c)'s "with the village product" alone, because volume 4 builds the working's breach in its U3b (M6-U) while
+  the test runs only at village rungs, which exist only with the village product; the list and section pointers are SLR3-12's.
+* **J-RF4.2** — Chose to write items 578 and 579 before volumes 3 and 7 have written BCR-V3-32 and BCR-V7-38, each id the next
+  free in its volume's §10 and announced in the lane events log, over waiting, as J-RF2.6 did for item 574, because S23R3-06 and
+  SR3-05 ask for the items and their order and labels are this file's; each item states the mechanism it carries, so it holds
+  if the coherence pass runs first, and the id-keyed census catches a different id.
+* **J-RF4.3** — Chose to count volume 3's PE row in the base's M2b and M3a rows (inside §16's first total) over leaving it in
+  M6-P's staged line, because items 233, 241 and 242 are now BASE at those milestones and a staged line may price only staged
+  work; the effort is volume 3 §8's and the deltas BCR-V3-30's, stated once there, never restated here (item 567 no longer
+  restates the M6-P estimate).
+* **J-RF4.4** — Chose to carry item 576's part (c) and its new title from SR3-01's required text now over waiting for volume 7's
+  round 4, because SR3-05 asks for them and the item summarises only, the exact text staying BCR-V7-36's.
+* **J-RF4.5** — Chose to write the order between items 574 and 319 on item 319 as well, over item 574's note alone, as J-RF3.5
+  did for items 370 and 231, so an applier meets the order from either end.
+* **J-RF4.6** — Chose to label item 580 (V01 BCR-45) **STAGED (M5, stage 2)**, noting that volume 1's W8 builds the island unit
+  run on a fixture island and that it is in use on real islands with M6-sky, over **STAGED (M6-sky)**, because volume 1 §8.2's
+  W8 row builds the crossing-site spans and their bridges at M5 while volume 5 plugs `SkyStrategy` in later; placed after item
+  285 in §4.2, the request's first heading, with "Also touches: §4.8".
+
+**CONFIRMED versus PLAUSIBLE.** CONFIRMED by execution: each of the twenty-three item edits asserted exactly one match of its
+anchor on the live file, whose md5 was checked before every script (`38c29d39…` at the start); the census (above); the plan-rung label count
+29 → 27 (three items relabelled BASE, one added); the tokens this round added hit none of the 3 193 reference identifiers
+(`ref-idents.json`, the round-1 method); `doc_checks.py` over the file with headings resolved against the base, on the
+pre-round backup and on the result (this note included) against one corpus snapshot: C1, C2 and S1 0 before and after, C4 2 → 2 (item 245's six ordinary words, reviewed in round 2), C3 40 → 57 (section-number digit runs such as item 309's volume-4 pointers, and ordinary phrases — "not with the plan rung", "the rest of the row", the round stamp and this note's opening) and S2 24 → 34 (volume-local pointers such as V4 §3.5.5, V11 §3.18, V12 §3.11 and V08 §3.14, which resolve in their volumes, not the base). CONFIRMED by reading: each fix against its
+seam issue and the live volume text — V03 BCR-V3-12, -26, -27 and §8's P1 row; V05 BCR-V5-30's reader list; V04 BCR-6's
+second bullet, §3.5.5, §3.5.7 (a) and U3b; V07 BCR-V7-24 and BCR-V7-36; V08 BCR-V8-1, §2.2, §3.14 and J-V8.91; V12 §2.2's
+*Runs merged on read* and its §12 PLAUSIBLE clause; V11 §3.18; V12 §3.11's decline row; V01 V1-3.2 (5). CONFIRMED by reading
+as well: volume 3's round-4 BCR-V3-32 (it cites item 578 and its order) and BCR-V3-30 (M6-P without PE, the M2b and M3a
+deltas), and volume 1's BCR-45, on the live files while their lanes ran. PLAUSIBLE: that volume 7's round-4 lane writes
+BCR-V7-36 (c), its new title and BCR-V7-38 as SR3-01 and SR3-02 require and under that id, and that the running volume-1 and
+volume-3 lanes land these texts as read.
+
+**Fix list.** Empty — every issue routed here is fixed (the owner's no-defer directive).
+
+## Integration continuation (2026-09-29)
+
+*volumes/_integrate, continued under its CONTINUE RULE after reconciliation round 4 (opus stand-in for the Fable seat,
+PENDING FABLE REVIEW; decisions in `docs/volumes/_integrate.md` §8).* Items keep their numbers; one item is added after
+the last.
+
+* **Request census, re-run on the volumes as reconciled:** 404 requests open a bold heading in the twelve `## 10`
+  sections; every one is cited by an item, and no item cites a request that no `## 10` defines. One request was
+  uncarried — BCR-V11-31, which volume 11's round-4 lane wrote after this file's round-4 lane landed — and is now
+  **item 581**, placed with item 377 in §7.6's group (J-VI.24).
+* **Item 244 amended (J-VI.27):** the raised-way record gains the held fields `clearanceCm` and `spanSpacingCm` that
+  BCR-V9-33's edit targets name, and the **support step** — the one producer of the record's `supports`, which no request
+  laid (volume 11's `pierSpacingM`, `pierWidthShare` and `pierMinCm` cells had no reader, and `maxPierM` only volume 11's own sentence) — with the
+  clearance rule over crossed ways. Its *Requests* and *Needed by* lines grow accordingly; item 364 notes that its two
+  measures are item 244's fields.
+* **Clean-room:** file f re-scanned whole-token and by substring against the reference readings' identifiers: 0 hits
+  (`_integrate.md` §8.3).
+
+---
+
+## Reconciliation round 1 — continuation (2026-09-29)
+
+> PENDING FABLE REVIEW — written by opus standing in for the Fable seat volumes/reconcile-BASE-F-r1; covered by the whole-design retrovalidation (J84).
+
+The workflow re-ran this lane with one issue its 03:39 landing had not seen: **SCC-R0C-1** (major), raised at 08:28 by the
+continuation of the round-0 content-calibration seam check (`docs/volumes/critique/seam-content-calibration-r0.md` §6.1),
+which read volume 2 §9 – §12 whole for the first time. The brief's other thirteen issues (S23-20, S23-21, SL-17, SL-18, ST-02,
+ST-05, ST-06, ST-25, ST-33, SS-19, SS-29, SS-30, SCC-29) are round 1's, landed as *Reconciliation round 1* records, and were
+re-verified present by grep (items 202, 207, 208, 234, 238, 244, 260, 317, 322, 326, 351, 430, 431, 447, 520, 528, 564); nothing
+of them was redone. No fix list.
+
+| issue | sev. | items | what changed |
+|---|---|---|---|
+| SCC-R0C-1 | major | 224, 426; notes on 229, 259 | (a) item 426 (BCR-V2-09, the designation template's `composition?`) relabelled **BASE (M3a)** with items 229 and 259: volume 11's C3b writes the field by BCR-V11-27's replacement and the base outline builder's stepped gate reads it; both `composition?` fields and the `heights` comment change no base behaviour before a writer; *Needed by* gains V11. (b) item 224 (BCR-V2-23, the hint clause of *Entrances* rule 1) relabelled **BASE (M3a)** with items 228 and 230: the clause applies wherever `Building.massing.entrance` is set, before M6 only a stepped or oval building's; applied before 228 and 230. Items 224 and 426 note "one build unit with item 229"; item 229 and item 259 note the same unit from their ends. |
+
+**Left to its owner:** SCC-R0C-2 – SCC-R0C-5 are volume 2's (its M3a lists and its BCR-V2-09 and BCR-V2-23 headings gaining
+"from M3a, with BCR-V2-39"; the size-band mirrors; two decision rows; BCR-V2-19's test range); this file needs no text for
+them, since each item cites its request by id.
+
+**Decisions (vetoable).**
+* **J-RF1.9** — Chose to apply SCC-R0C-1 now, as a continuation of this lane, over returning the landed summary under the
+  resume rule alone, because the resume rule protects work already landed and this issue was not in it: its only other route
+  was a NOTE to the content-calibration seam's round 4, which was cut, so it could reach no reconcile lane before the
+  coherence pass.
+* **J-RF1.10** — Chose to add V11 to item 426's *Needed by* and to write the build unit into items 229 and 259 as well as into
+  224 and 426, over the issue's two notes only, because volume 11's C3b is the field's first writer at M3a (BCR-V11-27) and a
+  build unit named at one end only is a one-ended hook (the owner's wiring rule, 2026-09-28).
+* **J-RF1.11** — Chose to leave §16's M3a and M6 prices unchanged (item 568 computes them from the volumes' rows) over moving
+  effort between them, because the two pieces are a field declaration with its comments and one conditional clause, both
+  already inside volume 2's M3a-V2 build of `massStepped`, whose gate reads the field and whose `MassingRef` carries the
+  hint (PLAUSIBLE; volume 2's lane states it when it carries SCC-R0C-2).
+
+**CONFIRMED versus PLAUSIBLE.** CONFIRMED by reading at source: BCR-V2-39's gate reads "a class whose designation template's
+`composition` names a `stepped` row" and BCR-V2-38 amends rule 1 "as BCR-V2-23 amends it" (volume 2 §10, md5 cdea0309…);
+BCR-V11-27's S11 mechanism ends "the chosen row's `composition` and `heights` replace the band template's" (volume 11 §10);
+only volume 2 cites BCR-V2-09 and BCR-V2-23 by id (grep over every volume). CONFIRMED by execution: every edit was an
+exact-match replacement asserting one match (scripts in the session scratchpad, backup `rcBFr1c/f-pre-r1c.md`). PLAUSIBLE:
+the unchanged price (J-RF1.11).
+
+---
+
+## Reconciliation round 2 — continuation (2026-09-29)
+
+> PENDING FABLE REVIEW — written by opus standing in for the Fable seat volumes/reconcile-BASE-F-r2; covered by the whole-design retrovalidation (J84).
+
+The workflow re-ran this lane with a wider brief: ten issues, three of which its 04:55 landing had not seen. They were raised
+between 09:12 and 09:15 by the continuations of three round-1 seam checks: **SR-32** (major; `seam-surfaces-r1.md` §7),
+**S23R1-18** (minor; `seam-stage2-3-r1.md`, the continuation's whole read of volume 1) and **SCC-R1C-4** (minor;
+`seam-content-calibration-r1.md` §7, SCC-R0C-5's base half). The other seven issues (TR-14, SLR1-18, TR-23, TR-24, SR1-29,
+SR1-30, SCC-49) were fixed and recorded by *Reconciliation round 2* above. They were re-checked in the live text and all
+seven are still there: items 202, 209, 213, 245, 268, 282, 309, 427, 447, 510, 573 and 574; no `l. N` pointer; V6 §2.12's
+`retaining_state_knot` row; `_integrate.md` J-VI.5, H3 and J-VI.14; V02's *Absorbed* paragraph after BCR-V2-26. None of the
+seven was redone. **All three new issues are fixed.** None is invalid and the fix list is empty.
+
+| issue | sev. | items | what changed |
+|---|---|---|---|
+| SR-32 | major | 372 | The note now takes BCR-V9-22 as it reads after reconcile-V09-r1 (SS-35; J-V9.102). No rung of the ladder is an F-EDIT. The rungs are: a dug access; else a public opening at volume 4 §3.5.7 (e)'s nearest candidate; else a `collapsed_shaft` at the point of public ground over the cluster nearest, in plan, to its shallowest element (cause `edit`); where no public ground lies over the cluster, the dry run bends the declaration onto ground part 0 over the same footprint, named `bend.under.noAccess` with "add a way down" (item 101 R2). The old note made the shaft the last resort and gave no outcome for that last case. |
+| S23R1-18 | minor | 303; 216, 227, 241, 305, 371, 406, 419; 229 | (a) Item 303 (BCR-V2-24) now reads **BASE (M3a, with item 229's base outline builder) for its hole sentence** (every hole of a footprint face a yard part of kind `court`) **and STAGED (M6, stage 3) for the rest**. Its note names the M3a readers of the typed court (T-V2-42; V1-3.8.2 step 1 with T-V1-26 and T-V1-54; volume 3's court openings). Item 229 names the same build unit from its end. (b) *Needed by* adds V01 on items 216, 227, 241, 303, 305, 371, 406 and 419, each with the V01 reader S23R1-18 names. |
+| SCC-R1C-4 | minor | 522; 226, 229 | Item 522 (BCR-V2-19) now reads **BASE (M2b)** for its §13.2 bullet: the T-V2-52 clause from M2b, and the T-V2-44 – T-V2-47, T-V2-50, T-V2-51 clause from M3a with item 229. The §15.1 Fantasy Manor rows and the §13.5 rows stay **STAGED (M6, stage 3)**. The base's M2b and M3a exits therefore name the bars they run. Items 226 and 229 each name the bars that enter with them. |
+
+**Found beside the issues and fixed here.** Item 371 (BCR-V2-33) gains "Also touches: §2.6, §5.3, §7.4, §10.2, §13.2
+(T29-4), Judgment calls (J-A29.25)". Volume 2's round-4 extension (S23R3-03) amends all of these. Volume 2's lane suggested
+the list to reconciliation round 4 (lane events log, 07:16), and that round did not write it.
+
+**Volume 2's half.** S23R1-17's half is volume 2's: BCR-V2-24's heading and build note, V2 §3.5's "(BCR-V2-24's hole
+sentence, built at M3a)", the M3a lists and J-V2.104. It was absent at this lane's start and was applied by volume 2's round-2
+continuation while this lane ran. It was read in the live text and matches item 303's split. This lane edited no volume
+text.
+
+**Decisions (vetoable).**
+* **J-RF2.9** — Chose to apply the three new issues as a continuation of this lane over returning the 04:55 summary under the
+  resume rule alone, as J-RF1.9 did for SCC-R0C-1. The resume rule protects work already landed, and these issues were raised
+  after that landing. No other reconcile lane of this file carries them before the coherence pass.
+* **J-RF2.10** — Chose to write item 303's hole-sentence unit into item 229 as well, and item 522's bars into items 226 and
+  229, over the two items the issues name. A build unit or a bar schedule named at one end only is a one-ended hook (the
+  owner's wiring rule; J-RF1.10).
+* **J-RF2.11** — Chose to spell out item 372's four rungs over the seam's elided "…". The coherence pass reads this note
+  beside the request, an ellipsis is not applicable text, and an item that resolves a conflict states the change in full
+  (the header's rule). Each rung summarises BCR-V9-22's own words, so the request stays the single source.
+* **J-RF2.12** — Chose to leave §16's M3a and M6 prices unchanged for item 303's split over moving effort (as J-RF1.11).
+  The hole sentence is one typing rule inside S11's yard partition. Volume 2's M3a-V2 row names it by S23R1-17, and item 568
+  computes the totals from the volumes' rows (PLAUSIBLE).
+
+**CONFIRMED versus PLAUSIBLE.** CONFIRMED by execution:
+* Every edit asserted exactly one match of its anchor on the live file, whose md5 was checked unchanged since it was read
+  (`1d04dca0…` at the start; backup `rcBFr2c/f-pre-r2c.md`).
+* The request census (J-RF1.7's script): 404 request ids open a bold heading in the twelve `## 10` sections, every one
+  carried, 0 uncarried. The script's two "duplicates" are V02 paragraph lines that open with a bold id ("BCR-V2-09's …",
+  "BCR-V2-24's hole sentence") and are not headings.
+* 383 items, numbered 200–582, with no gap or duplicate.
+* The 59 tokens this continuation added hit none of the 4 798 reference identifiers (`ref-idents.json`, the round-1
+  method).
+
+CONFIRMED by reading:
+* The live V09 BCR-V9-22 and V9 §4.17.4 (the four rungs), and that only volume 9 cites BCR-V9-22.
+* V02's BCR-V2-19 (its §13.2 bullet's clauses), T-V2-44 – T-V2-52 and BCR-V2-33's round-4 extension.
+* That V01 reads the eight items' subjects (V01 §1b rows at its reserve, its stack drawing and `DeckContext`).
+* S23R1-17 and S23R1-18 against file f's labels.
+
+PLAUSIBLE: the unchanged price (J-RF2.12), and that volume 2's lane applies S23R1-17's half as the seam states it.
+
+**Fix list.** Empty: every issue routed here is fixed (the owner's no-defer directive).
+
+---
+
+## Reconciliation round 3 — continuation (2026-09-29)
+
+> PENDING FABLE REVIEW — written by opus standing in for the Fable seat volumes/reconcile-BASE-F-r3; covered by the whole-design retrovalidation (J84).
+
+The workflow re-ran this lane with a wider brief: eight issues, four of which its 06:08 landing had not seen. They were
+raised by the continuations of two round-2 seam checks: **S23R2-09** (major; `seam-stage2-3-r2.md` §8, 10:08), and
+**SR2-20**, **SR2-21** (majors) and **SR2-29** (minor) (`seam-surfaces-r2.md` §9.1, 10:02). The other four — SR2-01
+(major), TT-10, SR2-09 and SCC-53 (minors) — were fixed and recorded by *Reconciliation round 3* above. They were re-checked
+in the live text and all four are still there: items 576, 577 and item 310's note (SR2-01; the census below finds BCR-V7-36
+and BCR-V7-37 carried); item 574 with no pointer to a critique file and "Also touches: §4.5 S7b (6)", and item 252 *Needed
+by* V04, V05, V06 (TT-10); `_integrate.md` J-VI.16's `v.parish_church` counted and `rules.tiers.capPerSettlement`, per
+settlement (SR2-09); items 376 and 377 with SCC-52's sentence and V11, V12 (SCC-53). None of the four was redone. **All four
+new issues are fixed.** None is invalid and the fix list is empty.
+
+| issue | sev. | items | what changed |
+|---|---|---|---|
+| S23R2-09 | major | 233, 241, 578 | Item 233's note now ships, beside the two `stair` cells at M2b, five more `PlanGeometryRow` cells at M3a with items 241, 242 and 578 — `datum.maxSteps`, `stair.riserCm` and `exposureAllStoreys` (item 241's `Entrance.storey` and rule 4), `moduleCm` and `door.mainCm` (item 578's `basementDoor(b)` and W2's outside-ground sample; volume 3 §8's PE) — and the rest of the row with M6-P. Item 241 names its three cells from its end. Item 578 names `moduleCm` and `door.mainCm` (M3a) and the basement gate's `cellar.insetCm` and `cellar.depthCm` (M2b). The base's M3a therefore ships `Entrance.storey` and `basementDoor(b)` with every cell they read, before volume 1's entrance reserve calls the function at M5. No estimate moves. |
+| SR2-20 | major | new 583; 468 | Item 583 carries BCR-V9-36 in §11.2's run, after item 468: the `entity` query's input gains `dossierKey`, answered as the binding row's entity under `admitAs`, `null` when no row holds the key. It is applied after items 468 and 467 on the same member, whose input then reads `id`, `at`, `layer`, `below` and `dossierKey`. *Needed by* V08, V09, V10; **STAGED (SettlementForge stage, SF0 to SF7), with volume 9's AP5b (T-V9-69)**. Item 468 names the order from its end. |
+| SR2-21 | major | 372, 463 | Item 372's note applies BCR-V9-22 as it reads after reconcile-V09-r2's second brief (SR-32, SR-36; J-V9.102, J-V9.112). The four rungs stay as before. After them come the dug access's further qualifying buildings in `PreviewResult.alternatives` (the rule's order, plan distance then address, at most three), and the grouped `addUndergroundAccess` with no `target`, which aims at the cluster's element nearest that building's footprint (ties by address). The item gains "Also touches: §11.2", applied after item 463, which writes the `alternatives` comment. Item 463 names the order from its end. *Needed by* V09, V10. |
+| SR2-29 | minor | 390, 410 | Item 390 gains "Also touches: §5.4 (`GenerationReport.dossierNotes`; SR-23)" and reads *Needed by* V08, V09. Item 410 reads "Also touches: §8.3, §11.1, §11.2 (the `gazetteer` query's `customChain` rows, listed only when the key admits every joined node; SR-25)" and *Needed by* V08, V09. |
+
+**Found beside the issues and fixed here.** Item 467 (BCR-V9-34) answers on the `entity` member that item 468 (BCR-V10-1)
+adds. It was listed first in §11.2 and named no order, so the listed order would have applied it to a member not yet
+there. It now reads "applied after item 468 … and before item 583" (J-RF3.8).
+
+**Left to their owners.** The seams pair these fixes with volume halves that belong to the volume lanes: V03's S23R2-15 (b)
+(the `PlanGeometryRow` row's readers and ship milestones, the other end of S23R2-09); V08's SR2-24 (a) and V10's SR2-25 (c)
+(`dossierKey` in V08 §3.1 step 7 (b) and in V10 §2.13's `ClerkQuery`, the companions of SR2-20); and V10's SR2-22 (V10
+§3.16's **Use another building**, the companion of SR2-21). This lane edited no volume text. Items 372 and 583 name those
+companions in their *Needed by* (J-RF3.9).
+
+**Decisions (vetoable).**
+* **J-RF3.7** — Chose to apply the four new issues as a continuation of this lane over returning the 06:08 summary under the
+  resume rule alone, as J-RF1.9 and J-RF2.9 did. The resume rule protects work already landed, and these issues were raised
+  after that landing (10:02 and 10:08).
+* **J-RF3.8** — Chose to add item 467's order note (after item 468, before item 583), found beside SR2-20, over leaving it.
+  Item 583's note orders itself after both. Without 467's own note the listed order would apply BCR-V9-34 before the member
+  it extends exists. Item 468 names both followers, so the order reads from every end (J-RF3.5).
+* **J-RF3.9** — Chose to list V08 and V10 in item 583's *Needed by* now over waiting for their lanes, as J-RF3.6 did for
+  items 453 and 572. The note names the V08 reader that already uses the mechanism (V08 §4.6 item 2's resolution through the
+  binding table) and the two seam companions that bring the explicit citations (SR2-24 (a), SR2-25 (c)). Likewise V10 in
+  item 372, with SR2-22.
+* **J-RF3.10** — Chose to keep item 372's label **STAGED (M6-U, with the underground layer (AP6))**, although its new §11.2
+  clause sits in a comment that item 463 builds as BASE. The clause names a bend that only the underground layer's dwelling
+  closures produce, so it is written with M6-U; before M6-U the comment reads as item 463 leaves it.
+* **J-RF3.11** — Chose to leave §16's prices unchanged over moving effort (as J-RF1.11 and J-RF2.12). For S23R2-09 the cells
+  are data volume 3 authored, and PE's 0.5–0.75 pw at M3a holds, as the seam states. For SR2-20 the change is one optional
+  input on a query the facade already answers by `id`, and volume 9's AP5b prices its use (PLAUSIBLE).
+
+**CONFIRMED versus PLAUSIBLE.** CONFIRMED by execution:
+* Every edit asserted exactly one match of its anchor on the live file, whose md5 was checked unchanged since it was read
+  (`ae1bb8ca…` at the start; backup `rcBFr3c/f-pre-r3c.md`).
+* The request census (J-RF1.7's script): 405 request ids open a bold heading in the twelve `## 10` sections; before this
+  continuation one was uncarried (BCR-V9-36, exactly SR2-20's), now 0. The script's two "duplicates" are V02 paragraph lines
+  that open with a bold id and are not headings.
+* 384 items, numbered 200–583, with no gap or duplicate.
+* No token this continuation added is one of the 3 193 reference identifiers (`ref-idents.json`, the round-1 method: 50 new
+  whole tokens and 58 new dotted tokens, 0 hits). The one substring match in the rewritten lines, `Basement.access`, is the
+  base's own field (21 occurrences in `docs/ARCHITECTURE.md`), already in item 578's unchanged text; its count in this file
+  is 3 before and after.
+* `doc_checks.py` over the file, with headings resolved against the base, on the pre-round backup and on the result (this
+  note included), run back to back: C1, C2 and S1 0 before and after, C4 2 → 2 (item 245's six ordinary words, reviewed in
+  round 2), C3 75 → 90 and S2 35 → 45 (C3: section-number digit runs such as "PE's 0.5–0.75 pw", ordinary phrases — "and the rest of the row" and "from one of those buildings", in an item and again where this note quotes it, and this note's own "listed at the top of" — the round stamp and this note's opening; S2: volume-local pointers V10 §2.13, V10 §3.16 and V9 §5.7, which resolve in their volumes, not the base).
+
+CONFIRMED by reading:
+* V03 §2's `PlanGeometryRow` (the five cells and their defaults), §3.3's storey heights (they read the base's
+  `cellar.depthCm` and no further row cell), §3.6's W2 (`door.mainCm`, and `cellar.insetCm` by a retaining wall), §3.7.1's
+  `basementDoor(b)` input list, §8's PE row and §13's round-4 hand-off; the base's `cellar` row (`depthCm`, `insetCm`).
+* V09's BCR-V9-22 (both of reconcile-V09-r2's sentences and the §11.2 target), BCR-V9-12 (the `alternatives` comment),
+  BCR-V9-34 and BCR-V9-36; V10 §2.13's `entity` member (`id`, `at`, `layer`, `below`) and `EntityCard.dossierKey`.
+* V08's BCR-V8-8 (its §5.4 part) and BCR-V8-15 (its §11.2 part), and V09's citations of each (3 and 5).
+* The four history issues in the live text, as listed at the top of this note.
+
+PLAUSIBLE: the unchanged prices (J-RF3.11), and that the companion lanes (V03's S23R2-15, V08's SR2-24, V10's SR2-22 and
+SR2-25) land as their seam issues require.
+
+**Fix list.** Empty: every issue routed here is fixed (the owner's no-defer directive).
+
+---
+
+## Reconciliation round 4 — continuation (2026-09-29)
+
+> PENDING FABLE REVIEW — written by opus standing in for the Fable seat volumes/reconcile-BASE-F-r4; covered by the whole-design retrovalidation (J84).
+
+The workflow re-ran this lane with a wider brief: eight issues, four of which its 07:19 landing had not seen. They were
+raised by the continuations of three round-3 seam checks: **SCC-R3C-5** (major) and **SCC-R3C-10** (minor)
+(`seam-content-calibration-r3.md` §6.2, 11:19), **S23R3-13** (minor; `seam-stage2-3-r3.md` §8, 11:11) and **SR3-15**
+(minor; `seam-surfaces-r3.md` §9.2, 11:07). The other four — SLR3-12, TU-07, SR3-05 and SCC-86 (minors) — were fixed and
+recorded by *Reconciliation round 4* above. They were re-checked in the live text and all four are still there: item 308
+*Needed by* V01, V05 and item 309's volume-4 readers with the buried floor and the village working, the latter from the later
+of M6-U and the village product (SLR3-12, TU-07 (c)); the order notes on items 574 and 319 (TU-07 (a)); item 310's and item
+576's titles, item 576's part (c) and item 579 (SR3-05, TU-07 (b)); item 575's `id` and `run` with *Needed by* V12, and item
+291's V11, V12 (SCC-86). None of the four was redone. **All four new issues are fixed.** None is invalid and the fix list is
+empty.
+
+| issue | sev. | items | what changed |
+|---|---|---|---|
+| SCC-R3C-5 | major | 207, 210, 272, 280, 300, 301, 323, 340, 345, 444, 505; 584, 376, 497 | Every volume-1 request that volume 1 §8.1 lands inside the base's milestones is labelled by the part it builds there; the rest stays **STAGED (M5, stage 2)**. **M1**, the schema: item 207 (b) (`HoodPlace` declared with its registry row, no producer), item 210 (`Block.content`, always `ordinary`, and `overrides?`; the `boundary` view; the first migration row), item 272 (`Recipe.product`), item 340 (a) (the three stream ids reserved), item 345 (`S8.seed` reserved), item 444's first clause (the way-naming context in S13a with the M1 grammar). **M2b**: item 207 (a) (`slopeP95` for every way and the way-surface rule), items 280 and 300's way-surface clauses (the rule's place after field pass 2), item 301 — BCR-32 (a)'s S7b half, (b) and (d): `squares.quota` and S7b (3)'s claims above a block's size — with (a)'s dispatch clause and (c) at M5 and *Needed by* V11 (SCC-R3C-4's registry row), item 323 (the hook points declared, empty until M5). Item 505 lists V01 BCR-1's early parts by milestone: `HoodPlace`, `DistrictContext`, `TypedBoundary` and `hood.constants`' four naming rows at M1; `way.surface` and `squares.quota` at M2b; `TerraceState`, `terraceState`, `stepProfile` and their two cells at M3a (volume 1 §8.1's register clause). Each item carries a *Build* note saying which part lands where and why. Its last clause: new **item 584** carries V01 BCR-46, the `NG` parity preset, which volume 1's round-4 continuation wrote under the id this lane announced. It sits after item 581 in §7.6's group, is applied after items 376, 377 and 581, and reads **STAGED (M5, stage 2)**: the first `NG` entry is a stage-2 column of `hood.constants`, and no base table carries one. Item 376 points to it (`NG?`, and no `extension.over` value). |
+| S23R3-13 | minor | 483 | Item 483 reads "BCR-V3-14 (V03 §10) — T28-1 on a building with no storeyed wing, and T28-2 with structural faces, concealed suites and the storey-less plan (seams S23R2-10, S23R3-12)", *Needed by* V02 (T-V2-45's sealed stack), V03, **STAGED (M6-P)**. Volume 3's round-4 lane has retitled BCR-V3-14 "T28-1 and T28-2: …" in its live text. |
+| SR3-15 | minor | 372 | *Needed by* gains "V04 (V4 §3.8's U-DIG digs the closure's access and the grouped access's target, with seam SR3-11)". Volume 4's round-4 lane has written SR3-11 in its live text (§3.8's exception and the dwelling closure among U-DIG's callers). |
+| SCC-R3C-10 | minor | 510 | The consolidated list gains `customWeights` after `materials`, as BCR-V8-10 orders it, citing J-V8.108. |
+
+**Found beside the issues and fixed here.** (1) *Item 369* (V01 BCR-33, the seam exception's bounding-way `surface` and
+naming record): its subjects now exist before M5, so a district-scoped re-derivation from M2a (§16 M2a's scoped regeneration)
+would rewrite a bounding way's name, and from M2b its surface, outside its declared scope. It now reads **BASE (M2a for the
+naming record; M2b for the `surface` attribute)**, II.4's copy staying with M5 (J-RF4.9). (2) *Item 540* (V01 BCR-28,
+`type Sample`): the base's `Seam` records exist from M1 and type their samples `Sample[]`, so the declaration is **BASE
+(M1)**, or met there by RV-pc-6's block (J-RF4.10). (3) *Item 207's title* read "wall-side features", which BCR-6 does not
+contain; it now names its part (b), `HoodPlace` in §2.7 and the entity registry. Its note also states that the order after
+item 208 is the text's, not the build's (`flowToward` is built at M6-U). (4) *Item 497* spells `PresetArm` with `'NG'`. This is the file-f half of seam SCC-R3C-6 (V12's), which names this note; it is applied here because item 584 brings the preset and this lane holds the file. (5) *Census:* BCR-V3-33 (the plan soft band's fallback never moves the capacity; SCC-R3C-8, J-V3.123), written by volume 3's round-4 continuation while this lane ran, was uncarried. It is now **item 585** under §13.7, **STAGED (M6-P)** (J-RF1.7).
+
+**Left to their owners.** SCC-R3C-5's companions are other lanes': V11's SCC-R3C-4 (the registry rows for `way.surface` and
+`squares.quota`, which item 301 names in its *Needed by*) and V01's SCC-R3C-3 and SCC-R3C-9. V12's SCC-R3C-6 keeps its volume half (the id suffix, `target.preset`, §3.5 step 3, §3.9.1 and T-V12-24); only item 497's note is applied here. This lane edited no
+volume text.
+
+**Decisions (vetoable).**
+* **J-RF4.7** — Chose to apply the four new issues as a continuation of this lane over returning the 07:19 summary under the
+  resume rule alone, as J-RF1.9, J-RF2.9 and J-RF3.7 did. The resume rule protects work already landed, and these issues
+  were raised after that landing (11:07 to 11:19).
+* **J-RF4.8** — Chose to relabel every volume-1 request that carries a piece volume 1 §8.1 lands at M1, M2b or M3a (items
+  207, 210, 272, 280, 300, 301, 323, 340, 345, 444 and 505), each split by its lettered part, over the five items the seam
+  names. The seam asks for "the same sweep" over every such request, and §8.1's list maps piece by piece to requests: the
+  M1 schema to BCR-5, BCR-6 (b), BCR-12 (a), BCR-11 (a), BCR-31 and BCR-16's first clause; M2b's "with field pass 2" to
+  BCR-3 (a) and BCR-9's closing clause. Item 505 takes the register clause's cell list, so `hood.constants` and
+  `hood.templates`, stage-2 tables by name, ship their named cells early. The M3a pieces were already **BASE (M3a)**
+  (items 211, 245, 302, 506).
+* **J-RF4.9** — Chose to label item 369 (BCR-33) **BASE** at M2a and M2b over leaving it with M5 as §8.1 does, because the
+  way names (from M1) and surfaces (from M2b) are re-derived with a district. Volume 1 itself says a re-derivation of a
+  district rewrites them (V1-3.7.3, V1-3.11 (5), T-V1-17). Without the request, §7.3's scoped regeneration (M2a) would change
+  them outside its declared scope, and the locality bars would fail.
+* **J-RF4.10** — Chose to label item 540 (BCR-28) **BASE (M1)** over M5, because the base's own `Seam.boundarySamples` and
+  `SeamContract.interiorSamples` read `Sample` from M1 (§2.5, II.1). A type undeclared at the milestone that uses it is a
+  dangling input.
+* **J-RF4.11** — Chose to leave §16's prices unchanged over moving effort (as J-RF1.11, J-RF2.12 and J-RF3.11). Volume 1
+  §8.1 prices its early pieces inside the base's own lines (about 0.5 pw in M1's naming and schema lines, 0.25 pw in M2b's
+  content line, 0.25 pw in M3a's item-110 line), and item 568 computes the totals from the rows (PLAUSIBLE).
+* **J-RF4.12** — Chose to write item 584 after volume 1 had written BCR-46 over writing it ahead as J-RF4.2 did. Volume 1's lane was live and took the announced id, and BCR-46 decides two things the item must state: `extension.over` gains no value, and only `hood.constants` carries entries, which fixes the label at M5. Chose also to apply item 497's `'NG'` here over leaving it to V12's next lane, because otherwise the note that spells the union would contradict item 584 until that lane runs.
+
+**CONFIRMED versus PLAUSIBLE.** CONFIRMED by execution:
+* Every edit asserted exactly one match of its anchor on the live file, whose md5 was checked unchanged since it was read
+  (`b4546425…` at the start; backup `rcBFr4c/f-pre-r4c.md`).
+* The request census (J-RF1.7's script): 407 request ids open a bold heading in the twelve `## 10` sections (409 bold lines; the script's two "duplicates" are V02 paragraph lines that open with a bold id and are not headings). Two were uncarried while this continuation ran — V01's BCR-46 and V03's BCR-V3-33, each written by a live volume lane — and both are now carried (items 584, 585): 0 uncarried. 386 items, numbered 200–585, with no gap or duplicate.
+* Volume-1 items labelled **STAGED (M5, stage 2)** alone: 35 before, 23 after (twelve relabelled; item 505 is not a V01 item
+  by the script's test).
+* No token this continuation added is one of the 3 193 reference identifiers (`ref-idents.json`, the round-1 method):
+  76 new whole tokens and 18 new dotted tokens, 0 hits.
+* `doc_checks.py` over the file, with headings resolved against the base, on the pre-round backup and on the result (this
+  note included), run back to back: C1, C2 and S1 0 before and after; C4 2 → 2 (item 245's six ordinary words, reviewed in round 2); C3 91 → 100 (ordinary phrases — "T28-1 on a building with no", the seam's own wording, in item 483 and this note; "for the names of"; "the cell of the class's"; "(d) and its label"; the round stamp and this note's opening — and digit runs); S2 45 → 46 (V12 §3.11 in item 585, a volume-local pointer that resolves in volume 12, not the base).
+
+CONFIRMED by reading:
+* Volume 1 §8.1 (its M1, M2b and M3a lists and its register clause), §10 whole (BCR-1 to BCR-45 and the cross-volume notes,
+  note (31) naming item 301), J-V1.14, J-V1.33, J-V1.39, V1-3.7.2 – V1-3.7.3, the S7c and S9b rows of §3.1 and the sentence
+  "With `@plat/hood` absent (M1–M4b) neither hook exists".
+* The base's `FabricStrategy` (it already names `DistrictContext`), `District.boundary` and `District.seams` ("from
+  milestone 1"), II.1's `Seam` samples, §7.3 item 1's seam exception and §16's M1, M2a and M2b rows.
+* V08's BCR-V8-10 list (`customWeights` after `materials`) and J-V8.108; V03's live BCR-V3-14 heading and BCR-V3-33; V02's
+  T-V2-45; V04's §3.8 and §1b rows naming item 372; V01's BCR-46 ((a) – (d) and its label) and V01 §2.2's statement that
+  `NG` entries stand only on `hood.constants`.
+
+PLAUSIBLE: the unchanged prices (J-RF4.11), and that volume 11's and volume 12's lanes carry SCC-R3C-2, SCC-R3C-4 and SCC-R3C-6 as the seam requires, which items 301 and 584 name in their *Needed by*.
+
+**Fix list.** Empty: every issue routed here is fixed (the owner's no-defer directive).
+
+## Reconciliation round 5 (2026-09-29)
+
+> PENDING FABLE REVIEW — written by opus standing in for the Fable seat volumes/reconcile-BASE-F-r5; covered by the whole-design retrovalidation (J84).
+
+Against the round-4 seam checks (`docs/volumes/critique/seam-*-r4.md`). **Seven issues** were routed to this file — 0 blockers,
+2 majors (SCC-88, SCC-89; `seam-content-calibration-r4.md` §2) and 5 minors (S23R4-05, `seam-stage2-3-r4.md`; SLR4-10,
+`seam-layers-r4.md`; TV-05, `seam-time-r4.md`; SR4-03 and SR4-05, `seam-settlements-r4.md`) — and **all seven are fixed**;
+none is invalid and none is left for later (the fix list is empty). Two pairs name one text each: SCC-89 and S23R4-05
+(item 505), and SCC-88 and SR4-05 (item 581); each pair was applied once. Items keep their numbers; no item is new.
+
+| issue | sev. | items | what changed |
+|---|---|---|---|
+| SCC-88 | major | 581 | The title adds "amended in V11's round-4 continuation, SCC-R3C-15; J-V11.91". The note carries BCR-V11-31 as V11 §10 now words it: an entry for a categorical `option` cell is required for `MFCG` and `FTG` on every table, and for `VG` on the tables a stage of the village product reads. Under `VG` every other table resolves by §7.6's order, so a village's epochs read their tables at their parity values, and a categorical cell of such a table resolves to its `MFCG` entry. The round-4 clause "and a village document's loader resolves no other table under `VG`" is withdrawn. The note is applied with item 377 and before item 584. *Needed by* adds V06 (V6 §2.2's parity values) (J-RF5.3). |
+| SR4-05 | minor | 581 | Applied with SCC-88 as one text: the title's parenthesis and "§7.6's per-preset sentence names the tables each parity preset requires an entry on", with SR4-05's other words. *Needed by* names V07's readers (§3.15, W67), which SR4-05 cites. |
+| SCC-89 | major | 505 | The *Build* note follows volume 1 §8.1 as its round-4 continuation left it. **M1:** `@plat/model`'s `HoodPlace`, `DistrictContext`, `TypedBoundary` and `WayNamingContext` (S13a's naming input, item 444), and `@plat/tables`' `hood.constants`, its one `settings` row shipped whole: every column of V1-3.14's column table at its default, the naming context reading four of the columns, and every calibratable column taking its register entry at M1 (J-V1.99). **M3a:** `hood.templates`' `stepped` row, shipped whole; `terraceState` reads its `params.terraceSpacingM` with `hood.constants`' `terrace.siteShare`, which landed at M1. Every calibratable column of `hood.templates` takes its register entry at M3a (volume 1's seam SCC-92). The other rows of `hood.templates` land at M5, and their columns' entries are written at M3a. The label is unchanged, because its parenthesis already reads "(M1, M2b, M3a) … as the note lists them" (J-RF5.1). |
+| S23R4-05 | minor | 505 | Applied with SCC-89 as one text (seam S23R4-05; volume 1's cross-volume note (35), which asks file f to carry `WayNamingContext` from M1). |
+| SLR4-10 | minor | 309, 251; 580 | (a) Item 309's reader text adds volume 1's island bridge build after S8 (`deckCm` from the two bank elevations on the island's key; V1-3.10.3 (4); item 580). The build reads from M5 on volume 1's fixture island. Nothing is levelled there before S10, so it returns the island's raster. The words are volume 5's SLR4-04 reader clause. The label splits the sky key: **STAGED (M5, stage 2, with item 580)** for its raster fallback, **STAGED (M6-sky)** for its datums and the sky readers (J-RF5.2). (b) Item 251's *Needed by* reads "V01, V05 (volume 1's `terraceState` on an island reads `terrainEcho.reliefClass`, V1-3.17.7 (2); SLR3-03)". |
+| TV-05 | minor | 575 | The `repairWall` clause adds "; with no stretch, volume 6's lift of the ring's `neglect` (V6 §2.8)". The lifecycle parenthesis now reads "(`abandoned` on `neglect`, until volume 6's no-stretch `repairWall` lifts it — back to the pre-neglect existence when every run is `standing`, else `decayed`; …)". The note says this meets volume 6's hand-off X42 and changes no field (J-V6.115). |
+| SR4-03 | minor | 576 | Part (c) reads "on §10.2's *Government (COV-FTG-B13)* sentence, the paragraph under (a)'s heading". *Also touches* reads "§2.5 (part (b)); part (c) is in §10.2 with (a), §4.2 S2's citation of the sentence unchanged". This corrects round 3's own slip, which round 4 carried forward (J-RF5.4). |
+
+**Found beside the issues and fixed here.** (1) *Item 444* (V01 BCR-16): its *Build* note now names `WayNamingContext`'s home,
+"the type in `@plat/model` from M1, item 505". Item 505 lists the type for item 444, so the link now reads from both ends.
+(2) *Item 580* (V01 BCR-45) gains a note: its after-S8 build takes `deckCm` through `levelledGroundCm` on the island's key,
+the raster fallback that item 309 builds with it. Item 309's new reader clause names item 580, so this link also reads from
+both ends (J-RF5.5). Its *Needed by* adds V05, whose BCR-V5-30 reader list now cites the build and item 580 (SLR4-04, in
+volume 5's live text).
+
+**Left to their owners.** The companions of these issues belong to other lanes, all live while this lane ran. Two were
+already in their volumes' live text at this lane's close, read there. The first is volume 1's SCC-92: V1-8.1's M3a cell
+reads "`hood.templates`' `stepped` row, whole — every calibratable column of `hood.templates` takes its entry here", and
+its M5 cell adds the other rows, "their columns' entries written at M3a", as item 505 now says. The second is volume 5's
+SLR4-04: BCR-V5-30's reader list names "volume 1's island bridge build after S8, `deckCm` from the two bank elevations on
+the island's key", item 309's words. Still open with their lanes are volume 1's SLR4-05 and volume 7's SR4-04 (V07 §1's
+dependency (10), which follows SR4-03). This lane edited no volume text.
+
+**Decisions (vetoable).**
+* **J-RF5.1** — For item 505's M3a part, chose SCC-89's wording ("`hood.templates`' `stepped` row, shipped whole") over
+  S23R4-05's (the one cell `params.terraceSpacingM`). Also chose to state the M3a register duty (every calibratable column
+  of `hood.templates` takes its entry at M3a) and where `hood.templates`' other rows land (M5, their columns' entries
+  already written). The reason: a compiled row holds every cell (V11 §2.2), and V12 §3.11's default line writes an entry
+  for every calibratable column that holds a compiled cell, so the M3a seat writes those entries whether or not the note
+  names them. Volume 1's seam SCC-92 words V1-8.1's M3a cell the same way, and volume 1's live text read so at this lane's
+  close. Should volume 1's lane land it in other words, the next BASE-F round aligns this clause to them.
+* **J-RF5.2** — Chose to split item 309's STAGED label into two parts: the sky key's raster fallback at M5 with item 580,
+  and its datums and the sky readers at M6-sky. The alternative was to add the reader text alone and leave the label at
+  M6-sky. With that alternative the label would stage the fallback that an M5 reader already calls, and the reader would
+  be dangling at M5. The fallback is the island's own raster sampler, and W8 needs it to build its fixture island's decks.
+* **J-RF5.3** — Chose to keep item 581's provenance sentence ("Found uncarried by the integration continuation's request
+  census …") under the new note, over SCC-88's replacement text alone. SR4-05 says "the rest stands", and the sentence
+  records history that the census relies on. Chose also to cite volume 6 §2.2's cells "0 in the parity presets" for V06's
+  *Needed by*, because that table is where a village epoch under `VG` reads its parity values.
+* **J-RF5.4** — Chose to move only item 576's pointers, over re-quoting the base sentence. The quoted current text is the
+  same, and V07's BCR-V7-36 (c) already names the paragraph ("The heading of (a), *Government (COV-FTG-B13)*"). The
+  sentence stands once in the base, in §10.2 (checked).
+* **J-RF5.5** — Chose to add the two back-pointers found beside (items 444 and 580) over leaving each link one-ended, by
+  the owner's wiring rule (every piece wired both ways).
+* **J-RF5.6** — Chose to leave §16's prices unchanged (as J-RF1.11, J-RF2.12, J-RF3.11 and J-RF4.11 did). Shipping
+  `hood.constants` whole at M1 adds authoring of its default cells, not new mechanism. Volume 1 prices it inside the
+  ≈ 0.5 pw of M1's naming and schema lines (V1-8.1). The M5 raster fallback is one key dispatch inside W8.
+
+**CONFIRMED versus PLAUSIBLE.** CONFIRMED by execution:
+* Every edit asserted exactly one match of its anchor on the live file. Before the script ran, the file's md5 was checked
+  unchanged since it was read (`0da3c86c…` at the start; backup `rcBFr5/f-pre-r5.md`).
+* The request census (J-RF1.7's script): 407 request ids open a bold heading in the twelve `## 10` sections (409 bold
+  lines; the script's two "duplicates" are V02 paragraph lines, as in round 4), 0 uncarried; 386 items, numbered
+  200–585, with no gap or duplicate. No item is new this round.
+* No token this round added is one of the 3 193 reference identifiers (`ref-idents.json`, the round-1 method): 47 new
+  whole tokens and 3 new dotted tokens, 0 hits.
+* `doc_checks.py` over the file, with headings resolved against the base, on the pre-round backup and on the result (this
+  note included), run back to back: C1, C2 and S1 0 before and after; C4 2 → 2 (item 245's six ordinary words, reviewed
+  in round 2); C3 101 → 112 (digit runs of the volumes' section numbers, "3.10.3 (4)" and "3.2.2"; the round stamp and
+  this note's opening; ordinary phrases such as "is one of the"); S2 47 → 55 (V07 §3.15 in item 581 and this note,
+  V05 §3.22 in item 309 and this note, V12 §3.11 in this note — volume-local pointers that resolve in their volumes, not
+  the base). The pre-round counts
+  differ from round 4's closing ones (100, 46) on the same bytes; the corpus under `research/` and `captures/` moved.
+
+CONFIRMED by reading:
+* The base: §10.2's *Government (COV-FTG-B13)* sentence (the only occurrence) and §4.2 S2's citation of it.
+* V01: §8.1 whole, the BCR-1 text, J-V1.99, cross-volume notes (31)–(35), V1-2.2's `HoodSettings`, `WayNamingContext`
+  (V1-2.3), V1-3.10.3 (4) and V1-3.17.7 (2).
+* V05: BCR-V5-1, BCR-V5-30, §3.22 (4) and the `terrainEcho.reliefClass` rows.
+* V06: §2.8's `repairWall` with its no-stretch form, J-V6.115, X42 and §2.2's parity cells.
+* V07: BCR-V7-36 (a)–(c), §3.15 and W67.
+* V11: BCR-V11-31 as amended (§10), J-V11.91, X-V11-16 and §3.2.2.
+* The seven findings' texts and their companions (SCC-92, SLR4-04, SLR4-05, SR4-04). SCC-92 and SLR4-04 were read in
+  volume 1's and volume 5's live text at the close (V1-8.1's M3a and M5 cells; BCR-V5-30's reader list).
+
+PLAUSIBLE: the unchanged prices (J-RF5.6), and that volume 1's and volume 5's lanes, still running at this lane's close,
+keep SCC-92 and SLR4-04 in the words read here (J-RF5.1).
+
+**Fix list.** Empty: every issue routed here is fixed (the owner's no-defer directive).
+
+## Reconciliation round 6 (2026-09-29)
+
+> PENDING FABLE REVIEW — written by opus standing in for the Fable seat volumes/reconcile-BASE-F-r6; covered by the whole-design retrovalidation (J84).
+
+Against the round-5 seam checks (`docs/volumes/critique/seam-*-r5.md`). **Four issues** were routed to this file — 0 blockers,
+0 majors and 4 minors (S23R5-04, `seam-stage2-3-r5.md`; SLR5-05, `seam-layers-r5.md`; SR5-15, `seam-settlements-r5.md`;
+SCC-101, `seam-content-calibration-r5.md`) — and **all four are fixed**; none is invalid and none is left for later (the
+fix list is empty). SR5-15 (a) names "the item that carries the calls (item 202 after TW-03)", so this lane also applied
+the file-f half of seam-time-r5's TW-03 — part (3), marked **BASE-F** inside that V07-owned issue — in the same text
+(J-RF6.1). Items keep their numbers; no item is new.
+
+| issue | sev. | items | what changed |
+|---|---|---|---|
+| S23R5-04 | minor | 238, 578 | Item 238's note quotes M6-U's content with volume 3 §3.7.1's crypt clause of `basementDoor(b)` added (the door point off the crypt's vault; item 578). Its first reading moves a walk-out church's outside door off its crypt, volume 1's entrance reserve with it, and M6-U's shift record declares that move with the crypt's first derivation (+0.25 pw, unchanged; volume 3 §8's PE). Item 578's note adds that the step-3 text's crypt clause and `basementDoor(b)`'s door point off the vault read `Basement.crypt` (item 238), are built with it at M6-U and are inert before. Its label reads "… `basementDoor(b)` itself BASE (M3a, with item 242), its crypt clause with item 238 (M6-U)". Volume 3's S23R5-01 was in its live text before this lane closed, so item 238's list also names "the stair-entered test and the whole basement of a crypt no stair reaches (volume 3 §3.7.4; seam S23R5-01)", the finding's conditional clause (J-RF6.4). |
+| SLR5-05 | minor | 313 | The item names all four parts of V01 BCR-10: the court-greening and green-and-yard-blocks rows; the parks row widened to a green block's or a `park` plaza's green at any size; (c) the rim walk's row, planted once per island by volume 1's `plantRimWalk`, never by a district's S12b; and §2.7's `Greenery.along.way` optional for that row alone. *Also touches* §2.7. *Needed by* adds V05 (J-V5.26, V5 §3.12). The label reads "STAGED (M5, stage 2; the rim-walk row and the optional `way` built by volume 1's W8 on a fixture island, in use on real islands with M6-sky)". A note records the old two-part text (volume 1's note (36)). |
+| SR5-15 (a), with TW-03 (3) | minor | 202, 317 | Item 202 gains **the records hook**. `ProductDecl.records?` (an `EpochPlacement`, V6 §2.1, with its placement and its removal) and its calls, as BCR-V7-18 words them, are hooks of the village product's registration. So are the product's two phase overrides, which `grow-by-stage` consults before volume 6 lands, and its participants on M4's grow path. They land with the registration on M4's grow path. The calls are the dossier step's at an epoch (§4.11's order (e)) for the records it adds (or re-keys to a REPLACEMENT greater) and removes, and, for an absorb without an epoch, the placement of each record it adds and the removal call after each it removes. BCR-V6-1 (a) carries them into its phase interface at M6-E (item 317). The absorb-path call is inserted in §7.7's *One path — placement, then mutation* sentence "every `assign` event … is placed by §4.7 S10b's one solver for its scope" (base, checked). The requests' "§7.7 item 2's placement" means this sentence; §7.7's item 2 is *Existence* and places nothing, and its removal of a record (through `closeUse`) is what the removal call follows. *Requests* adds BCR-V7-18, *Also touches* adds §4.11, and *Needed by* adds V06. Item 317's note reads as volume 7's lane asked (its 13:46 note to this lane): "the `records` member, its calls and the two phase overrides on the grow path land with item 202; BCR-V6-1 (a) carries them into the phase interface". The *Requests* parentheses of the two items split BCR-V7-18 between them (J-RF6.1). |
+| SR5-15 (b) | minor | 516 | *Needed by* reads "V07, V08, V09, V10, V11". Volume 11 writes the `label`, `icon`, `synonyms` and `commonness` cells, and volume 7 its `v.` rows' cells; volume 8's notes and the refusal V10 renders read the label (SR5-03, SR5-10). |
+| SCC-101 | minor | 585 | A second note replaces the capacity clause: the capacity's two cells are never tuned. Each class row's poorest-band `circulation` is on volume 12 §3.11's default line from M2b. The `room` role's area is on its `area` column's entry, written at M2b by that line and restated in place at P1 by volume 3 §2.4's first register line, measured at V3-P6 and never tuned (volume 3 §2.4; J-V3.123). The round-4 provenance sentence stays (J-RF6.2). |
+
+**Left to their owners.** Three companions of these issues sit in lanes that were live while this lane ran; this lane
+edited no volume text. (1) Volume 4's U4 line (V04 §8) lists the crypt derivation without `basementDoor(b)`'s crypt clause.
+S23R5-04 hands the same words to volume 4's lane or the layers seam: "volume 3 §3.7.1's crypt clause of `basementDoor(b)`
+(the door point off the crypt's vault; file f item 578), its first reading declared in M6-U's shift record". Volume 4's
+round-6 lane, briefed on SLR5-01 alone, landed at 13:52 without them, so they are logged for volume 4's next lane or the
+layers seam. (2) Volume 7's BCR-V7-18 and V7 §8's V-M2 row take TW-03 (1) and (2). Volume 7's lane logged the new wording for this
+lane at 13:46 (the removal call for TW-02, keys by the dossier event's `seq`, the grow path's overrides and participants),
+and BCR-V7-18's live text read at this lane's close says the same: its *Where it lands* sentence names item 202 and item
+317's note, and it reads "§7.7 item 2's placement" as the *One path* sentence (SR5-15 (a)), item 2 staying the removal's
+pointer. Item 202 follows it in function and cites BCR-V7-18 by id, so the request's own words stay single-sourced in V07
+§10. (3) Volume 3's S23R5-01 (the stair-entered crypt) was in volume 3's live text at this lane's close (3.7.4's *A
+stair-entered crypt*, "built with the crypt derivation at M6-U (file f item 238; §8's P2)"), so item 238 names it
+(J-RF6.4).
+
+**Decisions (vetoable).**
+* **J-RF6.1** — Chose to apply TW-03 (3)'s file-f text (item 202 carries `ProductDecl.records?` and both calls; item
+  317's note points to it) together with SR5-15 (a). The alternatives were to name the target sentence in item 317,
+  which carries the calls today, or to leave it for a later round. The reasons: SR5-15 (a) names "item 202 after TW-03";
+  TW-03 marks its part (3) **BASE-F**; seam-time-r5 lets either side land first, each citing the other's sentence; and only
+  this lane edits file f's items. Chose also to cite BCR-V7-18 by id and by function, not by its words, so that volume 7's
+  live rewording (TW-03 (1)) needs no edit here; item 202 names the calls, the removal call of TW-02 among them, and
+  the grow path's overrides and participants by function only, as volume 7's 13:46 note lists them. Chose to keep
+  BCR-V7-18 on item 317's *Requests* as well, split by a parenthesis, over moving it wholly to item 202, because item 317
+  still carries the request's phases and participants in the phase interface at M6-E.
+* **J-RF6.2** — For item 585, chose the label "reconciliation round 6, seam SCC-101, SCC-91's file-f half" over SCC-101's
+  "reconciliation round 5". This file's round 5 landed at 12:39 without the note, so the note is round 6's. Chose to keep
+  the round-4 provenance sentence and to add the note after it, over replacing the whole note, as J-RF5.3 did for item
+  581: the provenance records what the census relies on.
+* **J-RF6.3** — For item 313, chose SLR5-05's text and label exactly as the finding words them, with a short note on the
+  old two-part text (volume 1's note (36)), so that the next reader sees why the item grew.
+* **J-RF6.4** — Chose to apply S23R5-04's conditional clause ("Where S23R5-01 has landed, item 238's list also names
+  'the stair-entered test and the whole basement of a crypt no stair reaches (volume 3 §3.7.4)'"). The alternative was to
+  leave it for the next round. The reason: volume 3's lane had written S23R5-01's text into the live volume before this
+  lane closed. That text is 3.7.4's *A stair-entered crypt* and the `always` bullet's whole inset, and it says the test
+  "is built with the crypt derivation at M6-U (file f item 238; §8's P2)". Volume 3's lane had not yet logged its LANDED
+  line. Should it land other words, the next BASE-F round aligns this clause to them. BCR-V3-20's New text, which S23R5-01
+  (b) amends, is carried by reference and keeps its label.
+* **J-RF6.5** — Chose to leave §16's prices unchanged, as J-RF1.11 through J-RF5.6 did. The crypt clause stays inside
+  M6-U's +0.25 pw (volume 3's PE row prices it there). The records hook is priced inside V-M2's range (volume 7 §8). The
+  other changes are pointers, *Needed by* lists and notes.
+
+**CONFIRMED versus PLAUSIBLE.** CONFIRMED by execution:
+* Every edit asserted exactly one match of its anchor on the live file. Before the script ran, the file's md5 was checked
+  unchanged since it was read (`e4c1756e…` at the start; backup `rcBFr6/f-pre-r6.md`).
+* The request census (J-RF1.7's script, round 4's copy): 407 request ids open a bold heading in the twelve `## 10`
+  sections (409 bold lines; the two "duplicates" are V02 paragraph lines, as in rounds 4 and 5), 0 uncarried; 386 items,
+  numbered 200–585, with no gap or duplicate. No item is new this round.
+* No token this round added is one of the 3 193 reference identifiers (`ref-idents.json`, the round-1 method): 57 new
+  whole tokens and 4 new dotted tokens, 0 hits (a first draft named the lane log by its file path, whose last part matches a file name one reader lists;
+  it is reworded as "the lane events log", as this file words it elsewhere).
+* `doc_checks.py` over the file, with headings resolved against the base, on the pre-round backup and on the result (this
+  note included), run back to back: C1, C2 and S1 0 before and after; C4 2 → 2 (item 245's six ordinary words, reviewed
+  in round 2); C3 112 → 124 (digit runs of volume 3's section numbers, "3.7.1's" and "3.7.4"; S23R5-04's quoted clause "the
+  stair-entered test and the whole basement …", in item 238, the table and J-RF6.4; the round stamp and this note's
+  opening; ordinary phrases such as "is one of the"); S2 55 → 61 (V5 §3.12 in item 313 and this note, V12 §3.11 in item
+  585 and this note — volume-local pointers that resolve in their volumes, not the base).
+
+CONFIRMED by reading:
+* The base (md5 `01fea21f…`): §7.7's *One path — placement, then mutation* paragraph and its sentence "every `assign` event
+  … is placed by §4.7 S10b's one solver for its scope"; §7.7's item 2, *Existence*; §2.7's `Greenery.along` and §4.9's
+  heading.
+* V01: BCR-10 whole, cross-volume note (36), W8's row. V03: BCR-V3-32 with its round-5 note, BCR-V3-33, §2.4's register
+  lines, §8's PE, P1 and P2 rows, the round-5 hand-off to file f, J-V3.123. V04: §8's U4 line. V05: J-V5.26, §3.12 and its
+  `plantRimWalk` rows. V06: §2.1's `records?` and `EpochPlacement`, BCR-V6-1's records sentence. V07: BCR-V7-18 whole,
+  §2.1's `phases?`, W70, §8's V-M2 row, J-V7.125, J-V7.128, its lane's 13:46 note to this lane in the lane events log,
+  and BCR-V7-18 again at this lane's close (live, with round 6's *Where it lands*).
+  V06: §3.2's participants note (V04's U5 on M4's grow path). V03 (live, after its round-6 edits): 3.7.4's *A
+  stair-entered crypt* and the `always` bullet. V09: BCR-V9-8 whole.
+* The four findings' texts, TW-03 whole, and seam-time-r5's routing line for TW-03 ("either side may land first, each
+  citing the other's sentence").
+
+PLAUSIBLE: that volume 7's and volume 3's lanes, still running at this lane's close, land BCR-V7-18 (J-RF6.1) and S23R5-01
+(J-RF6.4) in the words read here;
+that volume 4's lane or the layers seam takes the U4 words; and the unchanged prices (J-RF6.5).
+
+**Fix list.** Empty: every issue routed here is fixed (the owner's no-defer directive).
+
+## Finalization (2026-09-29)
+
+> PENDING FABLE REVIEW — written by opus standing in for the Fable seat volumes/_finalize; covered by the whole-design retrovalidation (J84).
+
+After the round-6 seam checks (`docs/volumes/critique/seam-*-r6.md`) the finalization fixed the fourteen material issues in
+their volumes and refreshed this file for the base changes they touch. **No item is new and every item keeps its number**
+(386 items, 200–585; the request census re-run at the close: 407 requests, 0 uncarried, no gap or duplicate). What changed
+here:
+
+| issue | items | what changed |
+|---|---|---|
+| TX-02 (seam-time-r6, major; its file-f half, BASE-F) | 202, 317 | Item 202's records hook no longer says the participants run "by the hook volume 4's U5 uses" (no such loop exists on the grow path). It names **the call points** the item adds to §4.11's order (a)–(j), at the places volume 6 §3.2's table gives the same steps: the `siting` override in place of step (f)'s placement, the `growth` override in place of step (g)'s; `place` inside step (e) before each added record's *One path* placement and `remove` after each §7.7 item 2 removal; the participants at `afterField` (after (a), before (b)), `decline` (end of (c)) and `afterGrowth` (after (g), before (h)), in (order, id) order, each run one batch of the `epoch` event — all called with volume 6's `ProductEpochContext`, which lands with this item beside `EpochPhase`, `EpochParticipant`, `EpochPlacement` and `ProductDeclEpoch`; volume 6's `EpochContext` extends it at M6-E (V6 §2.1). Volume 4's own M4 hooks stay BCR-6's sentences. Item 317's note says the phase interface re-uses item 202's interfaces. *Also touches* of item 202 names the grow path's call points (J-RFF.1). |
+| TX-06 (seam-time-r6, minor; volume 6's and this file's half) | 202 | The dossier step offers the records placement each `assign` it places — a record it adds, a member a count step adds, or the greater a REPLACEMENT re-key places new (V08 §3.5.1 (c)'s second and third cases, (d)) — never a re-key whose greater keeps the lesser's thing, which is a `rebind` (V6 §3.9.11's in-place `convert`). |
+| S23R6-08 (seam-stage2-3-r6, minor) | 226 | The note's quotation of the crypt-only half raise follows S23R6-02 as volume 2 now words BCR-V2-28: the lift and the half raise act on the ground wings over the basement's ring (for a derived crypt, its seed wings); inert until M6-U as before. |
+| SCC-114 (seam-content-calibration-r6, minor) | 244, 245 | Item 244's slide bound is `raisedWays.structure.slideMaxFactor` (1.5; volume 11's cell, row 80); item 245's knot snap and J-RF2.4 name `retaining.settings.stateSnapCm` (volume 11's `retaining` table, its named `settings` row; 100 cm); J-RF2.4's confirming measurement names volume 6 §8's `stateSnapCm` line on `bar.T-V6-62` (SCC-110, SCC-111). Values unchanged. |
+
+**Requests whose text the finalization changed, carried by reference** (no label changes): BCR-V2-28 (item 226: the lift's
+wings, S23R6-02), BCR-V3-20 (item 238: "over none of the crypt's vault", S23R6-05), BCR-V6-1 (a) (item 317: the `assign`s
+offered, TX-06), BCR-V7-18 (items 202 and 317: the call points, TX-02). Item 238's M6-U content is now also what volume 4's
+U4 row builds (SLR6-01, applied in V04 §8), so the two ends read alike.
+
+**Decisions (vetoable).**
+* **J-RFF.1** — Chose to state item 202's call points in full, over citing BCR-V7-18 for them, because they are base
+  sentences in §4.11's order that a builder of M4's grow path applies whether or not volume 7 lands; BCR-V7-18 states the
+  same call points for the village's side, and volume 6 §3.2's table places the same steps for its runner, so the three
+  read alike (T-V6-1).
+* **J-RFF.2** — Chose to leave §16's prices unchanged (as J-RF1.11 through J-RF6.5 did): the call points and the context
+  split are priced inside V-M2's range (volume 7 §8) and E1's (volume 6 §8); the other changes are notes and names.
+
+**CONFIRMED versus PLAUSIBLE.** CONFIRMED by execution: every edit asserted exactly one match on the file whose md5
+(`839ccce5…`) was checked unchanged since round 6 (backup `scratchpad/volumes/fin/pre/`); the request census as above; no
+token this pass added is one of the 3 193 reference identifiers. PLAUSIBLE: that the coherence pass applies item 202's
+call points before M4's grow path is built (the item is labelled STAGED with the village product; its grow-path half is
+read by M4's builders only when the village or volume 6 is scheduled).
+
+**Fix list.** Empty for this file: every issue routed to it is fixed.

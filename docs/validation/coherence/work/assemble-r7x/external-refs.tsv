@@ -1,0 +1,132 @@
+unit	line	kind	ref	context
+base	143	bare	§3	sted with its landing section in `docs/design/judging.md` §3–§4. Its revisions are recorded in `docs
+base	143	bare	§4	d with its landing section in `docs/design/judging.md` §3–§4. Its revisions are recorded in `docs/AR
+base	275	bare	§5	 calibrated to the measured outputs (`docs/CONFIDENCE.md` §5). The mechanisms the references' compil
+base	427	bare	§1.2	ough `docs/IMPROVEMENTS.md` O3 and `proposal-kernel.md` §1.2). NG 1.2.2's 42 % of lot leaves without
+base	451	bare	§6	; roads to a phantom point 1 000 units out (`os-model.md` §6 via CONFIDENCE B7) | initial-roads type
+base	452	bare	§4.9	 fabric inherits its shape (87882877; `profile-mfcg.md` §4.9 via redteam-mfcg MFP-2) | proposal-queu
+base	452	bare	§2.2	treets, prune/trim between stages (`ftg-docs-params.md` §2.2–2.5) | **by regime** (§4.4): inside the
+base	452	bare-cont	2.5	ts, prune/trim between stages (`ftg-docs-params.md` §2.2–2.5) | **by regime** (§4.4): inside the wal
+base	452	bare	§4	 clamp-only wiggle (zero mass above 15°, `_critic-ftg.md` §4 row 7). Criterion: MFCG's street signat
+base	790	bare	§1.1	intersection bug are the two failures, `os-geometry.md` §1.1, FTG 153121107). **No record outside th
+base	4267	bare	§5.1	e public registry (`docs/validation/redteam-improve.md` §5.1), version pinned and re-checked by §17.
+base	5034	bare	§13.4	 crossings, and its unbounded recursion (`os-model.md` §13.4) | `E_NOT_TWO_CROSSINGS` and `connectHo
+base	5042	bare	§2.1.4	ve ones" for shrinking (2017 author, `os-geometry.md` §2.1.4) | one kerb function; the half-plane in
+base	7575	bare	§2.1	se of the primitive for buildings, `watabou-extra-a.md` §2.1); strips never leave their region, so r
+base	10311	bare	§1	th the references is not a goal (§1; `docs/CONFIDENCE.md` §1). /  / ### 6.2 What a seed determines, and 
+base	16078	bare	§3.3	-P20).** FTG's documented *shape* (`ftg-docs-params.md` §3.3), none of its 209 types, 80 nodes, 299 
+base	16810	bare	§3.1.6	rings counter-clockwise and holes clockwise (RFC 7946 §3.1.6). Distances a GIS measures on the ellip
+base	16813	bare	§4	tric** variant — offered "by prior arrangement" (RFC 7946 §4) for tools that want the model's own me
+base	20169	bare	§4	5° per step and a flat heading spectrum (`_critic-ftg.md` §4 rows 7–9) — **weakness**; FTG's median 
+base	20206	bare	§3	ings of build 890 (`captures/manor/README-frequencies.md` §3–§4) — **target** | χ² against equal sha
+base	20206	bare	§4	s of build 890 (`captures/manor/README-frequencies.md` §3–§4) — **target** | χ² against equal shares
+base	21171	bare	§2	row of `docs/confidence/*.md` (rows per `judge-parity.md` §2), plus the audit rows the matrix lacked
+base	21353	bare	§5	ould-have / hook / stage-2 item of `docs/IMPROVEMENTS.md` §5 /  / Every acceptance letter carries its cl
+base	21434	bare	§6	ration and the clean-room inputs** | `docs/CONFIDENCE.md` §6 **#5** FTG face recovery (block sizes i
+base	21434	bare	§7.2	 size sweep; the NG baselines of `docs/IMPROVEMENTS.md` §7.2 (detour index, 4-way share, cycles per 
+base	21436	bare	§5.1	ol; the milestone-1 gate list of `docs/IMPROVEMENTS.md` §5.1 (O2, O6, O3, O11 schema + PNG / SVG, O1
+base	21476	bare	§1	map subset 52) × 0.65–0.75 | 64–74 | `docs/CONFIDENCE.md` §1; sharing the kernel, the display list a
+base	21548	bare	§3.4	; the content authoring cost (M1, M2b, M4b — CONFIDENCE §3.4's re-pricing is the warning); the thin 
+base	21597	bare	§7.2	dentifiers of `research/findings/ftg-payload-visual.md` §7.2 and one further time-setting message na
+base	23334	bare	§6	ple written here | §4.9, §7.7, §7.8 | / | J-14 | CONFIDENCE §6's experiments #5, #10 and #2 as milesto
+V01	140	bare	§5	rule of this volume reads (V01 §3.14; item 23, DEFINITION §5). 12. **Item 110's neighbourhood parts*
+V01	859	bare	§2.0	andom template weights (code)`; `code-neighbourhood.md` §2.0), each kept only when eligible, and a c
+V01	1031	bare	§2.1	2.2 main street course (code)`; `code-neighbourhood.md` §2.1), in metres. Each end's last leg is re-
+V01	1083	bare	§2.1	1.2.2 draws one factor per map, `code-neighbourhood.md` §2.1; J-V1.37); the radii are `r₁ = s₁ / 2` 
+V01	1234	bare	§3.3	 anchor for the upper bands, `profile-neighbourhood.md` §3.3); 0 for a `secular` standalone recipe (
+V01	1308	bare	§3.3	 blocks are 0–3 % of blocks, `profile-neighbourhood.md` §3.3; the `NG` preset does, V01 §3.15), cali
+V01	1883	bare	§2.1	:NG 1.2.2 hood outline (code)`; `code-neighbourhood.md` §2.1), each drawn on `blueprint.features` an
+V01	2135	bare	§5	stant of V01 §3 is a cell of a table (item 23; DEFINITION §5 "Rules are data"): of its own row's tab
+V01	2214	bare	§2.0	 (each `ref:NG 1.2.2 … (code)`, `code-neighbourhood.md` §2.0–§2.8, mechanisms restated in our words 
+V01	2214	bare	§2.8	h `ref:NG 1.2.2 … (code)`, `code-neighbourhood.md` §2.0–§2.8, mechanisms restated in our words and m
+V01	2926	bare	§2.11	as Neighbourhood's spacing is (`code-neighbourhood.md` §2.11), so a facet has the same lines at ever
+V01	3533	bare	§2.1	nd plaza with a through street (`code-neighbourhood.md` §2.1, CONFIRMED); emulation-first makes the 
+V01	3707	bare	§2.1	code reading (`research/findings/code-neighbourhood.md` §2.1), the basis of J-V1.6. The NG mechanism
+V01	3710	bare	§0	 order) are read and CONFIRMED in `code-neighbourhood.md` §0, §2.0–§2.11 and §6, and the template's 
+V01	3710	bare	§2.0	) are read and CONFIRMED in `code-neighbourhood.md` §0, §2.0–§2.11 and §6, and the template's struct
+V01	3710	bare	§2.11	read and CONFIRMED in `code-neighbourhood.md` §0, §2.0–§2.11 and §6, and the template's structure (s
+V01	3710	bare	§6	d CONFIRMED in `code-neighbourhood.md` §0, §2.0–§2.11 and §6, and the template's structure (seed geo
+V02	1806	bare	§3	 measured rates of `captures/manor/README-frequencies.md` §3–§4 are reproduced (provenance `ref:Fant
+V02	1806	bare	§4	asured rates of `captures/manor/README-frequencies.md` §3–§4 are reproduced (provenance `ref:Fantasy
+V02	3356	bare	§3.3	the reference has no plot, `research/findings/manor.md` §3.3, CONFIRMED). /  / ### 7.2 Conformance (C) —
+V02	3372	bare	§4	 have an entrance, `captures/manor/README-frequencies.md` §4 — ours is "beyond", O). * **T-V2-5 the 
+V02	3551	bare	§3	measured counts of `captures/manor/README-frequencies.md` §3–§4 (41 buildings from build 890 — CONFI
+V02	3551	bare	§4	sured counts of `captures/manor/README-frequencies.md` §3–§4 (41 buildings from build 890 — CONFIRME
+V02	3552	bare	§13.5	ounts), committed as numbers only in `baselines.json` (§13.5) with `referenceBuild` 890: /  / | metric |
+V02	4096	bare	§2	 item 59's evidence gate and `research/findings/manor.md` §2, §3.1; the measured element counts of V
+V02	4096	bare	§3.1	59's evidence gate and `research/findings/manor.md` §2, §3.1; the measured element counts of V02 §7.
+V02	4097	bare	§3	ings of build 890, `captures/manor/README-frequencies.md` §3–§4); the reference model's cost (≈ 0.08
+V02	4097	bare	§4	s of build 890, `captures/manor/README-frequencies.md` §3–§4); the reference model's cost (≈ 0.08 ms
+V03	720	bare	§3	lding's work grows with the quarter's wealth — DEFINITION §3 step 7; `slot` where the rooms stand in
+V03	2915	bare	§6	e's 79 of 157 (`research/findings/dwellings-synthesis.md` §6 (4), §7); (b) *stairs stacked* 100 % ag
+V03	2915	bare	§7	f 157 (`research/findings/dwellings-synthesis.md` §6 (4), §7); (b) *stairs stacked* 100 % against th
+V03	2939	bare	§6	he synthesis's first experiment (`dwellings-synthesis.md` §6): 24 fixtures, six classes, three bands
+V03	3018	bare	§2.5	se the reference has no scale (`dwellings-synthesis.md` §2.5); the four density cells equal to the r
+V03	3195	bare	§2	 rows' 5.3 pw) computed from docs/confidence/dwellings.md §2; the Dwellings facts used as descriptiv
+V04	853	bare	§4	e the underground is never torn down (item 11; DEFINITION §4; J-V4.99); a blueprint ruin follows the
+V04	3091	bare	§2.7	n and cave maps (`research/findings/watabou-extra-a.md` §2.7 and §2.8, the hatching and its two-laye
+V04	3091	bare	§2.8	e maps (`research/findings/watabou-extra-a.md` §2.7 and §2.8, the hatching and its two-layer mask; `
+V04	3195	bare	§4	ged by the owner "after the city is mastered" (DEFINITION §4): it is milestone **M6-U — the undergro
+V04	3338	bare	§2.7	n and cave maps (`research/findings/watabou-extra-a.md` §2.7–§2.8; `research/findings/dwellings-post
+V04	3338	bare	§2.8	 cave maps (`research/findings/watabou-extra-a.md` §2.7–§2.8; `research/findings/dwellings-posts.md`
+V04	3397	bare	§4	s records too and tunnels are never torn down (DEFINITION §4) | / | J-V4.91 | chose that S11, run by F
+V04	3406	bare	§4	e the underground is never torn down (item 11; DEFINITION §4) and a removal would delete a lived voi
+V04	3531	bare	§2.7	nd section only (`research/findings/watabou-extra-a.md` §2.7–§2.8). * V01's stage-2 switch: its firs
+V04	3531	bare	§2.8	ction only (`research/findings/watabou-extra-a.md` §2.7–§2.8). * V01's stage-2 switch: its first rea
+V04	3149	J	J-SS3.10	`edit`), and the declaration adds no second access (J-SS3.10); the declaration alone digs from the f
+V05	2118	bare	§3	devlogs.md` §B3.5; `research/findings/watabou-extra-a.md` §3) | all | / | `sky.island.underside` | `ar
+V06	1433	bare	§1.4	ed suburb stage, `research/findings/ftg-docs-params.md` §1.4 *Suburb-stage parameters* and §2.7 *Sub
+V06	1433	bare	§2.7	/ftg-docs-params.md` §1.4 *Suburb-stage parameters* and §2.7 *Suburb stage*, is the emulation refere
+V06	1702	bare	§3.3	oorest pools do (`research/findings/ftg-docs-params.md` §3.3 *Dependency graph*). A vacant building 
+V06	4257	bare	§1.3	ed suburb stage (`research/findings/ftg-docs-params.md` §1.3 *District-stage parameters*, §1.4 *Subu
+V06	4257	bare	§1.4	s/ftg-docs-params.md` §1.3 *District-stage parameters*, §1.4 *Suburb-stage parameters*) by regime sh
+V06	4431	bare	§1.4	ed suburb stage, `research/findings/ftg-docs-params.md` §1.4 and §2.7) and MFP-6 describes a one-cli
+V06	4431	bare	§2.7	 stage, `research/findings/ftg-docs-params.md` §1.4 and §2.7) and MFP-6 describes a one-click town's
+V06	4357	J	J-RF2.4	45; owner `base`) | E2 | `measure` | `bar.T-V6-62` | J-RF2.4's: the tolerance becomes the wall's own
+V07	446	bare	§2	e anchor law — smooth scaling by population** (DEFINITION §2: "Inside a band, everything scales smoo
+V07	518	bare	§5	3, typed (`VillageRungRow.rules`) /  / Item 23 and DEFINITION §5 ("Rules are data"): no rule constant of
+V07	2129	bare	§3.4	small dossier holds** (`research/sf/dossier-outputs.md` §3.4, §6): one population integer; a tier wo
+V07	2129	bare	§6	l dossier holds** (`research/sf/dossier-outputs.md` §3.4, §6): one population integer; a tier word; 
+V07	2270	bare	§3.4	0 in a town's records, `research/sf/dossier-outputs.md` §3.4) are the common case at the VILLAGE run
+V07	2275	bare	§3.4	et, 6–13 in a village, `research/sf/dossier-outputs.md` §3.4) become links between the bound members
+V07	2644	bare	§4	ling (V07 §3.8). **The standing underground** (DEFINITION §4: tunnels "silt up, cave in or are seale
+V07	3346	bare	§4	ts (VG's "vague" units removed, `docs/improvements/vg.md` §4 (2)). /  / ### 5.4 Exports /  / Every base form
+V07	3567	bare	§5	–330 ms of script (`research/findings/profile-village.md` §5); a village of ours carries a territory
+V07	3651	bare	§3	wns of the 155 surveyed, `research/sf/dossier-outputs.md` §3) and the 10-person thorp fixture, plus 
+V07	3733	bare	§3.3	ures/village/*`, `research/findings/profile-village.md` §3.3, §5 and its addenda N1–N5): dwellings p
+V07	3733	bare	§5	/village/*`, `research/findings/profile-village.md` §3.3, §5 and its addenda N1–N5): dwellings per v
+V07	3856	bare	§3.4	rps start at 8 people (`research/sf/dossier-outputs.md` §3.4: 10–60 in the soak) and a dossier's pop
+V07	3880	bare	§1	n-first makes VG's look the village's default (DEFINITION §1: match how the references look) and the
+V07	3925	bare	§5	nt, over prose values, because rules are data (DEFINITION §5, item 23): editable, versioned, calibra
+V07	4066	bare	§3.4	t-range records — from `research/sf/dossier-outputs.md` §3.4 and §6, and the two small wall records 
+V07	4066	bare	§6	 records — from `research/sf/dossier-outputs.md` §3.4 and §6, and the two small wall records from `r
+V07	4069	bare	§2	ings and the profile (`research/findings/code-village.md` §2, `research/findings/profile-village.md`
+V07	4070	bare	§3.3	-village.md` §2, `research/findings/profile-village.md` §3.3, §5 and addenda), reader tier, never tr
+V07	4070	bare	§5	lage.md` §2, `research/findings/profile-village.md` §3.3, §5 and addenda), reader tier, never transf
+V08	604	bare	§3	ated on the pinned line; `research/sf/dossier-outputs.md` §3). `requiredKeys` — the 41 keys every bi
+V08	1330	bare	§3.5	reference custom pack; `research/sf/dossier-outputs.md` §3.5, `research/sf/dossier-model.md` §13, an
+V08	1331	bare	§13	dossier-outputs.md` §3.5, `research/sf/dossier-model.md` §13, and the line's custom-content manifest
+V08	2034	bare	§3.2	`generatorVersion` (`research/sf/dossier-generation.md` §3.2); the same seed gives different dossier
+V08	3370	bare	§1	 against the corpus, then connected (`docs/DEFINITION.md` §1) — so the stage is milestone **M-SF — t
+V08	3496	bare	§4	 realm after generating it (`research/sf/dossier-seam.md` §4, C-9), so a frozen culture latitude wou
+V08	3672	bare	§5.2	`activeConditions` (`research/sf/dossier-generation.md` §5.2); `magicLevel` `medium` on 32 of the 35
+V08	209	J	J-Fsf-1	seam stay outside this design by the owner's ruling (J-Fsf-1). What the map builds from the facts th
+V08	886	J	J-M2	on a town map); else nothing is created for the string (J-M2). The strings are never item 110 (b)'s 
+V08	2080	J	J-M11	 absorb is over its disruption budget (a draft reroll, J-M11) | the dry run (§7.7 item 5) | lands at
+V08	2148	J	J-M11	house stays a house. **A reroll** (the research plan's J-M11): on an absorb whose settlement shows a
+V08	3538	J	J-M11	use a reroll renumbers the ids and the research plan's J-M11 re-binds by name and role; any other va
+V09	1845	bare	§1	e-form builders (Tiny Glade, `research/ux/tool-survey.md` §1 rank 5); a "same kind here" is T6 `plac
+V09	2548	bare	§6	cided /  / The evidence is thin (`research/ux/tool-survey.md` §6: MFCG's maker says it is not designed f
+V09	4756	bare	§5	 survey's mapping amends it (`research/ux/tool-survey.md` §5 T1 `intend`); file f item 515 corrects 
+V10	3226	bare	§4	erk that emits declarations (`research/ux/tool-survey.md` §4, C6). The emulation-first default (item
+V10	3317	bare	§2	 — over a refusal or the clamp always, because DEFINITION §2 gives villages their own ladder (V07 §2
+V11	5164	bare	§3.4	keeps the map whole; (R4) authoring effort — CONFIDENCE §3.4's warning; C1 is scoped to the M1 class
+V11	5417	bare	§11	he port's research lists (`research/sf/dossier-model.md` §11, `research/sf/mapping.md` row 70) and `
+V11	3895	J	J-RF2.4	 place by V06 §8's line on `bar.T-V6-62` from V6-E2 (J-RF2.4 names the confirming measurement, T-V6-
+V12	1000	bare	§6	| 5 | the vertex-capture sessions of `docs/CONFIDENCE.md` §6 #2 | relative scale | / | VG 1.6.9 | V07 
+V12	1217	bare	§7.2	 distance; per seed median | NG (§16 M-1's IMPROVEMENTS §7.2 rows) | detour index ⟨M-1⟩ | / | `street.
+V12	1221	bare	§6	 whose area lies within ± 25 % of theirs | NG (CONFIDENCE §6 #10) | adjacent-footprint pairing ⟨M-1⟩
+V12	1869	bare	§1	and in §16's order after M6-sky (J122; docs/DEFINITION.md §1 and §13.9: "after the standalone genera
+V12	1869	bare	§13.9	's order after M6-sky (J122; docs/DEFINITION.md §1 and §13.9: "after the standalone generators"). La
+V12	2149	J	J-RF2.4	 place at `V6-E2` by V06 §8's line on `bar.T-V6-62` (J-RF2.4's measurement), due `V6-E7` — an entry 
+V12	3360	J	J-RF2.4	t M3a restated in place at `V6-E2` on `bar.T-V6-62` (J-RF2.4's measurement), over prose keys the lin

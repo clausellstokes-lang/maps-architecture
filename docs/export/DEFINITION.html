@@ -1,0 +1,62 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>DEFINITION</title><style>body{font-family:Georgia,serif;font-size:12pt;line-height:1.45;margin:2.2cm;color:#1a1a1a}h1{font-size:19pt}h2{font-size:14pt;margin-top:1.2em;border-bottom:1px solid #999}p,li{margin:.4em 0}</style></head><body><h1>What we are building — the settlement map layer, defined (2026-09-25, evening)</h1>
+<p><b>In one sentence.</b> A settlement map layer for SettlementForge: a procedural engine that makes towns, cities and villages as living models rather than pictures — plots first, buildings on the plots, neighbourhoods made of plots, layers above and below — driven by population and prosperity, held to historical realism, editable in every part, and able to grow, decline and grow again from one seed as circumstances change.</p>
+<h2>1. What it is for</h2>
+<p>SettlementForge describes settlements; this layer draws them and keeps them consistent. Data flows one way: the SettlementForge dossier goes in, the map comes back, and the map never edits the dossier. Anything the dossier specifies exists on every map; deleting it on the map only moves it elsewhere, coherently and from the same seed, until the settlement grows or declines and the spot is fair game again — only the dossier can truly remove it. A map edit can also ask for a specific place to hold something, and the solver honours it when the rules allow. When the dossier later adds or removes a building or institution, the existing map is mutated with the least disruption — the layout you already know stays, and only what must move moves. The module is licensed GPL-3 and kept a separate program from SettlementForge. It must stand next to the best existing generators (watabou&#x27;s Medieval Fantasy City Generator, Neighbourhood, Village Generator and Fantasy Manor, and Thomas Allerton&#x27;s Fantasy Town Generator), match what they do and how they look, and go past them: real plots, realistic constraints, editing everywhere, a history. It is built standalone first, then calibrated against the owner&#x27;s historical and artistic map corpus (what we built stays the base), then connected to SettlementForge.</p>
+<h2>2. Two generators, two ladders, one engine</h2>
+<ul>
+<li><b>Town/city generator (built first):</b> town → city → metropolis.</li>
+<li><b>Village generator (built after):</b> thorp → hamlet → village, in its landscape.</li>
+<li><b>Tiers are population bands.</b> Inside a band, everything scales smoothly with the head count: extent, streets,</li>
+</ul>
+<p>plots, buildings, walls, districts, fields and greenery. Population decides what the settlement needs before a street is drawn.</p>
+<h2>3. How a settlement is made</h2>
+<ol>
+<li><b>Ground:</b> real terrain in metres; water that flows downhill; rivers that reach the sea; coasts that agree with the contours.</li>
+<li><b>Demand:</b> from the population, our own tables decide the houses, workshops, inns, churches and institutions needed and the land they take.</li>
+<li><b>Landmarks and enclosure:</b> market, church, castle, harbour and gates claim their ground; the wall is laid where a walled town needs one.</li>
+<li><b>Streets:</b> main roads routed between real destinations over the terrain; side streets grown between them; inside large blocks, lanes cut with watabou&#x27;s bent cut (one bend, arriving square) using constants we measured.</li>
+<li><b>Districts:</b> grown around the landmarks, typed by what the town still needs and by prosperity.</li>
+<li><b>Plots — the atom:</b> every block divided from its street frontage into parcels. Prosperity is a smooth field over the town, not a switch; it rises near the centre, the market, main streets and high dry ground and falls near tanneries, walls and damp low ground. Rich quarters join plots into fewer, larger ones with courts and gardens; poor quarters split them, and the leftover gaps become alleys.</li>
+<li><b>Buildings:</b> each plot gets a site plan — row houses end to end along the street with shared walls, detached houses, workshops behind, a manor or institution set back with several buildings around a court, a hovel alone in a bare plot. Rules decide the class from giant manor to small hovel, and every designation scales with prosperity — a poor-quarter smith works a lean-to forge, a rich-quarter armourer has a storefront, a court and journeymen&#x27;s rooms; every building carries its heights for shadows.</li>
+<li><b>Finishing:</b> towers, bridges, harbour, fields and woods sized to the population, trees and parks by prosperity, names and curved labels.</li>
+</ol>
+<h2>4. Scales and layers</h2>
+<ul>
+<li><b>Neighbourhood close-up:</b> any district opened street by street, same seed and style.</li>
+<li><b>Building close-up:</b> each building composed the way Fantasy Manor composes a manor — wings, roofs, dormers,</li>
+</ul>
+<p>porches, towers — fitted to its plot.</p>
+<ul>
+<li><b>Toggles, after the city is mastered:</b> sewers — uncommon in towns, always present in cities and metropolises, none in</li>
+</ul>
+<p>villages — derived by medieval rules, which age by neglect — tunnels silt up, cave in or are sealed, never torn down; navigable sewers may carry underground neighbourhoods whose plots front the tunnels and whose buildings sit flush against the tunnel walls, with no access-only alleys; and, possible only in cities and metropolises (and not in every one), up to three floating islands in the sky carrying a prosperous quarter or a unique institution (palace, cathedral, prison). Islands exist only where there is prosperity: magic is a resource that must be constantly supplied, so an island&#x27;s size follows the prosperity of its neighbourhood and of the whole city.</p>
+<h2>5. The rules of the engine</h2>
+<ul>
+<li><b>One seed is the town;</b> inputs and circumstances make its history; nothing that survives a change is re-rolled.</li>
+<li><b>The town lives in time.</b> It grows (walls become ring roads, suburbs are absorbed), declines (houses empty, decay</li>
+</ul>
+<p>and are robbed for stone, plots turn to gardens, a shorter wall ring replaces the old one, ruins remain) and grows again on its old plan — each change a recorded event, driven by population with a realistic lag.</p>
+<ul>
+<li><b>Rules are data.</b> Coverage, plot sizes, building classes, greenery, sewers and the events of history live in tables</li>
+</ul>
+<p>that can be read, tuned and later calibrated against real towns.</p>
+<ul>
+<li><b>Everything is editable,</b> by a user to taste and by us to change the system; edits are permanent, undoable and</li>
+</ul>
+<p>survive regeneration; the generator repairs around them locally and never redraws the whole map to fix a problem.</p>
+<ul>
+<li><b>Assignments outrank the generator&#x27;s choices, not common sense:</b> a name, function or shape for one building, a whole</li>
+</ul>
+<p>neighbourhood, or several buildings across the city, placed after the city is built by a solver that obeys rule templates for spatial relations (near, far, downwind, downstream, on the main road, beside the market) and supply chains (a brewery needs grain, a tannery water and an edge site), relocating displaced uses locally. As the city grows and declines, uses move organically — a shop closes here and reopens where the people now are — unless an assignment is pinned in place. When a plot gets a new designation, its buildings mutate to match it — the previous design keeps what still fits, gains what the new use needs (a forge for a smith, stables and a court for an inn) and loses what it no longer needs — immediately for an assignment, gradually in the town&#x27;s history.</p>
+<ul>
+<li><b>Realism is the tiebreaker, legibility the floor:</b> where approaches conflict, the more historically faithful one</li>
+</ul>
+<p>wins, and maps use cartographic exaggeration (wide walls, clear streets) so they stay readable.</p>
+<ul>
+<li><b>Fast and exportable:</b> detail is generated when you zoom to it; output goes to pictures, SVG, virtual-tabletop maps,</li>
+</ul>
+<p>GeoJSON and 3-D, and to an embedding interface for SettlementForge.</p>
+<h2>6. The look</h2>
+<p>A clean ink map by default, in the family of watabou&#x27;s maps; a textured, lit style like Fantasy Town Generator&#x27;s later; a hatched close-up for neighbourhoods; our own house style in time.</p>
+<h2>7. What makes it new</h2>
+<p>Existing tools each own one rung of this ladder as a separate toy. This layer carries one consistent model from region to room — terrain, streets, plots, buildings, layers and history — with real parcels and yards, prosperity as a field, rules as data, growth and decline from the same seed, and a home inside a larger world tool.</p></body></html>

@@ -1,0 +1,11 @@
+== A  VK2-1: rebuilding the L3 static partitions step (0) touched, before the freeze ==
+item estimate (vertices + edges + faces of the band parts; our own count, stated in the lane file):
+CITY: 9003 items in 26 partitions (largest 1473): rebuild 2.29 ms (median of 15); the same items as one partition 1.99 ms
+METROPOLIS: 22502 items in 64 partitions (largest 1704): rebuild 5.83 ms (median of 15); the same items as one partition 4.95 ms
+== B  VK2-9: Map-valued tables rebuilt per worker vs typed open-addressing tables that travel as buffers ==
+CITY role heads (~60 000 keys): Map rebuild 9.93 ms per worker; typed build 2.41 ms (done once, on the generation worker, incrementally); typed table 1.50 MB; lookup mismatches 0
+CITY role + owner heads (~100 000 keys): Map rebuild 20.11 ms per worker; typed build 3.88 ms (done once, on the generation worker, incrementally); typed table 3.00 MB; lookup mismatches 0
+METROPOLIS (~250 000 keys): Map rebuild 61.86 ms per worker; typed build 11.59 ms (done once, on the generation worker, incrementally); typed table 6.00 MB; lookup mismatches 0
+frozen-copy cost (one memory copy per worker, then transferred):
+10 MB: 1.01 ms per copy; 3 workers 3.03 ms
+12 MB: 1.09 ms per copy; 3 workers 3.28 ms

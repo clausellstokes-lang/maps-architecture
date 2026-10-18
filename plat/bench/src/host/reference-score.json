@@ -1,0 +1,10 @@
+{
+  "$comment": "The reference calibrate score (§12.1; C-0050, C-0075). Landed by M0-f-01 at null: no AUTHORITATIVE run exists while other seats run, so every TimingResult carries normalisation null and authority 'contended' with the reason 'no reference score'. The timing-phase wave's first act (M0-t-01, through M0-t-00's script) writes the score once with writeReferenceScore() and its host record; it is never rewritten.",
+  "score": null,
+  "unit": "ms",
+  "calibrateVersion": null,
+  "host": null,
+  "measuredAt": null,
+  "writtenBy": null,
+  "calibration": null
+}

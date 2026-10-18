@@ -1,0 +1,54 @@
+{
+ "key": "coherence/verify-vol-V01-V02-r3t",
+ "file": "docs/validation/coherence/verify-vol-V01-V02-r3t.md",
+ "issues": [
+  {
+   "id": "VV12-r3-01",
+   "severity": "major",
+   "kind": "WIRING",
+   "owner": "V02",
+   "claim": "V07 §5.6 (3) makes a village disaster's units `villageDisasterUnits` — the ends, or in an end-less thorp its toft groups — and gives each unit's land by `villageUnitPlots(doc, unit)`, whose comment names 'the buildings' damage (V02, V03)' as its reader; V01 §3.16 (1), rewritten this round, states that V02 §5.7 reads a returned unit's buildings through it. V02 never names `villageUnitPlots` and reads the village units as ends: §5.7 (1) 'at THORP, HAMLET and VILLAGE every end V07 returns' (l. 3045), §1b's `exteriorDamage` input cell 'V07's ends at THORP, HAMLET and VILLAGE' (l. 199), §2.4's paragraph 'V07's ends at the village rungs' (l. 367), X35 (l. 4175), T-V2-60 (a) '(V07's ends at VILLAGE)' (l. 3771) and §8.6's note 'the look's units wait for V07's ends' (l. 3882). At an end-less thorp the units are toft groups (each id its lowest plot's) and no end exists, so V02 as written draws the ruined look on none of a struck toft group's buildings, while V07 §5.6 (3) draws item 123's damage on every building of the unit's plots: a hook with one end, and two outcomes for one case.",
+   "required_change": "V02 §5.7 (1)'s \"and at THORP, HAMLET and VILLAGE every end V07 returns\" reads \"and at THORP, HAMLET and VILLAGE every unit it returns there — V07 §5.6 (3)'s `villageDisasterUnits`, its ends or in an end-less thorp its toft groups — a unit's buildings being those on the plots V07's `villageUnitPlots(doc, unit)` gives it\". §1b's input cell reads \"at THORP, HAMLET and VILLAGE V07 §5.6 (3)'s units and their land `villageUnitPlots`\" for \"V07's ends at THORP, HAMLET and VILLAGE\"; §2.4's paragraph reads \"V07 §5.6 (3)'s units and their plots (`villageUnitPlots`) at the village rungs\"; X35 reads \"and at THORP, HAMLET and VILLAGE V07 §5.6 (3)'s units (its ends, or an end-less thorp's toft groups) with their land `villageUnitPlots`\"; §8.6's note reads \"at THORP, HAMLET and VILLAGE the look's units wait for V07's `villageDisasterUnits` and `villageUnitPlots` (V-M3, V07 §5.6 (8))\". §3.18's ruined-look row adds the case \"an end-less thorp\" → \"its toft groups' buildings, by `villageUnitPlots`\". T-V2-60 (a)'s parenthesis reads \"(at VILLAGE V07's ends, each on the plots `villageUnitPlots` gives it)\", and the look fixture adds an end-less THORP of B-VILLAGE whose struck toft group's buildings all draw the look and no other building does."
+  },
+  {
+   "id": "VV12-r3-02",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "owner": "rendering",
+   "claim": "§8.2 draws a disaster's city-band tone over districts: the `disaster` row 'its districts in the `ruinTone`' (l. 12985), `ruinTone` 'the district's faces under a `crisis.ash` wash' (l. 13004), and 'their districts the `ruinTone` at the city band … a district's `ruinTone` stands while any of its buildings still draws the look' (l. 13012–13016). At THORP, HAMLET and VILLAGE the village product holds one district and the units are V07 §5.6 (3)'s ends or toft groups: V07 §5.6 (3) has 'the unit's plots' faces take §8.2's ruined tone at the city band', and V01 §3.16 (1) (this round) names §8.2's disaster row as reading a returned unit's faces through `villageUnitPlots`. §8.2 as written washes the whole village when one end is struck; V07 washes that end's plots. §11.2's `LooksAnswer.crises[].districts` comment (l. 16163) also reads 'at the village rungs V07's ends', missing the toft groups.",
+   "required_change": "§8.2's `disaster` row's city-band cell reads \"its units in the `ruinTone` (districts; at THORP, HAMLET and VILLAGE V07 §5.6 (3)'s units, on the plots `villageUnitPlots` gives each)\"; `ruinTone`'s definition reads \"a unit's faces — a district's, or at the village rungs its unit's plots' (V07 §5.6 (3)) — under a `crisis.ash` wash …\"; the rule sentence's \"and their districts the `ruinTone` at the city band\" reads \"and their units (V01 §3.16 (1)) the `ruinTone` at the city band\", and \"a district's `ruinTone` stands while any of its buildings still draws the look\" reads \"a unit's `ruinTone` stands while any of its buildings still draws the look\". §11.2's `districts` comment reads \"a disaster look's units: V01's `disasterDistricts` over the model the view draws (at the village rungs V07 §5.6 (3)'s ends or toft groups); key-filtered, ≤ limits.members\". T-ER-27's fire fixture at VILLAGE adds the outcome \"the `ruinTone` on the struck end's plots only\"."
+  },
+  {
+   "id": "VV12-r3-03",
+   "severity": "major",
+   "kind": "WIRING",
+   "owner": "V01",
+   "claim": "Base §11.2 *Find's match listing* (rendering's round-3 text, R3-24; l. 16292–16297) states that at a drawn week whose frame is not the head 'every row, count, match and gap unit is the head index's restricted to the entities the frame holds', so a reader passing its view's week 'counts, glows, pins, lists and gaps only what the drawn frame holds', and names \"V01's `gapUnits` (its members)\" as a reader of that listing; §8.2's `live.find` (l. 13041–13044) says a match the frame lacks is not 'gapped there'. V01's `gapUnits(chip, key)` (V01 §2.3 l. 547; §3.16; §5.4 (3)) takes no week and is 'memoised per commit and per key' over committed state; V09 §4.21.10 (10) calls it with `(chip, key)` too. A builder of V01 draws the head's gaps at a scrubbed week — a district whose only member was built after the drawn week shown served, a district or plot the frame does not hold given a gap — while §8.2 and §11.2 draw only what the frame holds. In the same scope, V01 §5.4 (6) frames a disaster look by 'the union of the Ground shapes of its units' `FindArea`s' (`findAreas(key)` over committed state), while at a scrubbed week the units are read over the frame (V01 §3.16, R3-24): a district an epoch split or merged after the drawn week has no `FindArea` at the head, so its Show frame is undefined.",
+   "required_change": "V01 §5.4 (3) reads `gapUnits(chip, key, week?)`: \"`week` the view's drawn week (§2.9's `week`), absent the head: at a drawn week whose frame is not the head (V06 §3.15.2) its members are §11.2's match listing at that week and its units only those the frame holds — a district, parish cell or residential plot the frame lacks is no unit (§11.2's *At a drawn week*)\", memoised per commit, key and drawn frame; V01 §2.3's signature, §3.16's bullet and §5.4's head follow. §5.4 (6) adds \"at a scrubbed week whose frame is not the head, a unit's Ground shape is its faces in that frame (V06 §3.15.2), so a district the head no longer holds is still framed\". §3.18 (e)'s Find row (l. 2678) adds \"a scrubbed week whose frame is not the head\" → \"the frame's members and units (§11.2); a disaster look framed by the frame's faces\". T-V1-59 adds that case on a B-EDIT CITY document with a district split after the drawn week. V09 §4.21.10 (10)'s call passes the view's week (an END line for V09)."
+  },
+  {
+   "id": "VV12-r3-04",
+   "severity": "major",
+   "kind": "WIRING",
+   "owner": "V03",
+   "claim": "The same one-ended hook as VV12-r3-01, at V03: V03 §5.6 (4) (l. 2725) places a building under a disaster's look 'in a district V01's `disasterDistricts` returns, or at THORP, HAMLET and VILLAGE in an end of V07's'; §1b's damage-layer row (l. 303) reads 'V07's ends', and §3.18's look row (l. 2095) 'V07's ends as the units'. V07 §5.6 (3)'s `villageUnitPlots` names 'the buildings' damage (V02, V03)' as its reader and V01 §3.16 (1) names V03 §5.6. At an end-less thorp no building lies 'in an end', so V03 draws no plan damage on a struck toft group's buildings, against V07 §5.6 (3) ('every building on a returned unit's plots draws … V03's plan').",
+   "required_change": "V03 §5.6 (4)'s \"or at THORP, HAMLET and VILLAGE in an end of V07's\" reads \"or at THORP, HAMLET and VILLAGE on a plot V07's `villageUnitPlots(doc, unit)` gives a unit it returns (V07 §5.6 (3): its ends, or in an end-less thorp its toft groups)\"; §1b's row reads \"V07 §5.6 (3)'s units and `villageUnitPlots`\" for \"V07's ends\"; §3.18's row reads \"V07 §5.6 (3)'s units (ends, or an end-less thorp's toft groups), each building on the plots `villageUnitPlots` gives it\" for \"V07's ends as the units\"."
+  },
+  {
+   "id": "VV12-r3-05",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "owner": "pipeline",
+   "claim": "§10.2 (d)'s `approachRoads` bullet (l. 15532, R3-14's binding text) cites the verges as '(V01 §3.16 (2))'. V01 §3.16's numbered item (2) is `disasterSource`'s '**The calamity**'; the verges are `campLand`'s inline part (2) in the next bullet. The reference resolves, to the wrong rule (repair-r3-V01's hand-off (2)). Beside it, §10.2 (d)'s `neighbourhoods` bullet reads 'at THORP, HAMLET and VILLAGE V07's ends (V07)', where V01 §3.16 (1) now reads V07 §5.6 (3)'s `villageDisasterUnits`, ends or toft groups.",
+   "required_change": "§10.2 (d)'s `approachRoads` reads \"(V01 §3.16's `campLand` (2))\" for \"(V01 §3.16 (2))\"; its `neighbourhoods` reads \"at THORP, HAMLET and VILLAGE V07 §5.6 (3)'s units (its ends, or an end-less thorp's toft groups)\" for \"at THORP, HAMLET and VILLAGE V07's ends (V07)\"."
+  },
+  {
+   "id": "VV12-r3-06",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "owner": "V03",
+   "claim": "V03 §5.6 (2)'s `PlanDamage` record (l. 2683) declares `look: ExteriorDamage['look']; // V02 §2.4's: the condition (null for a preview) and the calamity's type; null with no look`. V02 §2.4's field is now `pattern: 'fire' | 'flood' | 'scatter'`, V01's `DisasterSource.pattern` (R3-09 (c)); the type follows V02's record, so only the comment is stale (repair-r3-V02's hand-off to V03).",
+   "required_change": "The comment reads \"V02 §2.4's: the condition (null for a preview) and its pattern (V01's `DisasterSource.pattern`); null with no look\"."
+  }
+ ]
+}

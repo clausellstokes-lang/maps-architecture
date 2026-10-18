@@ -1,0 +1,54 @@
+{
+ "key": "coherence/verify-scope-r2t",
+ "file": "docs/validation/coherence/verify-scope-r2t.md",
+ "issues": [
+  {
+   "id": "VCS-r2-01",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "J-A120.01's index row (base l. 22398) says Find's base parts are built at M5 \"its base parts widening the O12 line by 0.5–1 pw\", and its Part A entry (rationale l. 836) \"widen the O12 line by an itemised 0.5–1 pw (PLAUSIBLE) under §16's rule\". §16 prices them by absorption — the O12 line's \"item 112's second cues and checked variants and item 120's Find roles and marks absorbed (its overlay provider and panel are volume 9's, AP11)\", the components paragraph's \"the base parts of items 120, 123 and 125 are absorbed — item 120's key, roles, listing and exports by the O11 and O12 lines\" — and J-A568.05 reads \"items 121, 122 and 124 widening the O12 line by 2.25–3.75 pw, items 120, 123 and 125 absorbed\"; O12's 10.75–16.75 = 8.5–13 + 2.25–3.75 holds no 0.5–1 for item 120. One price, two statements.",
+   "required_change": "J-A120.01's index row ends \"— built at M5 with volume 1's area and gap services, its base parts priced by absorption into the O11 and O12 lines (its overlay provider and panel volume 9's AP11; J-A568.05)\". Its Part A entry's last clause reads \"its base parts (§2.9's key, §8.2's marks, §9.5's tool, §11.1's export, §11.2's listing, §12.5's budget) are priced by absorption into the O11 and O12 lines whose mechanisms they extend, its overlay provider and panel being volume 9's AP11 (J-A568.05) (§13.2, §13.8, §16).\" §16 and its totals unchanged.",
+   "owner": "scope"
+  },
+  {
+   "id": "VCS-r2-02",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "claim": "Item 125 (e) (owner): \"the same dossier with and without a host context yields the identical document and hash\"; R2-40 (2) keeps `line` as one of the fields \"none able to change a document a dossier makes\"; §14's `HostContext` (\"none changes a document a dossier makes (T125-2)\") and T125-2 (\"with and without a host context, and under each `HostContext` field (`audience`, `displayNames`, `line`), yields the identical document and hash\"). V08 §2.4's *Selection* (l. 685–694) tries `HostContext.line` first and states \"only where two registered lines accept one dossier … does `line` decide which line's reading builds it\"; B19 (l. 2023) and T-V8-11 (\"Two registered adapters both accepting: `HostContext.line` picks when given; with none, … a new settlement is created on the newest line\") give a different document with and without a host context in that case, and T-V8-61 (b) tests T125-2 only with `line` the pinned line. V08 recorded this as its judgment 2 for the adjudicator and scope's repair left it as a hand-off; a volume's rule contradicting the owner's bar (precedence: owner > base > volume).",
+   "required_change": "V08 §2.4's *Selection*: the dossier's own shape and stamps select the adapter in every case — (1) the document's bound line when its adapter accepts, (2) the single registered adapter that accepts, (3) at a creation with several accepting, the newest registered line, recorded and noted `line_defaulted` — and `HostContext.line` is checked, never chosen from: a named line no adapter supports, or one the dossier's stamps contradict, refuses with `E_LINE_UNSUPPORTED`; a named line that is registered and accepts but differs from the selection leaves the selection standing, the report naming both lines. The sentence \"only where two registered lines accept one dossier … does `line` decide which line's reading builds it\" reads \"with several registered lines accepting one dossier the dossier's own selection still decides, so one dossier makes the same document and hash with and without a host context (item 125 (e); T125-2)\". B19's case reads \"two registered adapters accept a new settlement's dossier, a line named or not\" (outcome unchanged). T-V8-11's two-adapter clause reads \"Two registered adapters both accepting: the same document and hash with `HostContext.line` naming either line and with none — a bound document on its line, a new settlement on the newest, noted `line_defaulted`\"; T-V8-61 (b) adds that two-adapter fixture. A J-V8 row records the choice; §14 and T125-2 unchanged (R2-40 (2)'s \"it picks the adapter\" then reads as the check above — the adjudicator to confirm).",
+   "owner": "V08"
+  },
+  {
+   "id": "VCS-r2-03",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "§1.1's new *Where the map is seen* (l. 317) says \"Tablets keep every tool, under touch and pen (V09 §4.12)\" and T126-1 bars \"at the medium class every tool of V09 §4.12's list completes its canvas script under touch\" (item 126 (e): \"every tool works under touch\"), while §13.4's pre-decided touch fallback in the same unit (l. 18389–18391) still reads \"if they fail where the pointer users pass, touch is kept for the intent, ground-and-bones and programme layers … and the fabric and finish layers become pointer-only\" — after which T126-1 fails by design and §1.1 is false. V09 §4.12 words the same fallback as a default (\"`AppPrefs.touch.editFabric` defaults to false for coarse pointers, hiding the L3 FABRIC and L4 FINISH layers' geometry edits\"), switchable, and T-V9-22 runs T126-1 without naming the setting: the meeting of item 126's bar and the touch fallback is undefined.",
+   "required_change": "§13.4's fallback clause reads \"… and the fabric and finish layers' geometry edits are off by default on a coarse pointer (`AppPrefs.touch.editFabric`, V09 §4.12), switchable back on and never removed (item 126 (e)), stated in the guide\"; §1.1's sentence reads \"Tablets keep every tool, under touch and pen (V09 §4.12); §13.4's touch fallback changes only a default\"; T126-1 reads \"… completes its canvas script under touch, with `AppPrefs.touch.editFabric` on\". V09 writes T-V9-22's end in the same words (R2-05).",
+   "owner": "scope"
+  },
+  {
+   "id": "VCS-r2-04",
+   "severity": "minor",
+   "kind": "WIRING",
+   "claim": "R2-36 places item 122's base parts at M3b and \"the disaster look's districts with V01's W10 at M5; V02's ruined exterior with V02's building-band step; V03's look damage with V03's item-123 step\", under its rule \"a look or view whose subject is not yet built draws nothing of that part\". §16's M3b row (l. 19728) places \"item 122's crisis looks\" whole at M3b, and neither it nor the M5 row names the `disaster` look's districts (§10.2's `neighbourhoods` place reads V01's `disasterDistricts`, built in V01's W10 at M5, V01 §8.1) or states R2-36's rule; §13.8 (l. 18834) runs T122-2, T122-3, T122-5 and T122-6 \"nightly on the crisis fixtures — the previews from M3b\", so a `disaster` preview's district share (T122-5's scale) is due at M3b with no producer until M5. The volumes already place it at M5 (T-V3-40, T-V7-69, T-V10-52). Between M3b and M5 a standing disaster condition has no stated drawing in the base.",
+   "required_change": "§16's M3b item-122 clause adds \"— the `disaster` look's districts (§10.2's `neighbourhoods`) with volume 1's `disasterSource` and `disasterDistricts` at M5 (W10), its ruined exterior with M6 (V02 §8.6) and its plan damage with volume 3's P4; until each lands that part draws nothing (R2-36)\"; the M5 row's content adds \"item 122's disaster districts — volume 1's `disasterSource` and `disasterDistricts` (W10)\"; §13.8's T122-2, T122-3, T122-5, T122-6 row's milestone cell reads \"M3b (the `disaster` look's district clauses from M5)\".",
+   "owner": "scope"
+  },
+  {
+   "id": "VCS-r2-05",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "§13.2's item-119 runs list (\"volume 2 the stage-3 waits (T-V2-22, T-V2-24)\") and the stage-3 take-over row (\"T119-2's stage-3 clauses (T-V2-22, T-V2-24)\"), written this round per VAP-r1-09, name T-V2-24 as taking T119-2. T-V2-24 (V02 §7, l. 3536) times every export format within ten seconds at every rung's top and the cap — item 119's comfort level — but names no base bar, while R2-08 makes the volume test the home of which base-bar clauses it runs (its head, or the clause re-running one, naming each). T-V2-22 names T119-2 in its wait clause; T-V2-24 does not.",
+   "required_change": "V02 §7's T-V2-24: its export-wait clause reads \"… completes within ten seconds from the click to the file written (T119-2's stage-3 export clause; V12 §3.15.9's wait timer, five seeds each; R12-31) …\"; nothing else changes.",
+   "owner": "V02"
+  },
+  {
+   "id": "VCS-r2-06",
+   "severity": "minor",
+   "kind": "COHESION",
+   "claim": "Appendix A's graded exceptions (l. 22463–22465) state \"The SettlementForge facts of items 73–88, 102–113, 117, 118 and 122 (the calendar, `traditions`, the stressors and conditions) are CONFIRMED …\" but say nothing of the SettlementForge inputs the owner's items mark unconfirmed: item 122 (h)'s forces, coalitions and travelling groups with their sizes (\"IN DEVELOPMENT in SettlementForge … to be confirmed by the final local check (item 125 (d))\"), read by DR44, T122-5 and V08's T-V8-60, and the current-week stamp item 125 (d) lists; nor of item 125 (d)'s final local check that confirms the port's fields. The record's \"every mechanism … is PLAUSIBLE … until the milestone §16 names for it executes it\" covers mechanisms, not whether a SettlementForge field exists.",
+   "required_change": "Appendix A adds after the SettlementForge sentence: \"The SettlementForge fields the owner's items mark in development — item 122 (h)'s forces, coalitions and travelling groups with their sizes, and a current-week stamp — are PLAUSIBLE until item 125 (d)'s final local check of SettlementForge's checkout confirms each, field by field, item 125 (b)'s fallback in force meanwhile.\"",
+   "owner": "scope"
+  }
+ ]
+}

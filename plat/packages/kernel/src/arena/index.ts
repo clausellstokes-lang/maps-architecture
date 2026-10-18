@@ -1,0 +1,98 @@
+// The arena (M0-a-02; §2.2, §3.2 (1), §3.9, §3.11): Plat's typed-array tables, the role registry and its reverse
+// index, the owner tables, the interned handles, the level views, resolve, signature and sortedKeys. `PlatKey` and
+// `LatticeSpec` are M0-a-01's (kernel/src/types, kernel/src/num; C-0112) and are not redeclared here (the spec note
+// N-05). Kernel-internal helpers are exported by path only, never through this index — among them, for the kernel's
+// other folders, resolve.ts's `edgeRuns` (the one run ordering), `stamp` and `keyName`, and plat.ts's `five`.
+export { debugAssertions, setDebugAssertions } from './debug.js';
+export {
+  compareRoleRank,
+  MAX_ROLE_ID,
+  parseRoleRegistry,
+  ROLE_REGISTRY,
+  ROLE_REGISTRY_VERSION,
+  roleIdOf,
+  roleInfo,
+  roleNamed,
+  type RoleInfo,
+  type RoleKind,
+  type RoleRegistryDoc,
+} from './registry.js';
+export {
+  createOwnerTable,
+  createRoleHeadTable,
+  MIN_TABLE_CAPACITY,
+  ownerDelete,
+  ownerGet,
+  ownerSet,
+  roleHeadDelete,
+  roleHeadGet,
+  roleHeadSet,
+  tableCapacityFor,
+  type OwnerTable,
+  type RoleHeadTable,
+} from './tables.js';
+export { compareHandleIds, createHandleTable, handleOfId, idOfHandle, internId, type HandleTable } from './handles.js';
+export {
+  allocEdgePair,
+  allocFace,
+  allocVertex,
+  commitVersion,
+  createPlat,
+  dest,
+  edgeLevel,
+  faceHoles,
+  facesOfOwner,
+  FREE_KIND,
+  freeEdgePair,
+  freeFace,
+  freeVertex,
+  isFaceLive,
+  isHalfEdgeLive,
+  isLevel,
+  isPlatKey,
+  isVertexLive,
+  LEVELS,
+  pointOf,
+  sameKey,
+  setFaceHoles,
+  setFaceOwner,
+  twin,
+  VERTEX_FREE,
+  VERTEX_PINNED,
+  VERTEX_SPLIT,
+  VERTEX_STEINER,
+  type FaceId,
+  type FaceInit,
+  type Five,
+  type HalfEdgeId,
+  type HalfEdgeTable,
+  type IndexHome,
+  type LevelFaces,
+  type Plat,
+  type PlatCapacity,
+  type PlatSlots,
+  type RoleTable,
+  type SlotCounter,
+  type VertexId,
+  type VertexTable,
+} from './plat.js';
+export {
+  addRole,
+  addRoleRow,
+  compareRowKeys,
+  handleOf,
+  idOf,
+  intern,
+  isRoleRowLive,
+  MAX_ORDINAL,
+  removeRoleRow,
+  roleKeyWord,
+  rowElement,
+  rowKey,
+  rowsOfKey,
+  rowsOn,
+  type RoleRow,
+} from './rows.js';
+export { compareFaces, compareVertices, faceKey, faceWalk, nextAt, outgoing, walkRing } from './walk.js';
+export { assertStamp, isCurrent, resolve, signature, vertexAt, vertexSignature, type Resolved, type Stamp } from './resolve.js';
+export { compareKeys, sortedKeys } from './keys.js';

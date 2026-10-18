@@ -1,0 +1,101 @@
+[
+ {
+  "id": "VAP-r2-08",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "owner": "V12",
+  "claim": "R2-09: \"V12 \u00a72.13's pin rows and \u00a73.7.8's list of registering volume pins are exactly the union of those clauses, each named by its test id.\" They are not equal to each other: (a) \u00a73.7.8 (l. 1716) and X-V12-11 (l. 3393) list \"T-V11-38 \u2013 T-V11-41 (b)\", but \u00a72.13's suites column names only T-V11-38 (b) (on `item111.water`); T-V11-39 (b) (`item113.history`), T-V11-40 (b) (`item114.condition`) and T-V11-41 (b) (`item115.off` with every row's `enabled` false, and `item115.ceiling` at TOWN and above) are in no suite cell \u2014 T-V11-41 (b) appears only in `item115.off`'s bar column; (b) `item115.ceiling`'s suites (l. 927) read \"B-MASS (V02)\" with no test id, and \u00a73.7.8 and X-V12-11 name V02's T-V2-50 only, not T-V2-58 (f), which registers B-MASS on that pin (VAP-r2-02); (c) `item111.water`'s suites list \"the reader and why goldens (V10, T-V10-45)\" whole, while T-V10-45 holds them byte-identical \"but the brief's arid mark\" (VAP-r2-10) \u2014 a suite the pin's byte-identity would fail. (The ids the peers found \u2014 T-V2-59 (d), T-V2-60 (c), T-V3-39 (g), T-V3-40 (f), T-V8-59, T-V8-61 (b) \u2014 are VV1112-r2-08 and VV34-r2-15.)",
+  "required_change": "\u00a72.13: `item111.water`'s V10 cell reads \"the reader and why goldens but the brief's (V10, T-V10-45)\"; `item113.history` adds \"T-V11-39 (a)'s four fixtures (V11, T-V11-39 (b))\"; `item114.condition` adds \"B-CITY's 200 seeds per rung (V11, T-V11-40 (b))\"; `item115.off` adds \"B-CITY's 200 seeds per rung (V11, T-V11-41 (b))\" to its suites; `item115.ceiling`'s cells read \"B-MASS (V02, T-V2-58 (f)); \u2026 ; B-CITY's TOWN, CITY and METROPOLIS seeds (V11, T-V11-41 (b))\". \u00a73.7.8's list and X-V12-11 read \"\u2026 V02's T-V2-50 and T-V2-58 (f); \u2026 V11's T-V11-13, T-V11-31 and T-V11-38 (b) \u2013 T-V11-41 (b)\", each id on the pin its suite cell names. (V11's ends are VAP-r2-09.)",
+  "reported_by": "verify-agree-proof-r2t"
+ },
+ {
+  "id": "VAP-r2-12",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "owner": "V12",
+  "claim": "\u00a713.2 binds three base bars to V12's statistics, each \"0\": (T120-3) \"no withheld thing appears in a suggestion, a count, a glow, a pin, a ghost pin, a gap outline or a legend chip (`find.leaks` 0)\"; (T120-4) \"the chips survive every band and layer change and every commit, advance, undo, redo, regenerate, load and migration, re-evaluated at once, and a chip whose last match goes stays in the set at count 0, dark (`find.held` 0)\"; (T122-2) each look \"exactly in its condition's weeks \u2026 and never for a condition the viewer's key withholds (DR44's admission) (`crisis.weeks` 0)\". V12 defines them narrower \u2014 the metric registry (l. 1205) counts for `find.leaks` \"the suggestions, counts, glows, pins and ghost pins naming a withheld entity\" (no gap outline, no legend chip) and for `find.held` a step script of \"band and layer changes, commits, an advance and an undo\" (no redo, regenerate, load or migration, and no count-0 chip); \u00a73.15.10's T120-4 bullet (l. 2621) is headed \"every commit, advance and undo\"; `crisis.weeks` (l. 1208; \u00a73.15.12's T122-2 bullet, l. 2684) counts only weeks against [`sinceWeek`, `untilWeek`), never a withheld condition's look. T-V12-52's statistics measure T120-3 and T120-4 and T-V12-54 takes T122-2 on these measures, so a leak through a gap outline, a chip lost at a migration or a withheld look drawn passes the bar.",
+  "required_change": "The metric registry's row (l. 1205) reads \"\u2026 under a player view on the knowledge canary fixture, the suggestions, counts, glows, pins, ghost pins, gap outlines and legend chips naming a withheld entity; over a step script of band and layer changes, commits \u2014 one removing a chip's last match among them \u2014, an advance, an undo, a redo, a regenerate, a save and load and a migration, the steps whose chip set changed or whose matches differ from a fresh evaluation there, and a chip whose last match went counted unless it stays at count 0, dark; \u2026\"; \u00a73.15.10's T120-3 and T120-4 bullets read the same (T120-4's head \"every band and layer change and every commit, advance, undo, redo, regenerate, load and migration\"); the `crisis.weeks` row (l. 1208) and \u00a73.15.12's T122-2 bullet add \"and, under a player view whose key withholds a condition, every look of it drawn counted as a mismatched week (DR44's admission)\"; T-V12-52 adds \"a planted gap outline on the canary's district fails `find.leaks`, a chip dropped by a migration fails `find.held`\" and T-V12-54 \"a planted look of a condition the `public` key withholds fails `crisis.weeks`\".",
+  "reported_by": "verify-agree-proof-r2t"
+ },
+ {
+  "id": "VRC2T-04",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "V12's T122-6 measurement (`crisis.blocked` 0, 'a way's carriageway included (\u00a710.2 (d))') runs every look kind previewed, so the `blockade`, `raiders` and `rebellion` barricades that item 122 (b) and \u00a78.2's look table place across a way fail it (VRC2T-02, VRC2T-03).",
+  "required_change": "V12's T122-6 clause reads '`crisis.blocked` 0 \u2014 water, a gate's passage and a label's keep-out, and a way's carriageway save a `barricade` across it (\u00a710.2 (d))', its previews naming `blockade`, `raiders` and `rebellion` among the kinds checked.",
+  "owner": "V12",
+  "reported_by": "verify-rendering-r2t"
+ },
+ {
+  "id": "VV34-r2-15",
+  "severity": "minor",
+  "kind": "WIRING",
+  "claim": "V03 \u00a77 defines \"the damage fixtures\" (T-V3-39, T-V3-40; \"read by volume 9's T-V9-86 and V12 \u00a73.15.13\"): the re-let town house, the building generated ruined, the ruined row with party walls, the ruined deck shop and the staged disaster district among them. V12 \u00a73.15.13 defines its own, narrower \"damage fixtures\" (\"B-PLAN's seeds holding a building of every element kind \u2026\") without citing V03 \u00a77. V12 \u00a72.13's `item123.damage` and `item122.crises` rows and V12 \u00a73.7.8's list of registering volume pins (with X-V12-11) name T-V4-82 (g) but not T-V3-39 (g) or T-V3-40 (f), which run those pins on V03's fixtures (R2-09: the list is exactly the union of the volumes' registering clauses).",
+  "required_change": "V12 \u00a73.15.13: \"on the damage fixtures (V03 \u00a77) \u2014 \u2026\", the restated list cut to that citation. V12 \u00a72.13's `item123.damage` row adds \"V03's damage fixtures (T-V3-39 (g))\" and `item122.crises` adds \"the damage fixtures' disaster district at the building band (T-V3-40 (f))\". V12 \u00a73.7.8's list and X-V12-11 add \"V03's \u2026 T-V3-39 (g) and T-V3-40 (f)\".",
+  "owner": "V12",
+  "reported_by": "verify-vol-V03-V04-r2t"
+ },
+ {
+  "id": "VV1112-r2-04",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "V12 \u00a73.11 (new this round): \"The look cells of items 122, 123 and 124 \u2014 item 122's look rows' `scale`, `priority` and `lookLevel` and its settings \u2026, item 123's threshold ranges by element kind and material, its decay rates by material and its default age, item 124's climate rows' weather columns (V11's rows) \u2014 take the default line\". (a) `priority` is an enumeration, `calibratable: false` (V11 \u00a73.25.9: \"`kind`, `label`, `place`, `band` and `priority` are enumerations\"), so it takes no entry. (b) Item 123's ranges are by element kind only (V11 \u00a73.25.10's `damage.elements`; R2-38 (2)); \"and material\" names a key no row has. (c) The climate table's `settings.weather` block \u2014 the kinds' `lengthS` and `hours`, the four sites' factors and `forestShareMin` \u2014 is calibratable with its entries \"V12 \u00a73.11's\" (V11 \u00a73.25.11: \"The numbers but the two caps \u2026 are `own` and calibratable\"), but V12 names only the climate rows' weather columns, so the register lint (T-V12-20) meets those cells with no line.",
+  "required_change": "In V12 \u00a73.11 replace \"item 122's look rows' `scale`, `priority` and `lookLevel`\" by \"item 122's look rows' `scale` and `lookLevel`\", \"item 123's threshold ranges by element kind and material\" by \"item 123's threshold ranges by element kind\", and \"item 124's climate rows' weather columns (V11's rows)\" by \"item 124's climate rows' weather columns and the climate table's `settings.weather` block \u2014 the kinds' `lengthS` and `hours`, the site factors and `forestShareMin` \u2014 but not its two owner-stamped caps (V11 \u00a73.25.11)\".",
+  "owner": "V12",
+  "reported_by": "verify-vol-V11-V12-r2t"
+ },
+ {
+  "id": "VV1112-r2-05",
+  "severity": "major",
+  "kind": "EDGE-UNTESTED",
+  "claim": "\u00a713.2's T125-1 reads \"a dossier holding only SettlementForge's required keys generates a full map at every rung\", and \u00a713.8 schedules \"T125-1's required-keys dossier at every rung nightly\". V12, which takes T125-1 (T-V12-58), runs the required-keys dossier \"at TOWN, CITY and the METROPOLIS cap\" only (V12 \u00a73.15.15, \u00a76's item-125 row, T-V12-58), and \u00a73.16 row 36 lists \"every rung\" as a case with no outcome for THORP, HAMLET and VILLAGE. No unit tests a required-keys dossier below 1 500 people, where the missing fields' fallbacks run through the village product's readings (V07).",
+  "required_change": "V12 \u00a73.15.15's T125-1 bullet: \"at TOWN, CITY and the METROPOLIS cap\" \u2192 \"at every rung \u2014 THORP, HAMLET and VILLAGE through the village product (V07; the port routes a sub-1 500 dossier there), TOWN, CITY and the METROPOLIS cap\"; \u00a76's item-125 row the same rungs; T-V12-58: \"`port.fallbacks` is 0 at TOWN, CITY and the cap\" \u2192 \"is 0 at every rung, THORP to the METROPOLIS cap\"; \u00a73.16 row 36's outcome adds \"at every rung, the village rungs through V07's product: a full map with every fallback reported\".",
+  "owner": "V12",
+  "reported_by": "verify-vol-V11-V12-r2t"
+ },
+ {
+  "id": "VV1112-r2-06",
+  "severity": "major",
+  "kind": "EDGE-UNTESTED",
+  "claim": "\u00a713.2's T122-5 asks \"each tier's fixture at a low and a high severity within its look row's scale\", and T122-6 adds \"several crises share the outskirts by `priority` under `densityCap`\". V12 takes both (T-V12-54), but `crisis.scale` counts only the steps at which \"a look's drawn extent \u2026 falls\" as rung or severity rises, and `crisis.blocked` only marks on water, a carriageway, a gate's passage or a keep-out; T-V12-54's planted cases are a smaller CITY camp and a shrinking camp. A look drawn at twice its row's `scale` cell, a refugee camp placed before the siege camp, or camps together past `densityCap` pass every V12 statistic.",
+  "required_change": "V12 \u00a73.15.12's T122-5 bullet adds: \"and, at each rung and at severities 0, \u00bd and 1, each look's drawn extent \u2014 camped ground in m\u00b2, else its share of its place's units \u2014 equal to its row's `scale` at that severity (linear between its two ends) within 5 %, the ring remainder counted at \u00a78.8's density (`crisis.scale`'s second count, 0 by rule)\"; the T122-6 bullet adds: \"and, on a fixture standing a siege, a quarantine and a refugee wave at once at CITY and the METROPOLIS cap, the camp looks taking the outskirts in `priority` order, each from what the earlier left, together at most `densityCap` of the outskirts' free land, the rest on the ring (`crisis.share`, 0 by rule)\". \u00a73.4.2's `crisis.*` row, \u00a73.12's item-122 failure row and T-V12-54 add the two counts with their planted cases (a camp drawn at double its row's cell; a refugee camp placed before the siege; the camps together past `densityCap`). (This composes with verify-rendering-r2t's VRC2T-04 on T122-6's carriageway clause.)",
+  "owner": "V12",
+  "reported_by": "verify-vol-V11-V12-r2t"
+ },
+ {
+  "id": "VV1112-r2-07",
+  "severity": "minor",
+  "kind": "COHESION",
+  "claim": "V12 \u00a73.15's head says \"Tiers and milestones are \u00a713.8's\", yet V12 \u00a76 runs at nightly or milestone tiers bars \u00a713.8 schedules at PR: \u00a713.8 runs T121-1, T121-4 \u2013 T121-7 \"PR on volume 9's app harness\" (T121-5 among them) while V12 \u00a73.15.11 and \u00a76 measure T121-5 in \"\u00a712.1's timing phase, \u2264 20 min wall per milestone run\"; \u00a713.8 runs T123-1 \u2013 T123-7 \"PR on B-PLAN's damage fixtures\" while \u00a76 runs `damage.*` \"\u2264 5 CPU-min nightly \u2026 every fourth level nightly\"; \u00a713.8 runs T124-1, T124-3 \u2013 T124-5, T124-8 and T124-9 at PR and T124-6 and T124-7 in \"\u00a712.1's timing phase and the visual-regression run\" while \u00a76 runs every `weather.*` statistic nightly; \u00a713.8 runs T126-1 \u2013 T126-3 \"PR on volume 9's app harness\" while \u00a76 runs item 126 \"\u2264 5 min wall nightly\".",
+  "required_change": "V12 takes \u00a713.8's tiers. \u00a73.15.11: \"This volume measures the other five clauses, from M4 (\u00a716), on V09's app harness in \u00a712.1's timing phase\" \u2192 \"\u2026 on V09's app harness \u2014 T121-2, T121-3 and T121-8 in \u00a712.1's timing phase, T121-5 at PR (\u00a713.8)\"; \u00a76's item-121 row adds \"T121-5's captures at PR, each level on one device fixture\". \u00a76's item-123 row: \"PR on the damage fixtures (the 21 levels); H-100's decay runs nightly from M6-E\". \u00a76's item-124 row: \"PR for T124-3, T124-4 and T124-9 (one climate row per run, rotating; every row nightly); `weather.cover` and `weather.luma` in the timing phase and the visual-regression run; the pin's suites nightly\". \u00a76's item-126 row: \"PR on V09's app harness (each tool's script from the milestone that lands it)\".",
+  "owner": "V12",
+  "reported_by": "verify-vol-V11-V12-r2t"
+ },
+ {
+  "id": "VV1112-r2-08",
+  "severity": "minor",
+  "kind": "WIRING",
+  "claim": "R2-09: V12 \u00a72.13's pin rows and \u00a73.7.8's list are exactly the union of the volumes' registering clauses. Beyond V03's T-V3-39 (g) and T-V3-40 (f) (verify-vol-V03-V04-r2t's VV34-r2-15), four landed volume tests re-run item pins on their own fixtures and appear nowhere in V12: V02's T-V2-59 (d) (`item123.damage`: \"at level 0 every tile byte-identical to the same fixture without item 123 \u2026 the `item123.damage` pin is V12's\") and T-V2-60 (c) (`item122.crises`: \"with no condition and no preview every tile byte-identical to stage 3 without item 122 \u2026 its pin is V12's\"), V08's T-V8-59 (`item122.crises`: \"with no condition and no preview the tiles are byte-identical to the base\") and T-V8-61 (b) (`item125.host`: \"every fixture offered with and without a host context yields the identical document and model digest\"). V12 \u00a72.13's `item122.crises` suites read \"the golden suite; V12's crisis fixtures\", `item123.damage`'s volume suite is V04's alone, and `item125.host`'s \"B-DOSSIER-lite (base); V12's item-125 fixtures\".",
+  "required_change": "V12 \u00a72.13's suites column: `item122.crises` adds \"the look fixture's exteriors (V02, T-V2-60 (c)); the frozen dossier set's crisis conditions (V08, T-V8-59)\"; `item123.damage` adds \"the damage sub-fixture's exteriors (V02, T-V2-59 (d))\"; `item125.host` adds \"the frozen dossier set through the port (V08, T-V8-61 (b))\". V12 \u00a73.7.8's list adds \"V02's T-V2-59 (d) and T-V2-60 (c)\" beside T-V2-50 and \"T-V8-59 and T-V8-61 (b)\" beside V08's T-V8-50 and T-V8-53, and X-V12-11 the same ids (VV1112-r2-09 and -10 are their sending ends).",
+  "owner": "V12",
+  "reported_by": "verify-vol-V11-V12-r2t"
+ },
+ {
+  "id": "VV1112-r2-12",
+  "severity": "minor",
+  "kind": "COHESION",
+  "claim": "V12 \u00a73.15's head: this section \"names the owner of every other clause\". \u00a73.15.12 names V09's T-V9-85 and V06's T-V6-75 by id, but cites V07's part only as \"its village test taking T122-5 and T122-6 there\" (it is T-V7-69, the id V12's own hand-off asked V07 to name) and omits V03's T-V3-40 (the plan clauses of T122-1 \u2013 T122-3) and the volumes \u00a713.2 lists as testing their own parts \u2014 V01's T-V1-60, V02's T-V2-60, V08's T-V8-60, V10's T-V10-52.",
+  "required_change": "\u00a73.15.12's second sentence ends \"\u2026 V09's T-V9-85 takes T122-2's interface clause, V06's T-V6-75 T122-1's hand-over clause and V03's T-V3-40 the plan clauses of T122-1 \u2013 T122-3; V01's T-V1-60, V02's T-V2-60, V08's T-V8-60 and V10's T-V10-52 test their own parts\"; \"(at the village rungs V07's village fixtures, its village test taking T122-5 and T122-6 there)\" \u2192 \"(at the village rungs V07's village fixtures, V07's T-V7-69 taking T122-5's and T122-6's village clauses there)\".",
+  "owner": "V12",
+  "reported_by": "verify-vol-V11-V12-r2t"
+ },
+ {
+  "id": "VV1112-r2-13",
+  "severity": "minor",
+  "kind": "TERM",
+  "claim": "R2-11: \u00a77.7's rows are cited by number. In subsections this round replaced, V12 still writes \"\u00a77.7's condition row\" for DR41 \u2014 \u00a73.11's item-114 line twice (\"\u00a77.7's condition row from readiness and wealth\"; \"where \u00a77.7's condition row lands\") and T-V12-47's milestone cell (\"with \u00a77.7's condition row and the state rows\") \u2014 and \u00a71b's dossier table \"\u00a77.7's history rows (DR36 onward)\", which runs on into DR40 \u2013 DR44, none of them a history row.",
+  "required_change": "V12 \u00a73.11's item-114 line: \"\u00a77.7's condition row\" \u2192 \"\u00a77.7's DR41\" (both places); T-V12-47: \"with \u00a77.7's condition row and the state rows\" \u2192 \"with \u00a77.7's DR41 and the state rows\"; \u00a71b: \"\u00a77.7's history rows (DR36 onward)\" \u2192 \"\u00a77.7's history rows DR36 \u2013 DR39\".",
+  "owner": "V12",
+  "reported_by": "verify-vol-V11-V12-r2t"
+ }
+]

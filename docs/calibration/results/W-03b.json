@@ -1,0 +1,89 @@
+{
+ "id": "W-03b",
+ "status": "landed",
+ "records": [
+  "/Users/cstokes/Desktop/Maps/docs/calibration/E03-mfcg-sweep.md",
+  "/Users/cstokes/Desktop/Maps/docs/calibration/E03-mfcg-sweep.json"
+ ],
+ "outputs": [
+  "/Users/cstokes/Desktop/Maps/research/baselines/mfcg_j161_m1.mjs",
+  "/Users/cstokes/Desktop/Maps/research/baselines/check_w03.py",
+  "/Users/cstokes/Desktop/Maps/captures/mfcg/exports-sweep-m1-2026-10-03/size130-plain-10.json",
+  "/Users/cstokes/Desktop/Maps/captures/mfcg/exports-sweep-m1-2026-10-03/size130-plain-10.svg",
+  "/Users/cstokes/Desktop/Maps/captures/mfcg/exports-sweep-m1-2026-10-03/size130-plain-10.png",
+  "/Users/cstokes/Desktop/Maps/captures/mfcg/exports-sweep-m1-2026-10-03/j161/loads.jsonl",
+  "/Users/cstokes/Desktop/Maps/captures/mfcg/exports-sweep-m1-2026-10-03/j161/export-log.jsonl",
+  "/Users/cstokes/Desktop/Maps/captures/mfcg/exports-sweep-m1-2026-10-03/j161/disk.log",
+  "/Users/cstokes/Desktop/Maps/captures/mfcg/exports-sweep-m1-2026-10-03/stats.md",
+  "/Users/cstokes/Desktop/Maps/captures/mfcg/exports-sweep-m1-2026-10-03/stats.json",
+  "/Users/cstokes/Desktop/Maps/captures/mfcg/exports-sweep-m1-2026-10-03/export-check.json",
+  "/Users/cstokes/Desktop/Maps/captures/mfcg/exports-sweep-m1-2026-10-03/README.md",
+  "/Users/cstokes/Desktop/Maps/docs/calibration/results/W-03b.json"
+ ],
+ "checks": [
+  {
+   "check": "owner go recorded before any contact (docs/calibration/owner-go.json mfcg true)",
+   "passed": true,
+   "receipt": "read at start and again just before the fetch: mfcg true, 2026-10-03, scope = W-03b's one load, files from the in-page Blob, no downloads (J165)"
+  },
+  {
+   "check": "build-id check first: one public game-page fetch, logged in the J161 ledger as the same contact class",
+   "passed": true,
+   "receipt": "mfcg_j161_m1.mjs --build-id at 22:26:25: ledger line (kind build-id-fetch) written before the fetch, note in j161/export-log.jsonl: resolved html-classic.itch.zone/html/12710731/bin/index.html = pin, no pin shift; W-03-complete's 16:34:14 fetch backfilled as a labelled line (R-47 (i)); the tool refuses an https load without a fresh fetch after the last load that found exactly that build (6 refusal cases mock-tested)"
+  },
+  {
+   "check": "the extension's seed = seedOf(capture/MFCG/130/plain, [10]) printed by plan.py --vectors",
+   "passed": true,
+   "receipt": "plan.py --vectors capture/MFCG/130/plain/10 -> H32 1179968782, PM 1179968783; plan entry, load URL, the app's seed line (1 attempt, internal seed 1179968783) and hrefAfter all carry 1179968783"
+  },
+  {
+   "check": "1 load of index 10 through the J161 tool; downloads denied; files from the in-page Blob; no login, account, payment, terms or consent",
+   "passed": true,
+   "receipt": "J161 load 3 at 22:26:35 (fresh scratch profile): ok, 1 document, 3 download events all denied (0 completed), JSON 7 620 995 B sha1 e39d42d3 = Blob 0, SVG 8 071 825 B f3b4de47 = Blob 1, PNG 588cd113, same-load window re-export identical, href = plan; the site asked nothing; profile deleted, its orphaned network helper stopped"
+  },
+  {
+   "check": "check_w03.py PASS on the folder (C6 counting the J161 ledger too)",
+   "passed": true,
+   "receipt": "C1-C9 PASS exit 0; C6: capture/MFCG/130/plain n 11, captured 10, usable 10, failed i=8 no-export (2 loads); C2-C5 cover the J161 capture (sha1 on disk = log = Blob, screenshot hash, one city name, href, re-export, mfcg 0.11.5, unit ratio 4.0); 8 tampered APFS clones each exit 1 on the expected check"
+  },
+  {
+   "check": "both ledgers counted: loads.jsonl 35 (J159) and j161/loads.jsonl <= 3 (J161)",
+   "passed": true,
+   "receipt": "export-check.json ledgers: J159 35; J161 3 loads (cap 3) + 2 build-id fetches = 5 contacts; C7 PASS; first two J161 lines byte-unchanged (prefix sha256 0799d51d)"
+  },
+  {
+   "check": "the family's type7 estimator unchanged",
+   "passed": true,
+   "receipt": "C9 (new): capture/MFCG/130/plain declared n 10 -> type7, usable 10 -> type7; red first: the same checker on a pre-load clone failed C9 (usable 9 -> minmax)"
+  },
+  {
+   "check": "outputs: family at 10 usable; E03 section 10, sweep README and export-check.json updated; W-03.json left as history",
+   "passed": true,
+   "receipt": "E03 header, sections 4, 5, 6 and new 10 (10.1-10.7); E03.json extension block, sample, approvalJ161, perSeed 35; README updated; export-check.json regenerated; stats.py re-run as sweep_m1.sh runs it adds exactly the size130-plain-10 row (first 34 records unchanged, reproducible); W-03.json and W-03-complete.json untouched"
+  },
+  {
+   "check": "plan files not hand-edited; plan.py --check",
+   "passed": true,
+   "receipt": "plan.py --check SAME at 22:31 and again at 23:22 (plan.json regenerated meanwhile by other lanes: f6972b91 from m1/plan-guard-2, then 703dd74b after the FTG slot binds; metrics.m-1.json 8a0efa7e); --vectors still prints 1179968782 / 1179968783 for index 10; this lane wrote neither"
+  },
+  {
+   "check": "doc_checks: the new reference JSON changes no design-set result; the record's own check",
+   "passed": true,
+   "receipt": "with/without roots: V12 every count equal and unreviewed lines identical; ARCHITECTURE with the file exit 0 (C1 5/0, C2 2/0, C3 1888/0, C4 24/0, S2 318/0), without: every count equal, 0 unreviewed either way (the second root's corpus had grown by 8 JSON files from other lanes; still no count moved); corpus +1 JSON, +21 3-grams; E03 self-check: C1 1/0, C2 0, C3 31/28 (the kinds section 9.7 lists; ten first-draft hits were our own phrases, reworded), C4 0, S1 0, S2 0; exit 1 = that unreviewed count, record outside the design set, no allow rows"
+  }
+ ],
+ "rows": 1,
+ "owner_notes": [
+  "J161 is used up: 3 of 3 loads, 0 downloads (every download the page started was denied; files are the in-page Blob's bytes). This lane made one load (capture/MFCG/130/plain/10, R-13's extension) and one public game-page fetch for the build-id check (build still 12710731, no pin shift). The page's own requests on this load: the build host 18, itch.io 1, static.itch.io 1, the emblem host 3. No login, account, payment, terms or consent prompt; the site asked nothing else. Any further MFCG load needs a new approval.",
+  "The METROPOLIS plain family now has 10 usable seeds of 11 indices (index 8 froze twice and stays failed), so the MFCG sample is complete: 10 / 10 / 10 plain, stress 3 of 5."
+ ],
+ "notes": [
+  "FINDING for W-07b / W-15 / the section 12 design seat (CONFIRMED from stats.json): index 10 has 16 800 buildings, above METROPOLIS's 12 000-15 000 at the target, with a 202 m2 median footprint and 11 districts (the other nine: 12 889-14 134, 228-253 m2, 13-20). 1 of 10 usable size-130 seeds now exceeds 15 000 (like 2 of 10 size-40 seeds above 1 500). E03 section 6, section 4's anchor row and the README row are corrected; R-13 allows no hand-chosen substitute, so the seed stays.",
+  "Delegated calls (J122, vetoable; E03 10.4): the J161 ledger now holds two contact classes (loads without kind; kind build-id-fetch with its result as a log note) so R-47 (i)'s fetches can be in the ledger while the cap counts loads only; W-03-complete's 16:34 fetch backfilled as a labelled line; the build-id check enforced by refusal (fresh, not backfilled, exact build); default cap 3 = J161's whole approval; index 10's files in the sweep folder (a family member, read by stats.py and W-07b) rather than j161/; stats.py left byte-identical, so its log-derived columns (attempts, stage and wall time, name) are blank for index 10 - attempts and href are checked from the J161 record by C3/C6/C7, timing feeds no row; checker extended in place (C2-C5 for J161 captures, C7, new C9).",
+  "Schema change for readers of j161/loads.jsonl: lines with a 'kind' field are build-id fetches, not loads; check_w03.py and mfcg_j161_m1.mjs count loads as lines without kind. No other reader exists today (grep of research/baselines and docs/calibration).",
+  "HAZARD for any lane using profiler/lib/common.mjs launch() with a SIGKILL exit: one Chrome network-service helper of the scratch profile survived the kill (PPID 1) and was stopped by PID after checking its user-data-dir was this lane's; W-03-complete's 'no Chrome remained' may have missed the same. Check by the profile path, never by name (an FTG recording seat drives its own Chrome).",
+  "Mock tests (15 cases) ran on a file:// mock page and a localhost stand-in game page before any live contact; no outside network. One test slip, harmless: with zsh's non-splitting of $VAR the first batch failed on argument parsing before any action, and macOS has no 'timeout', so two mock loads ran on the file:// mock unrefused in a scratch ledger; the suite was re-run clean.",
+  "CONFIRMED: everything in checks (executed or read). PLAUSIBLE: only that the emblem-host requests fetch the emblem (inherited, section 3).",
+  "No plat/ write, no git command, no captured program bundle read, no reference content copied into a record (numbers, ids, our words). Tool sha256 2b310229 (was 48f7d52b), checker 2a7e4c18 (was 60ce9f3e). Disk 10-11 GiB free throughout (df -h /Users/cstokes)."
+ ]
+}

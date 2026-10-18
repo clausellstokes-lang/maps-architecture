@@ -1,0 +1,133 @@
+{
+ "input_doc": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm7v/before/docs/volumes/V07-village.md",
+ "input_doc_sha256": "346c8b5a2dabff46a2bf52387a1a295d1fba91cd674ae308ea0066c8ba68ac3d",
+ "input_rationale": "/tmp/claude-0/-home-user-maps-architecture/2a2e45f9-f4fe-5c84-8b42-c0a1cc897c8e/scratchpad/coherence/asm7v/before/docs/ARCHITECTURE-RATIONALE.md",
+ "input_rationale_sha256": "7e172500f6a791c5cf1e667c657309b6a49ee067dc130a05d82e605a06579c39",
+ "files": [
+  {
+   "file": "b-repair-r7v-V07.md",
+   "sha256": "0ffc4ae6cbae678325b3ab3dbc9312e40f6568b94dc9e1bd3f729bff1299702d",
+   "lines": 339,
+   "blocks": 3,
+   "issues": []
+  }
+ ],
+ "applied": [
+  {
+   "seq": 1,
+   "block": "b-repair-r7v-V07.md #1 (l. 2) REPLACE ## 1 Scope, the base hooks consumed and what is out of scope",
+   "file": "b-repair-r7v-V07.md",
+   "index": 1,
+   "line": 2,
+   "kind": "REPLACE",
+   "heading": "## 1 Scope, the base hooks consumed and what is out of scope",
+   "body_lines": 129,
+   "body_sha256": "abbfda4131823047fb5d291a3d115a73769c1dee3c230075f14e33c5014c36ba",
+   "target_line": 75,
+   "section_old": "75–203",
+   "section_old_n": 129,
+   "section_new_n": 131,
+   "new_headings": [
+    "## 1 Scope, the base hooks consumed and what is out of scope"
+   ]
+  },
+  {
+   "seq": 2,
+   "block": "b-repair-r7v-V07.md #2 (l. 134) REPLACE ## 7 Tests and acceptance bars",
+   "file": "b-repair-r7v-V07.md",
+   "index": 2,
+   "line": 134,
+   "kind": "REPLACE",
+   "heading": "## 7 Tests and acceptance bars",
+   "body_lines": 100,
+   "body_sha256": "4289a177bc8aca1c8d26632d6c2681ef21fd29fff1ff115d09056fb6772eccef",
+   "target_line": 3647,
+   "section_old": "3647–3748",
+   "section_old_n": 102,
+   "section_new_n": 102,
+   "new_headings": [
+    "## 7 Tests and acceptance bars"
+   ]
+  },
+  {
+   "seq": 3,
+   "block": "b-repair-r7v-V07.md #3 (l. 237) REPLACE ## 8 Build plan",
+   "file": "b-repair-r7v-V07.md",
+   "index": 3,
+   "line": 237,
+   "kind": "REPLACE",
+   "heading": "## 8 Build plan",
+   "body_lines": 99,
+   "body_sha256": "93569a457ec307d7792568671c33afe20c7da0db86dd18402c7222694df38f25",
+   "target_line": 3749,
+   "section_old": "3749–3848",
+   "section_old_n": 100,
+   "section_new_n": 100,
+   "new_headings": [
+    "## 8 Build plan"
+   ]
+  }
+ ],
+ "skipped": [],
+ "notes": [],
+ "audit": {
+  "blocks": [
+   {
+    "block": "b-repair-r7v-V07.md #1 (l. 2) REPLACE ## 1 Scope, the base hooks consumed and what is out of scope",
+    "kind": "REPLACE",
+    "heading": "## 1 Scope, the base hooks consumed and what is out of scope",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7v-V07.md #2 (l. 134) REPLACE ## 7 Tests and acceptance bars",
+    "kind": "REPLACE",
+    "heading": "## 7 Tests and acceptance bars",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   },
+   {
+    "block": "b-repair-r7v-V07.md #3 (l. 237) REPLACE ## 8 Build plan",
+    "kind": "REPLACE",
+    "heading": "## 8 Build plan",
+    "occurrences": 1,
+    "later_replaces": [],
+    "state": "OK (present once)"
+   }
+  ],
+  "j_rows_without_part_a": [],
+  "part_a_without_j_rows": [],
+  "j_ids_in_two_blocks": {},
+  "document index rows": 0,
+  "document index duplicate ids": [],
+  "Part A rows": 805,
+  "Part A duplicate ids": []
+ },
+ "checks": {
+  "headings_before": 58,
+  "headings_after": 58,
+  "headings_added": [],
+  "headings_removed": [],
+  "fences_balanced": true,
+  "fence_lines_before": 18,
+  "fence_lines_after": 18,
+  "title_block_unchanged": true,
+  "pending_fable_review_lines_before": 1,
+  "pending_fable_review_lines_after": 1,
+  "doc_bytes_before": 621436,
+  "doc_bytes_after": 621938,
+  "doc_lines_before": 4123,
+  "doc_lines_after": 4125,
+  "rationale_bytes_before": 704813,
+  "rationale_bytes_after": 704813,
+  "rationale_lines_before": 2386,
+  "rationale_lines_after": 2386,
+  "blocks_total": 3,
+  "blocks_applied": 3,
+  "blocks_skipped": 0,
+  "output_doc_sha256": "a8cb10b027f8c04e79f9a9c6472c0cf2b3d64d45c4a3bc92b6f17b64b3db2d7d",
+  "output_rationale_sha256": "7e172500f6a791c5cf1e667c657309b6a49ee067dc130a05d82e605a06579c39"
+ }
+}

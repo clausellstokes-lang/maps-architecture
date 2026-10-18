@@ -1,0 +1,3 @@
+# OBSOLETE (2026-10-03 ~19:15 EDT): superseded by J163/J164 — the owner's signed-in premium account records the FTG
+# towns by slot number through workflows/25-ftg-signed-in.js. The session cron f828f593 was deleted. NEVER recreate it:
+# it would create duplicate towns.
