@@ -38,7 +38,9 @@ stands). The parent's session id is in the prompt; the child reports to it by me
    grep -vxFf $R/docs/lane-events.log >> $R/docs/lane-events.log; git -C $R reset -q` — plat/ is now EXACTLY the earlier
    child's working tree at its last snapshot (its base main plus the round's work); files main gained since show as
    deleted in `git status`, which is right and stays uncommitted. Confirm the round's lines:
-   `grep -c -E "BUILDLANE|CHECKLANE" $R/docs/lane-events.log` (≥ the count the parent gave).
+   `grep -c -E "<BUILDLANE>|<CHECKLANE>" $R/docs/lane-events.log` with the two lane keys the parent gave written out
+   (the log lines carry the keys themselves, never the words BUILDLANE / CHECKLANE; child H, 2026-10-18) — ≥ the count
+   the parent gave.
    Without OLD (a fresh round): the tree is main as cloned; nothing to overlay.
    A CONTINUATION ON THE CURRENT MAIN (an item whose earlier seat returned BLOCKED on cross-item defects now fixed on
    main, e.g. M0-c-06 after J318/J348): OLD is a SEED branch (wip/seed-…) the parent built with
@@ -68,7 +70,12 @@ stands). The parent's session id is in the prompt; the child reports to it by me
    "args" to $S/args.fitted.json and "workflow" to $R/workflows/23-build-m0-waves.js, and with FROMDISK=yes set
    "fromDisk": true on the round whose id is ID and whose round is TAG upper-cased (C1 / S6), write it back;
    `node $S/render.mjs $S/specs.json $S/briefs` (one line per round). The brief is $S/briefs/BRIEF.
-5. Launch with the Workflow tool (ultracode): scriptPath /home/user/maps-architecture/workflows/34-session-fix.js,
+5. THE KILLED ROUND IS THE ROUND (J401; children E and H, 2026-10-18): for a check-only resume FROM is the number of the
+   round whose check was killed, and the spec entry rendered for it carries that round number ("from": FROM), so the
+   brief's check lane key names the killed round's lane (close-s<FROM>) — a brief rendered from an EARLIER round's spec
+   replays that round's own LANDED check line under the RESUME RULE and pushes the workflow into one more no-op round.
+   Before launching, echo the two lane keys computed from FROM and confirm they are the ones the parent named.
+   Launch with the Workflow tool (ultracode): scriptPath /home/user/maps-architecture/workflows/34-session-fix.js,
    args {"id": ID, "briefs": "<absolute path of the brief>", "maxRounds": 3, "from": FROM, "lane": LANE (omit the key
    for the default session lanes), "seats": SEATS}. Exactly these seats. It runs in the background.
 6. Backups: right after the launch start a bounded loop as a background Bash (run_in_background, timeout 7200000):
