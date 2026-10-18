@@ -68,6 +68,11 @@
 > by name; the Foundry scene JSON with `levels[]` the multi-level path), the vendor strings beside the fields (656);
 > T-V14-11's clauses (657); §12's Scene Levels claim settled (658).
 
+> **Retrovalidation s — 2026-10-18** (`docs/AMENDMENTS-2026-10-18s.md`, items 936–937; the Fable retrovalidation of
+> file l and its application, `docs/validation/retrovalidation-2026-10-18/small.md`). Changed: §2.4's
+> `EncounterCrop.scenes` comment says the file suffix is written as two zero-padded digits (§5.3), the ordinal staying
+> the number.
+
 <!-- PROGRESS (the architect seat's ledger; removed at revision)
 0 In plain words ................................ done
 1 Scope, hooks, owner rules, out of scope ....... done
@@ -792,7 +797,7 @@ interface EncounterCrop {
   rect: { x0: Cm; y0: Cm; x1: Cm; y1: Cm };                      // in the arena's cm, snapped outward to whole grid cells (E3)
   gridCm: Cm; origin: PointCm;                                  // the tactical grid's cell (`StyleSheet.vtt.squareM` × 100, C14-39) and its origin: the crop's south-west corner, which lies on the world grid (E3's origin rule) — stable per address (item 136 (b))
   cols: number; rows: number;
-  scenes: { ordinal: number /* the file suffix: 0 the ground, then each storey or level in elevation order (the multi-floor convention, V14 §5.3; C14-06) */;
+  scenes: { ordinal: number /* the file suffix, written as two zero-padded digits (V14 §5.3): 0 the ground, then each storey or level in elevation order (the multi-floor convention, V14 §5.3; C14-06) */;
             scene: { key: PlatKey } | { depthBand: number } | { building: Id; storey: number } | { site: Id; level: number } | { raisedWay: Id } }[];   // the scene set the VTT export writes for the crop (§11.1's forms plus the site level)
   waterStamp: Hash64;                                           // the digest of the surface set in force at the key's week (V13 §2.7's form), written into every scene's `plat` object (C14-20)
   transientKey?: TransientKey }                                 // E4's owner-less transient arena while the crop is open (BCR-V14-4)
