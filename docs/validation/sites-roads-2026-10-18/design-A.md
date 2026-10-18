@@ -91,17 +91,7 @@ five lines lower). Every cite below is against the NEW md5s (`V13:n` = line n at
 `70d8aa1b…`, `base:n` at `1f871a01…`, `INDEX:n` at `b19971d3…`), re-verified by exact search when the fragments table
 was written (§2's verification note).
 
-Read whole, in context: V14 §2.5 (V14:831–1085), §3.2 (1276–1330), §3.4 (1402–1461), §3.9 (1844–1959), §1b.1
-(342–390), §1b.6 (473–487), §2.2 (520–610), §2.8–§2.9 (1128–1195), §3.1's stage table (1244–1262), §3.6 (b) 2 and (e)–(f)
-(1608–1612, 1673–1698), §3.10 E1 (1956–1994), §3.13 (b) (2090–2100), §3.14 (2127–2222), §4.1–§4.2 (2239–2265), §4.3
-(2291–2310), §4.7–§4.9 (2371–2431), §6 (2740–2775), §7 (2804–2863), §8 (2873–2945), §9 (2947–3010), §10 (3012–3063),
-§11 (3065–3075); V13 §1.3 (319–384), §2.2 (631–911), §2.3 (926–1189), §3.7 (1638–1709), §3.8 (1711–1790), §3.9 (14)
-and (16) (1976–1992, 2006–2015 as read-v13 cites them), §3.11 whole (2061–2470 at the old md5: 2074–2483 now), §3.14.3
-(2684–2707), §3.16–§3.17 (2794–2819), §4.1–§4.4 (2847–2959), §5.1's routes/patrols/anomalies rows (3013–3023), §5.9
-(3) (3299–3303), §7 (3518–3656), §8.5 (3733–3781), §9 (3787–3897), §10 (3913–4283); the base §4.2 S3 (4) (base:6214–6256),
-§4.9 (8551–8759), §4.12's `Destination` (9718–9719), §7.1's outcomes (11389–11463), §7.3's rows (11700–11719) and
-closure edits (11948–12006); INDEX §1, §2, §3, §6 (INDEX:30–48, 65–72, 130–137, 181–228); SUMMARY items 13–14
-(SUMMARY:59–89); the brief's Part D and E (brief:141–180); file s whole (273 lines, md5 `76fb99dc3b4fbcec1171c6e56db8aaf5`).
+Read whole, in context (every number a line at the NEW md5 — this lane's own reads of the volumes, it turned out, were all taken after J392 landed; the readers' numbers are 13 (V13) and 5 (V14) lower): V14 §2.5 (V14:826–1085), §3.2 (1276–1330), §3.4 (1402–1461), §3.9 (1844–1959), §1b.1 (342–390), §1b.6 (473–487), §2.2 (522–610), §2.8–§2.9 (1128–1195), §3.1's stage table (1252–1262), §3.6 (b) 2 and (e)–(f) (1608–1612, 1673–1698), §3.10 E1 (1956–1994), §3.13 (b) (2090–2100), §3.14 (2127–2222), §4.1–§4.2 (2239–2268), §4.3 (2291–2310), §4.7–§4.9 (2371–2431), §6 (2740–2775), §7 (2804–2863), §8 (2873–2945), §9 (2947–3010), §10 (3012–3063), §11 (3065–3075); V13 §1.3 (319–384), §2.2 (631–911), §2.3 (926–1189), §3.7 (1638–1709), §3.8 (1711–1790), §3.9 (14) and (16) (1976–1992, 1999–2003), §3.11 whole (2061–2483), §3.14.3 (2671–2694), §3.16–§3.17 (2781–2806), §4.1–§4.4 (2834–2946), §5.1's routes, patrols and anomalies rows (3013–3023), §5.9 (3) (3286–3303), §7 (3525–3656), §8.5 (3724–3772), §9 (3774–3898), §10 (3900–4273); the base §4.2 S3 (4) (base:6214–6256), §4.9 (8551–8759), §4.12's `Destination` (9718–9719), §7.1's outcomes (11389–11463), §7.3's rows (11700–11719) and closure edits (11948–12006); INDEX §1, §2, §3, §6 (INDEX:30–48, 65–72, 130–137, 181–228); SUMMARY items 13–14 (SUMMARY:59–89); the brief's Part D and E (brief:141–180); file s whole (273 lines, md5 `76fb99dc3b4fbcec1171c6e56db8aaf5`).
 
 ### 1.1 The words (one word, one meaning)
 
@@ -109,7 +99,7 @@ closure edits (11948–12006); INDEX §1, §2, §3, §6 (INDEX:30–48, 65–72,
 |---|---|---|
 | **road access** (two words, always together; record `roadAccess`) | a way of the route network reaches a site: the site is a station of a route or the end of a spur | the owner's words; never bare *access* (the `AccessPoint`, V14 §2.3; the water access class, V14:813, V13:2610; the dossier's access word, base §7.7 DR1) |
 | **approach** (record `Placement.approach`) | the way by which the route network reaches a site, and its role: `station` or `spur` | V14's "approach side" (the side facing the nearest route, V14:1404, 1609) — the approach meets the envelope on that side; V14's `oneApproach` term counts approach directions: consistent |
-| **station** | a vertex of a route's polyline with its cumulative effort (W7's `stations`, V13:767); a site's station is the vertex W7c inserts at the site's cell | V13's word (`fromStation`, `toStation`, "its gate station", V13:1784) |
+| **station** | a vertex of a route's polyline with its cumulative effort (W7's `stations`, V13:754); a site's station is the vertex W7c inserts at the site's cell | V13's word (`fromStation`, `toStation`, "its gate station", V13:1784) |
 | **spur** | a `WorldRoute` of origin `spur` from a route's station to a site's placement, class `track` or `trail`, map-tier, never a host edge | **new**; defined once in V13 §2.2 |
 | **expectation** (record `SiteKindRow.expectation`; the `CoherenceCost` term `expectation`; the anomaly `expectationUnmet`) | what the world must hold at a site's placement for the kind to make sense, as a deterministic test with a tolerance | the owner's "coherence expectation"; **new** as a record word |
 | **snap** (outcome key `bend.site.snap`) | the autocorrect: a site's placement moved, within its row's `snapM`, to the nearest lawful placement by `nearestLawful` | V13's `nearestLawful` and §7.1's bend law (a declaration bent, named, never refused); "snap" is new as the site's word (the crop's `snapToGrid` snaps a rectangle to cells, V14:1043 — a different object; the clash is noted in §4) |
@@ -143,7 +133,7 @@ correction: 'snap'|'report';                             // snap — a point dro
 | `guildhall` | required | none | — | 0 | report | a surface site: a building on a plot with the plot's access edge (base:7504's guarantee) — no world approach exists for it |
 | `ruin` | preferred | any · trail · trail | — | 0 | report | stone-robbers' track where a road is near; a ruin is where it fell |
 | `cave` | none | none | onCliff · 0 · 1 | 1 000 | snap | a cave is found at a face, not served; a point drop on flat ground snaps to the nearest face (A2's `cliffFace` rule, V14:1358, reads the slope the same way) |
-| `mine` | required | any · track · track | onOre · 0 · 5 | 1 500 | snap | ore is traded (the kind's `attraction` 0.5): a track must reach it; a mine off the ore is unlawful (the `extraction` row's hard `ore` term, V14:1006, read at a point drop) |
+| `mine` | required | any · track · track | onOre · 0 · 5 | 1 500 | snap | ore is traded (the kind's `attraction` 0.5): a track must reach it; a mine off the ore is unlawful (the `extraction` row's hard `ore` term, V14:1001, read at a point drop) |
 | `hideout` | avoided | none | awayFromRoutes · 1 000 · 1 | 1 000 | snap | concealment: a hideout within a kilometre of a road is moved off it; a road laid later past it is reported, never moved |
 | `crypt` | none | none | — | 0 | report | a tomb in the country; levels only |
 | `cellarComplex` | none | none | — | 0 | report | never free; the host building's |
@@ -152,14 +142,14 @@ correction: 'snap'|'report';                             // snap — a point dro
 | `camp` | preferred | any · trail · trail | group `rest`: onRoute · 300 · 1 · trail; byWater · 300 · 1 | 0 | report | a camp is pitched by a road or by water; transient, never moved |
 | `battlefield` | none | none | onRoute · 1 000 · 1 · track | 0 | report | armies meet on roads; a battlefield is where the host's event says |
 | `graveyard` | preferred | any · trail · trail | inReach · 20 000 · 1 | 0 | report | the dead lie near the living, on a path |
-| `watchpost` | preferred | any · trail · trail | onOverlook · 0 · 5 | 1 000 | snap | a post that sees nothing is unlawful (the `watch` row's hard `overlook`, V14:1002, read at a point drop); its path is laid where a road is near |
+| `watchpost` | preferred | any · trail · trail | onOverlook · 0 · 5 | 1 000 | snap | a post that sees nothing is unlawful (the `watch` row's hard `overlook`, V14:997, read at a point drop); its path is laid where a road is near |
 | `hermitage` | none | none | awayFromRoutes · 1 000 · 1 | 1 000 | snap | solitude: a cell a kilometre from every road; no approach — its path is the site frame's own |
-| `bridgeFort` | required | station · road · — | atCrossing · 1 500 · 5 · road | 1 500 | snap | a bridge fort is a gatehouse astride a road's river crossing: a point drop snaps to the crossing (`riverMatchM`'s 1 500 m, V13:1174, the same tolerance a settlement's river takes); off every crossing it is unlawful |
+| `bridgeFort` | required | station · road · — | atCrossing · 1 500 · 5 · road | 1 500 | snap | a bridge fort is a gatehouse astride a road's river crossing: a point drop snaps to the crossing (`riverMatchM`'s 1 500 m, V13:1160, the same tolerance a settlement's river takes); off every crossing it is unlawful |
 | `tollhouse` | required | station · road · — | onRoute · 0 · 5 · road; atBorder · 2 000 · 1 · road | 1 000 | snap | "the gatehouse astride the road" (V14:1572): a tollhouse is on a road of class road or highway or it is unlawful; a border crossing is where it earns |
 
 `routed` (derived): fort, tower, temple, shrine, manor, guildhall, ruin, mine, camp, graveyard, watchpost, bridgeFort,
 tollhouse → true; cave, hideout, crypt, cellarComplex, sewerLair, dungeon, battlefield, hermitage → false. Against
-today's column (V14:916–926: fort, bridgeFort, tollhouse, mine, manor, guildhall, temple `yes`): tower, shrine, ruin,
+today's column (V14:911–921: fort, bridgeFort, tollhouse, mine, manor, guildhall, temple `yes`): tower, shrine, ruin,
 camp, graveyard and watchpost gain a `preferred` approach (a path where a road is near; none reported, never an
 anomaly), nothing loses one. `attraction` is untouched.
 
@@ -183,13 +173,13 @@ the week, V13:1787–1788's rule: a hidden road counts as no public road):
 | kind | holds at cell c when | the target |
 |---|---|---|
 | `onRoute` | a route of class ≥ `minClass` crosses a cell within `tolM` of c (the `route` layer and `distToRoute` by class) | the nearest such cell |
-| `atCrossing` | a crossing of such a route (W7's `crossings`, V13:768: the cells where its polyline crosses a reach ≥ `riverMinM3s`) lies within `tolM` | the nearest crossing cell |
+| `atCrossing` | a crossing of such a route (W7's `crossings`, V13:755: the cells where its polyline crosses a reach ≥ `riverMinM3s`) lies within `tolM` | the nearest crossing cell |
 | `atPass` | a pass station of such a route lies within `tolM`: a route station whose `dem` is the maximum over the stations within ± `world.routeLay.approach.passRunM` (1 000 m) along the route and exceeds the dem `passCrossM` (300 m) to each side across the route by ≥ `passReliefM` (60 m) | the nearest pass station's cell |
-| `atBorder` | a crossing of such a route with an allegiance border or a debatable band (the points W8b (16) proposes border posts at, V13:2006–2010) lies within `tolM` | the nearest such crossing cell |
+| `atBorder` | a crossing of such a route with an allegiance border or a debatable band (the points W8b (16) proposes border posts at, V13:1999–2003) lies within `tolM` | the nearest such crossing cell |
 | `onOverlook` | V14's `overlook` plug-in at c ≥ `overlookMin` (0.5) | the cell within `snapM` with the greatest `overlook` (ties: the lowest cell index) |
-| `onOre` | V14's `ore` plug-in at c > 0 (a W5 resource site of kind ore within 1 000 m, V14:994) | the nearest ore resource site's cell |
+| `onOre` | V14's `ore` plug-in at c > 0 (a W5 resource site of kind ore within 1 000 m, V14:989) | the nearest ore resource site's cell |
 | `onCliff` | the dem's gradient at c ≥ `cliffSlope` (0.30 — A2's `cliffFace` threshold, V14:1358) | the nearest cell whose gradient is ≥ it |
-| `byWater` | `distToRiverM` at c ≤ `tolM` (a lake or spring counts, V14:991) | the nearest water-edge cell |
+| `byWater` | `distToRiverM` at c ≤ `tolM` (a lake or spring counts, V14:986) | the nearest water-edge cell |
 | `onShore` | `distToShoreM` at c ≤ `tolM` | the nearest shore cell |
 | `awayFromRoutes` | no route of any class crosses a cell within `tolM` of c | the nearest cell with no route within `tolM` (the snap away) |
 | `inReach` | a placement's origin (a settlement's) lies within `tolM` (shipped `reach.settlementKm`'s 20 km) | none (report only) |
@@ -207,7 +197,7 @@ that is never unlawful. The bearing search is skipped for a site (its bearing is
 side exists). `nearestLawful(world, frame, origin)` for a site subject searches the spiral out to the row's `snapM`
 (not `originSearchM`) in steps of `originStepCells`, the full (two-term) cost at every station (the two-tier search is
 a frame's: a site's terms are cheap), and returns up to three lawful placements by ascending total, ties by distance
-then by cell index — the existing contract (V13:2119–2126). `snapM` 0 → no search (correction `report`).
+then by cell index — the existing contract (V13:2106–2113). `snapM` 0 → no search (correction `report`).
 
 **(c) The drop with a point — the snap (J-A.6; OQ-A2).** `dropSite`'s dry run for a free-standing drop with a point
 runs (b) on the scratch overlay: **lawful** → the ghost at the point, the cost by row beside it (a preference unmet
@@ -215,12 +205,12 @@ reads "off the road: 1"); **unlawful and `correction: 'snap'`** → `nearestLawf
 is drawn **at the best offer**, the move named in one line as a bend (`bend.site.snap`: "snapped 420 m onto the road",
 the row and the distance), the asked point shown as a faint mark, and the dry run's actions are `keep` (place at the
 asked point, flagged unlawful, the anomaly below), `takeOffer` (the default; `offer: n` for the other two) and
-`cancel` — the existing `W_PLACE_NO_LAWFUL` actions (V13:2899) with the offer preselected; none found → the asked
+`cancel` — the existing `W_PLACE_NO_LAWFUL` actions (V13:2886) with the offer preselected; none found → the asked
 placement kept and flagged, the three least-cost unlawful ones offered (V13's rung, unchanged); **unlawful and
 `correction: 'report'`** → as "none found" without a search. The accepted event carries the chosen origin in
-`dropSite.placement` (V14:2266) as today; V13's fold (`requestCharter` with a site subject, world-first: no blend, P4
+`dropSite.placement` (V14:2261) as today; V13's fold (`requestCharter` with a site subject, world-first: no blend, P4
 and P5) writes the `Placement` with `coherenceCost` as computed at the chosen origin (a kept unlawful point keeps
-`lawful: false`). A `setPlacement` on a site runs the same (b) and offers (V13:2863's `accept: ['unlawful']` admits
+`lawful: false`). A `setPlacement` on a site runs the same (b) and offers (V13:2849's `accept: ['unlawful']` admits
 the kept point). **A drop with no point** ("a fort somewhere on the pass") adds every row of cost 5 as a refusing
 filter beside the purpose row's `hard` terms (G3's search, V14:1407–1414), so its result is lawful by construction and
 no snap runs.
@@ -298,7 +288,7 @@ untouched (a garrisoned site is a claim point whatever its road, V13 §3.9 (10))
 
 **(h) The host-placed site (the kept rule; J-A.12).** "A host-placed site (its record's position) is never re-sited"
 (V14:1416–1417) stands. The host's record creates the card (V14 §2.8's second row) and its position arrives as a
-`requestCharter` with a site subject and `author: 'host'`, the `Placement` written `hostLocked: true` (V13:759's
+`requestCharter` with a site subject and `author: 'host'`, the `Placement` written `hostLocked: true` (V13:746's
 meaning: an origin edit refused): (b) runs for the reading only — no `nearestLawful`, no offer, the cost stored and
 `expectationUnmet` reported DM-only; W7c lays the approach as for any site (the world yields: a station bend or a
 spur). Nothing of this reaches the host unasked (bar 9; the H-row below asks one optional thing).
@@ -325,7 +315,7 @@ but the proposal; `worldWins` on a site is V14's re-materialization under the ne
 `nearestLawful` within `snapM` — ≤ 50 ms at the realm rung; `WORLD-17`: W7c per site ≤ 20 ms, a whole-landmass
 approach pass ≤ 0.1 × W7a + W7b's row). The work: (b) ≤ (2 · ⌈snapM ÷ fineCellM⌉ ÷ originStepCells + 1)² ≤ 49 stations
 at the realm rung, each ≤ 11 raster or distance-field reads; (d) 2 one static-index query; (d) 3 an A\* inside an
-ellipse of ≤ 5 km (≤ 400 cells at the realm rung). Fine cells are 250 / 500 / 1 000 m (V13:1010–1012), so every
+ellipse of ≤ 5 km (≤ 400 cells at the realm rung). Fine cells are 250 / 500 / 1 000 m (V13:997–999), so every
 tolerance above is at least one cell at the province rung and the snap step is `originStepCells` (2) cells, at least
 one.
 
@@ -346,12 +336,12 @@ host's own word (absent: the map's nearest-route rule). No other row.
 
 | new field or record | identity (V13 §2.5 / V14 §2.8) | lifecycle (V13 §2.6 / V14 §2.9) |
 |---|---|---|
-| `SiteKindRow.roadAccess`, `.approach`, `.expectation`, `.snapM`, `.correction` | table cells (`tables/sites/kinds`), no entity | an `editTable` governs new drops and the next placement edit; existing cards keep their `roadAccess` and their approach (a card is declared, V14:1312–1314) |
+| `SiteKindRow.roadAccess`, `.approach`, `.expectation`, `.snapM`, `.correction` | table cells (`tables/sites/kinds`), no entity | an `editTable` governs new drops and the next placement edit; existing cards keep their `roadAccess` and their approach (a card is declared, V14:1307–1309) |
 | `WorldSite.roadAccess` (copied at the drop; editable by `setAttr site/roadAccess`); `routed` derived from it | the card's (declared, in the model digest, as `attraction`) | kept by every re-derivation; the inverse on undo; absent on an older card: the kind row's value, `routed` re-derived, reported |
 | `Placement.approach { role; route?; station?; junction? }` | none of its own: a reading of the placement (derived, V13 §2.4's rule for anomalies) | rebuilt by W7c at every placement edit, W7 run and cascade reaching its route; never an undo target; absent: `none` until W7c runs |
 | a spur `WorldRoute` (origin `spur`) | creation key (`route`, the site placement's lineage, `spur`, `land`) — so a re-lay keeps the id and a moved site keeps its spur's address; anchor: by its site | re-derived by W7c; a dated lay version per re-lay (W7 (10)); tombstoned when the site is unplaced or adopted (the settlement's charter roads take over); `class` an attribute (`setAttr`, standalone) |
 | `CoherenceCost.terms[].term` gains `expectation` | — | stored on the `Placement` at the edit as every term is; re-evaluated for the anomaly only |
-| `PlacementAnomaly.kind` gains `expectationUnmet`, `noApproach` | derived, never persisted (V13:814's rule) | re-evaluated with the placement, W7c and the cascade |
+| `PlacementAnomaly.kind` gains `expectationUnmet`, `noApproach` | derived, never persisted (V13:801's rule) | re-evaluated with the placement, W7c and the cascade |
 | `world.routeLay.approach { stationCells 1; maxSpurM 5 000 m; passRunM 1 000 m; passCrossM 300 m; passReliefM 60 m; overlookMin 0.5; cliffSlope 0.30 }`; `place.coherence.weights.expectation 1`; `patrol.gradeShift.trail −1` | table cells | editable by `editTable`; a change re-lays the approaches of the landmass at the next W7 run (declared) |
 
 **Determinism and no draw:** the tests, the search and W7c draw nothing; every tie falls to a value or an index (the
@@ -374,7 +364,7 @@ host's graph has settlement nodes only (read-research HS20); no site node, time 
 
 | id | decision |
 |---|---|
-| J-A.1 | chose a site as a **station or a spur, never a seat** of W7's pair selection, on both worlds, over the kind row's `routed` site seated among the Urquhart seats (V14:1450–1452; V13:1726–1729), because (a) W7 (11) already makes a site "a position along a route, never an end" on a host-bound world and one rule beats two; (b) a rank-0 seat next to a capital would pull a pair edge whose class is "by the higher seat's rank" (V13:1761) — a highway to a mine; (c) a spur is what W7 (5) already lays for an unjoined seat, now with the kind's class and bound |
+| J-A.1 | chose a site as a **station or a spur, never a seat** of W7's pair selection, on both worlds, over the kind row's `routed` site seated among the Urquhart seats (V14:1446–1447; V13:1713–1716), because (a) W7 (11) already makes a site "a position along a route, never an end" on a host-bound world and one rule beats two; (b) a rank-0 seat next to a capital would pull a pair edge whose class is "by the higher seat's rank" (V13:1761) — a highway to a mine; (c) a spur is what W7 (5) already lays for an unjoined seat, now with the kind's class and bound |
 | J-A.2 | chose to keep `routed` as the one boolean V13 reads (R-V14-1's resolver, V13 §3.0's W7b row), **derived from `roadAccess`**, over renaming it, because the wiring exists on both sides and a derived boolean costs one rule; the shipped column goes (two shipped columns with one meaning would be a drift) |
 | J-A.3 | chose the expectation as **one more term of V13's coherence cost** for a site subject, searched by `nearestLawful` and reported by `PlacementAnomaly`, over a V14-side check before the drop, because the owner's word is "coherence" and V13's placement law already judges, searches, offers, stores and reports — one mechanism for settlements and sites |
 | J-A.4 | chose the eleven tests as **V14's plug-ins in a V13 slot** (`ExpectationTest`, `expectations.register`), over formulas in V13, because SW-01's pattern (V13 owns the slot, V14 the terms) keeps one registry and the kinds are V14's domain |
@@ -385,7 +375,7 @@ host's graph has settlement nodes only (read-research HS20); no site node, time 
 | J-A.9 | chose a spur as a **`WorldRoute` of origin `spur`** (its `a` the site's placement, `b` the parent's nearer seat, a `junction`) over a polyline on the placement, because every reader of roads (the route layer, `roadsAt`, the charter, the crop, the view, the exports, the patrols) reads `WorldRoute` and a second source would fork the one network; `Placement.approach` keeps the reading |
 | J-A.10 | chose W7c **after W7b, incremental per site** (the closure: the site, the bent route, the spurs riding it) over re-running W7a/W7b at every drop, because W7 (10) requires that nothing outside a closure moves and V14 §4.7's locality row promises the same |
 | J-A.11 | chose a garrisoned site to be a **patrol source only through its approach** (a station on the segment, or a spur's junction on it) over any site near the segment, because W8b (14)'s "along the segment" needs a reading and the approach is the one the road gives |
-| J-A.12 | chose to **keep "a host-placed site is never re-sited"** (V14:1416–1417) with the expectation read and the approach laid, over an owner question, because the host's record is a dossier-tier fact (item 20 (h)) and the world yields to it as it yields to a canonized seat (V13:2421–2423) |
+| J-A.12 | chose to **keep "a host-placed site is never re-sited"** (V14:1416–1417) with the expectation read and the approach laid, over an owner question, because the host's record is a dossier-tier fact (item 20 (h)) and the world yields to it as it yields to a canonized seat (V13:2408–2410) |
 | J-A.13 | chose `takeOffer` as the DM's second choice on a site's `W_PLACE_ANOMALY` over the scoped `worldWins`, because a site's anomaly is cured by moving the site, not by re-deriving its arenas, and the action kind exists (BCR-V13-9) |
 | J-A.14 | chose that a **`ground` card takes no approach** over a path to a camp or a battlefield, because a marker-like card has no gate and the base's decorations already link what wants a trail (base:8677) |
 | J-A.15 | chose **no nineteenth row in T-V13-21's drift table** (the owner's eighteen, item 138 (c)) and the approach as one more consumer of T-V13-21b, over extending the owner's list |

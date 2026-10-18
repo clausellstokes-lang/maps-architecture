@@ -1,0 +1,14 @@
+# Live status — sites-roads design (per-agent; written by the session at 05:48Z; the synthesis seat appends below)
+
+sites-roads design (wf_a2bd73c2-64c):
+  design:A                     transcript  2213 KB, last write 05:46Z, running
+  design:B                     transcript  2162 KB, last write 05:46Z, running
+  design:C                     transcript  2408 KB, last write 05:46Z, running
+  read:base                    transcript  1841 KB, last write 05:20Z, DONE
+  read:checks                  transcript  2602 KB, last write 05:24Z, DONE
+  read:research                transcript  1825 KB, last write 05:19Z, DONE
+  read:v13                     transcript  1480 KB, last write 05:20Z, DONE
+  read:v14                     transcript  1336 KB, last write 05:21Z, DONE
+
+
+Resume after a kill: the LANDED read-*.md are complete inputs; a design-X.md with only CHECKPOINT lines is partial (its §0–§1 may be usable; re-run that designer from the read records); judges need all three designs; the synthesis needs the three judgments. Continuation script: feed landed records from disk, run only the missing seats (HANDOFF RUNNING NOW block).

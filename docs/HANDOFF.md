@@ -11,6 +11,115 @@
 **RUNNING NOW (2026-10-18 ~01:05Z) — and the resume recipe if the five-hour window kills the seats (the owner, 00:58Z: save progress per agent per task regularly).** Three Workflow runs of this session (scripts under the session directory /root/.claude/projects/-home-user-maps-architecture/4291a60d-8240-5d49-a54e-2b2a213d093f/workflows/scripts/, journals under …/subagents/workflows/<runId>/journal.jsonl; the container-local paths die with the container, so the repo copies below are the ones that survive): (1) `retrovalidation-j375` run wf_f0931b52-ef5 (task wk5glb73q; args host=/home/user/clausellstokes-lang/settlement-engine at 81f1cd96, date=2026-10-18) — stages Verify (12 Opus/high verifiers, one per family: fp, faith, alignment, trade, population, prosperity, plague, lenses, realm, scripts, small; ALL LANDED but lenses' validator pairing) → Validate (a Fable/xhigh validator per family reading the file whole; `rulings` LANDED — 40 UPHELD, 8 AMENDED, 1 OVERTURNED; faith, alignment, fp, population, trade RUNNING) → Amendments (files m–q verified then validated after the rulings) → Apply (one Opus/high seat per target file; design corrections become docs/AMENDMENTS-2026-10-18s.md from item 927; the notices replaced by `> Fable-reviewed 2026-10-18: … (lane retrovalidation/<family>; J392)`) → Confirm (Fable/high per apply lane, one fix round) → Critique (Fable/xhigh critic, one closing round); every seat writes its record under docs/validation/retrovalidation-2026-10-18/ AS IT GOES (<family>-verify.md, <family>.md, rulings.md, apply-*.md, confirm-*.md, critic.md, README.md) and its lane lines (retrovalidation/<family>[-verify|-apply…]) to docs/lane-events.log. (2) `host-requirements-doc` run wf_94da751f-a31 (task wac7fpko5) — Extract (7 Opus/high readers, LANDED) → Draft (6 Fable/high drafters s3–s8, LANDED) → Critique (Fable/xhigh, RUNNING); its work is copied every 5 minutes into docs/validation/host-requirements-2026-10-18/ (extract-*.md, draft-s3..s8.md, critic.md); the owner's document is the Claude doc of J391 (6), sections 1–2 filled, 3–8 to be filled from the drafts and the critic. (3) `amendments-r-q4` run wf_6c3a4aa0-0d5 — LANDED and committed (e5de220d). THE LOOP: the session scratchpad's maps-loop.sh (5-minute cycle, ~2 h per invocation) autosaves the record files to this branch and snapshots the whole tree to `wip/cloud-autosave-d`; STATUS.md under docs/validation/retrovalidation-2026-10-18/ holds the latest line per lane. TO RESUME AFTER A KILL: (a) the records on disk are the truth — a seat whose LANDED line is in docs/lane-events.log is done, its structured result reconstructible from its record file; (b) a plain `Workflow({scriptPath, resumeFromRunId})` replays from cache only the longest unchanged PREFIX of agent calls in call order and parallel stages reorder (the 2026-10-17 lesson), so for the retrovalidation prefer a hand-authored CONTINUATION script that reads the landed <family>-verify.md / <family>.md records and runs only the missing validators, then Amendments → Apply → Confirm → Critique as in the script; (c) restore the tree from `wip/cloud-autosave-d` only for a seat's unfinished EDITS (an apply lane mid-way), never for records (those are on the branch); (d) the host document's remaining sections can be filled by the session from the drafts without re-running anything.
 **UPDATE 04:25Z.** The five-hour window killed run (1) at ~01:25Z (20 seats landed, 92 errored; validators faith, alignment, fp, population, trade, plague, scripts, small and rulings LANDED with their <family>.verdict.json extracted from the journal into docs/validation/retrovalidation-2026-10-18/). The CONTINUATION `retrovalidation-j375-continue` run wf_ed23dc6b-f13 (task wuojbxzyu; script under the session's workflows/scripts/; args host=/home/user/clausellstokes-lang/settlement-engine, date=2026-10-18, scratch=<session scratchpad>/retro) started 04:12Z: three Fable/xhigh validators (prosperity, lenses, realm) RUNNING → amendments verify/validate → apply lanes (design = file s from item 927; one per family; notices lane) → confirm → critic. Run (2) LANDED (critic.md; final-s3..s8.md carry its corrections C1–C14 and additions A1–A21); the owner's document is COMPLETE in the Claude doc (sections 1–8 on the main tab; the 110 KB defect list on the tab "Host defects, full list"; one anchored question to the owner on patrols, option A or B) and committed as docs/HOST-REQUIREMENTS-2026-10-18.md (39fb7084). The loop was restarted at 04:01Z (task b3t9tnfx5; ends ~06:00Z — restart it). NEXT when the continuation lands: review, commit, J392 (counts, notices replaced, file s), this block, the doc's s1 note.
 **UPDATE 05:10Z — a fourth run.** The owner's word on sites, road access and catalogue-driven autocorrect (J393, verbatim in docs/PROGRESS.md and docs/validation/sites-roads-2026-10-18/README.md) is being DESIGNED by the workflow `sites-roads-design` run wf_a2bd73c2-64c (task wh4norxj2; script under the session's workflows/scripts/sites-roads-design-wf_a2bd73c2-64c.js; args host=/home/user/clausellstokes-lang/settlement-engine, date=2026-10-18, scratch=<session scratchpad>/sites-roads): Understand (5 Opus/high readers: v14, v13, base, research, checks) → Design (3 Fable/xhigh designers A catalogue-first, B pipeline-first, C coherence-first → 3 Fable/xhigh judges → a Fable/xhigh synthesis into draft-t.md + draft-t.fragments.json) → Critique (a Fable/xhigh critic and an Opus/medium fragment verifier; one fix round). It APPLIES NOTHING: file t is numbered after file s and applied only after J392 lands (the retrovalidation's apply lanes edit V13/V14 now). Records under docs/validation/sites-roads-2026-10-18/ as the seats go; lanes sites-roads/*. TO RESUME AFTER A KILL: the landed read-*.md / design-*.md / judge-*.md records are the truth; a continuation script feeds them to the next stage (the 2026-10-17 lesson: never a plain resume across a parallel stage).
+**UPDATE 05:50Z — per-agent state (the owner: "save progress per agent").** Retrovalidation continuation wf_ed23dc6b-f13: validators, amendments verify+validate, ALL 13 apply lanes and 11 of 13 confirm lanes LANDED (confirm:scripts, confirm:small running at 05:48Z; then the critic and a close-gaps round); file s WRITTEN (docs/AMENDMENTS-2026-10-18s.md, items 927–938, 12 fragments, applied; confirm-design PASS); the notices replaced (apply-notices: 15 status lines left, listed in its README). Its edits to V13, V14, the base, INDEX, SUMMARY, the brief, the research notes, the kernel API, choices.md and the bundle are NOW COMMITTED on this branch by the autosave (half-way states included; the confirm records say which passed). Sites-roads design wf_a2bd73c2-64c: 5 readers LANDED (read-*.md); designers A, B, C mid-way (CHECKPOINT lines 05:41–05:46Z; design-*.md §0–§1 on disk); judges, synthesis, critic, verifier not started. Per-agent table (transcript size, last write, state) in docs/validation/sites-roads-2026-10-18/STATUS.md and below. The autosave loop (maps-loop3.sh from ~05:52Z, task restarted) now commits the WHOLE tree to this branch every 5 minutes (git add -A) and still snapshots to wip/cloud-autosave-d.
+
+```
+Per-agent state at 2026-10-18 05:48Z
+
+retrovalidation continuation (wf_ed23dc6b-f13):
+  apply:alignment              transcript   461 KB, last write 05:25Z, DONE
+  apply:design-file-s          transcript  1211 KB, last write 05:32Z, DONE
+  apply:faith                  transcript   689 KB, last write 05:26Z, DONE
+  apply:fp                     transcript   486 KB, last write 05:25Z, DONE
+  apply:lenses                 transcript   571 KB, last write 05:28Z, DONE
+  apply:notices                transcript   736 KB, last write 05:37Z, DONE
+  apply:plague                 transcript   387 KB, last write 05:26Z, DONE
+  apply:population             transcript   514 KB, last write 05:25Z, DONE
+  apply:prosperity             transcript   480 KB, last write 05:26Z, DONE
+  apply:realm                  transcript   708 KB, last write 05:28Z, DONE
+  apply:scripts                transcript   726 KB, last write 05:28Z, DONE
+  apply:small                  transcript   648 KB, last write 05:29Z, DONE
+  apply:trade                  transcript   726 KB, last write 05:25Z, DONE
+  confirm:alignment            transcript   701 KB, last write 05:41Z, DONE
+  confirm:design               transcript   894 KB, last write 05:46Z, DONE
+  confirm:faith                transcript   762 KB, last write 05:43Z, DONE
+  confirm:fp                   transcript   903 KB, last write 05:43Z, DONE
+  confirm:lenses               transcript   690 KB, last write 05:46Z, DONE
+  confirm:plague               transcript   642 KB, last write 05:44Z, DONE
+  confirm:population           transcript   727 KB, last write 05:42Z, DONE
+  confirm:prosperity           transcript   830 KB, last write 05:46Z, DONE
+  confirm:realm                transcript   788 KB, last write 05:47Z, DONE
+  confirm:scripts              transcript   831 KB, last write 05:48Z, running
+  confirm:small                transcript   704 KB, last write 05:47Z, running
+  confirm:trade                transcript   712 KB, last write 05:40Z, DONE
+  validate:amendments          transcript  3419 KB, last write 05:23Z, DONE
+  validate:lenses              transcript  1478 KB, last write 04:31Z, DONE
+  validate:prosperity          transcript  1402 KB, last write 04:32Z, DONE
+  validate:realm               transcript  1293 KB, last write 04:28Z, DONE
+  verify:amendments            transcript  3418 KB, last write 04:58Z, DONE
+
+sites-roads design (wf_a2bd73c2-64c):
+  design:A                     transcript  2213 KB, last write 05:46Z, running
+  design:B                     transcript  2162 KB, last write 05:46Z, running
+  design:C                     transcript  2408 KB, last write 05:46Z, running
+  read:base                    transcript  1841 KB, last write 05:20Z, DONE
+  read:checks                  transcript  2602 KB, last write 05:24Z, DONE
+  read:research                transcript  1825 KB, last write 05:19Z, DONE
+  read:v13                     transcript  1480 KB, last write 05:20Z, DONE
+  read:v14                     transcript  1336 KB, last write 05:21Z, DONE
+
+Latest lane line per lane (docs/lane-events.log):
+  2026-10-18 00:29 check/amendments-r LANDED docs/validation/coherence/q4-r.md: PASS — docs/AMENDMENTS-2026-10-18r.md (item 926) in the file form, owner's "1. yes
+  2026-10-18 01:08 retrovalidation/alignment LANDED docs/validation/retrovalidation-2026-10-18/alignment.md: PASS-WITH-CORRECTIONS — research/sf/alignment-system.
+  2026-10-18 00:40 retrovalidation/alignment-verify LANDED docs/validation/retrovalidation-2026-10-18/alignment-verify.md: research/sf/alignment-system.md read wh
+  2026-10-18 05:23 retrovalidation/amendments LANDED docs/validation/retrovalidation-2026-10-18/amendments.md (+ amendments.verdict.json): files m-q (items 659-92
+  2026-10-18 04:58 retrovalidation/amendments-verify LANDED docs/validation/retrovalidation-2026-10-18/amendments-verify.md (+ amendments.findings.json): files m-
+  2026-10-18 05:24 retrovalidation/apply-alignment LANDED docs/validation/retrovalidation-2026-10-18/apply-alignment.md: alignment.verdict.json read whole (32 cor
+  2026-10-18 05:32 retrovalidation/apply-design LANDED docs/AMENDMENTS-2026-10-18s.md (items 927-938, 12 fragments) written in file q's form from every *.verdict.
+  2026-10-18 05:25 retrovalidation/apply-faith LANDED docs/validation/retrovalidation-2026-10-18/apply-faith.md: faith.verdict.json read whole; research/sf/faith-
+  2026-10-18 05:24 retrovalidation/apply-fp LANDED docs/validation/retrovalidation-2026-10-18/apply-fp.md: fp.verdict.json read whole; all 55 research corrections
+  2026-10-18 05:28 retrovalidation/apply-lenses LANDED docs/validation/retrovalidation-2026-10-18/apply-lenses.md: lenses.verdict.json read whole (40 corrections:
+  2026-10-18 05:37 retrovalidation/apply-notices LANDED docs/validation/retrovalidation-2026-10-18/README.md: grep for the J375 notice found 15 status lines left,
+  2026-10-18 05:26 retrovalidation/apply-plague LANDED docs/validation/retrovalidation-2026-10-18/apply-plague.md: plague.verdict.json read whole (18 corrections,
+  2026-10-18 05:25 retrovalidation/apply-population LANDED docs/validation/retrovalidation-2026-10-18/apply-population.md: population.verdict.json read whole; res
+  2026-10-18 05:26 retrovalidation/apply-prosperity LANDED docs/validation/retrovalidation-2026-10-18/apply-prosperity.md: prosperity.verdict.json read whole (46 
+  2026-10-18 05:28 retrovalidation/apply-realm LANDED docs/validation/retrovalidation-2026-10-18/apply-realm.md: realm.verdict.json read whole; research/sf/fp-rea
+  2026-10-18 05:28 retrovalidation/apply-scripts LANDED docs/validation/retrovalidation-2026-10-18/apply-scripts.md: scripts.verdict.json read whole (14 correctio
+  2026-10-18 05:29 retrovalidation/apply-small LANDED docs/validation/retrovalidation-2026-10-18/apply-small.md: small.verdict.json read whole (11 corrections: 10
+  2026-10-18 05:25 retrovalidation/apply-trade LANDED docs/validation/retrovalidation-2026-10-18/apply-trade.md: trade.verdict.json read whole; research/sf/trade-
+  2026-10-18 05:41 retrovalidation/confirm-alignment LANDED docs/validation/retrovalidation-2026-10-18/confirm-alignment.md: PASS on apply-alignment; alignment.ve
+  2026-10-18 05:46 retrovalidation/confirm-design LANDED docs/validation/retrovalidation-2026-10-18/confirm-design.md: apply-design checked independently — all 13
+  2026-10-18 05:42 retrovalidation/confirm-faith LANDED docs/validation/retrovalidation-2026-10-18/confirm-faith.md: apply-faith PASS — faith.verdict.json (67 cor
+  2026-10-18 05:43 retrovalidation/confirm-fp LANDED docs/validation/retrovalidation-2026-10-18/confirm-fp.md: apply-fp.md, fp.verdict.json (55 corrections, 21 ru
+  2026-10-18 05:46 retrovalidation/confirm-lenses LANDED docs/validation/retrovalidation-2026-10-18/confirm-lenses.md: PASS on apply-lenses; lenses.verdict.json (
+  2026-10-18 05:44 retrovalidation/confirm-plague LANDED docs/validation/retrovalidation-2026-10-18/confirm-plague.md: PASS on apply-plague; plague.verdict.json r
+  2026-10-18 05:42 retrovalidation/confirm-population LANDED docs/validation/retrovalidation-2026-10-18/confirm-population.md: PASS on apply-population — populati
+  2026-10-18 05:46 retrovalidation/confirm-prosperity LANDED docs/validation/retrovalidation-2026-10-18/confirm-prosperity.md: PASS on apply-prosperity; prosperit
+  2026-10-18 05:47 retrovalidation/confirm-realm LANDED docs/validation/retrovalidation-2026-10-18/confirm-realm.md: PASS on apply-realm — realm.verdict.json (25 
+  2026-10-18 05:48 retrovalidation/confirm-scripts LANDED docs/validation/retrovalidation-2026-10-18/confirm-scripts.md: PASS on apply-scripts — scripts.verdict.j
+  2026-10-18 05:40 retrovalidation/confirm-trade LANDED docs/validation/retrovalidation-2026-10-18/confirm-trade.md: PASS on apply-trade; trade.verdict.json (38 c
+  2026-10-18 01:12 retrovalidation/faith LANDED docs/validation/retrovalidation-2026-10-18/faith.md: research/sf/faith-system.md (1,516 lines) read whole and judg
+  2026-10-18 00:43 retrovalidation/faith-verify LANDED docs/validation/retrovalidation-2026-10-18/faith-verify.md: research/sf/faith-system.md read whole, ~590 cl
+  2026-10-18 01:10 retrovalidation/fp LANDED docs/validation/retrovalidation-2026-10-18/fp.md: research/sf/fp-simulator.md (1,098) and fp-physical-integration.md 
+  2026-10-18 00:46 retrovalidation/fp-verify LANDED docs/validation/retrovalidation-2026-10-18/fp-verify.md: ~1,250 claims checked in research/sf/fp-simulator.md 
+  2026-10-18 04:31 retrovalidation/lenses LANDED docs/validation/retrovalidation-2026-10-18/lenses.md: PASS-WITH-CORRECTIONS — research/sf/lens-implications.md re
+  2026-10-18 00:55 retrovalidation/lenses-verify LANDED docs/validation/retrovalidation-2026-10-18/lenses-verify.md: research/sf/lens-implications.md read whole (
+  2026-10-18 01:20 retrovalidation/plague LANDED docs/validation/retrovalidation-2026-10-18/plague.md: PASS-WITH-CORRECTIONS — research/sf/plague-system.md read w
+  2026-10-18 00:54 retrovalidation/plague-verify LANDED docs/validation/retrovalidation-2026-10-18/plague-verify.md: research/sf/plague-system.md read whole; ~780
+  2026-10-18 01:12 retrovalidation/population LANDED docs/validation/retrovalidation-2026-10-18/population.md: research/sf/population-system.md read whole (1,091 
+  2026-10-18 00:39 retrovalidation/population-verify LANDED docs/validation/retrovalidation-2026-10-18/population-verify.md: research/sf/population-system.md read
+  2026-10-18 04:31 retrovalidation/prosperity LANDED docs/validation/retrovalidation-2026-10-18/prosperity.md: PASS-WITH-CORRECTIONS — research/sf/prosperity-syst
+  2026-10-18 00:54 retrovalidation/prosperity-verify LANDED docs/validation/retrovalidation-2026-10-18/prosperity-verify.md: research/sf/prosperity-system.md read
+  2026-10-18 04:28 retrovalidation/realm LANDED docs/validation/retrovalidation-2026-10-18/realm.md: PASS-WITH-CORRECTIONS — research/sf/fp-realm-review.md read w
+  2026-10-18 01:00 retrovalidation/realm-verify LANDED docs/validation/retrovalidation-2026-10-18/realm-verify.md: research/sf/fp-realm-review.md read whole (870 
+  2026-10-18 00:35 retrovalidation/rulings LANDED docs/validation/retrovalidation-2026-10-18/rulings.md: PASS-WITH-CORRECTIONS — 42 rulings/readings of J377–J389 
+  2026-10-18 01:06 retrovalidation/scripts LANDED docs/validation/retrovalidation-2026-10-18/scripts.md: ten scripts read whole (1,110 lines); PASS-WITH-CORRECTIO
+  2026-10-18 00:52 retrovalidation/scripts-verify LANDED docs/validation/retrovalidation-2026-10-18/scripts-verify.md: workflows/36, 36b, 37, 38, 38b, 39, 40-43 r
+  2026-10-18 01:13 retrovalidation/small LANDED docs/validation/retrovalidation-2026-10-18/small.md: the seven notice-bearing passages read whole with file l (284
+  2026-10-18 00:53 retrovalidation/small-verify LANDED docs/validation/retrovalidation-2026-10-18/small-verify.md: the J375-marked passages of choices C-0374, API
+  2026-10-18 01:07 retrovalidation/trade LANDED docs/validation/retrovalidation-2026-10-18/trade.md: PASS-WITH-CORRECTIONS — research/sf/trade-system.md read whol
+  2026-10-18 00:42 retrovalidation/trade-verify CHECKPOINT correction to this lane's LANDED line above: the 22 findings are 4 WRONG, 1 UNSUPPORTED, 17 IMPRECISE (
+  2026-10-18 00:25 session/amendments-r-apply LANDED docs/AMENDMENTS-2026-10-18r.md (item 926, the owner's answer to V13 §11 Q4: 20 fragments) applied to docs/vol
+  2026-10-18 05:46 sites-roads/design-A CHECKPOINT design-A.md §1 written (the words; the five kind-row columns with 21 shipped rows; the eleven expectation tests
+  2026-10-18 05:45 sites-roads/design-B CHECKPOINT design-B.md §1 written (401 lines): the per-kind roadAccess row (21 rows), the pipeline table (P1 site pass, W7
+  2026-10-18 05:41 sites-roads/design-C CHECKPOINT design-C.md §0 (the reading, three owner questions flagged) and §1 (the design: the kind rows roadAccess/expect
+  2026-10-18 05:19 sites-roads/read-base LANDED docs/validation/sites-roads-2026-10-18/read-base.md (880 lines): files j (131–141; 132–135, 138, 140 quoted whole)
+  2026-10-18 05:23 sites-roads/read-checks LANDED docs/validation/sites-roads-2026-10-18/read-checks.md (1,268 lines): the M0 world-sites gate spec and check, cri
+  2026-10-18 05:18 sites-roads/read-research LANDED docs/validation/sites-roads-2026-10-18/read-research.md: nine research notes read (seven whole; trade §5.2/§5.
+  2026-10-18 05:19 sites-roads/read-v13 LANDED docs/validation/sites-roads-2026-10-18/read-v13.md: docs/volumes/V13-world.md read whole (4,452 lines, md5 c8759307
+  2026-10-18 05:19 sites-roads/read-v14 LANDED docs/validation/sites-roads-2026-10-18/read-v14.md: V14 (3,208 lines, md5 a1c6d7c2, unchanged across the read) read
+  2026-10-18 05:12 sites-roads/session LAUNCHED workflow sites-roads-design under J393: readers, three Fable designers, judges, synthesis into draft-t.md, critic,
+```
 
 **The owner's answers (2026-10-18 ~00:05Z; J391), item by item:** (a) Q4 — YES, the world canon stays outside door 1: amendments file r item 926, applied and Fable-checked (lane session/amendments-r-apply, check/amendments-r); (b) main — merged (ab2e3348); (c) the Fable RETROVALIDATION of everything since J375 runs NOW (lanes retrovalidation/*; the record docs/validation/retrovalidation-2026-10-18/; J392); (d) the M0 hardening resume WAITS for the owner's word — nothing launched; (e) the Mac-only steps come BEFORE the ultra review (after pass B and the whole-suite check); (f) the host-requirements document is being written (docs/HOST-REQUIREMENTS-2026-10-18.md; the Claude doc named in J391). Standing, unchanged: the M-1 vetoes R-14, R-17, R-42, D13 / R-54 and every "(recommended; vetoable)" ruling stand unless vetoed. The host repository is cloned read-only at /home/user/clausellstokes-lang/settlement-engine (81f1cd96) in this container only.
 
