@@ -6,8 +6,8 @@
 
 | file | sha256 (16) | lines |
 |---|---|---|
-| `docs/ARCHITECTURE.md` | 58b155e3586c4d19 | 24462 |
-| `docs/volumes/INDEX.md` | a5a94bf04dc58830 | 258 |
+| `docs/ARCHITECTURE.md` | 72f811c972c27f7c | 24463 |
+| `docs/volumes/INDEX.md` | d9c0a528a55ba349 | 260 |
 | `docs/volumes/V01-neighbourhoods.md` | a59cfac9b27a8886 | 3765 |
 | `docs/volumes/V02-buildings.md` | 574577038e1de304 | 4232 |
 | `docs/volumes/V03-interiors.md` | 3cb0d96c7ef309ea | 3307 |
@@ -20,7 +20,7 @@
 | `docs/volumes/V10-clerk.md` | 1717fa2eb3dd375a | 3583 |
 | `docs/volumes/V11-content.md` | c698b45421163a1f | 5504 |
 | `docs/volumes/V12-calibration.md` | 1bcb54970016f797 | 3590 |
-| `docs/volumes/V13-world.md` | 73cfd0aa1c1a14cf | 4439 |
+| `docs/volumes/V13-world.md` | 138bd44aaf5f6ae6 | 4453 |
 | `docs/volumes/V14-sites.md` | b8297571faed84c6 | 3209 |
 
 ## Contents
@@ -18028,8 +18028,9 @@ read for the host (J86's door 1 stays closed); because the map follows purely fr
 canon (door 5) carries no frame or arena geometry and reaches the host's simulation only through the
 host's receipted canonize — the birth canon adopted as a new campaign on a world from this module is created, the
 additive re-canonize that adds a seat the host binds later, or the DM-confirmed re-canonize (V13 §8.5's H22;
-J386 – J388; file q item 917, BCR-V13-40) —, replacing the capture the host already reads; the session reads it as outside J86's door 1, and
-the owner confirms (V13 §11 Q4) before the host lights its builder over the canon. **The export bundle
+J386 – J388; file q item 917, BCR-V13-40) —, replacing the capture the host already reads; it is outside J86's door 1 by the owner's word of 2026-10-18
+(V13 §11 Q4; file r item 926), door 1 itself staying closed to the settlement frame's geometry, so the host may light
+its builder over the canon (V13 §8.5's H5). **The export bundle
 (V08 Q3: J122).** From M-SF the host client gains one call returning the user's chosen scene exports
 (§11.1's `.dd2vtt` and Foundry scenes, rendered at the export's knowledge tier and admitted by the calling key) as
 opaque byte blobs for SettlementForge's export bundle, which SettlementForge packages unread; before M-SF maps export on
@@ -24788,7 +24789,7 @@ carries files f (`docs/AMENDMENTS-2026-09-28f.md`, items 200–585, the volumes'
 (`docs/AMENDMENTS-2026-09-28g.md`, file g's items, the owner's rules), applied by the coherence pass
 (`workflows/18-coherence.js`); files j (`docs/AMENDMENTS-2026-10-16j.md`, items 131–141, the owner's rules on the world,
 sites, encounters, hydrology and the 2.5D view) and k (`docs/AMENDMENTS-2026-10-16k.md`, items 600–647, volumes 13
-and 14's base change requests) are applied — file j's rules cited by number in the base's §0.2 and its base change requests superseded by file k's (J374), file k applied by the coherence pass `coherence/world-sites-k` (J376; `docs/validation/coherence/world-sites-k.md`) —, as are file l (items 648–658, the VTT export profile re-verified; J376) and files m–q (items 659–925: the realm review of the host's simulator, the lens design and its closing passes; J385 – J388 for files m–p), each applied by the record its status line names under `docs/validation/coherence/`. The plain-language account for the owner is `docs/volumes/SUMMARY.md`.
+and 14's base change requests) are applied — file j's rules cited by number in the base's §0.2 and its base change requests superseded by file k's (J374), file k applied by the coherence pass `coherence/world-sites-k` (J376; `docs/validation/coherence/world-sites-k.md`) —, as are file l (items 648–658, the VTT export profile re-verified; J376) and files m–q (items 659–925: the realm review of the host's simulator, the lens design and its closing passes; J385 – J388 for files m–p), each applied by the record its status line names under `docs/validation/coherence/`, and file r (`docs/AMENDMENTS-2026-10-18r.md`, item 926: the owner's answer to V13 §11 Q4, 2026-10-18), applied by the lane its status line names. The plain-language account for the owner is `docs/volumes/SUMMARY.md`.
 
 ## 1 The product map
 
@@ -24957,14 +24958,16 @@ SP-W1 – SP-W7 (M-W0, once M0 closes; before M-W1). The first-five-minutes sess
 
 ## 6 Owner questions with recommendations
 
-Every question the volumes put to the owner is answered but one: those that belong to SettlementForge follow its own
+Every question the volumes put to the owner is answered: those that belong to SettlementForge follow its own
 decisions (J121: the map is a SettlementForge module), and every other is decided under the owner's delegation (J122:
 `docs/OWNER-DECISIONS-DELEGATED-2026-09-29.md`), each vetoable. Each volume's §11 marks its questions answered and its
 body reads the decision. Volumes 13 and 14's eight questions carry the session's recommendation: the owner deferred
 every decision on them to the session (2026-10-16: "i defer all decisiosn to you"), so each stands as **recommended;
-vetoable** until the owner rules — save V13 Q4, which waits on the owner's own word, the one decision the delegation
-cannot reach: J86's door 1 opens only on the owner's explicit word (base §11.4; J388), and until Q4 is answered the
-host's builder over the canon (V13 §8.5's H5) and every new campaign's birth canon (H22) stay dark.
+vetoable** until the owner rules — save V13 Q4, the one decision the delegation cannot reach (J86's door 1 opens
+only on the owner's explicit word, base §11.4; J388), which the owner answered on 2026-10-18: yes, the world canon is
+outside door 1, door 1 itself staying closed to the settlement frame's geometry (`docs/AMENDMENTS-2026-10-18r.md`
+item 926); the host's builder over the canon (V13 §8.5's H5) and every new campaign's birth canon (H22) are lit,
+each on its own prerequisites and the host's schedule (V13 §11 Q2).
 
 | volume | question | answer |
 |---|---|---|
@@ -24996,7 +24999,7 @@ host's builder over the canon (V13 §8.5's H5) and every new campaign's birth ca
 | V13 | Q1 — existing campaigns: whether a living campaign is offered the elective rebase onto a world from this module (the transition otherwise ruled: every frozen record kept, the import on request, a legacy world view with no write; J-V13.81) | offer it per campaign, premium, default keep, the full forecast diff shown before confirmation; never automatic (recommended; vetoable) |
 | V13 | Q2 — the host's schedule (V13 §8.5's H1–H30) against M-W1 – M-W3 and M-W5, and whether the realm map's replacement is part of the map module's post-launch disposition | class it with the post-launch disposition; H1–H3 before the host's launch, H4–H11 with M-W1, H12–H17 and H22 with M-W2, H23–H30 with M-W5, H18–H20 after M-W3; the standalone world ships either way (recommended; vetoable) |
 | V13 | Q3 — a placed settlement's share code: embed the charter or name the world | embed the charter, so a settlement replays from its own code (recommended; vetoable) |
-| V13 | Q4 — J86's door 1 and the world canon: is the canon (reaching the host's simulation only through its receipted canonize — H22's birth canon or a re-canonize, the additive one included) outside door 1? | confirm — the owner's own word, which base §11.4 reserves to the owner (J388): until it is answered the host's builder over the canon (H5) and every new campaign's birth canon (H22) stay dark (recommended; awaiting the owner) |
+| V13 | Q4 — J86's door 1 and the world canon: is the canon (reaching the host's simulation only through its receipted canonize — H22's birth canon or a re-canonize, the additive one included) outside door 1? | yes — the owner's own word, which base §11.4 reserves to the owner (J388), given 2026-10-18 (file r item 926): the canon outside door 1, door 1 itself closed to the settlement frame's geometry; the host's builder over the canon (H5) and every new campaign's birth canon (H22) lit (answered by the owner) |
 | V14 | Q1 — the in-town encounter crop ships after M1 or waits whole for M6-P | ship after M1 with shells and the VTT crop; the interiors arrive with V03's P1 by a registry lookup (recommended; vetoable) |
 | V14 | Q2 — a host record for world sites in the dossier (a capability across the SettlementForge boundary) | yes, scheduled with V13's host changes; until it lands every site is map-tier and nothing of the map is lost (recommended; vetoable) |
 | V14 | Q3 — the cost, 25.75–36.25 person-weeks across three milestones | accept (recommended; vetoable) |
@@ -73493,6 +73496,11 @@ The integration lane's rulings for this volume (`docs/volumes/_integrate.md`) ar
 > `CanonRequest` and `WorldCanon`, §2.6's canon row, §3.11.6, §4.1, §7.5's two rows, §8.5's preamble, H4 and H22,
 > J-V13.100, §11's ruling; J388) — J-V13.106 records the construction; T-V13-37 (c) tests the additive canon.
 
+> **Owner's word r — 2026-10-18** (`docs/AMENDMENTS-2026-10-18r.md`, item 926; the owner's answer to §11 Q4, given
+> 2026-10-18: "1. yes"). Changed: the world canon is outside J86's door 1, door 1 itself — the settlement frame's
+> geometry — staying closed; §11 Q4 is answered, and H5 (the host's builder over the canon) and H22's birth canon no
+> longer wait on it (§8.5's preamble, H5's and H22's rows, §10's BCR-V13-40, §11 Q4 and its ruling).
+
 **How to read this volume.** It builds, to implementation depth, the subject the base (`docs/ARCHITECTURE.md`, with files
 f and g applied, and file j's items 131–141 as the owner's rules of 2026-10-16: `docs/AMENDMENTS-2026-10-16j.md`) carries
 nowhere yet: a world regime of its own, the placement of settlement frames in it, and water as a consequence system at
@@ -73501,7 +73509,8 @@ both scales. The implementer holds the base and this volume and nothing else (§
 only, never as an implementer's reference. Every fact the base or another volume states is cited, never restated; every
 new fact is stated once, here. **Citations:** a bare `§n` or `II.n` is the base's; `Vnn §n` is a design volume's
 section, this one included (`V13 §3.4`); `item n` is an amendment item — items below 200 the owner's rules (items
-131–141 file j's), items 659–662 likewise the owner's rules (file m's head: the territory rules (T1)–(T3) and J382),
+131–141 file j's), items 659–662 likewise the owner's rules (file m's head: the territory rules (T1)–(T3) and J382), item 926 likewise the owner's word (file r: the answer to
+V13 §11 Q4),
 and every other item 200 and above an amendment file's change item (file f's onward); `J-VI.n` is a volumes-integration decision
 (`docs/volumes/_integrate.md`). Decisions are `J-V13.n` (V13 §9), tests `T-V13-n` (V13 §7), base change requests
 `BCR-V13-n` (V13 §10). The stage names are the spine's — `W0` … `W9` the world pipeline, `P1` … `P5` the placement
@@ -77105,7 +77114,8 @@ the further column dispatches, the donor distance term, the town drawing's froze
 offers the host may decline, each a declared shift for new campaigns or behind its own rules flag, and no lens waits on
 any of them; H22's birth canon (a declared shift for new campaigns only) is no offer but the product ruling the host
 implements (J386; J387) — its premium canonize entitlement never gating it; it waits only on its row's own
-prerequisites (H5, H7, H8, H12) and V13 §11 Q4, and lands on the owner's schedule for this track (V13 §11 Q2) — and no
+prerequisites (H5, H7, H8, H12) — V13 §11 Q4, on which it also waited, answered by the owner on 2026-10-18 (file r
+item 926) — and lands on the owner's schedule for this track (V13 §11 Q2) — and no
 lens waits on it either (until it lands, a lens opens in its uncanonized regime, V13 §5.8 (2)); the transition for
 existing campaigns in phases 0–5, of which phases 0–3 change no byte of a campaign's
 simulated state):
@@ -77116,7 +77126,7 @@ simulated state):
 | H2 | now | every mover band derived from the realm's measured spectrum or justified, the reinforcement band first | — |
 | H3 | now (documents) | the register rows mirroring this volume's words (V13 §3.11.6 (9)); the world scale's source dated: a world from the map module declares it, the reference generator's scale and unit read only by the import; and, a dated bracket on its own ruling, the absolute distance that ruling lights for new worlds waits, for a world from the map module, on the per-map band census (H2), by its own dead-band law | — |
 | H4 | with M-W1 | the world port's messages in the host client (a seat's removal sent as `unbindSeat`, offered to its premium re-canonize, never its additive one, V13 §3.11.6); the port consumption law in code (no port call inside a tick; answers baked with their stamps; the client inside the host's own import scan for courts) | M-SF; M-W1 |
-| H5 | with M-W1 | a second builder of its frozen record over the canon, the reader-facing shape unchanged, every sub-record sourced or declared absent; the conformance fixture; its cell-level readers moved to the canon's per-seat queries and points; a satellite's site a world point; its satellite-ground reader and that reader's certification row reading each ground point's terrain class and step cost from the sites slot | M-W1; V13 §11 Q4 (lit only after its answer) |
+| H5 | with M-W1 | a second builder of its frozen record over the canon, the reader-facing shape unchanged, every sub-record sourced or declared absent; the conformance fixture; its cell-level readers moved to the canon's per-seat queries and points; a satellite's site a world point; its satellite-ground reader and that reader's certification row reading each ground point's terrain class and step cost from the sites slot | M-W1 (V13 §11 Q4, which held it dark, answered by the owner on 2026-10-18: file r item 926) |
 | H6 | with M-W1 | its cost law 2 in this volume's schema; its cost-units row; an explicit cost-law stamp on every native record; the scale stamped from the header (carried only within one geometry version); one coordinate adapter between this frame and its render frame | M-W1; H4; H5 |
 | H7 | after H2 | a native world's seed minted at its store layer and kept with the campaign's; the first canonize stamps the scale only after H2 (until then the normalized arm over the canon's tier-1 adjacency, its calibration sent with the travel law, H8) | H2; M-W1; H4; H5 |
 | H8 | with M-W1 | the travel law sent as data with its calibration (weeks per cost unit) at every canon it adopts — H22's birth canon and every re-canonize, the additive one included —, normalized or absolute; `canonized` per canon adopted; the time-delta receipt stored; a migrated campaign's frozen leg weeks | M-W1; H4 |
@@ -77133,7 +77143,7 @@ simulated state):
 | H19 | after M-W3 | phase 4: an elective, premium, receipted rebase per campaign with its forecast diff (V13 §11 Q1); share codes gain a geography-source axis; custom-backdrop campaigns an elective trace-a-world path; its map surfaces re-pointed (the territory lens stays on the seat territory, H5, and the sway is drawn by a new lens under its own registered name — the allegiance lens, its owner's choice; roads → the map feed's paths; travel rings → its own bands; travellers → the overlay; the charter road card → its edge's path) | M-W3; H5; H6; H18 |
 | H20 | at H18's deadline | phase 5: the fork, its content-security policy, origin, hash manifests and validation gate retired; blobs and exports kept read-only for a stated retention; every geometry-1 record kept forever | H18 |
 | H21 | any | the audit's unknowns: the modified upstream source, the missing design documents (among them its reference-map weave volume, its map program's generation specification and fabric charter, and its open-decisions register, none read by the map's reviews), the production frame size, other snapshot versions | — |
-| H22 | with M-W2, for new campaigns only (after H7 and H12) | a world from this module **canonized at the campaign's birth** (J384 (6); J386): the first canon adopted as the campaign is created, its scale stamped by H7's rule and its genesis network laid at birth (H12), so the canon-gated lanes its rules light run from its first week — on the host's birth defaults the crisis columns, the plague front and the routed supply links; rite adoption, pilgrim catchments and booms only where its rules carry them (an applied preset, never the birth defaults alone); beliefs only where it records belief — and every lens's regime starts on the canon; **every** new campaign on a world from this module is so born, whatever its tier — the product ruling the host implements, never an offer it may decline (J386; J387), its premium canonize entitlement never gating the birth canon — while a re-canonize that shifts other geometry and a retcon stay the premium DM's act; a seat the host binds after the birth canon stays outside it (the host's canon covers only the seats it froze; `W_HOST_CANON_BEHIND`) until the host's **additive re-canonize** adds it: a receipted re-canonize the host runs itself at the first point between advances after the seat's founding, over the additive canon (V13 §3.11.6: the seats added to its membership since the last canon, a graduated satellite included, the seat territories their binding re-derives over the landmass they dirty and the water candidates on the sailing bodies they reach, nothing else; a seat's removal is no addition), a version step of its canon with its receipt, every travel-band crossing it causes reported (on the normalized arm any leg's, the calibration moving with the added seats; `W_TRAVEL_BAND_CROSSED`), never silent — a host change, its canonize today running only as the DM's explicit premium act, rebuilding its whole record, a seat founded since staying out until the DM re-canonizes; the host builds its record over the additive canon carrying forward, from the record it replaces, its own geometry, cost-law and overlay versions, the slots and sub-records that record holds and its institution-derived port and teleport sets for the seats that record held, as it already carries its scale forward, so the additive re-canonize adopts no host law, overlay, slot or other seat's port or circle newer than that record (those stay its premium re-canonize), while its own derivations that the added territories feed (all-pairs costs, tiers, gates, its calibration) re-run under the law carried forward and are reported in the time delta (its conformance fixture, H5, holding a record so built to the prior record's version stamps and the prior seats' port and teleport sets); like the birth canon, its premium canonize entitlement never gates the additive re-canonize (J388), so a seat founded after the birth canon is mapped in the canon-gated lanes and the lenses from its additive re-canonize on, whether or not the DM re-canonizes (the host today opens campaigns only to the accounts that hold that entitlement, its own staff aside, and asks the DM to re-canonize a seat founded since; the rule holds too should it ever open campaigns below premium); every existing campaign untouched (its genesis kept; its own canonize stays the DM's act); until V13 §11 Q4 is answered, new campaigns are born uncanonized | H5; H7; H8; H12; V13 §11 Q4 |
+| H22 | with M-W2, for new campaigns only (after H7 and H12) | a world from this module **canonized at the campaign's birth** (J384 (6); J386): the first canon adopted as the campaign is created, its scale stamped by H7's rule and its genesis network laid at birth (H12), so the canon-gated lanes its rules light run from its first week — on the host's birth defaults the crisis columns, the plague front and the routed supply links; rite adoption, pilgrim catchments and booms only where its rules carry them (an applied preset, never the birth defaults alone); beliefs only where it records belief — and every lens's regime starts on the canon; **every** new campaign on a world from this module is so born, whatever its tier — the product ruling the host implements, never an offer it may decline (J386; J387), its premium canonize entitlement never gating the birth canon — while a re-canonize that shifts other geometry and a retcon stay the premium DM's act; a seat the host binds after the birth canon stays outside it (the host's canon covers only the seats it froze; `W_HOST_CANON_BEHIND`) until the host's **additive re-canonize** adds it: a receipted re-canonize the host runs itself at the first point between advances after the seat's founding, over the additive canon (V13 §3.11.6: the seats added to its membership since the last canon, a graduated satellite included, the seat territories their binding re-derives over the landmass they dirty and the water candidates on the sailing bodies they reach, nothing else; a seat's removal is no addition), a version step of its canon with its receipt, every travel-band crossing it causes reported (on the normalized arm any leg's, the calibration moving with the added seats; `W_TRAVEL_BAND_CROSSED`), never silent — a host change, its canonize today running only as the DM's explicit premium act, rebuilding its whole record, a seat founded since staying out until the DM re-canonizes; the host builds its record over the additive canon carrying forward, from the record it replaces, its own geometry, cost-law and overlay versions, the slots and sub-records that record holds and its institution-derived port and teleport sets for the seats that record held, as it already carries its scale forward, so the additive re-canonize adopts no host law, overlay, slot or other seat's port or circle newer than that record (those stay its premium re-canonize), while its own derivations that the added territories feed (all-pairs costs, tiers, gates, its calibration) re-run under the law carried forward and are reported in the time delta (its conformance fixture, H5, holding a record so built to the prior record's version stamps and the prior seats' port and teleport sets); like the birth canon, its premium canonize entitlement never gates the additive re-canonize (J388), so a seat founded after the birth canon is mapped in the canon-gated lanes and the lenses from its additive re-canonize on, whether or not the DM re-canonizes (the host today opens campaigns only to the accounts that hold that entitlement, its own staff aside, and asks the DM to re-canonize a seat founded since; the rule holds too should it ever open campaigns below premium); every existing campaign untouched (its genesis kept; its own canonize stays the DM's act); V13 §11 Q4, which held new campaigns uncanonized until its answer, answered by the owner on 2026-10-18 (file r item 926) | H5; H7; H8; H12 |
 | H23 | with M-W5 (its first step) | the **lens window** after every advance, undo and resume (`lensWindow`, V13 §3.11.6), beside the events window: per advance, for each lens, the ledger rows it already keeps — its plague records, faith mixtures with each deity's local standing, each settlement's suppressed creeds (DM only), carriers, places and hierarchy, its realm piety, its realm ranking of its deities (tier, seats, wins, losses) and its conversion-fracture footprint, each settlement's economy as its dossier judges it (production, needs, exports, imports and services — each good by its catalog key as its supply links key it, with its own label and whether the key was read loosely, its category, its shippable flag and any transit flag — and its food import coverage (its import coverage over its raw deficit, as a percent it computes) with any stressor's cut in force; J380), each settlement's adopted and imposed rites with their origin and year, channels, supply arrivals with each link's input good, its finite stocks' bands, inbound and outbound throughput and entrepôt records where they run, named travellers' journeys, netted transfers, columns and its seats' head counts, and its alignment reading (H30) — and, where it chooses, the values its own laws compute on the window for the lenses' host-derived marks (each live plague node's next-hop chance per carrier link with the destination's onset chance; each carrier link's faith pressure per deity and each prescription's pressure; each settlement's population trend sign, ruler-and-people tension and crisis disorder; each grand rite's pilgrim draw (the seats it reads, which it computes and drops today); each pair of patrons' quadrant class), each labelled with the law that computed it; each row with its resolved audience (a row without one is folded DM-only), and a party set of believed rows where it records belief; its **resolved regime** with every window (born or applied, the canon marker, its frozen record's sea-lane, teleport and seasonal slots, each lane lit, a deity seated, a plague live, belief recorded, its intensity), so no lens reads a regime from a preset's name; the interior weeks of a multi-week advance, or a compact per-week delta log; once, at first bind, its kept per-advance pulse records (their population deltas and outcome severities); and, in the events window (H9), the dated events each lens reads — plague arrivals and realm arcs, conversions, booms and busts, stopped festivals, purchases and ransoms, resettlement donors, moral reckonings, column departures and arrivals, patron falls with the fallen deity and the cause, its deities' rank arcs, rite adoptions and imposed rites with their origin and the week each took effect (the host keeps the year only), relief and credit with their giver | M-W5; H4; H9 |
 | H24 | with M-W5's plague step | the plague asks: the source seat's key on each materialized plague record and on its arrival event; a bounded front history (a receipt per hop: source, carrier, weeks, onset outcome); the road season read in its display's weeks-away; an arrived plague writing its condition where it lands (the condition gap closed), with its condition loop capped as its famine loop is; a settlement missing from its frozen record read as "no spatial delay known", never one week; its ledger's plague obligation mapped to its one plague type; each crisis served as netted transfers or as columns, never both | H23 |
 | H25 | with M-W5's sway and patrols step | the sway and patrol asks: its strength order in the polity window (H13) and, where it chooses, per adversarial pair its stronger side or tie by its own comparator; a raid's outcome word and, where known, its place (or its pair, placed by `borderSegment`) — the word that makes a raid a verdict (V13 §3.9 (11)); tier changes as dated facts, and whether a promotion writes the settlement's tier label; patrol coverage given a host meaning (a producer for its road-warden and road-predation pair kinds, or coverage as its embattlement's security input, H16); a DM-cut road's closer named, and its caravans reading the cut or the cut labelled propagation-only in its own interface; whether a DM-confirmed war-front channel can embattle a settlement with its war layer dark; its sea-lanes switch's copy corrected (it governs fleets and blockades, while its caravans, its refugee pricing and its plague latency use the frozen record's lanes whatever the switch says); what its culture distance's "same governing name" term means — a government label or a real overlord — with its header corrected | H13; H16; H23 |
@@ -77627,7 +77637,8 @@ BCR-V13-40)"; in §11.4, "reaches the host's simulation only through its DM-conf
 replacing" reads "reaches the host's simulation only through the host's receipted canonize — the birth canon adopted
 as a new campaign on a world from this module is created, the additive re-canonize that adds a seat the host binds
 later, or the DM-confirmed re-canonize (V13 §8.5's H22; J386 – J388; file q item 917, BCR-V13-40) —, replacing", so
-that the door V13 §11 Q4 asks the owner to confirm names every route by which the canon enters the host's simulation.
+that the door V13 §11 Q4 asks the owner to confirm names every route by which the canon enters the host's simulation
+(the owner confirmed it on 2026-10-18: file r item 926).
 
 ### 10.2 Requests to V14 (what V14 must supply; single source: these stay V14's facts)
 
@@ -77677,12 +77688,17 @@ geometry — closed until the owner's explicit word (§11.4). The world canon (V
 reference generator that the host's simulator already reads; it carries no frame or arena geometry and reaches the
 simulation only through the host's receipted canonize — H22's birth canon as a new campaign on a world from this module
 is created, the additive re-canonize that adds a seat the host binds later (H22; J388), or the DM-confirmed
-re-canonize. The session reads it as outside door 1, which was ruled
-for the settlement map's geometry, and the base's fifth door says so; the owner confirms, or opens door 1 for
-world-scale derived facts only. Until the answer the host's builder over the canon (V13 §8.5's H5) stays dark,
-and with it H22's birth canon (J384 (6); J386): until Q4 is answered, new campaigns are born uncanonized, their
-lenses opening in their uncanonized regimes (V13 §5.8 (2), §5.9).
-*Recommendation:* confirm; the settlement frame's geometry stays behind the closed door.
+re-canonize. The session read it as outside door 1, which was ruled for the settlement map's geometry, and the
+base's fifth door says so, and asked the owner to confirm it or to open door 1 for world-scale derived facts only;
+until the answer the host's builder over the canon (V13 §8.5's H5) stayed dark, and with it H22's birth canon
+(J384 (6); J386). *Recommendation (as put):* confirm; the settlement frame's geometry stays behind the closed door.
+**Answered by the owner, 2026-10-18** (file r item 926; the owner's own word under §11.4, not a ruling under the
+delegation): asked in plain words whether world-level facts — how hard travel is between settlements, who has water
+access, which sites exist — may flow to the host while a town's own geometry never does, the owner answered
+"1. yes". The world canon is outside J86's door 1, and door 1 itself — the settlement frame's geometry — stays
+closed. The host's builder over the canon (H5) is lit, and with it H22's birth canon: each waits now only on its own
+row's prerequisites (H5 on M-W1; H22 on H5, H7, H8 and H12) and lands on the owner's schedule for the host's track
+(Q2).
 
 **Ruled — who keeps a gate under the sway** (J385; J-V13.96; recorded here as a ruling, not an open question). The
 host's crossings stay on the seat territory; the choice between the host's intermediary settlement — the one whose
@@ -77701,7 +77717,8 @@ itself at the first point between advances after its founding — the seats adde
 territories their binding re-derives and the water candidates on the sailing bodies they reach, nothing else, every
 travel-band crossing it causes reported (on the normalized arm any leg's, the calibration moving with the added
 seats; V13 §3.11.6's additive canon) —, which that entitlement never gates either (J388); a re-canonize that shifts
-other geometry and a retcon stay the premium DM's act (V13 §8.5's H22, which Q4 above still gates).
+other geometry and a retcon stay the premium DM's act (V13 §8.5's H22, which Q4 above no longer gates: the owner
+answered it on 2026-10-18, file r item 926).
 And while the host sends no force band, a host fight verdict's hold band alone breaks a debatable tie (V13 §3.9
 (11)), so only a host verdict moves a march line in the civil regime (every preset's until force bands are sent) as
 in the enforced one (J384 (5)). Vetoable.

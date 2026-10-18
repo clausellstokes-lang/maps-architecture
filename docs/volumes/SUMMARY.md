@@ -14,9 +14,11 @@ checked against each other in seven rounds; the last round's fourteen serious pr
 What remains are small wording and bookkeeping items, listed below, which do not change how anything would be built.
 There are thirty-three decisions that are yours by rule (twenty-five from the first twelve volumes, eight from the two
 new ones: seven you deferred to the session on 16 October, and one — whether the world's canon stays outside the
-closed door that keeps your host's simulator from reading the map — that waits on your own word); each already has
-a recommendation, and the work proceeds on the recommendation until you say otherwise, save that one: until you
-answer it, no campaign's simulation reads the new world's canon, not even a new campaign's at its birth.
+closed door that keeps your host's simulator from reading the map — that you answered yourself on 18 October: yes); each of the
+others already has a recommendation, and the work proceeds on the recommendation until you say otherwise; with your
+yes, nothing in the design now keeps a campaign's simulation from reading the new world's canon — a new campaign's
+from its birth, once your host makes its changes on your schedule — while a town's own geometry stays behind the
+closed door.
 
 ## What each volume makes possible, and what it will feel like
 
@@ -193,18 +195,19 @@ Twenty-five questions, each with a recommendation the work follows until you rul
   interiors following; a site record in the SettlementForge dossier, scheduled with the host's other changes; accept
   the two volumes' cost (37–45 and 25.75–36.25 person-weeks); and the tabletop export may carry each room's reason in
   an optional block that is off unless you turn it on.
-- **One waits on your own word, which the design reserves to you:** whether the world's canon — the travel, water and
+- **One you answered yourself, as the design reserves it to you:** whether the world's canon — the travel, water and
   site facts your host's simulation reads, never a town's geometry — stays outside the closed door that keeps your
-  host's simulator from reading the map (recommended: confirm); until you answer, no campaign gets the canon, not even
-  a new one at its birth.
+  host's simulator from reading the map. You said yes on 18 October: the canon may reach your host's simulation —
+  every new campaign's from its birth, once your host makes its changes on your schedule — and a town's own geometry
+  stays behind the closed door.
 
 Every recommendation with its reason is in `docs/volumes/INDEX.md` §6, and each question's full text is in its volume's
 section 11.
 
 ## What the two new volumes ask of you
 
-Nothing you have not already been asked for the other twelve: the eight decisions above (each proceeds on its recommendation until you
-say otherwise, save the one that waits on your word), two short review sittings when the builds land (six sites and six battle
+Nothing you have not already been asked for the other twelve: the eight decisions above (seven proceed on their recommendation until you
+say otherwise; the eighth you answered on 18 October), two short review sittings when the builds land (six sites and six battle
 maps rated for legibility, realism and playability; the 2.5D view beside the flat one), and, on the SettlementForge
 side, the host's own changes to send the world its seats, borders and events and to carry a site record — on your
 schedule. Before any of this is built, the M0 gate (item 140: fourteen "do not foreclose" checks on the kernel and

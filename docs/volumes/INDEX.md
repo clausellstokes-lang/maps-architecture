@@ -11,7 +11,7 @@ carries files f (`docs/AMENDMENTS-2026-09-28f.md`, items 200–585, the volumes'
 (`docs/AMENDMENTS-2026-09-28g.md`, file g's items, the owner's rules), applied by the coherence pass
 (`workflows/18-coherence.js`); files j (`docs/AMENDMENTS-2026-10-16j.md`, items 131–141, the owner's rules on the world,
 sites, encounters, hydrology and the 2.5D view) and k (`docs/AMENDMENTS-2026-10-16k.md`, items 600–647, volumes 13
-and 14's base change requests) are applied — file j's rules cited by number in the base's §0.2 and its base change requests superseded by file k's (J374), file k applied by the coherence pass `coherence/world-sites-k` (J376; `docs/validation/coherence/world-sites-k.md`) —, as are file l (items 648–658, the VTT export profile re-verified; J376) and files m–q (items 659–925: the realm review of the host's simulator, the lens design and its closing passes; J385 – J388 for files m–p), each applied by the record its status line names under `docs/validation/coherence/`. The plain-language account for the owner is `docs/volumes/SUMMARY.md`.
+and 14's base change requests) are applied — file j's rules cited by number in the base's §0.2 and its base change requests superseded by file k's (J374), file k applied by the coherence pass `coherence/world-sites-k` (J376; `docs/validation/coherence/world-sites-k.md`) —, as are file l (items 648–658, the VTT export profile re-verified; J376) and files m–q (items 659–925: the realm review of the host's simulator, the lens design and its closing passes; J385 – J388 for files m–p), each applied by the record its status line names under `docs/validation/coherence/`, and file r (`docs/AMENDMENTS-2026-10-18r.md`, item 926: the owner's answer to V13 §11 Q4, 2026-10-18), applied by the lane its status line names. The plain-language account for the owner is `docs/volumes/SUMMARY.md`.
 
 ## 1 The product map
 
@@ -180,14 +180,16 @@ SP-W1 – SP-W7 (M-W0, once M0 closes; before M-W1). The first-five-minutes sess
 
 ## 6 Owner questions with recommendations
 
-Every question the volumes put to the owner is answered but one: those that belong to SettlementForge follow its own
+Every question the volumes put to the owner is answered: those that belong to SettlementForge follow its own
 decisions (J121: the map is a SettlementForge module), and every other is decided under the owner's delegation (J122:
 `docs/OWNER-DECISIONS-DELEGATED-2026-09-29.md`), each vetoable. Each volume's §11 marks its questions answered and its
 body reads the decision. Volumes 13 and 14's eight questions carry the session's recommendation: the owner deferred
 every decision on them to the session (2026-10-16: "i defer all decisiosn to you"), so each stands as **recommended;
-vetoable** until the owner rules — save V13 Q4, which waits on the owner's own word, the one decision the delegation
-cannot reach: J86's door 1 opens only on the owner's explicit word (base §11.4; J388), and until Q4 is answered the
-host's builder over the canon (V13 §8.5's H5) and every new campaign's birth canon (H22) stay dark.
+vetoable** until the owner rules — save V13 Q4, the one decision the delegation cannot reach (J86's door 1 opens
+only on the owner's explicit word, base §11.4; J388), which the owner answered on 2026-10-18: yes, the world canon is
+outside door 1, door 1 itself staying closed to the settlement frame's geometry (`docs/AMENDMENTS-2026-10-18r.md`
+item 926); the host's builder over the canon (V13 §8.5's H5) and every new campaign's birth canon (H22) are lit,
+each on its own prerequisites and the host's schedule (V13 §11 Q2).
 
 | volume | question | answer |
 |---|---|---|
@@ -219,7 +221,7 @@ host's builder over the canon (V13 §8.5's H5) and every new campaign's birth ca
 | V13 | Q1 — existing campaigns: whether a living campaign is offered the elective rebase onto a world from this module (the transition otherwise ruled: every frozen record kept, the import on request, a legacy world view with no write; J-V13.81) | offer it per campaign, premium, default keep, the full forecast diff shown before confirmation; never automatic (recommended; vetoable) |
 | V13 | Q2 — the host's schedule (V13 §8.5's H1–H30) against M-W1 – M-W3 and M-W5, and whether the realm map's replacement is part of the map module's post-launch disposition | class it with the post-launch disposition; H1–H3 before the host's launch, H4–H11 with M-W1, H12–H17 and H22 with M-W2, H23–H30 with M-W5, H18–H20 after M-W3; the standalone world ships either way (recommended; vetoable) |
 | V13 | Q3 — a placed settlement's share code: embed the charter or name the world | embed the charter, so a settlement replays from its own code (recommended; vetoable) |
-| V13 | Q4 — J86's door 1 and the world canon: is the canon (reaching the host's simulation only through its receipted canonize — H22's birth canon or a re-canonize, the additive one included) outside door 1? | confirm — the owner's own word, which base §11.4 reserves to the owner (J388): until it is answered the host's builder over the canon (H5) and every new campaign's birth canon (H22) stay dark (recommended; awaiting the owner) |
+| V13 | Q4 — J86's door 1 and the world canon: is the canon (reaching the host's simulation only through its receipted canonize — H22's birth canon or a re-canonize, the additive one included) outside door 1? | yes — the owner's own word, which base §11.4 reserves to the owner (J388), given 2026-10-18 (file r item 926): the canon outside door 1, door 1 itself closed to the settlement frame's geometry; the host's builder over the canon (H5) and every new campaign's birth canon (H22) lit (answered by the owner) |
 | V14 | Q1 — the in-town encounter crop ships after M1 or waits whole for M6-P | ship after M1 with shells and the VTT crop; the interiors arrive with V03's P1 by a registry lookup (recommended; vetoable) |
 | V14 | Q2 — a host record for world sites in the dossier (a capability across the SettlementForge boundary) | yes, scheduled with V13's host changes; until it lands every site is map-tier and nothing of the map is lost (recommended; vetoable) |
 | V14 | Q3 — the cost, 25.75–36.25 person-weeks across three milestones | accept (recommended; vetoable) |
