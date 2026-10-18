@@ -1,10 +1,13 @@
 // M0-a-11: §3.8 *Post-condition validator* — "a failure of any of the four [checks], E_WORK_LIMIT, or an input the
 // numeric contract refuses takes the reader's downgrade, reported W_DOWNGRADE … Never a crash, never a roof line
 // outside its footprint and never unvalidated output" — on the validator's path: the engine finished (its wavefront
-// collapsed, status ok) and its output fails the validator. Two inputs reach it: (a) a natural one, a 14-vertex rotated
-// orthogonal ring whose finished skeleton has two arcs crossing, and (b) the engine's finished output corrupted through
-// the test hook `EngineHooks.finished` the way each of the four checks guards against, so the path stays covered
-// whatever a later engine repair does to (a). Every reader takes its typed downgrade: `to` = DOWNGRADE_OF[use], the
+// collapsed, status ok) and its output fails the validator. The engine reads the rings strictly and, only when that
+// gives no validated graph, tolerantly (engine.ts's two readings): a validator failure is the reader's downgrade when
+// neither reading validates, its cause the first failure. Two inputs show it: (a) a natural one, a 14-vertex rotated
+// orthogonal ring whose strict skeleton has two arcs crossing — the tolerant reading validates it (the hardening round
+// S3's declared shift: a downgrade before the round) — and (b) the engine's finished output corrupted through the test
+// hook `EngineHooks.finished` in both readings the way each of the four checks guards against, so the path stays
+// covered whatever an engine repair does to (a). Every reader takes its typed downgrade: `to` = DOWNGRADE_OF[use], the
 // cause the validator with its check, the events that ran (> 0), exactly one W_DOWNGRADE warning, and the spine
 // reader's injected axis (C-0171).
 import { describe, expect, it } from 'vitest';
@@ -16,7 +19,7 @@ import { pt } from './support.js';
 
 const USES: SkeletonUse[] = ['roof', 'spine', 'regions'];
 
-/** The natural input: a rotated orthogonal outline the engine finishes with arcs 6 and 8 crossing. */
+/** The natural input: a rotated orthogonal outline the strict reading finishes with arcs 6 and 8 crossing. */
 const CROSSING: LatticePoint[] = [
   [589, -2_802],
   [371, -2_924],
@@ -50,7 +53,7 @@ function validatorDowngrade(rings: LatticePoint[][], use: SkeletonUse, corrupt: 
       corrupt(nodes, arcs);
     },
   });
-  expect(finished).toBe(1); // the wavefront collapsed: status ok, no work limit, no stall
+  expect(finished).toBe(2); // the wavefront collapsed in both readings: status ok, no work limit, no stall
   expect(r.ok).toBe(true);
   if (!r.ok || r.value.kind !== 'downgrade') throw new Error(`expected a downgrade, got ${JSON.stringify(r).slice(0, 200)}`);
   const v = r.value;
@@ -72,13 +75,22 @@ function nodeAt(nodes: readonly RawNode[], x: number, y: number): number {
 }
 
 describe('a validator failure after the engine finished takes the reader’s downgrade, W_DOWNGRADE (§3.8)', () => {
-  it('(a) the natural input: the finished skeleton’s crossing arcs are a planarity failure, never returned', () => {
+  it('(a) the natural input: the strict reading’s crossing arcs are a planarity failure, never returned; the tolerant reading validates it', () => {
     for (const use of USES) {
-      expect(validatorDowngrade([CROSSING], use)).toBe('planarity');
-      // the public call takes the same path
-      const r = skeleton([CROSSING], use);
-      expect(r.ok && r.value.kind === 'downgrade' && r.value.cause).toEqual({ code: 'validator', check: 'planarity', detail: 'arc 6 crosses arc 8' });
-      expect(r.ok && r.value.kind === 'downgrade' && r.value.events).toBe(9);
+      // the strict reading alone: its finished output fails planarity, so the tolerant reading runs
+      let finished = 0;
+      const r = runSkeleton([CROSSING], use, {}, { finished: () => void (finished += 1) });
+      expect(finished).toBe(2);
+      if (!r.ok || r.value.kind !== 'skeleton') throw new Error(`expected a skeleton, got ${JSON.stringify(r).slice(0, 200)}`);
+      expect(validateSkeleton(r.value).ok).toBe(true);
+      expect(r.warnings).toEqual([]);
+      // the events of both readings, under one law: the strict reading's 9 and the tolerant one's 7
+      expect(r.value.events).toBe(16);
+      // the corrupted second reading leaves the strict reading's failure as the cause
+      const d = skeleton([CROSSING], use);
+      expect(d.ok && d.value.kind).toBe('skeleton');
+      const bad = runSkeleton([CROSSING], use, {}, { finished: (nodes) => void nodes.push({ x: 1, y: 1, t: 1 }) });
+      expect(bad.ok && bad.value.kind === 'downgrade' && bad.value.cause).toEqual({ code: 'validator', check: 'planarity', detail: 'arc 6 crosses arc 8' });
     }
   });
 

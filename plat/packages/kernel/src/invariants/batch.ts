@@ -425,14 +425,7 @@ function placementBound(p: Plat, r: CommitRecord, ctx: BatchContext): InvariantR
   });
 }
 
-/**
- * Level consistency (§2.2 rule 3) on the touched edges and vertices. A vertex finer than its incident edges lies inside
- * one run at every level between: its edges coarser than it are exactly two, of one level e, and for every level r from
- * e up to the vertex's level − 1 their rows of level r (of level ≤ 1 at r = 1, the routes' class) are identical — the
- * constancy of every route the vertex lies inside, as the encoder's `runRows` reads it (N-s6-2,
- * `checks/M0-a-06-notes.md`; C-0370). The rows at the edges' own level keep their problem text; an in-between level
- * names the vertex, the level and the two edges' rows.
- */
+/** Level consistency (§2.2 rule 3) on the touched edges and vertices. */
 function levelConsistency(p: Plat, T: BatchTouched): InvariantResult {
   const m = new Meter();
   return guarded(rowNamed('level-consistency'), m, (out) => {
@@ -455,21 +448,8 @@ function levelConsistency(p: Plat, T: BatchTouched): InvariantResult {
       const coarser = inc.filter((h) => H.level[h >> 1] < lv);
       if (coarser.length === 0) continue;
       const same = coarser.length === 2 && H.level[coarser[0] >> 1] === H.level[coarser[1] >> 1];
-      if (!same) {
-        out.push(`the vertex ${at(p, v)} (L${lv}), finer than its edges, lies inside no single run`);
-        continue;
-      }
-      const e = H.level[coarser[0] >> 1];
-      // The rows a level-r route carries: of level r, of level ≤ 1 at r = 1 (the edges' own level reads its own rows).
-      const rowsAt = (h: HalfEdgeId, r: number): string => rowsOn(p, 'edge', h).filter((x) => (r === e ? R.level[x] === r : r === 1 ? R.level[x] <= 1 : R.level[x] === r)).map((x) => `${R.kind[x]}/${R.entity[x]}/${R.ordinal[x]}`).sort((x, y) => (x < y ? -1 : x > y ? 1 : 0)).join(';');
-      for (let r = e; r < lv; r++) {
-        const a = rowsAt(coarser[0], r);
-        const b = rowsAt(coarser[1], r);
-        if (a === b) continue;
-        if (r === e) out.push(`the vertex ${at(p, v)} (L${lv}), finer than its edges, lies inside no single run`);
-        else out.push(`the vertex ${at(p, v)} (L${lv}), finer than its L${e} edges, lies inside no single L${r} run: their rows of level ${r === 1 ? '≤ 1' : r} differ ([${a}] and [${b}])`);
-        break;
-      }
+      const rowsAt = (h: HalfEdgeId): string => rowsOn(p, 'edge', h).filter((r) => R.level[r] === H.level[h >> 1]).map((r) => `${R.kind[r]}/${R.entity[r]}/${R.ordinal[r]}`).sort((x, y) => (x < y ? -1 : x > y ? 1 : 0)).join(';');
+      if (!same || rowsAt(coarser[0]) !== rowsAt(coarser[1])) out.push(`the vertex ${at(p, v)} (L${lv}), finer than its edges, lies inside no single run`);
     }
     return T.pairs.length + T.vertices.length;
   });

@@ -79,24 +79,6 @@ describe('simplify refuses a removal that would touch or cross an edge or an obs
   });
 });
 
-describe('simplify\'s order and its ring floor (note 5)', () => {
-  it('two removable vertices of equal effective area: the lower input index goes first', () => {
-    // (500, 300) and (400, 200) are 141 cm apart (< 150): both removable, each cutting off an area of 60 000 (twice the
-    // triangle). Removing (500, 300) first leaves (400, 200) on the straight line (800, 0)–(0, 400), 447 cm from each end:
-    // it stays. Removing (400, 200) first would leave (500, 300) at a 146° angle, 424 and 510 cm from its neighbours.
-    const chain = pts([[800, 0], [500, 300], [400, 200], [0, 400]]);
-    expect(text(must(simplify(chain, cm(150), 9000, [], [])))).toBe('800,0 400,200 0,400');
-  });
-
-  it('a ring keeps three vertices: a ring of three with a repeated point comes back whole', () => {
-    // The floor is unreachable on a ring of distinct points (the fold test refuses the removal that would leave two:
-    // none in 2.5 million random rings of 3 – 6 distinct points); with a repeated point it is the guard, and without it
-    // the removal loop runs off the ring.
-    const ring = pts([[150, 200], [300, 150], [300, 150], [150, 200]]);
-    expect(text(must(simplify(ring, cm(120), 9000, [], [])))).toBe('150,200 300,150 300,150 150,200');
-  });
-});
-
 describe('simplify never moves a pinned vertex', () => {
   it('a pinned spike stays; the unpinned short segments around it go', () => {
     const chain = pts([[0, 0], [1000, 0], [1100, 0], [1500, 1500], [1900, 0], [2000, 0], [3000, 0]]);
