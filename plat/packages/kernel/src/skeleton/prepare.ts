@@ -1,14 +1,15 @@
 // The skeleton's input side (M0-a-11; §3.8 *Numeric contract*): the lattice check, the pre-clean (consecutive repeats
-// dropped, then, to a fixpoint, exact zero-width spurs dropped and collinear vertices merged — C-0276, C-0283: a spur
-// is two coincident collinear edges enclosing no area, so dropping it reshapes nothing), the orientation (outer ring
-// counter-clockwise, holes clockwise, so the interior lies left of every edge), the canonical start (each ring at its
-// lowest-leftmost vertex — the order ties are broken in), and the contract's refusals, decided exactly on lattice
+// dropped, then, to a fixpoint, exact zero-width spurs dropped, inexact spurs within `attractCm` dropped and collinear
+// vertices merged — C-0276, C-0283 and this round's row: a spur is a fold-back enclosing no area, or less than the
+// lattice's own coincidence band, so dropping it reshapes nothing beyond §3.6's attraction), the orientation (outer
+// ring counter-clockwise, holes clockwise, so the interior lies left of every edge), the canonical start (each ring at
+// its lowest-leftmost vertex — the order ties are broken in), and the contract's refusals, decided exactly on lattice
 // integers before anything runs: a ring with fewer than three vertices or no area, a ring that is not simple, a corner
-// sharper than 5° on either side (an interior angle below 5° or above 355°; an inexact fold-back is a 0° corner), a hole
-// touching the outer ring or another hole, and a hole outside the outer ring or inside another hole (C-0168 (3)). A
-// refused ring set takes its reader's downgrade without running (§3.8). The contact and containment tests are the
-// kernel's shared exact predicates (`num/exact.ts`, C-0314), read here on lattice points.
-import { area2, orient2d } from '../num/index.js';
+// sharper than 5° on either side (an interior angle below 5° or above 355°; a fold-back the clean leaves is a 0°
+// corner), a hole touching the outer ring or another hole, and a hole outside the outer ring or inside another hole
+// (C-0168 (3)). A refused ring set takes its reader's downgrade without running (§3.8). The contact and containment
+// tests are the kernel's shared exact predicates (`num/exact.ts`, C-0314), read here on lattice points.
+import { area2, LATTICE, orient2d } from '../num/index.js';
 import { insideLatticeRing, segmentsMeet as segmentsMeetXY } from '../num/exact.js';
 import type { LatticePoint } from '../types/index.js';
 import type { ContractRefusal, SkeletonEdge } from './types.js';
@@ -18,7 +19,7 @@ export const TAN_5_DEG = 0.08748866352592401;
 
 /** The cleaned input: rings in engine order with their source indices, or the contract's refusal. */
 export interface PreparedRings {
-  /** Cleaned, oriented, canonical rings (world lattice points): the outer ring first, then the holes in input order. */
+  /** Cleaned, oriented, canonical rings (world lattice points): the outer ring first, then the holes in input order (a hole that is all spur dropped). */
   rings: LatticePoint[][];
   /** Per cleaned edge (in ring order, edges numbered as the vertices that start them): the caller's ring and vertex indices. */
   edges: SkeletonEdge[];
@@ -55,9 +56,10 @@ const same = (u: Src, v: Src): boolean => u.p.x === v.p.x && u.p.y === v.p.y;
  * enclosing no area (a dead-end street walked out and back) — so the tip and the second of its two coincident
  * neighbours in walk order are removed, the first kept with its index, repeatedly, until none is left: a spur of
  * several segments goes tip by tip, one across the ring's seam included (read cyclically from the tip: a tip at the
- * walk's last vertex keeps the root's visit just before it). Only exact equality is a spur: a fold-back whose
- * neighbours differ by any lattice step is a 0° corner and stays for the contract to refuse (`sharpCorner`). The ring
- * must hold no consecutive repeats; it holds none after (the kept neighbour differs from the next vertex).
+ * walk's last vertex keeps the root's visit just before it). Only exact equality is a spur here: a fold-back whose
+ * neighbours differ by any lattice step is `dropInexactSpurs`'s when it lies within `attractCm`, else a sharp corner the
+ * contract refuses (`sharpCorner`). The ring must hold no consecutive repeats; it holds none after (the kept neighbour
+ * differs from the next vertex).
  */
 function dropSpurs(ring: readonly Src[]): Src[] {
   const out: Src[] = [];
@@ -82,10 +84,59 @@ function dropSpurs(ring: readonly Src[]): Src[] {
   }
 }
 
+/** §3.6's coincidence band, squared: the lattice's `attractCm` (26 cm). */
+const ATTRACT2 = BigInt(LATTICE.attractCm * LATTICE.attractCm);
+
+/**
+ * Is vertex v, between p and q, the tip of an inexact spur (§3.8 as amended by item 130 (f); census D-01, RQ7 (A))?
+ * The ring folds back at v — a corner sharper than 5° (|(q − v) × (p − v)| < tan 5° · (p − v) · (q − v), the contract's
+ * own test, so the clean touches only a corner the contract would refuse) — and the end s of the shorter arm lies
+ * within `attractCm` of the longer arm's segment v–l, its foot strictly inside it: 0 < (s − v) · (l − v) < |l − v|²
+ * and |(l − v) × (s − v)|² ≤ attractCm² · |l − v|², exact (the cross in BigInt). An exact spur (s = l) is `dropSpurs`'s:
+ * its foot is l itself.
+ */
+function inexactTip(p: LatticePoint, v: LatticePoint, q: LatticePoint): boolean {
+  const ux = p.x - v.x;
+  const uy = p.y - v.y;
+  const wx = q.x - v.x;
+  const wy = q.y - v.y;
+  const dot = ux * wx + uy * wy;
+  if (!(dot > 0 && Math.abs(wx * uy - wy * ux) < TAN_5_DEG * dot)) return false;
+  const u2 = ux * ux + uy * uy;
+  const w2 = wx * wx + wy * wy;
+  // s − v the shorter arm, l − v the longer (a tie reads either: the test is symmetric then)
+  const [sx, sy, lx, ly, l2] = u2 <= w2 ? [ux, uy, wx, wy, w2] : [wx, wy, ux, uy, u2];
+  const foot = sx * lx + sy * ly;
+  if (!(foot > 0 && foot < l2)) return false;
+  const cross = BigInt(lx) * BigInt(sy) - BigInt(ly) * BigInt(sx);
+  return cross * cross <= ATTRACT2 * BigInt(l2);
+}
+
+/**
+ * Drops inexact spurs (§3.8 *Numeric contract* as amended by item 130 (f); N-61 (7), RQ7 (A)): every vertex of the ring
+ * that is the tip of an inexact spur — a fold-back whose shorter arm's end lies within `attractCm` of the longer arm —
+ * is marked on the ring as it stands, and every marked vertex is removed at once, so the pass reads the ring alone and
+ * never the order it is walked in (a rotation or a reversal of the ring marks the same vertices). The kept vertices keep
+ * their indices; a removed tip lies inside the span of the cleaned edge that bridges it, as a merged run does. A ring
+ * the removal would leave with fewer than three vertices or no area — a sliver narrower than `attractCm`, the whole ring
+ * a spur — is left as it is, for the contract to refuse at its sharp corner (`sharpCorner`, the reader's downgrade).
+ * The fixpoint in `prepareRings` runs it with `dropSpurs` and `mergeCollinear` until no pass removes a vertex.
+ */
+function dropInexactSpurs(ring: readonly Src[]): Src[] {
+  const n = ring.length;
+  if (n < 3) return ring.slice();
+  const out: Src[] = [];
+  for (let i = 0; i < n; i += 1) {
+    if (!inexactTip(ring[(i + n - 1) % n].p, ring[i].p, ring[(i + 1) % n].p)) out.push(ring[i]);
+  }
+  return out.length >= 3 && area2(out.map((s) => s.p)) !== 0 ? out : ring.slice();
+}
+
 /**
  * Merges collinear vertices: a vertex whose neighbours lie on one line through it, the ring running straight on
  * (orient2d = 0 and the two edges pointing the same way), is removed, repeatedly, until none is left. A vertex where
- * the ring folds back on itself (orient2d = 0, the edges opposed) is a 0° corner and stays for the contract to refuse.
+ * the ring folds back on itself (orient2d = 0, the edges opposed) is a 0° corner and stays for the spur passes or the
+ * contract.
  */
 function mergeCollinear(ring: Src[]): Src[] {
   let cur = ring;
@@ -190,15 +241,23 @@ function sharpCorner(ring: readonly LatticePoint[]): number {
 export function prepareRings(input: readonly (readonly LatticePoint[])[]): Prepared {
   if (input.length === 0) return { ok: false, refusal: 'empty' };
   const rings: Src[][] = [];
+  /** Each kept ring's index in the caller's list (a hole that cleans away is not kept). */
+  const from: number[] = [];
   for (let k = 0; k < input.length; k += 1) {
-    // the pre-clean to a fixpoint: a merge can expose a spur (out along two collinear segments, back along one) and a
-    // dropped spur can leave its root straight on; both only remove vertices, so an unchanged length is the fixpoint
+    // the pre-clean to a fixpoint: a merge can expose a spur (out along two collinear segments, back along one), a
+    // dropped spur can leave its root straight on or expose another tip; every pass only removes vertices, so an
+    // unchanged length is the fixpoint
     let cleaned = dropRepeats(input[k]);
     for (;;) {
-      const next = mergeCollinear(dropSpurs(cleaned));
+      const next = mergeCollinear(dropInexactSpurs(dropSpurs(cleaned)));
       if (next.length === cleaned.length) break;
       cleaned = next;
     }
+    // a hole that is all spur — a dead-end street network inside the face, walked out and back, not touching its outer
+    // ring (census Q73: relief-60 seed 3's district at (32770, −86089)) — cleans to fewer than three vertices: it
+    // encloses no area, so it is dropped as its spurs are (C-0276), and the face runs; an outer ring that cleans away is
+    // `degenerate`
+    if (cleaned.length < 3 && k > 0) continue;
     if (cleaned.length < 3) return { ok: false, refusal: 'degenerate', ...(cleaned.length > 0 ? { at: cleaned[0].p } : {}) };
     const pts = cleaned.map((s) => s.p);
     const a = area2(pts);
@@ -207,6 +266,7 @@ export function prepareRings(input: readonly (readonly LatticePoint[])[]): Prepa
     const want = k === 0 ? 1 : -1;
     const oriented = Math.sign(a) === want ? cleaned : [...cleaned].reverse();
     rings.push(canonical(oriented));
+    from.push(k);
   }
   const pts = rings.map((r) => r.map((s) => s.p));
   for (let k = 0; k < pts.length; k += 1) {
@@ -230,7 +290,7 @@ export function prepareRings(input: readonly (readonly LatticePoint[])[]): Prepa
     const m = ring.length;
     n += m;
     for (let i = 0; i < m; i += 1) {
-      edges.push({ ring: k, from: ring[i].i, to: ring[(i + 1) % m].i });
+      edges.push({ ring: from[k], from: ring[i].i, to: ring[(i + 1) % m].i });
       const a = ring[(i + m - 1) % m].p;
       const b = ring[i].p;
       const c = ring[(i + 1) % m].p;
