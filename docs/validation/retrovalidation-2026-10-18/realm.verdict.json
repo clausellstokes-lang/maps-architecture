@@ -1,0 +1,550 @@
+{
+ "verdict": "PASS-WITH-CORRECTIONS",
+ "corrections": [
+  {
+   "file": "research/sf/fp-realm-review.md",
+   "old": "[STATED] a document says it; [OBSERVED] code or git; [INFERRED] this seat's reasoning, given.",
+   "new": "[STATED] a document says it (a rule cited); [OBSERVED] code or git, or this repository's own design text read as the object under review (its line citations are to the revisions before file m was applied); [INFERRED] this seat's reasoning, given.",
+   "reason": "RV-12: 22 map-side design-document citations carry [OBSERVED] against the legend as written; the legend now covers the note's second use of the tag.",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/fp-realm-review.md",
+   "old": "it is ruled into J-RR.49 and\nJ-RR.52 below and into V13 §3.9 (6)",
+   "new": "it is ruled into J-RR.49 (with RR-46)\nbelow — never into J-RR.52, which carries no J382 clause [Fable-reviewed 2026-10-18] — and into V13 §3.9 (6)",
+   "reason": "RV-4: J-RR.52 (line 611) carries neither half of J382 and names it nowhere; both are in J-RR.49 and RR-46.",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/fp-realm-review.md",
+   "old": "*Evidence:* at least thirteen\nself-describing host axes, each bumped only by a discrete re-canonize (`spatialDigest.js:116-179`) [OBSERVED]",
+   "new": "*Evidence:* at least twelve\nself-describing canon axes, each bumped only by a discrete re-canonize (six in `spatialDigest.js:117-179`; `spatialCost.js:82`; `seaLanes.js:85`; `waterBodies.js:60`; `spatialSubstrate.js:65`; `teleportEdges.js:64`; `captureSidecar.js:41`; the thirteenth `*_VERSION` under `src/domain/spatial/`, `armyTransit.js:120`, is a decision-record schema, not a canon axis) [OBSERVED; Fable-reviewed 2026-10-18]",
+   "reason": "RV-1 (fix sharpened): spatialDigest.js declares six version axes, not thirteen; thirteen exist across src/domain/spatial/ and the thirteenth is a decision-record schema no re-canonize bumps — named so it is not re-counted.",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/fp-realm-review.md",
+   "old": "They merge into 59\nfindings below.",
+   "new": "Thirty-three of them merge into the 59\nfindings below; WS missed 2, WS missed 5 and BA missed 5 are carried by no finding and no item of file m (their record, the scratch `surviving.json`, was not kept) [Fable-reviewed 2026-10-18].",
+   "reason": "RV-6: a parse of the 59 From lists (re-run by the validator) finds five missed items named by no finding; two are traced by file m (corrections 7 and 19) and three nowhere.",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/fp-realm-review.md",
+   "old": "items 663 — the volume's revision note —,\n751 — the volume's new decisions J-V13.63 – J-V13.82 — and 771 — the proposal's §6 pointer — carry every finding and\nare not repeated per finding)",
+   "new": "items 663 — the volume's revision note — and 771 — the proposal's §6 pointer — carry every finding,\nitem 751 — the volume's new decisions J-V13.63 – J-V13.82 — every finding but RR-59 [Fable-reviewed 2026-10-18], and\nthey are not repeated per finding)",
+   "reason": "RV-5: file m item 751 requests RR-1 – RR-58 (:1886) and its rows never name RR-59; items 663 (:169) and 771 (:2262) request RR-1 – RR-59.",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/fp-realm-review.md",
+   "old": "edge id `route.<a>.<b>.<mode>` (`DESIGN_ROUTE_LIFECYCLE.md:71-80`) [STATED]",
+   "new": "edge id `route.<a>.<b>.<mode>` (`DESIGN_ROUTE_LIFECYCLE.md:71-86`) [STATED; OBSERVED `routeNetworkLedger.js:241`]",
+   "reason": "RV-3: :71-82 is the RouteEdge shape; the id rule is at :86 and the code builds it in routeEdgeId (routeNetworkLedger.js:239-243).",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/fp-realm-review.md",
+   "old": "TI missed 1, BA missed 1, PS-16, BA-4 (2).",
+   "new": "TI missed 1, TR missed 1, BA missed 1, PS-16, BA-4 (2).",
+   "reason": "RV-6: file m item 777's evidence (:2378) traces TR missed 1 to RR-6's door finding; RR-6's From list omitted it.",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/fp-realm-review.md",
+   "old": "OD-FC-22's source (the FMG export) disappears with the fork [STATED];",
+   "new": "OD-FC-22's source is the FMG export [STATED fold:515], which disappears with the fork [INFERRED: H20 retires the fork];",
+   "reason": "RV-13: the fold :515 states the source; the disappearance is the seat's inference from the map design's own H20, not a statement of any document.",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/fp-realm-review.md",
+   "old": "army time is ceil(1.5 × weeks ÷ readiness)",
+   "new": "army time is ceil(1.5 × weeks ÷ (1 + 0.4·(2·readiness − 1))), clamped to [1, 52]",
+   "reason": "RV-2: armyMarchWeeks (armyTransit.js:293-301) divides by a readiness-derived speed multiplier in [0.6, 1.4], not by readiness, and clamps to [1, MAX_MARCH_WEEKS].",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/fp-realm-review.md",
+   "old": "adoption of a new canon is the existing receipted re-canonize, refused only while an advance is in flight or parked;",
+   "new": "adoption of a new canon is the host's receipted canonize — H22's birth canon, its additive re-canonize on a later founding (new host behaviours, J386–J388; V13 §8.5's H22) or the DM's existing premium re-canonize — refused only while an advance is in flight or parked [Fable-reviewed 2026-10-18: J388/J389 refine the adoption path; the law's substance stands];",
+   "reason": "J-RR.9 AMENDED: when written the premium re-canonize was the only adoption path; J384 (6), J386–J389 (rulings.md J386.g6, J388.g2 as corrected by J389) added the birth canon and the additive re-canonize, which the entitlement never gates (J-V13.70, J-V13.100, J-V13.106).",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/fp-realm-review.md",
+   "old": "the map's horizons cover user events and the polity supersession chain only, in multiples of the host's interval keys, UNMEASURED until a long run of B-WORLD-lite under B-POLITY (V13 §7)",
+   "new": "the map's horizons cover user events, the polity supersession chain and — by J384 (9), V13 §5.8 (8) — the lens plates (520 weeks whole, then one per 13 weeks, DM-pinned plates kept), in multiples of the host's interval keys, UNMEASURED until a long run of B-WORLD-lite under B-POLITY (V13 §7) [Fable-reviewed 2026-10-18: the plates' horizon added]",
+   "reason": "J-RR.42 AMENDED: J384 (9) (rulings.md UPHELD) declared a third map-side horizon after the note; 'only' now misstates the design (V13 §5.8 (8), J-V13.91).",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/fp-realm-review.md",
+   "old": "moved one rung by neighbour hostility and the host's route grade; presence on a fixed phase",
+   "new": "moved one rung by neighbour hostility, the host's route grade and the force band of the source the round trip is measured from (`forceShift`, J-V13.97 — T3's \"military strenght to enforce\" carried into the patrols) [Fable-reviewed 2026-10-18]; presence on a fixed phase",
+   "reason": "J-RR.54 AMENDED: the derivation dropped T3's enforcement input (the realm-m critic's gap 8); V13 §3.9 (14) restored it as forceShift (J-V13.97; rulings.md J378.5).",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/fp-realm-review.md",
+   "old": "(`clock`, `hostOverlay`, `beliefView`) — with the never-read list",
+   "new": "(`clock`, `hostOverlay`, `beliefView`, `audienceKnowledge`) — with the never-read list",
+   "reason": "RV-11 / J-RR.8 AMENDED: §5 H4 and the base's applied door (5) list four presentation inputs; the ruling's list was a strict subset of the note's own.",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/fp-realm-review.md",
+   "old": "τTier rising at least ×1.5 per rung so reach = min(Λ·τ, capTier) grows at least exponentially with tier and is capped per tier",
+   "new": "τTier rising at least ×1.5 per rung, kSize = 1.15^(size third − 1) and kProsperity = 1.1^(relative rung) — the seat's rung minus the realm's held lower-median rung, clamped ±3 (J384 (1); J385 gap 4; V13 §3.9 (7), J-V13.83) — so reach = min(Λ·τ, capTier) grows at least exponentially with tier, size and prosperity and is capped per tier [Fable-reviewed 2026-10-18: the log-linear factors J385 ruled added]",
+   "reason": "J-RR.49 AMENDED (1): the ruling left kSize and kProsperity undefined, which let file m first write arithmetic steps (exponential in tier only, critic gap 4); J385 made them log-linear on J384 (1)'s relative rung (rulings.md J385.g4, J384(1) UPHELD).",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/fp-realm-review.md",
+   "old": "and water carries the sway only along the host's lit lanes, to a coastal lodgement, never the far shore — over the manager's",
+   "new": "and water carries the sway only along the host's lit lanes — lit as its caravans read it: its frozen record's versioned lane slot with at least one lane, never its fleet switch (the 2026-10-18 re-judge of J382 (b); V13 §8.5's H25) — to a coastal lodgement, never the far shore — over the manager's",
+   "reason": "J-RR.49 AMENDED (2): 'lit' was undefined; rulings.md J382(b) AMENDED defines it by the record's lane slot (activeSeaLanes, distanceRead.js:286-293, re-read here), never the host's naval toggle, which governs fleets; the design fragment is rulings.md's C1 (V13 §2.2 :812), not repeated.",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/fp-realm-review.md",
+   "old": "neutral: weighted by strength; adversarial: weighted, with a debatable band where the strengths lie within the civil margin), decided by the local pair at each cell, a third claimant named,",
+   "new": "neutral: the stronger holds by the map's L; adversarial: the push is the host's — the two local seats compared on travel time at the steeper fade plus `margins.pushPerBand` per band of the host's own strength order, the map's τ keeping each side's reach, floor and ceiling (J384 (3); V13 §3.9 (8), J-V13.84) — with a debatable band where the lead lies within the civil margin), decided by the local pair at each cell, a third allegiance named `outranked` (never *claimant*, the host's word for an heir; J-V13.98) [Fable-reviewed 2026-10-18],",
+   "reason": "J-RR.50 AMENDED: J384 (3) (rulings.md UPHELD) makes the hostile push defer to the host's settlement-strength comparator, two systems never deciding one contest; the map's τ keeps reach, floor and ceiling; 'claimant' is the host's heir word, barred as a token by J-V13.78.",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/fp-realm-review.md",
+   "old": "that enters the host's per-gate pipeline only by an owner-signed re-ruling of who keeps a gate (today the intermediary settlement whose territory the path crosses, Phase 5.5 §II.3-4-e)",
+   "new": "that enters the host's per-gate pipeline only after the sway has passed its soak, as a per-gate policy the host may adopt gate by gate (J385; V13 §11's ruling, J-V13.96, §8.5's H16 — the intermediary settlement whose territory the path crosses, Phase 5.5 §II.3-4-e, keeps the gate until then) [Fable-reviewed 2026-10-18: J385's ruling replaces the owner-signed re-ruling]",
+   "reason": "J-RR.53 AMENDED: J385 ruled who keeps a gate under the owner's whole delegation (rulings.md J385.g5 UPHELD, vetoable); the note's 'owner-signed re-ruling' is no longer the design in force (V13 §3.9 (13), §8.5 H16, §11).",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/fp-realm-review.md",
+   "old": "`MarchHold` bands moved only by the host's own engagement kinds (a field battle, an intervention clash, a lifted siege or occupation) and decaying by a season, entering only the tie-break; a `fighting` overlay that never moves a line;",
+   "new": "`MarchHold` bands moved only by the VERDICTS of the host's own engagement kinds (a field battle's or an intervention clash's winner, the relieving side of a lifted siege or a liberated occupation; a raid once the host sends its outcome word, H25) — never by an open engagement (J384 (5); J386; V13 §3.9 (11)) — and decaying by a season, entering only the tie-break; a `fighting` overlay that never moves a line [Fable-reviewed 2026-10-18];",
+   "reason": "J-RR.56 AMENDED: the host computes no outcome for an open engagement (a drift raid none at all, relationshipRulesAdversarial.js:277-314); rulings.md J378.4 AMENDED and V13 §3.9 (11) make the verdict the only mover and the open fight the overlay.",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/fp-realm-review.md",
+   "old": "| the fragile-leg margin of 5 % and the time-delta usefulness | never exercised |",
+   "new": "| the fragile-leg flag (`TimeDeltaReceipt.fragile`, V13 §2.2), whose margin no design text states (5 % was this note's working value), and the time-delta usefulness | never exercised |",
+   "reason": "RV-10: V13 :835 and :2871 and file m :628 state a flag and 'its fragility', no margin; the 5 % exists in this row alone.",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/fp-realm-review.md",
+   "old": "*From* TR-15. *Refinement:* §5's H13 and H16",
+   "new": "*From* TR-15, PS missed 4. *Refinement:* §5's H13 and H16",
+   "reason": "RV-6: file m item 749's evidence (:1860) traces PS missed 4 to §5's H19, which RR-59 carries; RR-59's From list omitted it.",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/fp-realm-review.md",
+   "old": "lodgement, keyframe\n(never `contingent`, *foothold*, *checkpoint* or a bare *gate*: landed host words);",
+   "new": "lodgement, keyframe\n(never `contingent`, *foothold*, *checkpoint* or a bare *gate*: landed host words) [Fable-reviewed 2026-10-18: J-V13.78 later added `outranked` (never *claimant*, the host's word for an heir), *plate* for a lens's per-advance record and *the sway lens*];",
+   "reason": "J-RR.57 UPHELD as extended: amendments n widened the register (J-V13.78) after the note; the bracket keeps RR-8's list honest without rewriting the record.",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/fp-realm-review.md",
+   "old": "names: five derived terms, a live read of the world state",
+   "new": "names: five derived terms and a tradition-kinship closing pull (`:53-56`, `:195-198`), a live read of the world state",
+   "reason": "RV-7: cultureDistance.js applies a sixth, multiplicative tradition-kinship pull that J-RR.49 itself relies on ('shared traditions close it').",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/fp-realm-review.md",
+   "old": "(a sixth of a foot-day between towns, half a day between cities, a day between metropolises: 2 × 0.75 ÷ (2 ÷ 0.2) = 0.15)",
+   "new": "(about a sixth of a foot-day between towns — 0.75 τ = 0.15 —, about half a day between cities — 0.47 —, about a day between metropolises — 1.125)",
+   "reason": "RV-8: 0.15 is not a sixth (0.167); V13 :1104 says 'about a sixth'; with τ 0.2 / 0.625 / 1.5 (:1098, Λ 4) the widths 0.75 τ are 0.15, 0.47 and 1.125 foot-days.",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/fp-realm-review.md",
+   "old": "(*keyframe* appears in the host only as CSS)",
+   "new": "(*keyframe* appears in the host only as CSS animation and video-encoding terms, never as a simulation word)",
+   "reason": "RV-9: keyframe also appears in two host comments (ProgressJourneyOverlay.jsx:17-18 'all-keyframe H.264'; hallRegister.js:113), neither a simulation word.",
+   "kind": "research"
+  },
+  {
+   "file": "research/sf/fp-realm-review.md",
+   "old": "Until the answer, the\n  host's builder over the canon (H5) stays dark; the design proceeds. (J-RR.8.)",
+   "new": "Until the answer, the\n  host's builder over the canon (H5) stays dark; the design proceeds. (J-RR.8.) [Fable-reviewed 2026-10-18: answered — the owner's\n  \"1. yes\" of 2026-10-18 (docs/AMENDMENTS-2026-10-18r.md item 926; J391 (1)): the world canon stays outside J86's door 1,\n  door 1 itself stays closed, H5 and H22's birth canon are lit; V13 §11 Q4.]",
+   "reason": "§6 Q-RR-1 answered by the owner (file r item 926; rulings.md J388.Q4): nothing waits on it; the bracket records the answer where the note still says the builder stays dark.",
+   "kind": "research"
+  }
+ ],
+ "rulings": [
+  {
+   "id": "J-RR.1",
+   "verdict": "UPHELD",
+   "reason": "the digest is the host's per-tick substrate, read through one gate by 31 modules and never re-derived on load or per tick (campaignWorldPulseSlice.js:370); a live map call inside a tick would make replay depend on the world document — rulings.md J377(b).7, J-V13.70",
+   "consequence": "none"
+  },
+  {
+   "id": "J-RR.2",
+   "verdict": "UPHELD",
+   "reason": "finite semantics forbids a float on a surface and a persisted record must not depend on glyph-cache freshness — J-V13.71",
+   "consequence": "none"
+  },
+  {
+   "id": "J-RR.3",
+   "verdict": "UPHELD",
+   "reason": "one distance law, one implementation (the host keeps Floyd–Warshall, tiers, candidates, its sea-lane law); the N² matrix presses the 400 KB cap; a resampled pack would make cell ids lived keys — J-V13.71",
+   "consequence": "none"
+  },
+  {
+   "id": "J-RR.4",
+   "verdict": "UPHELD",
+   "reason": "the host's resolution class is ~10⁴ cells and only crossing cells feed receipts; the ≤ 2 s bar is declared PLAUSIBLE with its spike (§8)",
+   "consequence": "none"
+  },
+  {
+   "id": "J-RR.5",
+   "verdict": "UPHELD",
+   "reason": "an extent adjust or rung change re-points every raster index; a satellite's cell is translated once under a confirmed capture stamp (H18)",
+   "consequence": "none"
+  },
+  {
+   "id": "J-RR.6",
+   "verdict": "UPHELD",
+   "reason": "names are not unique; the host's edge id is route.<a>.<b>.<mode> (routeNetworkLedger.js:241; RV-3 corrects only the citation)",
+   "consequence": "none"
+  },
+  {
+   "id": "J-RR.7",
+   "verdict": "UPHELD",
+   "reason": "requirement 20 wants a nameable parent; one format version says nothing of content or law; RV-1 corrects the axis count (twelve canon axes), not the ruling",
+   "consequence": "none"
+  },
+  {
+   "id": "J-RR.8",
+   "verdict": "AMENDED",
+   "reason": "the presentation inputs read '(clock, hostOverlay, beliefView, audienceKnowledge)': the note's own §5 H4 and the base's applied door (5) list four (RV-11); the fifth door stands, and the question it put to the owner (Q-RR-1) is answered '1. yes' (file r item 926; rulings.md J388.Q4)",
+   "consequence": "none to the design (the base's door (5) as applied and V13 §11 Q4 already say it); research corrections 13 and 24"
+  },
+  {
+   "id": "J-RR.9",
+   "verdict": "AMENDED",
+   "reason": "adoption of a new canon is the host's receipted canonize — H22's birth canon, its additive re-canonize on a later founding (new host behaviours, J386–J388) or the DM's existing premium re-canonize: chose to name the two paths J384 (6) and J388/J389 added over 'the existing receipted re-canonize' because the entitlement never gates them (J-V13.70, J-V13.100, J-V13.106; V13 §8.5 H22); the consumption law's substance stands",
+   "consequence": "none (V13 already states it); research correction 10"
+  },
+  {
+   "id": "J-RR.10",
+   "verdict": "UPHELD",
+   "reason": "a native world has one fixed unit (0.001 km per metre, 0.00001 per cm, correct); an unstated unit is OD-FC-22's miles defect again — J-V13.72",
+   "consequence": "none"
+  },
+  {
+   "id": "J-RR.11",
+   "verdict": "UPHELD",
+   "reason": "weeks emitted would be a second clock and a sixth distance price; the host has one distance reader — J-V13.72; RV-2 corrects RR-10's evidence only",
+   "consequence": "none"
+  },
+  {
+   "id": "J-RR.12",
+   "verdict": "UPHELD",
+   "reason": "a library update must not move the host's times; the v1 law's inputs (elevation knee, river-cell add) are expressible in the schema — J-V13.73",
+   "consequence": "none"
+  },
+  {
+   "id": "J-RR.13",
+   "verdict": "UPHELD",
+   "reason": "a port version is an offer the host adopts by its own re-canonize; timeDelta against the canonized baseline; RV-10 corrects §8's unstated 5 % margin, not the ruling",
+   "consequence": "none"
+  },
+  {
+   "id": "J-RR.14",
+   "verdict": "UPHELD",
+   "reason": "as rulings.md J385.g15: a bounded, visible deferral (V13 §12) protecting the host's own per-map spectrum law (sovereigntyReach.js:39,81), not extended without the owner's word",
+   "consequence": "none"
+  },
+  {
+   "id": "J-RR.15",
+   "verdict": "UPHELD",
+   "reason": "interpolation by length or by the view week races columns over passes and jumps markers at season boundaries",
+   "consequence": "none"
+  },
+  {
+   "id": "J-RR.16",
+   "verdict": "UPHELD",
+   "reason": "the host's access-graded genesis is sacred (OD-FC-18); W7 as genesis would substitute a rank law; H12/H22 lay it at birth — J-V13.79",
+   "consequence": "none"
+  },
+  {
+   "id": "J-RR.17",
+   "verdict": "UPHELD",
+   "reason": "updatePlacement refuses once canonizedAt is set while add and remove stay ungated (verifier, held); J389 (2) refines only where a removal is offered (the premium re-canonize, never the additive — V13 §8.5 H4), which the ruling's own text does not contradict; the note's §5 H4 phrase 'like an addition' sits in the list its own dated bracket supersedes",
+   "consequence": "none"
+  },
+  {
+   "id": "J-RR.18",
+   "verdict": "UPHELD",
+   "reason": "the host runs the lifecycle; drawing only genesis would hide lived changes; hidden roads count as no public road — J-V13.79",
+   "consequence": "none"
+  },
+  {
+   "id": "J-RR.19",
+   "verdict": "UPHELD",
+   "reason": "the identity ruling admits no map-to-host command flow; routeFacts carry no costTotal",
+   "consequence": "none"
+  },
+  {
+   "id": "J-RR.20",
+   "verdict": "UPHELD",
+   "reason": "PORT = GEOGRAPHY ∧ INSTITUTIONS has one writer; W6's one-per-landmass rule contradicts the host's — J-V13.74",
+   "consequence": "none"
+  },
+  {
+   "id": "J-RR.21",
+   "verdict": "UPHELD",
+   "reason": "water legs only between flagged ports would make every harbour founding a geometry re-canonize — J-V13.74",
+   "consequence": "none"
+  },
+  {
+   "id": "J-RR.22",
+   "verdict": "UPHELD",
+   "reason": "two vocabularies, or the map computing the host's band, would be a second writer; the host re-versions its laws owner-signed",
+   "consequence": "none"
+  },
+  {
+   "id": "J-RR.23",
+   "verdict": "UPHELD",
+   "reason": "four 13-week quarters spring first (worldState.js:42,57,724); midsummer 19 + 4 weeks of lag = 23 inside summer 13–25, coldest 49 inside winter 39–51 — J-V13.82; the lag itself PLAUSIBLE with its pin (§8)",
+   "consequence": "none"
+  },
+  {
+   "id": "J-RR.24",
+   "verdict": "UPHELD",
+   "reason": "MF's ladder verbatim puts world facts below tier priors; one ladder for both stamps re-derives existing towns — J-V13.75",
+   "consequence": "none"
+  },
+  {
+   "id": "J-RR.25",
+   "verdict": "UPHELD",
+   "reason": "routing to the centre breaks MF's continuity and wall laws; roadToNowhere and roadUnmatched are readings, never annotations",
+   "consequence": "none"
+  },
+  {
+   "id": "J-RR.26",
+   "verdict": "UPHELD",
+   "reason": "the host's flood flavour is cosmetic (calamity.js:79-95); polling or automatic re-canonize breaks the consumption law",
+   "consequence": "none"
+  },
+  {
+   "id": "J-RR.27",
+   "verdict": "UPHELD",
+   "reason": "'may store' would leave placed frames unable to replay (H10)",
+   "consequence": "none"
+  },
+  {
+   "id": "J-RR.28",
+   "verdict": "UPHELD",
+   "reason": "OD-FC-38 sends FABRIC to the map family; MF §0.0's 'risk is never a veto' sits against the base's pre-decided fallbacks and the M0 freeze; the river and relief choices are delegated design, vetoable",
+   "consequence": "none"
+  },
+  {
+   "id": "J-RR.29",
+   "verdict": "UPHELD",
+   "reason": "adopting a site without consent breaks C13-25's two verbs and T-V13-13's byte identity",
+   "consequence": "none"
+  },
+  {
+   "id": "J-RR.30",
+   "verdict": "UPHELD",
+   "reason": "a live territory row would stale every world-stamped frame per revision; polityAtCharter reduced to { swayRevision, culture? } (§10 row 47, J-V13.76)",
+   "consequence": "none"
+  },
+  {
+   "id": "J-RR.31",
+   "verdict": "UPHELD",
+   "reason": "a map epoch fortifying a town against its dossier would write a host fact",
+   "consequence": "none"
+  },
+  {
+   "id": "J-RR.32",
+   "verdict": "UPHELD",
+   "reason": "code reads records; renaming the host's landed words is not the map's — J-V13.78",
+   "consequence": "none"
+  },
+  {
+   "id": "J-RR.33",
+   "verdict": "UPHELD",
+   "reason": "a public default leaks gm sieges; a map-chosen secret default contradicts the host's public deployments — J-V13.77",
+   "consequence": "none"
+  },
+  {
+   "id": "J-RR.34",
+   "verdict": "UPHELD",
+   "reason": "a host-drawn second renderer or a read-only document would drift from the module's own drawing",
+   "consequence": "none"
+  },
+  {
+   "id": "J-RR.35",
+   "verdict": "UPHELD",
+   "reason": "the map deriving belief would be a second writer (K3); the embattlement phase drawn only through hostOverlay agrees with rulings.md J378.4 AMENDED",
+   "consequence": "none"
+  },
+  {
+   "id": "J-RR.36",
+   "verdict": "UPHELD",
+   "reason": "per-key retraction makes the host remember what it sent; advanceEpochEnabled is true in no preset at 81f1cd96 and read === true (pulseKernel.js:338), so the pulse-history sequence keys the window today — J-V13.69",
+   "consequence": "none"
+  },
+  {
+   "id": "J-RR.37",
+   "verdict": "UPHELD",
+   "reason": "free retcons under lived history or a shared undo stack break 'a lived history, once lived, forever' — J-V13.80",
+   "consequence": "none"
+  },
+  {
+   "id": "J-RR.38",
+   "verdict": "UPHELD",
+   "reason": "raw points are stale and wordless; §10 row 11 places a field battle at the settlement its record names (its persisted region), borderSegment only where none (H16)",
+   "consequence": "none"
+  },
+  {
+   "id": "J-RR.39",
+   "verdict": "UPHELD",
+   "reason": "a second canonical history would drift from the log",
+   "consequence": "none"
+  },
+  {
+   "id": "J-RR.40",
+   "verdict": "UPHELD",
+   "reason": "a contest with no simulated side would draw a fact the host does not hold",
+   "consequence": "none"
+  },
+  {
+   "id": "J-RR.41",
+   "verdict": "UPHELD",
+   "reason": "counters are EP census A11's defect; the kernel packs opaque u16 and refuses else (mixer.ts:145-157)",
+   "consequence": "none"
+  },
+  {
+   "id": "J-RR.42",
+   "verdict": "AMENDED",
+   "reason": "the map's horizons cover user events, the polity supersession chain and — by J384 (9), V13 §5.8 (8) — the lens plates (520 weeks whole, then one per 13 weeks, DM-pinned plates kept): chose to add the plates' horizon over 'only' because J384 (9) (rulings.md UPHELD) declared a third map-side horizon after the note (J-V13.91)",
+   "consequence": "none (V13 §5.8 (8) states it); research correction 11"
+  },
+  {
+   "id": "J-RR.43",
+   "verdict": "UPHELD",
+   "reason": "the 1.152 floor refuses the host's whole estate; a clamp or an implicit flip hides a transform — J-V13.81",
+   "consequence": "none"
+  },
+  {
+   "id": "J-RR.44",
+   "verdict": "UPHELD",
+   "reason": "prominence proxies alone or drawn links would invent host facts",
+   "consequence": "none"
+  },
+  {
+   "id": "J-RR.45",
+   "verdict": "UPHELD",
+   "reason": "forced migration under a geometry bump rewrites lived futures (§764.3); Q-RR-3 (V13 §11 Q1) stays the owner's — J-V13.81",
+   "consequence": "none"
+  },
+  {
+   "id": "J-RR.46",
+   "verdict": "UPHELD",
+   "reason": "overloading the plan law or re-timing a living campaign moves lived history",
+   "consequence": "none"
+  },
+  {
+   "id": "J-RR.47",
+   "verdict": "UPHELD",
+   "reason": "rulings.md J377(b).1 and J384(4); the regional plane never sent (merging owner-gated, ODQ §64.2); claims kept with a reader (J-V13.98)",
+   "consequence": "none"
+  },
+  {
+   "id": "J-RR.48",
+   "verdict": "UPHELD",
+   "reason": "politics would sever travel and move every week; the additive re-canonize is a membership re-canonize (a binding), consistent with the ruling's '(a placement, an unplacement, a future graduation)' — J-V13.63",
+   "consequence": "none"
+  },
+  {
+   "id": "J-RR.49",
+   "verdict": "AMENDED",
+   "reason": "kSize = 1.15^(third − 1) and kProsperity = 1.1^(relative rung) on J384 (1)'s held relative rung (J385 gap 4): chose the log-linear factors over undefined ones because T2 says 'exponential to the size, tier, prosperity' and file m's first arithmetic steps honoured it in tier only (critic gap 4; rulings.md J385.g4, J384(1)); 'lit lanes' = the frozen record's versioned lane slot with at least one lane, never the fleet switch: chose the slot over the toggle because the host's caravans, refugee pricing and plague latency read the slot (activeSeaLanes, distanceRead.js:286-293) while the toggle governs fleets (rulings.md J382(b))",
+   "consequence": "none beyond rulings.md's C1 (V13 §2.2 :812), not duplicated; research corrections 14a and 14b"
+  },
+  {
+   "id": "J-RR.50",
+   "verdict": "AMENDED",
+   "reason": "neutral: the stronger holds by the map's L; adversarial: the push is the host's — travel time at the steeper fade plus margins.pushPerBand per band of the host's own strength order, the map's τ keeping reach, floor and ceiling (J384 (3)) — with a debatable band where the lead lies within the civil margin; a third allegiance named outranked (never claimant): chose deference over the map's τ deciding because two systems must never decide one contest and the host already decides it for raids, overlords and rebellions (rulings.md J384(3)); chose outranked because claimant is the host's heir (J-V13.78, J-V13.98); the tense class stands — the host's own ADVERSARIAL_RELATIONSHIP_MATCHES carries it (canonicalRelationship.js:217)",
+   "consequence": "none (V13 §3.9 (8), J-V13.84 state it); research correction 15"
+  },
+  {
+   "id": "J-RR.51",
+   "verdict": "UPHELD",
+   "reason": "rulings.md J377(b).5 and J384(11): unbounded summation snowballs; satellites claim points, never members; the cap from the host's band under its sent calibration (ceil(1.5 h) ≤ 5 ⇔ h ≤ 3, verified)",
+   "consequence": "none"
+  },
+  {
+   "id": "J-RR.52",
+   "verdict": "UPHELD",
+   "reason": "rulings.md J378.2, J378.3 and J384(4): M enters only debatable cells, never extends a reach, never touches a seat cell; the facets bar the economy so prosperity counts once; no water cell held",
+   "consequence": "none"
+  },
+  {
+   "id": "J-RR.53",
+   "verdict": "AMENDED",
+   "reason": "the per-crossing holder enters the host's per-gate pipeline only after the sway has passed its soak, as a per-gate policy the host may adopt gate by gate (J385), in place of 'only by an owner-signed re-ruling of who keeps a gate': chose J385's ruling because the owner's whole delegation reached it (rulings.md J385.g5, vetoable) and the owner-signed re-ruling is no longer the design in force (V13 §3.9 (13), §8.5 H16, §11's ruling, J-V13.96); every other clause of THE TENSION stands (J-V13.65)",
+   "consequence": "none (V13 states it); research correction 16"
+  },
+  {
+   "id": "J-RR.54",
+   "verdict": "AMENDED",
+   "reason": "the cadence is also moved one rung by the force band of the source the round trip is measured from (forceShift, J-V13.97): chose to restore the enforcement input because T3 says 'military strenght to enforce … also there should be patrols' and the note's derivation dropped it (critic gap 8), which V13 §3.9 (14) carries (rulings.md J378.5)",
+   "consequence": "none (V13 states it); research correction 12"
+  },
+  {
+   "id": "J-RR.55",
+   "verdict": "UPHELD",
+   "reason": "showing players the truth leaks covert links; per-court belief is a host fact the map does not keep — J-V13.77",
+   "consequence": "none"
+  },
+  {
+   "id": "J-RR.56",
+   "verdict": "AMENDED",
+   "reason": "MarchHold bands moved only by the VERDICTS of the host's own engagement kinds (a field battle's or an intervention clash's winner, the relieving side of a lifted siege or a liberated occupation; a raid once the host sends its outcome word, H25) — never by an open engagement: chose the verdict as the only mover because the host computes no outcome for an open engagement (a drift raid none at all, relationshipRulesAdversarial.js:277-314) and rulings.md J378.4 so amended the journal reading; 'the first rows of J379's lens mechanism' is the record order (J-V13.87), not J384 (8)'s build order (plague first, J-V13.93), so it stands",
+   "consequence": "none (V13 §3.9 (11), J-V13.68, J-V13.86 state it); research correction 17"
+  },
+  {
+   "id": "J-RR.57",
+   "verdict": "UPHELD",
+   "reason": "as extended by J-V13.78 (outranked, plate, the sway lens; claimant barred): the old bars would force reaches that fill the map; the sway keyframes (the log's reconstruction for worldFactsAt) and J384 (9)'s plates (a drawing cache) are two structures by design, not a contradiction",
+   "consequence": "none; research correction 20 (a bracket at RR-8)"
+  },
+  {
+   "id": "§6 Q-RR-1",
+   "verdict": "NOT-A-RULING",
+   "reason": "reserved to the owner (base §11.4 opens door 1 only on the owner's explicit word); answered '1. yes' on 2026-10-18 (file r item 926; J391 (1); rulings.md J388.Q4)",
+   "consequence": "research correction 24 (a dated bracket); nothing waits"
+  },
+  {
+   "id": "§6 Q-RR-2",
+   "verdict": "NOT-A-RULING",
+   "reason": "the host's schedule and the launch classification are the owner's; V13 §11 Q2 stays open with its recommendation",
+   "consequence": "none"
+  },
+  {
+   "id": "§6 Q-RR-3",
+   "verdict": "NOT-A-RULING",
+   "reason": "the elective rebase moves a living campaign's lived futures, a class of same-seed movement the owner reserves (§764.3); V13 §11 Q1 stays open",
+   "consequence": "none"
+  },
+  {
+   "id": "§10 rows 1–51",
+   "verdict": "UPHELD",
+   "reason": "the review record's 51 verdicts hold where re-checked at the host and in V13; rows 40 and 41 are corrected in wording by RV-8 and RV-9; row 5's 'owner-signed re-ruling' is since refined by J385 (recorded at J-RR.53); row 2's tense class is the host's own (canonicalRelationship.js:217); the four J384 alignments ((2), (4), (5), (11)) agree with rulings.md",
+   "consequence": "none beyond research corrections 22 and 23"
+  }
+ ],
+ "notice_replacement": "> Fable-reviewed 2026-10-18: PASS-WITH-CORRECTIONS — the 57 rulings hold (49 upheld, 8 amended by the session's own later rulings and one verifier list fix, none overturned); 25 research corrections, no new design fragment (lane retrovalidation/realm; J392)",
+ "summary": "Lane retrovalidation/realm (Fable 5.1; J390/J392), second run after the first died at its 01:22 checkpoint. research/sf/fp-realm-review.md read whole (870 lines) with realm-verify.md, realm.findings.json, rulings.md, STATUS.md, PROGRESS J375/J377/J378/J382/J384/J385/J390/J391, file j items 131-141, file i item 130, file m items 659-662, realm-m-critic.md, V13 §3.9, §5.8, §5.9 head, §8.5, §9 J-V13.63-106, §11, §12; host facts re-read read-only at 81f1cd96 (no git). VERDICT PASS-WITH-CORRECTIONS. The verifier's 13 findings all ACCEPTED (RV-1's fix sharpened to name the thirteenth constant; RV-6 re-parsed and confirmed: PS missed 4, WS missed 2, WS missed 5, BA missed 5, TR missed 1). Own findings the verifier could not see: seven rulings outrun by the session's later rulings — J-RR.50 (J384 (3): the hostile push defers to the host's comparator; 'claimant' is the host's heir word), J-RR.49 (J385 gap 4's log-linear kSize/kProsperity on J384 (1)'s relative rung; 'lit' = the record's lane slot per rulings.md J382(b)), J-RR.56 (a VERDICT moves a MarchHold band, never the open engagement, per rulings.md J378.4), J-RR.53 (J385's gate ruling replaces the 'owner-signed re-ruling'), J-RR.54 (forceShift, J-V13.97), J-RR.42 (J384 (9)'s plates horizon), J-RR.9 (the birth canon and the additive re-canonize, J386-J389); plus §6 Q-RR-1 answered by file r and RR-8's register extended by J-V13.78. Checked and INVALID as defects: the 'legacy tense' adversarial class (the host's own ADVERSARIAL_RELATIONSHIP_MATCHES carries it, canonicalRelationship.js:217); J-RR.36's dark advance epoch (advanceEpochEnabled true in no preset); J-RR.23's week 23 (four 13-week quarters, spring first); J-RR.17 against J389 (2); the header's 117, §3's 127/36 and §10's 48/2/1 tallies. Rulings: 61 entries — 57 J-RR (49 UPHELD, 8 AMENDED, 0 OVERTURNED), 3 NOT-A-RULING (the owner questions; Q-RR-1 answered), the §10 record UPHELD. Consistent with rulings.md throughout (its J382(b), J378.4, J384(3), J385.g5 verdicts applied to the note's own rows). Corrections: 25 research fragments in research/sf/fp-realm-review.md, every old string present exactly once and checked after application; no design fragment (the one owed, V13 §2.2 waterLanes.lit, is rulings.md's C1 and is not duplicated); no record fragment (no J-row needs naming in J392 beyond what rulings.md names). Record: docs/validation/retrovalidation-2026-10-18/realm.md."
+}
