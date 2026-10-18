@@ -12,3 +12,4 @@ sites-roads design (wf_a2bd73c2-64c):
 
 
 Resume after a kill: the LANDED read-*.md are complete inputs; a design-X.md with only CHECKPOINT lines is partial (its §0–§1 may be usable; re-run that designer from the read records); judges need all three designs; the synthesis needs the three judgments. Continuation script: feed landed records from disk, run only the missing seats (HANDOFF RUNNING NOW block).
+2026-10-18 09:49 sites-roads/synthesis (opus; J394, Fable-critiqued): started — winner A with the judges' grafts; writing draft-t.md and draft-t.fragments.json
