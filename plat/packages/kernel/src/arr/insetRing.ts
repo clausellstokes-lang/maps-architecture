@@ -13,7 +13,9 @@
 // through the scratch arrangement (`winding.ts`), so it re-enters through `insertChain` like every output. Where nothing
 // is left the inset has collapsed: the refusal carries the largest whole distance below dCm whose inset is not empty
 // (`lastCm`, found by bisection on the same path; 0 is the face itself) and that inset as its `partial`, and the
-// warnings of the inset at dCm (C-0196 (5)).
+// warnings of the inset at dCm (C-0196 (5)). A trial of the bisection that the scratch arrangement refuses is not an
+// empty inset: §3.7 names emptiness only as the collapse past the inradius, so the trial's typed refusal is the
+// operation's result, its code and detail unchanged, and never lowers `lastCm` (KI-7; the refusal census R-16).
 // Readings (C-0196 (5)): like `offsetFace` it takes the open transaction first and reads the face at its level;
 // a dCm that is not a whole number of centimetres is the caller's error (a RangeError). §3.11's row lists `insetRing`
 // among the operations whose empty result is `empty`; §3.7 and this item name the inset past the inradius — the one
@@ -62,8 +64,11 @@ export function isConvexRing(ring: readonly LatticePoint[]): boolean {
   return true;
 }
 
-/** The polygon clipped to the half-plane (x − a)·n ≥ d (Sutherland–Hodgman, one plane). */
-function clip(poly: readonly XY[], a: XY, n: XY, d: number): XY[] {
+/**
+ * The polygon clipped to the half-plane (x − a)·n ≥ d (Sutherland–Hodgman, one plane). An edge whose two signed
+ * distances differ by less than divScaled's floor (2⁻²⁰ cm) crosses the line at its first point. Exported for its pin.
+ */
+export function clip(poly: readonly XY[], a: XY, n: XY, d: number): XY[] {
   const out: XY[] = [];
   const m = poly.length;
   for (let i = 0; i < m; i += 1) {
@@ -120,7 +125,8 @@ function insetAt(ring: readonly LatticePoint[], dCm: number): KernelResult<Ring[
 
 /**
  * §3.4's `insetRing`: the face's uniform inset by dCm on the half-plane path — the face's ring at 0, outward below 0 —
- * E_NON_CONVEX for a face that is not convex, E_DEGENERATE `collapsed` past the inradius (an `InsetCollapsed`).
+ * E_NON_CONVEX for a face that is not convex, E_DEGENERATE `collapsed` past the inradius (an `InsetCollapsed`); a
+ * refusal of the scratch arrangement, at dCm or at a trial distance of the bisection, passed on as it came.
  */
 export function insetRing(tx: InsertTx, face: FaceId, dCm: Cm | number): KernelResult<Ring[]> {
   if (!Number.isInteger(dCm)) throw new RangeError(`insetRing: dCm is a whole number of centimetres, got ${String(dCm)}`);
@@ -138,7 +144,8 @@ export function insetRing(tx: InsertTx, face: FaceId, dCm: Cm | number): KernelR
   while (hi - lo > 1) {
     const mid = lo + Math.floor((hi - lo) * 0.5);
     const m = insetAt(ring, mid);
-    if (m.ok && m.value.length > 0) {
+    if (!m.ok) return m;
+    if (m.value.length > 0) {
       lo = mid;
       lastRings = m.value;
     } else hi = mid;

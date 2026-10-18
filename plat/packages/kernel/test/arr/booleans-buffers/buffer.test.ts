@@ -209,6 +209,7 @@ describe('buffer: half-widths', () => {
 
   it('a list of another length, a negative or a non-finite half-width is the caller’s error', () => {
     expect(() => buffer([[pt(0, 0), pt(1000, 0)]], [100], 'round', 'flat')).toThrow(RangeError);
+    expect(() => buffer([[pt(0, 0), pt(1000, 0)]], [100, 100, 100], 'round', 'flat')).toThrow(RangeError);
     expect(() => buffer([[pt(0, 0), pt(1000, 0)]], -1, 'round', 'flat')).toThrow(RangeError);
     expect(() => buffer([[pt(0, 0), pt(1000, 0)]], Number.NaN, 'round', 'flat')).toThrow(RangeError);
     expect(() => buffer([[pt(0, 0), pt(1000, 0)]], 10, 'bevel' as never, 'flat')).toThrow(RangeError);

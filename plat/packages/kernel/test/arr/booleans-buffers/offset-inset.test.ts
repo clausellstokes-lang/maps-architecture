@@ -6,7 +6,8 @@
 // buffer of its ring for an outward one").
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
-import { booleans, buffer, faceEdges, insetRing, offsetFace, type InsetCollapsed, type Ring } from '../../../src/arr/index.js';
+import { booleans, buffer, canonicalFaceRings, faceEdges, insetRing, offsetFace, ringEdgeParts, type InsetCollapsed, type Ring } from '../../../src/arr/index.js';
+import { clip } from '../../../src/arr/insetRing.js';
 import type { LatticePoint } from '../../../src/types/index.js';
 import { area2Exact, areaOf, arenaFace, distToSegment, insideRings, perimeterOf, R, rect, simpleRing, TIMEOUT } from './support.js';
 
@@ -139,6 +140,41 @@ describe('offsetFace (§3.7: face − ⋃ buffer(edgeᵢ, dᵢ))', () => {
     const { tx, face } = arenaFace([L_FACE]);
     expect(rings(offsetFace(tx, face, [0, 0, 0, 0, 0, 0]))).toEqual([L_FACE]);
   });
+
+  it('a face a few metres from the lattice’s edge: each part clipped where it crosses the edge, the result its translate’s (C-0196 (3))', () => {
+    // the face's rightmost vertex 1.5 – 2 m inside x = 2²³ − 1, so the right edges' strips and discs cross it
+    const LIM = 8_388_607;
+    const cases: [[number, number][], number][] = [
+      [[[-3000, -2000], [-200, -1500], [-300, 1800], [-2500, 2200]], 500],
+      [[[-4000, 0], [-150, -2600], [-400, 2500]], 300],
+    ];
+    /** Is the point inside the ring, or within 2 cm of its boundary? */
+    const near = (ring: readonly LatticePoint[], q: LatticePoint): boolean =>
+      insideRings([ring], q.x, q.y) || ring.some((a, i) => distToSegment(q.x, q.y, a, ring[(i + 1) % ring.length]) <= 2);
+    for (const [shape, d] of cases) {
+      const atEdge = arenaFace([shape.map(([x, y]) => ({ x: x + LIM, y }) as LatticePoint)], 1 << 24);
+      const inside = arenaFace([shape.map(([x, y]) => ({ x, y }) as LatticePoint)], 1 << 24);
+      const de = faceEdges(atEdge.tx, atEdge.face).map(() => d);
+      const di = faceEdges(inside.tx, inside.face).map(() => d);
+      const pe = ringEdgeParts(canonicalFaceRings(atEdge.tx, atEdge.face), de);
+      const pi = ringEdgeParts(canonicalFaceRings(inside.tx, inside.face), di);
+      if (!pe.ok || !pi.ok) throw new Error('parts refused');
+      // the same parts in the same order; at the edge each lies inside the lattice, on the translate's part where it was not cut
+      expect(pe.value).toHaveLength(pi.value.length);
+      expect(pe.value.some((r) => r.some((q) => q.x === LIM))).toBe(true);
+      pe.value.forEach((r, i) => {
+        const moved = pi.value[i].map((q) => ({ x: q.x + LIM, y: q.y }) as LatticePoint);
+        for (const q of r) {
+          expect(q.x).toBeLessThanOrEqual(LIM);
+          expect(near(moved, q), `part ${String(i)} vertex (${String(q.x)}, ${String(q.y)})`).toBe(true);
+        }
+      });
+      // and the setback itself is the translate's, exactly: the clip changed nothing the face keeps
+      const re = rings(offsetFace(atEdge.tx, atEdge.face, de));
+      const ri = rings(offsetFace(inside.tx, inside.face, di));
+      expect(re.map((r) => r.map((q) => ({ x: q.x - LIM, y: q.y })))).toEqual(ri);
+    }
+  });
 });
 
 describe('insetRing (§3.7 Insets; §13.1 further limits)', () => {
@@ -211,6 +247,18 @@ describe('insetRing (§3.7 Insets; §13.1 further limits)', () => {
   it('a whole number of centimetres only', () => {
     const { tx, face } = arenaFace([rect(0, 0, 1000, 600)]);
     expect(() => insetRing(tx, face, 1.5)).toThrow(RangeError);
+  });
+
+  it('the half-plane clip: an edge whose ends differ by less than divScaled’s floor crosses at its first point (§3.2 (8))', () => {
+    // the line y = 0 (normal (0, 1), d 0): p on it, q 10⁻⁷ cm below — a quotient under the floor 2⁻²⁰, so the crossing is p
+    const out = clip([{ x: 0, y: 0 }, { x: 10, y: -1e-7 }, { x: 5, y: 10 }], { x: 0, y: 0 }, { x: 0, y: 1 }, 0);
+    expect(out).toHaveLength(4);
+    expect(Math.abs(out[0].x) + Math.abs(out[0].y)).toBe(0);
+    expect(Math.abs(out[1].x) + Math.abs(out[1].y)).toBe(0);
+    // q → (5, 10) crosses just after q, by the ordinary quotient; (5, 10) kept
+    expect(out[2].x).toBeCloseTo(10, 6);
+    expect(Math.abs(out[2].y)).toBeLessThan(1e-6);
+    expect(out[3]).toEqual({ x: 5, y: 10 });
   });
 });
 

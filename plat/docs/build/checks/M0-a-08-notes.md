@@ -373,3 +373,124 @@ census, queue row L23), not this round (no behaviour change; the count did not r
 only §3.11's results (`E_DEGENERATE` `empty`/`collapsed`), insetRing's `E_NON_CONVEX` on non-convex faces (REFUSE, the
 alternative §3.7 names: `offsetFace` inward) and offsetFace's RangeError on a negative distance (a caller error by its
 contract), the same before and after.
+
+## Hardening round S4 — the builder (lane `build/M0-a-08-fix-s4`, 2026-10-14): row-by-row outcome
+
+The M0 hardening phase's round for this item (J237 (2), J264, J290): the refusal census's R-16 (KI-7) and the hardening
+inventory's FIX-NOW rows. Choices row C-0376; CLEAN-ROOM row L-0562. Mutant ids X01 – X17 are this section's; each was
+run in the lane's mirror against both item folders (`--bail=1`, `PLAT_FUZZ_RUNS=300`, `PLAT_FUZZ_SEED=9411`) after a
+green base run of the same set (12 files, 211/211), the mutated file restored from the tree and compared (`cmp`) after
+each. The seat was relaunched once mid-round (CONTINUE RULE): the first launch's source edits and pins were read and
+kept, its mirror deleted and rebuilt, and every mutant run afresh.
+
+| row | outcome | evidence (pin; mutant) |
+|---|---|---|
+| R-16 / KI-7 | **fixed** (MAKE-IT-SUCCEED, our own intermediate): `insetRing.ts`' bisection returns a refused trial's own result (`if (!m.ok) return m;`), code and detail unchanged, no `lastCm`; the reading (C-0376 (1)): §3.7 names emptiness only as the collapse past the inradius, so propagation, not a retry | `inset-bisection.test.ts`: `overlayRegion` planted through `vi.mock` of `winding.js` to refuse rings under 2 m tall; a 20 m × 10 m face inset by 6 m refuses at its 4.5 m trial and returns that refusal (read as empty, the bisection would report `lastCm` 400); unplanted it collapses with `lastCm` in (450, 500); X01 (the empty reading restored) red |
+| 2 (with 14, N-c1c-2) | **pinned** at each stage's own door (C-0376 (3)): `orientSegments`, `glueWalks`, `balanceFlow` exported from `winding.ts` (file-level only) and called on inputs built for them; `overlay.net` before balancing read through `orientSegments` | `booleans.test.ts` "the overlay's stages on inputs built to reach them": a segment whose row carries a spur nets 0 on the spur (X02 = K16 red); a two-step walk's gaps glued along the square, the diagonal gap by the lattice-order tie (X03 = K14 red); a source and a sink joined back through the tie-decided path (X04 = K15 red). No drawn end-to-end input reaches `glueWalks`/`balanceFlow` still; not turned into asserted invariants (a behaviour change no design text asks for) |
+| 4 (H04) | **pinned** | `harness.test.ts` "the snap-rounded re-judge excuses the face count alone, never an area …": a planted oracle whose snap-rounded neck (2.6 cm → 3 cm corners) fails `faces, area` against a planted 8 cm² bound: a failure, though the touch-merged counts agree; X07 (re-judge passes whenever `faces` is among the failures) red |
+| 5 (H06) | **pinned**; `judgeInset` takes the operation judged as an optional third argument (default `insetRing`) | `harness.test.ts` "an E_OUT_OF_RANGE on a face whose exact outward inset stays inside the lattice is a failure …" (an octagon at d −100; the lattice-edge face of `pins.test.ts` at −634 is settled); X08 (every outward `E_OUT_OF_RANGE` settled) red |
+| 6 (H07) | **pinned** | `harness.test.ts` "a non-convex face is settled only on E_NON_CONVEX …" (a planted ring and a planted `collapsed` on the L-face: two failures; our real answer settled); X09 (settled whatever our answer) red |
+| 7 (H08) | **pinned** | `harness.test.ts` "oracleOffset's covered face …": a 10 m square's bottom edge set back 7 m (past half the farthest vertex distance, short of it) leaves the 3 m strip on both engines; 10 m covers it; X10 (shortcut at half the farthest distance) red |
+| 9 | **fixed**: `traceKept` returns `KernelResult<Ring[]>`, `E_INVARIANT` with `UNCLOSED_BOUNDARY` (the old throw's text, verbatim) on a walk that does not close; `overlayRegion` passes it on with the overlay's warnings | `booleans.test.ts` "traceKept: a kept boundary that does not close is E_INVARIANT, never a throw (§3.11)" (labels no valid overlay gives, planted); X06 (the throw restored) red |
+| 17 (Q07) | **pinned** | `harness.test.ts` "binds each family to its own measured cap …": every `REFUSAL_MEASURE` operation at its cap (the guard alone) and at cap + 1 (the cap's message naming the operation); X11 (buffer's cap for every family) red |
+| 22 (T03) | **pinned** | `harness.test.ts` "builds in the frame 2ᵏ for the largest k that fits, also where k is 1 – 3": two thin triangles inset outward whose k is 1, ratio < 0.3 on both engines (≈ 0.7 unscaled); X12 (S = 16 or 1) red |
+| 23 (T07) | **pinned** | `harness.test.ts` "drops a ring the final rounding leaves without area …": a triangle of inradius 275.11 cm at d 275 gives no ring on either engine, at 274 one; X13 (no dedupe, no zero-area drop) red |
+| 26 | **comment and choices row** (no pin: text only) | `oracleInset`'s comment in testkit `support.ts` now says the one-rounding claim holds at moderate angles and states the sharp-tip error (≈ 0.7 ÷ S × 1 ÷ sin(θ ÷ 2); a small k outward; 28.6 cm measured, ratios ≤ 0.50); C-0376 refines C-0261's sentence |
+| 28 (M7) | **pinned**; `bridgeGaps` exported from `winding.ts` (file-level) | `booleans.test.ts` "bridgeGaps splices each bridge into the walk …": a ring whose two runs of 10 cm segments collapse gets its two bridges (the 19th and 20th segments) spliced where the gaps were (`walk.steps` `[1, 19, 12, 13, 20, 18]`), and `glueWalks` then adds nothing; X05 (= M7, no splice) red |
+| N-c1c-3 (C11, C13) | **pinned**; `insetRing.ts` `clip` exported from its file | `offset-inset.test.ts` "a face a few metres from the lattice's edge …" (two faces whose rightmost vertex stands 1.5 – 2 m inside x = 2²³ − 1: each part clipped onto the edge and its translate's elsewhere; the setback equal to the translate's): X14 (= C11) red; "the half-plane clip: an edge whose ends differ by less than divScaled's floor crosses at its first point": X15 (= C13) red |
+| N-c1c-5 | **comment** (no pin: text only) | `REFUSAL_MEASURE`'s comment cites C-0231 and N-46 (4), (5) for the seeds and per-seed counts (they are C-0231's (4)); the round names it carried move here: the measure was fix round S1's, its twelve seeds the S5 closing check's first twelve (offsetFace's 6101 replaced by −6421 and 6521 after polygon-clipping's hang). `pins.test.ts`' header names §3.6 step 4's wedge cap instead of "M0-a-05's wedge cap" |
+| N1 (M0-k-03) | **pinned** for this item; **reported** for M0-a-09 | `judge` already applies `ownProblems` on every case, unattracted included; `harness.test.ts` "ours is held to the hard ring checks on an unattracted case too …": ours `[sq, sq, tri]` passes `compareSplit` against the union yet lands in `h.invalid` ("crossing edges") and fails the verdict; X16 (the check on attracted cases only) red. M0-a-09's harness is M0-a-09's file (rule (1)): reported for its round |
+| (inventory M0-a-08:6, K30) | **pinned** (not among the round's lines; the inventory's FIX-NOW row, inside the owns) | `buffer.test.ts`: a half-width list longer than the points is a RangeError; X17 (= K30) red |
+
+**Refusals (J264, N-58).** Registered families at seed 8611 × 1 000 (agreement trio, `register`, `pins`;
+`PLAT_FUZZ_COUNTS`, `PLAT_REFUSALS_OUT`), before (the pre-round sources) and after: identical — union, intersection,
+difference, xor and insetRing 0; buffer 10 and offsetFace 6, every one insertChain's `E_INVARIANT` "no route … keeps
+clearance (§3.10) within the fidelity bound (N-43)", own 0, setup 0; the 93 refused lines the same set (sorted sha256
+`d2105964…`). M0-k-04's B-FUZZ families (`runFuzz`, a scratch probe in the mirror, before and after): identical —
+insetRing 10⁴ ok 3 331, skipped 1 456, `E_DEGENERATE` 789, `E_NON_CONVEX` 4 424; offsetFace 2 000 ok 613, skipped 306,
+`E_DEGENERATE` 1 074, `E_INVARIANT` 7; buffer 2 000 ok 1 635, `E_DEGENERATE` 364, `E_INVARIANT` 1; booleans 2 000 ok
+1 417, `E_DEGENERATE` 583; 0 crashes, hangs, invalid outputs and bugs. Classes: the `E_INVARIANT`s are OUR OWN
+INTERMEDIATE (an insertChain refusal on a part of our construction from lawful input), MAKE-IT-SUCCEED, owner the router
+(M0-a-05, census KI-1 / L23), unchanged by this round; `E_DEGENERATE` `empty` / `collapsed` are §3.11's lawful results,
+not refusals of lawful input; `E_NON_CONVEX` is §3.7's REFUSE with its alternative named (`offsetFace` inward, a buffer
+union outward). R-16's class met 0 before and after (as the census says), so the count did not move.
+
+**Gates (on the tree, W = 1).** `install --frozen-lockfile` 0; `lint` 0 (eslint 1 141 files, 0 errors, 0 warnings;
+"lint: probe-red ok"); `build` 0 (`tsc -b ok`); the two test tsconfigs typecheck 0 (`tsc --noEmit -p
+packages/{kernel,testkit}/test/tsconfig.json`); NEAR at the PR size (`PLAT_FUZZ_RUNS` unset) over both item folders: 12
+files, 211/211, exit 0 (4 038 s); RELATED at 1 000 over `arr/winding.ts` and `arr/insetRing.ts`: 334 files, 4 114/4 114,
+exit 0 (6 881 s). No git run; the mirror deleted.
+
+## Hardening round S4 — the closing checker (lane `check/M0-a-08-close-s4`, 2026-10-18): N-s4c-1 – N-s4c-5
+
+The verdict is PASS, in `checks/M0-a-08-s4.md`, which defines the mutant ids Z01 – Z28 used below. None of these rows
+fails the round (J162, N-45, J202). Each row names its milestone.
+
+**N-s4c-1. `traceKept`'s second guard is not pinned (Z04 survives).**
+
+* *What survives.* The row-9 pin plants labels whose boundary walk turns round one vertex for ever, so it reaches
+  only the rotation guard (`winding.ts:666`). Mutant Z04 puts the old throw back at the outer guard (`:669`), and it
+  passes the pin.
+* *Why it is not a blocker.* The code returns `E_INVARIANT` at both guards (CONFIRMED by reading). The guard is
+  reachable only by a direct call to `traceKept` (a file-level export) with labels no valid overlay gives. Such labels
+  make a boundary map whose walk enters a cycle that does not hold its first half-edge, while every step's next
+  half-edge is already a boundary one. `overlayRegion`, the only caller, reaches `traceKept` only with consistent
+  labels, so every walk closes (PLAUSIBLE, by reading).
+* *Suggested handling.* Add a second planted case to the pin: two kept half-edges entering one vertex, so the walk
+  from the first runs round a cycle that leaves it out, and assert `E_INVARIANT` and no throw.
+* *Milestone.* M4.
+
+**N-s4c-2. `overlayRegion`'s pass-on of a traced refusal has no pin (Z05 survives; equivalent).**
+
+* *What survives.* C-0376 (2) says `overlayRegion` "passes it on with the overlay's warnings". Mutant Z05 reads the
+  refusal as `ok([])` instead. It passes `booleans.test.ts` and `inset-bisection.test.ts` (whole files).
+* *Why it is equivalent.* `traceKept` is reached there only after `labels.consistent`, so it never refuses on that
+  path (by N-s4c-1's argument). The code passes the refusal on (CONFIRMED by reading).
+* *Suggested handling.* None needed. If the hardening pass wants the line held, a `vi.mock` of `windingLabels` that
+  returns consistent-flagged planted labels would reach it.
+* *Milestone.* M4, optional.
+
+**N-s4c-3. `oracleInset`'s dedupe after the final rounding is not pinned on its own (Z23 survives; equivalent on the
+verdict).**
+
+* *What survives.* Row 23's sliver pin kills the zero-area and length filter (Z22). Mutant Z23 drops only the
+  `dedupe` and keeps the filter, and it survives.
+* *Why it is equivalent.* The filter alone drops every ring the rounding collapses: one or two distinct points, or
+  three with a repeat, have zero area. What the dedupe still removes is a repeated vertex in a ring with area, which
+  changes neither |Δ| nor the face count (PLAUSIBLE). It is oracle-side test code, so any difference would be a false
+  red, which fails safe.
+* *Suggested handling.* None, or a unit case with a ring whose rounding repeats one vertex of a non-degenerate
+  triangle.
+* *Milestone.* M4, optional.
+
+**N-s4c-4. Refusal verdicts (N-58) of what the checker met, routed to the session.** None of these rose.
+
+* *The registered families at seed 8611 × 1 000* (the agreement trio, `register`, `pins`). They refused 93 cases,
+  the same set on the after-mirror and on the reconstructed before-mirror (sorted SHA-256 `02f75da8…`, equal to the
+  C1 check's).
+  * In the fuzz families: buffer 10 and offsetFace 6. The rest are the register's own cases.
+  * Every one is `insertChain`'s `E_INVARIANT` "insert: no route from (…) to (…) keeps clearance (§3.10) within the
+    fidelity bound (N-43)", on a part of our own construction from lawful input.
+  * Class OUR OWN INTERMEDIATE, verdict MAKE-IT-SUCCEED. The owner is the router (M0-a-05; census KI-1 / L23), not
+    this item.
+  * Replay: `PLAT_FUZZ_SEED=8611 PLAT_FUZZ_RUNS=1000 PLAT_REFUSALS_OUT=<file>` over the agreement trio.
+* *M0-k-04's B-FUZZ families*, the same before and after.
+  * offsetFace has 7 `E_INVARIANT` in 2 000 and buffer 1 in 2 000. These are the same class, verdict and owner as
+    above.
+  * `E_DEGENERATE` `empty` / `collapsed` are §3.11's lawful results.
+  * `E_NON_CONVEX` on insetRing's non-convex faces is §3.7's REFUSE, with its alternative named (`offsetFace`
+    inward, a `buffer` union outward).
+* *R-16's class* was met 0 times, before and after.
+
+**N-s4c-5. Process.**
+
+* *The lost first launch.* This lane's first launch (2026-10-14) lost its mirror and its mutant scripts Z01 – Z21 to
+  a container relaunch. The seat continued on 2026-10-18 under the CONTINUE RULE and re-ran every part, with a new
+  mutant set Z01 – Z28.
+* *The before-image.* Without git or a pre-round copy, the seat rebuilt the pre-round behaviour from the round's own
+  diff, as stated in C-0376 and confirmed by reading: the empty reading (Z01) and the two throws (Z03 + Z04) put
+  back. Every other change in the round is an export, a comment or a test.
+* *The builder's SHA.* The builder's notes give the 93 refused lines' sorted SHA-256 as `d2105964…`, while this
+  seat's sort gives `02f75da8…` on both sides. The set identity this seat relies on is its own before/after
+  comparison, line for line. The difference is in how the digest was taken, not in the set.
+* *RELATED's reds.* RELATED at 1 000 had none (334 files, 4 114 / 4 114, exit 0). Neither of the session note's foreign reds appeared in this run.
