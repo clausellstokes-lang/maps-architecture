@@ -1,5 +1,11 @@
 {
   "env": {
     "CLAUDE_CODE_WORKFLOW_MAX_CONCURRENT_AGENTS": "6"
+  },
+  "permissions": {
+    "allow": [
+      "Workflow",
+      "mcp__claude-code-remote__send_message"
+    ]
   }
 }
