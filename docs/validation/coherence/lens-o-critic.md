@@ -1,6 +1,6 @@
 # The lens closing-pass critic — gap list (workflows/41, critic seat)
 
-> PENDING FABLE REVIEW — written by Opus 5.5 standing in for the Fable seat check/lens-o-critic; to be retrovalidated overall at the next opportunity (owner, 2026-10-17, J375)
+> Fable-reviewed 2026-10-18: PASS-WITH-CORRECTIONS — 2 design fragments on V13, 22 dated record brackets and fixes across files m–q and the realm record, 1 research count (lane retrovalidation/amendments; J392)
 
 The completeness critic of amendments o as applied (docs/validation/coherence/lens-o.md), recorded verbatim. Its six gaps are carried by amendments p (workflows/42-lens-final.js); J387 rules gap 1.
 

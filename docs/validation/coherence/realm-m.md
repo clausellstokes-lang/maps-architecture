@@ -1,6 +1,6 @@
 # Coherence application — amendments file m (items 663–779) applied to volumes 13 and 14, the proposal, the brief and the base (amendments/realm-m-apply)
 
-> PENDING FABLE REVIEW — written by Opus 5.5 standing in for the Fable seat amendments/realm-m-apply; to be retrovalidated overall at the next opportunity (owner, 2026-10-17, J375)
+> Fable-reviewed 2026-10-18: PASS-WITH-CORRECTIONS — 2 design fragments on V13, 22 dated record brackets and fixes across files m–q and the realm record, 1 research count (lane retrovalidation/amendments; J392)
 
 Seat `amendments/realm-m-apply`, 2026-10-17 (Opus 5.5 standing in for Fable, J375). The coherence pass for
 `docs/AMENDMENTS-2026-10-17m.md`: every change item applied to its target as the pass applies items — the quoted current

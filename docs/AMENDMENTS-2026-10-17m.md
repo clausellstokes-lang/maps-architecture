@@ -1,6 +1,6 @@
 # Amendments m — the realm review: the host's simulator and the world regime; territory and sovereignty (owner rules T1–T3, J382)
 
-> PENDING FABLE REVIEW — written by Opus 5.5 standing in for the Fable seat amendments/realm-m; to be retrovalidated overall at the next opportunity (owner, 2026-10-17, J375)
+> Fable-reviewed 2026-10-18: PASS-WITH-CORRECTIONS — 2 design fragments on V13, 22 dated record brackets and fixes across files m–q and the realm record, 1 research count (lane retrovalidation/amendments; J392)
 
 Numbered from **659** (file l ended at 658).
 

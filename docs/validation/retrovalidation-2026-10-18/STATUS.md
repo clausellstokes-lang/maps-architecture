@@ -1,4 +1,4 @@
-# Live status (written by the autosave loop; last 2026-10-18 05:33 UTC)
+# Live status (written by the autosave loop; last 2026-10-18 05:38 UTC)
 
 Latest lane line per lane key (docs/lane-events.log) for today's lanes:
 
@@ -50,6 +50,7 @@ Latest lane line per lane key (docs/lane-events.log) for today's lanes:
 - 2026-10-18 05:31 sites-roads/design-A CHECKPOINT the README and the five reader records read whole (md5s recorded); design-A.md started with the header and §0 (the owner's words clause by clause, three owner questions flagged: the catalogue = the kind rows, the snap of a DM point-drop, a map-tier spur on a host-bound world); primary texts read so far at the readers' md5s (unchanged at 05:25): V
 - 2026-10-18 05:32 retrovalidation/apply-design LANDED docs/AMENDMENTS-2026-10-18s.md (items 927-938, 12 fragments) written in file q's form from every *.verdict.json read (13: 417 corrections, 8 of kind design; 371 rulings) and applied by exact match, every old once at its turn and every new once after, no mismatch, no adjustment: docs/volumes/V13-world.md 9 (the revision note; §2.2 waterLanes r
 - 2026-10-18 05:33 sites-roads/design-B CHECKPOINT the five reader records read whole (read-v14 6d127498, read-v13 64637654, read-base 33635e21, read-research d97b4fcc, read-checks 28609ac2); snapshots of V13 (c8759307), V14 (a1c6d7c2), base (b03ba26e), INDEX, SUMMARY, brief taken at 05:25 and unchanged from the readers; V14 §1.3, §1b, §2.2, §2.5, §2.8–§2.9, §3.4, §3.6, §3.9, §3.10, §
+- 2026-10-18 05:37 retrovalidation/apply-notices LANDED docs/validation/retrovalidation-2026-10-18/README.md: grep for the J375 notice found 15 status lines left, all amendments family (files m-q line 3, coherence realm-m/lens-n..q and their five critics); each replaced by amendments.verdict.json's notice_replacement (one line, exact; asserted once before, none left after, round-trip identical, li
 
 Workflow runs: retrovalidation continuation wf_ed23dc6b-f13 (task wuojbxzyu; the first run wf_f0931b52-ef5 killed at the limit); sites-roads-design wf_a2bd73c2-64c (task wh4norxj2); host-requirements wf_94da751f-a31 (LANDED); amendments-r wf_6c3a4aa0-0d5 (LANDED e5de220d).
 Records: docs/validation/retrovalidation-2026-10-18/ (one <family>-verify.md and <family>.md per family, rulings.md, apply-*.md, confirm-*.md, critic.md, README.md); docs/validation/host-requirements-2026-10-18/ (extract-*.md, draft-s3..s8.md, final-s3..s8.md, critic.md); docs/validation/sites-roads-2026-10-18/ (read-*.md, design-A..C.md, judge-1..3.md, draft-t.md, critic.md, verify.md).

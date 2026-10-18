@@ -1,6 +1,6 @@
 # The lens q critic — final report (workflows/43, critic seat)
 
-> PENDING FABLE REVIEW — written by Opus 5.5 standing in for the Fable seat check/lens-q-critic; to be retrovalidated overall at the next opportunity (owner, 2026-10-17, J375)
+> Fable-reviewed 2026-10-18: PASS-WITH-CORRECTIONS — 2 design fragments on V13, 22 dated record brackets and fixes across files m–q and the realm record, 1 research count (lane retrovalidation/amendments; J392)
 
 The completeness critic of amendments q as applied (docs/validation/coherence/lens-q.md), recorded verbatim: nothing material missing. Its bookkeeping notes are answered by J389.
 
