@@ -28,7 +28,7 @@ import {
 } from '@plat/kernel';
 import { lineageHash, mint, type District, type Id, type LiveEntry, type Seam, type Way } from '@plat/model';
 import { rungProfile } from '@plat/tables';
-import { granularityBands, runS8, spineWidthsOf, type S8District, type S8Input } from '../../../src/index.js';
+import { cutCells, granularityBands, runS8, spineWidthsOf, type S8District, type S8Input } from '../../../src/index.js';
 
 export const GROUND: PlatKey = { layer: 'ground', part: 0 };
 
@@ -36,6 +36,9 @@ export const GROUND: PlatKey = { layer: 'ground', part: 0 };
 export function P(x: number, y: number): LatticePoint {
   return { x: x as Cm, y: y as Cm };
 }
+
+/** The cut table's cells at the shipped values (no preset): the planner's, the ladder's and the portal gap's. */
+export const CELLS = cutCells();
 
 /** The generated lifecycle. */
 export function generated(): Way['lifecycle'] {
@@ -210,6 +213,19 @@ export function facesOf(plat: Plat, owner: Id): { face: FaceId; outer: LatticePo
 export function minorOf(ring: readonly LatticePoint[]): number {
   const b = obb(ring);
   return b.ok ? b.value.minorCm : 0;
+}
+
+/** The way ids carried by the arena's live edges (read from its own tables, never through the code under test). */
+export function arenaWays(plat: Plat): Set<string> {
+  const ids = new Set<string>();
+  for (let e = 0; e < 2 * plat.slots.pair.top; e += 1) {
+    if (!isHalfEdgeLive(plat, e)) continue;
+    for (const r of rowsOn(plat, 'edge', e)) {
+      const k = rowKey(plat, r);
+      if (k.role === 'way') ids.add(k.entity);
+    }
+  }
+  return ids;
 }
 
 /** The points of every live edge carrying ('way', id), as segments. */

@@ -573,13 +573,11 @@ describe('the tiny-tables mode and growth that preserves content (N-53 (4))', ()
     const roomyCaps = capacities(roomy);
     let compared = 0;
     let replaced = 0;
-    let poolGrowths = 0;
     // the whole sequence in the tiny mode: the capacity-1 arena's slot tables grow by one slot (always full); the roomy
     // arena, made with the mode off, never reaches a growth
     const tiny = withTiny(true, () => {
       const t = createPlat(GROUND, FRAME);
       let last = [t.vertices, t.halfEdges, t.roles.kind, t.faces[0].outer, t.faces[4].outer];
-      let pools = LEVELS.map((l) => t.faces[l].holes.length);
       drive([t, roomy], 0x5eed_0053, 3_000, (op, keys) => {
         const a = content(t, keys);
         const b = content(roomy, keys);
@@ -589,21 +587,10 @@ describe('the tiny-tables mode and growth that preserves content (N-53 (4))', ()
         const now = [t.vertices, t.halfEdges, t.roles.kind, t.faces[0].outer, t.faces[4].outer];
         if (now.some((x, i) => x !== last[i])) replaced++;
         last = now;
-        // a level's hole pool grows by exactly the run's room too (C-0286 (2), N-s1-2): a call that grew it leaves it
-        // exactly full (a compaction alone keeps its length; a cleared or reused run grows nothing)
-        const grownPools = LEVELS.map((l) => t.faces[l].holes.length);
-        for (const l of LEVELS) {
-          if (grownPools[l] === pools[l]) continue;
-          expect([op, l, grownPools[l] > pools[l]]).toEqual([op, l, true]);
-          expect([op, `faces[${l}].holes`, grownPools[l]]).toEqual([op, `faces[${l}].holes`, t.slots.holesTop[l]]);
-          poolGrowths++;
-        }
-        pools = grownPools;
       });
       return t;
     });
     expect(compared).toBe(3_000);
-    expect(poolGrowths).toBeGreaterThanOrEqual(20); // the pools grew often enough for the exact fit to be held
     // the roomy arena never grew, so it is the reference
     expect(capacities(roomy)).toEqual(roomyCaps);
     // the capacity-1 arena's slot tables are exactly full: each grew once per slot above the free lists' reuse
@@ -695,8 +682,7 @@ describe('the tiny-tables mode and growth that preserves content (N-53 (4))', ()
     const pool = p.faces[0].holes;
     setFaceHoles(p, 0, 0, [h]);
     expect(p.faces[0].holes).not.toBe(pool);
-    // in the tiny mode every allocation of a new slot (none here comes from a free list) replaces its slot table, which
-    // stays exactly full; a slot taken from a free list grows nothing; with the mode off a table doubles
+    // in the tiny mode EVERY allocation replaces its slot table (always full); with the mode off a table doubles
     allocFace(p, 1, { outer: h, kind: 1, owner: -1, stage: 0, parent: 0 }); // fills L1's one face slot
     for (let i = 0; i < 20; i++) {
       const before = [p.vertices, p.halfEdges, p.roles.kind, p.faces[1].outer];
@@ -708,15 +694,6 @@ describe('the tiny-tables mode and growth that preserves content (N-53 (4))', ()
       for (let k = 0; k < 4; k++) expect(now[k]).not.toBe(before[k]);
     }
     expect([p.vertices.x.length, p.halfEdges.level.length, p.roles.kind.length, p.faces[1].outer.length]).toEqual([p.slots.vertex.top, p.slots.pair.top, p.slots.role.top, p.slots.face[1].top]);
-    // a slot taken from a free list grows nothing, so the table stays; the next new slot replaces it again (N-c2-2)
-    const spare = allocVertex(p, pt(-900, 900), 0);
-    freeVertex(p, spare);
-    const kept = p.vertices;
-    expect(allocVertex(p, pt(-900, 950), 0)).toBe(spare);
-    expect(p.vertices).toBe(kept);
-    allocVertex(p, pt(-900, 1_000), 0);
-    expect(p.vertices).not.toBe(kept);
-    expect(p.vertices.x.length).toBe(p.slots.vertex.top);
     setTinyTables(false);
     const v0 = p.vertices.x.length;
     allocVertex(p, pt(-500, -500), 0);

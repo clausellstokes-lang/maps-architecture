@@ -35,6 +35,7 @@
 import {
   CONCERNS,
   compareFaces,
+  compareKeys,
   connectHole,
   createRng,
   entityKey,
@@ -86,9 +87,9 @@ import {
   antennaTips,
   div,
   continuationVerdict,
+  hullOf,
   judge,
   kerbEndsSquare,
-  kerbLength,
   meanNormalCut,
   reflexPreCut,
   slideFeet,
@@ -97,10 +98,10 @@ import {
   type BlockFloor,
   type Candidate,
 } from './ladder.js';
-import { cutCells, planCut, type CutCells, type CutPlan, type KerbFace, type KerbSpine, type PlanContext, type StartPlan, type FarPlan, type XY } from './planner.js';
+import { cornerScale, cutCells, M_TO_CM, planCut, RAD_PER_CDEG, type CutCells, type CutPlan, type KerbFace, type KerbSpine, type PlanContext, type StartPlan, type FarPlan, type XY } from './planner.js';
 import { bearingCdeg } from '../siting/geom.js';
 import { boundsDistrictAt, chainRuns, portalGap, portalGapBreach, portalWaysAt, seamOfSpine, seamsOfSpine, spinePortals } from './portals.js';
-import { canonicalRings, faceSides, rayHit, type FaceSides } from './sides.js';
+import { canonicalRings, faceSides, insideFace, lineLength, rayHit, type FaceSides } from './sides.js';
 import { cutClass, drawWidthExponent, widthCells, widthOf, type CutClass, type WidthCells } from './width.js';
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -281,7 +282,6 @@ export interface PartitionResult {
 
 const S8 = STAGES.S8;
 const S6 = STAGES.S6;
-const M_TO_CM = 100;
 
 /** The faces' class the floor names (§4.7's class-floor row, read by the kernel's expect when its env injects floors). */
 export const BLOCK_FACE_CLASS = 'block';
@@ -330,30 +330,10 @@ function areaOf(ring: readonly LatticePoint[]): number {
   return Math.abs(area2(ring)) / 2;
 }
 
-/** The convex hull's OBB major extent of a point set (the district's L_ref, §4.6 step 9). */
+/** The convex hull's OBB major extent of a point set (the district's L_ref, §4.6 step 9; the hull is ladder.ts's). */
 function majorExtent(points: readonly LatticePoint[]): number {
-  const box = obb(points.length >= 3 ? hullRing(points) : points);
+  const box = obb(points.length >= 3 ? hullOf(points) : points);
   return box.ok ? box.value.majorCm : 0;
-}
-
-/** A counter-clockwise hull ring of points (monotone chain on the lattice, exact). */
-function hullRing(points: readonly LatticePoint[]): LatticePoint[] {
-  const pts = points.slice().sort((a, b) => a.x - b.x || a.y - b.y);
-  const cr = (o: LatticePoint, a: LatticePoint, b: LatticePoint): number => (a.x - o.x) * (b.y - o.y) - (a.y - o.y) * (b.x - o.x);
-  const lower: LatticePoint[] = [];
-  for (const q of pts) {
-    while (lower.length >= 2 && cr(lower[lower.length - 2], lower[lower.length - 1], q) <= 0) lower.pop();
-    lower.push(q);
-  }
-  const upper: LatticePoint[] = [];
-  for (let i = pts.length - 1; i >= 0; i -= 1) {
-    const q = pts[i];
-    while (upper.length >= 2 && cr(upper[upper.length - 2], upper[upper.length - 1], q) <= 0) upper.pop();
-    upper.push(q);
-  }
-  lower.pop();
-  upper.pop();
-  return lower.concat(upper);
 }
 
 /** The ways on a face's L1 boundary, sorted by id (a representation-free order). */
@@ -367,7 +347,7 @@ function boundaryWays(p: Plat, face: FaceId): Id[] {
       }
     }
   }
-  return [...ids].sort((a, b) => (a < b ? -1 : a > b ? 1 : 0));
+  return [...ids].sort(compareKeys);
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -582,12 +562,12 @@ function outerRings(rings: readonly (readonly LatticePoint[])[]): (readonly Latt
 
 /** One component of a kerb: an outer ring with the kerb's holes inside it. */
 function withHoles(rings: readonly (readonly LatticePoint[])[], outer: readonly LatticePoint[]): LatticePoint[][] {
-  return [outer.slice(), ...rings.filter((h) => area2(h) < 0 && insideRing(outer, h[0])).map((h) => h.slice())];
+  return [outer.slice(), ...rings.filter((h) => area2(h) < 0 && insideFace([outer], h[0])).map((h) => h.slice())];
 }
 
 /**
- * A block's seed in an L1 face (N-57 (3); refined by J318, C-0338): the pole (`seedOf`, the inscribed circle's centre)
- * of a component of kerb(face).
+ * A block's seed in an L1 face (N-57 (3); J318, C-0338): the pole (`seedOf`, the inscribed circle's centre) of a
+ * component of kerb(face).
  *   * Without `parent` — the unsplit block's definition: the pole of `kerbComponent`, the component the ladder read.
  *   * With `parent` — a child of a back lane's or through alley's split, `parent` the kerb component the ladder read
  *     for the block (`FaceView.kf.rings`, the kerb AT THE CUT): the pole of the largest component of kerb(child) whose
@@ -595,12 +575,12 @@ function withHoles(rings: readonly (readonly LatticePoint[])[], outer: readonly 
  *     boundary). kerb(child) is the child face less every bounding band, the new spine's among them, so its components
  *     inside `parent` are the parent's kerb at the cut on the child's side of the spine less the spine's band (to the
  *     kernel's kerb rounding, far inside a pole's depth); a component outside it is another part of the child FACE —
- *     another kerb component of the parent's face that the spine's side holds, cut off by a lane's band (J318's CITY
- *     integrated 4, 7 and fusion 3: integrated 7's child held a 1 575 m² component beside its 1 028 m² part of the
- *     2 152 m² block) — never the block's. The seed so satisfies both readings at once: N-57 (3)'s (strictly inside one
- *     ring of kerb(its L1 face)) and the stop kerb's (inside the parent's part on its side, as M0-c-06's harness reads a
- *     split block back, J318). When the largest component of kerb(child) already lies in `parent` — every child but the
- *     J318 class — the seed is the one `kerbComponent` gave.
+ *     another kerb component of the parent's face that the spine's side holds, cut off by a lane's band and possibly
+ *     larger than the block's own part (the CITY fixtures of `test/infill/fabric/city-split-seeds.json`) — never the
+ *     block's. The seed so satisfies both readings at once: N-57 (3)'s (strictly inside one ring of kerb(its L1 face))
+ *     and the stop kerb's (inside the parent's part on its side, as M0-c-06's harness reads a split block back, J318).
+ *     When the largest component of kerb(child) lies in `parent` — every child whose face holds no larger component
+ *     elsewhere — the seed is the one `kerbComponent` gives.
  * Null when the kerb has no area, cannot be read, or (with `parent`) holds no component inside it: the child then
  * records no seed — never a wrong one (N-45 (a)).
  */
@@ -619,25 +599,14 @@ export function kerbSeed(o: Overlay, face: FaceId, widths: ReadonlyMap<Id, numbe
   return null;
 }
 
-/** Is p inside a kerb component — inside its outer ring (the first) and inside none of its holes (even–odd)? */
+/**
+ * Is p inside a kerb component — inside its outer ring (the first) and inside none of its holes? Each ring read alone by
+ * sides.ts's even–odd `insideFace` (a point on a ring may read either way; the pole lies far from both).
+ */
 function insidePart(rings: readonly (readonly LatticePoint[])[], p: XY): boolean {
-  if (rings.length === 0 || !insideRing(rings[0], p)) return false;
-  for (let i = 1; i < rings.length; i += 1) if (insideRing(rings[i], p)) return false;
+  if (rings.length === 0 || !insideFace([rings[0]], p)) return false;
+  for (let i = 1; i < rings.length; i += 1) if (insideFace([rings[i]], p)) return false;
   return true;
-}
-
-/** Is p inside the ring (even–odd)? */
-function insideRing(ring: readonly LatticePoint[], p: XY): boolean {
-  let inside = false;
-  for (let i = 0, j = ring.length - 1; i < ring.length; j = i, i += 1) {
-    const a = ring[i];
-    const b = ring[j];
-    if (a.y > p.y !== b.y > p.y) {
-      const k = ratio(p.y - a.y, b.y - a.y, 'length');
-      if (p.x < a.x + (b.x - a.x) * (k.ok ? k.value : 0)) inside = !inside;
-    }
-  }
-  return inside;
 }
 
 /** The planner's streams for a face (§6.1: keyed by the face's lineage). */
@@ -701,7 +670,7 @@ function tryCandidate(run: Run, fv: FaceView, cand: Candidate, cell: number, fac
   // crossroads, admitted only collinear within 6° and inside the district.
   const cont = continuationRefused(run, fv, cand, laneClass ?? 'lane');
   if (cont !== null) return { ok: false, why: cont };
-  const L = kerbLength(cand.kerbPoints);
+  const L = lineLength(cand.kerbPoints);
   const cls: CutClass = laneClass ?? cutClass(L, run.ctx.walled, run.ctx.laneLengthM);
   const width = widthOf(L, run.lRef, run.p_, run.wcells.bands[cls]);
   const cellHash = run.cellHashes[cell];
@@ -1005,9 +974,6 @@ export function continuationBounds(p: Plat, seams: readonly Seam[], district: Id
   return (spineWay !== null && seamOfSpine(seams, spineWay) !== undefined) || boundsDistrictAt(p, seams, v, district);
 }
 
-/** Radians per centidegree (π ÷ 18 000). */
-const RAD_PER_CDEG = 3.141592653589793 / 18000;
-
 function continuationCdeg(run: Run): number {
   const t = run.ctx.tables?.cut ?? loadTable('cut');
   const v = t.cell('settings', 'continuationCdeg').value;
@@ -1084,10 +1050,9 @@ function makeBlock(run: Run, fv: FaceView | null, item: Pending, how: BlockFaces
         cut = true;
         // Each child's seed: the pole of the component of kerb(child) that lies inside the parent's kerb at the cut
         // (`kerbRings`, the component the ladder read) — the parent's part on the child's side of the spine, less the
-        // spine's band — never a point of another kerb component of the child FACE (J318, C-0338: CITY integrated 4, 7,
-        // fusion 3, where the child face held a larger part of another component); so it lies strictly inside one ring of
-        // kerb(child) as N-57 (3) asks (C-0329) and inside the block's own part as the stop kerb reads it. A child with
-        // no such component records none — never a wrong seed (N-45 (a)).
+        // spine's band — never a point of another kerb component of the child FACE, even a larger one (J318, C-0338);
+        // so it lies strictly inside one ring of kerb(child) as N-57 (3) asks (C-0329) and inside the block's own part
+        // as the stop kerb reads it. A child with no such component records none — never a wrong seed (N-45 (a)).
         seeds.length = 0;
         for (const c of t.children) {
           const s = kerbSeed(run.o, c, run.ctx.widths, kerbRings);
@@ -1140,12 +1105,12 @@ function sameRings(a: readonly (readonly LatticePoint[])[], b: readonly (readonl
 
 /**
  * The face again after a refusal that re-walked it (C-0243): a lane taken out again (`removeEdges`) merges the two
- * children back, and the merged face may stand under a new slot, so the view's slot can be dead (splitFace on it was
- * the kernel's 'face N is not live' assert, F-CUT's holed #330 and #464). Its slot now is `Run.locate`'s (the slot
- * itself while it is live, the district's and holds the face's seed point; else the face holding the seed point), and
- * it must be the district's with its L1 rings as they were — `removeEdges` leaves the arena as before the insertion
- * (§2.2 rule 3), so the kerb the ladder planned on stands. Null when the face cannot be found or did not come back as
- * it was (the run is then abandoned: detect-and-refuse, N-45).
+ * children back, and the merged face may stand under a new slot, so the view's slot can be dead and no later candidate
+ * may reach the kernel on it (F-CUT's holed faces #330 and #464 at seed 1 pin it, `relocate.test.ts`). Its slot now
+ * is `Run.locate`'s (the slot itself while it is live, the district's and holds the face's seed point; else the face
+ * holding the seed point), and it must be the district's with its L1 rings as they were — `removeEdges` leaves the
+ * arena as before the insertion (§2.2 rule 3), so the kerb the ladder planned on stands. Null when the face cannot be
+ * found or did not come back as it was (the run is then abandoned: detect-and-refuse, N-45).
  */
 function faceAgain(run: Run, item: Pending, fv: FaceView): FaceView | null {
   const face = run.locate({ ...item, face: fv.face });
@@ -1346,13 +1311,6 @@ function ladderOn(run: Run, item: Pending): Pending[] {
   return [];
 }
 
-/** The face's widest spine half-width (the kerb's corner scale; C-0222 (3)). */
-function cornerScale(kf: KerbFace): number {
-  let w = 0;
-  for (const s of kf.spines ?? []) if (s.halfWidthCm > w) w = s.halfWidthCm;
-  return w;
-}
-
 // ---------------------------------------------------------------------------------------------------------------------
 // The batch and the strategy
 // ---------------------------------------------------------------------------------------------------------------------
@@ -1450,7 +1408,7 @@ export function districtBatch(p: Plat, district: District, seams: readonly Seam[
       faces: run.faces,
       warnings: sortedCounts(run.warnings),
     };
-    const warningList = [...run.warnings.keys()].sort((a, b) => (a < b ? -1 : a > b ? 1 : 0)).map((k) => [k, run.warnings.get(k) as number] as const);
+    const warningList = [...run.warnings.keys()].sort(compareKeys).map((k) => [k, run.warnings.get(k) as number] as const);
     return ok({ blocks: run.blocks, ways: run.ways, junctions: run.junctions, seams: run.seams, portals: run.portals, blockFaces: run.blockFaces, minted: run.minted, report, warningList });
   };
   return { spec, fn };
@@ -1459,7 +1417,7 @@ export function districtBatch(p: Plat, district: District, seams: readonly Seam[
 /** A count map as a record in code order (one order for every insertion order). */
 function sortedCounts(m: ReadonlyMap<string, number>): Readonly<Record<string, number>> {
   const out: Record<string, number> = {};
-  for (const k of [...m.keys()].sort((a, b) => (a < b ? -1 : a > b ? 1 : 0))) out[k] = m.get(k) as number;
+  for (const k of [...m.keys()].sort(compareKeys)) out[k] = m.get(k) as number;
   return Object.freeze(out);
 }
 

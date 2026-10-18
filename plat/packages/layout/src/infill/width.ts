@@ -12,8 +12,11 @@
 import { dmath, ratio, type Stream } from '@plat/kernel';
 import { loadTable, type Table } from '@plat/tables';
 
-/** 2²⁰: ratio()'s operands are scaled by it (exact: a power of two). */
-const SCALE = 1_048_576;
+/**
+ * 2²⁰: ratio()'s operands are scaled by it (exact: a power of two). The fabric's one definition, exported for its
+ * files to import by path (ladder.ts's `div`).
+ */
+export const SCALE = 1_048_576;
 
 /** The classes S8 cuts (§4.6 steps 9 and the deep-interior rule): lanes, alleys and, in a walled regime, secondaries. */
 export type CutClass = 'alley' | 'lane' | 'secondary';

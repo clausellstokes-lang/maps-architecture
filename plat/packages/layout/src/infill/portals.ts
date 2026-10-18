@@ -3,7 +3,10 @@
 // boundary secondary — as a `baseLane` portal in the minimal `Seam` record of that boundary run (C-0046: the two
 // districts, the run's chains, its portals; the `SeamAmendment` and the full `SeamContract` are M1's). The portal's
 // vertex carries ('portal', portal id); a planned end inside the portal gap of an existing portal — max(6 m, 2 × the
-// wider lane's width), cut.settings' cells — slides out of it (the planner's step 7 and ladder.ts's mirror of it).
+// wider lane's width), cut.settings' cells — slides out of it (§4.6 step 7). The planner and the ladder slide it with
+// one arrival band (the planner's `arrivalDot2`, `arrivesSquare`, imported by ladder.ts) and two kept differences: the
+// ladder's `spineHit` divides through the 2²⁰-scaled `div`, so it admits near-parallel rays the planner's refuses, and
+// its `slideEnd` re-derives the slid end's kerb point on the candidate's rings where the planner's reads its sides.
 // When a lane is removed its portal leaves the Seam and its end vertex loses its role and dissolves, so the spine reads
 // exactly as it did before the lane (`removeLane`).
 // At a vertex several way chains share (a chain's end where another way continues it, a junction), every reading reads
@@ -11,7 +14,7 @@
 // portals of the chains through its end vertices (`spinePortals`), a portal goes to the district's seam of any chain
 // through its vertex (`portalWaysAt`), a continuation onto a vertex of a chain that bounds the district is refused
 // (`boundsDistrictAt`), and an insertion whose portal the row would find inside a gap is taken out (`portalGapBreach`).
-import { err, LATTICE, ok, outgoing, pointLocate, resolve, rowKey, rowsOn, STAGES, type ChainRef, type Id, type Kernel, type KernelResult, type LatticePoint, type Plat, type PlatKey, type StageId, type VertexId, type VertexRef } from '@plat/kernel';
+import { compareKeys, err, LATTICE, ok, outgoing, pointLocate, resolve, rowKey, rowsOn, STAGES, type ChainRef, type Id, type Kernel, type KernelResult, type LatticePoint, type Plat, type PlatKey, type StageId, type VertexId, type VertexRef } from '@plat/kernel';
 import type { Junction, Portal, Seam, Way } from '@plat/model';
 import type { CutCells, KerbPortal, XY } from './planner.js';
 import { lengthAt } from './sides.js';
@@ -115,7 +118,7 @@ export function waysAt(p: Plat, v: VertexId, except?: Id): Id[] {
       if (k.role === 'way' && k.entity !== except) ids.add(k.entity);
     }
   }
-  return [...ids].sort((a, b) => (a < b ? -1 : a > b ? 1 : 0));
+  return [...ids].sort(compareKeys);
 }
 
 /** A way chain's line as the row reads it: its one run, or its runs end to end (`portalInvariant`'s reading). */
@@ -328,7 +331,7 @@ export function portalInvariant(p: Plat, key: PlatKey, seams: readonly Seam[], l
     }
   }
   // The gap along each spine, over the portals of every seam holding it.
-  for (const [, sp] of [...spines.entries()].sort((a, b) => (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0))) {
+  for (const [, sp] of [...spines.entries()].sort((a, b) => compareKeys(a[0], b[0]))) {
     const line: XY[] = sp.runs.length === 1 ? sp.runs[0] : sp.runs.flat();
     const placed: { s: number; w: number; id: Id; seam: Id }[] = [];
     const seen = new Set<Id>();
@@ -340,7 +343,7 @@ export function portalInvariant(p: Plat, key: PlatKey, seams: readonly Seam[], l
         placed.push({ s: lengthAt(line, q), w: portal.widthCm, id: portal.id, seam: seam.id });
       }
     }
-    placed.sort((a, b) => a.s - b.s || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
+    placed.sort((a, b) => a.s - b.s || compareKeys(a.id, b.id));
     for (let i = 1; i < placed.length; i += 1) {
       const gap = portalGap(cells, placed[i - 1].w, placed[i].w);
       // A centimetre of the lattice's rounding on each portal vertex.
