@@ -1,5 +1,13 @@
 # design-A — sites, road access, road integration and the catalogue-dependent autocorrect: the catalogue-first design (J393)
 
+> Designed on Opus 5.5 under the owner's staffing word of 2026-10-18 (J394); Fable critique closes the run (lane sites-roads/critic)
+
+**Continuation note (Opus 5.5, 2026-10-18 from 09:06 UTC; lane `sites-roads/design-A` (opus; J394, Fable-critiqued)).**
+The Fable seat that began this record (05:24–05:46 UTC) was killed by the usage limit with §0 and §1.0–§1.7 written and
+§2–§4 empty; its text is kept below as it stood (copy in the scratchpad, `design-A.partial-0546.md`, md5
+`89fe8df058970ac36f228d39f2114520`), except where this note and §1.8 name a change. *(The list of changes is completed
+in §1.8 as this seat re-reads; written as it goes.)*
+
 - **Lane:** `sites-roads/design-A` (fable; J393). A designer under the owner's staffing rule J390: this seat reads,
   designs, judges and critiques; nothing here is applied. Every text change is a fragment of §2 for the synthesis
   (draft t, numbered after file s); the apply step after J392 re-verifies every fragment's current text.
