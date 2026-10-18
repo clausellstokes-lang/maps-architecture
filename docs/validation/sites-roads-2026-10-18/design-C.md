@@ -1,5 +1,9 @@
 # design-C — the coherence-first design of the owner's sites-roads-autocorrect word (J393)
 
+> Designed on Opus 5.5 under the owner's staffing word of 2026-10-18 (J394); Fable critique closes the run (lane sites-roads/critic)
+
+**Continuation note (2026-10-18 09:10Z, `sites-roads/design-C` (opus; J394, Fable-critiqued)).** IN PROGRESS: the Fable seat that wrote §0–§1.18 below was killed at ~05:58Z; this seat completes the record against the targets AS THEY NOW STAND (after J392's file s). The note is completed at landing.
+
 **Lane:** `sites-roads/design-C` (fable; J393) — a designer under the owner's staffing rule J390 (Fable designs, judges and
 critiques; Opus reads and verifies). **Angle:** COHERENCE-FIRST — start from the owner's "coherence expectation" and V13
 §3.11's placement coherence, define a site's coherence expectation as new cost terms and anomaly kinds that depend on the
