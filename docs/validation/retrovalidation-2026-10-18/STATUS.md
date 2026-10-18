@@ -1,4 +1,4 @@
-# Live status (written by the autosave loop; last 2026-10-18 05:48 UTC)
+# Live status (written by the autosave loop; last 2026-10-18 05:53 UTC)
 
 Latest lane line per lane key (docs/lane-events.log) for today's lanes:
 
@@ -62,6 +62,8 @@ Latest lane line per lane key (docs/lane-events.log) for today's lanes:
 - 2026-10-18 05:46 sites-roads/design-A CHECKPOINT design-A.md §1 written (the words; the five kind-row columns with 21 shipped rows; the eleven expectation tests as V14 plug-ins in a V13 slot; P1 for a site subject, the snap within snapM, W7c approaches as station or spur WorldRoute, never a seat; anomalies expectationUnmet and noApproach; the inFrame path rule; H31; T-V13-57/58, T-V14-34; J-A.1
 - 2026-10-18 05:47 retrovalidation/confirm-realm LANDED docs/validation/retrovalidation-2026-10-18/confirm-realm.md: PASS on apply-realm — realm.verdict.json (25 research corrections, 61 rulings), apply-realm.md, realm-verify.md, realm.md and research/sf/fp-realm-review.md (872 lines, md5 0a9e5dcf) read whole; independent reconstruction: before copy (md5 2f62d9b4, 870 lines) + the 25 verdict str
 - 2026-10-18 05:48 retrovalidation/confirm-scripts LANDED docs/validation/retrovalidation-2026-10-18/confirm-scripts.md: PASS on apply-scripts — scripts.verdict.json (14 corrections, all record; 17 rulings), apply-scripts.md, scripts-verify.md, scripts.md and the ten scripts as they now stand (1,118 lines) read whole, with the apply lane's before copies (1,110 lines); independent check: each of 
+- 2026-10-18 05:48 retrovalidation/confirm-small LANDED docs/validation/retrovalidation-2026-10-18/confirm-small.md: PASS on apply-small; small.verdict.json read whole (11 corrections: 10 record, 1 design idx 9, 0 research, none on PROGRESS.md; 16 rulings), apply-small.md, its apply.py and six before copies (md5s and line counts as its table states), file l (288 lines), vtt-l (59) and API.md (1,05
+- 2026-10-18 05:51 retrovalidation/fix-design LANDED docs/validation/retrovalidation-2026-10-18/fix-design.md: confirm-design's two findings fixed as given — (1) V13 :3860 J-V13.83's rejected absolute rung reason bracketed (dated, ruling stands), carried as file s item 939 (§9) with the counts (items line, status line, table row, final list), V13 :105 and item 927 'items 927–935 and 939', IND
 
 Workflow runs: retrovalidation continuation wf_ed23dc6b-f13 (task wuojbxzyu; the first run wf_f0931b52-ef5 killed at the limit); sites-roads-design wf_a2bd73c2-64c (task wh4norxj2); host-requirements wf_94da751f-a31 (LANDED); amendments-r wf_6c3a4aa0-0d5 (LANDED e5de220d).
 Records: docs/validation/retrovalidation-2026-10-18/ (one <family>-verify.md and <family>.md per family, rulings.md, apply-*.md, confirm-*.md, critic.md, README.md); docs/validation/host-requirements-2026-10-18/ (extract-*.md, draft-s3..s8.md, final-s3..s8.md, critic.md); docs/validation/sites-roads-2026-10-18/ (read-*.md, design-A..C.md, judge-1..3.md, draft-t.md, critic.md, verify.md).
