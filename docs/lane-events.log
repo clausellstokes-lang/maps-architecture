@@ -9856,3 +9856,9 @@
 2026-10-18 22:34 hidden-ways/read-request CHECKPOINT request read whole (47 lines); next: term census V13/V14/base
 2026-10-18 22:34 hidden-ways/read-v14-base CHECKPOINT started, record file opened; next: V14 §1b.5/§2.2 world-site record
 2026-10-18 22:35 hidden-ways/read-v13-lenses CHECKPOINT read W8 (1879-2107), W7 (1795-1873), 5.1, 5.8, 5.9; next: 8.2, 8.5, 9, 10, 11
+2026-10-18 22:35 hidden-ways/read-v13-routes CHECKPOINT read 1b, 2.2, 2.3, 2.7, 3.8 W7, 3.11.6; next: 3.17, 6, 7, 8, 9, 10, 11 anchors, word census
+2026-10-18 22:36 hidden-ways/read-request CHECKPOINT term census gathered (way/trail/track/path/trace/lane/pass/cut/ride/byway/trod/drove/covert); next: PROGRESS J393-J399, file u, T1-T3, ENC rows
+2026-10-18 22:37 hidden-ways/read-v14-base CHECKPOINT V14 §1b.5/§2.2/§2.3/§3/§5/§8/§11 and base §2.4/§9.2/§11.1/§11.4 read; next: write the record
+2026-10-18 22:38 hidden-ways/read-host CHECKPOINT host doc §6-§8 and research rows read, V13 cross-checks done; next: write read-host.md
+2026-10-18 22:39 hidden-ways/read-v13-lenses CHECKPOINT read 8.2, 8.5, 9, 10, 11, port 3.11.6, records 2.2; next: tests T-V13-42/47-56, then write the record
+2026-10-18 22:39 hidden-ways/read-v13-routes CHECKPOINT read 3.17, 5.8, 6, 7, 8.2, 8.5, 9-11 anchors; word census done (trace taken, byway/trod free in volumes); next: size arithmetic, write record
