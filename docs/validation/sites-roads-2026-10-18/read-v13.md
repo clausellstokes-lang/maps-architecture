@@ -884,3 +884,130 @@ gaps section for what the volume text does and does not say against the README's
 270. No J-V13 row decides a site's road access, a site's link to the network, or a site's coherence-driven relocation; the
    only site-placement rows are J-V13.59 and J-V13.60 (and the `destination` term, J-V13.51). (V13:3763–3870)
 
+### §10 BCRs touching placement, routes, sites (lines 3887–4260)
+
+271. BCR-V13-4 (S1 reads the charter): the full text of (1)–(3) names edges, coast, lakes, sea, river crossings; it does
+   not name `charter.roads` (the roads' landing is BCR-V13-30 and §3.11.4's S1 reading "S4's arterial seeds … take
+   `charter.roads`"). (V13:3920–3926; V13:2218–2219)
+272. BCR-V13-5: `Recipe.product` gains `'world'|'site'`; `Recipe.charter?`; `Document.worldRef?` "written only by the
+   frame's own `charter` event"; `Document.namespace`. (V13:3928–3936)
+273. BCR-V13-9: `EditEvent` gains `requestCharter`, `bindPlacement`, `placeFrame`, `setPlacement`, `mirrorFrame`,
+   `worldWins` with `ids?`, `unplaceFrame`, …; `ConflictAction.kind` gains `'keep'|'takeOffer'|'accept'|'cancel'` with
+   `offer?`; `verb` "ignored on every other kind, a placement included". (`growPlacement` is not in BCR-V13-9's list of
+   variants.) (V13:3976–3988; V13:2847)
+274. BCR-V13-10 placement row (full): "a placement (`placeFrame`, `setPlacement`, `mirrorFrame`, `worldWins`,
+   `unplaceFrame`) | P1–P5 then W9, W7–W8 over the landmass (V13 §4.3) | the frame's arenas, plots, buildings and locks;
+   other placements | `worldWins`'s Re-derive from S1 on the frame: declared". (V13:3995)
+275. BCR-V13-11 (original text kept): outbound `routes(world) → WorldRoute[]`; inbound "`seats(world, seeds)` and
+   `costLaw(world, law)`"; revised 2026-10-17 (file m): the port's messages, two feeds and consumption law are V13
+   §3.11.6's; (file n) the DM-placed site offers join its map feed. (V13:3997–4007)
+276. BCR-V13-18: F-PLACE† row "P1–P5 … each ending in a reported clamp, default, offer or refusal … T-V13-3, 5, 13, 14,
+   22, 23, 24". (V13:4054–4058)
+277. BCR-V13-28: the registry gains `WorldRoute`, `SitingProposal`, `Placement`, `FrameCharter` kinds; §6.3's anchor
+   table gains "a placement by its subject, … a route by its ends"; `EntityKind` gains `'placement'`. (V13:4126–4139)
+278. BCR-V13-30 (full): "§4.2 S3 (4): roads meet the world at the gates. On a placed frame every charter road of class
+   highway or road is a forced gate pick: S3 (4) places a gate where the road meets the enceinte and routes the road
+   through the margin to the charter's station, the dossier's access word capping the class and the count; sea and river
+   routes bind to the harbour and the landings; `roadToNowhere` (a charter road no exit meets) and `roadUnmatched` (a frame
+   exit no charter road meets) are reported readings, never annotations." (V13:4153–4157)
+279. BCR-V13-31: neighbour edge annotations only where a dossier partner names the far settlement, as walking time under
+   the travel law; walking rings isochrones; world-zoom scale bar in `worldUnits`. (V13:4159–4164)
+280. BCR-V13-32 crosswalk: "the exit bearings and arterial meeting at the edge | met, BCR-V13-30"; "the arterial seeds |
+   met for the auto forms, BCR-V13-36"; "road drift | met for the host, `roadsAt`". (V13:4171–4186)
+281. BCR-V13-36: "On a frame with two or more road entries a regional skeleton is laid before the nuclei (the auto forms
+   only)". (V13:4201–4203)
+282. §10.2 R-V14-1 (full): "every `Placement` with a `site` subject gives the site's `at` (`originCm`); its card's
+   `attraction` (0–1) and `routed` are read through `@plat/api`'s resolver from the site document (V14 §2.2), cached per
+   (placement, the card's digest) — for W6's `destination` term, W7's routed sites and the charter's `sites` (SW-20)".
+   (V13:4248)
+283. §10.2 R-V14-2: a site's `Placement` as a world fact (`WorldFacts.sites`); the `SiteReach` resolved across documents.
+   R-V14-3: G3 calls `score` with purpose rows over V14's plug-ins and V13's eight generic terms; no jitter; §3.7 (6)'s
+   tie-break. (V13:4249–4250)
+284. §10.2 R-V14-11 (full): "a site subject goes through every placement edit as the frame does (`setPlacement`,
+   `worldWins` as G5 (f)'s re-materialization, `unplaceFrame`); the site document holds only its `placementRef` (SW-11,
+   SW-19)". R-V14-12: adoption on `world.placed`. R-V14-13: the card's `devotion`. (V13:4258–4260)
+285. No BCR or R-V14 row asks for a site's access class, a site-to-road link, or a catalogue-dependent coherence rule for
+   sites. (V13:3887–4260)
+
+### §11 owner questions, §12 CONFIRMED/PLAUSIBLE, §13 and integration notes (lines 4262–4452)
+
+286. §11 Q1 (elective rebase): "a settlement placed on it is placed settlement-first, the world bending to it,
+   `worldWins` never run automatically"; recommendation: per campaign, premium, default keep, full forecast diff.
+   (V13:4264–4271)
+287. §11 Q2 (host schedule; launch classification), Q3 (share codes: embed the charter, recommended), Q4 (answered
+   2026-10-18, file r item 926: "1. yes"; world canon outside door 1). No owner question in §11 concerns sites' road
+   access, sites' integration into the road network, or site relocation. Two "Ruled" paragraphs (who keeps a gate,
+   J385/J-V13.96; the birth canon and the fight verdict, J386–J388). (V13:4273–4325)
+288. §12 CONFIRMED: "the owner's rules of items 131–141 and the settlement-first correction as quoted in V13 §1.3".
+   (V13:4329–4337)
+289. §12 PLAUSIBLE (placement and routes): "the suitability weights and spacings, the route cost rows, the polity rule's
+   cells …, the coherence weights and the lawful bound, the blend band" — measured by T-V13-16's statistics bars at M-W1
+   and M-W2 and re-celled by `editTable`. No separate CONFIRMED/PLAUSIBLE row names W7's mechanism, `RouteLayRule`,
+   `exitRunM` or `nearestLawful` by name. (V13:4339–4349)
+290. §12 the one owner-rule deviation: item 135 (c) until BCR-V13-29 lands (T-V13-13's two-frame fixture expected-fail).
+   (V13:4351–4356)
+291. §12 parity table rows on W6/W7: "ports: the two-ports rule (KEEP) | `minPortsPerBody` (V13 §3.7 (3)) | reached";
+   "routes: the cost law, the trunk, well-ported islands, the gap fix, cabotage (KEEP) | the host's law as data;
+   `sea.trunk`, `sea.gapFixRatio` (V13 §3.8); cabotage not built | deviated on cabotage: no coastal chaining of short sea
+   legs — D-V13.6 if the host asks". (D-V13.6 is said to be §12's; §9's deferred list says "D-V13.5 – D-V13.7 are
+   §12's".) (V13:4382–4383; V13:3876)
+292. Integration notes: V14 reads `FrameCharter` (`sites`, `resources`, `territory`, `outlines`) — `roads` not listed —,
+   `Placement` and the transforms, `SitingProposal`, the suitability slot, `worldFactsAt`; "V14 writes `WorldSite`
+   positions (read by W6 and the charter) and an attached site's `SiteReach`"; IN-V13-3: "a free site has a placement,
+   not an anchor". (V13:4402–4409, 4432–4433)
+293. Integration notes R1-1: the import's markers as `SitingProposal`s with `demand: 'import'` vs V14 §3.2's `dropSite` per
+   marker — open for reconciliation round 1. (V13:4450–4452)
+
+## Gaps — what this reader looked for in V13 and did not find
+
+* **A site's road access.** No field, term, rule or table states whether a site has road access, of what class, or how
+  a site is linked to the network beyond W7 (1)'s `routed` seat flag (V13:1700–1703) and W7 (11)'s rule that on a
+  host-bound world a site is "a position along a route, never an end" (V13:1769–1771). No access class per site kind.
+* **How a site becomes "a position along a route" on a host-bound world.** W7 (11) and T-V13-43 say a dropped site
+  "changes a route's geometry and effort, never the number of legs" / "moves its effort by the detour only"
+  (V13:1770–1771, 3589), but no W7 step, cost term, lay rule or port message states the mechanism that bends a host
+  route to a site (W7 (9) says the lived network is "mirrored, never computed" and only `chartered` lays new geometry,
+  V13:1753–1754).
+* **A trail or spur from a standalone site to the network.** W7 (5) gives "every seat still unjoined" a `trail`
+  (V13:1736–1737), which covers a `routed` site; nothing covers a non-`routed` site.
+* **Site placement coherence.** `CoherenceCost` has seven terms (coastSide, riverCrossing, edgeElevation, relief, biome,
+  territory, dossier) (V13:735, 2079–2087) — none about roads or sites; no catalogue-dependent coherence rule for a site
+  subject; no road or access weight in `place.coherence` (V13:1144). §3.11.1's text says "six terms" while listing seven
+  rows (V13:2077).
+* **Autocorrect of a site's geography.** P2's blend, P3's drainage and P4's charter are stated for frames; a site subject
+  "takes the site document as the frame through every edit below" (V13:2056–2058), but no text states whether a site
+  placement runs P1's coherence, P2's blend or P3 (settlement-first), or how `nearestLawful` applies to a site. No
+  `placeFrame` form with a site subject is declared (V13:2835); `requestCharter` admits a site subject (V13:2833).
+* **The DM's choice verbs for a site.** `keep`/`worldWins` (anomaly), `keep`/`takeOffer`/`cancel` (`W_PLACE_NO_LAWFUL`),
+  `keepDossier`/`moveTown`/`cancel` (`W_EDIT_DOSSIER`) are stated for placements generally (V13:2872–2876); no
+  site-specific verb, no `moveSite`, and `moveTown` exists only on `W_EDIT_DOSSIER`.
+* **Road anomalies at P5.** `roadToNowhere` / `roadUnmatched` are declared (V13:788; BCR-V13-30 V13:4153–4157) but P5's
+  orientation-terms table (V13:2269–2278) and F-PLACE's detections (V13:2774) do not list them; T-V13-12 counts "four
+  fixtures, one per anomaly kind" against eight kinds (V13:3564); no T- row asserts either road anomaly.
+* **A route re-run after a site placement.** P1–P5's output and §4.3 re-run W7–W8 "when the frame is a new seat"
+  (V13:2458–2462, 2905); no row names a W7 re-run when a `routed` site is placed or moved, though W7b reads "V14's routed
+  sites" (V13:1389).
+* **The `routed` flag's reader in W6.** `SuitabilityContext.sites[].routed` is declared (V13:759) but no V13 suitability
+  term reads it (`destination` reads `attraction` only, V13:1658–1661).
+* **`routeNear` and `roadControl` (named in the README).** No term of these names appears in V13; V13 holds only the radius
+  `reach.roadControlKm` (2 km) and `overlookKm`, `settlementKm` with no V13 term reading them (V13:950, 1066); they are
+  V14's plug-ins by J-V13.51 (V13:3806).
+* **`FrameCharter.sites` access.** The charter's `sites` rows carry `site`, `at`, `kind`, `footprint?` only (V13:722); no
+  road or access field; `FrameCharter.roads[].toward` excludes a site (V13:714).
+* **Patrols at sites.** Patrols are per route segment and power (V13:1963); a garrisoned site is a patrol source only as
+  "a fort or watchpost along the segment" (V13:1965–1966); `patrolOffer` names "the nearest garrisoned seat or site"
+  (V13:2349); nothing states a patrol to a site off the network.
+* **H-rows.** No H-row asks the host for a site's road link or access (V13:3724–3755).
+* **§11 owner questions.** None about sites and roads (V13:4262–4325).
+* **`WorldFacts`** is declared in §2.4 (V13:1171), not §2.2; the task's list placed it in §2.2.
+* **H22's text and §12's "D-V13.5 – D-V13.7 are §12's"** — D-V13.5 and D-V13.6 are named in §12's parity table
+  (V13:4373, 4383, 4388); D-V13.7 likewise (V13:4385). No D- row concerns sites or roads.
+
+## Verification of this record
+
+* Snapshot read: `/tmp/claude-0/-home-user-maps-architecture/4291a60d-8240-5d49-a54e-2b2a213d093f/scratchpad/sites-roads/V13-snapshot.md`,
+  md5 `c8759307398388249547f71e1912feca`, 4,452 lines, read whole in order (lines 1–4452).
+* Live file re-hashed at 05:19Z after the read: `docs/volumes/V13-world.md` md5 `c8759307398388249547f71e1912feca`
+  (unchanged during the read).
+* 60 cited lines spot-checked by script against the snapshot (each cited line contains its quoted key string): 60/60.
+* Counts: 293 facts recorded; 16 gap entries.

@@ -783,3 +783,198 @@
 198. Parity: "the survey's parity rows … the one-click drop (its §6.1 (4); T-V14-5)" (V14:2812–2815); T-V14-4 (e) "in
      town nothing nearby is generated" (V14:2829).
 
+### §8 Build plan (V14:2868–2940)
+
+199. "**M-SITE-F**, free-standing sites with their ground, siting, destinations and adoption, after V13's M-W1 (the
+     charter, placement and the W6 score)" (V14:2875–2876). SE6 content: "G3 whole over V13's score with this volume's
+     seventeen `SuitabilityTerm` plug-ins and the purpose weights (C14-04), the terrain pre-edit under V13's verbs, the
+     frame and the charter, G5 (e)'s ground composition (S1, S12a/S12b, S7, S10/S11, V03 on the site's ground) and (f);
+     the `worldSite` decoration and destination (BCR-V14-13); G8 (e) adoption …; G3 (d)'s `attraction` and `routed` on
+     the card; the robbing relation with V06; the world-map encounter context (E1's `world`) over V13's facts"; exit
+     "T-V14-7, T-V14-8, T-V14-9 (bar 6), T-V14-10 (c), T-V14-27 (a), T-V14-4's world clause …"; est. 3.5–5 pw
+     (V14:2890).
+200. Dependencies: "SE6 waits on V13's M-W1 (the charter, placement and its W6 score) — until M-W1 lands a free-standing
+     drop takes a point only" (V14:2905–2906). (§1b.6 V14:474 says "free-standing sites wait"; V14:475 "a free-standing
+     drop takes a point only".)
+201. Risk (5): "V13's score lacking the two terms (V14 §11 Q2; the fallback: concealment as 1 − overlook, one approach
+     from the route count — both readable from V13's distance fields)" (V14:2927–2928). Risk (8): "The host's site record
+     (V14 §11 Q2's second half): until SettlementForge carries one, every site is map-tier" (V14:2930–2931).
+202. Content step: "the catalogue's `info.site.*`, `info.unit.*`, `info.encounter.*`, `bend.site.*`, `refuse.*` lines
+     (English, own), the icons' glyphs" (V14:2896) — **Catalogue use #4** (V09 §4.9's message catalogue).
+203. Register: "SE3 `sites.admissibility`, `sites.kinds`; … SE6 `sites.purpose`" (V14:2916–2918).
+
+### §9 Decisions touching siting, roads, placement, the world (V14:2942–3005)
+
+204. J-V14.3: a site as a `Document` of product `site` "because the city's plots must never move for a site (item 133
+     (b))" (V14:2952).
+205. J-V14.10: attached site separate document, one anchor, one access; "the host document must gain no geometry for a
+     site (item 133 (b))" (V14:2959).
+206. J-V14.11: "chose a cave attached to a terrain feature in the country as a free-standing site whose placement names
+     V13's feature, and a site inside a site's frame as a site of its own, over a third attachment mode" (V14:2960).
+207. J-V14.27: locality — "the city's plots never move for a site" (V14:2976).
+208. J-V14.29 verbatim: "chose a free-standing site's frame as V13's placement rectangle (the envelope's radius × 4, at
+     least 120 m, for a site with a ground policy) under V13's charter with the envelope standing in for S6's perimeter in
+     the hinterland unit, over a site with no ground or a full settlement frame, because a tower stands in its closes and
+     a fort in its glacis, and the hinterland unit already lays fields round a perimeter" (V14:2978).
+209. J-V14.36 (amended by J-V14.43): `concealment` = 1 − max(overlook, routeNear); `oneApproach` the count of low-cost
+     approach directions under V13's cost law (V14:2985). J-V14.37 superseded by J-V14.43: "replaced by the kind row's
+     `attraction` and `routed` read by V13's `destination` term and W7" (V14:2986).
+210. J-V14.38: world-map case "refused until V13's M-W1 …, because … a crop that invented terrain the world will later
+     contradict would break item 135 (a)" (V14:2987).
+211. J-V14.41 verbatim in part: "chose **adoption at the drop** (`inFrame`) for every site with a ground policy inside a
+     settlement's frame … and never a `free` site inside a frame, over a second document in the frame, because one ground
+     has one owner (item 135 (a): one geometry refined three times)" (V14:2990).
+212. J-V14.43 verbatim in part: "chose the seventeen siting terms as this volume's plug-ins … with the kind row's
+     `attraction` and `routed` read from the card by V13's `destination` term (within `reach.siteKm`) and W7, and no
+     random or jitter term in or beside the score (equal candidates fall to V13's deterministic tie-break) … because V13
+     owns the interface, the context and the registry and this volume owns the terms (C14-04; SW-01, SW-03)" (V14:2992).
+213. J-V14.44: "the world-map crop as a **crop frame** — V13's charter at a transient placement, S1 and S12a over 100 m
+     and the charter's roads as bands … because a crop needs faces for line of sight, roads and water" (V14:2993).
+214. J-V14.50 (SW-04, R1-1): import candidates as V13 `SitingProposal`s; "the world's digest moves only on the DM's act"
+     (V14:2999). J-V14.51 (SW-08) glyph via `glyphOf`/`world.glyph` (V14:3000). J-V14.52 (SW-10) adoption raised by the
+     application on V13's `placed` outcome (V14:3001). J-V14.53 (SW-11, SW-12) `placementRef` only; integer `WorldPointCm`
+     (V14:3002). J-V14.55: "to make a `worldWins` on a site a re-materialization (G3 (c), G5 (f))" (V14:3004).
+215. No J-V14 decision addresses a site's road access, a site's join to the road network beyond W7 seating, or
+     placement coherence/autocorrection of a site (V14:2948–3005).
+
+### §10 Base change requests (V14:3007–3058)
+
+216. BCR-V14-13 verbatim new text: "`Reservation.kind` gains `'worldSite'` (claimed first as the castle's, §4.2 S3 (2),
+     (8), with `site: Id`; the site's content as drawn constraints of the creation prefix at a host-founded settlement,
+     §7.2; C14-16); `Destination` admits `kind: 'worldSite'` for **S4 after adoption only** — the adopted site's gate as
+     a frame-scale destination inside the settlement's frame (C14-04); V13's siting reads the card's `attraction` and
+     `routed`, never a destination" (V14:3030).
+217. BCR-V14-2 (access): `under: { part; element; at } | SiteReach`, `ground.storey?` for source `site`, `source` gains
+     `'site'`, `effectiveKnownTo` (V14:3019). BCR-V14-10 lists `tables/sites/*` incl. `admissibility`, `kinds`,
+     `purpose` (V14:3027).
+218. §10.2 V13 request (1) verbatim in part: "the `SuitabilityContext` carries `territories: Territory[]` and the
+     wet-season spread beside its raster, coast, reaches, surfaces, routes, placements, sites, resources, springs and
+     stage …; V14's seventeen terms are registered through `register` …; the `destination` term (named so everywhere)
+     reads `WorldSite.attraction` from the card within `reach.siteKm`; W7 reads `WorldSite.routed`; no random or jitter
+     term and no jitter argument exists — equal candidates fall to V13's deterministic tie-break (the lowest cell index,
+     then the lexicographic id)" (V14:3048).
+219. §10.2 V13 request (2): "`charterFor(world, placement)` for a transient, non-settlement placement whose `originCm` is
+     the clicked `WorldPointCm` (a 100 m frame, no `Placement` recorded, no glyph)" (V14:3048).
+220. §10.2 V13 request (8): "`setPlacement` / `placeFrame` / `unplaceFrame` with a `site` subject leaves the site's arenas
+     and the site document's digest byte-identical and marks its charter stale as for a frame; … a `worldWins` on a site
+     schedules V14's re-materialization (G3 (c), G5 (f)), not an S1 re-derive" (V14:3048).
+221. §10.2 V13 request (13): import adapter writes `SitingProposal`s; (14): "P4/P5 emit a `placed` outcome naming the
+     sites the new frame covers, on which the application raises V14's `adoptSite`; V13 never calls V14"; (15): "the
+     budget row `WORLD-10` for G3's score over its candidates" (V14:3048).
+222. §10.2's V13 row requests nothing concerning a site's road join beyond W7 reading `routed`, nothing concerning a
+     coherence cost, nearest-lawful placement or anomaly for a site (V14:3048).
+223. §10.2 V07: "the reservation of kind `worldSite` read by the village's siting" (V14:3053). V08: "a site's host record
+     (`WorldSiteRecord`) … with DR-V14-1" (V14:3054). V09: catalogue keys of §4.9 (V14:3055). V11: "the kind rows' `icon`
+     glyphs in the symbol catalogue" (V14:3057).
+
+### §11 Owner questions (V14:3060–3070)
+
+224. Q1 product order of the in-town crop; recommendation ship after M1 (V14:3067).
+225. Q2 verbatim: "**A capability across the SettlementForge boundary:** a host record for world sites
+     (`WorldSiteRecord` — existence, kind, name, owner, status, position; the party's reach as an event; the reveal of an
+     anchor) in the dossier (V14 §1b.5; V08's row) — to be scheduled in SettlementForge's own program | yes, with V13's
+     host changes (item 138 (e)): until it lands every site is map-tier and nothing of the map is lost; the record's
+     shape is V14 §2.2's `WorldSiteHost` and V08 §2.8's custom-record form" (V14:3068).
+226. Q3 money 25.75–36.25 pw, recommend accept (V14:3069). Q4 VTT vendor block, recommend optional off by default
+     (V14:3070). No owner question concerns site roads, access to roads or placement coherence (V14:3065–3070).
+
+### §12 CONFIRMED / PLAUSIBLE (V14:3072–3148)
+
+227. CONFIRMED: "V13 (read for the seam at Revision 1): its score terms are `habitability`, `discharge`, `lowland`,
+     `coastType`, `resource`, `spring`, `destination`, `connectivity`; its `destination` term reads `attraction` within
+     `reach.siteKm`; W6 draws tie-breaks only; W7 reads `routed`; its `charterFor(world, placement)`, `placeFrame`,
+     `setPlacement`, `unplaceFrame` … exist as V14 cites them" (V14:3106–3110). "W6 draws tie-breaks only" stands beside
+     V14:1007–1008 / 2205 (V13's deterministic tie-break, no draw).
+228. PLAUSIBLE: "That V13's score exposes the terms V14 §2.5 names or their fallbacks (J-V14.36); that V13's charter
+     admits a non-settlement frame" (V14:3126–3127); "that the robbing relation over a free-standing ruin near a
+     settlement is wanted (J-V14.25's family; vetoable)" (V14:3136–3137); "that the seventeen plug-in terms cost no more
+     than V13's own terms at W6 (a spike at SE6)" (V14:3142–3143).
+
+### §13 and the integration notes (V14:3150–3208)
+
+229. §13: "No finding was ruled INVALID and none is deferred, so the Fix list holds no item" (V14:3152–3155).
+230. Integration notes: "placement never changes an arena digest (V13's; adoption re-prefixes addresses, never
+     geometry)" (V14:3167). Coherence pass applies BCR-V14-1 – -25 "into `docs/AMENDMENTS-2026-10-16k.md` from 600"
+     (V14:3171–3172).
+231. IN-V14-1: "T-V14-8's clause "reach V13's `site` term" now reads the `destination` term" (V14:3179–3181). IN-V14-2:
+     "§3.15's draw list no longer names "G3's controlled random term" — G3 draws nothing" (V14:3182–3183). IN-V14-4:
+     adopted card's `placementRef` reads the settlement's `worldRef` (V14:3186–3187). IN-V14-8: import candidates as
+     `SitingProposal`s (V14:3202–3208).
+232. File k mapping: "-13 → 604, 611" (BCR-V14-13 → file k items 604, 611); "None is applied yet" (V14:3195–3200).
+
+## Every use of the word "catalogue" in V14 (grep -i, 10 lines; V14 at md5 a1c6d7c2…)
+
+| line | text (excerpt) | what "catalogue" means there |
+|---|---|---|
+| V14:244 | "intent, assignments, `Assignment`, `PlacementCriteria`, the forms catalogue \| §7.7" | the base's §7.7 forms catalogue (edit forms) |
+| V14:472 | "E1 refuses a world click with `refuse.encounter.noWorld` (V09 §4.9's catalogue)" | V09 §4.9's message-key catalogue |
+| V14:1297 | "the bend named in the dry run (`bend.site.kind`; V09 §4.9's catalogue)" | V09 §4.9's message-key catalogue |
+| V14:2423 | "Every word is a catalogue key (V09 §4.9): `info.site.*`, …, `refuse.raise.flat`" | V09 §4.9's message-key catalogue |
+| V14:2828 | T-V14-3: "no record, key, table cell, export field or catalogue string of this volume names an hour" | V09 §4.9's message-key catalogue (its strings) |
+| V14:2843 | T-V14-18: "every word a catalogue key" | V09 §4.9's message-key catalogue |
+| V14:2896 | content step: "the catalogue's `info.site.*`, `info.unit.*`, `info.encounter.*`, `bend.site.*`, `refuse.*` lines (English, own)" | V09 §4.9's message-key catalogue |
+| V14:3055 | §10.2 V09 row: "the catalogue keys of V14 §4.9" | V09 §4.9's message-key catalogue |
+| V14:3057 | §10.2 V11 row: "the kind rows' `icon` glyphs in the symbol catalogue" | V11's symbol catalogue (glyphs) |
+| V14:3163 | integration notes: "V09's tools, switch, panels and catalogue" | V09's message-key catalogue |
+
+233. V14 never uses "catalogue" for the site kind rows (`tables/sites/kinds.json`, `SiteKindRow`); the kind rows are
+     called "the kind row(s)", "kind-row columns", "`kinds.json`" (e.g. V14:861, 870, 902, 1316). The nearest V14 term to
+     a per-kind list is "the kind rows" (V14:330) and "one row per WorldSiteKind" (V14:861). (Grep for "catalog" returns
+     the same 10 lines.)
+
+## Gaps (looked for in V14 at md5 a1c6d7c2…, not found)
+
+- **Road access as a per-kind attribute.** No `SiteKindRow` column, `SitePolicy` field or `SiteRequest` field names road
+  access, an access class, an approach road, or "needs a road"; the only road-bearing per-kind data is `routed`
+  (boolean, W7 seating) and `attraction` (V14:602–608, 861–867, 902–916, 564–577).
+- **A site's join to the road network on the ground.** No text joins a free-standing site's gate/entrance to the world
+  route or to its own frame's ways: G3 (c) names the hinterland unit's "tracks" (V14:1433) and the charter list omits
+  roads (V14:1431–1432, 473); G5 (e) makes entrance units `GateSite`s with no way (V14:1670–1672); G5 (f) names no way
+  (V14:1691–1693). W7 seating (V14:1441–1442) is the only mechanism; "a routed fort gains a road" is the only bar
+  (V14:2833).
+- **`inFrame` and `surface` sites and the host's streets.** No text joins an `inFrame` site's gates to the host's ways or
+  re-runs S4 for them (V14:1930–1941, 2373); `Destination.kind: 'worldSite'` is "for S4 after adoption only" and only
+  for an adopted free site's gate (V14:1447, 3030). Whether an `inFrame` site's gate is an S4 destination is not stated.
+- **`routed` / `attraction` for non-free attachments.** G3 (d) speaks of "Every free-standing site" only (V14:1439); no
+  rule for `inFrame`, `attached`, `ground`, `surface` cards' `routed`.
+- **Host-bound worlds.** V14 does not distinguish a standalone from a host-bound world for site seating/routes (the
+  README's "on a host-bound world a site is a position along a route, never an end" is V13's text, not V14's); V14's only
+  host-bound clauses are `WorldSiteHost.holder` (V14:560) and "A host-placed site … is never re-sited" (V14:1411–1412).
+- **Placement coherence for a site.** No `CoherenceCost`, `nearestLawful`, `PlacementAnomaly`, `roadToNowhere`,
+  `roadUnmatched`, `moveTown`, "anomaly", "autocorrect" or "coherence" (in the placement sense) appears in V14 (grep
+  empty; the "coheren" hits at V14:64–65, 2880, 2955, 3003, 3010, 3171 are the coherence pass / "kept coherent with the
+  town's rules"). A point drop "takes that point as its placement origin" with no coherence check (V14:1399–1402).
+  `worldWins` on a site appears only as the DM's re-materialization (V14:52, 1414, 2856, 3004, 3048).
+- **Catalogue-dependent autocorrection.** No per-kind rule says which kinds the world may move/autocorrect and which it
+  may not; the only kind-dependent placement rules are the admissibility table (context → kinds, attachment;
+  V14:839–853) and G1's bend to "the nearest admitted kind of the same purpose" (V14:1295–1298).
+- **`setAttr` paths for `attraction` / `routed`.** Stated editable by `setAttr` (V14:357, 540) but absent from §4.2's
+  list of `setAttr` paths (V14:2261).
+- **Shipped `icon` values per kind.** The `icon` column exists (V14:866) and glyphs are listed in prose (V14:2442–2444),
+  but no kind-by-kind icon table; no shipped `importKinds` or `buildingClass` cells (V14:874–896).
+- **An "extent" or "access row" in the kind rows.** The kind row has no extent column (crop extent is the
+  `EncounterExtentRow` table by location profile, V14:936–966) and no access row (the access record is §2.3/§3.9 (a) for
+  attached sites only).
+- **Owner items 131, 137 (a)–(e), 138, 139, 140 quoted.** §1.3 quotes no words of 131, 138, 139, 140; 137 appears only as
+  "137 (f), (g)" without quoted words (V14:292); item 138 (e) is cited once (V14:3068), 139 (d) once (V14:3010), 140 at
+  V14:1125, 3018, 3022 (M1, M7, M9), 131 (c) at V14:747, 1109, 135 at V14:289, 1984, 2987, 2990, 2993.
+- **The words "thorp … in front of or surrounding an abandoned or occupied fort"** are quoted at V14:1923 without an item
+  number.
+- **Inconsistencies recorded (not judged):** `roadControl` is called "V13's term" at V14:1341 but is one of V14's
+  seventeen plug-ins at V14:978/982; A3 says "`hinterlandFar` … (free)" at V14:1376–1377 while §2.5/§3.2 say never
+  `free` inside a frame (V14:846, 1299); G5 (b) 2's "jitter `spacing ÷ 4`" (V14:1606) is a keyed draw per §3.15
+  (V14:2207–2208), while G3 has none (V14:2205); §1b.6 says free-standing sites "wait" (V14:474) while V14:475 and 2906
+  say "a free-standing drop takes a point only" until M-W1.
+
+## Footer
+
+- V14 re-checked at 05:19 UTC: md5 `a1c6d7c2bf08595776b1f913765cf1cb`, 3,208 lines — unchanged during the read (every
+  cite above holds at that md5; the apply step re-verifies after J392).
+- Read whole: V14:1–3208 in consecutive ranges (1–200, 201–320, 320–420, 420–520, 521–600, 601–690, 691–790, 791–870,
+  870–920, 920–1000, 1001–1080, 1081–1160, 1161–1240, 1241–1310, 1311–1380, 1381–1440, 1440–1500, 1500–1570,
+  1570–1640, 1640–1710, 1710–1770, 1770–1830, 1830–1890, 1890–1950, 1951–2010, 2010–2070, 2070–2130, 2130–2190,
+  2191–2250, 2251–2310, 2311–2380, 2381–2440, 2440–2500, 2500–2560, 2561–2640, 2641–2720, 2721–2790, 2791–2850,
+  2851–2910, 2911–2970, 2971–3020, 3021–3075, 3075–3208), plus greps for completeness (catalogue, coheren, anomal,
+  nearestLawful, worldWins, moveTown, PlacementAnomaly, roadToNowhere, roadUnmatched, CoherenceCost, autocorrect, road,
+  route, routed, attraction, W6, W7, seat, track, S4, ways, approach).
+- Landed 05:20 UTC (opus; J390, Fable-checked).

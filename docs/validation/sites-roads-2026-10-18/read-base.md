@@ -610,3 +610,271 @@ Any md5 that changed during the read (J392 applying) is recorded at the fact tha
 - F143. Consequence recorded (not a judgement): the canon's sites slot is "frozen candidate ground per seat inside its
   orbit" (F63, F79) — the host's own satellite ground — not V14's world-site cards; no base or amendment text puts a V14
   `WorldSite`'s road access or its route leg into the canon. (m:1277–1278; n:789; ARCHITECTURE.md:17712–17722)
+- F144. The base's mentions outside the named sections were grepped (`\bsite\b` 350 lines, `\broute` 401, `\broad` 344,
+  `patrol` 1; dumps kept in the lane scratchpad `sites-roads/base-site.txt`, `base-route.txt`, `base-road.txt`) and
+  filtered for the world/site/charter/frame-edge senses; the ones that bind are F145–F151 below. The remaining hits use
+  "site" for the town's own site (S1 Site, the site request, a crossing site, a site plan) and "route/road" for the
+  frame's own ways. The one `patrol` is §16's estimate line ("M-W2 widened by the sway, patrols and windows").
+  (ARCHITECTURE.md:21760)
+- F145. §4.3 *Result*: "Through-roads continue to the context margin with their bearings (O14)"; the O14 acceptance row:
+  "(b) field access 100 % …; (d) **roads leave to destinations 100 %**, rivers enter and exit [C]". (ARCHITECTURE.md:6506, 21642)
+- F146. §5.2 F-ROUTE's ladder: "another crossing site … → one bridge at extra cost … → relax the slope limit one class →
+  route to the nearest reachable junction, the destination `unserved` …"; its test "O4 (a): 100 % of through-roads at a
+  named destination or reported". (ARCHITECTURE.md:9933)
+- F147. §4.7: "every plot, hidden ones included, has ≥ 1 access edge and a chain of access faces to a public kerb
+  (F-PLOT, §5.2; the chain-reachability bar is §13.2's)"; `Plot.access: EdgeSetRef /* ≥ 1 edge always (§5.2 F-PLOT)
+  */`. The base's in-frame access guarantee. (ARCHITECTURE.md:7504–7505, 1205)
+- F148. §7.7 DR1/DR2/DR3: the dossier's `site.access` (the "access word" V13 caps charter roads by) feeds S0's site
+  request, "the access row's gate counts" (DR2: "the gate count inside the access row") and "its `road` partners'
+  bearings read by S3 (4) as requested bearings" (DR3). (ARCHITECTURE.md:12940–12942)
+- F149. §2.8/§6.3 anchor table: "| world route (V13 §2.5) | **its ends** | — | — |" — while V13 §2.5 as file m item 702
+  left it reads "a route by its ends **and mode**"; and "| the world site's card and anchor (V14 §2.8; from M-SITE-A) |
+  V14 §2.8's lineage parents: the card is a site document's town root |". (ARCHITECTURE.md:10734–10737; m:776–782)
+- F150. §2.7 staged records: `SiteAnchor` ("a world site's anchor in a frame, its icon's position and the storey it heads
+  on") and `WorldSite` ("the card: the site's kind, programme, condition and `WorldSiteLifecycle`"); §7.7
+  `Assignment.site?: Id` (the surface exception); §6.1 the `site` concern draws "G8's access candidate". (ARCHITECTURE.md:3537,
+  12630, 10334)
+- F151. §7.4's lifecycle row for the site's kinds: "`dropSite`, `setSiteRequest`, `moveAnchor` as a `setAttr`, the
+  delete as **Remove**, the conversions as **Destroy** …, `promoteEncounter`, `adoptSite`". `ConflictAction.kind`:
+  "`'moveTo'|'unlock'|'unassign'|'stale'|'invalid'|'keep'|'takeOffer'|'accept'|'cancel'` /* … a route is bent, never
+  refused …*/". (ARCHITECTURE.md:12091, 17194)
+- F152. The word "catalogue" in the texts read carries these senses (for the owner-reading question of J393): V09's
+  message catalogue and its keys (`refuse.*`, `bend.*`, `info.site.*`); the forms catalogue (§7.7); V11's catalogue
+  kinds and the symbol catalogue (file k item 646: "the kind rows' `icon` glyphs in the symbol catalogue"); none of the
+  base, INDEX, SUMMARY or the brief calls V14 §2.5's `tables/sites/kinds` "the catalogue". J393's journal row records
+  the session's reading (the kind rows) and that "the designers state the reading and flag it for the owner where it
+  could mean V09 §4.9's key catalogue instead". (ARCHITECTURE.md grep "catalogue"; INDEX:35, 69, 217; k:855;
+  docs/PROGRESS.md:451)
+
+## What a site-road-autocorrect design must obey or change — the cites collected (a reader's index, no judgement)
+
+- Owner's words binding by number: j 132 (e) world-map case reads the route at the point; j 133 (h) drop creates a
+  card, two delete verbs; j 134 (a) admissibility table, (c) sites as destinations / landmark claimed first, (d)
+  adoption; j 135 (a)–(e) one chain of refinement, roads in the downward charter, deterministic refinement, edits at
+  their scale; j 137 (c) locks hold geometry, anomalies reported with the DM's choice, never silently moved; j 140 the
+  M0 gate rows (K3, K11, K12, M6–M8); m 659 (f) border-post proposals the DM may accept; m 660 (e) chain continuity "or
+  joined by a road"; m 661 (d) patrols on roads, never a roll, never imposed; r 926 the canon outside door 1, door 1
+  closed (F3–F10, F34–F36, F97).
+- Session rules already landed that a site-road rule meets: no random or jitter term in siting (k R-c; F13, F18); V13
+  owns the suitability slot, V14 its purpose terms (k R-d); `worldSite` destination for S4 after adoption only, V13's
+  siting reads `attraction` and `routed` never a destination (F16, F127); legs end at settlements, a site a position
+  along a route on a host-bound world (F58); charter `toward` never a site (F46, F61); forced gate picks for charter
+  highways/roads (BCR-V13-30, not admitted to the base: F68, F102, F117); `roadToNowhere`/`roadUnmatched` reported,
+  never annotations (F52, F68); placement coherence scored once, politics never re-opens a placement (F60); the stamp's
+  ladders and `W_EDIT_DOSSIER`'s `moveTown` (F62); `W_PLACE_ANOMALY` with the nearest lawful origin offered (F84); W7 on a
+  host-bound world lays only host-named edges, grade edits refused (F57, F58, F65); one word one meaning: *gate* never
+  bare, *border post*, *road patrol* (F63, F92); closure edits as the base's mechanism for "an edit generates the
+  prerequisites it implies", with no `road` piece today (F141); the in-frame access guarantee (F147); the hinterland
+  decoration table's `trail` column as the base's one per-kind road-access column (F124); outside plots' driveway to
+  the nearest way corridor (F123); F-ROUTE's ladder ending `unserved`, never refused (F132, F146).
+
+## The amendment-file form to reuse (from file r, with files k–q's conventions)
+
+- Title `# Amendments t — <subject> (<date>)`; "Numbered from **N** (file s ended at N−1)."; a status line (DRAFT / NOT
+  APPLIED, or APPLIED by <lane> with the fragment count per target and the bundle `--check`); **Sources.** with every
+  target's md5 before (and after, once applied); **How to read the item(s).** — lettered fragments "(a)–(x) … in file
+  order …, each with its target and line as the target stood before this file, the current text quoted once (a line
+  break inside a quote written ⏎) and the new text in full as a blockquote whose lines are the new lines (the `> `
+  prefix removed; a bare `>` an empty line), and one line of reason"; `---`; the item(s) with the owner's words
+  verbatim, *Its meaning*; fragments headed `**N (x).** <file> — <section> (<what>). Target: <path>, line(s) L as it
+  stood before this file.` + `*Current text:*` + `*New text:*` + `*Reason:*`; `---`; `## Not items` (read and left);
+  **For the session**. Files m–q add: the clean-room rule for new texts, "Where … not taken verbatim (each a design
+  choice of this file, recorded so it can be vetoed)", *Evidence* tags [STATED]/[OBSERVED]/[INFERRED], the residue
+  check (each quote once at its turn, each new text once after, the kept tail agreeing with the new text's end), and a
+  closing Review record. (r:1–262; m:30–41; n:93–107)
+- Numbering state: j 131–141; k 600–647; l 648–658; m 659–779; n 780–837; o 838–877; p 878–896; q 897–925; r 926; file s
+  from 927 (the retrovalidation, J392, being written; no `docs/AMENDMENTS-2026-10-18s*.md` exists at 05:18Z); draft t
+  after s. J392 is reserved in `docs/PROGRESS.md` for the retrovalidation's landing (J393's row: "J392 stays reserved …
+  appended when it lands"). (r:3; README.md (lane):20–23; docs/PROGRESS.md:449–451; `ls docs/AMENDMENTS-2026-10-18*`)
+
+## Gaps — looked for and not found
+
+1. No owner rule, amendment item or base text gives a site **road access** rule, a per-kind access class, or a site's
+   route leg (searched j, k, l–r items; base §4.2 S3, §4.9, §4.12, §7.1, §7.3, §11.4; INDEX; SUMMARY; brief; grep
+   "access class", "road access", "routed"). The nearest texts are V14's `routed` column (named, not defined, in the
+   base and k: F16, F127), the hinterland decoration `trail` column (F124) and the outside plots' driveway (F123).
+2. No text says a site **autocorrects** its world geography; the autocorrect vocabulary (`CoherenceCost`,
+   `nearestLawful`, `PlacementAnomaly`, `moveTown`, `worldWins`) appears in the amendment files for settlement
+   placements only; in the base only `nearestLawful` (the WORLD-3 budget row) and `worldWins` (§7.1 comment, §7.3 row)
+   appear — `CoherenceCost`, `PlacementAnomaly`, `moveTown`, `roadToNowhere`, `roadUnmatched` have 0 hits in
+   `docs/ARCHITECTURE.md` (grep counts, F144). Their homes are V13 (read-v13's lane).
+3. BCR-V13-30 (charter roads as forced gate picks) has **no admission item**: the base's S3 (4) has no charter-road
+   forced pick (F102, F117). BCR-V13-36's "regional skeleton" likewise not in the base.
+4. The base's §7.3 placement row still reads "W7–W8 over the landmass" and the anchor table "world route | its ends",
+   both older than file m's host-bound W7 (items 713, 722) and route identity "ends and mode" (item 702) (F138, F149) —
+   recorded as found; whether they are stale is the judges'.
+5. `ClosureRecord.created.piece` has no `road`/`way` piece (F141); no edit kind declares a road closure generator.
+6. File l and files o–q carry nothing on site roads (F31, F95). File s is not yet written, so its items (927 …) could
+   not be read; the apply step must re-read it.
+7. The base was not read whole (24 462 lines); the six named sections were read whole (S3 6172–6433, §4.9 8551–8759,
+   §4.12 9688–9743, §7.1 11053–11568, §7.3 11641–12015, §11.4 17664–17730) and every other mention was reached by grep
+   only (F144). V13 and V14 themselves are other readers' (read-v13, read-v14) and were not read by this lane.
+8. Every md5 in the header was re-taken at 05:18Z and was unchanged (J392 had not yet touched V13/V14/base/INDEX/SUMMARY/
+   brief/README during this read).
+
+## Appendix A — file j items 132–135, 138, 140 quoted whole (docs/AMENDMENTS-2026-10-16j.md, md5 5e0f4ad98fb1ef6638dd8155d77db21d at read)
+
+**j:43–72**
+
+```
+132. **OWNER RULE — Two kinds of encounter map (owner, 2026-10-16).** "we have two types of encounter maps: 1. transient.
+     If we are in an urban setting, or a the world map …, a user as a DM could click anywhere on those maps and state
+     that an encounter is happening there. In such cases, it will produce an appropriately scaled encounter map based
+     on where the battle is selected. … The shops nearby where i clicked get generated (as appropriate) in there too as
+     places villains or players can enter or use tactically for combat … complete with the interior which is already
+     planned to be made. If it was a place clicked such as on the road or wilderness from the world map, then it will
+     generate an appropriate generic place matching the area it was clicked, terrain, biome, recent battle, etc. The
+     urban example also applies related to sewers, cavers, floating ilsnads, etc. 2. Persistent location: this includes
+     things like forts, rural wizards towers, abandoned above ground ruins, hidden temples to underneath people's houses,
+     dungeons, etc. These are places that exist out in the world and have potential consequences once generated. Where
+     they were generated persists and are built into the simulator where appropriate and these should have some
+     combination of using elements from the hinterlands generator, buildings generator, etc, to match a list of
+     selections a user might wnat."
+
+     **(a) ONE OPERATION, TWO RETENTION POLICIES.** Both kinds are one operation — materialize detail at an address at a
+     scale — with two retention policies (discard unless promoted; persist) and a promotion path between them
+     (`proposal-sites-encounters.md` §1). **(b) TRANSIENT IS NOT RANDOM.** A transient encounter is keyed by world address
+     and time and derived deterministically from seed and world facts, so the same click returns the same map; it is
+     derived state, retained only when promoted. **(c) IN TOWN NOTHING NEARBY IS GENERATED, ONLY COMPLETED**: the
+     interiors (V03) and the moment's occupancy of the buildings already there, by an occupancy abstraction, never
+     individuals. **(d) EXTENT BY TABLE**: the crop's extent comes from a rule table keyed by the location's profile.
+     **(e) THE WORLD-MAP CASE** is derived from the world regime's facts at the point (terrain, biome, route, territory,
+     recent events) and waits on the world regime; in-settlement and hinterland encounters, sewers, caverns beneath and
+     sky islands included, work on the existing design. **(f) A PERSISTENT SITE IS A CARD, NOT A GENERATOR**: its map
+     is a composition of existing materializers (hinterland, enclosure, site plan and massing, plan programme,
+     underground void systems) under a site policy, with the few new materializers named (natural caves, rock-cut
+     spaces, ruination by V06's decay transforms). **(g) THE REQUEST RECORD** resolves the user's selections by derive
+     before invent, into a programme whose complexity is a vector with units, never a slider. **(h) SIMULATOR
+     INTEGRATION** under the one-way flow: a persistent site is an institution-like host record whose location is not
+     inside a settlement; consequences reach the map as dossier events.
+```
+
+**j:74–100**
+
+```
+133. **OWNER RULE — Editable sites, floors and basements, persisting iconography, context-dependent visibility, DM
+     secrets (owner, 2026-10-16).** "and of course everythign editable and for the second one, dungeons as well. A user
+     should be able to set the number of floors and basements for the second sone depending, shape terrain, etc. have a
+     clickable iconography or something and if in an urban setting is not added to the city map rather accessible or it
+     pops up from a clickable iconography that persists in whatever location we drop it. (for example) if we dropped it
+     in the interior of a house, it shows only once we access that interior and specific floor of the house (the
+     iconogrophy) if it is in the sewers, it only shows once we access the sewers, etc etc. These are DM secrets btw
+     toggled secret on and off."
+
+     **(a) THE ANCHOR RECORD** — the one new piece: an address (layer, part, storey or tunnel) plus a site reference
+     plus a knowledge flag; the icon is its rendering, map furniture over a canonical anchor. **(b) ATTACHED SITES ARE
+     SEPARATE DOCUMENTS**: own arenas, floors and basements; the city map holds only the anchor and one access record
+     (V04's stair, shaft, door or trapdoor, with its own knowledge flag and condition). **(c) THE SURFACE EXCEPTION**: a
+     site with a footprint in town (a wizard's tower on a street) is a building on a plot and goes through the
+     assignment path (item 101's vocabulary), the site programme riding as the building's programme. **(d) VISIBILITY
+     BY CONTEXT**: the icon draws only in the view whose context contains the anchor's address (that storey, the
+     sewers). **(e) SECRETS ARE THE KNOWLEDGE LAYERS**: DM only, revealed to players, discovered by players, on the
+     existing `knownTo` and admission function, with a second cue beside colour. **(f) FLOORS, BASEMENTS, SHAPE AND
+     TERRAIN** are the request record; multi-floor is the existing storey and stair model; terrain shaping is a terrain
+     edit run before siting. **(g) DUNGEONS** are a site whose interior is a room-and-corridor programme, the plan
+     programme generalized to carved and natural space; topology first (a unit graph with roles), geometry second
+     (embedded on the kernel), the complexity vector measured on the result; wave-function collapse rejected for
+     structure, room-and-corridor and binary space partition rejected as structure, grammars for programme expansion,
+     skeletons and medial axes for passages, agent excavation for mines, noise outlines for caves. **(h) EDITING** comes
+     free on PLAT arenas; "move this wall" is geometry, "add a floor" is a programme edit rematerialized locally;
+     dropping an icon creates a card materialized lazily on first open; deleting takes two verbs, remove (retcon) or
+     destroy (an event leaving a ruin).
+```
+
+**j:102–120**
+
+```
+134. **OWNER RULE — Context filters the selection; sites evolve; sites seed settlements (owner, 2026-10-16).** "we will
+     filter out of the selection what is possible in urban vs country … and in the case of buildings or temples that are
+     generated for encounter maps, they can evolve depending on whether occupied or vacant or damaged or pristine
+     depending on the flow of things. Also, certain generated locations from the country persisted category can be prime
+     locations for a new settlement based off of the simulator... for example a thorpe that establishes itself in front
+     of or surrouding and abandoned or occupied fort."
+
+     **(a) THE ADMISSIBILITY TABLE**: context (urban surface, urban below or inside, hinterland, country) → allowed
+     site kinds and attachment modes, with the edge of town decided by distance from the enclosure; editable like
+     every rule table. **(b) CONDITION IS A TRANSFORM OVER A PERSISTED PLAN**, never a reroll (the design's "a building
+     never decayed draws byte-identically to its plan", item 123's damage layer): pristine, occupied, vacant, damaged,
+     ruined are card states applying condition transforms to locked geometry; the driver is a host or DM event through
+     the one-way flow; transient content has nothing to evolve unless promoted. **(c) SITES AS DESTINATIONS**: a site
+     enters the siting score as a destination; a settlement the host founds there takes the site as an existing
+     landmark that claims its ground first (as a castle reserve does today), older and so prior in the layout; the
+     relation runs both ways (garrisoned, or robbed for stone and absorbed as the ruin beneath the village). **(d)
+     ADOPTION**: when a settlement forms around a free-standing site, the site's arenas become parts of the settlement
+     document keeping every identity and lock, and its placement becomes the settlement's — which is what the M0 gate
+     rows on multi-part arenas and namespaced addresses protect (item 140).
+```
+
+**j:122–133**
+
+```
+135. **OWNER RULE — Scale coherence across encounter, city and world (owner, 2026-10-16).** "also make sure that scaling
+     is completely scaled according to encounter, city, and world generating processes..."
+
+     **(a) THREE REGIMES, ONE CHAIN OF REFINEMENT**: a finer scale refines what the coarser says and never contradicts
+     it; a river on the world map, in the town and at the bank in a crop is one geometry refined three times. **(b)
+     THE HANDOFF DOWNWARD IS BOUNDARY CONDITIONS, NOT COPIES** — the charter (`proposal-world-native.md` §5): edge
+     elevation profiles, datum, water edges with body and level, river crossings with discharge, width profile, bed,
+     stage, basin and navigability, downstream head, roads, climate scalars, water table, biome, resources, territory.
+     **(c) RESOLUTION IS ADDED DETERMINISTICALLY** from the coarse fact, position and seed, so neighbouring frames agree
+     at a shared edge unseen. **(d) EDITS ARE STORED AT THE SCALE THEY WERE MADE**; a fine edit never silently rewrites
+     a coarse fact; a coarse edit invalidates the frames it touches. **(e) EXTENT, DETAIL, EXAGGERATION AND BUDGETS**
+     are per regime, by table.
+```
+
+**j:169–191**
+
+```
+138. **OWNER RULE — FMG fully native, surveyed completely, improved and refined (owner, 2026-10-16).** "what are your
+     thoughts about making FMG fully native?"; "i also want you to still completely survey it and all of their updates
+     and posts and find all the best ways to make it completely native and comptiable with our systems as its best most
+     refined (by you) version"; "so... with this, can we make it all native?"; "can we improve upon it, refine it, while
+     making it native and in what ways?"; "you can see our forked FMG in the settlement-engine folder".
+
+     **(a) THE SURVEY IS DONE**: `research/fmg/FMG-survey.md` and ten notes, every release 2017–2026-10, the wiki, the
+     source, all fifteen blog posts with 193 comments, all sixty Patreon posts with 104 comments (one patron-only post
+     unread), the roadmap and ecosystem, and the audit of the host's vendored fork (upstream v1.114.2, a rebuilt bundle
+     whose modified source is absent, a geography-only iframe, a frozen digest without coordinates, and no settlement
+     generation input from the map). **(b) NATIVE** is `proposal-world-native.md`: the physical world and the
+     materializer in our representation, bounded by the host on one side and the settlement frame on the other, with
+     the charter as the contract and a version-pinned import adapter for existing maps; not feature parity. **(c) THE
+     REFINEMENTS** are the proposal's §3–§4 and §10: metres against a datum; surfaces as dated records with the carve
+     kept; priority flood and D8 with discharge in real units; namespaced addresses with field locks and validated
+     deltas; dependency-driven recomputation with FMG's eighteen stale-data paths as tests; an id-keyed versioned
+     format; determinism as a rule; two-scale coherence; groundwater and springs; history as an axis; reason chains;
+     knowledge layers; preview-and-commit editing; a world that explains its towns; sites as world facts; water as a
+     consequence system; siting that answers the host's demand; level of detail by the hierarchy. **(d) NOT BUILT**
+     (the session's recommendation, the owner: "gotcha"): tectonics, erosion over time, fluid dynamics, a sphere in the
+     first version, an economy or military simulation in the map module; a tectonic pass may later be one recipe
+     operation emitting ranges and troughs. **(e) THE HOST CHANGES** are the proposal's §6, for the owner to schedule in
+     SettlementForge.
+```
+
+**j:206–228**
+
+```
+140. **SESSION RULING — The M0 close gate (the session under the delegation, 2026-10-16; vetoable; M0 GATE).** The
+     owner: "we are liable to finish M0 in the next few days, before we commit that, I wanted it to know what it needs
+     to have". The gate is the brief's Part A: the kernel-frozen rows must be resolved before M0 commits and the model
+     rows are recorded as M1 items; every row is "do not foreclose", none adds a feature; where a row can be a test it
+     joins M0's exit suite.
+
+     **Kernel-frozen rows** (resolved before commit, or carried to M1's API pass with a reason): K1 `Layer` append-only
+     codes in digest and block format, no path assuming `'ground'` is the root; K2 `PlatKey.part` round-trips with
+     independent frames and lattice specs, parts not assumed dense; K3 `Frame` purely local, no absolute position in
+     any digest; K4 reference forms resolved against a separately supplied key; K5 role registry append-only without
+     digest change, `LINEAR_PARTS` extensible per transaction; K6 concern and stage registries append-only without
+     renumbering, new streams independent; K7 a rank function over two stage registries; K8 encode-decode digest-equal
+     for every arena kind including parts ≥ 1, `compactSlots` deterministic; K9 the transient-arena stub's designed
+     contract admits an arena with no owner document; K10 every persisted block names every version it depends on; K11
+     no algorithm branches on a domain role beyond the documented defaults; **K12 the commit journal records stage,
+     concern and inputs read, so a reason record can be reconstructed** (the primitive the brief's "why" depends on).
+     **Model rows** (recorded now, M1's to change): M1 a namespace segment in the address form; M2 the carve delta or
+     pre-carve heightfield recoverable, water surfaces separate from the heightfield; M3 the datum behind one accessor;
+     M4 the water table behind one function; M5 S1's terrain and water parameters as one input record (the charter's
+     landing); M6 a placement record reserved per arena set; M7 an anchor record reserved (item 133 (a)); M8 a reason
+     record reserved per generated fact. The deliverable is `docs/build/checks/M0-world-sites-gate.md`, every row
+     CONFIRMED or PLAUSIBLE with evidence, signed in the clean-room ledger; M0 does not close without it, and no row is
+     closed by changing the design to match the code without a choices row.
+```
+
