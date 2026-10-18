@@ -2,7 +2,9 @@
 
 > Fable-validated 2026-09-26 — the whole normative text of this document was consolidated by Opus stand-ins (the consistency pass of 2026-09-26: one canonical home per fact, history and rationale moved to `docs/ARCHITECTURE-RATIONALE.md`) and validated by Fable on 2026-09-26 (`docs/validation/consistency/validate.md`; closing record `docs/validation/consistency/SUMMARY.md`); the design decisions taken by Opus stand-ins during the fix rounds stay queued in `docs/FABLE-REVIEW-QUEUE.md` until `workflows/05-fable-review.js` has run.
 
-> **Revision — 2026-10-17 (lane coherence/vtt-l-and-k11; file l, `docs/AMENDMENTS-2026-10-17l.md`, items 648–654 applied to §11.1's `.dd2vtt` profile: the version pin, the multi-floor sentence, `format`, the transient sight-blockers in both lists, `software` and `creator`, `plat.stairs`, the Foundry 14 scene with `levels[]`; record `docs/validation/coherence/vtt-l.md`).** PENDING FABLE REVIEW — written by Opus 5.5 standing in for the Fable seat coherence/vtt-l-and-k11; to be retrovalidated overall at the next opportunity (owner, 2026-10-17, J375)
+> **Revision — 2026-10-17 (lane coherence/vtt-l-and-k11; file l, `docs/AMENDMENTS-2026-10-17l.md`, items 648–654 applied to §11.1's `.dd2vtt` profile: the version pin, the multi-floor sentence, `format`, the transient sight-blockers in both lists, `software` and `creator`, a deck as one more `Level`, `plat.stairs`, the Foundry 14 scene with `levels[]`; record `docs/validation/coherence/vtt-l.md`).** Fable-reviewed 2026-10-18: PASS-WITH-CORRECTIONS — applied as recorded; the held-set clause and six wording and evidence points corrected (lane retrovalidation/small; J392)
+
+> **Revision — 2026-10-18 (the apply lane of file t, `docs/AMENDMENTS-2026-10-18t.md`, items 941 (q) and 945 (j)–(k) applied: §4.9's hinterland decorations gain the `worldSite` reservation's road-access face (`driveway` for `required`, `path` for `preferred`; BCR-V14-26), §7.3's S12 row lays it, §4.12's `Destination` comment reads `roadAccess` for `routed`; the owner's word on sites and their roads, J393).**
 
 **PLAT** is the codename — a plat is a cadastral plan of plots, the single spatial truth of this design; the packages
 are `@plat/*` (D-19). The product's public name follows SettlementForge's (J121).
@@ -4962,7 +4964,7 @@ dissolves the vertex and restores the edge it split unless other geometry has me
 (§2.6) — partition rings that are no plat faces: rooms cut into the L4 arena would enter its index partitions and the
 model digest on every click, so a click would change the model (§4.1, §6.2). They cut on a **transient arena**
 instead: a one-level scratch subdivision on the world lattice under §3.2's numbers, §3.6's insertion rules and §3.10's
-invariants, opened for one derivation call and gone at its end — or, opened by a view (an encounter, V14 §3.10), living while the view does, released by `encounter.close` and never at a derivation call's end (K9; file k item 609): an owner-less arena's `owner` is an `Id` of the form `view:<hash64>` naming no entity, the arena stays never persisted, digested or frozen, its seed is one ring and the model's faces enter as `fixed` rings (the forms below); the kernel's stub row (`API.md` §8) builds the form at M6-P, its first view owner is M-ENC's.
+invariants, opened for one derivation call and gone at its end — or, opened by a view (an encounter, V14 §3.10), living while the view does, released by `encounter.close` and never at a derivation call's end (K9; file k item 609): an owner-less arena's `owner` is an `Id` of the form `view:<hash64>` naming no entity, the arena stays never persisted, digested or frozen, its seed is one ring and the model's faces enter as `fixed` rings (the forms below); the kernel's stub row (`API.md` §8) builds the form at M6-P, its first view owner is M-ENC's. The transient arena's form is built by M-ENC's SE0 (V14 §8, the first crop), M6-P its second reader; the base's M6-P sentence above states the second reader.
 
 ```ts
 type TransientKey = { transient: true; owner: Id /* the entity whose derivation opened it — or `view:<hash64>` for a view-owned arena with no owner document (above; K1–K13 unchanged) */; n: number /* per call, never persisted */ };
@@ -4983,7 +4985,7 @@ the hot pixel (0.71 cm) of another ring's side splits that side there, and no at
 ring that would break `minEdge`, clearance or simplicity, and an empty seed list, are refused (`E_DEGENERATE`, detail
 `seed` or `fixed`) naming the vertex, which F-PLAN's tier 1 takes (§5.2), so a planner places an anchor on a wall or at
 least `minEdge` from it. Seed rings that overlap, and a fixed ring that crosses a seed ring's side, lies outside the
-seeds' union or overlaps another fixed ring, are refused (detail `overlap`): two input sides that cross are refused
+seeds' union or overlaps another fixed ring (a crop's scenes are separate transient arenas, V14 §3.13 E4), are refused (detail `overlap`): two input sides that cross are refused
 where the construction meets them, and it then labels every face with how many seed rings and how many fixed rings
 contain it, by the booleans' winding walk (§3.7), so a face inside two seed rings, a face inside a fixed ring and no
 seed ring or inside two fixed rings, and a fixed ring whose inside is more than one face are found exactly, in one walk.
@@ -8675,7 +8677,10 @@ hinterland unit, hidden behind the pool (§12.4); the open-field **strips** insi
   trail: yes / no, keepClearCm}` — places ponds (small closed outlines from S1's routine, carved at S3, §4.2 S3 (10)),
   copses (wood faces), stone circles, ruins (an outline footprint in the `ruined` lifecycle state), wayside shrines (one per
   through-road by default) and boundary stones at the margin crossings — sited by S12a and built by the hinterland unit; a
-  row with `trail` links its decoration to the nearest way corridor by an L3 `path` face; fields and woods keep back by
+  row with `trail` links its decoration to the nearest way corridor by an L3 `path` face — and a `worldSite` reservation
+  (V14 §3.9 (g)) is linked from its entrance (its gate where the enclosure has one, else the entrance unit's point) to the nearest way corridor by an L3 `driveway` face where its card's
+  `roadAccess` is `required` and by a `path` face where it is `preferred`, nothing where it is `none` or `avoided`
+  (BCR-V14-26; J393); fields and woods keep back by
   `keepClearCm`. Our own rows and counts, calibratable.
 
 **S12b Greenery (after S11; O19; owner base ruling AM-1) — the rule table.** Greenery is a rule family that reads the
@@ -9715,7 +9720,7 @@ interface NetworkStrategy { grow(site: Site, destinations: Destination[], terrai
 interface EnceinteStrategy { trace(boundary: Polygon, gateSites: GateSite[], reservations: Reservation[], terrain: Terrain, water: WaterSet,
   policy: { waterfront: 'open'|'quay_wall'|'sea_wall'; placement: 'aroundAll'|'aroundStage' }, ctx: StageContext, k: Kernel): KernelResult<Enceinte> }
 type WaterSet = { bodies: WaterBody[]; bridges: Bridge[] /* S1's and S3's water with its crossing decks (§2.3, §2.7) */ };
-type Destination = { id: Id; kind: string /* §4.2 S3 (13)'s typed destinations; `'worldSite'` admitted for S4 after adoption only — the adopted site's gate as a frame-scale destination inside the settlement's frame (V14 §3.9 (e)); V13's siting reads the card's `attraction` and `routed`, never a destination (C14-04) */; at: PointCm; bearingCdeg?: Cdeg };
+type Destination = { id: Id; kind: string /* §4.2 S3 (13)'s typed destinations; `'worldSite'` admitted for S4 after adoption only — the adopted site's gate as a frame-scale destination inside the settlement's frame (V14 §3.9 (e)); V13's siting reads the card's `attraction` and `roadAccess`, never a destination (C14-04; J393) */; at: PointCm; bearingCdeg?: Cdeg };
 type GateSite = { ordinal: number; at: PointCm; bearingCdeg: Cdeg; kind: 'main'|'water'|'harbour'; forced: boolean /* §4.2 S3 (4), (7) */ };
 type StageReport = GenerationReport['stages'][number] /* §5.4 */;
 // EditRef and RuleRef are §2.8's; FabricStrategyId is §2.5's
@@ -11706,7 +11711,7 @@ entities' leaf digests unchanged (§6.5 (9)'s truncation cases cover the lock + 
 | S7 (`drawWall`, a moved trace vertex, `wallToWay`, `gateToJunction`, a river whose course crosses an enceinte moved; a declared way of a class above lane on ground part 0 crossing an enceinte — a `placeGate`'s stub or a declared road, item 101) | re-trace only the run between the nearest unaffected towers on each side, with water gates where the course now crosses and a gate at each declared crossing — where a declared way crosses a standing run and nothing else of the run changes (a `placeGate`'s stub, a declared road's carried way), the gate inserted at the crossing on the run's standing line, the run neither re-traced nor moved (§2.7's laws, law 2 *Carried way*) (a lane across a strip stays refused, NF-P5; J-A101.76); re-cut the strips' setback and glacis lines along it; re-derive the strip blocks' S10 step (0); on each standing raised way the new run meets, the meeting by §2.7's laws (law 2, in its order; its worked example the crossing table's *beneath*) — nothing of the raised way re-derived or in the effective scope, V04's reconcile removing or laying again each arch vault as §2.7's laws read its span (law 1 (8); V04 §3.5.4 (d)) | the rest of the trace, its gates and its strips | Re-derive from S7 when the enceinte kind changes |
 | a carve (a canal, moat or basin drawn by an edit, `digCanal` among them; §4.11) | §4.11's way rule (pinned decks for arterials and sole connections, cuts for the rest) and footprint, in its declared batch order, the channel inserted with the footprint as its clear region (§3.3) | every way and finer face outside the carve's footprint (§4.11: the channel ⊕ (`attractCm` + bank setback) united with every L1 cell that buffer, the way rule and the wall re-trace touch — the rules (b)'s footprint follows), less the seam exception | if the clear region cannot be kept, §3.3's pre-decided fallback: a declared town-wide re-derivation with the fate report |
 | S8–S11 | per cell, block and plot (tree scope, §7.3 item 2; wall-strip blocks and the scope's side of every shared margin band from S10's step (0)) | the other side of every shared edge | — |
-| S12 | the covered hinterland faces and greenery entities; the hinterland unit re-lays its headland parts along the perimeter by step (0) first (§7.3 item 2) | the districts' side of the perimeter | — |
+| S12 | the covered hinterland faces and greenery entities; the hinterland unit re-lays its headland parts along the perimeter by step (0) first (§7.3 item 2); round a `worldSite` reservation, its road-access face (§4.9; BCR-V14-26) | the districts' side of the perimeter | — |
 | a designation change (`assign` / `unassign`, `setAttr` use or class, `openUse` / `closeUse` / `relocateUse`, a dossier event, `placeAt`, the re-placement a `rejectSite` causes; item 18) | §4.7 S10b's solver for the site, then §4.7 S11's mutator on each placed plot (the inverse mutation on reversal); a displaced use re-placed by the same solver, one displacement level (§4.7 S10b) | every plot outside the touched set; every locked part; the plots' faces beyond a joined neighbour | — (a JOIN the mutator needs is a `join` of the two plots, chained as §7.3 item 3 states) |
 | a plot fusion or splitting (`join` / `split`, item 31) | S10 (7)'s re-cut of the members with their neighbours fixed, under the band's target, then S11's mutator on the new plots (an occupied building kept, or its demolition carried as a confirmed fate, §7.1) | the block's other plots and every neighbour's ring; the members' party-wall vertices on the fixed side | — |
 | a click on a stale elaboration rung (item 28; no event) — the re-cut of an unstored plan along the interior ladder among them (item 28 (f)) | `BuildingGenerator.plan` from its **canonical prior** — committed state, never the cache (§6.2): the stored plan where one exists, else the as-built plan (the class's programme at the plot's `builtBand` row with the template's `households.built` clamped into [1, capacity], §2.6, §10.2) carried along §2.6's interior ladder one row or one household at a time, in the order §2.6 states, to the occupants' current band and household count, each step §2.6's re-cut rule — its FIXED set, its re-derived set and its kept-room rule, stated there (J-A28.26) — with its draws keyed by the step (§6.1); the cache holds any step already derived and is only a memo (§6.2); the wings rung likewise through `compose`, with the stored or as-built wings as its prior | everything — a click writes only the cache (§6.2) | — |
@@ -17718,8 +17723,9 @@ read for the host (J86's door 1 stays closed); because the map follows purely fr
 canon (door 5) carries no frame or arena geometry and reaches the host's simulation only through the
 host's receipted canonize — the birth canon adopted as a new campaign on a world from this module is created, the
 additive re-canonize that adds a seat the host binds later, or the DM-confirmed re-canonize (V13 §8.5's H22;
-J386 – J388; file q item 917, BCR-V13-40) —, replacing the capture the host already reads; the session reads it as outside J86's door 1, and
-the owner confirms (V13 §11 Q4) before the host lights its builder over the canon. **The export bundle
+J386 – J388; file q item 917, BCR-V13-40) —, replacing the capture the host already reads; it is outside J86's door 1 by the owner's word of 2026-10-18
+(V13 §11 Q4; file r item 926), door 1 itself staying closed to the settlement frame's geometry, so the host may light
+its builder over the canon (V13 §8.5's H5). **The export bundle
 (V08 Q3: J122).** From M-SF the host client gains one call returning the user's chosen scene exports
 (§11.1's `.dd2vtt` and Foundry scenes, rendered at the export's knowledge tier and admitted by the calling key) as
 opaque byte blobs for SettlementForge's export bundle, which SettlementForge packages unread; before M-SF maps export on

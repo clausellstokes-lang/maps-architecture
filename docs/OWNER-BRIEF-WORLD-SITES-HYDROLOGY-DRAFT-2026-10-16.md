@@ -50,7 +50,7 @@ The M0 gate is the question "do the kernel and the model satisfy the materialize
 
 ## 4 Part A — the M0 close gate (item 140; before M0 commits)
 
-Kernel-frozen rows (K1–K13) must be resolved before commit or carried to M1's API pass with a reason; model rows are recorded
+Kernel-frozen rows (K1–K14) must be resolved before commit or carried to M1's API pass with a reason; model rows are recorded
 now and are M1's to change. Every row is "do not foreclose"; where a row can be a test it joins M0's exit suite.
 
 | # | row | test or verification |
@@ -68,6 +68,7 @@ now and are M1's to change. Every row is "do not foreclose"; where a row can be 
 | K11 | no algorithm branches on a domain role beyond the documented defaults | grep |
 | K12 | the commit journal records stage, concern and inputs read, so a reason record can be reconstructed | read `tx/`, `CommitRecord` |
 | K13 | no digest, reference form, invariant or kernel operation reads or assumes an elevation; `Frame` and the lattice are two-dimensional only (2.5D is a projection; z never enters the kernel) | grep for any z-like field; read `num/`, `digest/`, `types/refs.ts` |
+| K14 | an arena's block loads under a caller-named `PlatKey` with an entity-id map (`DecodeOptions.from` / `.ids`), printing and digesting equal to the same content built under the new key — adoption's arena re-key (V14 §3.9 (e), §2.8; J395); carried to M1's API pass, first read by M-SITE-F's SE6 | at M1's API pass: a two-part arena's block decoded under a new key with an id map |
 | M1 | a namespace segment in the address form (or an M1 item) | read `model/src/identity` |
 | M2 | the carve delta or pre-carve heightfield recoverable; water surfaces separable from the heightfield | read `site/src/hydro/carve.ts`, `surface.ts`, `terrain/types.ts` |
 | M3 | the datum behind one accessor | read `site/src/terrain` |
@@ -79,6 +80,8 @@ now and are M1's to change. Every row is "do not foreclose"; where a row can be 
 | M9 | z-completeness: every drawable record kind declares a base elevation and a top, or a surface, or is listed flat with a reason | read the model's record types; the gap list is the finding |
 | M10 | vertical-link records (stair, shaft, ramp, trapdoor, access) carry an elevation at both ends | model, V03/V04 records |
 | M11 | the projection and vertical exaggeration are view state outside the document hash; the style store's schema admits a projection family | §2.9 view state, §8 styles |
+| M12 | the hinterland unit's L3 access faces (an outside plot's `driveway`, a decoration's `path`) can begin at a point on a reservation's boundary (J393) | the face types and S12's operator |
+| M13 | S4's router admits a way between two given points (a frame-ring point and an entrance point (a gate where the enclosure has one); the deferred two-point road), a way's end at the ring carrying its external bearing (J393) | M0-c-03's `defers`; `Way.to`'s bearing form |
 
 Deliverable: `docs/build/checks/M0-world-sites-gate.md`, every row CONFIRMED or PLAUSIBLE with evidence, signed in the
 clean-room ledger. M0 does not close without it. No row is closed by changing the design to match the code without a
@@ -119,10 +122,14 @@ never silently, which that entitlement never gates either (J388: without it, eve
 birth would stay unmapped to the simulation's canon-gated lanes and to the lenses until the DM re-mapped the whole
 realm by the premium act), a re-canonize that shifts other geometry and retcons staying the premium DM's act, and a host fight verdict alone moving a march line while the
 host's military reading is dark (J386; V13 §8.5, §11).
+Answered by the owner (2026-10-18; `docs/AMENDMENTS-2026-10-18r.md` item 926: "1. yes"): the world canon — how hard
+travel is between settlements, who has water access, which sites exist — is outside J86's door 1, door 1 itself (a
+town's own geometry never flowing into SettlementForge) staying closed; SettlementForge's builder over the canon and
+H22's birth canon no longer wait on it (V13 §11 Q4).
 Owner questions that remain: whether SettlementForge's existing
 campaigns are offered an elective rebase (the transition otherwise ruled: every frozen digest kept, the import on
 request, a legacy world view with no write; V13 §8.5, §11 Q1); whether the realm map's replacement is part of the map
-module's post-launch disposition (V13 §11 Q2); whether the world canon is outside J86's door 1 (V13 §11 Q4; H22's birth canon also waits on it); the audit's
+module's post-launch disposition (V13 §11 Q2); the audit's
 unknowns about the host (the modified bundle source, the missing design documents, the production frame size).
 
 ## 7 Part D — the design volumes (after M0 closes)
@@ -146,7 +153,9 @@ are the volumes' sources; the threads of 2026-10-16 are placed as follows.
   transient crop; the site card with its two attachment modes and the surface exception; the admissibility table; the
   request record and the complexity vector; composition and topology-first materialization; the history superposition;
   lifecycle, condition transforms and the two deletion verbs; the anchor record, context-dependent icons and the
-  knowledge layers; scale and the VTT crop scope with a stable grid origin.
+  knowledge layers; scale and the VTT crop scope with a stable grid origin; and, by the owner's word of 2026-10-18
+  (J393), each site kind's road access, its place on the road network and the catalogue-dependent autocorrect of its
+  placement on the world map (with V13's routes and placement law).
 - **Scale coherence** (item 135) as a cross-cutting section of both: three regimes, boundary conditions downward,
   deterministic refinement, edits stored at their scale, per-regime tables and budgets.
 - **The decision matrix and the dependency graph** of the original brief's §34–§35, with every arrow labelled and
@@ -199,7 +208,7 @@ fact; complexity as a count; a site required to pass through every state; featur
 | the first site milestone | the attached kind (a crypt under a church, a cellar complex), then a small fort | bars 2, 6, 10, 12 |
 | the 2.5D renderer milestone (after the viewable town) | the projection family, draped terrain, extruded massing, per-storey slabs, cutaway bands, hit testing, the raise-or-lower edit | bars 14–17 |
 | the world milestones | W1 terrain, surfaces, hydrology, climate, biomes, suitability, the charter, the port (the canon, the map feed, the recorded inputs); W2 routes on the host's genesis, the seat territory and the sway with patrols, siting stage 2; W3 labels, exports, the adapter (1.114 and 1.152); the lenses (V13's M-W5, after W2): one mechanism and eight lenses, plague first | bars 3, 4, 5, 7 |
-| the host's track (V13 §8.5) | now, on the fork: the capture's frame, seed, scale and unit, the export command, the band census, the register rows (H1–H3); with W1: the port and the second builder of its digest (H4–H11); with W2: genesis, the polity facts, the decree law for world edits, the presentation messages (H12–H17), and a native world canonized at birth for every new campaign, whatever its tier — the product ruling the host implements, its premium canonize entitlement never gating it, after the second builder of its digest, the scale stamp and genesis (H5, H7, H12) and held by V13 §11 Q4 (H22; J386; J387); with the lenses (V13's M-W5): the lens window and the lenses' asks in their build order, plague first (H23–H30); after W3: the capture freeze to a deadline, the elective rebase, then the fork's retirement (H18–H20) | Bar T (18) |
+| the host's track (V13 §8.5) | now, on the fork: the capture's frame, seed, scale and unit, the export command, the band census, the register rows (H1–H3); with W1: the port and the second builder of its digest (H4–H11); with W2: genesis, the polity facts, the decree law for world edits, the presentation messages (H12–H17), and a native world canonized at birth for every new campaign, whatever its tier — the product ruling the host implements, its premium canonize entitlement never gating it, after the second builder of its digest, the scale stamp and genesis (H5, H7, H12), V13 §11 Q4 answered by the owner on 2026-10-18 (H22; J386; J387; `docs/AMENDMENTS-2026-10-18r.md` item 926); with the lenses (V13's M-W5): the lens window and the lenses' asks in their build order, plague first (H23–H30); after W3: the capture freeze to a deadline, the elective rebase, then the fork's retirement (H18–H20) | Bar T (18) |
 
 ## 10 Not in this brief
 

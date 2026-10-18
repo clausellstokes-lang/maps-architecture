@@ -1,6 +1,6 @@
 # Coherence application — amendments file l (items 648–658) applied to the base and volume 14 (coherence/vtt-l-and-k11)
 
-> PENDING FABLE REVIEW — written by Opus 5.5 standing in for the Fable seat coherence/vtt-l-and-k11; to be retrovalidated overall at the next opportunity (owner, 2026-10-17, J375)
+> Fable-reviewed 2026-10-18: PASS-WITH-CORRECTIONS — applied as recorded; the held-set clause and six wording and evidence points corrected (lane retrovalidation/small; J392)
 
 Lane `coherence/vtt-l-and-k11`, 2026-10-17. Read whole: `research/vtt/profile-reverification-2026-10-17.md` (its §5
 delta table and §6 BCR-VTT-1 – 8 with the pin line); `docs/ARCHITECTURE.md` §11.1 from *Formats* through *Plain scene
@@ -16,7 +16,7 @@ items 600–602, 628, 638 and its census) and of its application record (`world-
   included where the quote wraps); a quote found other than exactly once would have been left UNAPPLIED with the count
   — none was. Each matched quote replaced by the item's new text as file l writes it, never paraphrased (the base's long
   lines kept long; V14's wrapped prose re-wrapped only at the inserted text's own line breaks).
-- Bundle: `python3 tools/bundle_architecture.py` → `docs/ARCHITECTURE-FULL.md`, 79 542 lines from 16 sources.
+- Bundle: `python3 tools/bundle_architecture.py` → `docs/ARCHITECTURE-FULL.md`, 79 542 lines from 16 sources. (The md5s, line counts and bundle count are snapshots as of the lane's run, 2026-10-17; superseded by later lanes — Fable-reviewed 2026-10-18.)
 
 ## 1 The items, one row each
 

@@ -101,9 +101,12 @@ export function simpleRing(r: readonly LatticePoint[]): boolean {
 
 const KEY: PlatKey = { layer: 'ground', part: 0 };
 
-/** An arena holding the rings (outer counter-clockwise, then holes) as closed L0 chains, its face, and an open shell transaction. */
-export function arenaFace(rings: readonly (readonly LatticePoint[])[]): { plat: Plat; tx: InsertTx; face: FaceId } {
-  const plat = createPlat(KEY, { widthCm: 4_000_000 as Cm, heightCm: 4_000_000 as Cm, aspect: 1, marginShare: 0 });
+/**
+ * An arena holding the rings (outer counter-clockwise, then holes) as closed L0 chains, its face, and an open shell
+ * transaction; 4 × 10⁶ cm wide unless a width is given (2²⁴ reaches the lattice's edge).
+ */
+export function arenaFace(rings: readonly (readonly LatticePoint[])[], widthCm = 4_000_000): { plat: Plat; tx: InsertTx; face: FaceId } {
+  const plat = createPlat(KEY, { widthCm: widthCm as Cm, heightCm: widthCm as Cm, aspect: 1, marginShare: 0 });
   attachIndex(plat, { gridCellCm: 800 });
   const tx = insertTx(plat, 0);
   rings.forEach((r, i) => {

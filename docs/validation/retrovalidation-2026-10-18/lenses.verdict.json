@@ -1,0 +1,505 @@
+{
+  "verdict": "PASS-WITH-CORRECTIONS",
+  "corrections": [
+    {
+      "file": "research/sf/lens-implications.md",
+      "old": "the chip is public on cards once the live-world row opens [ALIGN §6 Display]",
+      "new": "DM — Library/Realm cards and the premium PDF, once the card's live-world row opens; no player surface traced (the dossier's own posture block is dark) [ALIGN §1 item 7, §6 Display] [Fable-reviewed 2026-10-18: was \"the chip is public on cards once the live-world row opens\"; `comp/settlements/livingWorldSignals.js:236-262` feeds `SettlementCard` only, `src/pdf/lib/liveWorld.js:318` the PDF]",
+      "reason": "L1 (UNSUPPORTED): the note defines public as what the host shows players; the chip reaches the DM's cards and PDF only.",
+      "kind": "research"
+    },
+    {
+      "file": "research/sf/lens-implications.md",
+      "old": "the\n  aggression chip, the tier label,",
+      "new": "the\n  tier label [Fable-reviewed 2026-10-18: the aggression chip, listed here before, is a DM surface — Library/Realm cards and the premium PDF; no player surface traced (ALIGN §1 item 7, §6 Display)],",
+      "reason": "L1: the chip struck from §4.5's public list, the reason dated.",
+      "kind": "research"
+    },
+    {
+      "file": "research/sf/lens-implications.md",
+      "old": "a dozen alignment consumers run in lit presets [OBSERVED FOLD:333-351; STATED ALIGN §4.4, PROSP C15,",
+      "new": "the alignment consumers ALIGN §7 marks lit (28 of its 60 rows in RR, some only with a seated deity or on canon) run in lit presets [OBSERVED FOLD:333-351; STATED ALIGN §4.4, §7, PROSP C15,",
+      "reason": "L2: ALIGN §4.4 gives no count; the §7 table's RR column holds 28 lit rows (counted by the validator).",
+      "kind": "research"
+    },
+    {
+      "file": "research/sf/lens-implications.md",
+      "old": "calls trade \"LIT —\"\n   and populations \"—\" while",
+      "new": "shows \"—\" in its LIT column for both trade (TR → EC)\n   and populations while",
+      "reason": "L3: FOLD §2's two rows both carry \"—\" in the LIT column; the string \"LIT —\" does not occur.",
+      "kind": "research"
+    },
+    {
+      "file": "research/sf/lens-implications.md",
+      "old": "drift's vassal rebellion, which breaks a link [OBSERVED `wp/relationshipRulesCore.js:762-770`]",
+      "new": "drift's vassal rebellion (a rebellion stressor, `:762-807`), whose success proposes relabelling the vassal link to rival [OBSERVED `wp/relationshipRulesCore.js:762-807`, `:810-831`; a quashed rebellion keeps the link, `:833-847`]",
+      "reason": "L4: the cited lines raise a stressor and break nothing; only a successful rebellion proposes the rival relabel.",
+      "kind": "research"
+    },
+    {
+      "file": "research/sf/lens-implications.md",
+      "old": "whose strength clears 0.82 × the target's plus its protectors' backing",
+      "new": "(at equal tier, at least 0.72 × the target's population) whose strength is at least 0.82 × (the target's strength + 0.8 × its protectors' backing)",
+      "reason": "L5: `relationshipRuleHelpers.js:457-464` — tier rank ≥, population ≥ 0.72 × at equal tier, strength ≥ 0.82 × (target + 0.8 × backing).",
+      "kind": "research"
+    },
+    {
+      "file": "research/sf/lens-implications.md",
+      "old": "Three call forms exist in the host: with a direct-edge trade tie (migration, the foreign seat) and without (contraband)",
+      "new": "Three callers use two forms: with a direct-edge trade tie (migration, the foreign seat) and without (contraband)",
+      "reason": "L6: three callers, two forms.",
+      "kind": "research"
+    },
+    {
+      "file": "research/sf/lens-implications.md",
+      "old": "contraband at arrival gates (no tie passed) [OBSERVED `sp/smuggle.js:176`",
+      "new": "contraband at arrival gates (no tie passed) [OBSERVED `wp/supplyKernel.js:754-756` (the caller passes none), `sp/smuggle.js:164` (the default 0), `:176`",
+      "reason": "L7: `:176` forwards a `tradeTie01` argument; the absence is shown at the caller.",
+      "kind": "research"
+    },
+    {
+      "file": "research/sf/lens-implications.md",
+      "old": "295-331 (the strength comparator) and 472-491.",
+      "new": "295-331 (the strength comparator) and 440-491 (the overlord test; §2.1 and §3.2 cite `:453-466`).",
+      "reason": "L8: the §7.3 range omitted the lines the note cites OBSERVED.",
+      "kind": "research"
+    },
+    {
+      "file": "research/sf/lens-implications.md",
+      "old": "`sp/distanceRead.js` (1,192): 280-316. `sp/embattlement.js` (449): 84-125.",
+      "new": "`sp/distanceRead.js` (1,192): 270-316 (§3.2 cites `:277-311`). `sp/embattlement.js` (449): 69-125 (the tuning constants; `ENTER_THRESHOLD` 0.55 at `:74`) and 195-206 (`:204`, the security relief). `wp/relationshipRulesCore.js`: 745-851 (the vassal rules §2.1 and §3.4 cite) [Fable-reviewed 2026-10-18: ranges widened to cover every line this note cites OBSERVED].",
+      "reason": "L8: `distanceRead.js:277`, `embattlement.js:74` and `:204`, and `relationshipRulesCore.js` were cited but not listed.",
+      "kind": "research"
+    },
+    {
+      "file": "research/sf/lens-implications.md",
+      "old": "readiness exists only after a war footing [STATED ALIGN §6 Strength]",
+      "new": "readiness exists only after a war footing [OBSERVED `wp/militaryStrength.js:65-68` for the live facets' hooks (war exhaustion, war drain, army deployed); STATED ALIGN §6 Strength for readiness]",
+      "reason": "L9: ALIGN §6 Strength states the readiness half only; the live-facet half is the host's own.",
+      "kind": "research"
+    },
+    {
+      "file": "research/sf/lens-implications.md",
+      "old": "**PENDING APPLICATION** — the sway they design is not yet in V13",
+      "new": "pending application when this note was written, **APPLIED** 2026-10-17 (FILE-M:7; the sway is in V13 §3.9) [Fable-reviewed 2026-10-18: was \"PENDING APPLICATION — the sway they design is not yet in V13\"]",
+      "reason": "L10: FILE-M:7 records the application on 2026-10-17; true when written, false now.",
+      "kind": "research"
+    },
+    {
+      "file": "research/sf/lens-implications.md",
+      "old": "FILE-M (pending application) has turned",
+      "new": "FILE-M (pending application when this note was written; applied 2026-10-17, FILE-M:7) has turned",
+      "reason": "L10: the same, at §3's opening.",
+      "kind": "research"
+    },
+    {
+      "file": "research/sf/lens-implications.md",
+      "old": "**dark**: the host has no such bands [STATED PROSP §9.1 item 4; FILE-M item 693 \"absent until the host bands its strength\"]",
+      "new": "**dark**: the host has no garrison or standing band [STATED PROSP §9.1 item 4; FILE-M item 693 as it stands: \"absent until the host sends it (V13 §8.5)\"] [Fable-reviewed 2026-10-18: the host does band the whole of its theoretical capacity on five latent-strength floors (`src/domain/display/armyStrength.js:48-54`) and keeps a garrison institution bucket (`src/domain/institutions/defenseInstitutionBuckets.js:83-91`); J384 (4) and V13 §8.5 H13 band the capacity facets bar the economy on those floors, with the garrison presence from that bucket]",
+      "reason": "L11 (the quote is not in FILE-M as it stands) widened by V-1 (the five floors and the garrison bucket exist and the design already reads them).",
+      "kind": "research"
+    },
+    {
+      "file": "research/sf/lens-implications.md",
+      "old": "A `criminal_network` label has no class in FILE-M's table yet [INFERRED; §5 ask 1]",
+      "new": "A `criminal_network` label had no class in FILE-M's table when this note was written; item 714 (8), revised after J384, classes criminal network as neutral [INFERRED then; §5 ask 1, answered]",
+      "reason": "L12: FILE-M item 714 (8) as revised classes criminal network neutral.",
+      "kind": "research"
+    },
+    {
+      "file": "research/sf/lens-implications.md",
+      "old": "FILE-M's verdict table (raid won +1 to the raider …) cannot read it as it stands",
+      "new": "FILE-M item 714 (11), revised after J384 (5), reads it so: a drift raid moves no band and marks the victim's facing segments fighting for `fightingWeeks`; a verdict needs the host's outcome word [Fable-reviewed 2026-10-18: was \"… verdict table (raid won +1 to the raider …) cannot read it\"; \"raid won\" occurs nowhere in FILE-M, the realm review or V13]",
+      "reason": "L13: the quoted verdict table is not in FILE-M; item 714 (11) as revised carries J384 (5).",
+      "kind": "research"
+    },
+    {
+      "file": "research/sf/lens-implications.md",
+      "old": "**INVENTION** → **ask 8** (H16's security term)",
+      "new": "**INVENTION** → **ask 8** (a refinement of H16's patrol coverage; the security input is this note's own proposal, resting on `sp/embattlement.js:95-96`, `:204` — H16 names no security term)",
+      "reason": "L14: FILE-M item 749 H16 and V13 H16 name no security or embattlement term.",
+      "kind": "research"
+    },
+    {
+      "file": "research/sf/lens-implications.md",
+      "old": "or patrol coverage as embattlement's security input (H16)",
+      "new": "or patrol coverage as embattlement's security input (this note's proposal for how H16's patrol coverage could be consumed; H16 itself names no security term)",
+      "reason": "L14: the same, at ask 8.",
+      "kind": "research"
+    },
+    {
+      "file": "research/sf/lens-implications.md",
+      "old": "A caravan keeps an arrival tick and nothing\n  else [STATED TRADE §2.3]",
+      "new": "A caravan keeps its source, destination and arrival tick, but no\n  path and no departure tick [STATED TRADE §2.3]",
+      "reason": "L15: TRADE §2.3 — the record keeps its endpoints; it lacks a path and a departure tick.",
+      "kind": "research"
+    },
+    {
+      "file": "research/sf/lens-implications.md",
+      "old": "own bands and market phrases public",
+      "new": "DM by default; own bands and market phrases public only by the lens's own rule (TRADE §9 #16, after EC:671's designed veil, unbuilt)",
+      "reason": "L16: TRADE §9 #16 — the host projects no audience on the supply ledgers; the public list is a prescription.",
+      "kind": "research"
+    },
+    {
+      "file": "research/sf/lens-implications.md",
+      "old": "needs a live war front (0.85), a contested or unstable occupation, or exhaustion with crime or the hub premium [OBSERVED `sp/embattlement.js:84-118`; STATED TRADE §10.2 #40]",
+      "new": "needs a live war front (0.85), a contested or unstable occupation under weak security (contested below security 0.5, unstable below about 0.22), or war exhaustion with high crime or the hub premium against weak security (relief = min(0.25, 0.4 × security)) [OBSERVED `sp/embattlement.js:74-118`, `:195-206`; STATED TRADE §10.2 #40]",
+      "reason": "L17 (the weak-security conditions, recomputed from W_OCC 0.75 × {1, 0.85}, W_SEC 0.4 capped 0.25, ENTER 0.55) and L8's §2.10 citation (`ENTER_THRESHOLD` at `:74`, the relief at `:204`).",
+      "kind": "research"
+    },
+    {
+      "file": "research/sf/lens-implications.md",
+      "old": "RRa, DC, LR, FS (+S); never on RRb",
+      "new": "RRa, DC, LR, FS; on RRb (or any campaign) only once +S lights \"New & lost steadings\"",
+      "reason": "L18: POP §7 P-10 and §12 V5 — the lifecycle flag is lightable per campaign; the cell contradicted its own +S.",
+      "kind": "research"
+    },
+    {
+      "file": "research/sf/lens-implications.md",
+      "old": "[PROSP §7.3]; alignment-shaped army",
+      "new": "[PROSP §5.1, §8.6 item 5 (A2); §7.3 item 3 (MF §11.4)]; alignment-shaped army",
+      "reason": "L19: PROSP §7.3 lists MF §11.4 and UPSWING B4; the A2 ride is at §5.1 and §8.6 item 5.",
+      "kind": "research"
+    },
+    {
+      "file": "research/sf/lens-implications.md",
+      "old": "DESIGNED (PG pg-1…4) or ruled out (OD-FC-8)",
+      "new": "DESIGNED (PG pg-1…4), or kept a DM-attributed reading, never engine-originated (OD-FC-8; PLAGUE §9 #11)",
+      "reason": "L20: OD-FC-8 makes the meaning the DM's to attribute; it does not rule it out.",
+      "kind": "research"
+    },
+    {
+      "file": "research/sf/lens-implications.md",
+      "old": "the owner ruled it (J377)",
+      "new": "the session's reading of J377 (vetoable), carried by FILE-M items 659 (e) and 714 (7) [Fable-reviewed 2026-10-18: was \"the owner ruled it\" (J377); the owner's (T1) and (T2) say nothing of wild land, and the rulings lane upheld the reading as the session's (J377(b).6)]",
+      "reason": "L21 (WRONG attribution): wild land is the session's vetoable reading in J377, not the owner's word.",
+      "kind": "research"
+    },
+    {
+      "file": "research/sf/lens-implications.md",
+      "old": "[OBSERVED rule ids `wp/relationshipEvolution.js:86-103`",
+      "new": "[OBSERVED rule ids `wp/relationshipEvolution.js:48-110` (the whole matrix; criminal_network at `:104-109`)",
+      "reason": "L22: `:86-103` holds only the rival, cold_war and hostile lists.",
+      "kind": "research"
+    },
+    {
+      "file": "research/sf/lens-implications.md",
+      "old": "without any war layer [OBSERVED `wp/relationshipEvolution.js:98-103`; `wp/relationshipRulesAdversarial.js:266-365`]",
+      "new": "without any war layer [OBSERVED `wp/relationshipEvolution.js:98-103`; `wp/relationshipRulesAdversarial.js:66-67` (rival → cold war), `:226-227` (cold war → a proposed hostile relabel), `:266-365` (the rules of pairs already hostile)]",
+      "reason": "L23: the cited lines are the rules of pairs already hostile; the minting is the cold-war escalation's label proposal.",
+      "kind": "research"
+    },
+    {
+      "file": "research/sf/lens-implications.md",
+      "old": "faith and trade reach it only as buildings; populations do\n  not [STATED as in the table]",
+      "new": "faith and trade reach it only as buildings; populations: none\n  traced (POP §8.1) [STATED as in the table]",
+      "reason": "L24: the table's own cell says \"none traced\"; POP §8.1 records an untraced absence, not a shown one.",
+      "kind": "research"
+    },
+    {
+      "file": "research/sf/lens-implications.md",
+      "old": "the Instant World composer's fallback tone, or the DM's preset chip",
+      "new": "the Instant World composer's fallback tone, the DM's preset chip, or the World's Temper picker's \"A steady realm\" / \"The long winter\" [ALIGN §2.6]",
+      "reason": "L25: `wp/temperamentPresets.js:40-47` — two temperaments take `basePreset: 'realistic_regional'`; `applyTemperament` (:66-75) normalizes the full rules.",
+      "kind": "research"
+    },
+    {
+      "file": "research/sf/lens-implications.md",
+      "old": "the host has no garrison or standing bands; its structured capacity model has six facets",
+      "new": "the host has no garrison or standing bands [Fable-reviewed 2026-10-18: it does band the whole of its theoretical capacity on five latent-strength floors (`src/domain/display/armyStrength.js:48-54`, display phrases over 0..100) and keeps a garrison institution bucket (`src/domain/institutions/defenseInstitutionBuckets.js:83-91`); J384 (4) and V13 §8.5 H13 read those as the force band's floors and the garrison presence]; its structured capacity model has six facets",
+      "reason": "V-1: the note under-reports what the host bands; the design (J384 (4), H13, FILE-M item 693) already reads the floors and the bucket.",
+      "kind": "research"
+    },
+    {
+      "file": "research/sf/lens-implications.md",
+      "old": "enter 3.0, exit 1.5, dwell 3",
+      "new": "enter at throughput 3.0 with centrality 0.3 after a 3-tick dwell that survives dips to 1.5; leave only by a bust below 1.0 or on embattlement [Fable-reviewed 2026-10-18: 1.5 is the building-phase floor, not a boom exit — `wp/upswingKernel.js:644-653`, `:669-671`; trade.md C8 corrects TRADE §9 #6 the same way]",
+      "reason": "V-2: `BOOM_EXIT_THROUGHPUT` is the building-phase continuation threshold (the host's own comment at :649-650); a boom leaves only by a bust.",
+      "kind": "research"
+    },
+    {
+      "file": "research/sf/lens-implications.md",
+      "old": "closes culture distance by up to 15 % only for that pair",
+      "new": "closes culture distance by up to 15 % only for that pair [Fable-reviewed 2026-10-18: in the trade-tie form only (migration, the foreign seat); the sway reads the plain form (J384 (2); V13 §3.9 (6)), so no edge closing enters the territory term]",
+      "reason": "V-6: the 15 % is `TRADE_TIE.vassal` 0.6 × 0.25 in the tie form; J384 (2)'s plain form admits none (the alignment lane dated ALIGN §9.1 item 6 the same way).",
+      "kind": "research"
+    },
+    {
+      "file": "research/sf/lens-implications.md",
+      "old": "by the host's **own exported pure function**",
+      "new": "by the host's **own exported pure function** [Fable-reviewed 2026-10-18: V13 §5.8 (4)(b) places this derivation on the host's side — the host computes the value by its own law on the same window and sends it (H23: \"where it chooses, the values its own laws compute\"), labelled \"by the host's law\"; the map never calls or re-implements a host law, under the clean-room rule (FILE-M preamble: the new texts name no host source file, function or identifier)]",
+      "reason": "V-5: in the clean-room map module a lens cannot call host functions; the applied design moved class 2 to the host's side.",
+      "kind": "research"
+    },
+    {
+      "file": "research/sf/lens-implications.md",
+      "old": "believed trend DC, LR, FS c [POP P-17]",
+      "new": "believed trend DC, LR, FS c [POP P-17] [Fable-reviewed 2026-10-18: the courts' belief record holds that trend but no surface reads it (population.md V-1; POP §8.5 as Fable-reviewed), so \"believed for players there\" reaches no player; what every dossier viewer gets is the host's own head count and its retrospective direction sentence over the 12-row ring (`src/components/new/tabs/OverviewTab.jsx:183`, `:287`; `src/domain/display/trendLens.js:19-29`) — a public host fact a lens may draw]",
+      "reason": "V-3: the belief record's `populationTrendBand` has no reader (grep over `src`); the dossier prints the direction sentence to the player audience (`generalDeskRead.js:259`).",
+      "kind": "research"
+    },
+    {
+      "file": "research/sf/lens-implications.md",
+      "old": "believed population trend",
+      "new": "believed population trend (held by the courts' belief record and read by no surface — population.md V-1; the dossier's own trend sentence and head count are the public facts instead) [Fable-reviewed 2026-10-18: see §2.6's trend row]",
+      "reason": "V-3: the same, in §4.5's believed views.",
+      "kind": "research"
+    },
+    {
+      "file": "research/sf/lens-implications.md",
+      "old": "the tier label is public; numbers DM",
+      "new": "the tier label is public; numbers DM [Fable-reviewed 2026-10-18: the host's dossier prints the head count to every viewer (`src/components/new/tabs/OverviewTab.jsx:287`; population.md V-1), so by this note's own definition the number is public too; V13 §5.9 (5) keeps numbers DM as a design choice stricter than the host]",
+      "reason": "V-4: the identity strip prints `formatCount(r.population)` ungated.",
+      "kind": "research"
+    },
+    {
+      "file": "research/sf/lens-implications.md",
+      "old": "Coastal footholds",
+      "new": "Coastal footholds [Fable-reviewed 2026-10-18: V13's register word is *lodgement*; *foothold* is a landed host word (J-RR.8; rulings.md J382(b))]",
+      "reason": "V-7: the register collision the rulings lane found at J382(b).",
+      "kind": "research"
+    },
+    {
+      "file": "research/sf/lens-implications.md",
+      "old": "## §6 Owner questions",
+      "new": "## §6 Owner questions\n\n> [Fable-reviewed 2026-10-18: all thirteen were answered by the session under the owner's \"i leave all judgemtn to you\" — J384 (1)–(13), in this order; the rulings lane upheld twelve and amended (11)'s word \"members\" to claim points (docs/validation/retrovalidation-2026-10-18/rulings.md). Q8's order became plague, the sway and patrols, trade and populations, religion, prosperity and alignment (J384 (8)).]",
+      "reason": "V-8: the questions are answered one for one by J384; the note carried no mark of it.",
+      "kind": "research"
+    },
+    {
+      "file": "docs/volumes/V13-world.md",
+      "old": "the host's public chips stay where",
+      "new": "the host's own chips (shown to the DM on its cards and PDF today; no player surface traced) stay where",
+      "reason": "L1 / V-9: V13 §5.8 (7) inherited the note's unsupported \"public\" — the host's aggression chip reaches the DM's cards and the premium PDF only (`livingWorldSignals.js:236-262`, `liveWorld.js:318`; the dossier's posture block DS-WAR-4 is dark). One phrase; the bundle regenerates from the volume.",
+      "kind": "design"
+    },
+    {
+      "file": "docs/validation/retrovalidation-2026-10-18/rulings.md",
+      "old": "players see the host's public chips | UPHELD |",
+      "new": "players see the host's public chips | UPHELD (the chip itself is a DM surface — Library/Realm cards and the premium PDF, no player surface traced, lenses.md L1 — so the players' share is nothing today) |",
+      "reason": "L1 / V-9: the rulings record's J384(7) row carries the same premise; the record is not a journal row and may be corrected.",
+      "kind": "record"
+    }
+  ],
+  "rulings": [
+    {
+      "id": "RL-1",
+      "verdict": "UPHELD",
+      "reason": "§1.2 #1 every fact settlement- or pair-grain, none a field: each note's lane verified it; V13 §5.8's head states it",
+      "consequence": "none"
+    },
+    {
+      "id": "RL-2",
+      "verdict": "UPHELD",
+      "reason": "§1.2 #2 the canon marker is the one switch giving geography, data the premium DM writes: LWG:101-134; J384 (6) and H22 build on it",
+      "consequence": "none"
+    },
+    {
+      "id": "RL-3",
+      "verdict": "UPHELD",
+      "reason": "§1.2 #3 one distance substrate; only caravans and steading sites touch the host's territory: TRADE §5.2, §8.3; POP §8.2",
+      "consequence": "none"
+    },
+    {
+      "id": "RL-4",
+      "verdict": "UPHELD",
+      "reason": "§1.2 #4 none keeps history (80/240/12), scrubs need map-side snapshots: FOLD requirement 23; J384 (9), V13 §5.8 (8)",
+      "consequence": "none"
+    },
+    {
+      "id": "RL-5",
+      "verdict": "UPHELD",
+      "reason": "§1.2 #5 the status of record under-reports; the record is the preset code and the canon marker — wording corrected per L2/L3",
+      "consequence": "C3, C4"
+    },
+    {
+      "id": "RL-6",
+      "verdict": "UPHELD",
+      "reason": "§1.2 #6 the default preset's name overstates a born campaign (RRb): simulationRules.js:31; J384 (13), V13 §5.8 (2)",
+      "consequence": "none"
+    },
+    {
+      "id": "RL-7",
+      "verdict": "UPHELD",
+      "reason": "§1.2 #7 DM truth by default, belief narrow, RR omniscient: beliefMap.js:204-209; rules:56/:953/:996/:1073 (two audience cells amended under RL-29)",
+      "consequence": "none"
+    },
+    {
+      "id": "RL-8",
+      "verdict": "UPHELD",
+      "reason": "§1.2 #8 links decide who, geometry modulates, nearness picks in four places: TRADE §5.3; POP §5.2 C, §3.4; PROSP §5.5; V13 §5.8 names the same four",
+      "consequence": "none"
+    },
+    {
+      "id": "RL-9",
+      "verdict": "UPHELD",
+      "reason": "§1.4 movers as movement, pressed things as dated causes; two grammars: V13 §5.8 (5)",
+      "consequence": "none"
+    },
+    {
+      "id": "RL-10",
+      "verdict": "UPHELD",
+      "reason": "§1.4 water lanes lit by the digest's slot, never navalEnabled; faith no sea carrier: distanceRead.js:277-293; J382 (c); the register word per the rulings lane's J382(b)",
+      "consequence": "C37"
+    },
+    {
+      "id": "RL-11",
+      "verdict": "UPHELD",
+      "reason": "§2's 'never' rows and INVENTION column: each rests on a host absence a note states; V13 §5.9's refusals carry them — six cells AMENDED (L1, L16, L17, L18, L20, L21)",
+      "consequence": "C1, C20, C21, C22, C24, C25"
+    },
+    {
+      "id": "RL-12",
+      "verdict": "UPHELD",
+      "reason": "§3.1 (a)–(c) W8a for attribute fills, the vassal's own gate decisions marked, a contested march no road hazard: V13 §5.8 (4)(c); J385 gap 5; V13 §5.9 (2)",
+      "consequence": "none"
+    },
+    {
+      "id": "RL-13",
+      "verdict": "UPHELD",
+      "reason": "§3.2 τTier/kSize the tier label, the parent alone: POP §2.1, §8.1; J384 (11) as the rulings lane amended it",
+      "consequence": "none"
+    },
+    {
+      "id": "RL-14",
+      "verdict": "UPHELD",
+      "reason": "§3.2 kProsperity relativise or bound: J384 (1), V13 §3.9 (7)",
+      "consequence": "none"
+    },
+    {
+      "id": "RL-15",
+      "verdict": "UPHELD",
+      "reason": "§3.2 relation classes; debatable land honest in RR: relationshipEvolution.js:48-110; relationshipRulesAdversarial.js:66-67, :226-227, :266-370; the criminal_network sentence stale (L12)",
+      "consequence": "C15, C26, C27"
+    },
+    {
+      "id": "RL-16",
+      "verdict": "UPHELD",
+      "reason": "§3.2 the host's comparator already decides in RR; send it banded, defer or show the disagreement: relationshipRuleHelpers.js:312-331, :457-464; J384 (3), H13",
+      "consequence": "C5, C6"
+    },
+    {
+      "id": "RL-17",
+      "verdict": "AMENDED",
+      "reason": "§3.2 cd plain form, sampled and dwelled, faith term 0 on born worlds — UPHELD (J384 (2); cultureDistance.js:171-172); the row-B sentence 'a direct vassal or patron edge closes culture distance by up to 15 %' is the trade-tie form's (migrationKernel.js:197) and the plain form admits none → 'the trade-tie form's closing (migration, the foreign seat); the sway's plain form admits no edge closing'",
+      "consequence": "C7, C32"
+    },
+    {
+      "id": "RL-18",
+      "verdict": "UPHELD",
+      "reason": "§3.2 water lanes: the versioned slot, not the fleet switch; teleport no territory carrier: distanceRead.js:277-293; J382 (b); the rulings lane's V13 §2.2 fragment",
+      "consequence": "none"
+    },
+    {
+      "id": "RL-19",
+      "verdict": "UPHELD",
+      "reason": "§3.2 B continuity is the map's labelled verdict while the sovereignty lane is dark; vassal chains pool nothing: TRADE §5.12; PROSP §9.1 item 7; H13's optional continuity verdict",
+      "consequence": "none"
+    },
+    {
+      "id": "RL-20",
+      "verdict": "AMENDED",
+      "reason": "§3.2 M 'the host has no garrison or standing bands' + the proposed banding → 'the host has no garrison or standing band but bands its whole capacity on five latent-strength floors (armyStrength.js:48-54) and keeps a garrison institution bucket (defenseInstitutionBuckets.js:83-91); J384 (4) reads the facets bar the economy, renormalised on those floors, with the garrison presence, the will facet kept; until the host sends the band, M is dark' — chose to name the floors and the bucket because H13 and FILE-M item 693 already read them and the note's absence claim would lead a reader to think the design invented a banding",
+      "consequence": "C14, C30; no design change"
+    },
+    {
+      "id": "RL-21",
+      "verdict": "UPHELD",
+      "reason": "§3.2 MarchHold a drift raid is a pressure, not a verdict; ask the outcome word: relationshipRulesAdversarial.js:291-313; J384 (5), H25; the FILE-M quote stale (L13)",
+      "consequence": "C16"
+    },
+    {
+      "id": "RL-22",
+      "verdict": "UPHELD",
+      "reason": "§3.3 the default-preset sway honest as reach by tier, size and wealth, split by hostility, resisted by culture, military not yet a host fact: V13 §5.9 (2)'s civil regime and banner",
+      "consequence": "none"
+    },
+    {
+      "id": "RL-23",
+      "verdict": "AMENDED",
+      "reason": "§3.4 revision triggers UPHELD; the boom hysteresis 'enter 3.0, exit 1.5, dwell 3' → 'enter at 3.0 with centrality 0.3 after a 3-tick dwell that survives dips to 1.5; leave only by a bust below 1.0 or on embattlement' — upswingKernel.js:644-653, :669-671 (1.5 is BOOM_EXIT_THROUGHPUT, the building-phase floor); the trade lane's RL-6 found the same in TRADE",
+      "consequence": "C31"
+    },
+    {
+      "id": "RL-24",
+      "verdict": "UPHELD",
+      "reason": "§3.5 what the territory reading must not take: V13 §5.9 (2)'s refusals and §3.9 (6)–(10)",
+      "consequence": "none"
+    },
+    {
+      "id": "RL-25",
+      "verdict": "UPHELD",
+      "reason": "§4.1 one LensLayer record: V13 §5.8 (1)",
+      "consequence": "none"
+    },
+    {
+      "id": "RL-26",
+      "verdict": "UPHELD",
+      "reason": "§4.2 the honesty rule: J384 (13); V13 §5.8 (2)–(3); the bias facts hold (population.md F1 keeps the 1,030)",
+      "consequence": "none"
+    },
+    {
+      "id": "RL-27",
+      "verdict": "AMENDED",
+      "reason": "§4.3 four classes UPHELD; class 2 'recomputed on the same snapshot by the host's own exported pure function' → 'a value the host computes by its own law on the same window and sends, labelled by the host's law; the map never calls or re-implements a host law' — chose the host-side derivation because the map module is a clean-room codebase (FILE-M:43-46) and the applied V13 §5.8 (4)(b) and H23 already say so",
+      "consequence": "C33; the design already states it"
+    },
+    {
+      "id": "RL-28",
+      "verdict": "UPHELD",
+      "reason": "§4.4 the legend: host vocabulary as data, one word one meaning, polarity normalised, derivation labels, two grammars: V13 §5.8 (5)–(6); ALIGN §9.3 #15",
+      "consequence": "none"
+    },
+    {
+      "id": "RL-29",
+      "verdict": "AMENDED",
+      "reason": "§4.5 the audience filter UPHELD; two cells amended: the aggression chip is a DM surface, not a public fact (ALIGN §1 item 7; livingWorldSignals.js:236-262; the dossier's posture block dark), and the believed population trend reaches no surface (population.md V-1)",
+      "consequence": "C2, C35; D1; R1"
+    },
+    {
+      "id": "RL-30",
+      "verdict": "UPHELD",
+      "reason": "§4.6 the scrub: host-dated first, the host's frames, map snapshots, horizon declared, replay by the host's arithmetic: J384 (9); V13 §5.8 (8)",
+      "consequence": "none"
+    },
+    {
+      "id": "RL-31",
+      "verdict": "UPHELD",
+      "reason": "§4.7 shared substrates: V13 §5.8 (1), (6)–(8)",
+      "consequence": "none"
+    },
+    {
+      "id": "RL-32",
+      "verdict": "AMENDED",
+      "reason": "§4.8 build order (plague; territory and patrols; religion; trade; populations; prosperity; alignment) → J384 (8)'s 'plague; the sway and patrols; trade and populations; religion; prosperity and alignment' — the note put it to the owner (§6 Q8), the session ruled under the delegation and the rulings lane upheld; the note's order was a proposal",
+      "consequence": "C38"
+    },
+    {
+      "id": "RL-33",
+      "verdict": "UPHELD",
+      "reason": "§5 the 35 asks each rest on a host fact a note states; item 818 maps all 35 onto H13 and H23–H30; ask 8's '(H16's security term)' AMENDED per L14; ask 3's banding superseded by J384 (4)",
+      "consequence": "C17, C18"
+    },
+    {
+      "id": "RL-34",
+      "verdict": "UPHELD",
+      "reason": "the preamble's status codes RRb/RRa/c/+D+W+F/+S: simulationRules.js:31, :890-894; LWG:55-73; RRa gains the World's Temper picker (L25); +S's premium gating is the population lane's C-24",
+      "consequence": "C29"
+    },
+    {
+      "id": "RL-35",
+      "verdict": "UPHELD",
+      "reason": "§2.12 one dated event record tagged with the lenses it moves: V13 §5.8 (1)",
+      "consequence": "none"
+    },
+    {
+      "id": "RL-36",
+      "verdict": "NOT-A-RULING",
+      "reason": "§1.6 relays the six notes' corrections of earlier map-module readings; each is judged in its own lane (fp.md, plague.md, prosperity.md, alignment.md)",
+      "consequence": "none"
+    }
+  ],
+  "notice_replacement": "> Fable-reviewed 2026-10-18: PASS-WITH-CORRECTIONS — the readings, rules and 35 asks rest on host facts or the owner's words; 38 fragments correct citations, stale FILE-M quotes, three audience cells and one hysteresis figure (lane retrovalidation/lenses; J392)",
+  "summary": "research/sf/lens-implications.md read whole (613 lines) and judged against the host at 81f1cd96, the six system notes, FILE-M, PROGRESS J375-J391, file j items 131-141, file i item 130 and V13 §5.8/§5.9/§8.5. PASS-WITH-CORRECTIONS: the note's readings, its lens rules and all 35 host asks rest on host facts or the owner's words (amendments n item 818 maps every ask onto H13, H23-H30). All 25 verifier findings ACCEPTED on evidence re-read (L8 and L11 with a widened fix). Nine own findings: the five latent-strength floors and garrison bucket the note calls absent (J384 (4)/H13 already read them); the boom 'exit 1.5' (the building floor; trade.md C8); the believed population trend no surface reads and the head count the dossier prints to every viewer (population.md V-1); §4.3 class 2 'exported pure function' vs the clean-room rule and V13 §5.8 (4)(b); the trade-tie 15 % closing absent from the plain-form territory term; the register word lodgement; §6's thirteen questions all answered by J384; V13 §5.8 (7)'s 'public chips' inheriting L1. 36 readings judged: 29 UPHELD, 6 AMENDED, 0 OVERTURNED, 1 NOT-A-RULING. 40 corrections: 38 research (every old string once in the note; none overlapping population C-24 on line 34 or faith C46 on line 105), 1 design (V13 §5.8 (7)), 1 record (rulings.md J384(7)). No J-row wrong; J384 (7)'s 'public chips' is a precision for J392. Record: docs/validation/retrovalidation-2026-10-18/lenses.md; JSON: lenses.verdict.json."
+}

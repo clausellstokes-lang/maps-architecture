@@ -1,0 +1,182 @@
+{
+ "checked": 694,
+ "findings": [
+  {
+   "id": "TV-1",
+   "where": "research/sf/trade-system.md §3.3 table row 'Food (calories)' (line 262)",
+   "claim": "need = population × 2 lb/day … cited at gen/foodGenerator.js:160-166",
+   "verdict": "WRONG",
+   "evidence": "gen/foodGenerator.js:160-166 is the storage-buffer block (baseStorage/storageMonths). The need is baseDailyNeed = population * PER_CAPITA_NEED at :258-262; EC S14 (DESIGN_FP_ARCH_EC.md:373) cites foodGenerator.js:34-36,:258-272.",
+   "fix": "Replace gen/foodGenerator.js:160-166 with gen/foodGenerator.js:258-262 (constant at :34-36)."
+  },
+  {
+   "id": "TV-2",
+   "where": "§3.8 ¶1 last sentence (lines 361-362) and §10.2 item 31 (line 1085)",
+   "claim": "gen/foodGenerator.js:182-189 is 'the descriptive importCapacity' table",
+   "verdict": "IMPRECISE",
+   "evidence": "foodGenerator.js:182-191 sets importDependency = min(importCapacity, tierImportNeed + market bonus), published at :446; the tick-time siege/occupation stressor cut adds exactly ledger.importDependency back as deficit (wp/foodStockpile.js:322-324) and it feeds resilience (:468). Load-bearing, not descriptive; routes with no row (mountain_pass, coastal) get importDependency 0, so the stressor cuts nothing there.",
+   "fix": "Call it 'the import-dependency table (importCapacity → importDependency), which the siege/occupation stressor cut reads (wp/foodStockpile.js:322-324)'; in item 31 say so and add that a siege stressor cuts no import share on a mountain_pass or coastal settlement."
+  },
+  {
+   "id": "TV-3",
+   "where": "§2.1 paragraph under the table (lines 145-147)",
+   "claim": "[STATED disp/economyFreshness.js:1-25; econ/economicState.js:51-61] services, the food deficit, trade dependencies, the income mix and the compound flags stay at their generation values after events",
+   "verdict": "UNSUPPORTED",
+   "evidence": "economyFreshness.js:6-12 names activeChains, availableServices, prosperity, resourceAnalysis (after applyEvent); grep finds no foodSecurity/tradeDependencies/incomeSources in the file. economicState.js:51-61 states only the stamped compound flags. The food deficit is rewritten every tick by the stockpile (wp/foodStockpile.js:404-409); only stockpile.baseDeficitPct keeps the generation value (:288, :411).",
+   "fix": "Re-source and correct: [STATED economyFreshness.js:6-12, :24-25] chains, services, prosperity label, resource analysis after an applyEvent; [STATED economicState.js:51-61] compound flags stamped once; [OBSERVED] trade dependencies and income mix have no runtime writer; the base deficit stays while the stockpile tick rewrites deficitPct each tick (wp/foodStockpile.js:404-411). Add deficitPct/surplusPct/resilienceScore to the §2.1 foodSecurity writers."
+  },
+  {
+   "id": "TV-5",
+   "where": "§1 'Prosperity' bullet (lines 99-101)",
+   "claim": "a boom adds 0.14 band-steps per tick while throughput stays at or above 3.0 with centrality at or above 0.3",
+   "verdict": "WRONG",
+   "evidence": "wp/upswingKernel.js:669-704: 3.0/0.3 gate only the approach (the building dwell continues at ≥1.5, :671); once minted the boom sustains (+0.14 accrued, a band step when the accrual crosses 1.0, :656-659) while not severed (:617: not embattled, throughput ≥ 1.0, no resource removal). Bust −0.9 rounds to one rung (:915).",
+   "fix": "'a boom mints after throughput ≥ 3.0 with centrality ≥ 0.3 holds for 3 ticks (dwell survives dips to 1.5); it then accrues +0.14 band-steps per tick until throughput falls below 1.0, embattlement appears or the resource is removed, when it busts: one rung down (−0.9, rounded) and −3 legitimacy.'"
+  },
+  {
+   "id": "TV-6",
+   "where": "§9 item 6 (lines 940-941)",
+   "claim": "the host's boom and bust records carry their own hysteresis: enter 3.0, exit 1.5, dwell 3",
+   "verdict": "WRONG",
+   "evidence": "wp/upswingKernel.js:644-653 says BOOM_EXIT_THROUGHPUT is the BUILDING-phase continuation threshold, 'not a boom-exit gate'; a boom leaves only by bust (:617, :621).",
+   "fix": "'(enter at throughput 3.0 with centrality 0.3 after a 3-tick dwell that survives dips to 1.5; leave only by a bust below 1.0 or on embattlement)'."
+  },
+  {
+   "id": "TV-11",
+   "where": "§9 item 8 (lines 949-953)",
+   "claim": "contraband, the culture distance's only trade reader, never passes the trade-tie term … a trade-adjusted form on the map would run ahead of the host",
+   "verdict": "WRONG",
+   "evidence": "Contraband passes no tie (wp/supplyKernel.js:754-756; default 0 at sp/smuggle.js:164). But the host reads the trade-closed distance elsewhere: migration destination score (wp/migrationKernel.js:197, :228-230, TRADE_TIE trade_partner 1, allied 0.7, vassal/patron 0.6) and ruling-power seat closeness (src/domain/rulingPowerSeat.js:178, :361-370, called :673).",
+   "fix": "State that the host's culture distance takes a relationship-label trade tie; contraband reads the plain distance [sp/smuggle.js:164-177; wp/supplyKernel.js:753-756]; migration pull and ruling-seat closeness read the trade-closed distance; V13 W8's foreignCulture term should name which host read it mirrors. Drop 'would run ahead of the host'."
+  },
+  {
+   "id": "TV-4",
+   "where": "§3.7 'Over time' bullet (lines 342-345)",
+   "claim": "lists the M6b toll lift among the trade writers of prosperity",
+   "verdict": "IMPRECISE",
+   "evidence": "tollProsperityFor's one consumer is wp/institutionLifecycle.js:698, folded into economy health at :699-701; it never writes economicState.prosperity (contradicts the note's own §1, §2.1, §9 item 6).",
+   "fix": "Remove it from the writers list and add '(The M6b toll lift is not a prosperity writer: it feeds only institution-lifecycle health, wp/institutionLifecycle.js:698-701.)'"
+  },
+  {
+   "id": "TV-7",
+   "where": "§3.5 (line 319) and §12 row M12 (line 1306)",
+   "claim": "the suppress rule is at rg/tradeLinks.js:47",
+   "verdict": "IMPRECISE",
+   "evidence": "tradeLinks.js:47 is `if (!np || !np.name) return [];`; the hostile-or-suppress return is :48.",
+   "fix": "Change :47 to :48 in both places."
+  },
+  {
+   "id": "TV-8",
+   "where": "§3.4 'Movement' (lines 278-279)",
+   "claim": "Catalog services (categories service and transport) are excluded from shipping",
+   "verdict": "IMPRECISE",
+   "evidence": "wp/supplyKernel.js:84-86 requires kind === 'good' plus a category outside food/service/transport; military_services (category military) and arcane_services (category arcane) are excluded by kind (rg/goodsCatalog.js; probe).",
+   "fix": "'Catalog services (kind service; the food/service/transport category list is a second filter on goods) are excluded from shipping (wp/supplyKernel.js:71-86).'"
+  },
+  {
+   "id": "TV-9",
+   "where": "§10.2 item 15 (lines 1049-1050)",
+   "claim": "STARVE_AFTER_WEEKS is receipt text only (EC S33; sp/commodityFlow.js:927-932)",
+   "verdict": "IMPRECISE",
+   "evidence": "commodityFlow.js:927-932 is fragileLink. The constant is at sp/commodityFlow.js:130 and sp/supplyShipments.js:83 and is read only as weeksCut at sp/commodityFlow.js:806 and sp/supplyShipments.js:412.",
+   "fix": "Cite the inversion at sp/commodityFlow.js:927-932 and sp/supplyShipments.js:333-335, and the constant at supplyShipments.js:83 / commodityFlow.js:130, read only at supplyShipments.js:412 / commodityFlow.js:806."
+  },
+  {
+   "id": "TV-10",
+   "where": "§3.10 'Embattlement weights' row (line 407) and §9 item 4 (line 927)",
+   "claim": "occupation ladder cited at sp/embattlement.js:113-115",
+   "verdict": "IMPRECISE",
+   "evidence": ":113 closes EMBATTLEMENT_TUNING; OCCUPATION_TERM is sp/embattlement.js:115-119.",
+   "fix": "Change :113-115 to :115-119 in both places."
+  },
+  {
+   "id": "TV-12",
+   "where": "§10.2 item 14 (lines 1043-1048) and §9 item 13 (lines 975-976)",
+   "claim": "Every committed advance runs N one-week kernel calls; the only coarse kernel call is the dialog's uncommitted one-month preview",
+   "verdict": "IMPRECISE",
+   "evidence": "store/campaignAdvanceSession.js:613-614 takes the multi-tick path only when catchUpWeeks != null || flag('advanceMultiTick'); otherwise :809-817 calls advanceCampaignWorld once with the DM's interval (a committed coarse tick). advanceMultiTick defaults true (lib/flagRegistry.js:88), described as a 'soak killswitch' (lib/flags.js:77).",
+   "fix": "Qualify: weekly ticks while the default-on advanceMultiTick flag holds; two coarse kernel calls exist — the uncommitted preview (map/SimulationRulesDialog.jsx:286) and the committed single-tick advance under the killswitch (store/campaignAdvanceSession.js:613-614, :809-817), under which M6a caravans arrive late by the tick span. Mirror in §9 item 13."
+  },
+  {
+   "id": "TV-13",
+   "where": "§6 W-C2 (lines 710-711) and §7 row W-C2 (line 777)",
+   "claim": "the mercenary market runs under warLayerEnabled (wp/pulseKernel.js:1783)",
+   "verdict": "IMPRECISE",
+   "evidence": "pulseKernel.js:1783: `if (simulationRules.warLayerEnabled || memoryState.mercenaryMarket !== undefined)` — an existing ledger keeps it running after War is off.",
+   "fix": "'runs under warLayerEnabled, or while a mercenaryMarket ledger persists (wp/pulseKernel.js:1783)'."
+  },
+  {
+   "id": "TV-14",
+   "where": "§5.12 TR-3 bullet (lines 639-640)",
+   "claim": "[OBSERVED sp/dispatchDestination.js:85-259]",
+   "verdict": "IMPRECISE",
+   "evidence": "dispatchDestination.js has 253 lines (wc -l; the note's own §11.1 says 253).",
+   "fix": "Change :85-259 to :85-253."
+  },
+  {
+   "id": "TV-15",
+   "where": "§10.2 item 23 (line 1065)",
+   "claim": "Brokerage's distance surcharge is always 0 (wp/brokerageServicesRules.js:276)",
+   "verdict": "IMPRECISE",
+   "evidence": ":276 is `tick,`; the zero is `delayTicks: 0,` at :277 in the only answerBrokerageQuery call (:270); surcharge = DISTANCE_SURCHARGE × delay (wp/brokerageServices.js:175, :210).",
+   "fix": "Change :276 to :277 and cite the surcharge formula at wp/brokerageServices.js:175, :210."
+  },
+  {
+   "id": "TV-16",
+   "where": "§10.1 item 10 (lines 1031-1032)",
+   "claim": "TRADE T1 says truth-side scarcity derives from physical stocks (listed as a document the code has outrun)",
+   "verdict": "IMPRECISE",
+   "evidence": "docs/DESIGN_FP_TRADE.md:62 already carries an in-place [CORRECTED 2026-10-16 (coherence fold)] bracket saying SP-B reads generation data, never physical stocks (EC S25), plus a [RULED 2026-10-16] bracket on the ladders.",
+   "fix": "Phrase as item 1 is phrased: the original sentence says so; the same line carries an in-place [CORRECTED 2026-10-16] bracket [STATED re-checked TRADE:62]; the stale reading survives only for a reader who skips it."
+  },
+  {
+   "id": "TV-17",
+   "where": "§10.1 item 12 (lines 1035-1036)",
+   "claim": "EC §7 features salt caravans and sea-borne salt (EC:2261, :2268, :2310)",
+   "verdict": "IMPRECISE",
+   "evidence": "EC:2261 sea-borne salt; the salt-caravan sentence is EC:2265; EC:2268 is the port-closure row (iron, no salt); EC:2310 is the salt-mine substitution sentence (no caravan, no sea).",
+   "fix": "'(sea-borne salt EC:2261; salt caravans EC:2265; salt as a traded staple EC:2310)'."
+  },
+  {
+   "id": "TV-18",
+   "where": "§9 item 1 (lines 908-914); §1 map paragraph (lines 119-121)",
+   "claim": "The map's W8 territory is a budgeted flood with unclaimed land, contested marches and vassal realms (V13 §3.9); proposal: two products",
+   "verdict": "IMPRECISE",
+   "evidence": "V13 §3.9 now reads 'Two partitions, never one (J-V13.63)': W8a the unbudgeted cheapest-to-reach seat territory the host's crossings ride (docs/volumes/V13-world.md:1781-1797) and W8b the sway with unclaimed land, debatable marches and the vassal chain (:1807-1850); 'budgets and cost vectors are retired (J-V13.63)' (:745); landed in docs/AMENDMENTS-2026-10-17m.md:1891. fp-physical-integration.md:111 row A1 still names the budgeted flood.",
+   "fix": "Add a [SUPERSEDED BY EVENT 2026-10-17 (AMENDMENTS-2026-10-17m, J-V13.63)] bracket: V13 §3.9 now makes the two products this item proposes (W8a / W8b, no budget); row A1 still names the retired flood. In §1 change 'the map's budgeted territory' to 'the map's sway (V13 W8b)'."
+  },
+  {
+   "id": "TV-19",
+   "where": "§1 layer 1 (lines 57-58)",
+   "claim": "It is stamped once; only calamities, resource changes and DM edits rewrite parts of it later",
+   "verdict": "IMPRECISE",
+   "evidence": "The note's own §2.1 lists tick writers of prosperity and foodSecurity; EC S18 (DESIGN_FP_ARCH_EC.md:377): 'foodSecurity, prosperity, inputStockpiles, treasury are tick-written'; wp/foodStockpile.js:404-409 rewrites deficitPct/storageMonths each tick.",
+   "fix": "'… calamities, resource changes and DM edits rewrite its chains and lists later, and the pulse rewrites the prosperity label and the food ledger's storage and deficit every tick (EC S18; §2.1).'"
+  },
+  {
+   "id": "TV-20",
+   "where": "§1 'What a DM in the default preset actually feels' (lines 104-105)",
+   "claim": "A plain-door campaign runs the trade-scarcity cascade and, once canonized, M2 caravans — nothing else of trade",
+   "verdict": "IMPRECISE",
+   "evidence": "Birth door = plain default rules (wp/simulationRules.js:1552-1558, :63-74: relationshipDynamics, resourceDrift, stressors on, first_order propagation). The note's own §7 marks for RR born: trade relationship drift, depth-1 regional waves on trade channels, export re-diffs on depletion, the stressor food-import cut, channel discovery.",
+   "fix": "List them: channel discovery, trade relationship drift, depth-1 regional waves, the cascade, export re-diffs on depletion and the stressor food-import cut, plus M2 once canonized; no relief, no M6a, no Roads missions."
+  },
+  {
+   "id": "TV-21",
+   "where": "§2.3 spatialDigest row (line 196) and §8.4 'Geometry' row (line 871)",
+   "claim": "the digest freezes a calibration",
+   "verdict": "IMPRECISE",
+   "evidence": "buildSpatialDigest returns settlementIds, cellCount, landCellCount, skippedSettlements, costField, territory, tiers, distanceMatrix, gates, routeReceipts, reserved{airField, seaLanes, seasonalOverlay, teleportEdges} + optional biomes/climate/lakes/captureReceipt/kmScale (sp/spatialDigest.js:900-921, :193-195); calibration is derived at read and memoized (sp/distanceRead.js:540-560).",
+   "fix": "Mark calibration as derived at read from the frozen matrix and tiers (sp/distanceRead.js:540) in §2.3, and drop it from the frozen list in §8.4."
+  },
+  {
+   "id": "TV-22",
+   "where": "§2.3 table row worldState.embattlement (line 192)",
+   "claim": "the danger ledger is worldState.embattlement",
+   "verdict": "IMPRECISE",
+   "evidence": "Written via setSpatialLedger(memoryState, 'embattlement', …) (wp/pulseKernel.js:2394), which folds it under worldState.spatialLedgers (sp/spatialLedgerAccess.js:92-95; 'replacement for the old top-level worldState.<key>', :71-73); read via getSpatialLedger (sp/embattlement.js:303). Only sp/embattlement.js:9's stale header keeps the old spelling.",
+   "fix": "Rename the row spatialLedgers.embattlement, as the table already does for supplyShipments, commodityStocks, entrepots, tradeFlow."
+  }
+ ],
+ "summary": "I read research/sf/trade-system.md whole (1,307 lines) and checked 694 claims against the host at 81f1cd96, which I confirmed from .git/HEAD without running git. I also checked them against the map-side notes. All 114 host line counts are exact. I ran read-only node probes covering normalizeGood, the chain census, finished-goods demand and the §3.5 probe town on five route classes. They reproduce the seats' claims.\n\nThe load-bearing physics, gating and constants all hold:\n- M6a runs only in RR and FS, and the birth door is null.\n- M2 and M6a: K = 3 sources, 8-week buffers, loads 2–12, taps 3, bands 0.35/1.25.\n- Route danger, banditry and the embattlement entry arithmetic.\n- Entrepôt, smuggle, trade-war and cascade constants.\n- The food ladder and the divergence between its writer and its view.\n- The 27-row catalog and the 12-row service map.\n- A DM-cut route reaches no caravan code.\n- The Roads mission gates.\n\nThere are 22 findings; each has its exact fix.\n\nThe 4 WRONG:\n- **TV-1:** the food-need citation is wrong.\n- **TV-5:** the boom-sustain condition is wrong. After minting, the drift continues while throughput is at least 1.0 and nothing is embattled, not at 3.0 with centrality 0.3.\n- **TV-6:** \"exit 1.5\" is the building-phase threshold, not a boom exit.\n- **TV-11:** the host already uses a trade-adjusted culture distance in migration and ruling-seat closeness, so a trade-adjusted map term would not run ahead of the host.\n\nThe 1 UNSUPPORTED:\n- **TV-3:** the economyFreshness [STATED] source does not say what is claimed, and the food deficit is in fact rewritten every tick.\n\nThe 17 IMPRECISE:\n- Line and range slips: TV-7, TV-9, TV-10, TV-14, TV-15, TV-17.\n- The \"descriptive\" importCapacity table actually drives the siege-stressor cut (TV-2).\n- The toll lift is listed among prosperity writers (TV-4).\n- The service-exclusion mechanism is misstated (TV-8).\n- A committed coarse tick still exists behind the advanceMultiTick killswitch (TV-12).\n- The mercenary market keeps running while its ledger persists (TV-13).\n- TRADE T1's in-place correction bracket is not acknowledged (TV-16).\n- V13 §3.9 was superseded by J-V13.63, which already makes the note's two-partition proposal (TV-18).\n- Summary overstatements: TV-19, TV-20.\n- The digest does not store a calibration (TV-21).\n- The embattlement ledger lives under spatialLedgers (TV-22).\n\nTwo things could not be checked. The map-side line counts at the time of writing cannot be read without git; the files have grown since through dated brackets. Seat B's original probe files were not available; I re-ran the probes instead.\n\nI wrote the record at /home/user/maps-architecture/docs/validation/retrovalidation-2026-10-18/trade-verify.md and appended a LANDED line to /home/user/maps-architecture/docs/lane-events.log. That LANDED line misstated the split (5/1/16), so I appended a correction CHECKPOINT giving 4/1/17."
+}

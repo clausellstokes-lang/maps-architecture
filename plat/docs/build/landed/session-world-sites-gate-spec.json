@@ -1,0 +1,16 @@
+{
+  "schema": "plat-landed-record/1",
+  "item": "session-world-sites-gate-spec",
+  "lane": "session/world-sites-gate-spec",
+  "lanes": ["session/world-sites-gate-spec"],
+  "wave": "flow-7",
+  "snapshotTaken": "2026-10-04T20:46:52.985Z",
+  "date": "2026-10-18T20:50:48.542Z",
+  "ownsSource": "declared",
+  "owns": ["plat/docs/build/M0-world-sites-gate.md"],
+  "counts": { "created": 1, "changed": 0, "unchanged": 0, "deleted": 0 },
+  "files": [
+    { "path": "plat/docs/build/M0-world-sites-gate.md", "status": "created", "sha256": "dfdbd9447e44c250d66f11d3763afac329df8b8e7363cc77e6945942da8a61a6", "size": 7401 }
+  ],
+  "appends": []
+}

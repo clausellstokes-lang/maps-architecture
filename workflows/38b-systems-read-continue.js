@@ -1,11 +1,12 @@
+// [Fable-reviewed 2026-10-18 (lane retrovalidation/scripts; J392): this script ran as J383 records; its prompt text stays as fed; the line numbers below are those of the script as it ran (this comment shifts each by one). Correction to it: line 48 (alignment-code brief) lists supplyKernel.js, migrationKernel.js, peaceReasons.js, warSeatBooks.js as siblings of src/domain/corruption.js — at 81f1cd96 all four are in src/domain/worldPulse/.]
 export const meta = {
   name: 'systems-read-continue',
   description: 'Continue the systems read from its recorded readings (journal of wf_0e759907-c33): prosperity docs read live; then synthesize, verify and fix each note; then the lens implications (with plague when its note has landed)',
   phases: [
-    { title: 'Read', detail: 'readers per subject: alignment (2), trade (3), populations (2), prosperity (2)' },
+    { title: 'Read', detail: 'one live reader (prosperity docs); the other eight readings replayed from the journal of wf_0e759907-c33' },
     { title: 'Synthesize', detail: 'one research note per subject' },
     { title: 'Verify', detail: 'adversarial check per note against code and docs, then fixes' },
-    { title: 'Implications', detail: 'what the three systems change for territory, religion and the lens framework' },
+    { title: 'Implications', detail: 'what the six systems change for territory, religion and the lens framework' },
   ],
 }
 

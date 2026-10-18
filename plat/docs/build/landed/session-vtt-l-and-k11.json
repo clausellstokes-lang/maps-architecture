@@ -1,0 +1,29 @@
+{
+  "schema": "plat-landed-record/1",
+  "item": "session-vtt-l-and-k11",
+  "lane": "coherence/vtt-l-and-k11",
+  "lanes": ["coherence/vtt-l-and-k11"],
+  "wave": "flow-7",
+  "snapshotTaken": "2026-10-04T20:46:52.985Z",
+  "date": "2026-10-18T20:50:49.046Z",
+  "ownsSource": "declared",
+  "owns": ["plat/packages/kernel/API.md"],
+  "counts": { "created": 1, "changed": 0, "unchanged": 0, "deleted": 0 },
+  "files": [
+    { "path": "plat/packages/kernel/API.md", "status": "created", "sha256": "193cd9a8de6d27426ef7434a8f7a7ff71b89eb1bf95d91d16a16bfff4b306ee3", "size": 85875 }
+  ],
+  "appends": [
+    {
+      "file": "plat/CLEAN-ROOM.md",
+      "ids": ["L-0559"],
+      "lines": ["b2b535de985a94ae"],
+      "removed": []
+    },
+    {
+      "file": "plat/docs/build/choices.md",
+      "ids": ["C-0374"],
+      "lines": ["db0c1aac7fc9bc12"],
+      "removed": []
+    }
+  ]
+}

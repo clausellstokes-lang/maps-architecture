@@ -10,7 +10,7 @@ with its evidence (file and line, or the test), each failure marked fixed-in-M0 
 `plat/CLEAN-ROOM.md`. M0 does not close without it. No row is closed by changing the design to match the code without a
 row of `plat/docs/build/choices.md`.
 
-## Kernel rows (K1–K13)
+## Kernel rows (K1–K14)
 
 | # | the row | verification |
 |---|---|---|
@@ -27,8 +27,13 @@ row of `plat/docs/build/choices.md`.
 | K11 | No kernel algorithm branches on a domain role beyond the documented defaults (`plot_line`, `claim`, `corridor_split`, `kerb`, `invisible`) | grep `kernel/src/` for role-name literals |
 | K12 | The commit journal records the stage, the concern and the inputs a stage read, so a reason record can be reconstructed for every kernel-transaction stage | read `tx/`, `CommitRecord`; if absent, carry to M1 with the smallest addition named |
 | K13 | No digest, reference form, invariant or kernel operation reads or assumes an elevation; `Frame` and the lattice are two-dimensional only | grep for any z-like field in `kernel/src/`; read `num/`, `digest/`, `types/refs.ts` |
+| K14 | An arena's block loads under a caller-named `PlatKey` with an entity-id map (`DecodeOptions.from?: PlatKey`, `DecodeOptions.ids?: (id) => id`; `io/decode.ts:274` today refuses a chunk of another arena), printing and digesting equal to the same content built under the new key — adoption's arena re-key (V14 §3.9 (e), §2.8; J395 C8); carried to M1's API pass with K10, K12, M1, M2, M4; first reader M-SITE-F's SE6 | at M0: read `io/decode.ts` and `io/types.ts` (`DecodeOptions`), the row recorded carried-to-M1 (nothing built at M0); at M1's API pass: K2's two-part arena encoded under one key, its block decoded under a new `PlatKey` with an id map, its printing and digests equal to the same content built under the new key |
 
-## Model rows (M1–M11)
+**Carried to M1's API pass.** The 2026-10-17 check carried K10, K12, M1, M2 and M4 (`checks/M0-world-sites-gate.md`);
+K14 joins them as written (the M0 coverage verdict's C8, J395; file u item 953): the carried set is K10, K12, K14,
+M1, M2, M4.
+
+## Model rows (M1–M13)
 
 | # | the row | verification |
 |---|---|---|
@@ -43,3 +48,5 @@ row of `plat/docs/build/choices.md`.
 | M9 | Every drawable record kind declares a base elevation and a top, or a surface, or is listed flat with a reason; the gap list is the finding | read the model's record types against §8.4 |
 | M10 | Every vertical-link record (stair, shaft, ramp, trapdoor, access) carries an elevation at both ends | model, the records of §2.6–§2.7 |
 | M11 | The projection and the vertical exaggeration are view state outside the document hash; the style store's schema admits a projection family | §2.9 view state, §8.2 styles |
+| M12 | The hinterland unit's L3 access faces (an outside plot's `driveway`, a decoration's `path`) can begin at a point on a reservation's boundary — the face's origin a point, not a plot or a decoration id — without a new role, layer or digest change (V14 §3.9 (g), BCR-V14-26; J393) | read the hinterland unit's face types and S12's operator; if the origin is typed to a plot or a decoration, an M1 item |
+| M13 | S4's router admits a way between two given points — a charter road's point on a frame's ring and an entrance point (a gate where the enclosure has one) (M0-c-03's deferred two-point road) — and a way's end at the frame ring carries its external bearing, so V14 §3.6 (f)'s way from a world site's charter road to its gate is not foreclosed (J393); nothing is built at M0 | read M0-c-03's `defers` (the two-point road named with its milestone) and `Way.to`'s external `bearing` form (§2.4; C-0236 (18)); if a way's end cannot be given as a point, an M1 item with the smallest addition named |

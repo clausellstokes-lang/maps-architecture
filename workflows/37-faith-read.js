@@ -1,3 +1,4 @@
+// [Fable-reviewed 2026-10-18 (lane retrovalidation/scripts; J392): this script ran as J380 records; its prompt text stays as fed; the line numbers below are those of the script as it ran (this comment shifts each by one). Correction to it: line 15 quotes the owner's J380 words with "deity" twice where the owner wrote "diety" (PROGRESS.md J380: "the faith and diety system … local and global diety rankings"); the owner's words are as J380 records them.]
 export const meta = {
   name: 'faith-read',
   description: 'Read the SettlementForge faith and deity system in full (docs and code), synthesize one research note, adversarially verify it against the code',

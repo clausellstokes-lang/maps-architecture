@@ -1,3 +1,4 @@
+// [Fable-reviewed 2026-10-18 (lane retrovalidation/scripts; J392): this script ran as J388 records; its prompt text stays as fed; the line numbers below are those of the script as it ran (this comment shifts each by one). Corrections to it: line 20 (CONTEXT, copied from 40:20) says "rows J377–J384 … (after file m)" — for this run the inputs were rows J377–J387 and V13 after files m–o (the design prompt at line 25 says so; the reviewer, apply and critic seats received only CONTEXT); line 52 (reviser) says "fix it in file n … at the end of file n" — the reviser's file is ${NFILE} = file p (its Review record stands in file p).]
 export const meta = {
   name: 'lens-final',
   description: 'Close the last six lens gaps as amendments p (birth canon stated as ruled, plate cache in the base, verdict-audience test, conditional legend notes, index milestone lines, proposal section 3.8); review, revise, apply, completeness check',

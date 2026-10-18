@@ -1,0 +1,94 @@
+{
+ "checked": 780,
+ "findings": [
+  {
+   "id": "F1",
+   "where": "research/sf/plague-system.md §3.1 third bullet, line 207",
+   "claim": "+0.08 when housing_pressure is below 45 (\"crowded homes make containment harder\")",
+   "verdict": "IMPRECISE",
+   "evidence": "pressureModel.js:215-217 reason string is 'housing pressure weakens containment'; its reader sentence at stressors.js:68 is 'Crowded homes make sickness harder to contain.' The quoted phrase occurs nowhere in the host (grep src, docs).",
+   "fix": "Replace the parenthesis with (\"housing pressure weakens containment\", read to players as \"Crowded homes make sickness harder to contain.\", stressors.js:68)."
+  },
+  {
+   "id": "F2",
+   "where": "§9 item 3 (lines 794-797); §5.5 (lines 584-585); §5.1 row 16 RR clause (line 549)",
+   "claim": "Plague is not written to the true embattlement ledger; the roads' believed embattlement view is the only place the two meet",
+   "verdict": "IMPRECISE",
+   "evidence": "A plague condition is a crime archetype (pressureModel.js:42) and adds +0.12 crime pressure (:321-327). On mapped worlds the embattlement ramp reads crime pressure for every settlement (pulseKernel.js:2365-2391, crime01 = pIndex crime score), and crime above 0.5 ramps danger at weight 0.3 (spatial/embattlement.js:90,98,199-205; marker-only gate :172-175). So a plague condition can raise true embattlement, which the roads read in every roads preset including RR. There is no plague-specific term, and the stressor-only plague does not do this.",
+   "fix": "§9 item 3: say plague has no term in the true embattlement ledger, but a plague condition's +0.12 crime pressure is one of embattlement's ramp inputs (crime above 0.5, weight 0.3; pressureModel.js:42,321-327; pulseKernel.js:2365-2391; embattlement.js:98,199-205), so on mapped worlds a DM plague can nudge true danger in a generic way. The roads' believed view (row 16) is then the only plague-specific meeting. Add the same qualifier in §5.5 and in row 16's RR clause."
+  },
+  {
+   "id": "F3",
+   "where": "§2.3 first sentence, line 168",
+   "claim": "A pulse tick is a week [STATED fp-simulator.md §1.9, citing host ARCHITECTURE.md:149-155]",
+   "verdict": "IMPRECISE",
+   "evidence": "Host ARCHITECTURE.md:147-155 says only 'tick-by-tick'; a grep of the whole file for 'week' finds nothing. FPS §1.9 (fp-simulator.md:239-240) says 'the weekly tick above' and cites those lines, so the chain of citations ends on a document that does not state the fact. The fact itself holds in code at advanceInterval.js:97-101 ('an Advance runs N REAL one-week ticks') and :511.",
+   "fix": "Cite \"[OBSERVED advanceInterval.js:97-101,511; FPS §1.9 also says so, though the ARCHITECTURE.md:149-155 it cites says only 'tick-by-tick']\"."
+  },
+  {
+   "id": "F4",
+   "where": "§3.8 table, 'After it ends' row, line 314",
+   "claim": "also a +0.002 a month recovery signal [populationDynamics.js:113]",
+   "verdict": "IMPRECISE",
+   "evidence": "populationDynamics.js:113 only declares RECOVERY_ARCHETYPES (which includes stressor_residual). The +0.002 is applied at :309.",
+   "fix": "Cite populationDynamics.js:113,309."
+  },
+  {
+   "id": "F5",
+   "where": "§3.11, lines 336-338",
+   "claim": "Faith omens on plague are a DM-attributed reading (WF-4 rebased on OD-FC-8) [STATED faith-system.md §7.6; fold OD-FC-8]",
+   "verdict": "IMPRECISE",
+   "evidence": "faith-system.md §7.6 (lines 895-904) mentions plague only as crisis disorder and the temple-pulse seam, and says nothing about omens or WF-4. The omens statement is in §5.5 (line 517). Fold OD-FC-8 (DESIGN_FP_COHERENCE_FOLD.md:501) holds.",
+   "fix": "Cite faith-system.md §5.5 (line 517) and fold OD-FC-8."
+  },
+  {
+   "id": "F6",
+   "where": "§3.14 first sentence, lines 343-345 (and §1 'How it ends', lines 98-100)",
+   "claim": "Resolution emits the residual condition, an echo record, a wizard-news resolution line and a campaign history event of type population_friction",
+   "verdict": "WRONG",
+   "evidence": "stressorAftermath.js:8-14 says resolution and graduation each emit a news entry, and that the HISTORY event is written when an echo GRADUATES. The writers are withCampaignHistoryEvent (:148) and recordGraduationsIntoHistory (:218); the population_friction mapping is at :49. Graduation happens when the echo's memory falls below 0.1, at most about 20 ticks after resolution (stressors.js:304-305,331-341), and the event is written at the origin.",
+   "fix": "State that resolution emits the residual condition, the echo and a resolution news line. When the echo later graduates (memory < 0.1, at most about 20 ticks on), a second news line and the population_friction history event are written at the origin (stressorAftermath.js:8-14,49,148,218). In §1, write '…and, when the echo fades, a population_friction history line'."
+  },
+  {
+   "id": "F7",
+   "where": "§4 Cadence bullet, lines 403-404",
+   "claim": "The aspatial stressor family is measured busy in 30-settlement-year soaks but quiet in a long small one (2 of 100 years)",
+   "verdict": "IMPRECISE",
+   "evidence": "subsystemRowsPeople.js:190: '30 of 30 years in both 30-year 12-settlement cases (431 and 584 events), but only 2 of 100 years in the 100-year 4-settlement case (15 events)'. No '30-settlement-year' soak exists.",
+   "fix": "Write 'measured busy in two 30-year, 12-settlement soaks (30 of 30 years) but quiet in a 100-year, 4-settlement one (2 of 100 years)'."
+  },
+  {
+   "id": "F8",
+   "where": "§5.1 row 12, Rate/cap cell, line 546",
+   "claim": "COLUMN_SEED_CHANCE[band], cap ≤ 3 a tick",
+   "verdict": "IMPRECISE",
+   "evidence": "DESIGN_FP_ARCH_PG.md:195-197 lists COLUMN_SEED_CAP as an unset PG_TUNING value that 'mirrors SPREAD_CASCADE_CAP=6, recommend ≤ half of it'. The ≤ 3 is a recommendation, not a designed value.",
+   "fix": "Write 'COLUMN_SEED_CHANCE[band]; a per-tick COLUMN_SEED_CAP (unset; PG recommends ≤ half the front's 6)'."
+  },
+  {
+   "id": "F9",
+   "where": "§11.3 map-module reads, lines 954-955",
+   "claim": "docs/PROGRESS.md (1056); research/sf/fp-physical-integration.md (481)",
+   "verdict": "IMPRECISE",
+   "evidence": "wc -l now gives PROGRESS.md 1065 (J383–J391 were added after the read; J375–J382 still sit at :434-441) and fp-physical-integration.md 493 (the cited Plague row is still at :283). All 35 host code counts and 6 host design-document counts in §11 hold, as do FPS 1,098 and FAITH 1,516.",
+   "fix": "Write '(1056 when read; 1065 at the retrovalidation)' and '(481 when read; 493 after the 2026-10-17 amendments)'. The cited line numbers stand."
+  },
+  {
+   "id": "F10",
+   "where": "§3.3 last bullet, lines 241-243",
+   "claim": "A deadzone slows plague resolution, and both magic stressors drain healing, which feeds disease pressure back",
+   "verdict": "IMPRECISE",
+   "evidence": "healing_capacity is in both catalog affectedSystems (stressorsCore.js:234,261). But a live roaming stressor writes no condition, and the causal scan reads conditions only (causalState.js:336-351; applyWorldPulse.js:1039-1052). promoteStressorsToConditions is called only from assembleSettlement.js:355 and crisisLifecycle.js:316, and a grep of src/domain for both type names finds no healing writer. They therefore drain healing only through their six-tick residual condition after they resolve (stressorsCore.js:418-458, catalog systems at :455).",
+   "fix": "Write: 'A deadzone slows plague resolution while it lives (×0.8, §3.5). Like plague, neither magic stressor drains healing while live: their catalog systems (healing among them) land only through the residual condition after they resolve, which then feeds disease pressure (§3.8 condition gap).'"
+  },
+  {
+   "id": "F11",
+   "where": "§9 item 3, lines 794-795",
+   "claim": "\"besieging a plagued city is priceable folly\" is design, not host behaviour",
+   "verdict": "IMPRECISE",
+   "evidence": "PHASE55_SPATIAL_ENGINE_DESIGN.md:1633 reads 'Besieging a plagued city becomes priceable folly.' The note's own §6 (line 638) quotes it correctly.",
+   "fix": "Quote it as \"besieging a plagued city becomes priceable folly\" (PHASE55:1633)."
+  }
+ ],
+ "summary": "I read research/sf/plague-system.md whole (1,085 lines) and checked about 780 claims against the host at 81f1cd96 (HEAD read from .git/refs/heads/master; no git command run). Every citation was opened, every quotation re-found, and every number recomputed: care 0.135 and 0.405, onset rolls 0.892, 0.487 and 0.421, the arrival fixed point 0.893d, the DM-band bars 0.64, 0.67, 0.7 and 0.78, mean life 3.48 ticks, echo life 20 ticks, and the per-tick faction deltas. I re-derived every preset flag by evaluating SIMULATION_RULE_PRESETS through normalizeSimulationRules with node, and recomputed all 41 host line counts; all hold. Eleven claims do not hold: 1 WRONG in part, 0 UNSUPPORTED and 10 IMPRECISE. F6 (WRONG in part): the population_friction history event is written when the echo graduates, not at resolution. F2: a plague condition's +0.12 crime pressure feeds the true embattlement ramp, so the believed view is not the only place plague and embattlement meet. F10: the magic stressors drain healing only through their residual condition, the same condition gap the note documents for plague. The rest are smaller: two non-verbatim quotations (F1, F11), a soak described wrongly (F7), a recommended cap stated as a value (F8), and citations that point to the wrong line, section or document (F3, F4, F5), plus two map-module line counts that have grown since the note was read (F9). No conclusion of the note changes. Not checked by execution: the INFERRED dynamics, which were checked as arithmetic only; the healing scale of the causal scan; and the internals of parkArrivals, which the note also declares unread. The note makes no claim about V13-world.md. Record: /home/user/maps-architecture/docs/validation/retrovalidation-2026-10-18/plague-verify.md; the LANDED line is appended to /home/user/maps-architecture/docs/lane-events.log."
+}

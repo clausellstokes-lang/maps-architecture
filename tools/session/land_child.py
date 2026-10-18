@@ -75,11 +75,24 @@ def renum(row, old, new):
 
 
 def insert_rows(path, prefix, rows):
-    """Insert rows after the last existing row of the ledger's table (never at EOF)."""
+    """Insert rows after the last row of the ledger's table (never at EOF). For CLEAN-ROOM.md that table is §2's
+    seat-ledger table — the first table under the heading "## 2 " (never "## 2a"), as plat/tools/landed/landed.mjs reads
+    it — so a stray row appended under a later section (the Q23 class; L-0559 on 2026-10-17) never pulls new rows after it.
+    A file without a "## 2 " heading (choices.md) keeps the last row of its prefix as the anchor."""
     p = f'{R}/{path}'
     mine = open(p, encoding='utf-8').read().splitlines(keepends=True)
-    idx = [k for k, l in enumerate(mine) if l.startswith(f'| {prefix}-')]
-    i = idx[-1]
+    heads = [k for k, l in enumerate(mine) if l.startswith('## 2 ')]
+    if heads:
+        k = heads[0] + 1
+        while k < len(mine) and not mine[k].startswith('|'):
+            k += 1
+        while k < len(mine) and mine[k].startswith('|'):
+            k += 1
+        i = k - 1
+        assert mine[i].startswith(f'| {prefix}-'), f'the table under "## 2 " ends on {mine[i][:40]!r}, not a {prefix}- row'
+    else:
+        idx = [k for k, l in enumerate(mine) if l.startswith(f'| {prefix}-')]
+        i = idx[-1]
     mine[i + 1:i + 1] = rows
     open(p, 'w', encoding='utf-8').write(''.join(mine))
 

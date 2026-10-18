@@ -4,11 +4,25 @@
 // folder's (C-0122).
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
-import { handleOf, isHalfEdgeLive, roleIdOf, rowsOn } from '../../../src/arena/index.js';
-import { booleans, buildOverlay, windingLabels, type Ring } from '../../../src/arr/index.js';
-import { dropStraight, shortestPath, simpleLoops } from '../../../src/arr/winding.js';
+import { createPlat, handleOf, isHalfEdgeLive, roleIdOf, rowsOn, type Plat, type VertexId } from '../../../src/arena/index.js';
+import { booleans, buildOverlay, windingLabels, type Ring, type WindingLabels } from '../../../src/arr/index.js';
+import {
+  balanceFlow,
+  bridgeGaps,
+  dropStraight,
+  glueWalks,
+  orientSegments,
+  shortestPath,
+  simpleLoops,
+  traceKept,
+  type Segment,
+  type Walk,
+} from '../../../src/arr/winding.js';
+import { attachIndex } from '../../../src/index/index.js';
+import { insertTx, type InsertTx } from '../../../src/insert/classes.js';
+import { insertChain } from '../../../src/insert/insertChain.js';
 import { LATTICE } from '../../../src/num/index.js';
-import type { LatticePoint } from '../../../src/types/index.js';
+import type { Cm, LatticePoint } from '../../../src/types/index.js';
 import { areaOf, insideRings, perimeterOf, pt, R, rect, simpleRing, TIMEOUT, area2Exact } from './support.js';
 
 function rings(r: ReturnType<typeof booleans>): Ring[] {
@@ -217,6 +231,177 @@ describe('the kept boundary’s trace helpers (simpleLoops, dropStraight; C-0206
     // a fold-back is no straight-through vertex: (1000, 0) → (500, 0) turns round at (1000, 0)
     const spike = R([0, 0], [1000, 0], [500, 0], [500, 500]);
     expect(dropStraight(spike, () => false)).toEqual(spike);
+  });
+});
+
+// The overlay's stages pinned on inputs built for them (C-0196 (1); C-0376): no drawn input reaches `glueWalks` or
+// `balanceFlow`, and `balanceFlow` cancels an off-path flow `orientSegments` would add, so each stage is called here on
+// a scratch arena and its own output read — the net before balancing included. The flows are read along named lattice
+// points, never by slot.
+describe('the overlay’s stages on inputs built to reach them (C-0196 (1))', () => {
+  /** A scratch arena as `buildOverlay` makes it: L0, 2²⁴ cm wide, no table, an open insertion transaction. */
+  function scratch(): InsertTx {
+    const plat = createPlat({ layer: 'ground', part: 0 }, { widthCm: (2 * LATTICE.rangeCm) as Cm, heightCm: (2 * LATTICE.rangeCm) as Cm, aspect: 1, marginShare: 0 });
+    attachIndex(plat, { gridCellCm: 64 });
+    return insertTx(plat, 0);
+  }
+  /** The overlay's vertex at a lattice point. */
+  function vertexAt(p: Plat, q: LatticePoint): VertexId {
+    const O = p.halfEdges.origin;
+    for (let h = 0; h < 2 * p.slots.pair.top; h += 1) if (isHalfEdgeLive(p, h) && p.vertices.x[O[h]] === q.x && p.vertices.y[O[h]] === q.y) return O[h];
+    throw new Error(`no vertex at ${String(q.x)}, ${String(q.y)}`);
+  }
+  /** The live edge pair joining u and v, and whether its even half-edge leaves u. */
+  function pairOf(p: Plat, u: VertexId, v: VertexId): { e: number; fromU: boolean } {
+    const O = p.halfEdges.origin;
+    for (let e = 0; e < p.slots.pair.top; e += 1) {
+      if (!isHalfEdgeLive(p, 2 * e)) continue;
+      if (O[2 * e] === u && O[2 * e + 1] === v) return { e, fromU: true };
+      if (O[2 * e] === v && O[2 * e + 1] === u) return { e, fromU: false };
+    }
+    throw new Error('no edge there');
+  }
+  /** Operand 0's net traversals from u to v (one operand; never −0). */
+  function flow(p: Plat, net: Int32Array, u: VertexId, v: VertexId): number {
+    const { e, fromU } = pairOf(p, u, v);
+    return fromU ? net[e] : 0 - net[e];
+  }
+  /** Sets operand 0's net from u to v (one operand). */
+  function put(p: Plat, net: Int32Array, u: VertexId, v: VertexId, n: number): void {
+    const { e, fromU } = pairOf(p, u, v);
+    net[e] = fromU ? n : -n;
+  }
+  /** Operand 0's flow out of each vertex less its flow in, the vertices where it is not 0 (one operand). */
+  function divergence(p: Plat, net: Int32Array): Map<string, number> {
+    const O = p.halfEdges.origin;
+    const out = new Map<string, number>();
+    const name = (v: VertexId): string => `${String(p.vertices.x[v])},${String(p.vertices.y[v])}`;
+    for (let e = 0; e < p.slots.pair.top; e += 1) {
+      if (!isHalfEdgeLive(p, 2 * e) || net[e] === 0) continue;
+      out.set(name(O[2 * e]), (out.get(name(O[2 * e])) ?? 0) + net[e]);
+      out.set(name(O[2 * e + 1]), (out.get(name(O[2 * e + 1])) ?? 0) - net[e]);
+    }
+    for (const [k, n] of [...out]) if (n === 0) out.delete(k);
+    return out;
+  }
+  /** The overlay of one square ring and its four corners' vertices (lower-left, lower-right, upper-right, upper-left). */
+  function squareOverlay(): { p: Plat; v: [VertexId, VertexId, VertexId, VertexId] } {
+    const ov = buildOverlay([[rect(0, 0, 1000, 1000)]]);
+    if (!ov.ok) throw new Error(`refused: ${ov.code}`);
+    const p = ov.value.plat;
+    return { p, v: [vertexAt(p, pt(0, 0)), vertexAt(p, pt(1000, 0)), vertexAt(p, pt(1000, 1000)), vertexAt(p, pt(0, 1000))] };
+  }
+
+  it('orientSegments: a segment’s edges off its one path carry nothing — the net before glueWalks and balanceFlow', () => {
+    // one segment A → C whose row lies on A–B–C and on a spur B–D (an antenna attraction could leave): the spur nets 0
+    const tx = scratch();
+    const [A, B, C, D] = [pt(0, 0), pt(1000, 0), pt(1000, 1000), pt(2000, -500)];
+    const path = insertChain(tx, [A, B, C], [{ role: 'invisible', entity: 'arr:s0' }], 'mandatory');
+    const spur = insertChain(tx, [B, D], [{ role: 'invisible', entity: 'arr:s0' }], 'mandatory');
+    expect(path.ok && spur.ok).toBe(true);
+    if (!path.ok) return;
+    const p = tx.plat;
+    const segments: Segment[] = [{ a: A, b: C, mult: Int32Array.of(1) }];
+    const net = orientSegments(p, segments, [path.value.placed[0]], [path.value.placed[path.value.placed.length - 1]], 1);
+    const [a, b, c, d] = [A, B, C, D].map((q) => vertexAt(p, q));
+    expect([flow(p, net, a, b), flow(p, net, b, c), flow(p, net, b, d)]).toEqual([1, 1, 0]);
+    expect(divergence(p, net)).toEqual(new Map([['0,0', 1], ['1000,1000', -1]]));
+    // a reversed repeat of the segment (multiplicity −1) reverses the flow on the same path, the spur still 0
+    const back = orientSegments(p, [{ a: A, b: C, mult: Int32Array.of(-1) }], [path.value.placed[0]], [path.value.placed[path.value.placed.length - 1]], 1);
+    expect([flow(p, back, a, b), flow(p, back, b, c), flow(p, back, b, d)]).toEqual([-1, -1, 0]);
+  });
+
+  it('glueWalks: a gap in a ring’s walk is closed by the shortest overlay path, its tie decided by lattice point', () => {
+    const { p, v } = squareOverlay();
+    const [ll, lr, ur, ul] = v;
+    const pairs = p.slots.pair.top;
+    // a walk of two segments, ll → lr and ur → ul: the gaps lr → ur and ul → ll are glued along the square's sides
+    const net = new Int32Array(pairs);
+    glueWalks(p, [{ operand: 0, steps: [1, 2] }], [ll, ur], [lr, ul], 1, net);
+    expect([flow(p, net, lr, ur), flow(p, net, ul, ll), flow(p, net, ll, lr), flow(p, net, ur, ul)]).toEqual([1, 1, 0, 0]);
+    // a gap across the diagonal, ll → ur: two equal paths, the one through the lower-left of the two middles (lr, y 0)
+    const tie = new Int32Array(pairs);
+    glueWalks(p, [{ operand: 0, steps: [1, 2] }], [ul, ur], [ll, ul], 1, tie);
+    expect([flow(p, tie, ll, lr), flow(p, tie, lr, ur), flow(p, tie, ll, ul), flow(p, tie, ul, ur)]).toEqual([1, 1, 0, 0]);
+    // a closed walk adds nothing
+    const closed = new Int32Array(pairs);
+    glueWalks(p, [{ operand: 0, steps: [1, 2] }], [ll, ur], [ur, ll], 1, closed);
+    expect(closed.every((n) => n === 0)).toBe(true);
+  });
+
+  it('balanceFlow: a source and a sink in one piece are joined by the shortest path, so the divergence is 0 everywhere', () => {
+    const { p, v } = squareOverlay();
+    const [ll, lr, ur, ul] = v;
+    // a flow ll → lr → ur that stops at ur: the surplus returns ur → ll along the tie-decided path, through lr (y 0)
+    const net = new Int32Array(p.slots.pair.top);
+    put(p, net, ll, lr, 1);
+    put(p, net, lr, ur, 1);
+    expect(divergence(p, net)).toEqual(new Map([['0,0', 1], ['1000,1000', -1]]));
+    balanceFlow(p, 1, net);
+    expect(divergence(p, net)).toEqual(new Map());
+    expect([flow(p, net, ll, lr), flow(p, net, lr, ur), flow(p, net, ur, ul), flow(p, net, ul, ll)]).toEqual([0, 0, 0, 0]);
+    // a flow round the square already balanced is left as it is
+    const loop = new Int32Array(p.slots.pair.top);
+    for (const [u, w] of [[ll, lr], [lr, ur], [ur, ul], [ul, ll]] as const) put(p, loop, u, w, 1);
+    balanceFlow(p, 1, loop);
+    expect([flow(p, loop, ll, lr), flow(p, loop, lr, ur), flow(p, loop, ur, ul), flow(p, loop, ul, ll)]).toEqual([1, 1, 1, 1]);
+  });
+
+  it('bridgeGaps splices each bridge into the walk, so the ring stays one closed walk of inserted edges', () => {
+    // the overlay's insertions as buildOverlay makes them for one ring: the frame, then each segment in ring order
+    const RIGHT: [number, number][] = Array.from({ length: 10 }, (_, i) => [1000, 10 * (i + 1)]);
+    const ring = R([0, 0], [1000, 0], ...RIGHT, [1000, 1000], [0, 1000], [0, 990], [0, 980], [0, 970], [0, 960]);
+    const tx = scratch();
+    const f = insertChain(tx, [pt(-4096, -4096), pt(5096, -4096), pt(5096, 5096), pt(-4096, 5096)], [{ role: 'invisible', entity: 'arr:frame' }], 'mandatory', { closed: true });
+    expect(f.ok).toBe(true);
+    const segments: Segment[] = [];
+    const starts: VertexId[] = [];
+    const ends: VertexId[] = [];
+    for (let s = 0; s < ring.length; s += 1) {
+      const a = ring[s];
+      const b = ring[(s + 1) % ring.length];
+      segments.push({ a, b, mult: Int32Array.of(1) });
+      const r = insertChain(tx, [a, b], [{ role: 'invisible', entity: `arr:s${String(s)}` }], 'mandatory');
+      starts.push(r.ok ? r.value.placed[0] : -1);
+      ends.push(r.ok ? r.value.placed[r.value.placed.length - 1] : -1);
+    }
+    const walk: Walk = { operand: 0, steps: segments.map((_, s) => s + 1) };
+    expect(bridgeGaps(tx, segments, [walk], starts, ends, 1)).toBeNull();
+    // segments 1 – 10 and 13 – 16 collapsed; the bridges are segments 18 ((1000, 0) → (1000, 100)) and 19 ((0, 1000) → (0, 960)),
+    // each in the walk where its gap was
+    expect(walk.steps).toEqual([1, 19, 12, 13, 20, 18]);
+    expect(segments.slice(18).map((s) => [s.a, s.b])).toEqual([
+      [pt(1000, 0), pt(1000, 100)],
+      [pt(0, 1000), pt(0, 960)],
+    ]);
+    // every step of the walk ends on the vertex the next one starts on: glueWalks finds no gap and adds nothing
+    const p = tx.plat;
+    const net = orientSegments(p, segments, starts, ends, 1);
+    const glued = net.slice();
+    glueWalks(p, [walk], starts, ends, 1, glued);
+    expect([...glued]).toEqual([...net]);
+    expect(divergence(p, net)).toEqual(new Map());
+  });
+
+  it('traceKept: a kept boundary that does not close is E_INVARIANT, never a throw (§3.11)', () => {
+    const ov = buildOverlay([[rect(0, 0, 1000, 1000)]]);
+    expect(ov.ok).toBe(true);
+    if (!ov.ok) return;
+    const p = ov.value.plat;
+    const keep = (w: readonly number[]): boolean => w[0] !== 0;
+    expect(traceKept(ov.value, windingLabels(ov.value), keep)).toMatchObject({ ok: true, value: [rect(0, 0, 1000, 1000)] });
+    // labels no valid overlay gives: one half-edge of the square kept on its left, every other slot unlabelled, so the
+    // walk from it turns round its end vertex for ever
+    const h0 = pairOf(p, vertexAt(p, pt(0, 0)), vertexAt(p, pt(1000, 0))).e * 2;
+    const faceOf = new Int32Array(2 * p.slots.pair.top).fill(-2);
+    faceOf[h0] = 0;
+    faceOf[h0 ^ 1] = -1;
+    const planted: WindingLabels = { operands: 1, faceOf, winding: new Map([[-1, [0]], [0, [1]]]), consistent: true };
+    let r: ReturnType<typeof traceKept> | undefined;
+    expect(() => {
+      r = traceKept(ov.value, planted, keep);
+    }).not.toThrow();
+    expect(r).toEqual({ ok: false, code: 'E_INVARIANT', detail: 'arr: the kept boundary does not close' });
   });
 });
 

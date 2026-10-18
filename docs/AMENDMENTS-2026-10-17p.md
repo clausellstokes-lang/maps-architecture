@@ -1,6 +1,6 @@
 # Amendments p — the lens design's last six gaps
 
-> PENDING FABLE REVIEW — written by Opus 5.5 standing in for the Fable seat amendments/lens-p; to be retrovalidated overall at the next opportunity (owner, 2026-10-17, J375)
+> Fable-reviewed 2026-10-18: PASS-WITH-CORRECTIONS — 2 design fragments on V13, 22 dated record brackets and fixes across files m–q and the realm record, 1 research count (lane retrovalidation/amendments; J392)
 
 Numbered from **878** (file o ended at 877).
 
@@ -291,7 +291,7 @@ and `src/domain/worldPulse/simulationRules.js:720-750` (the purchase writer's to
 set); [INFERRED] stating each bias with the gate the host's facts give it ends the contradiction for the ratchet, the
 small seats and the lean alike: the critic's conservative-intensity gate would drop the small-seat note at the normal
 and dramatic intensities, where the host still freezes small seats, and light it in a conservative preset whose lane is
-dark, where none grows; "upward" is the aggregate, a struggling seat sinking.
+dark, where none grows; "upward" is the aggregate, a struggling seat sinking. [Fable-reviewed 2026-10-18: (d)'s note "drifts upward realm-wide in aggregate" is corrected in V13 §5.9 (7) by the prosperity lane — the band polarises (a seat at Moderate or better climbs, a struggling seat sinks) and drifts upward in aggregate where generation seeded most seats at Moderate or better; the writer gate this item states stands.]
 
 ### Volume 13 — §7.4 Editing, view, exports, budgets (T-V13-41)
 

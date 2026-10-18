@@ -1,0 +1,142 @@
+{
+ "checked": 650,
+ "findings": [
+  {
+   "id": "AV-1",
+   "where": "§3.5 para 2; echoed §12.2 M3",
+   "claim": "Born-roster aggression expectation per NPC is +0.162, 61% of NPCs score, +0.269 among scored (M3: verifier's +0.165 was rounding)",
+   "verdict": "WRONG",
+   "evidence": "wp/disposition.js:132-139 npcTraitScore sums TRAIT_AGGRESSION with no clamp (only conscience clamps, :397). Exact enumeration over NPC_PERSONALITY_TRAITS 45/30/30 × the 40/30/20/10 roll (data/npcData.js:1671-1676; src/generators/npcGenerator.js:323-345) gives E=+0.1645, P(scored)=0.6046, mean among scored +0.2721. The note's numbers come from a ±1 clamp the code does not apply. Conscience figures (−0.144, 63%, −0.227) and the per-seat aggressiveness list still hold.",
+   "fix": "§3.5: 'an aggression of +0.165 … 63% (conscience) and 60% (aggression) … −0.227 and +0.272'; §12.2 M3: '−0.144 and +0.165 (the aggression sum is not clamped, wp/disposition.js:132-139); among scored −0.227 and +0.272'"
+  },
+  {
+   "id": "AV-2",
+   "where": "§4.2 sub-bullet 1; §5.1 closing paragraph; §10 item 27; §12.1 P3",
+   "claim": "A power transfer writes the winning faction's name as governingName, so after a conquest it is '‹occupier› occupation authority'",
+   "verdict": "WRONG",
+   "evidence": "src/domain/rulingPower.js:517 toGovernment = resolveGovernmentLabel(archetype, tier, …); :665 governingName: toGovernment; :433-459 returns governmentLabelFor (:214-217, table :157-173) or ALT_GOVERNMENT_LABELS (:178-187) when another faction's name contains the label. The occupier 'X occupation authority' (wp/applyWorldPulseOccupationAuthority.js:162-174) contains 'Occupation Authority', so the seat becomes 'Martial Administration' (:186). Ran installOccupationAuthority + transferRulingPower read-only and got governingName 'Martial Administration'. The conclusion that conquest does not close the identity term toward the victor survives; also every occupied town shares that label, so occupied towns read identity 0 with each other.",
+   "fix": "§4.2: transfer writes a government-type label for the winner's archetype and tier (rulingPower.js:214-217, :433-459, :517, :665); §5.1/§10 item 27/§12.1 P3: after a conquest the town's governingName is 'Martial Administration' (alternate label, :178-187), which never matches the victor's label; note that all occupied towns share it"
+  },
+  {
+   "id": "AV-3",
+   "where": "§8.1 table row 'Distance / travel time'",
+   "claim": "Route choice weighs danger × (1 − tolerance)",
+   "verdict": "WRONG",
+   "evidence": "sp/embattlement.js:347-357 scoreRoute: dangerCost = rt × DANGER_PENALTY(1.5) × median hop × Σdanger, so danger is multiplied by tolerance, not (1 − tolerance). The note's own §2.7 and §10 item 28 state it correctly.",
+   "fix": "'effective cost = seasonal base cost + tolerance × 1.5 × median hop cost × Σ embattlement (+ tolls)' citing sp/embattlement.js:347-357, :407-423"
+  },
+  {
+   "id": "AV-8",
+   "where": "§4.2 Deity stance; §7 row 59 (receptivity cells D+); §12.2 M11",
+   "claim": "The method-clash receptivity resistance is read only by neighbour-spread and occupation-pull conversion, both spread-gated",
+   "verdict": "WRONG",
+   "evidence": "wp/religiousContest.js:514 incumbentCounterForce inside deityLocalStrength, which step 3b (:796-805) calls for every present non-suppressed deity in every religion-active settlement with no spread gate (moodDeity = patron :734; only neighbourIds is spread-gated :733). incumbentCounterForce adds 0.35 × methodClash (:244-247). Spread adds only the entrant lane 3a (:768-794) and the occupation pull (:780).",
+   "fix": "§4.2: receptivity resistance is read in every present creed's share advance (religiousContest.js:796-805 → :514) wherever a patron and a second creed are present, any preset; spread adds entrants and the occupation pull. §7 row 59 second half ✓ in every column (class LIT 7, law-authored deities, second creed present); §12.2 M11 likewise"
+  },
+  {
+   "id": "AV-9",
+   "where": "§7 closing paragraph",
+   "claim": "The fold's status table records War Circulation as entirely unbuilt [STATED FOLD:333-351]",
+   "verdict": "WRONG",
+   "evidence": "docs/DESIGN_FP_COHERENCE_FOLD.md:346, the WC row, lists under BUILT, DARK 'WC-0A..0E (vocabularies, column union, law-band shape, amnesty/jubilee rows, two flags, ledger shape; no writer)'; only WC-1..WC-16 are unbuilt. The note's own §7 row 51 cites wp/lawBandModulation.js, a WC-0 shape.",
+   "fix": "'WC built only as its WC-0 substrate (no writer), WC-1..WC-16 unbuilt, its alignment join slider and character drift designed only [STATED FOLD:346]'"
+  },
+  {
+   "id": "AV-4",
+   "where": "§6 Strength importer list; §10 item 31",
+   "claim": "The capacity model is called by seven listed modules; 'eight modules call it'",
+   "verdict": "IMPRECISE",
+   "evidence": "An import grep for militaryStrength.js finds eight modules: the seven listed (each cited call line holds) plus wp/irregularForce.js:55 (deriveMilitaryCapacity; irregularForceEnabled is lit in no preset, simulationRules.js:633). §6 lists seven, §10 counts eight.",
+   "fix": "Add 'and the irregular-force share (wp/irregularForce.js:55, dark)' to §6's list"
+  },
+  {
+   "id": "AV-5",
+   "where": "§2.5 lead and table row 'red-light / brothel / pleasure district'",
+   "claim": "Moral leans are matched by name; 'brothel' alone matches",
+   "verdict": "IMPRECISE",
+   "evidence": "wp/moralMartialLean.js:100-105 nameKindTags joins name, category, priorityCategory and tags, and :126-127 tests patterns against that; :63 pattern is red\\s*light|brothel\\s*district|pleasure\\s*district. The §2.5 defect still holds (re-ran institutionMoralLean/effectiveMoralLean on the six catalog entries: null/stamped for Orphanage, House of healing, Debtors' yard).",
+   "fix": "'matched against name, category and tags (first match wins) [wp/moralMartialLean.js:57-69, :100-105, :121-128]'; row 'red-light / brothel district / pleasure district'"
+  },
+  {
+   "id": "AV-6",
+   "where": "§3.4 thresholds row 'transit gate bans slaves'; §6 Trade",
+   "claim": "The slave word pattern sits at sp/smuggle.js:126",
+   "verdict": "IMPRECISE",
+   "evidence": "sp/smuggle.js:116 holds SLAVE_GOOD_RE; :126 is the closing brace of finiteNumber. :87-98, :143-148, :164-180 hold; normalizeGood/contrabandCategoryOf re-run confirmed the goods claims.",
+   "fix": "Replace :126 with :114-116 in both places"
+  },
+  {
+   "id": "AV-7",
+   "where": "§5.2 row 'Supply-web war'; §8.1 row 'Supplier villages'",
+   "claim": "Stages ordered fragile-first then cheapest route",
+   "verdict": "IMPRECISE",
+   "evidence": "wp/supplyWebWarfare.js:857-864 sequenceStages sorts fragile first, then higher supply share, then cheaper route, then key (comment :851-853).",
+   "fix": "'fragile first, then highest supply share, then cheapest route' citing :857-864"
+  },
+  {
+   "id": "AV-10",
+   "where": "§10 item 23",
+   "claim": "FOLD's POP row (migration menu empty) is at FOLD:339",
+   "verdict": "IMPRECISE",
+   "evidence": "docs/DESIGN_FP_COHERENCE_FOLD.md:339 is the ESPIONAGE row; the POP row with 'the migration menu is EMPTY in every shipped world' is :342.",
+   "fix": "Cite FOLD:342"
+  },
+  {
+   "id": "AV-11",
+   "where": "§10 item 15",
+   "claim": "WARCONV calls the oath-price weight 'ALREADY LIVE' at WARCONV:646-651",
+   "verdict": "IMPRECISE",
+   "evidence": "DESIGN_WAR_CONVENIENCE_AND_TRIBUTE.md:646-651 is the malice01 threshold passage; 'ALREADY LIVE' with warTermination.js:762-766 and momentum.js:1054 is at :436 and :655-662. Code half holds (momentum.js:1265 live; warTermination.js:745 dark, gate :144).",
+   "fix": "Cite WARCONV:436, :655-662"
+  },
+  {
+   "id": "AV-12",
+   "where": "§6 Information",
+   "claim": "PHASE55 designs a belief-record alignment field at PHASE55:1294-1297",
+   "verdict": "IMPRECISE",
+   "evidence": "PHASE55_SPATIAL_ENGINE_DESIGN.md:1294-1297 are DM-reveal and cardinality lines; the record shape { readiness, alignment, faith, allianceLabel, confidence, lastUpdateTick } is :1298.",
+   "fix": "Cite PHASE55:1296-1298"
+  },
+  {
+   "id": "AV-13",
+   "where": "§2.2 table row (e)",
+   "claim": "The trait plane's c column is the only NPC-grain law axis in the host",
+   "verdict": "IMPRECISE",
+   "evidence": "wp/warSeatBooks.js:270-276 alignmentAxes and wp/settlementPolitics.js:1058-1064 (read by leaderAlignmentKinship :1038-1046) parse a numeric law axis from the seeded/declared D&D word; both dark (§7 rows 44-45). What holds: c is the only personality-derived and the only lit NPC law axis.",
+   "fix": "'the only personality-derived NPC law axis and the only lit one (the D&D words are parsed into a law reading only by the dark war seat books and settlement politics)'"
+  },
+  {
+   "id": "AV-14",
+   "where": "§10 item 1",
+   "claim": "About thirty modules import the alignment selectors",
+   "verdict": "IMPRECISE",
+   "evidence": "The §11.3 grep returns 36 files, but that counts every file naming a selector (comments and JSDoc types included). Files with a static import of one of the seven selectors: 24 (livingWorldSignals, armyTransit, navalLayer, conquestDoctrineStage, envoyChanceMeetingStage, three espionage stages, generosityKernel, migrationKernel, mobilization, mobilizationReactions, momentum, pulseKernel, reframeKernel, settlementAlignment, settlementStrategy, sovereigntyIntent, supplyKernel, supplyWebWarfare, upswingKernel, urbanFabricKernel, warSeatBooks, pdf/lib/liveWorld).",
+   "fix": "'About two dozen modules (24 by static import; 36 files name the selectors)'"
+  },
+  {
+   "id": "AV-15",
+   "where": "§8.1 closing paragraph",
+   "claim": "FP-PHYS restates the frozen-versus-live law in §2.5",
+   "verdict": "IMPRECISE",
+   "evidence": "research/sf/fp-physical-integration.md §2.5 (lines 93-106) holds route rows R1-R8; the law, 'danger is relative to the mover' and the carrier preferences are restated at :273 in §5 (heading :271). The PHASE55 lines (1197-1201, 834-848, 1380-1389) themselves hold.",
+   "fix": "'via FP-PHYS §5'"
+  },
+  {
+   "id": "AV-16",
+   "where": "§9.1 item 1",
+   "claim": "V13 §3.9's foreignCulture term is categorical [OBSERVED docs/volumes/V13-world.md:1360-1372]",
+   "verdict": "IMPRECISE",
+   "evidence": "In today's V13 (4,452 lines), :1360-1372 is the stage-set/materializer passage and grep finds no foreignCulture. §3.9 W8 (:1779) already reads the host's culture distance between seats, banded in fifths, plain form (:662, :811, :1101, :1811-1820; J382, J384 (2)). PROGRESS.md:441 (J382) shows the term existed when the note was written, so the stale address and the since-adopted proposal are the issue, not the original reading.",
+   "fix": "Date the reading ('before J382 was applied') and point to the adoption: V13 §3.9 W8 now reads the host culture distance (V13:662, :811, :1101, :1811-1820)"
+  },
+  {
+   "id": "AV-17",
+   "where": "§10 item 16",
+   "claim": "characterConsumers calls the seeded word a projection cache for two systems that are dark",
+   "verdict": "IMPRECISE",
+   "evidence": "src/domain/npc/characterConsumers.js:518-524 calls bloc formation and the war-seat ruler bias 'the field's two live consumers' ('would zero two live systems'). Their darkness is the note's own finding (§7 rows 44-45), which contradicts the comment.",
+   "fix": "'characterConsumers calls it a projection cache for its \"two live consumers\" (bloc formation, war-seat ruler bias), both dark in every preset (§7 rows 44-45), so the comment's \"live\" is stale'"
+  }
+ ],
+ "summary": "I read research/sf/alignment-system.md in full (1,246 lines) and checked about 650 claims against the host at 81f1cd96 (read from .git/refs/heads/master; I ran no git command and modified nothing in the host).\n\n17 claims do not hold: 5 WRONG and 12 IMPRECISE. The full record is at /home/user/maps-architecture/docs/validation/retrovalidation-2026-10-18/alignment-verify.md, and the LANDED line is appended to docs/lane-events.log.\n\n**The five WRONG claims:**\n- **AV-1:** the born-roster aggression figures (+0.162 per NPC, 61% scoring, +0.269 among scored) assume a clamp the code does not apply. The correct figures are +0.165, 60% and +0.272. The verifier's original +0.165 was right.\n- **AV-2:** a power transfer writes a government-type label, not the winning faction's name. After a conquest, `governingName` is \"Martial Administration\" (I confirmed this by running the host functions). The note's conclusion still stands. It misses that every occupied town shares this label.\n- **AV-3:** §8.1 writes the route danger term as danger × (1 − tolerance). The code multiplies danger by tolerance.\n- **AV-8:** the receptivity method-clash term does not need faith spread. Every present creed's share advance reads it, so §7 row 59's cells are wrong.\n- **AV-9:** the fold's status table records WC-0 as built and dark. The note says WC is \"entirely unbuilt\".\n\n**The 12 IMPRECISE claims:**\n- Eight are wrong or stale citation addresses: FOLD:339 should be :342, WARCONV:646-651 should be :436 and :655-662, PHASE55:1294-1297 should be :1298, smuggle.js:126 should be :116, FP-PHYS §2.5 should be §5, and the V13 address no longer resolves because J382 has since been applied.\n- Four are wording or count problems: an importer list that omits irregularForce, a regex described too loosely, \"about thirty\" importers where the actual count is 24, and an \"only NPC law axis\" claim that two dark readers contradict.\n\n**What holds:** the note's main findings are confirmed. I re-ran the host code read-only for several of them.\n- The compounding moral-drift decay (0.2772 drift is pruned by the 8th silent tick) and the RR-only freeze.\n- The three founded institutions that can never be abolished.\n- The slave contraband ban, for which the goods catalog has no slave good.\n- The inverted road-traveller danger weight and the inverted generosity gate modulator.\n- The no-op seat up-weight and the unreachable schism quadrant.\n- The government-label identity term in culture distance.\n\n**What I could not check:**\n- The reading seats' alignment-reads.json, which is not in this container.\n- The \"detached HEAD, clean tree\" claim. HEAD is now a branch ref at the same revision, and checking cleanliness needs git.\n- Map-side files that have changed since the note was written (FP-PHYS is now 493 lines, against 481 in the note).\n- The grep-hit counts the reading seats recorded."
+}

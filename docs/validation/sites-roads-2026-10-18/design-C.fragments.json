@@ -1,0 +1,506 @@
+[
+ {
+  "id": "C-1",
+  "file": "docs/volumes/V13-world.md",
+  "line": 116,
+  "md5": "d0de9ad8dadfeccc89ac86f2ea4d62f4",
+  "old": "> trend; §5.9 (6)'s pressure row puts an overlord's authority over its vassal above a war front; §9's J-V13.83 keeps the rejected absolute rung's reason under a dated bracket saying the band polarises, the relative choice standing.",
+  "new": "> trend; §5.9 (6)'s pressure row puts an overlord's authority over its vassal above a war front; §9's J-V13.83 keeps the rejected absolute rung's reason under a dated bracket saying the band polarises, the relative choice standing.\n\n> **Sites and roads t — 2026-10-18** (`docs/AMENDMENTS-2026-10-18t.md`; the owner's word J393: \"make sure that sites\n> have road access where appropriate, they are integrated into road infrastructure and that depending on the catalogue,\n> where appropriate, their geography in the world map autocorrects to meet the coherence expectation.\"). Changed: a site\n> subject's P1 runs its site form (§3.11.1a: the kind row's road access and expectation as the site terms `siteAccess`\n> and `siteExpect` of the one `CoherenceCost`, corrected by the kind's rule within its tolerance and offered beyond it,\n> three site anomaly kinds read as derived readings); a site placement is W7's terminal at its origin and W7 (12) lays a\n> `reached` site's site trail and, on a host-bound world, a `served` site's via re-lay; `place.coherence` gains the site weights\n> and cells; the records, the port's `routes`, F-PLACE, the edit events and locality rows, `WORLD-16` – `WORLD-17`,\n> T-V13-57 – T-V13-60, `W_ROUTE_VIA_SITE`, H31, J-V13.107 – J-V13.114 and R-V14-14 follow.",
+  "reason": "the series' revision note (file s items 927, 936's form), so the volume says file t happened"
+ },
+ {
+  "id": "C-2",
+  "file": "docs/volumes/V13-world.md",
+  "line": 456,
+  "md5": "d0de9ad8dadfeccc89ac86f2ea4d62f4",
+  "old": "| `PlacementAnomaly` (a reported impossibility under a lock) | P5 and the cascade | the clerk, the report, V09's panel | V13 §2.2 |",
+  "new": "| `PlacementAnomaly` (a reported impossibility under a lock; for a site subject, a reported incoherence of its declared placement against its kind's expectation, V13 §3.11.1a) | P5 and the cascade; for a site subject also the derived reading of its site terms over the world as it stands (the route layer at the network in force, the rasters) | the clerk, the report, V09's panel | V13 §2.2 |",
+  "reason": "the wiring row names the site anomalies' producer, a read over the world as it stands (J-V13.113)"
+ },
+ {
+  "id": "C-3",
+  "file": "docs/volumes/V13-world.md",
+  "line": 457,
+  "md5": "d0de9ad8dadfeccc89ac86f2ea4d62f4",
+  "old": "| W7 — on a standalone world by its own selection; on a host-bound world laying exactly the host's genesis edges and lived changes (V13 §3.8) |",
+  "new": "| W7 — on a standalone world by its own selection; on a host-bound world laying exactly the host's genesis edges and lived changes (V13 §3.8); on either, W7 (12)'s map-tier site trails to world sites and, host-bound, a `served` site's via re-lay as a dated lay version (V13 §3.8 (12)) |",
+  "reason": "the route record's producers include the site trail and the via re-lay, so \"exactly\" stays true of host edges"
+ },
+ {
+  "id": "C-4",
+  "file": "docs/volumes/V13-world.md",
+  "line": 504,
+  "md5": "d0de9ad8dadfeccc89ac86f2ea4d62f4",
+  "old": "| `coherence(world, frame, origin, bearing)` → `CoherenceCost` and `nearestLawful(world, frame, origin)` → `Placement[]` (P1) | `@plat/world/place` | the `placeFrame` dry run; V09's placement tool; the clerk's `placeAt` proposal on the world |",
+  "new": "| `coherence(world, frame, origin, bearing)` → `CoherenceCost` and `nearestLawful(world, frame, origin)` → `Placement[]` (P1); for a site subject `siteCoherence(world, site, origin)` → `CoherenceCost` and `nearestLawful(world, site, origin)` in its site form (P1's site form, V13 §3.11.1a) | `@plat/world/place` | the `placeFrame` dry run; a site's `requestCharter` and `setPlacement` dry run (V14's `dropSite`, a site's move); V09's placement tool; the clerk's `placeAt` proposal on the world |",
+  "reason": "the interface table names the site form beside the frame form (one function name per meaning, overloaded on the subject)"
+ },
+ {
+  "id": "C-5",
+  "file": "docs/volumes/V13-world.md",
+  "line": 748,
+  "md5": "d0de9ad8dadfeccc89ac86f2ea4d62f4",
+  "old": "interface CoherenceCost { total: number; terms: { term: 'coastSide'|'riverCrossing'|'edgeElevation'|'relief'|'biome'|'territory'|'dossier'; cost: number; detail: string }[];",
+  "new": "interface CoherenceCost { total: number; terms: { term: 'coastSide'|'riverCrossing'|'edgeElevation'|'relief'|'biome'|'territory'|'dossier'|'siteAccess'|'siteExpect' /* the first seven a frame's; the last two a site subject's (P1's site form, V13 §3.11.1a; `siteExpect` one row per `expect` entry of the kind) */; cost: number; detail: string }[];",
+  "reason": "the one cost record carries the site's two terms (J-V13.107)"
+ },
+ {
+  "id": "C-6",
+  "file": "docs/volumes/V13-world.md",
+  "line": 750,
+  "md5": "d0de9ad8dadfeccc89ac86f2ea4d62f4",
+  "old": "interface WorldRoute { id: Id; a: Id; b: Id /* seat ids (the glyphs' settlements, or V14 sites standalone) */; hostKey?: string /* bound: the host's edge key, the pair and the mode */;",
+  "new": "interface WorldRoute { id: Id; a: Id; b: Id /* seat ids (the glyphs' settlements, or V14 sites standalone); a site trail's `a` its site placement and `b` the route it joins (V13 §3.8 (12)) */; join?: { route: Id; station: number /* the joined route's vertex index */ } /* a site trail only */; hostKey?: string /* bound: the host's edge key, the pair and the mode; a site trail has none */;",
+  "reason": "a site trail's ends are a site placement and a route (J-V13.110)"
+ },
+ {
+  "id": "C-7",
+  "file": "docs/volumes/V13-world.md",
+  "line": 753,
+  "md5": "d0de9ad8dadfeccc89ac86f2ea4d62f4",
+  "old": "  origin: 'genesis'|'chartered'|'standalone'|'import'|'user'; layVersion: number",
+  "new": "  origin: 'genesis'|'chartered'|'standalone'|'import'|'user'|'siteTrail' /* 'siteTrail': W7 (12)'s path to a world site, map-tier on either world */; layVersion: number",
+  "reason": "the origin word for the site trail"
+ },
+ {
+  "id": "C-8",
+  "file": "docs/volumes/V13-world.md",
+  "line": 772,
+  "md5": "d0de9ad8dadfeccc89ac86f2ea4d62f4",
+  "old": "  sites: { placement: Id; at: WorldPointCm; attraction: number; routed: boolean }[] /* every Placement with a site subject, its card's attraction and routed read through the resolver (R-V14-1) */;",
+  "new": "  sites: { placement: Id; at: WorldPointCm; attraction: number; routed: boolean; roadAccess: 'on'|'onRiverCrossing'|'served'|'reached'|'none'|'shunned' }[] /* every Placement with a site subject, its card's attraction, routed and roadAccess read through the resolver (R-V14-1, R-V14-14) */;",
+  "reason": "W7 (12) reads the card's road access where it reads `routed`"
+ },
+ {
+  "id": "C-9",
+  "file": "docs/volumes/V13-world.md",
+  "line": 801,
+  "md5": "d0de9ad8dadfeccc89ac86f2ea4d62f4",
+  "old": "kind: 'riverUphill'|'coastInland'|'lockedBelowTable'|'lockedInWater'|'roadToNowhere'|'roadUnmatched'|'windSide'|'sunDiffers'; detail: string; reason: Id }   // derived, V13 §2.4; `roadToNowhere` (a charter road no exit meets) and `roadUnmatched` (a frame exit no charter road meets) are reported readings, never annotations",
+  "new": "kind: 'riverUphill'|'coastInland'|'lockedBelowTable'|'lockedInWater'|'roadToNowhere'|'roadUnmatched'|'windSide'|'sunDiffers'|'siteOffRoute'|'siteOnRoute'|'siteExpectation'; detail: string; reason: Id }   // derived, V13 §2.4; `roadToNowhere` (a charter road no exit meets) and `roadUnmatched` (a frame exit no charter road meets) are reported readings, never annotations; so are a site placement's three (V13 §3.11.1a): `siteOffRoute` (its kind expects a road or a path and none lies within its reach), `siteOnRoute` (its kind shuns roads and one lies within `site.shunWithinM`), `siteExpectation` (an `expect` entry of its kind below its minimum)",
+  "reason": "the three site anomaly kinds, reported readings as the two road kinds are"
+ },
+ {
+  "id": "C-10",
+  "file": "docs/volumes/V13-world.md",
+  "line": 984,
+  "md5": "d0de9ad8dadfeccc89ac86f2ea4d62f4",
+  "old": "sunDiffersDeg: number; coarse: { bearings: number; stations: number; keep: number } /* nearestLawful's first tier (V13 §3.11.1) */ }   // place.coherence — P1, P2, P4",
+  "new": "sunDiffersDeg: number; coarse: { bearings: number; stations: number; keep: number } /* nearestLawful's first tier (V13 §3.11.1) */;\n  site: { onWithinM: number; shunWithinM: number; trailMaxM: number; siteSearchM: number } /* P1's site form (V13 §3.11.1a) and W7 (12) */ }   // place.coherence — P1, P2, P4, W7 (12)",
+  "reason": "the rule's site cells, every number a table value with a unit"
+ },
+ {
+  "id": "C-11",
+  "file": "docs/volumes/V13-world.md",
+  "line": 1157,
+  "md5": "d0de9ad8dadfeccc89ac86f2ea4d62f4",
+  "old": "| `weights` | coastSide 3 · riverCrossing 2 · edgeElevation 1 · relief 0.5 · biome 0.3 · territory 0.2 · dossier ∞ (a hard constraint, V13 §3.11.1) |",
+  "new": "| `weights` | coastSide 3 · riverCrossing 2 · edgeElevation 1 · relief 0.5 · biome 0.3 · territory 0.2 · dossier ∞ (a hard constraint, V13 §3.11.1) · siteAccess 4 · siteExpect 4 (a site subject's, V13 §3.11.1a: one wholly unmet access or expectation alone reaches `lawfulMax` and is unlawful, as any coast error is, C13-26; a half-met one costs 2, lawful and reported) |",
+  "reason": "the site weights, calibrated to the existing lawful bound"
+ },
+ {
+  "id": "C-12",
+  "file": "docs/volumes/V13-world.md",
+  "line": 1161,
+  "md5": "d0de9ad8dadfeccc89ac86f2ea4d62f4",
+  "old": "| `coarse.bearings` / `stations` / `keep` | 36 / 100 / 3 (`nearestLawful`'s first tier, V13 §3.11.1) |",
+  "new": "| `coarse.bearings` / `stations` / `keep` | 36 / 100 / 3 (`nearestLawful`'s first tier, V13 §3.11.1) |\n| `site.onWithinM` / `shunWithinM` / `trailMaxM` / `siteSearchM` | 30 m / 300 m / 3 000 m / 5 000 m (a site subject, V13 §3.11.1a and §3.8 (12): an `on` or `onRiverCrossing` site's origin within 30 m of a route's polyline or of its crossing of a reach; a route within 300 m of a `shunned` site incoherent; a site trail only within 3 000 m of a routed cell; the offers' search out to 5 000 m in place of `originSearchM` — a site is placed near where it was dropped) |",
+  "reason": "the site cells' shipped values (own, calibratable)"
+ },
+ {
+  "id": "C-13",
+  "file": "docs/volumes/V13-world.md",
+  "line": 1219,
+  "md5": "d0de9ad8dadfeccc89ac86f2ea4d62f4",
+  "old": "| a `WorldRoute` | the world root | (`route`, the two seats' lineages sorted, the mode `land`\\|`water`) — the class or grade an attribute, so a re-grade keeps the id and a land road and a sea leg between one pair keep two |",
+  "new": "| a `WorldRoute` | the world root | (`route`, the two seats' lineages sorted, the mode `land`\\|`water`) — the class or grade an attribute, so a re-grade keeps the id and a land road and a sea leg between one pair keep two; a site trail (W7 (12)) (`route`, its site placement's lineage, the joined route's lineage, `land`) — the same id while its site placement and the route it joins stand, the old one tombstoned when either is gone |",
+  "reason": "the site trail's identity under \"a route by its ends and mode\""
+ },
+ {
+  "id": "C-14",
+  "file": "docs/volumes/V13-world.md",
+  "line": 1263,
+  "md5": "d0de9ad8dadfeccc89ac86f2ea4d62f4",
+  "old": "**veil:** a hidden host road is a DM-only ghost, a covert power's patrols omitted |",
+  "new": "**veil:** a hidden host road is a DM-only ghost, a covert power's patrols omitted |\n| a site trail (`WorldRoute` of origin `siteTrail`, either world; V13 §3.8 (12)) | W7 (12) after the passes, at every W7 run and at its site's placement edit | the route layer, the charters' `roads`, the view, the crop, the travel law, the map feed's `routes` (no host key); never the simulator feed, `existingRoute`, `connectivity`, the patrols or V14's siting terms | entities block | re-laid with its site placement and its joined route (the same id while both stand) | with its site's placement edit; never a host input | absent: laid by W7 (12) on load |",
+  "reason": "the site trail's lifecycle row (every new record has one)"
+ },
+ {
+  "id": "C-15",
+  "file": "docs/volumes/V13-world.md",
+  "line": 1776,
+  "md5": "d0de9ad8dadfeccc89ac86f2ea4d62f4",
+  "old": "10. **After birth nothing moves a bound route silently.** W7 on a host-bound world is incremental: it lays only edges a\n   host change names;",
+  "new": "10. **After birth nothing moves a bound route silently.** W7 on a host-bound world is incremental: it lays only edges a\n   host change names (and (12)'s map-tier site trails and via re-lays, which add no edge between two settlements);",
+  "reason": "W7 (10)'s \"only\" made exact beside the site trail and the via re-lay (J-V13.110, J-V13.111)"
+ },
+ {
+  "id": "C-16",
+  "file": "docs/volumes/V13-world.md",
+  "line": 1786,
+  "md5": "d0de9ad8dadfeccc89ac86f2ea4d62f4",
+  "old": "   before the charter is emitted.",
+  "new": "   before the charter is emitted. A world site's placement is a terminal in the same way (J-V13.114): a leg, a site trail or a\n   via re-lay that serves it ends, or passes, at the site's origin itself — the cell-centre path's last vertex replaced by\n   the origin, the simplification keeping it — so the route crosses the site frame's ring at its **station**, the\n   charter road row's `atCm` there (V13 §3.11.4 (6); V14 §3.4 (e)).\n12. **Site trails and the via re-lay (world sites; the owner's word J393).** After the passes, on a standalone and on a host-bound\n   world, every site placement whose card's `roadAccess` is `reached` (V14 §2.5) and whose origin lies within\n   `site.trailMaxM` of a routed cell (a cell a route other than a site trail crosses) gets one **site trail**: a `WorldRoute` of class\n   `trail` and origin `siteTrail`, `a` its placement and `b` the route it joins with `join` at the joined vertex, laid as\n   (5)'s trail is — one Dijkstra from the origin to the route set under the cost law, keyed on (cost × 1 000 rounded,\n   cell index); none for a seat (a `routed` site is joined by (4)–(5)), none beyond `site.trailMaxM` or with no path\n   (`W_ROUTE_NO_PATH` with the site placement and the route set; the anomaly `siteOffRoute`). A site trail is map-tier\n   geometry on either world: no host key and no edge between two settlements, so the host's topology is untouched\n   (J-V13.79); it is on the route layer — the charters, the view, the crop and the travel law read it — but it is no\n   route to (2)'s `existingRoute`, W6b's `connectivity`, W8b (14)'s patrols, the port's simulator feed or V14's siting\n   plug-ins and site terms (a path to a site is no road); its `knownTo` is its site card's, so a DM-secret site's trail\n   is DM-only. **The via re-lay** (a host-bound world): a site placement whose card's `roadAccess` is `served` and whose\n   origin lies within its kind's `autocorrectM` of a host route (never a hidden one; the nearest by distance, ties by\n   host key) has that route re-laid through its origin — the origin its `via`, the word `NetworkChange.via` and\n   `rerouteReach.via` use for a course's waypoint; the window the polyline span whose vertices lie within\n   2 × `autocorrectM` of the origin, two A\\* runs (the window's first vertex to the origin, the origin to its last) under\n   the host's cost law confined as (4) confines, simplified at `routeToleranceM`, every vertex outside the window\n   byte-identical and the leg count unchanged — as a dated lay version under the same host key, (10)'s *this happened*\n   form (a live overlay the host may adopt; `W_HOST_CANON_BEHIND` until its re-canonize), reported `W_ROUTE_VIA_SITE`\n   with the route, the site and the effort delta, its change in `timeDelta` (T-V13-43); a standalone world needs none\n   (a `served` site is `routed`, a seat of (1)). The site's `unplaceFrame`, or a move that leaves the window, restores\n   the former lay as a new dated lay version: nothing re-lays a host route silently.",
+  "reason": "the site terminal (item 135 at the site frame's ring) and the one statement of the site trail and the via re-lay (J-V13.110, J-V13.111, J-V13.114)"
+ },
+ {
+  "id": "C-17",
+  "file": "docs/volumes/V13-world.md",
+  "line": 2078,
+  "md5": "d0de9ad8dadfeccc89ac86f2ea4d62f4",
+  "old": "'world-first' }` — P1 is **not** run, there is no frame to measure — and runs P4 only;",
+  "new": "'world-first' }` — P1 is **not** run, there is no frame to measure (a site subject's `requestCharter` runs P1's site form first, V13 §3.11.1a: a site is measured by its kind row) — and runs P4 only;",
+  "reason": "a site drop is a world-first placement that P1 does measure, by its kind row"
+ },
+ {
+  "id": "C-18",
+  "file": "docs/volumes/V13-world.md",
+  "line": 2115,
+  "md5": "d0de9ad8dadfeccc89ac86f2ea4d62f4",
+  "old": "by term as the frame is dragged (V13 §4.2).",
+  "new": "by term as the frame is dragged (V13 §4.2).\n\n**3.11.1a P1's site form — a world site's coherence expectation, its autocorrect and its anomalies** (the owner's word\nof 2026-10-18, J393). For a `Placement` whose subject is a site, P1 measures the site against its **kind's coherence\nexpectation** — the kind row's `roadAccess`, `expect`, `autocorrect` and `autocorrectM` (V14 §2.5), read through the\nresolver by kind (R-V14-14), the card's `roadAccess` its own copy — in place of the seven frame terms (a site is\nworld-first and has no frame to measure). `siteCoherence(world, site, origin)` returns the `CoherenceCost` of the site\nterms, each ≥ 0 before its weight, read over the routes of the network in force other than site trails (a hidden road counts\nas no public road; V13 §3.8 (9), (12)):\n\n| term | measures | the raw cost |\n|---|---|---|\n| `siteAccess` | the card's `roadAccess` against the route layer | `on`: 0 when a route's polyline lies within `site.onWithinM` of the origin, else 1; `onRiverCrossing`: 0 when a route's crossing of a reach (the polyline's intersection with a course of `WorldRoute.crossings`) lies within `site.onWithinM`, else 1; `served`: 0 on a standalone world (W7 seats it, V13 §3.8 (1)) and on a host-bound world when a host route lies within the kind's `autocorrectM` (the via re-lay comes, V13 §3.8 (12)), else 1; `reached`: 0 when a routed cell lies within `site.trailMaxM` (the site trail comes), else 1; `none`: 0; `shunned`: 1 when a route lies within `site.shunWithinM`, else 0 |\n| `siteExpect` (one row per `expect` entry, its `detail` the entry's terms) | the greatest of the entry's terms — V14's own `SuitabilityTerm` plug-ins, `terms.get(id).compute(cell, ctx)` at the origin's fine cell (V13 §2.2) | max(0, `min` − value) ÷ `min` |\n\nAt the edit a `served` or `reached` kind's access reads 0 where the edit itself brings the road (W7 standalone, the\nvia re-lay host-bound, the site trail); at every later read (the anomalies below) it reads the network as laid — a\nroute ending at or passing within `site.onWithinM` of the origin, its site trail standing — so a road W7 could not\nlay shows as `siteOffRoute`.\n\n`total = Σ w_t · raw_t` at `place.coherence`'s `siteAccess` and `siteExpect` weights; `lawful = total ≤ lawfulMax`, the\none bound. The bearing is not searched: a site's bearing is V14 G3 (a)'s (its approach side facing the nearest route,\nelse north), re-read after a move. **The autocorrect** runs in the dry run of the edit — a site's `requestCharter` (V14's\n`dropSite`) or `setPlacement` — so the DM sees it as the ghost before accepting and nothing moves after: (1) lawful:\nplaced as asked; (2) unlawful, the kind's `autocorrect` `move`, and a lawful candidate within its `autocorrectM`: **bent**\nto the first, named in one line by `bend.site.placement` with the distance and the term it meets (\"moved 140 m onto the\nroad\"), the ghost at the bent origin, the bearing re-read — the base's bend (§7.1, item 101 R2); (3) `autocorrect`\n`bring`: its `siteAccess` reads 0 wherever the road can come (a standalone world always; a host-bound one within\n`autocorrectM`, the via re-lay laid with the edit), so only an unmet expectation or a host route beyond reach leaves it\nunlawful, and it is never moved; (4) `autocorrect` `hold` (`autocorrectM` 0): never moved; (5) still unlawful: F-PLACE's\nrung \"no lawful placement within reach\" — the asked origin kept, flagged unlawful, the three least-cost candidates\nwithin `site.siteSearchM` offered as ghosts (`W_PLACE_NO_LAWFUL`: `keep`, the default for a `hold` kind, recorded as\n`accept: ['unlawful']` on the event; `takeOffer` with `offer: n`; `cancel`), none beyond (`W_PLACE_NO_LAWFUL` with no\noffer). **`nearestLawful(world, site, origin)`** evaluates, in this order, the asked origin; for an `on` or `onRiverCrossing`\nkind the nearest point of each route's polyline, or each route–reach crossing, within the reach; then the fine-cell\ncentres on V13 §3.11.1's spiral at a step of one cell — first out to the kind's `autocorrectM` (the autocorrect's reach),\nthen to `site.siteSearchM` (the offers') — skipping a water cell and a point inside a placed frame's extent (a free\nsite never stands inside a frame; V14's J-V14.41); it returns up to three lawful candidates by ascending `total`, ties\nby distance from the asked origin, then by cell index, then by route id (V13 §3.7 (6)'s order: no draw). **A\nhost-placed site** (its `Placement.hostLocked`, the host's record its position; V14 §3.4 (a): never re-sited) runs no\nsearch: its cost is measured and reported, its anomalies carry `keep` alone, and a `served` kind's via re-lay is still\noffered (it moves the road, never the site). **The anomalies** `siteOffRoute`, `siteOnRoute` and `siteExpectation`\n(V13 §2.2) are a site placement's derived readings of these terms over the world as it stands — read at every\nplacement edit (P5), on its card, by the `anomalies` layer and by the clerk — so a later route edit, a host network\nchange, or a cascade that moves a reach or thins a resource shows at the next read and moves nothing;\n`Placement.coherenceCost` stays the last edit's (a later edit never re-opens a placement, as politics never does). The\nDM's choices are `W_PLACE_ANOMALY`'s — `keep` (default) or `worldWins`, on a site its re-materialization (V14 §3.4\n(a)) — or a `setPlacement`, whose dry run corrects and offers again. Every bend, offer and anomaly writes its\n`ReasonRecord` (the kind row's cells and `place.coherence`'s, the routes and the term values read, the asked and the\nbent origin with the distance), so the clerk's `why placement` answers \"moved 140 m onto the road: a toll house stands\non its road\". The precedence stamp of a site placement stays `world`; the autocorrect changes no stamp and no arena\n(bar 3).",
+  "reason": "the one statement of the site's coherence expectation, its autocorrect and its anomalies (J-V13.107 – J-V13.109, J-V13.112, J-V13.113)"
+ },
+ {
+  "id": "C-19",
+  "file": "docs/volumes/V13-world.md",
+  "line": 2387,
+  "md5": "d0de9ad8dadfeccc89ac86f2ea4d62f4",
+  "old": "- `routes(world)` → every `WorldRoute`'s polyline with its host key;",
+  "new": "- `routes(world)` → every `WorldRoute`'s polyline with its host key (a site trail with none, admitted to the audience its site card's knowledge admits; V13 §3.8 (12));",
+  "reason": "the site trail rides the map feed only, with its site's knowledge"
+ },
+ {
+  "id": "C-20",
+  "file": "docs/volumes/V13-world.md",
+  "line": 2787,
+  "md5": "d0de9ad8dadfeccc89ac86f2ea4d62f4",
+  "old": "| T-V13-23 (fit, unlawful, overlap), T-V13-24 (blend residual), T-V13-13 (charter honoured) |",
+  "new": "| T-V13-23 (fit, unlawful, overlap), T-V13-24 (blend residual), T-V13-13 (charter honoured) |\n| F-PLACE† a site subject [V13 §3.11.1a, §3.8 (12)] | P1's site form; W7 (12) | **bent:** unlawful with a lawful candidate within the kind's `autocorrectM` (`move`); **via re-lay:** a host route within `autocorrectM` of a `served` site (host-bound); **no lawful:** none within the reach; **no site trail:** a `reached` site beyond `site.trailMaxM`, or no path; **host-placed:** unlawful under `hostLocked`; **later:** an edit or a host change that breaks an expectation or a road | bent: placed at the first candidate, named `bend.site.placement`; via re-lay: the route re-laid as a dated lay version, `W_ROUTE_VIA_SITE` (`accept`; `keep`, the site as asked with no via re-lay and `siteOffRoute` read; `cancel`) and `W_HOST_CANON_BEHIND`; no lawful: the asked origin kept, flagged, the three offers within `site.siteSearchM` (`W_PLACE_NO_LAWFUL`; none beyond: no offer); no site trail: none laid, `W_ROUTE_NO_PATH`, `siteOffRoute` read; host-placed: the anomaly with `keep` alone, never re-sited; later: the anomaly read, nothing moved (`W_PLACE_ANOMALY`: `keep`, `worldWins`) | T-V13-57, T-V13-58, T-V13-59, T-V13-60 |",
+  "reason": "the site subject's failure ladder in §5.2's form"
+ },
+ {
+  "id": "C-21",
+  "file": "docs/volumes/V13-world.md",
+  "line": 2846,
+  "md5": "d0de9ad8dadfeccc89ac86f2ea4d62f4",
+  "old": "  | { t: 'requestCharter'; subject: { kind: 'frame'; pending: Uuid } | { kind: 'site'; site: Id }; originCm: WorldPointCm; bearingCdeg: Cdeg; frame: { widthCm: Cm; heightCm: Cm; marginCm: Cm } /* frameOf(size, aspect), V13 §3.11 */ }   // world-first (C13-04): creates the Placement (stamp 'world', cost 'world-first') and runs P4; author 'host' through WorldPort.charter, else 'user'",
+  "new": "  | { t: 'requestCharter'; subject: { kind: 'frame'; pending: Uuid } | { kind: 'site'; site: Id }; originCm: WorldPointCm; bearingCdeg: Cdeg; frame: { widthCm: Cm; heightCm: Cm; marginCm: Cm } /* frameOf(size, aspect), V13 §3.11 */; accept?: ('unlawful')[] /* a site subject: the DM's `keep` of an unlawful asked origin (V13 §3.11.1a) */ }   // world-first (C13-04): creates the Placement (stamp 'world', cost 'world-first') and runs P4; a site subject runs P1's site form first (its cost the site terms, its origin the asked or the bent one, V13 §3.11.1a); author 'host' through WorldPort.charter, else 'user'",
+  "reason": "the site drop's event carries the DM's keep, as `placeFrame` and `setPlacement` do"
+ },
+ {
+  "id": "C-22",
+  "file": "docs/volumes/V13-world.md",
+  "line": 2887,
+  "md5": "d0de9ad8dadfeccc89ac86f2ea4d62f4",
+  "old": "`W_PLACEMENT_OVERLAP` (`accept`, `cancel`), `W_CHARTER_RIVER_MISSED`,",
+  "new": "`W_PLACEMENT_OVERLAP` (`accept`, `cancel`), `W_ROUTE_VIA_SITE` (`accept`, the default; `keep`, the site as asked with no via re-lay; `cancel`; V13 §3.8 (12)), `W_CHARTER_RIVER_MISSED`,",
+  "reason": "the via re-lay's warning with its actions, all existing `ConflictAction` kinds (no base change)"
+ },
+ {
+  "id": "C-23",
+  "file": "docs/volumes/V13-world.md",
+  "line": 2919,
+  "md5": "d0de9ad8dadfeccc89ac86f2ea4d62f4",
+  "old": "| `requestCharter` (world-first; the host's `charter(world, campaign)`) | P4 only (the placement created with a pending subject, `precedenceStamp: 'world'`, cost `world-first`; no P1: there is no frame) | the world's DEM (no blend); every other placement | a dossier contradiction refuses the event (`refuse.charter.dossier`) |",
+  "new": "| `requestCharter` (world-first; the host's `charter(world, campaign)`) | P4 only (the placement created with a pending subject, `precedenceStamp: 'world'`, cost `world-first`; no P1: there is no frame) | the world's DEM (no blend); every other placement | a dossier contradiction refuses the event (`refuse.charter.dossier`) |\n| `requestCharter` or `setPlacement` (origin) with a **site** subject (V14's `dropSite`; a site's move) | P1's site form (the autocorrect and the offers, V13 §3.11.1a) → P4 → P5 → W9 (the glyph) → W7 over the landmass when the card is `routed` (standalone) or the via re-lay (host-bound) → W7 (12)'s site trail when it is `reached` | the site's arenas (bar 3); every other placement; every route outside W7's closure (V13 §3.8 (10)) | W7 over the landmass is declared, as for a new seat |",
+  "reason": "the site drop's locality, the road coming with the drop rather than \"at the next run\""
+ },
+ {
+  "id": "C-24",
+  "file": "docs/volumes/V13-world.md",
+  "line": 3523,
+  "md5": "d0de9ad8dadfeccc89ac86f2ea4d62f4",
+  "old": "whole plate and its deltas decoded, the marks laid) and one scrub step ≤ 120 ms. Each has its T-V13 row in §7.",
+  "new": "whole plate and its deltas decoded, the marks laid) and one scrub step ≤ 120 ms; `WORLD-16` a site placement's P1 site form\nwith its site trail ≤ 30 ms p95 (the spiral to `site.siteSearchM` over ≤ (2 × 5 000 m ÷ the fine cell)² cells — 1 600 at the\nprovince rung, 100 at the continent — × ≤ 6 plug-in reads, and one Dijkstra bounded by `site.trailMaxM`; inside\n`WORLD-2`), the site anomalies' read ≤ 1 ms per site placement (inside the anomaly list's 5 ms); `WORLD-17` a via re-lay\n≤ 40 ms p95 (two A\\* runs in a window of ≤ 4 × `autocorrectM`), the pre-decided fallback the offers' reach halved at the\ncontinent rung (a table cell with a declared shift). Each has its T-V13 row in §7.",
+  "reason": "the budget rows of the new work (every number a table value with a unit; per regime, item 135 (e))"
+ },
+ {
+  "id": "C-25",
+  "file": "docs/volumes/V13-world.md",
+  "line": 3584,
+  "md5": "d0de9ad8dadfeccc89ac86f2ea4d62f4",
+  "old": "every seat territory is one component; standalone provinces partition their seat territory | statistics and invariants |",
+  "new": "every seat territory is one component; standalone provinces partition their seat territory | statistics and invariants |\n| T-V13-57 | P1's site form (J393): on B-WORLD-lite with V14's kind rows, for every kind, a drop at a lawful point is placed as asked with its site terms recorded; a drop at an unlawful point with a lawful candidate within `autocorrectM` is bent for a `move` kind (named `bend.site.placement`, the ghost at the bent origin, the bearing re-read) — a toll house 1 km beside a road lands within `site.onWithinM` of it, a bridge fort on a route's crossing of a reach, a watchpost on an overlook at its minimum — and never moved for a `bring` or `hold` kind; with none within `autocorrectM` every kind keeps the asked origin flagged with `W_PLACE_NO_LAWFUL`'s three offers sorted by cost, then distance, then cell index, none beyond `site.siteSearchM`, none on water or inside a placed frame; a hideout 100 m from a highway reads `siteOnRoute`; a mine off ore reads `siteExpectation` naming `ore, stone`; a hermitage's own site trail never lowers its `solitude`; a host-placed (`hostLocked`) site is never moved and its anomaly carries `keep` alone; two runs on every §13.2 platform are bit-identical (cost, bend, offers); the site document's model digest is byte-equal across the bend and every later move (T-V13-2 on a site subject) | the placement fixtures with one site of every kind; the two-run digest |\n| T-V13-58 | W7 (11)'s site terminal and (12)'s site trails: a leg or site trail serving a site ends at its origin and crosses its frame's ring at the charter road row's station; every `reached` site within `site.trailMaxM` of a routed cell gets exactly one site trail — class `trail`, origin `siteTrail`, `a` its placement, `b` the joined route with `join.station` a vertex of it — on a standalone and on a host-bound world; a `none`, `shunned` or `routed` site none; a site trail keeps its id across a `regenerate` of W7 and takes a new id when its site moves (the old tombstoned); a site trail has no host key and appears in no `canon`, `routeFacts`, `patrolOffer`, `PatrolCadence`, `existingRoute` discount, `connectivity` term or V14 siting term; a DM-secret site's site trail is absent from a player picture; beyond `site.trailMaxM` no site trail, `W_ROUTE_NO_PATH` and `siteOffRoute` | B-WORLD-lite with B-SITE's world cards; T-V13-37's mock host |\n| T-V13-59 | the via re-lay (host-bound): a `served` fort dropped within `autocorrectM` of a host road re-lays that road through its origin as a dated lay version under the same host key — every vertex outside the window byte-identical, the leg count unchanged, the effort moved by the via re-lay alone (T-V13-43's clause), `W_ROUTE_VIA_SITE` and `W_HOST_CANON_BEHIND` raised, the delta in `timeDelta`; `keep` leaves the road and reads `siteOffRoute`; beyond `autocorrectM` no via re-lay and the offers; a hidden host road is never via re-layed; the fort's `unplaceFrame` restores the former lay as a new lay version; a host-placed `served` site is offered the via re-lay and never moved | T-V13-37's mock host |\n| T-V13-60 | the site anomalies are derived: a `rerouteReach` moving the reach a bridge fort stood on, a host `network` change hiding the road a fort is served by, a `chartered` route laid past a hideout and a W5 re-thinning that removes a mine's ore each show the matching anomaly (`siteExpectation`, `siteOffRoute`, `siteOnRoute`, `siteExpectation`) at the next read and move no placement; `Placement.coherenceCost` and the world's model digest are byte-equal across each (T-V13-11's form); the card and the `anomalies` layer list each with `keep` and `worldWins`, and a `worldWins` re-materializes the site | four fixtures, one per change |",
+  "reason": "every new behaviour has a test, in V13 §7's form"
+ },
+ {
+  "id": "C-26",
+  "file": "docs/volumes/V13-world.md",
+  "line": 3602,
+  "md5": "d0de9ad8dadfeccc89ac86f2ea4d62f4",
+  "old": "a site dropped on a host route leaves the leg count unchanged and moves its effort by the detour only;",
+  "new": "a site dropped on a host route leaves the leg count unchanged and moves its effort by its via re-lay only (V13 §3.8 (12));",
+  "reason": "\"detour\" keeps its one meaning (the host's bypass round a seat, J-V13.99); the site's re-lay is named"
+ },
+ {
+  "id": "C-27",
+  "file": "docs/volumes/V13-world.md",
+  "line": 3629,
+  "md5": "d0de9ad8dadfeccc89ac86f2ea4d62f4",
+  "old": "| `W_ROUTE_NO_PATH` | warning | W7 | the two seats |",
+  "new": "| `W_ROUTE_NO_PATH` | warning | W7 | the two seats (a site trail: the site placement and the route set) |\n| `W_ROUTE_VIA_SITE` | warning | W7 (12) on a host-bound world (`accept`, `keep`, `cancel`) | the route, the site placement, the effort delta |",
+  "reason": "the report codes the new work emits"
+ },
+ {
+  "id": "C-28",
+  "file": "docs/volumes/V13-world.md",
+  "line": 3768,
+  "md5": "d0de9ad8dadfeccc89ac86f2ea4d62f4",
+  "old": "a week on each tolerance offset's causes | H23 |",
+  "new": "a week on each tolerance offset's causes | H23 |\n| H31 | optional, with V14 §11 Q2's host site record | the host's world-site record naming the host route a host-placed site stands on (its edge key and the station), so the map seats an `on` or `served` site as a position along that route without a via re-lay; absent, V13 §3.8 (12)'s via re-lay offer applies; a site trail never reaches the host (map-tier) | V14 §11 Q2; M-W2 |",
+  "reason": "the one optional host row the design implies (door 1 untouched: a site record, no frame geometry)"
+ },
+ {
+  "id": "C-29",
+  "file": "docs/volumes/V13-world.md",
+  "line": 3883,
+  "md5": "d0de9ad8dadfeccc89ac86f2ea4d62f4",
+  "old": "leave every later founding unmapped until the DM's premium re-canonize, the outcome J388 rules out) |",
+  "new": "leave every later founding unmapped until the DM's premium re-canonize, the outcome J388 rules out) |\n| J-V13.107 | chose **a world site's coherence expectation as its kind row's columns measured by two site terms of the one `CoherenceCost`** (`siteAccess`; `siteExpect` over V14's own seventeen plug-ins) with `lawfulMax` the one bound (J393) over a second score, new plug-ins or a site-only vocabulary, because one registry holds one meaning per term (SW-01) and the owner's \"coherence\" is already V13 §3.11's lawful bound |\n| J-V13.108 | chose **the autocorrect per kind** — `move`, `bring` or `hold` with one `autocorrectM` — over one global rule, because the owner's \"depending on the catalogue, where appropriate\" names the kind row as the decider |\n| J-V13.109 | chose **the autocorrect within `autocorrectM` as a bend named in the dry run, and beyond it V13's own offers** (`keep` / `takeOffer` / `cancel`) over always asking or a free move, because the owner's \"autocorrects\" asks it to run by itself, item 101 R2 bends and names every infeasible declaration, and the owner's settlement-first correction (1) asks the nearest lawful placement to be offered where it cannot be made |\n| J-V13.110 | chose **site trails as `WorldRoute`s of class `trail` and origin `siteTrail`, map-tier on either world** (no host key, no edge between two settlements, no road to `existingRoute`, `connectivity`, the patrols, the simulator feed or V14's siting terms) over a frame-only approach or asking the host for site edges, because item 135's chain needs the path at the world, the frame and the crop, the host's graph has settlement nodes only, and the host owns its topology (J-V13.79) |\n| J-V13.111 | chose **the via re-lay as a dated lay version inside a bounded window through the site's origin** (W7 (10)'s *this happened* form the host may adopt) over the site moving onto a far road or the road never bending, because W7 (11) and T-V13-43 already make a site a position along a route that moves the route's effort by the via re-lay only |\n| J-V13.112 | chose **a host-placed site's placement `hostLocked`** — never re-sited, its anomalies `keep` alone, the via re-lay still offered — over a site-specific lock, because the word and its refusal exist and V14 §3.4 (a) keeps \"never re-sited\" |\n| J-V13.113 | chose **a site's anomalies as derived readings over the world as it stands**, the stored cost the last edit's, over a cascade step that re-scores site placements, because a later edit never re-opens a placement (J-V13.76's spirit; item 137 (c): an impossible locked thing is reported, never silently moved) and the anomaly list is already derived (V13 §2.4) |\n| J-V13.114 | chose **a site placement as W7's terminal at its origin** (the cell-centre path's last vertex replaced by the origin) over the cell-centre end, because a site frame of 120 m inside a fine cell of 250 – 1 000 m would otherwise meet no road at its ring (item 135 (a): one road refined at the world, the frame and the crop) |",
+  "reason": "the decisions, each \"chose X over Y because Z\""
+ },
+ {
+  "id": "C-30",
+  "file": "docs/volumes/V13-world.md",
+  "line": 4273,
+  "md5": "d0de9ad8dadfeccc89ac86f2ea4d62f4",
+  "old": "| R-V14-13 | the card's `devotion` (V14 §2.2: a DM-placed holy or hidden cult site's deity key and role; stated only, never generated; DM-only by default) — read by the religion lens and offered in the DM's map feed (J384 (10)) | V13 §3.11.6, §5.9 |",
+  "new": "| R-V14-13 | the card's `devotion` (V14 §2.2: a DM-placed holy or hidden cult site's deity key and role; stated only, never generated; DM-only by default) — read by the religion lens and offered in the DM's map feed (J384 (10)) | V13 §3.11.6, §5.9 |\n| R-V14-14 | the kind's coherence row (`roadAccess`, `expect`, `autocorrect`, `autocorrectM`; V14 §2.5) read through `@plat/api`'s resolver by kind, cached per (kind, the kind table's digest), and the card's `roadAccess` read as `attraction` and `routed` are (R-V14-1) — for P1's site form, W7 (12) and `SuitabilityContext.sites` (J393) | V13 §2.2, §3.8, §3.11.1a |",
+  "reason": "what V13 needs of V14 for the site form"
+ },
+ {
+  "id": "C-31",
+  "file": "docs/volumes/V14-sites.md",
+  "line": 74,
+  "md5": "70d8aa1b3c14e7cab6a135adbd3caa00",
+  "old": "> the number.",
+  "new": "> the number.\n\n> **Sites and roads t — 2026-10-18** (`docs/AMENDMENTS-2026-10-18t.md`; the owner's word J393). Changed: §2.5's kind\n> rows gain the coherence columns `roadAccess`, `expect`, `autocorrect` and `autocorrectM` and the card `roadAccess`; the\n> siting plug-ins read no site trail; §3.4 (a) takes a point drop's origin through V13's P1 site form, (e) lays the approach\n> way from the station; §3.6 (f), §3.9 (g)'s `inFrame` link (BCR-V14-26), §3.14's row, §4.2's `setAttr` paths,\n> §4.7's drop row, §4.9's `bend.site.placement`, §6's G3 row, T-V14-34 – T-V14-35, J-V14.57 – J-V14.61 and §10.2's\n> V13 request (18) follow.",
+  "reason": "the series' revision note (file s item 936's form)"
+ },
+ {
+  "id": "C-32",
+  "file": "docs/volumes/V14-sites.md",
+  "line": 362,
+  "md5": "70d8aa1b3c14e7cab6a135adbd3caa00",
+  "old": "| `WorldSite.attraction`, `.routed` (V14 §2.2; C14-04) | the kind row's columns, copied to the card at the drop and editable by `setAttr` | V13 W6's `destination` term (the pull within `reach.siteKm`) and W7's seats (a routed site) | the card |",
+  "new": "| `WorldSite.attraction`, `.routed`, `.roadAccess` (V14 §2.2; C14-04; J393) | the kind row's columns, copied to the card at the drop and editable by `setAttr` | V13 W6's `destination` term (the pull within `reach.siteKm`), W7's seats (a routed site), W7 (12)'s site trail and via re-lay and P1's site form (V13 §3.8 (12), §3.11.1a) | the card |",
+  "reason": "the wiring row names the card's road access and its readers"
+ },
+ {
+  "id": "C-33",
+  "file": "docs/volumes/V14-sites.md",
+  "line": 545,
+  "md5": "70d8aa1b3c14e7cab6a135adbd3caa00",
+  "old": "  attraction: number; routed: boolean;                          // the kind row's columns copied at the drop, editable: V13's `destination` term reads `attraction` (0–1) within `reach.siteKm`; W7 seats a `routed` site (C14-04)",
+  "new": "  attraction: number; routed: boolean;                          // the kind row's columns copied at the drop, editable: V13's `destination` term reads `attraction` (0–1) within `reach.siteKm`; W7 seats a `routed` site (C14-04)\n  roadAccess: SiteRoadAccess;                                   // the kind row's column copied at the drop and at a promotion, editable (`setAttr site/roadAccess`): V13's P1 site form and W7 (12) read it (V14 §2.5; J393)",
+  "reason": "the card field (declared, in the model digest, moved only by events: its lifecycle is §2.9's card row)"
+ },
+ {
+  "id": "C-34",
+  "file": "docs/volumes/V14-sites.md",
+  "line": 872,
+  "md5": "70d8aa1b3c14e7cab6a135adbd3caa00",
+  "old": "  importKinds: string[] /* the map import's marker words this kind answers to (V13 §3.15 (3); V14 §3.2's import candidates; SW-04); `calibratable: false` */ }",
+  "new": "  importKinds: string[] /* the map import's marker words this kind answers to (V13 §3.15 (3); V14 §3.2's import candidates; SW-04); `calibratable: false` */;\n  attraction: number; routed: boolean /* the two siting columns below (C14-04) */;\n  roadAccess: SiteRoadAccess; expect: { terms: SiteTerm[]; min: number /* 0–1 */ }[]; autocorrect: 'move'|'bring'|'hold'; autocorrectM: number /* 'm' */ /* the coherence columns below (J393) */ }\ntype SiteRoadAccess = 'on'|'onRiverCrossing'|'served'|'reached'|'none'|'shunned';",
+  "reason": "the kind row's interface carries every column the prose names, the two siting columns included (the reader's gap)"
+ },
+ {
+  "id": "C-35",
+  "file": "docs/volumes/V14-sites.md",
+  "line": 921,
+  "md5": "70d8aa1b3c14e7cab6a135adbd3caa00",
+  "old": "| cave, hideout, cellarComplex, sewerLair, dungeon, crypt, battlefield, tower | 0 | no | unknown to siting, or a solitude that repels (a tower's `solitude` term already keeps settlements off) |",
+  "new": "| cave, hideout, cellarComplex, sewerLair, dungeon, crypt, battlefield, tower | 0 | no | unknown to siting, or a solitude that repels (a tower's `solitude` term already keeps settlements off) |\n\nFour more kind-row columns carry the kind's **coherence expectation** (the owner's word of 2026-10-18, J393: \"make\nsure that sites have road access where appropriate, they are integrated into road infrastructure and that depending on\nthe catalogue, where appropriate, their geography in the world map autocorrects to meet the coherence expectation\"),\nread by V13's P1 in its site form (V13 §3.11.1a) for a free card and by §3.9 (g)'s link for an `inFrame` one (own;\n`min` and `autocorrectM` calibratable, the two key columns not): `roadAccess` (copied to the card at the drop as\n`WorldSite.roadAccess`), `expect` (the greatest of an entry's terms must reach its `min`), `autocorrect` — `move` (the site moves to\nthe nearest lawful point), `bring` (the road is brought to the site) or `hold` (the site holds and its gaps are\nreported) — and `autocorrectM` (`m`, the autocorrect's radius):\n\n| kind | `roadAccess` | `expect` (the greatest of the terms ≥ `min`) | `autocorrect` | `autocorrectM` | why |\n|---|---|---|---|---|---|\n| tollhouse | `on` | — | `move` | 2 000 | a toll house stands astride its road (§3.5's grammar: \"the gatehouse astride the road\") |\n| bridgeFort | `onRiverCrossing` | — | `move` | 2 000 | a bridge fort holds a road's crossing of a river (`WorldRoute.crossings`) |\n| fort | `served` | — | `bring` | 1 000 | \"protection and a toll draw settlement and roads\": the road comes to the fort |\n| mine | `served` | `ore`, `stone` ≥ 0.5 | `bring` | 1 000 | ore is traded by road; a mine off its lode is reported, never moved (the DM's lode) |\n| manor, guildhall, temple | `served` | — | `bring` | 1 000 | a market in small; pilgrims |\n| watchpost | `reached` | `overlook` ≥ 0.25 | `move` | 500 | a post watches from a height, a path down to the road |\n| hermitage | `reached` | `solitude` ≥ 0.5 | `hold` | 0 | a path to the cell; the hermit's spot is the DM's |\n| shrine, graveyard, tower, ruin, camp | `reached` | — | `hold` | 0 | a path; the spot is the DM's |\n| hideout | `shunned` | `concealment` ≥ 0.5 | `hold` | 0 | a road past its door is incoherent: reported, the DM's to keep |\n| cave, crypt, dungeon, battlefield, cellarComplex, sewerLair | `none` | — | `hold` | 0 | unknown to the road; a cave's placement names V13's feature (J-V14.11); a cellar complex and a sewer lair are never `free` |\n\nThe columns are consistent with `routed` by `editTable`'s validation (`refuse.table.invalid`): `on`, `onRiverCrossing` and\n`served` with `routed` yes, the other three with `routed` no; a `hold` row's `autocorrectM` 0. They apply by attachment\n(J-V14.61): a `free` card's placement through V13's P1 (moved, a road brought or held, its gaps reported); an `inFrame` card's\nreservation joined by §3.9 (g)'s link, never moved; an `attached` or `surface` card reaches the road through its host\n(its access record, its plot's access, base §4.7) and a `ground` card has none — those three read no column. A card\ncopies `roadAccess` at the drop and at a promotion; `expect`, `autocorrect` and `autocorrectM` stay on the row, read by\nkind through the resolver (V13's R-V14-14).",
+  "reason": "the catalogue's per-kind rows: access, expectation, autocorrect, tolerance (J-V14.57, J-V14.60)"
+ },
+ {
+  "id": "C-36",
+  "file": "docs/volumes/V14-sites.md",
+  "line": 987,
+  "md5": "70d8aa1b3c14e7cab6a135adbd3caa00",
+  "old": "//   routeNear  — exp(−d_route ÷ 300), d_route the distance to the `route` layer;",
+  "new": "//   routeNear  — exp(−d_route ÷ 300), d_route the distance to the `route` layer's routes other than site trails (a path to a site is no road; V13 §3.8 (12));",
+  "reason": "a site's own site trail never lowers its solitude or concealment (routeNear feeds both)"
+ },
+ {
+  "id": "C-37",
+  "file": "docs/volumes/V14-sites.md",
+  "line": 1404,
+  "md5": "70d8aa1b3c14e7cab6a135adbd3caa00",
+  "old": "**(a) The placement (V13's).** A free-standing `dropSite` with a point takes that point as its placement origin and",
+  "new": "**(a) The placement (V13's).** A free-standing `dropSite` with a point takes that point as its asked origin — kept, bent\nor flagged by V13's P1 in its site form against the kind row's coherence columns (V14 §2.5; V13 §3.11.1a) — and",
+  "reason": "the drop's origin goes through the autocorrect"
+ },
+ {
+  "id": "C-38",
+  "file": "docs/volumes/V14-sites.md",
+  "line": 1416,
+  "md5": "70d8aa1b3c14e7cab6a135adbd3caa00",
+  "old": "A host-placed site (its record's position) is\nnever re-sited.",
+  "new": "A host-placed site (its record's position) is\nnever re-sited (V13's P1 measures its kind's expectation and reports it, never corrects it; V13 §3.11.1a).",
+  "reason": "the standing rule kept, its relation to the autocorrect said"
+ },
+ {
+  "id": "C-39",
+  "file": "docs/volumes/V14-sites.md",
+  "line": 1461,
+  "md5": "70d8aa1b3c14e7cab6a135adbd3caa00",
+  "old": "village\".",
+  "new": "village\".\n\n**(e) The entrance way and the station (J393; item 135).** A free-standing site's road is part of the one network\nat every scale: at the world it is the leg W7 lays to a `routed` site, the host route a site stands on or the via re-lay\nbrings past it, or a `reached` site's site trail (V13 §3.8 (11), (12)); at the site's frame it is the charter's `roads` row\nwhere that route crosses the frame's outer ring — the site's **station**, the row's `atCm` (V13 §3.11.4 (6)); in\nthe frame G5 (f) lays one **entrance way** per charter road row, after the enclosure, from the station to the\nnearest entrance unit's point (G5 (e)'s `GateSite`, by plan distance, ties by the unit's id) by S4's router (the base's\ntwo-point road, §7.1's `drawWay` routing with its class), its class the row's `WayClass` (`through`, `primary` or\n`track` for a leg or a host road, `path` for a site trail), keyed with the card as the town root in the rows' (side, `atCm`)\norder — a ground product, byte-identical on every open and re-laid with the ground by a `worldWins`\nre-materialization under a new charter (G3 (c)). A toll house astride its road takes two, one from each station. A\ncrop over the site reads the entrance way as a way, a crop on the world the charter's road as a band (E1 (4) (iii));\non adoption it enters the settlement with the site's ways as a drawn constraint (G8 (e) (1)). A site whose kind's\n`roadAccess` is `none` or `shunned`, or whose frame no route crosses, has none (the latter reads `siteOffRoute` where\nits kind expects a road, V13 §3.11.1a).",
+  "reason": "the road continued from the world through the site frame to the gate (item 135's chain; J-V14.58)"
+ },
+ {
+  "id": "C-40",
+  "file": "docs/volumes/V14-sites.md",
+  "line": 1698,
+  "md5": "70d8aa1b3c14e7cab6a135adbd3caa00",
+  "old": "perimeter, then (e); an attached site has no ground.",
+  "new": "perimeter, then (e), then G3 (e)'s entrance ways; an attached site has no ground.",
+  "reason": "the ground composer lays the entrance ways (G3 (e))"
+ },
+ {
+  "id": "C-41",
+  "file": "docs/volumes/V14-sites.md",
+  "line": 1945,
+  "md5": "70d8aa1b3c14e7cab6a135adbd3caa00",
+  "old": "`epoch`; its icon is the `worldSite` decoration on the reservation's face (d).",
+  "new": "`epoch`; its icon is the `worldSite` decoration on the reservation's face (d); its reservation is joined to the nearest\nway corridor by §4.9's decoration-trail form (an L3 `path` face) when the card's `roadAccess` is `on`, `onRiverCrossing`,\n`served` or `reached`, none otherwise (BCR-V14-26; J-V14.59).",
+  "reason": "an `inFrame` site's road access inside the settlement's frame"
+ },
+ {
+  "id": "C-42",
+  "file": "docs/volumes/V14-sites.md",
+  "line": 2138,
+  "md5": "70d8aa1b3c14e7cab6a135adbd3caa00",
+  "old": "| G3 siting | no candidate passes the hard terms; a free-standing drop with no point before V13 lands | the hard terms relaxed one at a time in the row's order → refused with the terms; refused `refuse.site.noWorld` (C14-49) | the terms failed |",
+  "new": "| G3 siting | no candidate passes the hard terms; a free-standing drop with no point before V13 lands | the hard terms relaxed one at a time in the row's order → refused with the terms; refused `refuse.site.noWorld` (C14-49) | the terms failed |\n| G3 coherence (a point drop, a move; J393) | the asked origin unlawful against the kind's coherence columns | V13 §3.16's F-PLACE row for a site subject: bent within `autocorrectM` (`bend.site.placement`), the road brought, or kept and flagged with three offers; a host-placed site measured and reported only | the site terms, the bend or the offers |",
+  "reason": "F-SITE's row points at V13's one ladder"
+ },
+ {
+  "id": "C-43",
+  "file": "docs/volumes/V14-sites.md",
+  "line": 2266,
+  "md5": "70d8aa1b3c14e7cab6a135adbd3caa00",
+  "old": "`site/name`, `site/host/*` (dossier-owned, refused),",
+  "new": "`site/name`, `site/attraction`, `site/routed`, `site/roadAccess` (the kind row's columns on the card; C14-04; J393), `site/host/*` (dossier-owned, refused),",
+  "reason": "the `setAttr` paths §1b.1 and §2.2 already call editable, now listed"
+ },
+ {
+  "id": "C-44",
+  "file": "docs/volumes/V14-sites.md",
+  "line": 2377,
+  "md5": "70d8aa1b3c14e7cab6a135adbd3caa00",
+  "old": "| `dropSite` (free) | the site document (created on first open); V13's W6 `destination` term and W7's seats read the card's `attraction` and `routed` at their next run (a settlement already placed never moves: a term is read at placement only) | the host documents; every other site |",
+  "new": "| `dropSite` (free) | the site document (created on first open); V13's P1 site form at the drop (the autocorrect, the offers) and, with it, W7 over the landmass for a `routed` card (standalone) or the via re-lay (host-bound) and W7 (12)'s site trail for a `reached` one (V13 §4.3's site row); V13's W6 `destination` term reads the card's `attraction` at its next run (a settlement already placed never moves: a term is read at placement only) | the host documents; every other site |",
+  "reason": "the road comes with the drop (item 135; the owner's \"have road access\")"
+ },
+ {
+  "id": "C-45",
+  "file": "docs/volumes/V14-sites.md",
+  "line": 2429,
+  "md5": "70d8aa1b3c14e7cab6a135adbd3caa00",
+  "old": "`bend.site.*` (`bend.site.kind`, `bend.site.storey`, `bend.site.levels`, `bend.site.removeAdopted`), `bend.encounter.noHour`,",
+  "new": "`bend.site.*` (`bend.site.kind`, `bend.site.storey`, `bend.site.levels`, `bend.site.removeAdopted`, `bend.site.placement`), `bend.encounter.noHour`,",
+  "reason": "the catalogue key of the bend"
+ },
+ {
+  "id": "C-46",
+  "file": "docs/volumes/V14-sites.md",
+  "line": 2763,
+  "md5": "70d8aa1b3c14e7cab6a135adbd3caa00",
+  "old": "| G3 (free-standing) | V13's score over its candidates (V13's `WORLD-10` row; SW-32); the terrain pre-edit (one `setField`, §12.6's terrain stroke) | V13 §6 | V13's row + 5 ms |",
+  "new": "| G3 (free-standing) | V13's score over its candidates (V13's `WORLD-10` row; SW-32); the terrain pre-edit (one `setField`, §12.6's terrain stroke); P1's site form and the site trail (V13's `WORLD-16`), the via re-lay (`WORLD-17`) | V13 §6 | V13's rows + 5 ms |",
+  "reason": "the site's budget row names the new work"
+ },
+ {
+  "id": "C-47",
+  "file": "docs/volumes/V14-sites.md",
+  "line": 2863,
+  "md5": "70d8aa1b3c14e7cab6a135adbd3caa00",
+  "old": "V13's religion lens draws it labelled \"DM-placed\" (T-V13-54) | PR |",
+  "new": "V13's religion lens draws it labelled \"DM-placed\" (T-V13-54) | PR |\n| T-V14-34 | the kind rows' coherence columns (J393) | `tables/sites/kinds`: every shipped row carries `roadAccess`, `expect`, `autocorrect` and `autocorrectM` with V14 §2.5's values; `editTable` refuses a row whose `roadAccess` and `routed` disagree or a `hold` row with `autocorrectM` > 0 (`refuse.table.invalid`); a card copies `roadAccess` at the drop and at a promotion; `setAttr` admits `site/roadAccess`, `site/attraction` and `site/routed`; the resolver answers the coherence row by kind, cached per (kind, the table's digest); the `routeNear` plug-in reads no site trail; an `inFrame`, `attached`, `surface` or `ground` card is never moved by them | PR |\n| T-V14-35 | the entrance way and the `inFrame` link (item 135) | on V13's world fixture: a free fort's frame holds one entrance way per charter road row, from the station to the nearest entrance's gate, of the row's class (`path` for a site trail), byte-identical on every open and re-laid under a new charter by a `worldWins`; a toll house astride its road holds two; a cave and a hideout hold none; after adoption the way enters the settlement as a drawn constraint (T-V14-7's clause); a crop over the site shows it as a way and a crop on the world the charter's road as a band; an `inFrame` fort's and shrine's reservations are joined to the nearest way corridor by an L3 `path` face and a cave's by none, inside §7.3's reservation operator's scope and nothing else (T-V14-9's clause) | PR (fixtures) |",
+  "reason": "every new behaviour has a test, in V14 §7's form"
+ },
+ {
+  "id": "C-48",
+  "file": "docs/volumes/V14-sites.md",
+  "line": 3010,
+  "md5": "70d8aa1b3c14e7cab6a135adbd3caa00",
+  "old": "generated holy sites (the host holds no positioned faith place) or a deity read from a site's name (a guess) (vetoable) |",
+  "new": "generated holy sites (the host holds no positioned faith place) or a deity read from a site's name (a guess) (vetoable) |\n| J-V14.57 | **(J393.)** chose **`roadAccess` beside `routed`** (consistent by `editTable`'s validation) over folding `routed` into it, because `routed` is a landed card field W7 reads (SW-20) and the two mean different things — a seat of W7's graph; the kind's road expectation (vetoable) |\n| J-V14.58 | **(J393.)** chose **the entrance way as G5 (f)'s ground product**, laid by S4's router from the station to the nearest entrance after the enclosure, over a creation-prefix `drawWay` or a hinterland track, because the ground is derived and re-materialized with its charter (C14-03; a `worldWins` re-lays it) and S4's router is the base's one road-maker (vetoable) |\n| J-V14.59 | **(J393.)** chose **an `inFrame` site's link as §4.9's decoration-trail form** (an L3 `path` face to the nearest way corridor) over an S4 destination at the drop, because a destination added re-derives S3's gates (the base's §7.3 S4 row) against bar 6, and the trail form already joins the hinterland's decorations (vetoable) |\n| J-V14.60 | **(J393.)** chose **`hold` for the solitude, concealment and feature-bound kinds and every kind a path reaches** (hermitage, shrine, graveyard, tower, ruin, camp, hideout, cave, crypt, dungeon, battlefield) over moving them, because their spot is the DM's word or V13's feature (J-V14.11) and the owner's \"where appropriate\" admits kinds whose geography does not autocorrect (vetoable) |\n| J-V14.61 | **(J393.)** chose **the coherence columns to move a `free` card only** — an `inFrame` card linked and never moved, an `attached`, `surface` or `ground` card reading none — because the owner's \"their geography in the world map\" names the world placement, and the other attachments reach a road through their host already (base §4.7's plot access; V14 §2.3's access record) (vetoable) |",
+  "reason": "the decisions, each \"chose X over Y because Z\""
+ },
+ {
+  "id": "C-49",
+  "file": "docs/volumes/V14-sites.md",
+  "line": 3047,
+  "md5": "70d8aa1b3c14e7cab6a135adbd3caa00",
+  "old": "`EncounterService` in `@plat/app` their client; the bridge's vocabulary gains them (§11.3) |",
+  "new": "`EncounterService` in `@plat/app` their client; the bridge's vocabulary gains them (§11.3) |\n| **BCR-V14-26** an `inFrame` world site's link to the road (J393; V14 §3.9 (g)) | §4.9 *Hinterland decorations* | \"a row with `trail` links its decoration to the nearest way corridor by an L3 `path` face\" | \"a row with `trail` links its decoration to the nearest way corridor by an L3 `path` face — and so is an `inFrame` world site's reservation whose card's `roadAccess` is `on`, `onRiverCrossing`, `served` or `reached` (V14 §3.9 (g); M-SITE-A)\" (STAGED, M-SITE-A) |",
+  "reason": "the one base change the design needs, as a request row"
+ },
+ {
+  "id": "C-50",
+  "file": "docs/volumes/V14-sites.md",
+  "line": 3053,
+  "md5": "70d8aa1b3c14e7cab6a135adbd3caa00",
+  "old": "merges V14's unit material rate (`SiteDamageRow.ratePerYear`) into one text |",
+  "new": "merges V14's unit material rate (`SiteDamageRow.ratePerYear`) into one text; (18) J393: P1's site form (V13 §3.11.1a) — `siteCoherence` with the site terms `siteAccess` and `siteExpect`, `nearestLawful`'s site form in two reaches, the autocorrect by the kind row's `autocorrect` and `autocorrectM`, the anomaly kinds `siteOffRoute`, `siteOnRoute` and `siteExpectation` as derived readings —, a site subject's `requestCharter` running it with `accept`, W7 (11)'s site terminal and (12)'s site trails and via re-lay, the `place.coherence` site cells, `WORLD-16` – `WORLD-17` and R-V14-14's coherence row read by kind |",
+  "reason": "the precise V13 request, designed here as if granted (as (1)–(17))"
+ },
+ {
+  "id": "C-51",
+  "file": "docs/ARCHITECTURE.md",
+  "line": 8678,
+  "md5": "1f871a01961de8a4994125d7bb1993be",
+  "old": "  row with `trail` links its decoration to the nearest way corridor by an L3 `path` face; fields and woods keep back by",
+  "new": "  row with `trail` links its decoration to the nearest way corridor by an L3 `path` face — and so is an `inFrame` world\n  site's reservation whose card's `roadAccess` is `on`, `onRiverCrossing`, `served` or `reached` (V14 §3.9 (g); M-SITE-A,\n  BCR-V14-26); fields and woods keep back by",
+  "reason": "BCR-V14-26 admitted (STAGED, M-SITE-A)"
+ },
+ {
+  "id": "C-52",
+  "file": "docs/volumes/INDEX.md",
+  "line": 14,
+  "md5": "4288179616d26f75b3d717deb23ed0ce",
+  "old": "items 927–939: the Fable retrovalidation's corrections to volumes 13 and 14, 2026-10-18), applied by the lane its status line names.",
+  "new": "items 927–939: the Fable retrovalidation's autocorrects to volumes 13 and 14, 2026-10-18), applied by the lane its status line names, and file t (`docs/AMENDMENTS-2026-10-18t.md`, items from 940: the owner's word on sites, roads and autocorrect, J393, 2026-10-18), applied by the lane its status line names.",
+  "reason": "the index names file t beside file s (file s item 938's form)"
+ },
+ {
+  "id": "C-53",
+  "file": "docs/volumes/INDEX.md",
+  "line": 71,
+  "md5": "4288179616d26f75b3d717deb23ed0ce",
+  "old": "V14 (`WorldSite.attraction` and `routed`, the site's glyph marks, its `placementRef`)",
+  "new": "V14 (`WorldSite.attraction`, `routed` and `roadAccess` with the kind's coherence row, the site's glyph marks, its `placementRef`)",
+  "reason": "the wiring map names the new seam"
+ },
+ {
+  "id": "C-54",
+  "file": "docs/volumes/INDEX.md",
+  "line": 72,
+  "md5": "4288179616d26f75b3d717deb23ed0ce",
+  "old": "V13 (the seventeen purpose-term plug-ins, `attraction` and `routed`, the site's glyph marks, `adoptSite` on `world.placed`)",
+  "new": "V13 (the seventeen purpose-term plug-ins, `attraction`, `routed` and `roadAccess` with the kind's coherence row, the site's glyph marks, `adoptSite` on `world.placed`)",
+  "reason": "the wiring map names the new seam"
+ },
+ {
+  "id": "C-55",
+  "file": "docs/volumes/SUMMARY.md",
+  "line": 85,
+  "md5": "9d1422839ab63a3ec3bf6d13e3ea8265",
+  "old": "around an old fort and adopt it. **The 2.5D switch:**",
+  "new": "around an old fort and adopt it. Out in the world a site keeps to its kind: a toll house dropped beside a road moves\n    onto it, a fort or a mine has a road brought to its gate, a shrine or a hermitage gets a path, a watch post climbs to\n    the nearest height, a hideout is flagged when a road runs past its door; where no fitting spot lies near, the site\n    stays where you put it, flagged, with the three nearest fitting spots offered — never moved silently, and never one\n    the campaign's host placed. **The 2.5D switch:**",
+  "reason": "the owner-facing account says what the owner's word now does"
+ },
+ {
+  "id": "C-56",
+  "file": "plat/docs/build/M0-world-sites-gate.md",
+  "line": 45,
+  "md5": "b6c5be2a5d89fbd19035a3c606194fb9",
+  "old": "| M11 | The projection and the vertical exaggeration are view state outside the document hash; the style store's schema admits a projection family | §2.9 view state, §8.2 styles |",
+  "new": "| M11 | The projection and the vertical exaggeration are view state outside the document hash; the style store's schema admits a projection family | §2.9 view state, §8.2 styles |\n| M12 | S4's router admits a way between two given points — a frame-ring station and a gate or entrance point (M0-c-03's deferred two-point road) — and a way's end at the frame ring carries its external bearing, so a world site's entrance way and station (V14 §3.4 (e)) are not foreclosed; nothing is built at M0 | read M0-c-03's `defers` and `Way.to`'s bearing form (C-0236 (18)); M1's to change |",
+  "reason": "the one gate row the design implies, in item 140's form (a model row: recorded now, M1's to change; no feature)"
+ }
+]

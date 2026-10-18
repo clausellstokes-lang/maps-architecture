@@ -1,6 +1,6 @@
 # SettlementForge's trade and caravans — production, consumption, imports and exports, movement between settlements, and what a map lens can show
 
-> PENDING FABLE REVIEW — written by Opus 5.5 standing in for the Fable seat research/sf-trade; to be retrovalidated overall at the next opportunity (owner, 2026-10-17, J375)
+> Fable-reviewed 2026-10-18: PASS-WITH-CORRECTIONS — the physics, gating and constants hold; 22 verifier findings and 4 of the validator's own applied in place; two §9 readings amended in fact (boom hysteresis; the culture term's premise), none in design; §9 item 1 superseded by J-V13.63 (lane retrovalidation/trade; J392)
 
 Synthesis seat `research/sf-trade`. Host: `/home/user/clausellstokes-lang/settlement-engine` at `origin/master`
 `81f1cd96`, read-only (nothing written there). Three reading seats returned structured readings: (A) the trade
@@ -54,8 +54,7 @@ gating words recur:
    iron, grain, timber), tier structural imports, faction-and-culture prestige demand, and a calorie deficit. From these
    come at most 12 exports (service exports are appended past the cap), at most 10 imports, a percentage income mix in
    which tolls, duties and transit trade appear as named rows, a food import-coverage rate keyed on the route class, and
-   a prosperity label. None of it carries a quantity or a price. It is stamped once; only calamities, resource changes
-   and DM edits rewrite parts of it later (§3).
+   a prosperity label. None of it carries a quantity or a price. It is stamped once; calamities, resource changes and DM edits rewrite its chains and lists later, and the pulse rewrites the prosperity label and the food ledger's storage and deficit every tick (EC S18; §2.1, §3).
 2. **Phase 5.5 commerce physics (built before FP; runs only on a canonized realm).** Each non-food imported good of
    each consuming institution becomes a *supply link* that pulls from the three cheapest reachable producers of that
    good, ranked once by the frozen path cost. Caravans travel the territory-adjacency graph at about one week per
@@ -80,8 +79,7 @@ consumption — answered directly.**
   only explicit service-import path is a suggested healing dependency channel (§3.4) [OBSERVED re-checked by a
   read-only probe, §2.2].
 - **Food never moves as cargo.** The six food goods (grain, flour, fish, livestock, provisions, salt) are excluded from
-  every caravan; a settlement's food import is a standing coverage *rate* by route class (port 0.70 down to the mountain
-  pass's 0.14), netted into its deficit each tick. Relief grain between bonded partners moves the same tick with no
+  every caravan; a settlement's food import is a standing coverage *rate* by route class (port 0.70 down to the mountain pass's 0.14), applied once at generation to its raw deficit (`gen/foodGenerator.js:319-331`); the tick carries that base deficit forward and, under a siege or occupation stressor, adds the import-dependency share back (§3.8). Relief grain between bonded partners moves the same tick with no
   caravan and no route (§5.9).
 - **On a world that has not been canonized — every born world, every Instant World, every preset — no goods move at
   all.** What crosses settlement lines is consequence: (a) the regional graph's trade channels, proposed from
@@ -96,13 +94,10 @@ consumption — answered directly.**
 - **There is no realm market.** Nothing clears supply against demand; there is no price. The only "price" a player
   sees is five relative movement phrases derived from a settlement's own stock band (§4).
 - **Prosperity (the owner's addendum).** Generation prosperity is dominated by the route class (crossroads or port 3,
-  road or river 2, isolated 1). On canonized RR-applied and FS realms, prosperity then moves *with trade*: a boom adds
-  0.14 band-steps per tick while throughput stays at or above 3.0 with centrality at or above 0.3, and a bust takes 0.9
-  and 3 legitimacy. The entrepôt toll lift does *not* move prosperity: it raises only the economy-health score that
+  road or river 2, isolated 1). On canonized RR-applied and FS realms, prosperity then moves *with trade*: a boom mints after throughput ≥ 3.0 with centrality ≥ 0.3 has held for 3 ticks (the dwell survives dips to 1.5); it then accrues +0.14 band-steps per tick (one rung about every 7 ticks, ladder-capped) until throughput falls below 1.0, embattlement appears or the resource is removed, when it busts: one rung down (−0.9, rounded) and −3 legitimacy [Fable-reviewed 2026-10-18: the 3.0/0.3 gate is the mint test, not the sustain condition; `wp/upswingKernel.js:617`, `:656-659`, `:669-671`, `:915`]. The entrepôt toll lift does *not* move prosperity: it raises only the economy-health score that
   institution foundings and closures read (§3.7, §6).
 
-**What a DM in the default preset actually feels.** A campaign born through the plain door runs the trade-scarcity
-cascade and, once premium-canonized, M2 caravans with starvation — nothing else of trade. An Instant World (RR applied)
+**What a DM in the default preset actually feels.** A campaign born through the plain door runs channel discovery, trade relationship drift, depth-1 regional waves on trade channels, the trade-scarcity cascade, export re-diffs on depletion and the stressor food-import cut (the plain default rules: `relationshipDynamicsEnabled`, `resourceDriftEnabled`, `stressorsEnabled`, `tradeFlowsEnabled` and `propagationMode: 'first_order'`, `wp/simulationRules.js:63-74`, `:1552-1558`; §7's "RR born" column), and, once premium-canonized, M2 caravans with starvation; no relief, no M6a, no Roads missions [Fable-reviewed 2026-10-18: the earlier sentence said "nothing else of trade"]. An Instant World (RR applied)
 adds relief, credit and purchase between partners; after "Map geography" it runs the full M6a stack (finite stocks,
 entrepôts, tolls, booms, smuggling at contraband gates). In peace even that stack has no danger term. Route danger
 is embattlement. A war-front siege always starts it alone. An occupation starts it alone only while contested or
@@ -117,8 +112,7 @@ because a shipment record keeps no path and no departure tick [STATED WY:167-172
 `sp/commodityFlow.js:781-785`]. The one trade traveller it can place is a named merchant on a Roads trade mission, which
 keeps a frozen path and a leg clock (canon in RR applied, DC, LR, FS; §5.13). Four unrelated "trade link" sets exist in the host and must be kept apart (§9, item
 14). The caravan graph *is* the host's frozen territory adjacency, so a map territory lens that differs from the host's
-nearest-settlement-by-cost partition shows chokepoints the simulation does not use, and if the map's budgeted territory
-were ever supplied as the host's territory it could cut the caravan graph (§9, item 1). Patrols have no host term in
+nearest-settlement-by-cost partition shows chokepoints the simulation does not use, and if the map's sway (V13 W8b) were ever supplied as the host's territory it could cut the caravan graph — which is why V13 §3.9 keeps W8a, the unbudgeted nearest-seat partition, as the host's territory (J-V13.63; §9, item 1). Patrols have no host term in
 routing today; the nearest host slot is the embattlement ramp's capped security relief (§9, item 4).
 
 ---
@@ -137,14 +131,12 @@ routing today; the nearest host slot is the embattlement ramp's capped security 
 | `institutionalServices`, `availableServices` | sellable service rows; the visitor's service menu in 11 buckets | generator / `economyReconcilePass` | `gen/computeActiveChains.js:926-1032`; `gen/servicesGenerator.js:53-387` |
 | `tradeAccess`, `isEntrepot`, `transit` | the config route class echoed; crossroads or international port; up to 4 transit goods | generator | `econ/tradeGoods.js:90-97`, `:139-162` |
 | `incomeSources` | named revenue rows summing to 100 (tolls, duties, transit, tithes, criminal…) | generator; `economyReconcilePass` only if the roster changed | `econ/economicState.js:66-368`, `:531-547` |
-| `foodSecurity` | deficit, import coverage, storage months | generator; the food-stockpile tick and relief write storage months | `gen/foodGenerator.js:160-200`, `:284-345` |
+| `foodSecurity` | deficit, import coverage, storage months | generator; the food-stockpile tick rewrites storage months, `deficitPct`, `surplusPct` and `resilienceScore` (`wp/foodStockpile.js:404-411`); relief writes storage months | `gen/foodGenerator.js:160-200`, `:284-345` |
 | `prosperity` | a label (six at generation, seven on the runtime ladder) | generator; band-step writers (upswing boom/bust, generosity purchase, traditions, roads). The entrepôt toll lift is *not* a writer: it feeds only institution-lifecycle economy health (`wp/institutionLifecycle.js:693-701`) | `econ/prosperity.js:27-314`; `data/constants.js:92-100` |
 | `tradeLinks` | per-good links with the one neighbour bound at generation | generator | `rg/tradeLinks.js:45-81`; `gen/steps/generateEconomy.js:218-265` |
 | `inputStockpiles` | M2's per-input buffers in weeks | M2 only (M6a never writes it) | `wp/supplyKernel.js:296-297`, `:495-497` |
 
-[STATED `disp/economyFreshness.js:1-25`; `econ/economicState.js:51-61`] services, the food deficit, trade dependencies,
-the income mix and the compound flags these read stay at their generation values after events ("as judged at the last
-survey").
+[STATED `disp/economyFreshness.js:6-12`, `:24-25`] the chains, services, prosperity label and resource analysis keep their generation values after an applyEvent ("as judged at the last survey"); [STATED `econ/economicState.js:51-61`] the compound flags are stamped once; [OBSERVED] trade dependencies and the income mix have no runtime writer; the food ledger keeps its generation *base* deficit (`stockpile.baseDeficitPct`, `wp/foodStockpile.js:288`, `:411`) while the stockpile tick rewrites the visible `deficitPct`, `surplusPct` and `resilienceScore` every tick (`:404-409`). [Fable-reviewed 2026-10-18: the earlier sentence cited economyFreshness for services, the food deficit, trade dependencies and the income mix, which it does not name, and said the food deficit stays, which it does not.]
 
 ### 2.2 The goods catalog — the join key between settlements
 
@@ -189,11 +181,11 @@ survey").
 | `spatialLedgers.entrepots` | settlement → centrality, toll, since, last tick | M6b | as M6a |
 | `spatialLedgers.tradeFlow` | settlement → in, out, last tick | M6a | as M6a |
 | `spatialLedgers.merchantAppetite`, `dispatchWillingness` | per origin appetite 0.3–2.0; per link refusal latch | M6c | as M6a |
-| `worldState.embattlement` | settlement → 0..1 danger level with a hysteresis phase | the embattlement advance | canon |
+| `spatialLedgers.embattlement` | settlement → 0..1 danger level with a hysteresis phase (written by `setSpatialLedger`, `wp/pulseKernel.js:2394`; read by `getSpatialLedger`, `sp/embattlement.js:303`; only `sp/embattlement.js:9`'s header keeps the old `worldState.embattlement` spelling) | the embattlement advance | canon |
 | `worldState.tradeWarState` | prize (buyer, commodity) → winner, incumbent, last flip, coercion tick | trade war | War |
 | `spatialLedgers.campaignPlans` | aggressor → target, ≤ 4 stages (mode, satellite, input, status), EV, strangulation | supply-web warfare; two DM verbs | War + wave + canon |
 | `spatialLedgers.obligations`, `tradeOverture`, `refugePostures`, `generosityWillingness`, `bufferDiscipline`, `lendAppetite` | the relief economy | generosity | WAVES |
-| `spatialDigest` | frozen at canonize: per-cell `territory`, `gates`, the all-pairs `distanceMatrix`, tiers, calibration, `routeReceipts`, reserved slots `seasonalOverlay`, `seaLanes` (with ports and capacity), `teleportEdges`, `kmScale` (never written) | canonize only | canon |
+| `spatialDigest` | frozen at canonize: per-cell `territory`, `gates`, the all-pairs `distanceMatrix`, tiers (the calibration is derived at read from the matrix and tiers and memoized, `sp/distanceRead.js:540-560`; the digest stores none), `routeReceipts`, reserved slots `seasonalOverlay`, `seaLanes` (with ports and capacity), `teleportEdges`, `kmScale` (never written) | canonize only | canon |
 
 Time depth: every one of these keeps **current values only**; there is no per-good or per-link history; history lives
 in pulse history (cap 80) and world news (cap 240) [STATED EC:432 S53, :654].
@@ -259,7 +251,7 @@ and resources, all config strings.
 | Stress staples | grain and salt under siege or famine; "Iron (weapons)" under siege; medicinal herbs under plague. Normalized: grain and salt are food (never shipped), "Iron (weapons)" is iron (ships), "Medicinal herbs" is medical_services (never ships) (§2.2) | `econ/economicState.js:548-559`; `gen/computeActiveChains.js:834` |
 | Tier structural | town+ without grain: bulk grain; city+: luxury textiles; metropolis: bulk raw materials | `gen/computeActiveChains.js:863-872` |
 | Faction × culture prestige | one good per faction of power ≥ 8, budget 0–4 by tier | `gen/steps/economyReconcilePass.js:161-185` |
-| Food (calories) | need = population × 2 lb/day; the deficit against local food chains | STATED EC S14; `gen/foodGenerator.js:160-166` |
+| Food (calories) | need = population × 2 lb/day; the deficit against local food chains | STATED EC S14; `gen/foodGenerator.js:258-262` (the constant at `:34-36`) [Fable-reviewed 2026-10-18: `:160-166` is the storage-buffer block] |
 
 Non-food consumption is never subtracted from anything at generation, and non-food demand is ordinal (set by tier,
 institutions and culture), not by population [STATED EC S14-S15].
@@ -275,8 +267,7 @@ institutions and culture), not by population [STATED EC S14-S15].
 - **Local menu.** Each permitted institution resolves a service menu and rolls each service at p × a tier chance (thorp
   0.25 up to metropolis 0.95), with demand multipliers and crime overlays (contraband transport, customs bypass
   texture) [OBSERVED `gen/services/institutionServices.js:24`, `:102-201`; `gen/servicesGenerator.js:102-363`].
-- **Movement.** Catalog services (categories service and transport) are excluded from shipping
-  (`wp/supplyKernel.js:71-86`). Tier service pools are filtered out of imports (`econ/tradeGoods.js:431-436`). The only
+- **Movement.** Catalog services (kind *service*; the category list food/service/transport is a second filter on goods, so military_services and arcane_services, whose categories are military and arcane, are excluded by kind) are excluded from shipping (`wp/supplyKernel.js:71-86`). Tier service pools are filtered out of imports (`econ/tradeGoods.js:431-436`). The only
   explicit cross-settlement service is a *suggested* service_dependency channel from a healing provider to a
   settlement without healing (`rg/discoverDependencyCandidates.js:406-420`). EC-1's service condition arm ("healing:
   dear") is designed only [STATED EC:465-481, J-EC-7]. **But service exports are not services to the caravan layer
@@ -316,7 +307,7 @@ institutions and culture), not by population [STATED EC S14-S15].
   our exports at 4; complement drops competing exports; compete keeps overlap; dependent adds the patron's imports as
   our exports, up to 8) and per-good links by canonical id or a finished-goods category bridge. There are no links
   when the neighbour is hostile *or* when the economy mode is suppress [OBSERVED `econ/neighbourEconomicBias.js:21-68`;
-  `rg/tradeLinks.js:26`, `:45-81`; re-checked `:47`]. "Neighbour" here is an authored
+  `rg/tradeLinks.js:26`, `:45-81`; re-checked `:48`]. "Neighbour" here is an authored
   partner, not a geometric one.
 
 ### 3.6 The income mix (where tolls and duties live at generation)
@@ -340,8 +331,7 @@ streams sized from the economy slider. No pulse writer rewrites it.
   and small-tier floors; mapped to six labels, Struggling to Wealthy.
 - **Over time**: one rung at a time on the seven-rung ladder (Subsistence to Wealthy). Trade writers: the upswing boom
   (+0.14 band-steps per tick) and bust (−0.9, legitimacy −3), reading the M6d tally, M6b centrality and regional
-  arteries; the M6b toll lift into institution-lifecycle health; the generosity purchase (one band-step debit on the
-  buyer, a small credit to the seller). Other writers: traditions, roads, corruption, faction capture, demographics
+  arteries; the generosity purchase (one band-step debit on the buyer, a small credit to the seller). (The M6b toll lift is not a prosperity writer: it feeds only institution-lifecycle health, `wp/institutionLifecycle.js:698-701` [Fable-reviewed 2026-10-18].) Other writers: traditions, roads [Fable-reviewed 2026-10-18 (lane retrovalidation/prosperity): corruption, faction capture and demographics only read the band — the src-wide writes of a `PROSPERITY_TIERS[...]` label are `wp/upswingKernel.js:917`, `wp/generosityUpdates.js:137`, `wp/traditionsKernel.js:405` and `rd/state.js:495`, and the demographics wave is dark; `research/sf/prosperity-system.md` §3.11, C16]
   [OBSERVED `wp/upswingKernel.js:100-130`, `:600-700`; `sp/entrepots.js:175-183`].
 - Prosperity has exactly one *consumption* read: how much grain a buyer can purchase [STATED EC S16]. It is also the
   migration pull axis [STATED PHASE55 §4c].
@@ -358,10 +348,9 @@ second copy of the ladder *without* the +0.15 terrain boost. It also grants the 
 disconnected route (isolated or none), where the writer grants it only when the route is 'isolated'. Since a recorded
 fix, the view reads the writer's published split when one exists (`econ/foodBalance.js:308-336`; STATED
 `gen/foodGenerator.js:413-418`). Its own ladder survives only as the fallback for settlements saved before the writer
-published that split (§10, item 42). (`gen/foodGenerator.js:182-189` is a different table: the descriptive
-importCapacity, road 0.20, river 0.28, crossroads 0.42, port 0.58.)
+published that split (§10, item 42). (`gen/foodGenerator.js:182-189` is a different table: the import-dependency table — importCapacity, road 0.20, river 0.28, crossroads 0.42, port 0.58, capped by tier need into `importDependency` at `:190-191` — which the siege/occupation stressor cut reads (`wp/foodStockpile.js:322-324`) and the resilience score weighs (`:468`) [Fable-reviewed 2026-10-18: not descriptive].)
 
-At tick time the share is netted into the stashed base deficit. An active **siege or occupation stressor** at effective
+At tick time the stashed base deficit, already net of the coverage share, is carried forward (`wp/foodStockpile.js:288`, `:346-349`). An active **siege or occupation stressor** at effective
 severity ≥ 0.4 adds the import dependency back as deficit, less the teleport (0.3), besieged-airship (0.15) and
 underways bypass shares [OBSERVED re-checked `wp/foodStockpile.js:86`, `:99`, `:207-218`, `:301-322`; called every tick
 at `wp/pulseKernel.js:599`]. The same stressor stamps a severity-scaled access impairment on airship docks
@@ -404,13 +393,13 @@ its own export, so export pressure never reduces local availability [STATED EC S
 | Route danger | 1.5 × median hop cost × risk tolerance × Σ embattlement on hops | `sp/embattlement.js:99-103`, `:348-367` |
 | Banditry | chance = danger × 0.25; loss = (4–20 %) × danger, capped at 20 %, where danger is the route's mean embattlement per hop | `sp/embattlement.js:107-112`, `:384-389`, `:439-447` |
 | Embattlement hysteresis | enter 0.55, exit 0.3, dwell 6; ramp 0.34, relax 0.12 | `sp/embattlement.js:74-82` |
-| Embattlement weights | war-front siege 0.85; occupation 0.75 × its state (contested 1, unstable 0.85, extractive 0.5, stabilized 0.3, vassalized 0.15); war exhaustion 0.45; crime 0.3 (above 0.5); + the entrepôt premium; security relief 0.4 × security, capped 0.25 | `:84-98`, `:113-115`, `:196-206` |
+| Embattlement weights | war-front siege 0.85; occupation 0.75 × its state (contested 1, unstable 0.85, extractive 0.5, stabilized 0.3, vassalized 0.15); war exhaustion 0.45; crime 0.3 (above 0.5); + the entrepôt premium; security relief 0.4 × security, capped 0.25 | `:84-98`, `:115-119`, `:196-206` |
 | Entrepôt | EWMA decay 0.08 (~12 ticks), floor 0.02, throughput ceiling 6, toll = min(1.0, centrality), prosperity weight 0.3 vs upkeep 0.35, target premium 0.3 × c capped 0.2, foundings at ≥ 0.5 for 8 ticks | `sp/entrepots.js:63-106` |
 | Dispatch EV | refuse > 0.2, resume < 0.05 after 4 ticks; siege danger 0.95; appetite 0.3–2.0, +0.25 / −0.3, decay 0.1; baseline 1.0 + 0.6 merchant − 0.4 lawful | `sp/dispatchEV.js:85-121` |
 | Smuggle | success 0.12 + 0.4 network + 0.45 corruption − 0.35 resistance, max 0.65; boldness floor 0.3; seizure take ≤ 0.85; spill warrant 0.35, network ≥ 0.15 | `sp/smuggle.js:58-79` |
 | Contraband | slaves (good or lawful gate, culture ≥ 0.5); military (culture ≥ 0.55); arcane (lawful gate, culture ≥ 0.6); lawful > 0.6, good = malice < 0.4 | `sp/smuggle.js:87-98` |
 | Tally | decay × 0.6, prune 0.05; land 1, sea +1, airship 1.5, teleport 2 | `sp/tradeFlow.js:53-69` |
-| Boom / bust | enter 3.0, exit 1.5, centrality ≥ 0.3, dwell 3, +0.14 per tick / below 1.0, −0.9, −3 legitimacy, hold 3 | `wp/upswingKernel.js:114-126` |
+| Boom / bust | enter 3.0 with centrality ≥ 0.3, dwell 3 (the dwell continues above 1.5: `BOOM_EXIT_THROUGHPUT` is the building-phase floor, not a boom exit), +0.14 per tick / bust below 1.0, −0.9, −3 legitimacy, hold 3 | `wp/upswingKernel.js:114-126` |
 | Trade war | ≥ 2 contenders with completeness ≥ 0.2; +0.15 for allied/patron/vassal; cooldown 6; winner channel 0.55 + 0.35 × score; loser's channel re-minted at the winner's new strength − 0.2; escalation at strength ≥ 0.5 | `wp/tradeWar.js:86-95`, `:400-418`, `:574`, `:592-611`, `:651-653` |
 | Trade-scarcity cascade | crisis below trade_connectivity 35; severity 0.4 + 0.3 × strength; p ≤ 0.4; proposal at ≥ 0.62 | `wp/flows.js:124-166` |
 | Generosity | need ≥ 0.5, bond ≥ 0.2, ≤ 24 asks per tick, capture 0.9, overture warmth ≥ 0.6 for 6 ticks → +0.04 trust | `wp/generosityKernel.js:204`, `:488-529`, `:1139-1187` |
@@ -637,7 +626,7 @@ DECLARE_TRADE_EMBARGO.
 
 - **TR-3 believed markets** (`believedMarketsEnabled`, lit nowhere): a permutation of the dispatch order by believed
   dearness, then true need, then id; never a new caravan; "wrong market" arrivals returned and dropped [OBSERVED
-  `sp/dispatchDestination.js:85-259`]. Its governed news kind, the wrong-market arrival, has a registry row, a picker
+  `sp/dispatchDestination.js:85-253`]. Its governed news kind, the wrong-market arrival, has a registry row, a picker
   and a projector (`wp/marketNews.js`, 184 lines), and its prose corpus is `wp/marketReceiptPools.js` (66). Both are
   equally dark, since `believedMarketsEnabled` is set true in no preset [OBSERVED re-checked headers; grep].
 - **IN-0d, the secrecy trade tax** (`wp/secrecyTradeFactor.js`, 216): a pure banded multiplier for how far a HIDE
@@ -707,8 +696,7 @@ frozen digest; the calendar [OBSERVED seats A–C].
   hostility; supply-web warfare feeds a peace reason and moral drift. W-C1: the generation supply completeness over the
   war-kit commodities scales deployed army quality (`wp/supplyQuality.js`, 75 lines; `warSupplyQualityEnabled`, lit
   only in FS, `wp/simulationRules.js:1025`). W-C2: the mercenary market reads supply completeness and debits economy
-  health while hired forces are engaged (`wp/mercenaryMarket.js`, 261; runs under `warLayerEnabled`,
-  `wp/pulseKernel.js:1783`; the debit is at `wp/institutionLifecycle.js:697`). Neither reads geometry. A naval
+  health while hired forces are engaged (`wp/mercenaryMarket.js`, 261; runs under `warLayerEnabled`, or while a `mercenaryMarket` ledger persists after War is switched off, `wp/pulseKernel.js:1783`; the debit is at `wp/institutionLifecycle.js:697`). Neither reads geometry. A naval
   blockade's commerce strangulation (`sp/navalLayer.js:539-543`) feeds the economic_strangulation peace reason
   (`wp/peaceReasons.js:555-566`) and the naval display (`disp/navalDisplay.js:49`), although its own header still
   calls that wire a seam [OBSERVED re-checked].
@@ -774,7 +762,7 @@ receipts and entrepôt foundings are computed and dropped, never news (`wp/pulse
 | DM cut trade route (propagation, cascade; not caravans) | DM verb | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | LIT (DM verb) |
 | DM user routes (neutral neighbour link → discovery) | DM verb; canon phase ∧ digest | c | c | c | c | c | c | c | c | LIT on canon (DM verb) |
 | W-C1 war supply quality | `warSupplyQualityEnabled` (`wp/simulationRules.js:1025`) | – | – | – | – | – | – | – | ✓ | LIT in FS |
-| W-C2 mercenary market (reads supply completeness) | `warLayerEnabled` (`wp/pulseKernel.js:1783`) | W | W | W | ✓ | W* | W | W | ✓ | LIT in 2 |
+| W-C2 mercenary market (reads supply completeness) | `warLayerEnabled`, or a persisting `mercenaryMarket` ledger (`wp/pulseKernel.js:1783`) | W | W | W | ✓ | W* | W | W | ✓ | LIT in 2 |
 | Vassal must-go | M6a ∧ an occupation | – | – | c+W | – | – | – | – | c | as M6a + War |
 | Trade war | `warLayerEnabled` (`wp/pulseKernel.js:1014`; `wp/tradeWar.js:327`) | W | W | W | ✓ | W* | W | W | ✓ | LIT in 2 |
 | Trade salience and its statuses | `warLayerEnabled` (`wp/pulseKernel.js:1520`) | W | W | W | ✓ | W* | W | W | ✓ | LIT in 2 |
@@ -868,7 +856,7 @@ bridge crossing fee) are the dossier's caravan and toll texture.
 | Trade-war prizes | `tradeWarState` | public tier |
 | Supply-web plans | `campaignPlans` | DM only |
 | Relief, credit, refuge, overture | generosity ledgers and receipts | news receipts are public |
-| Geometry | the frozen digest (territory, gates, matrix, calibration, overlays, ports, teleport edges) | — |
+| Geometry | the frozen digest (territory, gates, matrix, overlays, ports, teleport edges) and the calibration derived from it at read | — |
 
 ### 8.5 What a lens could add without inventing host facts [INFERRED]
 
@@ -905,8 +893,7 @@ campaign where the resolved rules or the missing canon make it inert.
 
 1. **The caravan graph is the host's territory adjacency, and it has no wild land.** The host's gates are the cheapest
    crossings between nearest-settlement-by-cost territories frozen at canonize, and every reachable cell belongs to some
-   settlement (§5.2). The map's W8 territory is a *budgeted* flood with unclaimed land, contested marches and vassal
-   realms (`docs/volumes/V13-world.md` §3.9). If W8's territory were ever supplied as the host's territory (the planned
+   settlement (§5.2). The map's W8 territory was, when this note was written, a *budgeted* flood with unclaimed land, contested marches and vassal realms (`docs/volumes/V13-world.md` §3.9). [SUPERSEDED BY EVENT 2026-10-17 (`docs/AMENDMENTS-2026-10-17m.md`, J-V13.63): V13 §3.9 now makes exactly the two products this item proposes — W8a, the unbudgeted nearest-seat partition the host's crossings ride, and W8b, the sway (no budget; unclaimed land, debatable marches, the vassal chain); budgets and cost vectors are retired; `research/sf/fp-physical-integration.md` row A1 still named the retired budgeted flood.] If W8's territory were ever supplied as the host's territory (the planned
    source in fp-physical-integration.md row A1), two settlements separated by unclaimed land would lose their gate and
    the caravan graph could fragment. **Proposal**: the port supplies two products and never one for the other — a
    *routing partition* (unbudgeted, nearest by cost, the host's A1/A2 semantics) from which the host derives gates, and
@@ -924,12 +911,12 @@ campaign where the resolved rules or the missing canon make it inert.
    defense pressure score. Without a war-front siege, an occupation or war exhaustion the ramp cannot pass its 0.55
    entry (crime 0.3 plus the entrepôt premium 0.2 at most), and a calm level only decays. So **in a realm whose graph
    has never held a live war front, route danger is zero and patrols would have nothing to reduce** [OBSERVED
-   re-checked `sp/embattlement.js:66-98`, `:113-115`, `:196-206`, `:239-247`; `wp/pulseKernel.js:2365-2394`]. Where
+   re-checked `sp/embattlement.js:66-98`, `:115-119`, `:196-206`, `:239-247`; `wp/pulseKernel.js:2365-2394`]. Where
    War runs, security can decide entry for a contested occupation (out at security ≥ 0.5) or for exhaustion with crime
    or the premium, but never for a war-front siege (§10, item 40). Designed slots: TR-1's route_wardenship / route_predation pairs (registered, no
    producer) and EC-6's route_wardenship stance term (unowned, OD-FC-2). J378's "patrol coverage per route segment,
    consumed only by the host's choice" should be offered as a candidate producer for those slots or as a security
-   input, with the segment keyed to the host's *gates*, not to map road polylines.
+   input, with the segment keyed to the host's *gates*, not to map road polylines. [the owner, 2026-10-18 (J396): not asked; H16's door stays open]
 5. **Travel time from seats must be the host's week.** Use the host's calibration (median adjacent hop = 1 week,
    1..52, season multipliers from the frozen overlay), or km ÷ mode speed once `kmScale` is written (OD-FC-22); a lens
    with its own travel-time law will disagree with every caravan's arrival and with salience's "≈ N weeks".
@@ -938,19 +925,14 @@ campaign where the resolved rules or the missing canon make it inert.
    raises the economy health that institution foundings and closures read (`wp/institutionLifecycle.js:693-701`). A
    strength projection will therefore swell at busy throughput hubs on booms (the boom test includes centrality ≥ 0.3)
    and shrink on busts, but it should not expect a toll-driven swell; J377's "borders move only on dated events with hysteresis"
-   should key on the host's boom and bust records (which carry their own hysteresis: enter 3.0, exit 1.5, dwell 3), not
-   on each band-step.
+   should key on the host's boom and bust records (which carry their own hysteresis: enter at throughput 3.0 with centrality 0.3 after a 3-tick dwell that survives dips to 1.5; leave only by a bust below 1.0 or on embattlement [Fable-reviewed 2026-10-18: 1.5 is the building-phase floor, not a boom exit; `wp/upswingKernel.js:644-653`]), not on each band-step. [SUPERSEDED BY EVENT 2026-10-17 (J384 (1), J-V13.65): V13 §3.9 (7) reads the seat's prosperity rung relative to the realm median, held with a 13-week dwell at dated revisions; the boom and bust records themselves are not read — a boom reaches the sway only as the rungs it moves.]
 7. **Sea carriage (J382b): for trade the host's sea lanes are lit by data, not by a flag.** Caravans use the digest's
    sea-lane slot wherever a new canon found at least two eligible ports (geography ∧ a maritime institution), in every
    preset; the "Sea lanes" toggle (`navalEnabled`) governs naval war and blockade only [OBSERVED re-checked
    `sp/distanceRead.js:280-312`, `:940-1006`; `map/SimulationRulesAxes.jsx:370`]. And only trips with a port endpoint
    use water. J382's "only where sea lanes are lit" should read "where the frozen digest carries a sea-lane slot", and
    the coastal footholds should anchor on the digest's eligible ports — the set caravans use.
-8. **Culture resistance (J382a): the host's live trade read uses the plain culture distance.** The host's culture
-   distance accepts a trade-tie term that would close it. But contraband, its only trade reader, never passes the term,
-   so live contraband reads the plain distance [OBSERVED re-checked `sp/smuggle.js:164-177`;
-   `wp/supplyKernel.js:753-756`]. V13 W8's `foreignCulture` term should compare against the plain distance. A
-   trade-adjusted form on the map would run ahead of the host.
+8. **Culture resistance (J382a): the sway reads the plain culture distance by J384 (2), not because the host lacks a trade-closed read.** The host's culture distance takes a relationship-label trade tie (trade_partner 1, allied 0.7, vassal/patron 0.6; `wp/migrationKernel.js:197`; `src/domain/rulingPowerSeat.js:178`). Contraband never passes it, so live contraband reads the plain distance [OBSERVED re-checked `sp/smuggle.js:164-177`; `wp/supplyKernel.js:753-756`]; migration pull (`wp/migrationKernel.js:228-230`) and ruling-seat closeness (`src/domain/rulingPowerSeat.js:361-370`, called at `:673`) read the trade-closed distance. V13 §3.9 (6)'s culture term (the former `foreignCulture`, retired into it by `docs/AMENDMENTS-2026-10-17m.md` item 714) reads the plain form over the whole vector (V13 §2.2 `culture`; J384 (2)) because the sway's relation classes already count the pair's label — a second count, not a run ahead of the host. [Fable-reviewed 2026-10-18: the earlier text called contraband the host's only trade reader and said a trade-adjusted form would run ahead of the host; both wrong.]
 
 **Religion (J379; `research/sf/faith-system.md` §9.6).**
 
@@ -972,8 +954,7 @@ campaign where the resolved rules or the missing canon make it inert.
     which regime runs: *none* (no canon), *M2* (infinite origins, time buffers) or *M6a* (finite, conserved, tolled),
     and whether War is lit. The same rule fixes faith §9.4's last row.
 13. **Links and ETAs, not positions**, for caravans until the host stores a path and departure tick (WY-3). A progress
-    estimate from arrival tick minus route weeks is a guess (M6a's arrival clock would also be off at coarse ticks, but
-    every committed advance runs weekly ticks; §10, item 14). Named merchants on Roads missions already carry both a
+    estimate from arrival tick minus route weeks is a guess (M6a's arrival clock is off at coarse ticks; every committed advance runs weekly ticks while the default-on `advanceMultiTick` killswitch holds, and is one coarse tick when it is off; §10, item 14 [Fable-reviewed 2026-10-18]). Named merchants on Roads missions already carry both a
     path and a leg clock (§5.13).
 14. **Four link sets, four styles.** (a) generation links with the bound neighbour; (b) regional channels, suggested
     versus confirmed, by visibility; (c) physical supply links from the digest; (d) the host map's own "Supply chains"
@@ -1028,26 +1009,19 @@ campaign where the resolved rules or the missing canon make it inert.
    convoys; land has no capacity.
 9. **"supplyShipments has no quantity"** (FOLD WC row; fp-simulator.md:413) is true of M2 records only; M6a records
    carry the load.
-10. **Same-named truth reads.** TRADE T1 says truth-side scarcity derives from physical stocks; SP-B's ground truth is
-    the generation lists plus the food ratio (EC S25).
+10. **Same-named truth reads.** TRADE T1's original sentence says truth-side scarcity derives from physical stocks; the same line already carries an in-place "[CORRECTED 2026-10-16 (coherence fold)]" bracket saying SP-B's believed scarcity reads generation data (the lists plus the frozen food ratio), never physical stocks (EC S25) [STATED re-checked TRADE:62]. As with item 1, the stale reading survives only for a reader who skips the bracket.
 11. **No coin (T2)** was reversed by the owner (W-COIN, dark); the headers of `treatyTransfer.js` and `generosityEV.js`
     are stale (EC S45). The entrepôt toll has "no owner" while EC-6 designs tolls into the treasury.
 12. **Food is the flagship good but never shipped**, while EC §7's dossier sentences feature salt caravans and sea-borne
-    salt (EC:2261, :2268, :2310).
+    salt (sea-borne salt EC:2261; salt caravans EC:2265; salt as a traded staple EC:2310).
 13. **Sovereignty, brokerage and the reputation race** are dark everywhere; FS declares the route lifecycle and
     brokerage false (`wp/simulationRules.js:1119`, `:1153`) though the fold calls FS the ceiling.
 
 ### 10.2 Defects and inconsistencies in code
 
 14. **M6a's arrival clock** adds raw route weeks to the pulse tick (`sp/commodityFlow.js:783`), where M2 divides by the
-    tick span (`sp/supplyShipments.js:389-399`) [re-checked]. The asymmetry is **latent**. Every committed advance runs
-    N one-week kernel calls (`wp/advanceInterval.js:97-105`; tick args `interval: 'one_week'` at `:511`), and M6a's
-    production and draw do scale by the span (`sp/commodityFlow.js:454`, `:529`, `:674`). The only coarse kernel call
-    in the host is the Simulation Rules dialog's uncommitted one-month preview (`map/SimulationRulesDialog.jsx:286`;
-    `store/campaignWorldPulseDeferred.js:85-125`). That is a single tick, in which no dispatched caravan arrives under
-    either model [INFERRED]. A direct coarse kernel call would expose it.
-15. **The fragile-link inversion.** A single-sourced critical input can never starve; two- and three-sourced links can.
-    `STARVE_AFTER_WEEKS` is receipt text only (EC S33; `sp/commodityFlow.js:927-932`).
+    tick span (`sp/supplyShipments.js:389-399`) [re-checked]. The asymmetry is **latent by default**. Every committed advance runs N one-week kernel calls while the default-on `advanceMultiTick` flag holds (`lib/flagRegistry.js:88`, kept as a "soak killswitch", `lib/flags.js:77`; `wp/advanceInterval.js:97-105`; tick args `interval: 'one_week'` at `:511`), and M6a's production and draw do scale by the span (`sp/commodityFlow.js:454`, `:529`, `:674`). Two coarse kernel calls exist: the Simulation Rules dialog's uncommitted one-month preview (`map/SimulationRulesDialog.jsx:286`; `store/campaignWorldPulseDeferred.js:85-125`), a single tick in which no dispatched caravan arrives under either model [INFERRED]; and the committed single-tick advance that runs when the killswitch is off (`store/campaignAdvanceSession.js:613-614`, `:809-817`), under which an M6a caravan arrives late by a factor of the tick span (a four-week route arrives four monthly ticks on, where M2 arrives at the next). [Fable-reviewed 2026-10-18: the earlier text named one coarse call.]
+15. **The fragile-link inversion.** A single-sourced critical input can never starve; two- and three-sourced links can (`sp/commodityFlow.js:927-932`; `sp/supplyShipments.js:333-335`). `STARVE_AFTER_WEEKS` (`sp/supplyShipments.js:83`; `sp/commodityFlow.js:130`) is read only as receipt text (`sp/supplyShipments.js:412`; `sp/commodityFlow.js:806`) (EC S33).
 16. **The shortage band does not feed the impairment**, despite `sp/commodityFlow.js:51-56`; only total starvation
     stamps it (`wp/supplyKernel.js:532-563`).
 17. **The dormant "no smuggle context" branch is unreachable**: the kernel always builds it, so under M6a a hostile gate
@@ -1062,7 +1036,7 @@ campaign where the resolved rules or the missing canon make it inert.
 21. **Relief teleports**: route risk is computed with the hostile-gate term fixed false (`wp/generosityKernel.js:691`).
 22. **Two "port" tests**: the tally's (route class words or a harbour or dock in the roster; `sp/tradeFlow.js:112-140`)
     and routing's (the digest's eligible ports; `sp/distanceRead.js:299-316`).
-23. **Brokerage's distance surcharge is always 0** (`wp/brokerageServicesRules.js:276`).
+23. **Brokerage's distance surcharge is always 0** (`delayTicks: 0` at the only `answerBrokerageQuery` call, `wp/brokerageServicesRules.js:277`; the surcharge is `DISTANCE_SURCHARGE × delayTicks`, `wp/brokerageServices.js:175`, `:210`).
 24. **'caravan' is a lived-network traveller kind** but caravans route on the digest; genesis and flow accrual have no
     caller, so every lived-network consumer reads empty.
 25. **The fuzzy catalog in the producer index**: bakeries index as iron producers; '(transit)' labels such as "Toll
@@ -1082,8 +1056,7 @@ campaign where the resolved rules or the missing canon make it inert.
 30. **Three chain-dependency encodings disagree** (data upstream chains, the hard-coded cascade, the upstream import
     labels; EC S8; `gen/computeActiveChains.js:458-492`, `:838-852`).
 31. **mountain_pass** is honoured by capacity, food coverage and connectivity but produces road-identical goods lists;
-    the descriptive import-capacity table has no mountain_pass or coastal row (`gen/foodGenerator.js:182-189` against
-    `:309-318`).
+    the import-dependency table the stressor cut reads has no mountain_pass or coastal row (`gen/foodGenerator.js:182-189` against `:309-318`), so a siege or occupation stressor cuts no import share on a mountain_pass or coastal settlement [Fable-reviewed 2026-10-18].
 32. **The prosperity ladder**: generation emits six labels; the runtime ladder has seven (with Subsistence); the signal
     registry calls it "the generator's 7-label ladder" (`data/constants.js:92-94`; `src/domain/autonomy/signalRegistry.js:76`).
 33. **`hasSaltLocal` is inverted** (true when salt is a necessity import) and strips salt-preserved tier goods that are
@@ -1100,7 +1073,7 @@ campaign where the resolved rules or the missing canon make it inert.
     when an exporter's and an importer's slave labels slug to the same custom good that the slave pattern matches
     (`sp/smuggle.js:143-148`; `rg/goodsCatalog.js:466-476`) [INFERRED; unprobed].
 40. **In peace the danger half of the stack is inert.** Entry needs a raw threat above 0.55 after security relief
-    (at most 0.25) [OBSERVED re-checked `sp/embattlement.js:84-98`, `:113-115`, `:196-206`, `:237-245`].
+    (at most 0.25) [OBSERVED re-checked `sp/embattlement.js:84-98`, `:115-119`, `:196-206`, `:237-245`].
     - A war-front siege (0.85) always clears it alone.
     - An occupation clears it alone only while contested (0.75, with security below 0.5) or unstable (about 0.64, with
       security below about 0.22). An extractive or milder occupation never does.
@@ -1137,9 +1110,9 @@ campaign where the resolved rules or the missing canon make it inert.
 - **Will the host canonize from the native map?** Today "Map geography" accepts only a generated FMG map's pack; the
   routing partition, gates, sea lanes and seasonal overlay all come from that capture. Which map product feeds them is
   the owner's and the host's call (fp-physical-integration.md §8).
-- **One territory or two?** (§9, item 1.)
+- **One territory or two?** (§9, item 1.) [SUPERSEDED BY EVENT 2026-10-17: two, W8a and W8b (J-V13.63).]
 - **Does the owner want positioned caravans (WY-3) before a lens shows motion?**
-- **Would the host adopt patrol coverage** as a route_wardenship producer or a security input (§9, item 4)?
+- **Would the host adopt patrol coverage** as a route_wardenship producer or a security input (§9, item 4)? [the owner, 2026-10-18 (J396): not asked; H16's door stays open]
 - **Is the RR birth door going to be lit** (`NEW_CAMPAIGN_SIMULATION_PRESET_ID`)? The comment at
   `wp/simulationRules.js:22-30` prices it as a declared shift of seven persisted keys per new campaign.
 - **TR-5's trade half** (grain provision, route wardenship, the realm-pressure consumer) has no owner (OD-FC-2), and
@@ -1290,7 +1263,7 @@ the note follows the source.
 | P7 | An occupation embattles alone only while contested or unstable, with weak security. | Confirmed, with thresholds: contested needs security below 0.5, unstable below about 0.22. I also found: exhaustion plus the premium can enter against weak security; the code's own tuning comment (`:84-86`) overstates occupation; and `besieged` is the war front, not a stressor. A possible path to a war front without War is noted as open. | Fixed: §1, §3.10 weights row, §7 embattlement row, §9 items 3–4, §10.2 item 40; new §10.3 question. |
 | P8 | The toll lift is not a prosperity writer. | Confirmed: `tollProsperityFor` has one consumer (`wp/institutionLifecycle.js:698`), which folds it into economy health only. | Fixed: §1, §2.1 row, §9 item 6. |
 | P9 | The loser's channel is re-minted at the winner's strength − 0.2. | Confirmed (`wp/tradeWar.js:598-605`), with the same one-commodity goods set. | Fixed: §3.10, §5.10. |
-| P10 | The M6a arrival asymmetry is latent, because advances run weekly ticks. | Confirmed (`wp/advanceInterval.js:97-105`, `:511`). One detail added: there is one coarse kernel call, the Simulation Rules dialog's uncommitted one-month preview (`map/SimulationRulesDialog.jsx:286`). It is a single tick, in which no caravan arrives either way. | Fixed: §10.2 item 14; §9 item 13, including its wrong cross-reference to item 11. |
+| P10 | The M6a arrival asymmetry is latent, because advances run weekly ticks. | Confirmed (`wp/advanceInterval.js:97-105`, `:511`). One detail added: there is one coarse kernel call, the Simulation Rules dialog's uncommitted one-month preview (`map/SimulationRulesDialog.jsx:286`). It is a single tick, in which no caravan arrives either way. [Fable-reviewed 2026-10-18: a second, committed coarse call exists under the `advanceMultiTick` killswitch; §10.2 item 14 as corrected.] | Fixed: §10.2 item 14; §9 item 13, including its wrong cross-reference to item 11. |
 | P11 | TRADE:200 already carries a [CORRECTED] annotation. | Confirmed. | Fixed: §10.1 item 1. |
 | M1 | THE ROADS trade missions are a positioned trade traveller (`roadsEnabled` in ONE_REGEN, plus canon). | Confirmed. The trade purpose goes to econ, merchant or trade NPCs and targets a direct confirmed trade-channel neighbour within 2 hops. Routing uses `chooseRoute`, with a frozen path and a node position. ONE_REGEN is spread into RR, DC, LR and FS, and there is a digest gate. | Added: §5.13, §5.1 row 15, §7 row, §8.3 row, §8.5 item 10, the §1 map paragraph, §9 item 13. |
 | M2 | The DM "cut trade route" event feeds propagation and the cascade, not caravans. | Confirmed: grep finds no reader under `sp/`, in `wp/supplyKernel.js` or in `wp/supplyWebWarfare.js`. | Added: §5.13, §5.1 row 16, §7 row, §8.5, §9 item 20, §10.1 item 7. |
@@ -1299,9 +1272,9 @@ the note follows the source.
 | M5 | A supplier at war with the destination is not severed. | Confirmed in code (`wp/supplyKernel.js:254-257`, `:447-450`; `sp/supplyShipments.js:209-216`). The consequence is inference. | Added: §10.2 item 43, with a pointer in §5.5. |
 | M6 | The smuggle rumour carrier is belief-gated, so RR applied (omniscient) lights none. | Confirmed (`sp/rumorNetwork.js:552-554`; RR inherits the omniscient default at `wp/simulationRules.js:56`). | Fixed: §5.8, §6, new §7 row. |
 | M7 | Stress imports and service labels normalize unpredictably. | Confirmed by the same probe. | Added: §2.2, §3.3 row, §10.2 item 25. |
-| M8 | supplyQuality (W-C1, FS) and mercenaryMarket (W-C2) are trade→war couplings. | Confirmed: `warSupplyQualityEnabled` is set at `wp/simulationRules.js:1025` (FS only), and the mercenary market runs under `warLayerEnabled` (`wp/pulseKernel.js:1783`). | Added: §6 War bullet, two §7 rows. |
+| M8 | supplyQuality (W-C1, FS) and mercenaryMarket (W-C2) are trade→war couplings. | Confirmed: `warSupplyQualityEnabled` is set at `wp/simulationRules.js:1025` (FS only), and the mercenary market runs under `warLayerEnabled` (`wp/pulseKernel.js:1783`). [Fable-reviewed 2026-10-18: or while a `mercenaryMarket` ledger persists; §6 as corrected.] | Added: §6 War bullet, two §7 rows. |
 | M9 | secrecyTradeFactor has zero consumers, and blockadeStrangulationOf is an unwired seam. | The first half is confirmed. **The second half is wrong**: `wp/peaceReasons.js:564` consumes blockadeStrangulationOf for economic_strangulation, and `disp/navalDisplay.js:49` displays it. Only the navalLayer header comment is stale. | Added: §5.12 (secrecy tax); §6 and the §7 naval row (strangulation is wired); §10.2 item 44 (the stale seam note). |
 | M10 | marketNews and marketReceiptPools are TR-3's dark news registry. | Confirmed; no preset sets `believedMarketsEnabled` true. | Added: §5.12 TR-3 bullet, §7 row. |
 | M11 | The two food models disagree, though tradeRouteSemantics says they cannot drift. | Confirmed, with the fallback detail from P2. | Added: §10.2 item 42. |
-| M12 | tradeLinks also returns no links under 'suppress'. | Confirmed (`rg/tradeLinks.js:47`). | Fixed: §3.5, §5.1 row 1. |
+| M12 | tradeLinks also returns no links under 'suppress'. | Confirmed (`rg/tradeLinks.js:48`; `:47` is the missing-neighbour return). | Fixed: §3.5, §5.1 row 1. |
 | M13 | Coverage: §10 item 26 and the `resourceDriftEnabled` row were unverified, as were the territory and road-polyline claims cited from other notes. | §10 item 26 holds: the resource reconcile writes chains, exports and local production, never imports (`wp/resourceDynamicsKernel.js:664-680`). `resourceDriftEnabled` defaults to true and is false only in SC (`wp/simulationRules.js:74`, `:976`), as the row says. The §8.1 territory and road-polyline lines remain [STATED] from other notes and were not re-verified here. | No change beyond §11.3. |

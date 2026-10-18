@@ -1,0 +1,70 @@
+{
+ "checked": 270,
+ "findings": [
+  {
+   "id": "SV-1",
+   "where": "plat/packages/kernel/API.md l. 55 (§1 reuse-table row, effect column)",
+   "claim": "a vertex carrying deck_end, gate_end or raised_foot is held by warp (the design's held set, §3.6 (2)–(4))",
+   "verdict": "IMPRECISE",
+   "evidence": "warp/held.ts:207 holds a crossing end only if (fromLevel !== 0 && …); base §3.6 l. 5247–5253: (2) 'unless fromLevel = 0, a bridge's deck_end and a water gate's gate_end', (3) 'a raised way's part-0 feet', (4) 'in a smoothing step, every kernel-pinned vertex' (a flag, held.ts:209, not a role)",
+   "fix": "'a vertex carrying deck_end or gate_end is held by warp unless the batch's level is 0, and one carrying raised_foot always (the design's held set, §3.6 (2)–(3))'"
+  },
+  {
+   "id": "SV-2",
+   "where": "plat/docs/build/choices.md l. 381 (C-0374, scope column)",
+   "claim": "§3.6 (the held set (2)–(4): crossing ends and raised feet are held)",
+   "verdict": "IMPRECISE",
+   "evidence": "as SV-1: the role clauses are §3.6 (2) and (3); (4) is the smoothing step's pinned vertices; crossing ends are held only when fromLevel ≠ 0 (held.ts:207, base l. 5247)",
+   "fix": "'§3.6 (the held set (2)–(3): crossing ends, unless fromLevel = 0, and raised feet are held)'"
+  },
+  {
+   "id": "SV-3",
+   "where": "docs/AMENDMENTS-2026-10-17l.md l. 11–12 (header)",
+   "claim": "the re-verification item 136 (c), V14 §5.3, V14 §8's SE2 and T-V14-11 call for (\"the profile's version pinned by item 136 (c)'s re-verification before M-ENC's SE2\")",
+   "verdict": "IMPRECISE",
+   "evidence": "the quoted words occur only in file k item 628 (docs/AMENDMENTS-2026-10-16k.md l. 561–562); V14 §8 SE2 (V14 l. 2886) reads 'the research seat's re-verification … with the profile's version pin (item 136 (c))'; the base's pre-l Scope sentence (file l l. 74) read 'is pinned'",
+   "fix": "append the source: '(file k item 628's words)'"
+  },
+  {
+   "id": "SV-4",
+   "where": "docs/AMENDMENTS-2026-10-17l.md l. 27–29, choice (a)",
+   "claim": "keeping <ordinal> keeps 'the one spelling of the name in the base (§11.1 Scope), V14 §2.4 (EncounterCrop.scenes), §3.12 (6), §5.3, T-V14-11 and BCR-V14-8'",
+   "verdict": "IMPRECISE",
+   "evidence": "V14 §2.4 (l. 795) and §3.12 (6) (l. 2062) never spell the file name; they call the ordinal 'the file suffix'. The spelling <base>.<ordinal>.dd2vtt is in base §11.1 Scope, V14 §5.3 (l. 2537), T-V14-11 (l. 2836), BCR-V14-8 (l. 3025)",
+   "fix": "'so the one spelling of the name in the base (§11.1 Scope), V14 §5.3, T-V14-11 and BCR-V14-8 stays one, and the ordinal V14 §2.4 (EncounterCrop.scenes) and §3.12 (6) call the file suffix keeps its name'"
+  },
+  {
+   "id": "SV-5",
+   "where": "docs/AMENDMENTS-2026-10-17l.md l. 157–158, item 654 Current text",
+   "claim": "the whole bullet quoted '(across four lines)' under file l's rule that a wrapped quote marks each wrap with ⏎",
+   "verdict": "IMPRECISE",
+   "evidence": "file l's quote carries no ⏎; vtt-l row 654 quotes the same text with three ⏎ (after 'doors flagged;', 'run none),', 'written before the walls — and journal')",
+   "fix": "re-quote item 654's current text with the three ⏎ marks and continuation indentation, as vtt-l row 654 does"
+  },
+  {
+   "id": "SV-6",
+   "where": "docs/AMENDMENTS-2026-10-17l.md l. 180 (item 654 new text); docs/ARCHITECTURE.md l. 17068 (§11.1 Foundry scene JSON, walls[])",
+   "claim": "a window's threshold { attenuation: true, sight: 10, light: 10 } '(proximity; the threshold in the scene's distance units)'",
+   "verdict": "UNSUPPORTED",
+   "evidence": "research/vtt/profile-reverification-2026-10-17.md §3 Wall table l. 174 ('proximity thresholds (window walls)', no unit) and §4.2 l. 274 (importer writes light: 10, sight: 10, no unit); BCR-VTT-3 (l. 342) names no unit; the Foundry API page could not be fetched from this lane (proxy 403)",
+   "fix": "add to file l's 'not taken verbatim' list as choice (f): 'the threshold's unit read as the scene's distance units (the note gives the value 10 and no unit)', or drop the clause 'the threshold in the scene's distance units' from item 654 and the base"
+  },
+  {
+   "id": "SV-7",
+   "where": "docs/AMENDMENTS-2026-10-17l.md items 650 (b) (l. 102–103) and 656 (a) (l. 222–223); docs/ARCHITECTURE.md l. 17026; docs/volumes/V14-sites.md l. 2531",
+   "claim": "line_of_sight is 'the list every importer reads'",
+   "verdict": "IMPRECISE",
+   "evidence": "the research note supports it for Foundry's importer only (§4.2 l. 269–271); §5 row 6 (l. 309): 'O and M say \"walls\"/\"VBL\" without naming the list'; Roll20 SNIPPET-ONLY and FGU 'no field-level documentation found' (l. 284–285). The words are BCR-VTT-5's own (l. 344), transcribed faithfully",
+   "fix": "'(the wall list, the one Foundry's importer of Universal VTT files reads on its default multi-level path, which never reads objects_line_of_sight)' in both places, or keep the words and record them in file l's 'not taken verbatim' list as the note's own inference"
+  },
+  {
+   "id": "SV-8",
+   "where": "docs/validation/coherence/vtt-l.md l. 11–19 (snapshots, bundle)",
+   "claim": "base and V14 md5 and line counts before/after; bundle 79 542 lines from 16 sources",
+   "verdict": "IMPRECISE",
+   "evidence": "not re-checkable: the base is now 24 462 lines, V14 3 208, ARCHITECTURE-FULL.md 81 061; the before/after states exist only in git, which this lane may not run",
+   "fix": "add '(snapshots as of the lane's run, 2026-10-17; superseded by later lanes)' after the bundle line"
+  }
+ ],
+ "summary": "I checked about 270 claims in the passages that carry the J375 notice: C-0374 in choices.md, the §1 row and revision note in API.md, the revision notes in V14 and the base (its line 5), all of file l and all of vtt-l. 8 do not hold: 0 WRONG, 1 UNSUPPORTED, 7 IMPRECISE.\n\nWhat holds:\n- File l was applied as recorded. All 19 new-text fragments of items 648–658 are present exactly once (9 in the base, 10 in V14), and every replaced current text is gone.\n- Every count in file l and vtt-l recomputes: delta-table rows 7/2/20, requests per item, the census, 6 fragments across a wrap.\n- Every kernel file:line cited in C-0374 and the API.md row holds in the current source: splitThrough.ts:116/139, batch.ts:503, held.ts:204–205, bandUnion.ts:507/757/760.\n\nThe findings:\n- **Held set (SV-1, SV-2):** the API.md row and C-0374 cite §3.6 (2)–(4) and say crossing ends are always held. The code (held.ts:207) and the design (§3.6) hold them only when fromLevel ≠ 0, and clause (4) is the smoothing step's pinned vertices, not a role.\n- **File l wording and sources (SV-3, SV-4, SV-5):** the header quote's real source is file k item 628. Choice (a) lists V14 §2.4 and §3.12 (6) as places that spell the file name; they only call the ordinal \"the file suffix\". Item 654's current-text quote is missing its ⏎ wrap marks.\n- **Window threshold unit (SV-6, UNSUPPORTED):** item 654 says the threshold is in the scene's distance units, but no cited source gives a unit.\n- **\"The list every importer reads\" (SV-7):** the evidence supports this for Foundry's importer only.\n- **vtt-l snapshots (SV-8):** the md5s, line counts and bundle count can no longer be re-checked.\n\nPROGRESS.md line 434 is only J375's own quotation of the notice text: NOT-A-RULING, nothing to replace.\n\nCould not check:\n- The vtt-l snapshots and API.md's \"nothing else changed\" statement, because git is not allowed in this lane.\n- The live web pages cited in file l, because the proxy returns 403 for foundryvtt.com. I checked those claims against the research note's record of the fetches instead.\n\nThe record is /home/user/maps-architecture/docs/validation/retrovalidation-2026-10-18/small-verify.md, and the LANDED line is appended to /home/user/maps-architecture/docs/lane-events.log."
+}

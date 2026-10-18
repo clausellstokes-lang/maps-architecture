@@ -1,6 +1,6 @@
 # SettlementForge's plague — what it is, how it starts, how it moves between settlements, what it does inside one, how it ends, and what a map lens can show
 
-> PENDING FABLE REVIEW — written by Opus 5.5 standing in for the Fable seat research/sf-plague; to be retrovalidated overall at the next opportunity (owner, 2026-10-17, J375)
+> Fable-reviewed 2026-10-18: PASS-WITH-CORRECTIONS — sixteen research corrections, no design change (lane retrovalidation/plague; J392)
 
 Synthesis seat for research/sf-plague (workflows/39-plague-read.js). Read to understand; described in my own words; cited by
 file and line; no code copied. Host: `/home/user/clausellstokes-lang/settlement-engine` at `origin/master` `81f1cd96`
@@ -44,7 +44,7 @@ directly; it gets there through famine or mass migration. Season does not enter 
 this almost never happens**: the 0.5 floor fired zero times in 193 observed soak years [STATED fold OD-FC-28, fold:521;
 `DESIGN_FP_POPULATIONS.md:756-761`]. The plague a table actually sees is DM-authored: Apply-stressor `plague_onset`
 (or the Table Ledger's `plague` obligation), which mints both the condition (by condition promotion) and a roaming
-stressor, and reruns the power and economy generators (a "Quarantine Council" faction, prosperity one rank lower)
+stressor, and leaves an authored stress in `config.stressorEdits` that the power and economy generators read at the next regeneration from config (a "Quarantine Council" faction, prosperity one rank lower — at a Regenerate Draft or Edit-Mode re-derivation, never at apply: §3.12 [Fable-reviewed 2026-10-18])
 [OBSERVED `src/domain/events/mutateWorld.js:631-680`; `crisisLifecycle.js:235-330,584-593`; `conditionPromotion.js:29`;
 `src/domain/events/registryRerunKeys.js:68`]. Disease pressure can also birth two magic stressors (§3.3).
 
@@ -100,8 +100,8 @@ fold §2 POP row]. Tier loss is never authored; it follows population.
 
 **How it ends and is remembered.** The episodic stressor resolves on a roll shortened by healing capacity and healer
 redundancy and lengthened by famine, refugee camps and dead magic; it leaves a residual condition for six ticks, an echo
-record (memory = max(final severity, half the peak)) that makes the next outbreak there 0.3 × memory stronger, a
-`population_friction` history line and wizard news [OBSERVED `stressorDynamics.js:235-244,466-485`;
+record (memory = max(final severity, half the peak)) that makes the next outbreak there 0.3 × memory stronger, wizard news and, when the echo fades, a
+`population_friction` history line [OBSERVED `stressorDynamics.js:235-244,466-485`;
 `stressorsCore.js:418-500`; `stressors.js:490-491`; `stressorAftermath.js:49`]. There is no permanent plague stamp; the
 urban-fabric "plague quarter" scar exists in a table but nothing can mint it [OBSERVED `urbanFabricKernel.js:305-330,656-672`].
 
@@ -127,7 +127,7 @@ the carrier link, an "approaching" halo with an ETA, care rings, refractory grey
 timed by the digest**, not a field over territory: no border stops it, no patrol or march touches it, no gate closes on
 it, and armies do not carry it. Only *believed* plague touches a route (named-NPC journeys avoid towns they have heard
 are plagued, in the belief presets on mapped worlds), and a plague's *consequences* travel the regional graph on the
-same hop-week clock (§5.1 rows 15–16). On an unmapped realm — the default preset's usual state — the honest picture is a
+same hop-week clock (§5.1 rows 15–16). On an unmapped realm — the default preset's usual state on the host today [Fable-reviewed 2026-10-18: a world born from this module is canonized at the campaign's birth, J384 (6), V13 H22, so there the footprint regime is the exception] — the honest picture is a
 same-tick footprint with attenuated severities and no arrows or ETA. And since organic plague is silent at default
 tuning, a plague lens is a lens over DM-authored outbreaks until the end tuning review signs the floor. The host asks
 this implies are small and optional (§8.6): name the source id on each materialization, keep a per-hop front history,
@@ -167,7 +167,7 @@ social_trust. Lifecycle stages emerging, active, peaking, easing, resolved, resi
 
 ### 2.3 Time
 
-A pulse tick is a week [STATED `research/sf/fp-simulator.md` §1.9, citing host `ARCHITECTURE.md:149-155`]; the front's
+A pulse tick is a week [OBSERVED `advanceInterval.js:97-101,511`; `research/sf/fp-simulator.md` §1.9 says so too, though the host `ARCHITECTURE.md:149-155` it cites says only "tick-by-tick"]; the front's
 `incubateUntil = tick + hopWeeks` relies on that [OBSERVED `pestilence.js:486-491`]. The road season is derived every
 tick from the advanced calendar, independent of `seasonsEnabled`, and threaded into every spatial travel read
 [OBSERVED `pulseKernel.js:569-575`]. Canons frozen since SEASONS-B (M3), and older canons once re-canonized (the
@@ -206,7 +206,7 @@ counts toward "The Plague" only on the next tick, and the front reads this tick'
   needs healing ≤ about 29 to reach the 0.58 birth threshold on the base alone.
 - +0.14 when the town carries a `plague` or `regional_migration_pressure` condition (or a DM `custom_crisis` naming
   healing_capacity) — refugees count.
-- +0.08 when housing_pressure is below 45 ("crowded homes make containment harder"). The refugee condition itself
+- +0.08 when housing_pressure is below 45 ("housing pressure weakens containment", read to players as "Crowded homes make sickness harder to contain.", `stressors.js:68`). The refugee condition itself
   declares housing_pressure [`activeConditions.js:254-258`].
 - + the demographic crowding lift, only when `demographicsEnabled` is on: crowding (population over min(food capacity,
   tier density ceiling) beyond an ease point of 0.60) times (0.10 + 0.09 sanitation + 0.06 transmission + 0.05 food
@@ -241,8 +241,12 @@ in every autonomy mode, and every one is a proposal under `dm_only` or `recommen
   once the score passes its own threshold: `magic_deadzone` (kinds legitimacy, trade, disease; threshold 0.6; no spread;
   affects healing_capacity) and `magical_instability` (legitimacy, disease, conflict; 0.72; spreads on arcane,
   information and service channels; affects healing_capacity). Both have their own gates (the deadzone is hard-gated to
-  towns where magic is load-bearing; the two exclude each other). A deadzone then slows plague resolution (×0.8 decay
-  synergy, §3.5) and both drain healing, which feeds disease pressure back [OBSERVED `stressorsCore.js:227-262`;
+  towns where magic is load-bearing; the two exclude each other). A deadzone then slows plague resolution while it lives (×0.8 decay
+  synergy, §3.5) [Fable-reviewed 2026-10-18: neither magic stressor drains healing while live — like an organic or front
+  plague, their catalog systems (healing among them) land only through the six-tick residual condition after they resolve,
+  which then feeds disease pressure back (§3.8 condition gap; `stressorsCore.js:234,261,455`; `causalState.js:336-351`);
+  a DM-authored one is the exception, as a DM plague is: condition promotion mints the `magical_instability` condition,
+  which drains healing at once (`conditionPromotion.js:72`; `activeConditions.js:158-165`)] [OBSERVED `stressorsCore.js:227-262`;
   `stressors.js:467-475`; `stressorGates.js:1042-1043`].
 
 ### 3.4 Escalation [OBSERVED `stressors.js:722-768`]
@@ -310,7 +314,7 @@ Read at the record's origin only: where origin disease pressure > 0.62 and sever
 | Institutions | — | — | — (only the legacy PLAGUE event, replay only, impairs healers, §3.13) |
 | Traditions, NPCs, threat | cancels the town's observances (a hard archetype) [`traditionsKernel.js:197,249-252`]; a crisis condition for NPC goals [`npcAgency.js:362-371`]; threat type `plague` (needs healing) [`threatProfile.js:486`; `contradictions.js:302`]; district prose "drives crowds to temple steps" [`districtProfile.js:452,478`] | none (the roaming types are not in the traditions cancel set, `traditionsKernel.js:205`; threat and NPC reads take the settlement's own conditions and stresses) | none |
 | Town map | condition badge on a seeded district; a `plague` hazard pin when the threat is ≥ 0.4; scene marker kind `plague` (§8.1) | none | none |
-| After it ends | — | residual condition 6 ticks drains healing, labour, social trust at max(0.15, 0.45 × experienced) [`stressorsCore.js:418-466`]; also a +0.002 a month recovery signal [`populationDynamics.js:113`] | recovering, then pruned |
+| After it ends | — | residual condition 6 ticks drains healing, labour, social trust at max(0.15, 0.45 × experienced) [`stressorsCore.js:418-466`]; also a +0.002 a month recovery signal [`populationDynamics.js:113,309`] | recovering, then pruned |
 
 [INFERRED from OBSERVED] **The condition gap**: a plague that arrives along the front, or is born organically, is
 mechanically lighter than a DM-authored one, and its causal footprint lands only *after* it ends (the residual
@@ -357,17 +361,15 @@ Apply-stressor rerun list does not include `npcs` [OBSERVED]. A Table Ledger `pl
 Every live stressor at the town adds its effective severity to crisis disorder, which lifts chaos receptivity and the
 revival of the unaffiliated; plague is not special in it. The bounded "temple's hour" pulse is computed but unread.
 God's Abandonment needs famine, plague and a conversion fracture at the same town (§4). Faith omens on plague are a
-DM-attributed reading, never engine-originated (WF-4 rebased on OD-FC-8) [STATED `research/sf/faith-system.md` §7.6;
-fold OD-FC-8]. The rumour design reframes a plague as "X's punishment of heretics" when it passes a deity-X town
+DM-attributed reading, never engine-originated (WF-4 rebased on OD-FC-8) [STATED `research/sf/faith-system.md` §5.5 (line 517);
+fold OD-FC-8 (fold:501)]. The rumour design reframes a plague as "X's punishment of heretics" when it passes a deity-X town
 [STATED `PHASE55_SPATIAL_ENGINE_DESIGN.md:314`; not verified in code].
 
 ### 3.12 Prosperity and the economy
 
 The pulse lanes never touch prosperity: an organic, spread or front plague has no writer to it [OBSERVED: no reader of
 `disease_outbreak` in the food or economy kernels; `foodStockpile.js:197-247` reads only famine and blockade stressors].
-**A DM-authored plague does**: Apply-stressor reruns `economicState` [`registryRerunKeys.js:68`], and the prosperity
-generator drops one rank while `plague_onset` is among the stresses [OBSERVED `src/generators/economy/prosperity.js:160`;
-INFERRED that the authored stress is in that list on the rerun]. A lower prosperity can in turn cancel observances at the
+**A DM-authored plague does, but only at the next regeneration from config** [Fable-reviewed 2026-10-18 (lane retrovalidation/prosperity): Apply-stressor runs no economy pass — `mutateWorld.js:681-690` → `crisisOnset` writes the container, the `config.stressorEdits` record and the promoted condition (`crisisLifecycle.js:300-330`), the event pipeline derives system, causal and faction state only (`eventPipeline.js:37-44`), and `registryRerunKeys.js:68` is a freshness classifier read by `display/economyFreshness.js` alone (`:19-30`; the step-level rerun engine is retired), so the band keeps its generation value after the event (`economyFreshness.js:6-12`); the authored stress persists in `config.stressorEdits.added`, which the generator's stress step overlays on a Regenerate Draft or Edit-Mode re-derivation (`src/generators/steps/resolveStress.js:126-177`; `src/domain/edit/dmLayer.js:911-920`), and there the prosperity generator drops one rank while `plague_onset` is among the stresses (`src/generators/economy/prosperity.js:160`) — as does the Quarantine Council (`stressFactions.js`, a generator step imported by `rulingStructure.js:17` only)]. A lower prosperity can in turn cancel observances at the
 subsistence rank (`traditionsKernel.js:254-256`). Crisis disorder reads *inverse* prosperity as an input. EC's M11 row designs healing moving fair → dear → desperate as the sick outnumber healers, with "no quarantine
 stance exists" [STATED `DESIGN_FP_ARCH_EC.md:2244,2352`] — EC is dark entire (fold §2).
 
@@ -383,8 +385,10 @@ removes it from plague care [OBSERVED `pestilence.js:189`].
 ### 3.14 Ending and memory [OBSERVED `stressorsCore.js:418-500`; `stressorAftermath.js:1-53`; `pestilence.js:533-564`]
 
 Resolution emits, per affected settlement, the residual condition (6 ticks), then an echo record collapsed to the origin
-with memory strength max(final severity, 0.5 × peak), a wizard-news resolution line and a campaign history event of type
-`population_friction`. An organic re-birth at the same origin reads the echo's memory (+0.3 × memory) and then
+with memory strength max(final severity, 0.5 × peak), and a wizard-news resolution line [Fable-reviewed 2026-10-18: the
+campaign history event of type `population_friction` is not written at resolution; when the echo later graduates (memory
+< 0.1, at most about 20 ticks on), a second news line and that history event are written at the origin —
+`stressorAftermath.js:8-14,49,148,218`; `pulseKernel.js:670,1996`; the echo's footprint is the origin, `stressorsCore.js:489`]. An organic re-birth at the same origin reads the echo's memory (+0.3 × memory) and then
 overwrites it; a **front materialization** at a town holding a resolved echo of the same canonical id overwrites the echo
 outright with no re-ignition boost, so that memory is lost [OBSERVED `pestilenceKernel.js:248-256`;
 `stressorsCore.js:474-484`; `stressors.js:490-491`]. [INFERRED] It is rare on a mapped world: an echo fades by about 0.89 a
@@ -402,8 +406,8 @@ unreachable [OBSERVED `urbanFabricKernel.js:305-330,656-672`; `calamityKernel.js
 - **The DM's plague is Apply-stressor `plague_onset`.** The composer offers it with word bands minor 0.35, moderate 0.6
   (the default) and severe 0.85 [`affordanceManifest.js:89,292`]. Condition promotion mints the `plague` condition, the
   twin directive injects a `disease_outbreak` record at the payload severity [`crisisLifecycle.js:235-330,584-593`;
-  `stressorPicker.js:43`], and the rerun of power and economy adds the Quarantine Council and the prosperity drop (§3.10,
-  §3.12). Undo withdraws the twin. RESOLVE_STRESSOR ends it, leaving an echo.
+  `stressorPicker.js:43`], and the next regeneration from config (not the apply itself) adds the Quarantine Council and the prosperity drop (§3.10,
+  §3.12 [Fable-reviewed 2026-10-18]). Undo withdraws the twin. RESOLVE_STRESSOR ends it, leaving an echo.
 - **The legacy PLAGUE event** (writes `_activePlague`, impairs healers, mints the condition, injects the twin) is
   non-authorable: listed in `NON_AUTHORABLE_EVENTS`, folded into Apply-stressor with an unavailable predicate, filtered
   out of the composer's verb list and refused by the decree catalogue [`affordanceManifest.js:109-119,645-649,721-724`;
@@ -494,8 +498,8 @@ unreachable [OBSERVED `urbanFabricKernel.js:305-330,656-672`; `calamityKernel.js
   gates; none has a caller [OBSERVED `settlementPestilence.js:201-250`]. The world map's advance report labels a
   `plague` drama class [`src/components/map/AdvanceReport.jsx:49`]; no map layer draws plague. Telemetry counts epidemic
   sites [`src/lib/spatialUsage.js:140,199`].
-- **Cadence.** Organic plague is measured silent (§1). The aspatial stressor family is measured busy in 30-settlement-year
-  soaks but quiet in a long small one (2 of 100 years) [STATED `src/domain/certification/subsystemRowsPeople.js:190`]. The
+- **Cadence.** Organic plague is measured silent (§1). The aspatial stressor family is measured busy in two 30-year,
+  12-settlement soaks (30 of 30 years) but quiet in a 100-year, 4-settlement one (2 of 100 years) [STATED `src/domain/certification/subsystemRowsPeople.js:190`]. The
   refugee flow lane appeared zero times in 163 observed years [STATED `subsystemRowsPeople.js:326`]. M11a has no
   certification row of its own [OBSERVED grep], so its lit behaviour is unmeasured in receipts.
 - **Calamity is separate.** M11b strikes once per settlement every 15 × N years on average (realm-wide about one per 15
@@ -522,11 +526,11 @@ unreachable [OBSERVED `urbanFabricKernel.js:305-330,656-672`; `calamityKernel.js
 | 9 | Plague news [`rumorNetwork.js:117-140`] | belief, not sickness | trade edges, up to 4 hops (5 at score ≥ 95, unreachable for plague) | major only | hop weeks; TTL 26 | mapped and info mode ≠ omniscient | LIT DC, LR, FS on mapped worlds |
 | 10 | Armies [`pestilence.js:320-350`; `pestilenceKernel.js:25-29`] | hazard read, contraction roll, vector | — | hazard 1.4 × risk tolerance × level; contraction 0.35 × level; impairment ≤ 0.25 | — | fenced; no caller (HBF-56 DEFER) | BUILT DARK, SEAM |
 | 11 | Caravan refusal / trade avoidance [`dispatchEV.js:30-44,155-172`; PHASE55:1656-1706] | — | the dispatch EV's believed destination danger | the plague term was to be "a new max() argument" | — | — | DESIGNED ONLY (round 22.1; PG pg-4) |
-| 12 | Column-carried contagion (PG pg-1) [STATED PG:134-197] | an incubating record seeded at landing | M4 / P2 columns from a plague-active origin, stamped at dispatch | `COLUMN_SEED_CHANCE[band]`, cap ≤ 3 a tick | "the journey was the incubation" | `contagionEnabled` and the marker (P2 arm also `demographicsEnabled`) | DESIGNED ONLY |
+| 12 | Column-carried contagion (PG pg-1) [STATED PG:134-197] | an incubating record seeded at landing | M4 / P2 columns from a plague-active origin, stamped at dispatch | `COLUMN_SEED_CHANCE[band]`; a per-tick `COLUMN_SEED_CAP` (unset; PG recommends ≤ half the front's 6) | "the journey was the incubation" | `contagionEnabled` and the marker (P2 arm also `demographicsEnabled`) | DESIGNED ONLY |
 | 13 | Belief refusal at the gates (PG pg-3) [STATED PG:251-313] | refusal of groups from believed-plagued towns | the C-POPF-2 reception term | `REFUSAL_BAND`, relaxed by scarcity or war | stale belief refuses a clean town | `believedMigrationEnabled` ∧ belief axes ∧ believed conditions ∧ `contagionEnabled` | DESIGNED ONLY, blocked on POP-1 |
 | 14 | Quarantine / closure | — | — | — | — | no verb, no stance input [STATED EC:2352; PG:322] | DESIGNED ONLY as an owner value |
 | 15 | Regional-impact propagation [`region/propagation.js:540-603,899-965`; `applyWorldPulse.js:279,736-768`] | not the record: each applied pulse outcome that changes a settlement (a plague condition's causal shifts of ≥ 8 points, a population change of ≥ max(10, 1%)) becomes regional changes pushed along confirmed channels; destinations get `regional_*` conditions | `migration_pressure` → `regional_migration_pressure` (+0.14 disease pressure there, `pressureModel.js:31`); `service_dependency` → `regional_service_disruption` (drains healing_capacity, trade, legitimacy); `religious_authority`, `information_flow` and others by change kind. The healing drain itself routes nowhere (no rule reads a healing_capacity shift) | depth 1 (RR, LR) or 2 (DC, FS) [`simulationRules.js:1578-1586`]; thresholds `deriveRegionalState.js:453-492` | mapped: parked and delivered `hopWeeks` later at the road season (`parkArrivals`, internals not read); unmapped: same tick | `propagationMode` ∉ {off, local}; DM canon edits ripple at depth 2 with no rules flag [`settlementLifecycleHelpers.js:94-111`] | LIT RR, DC, LR, FS (pulse); all presets (DM edits). The legacy PLAGUE event's `health_shock` (`deriveRegionalState.js:542-548`) is replay-only; Apply-stressor has no event-kind change of its own |
-| 16 | Roads believed danger [`roads/knownWorld.js:38-41,59-96`; `roadsKernel.js:505-507,932,1011-1021`] | not sickness: named-NPC journeys | a heard rumour whose kind contains `plague` (the `plague_arrival` herald entry) puts believed danger (magnitude band / 3, fading with silence) on the implicated towns; the route scorer then avoids them, refuses the journey, or waits | — | rumour arrival is hop-weeks; the route is chosen at the season | `roadsEnabled` (RR, DC, LR, FS) and `beliefsActive` (marker and a non-omniscient info mode) [`beliefMap.js:204-209`] | LIT DC, LR, FS on mapped worlds; in RR known ≡ true and the true embattlement ledger holds no plague (`pulseKernel.js:2394` is its only writer). The same view feeds the route-charter danger read (`routeNetworkCharterDanger.js:155-166`), dark behind `routeLifecycleEnabled` |
+| 16 | Roads believed danger [`roads/knownWorld.js:38-41,59-96`; `roadsKernel.js:505-507,932,1011-1021`] | not sickness: named-NPC journeys | a heard rumour whose kind contains `plague` (the `plague_arrival` herald entry) puts believed danger (magnitude band / 3, fading with silence) on the implicated towns; the route scorer then avoids them, refuses the journey, or waits | — | rumour arrival is hop-weeks; the route is chosen at the season | `roadsEnabled` (RR, DC, LR, FS) and `beliefsActive` (marker and a non-omniscient info mode) [`beliefMap.js:204-209`] | LIT DC, LR, FS on mapped worlds; in RR known ≡ true and the true embattlement ledger holds no plague term (`pulseKernel.js:2394` is its only writer; a plague condition's crime lift enters its ramp generically, §9 item 3). The same view feeds the route-charter danger read (`routeNetworkCharterDanger.js:155-166`), dark behind `routeLifecycleEnabled` |
 
 ### 5.2 Travel time in detail [OBSERVED `distanceRead.js:653-756`; `pestilenceKernel.js:192-197`; `campaignSpatialCanonize.js:118-131`]
 
@@ -560,8 +564,8 @@ alternative (proposal-gated materialization) is queued as an owner note, not bui
 
 ### 5.5 What does not move plague
 
-Territory, borders, gates and vassal chains (never read); contested marches and the true embattlement ledger (never read;
-plague is not written to it); patrols (none exist); armies (fenced); seasons other than as road latency; distance as a
+Territory, borders, gates and vassal chains (never read); contested marches and the true embattlement ledger (never read; no plague term, though a plague condition's crime lift
+is one of embattlement's ramp inputs — §9 item 3); patrols (none exist); armies (fenced); seasons other than as road latency; distance as a
 probability decay; the world map's routes as polylines; the town map (it *shows* a plague condition, §8.1, but moves
 nothing).
 
@@ -656,7 +660,7 @@ aspatial) [OBSERVED `LivingWorldGates.jsx:107-175`].
 | Plague term in dispatch danger | DESIGNED ONLY | — | round 22.1 |
 | `plague_quarter` scar | BUILT, unreachable | (urban fabric lit RR, DC, LR, FS) | no plague minter |
 | Demographic disease death class | BUILT DARK | — | `demographicsEnabled` |
-| DM Apply-stressor `plague_onset`, RESOLVE_STRESSOR | LIT | all | the felt plague at default tuning; reruns power and economy (Quarantine Council, prosperity −1) |
+| DM Apply-stressor `plague_onset`, RESOLVE_STRESSOR | LIT | all | the felt plague at default tuning; the Quarantine Council and the prosperity −1 land at the next regeneration from config, not at apply (§3.12 [Fable-reviewed 2026-10-18]) |
 | Table Ledger `plague` obligation | LIT | all | a second roaming type `plague` (§3.15); defect candidate |
 | Legacy PLAGUE event (healer impairment, `_activePlague`, `health_shock`, faction responses) | replay only | — | non-authorable [`affordanceManifest.js:109-119`] |
 | Generation `plague_onset` | LIT at generation | — | condition only, no roaming record |
@@ -741,7 +745,7 @@ aspatial) [OBSERVED `LivingWorldGates.jsx:107-175`].
   history needs pulse snapshots or a host-kept front log (§8.6).
 - **Aftermath**: the echo's memory strength and the six-tick residual, at the origin only.
 
-### 8.4 Unmapped realms (the default preset's usual state)
+### 8.4 Unmapped realms (the default preset's usual state on the host today; the exception for a world born from this module, J384 (6))
 
 The honest fallback is the record footprint: affected settlements with their attenuated severities, the record's stage,
 and the echo afterwards. No arrows (the spread candidate stores the target, not the source that reached it), no ETA, no
@@ -800,9 +804,14 @@ roads.
    line — none is a mechanism that stops movement.
 3. **Armies in the field carry nothing.** The army-plague coupling (hazard in route scoring, contraction, vector) is fenced
    with no caller; a contested march or an embattled overlay should show no plague interaction, and "besieging a plagued
-   city is priceable folly" is design, not host behaviour. Plague is not written to the true embattlement ledger; the
-   roads' *believed* embattlement view is the only place the two meet (§5.1 row 16), and a territory lens built on true
-   embattlement will not see it.
+   city becomes priceable folly" is design, not host behaviour (PHASE55:1631). Plague has no term of its own in the true embattlement ledger [Fable-reviewed 2026-10-18: but a `plague` condition's
+   +0.12 crime pressure is one of embattlement's ramp inputs (crime above 0.5 at weight 0.3; `pressureModel.js:42,321-327`;
+   `pulseKernel.js:2365-2391`; `embattlement.js:98,199-205`), so on mapped worlds a DM plague can nudge true danger
+   generically — it can sustain or raise a region already embattled by siege or occupation, never start one (crime's whole
+   weight 0.3 is under the 0.55 enter threshold, `embattlement.js:74,84-86`), and the scalar it nudges is what the movers'
+   route re-score and banditry read as well as the roads (`embattlement.js:12-13,41-53`)]; the roads' *believed*
+   embattlement view is the only plague-specific meeting (§5.1 row 16), and a territory lens built on true embattlement
+   sees plague only through that generic crime term.
 4. **Shared substrate, different graph.** Both readings use travel time over the frozen digest at the season, so the lens
    mechanism can share one hop-weeks read. But territory projects strength from seats over the land; plague moves over
    confirmed trade links and shipment links only. The religion lens's choice (J380: reuse the territory hinterlands) does
@@ -997,8 +1006,8 @@ in `src/components`.
 Documents: `docs/DESIGN_FP_COHERENCE_FOLD.md` (708): grep of the whole file; rows 3.1.9, 3.1.20, 3.1.21, 3.3.2; §2 table
 318-352; OD-FC-28 (521), OD-FC-38 (531). `docs/DESIGN_FP_POPULATIONS.md` (1406): 739-800. `docs/PHASE55_SPATIAL_ENGINE_DESIGN.md`
 (1710): 310-316, 1605-1712. `docs/DESIGN_FP_ARCH_EC.md` (2996): 280-286, 2240-2246, 2348-2356. Map module:
-`docs/PROGRESS.md` (1056): 434-441 (J375-J382); `research/sf/fp-simulator.md` (1098): 1-40, 237-258, 430-436;
-`research/sf/fp-physical-integration.md` (481): 1-30, 278-290; `research/sf/faith-system.md` (1516): headings, 895-905,
+`docs/PROGRESS.md` (1056 when read; 1065 at the retrovalidation): 434-441 (J375-J382); `research/sf/fp-simulator.md` (1098): 1-40, 237-258, 430-436;
+`research/sf/fp-physical-integration.md` (481 when read; 493 after the 2026-10-17 amendments): 1-30, 278-290; `research/sf/faith-system.md` (1516): headings, 895-905,
 1232-1281; `docs/HANDOFF.md` (grep).
 
 **Added by the fix pass (§12), read in part at `81f1cd96`:** `roads/knownWorld.js` (97, whole); `campaignSpatialCanonize.js`
@@ -1066,7 +1075,7 @@ re-checked each one at the source (files and lines in §11.3, "Added by the fix 
 | P6 | Faction values are per month, not per tick, and the criminal row is missing | Holds, and more. Weekly ticks (`advanceInterval.js:511`) scale by 0.25 and round (`timeProgression.js:123-128,386-395`), giving about +2/+2, −1, −1/+1. The template also has criminal +4 power / −2 legitimacy (which rounds to 0 a week), arcane +3 trust and military −4 manpower (`factionRelationshipUpdate.js:62-71`) | §3.8 Factions row rewritten with all seven rows and per-tick values; §1, §2.1, §3.16 and §7 relabelled |
 | P7 | The DM's Plague button is not live; PLAGUE is non-authorable | Holds. `affordanceManifest.js:109-119,645-649`; the composer's verb list is `authorableVerbs()`, which drops folded verbs (`:721-724`). `EventComposer.jsx:262` only skips the predicate for folded verbs; the list filter is in the manifest. The decree catalogue refuses it (`eventCatalogue.js:284`). The handler survives for replays | §1, §2.1, §3.8, §3.13, §3.15 and §7 now name Apply-stressor `plague_onset`; healer impairment is marked replay-only; §10.1 items 14 and 24 |
 | P8 | "One plague truth" is broken by the Table Ledger's `plague` obligation | Holds. `tableLedger.js:131-133,155-160,265`, and `pulseTypeForStressorKey('plague')` is null (`stressorPicker.js:58-62`; the catalog has no `plague` key, checked with node). The twin is typed `plague`, with a generic entry (`stressorsCore.js:301-309`): no spread, threshold 0.65, legitimacy-only residual, no counterforce profile. The front ignores it (`pestilenceKernel.js:84-87`), it is labelled "Realm-wide plague" (`realmEvents.js:428`) and never forms The Wasting, but it displaces refugees (`flows.js:43`). Condition promotion still mints the ordinary `plague` condition | §1 states the exception; §3.15 bullet; §7 row; §8.6 item 7; §10.1 item 23; §10.2 question |
-| P9 | "No writer from plague to prosperity" is wrong for DM plague | Holds. `registryRerunKeys.js:68`; `prosperity.js:160`; `stressFactions.js:146-155`. That the authored stress is in the rerun's stress list is INFERRED | §3.12 rewritten (pulse lanes never; DM Apply-stressor does, through the rerun); §3.10 adds the Quarantine Council; §1 |
+| P9 | "No writer from plague to prosperity" is wrong for DM plague | Holds. `registryRerunKeys.js:68`; `prosperity.js:160`; `stressFactions.js:146-155`. That the authored stress is in the rerun's stress list is INFERRED [Fable-reviewed 2026-10-18: no rerun runs on Apply-stressor — `registryRerunKeys.js` is a freshness classifier (`:19-30`); the drop lands at the next Regenerate Draft or Edit-Mode re-derivation, where `resolveStress.js:126-177` overlays the authored stress; §3.12 as corrected] | §3.12 rewritten (pulse lanes never; DM Apply-stressor does, through the rerun); §3.10 adds the Quarantine Council; §1 |
 | P10 | Maps do show plague: the town map's condition badge and scene marker; the world map's causality layer; the sidebar's stress label | Holds, and more: the town map also pins a `plague` hazard when the threat profile rates it ≥ 0.4 (`mapProfile.js:241-262`). The sidebar shows the first settlement-level stress label ("Disease Outbreak" for `plague_onset`, `stressTypes.js:85`). The world-map impacts are generic, not plague-specific | §8.1 items 5–6 rewritten; §1 realm paragraph; §5.5; §8.5 legend traps |
 | P11 | Route danger does have a plague term: believed plague news deflects named-NPC travel | Holds. `roads/knownWorld.js:38-41,59-96` (the file is 97 lines); `roadsKernel.js:505-507,932,1011-1021`; `beliefMap.js:204-209`; roadsEnabled is in ONE_REGEN (`simulationRules.js:742-752`). The only embattlement writer is `pulseKernel.js:2394` (war), so true plague is absent there. The charter arm (`routeNetworkCharterDanger.js:155-166`) is dark | New §5.1 row 16; §1, §5.5, §6, §7, §8.1 and §9 items 2–3 corrected; the caravan seam stays DESIGNED ONLY |
 | M1 | Regional-impact propagation is missing (a second travel-timed carrier of consequences) | Holds, with three corrections. Pulse outcomes are typed `WORLD_PULSE`, so they raise no `health_shock`; only causal shifts of ≥ 8 points and population changes of ≥ max(10, 1%) route (`deriveRegionalState.js:453-492`). No rule routes a healing_capacity shift (grep of `propagation.js`). Apply-stressor has no event-kind case. DM edits ripple at depth 2 from `settlementSlice.js:1292`. `parkArrivals` internals were not read | New §5.1 row 15; §1 bullet; §6; §7 row; §8.2; §9 item 6 paragraph |
@@ -1075,7 +1084,7 @@ re-checked each one at the source (files and lines in §11.3, "Added by the fix 
 | M4 | threatProfile derives a `plague` threat that "feeds the defence-profile threats" and the TownScene hazard rows | Partly holds. The type is real (`threatProfile.js:55-60,240,486`) and feeds `contradictions.js:302`, `mapProfile.js:242` and `capacityModel.js:942`. But threatProfile *reads* `defenseProfile.threats` (`:416`) rather than feeding it. The scene's hazard rows come from the town-map overlay (`sceneLiving.js:282-295`); `:231-234` reads `defenseProfile.threats` only for metadata. The stress-name lane reads settlement-level stresses (`canonStressors`, `:448`), so roaming stressors do not reach it | §3.8 Traditions, NPCs, threat row; §2.1; §6; §7 row |
 | M5 | Disease pressure births `magic_deadzone` (0.6) and `magical_instability` (0.72) | Holds. `stressorsCore.js:227-262`; `stressors.js:467-475`; `stressorGates.js:1042-1043` | §3.3 bullet; §7 row; §6 |
 | M6 | The Table Ledger `plague` path | Holds (same as P8); bands 0.25/0.5/0.8 (`tableLedger.js:123`; `pendingEditIntents.js:105-118`) | §3.15 bullet; §3.16 DM bands row |
-| M7 | The Apply-stressor regeneration rerun: prosperity, Quarantine Council, institution-effect hooks, defence posture | Partly holds. Prosperity, faction and posture hold (`defenseDisplay.js:33` is a display label keyed on the stress). But `stressInstitutionEffects.js:260-276` holds NPC secrets read by `npcGenerator.js:32`, and the Apply-stressor rerun list has no `npcs` (`registryRerunKeys.js:68`), so those are generation-only | §3.10 and §3.12 |
+| M7 | The Apply-stressor regeneration rerun: prosperity, Quarantine Council, institution-effect hooks, defence posture | Partly holds [Fable-reviewed 2026-10-18: and only at the next regeneration from config — no rerun runs at apply; §3.12 as corrected]. Prosperity, faction and posture hold (`defenseDisplay.js:33` is a display label keyed on the stress). But `stressInstitutionEffects.js:260-276` holds NPC secrets read by `npcGenerator.js:32`, and the Apply-stressor rerun list has no `npcs` (`registryRerunKeys.js:68`), so those are generation-only | §3.10 and §3.12 |
 | M8 | Traditions cancel, NPC crisis class and district prose are missing | Holds. `traditionsKernel.js:197,249-252` (the roaming types are not in its cancel set, `:205`); `npcAgency.js:362-371`; `districtProfile.js:452,478`. traditionsEnabled is lit in RR, DC, LR and FS; npcAgency in all but SC (node) | §1; §3.8 row; §6; §7 rows |
 | M9 | The note never states its time scale; "a front can outlive its seed only through the 26-tick floor" | The figures hold (`stressors.js:145-164,364-379,400-409`). I restated the front clause: a node stays active only while its own stressor lives (`pestilence.js:533-547`), so the floor binds only where the stressor outlives 26 ticks (SC, a pinned record). Hops run 1–52 weeks (`distanceRead.js:87`). Mean life of a 0.6 record at neutral counterforce is about 3.5 ticks (my arithmetic) | §2.3 "Time scale" paragraph; §3.16 stressor-life row |
 | M10 | A self-sustaining plague-condition loop with no cap (famine's is capped) | Holds as INFERRED. `pressureModel.js:209-214`; `candidateEvents.js:243-300` has no existing-condition check; the famine ceiling is at `:316-361`. The loop's gain is unmeasured, because the causal scan's healing scale was not read | §3.8 paragraph; §8.6 item 8; §10.1 item 25 |

@@ -1,6 +1,6 @@
 # Amendments n — the map lenses over the host's simulated systems; the J384 rulings
 
-> PENDING FABLE REVIEW — written by Opus 5.5 standing in for the Fable seat amendments/lens-n; to be retrovalidated overall at the next opportunity (owner, 2026-10-17, J375)
+> Fable-reviewed 2026-10-18: PASS-WITH-CORRECTIONS — 2 design fragments on V13, 22 dated record brackets and fixes across files m–q and the realm record, 1 research count (lane retrovalidation/amendments; J392)
 
 Numbered from **780** (file m ended at 779).
 
@@ -530,7 +530,7 @@ read only at dated revision events with the 13-week dwell"; (3)), `:444` (J385 g
 log-linear so 'exponential' holds (prosperity on J384 (1)'s relative rung)"); `docs/validation/coherence/realm-m-critic.md:63-69`
 (gap 4's values: `kProsperity` = 1.1^(rung−3) = 0.75 / 0.83 / 0.91 / 1.00 / 1.10 / 1.21 / 1.33, `kSize` = 1.15^(third−1)
 = 0.87 / 1.00 / 1.15), `:103-108` (gap 8: "force band ≥ 3 makes the cadence one rung denser, force band ≤ 1 one rung
-sparser"); `research/sf/prosperity-system.md:770-773` (§9.1 item 2: the band drifts upward realm-wide in lit presets);
+sparser"); `research/sf/prosperity-system.md:770-773` (§9.1 item 2: the band drifts upward realm-wide in lit presets) [Fable-reviewed 2026-10-18: the prosperity lane re-read the drift as a polarisation — Moderate and above climb, Struggling sinks — upward in aggregate only where generation seeded most seats at Moderate or better; the relative rung this item rests on (J384 (1)) does not turn on the direction];
 [OBSERVED] `docs/volumes/V13-world.md:809`, `:811`, `:814`, `:815`, `:944-945`, `:949`, `:954`, `:955`; [INFERRED]
 `pushPerBand` 0.5 L and `strengthDwellWeeks` 13 are own values, UNMEASURED: a season's dwell as for prosperity, a
 quarter-τ shift per band so four bands' difference cannot push past a seat's own half-reach.
@@ -1062,7 +1062,7 @@ reimplement; polarity; resolved rules; born-world bias); `research/sf/prosperity
 outcomes, one per advance, 80 kept, already scrubbed by the host's own timelapse); `research/sf/lens-implications.md:90-94`
 (§1.2 item 8: the four places nearness picks), `:483-485` (§4.6: "the host's own frames next");
 [OBSERVED] `docs/ARCHITECTURE.md:3876-3879`; `docs/volumes/V13-world.md:2834` (§5.7's last
-line, the insertion point; item 811 then inserts §5.9 before §6's heading, `:2836`).
+line, the insertion point; item 811 then inserts §5.9 before §6's heading, `:2836`). [Fable-reviewed 2026-10-18: (7)'s "the host's public chips" (carried into V13 §5.8 (7) and forward by file o item 846 (b)) over-states the host — its aggression chip reaches the DM's cards and the premium PDF only (`livingWorldSignals.js:236-262`, `liveWorld.js:318`; no player surface traced), so the lenses lane corrects V13 to "the host's own chips (shown to the DM on its cards and PDF today; no player surface traced)" and `rulings.md`'s J384(7) row the same way; this file's text is left as applied.]
 
 
 ### Volume 13 — §5.9 The lenses (new)
@@ -1271,7 +1271,7 @@ pure host read); `research/sf/trade-system.md` §9 item 20 (a DM-cut route stops
 at birth), `:693` (local), `:966` (off), `src/components/settlements/LivingWorldGates.jsx:68-72` (faith spread a
 per-campaign toggle); [OBSERVED] `docs/volumes/V13-world.md:1786-1789` (*Edges*: a host seat projects at its tier with the
 middle rung before the host's first window), `:1640-1642` ((5): the standalone inputs), `:330-331` (teleport circles
-"drawn as marks with no link").
+"drawn as marks with no link"). [Fable-reviewed 2026-10-18: two rows of §5.9 as this item wrote them are corrected in V13 by sibling lanes — the religion lens's pressure row ("hostility carries hardest": the host's vassal-authority channel, 0.82 overlord → vassal, carries harder than a war front, 0.72; the faith lane, through lens-implications §1.3 and J379.1) and the populations lens's trend row ("the party's believed trend where beliefs": the host keeps belief records for its courts and reads the believed trend on no surface, so the party reads the direction its own dossier tells it; the population lane); this file's text is left as applied.]
 
 
 ### Volume 13 — §6 Performance budgets (the budget register)
