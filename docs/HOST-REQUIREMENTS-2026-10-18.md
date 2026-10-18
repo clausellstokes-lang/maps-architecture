@@ -8,7 +8,7 @@ This document lists what SettlementForge must build, fix or supply so the map mo
 
 - **Who it is for.** The person or session working in the settlement-engine repository. Every item names the map-side source it comes from, so it can be checked there.
 - **What "the host" means.** SettlementForge's engine: its campaign, settlement and simulation code. The map module reads it through dated receipts and exported functions and never changes it itself.
-- **Which design state it reflects.** Design volumes V13 (world) and V14 (sites) and amendment files j through q as applied on 2026-10-17, plus the door-1 answer of 2026-10-18 (file r item 926). A Fable re-check of the 2026-10-17 work is running; any correction it makes will be carried into this document.
+- **Which design state it reflects.** Design volumes V13 (world) and V14 (sites) and amendment files j through q as applied on 2026-10-17, plus the door-1 answer of 2026-10-18 (file r item 926). The Fable re-check of the 2026-10-17 work landed the same day (J392); its six corrections to this document and its re-aimed line pointers are in.
 - **How to read it.** Sections 3 and 4 are the lists the host team acts on. Sections 5 and 6 go deeper on the two areas the owner asked about: patrols inside a territory, and encounter maps. Section 7 states the data rules every item obeys. Section 8 holds everything else worth knowing before the host work is scheduled.
 
 ## The door-1 answer and what it lights
