@@ -1,4 +1,4 @@
-# Live status (written by the autosave loop; last 2026-10-18 10:40 UTC)
+# Live status (written by the autosave loop; last 2026-10-18 10:46 UTC)
 
 Latest lane line per lane key (docs/lane-events.log) for today's lanes:
 
@@ -88,7 +88,7 @@ Latest lane line per lane key (docs/lane-events.log) for today's lanes:
 - 2026-10-18 10:29 sites-roads/critic LANDED docs/validation/sites-roads-2026-10-18/critic.md (339 lines, md5 5392816a): the Fable critique of draft t — draft-t.md (09b4bf05) and its 127 fragments (b4604f94) read whole and re-checked by script against the live targets (V13 d0de9ad8, V14 70d8aa1b, base 1f871a01, INDEX 42881796, SUMMARY 9d142283, brief fc252070, README 2a4b54c8, gate b6c5be2a): ev
 - 2026-10-18 10:37 sites-roads/fix LANDED docs/validation/sites-roads-2026-10-18/fix.md (78 lines, md5 08a28785): the critic's 12 gaps FIXED as written in draft-t.md (1 610 lines, md5 2642fddb) and draft-t.fragments.json (138 fragments, md5 66d10247) — 18 draft fragments corrected in place (C-2 942 (m) restated; C-3 941 (j) bridgeFort track; C-4 941 (i), 942 (n) (a), 946 (d); C-5 945 (g)/(h)/(j)
 - 2026-10-18 10:38 sites-roads/verify-2 LANDED docs/validation/sites-roads-2026-10-18/verify-2.md (49 lines, md5 66738444): draft-t.fragments.json (138 fragments, md5 66d10247) checked by script against the eight live targets (V13 d0de9ad8, V14 70d8aa1b, base 1f871a01, INDEX 42881796, SUMMARY 9d142283, brief fc252070, README 2a4b54c8, gate b6c5be2a): (a) 138/138 old texts once at their recorded li
-- 2026-10-18 10:40 sites-roads/critic-2 CHECKPOINT design-B (1 036) and design-C (1 479) read whole; the five readers next (read-v14, read-v13, read-base, read-research, read-checks), then the live target passages in context (V13 §3.8, §3.9 (14)/(16), §3.11, §2.2, §2.6, §4.1, §4.3; V14 §2.5, §3.4, §3.6, §3.9, E1 (4); the base §4.9/§7.3); critic-2.md stub on disk (fable; J393)
+- 2026-10-18 10:45 sites-roads/critic-2 CHECKPOINT the five readers read whole (read-v14 980, read-v13 1 013, read-base 880, read-research 562, read-checks 1 268); every input of the lane now read whole; reading the live target passages in context (the fix round's 18 corrected fragments and 948 (a)-(k) at their lines; V13 §1.3, §2.2, §3.8 (8)-(12), §3.9 (16), §3.11.1, §4.1, §4.3; V14 §2.5,
 
 Workflow runs: retrovalidation continuation wf_ed23dc6b-f13 (task wuojbxzyu; the first run wf_f0931b52-ef5 killed at the limit); sites-roads-design wf_a2bd73c2-64c (task wh4norxj2); host-requirements wf_94da751f-a31 (LANDED); amendments-r wf_6c3a4aa0-0d5 (LANDED e5de220d).
 Records: docs/validation/retrovalidation-2026-10-18/ (one <family>-verify.md and <family>.md per family, rulings.md, apply-*.md, confirm-*.md, critic.md, README.md); docs/validation/host-requirements-2026-10-18/ (extract-*.md, draft-s3..s8.md, final-s3..s8.md, critic.md); docs/validation/sites-roads-2026-10-18/ (read-*.md, design-A..C.md, judge-1..3.md, draft-t.md, critic.md, verify.md).
