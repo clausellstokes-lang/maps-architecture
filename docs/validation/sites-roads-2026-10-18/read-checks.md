@@ -760,3 +760,125 @@ enforcement, hostility and route class …)". (alignment.md:122–126, 140)
 
 H64. Verdict PASS-WITH-CORRECTIONS; 30 research fragments; "No `design` fragment is owed". (alignment.md:196, 203)
 
+**H.11 alignment-verify.md (94 lines).**
+
+H65. AV-15: `research/sf/fp-physical-integration.md` §2.5 "Routes and their lifecycle" (lines 93-106) "holds route rows
+R1-R8"; "the frozen-versus-live law, 'danger is relative to the mover' and the carrier route preferences are restated at
+`:273`, in §5" citing PHASE55:1197-1201, :834-848, :1380-1389. (docs/validation/retrovalidation-2026-10-18/
+alignment-verify.md:64) — the host's route lifecycle rows a road-integration design reads live in FP-PHYS §2.5 (outside
+this lane's list; read-research's).
+
+**H.12 faith.md (338 lines).**
+
+H66. R9 UPHELD (since ruled by J384 (10)): "no faith geometry; … positioned sites need the owner's ruling and a host
+adoption" — "temples have no coordinates and cults no location"; C50: "holy places and hidden cult sites enter only as
+DM-placed world sites tagged with a deity, DM-only by default, offered to the host; never generated"; C53: "the catchment
+drawn only as the set the host sends (V13 §5.9 (6), T-V13-54 …)". (docs/validation/retrovalidation-2026-10-18/faith.md:
+229, 317, 320)
+
+H67. R10 UPHELD: "no movers — missionize is a trust nudge, WF-2 unbuilt, encounters would be invention"; J379.1 as
+amended "no pilgrims, missionaries or inquisitors as movers until the host runs them"; F24: "pilgrims are NEVER a migration
+(they return …)" (COUPLINGS:856, :1816). (faith.md:98, 230) — a pilgrim road to a holy site carries no host mover today.
+
+H68. R7 AMENDED: "carriers are not routes"; faith pressure travels along the host's relationship links, not roads.
+(faith.md:227) — faith gives a site road no traffic.
+
+H69. Items 131–141 touch faith "only through 132 (h) (a persistent site is an institution-like host record whose
+consequences reach the map as dossier events) and 133 (e) (DM secrets are the knowledge layers)". (faith.md:202–205)
+
+H70. Verdict PASS-WITH-CORRECTIONS; 67 fragments, 1 design (V13 §5.9 (6) pressure row, C45), 1 record (rulings.md
+J379.1, C47). (faith.md:322–333)
+
+**H.13 faith-verify.md (89 lines).** Its "site" hits are code locations, not world sites. One host fact: F11, "the
+`holySite` resource … sets a pilgrimage marker" (`src/data/resourceData.js:409`, `pilgrimage: !0`, carried at
+`resourceGenerator.js:386`) — a settlement-grain resource, not a positioned site. (docs/validation/
+retrovalidation-2026-10-18/faith-verify.md:36)
+
+**H.14 fp.md (173 lines).**
+
+H71. FA-01 / R-FP-3 AMENDED: "leg granularity sets how many mid-route positions a journey has at which a located
+engagement (an interception, a chance meeting) can arise — not the number of hearings, which the registry's climax kinds
+fix"; war M (:66–70): "mid-route positions are real places"; `armies_meet` and `siege` are STANDING at a place.
+(docs/validation/retrovalidation-2026-10-18/fp.md:61, 79, 123) — a road leg that passes a site creates a mid-route
+place where a located engagement can arise.
+
+H72. FA-02 / C14: "Terrain is nowhere in FP's law, but it is under every FP clock": the frozen digest's cost law
+(`BIOME_COST` × the elevation knee, a river term, the terrain classes and the seasonal terrain overlay — `spatialCost.js`),
+"which every FP mover reads through `hopWeeks`". FA-08: `landCostRaw` = `base × elevMult + riverBias`, riverBias 0.3 on a
+river cell (`spatialCost.js:386`). (fp.md:62, 68, 122)
+
+H73. R-FP-13 UPHELD: "how the three fabric laws bind a settlement map generator, and what they do not bind … '(realm-scale
+terrain; MF §14.3; the REALM-COHERENCE LAW at DESIGN_SETTLEMENT_MAP.md:356–358)' is right and is the gap V13's charter
+closes". (fp.md:89) — a host law (REALM-COHERENCE) the coherence expectation of J393 may name (read-research's to quote).
+
+H74. Checked and sound: "§2.3's reading of 'genesis is sacred' (RL laws 1–2) and its [INFERRED] consequence for a map
+generator (matches the owner's one-way flow, item 132 (h), and V13's `dossier` term at weight ∞)"; "T7/T8's 'the charter
+is the boundary record' matches item 135 (b)". (fp.md:71)
+
+H75. P2: "roamer physics J4 unbuilt [STATED DESIGN_ROUTE_LIFECYCLE.md:128-130 (the quotation), 225-227 (hidden-path
+access)]". (fp.md:128) — the host's route lifecycle document holds hidden paths and an unbuilt roamer physics.
+
+H76. R-FP-9: V13 §3.11.6 as applied: "the map builds the seat territory and crossings into the canon's travel slot; the
+host keeps its all-pairs costs, tiers and candidate routes over it — the first reading, narrowed to geometry". (fp.md:85)
+— on a host-bound world the map supplies geometry; candidate routes are the host's.
+
+H77. Verdict PASS-WITH-CORRECTIONS; "No design-kind correction"; "Nothing in either note propagated into a design text".
+(fp.md:161–165)
+
+**H.15 fp-verify.md (80 lines).**
+
+H78. FV-06: `DESIGN_ROUTE_LIFECYCLE.md:225–227` carries "wanderers and smugglers may use hidden paths at a grade penalty,
+armies may NOT (J-D9 d)"; the "overgrown road" quotation is §5b, lines 128–130. (docs/validation/
+retrovalidation-2026-10-18/fp-verify.md:27) — the host's route access by mover class (a precedent for an access class
+per traveller; this lane records it only).
+
+H79. FV-20: J-D3 (CREATE_ROUTE) "the engine paths via the spatial travel-cost raster" is `DESIGN_REALM_DIRECTIVES.md:
+1630–1634`. (fp-verify.md:39) — the host already paths a DM-created route over its own cost raster.
+
+H80. FV-34 spot re-reads that held: "routeNetworkGenesis.js:20–105 (user pairs, Urquhart, grade ladder, law version 1,
+unmounted)"; "autoplacement.js:92–94 (100/30/4)" — FV-14: "fit (weight 100), k=3 reach (30), tie hash (4)". (fp-verify.md:
+53, 59) — the host's genesis network is an Urquhart graph over user pairs with a grade ladder (unmounted); the host's
+autoplacement scores fit with a tie hash.
+
+H81. FV-21: "the sea keeps no track — a decayed water route's memory is the QUIET QUAY (the shell port)" (J-D11(c),
+`DESIGN_REALM_DIRECTIVES.md:1753–1755`). (fp-verify.md:40)
+
+H82. The verifier read `DESIGN_ROUTE_LIFECYCLE.md` whole (300 lines) and the fold whole (708). (fp-verify.md:15, 79)
+
+**H.16 plague.md (105 lines) and plague-verify.md (45 lines).**
+
+H83. R7 UPHELD: "Patrols have no plague job; the one plague term in route danger is believed danger in DC, LR, FS on
+mapped worlds"; "J378's patrols are the session's reading (military enforcement, neighbour hostility, route class); the
+owner said only 'also there should be patrols'"; consequence: the host-requirements document should carry pg-4's
+quarantine verb "as the owner value PG names, not as a patrol fact". (docs/validation/retrovalidation-2026-10-18/
+plague.md:57) — the owner's patrol word is "also there should be patrols"; its derivation is the session's.
+
+H84. F2 (amended): the embattlement scalar "is read not only by the roads' known view but by the movers' route re-score
+and banditry (`embattlement.js:12-13,41-53`; `pulseKernel.js:2360-2361` 'Routing/trade read the SCALAR')". (plague.md:24;
+plague-verify.md:18) — host route danger is a per-settlement scalar.
+
+H85. Item 132 (e) "(the world-map encounter case reads 'recent events') is served, not contradicted, by a plague lens".
+(plague.md:44)
+
+H86. V13's plague lens rows "assert only that a border, march, patrol or army does not stop or slow plague". (plague-
+verify.md:44)
+
+**H.17 population.md (157 lines).**
+
+H87. "None of the items 130–141 touches population; item 134 (sites seed settlements) is a map-side rule the note's host
+facts do not contradict (the host founds no first-class settlement by pressure, §5.4, and the design's siting is the
+map's)". (docs/validation/retrovalidation-2026-10-18/population.md:20) — siting new settlements near sites is the map's.
+
+H88. R-6 UPHELD: "Patrols could lower road danger only if the host chooses to consume a patrol fact; road deaths read the
+embattlement ledger alone" (`sp/migration.js:151-153`, `:219-226`); "J378.5 … offers patrol coverage to the host
+'consumed only by the host's choice', and names embattlement's security relief as the one slot"; "§9.1 #6's patrol reading
+is an input to the owner's J391 (6) host-requirements document". (population.md:81, 149)
+
+H89. R-11 UPHELD: "must not inherit the overlay's shortcuts" (`map/TravelersLayer.jsx:93-108`). R-4 UPHELD (refined by
+J384 (11)): steadings "should not extend the border or seed a territory until graduated"; they "sit inside the parent's
+exclusive partition, never join the digest and never graduate". C-17: the steading founding "samples the frozen territory
+partition, cost field and gate terrain" to pick a site cell inside the parent's partition. (population.md:79, 86, 130) —
+the host's own placement of a satellite reads its cost field and gate terrain (a host precedent for siting by cost).
+
+H90. A host road-scene brief exists: `src/domain/briefs/roadScene.js:158-163` (cited in C-19e). (population.md:136)
+

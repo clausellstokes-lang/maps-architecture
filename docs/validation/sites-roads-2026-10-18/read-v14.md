@@ -721,3 +721,119 @@
      `refuse.raise.flat`" (V14:2423–2426). The `site` why section answers "the siting's terms and weights, the other
      sites considered" (V14:2418–2419).
 
+### §5 Rendering (V14:2437–2727)
+
+184. §5.1 icon verbatim: "one mark of semantic `site.icon` (role `pin`, §8.2's pin rows) at `SiteAnchor.at`, its glyph
+     the kind row's `icon` (a keep, a tower, a temple, a cave mouth, a pick, a mask for a hideout, a slab for a crypt, a
+     stair for a cellar complex, a grating for a sewer lair, a skull for a dungeon, a tent, crossed swords, a cross), 24
+     CSS px at the building band and 16 px at the neighbourhood band" (V14:2441–2444) — the icon list (13 glyphs) is
+     given in prose, not per kind row.
+185. §5.1 "**Two rules by attachment (C14-50):** an **anchor's** icon (`attached`, `surface` with levels, `ground`) draws
+     at the neighbourhood and building bands only …; a **free** or **`inFrame`** site's `worldSite` decoration (V14 §3.9
+     G8 (d)) draws at every band, and a free site's world glyph on V13's world view by W9's levels" (V14:2444–2448).
+186. §5.1 the context rule table (V14:2450–2458): ground face at neighbourhood/building band; a building's storey only
+     with "that building's plan is open at exactly that `storey`"; underground/site element when Below/Site is drawn at
+     the band holding its floor; sky island when the island's part is drawn. "Outside its context the anchor draws
+     nothing and is not hit-testable; Find's listing … still lists an admitted card with **Go there**, which sets the
+     view keys … — view keys only, no event" (V14:2460–2462).
+187. §5.1 "Opening a site": the site document's view "opens at its ground (free-standing) or its first level (attached)"
+     (V14:2472–2475). §5.2 a site document draws "its ground part through §8's ground rows (the hinterland, the
+     enclosure, the buildings …)" (V14:2479–2480) — ways are not named among the ground rows listed.
+188. §5.3 VTT: "the ground scene with `line_of_sight` from the footprints, walls, cliffs and retaining walls …, portals
+     at the entrances and gates" (V14:2529–2532). No §5 clause concerns roads beyond the draped way bands in 2.5D: "a
+     way's band draped along its spine's heights" (V14:2654–2655) and the world's "routes and territory borders draped"
+     (V14:2698).
+189. §5.4 ZDecl row: "way, corridor, kerb band, square, plaza | surface (draped)" (V14:2578); "V13's world kinds
+     (`WorldRaster`, `WaterSurface`, `SurfaceTrace`, `TerrainTrace`, `WorldRoute`, `Territory`, the glyph marks, the
+     labels) | V13's own rows" (V14:2606); `SiteAnchor` icon flat "furniture" (V14:2598).
+
+### §6 Budgets (V14:2729–2797)
+
+190. E1 (4) crop frame budget: "V13's transient `charterFor` (≤ 10 ms, V13's `WORLD-9` row; SW-32), S1 on a 100 m frame
+     (≈ 4 ms …), the roads as bands (≤ 3 ways, ≈ 1 ms), S12a's cover (≈ 3 ms), the arena's `fixed` faces (≈ 2 ms) | … |
+     20 · 26 ms" (V14:2744).
+191. G3 (free-standing) budget: "V13's score over its candidates (V13's `WORLD-10` row; SW-32); the terrain pre-edit …
+     | V13 §6 | V13's row + 5 ms" (V14:2758); first open free-standing "≤ 140 · 220 · 120 ms p50; ≤ 300 · 500 · 300 ms
+     p95 (+ V13's siting row for a drop with no point)" (V14:2768). No budget row for a site's road join or a coherence
+     check (V14:2738–2773).
+
+### §7 Tests (V14:2799–)
+
+192. `B-SITE` fixture: "a fort and a mine in the country, a tower and a manor in the hinterland, a temple and a guildhall
+     on the surface, a crypt under the cathedral, …, a cave under the hills, a dungeon of four layers" (V14:2802–2806).
+193. T-V14-2 (G1): "`hinterlandNear` ⇔ within `edge.nearM` of the enclosure line …; `country` beyond `farM` or the frame;
+     every point's reason record names the line and the distance; an `editTable` of `nearM` changes new drops' contexts
+     and no existing card's" (V14:2827).
+194. T-V14-7 (adoption): "the site's enclosure, buildings, plots, ways and terrain pre-edit entering the settlement as
+     drawn constraints of its creation prefix (locked, pinned, keyed by the site's tokens; the site's land use not
+     carried; C14-16)" (V14:2832).
+195. T-V14-8 (siting) verbatim: "on V13's world fixture (from V13's M-W1 landing): each of V14 §2.5's seventeen
+     `SuitabilityTerm` plug-ins is a pure function of V13's rasters in [0, 1] (a fixture cell per term with its expected
+     value); a fort with no point lands on a candidate whose `overlook` and `roadControl` plug-ins exceed the frame's
+     median and whose `floodSafe` is non-zero; a mine on ore; a hidden temple at a candidate with `oneApproach` 1; no
+     random term enters or follows the score (two runs are bit-identical, V13's tie-break deciding equal candidates;
+     SW-03); the reason record lists the five candidates considered; the card's `attraction` and `routed` reach V13's
+     `destination` term and W7 (a routed fort gains a road); a host-placed site never moves; until V13 lands, a
+     free-standing drop without a point is refused `refuse.site.noWorld` (C14-04, C14-49) | nightly (from V13's W1)"
+     (V14:2833). "a routed fort gains a road" is the only test clause about a site getting a road.
+196. T-V14-9 (locality): "a town regenerated locally around a new free-standing site (an `adoptSite` over a CITY)…; an
+     `inFrame` watchpost and manor (C14-01) the reservation's faces and the blocks they touch, the host's new `site` parts
+     and nothing else" (V14:2834).
+197. T-V14-25: "a free site moved by V13's `setPlacement` keeps every per-part digest unchanged (C14-15)" (V14:2850).
+198. Parity: "the survey's parity rows … the one-click drop (its §6.1 (4); T-V14-5)" (V14:2812–2815); T-V14-4 (e) "in
+     town nothing nearby is generated" (V14:2829).
+
+### §8 Build plan (V14:2868–2940)
+
+199. "**M-SITE-F**, free-standing sites with their ground, siting, destinations and adoption, after V13's M-W1 (the
+     charter, placement and the W6 score)" (V14:2875–2876). SE6 content: "G3 whole over V13's score with this volume's
+     seventeen `SuitabilityTerm` plug-ins and the purpose weights (C14-04), the terrain pre-edit under V13's verbs, the
+     frame and the charter, G5 (e)'s ground composition (S1, S12a/S12b, S7, S10/S11, V03 on the site's ground) and (f);
+     the `worldSite` decoration and destination (BCR-V14-13); G8 (e) adoption …; G3 (d)'s `attraction` and `routed` on
+     the card; the robbing relation with V06; the world-map encounter context (E1's `world`) over V13's facts"; exit
+     "T-V14-7, T-V14-8, T-V14-9 (bar 6), T-V14-10 (c), T-V14-27 (a), T-V14-4's world clause …"; est. 3.5–5 pw
+     (V14:2890).
+200. Dependencies: "SE6 waits on V13's M-W1 (the charter, placement and its W6 score) — until M-W1 lands a free-standing
+     drop takes a point only" (V14:2905–2906). (§1b.6 V14:474 says "free-standing sites wait"; V14:475 "a free-standing
+     drop takes a point only".)
+201. Risk (5): "V13's score lacking the two terms (V14 §11 Q2; the fallback: concealment as 1 − overlook, one approach
+     from the route count — both readable from V13's distance fields)" (V14:2927–2928). Risk (8): "The host's site record
+     (V14 §11 Q2's second half): until SettlementForge carries one, every site is map-tier" (V14:2930–2931).
+202. Content step: "the catalogue's `info.site.*`, `info.unit.*`, `info.encounter.*`, `bend.site.*`, `refuse.*` lines
+     (English, own), the icons' glyphs" (V14:2896) — **Catalogue use #4** (V09 §4.9's message catalogue).
+203. Register: "SE3 `sites.admissibility`, `sites.kinds`; … SE6 `sites.purpose`" (V14:2916–2918).
+
+### §9 Decisions touching siting, roads, placement, the world (V14:2942–3005)
+
+204. J-V14.3: a site as a `Document` of product `site` "because the city's plots must never move for a site (item 133
+     (b))" (V14:2952).
+205. J-V14.10: attached site separate document, one anchor, one access; "the host document must gain no geometry for a
+     site (item 133 (b))" (V14:2959).
+206. J-V14.11: "chose a cave attached to a terrain feature in the country as a free-standing site whose placement names
+     V13's feature, and a site inside a site's frame as a site of its own, over a third attachment mode" (V14:2960).
+207. J-V14.27: locality — "the city's plots never move for a site" (V14:2976).
+208. J-V14.29 verbatim: "chose a free-standing site's frame as V13's placement rectangle (the envelope's radius × 4, at
+     least 120 m, for a site with a ground policy) under V13's charter with the envelope standing in for S6's perimeter in
+     the hinterland unit, over a site with no ground or a full settlement frame, because a tower stands in its closes and
+     a fort in its glacis, and the hinterland unit already lays fields round a perimeter" (V14:2978).
+209. J-V14.36 (amended by J-V14.43): `concealment` = 1 − max(overlook, routeNear); `oneApproach` the count of low-cost
+     approach directions under V13's cost law (V14:2985). J-V14.37 superseded by J-V14.43: "replaced by the kind row's
+     `attraction` and `routed` read by V13's `destination` term and W7" (V14:2986).
+210. J-V14.38: world-map case "refused until V13's M-W1 …, because … a crop that invented terrain the world will later
+     contradict would break item 135 (a)" (V14:2987).
+211. J-V14.41 verbatim in part: "chose **adoption at the drop** (`inFrame`) for every site with a ground policy inside a
+     settlement's frame … and never a `free` site inside a frame, over a second document in the frame, because one ground
+     has one owner (item 135 (a): one geometry refined three times)" (V14:2990).
+212. J-V14.43 verbatim in part: "chose the seventeen siting terms as this volume's plug-ins … with the kind row's
+     `attraction` and `routed` read from the card by V13's `destination` term (within `reach.siteKm`) and W7, and no
+     random or jitter term in or beside the score (equal candidates fall to V13's deterministic tie-break) … because V13
+     owns the interface, the context and the registry and this volume owns the terms (C14-04; SW-01, SW-03)" (V14:2992).
+213. J-V14.44: "the world-map crop as a **crop frame** — V13's charter at a transient placement, S1 and S12a over 100 m
+     and the charter's roads as bands … because a crop needs faces for line of sight, roads and water" (V14:2993).
+214. J-V14.50 (SW-04, R1-1): import candidates as V13 `SitingProposal`s; "the world's digest moves only on the DM's act"
+     (V14:2999). J-V14.51 (SW-08) glyph via `glyphOf`/`world.glyph` (V14:3000). J-V14.52 (SW-10) adoption raised by the
+     application on V13's `placed` outcome (V14:3001). J-V14.53 (SW-11, SW-12) `placementRef` only; integer `WorldPointCm`
+     (V14:3002). J-V14.55: "to make a `worldWins` on a site a re-materialization (G3 (c), G5 (f))" (V14:3004).
+215. No J-V14 decision addresses a site's road access, a site's join to the road network beyond W7 seating, or
+     placement coherence/autocorrection of a site (V14:2948–3005).
+

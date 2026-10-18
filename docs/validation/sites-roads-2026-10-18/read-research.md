@@ -1,6 +1,6 @@
 # sites-roads/read-research — what the research notes and the host say about sites and roads (J393)
 
-**Lane:** `sites-roads/read-research` (opus; J390, Fable-checked). A reader: this file records what the texts say,
+**Lane:** `sites-roads/read-research` (opus; J390, Fable-checked). **Status: LANDED** (record complete; facts A1–HS20, §Z, gaps). A reader: this file records what the texts say,
 with cites; it judges nothing. Tags: **[READ]** the cited text says it; **[INFERRED]** this reader's inference from
 the cited text(s), with the reasoning given. Line numbers are those of the file at the md5 below, read 2026-10-18
 from ~05:12Z. Host repository read-only at revision 81f1cd96.
@@ -515,3 +515,48 @@ site is a frozen-raster cell chosen gate-cells-first inside the parent's territo
 site's road access, if the host ever consumed it, would arrive only through a new host change (e.g. a typed `route_node`
 place, a patrol coverage producer for route_wardenship, or the canon's sites slot) — none exists at 81f1cd96.
 
+## Z. Where the texts bear on the README's reading (facts only; no reading is offered by this reader)
+
+Z1 [READ] "The catalogue" — no research note read here names a site catalogue with an access or road column; the nearest
+are FMG's burg groups (fort, monastery, caravanserai, trading_post — all burgs, hence trail endpoints; C2) and FMG's 37
+marker types whose predicates *read* routes (inns at crossroads, brigands on road cells, lighthouses next to a routed
+water cell; C7). The realm review names watchpost, bridge fort, border post, toll house and garrisoned sites as world
+sites (F10, F12, F15, F20). The V14 `attraction`/`routed` columns the README names were not in this lane's files.
+Z2 [READ] "Integrated into road infrastructure" — on a host-bound world every host route ends at two host settlements
+and a site drop never splits a leg (F3); bound W7 lays only host-named edges with "no trails to host seats" (F5); the
+host's own graph has settlement nodes only (HS1, HS2, HS13; T11, T14). FMG integrates only burgs into roads; markers come
+after routes and never attract one (C8, B15).
+Z3 [READ] "Autocorrects … coherence expectation" — the research notes record two precedents: FMG Risk mode raising a
+burg's cell to land (D2), and FMG's 2017 rule that deleted settlements to satisfy reachability, which the survey REJECTs
+in favour of recording unreachability as a property (B9). The host's own law is "genesis is sacred … surfaced honestly
+rather than reconciled by mutation" (B12; HS5) and "isolation … is character, not failure" (E17).
+Z4 [INFERRED] Whether a site on a host-bound world may *move* to meet a road (geometry) without any host consequence is
+consistent with HS20 (the host reads no site geometry), except where a site is a host fact (a steading's site cell, HS11;
+a garrisoned site as a held point, F15; `patrolOffer`'s nearest garrisoned site key, F14) — those are the places a moved
+site would reach the host. This is the reader's inference for the designers to weigh, not a ruling.
+
+## Gaps (looked for, not found)
+
+1. No research note in this lane defines "road access" for a non-settlement site, nor a per-kind access class; looked for
+   in all nine notes (grep "access", "road", "route" and whole reads). Not found.
+2. No FMG mechanism moves a marker or burg to a road, or lays a road to a marker (FMG survey, human-layers and physical
+   notes read whole). Not found; FMG only *selects* marker cells by route predicates (C7).
+3. The sites survey (`research/sites/survey.md`) has no treatment of roads, approaches or site placement on a world map
+   (A1). Not found.
+4. Host: no watchpost, watchtower, road watch, held site, border post or non-settlement outpost concept in
+   `src/domain/spatial`, `worldPulse`, `roads` (HS19); the only "watch" is a town institution (HS17); the only "outpost" a
+   settlement archetype (HS18). Not found.
+5. Host: no consumer of patrol coverage (the interdiction reading severs a lived edge, it does not read a patrol fact;
+   embattlement's capped security relief has no patrol input) — HS8, HS10; TR-1's `route_wardenship`/`route_predation`
+   have no producer (T4; G5). Not found.
+6. Host: no stored road geometry anywhere in the lived network (HS2: "never stored"); no route-position id space (HS13).
+7. `research/sf/trade-system.md` outside §5.2, §5.13, §9, §10.3 and `research/sf/population-system.md` outside §3.4, §9.1
+   were not read (the task named sections); nothing here characterizes them.
+8. Host files were read in the ranges named in §HOST, not whole; in particular `routeNetworkCharter.js` (639),
+   `routeNetworkDecay.js` (678), `routeNetworkFlows.js` (743), `distanceRead.js` (1192), `roads/state.js` (609),
+   `satellitesLedger.js` beyond grep, `docs/DESIGN_FP_ARCH_WY.md`, `PHASE55_SPATIAL_ENGINE_DESIGN.md` and
+   `DESIGN_FP_ARCH_EC.md` beyond the grep lines. `docs/DESIGN_THE_ROADS.md`, `src/domain/spatial/travelersGeometry*` and
+   the town-map gate model were not opened.
+9. The V14 site kinds table (`tables/sites/kinds`, `attraction`, `routed`), V13 §3.8/§3.11 and file r item 926 are other
+   readers' lanes and were not opened here; Z1–Z3 do not characterize them.
+10. The EC fold bracket on `route_wardenship` (HS15) runs past the range read; its full ruling was not read.
