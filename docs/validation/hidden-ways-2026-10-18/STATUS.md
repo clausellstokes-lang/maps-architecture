@@ -1,4 +1,4 @@
-# STATUS — the hidden-ways design run (lanes hidden-ways/*; written by the autosave loop at 2026-10-18 23:08Z)
+# STATUS — the hidden-ways design run (lanes hidden-ways/*; written by the autosave loop at 2026-10-18 23:10Z)
 
 | lane | last line | state | the line |
 |---|---|---|---|
@@ -10,4 +10,4 @@
 | hidden-ways/read-v14-base | 2026-10-18 22:39 | LANDED | 2026-10-18 22:39 hidden-ways/read-v14-base LANDED docs/validation/hidden-ways-2026-10-18/read-v14-base.md (301 lines, md5 c374178b): the site record's ownership split mirrors exactly but HR's fallback direction is invert |
 | hidden-ways/design-A | 2026-10-18 23:07 | CHECKPOINT | 2026-10-18 23:07 hidden-ways/design-A CHECKPOINT builder written (63 fragments) and run; next: fix any misses, write design-A.md §0/§1/§3/§4 and assemble |
 | hidden-ways/design-B | 2026-10-18 23:05 | CHECKPOINT | 2026-10-18 23:05 hidden-ways/design-B CHECKPOINT design-B.md §0–§1 written (570 lines); next: the fragments script (≈ 66 fragments over V13, V14, the base, HOST-REQUIREMENTS, INDEX, SUMMARY), §2–§4, LANDED |
-| hidden-ways/design-C | 2026-10-18 22:59 | CHECKPOINT | 2026-10-18 22:59 hidden-ways/design-C CHECKPOINT volumes read (V13 §2.2/2.3/2.5-2.7/3.8/3.9/3.11.6/3.16-17/5.1/5.8-5.9/6-11, V14 §1b.5/2.3/3.4 E1/10.2, base §2.4, HOST-REQ rows, file t form); word settled (trod), design  |
+| hidden-ways/design-C | 2026-10-18 23:10 | LANDED | 2026-10-18 23:10 hidden-ways/design-C LANDED docs/validation/hidden-ways-2026-10-18/design-C.md (1260 lines, md5 6a1d232b): the hidden way is a trod (way and hidden both taken) — a record of its own (WorldTrod, two junct |
