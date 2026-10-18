@@ -149,6 +149,7 @@ index and the summary name file u beside file t (fragments (h), (i)).
 > built, a fallback for the water model on a small crop frame, and one more M0 gate check (K14: moving a site's arena
 > into a town's document keeps every name).
 *Reason:* the summary names the amendment files applied since file k; files t and u were not named.
+
 **950.** **The transient arena's form is built by M-ENC's SE0, M6-P its second reader (Q81 (a); J395 C9).**
 
 The base built the kernel's transient-arena form at M6-P (after M4) and named M-ENC its first view owner
@@ -184,6 +185,7 @@ say so; the milestone table's rows are left (they state the plan rung's own orde
 > > second reader) and times S1 on the two small frames.
 >
 *Reason:* the volume's revision notes record every amendment file that changes it.
+
 **951.** **One transient arena per encounter scene (Q81 (b); J395 C9).**
 
 V14 E4 (a) opened one transient arena whose `fixed` rings were every footprint, water face and underground element face
@@ -228,6 +230,7 @@ be refused as written. One arena per scene (`EncounterCrop.scenes`), each with i
 *New text:*
 > seeds' union or overlaps another fixed ring (a crop's scenes are separate transient arenas, V14 §3.13 E4), are refused (detail `overlap`)
 *Reason:* the base's rule names how the encounter crop keeps it.
+
 **952.** **The S1 small-frame fallback row beside `WORLD-9` (Q82; J395 C10).**
 
 V14 runs the base's S1 on a 100 m world crop frame (V14 §3.10 (4); budgeted in §6's E1 (4) row at ≈ 4 ms) and on a
@@ -251,6 +254,7 @@ measurement.
 *New text:*
 > the arena's open ≤ 2 ms; S1 timed on a 100 m crop frame and a ≥ 120 m free-site frame (§6's small-frame row), its fallback taken where S1 fills its budget;
 *Reason:* §6's new row says SE0 measures it; the spike's exit names the measurement.
+
 **953.** **The M0 gate's K14 row: adoption's arena re-key (Q80; J395 C8).**
 
 The verdict's one MISSING row (E-31): a site part's arena adopted into the settlement document under a new `PlatKey`
@@ -305,6 +309,7 @@ summary's count of the gate's checks moves from twenty-six to twenty-seven.
 *New text:*
 > the M0 gate (item 140: twenty-seven "do not foreclose" checks
 *Reason:* K1–K14 and M1–M13 are twenty-seven (apply-t-record §5: "Q80's K14 row is file u's").
+
 ---
 
 ## Adjustments (the computed task's wording against the texts as they stood)
