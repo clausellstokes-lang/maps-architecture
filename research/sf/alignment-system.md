@@ -869,7 +869,7 @@ beliefs); draw armies' or fleets' alignment-shaped routes (a seam); imply alignm
 1. **J382(a) brings alignment into territory.** The territory projection's culture term now reads the host's
    `cultureDistance`, which is 0.30 patron axes + 0.25 settlement alignment + 0.18 economy + 0.27 governance (whose
    identity half compares government labels, item 6), closed by direct trade ties and shared traditions (§4.2). At the time of this reading (before J382 was applied) V13 §3.9's `foreignCulture` term was categorical (1 when a cell's culture id
-   differed from the seed's) [OBSERVED then at `docs/volumes/V13-world.md:1360-1372`; Fable-reviewed 2026-10-18: AV-16 — the term is gone; V13 §3.9 W8 (now `:1779`) reads the host's culture distance between the seed seat and the owning seat, banded in fifths, in its plain form (V13:662, :811, :1101, :1811-1820; J382 (a), J384 (2)), so the proposal below has been adopted in that form]. To read the host term it has to become a
+   differed from the seed's) [OBSERVED then at `docs/volumes/V13-world.md:1360-1372`; Fable-reviewed 2026-10-18: AV-16 — the term is gone; V13 §3.9 W8 (now `:1792`) reads the host's culture distance between the seed seat and the owning seat, banded in fifths, in its plain form (V13:675, :824, :1114, :1824-1833; J382 (a), J384 (2)), so the proposal below has been adopted in that form]. To read the host term it has to become a
    continuous cost keyed on the *pair of seats* — the seed and the cell's owner at the previous pass — because the host
    has no per-cell culture. Proposal: step cost `1 + … + costVector.foreignCulture × cultureDistance(seed seat, owning
    seat)`.
@@ -899,7 +899,7 @@ beliefs); draw armies' or fleets' alignment-shaped routes (a seam); imply alignm
    writers are generation's government label and a power transfer, §4.2), so the identity term gives no realm-wide
    closing. In the host's migration call a *direct* vassal or patron edge closes the distance by up to 15% through the trade-tie multiplier (tie 0.6
    × 0.25), and only for that linked pair, not along a chain [OBSERVED `wp/migrationKernel.js:197`, `:228-230`;
-   `sp/cultureDistance.js:193-198`]; the territory term reads the PLAIN form, with no trade tie, so not even that closing enters it [Fable-reviewed 2026-10-18: J384 (2), V13:811, :1811-1820 — this item was written before J384]. Under J382 a chain's inner towns therefore resist each other's territory as much as
+   `sp/cultureDistance.js:193-198`]; the territory term reads the PLAIN form, with no trade tie, so not even that closing enters it [Fable-reviewed 2026-10-18: J384 (2), V13:824, :1824-1833 — this item was written before J384]. Under J382 a chain's inner towns therefore resist each other's territory as much as
    strangers of the same character. What the identity term does do is make towns with the *same government label* read
    about 0.108 closer — a tier-clustered effect (most small villages share "Elder Council"), not a realm one. Worth a
    legend line [INFERRED from the writers].

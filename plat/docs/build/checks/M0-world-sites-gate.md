@@ -206,7 +206,7 @@ given), `claim` (`faces/claim.ts:140`), `corridor_split` (`arr/bandUnion.ts:625,
 (`arr/corridorUnion.ts:43`; `bandUnion.ts:507, 757–760` with `band`), `invisible` (`arr/winding.ts:55`, scratch only)
 — and **four more the row does not list:** `anchor` (`insert/splitThrough.ts:116, 139`: the contact name's ordinal is
 allocated for this role alone, §3.3 rule 2; `invariants/batch.ts:503`, the prepared-contacts row), `deck_end`,
-`gate_end` and `raised_foot` (`warp/held.ts:204–205`: §3.6's held set (2)–(4) — crossing ends and raised feet are
+`gate_end` and `raised_foot` (`warp/held.ts:204–205`: §3.6's held set (2)–(3) — crossing ends, unless fromLevel = 0, and raised feet are
 held); and `band` as the second value of `bandUnion`'s `edgeRole` parameter domain (`bandUnion.ts:507, 757, 760`,
 a caller's choice, not a branch on a row). `frame.ts:28`'s `'margin'` is a refusal detail, not a role.
 `facade/kernel.ts:218–219`'s `'kerb'` is a service name. `API.md` §1's reuse table (line 48) lists the same five as the
@@ -215,7 +215,7 @@ row and omits the four.
 **Classification.** Each of the four is a design-specified behaviour (§3.3 rule 2's contact names; §3.6's held set),
 so the code is right and the documented list is short. **Fixed-in-M0, no code change:** a choices row and an
 `API.md` §1 row naming `anchor` (ordinal allocation, §3.3 rule 2), `deck_end` / `gate_end` / `raised_foot` (the held
-set, §3.6 (2)–(4)) as the kernel's defaults, beside the five. The alternative — injecting them through `TxEnv`
+set, §3.6 (2)–(3)) as the kernel's defaults, beside the five. The alternative — injecting them through `TxEnv`
 (`heldRoles`, `contactRole`) — is an exported-API change and belongs to M1 if the world regime needs other names.
 
 ### K12 — The commit journal records the stage, the concern and the inputs read — **FAIL, carried-to-M1**

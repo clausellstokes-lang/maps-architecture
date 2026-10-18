@@ -703,7 +703,7 @@ still applies on its own in NC, and every NC tier change waits for the DM [OBSER
 1. Per settlement: population, tier, `peakTier`, lifecycle status and remnant grade, calamity stamps, crisis-flight
    conditions, `regional_migration_pressure`, `steading_tributary` — all in the save.
 2. Trend: the sign of the summed recent deltas in the 12-row ring (the same derivation the belief axis uses); for
-   players, the believed trend where it exists (P-17).
+   players, the host's own dossier direction sentence over that ring (§8.5), never the believed trend, which the host records for its courts (P-17) and shows to no one [Fable-reviewed 2026-10-18: was "for players, the believed trend where it exists (P-17)"; V-1, D-1].
 3. Columns in flight: origin, destination, survivors, depart and arrival ticks, class (M4 classless; P2 refugee or
    voluntary when lit) — position derived, path re-derived and labelled as such (§8.4).
 4. Netted transfers: the outcome records — `flow_migration` carries `from`, `to`, channel type and count in its metadata;
