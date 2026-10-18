@@ -143,3 +143,16 @@ applied targets as they stand on 2026-10-18 (after file r): `docs/volumes/V13-wo
 - `q:922` → r:926
 - `q:924(b)` → r:926
 - `q:925(a)` → r:926
+
+## (c) progress (interim; superseded by the findings table below when written)
+
+File m read whole (2 441 lines); every host citation in its 117 *Evidence* lines and its head's readings opened at 81f1cd96; map-side line citations read against the reconstructed pre-m state. Candidates so far:
+
+- F-cand-1 (m 695/699/714(a) new texts, V13 :953, :1074, :1742-1743): host's v1 knee is a ramp elevMult = 1 + (h−60)/15 (spatialCost.js:385), not "× the factor"; base cost per FMG biome id (BIOME_COST :35-49), terrain classes key receipts (:62-67) and seasonal overlay (:96-101) — "the host's per-terrain-class factor ... replaces biomeFactor" imprecise.
+- F-cand-2 (m 699 evidence, file m :745): "measured on a 2–8 army-week spectrum" — host sovereigntyReach.js:60-79 gives the 2w–8w spectrum as hopWeeks values; the band 5 is a march-week ceiling via armyMarchWeeks (:23-28, :189-190).
+- F-cand-3 (m 713 evidence :963): "the ledger's facets and five events, 'patrolled is not a change' … routeNetworkLedger.js:64-181" — five events + patrolled quote are at src/domain/certification/subsystemRowsWaves.js:356-366 (research note RR-15 cited it; file m dropped it); ledger :64-181 carries grades, charter flavors, flow accrual, bypass.
+- F-cand-4 (m 698 evidence :719): "army time is ceil(1.5 × weeks ÷ readiness)" — armyTransit.js:298-300 divisor is speedMult = 1 + 0.4·(2·readiness − 1) (realm RV-2).
+- F-cand-5 (m 701 evidence :774): "edge id is the pair and the mode, DESIGN_ROUTE_LIFECYCLE.md:71-80" — the id rule is :86; code routeNetworkLedger.js:241 (realm RV-3).
+- F-cand-6 (m 706 evidence :834): "at least thirteen self-describing host axes … spatialDigest.js:116-179" — six there; twelve canon axes across src/domain/spatial (realm RV-1).
+- F-cand-7 (m 727 evidence :1474): "the host's frozen gates carry pack cell indices … spatialDigest.js:771-775" — :771-775 is step 4b neighbour tiers; the gates {between, cellA, cellB, cost} are :813-817 (crossings with cellA/cellB :700-727).
+- F-cand-8 (m 666 evidence :216): "read through one gate by 31 modules" — 32 src modules import activeSpatialDigest at 81f1cd96 (list in scratch).
