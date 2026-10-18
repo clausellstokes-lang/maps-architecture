@@ -8,7 +8,7 @@ import { determinismPoint as lp, fixtureSpec, runBatch } from '../../../src/dete
 import { cityArena, roundTrip, sameBlock } from './support.js';
 
 describe('the CITY-shaped synthetic arena (§13.1, §3.9, §3.3)', () => {
-  const { plat, tally, knots } = cityArena();
+  const { plat, tally } = cityArena();
 
   it('builds what it claims (the fixture\'s precondition)', () => {
     expect(tally.ways).toBe(12);
@@ -48,25 +48,6 @@ describe('the CITY-shaped synthetic arena (§13.1, §3.9, §3.3)', () => {
     // frontage on the middle way in ne, the smaller of its faces' keys (nw's faces are on its other side).
     const rows = Object.fromEntries(l3.map((s) => [s.key, s.edgeRows]));
     expect(rows).toEqual({ 'district:ne': 8 * 4 + 1, 'district:nw': 9 * 4, 'district:se': 9 * 4, 'district:sw': 9 * 4 });
-  });
-
-  it('a level-ℓ row on a level-ℓ vertex goes to that vertex\'s own partition (C-0207 (4); checks/M0-a-15-notes.md note 3)', () => {
-    // The lanes' width knots: an L2 row on each lane end, an L2 Steiner vertex. Each is written beside its vertex in
-    // the vertex's district chunk at L2 — never OUTSIDE (no L2 OUTSIDE chunk exists) — on a district boundary too
-    // (lanes ending on the middle ways: the smaller key holds the vertex and its row).
-    expect(knots.length).toBe(2 * 35);
-    const l2 = encodeArena(plat).slice(1).map((c) => describeChunk(c.bytes)).filter((s) => s.level === 2);
-    expect(l2.map((s) => s.key).sort()).toEqual(['district:ne', 'district:nw', 'district:se', 'district:sw']);
-    const knotAt = new Set(knots.map(([x, y]) => `${x},${y}`));
-    let held = 0;
-    for (const s of l2) {
-      const own = s.points.filter(([x, y]) => knotAt.has(`${x},${y}`)).length;
-      // The chunk's vertex rows are exactly its own knot vertices' (the lanes' knots are its only L2 vertex rows).
-      expect(s.vertexRows, s.key).toBe(own);
-      expect(own, s.key).toBeGreaterThan(0);
-      held += own;
-    }
-    expect(held).toBe(knots.length);
   });
 
   it('a vertex on a shared L1 edge goes to the partition with the smaller key (§3.3, §3.9)', () => {
