@@ -7,7 +7,7 @@
 | file | sha256 (16) | lines |
 |---|---|---|
 | `docs/ARCHITECTURE.md` | 3bac7e522a7b3e4c | 24463 |
-| `docs/volumes/INDEX.md` | 99ca84f858bc2158 | 260 |
+| `docs/volumes/INDEX.md` | 79407f8d3d34d40f | 260 |
 | `docs/volumes/V01-neighbourhoods.md` | a59cfac9b27a8886 | 3765 |
 | `docs/volumes/V02-buildings.md` | 574577038e1de304 | 4232 |
 | `docs/volumes/V03-interiors.md` | 3cb0d96c7ef309ea | 3307 |
@@ -20,7 +20,7 @@
 | `docs/volumes/V10-clerk.md` | 1717fa2eb3dd375a | 3583 |
 | `docs/volumes/V11-content.md` | c698b45421163a1f | 5504 |
 | `docs/volumes/V12-calibration.md` | 1bcb54970016f797 | 3590 |
-| `docs/volumes/V13-world.md` | 2f42bfe0c4b7dc95 | 4466 |
+| `docs/volumes/V13-world.md` | 6dca9e22df622b2a | 4466 |
 | `docs/volumes/V14-sites.md` | 17d3881a91f496a6 | 3214 |
 
 ## Contents
@@ -24789,7 +24789,7 @@ carries files f (`docs/AMENDMENTS-2026-09-28f.md`, items 200–585, the volumes'
 (`docs/AMENDMENTS-2026-09-28g.md`, file g's items, the owner's rules), applied by the coherence pass
 (`workflows/18-coherence.js`); files j (`docs/AMENDMENTS-2026-10-16j.md`, items 131–141, the owner's rules on the world,
 sites, encounters, hydrology and the 2.5D view) and k (`docs/AMENDMENTS-2026-10-16k.md`, items 600–647, volumes 13
-and 14's base change requests) are applied — file j's rules cited by number in the base's §0.2 and its base change requests superseded by file k's (J374), file k applied by the coherence pass `coherence/world-sites-k` (J376; `docs/validation/coherence/world-sites-k.md`) —, as are file l (items 648–658, the VTT export profile re-verified; J376) and files m–q (items 659–925: the realm review of the host's simulator, the lens design and its closing passes; J385 – J388 for files m–p), each applied by the record its status line names under `docs/validation/coherence/`, and file r (`docs/AMENDMENTS-2026-10-18r.md`, item 926: the owner's answer to V13 §11 Q4, 2026-10-18), applied by the lane its status line names, and file s (`docs/AMENDMENTS-2026-10-18s.md`, items 927–938: the Fable retrovalidation's corrections to volumes 13 and 14, 2026-10-18), applied by the lane its status line names. The plain-language account for the owner is `docs/volumes/SUMMARY.md`.
+and 14's base change requests) are applied — file j's rules cited by number in the base's §0.2 and its base change requests superseded by file k's (J374), file k applied by the coherence pass `coherence/world-sites-k` (J376; `docs/validation/coherence/world-sites-k.md`) —, as are file l (items 648–658, the VTT export profile re-verified; J376) and files m–q (items 659–925: the realm review of the host's simulator, the lens design and its closing passes; J385 – J388 for files m–p), each applied by the record its status line names under `docs/validation/coherence/`, and file r (`docs/AMENDMENTS-2026-10-18r.md`, item 926: the owner's answer to V13 §11 Q4, 2026-10-18), applied by the lane its status line names, and file s (`docs/AMENDMENTS-2026-10-18s.md`, items 927–939: the Fable retrovalidation's corrections to volumes 13 and 14, 2026-10-18), applied by the lane its status line names. The plain-language account for the owner is `docs/volumes/SUMMARY.md`.
 
 ## 1 The product map
 
@@ -73501,14 +73501,14 @@ The integration lane's rulings for this volume (`docs/volumes/_integrate.md`) ar
 > geometry — staying closed; §11 Q4 is answered, and H5 (the host's builder over the canon) and H22's birth canon no
 > longer wait on it (§8.5's preamble, H5's and H22's rows, §10's BCR-V13-40, §11 Q4 and its ruling).
 
-> **Retrovalidation s — 2026-10-18** (`docs/AMENDMENTS-2026-10-18s.md`, items 927–935; the Fable retrovalidation of
+> **Retrovalidation s — 2026-10-18** (`docs/AMENDMENTS-2026-10-18s.md`, items 927–935 and 939; the Fable retrovalidation of
 > the work J375 marked pending, its records under `docs/validation/retrovalidation-2026-10-18/`). Changed, each text
 > a validator's correction taken whole save §2.3's prosperity row: §2.2's `waterLanes` comment says what "lit" means —
 > the frozen record's versioned lane slot with at least one lane, never the host's fleet switch (H25; J382 (b) as the
 > retrovalidation amended it); §2.3's `RouteCostLaw` comments give `classFactor` and the elevation knee as the shape of
 > the host's law 2 (H6), its first law pricing by biome with a ramp for a knee and not ported (J-V13.73); §2.3's
 > `reach.kProsperity` row and §5.9 (7)'s drift note say the host's band polarises — a seat at the middle rung or
-> better climbing, a struggling seat sinking — and drifts upward in aggregate only where most seats start there, the
+> better climbing, a struggling seat sinking — and drifts upward in aggregate where most seats start there, the usual case, the
 > relative rung resting on the polarisation, not the direction; §3.11.6's *Retention* names the lens plates' horizon
 > (§5.8 (8)) beside user events and the supersession chain; §5.8 (7) says the host's own chips are shown to the DM, no player surface
 > traced; §5.9 (5)'s trend row gives the party the direction the host's own dossier already tells it, never a believed
@@ -77256,7 +77256,7 @@ owner's question (V13 §11 Q2).
 | J-V13.80 | chose **edits on a host-bound world under the host's decree law** (held while it advances or is parked; dated at its next tick head and offered; sealed when consumed; retcons only as its receipted re-canonize; political and military kinds refused, the host's own command opened, no message proposing one; forks silent) over free retcons under a lived history or a shared undo stack |
 | J-V13.81 | chose **the import reading what the host actually has** — a pinned adapter for the host's fork's own export beside users' files, the unit per file, no silent rescale, one stated y-flip, the host's placements as a recorded import request, the file's states and cultures never steering a host's snapshot — and **the transition in phases** (capture first, import on request, a legacy world view with no write, an elective rebase, retirement with every frozen record kept) over a version floor that refuses the host's whole estate, a clamp, an implicit flip, or forced migration under a geometry change (rewrites lived futures) |
 | J-V13.82 | chose **the seasonal curve on the host's calendar** (the hottest week 23 in the calendar hemisphere, 49 in the other; seasonal states as 52-week sets keyed to the host's week of year, every multiplier the host's) over a January-first phase on a spring-first calendar (frost in the host's spring) or clamping southern cells (falsifies the climate) |
-| J-V13.83 | chose **prosperity relative to the realm's held median rung** — clamped to ±3, read only at revisions with the 13-week dwell, the median itself held by its own dwell and moving the whole world in one revision (J384 (1)) — and **log-linear size and prosperity factors** (1.15 per size third, 1.1 per relative rung), so the reach is exponential in tier, size and prosperity as the owner's words ask (J385), over the absolute rung (the host's band ratchets upward realm-wide, so every reach would inflate together over the years), continuous re-reading (borders move only on dated facts) or arithmetic steps (exponential in tier only) |
+| J-V13.83 | chose **prosperity relative to the realm's held median rung** — clamped to ±3, read only at revisions with the 13-week dwell, the median itself held by its own dwell and moving the whole world in one revision (J384 (1)) — and **log-linear size and prosperity factors** (1.15 per size third, 1.1 per relative rung), so the reach is exponential in tier, size and prosperity as the owner's words ask (J385), over the absolute rung (the host's band ratchets upward realm-wide, so every reach would inflate together over the years — *amended 2026-10-18 by the Fable retrovalidation's prosperity lane (file s item 939): the band polarises and drifts upward in aggregate as the usual case, not a law; the relative choice rests on the polarisation, not the direction, and stands*), continuous re-reading (borders move only on dated facts) or arithmetic steps (exponential in tier only) |
 | J-V13.84 | chose **the adversarial push deferring to the host's own strength order** — the two sides compared on travel time at the steeper fade (the smaller τ of the two), the host's stronger side gaining `margins.pushPerBand` per band of its order (its own fifths), level while the host sends none — with the map's projection keeping each side's reach, floor and ceiling and the map's vassal reinforcement moved out of the push into the military tie-break (J384 (3); the host's comparator has no chain term), over the map's τ or its reinforcement deciding the push (two systems deciding one contest, and the map giving a march to the side the host's own raids treat as the weaker) or showing the disagreement only in the cell's why (a pair inside one fifth reads level though the host may still rank it — its own tie margin is narrower; the host may send, per adversarial pair, its stronger side or tie, H25) |
 | J-V13.85 | chose **satellites sent with the polity facts and drawn at their frozen site points**, projecting their own small reach inside their parent's allegiance, never chain members, their people out of their parent's size third (J384 (11)), over counting parent and satellites as one size (a satellite counted twice) or drawing them on an orbit ring (a cosmetic ring slot the host draws by, not the site it sampled) |
 | J-V13.86 | chose **a raid without the host's outcome word as a fighting mark that moves no line, and a raid with one as a verdict** (its winner +1 at the victim's facing segments) (J384 (5)), with the host's embattlement phases drawn only through its presentation overlay, never as a march mover, over reading every raid as won by its aggressor (an outcome the host does not compute) or embattlement as a verdict (a pressure, not an outcome) |

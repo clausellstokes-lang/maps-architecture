@@ -98,8 +98,8 @@ again; that lane regenerates.
 
 - The corrected phrases searched over V13, V14, INDEX, SUMMARY, the base, `docs/design/*.md` and the brief ("believed
   trend", "public chips", "hostility carries hardest", "strongest carrier", "drifts upward", "upward drift", "fleet
-  switch", "elevation knee", "file suffix: 0", "horizons cover user events"; and "upward" and "drift" over V13): every hit is a target
-  of this file or is listed in file s's *Not items* with its reason (V13 :785 and H28 :3753 "a conversion's strongest
+  switch", "elevation knee", "file suffix: 0", "horizons cover user events"; and "upward" and "drift" over V13): every hit but one is a target
+  of this file or is listed in file s's *Not items* with its reason — the one, J-V13.83 :3860 (the rejected absolute rung's reason), found by confirm-design and carried as file s item 939 (V13 :785 and H28 :3753 "a conversion's strongest
   carrier" — one conversion's carrier, not a ranking; :3147 above); SUMMARY has no hit on any affected claim.
 - Clean-room: every code span a new text adds already occurs in its target; no camel-case, snake-case or source-file
   word in a new text is absent from its target.

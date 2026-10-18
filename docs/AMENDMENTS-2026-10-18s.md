@@ -2,9 +2,9 @@
 
 Numbered from **927** (file r ended at 926).
 
-**APPLIED** by retrovalidation/apply-design on 2026-10-18 (record: docs/validation/retrovalidation-2026-10-18/apply-design.md) — all 12 change items 927–938 applied, all 12 fragments matched exactly once at their turn, no adjustment needed; no item not applied; `docs/ARCHITECTURE-FULL.md` regenerated, `--check` exit 0.
+**APPLIED** by retrovalidation/apply-design on 2026-10-18 (record: docs/validation/retrovalidation-2026-10-18/apply-design.md) — all 13 change items 927–939 applied (939 added by the confirm-design check, 2026-10-18), all 13 fragments matched exactly once at their turn, no adjustment needed; no item not applied; `docs/ARCHITECTURE-FULL.md` regenerated, `--check` exit 0.
 
-Items 927–938: 12 change items, one fragment each, to `docs/volumes/V13-world.md` (9, items 927–935),
+Items 927–939: 13 change items, one fragment each, to `docs/volumes/V13-world.md` (10, items 927–935 and 939),
 `docs/volumes/V14-sites.md` (2, items 936–937) and `docs/volumes/INDEX.md` (1, item 938). Source: the session's Fable
 retrovalidation of 2026-10-18, called by the owner's ruling J375 (2026-10-17: "please use opus 5.5 for the rest,
 marking anything from this future point onwards that does not use fable to manage or validate as something to be
@@ -24,7 +24,7 @@ choices, the host-requirements document, the base's revision note) and **8 of ki
 | `lenses.verdict.json` | PASS-WITH-CORRECTIONS (36: 29 UPHELD, 6 AMENDED, 1 NOT-A-RULING) | 1 (V13 §5.8 (7)) | 932 |
 | `population.verdict.json` | PASS-WITH-CORRECTIONS (16: 11 UPHELD, 3 AMENDED, 1 OVERTURNED, 1 NOT-A-RULING) | 1 (V13 §5.9 (5)) | 933 |
 | `faith.verdict.json` | PASS-WITH-CORRECTIONS (22: 17 UPHELD, 5 AMENDED) | 1 (V13 §5.9 (6)) | 934 |
-| `prosperity.verdict.json` | PASS-WITH-CORRECTIONS (52: 41 UPHELD, 10 AMENDED, 1 NOT-A-RULING) | 1 (V13 §5.9 (7)) | 935 (and 930) |
+| `prosperity.verdict.json` | PASS-WITH-CORRECTIONS (52: 41 UPHELD, 10 AMENDED, 1 NOT-A-RULING) | 1 (V13 §5.9 (7)) | 935 (and 930, 939) |
 | `small.verdict.json` | PASS-WITH-CORRECTIONS (16: 9 UPHELD, 6 AMENDED, 1 NOT-A-RULING) | 1 (V14 §2.4) | 937 |
 | `alignment.verdict.json` | PASS-WITH-CORRECTIONS (24: 17 UPHELD, 6 AMENDED, 1 OVERTURNED) | 0 | — |
 | `fp.verdict.json` | PASS-WITH-CORRECTIONS (21: 14 UPHELD, 5 AMENDED, 1 OVERTURNED, 1 NOT-A-RULING) | 0 | — |
@@ -88,14 +88,14 @@ plain-language claim SUMMARY makes; the bundle `docs/ARCHITECTURE-FULL.md` — r
 *New text:*
 > > longer wait on it (§8.5's preamble, H5's and H22's rows, §10's BCR-V13-40, §11 Q4 and its ruling).
 >
-> > **Retrovalidation s — 2026-10-18** (`docs/AMENDMENTS-2026-10-18s.md`, items 927–935; the Fable retrovalidation of
+> > **Retrovalidation s — 2026-10-18** (`docs/AMENDMENTS-2026-10-18s.md`, items 927–935 and 939; the Fable retrovalidation of
 > > the work J375 marked pending, its records under `docs/validation/retrovalidation-2026-10-18/`). Changed, each text
 > > a validator's correction taken whole save §2.3's prosperity row: §2.2's `waterLanes` comment says what "lit" means —
 > > the frozen record's versioned lane slot with at least one lane, never the host's fleet switch (H25; J382 (b) as the
 > > retrovalidation amended it); §2.3's `RouteCostLaw` comments give `classFactor` and the elevation knee as the shape of
 > > the host's law 2 (H6), its first law pricing by biome with a ramp for a knee and not ported (J-V13.73); §2.3's
 > > `reach.kProsperity` row and §5.9 (7)'s drift note say the host's band polarises — a seat at the middle rung or
-> > better climbing, a struggling seat sinking — and drifts upward in aggregate only where most seats start there, the
+> > better climbing, a struggling seat sinking — and drifts upward in aggregate where most seats start there, the usual case, the
 > > relative rung resting on the polarisation, not the direction; §3.11.6's *Retention* names the lens plates' horizon
 > > (§5.8 (8)) beside user events and the supersession chain; §5.8 (7) says the host's own chips are shown to the DM, no player surface
 > > traced; §5.9 (5)'s trend row gives the party the direction the host's own dossier already tells it, never a believed
@@ -201,6 +201,18 @@ plain-language claim SUMMARY makes; the bundle `docs/ARCHITECTURE-FULL.md` — r
 *Reason* (the validator's, verbatim from its verdict JSON): V-2 carried into the design: V13 §5.9 (7)'s bias note inherited 'drifts upward realm-wide in aggregate' as a law; the evidence establishes polarisation, and J384 (1)'s relative rung does not rest on the direction.
 *Evidence:* [STATED] `docs/validation/retrovalidation-2026-10-18/prosperity.md:50` (V-2), `:109` (§4 AMENDED: "V13 §5.9 (7) note amended (D-1); J384 (1)'s choice of relative is unaffected and stands"); [OBSERVED] `docs/volumes/V13-world.md:3392-3394`; item 930.
 
+### Volume 13 — §9 Decisions (J-V13.83)
+
+**939.** **J-V13.83's rejected absolute rung: its reason bracketed as the retrovalidation amended it.**
+*From:* the confirm-design check's finding 1 (Fable; `docs/validation/retrovalidation-2026-10-18/confirm-design.md`), the carriage of retrovalidation/prosperity's D-1 (`prosperity.verdict.json` correction 41, finding V-2) to the decisions log; not in the validator's list (its record names the V13 passages it read, `prosperity.md:11`, and §9 is not among them) — applied by retrovalidation/fix-design (record: `docs/validation/retrovalidation-2026-10-18/fix-design.md`).
+*Target:* `docs/volumes/V13-world.md`, line 3860 as it stood before this item.
+*Current text:*
+> over the absolute rung (the host's band ratchets upward realm-wide, so every reach would inflate together over the years), continuous re-reading
+*New text:*
+> over the absolute rung (the host's band ratchets upward realm-wide, so every reach would inflate together over the years — *amended 2026-10-18 by the Fable retrovalidation's prosperity lane (file s item 939): the band polarises and drifts upward in aggregate as the usual case, not a law; the relative choice rests on the polarisation, not the direction, and stands*), continuous re-reading
+*Reason:* the prosperity validator's reason for the passage it corrected (item 935), verbatim: "V-2 carried into the design: V13 §5.9 (7)'s bias note inherited 'drifts upward realm-wide in aggregate' as a law; the evidence establishes polarisation, and J384 (1)'s relative rung does not rest on the direction." This item's: the rejected option keeps its reason as given, bracketed so the decisions log says what the retrovalidation found; the ruling stands (`prosperity.md:109`: "J384 (1)'s choice of relative is unaffected and stands").
+*Evidence:* [STATED] `docs/validation/retrovalidation-2026-10-18/prosperity.md:50` (V-2: "what it establishes is polarisation … 'upward in aggregate' is the usual case, not a law"), `:109` (§4 AMENDED: "V13 §5.9 (7) note amended (D-1); J384 (1)'s choice of relative is unaffected and stands"); [OBSERVED] `docs/volumes/V13-world.md:3860`; `:3802` (J-V13.25's italic dated note, the §9 form for a later amendment); item 930.
+
 ### Volume 14 — the revision notes under the title
 
 **936.** **The retrovalidation's correction recorded under the title.**
@@ -238,7 +250,7 @@ plain-language claim SUMMARY makes; the bundle `docs/ARCHITECTURE-FULL.md` — r
 *Current text:*
 > item 926: the owner's answer to V13 §11 Q4, 2026-10-18), applied by the lane its status line names.
 *New text:*
-> item 926: the owner's answer to V13 §11 Q4, 2026-10-18), applied by the lane its status line names, and file s (`docs/AMENDMENTS-2026-10-18s.md`, items 927–938: the Fable retrovalidation's corrections to volumes 13 and 14, 2026-10-18), applied by the lane its status line names.
+> item 926: the owner's answer to V13 §11 Q4, 2026-10-18), applied by the lane its status line names, and file s (`docs/AMENDMENTS-2026-10-18s.md`, items 927–939: the Fable retrovalidation's corrections to volumes 13 and 14, 2026-10-18), applied by the lane its status line names.
 *Reason:* the form of this series (see *Where the sources were not taken verbatim*); no validator asked for it.
 *Evidence:* [OBSERVED] `docs/volumes/INDEX.md:14` (files j–r and the lanes or records that applied them); file q item 918, file r item 926 (i); `docs/validation/retrovalidation-2026-10-18/STATUS.md`; [INFERRED] an index that names every amendment file but this one would be stale the day file s lands, the gap class the lens-p critic raised (file q gap 3).
 
@@ -267,7 +279,7 @@ is new to V13: "Moderate", the host's middle prosperity rung, in prosperity's ow
 host displays, not a source identifier, taken unchanged as the validator wrote it and named here for the Fable check;
 this file's own texts (items 927, 930) say "the middle rung" instead.
 
-**The final item list and targets** (12 items, 12 fragments): V13 — 927 (the revision notes), 928 (§2.2 `waterLanes`),
+**The final item list and targets** (13 items, 13 fragments): V13 — 927 (the revision notes), 928 (§2.2 `waterLanes`),
 929 (§2.3 `RouteCostLaw`), 930 (§2.3 `reach.kProsperity`), 931 (§3.11.6 *Retention*), 932 (§5.8 (7)), 933 (§5.9 (5)
-trend), 934 (§5.9 (6) pressure), 935 (§5.9 (7) drift note); V14 — 936 (the revision notes), 937 (§2.4
+trend), 934 (§5.9 (6) pressure), 935 (§5.9 (7) drift note), 939 (J-V13.83); V14 — 936 (the revision notes), 937 (§2.4
 `EncounterCrop.scenes`); the index — 938 (the preamble's state line).
