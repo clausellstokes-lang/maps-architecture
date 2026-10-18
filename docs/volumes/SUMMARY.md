@@ -12,9 +12,10 @@ rules of 16 October, the world a town stands in, the persistent sites and battle
 and 14, added on 17 October). The volumes were
 checked against each other in seven rounds; the last round's fourteen serious problems were fixed in this final pass.
 What remains are small wording and bookkeeping items, listed below, which do not change how anything would be built.
-There are thirty-three decisions that are yours by rule (twenty-five from the first twelve volumes, eight from the two
-new ones: seven you deferred to the session on 16 October, and one — whether the world's canon stays outside the
-closed door that keeps your host's simulator from reading the map — that you answered yourself on 18 October: yes); each of the
+There are thirty-four decisions that are yours by rule (twenty-five from the first twelve volumes, nine from the two
+new ones: seven you deferred to the session on 16 October; one — whether the world's canon stays outside the
+closed door that keeps your host's simulator from reading the map — that you answered yourself on 18 October: yes; and one
+put to you on 18 October with your word on sites and their roads — what "the catalogue" meant); each of the
 others already has a recommendation, and the work proceeds on the recommendation until you say otherwise; with your
 yes, nothing in the design now keeps a campaign's simulation from reading the new world's canon — a new campaign's
 from its birth, once your host makes its changes on your schedule — while a town's own geometry stays behind the
@@ -82,7 +83,12 @@ closed door.
     only a clickable icon that shows in the view where the thing is — the temple's icon appears only when that house's
     cellar plan is open — and it is your secret until you reveal it or the party discovers it. Sites age, are occupied,
     abandoned, damaged, ruined and restored as transforms over one persisted plan, never a re-roll; a village can grow up
-    around an old fort and adopt it. **The 2.5D switch:** the flat map stays the default and loses nothing; beside it a
+    around an old fort and adopt it. Every kind of site knows whether it needs a road: a fort, a mine or a toll house
+    gets one — it stands on a road the world already has, or the world lays a track to it — a shrine or a tower a path
+    where a road is near, and a hideout keeps off the roads; and four kinds put themselves right when dropped in the
+    wrong spot — a toll house moves onto the road, a bridge fort onto the road's river crossing, a mine onto its ore, a
+    hideout off the road — each move shown before you accept it, one click keeping the spot you chose; no road is ever
+    bent to reach a site. **The 2.5D switch:** the flat map stays the default and loses nothing; beside it a
     second, switchable view draws the same town in isometric, oblique or perspective projection — the ground draped over
     its heights, buildings extruded to their roofs, floors as stacked slabs you can cut through, the underground as
     cut-away slabs, islands at their altitude — with nothing added to the document, so a click in the 2.5D view lands on
@@ -195,6 +201,9 @@ Twenty-five questions, each with a recommendation the work follows until you rul
   interiors following; a site record in the SettlementForge dossier, scheduled with the host's other changes; accept
   the two volumes' cost (37–45 and 25.75–36.25 person-weeks); and the tabletop export may carry each room's reason in
   an optional block that is off unless you turn it on.
+- **The sites and their roads** (one question, put to you on 18 October with your word on sites and roads): whether
+  "the catalogue" in that word means the list of site kinds you pick from, each of which now says whether it needs a
+  road and whether it moves itself to fit — recommended yes; the design reads it so until you say otherwise.
 - **One you answered yourself, as the design reserves it to you:** whether the world's canon — the travel, water and
   site facts your host's simulation reads, never a town's geometry — stays outside the closed door that keeps your
   host's simulator from reading the map. You said yes on 18 October: the canon may reach your host's simulation —
@@ -206,9 +215,9 @@ section 11.
 
 ## What the two new volumes ask of you
 
-Nothing you have not already been asked for the other twelve: the eight decisions above (seven proceed on their recommendation until you
-say otherwise; the eighth you answered on 18 October), two short review sittings when the builds land (six sites and six battle
+Nothing you have not already been asked for the other twelve: the nine decisions above (eight proceed on their recommendation until you
+say otherwise; one you answered on 18 October), two short review sittings when the builds land (six sites and six battle
 maps rated for legibility, realism and playability; the 2.5D view beside the flat one), and, on the SettlementForge
 side, the host's own changes to send the world its seats, borders and events and to carry a site record — on your
-schedule. Before any of this is built, the M0 gate (item 140: fourteen "do not foreclose" checks on the kernel and
+schedule. Before any of this is built, the M0 gate (item 140: twenty-six "do not foreclose" checks on the kernel and
 the model, none adding a feature) must close with evidence; the core design has absorbed file k (17 October).
