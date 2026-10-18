@@ -1,6 +1,6 @@
 # SettlementForge's alignment system — settlement, NPC, faction and deity alignment and temperament; how they are set, drift and press between settlements, what they drive, and what a map lens can show
 
-> PENDING FABLE REVIEW — written by Opus 5.5 standing in for the Fable seat research/sf-alignment; to be retrovalidated overall at the next opportunity (owner, 2026-10-17, J375)
+> Fable-reviewed 2026-10-18: PASS-WITH-CORRECTIONS — 17 verifier findings accepted (5 wrong, 12 imprecise) and 3 stale passages dated, 30 fragments applied in place; conclusions hold (lane retrovalidation/alignment; J392)
 
 Synthesis seat `research/sf-alignment` (workflows/38-systems-read, subject "alignments"; `docs/PROGRESS.md` J380). Host:
 `/home/user/clausellstokes-lang/settlement-engine` at `origin/master` `81f1cd96` (verified: detached HEAD, clean tree),
@@ -167,7 +167,7 @@ grep; only `config.primaryDeitySnapshot` and NPC personality].
 | (b) **Seeded word** | `npcStates[id].alignment`: one of eight D&D words (lawful_good, neutral_good, lawful_neutral, true_neutral, chaotic_neutral, lawful_evil, neutral_evil, chaotic_evil — no chaotic_good), prefixed `corrupted_` when the NPC is corrupt at seeding | `ensureNpcStates` once, from a seeded fork, when the pulse first sees the NPC [OBSERVED `wp/npcAgency.js:161-170`, `:515-531`] | none lit: war seat books and settlement politics are dark; the AI persona slicer reads it [OBSERVED grep `src/domain/ai/personaSlicer.js:97`] |
 | (c) **Declared facet** | `npc.facets.alignment` from the same eight-word bank, set by the DM's edit dropdown, labelled for readers ("Orderly and kindly" …) | the edit-npc op | display; the dark war seat books [OBSERVED·r `src/domain/npc/npcFacetContract.js:12-46`] |
 | (d) **Derived chart reading** | a paradigm-axis reading (17 opposed virtue/vice axes, owner-unsigned) | — | none; returns "no claim" while its column is unlanded [OBSERVED·r `src/domain/npc/characterConsumers.js:496-555`; `src/domain/npc/paradigmAxisCatalog.js`] |
-| (e) **Trait plane** | a second per-word table, `TRAIT_PLANE`, with *two* signed axes: e (+ evil) and c (+ chaotic); 44 words; its e column is said to mirror (a) sign-flipped but the magnitudes differ (generous is −0.6 here, +0.7 in (a); cruel +0.85 vs −0.9); the c column is the **only NPC-grain law axis** in the host | — (derived from the authored slots) | lit wherever a deity is seated: the clergy plane (piety bleed-through and legitimacy scandal drag, `wp/religiousContest.js:745`), the cause lifecycle (`wp/causeLifecycle.js:362`, runs once a compromised NPC exists, `wp/pulseKernel.js:1829`), and the NPC ladder's faith coherence (distance from the patron on the e/c plane, `wp/npcLadderCoherence.js:43-53`, read by `wp/npcLadderKernel.js:101`; `npcLadderEnabled` is ONE_REGEN: RR, DC, LR, FS); dark in the envoy chance meetings [OBSERVED `wp/clergyTraitPlane.js:36-96`; importers by grep] |
+| (e) **Trait plane** | a second per-word table, `TRAIT_PLANE`, with *two* signed axes: e (+ evil) and c (+ chaotic); 44 words; its e column is said to mirror (a) sign-flipped but the magnitudes differ (generous is −0.6 here, +0.7 in (a); cruel +0.85 vs −0.9); the c column is the **only personality-derived NPC law axis, and the only lit one** (the seeded and declared D&D words are parsed into a law reading too, but only by the dark war seat books `wp/warSeatBooks.js:270-276` and settlement politics `wp/settlementPolitics.js:1058-1064`, §7 rows 44-45) | — (derived from the authored slots) | lit wherever a deity is seated: the clergy plane (piety bleed-through and legitimacy scandal drag, `wp/religiousContest.js:745`), the cause lifecycle (`wp/causeLifecycle.js:362`, runs once a compromised NPC exists, `wp/pulseKernel.js:1829`), and the NPC ladder's faith coherence (distance from the patron on the e/c plane, `wp/npcLadderCoherence.js:43-53`, read by `wp/npcLadderKernel.js:101`; `npcLadderEnabled` is ONE_REGEN: RR, DC, LR, FS); dark in the envoy chance meetings [OBSERVED `wp/clergyTraitPlane.js:36-96`; importers by grep] |
 
 The disposition and corruption code say outright that they never read the seeded word (b) [OBSERVED
 `wp/disposition.js:14-19`, `:112-116`; `src/domain/corruption.js:202`]. So a settlement's law axis has no NPC input at
@@ -232,7 +232,7 @@ not past the dead-band (neutral) [INFERRED from the arithmetic]: **temper is the
 ### 2.5 Institutions: the moral and martial lean tables
 
 Morally coded institutions carry a signed lean (cruelty +1 cruel … −1 merciful; disorder +1 chaotic … −1 ordered),
-matched by name, first match wins [OBSERVED `wp/moralMartialLean.js:57-69`]:
+matched against the institution's name, category and tags (first match wins) [OBSERVED `wp/moralMartialLean.js:57-69`, `:100-105`, `:121-128`]:
 
 | Institution (pattern) | cruelty | disorder |
 |---|---|---|
@@ -240,7 +240,7 @@ matched by name, first match wins [OBSERVED `wp/moralMartialLean.js:57-69`]:
 | debtor's prison / debt bond / indenture | 0.6 | −0.6 |
 | workhouse / poorhouse / labour camp | 0.5 | −0.5 |
 | colosseum / arena / fighting or blood pit / gladiator | 0.55 | 0.85 |
-| red-light / brothel / pleasure district | 0.2 | 0.6 |
+| red-light / brothel district / pleasure district | 0.2 | 0.6 |
 | gambling den / hall / house / casino / betting | 0.1 | 0.7 |
 | almshouse / poor relief / charity house | −0.7 | −0.2 |
 | hospice / infirmary for the poor / leper house | −0.8 | −0.1 |
@@ -353,7 +353,7 @@ Thresholds the consumers apply to these axes:
 
 | Consumer | Threshold | Source |
 |---|---|---|
-| transit gate bans slaves | gate malice < 0.4 **or** lawfulness > 0.6 — but only for a good the slave pattern recognises, and the goods catalog has none (§6 Trade) | [OBSERVED `sp/smuggle.js:87-98`, `:126`, `:143-148`, `:164-180`] |
+| transit gate bans slaves | gate malice < 0.4 **or** lawfulness > 0.6 — but only for a good the slave pattern recognises, and the goods catalog has none (§6 Trade) | [OBSERVED `sp/smuggle.js:87-98`, `:114-116`, `:143-148`, `:164-180`] |
 | transit gate bans unsanctioned arcana | gate lawfulness > 0.6 | same |
 | any listed good banned by culture | culture distance (gate, origin) ≥ 0.5 slaves, 0.55 military, 0.6 arcane | same |
 | ally intel deceives / garbles | sharer malice > 0.6 / lawfulness < 0.4 | [OBSERVED `wp/beliefMap.js:948-966`, `:988-1036`] |
@@ -376,8 +376,8 @@ roster plus legitimacy.
 **The roster is biased, not symmetric.** The generator's word lists hold 45 positive, 30 negative and 30 neutral words
 [OBSERVED `data/npcData.js:77` and following]. The conscience table scores 16 of the 45 virtues, 17 of the 30 flaws and 7
 of the 30 neutrals; the aggression table 13, 15 and 8 [computed by me with node over the host tables, §12 row 3]. Under
-the 40/30/20/10 slot roll the exact expectation per NPC is a conscience of −0.144 and an aggression of +0.162; only 63%
-(conscience) and 61% (aggression) of NPCs score at all, and among those the means are −0.227 and +0.269 [INFERRED,
+the 40/30/20/10 slot roll the exact expectation per NPC is a conscience of −0.144 and an aggression of +0.165 (the aggression sum is not clamped, `wp/disposition.js:132-139`; only the conscience sum is, `:397` [Fable-reviewed 2026-10-18: an earlier text applied the clamp to both and read +0.162]); only 63%
+(conscience) and 60% (aggression) of NPCs score at all, and among those the means are −0.227 and +0.272 [INFERRED,
 computed]. Consequences for a born world with no deity and no deeds [INFERRED from §3.1 and §3.3 arithmetic]:
 
 - a large roster's expected malice is about 0.55 — inside "balanced", but skewed toward the malicious edge;
@@ -460,7 +460,7 @@ pairwise reads or emergent.
     from a small closed list of government types ("Elder Council" for most low-priority thorps, hamlets and villages,
     "Town Council", "Town Mayor", "Merchant Council" …) and which "doubles as the government type" [OBSERVED
     `src/generators/power/rulingStructure.js:251-290`, `:783-792`]. The only other writer is a transfer of power, which
-    writes the new faction's name [OBSERVED `src/domain/rulingPower.js:665`]. So two unrelated settlements with the same
+    writes a government-type label for the winning faction's archetype and the settlement's tier, or its alternate label when a roster name contains the preferred one [OBSERVED `src/domain/rulingPower.js:214-217`, `:433-459`, `:517`, `:665`; Fable-reviewed 2026-10-18: AV-2 — an earlier text said "the new faction's name"]. So two unrelated settlements with the same
     government label read identity 0 (about 0.108 closer), a vassal does not share its overlord's name, and nothing in
     the host models an overlord here [INFERRED from the writers; how often labels coincide was not measured].
   - **Tradition kinship is driven by deity presence, not deity alignment.** Kinship compares the motif *elements* of the
@@ -491,9 +491,12 @@ pairwise reads or emergent.
   clash raises the legitimacy floor at which a patron becomes contestable by a rival faith (+0.12 × clash), and the law
   sign shifts the patron's fit with the government's mandate (±0.12) [OBSERVED `wp/deityStance.js:35-39`, `:69-72`,
   `:94-113`; `wp/religionState.js:544-553`, `:739-749`; `wp/religionLegitimacy.js:160-166`]. The third, receptivity
-  resistance against an incoming faith (0.35 × clash inside the incumbent's counter-force), is read only by the
-  neighbour-spread and occupation-pull conversion, which the faith-spread gate skips when off (DC, FS; D+) [OBSERVED
-  `wp/religiousContest.js:237-246`, `:514`, `:548-553`, `:780`].
+  resistance against a second creed (0.35 × clash inside the incumbent's counter-force), is read in every present creed's
+  share advance — step 3b runs for every present, non-suppressed deity in every religion-active settlement with no spread
+  gate, the patron as the mood — so it fires wherever a patron and a second creed (a DM-imposed cult or an entrant) are
+  present, in any preset; spread adds only the entrant lane and the occupation pull [OBSERVED
+  `wp/religiousContest.js:237-246`, `:514`, `:520-530`, `:733-734`, `:768-794`, `:780`, `:796-805`; `wp/religionState.js:164-201`
+  (imposed cults seeded beside the patron); Fable-reviewed 2026-10-18: AV-8 — an earlier text read it as spread-gated].
 - **Leader kinship** (dark) — 1 − mean |Δ| over law and good parsed from the two leaders' seeded words [OBSERVED
   `wp/settlementPolitics.js:1038-1075`].
 
@@ -545,11 +548,11 @@ population counts, not NPCs, so it does not move alignment [INFERRED from `wp/mi
 
 **Conquest does not close culture distance through governance identity.** The culture module's header says a conquest
 that flips the conquered town's `governingName` to the victor's draws it toward the victor's culture [STATED
-`sp/cultureDistance.js:20-22`]; the code never does that. A conquest installs a new governing power named "‹occupier
-name› occupation authority" and the transfer writes that string as the town's `governingName` [OBSERVED
-`wp/warDeployment.js:856-858`; `wp/applyWorldPulse.js:165-187`; `src/domain/rulingPower.js:659-666`], and a victor's own
+`sp/cultureDistance.js:20-22`]; the code never does that. A conquest installs a non-governing "‹occupier
+name› occupation authority" faction and crowns it; the transfer writes the occupation archetype's government label as the town's `governingName`, which — because the occupier's own name contains "Occupation Authority" — is the alternate "Martial Administration" [OBSERVED
+`wp/warDeployment.js:856-858`; `wp/applyWorldPulse.js:165-187`; `wp/applyWorldPulseOccupationAuthority.js:162-174`; `src/domain/rulingPower.js:178-187`, `:433-459`, `:517`, `:665`; confirmed by running `installOccupationAuthority` + `transferRulingPower` read-only; Fable-reviewed 2026-10-18: AV-2 — an earlier text said the occupier string itself was written], and a victor's own
 `governingName` is a government label such as "Town Council" (§4.2), so the two never match and the identity term stays
-1 [OBSERVED `sp/cultureDistance.js:183-186`]. If the two towns happened to share a label before the conquest, the
+1 [OBSERVED `sp/cultureDistance.js:183-186`]; but every occupied town carries the same "Martial Administration", so two towns under any occupation read identity 0 with each other, about 0.108 closer [Fable-reviewed 2026-10-18: AV-2]. If the two towns happened to share a label before the conquest, the
 conquest *raises* their distance by about 0.108 [INFERRED]. The header is stale; an earlier draft of this note repeated
 it. Conquest does move culture distance through its other terms: the occupation regime changes the regime-axes gap and
 both towns' alignment (channel 2).
@@ -563,7 +566,7 @@ both towns' alignment (channel 2).
 | Caravans | origin caution = 0.2 + 0.8 × law weighs believed destination danger; appetite baseline = 1.0 + 0.6 × merchant strength − 0.4 × (2·law − 1), within 0.3–2.0 | per origin→destination over the digest; route choice itself uses a constant tolerance 0.6 | `commodityFlowEnabled` ∧ canon [OBSERVED `sp/embattlement.js:95-110`, `:304-320`; `sp/dispatchEV.js:111-116`, `:238-244`; `wp/supplyKernel.js:81`, `:258`, `:451`, `:615-680`] |
 | Smuggling and gates | boldness from (inverse) caution; the worst transit gate's conscience 0.6·(1 − malice) + 0.4·law; contraband by the gate's alignment and its culture distance to the origin | the route's worst gate at arrival | same [OBSERVED `wp/supplyKernel.js:687-760`; `sp/smuggle.js:87-180`] |
 | Refugees | destination culture affinity (alignment 0.25 of distance); origin's risk tolerance 0.2 + 0.8 × law into route choice | the 8 nearest reachable mapped settlements by frozen path cost with the season; danger-weighted route | canon ∧ emigration (§7 row 19) [OBSERVED `wp/migrationKernel.js:148-230`, `:463-483`] |
-| Supply-web war | instrument fit by malice/law lean; atrocity brake = gain × bloody share × (0.35 + 0.65 × LG) × (0.4 + 0.6 × mean victim innocence) | target's supplier villages, fragile first then cheapest route | `warLayerEnabled` ∧ `supplyWebWarfareEnabled` ∧ digest [OBSERVED `wp/supplyWebWarfare.js:442-480`, `:818-862`] |
+| Supply-web war | instrument fit by malice/law lean; atrocity brake = gain × bloody share × (0.35 + 0.65 × LG) × (0.4 + 0.6 × mean victim innocence) | target's supplier villages, fragile first, then highest supply share, then cheapest route (`wp/supplyWebWarfare.js:857-864`) | `warLayerEnabled` ∧ `supplyWebWarfareEnabled` ∧ digest [OBSERVED `wp/supplyWebWarfare.js:442-480`, `:818-862`] |
 | Armies and fleets | designed: lawful read danger true, chaotic take the cheap dangerous road | would be route choice over the digest | SEAM: every production caller passes no alignment, so tolerance is the neutral 0.6 [OBSERVED `sp/armyTransit.js:568-578`, `:690-697`; `wp/armyTransitKernel.js:714`, `:901`; OBSERVED·r `sp/navalLayer.js:363-379`, `wp/navalKernel.js:346-350`] |
 | Named NPC road travellers | the traveller's personality words set a risk tolerance (§2.7) used twice: a dispatch refusal when believed danger exceeds 2 × tolerance (a coward stays home sooner), and the danger weight in route choice — where the same number makes the *bold* traveller weigh danger most (inverted, §10 item 28); the escort's quality includes home readiness and military capacity, both moved by the patron's temper (§6 War) | the believed view of the digest; the outbound and return routes over the frozen candidates, with the season | `roadsEnabled` (ONE_REGEN) ∧ canon: RR, DC, LR, FS [OBSERVED `src/domain/roads/state.js:248-253`, `:334-343`, `:347-366`; `wp/roadsKernel.js:344-351`, `:1008-1032`; `sp/embattlement.js:347-357`, `:407-423`] |
 | Conquest captives | the victor's patron conscience decides whether captives may feed its slave market: a good patron's abolition read on a slave-market lean must stay under the abolition floor; a deity-free victor is permitted wherever it has a (name-matched) slave market | from the conquered to the victor's market, as a decaying prosperity pulse | war layer (DC, FS; D+) [OBSERVED `wp/conquestFeeds.js:100-150`; `wp/pulseKernel.js:1752`] |
@@ -594,7 +597,7 @@ merchant or monastic one, is regime, not alignment.) The model's header still sa
 stale: the occupation model, the war capacity reads, trade salience, the occupation-conversion force, road escort
 quality, and the War Resolve and army-strength displays all call it [OBSERVED `wp/militaryStrength.js:21-22`; importers
 `wp/occupation.js:561`, `:1188`, `wp/warCapacityReads.js:184`, `wp/tradeSalience.js:174`, `wp/religiousContest.js:220`,
-`wp/roadsKernel.js:1031`, `src/domain/display/warResolve.js:256`, `src/domain/display/armyStrength.js:64`]. The patron's
+`wp/roadsKernel.js:1031`, `src/domain/display/warResolve.js:256`, `src/domain/display/armyStrength.js:64`, and the irregular-force share `wp/irregularForce.js:55` (dark: `irregularForceEnabled` is lit in no preset, `wp/simulationRules.js:633`) — eight modules, as §10 item 31 counts]. The patron's
 temper also drives the **readiness ratchet** through the piety megaphone (composite piety above 1): a warlike patron
 speeds accrual and slows the peace decay (×0.6 of the megaphone), a peacelike one speeds the decay (×1.2) [OBSERVED
 `wp/martialReadiness.js:89-93`, `:136-141`, `:198-212`, `:505-521`]. It runs wherever a deity is present (the religion
@@ -629,7 +632,7 @@ services are category military, arcane reagents, alchemical goods and arcane ser
 `src/domain/region/goodsCatalog.js:130-245`]. An unknown label normalises to a custom good of category "other" [OBSERVED
 `:466-475`]. The slave category is assigned only when the good's id or category matches the slave word pattern (slave,
 captive, chattel, thrall, bondsman, serf trade), which the smuggling module itself calls the extensible seam for a
-category the catalog lacks [OBSERVED `sp/smuggle.js:126`, `:133-148`]. I checked by calling the host's normaliser and
+category the catalog lacks [OBSERVED `sp/smuggle.js:114-116`, `:133-148`]. I checked by calling the host's normaliser and
 classifier: "Undeclared slaves" and "Enslaved captives" — the criminal demand profile's labels for steppe and norse
 cultures [OBSERVED `src/generators/demandProfile.js:97`, `:94`] — classify as slaves; "Stolen mail and weapons" is not
 military. Whether those demand-profile imports ever ride a commodity flow was not traced. So "this gate bans slave
@@ -663,7 +666,7 @@ and the deity stance's local law lane (§4.2) are the other faith-side readers o
 **Information.** Ally-intel styling (§5 channel 3b). Information-statecraft lies read malice and law (dark)
 [OBSERVED `wp/pulseKernel.js:2231-2256`]. The built belief record has readiness, strength band, alliance label, faith
 label and confidence — **no alignment field**, although PHASE55 designs one [OBSERVED `wp/beliefMap.js:991-1036`;
-STATED PHASE55:1294-1297]. So there is no believed alignment anywhere lit; the only believed moral read is the dark
+STATED PHASE55:1296-1298]. So there is no believed alignment anywhere lit; the only believed moral read is the dark
 conquest lane's "what faith the court believes the rival worships", resolved to a nature [OBSERVED·r
 `wp/conquestDoctrineStage.js:449-484`].
 
@@ -781,7 +784,7 @@ population and resource dynamics [OBSERVED `wp/simulationRules.js` preset body a
 | 56 | Road escort quality (capacity incl. temper, readiness) and NPC route choice and refusal by personality | `roadsEnabled` (ONE_REGEN) ∧ canon | – | c | c | – | – | c | c | LIT 4 on canon; route danger weight inverted (§10 item 28) [OBSERVED `wp/roadsKernel.js:344-351`, `:1008-1032`] |
 | 57 | Captive gate (victor's patron conscience × slave market) | war layer | D+ | D+ | ✓ | D+ | D+ | D+ | ✓ | LIT 2 (deity-free victor permitted) [OBSERVED `wp/conquestFeeds.js:118-150`; `wp/pulseKernel.js:1752`] |
 | 58 | NPC trait plane (e, c) → clergy piety bleed and legitimacy drag; cause lifecycle; / NPC ladder faith coherence | deity present / + `npcLadderEnabled` (ONE_REGEN) | ✓ / – | ✓ / ✓ | ✓ / ✓ | ✓ / – | ✓ / – | ✓ / ✓ | ✓ / ✓ | LIT 7 / LIT 4 (deity); cause lifecycle needs a compromised NPC (none in SC, where NPC agency is off) [OBSERVED `wp/clergyTraitPlane.js:47-96`; `wp/religiousContest.js:745`; `wp/causeLifecycle.js:362`; `wp/npcLadderCoherence.js:43-53`] |
-| 59 | Deity stance local law lane: contest floor and mandate fit / receptivity resistance | deity present / + faith spread | ✓ / D+ | ✓ / D+ | ✓ / ✓ | ✓ / D+ | ✓ / D+ | ✓ / D+ | ✓ / ✓ | LIT 7 / LIT 2 (law-authored deities) [OBSERVED `wp/religionState.js:544-553`, `:739-749`; `wp/religiousContest.js:237-246`, `:548-553`] |
+| 59 | Deity stance local law lane: contest floor and mandate fit / receptivity resistance | deity present / + a second creed present (a DM-imposed cult or an entrant) | ✓ / ✓ | ✓ / ✓ | ✓ / ✓ | ✓ / ✓ | ✓ / ✓ | ✓ / ✓ | ✓ / ✓ | LIT 7 / LIT 7 (law-authored deities; a second creed present) [OBSERVED `wp/religionState.js:544-553`, `:739-749`; `wp/religiousContest.js:237-246`, `:514`, `:796-805`; Fable-reviewed 2026-10-18: AV-8 — the receptivity half read D+ before] |
 | 60 | Magic legality and attitude by a warlike/evil major patron | none (display derivation) | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | LIT UI (major deity) [OBSERVED `src/domain/magicProfile.js:167-176`, `:259-272`] |
 
 **The birth caveat** [OBSERVED `wp/simulationRules.js:20-31`, `:1552-1558`]: `NEW_CAMPAIGN_SIMULATION_PRESET_ID` is `null`,
@@ -793,8 +796,8 @@ tone [STATED FAITH-NOTE §8, from a seat's read of `src/lib/instantWorld/compose
 
 **Against the FP status of record** (FOLD §2): alignment is not a row; the rows this table touches agree — FAITH's
 `faithUnseatingEnabled` in four presets (patron changes by unseating), INTERIOR's `settlementPoliticsEnabled` lit nowhere,
-POP's `demographicsEnabled` lit nowhere (which is one of the conquest doctrine's eight prerequisites), WC entirely
-unbuilt (its alignment join slider and character drift are designed only) [STATED FOLD:333-351].
+POP's `demographicsEnabled` lit nowhere (which is one of the conquest doctrine's eight prerequisites), WC built only as
+its WC-0 substrate (vocabularies, column union, law-band shape, flags, ledger shape; no writer) and otherwise unbuilt (WC-1..WC-16), its alignment join slider and character drift designed only [STATED FOLD:346; Fable-reviewed 2026-10-18: AV-9 — an earlier text said "entirely unbuilt"].
 
 ---
 
@@ -804,11 +807,11 @@ unbuilt (its alignment join slider and character drift are designed only) [STATE
 
 | Touchpoint | What is read | Where | Gate |
 |---|---|---|---|
-| **Distance / travel time** | route choice over the frozen digest's cached candidates, danger × (1 − tolerance), with the season; tolerance = 0.2 + 0.8 × lawfulness for refugees | `sp/embattlement.js:304-330`; `wp/migrationKernel.js:463-474` | canon |
+| **Distance / travel time** | route choice over the frozen digest's cached candidates, effective cost = seasonal base cost + tolerance × 1.5 × median hop cost × Σ embattlement (+ tolls), with the season; tolerance = 0.2 + 0.8 × lawfulness for refugees (a lawful mover weighs danger most, §2.7 [Fable-reviewed 2026-10-18: AV-3 — an earlier text wrote (1 − tolerance)]) | `sp/embattlement.js:304-330`, `:347-357`, `:407-423`; `wp/migrationKernel.js:463-474` | canon |
 | **Candidate pool** | the 8 nearest reachable mapped settlements by frozen path cost and season; closeness by distance weight | `wp/migrationKernel.js:469-474`, `:215-230` | canon |
 | **Routes and gates** | the *worst transit gate* on a caravan's route decides contraband (gate alignment, gate culture vs origin) and seizure take (gate conscience); caravan caution weighs believed destination danger | `wp/supplyKernel.js:440-500`, `:687-760`; `sp/smuggle.js:87-180` | commodity flow ∧ canon (RR, FS) |
 | **Distance attenuation** | faith prescription σ × distance weight (floor 0.35; 1.0 for unmapped endpoints) | `wp/religiousContest.js:361-384`; `sp/distanceRead.js:851-863` | canon |
-| **Supplier villages** | supply-web stages ordered fragile-first then cheapest route | `wp/supplyWebWarfare.js:855-862` | war ∧ web war ∧ digest |
+| **Supplier villages** | supply-web stages ordered fragile first, then highest supply share, then cheapest route | `wp/supplyWebWarfare.js:857-864` | war ∧ web war ∧ digest |
 | **Adjacency (graph, not geometry)** | tolerance partners; faith carriers; the mediator must neighbour both belligerents; moral drift's former-friend multiplier reads the true relation label; migration trade tie and hostility | `wp/institutionTolerance.js:138-161`; `wp/peaceTermsGraph.js` per a reader; `sp/moralDrift.js:111` | as rows |
 | **The frozen digest** | never read by the two axes themselves; its canon marker switches on beliefs (and so moral drift, momentum, ally intel), commodity flow and migration | `wp/beliefMap.js:204-209`; `sp/commodityFlow.js:165-177`; `sp/migration.js:165-179` | — |
 | **Seasons** | route choices and path cost take the season; founding's emission weight | `wp/migrationKernel.js:217-222`; `wp/moralInstitutionPressure.js:509-517` | seasons (DC, LR, FS) for founding |
@@ -821,7 +824,7 @@ unbuilt (its alignment join slider and character drift are designed only) [STATE
 
 Two of the host's laws bind any lens here. The **frozen-versus-live law**: geometry is frozen at canonize while
 governance, culture, faith and embattlement are live reads, sampled at the hop tick and baked into the moving packet,
-never recomputed on read [STATED PHASE55:1197-1201 via FP-PHYS §2.5]. And **danger is relative to the mover** — trade,
+never recomputed on read [STATED PHASE55:1197-1201 via FP-PHYS §5]. And **danger is relative to the mover** — trade,
 armies, refugees, smugglers and couriers prefer different routes over the same geometry [STATED PHASE55:834-848,
 :1380-1389 via FP-PHYS]. Alignment is exactly one of those live reads and one of those mover preferences.
 
@@ -865,8 +868,8 @@ beliefs); draw armies' or fleets' alignment-shaped routes (a seam); imply alignm
 
 1. **J382(a) brings alignment into territory.** The territory projection's culture term now reads the host's
    `cultureDistance`, which is 0.30 patron axes + 0.25 settlement alignment + 0.18 economy + 0.27 governance (whose
-   identity half compares government labels, item 6), closed by direct trade ties and shared traditions (§4.2). V13 §3.9's `foreignCulture` term is categorical (1 when a cell's culture id
-   differs from the seed's) [OBSERVED `docs/volumes/V13-world.md:1360-1372`]. To read the host term it has to become a
+   identity half compares government labels, item 6), closed by direct trade ties and shared traditions (§4.2). At the time of this reading (before J382 was applied) V13 §3.9's `foreignCulture` term was categorical (1 when a cell's culture id
+   differed from the seed's) [OBSERVED then at `docs/volumes/V13-world.md:1360-1372`; Fable-reviewed 2026-10-18: AV-16 — the term is gone; V13 §3.9 W8 (now `:1779`) reads the host's culture distance between the seed seat and the owning seat, banded in fifths, in its plain form (V13:662, :811, :1101, :1811-1820; J382 (a), J384 (2)), so the proposal below has been adopted in that form]. To read the host term it has to become a
    continuous cost keyed on the *pair of seats* — the seed and the cell's owner at the previous pass — because the host
    has no per-cell culture. Proposal: step cost `1 + … + costVector.foreignCulture × cultureDistance(seed seat, owning
    seat)`.
@@ -894,9 +897,9 @@ beliefs); draw armies' or fleets' alignment-shaped routes (a seam); imply alignm
    escort's quality is the other host fact a patrol legend could cite (§5.2).
 6. **No vassal-chain closing in culture distance.** Nothing makes a vassal share its overlord's `governingName` (the only
    writers are generation's government label and a power transfer, §4.2), so the identity term gives no realm-wide
-   closing. A *direct* vassal or patron edge closes the distance by up to 15% through the trade-tie multiplier (tie 0.6
+   closing. In the host's migration call a *direct* vassal or patron edge closes the distance by up to 15% through the trade-tie multiplier (tie 0.6
    × 0.25), and only for that linked pair, not along a chain [OBSERVED `wp/migrationKernel.js:197`, `:228-230`;
-   `sp/cultureDistance.js:193-198`]. Under J382 a chain's inner towns therefore resist each other's territory as much as
+   `sp/cultureDistance.js:193-198`]; the territory term reads the PLAIN form, with no trade tie, so not even that closing enters it [Fable-reviewed 2026-10-18: J384 (2), V13:811, :1811-1820 — this item was written before J384]. Under J382 a chain's inner towns therefore resist each other's territory as much as
    strangers of the same character. What the identity term does do is make towns with the *same government label* read
    about 0.108 closer — a tier-clustered effect (most small villages share "Elder Council"), not a realm one. Worth a
    legend line [INFERRED from the writers].
@@ -934,7 +937,7 @@ beliefs); draw armies' or fleets' alignment-shaped routes (a seam); imply alignm
     the events listed in §8.3 item 5; tolerance offsets carry names but no ticks. A scrub that replays moral drift from
     its records must use the host's own advance, not the designed 0.92-per-week curve: as built the stored value decays
     quadratically and is gone after about 8 silent weeks, and in RR it is frozen between raid ticks (§10 item 9). Proposed host ask: a per-pulse
-    alignment digest (both axes, bands, the top constituent causes), published like the faith projection.
+    alignment digest (both axes, bands, the top constituent causes), published like the faith projection [Fable-reviewed 2026-10-18: adopted as V13 §8.5 H30 beside J384 (9)'s map-side plates].
 14. **Recompute, do not reimplement**: the lens calls the host's selector on the pulse snapshot; three parallel
     "settlement character" derivations and four archetype tables already disagree in the host (§10 item 13), and a
     fourth on the map side would make it worse.
@@ -958,7 +961,7 @@ beliefs); draw armies' or fleets' alignment-shaped routes (a seam); imply alignm
 
 1. **Stale "no consumer" headers.** `wp/settlementAlignment.js:19-21`, `wp/disposition.js:365-366`, `:530`, `:562` and
    `sp/moralDrift.js:27-30` (and the comment at `wp/pulseKernel.js:2294-2295` per a reader) say the alignment reads have
-   no live consumer "this wave". About thirty modules import the selectors today, several lit in RR [OBSERVED grep list in
+   no live consumer "this wave". About two dozen modules import the selectors today (24 by static import; 36 files name them, comments and types included), several lit in RR [OBSERVED grep list in
    §11.3].
 2. **The disposition header** says "three blended terms" and lists four, and says the deity term reads the snapshot's
    `temperamentAxis`, which is retired; the code reads the derived temper [OBSERVED `wp/disposition.js:9-27`, `:208-212`
@@ -1018,11 +1021,11 @@ beliefs); draw armies' or fleets' alignment-shaped routes (a seam); imply alignm
     that "Wave A widens" fidelity noise to settlement alignment — not done [OBSERVED `wp/peaceTermsAppraisal.js:86-104`;
     `wp/fidelityNoise.js:65-72`; STATED `wp/settlementAlignment.js:20-21`; SPINE:79-88].
 15. **"Already live" lawfulness face price, partly.** WARCONV calls the oath-price weight in war termination "ALREADY
-    LIVE" at `warTermination.js:762-766` and `momentum.js:1054` [STATED WARCONV:646-651]. The momentum call
+    LIVE" at `warTermination.js:762-766` and `momentum.js:1054` [STATED WARCONV:436, :655-662]. The momentum call
     (`wp/momentum.js:1265`) is live in DC/FS on canon; the war-termination call (`wp/warTermination.js:745`) is dark
     (`warTerminationEnabled` false in FS, absent elsewhere) [OBSERVED `wp/warTermination.js:144`].
 16. **The seeded NPC word has no lit engine reader**; its vocabulary lacks chaotic_good although settlements and deities
-    can be chaotic-good; `characterConsumers` calls it a projection cache for two systems that are dark [OBSERVED
+    can be chaotic-good; `characterConsumers` calls it a projection cache for its "two live consumers" (bloc formation and the war-seat ruler bias), both dark in every preset (§7 rows 44-45), so the comment's "live" is stale [OBSERVED
     `wp/npcAgency.js:161-170`; OBSERVED·r `src/domain/npc/characterConsumers.js:518-524`].
 17. **Seams presented as mechanisms**: army/fleet route risk (null passed); the good giver's charity exception
     (hard-coded false); triage (no caller); the humanitarian evidence door (no consumer); the 3D statuary (hard-coded 0.5;
@@ -1043,7 +1046,7 @@ beliefs); draw armies' or fleets' alignment-shaped routes (a seam); imply alignm
     intended.
 22. **"Converts" means every carrier-linked neighbour** in faith prescription (§5.1 note).
 23. **The fold's migration sentence vs M4.** FOLD §2's POP row says the migration menu is empty in every shipped world
-    because nothing writes the genesis route network [STATED FOLD:339]; the M4 dispatch that reads culture distance and
+    because nothing writes the genesis route network [STATED FOLD:342]; the M4 dispatch that reads culture distance and
     alignment-set route risk ranks destinations by the digest's path cost, not the route network [OBSERVED
     `wp/migrationKernel.js:469-474`]. Open question for the populations seat whether the fold's sentence covers M4.
 24. **Vocabulary collisions** are not in the fold's §5 register (§2.7).
@@ -1053,15 +1056,15 @@ beliefs); draw armies' or fleets' alignment-shaped routes (a seam); imply alignm
     (d) is the quadrant meant to read settlement alignment (WEAVE) or patron axes (code), and both axes (DIRECTIVES) or
     one; (e) should moral drift decay every tick regardless of the belief gate, and should the decay keep the value at
     the last act so it does not compound (item 9); (f) should the governance identity term compare a real overlord
-    rather than a government label (item 27); (g) is the born roster's malicious and belligerent lean intended (item 29).
+    rather than a government label (item 27); (g) is the born roster's malicious and belligerent lean intended (item 29). [Fable-reviewed 2026-10-18: under the owner's "i leave all judgemtn to you" (J384) the session answered (a) — no player view, the lens is DM-only (J384 (7)); (b) — map-side plates, one frame per host advance, and a host ask for a per-advance alignment reading (J384 (9); V13 §8.5 H30); (c) — the whole vector, alignment half included, in the plain form (J384 (2)); (e) is carried to the host as H30 ("fixed if the host so chooses"); (d), (f) and (g) stay open, the design drawing (d) "by the host's law" in three classes and (g) as the lens's lean note (V13 §5.9 (8)).]
 26. **Founded institutions with unmatched names can never be abolished** (§2.5): the pressure function reads the
     name-matched lean only; the loop and the embargo read the stamped lean [OBSERVED
     `wp/moralInstitutionPressure.js:119-121`, `:308-315`; `wp/institutionTolerance.js:104-110`, `:119-136`].
 27. **The culture identity term compares government labels, and its header is stale.** "Same sovereign/overlord" and
     "a conquest that flips B's governingName to A's" [STATED `sp/cultureDistance.js:20-22`] describe nothing in the
-    code: `governingName` is a government-type label at generation and an "‹occupier› occupation authority" string after
+    code: `governingName` is a government-type label at generation and the alternate occupation label "Martial Administration" after
     conquest (§4.2, §5.1) [OBSERVED `src/generators/power/rulingStructure.js:251-290`, `:783-792`;
-    `wp/warDeployment.js:857`; `src/domain/rulingPower.js:665`].
+    `wp/warDeployment.js:857`; `src/domain/rulingPower.js:178-187`, `:433-459`, `:665`; Fable-reviewed 2026-10-18: AV-2].
 28. **Named road travellers' route danger weight is inverted.** The roads module gives a bold traveller a risk tolerance
     of 0.9 and a coward 0.35 and uses it correctly as a refusal ceiling (a coward refuses sooner), but passes the same
     number to the route chooser, where it multiplies the danger surcharge — so the bold traveller weighs danger most and
@@ -1208,7 +1211,7 @@ row per item; "§" references are to this note as now edited.
 |---|---|---|---|
 | P1 | The 0.92-per-week decay (half-life ≈ 8.3 weeks) is wrong: the stored, already-decayed value is re-decayed from the original last-act tick, so the decay compounds | Holds. `sp/moralDrift.js:218-224` decays the stored value by 0.92^(ticks since last act); `:251-254` keeps the old last-act tick on silent ticks. Running the function gave 0.2772 → 0.255, 0.216, 0.168, 0.120, 0.079, 0.048, 0.027, pruned at tick 8 (designed: pruned ≈ tick 32). Factor 0.92^(n(n+1)/2), half-life ≈ 3.6 ticks | §1 item 3, §3.6 row 1, §4.3, §9.3 item 13 and §7 row 22 now state the built decay; logged as a host defect in §10 item 9(a); open question §10 item 25(e) |
 | P2 | §10 item 9's freeze "in RR or LR" is wrong: LR is `perfect_delayed`, so beliefs are live on canon and the kernel runs every tick | Holds. LR's info mode is at `wp/simulationRules.js:996`; `wp/beliefMap.js:204-209` makes beliefs live on canon unless omniscient. Of the presets carrying WAVES (and so web-war raids), only RR is omniscient; QL, SC and NC never raid | §10 item 9(b) says RR only and explains LR; §7 row 22 cells corrected |
-| P3 | Conquest does not set the conquered town's `governingName` to the victor's; the comment the note followed is stale | Holds, and goes further. The conquest writes "‹occupier› occupation authority" (`wp/warDeployment.js:857`; `wp/applyWorldPulse.js:165-187`; `src/domain/rulingPower.js:665`). And `governingName` is a government-type label at generation (`src/generators/power/rulingStructure.js:251-290`, `:783-792`), so the identity term means "same label"; a conquest can *raise* distance for a pair that shared a label | §5.1 closing paragraph rewritten; §4.2 new sub-bullet; §8.1 Territory row; §9.1 items 1 and 3; §10 item 27; §1 map-view paragraph |
+| P3 | Conquest does not set the conquered town's `governingName` to the victor's; the comment the note followed is stale | Holds, and goes further. The conquest crowns the "‹occupier› occupation authority" faction and the transfer writes the occupation archetype's alternate label "Martial Administration" as `governingName` (`wp/warDeployment.js:857`; `wp/applyWorldPulse.js:165-187`; `src/domain/rulingPower.js:178-187`, `:433-459`, `:665`) [Fable-reviewed 2026-10-18: AV-2 — this row first said the occupier string itself was written]. And `governingName` is a government-type label at generation (`src/generators/power/rulingStructure.js:251-290`, `:783-792`), so the identity term means "same label"; a conquest can *raise* distance for a pair that shared a label | §5.1 closing paragraph rewritten; §4.2 new sub-bullet; §8.1 Territory row; §9.1 items 1 and 3; §10 item 27; §1 map-view paragraph |
 | P4 | Vassal chains do not read closer through the identity term; only a direct vassal or patron edge closes distance (×0.85) | Holds. The only writers of `governingName` are generation and a power transfer; the trade tie is read for the direct pair edge only (`wp/migrationKernel.js:197`, `:228-230`), and the contraband call passes no tie (`wp/supplyKernel.js:753-756`) | §9.1 item 6 rewritten (up to 15% for a direct edge, nothing along a chain, plus the same-label effect); §4.2 trade-tie sentence |
 | P5 | Military enforcement does have an alignment input: the patron's temper in the will facet, and the readiness ratchet | Holds. `wp/militaryStrength.js:253-285`: +8 warlike / −6 peacelike on a facet weighted 0.08 (about +0.6 / −0.5 on 0–100); consumers occupation, war capacity reads, trade salience, occupier conversion force, road escort, two displays. `wp/martialReadiness.js:198-212`, `:505-521`: warlike speeds accrual and slows peace decay through the piety megaphone; peacelike speeds decay. Settlement malice and law never enter. The model's "mounted nowhere" header is stale | New "Strength" paragraph in §6; §9.1 item 4 rewritten; §8.1 new row; §7 rows 54-56; §1 item 6; §10 item 31 |
 | P6 | The warlike-supplier embargo bar is not in the trade-war contest but in relationship candidate generation | Holds. The conscience embargo is in `wp/tradeWar.js:324-346`; the deity bar is the trade-leverage candidate at `wp/relationshipRulesAdversarial.js:552-598`, fed by the trade-salience map the pulse builds only under the war layer (`wp/pulseKernel.js:1520-1532`). Peacelike deities subtract the same amounts | §6 Trade paragraph relocated the rule; §7 row 32 relabelled and re-cited |
@@ -1219,7 +1222,7 @@ row per item; "§" references are to this note as now edited.
 |---|---|---|---|
 | M1 | Host defect missed: moral drift decay compounds; lit wherever the kernel runs | Holds (same evidence as P1). It bites on silent ticks in DC, LR and FS on canon, and in RR on any tick with a raid anywhere | §10 item 9(a); §1 item 3; §3.6 |
 | M2 | Host defect missed: founded Orphanage, House of healing and Debtors' yard can never be abolished | Holds. Calling the host readers on the six catalog entries: those three have a stamped lean but no name-matched lean; the abolition loop admits them (`wp/moralInstitutionPressure.js:308`) but the pressure function reads only the name match (`:119-121`), so pressure is 0. The conduct plane and the captive gate also read only the name match; the embargo reads the stamped lean | §2.5 defect paragraph; §7 row 34; §10 item 26 |
-| M3 | Born worlds are biased: the tables score 16/45 virtues, 17/30 flaws, 7/30 neutrals; expected conscience ≈ −0.145, aggression ≈ +0.165 | Holds. My exact expectation over the slot roll: −0.144 and +0.162 (rounding); among scored NPCs −0.227 and +0.269; a lone-scored hamlet reads malicious with p 0.15, benevolent 0.05; expected aggressiveness passes the "Aggressive" chip line for every seat type but craft and labour | §3.5 new paragraph; §3.8; §1 map-view paragraph; §9.3 item 17; §10 items 25(g) and 29 |
+| M3 | Born worlds are biased: the tables score 16/45 virtues, 17/30 flaws, 7/30 neutrals; expected conscience ≈ −0.145, aggression ≈ +0.165 | Holds. My exact expectation over the slot roll: −0.144 and +0.165 (the verifier's figure was exact, not rounding: the aggression sum is not clamped, `wp/disposition.js:132-139` [Fable-reviewed 2026-10-18: AV-1]); among scored NPCs −0.227 and +0.272; a lone-scored hamlet reads malicious with p 0.15, benevolent 0.05; expected aggressiveness passes the "Aggressive" chip line for every seat type but craft and labour | §3.5 new paragraph; §3.8; §1 map-view paragraph; §9.3 item 17; §10 items 25(g) and 29 |
 | M4 | Missed NPC representation: the clergy trait plane, with both an evil and a law axis, the only NPC-grain law axis | Holds. `wp/clergyTraitPlane.js:47-96`, 44 words; magnitudes differ from the conscience table (generous −0.6 vs +0.7). Consumers: clergy plane in the religious contest, cause lifecycle, NPC ladder coherence; the envoy-meeting consumer is dark | §2.2 now "five representations" with row (e); §7 row 58 |
 | M5 | Missed strength coupling: patron temper in capacity and readiness, reaching occupation, war reads and road escorts | Holds (P5). Readiness also feeds the martial-institution lapse | As P5 |
 | M6 | Missed route consumer: road travellers choose routes by personality risk tolerance | Holds, and the read is inverted: the same number is a boldness (refusal ceiling) in the roads module and a danger weight in the route chooser (`sp/embattlement.js:347-357`), so bold travellers take the safe road. Gate: `roadsEnabled` ∧ an active digest (`wp/roadsKernel.js:344-351`) | §5.2 new row; §2.7 new bullet; §7 row 56; §8.1 new row; §10 item 28; §1 item 5 |
@@ -1227,7 +1230,7 @@ row per item; "§" references are to this note as now edited.
 | M8 | Missed the captive gate: the victor's patron conscience decides whether conquest captives feed its slave market | Holds. `wp/conquestFeeds.js:100-150`; a deity-free victor is permitted; the slave market is found by name match; war-gated at `wp/pulseKernel.js:1752` | §5.2 new row; §7 row 57; §1 items 5 and 6 |
 | M9 | Missed territory touchpoint: occupation_continuation scaled by the victor's patron press (PLAUSIBLE: duration not traced) | Holds, now traced: the press multiplies requested duration (`wp/treatyClock.js:48-59`, via `wp/peaceTermsDrafting.js:30-52`), and a live term stands in for the garrison and forbids the collapse exit (`wp/treatyEnforcement.js:140-153`; `wp/occupation.js:1248-1255`). Upgraded to OBSERVED | §6 Peace; §7 row 30; §8.1 Territory row; §9.1 item 3; §1 item 6 |
 | M10 | Missed: tradition genesis seeds elements from deity evil/chaos, a second deity → culture route | Partly holds. Genesis reads evil and chaos only to weight the *act*; element weights read deity presence; kinship compares elements only (`src/domain/traditions/genesis.js:194-199`, `:224-236`; `wp/migrationKernel.js:133-145`). So the route is deity presence, not alignment | §4.2 new sub-bullet; §9.1 item 6b |
-| M11 | Missed the deity stance local lane (law method clash into contest, receptivity, mandate fit), not spread-gated | Partly holds. Contest floor and mandate fit are local (`wp/religionState.js:544-553`, `:739-749`); the receptivity resistance is read only by neighbour-spread and occupation-pull conversion, which the faith-spread gate skips (`wp/religiousContest.js:237-246`, `:548-553`) | §4.2 Deity stance sentence; §7 row 59 |
+| M11 | Missed the deity stance local lane (law method clash into contest, receptivity, mandate fit), not spread-gated | Holds whole [Fable-reviewed 2026-10-18: AV-8 — this row first said "partly"]. Contest floor and mandate fit are local (`wp/religionState.js:544-553`, `:739-749`); the receptivity resistance is read in every present creed's share advance (`wp/religiousContest.js:796-805` → `:514`), with no spread gate; spread adds only the entrant lane and the occupation pull (`:768-794`, `:780`) | §4.2 Deity stance sentence; §7 row 59 |
 | M12 | Missed: a warlike or evil major patron regulates or opposes arcane practice (gate not traced) | Holds, traced: a major patron tightens legality one band, a warlike/evil one two bands and makes the attitude hostile; read only by display and grounding code, no engine consumer | §6 Faith; §7 row 60 |
 | M13 | Missed gate: Relationship drift is a fourth Living-World gate and blocks the War layer while off; SC needs it first | Holds (`comp/settlements/LivingWorldGates.jsx:56-61`, `:236`, `:246`, `:285`; SC sets the key false at `wp/simulationRules.js:970`) | §7 legend; row 53 |
 | M14 | Minor: the disposition history is not a pure ratchet; it decays over a twenty-year half-life | Does not hold as lit. With `dispositionChannelsEnabled` dark (every preset) the writer takes the legacy arm, which adds and clamps with no decay (`wp/dispositionLedger.js:382-421`, `:604-607`; `wp/dispositionChannels.js:38-52`); the 1040-tick half-life is the dark WR-2 channels' only. SCORE_SAT 8 and SCORE_MAX 12 confirmed | §3.3 adds the clarification (and upgrades its tag to OBSERVED); §10 item 32 |

@@ -1,3 +1,4 @@
+// [Fable-reviewed 2026-10-18 (lane retrovalidation/scripts; J392): this script ran as J389 records; its prompt text stays as fed. Corrections to it: line 20 (CONTEXT, copied from 40:20) says "rows J377–J384 … (after file m)" — for this run the inputs were rows J377–J388 and V13 after files m–p (the design prompt at line 25 says so; the reviewer, apply and critic seats received only CONTEXT); line 52 (reviser) says "fix it in file n … at the end of file n" — the reviser's file is ${NFILE} = file q (its Review record stands in file q).]
 export const meta = {
   name: 'lens-q',
   description: 'Close the last three lens gaps as amendments q (the canonize wording in the base and volumes, the additive re-canonize per J388, the owner question Q4 surfaced in the index and summary); review, revise, apply, completeness check',

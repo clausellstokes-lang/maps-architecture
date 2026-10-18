@@ -1,6 +1,6 @@
 # SettlementForge's faith and deity system — local and global rankings, piety, conversion between settlements, and what a map lens can show
 
-> PENDING FABLE REVIEW — written by Opus 5.5 standing in for the Fable seat research/sf-faith; to be retrovalidated overall at the next opportunity (owner, 2026-10-17, J375)
+> Fable-reviewed 2026-10-18: PASS-WITH-CORRECTIONS — conclusions hold; citations, quotes and the "strongest carrier" overstatement corrected in place (lane retrovalidation/faith; J392)
 
 Synthesis seat `research/sf-faith`. Host: `/home/user/clausellstokes-lang/settlement-engine` at `origin/master`
 `81f1cd96`, read-only (nothing written there). Six reading seats returned structured readings (documents; architecture
@@ -21,7 +21,7 @@ COUPLINGS = `docs/DESIGN_FP_COUPLINGS.md`, PHASE55 = `docs/PHASE55_SPATIAL_ENGIN
 
 Preset abbreviations (the seven shipped presets, `wp/simulationRules.js:864-1221`): QL `quiet_local`, **RR
 `realistic_regional` (the default, :6)**, DC `dramatic_campaign`, SC `static_campaign`, NC `narrative_campaign`, LR
-`living_realm`, FS `full_simulation`. One pulse tick is one week [STATED `wp/moralInstitutionPressure.js:52`].
+`living_realm`, FS `full_simulation`. One pulse tick is one week [STATED `wp/moralInstitutionPressure.js:55`].
 
 ---
 
@@ -85,7 +85,7 @@ code — the pilgrim and legate movers (WF-2) are unbuilt and the "missionize" l
 default preset no creed moves unless the DM lights the Living-World gate for that campaign, so the lens must read the
 resolved rule and show still pantheons honestly when spread is off (faith-weighted relief and contraband still cross
 settlement lines); (2) "flows along carrier
-routes from dated receipts" cannot be read from the host today — conversion receipts name only the convert, the reach
+routes from dated host receipts" cannot be read from the host today — conversion receipts name only the convert, the reach
 map is not persisted, the drawn faith channels carry no deity id and are never retired; (3) holy places, sacred sites,
 hidden cult sites and pilgrim/missionary encounters have **no faith geometry** behind them — no coordinates and no faith
 movers; the host holds only settlement-grain faith-place labels (the typed neighbour graph's `pilgrimage_center` /
@@ -110,15 +110,15 @@ which the lens can show rather than invent; (6) a believed-faith player view exi
 - The **temper the engine uses is derived** from alignment and law (evil and chaos weighted 0.7/0.3 with a 0.15
   dead-band), unless an `authoredTemper` overrides it; the stored `temperamentAxis` is a compatibility mirror the
   engine does not read [OBSERVED `wp/deityAxes.js:95-153`; STATED ARCH_WF V10]. Two code comments still claim the stored
-  value is used verbatim and are stale (§10, item 9).
+  value is used verbatim and are stale (§10, item 4).
 - Optional authored character (migration 200 and the JS admission wall): up to 16 `characterAxes` tokens
   (axis:pole:level, virtue/vice, a_touch/marked/defining, one per axis), a `boonChannel`/`baneChannel` pair with
   strengths faint/firm/heavy over nine channels (harvest, trade, craft, healing, sea, order, war_readiness, learning,
   hearth), and `authoredTemper`. Drift keys are refused by name ("divine immutability") [OBSERVED
-  `src/domain/customContentSchema.js:183-330`, `:354-400`; `src/copy/deityAuthoring.js:24-49`]. The database CHECK for
+  `src/domain/customContentSchema.js:183-330`, `:354-400`]. The database CHECK for
   these fields is **not deployed** by its own header [OBSERVED `mig/200_deity_authored_character.sql:5-12`; one seat
   cited lines 83-236, which do not exist in this 155-line file].
-- `domain` is one word; war/conquest/hunt/harvest are mechanical (war-bar pressure), the rest display only.
+- `domain` is one word; war/conquest/hunt/harvest carry a war-bar pressure that is mechanical only under WR-2's `dispositionChannelsEnabled` (lit in no preset, §7.2; `src/copy/deityAuthoring.js:45` tells the author so), the rest display only.
   `portfolio` is free text with zero mechanics [OBSERVED `src/domain/display/deityEffects.js:84-176`; STATED
   PHASE4:899-915].
 
@@ -128,7 +128,7 @@ which the lens can show rather than invent; (6) a believed-faith player view exi
   dossier's `DeityAssignmentPanel` or from the Herald Faith door's `AssignDeityFromMap` (a settlement picker beside the
   map — not a click on the map), and from the event composer [OBSERVED `set/DeityAssignmentPanel.jsx:107-369`;
   `map/AssignDeityFromMap.jsx:41-107`; `src/domain/events/mutateEntities.js:948-996`].
-- The store resolves the authored row, mints an account-scoped identity `deity:<scope>:<slug>`, and embeds a **frozen
+- The store resolves the authored row, mints a stable identity `deity:<scope>:<slug>` (the code's word is account-scoped: scope = the deity's own `localUid`, the authoring account's local token, falling back to `id`; `src/lib/customRegistry.js:111-141` [Fable-reviewed 2026-10-18: the two files cited below embed the snapshot, they do not mint the ref]), and embeds a **frozen
   snapshot** (name, the axes, domain, the authored-character keys) on the settlement as `config.primaryDeitySnapshot`
   (+ `primaryDeityRef`) or into `config.cultDeitySnapshots` [OBSERVED `src/domain/deitySnapshot.js:56-118`;
   `src/domain/deityCommitEmbed.js:54-144`]. The pulse reads only these embeds, never the authored row. `portfolio` is
@@ -168,10 +168,10 @@ which the lens can show rather than invent; (6) a believed-faith player view exi
 
 - The religion priority slider (`priorityReligion`, 0–100, default 50) scales the chance of religious institutions
   (church, cathedral, monastery, temple, shrine, abbey, friary, hospital) and of theocratic seats by slider/50
-  [OBSERVED `src/generators/institutionProbability.js:88-91`, `:139-146`; `src/generators/steps/resolveConfig.js:74`].
-- Above 55 with a religious institution, the economy gets a static "Church Tithes" income line; above 68 on a road or
+  [OBSERVED `src/generators/institutionProbability.js:88-91`, `:139-146`; default 50 at `src/generators/steps/resolveConfig.js:192` and `src/store/configSlice.js:29` (`:74` is the Random-mode roll)].
+- Above a derived religion influence of 55 (the slider × crime, economy, church and stress modifiers, `src/generators/priorityHelpers.js:421-427`; tested at `economicState.js:227`, `:241`) with a religious institution, the economy gets a static "Church Tithes" income line; above 68 on a road or
   crossroads, a "Pilgrim Trade" line; the `holySite` resource boosts religious institutions and sets a pilgrimage
-  marker [OBSERVED `src/generators/economy/economicState.js:226-248`; `src/data/resourceData.js:399-411`;
+  marker (`pilgrimage: !0`, `src/data/resourceData.js:409`, carried at `src/generators/resourceGenerator.js:386`); a cathedral, monastery or pilgrim institution also opens a "Pilgrimage & religious tourism" export chain [OBSERVED `src/generators/economy/economicState.js:226-248`; `src/data/resourceData.js:399-411`;
   `src/generators/computeActiveChains.js:935-938`].
 - The layout text names a "Religious Quarter" (a text location, not geometry) or a "Roadside Shrine" [OBSERVED
   `src/generators/spatialGenerator.js:30-95`]. History text still fills a `{deity}` slot with generic names ("the Sun
@@ -263,7 +263,7 @@ arrive only by DM act.
 - **Patron security** = (0.7 × legitimacy + 0.3 × share/100), × 0.65 when contested; it is the one scalar that props or
   erodes the throne (§7.1) and scales holy-war claims (§7.2) [OBSERVED `wp/religionState.js:629`].
 - **DM re-assign.** When `config.primaryDeitySnapshot` differs from the state's patron, the DM is authoritative: the
-  assigned deity is installed as the dominant patron at share max(60, others + 10), challenge counters reset, shares
+  assigned deity is installed as the dominant patron at share max(60, others + 10), the flip-challenge counter (`patronChallengeTicks`) resets (`contestedTicks` and the siege fields do not), shares
   renormalized [OBSERVED `wp/religionState.js:211-231`]. This produces **no** conversion outcome and no pantheon
   win/loss, because the conversion block compares against the patron read *after* this branch; the patron-fall
   classifier, which reads the prior tick's patron, records it as `imposed` [OBSERVED, re-checked
@@ -288,7 +288,7 @@ arrive only by DM act.
   imposed or forced faith carries a 0.45 heresy stain [OBSERVED `wp/religionState.js:58-61`].
 - Target = ruler endorsement × (0.42 + 0.40 × compromise) + 0.20 × fade × neighbour recognition + 0.30 × fade × tenure
   saturation (tenure/(tenure+8)) + 0.08 × chronicle term + 0.12 × institution backing × standing backing + piety-gated
-  synergy (0.06) and conduct fit (0.14) − heresy stain − clergy scandal drag (0.16 × scandal); fade = 1 − 0.5 ×
+  synergy (0.06) and conduct fit (0.14) − heresy stain − clergy scandal drag (0.16 × (taint + 0.6 × revealed taint) × a court modifier 0.5–1.5; `wp/religionLegitimacy.js:131-133`, `:515-517`); fade = 1 − 0.5 ×
   compromise. It lags toward the target at 0.12 per tick; tenure moves ±1; the stain decays 0.06 per tick only while
   established or better [OBSERVED `wp/religionLegitimacy.js:74-134`, `:191-202`, `:218-315`, `:344-380`, `:473-536`].
 - Neighbour recognition (capped 0.5, mass-weighted, **not** distance-weighted) is a SPREAD-lane term — zero when spread
@@ -300,7 +300,7 @@ arrive only by DM act.
   at 45, where secular pull = (1 − crisis) × (1 − authority); it never ranks and never reaches atheism; it starts from
   the second religion tick because it needs a measured piety record [OBSERVED `wp/religionState.js:72-85`, `:386-404`;
   `wp/religiousContest.js:924-934`].
-- **Observance nudge**: a deity-dedicated tradition's triumph or failure moves one share point between the patron and
+- **Observance nudge**: a deity-dedicated tradition's triumph or failure moves one share point between the rite's dedicated deity (`rec.deityRef`, stamped from the patron when the rite was founded, `src/domain/traditions/genesis.js:181`; a non-patron after a conversion) and
   the largest other active deity, conserving the total; skipped for a single-deity pantheon [OBSERVED
   `wp/traditionsKernel.js:443-490`]. Lit with `traditionsEnabled` (RR, DC, LR, FS).
 - **Crisis receptivity** and **growth favour** shape strength locally (§6.6).
@@ -316,7 +316,7 @@ arrive only by DM act.
 | Patron hold, decay per contested tick | 0.35, 0.02 | `wp/religionState.js:54-55` |
 | Flip margin, flip ticks | 6, 3 | `wp/religionState.js:56-57` |
 | Legitimacy seeds; imposed stain | 0.55 / 0.08; 0.45 | `wp/religionState.js:58-61` |
-| Contest weights; patron shield; organic threshold | 0.78 / 0.22; 1 + 1.7·L²; 0.30 + 0.12·clash | `wp/religionState.js:62-71` |
+| Contest weights; patron shield; organic threshold | 0.78 / 0.22; 1 + 1.7·L²; 0.30 + 0.12·clash | `wp/religionState.js:62-71`; the 0.12 is `STANCE_TUNING.CONTEST_METHOD`, `wp/deityStance.js:71`, applied `wp/religionState.js:553` |
 | Sink cap, secular rate, revival rate | 45, 0.02, 0.06 | `wp/religionState.js:72-85` |
 | Suppressed entries kept | 3 | `wp/religionState.js:431-443` |
 | Slots by tier | 1/2/2/3/5/7 (unknown 2) | `wp/cultImpositionApply.js:42-47` |
@@ -339,13 +339,13 @@ arrive only by DM act.
   cult is imposed (`:211`) [`wp/religionState.js:173-210`]. So the DM's cult lever works only before the first religion
   tick; the WF-8a fence treats a post-seed cult as a road back that does not exist; and cause attribution can blame a
   "rival cult" the pantheon never admitted (read by the cause lifecycle, `wp/causeLifecycle.js:358`, mounted when a
-  compromise exists, `wp/pulseKernel.js:1829-1830`).
+  compromise exists or a cause-lifecycle ledger is already held, `wp/pulseKernel.js:1828-1829`).
 - **[OBSERVED in the code paths, not executed] Clearing a patron does not clear the pantheon.** `SET_PRIMARY_DEITY`
   with no deity deletes only the two config embeds (`src/domain/events/mutateEntities.js:935-941`); `ensureReligionState`
   has a re-assign branch but no clear branch (`wp/religionState.js:211-231`); and the fold keeps evolving any settlement
   that already holds state (`wp/religiousContest.js:701`, `:709`). So `religionStates` keeps the old patron,
   `faithProfile` keeps naming it, the global seat count (which reads only the config embed, `wp/pantheon.js:278-296`) no
-  longer counts it, and a later organic flip re-embeds a patron the DM removed (`wp/applyWorldPulse.js:195-197`). If the
+  longer counts it, and a later organic flip re-embeds a patron on a settlement whose patron the DM cleared (`wp/religiousContest.js:1012-1023` → `wp/applyWorldPulse.js:195-197`; the cleared deity itself only if it wins). If the
   last embed realm-wide goes, the fold returns null at the gate (`wp/religiousContest.js:547`); the kernel then writes
   `religionStates` only when non-empty (`wp/pulseKernel.js:1720-1722`), skips the pantheon (`:1704`) and skips the
   projection (`:1876-1878`), so the stale `religionStates`, `pantheon` and config `faithProfile` are never cleared.
@@ -451,8 +451,8 @@ whenever religion is locally active; the key is materialized only when non-empty
   devotion moves slowly: "a burned church holds its flock for years") [STATED `wp/piety.js:54-61`; FAITH:98-102]. In
   the design it is the "confidence in the god" instance of the spine's belief pattern [STATED FAITH:209].
 - Vocabulary of record: "piety" names this substrate scalar; "devotion" names the *believed* axis (what another court
-  believes about a town's devotion); "standing" is the local rank word; the same five band words are shared [STATED
-  FOLD:427; `docs/DESIGN_FP_INFORMATION.md:342`].
+  believes about a town's devotion); "standing" is the local rank word [OBSERVED `wp/religionState.js:51-53`]; the same five band words are shared [STATED
+  FOLD:427 (which, as written, gives the belief axis the noun "standing (believed devotion)", colliding with the code's local-rank "standing"); `docs/DESIGN_FP_INFORMATION.md:342` ("devotion" names the belief axis — the register this note keeps)].
 
 ### 5.2 Local piety (per settlement)
 
@@ -472,7 +472,7 @@ whenever religion is locally active; the key is materialized only when non-empty
 - Composite = clamp(f × g × megaphone, **0.5–2.0**); a "moral" variant uses the moral megaphone [OBSERVED
   `wp/piety.js:53`, `:281-282`].
 - The record carries `causes[]` (religious_authority, institutions, devotion, clergy_distortion, opposed_rivals,
-  conduct drift or alignment, secularization or revival) for the panel [OBSERVED `wp/piety.js:284-294`].
+  conduct drift or alignment; secularization or revival is pushed by the fold) for the panel [OBSERVED `wp/piety.js:284-294`; `wp/religiousContest.js:956-958`].
 
 ### 5.3 Global ("realm") piety
 
@@ -493,12 +493,12 @@ whenever religion is locally active; the key is materialized only when non-empty
   — the anti-runaway seam [OBSERVED `wp/religiousContest.js:586-590`, `:946-959`; `wp/piety.js:323-401`]. It is not
   stored inside `religionStates`.
 - Amplified sites [OBSERVED, sites as cited]: local entry and share strength (`wp/religiousContest.js:776`, `:804`);
-  divine-mandate target (`wp/religionState.js:772-777`); conversion-fracture severity 0.5 × piety (`:1016`);
-  `religious_authority` mint × `g` (`:610`); causal authority rank lift × local `f` (`src/domain/causalState.js:1154-1160`);
+  divine-mandate target (`wp/religionState.js:772-777`); conversion-fracture severity 0.5 × piety (`wp/religiousContest.js:1016`);
+  `religious_authority` mint × `g` (`wp/religiousContest.js:610`); causal authority rank lift × local `f` (`src/domain/causalState.js:1154-1160`);
   disposition temper drive (`wp/disposition.js:281`); stance-lane betrayal and pact odds (`wp/deityStanceLane.js:362`,
   `:386`); corruption plane (§7.9); moral-institution pressure (`wp/moralInstitutionPressure.js:145`, `:297`, `:470`);
   realm-arc salience (`g`); faith field and witness terms. Deliberately **not** amplified: magic legality, contest
-  weights, flip margins, cooldowns and caps [STATED PHASE4:337-350].
+  weights, flip margins, cooldowns and caps [STATED PHASE4:337-350, :382-383].
 - [INFERRED] A slow loop exists between piety and causal authority (authority is 40% of piety's target; the causal
   score includes the rank lift × local `f`); the one-tick lag and the 0.06 lag bound it.
 
@@ -576,11 +576,11 @@ The maximum per target is kept. What relationships actually mint into the graph 
 - A carrier must clear **MIN_CARRIER 0.15 on its raw strength**, before any distance attenuation — so distance never
   stops a carrier, it only weakens the pull [OBSERVED `wp/religiousContest.js:97-98`, `:606`, `:638`].
 - **Only the bearer's patron travels**; cults and minority shares never propagate [OBSERVED `:598-653`].
-- [OBSERVED, and not documented] **Enemies carry faith hardest**: any `hostile` relationship mints war_front channels
+- [OBSERVED, and not documented] **Enemies carry faith hardest of the two-way carriers**: any `hostile` relationship mints war_front channels
   both ways at 0.72, more than an alliance's 0.62 or a trade edge's 0.45. The code comment frames war_front as the
   occupation/garrison carrier [STATED `wp/religiousContest.js:85-88`], so this may be unintended (§10).
-- [INFERRED] A legacy plural `trade_partners` *edge* would not carry, because the carrier check matches the raw label
-  while only the channel bundle canonicalizes it (`rg/graph.js:670-672`); the trade bundle mints no carrier channel.
+- [INFERRED] A legacy plural `trade_partners` *edge* would not carry when read raw (the `snapshot.relationships` fallback, `wp/religiousContest.js:327`, or an edge normalized without the sync, `rg/graph.js:204`), because the carrier check matches the raw label [Fable-reviewed 2026-10-18: a graph rebuilt from the saves' links canonicalizes every edge's label, `rg/graph.js:462`, `:481`, `:498`, so such an edge carries there]
+  while the channel bundle canonicalizes it (`rg/graph.js:670-672`); the trade bundle mints no carrier channel either way.
 
 ### 6.3 Step 1 — the mint (`religious_authority` channels)
 
@@ -656,7 +656,7 @@ The maximum per target is kept. What relationships actually mint into the graph 
     stressor at severity clamp(0.5 × piety composite), cause `occupation` if the convert is occupied, else `contest`;
     headline "<town> turns to the faith of <deity>", routed to the Herald faith desk [OBSERVED same lines;
     re-checked `src/domain/realm/heraldRouting.js:148-156`];
-  - an occupation-driven flip stains the new patron with 0.45 heresy [OBSERVED `:997-1004`];
+  - an occupation-driven flip stains the new patron with 0.45 heresy [OBSERVED `wp/religiousContest.js:997-1004`];
   - the global ledger banks the win and the loss; the seat moves a tick later (§4.2).
 - This fires for **local** patron flips too (an imposed cult overtaking the patron), so conversions exist in every
   preset once a pantheon holds two faiths; what needs spread is a conversion *to a creed from elsewhere*.
@@ -705,7 +705,7 @@ The maximum per target is kept. What relationships actually mint into the graph 
   strength + 0.2 × goods weight) × magnitude, and because the rule passes no goods and an empty goods list weighs 0.4,
   that is **(0.33 + 0.45 × strength) × magnitude**; waves decay 0.45 per hop; depth is 1 under first_order and **2 under
   full** propagation — so 2 in DC and FS, the only presets with mints; floor 0.08 [OBSERVED `rg/propagation.js:198-201`,
-  `:250-254`, `:287`, `:451`, `:572-577`, `:711-712`; `wp/simulationRules.js:1578-1586`].
+  `:269-275`, `:287`, `:451`, `:572-577`, `:711-712`; `wp/simulationRules.js:1578-1586`].
 - Under spatial canon every applied outcome's cross-settlement impacts are parked in `worldState.spatialArrivals` and
   land `hopWeeks` later; so the *ripple* of a conversion carries travel latency while the re-embed itself is instant
   [OBSERVED `wp/applyWorldPulse.js:756-766`; `sp/spatialArrival.js:1-25`]. The park passes the current road season, and
@@ -740,7 +740,7 @@ The maximum per target is kept. What relationships actually mint into the graph 
   a patron and a grand observance, suppressed by road danger, on the 52-week year; named legates (purpose class
   religious) and pilgrims of note (purpose class personal) as errands on `worldState.envoyErrands`, interceptable, with
   a mandatory return leg (never a migration); hearing-week kinds `legate_received` / `pilgrims_received` [STATED
-  FAITH:624-732; ARCH_WF:446-500; FOLD:369]. **UNBUILT**: the `ERRAND_CONSUMERS` rows are `built: false` and neither
+  FAITH:624-732; ARCH_WF:446-500; FOLD:369; the return leg at COUPLINGS:856, :1816]. **UNBUILT**: the `ERRAND_CONSUMERS` rows are `built: false` and neither
   module exists [OBSERVED `wp/envoyErrandVocabulary.js:322-335`]; no `pilgrimageEnabled` flag; the errand spine is held
   dark on purpose in every preset [OBSERVED `wp/simulationRules.js:779-783`].
 - **Missionaries:** no mover. The church "missionize" strategy lever is headlined "sends out missionaries" but applies
@@ -817,7 +817,7 @@ FS) plus canon for faith-weighted contraband; `npcLadderEnabled` (ONE_REGEN: RR,
 ### 7.1 Legitimacy and the throne
 
 - **Divine mandate:** for theocracies (weight 1) and royal/autocratic governments (0.45; others 0), public legitimacy is
-  pulled toward 50 + weight × (patron security − 0.45) × 30 × alignment fit × piety composite, at 0.15 of the gap per
+  pulled toward 50 + weight × (patron security − 0.45) × 30 × alignment fit (when propping; erosion ignores fit, `wp/religionState.js:772`) × piety composite, at 0.15 of the gap per
   tick, at most 2 points per tick [OBSERVED `wp/religionState.js:680-794`; mounted `wp/pulseKernel.js:1878`]. The chain
   to coups was soak-proven with a non-theocracy control [STATED PHASE4:165-172; COUPLINGS:962-1001]. LIT (local lane).
 - **Ruler versus populace:** the ruler's endorsement is the largest legitimacy weight (0.42, more under compromise),
@@ -838,7 +838,7 @@ FS) plus canon for faith-weighted contraband; `npcLadderEnabled` (ONE_REGEN: RR,
   `wp/simulationRules.js:1036`; STATED FOLD:341].
 - **Deity temper in war appetite:** a warlike patron raises aggressiveness, a peacelike one lowers it, on the war-layer
   path (DC, FS) [OBSERVED `wp/disposition.js:20-35`, `:187-210`]; the WR-2 deity-domain threshold term is BUILT DARK
-  (`dispositionChannelsEnabled` false) [OBSERVED `wp/simulationRules.js:1037`].
+  (`dispositionChannelsEnabled` false) [OBSERVED `wp/simulationRules.js:1041`].
 - **Occupation** is a faith carrier (§6.8), and the hostile label's war_front channels carry faith (§6.2).
 - **Inter-deity stance lane** (spread-only, DC and FS): a derived stance per deity pair (aggression, cooperation,
   betrayal hazard, treaty durability from malice and disorder); seeded betrayal (on an existing cooperative edge; hazard
@@ -851,8 +851,8 @@ FS) plus canon for faith-weighted contraband; `npcLadderEnabled` (ONE_REGEN: RR,
 - Five faith terms sit in the treaty catalog: `shared_rite`, `pilgrimage_right` ("a route-scoped right"),
   `tolerance_guarantee`, `missionary_access` (the row a war's end can extract), `temple_restitution` [OBSERVED
   `wp/peaceTermsCatalog.js:249-266`]. Every grant read has no consumer [STATED FOLD:337]; `missionaryAccessFor` exists
-  with no production caller [OBSERVED re-checked `wp/treatyEnforcement.js:270`; its only other mention is a path string
-in `src/domain/certification/couplingRegistryGrammar.js:186`]. Nothing reads routes for `pilgrimage_right`.
+  with no production caller [OBSERVED re-checked `wp/treatyEnforcement.js:270`; its only other mentions are a comment and a path string
+in `src/domain/certification/couplingRegistryGrammar.js:148`, `:186`]. Nothing reads routes for `pilgrimage_right`.
 - The `faith_communion` occasion that drafts them is BUILT but unreachable: its one definition (ruled) is two courts
   believed devout within one rung plus the both-patrons guard, and believed devotion is lit nowhere [STATED FOLD §3.2.4,
   OD-FC-7; OBSERVED `wp/simulationRules.js:251`]. The draft lens nonetheless drafts `pilgrimage_right` with no fence
@@ -890,7 +890,7 @@ in `src/domain/certification/couplingRegistryGrammar.js:186`]. Nothing reads rou
   the belief layer: spatial canon plus a non-omniscient infoMode — DC and LR (perfect_delayed) and FS (full), and only
   once canonized; RR is omniscient [OBSERVED `wp/beliefMap.js:85-110`, `:204-209`, `:450-470`, `:650-656`]. Rumors carry a
   deity name only when it resolves to an activated public snapshot [OBSERVED `sp/rumorNetwork.js:149-159`, `:387-401`].
-- The IN-2 devotion bait (planting "their god has abandoned them") is dark [STATED COUPLINGS:866-871].
+- The IN-2 devotion bait (planting "their god has abandoned them") is dark [STATED COUPLINGS:880-882 for the bait; FOLD §2's INFORMATION row (:338) for the status: IN-2 lure, `lureCommission` no caller].
 
 ### 7.6 Populations, plague, war circulation
 
@@ -901,7 +901,7 @@ in `src/domain/certification/couplingRegistryGrammar.js:186`]. Nothing reads rou
 - **Plague** raises crisis disorder (chaos receptivity and revival of the unaffiliated); the plague temple pulse is a
   seam with no consumer [OBSERVED `sp/pestilence.js:50-60`, `:300-320`].
 - **War circulation** faith exposure (veterans and shed columns carrying faiths; "walls stronger, temple unsettled") is
-  UNBUILT [STATED `docs/DESIGN_FP_ARCH_WC.md:697-705`; FOLD §3.1.6].
+  UNBUILT [STATED `docs/DESIGN_FP_ARCH_WC.md:6138-6139` (`wc_homecoming`, WC-14) for the words; FOLD:267 (§3.1.6) for the status].
 
 ### 7.7 Traditions
 
@@ -918,7 +918,7 @@ in `src/domain/certification/couplingRegistryGrammar.js:186`]. Nothing reads rou
 - "ascendant" = local standing (share ≥ 30) **and** the PantheonPanel status word (wins > losses); "major/minor/cult" =
   the authored rank **and** the earned tier [OBSERVED `disp/pantheonDepth.js:85-92`; `wp/religionState.js:52`].
 - `religious_authority` = a settlement's causal score (0–100) **and** a regional channel type.
-- "piety" (substrate scalar) vs "devotion" (believed axis) vs "standing" (local rank) [STATED FOLD:427].
+- "piety" (substrate scalar) vs "devotion" (believed axis) [STATED `docs/DESIGN_FP_INFORMATION.md:342`; FOLD:427 words it "standing (believed devotion)"] vs "standing" (local rank) [OBSERVED `wp/religionState.js:51-53`].
 
 ### 7.9 The hearing week, engagement kinds, and other seams
 
@@ -930,7 +930,7 @@ in `src/domain/certification/couplingRegistryGrammar.js:186`]. Nothing reads rou
 - Faith witness source (lessons taught by living among a deity's priests, on 13-tick seasons): a seam with no caller
   [OBSERVED `wp/faithWitnessSource.js:16-30`, `:220-280`].
 - Momentum doctrine deposit: any heresy-stained creed (DM-imposed or occupation-forced) deposits a doctrine commitment
-  at its seat; its read side is deliberately unwired [OBSERVED `wp/momentum.js:296-312`, `:387-406`].
+  at its seat, gated momentum ∧ beliefs ∧ faith spread (`wp/momentum.js:390-395`; momentum rides WAVES in RR, DC, LR and FS, beliefs need canon and a non-omniscient infoMode, spread is lit by default in DC and FS — so DC and FS on canon, LR only if the DM lights spread); its read side is deliberately unwired [OBSERVED `wp/momentum.js:296-312`, `:387-406`].
 - Designed only: the PIOUS / SECULAR / DYNAMIC faith-climate age toggle (tuning the sink's 0.06/0.02 pair, carrier reach,
   conversion gains, founding rates) [STATED `docs/DESIGN_REALM_DIRECTIVES.md:1541-1567`]; the religious-center feedback
   loop (pilgrims → legitimacy → institutions → pilgrims) [STATED PHASE55:1432-1456]; the town fabric's worship ladder,
@@ -939,7 +939,7 @@ in `src/domain/certification/couplingRegistryGrammar.js:186`]. Nothing reads rou
 ### 7.10 Further faith couplings (added in verification, §12)
 
 **7.10.1 Faith-weighted relief between settlements** [OBSERVED]. The generosity mover decides whether a giver sends
-famine or war relief to a relationship partner (allied, trade, vassal, patron edges; `wp/generosityKernel.js:12`,
+aid to a relationship partner in food need (grain relief, warning, credit, refuge, purchase or trade overture; `wp/generosityKernel.js:10-14`, `:89-90`, `:487-492`; there is no war relief) (allied, trade, vassal, patron edges; `wp/generosityKernel.js:12`,
 `:616`). Its give score is 0.30 bond + 0.22 history + 0.20 conscience + 0.18 strategy + **0.10 faith**
 (`sp/generosityEV.js:47-53`); the faith term is 0.4 when the giver holds a charity-faceted institution ("temple
 mediated", creed-agnostic) plus 0.6 × shared-faith closeness (`sp/generosityEV.js:242-254`); closeness is 1 for the same
@@ -951,7 +951,7 @@ the **withhold** side (W_ROUTE 0.14; `sp/generosityEV.js:64`, `:325`), not in th
 `wp/pulseKernel.js:2561`. A cross-settlement, partner-graph faith coupling a lens could show as relief receipts.
 
 **7.10.2 Culture distance: faith-weighted contraband and the other readers** [OBSERVED]. `cultureDistance`'s largest
-term is patron faith (W_FAITH 0.30 over the two patrons' evil/chaos gap; `sp/cultureDistance.js:46`, `:170-172`); the
+term is patron faith (W_FAITH 0.30 over the two patrons' evil/chaos gap; `sp/cultureDistance.js:45`, `:170-172`); the
 culture vector takes those axes from the patron snapshot (`wp/migrationKernel.js:165-166`). Its readers are:
 (a) migration destination choice (`wp/migrationKernel.js:230`; §7.6); (b) **contraband at commodity arrival gates** —
 a gate bans a goods category when its culture distance to the origin reaches the category's floor
@@ -974,7 +974,7 @@ propagation hints such as "plague there → PILGRIM flow stalls" and "heresy the
 The file's header reserves active propagation over these links for a future tier [STATED `:19-22`]; no engine reads the
 hints. `src/domain/mapProfile.js` (354 lines), the declared "Map ↔ simulator interface" (`:1-31`), outputs
 `regionalAuthority[]` — a settlement's `tax_authority`, `religious_superior` and `protector` links — with the
-contributor sentence "map should render hierarchy" (`:205-224`; typed in `src/domain/settlement.schema.js:1567-1577`).
+contributor sentence "map should render hierarchy" (`:205-231`, the sentence at `:228`; typed in `src/domain/settlement.schema.js:1567-1577`).
 The town map consumes `mapProfile` only for road importance, defensive terrain and hazard markers
 (`src/domain/townMap/townLayoutV2.js:332`, `:723`, `:775`; `src/domain/townMap/townMapModel.js:425`);
 `regionalAuthority` has no production consumer (tests only). `src/domain/aiGrounding.js:63` also reads the typed graph.
@@ -1075,9 +1075,9 @@ re-checked against the preset bodies (`wp/simulationRules.js:692-800`, `:864-122
 | Magic legality by authored-major patron; patron temper in military will (§7.10.4-5) | none (derived reads) | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | LIT (derived) |
 | Chaotic-devout misjudgment; captive conscience on conquest (§7.10.6, §7.10.8) | `warLayerEnabled` | – | – | ✓ | – | – | – | ✓ | LIT in 2 |
 | Religious faction stakes: temple privilege, moral codes, tithe rights (§7.10.9) | `factionCompetitionEnabled` | – | ✓ | ✓ | – | ✓ | ✓ | ✓ | LIT in 5 (deity-independent) |
-| `rivalCult` → `conversion-pressure` cause (§3.11) | cause lifecycle runs when a compromise exists (no further flag traced) | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | LIT where a compromise exists |
+| `rivalCult` → `conversion-pressure` cause (§3.11) | cause lifecycle runs when a compromise exists or a cause-lifecycle ledger is already held (`wp/pulseKernel.js:1828-1829`; no further flag traced) | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | LIT where a compromise exists |
 | Conquest doctrine's faith reads (§7.10.8) | `conquestDoctrineEnabled` + `demographicsEnabled` | – | – | – | – | – | – | – | BUILT DARK |
-| Typed-graph `pilgrimage_center` / `religious_superior`; `mapProfile.regionalAuthority` (§7.10.3) | none (derived) | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | BUILT, unconsumed |
+| Typed-graph `pilgrimage_center` / `religious_superior`; `mapProfile.regionalAuthority` (§7.10.3) | none (derived) | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | BUILT; `regionalAuthority` unconsumed, the typed links reach only the AI grounding payload (`src/domain/aiGrounding.js:441`) |
 | Faith influence field | none (data: authored boon/bane) | dormant | dormant | dormant | dormant | dormant | dormant | dormant | WIRED, dormant by data |
 | Believed devotion; `faith_communion` drafting | `believedDevotionEnabled` | – | – | – | – | – | – | – | BUILT DARK |
 | WF-1d dissolution names the fall | `warTerminationEnabled` | – | – | – | – | – | – | – | BUILT DARK |
@@ -1100,7 +1100,7 @@ Notes on the table:
   `faithUnseatingEnabled` — until a preset's rules are applied (the rules dialog, or an instant world's tone preset that
   defaults to RR) [`wp/simulationRules.js:31`, `:1552-1557`; per a seat `src/lib/instantWorld/composeInstantWorld.js:417-419`].
   The fold's "lit in the default preset" is true of the preset table, not of every born world.
-- **The one lit chain in the default preset** is "a pact proposed … and a patron's fall — VACUOUS on every born world"
+- **The one lit chain in the default preset** is "a pact proposed … and a patron's fall — which is VACUOUS on every born world"
   [STATED FOLD:351]. In RR, a DM who seats deities gets living local pantheons, a global ledger, local piety, the
   mandate, falls and obituaries, observance nudges, faith-prescribed institution pressure, the fracture crisis
   spreading as unrest, faith-weighted relief between partners, clergy `faith_rupture` windows and, on canon,
@@ -1116,7 +1116,7 @@ Notes on the table:
 ### 9.1 What the world map shows about faith today [OBSERVED]
 
 - **Faith fronts:** `RelationshipEdges` draws each *confirmed* `religious_authority` channel as a straight, dashed
-  (5 3), purple (#6a2a9a), 2.2-wide directed line between the two settlements' placement points, with a midpoint dot,
+  (5 3), purple (#6a2a9a), 2.2-wide line between the two settlements' placement points, with a midpoint dot and no arrowhead (the channel is directed; the drawing does not show it),
   no tooltip and no pointer events; hidden channels never, gm channels only when the "GM regional channels" toggle is on
   (default on); mounted under the **Relationships** layer [`map/RelationshipEdges.jsx:43-82`, `:182-203`;
   `map/relationshipEdgeStyle.js:57-73`; `src/components/MapOverlay.jsx:338`; `src/store/mapSlice.js:90-99`]. No route
@@ -1169,7 +1169,7 @@ Notes on the table:
 | Faith-weighted relief (§7.10.1) | partner graph; belief-gated route risk on the withhold side | WAVES |
 | Faith-weighted contraband (§7.10.2) | commodity routes' arrival gates (culture distance gate ↔ origin) | commodity flow + canon (RR, FS) |
 | Moral founding (§7.4) | season weight only | `seasonsEnabled` (DC, LR, FS) |
-| Typed neighbour graph; `mapProfile.regionalAuthority` (§7.10.3) | settlement-grain labelled links, no coordinates | none (derived; unconsumed) |
+| Typed neighbour graph; `mapProfile.regionalAuthority` (§7.10.3) | settlement-grain labelled links, no coordinates | none (derived; `regionalAuthority` unconsumed, the typed links read by AI grounding only) |
 | Plague into crisis disorder | plague travels routes; faith reads only the local level | canon |
 | Believed `faithLabel` | rumors priced by road distance and hop latency | canon + non-omniscient |
 | Everything else (carriers, neighbours, mint, recognition, occupation, stance, sacred claim, fracture spread, seats, realm piety) | **none** — graph topology or realm-wide counts | — |
@@ -1200,7 +1200,7 @@ labels**: `pilgrimage_center` / `religious_superior` links in the typed neighbou
 | Rite movement | traditions `adoptedFrom` | — |
 | Distance attenuation | frozen digest via `mappedDistanceWeight` | canonized worlds only |
 | Believed faith of others | belief map `faithLabel` | belief presets on canon |
-| Faith-place labels | `deriveRegionalGraph` links of type `pilgrimage_center` / `religious_superior`; `deriveMapProfile(...).outputs.regionalAuthority` | derived from the authored neighbour list; settlement grain; no consumer today |
+| Faith-place labels | `deriveRegionalGraph` links of type `pilgrimage_center` / `religious_superior`; `deriveMapProfile(...).outputs.regionalAuthority` | derived from the authored neighbour list; settlement grain; `regionalAuthority` has no consumer, the typed links only the AI grounding payload (`src/domain/aiGrounding.js:441`) |
 | Faith-weighted relief | generosity receipts (faith term per decision) | WAVES presets |
 | Whether anything can move | `faithSpreadEnabled` (legacy precedence; per campaign, settable from the Living-World gate), `faithUnseatingEnabled`, canon marker | the lens must read the campaign's resolved flags, not the preset id |
 
@@ -1212,7 +1212,7 @@ labels**: `pilgrimage_center` / `religious_superior` links in the typed neighbou
    patron (a heuristic the host itself uses), and an honest "historic front" style because mints are never retired.
 3. **Recomputed pressure (as a derivation, labelled as such):** reach and prevalence per deity per settlement, using the
    exported pure carrier and reach functions and the digest's distance weights — choosing explicitly between the spread
-   lane's gated reach and `buildFaithReach`'s ungated one.
+   lane's gated reach and `buildFaithReach`'s ungated one [Fable-reviewed 2026-10-18: only `faithCarriersOut` (`wp/religiousContest.js:314`) and `buildFaithReach` (`:361`) are exported; the spread lane's gated reach (`:596-653`) is internal to `advanceReligionStates`, so a lens may recompute the carriers and the ungated reach by the host's own functions, and the gated reach only once the host exports it (a host ask) — V13 §5.9 (6) draws pressure only from the host's sent weight].
 4. **Crisis ripple:** the fracture stressor's affected set and the in-transit `spatialArrivals` with arrival ticks.
 5. **Tension marks:** ruler-versus-populace (low patron legitimacy with high share, an imposed patron's heresy stain, a
    theocracy's mandate drift), and sacred-claim / common-rite pair edges from the war-reason ledgers where lit.
@@ -1245,7 +1245,7 @@ DM-seeded pantheon under a containment cap". Having read the whole system, I wou
 3. **The containment cap is not a spread cap.** It bounds global tier changes (two per tick realm-wide). Spread itself
    has no realm-wide cap; each settlement's share step is the brake.
 4. **Carriers are not routes.** Faith travels along diplomacy and garrison links — including *hostile* war fronts at
-   0.72, the strongest carrier — and only patrons travel. Geography only attenuates (floor 0.35) on canonized worlds,
+   0.72, the strongest two-way carrier (an overlord's authority channel reaches its vassal harder, at 0.82, one way; §6.2) [Fable-reviewed 2026-10-18: was "the strongest carrier", contradicted by §6.2's own table] — and only patrons travel. Geography only attenuates (floor 0.35) on canonized worlds,
    with no season and no latency on the contest itself (the parked regional ripple does carry hop-week latency,
    lengthened in winter where the digest has a seasonal overlay). "Flows along carrier routes" should be "pressure along carrier links".
 5. **Dated receipts cannot yet name a source.** The conversion receipt names only the convert; the reach map is not
@@ -1255,7 +1255,7 @@ DM-seeded pantheon under a containment cap". Having read the whole system, I wou
    latent memory (≤ 3) with no location. The host does carry settlement-grain faith-place labels — `pilgrimage_center` /
    `religious_superior` links and a `regionalAuthority` hierarchy output that `mapProfile` says the map should render,
    unconsumed today — plus the `holySite` resource (§7.10.3). A lens may draw that hierarchy and label those
-   settlements as host facts; positioned sites would be map-side facts needing the owner's ruling and, to matter, a host
+   settlements as host facts; positioned sites would be map-side facts needing the owner's ruling and, to matter, a host [Fable-reviewed 2026-10-18: ruled by J384 (10) under the owner's delegation — holy places and hidden cult sites enter only as DM-placed world sites tagged with a deity, DM-only by default, offered to the host; never generated]
    adoption.
 7. **Pilgrims, missionaries and inquisitors have no host fact as movers.** The only pilgrim math is a deity-agnostic host
    lift that discards who came; missionize is a trust nudge; WF-2's season and named movers are unbuilt and their spine
@@ -1267,7 +1267,7 @@ DM-seeded pantheon under a containment cap". Having read the whole system, I wou
    term) is not used by the contest, but it is read by migration destination choice, commodity-route contraband at
    arrival gates and the foreign-seat weight, and relief between partners reuses the same faith axes (§7.10.1-2). A lens should show the host's term, not add one.
 9. **The sea as a cheap carrier is new simulation.** Faith has no geographic carrier; sea lanes only shorten path cost
-   when lit. Coastal footholds across water would be a host change, outside a lens.
+   when lit. Coastal footholds across water would be a host change, outside a lens. [Fable-reviewed 2026-10-18: the owner answered "yes" to the session's reading — faith gets no sea carrier (J382 (c)).]
 10. **The player view is narrow.** Faith fronts are DM-only by default; believed faith exists only in DC, LR and FS on
     canonized worlds; but a settlement's own pantheon is shown to every viewer once embedded. "Audience-believed faith on
     player maps" is available only in those belief presets.
@@ -1289,29 +1289,29 @@ no new simulation, nothing flowing back unless the host chooses (the frozen-vers
 2. **Global rank by adherents** (REWORK §2.7) — code counts patron seats only (§4.2).
 3. **"The chief is the top share among the top three"** (REWORK:32-34) — code takes the top share overall; the top three
    appear only in the contest.
-4. **Niche from `temperamentAxis`** (REWORK:29, :37) — temper is derived; stale comments in
+4. **Niche from `temperamentAxis`** (REWORK:30, :38) — temper is derived; stale comments in
    `wp/cultImpositionApply.js:22-26` and `wp/religiousContest.js:224` still say "stored verbatim".
 5. **"Generation mints a starting pantheon"** (REWORK:180-185; PHASE4 §4 / W-F5 ratified it) — retired; and the
    "latent in every seed" claim survives in `src/components/compendium/PantheonActivationStrip.jsx:6-9`,
-   `src/copy/deityAuthoring.js:74`, `:105-106`, `set/faithPanelModel.js:12-14`, `src/domain/display/publicSafe.js:73-75`
+   `src/copy/deityAuthoring.js:74`, `:105-106`, `src/domain/display/publicSafe.js:73-75`
    and the header of migration 128 [OBSERVED].
 6. **REWORK §2.4-§2.6** present carrier, prevalence and occupation entry as the model without saying they are
    spread-only since the two-lane split. **PHASE4 §1.3** says piety is absent (it is built); **PHASE4 §1.9** puts global
    inter-deity politics in the spread lane, but the pantheon advances on local activity [OBSERVED `wp/pulseKernel.js:1704`].
-7. **"Spread is the ONLY faith dynamic still gated by a rule flag … it just never crosses a settlement boundary"**
-   [STATED `wp/simulationRules.js:90-100`; `wp/religiousContest.js:24-33`] — faith prescribes, the fracture spread, tolerance
+7. **"This is the ONLY faith dynamic still gated by a rule flag … it just never crosses a settlement boundary"**
+   [STATED `wp/simulationRules.js:90-100` (the quoted words at `:92-93` and `:97`); `wp/religiousContest.js:24-33`] — faith prescribes, the fracture spread, tolerance
    drift, faith-weighted relief and (on canon) faith-weighted contraband cross boundaries in RR (§6.10, §6.11, §7.4,
    §7.10); and the Living-World gate can light spread itself on any campaign (§6.1).
 8. **"The fracture spreads along `religious_authority`"** [STATED `wp/religiousContest.js:10-12`] — it declares three
    channels (§6.10). And "conversion spreads along `religious_authority`" conflates the mint (not a carrier) with the
    creed's path (§6.3).
-9. **PHASE55 §3: conversion inherits distance + latency** — distance only (§6.14). COUPLINGS' "faith spreads at carrier
-   reach" omits the built distance attenuation entirely (`wp/religiousContest.js:365-376`).
+9. **PHASE55 §3: conversion inherits distance + latency** — distance only (§6.14). COUPLINGS' "Spread moves at carrier
+   reach" (COUPLINGS:344) omits the built distance attenuation entirely (`wp/religiousContest.js:365-376`).
 10. **`faithField.js` header "THE FIELD IS DARK, nothing calls it"** — called since F4c; `customContentSchema.js:241-242`,
     `:297-298` ("no mechanical consumer") likewise stale; `faithWitnessSource.js:16-30` says its funnel is absent, but
     the catalog admits it (still no caller).
 11. **WF-1 "five causes"** (ARCH_WF:270, :418; FAITH J-WF-5 :1498; ARCHITECTURE:1991) — four ship (`wp/patronFall.js:76`).
-    **"The Schism realm arc exists"** (FAITH:1327) — it does not. **"God's Abandonment"** still ships despite OD-FC-8.
+    **"The Schism realm arc exists"** (FAITH:1327) — it does not. (ARCH_WF:270, :418 and FAITH:1327 already carry the fold's 2026-10-16 CORRECTED brackets; FAITH:1498 and ARCHITECTURE:1991 do not.) **"God's Abandonment"** still ships despite OD-FC-8.
     The Ascendancy headline "the faithful walk the roads" has no mechanic behind it.
 12. **OD-FC-7** (light believed devotion in three presets) — ruled, not applied at `81f1cd96`.
 13. **WF-2's lane and movers**: FAITH §3 says SPREAD + SP-1; ARCH_WF:190 says SPREAD + errand spine; pilgrims' purpose
@@ -1347,7 +1347,7 @@ no new simulation, nothing flowing back unless the host chooses (the frozen-vers
     source is self-referential (§6.7); a DM re-assign banks no win/loss (§3.6); mints are never retired (§6.3);
     hostile war fronts carry faith hardest (§6.2); `neighbourIdsOf` counts any link of any status, including rival,
     criminal and dormant ones, as a prevalence neighbour (§6.5); the spread lane's reach and `buildFaithReach` differ
-    (§6.11); history text still uses generic deity names and named Christian orders (§2.5). Added in verification: a
+    (§6.11); history text still uses generic deity names (§2.5; `src/generators/historyGenerator.js:212`) and named Christian orders (`:215`). Added in verification: a
     patron clear leaves a stale pantheon and ledgers (§3.11); a demotion leaves an over-capacity pantheon (§3.11);
     `rivalCult` blames cults the pantheon never admitted (§3.11); a suggested discovery candidate could pin a pulse mint
     at `suggested` [INFERRED] (§6.3); the Realm dashboard names the dominant deity by its id's tail (§7.10.11).
@@ -1362,8 +1362,8 @@ no new simulation, nothing flowing back unless the host chooses (the frozen-vers
   exist in the preset worlds are born into.
 - Should faith fronts carry the **deity id and source**, and should mints **retire** when their carrier ends? (Decides
   whether a lens draws present or historic fronts.)
-- Should hostile relationships carry faith at 0.72, the strongest carrier?
-- Should the contest read **seasons, travel time or sea lanes** (only the parked ripple and moral founding read a
+- Should hostile relationships carry faith at 0.72, the strongest two-way carrier (only an overlord's authority over its vassal, 0.82 one way, is stronger)?
+- Should the contest read **seasons, travel time or sea lanes** [Fable-reviewed 2026-10-18: no sea carrier for faith — the owner's J382 (c)] (only the parked ripple and moral founding read a
   season today), and should realm piety be **size- or distance-weighted**?
 - Should `mapProfile.regionalAuthority`'s religious hierarchy (the host's own map interface says the map should render
   it) be rendered by the map module's lens?
@@ -1371,7 +1371,7 @@ no new simulation, nothing flowing back unless the host chooses (the frozen-vers
   pantheon?
 - Should the "War & faith" toggle govern the faith front, and should players ever see the gm-default fronts?
 - Is a map-derived **pilgrim catchment** (recomputed from the discarded draw) an allowed derived layer, or the lens
-  minting a fact the host does not hold? Same question for map-side holy sites.
+  minting a fact the host does not hold? Same question for map-side holy sites. [Fable-reviewed 2026-10-18: holy sites answered by J384 (10) — DM-placed, deity-tagged, never generated; the catchment drawn only as the set the host sends (V13 §5.9 (6), T-V13-54; J379.1 as amended in the rulings record).]
 - The post-seed cult admission: intended or a defect?
 - OD-FC-7 (believed devotion) and OD-FC-8 (the rename; the attributed edit) await application.
 
@@ -1447,7 +1447,7 @@ Verification re-reads (fixer seat, §12), all at `81f1cd96`: `wp/causeVocabulary
 `:705-715`; `wp/militaryStrength.js:255-278`; `wp/warSiegeVerdict.js:15-30`, `:238-260`; `wp/fidelityNoise.js:50-90`;
 `wp/npcLadderCoherence.js` (65, whole); `wp/npcLadderChallenge.js:178-214`, `:268-278`; `wp/conquestDoctrineStage.js:1-30`,
 `:430-472`; `wp/conquestFeeds.js:118-142`; `wp/factionCompetition.js:50-95`; `wp/factionDensityKernel.js:18-40`,
-`:305-320`, `:366-382`; `src/domain/events/mutateEntities.js:925-996`; `disp/settlementRumors.js:1018-1050`;
+`:305-320`, `:366-382`; `src/domain/events/mutateEntities.js:925-996`; `disp/settlementRumors.js:1018-1049`;
 `src/domain/ai/personaSlicer.js:170-182`; `disp/treatyDocument.js:105-114`; `src/domain/realm/heraldRouting.js:145-158`;
 `disp/publicSafe.js:73-80`; `wp/worldState.js:272-280`; `src/components/new/tabs/WarFaithDesk.jsx:270-294`;
 `src/components/new/tabs/FaithTab.jsx:225-229`, `:280-312`; `src/components/OutputContainer.jsx:509-515`; the document
@@ -1459,14 +1459,14 @@ greps for `cultDeitySnapshots`, `rivalCult`, `DEITY_RANK_STRENGTH`, `boonChannel
 ### 11.4 Not read by any seat
 
 `docs/DESIGN_FP_SPINE.md`; the deity DOCTRINE record cited as "DOCTRINE:81-93" (not located under `docs/`);
-`docs/GEOPOLITICAL_WAR_LAYER.md` Feature D; `docs/DESIGN_TRADITIONS.md`; `memory/spatial-engine-direction.md` (not
+`docs/GEOPOLITICAL_WAR_LAYER.md` Feature D; `docs/DESIGN_TRADITIONS.md` (not located under `docs/` at `81f1cd96`; cited by code headers such as `wp/traditionsKernel.js:3`); `memory/spatial-engine-direction.md` (not
 located); the findings kit `settlement-engine-kits/fp-coherence-2fc13d59-2026-10-16/`; and in code
 `wp/warTermination.js`, `wp/pactFormation.js` beyond 180-200, `wp/pactTriggers.js`, `wp/treatyEnforcement.js` beyond a
 grep, `wp/peaceReasons.js`, `wp/martialReadiness.js`, `wp/moralMartialLean.js`, `wp/disposition.js` and
 `dispositionProfile.js` beyond fragments, `wp/npcAgency.js`, `wp/factionCapture.js`, `wp/fidelityNoise.js` beyond `:50-90`,
 `wp/corruption.js`, `wp/magicLedger.js`, `wp/pestilenceKernel.js`, `wp/neutralNeighbourEdges.js`, `RealmInspector.jsx`
 beyond grep, `publicSafe.js` beyond `:73-80`, the affordance-manifest predicates for the deity verbs, `customRegistry`
-ref minting, and the internals of the distance calibration. (The verification seat read `wp/causeVocabulary.js`,
+ref minting (read in the retrovalidation: `src/lib/customRegistry.js:111-141`, §2.2), and the internals of the distance calibration. (The verification seat read `wp/causeVocabulary.js`,
 `src/components/settlements/LivingWorldGates.jsx` — the earlier path `src/components/LivingWorldGates.jsx` was wrong —
 `RealmDashboard.jsx`, and the `mutateEntities.js` deity handlers `:925-996` in part; see §11.3.) Also not read whole in
 verification: `disp/stateProse/warFaithStateProse.js`, `disp/warResolve.js`, `disp/regionWakeReplay.js`,
@@ -1507,10 +1507,10 @@ Where the verifier was itself partly wrong, the "Found" column says so and the n
 | M8 | Conquest doctrine reads patron nature and believed `faithLabel`; conquest feeds apply a patron conscience objection. | Both reads confirmed. Status added: conquest doctrine is **BUILT DARK** (no preset sets `conquestDoctrineEnabled`; it also needs `demographicsEnabled`, false in FS); conquest feeds run on fresh occupations (war layer, DC and FS). | New §7.10.8; two §8 rows. |
 | M9 | The Living-World gate makes "RR has nothing moving" a default, not a ceiling. | Confirmed (see P6). | As P6. |
 | M10 | Seasonal latency on the conversion ripple. | Confirmed, with the data-gate correction in P9. | As P9. |
-| M11 | [INFERRED] Clearing a patron leaves stale `religionStates` / `pantheon` / `faithProfile`. | Confirmed in the code paths, not executed (`src/domain/events/mutateEntities.js:935-941`; no clear branch in `wp/religionState.js:211-231`; `wp/religiousContest.js:701`, `:709`, `:547`; `wp/pulseKernel.js:1720-1722`, `:1876-1878`). Further consequence found: a later organic flip re-embeds a patron the DM removed (`wp/applyWorldPulse.js:195-197`). | New §3.11 defect; §10.2 item 25; §10.3 question. |
+| M11 | [INFERRED] Clearing a patron leaves stale `religionStates` / `pantheon` / `faithProfile`. | Confirmed in the code paths, not executed (`src/domain/events/mutateEntities.js:935-941`; no clear branch in `wp/religionState.js:211-231`; `wp/religiousContest.js:701`, `:709`, `:547`; `wp/pulseKernel.js:1720-1722`, `:1876-1878`). Further consequence found: a later organic flip re-embeds a patron on a settlement whose patron the DM cleared (`wp/applyWorldPulse.js:195-197`). | New §3.11 defect; §10.2 item 25; §10.3 question. |
 | M12 | A third pulse reader of `cultDeitySnapshots`. | Confirmed (see P1). | As P1. |
 | M13 | Religious faction stakes (temple privilege, moral codes, tithe rights) and the "Devout Assembly". | Confirmed (`wp/factionCompetition.js:56`, `:78`, `:90`; gate `factionCompetitionEnabled`, off in QL and SC). The density kernel's gate is the world's born density-law version, held at v1 [STATED `wp/factionDensityKernel.js:20-40`] — its status is not verified. | §7.4 tithe census now five; new §7.10.9; §8 row. |
 | M14 | More display surfaces; `heraldRouting` at `src/domain/realm/heraldRouting.js:148-156`. | Confirmed. One refinement: `settlementRumors.js:1022-1047` is the public deity-name **allowlist** for the rumor scrub, built from patron and cult embeds (so it allowlists unadmitted cults). Also found: the Realm dashboard names the dominant deity by its id's tail. | New §7.10.11; §6.7 herald citation re-checked. |
 | M15 | The discovery producer's status (suggested vs confirmed) is unresolved. | Candidates are born `suggested` and need DM confirmation (`rg/discoverDependencyCandidates.js:1-7`, `:242-244`), so the map draws none unconfirmed. No writer of the label found by grep. [INFERRED, not executed] Both producers share one channel id and a merge keeps the prior status (`rg/graph.js:159-173`, `:562-600`), so a suggested candidate merged first would hide a later pulse mint. | §6.3 bullet resolved; §10.2 item 25. |
 | M16 | Tier drift silently resizes the pantheon; nothing trims an over-capacity pantheon. | Confirmed (`wp/religionState.js:92-107`, `:165`, `:172`; capacity consulted only at `:199` and `:319-330`); tier drift lit in every preset but SC. | New §3.11 defect; §10.3 question. |
-| M17 | Many document and "per a seat" citations, and the `religious_pressure` constants, were not verified. | Spot-checked. These hold: `publicSafe.js:73-80`, `wp/worldState.js:272-280`, the FaithTab / WarFaithDesk / OutputContainer lines, `treatyEnforcement.js:270` (no production caller), PHASE55:1588-1589, WY:523-528, FAITH:47-51, FAITH:1327, ARCH_WF:157-158 (V24-V25) and :270, COUPLINGS:815-819, GRAMMAR:868. One did **not** hold: the `religious_pressure` severity is (0.33 + 0.45 × strength) × magnitude, because an empty goods list weighs 0.4 (`rg/propagation.js:198-201`, `:250-254`), and depth is 2 under full propagation (DC, FS), not 1 (`wp/simulationRules.js:1578-1586`). The other FAITH, ARCH_WF, PHASE55, WY, COUPLINGS and GRAMMAR line citations were not re-checked. | §6.10 formula and depth fixed; re-checked "per a seat" tags upgraded (§6.7, §7.3, §9.1, §10.1 item 1); §11.3 and §11.4 updated. |
+| M17 | Many document and "per a seat" citations, and the `religious_pressure` constants, were not verified. | Spot-checked. These hold: `publicSafe.js:73-80`, `wp/worldState.js:272-280`, the FaithTab / WarFaithDesk / OutputContainer lines, `treatyEnforcement.js:270` (no production caller), PHASE55:1588-1589, WY:523-528, FAITH:47-51, FAITH:1327, ARCH_WF:157-158 (V24-V25) and :270, COUPLINGS:815-819, GRAMMAR:868. One did **not** hold: the `religious_pressure` severity is (0.33 + 0.45 × strength) × magnitude, because an empty goods list weighs 0.4 (`rg/propagation.js:198-201`, `:269-275`), and depth is 2 under full propagation (DC, FS), not 1 (`wp/simulationRules.js:1578-1586`). The other FAITH, ARCH_WF, PHASE55, WY, COUPLINGS and GRAMMAR line citations were not re-checked. | §6.10 formula and depth fixed; re-checked "per a seat" tags upgraded (§6.7, §7.3, §9.1, §10.1 item 1); §11.3 and §11.4 updated. |

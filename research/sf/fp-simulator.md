@@ -1,11 +1,11 @@
 # SettlementForge's FP simulator — the model, the laws, and what binds a map engine
 
-> PENDING FABLE REVIEW — written by Opus 5.5 standing in for the Fable seat research/sf-fp-simulator; to be retrovalidated overall at the next opportunity (owner, 2026-10-17, J375)
+> Fable-reviewed 2026-10-18: PASS-WITH-CORRECTIONS — the laws and the 80-row ledger hold; counts, citations, tags and seven readings corrected in place (lane retrovalidation/fp; J392)
 
 Research seat (read to understand; described in my own words; cited by file, section and line; no code copied). Host:
 `/home/user/clausellstokes-lang/settlement-engine` at `origin/master` `81f1cd96` (2026-10-17 00:49, "Merge pull
 request #60 … docs/fp-coherence-fold-2026-10-16"), read-only. Tags: [STATED] = the document says it; [OBSERVED] = I
-read code or a test; [INFERRED] = my reasoning. Line numbers are at `81f1cd96`.
+read code, a test or the git history; [INFERRED] = my reasoning. Line numbers are at `81f1cd96`.
 
 ## PROGRESS
 - [x] 0 skeleton
@@ -83,7 +83,7 @@ fought to add no fourth:
 - `worldState.spatialLedgers.*` — conditionally materialized sub-keys, each with exactly one writer, drop-when-empty.
   FP's total growth across thirteen programs is ZERO new top-level `worldState` keys and FOURTEEN new `spatialLedgers`
   sub-keys (pactProposals, commercialReasons, houses, ventures, omenReadings, departureMemory, calamityArcs [now not
-  minted, §3.1.9], burials, habits, warContributions, freeUnits, residentCohorts, serviceBonds, advanceEpoch) plus
+  minted, §3.1.9], burials, habits, warContributions, freeUnits, residentCohorts, serviceBonds, advanceEpoch; a fifteenth, ES-5d's `missionCreditEvents`, landed dark outside that list — fold §3.2.22, §4.1 below) plus
   conditional fields on existing records. [STATED] `DESIGN_FP_ARCHITECTURE.md` §4 lines 676–735.
 - The frozen SPATIAL DIGEST (`worldState.spatialDigest`) is the map's projection into the engine: positions, territory
   adjacency/gates, an integer cost matrix, and (WY-1) a `kmScale` datum. Every mover clock derives from it through one
@@ -100,7 +100,7 @@ fought to add no fourth:
 - The substrate is `beliefMap.js`'s partition (`beliefRecord(worldState, observerId, subjectId, factionId)`), with
   authored decay (silence 0.92, hop 0.75, recency 0.85). Every belief row always carries a strength band and an
   alliance label; flag-conditional axes add population trend, observance, faith label. [STATED] `DESIGN_FP_ARCH_SP.md`
-  §2a V1–V4 (lines 110–113); `DESIGN_FP_ARCHITECTURE.md` §2b item 2 (lines 400–405).
+  §2a V1–V4 (lines 110–113); `DESIGN_FP_ARCHITECTURE.md` §2b item 2 (lines 403–408).
 - SP-2 / SP-B "THE BELIEVED WORLD" adds three subject families as NEW AXES inside the existing fold, never a separate
   believed-world module (seam ruling 1, J-SP-1): believed SCARCITY (per closed good class), believed CONDITIONS (tier
   band, stores band, route-position band, pull band — also the three missing legs of the sovereignty market's
@@ -145,7 +145,7 @@ SEAM-0 owed, slotted at the head of chain C2). [STATED] `DESIGN_FP_SPINE.md` SP-
   `DESIGN_FP_SPINE.md` lines 305–327 and the SP-A record (lines 1103–1115).
 - SP-6a SIGNIFICANCE (`routine / notable / major`) and SP-6b SEVERITY (`glancing / telling / grave / ruinous`) are
   minted once; volumes assign kinds to classes and never author a scale (chair ruling R5). [STATED]
-  `DESIGN_FP_SPINE.md` lines 332–351.
+  `DESIGN_FP_SPINE.md` lines 332–351 (the band families), 1112 (the four severity rungs).
 - Finite semantics: every vocabulary is closed and banded, no raw float reaches prose ("game-grade translate"), one
   band per clause, comparisons in words. [STATED] war §1a law 7 (line 44); `DESIGN_FP_ARCHITECTURE.md` L5 (lines
   146–155).
@@ -184,7 +184,7 @@ provenance only; a dossier field the DM has edited always wins its position. [ST
   sign; a wave whose sign fails its experience read does not light. Slow verdicts (a generation later) declare a
   PLANTING LINE at the moment of cause instead. [STATED] fold §1 req 16 (lines 104–115), §4 lines 394, 408.
 - The measured DEFECT CLASS: Class A — a 12-tick "year" (12 constants, two wrong by their own comment:
-  `STARVE_FULL_TICKS` and `CREDIT_TERM`, cured to 13 by OD-FC-15); Class B — about twenty shadow clocks (local
+  `STARVE_FULL_TICKS` and `CREDIT_TERM`, ruled cured 12→13 by OD-FC-15 as signed designs — both still 12 at `81f1cd96`); Class B — about twenty shadow clocks (local
   `WEEKS_PER_YEAR`, `SEASON_WEEKS = 13`, `tick / 52`, two same-named `INTERVAL_WEEKS` shadows); Class C — about sixty
   bare 13/26/52 literals in about forty-five modules. [STATED] fold §4 table (lines 398–402), §3.3.10.
 - THE WALKER (SP-7, re-chartered): `tests/lint/timeBase.walker.test.js`, a shrink-only exemption list seeded from the
@@ -196,7 +196,7 @@ provenance only; a dossier field the DM has edited always wins its position. [ST
   horizon is about 29 advances. Ruled: collapse BEFORE eviction (OD-FC-33). [STATED] fold §1 req 23 (lines 166–174),
   OD-FC-33; [OBSERVED] `worldState.js:16` `MAX_HISTORY = 80`.
 - DISTANCE TIME: law M — no named person moves faster than ONE WEEK per route leg on any path; one transit kernel is
-  the single writer for named-person movement. [STATED] war §1b (lines 70–74). Leg weeks come from `hopWeeks`
+  the single writer for named-person movement. [STATED] war §1b (lines 66–70). Leg weeks come from `hopWeeks`
   calibrated PER DIGEST — "a whole realm spans 2..8 march weeks", so any authored band ≥ 9 weeks refuses nothing (the
   dead-band trap). WY-1's absolute-distance law adds an optional per-world `kmScale` so weeks = km / mode speed;
   absent scale = legacy normalized behaviour, byte-identical, forever. [STATED] `DESIGN_FP_ARCHITECTURE.md` L1 (lines
@@ -282,13 +282,13 @@ a leaf with no caller. [STATED] fold lines 329–331.
   (realistic_regional: ALIVE), `:956–958` (dramatic_campaign: all three), `:999–1000` (living_realm: ALIVE + BELIEF),
   `:1213–1215` (full_simulation: all three).
 - Seven presets exist: `quiet_local`, `realistic_regional` (default), `dramatic_campaign`, `static_campaign`,
-  `narrative_campaign`, `living_realm`, `full_simulation`. [OBSERVED] `simulationRules.js:863–1010`.
+  `narrative_campaign`, `living_realm`, `full_simulation`. [OBSERVED] `simulationRules.js:863–1010` (the seven preset heads; the last preset's body runs on past :1010 to its FP spreads at :1213–1215).
 - The compiled inventory re-derived: 37 landed · 12 partial · 62 not started of 111 waves (65 of 114 with the §13 SEAM
   family). [STATED] fold §2 ARCH row (line 348).
 - The corpus is three things: a LIT CORE (pact formation, the faith unseating, believed scarcity/conditions, the
   errand spine built dark, the cascade braid and causal headline built dark); a BUILT-BUT-DARK MIDDLE (information and
   espionage almost entire, TR-1..3, commons voice, habit substrate, WY-1); an UNBUILT RIM (populations, interior,
-  wayfare beyond WY-1, faith beyond the unseating, TR-4..8, war circulation beyond WC-0, the epoch's tail, EC).
+  wayfare beyond WY-1, faith beyond the unseating, TR-4..8, war circulation, the epoch, EC) — the fold's words; that WC-0 and EP-0..3 are built is [INFERRED] from fold §2's WC and EP rows.
   [STATED] fold §0 lines 53–60.
 
 ### 1.11 The thirteen programs, one paragraph each
@@ -343,7 +343,7 @@ believer-side patron fall with named causes), WF-2 pilgrims and legates as erran
 WF-4 omen reads (rebased on THE ATTRIBUTED EDIT), WF-5 schism, WF-6 faith term executors, WF-7 the tithe (ONE flow,
 two ends: WF-7's piety × temple presence is the source; W-COIN's `tithe_share` is the crown's cut), WF-8 the voice,
 WF-9 measurement. Fold status: WF-0, WF-1a..1F, WF-8a LIT (`faithUnseatingEnabled` in four presets incl. default);
-WF-2..7, WF-9 unbuilt; faith pacts cannot cross (`believedDevotionEnabled` lit nowhere — ruled to light, OD-FC-7).
+WF-1d and WF-6's rows built dark; WF-2..5, WF-6's executors, WF-7, WF-8's remainder and WF-9 unbuilt; faith pacts cannot cross (`believedDevotionEnabled` lit nowhere — ruled to light, OD-FC-7).
 [STATED] `DESIGN_FP_FAITH.md` §1b (lines ~37–95); fold §2 WF row (341), §3.1.5, §3.2.4–§3.2.6.
 
 **POP — POPULATIONS.** Gives the people BELIEF (a column may chase a rumoured boom), VOICE (the commons' petition →
@@ -357,7 +357,7 @@ POP-5a road drama, POP-5b permits, POP-6 the hopeful half, POP-7 measurement. Fo
 IN NO PRESET; nothing writes the genesis route network, so the migration menu is EMPTY in every shipped world
 (OD-FC-18 rules the mount at world birth). [STATED] `DESIGN_FP_POPULATIONS.md` thesis and §1b (lines ~20–110); fold §2
 POP row (342), OD-FC-18. [OBSERVED] `ensureGenesisRouteNetwork` is defined at
-`src/domain/worldPulse/routeNetworkGenesis.js:630` and has no caller in `src` (only comments name it).
+`src/domain/worldPulse/routeNetworkGenesis.js:630` and has no caller in `src` (two comments and two descriptive strings name it; none calls it).
 
 **INT — INTERIOR (books + memory; the driver).** Every war opened, pact signed, route chartered and column departed is
 chosen by a seat reading its books under a crowd that remembers. Settled rulings: the two (now four) books land
@@ -443,7 +443,7 @@ ledger branch" was true at `00b648c9d` and is no longer true at `81f1cd96`; CN i
 | Carrier | Speed law | Source |
 |---|---|---|
 | Information (rumor, news) | hop latency: `arrivalTick += hopWeeks`, plus a distance-priced surcharge (`hopDelay = floor(hopWeeks × 0.5)`), route impedance near embattlement | `DESIGN_FP_COUPLINGS.md` C-LAW-4 (line 120); `DESIGN_FP_ARCH_IN.md` S3 |
-| Named people (envoys, spies, factors, pilgrims) | law M: never faster than one week per route leg; one transit kernel writes all named-person movement | war §1b M (lines 70–74) |
+| Named people (envoys, spies, factors, pilgrims) | law M: never faster than one week per route leg; one transit kernel writes all named-person movement | war §1b M (lines 66–70) |
 | Goods | caravan legs; M6a integer conservation; food not shipped today | `DESIGN_FP_ARCH_TR.md` S1, S5 |
 | Populations | columns at leg speed in `spatialLedgers.migration`; size-scaled speed binds (OD-FC-13) | `DESIGN_FP_POPULATIONS.md` §1b; fold OD-FC-13 |
 | Faith spread | carrier reach (spread lane behind `faithSpreadEnabled`) | `DESIGN_FP_COUPLINGS.md` §2 ports table |
@@ -464,7 +464,7 @@ shaped so those waves can obey. Where I draw a consequence for the map engine it
 |---|---|---|---|
 | 15 | BINDING-SCOPE | Every FP volume "present and future … is bound by requirements 1–24"; a volume outside says so in its header with the reason (lines 97–103). | If the map program ever charters waves that read or write FP seams, it must either take requirements 1–24 or declare itself outside with a reason — the fold did exactly this for MF ("OUT of FP") |
 | 16 | FIRST-VISIBLE-LATENCY | Each mechanism declares its first-visible latency in DM advances; "a one-month advance must surface at least the mechanism's fast-layer sign"; a wave whose sign fails its experience read "does not LIGHT" (lines 104–115; ruled YES, OD-FC-1). | Map-derived consequences (a road decaying, a column moving) need a fast visible sign within four ticks, or a declared planting line |
-| 17 | TIER DECLARATION | Every wave carries a TIER line — "aspatial-safe / spatial canon / belief-recording infoMode / host flags" — and its DEGRADED ARM in the lesser tier; "the SIMULATOR is premium"; the demo cap is temporary, never a design tier (lines 116–126). | The map's canonization is the line between tiers: everything spatial must have a declared aspatial degraded arm. [OBSERVED] the SPINE's copy at lines 129–137 still carries the pre-skeptic wording (the paid-tier triad) — the fold §1 text is the text of record (SPINE line 185 says so) |
+| 17 | TIER DECLARATION | Every wave carries a TIER line — "aspatial-safe / spatial canon / belief-recording infoMode / host flags" — and its DEGRADED ARM in the lesser tier; "the SIMULATOR is premium"; the demo cap is temporary, never a design tier (lines 116–126). | The map's canonization is the line between tiers: everything spatial must have a declared aspatial degraded arm. [STATED] the SPINE's copy at lines 129–137 still carries the pre-skeptic wording (the paid-tier triad) — the fold §1 text is the text of record (SPINE line 185 says so) |
 | 18 | TUNING-EVIDENCE | A band row carries its measured spread or the word UNMEASURED; the owner signs measured rows only; "absent means zero" needs a written dormancy reason (lines 127–131). | Map-derived bands (distance thresholds, mode speeds) must be measured on seeded families, per map — see the per-map spectrum law (§2.6) |
 | 19 | FELT-PROOF | DONE means the DM-felt sentence fires in a lit preset on a seeded world and an experience read scores it, not a green fixture (lines 132–137). | — |
 | 20 | PROVENANCE-ADOPTION | "every child receipt of a known outcome populates `causedBy` at its mint (the provenanceKernel road)" (lines 138–143). | Any map-originated event (a route charter, a canonize receipt) that causes downstream effects should be a named parent the cause walk can reach |
@@ -512,7 +512,7 @@ conjunctions; authored NUL bytes; the id-less news drop.
 **Selected judgment blocks J-WR-n** ([STATED] lines 1516–1592) that recur as corpus law: J-WR-3 (dispositions are
 persisted banded stock — the ONE disclosed exception to never-store-a-derivable); J-WR-7 (a licence mints on the
 PUBLIC fact; courts act on their belief of it at news speed — the root of the loud-fact exemption); J-WR-10 /
-J-WR-10-B (no new vocabulary where an existing ladder serves; the BORROW CENSUS before minting any ladder); J-WR-11
+J-WR-10-B (J-WR-10, war:1554–1556, is R's extremity read — no new relationship vocabulary; J-WR-10-B, FABLE_VALIDATION_QUEUE.md:1775, generalises it: borrow before minting, no second spelling of an existing concept); J-WR-11
 (extend, never duplicate a ledger); J-WR-13 (the census STOP rule: "any implementer finding another census
 overstatement STOPS and reports before correcting or building on it").
 
@@ -621,7 +621,7 @@ because each is a constraint on what a map engine may read back. The grouping is
   executed third-writer plant. [STATED] `DESIGN_FP_ARCHITECTURE.md` L4 (lines 130–145). Requirement 22a extends the
   ten lifecycle paths to every engine-written state. [STATED] fold line 155.
 - Persisted-record SHAPE is an owner-gated class: WY's nine fields and WC's four ledgers were batch sign-off requests
-  (now signed by delegation, OD-FC-20; F9's shape ruled by OD-FC-21). [STATED] `DESIGN_FP_ARCH_WY.md` header (lines
+  (WY's nine fields signed by J-EM-9's reading of the 2026-08-05 blanket grant, WY:100; WC's four-ledger batch signed by delegation, OD-FC-20; F9's shape ruled by OD-FC-21). [STATED] `DESIGN_FP_ARCH_WY.md` header (lines
   96–102); fold OD-FC-20/21.
 - One writer per field family: FAITH's `religionStates` is "one writer FAMILY per field family" (§3.1.6); the
   column-class vocabulary is ONE union with POP owning civilian and WC military classes (§3.1.7); one plague truth
@@ -643,7 +643,7 @@ because each is a constraint on what a map engine may read back. The grouping is
 
 ### 3.1 The flag law (CR-WR10-C, L2, compiled §3)
 
-Every FP flag is VIRTUAL: [STATED] `DESIGN_FP_ARCHITECTURE.md` §3 law (lines 465–482), L2 (lines 95–129);
+Every FP flag is VIRTUAL: [STATED] `DESIGN_FP_ARCHITECTURE.md` §3 law (lines 465–482), L2 (lines 95–113);
 `DESIGN_FP_ARCH_SP.md` §1 L2 (lines 45–57).
 - ABSENT from `DEFAULT_SIMULATION_RULES` and so from every preset's default spread; PRESENT and strictly `true` only
   in the presets a LIT-n lighting unit names (J-EM-16).
@@ -670,7 +670,7 @@ Every FP flag is VIRTUAL: [STATED] `DESIGN_FP_ARCHITECTURE.md` §3 law (lines 46
   (3) a call-path spy (the gated entry is never invoked dark); (4) a gate-polarity census (every read site is `===
   true`, by source scan over the module set). PLUS the LIT-MUTANT CONTROL: force the flag on over the fixture and
   prove fences (1) and (3) trip — "the differential alone is blind by design". [STATED] `DESIGN_FP_ARCH_CW.md` §2
-  (lines 101–117); compiled L2 (lines 95–129).
+  (lines 101–117); compiled L2 (lines 95–113).
 - EP adds a FIFTH fence because a flag can be dark at resume but lit at pause: the dark contract must be FLAG-DRIVEN,
   not value-driven (every conditional spread keys on the flag-gated value, so a world flipped dark never serializes a
   new key). [STATED] `DESIGN_FP_ARCH_EP.md` §1.2 (lines 690–698), §2.3b, §2.5 headings.
@@ -696,7 +696,7 @@ Every FP flag is VIRTUAL: [STATED] `DESIGN_FP_ARCHITECTURE.md` §3 law (lines 46
   [STATED] compiled §3 lighting contract (line 628).
 - The TIER line (requirement 17) decides where a lit flag can do anything: aspatial-safe mechanisms light in EVERY
   world-alive preset including the default (OD-FC-3/16/26 were re-scoped this way after skeptic S3 M12); belief
-  mechanisms need spatial canon + non-omniscient infoMode; LG is a no-op under omniscient (Q8). [STATED] fold OD-FC-3,
+  mechanisms need spatial canon + non-omniscient infoMode; LG-8 (news carriage) is a no-op under omniscient (Q8); LG's other waves need spatial canon. [STATED] fold OD-FC-3,
   OD-FC-16, OD-FC-26; `DESIGN_FP_ARCH_LG.md` §2 Q8.
 - A seal over a dark layer is not offered: "the layer's own gate … is part of every FP predicate by construction,
   because the predicate reads the layer's ledger and a dark layer has none". [STATED] compiled §12.1 "The dark-layer
@@ -710,7 +710,7 @@ Every FP flag is VIRTUAL: [STATED] `DESIGN_FP_ARCHITECTURE.md` §3 law (lines 46
    field (elevation, biome class, river graph, coast type, chokepoint ids …), the WY-1 precedent is the model: the
    field is appended only when admitted, absent means legacy behaviour forever, and existing canonized worlds never
    shift. A new field that changes any existing reading when present is a declared same-seed shift that needs its own
-   owner-signed lighting unit.
+   owner-signed lighting unit (signed, since the 10-16 delegation, by the chair and vetoable — as item 4 says).
 2. **Anything the simulator reads from the map must enter through one reader.** The one-substrate distance law (IN
    §1b) and L-LG-1 ONE GRAPH forbid a sixth distance price or a parallel pathfinder; a new terrain cost or travel mode
    is an EDGE TYPE or an input to `distanceRead`'s calibration, not a new clock. WY-1 chose the calibration constant
@@ -735,7 +735,7 @@ Every FP flag is VIRTUAL: [STATED] `DESIGN_FP_ARCHITECTURE.md` §3 law (lines 46
 
 ## 4. The fold's conflicts, rulings and owner rows that touch the map, the realm, the spatial digest, Phase 5.5, the fabric program, FMG or terrain
 
-**What the fold does NOT mention.** [OBSERVED] by grep over `docs/DESIGN_FP_COHERENCE_FOLD.md`: zero occurrences of
+**What the fold does NOT mention.** [STATED] by grep over `docs/DESIGN_FP_COHERENCE_FOLD.md`: zero occurrences of
 "terrain", "Phase 5" or "digest"; "FMG" twice (both in OD-FC-22 / skeptic S3 M1); "fabric/FABRIC" once (§5); "canoni-"
 twice; "spatial canon" four times (all TIER statements). Every map-touching ruling is therefore indirect — through
 distance/scale, movers on roads, the route network, the column classes, the embattlement ledger, the later families'
@@ -866,7 +866,7 @@ program · CLIMAX tick · verdict vocabulary · class (CLIMAX = one hearing; STA
 It is seeded from the census of live acts so its walker is green on day one, and once lit "a kind outside the registry
 cannot resolve". [STATED] fold §1 req 24(a) (lines 192–198), §3.4 (lines 353–388).
 
-**No row names terrain.** [OBSERVED] none of the 31 rows mentions terrain, elevation, rivers, coasts or biome;
+**No row names terrain.** [STATED, the fold read] none of the 30 rows (35 kinds; five rows carry two kinds) mentions terrain, elevation, rivers, coasts or biome;
 locations enter only as roads, walls, settlements, hosts and "the encounter". Every pending card must still name "who,
 upon whom, **where**, the default verdict" (req 24(g), lines 249–251) — so "where" is mandatory even though the
 registry itself carries no place field. [INFERRED] the place a card names will be whatever the engagement's own record
@@ -915,7 +915,7 @@ pause stays the DM's option. [STATED] fold line 388.
 make a map position (a road contact point, a besieged town) the subject of a week-long DM hearing; (2) "forecast paths
 overlap" means the hearing is triggered by a FORECAST read over route geometry, so route geometry must be
 deterministic and stable within an advance; (3) every "dwell" is one week, i.e. one tick, consistent with law M's
-one-week-per-leg floor — so the map's leg granularity directly sets how many hearings a journey can produce.
+one-week-per-leg floor — so the map's leg granularity sets how many mid-route positions a journey has at which a located engagement (an interception, a chance meeting) can arise — not the number of hearings, which the registry's climax kinds fix. [Fable-reviewed 2026-10-18: the earlier sentence said legs set the hearing count; hearings are per engagement, not per leg.]
 
 ---
 
@@ -1087,7 +1087,7 @@ volumes); the fold's findings kit (`settlement-engine-kits/fp-coherence-2fc13d59
 4. **Distance must stay one substrate.** New terrain costs or modes enter `distanceRead`'s calibration or LG's one
    graph as edge types — never a parallel pathfinder or a sixth distance price — and every distance band is measured
    per map.
-5. **Terrain is nowhere in FP's law.** The fold and the registry never name terrain; terrain lives in generation
+5. **Terrain is nowhere in FP's law, but it is under every FP clock.** The fold and the registry never name terrain; terrain lives in the frozen digest's cost law (`BIOME_COST` × the elevation knee, a river term, the terrain classes and the seasonal terrain overlay — `spatialCost.js`), which every FP mover reads through `hopWeeks`, in generation
    (config), in calamities (`DISASTER_TYPE_BY_TERRAIN`), in Edit Mode's `worldFact` card, and in the FABRIC program's
    terrain-first law. If the map engine introduces a richer terrain model, the FP-facing route is a new
    dormant-by-absence digest datum with a declared consumer wave, not a change to existing readings.

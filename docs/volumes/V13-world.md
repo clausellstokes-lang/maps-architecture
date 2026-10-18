@@ -102,6 +102,19 @@
 > geometry — staying closed; §11 Q4 is answered, and H5 (the host's builder over the canon) and H22's birth canon no
 > longer wait on it (§8.5's preamble, H5's and H22's rows, §10's BCR-V13-40, §11 Q4 and its ruling).
 
+> **Retrovalidation s — 2026-10-18** (`docs/AMENDMENTS-2026-10-18s.md`, items 927–935; the Fable retrovalidation of
+> the work J375 marked pending, its records under `docs/validation/retrovalidation-2026-10-18/`). Changed, each text
+> a validator's correction taken whole save §2.3's prosperity row: §2.2's `waterLanes` comment says what "lit" means —
+> the frozen record's versioned lane slot with at least one lane, never the host's fleet switch (H25; J382 (b) as the
+> retrovalidation amended it); §2.3's `RouteCostLaw` comments give `classFactor` and the elevation knee as the shape of
+> the host's law 2 (H6), its first law pricing by biome with a ramp for a knee and not ported (J-V13.73); §2.3's
+> `reach.kProsperity` row and §5.9 (7)'s drift note say the host's band polarises — a seat at the middle rung or
+> better climbing, a struggling seat sinking — and drifts upward in aggregate only where most seats start there, the
+> relative rung resting on the polarisation, not the direction; §3.11.6's *Retention* names the lens plates' horizon
+> (§5.8 (8)) beside user events and the supersession chain; §5.8 (7) says the host's own chips are shown to the DM, no player surface
+> traced; §5.9 (5)'s trend row gives the party the direction the host's own dossier already tells it, never a believed
+> trend; §5.9 (6)'s pressure row puts an overlord's authority over its vassal above a war front.
+
 **How to read this volume.** It builds, to implementation depth, the subject the base (`docs/ARCHITECTURE.md`, with files
 f and g applied, and file j's items 131–141 as the owner's rules of 2026-10-16: `docs/AMENDMENTS-2026-10-16j.md`) carries
 nowhere yet: a world regime of its own, the placement of settlement frames in it, and water as a consequence system at
@@ -809,7 +822,7 @@ interface AdvanceWindow { fromWeek: Week; toWeek: Week; advanceNonce?: string /*
 interface PolityFacts { window: AdvanceWindow; seats: PolitySeat[]; links: PolityLink[]; relations: PolityRelation[]; sites: PolitySite[]; satellites: PolitySatellite[] /* J384 (11) */;
   claims: { by: string; target: string }[] /* a seat's standing claim on another seat — on the host, its lineage claim of a founding parent on its child or the reverse, a war reason it computes only while its lineage lane is lit (dark in every shipped preset): a DM-view claim outline that moves no cell (V13 §3.9 (12)) */;
   culture: { a: string; b: string; band: 0|1|2|3|4|5; sampled?: Week /* the week the host sampled the band, where it records one */ }[] /* the host's own culture distance between two seats in fifths, in its plain form over its whole vector — no trade tie (J384 (2)) — for every pair within the host's reinforcement band or at its neighbour tier ≤ 2 — pairs the host can name itself; a pair not sent reads 0 (`W_POLITY_CULTURE_ABSENT`); J382 */;
-  waterLanes: { lit: boolean; lanes: { a: string; b: string }[] } /* the host's adopted water lanes and whether its lane system is lit; J382 */;
+  waterLanes: { lit: boolean; lanes: { a: string; b: string }[] } /* the host's adopted water lanes and whether its lane system is lit — lit as its caravans read it: its frozen record carries a versioned lane slot with at least one lane, never its fleet switch (V13 §8.5's H25); J382 */;
   roadWatch: { edge: string; power: string; kind: 'closed'|'warden'; since: Week }[]; christened: { root: string; name: string }[] }
 interface PolitySeat { seat: string; tier: Rung; sizeThird: 0|1|2 /* the third of the tier's population band the seat's own people fall in — its satellites' people never counted (J384 (11)) */;
   prosperity: number /* the host's rung, 0 lowest; the sway reads it relative to the realm's held median (V13 §3.9 (7); J384 (1)) */;
@@ -950,7 +963,7 @@ interface SuitabilityRule { weights: Record<'habitability'|'discharge'|'lowland'
   reach: { estuaryKm: number; resourceKm: number; siteKm: number; overlookKm: number; roadControlKm: number; settlementKm: number }; navigableBonus: number; coastalHabitabilityBonus: number;
   stage2: { connectivityRefRoutes: number } }   // world.suitability — W6a, W6b
 interface RouteCostLaw { version: number /* the host's cost-law version; 0 the default row */; landBase: number; perM: number; slopePerPct: number; biomeFactor: Record<string, number> /* the default row: each biome's moveCost */;
-  classFactor?: Record<string, number> /* the host's per-terrain-class factor through the adapter folder's class table; when present it replaces biomeFactor */; elevationKneeM?: number; elevationKneeFactor?: number /* the host's elevation knee: a step above it costs × the factor */; riverCellAdd?: number /* the host's add on a river cell */;
+  classFactor?: Record<string, number> /* a host law's per-terrain-class factor through the adapter folder's class table — the shape of the host's law 2 in this schema (H6); its first law prices by biome, its terrain classes keying only its receipts and seasonal factors — when present it replaces biomeFactor */; elevationKneeM?: number; elevationKneeFactor?: number /* a host law's elevation knee: a step above it costs × the factor — law 2's shape (H6); the host's first law's knee is a ramp one factor does not carry, and that law is not ported (J-V13.73) */; riverCellAdd?: number /* the host's add on a river cell */;
   riverCrossing: number; waterPerM: number; seaPerM: number; navigableRiverPerM: number;
   bears: Record<string, 'time'|'choice'> /* each term's tag: the base, the per-metre and slope terms, the knee, the river-cell add and the class factors bear time; riverCrossing bears choice; a host law carries its own tags */ }   // world.routes — the host's law as data (a host slice, `costLaw`; the default row ours): W7, W8a, W8b, derivedTime
 interface RouteLayRule { existingRoute: number; portOnly: boolean; classes: { primaryShare: number }; routeToleranceM: number; maxCostFactor: number;
@@ -1097,7 +1110,7 @@ vocabulary and bounds; the idea of a configurable two-axis matrix with overrides
 | `reach.lambda` / `reach.capFactor` | 4 / 1.5 | the floor at L = 0; capTier = 1.5 × the tier's reach |
 | `reach.reachTierDays` THORP / HAMLET / VILLAGE / TOWN / CITY / METROPOLIS | 0.2 / 0.3 / 0.5 / 0.8 / 2.5 / 6 foot-days | a village's market reached in a third of a day; a market town's hinterland about a day's round trip; a city-state's two to three days; a capital's reach limited by days, a realm's by weeks of courier travel (the loss-of-strength gradient; central places) |
 | `reach.kSize` (small, middle, large third of the tier's population band; the seat's own people, J384 (11)) | 0.87 / 1.00 / 1.15 (1.15^(third − 1)) | T2's "exponential to the size" (J385) |
-| `reach.kProsperity` (the relative rung −3 … +3, lowest first; J384 (1)) | 0.75 / 0.83 / 0.91 / 1.00 / 1.10 / 1.21 / 1.33 (1.1^(relative rung)) | T2's "exponential to … prosperity" (J385); relative, so the host's realm-wide upward drift inflates no reach |
+| `reach.kProsperity` (the relative rung −3 … +3, lowest first; J384 (1)) | 0.75 / 0.83 / 0.91 / 1.00 / 1.10 / 1.21 / 1.33 (1.1^(relative rung)) | T2's "exponential to … prosperity" (J385); relative, so the host's upward drift in aggregate — where its festival or boom writer is lit, its band polarising (V13 §5.9 (7)'s note) — inflates no reach |
 | `culture.phi` / `culture.dwellWeeks` | 0.5 (a step into land of the farthest culture takes 1.5 × the time) / 13 | J382: the host's culture distance, banded in fifths |
 | `water.lodgementDays` | 0.5 | J382: across water a coastal lodgement, never the far shore |
 | `river.crossingDays` | 0.25 | a big river is a border: two equal seats across a navigable river split at the river when one is nearer it by less than this |
@@ -2451,7 +2464,7 @@ a border crossing, never a *gate*, and a site posted there a **border post**; a 
 and a cross-water hold a *lodgement*, never *checkpoint* or *foothold*; the advance's nonce is `advanceNonce`; the water-passage class of a path (V13 §3.13's `routeClass`) is never sent
 as a route's class. **Scale:** the host stamps its own map unit's kilometres from the world header (V13 §2.1), never a default; the
 reference generator's scale and unit are read only inside the import adapter (V13 §3.15). **Retention:** the host's
-horizon governs host facts; the map's own horizons cover user events and the polity supersession chain only (V13 §2.6).
+horizon governs host facts; the map's own horizons cover user events, the polity supersession chain and the lens plates (V13 §2.6; the plates' own horizon is §5.8 (8)'s: `plates.fullWeeks` at full resolution, then one plate per `plates.compactWeeks`, outside every digest).
 Messages carry the canon envelope's version vector; a host that speaks none of them reads the ecosystem-shaped export
 (V13 §5.4).
 
@@ -3181,7 +3194,7 @@ nothing at random, and sends the host nothing but the DM-placed site offers (V13
    never greyed. **A player** sees only the rows the host resolved public and, where the regime records belief, the
    party's believed rows (`LensFacts` of audience `party`); under an omniscient regime the player picture is the public
    truth or nothing. **No player view of alignment** (J384 (7)): the alignment lens refuses every audience but the DM
-   (`refuse.lens.audience`), and a party set's alignment rows are dropped at fold; the host's public chips stay where
+   (`refuse.lens.audience`), and a party set's alignment rows are dropped at fold; the host's own chips (shown to the DM on its cards and PDF today; no player surface traced) stay where
    the host shows them. **Suppressed creeds and criminal trade DM-only** (J379; J-V13.77's fail-closed rule over the
    host's criminal flags): a party set's suppressed creeds are dropped at fold too, and the host's criminal channels
    and its criminal income never reach a player picture (the income mix is not drawn in this pass).
@@ -3336,7 +3349,7 @@ where the lane is dark or no intensity is sent.
 | element | reads | drawn | class | regime | audience | scrub |
 |---|---|---|---|---|---|---|
 | size | the tier label; `.sizes` for the head count | a glyph by tier label | S | every | the label public; numbers DM | plate |
-| trend | `.trend` | an arrow by the sign of the host's recent deltas, labelled "by the host's law" | D | every | DM; the party's believed trend where beliefs | plate |
+| trend | `.trend` | an arrow by the sign of the host's recent deltas, labelled "by the host's law" | D | every | DM; the party, as the direction the host's own dossier already tells it (its retrospective sentence over the same ring and thresholds) — never a believed trend, which the host records for its courts and shows to no one | plate |
 | transfers | `.transfers` | dated links along the host's links, styled by kind | S | netted (and beside columns where the host serves both) | DM | host-dated |
 | columns | `.columns` | a moving marker from its departure week toward its arrival along a likely road (labelled), styled by carriage where the host sends it — road; sea along the water lane's laid path; teleport a dashed arc with no path (the host's column between its two ends, never a teleport link of the map's: §1.4's circle marks stay linkless) — and where it does not, by the host's endpoint test (an end at a port or a circle holder), labelled "likely carriage"; port and teleport columns included, which the host's own overlay hides (J384 (12)) | S, placed | columns | DM-only by default | host-dated |
 | satellites | `PolityFacts.satellites` | dots at their frozen site points | S, placed | when placed | as the host's | revisions |
@@ -3364,7 +3377,7 @@ only once the DM seats one" — a born world holds none).
 | piety and contest | `.piety`, `.contested` | marks at the seat | S | spread, seated | DM | plate |
 | suppressed creeds | `.faith[].suppressed` (the DM's set only) | the suppressed deities listed at the seat, greyed and labelled "suppressed" | S | spread, seated | DM-only: never a party set, never a player picture | plate |
 | ruler and people at odds | `.rulerDiffers`, sent by the host | a mark at the seat, labelled "by the host's law" | D | spread, seated | DM | plate |
-| pressure | `LensFacts.links` of the religion lens, with the host's weight | links by carrier kind (alliance, trade, patronage, vassalage, a war front — hostility carries hardest — a garrison, an authority), labelled "pressure by the host's law" | D | spread, only when sent | DM | plate |
+| pressure | `LensFacts.links` of the religion lens, with the host's weight | links by carrier kind (alliance, trade, patronage, vassalage, a war front — hostility carries harder than any alliance or trade tie; only an overlord's authority over its vassal carries harder, and one way — a garrison, an authority), labelled "pressure by the host's law" | D | spread, only when sent | DM | plate |
 | prescription | `LensFacts.links` of the religion lens of the prescription kind, with the host's weight (a seated patron pressing the moral institutions of carrier-linked neighbours) | links presser → target, labelled "pressure by the host's law" | D | seated, spread (the host's institution lane lit) | DM | plate |
 | institution abolished or founded | dated events (the target; its presser when sent) | a dated glyph at the target, a link from its presser only when sent | S | seated, spread | the headline public where the host so resolves | host-dated |
 | historic front | the same links, of the front kind | a link styled "historic front" (the host never retires one) | S | spread | DM; never on a published map | plate |
@@ -3389,9 +3402,9 @@ the host's lane is dark.
 
 **7. Prosperity** (J380; fifth). *Regimes:* **booming** (on the canon with the host's booms lit), **moving** (its
 festival and purchase writers lit), **frozen** ("this band has not moved: the campaign runs no prosperity writer").
-*Note (the upward drift):* where its festival or boom writer is lit the host's band drifts upward realm-wide in
-aggregate, a struggling seat sinking (its purchase writer lit alone ratchets nothing) — the host's ratchet, not
-the realm's history; the sway reads it relative to the realm's median (V13 §3.9 (7)).
+*Note (the upward drift):* where its festival or boom writer is lit the host's band polarises — a seat at Moderate or better climbs, a struggling seat sinks — and drifts upward in
+aggregate where generation seeded most seats at Moderate or better, the usual case for connected seats (its purchase writer lit alone ratchets nothing) — the host's ratchet, not
+the realm's history; the sway reads it relative to the realm's median (V13 §3.9 (7)), which rests on the polarisation, not on the direction.
 
 | element | reads | drawn | class | regime | audience | scrub |
 |---|---|---|---|---|---|---|

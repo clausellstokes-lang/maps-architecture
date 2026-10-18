@@ -1,6 +1,6 @@
 # Amendments l — the VTT export profile re-verified against the formats as of 2026-10-17 (item 136 (c))
 
-> PENDING FABLE REVIEW — written by Opus 5.5 standing in for the Fable seat coherence/vtt-l-and-k11; to be retrovalidated overall at the next opportunity (owner, 2026-10-17, J375)
+> Fable-reviewed 2026-10-18: PASS-WITH-CORRECTIONS — applied as recorded; the held-set clause and six wording and evidence points corrected (lane retrovalidation/small; J392)
 
 Numbered from **648** (file k ended at 647). **APPLIED** by the same lane (`coherence/vtt-l-and-k11`) to
 `docs/ARCHITECTURE.md` §11.1 and to `docs/volumes/V14-sites.md` §1b.4, §5.3, §7 and §12, as the coherence pass applies
@@ -9,7 +9,7 @@ items (the quote matched exactly, replaced, never paraphrased); the record of th
 `research/vtt-profile-reverify`, 2026-10-17) — its §5 delta table (29 rows: 7 changed in whole or in part, 2 unverifiable, 20
 unchanged) and its §6 base change requests **BCR-VTT-1 – BCR-VTT-8** with the pin line it proposes. The
 re-verification is the one item 136 (c), V14 §5.3, V14 §8's SE2 and T-V14-11 call for ("the profile's version pinned
-by item 136 (c)'s re-verification before M-ENC's SE2").
+by item 136 (c)'s re-verification before M-ENC's SE2" — file k item 628's words, the base's pre-l *Scope* clause item 649 (b) replaces).
 
 **How to read an item.** As file k's: each item names the base's (or the volume's) exact heading, quotes the current
 text **once** (every quote verified by exact search against the file on 2026-10-17; a quote that wraps across a line in
@@ -25,8 +25,8 @@ this file's *Evidence* lines.
 
 **Where the note's text was not taken verbatim** (each a design choice of this file, recorded so it can be vetoed):
 (a) BCR-VTT-2's placeholder `<base>.<nn>.dd2vtt` is written `<base>.<ordinal>.dd2vtt` with "the ordinal written as two
-zero-padded digits", so the one spelling of the name in the base (§11.1 *Scope*), V14 §2.4 (`EncounterCrop.scenes`),
-§3.12 (6), §5.3, T-V14-11 and BCR-V14-8 stays one; (b) BCR-VTT-1's two pin texts (its table row and its closing
+zero-padded digits", so the one spelling of the name in the base (§11.1 *Scope*), V14 §5.3, T-V14-11 and BCR-V14-8 stays one, and the
+ordinal V14 §2.4 (`EncounterCrop.scenes`) and §3.12 (6) call the file suffix keeps its name; (b) BCR-VTT-1's two pin texts (its table row and its closing
 line) are merged into the closing line's form, the readers not read for the profile (the MapTool and Fantasy Grounds
 wikis, Roll20's blocked article) left in the note; (c) BCR-VTT-3's per-level `elevation.top` for a level with no
 ceiling (the ground, a deck) is given a value the note leaves open — `bottom` plus a new cell `vtt.levelBandCm`
@@ -35,7 +35,11 @@ to the scene's distance units by the grid's own ratio (`cm ÷ (squareM × 100) �
 a third-party importer reading the Foundry scene JSON is left out of the base (a product name; nothing the design
 needs); (e) a light's `elevation` and `levels` and a deck level's `visibility.levels` are kept as the note gives them;
 an open portal that is not a window (a raised way's end stair or ramp) is written as no wall in the Foundry scene,
-a case the note does not name.
+a case the note does not name; (f) a window's `threshold { attenuation: true, sight: 10, light: 10 }` is read as the
+scene's distance units (item 654) — the note gives the value the importer writes and no unit, as it marks the light
+radii and the level elevations INFERRED to that unit [Fable-reviewed 2026-10-18: SV-6; a reading, vetoable as (a)–(e)].
+
+*Three generalisations carried as the note states them* [Fable-reviewed 2026-10-18]: "the list every importer reads" (items 650 (b), 656 (a); BCR-VTT-5's words) — `line_of_sight` is the contract's wall list, in the published description's "core set of tags that is supported throughout all VTT software" (the note's §2), and every documented reader draws walls from the file (Foundry's importer from `line_of_sight` alone, §4.2; Owlbear, MapTool and Roll20 "walls"/"VBL", §2 and §4.3), which none could do without it; "no importer read checks it" (650 (a)) and "no importer read reads a vendor key" (651) — measured for the two Foundry importers, stated for Owlbear and MapTool (§5 rows 3 and 13); none is a field-level fact about Roll20 or Fantasy Grounds, whose documentation the note could not read at that level (§4.3, §7).
 
 *Not items* (listed so nothing is re-found): **BCR-VTT-8** (the survey's consumer list and Dungeon Alchemist's
 convention made exact) and BCR-VTT-2's survey clause (§6.1 (1)) touch `research/sites/survey.md` only — a research
@@ -155,7 +159,7 @@ zero occurrences of a portal name in the developer section), §5 row 15; https:/
 
 **654.** **The Foundry scene JSON as one Foundry 14 Scene with `levels[]`; the wall and light values named**
 (BCR-VTT-3; BCR-VTT-4). *Current text* (the whole bullet, across four lines):
-> * **Foundry scene JSON:** the same geometry as walls (`c: [x0, y0, x1, y1]` with movement and sight types; doors flagged; an enceinte's walls by run as `line_of_sight` above — a `patched` run a wall, a `breached` or `dismantled` run none), the same lights, a background image file, grid size and distance units — written before the walls — and journal entries from the gazetteer.
+> * **Foundry scene JSON:** the same geometry as walls (`c: [x0, y0, x1, y1]` with movement and sight types; doors flagged;⏎  an enceinte's walls by run as `line_of_sight` above — a `patched` run a wall, a `breached` or `dismantled` run none),⏎  the same lights, a background image file, grid size and distance units — written before the walls — and journal⏎  entries from the gazetteer.
 *New text:* * **Foundry scene JSON:** one Foundry 14 **Scene** document per export scope, in Foundry's published Scene,
 Level, Wall and AmbientLight schemas (API 14.368, pinned above), so Foundry imports it with no manual step and every
 scene of the set becomes a native level of one Scene (file l item 654). **The Scene:** `grid { type: 1, size,
