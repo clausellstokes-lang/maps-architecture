@@ -1,0 +1,520 @@
+{
+ "verdict": "PASS-WITH-CORRECTIONS",
+ "notice_replacement": "> Fable-reviewed 2026-10-18: PASS-WITH-CORRECTIONS — the laws and the 80-row ledger hold; counts, citations, tags and seven readings corrected in place (lane retrovalidation/fp; J392)",
+ "summary": "Lane retrovalidation/fp (Fable, validator; J392). Both notes read whole: research/sf/fp-simulator.md (1,098 lines) and research/sf/fp-physical-integration.md (493). All 34 verifier findings ACCEPTED on evidence I re-read myself at 81f1cd96 (three with a widened fix: FV-19 gains the map side's wall-derived VTT line of sight, FV-22 is extended to the §5 row carrying the same mis-citation, FV-26 is applied in place now that the retrovalidation it was \"kept for\" has happened); the two withdrawals confirmed. My own recounts reproduce 31 TICK rows (not 29) and 30/17/7/26 of 80 §8 statuses. Nine findings the verifier could not see: (FA-01) §5's \"leg granularity sets how many hearings\" outruns the registry — hearings are per engagement kind, legs set where a located engagement can arise; (FA-02) \"Terrain is nowhere in FP's law\" misleads without \"but under every FP clock\" (the digest's cost law); (FA-03) I42's 09-27 \"never ask SettlementForge to change\" is superseded in part by the owner's 10-16 word (item 138 (e)) and the realm review's host asks; (FA-04) the kmScale source and absolute-distance lighting have moved under the note (V13 §8.5 H3, J-RR.14's bounded deferral) — dated brackets; (FA-05) the map's own line of sight exists for VTT export (base §11.1, item 136 (b)); (FA-06) delegated signature wording; (FA-07) the fifteenth sub-key ES-5d minted; (FA-08) both notes omit the host cost law's river term (+0.3 on a river cell, spatialCost.js:386) — V13's RouteCostLaw already carries it (J-RR.12, H6), so research-only; (FA-09) the preset line range. 21 readings judged: 17 UPHELD, 3 AMENDED (§5 consequence 3, §8 item 5, I36/I42), 1 OVERTURNED (the drafted §1 counts → §8's), 1 NOT-A-RULING (J377(a)'s counts, a journal row; J392 names the A1 refinement to 29/18). 55 old→new fragments, every old checked unique by grep, all research-kind; no design text changed (grep found no propagation into V13, V14, the base, the proposals, the brief, INDEX or SUMMARY). No contradiction with amendments j items 131–141 or i item 130. Record: /home/user/maps-architecture/docs/validation/retrovalidation-2026-10-18/fp.md; CHECKPOINT (01:02) and LANDED (01:10) lines appended to /home/user/maps-architecture/docs/lane-events.log. Not checkable: git-history claims (no git; shallow clone — accepted on the verifier's pack read and ≈60 code sites), the ODQ (ledger branch), the 10-17 text of V13/proposal (judged against the design as applied).",
+ "rulings": [
+  {
+   "id": "R-FP-1",
+   "verdict": "UPHELD",
+   "reason": "fp-simulator §2.4 groups nine directional fences as 'one-way flows'; each member is STATED at its citation (RL law 2; WY §2d; SP L3 + POP §1b; SPINE 479–486; ARCHITECTURE/MF; SPINE 25 + MF 233–241; LG L-LG-4; CPL C-LAW-2; EP §3c + L10(c)) and the grouping is tagged INFERRED, adding no law",
+   "consequence": "none — the design's one-way flow (item 132 (h), V13 §3.11.6) runs the same direction"
+  },
+  {
+   "id": "R-FP-2",
+   "verdict": "AMENDED",
+   "reason": "fp-simulator §3.4 items 1–7 each trace to a cited law; item 1's 'owner-signed lighting unit' is, since the 10-16 delegation (fold:487–489), chair-signed and vetoable, as the note's own item 4 says",
+   "consequence": "correction C16 (research)"
+  },
+  {
+   "id": "R-FP-3",
+   "verdict": "AMENDED",
+   "reason": "fp-simulator §5 consequences (1) and (2) hold (fold 357–358); (3) 'leg granularity directly sets how many hearings a journey can produce' outruns the registry: a hearing is per engagement kind (req 24(a)), a leg is not an engagement; legs set the mid-route positions at which a located engagement can arise",
+   "consequence": "correction C15 (research, dated bracket); no design text carries the wrong reading"
+  },
+  {
+   "id": "R-FP-4",
+   "verdict": "AMENDED",
+   "reason": "fp-simulator §8 items 1–4, 6, 7 restate OD-FC-22, RL laws 1–2, OD-FC-18, IN §1b/L-LG-1, WY §3b–§3e, req 24(g); item 5 omits the terrain home every FP mover reads — the digest's cost law (spatialCost.js BIOME_COST × elevation knee + river term, terrain classes, seasonal overlay) — so its heading and list are widened",
+   "consequence": "correction C14 (research)"
+  },
+  {
+   "id": "R-FP-5",
+   "verdict": "UPHELD",
+   "reason": "fp-simulator §4.2's OD-FC-22 inference (export an explicit scale + unit or fall back to a signed default) is a correct report of fold:515 as of its date; for a world from the map module the design has since made the scale the world's own declaration and deferred absolute-distance lighting (J-RR.14; V13 §8.5 H3, §12), which the physical note's D3 bracket now records",
+   "consequence": "none here; correction P23 in the physical note"
+  },
+  {
+   "id": "R-FP-6",
+   "verdict": "UPHELD",
+   "reason": "fp-simulator §4.2's OD-FC-17 reading says 'quoted second-hand from the fold' and infers; fold:510 and URBAN_BAND_INSTITUTIONS.md:99 characterise §764 the same way; the ODQ is not in the clone",
+   "consequence": "none (the physical note's I36 is where the characterisation was mis-dated and called verbatim: FV-29, correction P18)"
+  },
+  {
+   "id": "R-FP-7",
+   "verdict": "OVERTURNED",
+   "reason": "fp-physical §1's drafted implication paragraph (62 rows; 34 / 16 / 12 missing, with examples) does not match §8: my recount gives 80 rows, 30 SUPPLIED / 17 PARTLY / 7 MISSING (T2, R4, R7, A2, L1, C2, M4) / 26 NONE-OWED, and 29 / 18 once the dated bracket moves A1; the drafted 'missing' examples are PARTLY, SUPPLIED or NONE-OWED in §8; 'kept for the retrovalidation' ends with this retrovalidation",
+   "consequence": "corrections P14a, P14b, P15 (research, dated bracket)"
+  },
+  {
+   "id": "R-FP-8",
+   "verdict": "UPHELD",
+   "reason": "fp-physical §8's 80 statuses recount; its dated bracket (A1 PARTLY; A2 answered by the canon's crossings) matches J-RR.3/J-RR.48 and V13 as applied (W8a the seat territory with its crossings in the canon; W8b the sway)",
+   "consequence": "none beyond pointing the two count statements at the bracket (P15, P16)"
+  },
+  {
+   "id": "R-FP-9",
+   "verdict": "UPHELD",
+   "reason": "fp-physical §8.1's 'two readings are possible and the host's own law picks one' was right at its date; V13 §3.11.6 as applied settles it on the first reading narrowed to geometry — the map builds the seat territory and crossings into the canon's travel slot and the host keeps its all-pairs costs, tiers and candidate routes (J-RR.3)",
+   "consequence": "none (V13 states it); P16 points the A2 sentence at the bracket"
+  },
+  {
+   "id": "R-FP-10",
+   "verdict": "AMENDED",
+   "reason": "fp-physical I36 dates ODQ §764 to 2026-10-02/03 and quotes the owner verbatim; URBAN_BAND_INSTITUTIONS.md (headed 2026-09-30) already cites §764.3/.5, and the two sentences are the fold chair's (fold:510) and the urban-band doc's (:99) characterisations",
+   "consequence": "correction P18 (research): date ≤ 2026-09-30, author 'owner, as characterised by …'"
+  },
+  {
+   "id": "R-FP-11",
+   "verdict": "AMENDED",
+   "reason": "fp-physical I42's attribution ('the map engine's architect, quoting the owner's rule of that evening') is right (SUMMARY.md:7–9), but placed last in a chronological table it reads as current; the owner's 10-16 word (amendments j item 138 (e): the host changes of proposal §6 are the owner's to schedule) and the realm review's host asks (V13 §8.5) supersede 'never ask SettlementForge to change' in part, and the note's own §8.1 leans on proposal §6",
+   "consequence": "correction P22 (research, dated bracket)"
+  },
+  {
+   "id": "R-FP-12",
+   "verdict": "UPHELD",
+   "reason": "fp-physical §5's nine geometry needs each cite the rows that need them; item 8's absolute scale is the owner's 08-05 directive, deferred bounded for map-module worlds by J-RR.14 (rulings.md J385.g15 upheld the deferral)",
+   "consequence": "none beyond P23"
+  },
+  {
+   "id": "R-FP-13",
+   "verdict": "UPHELD",
+   "reason": "fp-physical §3.4's bindings of the three fabric laws cite MF lines the verifier re-read; 'what they do NOT bind' (realm-scale terrain; MF §14.3; DESIGN_SETTLEMENT_MAP.md:356–358) is right and is the gap V13's charter closes",
+   "consequence": "none"
+  },
+  {
+   "id": "R-FP-14",
+   "verdict": "UPHELD",
+   "reason": "fp-physical §4.5's inference (the port rule is the one host law shaped as a derived-facts contract; the lake and the river's course are what the charter adds) follows PHASE55:718–728 and seaLanes/waterBodies as read; V13's WaterSurface and Reach.course exist",
+   "consequence": "none"
+  },
+  {
+   "id": "R-FP-15",
+   "verdict": "UPHELD",
+   "reason": "fp-physical §2.11's inference (complete as a reader, producer left to 'the map') rests on a tally that recounts (17/23/19/10/4/3/4 = 80) and on STUB rows D3/D5 and T7–T8/D14–D16 as listed",
+   "consequence": "none"
+  },
+  {
+   "id": "R-FP-16",
+   "verdict": "UPHELD",
+   "reason": "fp-physical §6's reading of intent over time (fork-small → price by real scale → a map program, not FP) is supported by its rows; no host document names the map module",
+   "consequence": "none"
+  },
+  {
+   "id": "R-FP-17",
+   "verdict": "UPHELD",
+   "reason": "fp-physical §7's 'nothing changed in spatial code between 00b648c9 and 81f1cd96' cannot be re-run (no git; shallow clone) but every one of ≈60 code sites re-read at 81f1cd96 says what the note says; the note's own §7 corrects §1's 'exactly one commit'",
+   "consequence": "correction P21 (research)"
+  },
+  {
+   "id": "R-FP-18",
+   "verdict": "UPHELD",
+   "reason": "fp-simulator §1.12's 'Map relevance' and §4.1's 'Why it matters' columns are tagged INFERRED and follow the rulings they sit beside (fold 268–281, 303–309, 531); the LG row's 'LIT at landing' is the fold's own",
+   "consequence": "none"
+  },
+  {
+   "id": "R-FP-19",
+   "verdict": "UPHELD",
+   "reason": "fp-simulator §2.1's 'What it asks of a map-side generator' column follows each requirement; the req-17 observation holds (SPINE:129–137 still carries the paid-tier triad, :185 defers to the fold) and only its tag was wrong",
+   "consequence": "correction C13b (tag)"
+  },
+  {
+   "id": "R-FP-20",
+   "verdict": "UPHELD",
+   "reason": "fp-physical §8 D3 (the scale is a unit declaration; OD-FC-22's exported read is replaced by the declared units) is what V13 §8.5 H3 says as applied",
+   "consequence": "none beyond P23's bracket on the lighting deferral"
+  },
+  {
+   "id": "R-FP-21",
+   "verdict": "NOT-A-RULING",
+   "reason": "J377(a)'s recorded counts (80 rows; 30 / 17 / 7 / 26) are a journal record of the assembler's note, right at its date; the 10-17 bracket under §8 moved A1 to PARTLY afterwards",
+   "consequence": "journal rows are append-only: no edit to PROGRESS.md; J392 names the refinement (29 SUPPLIED, 18 PARTLY; A2 answered by the canon's crossings)"
+  }
+ ],
+ "corrections": [
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-simulator.md",
+   "old": "**No row names terrain.** [OBSERVED] none of the 31 rows mentions terrain",
+   "new": "**No row names terrain.** [STATED, the fold read] none of the 30 rows (35 kinds; five rows carry two kinds) mentions terrain",
+   "reason": "FV-01 (fold 357–386 are 30 rows) and FV-33 (a document read is STATED)",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-simulator.md",
+   "old": "war circulation beyond WC-0, the epoch's tail, EC).",
+   "new": "war circulation, the epoch, EC) — the fold's words; that WC-0 and EP-0..3 are built is [INFERRED] from fold §2's WC and EP rows.",
+   "reason": "FV-02: fold 57–59 say 'war circulation, the epoch'; the qualifiers are the note's reconciliation",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-simulator.md",
+   "old": "WF-2..7, WF-9 unbuilt;",
+   "new": "WF-1d and WF-6's rows built dark; WF-2..5, WF-6's executors, WF-7, WF-8's remainder and WF-9 unbuilt;",
+   "reason": "FV-03: fold 341's WF row",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-simulator.md",
+   "old": "(only comments name it).",
+   "new": "(two comments and two descriptive strings name it; none calls it).",
+   "reason": "FV-04: subsystemRowsWaves.js:390 and spatialUsage.js:362 are strings",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-simulator.md",
+   "old": "`DESIGN_FP_SPINE.md` lines 332–351.",
+   "new": "`DESIGN_FP_SPINE.md` lines 332–351 (the band families), 1112 (the four severity rungs).",
+   "reason": "FV-07: the rung words are at SPINE:424 and :1112",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-simulator.md",
+   "old": "§2b item 2 (lines 400–405).",
+   "new": "§2b item 2 (lines 403–408).",
+   "reason": "FV-08: item 2 begins at :403",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-simulator.md",
+   "old": "L2 (lines 95–129);",
+   "new": "L2 (lines 95–113);",
+   "reason": "FV-09: L3 begins at :115",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-simulator.md",
+   "old": "compiled L2 (lines 95–129).",
+   "new": "compiled L2 (lines 95–113).",
+   "reason": "FV-09",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-simulator.md",
+   "old": "(now signed by delegation, OD-FC-20; F9's shape ruled by OD-FC-21).",
+   "new": "(WY's nine fields signed by J-EM-9's reading of the 2026-08-05 blanket grant, WY:100; WC's four-ledger batch signed by delegation, OD-FC-20; F9's shape ruled by OD-FC-21).",
+   "reason": "FV-10: WY:100; fold:513 signs CR-WC-9 only",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-simulator.md",
+   "old": "[STATED] war §1b (lines 70–74).",
+   "new": "[STATED] war §1b (lines 66–70).",
+   "reason": "FV-17: law M is at war:66–70",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-simulator.md",
+   "old": "war §1b M (lines 70–74)",
+   "new": "war §1b M (lines 66–70)",
+   "reason": "FV-17",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-simulator.md",
+   "old": "J-WR-10-B (no new vocabulary where an existing ladder serves; the BORROW CENSUS before minting any ladder);",
+   "new": "J-WR-10-B (J-WR-10, war:1554–1556, is R's extremity read — no new relationship vocabulary; J-WR-10-B, FABLE_VALIDATION_QUEUE.md:1775, generalises it: borrow before minting, no second spelling of an existing concept);",
+   "reason": "FV-18: J-WR-10-B is not in the war volume",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-simulator.md",
+   "old": "LG is a no-op under omniscient (Q8).",
+   "new": "LG-8 (news carriage) is a no-op under omniscient (Q8); LG's other waves need spatial canon.",
+   "reason": "FV-31: LG:88–90 names LG-8 only; LG-0..7, 9..12 carry TIER spatial canon",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-simulator.md",
+   "old": "`STARVE_FULL_TICKS` and `CREDIT_TERM`, cured to 13 by OD-FC-15);",
+   "new": "`STARVE_FULL_TICKS` and `CREDIT_TERM`, ruled cured 12→13 by OD-FC-15 as signed designs — both still 12 at `81f1cd96`);",
+   "reason": "FV-32: warSiegeVerdict.js:141 and generosityReactions.js:72 are 12; fold:508 rules signed designs, not applied",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-simulator.md",
+   "old": "read code or a test; [INFERRED] = my reasoning.",
+   "new": "read code, a test or the git history; [INFERRED] = my reasoning.",
+   "reason": "FV-33: the legend must cover line 437's git read",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-simulator.md",
+   "old": "[OBSERVED] the SPINE's copy at lines 129–137",
+   "new": "[STATED] the SPINE's copy at lines 129–137",
+   "reason": "FV-33: a document read",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-simulator.md",
+   "old": "[OBSERVED] by grep over `docs/DESIGN_FP_COHERENCE_FOLD.md`",
+   "new": "[STATED] by grep over `docs/DESIGN_FP_COHERENCE_FOLD.md`",
+   "reason": "FV-33: a document grep",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-simulator.md",
+   "old": "5. **Terrain is nowhere in FP's law.** The fold and the registry never name terrain; terrain lives in generation",
+   "new": "5. **Terrain is nowhere in FP's law, but it is under every FP clock.** The fold and the registry never name terrain; terrain lives in the frozen digest's cost law (`BIOME_COST` × the elevation knee, a river term, the terrain classes and the seasonal terrain overlay — `spatialCost.js`), which every FP mover reads through `hopWeeks`, in generation",
+   "reason": "FV-36 and FA-02: the list omitted the terrain home every FP mover reads (spatialCost.js:35–49, 96–101, 241–254, 385–386)",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-simulator.md",
+   "old": "so the map's leg granularity directly sets how many hearings a journey can produce.",
+   "new": "so the map's leg granularity sets how many mid-route positions a journey has at which a located engagement (an interception, a chance meeting) can arise — not the number of hearings, which the registry's climax kinds fix. [Fable-reviewed 2026-10-18: the earlier sentence said legs set the hearing count; hearings are per engagement, not per leg.]",
+   "reason": "FA-01: hearings are per engagement kind (fold req 24(a)); a leg is not an engagement; the inference would mislead a map designer into minimising legs",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-simulator.md",
+   "old": "owner-signed lighting unit.",
+   "new": "owner-signed lighting unit (signed, since the 10-16 delegation, by the chair and vetoable — as item 4 says).",
+   "reason": "FA-06: fold:487–489 delegates the signature; item 4 already says so",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-simulator.md",
+   "old": "advanceEpoch) plus",
+   "new": "advanceEpoch; a fifteenth, ES-5d's `missionCreditEvents`, landed dark outside that list — fold §3.2.22, §4.1 below) plus",
+   "reason": "FA-07: compiled §4 lists 14; the note's own §4.1 records ES-5d's key",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-simulator.md",
+   "old": "[OBSERVED] `simulationRules.js:863–1010`.",
+   "new": "[OBSERVED] `simulationRules.js:863–1010` (the seven preset heads; the last preset's body runs on past :1010 to its FP spreads at :1213–1215).",
+   "reason": "FA-09: full_simulation begins at :1010 and runs on",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-physical-integration.md",
+   "old": "of which three files are new",
+   "new": "of which five files are new",
+   "reason": "FV-05: the sentence lists five",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-physical-integration.md",
+   "old": "roamer physics J4 unbuilt [STATED DESIGN_ROUTE_LIFECYCLE.md:225-227]",
+   "new": "roamer physics J4 unbuilt [STATED DESIGN_ROUTE_LIFECYCLE.md:128-130 (the quotation), 225-227 (hidden-path access)]",
+   "reason": "FV-06: the quoted phrase is at :128–130",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-physical-integration.md",
+   "old": "so \"hills are unknowable\" [OBSERVED src/domain/spatial/spatialCost.js:52,68,290-291,385]",
+   "new": "so relief between the two thresholds \"is invisible to it\" — hills unknowable, in this note's gloss [OBSERVED src/domain/spatial/spatialCost.js:52,68,289-292,385]",
+   "reason": "FV-12: 'unknowable' occurs nowhere in the file",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-physical-integration.md",
+   "old": "**ABSENT** \"relief between LAND_HEIGHT and MOUNTAIN_HEIGHT is invisible to it… hills unknowable\" [OBSERVED spatialCost.js:290-291]",
+   "new": "**ABSENT** \"relief between LAND_HEIGHT and MOUNTAIN_HEIGHT is invisible to it\" (hills unknowable, this note's gloss) [OBSERVED spatialCost.js:289-292]",
+   "reason": "FV-12",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-physical-integration.md",
+   "old": "adds a modality weight (1.5) and a blockade-bypass share (0.3)",
+   "new": "adds a modality weight (1.5) and a food-import coverage rate (0.3; 0.15 when the dock is besieged)",
+   "reason": "FV-13: foodImportRates.js:1–22 are food-deficit import coverage rates",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-physical-integration.md",
+   "old": "blockade-bypass shares teleport 0.3 / airship 0.3 (besieged airship at half throughput) in food import rates",
+   "new": "food-import coverage rates for settlements without an open trade route, teleport 0.3 / airship 0.3 (0.15 for a besieged airship dock; a teleport circle is the one channel a blockade cannot touch)",
+   "reason": "FV-13",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-physical-integration.md",
+   "old": "caravan load, sea-lane capacity, bypass shares, the fixed sun",
+   "new": "caravan load, sea-lane capacity, the food-import coverage rates, the fixed sun",
+   "reason": "FV-13: the §2.11 CONSTANT row repeats the mis-naming",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-physical-integration.md",
+   "old": "desert 1.2; summer 1.0 on land)",
+   "new": "desert 1.2; summer 1.0 on land except glacier 1.2)",
+   "reason": "FV-15: spatialCost.js:98",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-physical-integration.md",
+   "old": "(\"route by the known picture, roll outcomes against truth\") [OBSERVED embattlement.js, knownWorld.js headers]",
+   "new": "(\"route by the known picture, roll outcomes against truth\" — DESIGN_ROUTE_LIFECYCLE.md:120-121) [OBSERVED embattlement.js, knownWorld.js headers]",
+   "reason": "FV-16: the words are the route-lifecycle volume's",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-physical-integration.md",
+   "old": "line of sight exists nowhere in any volume (zero hits in docs and src for intervisibility/line-of-sight/viewshed) [OBSERVED grep]",
+   "new": "line of sight exists nowhere in any volume (zero hits in docs for intervisibility/line-of-sight/viewshed; in src only the interior VTT export's wall-derived `line_of_sight`, interiorExport.js:8-10, which is not a terrain viewshed) [OBSERVED grep]",
+   "reason": "FV-19: interiorExport.js:8–10",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-physical-integration.md",
+   "old": "**ABSENT** zero hits for intervisib/line of sight/lineOfSight/viewshed across docs and src [OBSERVED grep]",
+   "new": "**ABSENT** zero hits for intervisib/line of sight/lineOfSight/viewshed in docs; in src only the interior VTT export's wall-derived `line_of_sight` (interiorExport.js:8-10), not a terrain viewshed [OBSERVED grep]",
+   "reason": "FV-19",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-physical-integration.md",
+   "old": "V13 offers no viewshed either (its DEM and `sunAt` accessor are the nearest primitives)",
+   "new": "V13 offers no terrain viewshed either (its DEM and `sunAt` accessor are the nearest primitives; the map's own line of sight is the VTT export's wall-derived one — base §11.1, amendments j item 136 (b))",
+   "reason": "FA-05: the map side derives wall line of sight for VTT export (the owner's rule, item 136 (b))",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-physical-integration.md",
+   "old": "[OBSERVED audit §4.4; STATED DESIGN_REALM_DIRECTIVES.md:1613-1617]",
+   "new": "[OBSERVED audit §4.4; STATED DESIGN_REALM_DIRECTIVES.md:1630-1634]",
+   "reason": "FV-20: J-D3 is at :1630–1634",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-physical-integration.md",
+   "old": "DESIGN_REALM_DIRECTIVES.md:1435-1436,1613-1617 [STATED]",
+   "new": "DESIGN_REALM_DIRECTIVES.md:1435-1436,1630-1634 [STATED]",
+   "reason": "FV-20 (row I15)",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-physical-integration.md",
+   "old": "[STATED DESIGN_ROUTE_LIFECYCLE.md:44-45,215-221; DESIGN_REALM_DIRECTIVES.md:1773-1778]",
+   "new": "[STATED DESIGN_ROUTE_LIFECYCLE.md:44-45,215-221; the quiet-quay sentence DESIGN_REALM_DIRECTIVES.md:1753-1755 (J-D11(c))]",
+   "reason": "FV-21: the sentence is J-D11(c) at :1753–1755",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-physical-integration.md",
+   "old": "6. POP/FP_POPULATIONS recorded that the netted `populationFlows` still teleports refugees in spatial worlds (the WY-4 repair), and that P2 columns keep zero road mortality by design [DESIGN_FP_ARCH_POP.md:30; WY:159-166].",
+   "new": "6. WY recorded (WY:159-166) that the netted `populationFlows` still teleports refugees in spatial worlds (the WY-4 repair); ARCH_POP recorded (:30) that P2 columns keep zero road mortality by design.",
+   "reason": "FV-22: neither POP volume mentions populationFlows; the record is WY's C3 bracket",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-physical-integration.md",
+   "old": "(WY C3, a live law violation WY-4 repairs) [STATED DESIGN_FP_ARCH_POP.md:29-31; DESIGN_FP_POPULATIONS.md:163; WY:159-166]",
+   "new": "(WY C3, a live law violation WY-4 repairs) [STATED WY:159-166 for the teleport; DESIGN_FP_ARCH_POP.md:29-31 and DESIGN_FP_POPULATIONS.md:163 for the columns]",
+   "reason": "FV-22 extended to the §5 People row, which carries the same citation",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-physical-integration.md",
+   "old": "`travelersFilter` not persisted [WY:222,226,256,283,296,299,308,704]",
+   "new": "`travelersFilter`'s persistence contested (PLAUSIBLE, untraced) [WY:222,226,256,283,296,299,308,704]",
+   "reason": "FV-23: WY:704 calls it a PLAUSIBLE contradiction, the path not traced",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-physical-integration.md",
+   "old": "V.1 three version axes (`spatialGeometryVersion`, `costLawVersion`, `overlayVersion`) [STATED PHASE55:1365-1378]",
+   "new": "V.1 three version axes (`geometryVersion` in PHASE55:1372 — `spatialGeometryVersion` in the digest, spatialDigest.js:35 — `costLawVersion`, `overlayVersion`) [STATED PHASE55:1365-1378]",
+   "reason": "FV-24: PHASE55 names the axis geometryVersion; the code field differs by design (spatialDigest.js:35)",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-physical-integration.md",
+   "old": "29 are per-TICK reads",
+   "new": "31 are per-TICK reads",
+   "reason": "FV-25: recount of the I/O cell (TICK 29 + per-session 1 + slow 1)",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-physical-integration.md",
+   "old": "of 62 ledger rows, the FrameCharter",
+   "new": "of 80 ledger rows, the FrameCharter",
+   "reason": "FV-26: the ledger has 80 rows",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-physical-integration.md",
+   "old": "supplies 34 outright and 16 partly; 12 are missing — chiefly the per-settlement cost-field and distance-matrix products the host freezes today (the port returns a settlement's own cell, port flag, routes and territory but no all-pairs integer matrix, gates, tiers or route receipts), the `kmScale` datum in the host's unit (the charter is in integer centimetres; the host wants km per map-coordinate unit of ITS placement frame), the storm/season overlays, the teleport and aerial edge sets, the town-scale local substrate the fabric volume wants, and wind at the settlement frame's edge (the charter carries it; the host has no consumer).",
+   "new": "supplies 30 outright and 17 partly (29 and 18 once the bracket under §8 moves A1), 26 need nothing from the map, and 7 are MISSING: the per-segment terrain receipts (T2), a detour operator (R4), candidate route sets per pair (R7), the gates a route crosses (A2 — answered since by the canon's crossings, J-RR.3), line of sight (L1), a water-route capacity (C2) and the `hidden` rung (M4). The realm-graph products the host freezes today — the all-pairs matrix (D1) and the tiers (D10) — are PARTLY (the port as then read returned a seat's cell, port flag, routes and territory, no matrix); the `kmScale` datum (D3, a unit declaration with a host conversion owed), the town-scale substrate (T7) and wind (S7, the host has no consumer) are SUPPLIED; the storm/season overlays and the teleport edge set are the host's own (S2 PARTLY, W7 and M1 NONE-OWED), the aerial field PARTLY (M2). [Fable-reviewed 2026-10-18: the drafted figures 62 / 34 / 16 / 12 and the drafted \"missing\" list stood here until the retrovalidation; the assembler's note below records the draft.]",
+   "reason": "FV-26 applied in place: the drafted counts and examples do not match §8 (recount 30/17/7/26; the drafted 'missing' examples are PARTLY, SUPPLIED or NONE-OWED)",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-physical-integration.md",
+   "old": "§2.11's source-kind tally also sums to 80. The drafted paragraph is kept as written for the retrovalidation. [OBSERVED count]",
+   "new": "§2.11's source-kind tally also sums to 80. Read with the amendments-n bracket under §8: SUPPLIED 29, PARTLY 18 (A1 re-read), and A2 answered by the canon's crossings (J-RR.3). The drafted paragraph above carried 62 / 34 / 16 / 12 until the retrovalidation of 2026-10-18 corrected it in place. [OBSERVED count]",
+   "reason": "FV-26 and FV-27: the assembler's note must point at the A1/A2 bracket and record the draft it replaced",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-physical-integration.md",
+   "old": "the all-pairs integer matrix (D1), gates (A2) and tiers (D10)",
+   "new": "the all-pairs integer matrix (D1), gates (A2 — answered since by the canon's crossings, J-RR.3; see the bracket above) and tiers (D10)",
+   "reason": "FV-27: §8.1's gates sentence predates the bracket",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-physical-integration.md",
+   "old": "DESIGN_MAP_DOORS.md:239-247 [STATED]",
+   "new": "DESIGN_MAP_DOORS.md:31-36 [STATED]",
+   "reason": "FV-28: the file has 143 lines; the text is at :31–36",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-physical-integration.md",
+   "old": "| I36 | 2026-10-02/03 (ODQ §764.1/.4/.5, as the fold quotes it) | owner |",
+   "new": "| I36 | ≤ 2026-09-30 (ODQ §764.1/.4/.5; undated in the clone — URBAN_BAND_INSTITUTIONS.md, headed 2026-09-30, already cites §764.3/.5) | owner, as characterised by the fold chair (fold:510) and URBAN_BAND_INSTITUTIONS.md:99 — not owner verbatim |",
+   "reason": "FV-29: the date is unsupported and the sentences are characterisations, not the owner's words",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-physical-integration.md",
+   "old": "| I4 | 2026-07-11 | owner |",
+   "new": "| I4 | 2026-07-11/12 (round 20; undated in PHASE55) | owner |",
+   "reason": "FV-30: §4j is round 20; PHASE55 dates rounds 7–16 to 07-11 and 21–22 to 07-12, round 20 not at all",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-physical-integration.md",
+   "old": "[OBSERVED] read in code or in the git history;",
+   "new": "[OBSERVED] read in code or in the git history ('per audit' = observed by the prior audit at 00b648c9 and carried because §7 shows no src change; spot re-read at 81f1cd96 by the retrovalidation);",
+   "reason": "FV-34: thirteen rows inherit the prior audit's reads",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-physical-integration.md",
+   "old": "The range holds exactly one commit, `cd347a57`",
+   "new": "The range holds one non-merge commit, `cd347a57`, plus the merge `81f1cd96`",
+   "reason": "FV-35: the note's own §7 names two commits",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-physical-integration.md",
+   "old": "| /home/user/maps-architecture/research/sf/SUMMARY.md:3-8 [STATED] |",
+   "new": "| /home/user/maps-architecture/research/sf/SUMMARY.md:3-8 [STATED] [Fable-reviewed 2026-10-18: superseded in part — the owner's 2026-10-16 word makes the host changes of proposal-world-native.md §6 the owner's to schedule (docs/AMENDMENTS-2026-10-16j.md item 138 (e)), and the realm review's host asks (V13 §8.5) are the current list; §8.1 below already leans on proposal §6] |",
+   "reason": "FA-03: I42's 09-27 'never ask SettlementForge to change' reads as current at the end of a chronological table; item 138 (e) and V13 §8.5 supersede it in part",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-physical-integration.md",
+   "old": "`DEFAULT_KM_SCALE 3` is a fallback only and its unit was wrong (FMG default unit is miles ⇒ 3 mi ≈ 4.83 km) [STATED FOLD:515, OD-FC-22]",
+   "new": "`DEFAULT_KM_SCALE 3` is a fallback only and its unit was wrong (FMG default unit is miles ⇒ 3 mi ≈ 4.83 km) [STATED FOLD:515, OD-FC-22; `public/map/index.html:5231` has `mi` selected] [Fable-reviewed 2026-10-18: the design has since moved — for a world from the map module the scale is the world's own declaration, FMG's scale and unit read only inside the import (V13 §8.5 H3), and absolute distance's lighting for such a world waits on the host's per-map band census (J-RR.14, V13 §12), a bounded deferral]",
+   "reason": "FA-04: the realm review as applied changed the scale's source and deferred the lighting; a reader would otherwise build the exported-scale read the design replaced",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-physical-integration.md",
+   "old": "glacier 4.0; wetland 1.9) × elevMult × 100; impassable cells carry no entry",
+   "new": "glacier 4.0; wetland 1.9) × elevMult, plus a river term (+0.3 on a river cell, `landCostRaw`, spatialCost.js:386), × 100; impassable cells carry no entry",
+   "reason": "FA-08: the host cost law has a third term (spatialCost.js:386 riverBias); costLaw(world, law) must carry every term; V13's RouteCostLaw already does (J-RR.12, H6)",
+   "kind": "research"
+  },
+  {
+   "file": "/home/user/maps-architecture/research/sf/fp-physical-integration.md",
+   "old": "per-cell `BIOME_COST` 0.9..4.0 × elevation multiplier × `COST_SCALE` 100, times integer cell distance",
+   "new": "per-cell (`BIOME_COST` 0.9..4.0 × elevation multiplier + a river term 0.3) × `COST_SCALE` 100, times integer cell distance",
+   "reason": "FA-08 (row D1)",
+   "kind": "research"
+  }
+ ]
+}

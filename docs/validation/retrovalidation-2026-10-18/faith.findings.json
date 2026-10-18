@@ -1,0 +1,86 @@
+{
+ "checked": 490,
+ "findings": [
+  {
+   "id": "S1",
+   "where": "workflows/36-realm-review.js:109; workflows/36b-realm-review-continue.js:108 (TI brief)",
+   "claim": "read host docs/DESIGN_FMG_WEAVE.md (unread)",
+   "verdict": "WRONG",
+   "evidence": "No DESIGN_FMG_WEAVE* exists in the host at 81f1cd96 (find over the clone returns only docs/DESIGN_COHESION_WEAVE.md). The script's own input research/sf/fp-physical-integration.md:489 already says 'docs/DESIGN_FMG_WEAVE*: not in the clone'. The run's output records it correctly at research/sf/fp-realm-review.md:798 '(absent at 81f1cd96)'.",
+   "fix": "docs/DESIGN_FMG_WEAVE.md (absent at 81f1cd96 — fp-physical-integration.md §9; record it as absent, not unread)"
+  },
+  {
+   "id": "S2",
+   "where": "workflows/36-realm-review.js:110; workflows/36b-realm-review-continue.js:109 (TR brief)",
+   "claim": "This dimension carries the owner's two territory rules",
+   "verdict": "IMPRECISE",
+   "evidence": "The ${OWNER_TR} appended to the same brief carries three rules, (T1)–(T3) (36:22-24; 36b:20-22). J378 added (T3) and relaunched 36 'carrying (T1)–(T3)'.",
+   "fix": "the owner's three territory rules (T1)–(T3)"
+  },
+  {
+   "id": "S3",
+   "where": "workflows/36-realm-review.js:209; workflows/36b-realm-review-continue.js:184 (critic item 7)",
+   "claim": "are the owner's territory rules (T1) and (T2) honoured in full",
+   "verdict": "IMPRECISE",
+   "evidence": "The same sentence goes on to 'every term of (T3): military strength ... patrols'. Per J377/J378 the rule set is (T1)–(T3).",
+   "fix": "(T1), (T2) and (T3)"
+  },
+  {
+   "id": "S4",
+   "where": "workflows/36-realm-review.js:21; workflows/36b-realm-review-continue.js:19",
+   "claim": "the way docs/AMENDMENTS-2026-10-16j.md items 131–141 quote the owner",
+   "verdict": "IMPRECISE",
+   "evidence": "docs/AMENDMENTS-2026-10-16j.md:206 item 140 is 'SESSION RULING — The M0 close gate (the session under the delegation ...)', not an owner quote. Items 131–139 and 141 are owner directives or rules.",
+   "fix": "items 131–139 and 141"
+  },
+  {
+   "id": "S5",
+   "where": "workflows/37-faith-read.js:15 (COMMON)",
+   "claim": "The owner's question, quoted: 'see the faith and deity system ... local and global deity rankings ...'",
+   "verdict": "IMPRECISE",
+   "evidence": "PROGRESS J380 (docs/PROGRESS.md:439) records 'see the faith and diety system ... local and global diety rankings'. The script silently corrects the spelling twice. 36 quotes 'typos kept', and 41:25 quotes 'diety' as recorded. The owner's words are not re-judged here, only the session's transcription of them.",
+   "fix": "Restore 'diety' in both places, verbatim as J380 records it."
+  },
+  {
+   "id": "S6",
+   "where": "workflows/38-systems-read.js:8; workflows/38b-systems-read-continue.js:8 (meta, Implications phase)",
+   "claim": "what the three systems change for territory, religion and the lens framework",
+   "verdict": "IMPRECISE",
+   "evidence": "38 has four SUBJECTS (38:41-75), and its implications prompt says 'the five systems (alignment, trade, populations, prosperity, faith)' (38:124). 38b's prompt says 'the six systems' (38b:128). J383 says 'all six systems incl. faith'.",
+   "fix": "38: 'what the four systems (five with faith) change ...'; 38b: 'what the six systems change ...'"
+  },
+  {
+   "id": "S7",
+   "where": "workflows/38b-systems-read-continue.js:5 (meta, Read phase)",
+   "claim": "readers per subject: alignment (2), trade (3), populations (2), prosperity (2)",
+   "verdict": "IMPRECISE",
+   "evidence": "38b runs only one reader live, prosperity-docs (38b:86-91). The other eight readings are replayed from ${A.dir}/<key>-reads.json (38b:100), as 38b's own description at line 3 says.",
+   "fix": "one live reader (prosperity docs); the other eight readings replayed from wf_0e759907-c33's journal"
+  },
+  {
+   "id": "S8",
+   "where": "workflows/38-systems-read.js:47; workflows/38b-systems-read-continue.js:61 (alignment-code brief)",
+   "claim": "src/domain/corruption.js, supplyKernel.js, migrationKernel.js, peaceReasons.js, warSeatBooks.js (bare names read as siblings in src/domain/)",
+   "verdict": "IMPRECISE",
+   "evidence": "At 81f1cd96 none of src/domain/{supplyKernel,migrationKernel,peaceReasons,warSeatBooks}.js exists. All four are in src/domain/worldPulse/ (found with find).",
+   "fix": "src/domain/corruption.js, src/domain/worldPulse/supplyKernel.js, migrationKernel.js, peaceReasons.js, warSeatBooks.js"
+  },
+  {
+   "id": "S9",
+   "where": "workflows/41-lens-close.js:52; workflows/42-lens-final.js:52; workflows/43-lens-q.js:52 (reviser seat)",
+   "claim": "fix it in file n ... Add at the end of file n a section 'Review record'",
+   "verdict": "IMPRECISE",
+   "evidence": "The reviser's file is ${NFILE}, which is file o, p or q (41:15, 42:15, 43:15). The slip did no harm: the Review records are at AMENDMENTS-o:1175, p:653 and q:882, and file n holds only its own (n:1952).",
+   "fix": "'file o' / 'file p' / 'file q', or interpolate ${NFILE}"
+  },
+  {
+   "id": "S10",
+   "where": "workflows/41-lens-close.js:20; workflows/42-lens-final.js:20; workflows/43-lens-q.js:20 (CONTEXT copied from 40:20)",
+   "claim": "INPUTS: docs/PROGRESS.md rows J377–J384 ...; docs/volumes/V13-world.md as it now stands (after file m)",
+   "verdict": "IMPRECISE",
+   "evidence": "This is stale for runs made after files n, o and p were applied (J386–J388). Each design prompt corrects it (41:25 J377–J386 and 41:24 'after files m and n'; 42:25 J384–J387 and 42:24 'm, n and o'; 43:25 J384–J388 and 43:24 'm–p'). The reviewer, apply and critic seats, however, receive only CONTEXT plus their own line.",
+   "fix": "41: 'rows J377–J386 ... (after files m and n)'; 42: 'J377–J387 ... (after files m–o)'; 43: 'J377–J388 ... (after files m–p)'"
+  }
+ ],
+ "summary": "I read all ten scripts in full (1,110 lines) and checked 490 claims against their primary sources. 480 hold and 10 do not: 1 WRONG, 0 UNSUPPORTED, 9 IMPRECISE. The record is /home/user/maps-architecture/docs/validation/retrovalidation-2026-10-18/scripts-verify.md, and its LANDED line is appended to docs/lane-events.log.\n\n**Sources checked against:** PROGRESS J375–J391, the two top sections of HANDOFF, the outputs each run produced, and the host at 81f1cd96.\n\n**Every script did what its J-row records.**\n- 36 ran eight dimensions and carried T1–T3.\n- 36b's replayed counts match fp-realm-review.md:89-90 exactly: 127 kept, 0 refuted, 36 missed.\n- File m starts at item 659, after file l ended at 658.\n- 37 produced faith-system.md (1,516 lines) with 12 problems and 17 omissions, as J380 records.\n- 38 and 38b match J380 and J383, and 39 matches J381.\n- 40–43 carry J382, J384 (1)–(13) and the gap rulings of J385–J388 exactly. Their numbering (780, 838, 878, 897) and their critic gap counts (15, 14, 6, 3) also match the records.\n\n**Outputs and logs hold.**\n- All 17 output files carry the J375 notice with the seat name the script gives, and the right title, numbering line and status line.\n- All 10 LANDED lines the scripts prescribe are in the lane log.\n- 38 host facts in the briefs hold, as do all 15 host line counts the scripts state.\n\n**No script carries a design statement of its own that the texts lack.** The manager's extended reading in 36/36b, 40's kProsperity = 1.1^(relative rung) and 40's strength-order field are all ruled in fp-realm-review.md or V13.\n\n**The one WRONG finding:** 36 and 36b tell a seat to read docs/DESIGN_FMG_WEAVE.md as merely \"unread\". That file does not exist at 81f1cd96, and fp-physical-integration.md:489 had already said so.\n\n**The nine IMPRECISE findings:**\n- \"two territory rules\" where there are three.\n- The critic is asked about (T1) and (T2) only, then given (T3)'s terms.\n- \"File j items 131–141\" all quoting the owner, though item 140 is a session ruling.\n- 37 quotes the owner with \"diety\" silently corrected to \"deity\".\n- 38/38b's meta text says \"three systems\".\n- 38b's meta lists readers that were replayed, not run.\n- Four host files named under src/domain/ that actually live in src/domain/worldPulse/.\n- 41–43 tell the reviser \"file n\"; this did no harm.\n- 41–43 carry a stale CONTEXT line.\n\n**Not checked:** the run journals are not in the repository and were not searched outside it, so per-seat models and the scratch inputs are unverified. Historical line positions such as \"V13 ~4,216 lines\" can only be shown consistent with later files, not proven. Separately, HANDOFF.md:30-31 lists the scripts for the 38b and 39 runs as \"—\"; this is outside this family's files and is not counted as a finding."
+}

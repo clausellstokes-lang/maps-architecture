@@ -1,0 +1,209 @@
+{
+ "verdict": "PASS-WITH-CORRECTIONS",
+ "corrections": [
+  {
+   "file": "workflows/36-realm-review.js",
+   "old": "export const meta = {\n  name: 'realm-review',",
+   "new": "// [Fable-reviewed 2026-10-18 (lane retrovalidation/scripts; J392): this script ran as J377/J378 record; its prompt text stays as fed. Corrections to it: line 109 (TI brief) names docs/DESIGN_FMG_WEAVE.md as \"(unread)\" — the file is ABSENT at 81f1cd96 (fp-physical-integration.md §9; the run's output records it absent at fp-realm-review.md:798); line 110 (TR brief) says \"the owner's two territory rules\" — the brief carries three, (T1)–(T3); line 209 (critic item 7) asks about \"(T1) and (T2)\" — the set is (T1), (T2) and (T3); line 27's \"scaled by its prosperity band\" was the session's reading, superseded by J385 (log-linear on J384 (1)'s relative rung; V13 carries it).]\nexport const meta = {\n  name: 'realm-review',",
+   "reason": "S1 (WRONG), S2, S3 (IMPRECISE) and the superseded reading F14; a header comment keeps the fed text as the record",
+   "kind": "record"
+  },
+  {
+   "file": "workflows/36b-realm-review-continue.js",
+   "old": "export const meta = {\n  name: 'realm-review-continue',",
+   "new": "// [Fable-reviewed 2026-10-18 (lane retrovalidation/scripts; J392): this script ran as J385 and HANDOFF record; its prompt text stays as fed. Corrections to it: line 108 (TI brief) names docs/DESIGN_FMG_WEAVE.md as \"(unread)\" — the file is ABSENT at 81f1cd96 (fp-physical-integration.md §9; fp-realm-review.md:798); line 109 (TR brief) says \"the owner's two territory rules\" — the brief carries three, (T1)–(T3); line 184 (critic item 7) asks about \"(T1) and (T2)\" — the set is (T1), (T2) and (T3); line 26's \"scaled by its prosperity band\" was the session's reading, superseded by J385 (log-linear on J384 (1)'s relative rung; V13 carries it).]\nexport const meta = {\n  name: 'realm-review-continue',",
+   "reason": "S1 (WRONG), S2, S3 (IMPRECISE) and the superseded reading F14; a header comment keeps the fed text as the record",
+   "kind": "record"
+  },
+  {
+   "file": "workflows/37-faith-read.js",
+   "old": "export const meta = {\n  name: 'faith-read',",
+   "new": "// [Fable-reviewed 2026-10-18 (lane retrovalidation/scripts; J392): this script ran as J380 records; its prompt text stays as fed. Correction to it: line 15 quotes the owner's J380 words with \"deity\" twice where the owner wrote \"diety\" (PROGRESS.md J380: \"the faith and diety system … local and global diety rankings\"); the owner's words are as J380 records them.]\nexport const meta = {\n  name: 'faith-read',",
+   "reason": "S5: the session's transcription altered the owner's words; the owner's words are never re-judged",
+   "kind": "record"
+  },
+  {
+   "file": "workflows/38-systems-read.js",
+   "old": "    { title: 'Implications', detail: 'what the three systems change for territory, religion and the lens framework' },",
+   "new": "    { title: 'Implications', detail: 'what the four systems (five with faith) change for territory, religion and the lens framework' },",
+   "reason": "S6: four SUBJECTS; the implications prompt (38:124) names five systems incl. faith; meta text is never fed to a seat, so it is fixed in place",
+   "kind": "record"
+  },
+  {
+   "file": "workflows/38-systems-read.js",
+   "old": "export const meta = {\n  name: 'systems-read',",
+   "new": "// [Fable-reviewed 2026-10-18 (lane retrovalidation/scripts; J392): this script ran as J380 records (stopped at the limit; continued by 38b, J383); its prompt text stays as fed. Correction to it: line 47 (alignment-code brief) lists supplyKernel.js, migrationKernel.js, peaceReasons.js, warSeatBooks.js as siblings of src/domain/corruption.js — at 81f1cd96 all four are in src/domain/worldPulse/.]\nexport const meta = {\n  name: 'systems-read',",
+   "reason": "S8: the four files live in src/domain/worldPulse/ (checked with ls at 81f1cd96)",
+   "kind": "record"
+  },
+  {
+   "file": "workflows/38b-systems-read-continue.js",
+   "old": "    { title: 'Read', detail: 'readers per subject: alignment (2), trade (3), populations (2), prosperity (2)' },",
+   "new": "    { title: 'Read', detail: 'one live reader (prosperity docs); the other eight readings replayed from the journal of wf_0e759907-c33' },",
+   "reason": "S7: 38b runs only prosperity-docs live (38b:86-91) and replays the rest from ${A.dir}/<key>-reads.json (38b:100), as its own description (38b:3) says",
+   "kind": "record"
+  },
+  {
+   "file": "workflows/38b-systems-read-continue.js",
+   "old": "    { title: 'Implications', detail: 'what the three systems change for territory, religion and the lens framework' },",
+   "new": "    { title: 'Implications', detail: 'what the six systems change for territory, religion and the lens framework' },",
+   "reason": "S6: the implications prompt (38b:128) names six systems incl. plague and faith; J383 says all six",
+   "kind": "record"
+  },
+  {
+   "file": "workflows/38b-systems-read-continue.js",
+   "old": "export const meta = {\n  name: 'systems-read-continue',",
+   "new": "// [Fable-reviewed 2026-10-18 (lane retrovalidation/scripts; J392): this script ran as J383 records; its prompt text stays as fed. Correction to it: line 61 (alignment-code brief) lists supplyKernel.js, migrationKernel.js, peaceReasons.js, warSeatBooks.js as siblings of src/domain/corruption.js — at 81f1cd96 all four are in src/domain/worldPulse/.]\nexport const meta = {\n  name: 'systems-read-continue',",
+   "reason": "S8: the four files live in src/domain/worldPulse/ (checked with ls at 81f1cd96)",
+   "kind": "record"
+  },
+  {
+   "file": "workflows/40-lens-design.js",
+   "old": "the seven lenses (plague first)",
+   "new": "the eight lenses (plague first)",
+   "reason": "F11 (missed by the verifier): J384 (8)'s build order names eight lenses (plague; territory, patrols; trade, populations; religion; prosperity, alignment); the script's own item (D) lists eight; file n item 811 and V13:53, :356 say eight",
+   "kind": "record"
+  },
+  {
+   "file": "workflows/41-lens-close.js",
+   "old": "export const meta = {\n  name: 'lens-close',",
+   "new": "// [Fable-reviewed 2026-10-18 (lane retrovalidation/scripts; J392): this script ran as J387 records; its prompt text stays as fed. Corrections to it: line 20 (CONTEXT, copied from 40:20) says \"rows J377–J384 … (after file m)\" — for this run the inputs were rows J377–J386 and V13 after files m and n (the design prompt at line 25 says so; the reviewer, apply and critic seats received only CONTEXT); line 52 (reviser) says \"fix it in file n … at the end of file n\" — the reviser's file is ${NFILE} = file o (its Review record stands in file o; file n holds only its own).]\nexport const meta = {\n  name: 'lens-close',",
+   "reason": "S9, S10 (IMPRECISE); harmless in outcome; a header comment keeps the fed text as the record",
+   "kind": "record"
+  },
+  {
+   "file": "workflows/42-lens-final.js",
+   "old": "export const meta = {\n  name: 'lens-final',",
+   "new": "// [Fable-reviewed 2026-10-18 (lane retrovalidation/scripts; J392): this script ran as J388 records; its prompt text stays as fed. Corrections to it: line 20 (CONTEXT, copied from 40:20) says \"rows J377–J384 … (after file m)\" — for this run the inputs were rows J377–J387 and V13 after files m–o (the design prompt at line 25 says so; the reviewer, apply and critic seats received only CONTEXT); line 52 (reviser) says \"fix it in file n … at the end of file n\" — the reviser's file is ${NFILE} = file p (its Review record stands in file p).]\nexport const meta = {\n  name: 'lens-final',",
+   "reason": "S9, S10 (IMPRECISE); harmless in outcome; a header comment keeps the fed text as the record",
+   "kind": "record"
+  },
+  {
+   "file": "workflows/43-lens-q.js",
+   "old": "export const meta = {\n  name: 'lens-q',",
+   "new": "// [Fable-reviewed 2026-10-18 (lane retrovalidation/scripts; J392): this script ran as J389 records; its prompt text stays as fed. Corrections to it: line 20 (CONTEXT, copied from 40:20) says \"rows J377–J384 … (after file m)\" — for this run the inputs were rows J377–J388 and V13 after files m–p (the design prompt at line 25 says so; the reviewer, apply and critic seats received only CONTEXT); line 52 (reviser) says \"fix it in file n … at the end of file n\" — the reviser's file is ${NFILE} = file q (its Review record stands in file q).]\nexport const meta = {\n  name: 'lens-q',",
+   "reason": "S9, S10 (IMPRECISE); harmless in outcome; a header comment keeps the fed text as the record",
+   "kind": "record"
+  },
+  {
+   "file": "docs/HANDOFF.md",
+   "old": "| wf_a7c82671-f52 systems read continuation | — | LANDED (J383) | — |",
+   "new": "| wf_a7c82671-f52 systems read continuation | workflows/38b-systems-read-continue.js | LANDED (J383) | — |",
+   "reason": "F12: J383 names the continuation workflows/38b; the HANDOFF table's script column reads \"—\"",
+   "kind": "record"
+  },
+  {
+   "file": "docs/HANDOFF.md",
+   "old": "| wf_868a6476-905 plague read | — | LANDED (J383) | — |",
+   "new": "| wf_868a6476-905 plague read | workflows/39-plague-read.js | LANDED (J383) | — |",
+   "reason": "F12: J381 names workflows/39-plague-read.js for wf_868a6476-905; the HANDOFF table's script column reads \"—\"",
+   "kind": "record"
+  }
+ ],
+ "rulings": [
+  {
+   "id": "S1",
+   "verdict": "UPHELD",
+   "reason": "Verifier finding accepted as WRONG: find over the host at 81f1cd96 returns no DESIGN_FMG_WEAVE*; fp-physical-integration.md:489 already said 'not in the clone'; fp-realm-review.md:798-799 records it absent. The brief named a non-existent file as 'unread'; the output was not misled.",
+   "consequence": "Header comment on 36 and 36b; no design text changes."
+  },
+  {
+   "id": "S2",
+   "verdict": "UPHELD",
+   "reason": "Accepted (IMPRECISE): ${OWNER_TR} carries (T1)–(T3); J378 relaunched 36 carrying (T1)–(T3).",
+   "consequence": "Header comment on 36:110 and 36b:109."
+  },
+  {
+   "id": "S3",
+   "verdict": "UPHELD",
+   "reason": "Accepted (IMPRECISE): critic item 7 names (T1) and (T2) then lists (T3)'s terms.",
+   "consequence": "Header comment on 36:209 and 36b:184."
+  },
+  {
+   "id": "S4",
+   "verdict": "OVERTURNED",
+   "reason": "Rejected, shown INVALID: the sentence refers to the way items 131–141 quote the owner (verbatim, typos kept). Every item 131–141 quotes the owner verbatim, item 140 included ('The owner: \"we are liable to finish M0 in the next few days, before we commit that, I wanted it to know what it needs to have\"', docs/AMENDMENTS-2026-10-16j.md:206-208) inside a SESSION RULING heading. The claim is about the form of quotation, not the heading kind, and holds as written.",
+   "consequence": "No correction; the verifier's proposed fix 'items 131–139 and 141' is not applied."
+  },
+  {
+   "id": "S5",
+   "verdict": "UPHELD",
+   "reason": "Accepted (IMPRECISE): PROGRESS.md J380 records 'diety' twice; 37:15 writes 'deity' twice. The owner's words are never re-judged; the session's transcription altered them.",
+   "consequence": "Header comment on 37; whether research/sf/faith-system.md carried the altered spelling is the faith lane's to check."
+  },
+  {
+   "id": "S6",
+   "verdict": "UPHELD",
+   "reason": "Accepted (IMPRECISE): 38 has four SUBJECTS and its implications prompt names five systems; 38b's names six; both metas say three.",
+   "consequence": "meta fixed in place at 38:8 and 38b:8."
+  },
+  {
+   "id": "S7",
+   "verdict": "UPHELD",
+   "reason": "Accepted (IMPRECISE): 38b runs only prosperity-docs live (38b:86-91) and replays eight readings from files (38b:100), as 38b:3 says.",
+   "consequence": "meta fixed in place at 38b:5."
+  },
+  {
+   "id": "S8",
+   "verdict": "UPHELD",
+   "reason": "Accepted (IMPRECISE): ls at 81f1cd96 confirms src/domain/{supplyKernel,migrationKernel,peaceReasons,warSeatBooks}.js do not exist; all four are in src/domain/worldPulse/. A reader greps and finds them, so the outcome is unharmed.",
+   "consequence": "Header comment on 38 and 38b."
+  },
+  {
+   "id": "S9",
+   "verdict": "UPHELD",
+   "reason": "Accepted (IMPRECISE): the reviser prompt says 'file n' in 41–43 where ${NFILE} is o/p/q; harmless (Review records at o:1175, p:653, q:882).",
+   "consequence": "Header comment on 41, 42, 43."
+  },
+  {
+   "id": "S10",
+   "verdict": "UPHELD",
+   "reason": "Accepted (IMPRECISE): the CONTEXT INPUTS line in 41–43 is 40's, stale after files n–p; each design prompt corrects it but the reviewer, apply and critic seats receive only CONTEXT.",
+   "consequence": "Header comment on 41, 42, 43."
+  },
+  {
+   "id": "R1",
+   "verdict": "AMENDED",
+   "reason": "36:25-37 / 36b:24-36 'THE MANAGER'S REFINED READING' of (T1)–(T3): matches J377 (b) and J378's readings and is labelled the session's, 'test it, do not assume it'; its extensions were tested by eight analysts and verifiers and what survived is ruled in fp-realm-review.md §4 (the realm lane's to judge). One clause, 'scaled by its prosperity band', was only half of T2's 'exponential to … prosperity'; the run's own critic (realm-m-critic gap 4) caught it and J385 ruled log-linear on J384 (1)'s relative rung.",
+   "consequence": "None for the design texts: V13:959 and V13:1100 already carry J385. One line in the header comment on 36 and 36b."
+  },
+  {
+   "id": "R2",
+   "verdict": "UPHELD",
+   "reason": "36b:23 paraphrases J382 (a)–(c) term for term.",
+   "consequence": "none"
+  },
+  {
+   "id": "R3",
+   "verdict": "UPHELD",
+   "reason": "36:21 / 36b:19: file m's owner-rule items quote the owner the way file j items 131–141 do — true as written (see S4); file m items 659–661 carry (T1)–(T3) verbatim.",
+   "consequence": "none"
+  },
+  {
+   "id": "R4",
+   "verdict": "AMENDED",
+   "reason": "37:15's transcription of J380: 'deity' → 'diety' twice, as J380 records the owner's words.",
+   "consequence": "Header comment on 37; no design text changes."
+  },
+  {
+   "id": "R5",
+   "verdict": "UPHELD",
+   "reason": "40:27-33 items (A)–(G) carry J382, J384 (1)–(13) and J385 exactly (each checked against PROGRESS.md:443-444); 'kProsperity = 1.1^(relative rung)' is realm-m-critic.md:67's fix (1.1^(rung−3), the same seven values) adopted by J385, standing in V13:1100; 'the settlement-strength order (a PolityFacts field the host sends)' is J384 (3)'s deference carried into V13 (:342, :961, :1859) through file n's reviewed application. The design phrases in (C) and (D) (one word one meaning, polarity, footprint, hop by hop) pre-exist in lens-implications.md (:110, :207, :284, :289, :457, :461). No design statement of the script's own.",
+   "consequence": "none"
+  },
+  {
+   "id": "R6",
+   "verdict": "UPHELD",
+   "reason": "41:101 ('no new owner question — the owner delegated it and J386 rules it'), 42:25 ('do NOT take the critic's alternative', J387) and 43:93 ('Q4 … the owner's own word NOT delegated', J388) each carry their J-row faithfully; J380's words in 41 are verbatim. The rulings J386–J388 themselves are the rulings lane's.",
+   "consequence": "none"
+  },
+  {
+   "id": "R7",
+   "verdict": "UPHELD",
+   "reason": "43:93's rendering of J388 omits J388's wrong parenthesis '(the port rule already re-derives on founding events)', which J389 corrected on the run's own host review; the script carried no error forward. 36b:112's replay claim (127 kept, 0 refuted, 36 missed) matches fp-realm-review.md:89-90. The run journals are outside the repository and were not checked, as the verifier said.",
+   "consequence": "none; J392 should carry the owner's review ask quoted at 36:40 ('comprehensively read and review [SettlementForge's] simulator … to better refine your approach to the FMG / the realm integration'), which is recorded nowhere else (not J377, not HANDOFF, not fp-realm-review.md). No wrong J-row was found in this family."
+  }
+ ],
+ "notice_replacement": "> Fable-reviewed 2026-10-18: PASS-WITH-CORRECTIONS — ten scripts ran as their J-rows record; one wrong host path (a file absent at 81f1cd96), ten imprecise meta/prompt statements, no design statement of their own (lane retrovalidation/scripts; J392)",
+ "summary": "Lane retrovalidation/scripts (Fable 5.1; J392). I read all ten scripts whole (1,110 lines), the verifier's record, PROGRESS J375–J391, HANDOFF's two top sections, file j items 131–141 (item 140's text), file 14i item 130's head, the \"(opus; J375)\" LANDED lines, and re-checked the host at 81f1cd96 (no DESIGN_FMG_WEAVE*; the four worldPulse paths; 15 document line counts exact; the seven presets and LivingWorldGates.jsx exist). Record: /home/user/maps-architecture/docs/validation/retrovalidation-2026-10-18/scripts.md; CHECKPOINT and LANDED lines appended to /home/user/maps-architecture/docs/lane-events.log.\n\nVerdict PASS-WITH-CORRECTIONS. Every script did what its J-row and HANDOFF row record (seats, stages, items, numbering, gap counts, rulings carried, LANDED lines), none sets a model (Opus rests on J375 and the notices), and none carries a design statement of its own that the texts lack: the manager's reading in 36/36b is labelled the session's and was tested, and 40's items trace to J382/J384/J385, lens-implications and the critic files.\n\nVerifier findings: S1 (WRONG) and S2, S3, S5–S10 (IMPRECISE) accepted; S4 REJECTED — every item 131–141 quotes the owner verbatim, item 140 included (file j:206-208), so \"the way items 131–141 quote the owner\" holds as written. Found beyond the verifier: F11 40:3 meta says \"the seven lenses\" where J384 (8), file n item 811 and V13 §5.9 say eight; F12 HANDOFF.md:30-31 lists \"—\" for the 38b and 39 scripts (the verifier's aside, now a fix); F13 the owner's review ask is quoted only at 36:40 and recorded nowhere else — J392 should carry it; F14 the reading's \"scaled by its prosperity band\" was superseded by J385 (V13 already carries it).\n\nCorrection rule: prompt text is the record of what seats were fed, so it stays; each prompt-text finding is FIXED by a dated header comment at the top of the script (outside every template literal); meta text (never fed) is fixed in place; HANDOFF's two cells in place. No wrong J-row in this family. The family carries no notice of its own; the notice_replacement line is the family verdict recorded in scripts.md. The NOTICE constants inside the scripts stay as the record of what the outputs were told to carry."
+}

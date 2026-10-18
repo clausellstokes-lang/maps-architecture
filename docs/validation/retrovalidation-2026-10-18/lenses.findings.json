@@ -1,0 +1,206 @@
+{
+ "checked": 540,
+ "summary": "I read research/sf/lens-implications.md in full (613 lines) and checked about 540 claims against their sources. Those sources were the host at 81f1cd96 (every OBSERVED path:line was opened), all six system notes, FILE-M items 659-662, 683, 693, 694, 714, 737 and 749, PROGRESS J375-J384, FOLD §2, and V13 §8.5 H13-H30. 25 claims do not hold: 1 WRONG, 1 UNSUPPORTED and 23 IMPRECISE.\n\nThe WRONG one (L21): the note credits the rule that wild land stays wild to the owner (J377), but it is the session's vetoable reading recorded in J377. The UNSUPPORTED one (L1): the note calls the aggression chip public, but ALIGN says it is shown to the DM on Library/Realm cards and in the premium PDF, and no player-facing surface was traced.\n\nFour findings (L10-L13) are readings of FILE-M that no longer match it. FILE-M has since been applied and then revised after J384, so the PENDING status, the quote \"absent until the host bands its strength\", the \"raid won +1\" verdict table and \"criminal_network has no class\" no longer match the file.\n\nThe rest are citation and precision fixes:\n- line ranges and the §7.3 read list;\n- the vassal rebellion that the cited lines do not show breaking a link;\n- the subjugation threshold;\n- the source of \"no trade tie on contraband\";\n- H16's supposed \"security term\";\n- embattlement entry without its weak-security condition;\n- the stocks being \"public\" when that rests only on a designed veil;\n- steadings \"never on RRb\" despite +S;\n- a third door that applies RR (the World's Temper picker).\n\nAll 35 host asks rest on a host fact that their cited notes state and the code bears out. §6's 13 questions match J384's 13 answers one for one.\n\nNot checkable without git: the map-module documents' line counts and read ranges as the note read them (the files have grown since), the pre-revision FILE-M text, and the uncommitted-edits state at commit 7d04e75.\n\nRecord: /home/user/maps-architecture/docs/validation/retrovalidation-2026-10-18/lenses-verify.md. LANDED line appended to /home/user/maps-architecture/docs/lane-events.log.",
+ "findings": [
+  {
+   "id": "L1",
+   "where": "§2.4 row 'Aggression band' (Audience); §4.5 public list",
+   "claim": "The aggression chip is public on cards once the live-world row opens [ALIGN §6 Display]; listed among facts the host shows players",
+   "verdict": "UNSUPPORTED",
+   "evidence": "ALIGN §1 item 7: 'Nobody sees the numbers. The DM sees consequences: an aggression chip on Library/Realm cards and in the premium PDF'; ALIGN §6 Display names no player surface; host comp/settlements/livingWorldSignals.js:236-262 feeds SettlementCard (Library).",
+   "fix": "Audience: 'DM (Library/Realm cards and the premium PDF, ALIGN §1 item 7, §6 Display; no player surface traced)'; remove the chip from §4.5's public list"
+  },
+  {
+   "id": "L2",
+   "where": "§1.2 item 5",
+   "claim": "a dozen alignment consumers run in lit presets [STATED ALIGN §4.4]",
+   "verdict": "IMPRECISE",
+   "evidence": "ALIGN §4.4 gives no count; ALIGN §7 marks 28 of 60 rows as running in RR (rows 1-3, 8-9, 12-14, 17-19, 33-40, 42-43, 52-53, 55-56, 58-60); ALIGN §10 item 1 says about thirty modules import the selectors",
+   "fix": "'the alignment consumers ALIGN §7 marks lit (28 of its 60 rows run in RR, some only with a deity or on canon)', citing ALIGN §4.4 and §7"
+  },
+  {
+   "id": "L3",
+   "where": "§1.2 item 5",
+   "claim": "FOLD §2 calls trade 'LIT —' and populations '—' [OBSERVED FOLD:333-351]",
+   "verdict": "IMPRECISE",
+   "evidence": "Host docs/DESIGN_FP_COHERENCE_FOLD.md §2: the TRADE (TR) → EC row and the POPULATIONS row both carry '—' in the LIT column; the string 'LIT —' does not occur",
+   "fix": "'shows \"—\" in its LIT column for both trade (TR → EC) and populations'"
+  },
+  {
+   "id": "L4",
+   "where": "§2.1 row 'Allegiances…'",
+   "claim": "drift's vassal rebellion, which breaks a link [OBSERVED wp/relationshipRulesCore.js:762-770]",
+   "verdict": "IMPRECISE",
+   "evidence": ":762-807 mint a rebellion stressor (candidateType vassal_rebellion) and break nothing; the link breaks only on success: labelProposal(ctx, 'rival', 'vassal_rebellion_succeeds') at :810-831; a quashed rebellion keeps it (:833-847)",
+   "fix": "'drift's vassal rebellion (a stressor, :762-807), whose success proposes relabelling the vassal link to rival (:810-831)'"
+  },
+  {
+   "id": "L5",
+   "where": "§2.1 row 'Allegiances…'",
+   "claim": "overlord = side of no lower tier whose strength clears 0.82 × the target's plus its protectors' backing [OBSERVED relationshipRuleHelpers.js:453-466]",
+   "verdict": "IMPRECISE",
+   "evidence": ":457-464: tier rank ≥ target's; at equal tier population ≥ 0.72 × target's; strength ≥ (target strength + 0.8 × backing) × 0.82",
+   "fix": "'… (at equal tier, at least 0.72 × the target's population) whose strength is at least 0.82 × (the target's strength + 0.8 × its protectors' backing)'"
+  },
+  {
+   "id": "L6",
+   "where": "§3.2 row 'cd'",
+   "claim": "Three call forms exist in the host: with a direct-edge trade tie (migration, the foreign seat) and without (contraband)",
+   "verdict": "IMPRECISE",
+   "evidence": "There are three callers but only two forms: with a tie at wp/migrationKernel.js:228-230 and src/domain/rulingPowerSeat.js:365-370; without a tie at wp/supplyKernel.js:754-756",
+   "fix": "'Three callers use two forms: …'"
+  },
+  {
+   "id": "L7",
+   "where": "§2.9 row 'Its consumers'",
+   "claim": "contraband at arrival gates (no tie passed) [OBSERVED sp/smuggle.js:176]",
+   "verdict": "IMPRECISE",
+   "evidence": "smuggle.js:176 forwards a tradeTie01 argument, which defaults to 0 at :164; the absence is shown only at the caller wp/supplyKernel.js:754-756, which this seat did not read (§7.3 says ':176 by grep')",
+   "fix": "cite wp/supplyKernel.js:754-756 with sp/smuggle.js:164, :176"
+  },
+  {
+   "id": "L8",
+   "where": "§7.3 against OBSERVED cites in §2.1, §2.2, §2.10, §3.2, §3.4",
+   "claim": "the host re-reads listed",
+   "verdict": "IMPRECISE",
+   "evidence": "relationshipRuleHelpers is listed as 295-331 and 472-491, but :453-466 is cited; relationshipRulesCore.js:762-770 is cited OBSERVED twice but the file is absent from §7.3; embattlement is listed as 84-125, but :204 is cited, and the 'entry 0.55' figure (ENTER_THRESHOLD) is at :74; distanceRead is listed as 280-316, but :277-311 is cited",
+   "fix": "§7.3: relationshipRuleHelpers 295-331, 440-491; add relationshipRulesCore 745-851; embattlement 69-125, 195-206; distanceRead 270-316; §2.10 cite sp/embattlement.js:74-118"
+  },
+  {
+   "id": "L9",
+   "where": "§3.2 row 'M'",
+   "claim": "its live facets move only with war; readiness exists only after a war footing [STATED ALIGN §6 Strength]",
+   "verdict": "IMPRECISE",
+   "evidence": "ALIGN §6 Strength states only the readiness half; the live-facet half is host wp/militaryStrength.js:65-68 (hooks for the LIVE facets from deployment state: warExhaustion, warDrain, armyDeployed), which is not cited",
+   "fix": "add [OBSERVED wp/militaryStrength.js:65-68] to the live-facet clause"
+  },
+  {
+   "id": "L10",
+   "where": "preamble Notes (FILE-M); §3 opening",
+   "claim": "FILE-M is PENDING APPLICATION — the sway is not yet in V13",
+   "verdict": "IMPRECISE",
+   "evidence": "docs/AMENDMENTS-2026-10-17m.md:7: 'APPLIED by amendments/realm-m-apply on 2026-10-17 … all 117 change items 663–779 applied' (true when written, false now)",
+   "fix": "'pending application when this note was written; applied 2026-10-17 (FILE-M:7)' in both places"
+  },
+  {
+   "id": "L11",
+   "where": "§2.1 row 'Held by force'",
+   "claim": "quote: FILE-M item 693 'absent until the host bands its strength'",
+   "verdict": "IMPRECISE",
+   "evidence": "FILE-M item 693 as it stands (revised after J384): military?: {forceBand…, garrisonPresent…} /* absent until the host sends it (V13 §8.5) */; the quoted phrase occurs nowhere else in the repository",
+   "fix": "quote 'absent until the host sends it (V13 §8.5)'"
+  },
+  {
+   "id": "L12",
+   "where": "§3.2 row 'Relation class'",
+   "claim": "A criminal_network label has no class in FILE-M's table yet",
+   "verdict": "IMPRECISE",
+   "evidence": "FILE-M item 714 (8) as revised: 'neutral (neutral, trade partnership and criminal network, and no relation)'",
+   "fix": "'FILE-M item 714 (8) (revised after J384) classes criminal network as neutral'"
+  },
+  {
+   "id": "L13",
+   "where": "§3.2 row 'MarchHold'",
+   "claim": "FILE-M's verdict table (raid won +1 to the raider …) cannot read it",
+   "verdict": "IMPRECISE",
+   "evidence": "FILE-M item 714 (11) now: a raid on a settlement is a WorldEvent at its victim, moves no band and marks the victim's facing segments fighting for fightingWeeks (J384 (5)); 'raid won'/'won +1' occur nowhere in FILE-M, fp-realm-review or V13",
+   "fix": "'FILE-M item 714 (11) (revised after J384 (5)): a drift raid moves no band and marks the victim's facing segments fighting; a verdict needs the host's outcome word (ask 4)'"
+  },
+  {
+   "id": "L14",
+   "where": "§2.2 row 'A patrol lowering danger'; §5 ask 8",
+   "claim": "→ ask 8 (H16's security term); patrol coverage as embattlement's security input (H16)",
+   "verdict": "IMPRECISE",
+   "evidence": "FILE-M item 749 H16 and V13 §8.5 H16: 'patrol coverage re-priced through its one distance reader, read by outcome rolls only…'; neither has an embattlement or security term. The security input is this note's own proposal, resting on host sp/embattlement.js:95-96, :204",
+   "fix": "'→ ask 8 (a refinement of H16's patrol coverage; the security input is this note's proposal, resting on sp/embattlement.js:95-96, :204)'"
+  },
+  {
+   "id": "L15",
+   "where": "§1.4 'What can be positioned'",
+   "claim": "A caravan keeps an arrival tick and nothing else [STATED TRADE §2.3]",
+   "verdict": "IMPRECISE",
+   "evidence": "TRADE §2.3: a supplyShipments record keeps institution, destination, input good, source, arrival tick, starving (and under M6a the load) — no path and no departure tick",
+   "fix": "'A caravan keeps its source, destination and arrival tick, but no path and no departure tick'"
+  },
+  {
+   "id": "L16",
+   "where": "§2.5 row 'Stocks, throughput, boom' (Audience)",
+   "claim": "own bands and market phrases public",
+   "verdict": "IMPRECISE",
+   "evidence": "TRADE §9 #16 says the host projects no audience on the supply ledgers; 'Public: own settlement bands…' is a lens prescription. TRADE §8.4 cites EC:671's designed veil, and EC is unbuilt (TRADE §1). No player surface is cited",
+   "fix": "'DM by default; public by the lens's own rule (TRADE §9 #16, after EC:671's designed veil, unbuilt)'"
+  },
+  {
+   "id": "L17",
+   "where": "§2.10 row 'Embattlement'",
+   "claim": "entry 0.55 needs a live war front (0.85), a contested or unstable occupation, or exhaustion with crime or the hub premium",
+   "verdict": "IMPRECISE",
+   "evidence": "TRADE §10.2 #40 (which the row cites) and host sp/embattlement.js:87-96, :195-205: an occupation enters alone only when contested with security < 0.5 or unstable with security < ~0.22; exhaustion only against weak security; relief = min(0.25, 0.4 × security)",
+   "fix": "'… a contested or unstable occupation under weak security (contested below security 0.5, unstable below about 0.22), or war exhaustion with high crime or the hub premium against weak security'"
+  },
+  {
+   "id": "L18",
+   "where": "§2.1 row 'Steadings as claim points'",
+   "claim": "RRa, DC, LR, FS (+S); never on RRb",
+   "verdict": "IMPRECISE",
+   "evidence": "POP §7 P-10 and §12 V5: settlementLifecycleEnabled (WAVES) can be lit on any campaign through SRD's Engine-waves 'New & lost steadings' (+S), so a born RR campaign can have steadings; the cell contradicts its own +S",
+   "fix": "'RRa, DC, LR, FS; on RRb (or any campaign) only once +S lights \"New & lost steadings\"'"
+  },
+  {
+   "id": "L19",
+   "where": "§1.5",
+   "claim": "prosperity riding shipments (UPSWING A2) … [PROSP §7.3]",
+   "verdict": "IMPRECISE",
+   "evidence": "PROSP §7.3 lists MF §11.4 (item 3) and UPSWING B4 (item 6), not A2; the unbuilt A2 shipment ride is in PROSP §5.1, §8.6 item 5 and §10.2 C2",
+   "fix": "cite [PROSP §5.1, §8.6 item 5 (A2); §7.3 item 3 (MF §11.4)]"
+  },
+  {
+   "id": "L20",
+   "where": "§2.8 last row",
+   "claim": "divine meaning … ruled out (OD-FC-8)",
+   "verdict": "IMPRECISE",
+   "evidence": "PLAGUE §9 #11: 'Plague as divine punishment is a DM-attributed reading (OD-FC-8) or a designed rumour bias' — the meaning is the DM's to attribute, not ruled out",
+   "fix": "'… or kept a DM-attributed reading, never engine-originated (OD-FC-8; PLAGUE §9 #11)'"
+  },
+  {
+   "id": "L21",
+   "where": "§2.1 row 'Wild land'",
+   "claim": "not a host fact, and correctly so: the owner ruled it (J377)",
+   "verdict": "WRONG",
+   "evidence": "docs/PROGRESS.md J377 (line 436): the owner's verbatim (T1) and (T2) say nothing of wild or unclaimed land; 'unclaimed land stays wild' appears under 'The session's reading (vetoable)'. FILE-M:83 heads items 659-662 'the readings are the session's, vetoable'",
+   "fix": "'not a host fact, and correctly so: the session's reading of J377 (vetoable), carried by FILE-M items 659 (e) and 714 (7)'"
+  },
+  {
+   "id": "L22",
+   "where": "§3.2 row 'Relation class'",
+   "claim": "[OBSERVED rule ids wp/relationshipEvolution.js:86-103]",
+   "verdict": "IMPRECISE",
+   "evidence": ":86-103 hold only the rival, cold_war and hostile lists; neutral, trade_partner, allied, patron, client and vassal are at :49-85; criminal_network is at :104-109",
+   "fix": "cite wp/relationshipEvolution.js:48-110"
+  },
+  {
+   "id": "L23",
+   "where": "§2.1 row 'Debatable land'",
+   "claim": "drift in RR mints hostile pairs, raids and subjugation proposals [OBSERVED relationshipEvolution.js:98-103; relationshipRulesAdversarial.js:266-365]",
+   "verdict": "IMPRECISE",
+   "evidence": "The cited lines are rules for pairs that are already hostile. Hostile pairs are minted by labelProposal(ctx, 'hostile', 'cold_war_escalation') at relationshipRulesAdversarial.js:226-227, after rival → cold war at :66-67",
+   "fix": "add relationshipRulesAdversarial.js:66-67, :226-227 ('proposes a hostile relabel')"
+  },
+  {
+   "id": "L24",
+   "where": "§1.4 last bullet",
+   "claim": "faith and trade reach the town map only as buildings; populations do not",
+   "verdict": "IMPRECISE",
+   "evidence": "The note's own table cell says 'none traced [POP §8.1]'; POP §8.1: no population-flow input was traced, and the timelapse tick reaches the town map's aged overlay, whose inputs were not traced",
+   "fix": "'populations: none traced (POP §8.1)'"
+  },
+  {
+   "id": "L25",
+   "where": "preamble status table, row RRa",
+   "claim": "RR actually applied: the Instant World composer's fallback tone, or the DM's preset chip",
+   "verdict": "IMPRECISE",
+   "evidence": "Host src/domain/worldPulse/temperamentPresets.js: 'A steady realm' and 'The long winter' take basePreset realistic_regional, and applyTemperament normalizes the full preset rules (:66-75). ALIGN §2.6 records the DM-screen World's Temper picker",
+   "fix": "add 'or the World's Temper picker's \"A steady realm\" / \"The long winter\" [ALIGN §2.6]'"
+  }
+ ]
+}

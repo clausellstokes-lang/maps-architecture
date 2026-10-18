@@ -1,0 +1,182 @@
+{
+ "verdict": "PASS-WITH-CORRECTIONS",
+ "corrections": [
+  {
+   "file": "plat/packages/kernel/API.md",
+   "old": "a vertex carrying `deck_end`, `gate_end` or `raised_foot` is held by `warp` (the design's held set, §3.6 (2)–(4))",
+   "new": "a vertex carrying `deck_end` or `gate_end` is held by `warp` unless the batch's level is 0, and one carrying `raised_foot` always (the design's held set, §3.6 (2)–(3))",
+   "reason": "SV-1 accepted: warp/held.ts:207 holds a crossing end only when fromLevel !== 0; §3.6 (4) is the smoothing step's VERTEX_PINNED flag, not a role. Applied in place (a build document under plat/, not a design text).",
+   "kind": "record"
+  },
+  {
+   "file": "plat/docs/build/choices.md",
+   "old": "§3.6 (the held set (2)–(4): crossing ends and raised feet are held)",
+   "new": "§3.6 (the held set (2)–(3): crossing ends, unless `fromLevel = 0`, and raised feet are held)",
+   "reason": "SV-2 accepted: C-0374's Scope column misreads §3.6 as SV-1. Applied in place.",
+   "kind": "record"
+  },
+  {
+   "file": "plat/docs/build/choices.md",
+   "old": "(§3.3 rule 2's contact names; §3.6's held set (2)–(4))",
+   "new": "(§3.3 rule 2's contact names; §3.6's held set (2)–(3))",
+   "reason": "SV-2 widened: the same misreading recurs in C-0374's Rationale column, which the verifier did not name. Applied in place.",
+   "kind": "record"
+  },
+  {
+   "file": "docs/AMENDMENTS-2026-10-17l.md",
+   "old": "(\"the profile's version pinned\nby item 136 (c)'s re-verification before M-ENC's SE2\").",
+   "new": "(\"the profile's version pinned\nby item 136 (c)'s re-verification before M-ENC's SE2\" — file k item 628's words, the base's pre-l *Scope* clause item 649 (b) replaces).",
+   "reason": "SV-3 accepted: the quoted words are file k item 628's (AMENDMENTS-2026-10-16k.md l. 561–562), not V14 §5.3's, SE2's or T-V14-11's.",
+   "kind": "record"
+  },
+  {
+   "file": "docs/AMENDMENTS-2026-10-17l.md",
+   "old": "so the one spelling of the name in the base (§11.1 *Scope*), V14 §2.4 (`EncounterCrop.scenes`),\n§3.12 (6), §5.3, T-V14-11 and BCR-V14-8 stays one;",
+   "new": "so the one spelling of the name in the base (§11.1 *Scope*), V14 §5.3, T-V14-11 and BCR-V14-8 stays one, and the\nordinal V14 §2.4 (`EncounterCrop.scenes`) and §3.12 (6) call the file suffix keeps its name;",
+   "reason": "SV-4 accepted: V14 l. 795 and l. 2062 never spell <base>.<ordinal>.dd2vtt; they call the ordinal the file suffix.",
+   "kind": "record"
+  },
+  {
+   "file": "docs/AMENDMENTS-2026-10-17l.md",
+   "old": "> * **Foundry scene JSON:** the same geometry as walls (`c: [x0, y0, x1, y1]` with movement and sight types; doors flagged; an enceinte's walls by run as `line_of_sight` above — a `patched` run a wall, a `breached` or `dismantled` run none), the same lights, a background image file, grid size and distance units — written before the walls — and journal entries from the gazetteer.",
+   "new": "> * **Foundry scene JSON:** the same geometry as walls (`c: [x0, y0, x1, y1]` with movement and sight types; doors flagged;⏎  an enceinte's walls by run as `line_of_sight` above — a `patched` run a wall, a `breached` or `dismantled` run none),⏎  the same lights, a background image file, grid size and distance units — written before the walls — and journal⏎  entries from the gazetteer.",
+   "reason": "SV-5 accepted: file l's own rule (l. 15–16) marks every wrap with ⏎ and keeps the continuation's indentation; item 654 announces 'across four lines' and quotes none. Re-quoted as vtt-l row 654 does.",
+   "kind": "record"
+  },
+  {
+   "file": "docs/AMENDMENTS-2026-10-17l.md",
+   "old": "an open portal that is not a window (a raised way's end stair or ramp) is written as no wall in the Foundry scene,\na case the note does not name.",
+   "new": "an open portal that is not a window (a raised way's end stair or ramp) is written as no wall in the Foundry scene,\na case the note does not name; (f) a window's `threshold { attenuation: true, sight: 10, light: 10 }` is read as the\nscene's distance units (item 654) — the note gives the value the importer writes and no unit, as it marks the light\nradii and the level elevations INFERRED to that unit [Fable-reviewed 2026-10-18: SV-6; a reading, vetoable as (a)–(e)].",
+   "reason": "SV-6 accepted (UNSUPPORTED by the cited sources; foundryvtt.com unreachable from this lane too). Resolved by recording the unit as choice (f) so it can be vetoed; the base and V14 keep the clause because an implementer needs the unit to write the value.",
+   "kind": "record"
+  },
+  {
+   "file": "docs/AMENDMENTS-2026-10-17l.md",
+   "old": "*Not items* (listed so nothing is re-found):",
+   "new": "*Three generalisations carried as the note states them* [Fable-reviewed 2026-10-18]: \"the list every importer reads\" (items 650 (b), 656 (a); BCR-VTT-5's words) — `line_of_sight` is the contract's wall list, in the published description's \"core set of tags that is supported throughout all VTT software\" (the note's §2), and every documented reader draws walls from the file (Foundry's importer from `line_of_sight` alone, §4.2; Owlbear, MapTool and Roll20 \"walls\"/\"VBL\", §2 and §4.3), which none could do without it; \"no importer read checks it\" (650 (a)) and \"no importer read reads a vendor key\" (651) — measured for the two Foundry importers, stated for Owlbear and MapTool (§5 rows 3 and 13); none is a field-level fact about Roll20 or Fantasy Grounds, whose documentation the note could not read at that level (§4.3, §7).\n\n*Not items* (listed so nothing is re-found):",
+   "reason": "SV-7 amended: the words hold as a sound inference the design may state (the wall list is the one every reader that draws walls must read); their evidence was unstated. Chose recording the inference in file l over the verifier's Foundry-only rewording of the base and V14, which would narrow a true general statement to one product's behaviour against file l's clean-room rule. The same pattern in 650 (a) and 651 is covered. Inserted as a paragraph before *Not items*.",
+   "kind": "record"
+  },
+  {
+   "file": "docs/validation/coherence/vtt-l.md",
+   "old": "- Bundle: `python3 tools/bundle_architecture.py` → `docs/ARCHITECTURE-FULL.md`, 79 542 lines from 16 sources.",
+   "new": "- Bundle: `python3 tools/bundle_architecture.py` → `docs/ARCHITECTURE-FULL.md`, 79 542 lines from 16 sources. (The md5s, line counts and bundle count are snapshots as of the lane's run, 2026-10-17; superseded by later lanes — Fable-reviewed 2026-10-18.)",
+   "reason": "SV-8 accepted: the before/after md5s and counts (base now 24 462 lines, V14 3 208, bundle 81 061) are in git only, which this lane may not run; the qualifier makes the rows true as a dated snapshot.",
+   "kind": "record"
+  },
+  {
+   "file": "docs/volumes/V14-sites.md",
+   "old": "scenes: { ordinal: number /* the file suffix: 0 the ground, then each storey or level in elevation order (the multi-floor convention, V14 §5.3; C14-06) */;",
+   "new": "scenes: { ordinal: number /* the file suffix, written as two zero-padded digits (V14 §5.3): 0 the ground, then each storey or level in elevation order (the multi-floor convention, V14 §5.3; C14-06) */;",
+   "reason": "F-2 (SV-4's consequence the verifier did not see): §2.4's comment says 'the file suffix: 0 the ground' while the file name now carries 00 (items 649, 656, 657); the ordinal stays the number, and the comment says so where a reader of EncounterCrop looks, as vtt-l §3 already reads it. An amendments file s item.",
+   "kind": "design"
+  },
+  {
+   "file": "docs/ARCHITECTURE.md",
+   "old": "the transient sight-blockers in both lists, `software` and `creator`, `plat.stairs`, the Foundry 14 scene with `levels[]`;",
+   "new": "the transient sight-blockers in both lists, `software` and `creator`, a deck as one more `Level`, `plat.stairs`, the Foundry 14 scene with `levels[]`;",
+   "reason": "F-1: the base's revision note (l. 5) lists the subjects of items 648–654 and skips item 652 (a deck as one more Level of the Scene). The note is the record of what the seven items did; applied in place with the notice replacement on the same line.",
+   "kind": "record"
+  }
+ ],
+ "rulings": [
+  {
+   "id": "R-1 C-0374 (choices.md l. 381)",
+   "verdict": "AMENDED",
+   "reason": "The ruling itself is right: each of the four roles and band is a design-specified branch (§3.3 rule 2, §3.6, §2.2 rule 7), the smallest fix that makes K11's 'documented defaults' true is a reuse-table row, and the TxEnv injection is an exported-API change for M1. Its reading of §3.6 is wrong twice: the held clauses are (2) and (3), not (2)–(4) ((4) is the smoothing step's pinned flag, held.ts:209), and a crossing end is held only when fromLevel ≠ 0 (held.ts:207; base l. 5247). The misreading's source is the gate's K11 text (M0-world-sites-gate.md l. 208–209, 216), a Fable-spawned file outside this family.",
+   "consequence": "Corrections 2 and 3 (choices.md Scope and Rationale columns) and 1 (API.md's row). No code, test or design text moves."
+  },
+  {
+   "id": "R-2 API.md §1 row (l. 55) and revision note (l. 13–15)",
+   "verdict": "AMENDED",
+   "reason": "The citations (splitThrough.ts:116/139, batch.ts:503, held.ts:204–205, bandUnion.ts:507/757/760), the anchor and band clauses and the note hold at today's source; the effect column's held clause misreads §3.6 as R-1. The note's 'nothing else changed' is the lane's statement of its own edit; not checkable without git and nothing in the file contradicts it.",
+   "consequence": "Correction 1."
+  },
+  {
+   "id": "R-3 file l choice (a): <ordinal> kept over the note's <nn>",
+   "verdict": "AMENDED",
+   "reason": "Keeping one spelling of the file name across the design is right; the list of places that spell it overstated (V14 §2.4 and §3.12 (6) call the ordinal the file suffix and never spell the name).",
+   "consequence": "Correction 5 (file l); correction 10 (V14 §2.4's comment gains the two-digit spelling)."
+  },
+  {
+   "id": "R-4 file l choice (b): BCR-VTT-1's two pin texts merged; the readers not read for the profile left in the note",
+   "verdict": "UPHELD",
+   "reason": "The closing line is the note's own 'pin the profile should carry'; the MapTool and FG wikis and Roll20's blocked article document readers, not the profile, and belong in the research record.",
+   "consequence": "none"
+  },
+  {
+   "id": "R-5 file l choice (c): elevation.top = bottom + vtt.levelBandCm (300 cm) for a level with no ceiling; every elevation converted by cm ÷ (squareM × 100) × distance",
+   "verdict": "UPHELD",
+   "reason": "The note leaves top open and marks the unit INFERRED; the design must choose and records the choice; the formula is right for both grids (150 cm ÷ 150 × 5 = 5 ft; 100 cm ÷ 100 × 1 = 1 m); a 3 m band is a storey's height.",
+   "consequence": "none"
+  },
+  {
+   "id": "R-6 file l choice (d): the third-party importer sentence left out of the base",
+   "verdict": "UPHELD",
+   "reason": "File l's clean-room rule (no product name in implementer text) holds in every new text; nothing the design needs.",
+   "consequence": "none"
+  },
+  {
+   "id": "R-7 file l choice (e): a light's elevation/levels and a deck's visibility.levels as the note gives them; a non-window open portal no wall",
+   "verdict": "UPHELD",
+   "reason": "Each follows the schemas the note measured (Level, Wall.levels, AmbientLight.levels). The no-wall rule departs from the Foundry importer's assumption (every open portal a window) deliberately: the .dd2vtt path keeps the importer's reading, the Foundry scene JSON writes the truth; the difference is the importer's, not the design's, and item 654 states the JSON path's rule plainly.",
+   "consequence": "none"
+  },
+  {
+   "id": "R-8 file l *Not items*: BCR-VTT-8 and BCR-VTT-2's survey clause are the research seat's; delta row 1 needs no change once 654 lands; rows 2–29 as listed need no text",
+   "verdict": "UPHELD",
+   "reason": "survey.md is a research record, not the base or a volume; row 1's 'no manual steps on import' holds through the Foundry scene JSON; the row list is complete against the delta table (7 changed: 1, 6, 14, 15, 17, 19, 24; 2 unverifiable: 3, 22; 20 unchanged) and every changed row has its item.",
+   "consequence": "none"
+  },
+  {
+   "id": "R-9 file l header: the re-verification is the one item 136 (c), V14 §5.3, SE2 and T-V14-11 call for",
+   "verdict": "AMENDED",
+   "reason": "True; the quoted words are file k item 628's, which item 628 wrote into the base as the clause item 649 (b) replaces; SE2 and T-V14-11 say it in other words.",
+   "consequence": "Correction 4."
+  },
+  {
+   "id": "R-10 item 654 / base §11.1 l. 17068: '(proximity; the threshold in the scene's distance units)'",
+   "verdict": "AMENDED",
+   "reason": "The cited evidence gives the importer's value 10 and no unit (note §3 l. 174, §4.2 l. 274); the unit is the session's reading, consistent with the note's own INFERRED readings for light radii and level elevations but not the note's finding. Recorded as choice (f) so it can be vetoed; the clause stays in the base and V14 because an implementer needs the unit.",
+   "consequence": "Correction 7 (file l). The base and V14 texts are unchanged."
+  },
+  {
+   "id": "R-11 items 650 (b)/656 (a) 'the list every importer reads'; 650 (a) 'no importer read checks it'; 651 'no importer read reads a vendor key'",
+   "verdict": "UPHELD",
+   "reason": "BCR-VTT-5's, -1's and -6's own words. 'The list every importer reads' is a sound inference the design may state: line_of_sight is the contract's wall list in the published 'core set of tags that is supported throughout all VTT software', and every documented reader draws walls from the file, which none could do without it. The other two are measured for the two Foundry importers and stated for Owlbear and MapTool; none is a field-level fact about Roll20 or Fantasy Grounds. Chose recording the evidence over the verifier's Foundry-only rewording of the design texts.",
+   "consequence": "Correction 8 (file l). The base and V14 texts are unchanged."
+  },
+  {
+   "id": "R-12 vtt-l §3's readings (the VTT row holds; ExportOpts.vtt unchanged, its comment's flags.plat is 654's; §2.4's and §3.12 (6)'s 'file suffix' stay the ordinal; BCR-V14-8's row is history; the survey is the research seat's)",
+   "verdict": "UPHELD",
+   "reason": "Each re-read at the current text: the out-of-range comment (base l. 17178) names flags.plat as a Foundry scene's; §2.4 and §3.12 (6) name the ordinal; V14 §10.1's row records a request file k applied.",
+   "consequence": "Correction 10 clarifies §2.4's comment; nothing else."
+  },
+  {
+   "id": "R-13 vtt-l's method and census (exact search, replace never paraphrase, 11/11 APPLIED, 19 fragments = 9 + 10, 6 across a wrap)",
+   "verdict": "UPHELD",
+   "reason": "Recomputed: base fragments 648 (1), 649 (2), 650 (2), 651–654 (1 each) = 9; V14 655 (2), 656 (3), 657 (4), 658 (1) = 10; wraps 650 (b), 651, 654, 656 (a), 656 (b), 658 = 6. My own recount at today's base and V14 finds every new-text fragment once and every replaced text absent. The snapshots are dated by correction 9.",
+   "consequence": "Correction 9."
+  },
+  {
+   "id": "R-14 the base's revision note (l. 5) and V14's Coherence l note (l. 64–69) as descriptions of the application",
+   "verdict": "AMENDED",
+   "reason": "V14's note names all four items (655–658) correctly; the base's note lists the subjects of 648–654 and skips item 652 (a deck as one more Level).",
+   "consequence": "Correction 11 (the base's note); V14's note unchanged."
+  },
+  {
+   "id": "R-15 PROGRESS.md l. 434 (J375)",
+   "verdict": "NOT-A-RULING",
+   "reason": "The occurrence is J375's own row: the owner's words ('please use opus 5.5 for the rest, marking anything … to be retrovalidated overall at the next oppurtunity') and the session's ruling that defines the notice text; the notice there is quoted, not carried. Journal rows are append-only in any case.",
+   "consequence": "nothing to replace in PROGRESS.md."
+  },
+  {
+   "id": "R-16 file l's clean-room rule for the new texts (l. 20–24)",
+   "verdict": "UPHELD",
+   "reason": "Holds in every new text: the two targets named are the ones §11.1 already names; 'Foundry's importer of Universal VTT files' and 'the one Foundry level importer that reads a numeric floor suffix' are descriptions, not names; product names, files and line numbers stay in the Evidence lines. Consistent with plat/CLEAN-ROOM.md's practice.",
+   "consequence": "none"
+  }
+ ],
+ "notice_replacement": "> Fable-reviewed 2026-10-18: PASS-WITH-CORRECTIONS — applied as recorded; the held-set clause and six wording and evidence points corrected (lane retrovalidation/small; J392)",
+ "summary": "Lane retrovalidation/small (Fable 5.1, the validator; fable; J392). Record: /home/user/maps-architecture/docs/validation/retrovalidation-2026-10-18/small.md; LANDED line appended to /home/user/maps-architecture/docs/lane-events.log at 01:13 UTC.\n\nRead whole: the seven notice-bearing passages (choices.md C-0374, API.md's note and §1 row, V14's and the base's revision notes, PROGRESS.md l. 434, file l's 284 lines, vtt-l's 59), the research note (389 lines), the base's §11.1 profile, §11.2 ExportOpts.vtt, §3.3 rule 2 and §3.6, V14 §1b.4/§2.4/§3.12 (6)/§5.3/T-V14-11/SE2/§12, the four kernel source sites, the gate's K11 and close, file j item 136, file k item 628, J84/J375/J384/J390/J391. My own recount at today's base and V14: every new-text fragment of items 648–658 present once, every replaced text absent — file l was applied as recorded.\n\nVerdict PASS-WITH-CORRECTIONS. Verifier findings: SV-1, SV-2 (widened to C-0374's Rationale column too), SV-3, SV-4, SV-5, SV-6 and SV-8 accepted; SV-7 amended (the words hold as a sound inference; the evidence is recorded in file l rather than narrowing the design texts to Foundry). Own findings: the base's revision note skips item 652 (fixed); V14 §2.4's ordinal comment should say the suffix is written as two digits (the one design correction, a file s item); API.md's 'nothing else changed' is unrefuted and taken as the lane's word; the clean-room rule, the elevation formula, levelBandCm, the no-wall rule for a non-window open portal, the universal negatives on suffix pairing and the counts all hold. Sixteen rulings: 11 UPHELD, 4 AMENDED (C-0374 and API.md's row on §3.6's held set; choice (a)'s place list; the header's source; the threshold unit recorded as choice (f); the base's note), 1 NOT-A-RULING (PROGRESS l. 434 is J375's own text), 0 OVERTURNED. Eleven corrections: 10 record (API.md and choices.md in place, file l ×5, vtt-l, the base's revision note), 1 design (V14 §2.4). The source of the held-set misreading is the gate's K11 text (M0-world-sites-gate.md l. 208–209, 216), Fable-spawned and outside this family; named in the record for the gate's next edit. Could not check: git-only states (vtt-l's snapshots, API.md's pre-edit text) and foundryvtt.com (proxy 403), both as the verifier found; judged against the research note's record of the fetches."
+}
