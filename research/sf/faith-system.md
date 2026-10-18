@@ -1255,8 +1255,8 @@ DM-seeded pantheon under a containment cap". Having read the whole system, I wou
    latent memory (≤ 3) with no location. The host does carry settlement-grain faith-place labels — `pilgrimage_center` /
    `religious_superior` links and a `regionalAuthority` hierarchy output that `mapProfile` says the map should render,
    unconsumed today — plus the `holySite` resource (§7.10.3). A lens may draw that hierarchy and label those
-   settlements as host facts; positioned sites would be map-side facts needing the owner's ruling and, to matter, a host [Fable-reviewed 2026-10-18: ruled by J384 (10) under the owner's delegation — holy places and hidden cult sites enter only as DM-placed world sites tagged with a deity, DM-only by default, offered to the host; never generated]
-   adoption.
+   settlements as host facts; positioned sites would be map-side facts needing the owner's ruling and, to matter, a host
+   adoption. [Fable-reviewed 2026-10-18: ruled by J384 (10) under the owner's delegation — holy places and hidden cult sites enter only as DM-placed world sites tagged with a deity, DM-only by default, offered to the host; never generated]
 7. **Pilgrims, missionaries and inquisitors have no host fact as movers.** The only pilgrim math is a deity-agnostic host
    lift that discards who came; missionize is a trust nudge; WF-2's season and named movers are unbuilt and their spine
    is dark. Faith encounters derived on the map would be invention until WF-2 lands; WF-2's design (season from draw ×
@@ -1345,7 +1345,7 @@ no new simulation, nothing flowing back unless the host chooses (the frozen-vers
     snapshots no longer carry.
 25. **Defects** [OBSERVED re-checked]: the post-seed `IMPOSE_CULT` is never admitted (§3.11); the conversion receipt's
     source is self-referential (§6.7); a DM re-assign banks no win/loss (§3.6); mints are never retired (§6.3);
-    hostile war fronts carry faith hardest (§6.2); `neighbourIdsOf` counts any link of any status, including rival,
+    hostile war fronts carry faith hardest of the two-way carriers (§6.2); `neighbourIdsOf` counts any link of any status, including rival,
     criminal and dormant ones, as a prevalence neighbour (§6.5); the spread lane's reach and `buildFaithReach` differ
     (§6.11); history text still uses generic deity names (§2.5; `src/generators/historyGenerator.js:212`) and named Christian orders (`:215`). Added in verification: a
     patron clear leaves a stale pantheon and ledgers (§3.11); a demotion leaves an over-capacity pantheon (§3.11);

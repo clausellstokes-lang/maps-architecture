@@ -453,7 +453,7 @@ a 0.04 trust nudge. Neither touches the band. Same flag.
   refuge (`sp/migration.js:100-120`, `:245-266`); richness = destination `economic_capacity` ÷ 100. Culture affinity itself
   contains the economy gap (§5.8), so prosperity enters destination choice twice.
 - Origin tolerance = 0.15 + 0.4 × origin `economic_capacity` ÷ 100 + 0.25 connectivity + 0.2 granary (the population seat's
-  reading, `research/sf/population-system.md:417`, row C; host `sp/migration.js:78-81`) — richer origins lose fewer emigrants.
+  reading, `research/sf/population-system.md:416`, row C; host `sp/migration.js:78-81`) — richer origins lose fewer emigrants.
 - Departures are caused by pressures, not by the band (`wp/populationDynamics.js:286-311`). The bust writes no
   population, but its Trade Bust condition raises the town's trade pressure twice — it lowers the trade-connectivity score
   and, as a crisis condition on trade connectivity, adds 0.16 (`wp/pressureModel.js:47-56`, `:266-273`) — and trade
@@ -567,7 +567,7 @@ vassalisation, and the end of flourishing; it moves `economic_capacity` directly
 `war_mobilization`, `reinforcement_cost`, `occupation_resistance`, `occupation_burden`; `war_spoils` lifts it). Plague
 neither reads nor writes the band in live code (no prosperity token in the pestilence, calamity or stressor kernels except
 one comment line, `wp/stressorGates.js:539`); it cancels festivals as a hard stressor and lifts chaotic receptivity through
-disorder [OBSERVED both seats; agrees with `research/sf/plague-system.md:364-366` for the pulse lanes. Fable-reviewed 2026-10-18: that note's :368-371 said a DM Apply-stressor plague reruns `economicState` and drops a rank at once; at 81f1cd96 no economy pass runs on the event (`src/domain/events/mutateWorld.js:681-690` → `crisisOnset`, `src/domain/crisisLifecycle.js:300-330`; `src/domain/events/eventPipeline.js:37-44`; `registryRerunKeys.js` is a freshness classifier, `:19-30`, read by `src/domain/display/economyFreshness.js` alone, whose `:6-12` say the band keeps its generation value) — the authored stress persists in `config.stressorEdits` and lowers the *generated* band only at the next Regenerate Draft or Edit-Mode re-derivation (`src/generators/steps/resolveStress.js:126-177`; `prosperity.js:160`), the path open question (a) names; the plague note is corrected by this lane].
+disorder [OBSERVED both seats; agrees with `research/sf/plague-system.md` §3.12, first paragraph, for the pulse lanes. Fable-reviewed 2026-10-18: that note's §3.12, second paragraph, said a DM Apply-stressor plague reruns `economicState` and drops a rank at once; at 81f1cd96 no economy pass runs on the event (`src/domain/events/mutateWorld.js:681-690` → `crisisOnset`, `src/domain/crisisLifecycle.js:300-330`; `src/domain/events/eventPipeline.js:37-44`; `registryRerunKeys.js` is a freshness classifier, `:19-30`, read by `src/domain/display/economyFreshness.js` alone, whose `:6-12` say the band keeps its generation value) — the authored stress persists in `config.stressorEdits` and lowers the *generated* band only at the next Regenerate Draft or Edit-Mode re-derivation (`src/generators/steps/resolveStress.js:126-177`; `prosperity.js:160`), the path open question (a) names; the plague note is corrected by this lane].
 
 **Feedback loops** [INFERRED from the cited code]: prosperity → festival success → prosperity (the ratchet, §3.3);
 boom → rung → satellites → tributary lift to trade connectivity → indirectly more flow; boom fragility → bust → −rung and

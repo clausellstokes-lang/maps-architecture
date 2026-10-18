@@ -142,8 +142,8 @@ journal.jsonl into scratch files) to the next stage, with guards that stop befor
 | wf_3cef978c-75a lens q (amendments q) | workflows/43-lens-q.js | LANDED and APPLIED (J389): file q 897–925; critic: nothing material missing | — |
 
 **WAITING ON THE OWNER (not delegable by the base's own text, §11.4):** V13 §11 Q4 — does the world canon (per-settlement travel effort, water access and site facts; never a town's geometry) stay outside J86's door 1? Recommendation: confirm. Until answered, H5 and every new campaign's birth canon stay dark.
-| wf_a7c82671-f52 systems read continuation | — | LANDED (J383) | — |
-| wf_868a6476-905 plague read | — | LANDED (J383) | — |
+| wf_a7c82671-f52 systems read continuation | workflows/38b-systems-read-continue.js | LANDED (J383) | — |
+| wf_868a6476-905 plague read | workflows/39-plague-read.js | LANDED (J383) | — |
 | (stopped) wf_e54a90fb-43c, wf_0e759907-c33 | workflows/36, 38 | superseded by the continuations | — |
 | (done) wf_5f99985d-25d faith read | workflows/37-faith-read.js | LANDED research/sf/faith-system.md (verified) | — |
 

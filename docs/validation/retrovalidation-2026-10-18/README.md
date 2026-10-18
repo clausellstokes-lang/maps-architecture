@@ -157,6 +157,16 @@ The amendments notice now on files m–q and their records describes the verdict
 files m–q and the realm record, 1 research count". Those 23 fragments are among the 39 above and **are not yet in the
 files**. The notice was replaced because this lane's task requires it; it becomes fully true once those fragments land.
 
+**Closed 2026-10-18 09:35Z (lane retrovalidation/close-gaps; opus; J394, Fable-critiqued).** All 39 corrections above
+have now landed, as group A of the Fable critic's 66 fragments (`critic.md` §4). Amendments #25 was applied with the
+critic's repaired bracket. The critic's 27 further fragments (groups B and C) have landed too. Each new text is present
+once and each old text is gone, the reverse round trip is byte-identical, and the bundle `--check` gives exit 0. B-19
+took one recorded adjustment: two plague-note line pointers, 533 → 531 and 674 → 672, moved by A-prosperity-36 in the
+same pass. The amendments notice on files m–q is now true: its 23 fragments are A-amendments-3…25. Still open: J392,
+which is the session's row, and one new finding, N-1. N-1 is about 195 of the 349 "(line N)" pointers in
+`docs/HOST-REQUIREMENTS-2026-10-18.md`, which point at lines the apply lanes moved. The table and paragraphs above are
+kept as the record of 05:35Z. See `critic-round2.md` for every fragment's before and after.
+
 **Observations for the Fable check / J392**, recorded by the apply lanes and not acted on here:
 - The plague notice says "sixteen research corrections"; the verdict's array holds 17 plus the notice line.
 - apply-realm's A1 (RV-4's second site) and the §3 summary sites of amended rulings (RR-7/46/47/50/54, §5 H16).

@@ -420,7 +420,7 @@ income row only), `src/generators/servicesGenerator.js:75`, `:104-171` (a crimin
 menu), `src/domain/region/goodsCatalog.js:29-250`, `:465-478` (no catalog entry carries a criminal field); [OBSERVED]
 `docs/volumes/V13-world.md:3020-3031`, `:3032-3038` (§5.8 (2): the regime's list, item 842 (g)'s intensity added for
 item 852 (a)'s note), `:3073-3079`; `docs/volumes/V09-application.md:2917-2938`
-(V09 §4.19 has no lens row).
+(V09 §4.19 has no lens row). [Fable-reviewed 2026-10-18: (b) carries §5.8 (7)'s "the host's public chips" forward unchanged; the lenses lane corrects the phrase in V13 (the host's own chips reach the DM's cards and the premium PDF only; no player surface traced); see file n item 810's bracket.]
 
 
 ### Volume 13 — §5.9 The lenses (the intro)

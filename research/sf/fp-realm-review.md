@@ -98,7 +98,7 @@ verifier corrected the analyst.
 
 **RR-1 — The port replaces the FMG capture, not the frozen digest.** *From* PS-1, BA-11, PS-5, PS-17, TI-8 (part).
 *Evidence:* the digest is the per-tick substrate — deep-frozen, capped at 400 KB, refused mid-advance, canon-versioned,
-read through one gate by 31 modules (`campaignSpatialCanonize.js:36,158-186`; `distanceRead.js:115-132`) [OBSERVED];
+read through one gate by 32 modules (`campaignSpatialCanonize.js:36,158-186`; `distanceRead.js:115-132`) [OBSERVED; Fable-reviewed 2026-10-18: 32 by an import-aware count at `81f1cd96`, lane amendments AV-8];
 lived ledgers are sidecars keyed to it (`DESIGN_ROUTE_LIFECYCLE.md:25-32`) [STATED]; six map-side places say the port
 replaces the digest (V13:146; AMENDMENTS-j:279; brief:99; proposal:19,182,253) [OBSERVED]. *Gap:* read literally, a
 live map call sits inside every tick (replay diverges after any map edit) or canon-version semantics vanish.

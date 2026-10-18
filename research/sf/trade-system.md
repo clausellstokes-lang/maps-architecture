@@ -331,7 +331,7 @@ streams sized from the economy slider. No pulse writer rewrites it.
   and small-tier floors; mapped to six labels, Struggling to Wealthy.
 - **Over time**: one rung at a time on the seven-rung ladder (Subsistence to Wealthy). Trade writers: the upswing boom
   (+0.14 band-steps per tick) and bust (−0.9, legitimacy −3), reading the M6d tally, M6b centrality and regional
-  arteries; the generosity purchase (one band-step debit on the buyer, a small credit to the seller). (The M6b toll lift is not a prosperity writer: it feeds only institution-lifecycle health, `wp/institutionLifecycle.js:698-701` [Fable-reviewed 2026-10-18].) Other writers: traditions, roads, corruption, faction capture, demographics
+  arteries; the generosity purchase (one band-step debit on the buyer, a small credit to the seller). (The M6b toll lift is not a prosperity writer: it feeds only institution-lifecycle health, `wp/institutionLifecycle.js:698-701` [Fable-reviewed 2026-10-18].) Other writers: traditions, roads [Fable-reviewed 2026-10-18 (lane retrovalidation/prosperity): corruption, faction capture and demographics only read the band — the src-wide writes of a `PROSPERITY_TIERS[...]` label are `wp/upswingKernel.js:917`, `wp/generosityUpdates.js:137`, `wp/traditionsKernel.js:405` and `rd/state.js:495`, and the demographics wave is dark; `research/sf/prosperity-system.md` §3.11, C16]
   [OBSERVED `wp/upswingKernel.js:100-130`, `:600-700`; `sp/entrepots.js:175-183`].
 - Prosperity has exactly one *consumption* read: how much grain a buyer can purchase [STATED EC S16]. It is also the
   migration pull axis [STATED PHASE55 §4c].
