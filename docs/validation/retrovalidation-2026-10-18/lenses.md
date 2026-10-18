@@ -66,7 +66,7 @@ is a DM surface today, so the players' share is nothing).
 
 - 04:12 resumed; the partial record read; inputs read whole.
 - 04:23 CHECKPOINT appended (every verifier finding re-read at the host; own leads listed).
-- 04:5x record written whole; the JSON built and every old string checked to occur exactly once in its file.
+- 04:31 record written whole; lenses.verdict.json built (40 fragments, 36 rulings) and every old string checked by script to occur exactly once in its file; LANDED line appended.
 
 ## The verifier's findings — my ruling on each (ACCEPT / AMEND / REJECT), on evidence I re-read
 
