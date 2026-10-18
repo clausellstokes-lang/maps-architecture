@@ -7,7 +7,7 @@
 | file | sha256 (16) | lines |
 |---|---|---|
 | `docs/ARCHITECTURE.md` | 91f31f21e93eb377 | 24468 |
-| `docs/volumes/INDEX.md` | 88464a8499957f9b | 261 |
+| `docs/volumes/INDEX.md` | 21adceca4c8a77f0 | 261 |
 | `docs/volumes/V01-neighbourhoods.md` | a59cfac9b27a8886 | 3765 |
 | `docs/volumes/V02-buildings.md` | 574577038e1de304 | 4232 |
 | `docs/volumes/V03-interiors.md` | 3cb0d96c7ef309ea | 3307 |
@@ -21,7 +21,7 @@
 | `docs/volumes/V11-content.md` | c698b45421163a1f | 5504 |
 | `docs/volumes/V12-calibration.md` | 1bcb54970016f797 | 3590 |
 | `docs/volumes/V13-world.md` | 49ba619dc8274868 | 4612 |
-| `docs/volumes/V14-sites.md` | 95594da1fe551e5f | 3337 |
+| `docs/volumes/V14-sites.md` | 46abf35cc73cd048 | 3341 |
 
 ## Contents
 
@@ -24794,7 +24794,7 @@ carries files f (`docs/AMENDMENTS-2026-09-28f.md`, items 200–585, the volumes'
 (`docs/AMENDMENTS-2026-09-28g.md`, file g's items, the owner's rules), applied by the coherence pass
 (`workflows/18-coherence.js`); files j (`docs/AMENDMENTS-2026-10-16j.md`, items 131–141, the owner's rules on the world,
 sites, encounters, hydrology and the 2.5D view) and k (`docs/AMENDMENTS-2026-10-16k.md`, items 600–647, volumes 13
-and 14's base change requests) are applied — file j's rules cited by number in the base's §0.2 and its base change requests superseded by file k's (J374), file k applied by the coherence pass `coherence/world-sites-k` (J376; `docs/validation/coherence/world-sites-k.md`) —, as are file l (items 648–658, the VTT export profile re-verified; J376) and files m–q (items 659–925: the realm review of the host's simulator, the lens design and its closing passes; J385 – J388 for files m–p), each applied by the record its status line names under `docs/validation/coherence/`, and file r (`docs/AMENDMENTS-2026-10-18r.md`, item 926: the owner's answer to V13 §11 Q4, 2026-10-18), applied by the lane its status line names, and file s (`docs/AMENDMENTS-2026-10-18s.md`, items 927–939: the Fable retrovalidation's corrections to volumes 13 and 14, 2026-10-18), applied by the lane its status line names, and file t (`docs/AMENDMENTS-2026-10-18t.md`, items 940–948: the owner's word on sites, road access and catalogue-driven autocorrect, 2026-10-18; J393), applied by the lane its status line names, and file u (`docs/AMENDMENTS-2026-10-18u.md`, items 949–953: the owner's patrols decision in the design, J396; the two coherence sentences before M-ENC and the S1 small-frame fallback, J395; the M0 gate's K14 row, 2026-10-18), applied by the lane its status line names. The plain-language account for the owner is `docs/volumes/SUMMARY.md`.
+and 14's base change requests) are applied — file j's rules cited by number in the base's §0.2 and its base change requests superseded by file k's (J374), file k applied by the coherence pass `coherence/world-sites-k` (J376; `docs/validation/coherence/world-sites-k.md`) —, as are file l (items 648–658, the VTT export profile re-verified; J376) and files m–q (items 659–925: the realm review of the host's simulator, the lens design and its closing passes; J385 – J388 for files m–p), each applied by the record its status line names under `docs/validation/coherence/`, and file r (`docs/AMENDMENTS-2026-10-18r.md`, item 926: the owner's answer to V13 §11 Q4, 2026-10-18), applied by the lane its status line names, and file s (`docs/AMENDMENTS-2026-10-18s.md`, items 927–939: the Fable retrovalidation's corrections to volumes 13 and 14, 2026-10-18), applied by the lane its status line names, and file t (`docs/AMENDMENTS-2026-10-18t.md`, items 940–948: the owner's word on sites, road access and catalogue-driven autocorrect, 2026-10-18; J393), applied by the lane its status line names, and file u (`docs/AMENDMENTS-2026-10-18u.md`, items 949–953: the owner's patrols decision in the design, J396; the two coherence sentences before M-ENC and the S1 small-frame fallback, J395; the M0 gate's K14 row, 2026-10-18), applied by the lane its status line names, and file v (`docs/AMENDMENTS-2026-10-18v.md`, item 954: the owner's answer to V14 §11 Q5 carried into the volumes, J398, 2026-10-18), applied by the lane its status line names. The plain-language account for the owner is `docs/volumes/SUMMARY.md`.
 
 ## 1 The product map
 
@@ -24966,7 +24966,7 @@ SP-W1 – SP-W7 (M-W0, once M0 closes; before M-W1). The first-five-minutes sess
 Every question the volumes put to the owner is answered: those that belong to SettlementForge follow its own
 decisions (J121: the map is a SettlementForge module), and every other is decided under the owner's delegation (J122:
 `docs/OWNER-DECISIONS-DELEGATED-2026-09-29.md`), each vetoable. Each volume's §11 marks its questions answered and its
-body reads the decision. Volumes 13 and 14's nine questions carry the session's recommendation (V14 Q5, put on 2026-10-18 under J393, among them): the owner deferred
+body reads the decision. Volumes 13 and 14's nine questions carry the session's recommendation (V14 Q5, put on 2026-10-18 under J393, among them; the owner answered it the same day: yes, "the catalogue" is V14 §2.5's site kind rows, J398): of the others, the owner deferred
 every decision on them to the session (2026-10-16: "i defer all decisiosn to you"), so each stands as **recommended;
 vetoable** until the owner rules — save V13 Q4, the one decision the delegation cannot reach (J86's door 1 opens
 only on the owner's explicit word, base §11.4; J388), which the owner answered on 2026-10-18: yes, the world canon is
@@ -25009,7 +25009,7 @@ each on its own prerequisites and the host's schedule (V13 §11 Q2).
 | V14 | Q2 — a host record for world sites in the dossier (a capability across the SettlementForge boundary) | yes, scheduled with V13's host changes; until it lands every site is map-tier and nothing of the map is lost (recommended; vetoable) |
 | V14 | Q3 — the cost, 25.75–36.25 person-weeks across three milestones | accept (recommended; vetoable) |
 | V14 | Q4 — a vendor block in the VTT export carrying each unit's reason and the anchor's knowledge state | yes, as an optional namespaced block off by default; the common fields unchanged (recommended; vetoable) |
-| V14 | Q5 — a reading of the owner's word of 2026-10-18 (J393): is "the catalogue" the list of site kinds the DM picks from (V14 §2.5's kind rows, carrying each kind's road access, approach, coherence rows and correction)? | yes; if another list was meant, the columns move to it unchanged in substance (recommended; vetoable) |
+| V14 | Q5 — a reading of the owner's word of 2026-10-18 (J393): is "the catalogue" the list of site kinds the DM picks from (V14 §2.5's kind rows, carrying each kind's road access, approach, coherence rows and correction)? | yes — the owner's own answer, given 2026-10-18 (J398): "the catalogue" is V14 §2.5's site kind rows (`tables/sites/kinds`) (answered by the owner) |
 
 ## 7 How the volumes were reconciled, and the fix list
 
@@ -78108,6 +78108,10 @@ below them):
 > small-frame row beside `WORLD-9` with its pre-decided fallback; §8's SE0 builds the transient arena's form (M6-P its
 > second reader) and times S1 on the two small frames.
 
+> **Owner's word v — 2026-10-18** (`docs/AMENDMENTS-2026-10-18v.md`, item 954; the owner's answer to §11 Q5, given
+> 2026-10-18: "Yes", J398 — "the catalogue" is §2.5's site kind rows). Changed: §9 J-V14.57's closing clause and §11
+> Q5's answer cell record the owner's answer.
+
 <!-- PROGRESS (the architect seat's ledger; removed at revision)
 0 In plain words ................................ done
 1 Scope, hooks, owner rules, out of scope ....... done
@@ -81138,7 +81142,7 @@ you"); each row below is vetoable.
 | J-V14.54 | **(SW-13, SW-29, SW-33.)** chose to request the §4.12 `StrategyRegistry.products` union and the §16 and §13.2 rows explicitly as V13's merged texts place them, and one T- row per Part E bar with the other volume's half a cited clause (T-V14-32 for bar 1), over two volumes each writing the union or the row, because the coherence pass writes one union text and one row (vetoable) |
 | J-V14.55 | **(SW-14, SW-19, SW-26, SW-30, SW-36, SW-37.)** chose to cite V13's milestones by their M-W ids and M-W0h for the classifier and the verbs, to make a `worldWins` on a site a re-materialization (G3 (c), G5 (f)), to fold the water edits to V13's `setSurface`, to add the waterlogged lifecycle row, and to request the `secret` stair core of V03 rather than cite it as a V03 fact, over the earlier readings, because each names a dependency where this volume had restated or mis-cited one (vetoable) |
 | J-V14.56 | **(J384 (10).)** chose holy places and hidden cult sites to be ordinary world-site cards of the existing kinds carrying a DM-stated `devotion` (a deity key and a role), DM-only by default, a cult site secret, drawn by V13's religion lens labelled "DM-placed" and offered to the host for adoption by its own command, over a new site kind (the temple, shrine, crypt, cave and hideout rows already lay them), generated holy sites (the host holds no positioned faith place) or a deity read from a site's name (a guess) (vetoable) |
-| J-V14.57 | **(J393.)** chose to read "the catalogue" of the owner's word of 2026-10-18 as this volume's site kind rows and to carry every per-kind road rule as kind-row columns (`roadAccess`, `approach`, `coherence`, `correction`, `bendM`), over another list (V09 §4.9's message keys, V11's symbol catalogue), because the sentence needs a per-kind source of "where appropriate" and only the kind rows are one — put to the owner as V14 §11 Q5 (vetoable) |
+| J-V14.57 | **(J393.)** chose to read "the catalogue" of the owner's word of 2026-10-18 as this volume's site kind rows and to carry every per-kind road rule as kind-row columns (`roadAccess`, `approach`, `coherence`, `correction`, `bendM`), over another list (V09 §4.9's message keys, V11's symbol catalogue), because the sentence needs a per-kind source of "where appropriate" and only the kind rows are one — put to the owner as V14 §11 Q5, answered yes on 2026-10-18 (J398) |
 | J-V14.58 | **(J393.)** chose to replace `routed` with `roadAccess` (`required`, `preferred`, `none`, `avoided`) on the kind row and the card, over keeping `routed` beside it as a derived boolean, because two fields with one meaning drift and the owner's own words name the field (vetoable) |
 | J-V14.59 | **(J393.)** chose the world's road to end at the site's frame — the site frame's charter carrying it — and the site's ground to join it to the nearest entrance (its gate where the enclosure has one, else the entrance unit's point) by S4's router, over a world-scale polyline to the envelope, because fine cells are 250–1 000 m and item 135 (a) refines the coarse fact at the finer scale (vetoable) |
 | J-V14.60 | **(J393.)** chose an `inFrame` site's road access by the hinterland's own faces — a `driveway` face for `required`, a `path` face for `preferred` — over an S4 `worldSite` destination at the drop, because the base's gate-count rule re-derives S3 for a new destination and the hinterland's faces cost no gate (BCR-V14-26; vetoable) |
@@ -81211,7 +81215,7 @@ each with the session's recommendation under the delegation (J122's form); every
 | Q2 | **A capability across the SettlementForge boundary:** a host record for world sites (`WorldSiteRecord` — existence, kind, name, owner, status, position; the party's reach as an event; the reveal of an anchor) in the dossier (V14 §1b.5; V08's row) — to be scheduled in SettlementForge's own program | yes, with V13's host changes (item 138 (e)): until it lands every site is map-tier and nothing of the map is lost; the record's shape is V14 §2.2's `WorldSiteHost` and V08 §2.8's custom-record form |
 | Q3 | **Money:** the cost, 25.75–36.25 person-weeks across three milestones (V14 §8; the sum corrected, SW-35) | accept; the encounter crop's 4.25–5.75 pw buys bar 11 on the viewable town, the sites' 13–18.5 pw the owner's items 132–134 whole, the view's 7.75–11 pw item 141's bars 14–17 |
 | Q4 | **A capability across the VTT boundary (the survey's open question 1, `research/sites/survey.md` §6.4):** should the `.dd2vtt` emitter carry each unit's reason-record id and the anchor's knowledge state in a namespaced vendor block of the `plat` object, so a Foundry module could show them — or is the contract strictly the common fields? | yes, as an **optional, namespaced block off by default** (`ExportOpts.vtt.vendorBlock`; `plat.sites`; J-V14.47): every importer reads the common fields unchanged, the block is admitted by the export's key as any fact, and a module that reads it gets the owner's "why" at the table |
-| Q5 | **A reading of the owner's own word (J393, 2026-10-18):** in "depending on the catalogue, where appropriate, their geography in the world map autocorrects to meet the coherence expectation", is "the catalogue" the list of site kinds the DM picks from — V14 §2.5's kind rows, where this volume now carries each kind's road access, approach, coherence rows and correction? | yes: the sentence needs a per-kind source of "where appropriate", and no other list in the design (V09's message keys, V11's symbol catalogue) could carry what a site's geography depends on; if another list was meant, the columns move to it unchanged in substance (J-V14.57) |
+| Q5 | **A reading of the owner's own word (J393, 2026-10-18):** in "depending on the catalogue, where appropriate, their geography in the world map autocorrects to meet the coherence expectation", is "the catalogue" the list of site kinds the DM picks from — V14 §2.5's kind rows, where this volume now carries each kind's road access, approach, coherence rows and correction? | yes: the sentence needs a per-kind source of "where appropriate", and no other list in the design (V09's message keys, V11's symbol catalogue) could carry what a site's geography depends on; if another list was meant, the columns move to it unchanged in substance (J-V14.57). **Answered by the owner, 2026-10-18 (J398): yes.** |
 
 ## 12 CONFIRMED versus PLAUSIBLE
 
