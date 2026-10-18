@@ -1,16 +1,12 @@
 // M0-e-03's test support: a hand-built S1 StageContext (C-0123: @plat/site's stages are tested under a hand-built
 // context over the kernel's façade, never through @plat/layout's runner), an indexed ground arena with its façade,
-// the river fixtures — S1 (1)'s terrain and S1 (3)'s river, built by M0-e-01's and M0-e-02's code, as the L0 batch
-// reads them — and the folder's shared builders and checks: the lifecycle literal, a hand-built water body, the small
-// arena, the stage-end subject list, the CI sweep's failing hard rows and the L0 edge property. Each states its
-// expectation on its own terms (the test's oracle), never by calling the code under test for it.
-import { attachIndex, checkCI, createKernel, createPlat, createRng, entityKey, rowKey, rowsOn, seedKey, STAGES, streamFromKey, type Frame, type Hash128, type Kernel, type LatticePoint, type Plat } from '@plat/kernel';
-import type { Cm, CmArray, GeomRef, StageContext, Terrain, WaterBody, WaterSet } from '@plat/model';
+// and the river fixtures — S1 (1)'s terrain and S1 (3)'s river, built by M0-e-01's and M0-e-02's code, as the L0 batch
+// reads them.
+import { attachIndex, createKernel, createPlat, createRng, entityKey, seedKey, STAGES, streamFromKey, type Frame, type Hash128, type Kernel, type Plat } from '@plat/kernel';
+import type { Cm, StageContext, Terrain, WaterBody, WaterSet } from '@plat/model';
 import { rungProfile, tableView, type BaseRung, type TableView } from '@plat/tables';
-import { expect } from 'vitest';
 import { buildTerrain, GROUND_KEY, siteFrame, terrainParams, TOWN_ROOT, type SiteEnv, type SiteRequest } from '../../src/terrain/index.js';
 import { runRivers, type RiverRequest } from '../../src/hydro/index.js';
-import { leftFaces, reachOf, type LandComponent } from '../../src/water/index.js';
 
 export const TABLES: TableView = tableView();
 
@@ -82,82 +78,11 @@ export function pt(x: number, y: number): { x: Cm; y: Cm } {
   return { x: x as Cm, y: y as Cm };
 }
 
-/** A point rounded to the lattice. */
-export function lp(x: number, y: number): LatticePoint {
-  return { x: Math.round(x) as Cm, y: Math.round(y) as Cm };
-}
-
-/** §2.8's lifecycle of a record generated in epoch 0, written out (the record shape the tests expect, C-0142). */
-export const GENERATED_AT_0 = { existence: 'generated' as const, flags: { locked: false, pinned: false, edited: false, assigned: false }, since: { epoch: 0, seq: 0 } };
-
-/** A hand-built water body: its course, a width per course point (or one for all), its face and shore refs, generated at 0. */
-export function waterBody(id: string, kind: WaterBody['kind'], course: readonly { x: number; y: number }[], widths: number | readonly number[], extra: Partial<WaterBody> = {}): WaterBody {
-  return {
-    id,
-    kind,
-    face: { owner: id, level: 0 },
-    shore: { role: 'shore', entity: id },
-    course: course.map((q) => pt(q.x, q.y)),
-    widthProfile: Int32Array.from(course, (_, i) => (typeof widths === 'number' ? widths : widths[i])) as CmArray,
-    lifecycle: GENERATED_AT_0,
-    ...extra,
-  };
-}
-
-/** A 1 000 m × 600 m arena (frame 500 m × 300 m, margin ½). */
-const SMALL_FRAME: Frame = { widthCm: 50_000 as Cm, heightCm: 30_000 as Cm, aspect: 5 / 3, marginShare: 0.5 };
-
-/** The small arena: its frame, its reach and the L0 batches' options over it. */
-export const SMALL_ARENA = { FRAME: SMALL_FRAME, REACH: reachOf(SMALL_FRAME), OPTS: { key: GROUND_KEY, stage: STAGES.S1, workLimit: 1e9 } };
-
-/**
- * The references an S1 output holds, and its live entities — the stage-end row's subject stated by the test: the
- * terrain's margin, each body's face and shore, each bridge's two deck ends, each land component's face.
- */
-export function heldRefs(terrainId: string, out: { water: WaterSet; land: readonly LandComponent[] }): { refs: GeomRef[]; live: Set<string> } {
-  const refs: GeomRef[] = [{ role: 'margin', entity: terrainId }];
-  const live = new Set<string>([terrainId]);
-  for (const b of out.water.bodies) {
-    refs.push(b.face, b.shore);
-    live.add(b.id);
-  }
-  for (const b of out.water.bridges) {
-    refs.push(...b.deck);
-    live.add(b.id);
-  }
-  for (const c of out.land) {
-    refs.push(c.face);
-    live.add(c.id);
-  }
-  return { refs, live };
-}
-
-/** The hard rows of the kernel's CI sweep that fail, over the whole arena with the water's references. */
-export function hardFailures(plat: Plat, refs: GeomRef[], live: Set<string>): string[] {
-  return checkCI(plat, { refs, isLive: (id) => live.has(id) })
-    .filter((r) => r.class === 'hard' && !r.holds)
-    .map((r) => `${r.name}: ${r.problems.slice(0, 2).join('; ')}`);
-}
-
-/** §2.2 rule 7's first half: every L0 edge (each pair once) carries a shore or the ring's margin. Returns each edge's roles. */
-export function everyL0EdgeShoreOrRing(plat: Plat): string[][] {
-  const seen = new Set<number>();
-  const out: string[][] = [];
-  for (const h of leftFaces(plat).keys()) {
-    if (seen.has(h >> 1)) continue;
-    seen.add(h >> 1);
-    const roles = rowsOn(plat, 'edge', h).map((q) => rowKey(plat, q).role);
-    expect(roles.some((x) => x === 'shore' || x === 'margin')).toBe(true);
-    out.push(roles);
-  }
-  return out;
-}
-
 /**
  * §4.2 S1 (5)'s local flow, computed here independently of `siteCrossings`: at the course point nearest `q`, the unit
  * chord from the course point one channel width (its width profile there) upstream to the one a width downstream, both
  * found by walking the course's arc length in floating point. The ± 10° deck tests measure every deck against it, never
- * against the site's own `flow` (C-0233).
+ * against the site's own `flow` (M0-e-03 check B-1).
  */
 export function flowNear(body: WaterBody, q: { x: number; y: number }): { x: number; y: number } {
   const c = body.course ?? [];

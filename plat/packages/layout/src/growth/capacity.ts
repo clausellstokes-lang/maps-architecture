@@ -17,7 +17,7 @@
 //     S5c grows the added rim (then its prune and trim); a walled stage's arc re-trace is M1's — its shortfall is
 //     accepted and reported (C-0254 (11)); a capped stage has no reachable land left, so it takes none. The remainder is
 //     reported, never a restart.
-import { area2, compareKeys, CONCERNS, err, faceRings, faceWalk, idOf, isFaceLive, ok, pointLocate, rowKey, rowsOn, STAGES, type FaceId, type KernelResult, type LatticePoint, type StageId } from '@plat/kernel';
+import { area2, CONCERNS, err, faceRings, faceWalk, idOf, isFaceLive, ok, pointLocate, rowKey, rowsOn, STAGES, type FaceId, type KernelResult, type LatticePoint, type StageId } from '@plat/kernel';
 import type { Id, Rung, Scope, Stage, StageContext } from '@plat/model';
 import { TOWN_ROOT as TOWN_HANDLE } from '@plat/site';
 import { bandOf, loadTable, type BandCuts } from '@plat/tables';
@@ -218,7 +218,7 @@ export function capacityCheck(stage: StageRef, demand?: CapacityDemand, opts: { 
     const b = builtOf(fi, (cellsAll.get(f) ?? 0) * cellArea).built;
     if (b > 0) sofar.push({ value: clamp01(field.prosperityAt(fi.centroid)), built: b, key: fi.key });
   }
-  sofar.sort((a, b) => a.value - b.value || compareKeys(a.key, b.key));
+  sofar.sort((a, b) => a.value - b.value || (a.key < b.key ? -1 : a.key > b.key ? 1 : 0));
   let total = 0;
   for (const s of sofar) total += s.built;
   const cuts: number[] = [];
@@ -252,7 +252,7 @@ export function capacityCheck(stage: StageRef, demand?: CapacityDemand, opts: { 
     landK += land;
     builtK += built;
   }
-  faces.sort((a, b) => compareKeys(a.key, b.key));
+  faces.sort((a, b) => (a.key < b.key ? -1 : a.key > b.key ? 1 : 0));
   const d = demand ?? standInDemand(state, k, landK, builtK, landByBand, shares);
   if (d.bandsCm2.length !== bands.length) throw new RangeError(`capacityCheck: the demand has ${String(d.bandsCm2.length)} bands, the band set ${String(bands.length)}`);
   let demandCm2 = 0;

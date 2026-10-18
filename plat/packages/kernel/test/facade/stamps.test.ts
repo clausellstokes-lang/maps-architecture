@@ -169,11 +169,10 @@ describe('a production build stamps nothing and asserts nothing', () => {
   });
 });
 
-// The restore generation (C-0299 (2), C-0313 (5)(a), C-0317): a savepoint put back across committed batches sets the
-// version back, so a value read inside the rolled-back commits reaches its version again after as many later commits.
-// The façade's stamps carry the arena's restore generation (written only when not 0, absent reading 0) and
-// assertStamped asserts the key, then the generation (the arena's message form), then the version: such a value is
-// never current again.
+// Q38 (the class of Q28 / Q33; C-0313 (5)(a), C-0317): a savepoint put back across committed batches sets the version
+// back, so a value read inside the rolled-back commits reaches its version again after as many later commits. The
+// façade's stamps carry the arena's restore generation (written only when not 0, absent reading 0) and assertStamped
+// asserts the key, then the generation (the arena's message form), then the version: such a value is never current again.
 describe('Q38: the façade\'s stamps carry the restore generation (the debug build; C-0313 (1), C-0317)', () => {
   const genMsg = (v: number, g: number, at: number, ag: number): string =>
     `a stale slot: stamped at version ${String(v)} in restore generation ${String(g)}, arena ground/0 is at version ${String(at)} in restore generation ${String(ag)}`;

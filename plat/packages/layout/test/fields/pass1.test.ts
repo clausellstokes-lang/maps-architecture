@@ -5,12 +5,17 @@
 // clamp; every weight is a table cell; pass 1 is a function of committed state.
 import { seedKey } from '@plat/kernel';
 import { describe, expect, it } from 'vitest';
-import { DRIVER_TERMS, fieldChanceStream, fieldsCells, fieldsDigest, fieldsDrivers, fieldsPass1, type ScalarField } from '../../src/index.js';
+import { DRIVER_TERMS, fieldChanceStream, fieldsCells, fieldsDigest, fieldsDrivers, fieldsPass1, type FieldsPass1, type ScalarField } from '../../src/index.js';
 import { townS6 } from '../districts/support.js';
 import { fieldDriverSources, fieldFaces } from '../../src/index.js';
-import { all, CELLS, fieldsVariant, fieldTown, insideRings, landPoints, mainClasses, ownVariant, pass1, TABLES, variance } from './support.js';
+import { fieldsVariant, fieldTown, insideRings, landPoints, mainClasses, ownVariant, pass1, TABLES, variance } from './support.js';
 
 const SEEDS = [1, 2, 3, 4, 5, 6, 7, 8];
+const CELLS = fieldsCells(TABLES);
+
+function all(r: FieldsPass1): ScalarField[] {
+  return [r.prosperity, r.density, r.greenery];
+}
 
 describe('FieldBands (the here-bar: the cuts give the shares\' land within one cell; C-0049)', () => {
   it('on 8 seeds, all three fields: every band holds its share of the land within one cell; the middle band comfortable', { timeout: 120_000 }, () => {

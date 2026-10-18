@@ -108,56 +108,8 @@ function restoreIndex(p: Plat, im: IndexImage): void {
   idx.log = im.log;
 }
 
-/**
- * The images taken of each arena, in order, and the spans of that order a restore made dead (C-0299's LIFO use, session
- * round S7): putting an image back discards every image taken after it — they hold states the arena no longer leads to —
- * so a later restore of one of them is refused, as is a second restore of one image (its arrays are the arena's since the
- * first). Kept beside the arena and the image, never on them (the `Savepoint` shape is the exported one).
- */
-interface Taken {
-  count: number;
-  /** Disjoint spans (lo, hi] of image numbers made dead, ascending. */
-  readonly dead: [number, number][];
-}
-const TAKEN = new WeakMap<Plat, Taken>();
-const NUMBER = new WeakMap<Savepoint, number>();
-const USED = new WeakSet<Savepoint>();
-
-function takenOf(p: Plat): Taken {
-  let t = TAKEN.get(p);
-  if (t === undefined) {
-    t = { count: 0, dead: [] };
-    TAKEN.set(p, t);
-  }
-  return t;
-}
-
-/**
- * The images taken after image `n` die: the span (n, count] joins the dead spans. `n` is alive (the caller checked), so
- * every span either ends before it or starts at or after it and lies inside the new one: those are dropped, and the
- * list stays ascending and short.
- */
-function killAfter(t: Taken, n: number): void {
-  if (n >= t.count) return;
-  const earlier = t.dead.filter(([, b]) => b < n);
-  t.dead.length = 0;
-  t.dead.push(...earlier, [n, t.count]);
-}
-
-function isDead(t: Taken, n: number): boolean {
-  return t.dead.some(([a, b]) => n > a && n <= b);
-}
-
 /** The before-image of `p` and its index, as they stand now. */
 export function takeSavepoint(p: Plat): Savepoint {
-  const s = image(p);
-  const t = takenOf(p);
-  t.count += 1;
-  NUMBER.set(s, t.count);
-  return s;
-}
-
-function image(p: Plat): Savepoint {
   const v = p.vertices;
   const h = p.halfEdges;
   const r = p.roles;
@@ -195,19 +147,17 @@ function image(p: Plat): Savepoint {
 }
 
 /**
- * Each arena's restore generation (C-0299): how many times a before-image was put back across committed batches. Kept
- * beside the arena, never on it and never persisted (the chunk format stores no version either), so a state keyed on
- * (generation, version) — a maintained level digest, a stamp (C-0313) — tells a version reached again after a restore
- * from the one it saw.
+ * Each arena's restore generation (N-56 (5), C-0299): how many times a before-image was put back across committed
+ * batches. Kept beside the arena, never on it and never persisted (the chunk format stores no version either), so a
+ * state keyed on the version alone — a maintained level digest, M0-d-04 — can tell a version reached again after a
+ * restore from the one it saw.
  */
 const RESTORES = new WeakMap<Plat, number>();
 
 /**
  * The arena's restore generation: 0 until a before-image is put back across a committed batch, then one more per such
  * restore. A rejected or thrown batch restores at its own version and never moves it. Keyed with `version`, it names
- * one arena state: (generation, version) is never reached twice with different content — within one generation the
- * version only rises, and every restore that discards a committed span moves the generation; a dead image (one that
- * could land on a version the generation already reached, with other content) is refused (session round S7).
+ * one arena state: (generation, version) is never reached twice with different content.
  */
 export function restoreGeneration(p: Plat): number {
   return RESTORES.get(p) ?? 0;
@@ -215,35 +165,11 @@ export function restoreGeneration(p: Plat): number {
 
 /**
  * Puts the before-image back: every table, slot counter, the handle table, the version and the index as they were when
- * the image was taken. The image's arrays become the arena's, so an image is put back at most once; images are put back
- * last-taken first (one taken after an image since put back is dead); and an image is put back between batches, or
- * inside the batch it was taken in — never while another batch is open on the arena. Each misuse throws (a programming
- * error) and changes nothing. Putting it back across committed batches (the version moved since the image) bumps the
- * arena's restore generation.
+ * the image was taken. The image's arrays become the arena's (an image is put back at most once). Putting it back
+ * across committed batches (the version moved since the image) bumps the arena's restore generation.
  */
 export function restoreSavepoint(s: Savepoint): void {
   const p = s.plat;
-  const log = p.index === undefined ? null : p.index.log;
-  if (log !== null && log !== (s.index === null ? null : s.index.log)) {
-    throw new Error('tx: a savepoint is put back while a batch it was not taken in is open on the arena (restore between batches)');
-  }
-  putBack(s);
-}
-
-/** The open batch's own before-image put back (its rejection or rollback: tx.ts) — taken before the batch's log opened. */
-export function restoreBatchImage(s: Savepoint): void {
-  putBack(s);
-}
-
-function putBack(s: Savepoint): void {
-  const p = s.plat;
-  const t = takenOf(p);
-  const n = NUMBER.get(s);
-  if (n === undefined) throw new Error('tx: a savepoint is put back that takeSavepoint did not take');
-  if (USED.has(s)) throw new Error('tx: a savepoint is put back twice (an image is put back at most once)');
-  if (isDead(t, n)) throw new Error('tx: a savepoint is put back after an image taken before it (images are put back last-taken first)');
-  USED.add(s);
-  killAfter(t, n);
   if (p.version !== s.version) RESTORES.set(p, restoreGeneration(p) + 1);
   p.version = s.version;
   p.vertices = s.vertices;

@@ -1,9 +1,9 @@
-// S5a's trace on a stage boundary that crosses a bridge's span (N-54 (3); C-0285, C-0292, C-0303). The gate is the
-// bridgehead — the deck end on the stage's side — and the span stays one edge between its two deck ends; the gate
-// splits run inside the trace's own batch, so a refused trace leaves the arena as it found it; a crossing that cannot be
-// put lawfully (two deck ends on one side, the water off every span) refuses, nothing written; the stage's strips keep
-// off the water and their batch refuses rather than break a span. On a hand-built site: the small flat site, S3's
-// commits, a pond east of the town with one crossing site, and one way laid over its deck by S4's commit.
+// M0-c-04 session rounds s1 (N-54 (3); C-0285), s2 (F-1, F-2; C-0292) and s3 (pin 5 re-pinned after M0-c-02's round
+// s2, C-0300; C-0303): a stage boundary that crosses a bridge's span. The gate is the bridgehead
+// — the deck end on the stage's side — and the span stays one edge between its two deck ends; the gate splits run inside
+// the trace's own batch, so a refused trace leaves the arena as it found it; a crossing that cannot be put lawfully (two
+// deck ends on one side, the water off every span) refuses, nothing written. On a hand-built site: the small flat site,
+// S3's commits, a pond east of the town with one crossing site, and one way laid over its deck by S4's commit.
 import { describe, expect, it } from 'vitest';
 import { err, isVertexLive, outgoing, dest, rowKey, rowsOn, STAGES, type Kernel, type KernelTx, type LatticePoint, type Plat, type StageId } from '@plat/kernel';
 import type { Bridge, Cm, Lifecycle, WaterBody, WaterSet } from '@plat/model';
@@ -265,11 +265,11 @@ describe('S5a: a stage boundary crossing a bridge\'s span (N-54 (3))', () => {
     expect(liveVertices(f.plat)).toBe(vertices);
   });
 
-  // With the pond given, the wall crossing the span is water gate gate:w0's chord, bank to bank, and the deck lies across
-  // it; the insertion's split of that chord is refused inside the trace's batch by the enceinte's strict chord proof
-  // (C-0300), before this item's span proof is reached (C-0303). The pin keeps its purpose (typed, caused, the span
-  // whole, nothing of the stage written); its twin below keeps the span proof's own refusal pinned on an input the chord
-  // proof admits.
+  // Session round s3 (C-0303): with the pond given, the wall crossing the span is water gate gate:w0's chord, bank to
+  // bank, and the deck lies across it; since M0-c-02's round s2 (C-0300) the insertion's split of that chord is refused
+  // inside the trace's batch by M0-c-02's strict chord proof, before this item's span proof is reached. The pin keeps
+  // its purpose (typed, caused, the span whole, nothing of the stage written); its twin below keeps the span proof's own
+  // refusal pinned on an input the chord proof admits.
   it('a trace whose wall crosses a span over the water is refused in its own batch by the chord proof, nothing written', { timeout: 120_000 }, () => {
     const f = fixture();
     // The crossings withheld (a caller's miss): the wall meets the way over the deck with no gate there.
@@ -304,8 +304,8 @@ describe('S5a: a stage boundary crossing a bridge\'s span (N-54 (3))', () => {
     expect(roleEdges(f.plat, 'wall').get('enceinte:2') ?? []).toEqual([]);
   });
 
-  // The stage's strips keep off the water as stage 1's do, and a crossing on the dry approach edge (one deck end) is
-  // split where it lies (C-0292 (1), (3)).
+  // Session round s2 (the closing check's F-1 and F-2; C-0292): the stage's strips keep off the water as stage 1's do,
+  // and a crossing on the dry approach edge (one deck end) is split where it lies.
   it('an outline crossing the dry approach edge 3 m before the bridgehead: the gate split at the crossing, the strips off the pond, the span whole', { timeout: 120_000 }, () => {
     const f = fixture();
     const xs = boundaryCrossings(slanted(49_700), wayLines(f.k, f.ways), f.site.centre);
@@ -315,11 +315,11 @@ describe('S5a: a stage boundary crossing a bridge\'s span (N-54 (3))', () => {
     const t = traceStage(2, slanted(49_700), xs, f.slice, f.commit.plaza, f.commit.traced.line, f.k, { water: f.water, firstOrdinal: 100 });
     expect(t.ok, t.ok ? '' : `${t.code} ${t.detail}`).toBe(true);
     if (!t.ok) return;
-    // The approach edge (49 000, 0) – (50 000, 0) carries one deck end: no span, so the way is split at the crossing
+    // F-2: the approach edge (49 000, 0) – (50 000, 0) carries one deck end: no span, so the way is split at the crossing
     // and the gate stands there, not at a way vertex or the bridgehead.
     expect(verticesWith(f.plat, 'gate', `gate:${String(100 + east)}`)).toEqual([P(49_700, 0)]);
     expect(t.value.gates.find((g) => g.id === `gate:${String(100 + east)}`)?.way).toBe(xs[east].way);
-    // Both sides' strips laid, no setback vertex in the pond, the span one edge (C-0292 (1), (2)).
+    // F-1: both sides' strips laid, no setback vertex in the pond, the span one edge.
     expect(t.value.strips.faces.inner).toBeGreaterThan(0);
     expect(t.value.strips.faces.outer).toBeGreaterThan(0);
     const sb = setbackOf(f.plat, 'enceinte:2');

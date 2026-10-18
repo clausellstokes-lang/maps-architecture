@@ -9,16 +9,15 @@
 //     separation ÷ 2): 160 m in a walled CITY regime, district scale; block scale in an extramural one), the two sides
 //     staggered by half a spacing, along each arterial inside the stage's land, clear of the wall's setback lines, the
 //     reservations and the junctions standing — each giving one proposal of class `secondary`, perpendicular to the
-//     arterial on its side (no jitter is drawn for a seed);
+//     arterial on its side (no jitter);
 //   * each pop is one step: its length drawn in the class's step range, its heading by the `ou` walk (./heading.ts), the
 //     step judged by `legal` (./legality.ts); an accepted step is one optional `insertChain` of the proposal's way, in one
 //     L1 callback batch for the stage (§4.1: S5c's ops read the faces earlier ops made); a refused insert re-proposes
 //     once from the next attempt stream and is then rejected with a report line (F-NUM); the street ends where its step
 //     ends it, where a step is rejected, or when its segments run out;
-//   * branching: after `branch.afterSegments` steps, with the class's probability, a child perpendicular to its parent
-//     on a side drawn at random, ± the branch jitter (FTG's `Continue`; the test, the side and the jitter each one
-//     uniform of `growth.branch`): `secondary` in a walled regime (lanes come from S8's bent cut), `lane` in an
-//     extramural one — unless `lanesInfillOnly` (the fusion gate's time fallback, §4.4) holds, which grows no lane;
+//   * branching: after `branch.afterSegments` steps, with the class's probability, a child perpendicular ± the jitter
+//     (FTG's `Continue`): `secondary` in a walled regime (lanes come from S8's bent cut), `lane` in an extramural one —
+//     unless `lanesInfillOnly` (the fusion gate's time fallback, §4.4) holds, which grows no lane;
 //   * F-WORK (C-0085): `growth.proposals` (each pop) and `growth.candidates` (each step judged) are charged against their
 //     laws over the stage's land; reaching either closes the queue and the stage ends with the steps it accepted,
 //     reported `work_cut` with the count.
@@ -28,7 +27,6 @@
 // dead end (the setback line, a shore, a reservation, a rejected step).
 import {
   BinaryHeap,
-  compareKeys,
   CONCERNS,
   createRng,
   dmath,
@@ -370,7 +368,7 @@ export function growthArea(state: GrowthState, k: number, opts: GrowthAreaOption
   // Every enceinte's wall and setback lines: a band never crossed.
   const enceintes = new Set<Id>();
   for (const s of state.stages) for (const g of s.gates) enceintes.add(g.enceinte);
-  for (const e of [...enceintes].sort(compareKeys)) {
+  for (const e of [...enceintes].sort((x, y) => (x < y ? -1 : x > y ? 1 : 0))) {
     for (const role of ['wall', 'setback']) for (const [a, b] of roleSegments(kernel, key, role, e)) features.push({ a, b, kind: 'band' });
   }
   // The ways standing, with their classes.
@@ -457,14 +455,8 @@ export function growthArea(state: GrowthState, k: number, opts: GrowthAreaOption
 
 // ---- the streams ----------------------------------------------------------------------------------------------------------
 
-/**
- * S5c's streams (§6.1) and what each draws: `growth.heading` — each step's length (one uniform) and, after each step
- * laid that does not end its street, the walk's ξ (one normal); `retry`, its next attempt stream — F-NUM's re-proposal,
- * the step's length and ξ drawn again; `growth.curvature` — each proposal's first curvature (one normal, a seed's and a
- * branch's alike); `growth.branch` — each branch test (one uniform) and, when the test passes, the child's side and
- * its jitter (one uniform each, drawn even where the class grows no branch). A seed's proposal draws no jitter: it
- * leaves square to its arterial.
- */
+/** S5c's streams (§6.1): `growth.heading` (each step's length and ξ, a seed's jitter), its next attempt stream (F-NUM's
+ * re-proposal), `growth.curvature` (a proposal's first curvature) and `growth.branch` (each branch test). */
 export interface GrowthStreams {
   readonly heading: Stream;
   readonly retry: Stream;
@@ -590,7 +582,7 @@ export function growthBatch(kernel: Kernel, area: GrowthArea, streams: GrowthStr
     const newJunction = (at: LatticePoint, arms: Id[], kind: Junction['kind']): Junction => {
       const id = `junction:${String(nextJunction)}`;
       nextJunction += 1;
-      const j: Junction = { id, vertex: { role: 'junction', entity: id, ordinal: 0 }, arms: arms.slice().sort(compareKeys), kind, lifecycle: generated(0) };
+      const j: Junction = { id, vertex: { role: 'junction', entity: id, ordinal: 0 }, arms: arms.slice().sort((a, b) => (a < b ? -1 : a > b ? 1 : 0)), kind, lifecycle: generated(0) };
       rec.junctions.push(j);
       if (kind !== 'end') junctionPts.push({ id, at });
       return j;
@@ -865,7 +857,7 @@ function emptyRecord(k: number, rules: GrowthRules): S5cRecord {
 function snapArm(rec: S5cRecord, jId: Id, wayId: Id): void {
   const j = rec.junctions.find((x) => x.id === jId);
   if (j === undefined) return;
-  j.arms = [...j.arms, wayId].sort(compareKeys);
+  j.arms = [...j.arms, wayId].sort((a, b) => (a < b ? -1 : a > b ? 1 : 0));
   if (j.arms.length >= 4) j.kind = 'X';
 }
 
@@ -924,7 +916,7 @@ export function joinState(state: GrowthState, rec: S5cRecord): void {
       const i = state.junctions.findIndex((j) => j.id === s.meets);
       if (i >= 0) {
         const j = state.junctions[i];
-        const arms = [...j.arms, s.way.id].sort(compareKeys);
+        const arms = [...j.arms, s.way.id].sort((a, b) => (a < b ? -1 : a > b ? 1 : 0));
         state.junctions[i] = { ...j, arms, kind: arms.length >= 4 ? 'X' : j.kind };
       }
     }

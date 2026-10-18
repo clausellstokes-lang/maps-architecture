@@ -6,8 +6,8 @@
 //   capped at the reachable land inside the frame as S3 (6) caps t₁ (the shortfall the stage's, reported), its outer
 //   contour by C-0017's marching triangles, simplified and Chaikin-smoothed as S3's (M0-c-01's `levelSet`); a capped
 //   stage that adds no land to stage k − 1's is folded into the last stage that holds land, its quota with it;
-// * stage 1's boundary is S3's contour and S5a commits S3's trace for it unchanged: `traceStage1` lays the registered
-//   strategy's trace and the strip stand-in by the enceinte's `traceWithStrips`, the calls `commitS3Slice` makes;
+// * stage 1's boundary is S3's contour and S5a commits S3's trace for it unchanged, through the registered strategy and
+//   the strip stand-in exactly as M0-c-02's `commitS3Slice` lays them (`traceStage1`);
 // * T is one field, re-settled incrementally after each S5b at the nodes the new roads lower (`resettleT`): never a
 //   new field per stage (SCL-3);
 // * for k ≥ 2 the trace is the strategy's, right after S5b, every arterial crossing of the stage's boundary on ground
@@ -21,7 +21,7 @@
 //   stage's side, refuses the trace (E_INVARIANT, detect-and-refuse); the trace's batch refuses too when it leaves a
 //   vertex between the two deck ends of any span that stood before it. The stage's strips keep off the water as stage 1's
 //   do (a water stop for every water ring, beside the arena's stops), and their batch refuses, nothing of them written,
-//   when it would break such a span or leave a setback vertex in the water (C-0292).
+//   when it would break such a span or leave a setback vertex in the water (F-1; C-0292).
 import {
   BinaryHeap,
   CONCERNS,
@@ -45,19 +45,19 @@ import {
   type VertexId,
 } from '@plat/kernel';
 import type { ChainRef, Enceinte, Gate, GateSite, Id, Reservation, WaterSet } from '@plat/model';
-import { commitS3Batch, PLAZA_ID, siteContext, traceWithStrips, type S3Batch, type S3Commit } from '../enceinte/commit.js';
+import { commitS3Batch, PLAZA_ID, siteContext, WAY_SPAN_NODES, type S3Batch, type S3Commit } from '../enceinte/commit.js';
 import { crossParams, distToRing, lat, TOUCH_CM, unitOf } from '../enceinte/plane.js';
-import { layStrips, stripWidths, traceLine } from '../enceinte/strips.js';
+import { layStrips, stripWidths, toFrame, traceLine } from '../enceinte/strips.js';
 import { baseEnceinte, l1Spec } from '../enceinte/trace.js';
 import type { CostField, StripsLaid, StripStop, Traced, WaterGate, XY } from '../enceinte/types.js';
 import { GROUND, waterGates, waterRings, type WaterRing } from '../enceinte/water.js';
 import { stageThreshold, type WaterPull } from '../siting/field.js';
-import { area2Of, bearingCdeg, distToSegment2, HA_CM2, insideRing, perimeterOf, quot, ringIsSimple } from '../siting/geom.js';
+import { area2Of, bearingCdeg, insideRing, perimeterOf, quot, ringIsSimple } from '../siting/geom.js';
 import { levelSet } from '../siting/levelset.js';
 import type { Field, LevelSet, S3Slice, Threshold } from '../siting/types.js';
 
-/** One hectare in cm²: siting's constant, public here through the growth barrel. */
-export { HA_CM2 } from '../siting/geom.js';
+/** One hectare in cm². */
+export const HA_CM2 = 100_000_000;
 
 /** The stage lands S2 gives (the fixture's, C-0016): stage k's land is `stagesHa[k − 1]`. */
 export interface StageQuotas {
@@ -264,17 +264,46 @@ export interface Stage1Options {
 
 /**
  * S5a for k = 1 (§4.4: "Stage 1's boundary is S3's contour, and S5a commits S3's trace for it unchanged"; §4.1's S5
- * row, k = 1): the enceinte's `traceWithStrips` — the registered strategy on S3's outline and gate sites, then the strip
- * stand-in, each main gate's stop its route's lattice edge at the gate and each water ring's water — the calls
- * `commitS3Slice` makes after S3's L1 batch (M0-c-02; C-0226 (2), (10)), so the trace committed is S3's, byte for byte
- * (the item's digest test). A refusal is returned with its code and detail.
+ * row, k = 1): the registered strategy on S3's outline and gate sites, then the strip stand-in, each main gate's stop
+ * its route's lattice edge at the gate and each water gate's water — exactly the calls `commitS3Slice` makes after S3's
+ * L1 batch (M0-c-02; C-0226 (2), (10)), so the trace committed is S3's, byte for byte (the item's digest test).
  */
 export function traceStage1(slice: S3Slice, s3: S3Batch, k: Kernel, opts: Stage1Options = {}): KernelResult<StageTrace> {
+  const site = slice.site;
   const arena = opts.key ?? GROUND;
   const water: WaterSet = opts.water ?? { bodies: [], bridges: [] };
-  const tail = traceWithStrips(slice, k, arena, water, opts.costField, s3.plaza);
-  if (!tail.ok) return err(tail.code, tail.detail);
-  return ok(tail.value, tail.warnings);
+  const traced = baseEnceinte.trace(
+    slice.levelSet.outline,
+    slice.gateSites,
+    [s3.plaza],
+    site.terrain,
+    water,
+    { waterfront: 'open', placement: 'aroundAll' },
+    siteContext(site),
+    k,
+    { key: arena, ...(opts.costField === undefined ? {} : { costField: opts.costField }) },
+  );
+  if (!traced.ok) return err(traced.code, traced.detail);
+  const t = traced.value.traced;
+  const half = Math.round(site.tables.table('ways').pair('through', `widthM.${site.rung}`)[1] * 50);
+  const stops: StripStop[] = [];
+  slice.gates.forEach((g, i) => {
+    const route = slice.routes.find((r) => r.ordinal === g.ordinal);
+    const nodes = route === undefined ? [g.edge[0], g.edge[1]] : route.nodes.slice(Math.max(0, g.routeIndex - WAY_SPAN_NODES), g.routeIndex + 2 + WAY_SPAN_NODES);
+    const path: XY[] = nodes.map((n) => slice.lattice.points[n]);
+    if (route !== undefined && nodes[nodes.length - 1] === route.nodes[route.nodes.length - 1] && path.length >= 2) {
+      const a = path[path.length - 2];
+      const b = path[path.length - 1];
+      const d = unitOf({ x: b.x - a.x, y: b.y - a.y });
+      const f = d === null ? null : toFrame(b, d, site.frameRing);
+      if (f !== null && (f.x !== b.x || f.y !== b.y)) path.push(lat(f));
+    }
+    stops.push({ kind: 'way', gate: t.gates[i].id, at: g.at, path, halfWidthCm: half });
+  });
+  for (const r of waterRings(water, k, arena)) stops.push({ kind: 'water', gate: r.body, ring: r.ring });
+  const strips = layStrips(t.enceinte, site.tables.table('walls').row('era.default'), k, { key: arena, stops, frame: site.frameRing });
+  if (!strips.ok) return err(strips.code, strips.detail);
+  return ok({ enceinte: t.enceinte, gates: t.gates, waterGates: t.waterGates, traced: t, strips: strips.value }, [...traced.warnings, ...strips.warnings]);
 }
 
 /**
@@ -510,7 +539,7 @@ export function traceStage(
   if (!traced.ok) return err(traced.code, traced.detail);
   const t = traced.value.traced;
   const half = Math.round(site.tables.table('ways').pair('through', `widthM.${site.rung}`)[1] * 50);
-  // The strips keep off the water as stage 1's do (C-0292): the arena's stops (each main gate's way, each water
+  // The strips keep off the water as stage 1's do (F-1; C-0292): the arena's stops (each main gate's way, each water
   // gate's water) and a water stop for every other water ring; their batch refuses, nothing of the strips written, when
   // it would break a span that stood before S5a or leave a setback vertex in the water.
   const era = site.tables.table('walls').row('era.default');
@@ -576,7 +605,7 @@ function placeGateVertices(kernel: Kernel, arena: PlatKey, o: Overlay, crossings
         const ia = p.halfEdges.origin[h];
         const a = { x: p.vertices.x[ia], y: p.vertices.y[ia] };
         const b = { x: p.vertices.x[p.halfEdges.origin[h ^ 1]], y: p.vertices.y[p.halfEdges.origin[h ^ 1]] };
-        const d = distToSegment2(c.at, a, b);
+        const d = segD2(c.at, a, b);
         if (d < bestD) {
           bestD = d;
           best = h;
@@ -672,11 +701,11 @@ function brokenSpan(kernel: Kernel, arena: PlatKey, spans: readonly StandingSpan
 }
 
 /**
- * The strips' stops for a stage k ≥ 2 (C-0292): the stops `layStrips` reads from the arena — in the enceinte's gate
+ * The strips' stops for a stage k ≥ 2 (F-1; C-0292): the stops `layStrips` reads from the arena — in the enceinte's gate
  * order, each main gate's way taken along the trace's normal at the gate over `reachCm` on each side with `halfWidthCm`,
  * each water gate's water face — then a water stop for every water ring no water gate gave, as `traceStage1` gives one
  * for every ring (§4.8: the strips end at the banks). With no water ring beyond the water gates' the stops are the
- * arena's, so the strips are laid as `layStrips` lays them from the arena's stops alone.
+ * arena's, so the strips are laid exactly as before.
  */
 function stageStops(enceinte: Enceinte, kernel: Kernel, key: PlatKey, halfWidthCm: number, reachCm: number, rings: readonly WaterRing[]): StripStop[] {
   const p = kernel.plat(key);
@@ -721,10 +750,7 @@ function stageStops(enceinte: Enceinte, kernel: Kernel, key: PlatKey, halfWidthC
 /** How deep in the water a setback vertex may lie (cm): the water-gate receipt's own depth (M0-e-06's WET_DEPTH_CM). */
 const STRIP_WET_DEPTH_CM = 2;
 
-/**
- * The strips' batch left a setback vertex of the enceinte in the water (deeper than STRIP_WET_DEPTH_CM): refused
- * (C-0292 (2)).
- */
+/** The strips' batch left a setback vertex of the enceinte in the water (deeper than STRIP_WET_DEPTH_CM): refused (F-1). */
 function wetSetback(kernel: Kernel, arena: PlatKey, enceinte: Id, rings: readonly WaterRing[]): KernelResult<null> {
   if (rings.length === 0) return ok(null);
   const r = kernel.resolve({ role: 'setback', entity: enceinte }, arena);
@@ -743,11 +769,10 @@ function wetSetback(kernel: Kernel, arena: PlatKey, enceinte: Id, rings: readonl
 }
 
 /**
- * The kernel the trace is handed (N-54 (3); C-0285 (2)), and the strips (C-0292 (2)): its first callback batch — the
- * trace's commit, the strips' — runs `before` (the gate splits) on the batch's overlay, then the caller's own callback,
- * then `after` (the span proof; for the strips, the water proof too); a refusal of any of the three rejects the whole
- * batch, so a refused trace leaves no gate split behind and refused strips leave no setback line. Every other call is
- * the kernel's.
+ * The kernel the trace is handed (N-54 (3)), and the strips (F-1): its first callback batch — the trace's commit, the
+ * strips' — runs `before` (the gate splits) on the batch's overlay, then the caller's own callback, then `after` (the
+ * span proof; for the strips, the water proof too); a refusal of any of the three rejects the whole batch, so a refused
+ * trace leaves no gate split behind and refused strips leave no setback line. Every other call is the kernel's.
  */
 function withinTraceBatch(kernel: Kernel, before: (o: Overlay) => KernelResult<null>, after: () => KernelResult<null>): Kernel {
   let armed = true;
@@ -807,6 +832,19 @@ export function squareGates(outline: readonly LatticePoint[], gates: readonly La
     if (ringIsSimple(next)) ring = next;
   });
   return ring;
+}
+
+/** The squared distance from p to the segment ab. */
+function segD2(p: XY, a: XY, b: XY): number {
+  const dx = b.x - a.x;
+  const dy = b.y - a.y;
+  const l2 = dx * dx + dy * dy;
+  let t = l2 === 0 ? 0 : quot((p.x - a.x) * dx + (p.y - a.y) * dy, l2, 'area', 'segment foot');
+  if (t < 0) t = 0;
+  if (t > 1) t = 1;
+  const fx = a.x + t * dx - p.x;
+  const fy = a.y + t * dy - p.y;
+  return fx * fx + fy * fy;
 }
 
 /** The outline's perimeter (cm) and twice its area (the boundary's measures S5b and the reports read). */

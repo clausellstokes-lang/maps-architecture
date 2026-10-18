@@ -67,12 +67,6 @@ interface Runs {
 /**
  * The half-edge continuing a level-r run past the end of `g`, or −1 where dest(g) is of level ≤ r: at a vertex finer
  * than r the run's two sub-edges are its only edges of level ≤ r (§3.10's level consistency row; §2.2 rule 3).
- *
- * `onward` and `runsAt` are the format's own reader of the route edges. They walk the same runs as `index/items.ts`'s
- * `routeRun` / `routePieces` by definition — a level-r route edge is a run of level ≤ r cut at its vertices of level
- * ≤ r, i.e. a piece of `routePieces(p, routeRun(p, h), r)` (§3.3, §2.2 rule 3) — and keep the block's structural
- * refusals (a loop off one vertex, a run that mixes levels, a vertex inside a run without exactly two edges of level
- * ≤ r). The block's walk stays its own: its bytes are a persisted format (C-0207 (3), C-0345 (2); N-45 (b)).
  */
 function onward(p: Plat, g: HalfEdgeId, r: Level): HalfEdgeId {
   const w = dest(p, g);

@@ -5,8 +5,8 @@
 // rejected:
 //   * destination bias (switchable per regime): a spine within ≈ 1.5 step lengths ahead, met at ≥ 30°, turns the step
 //     toward its nearest point — a turn of at most the legal angle (C-0260 (3)) — and the proposal ends there in a T
-//     (ending cul-de-sacs deliberately). At M0 every S3 destination (the plaza, the gates) is served by S4, so the
-//     spines are the targets (C-0254 (6));
+//     (ending cul-de-sacs deliberately). At M0 every S3
+//     destination (the plaza, the gates) is served by S4, so the spines are the targets (C-0254 (6));
 //   * a junction within `0.35 · step` of the step's end is snapped to, the proposal ending there; a way within that
 //     reach of the end (a near miss) is joined at its foot in a T;
 //   * along the step, the first feature met decides: a setback line or a wall stops the proposal there (a wall is never
@@ -29,7 +29,7 @@ import { dmath, type LatticePoint } from '@plat/kernel';
 import type { Id, WayClass } from '@plat/model';
 import { crossParams, footOn, lat } from '../enceinte/plane.js';
 import { PI, quot } from '../siting/geom.js';
-import { RAD_PER_CDEG, wrapAngle } from './heading.js';
+import { wrapAngle } from './heading.js';
 
 /** A point in cm. */
 export interface XY {
@@ -146,7 +146,7 @@ export function crossingMatrix(preset: string, collinearCdeg = 600): CrossingMat
   if (preset === 'ringed' || preset === 'american') throw new RangeError(`notBuilt('M1'): the ${preset} crossing matrix (§4.4; §4b — the presets ringed and american are M1's)`);
   if (preset !== 'organic') throw new RangeError(`crossingMatrix: no crossing matrix for the preset '${preset}'`);
   if (!(collinearCdeg >= 0 && collinearCdeg < 9_000)) throw new RangeError(`crossingMatrix: collinearity is an angle in [0°, 90°), got ${String(collinearCdeg)} cdeg`);
-  const limit = collinearCdeg * RAD_PER_CDEG;
+  const limit = collinearCdeg * 0.00017453292519943296;
   return Object.freeze({
     preset: 'organic' as const,
     act(proposal: WayClass, crossed: WayClass, turnRad: number): CrossingAction {

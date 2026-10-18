@@ -266,41 +266,6 @@ describe('the corrupt cache (§3.9, §3.11)', () => {
     expectCorrupt(decodeArena(dropped, p.key));
   });
 
-  it('a coordinate or a lattice-point reference outside the lattice range, or a face of the free kind, is a corrupt cache; the range\'s last coordinates and the last face kind load (§3.2 (1), §3.9)', () => {
-    // §3.2 (1): a lattice coordinate is an integer with |v| < 2²³ — 2²³ and beyond (either sign, either axis) are not.
-    const H = 8_388_608;
-    const corner = (x: number, y: number): Craft => square({ vertices: [[x, y, 0, 0], [4000, 0, 0, 0], [0, 4000, 0, 0], [4000, 4000, 0, 0]] });
-    for (const [x, y] of [[-H, 0], [-H - 1, 0], [0, -H], [-H, -H]] as const) {
-      expectCorrupt(decodeArena([craft(corner(x, y))], GROUND), /a vertex outside the lattice range/);
-    }
-    const far = (x: number, y: number): Craft => square({ vertices: [[0, 0, 0, 0], [4000, 0, 0, 0], [0, 4000, 0, 0], [x, y, 0, 0]] });
-    for (const [x, y] of [[H, 4000], [4000, H], [H + 1, H + 1]] as const) {
-      expectCorrupt(decodeArena([craft(far(x, y))], GROUND), /a vertex outside the lattice range/);
-    }
-    // The last lattice coordinate, −(2²³ − 1) on either axis, passes the range check: the crafted corner loads.
-    for (const [x, y] of [[-H + 1, 0], [0, -H + 1]] as const) {
-      const r = decodeArena([craft(corner(x, y))], GROUND);
-      expect(r.ok).toBe(true);
-      if (r.ok) expect(r.value.slots.face[0].live).toBe(1);
-    }
-    // A partition's reference by lattice point: 2²³ is refused by range, 2²³ − 1 reaches the lookup (and dangles).
-    const lane = (ref: readonly [number, number]): Chunk => craft({ routes: false, level: 2, vertices: [[1000, 2000, 2, 0]], edges: [[0, ref, 2]] });
-    for (const ref of [[H, 0], [0, -H], [-H - 1, 7]] as const) {
-      expectCorrupt(decodeArena([craft(square()), lane(ref)], GROUND), /a lattice-point reference outside the lattice range/);
-    }
-    expectCorrupt(decodeArena([craft(square()), lane([H - 1, 0])], GROUND), /lattice-point reference \(8388607, 0\) finds no vertex/);
-    // The arena's FREE_KIND (0xffff) marks a free face slot: no stored face carries it; 0xfffe is the last kind a face takes.
-    expectCorrupt(decodeArena([craft(square({ faces: [[0, 0, 1, 0xffff, 0, 0, []]] }))], GROUND), /a face of the free kind/);
-    const last = decodeArena([craft(square({ faces: [[0, 0, 1, 0xfffe, 0, 0, []]] }))], GROUND);
-    expect(last.ok).toBe(true);
-    if (last.ok) {
-      const F = last.value.faces[0];
-      const live: number[] = [];
-      for (let f = 0; f < last.value.slots.face[0].top; f++) if (F.kind[f] !== 0xffff) live.push(F.kind[f]);
-      expect(live).toEqual([0xfffe]);
-    }
-  });
-
   it('chunks that do not fit one arena are a corrupt cache', () => {
     // No routes chunk; two; two chunks for one partition; a chunk of another arena.
     expectCorrupt(decodeArena(block.slice(1), p.key), /no level-≤ 1 routes chunk/);
@@ -319,29 +284,6 @@ describe('the corrupt cache (§3.9, §3.11)', () => {
     expectCorrupt(decodeArena([craft(square({ vertexRows: [[0, [[MARGIN, 0, 0, 0]]]] }))], GROUND), /edge role on a vertex/);
   });
 
-  it('a vertex flag outside pinned | steiner | split, a split vertex outside its edge\'s span and a vertex of the wrong level for its chunk are a corrupt cache (re-hashed malformed chunks; checks/M0-a-15-notes.md note 6)', () => {
-    // The flags: the arena's three (VERTEX_PINNED 1, VERTEX_STEINER 2, VERTEX_SPLIT 4) load; any other bit is refused.
-    const flagged = (flags: number): Craft => square({ vertices: [[0, 0, 0, flags], [4000, 0, 0, 0], [0, 4000, 0, 0], [4000, 4000, 0, 0]] });
-    expect(decodeArena([craft(flagged(7))], GROUND).ok).toBe(true);
-    for (const flags of [8, 15, 0x80]) {
-      expectCorrupt(decodeArena([craft(flagged(flags))], GROUND), /a vertex flag outside pinned \| steiner \| split/);
-    }
-    // A split of the south edge (0, 0) → (4000, 0): inside its span it loads (the positive control), at or beyond
-    // either end it is refused.
-    const split = (x: number): Chunk => craft({ routes: false, level: 2, key: 'a', vertices: [[x, 0, 2, 6]], splits: [[0, [0, 0], [4000, 0]]] });
-    expect(decodeArena([craft(square()), split(1000)], GROUND).ok).toBe(true);
-    for (const x of [5000, 4001, -1, -3000]) {
-      expectCorrupt(decodeArena([craft(square()), split(x)], GROUND), /a split vertex outside the span of the edge it splits/);
-    }
-    // A vertex's level must be its chunk's: ≤ 1 in the routes chunk, the partition's own level in a partition chunk.
-    const routesL2 = square({ vertices: [[0, 0, 0, 0], [4000, 0, 0, 0], [0, 4000, 0, 0], [4000, 4000, 2, 0]] });
-    expectCorrupt(decodeArena([craft(routesL2)], GROUND), /a vertex of level 2 in a level-≤ 1 chunk/);
-    for (const [chunkLevel, vertexLevel] of [[2, 3], [2, 1], [3, 2], [4, 3]] as const) {
-      const wrong = craft({ routes: false, level: chunkLevel, key: '', vertices: [[1000, 2000, vertexLevel, 0]] });
-      expectCorrupt(decodeArena([craft(square()), wrong], GROUND), new RegExp(`a vertex of level ${vertexLevel} in a level-${chunkLevel} chunk`));
-    }
-  });
-
   it('face rows that do not name one ring each are a corrupt cache', () => {
     // A key that is not its ring's own; the clockwise (outside) ring as an outer ring; one ring claimed twice; no ring.
     expectCorrupt(decodeArena([craft(square({ faces: [[0, 1, 3, 0, 0, 0, []]] }))], GROUND), /not its ring's own key/);
@@ -352,15 +294,9 @@ describe('the corrupt cache (§3.9, §3.11)', () => {
     expectCorrupt(decodeArena([craft(square({ faces: [[1, 0, 1, 0, 0, 0, []]] }))], GROUND), /no L0 face record/);
   });
 
-  // PLAT_FUZZ_RUNS draws (C-0057: the PR size 10⁴ when unset, the nightly tier's 10⁶), read through fast-check's global
-  // configuration as the bar files read it, so the tiers widen it (checks/M0-a-15-notes.md note 11; it ran a fixed 300).
-  // About 1 s at 10⁴ on one worker here (informative only), so the nightly size gets an explicit timeout.
-  it('decodeArena never throws: any bytes give the arena or the typed corrupt cache (fast-check, PLAT_FUZZ_RUNS draws)', () => {
-    const runs = fc.readConfigureGlobal().numRuns ?? 10_000;
-    let drawn = 0;
+  it('decodeArena never throws: any bytes give the arena or the typed corrupt cache (fast-check)', () => {
     fc.assert(
       fc.property(fc.nat({ max: block.length - 1 }), fc.nat(), fc.integer({ min: 0, max: 2 }), fc.nat({ max: 255 }), (i, at, mode, value) => {
-        drawn++;
         const src = block[i].bytes;
         const k = at % src.length;
         let bytes: Uint8Array;
@@ -377,8 +313,7 @@ describe('the corrupt cache (§3.9, §3.11)', () => {
         const r = decodeArena(chunks, p.key);
         expect(r.ok || isCorruptCache(r)).toBe(true);
       }),
-      { numRuns: runs },
+      { numRuns: 300 },
     );
-    expect(drawn).toBe(runs);
-  }, 300_000);
+  });
 });

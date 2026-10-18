@@ -27,7 +27,6 @@ import {
   type Plat,
 } from '@plat/kernel';
 import type { Id, Way } from '@plat/model';
-import { PI } from '../siting/geom.js';
 import type { XY } from './types.js';
 
 /** The barrier bits of a shared boundary (§4.5's edge test and the quarter tree's penalty). */
@@ -363,7 +362,7 @@ export function hullCompactness(g: FaceGraph, members: readonly number[], areaCm
 
 /** Polsby–Popper, 4π·A ÷ P² (reported beside the patch test's measure; the plaza's compactness, §4.2 S3 (2)). */
 export function polsbyPopper(areaCm2: number, perimeterCm: number): number {
-  const r = ratio(4 * PI * areaCm2, perimeterCm * perimeterCm, 'area');
+  const r = ratio(4 * 3.141592653589793 * areaCm2, perimeterCm * perimeterCm, 'area');
   return r.ok ? r.value : 0;
 }
 

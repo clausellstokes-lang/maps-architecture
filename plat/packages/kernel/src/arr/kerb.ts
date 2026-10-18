@@ -6,17 +6,27 @@
 // ends where declared; the union's concave corners — the block corners at junctions — are sharp by construction. A face
 // with no bounding spine … has `kerb(F) = F`." And: "`kerb` is also a read-only service on the faces of an open
 // transaction's overlay", the one function S8 plans on and `corridorUnion` commits (the contract S8 ≡ S9, §4.6).
+// The reading of "F's bounding spines" (J318, the session's ruling; C-0348): a corridor is a reservation, and a block
+// never overlaps one — the spines kerb(F) subtracts are every (role, entity) chain INCIDENT to F, on a route edge of F's
+// boundary AND through a route vertex of it (a vertex-only contact: a chain on a route edge leaving that vertex that is
+// not F's own), whose buffer meets F; a face with no incident spine keeps kerb(F) = F.
 //
 // The construction: F's rings on its L1 route (§2.2 rule 3: every level-1 reader reads the level-1 route, so a finer
-// Steiner vertex on a spine changes nothing); its bounding spines — every (role, entity) chain on a route edge of F's
-// boundary for which the caller's width declaration gives a positive half-width; each spine's whole own-level route
+// Steiner vertex on a spine changes nothing); its spines — every (role, entity) chain on a route edge of F's boundary,
+// and (J318) every chain on a route edge leaving a route vertex of F's rings that is not F's own boundary edge (the
+// vertex census reads the route too, so a finer vertex changes nothing) whose buffer reaches into the kerb of the edge
+// spines (`reaches`, a superset of its buffer: one lying within those bands there changes no region and would only add
+// vertices the overlay attracts), for which the caller's width declaration gives a positive half-width; a vertex-only
+// spine bounds no route edge of F, so it adds no junction; each spine's whole own-level route
 // (`routeLines`) with its half-width sampled at every route vertex — a scalar, or the knot profile interpolated by arc
 // length (`knotLines` / `cutKnot`, M0-a-06), so a vertex that carries no knot (an S8 T-junction) changes no sample — and
 // the strips of the route's segments near F (each the trapezoid between its two ends' half-widths), its joins `round`
 // (round on the convex side; the concave side is the strips' sharp intersection) and its two ends as the chain
 // declares them (`round` unless declared `square`) — M0-a-08's `bufferParts`, every part counter-clockwise; then one
 // overlay on the scratch arrangement: F's rings one operand, every part the other, kept where F is inside and no part
-// is (`offsetFace`'s construction). The result passes the insertion rules like every arrangement output.
+// is (`offsetFace`'s construction). The result passes the insertion rules like every arrangement output. Where that
+// one overlay finds no route and vertex-only spines were read, the same region is read in two steps (J264; C-0349): the
+// edge spines' kerb, then a second overlay of it less the vertex-only spines' parts (`lessParts`).
 //
 // Readings (C-0212): (1) the kernel holds no entity record (§14), so the half-width a spine's linear entity declares
 // reaches `kerb` through the caller's `SpineWidths` — the spine's half-width (a way's width profile halved, a tunnel's
@@ -93,7 +103,7 @@ export interface KerbRead {
   readonly rings: LatticePoint[][];
   /** Per route ring, its route edges in walk order from the ring's canonical start. */
   readonly edges: RouteEdge[][];
-  /** The buffered spines by key. */
+  /** The buffered spines by key: the route edges' (`RouteEdge.spines`) and the vertex-only contacts' (J318). */
   readonly spines: ReadonlyMap<string, Spine>;
   /** kerb(F): outer rings counter-clockwise, holes clockwise; every junction's split end a vertex of it (C-0212 (5)). */
   readonly kerb: Ring[];
@@ -173,10 +183,26 @@ function readSpine(p: Plat, key: string, chain: ChainRef, w: SpineWidth): Spine 
 }
 
 /**
- * The face's L1 route rings and edges and its buffered spines (see the module comment). `widths` is asked once per
- * (role, entity) of level ≤ 1 on the face's boundary; `cache` keeps the answers across the faces of one call.
+ * The face's L1 route rings and edges and its buffered spines (see the module comment): the spines on its route edges
+ * and (J318) the spines through its route vertices only whose buffer reaches into the kerb of the edge spines
+ * (`reaches`); `base`, that kerb, where a vertex-only spine was read and none reached into it. `widths` is asked once
+ * per (role, entity) of level ≤ 1 on the face's boundary or on a route edge leaving one of its route vertices; `cache`
+ * keeps the answers across the faces of one call. `vertexContacts` false reads the edge spines only — bandUnion's
+ * per-side parts (C-0348: a band's parts lie on the sides of its chain; a face touching it at a vertex holds neither).
  */
-export function readFace(p: Plat, face: FaceId, widths: SpineWidths, cache: Map<string, Spine | null> = new Map()): { rings: LatticePoint[][]; edges: RouteEdge[][]; spines: Map<string, Spine> } {
+export function readFace(
+  p: Plat,
+  face: FaceId,
+  widths: SpineWidths,
+  cache: Map<string, Spine | null> = new Map(),
+  vertexContacts = true,
+): {
+  rings: LatticePoint[][];
+  edges: RouteEdge[][];
+  spines: Map<string, Spine>;
+  base?: KernelResult<Ring[]>;
+  staged?: { readonly base: Ring[]; readonly warnings: Warning[]; readonly through: Spine[] };
+} {
   check(isFaceLive(p, 1, face), `kerb: face ${String(face)} is not a live L1 face (§3.7: kerb reads an L1 face)`);
   const O = p.halfEdges.origin;
   const X = p.vertices.x;
@@ -224,7 +250,94 @@ export function readFace(p: Plat, face: FaceId, widths: SpineWidths, cache: Map<
     rings.push(r.ring);
     edges.push(r.es);
   }
-  return { rings, edges, spines };
+  // J318: the spines incident to F at a route vertex only — the chains on the route edges leaving a route vertex of F's
+  // rings that are not F's own boundary edges (a vertex-only contact) — keyed by `spineKey`, in key order; they bound no
+  // route edge of F, so they add no junction (`RouteEdge.spines` is unchanged). One is F's spine where its buffer
+  // reaches into the kerb of F's edge spines (`reaches`): a band that lies within those bands there changes no region,
+  // and is left out so that it adds no vertex the overlay would attract onto the kerb (C-0348).
+  if (!vertexContacts) return { rings, edges, spines };
+  const own = new Set<number>();
+  for (const walk of faceWalk(p, 1, face)) for (const h of walk) own.add(h >> 1);
+  const T = p.halfEdges;
+  const through = new Map<string, ChainRef>();
+  for (const es of edges) {
+    for (const e of es) {
+      for (const g of outgoing(p, e.a)) {
+        if (T.level[g >> 1] > 1 || own.has(g >> 1)) continue;
+        for (const row of rowsOn(p, 'edge', g)) {
+          if (R.level[row] > 1 || R.ordinal[row] !== 0) continue;
+          const key = spineKey(p, R.kind[row], R.entity[row]);
+          if (!spines.has(key) && !through.has(key)) through.set(key, { role: roleInfo(R.kind[row]).name, entity: idOf(p, R.entity[row]) });
+        }
+      }
+    }
+  }
+  const vertexOnly: Spine[] = [];
+  for (const key of [...through.keys()].sort(byText)) {
+    let s = cache.get(key);
+    if (s === undefined) {
+      const chain = through.get(key) as ChainRef;
+      const w = widths(chain);
+      s = w === null || w === undefined ? null : readSpine(p, key, chain, w);
+      cache.set(key, s);
+    }
+    if (s !== null) vertexOnly.push(s);
+  }
+  if (vertexOnly.length === 0) return { rings, edges, spines };
+  const base = kerbOf(rings, spines);
+  // where the edge spines' kerb cannot be read, the read refuses as it did before J318 (no vertex-only spine added)
+  const reaching = base.ok ? vertexOnly.filter((s) => reaches(s, base.value)) : [];
+  if (reaching.length === 0) return { rings, edges, spines, base };
+  for (const s of reaching) spines.set(s.key, s);
+  // the edge spines' kerb and the reaching vertex-only spines, for `readKerb`'s staged read (C-0349)
+  return { rings, edges, spines, staged: { base: base.ok ? base.value : [], warnings: base.ok ? base.warnings : [], through: reaching } };
+}
+
+/** Do the segments a–b and c–d meet (touching included; exact on lattice points)? */
+function segmentsMeet(a: LatticePoint, b: LatticePoint, c: LatticePoint, d: LatticePoint): boolean {
+  const o1 = orient2d(a.x, a.y, b.x, b.y, c.x, c.y);
+  const o2 = orient2d(a.x, a.y, b.x, b.y, d.x, d.y);
+  const o3 = orient2d(c.x, c.y, d.x, d.y, a.x, a.y);
+  const o4 = orient2d(c.x, c.y, d.x, d.y, b.x, b.y);
+  if (((o1 > 0 && o2 < 0) || (o1 < 0 && o2 > 0)) && ((o3 > 0 && o4 < 0) || (o3 < 0 && o4 > 0))) return true;
+  const on = (q: LatticePoint, s: LatticePoint, t: LatticePoint): boolean =>
+    q.x >= Math.min(s.x, t.x) && q.x <= Math.max(s.x, t.x) && q.y >= Math.min(s.y, t.y) && q.y <= Math.max(s.y, t.y);
+  return (o1 === 0 && on(c, a, b)) || (o2 === 0 && on(d, a, b)) || (o3 === 0 && on(a, c, d)) || (o4 === 0 && on(b, c, d));
+}
+
+/**
+ * Does a vertex-only spine's buffer reach into the rings (J318's "whose buffer meets F", read against the kerb of F's
+ * edge spines: C-0348)? A segment of its route reaches where it comes nearer to a ring edge than its larger end
+ * half-width — half as much again at an open run's end declared square, whose corners stand √2 half-widths off the end —
+ * or meets one: a superset of the buffer (the trapezoid strips, the round joins and ends lie within the larger end
+ * half-width of their segment), so a band that reaches is never left out. The spine lies outside F's interior (it
+ * bounds no route edge of F), so a segment within the rings is no case.
+ */
+function reaches(s: Spine, rings: readonly Ring[]): boolean {
+  if (rings.length === 0) return false;
+  const box = boxOf(rings);
+  for (const line of s.lines) {
+    const n = line.points.length;
+    const segs = line.closed ? n : n - 1;
+    for (let k = 0; k < segs; k += 1) {
+      const a = line.points[k];
+      const b = line.points[(k + 1) % n];
+      const end = !line.closed && (k === 0 || k === segs - 1);
+      const r = Math.max(line.hw[k], line.hw[(k + 1) % n]) * (end && s.ends === 'square' ? 1.5 : 1);
+      if (!(r > 0)) continue;
+      if (Math.max(a.x, b.x) < box.x0 - r || Math.min(a.x, b.x) > box.x1 + r || Math.max(a.y, b.y) < box.y0 - r || Math.min(a.y, b.y) > box.y1 + r) continue;
+      const r2 = r * r;
+      for (const ring of rings) {
+        for (let i = 0; i < ring.length; i += 1) {
+          const c = ring[i];
+          const d = ring[(i + 1) % ring.length];
+          if (segmentsMeet(a, b, c, d)) return true;
+          if (nearestOn(c, a, b).d2 < r2 || nearestOn(d, a, b).d2 < r2 || nearestOn(a, c, d).d2 < r2 || nearestOn(b, c, d).d2 < r2) return true;
+        }
+      }
+    }
+  }
+  return false;
 }
 
 /** The box of rings. */
@@ -313,17 +426,75 @@ export function kerbParts(rings: readonly LatticePoint[][], spines: ReadonlyMap<
   return ok(parts);
 }
 
+/** A face's own route rings as a region (no band reaches it): the outer ring, then the holes, each canonical. */
+function ownRegion(rings: readonly LatticePoint[][]): KernelResult<Ring[]> {
+  const outer = canonicalRing(rings[0]);
+  const holes = rings.slice(1).map(canonicalRing).sort(compareRings);
+  return ok([outer, ...holes]);
+}
+
+/**
+ * The staged read (J264; C-0349): the edge spines' kerb less the reaching vertex-only spines' parts, in a second overlay
+ * — the region of the one overlay, F − (E ∪ V) = (F − E) − V, reached in two steps where the one overlay of F's rings
+ * and every spine's parts finds no route (its insertions meet fewer near-collinear segments: the edge spines' kerb in
+ * place of F's rings and their parts). The parts are read near F's box as `kerbParts` reads them.
+ */
+function lessParts(rings: readonly LatticePoint[][], base: readonly Ring[], baseWarnings: readonly Warning[], through: readonly Spine[]): KernelResult<Ring[]> {
+  // the vertex-only spines' parts near F's box, spine by spine in key order (`through` is), as the one overlay reads them
+  const box = boxOf(rings);
+  const parts: Ring[] = [];
+  for (const s of through) {
+    const pr = spineParts(s, box);
+    if (!pr.ok) return pr;
+    for (const q of pr.value) parts.push(q);
+  }
+  if (parts.length === 0) return ok(base.map((r) => r.slice()), [...baseWarnings]);
+  const r = overlayRegion([base, parts], (w) => w[0] !== 0 && w[1] === 0);
+  if (!r.ok) return r;
+  return ok(r.value.map(unspiked).filter((q) => q.length >= 3 && area2(q) !== 0).sort(compareRings), [...baseWarnings, ...r.warnings]);
+}
+
+/**
+ * The farthest an overlay's attraction, placement or wedge routing moves a boundary point: √2 · attractCm (§3.7's
+ * attracted cases, ≈ 36.8 cm), plus the round arcs' chords (`SAGITTA_CM`).
+ */
+const MOVE_CM = Math.sqrt(2) * LATTICE.attractCm + SAGITTA_CM;
+
+/**
+ * Does every vertex of the rings stand clear of a spine's buffer — at least its half-width there (interpolated along the
+ * segment by the foot of the perpendicular, as the trapezoid strip's edge is; at a segment's end, its round join's or
+ * end's radius) less `MOVE_CM` from its route? The staged read's post-condition (C-0349): its region is accepted where
+ * no vertex reaches into a vertex-only band deeper than an overlay may move a boundary point (§3.7's attracted cases);
+ * deeper, it is not a result the design accepts, and the one overlay's refusal stands (N-45: never a silently wrong kerb).
+ */
+export function clearOf(rings: readonly (readonly LatticePoint[])[], s: Spine): boolean {
+  for (const line of s.lines) {
+    const n = line.points.length;
+    const segs = line.closed ? n : n - 1;
+    for (let k = 0; k < segs; k += 1) {
+      const a = line.points[k];
+      const b = line.points[(k + 1) % n];
+      const ha = line.hw[k];
+      const hb = line.hw[(k + 1) % n];
+      for (const r of rings) {
+        for (const q of r) {
+          const c = nearestOn(q, a, b);
+          const reach = ha + c.t * (hb - ha) - MOVE_CM;
+          if (reach > 0 && c.d2 < reach * reach) return false;
+        }
+      }
+    }
+  }
+  return true;
+}
+
 /** kerb(F) from a face's reading (see the module comment). */
 export function kerbOf(rings: readonly LatticePoint[][], spines: ReadonlyMap<string, Spine>): KernelResult<Ring[]> {
-  if (spines.size === 0) {
-    const outer = canonicalRing(rings[0]);
-    const holes = rings.slice(1).map(canonicalRing).sort(compareRings);
-    return ok([outer, ...holes]);
-  }
+  if (spines.size === 0) return ownRegion(rings);
   const pr = kerbParts(rings, spines);
   if (!pr.ok) return pr;
   const parts = pr.value;
-  if (parts.length === 0) return kerbOf(rings, new Map());
+  if (parts.length === 0) return ownRegion(rings);
   const r = overlayRegion([rings, parts], (w) => w[0] !== 0 && w[1] === 0);
   if (!r.ok) return r;
   return ok(r.value.map(unspiked).filter((q) => q.length >= 3 && area2(q) !== 0).sort(compareRings), r.warnings);
@@ -354,10 +525,22 @@ function unspiked(ring: Ring): Ring {
   return canonicalRing(pts);
 }
 
-/** The face read and its kerb (`corridorUnion` and `bandUnion` read the same function, §3.7). */
-export function readKerb(p: Plat, face: FaceId, widths: SpineWidths, cache?: Map<string, Spine | null>): KernelResult<KerbRead> {
-  const f = readFace(p, face, widths, cache);
-  const k = kerbOf(f.rings, f.spines);
+/**
+ * The face read and its kerb (`corridorUnion` and `bandUnion` read the same function, §3.7); `vertexContacts` as
+ * `readFace` takes it (corridorUnion's and `kerb`'s true, bandUnion's false).
+ */
+export function readKerb(p: Plat, face: FaceId, widths: SpineWidths, cache?: Map<string, Spine | null>, vertexContacts = true): KernelResult<KerbRead> {
+  const f = readFace(p, face, widths, cache, vertexContacts);
+  // the census's own read of the edge spines' kerb where no vertex-only spine reached into it (the same spines)
+  let k = f.base ?? kerbOf(f.rings, f.spines);
+  // J264 (C-0349): where the one overlay refuses but the edge spines' kerb was read, the same region in two steps — that
+  // kerb less the vertex-only spines' parts; refused too, the one overlay's refusal stands (its replay classes it)
+  if (!k.ok && f.staged !== undefined) {
+    const st = f.staged;
+    const two = lessParts(f.rings, st.base, st.warnings, st.through);
+    // accepted where it clears every vertex-only band to an overlay's move (detect-and-refuse beyond, N-45)
+    if (two.ok && st.through.every((s) => clearOf(two.value, s))) k = two;
+  }
   if (!k.ok) return err(k.code, k.detail);
   const rings = k.value.map((r) => r.slice());
   const splits: LatticePoint[][] = [];

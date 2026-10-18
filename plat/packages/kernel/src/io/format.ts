@@ -8,7 +8,6 @@
 // is named by its position in the chunk's vertex list; every vertex another chunk holds is named by its lattice point
 // (§3.9), never by a slot or a (chunk, index) pair.
 import { compareVertices, type HalfEdgeId, type Plat, type VertexId } from '../arena/index.js';
-import { isLatticeCoord } from '../num/exact.js';
 import type { Layer, Level } from '../types/index.js';
 
 /** `PLBK`. */
@@ -35,9 +34,9 @@ export function layerOfCode(code: number): Layer | null {
   return code >= 0 && code < LAYERS.length ? LAYERS[code] : null;
 }
 
-/** 2²³: a lattice coordinate lies in (−2²³, 2²³) (§3.2 (1); `LATTICE.rangeCm`), so x + HALF lies in (0, 2²⁴). */
+/** 2²³: a lattice coordinate lies in (−2²³, 2²³) (§3.2 (1)). */
 const HALF = 8_388_608;
-/** 2²⁴: the width of one row of `pointKey`'s numbering (the format's own span, not the kernel's 2²⁴ box range). */
+/** 2²⁴. */
 const SPAN = 16_777_216;
 
 /** One number per lattice point (y first, so the numbers sort as (y, x) does): exact below 2⁴⁸. */
@@ -45,9 +44,9 @@ export function pointKey(x: number, y: number): number {
   return (y + HALF) * SPAN + (x + HALF);
 }
 
-/** Is (x, y) a lattice point inside the range invariant (both coordinates `isLatticeCoord`, §3.2 (1))? */
+/** Is (x, y) a lattice point inside the range invariant? */
 export function inRange(x: number, y: number): boolean {
-  return isLatticeCoord(x) && isLatticeCoord(y);
+  return Number.isInteger(x) && Number.isInteger(y) && x > -HALF && x < HALF && y > -HALF && y < HALF;
 }
 
 /**
@@ -79,8 +78,8 @@ export function ringKey(p: Plat, level: Level, ring: readonly HalfEdgeId[]): [Ve
 
 /**
  * A table's capacity for `n` items in an arena the block or a compaction builds: the smallest 64 · 2ᵏ above n — what the
- * arena's own doubling from its default 64 leaves (createPlat), never a full table, so a loaded or compacted arena
- * grows as the arena it copies does and its first allocation grows no table (C-0207 (11)).
+ * arena's own doubling from its default 64 leaves (createPlat), never a full table, so the first allocation after a load
+ * or a compaction does not grow it (C-0207: a growth inside M0-a-04's split writes through a stale half-edge table).
  */
 export function roomFor(n: number): number {
   let c = 64;

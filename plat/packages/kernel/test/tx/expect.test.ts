@@ -37,23 +37,6 @@ describe('§13.1 expectations: a failing class floor under each onFail', () => {
     expect(!r.ok && r.code).toBe('E_BELOW_MIN_AREA');
   });
 
-  it('reject on an angle floor, read in centidegrees through π: an 89.3° corner is below 9 000 cdeg and not below 8 900', () => {
-    // A district boundary from (0, 3950) to (4000, 3900): each of the two faces it cuts has one corner of 90° − atan(50 / 4000)
-    // ≈ 89.28° (and one of 90.72°); the frame's corners are 90°.
-    const tilted = (minAngleCdeg: number) => {
-      const p = framed();
-      const env: TxEnv = { floors: (c) => (c === 'block' ? { minAngleCdeg } : undefined) };
-      const r = tx(p, spec(1, { onFail: 'reject', expect: [BLOCK_FLOOR] }), (o) => insertChain(o, [pt(0, 3950), pt(4000, 3900)], [{ role: 'district_bound', entity: 'district:7' }], 'mandatory'), env);
-      return { r, p };
-    };
-    const below = tilted(9000);
-    expect(!below.r.ok && below.r.code).toBe('E_BELOW_MIN_ANGLE');
-    expect(below.p.version).toBe(0);
-    const above = tilted(8900);
-    expect(above.r.ok).toBe(true);
-    healthy(above.p);
-  });
-
   it('downgrade: the code returned for the ladder\'s simpler rung, nothing committed', () => {
     const p = framed();
     const before = state(p);

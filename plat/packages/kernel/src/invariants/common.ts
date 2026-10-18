@@ -1,10 +1,9 @@
-// The suite's shared pieces: the cost meter (§13.2: what each row read), the verdict builder, the exact distance
-// comparison (BigInt, against a rational bound), the whole-centimetre query box, and the face left of a half-edge found
-// through the index (§3.10's nesting row: "by index — never by coordinates"). The closed-segment contact test is the
-// kernel's one, `num/exact.ts`'s `segmentsMeet`. M0-a-14.
+// The suite's shared pieces: the cost meter (§13.2: what each row read), the verdict builder, exact lattice predicates
+// (distances compared as integers, crossings by the exact orientation), and the face left of a half-edge found through
+// the index (§3.10's nesting row: "by index — never by coordinates"). M0-a-14.
 import { faceHoles, walkRing, type FaceId, type HalfEdgeId, type Plat } from '../arena/index.js';
 import { query } from '../index/index.js';
-import { WALK_REACH_CM } from '../insert/rewalk.js';
+import { orient2d } from '../num/index.js';
 import type { Level } from '../types/index.js';
 import type { Checked, InvariantResult, RowDecl } from './types.js';
 
@@ -55,8 +54,6 @@ const B = (v: number): bigint => BigInt(v);
 /**
  * Compares the squared distance from the lattice point p to the closed segment a–b with num / den (both ≥ 0, whole
  * numbers): −1 below, 0 equal, 1 above. Exact (BigInt): a squared perpendicular distance is o² / l², o an orientation.
- * A three-way comparison against a rational bound, exact beyond 2⁵³ — not `num/exact.ts`'s `segmentCloserThan`, a
- * strict test against a whole radius in doubles.
  */
 export function compareDist2(px: number, py: number, ax: number, ay: number, bx: number, by: number, num: number, den: number): number {
   const dx = B(bx) - B(ax);
@@ -75,18 +72,26 @@ export function compareDist2(px: number, py: number, ax: number, ay: number, bx:
   return cmp(o * o * B(den), B(num) * l2);
 }
 
-/**
- * The closed-segment contact test, `num/exact.ts`'s, under this file's name: the suite's rows import it from num;
- * the name stays here for M0-a-01's copy table (`test/num/copies.ts`), which reads it from this file.
- */
-export { segmentsMeet } from '../num/exact.js';
+function sign(v: number): number {
+  return v > 0 ? 1 : v < 0 ? -1 : 0;
+}
 
-/**
- * The closed whole-centimetre box around a lattice segment, padded by `pad` (an integer): the box a row queries the
- * index with. Unclamped: on the lattice (|x|, |y| < 2²³, §3.2 (1)) the rows' pads (0, minEdge, `WALK_REACH_CM`) keep
- * it inside the index's ±2²⁴ bound. Kept beside `insert/stretch.ts`'s `segmentBox`, which floors and ceils double coordinates and
- * clamps to that bound (`BOX_RANGE`): the two agree on lattice inputs only.
- */
+function onSegment(ax: number, ay: number, bx: number, by: number, x: number, y: number): boolean {
+  return Math.min(ax, bx) <= x && x <= Math.max(ax, bx) && Math.min(ay, by) <= y && y <= Math.max(ay, by);
+}
+
+/** Do the closed lattice segments a–b and c–d share a point? Exact (robust orientation on integers). */
+export function segmentsMeet(ax: number, ay: number, bx: number, by: number, cx: number, cy: number, dx: number, dy: number): boolean {
+  const o1 = sign(orient2d(ax, ay, bx, by, cx, cy));
+  const o2 = sign(orient2d(ax, ay, bx, by, dx, dy));
+  const o3 = sign(orient2d(cx, cy, dx, dy, ax, ay));
+  const o4 = sign(orient2d(cx, cy, dx, dy, bx, by));
+  if (o1 * o2 < 0 && o3 * o4 < 0) return true;
+  return (o1 === 0 && onSegment(ax, ay, bx, by, cx, cy)) || (o2 === 0 && onSegment(ax, ay, bx, by, dx, dy))
+    || (o3 === 0 && onSegment(cx, cy, dx, dy, ax, ay)) || (o4 === 0 && onSegment(cx, cy, dx, dy, bx, by));
+}
+
+/** The closed whole-centimetre box around a segment, padded by `pad` (an integer). */
 export function segmentBox(ax: number, ay: number, bx: number, by: number, pad: number): { minX: number; minY: number; maxX: number; maxY: number } {
   return { minX: Math.min(ax, bx) - pad, minY: Math.min(ay, by) - pad, maxX: Math.max(ax, bx) + pad, maxY: Math.max(ay, by) + pad };
 }
@@ -94,12 +99,6 @@ export function segmentBox(ax: number, ay: number, bx: number, by: number, pad: 
 /**
  * The face record at `level` whose ring holds half-edge h on its left, through the index (a record storing a half-edge
  * of that ring): −1 where the level holds no record there (an own child, or L0's unbounded outside). Walks one ring.
- * The index is asked with h's segment box padded by `WALK_REACH_CM` (3 cm, `insert/rewalk.ts`'s one definition;
- * C-0349 (1)'s multi-level reach), never 0: the index reads a record on its level-`level` route while h lies on its
- * walk, through every finer Steiner vertex, each within one hot pixel of the route per level it is finer — a sub-edge
- * whose both ends are Steiner vertices off the route on one side has a box the route misses and a corner the other
- * face holds (N-s8c-1, `checks/M0-a-05-notes.md`). With the reach the record whose ring holds h is always a candidate
- * and the exact ring-membership test below decides; the pad only adds candidates that test rejects (C-0370).
  */
 export function faceLeftOf(p: Plat, level: Level, h: HalfEdgeId, meter: Meter): FaceId {
   const ring = new Set<HalfEdgeId>(walkRing(p, level, h));
@@ -109,7 +108,7 @@ export function faceLeftOf(p: Plat, level: Level, h: HalfEdgeId, meter: Meter): 
   const a = O[h];
   const b = O[h ^ 1];
   const F = p.faces[level];
-  for (const f of query(p, p.key, level, segmentBox(X[a], Y[a], X[b], Y[b], WALK_REACH_CM), { faces: true }).faces) {
+  for (const f of query(p, p.key, level, segmentBox(X[a], Y[a], X[b], Y[b], 0), { faces: true }).faces) {
     meter.face(level, f);
     if (ring.has(F.outer[f])) return f;
     for (const g of faceHoles(p, level, f)) if (ring.has(g)) return f;

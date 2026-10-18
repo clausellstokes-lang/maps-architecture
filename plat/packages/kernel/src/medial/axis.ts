@@ -24,7 +24,6 @@ import { sampleBoundary } from '../geom/boundary.js';
 import { distinctRing, lp, offLattice, PI, type XY } from '../geom/common.js';
 import { roundHalfAway } from '../num/lattice.js';
 import { err, ok, orient2d, ratio, type KernelResult } from '../num/index.js';
-import { segmentsMeet } from '../num/exact.js';
 import type { Cm, LatticePoint, Polygon } from '../types/index.js';
 import { circumcentres, voronoiEdges } from './dual.js';
 
@@ -113,6 +112,23 @@ function leastClearance(px: number, py: number, ux: number, uy: number, vx: numb
   const off = ratio(Math.abs(wx * dy - wy * dx), Math.sqrt(len2), 'length');
   // an edge shorter than 1 cm: its nearer end, within the edge's length of the true least distance
   return off.ok ? off.value : Math.min(toU, toV);
+}
+
+/** Do the segments a b and c d meet — a crossing, a touch or a collinear overlap? */
+function segmentsMeet(ax: number, ay: number, bx: number, by: number, cx: number, cy: number, dx: number, dy: number): boolean {
+  const o1 = orient2d(ax, ay, bx, by, cx, cy);
+  const o2 = orient2d(ax, ay, bx, by, dx, dy);
+  const o3 = orient2d(cx, cy, dx, dy, ax, ay);
+  const o4 = orient2d(cx, cy, dx, dy, bx, by);
+  if (((o1 > 0 && o2 < 0) || (o1 < 0 && o2 > 0)) && ((o3 > 0 && o4 < 0) || (o3 < 0 && o4 > 0))) return true;
+  const within = (px: number, py: number, qx: number, qy: number, rx: number, ry: number): boolean =>
+    Math.min(px, qx) <= rx && rx <= Math.max(px, qx) && Math.min(py, qy) <= ry && ry <= Math.max(py, qy);
+  return (
+    (o1 === 0 && within(ax, ay, bx, by, cx, cy)) ||
+    (o2 === 0 && within(ax, ay, bx, by, dx, dy)) ||
+    (o3 === 0 && within(cx, cy, dx, dy, ax, ay)) ||
+    (o4 === 0 && within(cx, cy, dx, dy, bx, by))
+  );
 }
 
 /** One ring's samples in the local frame: exact points on the ring, their lattice roundings, arc-length positions, and the ring's length. */
@@ -466,10 +482,7 @@ export function medialAxis(rings: readonly Polygon[], stepCm: number = MEDIAL_ST
     goodMemo[t] = odd ? 1 : 0;
     return odd;
   };
-  // an arc meets a ring when it crosses or touches one of its edges — num/exact.ts's closed-segment contact test: a
-  // proper crossing, an end on the other segment, a collinear overlap (C-0314) — or passes within MEDIAL_TOUCH_CM of it;
-  // the arc's ends are circumcentres, doubles off the lattice, where the test's signs are orient2d's double evaluation,
-  // the same on every IEEE host
+  // an arc meets a ring when it crosses or touches one of its edges, or passes within MEDIAL_TOUCH_CM of it
   const crossesRing = (ux: number, uy: number, vx: number, vy: number): boolean => {
     const d = MEDIAL_TOUCH_CM;
     for (const e of searchPacked(tree, Math.min(ux, vx) - d, Math.min(uy, vy) - d, Math.max(ux, vx) + d, Math.max(uy, vy) + d)) {

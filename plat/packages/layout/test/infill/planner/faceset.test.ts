@@ -5,7 +5,9 @@
 // bends at most once, and every fillet is tangent to both legs, spans the shorter leg and holds chords ≥ w_min.
 import { describe, expect, it } from 'vitest';
 import { planCut } from '../../../src/infill/planner.js';
-import { checkGeometry, CTX, FACE_NAMES, FACES, ringOf, SEEDS, streamsFor } from './support.js';
+import { checkGeometry, CTX, FACE_NAMES, FACES, ringOf, streamsFor } from './support.js';
+
+const SEEDS = 200;
 
 describe('the M0 (b) face set (T37-1, T38-1 shape clauses)', () => {
   for (const name of FACE_NAMES) {

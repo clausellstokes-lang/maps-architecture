@@ -12,20 +12,22 @@
 // check: the stamp names the arena the call acts on at its current version, else it throws. A slot number alone carries
 // no stamp; the modules assert its liveness where it is passed (every writer `check`s it, in every build).
 //
-// The restore generation (C-0299 (2), C-0313, C-0317): a savepoint put back across committed batches sets the version
-// back, so the version alone names no arena state — (generation, version) does. A stamp is the arena's own
-// (`arena/resolve.ts`'s `stamp`, C-0313 (1)): the key, the version and the arena's `restoreGeneration(p)`, written only
-// when it is not 0 and an absent one reading 0, so every stamp of an arena never restored across commits keeps one
-// shape; `assertStamped` asserts the key, then the generation, then the version. A value read inside commits a restore
-// later rolled back is then never current again, however many commits follow — never a silent stale read. Stamp
-// messages name an arena as the arena's own do (`keyName`: `layer/part`).
+// The restore generation (Q38, the class of Q28 / Q33; C-0313, C-0317): a savepoint put back across committed batches
+// sets the version back, so the version alone names no arena state — (generation, version) does (C-0299 (2)). A stamp
+// carries the arena's `restoreGeneration(p)` beside the version, in the arena's own form (C-0313 (1)): written only when
+// it is not 0, an absent one reading 0, so every stamp of an arena never restored across commits keeps the shape it
+// always had; `assertStamped` asserts the key, then the generation, then the version. A value read inside commits a
+// restore later rolled back is then never current again, however many commits follow — never a silent stale read.
 import { sameKey, type Plat, type Stamp } from '../arena/index.js';
-import { keyName, stamp as arenaStamp } from '../arena/resolve.js';
 import { debugMode } from '../invariants/index.js';
 import { restoreGeneration } from '../tx/index.js';
 import type { PlatKey } from '../types/index.js';
 
 const stamps = new WeakMap<object, Stamp>();
+
+function keyName(k: PlatKey): string {
+  return `${k.layer}/${k.part}`;
+}
 
 /** A stamp's restore generation (absent reads 0, C-0313 (1)). */
 function generationOf(s: Stamp): number {
@@ -33,11 +35,13 @@ function generationOf(s: Stamp): number {
 }
 
 /**
- * The stamp of arena `p` now — the arena's own (`arena/resolve.ts`'s `stamp`, C-0313 (1)): a copy of its key, its
- * version and, only when not 0, its restore generation.
+ * The stamp of arena `p` now, in the arena's form (`arena/resolve.ts`'s `stamp`, C-0313 (1)): its key, its version and —
+ * only when not 0 — its restore generation.
  */
 export function stampNow(p: Plat): Stamp {
-  return arenaStamp(p);
+  const key = { layer: p.key.layer, part: p.key.part };
+  const generation = restoreGeneration(p);
+  return generation === 0 ? { key, version: p.version } : { key, version: p.version, generation };
 }
 
 /** Stamps `value` (an object) with `p`'s key, current version and restore generation, in the debug build; returns `value`. */

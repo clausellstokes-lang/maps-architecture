@@ -1,7 +1,7 @@
 // The arena block's byte layer (M0-a-15; §3.9, §6.5 (3)): a growable byte writer and a strict reader over the chunk
 // format's four field shapes — unsigned LEB128 varints (minimal, at most 32 bits), zig-zag signed varints, fixed-width
 // little-endian u8 / u16 / f64, and strings as varint UTF-16 code units. Nothing here formats a number as text or parses
-// one from text: every value is written as its bits (§6.5 (3): no text serialisation on the path). A read past the
+// one from text: every value is written as its bits (§6.5 (3); the checker's "no text serialisation"). A read past the
 // end, an over-long or non-minimal varint, or a value out of its field's range throws a `ChunkFormatError`, which
 // `decodeArena` turns into the corrupt-cache result (§3.9). Readings: C-0207.
 

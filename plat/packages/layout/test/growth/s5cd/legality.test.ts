@@ -7,10 +7,12 @@
 // turns at most the legal angle and a first step is neither deflected nor biased (C-0258 (2), (3)).
 import { describe, expect, it } from 'vitest';
 import fc from 'fast-check';
+import { tableView } from '@plat/tables';
 import { classRankOf, crossingMatrix, FeatureIndex, legal, streetOrigin, type Feature, type LegalityContext, type LegalityRules, type StepCandidate } from '../../../src/growth/legality.js';
 import { growthRules } from '../../../src/growth/proposals.js';
-import { lineAngleDeg, P, properCross, segDist, tables } from './support.js';
+import { lineAngleDeg, P, properCross, segDist } from './support.js';
 
+const tables = tableView();
 const walled = growthRules(tables, 'dense_core', 'CITY').legality;
 const ribbon = growthRules(tables, 'ribbon', 'CITY').legality;
 const noBias: LegalityRules = { ...walled, bias: false };
@@ -296,7 +298,7 @@ describe('a street across the arterial the step leaves (C-0260 (1))', () => {
 describe('a street’s every step reads the far side of the way it left (C-0263 (1))', () => {
   // The arterial along y = 0; a street on its left (origin way:0, side +1) leaving (0, 0). The step judged is a later step
   // of a street on the right (origin way:0, side −1), 25 m off the arterial and 79 m from the left street's start — inside
-  // the 83 m clearance, parallel to it (N-50's residual: without C-0263 (1) such a street dead-ends at its second step).
+  // the 83 m clearance, parallel to it (the residual N-50 named: N-23's dead ends at step 2).
   const arterial = way(P(-100_000, 0), P(100_000, 0), 'primary', 'way:0');
   const left: Feature = { a: P(0, 0), b: P(0, 4_000), kind: 'way', way: 'way:1', cls: 'secondary', street: 0, step: 0, origin: { way: 'way:0', side: 1 } };
   const later = (x: number, extra: Partial<StepCandidate> = {}): StepCandidate => ({ street: 1, class: 'secondary', at: P(x, -2_500), heading: -90 * DEG, stepCm: 4_000, turn: 0, steps: 1, origin: { way: 'way:0', side: -1 }, ...extra });

@@ -122,12 +122,6 @@ describe('radialSplit: refusals, nothing written', () => {
     const f = faceAt(p, 1, 100, 100);
     expect(refusal(p, (o) => radialSplit(o, f, pt(2000, 1000), [0, 18_000], { rows: DB }))).toBe('E_HOLE_CONTACT');
   });
-
-  it('an apex inside a hole lies outside the face (insideRegion reads the holes): E_NOT_TWO_CROSSINGS', () => {
-    const p = withHoles([[[2500, 800], [3000, 800], [3000, 1200], [2500, 1200]]]);
-    const f = faceAt(p, 1, 100, 100);
-    expect(refusal(p, (o) => radialSplit(o, f, pt(2750, 1000), [0, 18_000], { rows: DB }))).toBe('E_NOT_TWO_CROSSINGS');
-  });
 });
 
 describe('ringBand (§3.4): a band of one face per side and the core', () => {

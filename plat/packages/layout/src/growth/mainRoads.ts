@@ -17,6 +17,7 @@
 import {
   CONCERNS,
   createRng,
+  dmath,
   err,
   kernelOp,
   ok,
@@ -31,13 +32,13 @@ import {
   type Warning,
 } from '@plat/kernel';
 import { lineageHash, TOWN_ROOT, type Cdeg, type Cm, type Gate, type Id, type Junction, type Reservation, type Rung, type Scope, type Stage, type StageContext, type WaterSet, type Way, type WorkLimitLaw } from '@plat/model';
-import { TOWN_ROOT as TOWN_HANDLE } from '@plat/site';
+import { TOWN_ROOT as TOWN_HANDLE, terrainSampler } from '@plat/site';
 import { loadWorkLimits, workLimitOf } from '@plat/tables';
 import { S4_COUNTERS } from '../backbone/commit.js';
 import { classGeometryCm, widthBandCm } from '../backbone/classify.js';
 import { routeGraph, routeLadder, type RouteGraph } from '../backbone/route.js';
 import { finishChain, simplifyChain } from '../backbone/smooth.js';
-import { heightsOf, type S4Output } from '../backbone/stage.js';
+import type { S4Output } from '../backbone/stage.js';
 import type { RouteRung } from '../backbone/types.js';
 import { WAY_SPAN_NODES, type S3Commit } from '../enceinte/commit.js';
 import { distToRing, unitOf } from '../enceinte/plane.js';
@@ -46,10 +47,8 @@ import type { EnceinteEnv, XY } from '../enceinte/types.js';
 import { generated, GROUND } from '../enceinte/water.js';
 import type { WaterPull } from '../siting/field.js';
 import { PICK_JITTER, PICK_RANKED, PICK_SLOPE_WEIGHT, gateCount } from '../siting/gates.js';
-import { boxOf } from '../siting/lattice.js';
-import { rimAtBearing } from '../siting/routes.js';
 import { GATE_REDRAWS } from '../siting/slice.js';
-import { angularGap, bearingCdeg, insideRing, quot, segmentsMeet } from '../siting/geom.js';
+import { angularGap, bearingCdeg, insideRing, PI, quot, segmentsMeet } from '../siting/geom.js';
 import type { Field, Lattice, S3Slice } from '../siting/types.js';
 import {
   boundaryCrossings,
@@ -65,7 +64,6 @@ import {
   type StageTraceResult,
   type WayLine,
 } from './boundary.js';
-import { idNumber } from './proposals.js';
 
 // ---- N_k ------------------------------------------------------------------------------------------------------------------
 
@@ -296,6 +294,16 @@ export interface GrowthInput {
   readonly pull?: WaterPull;
 }
 
+/** The terrain's height at each lattice node (cm). */
+function heightsOf(slice: S3Slice): Float64Array {
+  const site = slice.site;
+  const s = terrainSampler(site.terrain, site.tables.table('terrain').num('settings', 'slopeQueryM') * 100);
+  const pts = slice.lattice.points;
+  const out = new Float64Array(pts.length);
+  for (let i = 0; i < pts.length; i += 1) out[i] = s.heightAt(pts[i]);
+  return out;
+}
+
 /**
  * The growth state at the end of stage 1 (§4.4: stage 1 commits S3's boundary, gates and trace): T S3's field, the
  * enclosure S3's selection, the network S4's.
@@ -343,7 +351,7 @@ export function growthStart(input: GrowthInput): GrowthState {
     key: input.key ?? GROUND,
     water: input.water ?? { bodies: [], bridges: [] },
     plaza: input.commit.plaza,
-    rg: routeGraph(slice.lattice, heightsOf(site, slice.lattice.points)),
+    rg: routeGraph(slice.lattice, heightsOf(slice)),
     ...(input.pull === undefined ? {} : { pull: input.pull }),
     field: slice.field,
     enclosure: slice.levelSet.selected,
@@ -408,6 +416,32 @@ export function wallClearance(state: GrowthState): (p: XY) => boolean {
     if (p.x < box[0] || p.x > box[2] || p.y < box[1] || p.y > box[3]) return true;
     return !insideRing(wall, p, true) && distToRing(p, wall) > clear;
   };
+}
+
+/** The rim node nearest where the ray from p at the compass bearing leaves the frame (S3's "to the frame at its bearing"). */
+function rimAtBearing(lattice: Lattice, p: XY, bearing: number): number {
+  const th = (9_000 - bearing) * quot(PI, 18_000, 'count', 'cdeg');
+  const f = lattice.frame;
+  const dx = dmath.cos(th);
+  const dy = dmath.sin(th);
+  let px = p.x;
+  let py = p.y;
+  while (px > f.minX && px < f.maxX && py > f.minY && py < f.maxY) {
+    px += dx * lattice.spacingCm;
+    py += dy * lattice.spacingCm;
+  }
+  let best = -1;
+  let bestD = Infinity;
+  for (let i = 0; i < lattice.points.length; i += 1) {
+    if (lattice.rim[i] !== 1) continue;
+    const q = lattice.points[i];
+    const d = (q.x - px) * (q.x - px) + (q.y - py) * (q.y - py);
+    if (d < bestD) {
+      best = i;
+      bestD = d;
+    }
+  }
+  return best;
 }
 
 /** The lattice node nearest each point within one spacing whose mask is set (a bucket grid of one spacing), or −1. */
@@ -475,6 +509,20 @@ function segsOf(pts: readonly XY[], closed: boolean): Seg[] {
   for (let i = 0; i + 1 < pts.length; i += 1) out.push([pts[i], pts[i + 1]]);
   if (closed && pts.length > 2) out.push([pts[pts.length - 1], pts[0]]);
   return out;
+}
+
+function boxOf(pts: readonly XY[]): [number, number, number, number] {
+  let x0 = Infinity;
+  let y0 = Infinity;
+  let x1 = -Infinity;
+  let y1 = -Infinity;
+  for (const p of pts) {
+    x0 = Math.min(x0, p.x);
+    y0 = Math.min(y0, p.y);
+    x1 = Math.max(x1, p.x);
+    y1 = Math.max(y1, p.y);
+  }
+  return [x0, y0, x1, y1];
 }
 
 function segBoxMeets(s: Seg, b: readonly number[]): boolean {
@@ -785,7 +833,7 @@ function courses(
     const inner = { value: { nodes: [...found.value.nodes, ...approach.slice(0, -1).reverse()] } };
     // Outward at the radial bearing, else to the nearest frame (S3 (5)'s least-cost outward direction).
     const ladder = (targets: number[], tag: string): ReturnType<typeof routeLadder> => routeLadder(rg, [v], targets, { class: 'primary', radiusCm: radius, searchBandCm: band, route: `${name}/${tag}`, mask: outside, nodeLimit: limit, excludedDecks }, state.report.rungs, work);
-    let outer = ladder([rimAtBearing(lattice, pick.at.x, pick.at.y, pick.bearingCdeg)], 'out');
+    let outer = ladder([rimAtBearing(lattice, pick.at, pick.bearingCdeg)], 'out');
     if (outer.ok && outer.value === null) outer = ladder(rims, 'out-frame');
     if (!outer.ok || outer.value === null) return { why: 'outer' };
     const inNodes = inner.value.nodes;
@@ -977,6 +1025,13 @@ function commitRoads(state: GrowthState, k: number, kept: readonly Course[]): Ke
     state.junctions.push({ id: r.end, vertex: { role: 'junction', entity: r.end, ordinal: 0 }, arms: [r.way.id], kind: 'end', lifecycle: generated(0) });
   }
   return ok(placedRoads, committed.warnings);
+}
+
+/** The number after an id's prefix (`way:12` → 12), −1 when it has another form. */
+function idNumber(id: Id, prefix: string): number {
+  if (!id.startsWith(prefix)) return -1;
+  const n = Number(id.slice(prefix.length));
+  return Number.isInteger(n) ? n : -1;
 }
 
 // ---- the stage steps ------------------------------------------------------------------------------------------------------

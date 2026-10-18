@@ -173,8 +173,7 @@ export interface Plat {
  * arrays inside its table. So a writer re-reads `p.vertices`, `p.halfEdges` and every column after ANY allocation — a
  * table or column read before one is a dead copy once it grows, and a write to it is lost — and a writer that needs
  * several slots allocates them all before it writes any, then reads the tables once. The tiny-tables mode (debug.ts)
- * makes every allocation of a new slot (one not taken from a free list) a growth, so every writer meets the rule in the
- * tests.
+ * makes every slot allocation a growth, so every writer meets the rule in the tests.
  */
 export interface PlatCapacity {
   vertices: number;
@@ -318,8 +317,8 @@ export function createPlat(key: PlatKey, frame: Frame, capacity: Partial<PlatCap
 // ---- growth -------------------------------------------------------------------------------------------------------
 // Each grow function REPLACES the arrays it grows (content copied, the new slots filled free / empty), so a writer
 // re-reads the tables after any allocation — the re-read rule above `PlatCapacity` (C-0286 (4)). A slot table doubles;
-// in the tiny-tables mode it grows by exactly one slot, so it is always full and every allocation of a new slot (one
-// not taken from a free list, which grows nothing) replaces it (C-0286 (2)).
+// in the tiny-tables mode it grows by exactly one slot, so it is always full and EVERY allocation replaces it
+// (C-0286 (2)).
 
 /** A slot table's next capacity: double, or one more slot in the tiny-tables mode. */
 function grownCap(length: number): number {

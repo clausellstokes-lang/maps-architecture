@@ -1,7 +1,8 @@
 // The sampled medial axis (M0-a-12; §3.8's `spine` downgrade, C-0007): `medialAxis(rings, stepCm)` over the Delaunay
 // adapter's triangulation of the 1 m boundary samples, the Voronoi dual with our own circumcentres, pruned by clearance
-// (C-0172, C-0176). Not a façade member (C-0078). This index also re-exports the adapter's `delaunay` (the adapter folder
-// has no index; §14's one importer of the library stays `adapters/delaunator.ts`).
+// (C-0172). Not a façade member (C-0078). The scaffold created this index empty (M0-s-01, C-0013); it belongs to M0-a-12,
+// which also re-exports its adapter's `delaunay` here (the adapter folder has no index; §14's one importer of the library
+// stays `adapters/delaunator.ts`).
 export { delaunay, nextHalfEdge, type Delaunay } from '../adapters/delaunator.js';
 export { circumcentres, voronoiEdges, type VoronoiEdge } from './dual.js';
 export {

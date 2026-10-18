@@ -1,6 +1,7 @@
 // The geometry services (M0-a-10; §3.1, §3.4, §3.11; C-0040, C-0159): obb · hull · lir (the one contract, GEO-7),
 // regularFit, sideRuns, sampleBoundary, faceNeighbours, hexLattice, the curves, the binary heap and Dijkstra / A*.
-// `pointLocate` is M0-a-03's and `simplify` M0-a-13's (both read the index).
+// `pointLocate` is M0-a-03's and `simplify` M0-a-13's (both read the index). The scaffold created this index empty
+// (M0-s-01, C-0013); it belongs to M0-a-10.
 export { hull } from './hull.js';
 export { obb, type Obb } from './obb.js';
 export { lir, lirAxes, LIR_LEVELS, LIR_MARGIN, type Lir } from './lir.js';
