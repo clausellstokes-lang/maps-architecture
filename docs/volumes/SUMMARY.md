@@ -158,7 +158,11 @@ under the session's rulings — and then confirmed by the integrating pass, whic
 (fixed in place) and one question of mechanism left for the next round: when an old world map is imported, which
 side records the places it marks. Their changes to the core design, written down as file k (48
 items), were applied on 17 October, and so were the changes since — the review of your host's simulator against the
-world, and the map lenses over its systems (files m to q).
+world, and the map lenses over its systems (files m to q). On 18 October your word on sites and their roads was
+applied (file t), and with it file u: your patrols decision (patrols stay on the map only for now — your host is not
+asked to give them a meaning, and the door stays open), two sentences on how the encounter crop's scratch arena is
+built, a fallback for the water model on a small crop frame, and one more M0 gate check (K14: moving a site's arena
+into a town's document keeps every name).
 
 ## What was left for later, and why it does not matter now
 
@@ -219,5 +223,5 @@ Nothing you have not already been asked for the other twelve: the nine decisions
 say otherwise; one you answered on 18 October), two short review sittings when the builds land (six sites and six battle
 maps rated for legibility, realism and playability; the 2.5D view beside the flat one), and, on the SettlementForge
 side, the host's own changes to send the world its seats, borders and events and to carry a site record — on your
-schedule. Before any of this is built, the M0 gate (item 140: twenty-six "do not foreclose" checks on the kernel and
+schedule. Before any of this is built, the M0 gate (item 140: twenty-seven "do not foreclose" checks on the kernel and
 the model, none adding a feature) must close with evidence; the core design has absorbed file k (17 October).

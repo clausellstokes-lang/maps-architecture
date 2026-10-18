@@ -50,7 +50,7 @@ The M0 gate is the question "do the kernel and the model satisfy the materialize
 
 ## 4 Part A — the M0 close gate (item 140; before M0 commits)
 
-Kernel-frozen rows (K1–K13) must be resolved before commit or carried to M1's API pass with a reason; model rows are recorded
+Kernel-frozen rows (K1–K14) must be resolved before commit or carried to M1's API pass with a reason; model rows are recorded
 now and are M1's to change. Every row is "do not foreclose"; where a row can be a test it joins M0's exit suite.
 
 | # | row | test or verification |
@@ -68,6 +68,7 @@ now and are M1's to change. Every row is "do not foreclose"; where a row can be 
 | K11 | no algorithm branches on a domain role beyond the documented defaults | grep |
 | K12 | the commit journal records stage, concern and inputs read, so a reason record can be reconstructed | read `tx/`, `CommitRecord` |
 | K13 | no digest, reference form, invariant or kernel operation reads or assumes an elevation; `Frame` and the lattice are two-dimensional only (2.5D is a projection; z never enters the kernel) | grep for any z-like field; read `num/`, `digest/`, `types/refs.ts` |
+| K14 | an arena's block loads under a caller-named `PlatKey` with an entity-id map (`DecodeOptions.from` / `.ids`), printing and digesting equal to the same content built under the new key — adoption's arena re-key (V14 §3.9 (e), §2.8; J395); carried to M1's API pass, first read by M-SITE-F's SE6 | at M1's API pass: a two-part arena's block decoded under a new key with an id map |
 | M1 | a namespace segment in the address form (or an M1 item) | read `model/src/identity` |
 | M2 | the carve delta or pre-carve heightfield recoverable; water surfaces separable from the heightfield | read `site/src/hydro/carve.ts`, `surface.ts`, `terrain/types.ts` |
 | M3 | the datum behind one accessor | read `site/src/terrain` |

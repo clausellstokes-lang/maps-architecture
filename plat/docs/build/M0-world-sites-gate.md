@@ -10,7 +10,7 @@ with its evidence (file and line, or the test), each failure marked fixed-in-M0 
 `plat/CLEAN-ROOM.md`. M0 does not close without it. No row is closed by changing the design to match the code without a
 row of `plat/docs/build/choices.md`.
 
-## Kernel rows (K1–K13)
+## Kernel rows (K1–K14)
 
 | # | the row | verification |
 |---|---|---|
@@ -27,6 +27,11 @@ row of `plat/docs/build/choices.md`.
 | K11 | No kernel algorithm branches on a domain role beyond the documented defaults (`plot_line`, `claim`, `corridor_split`, `kerb`, `invisible`) | grep `kernel/src/` for role-name literals |
 | K12 | The commit journal records the stage, the concern and the inputs a stage read, so a reason record can be reconstructed for every kernel-transaction stage | read `tx/`, `CommitRecord`; if absent, carry to M1 with the smallest addition named |
 | K13 | No digest, reference form, invariant or kernel operation reads or assumes an elevation; `Frame` and the lattice are two-dimensional only | grep for any z-like field in `kernel/src/`; read `num/`, `digest/`, `types/refs.ts` |
+| K14 | An arena's block loads under a caller-named `PlatKey` with an entity-id map (`DecodeOptions.from?: PlatKey`, `DecodeOptions.ids?: (id) => id`; `io/decode.ts:274` today refuses a chunk of another arena), printing and digesting equal to the same content built under the new key — adoption's arena re-key (V14 §3.9 (e), §2.8; J395 C8); carried to M1's API pass with K10, K12, M1, M2, M4; first reader M-SITE-F's SE6 | at M0: read `io/decode.ts` and `io/types.ts` (`DecodeOptions`), the row recorded carried-to-M1 (nothing built at M0); at M1's API pass: K2's two-part arena encoded under one key, its block decoded under a new `PlatKey` with an id map, its printing and digests equal to the same content built under the new key |
+
+**Carried to M1's API pass.** The 2026-10-17 check carried K10, K12, M1, M2 and M4 (`checks/M0-world-sites-gate.md`);
+K14 joins them as written (the M0 coverage verdict's C8, J395; file u item 953): the carried set is K10, K12, K14,
+M1, M2, M4.
 
 ## Model rows (M1–M13)
 
