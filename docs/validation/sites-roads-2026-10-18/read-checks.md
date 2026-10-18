@@ -882,3 +882,53 @@ the host's own placement of a satellite reads its cost field and gate terrain (a
 
 H90. A host road-scene brief exists: `src/domain/briefs/roadScene.js:158-163` (cited in C-19e). (population.md:136)
 
+**H.18 population-verify.md (49 lines).** Road facts only in passing: M4 migration "kills at the origin and on the road
+on canonized realms" (`sp/migration.js:151-153`, `:219-226`), "the 0.59 uncapped winter road share", and the note's
+declared gap "M4 route danger over sea hops". (docs/validation/retrovalidation-2026-10-18/population-verify.md:40, 49) —
+nothing a site-road rule must satisfy beyond H88.
+
+**H.19 prosperity.md (178 lines).**
+
+H91. The host's generation route class for prosperity: `econ/prosperity.js:183-192`: "crossroads/port 3; disconnected
+thorp or hamlet 0; disconnected village or larger 2 with teleportation and magic, else 1; connected 2" (road/river 2).
+(docs/validation/retrovalidation-2026-10-18/prosperity.md:24) — a settlement's road connectivity is a host input at
+generation (a configured class, H95).
+
+H92. The host's roads kernel writes the prosperity band: the four `PROSPERITY_TIERS[` writers are `wp/upswingKernel.js:917`,
+`wp/generosityUpdates.js:137`, `wp/traditionsKernel.js:405`, `rd/state.js:495`; ransoms "(roads)": a captor gains a rung
+(`wp/roadsKernel.js:827-836`). (prosperity.md:27, 51, 125) — host road missions (captures, ransoms) exist and move
+prosperity; the map does not run them.
+
+H93. §9.1 item 6 UPHELD: "J-RR.54 derives patrols from host coverage, the garrison round trip, hostility and route grade —
+no prosperity". (prosperity.md:65)
+
+H94. §9.3 item 14 UPHELD: "one word, one meaning: never legend health, the toll lift or economic_capacity as prosperity";
+V13 §5.8 (6) vocabulary. (prosperity.md:73)
+
+H95. §9.1 item 8 UPHELD: "generation wealth is a configuration fact; show the class, lint mismatches, never override" —
+"`econ/prosperity.js:183-192` reads the configured class only; the dormant `mapSlice.burgToConfig` (:871-888) has no src
+caller". (prosperity.md:67) — a precedent: a settlement's configured route class is linted against the map, never
+overridden by it.
+
+H96. The owner's host-requirements document exists: `docs/HOST-REQUIREMENTS-2026-10-18.md` (934 lines; "the repository
+copy of the Claude doc J391 (6) names"), with a Claude-doc mirror; HR-1 … HR-4 are record corrections to it. (prosperity.md:
+53, 163–166) — outside this lane's list; a site-road rule's host asks would join it (the session's to place).
+
+**H.20 prosperity-verify.md (96 lines).** F4: "`wp/roadsKernel.js:827-836` … only a term-end release pays both steps; a
+party ransom pays the captor step only; … `rd/state.js:403`: term = 13 + round(26 × importance)" — host road-mission
+ransoms; F16: migration origin tolerance "τ = 0.15 + 0.4 prosperity + 0.25 connectivity + 0.2 granary" (`sp/migration.js:
+78-81`). (docs/validation/retrovalidation-2026-10-18/prosperity-verify.md:41, 53) — connectivity is a host term of migrant
+tolerance; nothing here binds a site-road rule beyond H91–H95.
+
+**H.21 scripts.md (72 lines).** S3: the owner's territory rules are "(T1), (T2) and (T3)" — (T3) carries "military
+strength … patrols"; F13: the owner's review ask quoted at `workflows/36-realm-review.js:40` is recorded nowhere else (a
+record gap J392 carries). (docs/validation/retrovalidation-2026-10-18/scripts.md:25, 40) — nothing on sites or roads.
+
+**H.22 scripts-verify.md (43 lines).**
+
+H97. Host facts that held at 81f1cd96: "modes foot/cart/river/coastal/sea (`modeSpeeds.js:54-62`)"; "SEA_COST_PER_DIST 12
+vs land ~90..1560, capacity 10, winter 2.5 (`seaLanes.js:96,102,119`)"; "≥2 eligible ports (PHASE55 §4j, line 732)";
+"`realmReach` has no consumer (`distanceRead.js:783` only)"; "route laws 1, 2, 5, 6 as summarised
+(ROUTE_LIFECYCLE:24-47)". (docs/validation/retrovalidation-2026-10-18/scripts-verify.md:35) — the host's travel modes and
+its route lifecycle laws a road integration on a host-bound world meets.
+
