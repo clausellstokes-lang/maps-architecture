@@ -1,4 +1,4 @@
-# STATUS — the hidden-ways design run (lanes hidden-ways/*; written by the autosave loop at 2026-10-18 23:03Z)
+# STATUS — the hidden-ways design run (lanes hidden-ways/*; written by the autosave loop at 2026-10-18 23:08Z)
 
 | lane | last line | state | the line |
 |---|---|---|---|
@@ -8,6 +8,6 @@
 | hidden-ways/read-host | 2026-10-18 22:42 | LANDED | 2026-10-18 22:42 hidden-ways/read-host LANDED docs/validation/hidden-ways-2026-10-18/read-host.md (352 lines, md5 c63dedaf): 33 host facts with citations; H9/H23/H16 in the host's words; covered vs new asks; the eight cl |
 | hidden-ways/read-request | 2026-10-18 22:41 | LANDED | 2026-10-18 22:41 hidden-ways/read-request LANDED docs/validation/hidden-ways-2026-10-18/read-request.md (389 lines, md5 9672c754): the request as a checklist (six behaviours, A-D with A1-A9, seven questions verbatim, hos |
 | hidden-ways/read-v14-base | 2026-10-18 22:39 | LANDED | 2026-10-18 22:39 hidden-ways/read-v14-base LANDED docs/validation/hidden-ways-2026-10-18/read-v14-base.md (301 lines, md5 c374178b): the site record's ownership split mirrors exactly but HR's fallback direction is invert |
-| hidden-ways/design-A | 2026-10-18 23:02 | CHECKPOINT | 2026-10-18 23:02 hidden-ways/design-A CHECKPOINT anchors and uniqueness checked for ~60 fragments (V13 48, V14 3, HOST-REQ 7, INDEX 1, SUMMARY 1); next: write the builder (texts + JSON + §2), then design-A.md §0/§1/§3/§4 |
-| hidden-ways/design-B | 2026-10-18 23:02 | CHECKPOINT | 2026-10-18 23:02 hidden-ways/design-B CHECKPOINT anchors gathered (V13 ×52, V14 ×2, base ×3, HR ×8, INDEX ×2, SUMMARY ×2); the word settled (trod); writing design-B.md §0–§1 |
+| hidden-ways/design-A | 2026-10-18 23:07 | CHECKPOINT | 2026-10-18 23:07 hidden-ways/design-A CHECKPOINT builder written (63 fragments) and run; next: fix any misses, write design-A.md §0/§1/§3/§4 and assemble |
+| hidden-ways/design-B | 2026-10-18 23:05 | CHECKPOINT | 2026-10-18 23:05 hidden-ways/design-B CHECKPOINT design-B.md §0–§1 written (570 lines); next: the fragments script (≈ 66 fragments over V13, V14, the base, HOST-REQUIREMENTS, INDEX, SUMMARY), §2–§4, LANDED |
 | hidden-ways/design-C | 2026-10-18 22:59 | CHECKPOINT | 2026-10-18 22:59 hidden-ways/design-C CHECKPOINT volumes read (V13 §2.2/2.3/2.5-2.7/3.8/3.9/3.11.6/3.16-17/5.1/5.8-5.9/6-11, V14 §1b.5/2.3/3.4 E1/10.2, base §2.4, HOST-REQ rows, file t form); word settled (trod), design  |
