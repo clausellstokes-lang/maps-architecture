@@ -4964,7 +4964,7 @@ dissolves the vertex and restores the edge it split unless other geometry has me
 (§2.6) — partition rings that are no plat faces: rooms cut into the L4 arena would enter its index partitions and the
 model digest on every click, so a click would change the model (§4.1, §6.2). They cut on a **transient arena**
 instead: a one-level scratch subdivision on the world lattice under §3.2's numbers, §3.6's insertion rules and §3.10's
-invariants, opened for one derivation call and gone at its end — or, opened by a view (an encounter, V14 §3.10), living while the view does, released by `encounter.close` and never at a derivation call's end (K9; file k item 609): an owner-less arena's `owner` is an `Id` of the form `view:<hash64>` naming no entity, the arena stays never persisted, digested or frozen, its seed is one ring and the model's faces enter as `fixed` rings (the forms below); the kernel's stub row (`API.md` §8) builds the form at M6-P, its first view owner is M-ENC's.
+invariants, opened for one derivation call and gone at its end — or, opened by a view (an encounter, V14 §3.10), living while the view does, released by `encounter.close` and never at a derivation call's end (K9; file k item 609): an owner-less arena's `owner` is an `Id` of the form `view:<hash64>` naming no entity, the arena stays never persisted, digested or frozen, its seed is one ring and the model's faces enter as `fixed` rings (the forms below); the kernel's stub row (`API.md` §8) builds the form at M6-P, its first view owner is M-ENC's. The transient arena's form is built by M-ENC's SE0 (V14 §8, the first crop), M6-P its second reader; the base's M6-P sentence above states the second reader.
 
 ```ts
 type TransientKey = { transient: true; owner: Id /* the entity whose derivation opened it — or `view:<hash64>` for a view-owned arena with no owner document (above; K1–K13 unchanged) */; n: number /* per call, never persisted */ };
@@ -4985,7 +4985,7 @@ the hot pixel (0.71 cm) of another ring's side splits that side there, and no at
 ring that would break `minEdge`, clearance or simplicity, and an empty seed list, are refused (`E_DEGENERATE`, detail
 `seed` or `fixed`) naming the vertex, which F-PLAN's tier 1 takes (§5.2), so a planner places an anchor on a wall or at
 least `minEdge` from it. Seed rings that overlap, and a fixed ring that crosses a seed ring's side, lies outside the
-seeds' union or overlaps another fixed ring, are refused (detail `overlap`): two input sides that cross are refused
+seeds' union or overlaps another fixed ring (a crop's scenes are separate transient arenas, V14 §3.13 E4), are refused (detail `overlap`): two input sides that cross are refused
 where the construction meets them, and it then labels every face with how many seed rings and how many fixed rings
 contain it, by the booleans' winding walk (§3.7), so a face inside two seed rings, a face inside a fixed ring and no
 seed ring or inside two fixed rings, and a fixed ring whose inside is more than one face are found exactly, in one walk.

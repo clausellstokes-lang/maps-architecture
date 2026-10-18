@@ -916,7 +916,7 @@ campaign where the resolved rules or the missing canon make it inert.
    or the premium, but never for a war-front siege (§10, item 40). Designed slots: TR-1's route_wardenship / route_predation pairs (registered, no
    producer) and EC-6's route_wardenship stance term (unowned, OD-FC-2). J378's "patrol coverage per route segment,
    consumed only by the host's choice" should be offered as a candidate producer for those slots or as a security
-   input, with the segment keyed to the host's *gates*, not to map road polylines.
+   input, with the segment keyed to the host's *gates*, not to map road polylines. [the owner, 2026-10-18 (J396): not asked; H16's door stays open]
 5. **Travel time from seats must be the host's week.** Use the host's calibration (median adjacent hop = 1 week,
    1..52, season multipliers from the frozen overlay), or km ÷ mode speed once `kmScale` is written (OD-FC-22); a lens
    with its own travel-time law will disagree with every caravan's arrival and with salience's "≈ N weeks".
@@ -1112,7 +1112,7 @@ campaign where the resolved rules or the missing canon make it inert.
   the owner's and the host's call (fp-physical-integration.md §8).
 - **One territory or two?** (§9, item 1.) [SUPERSEDED BY EVENT 2026-10-17: two, W8a and W8b (J-V13.63).]
 - **Does the owner want positioned caravans (WY-3) before a lens shows motion?**
-- **Would the host adopt patrol coverage** as a route_wardenship producer or a security input (§9, item 4)?
+- **Would the host adopt patrol coverage** as a route_wardenship producer or a security input (§9, item 4)? [the owner, 2026-10-18 (J396): not asked; H16's door stays open]
 - **Is the RR birth door going to be lit** (`NEW_CAMPAIGN_SIMULATION_PRESET_ID`)? The comment at
   `wp/simulationRules.js:22-30` prices it as a declared shift of seven persisted keys per new campaign.
 - **TR-5's trade half** (grain provision, route wardenship, the realm-pressure consumer) has no owner (OD-FC-2), and

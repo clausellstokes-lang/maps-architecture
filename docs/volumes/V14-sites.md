@@ -84,6 +84,12 @@
 > `site` why section; §6's G3 row; §7 T-V14-34 – T-V14-35 and T-V14-8's clause; §8's SE6; §9 J-V14.57 – J-V14.63 and
 > J-V14.43's note; §10 BCR-V14-26, BCR-V14-13's text and the V13 request (18); §11 Q5.
 
+> **Coherence u — 2026-10-18** (`docs/AMENDMENTS-2026-10-18u.md`, items 950–952; the M0 coverage verdict's C9 and C10,
+> J395, queue rows Q81 and Q82). Changed: §3.10 (4)'s crop frame lies on the ground scene's arena; §3.13 (a) opens one
+> transient arena per scene, each with its own fixed rings and its own `pointLocate`; §6's crop table gains the S1
+> small-frame row beside `WORLD-9` with its pre-decided fallback; §8's SE0 builds the transient arena's form (M6-P its
+> second reader) and times S1 on the two small frames.
+
 <!-- PROGRESS (the architect seat's ledger; removed at revision)
 0 In plain words ................................ done
 1 Scope, hooks, owner rules, out of scope ....... done
@@ -2082,8 +2088,8 @@ exactly there ("VTT scene stamps").
    encounter's week (`WorldFacts.polity`: the holder, the allegiance, held, held by force, debatable or unclaimed, the
    two sides, an occupation, the patrols with their colours and whether one passes that week, a fight there — V13
    §2.4), and the `WorldEvent`s V13's world document indexes near the point (`worldFactsAt(world, wCm, sinceWeek)`'s `recent`, V13 §2.4; SW-07) within `CropRule.recentEventWeeks` — and the profile from `road`, `creek`, `wood`, `shore` or
-   `open`. Its ground is a **crop frame**: a transient materialization on the crop's owner-less transient arena
-   (E4's, keyed by the address) of (i) V13's `charterFor(world, placement)` at a transient placement whose `originCm`
+   `open`. Its ground is a **crop frame**: a transient materialization on the ground scene's owner-less transient arena
+   (E4's, keyed by the address; one arena per scene, E4 (a)) of (i) V13's `charterFor(world, placement)` at a transient placement whose `originCm`
    is the clicked `WorldPointCm` (SW-12) — a 100 m frame, no settlement, no `Placement` recorded (the V13 request of V14 §10.2; the form
    `WorldPort.charter` nearly gives) —, (ii) S1's terrain and water under that charter (the DEM, the water surfaces
    and the river reaches the charter carries, refined by S1's resolution rule — item 135 (c): the coarse fact, the
@@ -2173,17 +2179,19 @@ interiors are the plan rung's.
 
 ### 3.13 E4 — The transient layer on a transient arena; promotion (item 132 (a); J-V14.2)
 
-**(a) The arena (C14-07).** The crop opens one `transientArena` (§3.4) in the generation worker with **no owner
+**(a) The arena (C14-07).** The crop opens **one transient arena per scene (EncounterCrop.scenes), each with its own fixed rings and its own pointLocate, so §3.4's pairwise-disjoint rule holds inside every arena** (a cellar's face
+under its building's footprint lies in another scene's arena, never overlapping it in one; file u item 951) — each a
+`transientArena` (§3.4) in the generation worker with **no owner
 document** (BCR-V14-4; K9): its `TransientKey.owner` is an `Id` of the form `view:<the encounter key's hash64>` —
 no entity, no kernel type change —, its **seed one ring, the crop's rectangle** (§3.4 refuses a seed with holes), its
-**`fixed` rings every footprint, water face and underground element face of the resolved set clipped to the
+**`fixed` rings every footprint, water face and underground element face of the resolved set in its scene clipped to the
 rectangle, each owned by its entity** (§3.4's form: faces made before any cut and never cut by one, each inside the
 one seed ring; a world crop's frame faces the same way, E1 (4)). The DM's and the derived items enter through the
 face partitioners only — a closed-ring item (a camp, a fire, a pool) by `splitFace` on the rectangle's free face, a
 strip item (a barricade, a cart, a wagon) by `partition` of that face — never by `insertChain`; a ring the kernel
 refuses (`E_DEGENERATE` `overlap`, a ring crossing a fixed face) is simplified at `minEdge` and re-tried once, then
 the item is drawn only (not hit-tested), reported. So line of sight, the hit stack and the export read the items
-with the model's faces by one `pointLocate` on the arena. It lives while the encounter does — released by
+with the model's faces by one `pointLocate` on the arena of the scene they stand in. It lives while the encounter does — released by
 `encounter.close`, never at a derivation call's end (BCR-V14-4's lifetime rule) — and nothing on it is persisted,
 digested or frozen (§3.4's rule); the model's own arenas are read, never written.
 
@@ -2848,6 +2856,7 @@ unchanged. Work sizes are PLAUSIBLE until the spikes of V14 §8 measure them (SE
 | E1 resolve | one static-index query of the rectangle; G1's context (one query of the enclosure line) | ≈ 1 µs per index query | 0.5 · 1 ms |
 | E2 (a) interiors | ≤ `maxBuildings` 12 plans, nearest first — each V03's `wings` + `rooms` + `plan` where absent (V03 §6's per-plan row: ≈ 15 ms p95 a house, ≈ 40 ms an institution), from the elaboration cache where present; **the mix assumption (C14-43):** ≤ `CropRule.maxInstitutions` 2 institutions in a `place` crop, the rest houses (2 × 40 + 10 × 15 = 230 ms); a crop whose resolved set holds more institutions drops `maxBuildings` to 8 for that crop (fallback (3) per crop, the rest shells) | V03 §6 | the first (the building under the click) within 40 ms; all twelve ≤ 180 · 300 ms, arriving progressively as `DisplayDelta`s (§8.6) |
 | E1 (4) the world crop frame (C14-08) | V13's transient `charterFor` (≤ 10 ms, V13's `WORLD-9` row; SW-32), S1 on a 100 m frame (≈ 4 ms: §12.4's S1 row at 1/36 of a CITY frame), the roads as bands (≤ 3 ways, ≈ 1 ms), S12a's cover (≈ 3 ms), the arena's `fixed` faces (≈ 2 ms) | §12.4's rates | 20 · 26 ms, inside the first frame |
+| E1 (4) S1 on a small frame — the fallback (Q82; J395 C10; file u item 952) | SE0 measures S1 on a 100 m crop frame and a ≥ 120 m free-site frame against S1's town-scale constants (hydro cell 25 m at CITY, plat/packages/site/src/hydro/field.ts:1-2; ESTUARY_LENGTH_M 400, hydro/params.ts:43); fallback, pre-decided: the crop frame from the charter's edge profile and water edges alone, no S1, when S1 fills its budget | SE0's measurement (V14 §8) | inside E1 (4)'s 20 · 26 ms (the fallback runs no S1) |
 | E2 (b) occupancy | one row read per building and unit | ≈ 2 µs each | ≤ 0.1 ms |
 | E3 extent | the include set's extent (one query), the rectangle, the scenes | — | ≤ 1 ms |
 | E4 arena and items | one `transientArena` open over the rectangle minus ≈ 20 rings; ≤ `transientBudget` items placed | §3.4's open ≈ 2 ms for 20 rings | 3 · 6 ms |
@@ -2989,7 +2998,7 @@ this volume's own line, outside §16's first total, computed once by the coheren
 
 | step | content | exit (executed, not asserted) | est. (pw) |
 |---|---|---|---|
-| **SE0 — spike** (risk retirement, at M-ENC's start) | E1's resolve and E3's crop on B-CITY-lite; the owner-less transient arena (BCR-V14-4) opened over a crop's rectangle minus twenty rings; E4's items on it; V03's plan completion timed on twelve buildings where M6-P's P1 exists, else the shells; G4 + G5 (b) on a `vast` cave and G5 (d) on a `vast` mine on a scratch level, timed | the crop's first frame ≤ 100 ms and complete ≤ 300 ms p95 at CITY; the arena's open ≤ 2 ms; the `vast` cave and mine within V14 §6's rows; T-V14-1 green on 20 addresses; the register check (below) | 0.75–1 |
+| **SE0 — spike** (risk retirement, at M-ENC's start) | E1's resolve and E3's crop on B-CITY-lite; the owner-less transient arena (BCR-V14-4) — its form (§3.4's `transientArena`, `readBack`, `release`; `API.md` §8's stub row) built here, the first crop its first reader and M6-P its second (the base's §3.4; file u item 950) — opened over a crop's rectangle minus twenty rings; E4's items on it; V03's plan completion timed on twelve buildings where M6-P's P1 exists, else the shells; G4 + G5 (b) on a `vast` cave and G5 (d) on a `vast` mine on a scratch level, timed | the crop's first frame ≤ 100 ms and complete ≤ 300 ms p95 at CITY; the arena's open ≤ 2 ms; S1 timed on a 100 m crop frame and a ≥ 120 m free-site frame (§6's small-frame row), its fallback taken where S1 fills its budget; the `vast` cave and mine within V14 §6's rows; T-V14-1 green on 20 addresses; the register check (below) | 0.75–1 |
 | **SE1 — the in-town crop (M-ENC)** | E1–E3 whole (every profile row; the contexts; the extent rule; the grid origin), E4's arena and derived items, the `encounter` shared view key and the DM's items, the crop view (V14 §5.3), the clerk's `encounter` section; E2's interiors when V03's P1 lands (a registry lookup: without the plan rung the crop draws shells and reports `W_CROP_INCOMPLETE`); the occupancy abstraction with its table when M4b's content lands | T-V14-1, T-V14-3, T-V14-4 ((a)–(c), (e)), T-V14-21's `item132.none`, T-V14-24 (a)'s crop rows, T-V14-26 (a), (d), T-V14-29; the register check | 2.5–3.25 |
 | **SE2 — the VTT crop scope** | `ExportOpts.vtt.crop` and the stable grid origin (BCR-V14-8); the scene set per crop with the multi-floor convention (one image and one JSON per scene, the ordinal suffix; C14-06); `StyleSheet.vtt.squareM`; the transient items as objects, the occupancy notes, the water and difficult-terrain fields, the `waterStamp`, the optional vendor block; the research seat's re-verification of the Universal VTT and Foundry schemas with the profile's version pin (item 136 (c)) | T-V14-11 (its crop clauses), bar 11 whole; the pin recorded; the register check | 1–1.5 |
 | **SE3 — the anchor, the icon, the secrets (M-SITE-A)** | `WorldSite` (candidate cards), `SiteAnchor`, the access record of source `site` (BCR-V14-1, -2), `dropSite`'s attached form with its dry run, G1 and its table, G2's resolution with its `secrecy.devotion` row and the request's DM-stated `devotion` (`SiteRequest.devotion`, J384 (10)), the icon in its context with the three cues, the `siteOpen` switch, the site panel (V09), V08's reveal path for `revealed`, the `Layer` `site` and `nextSitePart` (BCR-V14-3), migration | T-V14-2, T-V14-5, T-V14-12 (b), (c), T-V14-13, T-V14-20's attached clauses, T-V14-26 (b), (c), T-V14-33 (its map-feed offer and religion-lens clauses once V13's M-W5 lands — the offers ride the DM's map feed from M-W5 — the rest at this exit); the register check | 2–3 |

@@ -1,4 +1,4 @@
-# Live status (written by the autosave loop; last 2026-10-18 16:11 UTC)
+# Live status (written by the autosave loop; last 2026-10-18 16:16 UTC)
 
 Latest lane line per lane key (docs/lane-events.log) for today's lanes:
 
@@ -98,7 +98,7 @@ Latest lane line per lane key (docs/lane-events.log) for today's lanes:
 - 2026-10-18 16:03 sites-roads/apply-t-readme LANDED README.md 2a4b54c8 -> 7adac4db (31 -> 31 lines): file t's 1 README fragment 947 (r) applied, old once before, new once after, old gone, reverse round-trip identical; no adjustments; record docs/validation/sites-roads-2026-10-18/apply-t-readme.md; bundle not regenerated; no git run, host untouched (opus; J394, Fable-critiqued)
 - 2026-10-18 16:03 sites-roads/apply-t-v14 LANDED docs/volumes/V14-sites.md 70d8aa1b -> 681cc8d9 (3213 -> 3327 lines): draft t's 44 V14 fragments applied in the JSON's order, each old once before and each new once after (44/44), 33 olds gone and 11 contained in their new, no adjustment, nothing skipped; record docs/validation/sites-roads-2026-10-18/apply-t-v14.md (87 lines, md5 6bd2c45d); bundle n
 - 2026-10-18 16:06 sites-roads/apply-t-record LANDED docs/AMENDMENTS-2026-10-18t.md (1 633 lines, md5 2d6a6308) written from draft-t: status APPLIED (J394; J397; J398), every target's md5 before -> after, Q5 row ANSWERED 2026-10-18: Yes (J398), the 939 note kept as a bracket; 138 fragments on eight targets, 0 adjustments; docs/ARCHITECTURE-FULL.md regenerated (81 340 lines, md5 d2ab45bb), --check 
-- 2026-10-18 16:11 sites-roads/apply-u CHECKPOINT started: file t's targets at their after-md5s; greps for the patrols census run (design texts: one asking hit, V13 H25; research: lens-implications §2.2/§5 ask 8, trade-system §9 item 4 and §10.3's fourth open question); fragments being drafted; record docs/validation/sites-roads-2026-10-18/apply-u.md (opus; J394, Fable-critiqued)
+- 2026-10-18 16:16 sites-roads/apply-u LANDED docs/AMENDMENTS-2026-10-18u.md (377 lines, md5 edad734b) written and applied: items 949-953, 23 fragments on nine files (V14 7, lens-implications 3, V13 2, SUMMARY 2, base 2, gate spec 2, brief 2, trade-system 2, INDEX 1), each old once before and new once after by script, 0 skipped; 949 the patrols decision J396 (H25 not asked, H16's door open; resear
 
 Workflow runs: retrovalidation continuation wf_ed23dc6b-f13 (task wuojbxzyu; the first run wf_f0931b52-ef5 killed at the limit); sites-roads-design wf_a2bd73c2-64c (task wh4norxj2); host-requirements wf_94da751f-a31 (LANDED); amendments-r wf_6c3a4aa0-0d5 (LANDED e5de220d).
 Records: docs/validation/retrovalidation-2026-10-18/ (one <family>-verify.md and <family>.md per family, rulings.md, apply-*.md, confirm-*.md, critic.md, README.md); docs/validation/host-requirements-2026-10-18/ (extract-*.md, draft-s3..s8.md, final-s3..s8.md, critic.md); docs/validation/sites-roads-2026-10-18/ (read-*.md, design-A..C.md, judge-1..3.md, draft-t.md, critic.md, verify.md).
