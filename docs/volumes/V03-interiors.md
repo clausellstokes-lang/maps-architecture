@@ -975,6 +975,7 @@ record its greater tier's class, V11 §3.12; for a village class its `v.` key, V
 `Use.branchOf` is set, `works` when another building's use names this use in its `branchOf`, else `both` (item 105 (h));
 the occupants' band `b` (`Plot.fieldBand`); the recipe's era `e` (§7.7 layer 1). At every level below, a row whose
 `for.era` is `e` wins over the era-less row at the same key (J-V3.78). **The main slot** resolves by the first match of:
+0. `Assignment.site` (§7.7; file k item 639, V14 §3.9, from M-SITE-A — the programme override from M6-P): the card's `programme.rooms`, the grammar's units mapped — `core` → the class row's main room, `cell` → its named rooms, `hub` → `hall`, `secret` → a concealed room by V03's concealed rule, `verticalLink` → the stair core — read before the class-id rows;
 1. the class-id row whose `for.use` is `Use.specialisation` (V11 §3.6.2's discrete cell), under `k`, else under `'*'` (a
    specialisation row that spans classes: item 110 (c)'s stepped forms, V03 §2.4);
 2. the class-id row (`for.cls` = `k`, no `for.use`);
@@ -1196,6 +1197,7 @@ ladder (V03 §3.9), and reports `W_STOREY_RUN` with its key (F-PLAN tier 4, a si
   room for a stair turret), else `centre`'s order. **Where A2 finds a shared access likely** (two or more households, a
   live-in, or a unit of form `dwelling` or poorer in a building of more than one storey), every rule's score is its own
   plus the bay's distance from the main entrance's inward point.
+* **S4 The `secret` kind** (file k item 639; V14 §10.2's V03 row — a request, not a V03 fact, SW-36; M-SITE-A): the stair kinds gain `secret` — a core S4 places like any, its openings concealed by §3.6 O6's rule, its head room §3.7.3's concealed back room; a `site`-sourced access (II.7.4) heads on `ground.storey` as a `hatch` in that room's floor or a concealed door in its wall and descends by that core to the lowest storey's ordinary head (§3.7.2), the storeys between re-cut (§3.11), the storey count in `requestedVsBuilt`, the anchor bent to the lowest storey where no core fits (`bend.site.storey`); the plan's per-storey scene path serves a site building.
 * **S4 Kind fallback.** No candidate for the row's kind → the next kind of `dogleg → straight → winder → ladder` from
   the row's kind onward, then `trapdoor` for the basement (§2.6 step 3); each fall an anchor tier 2 (§5.2's F-PLAN stair
   fallback); none left → tier 6 (the upper storeys unreached, the building flagged; §5.2). Flights are drawn, not stored
@@ -1717,7 +1719,7 @@ head's ring plus `landingCm` in front of it, against the head storey's wall near
 it by V03 §3.7.2 (5) within that ring). The room is `concealed` (scope `service`); the rest of the storey — the public
 cellar with its core or trapdoor — keeps its scope and no concealed flag. The room is joined by one concealed opening to
 the cellar, or to the concealed suite where the building has one on that storey (O6). A `local` or `public` head stays in
-its host room. The same holds for a secret head on a ground storey (a hovel's hidden shaft).
+its host room. The same holds for a secret head on a ground storey (a hovel's hidden shaft). A `site`-sourced access heads by S4's `secret` core instead (file k item 639): its head room is this concealed back room on `ground.storey`, the core descending from it.
 
 **3.7.4 The crypt — derived with the basement, never by the plan** (item 109 (k) (2), (6) as revised ~20:05, J111;
 J-V3.45, J-V3.48). §2.6's basement function derives `Basement.crypt` with the basement, from volume 11's three-valued

@@ -9512,3 +9512,33 @@
 2026-10-14 10:21 build/M0-c-03-fix-s3 CHECKPOINT RELATED@1000 (tree, W=1, since 09:31) still running; next: its verdict, e-06 seeds 2-7 after, appends, landed
 2026-10-14 10:40 build/M0-c-03-fix-s3 CHECKPOINT RELATED@1000 (tree, W=1, since 09:31) still running (never stopped for being slow); next: its verdict, e-06 seeds 2-7 after, appends, landed
 2026-10-14 11:04 build/M0-c-03-fix-s3 CHECKPOINT resumed after the usage-limit stop: RELATED@1000 (tree, W=1, 09:31-10:49) exit 0, 219 files / 2662 tests passed, on the final source hashes (unchanged since); mirror = tree on the backbone; next: e-06 relief-3000 seeds 2,3,5,6,7 on the final code, notes section, choices row, CLEAN-ROOM, landed
+2026-10-16 23:45 volumes/architect-V13 LANDED docs/volumes/V13-world.md
+2026-10-16 23:47 volumes/architect-V14 LANDED docs/volumes/V14-sites.md
+2026-10-17 00:34 volumes/revise-V13 LANDED docs/volumes/V13-world.md
+2026-10-17 00:37 volumes/revise-V14 LANDED docs/volumes/V14-sites.md
+2026-10-17 01:05 volumes/reconcile-V13-r0 LANDED docs/volumes/V13-world.md
+2026-10-17 01:11 volumes/reconcile-V14-r0 LANDED docs/volumes/V14-sites.md
+2026-10-17 03:32 volumes/_integrate-world-sites LANDED docs/volumes/_integrate-world-sites.md
+2026-10-17 03:33 volumes/reconcile-V14-r1 LANDED docs/volumes/V14-sites.md
+2026-10-17 04:03 check/M0-world-sites-gate LANDED plat/docs/build/checks/M0-world-sites-gate.md
+2026-10-17 04:10 coherence/world-sites-k LANDED docs/validation/coherence/world-sites-k.md
+2026-10-17 04:21 coherence/vtt-l-and-k11 LANDED docs/AMENDMENTS-2026-10-17l.md (opus; J375)
+2026-10-17 05:08 research/sf-fp-simulator LANDED research/sf/fp-simulator.md (opus; J375)
+2026-10-17 05:13 research/sf-fp-physical LANDED research/sf/fp-physical-integration.md (fable drafted; opus assembled after the Fable limit; J375)
+2026-10-17 06:37 research/sf-faith LANDED research/sf/faith-system.md (opus; J375; verified: 12 problems and 17 omissions re-checked and fixed)
+2026-10-17 09:06 research/sf-fp-realm-review LANDED research/sf/fp-realm-review.md docs/AMENDMENTS-2026-10-17m.md (opus; J375)
+2026-10-17 09:16 research/sf-plague LANDED research/sf/plague-system.md (opus; J375; verified: 72 checks, 11 problems and 14 omissions re-checked and fixed)
+2026-10-17 09:45 research/sf-alignment LANDED research/sf/alignment-system.md (opus; J375; verified 55 checks)
+2026-10-17 09:45 research/sf-trade LANDED research/sf/trade-system.md (opus; J375; verified)
+2026-10-17 09:45 research/sf-population LANDED research/sf/population-system.md (opus; J375; verified)
+2026-10-17 09:45 research/sf-prosperity LANDED research/sf/prosperity-system.md (opus; J375; verified)
+2026-10-17 09:45 research/sf-lenses LANDED research/sf/lens-implications.md (opus; J375)
+2026-10-17 10:04 amendments/realm-m-apply LANDED docs/validation/coherence/realm-m.md (opus; J375)
+2026-10-17 11:00 amendments/lens-n LANDED docs/AMENDMENTS-2026-10-17n.md (opus; J375)
+2026-10-17 11:49 amendments/lens-n-apply LANDED docs/validation/coherence/lens-n.md (opus; J375)
+2026-10-17 12:26 amendments/lens-o LANDED docs/AMENDMENTS-2026-10-17o.md (opus; J375)
+2026-10-17 13:03 amendments/lens-o-apply LANDED docs/validation/coherence/lens-o.md (opus; J375)
+2026-10-17 13:28 amendments/lens-p LANDED docs/AMENDMENTS-2026-10-17p.md (opus; J375)
+2026-10-17 14:01 amendments/lens-p-apply LANDED docs/validation/coherence/lens-p.md (opus; J375)
+2026-10-17 14:29 amendments/lens-q LANDED docs/AMENDMENTS-2026-10-17q.md (opus; J375)
+2026-10-17 15:09 amendments/lens-q-apply LANDED docs/validation/coherence/lens-q.md (opus; J375)

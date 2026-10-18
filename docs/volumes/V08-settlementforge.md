@@ -417,6 +417,10 @@ type PartyRender = { type: 'party.render'; body: {
 // base messages extended (§11.3): doc.load gains audience?: AudienceWord; doc.changed gains encoded: ArrayBuffer[] (each event's canonical CBOR, in order),
 //   seqAfter: number, logHeadAfter: string; export.request's opts carries displayNames and knowledge (§11.2's ExportOpts), and export.request gains
 //   bundle?: true (the export bundle's scene route from M-SF, V08 §5.4 (2)); ready gains protocol and adapters (§11.3)
+// the world port's messages (file k item 643; BCR-V13-11; V13 §3.11.6; M-W1 – M-W2 for the world messages, the host's side on the owner's schedule, V13 §11 Q2): one type per method, the world's format version in the envelope (V13 §2.7) —
+//   host → PLAT: `world.seats` (`seats(world, seeds)`), `world.costLaw` (`costLaw(world, law)`), `world.events` (`events(world, events: WorldEvent[])`, the host's dated events as dossier-tier facts), the view command `world.clock` (`clock(world, week)`, V13 §2.1);
+//   PLAT → host: `world.derivedFacts` (`derivedFacts(world, placement) → SettlementMapRecord`), `world.charter` (`charter(world, campaign) → FrameCharter`), `world.proposals` (`proposals(world, demand) → SitingProposal[]`), `world.routes` (`routes(world) → WorldRoute[]`);
+//   a host that does not speak them reads the ecosystem-shaped JSON export (§11.1); the digest's `site.latitudeDeg` and `presentWeek` stand — DR29's latitude the dossier's on a dossier-bound frame, the placement's a reported difference (V13 §3.11.4)
 // PLAT → host
 type DossierResult = { type: 'dossier.result'; re: number; body: {
   status: OfferStatus;
@@ -747,7 +751,7 @@ carries names, tiers, categories, pairs of names and vocabulary words only; no S
       groupKind?: string /* a group's kind word: migrants, pilgrims, a caravan */; name?: string }[] };   // the crisis fields (item 122, with (h); V08 §3.16 (7), (8))
   site.ruinEvidence: { kind: 'ruins'|'ruinedLandmark'|'node'|'leyLines'|'magicalHistory'|'delving'|'undercity'; key?: string /* the record, deposit or event's binding key */; yearsAgo?: number }[];   // DR30 (V08 §2.6a)
   site.threats: string[];                     // the neutral sea-threat keys of the `threats` row (item 106 (d)), sorted
-  site.latitudeDeg: number;                   // DR29's value (V08 §3.5)
+  site.latitudeDeg: number;                   // DR29's value (V08 §3.5); on a placed frame the placement's latitude is a reported difference, never this value (V13 §3.11.4; file k item 643)
   economy.chains: { key: string /* chain:cat:<chainId> */; chainId: string; label: string; needKey: string;
     resource?: { name: string; key?: string /* res:<deposit key> when resourceKey names a listed deposit */ };
     processors: { name: string; key?: string /* resolved by V08 §3.5 (6) */ }[] /* flow order */;
@@ -1306,6 +1310,7 @@ rides the opaque document and the pictures through the base renderer and §7.5's
 | the aqueduct's link to its conduit house (2.6b (1) (e)) | item 110 (b)'s laying of the aqueduct | the fate and condition rules of 2.6b (1) (e) | the model (the raised way's `waterUse`, item 244) | kept while both stand; a re-laid aqueduct re-links | the log's | a document without it has none |
 | a removal of generated item-110 content (4.1, 4.3) | the base's delete of generated content (a DM's, or an accepted clerk proposal's) | every regeneration, absorb and epoch: the slot stays closed | the log (the delete event) | held; a new slot opened by a later cap increase is new and announced (4.6) | the log's undo re-opens the slot | §7.5's mapping hands the tombstone to its successor |
 | `DossierInstitution.custom` with `keywords` (2.8) | the adapter | item 104 (a)'s resolution at fold (V08 §3.5 (5) (f)) | carried (the institution fact's `custom` part) | n/a | n/a | absent in an older document: filled at its next absorb as a declared remap, no event (V08 §3.8) |
+| DR-V14-1 — a world site's host record (file k item 643; V14 §10.2's V08 row; M-SITE-A) | the adapter: `WorldSiteRecord` — existence, kind, name, owner or faction, status, position in V13's regime (the form of V14 §2.2's `WorldSiteHost` and §2.8's custom records), in the dossier row sets | the card's host-word normalisation (V14 §3.8's table; an unmapped word `unmapped_word`), the party's reach as a host event, a site's derived capacity as a derived fact | V14 §2.2; §7.7 |
 | `customChains`, `customResources`, `customServices` (2.8) | the adapter | `creation`, `absorb` | carried facts, and the records they put | kept | n/a | a document made before them carries none: every present one is an `add` at the next absorb, placed by least disruption, upstream first |
 | `CustomChainRecord`, `CustomServiceRecord` (2.8) | `dossierRecord` put | S10b's chain pulls (item 104, V11), §10.3's facilities, the renderer, labels, the clerk | the model (records in the digest, §2.7) | kept (records, not derived) | never an undo target (§7.4) | none (new) |
 | the definition fields the dossier carries (`customContentRoster`, `customContentProvenance`; 2.8) | the adapter, at the revision the dossier materialised (item 125 (a)) | `digest` → `customDefs` | never stored as read: they become `custom-def` facts | n/a | n/a | the entry shape is versioned with the adapter (`AdapterManifest.version`) |
@@ -2288,7 +2293,7 @@ under the party's key (J-V8.57).
    removed) is skipped and kept in the list, so a re-opening re-reveals it. Every party render passes that key form as the
    `knowledge` of each picture it draws (`ExportOpts.knowledge`, §11.1) and as the `admitAs` of each query it makes (item
    572), so the set admits exactly what both the session's `secret` key and the party key admit — the party key's (item
-   513); the module never raises a key.
+   513); the module never raises a key. The reveal of a world site's anchor rides the same `places` (`revealed`, V14 §2.3; file k item 643), mirrored into the shared `party` view key (§2.9, file k item 608) when a host is bound.
 2. **The set** (`PartyPictureSet`, V08 §2.1). (a) A PNG tile pyramid, 256-px tiles, row-major, at three levels — z0 the
    city band, z1 the district band, z2 the neighbourhood band — over the frame of the document's city-band view (at a
    village rung, V07 §5.2's township view), plus a z3 building-band level ONLY for the tiles that cover an admitted place

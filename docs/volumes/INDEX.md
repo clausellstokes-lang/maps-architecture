@@ -1,14 +1,17 @@
 # Index of the design volumes — the product map, the wiring, the build order
 
 > PENDING FABLE REVIEW — written by opus standing in for the Fable seat volumes/_finalize; covered by the whole-design retrovalidation (J84).
+> PENDING FABLE REVIEW — the rows for volumes 13 and 14 written by the session's integration seat volumes/_integrate-world-sites under the owner's delegation (J339; 2026-10-17); covered by the whole-design retrovalidation (J84).
 
-**What this file is.** The one map of the whole design: the base (`docs/ARCHITECTURE.md`) and the twelve design volumes
-(`docs/volumes/V01`–`V12`) that take every subject the base carries at hook depth to build depth. It states no mechanism
+**What this file is.** The one map of the whole design: the base (`docs/ARCHITECTURE.md`) and the fourteen design volumes
+(`docs/volumes/V01`–`V14`) that take every subject the base carries at hook depth to build depth. It states no mechanism
 of its own — every fact below points at its home (single source) — and it is the second source of the generated bundle
 `docs/ARCHITECTURE-FULL.md` (`tools/bundle_architecture.py`; J89), read after the base and before the volumes. The base
 carries files f (`docs/AMENDMENTS-2026-09-28f.md`, items 200–585, the volumes' base change requests) and g
 (`docs/AMENDMENTS-2026-09-28g.md`, file g's items, the owner's rules), applied by the coherence pass
-(`workflows/18-coherence.js`). The plain-language account for the owner is `docs/volumes/SUMMARY.md`.
+(`workflows/18-coherence.js`); files j (`docs/AMENDMENTS-2026-10-16j.md`, items 131–141, the owner's rules on the world,
+sites, encounters, hydrology and the 2.5D view) and k (`docs/AMENDMENTS-2026-10-16k.md`, items 600–647, volumes 13
+and 14's base change requests) are applied — file j's rules cited by number in the base's §0.2 and its base change requests superseded by file k's (J374), file k applied by the coherence pass `coherence/world-sites-k` (J376; `docs/validation/coherence/world-sites-k.md`) —, as are file l (items 648–658, the VTT export profile re-verified; J376) and files m–q (items 659–925: the realm review of the host's simulator, the lens design and its closing passes; J385 – J388 for files m–p), each applied by the record its status line names under `docs/validation/coherence/`. The plain-language account for the owner is `docs/volumes/SUMMARY.md`.
 
 ## 1 The product map
 
@@ -33,10 +36,16 @@ dossier port's creation and absorb halves, and the verification rig; its milesto
 | V10 | `V10-clerk.md` | the clerk — the oracle at depth and the built-in assistant: tools, proposals, bends and refusals, explanations ("why is this here"), critique, transcripts, the host seam | §11.2, §7.1, item 101 | C1 inside **M3a**; **M3c** (C0, C2–C5) beside M3b, C4's Find content (the find form and read) at M5's exit | 14.75–20.25 (15.25–20.75 with the command-line clerk) |
 | V11 | `V11-content.md` | the content — the registry, the class rows and profiles, the siting rulebook (item 103), custom-content rows (104), goods and orientation (105), wall rows (106), balance (107), ladders (108), caverns, ruins and catacombs (109), item 110's rows, naming | §10.2, §7.6, §14 | C0–C3b, C4a (the wall rows) and C5–C7 inside M0–M4b, C4a at M2b; C8 at M6-U; C9 beside each owner item's base milestone; C4b (the dossier rows) with the SettlementForge stage (V11 §8) | 13.6–19.1 |
 | V12 | `V12-calibration.md` | calibration — the capture plan, parity, the owner's panels, tuning runs, the register of every provisional number, the corpus reconciliation | §13 (all), §7.6, §17.1 | base side M-1 – M4, W6 at M6-U's U3 – U5, W7 with each owner item's milestone (V12 §8.2); **M-CAL** staged | 7.25–11 base side; M-CAL 4.75–8; each later corpus run 0.25–0.75 |
+| V13 | `V13-world.md` | the world regime, placement and hydrology — a world document of its own (W0–W9: the terrain recipe, features and surfaces, climate, hydrology with groundwater and springs, biomes and resources, suitability, routes, polity, labels and the settlement glyph); the placement of settlements both ways (P1–P5, the frame charter as S1's one input, the coherence cost, the blend band, the precedence stamp); water as a consequence system at both scales (surfaces as dated records, the one water class test, the two verbs and the cascade, the counterfactual fork); reason records; the world port; the sway and patrols (the owner's territory rules, V13 §3.9); the lenses over the host's simulated systems (V13 §5.8, §5.9); the map-import adapter and the ecosystem-shaped exports | §2.3, §2.6 *Basements*, §2.8–§2.9, §4.2 S1, §4.12, §6.1, §6.3, §7.1, §7.3, §7.7, §8.4, §9.5, §11.1, §14 | **M-W0h** (the water state at the frame: after M4 beside M5, exiting before M6-U's U3b); **M-W0 – M-W5** after M-SF (M-W5 the lenses, after M-W2), the host's own changes a parallel track (V13 §8) | 37–45 as one staged row (M-W0h ≈ 4 inside it; BCR-V13-37, file o item 877) |
+| V14 | `V14-sites.md` | world sites, encounter crops and the 2.5D view — the site card, its request, programme and complexity vector; admissibility by context; topology-first unit graphs embedded on the kernel (natural caves, rock-cut rooms, mines, built levels, the ground by the hinterland unit); water classes per unit; condition as a transform over a persisted plan; the anchor, the one access record and the three secret states; adoption into a settlement; the encounter crop (extent by table, completion by the plan rung, the occupancy abstraction, the transient layer, promotion, the VTT crop scope and stable grid origin); the 2.5D projection family with z-completeness, hit testing back to the 2D address and the raise-or-lower edit | §2.1–§2.2, §2.5, §2.7–§2.9, §3.4, §4.12, §6.1, §7.1, §7.6–§7.7, §8.1–§8.2, §8.4, §8.8, §9.2, §9.5, §11.1–§11.2, §14, II.7.4, II.7.6 | **M-ENC** after M1 (its interiors with M6-P's P1); **M-SITE-A** after M6-U; **M-SITE-F** after M-W1; **M-25D** after M4 beside M5 (V14 §8) | 25.75–36.25 (M-ENC 4.25–5.75; M-SITE 13–18.5; M-25D 7.75–11; content 0.75–1) |
 
-**Base change requests.** 407 requests in the volumes' `## 10` sections are carried by the 386 items of file f (200–585;
+**Base change requests.** 407 requests in volumes 1–12's `## 10` sections are carried by the 386 items of file f (200–585;
 137 BASE — built inside the base's milestones — and 249 STAGED — applied to the design now, built with the named staged
-milestone); 0 uncarried, 0 duplicated, no gap.
+milestone); 0 uncarried, 0 duplicated, no gap. Volumes 13 and 14's 54 requests (BCR-V13-1 – 29, BCR-V14-1 – 25) are
+carried by the 48 items of file k (600–647; 38 base items, 10 cross-volume items; the gate's rows K1, K5, K6, K9 and
+M1–M11 reserved BASE at M1's API pass, the mechanisms STAGED with their milestones); 0 uncarried, 0 duplicated, no
+gap, 0 conflicts; one mechanism question open for reconciliation round 1 (`docs/volumes/_integrate-world-sites.md`
+§1.4). In all: 461 requests, 434 items. Files m–q since added eleven requests to V13 §10, outside those totals (BCR-V13-30 – BCR-V13-40): BCR-V13-37 is carried by file o item 877, BCR-V13-38 by file p item 890 and BCR-V13-40 by file q items 916 and 917; BCR-V13-30 – BCR-V13-36 (the base) and BCR-V13-39 (V09) stand with no admission item, each for the coherence pass to admit by an item of its own (J387's and J388's pending ledger).
 
 ## 2 The wiring — base hooks and what each volume feeds
 
@@ -59,10 +68,13 @@ Every dossier fact reaches a volume through volume 8's digest and derivation row
 | V10 | §11.2 (the worker boundary), §7.1 (events as the only write), item 101's vocabulary | V09 (the message catalogue and buttons), every volume's why providers, V08 (host clerk) | V09 (the drawer), V08 (the host's assistant seam) |
 | V11 | §10.2 roster, §7.6 editable tables, §14's `@plat/tables`, every stage's rows | the owner's rules (file g), V08 (the catalogue kinds) | every volume's tables; V12 (the register of every calibratable cell) |
 | V12 | §13 (benches, goldens, parity, the D-5 panel, CI tiers, the corpus interface), §7.6 | every volume's bars and calibratable cells (their register lines) | every volume's provisional numbers (confirmed, tuned, or `not-achieved`) |
+| V13 | §2.3 `Terrain` (the carve delta, the surfaces, the groundwater field; `datumOf`, `windOf`), §2.6's basement gate (`waterTableAt`), §2.8's reason record and registry rows, §2.9 (`Document.worldRef`, `Recipe.charter`, `namespace`, the `world` product, the world's view keys), §4.2 S1 (the charter as its one input), §4.12 `StrategyRegistry.products`, §6.1's concerns and stage ids, §6.3's namespace segment, §7.1's `verb` and edit kinds, §7.3's cascade rows, §7.7's world port, §8.4's layers and `sunAt`, §9.5's compass, §11.1's exports, §14 `@plat/world` (the lifted hydro core) | V04 (its elements as water units), V06 (`terrainWater` ops at an epoch, the history frames), V08 (the host's seats, cost law and events; DR1/DR29 facts as placement constraints), V10 (`why` queries), V11 (the climate rows, naming, the registry), V12 (the register), V14 (`WorldSite.attraction` and `routed`, the site's glyph marks, its `placementRef`) | the frame's S0/S1 (through the charter; `datumOf`, `windOf`, `sunAt`), V04 (`waterTableAt`, `classifyWater`, `routeClass`, the connected-set walk), V06 (dated surfaces, the waterlogged decay), V08 (`SettlementMapRecord`, the per-campaign charter, proposals, routes), V09 (the world view, the placement tool, the water overlays), V10 (reason records, the four readers), V14 (`FrameCharter`, `Placement`, the suitability slot, `worldFactsAt` and `WorldEvent`, the transient `charterFor`, the `site` `WaterSurface`, `world.placed`), V02 (the per-storey water class), V12 (B-WORLD, the drift tests) |
+| V14 | §2.1–§2.2 (the `site` layer, the `passage` role), §2.5's `worldSite` reservation, §2.7's staged records (`SiteAnchor`, `WorldSite`, `verticalEnds`), §2.8's `ZDecl` column, §2.9 (`nextSitePart`; the `projection`, `encounter`, `siteOpen` and `party` keys), §3.4's owner-less transient arena, §4.12's `site` product and `worldSite` destination, §6.1's `site` concern, §7.1's site edit kinds and `raiseLower`, §7.6's site tables, §7.7's `Assignment.site`, §8.1–§8.2 and §8.8 (the projected tiles and style family), §9.2 (the secret states), §11.1 (the VTT crop scope and grid origin), §11.2 (`PlatApi.encounter.*`), §14 `@plat/sites`, II.7.4 (`AccessPoint.under` as `SiteReach`), II.7.6 | V13 (the charter, the placement, the suitability score and context, the water class test, `ReasonRecord`, the verbs and the cascade, `worldFactsAt`), V01 (local places; a close-up's context), V02 (massing; the storey ranges), V03 (plans, storeys, the `secret` stair core, the programme override), V04 (records, programs, dig generators, the figure-ground, the overlap test), V05 (islands), V06 (`decayLevel`, the ops, robbing), V07 (the village's siting), V08 (the site record, reveal and reach), V09 (tools, panels, the switch), V10 (sections), V11 (rows), V12 (fixtures, panel, pins) | V13 (the seventeen purpose-term plug-ins, `attraction` and `routed`, the site's glyph marks, `adoptSite` on `world.placed`), V04 (`siteEnvelopes`, breach links, `site` parts in the connection graph), V06 (G7's transforms under an epoch, the material rate), V07 (the `worldSite` reservation), V08 (a site's derived capacity), V09 (the icon, the crop, the 2.5D view, the hit stack), V10 (the `site` and `encounter` sections), V11 (the rows, the naming slice), V12 (B-SITE, B-CROP, B-25D, V14-P, the no-op pins), the DM (the crop at the table, the VTT scenes) |
 
 **How dense the wiring is** (citations of other volumes in each volume's text, counted by script;
 row cites column): the heaviest seams are V09–V10 (685/738), V03–V02 (522), V07–V11 (420), V08–V09 (407), V12–V11
 (400), V05–V01 (396), V06–V07 (253) and V04–V01 (329); the six seam checks of §7 were drawn along exactly these pairs.
+Volumes 13 and 14 (counted 2026-10-17): V14–V13 386, V13–V14 151 — the `seam-world-sites` check's pair.
 
 ## 3 The dependency graph
 
@@ -92,6 +104,15 @@ flowchart LR
   VM --> MCAL
   MCAL --> MSF["M-SF, SF0 … SF7 (V08)"]
   VM --> VH["VH village hand-off (V08)"]
+  M4 --> MW0H["M-W0h water state at the frame (V13), after M4 beside M5"]
+  MW0H --> MU
+  MSF --> MW["M-W0 … M-W5 the world (V13), after M-SF (M-W5 the lenses after M-W2)"]
+  MA --> MENC["M-ENC encounter crop (V14), after M1"]
+  MP0 -.-> MENC
+  MU --> MSA["M-SITE-A attached sites (V14), after M6-U"]
+  MW --> MSFree["M-SITE-F free sites (V14), after M-W1"]
+  M4 --> M25["M-25D the 2.5D renderer (V14), after M4 beside M5"]
+  MW -.-> M25
 ```
 
 | milestone | may start after | runs beside | its hard dependencies inside (the volume's own §8) |
@@ -108,6 +129,12 @@ flowchart LR
 | M3c (V10) | M3a (C1 is inside M3a) | M3b | V09's AP8 screens |
 | M-CAL (V12) | M6-sky; its inputs M4, M5, M6 and V-M4 | — | the corpus interface (§13.9) |
 | M-SF (V08) | M-CAL (SF0–SF3 may start earlier; VH when the village lands) | — | SettlementForge's own side (SettlementForge's program) |
+| M-W0h (V13) | M4 | M5, the village, M6-E, M-25D | exits before M6-U's U3b; its only new dependency M4's render tier (the overlays); V04's water readers and V14's G6 switch to the one classifier at its landing (provisional readings before it) |
+| M-W0 – M-W5 (V13) | M-SF (the host client); M-W0's spikes once M0 closes; M-W5 the lenses after M-W2 | the host's parallel track (V13 §8.5; Q2); M-W5 beside M-W3 | M-W1 before M-SITE-F; M-W3's adapter and exports before the host's reference fork retires; M-W5 before M-W4, whose gate covers it |
+| M-ENC (V14) | M1 | M2a – M4 | the interiors with M6-P's P1 and the occupancy with M4b (registry lookups: shells and `W_CROP_INCOMPLETE` until then); the world click after M-W1 |
+| M-SITE-A (V14) | M6-U's U3b and V01's W15 (M5) | M6-P, M-W1 | G6 reads the classifier from M-W0h (provisional classes before it); the surface exception's programme override from M6-P |
+| M-SITE-F (V14) | M-W1 | M-W2 | a free-standing drop takes a point only until M-W1; adoption through `adoptSite` on V13's `placed` outcome |
+| M-25D (V14) | M4 | M5 | its world rows after M-W1 and the islands' slabs after M6-sky (registry lookups) |
 
 ## 4 The combined build order after M5, with estimates
 
@@ -115,7 +142,10 @@ The order is the owner's delegation's (J122: `docs/OWNER-DECISIONS-DELEGATED-202
 §16's staged-milestones table: V-M0 right after M0; M3c beside M3b; after M4 four streams side by side — M5 (V01), the
 village V-M1 – V-M4 (V07), M6-E (V06) and the plan rung's P0, P1 and P3 on the base's buildings (V03); then M6 (V02)
 and M6-U (V04) after M5, M6-U beside M5 where a second pair is free; then M6-P's rest and M6-sky (V05); then M-CAL
-(V12); then M-SF (V08; VH with the village). Every milestone's price is its volume's own §8 estimate, and §16 computes
+(V12); then M-SF (V08; VH with the village). Volumes 13 and 14 (2026-10-17; the owner deferred their decisions to
+the session, each vetoable) add, as their §8 states and file k item 635 writes into §16: M-ENC right after M1; M-W0h
+and M-25D after M4 beside M5; M-SITE-A after M6-U; M-W0 – M-W5 after M-SF (M-W5 the lenses after M-W2, beside M-W3; file o item 877); M-SITE-F after M-W1. Every milestone's
+price is its volume's own §8 estimate, and §16 computes
 the two totals once (file f item 568) — the base with stage 2, and the whole program — with the lines outside both
 (later corpus runs, the command-line clerk, SettlementForge's own side). Staffing per the owner: architecture and
 rulings on Fable seats; build, verification and measurement on Opus seats (§16).
@@ -137,20 +167,27 @@ Every volume's §8 lists its risks in order, each with a spike or a measurement 
 | 8 | the model provider — direct browser calls, cost, retirement (V10 risks 1, 3, 6) | C0's S1 | the drawer shown unavailable with its reason and the host path kept open; the owner's spending limit; the model id is one table cell re-evaluated before any switch |
 | 9 | content effort and balance — the family weights (V11 R1), aqueducts too rare or common (R5), an ancient culture too like the town (V04 risk 6, V11 R6) | V11's C2 and C3b spikes; T-V4-45, T-V11-24 | halve every family weight; the `perHeadL` fallback; the pre-decided refit |
 | 10 | the default map's look changing at M5 (V01 risk 6) | the M5 panel | the parity presets do not move; the change is declared once (Q-V1-1) |
+| 11 | the new regimes' budgets — W4 and W1 at the continent rung (V13 §8.4), the crop's completion where twelve plans are absent (V14 risk 1), the 2.5D frame at the metropolis cap (V14 risk 4) | SP-W1, SP-W6, SP-W7 (M-W0); SE0 (M-ENC); V0 (M-25D) | the continent's cell to 1 250 m or the noise capped at four octaves; `maxBuildings` 8; the city band's trees off and the terrain's cell doubled (each a table value with a declared shift) |
+| 12 | a reader landing before V13 — V04's water readers and V14's G6 (provisional classes until M-W0h), the world click (refused), a free-standing drop (a point only until M-W1), the host's track (Q2) | none needed: each order is written out | the named fallbacks (BCR-V13-21's order clause; V14 §1b.6's rows; T-V13-37's mock host) |
 
 **Spikes, in the order they run** (each as its volume's §8 states it): V12's S-V12-1 and S-V12-2 (M-1); V07's V-M0 (the
 tracker spike, right after M0); V09's S-A1 and S-A2 (M2a); V12's S-V12-3 and S-V12-4 and V11's family-weight spike at C2
 (M2b); V09's S-A3 and S-A4 and V11's aqueduct bench at C3b (M3a); V10's C0 (S1 – S4, M3c); after M4, V01's S-V1-a – c
 (M5's first weeks), V03's P0 and V06's E0; V05's P0 (beside M5); V04's U0, then its risk spikes at U3's and U3b's starts
 (M6-U); V02's SP-V2-1 (before M6a), SP-V2-2 (in M6a), SP-V2-4 (before M6c) and SP-V2-3 (in M6c); V08's SF0 (M-SF, or
-earlier on the frozen fixtures). The first-five-minutes sessions (§13.4) measure the tools at M2a, M3a and M3c.
+earlier on the frozen fixtures); V14's SE0 (M-ENC's start, after M1) and V0 (M-25D's start, after M4); V13's
+SP-W1 – SP-W7 (M-W0, once M0 closes; before M-W1). The first-five-minutes sessions (§13.4) measure the tools at M2a, M3a and M3c.
 
 ## 6 Owner questions with recommendations
 
-Every question the volumes put to the owner is answered: those that belong to SettlementForge follow its own decisions
-(J121: the map is a SettlementForge module), and every other is decided under the owner's delegation (J122:
+Every question the volumes put to the owner is answered but one: those that belong to SettlementForge follow its own
+decisions (J121: the map is a SettlementForge module), and every other is decided under the owner's delegation (J122:
 `docs/OWNER-DECISIONS-DELEGATED-2026-09-29.md`), each vetoable. Each volume's §11 marks its questions answered and its
-body reads the decision.
+body reads the decision. Volumes 13 and 14's eight questions carry the session's recommendation: the owner deferred
+every decision on them to the session (2026-10-16: "i defer all decisiosn to you"), so each stands as **recommended;
+vetoable** until the owner rules — save V13 Q4, which waits on the owner's own word, the one decision the delegation
+cannot reach: J86's door 1 opens only on the owner's explicit word (base §11.4; J388), and until Q4 is answered the
+host's builder over the canon (V13 §8.5's H5) and every new campaign's birth canon (H22) stay dark.
 
 | volume | question | answer |
 |---|---|---|
@@ -179,6 +216,14 @@ body reads the decision.
 | V12 | Q-V12-1 — one month of FTG's premium tier | no (J122); reversed by the owner on 2026-10-03 (J164): one month bought for the METROPOLIS reference |
 | V12 | Q-V12-2 — the owner's sittings | only at M1 (the look check), M2b, M4 and M5, batched, about an hour each; a staged milestone's panel joins the next of them when its build has landed, else stays *provisional — not rated* (J122; §13.6 (1)) |
 | V12 | Q-V12-3 — historical layers as defaults | only where the owner's sitting passes them (J122) |
+| V13 | Q1 — existing campaigns: whether a living campaign is offered the elective rebase onto a world from this module (the transition otherwise ruled: every frozen record kept, the import on request, a legacy world view with no write; J-V13.81) | offer it per campaign, premium, default keep, the full forecast diff shown before confirmation; never automatic (recommended; vetoable) |
+| V13 | Q2 — the host's schedule (V13 §8.5's H1–H30) against M-W1 – M-W3 and M-W5, and whether the realm map's replacement is part of the map module's post-launch disposition | class it with the post-launch disposition; H1–H3 before the host's launch, H4–H11 with M-W1, H12–H17 and H22 with M-W2, H23–H30 with M-W5, H18–H20 after M-W3; the standalone world ships either way (recommended; vetoable) |
+| V13 | Q3 — a placed settlement's share code: embed the charter or name the world | embed the charter, so a settlement replays from its own code (recommended; vetoable) |
+| V13 | Q4 — J86's door 1 and the world canon: is the canon (reaching the host's simulation only through its receipted canonize — H22's birth canon or a re-canonize, the additive one included) outside door 1? | confirm — the owner's own word, which base §11.4 reserves to the owner (J388): until it is answered the host's builder over the canon (H5) and every new campaign's birth canon (H22) stay dark (recommended; awaiting the owner) |
+| V14 | Q1 — the in-town encounter crop ships after M1 or waits whole for M6-P | ship after M1 with shells and the VTT crop; the interiors arrive with V03's P1 by a registry lookup (recommended; vetoable) |
+| V14 | Q2 — a host record for world sites in the dossier (a capability across the SettlementForge boundary) | yes, scheduled with V13's host changes; until it lands every site is map-tier and nothing of the map is lost (recommended; vetoable) |
+| V14 | Q3 — the cost, 25.75–36.25 person-weeks across three milestones | accept (recommended; vetoable) |
+| V14 | Q4 — a vendor block in the VTT export carrying each unit's reason and the anchor's knowledge state | yes, as an optional namespaced block off by default; the common fields unchanged (recommended; vetoable) |
 
 ## 7 How the volumes were reconciled, and the fix list
 
@@ -186,17 +231,27 @@ The volumes were reconciled by the integration lane (`docs/volumes/_integrate.md
 reconciliation rounds, and the coherence pass (`workflows/18-coherence.js`); their records — the seam checks, the
 reconciliation notes and every finding's disposition — are kept under `docs/validation/`. No item stays open: every
 entry of the round-6 fix list was routed by the coherence canon (`docs/validation/coherence/canon.md`) to the unit that
-owns it and fixed there.
+owns it and fixed there. Volumes 13 and 14 (2026-10-17) were critiqued (`critique/V13.md`, `critique/V14.md`), revised,
+checked against each other by one seam round (`critique/seam-world-sites-r0.md`: 37 findings — 1 blocker, 15 major,
+21 minor), reconciled under the chief architect's rulings (J-V13.51–62, J-V14.49–55) and integrated
+(`_integrate-world-sites.md`: seam round 1 confirmed 36 of 37, 12 wording residuals fixed in place, one mechanism
+question open for reconciliation round 1 — the import's markers, R1-1); their coherence pass applied file k (J376;
+`docs/validation/coherence/world-sites-k.md`, 48 of 48 items), the M0 gate (`docs/build/checks/M0-world-sites-gate.md`,
+item 140) ran as a separate lane and holds (J376), and files m–q carried the realm review and the lens design into
+them, each applied by its record (`docs/validation/coherence/realm-m.md`, `lens-n.md`, `lens-o.md`, `lens-p.md` and
+`lens-q.md`, each named by its file's status line).
 
 ## 8 CONFIRMED versus PLAUSIBLE
 
 **CONFIRMED (executed):** the request census of §1 (407 requests carried by the 386 items of file f, 0 uncarried, no
-gap or duplicate; 137 BASE and 249 STAGED) and the wiring density of §2, both by script; each volume's §8 total
+gap or duplicate; 137 BASE and 249 STAGED; volumes 13 and 14's 54 requests carried by file k's 48 items, every quote
+verified by fragment search) and the wiring density of §2, both by script; each volume's §8 total
 re-summed from its rows by the coherence pass's verifiers. The finalization lane's own record — its ledger, its in-place edits with their asserted match
 counts, its clean-room and document checks — stands in the archived index
 (`docs/archive/volumes-pre-coherence-2026-09-28/INDEX.md`) and the lane log.
 
-**PLAUSIBLE (reasoned, not executed):** every price of §1 (each volume's own §8 estimate) and the two totals §16
+**PLAUSIBLE (reasoned, not executed):** every price of §1 (each volume's own §8 estimate; volumes 13 and 14's
+37–45 and 25.75–36.25 pw among them, PLAUSIBLE until their spikes report) and the two totals §16
 computes once from them (file f item 568) — expert estimates until the milestones run; that the pairs no seam read
 together hold no semantic conflict sharing no name (J-VI.29). The order of §3 and §4 is a decision under the owner's
 delegation (J122), not a measurement.

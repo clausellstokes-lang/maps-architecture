@@ -2,6 +2,8 @@
 
 > Fable-validated 2026-09-26 — the whole normative text of this document was consolidated by Opus stand-ins (the consistency pass of 2026-09-26: one canonical home per fact, history and rationale moved to `docs/ARCHITECTURE-RATIONALE.md`) and validated by Fable on 2026-09-26 (`docs/validation/consistency/validate.md`; closing record `docs/validation/consistency/SUMMARY.md`); the design decisions taken by Opus stand-ins during the fix rounds stay queued in `docs/FABLE-REVIEW-QUEUE.md` until `workflows/05-fable-review.js` has run.
 
+> **Revision — 2026-10-17 (lane coherence/vtt-l-and-k11; file l, `docs/AMENDMENTS-2026-10-17l.md`, items 648–654 applied to §11.1's `.dd2vtt` profile: the version pin, the multi-floor sentence, `format`, the transient sight-blockers in both lists, `software` and `creator`, `plat.stairs`, the Foundry 14 scene with `levels[]`; record `docs/validation/coherence/vtt-l.md`).** PENDING FABLE REVIEW — written by Opus 5.5 standing in for the Fable seat coherence/vtt-l-and-k11; to be retrovalidated overall at the next opportunity (owner, 2026-10-17, J375)
+
 **PLAT** is the codename — a plat is a cadastral plan of plots, the single spatial truth of this design; the packages
 are `@plat/*` (D-19). The product's public name follows SettlementForge's (J121).
 
@@ -146,14 +148,14 @@ design volumes (`docs/volumes/`) were written on this base and their base change
 below). The set is one design, not a concatenation: every mechanism appears once, under the section or volume that owns
 it; where two sources gave the same mechanism the more precise wording was taken.
 
-### 0.2 Where the owner's late rules land — items 1–7 (`docs/AMENDMENTS-2026-09-25.md`), 8–31 (`AMENDMENTS-2026-09-25b`), 32–88 and 101 (`AMENDMENTS-2026-09-27c`, `-d`, `-e`), file g's items and the base change requests 200–585 (file f)
+### 0.2 Where the owner's late rules land — items 1–7 (`docs/AMENDMENTS-2026-09-25.md`), 8–31 (`AMENDMENTS-2026-09-25b`), 32–88 and 101 (`AMENDMENTS-2026-09-27c`, `-d`, `-e`), file g's items, the base change requests 200–585 (file f), 600–647 (file k) and 648–658 (file l)
 
 Every clause of every rule is checked at its landing; where a rule has several clauses its home carries a clause map.
 Each row names the home that states the mechanism; the sections that carry a pointer, a hook field or one line of the
 rule, and the item's tests (§13.2's `T⟨item⟩-⟨n⟩` bars), cite the item by number. Items 1–7 are
 `docs/AMENDMENTS-2026-09-25.md`, 8–32 `AMENDMENTS-2026-09-25b` (item 32 landed with 33–72), 32–72 `AMENDMENTS-2026-09-27c`,
-73–88 `-27d`, 101 `-27e`, 102 onward `docs/AMENDMENTS-2026-09-28g.md` (file g) and 200–585
-`docs/AMENDMENTS-2026-09-28f.md` (file f). Items 33–62 come from reading the references' compiled code (§17.1 (1)): each
+73–88 `-27d`, 101 `-27e`, 102 onward `docs/AMENDMENTS-2026-09-28g.md` (file g), 131–141 `docs/AMENDMENTS-2026-10-16j.md` (file j: the owner's rules on the world, sites, encounters and hydrology; its items cited by number as every owner item is), 200–585
+`docs/AMENDMENTS-2026-09-28f.md` (file f) and 600–647 `docs/AMENDMENTS-2026-10-16k.md` (file k: volumes 13 and 14's base change requests, applied by the coherence pass `coherence/world-sites-k` and cited below as `file k item n`), and 648–658 `docs/AMENDMENTS-2026-10-17l.md` (file l: the VTT export profile re-verified against the formats as of 2026-10-17, item 136 (c) — items 648–654 the base's §11.1, 655–658 volume 14's — applied by `coherence/vtt-l-and-k11` and cited as `file l item n`). Items 33–62 come from reading the references' compiled code (§17.1 (1)): each
 adopts a mechanism re-derived in our own terms, keeps ours with its reason, or calibrates a default to a read fact with
 its `(code)` provenance (§17.1 (6)); a part a reader only inferred entered only as Fable's evidence gate released it,
 labelled as an inference, and the gate's one rejection (item 49's deletion) is honoured. Items 63–72, 101, 102–111 and
@@ -304,6 +306,8 @@ build every other subject on the same engine.
 | the evolution engine | epochs: decline and regrowth, use relocation, the wealth ladder, the works on the weekly clock, slow terrain change, history | volume 6 (§4.11's hook; the one built path, grow-by-stage, is the base's) | M6-E |
 | the village product | THORP → HAMLET → VILLAGE and the small-town edge | volume 7 (PART III) | V-M0 – V-M4, V-M2u |
 | the SettlementForge connection | the host client, the port leader and adapters, persistence in the host, the players' view | volume 8 (§7.7, §11.2–§11.4, §14's `@plat/port`) | M-SF (SF0 – SF7, VH) |
+| the world: the world regime, placement and hydrology | the world document (W0–W9), the placement of settlements (P1–P5), the charter, the water state at both scales, the two verbs and the cascade, the world port, the ecosystem-shaped exports and the adapter | volume 13 (§2.3, §2.4, §2.8, §2.9, §4.2 S1, §6.1, §6.3, §7.1, §7.3, §7.7, §8.4, §9.5, §11.1, §14) | M-W0h after M4; M-W0 – M-W5 after M-SF (M-W5 the lenses, after M-W2; BCR-V13-37) |
+| world sites, encounter crops, the 2.5D view | world sites as documents of their own with their anchors and cards (G1–G8), the encounter crop on a transient arena (E1–E4), the 2.5D projection family beside the flat map (R1–R4) | volume 14 (§2.1, §2.2, §2.7–§2.9, §3.4, §4.12, §6.1, §7.1, §8.2, §8.4, §9.2, §11.1–§11.2, §14) | M-ENC after M1; M-SITE-A after M6-U; M-SITE-F after M-W1; M-25D after M4 |
 | the built-in clerk | the assistant driving the tool API | volume 10 (§11.2, §14) | M3c |
 | corpus calibration | the reconciliation against the historical corpus | volume 12 (§13.9) | M-CAL |
 
@@ -381,7 +385,7 @@ modifier's distance from 1 is doubled once and re-measured; if it still fails, t
 and the ordering is reported as not produced.
 
 **Requests at the ends of the ladder.** A request below 1 500 inhabitants is routed by `LadderRouter.route(population)
-→ { product: 'base' | 'village', rung }` to the village product registered in `StrategyRegistry.products` (§4.12;
+→ { product: 'base' | 'village' | 'world' | 'site', rung }` to the village product, by `Recipe.product: 'world'` to the world product (V13 §3.0: stages W0–W9, each a `StageDecl` with `txForm: 'records'`; the placement operators P1–P5 are §7.3 local operators, not stages), or by `Recipe.product: 'site'` to the `site` product (V14 §3.1's G1–G8, registered by `@plat/sites`; never by population), all registered in `StrategyRegistry.products` (§4.12;
 PART III): `LadderRouter` reads that registration — a registered product's rung for a population inside that product's
 range, the base's clamp otherwise. While no village product is registered the base builds a 1 500-person TOWN for a
 request that carries no dossier and `requestedVsBuilt` reports the clamp; a dossier whose population lies below 1 500
@@ -547,12 +551,15 @@ sky — so the owner-staged sewers and floating islands need no change of the mo
   anything else; `perKm2` and `per100m` are counts per square kilometre and per 100 m of length (two calibration
   metrics' units, V12 §3.4.2). Volume 11's `ColumnSpec.unit` (V11 §2.1) and volume 12's metric `Unit` (V12 §2.1) are named subsets of
   this list, each exactly its present set.
-* **Layers.** `layer ∈ {underground, ground, sky}` is a field on every geometric entity and every display-list item,
+* **Layers.** `layer ∈ {underground, ground, sky, site}` is a field on every geometric entity and every display-list item,
   with `z: i32` (order inside the layer) and `elevationCm: i32` (base elevation: an island's altitude; a sewer's
-  negative depth). Per-layer toggles, shadows and export hang off this one field; a layer's drawing and export settings
-  are its `LayerSpec` (§8.4), edited by `setLayer` (§7.1). **The base populates only `ground`; `underground` and `sky` —
+  negative depth). `site`: a world site's levels, one part per level numbered by `Document.nextSitePart` from 1 (no part 0),
+  addresses `site<n>/kind:token`, the level mapping §2.2 rule 1's underground mapping, drawn by §8.4's underground view on
+  its own `LayerSpec` (file k item 624); the kernel's `Layer` type (`types/ids.ts`) **appended**, K1's append-only test the
+  bar (V14 Part E bar 1, T-V14-32); the value is appended at M1's API pass and its parts exist only from M-SITE-A (V14 §2.1). Per-layer toggles, shadows and export hang off this one field; a layer's drawing and export settings
+  are its `LayerSpec` (§8.4), edited by `setLayer` (§7.1). **The base populates only `ground`; `underground`, `sky` and `site` —
   and every staged record of §2.7 — are schema-complete and empty until their staged stages run** (II.6, II.7; volumes
-  4 and 5). **Wording:** *layer* without qualification means one of these three model layers; the toggleable drawing
+  4, 5 and 14). **Wording:** *layer* without qualification means one of these four model layers; the toggleable drawing
   groups of §8–§9 (labels, cadastral outlines, trees, annotations, the thematic style overrides) are display-list groups
   selected by `semantic`, never a fourth model layer — trees and pins switched by `StyleSheet.groups` (§8.2).
 * **Arena parts (G-R11).** Each layer has its own arena or arena parts, keyed by `PlatKey` (§2.2): the ground — part 0 of
@@ -561,8 +568,8 @@ sky — so the owner-staged sewers and floating islands need no change of the mo
   and one further part per underground system of II.7.6 (catacombs, caverns, quarries and mine voids, vaults, a buried
   old town, dug passages; an `UndergroundSystem`, §2.7), the undercity's neighbourhoods lying in the part of the void
   they occupy (II.7.5); and one part per sky island (volume 5). **Every part number is allocated once, at its arena's
-  creation, and never reused** — the counters `Document.nextUndergroundPart`, `Document.nextSkyPart` and
-  `Document.nextGroundPart` (§2.9) never decrease, because the number is part of its entities' keys and addresses (§6.3). Underground records are populated
+  creation, and never reused** — the counters `Document.nextUndergroundPart`, `Document.nextSkyPart`,
+  `Document.nextGroundPart` and `Document.nextSitePart` (§2.9) never decrease, because the number is part of its entities' keys and addresses (§6.3). Underground records are populated
   only by II.7's stages or, for a `dug` system, by an access edit or an undercity lifeline's closure once those stages
   exist (§7.3 item 9 (d), II.7.4; item 66); their level mapping is §2.2 rule 1's and their depth is `elevationCm`
   (negative below the ground datum, II.7.3, II.7.6). Whether a layer exists is decided by what the model holds, never by
@@ -584,7 +591,7 @@ sky — so the owner-staged sewers and floating islands need no change of the mo
 // @plat/kernel
 type Cm = number;                        // integer centimetres; a number becomes an arena coordinate only through snap() (§3.2 (7)), in every build
 type Level = 0 | 1 | 2 | 3 | 4;          // L0 land/water · L1 way skeleton · L2 kerbs, corridors, blocks · L3 plots+residue · L4 footprints+yard parts
-type PlatKey = { layer: Layer; part: number };   // part 0 = the ground, or the underground's sewer network; ground parts ≥ 1 = one arena per raised way's deck (g item 110 (b); §2.7, §3.4), numbered by Document.nextGroundPart; underground parts ≥ 1 = one arena per further system (II.7.6); sky parts ≥ 1 = one arena per sky island (its count-law slot is SkyIsland.slot); numbering: §2.1 Arena parts
+type PlatKey = { layer: Layer; part: number };   // part 0 = the ground, or the underground's sewer network; ground parts ≥ 1 = one arena per raised way's deck (g item 110 (b); §2.7, §3.4), numbered by Document.nextGroundPart; underground parts ≥ 1 = one arena per further system (II.7.6); sky parts ≥ 1 = one arena per sky island (its count-law slot is SkyIsland.slot); site parts ≥ 1 = one arena per level of a world site (V14 §2.1), numbered by Document.nextSitePart, round-tripping as any part (K2 unchanged; a site part's level mapping is rule 1's underground mapping); numbering: §2.1 Arena parts
 type VertexId = number; type HalfEdgeId = number; type FaceId = number;   // arena slots: kernel-internal, valid within one batch (rule 5)
 interface Plat {
   readonly key: PlatKey;
@@ -899,7 +906,7 @@ Rules that make it the single spatial truth:
 
    | kind | roles (**structural** in bold; *indexed* — rows carry an ordinal — in italics) |
    |---|---|
-   | edge | **`way`**, `kerb`, `corridor_split`, `band`, **`wall`**, **`wall_gate`**, **`shore`**, **`bank`**, **`border`**, **`margin`**, `field_bound`, `district_bound`, `plot_line`, `party_wall`, `frontage`, `access`, `yard_part`, `claim`, **`reserved`** (a reservation's boundary before growth, §4.2 S3), **`setback`** (the L1 line bounding a wall strip, §4.8), **`deck`** (below), `green_line` (hedgerows on L3 field boundaries; avenue and street-tree rows are `Greenery.along` records, not edges, §2.7), `treatment` (a plot edge's fence, hedge, wall or railing as an attribute row), *`gate_opening`* (the sub-edge of a treated plot edge left open for a gate, one ordinal per gate), **`tunnel`**, **`gallery`** (the centreline of an underground system's gallery or an undercity's walkway, rule 1; item 65), **`chamber_wall`** (a chamber's closed outline chain, rule 1; item 65), **`rim`** (a sky island's rim, rule 1; volume 5), `invisible` |
+   | edge | **`way`**, `kerb`, `corridor_split`, `band`, **`wall`**, **`wall_gate`**, **`shore`**, **`bank`**, **`border`**, **`margin`**, `field_bound`, `district_bound`, `plot_line`, `party_wall`, `frontage`, `access`, `yard_part`, `claim`, **`reserved`** (a reservation's boundary before growth, §4.2 S3), **`setback`** (the L1 line bounding a wall strip, §4.8), **`deck`** (below), `green_line` (hedgerows on L3 field boundaries; avenue and street-tree rows are `Greenery.along` records, not edges, §2.7), `treatment` (a plot edge's fence, hedge, wall or railing as an attribute row), *`gate_opening`* (the sub-edge of a treated plot edge left open for a gate, one ordinal per gate), **`tunnel`**, **`gallery`** (the centreline of an underground system's gallery or an undercity's walkway, rule 1; item 65), **`chamber_wall`** (a chamber's closed outline chain, rule 1; item 65), **`passage`** (structural, non-indexed, on `site` parts: the tunnel role's twin, its half-width answered by the site kernel's `SpineWidths` callback — `passage.widthCm[widthClass] ÷ 2 + wallCm`, V14 §1.1 — so `corridorUnion` reads a site's widths as the sewer's; `chamber_wall`, `access_point`, `link_end` and `margin` are reused on `site` parts; appended without digest change, K5, read only from M-SITE-A; file k item 602), **`rim`** (a sky island's rim, rule 1; volume 5), `invisible` |
    | vertex | `junction`, `tower`, `gate`, *`entrance`* (one row per entrance of a building's entrance set, `('entrance', building id, i)`, §2.6, item 29), `portal`, *`attach`*, *`anchor`*, *`weld`*, *`deck_end`*, *`gate_end`*, *`composition`* (a stored stage-3 composition's boundary points, §2.6), `access_point` (an `AccessPoint`'s vertex on its underground element — a tunnel's or a gallery's kerb, a chamber's wall, a sewer dwelling's side or rear wall, II.7.4 — distinct from the `access` edge role), *`link_end`* (`('link_end', link id, 0 \| 1)`: an `UndergroundLink`'s end, one vertex in each of the two parts it joins, §2.7; item 65), *`raised_foot`* (`('raised_foot', way id, 0 \| 1)`: a raised way's foot i, one vertex on ground part 0 and one at its spine's end on the way's own part, as `link_end`, §2.7 `RaisedWayRecord.feet`; g item 110 (b)), `sky_access` (a `SkyAccess`'s vertex on its island, volume 5), and one knot role per profiled attribute, all *indexed*: *`width_knot`*, *`base_knot`*, *`invert_knot`*, *`bank_knot`*, *`shore_class_knot`*, *`retaining_state_knot`* (`RetainingWall.state`), *`wall_state_knot`* (`Enceinte.condition`), *`wall_material_knot`* (`Enceinte.conditionMaterial`), *`wall_epoch_knot`* (`Enceinte.conditionEpoch`), *`wall_class_knot`* (`Enceinte.stretchClass`, g item 106 (c)), *`wall_order_knot`* (`Enceinte.laidAt`), *`deck_order_knot`* (`RaisedWayRecord.courseAt`; both §2.7's laws' *Order*) |
 
    * **Structural and partition roles.** A structural edge role is never removed by a sliver absorption or a face merge
@@ -952,13 +959,16 @@ copy, one memory copy of which costs a worker ≈ 1.1 ms at 12 MB, ≈ 1.5 ms at
 ```ts
 interface Terrain { id: Id; key: PlatKey /* the ground, or one sky island's own terrain */;
   cellCm: Cm; cols: number; rows: number; originX: Cm; originY: Cm /* the height raster: frame + margin (§3.2 (9)) */;
-  datumCm: Cm /* the elevation that height 0 represents, relative to mean sea level; one per document (per island for sky terrain); set by S1 (§4.2) */;
+  datumCm: Cm /* the elevation that height 0 represents, relative to mean sea level — the world datum (V13 §2.1); one per document (per island for sky terrain); set by S1 (§4.2) and by nothing else — a placement never writes it; READ ONLY THROUGH `datumOf(doc)` (item 140 M3; V13 §2.2), which on a placed frame answers the world's DEM at the placement's origin read through `Document.worldRef` at call time, a derived reading (C13-01) */;
   heightCm: Int32Array /* above datum */; reliefLimitCm: Cm /* 1 000 000 (10 km): the declared range every write is checked against */;
   hydro: HydroGrid /* the hydrology raster: frame + margin, coarser than the height raster (below) */;
   flowDir: Uint8Array /* on `hydro`: D8, defined on every land cell of frame and margin, flats included */; flatRank: Uint32Array /* on `hydro`: flat-resolution order; 0 off flats */;
   flowAccum: Uint32Array /* on `hydro` */;
   outfalls: Outfall[] /* S1 (3)'s drainage outlets (§4.2 S1 (9)): one per bank stretch of `outfallStretchM` (50 m) of each water body into which D8 flow from land enters, and per 50 m of frame edge the flow leaves by — the one of largest accumulation per stretch; recomputed by S1's water operator after a water edit (§7.3 (b)); read by the network stage (II.7.2) */;
-  seaLevelCm: Cm /* in the datum frame */; wind: { bearingCdeg: number; strength: number }; features: SiteFeature[] /* hill, spur, valley, terrace, cliff, ravine */;
+  seaLevelCm: Cm /* in the datum frame; the sea's generation-time `WaterSurface` carries the same value (below) */; wind: { bearingCdeg: number; strength: number } /* S1's write from the site request; read only through `windOf(doc)`, which on a placed frame answers the charter's wind in frame terms through `worldRef` (V13 §3.11.5) */; features: SiteFeature[] /* hill, spur, valley, terrace, cliff, ravine */;
+  carveDeltaCm: Map<number, Cm> /* item 140 M2: per hydro cell, the depth S1 (3)'s carve (and every re-route) cut below the pre-carve ground; `preCarveHeightAt(doc, p) = heightAt(p) − carveDeltaCm[cell(p)]`; empty on a document saved before V13 (reported, V13 §4.6) */;
+  surfaces: WaterSurface[] /* item 140 M2: one surface per WaterBody at generation (the sea at seaLevelCm, each lake at its spill height, each reach's stage profile) plus every dated surface an edit or an epoch wrote; never carved into the heightfield (V13 §2.2, V13 §3.12.1) */;
+  groundwater: GroundwaterField /* item 140 M4: the frame's water table, derived by the groundwater step after S1 (3) and after every terrain or water operator (V13 §3.12.3); read only through `waterTableAt(doc, p, when?)`; the record forms `WaterSurface` and `GroundwaterField` are V13 §2.2's — the three fields are declared at M1's API pass and read as absent until M-W0h's steps write them */;
   geology: 'ordinary'|'soluble'|'volcanic' /* item 65: the site's rock under the frame — written by S1 (§4.2) with the resources, or overridden by `setAttr` (§7.1's terrain row), read only by II.7.6's cavern rule (soluble or volcanic rock holds caverns); 'ordinary' on a sky island's terrain */;
   mining: boolean /* item 109 (a) (2): the site holds mining by §4.2 S1 (10)'s one test; written by S1 (10) with the resources and re-derived with them, no edit kind of its own; read only by II.7.6's cavern rule (its mine boost and fissure variant); false on a sky island's terrain and in the parity presets; absent reads false */;
   lifecycle: Lifecycle }
@@ -1157,6 +1167,8 @@ interface SubDistrict { id: Id; district: Id; blocks: Id[]; cluster: string /* r
 interface Reservation { id: Id; kind: 'castle'|'plaza'|'market'|'precinct'|'institution'|'park'|'harbour_basin'|'moat'|'canal'
     |'landing' /* a sky landing's yard (V05 §3.10); on the ground, SKY's writes under the data key reservations.landing */
     |'green' /* a village green, owner commons, its Greenery of kind green; §4.2 S3 (12)'s market rule reads it as a plaza candidate at village rungs (V07 §3.6 (4)) */;
+    |'worldSite' /* a world site's reservation (V14 §2.5), with `site: Id` — claimed first as the castle's is (§4.2 S3 (2), (8)) at a host-founded settlement over a free-standing site, the site's enclosure, buildings, plots, ways and terrain pre-edit entering the creation prefix as drawn constraints (§7.2; V14 §3.9 (e) (1), C14-16), and at an `inFrame` drop (V14 §3.9 (g)) by §7.3's reservation operator; M-SITE-A for the `inFrame` claim, M-SITE-F for adoption */;
+  site?: Id /* kind worldSite only: the WorldSite card (V14 §2.2) */;
   rank?: 'principal'|'secondary' /* market kinds only (item 24): the principal market — the plaza when it wins S3 (12)'s trade score, else a flanking site — or one of S7b's secondary markets (§4.2, §4.5); setAttr-editable */;
   face: FaceRef /* L1 barrier face(s); water kinds are L0 faces */; areaBandM2: [number, number]; compactnessMin?: number;
   owner?: Id /* castle, institution, commons */; handedFrom?: Id /* the institution whose reservation this was before it went up to a sky island (V05 §3.5); the owner is then its hand-over instance, or commons for a park */;
@@ -1901,12 +1913,7 @@ and temples by row, none for hovels, tents, sheds, shacks and lean-to shelters; 
 building carrying a concealed use, the higher probability of its front's and its concealed class's rows, §4.7's
 *Concealed institutions* (4), item 63), raised within the class band by the prosperity value and by the building's size
 and storeys (larger and taller more likely), and gated by the **terrain**, read from §2.3's facts and the context vector
-— no new raster. The **water table** is the nearest water body's surface elevation — a moat's the one level §4.2 S3
-(10) derives from its `flowFrom` source, every other body's shore terrain sample — plus the
-freeboard `freeboardCm` (default 50) for a plot within `waterTableM` (default 40 m) of a shore, and elsewhere the height
-of the drainage line: the `hydro` cell nearest the footprint's centroid whose `flowAccum` reaches `drainageAccumCells`
-(ties by cell index; where no cell reaches it, no water table limits the cellar) — the three values are §10.2's
-basement-gate row. Against it: **no cellar** on a deck plot built over water (V02 §3.16 — a quay built on the bank,
+— no new raster. The **water table** is `waterTableAt(doc, p, when?)` (V13 §3.12.3: the frame's groundwater field, derived from every surface — a moat's the level §4.2 S3 (10) derives from its `flowFrom` source, every other body's its `WaterSurface` — by the recharge-and-permeability rule, capped by the ground, perched where the geology says, bounded at the margin by the charter on a placed frame), sampled at the footprint's lowest terrain sample, plus the freeboard `freeboardCm` (default 50); `waterTableM` and `drainageAccumCells` are retired from the basement-gate row (§10.2's row keeps `freeboardCm` and gains none) — `when` is the building's construction week, so built space obeys its construction epoch (V13 §3.13.5). The cellar's class after construction is V13 §3.13's water class test on the cellar unit, stored on the building (V02 §2.2, file k item 638). *Order* (V13 §8, M-W0h): until the groundwater step lands, the former nearest-body rule stands (the nearest water body's surface plus the freeboard within 40 m of a shore, elsewhere the drainage line at 100 cells of accumulation) and V04's readers keep it; the switch is reported as the version's shift at M-W0h's landing (BCR-V13-21's order clause). Against it: **no cellar** on a deck plot built over water (V02 §3.16 — a quay built on the bank,
 `DeckContext.surfaceCm` null, is ground and takes this gate like any plot), nor where the plot's `terrainClass` is `damp`
 or `flood`, or where even a half-cellar's floor — the wing's `baseCm` less half the cellar depth — would lie below the
 water table; a **half-cellar** where the full cellar's floor (`baseCm` less the depth) would lie below it and the
@@ -1955,7 +1962,7 @@ basement's reach to an underground element (item 64). Emulation note: MFCG and F
 share — n ÷ (n + 1), n being the storeys over the ground, taken from Dwellings itch 17195045's code and replay-confirmed
 (D2) — is a descriptive baseline, never a gate (§13.5); the terrain gate and the prosperity term are our extensions (item
 23). §5.3's rows: a basement other than a crawl space or a raised crypt never under the flood band or below the water
-table (a raised crypt's floor lies above it by `crypt.freeboardCm`); every basement inside its ground wings and smaller
+table **at its construction week** (`waterTableAt(doc, p, constructionWeek(building))`, V13 §3.13.5); a present-week violation under a lawful `setSurface` or placement is a `lockedBelowTable` report in the cascade's change list, never an invariant failure (item 137 (c)) (a raised crypt's floor lies above it by `crypt.freeboardCm`); every basement inside its ground wings and smaller
 than their union.
 
 **A requested basement (item 66; J-A66.21).** When an edit's closure needs a basement the building lacks —
@@ -2433,7 +2440,7 @@ interface TierLay { wings: LaidWing[] /* ST7's order */; stairs: 'axial' | 'flig
 interface LaidWing { ring: PointCm[]; kind: 'rect' | 'polygon'; role: 'tier' | 'shrine' | 'stair'; on: number | null /* index in the lay's order */; solid: boolean; floors: number; eaveCm: Cm; ridgeCm: Cm; roof: RoofSpec }   // one wing of a TierLay; declared here, V02 §2.6 cites it
 interface UndergroundLink { id: Id; a: { part: number; element: Id; at: VertexRef /* ('link_end', link id, 0) */ }; b: { part: number; element: Id; at: VertexRef /* ('link_end', link id, 1) */ };
   kind: 'open'|'gated'|'secret'|'collapsed'|'flooded'; via: 'breach'|'stair'|'shaft'|'door'; knownTo: 'public'|'local'|'secret';
-  cause: 'proximity'|'overlap'|'mineBreach'|'reuse'|'lifeline'|'edit'|'dig'|'dossier'|'crypt'|'legacy' /* why it exists — item 109's "breach" is via 'breach' and its "reuse" is cause 'reuse' */; rule: string; lifecycle: Lifecycle }   // item 65 (d): a connection between elements of two parts, never guaranteed and never a shared vertex (II.7.6; J-A65.31); the links to the surface are AccessPoints
+  cause: 'proximity'|'overlap'|'mineBreach'|'reuse'|'lifeline'|'edit'|'dig'|'dossier'|'crypt'|'legacy' /* why it exists — item 109's "breach" is via 'breach' and its "reuse" is cause 'reuse' */; rule: string; lifecycle: Lifecycle }   // item 65 (d): a connection between elements of two parts, never guaranteed and never a shared vertex (II.7.6; J-A65.31); the links to the surface are AccessPoints; its ends may lie on an `underground` part and a `site` part (the address keyed on end `a`'s part as today; V14 §2.3, file k item 606)
 // AccessPoint — a stair, ladder, hatch, door, shaft, well, cellar stair, grating or mouth linking the ground and an underground part by entity ids, with its state, knowledge and source (items 64–66) — is declared with its mechanism in II.7.4 and listed in §2.8's entity registry; its underground-side vertex carries the `access_point` role on its element's kerb or wall (§2.2 rule 7)
 // Works and lights (items 67, 68)
 interface Works { id: Id; kind: 'build'|'extend'|'demolish'|'repair'|'convert'|'decay'|'clear';
@@ -3527,6 +3534,8 @@ seat, with a `Posting` at its named institution and a `Membership` in its named 
 through the receipt §7.7 item 12 names. The `HistoryRecord` is written by the history replay at generation (g item 113;
 V06), its fields traced to §7.7's history rows; with no history replay it is absent.
 
+**The world's and the site's staged records (V14 §2.2, §2.3; file k item 606).** `SiteAnchor` (a world site's anchor in a frame, its icon's position and the storey it heads on) and `WorldSite` (the card: the site's kind, programme, condition and `WorldSiteLifecycle`) join the staged layers' records, schema-complete and empty until M-SITE-A, with registry rows (§2.8); their producers are V14 §3's. The derived reading **`verticalEnds(id): { a: { elevationCm; at }; b: { elevationCm; at } }`** (item 140 M10; V14 §2.3) is declared here for `AccessPoint` (the terrain or floor at `ground.at` — the anchor's storey floor for source `site`; the element's floor at `under.at`, or `SiteReach.floorCm` for source `site`, so the host never opens the site document), `UndergroundLink` (its two elements' floors), V03's stair core (its two storeys' bases) and V14's `VerticalLink` (its stored ends), read by §8's renderers, §11.1's VTT portals and the clerk; declared over the base's own kinds at M1's API pass, its site producers at M-SITE-A.
+
 ### 2.8 Identity, lifecycle, provenance, the entity registry
 
 Every entity record has five parts — and a kind with lazily derived rungs (a building, a stage-2 close-up) a sixth, its
@@ -3534,7 +3543,7 @@ elaboration record (below; item 28): an **identity** (what it is and where its r
 the model digest), a **lifecycle** (does it exist, and what has the user fixed about it — persisted, in the digest), its
 **attributes and geometry references** (the model content of §2.2–§2.7; geometry is reached through the kernel's owner
 and role tables, never through stored slots), a **derivation record** (the inputs of its derivation — persisted for the
-kinds whose stage declares one, outside the model digest), and a **provenance** record (how it was last derived —
+kinds whose stage declares one, outside the model digest), a **reason record** (item 140 M8; V13 §2.2's one declaration: the rule row, the inputs with their values, the numbers and a `MsgRef`; written by every stage of V13 and V14 and by the cascade for every fact it creates or changes, superseding the former; outside the model digest, inside the records digest; read by the clerk's `why`, `whatCaused`, `whatChanged`, `whatIf` — reserved at M1's API pass, its frame-side writers from M-W0h), and a **provenance** record (how it was last derived —
 rebuilt by every derivation, never persisted, never in the model digest; LC-25). An entity that carries a generated name
 also persists that name's **naming record** (the naming inputs of its last draw — outside the model digest). The
 persisted derivation and naming records form the snapshot's **records digest** (§6.2), checked at every in-window load
@@ -3766,7 +3775,7 @@ interface SliceRef { table: TableId; version: string; kind: 'row'|'weights'|'bra
   latest lifecycle event and derivation record, its history); an address whose prefix is `room:`
   resolves to the kind `room`, whose provider (V03 §4.6) resolves it through its building's plan — stored, cached or
   derived into the cache as the `plan` query does — so plan parts need no registry entry (§6.2);
-  migration hooks (§7.5); **dossier paths** (below; item 20 (h)); and **closure generators** per edit kind — the pieces an
+  migration hooks (§7.5); **dossier paths** (below; item 20 (h)); **`z: ZDecl`** on every row of a drawable kind — `{ base: Reading; top: Reading } | { surface: Reading } | { flat: true; reason: string }`, `Reading` a path or a derived function name (item 140 M9; the table of V14 §5.4 the shipped rows over the base's kinds, written at M1's API pass; a drawable kind without one fails the registry's CI test, T-V14-16; the display-list columns it fills are §8.1's `baseCm` and `topCm`); and **closure generators** per edit kind — the pieces an
   edit's missing prerequisites need, in dependency order (§7.3 item 9; item 66). Its completeness test — a CI test that
   fails when a type is missing from any of those paths, the label, help and explainer included, and checks a specific
   provider or section provider only for the kinds and sections V10 §3.9's owed table lists, naming the owing volume — is
@@ -3813,7 +3822,7 @@ interface SliceRef { table: TableId; version: string; kind: 'row'|'weights'|'bra
   an override, §7.1's terrain row), `WaterBody.spring` and the oasis's `fedBy` links (T2 `ground`'s spring flag; item
   111), and the `AccessPoint`'s `state`, `knownTo` and `source` (II.7.4; `setAttr` on the first two); the authoring
   toolkit's sugar events (item 101: `placeGate`, `quarter`, `roster`, `group`, §7.1) are listed with the kinds their
-  expansions make, so the completeness test reaches them. Every new attribute has its edit kind or is declared derived
+  expansions make, so the completeness test reaches them. **The world's rows** (V13 §5.7; from M-W1): one row per world kind — `Reach`, `WaterSurface`, `Watershed`, `Territory` (and its provinces), `WorldRoute`, `SitingProposal`, `ResourceSite`, the spring, `Placement`, `FrameCharter`, `TerrainTrace`, `SurfaceTrace`, `ReasonRecord`, the `coast` record and the `zone` and `importHint` records — each with every column the completeness test reads and its `z` (`{ surface: 'dem' }` for the rasters, routes, borders, glyph marks and `TerrainTrace`; `{ base: 'bed', top: 'elevationCm' }` for `WaterSurface` and `SurfaceTrace`; `{ flat, reason: 'furniture' }` for a label candidate), `EntityKind` gaining the lineage units `'placement'` and `'territory'` (§6.3); **the site's rows** (V14 §2.9; from M-SITE-A): `anchor` (its `z` flat with reason "furniture") and `site` (the card: no geometry, no `z`), their lifecycle rows V14 §2.9's — `Existence` is unchanged: the card's `WorldSiteLifecycle` stands beside §2.8's `Lifecycle` with V14 §3.8's mirror rule. Every new attribute has its edit kind or is declared derived
   (§7.1), and each enters §13.2's path-completeness test.
 * **Dossier paths (item 20 (h); J-A20.23).** The registry names, per kind, the attribute paths a dossier may own — each
   with the carried field that supplies it — and no other path is ever `dossier`: an `Institution`'s `name`, `kind`,
@@ -3837,7 +3846,8 @@ interface SliceRef { table: TableId; version: string; kind: 'row'|'weights'|'bra
 A document is **a base plus an ordered log**: the base is either the canonical recipe (the town replays from its seed)
 or, after a rebase, a materialised state; the log is every event since the document was created, in `seq` order.
 Everything else in the file is the canonical style state, input recorded for replay (setting-pack content, host
-outputs), a verified cache, or per-user state.
+outputs), a verified cache, a world document's host-fed plate cache (`lensPlates`, kept as the host sent it, never
+verified or rebuilt), or per-user state.
 
 ```ts
 interface Document {
@@ -3848,9 +3858,12 @@ interface Document {
   log: EditEvent[];             // the single source of truth for every edit, lock, assignment, table edit, epoch, rebase, upgrade, undo and redo (§7.1, §7.4); a rebase never removes events
   nextSeq: number;              // the seq the next event takes; never decreases — also when an unshared document truncates an undone pair (§7.4)
   nextUndergroundPart: number;  // item 65: the part the next underground system takes (1 at creation, part 0 being the sewer's)
+  worldRef?: { world: Uuid; placement: Id };   // file k item 608: the world document and the placement this frame holds (item 140 M6); written only by the frame's own `charter` event, author `world` (§7.1, §7.4); absent on a standalone frame
+  namespace: string;            // the address namespace segment (§6.3; V13 §2.5): minted once at creation, kept on clone and save-as; read from `docId` on an older document at load (§7.5)
+  nextSitePart: number;         // the canonical form's fourth part counter: the part the next level of a world site takes (1 at creation; §2.1 Arena parts, V14 §2.1); never decreasing
   nextSkyPart: number;          // the part the next sky island takes (1 at creation)
   nextGroundPart: number;       // g item 110 (b): the part the next raised way's deck takes (1 at creation, part 0 being the ground)
-                                // the three part counters (§2.1 Arena parts: allocated once, never reused) never decrease, as nextSeq — an undone, truncated, fallen or removed arena's number stays spent;
+                                // the four part counters (§2.1 Arena parts: allocated once, never reused) never decrease, as nextSeq — an undone, truncated, fallen or removed arena's number stays spent;
                                 // the record stores it (UndergroundSystem.part, SkyIsland.key, the raised way's Identity.key), as does its address, so an event that creates an
                                 // arena after generation carries the number in the address it records — a closure's ClosureRecord.created (§7.3 item 9), a raiseGrade
                                 // conversion's buried system (II.7.6), an island's creation — and a replay reads it there, never recomputes it; the arenas made at generation
@@ -3865,6 +3878,7 @@ interface Document {
               features: Features /* II.7.4: the resolved feature set (sewers by tier; underground while any system exists, items 65–66) — recomputed on load with the report; every dependant reads it from the model, never from a layer's visibility (item 14) */;
               tradeFlow?: TradeFlow /* item 77: the settlement's derived trade flow (§4.3) — recomputed at creation, at each epoch and on load */;
               elaborations: ElaborationRecord[] /* §2.8: one per entity and lazy rung, derived from the cache below against the current digests (item 28) */ };   // caches rebuilt from base + log; never canonical
+  lensPlates?: LensPlate[];    // file p item 890 (BCR-V13-38): a world document only — the host-fed lens plates (`LensPlate`, V13 §2.2; V13 §5.8 (8)); never canonical, outside every digest, kept across loads and saves as `elaborations` is, never rebuilt or recomputed on load (a plate is what the host sent, and the lens window is never logged), dropped only by the host's quota, a host rewind or compaction (pinned plates kept by compaction); `derived`'s comment stays true of `derived`, and no loader moves a plate into it
   undo?: UndoRecord[];          // the session's undo records carried across a reload (their cap: §7.4), with the truncated targets its redo stack holds; never canonical
   elaborations?: ElaborationChunk[];   // the elaboration cache (below), kept across zoom-outs and sessions so that "once generated it is saved" holds without storing derived rungs in the model (item 28); never canonical
 }
@@ -3877,7 +3891,8 @@ type Seed = number;             // a u32, 0 … 2³² − 1: records write it as
 interface Recipe {              // the canonical recipe: every model-affecting input and nothing else (§6.2; LC-15)
   seed: Seed /* for a dossier-bound document the port's one-way derivation from the dossier's own seed (§14; item 85) — never the host's seed itself */;
   rung: Rung /* §1.1's type, widened by the village rows: the replay runs the stage set of the product that registered the rung; a reader without that product refuses to replay, naming it (§7.5) */; tablePins: Record<TableId, string>;
-  product?: 'town'|'hood' /* absent reads 'town'; 'hood' a standalone neighbourhood document (V01 §3.10.1) */; hood?: HoodRecipe /* present exactly when product is 'hood' (below; its rules V01 §3.10.1) */;
+  product?: 'town'|'hood'|'world'|'site' /* absent reads 'town'; 'hood' a standalone neighbourhood document (V01 §3.10.1); 'world' a world document (V13); 'site' a world-site document (V14 §3.1) */; hood?: HoodRecipe /* present exactly when product is 'hood' (below; its rules V01 §3.10.1) */; world?: WorldRecipe /* present exactly when product is 'world' (V13 §2.2; its `snapshot` names every version, K10, V13 §2.7) */;
+  charter?: FrameCharter /* a placed frame's one boundary record (item 140 M5; V13 §2.2): a recorded input of S0 and S1, in the records digest, never the model digest */;
   packs: { id: string /* a selected user corpus: 'user:<content hash, base 32>' */; version: string; hash: Hash128 /* of the pack's canonical JSON */; shipped: boolean /* in the shipped set of the output version that wrote the entry — informative only: a load resolves each pack by hash (below), the link rule reads the link's output version (§6.4), and an upgrade to a version that stops shipping it copies its content into `packs` (§7.5 (2)); always false for a user corpus */ }[];   // setting packs and selected user corpora (§7.6, §10.4)
   params: ParamDelta;           // the full effective delta over the pinned shipped defaults — pack, preset, user-global and document overrides folded in at creation (§7.6)
   presetId?: string;            // provenance only: the delta already holds the preset's values, so an edited preset elsewhere cannot change this town; read by the generation report's recipe line (§5.4) and the reader's recipe panel (V09), which name the preset the town was made from
@@ -4182,7 +4197,7 @@ interface UndoRecord { session: string; of: number /* the seq of the event this 
   each key is last-writer-wins by (Lamport counter, session id), so a viewer never writes the model. Which keys travel
   per viewer and which are shared across a bridge is §11.3's. The key `session` holds an unshared document's authoring
   session (§7.4 "Sessions"); a client attached to a host bridge takes its session from `doc.load` instead and never
-  writes this key (§11.3).
+  writes this key (§11.3). **The world's and the site's keys** (file k item 608): per viewer `worldZoom` (0–3, default 1), `worldLayer` (default `relief`), `showTraces` (default false), `surfaceDate` (a `Week`, default the document's week), `worldLens` (the lenses open and the lens picker's collapsed rows, default none open; V13 §5.8) and `lensWeek` (a `Week`, the week the lenses draw, default the document's week; V13 §5.8 (8)) (file o item 875; BCR-V13-5), the world document's `week` set by the season control or `view.set { week }` (V13 §2.1); per viewer `projection` (V14 §2.6; default `{ family: 'flat' }` — the flat map is the default, item 141; never in a digest, an export's model or the log; the key reserved at M1's API pass, its renderer M-25D's) and `siteOpen`; **shared** `encounter` (one open encounter per document, last-writer-wins by Lamport and session; M-ENC) and `party: { tier; places }` (the document's party knowledge when no host is bound, a mirror of `MapRecord.party` when one is, written by the owner and editor roles, read by `ViewOpts.viewAs`'s key form — C14-17; M-SITE-A). A world document's `base` holds its rasters as `fields` chunks and its records in the entities block, its log V13 §4.1's events; a site document's creation prefix holds its drop and charter (V14 §3.1).
 * **The year position, festivals, crises, Find and colour vision (g items 117, 118, 122, 120, 112).** Six per-viewer keys
   (never over a bridge, §11.3), outside every digest, the log and undo and never read by the model, its stages or its
   hash — so one document hashes identically in every week, with decorations or crisis looks on or off, with Find on or
@@ -4947,10 +4962,10 @@ dissolves the vertex and restores the edge it split unless other geometry has me
 (§2.6) — partition rings that are no plat faces: rooms cut into the L4 arena would enter its index partitions and the
 model digest on every click, so a click would change the model (§4.1, §6.2). They cut on a **transient arena**
 instead: a one-level scratch subdivision on the world lattice under §3.2's numbers, §3.6's insertion rules and §3.10's
-invariants, opened for one derivation call and gone at its end.
+invariants, opened for one derivation call and gone at its end — or, opened by a view (an encounter, V14 §3.10), living while the view does, released by `encounter.close` and never at a derivation call's end (K9; file k item 609): an owner-less arena's `owner` is an `Id` of the form `view:<hash64>` naming no entity, the arena stays never persisted, digested or frozen, its seed is one ring and the model's faces enter as `fixed` rings (the forms below); the kernel's stub row (`API.md` §8) builds the form at M6-P, its first view owner is M-ENC's.
 
 ```ts
-type TransientKey = { transient: true; owner: Id /* the entity whose derivation opened it */; n: number /* per call, never persisted */ };
+type TransientKey = { transient: true; owner: Id /* the entity whose derivation opened it — or `view:<hash64>` for a view-owned arena with no owner document (above; K1–K13 unchanged) */; n: number /* per call, never persisted */ };
 type ArenaKey = PlatKey | TransientKey;   // what KernelTx.key and CommitRecord.key name (§3.3); pointLocate, faceNeighbours and §14's `view` accept it
 transientArena(owner: Id, seed: Ring[] /* world lattice rings, counter-clockwise, tiling: interiors pairwise disjoint, two rings meeting only along sides or at vertices — tiled wings share each joint's vertices by §2.6's wing-carrying rule 1, while a vertex one ring has on another's side splits that side (below) */,
                fixed: { ring: Ring; owner: Id }[] /* world lattice rings, counter-clockwise — faces made before any cut and never cut by one, each inside one seed ring (a room never spans a joint between wings), interiors pairwise disjoint, a ring coinciding with its seed ring allowed: the rings §2.6's stage-3 contract fixes and, on a re-cut, those its re-cut rule fixes */,
@@ -5902,8 +5917,8 @@ adjusted inside S1's own ladder (F-RIVER, §5.2).
 (1) **Heightfield:** 5-octave fBm (VG's measured character, `_critic-vg-ng.md` V7) with a low base frequency and a
 relief-character amplitude (metres by S0's relief class), plus **authored site primitives** from the request (hill,
 spur, valley along the river bearing, terrace, cliff, ravine, hollow for a lake or an oasis — VG's idea of authored
-mount, hollow and ridge primitives). Heights are stored in §2.3's range and datum; S1 sets `datumCm` to sea level on a
-coastal site and to the site's base elevation otherwise (a 3 000 m relief is ordinary). *Mechanism (budget: §12.4):* the
+mount, hollow and ridge primitives). **With `Recipe.charter` present and `source: 'world'` (item 140 M5; V13 §3.11.4; C13-03), the charter is S1's one input record beside the seed and the tables:** the field is blended inward over the margin to meet `charter.edges` at the arena's outer ring (the smoothstep of V13 §3.11.2), its fBm lattice is position-keyed on `charter.worldSeed` and the cell's world position (§6.1; BCR-V13-29), the primitives are drawn inside it, and `datumCm` is `charter.datumCm`. Heights are stored in §2.3's range and datum; on a standalone frame S1 sets `datumCm` to sea level on a
+coastal site and to the site's base elevation otherwise (a 3 000 m relief is ordinary). A standalone frame is unchanged (the charter's reading lands at M-W1). *Mechanism (budget: §12.4):* the
 fBm is evaluated on a 32 m grid over frame + margin; the stored raster (at §2.3's resolution per rung) is its bilinear
 refinement plus one fine octave inside the built extent; slope queries at 2.5 m go through the `TerrainSampler`'s
 on-demand interpolation (§2.3).
@@ -5935,7 +5950,7 @@ template** row, `type OutlineTemplateId = 'star'|'star_round'|'street_strip'|'pl
 `star`, `star_round`, `street_strip` and `plaza_frame` (item 285's: a standalone neighbourhood document's, drawn by its
 fabric, V01 §3.10.2), `disc`, `d_shape` (the D-shape), `lozenge`, `crescent` and `spindle`, scaled to the requested area
 (COV-NG-N06); V01's `HoodRecipe.outline`, `TemplateRow.outline` and `hood.kinds` and II.1's
-`NeighbourhoodRequest.outlineTemplate` name a row by its id.
+`NeighbourhoodRequest.outlineTemplate` name a row by its id. With a charter, the coast polygon of `charter.outlines.coast` is the base line the closed-outline routine displaces (its detail row only), the lakes are `charter.outlines.lakes`' rings at their levels, the sea's level is `charter.waterEdges`', and the coast bearing is the water edge's side (C13-13).
 **The oasis (item 111 (a)).** An oasis is a spring-fed pond or small lake: its site is the best-scored hollow or fault
 line (a relief break) within the frame's middle two thirds, scored on accumulation and low ground; its outline is the
 routine's closed curve sized by the climate row's oasis area band, entered as a `WaterBody` of kind `lake` whose
@@ -5962,7 +5977,7 @@ and a course that would need more is re-routed by F-RIVER (§5.2), never trenche
 below its threshold) into 2–4 **distributaries** at splits spaced ≥ 3 channel widths, each carrying a share of the
 accumulation drawn from the `water.delta` stream (each ≥ 0.2), of width `w0 · (share · acc)^0.4`, traced by descent to
 the sea without rejoining; a distributary that would meet another merges, and the land between becomes a river island
-under (4).
+under (4). With a charter, the priority flood's border head is `charter.downstreamHeadCm` except at each `in` crossing (its stage), accumulation is seeded by each `in` crossing's `seedCells = round(Q ÷ r_cell)` (a cell count, V13 §3.11.4; C13-14), the descent is guided by `charter.outlines.reaches` (the control knots seeded on the course, the descent in a corridor one hydro cell about it), the width law is calibrated per reach so that the inlet's width equals the charter's `widthCm` (`w0` solved from the inlet's seed; outside the band clamped and reported `W_CHARTER_WIDTH_CLAMPED`), and an `out` crossing is a required exit (`W_CHARTER_RIVER_MISSED` when the reach leaves elsewhere). **S0's size step** `frameOf(size, aspect)` — §3.2 (9)'s rule over the request's `size` and `aspect` — is a pure table reading callable without a document, so `requestCharter` can carry the frame size before generation (V13 §3.11; C13-04). After (3): the **surface step** writes `Terrain.surfaces` and `carveDeltaCm`, and the **groundwater step** writes `Terrain.groundwater` (V13 §3.12.1, §3.12.3); both re-run after every terrain or water operator (§7.3) — the two steps and `frameOf` land at M-W0h, the charter's reading at M-W1.
 
 (4) **River islands** (the parity judge's shared repair): a `river: { islands: n }` request adds a branch that leaves the
 course and rejoins it after k cells, typing the enclosed land as an `islet` L0 face, **only if** the branch's separation
@@ -6029,7 +6044,7 @@ quay 0 m (quay plots front the quay way); fields: 10 m — read by S10 and the h
 each 50 m bank stretch (`outfallStretchM`) into which D8 flow from land enters, and each 50 m of frame edge the flow
 leaves by, as one `Outfall` at its cell of largest accumulation; recomputed by S1's water operator after a water edit
 (§7.3 (b)). Its readers: the sewer network stage (`Terrain.hydro`, `outfalls`; II.6, II.7.2), II.7.6's cavern rule
-(`flowAccum`) and §10.2's `BasementGateRow.drainageAccumCells`. (10) **Resources (COV-FTG-B09):** `SiteResources` rasters
+(`flowAccum`) and the groundwater step (`Terrain.groundwater`, V13 §3.12.3; §2.6's water table reads its result, never a drainage-line cell, once M-W0h lands — file k item 605). (10) **Resources (COV-FTG-B09):** `SiteResources` rasters
 on the terrain grid — stone from slope, rock class and cliffs; ore from relief × an fBm propensity (hills only); timber
 from the forest propensity (slope and soil class; realised as woods by the hinterland unit, §4.9); fish from water
 adjacency and reach width; clay from low damp river flats; fertile land from gentle, dry, non-rock ground; **well yield**
@@ -8980,7 +8995,8 @@ type ConversionOp =
   | { op: 'rebuild'; building: Id; cls: BuildingClass /* the whole replacement a ruin or a redevelopment calls for (rung 3), never a designation change (§4.7 S11) */ }
   | { op: 'build'; plot: Id; cls: BuildingClass; footprint?: PolygonCm /* as §7.1's build event */ } | { op: 'carve'; kind: 'canal'|'moat'|'harbour_basin'; polygon: Polygon }
   | { op: 'abandon' | 'decay' | 'ruin' | 'robStone' | 'clear' /* removed to a footprint trace */; building: Id } | { op: 'plotToGarden'; plot: Id } | { op: 'contractWall'; enceinte: Id; trace: Polygon }
-  | LadderOp | DeclineOp | UseConversionOp | TerrainWaterOp | HiddenOp | RaiseGrade | ClearUndercity | EvolveOp;
+  | LadderOp | DeclineOp | UseConversionOp | TerrainWaterOp | HiddenOp | RaiseGrade | ClearUndercity | EvolveOp
+  | SiteOp /* V14 §4.3: destroySite, occupySite, vacateSite, damageSite, restoreSite, repurposeSite, expandSite, collapseUnit, breachUnit, floodSite, drainSite — the last two folding to setSurface (file k item 617; from M-SITE-A) */;
 // EvolveOp as V06 §2.8 states it — absorbWall, downgradeWay, upgradeWay, burn, wearWall (item 114), repairWall { enceinte,
 // stretch?, material? }, retypeLand, repairRaised, repairRetaining — each usable by hand through `convert` (§7.1) with an
 // undo record (§7.4) and the cause `convert:<op>`; a hand repair of stone that is gone bends (item 101 R2) to a new
@@ -9681,10 +9697,10 @@ implementation of any of them by name, and every caller resolves the registered 
 extends `StageDecl`):
 
 ```ts
-type StageId = string /* a registered stage's id: 'S0' … 'S15' and their lettered stages, a hook's own id, a product's stage (V07 §3.0), a tail stage (II.7; V04 §3.1's U-NET … U-LINK) — the stream keys' stage component (§6.1); read by §3.3's BatchScope and §4.1's quality budget */;
+type StageId = string /* a registered stage's id: 'S0' … 'S15' and their lettered stages, a hook's own id, a product's stage (V07 §3.0; the world's W0 … W9 and the site's G1 … G8, E1 … E4, R1 … R4, §6.1), a tail stage (II.7; V04 §3.1's U-NET … U-LINK) — the stream keys' stage component (§6.1); read by §3.3's BatchScope and §4.1's quality budget */;
 interface StageDecl { id: StageId; inputs: DataKey[]; outputs: DataKey[]; streamKeys: string[]; invariants: Invariant[] /* each with its scope, §5.3 */; ladder: Ladder;
   workLimits: WorkLimits /* laws over the batch scope's population-derived counts, §5.1 (5) */; budgetMs: Record<Rung, number> /* reporting only */; batch: BatchScope; lineageUnit: EntityKind /* §6.3 */; lazy: boolean /* only under the §4.1 contract */;
-  txForm: 'declared'|'callback' /* §3.3; the op form per stage, §4.1 */; phase?: 'main'|'tail' /* 'tail': run after the first map (§4.1); absent 'main' */ }   // §14's Stage extends it
+  txForm: 'declared'|'callback'|'records' /* §3.3; the op form per stage, §4.1; 'records': a stage that writes records and rasters and no arena — no kernel transaction, no K12 entry; the world's own `WorldCommitRecord` stands in (V13 §3.0); file k item 611 */; phase?: 'main'|'tail' /* 'tail': run after the first map (§4.1); absent 'main' */ }   // §14's Stage extends it; `ProductDecl` (V07 §2.1) carries `coordinateRegime: 'frame'|'world'` (V13 §2.1), read by the view's transform and the exports; the `site` product's G- stages register by declared I/O in `@plat/layout`'s registry with the concern `site` (§6.1)
 interface StageHookDecl { host: 'S7b.afterGreedy'|'S10a.afterDrivers'|string /* a hook point a stage declares */; id: StageId /* its own stage id: the stream keys' stage component */;
   inputs: DataKey[]; outputs: DataKey[]; streamKeys: string[]; run(ctx: StageContext, k: Kernel): KernelResult<void> }   // StrategyRegistry.hooks: Map<string, StageHookDecl[]> (§14)
 type DataKey = string /* a declared stage output: 'terrain', 'water', 'roster', 'reservations', 'reservations.landing', 'allocations', 'allocations.landing', 'raised', … */;
@@ -9699,7 +9715,7 @@ interface NetworkStrategy { grow(site: Site, destinations: Destination[], terrai
 interface EnceinteStrategy { trace(boundary: Polygon, gateSites: GateSite[], reservations: Reservation[], terrain: Terrain, water: WaterSet,
   policy: { waterfront: 'open'|'quay_wall'|'sea_wall'; placement: 'aroundAll'|'aroundStage' }, ctx: StageContext, k: Kernel): KernelResult<Enceinte> }
 type WaterSet = { bodies: WaterBody[]; bridges: Bridge[] /* S1's and S3's water with its crossing decks (§2.3, §2.7) */ };
-type Destination = { id: Id; kind: string /* §4.2 S3 (13)'s typed destinations */; at: PointCm; bearingCdeg?: Cdeg };
+type Destination = { id: Id; kind: string /* §4.2 S3 (13)'s typed destinations; `'worldSite'` admitted for S4 after adoption only — the adopted site's gate as a frame-scale destination inside the settlement's frame (V14 §3.9 (e)); V13's siting reads the card's `attraction` and `routed`, never a destination (C14-04) */; at: PointCm; bearingCdeg?: Cdeg };
 type GateSite = { ordinal: number; at: PointCm; bearingCdeg: Cdeg; kind: 'main'|'water'|'harbour'; forced: boolean /* §4.2 S3 (4), (7) */ };
 type StageReport = GenerationReport['stages'][number] /* §5.4 */;
 // EditRef and RuleRef are §2.8's; FabricStrategyId is §2.5's
@@ -9755,7 +9771,7 @@ names — the home's stated outcome, hard, 0 per 1 000 — at every rung the row
 | EP-19 | II.7.1 – II.7.6 | each edge the underground sections state (no network, one tunnel, the caps, every rung, the toggles and presets, the lifecycle) | II.7.1 – II.7.6 at each rule; II.7.4 *Limits* | F-UNDER, F-VOID |
 | EP-20 | S3 (6), S5a, S5d | less reachable land than a stage asks — fixtures: an island town on an island of half the stage-1 land, a fjord site, a METROPOLIS at the cap in a narrow valley | §4.2 S3 (6) (the capped `t`, the frame arc); §4.4 S5a (a stage with no land folded), S5d (no top-up without land) | simpler shape (the capped level set) → leave out and report (`requestedVsBuilt`, F-BUDGET-STAGE) |
 | EP-21 | S3 (4), (7), (9); S5a | a barrier closing the arcs a gate falls on, or every arc — fixtures: a river loop with N₁ = 5; a mesa ringed by sheer faces (every route in within its class grade, or `unserved` reported; 0 routes steeper than `path`'s limit); a mesa below the sheer test and a marsh-ringed town (walled on their `cliff`, `steepSlope` or `marsh` arcs with one gate, its route within its class grade or `unserved` reported); an island town filling its island | §4.2 S3 (4)'s closed-arc reduction, (7), (9) (every arc closed: (a) unwalled, (b) walled on its walled closing arcs); §4.4 S5a | retry that piece (the pick re-drawn, ≤ 3) → simpler shape (the next class's grade, F-ROUTE) → leave out and report (F-WALL; `unserved`; `W_WALLED_BY_BARRIERS`); F-CASTLE's re-site |
-| EP-22 | S3 (10); S5a's outer moats | a wet moat with no water within reach or on sloping ground — fixtures: a hill town with `moat: 'all'` (a plot within `waterTableM` of a wet moat on the slope reads the moat's derived level (§4.2 S3 (10)) + `freeboardCm` as its water table, never its bank top — its cellar or crypt taking the full rung where that level allows (§2.6)), an arid town with no river with `moat: 'inner'` | §4.2 S3 (10) *Where a moat holds water*; §4.4 *Outer moats*; §2.6's water table | simpler shape (the dry `ditch`), reported (`W_MOAT_DRY`) |
+| EP-22 | S3 (10); S5a's outer moats | a wet moat with no water within reach or on sloping ground — fixtures: a hill town with `moat: 'all'` (a plot beside a wet moat on the slope reads the moat's derived level (§4.2 S3 (10)) — among the surfaces `waterTableAt` reads — + `freeboardCm` as its water table, never its bank top — its cellar or crypt taking the full rung where that level allows (§2.6)), an arid town with no river with `moat: 'inner'` | §4.2 S3 (10) *Where a moat holds water*; §4.4 *Outer moats*; §2.6's water table | simpler shape (the dry `ditch`), reported (`W_MOAT_DRY`) |
 | EP-23 | S3 (5), S4, S5b, S5c | the steepest ground — fixture: a mountainous site, arterials within their class grade or `unserved` | §4.3 *Lattice and costs* (the class grade limit); §5.2 F-ROUTE | simpler shape (the next class's grade) → leave out and report (`unserved`) |
 | EP-24 | S8's cliff band; S10, S11 levelling | a cliff across a district (0 lanes, seeds or ground way spines crossing the cliff line; the two sides' plots backing onto it at the `cliff` setback); two plots at a cliff's top and foot; a step of 2.5 × `stepMaxCm` (`levelledGroundCm` on each terrace equals its datum; every wall's `stepProfile` lies in (`stepMinCm`, `stepMaxCm`]); a levelled unit beside unlevelled ground | §4.6 (a cliff inside the district a hole); §4.7 *Levelling and retaining walls* (step regions) | simpler shape (terraces, else skirts and stepped wings) → report |
 | EP-25 | S1 (6), S3 (2) | a harbour on a site with a river but no coast — fixtures: a river-only site with `harbour: 'on'`, and with `deep_harbour` | §4.2 S1 (6) (the river or lake harbour) | substitute (a river or lake harbour) → leave out and report (tier 6) |
@@ -9944,6 +9960,8 @@ that states its detection, rungs, report and tests (the rows here are its pointe
 | F-DISPATCH† [V01 §3.13] | S9b; S10a (ii) (item 327) | V01 §3.13's | V01 §3.13's, with its report | V01 §3.13's test column |
 | F-UNIT† [V01 §3.13] | the unit run (V01 §3.10; item 327) | V01 §3.13's | V01 §3.13's, with its report | V01 §3.13's test column |
 | F-SKY-FILL, F-SKY-PLACE, F-SKY-TERRAIN, F-SKY-ACCESS, F-SKY-UNIT, F-SKY-CLEAR, F-SKY-CRYPT, F-SKY-SHADE, F-SKY-LANDFALL, F-SKY-HANDOVER† [V05 §3.17] | S7b (5), SKY, SKY-F, the unit run, `fallIsland`, field pass 2 and each epoch's `sky.clearance` (item 331) | V05 §3.17's, one per row | V05 §3.17's; every ladder ends in a reported closure, drop or fallback — a slot closed with its rows returned, an access dropped (an island placed by rule always keeps an admissible access), households re-placed on the ground by §4.7's overflow pass, a clipped shade window, a use kept in its building under the rubble, a reservation parked — never a whole-map retry and never an ownerless reservation | T-V5-4, T-V5-5, T-V5-7 – T-V5-10, T-V5-14, T-V5-19, T-V5-21 (h), T-V5-26 |
+| F-WORLD, F-GW, F-PLACE† [V13 §3.16] | W0–W9, the groundwater step at both scales, P1–P5 | V13 §3.16's | V13 §3.16's, each ending in a reported clamp, default, offer or refusal; `E_WORLD_SINK` and `E_GW_CAP` are bug aborts | T-V13-3, 5, 13, 14, 22, 23, 24 |
+| F-SITE† [V14 §3.14] | G1–G8, E1–E4, R2, R4 | V14 §3.14's table | §5.1's four tiers (bend, the stage's ladder, leave out and report, refuse with the alternatives); never a whole-site or whole-crop retry | T-V14-26, T-V14-27 |
 
 No staged rung restarts anything above its district, unit or island.
 
@@ -9979,7 +9997,7 @@ interface Invariant {   // a row of this suite as a stage declares it
 | no footprint overlap | batch-local | touched footprints against the spatial index |
 | stage 3 (item 332): every wing inside its plot; the ground wings that are not towers tile, every wing that stands on another lies inside that wing's ring, and the wings standing on one wing are pairwise disjoint (V02 §3.15.1 ST6; item 333); every tower attached (overlap share in its band; a tower on a block contained in it) and not through a wing; every footprint hole a court yard part (V02 §3.5 M13) | batch-local | the touched buildings' wings |
 | stage 3: the union of a stored composition's wings and towers equals its footprint (item 332) | batch-local | the touched buildings with a stored composition |
-| basements (§2.6 *Basements*; items 29, 66, 226, 371): a basement lies inside and is smaller than its ground wings (those standing on no other wing); one other than a crawl space or a raised crypt never under the flood band or below the water table (§2.6's terrain gate; a raised crypt's floor above the water table by `crypt.freeboardCm`, V02 §3.14.5); a crawl space only where the lowest terrain sample under its footprint lies above the water table; a basement never joins a tunnel — a cellar stair to one is an `AccessPoint` (II.7.3) | batch-local | touched buildings |
+| basements (§2.6 *Basements*; items 29, 66, 226, 371): a basement lies inside and is smaller than its ground wings (those standing on no other wing); one other than a crawl space or a raised crypt never under the flood band or below the water table **at its construction week** (`waterTableAt(doc, p, constructionWeek(building))`, V13 §3.13.5 — `constructionWeek(entity)` the derived reading in `@plat/model`: the week of the epoch named by `Lifecycle.since.epoch`, week 0 at generation); a present-week violation under a lawful `setSurface` or placement is a `lockedBelowTable` report in the cascade's change list, never an invariant failure (item 137 (c)) (§2.6's terrain gate; a raised crypt's floor above the water table by `crypt.freeboardCm`, V02 §3.14.5); a crawl space only where the lowest terrain sample under its footprint lies above the water table; a basement never joins a tunnel — a cellar stair to one is an `AccessPoint` (II.7.3) | batch-local | touched buildings |
 | dossier existence (§7.7 item 2): every dossier-backed element is live and placed on every map, or present as its ruin while its assignment's `state` is `ruined` (§7.7 item 14) — no map event, `delete`, F-SITING or epoch step removes, closes or re-designates it (§4.11's *Dossier content across epochs*) | batch-local (the assignments the batch touched); stage-end (each `epoch` event: every dossier-backed assignment); save | the assignment index against live placements |
 | **coherence** (§7.7 item 11; item 20 (h) (iii)): no derived fact contradicts a dossier fact — every dossier record placed or present as its ruin; every dossier count met within its tolerance (the population by §4.11's roster tolerance); every dossier kind, name and membership unchanged on the element its binding key names; the realm-level trade facts the trade slice's (§7.7 layer 2) | stage-end (every derivation; each dossier event, and each epoch that carries one) | the dossier facts the map carries by their binding keys (`Document.dossier`, §7.7) against the elements those keys name |
 | the stored binding (`Document.dossier`, §7.7 item 12) equals the binding rebuilt by folding the log's dossier events | load; CI-only | the fold of the log's dossier events, compared row by row |
@@ -10046,7 +10064,7 @@ interface GenerationReport { outputVersion: string;
   recipe: { seed: Seed; rung: Rung; presetId?: string /* Recipe.presetId (§2.9): the preset the town was made from; absent when none */ } /* the recipe line, read by V09's Report panel */;
   stages: { name: StageId; work: Record<string, number> /* operation counts against the stage's declared work limits (§5.1 (5)) */;
     attempts: number /* the stage's tier-3 retries (its ladderUses at attempt > 0); read by §13.5's ladder-use row */;
-    warnings?: Record<string, number> /* a stage's own non-kernel warning codes — S3's `W_WALLED_BY_BARRIERS` and `W_MOAT_DRY` (§4.2 S3), S10b's `W_DOSSIER_EDGE` (§4.7 S10b), `W_RAISED_CROSSING` — S7's one per crossing of a trace laid after a raised way with its deck line, S3's and S5a's traces alike, and VS3's one per crossing of its palisade at a village derivation (V07 §3.5a; §2.7's laws, law 1 (2)–(4); its worked example the crossing table's *beneath*; §4.8), and S3's and S5a's one per moat or canal they carve stopped at its under-deck strip (§2.7's laws, law 1 (1), (8); its worked example the way-and-channel table's row (e); §4.2 S3 (10); §4.4 *Outer moats*) —, S3's, S4's, S5a's, S5b's, S6's, S7's and VS3's `W_RAISED_MEETING` (each outcome of §2.7's laws, law 2 (c), at generation, a regeneration and a village derivation: a stage F-WALL's raised-way rung left unwalled, §5.2; a palisade F-V-RAISED omitted, V07 §3.13; a raised way not built for a meeting, §4.3; a harbour-mouth chain not laid, §4.8; a merged pair's cross wall not laid, §4.2 S3 (6); a castle §4.2 S3 (8)'s filter rejects at every candidate, re-sited or kept without a bailey by F-CASTLE's ladder, §5.2) and the underground's (V04 §1b.1; item 338) */;
+    warnings?: Record<string, number> /* a stage's own non-kernel warning codes — S3's `W_WALLED_BY_BARRIERS` and `W_MOAT_DRY` (§4.2 S3), S10b's `W_DOSSIER_EDGE` (§4.7 S10b), `W_RAISED_CROSSING` — S7's one per crossing of a trace laid after a raised way with its deck line, S3's and S5a's traces alike, and VS3's one per crossing of its palisade at a village derivation (V07 §3.5a; §2.7's laws, law 1 (2)–(4); its worked example the crossing table's *beneath*; §4.8), and S3's and S5a's one per moat or canal they carve stopped at its under-deck strip (§2.7's laws, law 1 (1), (8); its worked example the way-and-channel table's row (e); §4.2 S3 (10); §4.4 *Outer moats*) —, S3's, S4's, S5a's, S5b's, S6's, S7's and VS3's `W_RAISED_MEETING` (each outcome of §2.7's laws, law 2 (c), at generation, a regeneration and a village derivation: a stage F-WALL's raised-way rung left unwalled, §5.2; a palisade F-V-RAISED omitted, V07 §3.13; a raised way not built for a meeting, §4.3; a harbour-mouth chain not laid, §4.8; a merged pair's cross wall not laid, §4.2 S3 (6); a castle §4.2 S3 (8)'s filter rejects at every candidate, re-sited or kept without a bailey by F-CASTLE's ladder, §5.2) and the underground's (V04 §1b.1; item 338); the world's codes of V13 §7.5's table (`W_WORLD_*`, `W_HEIGHT_CLAMPED`, `W_GW_*`, `W_SITING_*`, `W_ROUTE_NO_PATH`, `W_POLITY_SEAT_MOVED`, `W_PLACE_*`, `W_PLACEMENT_OVERLAP`, `W_CHARTER_*`, `W_BLEND_CLIPPED`, `W_SURFACE_*`, `W_CASCADE_TRUNCATED`, `W_IMPORT_*`, `W_MIGRATE_NO_CARVE`; the bug aborts `E_WORLD_SINK`, `E_GW_CAP`) and the site's (`W_SITE_CONTEXT_BENT`, `W_SITE_VECTOR_MISSED`, `W_SITE_ENVELOPE_SHRUNK`, `W_SITE_NO_ACCESS`, `W_SITE_NO_LEVEL`, `W_SITE_NEAR_VOID`, `W_SITE_WATER_PROVISIONAL`, `W_SITE_IMPORT_KIND`, `W_CROP_EXTENT_CLAMPED`, `W_CROP_INCOMPLETE`, `W_Z_FLAT_UNDECLARED`), each with its stage's milestone (file k item 614) — `ReportCode` is untouched: the refusals (`refuse.world.*`, `refuse.place.*`, `refuse.charter.dossier`, `refuse.surface.date`, `refuse.import.*`, `refuse.site.*`, `refuse.encounter.noWorld`, `refuse.raise.flat`) are §7.1 outcome keys rendered by V09's catalogue, never report codes (C13-53) */;
     ladderUses: { cause: FailureClass; code?: ReportCode; rung: number; tier: 0|1|2|3|4|5|6; entity: Id; key: string /* the stream key's textual form, §6.1 */ }[];
     invariants: { name: string; scope: 'batch'|'stage'|'save'|'load'|'ci'; pass: boolean; count: number }[] }[];
   requested: { feature: string; delivered: 'full'|'degraded'|'omitted'; tier: number; entity?: Id; cause?: FailureClass }[];   // §5.1 (7)
@@ -10139,10 +10157,10 @@ every building, plot and district has a permanent address that follows it, separ
   derived once from the seed by four 32-bit-lane finalisers with distinct salts (all `Math.imul`). An entity's
   **entity key** — the mix of the seed key, its lineage hash (§6.3) and its arena key (layer and part, §2.2) — is
   computed once when the entity is minted and cached in the arena beside the lineage hash. Town-level draws — S0's
-  feature draws, terrain noise and the per-document furniture (the compass and the emblem, §9.5) — use the **town
+  feature draws, terrain noise **on a standalone frame** and the per-document furniture (the compass and the emblem, §9.5) — use the **town
   root's** entity key, the seed key mixed with the fixed town lineage (ground arena, no parent, creation epoch 0, index
   0 — index 1 for a standalone neighbourhood document, V01 §2.8; item 340), so they depend on the recipe alone and
-  never on `docId`. Paint programs and furniture pass the reserved stage id `STAGE_VIEW` (0xffff) to the one mixer
+  never on `docId`. On a placed frame (`Recipe.charter` with `source: 'world'`) S1 (1)'s fBm lattice is **position-keyed on the world** — each octave's lattice value at a cell the mixer's draw keyed by (`charter.worldSeed`, the octave, the cell's world x and y through `toWorld(charter.placement, ·)`) with the world root as the derivation unit, the frame's seed keying only its authored primitives and its water draws — so two frames whose margins overlap sample one field and agree there (item 135 (c); T-V13-13's two-frame fixture, expected-fail until this rule lands at M-W1: V13 §12's one declared deviation; BCR-V13-29). Paint programs and furniture pass the reserved stage id `STAGE_VIEW` (0xffff) to the one mixer
   (§14 `Rng.stream`). A **stream key** is one finaliser round over the entity key combined with the packed components
   (stage id u16, concern id u16, reroll u16, attempt u8, epoch u32, salt u16 — 104 bits, inside the key's four 32-bit
   words); its four words seed the state directly
@@ -10158,7 +10176,7 @@ every building, plot and district has a permanent address that follows it, separ
   `EVO_FIELD`, `EVO_USES`, `EVO_DEPARTURES`, `EVO_DECLINE`, `EVO_FORT`, `EVO_TERRAIN`, `EVO_LADDER`, `EVO_MUTATION`,
   `EVO_SITING`, `EVO_GROWTH`, `EVO_WORKS`, `EVO_UNDER` (the underground adapters' own draw, excavation by demand, V06
   §3.18.1) and `EVO_RAISED` (the `raisedWays` phase's stage; its gate draws are `raised.reason`'s, keyed by the reason
-  key, V06 §3.16) (item 342); the village product's `VS1`… stages (V07 §3.14); and `STAGE_VIEW`. Adding one
+  key, V06 §3.16) (item 342); the village product's `VS1`… stages (V07 §3.14); the world's `W0` … `W9` (with `W6a`, `W6b`, `W7a`, `W7b`), `WORLD_PLACE` and `WORLD_CASCADE` (V13 §3.17; no `P1` … `P5` ids — the placement operators are §7.3's), the site's `G1` … `G8`, `E1` … `E4` and `R1` … `R4` (V14 §3.15) — **appended** at M1's API pass (K6; file k item 615); and `STAGE_VIEW`. Adding one
   moves no existing key.
 * **The components:**
   - **lineage** — the entity's stream identity, its lineage key (§6.3); a surviving entity keeps it, so nothing that
@@ -10245,7 +10263,7 @@ every building, plot and district has a permanent address that follows it, separ
 | concern | cap | keyed by — and read by |
 |---|---|---|
 | `terrain.noise`, `terrain.controls` | default | the town root's key: S1's terrain (§4.2 S1) |
-| `water.coast`, `water.river`, `water.islands`, `water.delta` | default | the town root's key: S1's water (§4.2 S1) |
+| `water.coast`, `water.river`, `water.islands`, `water.delta` | default | the town root's key: S1's water (§4.2 S1); `water.delta` also W4's distributary shares, keyed by the reach's lineage (V13) |
 | `site.centre` | default | the town root's key: S3's siting (§4.2 S3) |
 | `blueprint.features` | default | the town root's key: S0's per-rung feature draws (§4.2 S0); then, appended after them in this order, the geology flag's uniform (§4.2 S1 (10), item 65; J-A65.49) and the relief toggle's `auto` pick (§4.2 S0; S1 (1) reads the class), each drawn whether its toggle is `auto` or set (a set toggle ignores its draw), so setting either moves no other draw; the sewer layer's existence draw (II.7.1) |
 | `intent.surprise` | 0 | a fresh seed's town root: Surprise me's intent draw (§7.7 layer 1) |
@@ -10277,7 +10295,7 @@ every building, plot and district has a permanent address that follows it, separ
 | `pin.decor` | default | pins (§4.7); the neighbourhood tier's pin picks with their weight decay (II.3, item 58 (c)), keyed by the block with the pick's ordinal |
 | `people` | default | `derivePerson` (§10.3) |
 | `content/relations` | default | the relations (§10) |
-| `naming` | 8 | rerollable. S13a (§9.6); an epoch's district rename (§6.3 case (5), item 72), with the renaming epoch's component |
+| `naming` | 8 | rerollable. S13a (§9.6); an epoch's district rename (§6.3 case (5), item 72), with the renaming epoch's component; W9's world names with the world's culture context (V13) |
 | `naming.quarter` | default | S13a's quarter names (§9.6); non-rerollable |
 | `naming.emblem` | default | rerollable. The emblem generator (§9.5) |
 | `warp.jitter` | default | the warp's `jitter` kernel (§7.1) |
@@ -10309,6 +10327,11 @@ every building, plot and district has a permanent address that follows it, separ
 | `walls.condition` | 0 | S3's and S7's generation-time condition of each enceinte run (§7.7 DR41, item 114 (d); a village palisade's in VS3, V07 §3.4 (8)): keyed by the enceinte's lineage with the stretch's index along the trace (V06 §3.7.2 (2)'s cut at `walls.dismantleStretchM`) as the creation index — one uniform choosing the run's condition by V11's `walls.condition` generation shares, then, for a `patched` run, one choosing its material among the `walls.patchMaterials` rows admitted for the enceinte's kind and culture by weight; no draw while `walls.condition.atGeneration` is false, and none under history-first generation, whose replay gives the condition (V06 §3.7.7 (5)) |
 | `plan.damage` | 0 | geometry-free; non-rerollable by salt; epoch component 0. Item 123's damage thresholds (§6.3 *Plan damage*): one uniform per plan element, keyed by (the building's lineage, the element's id) at the stage id its `plan.*` concerns carry, no rung counter, reroll or salt entering — fixed for the element's life, never re-drawn; read by every reader that draws a plan's damage: §2.6 step 7's damage layer, V03 (the plan's drawing per state, its exports, the panel lines), V02 (the exterior), V04 (cellars, crypts and underground buildings), §8.6 and §11.1 |
 | `view.weather` | 0 | view only; non-rerollable. The weather timeline (item 124; *The weather stream*, below): keyed from the session seed by the spell index, never from the seed key; the spell's marks (§8.2's *Weather effects*: positions, lengths and sways) on further keys of the same concern — the spell's entity key folded through the one mixer with the frame's world-aligned cell as structured components — so a mark stays put while its spell lasts; read by §8.4's per-frame weather layer and §8.2's effect marks, which §8.8 places above the tiles — never by a stage, a digest, a tile key or an export |
+| `world.recipe` | default | V13: W0's template draw by the world root and the op ordinal; W1's noise by the op index and the cell position (from M-W1) |
+| `world.climate` | default | V13: W3's moisture start jitter by the coarse row |
+| `world.resources` | default | V13: W5's per-cell draws by the rule ordinal and the cell |
+| `world.siting`, `world.polity`, `place.search` | — | reserved ids, not streams: siting draws nothing (V13 §3.7 (6)'s tie-break; no random or jitter term in siting, J-V13.53), nor do the polity and the placement search |
+| `site` | default | V14 §3.15: the site pipeline's draws — G2's age, G4's rule choice, G5's cave field, agents, lode and lattice jitter, G8's access candidate; G1, G3, G6, E1–E3 and R1–R4 draw nothing (from M-SITE-A) |
 
   The geometry floor of item 31 draws nothing and adds no concern, and neither does the interior ladder (item 28 (f)):
   each step of a re-cut along it is its own derivation of the rung on the same four `plan.*` concerns under the rung's
@@ -10554,7 +10577,7 @@ inputs (§7.3, §7.4), so no digest ever depends on a click (J-A28.71, J-A28.72)
 
 Every entity has two identities: an **address** that everything points at (edits, locks, assignments, pins, labels,
 households, exports, the host) and a **lineage** that keys its random streams. They start equal and separate only when
-an entity is re-derived.
+an entity is re-derived. **The namespace segment** (item 140 M1; V13 §2.5; file k item 616): every address carries a leading namespace segment, eight base-32 characters of the first 40 bits of `H128(docId)` at the document's creation, kept on clone and save-as (`Document.namespace`, §2.9), so two documents merged into one package never collide (V13 Part E bar 7); a reference form without the segment resolves inside its own document (the base's forms unchanged), with it across documents (V14's `SiteReach`, the world's `Placement.subject`; a document's own references, the anchor's among them, stay bare — V14 §2.8); adoption rewrites the segment to the settlement's (V14 §3.9 (e)). The segment is minted at creation from M1's API pass and read from `docId` on an older document at load (§7.5).
 
 * **Lineage key** = (arena key — layer and part, §2.2 —, the derivation unit's lineage hash, stage, creation epoch,
   creation index, the derivation unit's reroll[, dup]); `lineageHash` is its 64-bit hash, cached in the arena. The
@@ -10576,7 +10599,7 @@ an entity is re-derived.
   lattice point). `StageDecl.lineageUnit` (§4.12) names each stage's derivation unit by its kind:
 
   ```ts
-  type EntityKind = string;   // a type of §2.8's entity registry, as Identity.kind and an address's `kind:` prefix spell it ('cell', 'block', 'plot', 'building', 'household', 'district', 'system' …), or a run unit: 'town' (the town root), 'run' (the stage run that created the entity, its creation index the run's canonical order) or 'edit' (the creating event, its `seq`)
+  type EntityKind = string;   // a type of §2.8's entity registry, as Identity.kind and an address's `kind:` prefix spell it ('cell', 'block', 'plot', 'building', 'household', 'district', 'system' …), or a run unit: 'town' (the town root), 'run' (the stage run that created the entity, its creation index the run's canonical order) or 'edit' (the creating event, its `seq`); the world's lineage units 'placement' and 'territory' (V13 §2.5; §2.8's world rows)
   ```
 
 * **Address id** = `kind:token`, prefixed `<layer><part>/` outside the ground layer — the island's part on the sky
@@ -10706,6 +10729,12 @@ an entity is re-derived.
 | sky access (V05) | (its island's address, its role, its ordinal) (item 476) | the same island | `SkyAccess.kind` |
 | seam (NF-P6) | its two districts' addresses and its first chain's address | same pair and chain | — |
 | portal | position | 1 m | portal kind (`baseLane`, growth, edit) |
+| reach (V13 §2.5; from M-W1) | course overlap ≥ 50 % within one fine cell | — | the world's reach kinds |
+| territory (V13 §2.5) | its seat | — | — |
+| placement (V13 §2.5) | its subject | — | — |
+| water surface (V13 §2.5) | its body and date | — | — |
+| world route (V13 §2.5) | its ends | — | — |
+| the world site's card and anchor (V14 §2.8; from M-SITE-A) | V14 §2.8's lineage parents: the card is a site document's town root | — | — |
 
   *Split through an anchor:* the child left of the directed cut keeps the id (§3.6 (5)). *Households and people:* a
   household's address survives a re-derivation of its plot by succession (anchor: plot address and ordinal), so a
@@ -11024,7 +11053,8 @@ everything outside it stays byte-identical.
 ### 7.1 Edits are ordered events on addresses; the named actions; the edit targets; dry-run validation
 
 ```ts
-interface EditBase { seq: number /* from the document's nextSeq; never reset; survives rebase; an event an epoch carries in `EpochInputs.dossier` takes its seq when the epoch is appended (§7.7 item 6; J-A22.76) */; author: 'user'|'host'|'epoch'|'migration';
+interface EditBase { seq: number /* from the document's nextSeq; never reset; survives rebase; an event an epoch carries in `EpochInputs.dossier` takes its seq when the epoch is appended (§7.7 item 6; J-A22.76) */; author: 'user'|'host'|'epoch'|'migration'|'world' /* 'world': an event the world's placement fold writes into a frame's log (§7.4's session `world:place`; V13 §4.4) */;
+  verb?: 'happened'|'alwaysSo' /* on every terrain and water edit (`happened` default; an older event reads `alwaysSo`); ignored on every other kind, a placement and V14's remove and destroy included (SW-28); V13 §4.1, item 137 — the field at M1's API pass, read from M-W0h */;
   session: string /* the authoring session, per document and author (§7.4): its undo and redo stacks; never read by the fold. Every event the dossier port emits carries the reserved session 'host:port', constant, with no group (V08 §3.6 (6); item 359): no user's stack ever holds one */;
   group?: number /* one undo step: every event of one `edit` (or `confirm`) call that carries a group shares it; the engine writes it at commit as the `seq` of that call's first event, whatever number the client sent, so a group is unique in the log and `undo.of` names it (§7.4 Targets) */;
   renames?: Rename[] /* on every event whose fold re-draws a name by §6.3's case (4), and an epoch's case (5) renames */;
@@ -11093,7 +11123,7 @@ type EditEvent = EditBase & (
   | { t: 'drawPassage'; plot: Id; from: PointCm; to: PointCm; widthCm: Cm }   // item 30 (c): a covered passage under the front building's ground storey, as §2.5's passage face; sealing and reopening are convert ops (§4.11)
   | { t: 'drawTunnel'; points: PointCm[]; kind: Tunnel['kind']; widthCm?: Cm; headroomCm?: Cm; system?: Id /* item 65: a gallery of that underground system, in its part (II.7.6); absent: the sewer network, part 0 */; from?: PointsForm /* two points: the route derived at the dry run (II.7); item 355 */ }   // items 11, 12: a `tunnel` chain on the underground arena — never a `drawWay` (U2, II.7.3); width and headroom default to II.7.2's profile row, `navigable` derived (§2.7)
   | { t: 'drawChamber'; system: Id | { newKind: 'ruin'|'cavern'|'catacomb' }; polygon: PolygonCm; floorCm?: Cm; from?: PointsForm /* one point and a size, or three or more points */ }   // item 65; with `newKind`, a closure (§7.3 item 9) creating the system with its first chamber (item 361)
-  | { t: 'addLink'; a: Id; b: Id; kind: UndergroundLink['kind']; via: UndergroundLink['via'] }   // item 65: a link between elements of different parts (II.7.6)
+  | { t: 'addLink'; a: Id; b: Id; kind: UndergroundLink['kind']; via: UndergroundLink['via'] }   // item 65: a link between elements of different parts (II.7.6; an `underground` part and a `site` part among them, file k item 606)
   | { t: 'addUndergroundAccess'; building: Id; target?: Id /* an element, else the closure's target order (II.7.6) */; kind?: AccessPoint['kind'] }   // item 66: a closure edit (§7.3 item 9)
   | { t: 'placeAccess'; kind: AccessPoint['kind']; role: AccessPoint['role']; ground: PointCm; element: Id /* the tunnel, gallery, chamber or underground building it reaches (II.7.4) */ }   // item 12 (d): a new AccessPoint opening at `ground`, its `access_point` vertex on `element`'s kerb or wall at the nearest point; its underground end moved by `moveVertex` on that vertex, its opening by `setAttr` on `ground.at` (re-hosted by `pointLocate` on the ground's `PlatKey`, `ground.host` rewritten, refused outside II.7.3's admitted ground); removed by `delete`
   | { t: 'placeSkyAccess'; island: Id; top: PointCm /* local; snapped to the rim at the dry run */; foot: PointCm /* world */; kind?: SkyAccess['kind']; role?: SkyAccess['role'] }   // V05 §4.2
@@ -11130,6 +11160,15 @@ type EditEvent = EditBase & (
   | { t: 'upgrade'; from: string; to: string; mapping: MigrationMap /* §7.5 */; baseDigest?: Hash128 /* with a rebased base: base.state's model root computed under `to`, the root later loads under `to` check it against (§2.9 step 3, §7.5) */ }
   | { t: 'undo'; of: number /* seq of the event undone, or of the first event of its group */ }        // applied at the head through the same fold (§7.4)
   | { t: 'redo'; of: number /* seq of the undo it reverses */ } );
+// The world's, the site's and the raise-or-lower kinds (file k item 617; each a member of the union above from its milestone):
+//   (a) V13 §4.1's variants — `worldRecipe`, `setSurface` (its `surface` admitting a site level's `{ kind: 'site'; body; level }`, SW-06), `rerouteReach`, `requestCharter`, `bindPlacement`,
+//       `placeFrame`, `setPlacement`, `mirrorFrame`, `worldWins` with `ids?`, `unplaceFrame`, `setSeats`, `deleteTrace`, `addEvent`, `fork`, `discardFork`, `commitFork`, the frame's `charter` — with
+//       `setField.key` admitting `'world'`, `date?` on `setField(terrain)`, `rerouteReach` and `moveCourseKnot` (≤ the document's week; forbidden under `alwaysSo`, SW-27), `adjust.param` the world params
+//       with `fromStage` `'W0'|'W3'|'W5'`, and `EditScope` admitting `{ kind: 'world'; stage; box? }` (M-W0h the water edits' verb and `setSurface`; M-W1 the placement kinds);
+//   (b) V14 §4.2's — `dropSite`, `setSiteRequest`, `promoteEncounter` (M-ENC), `adoptSite` (M-SITE-A);
+//   (c) `raiseLower { id; target; deltaCm; mapped }` (V14 §4.6: the dry run maps the drag to the one attribute the model stores, the fold runs the mapped base event; a target with no elevation path refused `refuse.raise.flat`; M-25D);
+//   the `setAttr` paths of V14 §4.2 and V13 §1b.3; `ConversionOp` gains `destroySite`, `occupySite`, `vacateSite`, `damageSite`, `restoreSite`, `repurposeSite`, `expandSite`, `collapseUnit`, `breachUnit`, `floodSite`, `drainSite` (the last two folding to `setSurface`; V14 §4.3);
+//   `ConflictAction.kind` gains `'keep'|'takeOffer'|'accept'|'cancel'` with `offer?: number` (§11.2); the dry-run outcome table gains V13 §4.1's and V14 §4.9's rows (the refusals as `refuse.*` keys, the bends as `bend.*`).
 type RowOp = { op: 'set'|'insert'|'delete'; rowKey: string; field?: string; value?: unknown; baseRowHash?: Hash64 };   // rows by stable key, never by position
 type WarpKernel = 'displace'|'liquify'|'relax'|'bloat'|'pinch'|'equalize'|'swirl'|'jitter';
 type WarpStroke = { kernel: WarpKernel; centre: PointCm; radiusCm: Cm; innerRadiusCm?: Cm; strength: number; dragCm?: VecCm };
@@ -11409,6 +11448,7 @@ carries its catalogue key (V09 §4.9) as a `MsgRef` (§5.2 F-EDIT).
 | a meeting of a wall-like structure and a raised way that §2.7's laws give no lawful shape by hand (law 2 (c); its worked example the crossing table's lock sentence's (G3)) — among them an aqueduct, or a hand repair's new raised part (`repairRaised`, the crossing table's C10), whose supports cannot leave a standing band within §2.7's support step (3)'s and (4)'s bounds, a road deck that cannot come down before a standing trace, a stretch with no lawful crossing (a run a carve or a moved river re-traces among them), a fixed place with no point in reach that §2.7's laws admit (a castle sited or resized by hand, `setAttr(castle, 'site' \| 'baileyArea')`, whose claim no lawful site in reach admits, among them), a held building in an arch vault a wall, a retaining stroke or the raised way's own edit cannot keep clear of (named as `{other}`) | refused | the nearest lawful declarations (item 101 R2; `PreviewResult.alternatives`) and **Show me why**, never `unlock` (§2.7's laws, law 2 (c)), the held thing neither moved nor broken | `refuse.raised.meeting` |
 | a ground `drawWay` or a moved way meeting a standing raised way's — locked, pinned or neither — supports, ramps, stairs, feet or a `vault` span's strip, crossing its under-deck strip where §4.3's crossing rule does not admit it, or crossing an enceinte's trace where §2.7's laws bar its gate there (§2.7's laws, law 1, read with its terms, chiefly (1), (5), (8); its worked example the way-and-channel table's row (b)), or a hand carve whose channel's crossing of that strip meets a support, ramp, stair, foot or `vault` span's strip (§2.7's laws, law 1 (1), (8); its worked example the way-and-channel table's row (e)) | bent | the way moved along the deck to cross under the nearest span that admits it — its crossing of a trace to the nearest at which §2.7's laws admit its gate —, the channel to the nearest crossing that meets none of these (`bend.raised.underSpan`); where none does (`bend.raised.around`), a way takes another course by §4.3's router as a route does — round the raised way — else the nearest routable pair (§4.3 *Two-point roads*; item 101 R2), and a carve's channel stops at the under-deck strip's edges, ending against the ground as against a berm; named in one line | `bend.raised.underSpan`, `bend.raised.around` |
 | every other infeasible declaration (item 101 R2) | bent | the nearest lawful declaration, named in one line — a quarter's snap and size, a lake's level, a harbour's size, a river's course, a road's route and bridge, a wall's ridge, reach, waterfront and open ground, the course an aqueduct drawn across a standing wall takes over or through it by its level (§2.7's laws, law 1 (2), (5)), a fill's band, a roster line, a place's site, a retaining wall's flat ground, move and rim, a raised way's clearance, ends, wall and island strokes and its own edits bent where they meet a wall or a held building (`bend.raised.wall`), an aqueduct's source, terminal and uphill run (a well), a crossing's steep ramp, a chamber's catacomb ladder (below), a crypt, a deck, a stack and its tiers, a ruin's axis, a tunnel's depth offset (to the cover limit), a stair kind or bay (V03 §4.2), a wall stretch's `closure` grade (to `light`), a hand repair of stone that is gone (a new stretch or part on its line; V06) | V09 §4.9's `bend.*` rows |
+| the world's and the site's rows (file k item 617): V13 §4.1's outcome rows (the placement's, the charter's, the surface date's, the import's — `refuse.world.*`, `refuse.place.*`, `refuse.charter.dossier`, `refuse.surface.date`, `refuse.import.*`; the `W_PLACE_*` offers as `keep` / `takeOffer`) and V14 §4.9's (`refuse.site.*`, `refuse.encounter.noWorld`, `refuse.raise.flat`; the bends `bend.site.*`, `bend.encounter.noHour`) | refused or bent as each row states | the row's action (`keep`, `takeOffer`, `accept`, `cancel` among the returned kinds) or the bend's target | the volume's keys, rendered by V09's catalogue |
 
 **The returned kinds** (§11.2's `ConflictAction.kind`; the one statement). A refused or conflicting outcome returns its
 action as a `ConflictAction` only where the action is one of these kinds: `unlock` — the rows whose action is the
@@ -11673,6 +11713,10 @@ entities' leaf digests unchanged (§6.5 (9)'s truncation cases cover the lock + 
 | a change of a building's plan inputs while its plan is STORED — a `relet`, a household moved in or out (§4.7's overflow pass, §2.6's capacity re-homing, item 17's relocation, §10.3), an occupants' band change at an epoch, a designation mutation (item 28 (f)) | §2.6's re-cut rule run inside the changing event, from the stored plan as its prior, around its edited and locked rooms as fixed inputs (§7.2), one ladder step per row or household crossed, recorded in the event (`EditBase.mutations`) and listed as fates (§7.3 item 4); an unstored plan is only marked stale (§2.8) and waits for the click above (J-A28.72) | the shell — wing rings (read without the `composition`-role vertices the re-cut adds, §2.6, J-P48 (1)), entrances, heights, roof, basement — and every room outside the wings whose demand changed | — |
 | an edit whose prerequisites are missing — `addUndergroundAccess` and the other instances of §7.3 item 9 (d) | the closure (§7.3 item 9): its generators in dependency order on the overlay, each through its own stage's operator, as one event whose batches commit together | everything outside the closure's pieces and their clear regions | — |
 | the staged layers (II.6, II.7) | a ground edit re-derives the underground blocks whose recorded ground cells its clear region covers (II.7's declared reads), a tunnel edit the blocks its edges bound, an island edit its own arena; the underground's and an island's reroll writes only its own arena (their seam exception is empty); each underground system's edit and reroll writes only its own part (§3.4, item 65) and the far `link_end` vertices of the links ending on it (§3.4), an undercity neighbourhood's only its void system's part and, the same way, its links' far ends, and a closure's underground pieces the part II.7.6 gives each | the ground arena under an underground edit; every other arena and part, less those far link ends | — |
+| a water surface, a terrain stroke or a reach course at either scale (with `verb`; V13 §3.14.2; file k item 618) | the cascade: terrain or surface → flow, flats, accumulation → surfaces → the table → the consumers → one level up, each a local operator over the dirty watersheds with the border pinned; S1's water and terrain operators its first step at the frame (M-W0h) | the dirty set's border cells and their surfaces, every dated surface, every lock | a sea-level change declared whole-coast |
+| a placement (`placeFrame`, `setPlacement`, `mirrorFrame`, `worldWins`, `unplaceFrame`; V13 §3.11; M-W1) | P1–P5 then W9, W7–W8 over the landmass | the frame's arenas, plots, buildings and locks and other placements | `worldWins`'s Re-derive from S1 declared |
+
+V14 §4.7's rows (a drop's, an adoption's, a conversion's) read the two rows above and this table's reservation and assignment rows and add none.
 
    **(a) S1's terrain operator**, in order:
    1. *Stroke:* the stroke list is composited on the heightfield and clamped once (§7.2), with `locked` mode's mask.
@@ -12043,6 +12087,8 @@ table, "case (4)" means the event runs §6.3's case (4) for the name it frees or
 | upgrade | explicit, after the diff (§7.5) | the document's output version | log, with `baseDigest` for a rebased base and the saved packs in its mapping | §7.5 | §7.5's upgrade undo (the undo record is `upgrade.from`) | — |
 | undo / redo | ctrl / cmd+Z, ctrl / cmd+shift+Z, the API's `undo(h)` / `redo(h)`, a host's `doc.apply` | each event's live or undone status, derived from the log | log (`of`) | after the independence check below: `undo` restores its target's scope from the target's undo record; `redo` re-applies the target at the head, its lifecycle events citing the target's `seq` and its minted addresses the target's own; a result that frees a name runs case (4) | an `undo` is undone by a `redo`, a `redo` by an `undo` (exact inverses) | replays; a target's record is rebuilt under the new version by the replay |
 | host provider output | a host-registered provider's answer, after the double-run check (§6.5 (8)) | the document's `hostContent` block | `hostContent`, keyed by (provider id, version, input hash) | read from `hostContent` on replay, never re-requested | removed with the event that first requested it | replays without the host |
+| the world's kinds (V13 §2.6's rows; file k item 619; from M-W0h / M-W1) | the recipe, surfaces, reaches, the placement and charter rows, traces, seats, the fork, `addEvent` — each as V13 §2.6's row states | V13 §2.6's | V13 §2.6's | V13 §2.6's | V13 §2.6's (the frame's `charter` event undone only with the world's placement edit, V13 §4.4) | V13 §2.6's |
+| the site's kinds (V14 §4.2–§4.6's rows; from M-ENC / M-SITE-A / M-25D) | `dropSite`, `setSiteRequest`, `moveAnchor` as a `setAttr`, the delete as **Remove**, the conversions as **Destroy** and the `siteState` ops, `promoteEncounter`, `adoptSite`, `raiseLower` folding as the mapped event — each as V14's row states | V14's | V14's | V14's | V14's | V14's |
 
 **Rebases.** The `rebase` event is a no-op for a client whose base it already is. A replay from the recipe folds an
 undone `rebase` and its `undo` as a no-op pair, every event between them being undone (a whole-town event is undoable
@@ -12067,7 +12113,7 @@ identically by every client and every replay (J-DET-16).
   digest, saved with the file, §2.9), so a reload — or reopening the file next week — continues the same undo and redo
   stacks, and a file made without one (by the CLI or from a link) mints it on first edit. A client attached to a host
   bridge takes the session the host assigns in `doc.load` (§11.3) and never writes the view key; the dossier port's
-  events carry `host:port` (§7.1). The session enters the log only as `EditBase.session`; the fold never reads it (an
+  events carry `host:port` (§7.1), and the world's placement fold writes a frame's `charter` event in the **second reserved session `world:place`** (author `world`, no group, in no user's undo stack; undone only with the world's placement edit, V13 §4.4; file k item 619). The session enters the log only as `EditBase.session`; the fold never reads it (an
   `undo` names its target by `of`), so sessions decide which event the undo key picks, never the model (J-DET-34).
 * **Targets.** Each session has its own stacks. `undo` targets the session's latest **live** event that is an undo
   target (Replay semantics) — live unless an `undo` targets it and no later `redo` re-applies it; a `group` counts as one
@@ -12386,10 +12432,10 @@ interface TableView {   // the frozen, resolved tables every reader takes: V11 �
   from the registry fails T-V11-1) — is versioned JSON: a map from a stable row key to a row whose cells carry `{value,
   unit, provenance: {source, date, note, evidence?, ownerRule?}, calibratable, extension?: {over, mode}, presets?}`. The
   registry's rows include the base's own settings the base calls table values — `reroll.maxAdvance`,
-  `crossing.searchBandM` and the dynamic grid's cell sizes, one base settings row (W-SET-01) — the prosperity drivers'
+  `crossing.searchBandM` and the dynamic grid's cell sizes, one base settings row (W-SET-01) — the style table's `style.world` rows (V13 §5.1: the relief ramp, the biome colours, `riverDrawM3s` per stop, `ghostDepthCm`, the band ramps; V11 writes the rows, file k item 623; M-W1), the prosperity drivers'
   weights with the daylight driver's `w_sun` (item 102 (f); a cell per climate row, item 111 (c)), the siting profiles,
   relation families, signature pairs and coverage rows (item 103), the sugar expansion table `sugar.json` (§7.1) and the
-  dossier row sets `tables/dossier/*` (§14 item 7; item 510). **Provenance:** `evidence` holds the ids of the baseline rows, calibration
+  dossier row sets `tables/dossier/*` (§14 item 7; item 510), the site tables `tables/sites/*` (V14 §2.5: `admissibility`, `kinds`, `grammar`, `extent`, `purpose`, `lifecycle`, `occupancy`, `crop`, `embed`, `damage`, `view25` — editable by `editTable` with this section's validation, the admissibility row's `context` keys fixed and every other cell by its schema, the grammars and lifecycle rows `calibratable: false`; from M-SITE-A) and V13 §2.3's fourteen world tables (`world.sizes`, `world.recipeOps` with `world.templates`, `world.climate`, `world.hydro`, `world.groundwater`, `world.biomes`, `world.resources`, `world.suitability`, `world.routes`, `world.polity`, `world.labels`, `world.glyph`, `place.coherence`, `water.class`, `water.flood`; the style rows `style.world`) as rows with every cell `{value, unit, provenance, calibratable}` (V11 writes the rows, file k item 646; each table with its first reader's milestone). **Provenance:** `evidence` holds the ids of the baseline rows, calibration
   run and panel that set the value (V12 §2.10), which the tables compiler ships beside the tables with each cell's
   calibration status and one plain line per id (`dist/evidence.json`); `ownerRule` names the OWNER RULE item and part a
   cell encodes — an owner-rule cell, or an owner-stamped calibration minimum, that no calibration run, fallback or corpus
@@ -12581,6 +12627,7 @@ interface Intent { form: string /* a forms-catalogue row (below) */; population?
   wealthGradientCdeg?: Cdeg /* the wealth gradient's direction */; era: string /* a row key of the `era` table (`EraRow`, V11 §2.8, V11 §3.19.1); item 400 */; defence: number /* 0–1: the defence level */; density: number /* 0–1: the density control (§7.8) */;
   latitudeDeg?: number /* degrees north; the model-side sun's latitude (item 102 (a)); DR29 fills it for a dossier-bound map; absent reads 50 (§7.5) */ }
 interface Assignment { id: Id; granularity: 'building'|'neighbourhood'|'dispersed'|'feature';
+  site?: Id /* V14 §3.9: the world-site card whose programme rides as the building's programme (the surface exception, item 133 (c)); V03's A1 reads it first (V03 §3.2); S11's mutator and `ClassRules.pick` read the card's `storeysAbove` and `levelsBelow` as `editedPaths`-style overrides kept by every later run (file k item 621; from M-SITE-A) */;
   target?: Id /* one building / plot, one district, or — granularity 'feature' — the way, bridge, quay or pin a named-feature claim names (§7.7 item 16) */;
   dispersed?: { count: number; kind: BuildingClass | string; criteria: PlacementCriteria };
   criteria?: PlacementCriteria /* a building or neighbourhood assignment's own soft rows: a naming claim's location phrase (§7.7 item 16) */;
@@ -12728,9 +12775,14 @@ SettlementForge and returns back the map").**
    (3)). Two parts are read by the owner's rules: the defence readiness (`defenseProfile.readiness` alone; item 114,
    V08 §3.16 (2)) and the traditions with the custom-content traditions bucket (item 118, V08 §3.16 (5)). **The
    closed-digest rule** (W-DOS-01a): inside a record the port reads, a field no `DossierDigest` field names is not
-   read. Nothing of the campaign beyond the dossier is read — its placements of the settlement and its partners, the
-   realm map, its scale and latitude scale, the frozen `spatialDigest` (item 125 (a); item 396's realm block is no
-   input): the latitude and the site's words they would give are the dossier's where it carries them — its culture
+   read. Nothing of the campaign beyond the dossier is read through the dossier door — its placements of the settlement and
+   its partners, the realm map, its scale and latitude scale, the frozen `spatialDigest` (item 125 (a); item 396's realm
+   block is no input); the world port (§11.4's fifth door, world documents only; V13 §3.11.6) admits under its own
+   closed key list the host's recorded world inputs — seat bindings and placements, its cost and travel laws, its route
+   genesis and changes, its political facts and dated events by window — read by the world's stages, views and clerk and
+   never by a frame's model (save the charter's culture reading, a map fact of the world), and, on a DM's explicit import, the host's realm-map export with its scale, unit and
+   latitude once, inside the import adapter; the host's frozen spatial record stays never-read on every door (file m
+   item 777): the latitude and the site's words they would give are the dossier's where it carries them — its culture
    (DR29), its terrain type, access and deposits (DR1, DR19, DR42) — else the generator's defaults; the partners' and
    the deposits' bearings are the generator's draws or the user's settings, never an input (layer 2's *Bearing*, DR3,
    DR19; item 125 (b)). The adapter reports every key it dropped
@@ -12842,6 +12894,8 @@ SettlementForge and returns back the map").**
 doesn't provide, the rest of the map code must compensate. it is one directional. only the dossier is the source of
 immutable truth while the rest can be constructed at whim. better if the rest of the map code coherently derives things
 from the dossier and in accordance with our rules").
+
+The **world port** (`@plat/port/world`, one adapter folder per host line, V13 §3.11.6) is the port's second door and §11.4's fifth: it replaces the host's capture of the reference generator, never the host's own frozen spatial record; outbound the simulator feed `canon(world, request)` (integer, versioned per slot, adopted only by the host's receipted canonize: a new campaign's birth canon, V13 §8.5's H22, or a re-canonize; file q item 916, BCR-V13-40) and the map feed (`derivedFacts(world, placement) → SettlementMapRecord`, `mapFeed`, `routes`, `pathGeometry`, `borderSegment`, `placeOf`), `charter(world, campaign) → FrameCharter`, `proposals(world, demand) → SitingProposal[]`; inbound recorded inputs, the windowed ones as windowed replaces (`bindSeat`, `unbindSeat`, `importSeats`, `costLaw`, `travelLaw`, `hostRequires`, `genesis`, `network`, `polity`, `events`, `canonized`, `consumed`), and presentation inputs never logged (`clock`, `hostOverlay`, `beliefView`, `audienceKnowledge`, and `lensWindow`, kept only as plates in the world document's plate cache, V13 §5.8 (8)); outbound, the map feed also carries the DM-placed site offers (V13 §3.11.6); nothing the host simulates calls it inside an advance (file m item 778). The host reads derived facts and never an arena; the map writes no dossier fact except through this door as a derived fact (V13 Part E bar 9). V08's host client carries the messages V13 §3.11.6 lists, each with the canon envelope's version vector, the presentation inputs never logged. Built M-W1 for `canon`, `derivedFacts`, `charter`, `proposals`, `costLaw`, `travelLaw`, `bindSeat`, `unbindSeat`, `importSeats`, `hostRequires`, the `events` windows, `canonized`, `consumed` and the `physicalChange` offer; M-W2 for the rest but `lensWindow` and the DM-placed site offers, M-W5's (V13 §8.2).
 
 9. *Two tiers of fact* (item 20 (h) (i)). Every fact the map holds is either a **dossier fact** — a record or value the
    dossier supplies, carried by the map under its binding key (§7.7 item 12), immutable on the map and changed only by a
@@ -13215,7 +13269,8 @@ interface LabelTable {                // one row per LabelEntity drawn at the ba
   pinDirCdeg: Int32Array /* PinnedPlacement.dirCdeg: a pinned point label's direction */; pinLines: Uint8Array /* PinnedPlacement.lines: 1 | 2 */;   // both written by S14 from LabelEntity.pinned (§9.1), read by §9.2's pin pass; the row stays ≤ 97 B
   pinSeq: Uint32Array /* the pin's moveLabel seq (PinnedPlacement.seq, §9.1): the order of §9.2's pin pass */;
   knownTo: Uint8Array /* 0 public · 1 local · 2 secret: the target's knownTo as §9.2's knowledge filter fills and reads it — read by that filter and by nothing else */;
-  hidden: Uint8Array; revision: Uint32Array }
+  hidden: Uint8Array; revision: Uint32Array;
+  baseCm: Int32Array; topCm: Int32Array /* file k item 622 (item 140 M9): filled from the kind's `ZDecl` (§2.8) — unused by the flat renderer, read by R2–R3's projected tile build (V14 §5.5–§5.6); the two columns reserved at M1's API pass, 0 before M-25D */ }
 interface InstanceTable {             // one row per `instances` mark (§8.10), ≤ 40 B per row
   count: number; mark: Uint32Array; layout: Uint8Array /* stamp | grid | line */; offset: Int32Array /* 2 per row, cm */; rotationCdeg: Int32Array; spacingCm: Int32Array;
   species: Uint32Array /* 2 per row: range into speciesRows */; overrides: Uint32Array /* 2 per row: range into overrideRows */;
@@ -13365,6 +13420,8 @@ interface StyleSheet {
   overrides: ThematicRow[];                                              // thematic layers, materials, season, weather, tints
   states: StateRow[];                                                    // decline, condition, Works-stage and layer-state classes (the table below); a family defines every row
   post: PostOp[];                                                        // per-tile post operations
+  projection: ProjectionStyleRow[];                                      // file k item 623 (M-25D): one row per family (V14 §5.6 (7): the key light's azimuth and elevation at the fixed sun, `sideStep`, the edge stroke, the roof's tone, the terrain's slope darkening, the default `exaggeration` 1.5 (`bw-print` 1.25), the cutaway's ghost alpha 0.35), resolved by this section's slot resolution in every shipped sheet (the loader refuses none)
+  vtt: { squareM: 1.5 /* or 1 */ };                                      // file k item 623 (M-ENC): the crop's grid cell and the export's default, set by the export dialog's "remember" as a `setStyle`, never a view key (C14-39; §11.1)
   referenceBackend: 'canvas2d';                                          // every shipped preset (§8.9)
 }
 type CvdVariant = 'protan'|'deutan'|'tritan';
@@ -14409,9 +14466,10 @@ reference never drew sits at a declared slot with a reason (§8.2's `OrderSlot`s
     castsShadowOnto?: Layer;                // rung 3: the layer whose base this layer's projected shadows are composited into (the sky's onto the ground); absent: its own
     exportSeparately: boolean;              // read by §11.1's layered exports (its *Layers* rule)
     showCircuit?: boolean;                  // the wall layer: each committed enceinte's barrier-closed arcs as a faint dashed line with anchor ticks (g item 106 (g)); off by default; V09 §5.4 (M3a; file f item 413)
-    underView?: 'cutaway'|'overlay'|'solo'; // the underground layer: the ground ghosted beneath, the ground at full, or the underground alone; default cutaway (M6-U; file f item 413)
+    underView?: 'cutaway'|'overlay'|'solo'; // the underground layer: the ground ghosted beneath, the ground at full, or the underground alone; default cutaway (M6-U; file f item 413); the `site` layer is drawn by the same underground view on its own LayerSpec — `cutaway` over the ground's ghost where the site has a ground, `solo` where it has none (V14 §5.2; M-SITE-A; file k item 624)
     occlusion: 'opaque'|'ghost'|'offset';   // how a sky layer treats the ground it covers
     ghostAlpha: number;                     // ghost: the covered ground shows through at this share (default 0.35)
+    // LayerSpec admits the `world` product's layers of V13 §5.1 (the raster layers as tile sets, the vector layers through the display list) and the frame's three overlays `waterClass`, `flood`, `traces` (M-W1; file k item 624)
     offsetPerMetre?: [number, number] }     // offset: the layer drawn displaced by elevation × this screen vector (default [0, 0.25] px per m, up the screen), tethered to its ground footprint
   ```
 
@@ -14471,7 +14529,7 @@ reference never drew sits at a declared slot with a reason (§8.2's `OrderSlot`s
     vector: { projected: 'drop'|'prism'; penumbraPx: number } }     // rung 3's look, and `hatched`'s own at every rung
   type SunSpec = { mode: 'cursor'|'fixed'|'path' /* the family's default */; admits: ('cursor'|'fixed'|'path')[] /* the modes a viewer's `sunMode` may choose, (d): all three by default; a parity preset only its own */; azimuthCdeg: number; altitudeCdeg: number /* the fixed sun: 31 500, 4 500 */;
     heightRatio: number /* h₀ of the cursor sun: 1 */; discCdeg: number /* the apparent radius: 27 */; colour: Color; intensityLux: number /* 100 000 */;
-    latitudeDeg: number /* path mode; the view's default is the latitude in force — the recipe's `Intent.latitudeDeg` (g item 102; DR29), else 50 — while the model-side sampler reads the recipe's latitude itself (§4.5) (file f items 296, 391) */ };
+    latitudeDeg: number /* path mode; the view's default is the latitude in force — on a placed frame the placement's latitude and bearing (mirrored: reflected) through the one view-side accessor `sunAt(doc, week, hour)`, a derived reading through `worldRef` (V13 §3.11.5; M-W1); else the recipe's `Intent.latitudeDeg` (g item 102; DR29), else 50 — while the model-side sampler keeps the recipe's latitude itself (§4.5; a placement never moves a model output, C13-01) (file f items 296, 391; file k item 624) */ };
   type MoonSpec = { colour: Color; intensityLux: number /* a full moon: 0.25 */; phase: { at: number /* 0 new … 0.5 full … 1 */; factor: number }[] /* interpolated */; discCdeg: number /* 26 */ };
   ```
 
@@ -15112,6 +15170,7 @@ that misses them wholly is T-ER-07's empty frame. The scale bar's accuracy is §
   it or a light whose host is either lies in the dilated tile) re-bakes the light maps that read it, while a moving
   pointer, a new `sunHeight` or a zoom inside a stop invalidates nothing cached: only the GPU's per-frame terms — the
   global light's and the hand lantern's (§8.4 (f)) — move.
+* **The 2.5D tile key (file k item 625; item 140 M11; M-25D).** The tile key gains the projection, the exaggeration and the cutaway for the **2.5D tile set** — a separate set (V14 §5.5); the flat set's key is unchanged, so the flat view is byte-identical before and after (T-V14-21's `item141.flat` pin); the world's stops are V13 §5.2's four, read by `Lod25Row`'s world rows.
 * **Canvas budget per hardware tier (N-9 b).** Counted: per visible tile position the worker's base (1 MB at 512²) and
   the main thread's composed bitmap (1 MB); the next coarser stop's composed bitmaps kept for gestures (≤ 1 MB per visible
   position); fixed scratch — the shadow and post-operation buffers (2 MB), and the crown sprites and glyph atlases
@@ -15677,7 +15736,7 @@ Judgment call: J-R12 (placement as view data, measured with our own font metrics
   interchange export (§11.1) at the export's band; a reader without a band admits as at the city band. A view's
   `ViewOpts.viewAs` and a read's `admitAs` (§11.2's `Admission`) lower the key the function reads — it admits exactly what
   both the key and the lowering admit — and never raise it (file f items 464, 572; V08's party render, V09's "View as" and
-  V10's filtered dry runs read it through them):
+  V10's filtered dry runs read it through them). A place's `SecretState` (V14 §2.3: `dmOnly`, `revealed`, `discovered`; M-SITE-A; file k item 626) is read through `knownTo` and the key's `places` by the same admission function: `dmOnly` is a `secret` place absent from every party key's `places` (neither drawn, listed, counted, named nor exported); `revealed` puts its address in the party's `places` (the host's reveal, V08 §3.14, or the DM's `setAttr`); `discovered` raises `knownTo` to `local`:
 
   | the target's `knownTo` | tier `public` | tier `local` | tier `secret`, or the place in `places` |
   |---|---|---|---|
@@ -15882,7 +15941,7 @@ Judgment call: J-R12 (placement as view data, measured with our own font metrics
 
 * **Scale bar:** metres ↔ feet, major and minor ticks, old-style figures (`onum`); a 100 m bar is accurate to 0.5 % at
   every zoom (O6 c).
-* **Compass (XB08):** a procedural 8-ray design with ink and paper halves, rerollable per town: its stream is keyed from
+* **Compass (XB08):** a procedural 8-ray design with ink and paper halves, rerollable per town, **whose north is the frame's +y on a standalone frame and the world's north on a placed one — the rose turned by the placement's bearing (mirrored: reflected), derived presentation that never rotates the arena (V13 §3.11.5; M-W1; file k item 627)**: its stream is keyed from
   the town root's entity key (§6.1, §14 `TOWN_ROOT`) with the concern `style.compass` and that
   concern's salt, so a reroll is a logged `rerollLayer('style.compass')` event and a link or a copy of the document draws
   the same compass. **Auto-placement:** candidates are the four corners and the four edge midpoints, inset 24 px;
@@ -15912,7 +15971,7 @@ Judgment call: J-R12 (placement as view data, measured with our own font metrics
   `labels` (default), `legend` (districts numbered on the map, MFCG's Districts = Legend) and `hidden`; plus the symbol key
   generated from the registry (O12 d), each active thematic row's key (`ThematicRow.legend`, §8.2) and each state row's
   entry while a mark in that state is drawn (`StateRow.legend`: the wall runs' conditions, g item 114), every
-  colour-coded category shown with its second cue beside its colour (g item 112); a line naming the season and week
+  colour-coded category shown with its second cue beside its colour (g item 112), the secret cue of each state listed while one is drawn ("DM only · revealed to the party · discovered by the party"; V14 §5.1: the dashed ring with the eye-slash, the open ring, the filled ring — a second cue beside colour; M-SITE-A; file k item 627); a line naming the season and week
   and, while one shows, the festival and its weeks (g items 117 (h), 118 (g)); while a crisis look stands, an entry for
   each — its look's glyph, its condition's name and weeks ("Refugee camp: the Northmarch migration, weeks 12–20"), as
   DR44 admits it at the viewer's key — the one evaluation §11.2's `looks` reader answers to V09's Show crises controls,
@@ -16309,8 +16368,7 @@ interface RoomRuleRow { role: RoomRole /* §2.6: data-defined */; scope: 'unit'|
   concealed?: boolean /* item 63: a room of a concealed use's programme — placed away from the main entrance and off the public circulation hub (§4.7) */;
   furnish?: { density: number; wallBias: number; glyphs: string[] } /* absent: the role's */ }
 interface BasementGateRow {   // item 29 (b): the values §2.6's basement gate reads; one row per table version
-  waterTableM: M /* default 40: within this distance of a shore the water table is the nearest water body's surface plus the freeboard */;
-  freeboardCm: Cm /* default 50 */; drainageAccumCells: number /* default 100: the flowAccum at which a hydro cell is the drainage line elsewhere (§2.3; our own, calibratable) */ }
+  freeboardCm: Cm /* default 50 */ }   // `waterTableM` (40 m) and `drainageAccumCells` (100) are retired from this row with the groundwater function (§2.6 *Basements*, V13 §3.12.3; file k item 605): until M-W0h lands, the nearest-body rule reads those two former defaults as constants
 ```
 
 The **room programme** lists the rooms a building of that class, use and band must and may have — each with its size band in
@@ -16789,9 +16847,9 @@ to it, so everyone sees the same town. Nothing depends on a server of ours.
 | target | mapping | notes |
 |---|---|---|
 | **native `.plat`** | §2.9's format and canonical form; its byte-identical round trip is tested in §13.2 | import of our own export (MFCG cannot re-import its export; FTG's export ≠ its edit format) |
-| **JSON schema** | published, versioned (generated from the `zod` types); entities by id with containment; a `plan` block per building whose plan rung is not `absent`, its state (§2.8) recorded on the block (§2.6; items 28 and 28 (f); J-A28.84): storeys, each with its rooms (address, ring in integer cm, role, `scope` — `unit`, `shared`, `service` or `circulation` — and, for a `unit` room, `unit`, the address of the household whose dwelling unit it belongs to), walls by kind, openings (kind, width, and the entrance of §2.6's set an `entrance` opening serves) and windows; the plan's `units` (each household's address, its unit form and its entry opening), stair cores and chimneys; with the output version and the supersedes table, so an exported plan says who lives where and the room graph follows from the openings; a `massing` block per building and a `composition` block with its state where the `wings` rung is current or stored (V02 §5.5; M6, file f item 449); every record's fields with their tier (*Authorship and tiers*, below) and each event's authorship with the log; each district's character vector, identity, band range and name history (item 72); each `Works` with its stage at the export's drawn week (§4.11; item 67); each `LightSource` (item 68); a clandestine building's concealed use and its concealed parts (item 63), the document formats being admitted whole (*Knowledge*, below); our own schema, never a cell grid | the API's response type |
+| **JSON schema** | published, versioned (generated from the `zod` types); entities by id with containment; a `plan` block per building whose plan rung is not `absent`, its state (§2.8) recorded on the block (§2.6; items 28 and 28 (f); J-A28.84): storeys, each with its rooms (address, ring in integer cm, role, `scope` — `unit`, `shared`, `service` or `circulation` — and, for a `unit` room, `unit`, the address of the household whose dwelling unit it belongs to), walls by kind, openings (kind, width, and the entrance of §2.6's set an `entrance` opening serves) and windows; the plan's `units` (each household's address, its unit form and its entry opening), stair cores and chimneys; with the output version and the supersedes table, so an exported plan says who lives where and the room graph follows from the openings; a `massing` block per building and a `composition` block with its state where the `wings` rung is current or stored (V02 §5.5; M6, file f item 449); every record's fields with their tier (*Authorship and tiers*, below) and each event's authorship with the log; each district's character vector, identity, band range and name history (item 72); each `Works` with its stage at the export's drawn week (§4.11; item 67); each `LightSource` (item 68); a clandestine building's concealed use and its concealed parts (item 63), the document formats being admitted whole (*Knowledge*, below); our own schema, never a cell grid; the unit records gain `waterClass` (V13 §2.4's result) and the document its `surfaces` (M-W0h; file k item 628) | the API's response type |
 | **compact twin** | CBOR with typed-array tags; varint zig-zag int32 cm in **world** coordinates, the settlement centre stored in the header, so it is an encoding of the same schema (FTG-21) | embeds and sharing; a decoder is part of the library |
-| **GeoJSON** (RFC 7946) | two declared variants (N-14, below): the default **strict RFC 7946** file in WGS84 longitude / latitude through the geo anchor, and the **metric** file by prior arrangement; neither has a `crs` member. One FeatureCollection per layer (*Layers*, below); one feature per entity with `id` (its address, §6.3), `kind`, `layer`, `epoch` and public attributes; **districts included** (FTG omits them); ways as LineStrings with class and model width; faces as Polygons with holes, emitted without antennae (an antenna: §3.6 rule 3); MultiPolygons for face unions; walls, towers, gates and built bridges as typed features (a crossing `site` is not exported, §2.7), each enceinte's wall LineStrings split per run of equal `condition` and material (§2.7), each run carrying the enceinte's `id` and `run` (its ordinal from the trace's first vertex in vertex order), `condition` absent when standing and `material` — the `wallKind/id` key of its V11 `walls.patchMaterials` row — absent when robust (file f item 575; g item 114) — an enceinte closed by `shore` or `barrier` adding its closing edges as LineStrings of kind `closure` carrying the barrier kind (`shore`, `cliff`, `gorge`, `marsh`, `sheer`, `enceinte`; J-VI.3), every enceinte its enclosure as one Polygon of kind `enclosure`, each gate carrying its kind (`land` or `water`, §2.7) (g item 106; M2b, file f item 447); **item 110's entities (M3a, file f item 447; one text for both variants):** every way carries `part` (0 the ground); a raised way's LineString adds `raisedKind` (`viaduct` · `elevated` · `aqueduct`), `source` (`generated` · `declared`, item 244's derived reading), `reason` (`drop` · `link` · `water`, absent when declared; J-VI.2), `deckMinCm`, `deckMaxCm` and `underuseSince` (a week, absent when in use); each support a Polygon of kind `raisedSupport` (`way`, `key`, `state`); each span a Polygon of kind `span` (`use` as §2.7's laws read it (law 1 (8); its worked example *beneath*), `state` — item 244's, absent when standing); an aqueduct's channel is its way's LineString (class `aqueduct`); a retaining wall one LineString of kind `retaining` per run of equal state along its chain (`wall` its id, `run` the run's ordinal from the chain's first vertex in vertex order, `highSide` of the vertex order, `stepMinCm` and `stepMaxCm` over the run, `material`, `state` — absent when standing); stairs and ramps as `stair` and `ramp` flags on the way segments they occupy; a plot or building on a deck `onDeck` (its deck kind) and `deck` (the host's id), a deck host's feature `plat:deckState` (`decayed` · `ruined`, absent when standing); a stepped building `tiers` (the count); features on a raised part stay in the ground layer's collection with their `part`; boundary treatments as LineStrings with `treatment` (VIS-8); **trees** per green entity as one MultiPoint of its instance positions (§8.10's function at the finest band, overrides applied: integer-centimetre positions under §6.5's lint, so the file is byte-identical on every host) with `species[]` (each instance's species kind), `crownM[]` and `leafType[]` in the same order, or one Feature per tree on request with `species`, `crownM` and `leafType`, or none (VN-158, XB32); model widths only, never symbol widths; public attributes include the lifecycle states (`existence`, `condition`, a wall's `supersededBy`, a tunnel's `closure`, an island's `state`; items 8, 11, 31), a plot's `exposure` and `knownTo`, a building's `knownTo`, and an institution's `knownTo` on the features of its buildings (item 30), a building's `entrances` as points with their roles (item 29), an underground building's `baseCm` as its depth below the datum and `eaveCm` as its ceiling and a tunnel's invert profile (II.7), a market reservation's `rank` (§4.2); also each building's `worksStage` at the export's drawn week (item 67), an access point's `state` (item 64), each gallery, chamber and link of the underground systems with its `system`, `kind` and `depthBand` (II.7.6; item 65), a district's `identity` and band range (item 72), each lit `LightSource` whose host draws for the export's key (§8.1 item 7) as a Point with `kind`, `heightM`, `intensityCd`, `radiusM` and `colour` (item 68), and every property's tier as `plat:tier` — `dossier`, `declared` or `map` (item 20 (h)); the `name` and the purpose of a place (its `use`, or an institution's kind) the export's knowledge key does not admit (*Knowledge*, below) are withheld, the feature staying in the file, and a concealed use's features — its rooms, its concealed entrance, its way down (item 63) — and a secret access or link are left out for such a key, their lights with them; a fallen island's archived arena is not exported (II.6); an oasis's water body carries `oasis: true` and its spring a Point of kind `spring` (g item 111); a land-use feature's `deposit` and `depositState`, one `condition` feature per overlay (no geometry of its own; its `targets`) and one `supplyChain` LineString per active chain whose every joined node the key admits (V08 §5.2; SettlementForge stage, file f item 410); with `ExportOpts.links` (§11.2), one LineString of kind `supplyLink` per supply link within the export's scope — `good`, `consumer`, `provider`, `satisfaction`, `declared`, as the `links` query reads them (§11.2), a withheld end by address and kind and a concealed use's links left out; the history properties of V06 §5.3 — for raised ways the properties above plus `plat:why`, no second `reason` meaning (M6-E, file f item 409); the sky content of V05 §5.5 (M6-sky, file f item 415); the optional `wings` layer of V02 §5.5 (M6); with the option `exportWhy` (default false; M3a, file f item 456) each use's `cls`, `family`, `specialisation`, `significance` and its top three siting row ids (V11 §2.4; a raised way's `rw/<kind>` id travels there, never as its `reason`) | the default file validated by an open RFC 7946 validator in CI and loaded by the scripted QGIS test (O11 d); the metric file checked for geometry validity and its sidecar against its schema |
+| **GeoJSON** (RFC 7946) | two declared variants (N-14, below): the default **strict RFC 7946** file in WGS84 longitude / latitude through the geo anchor, and the **metric** file by prior arrangement; neither has a `crs` member. One FeatureCollection per layer (*Layers*, below); one feature per entity with `id` (its address, §6.3), `kind`, `layer`, `epoch` and public attributes; **districts included** (FTG omits them); ways as LineStrings with class and model width; faces as Polygons with holes, emitted without antennae (an antenna: §3.6 rule 3); MultiPolygons for face unions; walls, towers, gates and built bridges as typed features (a crossing `site` is not exported, §2.7), each enceinte's wall LineStrings split per run of equal `condition` and material (§2.7), each run carrying the enceinte's `id` and `run` (its ordinal from the trace's first vertex in vertex order), `condition` absent when standing and `material` — the `wallKind/id` key of its V11 `walls.patchMaterials` row — absent when robust (file f item 575; g item 114) — an enceinte closed by `shore` or `barrier` adding its closing edges as LineStrings of kind `closure` carrying the barrier kind (`shore`, `cliff`, `gorge`, `marsh`, `sheer`, `enceinte`; J-VI.3), every enceinte its enclosure as one Polygon of kind `enclosure`, each gate carrying its kind (`land` or `water`, §2.7) (g item 106; M2b, file f item 447); **item 110's entities (M3a, file f item 447; one text for both variants):** every way carries `part` (0 the ground); a raised way's LineString adds `raisedKind` (`viaduct` · `elevated` · `aqueduct`), `source` (`generated` · `declared`, item 244's derived reading), `reason` (`drop` · `link` · `water`, absent when declared; J-VI.2), `deckMinCm`, `deckMaxCm` and `underuseSince` (a week, absent when in use); each support a Polygon of kind `raisedSupport` (`way`, `key`, `state`); each span a Polygon of kind `span` (`use` as §2.7's laws read it (law 1 (8); its worked example *beneath*), `state` — item 244's, absent when standing); an aqueduct's channel is its way's LineString (class `aqueduct`); a retaining wall one LineString of kind `retaining` per run of equal state along its chain (`wall` its id, `run` the run's ordinal from the chain's first vertex in vertex order, `highSide` of the vertex order, `stepMinCm` and `stepMaxCm` over the run, `material`, `state` — absent when standing); stairs and ramps as `stair` and `ramp` flags on the way segments they occupy; a plot or building on a deck `onDeck` (its deck kind) and `deck` (the host's id), a deck host's feature `plat:deckState` (`decayed` · `ruined`, absent when standing); a stepped building `tiers` (the count); features on a raised part stay in the ground layer's collection with their `part`; boundary treatments as LineStrings with `treatment` (VIS-8); **trees** per green entity as one MultiPoint of its instance positions (§8.10's function at the finest band, overrides applied: integer-centimetre positions under §6.5's lint, so the file is byte-identical on every host) with `species[]` (each instance's species kind), `crownM[]` and `leafType[]` in the same order, or one Feature per tree on request with `species`, `crownM` and `leafType`, or none (VN-158, XB32); model widths only, never symbol widths; public attributes include the lifecycle states (`existence`, `condition`, a wall's `supersededBy`, a tunnel's `closure`, an island's `state`; items 8, 11, 31), a plot's `exposure` and `knownTo`, a building's `knownTo`, and an institution's `knownTo` on the features of its buildings (item 30), a building's `entrances` as points with their roles (item 29), an underground building's `baseCm` as its depth below the datum and `eaveCm` as its ceiling and a tunnel's invert profile (II.7), a market reservation's `rank` (§4.2); also each building's `worksStage` at the export's drawn week (item 67), an access point's `state` (item 64), each gallery, chamber and link of the underground systems with its `system`, `kind` and `depthBand` (II.7.6; item 65), a district's `identity` and band range (item 72), each lit `LightSource` whose host draws for the export's key (§8.1 item 7) as a Point with `kind`, `heightM`, `intensityCd`, `radiusM` and `colour` (item 68), and every property's tier as `plat:tier` — `dossier`, `declared` or `map` (item 20 (h)); the `name` and the purpose of a place (its `use`, or an institution's kind) the export's knowledge key does not admit (*Knowledge*, below) are withheld, the feature staying in the file, and a concealed use's features — its rooms, its concealed entrance, its way down (item 63) — and a secret access or link are left out for such a key, their lights with them; a fallen island's archived arena is not exported (II.6); an oasis's water body carries `oasis: true` and its spring a Point of kind `spring` (g item 111); a land-use feature's `deposit` and `depositState`, one `condition` feature per overlay (no geometry of its own; its `targets`) and one `supplyChain` LineString per active chain whose every joined node the key admits (V08 §5.2; SettlementForge stage, file f item 410); with `ExportOpts.links` (§11.2), one LineString of kind `supplyLink` per supply link within the export's scope — `good`, `consumer`, `provider`, `satisfaction`, `declared`, as the `links` query reads them (§11.2), a withheld end by address and kind and a concealed use's links left out; the history properties of V06 §5.3 — for raised ways the properties above plus `plat:why`, no second `reason` meaning (M6-E, file f item 409); the sky content of V05 §5.5 (M6-sky, file f item 415); the optional `wings` layer of V02 §5.5 (M6); with the option `exportWhy` (default false; M3a, file f item 456) each use's `cls`, `family`, `specialisation`, `significance` and its top three siting row ids (V11 §2.4; a raised way's `rw/<kind>` id travels there, never as its `reason`); a world document exports one FeatureCollection per world layer, V13 §5.4 (file k item 628) | the default file validated by an open RFC 7946 validator in CI and loaded by the scripted QGIS test (O11 d); the metric file checked for geometry validity and its sidecar against its schema |
 | **SVG** | written from a transient display list the generation worker builds for the export (below) at a declared band — the city band by default; the district band on request, after a size estimate is shown; the neighbourhood band only for a district-sized or smaller scope; `<g id="layer.ground"><g id="sem.building.footprint">` groups per layer and semantic; inside a group one compound `<path>` per (semantic, district), and a `<metadata>` JSON map from subpath index ranges to entity ids, so every entity stays addressable without an element each; trees as one compound path per green entity (crowns at the district band, the wood outline at the city band); text (N-13; the export dialog's `text` option) by default as **outlines** — each glyph used written once in `<defs>` as a path from the bundled face's own `glyf` outlines (the face the labels were measured with, §9.2; quadratic segments as SVG `Q`), each placed glyph a `<use>` at the per-glyph position S13b computed, the label's text carried in an `aria-label` and a `<title>` so it stays searchable — or, with `text: 'embedded'`, as editable `<text>` (curved labels per glyph, straight labels as one `<text>` with explicit per-glyph x positions) in the bundled face embedded unmodified as an `@font-face` data URI (OFL permits embedding; no subsetting, §17.2) (J-R32); halos by paint-order in both; hatching as compound paths; symbol widths; the light (item 68) as the vector rung's shadows in `<g id="layer.shadow">` and glow sprites, or, with the export option `lighting: 'raster'`, one embedded raster lighting layer from the CPU reference (§8.4 (f)) in `<g id="layer.light">`, multiplied over the base groups; the colour-matrix post operations (§8.2) as one filter on a wrapper group `<g id="lit">` that holds every base layer group, `layer.shadow`, the glow sprites and `layer.light`, under the label groups, so they act after the light as §8.4 (f) orders and never on a label; raised parts in their own group `layer.ground.raised` above ground part 0 (item 110; M3a); with stage 3 registered, at the district band and finer the roofscape's facets in the semantics `sem.building.roof`, `sem.building.roof.dormer`, `sem.building.roof.porch`, `sem.building.roof.tower` and `sem.building.roof.cupola` and its lines in `sem.building.roofline` (V02 §5.5), the map naming each facet's subpath range by its wing address `wing:<building>/<key>` (M6, file f item 449); the sky content of V05 §5.5 (M6-sky) | size and element budgets: §12.7; CI opens the METROPOLIS file in Inkscape headless (export to PNG within 120 s) and checks every layer id (O11 h) (SCL-14, VIS-18); the outline file's Inkscape PNG and the embedded file's Chromium PNG each match PLAT's own PNG of the same frame within the visual-regression threshold (§13.4) |
 | **PNG / tiles** | §8.8's band-streamed tile assembly at any DPI, rastered in the tile worker from the export's transient list (below) and lit by §8.4's CPU reference at the request's light setting — the fixed or path sun by day, the moon and the lights at night, since an export has no pointer (item 68); transparent background; per-layer transparent PNGs (the largest MFCG ask; raised parts their own PNG, item 110); print presets A4…A2 at 300 dpi; the animated history (APNG over history frames; V06 §5.3, M6-E) | O12 (e): A2 at 300 dpi with no canvas larger than one tile band |
 | **VTT** | Foundry-class scene JSON and **Universal VTT (`.dd2vtt`)** by the profile below, one scene set per model layer — the ground; the sky per island (its content V05 §5.5's; M6-sky); the underground one scene per depth band (`depthBandCm`, II.7.3) at that band's depth, every system of the layer in it (II.7.6; item 65) — with its elevation, plus one scene for each storey of a building whose plan rung exists (the profile below; item 28) and one deck scene per raised way crossing the scope (the profile below); model widths only | grid alignment error 0 px per cell (O11 g); no manual steps on import |
@@ -16800,6 +16858,10 @@ to it, so everyone sees the same town. Nothing depends on a server of ours.
 | **CSV / statistics** | the statistics record per generation with provenance (O6 d); people, buildings, plots; `chronicle.csv` and `uses-history.csv` (V06 §5.3; M6-E) | the corpus-calibration input |
 | **permalinks** | §6.4's format and refusal rule; `&doc=` references resolve through §11.5's `DocResolver` | a document format (*Knowledge*) |
 | **skeleton** (item 101) | the document's **declared subset**: a `.plat` document with no model, whose log is the recipe's intent and, in log order, every event whose entities §2.8's `factTier` reads `declared` — the author's declarations, the sugar events among them (§7.1) — and every author's `delete` of generated content, by its address, and a suppressing delete (item 110 (b)) with the key the fold recorded, written by the skeleton writer as `delete { id, suppress }` (the one place an event carries a suppression key; never written by a client), whose import suppresses the key whether or not the address arises — a removal whose address or key does not arise in the new document reported as applied with nothing to remove, never as a failure (file f item 455); each marked `creation`, each keeping its `proposedBy` on its line (file f item 365), so importing makes them the creation prefix of a new document, whose stages read its drawn declarations ahead (§4.1, §7.7); the declared subset adds the `history` block (a `Trajectory`; V06 §5.3, M6-E) | with the same seed, a skeleton exported and imported again reproduces the city byte for byte, removals included (§6.5 (9)'s skeleton round trip); a clerk's transcript of tool calls is itself a valid skeleton, re-importing with every clerk event still marked (T-V10-12); a document format (*Knowledge*) |
+| **ecosystem-shaped JSON** (world; V13 §3.15, §5.4; M-W3; file k item 628) | the adapter folder's version-pinned schema file, the one place its property names appear; export → import → export byte-identical on the shared keys | V13 §7's round-trip test |
+| **GeoJSON** (world) | one FeatureCollection per world layer (V13 §5.4) | the same validator as the frame's GeoJSON |
+| **16-bit heightmap** (world) | PNG and `.r16` with a sidecar; round-trips through the `image` op (V13 §5.4) | V13 §7 |
+| **world CSV** | the world's statistics record (V13 §5.4) | V13 §7 |
 
 **Rotation.** Picture exports (SVG, PNG, VTT) use the view's rotation (§9.5); GeoJSON keeps model coordinates and records
 the rotation.
@@ -16942,14 +17004,14 @@ CityJSON is built for its lossless integer-vertex encoding (J-R14).
 table (tombstone → successor), so an outside tool that keyed data to an entity can follow it across re-derivations; ids
 cross the API and bridge boundary as `<docId>/<id>`.
 
-**The `.dd2vtt` profile (DEF-4).**
+**The `.dd2vtt` profile (DEF-4).** *Pinned (item 136 (c)'s re-verification of 2026-10-17; file l item 648):* Universal VTT as its published developer description revised 2026-08-22 — the field set below, `format` carried, not checked; Foundry VTT 14 — release 14.369 of 2026-10-08, API documentation 14.368 — with Foundry's importer of Universal VTT files at 6.1.1 and the one Foundry level importer that reads a numeric floor suffix at 0.0.8 (both verified for 14; the latter reads no `.dd2vtt`); the next re-verification at Foundry 15's first stable release or a change to the format's published description, whichever comes first.
 * **Scope:** a rectangle or a district chosen by the user — by default the current view snapped to whole grid squares —
-  cut to the limit bounds as every export frame is (§8.7; g items 116 (c), 122 (i)).
+  cut to the limit bounds as every export frame is (§8.7; g items 116 (c), 122 (i)); or, with `ExportOpts.vtt.crop?: { key: EncounterAddress }`, the open encounter's crop as the scope, its scene set `EncounterCrop.scenes`, the `site` level form added to `scene`'s union (V14 §3.12; M-ENC's SE2; file k item 628). For every VTT export `resolution.map_origin` is the scope's south-west corner in grid units from the arena's origin on the **world grid** (cells of `StyleSheet.vtt.squareM` from the arena's origin; for V13's regime the crop frame's transient placement whose `originCm` is the click's `WorldPointCm` snapped to the grid, V14 §3.12 (5)) — the origin derived from the address, never from the view; a multi-scene export writes one image and one JSON per scene named `<base>.<ordinal>.dd2vtt`, the ordinal written as two zero-padded digits (`00` the ground, then each storey or level in elevation order), with the scene's elevation and name in the `plat` object — an ordering convention only, for people and for an importer's file list: no importer pairs these files by name (Foundry's importer of Universal VTT files takes them one at a time under level names the user types and reads no suffix; no importer that reads a numeric floor suffix reads a `.dd2vtt`), so the path to one Foundry scene holding every scene of the set as a native level with no manual step is the Foundry scene JSON (*Foundry scene JSON*, below), written beside the `.dd2vtt` set (file l item 649); the `plat` object gains `waterStamp` (V13 §2.7's `surfaceSetDigest`), `difficultTerrain` (the wading and swimming faces; the rooftops as the walkable set under a flood stage) and the optional namespaced `sites` vendor block (`ExportOpts.vtt.vendorBlock`, default false; V14 §11 Q4); the profile's version is pinned by the line under this profile's heading (item 136 (c)'s re-verification of 2026-10-17, made before M-ENC's SE2).
   One scene image is ≤ 8 192 px on a side at the declared grid (default 1 square = 5 ft = 1.5 m at 100 px, so ≈ 123 m);
   a larger scope is split into a grid of scenes aligned to grid lines, or the user lowers the pixels per square (≥ 50) —
   the export dialog shows the choice before writing. Output is exact pixels per cell (grid alignment error 0 px per
   cell, O11 g).
-* **Fields:** `format` 0.3; `resolution { map_origin: {x: 0, y: 0}, map_size: {x, y} in squares, pixels_per_grid }`;
+* **Fields:** `format` 0.3 — the decimal the originating product writes; the format's published description gives the field no value (its own sample file writes 1.0) and no importer read checks it, so the value is carried for compatibility, not checked (file l item 650); `resolution { map_origin: {x: 0, y: 0}, map_size: {x, y} in squares, pixels_per_grid }`;
   `line_of_sight` — polylines in grid units from building footprint edges (minus door openings and the outer-wall runs
   the building's own decay level breaks at the export's drawn week — V06's `decayLevel`, §6.3 *Plan damage*'s
   comparison: a fallen run leaves line of sight, item 123 (e) — never a crisis look's `lookLevel`, which the scene's
@@ -16961,20 +17023,19 @@ cross the API and bridge boundary as `<docId>/<id>`.
   polylines along the wall broken over every stair or ramp interval (an opening, not a portal), and a raised part's
   supports' footprints as closed polylines as cliffs are (one rule; M3a, file f items 447, 448); no portal
   where a raised way crosses a street; `objects_line_of_sight`
-  empty; `portals` — doors at every entrance of a building's entrance set (§2.6; item 29: `main`, `side`, `rear`, `yard`
+  empty, save an encounter crop's transient items' sight-blocking shapes (V14 §5.3), each written as a closed polyline both there (the contract's object-occluder list) and in `line_of_sight` (the list every importer reads: Foundry's importer of Universal VTT files never reads `objects_line_of_sight` on its default multi-level path), the duplication recorded as `plat.objectsAlsoInLos: true` so a reader honouring both lists may drop one; `portals` — doors at every entrance of a building's entrance set (§2.6; item 29: `main`, `side`, `rear`, `yard`
   and `service`, each the width of its plan opening where the plan rung exists (V03 §3.6 O3; M6-P, file f item 451), else
   1.2 m) and gates (their opening), each
   `{ position, bounds: [two points], rotation, closed: true, freestanding: false }` — a concealed door only for a key
   that admits its use (item 63); a window, where a storey's scene writes one, a portal written `closed: false`, since the
   format has no window flag and importers read an open portal as a window (file f item 454); `lights` — the model's
-  lights in the scope (item 68): every `LightSource` lit at the export's drawn week and every lit window at the export's
-  hour (§10.3), `{ position, range in squares (its radius), intensity: 1, color, shadows: true }` with `color` as eight
+  lights in the scope (item 68): every `LightSource` lit at the drawn week and every room whose `lit` holds by its role or an edit (V03 §5.6) — no hour (the `light` key's `time` read as `day` by a battle-map export, the bend named `bend.encounter.noHour`; the lights set a pure function of the week, T-V14-3; file k item 628), `{ position, range in squares (its radius), intensity: 1, color, shadows: true }` with `color` as eight
   hexadecimal digits, alpha first (`AARRGGBB`), and on the underground layer its shafts — each by §8.1 item 7; `environment { baked_lighting: true,
   ambient_light }` with the ambient of the export's light setting; `image` — the scene PNG (base64) rendered by §8.8 at
   `pixels_per_grid` without the grid drawn in, lit by §8.4's CPU reference at the export's light setting (a day or a
   night scene).
 * **Per layer:** one file per model layer — the underground one per depth band (II.7.3) — its elevation in the file name
-  and in a `plat` extension object; coordinates exact to the grid (O11 g). An underground band's scene (M6-U, file f
+  and in a `plat` extension object, beside the two top-level vendor strings the format's published description proposes for every writer — `software: 'PLAT <output version>'` and `creator` (the document's author name where the export's key admits it, else absent); no importer read reads a vendor key, so the common fields never change (file l item 651); coordinates exact to the grid (O11 g). An underground band's scene (M6-U, file f
   item 452) takes `line_of_sight` from every void kerb and chamber wall and every underground
   building's footprint less its doors and every outer wall run its own decay level fells (V04 §5.6 (5)) — a `cellarWall`
   run keeping its segment —;
@@ -16986,13 +17047,13 @@ cross the API and bridge boundary as `<docId>/<id>`.
 * **Per raised way (item 110 (b); M3a):** each raised way crossing the scope adds one deck scene at its mean deck
   elevation, named as a storey scene is, its parapet edges `line_of_sight`, its end stairs or ramps open portals
   (`closed: false`) and the ground beneath drawn dimmed — at most 8 per export, the longest first, the dialog saying so;
-  a Foundry scene writes each deck as one more level with its elevation band.
+  a Foundry scene writes each deck as one more `Level` of its Scene (*Foundry scene JSON*, below): `elevation.bottom` the mean deck elevation, `elevation.top` that plus `vtt.levelBandCm`, `background.src` the deck scene's image and `visibility.levels` naming the ground's level, its parapet walls and its portals carrying the deck level's id (file l item 652).
 * **Per storey (item 28):** a building whose plan rung exists exports one scene for each storey, at that storey's elevation:
   `line_of_sight` from its walls minus their openings and the wall runs and partitions the building's own decay level
   breaks at the export's drawn week (V03 §5.3's `ownDamaged`: V06's `decayLevel`, §6.3 *Plan damage*'s comparison —
   never a crisis look's `lookLevel`, item 122 (f)), `cellarWall` and `cryptWall` runs keeping their segments
   (V04 §5.6 (2)); `portals` from every opening and every entrance whose door that level leaves standing — a doorless
-  opening is a gap, no portal —; the stair core a named portal on both storeys' scenes while its flights at or above
+  opening is a gap, no portal —; the stair core a portal on both storeys' scenes (the format gives a portal no name: the core's name and its two storeys go in the `plat` object, `plat.stairs: { portal: number /* its index in the scene's portals */; name: string; from: number; to: number /* the two storeys' scene ordinals */ }[]`; file l item 653) while its flights at or above
   level 0 stand, a broken flight below level 0 a portal still (climbable rubble, V04 §5.6 (3)); floor holes, rubble and
   debris appear in the image only, never invented as walls (g item 123 (e); T123-6), the image drawing the drawn level,
   a disaster's look in it only (V03 §5.3; J-V3.138); `lights` — one per lit room (`Room.lit`, §2.6) that draws for the
@@ -17001,10 +17062,11 @@ cross the API and bridge boundary as `<docId>/<id>`.
   `{ position, range, intensity: 1, color, shadows: true }` as the scene-level `lights` above, `range` being the room's
   diameter in squares and `color` the `glow` role's; the walls keep their centimetre positions and only the scene's grid
   snaps.
-* **Foundry scene JSON:** the same geometry as walls (`c: [x0, y0, x1, y1]` with movement and sight types; doors flagged;
-  an enceinte's walls by run as `line_of_sight` above — a `patched` run a wall, a `breached` or `dismantled` run none),
-  the same lights, a background image file, grid size and distance units — written before the walls — and journal
-  entries from the gazetteer.
+* **Foundry scene JSON:** one Foundry 14 **Scene** document per export scope, in Foundry's published Scene, Level, Wall and AmbientLight schemas (API 14.368, pinned above), so Foundry imports it with no manual step and every scene of the set becomes a native level of one Scene (file l item 654).
+  **The Scene:** `grid { type: 1, size, distance, units }` — `type` 1 the square grid, `size` the scenes' `pixels_per_grid`, `distance` and `units` from `vtt.squareM` (`5, 'ft'` for 1.5 m, `1, 'm'` for 1 m) —, `width` and `height` the scope's pixels, `padding: 0`, `initialLevel` the ground level's id, no scene-level background (the image lives on each level), `journal` and `notes` from the gazetteer, and `flags.plat` the ground scene's `plat` object.
+  **`levels[]` — one `Level` per scene of the set**, in ordinal order: `{ _id, name, sort, elevation: { bottom, top }, background: { src }, visibility: { levels }, flags: { plat } }` — `name` the scene's name, `sort` its ordinal, `background.src` the scene's image file written beside the JSON, `flags.plat` the scene's `plat` object; `bottom` the scene's elevation (the ground 0 at the scope's ground datum, a storey its floor, a deck its mean deck elevation, a depth band its floor; negative below the datum) and `top` its ceiling where it has one (a storey's ceiling, a depth band's top), else `bottom` plus `vtt.levelBandCm` (300 cm, a cell of the VTT export settings; the ground and a deck), both converted to the scene's distance units as the grid is (`cm ÷ (squareM × 100) × distance`); `visibility.levels` empty on the ground and on a storey or band level, a deck's naming the ground's level.
+  **`walls[]`** — the geometry of the scene's `line_of_sight` and `portals` (an enceinte's walls by run as `line_of_sight` above — a `patched` run a wall, a `breached` or `dismantled` run none; a crop's transient sight-blockers among them, *Fields* above), each `{ c: [x0, y0, x1, y1], move, sight, light, sound, door, ds, dir: 0, levels }` with `c` in the scene's pixels and `levels` its level's id alone: a wall `move: 20, sight: 20, light: 20, sound: 20, door: 0`; a closed portal the same with `door: 1, ds: 0`; a concealed door, written only for a key that admits its use (item 63), the same with **`door: 2`** (secret — a fact the Universal VTT file cannot carry, where it is a closed portal); a window `move: 20, sight: 30, light: 30, sound: 20, door: 0` with `threshold { attenuation: true, sight: 10, light: 10 }` (proximity; the threshold in the scene's distance units); an open portal that is not a window (a raised way's end stair or ramp) no wall. The values are Foundry 14's named constants: `move` ∈ `WALL_MOVEMENT_TYPES { NONE: 0, NORMAL: 20 }`; `sight`, `light`, `sound` ∈ `EDGE_SENSE_TYPES { NONE: 0, LIMITED: 10, NORMAL: 20, PROXIMITY: 30, DISTANCE: 40 }` (renamed from `WALL_SENSE_TYPES`, which Foundry 14's constants no longer list); `door` ∈ `WALL_DOOR_TYPES { NONE: 0, DOOR: 1, SECRET: 2 }`; `ds` ∈ `WALL_DOOR_STATES { CLOSED: 0, OPEN: 1, LOCKED: 2 }`; `dir` ∈ `EDGE_DIRECTIONS { BOTH: 0, LEFT: 1, RIGHT: 2 }` (renamed from `WALL_DIRECTIONS`; always 0 here).
+  **`lights[]`** — the scene's lights, each `{ x, y, rotation: 0, elevation, walls: true, vision: false, config: { dim, bright, color, alpha: 0.5, angle: 360 }, levels }` with `x, y` in the scene's pixels, `elevation` its level's `bottom`, `dim` the `.dd2vtt` light's `range` (its radius in squares) × `distance`, `bright` `dim ÷ 2`, `color` `'#rrggbb'` (the `AARRGGBB` colour's last six digits) and `levels` its level's id alone.
 * **Plain scene PNG:** on request a plain PNG of the scene named `{cols}x{rows}` is written beside the file, for
   tabletops that read the grid from the file name (file f item 454).
 
@@ -17048,7 +17110,8 @@ interface PlatApi {
     // V06 §4 (M6-E; file f item 458). On a dossier-bound document nothing runs and the call answers { status: 'conflict', outcome: { key: 'refuse.dossierClock' },
     // actions: [] } — the host's clock owns its time (V06 §2.3; J-V6.2), a gate outside the dry run (§7.1's outcome table); the what-if copy is that catalogue row's button (V09 §4.9)
   cancelAdvance(h: DocHandle): void;
-  forkAt(h: DocHandle, seq: number): Promise<DocHandle>; rerunFrom(h: DocHandle, seq: number): Promise<DocHandle>;   // each an editing role's call
+  forkAt(h: DocHandle, seq: number): Promise<DocHandle>; rerunFrom(h: DocHandle, seq: number): Promise<DocHandle>;   // each an editing role's call; `forkAt` serves the counterfactual fork unchanged (V13 §4.5)
+  encounter: { open(h: DocHandle, address: EncounterAddress): Promise<Encounter>; items(h: DocHandle, key: EncounterAddress, ops: ItemOp[]): Promise<ApplyResult>; crop(h: DocHandle, key: EncounterAddress): Promise<EncounterCrop>; close(h: DocHandle, key: EncounterAddress): void };   // file k item 629 (M-ENC; V14 §3.10–§3.13): the resolve, the completion, the crop, the transient arena and its items in the generation worker behind the boundary; `EncounterService` in `@plat/app` their client; the bridge's vocabulary (§11.3) gains them
   subscribe(h: DocHandle, handler: (e: ApiEvent) => void): Unsubscribe;
   close(h: DocHandle): void;
   registerProvider(p: { id: string; version: string; moduleUrl: string }): Promise<{ status: 'ok' } | { status: 'refused'; reason: 'nondeterministic'|'origin' }>;
@@ -17128,7 +17191,7 @@ type ApplyResult =
       actions: ConflictAction[] }                                      // §7.1's dry run: the nearest valid position, the blocking lock, a stale base …
   | { status: 'confirm'; token: string; fates: EditFate[] /* the first 1 000; the rest by query 'fates' */; renames: Rename[] /* the case-(4) renames the dry run listed (§6.3, §7.3 item 4); the rest by query 'fates' */;
       counts: Record<EditFate['fate'], number>; scope: EditScope /* resolved */; effects?: Effect[]; effectsMore?: number; holds?: MsgRef };   // §7.3 item 4: nothing is committed until confirmed
-type ConflictAction = { kind: 'moveTo'|'unlock'|'unassign'|'stale'|'invalid' /* §7.1's returned kinds: a route is bent, never refused */; target?: Id; at?: PointCm; message: string /* the English default */; msg: MsgRef /* its own button's words (V09 §2.9) */ };
+type ConflictAction = { kind: 'moveTo'|'unlock'|'unassign'|'stale'|'invalid'|'keep'|'takeOffer'|'accept'|'cancel' /* §7.1's returned kinds: a route is bent, never refused; the last four V13 §4.1's and V14 §4.9's rows (file k item 617) */; offer?: number /* the offer a `takeOffer` names (V13's `W_PLACE_*` offers) */; target?: Id; at?: PointCm; message: string /* the English default */; msg: MsgRef /* its own button's words (V09 §2.9) */ };
 type PreviewResult =
   | { status: 'refused'; reason: 'role' }   // a viewer's preview (*Knowledge*, below): nothing computed, so no list, count or shape
   | { status: 'ok'|'conflict'; outcome?: MsgRef /* on conflict: as ApplyResult's */; actions?: ConflictAction[] /* on conflict */;
@@ -17157,7 +17220,8 @@ type Query =
   | { kind: 'relations'; person: Id; up: number; down: number }   // the family-tree view (COV-FTG-C11), from the relation store
   | { kind: 'inView'; view: ViewHandle }                          // the "features in view" list (COV-FTG-A24; the non-visual route, J-S19)
   | { kind: 'fates'; token: string; page: number }                // the full fate list of a pending confirmation, then its renames
-  | { kind: 'why'; id: Id; path?: string; mode?: 'asPlaced'|'asNow'; historyPage?: number;
+  | { kind: 'encounter'; key: EncounterAddress }   // file k item 629 (M-ENC): the open encounter's resolve and crop (V14 §3.10)
+  | { kind: 'why'; id: Id; path?: string; mode?: 'asPlaced'|'asNow'; ask?: 'why'|'whatCaused'|'whatChanged'|'whatIf' /* default 'why'; the three new asks answered over the reason records (§2.8; V13 §4.7, V10 §3.9; file k item 645) */; since?: Week; edit?: EditEvent; historyPage?: number;
       view?: ViewHandle /* a view-bound why: a provider whose rows state a view's look — V07 §4.5's crisis, season and festival rows — reads that view's
                            §2.9 `week`, `yearWeek`, `festival` and `crises` and its `looks` evaluation (LooksAnswer) at the view's effective key; absent, no
                            such row is given; a provider that states no view's look ignores it; a section provider whose rows are read at the drawn
@@ -17310,11 +17374,11 @@ declare function exportDocument(doc: Document, fmt: Format, opts?: ExportOpts): 
 
 **Knowledge (item 30; J-A30.83, J-A30.85).** `query` answers of every kind — `gazetteer`, `looks`, `people`, `whereIs`,
 `relations`, `hit`, `inView`, `why`, `brief`, `entity`, `sites`, `measure`, `frame`, `rule`, `profile`, `links`, `plan`,
-`planReport` and the `history` kinds — and hover content list every entity in scope with its kind, address and geometry, but
+`planReport`, `encounter` and the `history` kinds — and hover content list every entity in scope with its kind, address and geometry, but
 withhold the `name` and the purpose of a place (its `use`, or an institution's kind) that §9.2's admission function does
 not admit, marking the row `withheld: true`; a person's workplace or
 household that is a withheld place is given by its address only, and the person's profession is withheld with it where
-that profession is the place's use. A view-bound reader (`hit`, `inView`, hover) admits at its view's band, and `looks`
+that profession is the place's use; the secret states of a world site's place (`dmOnly`, `revealed`, `discovered`) are read through the one admission function (§9.2, file k item 626): the icon, the site, the crop and every answer withheld below the viewer's key (M-SITE-A; file k item 629). A view-bound reader (`hit`, `inView`, hover) admits at its view's band, and `looks`
 by DR44's admission at its view's effective key, so a condition the key withholds is absent and uncounted, and a `why`
 with a `view` admits its view-bound rows as `looks` does; `plan` and
 `planReport` at the building band, through V03 §5.4's merge; every other kind, band-less, as at the city band, whatever
@@ -17518,7 +17582,8 @@ result, §3.1).
   to every `query.result` and `preview.result` before it leaves the frame — V08 §5.4 (3)'s rows for the base's kinds and
   the preview reply, V10 §3.17's rows for `brief`, `entity`, `sites`, `why`, `frame` (without `near` and `radiusM`),
   `rule` and `profile`; `measure`, `hit` and `inView` are answered `query.result { error: 'E_HOST_KIND' }` (correlated
-  by `re`) — so no length, bearing, extent or coordinate reaches a host (door 1, J86). The AI key or relay, the assistant
+  by `re`) — so no length, bearing, extent or coordinate of a frame reaches a host (J86's door 1); a world document's points reach
+  it only through door (5)'s canon and map feed. The AI key or relay, the assistant
   and its model tier follow SettlementForge's own decisions, read as inputs (J121; V10 Q1–Q3). **One way (items 20, 22; J-A20.81).** No PLAT → host message writes,
   patches or proposes a change to the host's dossier: `doc.changed` carries map-document events only, `report.changed` the
   map's report, and the vocabulary has no message that addresses the dossier; a dossier change reaches the map as
@@ -17563,7 +17628,8 @@ result, §3.1).
   `entity.selected`; a command, never a stored key) — and these are commands, never inputs: the map never needs them, and
   no document a dossier makes depends on them (§11.4). **The host's clock (item 67; J-A67.82).** The clock the design calls
   "the simulator's" — the one whose weeks move the map's history — is the host's: its advance reaches the map only as
-  dossier events and epochs, which the port dates and groups by §4.11's week and cadence (§7.7 items 1 and 6; §11.4),
+  dossier events and epochs — and, for a world document, door (5)'s windows — which the port dates and groups by
+  §4.11's week and cadence (§7.7 items 1 and 6; §11.4),
   and a host shows its campaign's current week by `view.set { week }`; the module's `time` key counts hours and never
   moves the map (§10.3). A viewer's `knowledge` defaults from its role — `owner` and `editor`
   `secret`, `viewer` `public` — the host may set any viewer's key by `view.set`, and a client never raises its own tier
@@ -17611,21 +17677,28 @@ outputs must be byte-identical, else it is refused), with every output it produc
 document's `hostContent` block, keyed by (provider id, version, input hash), and read from there on replay; an output
 that would pass §2.9's cap on pack data and host content is refused at the call as §2.9 states. So a document never needs
 its host to replay, and host code — which the model packages' lint (§6.5) cannot reach — is made deterministic by the
-check and the record.
+check and the record. (5) **For a world document only, the world port** (§7.7's world port paragraph; V13 §3.11.6): its
+recorded inputs — seat bindings and placements, the host's cost and travel laws, its route genesis and changes, its
+political facts and dated events, each a windowed replace keyed by host keys — are logged with provenance `host`, so a
+world replays without its host; its presentation inputs (the week drawn, movers, the DM's believed view, an audience's
+known events, the lens facts kept as plates) are never logged and read by nothing replayable. Item 125 (a) still holds for every settlement frame,
+which reads only its dossier and its charter, and T125-3w scans `@plat/port/world` (file m item 779).
 
 **A dossier comes through the port (items 73–87; §14).** For a dossier, door (1)'s blueprint and the log's creation
 prefix, and door (2)'s events and epochs, are produced by `@plat/port` (§14, item 73) from the whole dossier, **the
-port's only data input** (item 125 (a); J139): the map reads SettlementForge only through it — never its campaign state,
-simulator, derived reads, realm map or code — and every fact it uses comes from the dossier where the dossier carries it,
+port's only data input** (item 125 (a); J139): a settlement frame reads SettlementForge only through it — never its campaign state,
+simulator, derived reads, realm map or code (a world document's recorded inputs are door (5)'s, above) — and every fact it uses comes from the dossier where the dossier carries it,
 else from the fallback the generator takes, exactly as on a map made without a dossier, the fallback reported and never a
 refusal (item 125 (b); §7.7's derivation table, DR1, DR3, DR19, DR29 and DR42 among its rows; the week by §4.11 *The
 clock*). Beside the dossier a host may pass three fields of `HostContext` (§14), none a data input and none able to change
 a document a dossier makes: `audience` (the role and knowledge key it sets per viewer, view state that travels, §11.3;
 J-A30.82), `displayNames` (inside one export request, never stored, §11.1; item 85) and `line` (checked against the
 dossier's own selection, V08 §2.4, never chosen from; a `line` no adapter supports, or one the dossier's stamps
-contradict, refuses with `E_LINE_UNSUPPORTED`); the week, the realm and a custom library are never host inputs, a custom
+contradict, refuses with `E_LINE_UNSUPPORTED`); the week, the realm and a custom library are never host inputs to a frame (a host-bound world's present week is its
+latest window's end, door (5)), a custom
 definition reaching the map only from the dossier's own entries (§7.7 item 1). A host's view commands (§11.3) stay
-commands. The port's adapter imports and reads nothing but the dossier (T125-3). SettlementForge's map comes through doors (1) and (2), which the port produces;
+commands. The dossier port's adapter imports and reads nothing but the dossier (T125-3); the world port's adapter reads nothing
+but its manifest's closed key lists (T125-3w). SettlementForge's map comes through doors (1) and (2), which the port produces;
 door (3) stays open to it as to any host — logged table, preset and style events over the bridge — and door (4) is the
 in-page embedders' and scripts': `registerProvider` loads a provider's code into the module's workers, while the bridge
 through which SettlementForge's configuration speaks — the module in an iframe on its own origin (§11.3) — carries data
@@ -17640,8 +17713,13 @@ derivation table; no door, message or report asks the host for a fact. What a ho
 dossier change like any other and converges by the solver's order; the port's report names the earlier absorbed state
 the dossier now equals, `state_matches_absorbed` (§7.7 item 5; item 87). **No door opens the other way (owner, J86 Q2;
 J-A73.81):** the host's simulator never reads the map's geometry — the module writes no geometry, layout or district
-read for the host (door 1 stays closed); because the map follows purely from its seed and the ordered dossier history
-(§7.7 item 6), opening it would need no redesign, and it opens only on the owner's explicit word. **The export bundle
+read for the host (J86's door 1 stays closed); because the map follows purely from its seed and the ordered dossier history
+(§7.7 item 6), opening it would need no redesign, and it opens only on the owner's explicit word. The world port's
+canon (door 5) carries no frame or arena geometry and reaches the host's simulation only through the
+host's receipted canonize — the birth canon adopted as a new campaign on a world from this module is created, the
+additive re-canonize that adds a seat the host binds later, or the DM-confirmed re-canonize (V13 §8.5's H22;
+J386 – J388; file q item 917, BCR-V13-40) —, replacing the capture the host already reads; the session reads it as outside J86's door 1, and
+the owner confirms (V13 §11 Q4) before the host lights its builder over the canon. **The export bundle
 (V08 Q3: J122).** From M-SF the host client gains one call returning the user's chosen scene exports
 (§11.1's `.dd2vtt` and Foundry scenes, rendered at the export's knowledge tier and admitted by the calling key) as
 opaque byte blobs for SettlementForge's export bundle, which SettlementForge packages unread; before M-SF maps export on
@@ -17869,7 +17947,7 @@ Each stage's mechanism is its stage section's (§4); this table holds the work a
 | stage | mechanism | work at CITY; rates the budget assumes | p50 |
 |---|---|---|---|
 | S0 blueprint | parameter expansion, stream set-up | — | 2 ms |
-| S1 site | §4.2 S1 (1), (3); hydrology grid §2.3; no contours here (extracted per render tile, §8.2) | ≈ 0.3 M noise evaluations at ≈ 27 ns; ≈ 102 000 hydrology cells (flood, flats, D8 and accumulation measured 15.9–17.2 ms, `fixall_kernel_r2_hydro.out`) | 25 ms |
+| S1 site | §4.2 S1 (1), (3); hydrology grid §2.3; no contours here (extracted per render tile, §8.2) | ≈ 0.3 M noise evaluations at ≈ 27 ns; ≈ 102 000 hydrology cells (flood, flats, D8 and accumulation measured 15.9–17.2 ms, `fixall_kernel_r2_hydro.out`) + the surface step (≤ 3 ms) and the groundwater step (≤ 30 ms at METROPOLIS), V13 §3.12, inside this p95 (SP-W5's lazy-first-read fallback pre-decided for the low tier; M-W0h, measured at M-W4, T-V13-20; file k item 630) | 25 ms |
 | S2 / S3 programme, siting, reservations, the stage-1 boundary and trace | §4.2 S2–S3, §10.2; the S4 lattice and edge costs are built here (§4.3) | the roster on its Δ = 10 grid (≤ 100 classes); ≈ 2 000 candidate centres; the plaza-rooted Dijkstra and the gate-route solves ≈ 7 ms; the one travel-cost field `T` with the stage-1 level set, gates, castle weld and trace ≈ 4 ms (+ ≈ 4 ms only when a moat is carved and `T` is recomputed after S3's L0 batch) | 16 ms |
 | S4 backbone | §4.3 (the lattice built at S3; S3's shortest-path tree reused for every plaza-anchored route at epoch 0) | ≈ 46 000 nodes | 10 ms |
 | S5 growth (S5a–S5d per stage) | §4.4 (later boundaries are level sets of S3's one travel-cost field, re-settled incrementally — no per-stage field) | ≤ 8 µs per insertion including snap, attraction and re-walk (M0); ≈ 5 000 proposals | 40 ms |
@@ -18184,6 +18262,8 @@ Counted: the JS heap, typed arrays and WebAssembly memory of every thread (gener
 with canvas backing stores budgeted separately by §8.8's canvas budget, which depends on the viewport, not the rung.
 **Model working set, all threads, excluding canvases:** TOWN ≤ 40 MB, CITY ≤ 110 MB, METROPOLIS ≤ 260 MB.
 
+**World document, all threads, excluding canvases:** ≤ 300 MB on the high tier (the `continent` rung refused below it, V13 §6: ≈ 285 MB resident during W4 by the distance fields on demand, `landmass` and `territory` as Uint16, `discharge` sparse, `flatRank` dropped after W4; M-W1; file k item 631). The 2.5D tile set's memory is V14 §6's rule under the existing per-rung cap (the two sets together ≤ the line + 0.3 × the flat view's city-and-district bands; C14-42; M-25D), no new line.
+
 What each thread holds is §8.9's (the tile worker holds no model) and §8.1 item 6's (the display list in the tile worker,
 its 24-B index in the generation worker); the tile worker also holds the
 decoration memo and the placement memo, its glyph atlases and crown sprites being canvases; the derivation pool holds its
@@ -18345,6 +18425,22 @@ target miss — which inside the comfort level is no veto question (g item 119 (
 | R12-36 | the resolution adjuster — Auto's loop, the ultra tier's bar and the canvases per tier (§8.8, §12.1, §12.5, §12.8; g item 121) | at M4 (§16) on the reference, the low-end and an ultra-tier device over §12.5's reference viewports, V12's item-121 bars | T121-2, T121-3 and T121-8's bars; §8.8's canvas cases within their figure + 10 % | the loop's thresholds (2 s, 10 s, 60 %, the 60-s hold) re-declared at the measured values; the ultra tier's bar or ceiling re-declared at the measured need; reported | no |
 | R12-37 | the crisis looks' raster (§12.5; g item 122) | at M3b (§16) on the golden views of every family at every rung with the crisis fixtures (T-ER-27) | each re-skin within the settle bound; the looks ≤ 20 % of a tile's raster time | the looks' district- and neighbourhood-band parts drawn from the neighbourhood band only, reported | no |
 | R12-38 | the weather effects' frame cost, ≈ 1 ms (§12.5; g item 124 (f)) | at M3b (§16) on the reference and low-end devices, the densest spell of each kind over §12.5's reference viewport (V12's T124-2 measurement) | p95 ≤ 1 ms a frame on the reference machine | the densest densities halved on that tier, and its default turned off where it still misses; reported | no |
+| WORLD-1 | the one-click totals per rung (V13 §6; file k item 632) | V13 §6's measuring step (M-W4) | 900 / 3 000 / 7 000 ms | the noise cap pre-decided | no |
+| WORLD-2 | the placement edit (V13 §6) | M-W1 | ≤ 250 ms | V13 §6's | no |
+| WORLD-3 | `nearestLawful` (V13 §6) | M-W1 | ≤ 600 ms | V13 §6's | no |
+| WORLD-4 | the frame's additions inside S1's row (§12.4; V13 §6) | M-W0h, measured at M-W4 | inside S1's p95 | the pooled-law amendment pre-decided should S1's row miss at M-W4 | no |
+| WORLD-5 | memory at the continent rung (§12.8; V13 §6) | M-W1 | ≤ 285 MB resident | V13 §6's | no |
+| WORLD-6 | the world document's size (V13 §6) | M-W1 | ≤ the size row's `docMb` | V13 §6's | no |
+| WORLD-7 | the cascade at a frame (V13 §6) | M-W0h | ≤ 1.5 × S1's water operator's budget | V13 §6's | no |
+| WORLD-8 | the world's first frame (V13 §6) | M-W1 | ≤ 400 ms | V13 §6's | no |
+| WORLD-9 | a transient `charterFor` (V13 §6) | M-W1 | ≤ 10 ms | V13 §6's | no |
+| WORLD-10 | a caller's score pass (V13 §6) | M-W2 | ≤ W6a's law over its disc | V13 §6's | no |
+| R12-V14-1 | the crop's first frame and completion (V14 §6; file k item 632) | SE0 / SE1 (M-ENC) | first frame ≤ 100 ms, complete ≤ 300 ms p95 | V14 §6's | no |
+| R12-V14-2 | the first open per site kind (V14 §6) | SE4 (M-SITE-A) | V14 §6's bar | V14 §6's | no |
+| R12-V14-3 | the projected tile build and the GPU frame (V14 §6) | V0 / V1 (M-25D) | ≤ 1.6 × the flat; the frame inside R12-9's bounds | V14 §6's | no |
+| R12-V14-4 | the settle after a projection switch (V14 §6) | V1 (M-25D) | V14 §6's bar | V14 §6's | no |
+| R12-V14-5 | hit testing in a 2.5D view (V14 §6) | V3 (M-25D) | ≤ 0.5 ms | V14 §6's | no |
+| R12-V14-6 | the comfort level over every one-time wait (V14 §6) | V4 (M-25D) | ≤ 10 s | V14 §6's | no |
 
 The budgets of §8 keep their own measurement clauses at their homes (§8.2's random-style confirmation, §8.4's projected
 shadows, moving sun and light steps, §8.5's recoverability, §8.9's compositor, text and queries), as does §11.1's
@@ -18360,7 +18456,7 @@ fixed "golden" seeds whose fingerprints must not change unless a release says wh
 numbers we measured from the references — read from one numbers-only file, never from the captures themselves. Every
 acceptance number says what kind of evidence it is; the owner judges side-by-sides through a written, blind protocol;
 every threshold has a number today and a stated way to confirm it. The design volumes add their own test families
-(T-V1-n … T-V12-n, each volume's §7), run by the same benches and tiers.
+(T-V1-n … T-V14-n, each volume's §7), run by the same benches and tiers; volume 13 adds the **B-WORLD** corpus (200 seeds × three rungs × six templates, B-WORLD-lite its first 10 per rung; V13 §7) and its eighteen model-drift tests (T-V13-21, one per row of V13 §3.14.3's table) to the PR tier, with the comparator lint (no randomness in a sort key, T-V13-1's CI row); volume 14 adds the fixtures `B-SITE`, `B-CROP`, `B-25D` and the no-op pins `item132.none`, `item141.flat` on V12 §3.7.8's engine (V14 §7) — one T- row per Part E bar, the other volume's half a cited clause (SW-33: bars 1, 2, 6, 7, 11, 12, 14–17 → T-V14 rows; 3, 4, 5, 8, 9, 10, 13 → T-V13 rows).
 
 ### 13.1 Kernel property tests (fast-check; B-FUZZ) and the ladder coverage test
 
@@ -20042,7 +20138,8 @@ interface DossierFixtureRow { file: string; sfLine: string; commit: string; gene
     §4.11's clock at week 0 and the year position at midsummer (`port.fallbacks` 0); (T125-2) the same dossier with and
     without a host context, and under each `HostContext` field (`audience`, `displayNames`, `line`), yields the identical
     document and hash (the pin `item125.host`, a `NoOpPin` of kind `input`); (T125-3) no code path of the port reads
-    anything but the dossier — a static check of each adapter's imports and reads. Volume 8 runs T125-1 – T125-3 on its
+    anything but the dossier — a static check of each adapter's imports and reads; (T125-3w) every code path of
+    `@plat/port/world` reads only the keys its manifest lists per message. Volume 8 runs T125-1 – T125-3 on its
     host harness (T-V8-61) and volume 12 T125-1 and T125-2 (T-V12-58).
   * *Tablets and desktops only (item 126 (a2); §1.1); built at M2a with the medium layout.* (T126-1) at the medium class
     every tool of V09 §4.12's list completes its canvas script under touch, with `AppPrefs.touch.editFabric` on;
@@ -20815,7 +20912,13 @@ tool API and a skeleton file all make and change a town with one set of twelve t
                JSON with provenance; loaders; the override layer. Every table the UI shows rows of (class rows, district kinds, goods, style
                presets) carries a display `label` cell and an optional `icon` cell, and the class rows also `synonyms` and `commonness`
                cells for the roster reader (V09 §4.16); volume 11 writes the rows (its §3.1 registry lists every table)
-@plat/site     S1 terrain, hydrology, coast / lake / island outline routine, rivers by descent, islands, bank classes, water faces
+@plat/world    the world regime (volume 13, M-W1; the hydro lift at M-W0h; file k item 634): W0–W9, the placement operators `place/`, the rasters and records,
+               the lifted hydro core `hydro/` — the site package's field module with `HydroField`, its priority flood with lake typing by
+               threshold, `resolveFlats`, `d8` and `accumulate`, moved with their tests under the same names —, `groundwater/`, `water/` (the
+               water class test), `siting/`, `glyph/` (the `toWorld` placing of marks only), `why/`; depends on @plat/tables and @plat/kernel
+@plat/site     S1 terrain, hydrology, coast / lake / island outline routine, rivers by descent, islands, bank classes, water faces; its river
+               surface, trace, course and carve stay, importing @plat/world/hydro's field type; the carve gains its delta map; the surface and
+               groundwater steps (§4.2 S1; M-W0h); depends on @plat/world
 @plat/content  S2 sequential roster, demand and its propagation through the supply edges, government and religion rows, S7b / S10a
                allocation, households and people derivation, the relation-store schema, the economy and personality schema stubs
                (D-32), naming engine + grammar
@@ -20848,6 +20951,10 @@ tool API and a skeleton file all make and change a town with one set of twelve t
 @plat/under    the underground layer (volume 4, M6-U): the network, its forecast, the sewer-front neighbourhoods, the void systems, the
                undercity, the connection stage, the closure generators, the fade — over @plat/kernel, @plat/model, @plat/tables, @plat/plots
                and @plat/content; registered in @plat/layout's registry; never imported by the ground's packages
+@plat/sites    world sites (volume 14, M-SITE-A / M-SITE-F; file k item 634): the `site` product's G1–G8 registered in @plat/layout's registry with the
+               concern `site`, `SiteAttach.attach` calling V04's dig generators as functions, the site kernel's `SpineWidths` callback (§2.2 rule 7's
+               `passage` role); depends on @plat/kernel, @plat/model, @plat/tables, @plat/site, @plat/layout, @plat/plots, @plat/buildings, @plat/under,
+               @plat/evolve, @plat/hood and @plat/world; never on @plat/render, @plat/export or @plat/app (V14 §1.1)
 @plat/sky      the sky layer (volume 5, M6-sky): S7b (5)'s gate, slots, fills, outline and placement, the `handover` of the S3
                reservations an institution island leaves (V05 §3.5), `SkyStrategy`, the access siting, the claim search with the crypt
                test, the island's gradient field, `undersideTiers`, `skyUnitInput` (the island's unit inputs, `SkyUnitInput`),
@@ -20870,7 +20977,8 @@ tool API and a skeleton file all make and change a town with one set of twelve t
                pass — §8.4's lighting model as a post operation over the base raster, its CPU implementation the reference and a WebGL2
                (WebGPU where available) accelerator that draws no marks — with the vector rung as its fallback, decoration stamps over the
                bundled stamp-tile asset (§8.10), live layers (`live.stale` and the dry run's ghost `live.ghost` among them) and the
-               `states` rows' programs (§8.2), the tile worker's queue of resumable raster jobs (§8.9)
+               `states` rows' programs (§8.2), the tile worker's queue of resumable raster jobs (§8.9); `@plat/render/projection` — the 2.5D
+               projection family R1–R4 over the flat display list's `baseCm` and `topCm` (§8.1; volume 14, M-25D; file k item 634)
 @plat/edit     edit events (§7.1's kinds, each with its inverse, its fates and its migration, §7.4, §7.5), dry-run validation, undo and redo
                records, scoped regeneration, rebase, the dependency audit, event migrations, warp kernels; the epoch runner in its fold
                (§4.11)
@@ -20893,7 +21001,8 @@ tool API and a skeleton file all make and change a town with one set of twelve t
                meter, settings; '@plat/clerk/model' — the model backend, the request builder, the prompt and the turn loop, a lazily
                loaded chunk and the only importer of the provider's SDK
 @plat/app      the reference UI (below): the shell, its screens and flows (volume 9); a second entry `embed.html` — host mode: no file
-               operations, no `DocResolver`, bridge-driven (V08 §3.1, V08 §5.1)
+               operations, no `DocResolver`, bridge-driven (V08 §3.1, V08 §5.1); the encounter module (`EncounterService`, the client of
+               §11.2's `encounter.*` behind the boundary; volume 14, M-ENC; file k item 634)
 @plat/bridge-client the host client a host page imports (volume 8): `MapHost`, `MapSession`, `MapStore`, `MapRecord`, `hashDossier`,
                the status texts; dependency-free, its message types generated from `@plat/api`'s bridge schema at build
                time (V08 §2.2)
@@ -20919,7 +21028,7 @@ tool API and a skeleton file all make and change a town with one set of twelve t
 Each stage's declared inputs and outputs are its `StageDecl` registration (§4.1–§4.12); the record types a registration
 names are declared at their homes (§2.5–§2.7, §3.4, §4.8, §10.4, II.1, II.6, II.7.4, and each volume's §2).
 
-**Dependency rules (enforced by lint):** `kernel ← model ← tables ← {site, content} ← layout ← plots ← buildings ← labels
+**Dependency rules (enforced by lint):** `kernel ← model ← tables ← world ← {site, content} ← layout ← plots ← buildings ← labels
 ← render ← edit ← export ← port ← api ← clerk ← app`; **labels ← render**: the tile worker in `render` runs S13b from
 `labels`, and the drawn symbol extents and the display-list index that S13b reads reach it only as the parameters
 `ObstacleSource` and `RoleIndex` — interfaces `labels` declares and `render` implements — so `labels` never imports
@@ -20929,7 +21038,7 @@ pure `roofscape` and `facadeBays`, and by `export` for the plan's pure readers (
 Foundry storey scenes, CityJSON storeys and glTF interiors), only; `render` and `export` may import `facadeBays` from
 `plots` or `buildings`; `hood`, `village` and `evolve` depend on `layout` / `plots` only through their interfaces (and
 `evolve` on `content` and `edit`'s operators); `under` depends on `kernel`, `model`, `tables`, `plots` and `content`, and
-`sky` on `layout`, `site`, `content` and `kernel`; no ground package imports `hood`, `under`, `sky`, `evolve` or
+`sky` on `layout`, `site`, `content` and `kernel`; `world` imports nothing from `site`, `layout`, `plots` or `content`, `site` depends on `world` (its lifted hydro core), `port/world` is one adapter folder of `port`, and `export` reads `world`'s records (T-V13-7; file k item 634); `sites` depends on the packages its line names and never on `render`, `export` or `app`; no ground package imports `hood`, `under`, `sky`, `evolve`, `sites` or
 `village` — `api`'s worker host alone imports them, to register them; `docs` reads the registries of `model` and
 `tables` only; `sim` depends on `content` and `model` only; `port` depends on `model`, `tables`, `content` and `edit`
 only and is imported only by `api` and the reference app's host glue; `clerk` depends on `api`, `model` and `tables`
@@ -21557,7 +21666,7 @@ determinism machinery. The first real milestone (M1) is a town the owner can loo
 owner ranks editability first, editing comes next (M2a), before the second look and the rest of parity (M2b). Then full
 editing and the API (M3a), the exports and the should-have extras (M3b), hardening (M4), the simulation module (M4b)
 and stage 2 (M5). The design volumes' milestones follow in the order the owner's delegation fixed (J122): the village's
-tracker spike right after M0, the built-in clerk beside M3b, and after M4 four streams side by side. Effort is stated
+tracker spike right after M0, the built-in clerk beside M3b, and after M4 four streams side by side; **the water state at the frame M-W0h after M4 beside M5 (V13 §8; SW-14), the world milestones M-W0 – M-W5 (V13 §8: 37–45 pw as one staged row, M-W5 the lenses after M-W2; BCR-V13-37) after M-SF, the encounter crop M-ENC after M1, the attached sites M-SITE-A after M6-U, the free sites M-SITE-F after M-W1 and the 2.5D renderer M-25D after M4 (V14 §8); the host's own changes a parallel track on the owner's schedule (V13 §11 Q2)** — the one merged text both volumes cite (SW-29). Effort is stated
 honestly as a range with its basis, and computed once here: two totals, the base with stage 2 and the whole program.
 
 Person-weeks are expert estimates (PLAUSIBLE) for two implementers plus a verifier seat — about 115–158 calendar weeks
@@ -21601,6 +21710,12 @@ outside the first total.
 | **M6-sky — the sky layer** (V05 §8: P0–P6) | M6-U (its P0 spike may run beside M5) | — | V05 §8's exits | 18–24.75 pw |
 | **M-CAL — the corpus reconciliation** (V12 §8) | M6-sky; its inputs M4, M5, M6 and V-M4 | — | V12 §3.10's acceptance and the before-and-after sitting | 4.75–8 pw |
 | **M-SF — the SettlementForge connection** (V08 §8: SF0–SF7; VH with the village) | M-CAL (SF0–SF3 may start earlier; VH when the village lands) | — | V08 §8's exits and release checklist, item 125's bars and item 122's map rows and crisis reading among them | 18.5–25.25 pw (map side) |
+| **M-W0h — the water state at the frame** (V13 §8.2, §8.3; SW-14) | M4; beside M5, before M6-U's U3b | M5 | T-V13-4, 6, 8, 9, 10, 20, 22, 25, 27, 29, 33–35; V04's readers switched, the shift reported | ≈ 4 pw (inside the world row's 37–45) |
+| **M-W0 – M-W5 — the world** (V13 §8.2: M-W0 spikes, M-W1 the world, M-W2 routes, polity and siting stage 2, M-W3 labels, exports and the adapter, M-W5 the lenses after M-W2, M-W4 hardening) | M-SF; M-W0's spikes after M0 closes | the host's parallel track (V13 §8.5) | V13 §8.2's gates per milestone; every T-V13 row green in the nightly tier at M-W4 | 37–45 pw (one staged row; M-W0h's ≈ 4 inside it; BCR-V13-37) |
+| **M-ENC — the encounter crop** (V14 §8: SE0–SE2) | M1 | its interiors with V03's P1, its occupancy with M4b | V14 §8's SE0–SE2 exits (T-V14-1, 3, 4, 11, 21's `item132.none`, 24 (a), 26, 29); the register check at every exit | 4.25–5.75 pw (with SE0) |
+| **M-SITE-A — the attached sites** (V14 §8: SE3–SE5) | M6-U's U3b and V01's W15 at M5 | may run beside M6-P and M-W1 | V14 §8's SE3–SE5 exits (T-V14-2, 5, 10, 12, 13, 18, 19, 20, 23, 26, 27, 30, and 33 — its map-feed offer and religion-lens clauses with V13's M-W5); the owner's panel V14-P's site half offered | inside M-SITE's 13–18.5 pw |
+| **M-SITE-F — the free sites** (V14 §8: SE6) | M-W1 | M-W2 | V14 §8's SE6 exit; T-V14-7 (c), T-V14-22 | inside M-SITE's 13–18.5 pw |
+| **M-25D — the 2.5D renderer** (V14 §8: V0–V4) | M4 | M5; its world rows after M-W1 | V14 §8's V0–V4 exits (T-V14-14, 15, 16, 17, 21's `item141.flat`, 24); the panel's view half | 7.75–11 pw |
 | the application's staged screens (V09: AP5 with M6-E's E6, AP6 with M6-U, AP7 with M6-sky, AP8 with M3c, AP10 with M6c; AP11's History chip, "What its past left", the lost-void line, Back in use, the last-change epoch and the ring's story with M6-E, its grandeur line with M6, the damage lines with M6-P's P4 and the game-master trial before the public release) | their layers | their layers | V09 §7 | 4.25–6.25 pw |
 | the content's staged rows (V11: C4b at M-SF, C8 at M6-U) | their milestones | — | V11 §8 | ≈ 1.85–2.6 pw |
 
@@ -21641,8 +21756,10 @@ payments; its findings enter volume 12's calibration record and the fix list; vo
 | the corpus reconciliation (volume 12) | 4.75–8 | V12 §8 |
 | the application's staged screens (volume 9) | 4.25–6.25 | V09 §8.1 (AP5 – AP8, AP10 and AP11's staged parts, 1–1.25) |
 | the content's staged rows (volume 11) | ≈ 1.85–2.6 | V11 §8 (C4b and C8) |
-| **the staged milestones together** | **187.85–264.1** | |
-| **the whole program — the second total** | **418.6–579.35** | the first total plus every staged line |
+| the world: M-W0h and M-W0 – M-W5 (volume 13) | 37–45 | V13 §8.2 (M-W0h ≈ 4 inside it; file k item 635; M-W2 widened by the sway, patrols and windows and M-W5 the lenses, BCR-V13-37) |
+| world sites, the encounter crop and the 2.5D view (volume 14) | 25.75–36.25 | V14 §8 (M-ENC 4.25–5.75 with SE0; M-SITE 13–18.5; M-25D 7.75–11; content 0.75–1; file f item 568's rule) |
+| **the staged milestones together** | **250.6–345.35** | recomputed once by the coherence pass applying file k (file f item 568), the world's line moved by BCR-V13-37 (file o item 877): 187.85–264.1 + 37–45 + 25.75–36.25 |
+| **the whole program — the second total** | **481.35–660.6** | the first total plus every staged line (230.75–315.25 + 250.6–345.35) |
 
 Outside both totals: each later corpus run (M-CAL/⟨layer⟩, 0.25–0.75 pw each), the command-line clerk where volume 10's
 spike takes that fallback (0.5 pw), and SettlementForge's own side of the connection (1.5–2.5 pw, SettlementForge's
@@ -22703,11 +22820,11 @@ interface AccessPoint { id: Id; kind: 'stair'|'ladder'|'hatch'|'door'|'shaft'|'w
     /* ladder, hatch and door: item 64's basement accesses; mouth: an opening in outside ground — a cave mouth, a dug passage's outlet (II.7.6);
        sinkhole, collapsed_shaft, ruin_entrance: public openings by chance into a cavern, a quarry or mine, or a ruin (item 109 (j) (3) (ii)) — each public opening of role access a HoodPlace of kind opening on the surface (V01 §3.7.1) */;
   role: 'access'|'air'|'light';
-  ground: { at: PointCm /* moves with its host face under a warp (§7.4) */; host: Id /* the corridor, square, yard, building (for a basement access, its basement) or outside face it opens in */ };
-  under: { part: number /* the underground part it reaches (§3.4; 0 the sewer network) */; element: Id /* the tunnel, gallery, chamber or underground building (a sewer dwelling's side or rear wall: item 64's door) */; at: VertexRef /* ('access_point', id) on that element's kerb or wall, §2.2 rule 7 */ };
+  ground: { at: PointCm /* moves with its host face under a warp (§7.4) */; host: Id /* the corridor, square, yard, building (for a basement access, its basement) or outside face it opens in */; storey?: number /* source `site` only: the anchor's storey — V14 §3.9 (a)'s head rule: a `hatch` in that room's floor or a concealed door, descending by a V03 stair core of kind `secret` (V03 §3.3; file k items 636, 639) */ };
+  under: { part: number /* the underground part it reaches (§3.4; 0 the sewer network) */; element: Id /* the tunnel, gallery, chamber or underground building (a sewer dwelling's side or rear wall: item 64's door) */; at: VertexRef /* ('access_point', id) on that element's kerb or wall, §2.2 rule 7 */ } | SiteReach /* V14 §2.3: `{ site; unit; level; at; floorCm }` — the first two written whole with the site document's namespace (§6.3); source `site` (M-SITE-A; file k item 636; the form reserved at M1's API pass) */;
   state: 'open'|'locked'|'bricked' /* item 64 (c): stored, set by the rule's row, an edit, or the access closures of its host's change (a use turned to a class whose access row is 0, a ground host no longer admitted: bricked; V04 §3.10); it reads collapsed or bricked while its element is closed (II.6), a derived reading, never stored */;
-  knownTo: 'public'|'local'|'secret' /* item 64 (c), item 30's values: public for a stair, shaft or grating on public ground, local in a yard, and in a building by II.7.3's Basement accesses (4) — secret too where an undercity lifeline's row makes it so (II.7.5) */;
-  source: 'neighbourhood'|'basement'|'system'|'lifeline'|'edit'|'dig'|'opening'|'overlap'|'crypt'|'dossier' /* II.7.3's neighbourhood rule or its basement accesses, a system's own entrance (II.7.6), an undercity lifeline (II.7.5), an edit (§7.1; §7.3 item 9's closure), a building's dig into a void, a public opening, a system grown through a void (item 109 (j) (3), (3b)), a church's crypt joining a catacomb (item 109 (k) (2)), a dossier's requirement */;
+  knownTo: 'public'|'local'|'secret' /* item 64 (c), item 30's values: public for a stair, shaft or grating on public ground, local in a yard, and in a building by II.7.3's Basement accesses (4) — secret too where an undercity lifeline's row makes it so (II.7.5); the stored value is read by every reader through `effectiveKnownTo(access)` (V14 §2.3: `secret` while the anchor is `dmOnly`, at least `local` once `discovered`; file k item 636) */;
+  source: 'neighbourhood'|'basement'|'system'|'lifeline'|'edit'|'dig'|'opening'|'overlap'|'crypt'|'dossier'|'site' /* II.7.3's neighbourhood rule or its basement accesses, a system's own entrance (II.7.6), an undercity lifeline (II.7.5), an edit (§7.1; §7.3 item 9's closure), a building's dig into a void, a public opening, a system grown through a void (item 109 (j) (3), (3b)), a church's crypt joining a catacomb (item 109 (k) (2)), a dossier's requirement; `site`: a world site's anchor reaching its site document (V14 §2.3) — `AccessCause.rule` gains `'site'` (V04 §2.2's union); an access of source `site` is never a `HoodPlace`, skipped by V01's opening pass and V04's excavation reading; its ends through `verticalEnds` (§2.7, file k item 606) */;
   cause: AccessCause /* persisted: the rule, the system and the event that made it; absent in an older document `legacy` (V04 §2.2) */; lifecycle: Lifecycle }   // §2.8's entity registry; its lifecycle row V04 §2.6's
 interface UndergroundRule {
   undergroundShare: Record<Rung, number> /* an `extension` cell: 0 under the parity presets (§7.6), as are crowdingShare, the class table's underground and undercity 'preferred' shares and V04 §2.3's voidDwellings.share */;
@@ -23051,7 +23168,7 @@ says so.
 **The connection graph (item 65 (d), item 109 (d), (j); J-A65.47).** A link (`UndergroundLink`, §2.7) joins two elements of
 different parts — each end one vertex in its part carrying the `link_end` role (§2.2 rule 7), never a vertex two parts share
 (J-A65.31) — with a `kind` (`open`, `gated`, `secret`, `collapsed`, `flooded`), a `via` (`breach`, `reuse`, `stair`,
-`shaft`, `door`) and a `knownTo`; the surface links are `AccessPoint`s (II.7.4). Two tail stages make them: **the access pass**
+`shaft`, `door`) and a `knownTo`; the surface links are `AccessPoint`s (II.7.4). **Over `site` parts (V14 §2.1; M-SITE-A; file k item 637):** the graph admits a link whose ends lie on an `underground` part and a `site` part; V04's U-ACCESS overlap test and the excavation reading read the `site` parts **of the same document** (an adopted or `inFrame` site's; its units start `accessible` through their entrances) as parts, and read an **attached** card's `envelope` and level bands through `siteEnvelopes(doc)` (V04 §3.5.7, file k item 640) as an obstacle (`blockedBy: 'site'`, `W_SITE_NEAR_VOID`), never breaching it; `Chamber.system` and `Gallery.system` on a `site` part name the part's `SiteLevel`; `ChamberKind` is **unchanged** (a site's chambers take `hall`, `breakdown`, `room`, `workings`, `storey`). Two tail stages make them: **the access pass**
 (`AccessPassStrategy`, V04's U-ACCESS), after the void systems and before the undercity, writes the proximity, overlap,
 mine-breach, crypt and reuse links, the dig, opening and crypt accesses and a mine's heading galleries; **the connection stage**
 (`UndergroundLinkStrategy`) runs last, after the undercity: (1) the undercity's lifelines (II.7.5) first; (2) for every pair of

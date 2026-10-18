@@ -580,7 +580,7 @@ interface EraRow {   // the era and region preset CircumstanceSlice.era names (�
   materialRows: string /* the MaterialRow key prefix this era's rows use (V11 §3.19.3) */;
   aqueductM: number /* × the aqueduct's chance (item 110 (b); V11 §3.24.2) */; raisedVaultM: number /* × `raisedWays.structure.span.vaultShare` (V11 §3.24.2) */ }
 interface ClimateRow {   // §4.9's ClimateTable rows; table 'climate'
-  biome: 'temperate-deciduous'|'temperate-coniferous'|'mixed'|'maritime'|'arid'|'cold'; groundRole: string /* §8.2's ground-cover role key */;
+  biome: 'temperate-deciduous'|'temperate-coniferous'|'mixed'|'maritime'|'arid'|'cold'|'tropical'|'wetland' /* `tropical` (for V13's `savanna`, `tropicalSeasonal`, `rainforest`: a long hot wet season, no frost, a monsoon's weather rows) and `wetland` (a `maritime` variant with standing water: a high damp share, fog rows, a short dry season), each with its dry, season and weather cells as this table defines them — V13 §2.3's mapping table names each biome's stand-in key until they land (M-W1's content step; file k item 646, BCR-V13-26) */; groundRole: string /* §8.2's ground-cover role key */;
   woods: { species: string; inner: number; outer: number; leafType: 'deciduous'|'evergreen' }[]; fieldSystem: 'openStrip'|'enclosed'|'infieldOutfield'|'irrigated' /* 'irrigated': fields watered by item 128's stored irrigation channels (base §2.3, M2b), never a label alone */;
   farmLayout: 'rows'|'perimeter'|'rivers' /* §4.9: the farm modes' climate override; 'rows' leaves the rung × landscape choice */; roof: { form: 'gable'|'hip'|'flat'|'pyramid'; pitch: number /* ratio */ }; scatterPerHa: [number, number] /* ambient single trees */;
   rainMmPerYear: number /* mm a year: the aqueduct's water balance (V11 §3.24.6) */;
@@ -1034,8 +1034,10 @@ name, rows 3 and 50 through `S5`.
 | 108 | `crisis.map` | `crisis/map.json` | `CrisisMapRow` (§10.2; key `from/key`) | V11 §3.25.9 (a dossier row set; the words V08's census at the pinned baseline) | the renderer (§7.7's DR44: each standing overlay's look); port.digest (V08's baseline totality check and its `unmapped_word` notes); the compiler (T-V11-46 (a)'s totality over registry row 77's lists); modules: the clerk (V10) | match | written here |
 | 109 | `damage.elements` | `damage/elements.json` | `DamageElementRow` and its named row `settings` (`DamageSettings`) | V11 §3.25.10 | §6.3's `plan.damage` thresholds wherever a plan is drawn — modules: the plan rung (V03: the damaged plan, its exports and panel lines), the wings rung (V02's ruined exterior), `@plat/under` (V04 §5.6's kinds below ground), `@plat/evolve` (V06 §3.23's default age), the renderer (§8.6, §11.1's battle maps), the clerk (V10), the bench (V12) | row | written here |
 | 110 | `damage.materials` | `damage/materials.json` | `DamageRateRow` | V11 §3.25.10 | modules: `@plat/evolve` (V06 §3.23's `decayLevel`, read by every damage drawer of row 109), the clerk (V10), the bench (V12) | row | written here |
+| 111– | V13 §2.3's fourteen world tables (`world.sizes`, `world.recipeOps` with `world.templates`, `world.climate`, `world.hydro`, `world.groundwater`, `world.biomes`, `world.resources`, `world.suitability`, `world.routes`, `world.polity`, `world.labels`, `world.glyph`, `place.coherence`, `water.class`, `water.flood`) and the style rows `style.world` (`riverDrawM3s`, `ghostDepthCm`, the ramps) | `world/*.json`, `style/world.json` | V13 §2.3's row types | V13 §2.3, §5.1 | `@plat/world`, `@plat/site` (the frame's water state), `@plat/render` | row | the next free row numbers assigned at M-W1's landing; every cell `{value, unit, provenance, calibratable}` (file k item 646; §7.6, file k item 620) |
+| 111– | V14 §2.5's `tables/sites/*` (`admissibility`, `kinds`, `grammar`, `extent`, `purpose`, `lifecycle`, `occupancy`, `crop`, `embed`, `damage`, `view25`) | `sites/*.json` | V14 §2.5's row types | V14 §2.5 | `@plat/sites`, `@plat/app` (the crop), `@plat/render/projection` | row | provenance `own`, calibratable unless marked (the grammars and lifecycle rows `calibratable: false`); the kind rows' `icon` glyphs in the symbol catalogue (§8.3); numbered with V14's steps (file k item 646) |
 
-**The count.** One hundred and eleven catalogue rows (1–110 and 58a; some rows group several ids that share a file),
+**The count.** One hundred and eleven catalogue rows (1–110 and 58a; some rows group several ids that share a file) before the world's and the site's rows take their numbers at M-W1's and V14's landings (the two `111–` rows above; file k item 646),
 counted by `REGISTRY`'s size wherever a count is read; the catalogue is closed: a table any document names
 and this list lacks is a registry defect the build refuses (T-V11-1). **Never calibrated** (`ColumnSpec.calibratable:
 false` on every column; V12's register holds no entry for them): rows 63–66 and 77 (the `dossier.*` row sets, V04's two
@@ -3549,6 +3551,8 @@ eager records):
 | `naming.formerWall` | a way made by `wallToWay` (V06) | the enceinte's ring order, bearing | `#wall.memory#` + way word (an old wall's ring road) |
 | `naming.person` | people (§10.3) | ancestry, culture, sex, band, profession, parent's name | given `#given.m#` or `#given.f#`; byname by trade (`#trade.agent#`), place (`#place.root#`), father (`#given.m#` + a patronymic mark) or a nickname `#byname#`, weighted by band and era |
 | `naming.folk` | the folk-contraction of an old name at an epoch (§10.4) | the name, `maxSyllables` 3 | syllable elision rules of our own (drop an unstressed middle syllable, merge doubled consonants), never a word list |
+| `naming.site` (file k item 646; V14 §10.2's V11 row; M-SITE-A) | a world site's name by its kind and the frame's culture context (V14 §2.2) | the kind, the culture row's features | the culture row's place grammar with a kind-word slot (own) |
+| W9's world names (V13 §3.9; M-W1) | the world's settlement, reach, territory and route names through this service with the world's culture context | the kind, the territory's culture row | the culture rows' grammars (own) |
 
 **3.20.2 Guards and weights.** A rule alternative carries its guards (`when`) and a weight; S13a keeps the alternatives
 whose guards hold, draws by weight on the entity's `naming` stream (§6.1), and on an empty set falls back to the
@@ -3826,6 +3830,8 @@ cell value in its column's range, so a no-op pin's overlay can write it (V12 §2
 | `history` (item 113) | `replay` false | generation is the one-click path; the history's events stay `HistoryHint` scars (§4.11 (1)) |
 | `walls.condition` (item 114) | `atGeneration` false; `meansLow` 0, `wearChancePerYear` null, `needReturnYears` 0 | every run `standing` at generation; the epochs' neglect and repair as before item 114 (V06 §3.7.7 (4)) |
 | `grandeur.ceiling` (item 115) | `enabled` false on every row | no ceiling: every rung reads as TOWN does (the "all manors" row everywhere, as before item 115) |
+| `sites.none` (items 132–134; file k item 646, C14-57) | no card dropped, no encounter open (`tables/sites/*` read by no document; the `encounter` key absent) | no world site and no crop exist: every document reads as before V14 (V12's no-op pin `item132.none`, V12 §3.7.8) |
+| `view.projection` (item 141; file k item 646) | `flat` | the flat map is the default; the 2.5D tile set is never built (V12's no-op pin `item141.flat`) |
 
 Items 116–119 and 122–124 add no switch here: item 116's margin is a view cell of the base settings row (V11 §3.1 row
 92); the season and festival tables of items 117 and 118 are looks that never enter the model or its hash (with no season
@@ -4653,7 +4659,7 @@ freely inside its states' shares, the lower below the upper):
   or ruins ages from the week its change shows in that replay epoch (V06 §3.23 (4)); before V06's level lands (M6-E) every
   building reads its existence state alone at this age.
 
-*`damage.materials`* (V06 §3.23 (2)'s rate r for the building's walls material, `Building.material.walls`: the level a
+*`damage.materials`* (V06 §3.23 (2)'s rate r for the building's walls material, `Building.material.walls` — and, for a world site's carved and natural units, the unit's material rate of `SiteDamageRow.ratePerYear` adopted beside these rows with a `rock` material row (rock 0.002, timber 0.05, masonry 0.01 a year) and the `waterloggedFactor` cell (default 3), V14 §2.5; C14-13; file k item 646 —: the level a
 decay run gains a year; timber faster than stone, item 123 (b); general: an unroofed timber frame rots through within a
 generation, a masonry shell stands for a century and more; range [0.002, 0.1] each):
 

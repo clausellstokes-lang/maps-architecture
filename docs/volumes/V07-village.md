@@ -1203,6 +1203,8 @@ draws (relief, geology), and recorded in `autoResolved` with its reason (§5.4):
 
 ### 3.2 S1 over the territory, S2 at village rungs, and VS1 — heart, nuclei, character, radius, mill seat
 
+**A world site under the village (file k item 642; V14 §10.2's V07 row; M-SITE-F).** The village's siting reads a `Reservation` of kind `worldSite` (§2.5, file k item 604) as it reads a castle's: a thorp placed by V13 over a fort claims the fort's envelope first, its tofts growing outside the glacis (V14 §3.9 (f)); a village frame is placed as a town frame is (V13 §1.4).
+
 **(1) The territory frame.** `A_T = max(territory.minKm2, a · P ÷ territory.usableShare ÷ 100)` km², where `a` is the area
 per head the land budget derives (V07 §3.9 (1): 2.275 ha; 700 people → 19.9 km²), at the request's aspect, plus
 `territory.marginShare` of each side as the context margin drawn beyond it — the ladder row's `frameLaw: 'territory'`
@@ -2324,6 +2326,8 @@ to that enceinte and no alias is written (V08 §3.5.1 (d)); the superseded palis
 
 
 ### 3.12 Over time — the village's epochs, desertion, and the ladder hand-off in both directions
+
+**The hand-offs carry cards and anchors (file k item 642).** The hand-offs up and down carry a settlement's `WorldSite` cards and `SiteAnchor`s unchanged in both directions (V14 §3.1; T-V14-7 (c)), beside the records this section lists.
 
 **Which path runs.** An epoch's product and rung are the fold's of V07 §2.1 (§4.11 *The rung at an epoch* and *The product
 at an epoch*, items 322 and 317; V06 §3.1 (3)–(4)), never the target's own rung (the hand-off band: a village passes to the

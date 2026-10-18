@@ -1365,6 +1365,8 @@ Enceinte walls are not in the pool (their pathway is V06 §3.7's), nor is the un
 runs after the pool at this step), nor terrain and water (V06 §3.12). Candidates beyond a cap wait, in the key order, and
 are first in line next epoch (§4.11 *Churn*).
 
+**3.5.2a Robbing a world site (file k item 641; V14 §10.2's V06 row; M-SITE-A).** The robbing relation of this section (`robStone`, the salvage ledger credited) extends over an adopted or near ruin world site (V14 §3.8): its above-ground built units are robbed as a ruined building's masonry is, the underground's elements never. The epoch calls V14's G7 with cause `epoch` over an adopted or `inFrame` site (M6-E), the host building's lifecycle events reach the cards anchored in it (cause `rule:host`), and a `siteState` op takes its place in the hand forms (§2.8's `convert`).
+
 **3.5.3 The hinterland over epochs (item 26).** A struck farmstead's fields stay worked (§4.11), their owner passing to
 the nearest farmstead or the commons. A `plotToGarden` on the town's edge whose district is the hinterland
 pseudo-district joins the adjacent `LandUse` face of the same kind (§4.9's hinterland unit), so the countryside creeps
@@ -3446,7 +3448,7 @@ level here. The level is derived and never stored (J-V6.139):
 
 ```ts
 // @plat/evolve — pure over the lineage's lifecycle events (§2.8) at the weeks their changes show ((1)), its Works and V11's item-123 rows
-decayLevel(doc: Document, lineage: Id, week: number): number   // in [0, 1]
+decayLevel(doc: Document, lineage: Id, week: number): number   // in [0, 1]; over a world-site card (file k item 641; M-SITE-A): `lineage` the card, the run over its `WorldSiteLifecycle` events (`condition.since` the run's `A`), Works-less ((3)'s no-Works branch), `decayPeak` per element with `since` the element's layer's age (V14 §3.8)
 decayPeak(doc: Document, lineage: Id, week: number, since: number /* the element's entry week into the plan, V03 §5.6 (2) (b) — for an element a restoring event's re-cut mints, the week that restoration ends ((3)) */): number   // the highest decayLevel over [since, week] ((3)); 0 for a week before `since`
 ```
 
@@ -3465,7 +3467,7 @@ decayPeak(doc: Document, lineage: Id, week: number, since: number /* the element
    whatever the years, V11's range for each element kind lying inside the shares of the states whose looks item 123 (c)
    gives it (V11 §3.25.10's `states`; the upper floor's across `decayed` and `ruined`). `r` is V11's decay rate per year
    for the building's walls material (`Building.material.walls`, read for time only, as §4.11's `WorksTable` reads it):
-   timber and thatch faster than stone. Years only add and the ladder only climbs, so the level never falls while the run
+   timber and thatch faster than stone, **or, for a world site's carved and natural units, the unit's material rate (`SiteDamageRow.ratePerYear`, V14 §2.5: rock 0.002, timber 0.05, masonry 0.01 per year); a lineage whose ground storey or lowest unit is `submerged` or `swimming` under the present surface (V13 §3.13.4) decays at `r × waterloggedFactor` (V11's cell, default 3) toward the `submerged ruin` state, and one later exposed keeps its state and resumes `r`** — the one merged sentence both volumes cite (SW-30; file k item 641; M-W0h for the waterlogged rate at the frame). Years only add and the ladder only climbs, so the level never falls while the run
    lasts (item 123 (b)). A run that begins before a restoration has finished starts from the level that restoration left:
    its level is the larger of the formula and that level. Outside a run, a standing building's level is 0.
 3. **Restoration** (item 123 (b)'s "reused" — the building put back to use, a `reoccupy` from vacant or derelict, V06
