@@ -1,5 +1,26 @@
 # HANDOFF — town-generator research program
 
+## STOPPING POINT — 2026-10-18 ~20:20Z (the owner: "Find a good stopping point for everything"; J401)
+
+**Read this block first; the RESUME HERE block below it is the day's full history.** Branch `claude/great-galileo-b4mzbq` (draft PR #7 into main) carries everything; main is untouched today except by PR #6's merge (J391 (2)).
+
+**The design track is at rest.** The Fable retrovalidation landed (J392). The owner's sites-and-roads rule is designed and applied (files t, u, v; J393–J399). The M0 coverage verdict is YES-WITH-CONDITIONS (J395; its K14, coherence sentences and fallback row applied by file u). Patrols stay map-only (J396). The host-requirements document is final (docs/HOST-REQUIREMENTS-2026-10-18.md and the Claude doc https://claude.ai/code/artifact/ce27743a-1e15-4f51-9c10-066d70a665bb). Nothing in the design waits on the owner.
+
+**The M0 hardening track, round by round (J400–J401).** Each child is a cloud session created by this session (tools/session/child-recipe.md); each round's whole tree is on its own backup branch.
+
+| child | round | state at the stop | branch | next step |
+|---|---|---|---|---|
+| K | M0-b-03 c1 consolidation check | PASS, LANDED 19:12Z; child archived | wip/child-b03c1b @ ec25315b | land with tools/session/land_child.py (install Node 24.12.0 per the recipe's step 2, then `corepack pnpm install --frozen-lockfile` in plat/); records check-M0-b-03-c1, check-M0-b-03-notes, M0-b-03, build-M0-b-03-notes |
+| E | M0-a-09: no-op build fix-s8 LANDED 19:37Z; check close-s8 at NEAR | told to STOP ~20:15Z (final snapshot, STOPPED hand-back) | wip/child-a09s6c | a check-only resume of close-s8 from the cached build (CONTINUE RULE); a-09 is the critical path (J395 C1), then Q18 + Q19 |
+| H | M0-a-11: no-op build fix-s5 LANDED 18:51Z; check close-s5 verdict drafted PASS | RUNNING: RELATED@1000 since 19:20Z, hand-back expected ~21:20Z | wip/child-a11s3b | when its hand-back arrives: record it; land when the toolchain is up (its CLEAN-ROOM L-0536 collides with K's; land_child renumbers) |
+| N | M0-a-08 s4 check | RUNNING: RELATED@1000 since 18:17Z, verdict drafted; hand-back expected shortly | wip/child-a08s4b | as H |
+
+Child sessions still open: E session_01GKaFuxUFW5b1Hi8GKxtLXD, H session_01S7Wvdc4fjUuagBU9nrEXL9, N session_011cKnbXXKLxRAd1GNhxUCE6 — each stops by itself after its hand-back; archive each once its hand-back is recorded. NOT LAUNCHED: L a-05 s9, O c-01 s2, T e-04 s3, Q c-05 s2, I k-04 s1, M m-01 s1, S e-02 s1, P e-01 s1 (held), the local c-03 s3 (from wip/cloud-autosave-c) — then pass B, the whole-suite check, the ultra review, the Mac-only steps. **The lesson of today's launch:** for a check-only resume pass args.from equal to the KILLED round and have the child echo the two lane keys before it launches; E and H read FROM as the next round and ran one no-op build each.
+
+**What waits on the owner.** (1) The re-budget-or-redesign decision on §12.4, after Q18 and the Q69–Q72 re-measurement (J395 C2; the town stages profile 10³–10⁴× over budget). (2) Whether to keep the hardening going this week: the Fable allowance is spent until Saturday 2026-10-24 23:00Z and the seven-day allowance is at its warning; the children run on Opus, the session can manage on Opus.
+
+**Staffing now (J390, J394).** Opus 5.5 for the managing seat while Fable is spent; Opus confirms; Fable for critique only when it returns.
+
 ## RESUME HERE — 2026-10-17 ~23:55Z (session_016MFrG9RpdK1W3eLYLyMzC2, Fable 5.1, branch `claude/great-galileo-b4mzbq`; the owner's status question and the model-and-effort ruling J390)
 
 **Branches.** `main` is ab2e3348 (PR #6 merged on the owner's word 2026-10-18 ~00:00Z, J391 (2)): J374–J390 are on main. This session's branch `claude/great-galileo-b4mzbq` restarts from that head and a new draft PR carries its follow-up work (J391 onward); the next session starts from `main` or from that PR's branch, whichever is ahead.
