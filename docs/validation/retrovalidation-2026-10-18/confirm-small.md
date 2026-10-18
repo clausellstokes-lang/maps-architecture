@@ -70,9 +70,9 @@ reconstruction (with idx 9 applied) differs from the file now by exactly one hun
 line and the four-line *Retrovalidation s* note) that apply-design's item 936 inserted. So in all six files nothing
 moved beyond what the apply record states plus, in V14, the design lane's two fragments.
 
-Hunk counts at `-U0`: choices 1 (one line, three edits on it), API 2, V14 3 (two apply-small's: l. 65 the notice and —
-no: l. 65 only; the other two are apply-design's l. 70–74 insert and l. 800), base 1, file l 5, vtt-l 2 — as the apply
-record's "choices 1 line, API 2, V14 1, base 1, file l 5 … hunks, vtt-l 2".
+Hunk counts at `-U0`: choices 1 (one line, three edits on it), API 2, V14 3 (one apply-small's, l. 65 the notice; the
+other two apply-design's, the l. 70–74 insert and l. 800), base 1, file l 5, vtt-l 2 — as the apply record's "choices
+1 line, API 2, V14 1, base 1, file l 5 … hunks, vtt-l 2".
 
 Line numbers in the apply table reproduced: API 17 and 55; choices 381; file l 11–12, 28–29, 158→162, 37–40, 40→42;
 vtt-l 3 and 19; base 5; V14 65 (notice) and 795 (idx 9, then still the old text — now l. 800 with the new text).
