@@ -1,4 +1,4 @@
-# Live status (written by the autosave loop; last 2026-10-18 05:10 UTC)
+# Live status (written by the autosave loop; last 2026-10-18 05:13 UTC)
 
 Latest lane line per lane key (docs/lane-events.log) for today's lanes:
 
@@ -28,6 +28,7 @@ Latest lane line per lane key (docs/lane-events.log) for today's lanes:
 - 2026-10-18 04:31 retrovalidation/lenses LANDED docs/validation/retrovalidation-2026-10-18/lenses.md: PASS-WITH-CORRECTIONS — research/sf/lens-implications.md read whole (613 lines); all 25 verifier findings ACCEPTED on evidence re-read at 81f1cd96 (L8, L11 with a widened fix); 9 own findings (the five latent-strength floors and garrison bucket the note calls absent, which J384 (4)/H13 already 
 - 2026-10-18 04:31 retrovalidation/prosperity LANDED docs/validation/retrovalidation-2026-10-18/prosperity.md: PASS-WITH-CORRECTIONS — research/sf/prosperity-system.md read whole (1,116 lines); all 20 verifier findings ACCEPTED on evidence re-read at 81f1cd96 (5 amended in wording: F4 reaches §1, F9 carried-not-drawn, F17 the mechanism — no rerun on Apply-stressor, the drop lands at the next 
 - 2026-10-18 04:58 retrovalidation/amendments-verify LANDED docs/validation/retrovalidation-2026-10-18/amendments-verify.md (+ amendments.findings.json): files m-q read whole (items 659-925; 456 fragments) with their five records and five critics, file r placement only; reverse and forward replay over the seven targets and README reproduce every recorded md5 and line count (chain consistent, nothi
+- 2026-10-18 05:12 sites-roads/session LAUNCHED workflow sites-roads-design under J393: readers, three Fable designers, judges, synthesis into draft-t.md, critic, fragment verifier; apply waits for J392 (fable; J393)
 
-Workflow runs: retrovalidation wf_f0931b52-ef5 (task wk5glb73q); host-requirements wf_94da751f-a31 (task wac7fpko5); amendments-r wf_6c3a4aa0-0d5 (LANDED e5de220d).
-Records: docs/validation/retrovalidation-2026-10-18/ (one <family>-verify.md and <family>.md per family, rulings.md, apply-*.md, confirm-*.md, critic.md, README.md); docs/validation/host-requirements-2026-10-18/ (extract-*.md, draft-s3..s8.md, critic.md).
+Workflow runs: retrovalidation continuation wf_ed23dc6b-f13 (task wuojbxzyu; the first run wf_f0931b52-ef5 killed at the limit); sites-roads-design wf_a2bd73c2-64c (task wh4norxj2); host-requirements wf_94da751f-a31 (LANDED); amendments-r wf_6c3a4aa0-0d5 (LANDED e5de220d).
+Records: docs/validation/retrovalidation-2026-10-18/ (one <family>-verify.md and <family>.md per family, rulings.md, apply-*.md, confirm-*.md, critic.md, README.md); docs/validation/host-requirements-2026-10-18/ (extract-*.md, draft-s3..s8.md, final-s3..s8.md, critic.md); docs/validation/sites-roads-2026-10-18/ (read-*.md, design-A..C.md, judge-1..3.md, draft-t.md, critic.md, verify.md).
