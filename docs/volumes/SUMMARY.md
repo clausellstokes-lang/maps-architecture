@@ -15,7 +15,8 @@ What remains are small wording and bookkeeping items, listed below, which do not
 There are thirty-four decisions that are yours by rule (twenty-five from the first twelve volumes, nine from the two
 new ones: seven you deferred to the session on 16 October; one — whether the world's canon stays outside the
 closed door that keeps your host's simulator from reading the map — that you answered yourself on 18 October: yes; and one
-put to you on 18 October with your word on sites and their roads — what "the catalogue" meant); each of the
+put to you on 18 October with your word on sites and their roads — what "the catalogue" meant — that you answered the
+same day: yes, the list of site kinds you pick from); each of the
 others already has a recommendation, and the work proceeds on the recommendation until you say otherwise; with your
 yes, nothing in the design now keeps a campaign's simulation from reading the new world's canon — a new campaign's
 from its birth, once your host makes its changes on your schedule — while a town's own geometry stays behind the
@@ -205,9 +206,9 @@ Twenty-five questions, each with a recommendation the work follows until you rul
   interiors following; a site record in the SettlementForge dossier, scheduled with the host's other changes; accept
   the two volumes' cost (37–45 and 25.75–36.25 person-weeks); and the tabletop export may carry each room's reason in
   an optional block that is off unless you turn it on.
-- **The sites and their roads** (one question, put to you on 18 October with your word on sites and roads): whether
-  "the catalogue" in that word means the list of site kinds you pick from, each of which now says whether it needs a
-  road and whether it moves itself to fit — recommended yes; the design reads it so until you say otherwise.
+- **The sites and their roads** (one question, put to you on 18 October with your word on sites and roads, and answered
+  by you the same day): whether "the catalogue" in that word means the list of site kinds you pick from, each of which
+  now says whether it needs a road and whether it moves itself to fit. You said yes on 18 October; the design reads it so.
 - **One you answered yourself, as the design reserves it to you:** whether the world's canon — the travel, water and
   site facts your host's simulation reads, never a town's geometry — stays outside the closed door that keeps your
   host's simulator from reading the map. You said yes on 18 October: the canon may reach your host's simulation —
@@ -219,8 +220,8 @@ section 11.
 
 ## What the two new volumes ask of you
 
-Nothing you have not already been asked for the other twelve: the nine decisions above (eight proceed on their recommendation until you
-say otherwise; one you answered on 18 October), two short review sittings when the builds land (six sites and six battle
+Nothing you have not already been asked for the other twelve: the nine decisions above (seven proceed on their recommendation until you
+say otherwise; two you answered on 18 October), two short review sittings when the builds land (six sites and six battle
 maps rated for legibility, realism and playability; the 2.5D view beside the flat one), and, on the SettlementForge
 side, the host's own changes to send the world its seats, borders and events and to carry a site record — on your
 schedule. Before any of this is built, the M0 gate (item 140: twenty-seven "do not foreclose" checks on the kernel and
