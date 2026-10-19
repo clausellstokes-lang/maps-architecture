@@ -10,12 +10,6 @@ the 106 signatures with a line comment was compared with the source at that line
 the outputs shown, ten cited line references and the registry counts were re-read, and Appendix B was generated from
 the TypeScript compiler's view of `src/index.ts` (669 names, every one of them listed there).
 
-Revised 2026-10-17 (lane coherence/vtt-l-and-k11; `docs/build/choices.md` C-0374): §1's reuse table gains the row of the
-role names the kernel branches on (the M0 world-sites gate's K11). No signature, source file or line reference elsewhere
-in this document changed.
-
-> PENDING FABLE REVIEW — written by Opus 5.5 standing in for the Fable seat coherence/vtt-l-and-k11; to be retrovalidated overall at the next opportunity (owner, 2026-10-17, J375)
-
 ---
 
 ## 1. What the kernel is, and what it is not
@@ -52,7 +46,6 @@ written for. An outside user inherits them:
 |---|---|---|
 | The role registry: 56 named roles (`way`, `kerb`, `wall`, `shore`, `margin`, `border`, `plot_line`, `claim`, `invisible`, `junction`, `entrance`, … `deck_order_knot`) | `src/arena/roles.json`, loaded at module load by `src/arena/registry.ts:78` | Every role row you write must name a role in this file; an unknown role name is a programming error (throws). There is **no runtime API to supply your own registry** — `parseRoleRegistry` validates a document but `ROLE_REGISTRY` is fixed at load. To use other role names you must edit `roles.json` (append-only by its own rule). |
 | Default role names written by operations | `faces/common.ts:460` (`plot_line` for `splitFace`/`connectHole`/`radialSplit`/`ringBand` cuts when no `rows` given), `faces/claim.ts:137` (`claim` for `claimSubFace`), `arr/bandUnion.ts:236` (`corridor_split`), `arr/corridorUnion.ts:43` (`kerb`), `arr/winding.ts:54` (`invisible`, scratch arenas only) | Pass explicit `rows` where the API allows it; `corridorUnion` and `bandUnion` always write these role names. |
-| Default role names the kernel branches on, beyond those it writes (K11; `docs/build/choices.md` C-0374) | `insert/splitThrough.ts:116, 139` and `invariants/batch.ts:503` (`anchor`); `warp/held.ts:204–205` (`deck_end`, `gate_end`, `raised_foot`); `arr/bandUnion.ts:507, 757, 760` (`band`, the second value of `bandUnion`'s `edgeRole`) | A row of role `anchor` given without an ordinal gets one allocated by the kernel for that role alone (the design's contact names, §3.3 rule 2), and the prepared-contacts invariant row reads it; a vertex carrying `deck_end`, `gate_end` or `raised_foot` is held by `warp` (the design's held set, §3.6 (2)–(4)); `bandUnion` writes its outline as `kerb` or `band`, the caller's choice, and any other value throws. These names are fixed in the source — there is no runtime API to rename them (an injection through `TxEnv` would be an exported-API change, M1's if needed). |
 | Linear-role part counts | `tx/tx.ts:418` `LINEAR_PARTS` (`way: 1, wall: 1, tunnel: 1, gallery: 1, rim: 1, chamber_wall: 1, deck: 1, shore/bank/margin/border: any`) | The commit check requires each entity of those roles to form that many simple chains. Override per transaction with `TxEnv.chainParts`. |
 | RNG concern and stage registries (93 concerns such as `terrain.noise`, `water.river`, `reserve.castle`; stages `S0 Blueprint` …) | `src/registry/concerns.json`, `src/registry/stages.json`, generated constants `src/registry/ids.ts` | `Rng.stream` keys streams by a registered concern id and stage id. |
 | Face kind `residue` | `faces/merge.ts:39` `FACE_KIND_RESIDUE = 1` | Written by `absorbSliver` when a sliver cannot be merged. |

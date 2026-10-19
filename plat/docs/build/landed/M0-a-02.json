@@ -1,20 +1,20 @@
 {
   "schema": "plat-landed-record/1",
   "item": "M0-a-02",
-  "lane": "build/M0-a-02-fix-s3",
-  "lanes": ["build/M0-a-02-fix-s1", "build/M0-a-02-fix-s2", "build/M0-a-02-consolidate-1", "build/M0-a-02-fix-s3"],
+  "lane": "build/M0-a-02-consolidate-1",
+  "lanes": ["build/M0-a-02-fix-s1", "build/M0-a-02-fix-s2", "build/M0-a-02-consolidate-1"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-14T07:18:17.001Z",
+  "date": "2026-10-12T15:39:40.021Z",
   "ownsSource": "docs/build/M0-work.json",
   "owns": ["plat/packages/kernel/src/arena/", "plat/packages/kernel/src/arena/roles.json", "plat/packages/kernel/test/arena/"],
   "counts": { "created": 2, "changed": 9, "unchanged": 15, "deleted": 0 },
   "files": [
-    { "path": "plat/packages/kernel/src/arena/debug.ts", "status": "changed", "sha256": "9b0c5589ef925b8fba435b8528cf30f08a12d966a6f04a6f086e8e11cbe1f904", "size": 2760 },
+    { "path": "plat/packages/kernel/src/arena/debug.ts", "status": "changed", "sha256": "9d1e2f85b992d70f62565800eae8951099552b7169ab66142996380030d7e696", "size": 2657 },
     { "path": "plat/packages/kernel/src/arena/handles.ts", "status": "changed", "sha256": "947f1954f4f337270b20dcb0ee540f28995e42827f630223fdac51fbbc1a6d40", "size": 6216 },
     { "path": "plat/packages/kernel/src/arena/index.ts", "status": "changed", "sha256": "fbfe3c20829cbfb916a99620469215b7dde9290f555d3b58ec557b16f5d3f58c", "size": 2423 },
     { "path": "plat/packages/kernel/src/arena/keys.ts", "status": "unchanged", "sha256": "6dca4c3c9fdc12049e912ca0936a90eaf286a4214980ca5baaca2155b78cc3f9", "size": 1596 },
-    { "path": "plat/packages/kernel/src/arena/plat.ts", "status": "changed", "sha256": "790bfbdab06a77c6b5d7e045ee2ed53b00f5b838423ba3c43a88bf1b3e4eed04", "size": 31591 },
+    { "path": "plat/packages/kernel/src/arena/plat.ts", "status": "changed", "sha256": "567dcef16f3a6e6b770a140c4289202b7f95975b9cc6657260f71ed9757e0266", "size": 31478 },
     { "path": "plat/packages/kernel/src/arena/registry.ts", "status": "unchanged", "sha256": "8318387da9bd6787bfdcb672c689b95553d506121cee7f4287a36acd8a0fe667", "size": 5322 },
     { "path": "plat/packages/kernel/src/arena/resolve.ts", "status": "changed", "sha256": "b99fe8d8a589e01b2bc26deb5d535a04b5358f92626d19906e1a813efc18da03", "size": 14394 },
     { "path": "plat/packages/kernel/src/arena/roles.json", "status": "unchanged", "sha256": "898163777ece6343cad0cc6d6087c12c5e1c544f2b95e268ff342f8b2ee378b8", "size": 7990 },
@@ -31,23 +31,23 @@
     { "path": "plat/packages/kernel/test/arena/roles.test.ts", "status": "unchanged", "sha256": "1c6b9ad02d791d225740b525be647d214da6e3c720762dae0159d7e322e2cb81", "size": 7977 },
     { "path": "plat/packages/kernel/test/arena/rows.test.ts", "status": "unchanged", "sha256": "33723800d2b15af6cd9a9d6f18660269248da3967568cf38b9ccc8c2664933b6", "size": 10037 },
     { "path": "plat/packages/kernel/test/arena/size.test.ts", "status": "unchanged", "sha256": "e74e699480997230ff9e443701a08c1b6c33d97ed9beea2bd761dec5e5e48450", "size": 4649 },
-    { "path": "plat/packages/kernel/test/arena/slots.test.ts", "status": "changed", "sha256": "e14dc203ba45fae6cb86a1b973d3a43585dfbab01c071d6cdd454e618d1e5d06", "size": 38906 },
+    { "path": "plat/packages/kernel/test/arena/slots.test.ts", "status": "changed", "sha256": "7954ca7cc6c75cec04817c4eda894b6ccb7104c5d0a4dd930bb0f9d1fd3e5422", "size": 37508 },
     { "path": "plat/packages/kernel/test/arena/support.test.ts", "status": "created", "sha256": "96495b0c61f849956ebada988bfaebcb239f7c711e20727fab9aedb78044334d", "size": 3969 },
-    { "path": "plat/packages/kernel/test/arena/support.ts", "status": "changed", "sha256": "77d5b50d54a4c15ea50957a3f10b637a28b77d2b3d17e540210186c2ca3bc679", "size": 16353 },
+    { "path": "plat/packages/kernel/test/arena/support.ts", "status": "changed", "sha256": "1d172c79eeeb3e004712b67138b058d2a61e1cf3a7ed5388422093fde6b2c09d", "size": 16232 },
     { "path": "plat/packages/kernel/test/arena/tables.test.ts", "status": "unchanged", "sha256": "eaf22cd511023afa20653348dd1c0ac20a53570921258c82ee496e62f163870a", "size": 8560 },
     { "path": "plat/packages/kernel/test/arena/tiny.ts", "status": "created", "sha256": "fda0ca8e56275bc7e30d06a2e189173fd080de5d655d1acf27b8a8344e5a2b25", "size": 943 }
   ],
   "appends": [
     {
       "file": "plat/CLEAN-ROOM.md",
-      "ids": ["L-0361", "L-0418", "L-0471", "L-0546"],
-      "lines": ["d269638219d69e48", "83cc80078c17dc4b", "ed94ab29c0ec49d3", "cb5a0aaddb89c1a0"],
+      "ids": ["L-0361", "L-0418", "L-0471"],
+      "lines": ["d269638219d69e48", "83cc80078c17dc4b", "ed94ab29c0ec49d3"],
       "removed": []
     },
     {
       "file": "plat/docs/build/choices.md",
-      "ids": ["C-0286", "C-0313", "C-0337", "C-0369"],
-      "lines": ["d4294ce18ca71b5a", "97e00c53a71f721c", "a79262df4949a656", "cb9f0fc5a4bd266b"],
+      "ids": ["C-0286", "C-0313", "C-0337"],
+      "lines": ["d4294ce18ca71b5a", "97e00c53a71f721c", "a79262df4949a656"],
       "removed": []
     }
   ]

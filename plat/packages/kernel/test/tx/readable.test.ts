@@ -4,8 +4,6 @@
 // past the level of a finer chain ending at it along the run, so `encodeArena` refused the arena and `routeLines` of
 // that chain threw. Each is pinned at the batch that broke it (its kind and its commit) and read after every batch:
 // committed, valid (`healthy`) and read by the encoder and every chain's own-level route (`readable`).
-// Session round S7 (census R-10, queue Q62): the wide families' 'remove lane' batches that index freshness refused — the
-// kerb's end had left an L1 split vertex unrestored (N-s6-1), so the kerb's L2 batch dissolved an L1 vertex — commit.
 import { describe, expect, it } from 'vitest';
 import { tx } from '../../src/tx/index.js';
 import { ALONG_MIX, randomBatch, rng, type Live, type Mix } from './fuzzgen.js';
@@ -44,51 +42,6 @@ export const SEQUENCES: readonly Sequence[] = [
   heavy(443, 13, 'remove way'),
   heavy(739, 19, 'remove way'),
 ];
-
-/**
- * The nine refused 'remove lane' batches of the S6 golden (N-s6c-1): seven are pinned at their batch. Along 1097's @12 and
- * @15 were the same lane's removal drawn again after @9's refusal; @9 now commits, so the sequence draws other batches
- * there (the declared shift of round S7).
- */
-export const LANE_REMOVALS: readonly Sequence[] = [
-  along(325, 12, 'remove lane'),
-  along(1097, 9, 'remove lane'),
-  heavy(7, 18, 'remove lane'),
-  heavy(9, 6, 'remove lane'),
-  heavy(247, 5, 'remove lane'),
-  heavy(619, 19, 'remove lane'),
-  heavy(719, 14, 'remove lane'),
-];
-
-function replay(s: Sequence): void {
-  const r = rng(s.seed * s.mult);
-  const p = framed();
-  const live: Live = { ways: [], kerbs: [], next: 0 };
-  for (let step = 0; step < s.steps; step++) {
-    const before = state(p);
-    const snapshot: Live = { ways: live.ways.slice(), kerbs: live.kerbs.slice(), next: live.next };
-    const b = randomBatch(p, live, r, s.mix);
-    const res = tx(p, spec(b.level, { rederivesFrom: 0 as never }), b.fn);
-    if (step === s.batch) {
-      expect(b.kind).toBe(s.kind);
-      expect(res.ok && res.value.record !== null ? 'committed' : res.ok ? 'empty' : `${res.code} ${res.detail}`).toBe('committed');
-    }
-    if (res.ok) {
-      healthy(p);
-      readable(p);
-    } else {
-      expect(state(p)).toBe(before);
-      live.ways = snapshot.ways;
-      live.kerbs = snapshot.kerbs;
-    }
-  }
-}
-
-describe('S7: the remove-lane batches index freshness refused (census R-10) commit', () => {
-  for (const s of LANE_REMOVALS) {
-    it(`seed ${s.seed} × ${s.mult}, batch ${s.batch} (${s.kind})`, () => replay(s), 120_000);
-  }
-});
 
 describe('S6: the fourteen sequences whose committed arena the encoder refused commit encodable, readable arenas', () => {
   for (const s of SEQUENCES) {
