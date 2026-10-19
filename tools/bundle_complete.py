@@ -46,6 +46,31 @@ def critiques():
     return vols + seams
 
 
+# A lane folder's record documents: every top-level .md except its working files — STATUS.md (rewritten by the
+# autosave loop), superseded drafts (*-prefix*, *-v1*, *partial*) and, where a final exists, the drafts it replaced.
+LANE_WORKING = re.compile(r"(^STATUS\.md$)|(-prefix\d*\.md$)|(-v1(-partial)?\.md$)|(partial)|(^draft-s\d\.md$)")
+
+
+def lane(folder):
+    return [f for f in g(folder + "/*.md") if not LANE_WORKING.search(os.path.basename(f))]
+
+
+def pass_records(folder, names):
+    """A validation pass's record documents (its summary, canon, route, closing report, assembly records), by name."""
+    out = []
+    for n in names:
+        out += g(folder + "/" + n)
+    return out
+
+
+def coherence_records():
+    """The coherence pass (rounds r0–r7y over the base and the volumes): the binding adjudications, the canon, the edge
+    catalogue, the agreement matrix, the fix list and each round's assembly record — not the per-unit inventories,
+    repair blocks and verifies."""
+    d = "docs/validation/coherence"
+    return pass_records(d, ["adjudication-r*.md", "canon.md", "edges.md", "agreement.md", "fix-list.md", "assemble-r*.md"])
+
+
 # (title, toc depth for the files' own headings (0: file titles only; 1: + '#' headings; 2: + '##'), [files...])
 def parts():
     return [
@@ -73,7 +98,7 @@ def parts():
             P("docs", "HOST-REPLY-HIDDEN-WAYS-2026-10-18.md"),
         ]),
         ("PART VI — The design's change history: the amendments, files a to x, every item", 1, amendments()),
-        ("PART VII — How the design was chosen and tested: the proposals, the judges, the rationale, the red team, the retrovalidations and the critique rounds", 1, [
+        ("PART VII — How the design was chosen and tested: the proposals, the judges, the rationale, the red team, the passes over the base (consistency, amendments b and c, fix-all, coherence), the Fable review, the retrovalidations, the critique rounds and the October design lanes", 1, [
             P("docs", "design", "proposal-kernel.md"),
             P("docs", "design", "proposal-pipeline.md"),
             P("docs", "design", "proposal-product.md"),
@@ -86,8 +111,22 @@ def parts():
             P("docs", "design", "proposal-sites-encounters.md"),
             P("docs", "ARCHITECTURE-RATIONALE.md"),
             P("docs", "ARCHITECTURE-VALIDATION.md"),
+            *g("docs/validation/redteam-*.md"),
+            *g("docs/validation/coverage-audit-*.md"),
+            # the passes over the base, in the order they ran: consistency, amendments b, amendments c, fix-all, coherence
+            *pass_records("docs/validation/consistency", ["SUMMARY.md", "validate.md", "canon.md", "assemble-r*.md"]),
+            *pass_records("docs/validation/amendments-b", ["SUMMARY.md", "route.md", "validate.md", "closing-report.md", "assemble-r*.md"]),
+            *pass_records("docs/validation/amendments-c", ["SUMMARY.md", "route.md", "validate.md", "handfix-apply.md", "closing-report.md", "assemble-r*.md"]),
+            *pass_records("docs/validation/fix-all", ["index.md", "r*-integration-log.md"]),
+            *coherence_records(),
+            *g("docs/fable-review/main/*.md"),
             *g("docs/retrovalidation/*.md"),
+            *lane("docs/validation/retrovalidation-2026-10-18"),
             *critiques(),
+            # the design lanes of October: the host document's making, sites and roads, the hidden ways
+            *lane("docs/validation/host-requirements-2026-10-18"),
+            *lane("docs/validation/sites-roads-2026-10-18"),
+            *lane("docs/validation/hidden-ways-2026-10-18"),
         ]),
         ("PART VIII — The reference generators: how confidently they can be re-derived, and where they are weak", 1, [
             P("docs", "CONFIDENCE.md"),
@@ -112,9 +151,18 @@ def parts():
             P("docs", "FABLE-REVIEW-QUEUE.md"),
             P("docs", "experiments", "known-city-authoring.md"),
             P("plat", "docs", "digest", "README.md"),
+            P("plat", "CLEAN-ROOM.md"),
+            P("plat", "README.md"),
+            P("docs", "validation", "bench", "README.md"),
+            *g("docs/validation/clean-room-*.md"),
+            *g("docs/validation/m1-corrections-*.md"),
+            *lane("docs/validation/m0-coverage-2026-10-18"),
+            *lane("docs/validation/hardening-retriage-2026-10-19"),
+            *lane("docs/validation/a09-s9-spec-2026-10-19"),
         ]),
-        ("PART XI — The build's records, item by item: every check report, round by round, and every item's notes", 0, [
+        ("PART XI — The build's records, item by item: every check report, round by round, every item's notes, and the children's hand-backs", 0, [
             *g("plat/docs/build/checks/*.md"),
+            *g("docs/handbacks/*.md"),
         ]),
         ("PART XII — The programme's journal: every judgment, ruling and landing in order (J-rows)", 1, [
             P("docs", "PROGRESS.md"),
@@ -124,7 +172,7 @@ def parts():
 
 # What the complete edition leaves out, and why — each row names where the material lives.
 EXCLUDED = [
-    ("`docs/validation/`", "the per-run records of every lane (the readers' notes, drafts, critiques, verifies and fix rounds; ≈ 280 MB): their conclusions are the documents above"),
+    ("`docs/validation/` — the working files", "every pass's and lane's working files (≈ 265 MB): the per-unit inventories, rewrites, repair blocks and per-round verifies of the consistency, amendments-b, amendments-c, fix-all and coherence passes; the per-fragment application rows and confirms; superseded drafts (`*-prefix*`, `*-v1*`, `*partial*`, `draft-s*`); `STATUS.md` files; JSON twins and scripts. Each pass's and lane's RECORD documents are in PARTS VII and X: the adjudications, canons, routes, summaries, closing reports, assembly records, reads, designs, judges, syntheses, critics, fixes and verdicts"),
     ("`docs/archive/`, `docs/volumes/_superseded-2026-09-28-0355/`", "superseded copies of the base, the rationale and the volumes kept before each amendment or coherence pass (≈ 40 MB); the current text supersedes them"),
     ("`research/`", "the research corpus — the creators' words, the findings, the captures' summaries, the host's own documents (`research/sf/`; ≈ 77 MB): the inputs the design was derived from, cited by the documents above"),
     ("`docs/HANDOFF.md`, `docs/lane-events.log`, `docs/lanes.json`, `docs/lanes-snapshots.jsonl`, `docs/lane-backlog.md`", "the running state of the session and its lanes (operational, rewritten as the work moves)"),
@@ -213,8 +261,8 @@ def build():
         "",
         "**The design itself is PARTS 0 to V**: what is being built and the owner's rules (PART 0); the base — PLAT, the fused town and city generator, with stage 2 and the village hooks (PARTS I–III, one document); the fourteen design volumes that take every staged subject to build depth, with their plain-language summary, their index and the two integration records (PART IV); the host side — SettlementForge's requirements, its requests and the map program's replies (PART V). "
         "**PART VI is the design's history**: the amendment files a to x, every item that changed the base or a volume, in order. "
-        "**PARTS VII to IX are the evidence**: how the design was chosen (three competing proposals, three judges, the verdict), why it is the way it is (the rationale), the red team's findings, the retrovalidations, the critique rounds of every volume and seam; the confidence and weakness ledgers on the five reference generators; the calibration programme (M-1) and the implementer digest. "
-        "**PARTS X to XII are the build**: the M0 specification with its waves, the gates, the builders' choices, the open findings, the hardening's fix queue and registers; every item's build record and check report; and the programme's journal, every judgment in order.",
+        "**PARTS VII to IX are the evidence**: how the design was chosen (three competing proposals, three judges, the verdict), why it is the way it is (the rationale), the red team's findings and the coverage audits, the passes over the base in the order they ran (consistency, amendments b and c, fix-all, the coherence pass's binding adjudications, canon, edge catalogue, agreement matrix and assembly records), the Fable review, the retrovalidations, the critique rounds of every volume and seam, and the October design lanes (the host document's making, sites and roads, the hidden ways); the confidence and weakness ledgers on the five reference generators; the calibration programme (M-1) and the implementer digest. "
+        "**PARTS X to XII are the build**: the M0 specification with its waves, the gates, the builders' choices, the open findings, the hardening's fix queue and registers, the clean room, the M0 coverage verdict, the re-triage of the hardening rounds; every item's check report and the children's hand-backs; and the programme's journal, every judgment in order.",
         "",
         "Every document keeps its own home in the repository (the `<!-- source: … -->` line before each one); a fact is stated once, there. The table below lists each source with its sha256 (first 16 hex) and size, so staleness is detectable; the table after it names what is left out and why.",
         "",
