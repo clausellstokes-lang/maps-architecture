@@ -1,8 +1,8 @@
-# STATUS — the hidden-ways design run (lanes hidden-ways/*; written by the autosave loop at 2026-10-19 07:13Z)
+# STATUS — the hidden-ways design run (lanes hidden-ways/*; written by the autosave loop at 2026-10-19 07:17Z)
 
 | lane | last line | state | the line |
 |---|---|---|---|
-| hidden-ways/session | 2026-10-19 07:03 | LANDED | 2026-10-19 07:03 hidden-ways/session LANDED the correction run wf_23cd84b5-0bc (7 seats, 0 errors): critic PASS-WITH-CORRECTIONS 19 gaps (6 major) → fix all taken, draft w 1130 lines / 113 fragments, the reply 660 lines; |
+| hidden-ways/session | 2026-10-19 07:17 | LANDED | 2026-10-19 07:17 hidden-ways/session LANDED the third pass wf_37c9dd54-b3e (fix-2 G1–G8 all taken, 114 fragments; verify-3 114/114 PASS; critic-3 PASS, no gaps) and LAUNCHED the apply workflow (J422): the owner's decisio |
 | hidden-ways/read-v13-lenses | 2026-10-19 01:27 | CHECKPOINT | 2026-10-19 01:27 hidden-ways/read-v13-lenses CHECKPOINT returned from disk (record and LANDED line present; read-v13-lenses.md 418 lines, md5 01a9ccf4); next: none |
 | hidden-ways/read-v13-routes | 2026-10-19 01:26 | CHECKPOINT | 2026-10-19 01:26 hidden-ways/read-v13-routes CHECKPOINT returned from disk (record docs/validation/hidden-ways-2026-10-18/read-v13-routes.md, 403 lines, md5 075d50ae, LANDED earlier); no work redone |
 | hidden-ways/read-host | 2026-10-19 01:26 | CHECKPOINT | 2026-10-19 01:26 hidden-ways/read-host CHECKPOINT returned from disk (read-host.md 352 lines, md5 c63dedaf, LANDED 2026-10-18 22:42); no work redone |
@@ -23,5 +23,5 @@
 | hidden-ways/critic-2 | 2026-10-19 07:00 | LANDED | 2026-10-19 07:00 hidden-ways/critic-2 LANDED docs/validation/hidden-ways-2026-10-18/critic-2.md (81 lines, md5 12ed4ec7): PASS-WITH-CORRECTIONS — 8 gaps, 2 major (G1 the fork rule tests only s and never says which end of |
 | hidden-ways/verify-2 | 2026-10-19 06:52 | LANDED | 2026-10-19 06:52 hidden-ways/verify-2 LANDED docs/validation/hidden-ways-2026-10-18/verify-2.md (36 lines, md5 7278ff99): draft-w.fragments.json 113/113 PASS (md5s, old once at its stated line (all offset 0), md<->json b |
 | hidden-ways/fix-2 | 2026-10-19 07:10 | LANDED | 2026-10-19 07:10 hidden-ways/fix-2 LANDED docs/validation/hidden-ways-2026-10-18/fix-2.md (42 lines, md5 547a68fd): G1-G8 taken, none left; by synth-scripts/fix_w2.py (175 lines, md5 c1c81a8d, byte-identical on rerun); p |
-| hidden-ways/critic-3 | 2026-10-19 07:10 | CHECKPOINT | 2026-10-19 07:10 hidden-ways/critic-3 CHECKPOINT critic-2.md and fix-2.md read whole; no critic-3.md, no LANDED line (fresh pass); next: md5s, scripts re-run, the eight places in draft w and the reply |
+| hidden-ways/critic-3 | 2026-10-19 07:15 | LANDED | 2026-10-19 07:15 hidden-ways/critic-3 LANDED docs/validation/hidden-ways-2026-10-18/critic-3.md (47 lines, md5 c4ea5bee): PASS — critic-2 G1–G8 each closed as written (G1 the orientation off the route set in force, three |
 | hidden-ways/verify-3 | 2026-10-19 07:11 | LANDED | 2026-10-19 07:11 hidden-ways/verify-3 LANDED docs/validation/hidden-ways-2026-10-18/verify-3.md (25 lines, md5 6bbca770): draft-w.fragments.json 114/114 PASS (940 checks, 0 failures; md5s, exact lines, apply in order, re |
