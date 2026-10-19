@@ -12,10 +12,11 @@ import {
   permutationCompare,
   permutedSequence,
   permuteOps,
+  runBatch,
   runSequenceOutcomes,
   type DeterminismSequence,
 } from '@plat/testkit';
-import { CROWDED, crowdedSequence, KERNEL_SEQUENCES, partitionerSequence, SEQUENCE_DATA } from './support.js';
+import { a07Sequences, constructiveSequences, CROWDED, crowdedSequence, KERNEL_SEQUENCES, partitionerSequence, SEQUENCE_DATA } from './support.js';
 
 // The bars run every fixture through several runs each: more than vitest's default 5 s per test.
 vi.setConfig({ testTimeout: 180_000 });
@@ -110,6 +111,60 @@ describe('the bar: op permutation on every declared-form fixture of M0-a-06 and 
     const r = permutationCompare(s, { count: 23 });
     expect(r.divergence).toBeNull();
     expect(r.permutable).toBe(2);
+  });
+
+  it('M0-a-07\'s inline declared fixture (claim.test: pinVertices + splitFace) and its other ops declared: connectHole, absorbSliver (hardening round S1, N-6)', () => {
+    const seqs = a07Sequences().slice(1);
+    expect(seqs.map((s) => s.batches[s.batches.length - 1].name)).toEqual(['declared L1 pinVertices + splitFace', 'declared L1 connectHole + splitFace', 'declared L1 absorbSliver + splitFace']);
+    for (const s of seqs) {
+      const out = runSequenceOutcomes(s);
+      for (const o of out) expect(o.print.startsWith('commit '), `${s.name} ${o.batch}`).toBe(true);
+      const r = permutationCompare(s, { count: 23 });
+      expect(r.divergence, s.name).toBeNull();
+      expect(r.permutable, s.name).toBe(1);
+      expect(r.orders).toBe(24);
+    }
+    // the ops the batches declare: every M0-a-07 op kind the bar covers, partitioners included
+    const kinds = new Set<string>();
+    for (const s of a07Sequences()) {
+      const p = s.arena();
+      for (const b of s.batches) {
+        const spec = b.build(p).spec;
+        for (const op of spec.ops) kinds.add(op.kind);
+        runBatch(p, b.build(p));
+      }
+    }
+    expect([...kinds].sort()).toEqual(['absorbSliver', 'claimSubFace', 'connectHole', 'mergeFaces', 'pinVertices', 'radialSplit', 'ringBand', 'splitFace']);
+  });
+
+  it('the constructive set in the declared form: each case\'s run of same-level insertions one declared batch, reversed and in 8 random orders (hardening round S1, N-7)', () => {
+    let permutable = 0;
+    let seqs = 0;
+    for (const seed of [1, 2]) {
+      const all = constructiveSequences(seed, 'declared');
+      expect(all.length).toBeGreaterThanOrEqual(80);
+      for (const s of all) {
+        const r = permutationCompare(s, { count: 8 });
+        expect(r.divergence, s.name).toBeNull();
+        expect(r.identical).toBe(true);
+        permutable += r.permutable;
+        seqs++;
+      }
+    }
+    expect(seqs).toBeGreaterThanOrEqual(160);
+    // most multi-chain cases issue two chains or more at one level: their declared batch is the one permuted
+    expect(permutable).toBeGreaterThanOrEqual(50);
+    // a declared batch holds one opInsertChain per chain of its run, at its level
+    const sample = constructiveSequences(1, 'declared').flatMap((s) => {
+      const p = s.arena();
+      return s.batches.filter((b) => b.name.includes(' declared insertChain ')).map((b) => ({ name: b.name, spec: b.build(p).spec }));
+    });
+    expect(sample.length).toBeGreaterThanOrEqual(25);
+    for (const { name, spec } of sample) {
+      expect(spec.ops.length, name).toBe(name.split(' ')[3].split('+').length);
+      expect(spec.ops.every((o) => o.kind === 'insertChain'), name).toBe(true);
+      expect(`L${spec.level}`).toBe(name.split(' ').pop());
+    }
   });
 });
 
