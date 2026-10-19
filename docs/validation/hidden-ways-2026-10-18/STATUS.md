@@ -1,4 +1,4 @@
-# STATUS — the hidden-ways design run (lanes hidden-ways/*; written by the autosave loop at 2026-10-19 07:17Z)
+# STATUS — the hidden-ways design run (lanes hidden-ways/*; written by the autosave loop at 2026-10-19 07:18Z)
 
 | lane | last line | state | the line |
 |---|---|---|---|
@@ -25,3 +25,4 @@
 | hidden-ways/fix-2 | 2026-10-19 07:10 | LANDED | 2026-10-19 07:10 hidden-ways/fix-2 LANDED docs/validation/hidden-ways-2026-10-18/fix-2.md (42 lines, md5 547a68fd): G1-G8 taken, none left; by synth-scripts/fix_w2.py (175 lines, md5 c1c81a8d, byte-identical on rerun); p |
 | hidden-ways/critic-3 | 2026-10-19 07:15 | LANDED | 2026-10-19 07:15 hidden-ways/critic-3 LANDED docs/validation/hidden-ways-2026-10-18/critic-3.md (47 lines, md5 c4ea5bee): PASS — critic-2 G1–G8 each closed as written (G1 the orientation off the route set in force, three |
 | hidden-ways/verify-3 | 2026-10-19 07:11 | LANDED | 2026-10-19 07:11 hidden-ways/verify-3 LANDED docs/validation/hidden-ways-2026-10-18/verify-3.md (25 lines, md5 6bbca770): draft-w.fragments.json 114/114 PASS (940 checks, 0 failures; md5s, exact lines, apply in order, re |
+| hidden-ways/answer | 2026-10-19 07:18 | CHECKPOINT | 2026-10-19 07:18 hidden-ways/answer CHECKPOINT started: no record on disk, no LANDED line; draft-w.md 1141 lines, reply 666 lines read at §9.1 and the header; next: answer_w.py (reply §9.1 + header, 966 (c) md+json, draf |
