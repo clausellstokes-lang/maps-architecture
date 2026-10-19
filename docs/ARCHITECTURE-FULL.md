@@ -6,7 +6,7 @@
 
 | file | sha256 (16) | lines |
 |---|---|---|
-| `docs/ARCHITECTURE.md` | 91f31f21e93eb377 | 24468 |
+| `docs/ARCHITECTURE.md` | f706512cb83a8344 | 24468 |
 | `docs/volumes/INDEX.md` | f444e98f6f48e0e8 | 262 |
 | `docs/volumes/V01-neighbourhoods.md` | a59cfac9b27a8886 | 3765 |
 | `docs/volumes/V02-buildings.md` | 574577038e1de304 | 4232 |
@@ -22072,10 +22072,10 @@ payments; its findings enter volume 12's calibration record and the fix list; vo
 | the corpus reconciliation (volume 12) | 4.75–8 | V12 §8 |
 | the application's staged screens (volume 9) | 4.25–6.25 | V09 §8.1 (AP5 – AP8, AP10 and AP11's staged parts, 1–1.25) |
 | the content's staged rows (volume 11) | ≈ 1.85–2.6 | V11 §8 (C4b and C8) |
-| the world: M-W0h and M-W0 – M-W5 (volume 13) | 37–45 | V13 §8.2 (M-W0h ≈ 4 inside it; file k item 635; M-W2 widened by the sway, patrols and windows and M-W5 the lenses, BCR-V13-37) |
+| the world: M-W0h and M-W0 – M-W5 (volume 13) | 39–47 | V13 §8.2 (M-W0h ≈ 4 inside it; file k item 635; M-W2 widened by the sway, patrols and windows and M-W5 the lenses, BCR-V13-37; M-W2 widened again by the hidden ways and the junction ends — file w, the owner's decision J421 of 2026-10-19 — BCR-V13-37 re-applied, +2 pw) |
 | world sites, the encounter crop and the 2.5D view (volume 14) | 25.75–36.25 | V14 §8 (M-ENC 4.25–5.75 with SE0; M-SITE 13–18.5; M-25D 7.75–11; content 0.75–1; file f item 568's rule) |
-| **the staged milestones together** | **250.6–345.35** | recomputed once by the coherence pass applying file k (file f item 568), the world's line moved by BCR-V13-37 (file o item 877): 187.85–264.1 + 37–45 + 25.75–36.25 |
-| **the whole program — the second total** | **481.35–660.6** | the first total plus every staged line (230.75–315.25 + 250.6–345.35) |
+| **the staged milestones together** | **252.6–347.35** | recomputed once by the coherence pass applying file k (file f item 568), the world's line moved by BCR-V13-37 (file o item 877) and again by its re-application for file w (2026-10-19): 187.85–264.1 + 39–47 + 25.75–36.25 |
+| **the whole program — the second total** | **483.35–662.6** | the first total plus every staged line (230.75–315.25 + 252.6–347.35) |
 
 Outside both totals: each later corpus run (M-CAL/⟨layer⟩, 0.25–0.75 pw each), the command-line clerk where volume 10's
 spike takes that fallback (0.5 pw), and SettlementForge's own side of the connection (1.5–2.5 pw, SettlementForge's
