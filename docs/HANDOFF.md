@@ -4,6 +4,8 @@
 
 **RESUMED 01:27Z (J409).** The window exhausted ~23:20Z and reset 01:20Z. Done at the resume: the autosave loop restarted; the hidden-ways run relaunched fresh as wf_b86263a8-2b4 from workflows/44 (reads and designs LANDED before the kill and return from disk; judges, synthesis, critique running); the nine children messaged the J408 resume instruction with FROM = the killed round (U 8 check-only, Lb 9, Ob2 2, Tb 3, Qb 2 check-only, Ib 1, Mb 1 check-only, Sb 1 check-only, Cb 3) and the RELATED-reuse addition (a finished RELATED log is reused, never re-run). The per-child table below is the state at launch; each branch's newest lane line is the truth. Next: land each hand-back (a-09 first); review the reply and draft w when the run completes; the 01:55Z wake-up is the check-in.
 
+**12:55Z (J433).** V2's a-09 S9 returned BLOCKED on the own-refusal cap (the dry-run built, Q18/Q19/Q84 green); RULED: the refusal class follows the cause (a displaced run end, a minEdge merge or a no-route run is insertChain's by replay; own otherwise), keptClear stays, the closing construction deferred to Q90 (M4); V2 relaunches from 9 with the spec's fourth line.
+
 **11:50Z (J432).** s-01 S4 launched as child AC (session_01TMYa23cqJx1wcqG9Psvg6g; wip/child-s01s4); d-07 S1's spec ready for the next slot; eleven children running (V2, Lb, Ob2, Cb, W, X, Y, Z, AA, AB, AC).
 
 **11:46Z (J431).** Tb e-04 s3 PASS LANDED as 09608896, Tb archived; ten children running (V2, Lb, Ob2, Cb, W, X, Y, Z, AA, AB), one slot free.
