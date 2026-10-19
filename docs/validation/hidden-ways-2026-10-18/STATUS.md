@@ -1,8 +1,8 @@
-# STATUS — the hidden-ways design run (lanes hidden-ways/*; written by the autosave loop at 2026-10-19 07:46Z)
+# STATUS — the hidden-ways design run (lanes hidden-ways/*; written by the autosave loop at 2026-10-19 07:49Z)
 
 | lane | last line | state | the line |
 |---|---|---|---|
-| hidden-ways/session | 2026-10-19 07:17 | LANDED | 2026-10-19 07:17 hidden-ways/session LANDED the third pass wf_37c9dd54-b3e (fix-2 G1–G8 all taken, 114 fragments; verify-3 114/114 PASS; critic-3 PASS, no gaps) and LAUNCHED the apply workflow (J422): the owner's decisio |
+| hidden-ways/session | 2026-10-19 07:47 | LANDED | 2026-10-19 07:47 hidden-ways/session LANDED docs/ARCHITECTURE.md §16 (BCR-V13-37 re-applied for file w: the world 39–47 pw, the staged total 252.6–347.35, the second total 483.35–662.6) and the bundle regenerated (J426) |
 | hidden-ways/read-v13-lenses | 2026-10-19 01:27 | CHECKPOINT | 2026-10-19 01:27 hidden-ways/read-v13-lenses CHECKPOINT returned from disk (record and LANDED line present; read-v13-lenses.md 418 lines, md5 01a9ccf4); next: none |
 | hidden-ways/read-v13-routes | 2026-10-19 01:26 | CHECKPOINT | 2026-10-19 01:26 hidden-ways/read-v13-routes CHECKPOINT returned from disk (record docs/validation/hidden-ways-2026-10-18/read-v13-routes.md, 403 lines, md5 075d50ae, LANDED earlier); no work redone |
 | hidden-ways/read-host | 2026-10-19 01:26 | CHECKPOINT | 2026-10-19 01:26 hidden-ways/read-host CHECKPOINT returned from disk (read-host.md 352 lines, md5 c63dedaf, LANDED 2026-10-18 22:42); no work redone |
