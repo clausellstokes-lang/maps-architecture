@@ -55,7 +55,7 @@ def rsub(o, n, tag):
 # ============================================================ G1 the fork rule's orientation (970 (c), 975 (a), reply §6)
 sub('970 (c)', [
  ("before an edge (s, t) of (3)'s selection is laid, one Dijkstra from\n   s to the route set in force",
-  "before an edge (s, t) of (3)'s selection is laid — `s` the end not yet on a laid route: where neither end is, the edge\n   is laid in full as its own road (no fork test; c_net would be ∞); where exactly one is, the unrouted end is `s`; where\n   both are, `s` is the seat of the lower lineage key and the c_join = 0 case below applies —, one Dijkstra from\n   s to the route set in force"),
+  "before an edge (s, t) of (3)'s selection is laid —\n   `s` the end not yet on a laid route: where neither end is, the edge is laid in full as its own road (no fork test;\n   c_net would be ∞); where exactly one is, the unrouted end is `s`; where both are, `s` is the seat of the lower\n   lineage key and the c_join = 0 case below applies —, one Dijkstra from s to the route set in force"),
  ("where s already carries a public route (c_join = 0, j in s's own cells)",
   "where s already carries a public route (both ends routed: c_join = 0, j in s's own cells)"),
  ("a permuted seat order gives the same network.",
@@ -72,8 +72,8 @@ sub('975 (a)', [
  ("(its pair laid in full or dropped, the drop in the landmass's reason)",
   "(a pair of two routed seats laid in full or dropped, the drop in the landmass's reason)"),
 ], 'G1', "both namings of an edge give one network; the one-routed-end edge forks its unrouted end; the laid-in-full-or-dropped case is the two-routed-seat pair.")
-rsub("before a pair's\nroad is laid, one search from the seat to the routes in force",
-     "before a pair's\nroad is laid, one search from the seat not yet on a road to the routes in force", 'G1')
+rsub("one search from the seat to the routes in force finds the nearest junction and the cost round by the\nnetwork;",
+     "one search from the seat not yet on a road to the routes in force finds the nearest junction and\nthe cost round by the network;", 'G1')
 rsub("else its own road (a seat already on a road gets its own road only when the way round by the network exceeds the bound,\nelse none: never a zero-length road);",
      "else its own road (a pair whose two seats are both already on roads gets its own road only when the way round by the\nnetwork exceeds the bound, else none: never a zero-length road; whichever seat the pair names first, the one not yet on\na road is the one that forks);", 'G1')
 
@@ -120,7 +120,7 @@ sub('960 (d)', [
   "the trods' polylines — a revealed hidden road's among them, as a trod keyed by its edge key — and junction ticks keyed by trod id,"),
 ], 'G5', "the player audience of `mapFeed` carries a revealed hidden road's polyline under the trods' clause.")
 rsub("(the trod cue, never a road's; the layer's toggle and export rule)",
-     "(the trod cue, never a road's, in the `broad` tint; the layer's toggle and export rule — a party export carries it as a\ntrod row of kind `road` with no class or grade word, never as a routes row)", 'G5')
+     "(the trod cue, never a road's, in the `broad` tint; the layer's\ntoggle and export rule — a party export carries it as a trod row of kind `road` with no class or grade word, never as\na routes row)", 'G5')
 
 # ============================================================ G4 the approach road's junction end on either world
 sub('970 (b)', [
@@ -133,8 +133,8 @@ rsub("the grade\nword on hover, **never** the routes layer's",
      "the grade\nword on the DM's hover (a player's carries the kind word only — never the grade word, the length or a junction's\nid), **never** the routes layer's", 'G8')
 
 # ============================================================ G7 a superseded trod's rows stand
-rsub("and your rung rows for it closed by your\nown retraction (W7",
-     "and your rung and knowledge rows for it stand as dated facts of a tombstoned trod (nothing to\nretract) (W7", 'G7')
+rsub("and your rung rows for it closed by your\nown retraction (W7 (13) (g), as the first reply wrote it:",
+     "and your rung\nand knowledge rows for it stand as dated facts of a tombstoned trod, nothing to retract (W7 (13) (g), as the first\nreply wrote it:", 'G7')
 
 # ============================================================ G6 the `toward` comment: a new fragment 971 (g) on V13:763
 T13 = open(f'{ROOT}/{V13}', encoding='utf-8').read()

@@ -1,4 +1,4 @@
-# STATUS — the hidden-ways design run (lanes hidden-ways/*; written by the autosave loop at 2026-10-19 07:08Z)
+# STATUS — the hidden-ways design run (lanes hidden-ways/*; written by the autosave loop at 2026-10-19 07:13Z)
 
 | lane | last line | state | the line |
 |---|---|---|---|
@@ -22,4 +22,6 @@
 | hidden-ways/fix | 2026-10-19 06:51 | LANDED | 2026-10-19 06:51 hidden-ways/fix LANDED docs/HOST-REPLY-HIDDEN-WAYS-2026-10-18.md (660 lines, md5 1038a764): the reply fixed for G1-G3, G5-G7, G9, G10, G13, G16-G19 (bottom usable word throughout, the ladder's reading un |
 | hidden-ways/critic-2 | 2026-10-19 07:00 | LANDED | 2026-10-19 07:00 hidden-ways/critic-2 LANDED docs/validation/hidden-ways-2026-10-18/critic-2.md (81 lines, md5 12ed4ec7): PASS-WITH-CORRECTIONS — 8 gaps, 2 major (G1 the fork rule tests only s and never says which end of |
 | hidden-ways/verify-2 | 2026-10-19 06:52 | LANDED | 2026-10-19 06:52 hidden-ways/verify-2 LANDED docs/validation/hidden-ways-2026-10-18/verify-2.md (36 lines, md5 7278ff99): draft-w.fragments.json 113/113 PASS (md5s, old once at its stated line (all offset 0), md<->json b |
-| hidden-ways/fix-2 | 2026-10-19 07:07 | CHECKPOINT | 2026-10-19 07:07 hidden-ways/fix-2 CHECKPOINT synth-scripts/fix_w2.py written and run (G1-G8, 9 fragments revised, 971 (g) added: 114); next: check_json.py, verify_w2.py, exact-line check, md<->json, residue greps |
+| hidden-ways/fix-2 | 2026-10-19 07:10 | LANDED | 2026-10-19 07:10 hidden-ways/fix-2 LANDED docs/validation/hidden-ways-2026-10-18/fix-2.md (42 lines, md5 547a68fd): G1-G8 taken, none left; by synth-scripts/fix_w2.py (175 lines, md5 c1c81a8d, byte-identical on rerun); p |
+| hidden-ways/critic-3 | 2026-10-19 07:10 | CHECKPOINT | 2026-10-19 07:10 hidden-ways/critic-3 CHECKPOINT critic-2.md and fix-2.md read whole; no critic-3.md, no LANDED line (fresh pass); next: md5s, scripts re-run, the eight places in draft w and the reply |
+| hidden-ways/verify-3 | 2026-10-19 07:11 | LANDED | 2026-10-19 07:11 hidden-ways/verify-3 LANDED docs/validation/hidden-ways-2026-10-18/verify-3.md (25 lines, md5 6bbca770): draft-w.fragments.json 114/114 PASS (940 checks, 0 failures; md5s, exact lines, apply in order, re |

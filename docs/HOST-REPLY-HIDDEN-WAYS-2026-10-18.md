@@ -456,8 +456,9 @@ want the map's road machinery for it (legs, approaches, patrols, charter roads, 
 road between the trod's two junctions with the trod's course as the `via` hint** — `chartered` is the one change that
 lays geometry, "its course hint honoured" (V13:1811–1812) [STATED], and by the owner's word of 2026-10-19 a charter may
 end at a junction (§1 Q1; item 972). The map lays the road along the course, with your key and your grade, and the trod
-is superseded: tombstoned, its junctions kept as the road's ends and its arms, and your rung and knowledge rows for it stand as dated facts of a tombstoned trod (nothing to
-retract) (W7 (13) (g), as the first reply wrote it: "a road born along a trod supersedes it"). A road you charter
+is superseded: tombstoned, its junctions kept as the road's ends and its arms, and your rung
+and knowledge rows for it stand as dated facts of a tombstoned trod, nothing to retract (W7 (13) (g), as the first
+reply wrote it: "a road born along a trod supersedes it"). A road you charter
 **across** a trod adds a `crossing` junction and leaves the course byte-identical. Nothing runs the other way: a road
 that decays stays a road at your `hidden` word (next paragraph), and the map mints no trod where one dies — under one
 ladder there is nothing to mint, the decayed road *is* the way.
@@ -468,8 +469,9 @@ grade `hidden` keeps its record whole — "a demotion keeps the polyline; a revi
 rule**: its ghost for the DM stays the routes layer's (V13:3144); your knowledge events name it by `where: { kind:
 'road', edge }` (V13:887 has both already) [STATED] and draw the knowing town's pin and its lapse exactly as on a trod;
 your reveal through the party's places (the edge key a place's address, V14:791–796) admits it for a player, drawn by
-the `trods` layer as a trod at the first step (the trod cue, never a road's, in the `broad` tint; the layer's toggle and export rule — a party export carries it as a
-trod row of kind `road` with no class or grade word, never as a routes row) — the
+the `trods` layer as a trod at the first step (the trod cue, never a road's, in the `broad` tint; the layer's
+toggle and export rule — a party export carries it as a trod row of kind `road` with no class or grade word, never as
+a routes row) — the
 road reads `secret` while hidden, a knowledge event naming it with no fraction is placed at its midpoint vertex, and a
 revival restores `public` (items 956 (f), (i), 961 (a), (b), 974 (a)); patrols none (V13:1163, 2065) and "a hidden road counts as no
 public road" (V13:1819) [STATED], as today. Its junctions stay: a trod joined to a road you demote keeps its junction;
@@ -495,8 +497,8 @@ route byte-identical) [STATED]. The map asks you to **derive forks where appropr
 to the city; a road along a worn trod between its two junctions (the paragraph above). A junction-ended road is no leg
 of your `timeDelta` (legs are seat pairs, V13:888) [STATED]: you compose your own times over your network, as you do
 today (V13:1797–1802). On a standalone world the map's own selection gains the **fork rule**, W7 (14): before a pair's
-road is laid, one search from the seat not yet on a road to the routes in force finds the nearest junction and the cost round by the
-network; where that is within `fork.detourMax` (1.25) of the seat's own road and the join leg within `fork.joinMaxM`
+road is laid, one search from the seat not yet on a road to the routes in force finds the nearest junction and
+the cost round by the network; where that is within `fork.detourMax` (1.25) of the seat's own road and the join leg within `fork.joinMaxM`
 (30 km), the seat gets the join only — its road ending at a junction (shared within `fork.junctionSpacingM`, 3 km) —
 else its own road (a pair whose two seats are both already on roads gets its own road only when the way round by the
 network exceeds the bound, else none: never a zero-length road; whichever seat the pair names first, the one not yet on

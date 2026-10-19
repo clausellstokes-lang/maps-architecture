@@ -980,10 +980,10 @@ Numbered from **955** (file v ended at 954).
 >    reader of routes (`existingRoute`, siting, coherence, patrols, approaches, charter roads). The map derives no fork on a
 >    host-bound world: the host does, out of use and need in its lived network — a settlement joining the trunk road at a
 >    junction, a road along a worn trod between the trod's two junctions ((13) (g): the trod superseded). (b) **The fork
->    rule on a standalone world**, run inside (4)'s pass: before an edge (s, t) of (3)'s selection is laid — `s` the end not yet on a laid route: where neither end is, the edge
->    is laid in full as its own road (no fork test; c_net would be ∞); where exactly one is, the unrouted end is `s`; where
->    both are, `s` is the seat of the lower lineage key and the c_join = 0 case below applies —, one Dijkstra from
->    s to the route set in force (the search (5)'s trail uses) finds the nearest junction point j on a public route and its
+>    rule on a standalone world**, run inside (4)'s pass: before an edge (s, t) of (3)'s selection is laid —
+>    `s` the end not yet on a laid route: where neither end is, the edge is laid in full as its own road (no fork test;
+>    c_net would be ∞); where exactly one is, the unrouted end is `s`; where both are, `s` is the seat of the lower
+>    lineage key and the c_join = 0 case below applies —, one Dijkstra from s to the route set in force (the search (5)'s trail uses) finds the nearest junction point j on a public route and its
 >    cost c_join, and a search over the laid routes' cells from j to t gives c_net (∞ where t lies on no laid route); where
 >    c_join + c_net ≤ `fork.detourMax` × the pair's own A\* cost and the join leg's straight length ≤ `fork.joinMaxM`, the
 >    edge is laid as s → j only — a route ending at a `WorldJunction` of kind `end` (one within `fork.junctionSpacingM`
