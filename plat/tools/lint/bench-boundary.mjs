@@ -8,14 +8,17 @@
 // time, which a `@plat/testkit/kernel` subpath export would end (owner-gated: a public-API addition).
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { dirname, join, relative, resolve, sep } from 'node:path';
-import { byCodeUnit, relPath } from './rules/shared.mjs';
+import { CODE_FILE, byCodeUnit, relPath } from './rules/shared.mjs';
 
 /** The town packages a KERNEL bench may not reach: the boundary's notion, not the allowlist's MODEL_PACKAGES. */
 export const TOWN = Object.freeze(['layout', 'site', 'model', 'tables']);
 const SPEC = /(?:from\s*|import\s*\(\s*|import\s+)['"]([^'"]+)['"]/g;
 
-/** A bench code file's name: every code extension but `.jsx`, which the bench walk does not read. */
-const BENCH_CODE = /\.(ts|tsx|mts|cts|js|mjs|cjs)$/;
+/**
+ * A bench code file's name: every code extension (CODE_FILE, C-0128), `.jsx` among them since the hardening round S1
+ * (W-2 (d), queue row L15: a `.jsx` file under a KERNEL bench folder used to escape the walk).
+ */
+const BENCH_CODE = CODE_FILE;
 
 /** The bench code files under a folder, absolute, in code-unit order. */
 function walk(d) {

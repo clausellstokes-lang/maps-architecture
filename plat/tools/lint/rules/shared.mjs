@@ -1,6 +1,6 @@
 // Shared helpers of the PLAT determinism lint (M0-d-07): the rules', the whole-tree checks' and the vendored scan's.
 // Node built-ins only; no rule state lives here.
-import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, realpathSync, statSync } from 'node:fs';
 import { builtinModules } from 'node:module';
 import { join, relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -250,6 +250,20 @@ export function specifierVisitors(onSpecifier) {
 /** Code-unit order (deterministic across locales; never localeCompare). */
 export function byCodeUnit(a, b) {
   return a < b ? -1 : a > b ? 1 : 0;
+}
+
+/**
+ * Is the module at `url` the script node was started with? Real paths compared, so a lint tool named through a symbolic
+ * link runs (tools/landed/snapshot.mjs's form, the one form of the tools; L14, tools-plan.md S-3). The lint family's
+ * command-line entries (paths.mjs, vendor-scan.mjs) share it.
+ */
+export function isMain(url) {
+  if (!process.argv[1]) return false;
+  try {
+    return realpathSync(process.argv[1]) === realpathSync(fileURLToPath(url));
+  } catch {
+    return false;
+  }
 }
 
 /** Prints a whole-tree check's report to stdout, `lint <name>: <line>` (scripts/lint.mjs writes problems to stderr). */

@@ -19,11 +19,10 @@
 // `node tools/lint/paths.mjs` runs the whole-tree check alone: its problems on stderr, its counts on stdout.
 import { existsSync, lstatSync, readFileSync, readdirSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
 import { Linter } from 'eslint';
 import { judgePath, judgeSpecifier, realOf, realRoot } from './resolve.mjs';
 import repositoryPath from './rules/repository-path.mjs';
-import { CODE_FILE, CODE_GLOB, PLAT_ROOT, TS_FILE, byCodeUnit, isInside, isPathSpecifier, relPath } from './rules/shared.mjs';
+import { CODE_FILE, CODE_GLOB, PLAT_ROOT, TS_FILE, byCodeUnit, isInside, isMain, isPathSpecifier, relPath } from './rules/shared.mjs';
 import { isDirectiveNote, languageOptionsFor } from './standalone.mjs';
 
 export { judgePath, judgeSpecifier } from './resolve.mjs';
@@ -274,7 +273,7 @@ export const check = {
 };
 export default check;
 
-if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
+if (isMain(import.meta.url)) {
   const r = checkRepositoryPaths();
   for (const p of r.problems) process.stderr.write(`repository-path: ${p}\n`);
   process.stdout.write(`repository-path ${r.ok ? 'ok' : 'FAIL'} — ${JSON.stringify(r.counts)}\n`);

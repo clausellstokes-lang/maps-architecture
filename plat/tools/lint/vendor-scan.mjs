@@ -16,7 +16,6 @@
 import { createHash } from 'node:crypto';
 import { existsSync, readFileSync, readdirSync, realpathSync, statSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
 import { Linter } from 'eslint';
 import { stableJson } from '../vendor/common.mjs';
 import { adapterPath, adoptionTable } from './rules/dependency-direction.mjs';
@@ -27,6 +26,7 @@ import {
   PLAT_ROOT,
   byCodeUnit,
   globalAccesses,
+  isMain,
   staticMemberName,
   printReport,
   vendoredLibraries,
@@ -268,7 +268,7 @@ export const check = {
   },
 };
 
-if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
+if (isMain(import.meta.url)) {
   const r = checkVendorScan();
   for (const line of r.report) process.stdout.write(`${line}\n`);
   if (process.argv.includes('--write')) {
