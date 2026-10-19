@@ -3451,69 +3451,6 @@
    ]
   },
   {
-   "id": "M0-d-08",
-   "from": 1,
-   "round": "S1",
-   "session": "This round was opened by the SESSION as M0-d-08's HARDENING ROUND (J237 (2): the M0 hardening phase's fix rounds, batched per owning item; the owner 2026-10-07: 'make sure you do the hardening phase for m0 before m1'), on the FIX-NOW rows the hardening inventory (plat/docs/build/checks/hardening-inventory.md, lane session/hardening-inventory-1, landed J355) assigns to this item: M0-d-08:10 N-1, M0-d-08:11 N-2, M0-d-08:12 N-3, M0-d-08:13 N-4, M0-d-08:14 N-5, M0-d-08:15 N-6, M0-d-08:16 N-7, M0-d-08:17 N-8, M0-d-08:19 N-10, M0-d-08:20 N-11, M0-d-08:22 N-13. Each 'failing line' below is one inventory row — its id names the SOURCE NOTE (the checks/M0-*-notes.md file and line) you MUST read whole before fixing; the inventory's fix shape is the session's reading of that note, binding unless the note or the code shows it wrong — then say so in your notes and do what the note's finding needs. THE RULES OF A HARDENING ROUND: (1) inside the item's owns and nowhere else — a row that needs another item's file is REPORTED, not built; (2) every row gets a PIN (a test that is red without the fix; your mutant table shows each pin killing its mutant) unless the row is comment-only or asks for a choices row — then the text is the deliverable; (3) BEHAVIOUR: a hardening fix may move output where a defect is fixed — a DECLARED shift, stated in your choices row with the before and after (digests and goldens re-recorded in the same round, named), never silent; where a row offers alternatives, take the one the design's text supports and say which; a change of an operation's or stage's CONTRACT (its design-level behaviour, a record or file format, an exported API) is NOT yours — report it as a note for the session's ruling and leave the row at REPORTED; (4) J264 / N-58: the refusal census of the item's registered families before and after the round, never rising (a row whose fix makes a lawful input succeed lowers it and says so); (5) API frozen (J263 Q1): no export of a folder index or the barrel added, removed or renamed unless a row explicitly asks for one — then the index change is the row's and stated; message texts pinned verbatim where a row changes one (J263 Q6); (6) the gates, NEAR and RELATED@1000 as the brief above says, at W=1; (7) the item's notes file gains a section 'Hardening round S1' with the row-by-row outcome (fixed / pinned / reported, each with its evidence and mutant), and the round's choices row names every row it closes. The CLOSING CHECKER confirms every row's outcome with its own evidence (re-reading the source note and the inventory row), re-kills every pin's mutant, re-measures the refusal census, and judges new findings by the blocker rule only; a row left REPORTED with a stated contract reason is not a failing line. ROUND NUMBER: the lane keys are build/M0-d-08-fix-s1 and check/M0-d-08-close-s1, the verdict file checks/M0-d-08-s1.md, the notes section 'Hardening round S1' in checks/M0-d-08-notes.md; an earlier session round of this item, if any, is named in docs/lane-events.log under the same key shape with a lower number — read its verdict file before you start. SCOPE: the owns are the files the landed record plat/docs/build/landed/M0-d-08.json lists and nothing else. TIME: RELATED@1000 at W=1 once, after the last source edit, in the background with a done-file (the WAITING RULE).",
-   "lines": [
-    {
-     "line": "N-1 (plat/docs/build/checks/M0-d-08-notes.md:10): renumberSlots role-row permutation unpinned (C21): assert a live role row moves and its content lands at maps.role[row]",
-     "evidence": "the source note N-1 (plat/docs/build/checks/M0-d-08-notes.md:10): «| N-1 | `renumberSlots` permutes the role-row slots (C-0199 (2); the renumber test's title says \"role row\"), but no test can fail when it does not: C21 (`rMap` the identity) survives. The item's own list is vertex, half-edge and face slots, so this is off the item's stated promise. | `C21 SURVIVED rc=0 Tests 36 passed (36) :: role rows not permuted`. | M4: assert that some live role row moves (as the test already does for vertices) and that each row's content lands at `maps.role[row]`. |» — read it whole; the inventory's evidence: N-1; C-0199 (2)",
-     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
-    },
-    {
-     "line": "N-2 (plat/docs/build/checks/M0-d-08-notes.md:11): recordPrint sorts demoted edges, so the record's own order (C-0185 (17)) is not compared (K11): print in record order; fixture demoting two edges in one batch",
-     "evidence": "the source note N-2 (plat/docs/build/checks/M0-d-08-notes.md:11): «| N-2 | `recordPrint` sorts the demoted edges (`r.demoted.edges.map(...).sort()`), so the record's own demoted-edge order (C-0185 (17)) is not compared, although C-0199 (1) says the record's orders are compared. Kernel mutant K11 (demoted edges in slot order) survives; no fixture may demote two edges in one batch, so the sort may also hide nothing today. | `print.ts:320`; `K11 SURVIVED rc=0 Tests 36 passed (36)`. | M4: print the demoted edges in the record's order, and add a fixture that demotes two edges in one ba…» — read it whole; the inventory's evidence: N-2; print.ts:320",
-     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
-    },
-    {
-     "line": "N-3 (plat/docs/build/checks/M0-d-08-notes.md:12): kernel slot-order mutants K06/K07/K08/K10 unreached: constructive fixtures with two promotions in one batch, an equal-length merge, a multi-role batch; re-run",
-     "evidence": "the source note N-3 (plat/docs/build/checks/M0-d-08-notes.md:12): «| N-3 | Kernel slot-order mutants that the bars do not reach: K06 (the record's promoted / unflagged / moved vertex lists in slot order), K07 (a face region's pairs in slot order, `faces/common.ts:117`), K08 (mergeFaces' equal-length tie by face slot, `faces/merge.ts:134`), K10 (the record's role keys left in collection order). They need a batch with two or more such vertices, a merge between two equal-length candidates, or several role keys whose collection order differs from rule 7's; the constructive set's leadi…» — read it whole; the inventory's evidence: N-3",
-     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
-    },
-    {
-     "line": "N-4 (plat/docs/build/checks/M0-d-08-notes.md:13): constructive sequences take only leading insertChain steps (six cases' later inserts, incl. slot-reuse, never run; no partition rebuild): interpret rebuildPartitions and later steps",
-     "evidence": "the source note N-4 (plat/docs/build/checks/M0-d-08-notes.md:13): «| N-4 | The constructive sequences take only a case's leading `insertChain` steps (C-0199 (3)); five cases insert again after another step, so their later insertions — among them the slot-reuse cases — never run under renumbering: `index/slot-reuse-stage`, `index/slot-reuse-districts`, `index/l3-order-after-l4`, `remove/tjunction-profiled-spine`, `limit/data-stale-slot`, `fix/tunnel-corridor`. The constructive arenas also never rebuild a static partition, so their indexes hold only grid items. | Probe P2 (census of…» — read it whole; the inventory's evidence: N-4; C-0199 (3)",
-     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
-    },
-    {
-     "line": "N-5 (plat/docs/build/checks/M0-d-08-notes.md:14): geom/cut-through-vertex: harness locates the face at the cut's midpoint (a vertex) and throws in the harness: take an interior point off the cut",
-     "evidence": "the source note N-5 (plat/docs/build/checks/M0-d-08-notes.md:14): «| N-5 | For `geom/cut-through-vertex` the harness's next op throws in the harness, not in the kernel: `constructive.ts` locates the face at the cut's middle point, which in this case is the face's vertex, so `faceHolding` throws and the outcome is `threw` plus the arena; the case's own expectation (a refusal, `E_NOT_TWO_CROSSINGS`) is never reached. | P2: `NONCOMMIT 1 geom/cut-through-vertex #1 next splitFace face by cut threw`. | M4: take an interior point off the cut (the case's `points` or a point beside the cut…» — read it whole; the inventory's evidence: N-5",
-     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
-    },
-    {
-     "line": "N-6 (plat/docs/build/checks/M0-d-08-notes.md:15): M0-a-07's inline declared fixture and pinVertices/connectHole/absorbSliver not in partitionerSequence: add them",
-     "evidence": "the source note N-6 (plat/docs/build/checks/M0-d-08-notes.md:15): «| N-6 | \"Every declared-form fixture of M0-a-07\" is read as two batches the harness builds (C-0199 (3)); M0-a-07's one inline declared fixture (`kernel/test/faces/claim.test.ts`, \"a declared batch of a split and a pin commits\": `opPinVertices` + `opSplitFace`) and the ops `pinVertices`, `connectHole` and `absorbSliver` are not among them. The kernel passes them: probe P3 ran that fixture and a declared `connectHole` + `splitFace` batch through `permutationCompare` (16 orders) and `runTwiceCompare`. | P3: `PERM {\"pe…» — read it whole; the inventory's evidence: N-6",
-     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
-    },
-    {
-     "line": "N-7 (plat/docs/build/checks/M0-d-08-notes.md:16): declared form permuted only on a-06/a-07 fixtures: issue each constructive case's same-level chains also as one declared batch and permute it",
-     "evidence": "the source note N-7 (plat/docs/build/checks/M0-d-08-notes.md:16): «| N-7 | The exit bar's words \"op-order determinism … over the constructive set\" are met by the callback issue order (`runTwiceCompare` on every constructive arena); the declared form is permuted only on M0-a-06's and M0-a-07's fixtures, which is how M0.md §1 (a) splits the bar (\"the declared form at M0-a-06, the callback issue order and slot-renumbering identity at M0-d-08\"). A declared-batch permutation over the constructive set's same-level chains would reach the coincident and overlapping degeneracies that attra…» — read it whole; the inventory's evidence: N-7",
-     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
-    },
-    {
-     "line": "N-8 (plat/docs/build/checks/M0-d-08-notes.md:17): outcomePrint prints a refusal by code alone (a refused last batch's arena never compared): append the arena print",
-     "evidence": "the source note N-8 (plat/docs/build/checks/M0-d-08-notes.md:17): «| N-8 | `outcomePrint` prints a refusal by its code alone and no arena, so a refused last batch of a sequence never has its arena compared (a refusal must leave the arena at its version, §2.2 rule 8; an earlier refusal is seen through the next batch's arena). | `print.ts:334`. | M4: append the arena print to a refusal's outcome. |» — read it whole; the inventory's evidence: N-8",
-     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
-    },
-    {
-     "line": "N-10 (plat/docs/build/checks/M0-d-08-notes.md:19): permutationCompare first-divergence break unpinned (V02): control diverging in the reversal only",
-     "evidence": "the source note N-10 (plat/docs/build/checks/M0-d-08-notes.md:19): «| N-10 | (closing check, lane `check/M0-d-08-close-r1`) `permutationCompare` stops at the first diverging variant (`if (divergence !== null) break;`), but no test pins it: without the `break` the report keeps only the LAST variant's comparison, so a fault that diverges in some orders and not in the last would read `identical: true`. The control's fault (issue-order apply) diverges in nearly every order of the crowded batches, so the mutant passes. The true code is right. | Mutant V02 (`permute.ts` the `break` remov…» — read it whole; the inventory's evidence: N-10",
-     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
-    },
-    {
-     "line": "N-11 (plat/docs/build/checks/M0-d-08-notes.md:20): random permutation variants not asserted distinct (V04): assert pairwise-distinct orders",
-     "evidence": "the source note N-11 (plat/docs/build/checks/M0-d-08-notes.md:20): «| N-11 | (closing check) No test asserts that `permutationCompare`'s random orders differ from one another: with every random variant drawn from one seed the bar and the control still pass. The true code draws `seed + 1000 × (k + 1)` per variant. | Mutant V04 (`permutedSequence(seq, seed, 'random')` for every k): `V04 SURVIVED rc=0 Tests 42 passed (42)`. | M4: assert that the variants' op orders for one batch are pairwise distinct (or that `count` random orders give `count` distinct permutations on a batch of 6 ops…» — read it whole; the inventory's evidence: N-11",
-     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
-    },
-    {
-     "line": "N-13 (plat/docs/build/checks/M0-d-08-notes.md:22): a nothing outcome without its arena print passes (V09): print test that it changes when the arena does",
-     "evidence": "the source note N-13 (plat/docs/build/checks/M0-d-08-notes.md:22): «| N-13 | (closing check) A `nothing` outcome (a batch that wrote nothing) without its arena print passes every test; like N-8 for refusals, an arena the batch should have left as it was is then compared only through the next batch's outcome, and not at all when it is the sequence's last batch. | Mutant V09 (`return 'nothing';`): `V09 SURVIVED rc=0 Tests 42 passed (42)`. | M4, with N-8: a print test that `outcomePrint` of a `nothing` result changes when the arena does. |» — read it whole; the inventory's evidence: N-13; with N-8",
-     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
-    }
-   ]
-  },
-  {
    "id": "M0-d-09",
    "from": 1,
    "round": "S1",
@@ -3712,29 +3649,6 @@
    ]
   },
   {
-   "id": "M0-d-04",
-   "from": 2,
-   "round": "S2",
-   "session": "This round was opened by the SESSION as M0-d-04's HARDENING ROUND (J237 (2): the M0 hardening phase's fix rounds, batched per owning item; the owner 2026-10-07: 'make sure you do the hardening phase for m0 before m1'), on the FIX-NOW rows the hardening inventory (plat/docs/build/checks/hardening-inventory.md, lane session/hardening-inventory-1, landed J355) assigns to this item: M0-d-04:152 N-c1-3, M0-d-04:181 N-c1-6, M0-d-04:188 N-c1-7. Each 'failing line' below is one inventory row — its id names the SOURCE NOTE (the checks/M0-*-notes.md file and line) you MUST read whole before fixing; the inventory's fix shape is the session's reading of that note, binding unless the note or the code shows it wrong — then say so in your notes and do what the note's finding needs. The queue rows this round also takes (docs/M0-FIX-QUEUE.md): L30 (with M0-m-01). THE RULES OF A HARDENING ROUND: (1) inside the item's owns and nowhere else — a row that needs another item's file is REPORTED, not built; (2) every row gets a PIN (a test that is red without the fix; your mutant table shows each pin killing its mutant) unless the row is comment-only or asks for a choices row — then the text is the deliverable; (3) BEHAVIOUR: a hardening fix may move output where a defect is fixed — a DECLARED shift, stated in your choices row with the before and after (digests and goldens re-recorded in the same round, named), never silent; where a row offers alternatives, take the one the design's text supports and say which; a change of an operation's or stage's CONTRACT (its design-level behaviour, a record or file format, an exported API) is NOT yours — report it as a note for the session's ruling and leave the row at REPORTED; (4) J264 / N-58: the refusal census of the item's registered families before and after the round, never rising (a row whose fix makes a lawful input succeed lowers it and says so); (5) API frozen (J263 Q1): no export of a folder index or the barrel added, removed or renamed unless a row explicitly asks for one — then the index change is the row's and stated; message texts pinned verbatim where a row changes one (J263 Q6); (6) the gates, NEAR and RELATED@1000 as the brief above says, at W=1; (7) the item's notes file gains a section 'Hardening round S2' with the row-by-row outcome (fixed / pinned / reported, each with its evidence and mutant), and the round's choices row names every row it closes. The CLOSING CHECKER confirms every row's outcome with its own evidence (re-reading the source note and the inventory row), re-kills every pin's mutant, re-measures the refusal census, and judges new findings by the blocker rule only; a row left REPORTED with a stated contract reason is not a failing line. ROUND NUMBER: the lane keys are build/M0-d-04-fix-s2 and check/M0-d-04-close-s2, the verdict file checks/M0-d-04-s2.md, the notes section 'Hardening round S2' in checks/M0-d-04-notes.md; an earlier session round of this item, if any, is named in docs/lane-events.log under the same key shape with a lower number — read its verdict file before you start. SCOPE: the owns are the files the landed record plat/docs/build/landed/M0-d-04.json lists and nothing else. TIME: RELATED@1000 at W=1 once, after the last source edit, in the background with a done-file (the WAITING RULE).",
-   "lines": [
-    {
-     "line": "N-c1-3 (plat/docs/build/checks/M0-d-04-notes.md:152): records root partition lane and node/layer/root writer lane forms have no golden — persisted roots unpinned (A12, X15): roots golden on syntheticCity(1)'s model and records roots, plus unit pins of writeHash128 lane order and sameHash",
-     "evidence": "the source note N-c1-3 (plat/docs/build/checks/M0-d-04-notes.md:152): «N-c1-3. **The records root's partition lane has no golden** (CONFIRMED survivor A12, and A12b on the pre-round» — read it whole; the inventory's evidence: N-c1-3; N-c1-8",
-     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
-    },
-    {
-     "line": "N-c1-6 (plat/docs/build/checks/M0-d-04-notes.md:181): plats node's level-4 lane unpinned (X22; fuzz writes L1-L3): pin that an L4 commit moves the model root and the plats layer",
-     "evidence": "the source note N-c1-6 (plat/docs/build/checks/M0-d-04-notes.md:181): «N-c1-6. **The plats node's level-4 lane is unpinned** (mutant X22, PLAUSIBLE equivalent on the item's families). In» — read it whole; the inventory's evidence: N-c1-6",
-     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
-    },
-    {
-     "line": "N-c1-7 (plat/docs/build/checks/M0-d-04-notes.md:188): subtree oracle's identity comparison unpinned (X25): stale tombstone/event block under subtreeOracle names identity",
-     "evidence": "the source note N-c1-7 (plat/docs/build/checks/M0-d-04-notes.md:188): «N-c1-7. **The subtree oracle's identity comparison is unpinned** (mutant X25; its twin X25b also survives on the» — read it whole; the inventory's evidence: N-c1-7",
-     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
-    }
-   ]
-  },
-  {
    "id": "M0-s-02",
    "from": 1,
    "round": "S1",
@@ -3899,6 +3813,293 @@
      "line": "Q84 (a-08 s4's N1/Z26, routed J402): the arr-bands harness holds ours to the hard ring checks on an unattracted case too — judge applies own() on every case, so an invalid ours that passes compareSplit against the oracle fails the verdict; pinned by a test red under the mutant 'own() on attracted cases only'",
      "evidence": "testkit/test/kernel/arr-bands/support.ts:90–92 (own = ringProblems(rings.map(dedupe))), :95–104 (judge: own(ours) at :97, keep(h, 'ours invalid') at :100, compareSplit at :101), :112–132 (verdict: expect(h.failures).toEqual([]) at :118), :69–81 (Harness has report/failures/settled/sources/notes — no h.invalid); the model pin arr-booleans-buffers/harness.test.ts:82–98 (ours [SQUARE, SQUARE, tri] against the union, compareSplit passes, h.invalid holds 'crossing edges', verdict throws); checks/M0-a-08-s4.md:59 and :103 (N1 pinned for a-08, reported for a-09; Z26 red), M0-a-08-notes.md:402 (X16); the arr-bands folder holds agreement-corridor, agreement-tilerings, guard and representation tests and no harness test",
      "required_change": "NEW testkit/test/kernel/arr-bands/harness.test.ts: ours [SQUARE, SQUARE, tri] judged with warnings [] against an oracle returning the union of the square and the triangle — compareSplit passes as 'unattracted', judge keeps one 'ours invalid: crossing edges' line in h.failures, h.report.line shows the draw as an unattracted pass, and verdict throws on h.failures; a second case with the same rings and a W_ATTRACTED warning kept too (the check is on every case). No behaviour change in support.ts (the behaviour holds at :97–100); no h.invalid added to a-09's Harness unless the builder shows a reason in its choices row. The builder's self-check re-introduces the mutant (own() applied only when splitOf(warnings) === 'attracted') and records the test red; the closing checker re-kills it"
+    }
+   ]
+  },
+  {
+   "id": "M0-b-02",
+   "from": 1,
+   "round": "S1",
+   "session": "This round was opened by the SESSION as M0-b-02's HARDENING ROUND (J237 (2): the M0 hardening phase's fix rounds, batched per owning item; the owner 2026-10-07: 'make sure you do the hardening phase for m0 before m1'), on the FIX-NOW rows the hardening inventory (plat/docs/build/checks/hardening-inventory.md, lane session/hardening-inventory-1, landed J355) assigns to this item: M0-b-02:51 N9, M0-b-02:52 N10, M0-b-02:53 N11 — and, FIRST, the 7 line(s) the session adds for the refusal census's classes and the design rulings (plat/docs/build/checks/refusal-census.md; rulings-hardening-1.md; N-61). Each 'failing line' below is one inventory row — its id names the SOURCE NOTE (the checks/M0-*-notes.md file and line) you MUST read whole before fixing; the inventory's fix shape is the session's reading of that note, binding unless the note or the code shows it wrong — then say so in your notes and do what the note's finding needs. The queue rows this round also takes (docs/M0-FIX-QUEUE.md): L28 (spineHit's two floors, planner half; ladder half M0-b-03). THE RULES OF A HARDENING ROUND: (1) inside the item's owns and nowhere else — a row that needs another item's file is REPORTED, not built; (2) every row gets a PIN (a test that is red without the fix; your mutant table shows each pin killing its mutant) unless the row is comment-only or asks for a choices row — then the text is the deliverable; (3) BEHAVIOUR: a hardening fix may move output where a defect is fixed — a DECLARED shift, stated in your choices row with the before and after (digests and goldens re-recorded in the same round, named), never silent; where a row offers alternatives, take the one the design's text supports and say which; a change of an operation's or stage's CONTRACT (its design-level behaviour, a record or file format, an exported API) is NOT yours — report it as a note for the session's ruling and leave the row at REPORTED; (4) J264 / N-58: the refusal census of the item's registered families before and after the round, never rising (a row whose fix makes a lawful input succeed lowers it and says so); (5) API frozen (J263 Q1): no export of a folder index or the barrel added, removed or renamed unless a row explicitly asks for one — then the index change is the row's and stated; message texts pinned verbatim where a row changes one (J263 Q6); (6) the gates, NEAR and RELATED@1000 as the brief above says, at W=1; (7) the item's notes file gains a section 'Hardening round S1' with the row-by-row outcome (fixed / pinned / reported, each with its evidence and mutant), and the round's choices row names every row it closes. The CLOSING CHECKER confirms every row's outcome with its own evidence (re-reading the source note and the inventory row), re-kills every pin's mutant, re-measures the refusal census, and judges new findings by the blocker rule only; a row left REPORTED with a stated contract reason is not a failing line. RIDER (J423 R10): N12 cornerScale — one S row in the planner, ride this round. The re-triage of 2026-10-19 (docs/validation/hardening-retriage-2026-10-19/B4.md, plan.md) judged every row above STILL-OPEN against the tree as it stands; no row of this item is deferred.",
+   "lines": [
+    {
+     "line": "L28 (planner half; RULED J424): spineHit's floor — the planner's ratio(cross(w, e), den, 'length') refusing |den| < 1 IS C-0222 (9)'s reach rule for both halves",
+     "evidence": "docs/M0-FIX-QUEUE.md L28; layout-plan.md §1.2.5; planner.ts:803–821; J424",
+     "required_change": "no code change in the planner: its spineHit comment names the floor as the reach rule (|cross(dir, e)| ≥ 1, a near-parallel arrival is no hit and the end is a kerb end, C-0222 (9)); the round's seed sweep (the integrated CITY seeds, fusion 1, 2, 11, 30, the 1 100-task family) lists every end the planner refuses under the floor with its angle (expected: only the known near-parallel class); the ladder half is M0-b-03's round, not this one"
+    },
+    {
+     "line": "1 (M0-b-02-notes.md:7; STILL-OPEN per the re-triage, not a FIX-NOW row in the inventory's own list): 1. **N1 — the straight cut's two-end re-check has no test (mutant m40 survives).** `finish`'s loop re-checks both",
+     "evidence": "M0-b-02-notes.md:7; docs/validation/hardening-retriage-2026-10-19/plan.json rowsLeft",
+     "required_change": "as the row says, inside the item's owns"
+    },
+    {
+     "line": "3 (M0-b-02-notes.md:14; STILL-OPEN per the re-triage, not a FIX-NOW row in the inventory's own list): 3. **N3 — m29 is equivalent on honest inputs.** Taking `minEdge` out of the planner's chord floor changes nothing",
+     "evidence": "M0-b-02-notes.md:14; docs/validation/hardening-retriage-2026-10-19/plan.json rowsLeft",
+     "required_change": "as the row says, inside the item's owns"
+    },
+    {
+     "line": "4 (M0-b-02-notes.md:19; STILL-OPEN per the re-triage, not a FIX-NOW row in the inventory's own list): 4. **N4 — a flattened cut A → foot can cross a hole.** The checker's probe (3 000 random star faces, 30 % holed)",
+     "evidence": "M0-b-02-notes.md:19; docs/validation/hardening-retriage-2026-10-19/plan.json rowsLeft",
+     "required_change": "as the row says, inside the item's owns"
+    },
+    {
+     "line": "5 (M0-b-02-notes.md:26; STILL-OPEN per the re-triage, not a FIX-NOW row in the inventory's own list): 5. **N5 — a slide can lower a kept corner's triangle below the flatten threshold.** The same probe found 5 of 2 580",
+     "evidence": "M0-b-02-notes.md:26; docs/validation/hardening-retriage-2026-10-19/plan.json rowsLeft",
+     "required_change": "as the row says, inside the item's owns"
+    },
+    {
+     "line": "6 (M0-b-02-notes.md:32; STILL-OPEN per the re-triage, not a FIX-NOW row in the inventory's own list): 6. **N6 — T36-1's \"draws nothing\" sub-test is self-referential.** It re-derives A with the planner's own `startOf`",
+     "evidence": "M0-b-02-notes.md:32; docs/validation/hardening-retriage-2026-10-19/plan.json rowsLeft",
+     "required_change": "as the row says, inside the item's owns"
+    },
+    {
+     "line": "7 (M0-b-02-notes.md:35; STILL-OPEN per the re-triage, not a FIX-NOW row in the inventory's own list): 7. **N7 — the renumbering property runs a fixed 200 cases per face** (`determinism.test.ts`, `{ numRuns: 200 }`)",
+     "evidence": "M0-b-02-notes.md:35; docs/validation/hardening-retriage-2026-10-19/plan.json rowsLeft",
+     "required_change": "as the row says, inside the item's owns"
+    },
+    {
+     "line": "N9 (plat/docs/build/checks/M0-b-02-notes.md:51): gap + edge dropped by rounding in inGap (~5 % of portal positions; 8 nextRung cases): skip the own gap or compare with half-unit tolerance; pin seed-9 trapezoid",
+     "evidence": "the source note N9 (plat/docs/build/checks/M0-b-02-notes.md:51): «| N9 | **A gap's + edge can be dropped by rounding.** `slideEnd` builds the candidate `s = g.s + gap` and then rejects any candidate with `inGap(s)`, which tests `Math.abs(s - g.s) < g.gap`. For about 5 % of portal positions, `(g.s + gap) − g.s` rounds to 999.9999999999991 < 1000. A uniform sample of g.s in [10, 150] m gives 0.048 on the + edge and 0 on the − edge. The edge the end should slide to is then treated as inside its own gap. The planner takes the farther (−) slide when that one is in band, and otherwise …» — read it whole; the inventory's evidence: N9",
+     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
+    },
+    {
+     "line": "N10 (plat/docs/build/checks/M0-b-02-notes.md:52): T37-1 curved squareness reference shares sideDir with the planner (c03 survives): farDirAt via runTangent(run, foot, 500), or a sides.test case sideDir ≡ runTangent",
+     "evidence": "the source note N10 (plat/docs/build/checks/M0-b-02-notes.md:52): «| N10 | **T37-1's curved squareness reference shares `sideDir` with the planner.** `farDirAt` (support.ts) calls `sides.ts`'s `sideDir`, as round 1's required change allowed. So mutant c03 survives all 118 tests: `sideDir` reading the tangent over ± 20 m (`windowCm * 4`) instead of ± 5 m. That mutant is not equivalent. Against the kernel's `runTangent(run, foot, 500)`, its second legs are off by a worst \\|cos\\| of 0.087 (curved), 0.063 (chaikin), 0.053 (a cubic kerb) and 0.057 (a sine kerb). The real code holds 3.1…» — read it whole; the inventory's evidence: N10",
+     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
+    },
+    {
+     "line": "N11 (plat/docs/build/checks/M0-b-02-notes.md:53): stream reroll/epoch components unpinned by value (c11/c12): twin tests at reroll≠0, epoch≠0 for cut.stop, cut.t, cut.arc",
+     "evidence": "the source note N11 (plat/docs/build/checks/M0-b-02-notes.md:53): «| N11 | **The streams' reroll and epoch components are not pinned by value.** Mutants c11 and c12 drop `reroll` or `epoch` from the stream the planner draws from, while the `DrawRecord` key keeps them. Both survive all 118 tests: the only test with reroll ≠ 0 checks the key's text, not a value. The real code is correct. At reroll 3 and epoch 2 on five faces, cut.stop's first uniform, cut.t's position mean3 and 71 cut.arc draws all equal their twins (0 mismatches); c11 gives 490 mismatches. C-0222 (12) states the li…» — read it whole; the inventory's evidence: N11; §6.1",
+     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
+    }
+   ]
+  },
+  {
+   "id": "M0-a-16",
+   "from": 3,
+   "round": "S3",
+   "session": "This round was opened by the SESSION as M0-a-16's HARDENING ROUND (J237 (2): the M0 hardening phase's fix rounds, batched per owning item; the owner 2026-10-07: 'make sure you do the hardening phase for m0 before m1'), on the FIX-NOW rows the hardening inventory (plat/docs/build/checks/hardening-inventory.md, lane session/hardening-inventory-1, landed J355) assigns to this item: M0-a-16:12 2, M0-a-16:18 3, M0-a-16:23 4, M0-a-16:29 5, M0-a-16:34 6, M0-a-16:40 7, M0-a-16:43 8, M0-a-16:46 9, M0-a-16:78 11, M0-a-16:108 13, M0-a-16:113 14, M0-a-16:227 16, M0-a-16:235 17, M0-a-16:243 18 — and, FIRST, the 2 line(s) the session adds for the refusal census's classes and the design rulings (plat/docs/build/checks/refusal-census.md; rulings-hardening-1.md; N-61). Each 'failing line' below is one inventory row — its id names the SOURCE NOTE (the checks/M0-*-notes.md file and line) you MUST read whole before fixing; the inventory's fix shape is the session's reading of that note, binding unless the note or the code shows it wrong — then say so in your notes and do what the note's finding needs. THE RULES OF A HARDENING ROUND: (1) inside the item's owns and nowhere else — a row that needs another item's file is REPORTED, not built; (2) every row gets a PIN (a test that is red without the fix; your mutant table shows each pin killing its mutant) unless the row is comment-only or asks for a choices row — then the text is the deliverable; (3) BEHAVIOUR: a hardening fix may move output where a defect is fixed — a DECLARED shift, stated in your choices row with the before and after (digests and goldens re-recorded in the same round, named), never silent; where a row offers alternatives, take the one the design's text supports and say which; a change of an operation's or stage's CONTRACT (its design-level behaviour, a record or file format, an exported API) is NOT yours — report it as a note for the session's ruling and leave the row at REPORTED; (4) J264 / N-58: the refusal census of the item's registered families before and after the round, never rising (a row whose fix makes a lawful input succeed lowers it and says so); (5) API frozen (J263 Q1): no export of a folder index or the barrel added, removed or renamed unless a row explicitly asks for one — then the index change is the row's and stated; message texts pinned verbatim where a row changes one (J263 Q6); (6) the gates, NEAR and RELATED@1000 as the brief above says, at W=1; (7) the item's notes file gains a section 'Hardening round S3' with the row-by-row outcome (fixed / pinned / reported, each with its evidence and mutant), and the round's choices row names every row it closes. The CLOSING CHECKER confirms every row's outcome with its own evidence (re-reading the source note and the inventory row), re-kills every pin's mutant, re-measures the refusal census, and judges new findings by the blocker rule only; a row left REPORTED with a stated contract reason is not a failing line. RULINGS OF THE RE-TRIAGE (J423, vetoable; docs/validation/hardening-retriage-2026-10-19/B1.md, plan.md §4): row 2 (stamped handles for writers) is DEFERRED to M4 — REPORT ONLY: confirm its state with evidence, build nothing for it; row 5 (the ResolveVertexAt type alias) is ALLOWED as an additive public-API addition; row 7 (tiling() / includeOwnChildren on LevelView) is HELD for M1's first reader — REPORT ONLY, do not add the API; every other row above is STILL-OPEN and this round's.",
+   "lines": [
+    {
+     "line": "12 (moved in from entry 8, J423 R3; M0-a-16-notes.md:96): 12. **KI — a fabricated overlay (an `InsertTx` shell with `open: true`) still writes through a façade writer outside",
+     "evidence": "M0-a-16-notes.md:96; C-0372 (7) handed writer()'s isOpenTx check to a-16",
+     "required_change": "as the row says, inside a-16's owns"
+    },
+    {
+     "line": "12 (M0-a-16-notes.md:96; STILL-OPEN per the re-triage, not a FIX-NOW row in the inventory's own list): 12. **KI — a fabricated overlay (an `InsertTx` shell with `open: true`) still writes through a façade writer outside",
+     "evidence": "M0-a-16-notes.md:96; docs/validation/hardening-retriage-2026-10-19/plan.json rowsLeft",
+     "required_change": "as the row says, inside the item's owns"
+    },
+    {
+     "line": "2 (plat/docs/build/checks/M0-a-16-notes.md:12): slot numbers passed to writers carry no stamp (C-0220 (3)): a reused/foreign FaceId is checked only for liveness — carry stamped handles in the debug build",
+     "evidence": "the source note 2 (plat/docs/build/checks/M0-a-16-notes.md:12): «2. **Slot numbers carry no stamp (C-0220 (3)).**» — read it whole; the inventory's evidence: note 2; §3.4",
+     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
+    },
+    {
+     "line": "3 (plat/docs/build/checks/M0-a-16-notes.md:18): K22 (overlay check weakened to \"an arena under this key\") survives: test a second kernel over another ground arena with the same key",
+     "evidence": "the source note 3 (plat/docs/build/checks/M0-a-16-notes.md:18): «3. **Mutant K22 survives.** It weakens the overlay check from \"this kernel's arena object\" to \"an arena under this» — read it whole; the inventory's evidence: note 3",
+     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
+    },
+    {
+     "line": "4 (plat/docs/build/checks/M0-a-16-notes.md:23): S05 (stampOf prefers inline stamp) equivalent today only: pinning test with an inline-stamped value from a rejected batch",
+     "evidence": "the source note 4 (plat/docs/build/checks/M0-a-16-notes.md:23): «4. **Mutant S05 survives.** It makes `stampOf` prefer the inline stamp over the side table.» — read it whole; the inventory's evidence: note 4",
+     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
+    },
+    {
+     "line": "5 (plat/docs/build/checks/M0-a-16-notes.md:29): resolveVertexAt design signature carried by no type: add a ResolveVertexAt type alias beside CarryMap (M2a compiles unchanged)",
+     "evidence": "the source note 5 (plat/docs/build/checks/M0-a-16-notes.md:29): «5. **`resolveVertexAt`'s design signature is carried by no type.**» — read it whole; the inventory's evidence: note 5; C-0089",
+     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
+    },
+    {
+     "line": "6 (plat/docs/build/checks/M0-a-16-notes.md:34): mixer census misses element-access calls and Streams built from unmixed keys (testkit constructive/draw.ts:50): widen the census or make it a lint rule",
+     "evidence": "the source note 6 (plat/docs/build/checks/M0-a-16-notes.md:34): «6. **The mixer census has gaps.**» — read it whole; the inventory's evidence: note 6",
+     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
+    },
+    {
+     "line": "7 (plat/docs/build/checks/M0-a-16-notes.md:40): LevelView.faces() omits a coarser own-child face (C-0220 (4)) — a trap for level-n tiling readers: add tiling()/includeOwnChildren (API pass, before M1 readers)",
+     "evidence": "the source note 7 (plat/docs/build/checks/M0-a-16-notes.md:40): «7. **LevelView reads.** `LevelView.faces()` omits a coarser face that is its own child at the level (C-0220 (4)). A» — read it whole; the inventory's evidence: note 7",
+     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
+    },
+    {
+     "line": "8 (plat/docs/build/checks/M0-a-16-notes.md:43): notBuilt site census matches only notBuilt('M…', with single quotes: match every form (double quotes, template, helper)",
+     "evidence": "the source note 8 (plat/docs/build/checks/M0-a-16-notes.md:43): «8. **The `notBuilt` site census can miss refusals.** It matches only `notBuilt('M…',` with single quotes. A refusal» — read it whole; the inventory's evidence: note 8",
+     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
+    },
+    {
+     "line": "9 (plat/docs/build/checks/M0-a-16-notes.md:46): §4b kernel-entry filter KERNEL_MARKS matches hook-cell substrings: a marker column in §4b or an explicit row list",
+     "evidence": "the source note 9 (plat/docs/build/checks/M0-a-16-notes.md:46): «9. **The §4b kernel-entry filter is the author's own.** `KERNEL_MARKS` matches substrings of the hook cell. My» — read it whole; the inventory's evidence: note 9",
+     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
+    },
+    {
+     "line": "11 (plat/docs/build/checks/M0-a-16-notes.md:78): N-55 (5) (1)'s ruled \"no open frame of this kernel\" guard not built (C-0290 guard is closed-overlay): session ruling first — if wanted, rounds on M0-k-04 primitives.ts writer() and M0-d-08 issue.ts runBatch, then flip a-16's pins; see §5",
+     "evidence": "the source note 11 (plat/docs/build/checks/M0-a-16-notes.md:78): «11. **Session note — the round's guard is C-0290's closed-overlay test, not N-55 (5) (1)'s \"no open frame of this» — read it whole; the inventory's evidence: note 11; C-0290",
+     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
+    },
+    {
+     "line": "13 (plat/docs/build/checks/M0-a-16-notes.md:108): value returned through a kernel that did not open the batch is not re-stamped at commit (PLAUSIBLE, debug-only fail-loud): pin, or route the stamp through the transaction",
+     "evidence": "the source note 13 (plat/docs/build/checks/M0-a-16-notes.md:108): «13. **KI (PLAUSIBLE, reasoning only) — a value a writer returns through a kernel that did not open the batch is not» — read it whole; the inventory's evidence: note 13",
+     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
+    },
+    {
+     "line": "14 (plat/docs/build/checks/M0-a-16-notes.md:113): in-batch stamp after a cross-commit restore unpinned (M22): in stamps.test Q38 block assert current and generation 1 inside the next batch",
+     "evidence": "the source note 14 (plat/docs/build/checks/M0-a-16-notes.md:113): «14. **KI (closing check s2, `check/M0-a-16-close-s2`; M4) — the in-batch stamp after a cross-commit restore has no» — read it whole; the inventory's evidence: note 14",
+     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
+    },
+    {
+     "line": "16 (plat/docs/build/checks/M0-a-16-notes.md:227): stampNow key copy unpinned (X14): expect stampOf(r).key not toBe p.key; mutating it leaves p.key unchanged",
+     "evidence": "the source note 16 (plat/docs/build/checks/M0-a-16-notes.md:227): «16. **KI (closing check C1; M4) — `stampNow`'s \"a copy of its key\" has no pin.** Own mutant X14 (`stampNow` returns» — read it whole; the inventory's evidence: note 16",
+     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
+    },
+    {
+     "line": "17 (plat/docs/build/checks/M0-a-16-notes.md:235): generation message tail unpinned (X19) — the second copy of assertStamp's text: pin the whole text or compare with the arena's after prefixes",
+     "evidence": "the source note 17 (plat/docs/build/checks/M0-a-16-notes.md:235): «17. **KI (closing check C1; M4; with note 15) — the generation message's tail is not pinned.** Own mutant X19 (the» — read it whole; the inventory's evidence: note 17",
+     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
+    },
+    {
+     "line": "18 (plat/docs/build/checks/M0-a-16-notes.md:243): foreign-arena writer message arena name unpinned (KN7): pin the whole text (K05, N11e equivalent)",
+     "evidence": "the source note 18 (plat/docs/build/checks/M0-a-16-notes.md:243): «18. **KI (closing check C1, resumed seat; M4) — the foreign-arena writer message's arena name is not pinned.** Own» — read it whole; the inventory's evidence: note 18",
+     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
+    }
+   ]
+  },
+  {
+   "id": "M0-d-04",
+   "from": 2,
+   "round": "S2",
+   "session": "This round was opened by the SESSION as M0-d-04's HARDENING ROUND (J237 (2): the M0 hardening phase's fix rounds, batched per owning item; the owner 2026-10-07: 'make sure you do the hardening phase for m0 before m1'), on the FIX-NOW rows the hardening inventory (plat/docs/build/checks/hardening-inventory.md, lane session/hardening-inventory-1, landed J355) assigns to this item: M0-d-04:152 N-c1-3, M0-d-04:181 N-c1-6, M0-d-04:188 N-c1-7 — and, FIRST, the 11 line(s) the session adds for the refusal census's classes and the design rulings (plat/docs/build/checks/refusal-census.md; rulings-hardening-1.md; N-61). Each 'failing line' below is one inventory row — its id names the SOURCE NOTE (the checks/M0-*-notes.md file and line) you MUST read whole before fixing; the inventory's fix shape is the session's reading of that note, binding unless the note or the code shows it wrong — then say so in your notes and do what the note's finding needs. The queue rows this round also takes (docs/M0-FIX-QUEUE.md): L30 (with M0-m-01). THE RULES OF A HARDENING ROUND: (1) inside the item's owns and nowhere else — a row that needs another item's file is REPORTED, not built; (2) every row gets a PIN (a test that is red without the fix; your mutant table shows each pin killing its mutant) unless the row is comment-only or asks for a choices row — then the text is the deliverable; (3) BEHAVIOUR: a hardening fix may move output where a defect is fixed — a DECLARED shift, stated in your choices row with the before and after (digests and goldens re-recorded in the same round, named), never silent; where a row offers alternatives, take the one the design's text supports and say which; a change of an operation's or stage's CONTRACT (its design-level behaviour, a record or file format, an exported API) is NOT yours — report it as a note for the session's ruling and leave the row at REPORTED; (4) J264 / N-58: the refusal census of the item's registered families before and after the round, never rising (a row whose fix makes a lawful input succeed lowers it and says so); (5) API frozen (J263 Q1): no export of a folder index or the barrel added, removed or renamed unless a row explicitly asks for one — then the index change is the row's and stated; message texts pinned verbatim where a row changes one (J263 Q6); (6) the gates, NEAR and RELATED@1000 as the brief above says, at W=1; (7) the item's notes file gains a section 'Hardening round S2' with the row-by-row outcome (fixed / pinned / reported, each with its evidence and mutant), and the round's choices row names every row it closes. The CLOSING CHECKER confirms every row's outcome with its own evidence (re-reading the source note and the inventory row), re-kills every pin's mutant, re-measures the refusal census, and judges new findings by the blocker rule only; a row left REPORTED with a stated contract reason is not a failing line. RULINGS OF THE RE-TRIAGE (J423, vetoable; docs/validation/hardening-retriage-2026-10-19/B2.md, plan.md §4): N-6 (the face sort-key uniqueness assert, one line) is KEPT in this round; N-16 (C-0308 (2)'s cost claim — a counter on ModelDigest) is DEFERRED to M4 with the timing record — REPORT ONLY: confirm its state with evidence, build nothing for it; every other row above is STILL-OPEN and this round's.",
+   "lines": [
+    {
+     "line": "1 (M0-d-04-notes.md:6; STILL-OPEN per the re-triage, not a FIX-NOW row in the inventory's own list): 1. **N-1 `digestLeaf`'s signature.** M0-work.json lists `digestLeaf(record)`. The code has",
+     "evidence": "M0-d-04-notes.md:6; docs/validation/hardening-retriage-2026-10-19/plan.json rowsLeft",
+     "required_change": "as the row says, inside the item's owns"
+    },
+    {
+     "line": "2 (M0-d-04-notes.md:10; STILL-OPEN per the re-triage, not a FIX-NOW row in the inventory's own list): 2. **N-2 Reach paths the oracle shows redundant.** Four mutants survived the fuzz, removal and regression sequences:",
+     "evidence": "M0-d-04-notes.md:10; docs/validation/hardening-retriage-2026-10-19/plan.json rowsLeft",
+     "required_change": "as the row says, inside the item's owns"
+    },
+    {
+     "line": "3 (M0-d-04-notes.md:16; STILL-OPEN per the re-triage, not a FIX-NOW row in the inventory's own list): 3. **N-3 The chain item's entity.** Mutant K12 (the entity dropped from the chain item's lanes) survived. The entity",
+     "evidence": "M0-d-04-notes.md:16; docs/validation/hardening-retriage-2026-10-19/plan.json rowsLeft",
+     "required_change": "as the row says, inside the item's owns"
+    },
+    {
+     "line": "5 (M0-d-04-notes.md:22; STILL-OPEN per the re-triage, not a FIX-NOW row in the inventory's own list): 5. **N-5 Naming records.** No test changes a naming record and checks that the records digest moves. It does, since the",
+     "evidence": "M0-d-04-notes.md:22; docs/validation/hardening-retriage-2026-10-19/plan.json rowsLeft",
+     "required_change": "as the row says, inside the item's owns"
+    },
+    {
+     "line": "9 (M0-d-04-notes.md:32; STILL-OPEN per the re-triage, not a FIX-NOW row in the inventory's own list): 9. **N-9 `isOwnChild`'s silent exclusion.** An own child that is also owned differently from its parent is kept in. A",
+     "evidence": "M0-d-04-notes.md:32; docs/validation/hardening-retriage-2026-10-19/plan.json rowsLeft",
+     "required_change": "as the row says, inside the item's owns"
+    },
+    {
+     "line": "10 (M0-d-04-notes.md:34; STILL-OPEN per the re-triage, not a FIX-NOW row in the inventory's own list): 10. **N-10 Test-name precision.** \"the oracle catches a stale leaf\" catches a stale model leaf only. B-1's test will add",
+     "evidence": "M0-d-04-notes.md:34; docs/validation/hardening-retriage-2026-10-19/plan.json rowsLeft",
+     "required_change": "as the row says, inside the item's owns"
+    },
+    {
+     "line": "12 (M0-d-04-notes.md:44; STILL-OPEN per the re-triage, not a FIX-NOW row in the inventory's own list): 12. **N-12 A chain's x coordinates.** Probe mutant K13x (`W.i32(0).i32(q[i])`, so a chain point's x is written as 0)",
+     "evidence": "M0-d-04-notes.md:44; docs/validation/hardening-retriage-2026-10-19/plan.json rowsLeft",
+     "required_change": "as the row says, inside the item's owns"
+    },
+    {
+     "line": "13 (M0-d-04-notes.md:49; STILL-OPEN per the re-triage, not a FIX-NOW row in the inventory's own list): 13. **N-13 A hole's geometry, beyond its presence.** Probe mutant K16c wrote each hole ring as its length only",
+     "evidence": "M0-d-04-notes.md:49; docs/validation/hardening-retriage-2026-10-19/plan.json rowsLeft",
+     "required_change": "as the row says, inside the item's owns"
+    },
+    {
+     "line": "14 (M0-d-04-notes.md:53; STILL-OPEN per the re-triage, not a FIX-NOW row in the inventory's own list): 14. **N-14 A face's kind at the model leaf.** K11 (the face kind written as 0) is now killed by the kernel test, as",
+     "evidence": "M0-d-04-notes.md:53; docs/validation/hardening-retriage-2026-10-19/plan.json rowsLeft",
+     "required_change": "as the row says, inside the item's owns"
+    },
+    {
+     "line": "15 (M0-d-04-notes.md:62; STILL-OPEN per the re-triage, not a FIX-NOW row in the inventory's own list): 15. **N-15 `ModelDigest.layer()`'s restore sync is unpinned (mutant M6).** C-0305 (2) names `layer` among the reads",
+     "evidence": "M0-d-04-notes.md:62; docs/validation/hardening-retriage-2026-10-19/plan.json rowsLeft",
+     "required_change": "as the row says, inside the item's owns"
+    },
+    {
+     "line": "6 N-6 (M0-d-04-notes.md:24; KEPT by the re-triage): 6. **N-6 The face sort key's ties.** Bucket items with equal `rank` keep their Map insertion order. The key is total for",
+     "evidence": "M0-d-04-notes.md:24; plan.md §4",
+     "required_change": "the one-line visibility assert as the row says"
+    },
+    {
+     "line": "N-c1-3 (plat/docs/build/checks/M0-d-04-notes.md:152): records root partition lane and node/layer/root writer lane forms have no golden — persisted roots unpinned (A12, X15): roots golden on syntheticCity(1)'s model and records roots, plus unit pins of writeHash128 lane order and sameHash",
+     "evidence": "the source note N-c1-3 (plat/docs/build/checks/M0-d-04-notes.md:152): «N-c1-3. **The records root's partition lane has no golden** (CONFIRMED survivor A12, and A12b on the pre-round» — read it whole; the inventory's evidence: N-c1-3; N-c1-8",
+     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
+    },
+    {
+     "line": "N-c1-6 (plat/docs/build/checks/M0-d-04-notes.md:181): plats node's level-4 lane unpinned (X22; fuzz writes L1-L3): pin that an L4 commit moves the model root and the plats layer",
+     "evidence": "the source note N-c1-6 (plat/docs/build/checks/M0-d-04-notes.md:181): «N-c1-6. **The plats node's level-4 lane is unpinned** (mutant X22, PLAUSIBLE equivalent on the item's families). In» — read it whole; the inventory's evidence: N-c1-6",
+     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
+    },
+    {
+     "line": "N-c1-7 (plat/docs/build/checks/M0-d-04-notes.md:188): subtree oracle's identity comparison unpinned (X25): stale tombstone/event block under subtreeOracle names identity",
+     "evidence": "the source note N-c1-7 (plat/docs/build/checks/M0-d-04-notes.md:188): «N-c1-7. **The subtree oracle's identity comparison is unpinned** (mutant X25; its twin X25b also survives on the» — read it whole; the inventory's evidence: N-c1-7",
+     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
+    }
+   ]
+  },
+  {
+   "id": "M0-d-08",
+   "from": 1,
+   "round": "S1",
+   "session": "This round was opened by the SESSION as M0-d-08's HARDENING ROUND (J237 (2): the M0 hardening phase's fix rounds, batched per owning item; the owner 2026-10-07: 'make sure you do the hardening phase for m0 before m1'), on the FIX-NOW rows the hardening inventory (plat/docs/build/checks/hardening-inventory.md, lane session/hardening-inventory-1, landed J355) assigns to this item: M0-d-08:10 N-1, M0-d-08:11 N-2, M0-d-08:12 N-3, M0-d-08:13 N-4, M0-d-08:14 N-5, M0-d-08:15 N-6, M0-d-08:16 N-7, M0-d-08:17 N-8, M0-d-08:19 N-10, M0-d-08:20 N-11, M0-d-08:22 N-13. Each 'failing line' below is one inventory row — its id names the SOURCE NOTE (the checks/M0-*-notes.md file and line) you MUST read whole before fixing; the inventory's fix shape is the session's reading of that note, binding unless the note or the code shows it wrong — then say so in your notes and do what the note's finding needs. THE RULES OF A HARDENING ROUND: (1) inside the item's owns and nowhere else — a row that needs another item's file is REPORTED, not built; (2) every row gets a PIN (a test that is red without the fix; your mutant table shows each pin killing its mutant) unless the row is comment-only or asks for a choices row — then the text is the deliverable; (3) BEHAVIOUR: a hardening fix may move output where a defect is fixed — a DECLARED shift, stated in your choices row with the before and after (digests and goldens re-recorded in the same round, named), never silent; where a row offers alternatives, take the one the design's text supports and say which; a change of an operation's or stage's CONTRACT (its design-level behaviour, a record or file format, an exported API) is NOT yours — report it as a note for the session's ruling and leave the row at REPORTED; (4) J264 / N-58: the refusal census of the item's registered families before and after the round, never rising (a row whose fix makes a lawful input succeed lowers it and says so); (5) API frozen (J263 Q1): no export of a folder index or the barrel added, removed or renamed unless a row explicitly asks for one — then the index change is the row's and stated; message texts pinned verbatim where a row changes one (J263 Q6); (6) the gates, NEAR and RELATED@1000 as the brief above says, at W=1; (7) the item's notes file gains a section 'Hardening round S1' with the row-by-row outcome (fixed / pinned / reported, each with its evidence and mutant), and the round's choices row names every row it closes. The CLOSING CHECKER confirms every row's outcome with its own evidence (re-reading the source note and the inventory row), re-kills every pin's mutant, re-measures the refusal census, and judges new findings by the blocker rule only; a row left REPORTED with a stated contract reason is not a failing line. The re-triage of 2026-10-19 (docs/validation/hardening-retriage-2026-10-19/B3.md, plan.md) judged every row above STILL-OPEN against the tree as it stands; no row of this item is deferred.",
+   "lines": [
+    {
+     "line": "N-1 (plat/docs/build/checks/M0-d-08-notes.md:10): renumberSlots role-row permutation unpinned (C21): assert a live role row moves and its content lands at maps.role[row]",
+     "evidence": "the source note N-1 (plat/docs/build/checks/M0-d-08-notes.md:10): «| N-1 | `renumberSlots` permutes the role-row slots (C-0199 (2); the renumber test's title says \"role row\"), but no test can fail when it does not: C21 (`rMap` the identity) survives. The item's own list is vertex, half-edge and face slots, so this is off the item's stated promise. | `C21 SURVIVED rc=0 Tests 36 passed (36) :: role rows not permuted`. | M4: assert that some live role row moves (as the test already does for vertices) and that each row's content lands at `maps.role[row]`. |» — read it whole; the inventory's evidence: N-1; C-0199 (2)",
+     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
+    },
+    {
+     "line": "N-2 (plat/docs/build/checks/M0-d-08-notes.md:11): recordPrint sorts demoted edges, so the record's own order (C-0185 (17)) is not compared (K11): print in record order; fixture demoting two edges in one batch",
+     "evidence": "the source note N-2 (plat/docs/build/checks/M0-d-08-notes.md:11): «| N-2 | `recordPrint` sorts the demoted edges (`r.demoted.edges.map(...).sort()`), so the record's own demoted-edge order (C-0185 (17)) is not compared, although C-0199 (1) says the record's orders are compared. Kernel mutant K11 (demoted edges in slot order) survives; no fixture may demote two edges in one batch, so the sort may also hide nothing today. | `print.ts:320`; `K11 SURVIVED rc=0 Tests 36 passed (36)`. | M4: print the demoted edges in the record's order, and add a fixture that demotes two edges in one ba…» — read it whole; the inventory's evidence: N-2; print.ts:320",
+     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
+    },
+    {
+     "line": "N-3 (plat/docs/build/checks/M0-d-08-notes.md:12): kernel slot-order mutants K06/K07/K08/K10 unreached: constructive fixtures with two promotions in one batch, an equal-length merge, a multi-role batch; re-run",
+     "evidence": "the source note N-3 (plat/docs/build/checks/M0-d-08-notes.md:12): «| N-3 | Kernel slot-order mutants that the bars do not reach: K06 (the record's promoted / unflagged / moved vertex lists in slot order), K07 (a face region's pairs in slot order, `faces/common.ts:117`), K08 (mergeFaces' equal-length tie by face slot, `faces/merge.ts:134`), K10 (the record's role keys left in collection order). They need a batch with two or more such vertices, a merge between two equal-length candidates, or several role keys whose collection order differs from rule 7's; the constructive set's leadi…» — read it whole; the inventory's evidence: N-3",
+     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
+    },
+    {
+     "line": "N-4 (plat/docs/build/checks/M0-d-08-notes.md:13): constructive sequences take only leading insertChain steps (six cases' later inserts, incl. slot-reuse, never run; no partition rebuild): interpret rebuildPartitions and later steps",
+     "evidence": "the source note N-4 (plat/docs/build/checks/M0-d-08-notes.md:13): «| N-4 | The constructive sequences take only a case's leading `insertChain` steps (C-0199 (3)); five cases insert again after another step, so their later insertions — among them the slot-reuse cases — never run under renumbering: `index/slot-reuse-stage`, `index/slot-reuse-districts`, `index/l3-order-after-l4`, `remove/tjunction-profiled-spine`, `limit/data-stale-slot`, `fix/tunnel-corridor`. The constructive arenas also never rebuild a static partition, so their indexes hold only grid items. | Probe P2 (census of…» — read it whole; the inventory's evidence: N-4; C-0199 (3)",
+     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
+    },
+    {
+     "line": "N-5 (plat/docs/build/checks/M0-d-08-notes.md:14): geom/cut-through-vertex: harness locates the face at the cut's midpoint (a vertex) and throws in the harness: take an interior point off the cut",
+     "evidence": "the source note N-5 (plat/docs/build/checks/M0-d-08-notes.md:14): «| N-5 | For `geom/cut-through-vertex` the harness's next op throws in the harness, not in the kernel: `constructive.ts` locates the face at the cut's middle point, which in this case is the face's vertex, so `faceHolding` throws and the outcome is `threw` plus the arena; the case's own expectation (a refusal, `E_NOT_TWO_CROSSINGS`) is never reached. | P2: `NONCOMMIT 1 geom/cut-through-vertex #1 next splitFace face by cut threw`. | M4: take an interior point off the cut (the case's `points` or a point beside the cut…» — read it whole; the inventory's evidence: N-5",
+     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
+    },
+    {
+     "line": "N-6 (plat/docs/build/checks/M0-d-08-notes.md:15): M0-a-07's inline declared fixture and pinVertices/connectHole/absorbSliver not in partitionerSequence: add them",
+     "evidence": "the source note N-6 (plat/docs/build/checks/M0-d-08-notes.md:15): «| N-6 | \"Every declared-form fixture of M0-a-07\" is read as two batches the harness builds (C-0199 (3)); M0-a-07's one inline declared fixture (`kernel/test/faces/claim.test.ts`, \"a declared batch of a split and a pin commits\": `opPinVertices` + `opSplitFace`) and the ops `pinVertices`, `connectHole` and `absorbSliver` are not among them. The kernel passes them: probe P3 ran that fixture and a declared `connectHole` + `splitFace` batch through `permutationCompare` (16 orders) and `runTwiceCompare`. | P3: `PERM {\"pe…» — read it whole; the inventory's evidence: N-6",
+     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
+    },
+    {
+     "line": "N-7 (plat/docs/build/checks/M0-d-08-notes.md:16): declared form permuted only on a-06/a-07 fixtures: issue each constructive case's same-level chains also as one declared batch and permute it",
+     "evidence": "the source note N-7 (plat/docs/build/checks/M0-d-08-notes.md:16): «| N-7 | The exit bar's words \"op-order determinism … over the constructive set\" are met by the callback issue order (`runTwiceCompare` on every constructive arena); the declared form is permuted only on M0-a-06's and M0-a-07's fixtures, which is how M0.md §1 (a) splits the bar (\"the declared form at M0-a-06, the callback issue order and slot-renumbering identity at M0-d-08\"). A declared-batch permutation over the constructive set's same-level chains would reach the coincident and overlapping degeneracies that attra…» — read it whole; the inventory's evidence: N-7",
+     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
+    },
+    {
+     "line": "N-8 (plat/docs/build/checks/M0-d-08-notes.md:17): outcomePrint prints a refusal by code alone (a refused last batch's arena never compared): append the arena print",
+     "evidence": "the source note N-8 (plat/docs/build/checks/M0-d-08-notes.md:17): «| N-8 | `outcomePrint` prints a refusal by its code alone and no arena, so a refused last batch of a sequence never has its arena compared (a refusal must leave the arena at its version, §2.2 rule 8; an earlier refusal is seen through the next batch's arena). | `print.ts:334`. | M4: append the arena print to a refusal's outcome. |» — read it whole; the inventory's evidence: N-8",
+     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
+    },
+    {
+     "line": "N-10 (plat/docs/build/checks/M0-d-08-notes.md:19): permutationCompare first-divergence break unpinned (V02): control diverging in the reversal only",
+     "evidence": "the source note N-10 (plat/docs/build/checks/M0-d-08-notes.md:19): «| N-10 | (closing check, lane `check/M0-d-08-close-r1`) `permutationCompare` stops at the first diverging variant (`if (divergence !== null) break;`), but no test pins it: without the `break` the report keeps only the LAST variant's comparison, so a fault that diverges in some orders and not in the last would read `identical: true`. The control's fault (issue-order apply) diverges in nearly every order of the crowded batches, so the mutant passes. The true code is right. | Mutant V02 (`permute.ts` the `break` remov…» — read it whole; the inventory's evidence: N-10",
+     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
+    },
+    {
+     "line": "N-11 (plat/docs/build/checks/M0-d-08-notes.md:20): random permutation variants not asserted distinct (V04): assert pairwise-distinct orders",
+     "evidence": "the source note N-11 (plat/docs/build/checks/M0-d-08-notes.md:20): «| N-11 | (closing check) No test asserts that `permutationCompare`'s random orders differ from one another: with every random variant drawn from one seed the bar and the control still pass. The true code draws `seed + 1000 × (k + 1)` per variant. | Mutant V04 (`permutedSequence(seq, seed, 'random')` for every k): `V04 SURVIVED rc=0 Tests 42 passed (42)`. | M4: assert that the variants' op orders for one batch are pairwise distinct (or that `count` random orders give `count` distinct permutations on a batch of 6 ops…» — read it whole; the inventory's evidence: N-11",
+     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
+    },
+    {
+     "line": "N-13 (plat/docs/build/checks/M0-d-08-notes.md:22): a nothing outcome without its arena print passes (V09): print test that it changes when the arena does",
+     "evidence": "the source note N-13 (plat/docs/build/checks/M0-d-08-notes.md:22): «| N-13 | (closing check) A `nothing` outcome (a batch that wrote nothing) without its arena print passes every test; like N-8 for refusals, an arena the batch should have left as it was is then compared only through the next batch's outcome, and not at all when it is the sequence's last batch. | Mutant V09 (`return 'nothing';`): `V09 SURVIVED rc=0 Tests 42 passed (42)`. | M4, with N-8: a print test that `outcomePrint` of a `nothing` result changes when the arena does. |» — read it whole; the inventory's evidence: N-13; with N-8",
+     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
     }
    ]
   }
