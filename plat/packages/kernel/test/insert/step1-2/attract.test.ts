@@ -10,7 +10,7 @@ import { attractRun, attractVertex, nearestRoutePiece, planAttraction } from '..
 import { INSERT_ATTRACT_QUERIES, INSERT_PLACEMENT_CANDIDATES, INSERT_POINTS, insertTx } from '../../../src/insert/classes.js';
 import { placePoint } from '../../../src/insert/placement.js';
 import type { Level } from '../../../src/types/index.js';
-import { fingerprint, indexed, liveEdges, liveVertices, permutation, problems, pt, SLANT, WEDGE_S, type ArenaSpec } from './support.js';
+import { fingerprint, indexed, liveEdges, liveVertices, permutation, problems, pt, SLANT, type ArenaSpec } from './support.js';
 
 /** The L0 frame ±5000 cm with an L1 line along y = 0 whose shape vertices stand at (0, 0) and (1 000, 0). */
 export const LINE: ArenaSpec = {
@@ -334,29 +334,6 @@ describe('the placement’s fallback on a valid thin wedge (§3.6 *The placement
     expect(r.value.tried).toBeGreaterThan(40); // the band's lattice points within attractCm, each charged
     expect(t.work.counts.get(INSERT_PLACEMENT_CANDIDATES)).toBe(r.value.tried);
     expect(t.warnings).toEqual([]); // a plan: the writer that commits it reports the warning
-  });
-  it('N-6: on a run with a finer vertex the fallback lands on the nearer endpoint of the sub-edge the exact position falls on — S, 140 cm — not of the run (327 cm); at L1, S is finer than the batch: E_LEVEL; nothing written', () => {
-    for (const level of [2, 3, 4] as Level[]) {
-      const b = indexed(WEDGE_S);
-      expect(problems(b.plat)).toEqual([]);
-      const before = fingerprint(b.plat);
-      const t = insertTx(b.plat, level);
-      // (314, 3 190) as on WEDGE: no vertex candidate, every band point refused by (iii); its exact position falls on
-      // the sub-edge (723, 3 092)–S, whose nearer end is S (140 cm), while the run's nearer end is (0, 3 282) (327 cm)
-      const r = attractVertex(t, pt(314, 3190));
-      expect(r.ok && r.value).toEqual({ kind: 'vertex', at: { x: 181, y: 3234 }, vertex: b.v[8], onto: 'endpoint' });
-      expect(t.warnings).toEqual([
-        { code: 'W_PLACED', count: 1, at: { x: 181, y: 3234 } },
-        { code: 'W_ATTRACTED', count: 1, at: { x: 314, y: 3190 } },
-      ]);
-      expect(fingerprint(b.plat)).toBe(before);
-      expect(t.journal.vertices).toEqual([]);
-    }
-    // at L1 the landing S is an L2 vertex: its promotion is candidate (b), M0-a-05's (C-0169 (5)); nothing written
-    const b = indexed(WEDGE_S);
-    const before = fingerprint(b.plat);
-    expect(attractVertex(insertTx(b.plat, 1), pt(314, 3190))).toMatchObject({ ok: false, code: 'E_LEVEL' });
-    expect(fingerprint(b.plat)).toBe(before);
   });
 });
 

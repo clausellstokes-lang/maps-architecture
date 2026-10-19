@@ -182,20 +182,3 @@ export function degreeAt(p: Plat, x: number, y: number): number {
 export function lin(n: number, hi = 0): [number, number] {
   return [n >>> 0, hi >>> 0];
 }
-
-/**
- * fast-check's parameters for one of this folder's properties: a fixed seed per property (queue L10, hardening round S7:
- * an unseeded `fc.assert` draws other cases each run, so a count read off a run is noise), derived from its name by
- * FNV-1a; PLAT_FUZZ_SEED, when set, replaces it (the replay contract of tools/vitest/fast-check.setup.mjs, C-0057). The
- * run count stays the global PLAT_FUZZ_RUNS.
- */
-export function seeded(name: string): { seed: number } {
-  const raw = process.env.PLAT_FUZZ_SEED;
-  if (raw !== undefined && raw !== '') return { seed: Number(raw) | 0 };
-  let h = 0x811c9dc5;
-  for (let i = 0; i < name.length; i++) {
-    h ^= name.charCodeAt(i);
-    h = Math.imul(h, 0x01000193) >>> 0;
-  }
-  return { seed: h | 0 };
-}

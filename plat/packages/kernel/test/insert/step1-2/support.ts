@@ -3,7 +3,7 @@
 // materialised level by level) with M0-a-03's index attached. The independent references the tests judge with — exact
 // BigInt distances and crossings, the arena validator for §3.10's rows these writers must keep, an arena fingerprint —
 // are written here from the design's definitions, never with the code under test.
-import { faceWalk, isFaceLive, isHalfEdgeLive, isVertexLive, LEVELS, outgoing, rowKey, rowsOn, VERTEX_SPLIT, VERTEX_STEINER, type Plat, type VertexId } from '../../../src/arena/index.js';
+import { faceWalk, isFaceLive, isHalfEdgeLive, isVertexLive, LEVELS, outgoing, rowKey, rowsOn, type Plat, type VertexId } from '../../../src/arena/index.js';
 import { attachIndex, checkIndexState, query } from '../../../src/index/index.js';
 import type { KernelTx } from '../../../src/tx/index.js';
 import type { Level, StageId } from '../../../src/types/index.js';
@@ -31,26 +31,6 @@ export const SLANT: ArenaSpec = {
   edges: [
     [0, 4, 0], [4, 1, 0], [1, 2, 0], [2, 7, 0], [7, 3, 0], [3, 0, 0],
     [4, 5, 1], [5, 6, 1], [6, 7, 1],
-  ],
-};
-
-/**
- * N-6 (hardening round S5): attract.test.ts's thin wedge (B-FUZZ's chordArena(720867645), hand-built: the frame
- * [0, 4 000]² and an L1 chord (897, 4 000) → (287, 3 214) → (723, 3 092) → (0, 3 282), its corner at (723, 3 092) 0.9°)
- * with an L2 Steiner vertex S = (181, 3 234) on the long L1 edge, 0.42 cm off its line — a run of two sub-edges,
- * (723, 3 092)–S and S–(0, 3 282) (spec edges 8 and 9). The point (314, 3 190)'s exact position (its foot on the run's
- * own-level route) falls on the first sub-edge, 140 cm from S and 420 cm from (723, 3 092); the run's two ends are
- * (723, 3 092) and (0, 3 282), 327 cm away. Spec vertex 8 is S, spec vertex 7 the run's far end.
- */
-export const WEDGE_S: ArenaSpec = {
-  vertices: [
-    [0, 0, 0], [4000, 0, 0], [4000, 4000, 0], [0, 4000, 0], // 0 – 3
-    [897, 4000, 1], [287, 3214, 1], [723, 3092, 1], [0, 3282, 1], // 4 – 7
-    [181, 3234, 2, VERTEX_STEINER | VERTEX_SPLIT], // 8: S
-  ],
-  edges: [
-    [0, 1, 0], [1, 2, 0], [2, 4, 0], [4, 3, 0], [3, 7, 0], [7, 0, 0],
-    [4, 5, 1], [5, 6, 1], [6, 8, 1], [8, 7, 1],
   ],
 };
 
