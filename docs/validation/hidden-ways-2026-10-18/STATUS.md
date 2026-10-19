@@ -1,4 +1,4 @@
-# STATUS — the hidden-ways design run (lanes hidden-ways/*; written by the autosave loop at 2026-10-19 06:36Z)
+# STATUS — the hidden-ways design run (lanes hidden-ways/*; written by the autosave loop at 2026-10-19 06:41Z)
 
 | lane | last line | state | the line |
 |---|---|---|---|
@@ -15,7 +15,7 @@
 | hidden-ways/judge-2 | 2026-10-19 01:43 | LANDED | 2026-10-19 01:43 hidden-ways/judge-2 LANDED docs/validation/hidden-ways-2026-10-18/judge-2.md (192 lines, md5 13f34f41): ranking B > C > A (38 / 35 / 34 of 45); all 222 fragments exact; the word trod unanimous and free,  |
 | hidden-ways/judge-3 | 2026-10-19 01:44 | LANDED | 2026-10-19 01:44 hidden-ways/judge-3 LANDED docs/validation/hidden-ways-2026-10-18/judge-3.md (203 lines, md5 04e717f2): ranking B, C, A (38/36/35 of 45); B wins on the trod record as a simulator product (a canon slot is |
 | hidden-ways/synthesis | 2026-10-19 02:14 | LANDED | 2026-10-19 02:14 hidden-ways/synthesis LANDED docs/validation/hidden-ways-2026-10-18/synthesis.md (51 lines, md5 74f5027c): the synthesis record — the decisions (word trod, kind goat/drove/broad, product not slot, toggle |
-| hidden-ways/critic | 2026-10-19 06:34 | CHECKPOINT | 2026-10-19 06:34 hidden-ways/critic CHECKPOINT readers x5 + judges x3 read; fragment script 110/110 PASS (after-md5s match synthesis-2); next: cited-line checks, research claims, join residues, then critic.md gaps + verd |
+| hidden-ways/critic | 2026-10-19 06:40 | LANDED | 2026-10-19 06:40 hidden-ways/critic LANDED docs/validation/hidden-ways-2026-10-18/critic.md (113 lines, md5 e68e1f1d): PASS-WITH-CORRECTIONS — 19 gaps, 6 major (G1 the step-0 'bottom word' rule collapses onto hidden unde |
 | hidden-ways/verify | 2026-10-19 06:27 | CHECKPOINT | 2026-10-19 06:27 hidden-ways/verify CHECKPOINT returned from disk (RESUME RULE J408: verify.md 58 lines md5 7a2f9101 matches the 03:15 LANDED; draft-w.fragments.json md5 6318f27d, draft-w.md md5 f4221a48 and all five liv |
 | hidden-ways/read-correction | 2026-10-19 06:23 | CHECKPOINT | 2026-10-19 06:23 hidden-ways/read-correction CHECKPOINT returned from disk (RESUME RULE: record docs/validation/hidden-ways-2026-10-18/read-correction.md, 299 lines, md5 a4b4be53, matches the 02:40 LANDED; not redone) |
 | hidden-ways/synthesis-2 | 2026-10-19 06:25 | CHECKPOINT | 2026-10-19 06:25 hidden-ways/synthesis-2 CHECKPOINT returned from disk (RESUME RULE J408: synthesis.md 101 lines md5 54b3e228, reply 642 lines md5 5339b70e, draft-w.md 1102 lines md5 f4221a48, draft-w.fragments.json 881  |
