@@ -1,4 +1,4 @@
-# STATUS — the hidden-ways design run (lanes hidden-ways/*; written by the autosave loop at 2026-10-19 02:34Z)
+# STATUS — the hidden-ways design run (lanes hidden-ways/*; written by the autosave loop at 2026-10-19 02:36Z)
 
 | lane | last line | state | the line |
 |---|---|---|---|
@@ -17,4 +17,4 @@
 | hidden-ways/synthesis | 2026-10-19 02:14 | LANDED | 2026-10-19 02:14 hidden-ways/synthesis LANDED docs/validation/hidden-ways-2026-10-18/synthesis.md (51 lines, md5 74f5027c): the synthesis record — the decisions (word trod, kind goat/drove/broad, product not slot, toggle |
 | hidden-ways/critic | 2026-10-19 02:19 | CHECKPOINT | 2026-10-19 02:19 hidden-ways/critic CHECKPOINT all inputs read (request, reply, draft-w, synthesis, 5 readers, 3 judges); next: fragment check of all 96, census, cited lines, arithmetic, clean-room grep, then critic.md g |
 | hidden-ways/verify | 2026-10-19 02:15 | LANDED | 2026-10-19 02:15 hidden-ways/verify LANDED docs/validation/hidden-ways-2026-10-18/verify.md (30 lines, md5 820b4e4e): draft-w.fragments.json 96/96 PASS — md5s, old once at line, apply in order, reversal byte-identical, i |
-| hidden-ways/read-correction | 2026-10-19 02:32 | CHECKPOINT | 2026-10-19 02:32 hidden-ways/read-correction CHECKPOINT §2 touched sentences written (reply, draft w items 955-969, synthesis §1.1/6/7/10); next: §3 facts for h1-h6, §4 readers |
+| hidden-ways/read-correction | 2026-10-19 02:34 | CHECKPOINT | 2026-10-19 02:34 hidden-ways/read-correction CHECKPOINT resumed from disk (CONTINUE RULE, §1-§2 kept); next: §3 facts h1-h6, §3b owner's word 2, §4 readers |
