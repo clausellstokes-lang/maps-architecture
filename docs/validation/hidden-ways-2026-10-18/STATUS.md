@@ -1,4 +1,4 @@
-# STATUS — the hidden-ways design run (lanes hidden-ways/*; written by the autosave loop at 2026-10-19 07:06Z)
+# STATUS — the hidden-ways design run (lanes hidden-ways/*; written by the autosave loop at 2026-10-19 07:08Z)
 
 | lane | last line | state | the line |
 |---|---|---|---|
@@ -22,4 +22,4 @@
 | hidden-ways/fix | 2026-10-19 06:51 | LANDED | 2026-10-19 06:51 hidden-ways/fix LANDED docs/HOST-REPLY-HIDDEN-WAYS-2026-10-18.md (660 lines, md5 1038a764): the reply fixed for G1-G3, G5-G7, G9, G10, G13, G16-G19 (bottom usable word throughout, the ladder's reading un |
 | hidden-ways/critic-2 | 2026-10-19 07:00 | LANDED | 2026-10-19 07:00 hidden-ways/critic-2 LANDED docs/validation/hidden-ways-2026-10-18/critic-2.md (81 lines, md5 12ed4ec7): PASS-WITH-CORRECTIONS — 8 gaps, 2 major (G1 the fork rule tests only s and never says which end of |
 | hidden-ways/verify-2 | 2026-10-19 06:52 | LANDED | 2026-10-19 06:52 hidden-ways/verify-2 LANDED docs/validation/hidden-ways-2026-10-18/verify-2.md (36 lines, md5 7278ff99): draft-w.fragments.json 113/113 PASS (md5s, old once at its stated line (all offset 0), md<->json b |
-| hidden-ways/fix-2 | 2026-10-19 07:03 | CHECKPOINT | 2026-10-19 07:03 hidden-ways/fix-2 CHECKPOINT critic-2 read whole, pre-fix copies taken (draft-w-prefix2.md, -prefix2.fragments.json, reply-prefix2.md); next: read the eight places, write synth-scripts/fix_w2.py |
+| hidden-ways/fix-2 | 2026-10-19 07:07 | CHECKPOINT | 2026-10-19 07:07 hidden-ways/fix-2 CHECKPOINT synth-scripts/fix_w2.py written and run (G1-G8, 9 fragments revised, 971 (g) added: 114); next: check_json.py, verify_w2.py, exact-line check, md<->json, residue greps |
