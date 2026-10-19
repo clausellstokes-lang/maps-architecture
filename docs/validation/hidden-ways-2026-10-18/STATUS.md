@@ -1,4 +1,4 @@
-# STATUS — the hidden-ways design run (lanes hidden-ways/*; written by the autosave loop at 2026-10-19 01:42Z)
+# STATUS — the hidden-ways design run (lanes hidden-ways/*; written by the autosave loop at 2026-10-19 01:47Z)
 
 | lane | last line | state | the line |
 |---|---|---|---|
@@ -11,6 +11,7 @@
 | hidden-ways/design-A | 2026-10-19 01:28 | CHECKPOINT | 2026-10-19 01:28 hidden-ways/design-A CHECKPOINT returned from disk (design-A.md 1054 lines md5 514bf0f8, design-A.fragments.json 82 fragments md5 f14addb2, LANDED at lane-events.log:9884); next: return the record's inde |
 | hidden-ways/design-B | 2026-10-19 01:28 | CHECKPOINT | 2026-10-19 01:28 hidden-ways/design-B CHECKPOINT returned from disk (record docs/validation/hidden-ways-2026-10-18/design-B.md 1869 lines, md5 4c065380; fragments 74, md5 84561cd0; LANDED 2026-10-18 23:11 at lane-events. |
 | hidden-ways/design-C | 2026-10-19 01:28 | CHECKPOINT | 2026-10-19 01:28 hidden-ways/design-C CHECKPOINT returned from disk (design-C.md 1260 lines, md5 6a1d232b, LANDED at lane-events.log:9882, unchanged; 66 fragments in design-C.fragments.json); next: none — index returned  |
-| hidden-ways/judge-1 | 2026-10-19 01:36 | CHECKPOINT | 2026-10-19 01:36 hidden-ways/judge-1 CHECKPOINT all three designs read and noted; next fragment check script, claim verification, scoring |
-| hidden-ways/judge-2 | 2026-10-19 01:33 | CHECKPOINT | 2026-10-19 01:33 hidden-ways/judge-2 CHECKPOINT all three designs read and noted; next: md5 + fragment exact-match check (all fragments, three JSONs), key-line verification, term census, then scoring |
-| hidden-ways/judge-3 | 2026-10-19 01:39 | CHECKPOINT | 2026-10-19 01:39 hidden-ways/judge-3 CHECKPOINT citations verified (research/sf, HRQ, V13/V14/base), word census done, 222 fragments script-checked (0 problems); next: score, grafts, errors, verdict; write judge-3.md |
+| hidden-ways/judge-1 | 2026-10-19 01:43 | LANDED | 2026-10-19 01:43 hidden-ways/judge-1 LANDED docs/validation/hidden-ways-2026-10-18/judge-1.md (140 lines, md5 2e802b7e): ranking B, C, A (39/39/38) — B wins the tie on law (1) untouched and the verified birth-canon gap ( |
+| hidden-ways/judge-2 | 2026-10-19 01:43 | LANDED | 2026-10-19 01:43 hidden-ways/judge-2 LANDED docs/validation/hidden-ways-2026-10-18/judge-2.md (192 lines, md5 13f34f41): ranking B > C > A (38 / 35 / 34 of 45); all 222 fragments exact; the word trod unanimous and free,  |
+| hidden-ways/judge-3 | 2026-10-19 01:44 | LANDED | 2026-10-19 01:44 hidden-ways/judge-3 LANDED docs/validation/hidden-ways-2026-10-18/judge-3.md (203 lines, md5 04e717f2): ranking B, C, A (38/36/35 of 45); B wins on the trod record as a simulator product (a canon slot is |
+| hidden-ways/synthesis | 2026-10-19 01:46 | CHECKPOINT | 2026-10-19 01:46 hidden-ways/synthesis CHECKPOINT started; record stub written; next: read judges 1-3 whole, STATUS.md, then design-B whole |

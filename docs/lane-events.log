@@ -10015,3 +10015,4 @@
 2026-10-19 01:46 a09-s9-spec/read-code CHECKPOINT started; next read kerb.ts whole
 2026-10-19 01:46 a09-s9-spec/read-records CHECKPOINT started; reading FIX-QUEUE, KNOWN-ISSUES, spec-notes
 2026-10-19 01:46 a09-s9-spec/session LAUNCHED workflow a09-s9-spec (wf_1ef8392c-19d; repository copy workflows/45-a09-s9-spec.js): the spec entry for M0-a-09 round S9 — Q18 the kerb read on the real arena's overlay, Q19 its closing bar, Q84 the harness — two Opus/high readers, a Fable/xhigh designer, a Fable/high critic, an Opus/high fix; records under docs/validation/a09-s9-spec-2026-10-19/; applies nothing (J412)
+2026-10-19 01:47 a09-s9-spec/read-records CHECKPOINT read FIX-QUEUE, KI, N-45/52/56, inventory §3, PROGRESS J264/J318/J348/J395/J411; next verdicts s6/s8, notes, design doc
