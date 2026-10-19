@@ -1,6 +1,6 @@
 # HANDOFF — town-generator research program
 
-## RUNNING NOW — 2026-10-18 ~20:50Z, RESUMED 2026-10-19 01:27Z after the window outage (J409) (account A: session_01Pamfi5DVq6FXQYDqJ6f6xV, Fable 5.1 at xhigh, the managing seat; branch `claude/great-galileo-b4mzbq`, draft PR #9 into main after PRs #7 and #8 merged at J404 and J406; J402)
+## RUNNING NOW — 2026-10-18 ~20:50Z, RESUMED 01:27Z (J409) and again 06:2xZ (J418) after the two window outages (account A: session_01Pamfi5DVq6FXQYDqJ6f6xV, Fable 5.1 at xhigh, the managing seat; branch `claude/great-galileo-b4mzbq`, draft PR #9 into main after PRs #7 and #8 merged at J404 and J406; J402)
 
 **RESUMED 01:27Z (J409).** The window exhausted ~23:20Z and reset 01:20Z. Done at the resume: the autosave loop restarted; the hidden-ways run relaunched fresh as wf_b86263a8-2b4 from workflows/44 (reads and designs LANDED before the kill and return from disk; judges, synthesis, critique running); the nine children messaged the J408 resume instruction with FROM = the killed round (U 8 check-only, Lb 9, Ob2 2, Tb 3, Qb 2 check-only, Ib 1, Mb 1 check-only, Sb 1 check-only, Cb 3) and the RELATED-reuse addition (a finished RELATED log is reused, never re-run). The per-child table below is the state at launch; each branch's newest lane line is the truth. Next: land each hand-back (a-09 first); review the reply and draft w when the run completes; the 01:55Z wake-up is the check-in.
 

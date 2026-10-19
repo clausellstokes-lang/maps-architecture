@@ -1,8 +1,8 @@
-# STATUS — the hidden-ways design run (lanes hidden-ways/*; written by the autosave loop at 2026-10-19 03:45Z)
+# STATUS — the hidden-ways design run (lanes hidden-ways/*; written by the autosave loop at 2026-10-19 06:23Z)
 
 | lane | last line | state | the line |
 |---|---|---|---|
-| hidden-ways/session | 2026-10-19 02:33 | RELAUNCHED | 2026-10-19 02:33 hidden-ways/session RELAUNCHED workflow hidden-ways-correction (workflows/46) with THE OWNER'S WORD 2 (J416: roads that join, fork or diverge, appropriately and organically — a route may end at a junctio |
+| hidden-ways/session | 2026-10-19 06:23 | RELAUNCHED | 2026-10-19 06:23 hidden-ways/session RELAUNCHED workflow hidden-ways-correction (workflows/46) after the second window outage (~03:20Z; the critic and verifier died on the session limit; synthesis-2 LANDED 03:0xZ: the re |
 | hidden-ways/read-v13-lenses | 2026-10-19 01:27 | CHECKPOINT | 2026-10-19 01:27 hidden-ways/read-v13-lenses CHECKPOINT returned from disk (record and LANDED line present; read-v13-lenses.md 418 lines, md5 01a9ccf4); next: none |
 | hidden-ways/read-v13-routes | 2026-10-19 01:26 | CHECKPOINT | 2026-10-19 01:26 hidden-ways/read-v13-routes CHECKPOINT returned from disk (record docs/validation/hidden-ways-2026-10-18/read-v13-routes.md, 403 lines, md5 075d50ae, LANDED earlier); no work redone |
 | hidden-ways/read-host | 2026-10-19 01:26 | CHECKPOINT | 2026-10-19 01:26 hidden-ways/read-host CHECKPOINT returned from disk (read-host.md 352 lines, md5 c63dedaf, LANDED 2026-10-18 22:42); no work redone |
