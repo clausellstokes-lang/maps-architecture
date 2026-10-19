@@ -10152,3 +10152,4 @@
 2026-10-19 06:27 hidden-ways/critic CHECKPOINT continued from disk (CONTINUE RULE: critic.md stub kept, no LANDED; prior reads lost with the window); next: re-read request/reply/synthesis/read-correction/draft-w/readers/judges, then the eleven checks
 2026-10-19 06:28 hidden-ways/critic CHECKPOINT corrected request + diff, reply (642), synthesis (101), read-correction (299) read whole; next: draft-w (1102) in four chunks, readers, judges, then checks
 2026-10-19 06:29 hidden-ways/critic CHECKPOINT draft-w (1102) read whole; next: readers x5, judges x3, fragment script over all 110, v1-survivor greps, cited-line checks
+2026-10-19 06:34 hidden-ways/critic CHECKPOINT readers x5 + judges x3 read; fragment script 110/110 PASS (after-md5s match synthesis-2); next: cited-line checks, research claims, join residues, then critic.md gaps + verdict
