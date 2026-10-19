@@ -1,5 +1,5 @@
+// The repository copy of the run launched at J412 (run wf_1ef8392c-19d, 2026-10-19 01:46Z): the spec entry for M0-a-09 round S9 (Q18/Q19/Q84), written by two readers, a designer, a critic and a fix seat; applies nothing. Relaunch fresh by the RESUME RULE in its CONTEXT.
 export const meta = {
-  // The repository copy of the run launched at J412 (run wf_1ef8392c-19d, 2026-10-19 01:49Z): the spec entry for M0-a-09 round S9 (Q18/Q19/Q84), written by two readers, a designer, a critic and a fix seat; applies nothing. Relaunch fresh by the RESUME RULE in its CONTEXT.
   name: 'a09-s9-spec',
   description: 'Write the spec entry for M0-a-09 round S9 (Q18 the kerb read on the real arena; Q19 its closing bar; Q84 the harness): two readers, a designer, a critic, a fix; applies nothing',
   phases: [{ title: 'Read' }, { title: 'Design' }, { title: 'Critique' }],
