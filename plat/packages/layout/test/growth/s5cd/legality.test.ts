@@ -8,6 +8,7 @@
 import { describe, expect, it } from 'vitest';
 import fc from 'fast-check';
 import { classRankOf, crossingMatrix, FeatureIndex, legal, streetOrigin, type Feature, type LegalityContext, type LegalityRules, type StepCandidate } from '../../../src/growth/legality.js';
+import { RAD_PER_CDEG } from '../../../src/growth/heading.js';
 import { growthRules } from '../../../src/growth/proposals.js';
 import { lineAngleDeg, P, properCross, segDist, tables } from './support.js';
 
@@ -27,6 +28,14 @@ function step(heading: number, extra: Partial<StepCandidate> = {}): StepCandidat
 
 const way = (a: { x: number; y: number }, b: { x: number; y: number }, cls: Feature['cls'] = 'primary', id = 'way:9'): Feature => ({ a, b, kind: 'way', way: id, cls });
 const DEG = Math.PI / 180;
+
+/** The next double above a positive x (its bit pattern + 1). */
+function nextUp(x: number): number {
+  const b = new DataView(new ArrayBuffer(8));
+  b.setFloat64(0, x);
+  b.setBigUint64(0, b.getBigUint64(0) + 1n);
+  return b.getFloat64(0);
+}
 
 describe('the clearance and its rules', () => {
   it('walled CITY: max(30 m block depth, 160 m / 2) + half a 6 m secondary = 83 m; ribbon (block scale): max(30, 30 / 2) + 3 = 33 m', () => {
@@ -434,6 +443,24 @@ describe('snap, bias and the T', () => {
     expect(behind.verdict === 'accept' && behind.ends === null).toBe(true);
   });
 
+  it('a junction a way runs through is never snapped to: the step meets the way there in a T (every junction S5c makes or reads is a vertex of a way)', () => {
+    const rules = { ...noBias, clearanceCm: () => 100 };
+    // junction:5 at the end of way:3, within the snap reach of the step's end as the free junction above: the way is met.
+    const end = legal(step(0), ctxOf([way(P(3_000, 1_000), P(3_000, 50_000), 'secondary', 'way:3')], rules, [{ id: 'junction:5', at: P(3_000, 1_000) }]));
+    expect(end.verdict).toBe('accept');
+    if (end.verdict === 'accept') {
+      expect(end.ends).toBe('T');
+      expect(end.meets).toBe('way:3');
+    }
+    // junction:6 at a vertex inside way:4 (two of its segments through it): the same.
+    const inner = legal(step(0), ctxOf([way(P(3_000, -50_000), P(3_000, 1_000), 'primary', 'way:4'), way(P(3_000, 1_000), P(3_000, 50_000), 'primary', 'way:4')], rules, [{ id: 'junction:6', at: P(3_000, 1_000) }]));
+    expect(inner.verdict).toBe('accept');
+    if (inner.verdict === 'accept') {
+      expect(inner.ends).toBe('T');
+      expect(inner.meets).toBe('way:4');
+    }
+  });
+
   it('destination bias: a spine within 1.5 steps ahead turns the step to it, ending in a T; beyond the reach, or with bias off, no turn', () => {
     const at = (x: number): Feature => way(P(x, -50_000), P(x, 50_000), 'primary', 'way:7');
     const v = legal(step(10 * DEG), ctxOf([at(4_400)]));
@@ -477,6 +504,20 @@ describe('the crossing matrix', () => {
     expect(classRankOf('through')).toBeGreaterThan(classRankOf('primary'));
     expect(classRankOf('primary')).toBeGreaterThan(classRankOf('secondary'));
     expect(classRankOf('secondary')).toBeGreaterThan(classRankOf('lane'));
+  });
+
+  it('the 6° limit to the bit: a turn of 600 · RAD_PER_CDEG crosses, the next double up stops in a T (heading.ts’s constant, never π ÷ 18 000)', () => {
+    const limit = 600 * RAD_PER_CDEG;
+    const up = nextUp(limit);
+    expect(up).toBeGreaterThan(limit);
+    // The two radians-per-centidegree doubles differ at 6° in the last bit, so the limit tells which one the matrix took.
+    expect(600 * (Math.PI / 18_000)).toBeLessThan(limit);
+    for (const m of [crossingMatrix('organic', 600), walled.matrix]) {
+      expect(m.act('secondary', 'secondary', limit)).toBe('cross');
+      expect(m.act('secondary', 'secondary', -limit)).toBe('cross');
+      expect(m.act('secondary', 'secondary', up)).toBe('T');
+      expect(m.act('secondary', 'secondary', -up)).toBe('T');
+    }
   });
 
   it('the regimes table states the 6°; ringed and american are M1’s', () => {
