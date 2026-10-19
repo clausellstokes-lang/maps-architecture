@@ -7,7 +7,7 @@ import type { WaterBody } from '@plat/model';
 import { rungProfile } from '@plat/tables';
 import { describe, expect, it } from 'vitest';
 import { terrainSampler, TOWN_ROOT } from '../../src/terrain/index.js';
-import { baseRivers, cellAt, HYDROLOGY_ROW, hydroField, riverStrategy, runRivers, type RiverReport } from '../../src/hydro/index.js';
+import { baseRivers, HYDROLOGY_ROW, hydroField, riverStrategy, runRivers, type RiverReport } from '../../src/hydro/index.js';
 import { centreX, centreY, hydroGridOver } from '../../src/terrain/index.js';
 import { SMALL, valley } from './fixtures.js';
 import { riverBp, siteContext, terrainFrom } from './support.js';
@@ -42,56 +42,6 @@ describe('baseRivers.rivers(bp, terrain, water, ctx, k) (§4.12)', () => {
     expect(Buffer.from(a.acc.buffer).equals(Buffer.from(b.acc.buffer))).toBe(true);
     expect(Buffer.from(a.rank.buffer).equals(Buffer.from(b.rank.buffer))).toBe(true);
     expect(Buffer.from(a.h.buffer).equals(Buffer.from(b.h.buffer))).toBe(true);
-  });
-
-  it("the cell under a point: hydro's cellAt divides through ratio where the sampler's flowAt multiplies by the reciprocal — on CITY's grid they differ a few ulps below 8 of its 63 column boundaries, measured, not assumed (site-plan §4; hardening round S1, L27 (b))", () => {
-    const t = terrainFrom(SMALL, valley);
-    const g = t.hydro;
-    expect([g.cellCm, g.cols, g.rows, g.originX, g.originY]).toEqual([2500, 64, 64, -80_000, -80_000]);
-    const n = g.cols * g.rows;
-    // flowAccum holds each cell's own index, so flowAt names the cell it reads.
-    const sampler = terrainSampler({ ...t, flowDir: new Uint8Array(n), flowAccum: Uint32Array.from({ length: n }, (_, c) => c) }, 250);
-    const bits = new Float64Array(1);
-    const word = new BigInt64Array(bits.buffer);
-    /** x moved m ulps (toward +∞ for m > 0); x ≠ 0. */
-    const ulps = (x: number, m: number): number => {
-      bits[0] = x;
-      word[0] += BigInt(x > 0 ? m : -m);
-      return bits[0];
-    };
-    const yMid = g.originY + 10.5 * g.cellCm;
-    const xMid = g.originX + 10.5 * g.cellCm;
-    const differ: number[][] = [];
-    for (let k = 1; k < 64; k += 1) {
-      const b = g.originX + k * g.cellCm;
-      if (b === 0) continue;
-      for (let m = -64; m <= 64; m += 1) {
-        const v = ulps(b, m);
-        const cx = cellAt(g, v, yMid);
-        const fx = sampler.flowAt({ x: v, y: yMid } as never).accum;
-        if (fx !== cx.j * 64 + cx.i) differ.push([0, k, m, cx.i, fx % 64]);
-        const cy = cellAt(g, xMid, v);
-        const fy = sampler.flowAt({ x: xMid, y: v } as never).accum;
-        if (fy !== cy.j * 64 + cy.i) differ.push([1, k, m, cy.j, Math.floor(fy / 64)]);
-      }
-    }
-    // [axis (0 x, 1 y), boundary k, ulps m, cellAt's column or row, flowAt's]: each a point an ulp or a few below a
-    // boundary that cellAt keeps in the lower cell and the reciprocal moves up — the same points on both axes (the grid
-    // is square). A unification of the two arithmetics changes this list: a declared shift, never an assumed equality.
-    const measured = [
-      [24, -2],
-      [25, -2],
-      [26, -5],
-      [26, -4],
-      [26, -3],
-      [48, -2],
-      [49, -2],
-      [50, -2],
-      [51, -2],
-      [52, -2],
-    ];
-    const expected = [0, 1].flatMap((axis) => measured.map(([k, m]) => [axis, k, m, k - 1, k]));
-    expect([...differ].sort((p, q) => p[0] - q[0] || p[1] - q[1] || p[2] - q[2])).toEqual(expected);
   });
 
   it('writes the terrain record: the hydro grid, flowDir (Uint8), flatRank and flowAccum (Uint32) on it; flowAt reads them', () => {

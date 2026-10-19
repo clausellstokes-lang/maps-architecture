@@ -284,6 +284,26 @@ describe('the raster family in its basic form', { timeout: 60_000 }, () => {
     }
   });
 
+  it('on a non-square frame its cols run across (x) and its rows along (y), each covering the raster\'s own extent', () => {
+    // Hardening S1, N-c1-1: every other resource test is square, so a grid with cols and rows swapped passed them.
+    const t = terrainOf(frame(0.4, 1.3), { relief: 'rolling' }, TOWN, [7, 7, 7, 7]).terrain;
+    expect(t.cols).toBeGreaterThan(t.rows);
+    expect(rasterGrid(t)).toEqual({ cellCm: t.cellCm, cols: t.cols, rows: t.rows, originX: t.originX, originY: t.originY });
+    const g = resourceGrid(t, TOWN);
+    const want = { cellCm: 3200, cols: Math.ceil((t.cols * t.cellCm) / 3200), rows: Math.ceil((t.rows * t.cellCm) / 3200), originX: t.originX, originY: t.originY };
+    expect(g).toEqual(want);
+    expect(g.cols).toBeGreaterThan(g.rows);
+    expect(g.originX + g.cols * g.cellCm).toBeGreaterThanOrEqual(t.originX + t.cols * t.cellCm);
+    expect(g.originY + g.rows * g.cellCm).toBeGreaterThanOrEqual(t.originY + t.rows * t.cellCm);
+    expect(g.originY + (g.rows - 1) * g.cellCm).toBeLessThan(t.originY + t.rows * t.cellCm);
+    const r = siteResources(t, terrainSampler(t, TOWN.slopeQueryCm), TOWN, { relief: 'rolling' }, streamFromKey([5, 5, 5, 5]));
+    if (!r.ok) throw new Error(`${r.code} ${r.detail}`);
+    const s = terrainSampler(t, TOWN.slopeQueryCm);
+    for (const [i, j] of [[g.cols - 1, 0], [0, g.rows - 1], [g.cols - 1, g.rows - 1]]) {
+      expect(r.value.slope[j * g.cols + i]).toBe(Math.fround(s.slopeAt(pt(centreX(g, i), centreY(g, j)))));
+    }
+  });
+
   it('every value lies in 0 … 1; stone is 1 on rock and slope ÷ ROCK_SLOPE below it; timber 1 − stone on land', () => {
     const m = maskOf();
     const r = resources({ relief: 'mountainous', water: m });

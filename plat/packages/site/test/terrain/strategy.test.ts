@@ -7,6 +7,7 @@ import { CONCERNS, fbm, noiseStream, streamFromKey } from '@plat/kernel';
 import type { Terrain } from '@plat/model';
 import { BASE_WAVELENGTH_M, baseTerrain, buildTerrain, GROUND_KEY, heightGrid, siteFrame, TERRAIN_ID, TOWN_ROOT, type TerrainBlueprint } from '../../src/terrain/index.js';
 import { rungProfile } from '@plat/tables';
+import { generatedLifecycle } from '../../src/terrain/heightfield.js';
 import { extremes, frame, noiseFor, paramsOf, pt, siteContext, TABLES, terrainOf } from './support.js';
 
 const BP: TerrainBlueprint = {
@@ -80,6 +81,36 @@ describe('baseTerrain.terrain(bp, ctx, k) (§4.12)', { timeout: 60_000 }, () => 
     expect(baseTerrain.terrain({ size: {}, site: { relief: 'alpine' as never } }, ctx(), undefined)).toEqual({ ok: false, code: 'E_OUT_OF_RANGE', detail: 'relief' });
     expect(baseTerrain.terrain({ size: {}, site: { relief: 'plain', baseElevationM: Number.NaN } }, ctx(), undefined)).toEqual({ ok: false, code: 'E_OUT_OF_RANGE', detail: 'datum' });
     expect(baseTerrain.terrain({ size: { aspect: 2.5 }, site: { relief: 'plain' } }, ctx(), undefined)).toEqual({ ok: false, code: 'E_OUT_OF_RANGE', detail: 'aspect' });
+  });
+
+  it('refuses a rung off the base ladder (the village rows are volume 7\'s) with `rung`, drawing no stream', () => {
+    // Hardening S1, L27 (a): the strategy's own rung refusal, held apart from the frame law's and the tables' refusals.
+    for (const rung of ['VILLAGE', 'HAMLET', 'THORP'] as const) {
+      const ctx = siteContext(1);
+      const off = { ...ctx, rung: { ...ctx.rung, rung: rung as never } };
+      expect(baseTerrain.terrain({ size: {}, site: { relief: 'plain' } }, off, undefined)).toEqual({ ok: false, code: 'E_OUT_OF_RANGE', detail: 'rung' });
+      expect(ctx.requests).toEqual([]);
+    }
+  });
+
+  it('gives every record a lifecycle of its own: a fresh, unfrozen object per call, never one shared per epoch', () => {
+    // Hardening S1, N-c1-2 and N-c1-6: later steps write on a record's lifecycle (§2.8), so no two records share one.
+    const a = generatedLifecycle(3);
+    const b = generatedLifecycle(3);
+    expect(a).toEqual({ existence: 'generated', flags: { locked: false, pinned: false, edited: false, assigned: false }, since: { epoch: 3, seq: 0 } });
+    expect(b).toEqual(a);
+    expect(b).not.toBe(a);
+    expect(b.flags).not.toBe(a.flags);
+    expect(b.since).not.toBe(a.since);
+    const s = run(5, { size: {}, site: { relief: 'plain' } }, 'TOWN', 3).t;
+    const u = run(6, { size: {}, site: { relief: 'plain' } }, 'TOWN', 3).t;
+    expect(u.lifecycle).toEqual(s.lifecycle);
+    expect(u.lifecycle).not.toBe(s.lifecycle);
+    for (const l of [a, s.lifecycle]) {
+      expect(Object.isFrozen(l)).toBe(false);
+      expect(Object.isFrozen(l.flags)).toBe(false);
+      expect(Object.isFrozen(l.since)).toBe(false);
+    }
   });
 });
 

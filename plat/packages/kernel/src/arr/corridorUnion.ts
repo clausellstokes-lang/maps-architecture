@@ -47,7 +47,6 @@ export function corridorUnion(o: Overlay, l1Faces: FaceRef | readonly FaceId[], 
       return idOf(p, h);
     },
     owner: null,
-    vertexContacts: true,
   });
 }
 

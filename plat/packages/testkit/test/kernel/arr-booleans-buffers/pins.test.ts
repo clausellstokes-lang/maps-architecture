@@ -1,8 +1,8 @@
 // M0-a-08's pinned agreement cases (§3.7 (i); C-0202 (5), C-0206): inputs that once broke the split agreement, judged
 // against both oracles through the same judge as the fuzzed runs, so each stays fixed whatever the run's seed draws.
-// * the offsetFace face of N-38's README (C-0202 (5): "the README offsetFace pin … is M0-a-08's to hold"): without §3.6
-//   step 4's wedge cap a strip side is wedge-routed through a sliver corner 11 km away (|Δ| 62.7 × 10⁶ cm² against a
-//   bound of 5.27 × 10⁶); with it, an attracted pass against both oracles with no wedge route;
+// * the offsetFace face of N-38's README (C-0202 (5): "the README offsetFace pin … is M0-a-08's to hold"): a strip side
+//   was wedge-routed through a sliver corner 11 km away before M0-a-05's wedge cap (|Δ| 62.7 × 10⁶ cm² against a bound
+//   of 5.27 × 10⁶); now an attracted pass against both oracles with no wedge route;
 // * the xor whose hole touches its outline inside an outline edge (C-0206 (1)): the face count compared 3 to 2
 //   at |Δ| 0 while the touch point was no vertex of the outline;
 // * the seven-chain ring of M0-a-05's router repro (N-37, N-41 (3)), whose seventh segment walks a retraced spur: its

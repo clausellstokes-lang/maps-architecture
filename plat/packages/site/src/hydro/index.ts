@@ -4,10 +4,9 @@
 // accumulation — and the river by descent: the inlet, the meandering Chaikin-smoothed course with its control knots,
 // the capped monotone carve, the corridor's D8 and one accumulation, the width law, the basic estuary, tributaries;
 // F-RIVER's carve / re-trace / inlet rungs, F-WORK's coarser grid and R12-5's `hydroCoarsen` switch. This index and
-// its folder are M0-e-02's. Its files also export, at file level, helpers shared by path inside `@plat/site`; they are
-// not part of the package's API and so are not listed here (J263 Q1): course.ts `segParam` (read by the water folder's
-// geometry.ts) and `cellIndexAt` (its outfalls.ts), `lengthQuotient`; field.ts `invOfCols`, `rowOf`; d8.ts `slopeKey`
-// (the last four read by this folder's files).
+// its folder are M0-e-02's. Its files also export, at file level, helpers for the sibling folders to import by path;
+// they are not part of the package's API and so are not listed here (J263 Q1): field.ts `invOfCols`, `rowOf`; d8.ts
+// `slopeKey`; course.ts `segParam`, `cellIndexAt`, `lengthQuotient`.
 export {
   cellCount,
   codeOf,

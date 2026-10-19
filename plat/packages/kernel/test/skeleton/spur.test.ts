@@ -1,12 +1,10 @@
-// M0-a-11 (C-0276, C-0283 and the hardening round S3's row): §3.8's pre-clean ("input is pre-cleaned by merging
-// collinear vertices and by dropping spurs") drops exact zero-width spurs — a vertex whose two neighbours are one
-// lattice point, the ring walking out along a segment and back along the same one (a dead-end street on a district
-// face) — with one of the two coincident neighbours, and inexact spurs — a fold-back sharper than 5° whose shorter
-// arm's end lies within `attractCm` (26 cm) of the longer arm, every such tip of a round removed at once — to a
-// fixpoint, before orientation and the contract's refusals. A spur encloses no area, or less than the lattice's own
-// coincidence band, so the face's skeleton is the spur-free face's; a fold-back wider than `attractCm` is still a
-// sharp corner the contract refuses (`sharpCorner`). A hole that is all spur — a dead-end network inside the face —
-// cleans away and the face runs.
+// M0-a-11 (C-0276, C-0283): §3.8's pre-clean ("input is pre-cleaned by merging collinear vertices") drops exact
+// zero-width spurs — a vertex whose two neighbours are one lattice point, the ring walking out along a segment and back
+// along the same one (a dead-end street on a district face) — with one of the two coincident neighbours, to a fixpoint,
+// before orientation and the contract's refusals. Two coincident collinear edges enclose no area, so the face is
+// unchanged and its skeleton is the spur-free face's; a fold-back whose neighbours differ by any lattice step is still
+// a 0° corner the contract refuses (`sharpCorner`). A ring with an exact spur therefore runs rather than taking
+// `sharpCorner` (the declared behaviour shift, C-0276 (4)).
 import { describe, expect, it } from 'vitest';
 import { runSkeleton } from '../../src/skeleton/skeleton.js';
 import { skeleton, type Skeleton, type SkeletonGraph } from '../../src/skeleton/index.js';
@@ -149,7 +147,7 @@ describe('an exact zero-width spur is pre-cleaned: the face skeletonises as the 
   });
 });
 
-describe('an inexact spur within attractCm is pre-cleaned, every tip of a round at once, to a fixpoint (§3.8 as amended by item 130 (f); RQ7 (A))', () => {
+describe('an inexact fold-back is not a spur: still a 0° corner the contract refuses (C-0168 (3))', () => {
   /** The refusal, checked to have run nothing (events 0, no engine trace line). */
   function refused(rings: LatticePoint[][]): { refusal: string; at?: LatticePoint } {
     const lines: string[] = [];
@@ -160,135 +158,19 @@ describe('an inexact spur within attractCm is pre-cleaned, every tip of a round 
     return { refusal: r.value.cause.refusal, ...(r.value.cause.at === undefined ? {} : { at: r.value.cause.at }) };
   }
 
-  /** The cleaned rings of every rotation and reversal of the ring, as a set (one member when the clean is order-free). */
-  function cleanings(ring: Ring): Set<string> {
-    const out = new Set<string>();
-    for (let k = 0; k < ring.length; k += 1) {
-      for (const r of [[...ring.slice(k), ...ring.slice(0, k)], [...ring.slice(k), ...ring.slice(0, k)].reverse()]) {
-        const p = prepareRings([r]);
-        out.add(p.ok ? JSON.stringify(p.value.rings) : `${p.refusal} ${JSON.stringify(p.at)}`);
-      }
-    }
-    return out;
-  }
-
-  it('back to a point 1 cm beside the root, or 1 cm short of it along the spur: the tip goes and the face runs (the pins of S1 flipped)', () => {
+  it('back to a point 1 cm beside the root, or 1 cm short of it along the spur', () => {
     const beside = [pt(0, 0), pt(2_000, 0), pt(2_000, 1_000), pt(1_201, 1_000), pt(1_200, 1_600), pt(1_200, 1_000), pt(0, 1_000)];
-    const g = graph([beside]);
-    expect(shape(g)).toEqual(shape(PLAIN));
-    expect(g.rings).toEqual([RECT]);
-    // 1 cm short: the tip goes; the return's end stays, a 1 cm jog in the top edge (two right angles, no spur)
+    expect(refused([beside])).toEqual({ refusal: 'sharpCorner', at: pt(1_200, 1_600) });
     const short = [pt(0, 0), pt(2_000, 0), pt(2_000, 1_000), pt(1_200, 1_000), pt(1_200, 1_600), pt(1_200, 1_001), pt(0, 1_000)];
-    expect(graph([short]).rings).toEqual([[pt(0, 0), pt(2_000, 0), pt(2_000, 1_000), pt(1_200, 1_000), pt(1_200, 1_001), pt(0, 1_000)]]);
-    // the tip (caller vertex 4) and the merged root lie inside the cleaned edge 2 → 6 (the kept vertices keep their indices)
-    expect(graph([beside]).edges).toEqual([
-      { ring: 0, from: 0, to: 1 },
-      { ring: 0, from: 1, to: 2 },
-      { ring: 0, from: 2, to: 6 },
-      { ring: 0, from: 6, to: 0 },
-    ]);
+    expect(refused([short]).refusal).toBe('sharpCorner');
+    // the same spur exact: no refusal
+    const exact = [pt(0, 0), pt(2_000, 0), pt(2_000, 1_000), pt(1_200, 1_000), pt(1_200, 1_600), pt(1_200, 1_000), pt(0, 1_000)];
+    expect(shape(graph([exact]))).toEqual(shape(PLAIN));
   });
 
-  it('an exact spur beside an inexact one: both go', () => {
+  it('an exact spur beside an inexact one: the exact one goes, the inexact one is refused at its tip', () => {
     const both = [pt(0, 0), pt(500, 0), pt(500, 400), pt(500, 0), pt(2_000, 0), pt(2_000, 1_000), pt(1_201, 1_000), pt(1_200, 1_600), pt(1_200, 1_000), pt(0, 1_000)];
-    expect(shape(graph([both]))).toEqual(shape(PLAIN));
-  });
-
-  it('attractCm is the bound, inclusive: a short arm ending 26 cm from the long arm is a spur, 27 cm is a sharp corner refused at the tip', () => {
-    // the long arm (1 200, 2 000) → (1 200, 1 000) on x = 1 200; the short arm's end 26 or 27 cm off it, its foot inside
-    const at = (dx: number): Ring => [pt(0, 0), pt(2_000, 0), pt(2_000, 1_000), pt(1_300, 1_000), pt(1_200 + dx, 1_100), pt(1_200, 2_000), pt(1_200, 1_000), pt(0, 1_000)];
-    const p26 = prepareRings([at(26)]);
-    expect(p26.ok && p26.value.rings).toEqual([[pt(0, 0), pt(2_000, 0), pt(2_000, 1_000), pt(1_300, 1_000), pt(1_226, 1_100), pt(1_200, 1_000), pt(0, 1_000)]]);
-    expect(refused([at(27)])).toEqual({ refusal: 'sharpCorner', at: pt(1_200, 2_000) });
-    // a fold-back 30 cm wide at its root (3.4°) stays a sharp corner
-    expect(refused([[pt(0, 0), pt(1_000, 0), pt(1_000, 1_000), pt(530, 1_000), pt(500, 1_500), pt(500, 1_000), pt(0, 1_000)]])).toEqual({ refusal: 'sharpCorner', at: pt(500, 1_500) });
-  });
-
-  it('only a corner sharper than 5° is a tip: a fold-back at 5.3° or 6.8°, or at 30° or 45°, whose shorter arm ends within attractCm stays; one at 4.95° goes (hardening round S4)', () => {
-    // a spike on the top edge from (1 200, 1 000) down to (1 200, 850) and back to (1 200 + dx, 1 000): the tip's corner is
-    // atan(dx / 150), its shorter arm (the 150 cm one back to (1 200, 1 000)) ends dx · 150 / |(dx, 150)| cm from the
-    // longer one, its foot inside it — within attractCm for every dx here, so only the 5° bound decides
-    const spike = (dx: number): Ring => [pt(0, 0), pt(2_000, 0), pt(2_000, 1_000), pt(1_200 + dx, 1_000), pt(1_200, 850), pt(1_200, 1_000), pt(0, 1_000)];
-    // dx 13: 4.95° (|cross| 1 950 < tan 5° · dot 1 968.5), the tip goes and the root merges: the plain rectangle
-    const under = prepareRings([spike(13)]);
-    expect(under.ok && under.value.rings).toEqual([RECT]);
-    expect(shape(graph([spike(13)]))).toEqual(shape(PLAIN));
-    // a fold-back at 30° (a 26 cm arm ending 13 cm from a 30 cm one) or 45° (a 20 cm arm ending 14.1 cm from a 28 cm
-    // one): RQ7 (A)'s literal criterion (any fold, dot > 0) would drop the tip; the round's 5° keeps it
-    const notch30: Ring = [pt(0, 0), pt(2_000, 0), pt(2_000, 1_000), pt(1_215, 1_000), pt(1_200, 974), pt(1_200, 1_000), pt(0, 1_000)];
-    const notch45: Ring = [pt(0, 0), pt(2_000, 0), pt(2_000, 1_000), pt(1_220, 1_000), pt(1_200, 980), pt(1_200, 1_000), pt(0, 1_000)];
-    // dx 14: 5.33° (|cross| 2 100 > 1 968.5); dx 18: 6.84°, its shorter arm ending 17.9 cm from the longer one; and the
-    // two notches — lawful corners the contract accepts, so the clean leaves them: the cleaned ring is the input ring and
-    // every reader validates the face with its tip (a clean bounded at 10°, or the literal any-fold criterion, would drop
-    // the tip and move a validated result — the closing check S3's survivor K6)
-    for (const ring of [spike(14), spike(18), notch30, notch45]) {
-      const p = prepareRings([ring]);
-      expect(p.ok && p.value.rings).toEqual([ring]);
-      for (const use of ['roof', 'spine', 'regions'] as const) {
-        const r = skeleton([ring], use);
-        expect(r.ok && r.value.kind).toBe('skeleton');
-        if (r.ok && r.value.kind === 'skeleton') expect(r.value.rings).toEqual([ring]);
-      }
-      expect(shape(graph([ring]))).not.toEqual(shape(PLAIN));
-    }
-  });
-
-  it('the clean never collapses a ring: a sliver narrower than attractCm stays a sharp corner, refused at its tip', () => {
-    // the triangle's tip (0, 0) is a 1.15° fold whose short arm ends 20 cm from the long one: dropping it would leave two
-    // vertices, so the ring is left whole for the contract (the kernel ladder's `limit/degen-skeleton-sharp-corner`)
-    expect(refused([[pt(0, 0), pt(1_000, 0), pt(1_000, 20)]])).toEqual({ refusal: 'sharpCorner', at: pt(0, 0) });
-    // relief-3000 seed 3's district 104: a triangle 1.5 cm wide and 47 m long
-    expect(refused([[pt(43_132, 75_497), pt(40_053, 79_018), pt(40_009, 79_066)]]).refusal).toBe('sharpCorner');
-  });
-
-  it('to a fixpoint: a tapered needle whose tips appear one round after another cleans to the rectangle', () => {
-    // round 1 drops (1 205, 2 200); then (1 208, 1 800) folds back (1.5°) onto (1 201, 1 500), then (1 201, 1 500) (1.1°)
-    const needle = [pt(0, 0), pt(2_000, 0), pt(2_000, 1_000), pt(1_210, 1_000), pt(1_208, 1_800), pt(1_205, 2_200), pt(1_201, 1_500), pt(1_200, 1_000), pt(0, 1_000)];
-    expect(shape(graph([needle]))).toEqual(shape(PLAIN));
-  });
-
-  it('every tip of a round at once: a zigzag needle of mutually adjacent tips, the same cleaned ring from every start and in both orientations', () => {
-    // (1 005, 2 500), (1 010, 1 600) and (1 015, 2 500) are tips together; dropping one first would leave its neighbour a
-    // 90° corner, so a one-at-a-time pass depends on where the walk starts
-    const zigzag = [pt(0, 0), pt(2_000, 0), pt(2_000, 1_000), pt(1_020, 1_000), pt(1_020, 1_500), pt(1_015, 2_500), pt(1_010, 1_600), pt(1_005, 2_500), pt(1_000, 1_500), pt(1_000, 1_000), pt(0, 1_000)];
-    const all = cleanings(zigzag);
-    expect([...all]).toEqual([JSON.stringify([[pt(0, 0), pt(2_000, 0), pt(2_000, 1_000), pt(1_020, 1_000), pt(1_020, 1_500), pt(1_000, 1_500), pt(1_000, 1_000), pt(0, 1_000)]])]);
-  });
-
-  it('order-free: every rotation and reversal of every spur fixture gives one cleaned ring (N-1’s asymmetric walk included)', () => {
-    const fixtures: Ring[] = [
-      // N-1: out and back over different vertex sets, the spur continuing an edge straight on (refused before the round)
-      [pt(200, 200), pt(200, 100), pt(100, 300), pt(300, 300), pt(200, 0), pt(200, 100), pt(200, 300)],
-      [pt(0, 0), pt(2_000, 0), pt(2_000, 1_000), pt(1_201, 1_000), pt(1_200, 1_600), pt(1_200, 1_000), pt(0, 1_000)],
-      [pt(0, 0), pt(2_000, 0), pt(2_000, 1_000), pt(1_210, 1_000), pt(1_208, 1_800), pt(1_205, 2_200), pt(1_201, 1_500), pt(1_200, 1_000), pt(0, 1_000)],
-      [pt(0, 0), pt(500, 0), pt(500, 400), pt(500, 0), pt(2_000, 0), pt(2_000, 1_000), pt(1_201, 1_000), pt(1_200, 1_600), pt(1_200, 1_000), pt(0, 1_000)],
-      [pt(0, 0), pt(2_000, 0), pt(2_000, 1_000), pt(1_200, 1_000), pt(1_200, 1_600), pt(1_200, 1_000), pt(0, 1_000)],
-    ];
-    for (const ring of fixtures) expect(cleanings(ring).size).toBe(1);
-    expect([...cleanings(fixtures[0])]).toEqual([JSON.stringify([[pt(200, 0), pt(300, 300), pt(100, 300), pt(200, 100)]])]);
-  });
-});
-
-describe('a hole that is all spur cleans away: the face runs as the face without it (census Q73)', () => {
-  it('a dead-end network inside the face (relief-60 seed 3’s district at (32 770, −86 089)), a single segment, a tree', () => {
-    const hole: Ring = [pt(600, 300), pt(1_000, 300), pt(1_000, 700), pt(600, 700)];
-    const base = graph([RECT, hole]);
-    const segment: Ring = [pt(1_300, 400), pt(1_700, 600)];
-    const tree: Ring = [pt(1_300, 400), pt(1_500, 500), pt(1_700, 400), pt(1_500, 500), pt(1_500, 800), pt(1_500, 500)];
-    for (const dead of [segment, tree]) {
-      for (const rings of [[RECT, dead, hole], [RECT, hole, dead]]) {
-        const g = graph(rings);
-        const { edges: _e, ...rest } = g;
-        const { edges: _b, ...want } = base;
-        expect(rest).toEqual(want);
-        // the edge map keeps the caller's ring index of the hole that stays
-        expect(g.edges.map((e) => e.ring)).toEqual([0, 0, 0, 0, rings.indexOf(hole), rings.indexOf(hole), rings.indexOf(hole), rings.indexOf(hole)]);
-      }
-    }
-    // an outer ring that is all spur stays `degenerate`, holes or none
-    const p = prepareRings([segment, hole]);
-    expect(p.ok).toBe(false);
-    if (!p.ok) expect(p.refusal).toBe('degenerate');
+    expect(refused([both])).toEqual({ refusal: 'sharpCorner', at: pt(1_200, 1_600) });
   });
 });
 
