@@ -221,8 +221,8 @@ sub('962 (a)', [
  # G19
  ("| W7a + W7b | Σ over edges of the search ellipse's cells (A\\* , V13 §3.8; C13-36) | 60 ms | 200 ms | 520 ms |",
   "| W7a + W7b | Σ over edges of the search ellipse's cells (A\\* , V13 §3.8; C13-36) + Σ over seats of the cells W7 (14)'s fork test touches (file w) | 60 ms | 200 ms | 520 ms |"),
- ("W7 (14)'s fork test — one Dijkstra to the route set per seat, the trail rule's search — inside the row, file w) |",
-  "+ 8 ns × Σ over seats of the cells the fork test's two searches touch (one Dijkstra to the route set, the trail rule's search, and one over the laid routes' cells; ≤ the landmass's fine cells per seat; file w); PLAUSIBLE until SP-W7's rerun counts the fork test) |"),
+ ("300 edges at the continent rung ≈ 6 × 10⁷ cells; W7 (14)'s fork test — one Dijkstra to the route set per seat, the trail rule's search — inside the row, file w) |",
+  "300 edges at the continent rung ≈ 6 × 10⁷ cells) + 8 ns × Σ over seats of the cells the fork test's two searches touch (W7 (14): one Dijkstra to the route set, the trail rule's search, and one over the laid routes' cells; ≤ the landmass's fine cells per seat; file w); the row PLAUSIBLE until SP-W7's rerun counts the fork test |"),
  # G10, G11
  ("| W7c | fine cells (the rough pass) + Σ over candidate trods of the search ellipse's cells (W7 (13); file w) |",
   "| W7c | the fine cells the rough pass reads + Σ over candidate edges searched of the search ellipse's cells (W7 (13); file w) |"),

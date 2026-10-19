@@ -3,7 +3,7 @@
 **Answering** `docs/host-requests/2026-10-18-hidden-ways.md` as corrected on the evening of 2026-10-18 (47 lines, md5
 `45612fdd…`; cited REQ:n; the first version kept as `…-hidden-ways-v1.md`, md5 `251c96a9…`, differing in lines 33 and 35
 only [OBSERVED: `diff`]). **The design is draft amendments w** — `docs/validation/hidden-ways-2026-10-18/draft-w.md`
-(items 955–975, 110 fragments; the machine copy `draft-w.fragments.json`) — **pending the owner's look**; nothing is
+(items 955–975, 113 fragments; the machine copy `draft-w.fragments.json`) — **pending the owner's look**; nothing is
 applied, and every line below that says "will" means "once file w is applied". Written by the synthesis seat of the
 hidden-ways workflow (J407) and revised by its correction run (J415; the owner's word of 2026-10-19 on roads that join,
 fork or diverge, J416) under the owner's delegation (J404); every ruling is vetoable by the owner. The first reply is
@@ -73,7 +73,8 @@ your own ladder's rung ("grade ladder down to `hidden`, never absence", FPI:99; 
 **record of its own** outside `WorldRoute`: no host key, no leg, no seat end, no class, counted by no reader of routes.
 It now carries **your rung as its `grade`** (§6): the same field, the same law and the same word as a road's — so a
 road you grade `hidden` and a trod at your bottom usable rung are one rung on two record kinds, and a hidden road is
-drawn under the trod rule (§6). Who may walk either is your stance rule (REQ:15), never a class word of the map's.
+drawn under the trod rule (§6). Who may walk either is your stance rule (REQ:15), never a class word of the map's. Behaviour 1 (bodies by stance) needs
+nothing from the map beyond the record: no class word, no band, no stance field — your rule over your own facts.
 
 **4. Can your record express a width/kind hint per way, or should the host derive capacity from ground class alone?**
 *It can and does.* Each trod carries `kind: 'goat'|'drove'|'broad'` — single file (your goat path and game trail), beasts
@@ -131,7 +132,7 @@ same id (identity by its seed cell, §3.8 of the draft) whether or not you have 
 sends each change as `way_rung(wayId, rung, tick)` — a third event kind of the events window (H9) carrying your ladder
 word, which the map folds onto the trod's `grade` as it folds your grade onto a road (V13:788, 1811) [STATED] — so a
 new way "forming where bodies keep crossing the same cover" (REQ:35) is you lighting a candidate the map already laid;
-nothing is minted and no record is new. A candidate you have not lit, or one at your bottom word, is **drawn for
+nothing is minted and no record is new. A candidate you have not lit (no rung yet), or one at a word below your bottom usable one, is **drawn for
 nobody** — not the players, not the DM — and is absent from every picture, hover, label, summary and export: it is the
 map's offer to your simulation, in the record alone (§5, §6). Two things to say back: the map never writes `wild` as
 a word of its own (map-side "wild" is unclaimed land, V13:1944, 3404 [OBSERVED]) — your ladder's words, `wild` included,
@@ -164,7 +165,7 @@ with a type `Rung` (V13:800) — 146 whole-word hits [OBSERVED]. The map's word 
 field that already holds it on a road, `grade?: string /* bound: the host's grade word, hidden among them */`
 (V13:788) [STATED], goes on the trod with the same meaning. In prose below "your rung" and "the map's grade" are one
 thing. Your `wild` stays yours: map-side *wild* is unclaimed land (V13:1944, 3404), so the map never writes it as a term
-of its own; it draws your bottom word as "not lit" (§5). And "fork" is taken on both sides — the map's counterfactual
+of its own; it draws a trod with no rung yet, or at a word below your bottom usable one, as "not lit" (§5). And "fork" is taken on both sides — the map's counterfactual
 fork (V13:3812, 3821) and your own copy of the old generator (HRQ:28) [OBSERVED] — so the owner's "join, fork, or
 diverge" stay the owner's prose and no record field or kind value is `fork`; the record's word is **junction**.
 
@@ -184,7 +185,7 @@ field, *gauge* (your own "realm gauge", FTH:487) and *form* (V13's "site form");
 **What the host should register:** `trod` (the edge; in prose "the smugglers' trod", "the old drover's trod"), `junction`
 (its end, a point on one of your edges with an integer station — and now a lawful end of one of your own roads), and
 the kind words `goat`, `drove`, `broad`; keep `hidden` and your other ladder words as your grades; send the ladder's
-words in order through the adapter folder's grade-ladder table, your bottom word first; mint `way` on neither side.
+words in order through the adapter folder's grade-ladder table, bottom first, your bottom usable word named; mint `way` on neither side.
 Your register's homonym check (FPS:471) is yours to run; the map's census is above.
 
 ---
@@ -274,13 +275,13 @@ table `world.trod` (item 957), every cell own, PLAUSIBLE until the B-WORLD sweep
 | parameter | default | what it says |
 |---|---|---|
 | `rough.landUse` / `reliefM` / `reliefWindowM` / `patchMinKm2` | forest, wetland, alpine, scrub / 120 m over 2 000 m / 2 000 / 4 km² | rough country is those land uses, or any ground that rises or falls 120 m within 2 km (your "hills", which your law cannot see, FPI:15); a rough patch under 4 km² lays none |
-| `density.perRoughKm2` / `perPatchMax` / `junctionSpacingM` | 32 km² / 12 / 3 000 | one trod asked per 32 km² of rough country at the province rung's cell (scaled at coarser rungs), at most 12 per patch; candidate junctions along one road no closer than 3 km |
+| `density.perRoughKm2` / `perPatchMax` / `junctionSpacingM` | 32 km² / 12 / 3 000 | one trod asked per 32 km² of rough country at the province rung's cell (scaled at coarser rungs), at most 12 per patch; touch points (possible junctions) along one road no closer than 3 km |
 | `lay.coverFactor` / `openFactor` / `maxCostFactor` / `openShareMax` / `roadNearM` / `roadHugShareMax` / `minStraightM` / `maxStraightM` / `rejoinM` / `gateBandM` | 0.5 / 4 / 3 / 0.2 / 500 / 0.3 / 2 000 / 40 000 / 2 × the fine cell / 1 000 | a trod prefers cover four-to-one against the open; a path over 3 × the straight cost, over a fifth of open ground (none across open plain), or shadowing a road for more than three tenths of its length is dropped; 2–40 km between junctions |
 | `kinds` | goat 1 m · drove 3 m · broad 5 m, by slope, land use and length | §3.5 |
 
 A province whose rough country is two fifths of its 64 000 km² asks at most ≈ 800 trods (fewer under `perPatchMax` and
 the drops); a continent at most ≈ 7 200 in all [INFERRED arithmetic]. **Every trod laid is a candidate** (Q8): it is in
-the record from birth with your bottom word implied until your first `way_rung` lights it; "every way that could exist"
+the record from birth with no rung until your first `way_rung` lights it; "every way that could exist"
 (REQ:35) is this set, and a denser offer is a change to these cells (`perRoughKm2`, `perPatchMax`), never a record you
 add. A patch that lays fewer than it asked is reported once (`W_TROD_SPARSE`, the trods asked and laid) — never a trod
 across open plain to make the count. The lay is deterministic and draws nothing (`world.trod` a reserved concern,
@@ -344,21 +345,23 @@ lands, V14:481–497) [STATED]; the ownership split mirrors the site record exac
 
 **The layer rule (item 961 (a)).** The trods draw in a structural layer `trods` of V13 §5.1 — a toggle, **default off** —
 under V14's three states on the trod and the one admission function over `knownTo` and the party's `places` (V14:763–766,
-791–796; BASE:15744) [STATED], **and by the trod's grade** (your rung): a trod you have not lit, or one at your bottom
-word, is drawn for nobody — absent from the picture, the labels, the hover, the screen-reader summary, `placeOf`,
+791–796; BASE:15744) [STATED], **and by the trod's grade** (your rung): a trod you have not lit (no rung yet), or one at a word below your bottom
+usable one, is drawn for nobody — absent from the picture, the labels, the hover, the screen-reader summary, `placeOf`,
 `mapFeed` and every export, the DM's included, never greyed (a candidate is in the trod record alone); a lit trod draws
 with the layer on for the DM with V14's cue at its midpoint (a dashed ring with the eye-slash glyph while `dmOnly`, an
 open ring `revealed`, a filled ring `discovered`, V14:2583–2588) [STATED] and for a player only when `revealed` or
 `discovered`; its line is the trod's own dash-dot in its kind's tint at a width by the step of its grade on your ladder
-(0.6 px at the first step above the bottom — your `hidden` —, 0.8 at the second, 1.0 at the third and above), the grade
+(0.6 px at your bottom usable word — your `hidden` —, 0.8 at the next word up, 1.0 at the third and above), the grade
 word on hover, **never** the routes layer's solid, dashed or dotted cues (V13:3144), because those say "public route" and a
 trod is none. On a standalone world no host sends grades and every trod draws as the map's own at the first step's
 width. An unknown trod is absent — never greyed — from the picture, the labels, the hover, the screen-reader summary,
 `placeOf`'s words for the party, the player audience of `mapFeed` and every player-audience export (T-V13-60). Default
 off, so a DM's picture export ("the view as drawn", V13:3212) carries the network only on purpose. A trod is `dmOnly` at
-birth; the DM reveals it by one `setAttr` on its secret state, you reveal it through the party's places (V08's reveal,
-the shared `party` key, V14:797–802; HRQ:601) [STATED] — as a site; a revealed trod at your bottom word stays undrawn
-until you light it, its state kept. The knowing town's mark (your C2) is the **`events` layer's pin** at the trod (or
+birth; the DM finds any trod's id — an unlit candidate's too, which no picture draws — in the trod record's listing
+(every candidate is there with its junctions and kind) and its reason by `whyTrod` [INFERRED from items 956 (e), 960
+(c)], and reveals it by one `setAttr` on its secret state, you reveal it through the party's places (V08's reveal,
+the shared `party` key, V14:797–802; HRQ:601) [STATED] — as a site; a revealed trod with no rung yet, or at a word below your bottom usable one, stays
+undrawn until you light it, its state kept. The knowing town's mark (your C2) is the **`events` layer's pin** at the trod (or
 at the known part's midpoint), in the knowing seat's colour, captioned with the seat, your how-word, the week and, for a
 part, how far, drawn only where the trod draws for that audience (item 961 (b)); no ninth lens is built for it (the
 bodies' marks wait as rows of the deferred danger lens, V13:4038–4040, once you send them).
@@ -376,9 +379,11 @@ stationM }`** — the part of the trod from the named end as far as the station,
 `a` end, the record's own unit (the trod's stations; your "nodes" past its two junctions are its stretch boundaries, and
 the record's stretches give you each boundary's cumulative effort, so "as far as the ford" is the station at that
 stretch's end); a prefix from the `b` end is a suffix in the record's frame, hence `from`. Where the trod draws for the
-audience, the pin sits at the part's midpoint, captioned "as far as n effort-metres from a" (or b), and the part is
+audience, the pin sits at the part's midpoint, captioned "from a as far as station n" or "from b back to station n" (the
+station from `a` in either case), and the part is
 marked on the DM's hover; your reveal through the party's places may carry the same part on the place's address, and the
-party then sees that part only — the rest absent, never greyed; the DM's `setAttr` reveals whole. A re-lay of the trod
+party then sees that part only — the rest absent, never greyed: its picture, `mapFeed` and exports carry the polyline
+cut at the station and the near junction only, no far junction and no length or effort; the DM's `setAttr` reveals whole. A re-lay of the trod
 moves its stations: the part is read against the lay in force at the event's week and carried over the new course by
 the share of the trod's effort it covered until you send a fresh row (a drawing rule of the map's, vetoable). If you
 would rather send whole-only, nothing above is required: `asFarAs` is optional.
@@ -404,7 +409,8 @@ legend carries one fixed sentence in every audience, whatever the count — *"Tr
 to use one or part of one, or the game master has revealed one; others may exist."* — and no legend row, picker state,
 label, summary or export reads the count (your C4; J-V13.119).
 
-**What the party's view can never show:** an unknown trod's line, name, length, junction tick or count; a candidate you
+**What the party's view can never show:** an unknown trod's line, name, length, junction tick or count; a junction ring, a junctions-export row or a
+`placeOf` arm where only an unknown or unlit trod meets a road; a candidate you
 have not lit, whatever its state; a trod in a crop (V14's E1 lays a trod's band only for an audience its state admits,
 item 967 (c), (d)); a trod in any export the party's places do not admit; a hearing place on an unknown trod as anything
 but the country it crosses; an event on an unknown trod or at its junction anywhere but the seat territory's seat with
@@ -422,10 +428,15 @@ and the same law as a road's (`grade?: string /* bound: the host's grade word, h
 "mirrored, never computed", V13:1811) [STATED] — folded from your `way_rung(wayId, rung, tick)`, a `WorldEvent` of the
 events window (H9) whose `where` is the trod and whose new field `grade` carries your ladder word (item 956 (g)). Your words
 are yours and unenumerated by your request (REQ:35 names road, track, trail, way, wild in prose; your recorded ladder is
-highway|road|track|hidden, FPI:98 [STATED], with neither `trail` nor `wild` in any note [OBSERVED]): send them in order
+highway|road|track|hidden, FPI:98 [STATED]; neither `trail` nor `wild` appears as a word of your recorded grade
+ladder (FPI:98, 99; TRD:636) — `wild` in your notes is the map's unclaimed land, `trail` the map's class in your mapping
+rows [OBSERVED]): send them in order
 through the adapter folder's grade-ladder table, bottom first, and tell the map which word your bottom usable rung
-carries (`hidden`, or "way", which is taken map-side, §2). The map draws by the word's step on that ladder (§5): step 0
-drawn for nobody, step 1 the trod's thinnest cue, step 2 and 3+ heavier — never a road's cue. On a standalone world no
+carries (`hidden`, or "way", which is taken map-side, §2). The map draws by the word's step on that ladder (§5): no rung yet,
+or a word your table places below your bottom usable one, drawn for nobody; your bottom usable word the trod's thinnest
+cue (0.6 px), the next word up 0.8 px, the third and above 1.0 px — never a road's cue. Under your recorded ladder that
+reads `hidden` 0.6, `track` 0.8, `road` and `highway` 1.0 [INFERRED from FPI:98]; for a way to be "lost to the wild"
+your table needs a word below `hidden` (your `wild`), or the way stays at `hidden`. On a standalone world no
 rung exists and every trod draws as the map's own.
 
 **What the map never does.** It never promotes, demotes, lights or retires a trod on its own (REQ:35 d4): no `network`
@@ -454,15 +465,17 @@ grade `hidden` keeps its record whole — "a demotion keeps the polyline; a revi
 [STATED]; its key, stations and lay versions untouched, no new field on `WorldRoute` — and is **drawn under the trod
 rule**: its ghost for the DM stays the routes layer's (V13:3144); your knowledge events name it by `where: { kind:
 'road', edge }` (V13:887 has both already) [STATED] and draw the knowing town's pin and its lapse exactly as on a trod;
-your reveal through the party's places (the edge key a place's address, V14:791–796) admits it for a player, drawn as a
-trod at the first step (the trod cue, never a road's); patrols none (V13:1163, 2065) and "a hidden road counts as no
+your reveal through the party's places (the edge key a place's address, V14:791–796) admits it for a player, drawn by
+the `trods` layer as a trod at the first step (the trod cue, never a road's; the layer's toggle and export rule) — the
+road reads `secret` while hidden, a knowledge event naming it with no fraction is placed at its midpoint vertex, and a
+revival restores `public` (items 956 (f), (i), 961 (a), (b), 974 (a)); patrols none (V13:1163, 2065) and "a hidden road counts as no
 public road" (V13:1819) [STATED], as today. Its junctions stay: a trod joined to a road you demote keeps its junction;
 one joined to a road you remove or re-lay (a `bypass`, V13:1813–1815) re-joins the lay in force within `rejoinM`, keeping
 its id (identity by its seed cell, §3.8 of the draft), else is tombstoned and reported `W_TROD_UNJOINED`. A road you
 revive comes back as a road at the grade you send; the knowledge rows for it stand, read by the same rule.
 
-**Candidates (your Q8).** Every trod W7 (13) lays is a candidate at your bottom word until you light it — in the record,
-drawn for nobody (§1 Q8, §5). "A way nobody walks is lost to the wild" is your `way_rung` back to the bottom word: the
+**Candidates (your Q8).** Every trod W7 (13) lays is a candidate with no rung until you light it — in the record,
+drawn for nobody (§1 Q8, §5). "A way nobody walks is lost to the wild" is your `way_rung` to a word below your bottom usable one (your `wild`): the
 record keeps it, the picture drops it, and a later lighting draws it again with every knowledge row that still stands
 read by the latest-per-town rule. The map never retires a candidate: a trod leaves the record only when the ground
 changes under it (a frame or a reach cutting its patch, a joined route removed beyond `rejoinM`) or a road is chartered
@@ -482,7 +495,10 @@ today (V13:1797–1802). On a standalone world the map's own selection gains the
 road is laid, one search from the seat to the routes in force finds the nearest junction and the cost round by the
 network; where that is within `fork.detourMax` (1.25) of the seat's own road and the join leg within `fork.joinMaxM`
 (30 km), the seat gets the join only — its road ending at a junction (shared within `fork.junctionSpacingM`, 3 km) —
-else its own road; the unjoined seat's trail (V13:1792–1793) is the same rule with no bound, its far end typed at last.
+else its own road (a seat already on a road gets its own road only when the way round by the network exceeds the bound,
+else none: never a zero-length road); the unjoined seat's trail (V13:1792–1793) is the same rule with no bound, its far
+end typed at last. The standalone fork rule lays seat-to-junction roads only: a junction-to-junction link is your charter
+(both ends junctions) or a worn trod's road — the map's own selection mints none.
 Every cell own, in `world.routeLay`. **The consequences by origin:** a road of yours ending at a junction keeps its
 geometry whatever becomes of the joined road — demoted, the junction stays and the hidden joined road is a ghost, the
 fork's own grade its own; removed, the junction keeps its point on the last lay (kept as a version) and the map reports
@@ -536,7 +552,7 @@ HRQ:912); (f) your register rows for `trod`, `junction`, `goat`, `drove`, `broad
 `way` minted on neither side; (g) your stand-in cover graph over `routeFacts`' stretches retired when (e) lands; (h) your
 reveal of a trod to the party through the party's places, as a site's, whole or as far as a station; (i) **your rung
 changes as `way_rung` in the events window**, the ladder's words in order in the adapter folder's grade-ladder table,
-your bottom word named, a candidate the map laid lit by its first rung and nothing minted; (j) **junction ends** in your
+your bottom usable word named, a candidate the map laid lit by its first rung and nothing minted; (j) **junction ends** in your
 genesis edges and your charters by the two forms above, and forks derived where appropriate, a worn trod chartered
 along its course when you want the map's road machinery. H32's number is the row's, never the kernel's `H32` hash
 (V13:1384, 3664) [OBSERVED]; your own H list ends at H30 (HRQ:86–110) and the volume's at H31 (V13:3906), so the new
@@ -564,7 +580,8 @@ So nothing in the map's document budget moves (the province stays ≤ 3 MB, the 
 the budget register gains `WORLD-18` (W7c inside its row per rung — 30 / 60 / 120 ms; one trod's re-lay ≤ 5 ms; the
 record ≤ 300 ms at the continent; the trods' memory ≤ 4 MB at the continent; nothing of a trod in the file but its secret
 states, item 962 (c)). The fork rule's search (one Dijkstra from a seat to the routes in force, the trail rule's cost,
-V13:1793, plus a search over the laid routes' cells) stays inside the W7a + W7b row [INFERRED]. Two things noticed in
+V13:1793, plus a search over the laid routes' cells) is a term of the W7a + W7b row — 8 ns × the cells its searches touch per
+seat — the row's figures PLAUSIBLE until the spike's rerun counts it (item 962 (a)) [INFERRED]. Two things noticed in
 passing, outside this request: the volume's own records figures conflict (10⁵ records × ≈ 120 B is 12 MB, not "inside
 the 2 MB", V13:1352–1354) [OBSERVED arithmetic] — for the map's fix list; and your document's V13 line numbers for H9,
 H16 and H23 (HRQ:68, 82, 102) have drifted (now V13:3884, 3891, 3898) [OBSERVED].
@@ -627,11 +644,12 @@ your own recorded facts (§9.3), not map capabilities.
 6. "The week's presence rows (H23)" (REQ:11): see §7 (c).
 7. "`hidden` for the class" (REQ:10): two meanings of one word on both sides (§2); the class word is `trod`.
 8. "An abandoned road decays through track and trail into a way … rises to a trail" (REQ:35): your recorded ladder is
-   `highway|road|track|hidden` (FPI:98) with "never absence" (FPI:99) [STATED]; `trail` and `wild` are in no recorded
-   note [OBSERVED] — the map takes the words from your grade-ladder table, whatever they are, and asks which is the
+   `highway|road|track|hidden` (FPI:98) with "never absence" (FPI:99) [STATED]; neither `trail` nor `wild` appears as a word of
+   your recorded grade ladder (FPI:98, 99; TRD:636) — `wild` in your notes is the map's unclaimed land, `trail` the map's
+   class in your mapping rows [OBSERVED] — the map takes the words from your grade-ladder table, whatever they are, and asks which is the
    bottom usable one.
 9. "A way nobody walks is lost to the wild" (REQ:35) against "NOTHING IS FORGOTTEN" (FPI:159) [STATED]: read as a rung
-   change to your bottom word, not a deletion — the map keeps the candidate and every row for it.
+   change to a word below your bottom usable one, not a deletion — the map keeps the candidate and every row for it.
 10. "The map returns that way to undrawn for that town" (REQ:33): a town's knowledge never drew the trod's line for the
     party in the first place (§5, J-V13.118); what lapses is the knowing town's pin, and the DM's and your reveals are
     apart.
