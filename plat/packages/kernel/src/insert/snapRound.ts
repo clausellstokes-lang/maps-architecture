@@ -71,7 +71,7 @@ import {
   type ChainCtx,
   type Landing,
 } from './stretch.js';
-import { TX_FACES_WALKED, WALK_REACH_CM } from './rewalk.js';
+import { TX_FACES_WALKED } from './rewalk.js';
 import { cornerMove, wedgeOutcome } from './wedge.js';
 
 /** §3.6's bound on the iterated snap rounding's passes. */
@@ -261,9 +261,7 @@ export const OVER_LIMIT = -2;
 
 /**
  * The face record of `level` whose region strictly holds the doubled point, or −1 (an index query, then the rings);
- * OVER_LIMIT when the rings walked pass the transaction's work limit (`tx.facesWalked`). The candidates are asked
- * `WALK_REACH_CM` past the point: the index reads a record on its route, the test below its walk through every finer
- * Steiner vertex, and the two differ by up to a hot pixel per finer level (the S8 survey of Q53's mismatch, C-0349 (3)).
+ * OVER_LIMIT when the rings walked pass the transaction's work limit (`tx.facesWalked`).
  */
 export function recordHolding(ctx: ChainCtx, level: number, qx2: number, qy2: number): number {
   const { tx, p } = ctx;
@@ -271,8 +269,7 @@ export function recordHolding(ctx: ChainCtx, level: number, qx2: number, qy2: nu
   const x0 = Math.floor(qx2 / 2);
   const y0 = Math.floor(qy2 / 2);
   const O = p.halfEdges.origin;
-  const r = WALK_REACH_CM;
-  for (const f of query(p, tx.key, lv, { minX: x0 - r, minY: y0 - r, maxX: x0 + 1 + r, maxY: y0 + 1 + r }, { faces: true }).faces) {
+  for (const f of query(p, tx.key, lv, { minX: x0, minY: y0, maxX: x0 + 1, maxY: y0 + 1 }, { faces: true }).faces) {
     if (!charge(tx, TX_FACES_WALKED, 1)) return OVER_LIMIT;
     const rings = faceWalk(p, lv, f).map((r) => r.map((h) => O[h]));
     if (!insideDoubled(p, rings[0], qx2, qy2)) continue;

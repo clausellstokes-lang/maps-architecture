@@ -3,8 +3,8 @@
 // element assignment or ++/−− on one, no set / fill / copyWithin / sort / reverse on one — found by the same
 // type-checked scan, run over src/water/ alone. range.test.ts is a source scan, not an import, so `vitest related` on
 // a water file never selects it; this file sits in the item's own test folder, so every NEAR run of the item holds the
-// rule (`outfalls.ts`'s per-cell body index is a plain array for this reason). A planted probe file, read through the
-// same compiler host, shows the scan finds each kind of write it looks for.
+// rule (integration-g12's B-1: water/outfalls.ts's per-cell body index was an Int32Array). A planted probe file, read
+// through the same compiler host, shows the scan finds each kind of write it looks for.
 import { readdirSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';

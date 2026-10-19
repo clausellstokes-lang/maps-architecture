@@ -1,4 +1,4 @@
-// M0-a-11: §3.8 *Numeric contract* — "event times are therefore computed in doubles with + − × ÷ √
+// M0-a-11 (fix round 1, F-2): §3.8 *Numeric contract* — "event times are therefore computed in doubles with + − × ÷ √
 // only (identical on every IEEE engine; no transcendental), on coordinates relative to the polygon's bounding-box
 // corner" — judged by what it promises: the skeleton does not depend on where the face lies. The same rings near the
 // origin and moved by integer offsets near ±(2²³ − 4 000) cm (the lattice's four far corners, where a double's spacing

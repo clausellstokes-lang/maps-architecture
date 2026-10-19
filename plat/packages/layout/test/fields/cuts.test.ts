@@ -5,9 +5,11 @@
 // more than the hysteresis.
 import { describe, expect, it } from 'vitest';
 import { bandOf } from '@plat/tables';
-import { cutPoints, fieldBands, holdBand, middleOf } from '../../src/index.js';
+import { cutPoints, fieldBands, fieldsCells, holdBand, middleOf } from '../../src/index.js';
 import { fixtureRandom } from '../districts/support.js';
-import { CELLS } from './support.js';
+import { TABLES } from './support.js';
+
+const CELLS = fieldsCells(TABLES);
 
 function landPerBand(values: Float64Array, land: Uint8Array, cuts: readonly number[], bands: readonly string[]): number[] {
   const out = bands.map(() => 0);

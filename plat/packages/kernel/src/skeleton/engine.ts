@@ -27,7 +27,6 @@
 // record the construction. The queue is charged one event per resolution and stops at its law (§3.8's
 // 4 · (n + r) + 64, or a larger table law) with E_WORK_LIMIT (F-WORK): a count, never a time.
 import { ratio } from '../num/index.js';
-import { halfPlaneOf } from '../num/exact.js';
 
 /** 2⁴⁰: quotients of small dimensionless denominators are scaled by it so ratio()'s floor of 1 reads them (exact). */
 const SCALE = 1_099_511_627_776;
@@ -205,6 +204,11 @@ function turnK(L: Lines, a: number, b: number): number {
   const LL = L.len[a] * L.len[b];
   const q = D >= 0 ? ratio(C, LL + D, 'area') : ratio(LL - D, C, 'area');
   return q.ok ? q.value : 0;
+}
+
+/** The half of the direction circle an integer vector lies in: [0°, 180°) is 0, [180°, 360°) is 1. */
+function half(x: number, y: number): number {
+  return y > 0 || (y === 0 && x > 0) ? 0 : 1;
 }
 
 /**
@@ -429,8 +433,8 @@ export function runEngine(inp: EngineInput, limit: number, hooks: EngineHooks = 
     }
     if (spokes.length === 0) return true;
     spokes.sort((p, q) => {
-      const hp = halfPlaneOf(p.vx, p.vy);
-      const hq = halfPlaneOf(q.vx, q.vy);
+      const hp = half(p.vx, p.vy);
+      const hq = half(q.vx, q.vy);
       if (hp !== hq) return hp - hq;
       const cr = p.vx * q.vy - p.vy * q.vx;
       if (cr !== 0) return cr > 0 ? -1 : 1;

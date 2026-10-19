@@ -1,16 +1,24 @@
-// The perimeter is a function of the boundary's region, not of how its straight runs are split (M0-e-04; N-56 (2);
-// C-0305): the overlay's union merges a boundary's exactly collinear vertices, so against a boundary that kept them one
-// ring edge would span two halves of a side and fail `isSumRing`'s nearness clause (both ends within d + tol of ONE
-// boundary edge); `settlementPerimeter` merges them (`mergeCollinear`) before the convolution and inside every
-// `isSumRing` call, so a lawful simple counter-clockwise ring with collinear vertices added gives the perimeter of the
-// ring without them. Pins: seed 1165799859's outline (S5's last boundary on SMALL_FLAT) with and without its collinear
-// vertices; a 300 m square with and without its side midpoints; a property over the 100 count-law seeds of
-// bars.test.ts; and two goldens — the 100 perimeters' digest and seed 1165799859's committed perimeter.
+// The perimeter is a function of the boundary's region, not of how its straight runs are split (M0-e-04 session fix
+// round S2; N-56 (2); docs/M0-FIX-QUEUE.md Q21; C-0305): a lawful simple counter-clockwise ring with exactly collinear
+// vertices added was refused by `settlementPerimeter` ("the overlay's outer ring is not the boundary's offset (the sum
+// check failed)") while the same ring without them passed — the overlay's union merges the collinear vertices, so one
+// ring edge spans two halves of a boundary side and `isSumRing`'s nearness clause (both ends within d + tol of ONE
+// boundary edge) failed. The boundary's exactly collinear vertices are now merged (`mergeCollinear`) before the
+// convolution and inside every `isSumRing` call. Pins: seed 1165799859's outline (S5's last boundary on SMALL_FLAT,
+// the M0-x-06 checker's seed) with and without its collinear vertices; a 300 m square with and without its side
+// midpoints; a property over the 100 count-law seeds of bars.test.ts; and zero shift — the 100 perimeters' digest and
+// seed 1165799859's committed perimeter as recorded before the round.
 import { createHash } from 'node:crypto';
-import type { LatticePoint } from '@plat/kernel';
+import { attachIndex, createKernel, createPlat, type Cm, type Kernel, type LatticePoint } from '@plat/kernel';
 import { describe, expect, it } from 'vitest';
 import { convolution, isSumRing, mergeCollinear, OVERLAY_TOLERANCE_CM, settlementPerimeter, simpleCcw, SUM_TOLERANCE_CM } from '../../src/index.js';
-import { fixtureRandom, kernel, P, town } from './support.js';
+import { fixtureRandom, GROUND, P, town } from './support.js';
+
+function kernel(): Kernel {
+  const plat = createPlat(GROUND, { widthCm: 1_000_000 as Cm, heightCm: 1_000_000 as Cm, aspect: 1, marginShare: 0.3 });
+  attachIndex(plat, { gridCellCm: 5000 });
+  return createKernel(new Map([[GROUND, plat]]), { spineWidths: () => null });
+}
 
 function gcd(a: number, b: number): number {
   let x = a;
@@ -84,7 +92,7 @@ describe('the perimeter is invariant under collinear splitting (N-56 (2); Q21)',
     expect(b.ok ? 'ok' : `${b.code} ${b.detail}`).toBe('ok');
     if (!a.ok || !b.ok) return;
     expect(b.value).toEqual(a.value);
-    // the golden: the perimeter S6 commits on this seed (310 points; sha256 of its JSON)
+    // zero shift: the perimeter S6 committed on this seed before the round (310 points; sha256 of its JSON)
     expect(a.value.length).toBe(310);
     expect(sha(a.value).slice(0, 16)).toBe('6455a8e440db8202');
     // the cause, held: the overlay's ring passes the sum check against the collinear outline as against the clean one
@@ -107,8 +115,8 @@ describe('the perimeter is invariant under collinear splitting (N-56 (2); Q21)',
     expect(a.ok && b.ok).toBe(true);
     if (!a.ok || !b.ok) return;
     expect(b.value).toEqual(a.value);
-    // the cause, held: the union merges the midpoints, and its ring passes the sum check against the boundary that
-    // keeps them as against the clean one
+    // the reproduction (q21b): the union merges the midpoints; before the round its ring failed the sum check against
+    // the boundary that kept them
     const u = k.geom.booleans('union', [mid.slice()], [convolution(mid, 5000, 'arc') as LatticePoint[]], 'nonzero');
     expect(u.ok).toBe(true);
     if (!u.ok) return;
@@ -145,7 +153,7 @@ describe('the perimeter is invariant under collinear splitting (N-56 (2); Q21)',
     }
     // every town boundary has edges with interior lattice points: both splittings ran on every seed
     expect(split).toBe(200);
-    // the golden: the digest of the 100 perimeters (each JSON in seed order)
+    // zero shift: the digest of the 100 perimeters (each JSON in seed order) recorded before the round
     expect(all.digest('hex')).toBe('0617ad24549920ecf0c361dc8c6dfaff60e3daffcc0428e89f4cd84ee7dad2f6');
   });
 });

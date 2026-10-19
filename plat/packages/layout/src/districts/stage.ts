@@ -62,10 +62,9 @@ import {
   type Way,
   type WorkLimitLaw,
 } from '@plat/model';
-import { GROUND_KEY } from '@plat/site';
 import { loadWorkLimits, tableView, workLimitOf, type BaseRung, type TableView, type WorkLimitsTable } from '@plat/tables';
 import { generated } from '../enceinte/water.js';
-import { HA_CM2, insideRing } from '../siting/geom.js';
+import { insideRing } from '../siting/geom.js';
 import { BARRIER, faceGraph, s6Takes, type FaceGraph } from './faces.js';
 import { grow } from './grow.js';
 import { countLaw, quarterCount } from './law.js';
@@ -79,6 +78,9 @@ import type { S6Output, S6Report, SeedFeature, WallLine, XY } from './types.js';
 
 const S6 = STAGES.S6 as StageId;
 
+/** The ground arena (§2.2). */
+const GROUND: PlatKey = { layer: 'ground', part: 0 };
+
 /** The creation indices of the S6 run's own units under the town (C-0245 (17)): no seed order reaches them. */
 export const HINTERLAND_INDEX = 0xffff_ffff;
 export const SEAM_RUN_INDEX = 0xffff_fffe;
@@ -90,10 +92,6 @@ export const S6_COUNTERS = Object.freeze(['insert.points', 'insert.attractQuerie
 /** S6's input record (as the runner's model hands it; C-0237 (9)'s form). */
 export interface S6Input {
   readonly kernel: Kernel;
-  /**
-   * The arena S6 runs on; default the ground arena (§2.2), @plat/site's `GROUND_KEY` — the kernel finds an arena by its
-   * layer and part, never by the key object (arena/plat.ts `sameKey`; the façade's arena map by that text).
-   */
   readonly key?: PlatKey;
   readonly seedKey: Readonly<Hash128>;
   readonly epoch?: number;
@@ -244,7 +242,7 @@ export interface S6Batch {
 
 /** Builds S6's batch on arena `p` as it stands, with the perimeter ring already computed. */
 export function s6Batch(p: Plat, input: Omit<S6Input, 'kernel'>, perimeter: readonly LatticePoint[]): S6Batch {
-  const key = input.key ?? GROUND_KEY;
+  const key = input.key ?? GROUND;
   const epoch = input.epoch ?? 0;
   const reroll = input.reroll ?? 0;
   const tables = input.tables ?? tableView();
@@ -287,16 +285,16 @@ export function s6Batch(p: Plat, input: Omit<S6Input, 'kernel'>, perimeter: read
     g.faces.forEach((f, i) => {
       if (claimable[i]) landCm2 += f.areaCm2;
     });
-    const landHa = landCm2 / HA_CM2;
+    const landHa = landCm2 / 100_000_000;
     const law = countLaw(landHa, cells);
     // 3. Seeds and growth.
-    const placed = placeSeeds(g, claimable, input.features, law.n, cells.rate, law.bandHa[0] * HA_CM2);
+    const placed = placeSeeds(g, claimable, input.features, law.n, cells.rate, law.bandHa[0] * 100_000_000);
     const turnStream = (lineage: Readonly<LineageHash>, turn: number) => {
       const tl = lineageHash({ arena: key, unit: lineage, stage: S6, epoch, index: turn, reroll });
       return rng.stream(entityKey(input.seedKey, tl, key), S6, CONCERNS['district.seed'], { reroll, attempt: 0, epoch, salt: 0 });
     };
     const grown = grow(placed.seeds, { graph: g, claimable }, turnStream, {
-      bandCm2: [law.bandHa[0] * HA_CM2, law.bandHa[1] * HA_CM2],
+      bandCm2: [law.bandHa[0] * 100_000_000, law.bandHa[1] * 100_000_000],
       compactnessMin: cells.compactnessMin,
       turnLimit,
       leftoverRate: cells.rate('leftover'),
@@ -357,15 +355,12 @@ export function s6Batch(p: Plat, input: Omit<S6Input, 'kernel'>, perimeter: read
       if (wallLines.length > 0 && wallLines.every((w, wi) => !faceInRing(g, d.seed.face, w, wallSides[wi]))) rel.add('extramural');
       return { id: (ids.get(d.seed.order) as { id: Id }).id, areaCm2: d.areaCm2, relations: rel };
     });
-    // the synthetic demand table's cells, read once: the typing and the quarter families read the same rows (neither
-    // writes them)
-    const demand = typingCells(s6Table());
-    const typing = typeDistricts(typingInput, demand, (id) => {
+    const typing = typeDistricts(typingInput, typingCells(s6Table()), (id) => {
       const lin = [...ids.values()].find((x) => x.id === id) as { lineage: LineageHash };
       return rng.stream(entityKey(input.seedKey, lin.lineage, key), S6, CONCERNS['district.type'], { reroll, attempt: 0, epoch, salt: 0 });
     });
     const kindOf = new Map(typing.map((t) => [t.district, t.kind]));
-    const familyOf = new Map(demand.kinds.map((k) => [k.kind, k.family]));
+    const familyOf = new Map(typingCells(s6Table()).kinds.map((k) => [k.kind, k.family]));
     const leafOf = new Map<number, number>();
     alive.forEach((d, li) => leafOf.set(d.seed.order, li));
     const adjacency: QuarterAdjacency[] = [];
@@ -457,7 +452,7 @@ export function s6Batch(p: Plat, input: Omit<S6Input, 'kernel'>, perimeter: read
 
 /** S6 (see the module comment): the perimeter, then the batch through the façade's tx. */
 export function runS6(input: S6Input): KernelResult<S6Output> {
-  const key = input.key ?? GROUND_KEY;
+  const key = input.key ?? GROUND;
   const per = settlementPerimeter(input.boundary, input.kernel, { ...(input.frame === undefined ? {} : { frame: input.frame }), ...(input.tables === undefined ? {} : { tables: input.tables }) });
   if (!per.ok) return err(per.code, per.detail);
   const b = s6Batch(input.kernel.plat(key), input, per.value);

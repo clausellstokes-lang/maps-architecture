@@ -13,7 +13,7 @@
 //   * the mixed-use floor (R5): no single-use district unless requested — the district's use mix gives its own kind
 //     1 − floor and the floor to the other kinds in proportion to their demand shares.
 // Kinds are feature-named; wealth is no kind (the prosperity field's, §10.4).
-import { compareKeys, type Stream } from '@plat/kernel';
+import type { Stream } from '@plat/kernel';
 import type { Id } from '@plat/model';
 import { quot } from '../siting/geom.js';
 import type { TypingCells } from './table.js';
@@ -48,7 +48,7 @@ export function typeDistricts(districts: readonly TypingDistrict[], demand: Typi
   }
   const order = districts
     .map((d, i) => ({ d, i }))
-    .sort((a, b) => b.d.areaCm2 - a.d.areaCm2 || compareKeys(a.d.id, b.d.id));
+    .sort((a, b) => b.d.areaCm2 - a.d.areaCm2 || (a.d.id < b.d.id ? -1 : a.d.id > b.d.id ? 1 : 0));
   const out = new Array<DistrictTyping>(districts.length);
   for (const { d, i } of order) {
     const s = stream(d.id);

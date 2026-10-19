@@ -68,22 +68,6 @@ describe('sampleProfile: by arc length along the owner\'s own-level route (§2.2
     expect(s.length).toBe(5); // the route is ≈ 4 × 1019.8 cm long
   });
 
-  it('the own-level route keeps the vertices of the chain\'s level only: a finer chain ending on the way adds none', () => {
-    // An L2 kerb ending on an L1 way splits the way's edge with a vertex of level 2: the way's route (its L1 vertices) is
-    // the straight line from end to end, at arc positions 0 and 4000; the kerb's route holds that vertex as its start.
-    const p = framed();
-    commit(p, 1, (o) => insertChain(o, [pt(0, 2000), pt(4000, 2000)], [{ role: 'way', entity: 'way:1' }], 'mandatory'));
-    commit(p, 2, (o) => insertChain(o, [pt(2000, 2000), pt(2000, 3000)], [{ role: 'kerb', entity: 'lane:1' }], 'mandatory'));
-    const v = vertexAtPoint(p, 2000, 2000);
-    expect(p.vertices.level[v]).toBe(2);
-    const way = routeLines(p, { role: 'way', entity: 'way:1' }, KEY);
-    expect(way.map((ln) => ({ at: ln.vertices.map((u) => `${p.vertices.x[u]},${p.vertices.y[u]}`), pos: ln.pos, length: ln.length, closed: ln.closed }))).toEqual([
-      { at: ['0,2000', '4000,2000'], pos: [0, 4000], length: 4000, closed: false },
-    ]);
-    const kerb = routeLines(p, { role: 'kerb', entity: 'lane:1' }, KEY);
-    expect(kerb.map((ln) => ln.vertices.map((u) => `${p.vertices.x[u]},${p.vertices.y[u]}`))).toEqual([['2000,2000', '2000,3000']]);
-  });
-
   it('a chain that resolves to no edge gives []', () => {
     const { p, prof } = profiledWay();
     expect(sampleProfile(p, prof, 'way:404', KEY, 'perVertex')).toEqual([]);

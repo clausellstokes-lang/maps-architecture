@@ -12,7 +12,6 @@
 import { distinctRing, offLattice, type XY } from '../geom/common.js';
 import { obb, type Obb } from '../geom/index.js';
 import { LATTICE, area2, err, ok, orient2d, ratio, type KernelResult } from '../num/index.js';
-import { halfPlaneOf } from '../num/exact.js';
 import type { LatticePoint, Polygon } from '../types/index.js';
 
 /** §3.8: each OBB corner matched by a ring vertex within 30 cm. */
@@ -58,6 +57,11 @@ export type ExactRoofResult =
   | { exact: true; roof: ExactRoof; obb: Obb; corners: [number, number, number, number] }
   | { exact: false; reason: NearRectangleFail | 'outside' };
 
+/** Half of the direction circle a non-zero integer vector lies in: [0°, 180°) is 0, [180°, 360°) is 1. */
+function half(x: number, y: number): number {
+  return y > 0 || (y === 0 && x > 0) ? 0 : 1;
+}
+
 /**
  * §3.8's convex near-rectangle test on a lattice ring (either orientation; consecutive repeats ignored). `corners`
  * index the input ring (a repeated point by its first index); they match `obb.corners` in order.
@@ -97,7 +101,7 @@ export function convexNearRectangle(ring: readonly LatticePoint[]): KernelResult
     const vx = c.x - b.x;
     const vy = c.y - b.y;
     if (o < 0 || (o === 0 && ux * vx + uy * vy < 0)) return ok({ pass: false, reason: 'nonConvex' });
-    if (halfPlaneOf(ux, uy) === 1 && halfPlaneOf(vx, vy) === 0) wraps += 1;
+    if (half(ux, uy) === 1 && half(vx, vy) === 0) wraps += 1;
   }
   if (wraps !== 1) return ok({ pass: false, reason: 'nonConvex' }); // turns all left but winding twice: not simple
   const box = obb(pts);

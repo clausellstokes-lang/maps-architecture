@@ -3,8 +3,8 @@
 // ties by id; the cut at min(N_q, L) nodes (`cityCut`).
 import { describe, expect, it } from 'vitest';
 import { quarterTree, type QuarterAdjacency, type QuarterLeaf, type QuarterOptions } from '../../src/index.js';
-import { HA } from './support.js';
 
+const HA = 100_000_000;
 const opts = (nq: number): QuarterOptions => ({ nq, familyCostHa: 1000, barrierCostHa: 10000, nodeId: (i) => `quarter:${String(i).padStart(3, '0')}` });
 const leaf = (id: string, ha: number, family = 'craft'): QuarterLeaf => ({ id, areaCm2: ha * HA, family });
 const chain = (n: number): QuarterAdjacency[] => Array.from({ length: n - 1 }, (_, i) => ({ a: i, b: i + 1, separated: false }));

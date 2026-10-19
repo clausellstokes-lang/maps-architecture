@@ -4,8 +4,10 @@
 // changes only the cell size: σ stays 60 m on the ground, so the applied box is re-derived from the cell in force (C-0255).
 import { loadWorkLimits, type WorkLimitsTable } from '@plat/tables';
 import { describe, expect, it } from 'vitest';
-import { boxFor, fieldCellsLimit, type FieldsPass1 } from '../../src/index.js';
-import { all, CELLS, fieldTown, landPoints, pass1 } from './support.js';
+import { boxFor, fieldCellsLimit, fieldsCells, type FieldsPass1, type ScalarField } from '../../src/index.js';
+import { fieldTown, landPoints, pass1, TABLES } from './support.js';
+
+const CELLS = fieldsCells(TABLES);
 
 function lowFloor(floor: number): WorkLimitsTable {
   const base = loadWorkLimits();
@@ -32,6 +34,10 @@ function appliedSigmaM(r: FieldsPass1): number {
 function appliedBlurIsSigma(r: FieldsPass1): void {
   expect(r.report.blur).toEqual(boxAt(r.report.cellCm));
   expect(Math.abs(appliedSigmaM(r) - SIGMA_CM / 100)).toBeLessThan(0.02 * (SIGMA_CM / 100));
+}
+
+function all(r: FieldsPass1): ScalarField[] {
+  return [r.prosperity, r.density, r.greenery];
 }
 
 function withinOneCell(r: FieldsPass1): void {

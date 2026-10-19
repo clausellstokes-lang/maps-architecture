@@ -1,7 +1,8 @@
 // Chains and stretches as the writers read them (§2.2 rule 5 *Stretches* (J-K31); §3.4 *Stretches*): a ref's edges,
-// a StretchRef resolved at the batch's current state, the runs a set of edges forms (the arena's run ordering, read
+// a StretchRef resolved at the batch's current state, the runs a set of edges forms (in `resolve`'s order, computed
 // without writing, so a writer can plan the chains it will leave), and their own-level routes. M0-a-06.
 import {
+  compareVertices,
   dest,
   handleOf,
   isVertexLive,
@@ -13,9 +14,8 @@ import {
   type Plat,
   type VertexId,
 } from '../arena/index.js';
-import { edgeRuns } from '../arena/resolve.js';
 import { query } from '../index/index.js';
-import { degenerate, ok, type KernelResult } from '../num/index.js';
+import { degenerate, ok, orient2d, type KernelResult } from '../num/index.js';
 import type { ChainRef, EdgeSetRef, LatticePoint, Level, PlatKey, StretchRef, VertexRef } from '../types/index.js';
 import type { RouteLine } from './profile.js';
 import { check, roleId } from './state.js';
@@ -29,17 +29,80 @@ export function pairsOfKey(p: Plat, ref: ChainRef | EdgeSetRef): number[] {
 }
 
 /**
- * The runs a set of edge pairs forms: the arena's one run ordering (C-0146 (5)), stated once above `edgeRuns`
- * (arena/resolve.ts) — open runs from their lower (y, x) end, rings from their lowest-leftmost vertex counter-clockwise,
- * runs by their first two vertices. Computed without writing, so a writer can plan the chains it will leave.
+ * The runs a set of edge pairs forms, in `resolve`'s order (C-0146 (5)): maximal paths between vertices where the set
+ * does not continue in exactly one way, each open run from its lower (y, x) end (a loop off a branch vertex toward the
+ * smaller neighbour), each ring from its lowest-leftmost vertex counter-clockwise; runs by their first two vertices.
  */
-export const runsOfPairs = edgeRuns;
+export function runsOfPairs(p: Plat, pairsIn: readonly number[]): HalfEdgeId[][] {
+  const pairs = [...new Set(pairsIn)];
+  const O = p.halfEdges.origin;
+  const at = new Map<VertexId, number[]>();
+  for (const e of pairs) {
+    for (const v of [O[2 * e], O[2 * e + 1]]) {
+      const list = at.get(v) ?? [];
+      list.push(e);
+      at.set(v, list);
+    }
+  }
+  const used = new Set<number>();
+  const walk = (s: VertexId, e0: number): HalfEdgeId[] => {
+    const run: HalfEdgeId[] = [];
+    let v = s;
+    let e = e0;
+    for (;;) {
+      used.add(e);
+      const h = O[2 * e] === v ? 2 * e : 2 * e + 1;
+      run.push(h);
+      v = O[h ^ 1];
+      const inc = at.get(v) as number[];
+      if (inc.length !== 2) break;
+      const n = inc[0] === e ? inc[1] : inc[0];
+      if (used.has(n)) break;
+      e = n;
+    }
+    return run;
+  };
+  const flip = (run: HalfEdgeId[]): HalfEdgeId[] => run.map((h) => h ^ 1).reverse();
+  const runs: HalfEdgeId[][] = [];
+  // Open runs from every end or branch vertex, visited in lattice order so no slot decides anything.
+  const branch = [...at.keys()].filter((v) => (at.get(v) as number[]).length !== 2).sort((a, b) => compareVertices(p, a, b));
+  for (const v of branch) {
+    const inc = (at.get(v) as number[]).slice().sort((a, b) => compareVertices(p, O[2 * a] === v ? O[2 * a + 1] : O[2 * a], O[2 * b] === v ? O[2 * b + 1] : O[2 * b]));
+    for (const e of inc) {
+      if (used.has(e)) continue;
+      let run = walk(v, e);
+      const a = O[run[0]];
+      const b = dest(p, run[run.length - 1]);
+      if (a === b) {
+        if (compareVertices(p, O[run[run.length - 1]], dest(p, run[0])) < 0) run = flip(run);
+      } else if (compareVertices(p, b, a) < 0) {
+        run = flip(run);
+      }
+      runs.push(run);
+    }
+  }
+  // Rings: what is left lies on cycles where the set continues in exactly one way.
+  const rest = pairs.filter((e) => !used.has(e)).sort((a, b) => compareVertices(p, O[2 * a], O[2 * b]) || compareVertices(p, O[2 * a + 1], O[2 * b + 1]));
+  for (const e0 of rest) {
+    if (used.has(e0)) continue;
+    let run = walk(O[2 * e0], e0);
+    let low = 0;
+    for (let k = 1; k < run.length; k++) if (compareVertices(p, O[run[k]], O[run[low]]) < 0) low = k;
+    run = run.slice(low).concat(run.slice(0, low));
+    const v = O[run[0]];
+    const a = dest(p, run[0]);
+    const b = O[run[run.length - 1]];
+    const X = p.vertices.x;
+    const Y = p.vertices.y;
+    const turn = orient2d(X[v], Y[v], X[a], Y[a], X[b], Y[b]);
+    if (turn < 0 || (turn === 0 && compareVertices(p, b, a) < 0)) run = flip(run);
+    runs.push(run);
+  }
+  runs.sort((r, s) => compareVertices(p, O[r[0]], O[s[0]]) || compareVertices(p, dest(p, r[0]), dest(p, s[0])));
+  return runs;
+}
 
-/**
- * The own-level routes of runs — §2.2 rule 5's route: per run, its vertices of level ≤ `level` with their arc lengths
- * from the run's first route vertex (cumulative √ of integer squared lengths), a ring's length closing back to its start.
- * A ring starts at its first route vertex in run order, so the start never depends on a slot. `routeLines` reads it.
- */
+/** The own-level routes of runs (their vertices of level ≤ `level`, with arc positions) — §2.2 rule 5's route. */
 export function linesOfRuns(p: Plat, runs: readonly HalfEdgeId[][], level: Level): RouteLine[] {
   const O = p.halfEdges.origin;
   const X = p.vertices.x;

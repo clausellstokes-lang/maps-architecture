@@ -6,14 +6,24 @@
 // records, F-WORK's work_cut, a single coarse face, determinism, and the Stage object itself. The identity laws S6
 // locks in — each grower's seed lineage (its feature's address; a remainder or leftover seed's face after Lloyd),
 // each district's creation index (its seed's order) and typing's `district.type` stream — are held by keys the test
-// derives from the input and the committed arena, never read back from S6's own records (C-0245 (5), (12), (17)).
+// derives from the input and the committed arena, never read back from S6's own records (C-0245 (5), (12), (17); fix
+// round 1 of the first check's B-2).
 import { CONCERNS, createRng, entityKey, faceKey, insertChain, seedKey, STAGES, type KernelTx, type LatticePoint, type LineageHash } from '@plat/kernel';
 import { addressOf, lineageHash, TOWN_ROOT, type District, type Id } from '@plat/model';
 import { describe, expect, it } from 'vitest';
 import { boundaryLoops, faceGraph, faceLineage, runS6, s6Stage, s6Table, settlementPerimeter, textLineage, typingCells, type S6Output } from '../../src/index.js';
-import { bySeed, edgesL1, GROUND, gridArena, hullArea, insidePoly, liveL1, ownerAt, ownerOfL1, P, town, townS6, type Town } from './support.js';
+import { edgesL1, GROUND, gridArena, hullArea, insidePoly, liveL1, ownerAt, ownerOfL1, P, town, townS6, type Town } from './support.js';
 
-const run = bySeed((seed) => townS6(seed));
+const RUNS = new Map<string, Town & { out: S6Output }>();
+function run(seed: number): Town & { out: S6Output } {
+  const key = String(seed);
+  let r = RUNS.get(key);
+  if (r === undefined) {
+    r = townS6(seed);
+    RUNS.set(key, r);
+  }
+  return r;
+}
 
 const SEEDS = [4, 11];
 /** A town whose merge rule removes districts ahead of surviving ones (5 merges, 7 leftover seeds): a district's seed order is not its place among the survivors. */

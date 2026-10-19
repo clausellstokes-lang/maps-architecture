@@ -156,8 +156,8 @@ describe('S5c on a walled hand case', () => {
   it('walled, at growthArea’s spacing and at 0.9 of it, no street leaving the arterial dead-ends after one or two steps: every later step reads the far side of the way its street left (C-0263 (1))', () => {
     // The seeds half a spacing apart (80 m) and at 0.9 of it (72 m): the flat fixture's pairs, lattice-rounded and on bent
     // runs, lie 77 – 83 m apart, so a street's second step (from ≥ 25 m off the arterial) runs inside the 83 m clearance
-    // of the street across. Without the far side read at later steps, 3 – 6 streets per seed at 72 m stop after one step.
-    // The ribbon's 33 m clearance is beyond a second step there at its 30 m stagger.
+    // of the street across. Without the far side read at later steps, 3 – 6 streets per seed at 72 m stop after one step
+    // (N-23). The ribbon's 33 m clearance is beyond a second step there at its 30 m stagger.
     const rules = handCase('dense_core').area.rules;
     const D = rules.legality.clearanceCm('secondary');
     for (const share of [1, 0.9]) {

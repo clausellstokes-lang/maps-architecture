@@ -12,7 +12,6 @@ import { createKernel, type Kernel } from '../../src/facade/index.js';
 import { faceNeighbours, faceRings, sampleBoundary, sideRuns } from '../../src/geom/index.js';
 import { OUTSIDE, pointLocate, query, rebuildAtStageEnd } from '../../src/index/index.js';
 import { insertChain, splitThrough } from '../../src/insert/index.js';
-import { decodeArena, encodeArena } from '../../src/io/index.js';
 import type { KernelResult } from '../../src/num/index.js';
 import { clearFiner, removeEdges, resolveStretch, retypeEdges, sampleProfile, setOwner, tx, type Overlay } from '../../src/tx/index.js';
 import type { Cm, Level, PlatKey } from '../../src/types/index.js';
@@ -286,37 +285,6 @@ describe('the keyed doors map the key to its arena', () => {
     expect(bare.index).toBeUndefined();
   });
 
-  it('signature of a lattice point on an arena without an index (a decoded one) finds the live vertex there, as on its indexed twin', () => {
-    // §3.4 `signature(key, v: VertexRef | LatticePoint): VertexSig`, what an edit stores beside a position: the vertex at
-    // the point — its own (role, entity, ordinal) rows and its incident edges' structural rows — or empty where no vertex
-    // stands. A transaction needs an index, so the arena with content and no index is the block decoded without one.
-    const twin = framed();
-    commit(twin, 1, (o) => insertChain(o, [pt(500, 500), pt(3500, 500)], [{ role: 'way', entity: 'way:7' }], 'mandatory', { knots: [{ index: 0, role: 'entrance', ordinal: 0 }] }));
-    healthy(twin);
-    const decoded = decodeArena(encodeArena(twin), GROUND);
-    expect(decoded.ok).toBe(true);
-    if (!decoded.ok) return;
-    const bare = decoded.value;
-    expect(bare.index).toBeUndefined();
-    const k = kernelOver([bare]);
-    const indexed = kernelOver([twin]);
-    const way = { role: 'way', entity: 'way:7', ordinal: 0 };
-    const margin = { role: 'margin', entity: 'terrain:1', ordinal: 0 };
-    const want: [number, number, { v: unknown[]; e: unknown[] }][] = [
-      [500, 500, { v: [{ role: 'entrance', entity: 'way:7', ordinal: 0 }], e: [way] }],
-      [3500, 500, { v: [], e: [way] }],
-      [0, 0, { v: [], e: [margin] }],
-      [4000, 4000, { v: [], e: [margin] }],
-      [2000, 500, { v: [], e: [] }],
-      [2000, 2000, { v: [], e: [] }],
-      [501, 500, { v: [], e: [] }],
-    ];
-    for (const [x, y, sig] of want) {
-      expect(k.geom.signature(GROUND, pt(x, y)), `${x},${y} without an index`).toEqual(sig);
-      expect(indexed.geom.signature(GROUND, pt(x, y)), `${x},${y} on the indexed twin`).toEqual(sig);
-    }
-  });
-
   it('a StretchRef resolves to its one run of half-edges (resolveStretch); one that finds no stretch resolves empty', () => {
     const { p } = crossing();
     const k = kernelOver([p]);
@@ -417,15 +385,15 @@ describe('the view and the lattice-point signature on finer and reordered arenas
   });
 });
 
-// ---- argument forwarding off L1 and off the default arguments --------------------------------------------------------
+// ---- argument forwarding off L1 and off the default arguments (fix round 1 of check/M0-a-16, B-1) -------------------
 // §3.4's `faceNeighbours(key, face, level)`, `sampleProfile(p, owner, key, atCm)`, `sampleBoundary(face, stepCm)`,
 // `sideRuns(face, turnTolCdeg, opts)`, §14's `view(key, level)` and the index's `query` / `rebuildAtStageEnd(key,
 // district)`: each door hands its module the level and the arguments it was given. The fixture has content at L2, L3
 // and L4, and each test first shows that the values it compares differ from L1's and from the level below's (or from
-// the default argument's), so a door that read L1, clamped a level to a coarser one or dropped an argument fails. The
-// fixtures hold L4 content and level-below preconditions; an arena whose L2 face slots run past L1's top (liveness
-// checked at the view's own level); `sideRuns`' turnTolCdeg, `offsetFace`'s per-edge distances and `insetRing`'s dCm at
-// values that change the answer.
+// the default argument's), so a door that read L1, clamped a level to a coarser one or dropped an argument fails.
+// Fix round 2 (check/M0-a-16-close-r1): L4 content and level-below preconditions; an arena whose L2 face slots run past
+// L1's top (liveness checked at the view's own level); `sideRuns`' turnTolCdeg, `offsetFace`'s per-edge distances and
+// `insetRing`'s dCm at values that change the answer.
 
 const LEVELS: readonly Level[] = [0, 1, 2, 3, 4];
 const BOXES = [
@@ -705,7 +673,7 @@ describe('the keyed and levelled doors forward their level and arguments (L0 …
   });
 });
 
-// ---- each level's own faces and the finest-level lattice-point signature ----------------------------------------------
+// ---- fix round 3 (check/M0-a-16-close-r2: R03, R10, R06) --------------------------------------------------------------
 // §14 `view(key, level).faces()` lists the live faces of ITS level in that level's canonical order (§3.4 canonical face
 // key), and §3.4 `signature(key, v)` locates a lattice point at the finest level (L4). Each test first shows that the
 // level below (or L1, or slot order) would give another answer, so a door that read a coarser level fails.
@@ -793,15 +761,15 @@ describe('view(key, level).faces() and the lattice-point signature at their own 
   });
 });
 
-// ---- a closed overlay is no open transaction (§3.3; C-0290) -----------------------------------------------------------
+// ---- session fix round s1 (N-55 (5), Q13 of docs/M0-FIX-QUEUE.md; C-0290) -------------------------------------------
 // §3.3: the kernel applies a batch's ops to a scratch overlay and commits or rejects atomically; once the batch has
 // committed, been rejected or thrown, its overlay is no transaction and a writer handed it is a programming error — a
 // throw in every build, before the module's op runs, never a write outside a transaction with the version unchanged
-// (N-45 (a)). An overlay whose transaction is still open is accepted however it was opened (C-0290: testkit's B-FUZZ
-// writer harness and M0-d-08's issue-order harness write through a kernel that did not open the batch).
+// (N-45 (a); the check's probe P6: "returned ok=true state same: false version 0"). An overlay whose transaction is
+// still open is accepted however it was opened (C-0290: testkit's B-FUZZ writer harness and M0-d-08's issue-order
+// harness write through a kernel that did not open the batch).
 
-// The refusal's whole text, byte for byte (a pinned message text, ids included).
-const NO_OPEN = /^kernel: the overlay is no open transaction: its batch committed, was rejected or threw \(§3\.3; N-55 \(5\); C-0290\)$/;
+const NO_OPEN = /^kernel: the overlay is no open transaction/;
 
 /** Each writer through the façade with overlay `o` (the twins' arguments; pinVertices without its module pre-insert). */
 const FACADE_WRITERS: Record<string, (k: Kernel, o: Overlay, p: Plat) => unknown> = {

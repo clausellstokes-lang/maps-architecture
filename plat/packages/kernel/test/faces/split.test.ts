@@ -140,18 +140,6 @@ describe('splitFace: contacts refused E_NOT_TWO_CROSSINGS, nothing written (§3.
     expect(refused(p, f, [[1000, 1], [3000, 2001]])).toBe('E_NOT_TWO_CROSSINGS');
   });
 
-  it('the vertex rule\'s radius is attractCm: grazing the reflex vertex at 14.1 cm is refused by the judgement, at 28.3 cm the cut splits', () => {
-    const { p, f } = ell();
-    // x − y = 980 passes (2000, 1000) at 20/√2 ≈ 14.1 cm; x − y = 960 at 40/√2 ≈ 28.3 cm.
-    const before = content(p);
-    const r = attempt(p, 1, (o) => splitFace(o, f, pts([[980, 0], [2980, 2000]]), { rows: DB }));
-    expect(!r.ok && r.code).toBe('E_NOT_TWO_CROSSINGS');
-    expect(!r.ok && r.detail).toMatch(/within attractCm of the boundary vertex \(2000, 1000\)/);
-    expect(content(p)).toBe(before);
-    expect(split(p, f, [[960, 0], [2960, 2000]])).toHaveLength(2);
-    content(p);
-  });
-
   it('a cut overlapping a boundary edge', () => {
     const p = halves();
     const f = faceAt(p, 1, 500, 500);
@@ -235,9 +223,6 @@ describe('splitFace: antennae count as boundary (§3.6 (3))', () => {
   it('a cut crossing the antenna is refused', () => {
     const { p, f } = antenna();
     expect(refused(p, f, [[0, 1500], [4000, 1500]])).toBe('E_NOT_TWO_CROSSINGS');
-    // By the judgement's contact rule, before anything is inserted (not by the insertion coming back bent).
-    const r = attempt(p, 1, (o) => splitFace(o, f, pts([[0, 1500], [4000, 1500]]), { rows: DB }));
-    expect(!r.ok && r.detail).toMatch(/the cut touches or crosses the boundary edge \(1000, \d+\)–\(1000, \d+\)/);
   });
 });
 

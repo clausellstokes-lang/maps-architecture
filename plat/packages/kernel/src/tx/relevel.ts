@@ -16,7 +16,7 @@
 //   children re-parented to it; a level-l face left with no level-l edge on its rings and no surviving child is its
 //   parent's own child again and keeps no record (rule 2) — C-0185 (3); the rule climbs: a coarser own child (no edge of
 //   its level on its rings, so no vanishing edge gathers it) whose every child the pass frees is freed too, up to L1,
-//   listed among the batch's removed records and its index item tombstoned (C-0219);
+//   listed among the batch's removed records and its index item tombstoned (N-47, C-0219);
 // * a dissolved vertex's two edges become one: the edge pair at the run's start end is kept (the run's handle never
 //   changes, §3.3), and every record that stored the dropped pair's half-edges stores the kept pair's;
 // * the index is written only where an item changed (§3.3's "no item changes in place", §3.10's freshness row): a
@@ -24,12 +24,7 @@
 //   handle, level or ends differ) — a Steiner vertex leaving a coarser run leaves that run's item alone, as one joining
 //   it does (§3.3) — and a face whose own-level ring changed.
 //
-// Every list this module orders is ordered by lattice positions or canonical keys; slots are only lookup keys. A vertex's
-// rotation is read with the arena's `outgoing`, only between whole writes — a pair's deletion relinks both its ends before
-// it frees the pair, a dissolution's merge relinks the far vertex before the next merge, and the face pass writes face
-// records only — so every read finds a live vertex with a closed rotation, and `outgoing`'s assertion is the fail-safe of
-// a corrupted arena (§3.11's assertion class). The exact tests are the kernel's shared ones: num/exact.ts's
-// `insideDoubledRing` and `comparePoints`, insert/placement.ts's `HOT_PIXEL_SQ` (C-0314).
+// Every list this module orders is ordered by lattice positions or canonical keys; slots are only lookup keys.
 import {
   addRoleRow,
   allocFace,
@@ -46,7 +41,6 @@ import {
   isFaceLive,
   isHalfEdgeLive,
   isVertexLive,
-  outgoing,
   removeRoleRow,
   roleInfo,
   rowElement,
@@ -64,6 +58,7 @@ import {
   type VertexId,
 } from '../arena/index.js';
 import {
+  HOT_PIXEL_CM,
   homeOf,
   indexAdd,
   indexChange,
@@ -77,11 +72,7 @@ import {
   type Box,
   type ItemRef,
 } from '../index/index.js';
-import { setHome } from '../index/items.js';
 import { TX_FACES_WALKED } from '../insert/index.js';
-import { HOT_PIXEL_SQ } from '../insert/placement.js';
-import { WALK_REACH_CM } from '../insert/rewalk.js';
-import { comparePoints, insideDoubledRing } from '../num/exact.js';
 import { area2, orient2d } from '../num/index.js';
 import type { Cm, LatticePoint, Level } from '../types/index.js';
 import { chargeTx, check, noteRow, type OpenTx } from './state.js';
@@ -108,16 +99,10 @@ export interface Rewrite {
 
 // ---- small helpers --------------------------------------------------------------------------------------------------
 
-/**
- * The box a half-edge a–b asks the index with for the record whose walk holds it: `WALK_REACH_CM` past its ends (session
- * round S7, C-0349's form): the index reads a level-m record on its level-m route, while the half-edge may join two
- * Steiner vertices up to a hot pixel per level finer off that route, outside a tighter box.
- */
 function box(p: Plat, a: VertexId, b: VertexId): Box {
   const X = p.vertices.x;
   const Y = p.vertices.y;
-  const r = WALK_REACH_CM;
-  return { minX: Math.min(X[a], X[b]) - r, minY: Math.min(Y[a], Y[b]) - r, maxX: Math.max(X[a], X[b]) + r, maxY: Math.max(Y[a], Y[b]) + r };
+  return { minX: Math.min(X[a], X[b]) - 1, minY: Math.min(Y[a], Y[b]) - 1, maxX: Math.max(X[a], X[b]) + 1, maxY: Math.max(Y[a], Y[b]) + 1 };
 }
 
 function ringBox(p: Plat, rings: readonly (readonly HalfEdgeId[])[]): Box {
@@ -138,6 +123,20 @@ function ringBox(p: Plat, rings: readonly (readonly HalfEdgeId[])[]): Box {
     }
   }
   return { minX: minX - 1, minY: minY - 1, maxX: maxX + 1, maxY: maxY + 1 };
+}
+
+/** The outgoing half-edges at v (clockwise from its `out`). */
+function around(p: Plat, v: VertexId): HalfEdgeId[] {
+  const first = p.vertices.out[v];
+  const out: HalfEdgeId[] = [];
+  if (first === -1) return out;
+  let e = first;
+  do {
+    out.push(e);
+    check(out.length <= p.halfEdges.origin.length, `the rotation at vertex ${v} does not close`);
+    e = p.halfEdges.next[e ^ 1];
+  } while (e !== first);
+  return out;
 }
 
 /** A row's text with its level: identical row sets compare equal. */
@@ -171,6 +170,22 @@ export function recordLeftOf(t: OpenTx, level: Level, h: HalfEdgeId): FaceId {
     for (const g of faceHoles(p, level, f)) if (ring.has(g)) return f;
   }
   return -1;
+}
+
+/** Is the doubled point strictly inside the ring of lattice points (crossing number, exact orientation)? */
+function insidePoints(pts: readonly LatticePoint[], qx2: number, qy2: number): boolean {
+  let inside = false;
+  for (let i = 0; i < pts.length; i++) {
+    const a = pts[i];
+    const b = pts[(i + 1) % pts.length];
+    const ay = 2 * a.y;
+    const by = 2 * b.y;
+    if ((ay > qy2) !== (by > qy2)) {
+      const o = orient2d(2 * a.x, ay, 2 * b.x, by, qx2, qy2);
+      if (by > ay ? o > 0 : o < 0) inside = !inside;
+    }
+  }
+  return inside;
 }
 
 function pointsOf(p: Plat, ring: readonly HalfEdgeId[]): LatticePoint[] {
@@ -223,8 +238,11 @@ function nearSegment(p: Plat, v: VertexId, a: VertexId, b: VertexId): boolean {
   const dot = (X[v] - X[a]) * dx + (Y[v] - Y[a]) * dy;
   if (dot < 0 || dot > l2) return false;
   const o = orient2d(X[a], Y[a], X[b], Y[b], X[v], Y[v]);
-  return o * o <= HOT_PIXEL_SQ * l2;
+  return o * o <= HOT_SQ * l2;
 }
+
+/** The hot pixel's radius squared (0.71 cm, §3.2, §3.6). */
+const HOT_SQ = HOT_PIXEL_CM * HOT_PIXEL_CM;
 
 /**
  * Could the dissolution remove u — a `split` vertex with no vertex row and no pin whose two edges carry one level and
@@ -234,7 +252,7 @@ function dissolvable(p: Plat, u: VertexId): boolean {
   if (!isVertexLive(p, u)) return false;
   const flags = p.vertices.flags[u];
   if ((flags & VERTEX_SPLIT) === 0 || (flags & VERTEX_PINNED) !== 0 || p.roles.vertexFirst[u] !== -1) return false;
-  const inc = outgoing(p, u);
+  const inc = around(p, u);
   if (inc.length !== 2 || inc[0] >> 1 === inc[1] >> 1) return false;
   const T = p.halfEdges;
   return T.level[inc[0] >> 1] === T.level[inc[1] >> 1] && sameList(pairRows(p, inc[0]), pairRows(p, inc[1]));
@@ -247,10 +265,11 @@ function dissolvable(p: Plat, u: VertexId): boolean {
  * was placed within the hot pixel of the PIECE of the edge it split, and that piece's ends were the edge's ends or
  * earlier splits of it, all still on the stretch before the batch (only a removal dissolves them): one of these segments
  * is that piece, whatever the order the splits came in — no history read. The neighbours' segment (an earlier split
- * standing off its LATER neighbour) and the restored stretch's are two of them; an edge split three or more times can
- * place a middle split near a piece that is neither. Positions never change in a rewrite, so the segments are the
- * pre-batch arena's; the walk reads the topology the deletions left (the removed chain's edges gone, its crossings of
- * degree 2). A stretch that closes on v (a ring of such vertices) has no ends: false.
+ * standing off its LATER neighbour's, the property's case 855) and the restored stretch's are two of them; an edge split
+ * four times places a middle split near a piece neither is (checks/M0-a-06-s2.md B-1: cases 817, 1526). Positions never
+ * change in a rewrite, so the segments are the pre-batch arena's; the walk reads the topology the deletions left (the
+ * removed chain's edges gone, its crossings of degree 2). A stretch that closes on v (a ring of such vertices) has no
+ * ends: false.
  */
 function onStretch(p: Plat, v: VertexId, ha: HalfEdgeId, hb: HalfEdgeId): boolean {
   const T = p.halfEdges;
@@ -263,7 +282,7 @@ function onStretch(p: Plat, v: VertexId, ha: HalfEdgeId, hb: HalfEdgeId): boolea
       if (u === v) return null;
       out.push(u);
       if (!dissolvable(p, u)) return out;
-      const [g1, g2] = outgoing(p, u);
+      const [g1, g2] = around(p, u);
       h = g1 === (h ^ 1) ? g2 : g1;
     }
   };
@@ -327,9 +346,12 @@ function runOf(p: Plat, e: number): { level: Level; handle: number; a: VertexId;
   return { level: run.level, handle: hs[0] >> 1, a: p.halfEdges.origin[hs[0]], b: dest(p, hs[hs.length - 1]), pairs: hs.map((h) => h >> 1) };
 }
 
-/** Two old records by their canonical keys (§3.3's face key: two lattice points, each y then x). */
+function pointCmp(a: LatticePoint, b: LatticePoint): number {
+  return a.y !== b.y ? (a.y < b.y ? -1 : 1) : a.x !== b.x ? (a.x < b.x ? -1 : 1) : 0;
+}
+
 function keyCmp(a: OldRecord, b: OldRecord): number {
-  return comparePoints(a.key[0], b.key[0]) || comparePoints(a.key[1], b.key[1]);
+  return pointCmp(a.key[0], b.key[0]) || pointCmp(a.key[1], b.key[1]);
 }
 
 /** The records round a split vertex at each level, found before any write (the dissolution's and restoration's faces). */
@@ -399,14 +421,14 @@ export function rewriteRows(t: OpenTx, w: Rewrite): boolean {
   // against the stretch the dissolution will restore. Rule 3 (b), dissolution and split restoration read these pairs
   // (followed through the batch's earlier merges), never the geometry after a merge: dissolving one crossing of a run
   // moves the far end of the next, which was placed within the hot pixel of the piece it split, not of the restored edge
-  // (C-0223).
+  // (checks/M0-a-06-s1.md B-1; C-0223).
   const onRunBefore = new Map<VertexId, [number, number][]>();
   // (b): each split vertex's run candidates — pairs of its incident edges of its lowest incident level with identical rows
   // there; a pair is one of its runs when it is also on onRunBefore's list.
   const runsBefore = new Map<VertexId, [number, number][]>();
   for (const v of vstar) {
     if ((p.vertices.flags[v] & VERTEX_SPLIT) === 0) continue;
-    const inc = outgoing(p, v);
+    const inc = around(p, v);
     if (inc.length === 0) continue;
     const on: [number, number][] = [];
     for (let i = 0; i < inc.length; i++) {
@@ -421,9 +443,9 @@ export function rewriteRows(t: OpenTx, w: Rewrite): boolean {
     const pairs: [number, number][] = [];
     for (let i = 0; i < at.length; i++) {
       for (let j = i + 1; j < at.length; j++) {
-        // Identical rows before the batch are read with the batch's stripped rows left out, C-0287: a run a removed chain
-        // shared at the run's own level carried that chain's row on the shared side only, yet the run it split survives
-        // whole. The pre-batch arena and the batch's own strip set decide — no history is needed.
+        // "Identical rows before the batch" is read with the rows this batch strips left out (N-55 (1), C-0287): a run a
+        // removed chain shared at the run's own level carried that chain's row on the shared side only, yet the run it
+        // split survives whole. The pre-batch arena and the batch's own strip set decide — no history is needed.
         if (sameList(levelRows(p, at[i], m0, strip), levelRows(p, at[j], m0, strip))) pairs.push([at[i] >> 1, at[j] >> 1]);
       }
     }
@@ -455,7 +477,7 @@ export function rewriteRows(t: OpenTx, w: Rewrite): boolean {
   // walked at this level) seed the re-walk too, so the face it merges into gets every ring it brings (C-0185 (3)).
   const seeds: HalfEdgeId[][][] = LV.map(() => []);
   // The records beside an edge demoted past their level: the face each joins still holds that (finer) edge, so it keeps a
-  // record — the parent of the own children the edge's new level needs (rule 2; C-0189 (1)).
+  // record — the parent of the own children the edge's new level needs (rule 2; checks/M0-a-06.md F-1).
   const holdsDemoted: Set<FaceId>[] = LV.map(() => new Set());
   const sideAt = (l: Level, h: HalfEdgeId, demotedSide = false): void => {
     const f = recordLeftOf(t, l, h);
@@ -483,7 +505,7 @@ export function rewriteRows(t: OpenTx, w: Rewrite): boolean {
   const aroundV = new Map<VertexId, Around[]>();
   for (const v of vstar) {
     if ((p.vertices.flags[v] & VERTEX_SPLIT) === 0) continue;
-    const inc = outgoing(p, v);
+    const inc = around(p, v);
     const list: Around[] = [];
     for (const l of LV) {
       for (const h of inc) {
@@ -503,7 +525,7 @@ export function rewriteRows(t: OpenTx, w: Rewrite): boolean {
     oldRuns.set(r.handle, { ...r, home: homeOf(p, { kind: ITEM_EDGE, level: r.level, slot: r.handle }) });
   };
   for (const e of touchedPairs) saveRun(e);
-  for (const v of vstar) for (const h of outgoing(p, v)) saveRun(h >> 1);
+  for (const v of vstar) for (const h of around(p, v)) saveRun(h >> 1);
   const oldVertex = new Map<VertexId, { level: Level; home: number }>();
   for (const v of vstar) oldVertex.set(v, { level: L[v] as Level, home: p.indexHome.vertex[v] });
   const faceHome = new Map<string, number>();
@@ -542,7 +564,7 @@ export function rewriteRows(t: OpenTx, w: Rewrite): boolean {
       materialisePlan.push({ h, level: nl, probes, bases });
     }
   }
-  // The own-child ancestors of every saved record (rule 2, C-0185 (3)'s keep rule, C-0219): a record coarser than the
+  // The own-child ancestors of every saved record (N-47; rule 2, C-0185 (3)'s keep rule): a record coarser than the
   // vanishing edges with no edge of its own level on its rings has no edge the rewrite deletes or demotes, so no side
   // gathers it — yet where the face pass frees its every child it is its parent's own child again and keeps no record.
   // Gathered now, before any write (its children by the index): each saved record's parent chain, finest first, up to
@@ -589,7 +611,7 @@ export function rewriteRows(t: OpenTx, w: Rewrite): boolean {
     removeRoleRow(p, r);
   }
   // (b), the pin: a vertex from which the batch strips its last vertex row other than knot rows loses its kernel pin — a
-  // non-knot row stripped and none left; stripping only knot rows keeps it (C-0189 (3)).
+  // non-knot row stripped and none left; stripping only knot rows keeps it (checks/M0-a-06.md F-3).
   for (const [v, lostNonKnot] of nonKnotLost) {
     if ((p.vertices.flags[v] & VERTEX_PINNED) === 0) continue;
     const left = rowsOn(p, 'vertex', v).some((r) => !roleInfo(R.kind[r]).knot);
@@ -633,7 +655,7 @@ export function rewriteRows(t: OpenTx, w: Rewrite): boolean {
   for (const v of canonical(vstar)) {
     if ((p.vertices.flags[v] & VERTEX_SPLIT) === 0) continue;
     const on = onRunBefore.get(v) ?? [];
-    const inc = outgoing(p, v);
+    const inc = around(p, v);
     for (let i = 0; i < inc.length; i++) {
       for (let j = i + 1; j < inc.length; j++) {
         const x = inc[i] >> 1;
@@ -659,7 +681,7 @@ export function rewriteRows(t: OpenTx, w: Rewrite): boolean {
   // (c) vertices, in canonical order.
   for (const v of canonical(vstar)) {
     const lv = L[v];
-    const inc = outgoing(p, v);
+    const inc = around(p, v);
     const vr = rowsOn(p, 'vertex', v);
     const coarse = inc.some((h) => T.level[h >> 1] <= lv) || vr.some((r) => R.level[r] <= lv);
     if (coarse) {
@@ -670,12 +692,7 @@ export function rewriteRows(t: OpenTx, w: Rewrite): boolean {
       const under = inc.filter((h) => T.level[h >> 1] < lv);
       if (under.length === 0) continue;
       const m = T.level[under[0] >> 1];
-      // The run is single at every level the vertex stands inside — each r from the edges' level m up to the vertex's own
-      // (exclusive): the two edges carry identical rows of level r (of level ≤ 1 at r = 1, as the routes chunk reads
-      // them), so every level's rows stay constant along the level-r run through it (§3.10's level consistency read at
-      // every level between; the encoder's `runRows`; session round S7).
-      let single = under.length === 2 && T.level[under[1] >> 1] === m;
-      for (let r = m; single && r < lv; r++) single = sameList(runLevelRows(p, under[0], r), runLevelRows(p, under[1], r));
+      const single = under.length === 2 && T.level[under[1] >> 1] === m && sameList(levelRows(p, under[0], m), levelRows(p, under[1], m));
       if (single) continue;
       let lowest = lv;
       for (const h of inc) lowest = Math.min(lowest, T.level[h >> 1]);
@@ -779,13 +796,6 @@ export function rewriteRows(t: OpenTx, w: Rewrite): boolean {
     if (written.has(k)) continue;
     written.add(k);
     const item: ItemRef = { kind: ITEM_FACE, level: fw.level, slot: fw.f };
-    // A record the rewrite freed whose slot it handed out again (materialise, the face pass) had its home entry reset by
-    // the allocation, its static copy still untombstoned: the entry noted before the first write is put back, so the
-    // write below tombstones that copy (an arena whose index was rebuilt, as after a load, holds every record in a
-    // partition; session round S7). Nothing else writes the index during the rewrite, so a noted home the entry no
-    // longer names was reset by such an allocation.
-    const noted = faceHome.get(k);
-    if (noted !== undefined && noted !== -1 && homeOf(p, item) === -1) setHome(p, item, noted);
     // The slot's state at the end decides: a record the face pass freed whose slot materialise re-used is live again.
     if (isFaceLive(p, fw.level, fw.f)) {
       indexChange(p, item);
@@ -812,15 +822,10 @@ export function rewriteRows(t: OpenTx, w: Rewrite): boolean {
 
 /**
  * The rows of a pair of exactly one level, as texts (the rows a run's identity reads, rule 3 (b)), leaving out the row
- * slots in `except` (the batch's strip set, where rule 3 (b) reads the pre-batch arena; C-0287).
+ * slots in `except` (the batch's strip set, where rule 3 (b) reads the pre-batch arena; N-55 (1)).
  */
 function levelRows(p: Plat, h: HalfEdgeId, level: number, except?: ReadonlySet<number>): string[] {
   return rowsOn(p, 'edge', h).filter((r) => p.roles.level[r] === level && !(except?.has(r) ?? false)).map((r) => rowText(p, r));
-}
-
-/** The rows a level-r run reads as one along its edges: those of level r, and at r = 1 those of level ≤ 1. */
-function runLevelRows(p: Plat, h: HalfEdgeId, r: number): string[] {
-  return r === 1 ? pairRows(p, h, 1) : levelRows(p, h, r);
 }
 
 // ---- the face pass ----------------------------------------------------------------------------------------------------
@@ -842,7 +847,7 @@ interface NewFace {
  * Re-walks, at every level, the faces round the old records (see the module comment): new cycles from the records'
  * surviving half-edges, faces by exact area and containment, each old record mapped to the face its region joined;
  * then, finest level first, which faces must keep a record (an edge of their level on a ring, or a surviving child),
- * an own-child ancestor of the re-walked records keeping its record only while a child survives (C-0219); then, coarsest
+ * an own-child ancestor of the re-walked records keeping its record only while a child survives (N-47); then, coarsest
  * first, the records written: the survivor by canonical key, the others freed, children re-parented.
  * Writes the arena's face tables only; returns the records whose index items the caller writes.
  */
@@ -889,7 +894,7 @@ function facePass(
         const on = new Set<VertexId>(cycles[o].map((h) => O[h]));
         const v = cycles[i].map((h) => O[h]).find((x) => !on.has(x));
         if (v === undefined) continue;
-        if (insideDoubledRing(pts[o], 2 * p.vertices.x[v], 2 * p.vertices.y[v])) best = o;
+        if (insidePoints(pts[o], 2 * p.vertices.x[v], 2 * p.vertices.y[v])) best = o;
       }
       if (best >= 0) holeOf.set(i, best);
       else check(l === 0, `an L${l} hole cycle lies in no face of the re-walked region`);
@@ -929,8 +934,8 @@ function facePass(
         let best = -1;
         for (let k = 0; k < faces.length; k++) {
           const f = faces[k];
-          if (!insideDoubledRing(pts[f.outer], qx2, qy2)) continue;
-          if (f.holes.some((hc) => insideDoubledRing(pts[hc], qx2, qy2))) continue;
+          if (!insidePoints(pts[f.outer], qx2, qy2)) continue;
+          if (f.holes.some((hc) => insidePoints(pts[hc], qx2, qy2))) continue;
           if (best < 0 || area[f.outer] < area[faces[best].outer]) best = k;
         }
         if (best >= 0) fi = best;
@@ -981,8 +986,8 @@ function facePass(
       const sv = keep ? survivorRec(l, fi) : null;
       for (const r of f.recs) survives[l].set(r.f, sv !== null && r.f === sv.f);
     });
-    // An own-child ancestor keeps its record only while a child survives, C-0219: its rings are unchanged and hold no
-    // edge of its level.
+    // An own-child ancestor (N-47): its rings are unchanged and hold no edge of its level, so it keeps its record only
+    // while a child survives.
     if (l > 0 && l < 4) {
       const up = (l + 1) as Level;
       for (const r of ancestors[l].values()) {
@@ -995,7 +1000,7 @@ function facePass(
   // Coarsest level first: write the records.
   for (const l of LV) {
     const F = p.faces[l];
-    // The own-child ancestors left with no child: freed, listed and tombstoned like any freed record (C-0219), in key order.
+    // The own-child ancestors left with no child: freed, listed and tombstoned like any freed record (N-47), in key order.
     for (const r of [...ancestors[l].values()].sort(keyCmp)) {
       if (survives[l].get(r.f) !== false) continue;
       successor.set(`${l}:${r.f}`, -1);
@@ -1075,7 +1080,7 @@ interface MaterialisePlan {
  * side — the cycle through it, or the base region's ring that holds it as a hole — a new record with the base's kind,
  * owner and stage, its parent the record one level up. A side some record already covers (the face pass's, or one made
  * for the other side) is skipped, so both sides, a dangling edge and a merged or freed coarser record are each served
- * once (C-0189 (1)). Written to the face tables only; returns the records for the caller's index writes.
+ * once (checks/M0-a-06.md F-1). Written to the face tables only; returns the records for the caller's index writes.
  */
 function materialise(t: OpenTx, plans: readonly MaterialisePlan[], successor: ReadonlyMap<string, FaceId>, coveredBy: readonly Map<HalfEdgeId, FaceId>[]): FaceWrite[] {
   const p = t.plat;
@@ -1167,7 +1172,7 @@ function materialise(t: OpenTx, plans: readonly MaterialisePlan[], successor: Re
       for (let o = 1; o < cycles.length; o++) {
         if (area[o] <= 0 || (outer >= 0 && area[o] >= area[outer])) continue;
         const v = holeVertex(0, o);
-        if (v !== undefined && insideDoubledRing(pts[o], 2 * p.vertices.x[v], 2 * p.vertices.y[v])) outer = o;
+        if (v !== undefined && insidePoints(pts[o], 2 * p.vertices.x[v], 2 * p.vertices.y[v])) outer = o;
       }
     }
     if (outer < 0) continue;
@@ -1180,7 +1185,7 @@ function materialise(t: OpenTx, plans: readonly MaterialisePlan[], successor: Re
         if (area[o] <= 0 || (best >= 0 && area[o] >= area[best])) continue;
         const on = new Set<VertexId>(cycles[o].map((h) => T.origin[h]));
         const v = cycles[i].map((h) => T.origin[h]).find((x) => !on.has(x));
-        if (v !== undefined && insideDoubledRing(pts[o], 2 * p.vertices.x[v], 2 * p.vertices.y[v])) best = o;
+        if (v !== undefined && insidePoints(pts[o], 2 * p.vertices.x[v], 2 * p.vertices.y[v])) best = o;
       }
       if (best === outer) holes.push(i);
     }
@@ -1219,7 +1224,7 @@ function dissolve(
   const flags = p.vertices.flags[v];
   if ((flags & VERTEX_SPLIT) === 0 || (flags & VERTEX_PINNED) !== 0) return;
   if (p.roles.vertexFirst[v] !== -1) return;
-  const inc = outgoing(p, v);
+  const inc = around(p, v);
   if (inc.length !== 2) return;
   const [ha, hb] = inc;
   const ea = ha >> 1;
@@ -1230,7 +1235,7 @@ function dissolve(
   const ua = dest(p, ha);
   const ub = dest(p, hb);
   if (ua === ub) return;
-  for (const h of outgoing(p, ua)) if (dest(p, h) === ub) return; // the restored edge would double an existing one
+  for (const h of around(p, ua)) if (dest(p, h) === ub) return; // the restored edge would double an existing one
   const m = T.level[ea] as Level;
   const lv = p.vertices.level[v];
   let keepA: boolean;
@@ -1277,12 +1282,7 @@ function dissolve(
  * exactly two, of one level, with identical rows of its level or coarser, which carries no vertex row of its level or
  * coarser and no pin, but still meets finer edges or carries finer vertex rows, takes the lowest level among those —
  * the vertex dissolution would take but for that finer geometry — and keeps its flag (now a Steiner vertex of the run).
- * The on-run test is `wasOnRun`'s, decided before the first merge (C-0223). A finer chain that ENDS at the vertex along
- * the run — a row finer than the vertex on one of its two edges and not the other (a kerb along a way, ending at the
- * junction a removed way left) — is finer geometry it meets too: the level is at most that row's, so every level's rows
- * stay constant along the run the vertex now stands inside (§3.10's level consistency; the encoder's `runRows`) and the
- * chain's own-level route keeps its end (session round S6, C-0356). Such a chain also triggers restoration on its own,
- * with no finer edge or finer vertex row (session round S7).
+ * The on-run test is `wasOnRun`'s, decided before the first merge (C-0223).
  */
 function restoreSplit(
   t: OpenTx,
@@ -1298,7 +1298,7 @@ function restoreSplit(
   const flags = p.vertices.flags[v];
   if ((flags & VERTEX_SPLIT) === 0 || (flags & VERTEX_PINNED) !== 0) return;
   const lv = p.vertices.level[v];
-  const inc = outgoing(p, v);
+  const inc = around(p, v);
   const coarse = inc.filter((h) => T.level[h >> 1] <= lv);
   if (coarse.length !== 2 || (coarse[0] >> 1) === (coarse[1] >> 1)) return;
   const m = T.level[coarse[0] >> 1];
@@ -1310,14 +1310,6 @@ function restoreSplit(
   let finer = 5;
   for (const h of inc) if (T.level[h >> 1] > lv) finer = Math.min(finer, T.level[h >> 1]);
   for (const r of vr) finer = Math.min(finer, R.level[r]);
-  // The rows finer than the vertex that one of its two run edges carries and the other does not: a chain ending here. It
-  // is finer geometry the vertex meets for the trigger too (session round S7): a vertex whose only finer geometry is such
-  // an ending chain is restored to that chain's level, so the coarser route is restored exactly and the chain's later
-  // removal (a batch of its level) dissolves a vertex of that level — never one of the coarser level it cannot write.
-  const ra = pairRows(p, coarse[0]);
-  const rb = pairRows(p, coarse[1]);
-  for (const r of rowsOn(p, 'edge', coarse[0])) if (R.level[r] > lv && !rb.includes(rowText(p, r))) finer = Math.min(finer, R.level[r]);
-  for (const r of rowsOn(p, 'edge', coarse[1])) if (R.level[r] > lv && !ra.includes(rowText(p, r))) finer = Math.min(finer, R.level[r]);
   if (finer === 5) return;
   for (const a of near) if (a.level >= lv && a.level < finer) changedFaces.push(a);
   p.vertices.level[v] = finer;

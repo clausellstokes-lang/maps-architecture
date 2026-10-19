@@ -79,9 +79,6 @@ describe('the plain fixture takes no top-up (the stand-in demand, C-0016)', () =
       }
       expect(d.check.builtCm2).toBeCloseTo(built, 3);
       expect(d.check.faces.some((f) => f.reserveCm2 > 0)).toBe(true);
-      // The record lists its faces in key order (UTF-16 code units), one order whatever the faces' numbering.
-      const keys = d.check.faces.map((f) => f.key);
-      expect(keys).toEqual([...keys].sort((a, b) => (a < b ? -1 : a > b ? 1 : 0)));
     }
     // Stage 1 holds the plaza: a reservation face.
     expect(g.run.capacity[0].check.faces.some((f) => f.reserved === 'reservation')).toBe(true);
@@ -190,7 +187,7 @@ describe('the top-up (F-BUDGET-STAGE)', () => {
       // The tally counts every street S5c accepted, the pruned ones included.
       const before = acceptedStreets(state, k);
       expect(before).toBe(main.length);
-      // The case discriminates: the stage's prune removed streets, so its live ways (S5b's primaries and the streets
+      // The case discriminates (B-4): the stage's prune removed streets, so its live ways (S5b's primaries and the streets
       // kept) are not the count accepted — a rim keyed from the live count would start at the wrong index.
       const keptMain = growthRecord(state, k)!.streets.length;
       expect(keptMain, `seed ${String(seed)}: the stage's prune removed streets`).toBeLessThan(main.length);

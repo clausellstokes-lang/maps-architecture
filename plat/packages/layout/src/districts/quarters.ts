@@ -9,12 +9,9 @@
 //     when every such adjacency is across one (C-0245 (13)).
 //   * A model whose districts fall apart into parts no adjacency joins merges its parts' roots last, at the barrier
 //     cost (as if separated), so one root always remains.
-//   * Costs are integers in cm² (1 ha = 10⁸ cm², siting's `HA_CM2`), so ties are exact; members are listed in
-//     `compareKeys` order.
+//   * Costs are integers in cm² (1 ha = 10⁸ cm²), so ties are exact.
 //   * `name` and `spine` are S13a's (§9.1: "named by S13a"; the label spine §9.3's): '' and [] at M0 (C-0245 (14)).
-import { compareKeys } from '@plat/kernel';
 import type { Id } from '@plat/model';
-import { HA_CM2 } from '../siting/geom.js';
 import type { QuarterNode } from './types.js';
 
 /** One district as the tree reads it. */
@@ -47,6 +44,8 @@ export interface QuarterTree {
   readonly nodes: QuarterNode[];
   readonly cut: Id[];
 }
+
+const HA_CM2 = 100_000_000;
 
 interface Live {
   node: QuarterNode;
@@ -131,7 +130,7 @@ export function quarterTree(leaves: readonly QuarterLeaf[], adjacency: readonly 
     const [first, second] = lessId(x.node.id, y.node.id) ? [x, y] : [y, x];
     const node: QuarterNode = {
       id: opts.nodeId(L + merges),
-      members: [...first.node.members, ...second.node.members].sort(compareKeys),
+      members: [...first.node.members, ...second.node.members].sort((a, b) => (a < b ? -1 : a > b ? 1 : 0)),
       children: [first.node.id, second.node.id],
       name: '',
       spine: [],
