@@ -1,6 +1,6 @@
 // M0-m-01: @plat/model's types — the re-export test of C-0112 (every type of C-0112's kernel list is reachable from
 // @plat/model under its design name, a reflection test over the list through the TypeScript checker, and
-// model/src declares none of them a second time), the identity and lifecycle shapes of §2.8, the staged brand,
+// model/src declares none of them a second time; the façade's ArenaKey, TransientKey and CarryMap too), the identity and lifecycle shapes of §2.8, the staged brand,
 // types/ and records/ have no runtime export, and in types/, records/, schema/ and stage/ a type has one import path
 // (another folder's module through its index) and no comment narrates a round. Type assertions are checked by
 // `corepack pnpm build` (tsc -b compiles this file) and the file runs under vitest.
@@ -11,8 +11,10 @@ import { describe, expect, expectTypeOf, it } from 'vitest';
 import type * as K from '@plat/kernel';
 import type * as Mdl from '../../src/index.js';
 import type { NotBuilt, RaisedWayRecord } from '../../src/index.js';
+import { DESIGN_WORDS, NARRATION, NARRATION_CAUGHT, narrationIn } from './narration.js';
 
 const MODEL_SRC = fileURLToPath(new URL('../../src/', import.meta.url));
+const MODEL_TEST = fileURLToPath(new URL('../', import.meta.url));
 const KERNEL_SRC = fileURLToPath(new URL('../../../kernel/src/', import.meta.url));
 
 /** C-0112 (1) and (2)'s list, with C-0134 (9)'s four prerequisites: the kernel's types @plat/model re-exports. */
@@ -49,6 +51,8 @@ const C0112 = [
   'LineageHash',
 ] as const;
 const PREREQUISITES = ['Layer', 'RoleName', 'RoleKey', 'Order'] as const;
+/** C-0112 (3)'s three, declared by the kernel's façade (C-0220 (11)): the arena keys and the carry map. */
+const FACADE = ['ArenaKey', 'TransientKey', 'CarryMap'] as const;
 
 /** Every code file under a folder, absolute, sorted. */
 function sourceFiles(dir: string): string[] {
@@ -81,6 +85,13 @@ function modelProgram(): ts.Program {
     customConditions: ['plat-source'],
   };
   return ts.createProgram({ rootNames: [`${MODEL_SRC}index.ts`], options });
+}
+
+let cachedProgram: ts.Program | undefined;
+/** One program for the reflection tests of this file (a whole-program build costs seconds). */
+function sharedProgram(): ts.Program {
+  cachedProgram ??= modelProgram();
+  return cachedProgram;
 }
 
 describe('the re-export of the kernel\'s types (C-0112)', () => {
@@ -120,10 +131,13 @@ describe('the re-export of the kernel\'s types (C-0112)', () => {
     expectTypeOf<Mdl.RoleName>().toEqualTypeOf<K.RoleName>();
     expectTypeOf<Mdl.RoleKey>().toEqualTypeOf<K.RoleKey>();
     expectTypeOf<Mdl.Order>().toEqualTypeOf<K.Order>();
+    expectTypeOf<Mdl.ArenaKey>().toEqualTypeOf<K.ArenaKey>();
+    expectTypeOf<Mdl.TransientKey>().toEqualTypeOf<K.TransientKey>();
+    expectTypeOf<Mdl.CarryMap>().toEqualTypeOf<K.CarryMap>();
   });
 
   it('reflection over the list: each name is exported by model/src/index.ts and resolves to its declaration in kernel/src/types or kernel/src/hash', () => {
-    const program = modelProgram();
+    const program = sharedProgram();
     const checker = program.getTypeChecker();
     const index = program.getSourceFile(`${MODEL_SRC}index.ts`);
     expect(index).toBeDefined();
@@ -144,8 +158,21 @@ describe('the re-export of the kernel\'s types (C-0112)', () => {
     expect(diagnostics).toEqual([]);
   }, 60_000); // a whole-program type check of model/src and the kernel source it reads: seconds, more on a loaded machine
 
+  it('the façade\'s three (C-0112 (3), C-0220 (11)): ArenaKey, TransientKey and CarryMap are exported by model/src/index.ts and resolve to their declarations in kernel/src/facade', () => {
+    const checker = sharedProgram().getTypeChecker();
+    const index = sharedProgram().getSourceFile(`${MODEL_SRC}index.ts`) as ts.SourceFile;
+    const exports = new Map(checker.getExportsOfModule(checker.getSymbolAtLocation(index) as ts.Symbol).map((s) => [s.getName(), s]));
+    for (const name of FACADE) {
+      const sym = exports.get(name);
+      expect(sym, `${name} exported by @plat/model`).toBeDefined();
+      const target = (sym as ts.Symbol).flags & ts.SymbolFlags.Alias ? checker.getAliasedSymbol(sym as ts.Symbol) : sym;
+      const files = (target?.declarations ?? []).map((d) => d.getSourceFile().fileName);
+      expect(files, `${name}'s declarations`).toEqual([`${KERNEL_SRC}facade/types.ts`]);
+    }
+  }, 60_000);
+
   it('model/src declares none of them a second time (every type alias, interface, class and enum declaration in model/src)', () => {
-    const names = new Set<string>([...C0112, ...PREREQUISITES]);
+    const names = new Set<string>([...C0112, ...PREREQUISITES, ...FACADE]);
     const files = sourceFiles(MODEL_SRC);
     expect(files.length).toBeGreaterThan(10);
     const redeclared: string[] = [];
@@ -271,6 +298,52 @@ describe('types/ and records/ have no runtime export', () => {
   }
 });
 
+/**
+ * Every module specifier a file names, with its line: import and export declarations, `import x = require('…')`,
+ * an inline type query `import('…').T` in any type position, and a dynamic `import('…')` — wherever it sits in the
+ * tree. A specifier that is no string literal is reported as `<computed>`.
+ */
+function moduleSpecifiers(sf: ts.SourceFile): { spec: string; line: number }[] {
+  const out: { spec: string; line: number }[] = [];
+  const add = (node: ts.Node, lit: ts.Node | undefined): void => {
+    const spec = lit !== undefined && ts.isStringLiteralLike(lit) ? lit.text : '<computed>';
+    out.push({ spec, line: sf.getLineAndCharacterOfPosition(node.getStart(sf)).line + 1 });
+  };
+  const visit = (node: ts.Node): void => {
+    if ((ts.isImportDeclaration(node) || ts.isExportDeclaration(node)) && node.moduleSpecifier !== undefined) add(node, node.moduleSpecifier);
+    else if (ts.isImportEqualsDeclaration(node) && ts.isExternalModuleReference(node.moduleReference)) add(node, node.moduleReference.expression);
+    else if (ts.isImportTypeNode(node)) add(node, ts.isLiteralTypeNode(node.argument) ? node.argument.literal : undefined);
+    else if (ts.isCallExpression(node) && node.expression.kind === ts.SyntaxKind.ImportKeyword) add(node, node.arguments[0]);
+    ts.forEachChild(node, visit);
+  };
+  visit(sf);
+  return out;
+}
+
+/** The 1-based lines a file's comments cover (every leading and trailing comment of every token, once). */
+function commentLines(sf: ts.SourceFile): Set<number> {
+  const text = sf.getFullText();
+  const seen = new Set<number>();
+  const lines = new Set<number>();
+  const take = (ranges: readonly ts.CommentRange[] | undefined): void => {
+    for (const r of ranges ?? []) {
+      if (seen.has(r.pos)) continue;
+      seen.add(r.pos);
+      const a = sf.getLineAndCharacterOfPosition(r.pos).line;
+      const b = sf.getLineAndCharacterOfPosition(r.end).line;
+      for (let l = a; l <= b; l += 1) lines.add(l + 1);
+    }
+  };
+  const visit = (node: ts.Node): void => {
+    take(ts.getLeadingCommentRanges(text, node.getFullStart()));
+    take(ts.getTrailingCommentRanges(text, node.getEnd()));
+    ts.forEachChild(node, visit);
+  };
+  visit(sf);
+  take(ts.getLeadingCommentRanges(text, sf.endOfFileToken.getFullStart()));
+  return lines;
+}
+
 describe('model/src/{types,records,schema,stage}: one import path per type, and comments that state the design', () => {
   const FOLDERS = ['types', 'records', 'schema', 'stage'] as const;
 
@@ -279,12 +352,10 @@ describe('model/src/{types,records,schema,stage}: one import path per type, and 
     for (const folder of FOLDERS) {
       for (const f of sourceFiles(`${MODEL_SRC}${folder}/`)) {
         const sf = ts.createSourceFile(f, readFileSync(f, 'utf8'), ts.ScriptTarget.ES2022, true);
-        for (const st of sf.statements) {
-          if (!(ts.isImportDeclaration(st) || ts.isExportDeclaration(st)) || st.moduleSpecifier === undefined) continue;
-          const spec = (st.moduleSpecifier as ts.StringLiteral).text;
+        for (const { spec, line } of moduleSpecifiers(sf)) {
           seen.push(spec);
           const ok = spec.startsWith('../') ? /^\.\.\/(types|records|schema|stage)\/index\.js$/.test(spec) : spec.startsWith('./') || spec === '@plat/kernel';
-          expect(ok, `${f.slice(MODEL_SRC.length)} imports '${spec}'`).toBe(true);
+          expect(ok, `${f.slice(MODEL_SRC.length)}:${line} imports '${spec}'`).toBe(true);
         }
       }
     }
@@ -292,14 +363,52 @@ describe('model/src/{types,records,schema,stage}: one import path per type, and 
     expect(seen).toContain('../records/index.js');
   });
 
+  it('the walk sees every form of module specifier: declarations, import = require, an inline type query and a dynamic import', () => {
+    const probe = [
+      "import type { A } from '../types/index.js';",
+      "export type { B } from './sibling.js';",
+      "import C = require('../records/walls.js');",
+      "type D = { life: import('../types/identity.js').Lifecycle; deep: Array<import('../schema/order.js').T> };",
+      "export const e = async (): Promise<unknown> => import('../stage/vocab.js');",
+      'export const f = async (p: string): Promise<unknown> => import(p);',
+    ].join('\n');
+    const sf = ts.createSourceFile('probe.ts', probe, ts.ScriptTarget.ES2022, true);
+    expect(moduleSpecifiers(sf)).toEqual([
+      { spec: '../types/index.js', line: 1 },
+      { spec: './sibling.js', line: 2 },
+      { spec: '../records/walls.js', line: 3 },
+      { spec: '../types/identity.js', line: 4 },
+      { spec: '../schema/order.js', line: 4 },
+      { spec: '../stage/vocab.js', line: 5 },
+      { spec: '<computed>', line: 6 },
+    ]);
+  });
+
   it('no comment narrates a round, a check or a landing (the history is in docs/build/checks/)', () => {
-    const NARRATION = /not yet landed|when this item lands|fix round|\bround [a-z]?\d|the check's|the checker's|\bN-\d+\b|scaffold created/i;
+    // every line of src and test in the four folders; the pattern list's own file by its comments only (its code holds
+    // the patterns and the probes they exist for)
+    const LIST = `${MODEL_TEST}types/narration.ts`;
+    const scanned: string[] = [];
     for (const folder of FOLDERS) {
-      for (const f of sourceFiles(`${MODEL_SRC}${folder}/`)) {
-        readFileSync(f, 'utf8')
-          .split('\n')
-          .forEach((line, i) => expect(NARRATION.test(line), `${f.slice(MODEL_SRC.length)}:${i + 1}: ${line}`).toBe(false));
+      for (const f of [...sourceFiles(`${MODEL_SRC}${folder}/`), ...sourceFiles(`${MODEL_TEST}${folder}/`)]) {
+        const text = readFileSync(f, 'utf8');
+        const only = f === LIST ? commentLines(ts.createSourceFile(f, text, ts.ScriptTarget.ES2022, true)) : null;
+        const name = f.slice(MODEL_SRC.length - 4);
+        scanned.push(name);
+        text.split('\n').forEach((line, i) => {
+          if (only !== null && !only.has(i + 1)) return;
+          expect(narrationIn(line), `${name}:${i + 1}: ${line}`).toEqual([]);
+        });
       }
     }
+    for (const f of ['src/stage/decl.ts', 'src/records/site.ts', 'test/types/types.test.ts', 'test/types/narration.ts', 'test/records/records.test.ts', 'test/schema/schema.test.ts', 'test/stage/stage.test.ts']) {
+      expect(scanned, f).toContain(f);
+    }
+  });
+
+  it('the pattern list catches each probe, every phrase the first deny-list caught and the phrasings that escaped it, and passes the design\'s own words', () => {
+    for (const p of NARRATION) expect(p.re.test(p.probe), `${p.name}: ${p.probe}`).toBe(true);
+    for (const line of NARRATION_CAUGHT) expect(narrationIn(line), line).not.toEqual([]);
+    for (const line of DESIGN_WORDS) expect(narrationIn(line), line).toEqual([]);
   });
 });

@@ -2,12 +2,13 @@
 // its log2 variant (lawLimit, with fast-check properties at PLAT_FUZZ_RUNS); StageDecl, StageHookDecl, Stage,
 // StageContext, Scope and BatchScope carry the design's fields; a StageContext binds its environment's slots (the
 // hand-built context a stage test below @plat/layout uses, C-0123 (1)); STAGE_IDS is C-0020's order and DATA_KEYS
-// §4.12's keys. Type assertions are checked by `corepack pnpm build`; the file runs under vitest.
+// §4.12's keys; generatedLifecycle is §2.8's generated stamp, a fresh object per call. Type assertions are checked by `corepack pnpm build`; the file runs under vitest.
 import fc from 'fast-check';
 import { describe, expect, expectTypeOf, it } from 'vitest';
 import type { BatchScope as KernelBatchScope, KernelResult } from '@plat/kernel';
 import {
   DATA_KEYS,
+  generatedLifecycle,
   lawLimit,
   STAGE_IDS,
   type BatchScope,
@@ -43,6 +44,7 @@ import {
   type Cdeg,
   type EditId,
   type EntityKind,
+  type Lifecycle,
 } from '../../src/index.js';
 
 const law = (perUnit: number, floor: number, log2?: boolean): WorkLimitLaw =>
@@ -239,5 +241,54 @@ describe('the stage and data-key vocabularies', () => {
     expectTypeOf<KnownDataKey>().toMatchTypeOf<DataKey>();
     const own: DataKey = 'districts';
     expect(own).toBe('districts');
+  });
+});
+
+describe('the lifecycle stamp of a generated record (§2.8)', () => {
+  /** The stamp as every M0 record writer spells it: the oracle, written out. */
+  const stamp = (epoch: number): Lifecycle => ({
+    existence: 'generated',
+    flags: { locked: false, pinned: false, edited: false, assigned: false },
+    since: { epoch, seq: 0 },
+  });
+
+  it('generatedLifecycle(epoch) is the generated stamp: no flag set, since the epoch at seq 0, keys in §2.8\'s order', () => {
+    expectTypeOf(generatedLifecycle).parameters.toEqualTypeOf<[number]>();
+    expectTypeOf(generatedLifecycle).returns.toEqualTypeOf<Lifecycle>();
+    for (const epoch of [0, 1, 7, 2 ** 32 - 1, Number.MAX_SAFE_INTEGER]) {
+      const life = generatedLifecycle(epoch);
+      expect(life).toStrictEqual(stamp(epoch));
+      expect(JSON.stringify(life)).toBe(JSON.stringify(stamp(epoch)));
+    }
+    expect(Object.is(generatedLifecycle(-0).since.epoch, 0)).toBe(true);
+  });
+
+  it('a fresh, unfrozen object per call: writing on one stamp leaves the next unchanged', () => {
+    const a = generatedLifecycle(3);
+    const b = generatedLifecycle(3);
+    expect(a).not.toBe(b);
+    expect(a.flags).not.toBe(b.flags);
+    expect(a.since).not.toBe(b.since);
+    expect([Object.isFrozen(a), Object.isFrozen(a.flags), Object.isFrozen(a.since)]).toEqual([false, false, false]);
+    a.existence = 'altered';
+    a.flags.locked = true;
+    a.since.seq = 9;
+    expect(generatedLifecycle(3)).toStrictEqual(stamp(3));
+    expect(b).toStrictEqual(stamp(3));
+  });
+
+  it('property: every whole epoch from 0 to 2^53 − 1 gives the stamp', () => {
+    fc.assert(
+      fc.property(fc.maxSafeNat(), (epoch) => {
+        expect(generatedLifecycle(epoch)).toStrictEqual(stamp(epoch));
+      }),
+    );
+  });
+
+  it('refuses an epoch that is negative, fractional, NaN, infinite or past 2^53 − 1', () => {
+    for (const epoch of [-1, 0.5, -0.0001, Number.NaN, Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY, 2 ** 53]) {
+      expect(() => generatedLifecycle(epoch)).toThrow(new RangeError(`generatedLifecycle: epoch ${epoch} is not a whole number ≥ 0`));
+    }
+    expect(() => generatedLifecycle(-1)).toThrow(/^generatedLifecycle: epoch -1 is not a whole number ≥ 0$/);
   });
 });

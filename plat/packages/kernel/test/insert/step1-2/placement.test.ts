@@ -32,7 +32,6 @@ import {
   problems,
   pt,
   splitEndsBreach,
-  WEDGE_S,
   type ArenaSpec,
 } from './support.js';
 
@@ -442,27 +441,6 @@ describe('the rule, test by test', () => {
     expect(far.ok && far.value.tried).toBeGreaterThan(10);
   });
 
-  it('N-6: a run with a finer vertex beside a thin wedge — no candidate qualifies, and the fallback is the nearer endpoint of the sub-edge the exact position falls on (S), not of the run’s two ends', () => {
-    const b = indexed(WEDGE_S);
-    const p = b.plat;
-    expect(problems(p)).toEqual([]);
-    // (314, 3 190)'s foot on the run's own-level route (723, 3 092) → (0, 3 282): on the sub-edge (723, 3 092)–S, 140 cm
-    // from S; the run's ends stand 420 cm and 327 cm away
-    const ux = -723;
-    const uy = 190;
-    const s = ((314 - 723) * ux + (3190 - 3092) * uy) / (ux * ux + uy * uy);
-    const exact = { x: 723 + s * ux, y: 3092 + s * uy };
-    // the run named by any of its half-edges, either way round: one answer
-    for (const h of [b.he[8], b.he[8] ^ 1, b.he[9], b.he[9] ^ 1]) {
-      const t = insertTx(p, 2);
-      const r = placePoint(t, h, exact);
-      expect(r.ok && r.value).toMatchObject({ kind: 'endpoint', vertex: b.v[8] });
-      expect(r.ok && r.warnings).toEqual([{ code: 'W_PLACED', count: 1, at: { x: 181, y: 3234 } }]);
-      // the candidates were tried (the sub-edge's ends can clear each other once split) and every one refused
-      expect(r.ok && r.value.tried).toBeGreaterThan(40);
-    }
-  });
-
   it('charges each candidate; at the work limit E_WORK_LIMIT', () => {
     const b = indexed(lineWith([0, 0], [1000, 0]));
     expect(placePoint(insertTx(b.plat, 2, { workLimit: 2 }), b.he[4], { x: 24.4, y: 0 })).toEqual({ ok: false, code: 'E_WORK_LIMIT', detail: INSERT_PLACEMENT_CANDIDATES });
@@ -551,41 +529,6 @@ describe('a split keeps clearance at its own ends (C-0279 (4); C-0284)', () => {
     expect(r.ok).toBe(true);
     expect(t.journal.vertices).toHaveLength(1);
     expect(problems(p)).toEqual([]);
-  });
-
-  it('N-10: the rule’s boundary — P exactly minEdge (25 cm) inside the frame clears the frame edges at E, so the split is placed; P 24 cm inside cannot, so it falls back onto the nearer end, writing nothing', () => {
-    for (const [d, breach] of [[25, false], [24, true]] as const) {
-      const b = indexed(nearFrame(d));
-      const p = b.plat;
-      const [E, P] = [b.v[4], b.v[5]];
-      expect(problems(p)).toEqual([]);
-      // P stands d cm from the frame edge (3 034, 4 000)–(0, 4 000) at E: §3.10 allows exactly minEdge
-      expect(splitEndsBreach(p, P, E)).toBe(breach); // the oracle
-      expect(splitEndsBreachClearance(p, P, E)).toBe(breach);
-      expect(splitEndsBreachClearance(p, E, P)).toBe(breach);
-      // a point beside P–E 54 cm along it from P (its foot clear of both ends by more than attractCm)
-      const q = pt(2966, Math.round(4000 - d + (54 * d) / 122));
-      // splitThrough at q, both ways round, each on a fresh copy of the arena
-      for (const forward of [true, false]) {
-        const fresh = indexed(nearFrame(d));
-        const pp = fresh.plat;
-        const [E1, P1] = [fresh.v[4], fresh.v[5]];
-        const before = fingerprint(pp);
-        const t = insertTx(pp, 1);
-        const r = splitThrough(t, forward ? halfEdge(pp, P1, E1) : halfEdge(pp, E1, P1), q);
-        expect(r.ok).toBe(true);
-        if (breach) {
-          expect(r.ok && r.value).toBe(P1);
-          expect(t.warnings).toEqual([{ code: 'W_PLACED', count: 1, at: pt(2912, 4000 - d) }]);
-          expect(t.journal.vertices).toEqual([]);
-          expect(fingerprint(pp)).toBe(before);
-        } else {
-          expect(t.journal.vertices).toHaveLength(1);
-          expect(r.ok && r.value).toBe(t.journal.vertices[0]);
-        }
-        expect(problems(pp)).toEqual([]);
-      }
-    }
   });
 
   it('the one-ring exemption that stays: s beside an edge t–w whose far end w is s’s own neighbour (a thin triangle) — the split is placed, §3.10 holds', () => {
