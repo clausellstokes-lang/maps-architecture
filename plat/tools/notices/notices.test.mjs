@@ -1,5 +1,6 @@
 // M0-s-01's licence and notices tests (§17.4; C-0052, C-0058, C-0095).
-import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
+import { spawnSync } from 'node:child_process';
+import { mkdtempSync, readFileSync, rmSync, symlinkSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
@@ -78,6 +79,17 @@ describe('the licence checker', () => {
     expect(r.failures.map((f) => f.name)).toEqual(['planted-gpl']);
   });
 
+  // N-18: the exceptions (and the failures) come in name-then-version order, versions compared by code unit, whatever
+  // the closure's insertion order — the order the lint's `dev exceptions:` line prints (lint/licences.mjs).
+  it('lists the exceptions and the failures by name, then version (code-unit order)', () => {
+    const p = (name, version) => [`${name}@${version}`, { name, version, licence: 'GPL-3.0-only', dir: '/nowhere', via: 'test' }];
+    const planted = new Map([p('zz-b', '1.0.0'), p('zz-a', '2.0.0'), p('zz-a', '10.0.0')]);
+    const r = checkLicences(new Map(planted), planted, {});
+    const order = (list) => list.map((e) => `${e.name}@${e.version}`);
+    expect(order(r.exceptions)).toEqual(['zz-a@10.0.0', 'zz-a@2.0.0', 'zz-b@1.0.0']);
+    expect(order(r.failures)).toEqual(['zz-a@10.0.0', 'zz-a@2.0.0', 'zz-b@1.0.0']);
+  });
+
   it('reads SPDX expressions', () => {
     expect(permitted('MIT')).toBe(true);
     expect(permitted('(MIT OR GPL-3.0-only)')).toBe(true);
@@ -97,16 +109,16 @@ describe('THIRD-PARTY-NOTICES.txt', () => {
     expect(committed).toContain(`\n${FDLIBM_HEADING}\n`);
   });
 
-  // C-0095: the placeholder while vendor/fdlibm-5.3/NOTICE.txt is absent, Sun's notice once it is present and the file
-  // is regenerated (`corepack pnpm notices`) — exactly one of the two, never both, whichever state the tree is in.
-  it("holds exactly one of the fdlibm placeholder and Sun's notice, as vendor/fdlibm-5.3/NOTICE.txt's presence says", () => {
+  // C-0095 as closed by the hardening round S4 (L15): Sun's notice has landed in vendor/fdlibm-5.3/NOTICE.txt, so the
+  // committed file holds it, once, and never the placeholder; a missing or empty notice throws rather than ship it.
+  it("holds Sun's notice once and never the placeholder: vendor/fdlibm-5.3/NOTICE.txt has landed (C-0095, L15)", () => {
     const notice = fdlibmNotice(PLAT_ROOT);
-    expect(fdlibmState(committed, notice)).toBe(notice === null ? 'placeholder' : 'notice');
+    expect(notice).toMatch(/^fdlibm 5\.3 \(Freely Distributable LIBM\), developed at Sun Microsystems, Inc\.\n/);
+    expect(fdlibmState(committed, notice)).toBe('notice');
+    expect(committed).not.toContain(FDLIBM_PLACEHOLDER);
   });
 
   it("takes Sun's notice in place of the placeholder when NOTICE.txt lands (simulated in memory)", () => {
-    const without = noticesText(PLAT_ROOT, production, null);
-    expect(fdlibmState(without, null)).toBe('placeholder');
     const notice = normaliseNotice('SIMULATED fdlibm NOTICE (not Sun\'s text)\r\nsecond line  \n\n');
     expect(notice).toBe('SIMULATED fdlibm NOTICE (not Sun\'s text)\nsecond line');
     const withNotice = noticesText(PLAT_ROOT, production, notice);
@@ -114,9 +126,20 @@ describe('THIRD-PARTY-NOTICES.txt', () => {
     expect(withNotice).not.toContain(FDLIBM_PLACEHOLDER);
     expect(withNotice).toContain(`\n${FDLIBM_HEADING}\n\n${notice}\n`);
     // only the fdlibm section changes: the libraries' part is the same text
-    expect(withNotice.slice(0, withNotice.indexOf(FDLIBM_HEADING))).toBe(without.slice(0, without.indexOf(FDLIBM_HEADING)));
+    expect(withNotice.slice(0, withNotice.indexOf(FDLIBM_HEADING))).toBe(text.slice(0, text.indexOf(FDLIBM_HEADING)));
     // with no notice passed, the generator reads the tree: the committed state
     expect(noticesText(PLAT_ROOT, production)).toBe(noticesText(PLAT_ROOT, production, fdlibmNotice(PLAT_ROOT)));
+  });
+
+  it("refuses to write the notices without Sun's notice: a missing or empty NOTICE.txt throws, naming it (L15)", () => {
+    const message = "notices: vendor/fdlibm-5.3/NOTICE.txt is missing or empty; Sun's notice is never replaced by the placeholder";
+    for (const notice of [null, '']) expect(() => noticesText(PLAT_ROOT, production, notice), String(notice)).toThrow(message);
+    const empty = mkdtempSync(join(tmpdir(), 'plat-notices-'));
+    try {
+      expect(fdlibmNotice(empty)).toBeNull();
+    } finally {
+      rmSync(empty, { recursive: true, force: true });
+    }
   });
 
   it('refuses a notices text holding both, neither, or one of them twice', () => {
@@ -162,5 +185,20 @@ describe('THIRD-PARTY-NOTICES.txt', () => {
 
   it('is committed as generated', () => {
     expect(committed).toBe(text);
+  });
+
+  // L14 (S-3): the main-script test compares real paths, so `notices:check` named through a symbolic link still runs.
+  it('runs notices:check when the script is named through a symbolic link', () => {
+    const dir = mkdtempSync(join(tmpdir(), 'plat-notices-link-'));
+    try {
+      const link = join(dir, 'generate.mjs');
+      symlinkSync(join(PLAT_ROOT, 'tools', 'notices', 'generate.mjs'), link);
+      const r = spawnSync(process.execPath, [link, '--check'], { cwd: PLAT_ROOT, encoding: 'utf8' });
+      expect(r.stderr).toBe('');
+      expect(r.status).toBe(0);
+      expect(r.stdout).toContain(`notices ok — ${NOTICES_FILE} is current\n`);
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
   });
 });

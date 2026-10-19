@@ -3,8 +3,10 @@
 //   node tools/notices/generate.mjs           write the file and run the licence check
 //   node tools/notices/generate.mjs --check   fail when the committed file differs from the generated text
 // Per third-party package of the production closure, sorted by name: name, version, licence, its copyright lines and
-// its licence text; then Sun's fdlibm notice (vendor/fdlibm-5.3/NOTICE.txt; while that file is absent, a placeholder
-// in its place — exactly one of the two, never both, C-0095). Fonts' OFL text joins at M1 with the fonts (§17.2).
+// its licence text; then Sun's fdlibm notice (vendor/fdlibm-5.3/NOTICE.txt). The notice has landed, so a missing or
+// empty NOTICE.txt throws and the placeholder is never written again (C-0095's either-state reading closed, L15); the
+// placeholder's text stays only so that a notices file still holding it is told apart (fdlibmState). Fonts' OFL text
+// joins at M1 with the fonts (§17.2).
 // Then the public-domain algorithms the kernel ports or implements, credited though they bind no licence (CLEAN-ROOM.md
 // rule 7; C-0259 (3)): xoshiro128** 1.1 with the authors' dedication read from the vendored C, and
 // MurmurHash3 (no file vendored: our own implementation of the published algorithm). A credit whose source is missing
@@ -12,8 +14,7 @@
 // Exit 1 on a production licence failure or a --check diff.
 import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { fileURLToPath } from 'node:url';
-import { byCodeUnit } from '../vendor/common.mjs';
+import { byCodeUnit, isMain } from '../vendor/common.mjs';
 import { PLAT_ROOT, checkLicences, devClosure, productionClosure } from './closure.mjs';
 
 export const NOTICES_FILE = 'THIRD-PARTY-NOTICES.txt';
@@ -97,7 +98,7 @@ function licenceText(dir) {
 
 /**
  * The notices text for the workspace at `root` (deterministic: sorted, LF line ends). `notice` is Sun's fdlibm notice
- * (read from `root` by default; null gives the placeholder) — a test passes it in memory to simulate M0-d-03's file.
+ * (read from `root` by default; a test may pass a text in memory); a null or empty notice throws, naming the file.
  */
 export function noticesText(
   root = PLAT_ROOT,
@@ -123,12 +124,13 @@ export function noticesText(
     for (const c of copyright) parts.push(c);
     parts.push('', text ?? '(the package ships no licence file; its package.json declares the licence above)', '');
   }
-  parts.push(RULE, FDLIBM_HEADING, '', notice ?? FDLIBM_PLACEHOLDER, '');
+  if (!notice) throw new Error(`notices: ${FDLIBM_NOTICE} is missing or empty; Sun's notice is never replaced by the placeholder`);
+  parts.push(RULE, FDLIBM_HEADING, '', notice, '');
   for (const c of credits) parts.push(RULE, c.heading, '', c.body, '');
   return parts.join('\n') + '\n';
 }
 
-if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
+if (isMain(import.meta.url)) {
   const production = productionClosure();
   const exceptionsTable = JSON.parse(readFileSync(new URL('./dev-exceptions.json', import.meta.url), 'utf8'));
   const r = checkLicences(production, devClosure(PLAT_ROOT, production), exceptionsTable);

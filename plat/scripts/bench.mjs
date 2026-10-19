@@ -118,12 +118,16 @@ async function main(rawArgs) {
   return typeof code === 'number' ? code : 0;
 }
 
-const isMain = (() => {
+/**
+ * Is the module at `url` the script node was started with? Real paths compared, so a script named through a symbolic
+ * link runs (the tools' one form, as `tools/landed/snapshot.mjs`'s; L14). The scripts' helper: build.mjs imports it.
+ */
+export const isMain = (url) => {
   if (!process.argv[1]) return false;
   try {
-    return realpathSync(process.argv[1]) === realpathSync(fileURLToPath(import.meta.url));
+    return realpathSync(process.argv[1]) === realpathSync(fileURLToPath(url));
   } catch {
     return false;
   }
-})();
-if (isMain) process.exit(await main(process.argv.slice(2)));
+};
+if (isMain(import.meta.url)) process.exit(await main(process.argv.slice(2)));
