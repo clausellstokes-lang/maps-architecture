@@ -6,7 +6,7 @@
 // after every writer step the whole arena is swept (`checkCI`: every hard §3.10 row and the Euler characteristic) —
 // §13.1's "Properties (checked after every operation)". A whole draw runs under the hard timeout. The numeric-core
 // cases keep their own `run` (M0-a-01, judged by M0-k-02). Readings: C-0227.
-import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync, realpathSync, statSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
@@ -131,6 +131,9 @@ interface Scene {
   readonly widths: SpineWidths;
   /** Each entity's profile as the last retype or removal left it (§2.2 rule 5: knots renumbered in chain order). */
   readonly profiles: Map<string, AnyProfile>;
+  /** The judge's plant (its own tests; empty otherwise) and the op of the step running (the plant's `tx` reads it). */
+  readonly plant: JudgePlant;
+  current: string;
 }
 
 // ---- the draw on an arena -------------------------------------------------------------------------------------------
@@ -241,7 +244,8 @@ const asStep = (r: KernelResult<unknown>): Step => (r.ok ? { kind: 'ok', value: 
 
 /** A batch through the façade: the commit's value as the step's value. */
 function batch(s: Scene, level: Level, fn: (o: Overlay) => KernelResult<unknown>, over: Partial<KernelTx> = {}, k: Kernel = s.k): Step {
-  const r = k.tx(spec(level, over), fn);
+  const commit = () => k.tx(spec(level, over), fn);
+  const r = s.plant.tx === undefined ? commit() : (s.plant.tx(s.current, commit, s.p) as ReturnType<typeof commit>);
   if (!r.ok) return asStep(r);
   return { kind: 'ok', value: r.value.value, warnings: r.warnings };
 }
@@ -903,6 +907,12 @@ function envFor(g: ConstructiveInput, ownersParts: ReadonlyMap<string, number>):
 export interface JudgePlant {
   readonly afterStep?: (p: Plat, i: number) => void;
   readonly step?: (op: string, i: number, run: () => Step) => Step;
+  /**
+   * Wraps a step's transaction (`op` the step's): `commit` runs the real one, and the result the step reads is the
+   * wrapper's — so a fault made inside the step, after its commit, is what the step returns (the hardening round S1's
+   * N-15: a split whose children no longer tile the parent the step read before it).
+   */
+  readonly tx?: (op: string, commit: () => KernelResult<unknown>, p: Plat) => KernelResult<unknown>;
 }
 
 function play(c: ConstructiveCase, raw: ConstructiveInput, plant: JudgePlant = {}): Run | string {
@@ -922,7 +932,7 @@ function play(c: ConstructiveCase, raw: ConstructiveInput, plant: JudgePlant = {
     others.set('other', q);
   }
   const context = { chainParts: env.chainParts as NonNullable<TxEnv['chainParts']> };
-  scene = { c, g, p, others, k: kernelOn([p, ...others.values()], { base: env, spineWidths: widths, context }), inserted: new Map(), districts: new Map(), records: new Map(), warp: null, chunks: null, firstChunks: null, problems: [], env, widths, profiles: new Map() };
+  scene = { c, g, p, others, k: kernelOn([p, ...others.values()], { base: env, spineWidths: widths, context }), inserted: new Map(), districts: new Map(), records: new Map(), warp: null, chunks: null, firstChunks: null, problems: [], env, widths, profiles: new Map(), plant, current: '' };
   const s = scene;
   for (let i = 0; i < g.steps.length; i++) {
     const st = g.steps[i];
@@ -930,6 +940,7 @@ function play(c: ConstructiveCase, raw: ConstructiveInput, plant: JudgePlant = {
     const versionBefore = s.p.version;
     const printBefore = isLast ? topology(s.p) : '';
     const faceCountBefore = s.p.slots.face[1].live;
+    s.current = st.op;
     const r = plant.step === undefined ? runStep(s, st, i) : plant.step(st.op, i, () => runStep(s, st, i));
     if (!isLast && r.kind !== 'ok') return `step ${String(i)} (${st.op}) ${r.kind === 'threw' ? `threw: ${r.message}` : `refused ${r.code} ${r.detail}`} — every step before the last returns ok`;
     if (r.kind === 'ok') plant.afterStep?.(s.p, i);
@@ -1411,6 +1422,10 @@ function property(prop: string, run: Run): string | null {
       return Math.abs(a.value.centre.x - b.centre.x) <= 1e-6 && Math.abs(a.value.centre.y - b.centre.y) <= 1e-6 ? null : `the centre moved (${String(a.value.centre.x)}, ${String(a.value.centre.y)}) → (${String(b.centre.x)}, ${String(b.centre.y)})`;
     }
     case 'same-code-every-rung':
+      // A STATIC reading of "one kernel with no rung-specific number … the same code at every size" (the hardening round
+      // S1's N-11): the two lattice constants every rung reads, checked as constants. It cannot fail on a code path —
+      // the rungs' code paths are judged by the case's other holds (in-range, children-tile-parent) on every rung's
+      // draw. Marking it static in the case data (`limits.ts`, limit/every-rung) is M0-k-02's: reported, not built here.
       return LATTICE.minEdgeCm === 25 && LATTICE.attractCm === 26 ? null : 'the lattice constants differ';
     case 'kernel-reads-no-model':
       return kernelReadsNoModel();
@@ -1699,11 +1714,28 @@ function placementRule(s: Scene): string | null {
 
 let kernelStatic: string | null | undefined;
 
+/**
+ * The `@plat/kernel` package's folder as this module resolves the package — Node's bare-specifier lookup, the nearest
+ * `node_modules/@plat/kernel` up from this file, its link followed — so the same answer comes from the source
+ * (`src/invariants/`) and from the built bundle (`dist/index.js`), where a path relative to the source missed (the
+ * hardening round S1's N-7). Null when no folder up the tree holds the package.
+ */
+function kernelPackageRoot(): string | null {
+  let dir = dirname(fileURLToPath(import.meta.url));
+  for (;;) {
+    const at = join(dir, 'node_modules', '@plat', 'kernel');
+    if (existsSync(join(at, 'package.json'))) return realpathSync(at);
+    const up = dirname(dir);
+    if (up === dir) return null;
+    dir = up;
+  }
+}
+
 /** §3.11: `@plat/kernel` depends on no other workspace package and imports none (its package file and its sources). */
 function kernelReadsNoModel(): string | null {
   if (kernelStatic !== undefined) return kernelStatic;
-  const here = dirname(fileURLToPath(import.meta.url));
-  const root = join(here, '..', '..', '..', 'kernel');
+  const root = kernelPackageRoot();
+  if (root === null) return (kernelStatic = 'the @plat/kernel package does not resolve from @plat/testkit');
   const pkg = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8')) as { dependencies?: Record<string, string> };
   const deps = Object.keys(pkg.dependencies ?? {}).filter((d) => d.startsWith('@plat/'));
   if (deps.length > 0) return (kernelStatic = `the kernel depends on ${deps.join(', ')}`);
@@ -1790,35 +1822,84 @@ export interface KernelConstructiveReport extends ConstructiveReport {
   readonly staleKnown: string[];
 }
 
+/** One M0 case's draws judged (`iterateCase`): whether any draw had a verdict, the draws judged and every failing draw. */
+interface CaseRun {
+  readonly judged: boolean;
+  readonly draws: number;
+  /** Every failing draw, uncapped (the known-pattern check reads them all; the report keeps the first 40). */
+  readonly failures: readonly { readonly id: string; readonly seed: number; readonly reason: string }[];
+}
+
+/**
+ * One M0 case on seeds 0 … n − 1 with the judge — M0-k-02's iteration (`runConstructive`) taken over for the M0 cases by
+ * the hardening round S1. Pending is decided on the whole case, not on its first seed (M0-k-02's N-7): a case is pending
+ * only when the judge answers on none of its draws; a judge that answers on some draws and is silent on others is
+ * selective by seed, and every silent draw is a failure, before a verdict as after one. Every failing draw's reason is
+ * kept, so the known-pattern check reads all of them rather than the first 20 (N-3). A generator or judge throw is a
+ * failing draw, as in `runConstructive`.
+ */
+function iterateCase(c: ConstructiveCase, n: number, judge: ConstructiveJudge): CaseRun {
+  const verdicts: (ConstructiveVerdict | undefined)[] = [];
+  for (let seed = 0; seed < n; seed++) {
+    let v: ConstructiveVerdict | undefined;
+    try {
+      const input = c.generate(seed);
+      v = input.kind !== 'input' ? { ok: false, reason: 'an M0 case returned a deferred stub' } : judge(c, input);
+    } catch (e) {
+      v = { ok: false, reason: `threw: ${e instanceof Error ? e.message : String(e)}` };
+    }
+    verdicts.push(v);
+  }
+  const answered = verdicts.findIndex((v) => v !== undefined);
+  if (answered < 0) return { judged: false, draws: 0, failures: [] };
+  const failures: { id: string; seed: number; reason: string }[] = [];
+  verdicts.forEach((v, seed) => {
+    if (v === undefined) failures.push({ id: c.id, seed, reason: `the judge gave no verdict on this seed but gave one on seed ${String(answered)} (a judge selective by seed)` });
+    else if (!v.ok) failures.push({ id: c.id, seed, reason: v.reason });
+  });
+  return { judged: true, draws: n, failures };
+}
+
 /**
  * Runs the constructive set against the kernel: every case at `seeds` draws — a swept case (`sweep`) at its whole sweep
- * when `sweeps` is true, else at min(sweep, seeds) — every deferred case drawn once and counted by its milestone, the
- * known findings (CONSTRUCTIVE_KNOWN) apart.
+ * when `sweeps` is true, else at min(sweep, seeds) — every deferred case drawn once by M0-k-02's iteration and counted by
+ * its milestone, every M0 case by `iterateCase`, the known findings (CONSTRUCTIVE_KNOWN) apart: a known case is known
+ * only when every one of its failing draws matches its pattern (all of them, uncapped, N-3).
  */
 export function runConstructiveOnKernel(
   cases: readonly ConstructiveCase[],
   seeds: number,
   opts: { readonly sweeps?: boolean; readonly known?: readonly KnownFinding[]; readonly judge?: ConstructiveJudge } = {},
 ): KernelConstructiveReport {
+  if (!(Number.isInteger(seeds) && seeds >= 1)) throw new RangeError(`runConstructiveOnKernel: the seed count is a whole number ≥ 1, got ${String(seeds)} (§13.8 Edges: an empty family fails, never passes vacuously)`);
   const knownList = opts.known ?? CONSTRUCTIVE_KNOWN;
   const judge = opts.judge ?? kernelJudge;
   const out: KernelConstructiveReport = { cases: 0, judged: 0, draws: 0, green: 0, failures: [], failedCases: 0, pending: [], deferred: runConstructive([], 1).deferred, known: [], staleKnown: [] };
   for (const c of cases) {
-    const n = c.milestone !== 'M0' ? 1 : c.sweep === undefined ? seeds : opts.sweeps === true ? c.sweep : Math.min(c.sweep, seeds);
-    const r = runConstructive([c], n, judge);
-    out.cases += r.cases;
-    out.judged += r.judged;
+    out.cases += 1;
+    if (c.milestone !== 'M0') {
+      const r = runConstructive([c], 1, judge);
+      for (const k of Object.keys(r.deferred) as (keyof typeof out.deferred)[]) out.deferred[k] += r.deferred[k];
+      out.failedCases += r.failedCases;
+      for (const f of r.failures) if (out.failures.length < 40) out.failures.push(f);
+      continue;
+    }
+    const n = c.sweep === undefined ? seeds : opts.sweeps === true ? c.sweep : Math.min(c.sweep, seeds);
+    const r = iterateCase(c, n, judge);
+    if (!r.judged) {
+      out.pending.push(c.id);
+      continue;
+    }
+    out.judged += 1;
     out.draws += r.draws;
-    out.pending.push(...r.pending);
-    for (const k of Object.keys(r.deferred) as (keyof typeof out.deferred)[]) out.deferred[k] += r.deferred[k];
     const ki = knownList.find((x) => x.id === c.id);
-    if (ki !== undefined && r.failedCases === 1 && r.failures.every((f) => ki.pattern.test(f.reason))) {
+    if (ki !== undefined && r.failures.length > 0 && r.failures.every((f) => ki.pattern.test(f.reason))) {
       out.known.push({ id: c.id, draws: r.draws, finding: ki.finding });
       continue;
     }
-    if (ki !== undefined && r.failedCases === 0 && r.judged === 1) out.staleKnown.push(c.id);
-    out.green += r.green;
-    out.failedCases += r.failedCases;
+    if (ki !== undefined && r.failures.length === 0) out.staleKnown.push(c.id);
+    if (r.failures.length === 0) out.green += 1;
+    else out.failedCases += 1;
     for (const f of r.failures) if (out.failures.length < 40) out.failures.push(f);
   }
   return out;
