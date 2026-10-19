@@ -1,7 +1,7 @@
 // Test support for M0-a-07's face partitioners: arenas with faces to cut (a framed square split by a way, a face with
 // holes, a face with an antenna), the face record holding a lattice point, a face's rings as lattice points, and the
-// exact area identity the children of a split are judged by (§13.1: integer area2 equality, BigInt here, written
-// without the code under test).
+// exact area identity the children of a split are judged by (§13.1: integer area2 equality against the parent read
+// before the split, `tileDefect`; BigInt here, written without the code under test).
 import { faceWalk, isFaceLive, isVertexLive, outgoing, type FaceId, type HalfEdgeId, type Plat, type VertexId } from '../../src/arena/index.js';
 import { insertChain } from '../../src/insert/index.js';
 import type { KernelResult } from '../../src/num/index.js';
@@ -33,6 +33,62 @@ export function faceArea2Big(p: Plat, level: Level, f: FaceId): bigint {
   let s = 0n;
   for (const r of faceWalk(p, level, f)) s += ringArea2(p, r);
   return s;
+}
+
+/** A face as a split finds it (§13.1's tiling, read before the split): its exact area2 and the vertices of its rings. */
+export interface Parent {
+  readonly area2: bigint;
+  readonly vertices: ReadonlySet<VertexId>;
+}
+
+/** The face `f` of `level` before a split (call it before the split commits). */
+export function parentOf(p: Plat, level: Level, f: FaceId): Parent {
+  const O = p.halfEdges.origin;
+  return { area2: faceArea2Big(p, level, f), vertices: new Set(faceWalk(p, level, f).flat().map((h) => O[h])) };
+}
+
+/**
+ * §13.1's tiling at the child level, against the parent read before the split (note N-1): the children's exact area2
+ * sum less the parent's area2 and the moves of the split landings — 0n when the children tile the parent. A landing that
+ * splits a boundary edge u–w puts new vertices between two of the parent's vertices; its move is the exact area2 of the
+ * polygon u, a₁ … aₖ, w (0 where the split points lie on u–w, a hot pixel's sliver where the edge is slanted). The
+ * children's joint boundary is read only to find those chains: compared with the children's own sum it would hold for
+ * any two disjoint face walks (the interior twins cancel), which is the tautology N-1 found. A new vertex on the joint
+ * boundary with no single way on (two faces that are not the parent's children) throws.
+ */
+export function tileDefect(p: Plat, level: Level, a: FaceId, b: FaceId, parent: Parent): bigint {
+  const X = p.vertices.x;
+  const Y = p.vertices.y;
+  const O = p.halfEdges.origin;
+  const all = new Set<HalfEdgeId>([...faceWalk(p, level, a).flat(), ...faceWalk(p, level, b).flat()]);
+  const out = new Map<VertexId, HalfEdgeId[]>();
+  for (const h of all) {
+    if (all.has(h ^ 1)) continue;
+    const list = out.get(O[h]) ?? [];
+    list.push(h);
+    out.set(O[h], list);
+  }
+  const cross = (u: VertexId, w: VertexId): bigint => BigInt(X[u]) * BigInt(Y[w]) - BigInt(X[w]) * BigInt(Y[u]);
+  let moves = 0n;
+  for (const [u, hs] of out) {
+    if (!parent.vertices.has(u)) continue;
+    for (const h of hs) {
+      let v = O[h ^ 1];
+      if (parent.vertices.has(v)) continue;
+      let s = cross(u, v);
+      for (let steps = 0; !parent.vertices.has(v); steps++) {
+        const next = out.get(v);
+        if (next === undefined || next.length !== 1 || steps > all.size) {
+          throw new Error(`tileDefect: the new boundary vertex (${X[v]}, ${Y[v]}) has no single way on along the children's joint boundary`);
+        }
+        const w = O[next[0] ^ 1];
+        s += cross(v, w);
+        v = w;
+      }
+      moves += s - cross(u, v);
+    }
+  }
+  return faceArea2Big(p, level, a) + faceArea2Big(p, level, b) - (parent.area2 + moves);
 }
 
 /** A face's rings as "x,y" lists from each ring's lowest-leftmost point (a slot-free ring print). */
