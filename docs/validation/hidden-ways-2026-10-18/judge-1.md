@@ -38,3 +38,16 @@ Status: IN PROGRESS (sections fill as the reading proceeds).
 - M-W2 9 pw, staged 38-46; M-W5 +0.25 inside; T-V13-59/60/61; J-V13.114-126; BCR-V13-41 (admission sentence, port paragraph, `showTrods`); H32 with (e) the digest-cap note (HR:840 — to verify); 13 host corrections (:543-569).
 - B-1 cites a reply file `docs/HOST-REPLY-HIDDEN-WAYS-2026-10-18.md` that does not exist yet [to check].
 - Same `perPatchMax` 12 clamp vs "≈ 800 per province" soft inconsistency as A's (needs ≥ 67 patches) [INFERRED].
+
+### 0.3 Design C (read whole, 1260 lines)
+- Word trod; breadth `gauge` game/foot/cart/drove with `widthCm` per trod (0 hits for gauge, :46-47); no class word (:44-46).
+- `WorldTrod` with two `TrodEnd`s (route: route id, hostKey?, station, atCm, nearSeat?; or trod: id, vertex, atCm); no junction record; identity by seed cell (:130-144, F14 :568-577); "a settlement's gate" = a route junction within `gateBandM` carrying `nearSeat` (:146-151).
+- Canon fourth slot `trods` + `versions.trods`; law (1) widened: "the trods slot alone reading the laid network at the log head too, the host's genesis and its own `network` changes mirrored" and the clause "no lived host fact" reworded to "no political, overlay, belief or other lived host fact" (F27 :748-756); additive canon byte-identical, a covered seed tombstoned "only at the premium re-canonize" (F23 :708-716).
+- A trod re-joins when its joined route is "graded hidden by a `network` window" (:239-244) — so a host GRADE (a lived fact) moves the slot [INFERRED: a wider breach of law (1) than A's "geometry alone, never a grade"].
+- B = `routeFacts.runs` {fromStation, toStation, lengthM, terrainClass}[] (:274-277).
+- W7 (13): cover (4-connected patches by landUse/slope/knee), seeds by chamfer distance (n = min(5, 1 + ⌊km²/150⌋)), two Dijkstras from the seed to terminals, drops by maxCostFactor 8 and lengthM; `openRunMaxM` 1 500 declared (:191, :208) but no drop or search rule in (c)/(d) applies it (:214-224; F19 :638-647) [OBSERVED absence]; T-V13-59 asserts it (:371).
+- Reveal: `trods` layer toggle DEFAULT OFF for the DM (every trod on, none off); party revealed/discovered only; knowing town's mark = the `events` layer's pin; a public/local knowledge event SETS the trod `revealed` (V14:764's definition), retraction lowers unless the DM's reveal stands (:286-311); NO ninth lens, the bodies' marks deferred to D-V13.8's danger lens (F43) (:313-317).
+- Watch = a dated event (no `roadWatch` change); movers H17; H16 not needed (:283-284, :365).
+- Lifecycle: never promoted/demoted/graded; no trod where a road dies; bypass re-joins (:321-332). Quarantine refusals kept; a not-drawn sentence on the plague lens (F35) (:334-339).
+- Budget: never stored; canon message ≈ 0.35 MB at 2 000/province; defaults ≈ 150-400 per province; host digest cap the binding limit at 2 000 (:104-115); WORLD-18 = 0.5 × W7a+W7b = 30/100/260 ms, with the reader's 61 ms at 2 000 quoted beside it (:346-349) — 61 > 30 at the province, and the search is a Dijkstra disc at factor 8 (:219-224), not the A* ellipse the 31 µs figure assumes [INFERRED].
+- M-W2 9 pw (+0.75); T-V13-59/60; J-V13.114-124; no BCR; H32 (M-W2; H5, H9, H12, H17); Q5 = the trods slot under the door-1 yes (:1192-1198). Extras beyond the asks: `name?` and a DM `setAttr` on `gauge` (F2 :418-426) [INFERRED].
