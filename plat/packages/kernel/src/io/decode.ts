@@ -1,14 +1,12 @@
 // decodeArena (M0-a-15; §3.9 *Load*, §3.3's rebuild, §2.2 rules 2, 3 and 7, §3.11's corrupt cache; C-0037): the arena a
 // block's chunks describe, rebuilt — the level-≤ 1 routes first, then the partitions level by level in key order (each
-// level's vertices first, then its splits, sorted along each coarser edge by position, then its edges, then its rows;
-// §3.9 names the splits before the vertices, but a split needs its vertex, and the allocation order is no output — the
-// arena rebuilt is the same), `next` / `prev` rebuilt by exact angle sort (quadrant, then orient2d), the faces
-// re-walked level by level from their canonical keys, each parent recovered from its boundary edges, the role reverse
-// index rebuilt row by row, and — when the caller names the index's configuration — every static partition rebuilt
-// (`attachIndex`, the load's rebuild). O(E log d) but for the lookups' hashing. A chunk whose bytes do not hash to its
-// ref, that fails to parse, or whose references or rows do not fit the arena the others describe makes the stored
-// geometry a corrupt cache: decodeArena returns that typed failure and never a partial arena (the replay is M1's,
-// §4b). Readings: C-0207.
+// level's splits first, sorted along each coarser edge by position, then its edges, then its rows), `next` / `prev`
+// rebuilt by exact angle sort (quadrant, then orient2d), the faces re-walked level by level from their canonical keys,
+// each parent recovered from its boundary edges, the role reverse index rebuilt row by row, and — when the caller names
+// the index's configuration — every static partition rebuilt (`attachIndex`, the load's rebuild). O(E log d) but for the
+// lookups' hashing. A chunk whose bytes do not hash to its ref, that fails to parse, or whose references or rows do not
+// fit the arena the others describe makes the stored geometry a corrupt cache: decodeArena returns that typed failure
+// and never a partial arena (the replay is M1's, §4b). Readings: C-0207.
 import {
   allocEdgePair,
   allocFace,
@@ -226,14 +224,7 @@ function bad(condition: boolean, message: string): asserts condition {
   if (!condition) throw new Corrupt(message);
 }
 
-/**
- * The quadrant of a direction, counter-clockwise from +x: [0°, 90°) 0, [90°, 180°) 1, [180°, 270°) 2, [270°, 360°) 3.
- * The direction (−x, 0) — 180° exactly — goes to quadrant 2 here; putting it in quadrant 1 instead is equivalent. The
- * sort needs only that the quadrants come in counter-clockwise order and that two directions inside one quadrant are
- * less than 180° apart, so `orient2d` orders them: [90°, 180°] and [180°, 270°) both hold that, and 180° sorts after
- * every other direction of quadrant 1 and before every other of quadrant 2 either way. Neither choice is a defect
- * (checks/M0-a-15-notes.md note 10).
- */
+/** The quadrant of a direction, counter-clockwise from +x: [0°, 90°) 0, [90°, 180°) 1, [180°, 270°) 2, [270°, 360°) 3. */
 function quadrant(dx: number, dy: number): number {
   if (dy > 0) return dx > 0 ? 0 : 1;
   if (dy < 0) return dx < 0 ? 2 : 3;
