@@ -3,7 +3,7 @@
 **Answering** `docs/host-requests/2026-10-18-hidden-ways.md` as corrected on the evening of 2026-10-18 (47 lines, md5
 `45612fdd…`; cited REQ:n; the first version kept as `…-hidden-ways-v1.md`, md5 `251c96a9…`, differing in lines 33 and 35
 only [OBSERVED: `diff`]). **The design is draft amendments w** — `docs/validation/hidden-ways-2026-10-18/draft-w.md`
-(items 955–975, ⟨NFRAG⟩ fragments; the machine copy `draft-w.fragments.json`) — **pending the owner's look**; nothing is
+(items 955–975, 110 fragments; the machine copy `draft-w.fragments.json`) — **pending the owner's look**; nothing is
 applied, and every line below that says "will" means "once file w is applied". Written by the synthesis seat of the
 hidden-ways workflow (J407) and revised by its correction run (J415; the owner's word of 2026-10-19 on roads that join,
 fork or diverge, J416) under the owner's delegation (J404); every ruling is vetoable by the owner. The first reply is
@@ -291,7 +291,7 @@ no host edge and no lay version of a route is moved by a trod (item 959 (b)).
 ### 3.7 The junction records as typed places
 
 `WorldWhere.kind` gains `trod` (the trod's id and a fraction along it, or a part of it by `asFarAs`, §5) and `junction`
-(the junction's id — a trod's or a road's) (items 956 (h), 973); `placeOf` renders a trod for the DM by its kind word,
+(the junction's id — a trod's or a road's) (items 956 (h), 971); `placeOf` renders a trod for the DM by its kind word,
 the two routes its junctions sit on and the distance from one, a junction by its route, its arms and the distance from
 the nearer seat or "at its town gate" where it carries `nearSeat`, and, for an audience that does not know the trod,
 only the country it crosses — the land-use word and the seat territory's seat, never the trod's line or name (item 960
@@ -420,7 +420,7 @@ trods give a byte-identical player picture, legend, picker, summary, `mapFeed` a
 **Your rung is the trod's grade, a host fact on the map's record.** The trod carries `grade?: string` — the same field
 and the same law as a road's (`grade?: string /* bound: the host's grade word, hidden among them */`, V13:788;
 "mirrored, never computed", V13:1811) [STATED] — folded from your `way_rung(wayId, rung, tick)`, a `WorldEvent` of the
-events window (H9) whose `where` is the trod and whose new field `grade` carries your ladder word (item 973). Your words
+events window (H9) whose `where` is the trod and whose new field `grade` carries your ladder word (item 956 (g)). Your words
 are yours and unenumerated by your request (REQ:35 names road, track, trail, way, wild in prose; your recorded ladder is
 highway|road|track|hidden, FPI:98 [STATED], with neither `trail` nor `wild` in any note [OBSERVED]): send them in order
 through the adapter folder's grade-ladder table, bottom first, and tell the map which word your bottom usable rung
