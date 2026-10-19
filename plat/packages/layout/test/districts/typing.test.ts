@@ -56,6 +56,23 @@ describe('typing (§4.5; C-0035)', () => {
     expect(t.map((x) => x.district)).toEqual(['district:x', 'district:y', 'district:z']);
   });
 
+  it('greedy ties by id: of two districts of equal area the smaller id scores first, whatever the input order', () => {
+    // equal areas, no relation, no draw: the first scored takes craft (its demand 0.3 of the land, the table's first of
+    // the two 0.3 kinds), which spends craft's demand, so the second takes sprawl
+    const pair = [d('district:b', 10, []), d('district:a', 10, [])];
+    const t = typeDistricts(pair, cells, streams());
+    expect(t.map((x) => [x.district, x.kind])).toEqual([
+      ['district:b', 'sprawl'],
+      ['district:a', 'craft'],
+    ]);
+    // the reverse input order types the same districts alike
+    const r = typeDistricts(pair.slice().reverse(), cells, streams());
+    expect(r.map((x) => [x.district, x.kind])).toEqual([
+      ['district:a', 'craft'],
+      ['district:b', 'sprawl'],
+    ]);
+  });
+
   it('the random term (district.type) moves a close call: randomWeight · u in table order', () => {
     const plain = [d('district:x', 30, [])];
     // u for central … sprawl: give sprawl the largest draw
