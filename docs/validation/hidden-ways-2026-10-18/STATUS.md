@@ -1,4 +1,4 @@
-# STATUS — the hidden-ways design run (lanes hidden-ways/*; written by the autosave loop at 2026-10-19 06:24Z)
+# STATUS — the hidden-ways design run (lanes hidden-ways/*; written by the autosave loop at 2026-10-19 06:25Z)
 
 | lane | last line | state | the line |
 |---|---|---|---|
@@ -18,4 +18,4 @@
 | hidden-ways/critic | 2026-10-19 03:15 | CHECKPOINT | 2026-10-19 03:15 hidden-ways/critic CHECKPOINT synthesis (101) + read-correction (299) read whole; next: draft-w (1102) in chunks, then readers/judges, then checks |
 | hidden-ways/verify | 2026-10-19 03:15 | LANDED | 2026-10-19 03:15 hidden-ways/verify LANDED docs/validation/hidden-ways-2026-10-18/verify.md (58 lines, md5 7a2f9101): draft-w.fragments.json (correction run, items 955-975) 110/110 PASS — md5s, old once at line, apply in |
 | hidden-ways/read-correction | 2026-10-19 06:23 | CHECKPOINT | 2026-10-19 06:23 hidden-ways/read-correction CHECKPOINT returned from disk (RESUME RULE: record docs/validation/hidden-ways-2026-10-18/read-correction.md, 299 lines, md5 a4b4be53, matches the 02:40 LANDED; not redone) |
-| hidden-ways/synthesis-2 | 2026-10-19 03:13 | LANDED | 2026-10-19 03:13 hidden-ways/synthesis-2 LANDED docs/validation/hidden-ways-2026-10-18/synthesis.md (101 lines, md5 54b3e228): §4 the correction's decisions — 4.0 words (rung TAKEN → grade; wild V13's unclaimed land; for |
+| hidden-ways/synthesis-2 | 2026-10-19 06:25 | CHECKPOINT | 2026-10-19 06:25 hidden-ways/synthesis-2 CHECKPOINT returned from disk (RESUME RULE J408: synthesis.md 101 lines md5 54b3e228, reply 642 lines md5 5339b70e, draft-w.md 1102 lines md5 f4221a48, draft-w.fragments.json 881  |
