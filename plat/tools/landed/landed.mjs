@@ -16,7 +16,10 @@
 // label reads the waves up to it as open, and a label that names no wave (flow-N, session-…) reads every wave as open,
 // so the latest owner — the hand-over's receiver — claims the path and its package-index line, never the giver
 // (C-0318). The owner of a package index (`packages/<p>/src/index.ts`, the scaffold's) claims its own edits there line
-// by line — every added line that is not a module folder's line — with the snapshot's lines it removed (C-0318).
+// by line — every added line that is not a module folder's line — with the snapshot's lines it removed that are not a
+// module folder's C-0064 line (C-0318); a folder's owner claims its folder's line, added or removed (C-0064, N-25).
+// A file an earlier landing of the record listed that is gone now and was never in the snapshot is listed as deleted
+// (L24).
 //
 // Options: --lane <key> (required) · --wave <label> (the snapshot of the wave the seat started in; default: the newest
 // snapshot) · --touched <plat/path> (repeatable) · --whole <plat/path> (an append file the item owns, claimed whole for
@@ -234,6 +237,23 @@ export const INDEX_LINE = /^export \* from '\.\/([A-Za-z0-9_-]+)\/index\.js';\s*
 /** A line of a package index that names a module folder (`'./<folder>/…'`) without C-0064's exact form: the folder. */
 export const FOLDER_REF = /['"]\.\/([A-Za-z0-9_-]+)\//;
 
+/**
+ * The module folders of package `pkg` among `paths` (plat/-prefixed: `plat/packages/<pkg>/src/<folder>/…`), as a Map
+ * from the line hash of each folder's C-0064 index line (`export * from './<folder>/index.js';`) to the folder. A
+ * snapshot keeps an append file's line hashes only, so a removed line is known as a module folder's by this hash.
+ */
+export function folderLines(pkg, paths) {
+  const out = new Map();
+  const prefix = `plat/packages/${pkg}/src/`;
+  for (const p of paths) {
+    if (!p.startsWith(prefix)) continue;
+    const rest = p.slice(prefix.length).split('/');
+    if (rest.length < 2 || !/^[A-Za-z0-9_-]+$/.test(rest[0])) continue;
+    out.set(lineHash(`export * from './${rest[0]}/index.js';`), rest[0]);
+  }
+  return out;
+}
+
 /** Longest common subsequence of two hash lists: the indices of a not kept (removed) and of b not kept (added). */
 export function lcsDiff(a, b) {
   const n = a.length;
@@ -439,10 +459,26 @@ export function buildRecord(root, opts) {
   const tree = listTree(root);
   const now = new Map([...tree].map(([rel, e]) => [toPlat(rel), e]));
   const before = new Map(Object.entries(snapshot.files ?? {}));
-  const paths = [...new Set([...before.keys(), ...now.keys()])].sort(byCodeUnit);
+  const previous = existsSync(recordPath(root, id)) ? JSON.parse(readFileSync(recordPath(root, id), 'utf8')) : null;
+  const carried = previous !== null && previous.wave === snapshot.label ? previous : null;
+  // A file an earlier landing of this record (same wave) listed that the snapshot never held and the tree no longer
+  // holds — created after the snapshot, then deleted — is listed as deleted, `was` its last recorded hash, so the
+  // session's staging removes it (L24); such a deleted entry is carried only by the same lane's re-landing (a later
+  // round's landing follows the session's commit of the deletion).
+  const gone = new Map();
+  for (const f of carried?.files ?? []) {
+    if (before.has(f.path) || now.has(f.path) || (f.status === 'deleted' && carried.lane !== lane)) continue;
+    gone.set(f.path, f.status === 'deleted' ? (f.was ?? null) : (f.sha256 ?? null));
+  }
+  const paths = [...new Set([...before.keys(), ...now.keys(), ...gone.keys()])].sort(byCodeUnit);
   const files = [];
   const counts = { created: 0, changed: 0, unchanged: 0, deleted: 0 };
   const claimFile = (path) => {
+    if (gone.has(path)) {
+      counts.deleted += 1;
+      files.push({ path, status: 'deleted', sha256: null, was: gone.get(path) });
+      return;
+    }
     const status = statusOf(before.get(path), now.get(path));
     if (status === null) return;
     counts[status] += 1;
@@ -456,7 +492,7 @@ export function buildRecord(root, opts) {
     const rel = fromPlat(path);
     if (isAppendFile(rel) || isRecordRel(rel) || isCrossingFile(rel)) continue;
     if (mine(path)) claimFile(path);
-    else if (statusOf(before.get(path), now.get(path)) !== 'unchanged') unclaimed.push(path);
+    else if (!gone.has(path) && statusOf(before.get(path), now.get(path)) !== 'unchanged') unclaimed.push(path);
   }
   for (const p of whole) {
     const rel = fromPlat(p);
@@ -468,8 +504,6 @@ export function buildRecord(root, opts) {
   // The permitted appends: this lane's rows, renumbered rows, the index lines of folders the item owns, and the
   // CrossingRecords whose checkerSeat names a ledger row of this lane (C-0120).
   const ledger = cleanRoomLines(root);
-  const previous = existsSync(recordPath(root, id)) ? JSON.parse(readFileSync(recordPath(root, id), 'utf8')) : null;
-  const carried = previous !== null && previous.wave === snapshot.label ? previous : null;
   const appendPaths = [...new Set([...Object.keys(snapshot.appendFiles ?? {}), ...[...now.keys()].filter((p) => isAppendFile(fromPlat(p)))])].sort(byCodeUnit);
   const appends = [];
   for (const path of appendPaths) {
@@ -524,8 +558,14 @@ export function buildRecord(root, opts) {
         lines.push(d.hashes[k]);
       }
     }
-    // The snapshot's lines a seat removed: its placeholder rows; in a package index it owns, every removed line (C-0318).
-    const removed = ownIndex ? d.removed.map((r) => d.old[r]) : lines.length > 0 ? d.removed.map((r) => d.old[r]).filter((h) => d.placeholders.has(h)) : [];
+    // The snapshot's lines a seat removed: its placeholder rows; in a package index, a module folder's C-0064 line by the
+    // folder's owner (N-25) and every other removed line by the index's owner (C-0318).
+    const removedHashes = d.removed.map((r) => d.old[r]);
+    let removed;
+    if (isIndex) {
+      const byLine = folderLines(pkg, paths);
+      removed = removedHashes.filter((h) => (byLine.has(h) ? folderMine(byLine.get(h)) : ownIndex));
+    } else removed = lines.length > 0 ? removedHashes.filter((h) => d.placeholders.has(h)) : [];
     if (lines.length > 0 || removed.length > 0) appends.push({ file: path, ids, lines, removed });
   }
 

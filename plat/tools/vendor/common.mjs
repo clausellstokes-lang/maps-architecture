@@ -1,6 +1,6 @@
 // Shared helpers of the vendor tools (C-0010, C-0011). Node built-ins only.
 import { createHash } from 'node:crypto';
-import { readdirSync, readFileSync, statSync, lstatSync, existsSync } from 'node:fs';
+import { readdirSync, readFileSync, realpathSync, statSync, lstatSync, existsSync } from 'node:fs';
 import { join, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -8,6 +8,19 @@ export const PLAT_ROOT = fileURLToPath(new URL('../../', import.meta.url));
 export const VENDOR_DIR = join(PLAT_ROOT, 'vendor');
 export const LOCK_FILE = 'vendor.lock.json';
 export const PATCH_DIR = 'patches';
+
+/**
+ * Is the module at `url` the script node was started with? Real paths compared, so a script named through a symbolic
+ * link runs (the one form of the tools, `tools/landed/snapshot.mjs`'s; L14). The vendor and notices tools share it.
+ */
+export const isMain = (url) => {
+  if (!process.argv[1]) return false;
+  try {
+    return realpathSync(process.argv[1]) === realpathSync(fileURLToPath(url));
+  } catch {
+    return false;
+  }
+};
 
 /** sha256 of a file's bytes, hex. */
 export function sha256File(path) {
