@@ -1,4 +1,4 @@
-# STATUS — the hidden-ways design run (lanes hidden-ways/*; written by the autosave loop at 2026-10-19 02:53Z)
+# STATUS — the hidden-ways design run (lanes hidden-ways/*; written by the autosave loop at 2026-10-19 02:54Z)
 
 | lane | last line | state | the line |
 |---|---|---|---|
@@ -18,4 +18,4 @@
 | hidden-ways/critic | 2026-10-19 02:19 | CHECKPOINT | 2026-10-19 02:19 hidden-ways/critic CHECKPOINT all inputs read (request, reply, draft-w, synthesis, 5 readers, 3 judges); next: fragment check of all 96, census, cited lines, arithmetic, clean-room grep, then critic.md g |
 | hidden-ways/verify | 2026-10-19 02:15 | LANDED | 2026-10-19 02:15 hidden-ways/verify LANDED docs/validation/hidden-ways-2026-10-18/verify.md (30 lines, md5 820b4e4e): draft-w.fragments.json 96/96 PASS — md5s, old once at line, apply in order, reversal byte-identical, i |
 | hidden-ways/read-correction | 2026-10-19 02:40 | LANDED | 2026-10-19 02:40 hidden-ways/read-correction LANDED docs/validation/hidden-ways-2026-10-18/read-correction.md (299 lines, md5 a4b4be53): supersedes the 02:40 LANDED line — §2.7 added (the sentences the owner's word 2 con |
-| hidden-ways/synthesis-2 | 2026-10-19 02:50 | CHECKPOINT | 2026-10-19 02:50 hidden-ways/synthesis-2 CHECKPOINT read whole: read-correction, synthesis, reply, draft-w (910), fragments JSON (96), the corrected request, V13 at the record/law/selection/layer/test/milestone/H anchors |
+| hidden-ways/synthesis-2 | 2026-10-19 02:54 | CHECKPOINT | 2026-10-19 02:54 hidden-ways/synthesis-2 CHECKPOINT synthesis.md §4 written (4.0 words; 4.1 one ladder; 4.2 rung cues; 4.3 demoted road; 4.4 c1-c3; 4.5 H rows + M-W2 10 pw; 4.6 Q8 + budget 30/60/120; 4.7-4.9 J416 WorldJu |
