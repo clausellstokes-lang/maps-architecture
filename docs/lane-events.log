@@ -10124,3 +10124,6 @@
 2026-10-19 02:32 hidden-ways/read-correction CHECKPOINT §2 touched sentences written (reply, draft w items 955-969, synthesis §1.1/6/7/10); next: §3 facts for h1-h6, §4 readers
 2026-10-19 02:33 hidden-ways/session RELAUNCHED workflow hidden-ways-correction (workflows/46) with THE OWNER'S WORD 2 (J416: roads that join, fork or diverge, appropriately and organically — a route may end at a junction on another route; one junction record shared by routes and trods; the host's genesis and charters may name a junction end; a fork rule for the standalone selection); the first correction run wf_7f972c26-511 stopped at its delta reader (CONTINUE RULE)
 2026-10-19 02:34 hidden-ways/read-correction CHECKPOINT resumed from disk (CONTINUE RULE, §1-§2 kept); next: §3 facts h1-h6, §3b owner's word 2, §4 readers
+2026-10-19 02:37 a09-s9-spec/critic CHECKPOINT every cited file:line verified, critic.md written; next: LANDED
+2026-10-19 02:37 a09-s9-spec/critic LANDED docs/validation/a09-s9-spec-2026-10-19/critic.md (183 lines, md5 80066af9): FIX-FIRST — APIs and lines hold (one stale cite), construction implementable in the owns; missing the declared-shift clause (G1) and Q19 (b)'s 0.95 bar set without a baseline (G2); six minor fixes
+2026-10-19 02:38 a09-s9-spec/fix CHECKPOINT started; reading critic.md, spec json/md
