@@ -32,3 +32,10 @@ Spine: design B (all three judges rank B first). Grafts and corrections as below
 18. Housekeeping for the fix list, not file w: V13:1352-1354's 10⁵ × 120 B ≠ 2 MB; HRQ's stale V13 line numbers (:68, :82, :102) and its missing H31; the stale FPI T2/R4 rows.
 
 ## 2. The anchors (verified by exact search before the fragments were written) — see §3
+
+### 2.1 Corrections found while verifying (02:20)
+- `narrow` is TAKEN: `UnitEdge.widthClass: 'squeeze'|'narrow'|'normal'|'wide'` (V14:680; the widths V14:1135) [OBSERVED] — J3's `narrow|drove|broad` fails the census in V14. Ruling: the kinds are **`goat` | `drove` | `broad`** (0 whole-word hits in V13, V14, HRQ and research/sf; `broad` once in the base as prose, ARCHITECTURE.md:2564 "a broad river") with widthM 1 / 3 / 5: the host's goat path and game trail → `goat` (single file), drover's way → `drove`, old road → `broad` (cart-wide). `gauge` = the host's "realm gauge" (research/sf/faith-system.md:487) [OBSERVED]; `game` = "game master" (V13 ×3, V14 ×9, base ×6) [OBSERVED]; `foot`/`cart` V13's travel modes; `form` "site form"; `holloway` an overt road's form.
+- `H32(` is the kernel's hash at V13:1384 and 3664 (and `H32` of an id at 3140, 3146) [OBSERVED]; the row keeps H32 with the note.
+- HRQ's H tables: the M-W2 table ends at H22 (:84), the M-W5 list runs H23–H30 (:86–110), the summary table has H17 at :577 — H32 goes after :84 and :577 (C's FH2/FH3), not after :109 (A's). HRQ's open points end at :714 (the Q4 bullet) — one bullet added there.
+- T-V13-59/60, J-V13.114+, WORLD-18, W_TROD_*, BCR-V13-41 all free in V13 [OBSERVED]; the base needs no change (BASE:15744 reads "A place's `SecretState` … by the same admission function" — generic; BASE:12903 names no optional product, `routeFacts` and `patrolOffer` having entered V13 without a base change) [OBSERVED] — no BCR.
+- The raster layer is `trods` beside `routes` (V13:712's field); the view layer `trods` (a toggle) beside `patrols` (V13:3148) — the same doubling V13 already has for `routes`.
