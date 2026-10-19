@@ -1,43 +1,43 @@
 {
   "schema": "plat-landed-record/1",
   "item": "M0-d-08",
-  "lane": "build/M0-d-08-fix1",
-  "lanes": ["build/M0-d-08", "build/M0-d-08-fix1"],
+  "lane": "build/M0-d-08-fix-s1",
+  "lanes": ["build/M0-d-08", "build/M0-d-08-fix1", "build/M0-d-08-fix-s1"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-05T10:41:35.021Z",
+  "date": "2026-10-19T11:29:28.579Z",
   "ownsSource": "docs/build/M0-work.json",
   "owns": ["plat/packages/testkit/src/determinism/", "plat/packages/testkit/test/determinism/"],
   "counts": { "created": 15, "changed": 1, "unchanged": 0, "deleted": 0 },
   "files": [
-    { "path": "plat/packages/testkit/src/determinism/constructive.ts", "status": "created", "sha256": "6addc4842ecf4389d837ed52fc00a0684b6df8fb62956634320f8057cb4340f0", "size": 7247 },
+    { "path": "plat/packages/testkit/src/determinism/constructive.ts", "status": "created", "sha256": "7ae10be2630974e10ed6629feeee65c07927a7b472951c0be906f3851b788b0f", "size": 23055 },
     { "path": "plat/packages/testkit/src/determinism/dilation.ts", "status": "created", "sha256": "08bc89ca54b96e574f01ca202e6a235a2557293e052b92e3b95e6b251e849898", "size": 7451 },
     { "path": "plat/packages/testkit/src/determinism/fixtures.ts", "status": "created", "sha256": "b1abac61049a637214f03a79733d03ed35f5adac442c36b1c150e0f489a26f32", "size": 8903 },
     { "path": "plat/packages/testkit/src/determinism/index.ts", "status": "changed", "sha256": "38490573a196371c9f8e8101cbba3550037082bc530c3433fff5a5319dd6da64", "size": 2150 },
-    { "path": "plat/packages/testkit/src/determinism/issue.ts", "status": "created", "sha256": "180351d101adad033c31b9b9ec39cccdac85a24684b9a005881b693d058e9d57", "size": 6572 },
+    { "path": "plat/packages/testkit/src/determinism/issue.ts", "status": "created", "sha256": "7ae4068239f40d6528a756e3378102b9753564f5b15146822f45d499b9ffb464", "size": 6611 },
     { "path": "plat/packages/testkit/src/determinism/permute.ts", "status": "created", "sha256": "444a89d039595da955b0c2dbe904f51aa574f394451feb136b26d470577e0a22", "size": 4021 },
-    { "path": "plat/packages/testkit/src/determinism/print.ts", "status": "created", "sha256": "ae5cb6eecdee63375979538d3c79edf4a0a5f9adee6bbcfbac949a43d1cc4144", "size": 8270 },
+    { "path": "plat/packages/testkit/src/determinism/print.ts", "status": "created", "sha256": "b0c30fcc8ec85dc93009f2dfe5187190332c3bc767fca632fdd28e07e803c3a1", "size": 8608 },
     { "path": "plat/packages/testkit/src/determinism/renumber.ts", "status": "created", "sha256": "715ee56c14f407778a416512c3472ad07cd74abc0d3171595f913a8a6e76b019", "size": 16116 },
     { "path": "plat/packages/testkit/src/determinism/rng.ts", "status": "created", "sha256": "0cdea9047d940135d81269ff8e0c142d7a6282ca9964dc236e82b66eefebb501", "size": 1163 },
     { "path": "plat/packages/testkit/test/determinism/dilation.test.ts", "status": "created", "sha256": "477044d8ad69094c374335476feabebe026098c0928ebf4c75a76dd869bc5b2c", "size": 7904 },
     { "path": "plat/packages/testkit/test/determinism/issue.test.ts", "status": "created", "sha256": "6dd3627cc7176c6b937b42703512312f163e3172f74166ebabe9aa8b1b155b7e", "size": 5345 },
-    { "path": "plat/packages/testkit/test/determinism/permute-control.test.ts", "status": "created", "sha256": "a53e36fad4927621e5fb94d8c07b03e412488245d9639abb79409ff67dd2def4", "size": 3102 },
-    { "path": "plat/packages/testkit/test/determinism/permute.test.ts", "status": "created", "sha256": "36c775a660fe449405065d39f0816db3d2a911bec7c886f942246f8b16b11adb", "size": 7140 },
-    { "path": "plat/packages/testkit/test/determinism/print.test.ts", "status": "created", "sha256": "acf4af02efa3c4e0e8a78ff1b4c8e8ce28bf49c81946582c1a184d0ee36c50ef", "size": 6076 },
-    { "path": "plat/packages/testkit/test/determinism/renumber.test.ts", "status": "created", "sha256": "3d56ab524f988366e60d37f778d7dbef962db3e589b8982023ee518a9adec6fb", "size": 18894 },
-    { "path": "plat/packages/testkit/test/determinism/support.ts", "status": "created", "sha256": "8036325aefd0e57189e28b1149570b70fb8e854ef751659bd9fd427fe80c13c0", "size": 6474 }
+    { "path": "plat/packages/testkit/test/determinism/permute-control.test.ts", "status": "created", "sha256": "9f7c44e0a5d7f31c41c717f474798fe2c4c24c882cc1a50721db163e841fe57a", "size": 5820 },
+    { "path": "plat/packages/testkit/test/determinism/permute.test.ts", "status": "created", "sha256": "eed0cc6745026f1c7634ab28620b7fc932cc25e58d8a992e216f8280730b9d79", "size": 9955 },
+    { "path": "plat/packages/testkit/test/determinism/print.test.ts", "status": "created", "sha256": "db65f385b8734bffcb0856f88aac8e903b4d801063e0bae81390c9d5b37ba1d5", "size": 9831 },
+    { "path": "plat/packages/testkit/test/determinism/renumber.test.ts", "status": "created", "sha256": "2c926b812cca5f76347a660bcff8a5fdd496e51d83a4efe899fe3476ae258e45", "size": 26149 },
+    { "path": "plat/packages/testkit/test/determinism/support.ts", "status": "created", "sha256": "b664eba9d1fdf8c7623aff0e4fc0e88fdcd6addd21c204d136f1cada8d5ab84e", "size": 15416 }
   ],
   "appends": [
     {
       "file": "plat/CLEAN-ROOM.md",
-      "ids": ["L-0164", "L-0170"],
-      "lines": ["410420fb7951e0bf", "83d35cbfffc53ce3"],
+      "ids": ["L-0164", "L-0170", "L-0581"],
+      "lines": ["410420fb7951e0bf", "83d35cbfffc53ce3", "bb3e32997e0e7890"],
       "removed": []
     },
     {
       "file": "plat/docs/build/choices.md",
-      "ids": ["C-0199", "C-0203"],
-      "lines": ["57417f05f6b4c370", "06549c509cebbdf4"],
+      "ids": ["C-0199", "C-0203", "C-0387"],
+      "lines": ["57417f05f6b4c370", "06549c509cebbdf4", "4a42158bf401c3b2"],
       "removed": []
     }
   ]
