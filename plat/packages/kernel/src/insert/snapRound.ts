@@ -24,8 +24,11 @@
 // placement falls back beyond the fidelity bound of the input placed across a thin strip, within the bound on the run,
 // or on the nearest in-bound vertex; a wedge corner beyond the bound not taken, C-0217). Every route is judged by
 // §3.10's clearance whole and the fidelity bound before it commits (insertChain). A mandatory chain is wedge-routed only
-// where the move is at most 2 · √2 · `attractCm` (`wedgeOutcome`, C-0202 (3)). Readings: C-0177 (1), (2), (5) – (7),
-// (13); C-0202; C-0209; C-0215; C-0217.
+// where the move is at most 2 · √2 · `attractCm` (`wedgeOutcome`, C-0202 (3)). A route never re-enters a vertex
+// already on its path: a landing or an attraction that would lead it back through one cuts the path back to that vertex
+// and routes on from it (§3.6 step 4, item 130 (d); `ctx.path`). Each vertex the route comes to is tagged with why
+// (`ctx.provenance`), for the class a refusal names. Readings: C-0177 (1), (2), (5) – (7), (13); C-0202; C-0209;
+// C-0215; C-0217; C-0361.
 import {
   addRole,
   allocEdgePair,
@@ -34,6 +37,7 @@ import {
   removeRoleRow,
   faceWalk,
   handleOf,
+  isVertexLive,
   outgoing,
   pointOf,
   roleIdOf,
@@ -67,6 +71,7 @@ import {
   segmentDistance,
   SIN_MIN_ANGLE,
   subEdgeHolding,
+  tag,
   withinSegment,
   type ChainCtx,
   type Landing,
@@ -190,7 +195,7 @@ function detach(p: Plat, x: HalfEdgeId): void {
 }
 
 /** Shares a level-≤ n route piece (its physical half-edges, in order): its edges gain the chain's rows (W_STRETCH_SHARED). */
-function share(ctx: ChainCtx, path: readonly HalfEdgeId[]): void {
+export function share(ctx: ChainCtx, path: readonly HalfEdgeId[]): void {
   for (const g of path) {
     addRows(ctx, g);
     ctx.journal.sharedPairs.push(g >> 1);
@@ -227,7 +232,7 @@ export function twinOf(ctx: ChainCtx, v: VertexId): VertexId {
  * The route neighbour of v (the next vertex of level ≤ n along an edge of level ≤ n at v) nearest the point (x, y), ties
  * y then x; −1 when v has no edge of level ≤ n.
  */
-function exitTowards(ctx: ChainCtx, v: VertexId, x: number, y: number): VertexId {
+export function exitTowards(ctx: ChainCtx, v: VertexId, x: number, y: number): VertexId {
   const { p, n } = ctx;
   let best = -1;
   for (const h of outgoing(p, v)) {
@@ -427,6 +432,16 @@ function writeEdge(ctx: ChainCtx, a: VertexId, b: VertexId, acute: number): void
 
 // ---- the router -------------------------------------------------------------------------------------------------------------
 
+/** The most cuts one segment's route makes before its reading is refused (item 130 (d); never met in the families). */
+const MAX_CUTS = 256;
+
+/**
+ * The start of the detail of a route refused for re-entering its own path (item 130 (d)): a vertex it can neither be cut
+ * back to (a vertex the route placed would be left off it) nor avoid, or more than MAX_CUTS cuts. insertChain reads such
+ * a refusal as a route that keeps nothing (the next reading runs).
+ */
+export const RETRACE_DETAIL = 'insert: the route re-enters its own path';
+
 /**
  * `snapRound`: routes the chain from vertex a to vertex b (both of level ≤ n) through steps 3 – 4 and writes the new
  * edges (see the module comment). Refuses E_KEPT, E_BELOW_MIN_ANGLE and E_BELOW_MIN_EDGE (the classes, §3.6), E_LEVEL
@@ -434,7 +449,17 @@ function writeEdge(ctx: ChainCtx, a: VertexId, b: VertexId, acute: number): void
  * (6), C-0177 (8)).
  */
 export function snapRound(ctx: ChainCtx, a: VertexId, b: VertexId): KernelResult<null> {
-  const r = route(ctx, a, b, 1, new Set(), 0);
+  let r = route(ctx, a, b, 1, new Set(), 0);
+  // A cut (item 130 (d)) unwinds to here, and the route goes on from the vertex it went back to, the vertices it cut off
+  // excluded from step 3 — in a loop, not deeper on the stack. The cuts are capped: past MAX_CUTS the reading is refused
+  // as one that keeps nothing.
+  const trail = ctx.path ?? null;
+  while (r.ok && trail !== null && trail.restart !== null) {
+    const { from, pass, exclude } = trail.restart;
+    trail.restart = null;
+    if (trail.cuts > MAX_CUTS) return err('E_INVARIANT', `${RETRACE_DETAIL} more than ${MAX_CUTS} times, the last at (${ctx.p.vertices.x[from]}, ${ctx.p.vertices.y[from]})`);
+    r = route(ctx, from, trail.end, pass, exclude, 0);
+  }
   if (!r.ok) return r;
   if (ctx.maxPass > ctx.journal.passes) ctx.journal.passes = ctx.maxPass;
   return ok(null);
@@ -518,25 +543,61 @@ function route(ctx: ChainCtx, a: VertexId, b: VertexId, pass: number, exclude: R
   const X = p.vertices.x;
   const Y = p.vertices.y;
   const L = p.vertices.level;
+  // The segment's route so far (item 130 (d)): every call starts where the route stands, so a is its last vertex.
+  const trail = ctx.path ?? null;
+  if (trail !== null && !trail.marks.has(a)) {
+    trail.marks.set(a, trail.mark());
+    trail.order.push(a);
+  }
+  /**
+   * A route never re-enters a vertex already on its path (§3.6 step 4, item 130 (d)): where a landing or an attraction
+   * would lead the segment back through x, the path is cut back to x — everything written since the route first stood
+   * there undone — and routed on from x to the segment's end, the vertices cut off excluded from step 3: every route call
+   * the cut returns through stops (`cutInside`), as what it planned to route next may have been undone with the rest,
+   * and `snapRound` routes on from x (`SegmentPath.restart`). A function of the arena and the input; it moves nothing. Where a vertex cut off was placed by the route before
+   * it first stood at x (the route chose it, then reached it through x), going back would leave that vertex off the
+   * route: the route goes on from where it stands instead, x excluded from step 3, and a second such re-entry of x
+   * refuses the route (`RETRACE_DETAIL`).
+   */
+  const reenters = (x: VertexId): boolean => trail !== null && x !== a && trail.marks.has(x);
+  const cutsAtEntry = trail === null ? 0 : trail.cuts;
+  const cutInside = (): boolean => trail !== null && trail.cuts !== cutsAtEntry;
+  const cutTo = (x: VertexId): KernelResult<null> => {
+    const t = trail as NonNullable<typeof trail>;
+    const mx = t.marks.get(x);
+    if (t.order.slice(t.order.indexOf(x) + 1).some((v) => t.placedBefore(v, mx))) {
+      if (exclude.has(x)) return err('E_INVARIANT', `${RETRACE_DETAIL} at (${X[x]}, ${Y[x]}), and cutting it back would leave a vertex it placed`);
+      return route(ctx, a, b, pass, withAll(exclude, x), depth + 1);
+    }
+    const cut = t.order.splice(t.order.indexOf(x) + 1);
+    for (const v of cut) t.marks.delete(v);
+    t.back(t.marks.get(x));
+    t.cuts += 1;
+    t.restart = { from: x, pass, exclude: withAll(exclude, ...cut.filter((v) => isVertexLive(p, v))) };
+    return ok(null);
+  };
   const path = routeBetween(p, a, b, n);
   if (path !== null) {
     share(ctx, path);
     return ok(null);
   }
   const via = (x: VertexId, nextPass: number): KernelResult<null> => {
+    if (reenters(x)) return cutTo(x);
     const r1 = route(ctx, a, x, nextPass, withAll(exclude, b), depth + 1);
-    if (!r1.ok) return r1;
+    if (!r1.ok || cutInside()) return r1;
     return route(ctx, x, b, pass, withAll(exclude, a), depth + 1);
   };
   // A vertex inside an acute corner with its twin beside it takes no new edge: leave or reach it along an existing one.
   if (twinOf(ctx, a) >= 0) {
     const z = exitTowards(ctx, a, X[b], Y[b]);
     if (z < 0) return passOn({ code: 'E_KEPT', detail: `the vertex at (${X[a]}, ${Y[a]}) can be left only along finer edges (kept content)` });
+    tag(ctx, z, 'exit');
     return via(z, pass);
   }
   if (twinOf(ctx, b) >= 0) {
     const z = exitTowards(ctx, b, X[a], Y[a]);
     if (z < 0) return passOn({ code: 'E_KEPT', detail: `the vertex at (${X[b]}, ${Y[b]}) can be reached only along finer edges (kept content)` });
+    tag(ctx, z, 'exit');
     return via(z, pass);
   }
   // Step 3. A contact or stretch whose landing would put the chain back on its own path (a vertex the router has
@@ -552,6 +613,7 @@ function route(ctx: ChainCtx, a: VertexId, b: VertexId, pass: number, exclude: R
     if (ob.kind === 'vertex') {
       if (L[ob.vertex] > n) promote(tx, ob.vertex, n, ctx.warnings, ctx.undo);
       warn(tx, ctx.warnings, 'W_ATTRACTED', pointOf(p, ob.vertex));
+      tag(ctx, ob.vertex, 'contact');
       return via(ob.vertex, pass);
     }
     if (ob.kind === 'contact') {
@@ -563,6 +625,7 @@ function route(ctx: ChainCtx, a: VertexId, b: VertexId, pass: number, exclude: R
       }
       const m = applyLanding(ctx, l.value);
       warn(tx, ctx.warnings, 'W_ATTRACTED', pointOf(p, m));
+      tag(ctx, m, 'contact');
       return via(m, pass);
     }
     // A shared stretch: join, follow, leave.
@@ -576,11 +639,14 @@ function route(ctx: ChainCtx, a: VertexId, b: VertexId, pass: number, exclude: R
     }
     const j = applyLanding(ctx, jl.value);
     warn(tx, ctx.warnings, 'W_ATTRACTED', pointOf(p, j));
+    tag(ctx, j, 'stretch');
+    if (reenters(j)) return cutTo(j);
     const kl = planLandingAfter(ctx, ob.piece, j, ob.leave.x, ob.leave.y);
     if (!kl.ok) return passOn(kl);
     const k = kl.value;
+    tag(ctx, k, 'stretch');
     const r1 = route(ctx, a, j, pass, withAll(exclude, b), depth + 1);
-    if (!r1.ok) return r1;
+    if (!r1.ok || cutInside()) return r1;
     if (k !== j) {
       // The route to j may have split or promoted a vertex between j and k: then the run is walked from j to k, and only
       // where that walk is impossible is j → k routed as any segment (C-0202 (2)).
@@ -588,7 +654,7 @@ function route(ctx: ChainCtx, a: VertexId, b: VertexId, pass: number, exclude: R
       if (along !== null) share(ctx, along);
       else {
         const r2 = route(ctx, j, k, pass, withAll(exclude, a, b), depth + 1);
-        if (!r2.ok) return r2;
+        if (!r2.ok || cutInside()) return r2;
       }
     }
     return route(ctx, k, b, pass, withAll(exclude, a, j), depth + 1);
@@ -607,6 +673,7 @@ function route(ctx: ChainCtx, a: VertexId, b: VertexId, pass: number, exclude: R
       const st = ctx.strip ?? null;
       if (w.value && (st === null || st.a === null || st.b === null || inInputBound(st.a, st.b, X[k], Y[k]))) {
         if (L[k] > n) promote(tx, k, n, ctx.warnings, ctx.undo);
+        tag(ctx, k, 'corner');
         return via(k, pass);
       }
       // Beyond 2 · √2 · attractCm a mandatory chain is not wedge-routed: its crossings are placed in turn, the first here
@@ -618,6 +685,7 @@ function route(ctx: ChainCtx, a: VertexId, b: VertexId, pass: number, exclude: R
       const e = fallbackEnd(ctx, c.piece, c.x, c.y, onPath);
       if (e < 0) return err('E_INVARIANT', `a crossing at (${c.x.toFixed(1)}, ${c.y.toFixed(1)}) has both sub-edge ends on the chain's path`);
       const v = applyLanding(ctx, { kind: 'vertex', vertex: e, onto: 'fallback', warnings: [{ code: 'W_PLACED', count: 1, at: pointOf(p, e) }] });
+      tag(ctx, v, 'fallback');
       return via(v, pass + 1);
     }
     const l = planLanding(tx, c.piece, c.x, c.y, { c: pointOf(p, a), d: pointOf(p, b) });
@@ -648,6 +716,7 @@ function route(ctx: ChainCtx, a: VertexId, b: VertexId, pass: number, exclude: R
       if (alt >= 0 && !onPath(alt)) landing = { kind: 'vertex', vertex: alt, onto: 'fallback', warnings: [{ code: 'W_PLACED', count: 1, at: pointOf(p, alt) }] };
     }
     const v = applyLanding(ctx, landing);
+    tag(ctx, v, landing.kind === 'split' ? 'placed' : landing.onto === 'fallback' ? 'fallback' : 'endpoint');
     return via(v, pass + 1);
   }
   // Nothing left between a and b: one new edge — unless an edge of level ≤ n already runs from a (or b) along it, ending
@@ -657,6 +726,7 @@ function route(ctx: ChainCtx, a: VertexId, b: VertexId, pass: number, exclude: R
   if (along >= 0) {
     if (L[along] > n) promote(tx, along, n, ctx.warnings, ctx.undo);
     warn(tx, ctx.warnings, 'W_ATTRACTED', pointOf(p, along));
+    tag(ctx, along, 'contact');
     return via(along, pass);
   }
   const ce = checkEdge(ctx, a, b);
@@ -701,7 +771,7 @@ const WALK_BAND_CM = 2;
  * j, each step to the neighbour that lies on towards k along the run's own-level route (of several, the one nearest that
  * line; it must stand within 2 cm of it), until k. Null when the walk cannot reach k. Nothing written.
  */
-function walkRun(ctx: ChainCtx, piece: { readonly runA: VertexId; readonly runB: VertexId; readonly edge: HalfEdgeId }, j: VertexId, k: VertexId): HalfEdgeId[] | null {
+export function walkRun(ctx: ChainCtx, piece: { readonly runA: VertexId; readonly runB: VertexId; readonly edge: HalfEdgeId }, j: VertexId, k: VertexId): HalfEdgeId[] | null {
   const p = ctx.p;
   const X = p.vertices.x;
   const Y = p.vertices.y;
@@ -842,7 +912,7 @@ function withAll(s: ReadonlySet<VertexId>, ...vs: VertexId[]): Set<VertexId> {
  * projections, not by `subEdgeHolding`'s walk: a position projecting exactly onto v takes the vertex before v, where the
  * walk would take the sub-edge after it.
  */
-function otherEnd(ctx: ChainCtx, piece: { readonly a: VertexId; readonly b: VertexId }, x: number, y: number, v: VertexId): VertexId {
+export function otherEnd(ctx: ChainCtx, piece: { readonly a: VertexId; readonly b: VertexId }, x: number, y: number, v: VertexId): VertexId {
   const p = ctx.p;
   const X = p.vertices.x;
   const Y = p.vertices.y;

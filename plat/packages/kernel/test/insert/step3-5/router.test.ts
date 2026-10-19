@@ -8,18 +8,22 @@
 // the third pass's units, its rescues and the residual register (C-0217); the optional class the bound refuses
 // (C-0221); the caps. The register files under register/ pin each case's warnings and refusal text.
 import { readFileSync } from 'node:fs';
+import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 import { allocVertex, type Plat, type VertexId } from '../../../src/arena/index.js';
 import { indexAdd, ITEM_VERTEX } from '../../../src/index/index.js';
 import { acrossApplies, exactCrossings, placeAcross, placeOnRun, sliverPartner, stripPartner } from '../../../src/insert/crossings.js';
-import { boundRefusal, FIDELITY_SQ, freeSince, freeSpot, inFidelity, land, relandCandidates } from '../../../src/insert/insertChain.js';
+import { boundRefusal, FIDELITY_SQ, freeSince, freeSpot, inFidelity, insertChain, land, relandCandidates } from '../../../src/insert/insertChain.js';
 import { placePoint } from '../../../src/insert/placement.js';
 import { recordHolding } from '../../../src/insert/snapRound.js';
 import { chainJournal, inInputBound, type ChainCtx } from '../../../src/insert/stretch.js';
-import { belowMinEdge, LATTICE } from '../../../src/num/index.js';
+import { suiteEnv, suiteReport } from '../../../src/invariants/index.js';
+import { belowMinEdge, LATTICE, ok } from '../../../src/num/index.js';
+import { tx as txn } from '../../../src/tx/index.js';
+import { spec } from '../../tx/support.js';
 import type { Level } from '../../../src/types/index.js';
 import type { ArenaSpec } from '../step1-2/support.js';
-import { capPer1e4, countedRefusal, MEASURED_COUNT, MEASURED_PER_1E4, poissonCap, refusalCap } from './caps.js';
+import { capPer1e4, countedRefusal, FUZZ_PARAMS, MEASURED_COUNT, MEASURED_PER_1E4, poissonCap, refusalCap } from './caps.js';
 import { FIDELITY_CM, fidelityProblems } from './fidelity.js';
 import { allProblems, contentPrint, edgeRows, framed, indexed, ins, liveEdges, pt, segDist, TIMEOUT, tx, wideArena } from './support.js';
 
@@ -221,6 +225,66 @@ describe('N-37: the router\'s endpoint-fallback route before any refusal', () =>
     const p = wideArena();
     const r = ins(tx(p, 0), RING, [{ role: 'invisible', entity: 'ring' }], 'mandatory', { closed: true });
     expect(r.ok, r.ok ? '' : `${r.code} ${r.detail}`).toBe(true);
+    expect(allProblems(p)).toEqual([]);
+  });
+});
+
+/**
+ * The degree of each vertex in the row set of `row` ('role/entity'): how many live edges at it carry the row. A chain's
+ * rows are a simple path when its two ends have degree 1 and every other vertex 2 (§3.10 role consistency; §3.11).
+ */
+function rowDegrees(p: Plat, row: string): Map<string, number> {
+  const X = p.vertices.x;
+  const Y = p.vertices.y;
+  const deg = new Map<string, number>();
+  for (const [u, v] of liveEdges(p)) {
+    if (!(edgeRows(p, [X[u], Y[u]], [X[v], Y[v]]) ?? []).includes(row)) continue;
+    for (const w of [u, v]) deg.set(`${X[w]},${Y[w]}`, (deg.get(`${X[w]},${Y[w]}`) ?? 0) + 1);
+  }
+  return deg;
+}
+
+// RQ1 (N-61 (1); item 130 (d), §3.6 step 4): a route never re-enters a vertex already on the chain's path — it is cut
+// back to that vertex and routed on from it. N-8's ring: the seventh chain, (−48140, 46382) → (−48863, 44833), routed
+// A → P → Q → P → R → B before the round (Q (−48389, 45801), attracted 20.10 cm off the segment, after P (−48450, 45728),
+// the endpoint landing), its row on the spur P–Q shared with s4; now its rows are the simple path A–P–…–B and P–Q carries
+// s4 alone. Under a linear role (`way`) the same seven chains in one batch of M0-a-06's transaction commit — before the
+// round the batch was refused '(way, way:s6) branches' (§3.10 role consistency; the rulings' probe P1).
+describe('RQ1 (item 130 (d)): a chain\'s committed rows never retrace an edge — the route is cut back to a vertex it would re-enter', () => {
+  it('N-8\'s ring under `invisible`: s6\'s rows form a simple path (its two ends of degree 1, every other vertex 2); the spur P–Q carries s4 alone; one W_PLACED at P', () => {
+    const p = wideArena();
+    const t = tx(p, 0);
+    for (let i = 0; i < RING.length - 1; i++) expect(ins(t, [RING[i], RING[i + 1]], [{ role: 'invisible', entity: `s${i}` }]).ok).toBe(true);
+    const last = RING.length - 1;
+    const r = ins(t, [RING[last], RING[0]], [{ role: 'invisible', entity: `s${last}` }]);
+    expect(r.ok, r.ok ? '' : `${r.code} ${r.detail}`).toBe(true);
+    if (!r.ok) return;
+    expect(r.warnings.filter((w) => w.code === 'W_PLACED')).toEqual([{ code: 'W_PLACED', count: 1, at: { x: -48450, y: 45728 } }]);
+    const deg = rowDegrees(p, `invisible/s${last}`);
+    const ends = [`${RING[last][0]},${RING[last][1]}`, `${RING[0][0]},${RING[0][1]}`];
+    for (const [v, d] of deg) expect(d, `the vertex (${v}) in s6's row set`).toBe(ends.includes(v) ? 1 : 2);
+    expect(deg.get('-48450,45728')).toBe(2);
+    expect(deg.has('-48389,45801')).toBe(false);
+    expect(edgeRows(p, [-48450, 45728], [-48389, 45801])).toEqual(['invisible/s4']);
+    expect(chainMove(p, `s${last}`, RING[last], RING[0])).toBeLessThanOrEqual(ATTRACTED_BOUND);
+    expect(allProblems(p)).toEqual([]);
+  });
+
+  it('N-8\'s ring under `way` keys, the seven chains in one L0 batch of M0-a-06\'s transaction (the suite wired in): the batch commits — no linear key branches', () => {
+    const p = wideArena();
+    const r = txn(p, spec(0), (o) => {
+      for (let i = 0; i < RING.length; i++) {
+        const c = insertChain(o, [pt(RING[i][0], RING[i][1]), pt(RING[(i + 1) % RING.length][0], RING[(i + 1) % RING.length][1])], [{ role: 'way', entity: `way:s${i}` }], 'mandatory');
+        if (!c.ok) return c;
+      }
+      return ok(null);
+    }, suiteEnv({ report: suiteReport() }));
+    expect(r.ok, r.ok ? '' : `${r.code} ${r.detail}`).toBe(true);
+    for (let i = 0; i < RING.length; i++) {
+      const deg = rowDegrees(p, `way/way:s${i}`);
+      expect([...deg.values()].filter((d) => d === 1)).toHaveLength(2);
+      expect([...deg.values()].every((d) => d <= 2)).toBe(true);
+    }
     expect(allProblems(p)).toEqual([]);
   });
 });
@@ -619,7 +683,10 @@ describe('C-0209: E_WORK_LIMIT ends the op, the re-landing\'s candidate routes i
 // (−64261, −64493), lands its start on (−64728, −64387), is routed by step 3 through (−64719, −64412), and from there
 // wedge-routed to the corner (−64737, −64362) (53.1 cm, under N-40's cap) — straight back over its own start, which the
 // path's exclusion hid from step 3, so the planned edge overlapped the existing (−64719, −64412)–(−64728, −64387). The
-// router now routes such a segment through the vertex the edge joins it to, sharing the edge (`alongEdge`).
+// router routes such a segment through the vertex the edge joins it to (`alongEdge`) — its own start, already on its
+// path: under RQ1 (item 130 (d)) the route is cut back there, so the fourth chain shares (−64728, −64387)–(−64737,
+// −64362) and writes one edge on to its end, and the step out to (−64719, −64412) and back is gone (before the round its
+// row ran out and back over that edge).
 const OVERLAP: readonly (readonly [readonly [number, number], readonly [number, number]])[] = [
   [[-64719, -64412], [-64737, -64362]],
   [[-64310, -64613], [-64737, -64362]],
@@ -629,7 +696,7 @@ const OVERLAP: readonly (readonly [readonly [number, number], readonly [number, 
 
 describe('C-0210: a route that would run back over an edge of its own path shares it', () => {
   for (const cell of [64, 256, 512]) {
-    it(`grid ${cell} cm: the four chains commit, the arena valid after each (§3.10); the fourth shares (−64719, −64412)–(−64728, −64387)–(−64737, −64362) and writes one edge on to its end`, () => {
+    it(`grid ${cell} cm: the four chains commit, the arena valid after each (§3.10); the fourth shares (−64728, −64387)–(−64737, −64362) and writes one edge on to its end, never out and back over (−64719, −64412)–(−64728, −64387) (RQ1)`, () => {
       const p = wideArena(cell);
       const t = tx(p, 0);
       for (let i = 0; i < OVERLAP.length; i++) {
@@ -637,9 +704,10 @@ describe('C-0210: a route that would run back over an edge of its own path share
         expect(r.ok, `chain ${i}: ${r.ok ? '' : `${r.code} ${r.detail}`}`).toBe(true);
         expect(allProblems(p)).toEqual([]);
       }
-      expect(edgeRows(p, [-64719, -64412], [-64728, -64387])).toEqual(expect.arrayContaining(['invisible/o0', 'invisible/o3']));
+      expect(edgeRows(p, [-64719, -64412], [-64728, -64387])).toEqual(['invisible/o0']);
       expect(edgeRows(p, [-64728, -64387], [-64737, -64362])).toEqual(expect.arrayContaining(['invisible/o0', 'invisible/o3']));
       expect(edgeRows(p, [-64737, -64362], [-64261, -64493])).toEqual(['invisible/o3']);
+      expect([...rowDegrees(p, 'invisible/o3').values()].sort()).toEqual([1, 1, 2]);
     });
   }
 });
@@ -742,12 +810,15 @@ describe('insertChain\'s second pass (C-0215): a chain the first pass refuses E_
   // E_BELOW_MIN_EDGE with detail 'N-43' (§3.6 *Chain classes*; a refusal the bound caused, counted, N-46 (3)). S6
   // (C-0221) serves such a refusal with the router's further readings as it serves E_INVARIANT: the split route commits
   // it within the bound, its split points W_PLACED. The class's residue is refused as before (routerGapS6.test.ts).
+  // From round S9 (C-0361) the strict route reads its stated rule exactly — no contact at a neighbour of the segment's own
+  // end, which clearance exempts — and this chain commits on it, before the split route (S6's commit: W_ATTRACTED 22,
+  // W_PLACED 2, W_STRETCH_SHARED 11).
   it('an optional chain whose every route of the first readings leaves the bound — refused E_BELOW_MIN_EDGE \'N-43\' by S4 and S5 — commits within the bound on S6\'s split route (C-0221)', () => {
     const { p, r, c } = replayPass2('optional-out-of-bound');
     expect(r.ok, r.ok ? '' : `${r.code} ${r.detail}`).toBe(true);
     if (!r.ok) return;
     expect(c.cls).toBe('optional');
-    expect(codes(r)).toEqual([['W_ATTRACTED', 22], ['W_PLACED', 2], ['W_STRETCH_SHARED', 11]]);
+    expect(codes(r)).toEqual([['W_ATTRACTED', 12], ['W_STRETCH_SHARED', 3]]);
     expect(fidelityProblems(p, c.level, c.cls, c.points, { closed: c.closed }, r.value.placed, 'way:x')).toEqual([]);
     expect(allProblems(p)).toEqual([]);
   }, TIMEOUT);
@@ -1049,7 +1120,9 @@ describe('F2: optional chains S5 refused E_BELOW_MIN_EDGE for the bound now comm
       if (!r.ok) return;
       expect(c.log[c.log.length - 1].cls).toBe('optional');
       expect(r.warnings).toEqual(c.warnings);
-      expect(r.warnings.map((w) => w.code)).toContain('W_PLACED');
+      // pass2-optional commits from round S9 on the first pass's strict route (C-0361; its warnings re-recorded), so only
+      // pass3-optional still reports the in-bound landing's W_PLACED.
+      if (kind === 'pass3-optional') expect(r.warnings.map((w) => w.code)).toContain('W_PLACED');
     }, TIMEOUT);
   }
 });
@@ -1068,6 +1141,57 @@ describe('N-44 (4): S6\'s register of the optional N-43 class (register/s6-regis
   }
 });
 
+// The hardening round S9's register (register/s9-register.json; C-0361, N-11, N-14): readings of routeSegment that no
+// fixture held — each case is a B-FUZZ case of this round's census whose last chain takes the reading, recorded with its
+// outcome, and the mutant named in its row changes that outcome. strict-first: the strict route comes before its second
+// reading (mutant ORDER puts the second reading first, and the optional chain is refused for a wedge beyond attractCm,
+// as it was while the second reading stood alone); strict-refused (N-4): the strict route's refusal other than
+// E_INVARIANT is the segment's, and the endpoint route does not run after it (mutant K9 runs it, and the chain's outcome
+// changes); endpoint-refused: the endpoint route's
+// refusal other than E_INVARIANT is the segment's (mutant KR drops it, and the chain is refused for the bound instead);
+// passover-rescue: the third pass's run landing passes over a sub-edge that cannot be split (`placeOnRun`'s passOver;
+// mutant Q14 ends the search there, and the chain is refused); cut-to-end (RQ1, item 130 (d)): a cut inside a nested
+// route call goes back past vertices the calls it returns through meant to route to next, so the route goes on from the
+// cut-to vertex to the segment's end and those calls stop (mutant CUTLOCAL, the cut routed on to the nested call's own
+// target, refuses the chain E_INVARIANT 'arena: vertex 19 is not live').
+const S9_REGISTER = (JSON.parse(readFileSync(new URL('./register/s9-register.json', import.meta.url), 'utf8')) as { cases: RegisterCase[] }).cases;
+
+describe('C-0361, N-4, N-11, N-14: the hardening round S9\'s register (register/s9-register.json) — each last chain\'s outcome as recorded', () => {
+  for (const c of S9_REGISTER) {
+    it(`${c.kind}: ${c.family} seed ${c.seed} (${c.log.length} chains) — ${c.code === undefined ? 'commits' : `refused ${c.code}`}`, () => {
+      const { p, r, before } = replay(c, 'way');
+      if (c.code === undefined) {
+        expect(r.ok, r.ok ? '' : `${r.code} ${r.detail}`).toBe(true);
+        if (r.ok) expect(r.warnings).toEqual(c.warnings);
+        return;
+      }
+      expect(r.ok).toBe(false);
+      if (r.ok) return;
+      expect([r.code, r.detail]).toEqual([c.code, c.detail]);
+      expect(countedRefusal(r.code, r.detail)).toBe(false);
+      expect(contentPrint(p)).toBe(before);
+    }, TIMEOUT);
+  }
+});
+
+// N-12 (the hardening round S9): B-FUZZ's properties stop at their first failure (caps.ts `FUZZ_PARAMS`), so a red seed
+// reports its case instead of shrinking 300-point walks for an hour.
+describe('N-12: a failing B-FUZZ property reports its first failing case unshrunk (FUZZ_PARAMS)', () => {
+  it('a property over 300-point walks failing at its third case stops there: no shrink step, the case and its seed reported', () => {
+    let runs = 0;
+    const walk = fc.array(fc.tuple(fc.integer({ min: -60, max: 60 }), fc.integer({ min: -60, max: 60 })), { minLength: 300, maxLength: 330 });
+    const out = fc.check(fc.property(walk, () => {
+      runs += 1;
+      return runs < 3;
+    }), { ...FUZZ_PARAMS, seed: 4242, numRuns: 100 });
+    expect(out.failed).toBe(true);
+    expect(out.numRuns).toBe(3);
+    expect(out.numShrinks).toBe(0);
+    expect(runs).toBe(3);
+    expect((out.counterexample?.[0] as unknown[] | undefined)?.length).toBeGreaterThanOrEqual(300);
+  });
+});
+
 describe('N-44 (3) as J207 / J208 apply it, N-46 (3) – (4) (caps.ts, C-0217, C-0221): each property\'s cap is N-46\'s cap per family plus one run\'s noise', () => {
   it('poissonCap is the 99.9 % point of a Poisson count, at least 1', () => {
     expect(poissonCap(0)).toBe(1);
@@ -1076,18 +1200,21 @@ describe('N-44 (3) as J207 / J208 apply it, N-46 (3) – (4) (caps.ts, C-0217, C
     expect(poissonCap(10)).toBe(21);
   });
 
-  it('N-46 (4)\'s cap per 10⁴ is the measured rate plus 3 · √count on the 31 seeds: 4.45 (random), 2.14 (constructive), 2.26 (mandatory-only), 0.26 (fidelity)', () => {
+  it('N-46 (4)\'s cap per 10⁴ is the measured rate plus 3 · √count on the 31 seeds (S9\'s measure, C-0361): 4.30 (random), 2.10 (constructive), 2.26 (mandatory-only), 0.26 (fidelity)', () => {
     const fams = ['random', 'constructive', 'mandatory', 'fidelity'] as const;
-    expect(fams.map((f) => Math.round(capPer1e4(f) * 100) / 100)).toEqual([4.45, 2.14, 2.26, 0.26]);
+    expect(fams.map((f) => Math.round(capPer1e4(f) * 100) / 100)).toEqual([4.3, 2.1, 2.26, 0.26]);
     for (const f of fams) expect(MEASURED_PER_1E4[f]).toBe(MEASURED_COUNT[f] / 31);
   });
 
-  it('the caps at the PR size are 12 (random), 8 (constructive), 8 (mandatory-only) and 3 (the fidelity property), each above the most any of the 31 measured seeds refused (9, 3, 4, 2); 4, 3, 3 and 1 at 10³; 512, 261, 274 and 44 nightly', () => {
+  it('the caps at the PR size are 12 (random), 8 (constructive), 8 (mandatory-only) and 3 (the fidelity property), each above the most any of the 31 measured seeds refused (8, 3, 4, 2); 4, 3, 3 and 1 at 10³; 496, 256, 274 and 44 nightly', () => {
     const fams = ['random', 'constructive', 'mandatory', 'fidelity'] as const;
     expect(fams.map((f) => refusalCap(f, 10_000))).toEqual([12, 8, 8, 3]);
     expect(fams.map((f) => refusalCap(f, 1_000))).toEqual([4, 3, 3, 1]);
-    expect(fams.map((f) => refusalCap(f, 1_000_000))).toEqual([512, 261, 274, 44]);
-    const most = [9, 3, 4, 2];
+    expect(fams.map((f) => refusalCap(f, 1_000_000))).toEqual([496, 256, 274, 44]);
+    const most = [8, 3, 4, 2];
+    // J207's ratchet: S9's counts never rise over S6's (C-0221: 107, 46, 49, 3).
+    expect(fams.map((f) => MEASURED_COUNT[f])).toEqual([103, 45, 49, 3]);
+    fams.forEach((f, i) => expect(MEASURED_COUNT[f]).toBeLessThanOrEqual([107, 46, 49, 3][i]));
     fams.forEach((f, i) => expect(refusalCap(f, 10_000)).toBeGreaterThan(most[i]));
     // The target stays 1 per 10⁴ (KI-1): every measured mean is above it, none is below 0.
     for (const f of fams) expect(MEASURED_PER_1E4[f]).toBeGreaterThan(0);
