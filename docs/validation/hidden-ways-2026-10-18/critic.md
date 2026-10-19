@@ -12,3 +12,4 @@ Tags: [STATED] the text says it; [OBSERVED] checked in the repository; [INFERRED
 
 (appended as I go)
 - 02:15 read whole: the request (47 lines), the reply (454), draft-w.md (910), synthesis.md (51), STATUS.md. Next: the five readers, the three judges, then the checks.
+- 02:24 read whole: read-request (389), read-host (352), read-v13-routes (403), read-v13-lenses (418), read-v14-base (301), judge-1 (140), judge-2 (192), judge-3 (203). Next: the nine checks (fragment script, census, cited lines, arithmetic, clean room).
