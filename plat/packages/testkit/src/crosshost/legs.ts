@@ -74,11 +74,17 @@ export async function crossHostPlaywright(): Promise<{ pw: typeof import('playwr
   return loaded;
 }
 
+/** Is the machine the reference Mac (macOS on arm64), where every leg must run (C-0028)? */
+function onReferenceMac(m: CrossHostMachine): boolean {
+  return m.platform === 'darwin' && m.arch === 'arm64';
+}
+
 /**
  * A browser leg's plan: the pinned revision's executable under the cache root `env` names (its path inside the cache
- * as playwright-core lays it out), present → runnable; absent → blocked by the no-download rule.
+ * as playwright-core lays it out), present → runnable; absent → blocked by the no-download rule. The absent build's
+ * reason ends "— a Mac step" off the reference Mac and names the cache to fill on it (C-0392 (8)).
  */
-export async function planCrossHostBrowserLeg(browser: CrossHostBrowser, env: Readonly<Record<string, string | undefined>> = process.env): Promise<CrossHostLegPlan> {
+export async function planCrossHostBrowserLeg(browser: CrossHostBrowser, env: Readonly<Record<string, string | undefined>> = process.env, m: CrossHostMachine = CROSSHOST_THIS_MACHINE): Promise<CrossHostLegPlan> {
   const leg: CrossHostLegId = browser;
   const root = crossHostCacheRoot(env);
   if (root === null) return { leg, runnable: false, reason: 'PLAYWRIGHT_BROWSERS_PATH=0 names a package-local folder, not the Playwright cache; launched only from the cache (C-0028)' };
@@ -91,7 +97,8 @@ export async function planCrossHostBrowserLeg(browser: CrossHostBrowser, env: Re
   }
   const executable = join(root, inCache);
   if (!existsSync(executable)) {
-    return { leg, runnable: false, reason: `${browser}'s pinned build (playwright-core 1.60.0, C-0051) is not in the Playwright cache: no ${executable}; never downloaded (the no-download rule, C-0028) — a Mac step` };
+    const where = onReferenceMac(m) ? `on the reference Mac: restore the pinned build into the cache ${root} (corepack pnpm browsers:check launches the three)` : 'a Mac step';
+    return { leg, runnable: false, reason: `${browser}'s pinned build (playwright-core 1.60.0, C-0051) is not in the Playwright cache: no ${executable}; never downloaded (the no-download rule, C-0028) — ${where}` };
   }
   if (!(executable === root || executable.startsWith(root + sep))) return { leg, runnable: false, reason: `${executable} lies outside the cache root ${root}` };
   return { leg, runnable: true, kind: 'browser', browser, executable, cacheRoot: root };
@@ -100,5 +107,5 @@ export async function planCrossHostBrowserLeg(browser: CrossHostBrowser, env: Re
 /** A leg's plan on this machine. */
 export async function planCrossHostLeg(leg: CrossHostLegId, env: Readonly<Record<string, string | undefined>> = process.env, m: CrossHostMachine = CROSSHOST_THIS_MACHINE): Promise<CrossHostLegPlan> {
   if (leg === 'node-arm64' || leg === 'node-x64-rosetta') return planCrossHostNodeLeg(leg, m);
-  return planCrossHostBrowserLeg(leg, env);
+  return planCrossHostBrowserLeg(leg, env, m);
 }

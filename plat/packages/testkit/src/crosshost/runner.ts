@@ -4,7 +4,9 @@
 // cached build launched by its explicit path (legs.ts), one page per run: workers off runs the stages on the page's
 // main thread, workers on inside a dedicated Web Worker built from the same bundle. The timing mode (C-0082) adds the
 // harness's per-stage wall-clock to every cell and changes nothing else. Every child process the runner starts is
-// reported to `onChild` (the timing phase's `ownPids`, C-0103).
+// reported to `onChild` (the timing phase's `ownPids`, C-0103). The Node legs' bundle is written to a fresh folder under
+// os.tmpdir() and removed after the run: an output generated in-process from plat/ sources, never an input read from
+// outside plat/ (C-0067 holds; C-0392 (6)).
 import { spawn } from 'node:child_process';
 import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { cpus, tmpdir, totalmem, release } from 'node:os';
@@ -78,7 +80,7 @@ function runNodeLeg(plan: Extract<CrossHostLegPlan, { kind: 'node' }>, bundleFil
     };
     const timer = setTimeout(() => {
       child.kill('SIGKILL');
-      finish({ leg, workers, status: 'failed', reason: `no answer within ${String(opts.timeoutMs ?? DEFAULT_TIMEOUT_MS)} ms` });
+      finish({ leg, workers, status: 'failed', reason: noAnswer(opts.timeoutMs ?? DEFAULT_TIMEOUT_MS) });
     }, opts.timeoutMs ?? DEFAULT_TIMEOUT_MS);
     if (child.pid !== undefined) opts.onChild?.(child.pid, leg);
     child.stdout.on('data', (b: Buffer) => out.push(b));
@@ -108,6 +110,26 @@ function runNodeLeg(plan: Extract<CrossHostLegPlan, { kind: 'node' }>, bundleFil
     child.stdin.on('error', () => undefined);
     child.stdin.end(JSON.stringify({ job, workers }));
   });
+}
+
+/** The reason of a run past its time limit (a Node leg killed, a browser page whose answer never came). */
+function noAnswer(ms: number): string {
+  return `no answer within ${String(ms)} ms`;
+}
+
+/** The rejection `within` gives past its limit. */
+class CrossHostNoAnswer extends Error {}
+
+/**
+ * The promise's settlement, or a CrossHostNoAnswer past `ms`: page.evaluate is not bounded by the page's default
+ * timeout, so a Web Worker that never posts (or a main thread that never returns) would hang the run (C-0392 (5)).
+ */
+function within<T>(p: Promise<T>, ms: number): Promise<T> {
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const limit = new Promise<never>((_, reject) => {
+    timer = setTimeout(() => reject(new CrossHostNoAnswer(noAnswer(ms))), ms);
+  });
+  return Promise.race([p, limit]).finally(() => clearTimeout(timer));
 }
 
 /** The page's origin (served by the route below; no network). */
@@ -167,15 +189,19 @@ async function runBrowserLeg(plan: Extract<CrossHostLegPlan, { kind: 'browser' }
     try {
       for (const workers of list) {
         const t0 = Date.now();
+        const limitMs = opts.timeoutMs ?? DEFAULT_TIMEOUT_MS;
         const page = await browser.newPage();
         try {
-          page.setDefaultTimeout(opts.timeoutMs ?? DEFAULT_TIMEOUT_MS);
+          page.setDefaultTimeout(limitMs);
           await page.route(`${ORIGIN}/**`, (route) => route.fulfill({ status: 200, contentType: 'text/html; charset=utf-8', body: '<!doctype html><meta charset="utf-8"><title>crosshost</title>' }));
           await page.goto(`${ORIGIN}/`);
           await page.addScriptTag({ content: DRIVER });
           if (workers === 'off') await page.addScriptTag({ content: bundles.browser });
           const arg = { job, workers, src: workers === 'on' ? bundles.browser : '' };
-          const answer = (await page.evaluate((a) => (globalThis as unknown as { __platCrossHostDrive: (x: unknown) => unknown }).__platCrossHostDrive(a), arg)) as {
+          const answer = (await within(
+            page.evaluate((a) => (globalThis as unknown as { __platCrossHostDrive: (x: unknown) => unknown }).__platCrossHostDrive(a), arg),
+            limitMs,
+          )) as {
             nav: { userAgent: string; hardwareConcurrency: number; deviceMemory: number | null };
             result: CrossHostLegResult;
           };
@@ -194,9 +220,9 @@ async function runBrowserLeg(plan: Extract<CrossHostLegPlan, { kind: 'browser' }
           };
           runs.push({ leg, workers, status: 'ran', host, thread: answer.result.thread, cells: answer.result.cells, wallMs: Date.now() - t0 });
         } catch (e) {
-          runs.push({ leg, workers, status: 'failed', reason: `the page failed: ${firstLine(e)}` });
+          runs.push({ leg, workers, status: 'failed', reason: e instanceof CrossHostNoAnswer ? e.message : `the page failed: ${firstLine(e)}` });
         } finally {
-          await page.close().catch(() => undefined);
+          await within(page.close(), limitMs).catch(() => undefined);
         }
       }
     } finally {
