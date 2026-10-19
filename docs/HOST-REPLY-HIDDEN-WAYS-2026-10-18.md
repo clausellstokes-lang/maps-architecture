@@ -3,8 +3,9 @@
 **Answering** `docs/host-requests/2026-10-18-hidden-ways.md` as corrected on the evening of 2026-10-18 (47 lines, md5
 `45612fdd…`; cited REQ:n; the first version kept as `…-hidden-ways-v1.md`, md5 `251c96a9…`, differing in lines 33 and 35
 only [OBSERVED: `diff`]). **The design is draft amendments w** — `docs/validation/hidden-ways-2026-10-18/draft-w.md`
-(items 955–975, 114 fragments; the machine copy `draft-w.fragments.json`) — **pending the owner's look**; nothing is
-applied, and every line below that says "will" means "once file w is applied". Written by the synthesis seat of the
+(items 955–975, 114 fragments; the machine copy `draft-w.fragments.json`) — **decided by the owner on 2026-10-19**
+(J421, §9.1: "i follow your recommendations") and **applied today** as `docs/AMENDMENTS-2026-10-18w.md`; every line
+below that says "will" means "once file w is applied". Written by the synthesis seat of the
 hidden-ways workflow (J407) and revised by its correction run (J415; the owner's word of 2026-10-19 on roads that join,
 fork or diverge, J416) under the owner's delegation (J404); every ruling is vetoable by the owner. The first reply is
 kept as `docs/validation/hidden-ways-2026-10-18/reply-v1.md`. **Cites:** V13:n is `docs/volumes/V13-world.md` as it
@@ -318,9 +319,9 @@ advances on every tier; (iii) the additive canon must differ from the adopted on
 re-lays the cut trods at the next W7c run and steps the record's version, which you pick up at your next request — the
 re-laid trod keeps its id, so your rung for it stands. The owner's answer to door 1 named the canon (file r item 926;
 V13:4455–4459) [STATED]; the map reads the simulator feed as the one door the answer opened (its optional products ride
-it) and puts that reading to the owner as part of Q5 (§9), vetoable. If the owner holds to the letter of a slot, a slot
-needs your automatic receipted re-canonize after the genesis mount (J388's pattern, V13:2478–2481), which H32 would then
-say.
+it) and put that reading to the owner as part of Q5 (§9), who confirmed it on 2026-10-19 (J421, §9.1). Had the owner held
+to the letter of a slot, a slot would have needed your automatic receipted re-canonize after the genesis mount (J388's
+pattern, V13:2478–2481), which H32 would then have said.
 
 ---
 
@@ -596,7 +597,7 @@ H16 and H23 (HRQ:68, 82, 102) have drifted (now V13:3884, 3891, 3898) [OBSERVED]
 
 ## §9 Open points for the owner, and what the host side should record now
 
-### 9.1 The one owner decision (V13 §11 Q5, item 966 (c); every other ruling is the session's, vetoable)
+### 9.1 The one owner decision (V13 §11 Q5, item 966 (c); answered 2026-10-19, J421; every other ruling is the session's, vetoable)
 
 **Q5 — the price, the bodies chain's order and the trod record's door.** The design costs M-W2 ≈ 2 pw more (8 → 10 pw:
 the trods ≈ 1, the junction ends and the fork rule the owner's word of 2026-10-19 asked for ≈ 1) and widens the staged
@@ -607,6 +608,16 @@ third optional product rather than a canon slot (§3.8), under the owner's door-
 milestone's `routeFacts` and change no simulated byte until read); confirm the product reading — if the owner holds to a
 slot, it needs the host's automatic receipted re-canonize after the genesis mount (J388's pattern), which H32 would then
 say.
+
+**The owner's answer (2026-10-19, J421).** Asked Q5, the owner answered on 2026-10-19 at 07:12Z, verbatim: "i follow
+your recommendations". So: (1) **the price is accepted and M-W2 is named** — M-W2 is re-declared 8 → 10 pw (the trods
+≈ 1, the junction ends and the fork rule ≈ 1), the staged row 39–47, and it is the milestone that carries the trods,
+their record, their reveal and the junction ends; (2) **the stand-in meanwhile** — your bodies chain may build its
+stand-in cover graph from `routeFacts`' stretches and retire it when the trod record lands; (3) **the product reading
+is confirmed** — the trod record reaches you as the simulator feed's third optional product, beside `routeFacts` and
+`patrolOffer`, not as a canon slot, so H32 asks no re-canonize. You may now list **M-W2** as the bodies chain's
+prerequisite (with your own H9, H12, H17 and H32; §9.2). The answer is written into V13 §11 Q5 by item 966 (c), and
+file w is applied as `docs/AMENDMENTS-2026-10-18w.md`.
 
 Not put to the owner, and why: the owner's word of 2026-10-19 is the owner's own law, already given, and the way the map
 obeys it — the junction generalization, the fork rule's cells, a trod's grade, the lapse fold and the partial drawing —
@@ -662,5 +673,6 @@ your own recorded facts (§9.3), not map capabilities.
 
 *Status:* written 2026-10-19 by hidden-ways/synthesis and revised the same day by hidden-ways/synthesis-2 for the host's
 corrected request and the owner's word of 2026-10-19 (J415, J416), from the lane's readers, designs, judges and the
-correction's delta record (`docs/validation/hidden-ways-2026-10-18/`); the design is draft w, pending the owner's look;
-nothing applied; no git run.
+correction's delta record (`docs/validation/hidden-ways-2026-10-18/`); the design is draft w; the owner decided Q5 on
+2026-10-19 (J421, §9.1: "i follow your recommendations"), the answer written into §9.1 and item 966 (c) the same day
+by hidden-ways/answer, and file w is applied today as `docs/AMENDMENTS-2026-10-18w.md`; no git run.
