@@ -9887,3 +9887,12 @@
 2026-10-19 01:26 hidden-ways/read-host CHECKPOINT returned from disk (read-host.md 352 lines, md5 c63dedaf, LANDED 2026-10-18 22:42); no work redone
 2026-10-19 01:26 hidden-ways/read-request CHECKPOINT returned from disk (read-request.md, 389 lines, md5 9672c754 unchanged); next: none, index returned
 2026-10-19 01:27 hidden-ways/read-v13-lenses CHECKPOINT returned from disk (record and LANDED line present; read-v13-lenses.md 418 lines, md5 01a9ccf4); next: none
+2026-10-19 01:28 hidden-ways/design-B CHECKPOINT returned from disk (record docs/validation/hidden-ways-2026-10-18/design-B.md 1869 lines, md5 4c065380; fragments 74, md5 84561cd0; LANDED 2026-10-18 23:11 at lane-events.log:9883); no work redone; next: none, index returned
+2026-10-19 01:28 hidden-ways/design-A CHECKPOINT returned from disk (design-A.md 1054 lines md5 514bf0f8, design-A.fragments.json 82 fragments md5 f14addb2, LANDED at lane-events.log:9884); next: return the record's index as the structured answer
+2026-10-19 01:28 hidden-ways/design-C CHECKPOINT returned from disk (design-C.md 1260 lines, md5 6a1d232b, LANDED at lane-events.log:9882, unchanged; 66 fragments in design-C.fragments.json); next: none — index returned as the structured answer
+2026-10-19 01:29 hidden-ways/judge-1 CHECKPOINT started; reading request, reader notes and the three designs
+2026-10-19 01:29 hidden-ways/judge-2 CHECKPOINT record opened; next: read request, reader notes, three designs
+2026-10-19 01:29 hidden-ways/judge-3 CHECKPOINT started; record stub written; next: read request + three designs whole
+2026-10-19 01:30 hidden-ways/judge-2 CHECKPOINT request, five reader notes and design-A read, A notes written; next: design-B, design-C, then verification
+2026-10-19 01:30 hidden-ways/judge-1 CHECKPOINT design-A read and noted; next design-B whole, then C
+2026-10-19 01:30 hidden-ways/judge-2 CHECKPOINT design-B read and noted; next: design-C, then verification of citations and fragments
