@@ -1,4 +1,4 @@
-# STATUS — the hidden-ways design run (lanes hidden-ways/*; written by the autosave loop at 2026-10-19 02:27Z)
+# STATUS — the hidden-ways design run (lanes hidden-ways/*; written by the autosave loop at 2026-10-19 02:29Z)
 
 | lane | last line | state | the line |
 |---|---|---|---|
@@ -17,4 +17,4 @@
 | hidden-ways/synthesis | 2026-10-19 02:14 | LANDED | 2026-10-19 02:14 hidden-ways/synthesis LANDED docs/validation/hidden-ways-2026-10-18/synthesis.md (51 lines, md5 74f5027c): the synthesis record — the decisions (word trod, kind goat/drove/broad, product not slot, toggle |
 | hidden-ways/critic | 2026-10-19 02:19 | CHECKPOINT | 2026-10-19 02:19 hidden-ways/critic CHECKPOINT all inputs read (request, reply, draft-w, synthesis, 5 readers, 3 judges); next: fragment check of all 96, census, cited lines, arithmetic, clean-room grep, then critic.md g |
 | hidden-ways/verify | 2026-10-19 02:15 | LANDED | 2026-10-19 02:15 hidden-ways/verify LANDED docs/validation/hidden-ways-2026-10-18/verify.md (30 lines, md5 820b4e4e): draft-w.fragments.json 96/96 PASS — md5s, old once at line, apply in order, reversal byte-identical, i |
-| hidden-ways/read-correction | 2026-10-19 02:26 | CHECKPOINT | 2026-10-19 02:26 hidden-ways/read-correction CHECKPOINT started; record stub written; next: diff the request against -v1 |
+| hidden-ways/read-correction | 2026-10-19 02:27 | CHECKPOINT | 2026-10-19 02:27 hidden-ways/read-correction CHECKPOINT §1 the diff written (2 lines changed: REQ:33 c1-c3, REQ:35 d0-d5); next: §2 touched sentences in reply, draft w, synthesis §1 |
