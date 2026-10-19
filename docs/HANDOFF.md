@@ -4,6 +4,8 @@
 
 **RESUMED 01:27Z (J409).** The window exhausted ~23:20Z and reset 01:20Z. Done at the resume: the autosave loop restarted; the hidden-ways run relaunched fresh as wf_b86263a8-2b4 from workflows/44 (reads and designs LANDED before the kill and return from disk; judges, synthesis, critique running); the nine children messaged the J408 resume instruction with FROM = the killed round (U 8 check-only, Lb 9, Ob2 2, Tb 3, Qb 2 check-only, Ib 1, Mb 1 check-only, Sb 1 check-only, Cb 3) and the RELATED-reuse addition (a finished RELATED log is reused, never re-run). The per-child table below is the state at launch; each branch's newest lane line is the truth. Next: land each hand-back (a-09 first); review the reply and draft w when the run completes; the 01:55Z wake-up is the check-in.
 
+**14:31Z (J441).** d-07 s1 PASS LANDED as a0d4c76d (R11's two tools rounds both landed), AD archived; e-05 S1 launches as child AG.
+
 **13:31Z (J439).** d-09 S1 launched as child AF (session_01QKRUP7PESKzVJJF7jayaAd; wip/child-d09s1); eleven children running (V2, Lb, Ob2, Cb, X, Y, Z, AB, AD, AE, AF).
 
 **13:32Z (J438).** e-01 s1 PASS LANDED as 7aec3b7c, W archived; d-09 S1 launches as child AF.

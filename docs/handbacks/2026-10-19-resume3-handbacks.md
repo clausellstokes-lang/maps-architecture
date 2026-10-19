@@ -56,3 +56,27 @@ The children's hand-back messages as received by the session after the resume of
 > HAND-BACK child W M0-e-01 s1: workflow ok=true, rounds 1, built.status ready-for-check, check.verdict pass, failing_lines 0. LANDED lines: "2026-10-19 11:27 build/M0-e-01-fix-s1 LANDED plat/docs/build/landed/M0-e-01.json (e1e8a83c2a6468a6; against flow-7: 0 created, 11 changed, 11 unchanged; this round touched plat/packages/site/src/terrain/{primitives,grid}.ts, plat/packages/site/test/terrain/{primitives,resources,strategy}.test.ts) plat/docs/build/landed/build-M0-e-01-notes.json (…)"; "2026-10-19 13:26 check/M0-e-01-close-s1 LANDED plat/docs/build/checks/M0-e-01-s1.md (0866a89fb6939423; record plat/docs/build/landed/check-M0-e-01-s1.json: 1 created; appends CLEAN-ROOM.md L-0557) plat/docs/build/checks/M0-e-01-notes.md (c8130cd09999d949; record plat/docs/build/landed/check-M0-e-01-notes.json: section 'Hardening round S1 — the closing check's notes', N-s1-2) plat/CLEAN-ROOM.md (…)". Verdict file plat/docs/build/checks/M0-e-01-s1.md. Records: M0-e-01.json, build-M0-e-01-notes.json, check-M0-e-01-s1.json, check-M0-e-01-notes.json. Branch wip/child-e01s1b @ dd5f19b1 (final snapshot 13:26Z). Notes: (1) The five-hour window killed the first run (wf_8cf376a7-0a7) at about 08:45Z, before the build LANDED. After the reset I relaunched step 5 at 11:24Z as wf_f1966357-5b5 with the same args and FROM=1. I did not re-render: the machine id was unchanged. I restarted the snapshot loop. The relaunched build seat reused the finished RELATED@1000 log (07:47–09:31, 229 files, 2744/2744, exit 0) under the CONTINUE RULE. (2) Machine linux:Intel(R) Xeon(R) Processor @ 2.10GHz:4cpu:16gib, the 2.10GHz variant. Fitted args: maxLanes 2, workerCap 8, mutantCap 3, agentCap 5. (3) landed:verify printed FAIL before the round, on the 5 terrain files the build changed (expected for an unfinished build). After it landed, both the build and the check got ok. (4) Row outcomes: N-c1-3 and N-c1-4 fixed, N-c1-1, N-c1-2 (+N-c1-6), N-c1-5 and L27 (a) pinned, N-c1-8 a comment fix. Appends: C-0373, L-0556, L-0557. The check's mutants: 30 of 32 killed, 2 survivors equivalent by the kernel's ratio floor. Refusal census: lawful 0 refusals before and after. (5) The build disclosed N-s1-1: an earlier pass of the build seat ran one read-only 'git status --short'. Nothing was written and the output was not used. The check routed it in N-s1-2; it is not a blocker.
 
 **The session's ruling (13:3xZ):** landed by tools/session/land_child.py (see the J-row); the read-only git status disclosure (N-s1-1/N-s1-2) is noted, not a clean-room breach (nothing written, nothing used).
+
+## AD — M0-d-07 s1 (received 14:25Z)
+
+> HAND-BACK child AD M0-d-07 s1: workflow ok=true, rounds 1, built.status ready-for-check, check.verdict pass, failing_lines 0 (run wf_ed211d5b-e88, about 88 min, 2 agents, 0 errors).
+> LANDED lines:
+> - 2026-10-19 13:55 build/M0-d-07-fix-s1 LANDED. Owns: plat/tools/lint/rules/shared.mjs, paths.mjs, vendor-scan.mjs, bench-boundary.mjs, plat/tools/lint/{bench-boundary,vendor-scan,paths,probe,directives,rules,index}.test.mjs, plus 4 new fixtures (no-nondeterminism/pass-type-only.ts, no-nondeterminism/pass-type-query.ts, no-object-key-iteration/pass-type-query.ts, ratio-division/typed/pass-typed.ts). Ledger: C-0391, L-0589.
+> - 2026-10-19 14:24 check/M0-d-07-close-s1 LANDED. plat/docs/build/checks/M0-d-07-s1.md (1d3e3822aad6…), plat/docs/build/landed/check-M0-d-07-s1.json, plat/CLEAN-ROOM.md (L-0590). Verdict PASS: L14 MT, MQ, N7, N8, N9, N10 PINNED; S-3 lint half FIXED (isMain realpath helper, symlinked CLI tests); L15 W-2 (d) FIXED (declared verdict change C-0391 (1)); N3 DONE.
+> Verdict file: plat/docs/build/checks/M0-d-07-s1.md.
+> Records: landed/M0-d-07.json (sha256 e9caa7cd…), landed/check-M0-d-07-notes.json (sha256 19dc8130…), landed/check-M0-d-07-s1.json.
+> Branch: wip/child-d07s1 @ a5d6b3e (final snapshot 14:25Z, on base 900ca99f).
+> Notes:
+> - The base was claude/great-galileo-b4mzbq checked out as local main; the 12:50 s-01-close-s5 LANDED line was confirmed present.
+> - Machine id is linux:Intel(R) Xeon(R) Processor @ 2.80GHz:4cpu:16gib, the 2.80GHz variant; the counts match, and the fitted args are maxLanes 2, workerCap 8, mutantCap 3, agentCap 5.
+> - The pre-launch landed:verify flow-7 --item M0-d-07 printed ok.
+> - Build gates: lint 0 (1156 files, probe-red 10/10), build 0, NEAR 11 files 160/160 (141 before), RELATED@1000 160/160, vendor:verify 49 files, notices:check 0; landed:verify ok for both records.
+> - Two declared verdict changes in C-0391: (1) .jsx KERNEL bench files are now refused when they reach a town package; the tree has none, so its verdict is unchanged; (2) the paths and vendor-scan CLIs now run when invoked through a symlink.
+> - Builder self-check: 18 mutants, all killed. MC10 is still red on coverage.test's undefined-config stub (N3).
+> - N12's limit is documented: ratio-division's kernel exemption cannot tell physicalFilename from filename inside Markdown virtual blocks.
+> - vendor-audit.json was not written, and its bytes are equal.
+> - L15 N2, N5, N6 were deferred to M4 as ruled.
+> - No container restart and no relaunch.
+> - The snapshot loop is stopped.
+
+**The session's ruling (14:3xZ):** landed by tools/session/land_child.py (see the J-row); the two declared verdict changes stand as C-0391's (renumbered at the landing); N12's documented limit is a notes row for M4.
