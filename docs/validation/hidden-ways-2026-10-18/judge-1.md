@@ -23,3 +23,18 @@ Status: IN PROGRESS (sections fill as the reading proceeds).
 - M-W2 8 → 9 pw; M-W5 lens ≈ 0.5 pw inside 7; T-V13-59/60; J-V13.114-124; no BCR; H32 (notes the kernel's `H32` hash homonym itself, :1037-1040).
 - Four contradicted host premises stated, not designed against (:330-335). Owner Q5 price/order (:879-887).
 - To check: (i) the `maxPerCountry` 12 clamp vs the "≈ 320 per province" estimate (needs ≥ 27 rough countries) [INFERRED]; (ii) the kernel `H32(` homonym at V13:1384; (iii) "no base text lists the canon's slots"; (iv) five fragments by exact search.
+
+### 0.2 Design B (read whole, 1869 lines)
+- Word trod; kinds goat/drove/holloway/game with integer `widthM` in `world.trod`; `way` and `hidden` added to the collision rows (design-B.md:30-54, :735).
+- Record of its own: `Trod {a, b}` ends are `TrodJunction` ids; `TrodJunction {route {id, hostKey?, stationM}, arms[], kind end|crossing}`; NO seat end (left out, :1842-1844) (:160-171).
+- NOT a canon slot: `trods(world, {logHead})` → `TrodRecord`, the simulator feed's third optional product, versioned on its own against the canon versions; reasons: law (1), the birth canon precedes the genesis (H12/H22), the additive canon (:285-317; J-V13.116 :512). B itself flags that file r item 926 names the canon, not a product (:1829-1832).
+- B = `routeFacts.stretches` {lengthM, effortM, terrainClass}[] read at the call (:196-208).
+- W7c: patches by landUse (forest, wetland, alpine, scrub) or relief 120 m/2 km; touch points; Urquhart candidates; A* with choice factors; drops (openShareMax 0.2, roadHugShareMax 0.3); kinds by first match; crossing junctions; a road along a trod tombstones it; `W_TROD_UNJOINED`, `W_TROD_CUT` (:232-283).
+- Reveal: DM default draws only known/revealed/discovered; `showTrods` view key default off for the ghost network (:321-332); audience filter; ninth lens `trods` placed after patrols INSIDE the union order (:679); legend sentence; refusals (:340-376).
+- Knowledge H9 event (how-word in `cause`, `factTier: 'dossier'`, `radiusM` 0); movers H17 (H23 corrected); watch = a dated event (not roadWatch); patrols option B (:378-404).
+- Lifecycle: never promoted; decayed road never a trod; no trod where a road dies (:406-422). Quarantine: refusal narrowed NOW to "a quarantine line the host did not send" (B-33, :1126-1138).
+- Budget: not stored (rebuilt on load), ≤ 40 KB at rest, ≈ 0.7 MB memory at 2 000; time 61 ms at 2 000 (:439-462); BUT the W7c budget row is 10/25/60 ms and the total 730 → 740 ms (:1217, :1231) and WORLD-18 is 0.15 × the W7a+W7b row = 9 ms province (:1245) — inconsistent with its own 61 ms (or 25 ms at the default 800) [OBSERVED arithmetic].
+- No seasonal set on a trod, citing `TravelLaw.season.terrainFactor` per class (V13:858) — to verify.
+- M-W2 9 pw, staged 38-46; M-W5 +0.25 inside; T-V13-59/60/61; J-V13.114-126; BCR-V13-41 (admission sentence, port paragraph, `showTrods`); H32 with (e) the digest-cap note (HR:840 — to verify); 13 host corrections (:543-569).
+- B-1 cites a reply file `docs/HOST-REPLY-HIDDEN-WAYS-2026-10-18.md` that does not exist yet [to check].
+- Same `perPatchMax` 12 clamp vs "≈ 800 per province" soft inconsistency as A's (needs ≥ 67 patches) [INFERRED].

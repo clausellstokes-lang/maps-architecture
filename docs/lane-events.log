@@ -9896,3 +9896,6 @@
 2026-10-19 01:30 hidden-ways/judge-2 CHECKPOINT request, five reader notes and design-A read, A notes written; next: design-B, design-C, then verification
 2026-10-19 01:30 hidden-ways/judge-1 CHECKPOINT design-A read and noted; next design-B whole, then C
 2026-10-19 01:30 hidden-ways/judge-2 CHECKPOINT design-B read and noted; next: design-C, then verification of citations and fragments
+2026-10-19 01:32 hidden-ways/judge-3 CHECKPOINT request + designs A/B/C read whole; next: verify citations (research/sf, HRQ, V13/V14/base), word census, fragment script check
+2026-10-19 01:32 hidden-ways/judge-1 CHECKPOINT design-B read and noted; next design-C whole, then verification of claims and fragments
+2026-10-19 01:33 hidden-ways/judge-2 CHECKPOINT all three designs read and noted; next: md5 + fragment exact-match check (all fragments, three JSONs), key-line verification, term census, then scoring
