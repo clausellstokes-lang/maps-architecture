@@ -1,8 +1,8 @@
-# STATUS — the hidden-ways design run (lanes hidden-ways/*; written by the autosave loop at 2026-10-19 02:30Z)
+# STATUS — the hidden-ways design run (lanes hidden-ways/*; written by the autosave loop at 2026-10-19 02:33Z)
 
 | lane | last line | state | the line |
 |---|---|---|---|
-| hidden-ways/session | 2026-10-19 02:26 | LAUNCHED | 2026-10-19 02:26 hidden-ways/session LAUNCHED workflow hidden-ways-correction (workflows/46; J415): the v1 reply and draft w revised for the host's corrected request — a delta reader, the synthesis seat under the CONTINU |
+| hidden-ways/session | 2026-10-19 02:33 | RELAUNCHED | 2026-10-19 02:33 hidden-ways/session RELAUNCHED workflow hidden-ways-correction (workflows/46) with THE OWNER'S WORD 2 (J416: roads that join, fork or diverge, appropriately and organically — a route may end at a junctio |
 | hidden-ways/read-v13-lenses | 2026-10-19 01:27 | CHECKPOINT | 2026-10-19 01:27 hidden-ways/read-v13-lenses CHECKPOINT returned from disk (record and LANDED line present; read-v13-lenses.md 418 lines, md5 01a9ccf4); next: none |
 | hidden-ways/read-v13-routes | 2026-10-19 01:26 | CHECKPOINT | 2026-10-19 01:26 hidden-ways/read-v13-routes CHECKPOINT returned from disk (record docs/validation/hidden-ways-2026-10-18/read-v13-routes.md, 403 lines, md5 075d50ae, LANDED earlier); no work redone |
 | hidden-ways/read-host | 2026-10-19 01:26 | CHECKPOINT | 2026-10-19 01:26 hidden-ways/read-host CHECKPOINT returned from disk (read-host.md 352 lines, md5 c63dedaf, LANDED 2026-10-18 22:42); no work redone |
@@ -17,4 +17,4 @@
 | hidden-ways/synthesis | 2026-10-19 02:14 | LANDED | 2026-10-19 02:14 hidden-ways/synthesis LANDED docs/validation/hidden-ways-2026-10-18/synthesis.md (51 lines, md5 74f5027c): the synthesis record — the decisions (word trod, kind goat/drove/broad, product not slot, toggle |
 | hidden-ways/critic | 2026-10-19 02:19 | CHECKPOINT | 2026-10-19 02:19 hidden-ways/critic CHECKPOINT all inputs read (request, reply, draft-w, synthesis, 5 readers, 3 judges); next: fragment check of all 96, census, cited lines, arithmetic, clean-room grep, then critic.md g |
 | hidden-ways/verify | 2026-10-19 02:15 | LANDED | 2026-10-19 02:15 hidden-ways/verify LANDED docs/validation/hidden-ways-2026-10-18/verify.md (30 lines, md5 820b4e4e): draft-w.fragments.json 96/96 PASS — md5s, old once at line, apply in order, reversal byte-identical, i |
-| hidden-ways/read-correction | 2026-10-19 02:27 | CHECKPOINT | 2026-10-19 02:27 hidden-ways/read-correction CHECKPOINT §1 the diff written (2 lines changed: REQ:33 c1-c3, REQ:35 d0-d5); next: §2 touched sentences in reply, draft w, synthesis §1 |
+| hidden-ways/read-correction | 2026-10-19 02:32 | CHECKPOINT | 2026-10-19 02:32 hidden-ways/read-correction CHECKPOINT §2 touched sentences written (reply, draft w items 955-969, synthesis §1.1/6/7/10); next: §3 facts for h1-h6, §4 readers |
