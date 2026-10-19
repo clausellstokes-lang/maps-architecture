@@ -4145,6 +4145,79 @@
      "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
     }
    ]
+  },
+  {
+   "id": "M0-d-07",
+   "from": 1,
+   "round": "S1",
+   "session": "This round was opened by the SESSION as M0-d-07's HARDENING ROUND (J237 (2): the M0 hardening phase's fix rounds, batched per owning item; the owner 2026-10-07: 'make sure you do the hardening phase for m0 before m1'), on the FIX-NOW rows the hardening inventory (plat/docs/build/checks/hardening-inventory.md, lane session/hardening-inventory-1, landed J355) assigns to this item: M0-d-07:12 N3, M0-d-07:54 N11, M0-d-07:55 N12, M0-d-07:56 N13, M0-d-07:57 N14 — and, FIRST, the 8 line(s) the session adds for the refusal census's classes and the design rulings (plat/docs/build/checks/refusal-census.md; rulings-hardening-1.md; N-61). Each 'failing line' below is one inventory row — its id names the SOURCE NOTE (the checks/M0-*-notes.md file and line) you MUST read whole before fixing; the inventory's fix shape is the session's reading of that note, binding unless the note or the code shows it wrong — then say so in your notes and do what the note's finding needs. The queue rows this round also takes (docs/M0-FIX-QUEUE.md): L14, L15. THE RULES OF A HARDENING ROUND: (1) inside the item's owns and nowhere else — a row that needs another item's file is REPORTED, not built; (2) every row gets a PIN (a test that is red without the fix; your mutant table shows each pin killing its mutant) unless the row is comment-only or asks for a choices row — then the text is the deliverable; (3) BEHAVIOUR: a hardening fix may move output where a defect is fixed — a DECLARED shift, stated in your choices row with the before and after (digests and goldens re-recorded in the same round, named), never silent; where a row offers alternatives, take the one the design's text supports and say which; a change of an operation's or stage's CONTRACT (its design-level behaviour, a record or file format, an exported API) is NOT yours — report it as a note for the session's ruling and leave the row at REPORTED; (4) J264 / N-58: the refusal census of the item's registered families before and after the round, never rising (a row whose fix makes a lawful input succeed lowers it and says so); (5) API frozen (J263 Q1): no export of a folder index or the barrel added, removed or renamed unless a row explicitly asks for one — then the index change is the row's and stated; message texts pinned verbatim where a row changes one (J263 Q6); (6) the gates, NEAR and RELATED@1000 as the brief above says, at W=1; (7) the item's notes file gains a section 'Hardening round S1' with the row-by-row outcome (fixed / pinned / reported, each with its evidence and mutant), and the round's choices row names every row it closes. The CLOSING CHECKER confirms every row's outcome with its own evidence (re-reading the source note and the inventory row), re-kills every pin's mutant, re-measures the refusal census, and judges new findings by the blocker rule only; a row left REPORTED with a stated contract reason is not a failing line. RE-TRIAGE OF 2026-10-19 (J423; docs/validation/hardening-retriage-2026-10-19/plan.md entry 53, batch B3; KEEP, medium, 12 S rows): the rows still open are M0-d-07:54 N11, :55 N12, :56 N13, :57 N14 and this item's parts of the queue rows L14 (MT, MQ, N7, N8, N9, N10, S-3's lint half — the eight lines above) and L15 (W-2 (d)); M0-d-07:12 N3 is DONE — confirm it in the notes, build nothing; L15's N2, N5 and N6 (a second ESLint configuration in a skipped folder; the writers' escapes; the vendored scan's .jsx/.tsx) are DEFERRED to M4 by the re-triage ('queueDeferParts') — leave them DEFERRED with that reason, build nothing; M0-s-01's parts of L14 and L15 (its tools/landed pins N-2, N-3, N-11 to N-14, its is-main call sites, N-4, N-5, the fdlibm placeholder) and L24 are M0-s-01's round S4, running in another child in the same window (ruling R11: two children, not merged; disjoint tool families) — leave them alone. The owns are plat/tools/lint/ (rules/, fixtures/, index.mjs, vendor-scan.mjs, paths.mjs, licences.mjs) and plat/packages/kernel/vendor-audit.json (never written: its byte-equality is the oracle); fixtures may be ADDED in a hardening round where a line asks for one.",
+   "lines": [
+    {
+     "line": "L14 MT (plat/docs/build/checks/M0-d-07.md:579, note N3 of the r2 check): vendor-scan's link-mismatch (runsFrom) report has no test of its own — mutant MT (the mismatch never reported) survives; add a fixture case for the report branch",
+     "evidence": "the r2 check's N3: under MT, with flatbush's flatqueue relinked and the audit rewritten, the lint's vendor-scan check passed; only vendor-scan.test.mjs 'holds each library …' failed, because it asserts every runsFrom resolves to its folder",
+     "required_change": "a fixture case in tools/lint's tests that exercises the report branch, red under MT"
+    },
+    {
+     "line": "L14 MQ (plat/docs/build/checks/M0-d-07.md:583, note N4 of the r2 check): probe-red's 'a planted construct is missing from the probe' guard has no test of its own — mutant MQ (the guard off) survives",
+     "evidence": "the r2 check's N4: 'holds exactly C-0063's ten constructs' holds the probe's content, so a lost construct turns the tests red, but the guard itself is untested",
+     "required_change": "a test that plants a probe missing one construct and asserts the guard's finding, red under MQ"
+    },
+    {
+     "line": "L14 N7 (plat/docs/build/checks/M0-d-07-notes.md:41): .cjs read as module code instead of CommonJS by the standalone Linter (mutant L1-cjs) leaves every test green",
+     "evidence": "the note N7: no fixture .cjs needs sloppy-mode parsing; under the mutant only a model-closure .cjs holding a sloppy-mode construct would differ (fails closed in inline-directives)",
+     "required_change": "a pin: a .cjs model-closure fixture with 'with' read by directivesOf (CommonJS, no fatal), red under L1-cjs"
+    },
+    {
+     "line": "L14 N8 (plat/docs/build/checks/M0-d-07-notes.md:42): the type-only-reference skip of unresolvedValueRefs (D1-typeonly) has no fixture",
+     "evidence": "the note N8: no fixture holds a forbidden global used only as a type (let d: Date), so dropping the skip changes no verdict",
+     "required_change": "a pass fixture with a type-only Date / Intl, red under D1-typeonly"
+    },
+    {
+     "line": "L14 N9 (plat/docs/build/checks/M0-d-07-notes.md:43): recommendedFor's parser entries' reportUnusedDisableDirectives: 'error' (C2-unused) has no test for .tsx, .mts, .cts, .jsx or .cjs files",
+     "evidence": "the note N9: the unused-directive case lints a .ts path, whose entry is eslint.config.js's",
+     "required_change": "a lintAt case for an unused directive in a .mts model source, red under C2-unused"
+    },
+    {
+     "line": "L14 N10 (plat/docs/build/checks/M0-d-07-notes.md:44): the scan's cjs extension (W2c-cjs) has no failing case",
+     "evidence": "the note N10: no vendored library and no fixture copy ships a .cjs file, so dropping it changes neither the audit nor a test (fixtures were read-only in the consolidation round; this is the hardening pass)",
+     "required_change": "a fixture-library .cjs file, red under W2c-cjs"
+    },
+    {
+     "line": "L14 S-3's LINT HALF (plat/docs/build/consolidation/tools-plan.md §S-3, lines 545–550; the re-triage's ruling R11): the 'is main' test's one shape is tools/landed/snapshot.mjs:250-253's realpath form — the bare-equality and resolve(argv[1]) forms silently do nothing through a symbolic link; switch the lint family's own call sites to a realpath helper of its own",
+     "evidence": "tools-plan.md S-3: 'bench.mjs:121–128 re-states snapshot.mjs's isMain (realpath of argv[1] …)', 'resolve(argv[1]) (build.mjs:74), bare string equality … when argv[1] names the script through a symbolic link: the realpath form runs, the others silently do nothing'",
+     "required_change": "the lint family's is-main call sites use the realpath form (one helper in the family), with a test through a symlinked script name; M0-s-01's round switches its own families — do not touch them"
+    },
+    {
+     "line": "L15 W-2 (d) (plat/docs/build/consolidation/tools-plan.md W-2 — extension sets; docs/M0-FIX-QUEUE.md L15): the bench walk's extension set misses .jsx, so a .jsx code file under bench/ escapes the walk — a lint VERDICT change under M4's tags",
+     "evidence": "tools-plan.md W-2: two extension sets written as literal regexes equal to shared constants, two deliberately narrower; L15 names 'the bench walk's missing .jsx' as d-07's verdict change",
+     "required_change": "the bench walk reads .jsx (the shared constant or its own set extended), a fixture .jsx under a bench path now linted, the choices row declaring the verdict change"
+    },
+    {
+     "line": "N3 (plat/docs/build/checks/M0-d-07-notes.md:12): config === undefined branch untested (MC10): stub ESLint returning undefined; message \"ignored, or matched by no configuration\"",
+     "evidence": "the source note N3 (plat/docs/build/checks/M0-d-07-notes.md:12): «| N3 | The check's `config === undefined` branch after a false `isPathIgnored` has no test: mutant MC10 (`[]` for an undefined configuration) survives with `Tests 118 passed (118)`. In ESLint 10.12 the branch is unreachable. A probe ran a `.ts` file under a nested `export default [{}]`: `isPathIgnored` gave true and `calculateConfigForFile` gave undefined. So such a file is refused as ignored, and the check fails closed. But the message then says \"eslint.config.js ignores it\" for a file that no configuration matche…» — read it whole; the inventory's evidence: N3",
+     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
+    },
+    {
+     "line": "N11 (plat/docs/build/checks/M0-d-07-notes.md:54): inTypePosition TSTypeQuery clause untested (D2-noquery): pass fixture type O = typeof Object; let g: typeof globalThis;",
+     "evidence": "the source note N11 (plat/docs/build/checks/M0-d-07-notes.md:54): «| N11 | `inTypePosition` without its `TSTypeQuery` clause (mutant D2-noquery; the same clause dropped from the three old spellings, B-D2-noquery) leaves every test green. No fixture has a forbidden global as the whole operand of a type query, such as `type O = typeof Object` or `let g: typeof globalThis`. Under the mutant such a line would be refused as a value use, which is a false refusal and fails safe. | Add a pass fixture holding `type O = typeof Object;` and `let g: typeof globalThis;` under no-object-key-ite…» — read it whole; the inventory's evidence: N11",
+     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
+    },
+    {
+     "line": "N12 (plat/docs/build/checks/M0-d-07-notes.md:55): lintedFile physicalFilename nuance untested (D3-physical): RuleTester case with a virtual filename",
+     "evidence": "the source note N12 (plat/docs/build/checks/M0-d-07-notes.md:55): «| N12 | `lintedFile` reading `context.filename` instead of `physicalFilename ?? filename` (D3-physical; B-D3-physical in the three old rules) leaves every test green. plat/ configures no processor, so the two names never differ, and the nuance is untested. | Add a RuleTester case with a virtual `filename` whose `physicalFilename` lies in `packages/kernel/src/`, checked by the ratio-division exemption and dependency-direction, or add an ESLint processor fixture. | M4 (hardening) |» — read it whole; the inventory's evidence: N12",
+     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
+    },
+    {
+     "line": "N13 (plat/docs/build/checks/M0-d-07-notes.md:56): ratio-division n! judged by its own type unpinned (D5-merge): add x / n! with n: 2 / undefined to pass-typed.ts",
+     "evidence": "the source note N13 (plat/docs/build/checks/M0-d-07-notes.md:56): «| N13 | ratio-division's `uncast` widened to `unwrap`'s set (D5-merge: `!` and `f<T>` stripped too; B-D5-merge on the old rule) leaves every test green. C-0128 (4)'s \"`n!` is judged by its own type\" has no fixture. With `n: 2 \\| undefined`, `x / n!` is judged by the literal type `2` today, so it passes, and by `2 \\| undefined` under the mutant, so it is refused. This is PLAUSIBLE, reasoned from `literalTyped` and `uncast`, not run. | Add `x / n!` with `declare const n: 2 \\| undefined` to `ratio-division/typed/pass-…» — read it whole; the inventory's evidence: N13; C-0128 (4)",
+     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
+    },
+    {
+     "line": "N14 (plat/docs/build/checks/M0-d-07-notes.md:57): lint report prefix held only by output comparison (C1-print): test pinning lint <name>: prefixes",
+     "evidence": "the source note N14 (plat/docs/build/checks/M0-d-07-notes.md:57): «| N14 | The `lint <name>: <line>` report prefix (printReport, C-1; before the round, the three inline writes) is held only by the lint output compared line for line, not by a test (C1-print, B-C1-print survive). | Add a test that runs a check's `run` with stdout captured and pins the `lint vendor-scan: ` / `lint probe-red: ` / `lint licences: ` prefix. | M4 (hardening) |» — read it whole; the inventory's evidence: N14",
+     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
+    }
+   ]
   }
  ]
 }
