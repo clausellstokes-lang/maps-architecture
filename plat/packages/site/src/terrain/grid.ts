@@ -7,8 +7,10 @@
 // its south-west corner (originX, originY) = (−⌊cols · cell ÷ 2⌋, −⌊rows · cell ÷ 2⌋): it covers the arena, by less
 // than one cell more on each axis. Cells are row-major from that corner (row 0 the southernmost); a cell's value
 // stands at its centre (C-0165 (3)). Every other grid of this section shares the corner and covers the same extent, and
-// reads a cell's centre and row through `centreX`, `centreY`, `cellCentre` — the one arithmetic (`origin + (i + ½) ·
-// cell`; the row `Math.round((c − i) · (1 ÷ cols))`, C-0044).
+// has one arithmetic for a cell's centre and row (`origin + (i + ½) · cell`; the row `Math.round((c − i) · (1 ÷ cols))`,
+// C-0044), read through `centreX`, `centreY`, `cellCentre` (and hydro's `rowOf` for a row alone) — except where a
+// reader spells the same expression out on purpose: the hydrology's per-cell inner loops (flood, flats, D8, the river's
+// surface) write the row inline, marked `// rowOf`, and the river's inlet search one axis's centre (hydro/strategy.ts).
 import { ratio, type Frame } from '@plat/kernel';
 import type { HydroGrid, Terrain } from '@plat/model';
 

@@ -5,9 +5,27 @@ import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 import { cdeg, streamFromKey } from '@plat/kernel';
 import { buildTerrain, GROUND_KEY, preparePrimitive, primitivesOffsetCm, sitePrimitives, type SitePrimitive } from '../../src/terrain/index.js';
+import { PI, RAD_PER_CDEG } from '../../src/terrain/primitives.js';
 import { frame, paramsOf, pt, terrainOf } from './support.js';
 
 const at0 = pt(0, 0);
+
+/** A double's IEEE 754 bits, big-endian hex. */
+function bits(v: number): string {
+  const b = new DataView(new ArrayBuffer(8));
+  b.setFloat64(0, v);
+  return b.getBigUint64(0).toString(16).padStart(16, '0');
+}
+
+describe('the trigonometry\'s constants (§6.5 (3): no Math.PI)', () => {
+  it('π is the double nearest π and the centidegree factor is that double ÷ 18 000, to the bit', () => {
+    // Hardening S1, N-c1-5: a valley's or cliff's bearing reads these, so a neighbouring double moves its offsets' bits.
+    expect(PI).toBe(3.141592653589793);
+    expect(bits(PI)).toBe('400921fb54442d18');
+    expect(RAD_PER_CDEG).toBe(3.141592653589793 / 18000);
+    expect(bits(RAD_PER_CDEG)).toBe('3f26e05a695f8190');
+  });
+});
 
 describe('hill', { timeout: 60_000 }, () => {
   const hill = sitePrimitives.hill({ kind: 'hill', at: pt(1000, -2000), radiusM: 100, heightM: 30 });
@@ -105,6 +123,32 @@ describe('the primitives together', { timeout: 60_000 }, () => {
     expect(r.ok).toBe(false);
     expect(!r.ok && r.code).toBe('E_OUT_OF_RANGE');
     expect(!r.ok && r.detail.startsWith('primitive 1: ')).toBe(true);
+  });
+
+  it('refuse a negative radius or width with the at-least-1-cm message, never building its magnitude (hardening S1, N-c1-4)', () => {
+    const cases: [SitePrimitive, string][] = [
+      [{ kind: 'hill', at: at0, radiusM: -1, heightM: 10 }, 'site primitive: hill radiusM must be at least 1 cm, got -100'],
+      [{ kind: 'terrace', at: at0, radiusM: -1, heightM: 3, steps: 2 }, 'site primitive: terrace radiusM must be at least 1 cm, got -100'],
+      [{ kind: 'valley', at: at0, bearingCdeg: cdeg(0), widthM: -2, depthM: 3 }, 'site primitive: valley widthM ÷ 2 must be at least 1 cm, got -100'],
+      [{ kind: 'cliff', at: at0, bearingCdeg: cdeg(0), lengthM: 10, heightM: 3, widthM: -4 }, 'site primitive: cliff widthM must be at least 1 cm, got -400'],
+    ];
+    for (const [p, message] of cases) {
+      expect(() => preparePrimitive(p)).toThrow(new RangeError(message));
+      const r = buildTerrain({ id: 'terrain:t', key: GROUND_KEY, frame: frame(0.2), params: paramsOf('TOWN'), epoch: 0 }, { relief: 'plain', primitives: [p] }, streamFromKey([1, 1, 1, 1]));
+      expect(r).toEqual({ ok: false, code: 'E_OUT_OF_RANGE', detail: `primitive 0: ${message}` });
+    }
+    // The least lawful radius, 1 cm, still prepares.
+    expect(preparePrimitive({ kind: 'hill', at: at0, radiusM: 0.01, heightM: 10 }).offsetCm(0, 0)).toBe(1000);
+  });
+
+  it('refuse a kind outside the four (spur and ravine are M1\'s) as `primitive <i>: unknown kind`, never a TypeError (hardening S1, N-c1-3)', () => {
+    const ravine = { kind: 'ravine', at: at0, widthM: 10, depthM: 3 } as unknown as SitePrimitive;
+    expect(() => preparePrimitive(ravine)).toThrow(new RangeError('unknown kind'));
+    const hill: SitePrimitive = { kind: 'hill', at: at0, radiusM: 5, heightM: 1 };
+    for (const odd of [ravine, { kind: 'spur', at: at0 } as unknown as SitePrimitive]) {
+      const r = buildTerrain({ id: 'terrain:t', key: GROUND_KEY, frame: frame(0.2), params: paramsOf('TOWN'), epoch: 0 }, { relief: 'plain', primitives: [hill, odd] }, streamFromKey([1, 1, 1, 1]));
+      expect(r).toEqual({ ok: false, code: 'E_OUT_OF_RANGE', detail: 'primitive 1: unknown kind' });
+    }
   });
 
   it('are added to the fBm at every stored cell: a terrain with a primitive minus the same terrain without it is its offset', () => {
