@@ -4,6 +4,8 @@
 
 **RESUMED 01:27Z (J409).** The window exhausted ~23:20Z and reset 01:20Z. Done at the resume: the autosave loop restarted; the hidden-ways run relaunched fresh as wf_b86263a8-2b4 from workflows/44 (reads and designs LANDED before the kill and return from disk; judges, synthesis, critique running); the nine children messaged the J408 resume instruction with FROM = the killed round (U 8 check-only, Lb 9, Ob2 2, Tb 3, Qb 2 check-only, Ib 1, Mb 1 check-only, Sb 1 check-only, Cb 3) and the RELATED-reuse addition (a finished RELATED log is reused, never re-run). The per-child table below is the state at launch; each branch's newest lane line is the truth. Next: land each hand-back (a-09 first); review the reply and draft w when the run completes; the 01:55Z wake-up is the check-in.
 
+**11:46Z (J431).** Tb e-04 s3 PASS LANDED as 09608896, Tb archived; ten children running (V2, Lb, Ob2, Cb, W, X, Y, Z, AA, AB), one slot free.
+
 **11:25–11:41Z (J430).** Ob2 c-01 s2 CLOSED FAIL (M8), its S3 continued in place; Ib k-04 s1 PASS LANDED as 61529737, Ib archived; merged round M5 launched as child AB (session_01XCNHnwtZ7GMk8eJnehHzuP; wip/child-a07s1; a-07 S1 then k-02 S2 on one branch; specs on the branch; busy list + a-07, k-02 (+ constructive.ts)). Eleven children running: V2, Lb, Ob2, Tb, Cb, W, X, Y, Z, AA, AB.
 
 **RESUMED 11:2xZ (J429).** The window exhausted ~08:45Z and reset 11:20Z; the eleven children (V2, Lb, Ob2, Tb, Ib, Cb, W, X, Y, Z, AA) messaged the resume with FROM = the killed round; the autosave loop restarted; the complete edition (J428) delivered as the .md file, its PDF dropped on the owner's word. Next reset 16:20Z: the check-in ~15:25Z, the post-reset resume 16:27Z.
