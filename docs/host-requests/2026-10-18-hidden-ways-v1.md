@@ -1,0 +1,47 @@
+# To the map program: THE HIDDEN WAYS — a request from the SettlementForge host (2026-10-18)
+
+## Why you are getting this
+The host side is designing THE BODIES: three kinds of engine-born groups that move on the land — gangs (criminal bands), conclaves (small religious congregations; a "cult" in the faith ladder's sense, never a verdict) and beasts — which become the *cause* of an embattled region instead of today's abstract pressure. The owner's rule for how they travel, verbatim (2026-10-18): "these are all brigands, they don't travel the overt roads... roads are used for military, caravans, and groups of people because they ease travel and logistics. These are public enemies to most and as such should have a different means of traveling, maybe hidden roads that connect between roads, and multiple of them."
+
+Your own document already names the gap: **ENC-HL-12** — "a 'hidden' road class: paths only smugglers and wanderers use, never armies. The host's road ladder ends in 'hidden', designed but dark; the map's classes end at 'trail'. Verdict MISSING." This request fills ENC-HL-12 from the host's side and asks for the map's half. It also leans on **ENC-HP-09** (per-stretch terrain classes, "needs T2") and touches **ENC-HL-10** (detours) and **ENC-HL-11** (line of sight).
+
+## The rules that bind both sides (unchanged)
+- Door 1 stands: the host never reads a settlement frame's geometry. The owner's 2026-10-18 answer stands too: the WORLD canon (your one fixed record of the world) is outside door 1, so world-scale facts — routes, ground, territory, sites, and now hidden ways — may reach the simulation.
+- One word, one meaning. The host will use `hidden` for the class (its own ladder's last word) and **`way`** for an edge of that class in prose ("the smugglers' way", "the old drover's way"); "trail" stays your route class. If you already use "way" for something, say so and we pick another word before either side mints it.
+- The map never recomputes a host fact; the host never invents geography. Hidden ways are GEOGRAPHY (yours); who knows them, who rides them and what happens on them are SIMULATION (ours), sent out through the events window (H9) and the week's presence rows (H23) like every other host fact. H16 stays your inbound door; the host does not consume it.
+- The same two-layer shape as the world-site record (ENC-HL-01..04 / M-SITE): the map's canon is the record of truth when it exists; until it does, the host DERIVES a stand-in from what the port already gives and replaces it the day your layer lands.
+
+## What the host will do with hidden ways (so you can judge the shape)
+1. **Bodies travel on them by stance, not by kind.** A body the land's holder tolerates walks the overt road like any group; a body the holder hunts takes the hidden ways. A small military unit may take one to cross unseen — slowly, with attrition, size-capped. Caravans never do; a smuggler's run does (the existing smuggling gauntlet moves onto them).
+2. **Capacity.** A hidden way carries a SIZE BAND — a body of thirty, never a column of five hundred. That is the intentional line between a road and a way. The host needs the capacity to be *derivable* from your record (ground class and width/kind), or a band you record; we are not asking you to simulate it.
+3. **Knowledge is belief, per town.** A way is KNOWN or UNKNOWN to each settlement. The host decides that (a patrol catches a body on it; an operative maps it; the DM reveals it to the party). A patrol's coverage on an unknown way is zero; a known way can be watched. The map should DRAW a hidden way only when the host says some town knows it, or when the DM reveals it — the party's view must never leak an unknown way (the host's snapshot hard-deny already hides `spatialLedgers`; the map's own reveal list for sites, M-SITE-A, is the precedent).
+4. **Ambush points are junctions.** Where a hidden way meets an overt route is where a gang sorties onto the road and back; known junctions are the patrols' choke points. The host's ambush rule is TOPOLOGICAL (which way meets which road where), never line of sight — so ENC-HL-11 is not needed for this; please do not present VTT sight lines as host truth here either.
+5. **Every engagement on a way is a hearing** in the host's hearing week (ENC-HL-13): its WHERE must be a place you can name — a hidden way, a junction, or the country it crosses.
+6. **A way crosses the quarantine line.** A gate closed for quarantine (plague-R7) stops the ROAD, not the way; the host will write that as a law. Your lens can draw it when lit.
+
+## What the host asks of the map (the canon half)
+**A. A hidden-ways layer in the world canon**, versioned like the digest, with one record per way:
+- `id`; `kind: 'hidden'`; its two ENDPOINTS as **junction nodes on the overt route network** (a point on a route stretch, or a settlement's gate, or another way's junction) — ways must be able to start and end OFF a settlement, which today's routes may not;
+- the ordered CELLS or stretches it passes, each with its GROUND CLASS (your biome/relief/water words; the host maps them to its eight stretch classes — water, desert, grassland, forest, wetland, tundra, glacier, mountain);
+- a STEP COST or length in your cost units (the host prices it on its own cost law like any route, slower than a road; a winter closure is never a cut — the slow-not-sever law);
+- a WIDTH/KIND hint the host can turn into a capacity band (goat path · drover's way · old road · game trail) — your words; the host will register them;
+- the JUNCTION records (which route, where along it) as typed places the hearing card can name.
+Density rule the owner set: several per rough country (forest, hills, mountain, marsh), none across open plain. If your generator has a better rule from terrain, use yours and tell us the parameters; "genesis is sacred" applies to the map's own genesis.
+
+**B. Per-stretch ground classes on the OVERT routes (your "needs T2", ENC-HP-09).** This is the host's FALLBACK: if the hidden-ways layer is later than the host's bodies work, the host derives a stand-in cover graph from ground classes between route junctions (forest/hills/mountain/wetland = cover) and retires it when A lands. Without T2 the host cannot derive anything and the bodies wait on A.
+
+**C. The reveal and the legend.** A lens rule: an unknown way is undrawn; a known way draws in the way's own style with the knowing town's mark; a way the DM reveals draws for the party's view. The legend says hidden ways exist and are known per town (true), never how many there are (a leak). The host sends `way_known(settlementId, wayId, how, tick)` through the events window when it lights; until then the layer is map-only, like patrols.
+
+**D. Interaction with your route lifecycle (ENC-HP-13) and detours (ENC-HL-10).** A way is never promoted to a road by the map on its own; a road that decays to "overgrown" in the host's ledger does not become a way. If you want a way to be born where a road dies, say so — the host has no such law and would rather not mint one.
+
+## Questions for the mapmaker (answer in your document's style; the host will not guess)
+1. Can a route endpoint be a non-settlement junction in your network today? If not, what milestone adds it?
+2. Does the world port already carry per-stretch ground classes for routes (T2), or is that new work? (B depends on it.)
+3. Which of your route classes, if any, already means "not for armies or caravans" — is `trail` that, or is `hidden` a seventh class?
+4. Can your record express a width/kind hint per way, or should the host derive capacity from ground class alone?
+5. Who owns "known per town": you (a flag on the way record, set by the host's event) or us (a host ledger you read through the window)? The host's preference: ours, sent through H9, so the map draws and never decides.
+6. Which milestone would carry A (the layer) and C (the reveal/legend)? The host will list it as a prerequisite of the bodies chain, as it did M-SITE for the sites.
+7. Does anything in your world-record size budget (a continent at ≤24 MB gzipped) change if a province carries, say, 200–2,000 ways?
+
+## What the host records on its side now
+A fold inbox row (ENC-HL-12 answered from the host; ENC-HP-09's T2 as the fallback's dependency), a prerequisite line on the bodies chain naming your milestone once you name it, and the two tokens `hidden` and `way` registered pending your answer to the word question.
