@@ -383,13 +383,25 @@ function compareItems(kind: number, a: Item, b: Item): number {
   return a.rank[2] === b.rank[2] ? 0 : a.rank[2] < b.rank[2] ? -1 : 1;
 }
 
+/**
+ * Items in sort-key order. §3.3's face key is total over live level-m faces (one directed level-m route edge bounds one
+ * face), so two face items with one key are a degenerate face (an outer ring with no vertex of level ≤ m reads
+ * [0, 0, 0, 0]) and are refused rather than left in Map insertion order, which would make the digest depend on history
+ * (N-6). Chain items never tie: their ids are unique per level and the role ranks are distinct.
+ */
+function sortItems(kind: number, level: number, items: Item[]): Item[] {
+  items.sort((x, y) => compareItems(kind, x, y));
+  if (kind === FACES) for (let i = 1; i < items.length; i++) check(compareItems(kind, items[i - 1], items[i]) !== 0, `two L${level} face items share the sort key ${items[i].rank.join(',')} (§3.3: the key is total; a degenerate face)`);
+  return items;
+}
+
 // ---- trees ----------------------------------------------------------------------------------------------------------
 
 function treeRoot(tree: Tree, kind: number, level: number): Hash128 {
   if (tree.root !== null) return tree.root;
   for (let b = 0; b < DIGEST_BUCKETS; b++) {
     if (tree.digests[b] !== null) continue;
-    const items = [...tree.buckets[b].values()].sort((x, y) => compareItems(kind, x, y));
+    const items = sortItems(kind, level, [...tree.buckets[b].values()]);
     W.reset().u32(TAG_BUCKET).u32(items.length);
     for (const it of items) for (const w of it.hash) W.u32(w);
     tree.digests[b] = W.digest();
@@ -826,7 +838,7 @@ function refOf(p: Plat, st: State, ref: FaceRef | ChainRef | EdgeSetRef | Vertex
         items.push(it);
       }
     }
-    items.sort((a, b) => compareItems(FACES, a, b));
+    sortItems(FACES, ref.level, items);
     W.reset().u32(TAG_FACEREF).u32(ref.level).utf8(ref.owner).u32(items.length);
     for (const it of items) for (const w of it.hash) W.u32(w);
     return W.digest();

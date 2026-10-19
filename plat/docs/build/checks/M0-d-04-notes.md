@@ -213,3 +213,91 @@ N-c1-10. **A foreign RELATED red, routed to the session with its seed.** `testki
 the refusal count. Replayed red identically in this seat's pre-round mirror (`Tests 1 failed | 23 skipped (24)`), and
 the test file is the same as the tree's. It is not this item's: the pin is stale after another item's Q41 fix.
 **Handling:** that item's next round re-pins the cell to its laddered outcome.
+
+## Hardening round S2 (lane `build/M0-d-04-fix-s2`, 2026-10-19; choices C-0387) — the builder's row-by-row outcome
+
+The session's hardening round of the item (J237 (2)) on the inventory's FIX-NOW rows and the re-triage's rulings (J423:
+N-6 KEPT; N-16 DEFERRED to M4, report only). Mutants ran one at a time in this lane's mirror with
+`vitest run --maxWorkers=1 --bail=1` over both digest test folders (the item's own: `kernel/test/digest/`,
+`model/test/digest/`), each file restored from the tree and checked with `cmp`. "Killed by" names the first red test.
+
+| row | outcome | evidence (pin, or text) | mutant → verdict |
+|---|---|---|---|
+| N-1 `digestLeaf`'s signature | FIXED (text) | C-0387 (1) names `digestLeaf(entry, geometry)` as the item's `digestLeaf(record)`; `leaf.ts`'s doc says it | — (choices row) |
+| N-2 reach paths | PINNED (K3, M1, M19), 2 equivalent | kernel "a promotion moves a face no dirty face names …" (the north L2 face is in no dirty face list and `owners` lacks its owner; only the record's `promoted` reaches it); model "a record whose face a promotion changed, in a batch that names it nowhere (owners, roles) …" (`changedEntities` alone); model "the model's own reach is the batch's owners and roles (§3.3) …" (the kernel half missed: `changedEntities` answers [], so `roles` and `owners` alone); the old test renamed to say its batch names the plot in `owners` | K3, K3a (promoted) → killed; M1 → killed; M19, M19o (`owners` dropped) → killed; K3b (demoted alone), K5 (pair registrations) → survive: PLAUSIBLE equivalent (N-s2-1) |
+| N-3 the chain item's entity | PINNED | kernel "a chain's entity enters its chain item: 65 arenas …" (65 entities over 64 buckets: by pigeonhole two share a bucket, where only the entity lane tells their items apart) | K12 → killed (and by the arena golden, model folder alone) |
+| N-5 naming records | PINNED | records "a naming record: its salt, its epoch and each cited slice move its leaf, its node and the records root" | N5m (a naming record's fields skipped) → killed |
+| N-6 the face key's ties | FIXED + PINNED | `sortItems` refuses two face items with one key (message pinned verbatim); kernel "two faces of one level that share a sort key are refused …" (every vertex written to L4 in place: both L1 faces read [0, 0, 0, 0]; the level and the FaceRef both refuse) — red on the pre-round source (the reconstructed pre-round `levelDigest.ts`: `1 failed | 136 passed (137)`, that test only) | N6m (the check off), N6r (the FaceRef's own sort) → killed |
+| N-9 `isOwnChild`'s re-owned child | PINNED | kernel "an own child re-owned is its own face again: it enters its level's tree, and leaves it when owned back" (L0, L1 equal; L2 – L4 move; owned back: every level as before) | N9m (the owner comparison dropped) → killed |
+| N-10 the test's name | FIXED (title) | "the oracle catches a stale model leaf (the kernel half: the test above): a record changed in place without its write" | — (title) |
+| N-12 a chain's x | PINNED | kernel "a chain's x coordinates enter its chain item: a slanted way whose bend moves 2 m east …" (ChainRef, with and without the ordinal) | K13x → killed (and by the arena golden) |
+| N-13 a hole's place | PINNED | kernel "a hole's place enters its face item: the same face with its hole 1 m east, or 1 m north …" (three FaceRefs distinct) | K16c → killed |
+| N-14 a face's kind at the model leaf | PINNED | model "a face's kind reaches its owner's leaf: two arenas equal but for one face's kind …" (leaf and root) | K11 → killed by the kernel test, and by this model test alone (model folder only) |
+| N-15 `layer()`'s restore sync | PINNED | model 'read at once, no commit and no re-attach' (all six): the eleven `layer()` reads first, equal to a model registered now (under `deferLeaves` the plats node; the leaves wait for the boundary by design), the plats node (and, undeferred, the network node) unlike before the restore | M6 → killed |
+| N-16 C-0308 (2)'s cost claim | REPORTED (DEFERRED to M4, J423) | no counter on `ModelDigest` (none built); the timing record carries it | M8 → survives (state confirmed) |
+| N-c1-3 persisted roots | PINNED | `roots-golden.json` (recorded on the pre-round sources): syntheticCity(1)'s model root and layers, records root and nodes (records "the persisted roots of syntheticCity(1) …"); the arena's root, layers, five level digests (model "the persisted model root over an arena …"); `writeHash128`'s order and `sameHash`'s lanes (leaf.test.ts, two) | A12, RN1, NL1, LL1, RL1, A1, A2 → killed (golden); X4, X7 → killed (unit) |
+| N-c1-6 the plats L4 lane | PINNED | model "an L4 commit moves the plats node and the root, and L0 – L3 stay …" | X22 → killed (and by the arena golden) |
+| N-c1-7 the subtree oracle's identity | PINNED | model "the subtree oracle compares the identity node: a lifecycle event changed in place …" (subtrees: `['identity']`; root mode: `['root']`) | X25 → killed |
+| L30 (with M0-m-01) | KEPT, no change | `workload.ts`'s frozen `LIFE` is the synthetic workload's constant, not a record writer (queue Q87: "M0-d-04 none") | — |
+
+Mutants: 28 over both folders (25 killed; K3b, K5, M8 survive) and four replays over the model folder alone (K11, K12,
+K13x killed; K16c survives there, killed by the kernel test). No output shift: every new test is green on the
+reconstructed pre-round kernel source but the N-6 pin; the golden was recorded on the pre-round sources.
+
+**Census (J264, N-58).** Digest operations over the registered families — model fuzz 12 seeds × 3 switch sets × 16 steps
+(2 880 operations), kernel fuzz 38 sequences (5 420), syntheticCity 1, 2, 97 (24): **0 refused before, 0 after**, the probe's
+output byte-identical. Kernel batch refusals in those families, the kernel's own and unchanged: model fuzz `E_KEPT` 72 per
+switch set (UNLAWFUL by §3.3's kept-content rule, REFUSE, as in round C1); kernel fuzz `E_KEPT` 130 and `E_INVARIANT` 4 —
+`55433/9`, `2264834/17`, `3310142/5` (a random `stretch` of a way into two parts, more than it declares: §3.10 role
+consistency) and `42865547/28` (a removal leaving a vertex within minEdge of an edge: §3.10 clearance) — the generator's
+random batches refused by M0-a-06's batch-local invariants, typed and rolled back; no §11.4 door hands a raw kernel batch to
+a user. The round's one new refusal class, two face items with one key, is UNLAWFUL (no lawful arena holds it) → REFUSE.
+
+N-s2-1. **K3b and K5 are safety margins** (PLAUSIBLE equivalent, by reading `updateLevelDigests`). A vertex demotes only
+when a row at it leaves or moves to a finer level; that row's key is in `dirty.roles`, and step (3) adds its old item's
+vertices to `Ev`, so the demoted vertex is reached without `record.demoted.vertices`. Every item registered on a pair is
+also registered on both its end vertices, and an item's hash changes only through a dirty face (step 1), a named key
+(step 3) or a vertex whose level, flags or place changed (step 2, `Ev`); the pair registrations add no reach those lack.
+Both stay: a fail-safe margin costs O(touched).
+
+N-s2-2. **For the session: the stale C-0305 citations (N-c1-5) are untouched** by this round; its new comments and titles
+cite C-0308 or C-0387 only.
+
+**Gates (the builder's, at W=1).** install --frozen-lockfile 0; lint 0 (probe-red ok, 9 whole-tree checks); build 0; NEAR
+(`kernel/test/digest/`, `model/test/digest/`) 5 files 137/137; RELATED@1000 over `kernel/src/digest/levelDigest.ts` and
+`model/src/digest/leaf.ts`: 410 files, 5476/5478 (exit 1). Its two reds are one test in two projects, foreign:
+`kernel/test/insert/step3-5/sliver.test.ts` "Q53: corridorUnion over the three-chord sliver commits healthy …" in
+`|kernel|` and `|kernel-tiny|` (corridorUnion's band/blocks classes differ from the pin: received band [4, 1, 3, 5, 2],
+blocks [0], wholeBand [1, 3, 2]); identically red in a mirror with `levelDigest.ts` set to the pre-round source, so not
+this round's (the tree's in-flight kernel edits of other items). The first RELATED run (08:03) died with the container at
+09:33 and was re-run whole.
+
+## Closing check of hardening round S2 (lane `check/M0-d-04-close-s2`, 2026-10-19; verdict in `M0-d-04-s2.md`)
+
+This seat's own mutants (Y…) and probes ran in its own mirror (`scratchpad/waves/check-M0-d-04/`). The blocker this check
+found (B-1, the maintained level digests miss a re-parented child on the removal path) is in the verdict file, not here.
+These rows are not blockers.
+
+N-s2c-1. **`isOwnChild`'s kind clause is unpinned** (CONFIRMED survivor Y7b). Dropping
+`p.faces[m].kind[f] === p.faces[up].kind[parent] &&` from `kernel/src/digest/levelDigest.ts` `isOwnChild` passes both
+digest folders (`Tests 137 passed (137)`). N-9's new pin holds the owner half only (Y7, the owner comparison dropped, is
+killed). The code is right: §2.2 rule 2's own child is of the parent's kind and owner. **Handling:** a pin in which a
+materialised own child is retyped in place (for example `FACE_KIND_RESIDUE`, as the N-14 pin writes it) and must enter its
+level's tree, then leave it when retyped back. M4, or the item's next touch.
+
+N-s2c-2. **For the session: the blocker B-1's kernel half** (cross-item; `kernel/src/tx/relevel.ts` is M0-a-06's).
+`facePass` re-parents a freed record's children to the survivor (`relevel.ts:1025`, `Fu.parent[c] = sv.f`) and does not
+list them in the commit record. The insert path does list them (`insert/rewalk.ts:575`: "§3.6 step 5: 'the commit record
+lists them' — a re-parented record is in the batch's dirty set at its level … as `changed`"). This seat's mirror probe F2
+(`t.log.faces[up].changed.push(c)` beside that write) turns B-1's repro green. So does F1 (inside this item's owns: the
+digest re-reads the children of every removed record). The 3 000-sequence probe under F1 gives no mismatch. **Handling:**
+the session rules which half is fixed (or both); B-1's failing line names both.
+
+N-s2c-3. **Kernel batch refusals the wider probe met** (kernel's, not this item's; outside the registered families). In
+3 000 sequences of the kernel fuzz generator (1 500 × 30 steps DEFAULT_MIX from seed 104 729·s + 3, 1 500 × 24 steps
+ALONG_MIX from seed 1 299 709·s + 11; 80 982 batches): `E_KEPT` 29 460, `E_INVARIANT` 564, and `E_DEGENERATE` 3 —
+seeds `115935006` step 6, `454898161` step 17, `1655829277` step 19, each "insert lane L2" refused with the detail `empty`
+(PLAUSIBLE: the generator's two random lane points give a chain with no extent — UNLAWFUL, the kernel's typed REFUSE;
+not replayed further by this seat). Digest operations
+refused: 0 of 50 955 reads (the maintained and the fresh state at every level). **Handling:** none for this item; the
+seeds are for the session's census of the kernel's own classes.

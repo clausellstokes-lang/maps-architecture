@@ -27,6 +27,7 @@ import {
   type RecordKind,
 } from '../../src/index.js';
 import { GROUND, hex, LIFE, lineage, plotEntry, wayEntry } from './support.js';
+import { sameHash, writeHash128 } from '../../src/digest/encode.js';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const NO_GEOMETRY = (): Hash128 => [0, 0, 0, 0];
@@ -234,6 +235,43 @@ describe('no text serialisation on the digest path (§6.2)', () => {
       const src = readFileSync(f, 'utf8');
       expect(src, f).not.toMatch(/canonical(\.js|Text)/);
       expect(src, f).not.toMatch(/JSON\.stringify|toFixed|toPrecision|toString\(/);
+    }
+  });
+});
+
+describe('a digest inside a digest, and the digest equality (encode.ts; C-0387)', () => {
+  const H: Hash128 = [0x01234567, 0x89abcdef, 0xdeadbeef, 0x00c0ffee];
+  const lanes = (order: readonly number[]): string => {
+    const w = new LaneWriter();
+    for (const i of order) w.u32(H[i]);
+    return hex(w.digest());
+  };
+
+  it('writeHash128 writes the four lanes in order, lane 0 first: every other order of the four is another stream', () => {
+    const w = new LaneWriter();
+    writeHash128(w, H);
+    const written = hex(w.digest());
+    expect(written).toBe(lanes([0, 1, 2, 3]));
+    const perms: number[][] = [];
+    const permute = (rest: number[], acc: number[]): void => {
+      if (rest.length === 0) perms.push(acc);
+      for (let i = 0; i < rest.length; i++) permute([...rest.slice(0, i), ...rest.slice(i + 1)], [...acc, rest[i]]);
+    };
+    permute([0, 1, 2, 3], []);
+    expect(perms).toHaveLength(24);
+    for (const q of perms) expect(lanes(q) === written, q.join('')).toBe(q.join('') === '0123');
+    // Three lanes, or five, are other streams too.
+    expect(lanes([0, 1, 2])).not.toBe(written);
+    expect(lanes([0, 1, 2, 3, 3])).not.toBe(written);
+  });
+
+  it('sameHash compares all four lanes: a digest differing in any one lane is another digest', () => {
+    expect(sameHash(H, [...H] as Hash128)).toBe(true);
+    for (let i = 0; i < 4; i++) {
+      const g = [...H] as Hash128;
+      g[i] = (g[i] ^ 1) >>> 0;
+      expect(sameHash(H, g), `lane ${i}`).toBe(false);
+      expect(sameHash(g, H), `lane ${i}`).toBe(false);
     }
   });
 });
