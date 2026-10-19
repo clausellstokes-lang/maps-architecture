@@ -1,4 +1,4 @@
-# STATUS — the hidden-ways design run (lanes hidden-ways/*; written by the autosave loop at 2026-10-19 02:11Z)
+# STATUS — the hidden-ways design run (lanes hidden-ways/*; written by the autosave loop at 2026-10-19 02:13Z)
 
 | lane | last line | state | the line |
 |---|---|---|---|
@@ -14,4 +14,4 @@
 | hidden-ways/judge-1 | 2026-10-19 01:43 | LANDED | 2026-10-19 01:43 hidden-ways/judge-1 LANDED docs/validation/hidden-ways-2026-10-18/judge-1.md (140 lines, md5 2e802b7e): ranking B, C, A (39/39/38) — B wins the tie on law (1) untouched and the verified birth-canon gap ( |
 | hidden-ways/judge-2 | 2026-10-19 01:43 | LANDED | 2026-10-19 01:43 hidden-ways/judge-2 LANDED docs/validation/hidden-ways-2026-10-18/judge-2.md (192 lines, md5 13f34f41): ranking B > C > A (38 / 35 / 34 of 45); all 222 fragments exact; the word trod unanimous and free,  |
 | hidden-ways/judge-3 | 2026-10-19 01:44 | LANDED | 2026-10-19 01:44 hidden-ways/judge-3 LANDED docs/validation/hidden-ways-2026-10-18/judge-3.md (203 lines, md5 04e717f2): ranking B, C, A (38/36/35 of 45); B wins on the trod record as a simulator product (a canon slot is |
-| hidden-ways/synthesis | 2026-10-19 02:08 | CHECKPOINT | 2026-10-19 02:08 hidden-ways/synthesis CHECKPOINT builder written (frags_v13a/b, frags_rest, build.py) and first run; next: fix misses, assemble draft-w.md, write the reply |
+| hidden-ways/synthesis | 2026-10-19 02:13 | CHECKPOINT | 2026-10-19 02:13 hidden-ways/synthesis CHECKPOINT draft-w.md assembled (910 lines, 96 fragments, md5 0b15e315) and draft-w.fragments.json checked twice (build.py, check_json.py: PASS); next: the reply document, LANDED li |

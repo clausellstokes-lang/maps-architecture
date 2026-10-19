@@ -10104,3 +10104,4 @@
 2026-10-19 01:55 a09-s9-spec/design CHECKPOINT started; reading read-code.md, read-records.md, the S6 model whole
 2026-10-19 01:58 hidden-ways/synthesis CHECKPOINT anchors verified; kinds corrected to goat|drove|broad (narrow is V14's widthClass value); plan: 15 items 955-969, ~96 fragments; next: write the builder (fragments + checks), then draft-w.md and the reply
 2026-10-19 02:08 hidden-ways/synthesis CHECKPOINT builder written (frags_v13a/b, frags_rest, build.py) and first run; next: fix misses, assemble draft-w.md, write the reply
+2026-10-19 02:13 hidden-ways/synthesis CHECKPOINT draft-w.md assembled (910 lines, 96 fragments, md5 0b15e315) and draft-w.fragments.json checked twice (build.py, check_json.py: PASS); next: the reply document, LANDED lines
