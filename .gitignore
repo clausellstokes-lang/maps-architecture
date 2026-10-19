@@ -40,3 +40,8 @@ plat/**/coverage/
 
 # machine-local lane tracker (tools/lanes.py; absolute journal paths of this session)
 docs/ACTIVE-RUN.json
+
+# the complete edition is generated (tools/bundle_complete.py; 34 MB) and regenerated on demand — not tracked
+docs/ARCHITECTURE-COMPLETE.md
+docs/ARCHITECTURE-COMPLETE.html
+docs/ARCHITECTURE-COMPLETE.pdf
