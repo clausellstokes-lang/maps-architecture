@@ -444,7 +444,7 @@ whether a patrol can catch a body on one are your rules against your own recorde
    crossings would then need naming (today crossings are per seat pair in the travel slot, V13:796).
 3. "A patrol catches a body on it" (REQ:17) needs a patrol rule you do not have (HRQ:711; LNS:371) [STATED]; the map's
    cadence is map-only (J396) and rides no trod, so "coverage zero on an unknown way" holds by construction.
-4. "The host's snapshot hard-deny already hides spatialLedgers" (REQ:17) is not a recorded fact: the recorded allowlist is
+4. "The host's snapshot hard-deny already hides its spatial ledgers" (REQ:17) is not a recorded fact: the recorded allowlist is
    `pantheon` alone (FTH:435–436) [STATED]; it follows by inference, a day-one confirmation on your side.
 5. "H16 stays your inbound door" (REQ:11): H16 is your optional reading of the map's offers (HRQ:576) [STATED]; the trod
    ids reach you in the trod record, not by H16.
