@@ -1,4 +1,4 @@
-# STATUS — the hidden-ways design run (lanes hidden-ways/*; written by the autosave loop at 2026-10-19 06:41Z)
+# STATUS — the hidden-ways design run (lanes hidden-ways/*; written by the autosave loop at 2026-10-19 06:43Z)
 
 | lane | last line | state | the line |
 |---|---|---|---|
@@ -19,3 +19,4 @@
 | hidden-ways/verify | 2026-10-19 06:27 | CHECKPOINT | 2026-10-19 06:27 hidden-ways/verify CHECKPOINT returned from disk (RESUME RULE J408: verify.md 58 lines md5 7a2f9101 matches the 03:15 LANDED; draft-w.fragments.json md5 6318f27d, draft-w.md md5 f4221a48 and all five liv |
 | hidden-ways/read-correction | 2026-10-19 06:23 | CHECKPOINT | 2026-10-19 06:23 hidden-ways/read-correction CHECKPOINT returned from disk (RESUME RULE: record docs/validation/hidden-ways-2026-10-18/read-correction.md, 299 lines, md5 a4b4be53, matches the 02:40 LANDED; not redone) |
 | hidden-ways/synthesis-2 | 2026-10-19 06:25 | CHECKPOINT | 2026-10-19 06:25 hidden-ways/synthesis-2 CHECKPOINT returned from disk (RESUME RULE J408: synthesis.md 101 lines md5 54b3e228, reply 642 lines md5 5339b70e, draft-w.md 1102 lines md5 f4221a48, draft-w.fragments.json 881  |
+| hidden-ways/fix | 2026-10-19 06:42 | CHECKPOINT | 2026-10-19 06:42 hidden-ways/fix CHECKPOINT started fresh (no fix.md, no fix lines); record stub written; next: read critic.md, verify.md, the build scripts, then the gaps G1-G19 |

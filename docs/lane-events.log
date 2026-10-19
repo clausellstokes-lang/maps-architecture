@@ -10159,3 +10159,7 @@
 2026-10-19 06:41 retriage/B3 CHECKPOINT started; record skeleton written; next: M0-d-06 rows
 2026-10-19 06:41 retriage/B5 CHECKPOINT started: inventory §3 entries 29 (M0-c-02, 24 rows) and 31 (M0-c-04, 20 rows) read; no c-02/c-04 code lane landed after the inventory (2026-10-14 00:25); next: notes files and current source per row
 2026-10-19 06:41 retriage/B1 CHECKPOINT started: inventory §3 entries 10/12/16 and the FIX-NOW rows read; record docs/validation/hardening-retriage-2026-10-19/B1.md opened; next: M0-a-07 notes + source
+2026-10-19 06:42 retriage/B6 CHECKPOINT started fresh (no record, no lines for this key); inventory §3 entries 33/34/38 read (c-06 1 row + Q60; e-01 6 rows + L27 (a); e-05 9 rows); record docs/validation/hardening-retriage-2026-10-19/B6.md begun; next: c-06 row, e-01 rows against site/src/terrain, e-05 rows against layout/src/fields
+2026-10-19 06:42 retriage/B2 CHECKPOINT started; part 0 (landed since inventory) written; next: M0-d-04 rows
+2026-10-19 06:42 hidden-ways/fix CHECKPOINT started fresh (no fix.md, no fix lines); record stub written; next: read critic.md, verify.md, the build scripts, then the gaps G1-G19
+2026-10-19 06:43 retriage/B1 CHECKPOINT M0-a-07 judged (4 STILL-OPEN, 1 DONE-BY C1; KEEP small); next: M0-a-09 notes s7/s8 + source
