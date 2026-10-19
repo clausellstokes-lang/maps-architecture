@@ -149,7 +149,7 @@ describe('N-57 (2): a kerb piece closing on a spine-less edge by a chord within 
       outlinePieces(read).map((q) => (q.closed ? q : { points: q.points.slice(0, -1), closed: false }));
     const r = tx(p, spec(2, AT_S9), (o) => {
       const t = o as Parameters<typeof bandCore>[0];
-      return bandCore(t, [face], { widths, edgeRole: 'kerb', entityOf: () => fx.owner, owner: null, pieces: lost });
+      return bandCore(t, [face], { widths, edgeRole: 'kerb', entityOf: () => fx.owner, owner: null, pieces: lost, vertexContacts: true });
     });
     expect(r.ok).toBe(false);
     if (r.ok) return;
@@ -160,7 +160,7 @@ describe('N-57 (2): a kerb piece closing on a spine-less edge by a chord within 
     // the op is atomic inside a batch that goes on: its refusal leaves the batch as the op found it, so the batch
     // commits nothing (M0-a-07's op savepoint)
     const again = commit(p, 2, (o) => {
-      const c = bandCore(o as Parameters<typeof bandCore>[0], [face], { widths, edgeRole: 'kerb', entityOf: () => fx.owner, owner: null, pieces: lost });
+      const c = bandCore(o as Parameters<typeof bandCore>[0], [face], { widths, edgeRole: 'kerb', entityOf: () => fx.owner, owner: null, pieces: lost, vertexContacts: true });
       expect(c.ok).toBe(false);
       return { ok: true, value: null, warnings: [] };
     }, AT_S9);
@@ -180,7 +180,7 @@ describe('N-57 (2): a kerb piece closing on a spine-less edge by a chord within 
     const open = outlinePieces(read).findIndex((q) => !q.closed);
     expect(open).toBe(0);
     const q = outlinePieces(read)[open].points;
-    const r = tx(p, spec(2, AT_S9), (o) => bandCore(o as Parameters<typeof bandCore>[0], [face], { widths, edgeRole: 'kerb', entityOf: () => fx.owner, owner: null, pinFirst: [[face, open, 1]] }));
+    const r = tx(p, spec(2, AT_S9), (o) => bandCore(o as Parameters<typeof bandCore>[0], [face], { widths, edgeRole: 'kerb', entityOf: () => fx.owner, owner: null, pinFirst: [[face, open, 1]], vertexContacts: true }));
     expect(r.ok, r.ok ? '' : `${r.code} ${r.detail}`).toBe(true);
     healthy(p);
     expect(tilesExactly(p, 2, [face])).toEqual([]);
@@ -417,8 +417,9 @@ describe('N-57 (2), round S4: B-FUZZ networks where round S3 closed a dangling t
       // the closing ran on the face, along the kerb's run, and every closing stays by kerb(F)
       const closings = bandClosings(p);
       expect(closings.some((q) => q.face === c.face && q.kind === 'along')).toBe(true);
-      const kerbOf = (w: typeof ws) => (f: number) => {
-        const k = readKerb(p, f, w);
+      // bandUnion's kerb reads the chain's edge spines only (C-0380); corridorUnion's its vertex contacts too
+      const kerbOf = (w: typeof ws, vertexContacts = true) => (f: number) => {
+        const k = readKerb(p, f, w, undefined, vertexContacts);
         return k.ok ? k.value.kerb : null;
       };
       expect(closingsBeyond(closings, kerbOf(ws))).toEqual([]);
@@ -437,7 +438,7 @@ describe('N-57 (2), round S4: B-FUZZ networks where round S3 closed a dangling t
       healthy(p);
       expect(tilesExactly(p, 3, faces)).toEqual([]);
       expect(danglingBand(p)).toEqual([]);
-      expect(closingsBeyond(bandClosings(p), kerbOf(widthsOf({ [chain[0].ref.entity]: { halfWidthCm: chain[0].halfWidthCm, ends: chain[0].ends } })))).toEqual([]);
+      expect(closingsBeyond(bandClosings(p), kerbOf(widthsOf({ [chain[0].ref.entity]: { halfWidthCm: chain[0].halfWidthCm, ends: chain[0].ends } }), false))).toEqual([]);
     });
   }
 });
@@ -482,7 +483,7 @@ describe('N-57 (2), round S4: what the closing leaves alone, and the sliver it f
     expect(piece.points[piece.points.length - 1]).toEqual(pt(11, 1490));
     const b0 = state(p);
     const engine = (o: unknown) =>
-      bandCore(o as Parameters<typeof bandCore>[0], faces, { widths: ws, edgeRole: 'kerb', entityOf: (f) => idOf(p, p.faces[1].owner[f]), owner: null, pinFirst: [[4, 0, 1]] });
+      bandCore(o as Parameters<typeof bandCore>[0], faces, { widths: ws, edgeRole: 'kerb', entityOf: (f) => idOf(p, p.faces[1].owner[f]), owner: null, pinFirst: [[4, 0, 1]], vertexContacts: true });
     const r = tx(p, spec(2, AT_S9), engine);
     expect(r.ok, r.ok ? 'committed: the contact pinned off attractCm' : '').toBe(false);
     if (r.ok) return;

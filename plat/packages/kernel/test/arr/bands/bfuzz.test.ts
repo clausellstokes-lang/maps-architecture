@@ -112,8 +112,9 @@ describe('B-FUZZ (§13.1): the band operations on PLAT_FUZZ_RUNS random cases ea
         healthy(p);
         expect(tilesExactly(p, 2, faces)).toEqual([]);
         // N-57 (2): every closing by kerb(F) — no chord to a far vertex
-        const kerbOf = (w: typeof ws) => (f: number) => {
-          const k = readKerb(p, f, w);
+        // bandUnion's kerb reads the chain's edge spines only (C-0380); corridorUnion's its vertex contacts too
+        const kerbOf = (w: typeof ws, vertexContacts = true) => (f: number) => {
+          const k = readKerb(p, f, w, undefined, vertexContacts);
           return k.ok ? k.value.kerb : null;
         };
         expect(closingsBeyond(bandClosings(p), kerbOf(ws)), JSON.stringify(chords)).toEqual([]);
@@ -140,6 +141,7 @@ describe('B-FUZZ (§13.1): the band operations on PLAT_FUZZ_RUNS random cases ea
               over: AT_S9,
               widths: bw,
               edgeRole: 'band',
+              vertexContacts: false,
               entityOf: () => 'band:1',
             }),
           );
@@ -149,7 +151,7 @@ describe('B-FUZZ (§13.1): the band operations on PLAT_FUZZ_RUNS random cases ea
         }
         healthy(p);
         expect(tilesExactly(p, 3, faces)).toEqual([]);
-        expect(closingsBeyond(bandClosings(p), kerbOf(widthsOf({ [chain[0].ref.entity]: { halfWidthCm: chain[0].halfWidthCm, ends: chain[0].ends } }))), JSON.stringify(chords)).toEqual([]);
+        expect(closingsBeyond(bandClosings(p), kerbOf(widthsOf({ [chain[0].ref.entity]: { halfWidthCm: chain[0].halfWidthCm, ends: chain[0].ends } }), false)), JSON.stringify(chords)).toEqual([]);
         count(bandClosings(p));
       }),
       { numRuns: RUNS },
