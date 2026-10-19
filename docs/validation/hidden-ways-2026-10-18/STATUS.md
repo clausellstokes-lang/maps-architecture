@@ -1,4 +1,4 @@
-# STATUS — the hidden-ways design run (lanes hidden-ways/*; written by the autosave loop at 2026-10-19 07:34Z)
+# STATUS — the hidden-ways design run (lanes hidden-ways/*; written by the autosave loop at 2026-10-19 07:36Z)
 
 | lane | last line | state | the line |
 |---|---|---|---|
@@ -29,3 +29,4 @@
 | hidden-ways/apply | 2026-10-19 07:24 | LANDED | 2026-10-19 07:24 hidden-ways/apply LANDED docs/AMENDMENTS-2026-10-18w.md (1181 lines, md5 5df61697): file w APPLIED 2026-10-19 on J421 — 114/114 fragments of items 955–975 by synth-scripts/apply_w.py (58 lines, md5 cbdda |
 | hidden-ways/confirm-anchors | 2026-10-19 07:29 | LANDED | 2026-10-19 07:29 hidden-ways/confirm-anchors LANDED docs/validation/hidden-ways-2026-10-18/confirm-anchors.md (93 lines, md5 33a95012): PASS — 3478 checks, 0 failures by synth-scripts/confirm_anchors.py (python3 -I): fiv |
 | hidden-ways/confirm-consistency | 2026-10-19 07:30 | LANDED | 2026-10-19 07:30 hidden-ways/confirm-consistency LANDED docs/validation/hidden-ways-2026-10-18/confirm-consistency.md (109 lines, md5 68a42894): FAIL — 292 checks, 6 failures; ids 56/56 once (T, J, H, W_TROD_*/W_ROUTE_JU |
+| hidden-ways/file-x | 2026-10-19 07:36 | CHECKPOINT | 2026-10-19 07:36 hidden-ways/file-x CHECKPOINT read confirm-consistency (F1-F6), file w header and items 962/964/966/969, file v's form, the six residues at their lines; next draft-x |
