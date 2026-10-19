@@ -1,4 +1,4 @@
-# STATUS — the hidden-ways design run (lanes hidden-ways/*; written by the autosave loop at 2026-10-19 07:23Z)
+# STATUS — the hidden-ways design run (lanes hidden-ways/*; written by the autosave loop at 2026-10-19 07:28Z)
 
 | lane | last line | state | the line |
 |---|---|---|---|
@@ -26,4 +26,6 @@
 | hidden-ways/critic-3 | 2026-10-19 07:15 | LANDED | 2026-10-19 07:15 hidden-ways/critic-3 LANDED docs/validation/hidden-ways-2026-10-18/critic-3.md (47 lines, md5 c4ea5bee): PASS — critic-2 G1–G8 each closed as written (G1 the orientation off the route set in force, three |
 | hidden-ways/verify-3 | 2026-10-19 07:11 | LANDED | 2026-10-19 07:11 hidden-ways/verify-3 LANDED docs/validation/hidden-ways-2026-10-18/verify-3.md (25 lines, md5 6bbca770): draft-w.fragments.json 114/114 PASS (940 checks, 0 failures; md5s, exact lines, apply in order, re |
 | hidden-ways/answer | 2026-10-19 07:19 | LANDED | 2026-10-19 07:19 hidden-ways/answer LANDED docs/validation/hidden-ways-2026-10-18/answer.md (34 lines, md5 3af25508): J421 written — reply §9.1 'The owner's answer (2026-10-19, J421)' (reply 678 lines, md5 5efc08f8), hea |
-| hidden-ways/apply | 2026-10-19 07:22 | CHECKPOINT | 2026-10-19 07:22 hidden-ways/apply CHECKPOINT applied 114/114 live by synth-scripts/apply_w.py (dry run first: same hashes); next: checks, AMENDMENTS-2026-10-18w.md, apply.md table, LANDED |
+| hidden-ways/apply | 2026-10-19 07:24 | LANDED | 2026-10-19 07:24 hidden-ways/apply LANDED docs/AMENDMENTS-2026-10-18w.md (1181 lines, md5 5df61697): file w APPLIED 2026-10-19 on J421 — 114/114 fragments of items 955–975 by synth-scripts/apply_w.py (58 lines, md5 cbdda |
+| hidden-ways/confirm-anchors | 2026-10-19 07:24 | CHECKPOINT | 2026-10-19 07:24 hidden-ways/confirm-anchors CHECKPOINT started: no record on disk, no LANDED line; next: script over the 114 fragments (new once / old zero, md5s, amendments blockquotes, structure around anchors, V13 §1 |
+| hidden-ways/confirm-consistency | 2026-10-19 07:26 | CHECKPOINT | 2026-10-19 07:26 hidden-ways/confirm-consistency CHECKPOINT ids: 56 definition counts 0 failures, items 955–975 once each, 146 § refs resolve (3 pre-existing/host-side); next: milestone figures, H32, reply lines, clean r |
