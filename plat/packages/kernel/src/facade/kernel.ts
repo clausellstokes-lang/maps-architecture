@@ -9,9 +9,11 @@
 // — no member re-implements an op. In the debug build every result is stamped with its arena's key and version
 // (./stamp.ts). The services §3.4 says "read the open transaction's arena and are called only inside one" (`kerb`,
 // `offsetFace`, `insetRing`, and `sideRuns` / `sampleBoundary` handed a face) read the innermost transaction this
-// kernel has open; called outside one they are a programming error. A closed overlay — its batch committed, was rejected
-// or threw — is no open transaction: every writer refuses it, in every build (§3.3; C-0290), so a stale overlay never
-// writes outside a transaction.
+// kernel has open; called outside one they are a programming error. A writer takes only an open transaction — an overlay
+// a transaction minted (`kernel.tx` or the module's `tx`, whichever kernel opened it) whose batch has not committed, been
+// rejected or thrown (`tx/state.ts`'s `isOpenTx`) — and refuses any other, in every build (§3.3; C-0290; RQ4): a closed
+// overlay and a fabricated shell alike, so no writer ever writes outside a transaction. A value a writer returns inside a
+// batch is re-stamped at that batch's commit whichever kernel's writer returned it (the batch's list is the overlay's).
 import {
   compareFaces,
   idOf,
@@ -38,6 +40,7 @@ import { createRng } from '../rng/index.js';
 import { skeleton } from '../skeleton/index.js';
 import { clearFiner, removeEdges, resolveStretch, retypeEdges, sampleProfile, setOwner, tx as txOn, type Committed, type KernelOp, type KernelTx, type Overlay, type TxEnv } from '../tx/index.js';
 import type { GeomRef, Level, PlatKey, StretchRef } from '../types/index.js';
+import { isOpenTx } from '../tx/state.js';
 import { simplify, warp } from '../warp/index.js';
 import { notBuilt, refuseNotBuilt } from './notBuilt.js';
 import { assertStamped, stamp, stampNow, stampOf, stampWith } from './stamp.js';
@@ -68,13 +71,28 @@ function isStretchRef(ref: GeomRef): ref is StretchRef {
 }
 
 /**
- * Is the overlay closed — no open transaction (§3.3; C-0290)? Its `closed` (`InsertTx.closed`) is set by the transaction
- * when the batch commits, is rejected or throws (`tx/state.ts` `OpenTx.closed`); an overlay still open is accepted
- * however it was opened.
+ * Is the overlay closed (§3.3; C-0290)? Its `closed` (`InsertTx.closed`) is set by the transaction when the batch
+ * commits, is rejected or throws (`tx/state.ts` `OpenTx.closed`). It names which refusal a writer throws; the writer's
+ * test is `isOpenTx`.
  */
 function isClosed(o: Overlay): boolean {
   return o.closed === true;
 }
+
+/** The refusal of a closed overlay (a pinned text). */
+const CLOSED_OVERLAY = 'the overlay is no open transaction: its batch committed, was rejected or threw (§3.3; N-55 (5); C-0290)';
+
+/** The refusal of an overlay no transaction minted — a fabricated shell, whatever its fields say (a pinned text). */
+const UNMINTED_OVERLAY = 'the overlay is no open transaction: no transaction minted it (kernel.tx or tx hands the callback its overlay; §3.3; RQ4)';
+
+/**
+ * The values each open batch's writers returned, by the batch's overlay: the kernel whose `tx` minted the overlay
+ * registers its frame's list when its first op or its callback runs, any kernel's writer handed that overlay pushes to
+ * it, and that kernel's commit re-stamps the list (C-0220 (3); note 13: a writer of another kernel no longer leaves its
+ * value at the in-batch version). An overlay the module's `tx` minted has no list: its values keep the in-batch stamp,
+ * stale after the commit (the debug build's assertion, loud).
+ */
+const batchLists = new WeakMap<object, object[]>();
 
 /**
  * §14's Kernel over the arenas a map names (doc-less at M0): `plats` maps each PlatKey to its arena, whose own key must
@@ -125,6 +143,7 @@ export function createKernel(plats: ReadonlyMap<PlatKey, Plat>, options: KernelO
     const frame = frames[frames.length - 1];
     const before = frame.o;
     frame.o = o;
+    if (!batchLists.has(o)) batchLists.set(o, frame.stamped);
     try {
       return f();
     } finally {
@@ -134,28 +153,21 @@ export function createKernel(plats: ReadonlyMap<PlatKey, Plat>, options: KernelO
 
   /**
    * A value an op on overlay `o` returned: stamped at the arena's version now (current inside the batch) and, in the
-   * debug build, kept by the frame of `o`'s transaction so its commit re-stamps it.
+   * debug build, kept in the list of `o`'s batch (whichever kernel's `tx` minted it) so its commit re-stamps it.
    */
   const batchValue = <R>(o: Overlay, value: R): R => {
     stamp(o.plat, value);
-    if (debugMode() && typeof value === 'object' && value !== null) {
-      for (let i = frames.length - 1; i >= 0; i -= 1) {
-        if (frames[i].o === o) {
-          frames[i].stamped.push(value);
-          break;
-        }
-      }
-    }
+    if (debugMode() && typeof value === 'object' && value !== null) batchLists.get(o)?.push(value);
     return value;
   };
 
   /**
-   * A writer: the overlay checked — on this kernel's arena (the debug build) and not closed (every build: a closed overlay
-   * is no open transaction, C-0290) — before the module's op is called; its result stamped.
+   * A writer: the overlay checked — on this kernel's arena (the debug build) and an open transaction (every build: one a
+   * transaction minted and not closed, `isOpenTx`; C-0290, RQ4) — before the module's op is called; its result stamped.
    */
   const writer = <A extends unknown[], R>(op: (o: Overlay, ...args: A) => R) => (o: Overlay, ...args: A): R => {
     onArena(o);
-    if (isClosed(o)) fail('the overlay is no open transaction: its batch committed, was rejected or threw (§3.3; N-55 (5); C-0290)');
+    if (!isOpenTx(o)) fail(isClosed(o) ? CLOSED_OVERLAY : UNMINTED_OVERLAY);
     return batchValue(o, op(o, ...args));
   };
 
