@@ -98,7 +98,19 @@ export function judge(h: Harness, op: string, source: string, ours: readonly Rin
   // a failure carries its input (truncated), so an unseeded run's failure can be replayed
   const at = input === null ? '' : ` INPUT ${JSON.stringify(input).slice(0, 2000)}`;
   if (bad.length > 0) keep(h, `${op} ${source}: ours invalid: ${bad.join('; ')}${at}`);
-  const verdicts: Verdict[] = ORACLE_ENGINES.map((e) => compareSplit(ours, oracle(e), warnings));
+  const verdicts: Verdict[] = ORACLE_ENGINES.map((e) => {
+    const res = oracle(e);
+    const v = compareSplit(ours, res, warnings);
+    if (v.pass || v.refused || !res.ok) return v;
+    // an oracle whose own output crosses itself judges nothing (round S9, notes row 56: polygon-clipping's band of a
+    // needle tip, its intersection rounded 0.012 cm across F's edge, read as a second face): its verdict is the
+    // oracle's refusal, counted per engine (`refusals`, the unjudged bound) and settled `oracle-invalid`; the other
+    // oracle judges the case
+    const bad = ringProblems(res.rings.map(dedupe)).filter((q) => q === 'crossing edges');
+    if (bad.length === 0) return v;
+    settle(h, 'oracle-invalid');
+    return compareSplit(ours, { ok: false, engine: e, error: `oracle output invalid: ${bad.join(', ')}`, refused: true }, warnings);
+  });
   for (const v of verdicts) if (!v.pass && !v.refused) keep(h, `${op} ${source} [${v.engine}, ${v.split}]: ${v.failures.join(', ')}${at}`);
   h.report.record(op, verdicts);
 }
@@ -384,6 +396,8 @@ export interface CorridorOurs {
   readonly spineHw: number[];
   /** The committed corridor_split edges with a built block on both sides (N-52 (2): a split never cuts a block). */
   readonly splitsInBlocks: string[];
+  /** Every committed corridor_split edge of L2, as "x,y-x,y" either way round (a band face's split antenna, notes row 57). */
+  readonly splitEdges: ReadonlySet<string>;
 }
 
 function ringsAt(p: Plat, level: 1 | 2, f: FaceId): Ring[] {
@@ -503,7 +517,26 @@ export function oursCorridor(c: CorridorCase): CorridorOurs | Refused | null {
     else if (same(a[0], b[b.length - 1])) [a, b] = [b, a];
     face = ccwRing([...a.slice(0, -1), ...b.slice(0, -1)]);
   }
-  return { blocks, bands, warnings, face, spines, spineHw, splitsInBlocks: splitsInBlocks(p, v.blocks) };
+  return { blocks, bands, warnings, face, spines, spineHw, splitsInBlocks: splitsInBlocks(p, v.blocks), splitEdges: splitEdgesOf(p) };
+}
+
+/** Every corridor_split edge on an L2 face's ring, as "x,y-x,y" both ways round. */
+function splitEdgesOf(p: Plat): Set<string> {
+  const split = roleIdOf('corridor_split');
+  const O = p.halfEdges.origin;
+  const at = (v: number): string => `${String(p.vertices.x[v])},${String(p.vertices.y[v])}`;
+  const out = new Set<string>();
+  for (let f = 0; f < p.slots.face[2].top; f += 1) {
+    if (!isFaceLive(p, 2, f)) continue;
+    for (const ring of faceWalk(p, 2, f)) {
+      for (const h of ring) {
+        if (!rowsOn(p, 'edge', h).some((r) => p.roles.kind[r] === split)) continue;
+        out.add(`${at(O[h])}-${at(O[h ^ 1])}`);
+        out.add(`${at(O[h ^ 1])}-${at(O[h])}`);
+      }
+    }
+  }
+  return out;
 }
 
 /**
@@ -627,11 +660,20 @@ export function judgeCorridor(h: Harness, c: CorridorCase, op = 'corridorUnion')
   }
   const attracted = splitOf(ours.warnings) === 'attracted';
   let dangling = false;
+  const bandRings = new Set<Ring>(ours.bands);
   for (const r of [...ours.blocks, ...ours.bands]) {
     // an arena face's ring may meet itself at a vertex (a face pinched between two that touch there): each simple
     // loop of it is held to the ring checks; a loop of two points is an edge dangling into the face — legal in an
-    // arena (§13.1's antennae), and left only where attraction moved the kerb an edge was planned to reach (C-0212 (8))
+    // arena (§13.1's antennae), and left only where attraction moved the kerb an edge was planned to reach (C-0212 (8)),
+    // or where, in a band face, it is a corridor_split from a junction on F's boundary to the kerb whose partner split
+    // stands beyond reach (N-52 (2), C-0281): the one split bridges the band to the block, cutting nothing (a split in a
+    // block is never one: N-52 (2), `splitsInBlocks`) (round S9, notes row 57 —
+    // before the dry-run such a case was judged attracted by the scratch overlay's unrelated attraction warnings)
     for (const loop of loopsOf(dedupe(r))) {
+      if (loop.length === 2 && bandRings.has(r) && ours.splitEdges.has(`${String(loop[0].x)},${String(loop[0].y)}-${String(loop[1].x)},${String(loop[1].y)}`)) {
+        h.notes['split-antenna'] = (h.notes['split-antenna'] ?? 0) + 1;
+        continue;
+      }
       if (loop.length < 3 && attracted) {
         dangling = true;
         continue;

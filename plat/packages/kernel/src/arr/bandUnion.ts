@@ -70,7 +70,7 @@ import { chargeTx, check, type OpenTx } from '../tx/state.js';
 import { kernelOp, setOwner, type KernelOp, type Overlay } from '../tx/index.js';
 import type { LineageHash } from '../hash/index.js';
 import type { ChainProfile, ChainRef, Cm, FaceRef, Id, LatticePoint, Level, PlatKey } from '../types/index.js';
-import { div, nearestOn, readKerb, spineKey, type KerbRead, type Spine, type SpineEnd, type SpineWidths, type XY } from './kerb.js';
+import { interiorPoint, nearestOn, readKerb, spineKey, type KerbRead, type Spine, type SpineEnd, type SpineWidths, type XY } from './kerb.js';
 import type { Ring } from './winding.js';
 
 /**
@@ -160,47 +160,6 @@ export function outlinePieces(read: KerbRead): { points: LatticePoint[]; closed:
     if (cur !== null) out.push({ points: cur, closed: false });
   }
   return out;
-}
-
-/**
- * A point strictly inside the face (a record of level n), as far from its boundary across as the face allows: on each
- * horizontal line halfway between two consecutive distinct vertex heights (never through a vertex), the face's
- * crossings paired off (even-odd: outer ring and holes), and the midpoint of the widest interval over all those lines.
- * A point deep in the face's widest cross-section stays inside the region the face stands for when attraction bent its
- * outline by a few centimetres at one vertex — which an ear's centroid beside that vertex does not (C-0218 (10)). Null
- * where the face has no interval (never for a face of positive area).
- */
-function interiorPoint(p: Plat, level: Level, c: FaceId): XY | null {
-  const X = p.vertices.x;
-  const Y = p.vertices.y;
-  const O = p.halfEdges.origin;
-  const rings = faceWalk(p, level, c).map((r) => r.map((h) => ({ x: X[O[h]], y: Y[O[h]] })));
-  const ys = [...new Set(rings.flatMap((r) => r.map((q) => q.y)))].sort((a, b) => a - b);
-  let best: XY | null = null;
-  let bestW = 0;
-  for (let k = 0; k + 1 < ys.length; k += 1) {
-    const qy = (ys[k] + ys[k + 1]) * 0.5;
-    const xs: number[] = [];
-    for (const r of rings) {
-      for (let i = 0; i < r.length; i += 1) {
-        const a = r[i];
-        const b = r[(i + 1) % r.length];
-        if (a.y < qy === b.y < qy) continue;
-        const t = div(qy - a.y, b.y - a.y);
-        if (t === null) continue;
-        xs.push(a.x + t * (b.x - a.x));
-      }
-    }
-    xs.sort((a, b) => a - b);
-    for (let i = 0; i + 1 < xs.length; i += 2) {
-      const w = xs[i + 1] - xs[i];
-      if (w > bestW) {
-        bestW = w;
-        best = { x: (xs[i] + xs[i + 1]) * 0.5, y: qy };
-      }
-    }
-  }
-  return best;
 }
 
 /**
@@ -562,7 +521,7 @@ function writeOutlines(t: OpenTx, unique: readonly FaceId[], spec: EngineSpec, p
   const cache = new Map<string, Spine | null>();
   const reads: Read[] = [];
   for (const f of unique) {
-    const r = readKerb(p, f, spec.widths, cache, spec.vertexContacts);
+    const r = readKerb(t, f, spec.widths, cache, spec.vertexContacts);
     if (!r.ok) return err(r.code, r.detail);
     reads.push(r.value);
   }

@@ -17,10 +17,10 @@ import { type FaceId, type Plat } from '../../../src/arena/index.js';
 import { err, ok } from '../../../src/num/index.js';
 import { insertChain } from '../../../src/insert/index.js';
 import type { LatticePoint } from '../../../src/types/index.js';
-import { entersRegion, kerb, readKerb, type SpineWidths } from '../../../src/arr/kerb.js';
+import { entersRegion, kerb, readFace, readKerb, splitsOn, type SpineWidths } from '../../../src/arr/kerb.js';
 import { corridorUnion } from '../../../src/arr/corridorUnion.js';
 import type { BandResult } from '../../../src/arr/bandUnion.js';
-import { AT_S9, commit, faceAt, framed, healthy, network, normals, own, pt, ringsOf, splitsBetweenBlocks, splitsBeyondReach, tilesExactly, TIMEOUT, way, widthsOf, type Chord } from './support.js';
+import { AT_S9, commit, faceAt, framed, healthy, network, normals, own, pt, ringsOf, splitsBetweenBlocks, splitsBeyondReach, tilesExactly, TIMEOUT, way, widthsOf, readIn, type Chord } from './support.js';
 
 const ATTRACT = 26;
 
@@ -88,7 +88,7 @@ function s8s9(p: Plat, inside: readonly [number, number], late: { entity: string
     return ok(null);
   });
   const [f] = own(p, 'district:1', [inside]);
-  const read = readKerb(p, f, ws);
+  const read = readIn(p, 1, (o) => readKerb(o, f, ws));
   expect(read.ok).toBe(true);
   if (!read.ok) throw new Error(read.detail);
   // every split chain within its junction's reach (C-0277 (1), (2))
@@ -204,6 +204,25 @@ function step(dy: number, hwA: number, hwB: number): ReturnType<typeof s8s9> {
   return s8s9(p, [9000, 5000], { entity: 'way:a', pts: [[3000, 1000], [9000, 1000]] }, widthsOf({ 'way:a': hwA, 'way:b': hwB }));
 }
 
+const text = (c: readonly LatticePoint[]): string => c.map((q) => `${String(q.x)},${String(q.y)}`).join(' ');
+
+/**
+ * The junction rules on a RECORDED region of the face holding `inside` (`splitsOn`: the splits are a function of F's
+ * route, its spines and the region alone): a mechanism pinned on the region it was found on, whatever the read traces
+ * now. Round S9 (C-0387): kerb(F) is read by a dry-run on the real arena, whose attractors moved these faces' regions
+ * (the declared shift in the choices row); the junction rule each case pins is held on the pre-S9 region here, and the
+ * pipeline's own output on the new region is pinned beside it.
+ */
+function onRecorded(chords: readonly Chord[], inside: readonly [number, number], region: readonly string[]): { kerb: string[]; splits: string[] } {
+  const n = network(chords);
+  const ws = widthsOf(n.table);
+  const f = readFace(n.p, faceAt(n.p, 1, inside[0], inside[1]), ws);
+  const rings = region.map((r) => r.split(' ').map((q) => pt(Number(q.split(',')[0]), Number(q.split(',')[1]))));
+  const sp = splitsOn(n.p, f.edges, f.spines, rings);
+  if (!sp.ok) throw new Error(sp.detail);
+  return { kerb: sp.value.rings.map(text), splits: sp.value.splits.map(text) };
+}
+
 /**
  * A B-FUZZ chord network (support.ts `network`, the chords of the differential probe of checks/M0-a-09-s1.md, drawn by
  * B-FUZZ's own arbitrary): the L1 face holding `inside` read (kerb and splits), then corridorUnion over every face at
@@ -213,10 +232,10 @@ function chordFace(chords: readonly Chord[], inside: readonly [number, number]):
   const n = network(chords);
   const ws = widthsOf(n.table);
   const f = faceAt(n.p, 1, inside[0], inside[1]);
-  const read = readKerb(n.p, f, ws);
+  const read = readIn(n.p, 1, (o) => readKerb(o, f, ws));
   if (!read.ok) throw new Error(read.detail);
   for (const g of n.faces) {
-    const rg = readKerb(n.p, g, ws);
+    const rg = readIn(n.p, 1, (o) => readKerb(o, g, ws));
     if (!rg.ok) throw new Error(rg.detail);
     expect(splitsBeyondReach(n.p, rg.value)).toEqual([]);
   }
@@ -224,7 +243,6 @@ function chordFace(chords: readonly Chord[], inside: readonly [number, number]):
   healthy(n.p);
   expect(tilesExactly(n.p, 2, n.faces)).toEqual([]);
   expect(splitsBetweenBlocks(n.p, 2, (r.value as BandResult).blocks)).toEqual([]);
-  const text = (c: readonly LatticePoint[]): string => c.map((q) => `${String(q.x)},${String(q.y)}`).join(' ');
   return { kerb: read.value.kerb.map(text), splits: read.value.splits.map(text) };
 }
 
@@ -260,8 +278,14 @@ describe('each target of a junction pinned (checks/M0-a-09-s1.md lines 1–3; C-
       { a: 2908, b: 7971, hw: 434, knots: [134, 140], ends: 'round' },
     ];
     const r = chordFace(chords, [3700, 100]);
-    expect(r.kerb).toEqual(['4000,0 4000,208 3117,27']);
-    expect(r.splits.sort()).toEqual(['2930,79 3117,27 3117,0', '3101,234 3117,27 2930,79']);
+    // round S9 (C-0387), the declared shift: the dry-run's kerb corner (3128, 29) for the scratch's (3117, 27) — its
+    // strips cut at F's own L1 edges and the L0 frame (y = 0) 29 cm off; the same wedge through the corner
+    expect(r.kerb).toEqual(['4000,0 4000,207 3128,29']);
+    expect(r.splits.sort()).toEqual(['2931,83 3128,29 3128,0', '3112,235 3128,29 2931,83']);
+    // the rule on the region it was found on (pre-S9)
+    const was = onRecorded(chords, [3700, 100], ['4000,0 4000,208 3117,27']);
+    expect(was.kerb).toEqual(['4000,0 4000,208 3117,27']);
+    expect(was.splits.sort()).toEqual(['2930,79 3117,27 3117,0', '3101,234 3117,27 2930,79']);
   });
 
   it('an acute corner of small half-width whose meeting point lies beyond reach: the one straight-through split', () => {
@@ -272,9 +296,17 @@ describe('each target of a junction pinned (checks/M0-a-09-s1.md lines 1–3; C-
       { a: 11_146, b: 2616, hw: 21, knots: null, ends: 'round' },
       { a: 12_731, b: 4314, hw: 35, knots: null, ends: 'square' },
     ];
+    // the rule on the region it was found on (pre-S9): the one straight-through split to the kerb's corner
+    const was = onRecorded(chords, [3500, 100], ['2616,0 4000,0 4000,265 1772,1916']);
+    expect(was.kerb).toEqual(['2616,0 4000,0 4000,265 1772,1916']);
+    expect(was.splits).toEqual(['1743,1981 1772,1916']);
+    // round S9 (C-0387), the declared shift: the dry-run lays way:1's strip on the real arena, where its inner corner
+    // (3979, 286) stands 21 cm from the L0 frame (x = 4000) and its inner edge passes 17 cm from F's vertex (4000, 314):
+    // both attract it, and the edge runs along F's L1 edge from (3372, 778) (35 cm off, within N-43's bound; the KI note
+    // of round S9) — the kerb vertex (1802, 1894) now stands at the meeting point, so the junction is a corner wedge
     const r = chordFace(chords, [3500, 100]);
-    expect(r.kerb).toEqual(['2616,0 4000,0 4000,265 1772,1916']);
-    expect(r.splits).toEqual(['1743,1981 1772,1916']);
+    expect(r.kerb).toEqual(['2616,0 4000,0 4000,314 3372,778 1802,1894']);
+    expect(r.splits).toEqual(['1823,1922 1802,1894 1785,1886']);
   });
 
   it('a left turn whose inner edges meet far beyond reach, a kerb vertex near that point: no split to it (the corner path has a reach)', () => {
@@ -286,8 +318,12 @@ describe('each target of a junction pinned (checks/M0-a-09-s1.md lines 1–3; C-
       { a: 5184, b: 41, hw: 7, knots: [367, 413], ends: 'round' },
     ];
     const r = chordFace(chords, [3000, 100]);
-    expect(r.kerb).toEqual(['1410,0 4000,0 4000,708 2994,501']);
+    // round S9 (C-0387), the declared shift: the strips' cuts at F's own L1 edges and the L0 frame (the dry-run's
+    // attractors) move the region's corners by ≤ 21 cm; still no split
+    expect(r.kerb).toEqual(['1431,0 4000,0 4000,703 2985,495']);
     expect(r.splits).toEqual([]);
+    const was = onRecorded(chords, [3000, 100], ['1410,0 4000,0 4000,708 2994,501']);
+    expect(was.splits).toEqual([]);
   });
 
   it('a corner wedge the guard drops: the junction’s straight-through split instead, the dropped splice taken out of the kerb (C-0281)', () => {
@@ -300,9 +336,15 @@ describe('each target of a junction pinned (checks/M0-a-09-s1.md lines 1–3; C-
       { a: 2363, b: 5128, hw: 27, knots: [222, 480], ends: 'round' },
       { a: 263, b: 7730, hw: 174, knots: [471, 502], ends: 'round' },
     ];
+    // the rule on the region it was found on (pre-S9): the guard drops the wedge, the straight-through split instead
+    const was = onRecorded(chords, [300, 2000], ['0,404 3241,3677 3274,3711 447,4000 0,4000']);
+    expect(was.kerb).toEqual(['0,404 3241,3677 3274,3711 447,4000 0,4000']);
+    expect(was.splits).toEqual(['3915,3645 3241,3677']);
+    // round S9 (C-0387), the declared shift: the dry-run's region (its strips cut at F's own L1 edges, the L0 frame
+    // beside them) holds no tip there, its corner (3256, 3693) within reach — the wedge through it is drawn
     const r = chordFace(chords, [300, 2000]);
-    expect(r.kerb).toEqual(['0,404 3241,3677 3274,3711 447,4000 0,4000']);
-    expect(r.splits).toEqual(['3915,3645 3241,3677']);
+    expect(r.kerb).toEqual(['0,404 3256,3693 447,4000 0,4000']);
+    expect(r.splits).toEqual(['3609,3339 3256,3693 3258,3712']);
   });
 });
 
