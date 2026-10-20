@@ -3,12 +3,14 @@
 // kernel's own calls, so a stage that dropped an input from its digest would differ; and the leg runtime's order,
 // refusals and timing switch.
 import { describe, expect, it } from 'vitest';
-import { circumcentres, delaunay, hull, LaneWriter, lir, obb, regularFit } from '@plat/kernel';
+import { circumcentres, delaunay, dmath, hull, LaneWriter, lir, obb, regularFit, type Stream } from '@plat/kernel';
 import {
   CONSTRUCTIVE_SET,
+  CROSSHOST_DMATH_ROUTINES,
   CROSSHOST_KERNEL_STAGES,
   CrossHostDigestWriter,
   crossHostCircumcentreSets,
+  crossHostStream,
   crossHostLaneStreams,
   crossHostRegularFitRings,
   crossHostResultData,
@@ -126,6 +128,63 @@ describe("the constructive stage digests M0-k-02's draws and the services on the
   });
 });
 
+// Hardening round S1, row 3 (checks/M0-d-06-notes.md note 3): the seeded xoshiro and dmath stages recomputed here, as
+// the lanes, regularFit, circumcentres and constructive stages are — a stage that dropped a draw or an argument
+// (pow's and atan2's second among them) from its digest would differ.
+describe('the xoshiro stage digests the stream helpers on its seeded stream', () => {
+  it("equals the digest of u32, float01, int, bool, normal, fuzzy and weighted draws from the stage's stream, recomputed", () => {
+    for (const seed of SEEDS) {
+      const s = crossHostStream('xoshiro', seed);
+      const w = new CrossHostDigestWriter();
+      for (let i = 0; i < 256; i += 1) w.u32(s.u32());
+      for (let i = 0; i < 64; i += 1) w.f64(s.float01());
+      for (let i = 0; i < 64; i += 1) w.f64(s.int(-1000, 1000));
+      for (let i = 0; i < 64; i += 1) w.f64(s.int(0, 0xffffffff));
+      for (let i = 0; i < 32; i += 1) w.u32(s.bool(0.3) ? 1 : 0);
+      for (let i = 0; i < 32; i += 1) w.f64(s.normal());
+      for (let i = 0; i < 32; i += 1) w.f64(s.fuzzy(0.25));
+      for (let i = 0; i < 32; i += 1) w.u32(s.weighted([1, 2, 3, 0.5, 4]));
+      expect(stage('xoshiro').run(seed, ctx())).toEqual({ model: w.hex(), records: null });
+    }
+  });
+});
+
+describe("the dmath stage digests the seven routines on seeded arguments", () => {
+  // the stage's argument draw, restated: any bit pattern, a wide range, near zero, near multiples of π/4, huge, specials
+  const view = new DataView(new ArrayBuffer(8));
+  const draw = (s: Stream): number => {
+    const k = s.int(0, 5);
+    if (k === 0) {
+      view.setUint32(0, s.u32(), true);
+      view.setUint32(4, s.u32(), true);
+      return view.getFloat64(0, true);
+    }
+    if (k === 1) return (s.float01() * 2 - 1) * 1000;
+    if (k === 2) return (s.float01() * 2 - 1) * 1e-6;
+    if (k === 3) return s.int(-64, 64) * 0.7853981633974483 + (s.float01() - 0.5) * 1e-9;
+    if (k === 4) return (s.float01() * 2 - 1) * 1e300;
+    const special = [0, -0, 1, -1, 0.5, 2, Infinity, -Infinity, NaN, 5e-324, -5e-324, 1.7976931348623157e308, 2.2250738585072014e-308];
+    return special[s.int(0, special.length - 1)];
+  };
+  it('the routines in their order, pow and atan2 with two arguments', () => {
+    expect(CROSSHOST_DMATH_ROUTINES.map(([n, a]) => `${n}/${String(a)}`)).toEqual(['pow/2', 'log/1', 'exp/1', 'sin/1', 'cos/1', 'atan2/2', 'atan/1']);
+  });
+  it('equals the digest of 256 (argument, result) pairs per routine from the stage’s stream, recomputed', () => {
+    for (const seed of SEEDS) {
+      const s = crossHostStream('dmath', seed);
+      const w = new CrossHostDigestWriter();
+      for (const name of ['pow', 'log', 'exp', 'sin', 'cos', 'atan2', 'atan'] as const) {
+        for (let i = 0; i < 256; i += 1) {
+          const a = draw(s);
+          if (name === 'pow' || name === 'atan2') w.f64(a).f64(dmath[name](a, draw(s)));
+          else w.f64(a).f64(dmath[name](a));
+        }
+      }
+      expect(stage('dmath').run(seed, ctx())).toEqual({ model: w.hex(), records: null });
+    }
+  });
+});
+
 describe('every seeded stage is a function of its seed', () => {
   it('the same seed twice gives one digest; two seeds give two', () => {
     for (const s of CROSSHOST_KERNEL_STAGES.filter((x) => x.seeded !== false)) {
@@ -145,7 +204,8 @@ describe('every seeded stage is a function of its seed', () => {
 describe('the leg runtime', () => {
   const table = [
     { id: 'u', seeded: false, run: () => ({ model: 'u'.padEnd(32, '0'), records: null }) },
-    { id: 'a', run: (seed: number, c: { carry: Map<string, unknown> }) => (c.carry.set('a', seed), { model: String(seed).padEnd(32, '0'), records: null }) },
+    // 'a' digests the carry's size BEFORE it writes, so a carry shared across seeds shows (hardening round S1, row 2)
+    { id: 'a', run: (seed: number, c: { carry: Map<string, unknown> }) => { const size = c.carry.size; c.carry.set('a', seed); return { model: `${String(seed)}:${String(size)}`.padEnd(32, '0'), records: null }; } },
     { id: 'b', run: (seed: number, c: { carry: Map<string, unknown> }) => ({ model: String(c.carry.get('a')).padEnd(32, '1'), records: 'r'.padEnd(32, '0') }) },
     { id: 'x', run: () => { throw new TypeError('no'); } },
   ];
@@ -156,6 +216,8 @@ describe('the leg runtime', () => {
     expect(r.thread).toBe('main');
     expect(r.cells.map((c) => `${c.stage}@${String(c.seed)}`)).toEqual(['u@null', 'a@5', 'b@5', 'x@5', 'a@6', 'b@6', 'x@6']);
     expect(r.cells[2].model).toBe('5'.padEnd(32, '1'));
+    // every seed's first stage finds an empty carry: one fresh map per seed, never one shared across seeds
+    expect(r.cells.filter((c) => c.stage === 'a').map((c) => c.model)).toEqual(['5:0'.padEnd(32, '0'), '6:0'.padEnd(32, '0')]);
     expect(r.cells[3]).toEqual({ stage: 'x', seed: 5, model: null, records: null, error: 'TypeError: no' });
     expect(r.cells.every((c) => c.ms === undefined)).toBe(true);
   });
