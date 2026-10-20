@@ -89,6 +89,25 @@ describe('the re-derivation pair at one seed (C-0090)', () => {
   });
 });
 
+describe('the standing check on a pair whose standing stage moved (hardening S1, check note 2)', () => {
+  it('a fresh side with a tampered S1, S3 or S4 root, or none, has rootsEqual false; its records and entities as they were', { timeout: SLOW }, () => {
+    const p = pair();
+    expect(matchPair(p).standing.rootsEqual).toBe(true);
+    const withRoots = (roots: readonly (readonly [string, string])[]): RederivedPair => ({ ...p, fresh: { ...p.fresh, run: { ...p.fresh.run, stageRoots: roots } } });
+    for (const s of STANDING) {
+      const tampered = p.fresh.run.stageRoots.map(([n, h]) => [n, n === s ? 'f'.repeat(32) : h] as const);
+      expect(tampered.filter(([n]) => n === s), s).toHaveLength(1);
+      const r = matchPair(withRoots(tampered));
+      expect(r.standing.rootsEqual, s).toBe(false);
+      // only the root was tampered: the records compare and the entities still hold, so rootsEqual alone sees it
+      expect(r.standing, s).toMatchObject({ recordsEqual: true, missing: 0 });
+      expect(r.redrawn, s).toEqual(['S5', 'S6', 'S8']);
+    }
+    // a fresh run without the S4 root is no standing pair either
+    expect(matchPair(withRoots(p.fresh.run.stageRoots.filter(([n]) => n !== 'S4'))).standing.rootsEqual).toBe(false);
+  });
+});
+
 describe('the entities read from the run', () => {
   it('anchor each kind on the arena: a junction at its vertex, a bridge on its river, a district by its seed feature, a way by its ends', { timeout: SLOW }, () => {
     const p = pair();
