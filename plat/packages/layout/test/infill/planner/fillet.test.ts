@@ -3,6 +3,7 @@
 // trigonometric call); otherwise an arc tangent to both legs, spanning the shorter leg end to end, sampled in chords no
 // shorter than w_min or the lattice minimum edge, with at least three points and inside the face — or the corner
 // stays sharp. (The filleted share on NG's recorded shapes is M0-b-05b's, AFTER-M-1.)
+import { LATTICE } from '@plat/kernel';
 import { describe, expect, it } from 'vitest';
 import { fitFillet, planCut, sharpChance } from '../../../src/infill/planner.js';
 import { insideFace, segmentClear } from '../../../src/infill/sides.js';
@@ -108,6 +109,22 @@ describe('the arc (fitFillet)', () => {
     expect(f.filleted).toBe(true);
     expect(f.chordCm).toBeGreaterThan(400);
     checkArc(A, K, B, f.arc, 400);
+  });
+
+  it('holds the lattice minimum edge as the floor when w_min is under it (chords ≥ max(w_min, minEdge))', () => {
+    // w_min 10 cm, under minEdge (25 cm): a right angle whose arc is just above four pieces of 25 cm, so the kernel's
+    // pieces of ≈ 25 cm of arc give straight chords of ≈ 24.8 cm — under minEdge though far above w_min. The floor is
+    // max(w_min, minEdge), and the sampling chord is raised until every straight chord holds it.
+    expect(LATTICE.minEdgeCm).toBe(25);
+    const t = (4 * 25 * (1 + 1e-6)) / (Math.PI / 2);
+    const A = { x: 0, y: 0 };
+    const K = { x: 0, y: t };
+    const B = { x: t, y: t };
+    const f = fitFillet(face, A, K, B, 10, 3);
+    expect(f.filleted).toBe(true);
+    expect(f.chordCm).toBeGreaterThan(LATTICE.minEdgeCm);
+    for (let i = 0; i + 1 < f.arc.length; i += 1) expect(norm(sub(f.arc[i + 1], f.arc[i]))).toBeGreaterThanOrEqual(LATTICE.minEdgeCm);
+    checkArc(A, K, B, f.arc, 10);
   });
 
   it('leaves the corner sharp when the arc would leave the face', () => {

@@ -1,20 +1,22 @@
 // M0-b-02's test support: the fixtures (./faces.ts) and the shape clauses of T37-1 and T38-1 as assertions.
-import { LATTICE } from '@plat/kernel';
+import { LATTICE, runTangent } from '@plat/kernel';
 import { cutCells } from '../../../src/infill/planner.js';
 import { expect } from 'vitest';
 import type { CutGeometry, CutPlanned, FarPlan, PlanContext, XY } from '../../../src/infill/planner.js';
-import { sideDir, type FaceSides } from '../../../src/infill/sides.js';
+import type { FaceSides } from '../../../src/infill/sides.js';
 import { cross, dot, latticeTol, norm, sub, unitV } from './faces.js';
 
 export * from './faces.js';
 
 /**
- * The far run's direction at the foot, computed by the test and not read from the plan (T37-1; the check's B1): the
- * run's chord, or on a curved run its tangent over the ± 5 m window at the foot (§4.6 *Sides*), by `sideDir` on the
- * run the plan names — so a foot solved against the wrong direction (a chord on a curved run) cannot pass.
+ * The far run's direction at the foot, computed by the test and not read from the plan (T37-1): the run's chord, or on
+ * a curved run — one whose edge directions spread at all (C-0222 (2)) — the kernel's `runTangent` over the design's
+ * ± 5 m window at the foot (§4.6 *Sides*), never the planner's own `sideDir`; so a foot solved against the wrong
+ * direction (a chord on a curved run, or a tangent over another window) cannot pass.
  */
 export function farDirAt(sides: FaceSides, far: FarPlan): XY {
-  return sideDir(sides, sides.runs[far.run], far.foot);
+  const run = sides.runs[far.run];
+  return run.spreadCdeg > 0 ? runTangent(run, far.foot, 500) : run.dir;
 }
 
 /** The kept corner's shape clauses on one cut geometry (T37-1, T38-1), against the plan's own frame. */
