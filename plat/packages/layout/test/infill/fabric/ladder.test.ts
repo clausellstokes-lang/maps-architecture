@@ -2,12 +2,13 @@
 // perpendicular cut through the longest run's midpoint and its slide (2 · attractCm steps, alternating, the lower (y, x)
 // end first, refused by a boundary vertex within attractCm), the antenna's tip, and the judgement a candidate passes
 // before any kernel call (landing, crossing, contact, the class floor's width and corner, two holes).
-import { LATTICE, type LatticePoint } from '@plat/kernel';
+import { LATTICE, type Cm, type LatticePoint } from '@plat/kernel';
 import { describe, expect, it } from 'vitest';
 import {
   antennaTips,
   contactClear,
   continuationVerdict,
+  cutCells,
   judge,
   kerbEndsSquare,
   longestRun,
@@ -20,8 +21,9 @@ import {
   type KerbFace,
 } from '../../../src/index.js';
 import { faceSides } from '../../../src/infill/sides.js';
-import { CELLS, P } from './support.js';
 
+const P = (x: number, y: number): LatticePoint => ({ x: x as Cm, y: y as Cm });
+const CELLS = cutCells();
 const FLOOR = { minWidthCm: 1200, minAngleCdeg: 1200 };
 
 function sidesOf(rings: LatticePoint[][]) {

@@ -85,7 +85,7 @@ function rerun(op: string, build: () => ReturnType<typeof network>): RefusalClas
       commit(n.p, 2, (o) => corridorUnion(o, n.faces, ws), AT_S9);
       return n;
     };
-    out.push(classify(b, replayCommit({ build: rebuilt, level: 3, over: AT_S9, widths: bw, edgeRole: 'band', entityOf: () => 'band:1', vertexContacts: false })));
+    out.push(classify(b, replayCommit({ build: rebuilt, level: 3, over: AT_S9, widths: bw, edgeRole: 'band', entityOf: () => 'band:1' })));
   }
   return out;
 }

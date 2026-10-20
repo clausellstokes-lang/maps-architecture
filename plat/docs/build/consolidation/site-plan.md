@@ -684,7 +684,7 @@ refuses …"; K12 → "F-WORK: a low hydro.cells limit …"; K13, K23 → "recom
 the cell size"; K15, L3c → `surface.test.ts` "where the hydrology's D8 runs straight back …"; K17 → "a sink in the
 course …" (`tier: 2`); K18 → "with no bearing the inlet lies on the highest edge …"; K19 → "the inlet rung (rung 3, an
 attempt) …"; K20, F1 → "a degraded river reports reachesCore on the course it delivers …"; K21 → "the basic estuary
-widens …"; K22 → "a tributary from the east edge joins the river"; K24, K24c → `river.test.ts` "the course is the knots' Chaikin smoothing, three rounds, rounded to the centimetre …" (corrected 2026-10-19 by the session on M0-e-02's hardening-round report N-c1-5: the row had named "a self-touching course is re-traced …", which K24 passes on the tree after fix round 1, C-0175; the Chaikin pin is the round's);
+widens …"; K22 → "a tributary from the east edge joins the river"; K24 → "a self-touching course is re-traced …";
 L3a, L3b, L3d, L3f, L3g → `relief-bar.test.ts` "CITY[ with hydroCoarsen]: a river from the highest edge …"; L3e
 survives (note N-1, hardening — a line-fault detour fixture is a new pin for the hardening phase, not this round).
 No new pin.

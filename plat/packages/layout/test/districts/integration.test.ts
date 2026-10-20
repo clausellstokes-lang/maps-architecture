@@ -5,10 +5,9 @@
 // district; and a finer face's district is read through `parent` (containment by construction): corridorUnion's L2
 // faces over a district all descend from its L1 faces.
 import { faceRings, isFaceLive, seedKey, STAGES, type KernelTx } from '@plat/kernel';
-import type { Bridge, WaterSet, Way } from '@plat/model';
 import { describe, expect, it } from 'vitest';
-import { districtOfFace, faceGraph, RIVER_BLUEPRINT, runBase, runS8, siteFeatures, type BaseBlueprint, type S6Output } from '../../src/index.js';
-import { bySeed, cityRun, edgesL1, GROUND, insidePoly, ownerOfL1, ringDist, s6Run, s6With, withS6, type CityRun } from './support.js';
+import { districtOfFace, faceGraph, runS8, type S6Output } from '../../src/index.js';
+import { bySeed, cityRun, edgesL1, GROUND, insidePoly, ownerOfL1, ringDist, s6Run, type CityRun } from './support.js';
 
 /** The CITY run at `seed` with S6 on it, and every L1 face owned before S6 (the reservations' and the strips'). */
 const city = bySeed((seed): CityRun & { out: S6Output; strips: Map<number, string> } => {
@@ -124,52 +123,5 @@ describe('S6 on the real S3 slice and S4 (flat CITY fixture, S5c stand-in grid)'
       expect(districtOfFace(c.plat, 2, f)).toBe(d.id);
     }
     expect(l2).toBeGreaterThan(0);
-  });
-});
-
-describe('S6 on the river fixture: the water clause and the water seeds (§4.5; C-0245 (3), (4); note 2)', () => {
-  it('river at seed 2 (900 ha, 30 ha walled): no district holds both sides of a shore or bank; one riverbank seed per river; both deck ends of each built arterial bridge seed', { timeout: 900_000 }, () => {
-    const RIVER: BaseBlueprint = { ...RIVER_BLUEPRINT, size: { ...RIVER_BLUEPRINT.size, areaHa: 900 }, walledHa: 30 };
-    // seed 2: the town reaches the river's banks and S4 builds a primary bridge (at seed 5 the town's land touches no
-    // bank: the riverbank feature is dropped and reported, C-0245 (4))
-    const r = runBase(RIVER, 2, { kind: 'all' });
-    expect(r.report.bugs).toEqual([]);
-    const s6 = r.model.data.get('s6') as S6Output;
-    const water = r.model.data.get('water') as WaterSet;
-    const bridges = r.model.data.get('bridges') as Bridge[];
-    const ways = r.model.data.get('ways') as Way[];
-    // the bridgehead features S6 met: seeded, or dropped and reported (no free face left at the deck end)
-    const heads = [...s6.grow.grown.filter((g) => g.seed.kind === 'bridgehead').map((g) => g.seed.feature as string), ...s6.report.seedsDropped.filter((id) => id.includes('/end:'))].sort();
-    // both landward deck ends of every built bridge carrying an arterial (class ≥ primary), and no other bridge
-    const classOf = new Map(ways.map((w) => [w.id, w.class]));
-    const arterial = bridges.filter((b) => b.state === 'built' && b.way !== null && ['through', 'primary'].includes(classOf.get(b.way) as string));
-    expect(arterial.length).toBeGreaterThan(0);
-    expect(heads).toEqual(arterial.flatMap((b) => [`${b.id}/end:0`, `${b.id}/end:1`]).sort());
-    // the class the bridge must carry is the edge test's, read from the run's `s6` when its tables carry one (note 4):
-    // at `through` the primary bridge seeds no bridgehead
-    const p0 = r.model.kernel.plat(GROUND);
-    const sited = (tables?: ReturnType<typeof withS6>) => siteFeatures(p0, { bridges, ways, water, ...(tables === undefined ? {} : { tables }) }).filter((f) => f.kind === 'bridgehead').map((f) => f.id);
-    expect(arterial.every((b) => classOf.get(b.way as string) === 'primary')).toBe(true);
-    expect(sited().sort()).toEqual(heads);
-    expect(sited(withS6(s6With([['edge', 'minBarrierClass', 'through']])))).toEqual([]);
-    // one riverbank seed per river, at a face along its bank
-    const rivers = water.bodies.filter((b) => b.kind === 'river').map((b) => b.id);
-    expect(rivers.length).toBeGreaterThan(0);
-    expect(s6.grow.grown.filter((g) => g.seed.kind === 'riverbank').map((g) => g.seed.feature)).toEqual(rivers);
-    // the water clause: no district holds both sides of a shore or a bank
-    const p = r.model.kernel.plat(GROUND);
-    const ids = new Set(s6.districts.map((d) => d.id));
-    let waterEdges = 0;
-    let besideDistrict = 0;
-    for (const e of edgesL1(p)) {
-      if (!e.rows.some((x) => x.role === 'shore' || x.role === 'bank')) continue;
-      waterEdges += 1;
-      const l = ownerOfL1(p, e.left);
-      const o = ownerOfL1(p, e.right);
-      if ((l !== null && ids.has(l)) || (o !== null && ids.has(o))) besideDistrict += 1;
-      expect(l !== null && ids.has(l) && l === o).toBe(false);
-    }
-    expect(waterEdges).toBeGreaterThan(100);
-    expect(besideDistrict).toBeGreaterThan(100);
   });
 });

@@ -5,12 +5,12 @@
   "lanes": ["session/consolidation-site"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-19T01:43:21.913Z",
+  "date": "2026-10-12T05:31:29.895Z",
   "ownsSource": "declared",
   "owns": ["plat/docs/build/consolidation/site-plan.md"],
   "counts": { "created": 1, "changed": 0, "unchanged": 0, "deleted": 0 },
   "files": [
-    { "path": "plat/docs/build/consolidation/site-plan.md", "status": "created", "sha256": "8989c9851def47c209f6ead93be36e042b5dafd293968560daa66bc7a524d1ff", "size": 81201 }
+    { "path": "plat/docs/build/consolidation/site-plan.md", "status": "created", "sha256": "2c4b242050a19c82311287713ad0bcda6464b7ec10663ec1caa95bf327c68c90", "size": 80901 }
   ],
   "appends": [
     {

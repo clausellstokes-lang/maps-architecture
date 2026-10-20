@@ -21,17 +21,22 @@
 //   `unsmoothed`); a batch the kernel refuses is re-run once on every chain's lattice course, else refused;
 // * the water rule is never given up (§2.2 rule 7, C-0076; C-0250): a course that still meets the water off a deck end
 //   after the fallbacks falls to its lattice course, and a lattice course that does is refused (`E_INVARIANT`), never
-//   committed — S4's routes reach here dry (./stage.ts), so the refusal is a fail-safe, not a path.
+//   committed — S4's routes reach here dry (./stage.ts), so the refusal is a fail-safe, not a path;
+// * each route part reaches the graph without a spur (c-03 S3; Q52 A): a point whose neighbour lies within `attractCm`
+//   of its segment to the other neighbour is dropped, so §3.6's attraction never folds a way onto itself;
+// * the junction kinds are read from the courses committed: after a fallback to the lattice courses, from those; the
+//   report's `stretchShared` counts the way edges two or more ways share (c-03 S3).
 import { compareKeys, err, kernelOp, ok, STAGES, type Kernel, type KernelOp, type KernelResult, type LatticePoint, type PlatKey, type Polygon, type StageId } from '@plat/kernel';
 import { lineageHash, TOWN_ROOT, type Bridge, type ChainProfile, type Cm, type Gate, type Id, type Junction, type NodeRef, type Way } from '@plat/model';
 import { loadWorkLimits, workLimitOf, type BaseRung, type TableView } from '@plat/tables';
+import { TOUCH_CM } from '../enceinte/plane.js';
 import { generated } from '../enceinte/water.js';
 import { distToSegment, insideRing, segmentsMeet } from '../siting/geom.js';
 import { classGeometryCm, classify, classRank } from './classify.js';
 import { arterialGraph, chainPoints, foldParallel, pointKey } from './graph.js';
 import { angleBetweenCdeg, armsAt, junctionRules, THROUGH_MIN_CDEG } from './junctions.js';
 import { finishChain, simplifyChain, type Simplified } from './smooth.js';
-import type { ArterialGraph, Chain, ChainClass, JunctionRule, Network, RouteClass, S4Report, S4Result, S4Route } from './types.js';
+import type { ArterialGraph, Chain, ChainClass, JunctionRule, Network, RouteClass, RoutePoint, S4Report, S4Result, S4Route } from './types.js';
 
 /** The ground arena, ground part 0. */
 export const GROUND_PART0: PlatKey = Object.freeze({ layer: 'ground', part: 0 });
@@ -288,6 +293,47 @@ function junctionKind(g: ArterialGraph, polys: readonly Simplified[], v: number,
 }
 
 /**
+ * A route part's course made one simple spine before the graph (c-03 S3; Q52 A, R-35): §4.3 inserts each chain once "as
+ * a spine — a `mandatory` chain carrying the `way` role", and a way is one simple chain (§3.10's role consistency). A
+ * spur — a point whose two neighbours fold back onto each other, one of them within `attractCm` of the segment from the
+ * point to the other — is a course §3.6's attraction routes through that neighbour, so the way would branch there (the
+ * attach point's lattice neighbour lying beyond it, the next edge passing the attach point within a few cm): the point
+ * is dropped and the course runs straight along the segment it folded onto, until none is left. Pinned points are never
+ * dropped, nor a point whose two neighbours' segment would meet one of `avoid`'s sides (the plaza's, the wall's, the
+ * water's) but at its own ends; a part with no spur is returned as it is.
+ */
+function withoutSpurs(r: S4Route, avoid: readonly Seg[]): S4Route {
+  const pts = r.points;
+  const keep = pts.map(() => true);
+  let changed = false;
+  for (let guard = 0; guard < pts.length; guard += 1) {
+    const live: number[] = [];
+    for (let i = 0; i < pts.length; i += 1) if (keep[i]) live.push(i);
+    let cut = -1;
+    for (let m = 1; m + 1 < live.length && cut === -1; m += 1) {
+      const p = pts[live[m]];
+      if (p.pin !== undefined) continue;
+      const a = pts[live[m - 1]].at;
+      const b = pts[live[m + 1]].at;
+      if (distToSegment(a, p.at, b) > TOUCH_CM && distToSegment(b, a, p.at) > TOUCH_CM) continue;
+      if (!avoid.some((side) => meetsOff(a, b, side, [a, b]))) cut = live[m];
+    }
+    if (cut === -1) break;
+    keep[cut] = false;
+    changed = true;
+  }
+  if (!changed) return r;
+  const index = new Map<number, number>();
+  const points: RoutePoint[] = [];
+  pts.forEach((p, i) => {
+    if (!keep[i]) return;
+    index.set(i, points.length);
+    points.push(p);
+  });
+  return { ...r, points, spans: r.spans.map((s) => ({ at: index.get(s.at) as number, bridge: s.bridge })) };
+}
+
+/**
  * §4.3's commit of `routes` as one graph (see the header): the graph, the classes, the smoothing, the way and junction
  * records, the batch. Refused with the kernel's code when the batch is refused on the lattice courses too.
  */
@@ -297,8 +343,8 @@ export function commitRoutes(routes: readonly S4Route[], k: Kernel, opts: Commit
   const epoch = opts.epoch ?? 0;
   const ways = tables.table('ways');
   const mergeCm = ways.num('graph', 'junctionMergeM') * 100;
-  const sorted = routes.slice().sort((a, b) => a.order - b.order || (a.part === b.part ? 0 : a.part === 'inward' ? -1 : 1));
   const avoid: Seg[] = [...(opts.plaza === undefined ? [] : ringSegs(opts.plaza)), ...(opts.wall === undefined ? [] : ringSegs(opts.wall)), ...(opts.water ?? []).flatMap((r) => ringSegs(r))];
+  const sorted = routes.slice().sort((a, b) => a.order - b.order || (a.part === b.part ? 0 : a.part === 'inward' ? -1 : 1)).map((r) => withoutSpurs(r, avoid));
   // The fold reads each part's class; a part whose chains the betweenness promotes is folded again at the class it
   // took (C-0236 (16)): two passes.
   let folded = foldParallel(sorted, (r) => classGeometryCm(tables, r.class).separationCm, opts.spacingCm, avoid);
@@ -445,25 +491,29 @@ export function commitRoutes(routes: readonly S4Route[], k: Kernel, opts: Commit
   const jNodes = [...endNodes].sort((a, b) => g.nodes[a].at.y - g.nodes[b].at.y || g.nodes[a].at.x - g.nodes[b].at.x);
   const junctionOf = new Map<number, Id>();
   jNodes.forEach((v, i) => junctionOf.set(v, `junction:${String(i)}`));
-  const finalPolys: Simplified[] = g.chains.map((c) => ({ points: course(c.index), anchor: course(c.index).map(() => false) }));
-  const junctions: Junction[] = jNodes.map((v) => {
-    const arms = new Set<string>();
-    let count = 0;
-    for (const c of g.chains) {
-      const a = c.nodes[0];
-      const b = c.nodes[c.nodes.length - 1];
-      if (a === v) {
-        arms.add(wayIds[owner[c.index]]);
-        count += 1;
+  // The junction records, their kinds read from the courses committed (re-read after a fallback to the lattice courses).
+  const junctionsOn = (courseOf: (ci: number) => LatticePoint[]): Junction[] => {
+    const polys: Simplified[] = g.chains.map((c) => ({ points: courseOf(c.index), anchor: courseOf(c.index).map(() => false) }));
+    return jNodes.map((v) => {
+      const arms = new Set<string>();
+      let count = 0;
+      for (const c of g.chains) {
+        const a = c.nodes[0];
+        const b = c.nodes[c.nodes.length - 1];
+        if (a === v) {
+          arms.add(wayIds[owner[c.index]]);
+          count += 1;
+        }
+        if (b === v) {
+          arms.add(wayIds[owner[c.index]]);
+          count += 1;
+        }
       }
-      if (b === v) {
-        arms.add(wayIds[owner[c.index]]);
-        count += 1;
-      }
-    }
-    const id = junctionOf.get(v) as Id;
-    return { id, vertex: { role: 'junction', entity: id, ordinal: 0 }, arms: [...arms].sort(compareKeys), kind: junctionKind(g, finalPolys, v, count), lifecycle: generated(epoch) };
-  });
+      const id = junctionOf.get(v) as Id;
+      return { id, vertex: { role: 'junction', entity: id, ordinal: 0 }, arms: [...arms].sort(compareKeys), kind: junctionKind(g, polys, v, count), lifecycle: generated(epoch) };
+    });
+  };
+  let junctions = junctionsOn(course);
 
   // Way records, with their width profiles.
   const knotsOf = new Map<number, { index: number; role: string; ordinal: number; entity: Id }[]>();
@@ -587,10 +637,25 @@ export function commitRoutes(routes: readonly S4Route[], k: Kernel, opts: Commit
     committed = again;
     spines = raw.map((r) => r.slice());
     unsmoothed = g.chains.length;
+    junctions = junctionsOn((ci) => raw[ci]);
   }
   if (!committed.ok) return err(committed.code, `S4: the spines' batch: ${committed.detail}`);
+  // The braids the graph merge missed: the way edges two or more ways share, read from the arena (c-03 S3; a way laid
+  // along a non-way ring — the plaza's side next to its attach point — shares a stretch the kernel warns of, no braid).
+  const wayOfPair = new Map<number, Id>();
   let stretchShared = 0;
-  for (const w of committed.warnings) if (w.code === 'W_STRETCH_SHARED') stretchShared += w.count;
+  for (const id of wayIds) {
+    const r = k.resolve({ role: 'way', entity: id }, key);
+    if (r.view !== 'edges') continue;
+    for (const run of r.runs) {
+      for (const h of run) {
+        const pair = Math.floor(h * 0.5);
+        const other = wayOfPair.get(pair);
+        if (other === undefined) wayOfPair.set(pair, id);
+        else if (other !== id) stretchShared += 1;
+      }
+    }
+  }
 
   // The bridges a span uses become built; the gates take their outward way and junction.
   const spanWay = new Map<Id, Id>();

@@ -150,9 +150,8 @@ function pairText(p: Plat, h: HalfEdgeId): string {
 /**
  * A commit record read on the committed arena, slot-free: the dirty faces by their canonical keys in the record's own
  * order (removed records by count — their slots are dead), the counts and the work, the vertex lists as points in the
- * record's order, the demoted edges by their ends in the record's order (C-0185 (17); hardening round S1, N-2: no
- * longer sorted here, so a kernel that lists them in slot order is seen), the owners, role keys and warnings. The
- * record's lists are §3.3's canonical orders, so their order is compared too.
+ * record's order, the demoted edges by their ends, the owners, role keys and warnings. The record's lists are §3.3's
+ * canonical orders, so their order is compared too.
  */
 export function recordPrint(p: Plat, r: CommitRecord): string {
   const live = (v: VertexId): string => (isVertexLive(p, v) ? pointText(p, v) : 'dead');
@@ -168,7 +167,7 @@ export function recordPrint(p: Plat, r: CommitRecord): string {
     counts: [r.edgesAdded, r.edgesRemoved, r.steinerAdded, r.steinerDissolved, r.work],
     moved: r.moved.map(live),
     promoted: r.promoted.map(live),
-    demoted: [r.demoted.vertices.map(live), r.demoted.edges.map((h) => (isHalfEdgeLive(p, h) ? pairText(p, h) : 'dead'))],
+    demoted: [r.demoted.vertices.map(live), r.demoted.edges.map((h) => (isHalfEdgeLive(p, h) ? pairText(p, h) : 'dead')).sort()],
     unflagged: r.unflagged.map(live),
     owners: r.owners,
     roles: r.roles.map((k) => `${k.role}/${k.entity}/${k.ordinal}`),
@@ -177,13 +176,12 @@ export function recordPrint(p: Plat, r: CommitRecord): string {
 }
 
 /**
- * One batch's outcome, slot-free: a refusal by its code (a refusal's detail is diagnostic text that may name an op's
- * issue position or a slot, C-0199 (1)) and the arena it left (§2.2 rule 8: a refused batch leaves the arena at its
- * version — hardening round S1, N-8: compared here, so a refused last batch's arena is compared too), `nothing` and the
- * arena for a batch that wrote nothing, or the commit — the record, the five level digests and the arena print.
+ * One batch's outcome, slot-free: a refusal by its code alone (a refusal's detail is diagnostic text that may name an
+ * op's issue position or a slot, C-0199 (1)), `nothing` for a batch that wrote nothing, or the commit — the record, the
+ * arena print and the five level digests.
  */
 export function outcomePrint(p: Plat, r: KernelResult<Committed<unknown>>): string {
-  if (!r.ok) return `refused ${r.code}\n${arenaPrint(p)}`;
+  if (!r.ok) return `refused ${r.code}`;
   if (r.value.record === null) return `nothing\n${arenaPrint(p)}`;
   return `commit ${recordPrint(p, r.value.record)}\n${levelDigestsHex(p).join(' ')}\n${arenaPrint(p)}`;
 }

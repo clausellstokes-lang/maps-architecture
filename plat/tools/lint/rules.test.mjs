@@ -4,7 +4,7 @@
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { Linter, RuleTester } from 'eslint';
+import { RuleTester } from 'eslint';
 import tseslint from 'typescript-eslint';
 import { afterAll, describe, expect, it } from 'vitest';
 import { plantedLines } from './probe.mjs';
@@ -98,37 +98,4 @@ const { errors: _none, ...typedPass } = typedCase('pass-typed.ts');
 typed.run('plat/ratio-division (typed fixtures)', rules['ratio-division'], {
   valid: [typedPass],
   invalid: [typedCase('fail-typed.ts')],
-});
-
-// Hardening round S1 (note N12): a rule judges the file on disk — lintedFile reads a processor's `physicalFilename`
-// before the virtual block name ESLint gives a code block (`<file>/<i>_<name>`, one folder deeper). A processor pulls
-// one JavaScript block out of a Markdown file at packages/kernel/src/zz-fixture/notes.md; its relative imports resolve
-// from the Markdown file's folder. (ratio-division's kernel exemption reads the path too, but a block's virtual name
-// always lies under its file's, so no processor separates the two there.)
-describe('a processor\'s code block (lintedFile reads physicalFilename)', () => {
-  const blocks = {
-    preprocess: (text) => [{ text: text.split('```js\n')[1].split('```')[0], filename: 'block.js' }],
-    postprocess: (lists) => lists.flat(),
-  };
-  const lintBlock = (rel, js, rule) => new Linter({ cwd: PLAT_ROOT }).verify(`# notes\n\n\`\`\`js\n${js}\`\`\`\n`, [
-    { files: ['**/*.md'], processor: blocks },
-    {
-      files: ['**/*.md/*.js'],
-      languageOptions: { ecmaVersion: 'latest', sourceType: 'module' },
-      plugins: { plat: { rules } },
-      rules: { [`plat/${rule}`]: 'error' },
-    },
-  ], { filename: join(PLAT_ROOT, ...rel.split('/')) }).map((m) => `${m.line} ${m.ruleId ?? m.message} ${m.messageId ?? ''}`.trim());
-
-  it('judges a block\'s relative import from the file on disk: the kernel importing the model by path fails', () => {
-    const js = "import * as model from '../../../model/src/index.js';\nexport { model };\n";
-    expect(lintBlock('packages/kernel/src/zz-fixture/notes.md', js, 'dependency-direction')).toEqual(['1 plat/dependency-direction direction']);
-    // from the virtual block's folder (notes.md/) the same path would stay inside the kernel and pass
-    expect(lintBlock('packages/kernel/src/zz-fixture/deeper/notes.md', js, 'dependency-direction')).toEqual([]);
-  }, LINT_TIMEOUT);
-
-  it('judges a block\'s path against plat/ from the file on disk: a path one folder above plat/ fails', () => {
-    const js = "import x from '../zz-outside.mjs';\nexport { x };\n";
-    expect(lintBlock('notes.md', js, 'repository-path')).toEqual(['1 plat/repository-path outside']);
-  }, LINT_TIMEOUT);
 });

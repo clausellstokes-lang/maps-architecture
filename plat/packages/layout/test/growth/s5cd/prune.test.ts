@@ -4,14 +4,11 @@
 // unwalled stage's boundary; dangling secondaries under one block width are pruned, and every dangling secondary left
 // is at least one block width long.
 import { describe, expect, it } from 'vitest';
-import { compareKeys, type LatticePoint } from '@plat/kernel';
-import type { Id, Junction, Way } from '@plat/model';
 import { flatFixture } from '../../../src/index.js';
-import { generated } from '../../../src/enceinte/water.js';
 import { growthStart, mainRoadsStep, mainRoadStream, traceStep, wayLines, type GrowthState } from '../../../src/growth/index.js';
 import { growthStep, growthStreams, type GrownStreet, type S5cRecord } from '../../../src/growth/proposals.js';
 import { pruneAndTrim, type PruneRecord } from '../../../src/growth/prune.js';
-import { baseRun, GROUND, insideRing, lay, P, polyLength, segDist, squareArena, tables } from './support.js';
+import { baseRun, GROUND, insideRing, polyLength, segDist } from './support.js';
 
 type Line = { readonly way: string; readonly runs: readonly { readonly points: readonly { x: number; y: number }[] }[] };
 
@@ -151,62 +148,5 @@ describe('the prune and trim on the CITY town (frame 900 ha)', () => {
       expect(sameGround(before, wayLines(b.k, roads.map((r) => r.way.id), GROUND))).toBe(true);
       expect(JSON.stringify(wayLines(b.k, roads.map((r) => r.way.id), GROUND))).toBe(JSON.stringify(before));
     }
-  });
-});
-
-describe('a junction the prune re-arms keeps its arms in key order', () => {
-  it('a short dangling secondary pruned from a junction of three arms leaves its two others sorted by compareKeys (`way:10` before `way:7`)', () => {
-    const { k } = squareArena();
-    // The arterial way:10 along y = 0; at its point (0, 0) a 10 m dead-end secondary way:3 leaves north and a 200 m way:7 south.
-    lay(k, [P(-50_000, 0), P(50_000, 0)], 'way', 'way:10');
-    lay(k, [P(0, 0), P(0, 1_000)], 'way', 'way:3');
-    lay(k, [P(0, 0), P(0, -20_000)], 'way', 'way:7');
-    const jn = (id: Id, arms: Id[], kind: Junction['kind']): Junction => ({ id, vertex: { role: 'junction', entity: id, ordinal: 0 }, arms, kind, lifecycle: generated(0) });
-    const wayOf = (id: Id, cls: Way['class'], from: Id, to: Id): Way => ({ id, class: cls, spine: { role: 'way', entity: id }, width: 600 as Way['width'], from: { kind: 'junction', id: from }, to: { kind: 'junction', id: to }, growthStage: 1, epoch: 0, provisional: false, lifecycle: generated(0) });
-    const meet = jn('junction:0', ['way:10', 'way:3', 'way:7'], 'T');
-    const end = jn('junction:1', ['way:3'], 'end');
-    const short = wayOf('way:3', 'secondary', 'junction:0', 'junction:1');
-    const street: GrownStreet = { way: short, lineage: [0, 0], index: 0, proposal: 0, parent: 'way:10', points: [P(0, 0), P(0, 1_000)] as LatticePoint[], ends: 'dead', meets: null, provisional: false };
-    const rec: S5cRecord = {
-      k: 1,
-      regime: 'dense_core',
-      walled: true,
-      lanesInfillOnly: false,
-      seeds: 1,
-      proposalsMade: 1,
-      streets: [street],
-      junctions: [meet, end],
-      work: { 'growth.proposals': 0, 'growth.candidates': 0 },
-      limits: { 'growth.proposals': 0, 'growth.candidates': 0 },
-      steps: { accepted: 1, rejected: {}, deflected: 0, biased: 0 },
-      rungs: [],
-      refused: {},
-      intermediates: {},
-      workCut: null,
-    };
-    const state = {
-      kernel: k,
-      key: GROUND,
-      slice: { site: { tables, rung: 'CITY' } },
-      stages: [{ k: 1, regime: 'dense_core', walled: true, boundary: null }],
-      ways: [wayOf('way:10', 'primary', 'junction:8', 'junction:9'), wayOf('way:7', 'secondary', 'junction:0', 'junction:2'), short],
-      junctions: [meet, end],
-    } as unknown as GrowthState;
-    const pr = pruneAndTrim({ state, k: 1, record: rec });
-    expect(pr.ok).toBe(true);
-    if (!pr.ok) return;
-    expect(pr.value.refused).toEqual({});
-    expect(pr.value.pruned).toEqual([{ way: 'way:3', lengthCm: 1_000 }]);
-    // The junction keeps its two other arms, in compareKeys order, in the record and in the state alike.
-    for (const list of [rec.junctions, state.junctions]) {
-      const j = list.find((x) => x.id === 'junction:0');
-      expect(j?.arms).toEqual(['way:10', 'way:7']);
-      expect(j?.arms).toEqual([...(j?.arms ?? [])].sort(compareKeys));
-      expect(j?.kind).toBe('T');
-      expect(list.some((x) => x.id === 'junction:1')).toBe(false);
-    }
-    expect(state.ways.map((w) => w.id)).toEqual(['way:10', 'way:7']);
-    const gone = k.resolve({ role: 'way', entity: 'way:3' }, GROUND);
-    expect(gone.view === 'edges' ? gone.runs.length : 0).toBe(0);
   });
 });

@@ -24,7 +24,7 @@
 // end is the slit of connectHole), cross no boundary, pass no boundary vertex within attractCm of its interior, and give
 // two children whose outer rings' OBB minor extent and every new corner meet the class floor (`BlockFloor`).
 import { dmath, LATTICE, obb, orient2d, ratio, snap, type LatticePoint } from '@plat/kernel';
-import { arrivalDot2, arrivesSquare, RAD_PER_CDEG, TOUCH_CM, type CutCells, type EndPlan, type KerbFace, type StartPlan, type FarPlan, type XY } from './planner.js';
+import type { CutCells, EndPlan, KerbFace, StartPlan, FarPlan, XY } from './planner.js';
 import {
   along,
   cross,
@@ -43,12 +43,18 @@ import {
   unit,
   type FaceSides,
 } from './sides.js';
-import { SCALE } from './width.js';
 
-/** The touch tolerance (cm) the ladder's rays and segments read: the planner's, re-exported by path. */
-export { TOUCH_CM };
+/** The tolerance of a touch at a segment's end (cm): half a lattice unit, as the planner's. */
+export const TOUCH_CM = 0.5;
 
-/** n ÷ d through ratio() (the division rule, §3.2 (8)), both scaled by width.ts's `SCALE` (2²⁰); null below the floor. */
+/** 2²⁰: small denominators are scaled by it before ratio() (exact). */
+const SCALE = 1_048_576;
+
+/** π to the double nearest it (Math.PI is outside §6.5 (3)'s allowlist), and radians per centidegree. */
+const PI = 3.141592653589793;
+const RAD_PER_CDEG = PI / 18000;
+
+/** n ÷ d through ratio() (the division rule, §3.2 (8)), both scaled by 2²⁰; null below the floor. */
 export function div(n: number, d: number): number | null {
   const r = ratio(n * SCALE, d * SCALE, 'length');
   return r.ok ? r.value : null;
@@ -77,22 +83,21 @@ export interface Candidate {
 }
 
 // ---- step 7 for a straight candidate -------------------------------------------------------------------------------
-//
-// The arrival band's bound (`arrivalDot2`), its test (`arrivesSquare`), the touch tolerance and radians per centidegree
-// are the planner's, imported by path. `spineHit`, `endOf` and `slideEnd` are the ladder's own: the ladder's
-// `spineHit` admits denominators the planner's refuses (2²⁰-scaled `div`); both stay by design.
+
+/** The squared-cosine bound of the portal arrival band (as the planner's, C-0222 (9)). */
+function arrivalDot2(cells: CutCells): number {
+  const [lo, hi] = cells.portalArrivalCdeg;
+  const a = cosCdeg(lo);
+  const b = cosCdeg(hi);
+  return Math.max(a * a, b * b);
+}
 
 /** cos of an angle in centidegrees, by dmath (§6.5 (3)). */
 function cosCdeg(c: number): number {
   return dmath.cos(c * RAD_PER_CDEG);
 }
 
-/**
- * The first spine the ray from an end crosses within reach (C-0222 (9)): 2 × its half-width + attractCm. Its two
- * quotients go through `div` (both operands scaled by 2²⁰), so a denominator in [2⁻²⁰, 1) — a ray nearly parallel to
- * a spine edge — still finds its hit, where the planner's `spineHit` (plain `ratio`) finds none; where both find one the
- * quotients are bit-equal.
- */
+/** The first spine the ray from an end crosses within reach (C-0222 (9)): 2 × its half-width + attractCm. */
 function spineHit(face: KerbFace, from: XY, dir: XY): { spine: number; t: number; point: XY } | null {
   let best: { spine: number; t: number; point: XY } | null = null;
   (face.spines ?? []).forEach((sp, si) => {
@@ -111,10 +116,7 @@ function spineHit(face: KerbFace, from: XY, dir: XY): { spine: number; t: number
   return best;
 }
 
-/**
- * One end extended along its arrival to its spine, or kept on the kerb or the hole (step 7, before a slide). The
- * planner's statements, on the ladder's `spineHit`.
- */
+/** One end extended along its arrival to its spine, or kept on the kerb or the hole (step 7, before a slide). */
 function endOf(face: KerbFace, kerbPoint: XY, ring: number, from: XY): EndPlan {
   const arrival = unit(sub(kerbPoint, from)) ?? { x: 0, y: 0 };
   if (ring > 0) return { kind: 'hole', kerbPoint, point: kerbPoint, arrival, index: ring, slidCm: 0 };
@@ -123,11 +125,18 @@ function endOf(face: KerbFace, kerbPoint: XY, ring: number, from: XY): EndPlan {
   return { kind: 'spine', kerbPoint, point: h.point, arrival, index: h.spine, slidCm: 0 };
 }
 
+/** Does the leg from `from` arrive at `at` on a spine of direction `d` within the band? */
+function arrivesSquare(d: XY, from: XY, at: XY, bound: number): boolean {
+  const u = unit(sub(at, from));
+  if (u === null) return false;
+  const c = dot(u, d);
+  return c * c <= bound;
+}
+
 /**
  * The portal gap's slide of one end (§4.6 step 7, C-0222 (9)'s reading): an end inside max(6 m, 2 × the wider lane's
  * width) of a portal on a district-bounding spine moves to the gap's edge — the nearer side first, ties the lower arc
  * length — keeping its arrival within the band; null when neither side does (the next rung); unchanged outside a gap.
- * The planner's gap arithmetic; the new kerb point is re-derived on the candidate's rings (the planner reads its sides).
  */
 function slideEnd(face: KerbFace, rings: readonly (readonly LatticePoint[])[], end: EndPlan, from: XY, cells: CutCells, newLaneCm: number): EndPlan | null {
   if (end.kind !== 'spine') return end;
@@ -301,12 +310,8 @@ export function runRing(sides: FaceSides, r: number): number {
 
 // ---- the reflex pre-cut ----------------------------------------------------------------------------------------------
 
-/**
- * The convex hull of a set of lattice points (Andrew's monotone chain), counter-clockwise, collinear points dropped;
- * exact orientation (`orient2d`). The fabric's one hull — the reflex pre-cut's lids here, the district's L_ref in
- * bentCutFabric.ts (§4.6 step 9) — exported for its files to import by path.
- */
-export function hullOf(ring: readonly LatticePoint[]): LatticePoint[] {
+/** The convex hull of a ring's points (Andrew's monotone chain), counter-clockwise; exact orientation on the lattice. */
+function hullOf(ring: readonly LatticePoint[]): LatticePoint[] {
   const pts = ring.slice().sort((a, b) => a.x - b.x || a.y - b.y);
   const lower: LatticePoint[] = [];
   for (const p of pts) {
@@ -605,4 +610,9 @@ export function continuationVerdict(c: { bounding: boolean; spineClass: string; 
   if (rank(c.spineClass) > rank(c.cutClass)) return 'continuation-class';
   if (!c.leaving.some((d) => d.x * c.arrival.x + d.y * c.arrival.y >= c.cosTol)) return 'continuation-angle';
   return null;
+}
+
+/** The cut's length on the kerb (the width law's L): its kerb points' polyline length. */
+export function kerbLength(points: readonly XY[]): number {
+  return lineLength(points);
 }
