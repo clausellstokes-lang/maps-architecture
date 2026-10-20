@@ -6,6 +6,7 @@
 // rung'.
 import { describe, expect, it } from 'vitest';
 import { planCut, type KerbFace, type KerbSpine } from '../../../src/infill/planner.js';
+import { lengthAt, pointAtLength } from '../../../src/infill/sides.js';
 import { asCut, CTX, dot, FACES, norm, ring, spineBeside, streamsFor, sub, unitV, withSpines } from './support.js';
 
 /** The angle (degrees) between a leg and a spine direction, in [0, 90]. */
@@ -77,6 +78,26 @@ describe('step 7: the ends extended to the crossed spine', () => {
     expect(p.cut.ends[0].kind).toBe('spine');
     expect(p.cut.ends[0].point.y).toBe(-626);
     expect(q.cut.ends[0].kind).toBe('kerb');
+  });
+
+  it('a spine segment the arrival runs along (|cross(dir, e)| < 1) is no hit: the reach rule\'s floor', () => {
+    // A spine through the start's kerb point A, leaning half a centimetre over 200 m off the first leg's line: the
+    // arrival's cross product with it is 0.5, under the floor, so it is no hit there (C-0222 (9)) and the end reaches
+    // the south spine 300 cm on; were the floor lower, the arrival would hit it at A itself (t = 0).
+    const base: [number, number][] = [[0, 0], [12000, 0], [12000, 7000], [0, 7000]];
+    const south: KerbSpine = { points: [{ x: -2000, y: -300 }, { x: 14000, y: -300 }], halfWidthCm: 300 };
+    for (let seed = 1; seed <= 10; seed += 1) {
+      const free = asCut(planCut({ rings: [ring(base)], spines: [south] }, CTX, streamsFor(seed)));
+      const A = free.start.A;
+      expect(A.y).toBe(0);
+      const along: KerbSpine = { points: [{ x: A.x - 0.25, y: -10000 }, { x: A.x + 0.25, y: 10000 }], halfWidthCm: 300 };
+      const p = asCut(planCut({ rings: [ring(base)], spines: [along, south] }, CTX, streamsFor(seed)));
+      expect(p.start.A).toEqual(A);
+      const e = p.cut.ends[0];
+      expect(e.kind).toBe('spine');
+      expect(e.index).toBe(1);
+      expect(e.point.y).toBe(-300);
+    }
   });
 
   it('the first spine the arrival meets wins', () => {
@@ -270,6 +291,82 @@ describe('step 7: the portal-gap slide', () => {
       n += 1;
     }
     expect(n).toBeGreaterThan(20);
+  });
+
+  it('slides to a gap\'s edge that rounding puts a hair inside its own gap: the trapezoid at seed 9, a portal 7 m back', () => {
+    // The far end's portal 7 m back along its spine: the gap's + edge lies 300 cm on, its − edge 1 700 cm back. Here
+    // (g.s + 1 000) − g.s rounds to 999.9999999999991, so a test of the edge against its own gap reads it inside; the
+    // edge is never inside its own gap, and the end takes the nearer slide, 300 cm (C-0222 (9)).
+    const T = FACES.trapezoid;
+    const free = asCut(planCut(T, CTX, streamsFor(9)));
+    const e = free.cut.ends[1];
+    expect(e.kind).toBe('spine');
+    const spines = (T.spines ?? []).slice();
+    const sp = spines[e.index];
+    const at = pointAtLength(sp.points, lengthAt(sp.points, e.point) - 700);
+    expect(at).not.toBeNull();
+    if (at === null) return;
+    const gs = lengthAt(sp.points, at.p);
+    expect(gs).toBe(8183.343719701516);
+    expect(gs + 1000 - gs).toBeLessThan(1000);
+    spines[e.index] = { ...sp, bounding: true, portals: [{ at: at.p, laneWidthCm: 400 }] };
+    const p = asCut(planCut({ rings: T.rings, spines }, CTX, streamsFor(9)));
+    expect(p.cut.ends[1].slidCm).toBeCloseTo(300, 6);
+    expect(norm(sub(p.cut.ends[1].point, pointAtLength(sp.points, gs + 1000)?.p ?? { x: 0, y: 0 }))).toBeLessThan(1e-6);
+    expect(inBand(arrivalDeg(sub(p.cut.ends[1].point, p.cut.legs[1]), unitV(sub(sp.points[1], sp.points[0]))))).toBe(true);
+  });
+
+  it('re-checks a straight cut\'s two ends after both slides: the far end\'s slide can push the start out of 85–95°', () => {
+    // A block whose north side leans 4°: under the MFCG preset the first leg runs straight to it (its arrival within
+    // asin(√0.99) of square). A portal 1 m west of the start's junction slides the start 5 m east, and its arrival from
+    // the far end's kerb point stays in the band; a portal 1 m east of the far junction then slides the far end 5 m west,
+    // its arrival square enough to the leaning north spine — but the leg now meets the south spine ≈ 7.5° off square,
+    // so the re-check of both ends (C-0222 (9)) sends the plan to the next rung.
+    const W = 12000;
+    const H = 7000;
+    const lean = Math.round(W * Math.tan((4 * Math.PI) / 180));
+    const box: [number, number][] = [[0, 0], [W, 0], [W, H + lean], [0, H]];
+    const base = withSpines(box);
+    const ctxMf = { ...CTX, preset: 'MFCG' as const, newLaneWidthCm: 250 };
+    let n = 0;
+    for (let seed = 1; seed <= 15; seed += 1) {
+      const free = asCut(planCut(base, ctxMf, streamsFor(seed)));
+      expect(free.cut.bent).toBe(false);
+      const [s, f] = free.cut.ends;
+      expect([s.kind, f.kind]).toEqual(['spine', 'spine']);
+      const spines = (base.spines ?? []).slice();
+      const south = spines[s.index];
+      const north = spines[f.index];
+      const dS = unitV(sub(south.points[1], south.points[0]));
+      const dN = unitV(sub(north.points[1], north.points[0]));
+      // South runs east, north runs west: −100 along each is 1 m west of the start and 1 m east of the far end.
+      expect(dS.x).toBeGreaterThan(0.99);
+      expect(dN.x).toBeLessThan(-0.99);
+      const ps = alongSpine(south, s.point, -100).p;
+      const pf = alongSpine(north, f.point, -100).p;
+      // The test's own geometry: the start's 5 m slide alone keeps it in the band; after the far end's 5 m slide the
+      // junction-to-junction line is in the band for the north spine and out of it for the south one.
+      const sSlid = alongSpine(south, s.point, 500).p;
+      const fSlid = alongSpine(north, f.point, 500).p;
+      expect(inBand(arrivalDeg(sub(sSlid, f.kerbPoint), dS))).toBe(true);
+      expect(inBand(arrivalDeg(sub(fSlid, sSlid), dN))).toBe(true);
+      expect(arrivalDeg(sub(fSlid, sSlid), dS)).toBeLessThan(84);
+      spines[s.index] = { ...south, bounding: true, portals: [{ at: ps, laneWidthCm: 250 }] };
+      spines[f.index] = { ...north, bounding: true, portals: [{ at: pf, laneWidthCm: 250 }] };
+      const r = planCut({ rings: base.rings, spines }, ctxMf, streamsFor(seed));
+      expect(r.ok).toBe(true);
+      if (!r.ok) continue;
+      if (r.value.kind === 'cut') {
+        // Whatever the plan, every slid end it keeps arrives within the band.
+        const [a, b] = r.value.cut.ends;
+        expect(inBand(arrivalDeg(sub(a.point, b.kerbPoint), dS))).toBe(true);
+        expect(inBand(arrivalDeg(sub(b.point, a.kerbPoint), dN))).toBe(true);
+        continue;
+      }
+      expect(r.value.kind).toBe('nextRung');
+      n += 1;
+    }
+    expect(n).toBeGreaterThan(10);
   });
 
   it('slides the far end too', () => {

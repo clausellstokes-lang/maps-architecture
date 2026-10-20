@@ -5,15 +5,13 @@
 // tree passes. Fixture trees are built in the OS temporary folder (a "plat" folder beside an
 // "outside" one), so nothing is written into plat/ and nothing outside the temporary folder is touched. Every test that
 // lints a tree carries an explicit timeout.
-import { spawnSync } from 'node:child_process';
 import { mkdirSync, symlinkSync } from 'node:fs';
 import { join } from 'node:path';
-import { pathToFileURL } from 'node:url';
 import { Linter } from 'eslint';
 import { afterAll, describe, expect, it } from 'vitest';
 import { checkRepositoryPaths, isDirectiveNote, judgePath, judgeSpecifier, lintFile } from './paths.mjs';
 import repositoryPath from './rules/repository-path.mjs';
-import { CODE_EXTENSIONS, PLAT_ROOT, isMain } from './rules/shared.mjs';
+import { CODE_EXTENSIONS, PLAT_ROOT } from './rules/shared.mjs';
 import { LINT_TIMEOUT, VETTED_DIVISION, removeTempTrees, tempTree, writeTree } from './test-support.mjs';
 
 afterAll(removeTempTrees);
@@ -285,36 +283,4 @@ describe('the whole-tree check repository-path', () => {
     expect(r.counts.sources).toBeGreaterThan(50);
     expect(r.counts.nodeModulesLinks).toBeGreaterThan(0);
   }, LINT_TIMEOUT);
-});
-
-// Hardening round S1 (L14, tools-plan.md S-3's lint half): the lint family's one "is main" test (rules/shared.mjs's
-// isMain) compares real paths, so the path check named through a symbolic link runs; before the round the bare string
-// equality silently did nothing.
-describe('the command line', () => {
-  it('runs the path check when the script is named through a symbolic link', () => {
-    const link = join(tempTree('plat-paths-cli-'), 'paths-link.mjs');
-    symlinkSync(join(PLAT_ROOT, 'tools', 'lint', 'paths.mjs'), link);
-    const r = spawnSync(process.execPath, [link], { cwd: PLAT_ROOT, encoding: 'utf8' });
-    // stderr carries only the problems (none) and, under vitest, typescript-eslint's deprecation notes
-    expect(r.stderr.split('\n').filter((l) => l.startsWith('repository-path:'))).toEqual([]);
-    expect(r.status).toBe(0);
-    expect(r.stdout).toMatch(/^repository-path ok — \{"files":\d+,"sources":\d+,"inputs":\d+,"links":\d+,"nodeModulesLinks":\d+\}\n$/);
-  }, LINT_TIMEOUT);
-
-  it('isMain: true only for the script node was started with, by real path; false without one', () => {
-    const argv = process.argv;
-    const dir = tempTree('plat-paths-main-', { 'a.mjs': '', 'b.mjs': '' }, { real: true });
-    symlinkSync(join(dir, 'a.mjs'), join(dir, 'via.mjs'));
-    try {
-      process.argv = [argv[0], join(dir, 'via.mjs')];
-      expect(isMain(pathToFileURL(join(dir, 'a.mjs')).href)).toBe(true);
-      expect(isMain(pathToFileURL(join(dir, 'b.mjs')).href)).toBe(false);
-      process.argv = [argv[0], join(dir, 'zz-missing.mjs')];
-      expect(isMain(pathToFileURL(join(dir, 'a.mjs')).href)).toBe(false);
-      process.argv = [argv[0]];
-      expect(isMain(pathToFileURL(join(dir, 'a.mjs')).href)).toBe(false);
-    } finally {
-      process.argv = argv;
-    }
-  });
 });

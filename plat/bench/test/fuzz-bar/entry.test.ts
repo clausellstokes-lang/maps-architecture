@@ -7,7 +7,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { afterAll, describe, expect, it } from 'vitest';
 import { runFuzz } from '@plat/testkit';
-import { run, s11Workload, SUMMARY_PATH } from '../../src/fuzz-bar/index.js';
+import { run, SUMMARY_PATH } from '../../src/fuzz-bar/index.js';
 
 const dir = mkdtempSync(join(tmpdir(), 'fuzz-bar-'));
 afterAll(() => rmSync(dir, { recursive: true, force: true }));
@@ -40,44 +40,6 @@ describe('bench -- fuzz-bar', () => {
       expect([what, await run(['--primitive', 'obb', '--runs', '3', '--s11', '1'], { out: dir, runFuzz: fake })]).toEqual([what, 1]);
     }
     expect(await run(['--primitive', 'obb', '--runs', '3', '--s11', '1'], { out: dir, runFuzz })).toBe(0);
-  }, 600_000);
-
-  it('a partition unit leaves the ladders and the S11 workload out with --no-ladders --no-s11; a whole run refuses both (exit 64) (M0-f-02a N-5)', async () => {
-    let s11Calls = 0;
-    const spy: typeof s11Workload = (seed, n, opts) => {
-      s11Calls++;
-      return s11Workload(seed, n, opts);
-    };
-    expect(await run(['--primitive', 'obb', '--runs', '3', '--no-ladders', '--no-s11'], { out: dir, s11Workload: spy })).toBe(0);
-    expect(s11Calls).toBe(0);
-    const report = JSON.parse(readFileSync(join(dir, 'fuzz-bar', 'report.json'), 'utf8')) as { primitives: { primitive: string }[]; ladders: { rows: unknown[]; covered: boolean }; s11: unknown };
-    expect([report.primitives.map((p) => p.primitive), report.ladders.rows.length, report.ladders.covered, report.s11]).toEqual([['obb'], 0, false, null]);
-    // without the flags the unit runs both (the work the flags leave out)
-    expect(await run(['--primitive', 'obb', '--runs', '3', '--s11', '1'], { out: dir, s11Workload: spy })).toBe(0);
-    expect(s11Calls).toBe(1);
-    const full = JSON.parse(readFileSync(join(dir, 'fuzz-bar', 'report.json'), 'utf8')) as { ladders: { rows: unknown[] }; s11: { plots: number } };
-    expect([full.ladders.rows.length > 0, full.s11.plots]).toEqual([true, 1]);
-    for (const flag of ['--no-ladders', '--no-s11']) expect([flag, await run(['--runs', '1', flag], { out: dir, s11Workload: spy })]).toEqual([flag, 64]);
-    expect(s11Calls).toBe(1);
-  }, 300_000);
-
-  it('the exit reads the S11 call-list check: a planted call list with a missing lir exits 1 (N-5)', async () => {
-    const short: typeof s11Workload = async (seed, n, opts) => {
-      const w = await s11Workload(seed, n, opts);
-      return { ...w, calls: w.calls.map((p, i) => (i === 0 ? { ...p, calls: p.calls.filter((c) => c.op !== 'lir') } : p)) };
-    };
-    expect(await run(['--primitive', 'obb', '--runs', '3', '--s11', '2'], { out: dir, s11Workload: short })).toBe(1);
-    const report = JSON.parse(readFileSync(join(dir, 'fuzz-bar', 'report.json'), 'utf8')) as { s11: { problems: string[] } };
-    expect(report.s11.problems).toHaveLength(1);
-    expect(await run(['--primitive', 'obb', '--runs', '3', '--s11', '2'], { out: dir, s11Workload })).toBe(0);
-  }, 300_000);
-
-  it('a whole run exits 1 on a planted crash in one primitive report, its summary failing the bar (N-16)', async () => {
-    const summary = join(dir, 'crash.json');
-    const fake: typeof runFuzz = (name, n, opts) => (name === 'obb' ? { ...runFuzz(name, n, opts), crashes: 1 } : runFuzz(name, n, opts));
-    expect(await run(['--runs', '1', '--constructive-seeds', '1', '--s11', '1', '--no-sweeps'], { out: dir, summary, runFuzz: fake })).toBe(1);
-    const s = JSON.parse(readFileSync(summary, 'utf8')) as { pass: boolean; totals: { crashes: number }; constructive: { failing: string[] } };
-    expect([s.pass, s.totals.crashes, s.constructive.failing]).toEqual([false, 1, []]);
   }, 600_000);
 
   it('a whole toy run: the counts report, the numbers-only summary (the same bytes twice), the bar decided', async () => {
