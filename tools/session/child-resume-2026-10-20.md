@@ -59,3 +59,10 @@ session_01F1FyLSKVBzYwVs2sNL8bcS (Fable 5.1, the managing seat); every hand-back
    naming both.
 10. **The snapshot loop** to NEW (step 6) runs from right after the launch until the hand-back is sent; restart it
     each time it ends.
+11. **Pre-round images** (the session's ruling J457 on d-05b s1's N-cs1-2): a closing checker that needs a file's
+    pre-round image takes it from the author's change list and the landed record's hashes first; when those cannot
+    give the content, it MAY read the plat/ blobs from the repository's object store with a read-only reader (a
+    Python parse of .git/index and an inflate of the blob) on three conditions — no git binary is run and nothing is
+    written; only plat/ paths are inflated (the index walk over every entry name stays in memory, nothing printed or
+    used); and the verdict never rests on the image (scope claims come from the record and the diff; the image only
+    says whether a pin is new). Disclose the read in the verdict and the CLEAN-ROOM row.

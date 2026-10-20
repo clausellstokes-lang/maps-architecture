@@ -10819,3 +10819,4 @@
 2026-10-20 21:06 build/M0-d-05a-fix-s1 CHECKPOINT gates in tree: install 0, lint 0 (eslint 1156 files, probe-red ok, 9 whole-tree checks), build 0; NEAR test/identity 4/48 green (W=1); RELATED@1000 over lineage.ts, mint.ts started (W=1, background, done-file); next: notes section, choices row, CLEAN-ROOM while it runs
 2026-10-20 21:28 build/M0-d-05a-fix-s1 CHECKPOINT RELATED@1000 running (since 21:06, W=1; never stopped for being slow); notes section 'Hardening round S1', C-0395, L-0597 appended; lint re-run 0 (probe-red ok); next: its verdict, landed record, LANDED
 2026-10-20 21:47 build/M0-d-05a-fix-s1 CHECKPOINT RELATED@1000 running (since 21:06, W=1); next: its verdict, landed record, LANDED
+2026-10-20T21:56:25Z session/landing LANDED M0-d-05b s1 as 24e1789a from wip/child-d05bs1 (J457; the host of merged round M1, landed from the branch ahead of AS's hand-back at check-in 7; d-05a s1 continues in AS)
