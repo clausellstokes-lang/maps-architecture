@@ -11,7 +11,7 @@ import { absorbSliver, claimSubFace, connectHole, mergeFaces, pinVertices, radia
 import { createKernel, type Kernel } from '../../src/facade/index.js';
 import { faceNeighbours, faceRings, sampleBoundary, sideRuns } from '../../src/geom/index.js';
 import { OUTSIDE, pointLocate, query, rebuildAtStageEnd } from '../../src/index/index.js';
-import { insertChain, splitThrough } from '../../src/insert/index.js';
+import { insertChain, insertTx, splitThrough } from '../../src/insert/index.js';
 import { decodeArena, encodeArena } from '../../src/io/index.js';
 import type { KernelResult } from '../../src/num/index.js';
 import { clearFiner, removeEdges, resolveStretch, retypeEdges, sampleProfile, setOwner, tx, type Overlay } from '../../src/tx/index.js';
@@ -25,6 +25,10 @@ import { FRAME } from '../arena/support.js';
 import { commit, crossing, emptyOn, framed, GROUND, healthy, kernelOver, pt, RAISED, spec, state, W300 } from './support.js';
 
 const DB = [{ role: 'district_bound', entity: 'd:9' }];
+
+/** The foreign-arena writer refusal's whole text, byte for byte, for the arena `name` (`layer/part`). */
+const FOREIGN = (name: string): RegExp =>
+  new RegExp(`^kernel: the transaction acts on the arena ${name.replace('/', '\\/')}, which this kernel does not hold \\(§3\\.4\\)$`);
 const okv = <T>(value: T): KernelResult<T> => ({ ok: true, value, warnings: [] });
 const rect = (x0: number, y0: number, x1: number, y1: number) => [pt(x0, y0), pt(x1, y0), pt(x1, y1), pt(x0, y1)];
 
@@ -246,7 +250,13 @@ describe('the keyed doors map the key to its arena', () => {
     expect(() => createKernel(new Map([[{ layer: 'nowhere', part: 0 } as unknown as PlatKey, p]]))).toThrow(/no PlatKey/);
     // a writer handed another kernel's transaction is refused in the debug build
     const other = kernelOver([q]);
-    expect(() => k.tx(spec(1), (o) => other.geom.insertChain(o, [pt(0, 2000), pt(4000, 2000)], DB, 'mandatory'))).toThrow(/which this kernel does not hold/);
+    const r = k.tx(spec(1), (o) => {
+      // the whole text, read where the writer throws (the transaction rethrows it behind its op prefix)
+      expect(() => other.geom.insertChain(o, [pt(0, 2000), pt(4000, 2000)], DB, 'mandatory')).toThrow(FOREIGN('ground/0'));
+      return okv(0);
+    });
+    expect(r.ok && r.value.record === null).toBe(true);
+    expect(() => k.tx(spec(1), (o) => other.geom.insertChain(o, [pt(0, 2000), pt(4000, 2000)], DB, 'mandatory'))).toThrow(/: kernel: the transaction acts on the arena ground\/0, which this kernel does not hold \(§3\.4\)$/);
   });
 
   it('resolve, signature, sampleProfile, pointLocate, faceNeighbours and query read the arena the key names, as their modules do', () => {
@@ -809,13 +819,16 @@ const FACADE_WRITERS: Record<string, (k: Kernel, o: Overlay, p: Plat) => unknown
   pinVertices: (k, o) => k.geom.pinVertices(o, [{ role: 'entrance', entity: 'd:9', ordinal: 0 }]),
 };
 
-/** Hands `o` to every writer through `k`: each throws NO_OPEN, and the arena stays bit for bit as it was, its version too. */
-function refusedByEveryWriter(k: Kernel, o: Overlay, p: Plat): void {
+/**
+ * Hands `o` to every writer through `k`: each throws `text` (NO_OPEN unless named), and the arena stays bit for bit as it
+ * was, its version too.
+ */
+function refusedByEveryWriter(k: Kernel, o: Overlay, p: Plat, text: RegExp = NO_OPEN): void {
   const before = structuredClone(p);
   const v = p.version;
   expect(Object.keys(FACADE_WRITERS).sort()).toEqual(Object.keys(WRITER_TWINS).sort());
   for (const [name, w] of Object.entries(FACADE_WRITERS)) {
-    expect(() => w(k, o, p), name).toThrow(NO_OPEN);
+    expect(() => w(k, o, p), name).toThrow(text);
     expect(p.version, name).toBe(v);
   }
   expect(p).toEqual(before);
@@ -953,5 +966,81 @@ describe('a façade writer refuses an overlay that is no open transaction (N-55 
     if (o0 === null) throw new Error('the callback never ran');
     refusedByEveryWriter(outer, o0, p);
     refusedByEveryWriter(fresh, o0, p);
+  });
+});
+
+// An overlay no transaction minted (rulings-hardening-1.md RQ4; notes 11 and 12): a writer takes only an open
+// transaction — one `kernel.tx` or the module's `tx` minted and has not closed (`tx/state.ts`'s `isOpenTx`) — so a
+// fabricated `InsertTx` shell is refused in every build whatever its fields say, as a closed overlay is; the open
+// overlays of the acceptance pins above stay accepted however they were opened.
+
+// The refusal's whole text, byte for byte.
+const UNMINTED = /^kernel: the overlay is no open transaction: no transaction minted it \(kernel\.tx or tx hands the callback its overlay; §3\.3; RQ4\)$/;
+
+describe('a façade writer refuses an overlay no transaction minted (RQ4: an open transaction, whichever kernel opened it)', () => {
+  it('a fabricated InsertTx shell carrying open: true: every writer throws, debug build and production build; the arena bit for bit, its version too', () => {
+    const { p } = crossing();
+    const k = kernelOver([p]);
+    const v0 = p.version;
+    // `insertTx` is a public export and the shell type-checks as an Overlay without a cast (`open: true` as its literal)
+    const shell: Overlay = Object.assign(insertTx(p, 1), { open: true as const });
+    expect(shell.closed).toBeUndefined();
+    const before = structuredClone(p);
+    expect(() => k.geom.insertChain(shell, [pt(600, 3000), pt(3000, 3200)], [{ role: 'way', entity: 'w:1' }], 'mandatory')).toThrow(UNMINTED);
+    expect(p).toEqual(before);
+    refusedByEveryWriter(k, shell, p, UNMINTED);
+    setDebugAssertions(false);
+    try {
+      refusedByEveryWriter(k, shell, p, UNMINTED);
+      expect(() => k.geom.insertChain(Object.assign(insertTx(p, 1), { open: true as const, closed: false }), [pt(600, 3000), pt(3000, 3200)], DB, 'mandatory')).toThrow(UNMINTED);
+    } finally {
+      setDebugAssertions(true);
+    }
+    expect(p.version).toBe(v0);
+    expect(p).toEqual(before);
+  });
+
+  it('a copy of an open transaction\'s overlay is no transaction: refused inside the batch, which commits only its own write', () => {
+    const { p } = crossing();
+    const k = kernelOver([p]);
+    const v0 = p.version;
+    const r = k.tx(spec(1), (o) => {
+      const copy: Overlay = { ...o };
+      expect(copy.closed).toBe(false);
+      expect(() => k.geom.insertChain(copy, [pt(600, 3000), pt(3000, 3200)], [{ role: 'way', entity: 'w:1' }], 'mandatory')).toThrow(UNMINTED);
+      expect(() => k.geom.removeEdges(copy, { role: 'way', entity: 'way:1' })).toThrow(UNMINTED);
+      return k.geom.insertChain(o, [pt(500, 500), pt(1500, 500)], DB, 'mandatory');
+    });
+    expect(r.ok && r.value.record !== null).toBe(true);
+    expect(p.version).toBe(v0 + 1);
+    expect(k.resolve({ role: 'way', entity: 'w:1' }, GROUND)).toMatchObject({ runs: [] });
+    healthy(p);
+  });
+
+  it('a shell that says it is closed reads as the closed overlay\'s refusal; a minted closed overlay keeps NO_OPEN', () => {
+    const { p } = crossing();
+    const k = kernelOver([p]);
+    refusedByEveryWriter(k, Object.assign(insertTx(p, 1), { open: true as const, closed: true }), p, NO_OPEN);
+  });
+});
+
+describe('the debug build\'s arena check is the arena object, not its key (K22)', () => {
+  it('a second kernel\'s transaction on another ground arena under the same key: this kernel\'s writers refuse it, the whole text; neither arena is written', () => {
+    const A = crossing().p;
+    const B = crossing().p;
+    expect(A.key).toEqual(B.key);
+    const k = kernelOver([A]);
+    const k2 = kernelOver([B]);
+    const [a0, b0] = [state(A), state(B)];
+    const r = k2.tx(spec(1), (o) => {
+      expect(() => k.geom.insertChain(o, [pt(500, 500), pt(1500, 500)], DB, 'mandatory')).toThrow(FOREIGN('ground/0'));
+      expect(() => k.geom.setOwner(o, [LL(B)], 'x:1')).toThrow(FOREIGN('ground/0'));
+      return okv(0);
+    });
+    expect(r.ok && r.value.record === null).toBe(true);
+    expect([state(A), state(B)]).toEqual([a0, b0]);
+    // the control: the kernel that holds B accepts the same write
+    const ok = k2.tx(spec(1), (o) => k2.geom.insertChain(o, [pt(500, 500), pt(1500, 500)], DB, 'mandatory'));
+    expect(ok.ok && ok.value.record !== null).toBe(true);
   });
 });
