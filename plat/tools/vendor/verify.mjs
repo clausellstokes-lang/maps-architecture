@@ -7,7 +7,8 @@
 // Exit 0 when clean, 1 with one line per problem (naming the file) otherwise.
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { LOCK_FILE, VENDOR_DIR, countOf, isMain, listFiles, readJson, sha256File, vendoredDirs } from './common.mjs';
+import { fileURLToPath } from 'node:url';
+import { LOCK_FILE, VENDOR_DIR, countOf, listFiles, readJson, sha256File, vendoredDirs } from './common.mjs';
 
 /** @returns {{ ok: boolean, problems: string[], checked: number }} */
 export function verifyVendor(vendorRoot = VENDOR_DIR) {
@@ -67,7 +68,7 @@ export function verifyVendor(vendorRoot = VENDOR_DIR) {
   return { ok: problems.length === 0, problems, checked };
 }
 
-if (isMain(import.meta.url)) {
+if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
   const i = process.argv.indexOf('--root');
   const root = i > 0 ? process.argv[i + 1] : VENDOR_DIR;
   const r = verifyVendor(root);

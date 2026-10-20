@@ -128,7 +128,9 @@ export const INDEX_CASES: readonly ConstructiveCase[] = Object.freeze([
     class: 'indexes-slots-pool',
     source: SOURCE,
     ops: ['removeEdges', 'insertChain', 'query'],
-    expect: { outcome: 'ok', holds: ['query-returns-new-item'], clause: 'a slot freed and reused inside a stage — the query returns the new item' },
+    // slot-reused (N-12, the hardening round S2): the fresh insertion takes the slots the removal freed — the case is a
+    // test of a reused slot only while the removal runs before the insertion, which the hold now checks.
+    expect: { outcome: 'ok', holds: ['query-returns-new-item', 'slot-reused'], clause: 'a slot freed and reused inside a stage — the query returns the new item' },
     build: buildSlotReuseStage,
   }),
   m0Case({
@@ -138,7 +140,7 @@ export const INDEX_CASES: readonly ConstructiveCase[] = Object.freeze([
     ops: ['removeEdges', 'insertChain', 'query'],
     expect: {
       outcome: 'ok',
-      holds: ['query-returns-new-item', 'query-equals-rebuild'],
+      holds: ['query-returns-new-item', 'query-equals-rebuild', 'slot-reused'],
       clause: "a slot freed in one district and reused in another, the second district's partition rebuilt before the first's — returned as its new item, never as its old one",
     },
     build: buildSlotReuseDistricts,

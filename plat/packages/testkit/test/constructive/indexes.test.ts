@@ -6,7 +6,7 @@
 // fresh's first vertex (−2 837 055, −431 769) inside boxOld ('query-returns-new-item … met 1 edges, 1 vertices').
 import { describe, expect, it } from 'vitest';
 import fc from 'fast-check';
-import { casesAt, type ConstructiveInput } from '@plat/testkit';
+import { casesAt, constructiveKernelJudge, type ConstructiveCase, type ConstructiveInput } from '@plat/testkit';
 import { DRAWS } from './support.js';
 
 const CASE = casesAt('M0').find((c) => c.id === 'index/slot-reuse-stage');
@@ -77,5 +77,120 @@ describe('index/slot-reuse-stage: boxOld never meets the fresh chain (N-49, gap 
       fc.property(fc.integer({ min: 0, max: 0xffffffff }), (seed) => clearance(draw(seed)) >= 50),
       { numRuns: 1000 },
     );
+  });
+});
+
+// The slot-reuse cases reuse a slot (M0-k-02's N-12, the hardening round S2): mutant K10 — the removal moved after the
+// fresh insertion — kept every query green while no slot was reused (P1 on the mutant: reuse 0 / 200, judge 200 / 200).
+// Both cases now hold `slot-reused`, which M0-k-04's judge checks on the kernel: after the insertion that follows the
+// removal, the vertex and pair tops equal those after the removal and both free lists are empty.
+const SLOT_CASES = ['index/slot-reuse-stage', 'index/slot-reuse-districts'] as const;
+const KERNEL_DRAWS = 40;
+
+function slotCase(id: string): ConstructiveCase {
+  const c = casesAt('M0').find((x) => x.id === id);
+  if (c === undefined) throw new Error(`${id} is not in casesAt(M0)`);
+  return c;
+}
+
+function input(c: ConstructiveCase, seed: number): ConstructiveInput {
+  const g = c.generate(seed);
+  if (g.kind !== 'input') throw new Error(`${c.id} seed ${String(seed)} drew no input`);
+  return g;
+}
+
+/** The draw with its steps reordered by `order` (indices into the drawn steps). */
+function reordered(g: ConstructiveInput, order: readonly number[]): ConstructiveInput {
+  return { ...g, steps: order.map((i) => g.steps[i]) };
+}
+
+describe.each(SLOT_CASES)('%s reuses a slot (N-12)', (id) => {
+  const c = slotCase(id);
+
+  it('holds slot-reused, and its removal runs before the insertion that refills the freed slots', () => {
+    expect(c.expect.holds).toContain('slot-reused');
+    for (let seed = 0; seed < DRAWS; seed += 1) {
+      const ops = input(c, seed).steps.map((s) => s.op);
+      const r = ops.indexOf('removeEdges');
+      expect(r, `seed ${String(seed)}`).toBeGreaterThan(0);
+      expect(ops.slice(r + 1), `seed ${String(seed)}`).toContain('insertChain');
+    }
+  });
+
+  it(`is green on the kernel, slot-reused included, on seeds 0 … ${String(KERNEL_DRAWS - 1)}`, () => {
+    for (let seed = 0; seed < KERNEL_DRAWS; seed += 1) {
+      const v = constructiveKernelJudge(c, input(c, seed));
+      if (!v.ok) expect.fail(`seed ${String(seed)}: ${v.reason}`);
+    }
+  }, 120_000);
+
+  it('fails slot-reused when the removal runs after the fresh insertion (K10), the queries alone staying green', () => {
+    for (const seed of [0, 1, 2]) {
+      const g = input(c, seed);
+      const r = g.steps.findIndex((s) => s.op === 'removeEdges');
+      const k = g.steps.findIndex((s, i) => i > r && s.op === 'insertChain');
+      const order = g.steps.map((_, i) => i).filter((i) => i !== r);
+      order.splice(order.indexOf(k) + 1, 0, r);
+      const v = constructiveKernelJudge(c, reordered(g, order));
+      expect(v.ok, `seed ${String(seed)}`).toBe(false);
+      if (!v.ok) expect(v.reason).toBe(`slot-reused: no insertion follows the removal (step ${String(k)}): no slot is reused`);
+    }
+  }, 120_000);
+});
+
+describe('slot-reused reads both tops and both free lists (N-12, negative controls on index/slot-reuse-stage)', () => {
+  const c = slotCase('index/slot-reuse-stage');
+  /** A lattice point `off` cm off the middle of a two-point chain, across its dominant axis. */
+  const kink = <T extends { x: number; y: number }>(ch: readonly T[], off: number): T => {
+    const [a, b] = ch;
+    const m = { ...a, x: Math.round((a.x + b.x) / 2), y: Math.round((a.y + b.y) / 2) };
+    return Math.abs(b.x - a.x) >= Math.abs(b.y - a.y) ? { ...m, y: m.y + off } : { ...m, x: m.x + off };
+  };
+
+  it('a fresh chain of three vertices takes more than the removal freed: the tops grow', () => {
+    const g = input(c, 3);
+    const fresh = g.chains.fresh;
+    const v = constructiveKernelJudge(c, { ...g, chains: { ...g.chains, fresh: [fresh[0], kink(fresh, 40), fresh[1]] } });
+    expect(v.ok).toBe(false);
+    if (!v.ok) expect(v.reason).toMatch(/^slot-reused: the insertion \(step 3\) allocated new slots: tops vertex \d+ → \d+, pair \d+ → \d+$/);
+  });
+
+  it('an old chain of three vertices frees more than the fresh insertion takes: a freed slot stays on its free list', () => {
+    const g = input(c, 3);
+    const old = g.chains.old;
+    const v = constructiveKernelJudge(c, { ...g, chains: { ...g.chains, old: [old[0], kink(old, 40), old[1]] } });
+    expect(v.ok).toBe(false);
+    if (!v.ok) expect(v.reason).toMatch(/^slot-reused: a freed slot is still on its free list after the insertion \(vertex head -?\d+, pair head -?\d+\)$/);
+  });
+});
+
+describe('slot-reused reads the pair table apart from the vertex table (N-12, negative controls on index/slot-reuse-districts)', () => {
+  const c = slotCase('index/slot-reuse-districts');
+  /** The chain with its second end pulled 100 cm back along it, off the district boundary into the interior. */
+  const pulled = <T extends { x: number; y: number }>(ch: readonly T[]): T[] => {
+    const [a, b] = ch;
+    return [a, { ...b, x: b.x + 100 * Math.sign(a.x - b.x), y: b.y + 100 * Math.sign(a.y - b.y) }];
+  };
+
+  it('a removal that frees one pair fewer than the fresh insertion needs: the vertex top kept, the pair top grown', () => {
+    // inA ending inside district A frees 2 vertices and 2 pairs (no shared-edge split to re-join); inB as drawn takes 2
+    // vertices and 3 pairs (its edge and the two boundary edges it splits).
+    const g = input(c, 3);
+    const v = constructiveKernelJudge(c, { ...g, chains: { ...g.chains, inA: pulled(g.chains.inA) } });
+    expect(v.ok).toBe(false);
+    const m = v.ok ? null : /^slot-reused: the insertion \(step 5\) allocated new slots: tops vertex (\d+) → (\d+), pair (\d+) → (\d+)$/.exec(v.reason);
+    expect(m, v.ok ? 'green' : v.reason).not.toBeNull();
+    if (m !== null) {
+      expect(m[2]).toBe(m[1]);
+      expect(Number(m[4])).toBeGreaterThan(Number(m[3]));
+    }
+  });
+
+  it('a fresh insertion that needs one pair fewer than the removal freed: the vertex free list drained, a pair left on its list', () => {
+    // inB ending inside district B takes 2 vertices and 2 pairs; inA as drawn freed 2 vertices and 3 pairs.
+    const g = input(c, 3);
+    const v = constructiveKernelJudge(c, { ...g, chains: { ...g.chains, inB: pulled(g.chains.inB) } });
+    expect(v.ok).toBe(false);
+    if (!v.ok) expect(v.reason).toMatch(/^slot-reused: a freed slot is still on its free list after the insertion \(vertex head -1, pair head \d+\)$/);
   });
 });

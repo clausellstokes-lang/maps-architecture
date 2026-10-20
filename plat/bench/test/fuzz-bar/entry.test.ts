@@ -91,7 +91,7 @@ describe('bench -- fuzz-bar', () => {
     expect(Object.keys(s.primitives).length).toBe(24);
     for (const p of Object.values(s.primitives)) expect(p.runs).toBe(3);
     expect(s.constructive.failing).toEqual([]);
-    expect(s.constructive.known.length).toBeGreaterThan(0);
+    expect(s.constructive.known).toEqual([]);
     expect(s.totals.bugs).toBe(0);
     expect(s.constructiveDraws).toEqual({ perCase: 1, sweepsWhole: false });
     expect(text).not.toMatch(/"(at|seconds|wallMs|cpuMs)"/);

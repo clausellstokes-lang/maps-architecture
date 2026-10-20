@@ -69,6 +69,12 @@ export interface ConstructiveExpect {
   readonly tier?: ConstructiveTier;
   /** The properties the result holds (CONSTRUCTIVE_PROPERTIES' keys) — on ok, and `version-kept` on a refusal. */
   readonly holds: readonly ConstructiveProperty[];
+  /**
+   * The holds that are STATIC readings — a property of the kernel's code or constants, true of every draw by
+   * construction, which no code path the draw runs can fail (M0-k-04's N-11, the hardening round S2): each one of
+   * `holds`. A runner reports them apart from the holds a draw can break; absent, every hold is judged on the run.
+   */
+  readonly staticHolds?: readonly ConstructiveProperty[];
   /** The design's words: §13.1's bullet or §3.11's row cell the outcome is read from. */
   readonly clause: string;
 }

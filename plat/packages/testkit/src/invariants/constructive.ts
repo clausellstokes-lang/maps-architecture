@@ -943,6 +943,7 @@ function play(c: ConstructiveCase, raw: ConstructiveInput, plant: JudgePlant = {
     s.current = st.op;
     const r = plant.step === undefined ? runStep(s, st, i) : plant.step(st.op, i, () => runStep(s, st, i));
     if (!isLast && r.kind !== 'ok') return `step ${String(i)} (${st.op}) ${r.kind === 'threw' ? `threw: ${r.message}` : `refused ${r.code} ${r.detail}`} — every step before the last returns ok`;
+    if (r.kind === 'ok' && (st.op === 'removeEdges' || st.op === 'insertChain')) markSlots(s, i, st.op);
     if (r.kind === 'ok') plant.afterStep?.(s.p, i);
     if (r.kind === 'ok' && WRITERS.has(st.op)) {
       const ci = sweep(s);
@@ -951,6 +952,45 @@ function play(c: ConstructiveCase, raw: ConstructiveInput, plant: JudgePlant = {
     if (isLast) return { scene: s, last: r, versionBefore, printBefore, faceCountBefore };
   }
   return 'the scenario has no step';
+}
+
+/** The vertex and pair tables' slot bookkeeping after a removal or an insertion step (`slot-reused`, M0-k-02's N-12). */
+interface SlotMark {
+  readonly step: number;
+  readonly op: string;
+  readonly vertexTop: number;
+  readonly vertexFree: number;
+  readonly pairTop: number;
+  readonly pairFree: number;
+}
+
+function markSlots(s: Scene, step: number, op: string): void {
+  const trail = (s.records.get('slotTrail') as SlotMark[] | undefined) ?? [];
+  const v = s.p.slots.vertex;
+  const e = s.p.slots.pair;
+  trail.push({ step, op, vertexTop: v.top, vertexFree: v.free, pairTop: e.top, pairFree: e.free });
+  s.records.set('slotTrail', trail);
+}
+
+/**
+ * `slot-reused` (§3.3's freed slots, J-K34; M0-k-02's N-12, the hardening round S2): the scenario's last removal frees
+ * slots and the insertion that follows it takes them again — after that insertion the vertex and pair tables' high-water
+ * marks equal those after the removal (no slot newly allocated) and both free lists are empty (every freed slot taken).
+ * A removal with no insertion after it, or one that freed nothing the insertion could take, fails.
+ */
+function slotReused(s: Scene): string | null {
+  const trail = (s.records.get('slotTrail') as SlotMark[] | undefined) ?? [];
+  let r = -1;
+  for (let k = 0; k < trail.length; k++) if (trail[k].op === 'removeEdges') r = k;
+  if (r < 0) return 'no removal ran';
+  const removed = trail[r];
+  const fresh = trail.slice(r + 1).find((m) => m.op === 'insertChain');
+  if (fresh === undefined) return `no insertion follows the removal (step ${String(removed.step)}): no slot is reused`;
+  if (fresh.vertexTop !== removed.vertexTop || fresh.pairTop !== removed.pairTop) {
+    return `the insertion (step ${String(fresh.step)}) allocated new slots: tops vertex ${String(removed.vertexTop)} → ${String(fresh.vertexTop)}, pair ${String(removed.pairTop)} → ${String(fresh.pairTop)}`;
+  }
+  if (fresh.vertexFree !== -1 || fresh.pairFree !== -1) return `a freed slot is still on its free list after the insertion (vertex head ${String(fresh.vertexFree)}, pair head ${String(fresh.pairFree)})`;
+  return null;
 }
 
 /**
@@ -1333,6 +1373,8 @@ function property(prop: string, run: Run): string | null {
       return queriesAsExpected(s);
     case 'query-equals-rebuild':
       return queryEqualsRebuild(s);
+    case 'slot-reused':
+      return slotReused(s);
     case 'query-order-stable': {
       const b = s.records.get('query:before') as { vertices: number[]; edges: number[]; faces: number[] };
       const a = s.records.get('query:after') as { vertices: number[]; edges: number[]; faces: number[] };
@@ -1806,12 +1848,10 @@ export interface KnownFinding {
 export const CONSTRUCTIVE_KNOWN: readonly KnownFinding[] = Object.freeze([
   // KI-1 (index-freshness on removal: index/slot-reuse-stage, index/slot-reuse-districts) was M0-a-14's filter, ruling
   // N-49, fixed by M0-a-14-fix-s1 (C-0235); both cases are green and judged as every other (C-0240 (5)).
-  {
-    id: 'limit/cap-move-halvings',
-    owner: 'M0-k-02 (the case data)',
-    pattern: /^step-halved: the step was halved 0 times$/,
-    finding: 'KI-2: the case draws the moved vertex exactly minEdge (25 cm) from its neighbour, inside attractCm (26 cm): insertion attracts it onto the neighbour, so the warp has nothing to halve (§3.11 the caps\' halving cap is held by the runner\'s own fixture instead)',
-  },
+  // KI-2 (limit/cap-move-halvings: the moved vertex drawn exactly minEdge from its neighbour, inside attractCm, so
+  // insertion attracted it and the warp had nothing to halve) was M0-k-02's case data: its hardening round S2 draws the
+  // vertex beyond attractCm with a drag every halving of which fails (M0-k-04's N-2), and the case is green — a no-op
+  // after 8 halvings on every draw — and judged as every other.
 ]);
 
 /** The run of the set: M0-k-02's report with the known findings apart. */
