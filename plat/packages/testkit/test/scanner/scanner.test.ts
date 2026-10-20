@@ -206,10 +206,12 @@ describe('allow entries (§17.1 (5): a hit fails unless a reviewed allow entry w
 
   // N-33: "an allow entry's exact text is the run" — a true part of a run, a run holding it, or a part of a token is
   // not its text (check B-1 of M0-k-06: mutants matching a sub-run, a super-run or a sub-token survived the case above).
-  it('near misses stay unreviewed: a five-token entry inside a six-token run, a six-token entry holding a five-token run, a token entry inside or around a listed token', () => {
+  // hardening round S1, K6-9: the closing check's mutants C05 (a 3-gram entry matched by suffix), C06 (by its tokens in
+  // any order) and C10 (a file entry matched by path suffix) survived; the last four cases below kill them.
+  it('near misses stay unreviewed: a five-token entry inside a six-token run (its first or last five), a six-token entry holding a five-token run, the run reversed, a token entry inside or around a listed token, a file entry or an entry\'s file by a path suffix', () => {
     const RUN6 = [...RUN, 'lomvar'];
     const windows6 = [0, 1, 2, 3].map((k) => RUN6.slice(k, k + 3).join(' '));
-    const cases: { name: string; files: Record<string, string>; spec: ListSpec; miss: object; exact: object; check: 'trigram' | 'token' }[] = [
+    const cases: { name: string; files: Record<string, string>; spec: ListSpec; miss: object; exact: object; check: 'trigram' | 'token' | 'file' }[] = [
       {
         name: 'sub-run',
         files: { 'packages/kernel/src/a.ts': `// ${RUN6.join(' ')}\n` },
@@ -240,6 +242,38 @@ describe('allow entries (§17.1 (5): a hit fails unless a reviewed allow entry w
         spec: { tokens: [TOKEN] },
         miss: { check: 'token', text: `${TOKEN}x`, reason: 'a token holding the listed one' },
         exact: { check: 'token', text: TOKEN, reason: 'the token' },
+        check: 'token',
+      },
+      {
+        name: 'suffix sub-run',
+        files: { 'packages/kernel/src/a.ts': `// ${RUN6.join(' ')}\n` },
+        spec: { trigrams: windows6 },
+        miss: { check: 'trigram', text: RUN6.slice(1).join(' '), reason: 'the last five of six' },
+        exact: { check: 'trigram', text: RUN6.map((t) => t.toUpperCase()).join(', '), reason: 'the run, upper-cased with punctuation' },
+        check: 'trigram',
+      },
+      {
+        name: 'reversed run',
+        files: { 'packages/kernel/src/a.ts': `// ${RUN.join(' ')}\n` },
+        spec: { trigrams: RUN_WINDOWS },
+        miss: { check: 'trigram', text: [...RUN].reverse().join(' '), reason: 'the run reversed' },
+        exact: { check: 'trigram', text: RUN.join(' '), reason: 'the run' },
+        check: 'trigram',
+      },
+      {
+        name: 'file by path suffix',
+        files: { 'docs/digest/d.bin': FILE_BYTES },
+        spec: { files: [FILE_BYTES] },
+        miss: { check: 'file', text: 'd.bin', reason: 'the file name alone' },
+        exact: { check: 'file', text: 'docs/digest/d.bin', reason: 'the file' },
+        check: 'file',
+      },
+      {
+        name: "entry's file by path suffix",
+        files: { 'packages/kernel/src/a.ts': `const s = '${TOKEN}';\n` },
+        spec: { tokens: [TOKEN] },
+        miss: { check: 'token', text: TOKEN, reason: 'the token in a.ts alone', file: 'src/a.ts' },
+        exact: { check: 'token', text: TOKEN, reason: 'the token in its file', file: 'packages/kernel/src/a.ts' },
         check: 'token',
       },
     ];
@@ -490,6 +524,34 @@ describe('the list hit (N-35; §17.1 (5): five or more distinct words of one lis
     const ids = `export const N = {\n${WORDS.slice(0, 5).map((w) => `  ${w}: 1,`).join('\n')}\n};\nconst ${WORDS.slice(0, 5).join(' = 1, ')} = 1;\n`;
     const r = scan(tree({ 'packages/layout/src/a.ts': lit, 'packages/layout/src/b.ts': ids }, syntheticList(SPEC)));
     expect(at(r)).toEqual([['packages/layout/src/a.ts', 2, 'list', 41, 'column']]);
+    // one list, one column: the line block and the array literal holding the same strings are not two columns
+    expect(readSource(lit).columns).toEqual([{ line: 2, cells: WORDS.slice(0, 5) }]);
+  });
+
+  // hardening round S1, K6-1 (checks/M0-k-06-notes.md): the checker's three layouts each gave 0 hits when only a block
+  // of one-string lines was a source column; an array literal is a column whatever its layout
+  it('a source array literal is a column whatever its layout: records one per line, two strings per line, two then three (K6-1)', () => {
+    const w = WORDS.slice(0, 5);
+    const files = {
+      'packages/layout/src/records.ts': `export const R = [\n${w.map((x, k) => `  { name: '${x}', n: ${k} },`).join('\n')}\n];\n`,
+      'packages/layout/src/quoted.ts': `export const Q = [\n${w.map((x, k) => `  { "name": "${x}", "n": ${k} },`).join('\n')}\n];\n`,
+      'packages/layout/src/two.ts': `export const T = [\n  '${w[0]}', '${w[1]}',\n  '${w[2]}', '${w[3]}',\n  '${w[4]}',\n];\n`,
+      'packages/layout/src/two-three.ts': `export const U = ['${w[0]}', '${w[1]}',\n  '${w[2]}', '${w[3]}', '${w[4]}'];\n`,
+    };
+    const r = scan(tree(files, syntheticList(SPEC)));
+    expect(r.code).toBe(1);
+    expect(at(r)).toEqual([
+      ['packages/layout/src/quoted.ts', 2, 'list', 41, 'column'],
+      ['packages/layout/src/records.ts', 2, 'list', 41, 'column'],
+      ['packages/layout/src/two-three.ts', 1, 'list', 41, 'column'],
+      ['packages/layout/src/two.ts', 2, 'list', 41, 'column'],
+    ]);
+    // the reader's columns: one key's values across the records; the array's own strings
+    expect(readSource(files['packages/layout/src/records.ts']).columns).toEqual([{ line: 2, cells: w }]);
+    expect(readSource(files['packages/layout/src/two-three.ts']).columns).toEqual([{ line: 1, cells: w }]);
+    // a control: four of the words in the same layouts give no hit (the column is the hit, not the file)
+    const four = scan(tree({ 'packages/layout/src/two.ts': `export const T = [\n  '${w[0]}', '${w[1]}',\n  '${w[2]}', '${w[3]}',\n];\n` }, syntheticList(SPEC)));
+    expect([four.code, four.report?.counts.hits]).toEqual([0, 0]);
   });
 });
 
@@ -600,6 +662,27 @@ describe('the source reader: string literals and comments, never code (§17.1 (5
       ['packages/kernel/src/a.ts', 3, 'token'],
       ['packages/kernel/src/a.ts', 4, 'token'],
     ]);
+  });
+
+  // hardening round S1, K6-2 (checks/M0-k-06-notes.md): `if (ok) /<token>/.test(s)` read the regular expression as a
+  // division, so its body was code and the listed token in it was never seen
+  it('a regular expression after the ) of an if, while or for head is read as text; after any other ) a / divides (K6-2)', () => {
+    const src = [
+      `if (ok) /${TOKEN}/.test(s);`,
+      `while (f(x)) /b${TOKEN}c/g.exec(s);`,
+      `for (const k of ks) /c${TOKEN}d/.test(k);`,
+      `for await (const k of ks) /d${TOKEN}e/.test(k);`,
+      'const q = (a + b) / c / d;',
+      'const p = f(a) / g(b) / 2;',
+    ].join('\n');
+    expect(readSource(src).lines).toEqual([
+      { line: 1, text: TOKEN },
+      { line: 2, text: `b${TOKEN}c` },
+      { line: 3, text: `c${TOKEN}d` },
+      { line: 4, text: `d${TOKEN}e` },
+    ]);
+    const r = scan(tree({ 'packages/kernel/src/a.ts': `const s = 'x';\nif (s) /${TOKEN}/.test(s);\n` }, syntheticList(SPEC)));
+    expect(at(r)).toEqual([['packages/kernel/src/a.ts', 2, 'token']]);
   });
 
   it('a token split by an escape is decoded first: \\u0065 inside a word joins it', () => {

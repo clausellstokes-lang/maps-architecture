@@ -62,7 +62,7 @@ const ALLOW = 'packages/testkit/baselines/denylist-allow.json';
 const LIST = 'packages/testkit/baselines/denylist.json';
 
 /** Runs the entry with its printed lines captured. */
-function runCaptured(args: string[], root: string): { code: number; printed: string } {
+function runCaptured(args: string[], root: string, listPath?: string): { code: number; printed: string } {
   rmSync(join(out, SCAN_REPORT_FILE), { force: true });
   const chunks: string[] = [];
   const write = process.stdout.write.bind(process.stdout);
@@ -71,7 +71,7 @@ function runCaptured(args: string[], root: string): { code: number; printed: str
     return true;
   }) as typeof process.stdout.write;
   try {
-    return { code: run(args, { out, root }), printed: chunks.join('') };
+    return { code: run(args, { out, root, ...(listPath === undefined ? {} : { list: listPath }) }), printed: chunks.join('') };
   } finally {
     process.stdout.write = write;
   }
@@ -128,10 +128,25 @@ describe('the entry resolves plat/ from its own place (N-23: a scratch copy scan
     expect(existsSync(join(PLAT_ROOT, 'packages', 'testkit', 'baselines', 'denylist-allow.json'))).toBe(true);
   });
 
-  it('on this tree with no deny-list, the real run stops naming denylist.json (exit 2), never a vacuous pass', () => {
-    if (existsSync(join(PLAT_ROOT, DENYLIST))) return; // M-1's list has crossed: M0-k-07's run judges it
+  // hardening round S1, K6-6 (checks/M0-k-06-notes.md): this case returned early once M-1's list exists and then
+  // asserted nothing; both branches now assert — never a vacuous pass, never a stop on a tree whose list is present
+  it('on this tree, the real run stops naming denylist.json (exit 2) while the list is absent; with the list present it runs (exit 0 or 1, never 2)', () => {
+    expect.assertions(1);
     const r = run([], { out });
-    expect(r).toBe(2);
+    if (existsSync(join(PLAT_ROOT, DENYLIST))) expect([0, 1]).toContain(r);
+    else expect(r).toBe(2);
+  });
+
+  it('on this tree with a deny-list present (a synthetic one beside it), the real run scans plat/ and exits 0 or 1, never 2 (K6-6)', () => {
+    const dir = mkdtempSync(join(tmpdir(), 'plat-k06-scan-list-'));
+    temps.push(dir);
+    const listPath = join(dir, 'denylist.json');
+    writeFileSync(listPath, list());
+    const { code, printed } = runCaptured([], PLAT_ROOT, listPath);
+    expect(printed).not.toContain('scan stopped');
+    expect([0, 1]).toContain(code);
+    const rep = JSON.parse(readFileSync(join(out, SCAN_REPORT_FILE), 'utf8')) as { files: { scanned: number } };
+    expect(rep.files.scanned).toBeGreaterThan(100);
   });
 });
 

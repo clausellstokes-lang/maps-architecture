@@ -5,7 +5,11 @@
 // end a text, so no 3-gram spans them; `\t` and the other one-letter escapes separate tokens). Pieces on one line are
 // joined by a space, so a copied row written as several literals on one line is still one text. A line holding exactly
 // one string literal and otherwise only brackets, commas, colons and semicolons (a comment beside it ignored) is a cell
-// of a source list: a maximal block of such lines is a column (a list written one item per line).
+// of a source list: a maximal block of such lines is a column (a list written one item per line). An array literal is a
+// column too, whatever its layout (hardening round S1, K6-1): its own strings (not those nested in a call, an object or
+// another array), and one key's string values across the object literals that are its elements (a table of records);
+// a line block whose every cell is a string of one array column is that column already and is not reported twice. A `/`
+// after the `)` that closes an `if`, `while`, `for` or `with` head starts a regular expression, not a division (K6-2).
 
 /** One line's scanned text: `\n` inside it marks a decoded line break (no 3-gram spans it). */
 export interface SourceLine {
@@ -20,6 +24,8 @@ export interface SourceText {
 }
 
 const REGEX_AFTER_WORD = new Set(['return', 'typeof', 'case', 'do', 'else', 'in', 'of', 'new', 'delete', 'void', 'throw', 'yield', 'await', 'instanceof']);
+/** A `(` after one of these words opens a statement head: the `/` after its closing `)` starts a regular expression (K6-2). */
+const CONTROL_HEAD = new Set(['if', 'while', 'for', 'with']);
 const PUNCT_ONLY = /^[\s[\](){},;:]*$/;
 
 interface LineInfo {
@@ -27,7 +33,35 @@ interface LineInfo {
   strings: number;
   code: string;
   cell: string;
+  /** The ids of the strings on this line (a line-block cell holds exactly one). */
+  ids: number[];
 }
+
+/** One string literal or template text part: its id, its first line and its decoded text (a real line break as `\n`). */
+interface Cell {
+  id: number;
+  line: number;
+  parts: string[];
+}
+
+/** An open bracket of the code (K6-1, K6-2). */
+interface Frame {
+  kind: '[' | '(' | '{' | '${';
+  /** `(`: it opens an `if`, `while`, `for` or `with` head. */
+  control: boolean;
+  /** `[`: its own strings. */
+  strings: Cell[];
+  /** `[`: one key's string values across its object elements. */
+  byKey: Map<string, Cell[]>;
+  /** `{`: its properties' string values with their keys. */
+  pairs: [string, Cell][];
+  /** `{`: the current property's key (null before its `:`). */
+  key: string | null;
+  /** `{`: the last identifier or string, the key when a `:` follows. */
+  pending: string | null;
+}
+
+const cellText = (c: Cell): string => c.parts.join('\n');
 
 /** Reads a source text into its per-line literal and comment texts and its source-list columns. */
 export function readSource(src: string): SourceText {
@@ -35,7 +69,7 @@ export function readSource(src: string): SourceText {
   const at = (line: number): LineInfo => {
     let x = info.get(line);
     if (x === undefined) {
-      x = { text: '', strings: 0, code: '', cell: '' };
+      x = { text: '', strings: 0, code: '', cell: '', ids: [] };
       info.set(line, x);
     }
     return x;
@@ -46,16 +80,26 @@ export function readSource(src: string): SourceText {
   // the current piece: its text and whether it is a string (a cell candidate)
   let piece = '';
   let pieceIsString = false;
+  let cur: Cell | null = null;
+  let nextId = 0;
   const open = (isString: boolean): void => {
     piece = '';
     pieceIsString = isString;
     const x = at(line);
-    if (isString) x.strings += 1;
+    if (isString) {
+      cur = { id: nextId, line, parts: [] };
+      nextId += 1;
+      x.strings += 1;
+      x.ids.push(cur.id);
+    }
   };
   const flush = (): void => {
     const x = at(line);
     x.text = x.text === '' ? piece : `${x.text} ${piece}`;
-    if (pieceIsString) x.cell = x.cell === '' ? piece : `${x.cell} ${piece}`;
+    if (pieceIsString) {
+      x.cell = x.cell === '' ? piece : `${x.cell} ${piece}`;
+      if (cur !== null) cur.parts.push(piece);
+    }
     piece = '';
   };
   /** A real line break inside a piece: the piece goes to this line and goes on at the next. */
@@ -63,16 +107,72 @@ export function readSource(src: string): SourceText {
     flush();
     line += 1;
     const x = at(line);
-    if (pieceIsString) x.strings += 1;
+    if (pieceIsString) {
+      x.strings += 1;
+      if (cur !== null) x.ids.push(cur.id);
+    }
   };
   const code = (ch: string): void => {
     at(line).code += ch;
   };
+
+  // the open brackets, and the columns the closed array literals make (K6-1)
+  const frames: Frame[] = [];
+  const arrayColumns: { line: number; cells: string[]; ids?: Set<number> }[] = [];
+  const top = (): Frame | undefined => frames[frames.length - 1];
+  const push = (kind: Frame['kind'], control = false): void => {
+    frames.push({ kind, control, strings: [], byKey: new Map(), pairs: [], key: null, pending: null });
+  };
+  /** A finished string or template text part goes to the bracket it stands in. */
+  const settle = (): void => {
+    const c = cur;
+    cur = null;
+    if (c === null) return;
+    const f = top();
+    if (f === undefined) return;
+    if (f.kind === '[') f.strings.push(c);
+    else if (f.kind === '{') {
+      if (f.key !== null) f.pairs.push([f.key, c]);
+      else f.pending = cellText(c);
+    }
+  };
+  const finish = (f: Frame): void => {
+    if (f.kind === '[') {
+      if (f.strings.length > 1) arrayColumns.push({ line: (f.strings[0] as Cell).line, cells: f.strings.map(cellText), ids: new Set(f.strings.map((c) => c.id)) });
+      for (const cells of f.byKey.values()) if (cells.length > 1) arrayColumns.push({ line: (cells[0] as Cell).line, cells: cells.map(cellText) });
+    } else if (f.kind === '{') {
+      const p = top();
+      if (p?.kind === '[') {
+        for (const [k, c] of f.pairs) {
+          const cells = p.byKey.get(k);
+          if (cells === undefined) p.byKey.set(k, [c]);
+          else cells.push(c);
+        }
+      }
+    }
+  };
+  /** Closes the nearest open bracket of one of `kinds` (and every bracket opened inside it); a stray closer closes nothing. */
+  const close = (kinds: readonly Frame['kind'][]): Frame | null => {
+    let k = frames.length - 1;
+    while (k >= 0 && !kinds.includes((frames[k] as Frame).kind)) k -= 1;
+    if (k < 0) return null;
+    let f: Frame | undefined;
+    while (frames.length > k) {
+      f = frames.pop() as Frame;
+      finish(f);
+    }
+    return f as Frame;
+  };
+
   // the previous significant code token, for telling a regular expression from a division
   let prevChar = '';
   let prevWord = '';
-  const templateDepth: number[] = []; // brace depth at each open `${`
-  let braces = 0;
+  let afterHead = false; // the previous token is the `)` closing an if / while / for / with head (K6-2)
+  const after = (ch: string, word = ''): void => {
+    prevChar = ch;
+    prevWord = word;
+    afterHead = false;
+  };
 
   const readEscape = (): void => {
     // src[i] is the backslash
@@ -140,6 +240,7 @@ export function readSource(src: string): SourceText {
       }
     }
     flush();
+    settle();
   };
 
   /** Reads a template's text from src[i] (after the backquote or a closing `}`) to the backquote or a `${`. */
@@ -151,12 +252,13 @@ export function readSource(src: string): SourceText {
       else if (c === '`') {
         i += 1;
         flush();
+        settle();
         return;
       } else if (c === '$' && src[i + 1] === '{') {
         i += 2;
         flush();
-        templateDepth.push(braces);
-        braces += 1;
+        settle();
+        push('${');
         return;
       } else if (c === '\n') {
         i += 1;
@@ -170,9 +272,10 @@ export function readSource(src: string): SourceText {
       }
     }
     flush();
+    settle();
   };
 
-  const regexAllowed = (): boolean => prevChar === '' || /[(,=:[!&|?{};+\-*%<>~^]/.test(prevChar) || REGEX_AFTER_WORD.has(prevWord);
+  const regexAllowed = (): boolean => prevChar === '' || /[(,=:[!&|?{};+\-*%<>~^]/.test(prevChar) || REGEX_AFTER_WORD.has(prevWord) || (prevChar === ')' && afterHead);
 
   while (i < n) {
     const c = src[i] as string;
@@ -218,15 +321,13 @@ export function readSource(src: string): SourceText {
     }
     if (c === "'" || c === '"') {
       readString(c);
-      prevChar = 'a';
-      prevWord = '';
+      after('a');
       continue;
     }
     if (c === '`') {
       i += 1;
       readTemplate();
-      prevChar = 'a';
-      prevWord = '';
+      after('a');
       continue;
     }
     if (c === '/' && regexAllowed()) {
@@ -252,19 +353,15 @@ export function readSource(src: string): SourceText {
       }
       while (i < n && /[a-z]/i.test(src[i] as string)) i += 1;
       flush();
-      prevChar = 'a';
-      prevWord = '';
+      after('a');
       continue;
     }
-    if (c === '{') braces += 1;
     if (c === '}') {
-      braces -= 1;
-      if (templateDepth.length > 0 && templateDepth[templateDepth.length - 1] === braces) {
-        templateDepth.pop();
+      const f = close(['{', '${']);
+      if (f?.kind === '${') {
         i += 1;
         readTemplate();
-        prevChar = 'a';
-        prevWord = '';
+        after('a');
         continue;
       }
     }
@@ -273,33 +370,59 @@ export function readSource(src: string): SourceText {
       while (j < n && /[A-Za-z0-9_$]/.test(src[j] as string)) j += 1;
       const w = src.slice(i, j);
       code(w);
-      prevWord = w;
-      prevChar = 'a';
+      const f = top();
+      if (f?.kind === '{' && f.key === null) f.pending = w;
+      after('a', w === 'await' && prevWord === 'for' ? 'for' : w); // `for await (` opens a head too
       i = j;
       continue;
     }
     code(c);
-    prevChar = c;
-    prevWord = '';
+    let head = false;
+    if (c === '(') push('(', CONTROL_HEAD.has(prevWord));
+    else if (c === '[') push('[');
+    else if (c === '{') push('{');
+    else if (c === ')') head = close(['('])?.control ?? false;
+    else if (c === ']') close(['[']);
+    else {
+      const f = top();
+      if (f?.kind === '{') {
+        if (c === ',' || c === ';') {
+          f.key = null;
+          f.pending = null;
+        } else if (c === ':' && f.key === null && f.pending !== null) {
+          f.key = f.pending;
+          f.pending = null;
+        }
+      }
+    }
+    after(c);
+    afterHead = head;
     i += 1;
   }
+  while (frames.length > 0) finish(frames.pop() as Frame); // an unclosed array still gives its column
 
   const nums = [...info.keys()].sort((a, b) => a - b);
   const lines: SourceLine[] = [];
-  const columns: { line: number; cells: string[] }[] = [];
-  let block: { line: number; cells: string[] } | null = null;
+  const blocks: { line: number; cells: string[]; ids: number[] }[] = [];
+  let block: { line: number; cells: string[]; ids: number[] } | null = null;
   let last = -1;
   for (const k of nums) {
     const x = info.get(k) as LineInfo;
     if (x.text.trim() !== '') lines.push({ line: k, text: x.text });
     const isCell = x.strings === 1 && PUNCT_ONLY.test(x.code);
-    if (isCell && block !== null && last === k - 1) block.cells.push(x.cell);
-    else {
-      if (block !== null && block.cells.length > 1) columns.push(block);
-      block = isCell ? { line: k, cells: [x.cell] } : null;
+    if (isCell && block !== null && last === k - 1) {
+      block.cells.push(x.cell);
+      block.ids.push(...x.ids);
+    } else {
+      if (block !== null && block.cells.length > 1) blocks.push(block);
+      block = isCell ? { line: k, cells: [x.cell], ids: [...x.ids] } : null;
     }
     last = isCell ? k : -1;
   }
-  if (block !== null && block.cells.length > 1) columns.push(block);
+  if (block !== null && block.cells.length > 1) blocks.push(block);
+  // a line block inside one array column is that column already (one list, one hit)
+  const inArray = (b: { ids: number[] }): boolean => arrayColumns.some((a) => a.ids !== undefined && b.ids.every((id) => (a.ids as Set<number>).has(id)));
+  const columns = [...blocks.filter((b) => !inArray(b)).map((b) => ({ line: b.line, cells: b.cells })), ...arrayColumns.map((a) => ({ line: a.line, cells: a.cells }))];
+  columns.sort((a, b) => a.line - b.line);
   return { lines, columns };
 }
