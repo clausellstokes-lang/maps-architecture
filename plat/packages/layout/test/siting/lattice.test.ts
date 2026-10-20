@@ -224,6 +224,38 @@ describe("the lattice's water rule (C-0076)", () => {
     });
   });
 
+  // N-c1c-1 (mutant X3): every band above spans y = 0; this one lies wholly north of the nucleus (every y > 0), so a box
+  // whose minimum y were taken only from negative ys (+∞ here) would quick-reject every edge across it.
+  it('a band wholly north of the nucleus (every y > 0): the edges across it impassable but along its deck, its nodes water', () => {
+    const band: LatticePoint[] = [P(-60_000, 20_000), P(60_000, 20_000), P(60_000, 24_000), P(-60_000, 24_000)];
+    const deck = { id: 'bridge:0', a: P(1000, 20_000), b: P(1000, 24_000) };
+    const site = smallSite(9, { frameAreaHa: 100, water: { faces: [band], decks: [deck] } });
+    const L = buildLattice(site, siteCosts(site));
+    let wetPassable = 0;
+    let wetBlocked = 0;
+    for (const [u, v, w, len] of edges(L)) {
+      const a = L.points[u];
+      const b = L.points[v];
+      if (!segmentMeetsRing(band, a, b)) {
+        expect(w).toBe(len);
+        continue;
+      }
+      const along = distToSegment(a, deck.a, deck.b) <= L.spacingCm && distToSegment(b, deck.a, deck.b) <= L.spacingCm && Math.abs(b.x - a.x) <= Math.abs(b.y - a.y) * Math.tan(Math.PI / 6);
+      if (along) wetPassable += 1;
+      else wetBlocked += 1;
+      expect(w).toBe(along ? len : Infinity);
+    }
+    expect(wetPassable).toBeGreaterThanOrEqual(2);
+    expect(wetBlocked).toBeGreaterThan(100);
+    let wetNodes = 0;
+    for (let i = 0; i < L.points.length; i += 1) {
+      const inBand = insideRing(band, L.points[i], true);
+      expect(L.water[i]).toBe(inBand ? 1 : 0);
+      if (inBand) wetNodes += 1;
+    }
+    expect(wetNodes).toBeGreaterThan(50);
+  });
+
   it('a search from the west bank reaches the east bank only across the deck', () => {
     const { L, water } = riverSite(1);
     const west = L.points.findIndex((p, i) => L.interior[i] === 1 && p.x < -20_000 && Math.abs(p.y) < 2000);
@@ -310,5 +342,8 @@ describe("the shared constants and a ring's box (geom.ts, lattice.ts)", () => {
   it('boxOf gives [minX, minY, maxX, maxY] of a ring', () => {
     expect(boxOf([P(1, 5), P(3, -2), P(-4, 7)])).toEqual([-4, -2, 3, 7]);
     expect(boxOf([P(-9, 2), P(6, 40), P(0, -30)])).toEqual([-9, -30, 6, 40]);
+    // Wholly in one quadrant (N-c1c-1, mutant X3): no coordinate of the ring is negative, or none positive.
+    expect(boxOf([P(5, 9), P(12, 3), P(7, 20)])).toEqual([5, 3, 12, 20]);
+    expect(boxOf([P(-5, -9), P(-12, -3), P(-7, -20)])).toEqual([-12, -20, -5, -3]);
   });
 });

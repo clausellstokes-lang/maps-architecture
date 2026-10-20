@@ -6,20 +6,26 @@
 // F-WALL's gate rungs (§4.2 S3 (7), §5.2; C-0085): two routes that first reach T = t₁ at one point cannot both be
 // gates; the later pick is re-drawn from its next ranked candidate (≤ 3 attempts), then dropped and reported. Each
 // re-draw or drop re-solves the routes and re-derives T and the level set from the routes that stand, so T's road set
-// is always the gates' own routes (C-0201 (6)). A route that re-enters the stage after its gate (relief can bend it
-// back in) has its outward stretch re-solved outside the stage, so roads leaving the walled stage = N (§13.2; §4.3's
-// wallCrossingPenalty, only at gates), reported as a `reroute`, ≤ 3 per route. The loop ends because every round
-// re-draws, drops or reroutes within those caps.
+// is the gates' own routes (C-0201 (6)) but for a route the deck rule re-solved (below). A route that re-enters the
+// stage after its gate (relief can bend it back in) has its outward stretch re-solved outside the stage, so roads
+// leaving the walled stage = N (§13.2; §4.3's wallCrossingPenalty, only at gates), reported as a `reroute`, ≤ 3 per
+// route. The deck rule (§4.2 S3 (7)): a route whose first point at T = t₁ falls on a deck edge with the gate's point
+// in the water (a gate standing in the river, which no trace can pin) is re-solved whole with every deck edge
+// straddling the boundary excluded (`resolveOffDecks`), its gate then on ground; T and the boundary keep the route as
+// (5) solved it and are not re-derived for it, ≤ 3 per route, and a route the re-solve cannot serve is `unserved`
+// (F-ROUTE, §5.2). A gate on a deck edge whose point is dry stands as before: the rule's fuller reach (a gate anywhere
+// on a raised stretch, or nearer it than the gatehouse's foot) reads §2.7's laws' gatehouse and band rows, M1's. The
+// loop ends because every round re-draws, drops, re-solves or reroutes within those caps. C-0397.
 import { CONCERNS, STAGES, type LatticePoint } from '@plat/kernel';
 import type { Destination, GateSite } from '@plat/model';
 import { workLimitOf, loadWorkLimits } from '@plat/tables';
 import { fieldT, stageThreshold, type FieldOptions } from './field.js';
 import { gateCount, gatePicks, gatesOnBoundary } from './gates.js';
 import { bearingCdeg, HA_CM2, quot } from './geom.js';
-import { buildLattice, siteCosts } from './lattice.js';
+import { buildLattice, inWater, siteCosts } from './lattice.js';
 import { levelSet } from './levelset.js';
 import { plaza as drawPlaza } from './plaza.js';
-import { gateRoutes, plazaTree, rerouteOutside } from './routes.js';
+import { gateRoutes, plazaTree, rerouteOutside, resolveOffDecks } from './routes.js';
 import type { Gate, GatePick, GateRoute, GateRung, Lattice, LevelSet, S3Slice, Site, Threshold, UnservedRoute } from './types.js';
 
 /** The slice's options: a requested N₁, requested bearings, the water pull, route.nodes' limit, F-WALL's attempts. */
@@ -36,9 +42,9 @@ export interface SliceOptions {
 /** F-WALL's re-draw cap (§4.2 S3 (7): "≤ 3 attempts"). */
 export const GATE_REDRAWS = 3;
 
-/** The stage-1 field, its threshold, level set and gates over `routes`. */
-function boundaryOf(lattice: Lattice, routes: GateRoute[], a1: number, areaCm2: number, pull: FieldOptions['pull']): { field: ReturnType<typeof fieldT>; threshold: Threshold; set: LevelSet; gates: (Gate | null)[] } {
-  const field = fieldT(lattice, routes, a1, pull === undefined ? {} : { pull });
+/** The stage-1 field over `fieldRoutes` (the routes T reads), its threshold, level set and the gates of `routes`. */
+function boundaryOf(lattice: Lattice, fieldRoutes: GateRoute[], routes: GateRoute[], a1: number, areaCm2: number, pull: FieldOptions['pull']): { field: ReturnType<typeof fieldT>; threshold: Threshold; set: LevelSet; gates: (Gate | null)[] } {
+  const field = fieldT(lattice, fieldRoutes, a1, pull === undefined ? {} : { pull });
   const threshold = stageThreshold(field, areaCm2);
   const set = levelSet(field, threshold.t);
   const gates = gatesOnBoundary(routes, threshold.t, set);
@@ -104,6 +110,9 @@ export function s3Slice(site: Site, opts: SliceOptions = {}): S3Slice {
   const rungs: GateRung[] = [];
   const attempts = new Map<number, number>();
   const reroutes = new Map<number, number>();
+  // (7)'s deck rule: per re-solved route, the route as (5) solved it (T and the boundary read it), and its re-solves.
+  const solvedAs = new Map<number, GateRoute>();
+  const resolves = new Map<number, number>();
   let work = tree.settled;
   const first = gateRoutes(tree, picks, { nodeLimit: limit });
   work += first.charged;
@@ -111,7 +120,7 @@ export function s3Slice(site: Site, opts: SliceOptions = {}): S3Slice {
   let routes = first.routes;
   picks = picks.filter((p) => routes.some((r) => r.ordinal === p.ordinal));
   for (;;) {
-    const b = boundaryOf(lattice, routes, a1, areaCm2, opts.pull);
+    const b = boundaryOf(lattice, routes.map((r) => solvedAs.get(r.ordinal) ?? r), routes, a1, areaCm2, opts.pull);
     const hit = coincidence(b.gates);
     if (hit !== null) {
       const earlier = routes[hit[0]].ordinal;
@@ -133,6 +142,7 @@ export function s3Slice(site: Site, opts: SliceOptions = {}): S3Slice {
           picks = picks.map((q, i) => (i === at ? moved : q));
         }
       }
+      solvedAs.delete(later);
       if (solved === null) {
         rungs.push({ rung: 'drop', ordinal: later, with: earlier, attempt: 0, from: p.node, to: -1 });
         picks = picks.filter((_, i) => i !== at);
@@ -142,6 +152,30 @@ export function s3Slice(site: Site, opts: SliceOptions = {}): S3Slice {
       }
       continue;
     }
+    // (7)'s deck rule: a gate standing in the water (its route's first exit a deck edge) re-solves its route whole off the
+    // decks straddling the boundary (≤ 3 times per route; past them, or with no route, F-ROUTE's `unserved`).
+    let resolved = false;
+    for (let k = 0; k < routes.length && !resolved; k += 1) {
+      const g = b.gates[k];
+      if (g === null || !inWater(lattice, g.at)) continue;
+      const r = routes[k];
+      const tried = resolves.get(r.ordinal) ?? 0;
+      resolves.set(r.ordinal, tried + 1);
+      const p = picks.find((q) => q.ordinal === r.ordinal) as GatePick;
+      const again = tried < GATE_REDRAWS ? resolveOffDecks(lattice, p, b.set.selected, limit) : { routes: [], unserved: [{ ordinal: r.ordinal, code: 'unserved' as const, count: 0, limit }], charged: 0 };
+      work += again.charged;
+      if (again.routes.length === 1) {
+        if (!solvedAs.has(r.ordinal)) solvedAs.set(r.ordinal, r);
+        routes = routes.map((q) => (q.ordinal === r.ordinal ? again.routes[0] : q));
+      } else {
+        unserved.push(...again.unserved);
+        solvedAs.delete(r.ordinal);
+        picks = picks.filter((q) => q.ordinal !== r.ordinal);
+        routes = routes.filter((q) => q.ordinal !== r.ordinal);
+      }
+      resolved = true;
+    }
+    if (resolved) continue;
     // A route that re-enters the stage after its gate: its outward stretch re-solved outside (≤ 3 times per route).
     let rerouted = false;
     for (let k = 0; k < routes.length && !rerouted; k += 1) {
