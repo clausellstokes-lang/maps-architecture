@@ -6,10 +6,11 @@
 // `denylist.json` (N-22: the others have nothing to read in that kind); C8 – C10 are named in the report as not run at
 // M0 (V12 §3.3, M1); and the crossing record check (C-0092 (3)). C2's token scan of the notes is the content scan's
 // (`corepack pnpm scan` reads this folder's files by their string values, N-26; M0-k-06, M0-k-07): the check reads a
-// note's length and characters.
+// note's length and characters. A `baselines.json` of no row and an `ng-faces.json` of no face fail C1 (hardening
+// round S1, N-j): a crossing never admits a file the parity job or the face comparisons would refuse or judge nothing on.
 import { createHash } from 'node:crypto';
 import { isUnit } from '@plat/tables';
-import { rowProblem, rowsOf } from './baselines.js';
+import { EMPTY_BASELINES, rowProblem, rowsOf } from './baselines.js';
 import { canonicalJson } from './canonical.js';
 import { crossingFileOf, recordCheck, type CrossingRecord } from './crossing.js';
 import { denylistProblems } from './denylist.js';
@@ -61,6 +62,12 @@ export interface BaselinesCheckReport {
 }
 
 const NOT_RUN_AT_M0 = 'not run at M0 (V12 §3.3, M1)';
+/**
+ * C1's line for an `ng-faces.json` of no face (hardening round S1, N-j): the crossing refuses at the gate the empty file
+ * the comparisons that read it would judge nothing on, as the parity CLI stops on a `baselines.json` of no row
+ * (`EMPTY_BASELINES`, whose text C1 names for that kind; §13.8 *Edges*; C-0186).
+ */
+const EMPTY_NG_FACES = 'empty: the file holds no face — an empty face file fails, never passes vacuously (§13.8 Edges; C-0099)';
 /** The checks each kind runs (N-22: C1 and C3 alone for the deny-list). */
 export const CHECKS_RUN: Readonly<Record<CheckKind, readonly string[]>> = Object.freeze({
   baselines: ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7'],
@@ -134,6 +141,7 @@ function c1Baselines(v: unknown, out: string[]): void {
       if (/(?:^|\.)note$/.test(path)) return;
       if (!(ID_RE.test(s) || DATE_RE.test(s) || DATE_TIME_RE.test(s) || SEMVER_RE.test(s) || RESEARCH_LABEL_RE.test(s))) out.push(`header: ${path} is not a pattern string`);
     });
+  if (rows.length === 0) out.push(`file: ${EMPTY_BASELINES}`);
   const ids = new Set<string>();
   rows.forEach((r, i) => {
     const name = rowName(r, i);
@@ -260,7 +268,10 @@ export function baselinesCheck(input: {
   const rec = recordCheck(input.crossings, file, sha256, rows, run);
   add('C1', (out) => {
     if (kind === 'baselines') c1Baselines(value, out);
-    else if (kind === 'ng-faces') for (const p of ngFacesProblems(value)) out.push(p);
+    else if (kind === 'ng-faces') {
+      for (const p of ngFacesProblems(value)) out.push(p);
+      if (isObj(value) && Array.isArray(value['faces']) && value['faces'].length === 0) out.push(`faces: ${EMPTY_NG_FACES}`);
+    }
     else for (const p of denylistProblems(value).problems) out.push(p);
   });
   add(

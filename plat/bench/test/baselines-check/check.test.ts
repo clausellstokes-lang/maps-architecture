@@ -2,7 +2,7 @@
 // crossing files exits 0 / 1 / 2 / 64 as its case states, writes the report to PLAT_BENCH_OUT, and reads no path
 // outside plat/: node:fs is wrapped (a pass-through that records every call while a test asks it to) and the log shows
 // the file, the crossings.json beside it and the --previous version read, nothing else.
-import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
+import { existsSync, mkdtempSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -40,8 +40,8 @@ beforeAll(() => {
 });
 afterAll(() => rmSync(out, { recursive: true, force: true }));
 
-function logged(args: string[]): { code: number; log: { fn: string; path: string }[] } {
-  rmSync(join(out, CHECK_REPORT_FILE), { force: true });
+function logged(args: string[], keep = false): { code: number; log: { fn: string; path: string }[] } {
+  if (!keep) rmSync(join(out, CHECK_REPORT_FILE), { force: true });
   calls.list = [];
   calls.on = true;
   try {
@@ -99,7 +99,48 @@ describe('corepack pnpm baselines:check (M0-k-05, C-0092, C-0113)', () => {
   it('exit 2: a missing file stops naming it, and no report is written', () => {
     const { code, log } = logged([`${FX}/absent/baselines.json`]);
     expect(code).toBe(2);
-    expect(log.filter((x) => WRITES.has(x.fn))).toEqual([]);
+    // the only writes: the output folder made and an earlier report's path removed (N-h); no file written
+    expect(
+      log
+        .filter((x) => WRITES.has(x.fn))
+        .filter((c) => !((c.fn === 'rmSync' && resolve(c.path) === resolve(out, CHECK_REPORT_FILE)) || (c.fn === 'mkdirSync' && resolve(c.path) === resolve(out)))),
+    ).toEqual([]);
+    expect(existsSync(join(out, CHECK_REPORT_FILE))).toBe(false);
+  });
+
+  it('hardening round S1 (N-h): a pass, then a stop or a usage error over the same PLAT_BENCH_OUT leaves no report', () => {
+    const rep = join(out, CHECK_REPORT_FILE);
+    expect(logged([`${FX}/pass/baselines.json`]).code).toBe(0);
+    expect(existsSync(rep)).toBe(true);
+    expect(logged([`${FX}/absent/baselines.json`], true).code).toBe(2);
+    expect(existsSync(rep)).toBe(false);
+    expect(logged([`${FX}/pass/baselines.json`]).code).toBe(0);
+    expect(logged([], true).code).toBe(64);
+    expect(existsSync(rep)).toBe(false);
+  });
+
+  it('hardening round S1 (N-j): a crossing of an empty baselines.json ([] with its rows-0 record) fails C1 naming it, exit 1', () => {
+    const lines: string[] = [];
+    const spy = vi.spyOn(process.stdout, 'write').mockImplementation((chunk: string | Uint8Array) => {
+      lines.push(String(chunk));
+      return true;
+    });
+    let code = -1;
+    try {
+      code = logged([`${FX}/empty/baselines.json`]).code;
+    } finally {
+      spy.mockRestore();
+    }
+    expect(code).toBe(1);
+    const r = report();
+    expect(r.pass).toBe(false);
+    expect(r.record.status).toBe('pass');
+    expect(r.checks.find((c) => c.id === 'C1')).toMatchObject({
+      status: 'fail',
+      problems: ['file: empty: the file holds no row — an empty baseline file fails, never passes vacuously (§13.8 Edges; C-0099)'],
+    });
+    expect(r.checks.filter((c) => c.status === 'fail').map((c) => c.id)).toEqual(['C1']);
+    expect(lines.join('')).toContain('  C1 fail: file: empty: the file holds no row');
   });
 
   it('exit 64: no file, an unknown file kind, an unknown option, or a path outside plat/', () => {
