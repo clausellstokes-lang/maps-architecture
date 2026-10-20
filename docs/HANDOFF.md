@@ -2,6 +2,8 @@
 
 ## RUNNING NOW — 2026-10-20 15:35Z (ACCOUNT 2: session_01F1FyLSKVBzYwVs2sNL8bcS, Fable 5.1 at max, the managing seat; branch `claude/great-galileo-b4mzbq`, draft PR #9 into main; J444)
 
+**20:08Z (J452; the fifth outage and its resume).** The window exhausted ~19:30–19:45Z (every child's seats dead; the containers alive, the scratch intact; nothing landable lost) and reset 20:00Z; the eleven children messaged J408's resume at 20:03–20:07Z with their FROM (AH 9, AI 9, AL 2, AN 2, AO 2, AP 4, AQ 1, AS 1 then d-05a, AT k-05 1, AU 4 then f-02a and s-02, AV 1). Next window: first use 20:01Z, reset ~01:01Z 2026-10-21, the kill expected ~00:20Z; the post-reset resume armed 01:08Z; check-ins every ~55 min.
+
 **19:12Z (J451; check-in 4).** All eleven alive; a-09 S9's build LANDED 18:17Z (the Fable check running), b-02 S2's and d-05b s1's builds LANDED (checks running); k-06 s1 PASS → LANDED as 82bc8c3d from the branch (k-05 continues in AT). The whole-tree landed:verify now names TWO unattributed paths (workLimits.json, denylist-allow.json) — both the N-24 class (a giver re-landed under a wave-less label loses a path handed to an unbuilt receiver): RULED N-24's first option; prepared as M0-s-01's session round S6 (specs.json) and queue row Q91; it launches at the next free slot. The busy list − M0-k-06.
 
 **18:14Z (J450).** AN's hand-back (18:07Z): a-07 s1 PASS (landed at J446); k-02 s2 BLOCKED on k-04's entry.test.ts:94 asserting a non-empty known list after N-2 emptied it — RULED: R12 widened to that one assertion (`toEqual([])`), a declared verdict change; the seventh line of the k-02 S2 spec entry; AN relaunches k-02 from 2 under the CONTINUE RULE. At the landing: --owns with both extension files, M0-k-04's record as a pre-record.
