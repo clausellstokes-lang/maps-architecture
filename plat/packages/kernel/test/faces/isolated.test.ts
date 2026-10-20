@@ -12,7 +12,7 @@ import { connectHole, radialSplit, ringBand, splitFace } from '../../src/faces/i
 import { insertChain } from '../../src/insert/index.js';
 import type { KernelResult } from '../../src/num/index.js';
 import type { Overlay } from '../../src/tx/index.js';
-import { attempt, commit, content, faceArea2Big, faceAt, framed, isolate, isolatedAt, pt } from './support.js';
+import { attempt, commit, content, faceAt, framed, isolate, isolatedAt, parentOf, pt, tileDefect } from './support.js';
 
 const DB = [{ role: 'district_bound', entity: 'd:9' }];
 const ON_NO_RING = /inside the face on none of its rings/;
@@ -68,16 +68,11 @@ describe('splitFace: a cut near an isolated point inside the face (P6)', () => {
 
   it('a cut 40 cm from it splits the face; the children tile it and the point stays isolated, in the child above', () => {
     const { p, f } = p6(1598, 1369);
+    const parent = parentOf(p, 1, f);
     const [l, r] = commit(p, 1, (o) => splitFace(o, f, CUT, { rows: DB })).value as [FaceId, FaceId];
-    // §13.1's tiling at the child level: the children's areas sum to the area of their joint boundary (the cut cancels;
-    // the landings' splits move the slanted ring edges by their hot pixel, so the parent's own area is not the measure).
-    const all = new Set([...faceWalk(p, 1, l).flat(), ...faceWalk(p, 1, r).flat()]);
-    const X = p.vertices.x;
-    const Y = p.vertices.y;
-    const O = p.halfEdges.origin;
-    let s = 0n;
-    for (const h of all) if (!all.has(h ^ 1)) s += BigInt(X[O[h]]) * BigInt(Y[O[h ^ 1]]) - BigInt(X[O[h ^ 1]]) * BigInt(Y[O[h]]);
-    expect(faceArea2Big(p, 1, l) + faceArea2Big(p, 1, r)).toBe(s);
+    // §13.1's tiling at the child level, against the parent read before the split (note N-1): the children's areas sum
+    // to the parent's plus the landings' moves (the splits of the slanted ring edges move them by their hot pixel).
+    expect(tileDefect(p, 1, l, r, parent)).toBe(0n);
     expect(isolatedAt(p, 1598, 1369)).toBeGreaterThanOrEqual(0);
     expect(faceAt(p, 1, 1598, 1369)).toBe(l);
     content(p);
