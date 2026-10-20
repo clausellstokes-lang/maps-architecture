@@ -43,9 +43,9 @@ beforeAll(() => {
 });
 afterAll(() => rmSync(out, { recursive: true, force: true }));
 
-/** Runs the entry with the file-open log on; returns the exit code and the log. */
-function logged(args: string[], baselines?: string): { code: number; log: { fn: string; path: string }[] } {
-  rmSync(join(out, PARITY_REPORT_FILE), { force: true });
+/** Runs the entry with the file-open log on; returns the exit code and the log. `keep` leaves an earlier report in place. */
+function logged(args: string[], baselines?: string, keep = false): { code: number; log: { fn: string; path: string }[] } {
+  if (!keep) rmSync(join(out, PARITY_REPORT_FILE), { force: true });
   calls.list = [];
   calls.on = true;
   try {
@@ -55,6 +55,16 @@ function logged(args: string[], baselines?: string): { code: number; log: { fn: 
     calls.on = false;
   }
 }
+
+/**
+ * A stop's writes beyond the entry's removal of an earlier report (N-h): the output folder made and the report's path
+ * removed are its only writes, so anything else listed here is a write the stop must not make.
+ */
+const stopWrites = (log: { fn: string; path: string }[]): string[] =>
+  log
+    .filter((c) => WRITES.has(c.fn))
+    .filter((c) => !((c.fn === 'rmSync' && resolve(c.path) === resolve(out, PARITY_REPORT_FILE)) || (c.fn === 'mkdirSync' && resolve(c.path) === resolve(out))))
+    .map((c) => `${c.fn} ${c.path}`);
 
 const inPlat = (p: string): boolean => {
   const abs = resolve(PLAT_ROOT, p);
@@ -105,7 +115,7 @@ describe('corepack pnpm parity (M0-k-05, C-0113)', () => {
     const missing = logged(['--ours', 'bench/test/parity/fixtures/ours-pass.json'], join(FX, 'absent', 'baselines.json'));
     expect(missing.code).toBe(2);
     expect(existsSync(join(out, PARITY_REPORT_FILE))).toBe(false);
-    for (const c of missing.log.filter((x) => WRITES.has(x.fn))) expect(c.path).toBe('(none)');
+    expect(stopWrites(missing.log)).toEqual([]);
     const stop = logged(['--ours', 'bench/test/parity/fixtures/ours-pass.json'], join(FX, 'stop', 'baselines.json'));
     expect(stop.code).toBe(2);
     expect(existsSync(join(out, PARITY_REPORT_FILE))).toBe(false);
@@ -123,17 +133,42 @@ describe('corepack pnpm parity (M0-k-05, C-0113)', () => {
       const a = logged(['--ours', 'bench/test/parity/fixtures/ours-pass.json'], emptyBase);
       expect(a.code).toBe(2);
       expect(existsSync(join(out, PARITY_REPORT_FILE))).toBe(false);
-      for (const c of a.log.filter((x) => WRITES.has(x.fn))) expect(c.path).toBe('(none)');
+      expect(stopWrites(a.log)).toEqual([]);
       const b = logged(['--ours', 'bench/test/parity/fixtures/ours-empty.json'], BASE);
       expect(b.code).toBe(2);
       expect(existsSync(join(out, PARITY_REPORT_FILE))).toBe(false);
-      for (const c of b.log.filter((x) => WRITES.has(x.fn))) expect(c.path).toBe('(none)');
+      expect(stopWrites(b.log)).toEqual([]);
     } finally {
       spy.mockRestore();
     }
     const text = lines.join('\n');
     expect(text).toContain(`parity stopped: ${join(FX, 'empty', 'baselines.json')}: empty: the file holds no row`);
     expect(text).toMatch(/parity stopped: bench\/test\/parity\/fixtures\/ours-empty\.json: empty seed family: setting\.seeds is 0/);
+  });
+
+  it('hardening round S1 (N-h): a pass, then a stop or a usage error over the same PLAT_BENCH_OUT leaves no report — never an earlier run\'s beside this exit code', () => {
+    const report = join(out, PARITY_REPORT_FILE);
+    const pass = (): void => {
+      expect(logged(['--ours', 'bench/test/parity/fixtures/ours-pass.json'], BASE).code).toBe(0);
+      expect(existsSync(report)).toBe(true);
+    };
+    pass();
+    expect(logged(['--ours', 'bench/test/parity/fixtures/ours-pass.json'], join(FX, 'empty', 'baselines.json'), true).code).toBe(2);
+    expect(existsSync(report)).toBe(false);
+    pass();
+    expect(logged(['--ours', 'bench/test/parity/fixtures/ours-empty.json'], BASE, true).code).toBe(2);
+    expect(existsSync(report)).toBe(false);
+    pass();
+    expect(logged(['--ours', 'bench/test/parity/fixtures/ours-pass.json'], join(FX, 'stop', 'baselines.json'), true).code).toBe(2);
+    expect(existsSync(report)).toBe(false);
+    pass();
+    expect(logged(['--ours'], BASE, true).code).toBe(64);
+    expect(existsSync(report)).toBe(false);
+    // a fail after a pass replaces the pass's report with its own
+    pass();
+    expect(logged(['--ours', 'bench/test/parity/fixtures/ours-fail.json'], BASE, true).code).toBe(1);
+    const rep = JSON.parse(readFileSync(report, 'utf8')) as { summary: { fail: number } };
+    expect(rep.summary.fail).toBe(2);
   });
 
   it("reads baselines.json from its one place by default (absent at M0: it stops naming the file)", () => {

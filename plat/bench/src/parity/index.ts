@@ -7,10 +7,13 @@
 // failed, 2 stopped naming the file and the row (a missing file, an unreadable row, a row lacking referenceBuild,
 // capture, script or date — T-RIG-1; a baseline file of no row, an our side of no entry or of no seed, a run whose
 // every row reads missingBaseline or notApplicable — §13.8 Edges, C-0186; no report written), 64 usage. The logic is
-// testkit's (C-0113).
+// testkit's (C-0113). A report left in PLAT_BENCH_OUT by an earlier run is removed before the CLI runs, so the folder
+// holds this run's report or none, never an earlier run's beside this run's exit code (hardening round S1, N-h).
+import { rmSync } from 'node:fs';
+import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parityArgs, runParity } from '@plat/testkit';
-import { say, writeTruncated } from '../timing/output.js';
+import { outDir, say, writeTruncated } from '../timing/output.js';
 
 /** plat/ (this file is plat/bench/src/parity/index.ts). */
 export const PLAT_ROOT = fileURLToPath(new URL('../../../', import.meta.url));
@@ -29,6 +32,7 @@ export interface ParityContext {
 
 /** The dispatcher's entry: `bench -- parity --ours <file>` (C-0059, C-0113). */
 export function run(args: string[], ctx: ParityContext): number {
+  rmSync(join(outDir(ctx.out), PARITY_REPORT_FILE), { force: true }); // an earlier run's report never stands beside this run's exit code (N-h)
   const a = parityArgs(args);
   if ('usage' in a) {
     say(a.usage);
