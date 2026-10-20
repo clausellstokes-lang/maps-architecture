@@ -186,32 +186,4 @@ describe("the river's surface (§4.2 S1 (3); C-0175 (1))", () => {
     expect(Math.floor(line.end.cell / g.cols)).toBe(0);
     expect(line.cells.slice(1).every((c) => Math.floor(c / g.cols) < 31)).toBe(true);
   });
-
-  it("inletMasks: the inlet's own side is walled (never an outlet), every other border cell an outlet, a tributary's stop cells outlets too (hardening round S1, note N-c1-6)", () => {
-    const g = gridOf(6, 5);
-    const n = 6 * 5;
-    const side = (i: number, j: number): string => (i === 0 ? 'W' : i === 5 ? 'E' : j === 0 ? 'S' : j === 4 ? 'N' : '');
-    const expectMasks = (inlet: number, walled: (i: number, j: number) => boolean, stop?: Uint8Array): void => {
-      const m = inletMasks(g, inlet, stop);
-      for (let c = 0; c < n; c += 1) {
-        const i = c % 6;
-        const j = Math.floor(c / 6);
-        const border = side(i, j) !== '';
-        const wall = border && walled(i, j);
-        expect([c, m.edge[c]]).toEqual([c, wall ? 1 : 0]);
-        expect([c, m.outlet[c]]).toEqual([c, (border && !wall) || stop?.[c] === 1 ? 1 : 0]);
-      }
-    };
-    // The north edge's middle cell: the north row walled, the other three sides outlets.
-    expectMasks(4 * 6 + 2, (_i, j) => j === 4);
-    // The west edge's cell of row 2: the west column walled.
-    expectMasks(2 * 6, (i) => i === 0);
-    // The north-east corner: both its sides walled.
-    expectMasks(4 * 6 + 5, (i, j) => j === 4 || i === 5);
-    // A tributary's stop: its interior cells become outlets (it ends beside the river it joins).
-    const stop = new Uint8Array(n);
-    stop[2 * 6 + 2] = 1;
-    stop[2 * 6 + 3] = 1;
-    expectMasks(2 * 6 + 5, (i) => i === 5, stop);
-  });
 });

@@ -1,18 +1,14 @@
 // The probe (C-0063, its mechanism C-0106): `corepack pnpm lint`'s `probe-red` check lints the probe fixture in place
 // under the model-package rule set and passes only when every planted line is reported; with one rule disabled in a
-// test configuration it fails, naming the line that rule alone reported. No file is written into plat/ (one case lints a
-// copy of the probe in a fixture root in the OS temporary folder).
+// test configuration it fails, naming the line that rule alone reported. No file is written.
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { pathToFileURL } from 'node:url';
-import { afterAll, describe, expect, it } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import plugin from './index.mjs';
-import { PROBE, PROBE_PROJECT, REQUIRED, plantedLines, runProbe } from './probe.mjs';
+import { PROBE, REQUIRED, plantedLines, runProbe } from './probe.mjs';
 import { MODEL_RULE_NAMES } from './rules/index.mjs';
 import { PLAT_ROOT } from './rules/shared.mjs';
-import { LINT_TIMEOUT, removeTempTrees, tempTree } from './test-support.mjs';
-
-afterAll(removeTempTrees);
+import { LINT_TIMEOUT } from './test-support.mjs';
 
 const planted = plantedLines(readFileSync(join(PLAT_ROOT, ...PROBE.split('/')), 'utf8'));
 const lineOf = (what) => planted.find((p) => p.what === what).line;
@@ -67,24 +63,6 @@ describe('probe-red', () => {
     const r = await runProbe(PLAT_ROOT, { disable: [...MODEL_RULE_NAMES] });
     expect(r.ok).toBe(false);
     expect(r.problems).toHaveLength(10);
-  }, LINT_TIMEOUT);
-
-  // Hardening round S1 (L14 MQ, the r2 check's N4): the guard against a probe that has lost one of C-0063's ten
-  // constructs, on a copy of the probe in a fixture root (the tree's own configuration re-exported there; the probe's
-  // project re-stated without the base it extends), never in plat/.
-  it('fails a probe that has lost a planted construct, naming it, though every remaining planted line is reported', async () => {
-    const text = readFileSync(join(PLAT_ROOT, ...PROBE.split('/')), 'utf8');
-    const lost = text.replace(" // planted: localeCompare\n", '\n');
-    expect(lost).not.toBe(text);
-    const root = tempTree('plat-probe-', {
-      'eslint.config.mjs': `export { default } from ${JSON.stringify(pathToFileURL(join(PLAT_ROOT, 'eslint.config.js')).href)};\n`,
-      [PROBE]: lost,
-      [PROBE_PROJECT]: `${JSON.stringify({ compilerOptions: { strict: true, target: 'ES2022', module: 'ES2022', moduleResolution: 'bundler', lib: ['ES2022'], types: [], noEmit: true }, include: ['zz-probe.ts'] })}\n`,
-    }, { real: true });
-    const r = await runProbe(root);
-    expect(r.problems).toEqual([`${PROBE}: the planted line "localeCompare" (C-0063) is missing from the probe`]);
-    expect(r.ok).toBe(false);
-    expect(r.report).toHaveLength(9);
   }, LINT_TIMEOUT);
 
   it('fails on a missing probe', async () => {

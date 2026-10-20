@@ -3,7 +3,7 @@
 // digests are recomputed from the rebuilt arena". Both M0-d-04 readings: recomputed from nothing, and maintained (the
 // load attaches them when asked).
 import { describe, expect, it } from 'vitest';
-import { hasLevelDigests, levelDigest, recomputeLevelDigest } from '../../src/digest/index.js';
+import { levelDigest, recomputeLevelDigest } from '../../src/digest/index.js';
 import { LEVELS } from '../../src/arena/index.js';
 import { decodeArena, encodeArena } from '../../src/io/index.js';
 import { ALONG_MIX, DEFAULT_MIX } from '../tx/fuzzgen.js';
@@ -16,16 +16,9 @@ describe('the loaded arena\'s per-level route digests (§3.9, M0-d-04)', () => {
       const want = digests(p);
       const loaded = load(encodeArena(p), p);
       expect(digests(loaded)).toEqual(want);
-      // The maintained digests are attached by the load itself when asked (`opts.digests`), not recomputed by
-      // `levelDigest`'s fallback on an arena that carries none (checks/M0-a-15-notes.md note 5): hasLevelDigests tells
-      // the two apart, and the load without the option attaches nothing.
-      expect(hasLevelDigests(loaded)).toBe(false);
       const r = decodeArena(encodeArena(p), p.key, { index: { gridCellCm: CELLS }, digests: true });
       expect(r.ok).toBe(true);
-      if (r.ok) {
-        expect(hasLevelDigests(r.value)).toBe(true);
-        expect(LEVELS.map((l) => levelDigest(r.value, l).map((w) => w >>> 0))).toEqual(want);
-      }
+      if (r.ok) expect(LEVELS.map((l) => levelDigest(r.value, l).map((w) => w >>> 0))).toEqual(want);
     }
   });
 

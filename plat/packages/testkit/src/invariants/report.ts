@@ -53,20 +53,6 @@ export function countsReport(runsPerPrimitive: number, primitives: readonly Fuzz
 }
 
 /**
- * A ladder row's fixture as the summary names it: the whole fixture id — the text before the row's first gloss (` — `,
- * ` (`, `; `) — so `F-PLOT, S10 (§4.7)` stays `F-PLOT, S10` (the hardening round S1's N-12: the first word alone printed
- * `F-PLOT,`).
- */
-function fixtureId(fixture: string): string {
-  let end = fixture.length;
-  for (const gloss of [' — ', ' (', '; ']) {
-    const i = fixture.indexOf(gloss);
-    if (i >= 0 && i < end) end = i;
-  }
-  return fixture.slice(0, end).trim();
-}
-
-/**
  * The numbers-only summary (C-0067, C-0091): per primitive its counts and, per counter it charged, the work-per-unit
  * quantiles and unit count; the constructive set's counts with its deferred cases by milestone and the failing case ids;
  * the ladder table's rows as reached / draws; `bugs` as a count. No timing and no clock.
@@ -86,7 +72,6 @@ export function countsSummary(r: CountsReport): Record<string, unknown> {
       refused: p.refused,
       warnings: p.warnings,
       notes: p.notes,
-      judged: p.judged,
       downgrades: p.downgrades,
       workLimitHits: p.workLimitHits,
       oracle: p.oracle,
@@ -117,7 +102,7 @@ export function countsSummary(r: CountsReport): Record<string, unknown> {
     },
     ladders: {
       covered: r.ladders.covered,
-      rows: r.ladders.rows.map((row) => ({ failureClass: row.failureClass, code: row.code, fixture: fixtureId(row.fixture), status: row.status, reached: row.exercised === null ? null : row.exercised.reached, draws: row.exercised === null ? null : row.exercised.draws })),
+      rows: r.ladders.rows.map((row) => ({ failureClass: row.failureClass, code: row.code, fixture: row.fixture.split(' ')[0], status: row.status, reached: row.exercised === null ? null : row.exercised.reached, draws: row.exercised === null ? null : row.exercised.draws })),
       degenerate: r.ladders.degenerate.length,
     },
   };

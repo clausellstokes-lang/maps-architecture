@@ -448,13 +448,9 @@ export function insetFrameExponent(reachCm: number): number {
  * reach inside `INSET_FRAME_CM` (`insetFrameExponent`): the strips' far corners lie ~L away from the ring, so snapping
  * them to the lattice tilts the moved edge line by up to ~0.7 cm where it meets the result; in the scaled frame that
  * error is ~0.7 / S cm, and the engine's own rounding of the crossings is ~0.7 / S too. The result is divided by S
- * (exact: a power of two) and rounded to the nearest centimetre once. At moderate angles the construction's error is
- * then about the one rounding our engine's answer also carries; it is not one rounding everywhere: at a very sharp
- * vertex the strips' residual tilt (≈ 0.7 ÷ S cm) is multiplied by 1 ÷ sin(θ ÷ 2) at the tip, and outward a long
- * spike leaves k small, so the oracle's vertices there can lie farther from the exact boundary (up to 28.6 cm measured
- * on thin triangles, with every agreement ratio still ≤ 0.50; C-0376). Unscaled (S = 1), the double rounding could put
- * an exact-mitred outward inset's vertices 0.6 cm off, all outward, past the unattracted bound on a correct answer of
- * ours (C-0261).
+ * (exact: a power of two) and rounded to the nearest centimetre once — the exact inset's error is then about the one
+ * rounding our engine's answer also carries. Unscaled (S = 1), the double rounding could put an exact-mitred outward
+ * inset's vertices 0.6 cm off, all outward, past the unattracted bound on a correct answer of ours (C-0261).
  */
 export function oracleInset(ring: Ring, dCm: number, engine: OracleEngine): OracleResult {
   let x0 = Infinity;
@@ -1241,15 +1237,14 @@ export function insetLeavesLattice(ring: Ring, dCm: number): boolean {
 /**
  * One insetRing case judged: on a face the exact check calls non-convex (or holed) our answer must be E_NON_CONVEX
  * and the case is settled without an oracle; on a convex face the collapsed refusal reads as the empty set (the
- * oracle's result must then be empty too, within the bound), its `lastCm` checked to be below dCm. `inset` is the
- * operation judged — `insetRing`, or an answer a meta-test plants in its place.
+ * oracle's result must then be empty too, within the bound), its `lastCm` checked to be below dCm.
  */
-export function judgeInset(h: Harness, c: FaceCase, inset: typeof insetRing = insetRing): void {
+export function judgeInset(h: Harness, c: FaceCase): void {
   const af = faceOf(h, 'insetRing', c);
   if (af === false) return;
   const rings = ringsOfEdges(faceEdges(af.tx, af.face));
   const dCm = c.dists[0];
-  const ours = inset(af.tx, af.face, dCm);
+  const ours = insetRing(af.tx, af.face, dCm);
   if (rings.length !== 1 || !convexCcw(rings[0])) {
     if (!ours.ok && ours.code === 'E_NON_CONVEX') settle(h, 'E_NON_CONVEX on a non-convex face');
     else keep(h.failures, `insetRing [${c.source}]: a non-convex face not refused E_NON_CONVEX — ${JSON.stringify({ rings, dCm })}`);
@@ -1298,11 +1293,13 @@ export const MAX_REFUSAL_SHARE = 0.001;
 export const MAX_ALL_OWN_REFUSED_SHARE = 0.01;
 
 /**
- * insertChain's refusals each operation's agreement met at the PR size (C-0231; N-46 (4) and (5)): the seeds measured
- * (10⁴ cases per operation each) and the refusals classed insertChain's over all of them — the ratchet's baseline. A
- * cap only falls: a later measure that finds fewer lowers it; raising one is the session's call. The seeds and the
- * per-seed counts are C-0231's (every other operation 0 on every seed; every refused case replays on insertChain alone,
- * 0 of this item's own).
+ * insertChain's refusals each operation's agreement met at the PR size, measured by fix round S1 (C-0231; N-46 (4) and
+ * (5)): the seeds measured (10⁴ cases per operation each) and the refusals classed insertChain's over all of them — the
+ * ratchet's baseline. A cap only falls: a later measure that finds fewer lowers it; raising one is the session's call.
+ * The seeds: 5101, −5203, 5309, −5407, 5501, −5623, 5701, −5801, 5903, −6007, 6101, −6203 (the S5 closing check's first
+ * twelve); offsetFace's 6101 never finished — polygon-clipping, an oracle, did not terminate on one case — so −6421 and
+ * 6521 stand in. Per seed: buffer 77 68 67 65 78 56 69 69 66 75 58 82; offsetFace 27 31 29 26 42 41 29 35 38 30 30 25 30;
+ * every other operation 0 on every seed. Every refused case replays on insertChain alone (0 of this item's own).
  */
 export const REFUSAL_MEASURE: Readonly<Record<string, { readonly seeds: number; readonly count: number }>> = {
   union: { seeds: 12, count: 0 },
