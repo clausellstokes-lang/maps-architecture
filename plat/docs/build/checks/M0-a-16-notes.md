@@ -252,3 +252,93 @@ session's known foreign reds did not appear in this run).
     encode, 0 after decode — and a removal needs a transaction, which needs an index).
     * **Suggested handling (M4):** pin the whole text in `facade.test.ts`' foreign-overlay case, as `NO_OPEN` pins the
       closed-overlay text.
+
+## Hardening round S3 (build/M0-a-16-fix-s3, 2026-10-19): the row-by-row outcome (J237 (2), J263, J264, J290 / N-58)
+
+The session's hardening round on the inventory's FIX-NOW rows for this item (`checks/hardening-inventory.md` § M0-a-16:
+notes 2 – 9, 11, 13, 14, 16 – 18) and note 12, moved in from M0-a-06 (J423 R3) with the ruling RQ4
+(`checks/rulings-hardening-1.md` §4, N-61 (4)). Re-triage rulings applied: row 2 DEFERRED to M4 and row 7 HELD for M1
+(report only); row 5 allowed as an additive type. Choices row: C-0387 (seat cell `build/M0-a-16-fix-s3`). Every pin was run red against its fault in the lane's one scratch mirror
+(`waves/selfcheck-build-M0-a-16-fix-s3`, isolation shown: no link into the tree, testkit's `@plat/kernel` resolving
+inside the copy), each mutant alone, restored from the tree with a `cmp` check; deleted after.
+
+### What changed
+
+* `src/facade/kernel.ts`: `writer()` checks `isOpenTx(o)` (`tx/state.ts`, by path; the export is M0-a-06's round S7,
+  C-0372 (7)) in every build in place of `o.closed === true`. A closed overlay keeps its refusal text byte for byte
+  (`… its batch committed, was rejected or threw (§3.3; N-55 (5); C-0290)`); an overlay no transaction minted — a
+  fabricated `InsertTx` shell, a copy of an open overlay — gets its own: `kernel: the overlay is no open transaction: no
+  transaction minted it (kernel.tx or tx hands the callback its overlay; §3.3; RQ4)` (pinned whole). The values an open
+  batch's writers return are kept in a list keyed by the batch's overlay (a module-level `WeakMap`, registered by the
+  kernel whose `tx` minted it when its first op or its callback runs), so any kernel's writer handed that overlay pushes
+  to it and the opening kernel's commit re-stamps it.
+* `src/facade/types.ts`: `ResolveVertexAt`, §3.4's signature verbatim (`(key: PlatKey, at: LatticePoint, sig:
+  VertexSig, carry: CarryMap) => { vertex: VertexId } | { orphaned: true; nearest?: LatticePoint }`), beside `CarryMap`.
+  `facade/index.ts` is untouched (byte-identical): see row 5.
+* Tests: `facade.test.ts` (the shell, the copy, the closed shell; K22; the foreign-arena text whole), `stamps.test.ts`
+  (M22, X19, S05, note 13 ×2, X14), `reflection.test.ts` (the `ResolveVertexAt` type test), `mixer.test.ts` (the widened
+  census), `stubs.test.ts` (the AST site census, the explicit §4b lists). No describe or it title of an earlier round
+  changed; vitest 91 → 106 cases.
+
+### Rows
+
+| row (source note) | outcome | evidence | mutant / probe |
+|---|---|---|---|
+| 12 (note 12; RQ4) | **FIXED** | facade.test 'a fabricated InsertTx shell carrying open: true …' (all 17 writers, debug on and off, the arena bit for bit), 'a copy of an open transaction's overlay …', 'a shell that says it is closed …'; red on the pre-round `kernel.ts` (control OLDK: 3 red, the shell, the copy, note 13) | M12a (the old `closed` guard) KILLED; M12b (guard debug-only) KILLED; M12c (texts swapped) KILLED; M12d (one text) KILLED; M12e (text cut) KILLED |
+| 11 (note 11; RQ4) | **FIXED** (as ruled) | N-55 (5) (1)'s "no open frame of this kernel" read as "an open transaction" by the round's choices row; the open-set test is the guard; the acceptance pins (module `tx()` overlay, another kernel's open transaction) and `owner()` stay green; no M0-k-04 / M0-d-08 round | M11a (the struck line added on top) KILLED by exactly those three tests — the pins hold the reading |
+| 13 (note 13) | **FIXED** (routed through the transaction, RQ4's first option) | stamps.test 'a value another kernel's writer returns inside a batch is re-stamped at that batch's commit, or never current when it is rejected' (red on the pre-round code, OLDK); 'a value a kernel's writer returns inside the module's tx() keeps its in-batch stamp …' pins the remaining case as the debug assertion it is (loud, stale after the commit: no kernel's commit runs) | M13a (the old search of this kernel's frames) KILLED; M13b (no registration) KILLED |
+| 14 (note 14) | **PINNED** | stamps.test Q38 block 'inside the next batch after a cross-commit restore, an op's result is current and carries generation 1' | M22 KILLED |
+| 16 (note 16) | **PINNED** | stamps.test 'a stamp carries a copy of its arena's key …': `not.toBe(p.key)`, the stamp's key written, `p.key` unchanged, a fresh read current, the old value foreign (`ground/9`) | X14 KILLED |
+| 17 (note 17) | **PINNED** | stamps.test Q38 'the generation message is the whole text, the arena's own after the prefix' (the whole text, then `kernel: ` / `arena: ` stripped and compared with `assertStamp`'s) | X19 KILLED |
+| 18 (note 18) | **PINNED** | facade.test 'plat(key) is the arena …': the whole text read where the writer throws (`FOREIGN('ground/0')`), and the rethrown form's tail; the K22 test pins it too | KN7 KILLED (both tests) |
+| 3 (note 3) | **PINNED** | facade.test 'a second kernel's transaction on another ground arena under the same key: this kernel's writers refuse it …' (two crossings, one key; neither arena written; the control kernel accepts) | K22 KILLED |
+| 4 (note 4) | **PINNED** | stamps.test 'the side-table stamp wins over a value's inline stamp: an inline-stamped value of a rejected batch is never current'. Correction to note 4: S05 is no longer equivalent on today's paths — since round S2's generation two Q38 tests fail under it too (a no-index `Resolved` / `QueryResult` read inline reads generation 0) | S05 KILLED (3 tests, the pin among them) |
+| 5 (note 5; C-0089) | **FIXED** (the type) / index export **REPORTED** | reflection.test 'ResolveVertexAt is §3.4's signature …' (tsc -b holds it: arity 4, the parameter types, the return union, four `@ts-expect-error` lines). Not exported by `facade/index.ts`: M0-a-01's `test/num/api-surface.test.ts` holds every folder index's names to `API.md` Appendix B ("No other name is excused"), neither of them this item's file; M2a's service is a kernel member and imports the type by path. Exporting it is the API pass's (API.md Appendix B or its AFTER_APPENDIX_B list) — a note for the session | T5a (carry dropped), T5b (`orphaned: boolean`), T5c (`carry: unknown`), T5d (a bare number in the union) KILLED by tsc; OLDTY (no alias) tsc red |
+| 6 (note 6) | **FIXED** (the census widened; a lint rule would be M0-d-07's `tools/lint`) | mixer.test: a call is counted however written (element access added); a new census of streams built from a key directly (`new Stream`, `streamFromKey`, aliases, namespaces, element access) outside the rng module: none in a model package, the seven harness sites listed by file (testkit ×6 — `constructive/draw.ts:50` among them — and bench ×1); the planted-text unit test | probes P6a (an element-access `mixInto` call in layout), P6b (`new Stream` in layout), P6c (a new testkit harness stream): red under the new tests, green under the pre-round test file (the escape); M6m1 (element access dropped), M6m2 (`new` not read) KILLED |
+| 7 (note 7) | **REPORTED** (HELD for M1's first reader, J423) | the state confirmed: `LevelView.faces()`'s doc (types.ts:128 – 131) says a coarser own-child face is not listed and `pointLocate` names it; stamps.test 'a view asserts its own stamp …' (line 135) asserts `faces()` empty at L1 on a framed arena while `pointLocate` answers the L0 face. No API added | — |
+| 8 (note 8) | **FIXED** | stubs.test: the site census reads the sources with TypeScript's parser — every call of a refusal helper (any quote, a template, an alias, a namespace or element access), every literal holding a `notBuilt('<M>')` text with any quote, every helper found by its parametrised template; a computed milestone or a helper handed on as a value is unreadable (`?line`) and lists no row. The tree's sites are unchanged (5 file / milestone pairs; helpers `notBuilt` only); the planted-text unit test | probes P8a (`notBuilt("M4", …)`), P8b (a template milestone), P8c (a new helper), P8d (a literal `"notBuilt('M4'): …"`): red under the new tests, green under the pre-round file; M8m1 (one quote form), M8m2 (aliases), M8m3 (handed-on helper) KILLED |
+| 9 (note 9) | **FIXED** (an explicit row list) | stubs.test: `KERNEL_ROWS` (8) and `OTHER_ROWS` (32) hold §4b's first cells verbatim; every §4b row must be in exactly one, so a row §4b gains turns the census red until it is judged; `KERNEL_MARKS` kept as a one-way cross-check (a marked row filed with the others fails) | probe P9 (an unmarked kernel-ish row appended to §4b in the mirror): red under the new tests, green under the pre-round file; M9m1 (the union line dropped) SURVIVES on today's M0.md — equivalent while no row is unjudged; its fault is P9's |
+| 2 (note 2) | **REPORTED** (DEFERRED to M4, J423; nothing built) | the state confirmed by reading: `writer()` (kernel.ts:168 – 172) checks the overlay only and forwards slot numbers unstamped; `assertStamped` is reached only from `assertCurrent` and the view's reads (kernel.ts:293 – 319, 370, 375). C-0220 (3)'s reading stands | — |
+
+### Behaviour, API, refusals
+
+* **Declared shift (debug build only):** a value another kernel's writer returns inside a `kernel.tx` batch was stamped at
+  the in-batch version and never re-stamped (`{ key, version: v0 }`, stale after the commit); it is now re-stamped at
+  the commit (`{ key, version: v0 + 1 }`), or at −1 when the batch is rejected or throws, as the opening kernel's own
+  values always were. No committed state, digest, golden or production-build output moves: the side table is debug-only.
+* **NO-SHIFT elsewhere:** the pre-round test files run on the round's sources 91/91, and the census of every `kernel: `
+  and `notBuilt(` error they construct is the identical multiset before and after (202 = 202). The closed-overlay text
+  is byte-identical.
+* **API:** `facade/index.ts` and the barrel byte-identical (no runtime or type name added, removed or renamed, J263
+  Q1); `facade/types.ts` gains one type not exported by the folder index.
+* **Refusal census (J264, N-58):** the five façade files construct 192 `kernel: ` and 10 `notBuilt(` errors before the
+  round; after, 255 and 10 — the 63 added are the new pins' planted inputs (38 the unminted-overlay text, 17 the
+  closed-overlay text, 3 the foreign-arena text, 5 stamp assertions), all UNLAWFUL (a programming error, §3.11), verdict
+  REFUSE (a throw, visible; no user reaches them through §11.4's doors — the stages call the façade). Lawful-input
+  refusals: 0 before, 0 after. The fabricated shell's class was a silent write outside any transaction before the round
+  (N-45 (a)); it is now refused.
+* **Session notes:** (1) the `ResolveVertexAt` index export waits on the API pass (row 5); (2) the test kit's and the
+  bench's harness streams built from a key directly (row 6's list, `constructive/draw.ts:50` among them) are test
+  infrastructure outside this item's files; (3) the §4b census now asks every new §4b row to be judged in `stubs.test.ts`
+  (row 9), by design.
+
+## Closing check of hardening round S3 (check/M0-a-16-close-s3, 2026-10-20): hardening notes (N-45, J202)
+
+19. **KI (closing check S3; M4, or M2a when it fills the stub) — the `ResolveVertexAt` type test does not hold `nearest?`.**
+    Own mutants T3 (`nearest?: LatticePoint` made required) and T6 (`nearest?: unknown`) in `facade/types.ts` SURVIVE
+    `tsc -b packages/kernel/test` (exit 0, 0 errors); T1, T2, T4, T5, T7, T8, T10 and the alias removed (T9) are red.
+    The tree is right (CONFIRMED: the alias's parameter list and return type equal §3.4's `resolveVertexAt` line, the
+    design's comment stripped, text for text). Only a later edit of the alias would go unseen: M2a's service that returns
+    `{ orphaned: true }` without `nearest` would then stop compiling, or a non-point `nearest` would compile.
+    * **Suggested handling (M4):** in `reflection.test.ts`'s `ResolveVertexAt` test, a `bind` that returns
+      `{ orphaned: true }` (no `nearest`) and a `// @ts-expect-error` line returning `{ orphaned: true, nearest: 0 }`.
+20. **KI (closing check S3; M4) — a kernel module that refuses through the façade's own `refuseNotBuilt` escapes the
+    `notBuilt` site census.** Own probe P8e (in the mirror, `tx/state.ts` appended `import { refuseNotBuilt as zzRNB } from
+    '../facade/notBuilt.js'; export function zzP8e(): never { return zzRNB('M4', 'x'); }`) leaves `stubs.test.ts` green
+    (11/11): the census drops `facade/` files and seeds its helper set from the other files only, so the façade's helper
+    is not in it. Probes P8a – P8d, P8f and P8g (double quotes, a template milestone, a new helper, a literal text, a
+    computed milestone, a known milestone in a new file) are red. No production path does this today (by grep: no file
+    outside `facade/` imports `facade/notBuilt.js`), and a module below the façade importing the façade inverts the
+    kernel's layering, so this is a contrived escape, not a fail.
+    * **Suggested handling (M4):** seed the helper set with `refusalHelpers` over `facade/notBuilt.ts` too (it finds
+      `refuseNotBuilt` by its parametrised template), keeping `facade/` out of the site scan.

@@ -11,7 +11,7 @@
 //   (`encodeArena` / `decodeArena`) and the sampled medial axis are no members (C-0078).
 // * A stub is a `NotBuiltStub`: an object no call can reach — calling it is a type error (TS2349) and, through a cast, a
 //   TypeError — listed in `STUB_TABLE` with its milestone and its M0.md §4b row.
-import type { FaceId, Plat, Resolved, RoleRow, Stamp } from '../arena/index.js';
+import type { FaceId, Plat, Resolved, RoleRow, Stamp, VertexId } from '../arena/index.js';
 import type { BandResult, bandUnion, booleans, buffer, Ring, tileRings } from '../arr/index.js';
 import type { absorbSliver, claimSubFace, connectHole, mergeFaces, pinVertices, radialSplit, ringBand, splitFace } from '../faces/index.js';
 import type { FaceNeighbours, FaceRings, hexLattice, hull, lir, obb, regularFit, Run, sampleBoundary, SideRunOptions } from '../geom/index.js';
@@ -32,6 +32,14 @@ export type ArenaKey = PlatKey | TransientKey;
 
 /** §6.3's supersedes table — an old address → its successor — as `resolveVertexAt` reads it (§3.4; C-0089). */
 export type CarryMap = ReadonlyMap<Id, Id>;
+
+/**
+ * §3.4's `resolveVertexAt` under its design signature (C-0089), declared so M2a's service compiles unchanged: a log
+ * position → a vertex, never by distance alone (§2.2 rule 5) — the vertex bound, or orphaned with the nearest point. At
+ * M0 the façade member is a `notBuilt('M2a')` stub (`GeomOps.resolveVertexAt`); this is the function M2a puts there.
+ * Declared here, not exported by the folder index (the public API is frozen at M0, J263 Q1): M2a imports it by path.
+ */
+export type ResolveVertexAt = (key: PlatKey, at: LatticePoint, sig: VertexSig, carry: CarryMap) => { vertex: VertexId } | { orphaned: true; nearest?: LatticePoint };
 
 /** The milestones M0 stages kernel members and branches to (M0.md §4b). */
 export type Milestone = 'M1' | 'M2a' | 'M2b' | 'M3a' | 'M4' | 'M6-P' | 'M6-U';

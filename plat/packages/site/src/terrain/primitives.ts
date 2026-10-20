@@ -29,12 +29,8 @@ function smoothstep(t: number): number {
   return t * t * (3 - 2 * t);
 }
 
-/**
- * 1 ÷ v for a length v ≥ 1 cm, else a RangeError naming the primitive's field. A negative v is refused too (hardening
- * S1, N-c1-4): every caller's bump or ramp would read it as its magnitude or worse, so it is never reinterpreted.
- */
+/** 1 ÷ v for a length v ≥ 1 cm, else a RangeError naming the primitive's field. */
 function inverse(v: number, what: string): number {
-  if (!(v >= 1)) throw new RangeError(`site primitive: ${what} must be at least 1 cm, got ${String(v)}`);
   const r = ratio(1, v, 'length');
   if (!r.ok) throw new RangeError(`site primitive: ${what} must be at least 1 cm, got ${String(v)}`);
   return r.value;
@@ -133,7 +129,7 @@ function prepareCliff(p: CliffPrimitive): PreparedPrimitive {
 /**
  * The four primitive kinds M0 builds (§4.2 S1 (1)), each a preparer: the request's primitive → its height offset in
  * centimetres at any point of the arena. A preparer refuses (RangeError) a non-finite value, a radius, width or step
- * count below one (a negative one among them), so a request never divides by nothing.
+ * count below one, so a request never divides by nothing.
  */
 export const sitePrimitives: Readonly<{ [K in SitePrimitiveKind]: (p: Extract<SitePrimitive, { kind: K }>) => PreparedPrimitive }> = Object.freeze({
   hill: prepareHill,
@@ -142,11 +138,7 @@ export const sitePrimitives: Readonly<{ [K in SitePrimitiveKind]: (p: Extract<Si
   cliff: prepareCliff,
 });
 
-/**
- * Prepares one primitive by its kind; a kind outside the four (spur, ravine and the hollow are M1's, C-0165 (2)) is
- * refused with the RangeError `unknown kind`, which `buildTerrain` reports as `primitive <i>: unknown kind` (hardening
- * S1, N-c1-3).
- */
+/** Prepares one primitive by its kind. */
 export function preparePrimitive(p: SitePrimitive): PreparedPrimitive {
   switch (p.kind) {
     case 'hill':
@@ -157,8 +149,6 @@ export function preparePrimitive(p: SitePrimitive): PreparedPrimitive {
       return sitePrimitives.terrace(p);
     case 'cliff':
       return sitePrimitives.cliff(p);
-    default:
-      throw new RangeError('unknown kind');
   }
 }
 
