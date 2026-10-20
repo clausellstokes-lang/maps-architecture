@@ -271,11 +271,14 @@ function wealthRamp(g: FieldGrid, bearingCdeg: number): Float64Array {
   return out;
 }
 
-/** The ground height at each cell centre (bilinear on S1's raster, whole cm; 0 on flat ground). */
+/**
+ * The ground height at each cell centre (bilinear on S1's raster, whole cm; 0 on flat ground). The sampler's slope-query
+ * step is the terrain's own cell: `heightAt` never reads it, so no value depends on it.
+ */
 function heightsOf(g: FieldGrid, terrain: Terrain | null | undefined): Float64Array {
   const out = new Float64Array(g.cols * g.rows);
   if (terrain === null || terrain === undefined) return out;
-  const s = terrainSampler(terrain, 250);
+  const s = terrainSampler(terrain, terrain.cellCm);
   for (let j = 0; j < g.rows; j += 1) for (let i = 0; i < g.cols; i += 1) out[j * g.cols + i] = s.heightAt({ x: cx(g, i), y: cy(g, j) } as Parameters<typeof s.heightAt>[0]);
   return out;
 }
