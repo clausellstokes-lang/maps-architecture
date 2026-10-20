@@ -6,6 +6,10 @@ usage:
   land_child.py land    --branch ... --item ... --owns ... --checks ... --records <name>=<lane>[=<owns>]... \
                         [--pre-records <name>=<lane>[=<owns,owns>]...] --stage-records <a,b> --busy-file <busy.txt> --msg <file>
 
+--skip-rows (J454): ledger row ids on the branch that are NOT this landing's and must not be inserted or renumbered — the
+rows an EARLIER landing from the same branch already carried (a merged round's first ID, since renumbered on the live tree),
+or rows the branch inherited from another tree (an in-flight item's rows in a restored local snapshot). Comma-separated ids.
+
 --pre-records (J366 (b)): records re-landed FIRST, in the order given, before --records — (1) a multi-round item's record and its
 build-notes record under each EARLIER round's lane (consolidate-1 before the final consolidate-2), so the earlier round's ledger
 rows have a claiming record (flow_stage's orphan rule, Q23 (b)); (2) an older record that claims a checks file this round changed
@@ -172,8 +176,13 @@ def land(args):
     print('lane lines appended', len(missing))
     # 3. ledger rows (renumber collisions, keep free ids)
     renamed = []
+    skip = {x for x in (args.skip_rows or '').split(',') if x}
     for path, prefix in (('plat/CLEAN-ROOM.md', 'L'), ('plat/docs/build/choices.md', 'C')):
         rows = new_rows(b, path, prefix)
+        skipped = [rid for rid, _, _ in rows if rid in skip]
+        rows = [r for r in rows if r[0] not in skip]
+        if skipped:
+            print(f'  {path}: skipped (not this landing\'s) ' + ', '.join(skipped))
         if not rows:
             continue
         out = []
@@ -265,6 +274,7 @@ def main():
     ap.add_argument('--records', nargs='*', default=[], help='name=lane[=owns,owns]')
     ap.add_argument('--pre-records', dest='pre_records', nargs='*', default=[], help='name=lane[=owns,owns], re-landed first in order (J366 (b))')
     ap.add_argument('--stage-records', default='', help='the extra records flow_stage stages (comma list)')
+    ap.add_argument('--skip-rows', dest='skip_rows', default='', help='ledger row ids on the branch that are not this landing\'s (comma list; J454)')
     ap.add_argument('--busy-file')
     ap.add_argument('--msg')
     a = ap.parse_args()
