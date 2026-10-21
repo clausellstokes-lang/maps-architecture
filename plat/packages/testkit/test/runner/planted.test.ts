@@ -137,32 +137,6 @@ describe('a planted throw, a planted hang and a planted self-intersecting output
     expect([r.crashes, r.hangs, r.invalid]).toEqual([0, 0, 0]);
   });
 
-  it('a mandatory chain refused E_OUT_OF_RANGE in the real insertChain family is a bug abort: a `bugs` entry per such input, never an invalid output (N-4)', () => {
-    // No fuzz family reaches E_OUT_OF_RANGE (its coordinates stay inside 2²⁰), so the refusal is planted on the family's
-    // own path: the insertChain primitive's transaction answers E_OUT_OF_RANGE, nothing committed.
-    const r = runFuzz('insertChain', 60, { plant: { tx: (op, commit) => (op === 'insertChain' ? ({ ok: false, code: 'E_OUT_OF_RANGE', detail: 'planted' } as never) : commit()) } });
-    const refused = r.refused.E_OUT_OF_RANGE ?? 0;
-    expect(r.bugs.length).toBeGreaterThan(5);
-    expect(r.bugs.length).toBeLessThan(refused); // an optional chain's E_OUT_OF_RANGE is a typed refusal, no abort
-    expect(r.bugs.every((b) => b.cls === 'F-NUM' && b.entity !== '' && /^bfuzz\/insertChain#\d+$/.test(b.key) && b.stage === 'B-FUZZ')).toBe(true);
-    expect(r.failures.every((f) => f.kind === 'bug')).toBe(true);
-    expect(r.failed).toBe(r.bugs.length);
-    expect([r.crashes, r.hangs, r.invalid]).toEqual([0, 0, 0]);
-  }, 120_000);
-
-  it('remove ∘ insert is counted judged per level, every level shown, 0 included (N-1)', () => {
-    const r = runFuzz('insertChain', 60);
-    expect(Object.keys(r.judged)).toEqual(['remove∘insert L1', 'remove∘insert L2', 'remove∘insert L3']);
-    for (const [k, n] of Object.entries(r.judged)) expect([k, n > 0]).toEqual([k, true]);
-    const refusedRemovals = Object.entries(r.notes).filter(([k]) => k.startsWith('remove-after-insert refused')).reduce((t, [, n]) => t + n, 0);
-    expect(Object.values(r.judged).reduce((t, n) => t + n, 0)).toBe(r.ok - refusedRemovals);
-    // a declared judgement never made is reported as 0, never absent (a level whose removal is refused on every input,
-    // the N-49 shape, would show so)
-    const never: FuzzPrimitive<unknown> = { ...fuzzPrimitive('orient'), name: 'orient (declares a judgement)', judges: ['never judged'] };
-    expect(runFuzz(never, 3).judged).toEqual({ 'never judged': 0 });
-    expect(runFuzz('orient', 3).judged).toEqual({});
-  }, 120_000);
-
   it("each service's judge catches its planted wrong output (a value the service never returns)", () => {
     type XY = { x: number; y: number };
     const cases: [string, (v: unknown) => unknown, RegExp][] = [

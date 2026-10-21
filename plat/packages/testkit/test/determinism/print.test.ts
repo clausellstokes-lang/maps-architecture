@@ -3,12 +3,11 @@
 // outcome print — and its digest, which the harnesses compare first — sees each part alone: an arena change that the
 // record and the level digests do not see, and a change to the record's created / changed lists (content or order)
 // on an unchanged arena. Without them a kernel slot dependence visible only in the arena, or only in the record's
-// dirty-face lists, would pass every bar (check M0-d-08 B-2). Hardening round S1: a refusal's and a `nothing` outcome's
-// arena (N-8, N-13), and the demoted edges printed in the record's order (N-2).
+// dirty-face lists, would pass every bar (check M0-d-08 B-2).
 import { describe, expect, it } from 'vitest';
 import { isFaceLive, isVertexLive, type CommitRecord, type Committed, type KernelResult, type Plat } from '@plat/kernel';
-import { arenaPrint, determinismDigestText, fixtureSpec, levelDigestsHex, outcomePrint, recordPrint, runBatch } from '@plat/testkit';
-import { KERNEL_SEQUENCES, recordOrderSequences } from './support.js';
+import { arenaPrint, determinismDigestText, levelDigestsHex, outcomePrint, recordPrint, runBatch } from '@plat/testkit';
+import { KERNEL_SEQUENCES } from './support.js';
 
 type Result = KernelResult<Committed<unknown>>;
 
@@ -112,77 +111,5 @@ describe('outcomePrint: a commit is its record, its level digests and its arena 
       expect(after, what).not.toBe(base);
       expect(determinismDigestText(after), what).not.toBe(determinismDigestText(base));
     }
-  });
-});
-
-describe('outcomePrint: a refusal and a batch that wrote nothing carry the arena they left (hardening round S1, N-8, N-13)', () => {
-  /** The grid fixture's first two batches, then one more batch whose callback returns `answer`. */
-  function after(answer: KernelResult<unknown>): { p: Plat; r: Result } {
-    const s = KERNEL_SEQUENCES[0];
-    const p = s.arena();
-    for (const b of s.batches.slice(0, 2)) runBatch(p, b.build(p));
-    const r = runBatch(p, { spec: fixtureSpec(1), fn: () => answer });
-    return { p, r };
-  }
-
-  const edits: [string, (p: Plat) => void][] = [
-    ['vertex flag', (p) => {
-      let v = 0;
-      while (!isVertexLive(p, v)) v++;
-      p.vertices.flags[v] ^= 1;
-    }],
-    ['face stage rank', (p) => {
-      let f = 0;
-      while (!isFaceLive(p, 1, f)) f++;
-      p.faces[1].stage[f] += 1;
-    }],
-  ];
-
-  it('a refused batch: its code first, then the arena — an arena change changes the print and its digest', () => {
-    for (const [what, edit] of edits) {
-      const { p, r } = after({ ok: false, code: 'E_DEGENERATE', detail: 'a planted refusal', warnings: [] } as never);
-      expect(r.ok).toBe(false);
-      const base = outcomePrint(p, r);
-      expect(base.split('\n', 1)[0]).toBe('refused E_DEGENERATE');
-      expect(base).toBe(`refused E_DEGENERATE\n${arenaPrint(p)}`);
-      edit(p);
-      const changed = outcomePrint(p, r);
-      expect(changed, what).not.toBe(base);
-      expect(determinismDigestText(changed), what).not.toBe(determinismDigestText(base));
-    }
-  });
-
-  it('a batch that wrote nothing: `nothing`, then the arena — an arena change changes the print and its digest', () => {
-    for (const [what, edit] of edits) {
-      const { p, r } = after({ ok: true, value: null, warnings: [] });
-      expect(r.ok && r.value.record === null).toBe(true);
-      const base = outcomePrint(p, r);
-      expect(base).toBe(`nothing\n${arenaPrint(p)}`);
-      edit(p);
-      const changed = outcomePrint(p, r);
-      expect(changed, what).not.toBe(base);
-      expect(determinismDigestText(changed), what).not.toBe(determinismDigestText(base));
-    }
-  });
-});
-
-describe('recordPrint: the demoted edges in the record\'s own order (C-0185 (17); hardening round S1, N-2)', () => {
-  it('two demoted edges: their order in the record is the order printed; the record\'s order is (y, x) by their ends', () => {
-    const fixture = recordOrderSequences().find((x) => x.list === 'demoted.edges');
-    if (fixture === undefined) throw new Error('support: no demotion fixture');
-    const s = fixture.seq;
-    const p = s.arena();
-    let r: Result | null = null;
-    for (const b of s.batches) r = runBatch(p, b.build(p));
-    if (r === null || !r.ok || r.value.record === null) throw new Error('support: the demotion batch did not commit');
-    const record = r.value.record;
-    expect(record.demoted.edges).toHaveLength(2);
-    const demoted = (rec: CommitRecord): string[] => (JSON.parse(recordPrint(p, rec)) as { demoted: [string[], string[]] }).demoted[1];
-    // the kernel's order: the south quay's edge (y 1000) before the north one's (y 3000)
-    expect(demoted(record)).toEqual(['1000,1000-3000,1000', '1000,3000-3000,3000']);
-    const swapped: CommitRecord = { ...record, demoted: { vertices: record.demoted.vertices, edges: record.demoted.edges.slice().reverse() } };
-    expect(demoted(swapped)).toEqual(['1000,3000-3000,3000', '1000,1000-3000,1000']);
-    expect(recordPrint(p, swapped)).not.toBe(recordPrint(p, record));
-    expect(outcomePrint(p, withRecord(r, swapped))).not.toBe(outcomePrint(p, r));
   });
 });

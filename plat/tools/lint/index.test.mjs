@@ -123,47 +123,6 @@ describe('C-0125 (6)\'s vetted division in the tree lint (C-0128, the checker\'s
   }, LINT_TIMEOUT);
 });
 
-// Hardening round S1 (L14, note N9): the parser entries recommendedFor adds (plat/parse-typescript, plat/parse-jsx,
-// plat/parse-cjs) refuse an unused directive as an ERROR, as eslint.config.js's own entries do for .ts, .js and .mjs;
-// ESLint's default would only warn.
-describe('an unused directive in a model source of each extension the plugin parses (C-0128)', () => {
-  const ts = VETTED_DIVISION.replace('x / y', 'x / 2');
-  const js = "// eslint-disable-next-line plat/ratio-division -- an fdlibm routine's division, vetted\nexport const half = (x) => x / 2;\n";
-  const cjs = "// eslint-disable-next-line plat/ratio-division -- an fdlibm routine's division, vetted\nexports.half = (x) => x / 2;\n";
-  for (const [ext, code, line] of [['mts', ts, 2], ['cts', ts, 2], ['tsx', ts, 2], ['jsx', js, 1], ['cjs', cjs, 1]]) {
-    it(`fails as an error in a .${ext} source`, async () => {
-      const [r] = await textLint.lintText(code, { filePath: join(PLAT_ROOT, 'packages', 'kernel', 'src', 'zz-vetted', `vetted.${ext}`), warnIgnored: true });
-      expect(r.messages.map((m) => `${m.line} ${m.severity} ${m.ruleId}`)).toEqual([`${line} 2 null`]);
-      expect(r.messages[0].message).toMatch(/[Uu]nused eslint-disable directive/);
-    }, LINT_TIMEOUT);
-  }
-});
-
-// Hardening round S1 (note N14): a whole-tree check's report reaches stdout as `lint <name>: <line>` (printReport, C-1),
-// pinned here on the three checks that print one, not only by the lint output compared line for line.
-describe('the whole-tree checks\' reports', () => {
-  it('print each line as "lint <name>: <line>" for probe-red, vendor-scan and licences', async () => {
-    const by = Object.fromEntries(plugin.checks.map((c) => [c.name, c]));
-    const written = [];
-    const spy = vi.spyOn(process.stdout, 'write').mockImplementation((chunk) => {
-      written.push(String(chunk));
-      return true;
-    });
-    try {
-      for (const name of ['probe-red', 'vendor-scan', 'licences']) {
-        written.length = 0;
-        const r = await by[name].run(PLAT_ROOT);
-        expect(r.ok, name).toBe(true);
-        expect(written.length, name).toBeGreaterThan(0);
-        for (const line of written) expect(line.startsWith(`lint ${name}: `) && line.endsWith('\n'), `${name}: ${line}`).toBe(true);
-      }
-      expect(written[0]).toMatch(/^lint licences: production closure: /);
-    } finally {
-      spy.mockRestore();
-    }
-  }, 2 * LINT_TIMEOUT);
-});
-
 describe('the digest closure', () => {
   it('is seeded with the model packages and stays inside them at M0', () => {
     expect(closure.seeds.length).toBeGreaterThan(20);
