@@ -1,0 +1,53 @@
+{
+  "$comment": "M0-d-04 hardening round S2 (C-0387; notes N-c1-3, N-c1-6): the persisted roots as hex (lane 0 first), recorded on the pre-round sources by build/M0-d-04-fix-s2. city1: syntheticCity(1) built by buildDigests (records.test.ts). arena: model.test.ts's setup() over a framed arena with L1 to L4 content (model.test.ts). A change of any node, layer, root or plats lane form, of the records partition lane or of a kernel level item moves a value here: a declared shift, re-recorded in its round with a choices row.",
+  "city1": {
+    "model": {
+      "root": "b2180f9f4a60cf2cf29a233f3d2a9b1e",
+      "layers": {
+        "site": "8a04045b30868b4330868b4330868b43",
+        "network": "225a083b3ba27098ea2a956ccd6ebe2b",
+        "districts": "d18e7bed58ad069036236bc84e78f78f",
+        "hinterland": "ec02bb7e64504bf8fcc91536fcc91536",
+        "content": "1029109e9e31696455366f9655366f96",
+        "names": "cd92b6ade76ad637014f6b6f014f6b6f",
+        "closeups": "e454e93281c421617f36aca97f36aca9",
+        "underground": "cd80129b7d5f699ef180889af180889a",
+        "sky": "55cfed3c6128be8a180308db180308db",
+        "identity": "016c61470943bffb5ebce1566e74fd23",
+        "plats": "2322d38ab26d8d342bd1a9ad2bd1a9ad"
+      }
+    },
+    "records": {
+      "root": "5a2f9c682eb028dcb7a7cecf6d8bf3b3",
+      "nodes": {
+        "town": "2e91a30fefd4a86c0e8aa6a2d7ac7376",
+        "outside": "e79d1d6afdf71950837cde6e4eb52fd4",
+        "district:0": "8c7c394d525b7d21e0ff7c97478c0f7d",
+        "district:25": "b3f53c5150e1cd5a5fa2b31ae8cc278b"
+      }
+    }
+  },
+  "arena": {
+    "root": "fa19369b76b8810db43a5705e40ebbd4",
+    "layers": {
+      "site": "8a04045b30868b4330868b4330868b43",
+      "network": "a42879a32905d249b9b50bb935100718",
+      "districts": "e08b3c39add8b4e63d5455bf1da161c5",
+      "hinterland": "ec02bb7e64504bf8fcc91536fcc91536",
+      "content": "1029109e9e31696455366f9655366f96",
+      "names": "cd92b6ade76ad637014f6b6f014f6b6f",
+      "closeups": "e454e93281c421617f36aca97f36aca9",
+      "underground": "cd80129b7d5f699ef180889af180889a",
+      "sky": "55cfed3c6128be8a180308db180308db",
+      "identity": "aacdbd2c2d66e3080a17e777e7a4ad85",
+      "plats": "f910a8ff6310ca4774b238c50434a6a8"
+    },
+    "levels": [
+      "88d6a6fccbc479db9ae8fe0b9c1ed788",
+      "35569c209e52bbd1a8de42e373026dcc",
+      "2b65a23a3b715b1166144b9316b1fb36",
+      "d43ff4b1fa37ebf3061ae2583614353e",
+      "5337332f4863cb4a5aa2b9bb532a8ccd"
+    ]
+  }
+}
