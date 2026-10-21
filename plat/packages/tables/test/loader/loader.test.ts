@@ -104,6 +104,35 @@ describe('a malformed table file is refused, naming where', () => {
     const e = refusal(() => parseTable('t', raw2));
     expect([e.row, e.cell, e.reason]).toEqual(['r', '1c', "cell key '1c' is not a stable key"]);
   });
+
+  it("refuses a '/' in a row key, a cell key and a key value — the slice key's separator is never part of a key (L22, N6)", () => {
+    const row = deepCopy(ONE_CELL) as { rows: Record<string, Record<string, unknown>> };
+    row.rows['a/b'] = { c: row.rows.r.c };
+    const er = refusal(() => parseTable('t', row));
+    expect([er.row, er.cell, er.reason]).toEqual(['a/b', undefined, "row key 'a/b' is not a stable key"]);
+    const cellKey = deepCopy(ONE_CELL) as { rows: Record<string, Record<string, unknown>> };
+    cellKey.rows.r['a/b'] = cellKey.rows.r.c;
+    const ec = refusal(() => parseTable('t', cellKey));
+    expect([ec.row, ec.cell, ec.reason]).toEqual(['r', 'a/b', "cell key 'a/b' is not a stable key"]);
+    const value = deepCopy(ONE_CELL) as { rows: { r: { c: Record<string, unknown> } } };
+    value.rows.r.c = { value: 'a/b', unit: 'none', provenance: 'own', calibratable: false };
+    const ev = refusal(() => parseTable('t', value));
+    expect([ev.row, ev.cell, ev.reason]).toEqual(['r', 'c', "value 'a/b' is not one of our own keys"]);
+    value.rows.r.c.value = ['ok', 'a/b'];
+    expect(refusal(() => parseTable('t', value)).reason).toBe("value 'a/b' is not one of our own keys");
+  });
+
+  it('gives a TableError no own row or cell key it does not name — absent, never undefined, as its issues (L22, N4)', () => {
+    const table = refusal(() => loadTable('nope'));
+    expect(Object.keys(table).filter((k) => k === 'row' || k === 'cell')).toEqual([]);
+    expect(['row' in table, 'cell' in table]).toEqual([false, false]);
+    const t = loadTable('cut');
+    const row = refusal(() => t.row('nope'));
+    expect([Object.hasOwn(row, 'row'), 'cell' in row, row.row]).toEqual([true, false, 'nope']);
+    const cell = refusal(() => t.num('settings', 'bendMode'));
+    expect([Object.hasOwn(cell, 'row'), Object.hasOwn(cell, 'cell'), cell.row, cell.cell]).toEqual([true, true, 'settings', 'bendMode']);
+    expect(JSON.parse(JSON.stringify({ ...table }))).toEqual({ name: 'TableError', table: 'nope', reason: 'no such table in @plat/tables', issues: [{ table: 'nope', reason: 'no such table in @plat/tables' }] });
+  });
 });
 
 describe('the typed accessors', () => {
@@ -191,6 +220,58 @@ describe("§7.6's TableView", () => {
     expect(view.hash).toHaveLength(4);
     expect(tableView(['cut']).hash).not.toEqual(view.hash);
     expect(tableView(['cut', 'ways']).hash).not.toEqual(tableView(['ways', 'cut']).hash);
+  });
+});
+
+describe("a package's own table registered in a view: carried, and covered by the view's hash (C-0416; e-04's N-s3c-3)", () => {
+  /** A fixture of layout's `s6` (its shape: a key cell and a count per rung), `edits` ([row, cell, value]) applied. */
+  const s6 = (edits: readonly (readonly [string, string, unknown])[] = [], version = 1): Table => {
+    const rows: Record<string, Record<string, Record<string, unknown>>> = {
+      edge: { minBarrierClass: { value: 'primary', unit: 'none', provenance: 'architecture 2026-09-25', calibratable: false } },
+      roster: { 'buildings.CITY': { value: 600, unit: 'count', provenance: 'own', calibratable: true } },
+    };
+    for (const [r, c, v] of edits) rows[r][c] = { ...rows[r][c], value: v };
+    return parseTable('s6', { table: 's6', version, section: '§4.5', rows });
+  };
+
+  it('carries the registered table after the shipped ones: its version, rows, slices and the table itself', () => {
+    const t = s6();
+    const v = tableView(TABLE_IDS, [t]);
+    expect(v.table('s6')).toBe(t);
+    expect(v.version('s6')).toBe('1');
+    expect(v.get('s6', 'edge')).toBe(t.rows.get('edge'));
+    expect(v.rows('s6')).toBe(t.rows);
+    expect(v.slice('s6', 'row', 'roster/buildings.CITY')).toMatchObject({ table: 's6', version: '1', kind: 'row', key: 'roster/buildings.CITY' });
+    expect(v.table('cut')).toBe(loadTable('cut'));
+  });
+
+  it('hashes two views that differ only in their s6 differently, and each apart from the view without it', () => {
+    const plain = tableView().hash;
+    const a = tableView(TABLE_IDS, [s6()]).hash;
+    const b = tableView(TABLE_IDS, [s6([['roster', 'buildings.CITY', 100]])]).hash;
+    const c = tableView(TABLE_IDS, [s6([['edge', 'minBarrierClass', 'secondary']])]).hash;
+    const d = tableView(TABLE_IDS, [s6([], 2)]).hash;
+    expect(new Set([plain, a, b, c, d].map((h) => h.join(','))).size).toBe(5);
+    expect(tableView(TABLE_IDS, [s6()]).hash).toEqual(a);
+    expect(tableView(TABLE_IDS, []).hash).toEqual(plain);
+    const other = parseTable('u', { table: 'u', version: 1, section: '§4.5', rows: { r: { c: { value: 1, unit: 'm', provenance: 'own', calibratable: false } } } });
+    expect(tableView(['cut'], [s6(), other]).hash).not.toEqual(tableView(['cut'], [other, s6()]).hash);
+  });
+
+  it("hashes the registered table in the view's one form, after the shipped ids: H128 of '⟨id⟩@⟨version⟩:⟨table hash⟩' lines", () => {
+    const t = s6();
+    const line = (x: Table): string => `${x.id}@${x.version}:${x.hash.join(',')}`;
+    const lines = [...TABLE_IDS.map((id) => line(loadTable(id))), line(t)];
+    expect(tableView(TABLE_IDS, [t]).hash).toEqual(H128(utf8Bytes(lines.join('\n'))));
+    expect(tableView().hash).toEqual(H128(utf8Bytes(lines.slice(0, -1).join('\n'))));
+  });
+
+  it('refuses, naming it, a registered table that is no checked Table, one of the shipped ids, or an id the view carries', () => {
+    const fake = { ...s6(), id: 's6' } as unknown as Table;
+    expect(refusal(() => tableView(TABLE_IDS, [fake])).message).toBe("table 'registered[0]': a registered table must be a Table that parseTable checked");
+    const cut = parseTable('cut', TABLE_SOURCES.get('cut'));
+    expect(refusal(() => tableView([], [cut])).message).toBe("table 'cut': a shipped table is loaded by id, never registered");
+    expect(refusal(() => tableView(TABLE_IDS, [s6(), s6([['roster', 'buildings.CITY', 1]])])).message).toBe("table 's6': registered twice in this view");
   });
 });
 
