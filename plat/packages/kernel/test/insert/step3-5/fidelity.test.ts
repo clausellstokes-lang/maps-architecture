@@ -10,7 +10,7 @@
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 import type { Level } from '../../../src/types/index.js';
-import { countedRefusal, recordCounts, refusalCap } from './caps.js';
+import { countedRefusal, FUZZ_PARAMS, recordCounts, refusalCap } from './caps.js';
 import { fidelityProblems } from './fidelity.js';
 import { allProblems, contentPrint, framed, generator, ins, intIn, TIMEOUT, tx } from './support.js';
 
@@ -53,6 +53,7 @@ describe('N-43 B: the fidelity bound on overlay-like mandatory chains (a propert
         });
         expect(allProblems(p)).toEqual([]);
       }),
+      FUZZ_PARAMS,
     );
     console.log(`fidelity property: ${commits} committed; E_INVARIANT ${invariant} (cap ${CAP}); ${[...other].map(([c, n]) => `${c} ${n}`).join(', ')}`);
     recordCounts('fidelity', RUNS, invariant, 0, CAP);

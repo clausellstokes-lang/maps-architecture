@@ -59,7 +59,7 @@ export const CELLS: [number, number, number, number, number] = [800, 400, 200, 1
 
 // ---- a seeded generator ------------------------------------------------------------------------------------------------
 
-/** The kernel tests' shared seeded generator (T-support-1's home: mulberry32 in [0, 1)) and its uniform integer. */
+/** The kernel tests' one seeded generator (mulberry32 in [0, 1)) and its uniform integer, from the arena's support. */
 export { intIn, rng as generator };
 export const pick = <T>(rnd: () => number, xs: readonly T[]): T => xs[Math.floor(rnd() * xs.length)];
 
@@ -799,36 +799,6 @@ export const OFFLINE: ArenaSpec = {
 export const OFFLINE_BASE: ArenaSpec = {
   vertices: [[0, 0, 0], [1000, 0, 0], [1000, 1000, 0], [0, 1000, 0], [0, 500, 1], [1000, 503, 1]],
   edges: [[0, 1, 0], [1, 5, 0], [5, 2, 0], [2, 3, 0], [3, 4, 0], [4, 0, 0], [4, 5, 1]],
-};
-
-/**
- * "Chain" (the closing check's probe, `checks/M0-a-03-notes.md` N-5): off-line finer vertices three levels deep on one
- * L1 run. An L0 square 0 … 2000; the L1 run A (0, 1000) → B (2000, 1006), its ends Steiner vertices on the L0 sides;
- * on it S1 (1100, 1003) at L2, S2 (500, 1002) at L3 and S3 (800, 1002) at L4, each within the 0.71 cm hot pixel of
- * every coarser route through it, on alternate sides (S1 below A–B, S2 above A–S1, S3 below S2–S1), so L1 reads the
- * run as A–B, L2 as A–S1–B, L3 as A–S2–S1–B and L4 as A–S2–S3–S1–B. A line runs up from each to the L0 top side:
- * S1 → T1 (1100, 2000) at L2, S2 → T2 (500, 2000) at L3, S3 → T3 (800, 2000) at L4. The lower L1 face therefore holds
- * no finer record: it is its own child at L2, L3 and L4, read there on the L2, L3 and L4 route (as are the upper-right
- * L2 record at L3 – L4 and the upper-left L3 record at L4). The points between the L2 route A–S1 and the L3 route
- * A–S2–S1 (above the first, below the second) lie in the upper L1 record at L2 and in the lower one at L3 and L4: a
- * record read on any route but the query's level-n one — its own, or one level finer than its own — misplaces them
- * (§3.3: a record is read on the query's level-n route).
- */
-export const CHAIN: ArenaSpec = {
-  vertices: [
-    [0, 0, 0], [2000, 0, 0], [2000, 2000, 0], [0, 2000, 0], // 0 – 3
-    [0, 1000, 1], [2000, 1006, 1], // A 4, B 5
-    [1100, 1003, 2], [1100, 2000, 2], // S1 6, T1 7
-    [500, 1002, 3], [500, 2000, 3], // S2 8, T2 9
-    [800, 1002, 4], [800, 2000, 4], // S3 10, T3 11
-  ],
-  edges: [
-    [0, 1, 0], [1, 5, 0], [5, 2, 0], [2, 7, 0], [7, 11, 0], [11, 9, 0], [9, 3, 0], [3, 4, 0], [4, 0, 0],
-    [4, 8, 1], [8, 10, 1], [10, 6, 1], [6, 5, 1],
-    [6, 7, 2],
-    [8, 9, 3],
-    [10, 11, 4],
-  ],
 };
 
 /** An L0 square with an L1 line across it carrying n L3 Steiner vertices (a long kerb's plot-line ends). */

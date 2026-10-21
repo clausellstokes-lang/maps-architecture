@@ -1,24 +1,16 @@
 // M0-a-11: §3.8 *Decision* — "Nothing of the skeleton is stored, so a load, an undo or redo and a regeneration derive it
 // again from the same inputs, identically on every host; a skeleton code change that moves any output is a declared
-// shift (§6.4)". The whole `skeleton(rings, 'roof')` result of eight faces is pinned by its SHA-256 (numbers as JSON
+// shift (§6.4)". The whole `skeleton(rings, 'roof')` result of six faces is pinned by its SHA-256 (numbers as JSON
 // writes them, which round-trips every double, and −0 marked): a code change that moves a node by one ulp, reorders a
 // node, an arc or a face, or changes the event count turns this red, and is then a declared shift with its choices row.
 // The faces are lattice rings written out here, so no generator stands between a pin and its input: two footprints of
 // the skeleton corpus (`bench/fixtures/skeleton-corpus/`, faces 556 and 1236) and four of §13.1's holed rectilinear
 // polygons at seed 1 (faces 137, 189, 261 and 331; a 50 cm grid, so simultaneous events by construction) — faces whose
 // output depends on the angular order in which the edges meeting at a node are read, counter-clockwise from +x by the
-// direction half-plane (`halfPlaneOf`, C-0314). The hardening round S3 added two (its declared shift, census D-02): corpus
-// footprints 1144 and 1840, a downgrade before the round, now the tolerant second reading's validated skeleton — the
-// six earlier digests unchanged, since a face the strict reading validates never reaches the second one. The hardening
-// round S4 pins the tolerant reading's water class by one whole face on every reader: relief-60 seed 3's water face
-// (`relief-60-3-water.json`, 1 599 vertices; a downgrade `validator: faces` before S3), whose validated graph needs the
-// reading's 1 cm join as §3.8 states it — joined vertices within 1 cm of the event's point, never an end of an edge the
-// event splits — so a join radius or a join rule moved turns it red (the closing check S3's survivors T3 and T13).
+// direction half-plane (`halfPlaneOf`, C-0314).
 import { createHash } from 'node:crypto';
-import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { runSkeleton } from '../../src/skeleton/skeleton.js';
-import { skeleton, validateSkeleton, type SkeletonUse } from '../../src/skeleton/index.js';
+import { skeleton } from '../../src/skeleton/index.js';
 import type { LatticePoint } from '../../src/types/index.js';
 import { pt } from './support.js';
 
@@ -44,16 +36,6 @@ const PINNED: Pinned[] = [
       [84976, 384401, 84966, 383761, 85286, 383756, 85291, 384076, 86251, 384061, 86236, 383101, 86556, 383096, 86571, 384056, 86891, 384051, 86896, 384371],
     ],
     digest: 'ec1f211fb44bc179',
-  },
-  {
-    name: 'corpus 1144',
-    rings: [[68822, -389780, 67915, -389937, 68098, -391001, 67182, -391159, 67316, -391937, 68232, -391779, 68382, -392647, 69288, -392491, 69139, -391623, 70617, -391369, 70483, -390590, 69005, -390845]],
-    digest: 'a7c4044236e1e203',
-  },
-  {
-    name: 'corpus 1840',
-    rings: [[-294018, 11106, -293277, 10993, -293224, 11338, -292028, 11155, -291940, 11728, -293136, 11912, -292984, 12900, -293725, 13014, -293877, 12026, -294994, 12197, -295082, 11624, -293965, 11452]],
-    digest: '48327635fc860a42',
   },
   {
     name: 'holed 1.189',
@@ -117,29 +99,5 @@ describe('§3.8 *Decision*: a skeleton code change that moves any output is a de
     const r = skeleton(ringsOf(c.rings), 'roof');
     expect(r.ok && r.value.kind).toBe('skeleton');
     expect(digestOf(r)).toBe(c.digest);
-  });
-});
-
-/** relief-60 seed 3's water face: the L0 face the river owns at CITY, default config, written out from `bench/src/site`. */
-const WATER: { name: string; rings: number[][] } = JSON.parse(readFileSync(new URL('./relief-60-3-water.json', import.meta.url), 'utf8'));
-
-/** The whole result's digest per reader (the same JSON and SHA-256 as above). */
-const WATER_DIGESTS: Record<SkeletonUse, string> = { roof: '5a9d3bb6690c0709', spine: '4f9f6abc3bf42fd0', regions: '5bb448fc1a8603c7' };
-
-describe('§3.8 *Decision*: the tolerant reading’s water class pinned by a whole face on every reader (hardening round S4)', () => {
-  it.each((['roof', 'spine', 'regions'] as const).map((u) => [u] as const))('relief-60 seed 3’s water face, %s: only the tolerant reading finishes, and its validated skeleton is byte for byte', (use) => {
-    const rings = ringsOf(WATER.rings);
-    expect(rings.map((r) => r.length)).toEqual([1_599]);
-    let finished = 0;
-    const r = runSkeleton(rings, use, {}, { finished: () => void (finished += 1) });
-    // the strict reading stops at a node whose order does not alternate (it never reaches the end); the tolerant one does
-    expect(finished).toBe(1);
-    if (!r.ok || r.value.kind !== 'skeleton') throw new Error(`expected a skeleton, got ${JSON.stringify(r).slice(0, 300)}`);
-    expect(validateSkeleton(r.value).ok).toBe(true);
-    expect([r.value.nodes.length, r.value.arcs.length, r.value.events]).toEqual([2_745, 2_744, 1_698]);
-    expect(r.warnings).toEqual([]);
-    expect(digestOf(r)).toBe(WATER_DIGESTS[use]);
-    // the public call takes the same path
-    expect(digestOf(skeleton(rings, use))).toBe(WATER_DIGESTS[use]);
   });
 });

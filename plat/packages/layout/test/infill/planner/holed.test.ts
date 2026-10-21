@@ -4,7 +4,9 @@
 // on it, joined by connectHole (step 7, *Holes*).
 import { describe, expect, it } from 'vitest';
 import { planCut } from '../../../src/infill/planner.js';
-import { asCut, CTX, FACES, ring, SEEDS, streamsFor } from './support.js';
+import { asCut, CTX, FACES, ring, streamsFor } from './support.js';
+
+const SEEDS = 200;
 
 describe('the holed position law (§4.6 step 2)', () => {
   it('f = m + (1 − 2m) · b with m = e_lo / L, keeping f at least m from either end', () => {

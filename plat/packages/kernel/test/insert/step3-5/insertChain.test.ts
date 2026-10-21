@@ -7,10 +7,12 @@
 // interfaces the item lists, exported through the package index.
 import { describe, expect, it } from 'vitest';
 import * as kernel from '../../../src/index.js';
-import { handleOf, outgoing, roleIdOf, rowElement, rowsOfKey, type Plat } from '../../../src/arena/index.js';
+import { handleOf, outgoing, ROLE_REGISTRY, roleIdOf, rowElement, rowsOfKey, type Plat } from '../../../src/arena/index.js';
 import { INSERT_POINTS } from '../../../src/insert/classes.js';
 import { insertChain } from '../../../src/insert/insertChain.js';
 import { allProblems, contentPrint, edgeRows, fingerprint, framed, ins, liveVertices, pt, tx, vertexAtPoint } from './support.js';
+import { oneChainRole } from '../../../src/insert/stretch.js';
+import { LINEAR_PARTS } from '../../../src/tx/index.js';
 
 /** A loop over many insertions: its own hard timeout on the shared machine (never a timing). */
 const SLOW = 120_000;
@@ -259,4 +261,17 @@ describe('insert + snap + attract + re-walk per growth proposal: the timing bar\
     console.log(`CONTENDED (informative, never a gate; §12.1): ${us.toFixed(1)} µs per proposal over 2 000 (${ok} committed) under vitest's transform`);
     expect(ok).toBeGreaterThan(100);
   }, SLOW);
+});
+
+// Round S9 (item 130 (e)): the roles under whose key a chain given again is the same chain are the transaction's linear
+// roles of one part (tx/tx.ts `LINEAR_PARTS`; stretch.ts holds them by registry id, as the transaction imports it).
+describe('item 130 (e): oneChainRole reads LINEAR_PARTS\' roles of one chain per entity', () => {
+  it('equals LINEAR_PARTS\' rows of one part over the whole registry', () => {
+    const want = ROLE_REGISTRY.filter((r) => r.kind === 'edge' && LINEAR_PARTS[r.name] === 1).map((r) => r.name);
+    expect(ROLE_REGISTRY.map((r) => r.name).filter(oneChainRole)).toEqual(want);
+  });
+  it('way and wall are; shore, kerb, corridor_split and invisible are not', () => {
+    expect(['way', 'wall', 'tunnel', 'deck'].map(oneChainRole)).toEqual([true, true, true, true]);
+    expect(['shore', 'bank', 'kerb', 'corridor_split', 'invisible', 'margin'].map(oneChainRole)).toEqual([false, false, false, false, false, false]);
+  });
 });

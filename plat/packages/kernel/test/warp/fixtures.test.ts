@@ -4,31 +4,17 @@
 // re-seated vertex placed by the placement rule; two Steiner vertices re-seated close together give identical output
 // after a slot renumbering; a locked plot and a pinned building hold every corner while the neighbour's footprint corner
 // slides; a warped same-level T-junction stays a shape vertex when its lane goes; a re-seated Steiner vertex dissolves
-// under clearFiner and the coarser edge is restored exactly; a warp with fromLevel = 1 over finished fabric gives no
-// E_KEPT and over a generated and an edited water gate moves neither gate's bank vertices. And the checks each fixture
-// isolates (hardening round S1, C-0364): the rotation and the mover-path checks one at a time, the placement bound's
-// call site, the slide clamp on both sides of a held vertex, a two-round closure, the region against a wider brush,
-// a rounding tie read through the warp's door, and the placement rule's per-candidate charge.
+// under clearFiner and the coarser edge is restored exactly.
 import { describe, expect, it } from 'vitest';
 import { VERTEX_SPLIT, VERTEX_STEINER } from '../../src/arena/index.js';
 import { pointLocate } from '../../src/index/index.js';
 import { insertChain } from '../../src/insert/index.js';
-import type { KernelResult } from '../../src/num/index.js';
-import { clearFiner, removeEdges, setOwner, tx, type Committed } from '../../src/tx/index.js';
-import { openTx } from '../../src/tx/state.js';
+import { clearFiner, removeEdges, setOwner } from '../../src/tx/index.js';
 import { closerThan } from '../../src/warp/validate.js';
-import { heldSet, warp, type MoveReport } from '../../src/warp/index.js';
-import { at, box, brush, commit, contentPrint, drag, edgeRows, framed, healthy, movedLists, must, P, pointwise, pt, report, S4, S8, spec, state, vertexAtPoint, warpBatch } from './support.js';
+import { heldSet, warp } from '../../src/warp/index.js';
+import { at, box, brush, commit, contentPrint, drag, edgeRows, framed, healthy, movedLists, must, P, pointwise, pt, report, S4, S8, state, vertexAtPoint, warpBatch } from './support.js';
 
 const noVersion = (s: string): string => s.replace(/#v\d+$/, '');
-/**
- * The placement candidates charged (N-r10c-1): the §13.1 kerb's re-seat tries its nearest (517, 5), then the band's
- * nearest (517, 4), which qualifies — 2; the slide beside the unlocked foot tries its nearest (2 090, 2 000), then the
- * shore's band points in pairs 1 … 14 cm either side (each fails minEdge from the foot, or lies past it), then (2 075,
- * 2 000) at 15 cm, the lower x of its pair — 1 + 28 + 1 = 30.
- */
-const KERB_CANDIDATES = 2;
-const SLIDE_CANDIDATES = 30;
 const G = { layer: 'ground' as const, part: 0 };
 
 describe('§13.1: a pinch that would shorten an edge below minEdge, and a step stacking two vertices — both halve', () => {
@@ -138,24 +124,6 @@ describe('§3.6: a slide keeps attractCm from every held vertex on its fixed rou
     healthy(p);
   });
 
-  it('the held vertex behind the slide: the junction dragged 90 cm back towards a locked way\'s foot 100 cm behind it stops 26 cm short of it', () => {
-    // Note 10's probe P2: the clamp's lower side (a held vertex before the slider along its route).
-    const p = framed();
-    commit(p, 0, (o) => insertChain(o, [pt(0, 2000), pt(4000, 2000)], [{ role: 'shore', entity: 'water:1' }], 'mandatory'));
-    commit(p, 1, (o) => {
-      must(insertChain(o, [pt(2000, 2000), pt(2000, 3000)], [{ role: 'way', entity: 'way:1' }], 'mandatory'));
-      return insertChain(o, [pt(1900, 2000), pt(1900, 1000)], [{ role: 'way', entity: 'way:2' }], 'mandatory');
-    });
-    const foot = vertexAtPoint(p, 1900, 2000);
-    const r = report(warpBatch(p, 1, pointwise([[2000, 2000, -90, 0]]), box(1800, 1900, 2100, 2100), { warp: { held: [{ entity: 'way:2', ref: { role: 'way', entity: 'way:2' } }] } }));
-    expect(r.report.held).toContain(foot);
-    expect(r.report.halvings).toBe(0);
-    // Clamped to 100 − 26 = 74 cm back (unclamped, the placement rule would take (1 925, 2 000), 25 cm from the foot).
-    expect(r.report.moves.map((m) => `${m.kind} ${m.to.x},${m.to.y}`)).toEqual(['slide 1926,2000']);
-    expect(at(p, foot)).toBe('1900,2000');
-    healthy(p);
-  });
-
   it('control: the same drag with way:2 unlocked (its foot outside the region) lands 25 cm from the foot', () => {
     const p = framed();
     commit(p, 0, (o) => insertChain(o, [pt(0, 2000), pt(4000, 2000)], [{ role: 'shore', entity: 'water:1' }], 'mandatory'));
@@ -194,22 +162,6 @@ describe('§3.6 held (5): the downward closure holds the ends of a coarser run c
     expect(r.report.held.map((v) => at(p, v))).toEqual(['1000,1000', '1500,1000', '2000,1000', '1500,1500']);
     expect(r.report.moves).toEqual([]);
     expect(ids.map((v) => at(p, v))).toEqual(pts.map(([x, y]) => `${x},${y}`));
-    healthy(p);
-  });
-
-  it('two rounds: a locked L4 wall ending on the L3 plot line holds the plot line\'s ends, then the kerb\'s; nothing moves, no halving', () => {
-    // Note 11's probe P3: the closure's second round (L4 → L3 → L2). Stopped after one round, the kerb's ends are not
-    // held, the step halves on the held plot-line foot's placement bound, and the held list differs.
-    const p = lockedOnKerb();
-    commit(p, 4, (o) => insertChain(o, [pt(1500, 1250), pt(1700, 1250)], [{ role: 'party_wall', entity: 'bldg:1' }], 'mandatory'));
-    const lock = { held: [{ entity: 'bldg:1', ref: { role: 'party_wall', entity: 'bldg:1' } }] };
-    const r = report(warpBatch(p, 2, drag(0, 40), box(900, 900, 2100, 1600), { warp: lock }));
-    expect(r.report.held.map((v) => at(p, v))).toEqual(['1000,1000', '1500,1000', '2000,1000', '1500,1250', '1700,1250', '1500,1500']);
-    expect(r.report.heldEntities).toEqual(['bldg:1']);
-    expect(r.report.halvings).toBe(0);
-    expect(r.report.lastFailure).toBe('');
-    expect(r.report.moves).toEqual([]);
-    expect(r.committed).toBe(false);
     healthy(p);
   });
 
@@ -277,61 +229,6 @@ describe('§3.6 whole-step validation: a step that would turn the edges around a
     const r = report(warpBatch(p, 1, pointwise([[2500, 2000, -1000, 100]]), box(2490, 1990, 2510, 2010)));
     expect(r.report.halvings).toBe(2);
     expect(vertexAtPoint(p, 2250, 2025)).toBeGreaterThanOrEqual(0);
-    healthy(p);
-  });
-
-  it('the rotation alone: two ends of a junction swung past each other, their paths crossing no unmoved edge, halve on the rotation', () => {
-    // Note 1: the junction (2 000, 2 000) stays (no field there); at full strength its east end swings west to (1 500,
-    // 2 100) while its north end swings to (2 300, 2 300). The east end's path passes north of the short north edge's
-    // end and that edge moves, so the path check reads no unmoved edge; neither swept triangle holds an unmoved vertex;
-    // no edge crosses; but the junction's edges turn from (E, N, S) to (N, E, S). At ½ the same; at ¼ the order holds.
-    const p = framed();
-    commit(p, 1, (o) => {
-      must(insertChain(o, [pt(2000, 1000), pt(2000, 2000), pt(2000, 2300)], [{ role: 'way', entity: 'way:1' }], 'mandatory'));
-      return insertChain(o, [pt(2000, 2000), pt(2500, 2000)], [{ role: 'way', entity: 'way:2' }], 'mandatory');
-    });
-    const r = report(warpBatch(p, 1, pointwise([[2500, 2000, -1000, 100], [2000, 2300, 300, 0]]), box(1990, 1990, 2510, 2310)));
-    expect(r.report.halvings).toBe(2);
-    expect(r.report.lastFailure).toMatch(/^rotation: the edges at \(2000, 2000\) change their order/);
-    expect(r.report.moves.map((m) => `${m.kind} ${m.from.x},${m.from.y}->${m.to.x},${m.to.y}`)).toEqual(['free 2500,2000->2250,2025', 'free 2000,2300->2075,2300']);
-    healthy(p);
-  });
-
-  it('the mover path alone: a free chain carried whole over an unmoved edge, no ring but its own, halves on the path', () => {
-    // Note 1: the L2 chain (1 900, 1 900)–(2 000, 1 900) dragged 160 cm north over the L1 way y = 2 000 lands at y = 2 060
-    // at full strength: its new edge crosses nothing, the way's ends (x = 1 000, 3 000) lie outside its swept triangles,
-    // no vertex has three edges and the only ring its moved edges carry is its own (the nesting check reads nothing), so
-    // only the movers' paths crossing the way refuse it. At ½ it stands 20 cm from the way (clearance); at ¼ it commits.
-    const p = framed();
-    commit(p, 1, (o) => insertChain(o, [pt(1000, 2000), pt(3000, 2000)], [{ role: 'way', entity: 'way:1' }], 'mandatory'));
-    commit(p, 2, (o) => insertChain(o, [pt(1900, 1900), pt(2000, 1900)], [{ role: 'kerb', entity: 'lane:1' }], 'mandatory'));
-    const r = report(warpBatch(p, 2, drag(0, 160), box(1800, 1800, 2100, 1950)));
-    expect(r.report.halvings).toBe(2);
-    expect(r.report.lastFailure).toMatch(/^clearance: the vertex \(1900, 1980\)/);
-    expect(r.report.moves.map((m) => `${m.kind} ${m.to.x},${m.to.y}`)).toEqual(['free 1900,1940', 'free 2000,1940']);
-    healthy(p);
-  });
-});
-
-describe('§3.10\'s placement bound at the step: a re-seat placed before an end of its own route that is placed elsewhere', () => {
-  it('the re-seat reads the sliding end at its rounded target, the end steps aside, the bound fails and the step halves once', () => {
-    // Note 2: an L1 way (2 000, 2 000)–(2 000, 1 000) on the L0 shore y = 2 000, an L2 lane ending on it at (2 000,
-    // 1 500), an unlocked L1 foot at (2 100, 2 000) outside the region. The way's shore end slides +90 cm: its rounded
-    // target (2 090, 2 000) stands 10 cm from the foot, so the placement rule seats it at (2 075, 2 000). The lane's end,
-    // lower in (y, x), is placed first, on the route read at (2 090, 2 000): at (2 045, 1 496) — 0.71 cm and more off the
-    // route (2 075, 2 000)–(2 000, 1 000) as the step leaves it. At ½ the end keeps its rounded target and the step commits.
-    const p = framed();
-    commit(p, 0, (o) => insertChain(o, [pt(0, 2000), pt(4000, 2000)], [{ role: 'shore', entity: 'water:1' }], 'mandatory'));
-    commit(p, 1, (o) => {
-      must(insertChain(o, [pt(2000, 2000), pt(2000, 1000)], [{ role: 'way', entity: 'way:1' }], 'mandatory'));
-      return insertChain(o, [pt(2100, 2000), pt(2100, 3000)], [{ role: 'way', entity: 'way:2' }], 'mandatory');
-    });
-    commit(p, 2, (o) => insertChain(o, [pt(2000, 1500), pt(1500, 1500)], [{ role: 'kerb', entity: 'lane:1' }], 'mandatory'));
-    expect(p.vertices.level[vertexAtPoint(p, 2000, 1500)]).toBe(2);
-    const r = report(warpBatch(p, 1, pointwise([[2000, 2000, 90, 0]]), box(1900, 1900, 2050, 2100)));
-    expect(r.report.halvings).toBe(1);
-    expect(r.report.lastFailure).toMatch(/^placement bound: \(2045, 1496\) lies beyond the hot pixel of its route/);
-    expect(r.report.moves.map((m) => `${m.kind} ${m.from.x},${m.from.y}->${m.to.x},${m.to.y}`)).toEqual(['reseat 2000,1500->2022,1499', 'slide 2000,2000->2045,2000']);
     healthy(p);
   });
 });
@@ -606,70 +503,6 @@ describe('§3.6 held vertices (2) – (4) and the dry run', () => {
     }
   });
 
-  it('§13.1: a warp with fromLevel = 1 over a generated and an edited water gate moves neither gate\'s bank vertices', () => {
-    // Note 9. Two waters between shores y = 1 500 and y = 2 500: the generated gate's L1 wall crosses the west one, its
-    // gate_end vertices L1 Steiner vertices on the L0 shores (held (2)); the edited gate's L0 wall crosses the east one,
-    // its gate_end vertices L0 (level < fromLevel). A drag along the shores slides the L1 way's foot and nothing else.
-    const p = framed();
-    commit(p, 0, (o) => {
-      for (const [x0, x1, w] of [[0, 2400, 'west'], [2600, 4000, 'east']] as const) {
-        must(insertChain(o, [pt(x0, 1500), pt(x1, 1500)], [{ role: 'shore', entity: `water:${w}` }], 'mandatory'));
-        must(insertChain(o, [pt(x0, 2500), pt(x1, 2500)], [{ role: 'shore', entity: `water:${w}:far` }], 'mandatory'));
-      }
-      return insertChain(o, [pt(3000, 1500), pt(3000, 2500)], [{ role: 'wall', entity: 'wall:e' }], 'mandatory', { knots: [{ index: 0, role: 'gate_end', ordinal: 0, entity: 'gate:e' }, { index: 1, role: 'gate_end', ordinal: 1, entity: 'gate:e' }] });
-    });
-    commit(p, 1, (o) => insertChain(o, [pt(2000, 1000), pt(2000, 1500), pt(2000, 2500), pt(2000, 3000)], [{ role: 'wall', entity: 'wall:g' }], 'mandatory', { knots: [{ index: 1, role: 'gate_end', ordinal: 0, entity: 'gate:g' }, { index: 2, role: 'gate_end', ordinal: 1, entity: 'gate:g' }] }));
-    commit(p, 1, (o) => insertChain(o, [pt(1000, 1500), pt(1000, 500)], [{ role: 'way', entity: 'way:1' }], 'mandatory'));
-    const banks = [[2000, 1500], [2000, 2500], [3000, 1500], [3000, 2500]];
-    const ids = banks.map(([x, y]) => vertexAtPoint(p, x, y));
-    expect(ids.map((v) => p.vertices.level[v])).toEqual([1, 1, 0, 0]);
-    const r = report(warpBatch(p, 1, drag(60, 0), box(900, 1400, 3100, 2600)));
-    expect(r.report.halvings).toBe(0);
-    expect(r.report.moves.map((m) => `${m.kind} ${m.from.x},${m.from.y}->${m.to.x},${m.to.y}`)).toEqual(['slide 1000,1500->1060,1500']);
-    expect(ids.map((v) => at(p, v))).toEqual(banks.map(([x, y]) => `${x},${y}`));
-    // The generated gate's banks are held (2), with the ends of the shore runs they lie on (5); the edited gate's L0
-    // banks stay because no vertex of level < fromLevel moves.
-    expect(r.report.held.map((v) => at(p, v))).toEqual(['0,1500', '2000,1500', '2400,1500', '0,2500', '2000,2500', '2400,2500']);
-    healthy(p);
-  });
-
-  it('§13.1: a warp with fromLevel = 1 over finished fabric gives no E_KEPT — a move batch keeps nothing (J-K27)', () => {
-    // Note 9. A block owned at S4 holds an L2 cell owned at S4 and an L3 plot owned at S4: kept content for an insertion
-    // of a batch that re-derives from S8 (the control's E_KEPT). The warp over them commits in a move batch (rederivesFrom
-    // the first stage, §3.6) and in a batch re-deriving from S8 alike, re-seating the plot line's ends with the cell.
-    const fabric = () => {
-      const p = framed();
-      commit(p, 1, (o) => {
-        must(insertChain(o, [pt(0, 2000), pt(4000, 2000)], [{ role: 'way', entity: 'way:1' }], 'mandatory'));
-        return insertChain(o, [pt(2000, 2000), pt(2000, 4000)], [{ role: 'way', entity: 'way:2' }], 'mandatory');
-      });
-      const b = pointLocate(p, G, 1, pt(1000, 3000));
-      if (b.on !== 'face') throw new Error('no block');
-      commit(p, 1, (o) => setOwner(o, [b.face], 'block:1'), { stage: S4, rederivesFrom: S4 });
-      commit(p, 2, (o) => insertChain(o, [pt(500, 2500), pt(1500, 2500), pt(1500, 3500), pt(500, 3500)], [{ role: 'kerb', entity: 'cell:1' }], 'mandatory', { closed: true }), { stage: S4, rederivesFrom: S4 });
-      const k = pointLocate(p, G, 2, pt(1000, 3000));
-      if (k.on !== 'face') throw new Error('no cell');
-      commit(p, 2, (o) => setOwner(o, [k.face], 'cell:1'), { stage: S4, rederivesFrom: S4 });
-      commit(p, 3, (o) => insertChain(o, [pt(1000, 2500), pt(1000, 3500)], [{ role: 'plot_line', entity: 'plot:1' }], 'mandatory'), { stage: S4, rederivesFrom: S4 });
-      const q = pointLocate(p, G, 3, pt(800, 3000));
-      if (q.on !== 'face') throw new Error('no plot');
-      commit(p, 3, (o) => setOwner(o, [q.face], 'plot:1'), { stage: S4, rederivesFrom: S4 });
-      return p;
-    };
-    const control = fabric();
-    expect(tx(control, spec(1, { rederivesFrom: S8 }), (o) => insertChain(o, [pt(1000, 2000), pt(1000, 4000)], [{ role: 'way', entity: 'way:3' }], 'mandatory'))).toMatchObject({ ok: false, code: 'E_KEPT' });
-    for (const rederivesFrom of [0, S8]) {
-      const p = fabric();
-      const w = tx(p, spec(1, { rederivesFrom: rederivesFrom as never }), (o) => warp(o, drag(30, -20), 1, box(400, 2400, 1600, 3600))) as KernelResult<Committed<MoveReport>>;
-      expect(w.ok).toBe(true);
-      if (!w.ok) continue;
-      expect(w.value.record).not.toBeNull();
-      expect(w.value.value.halvings).toBe(0);
-      expect(w.value.value.moves.map((m) => `${m.kind} ${m.to.x},${m.to.y}`)).toEqual(['free 530,2480', 'reseat 1030,2480', 'free 1530,2480', 'free 530,3480', 'reseat 1030,3480', 'free 1530,3480']);
-      healthy(p);
-    }
-  });
-
   it('heldSet lists the held vertices and entities a warp at the batch\'s level would hold', async () => {
     const { heldSet } = await import('../../src/warp/index.js');
     const p = plots();
@@ -698,34 +531,11 @@ describe('§3.6: the field reads the brushes at each vertex; the step\'s report 
       for (const x of [1000, 1500, 2000]) must(insertChain(o, [pt(x, 500), pt(x, 1500), pt(x, 2500)], [{ role: 'way', entity: `way:${x}` }], 'mandatory'));
       return { ok: true as const, value: null, warnings: [] };
     });
-    // Note 3: the brush (radius 1 600 cm) is wider than the region, so the region does the work: every way vertex outside
-    // it has a field displacement and stays.
-    const field = brush('displace', 1500, 1500, 1600, 0, 60, -40);
-    const outside = [[1000, 500], [1500, 500], [2000, 500], [1000, 2500], [1500, 2500], [2000, 2500]];
-    for (const [x, y] of outside) expect(field.displacement(x, y).x).toBeGreaterThan(0);
-    const r = report(warpBatch(p, 1, field, box(900, 1400, 2100, 1600)));
+    const r = report(warpBatch(p, 1, brush('displace', 1500, 1500, 800, 0, 60, -40), box(900, 1400, 2100, 1600)));
     const from = r.report.moves.map((m) => [m.from.y, m.from.x]);
     expect(from).toEqual([...from].sort((a, b) => a[0] - b[0] || a[1] - b[1]));
     expect(r.report.moves.every((m) => m.from.y === 1500)).toBe(true);
-    for (const [x, y] of outside) expect(vertexAtPoint(p, x, y)).toBeGreaterThanOrEqual(0);
-    healthy(p);
-  });
-
-  it('a finer vertex outside the region, on a run a region vertex ends, is re-seated with no field of its own', () => {
-    // Note 3: an L2 lane ends on way:1500 at (1 500, 1 100), outside the region, where the brush gives (45, −30). It is a
-    // candidate (re-seated with its run), but the field applies inside the region only: its target is its own point
-    // projected on the moved route (1 500, 500)–(1 560, 1 460), the lattice point (1 537, 1 098). With the field's (45,
-    // −30) it would project 30 cm further south along the route.
-    const p = framed();
-    commit(p, 1, (o) => {
-      for (const x of [1000, 1500, 2000]) must(insertChain(o, [pt(x, 500), pt(x, 1500), pt(x, 2500)], [{ role: 'way', entity: `way:${x}` }], 'mandatory'));
-      return { ok: true as const, value: null, warnings: [] };
-    });
-    commit(p, 2, (o) => insertChain(o, [pt(1500, 1100), pt(1200, 1100)], [{ role: 'kerb', entity: 'lane:1' }], 'mandatory'));
-    const field = brush('displace', 1500, 1500, 1600, 0, 60, -40);
-    expect(field.displacement(1500, 1100)).toEqual({ x: 45, y: -30 });
-    const r = report(warpBatch(p, 1, field, box(900, 1400, 2100, 1600)));
-    expect(r.report.moves.map((m) => `${m.kind} ${m.from.x},${m.from.y}->${m.to.x},${m.to.y}`)).toEqual(['reseat 1500,1100->1537,1098', 'free 1000,1500->1041,1473', 'free 1500,1500->1560,1460', 'free 2000,1500->2041,1473']);
+    expect(vertexAtPoint(p, 1000, 500)).toBeGreaterThanOrEqual(0);
     healthy(p);
   });
 });
@@ -769,69 +579,5 @@ describe('§3.6 whole-step validation: the swept triangles, the work limit, the 
     const r = report(warpBatch(p, 0, drag(10, 0), [P(0, 0), P(10, 0)]));
     expect(r.report.moves).toEqual([]);
     expect(r.committed).toBe(false);
-  });
-});
-
-describe('§3.6 order within a step: a rounded target on a tie, read through the warp\'s door (y, then x)', () => {
-  it('a re-seat whose target is x.5 rounds to the lower x, and the re-seat placed before it reads that point', () => {
-    // N-r10c-6. Two plot lines end on the L2 kerb y = 1 000 at x = 1 500 and 1 530. The second's target is (1 525.5,
-    // 1 000), a tie between 1 525 and 1 526: the placement rule's nearest takes 1 525 (y, then x). The first, placed
-    // before it (lower x), aims at (1 500.6, 1 000): its nearest (1 501, 1 000) stands 24 cm from the tie's rounded
-    // target, so it keeps its own point (1 500, 1 000), a placed point (W_PLACED). Rounded the other way (1 526), the
-    // first would take (1 501, 1 000) and the second (1 526, 1 000).
-    const p = framed();
-    commit(p, 2, (o) => insertChain(o, [pt(1000, 1000), pt(2000, 1000)], [{ role: 'kerb', entity: 'block:1' }], 'mandatory'));
-    commit(p, 3, (o) => {
-      must(insertChain(o, [pt(1500, 1000), pt(1500, 600)], [{ role: 'plot_line', entity: 'plot:a' }], 'mandatory'));
-      return insertChain(o, [pt(1530, 1000), pt(1530, 600)], [{ role: 'plot_line', entity: 'plot:b' }], 'mandatory');
-    });
-    const r = report(warpBatch(p, 2, pointwise([[1500, 1000, 0.6, 0], [1530, 1000, -4.5, 0]]), box(1490, 990, 1540, 1010)));
-    expect(r.report.halvings).toBe(0);
-    expect(r.report.moves.map((m) => `${m.kind} ${m.from.x},${m.from.y}->${m.to.x},${m.to.y}`)).toEqual(['reseat 1530,1000->1525,1000']);
-    expect(r.report.warnings.map((w) => `${w.code} ${w.at?.x},${w.at?.y}`)).toEqual(['W_PLACED 1500,1000']);
-    expect(vertexAtPoint(p, 1500, 1000)).toBeGreaterThanOrEqual(0);
-    healthy(p);
-  });
-});
-
-describe('the placement rule\'s work: every candidate charged to insert.placementCandidates (N-r10c-1)', () => {
-  /** One warp batch at `level` and the batch's per-counter work when the warp returned. */
-  function charged(p: Parameters<typeof warpBatch>[0], level: 1 | 2, field: Parameters<typeof warpBatch>[2], region: Parameters<typeof warpBatch>[3]): { counts: Record<string, number>; warnings: string[] } {
-    let counts: Record<string, number> = {};
-    let warnings: string[] = [];
-    const r = tx(p, spec(level, { rederivesFrom: 0 as never }), (o) => {
-      const x = warp(o, field, level, region);
-      counts = Object.fromEntries(openTx(o).work.counts);
-      if (x.ok) warnings = x.value.warnings.map((w) => `${w.code} ${w.at?.x},${w.at?.y}`);
-      return x;
-    });
-    expect(r.ok).toBe(true);
-    return { counts, warnings };
-  }
-
-  it('a slide whose nearest point qualifies: one candidate', () => {
-    const p = framed();
-    commit(p, 0, (o) => insertChain(o, [pt(0, 2000), pt(4000, 2000)], [{ role: 'shore', entity: 'water:1' }], 'mandatory'));
-    commit(p, 1, (o) => insertChain(o, [pt(2000, 2000), pt(2000, 3000)], [{ role: 'way', entity: 'way:1' }], 'mandatory'));
-    expect(charged(p, 1, drag(150, 40), box(1900, 1900, 2100, 2100))).toEqual({ counts: { 'insert.placementCandidates': 1 }, warnings: [] });
-  });
-
-  it('the §13.1 kerb\'s re-seat (W_PLACED): its nearest point and every band point before (517, 4) charged', () => {
-    const p = kerbArena();
-    const c = charged(p, 2, shear, box(990, 400, 2010, 1001));
-    expect(c.warnings).toEqual(['W_PLACED 1517,1004']);
-    expect(c.counts).toEqual({ 'insert.placementCandidates': KERB_CANDIDATES });
-  });
-
-  it('the slide beside an unlocked foot (W_PLACED): its nearest point and the band points nearer 2 090 than 2 075', () => {
-    const p = framed();
-    commit(p, 0, (o) => insertChain(o, [pt(0, 2000), pt(4000, 2000)], [{ role: 'shore', entity: 'water:1' }], 'mandatory'));
-    commit(p, 1, (o) => {
-      must(insertChain(o, [pt(2000, 2000), pt(2000, 3000)], [{ role: 'way', entity: 'way:1' }], 'mandatory'));
-      return insertChain(o, [pt(2100, 2000), pt(2100, 1000)], [{ role: 'way', entity: 'way:2' }], 'mandatory');
-    });
-    const c = charged(p, 1, pointwise([[2000, 2000, 90, 0]]), box(1900, 1900, 2050, 2100));
-    expect(c.warnings).toEqual(['W_PLACED 2075,2000']);
-    expect(c.counts).toEqual({ 'insert.placementCandidates': SLIDE_CANDIDATES });
   });
 });

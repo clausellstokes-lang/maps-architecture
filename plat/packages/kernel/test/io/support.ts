@@ -131,95 +131,18 @@ export function roundTrip(p: Plat): { chunks: Chunk[]; loaded: Plat } {
   return { chunks, loaded };
 }
 
-/**
- * Birth-level moves a batch made (§2.2 rule 3), counted per element that lives across it: a vertex on the same slot and
- * point, an edge on the same pair slot whose segment after lies on its segment before (a split shortens it), whose birth
- * level fell (a promotion: a coarser chain took it over) or rose (a demotion: its coarser chain went, a finer one keeps
- * it).
- */
-export interface LevelMoves {
-  promotions: number;
-  demotions: number;
-}
-
-interface LevelImage {
-  readonly vertex: Int32Array;
-  readonly vx: Int32Array;
-  readonly vy: Int32Array;
-  readonly pair: Int32Array;
-  readonly ends: Int32Array;
-}
-
-/** Every live vertex's and edge's birth level by slot (−1 for a free slot), with their points. */
-function levelImage(p: Plat): LevelImage {
-  const nv = p.slots.vertex.top;
-  const np = p.slots.pair.top;
-  const X = p.vertices.x;
-  const Y = p.vertices.y;
-  const O = p.halfEdges.origin;
-  const img: LevelImage = { vertex: new Int32Array(nv).fill(-1), vx: new Int32Array(nv), vy: new Int32Array(nv), pair: new Int32Array(np).fill(-1), ends: new Int32Array(4 * np) };
-  for (let v = 0; v < nv; v++) {
-    if (!isVertexLive(p, v)) continue;
-    img.vertex[v] = p.vertices.level[v];
-    img.vx[v] = X[v];
-    img.vy[v] = Y[v];
-  }
-  for (let e = 0; e < np; e++) {
-    if (!isHalfEdgeLive(p, 2 * e)) continue;
-    img.pair[e] = p.halfEdges.level[e];
-    img.ends.set([X[O[2 * e]], Y[O[2 * e]], X[O[2 * e + 1]], Y[O[2 * e + 1]]], 4 * e);
-  }
-  return img;
-}
-
-/** Does the point (x, y) lie on the closed segment (ax, ay) – (bx, by)? Exact: lattice coordinates, |cross| < 2⁵³. */
-function onSegment(x: number, y: number, ax: number, ay: number, bx: number, by: number): boolean {
-  if ((bx - ax) * (y - ay) - (by - ay) * (x - ax) !== 0) return false;
-  return x >= Math.min(ax, bx) && x <= Math.max(ax, bx) && y >= Math.min(ay, by) && y <= Math.max(ay, by);
-}
-
-function addMoves(moves: LevelMoves, was: number, now: number): void {
-  if (now < was) moves.promotions++;
-  else if (now > was) moves.demotions++;
-}
-
-/** The moves from `before` to the arena now (see LevelMoves). */
-function countMoves(p: Plat, before: LevelImage, moves: LevelMoves): void {
-  const X = p.vertices.x;
-  const Y = p.vertices.y;
-  const O = p.halfEdges.origin;
-  for (let v = 0; v < before.vertex.length && v < p.slots.vertex.top; v++) {
-    if (before.vertex[v] < 0 || !isVertexLive(p, v) || X[v] !== before.vx[v] || Y[v] !== before.vy[v]) continue;
-    addMoves(moves, before.vertex[v], p.vertices.level[v]);
-  }
-  for (let e = 0; e < before.pair.length && e < p.slots.pair.top; e++) {
-    if (before.pair[e] < 0 || !isHalfEdgeLive(p, 2 * e)) continue;
-    const [ax, ay, bx, by] = before.ends.subarray(4 * e, 4 * e + 4);
-    const a = O[2 * e];
-    const b = O[2 * e + 1];
-    if (!onSegment(X[a], Y[a], ax, ay, bx, by) || !onSegment(X[b], Y[b], ax, ay, bx, by)) continue;
-    addMoves(moves, before.pair[e], p.halfEdges.level[e]);
-  }
-}
-
-/**
- * A random arena: `steps` batches of M0-a-06's generator on the framed square (refused batches leave nothing). With
- * `moves`, every committed batch's promotions and demotions are added to it.
- */
-export function randomArena(seed: number, steps: number, mix?: Mix, moves?: LevelMoves): Plat {
+/** A random arena: `steps` batches of M0-a-06's generator on the framed square (refused batches leave nothing). */
+export function randomArena(seed: number, steps: number, mix?: Mix): Plat {
   const r = rng(seed);
   const p = framed();
   const live: Live = { ways: [], kerbs: [], next: 0 };
   for (let i = 0; i < steps; i++) {
     const snapshot: Live = { ways: live.ways.slice(), kerbs: live.kerbs.slice(), next: live.next };
-    const before = moves === undefined ? null : levelImage(p);
     const b = randomBatch(p, live, r, mix);
     const res = tx(p, spec(b.level, { rederivesFrom: 0 as never }), b.fn);
     if (!res.ok) {
       live.ways = snapshot.ways;
       live.kerbs = snapshot.kerbs;
-    } else if (moves !== undefined && before !== null) {
-      countMoves(p, before, moves);
     }
   }
   return p;

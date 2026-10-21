@@ -3,14 +3,12 @@
 // as every geometry service refuses it). Every other outcome is ok: the validated skeleton, or — when the numeric
 // contract refuses the rings (without running), the queue reaches its work law (E_WORK_LIMIT), or the validator fails
 // the output — the reader's typed downgrade, reported W_DOWNGRADE (§3.8, §5.2 F-SKELETON). Never a crash, never
-// unvalidated output; nothing stored. The engine reads the rings strictly first; only when that gives no validated
-// graph does it read them again tolerantly (engine.ts's two readings), under what is left of the same work law, so
-// every input the strict reading validates keeps its output and the second reading only rescues a would-be downgrade.
+// unvalidated output; nothing stored.
 import { offLattice } from '../geom/common.js';
 import { ok, type KernelResult } from '../num/index.js';
 import type { Cm, Polygon } from '../types/index.js';
 import { coalesce, type RawGraph } from './coalesce.js';
-import { buildLines, runEngine, skeletonEventLimit, type EngineHooks, type EngineReading } from './engine.js';
+import { buildLines, runEngine, skeletonEventLimit, type EngineHooks } from './engine.js';
 import { prepareRings } from './prepare.js';
 import type {
   DowngradePath,
@@ -87,46 +85,37 @@ export function runSkeleton<A = unknown>(
   const asked = opts.maxEvents;
   const limit = asked !== undefined && Number.isInteger(asked) && asked > floor ? asked : floor;
   const input = { xs, ys, ringStart };
-  const lines = buildLines(input);
+  const run = runEngine(input, limit, hooks);
+  if (run.status === 'workLimit') return downgrade(rings, use, { code: 'E_WORK_LIMIT', count: run.events, limit }, run.events, opts);
+  const graphOf = (g: RawGraph): SkeletonGraph => ({
+    kind: 'skeleton',
+    use,
+    rings: clean.map((ring) => ring.map((p) => ({ x: p.x as Cm, y: p.y as Cm }))),
+    edges,
+    nodes: g.nodes.map((q, j) => (j < n ? { x: q.x + ox, y: q.y + oy, t: 0 } : { x: q.x + ox, y: q.y + oy, t: q.t })),
+    arcs: g.arcs,
+    faces: [],
+    events: run.events,
+  });
+  // §3.8's coalescing first (C-0168 (4)); the engine's own graph when the coalesced one does not validate
+  const raw: RawGraph = { nodes: run.nodes, arcs: run.arcs };
+  const merged = run.status === 'ok' ? coalesce(raw, n, buildLines(input)) : null;
   let first: SkeletonFailure | null = null;
-  let spent = 0;
-  for (const reading of ['strict', 'tolerant'] as readonly EngineReading[]) {
-    // one law for every reading of the rings: a later reading runs under what the earlier ones left
-    const run = runEngine(input, limit - spent, hooks, reading);
-    spent += run.events;
-    if (run.status === 'workLimit') {
-      if (first === null) return downgrade(rings, use, { code: 'E_WORK_LIMIT', count: spent, limit }, spent, opts);
-      break;
+  for (const g of merged === null ? [raw] : [merged, raw]) {
+    const graph = graphOf(g);
+    const verdict = validateSkeleton(graph);
+    if (!verdict.ok) {
+      first ??= { code: 'validator', check: verdict.check, detail: verdict.detail };
+      continue;
     }
-    const graphOf = (g: RawGraph): SkeletonGraph => ({
-      kind: 'skeleton',
-      use,
-      rings: clean.map((ring) => ring.map((p) => ({ x: p.x as Cm, y: p.y as Cm }))),
-      edges,
-      nodes: g.nodes.map((q, j) => (j < n ? { x: q.x + ox, y: q.y + oy, t: 0 } : { x: q.x + ox, y: q.y + oy, t: q.t })),
-      arcs: g.arcs,
-      faces: [],
-      events: spent,
-    });
-    // §3.8's coalescing first (C-0168 (4)); the engine's own graph when the coalesced one does not validate
-    const raw: RawGraph = { nodes: run.nodes, arcs: run.arcs };
-    const merged = run.status === 'ok' ? coalesce(raw, n, lines) : null;
-    for (const g of merged === null ? [raw] : [merged, raw]) {
-      const graph = graphOf(g);
-      const verdict = validateSkeleton(graph);
-      if (!verdict.ok) {
-        first ??= { code: 'validator', check: verdict.check, detail: verdict.detail };
-        continue;
-      }
-      if (run.status !== 'ok') {
-        first ??= { code: 'validator', check: 'topology', detail: `the wavefront ${run.status} before it collapsed` };
-        continue;
-      }
-      graph.faces = verdict.faces;
-      return ok(graph);
+    if (run.status !== 'ok') {
+      first ??= { code: 'validator', check: 'topology', detail: `the wavefront ${run.status} before it collapsed` };
+      continue;
     }
+    graph.faces = verdict.faces;
+    return ok(graph);
   }
-  return downgrade(rings, use, first ?? { code: 'validator', check: 'topology', detail: 'no output' }, spent, opts);
+  return downgrade(rings, use, first ?? { code: 'validator', check: 'topology', detail: 'no output' }, run.events, opts);
 }
 
 /**

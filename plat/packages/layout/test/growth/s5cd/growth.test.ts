@@ -5,13 +5,10 @@
 // re-proposes from the next attempt stream, then rejects with a report line; the lanesInfillOnly switch changes only
 // extramural growth classes.
 import { describe, expect, it } from 'vitest';
-import { compareKeys, createRng, err, recomputeLevelDigest, seedKey, STAGES, CONCERNS, type Kernel, type StageId, type Stream } from '@plat/kernel';
-import { lineageHash, type Id, type Junction, type Way } from '@plat/model';
+import { createRng, err, recomputeLevelDigest, seedKey, STAGES, CONCERNS, type Kernel, type StageId, type Stream } from '@plat/kernel';
+import { lineageHash } from '@plat/model';
 import { loadWorkLimits, type WorkLimitsTable } from '@plat/tables';
-import { generated } from '../../../src/enceinte/water.js';
-import type { GrowthState } from '../../../src/growth/mainRoads.js';
-import * as growthIndex from '../../../src/growth/index.js';
-import { growStreets, joinState, type GrownStreet, type GrowthStreams, type S5cRecord, type StreetGrowOptions } from '../../../src/growth/proposals.js';
+import { growStreets, type GrowthStreams, type S5cRecord, type StreetGrowOptions } from '../../../src/growth/proposals.js';
 import { bentArterial, GROUND, handCase, lineAngleDeg, P, properCross, roleEdges, type HandCase } from './support.js';
 
 function streams(seed: number): GrowthStreams {
@@ -368,69 +365,5 @@ describe('an unwalled stage’s boundary', () => {
         expect(lineAngleDeg(u, v)).toBeLessThanOrEqual(90);
       }
     }
-  });
-});
-
-describe('a standing junction a street snaps to takes its arm in key order', () => {
-  /** A street of the growth record ending on the standing junction `jId` by a snap. */
-  const snapped = (wayId: Id, jId: Id, index: number): GrownStreet => {
-    const way: Way = {
-      id: wayId,
-      class: 'secondary',
-      spine: { role: 'way', entity: wayId },
-      width: 600 as Way['width'],
-      from: { kind: 'junction', id: 'junction:20' },
-      to: { kind: 'junction', id: jId },
-      growthStage: 1,
-      epoch: 0,
-      provisional: false,
-      lifecycle: generated(0),
-    };
-    return { way, lineage: [0, index], index, proposal: index, parent: 'way:0', points: [P(0, 0), P(3_000, 0)], ends: 'snap', meets: jId, provisional: false };
-  };
-  const record = (streets: GrownStreet[]): S5cRecord => ({
-    k: 1,
-    regime: 'dense_core',
-    walled: true,
-    lanesInfillOnly: false,
-    seeds: 0,
-    proposalsMade: streets.length,
-    streets,
-    junctions: [],
-    work: { 'growth.proposals': 0, 'growth.candidates': 0 },
-    limits: { 'growth.proposals': 0, 'growth.candidates': 0 },
-    steps: { accepted: streets.length, rejected: {}, deflected: 0, biased: 0 },
-    rungs: [],
-    refused: {},
-    intermediates: {},
-    workCut: null,
-  });
-
-  it('joinState: the arms of the junction snapped to are sorted by compareKeys (`way:10` before `way:5`), its kind X at four arms', () => {
-    const standing: Junction = { id: 'junction:4', vertex: { role: 'junction', entity: 'junction:4', ordinal: 0 }, arms: ['way:5', 'way:9'], kind: 'T', lifecycle: generated(0) };
-    const state = { ways: [] as Way[], junctions: [standing] } as unknown as GrowthState;
-    joinState(state, record([snapped('way:10', 'junction:4', 0)]));
-    expect(state.junctions[0].arms).toEqual(['way:10', 'way:5', 'way:9']);
-    expect(state.junctions[0].arms).toEqual([...state.junctions[0].arms].sort(compareKeys));
-    expect(state.junctions[0].kind).toBe('T');
-    expect(state.ways.map((w) => w.id)).toEqual(['way:10']);
-    joinState(state, record([snapped('way:11', 'junction:4', 1)]));
-    expect(state.junctions[0].arms).toEqual(['way:10', 'way:11', 'way:5', 'way:9']);
-    expect(state.junctions[0].kind).toBe('X');
-  });
-});
-
-describe('the growth index names its exports', () => {
-  it('its values are the 68 its modules gave through `export *` before it listed them (the types are the TypeScript checker’s census)', () => {
-    expect(Object.keys(growthIndex).sort(compareKeys)).toEqual([
-      'ALTERNATIVES', 'APPROACH_NODES', 'CAPACITY_TOLERANCE', 'FeatureIndex', 'HA_CM2', 'MAINROAD_CONCERN', 'PLAZA_ID', 'PRECISION_CODES', 'RADIAL_COS',
-      'RAD_PER_CDEG', 'S5_STAGE', 'acceptedStreets', 'boundaryCrossings', 'capacityCheck', 'capacityStep', 'classRankOf', 'commitS3ThenStage1',
-      'correlationOf', 'crossingMatrix', 'growStreets', 'growthArea', 'growthBatch', 'growthRecord', 'growthRules', 'growthStageLineage', 'growthStart',
-      'growthStep', 'growthStreams', 'headingModel', 'headingStep', 'idNumber', 'initialCurvature', 'insertOnOutline', 'joinState', 'keepRecord', 'landOf',
-      'legal', 'lineAngle', 'mainRoadCount', 'mainRoadStream', 'mainRoadsStep', 'outlineMeasures', 'pruneAndTrim', 'resettleT', 'ringMask', 'runS5',
-      'runS5ab', 's5aStage', 's5bStage', 's5bWorkLimit', 's5cStage', 's5dStage', 'spawnPrimaries', 'squareGates', 'stageBoundary', 'stageOneReach',
-      'stageWalled', 'standInDemand', 'streetOrigin', 'syntheticRamp', 'traceStage', 'traceStage1', 'traceStep', 'unionField', 'wallClearance', 'wayLines',
-      'withPins', 'wrapAngle',
-    ]);
   });
 });

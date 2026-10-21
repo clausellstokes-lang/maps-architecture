@@ -3,8 +3,10 @@
 // fixture with a hand-built terrain — a plateau, ground rising away from a river strip — and S1 (10)-shaped resources.
 import { describe, expect, it } from 'vitest';
 import { coveringGrid, type SiteResources } from '@plat/site';
-import { type FieldSite, type ScalarField } from '../../src/index.js';
-import { CELLS, fieldsVariant, fieldTown, pass1, rect, terrainOf } from './support.js';
+import { fieldsCells, type FieldSite, type ScalarField } from '../../src/index.js';
+import { fieldsVariant, fieldTown, pass1, rect, TABLES, terrainOf } from './support.js';
+
+const CELLS = fieldsCells(TABLES);
 const ft = fieldTown(1);
 // the arena reaches ± 3 200 m (4 km frame, 30 % margin); a 25 m height raster over it
 const T_CELL = 2500;

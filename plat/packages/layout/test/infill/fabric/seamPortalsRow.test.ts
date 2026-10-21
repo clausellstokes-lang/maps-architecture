@@ -5,7 +5,7 @@
 // row non-empty: S8 is refused E_INVARIANT, the line reads pass false with its evaluation counted, the report carries a
 // bug entry for S8, and the runner's rollback (C-0295) leaves nothing of S8 in the arena. The honest twin passes with
 // zero problems and its evaluation counted.
-import { pointLocate, splitThrough, STAGES, type KernelTx, type LatticePoint, type Plat } from '@plat/kernel';
+import { isHalfEdgeLive, pointLocate, rowKey, rowsOn, splitThrough, STAGES, type KernelTx, type LatticePoint, type Plat } from '@plat/kernel';
 import type { District, Seam } from '@plat/model';
 import { describe, expect, it } from 'vitest';
 import {
@@ -28,7 +28,7 @@ import {
   type S8Input,
   vertexPoints,
 } from '../../../src/index.js';
-import { arenaWays, fixture, GROUND, ownerOf, P, SEED, twoDistricts, type Fixture } from './support.js';
+import { fixture, GROUND, ownerOf, P, SEED, twoDistricts, type Fixture } from './support.js';
 
 /** How a planted breach corrupts a district's result: its last baseLane portal dropped, or re-pointed at no lane. */
 type Breach = 'drop' | 'repoint';
@@ -60,6 +60,19 @@ function breaching(how: Breach): FabricStrategy {
 function recording(): { ctx: never; rows: [string, boolean][] } {
   const rows: [string, boolean][] = [];
   return { ctx: { report: { invariant: (name: string, pass: boolean) => rows.push([name, pass]), warning: () => undefined } } as never, rows };
+}
+
+/** Every way id carried by a live edge of the arena. */
+function arenaWays(plat: Plat): Set<string> {
+  const ids = new Set<string>();
+  for (let e = 0; e < 2 * plat.slots.pair.top; e += 1) {
+    if (!isHalfEdgeLive(plat, e)) continue;
+    for (const r of rowsOn(plat, 'edge', e)) {
+      const key = rowKey(plat, r);
+      if (key.role === 'way') ids.add(key.entity);
+    }
+  }
+  return ids;
 }
 
 describe('runS8 evaluates the seam-portal row at its end (standalone, a context with a report sink)', () => {

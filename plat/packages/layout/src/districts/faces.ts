@@ -361,11 +361,7 @@ export function hullCompactness(g: FaceGraph, members: readonly number[], areaCm
   return r.ok ? r.value : 0;
 }
 
-/**
- * Polsby–Popper, 4π·A ÷ P² (the plaza's compactness measure, §4.2 S3 (2)): 1 for a disc, π ÷ 4 for a square, 0 for a
- * zero perimeter. An exported measure beside the patch test's — whose measure is the hull ratio, C-0245 (7) — that no S6
- * report carries at M0; its pin is grow.test.ts's.
- */
+/** Polsby–Popper, 4π·A ÷ P² (reported beside the patch test's measure; the plaza's compactness, §4.2 S3 (2)). */
 export function polsbyPopper(areaCm2: number, perimeterCm: number): number {
   const r = ratio(4 * PI * areaCm2, perimeterCm * perimeterCm, 'area');
   return r.ok ? r.value : 0;

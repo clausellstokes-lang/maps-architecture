@@ -250,15 +250,20 @@ describe('the router\'s regressions from B-FUZZ (≥ 300-vertex self-touching wa
     if (m.r.ok) expect(m.r.warnings.map((w) => w.code)).toContain('W_STRETCH_SHARED');
   });
 
-  it('where the design route leaves clearance broken and the strict route keeps it, the strict route stands: one edge past a vertex 25.9 cm off it', () => {
-    // The segment (1240, 3048) → (1254, 3085) passes (1267, 3046) at 25.9 cm: step 3's band routes it there, and the
-    // sub-route back out passes (1240, 3048) — an end of the first part — 24.98 cm off. Within minEdge only: no detour.
+  it('where the design route leaves clearance broken and the strict route keeps it, the strict route stands: through the vertex 24.98 cm off it, not the one 25.9 cm off', () => {
+    // The last point (1225, 3043) lands on (1211, 3037); its segment on to (1254, 3085) passes (1267, 3046) at 25.9 cm:
+    // step 3's band routes it there, and the sub-route back out breaks clearance. The strict route goes within minEdge
+    // only: through (1240, 3048), 24.98 cm off — out along the chain's own edge (1211, 3037) – (1240, 3048) and on from
+    // it. The strict route's second reading (C-0361), which passes over (1240, 3048) as a neighbour of the segment's own
+    // start (one edge (1211, 3037) – (1254, 3085)), is tried only after this one: a segment the strict route keeps
+    // routes as it did before round S9 (N-37; round S9's census found a case the second reading tried first lost).
     const pts: [number, number][] = [[1252, 3023], [1228, 3012], [1211, 3037], [1240, 3048], [1267, 3046], [1225, 3043], [1254, 3085]];
     for (const cls of ['mandatory', 'optional'] as const) {
       const m = run(pts, cls);
       expect(m.r.ok).toBe(true);
       expect(allProblems(m.p)).toEqual([]);
       expect(edgeRows(m.p, [1240, 3048], [1254, 3085])).toEqual(['way/way:w']);
+      expect(edgeRows(m.p, [1211, 3037], [1254, 3085])).toBeNull();
       expect(edgeRows(m.p, [1267, 3046], [1254, 3085])).toBeNull();
     }
   });

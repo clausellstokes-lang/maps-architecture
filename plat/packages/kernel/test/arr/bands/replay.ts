@@ -138,8 +138,8 @@ export function replayOverlay(operands: readonly (readonly (readonly LatticePoin
 }
 
 /** kerb(F)'s overlay on insertChain alone: F's route rings, then its spines' buffer parts (kerb.ts's operands). */
-export function replayKerb(p: Plat, face: FaceId, ws: SpineWidths, vertexContacts = true): Replay | null {
-  const f = readFace(p, face, ws, undefined, vertexContacts);
+export function replayKerb(p: Plat, face: FaceId, ws: SpineWidths): Replay | null {
+  const f = readFace(p, face, ws);
   if (f.spines.size === 0) return null;
   const parts = kerbParts(f.rings, f.spines);
   if (!parts.ok || parts.value.length === 0) return null;
@@ -159,8 +159,6 @@ export interface CommitSpec {
   readonly widths: SpineWidths;
   readonly edgeRole: 'kerb' | 'band';
   readonly entityOf: (p: Plat, face: FaceId) => string;
-  /** The engine's census of a face's spines (J318, C-0380): corridorUnion's through its route vertices too (the default), bandUnion's not. */
-  readonly vertexContacts?: boolean;
 }
 
 /** Is q within the hot pixel (1 cm) of a route ring edge of the face (N-57 (2)'s boundary reading)? */
@@ -335,8 +333,8 @@ export function replayCommit(c: CommitSpec): Replay | null {
     const unique = [...new Set(faces)].sort((a, b) => compareFaces(p, 1, a, b));
     const reads: KerbRead[] = [];
     for (const f of unique) {
-      const r = readKerb(p, f, c.widths, undefined, c.vertexContacts ?? true);
-      if (!r.ok) return replayKerb(p, f, c.widths, c.vertexContacts ?? true);
+      const r = readKerb(p, f, c.widths);
+      if (!r.ok) return replayKerb(p, f, c.widths);
       reads.push(r.value);
     }
     let found: Step = null;
