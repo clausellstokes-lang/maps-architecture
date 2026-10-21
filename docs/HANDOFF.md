@@ -1,6 +1,6 @@
 # HANDOFF — town-generator research program
 
-## RUNNING NOW — 2026-10-20 15:35Z (ACCOUNT 2: session_01F1FyLSKVBzYwVs2sNL8bcS, Fable 5.1 at max, the managing seat; branch `claude/great-galileo-b4mzbq`, PRs #9, #10, #11 MERGED 2026-10-21 02:16–02:44Z (J460–J462); THE OWNER'S STANDING WORD (J462): every subsequent PR is merged by a merge commit as soon as it is ready (a landing with green gates and its bookkeeping, or any record at a check-in; the merge's own record rides the next PR); the branch continues from main under the same name; draft PR #12 is the live one; J444)
+## RUNNING NOW — 2026-10-20 15:35Z (ACCOUNT 2: session_01F1FyLSKVBzYwVs2sNL8bcS, Fable 5.1 at max, the managing seat; branch `claude/great-galileo-b4mzbq`, PRs #9, #10, #11 MERGED 2026-10-21 02:16–02:44Z (J460–J462); THE OWNER'S STANDING WORD (J462): every subsequent PR is merged by a merge commit as soon as it is ready (a landing with green gates and its bookkeeping, or any record at a check-in; the merge's own record rides the next PR); the branch continues from main under the same name; PR #12 MERGED 03:01Z as 8f330636 (the d-05a landing); draft PR #13 is the live one; J444)
 
 **03:05Z (J463).** AS's hand-back (02:55Z): merged round M1 complete — d-05a s1 PASS → LANDED as 9ae9c570 (d-05b s1 landed at J457); AS archived; the busy list − M0-d-05a. N-2's mint-side residue → Q93 (M4; the builder's refusal is the contract). Fifteen landings. Five children in flight (AH, AI, AL, AU, AV). The live PR merged after this push under J462.
 
