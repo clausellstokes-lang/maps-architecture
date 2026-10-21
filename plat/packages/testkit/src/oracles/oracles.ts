@@ -38,7 +38,7 @@ function message(e: unknown): string {
  * `loadOracles()` is the harness's usage error and is rethrown; anything else is a failed result naming it.
  */
 export function resultOfThrow(engine: OracleEngine, e: unknown): OracleResult {
-  if (isOracleRefusal(e)) return { ok: false, engine, error: e.message, refused: true };
+  if (isOracleRefusal(e)) return { ok: false, engine, error: e.message, refused: true, seed: e.seed, overran: e.overran };
   if (engine === 'clipper2' && message(e).startsWith('oracles:')) throw e;
   return failure(engine, `${engine}: ${message(e)}`);
 }

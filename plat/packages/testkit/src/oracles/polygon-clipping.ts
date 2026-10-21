@@ -16,6 +16,20 @@
 // under the declared rule; an attempt that throws or fails the check is set aside. When no turn gives an accepted
 // region the adapter throws an `OracleRefusal` (C-0150, superseding C-0144 (2)'s premise that the library's answer,
 // when it returns one, is the operands' region).
+//
+// The step budget (hardening round S1; KI-6, C-0414). On some inputs the library's sweep never returns: its
+// `SweepLine.process` walks the sweep-line tree past consumed segments (`tree.prev` / `tree.next`) and, with the tree's
+// order broken by rounding, the walk cycles — the queue never grows, so the library's own size limits never fire
+// (register.json's `oracleHang`, offsetFace seed 6101; the buffer case of agreement-buffer at PLAT_FUZZ_SEED=1595 and
+// 1 000 runs). Every library call therefore runs under a step budget: the operations on the library's splay trees
+// (`insert`, `add`, `remove`, `find`, `prev`, `next`, `pop` — every step of its sweep, its queue and its rounder) are
+// counted on the very `splaytree` instance polygon-clipping loads (resolved from the library's own folder; the counter
+// checks once that a union moves it, and refuses to run otherwise), and a call that makes more than
+// `STEP_BUDGET_BASE + STEP_BUDGET_PER_VERTEX × n` of them (n its input vertices) is stopped and set aside like a throw.
+// A count, not a clock: the same input overruns on every machine and under any load, so the outcome never depends on
+// time. The budget stands far above every call measured (C-0414 (2)); an attempt that overruns is set aside and the
+// next quarter turn tried, and when no turn is accepted the refusal says an attempt overran (`OracleRefusal.overran`).
+import { createRequire } from 'node:module';
 import polygonClipping from 'polygon-clipping';
 import type { BooleanOp, FillRule, Ring } from './types.js';
 import { dedupe, fanTriangles, isSimpleRing, snapRing } from './rings.js';
@@ -62,25 +76,159 @@ function attemptLine(k: Turn, outcome: string): string {
   return `turn ${k * 90}°: ${outcome}`;
 }
 
+// ── the step budget (KI-6, C-0414) ──
+
+/** The steps every library call may take whatever its size: 2²¹ (the largest call measured took 532 876). */
+export const STEP_BUDGET_BASE = 2_097_152;
+
+/** The further steps per input vertex: 2¹³ (the most measured per vertex: 459). */
+export const STEP_BUDGET_PER_VERTEX = 8_192;
+
+/** A step budget: the steps every call may take, and the further steps per input vertex. */
+export interface StepBudget {
+  readonly base: number;
+  readonly perVertex: number;
+}
+
+const DEFAULT_BUDGET: StepBudget = Object.freeze({ base: STEP_BUDGET_BASE, perVertex: STEP_BUDGET_PER_VERTEX });
+
+let budgetInForce: StepBudget = DEFAULT_BUDGET;
+
+/** The splay-tree operations of the library counted as its steps. */
+const COUNTED = ['insert', 'add', 'remove', 'find', 'prev', 'next', 'pop'] as const;
+
+/** The steps of the call in progress, its limit (infinite outside a call) and the overruns since the module loaded. */
+// `wrapped`: the counted methods are in place (done once); `armed`: the self-check has passed (until it does, every call
+// runs it again and throws, so a counter that does not reach the library never lets a call run unbudgeted; N3).
+const steps = { taken: 0, limit: Number.POSITIVE_INFINITY, overruns: 0, wrapped: false, armed: false };
+
+/** A library call stopped by its step budget: the attempt sets it aside like a throw (`underTurns`). */
+export class StepBudgetOverrun extends Error {
+  readonly taken: number;
+  readonly limit: number;
+
+  constructor(taken: number, limit: number, vertices: number) {
+    super(`overran its step budget (${String(taken)} steps; budget ${String(limit)} for ${String(vertices)} input vertices)`);
+    this.name = 'StepBudgetOverrun';
+    this.taken = taken;
+    this.limit = limit;
+  }
+}
+
+/** The sentinel thrown inside the library when the budget is spent (turned into a `StepBudgetOverrun` outside it). */
+class Spent extends Error {}
+
+/**
+ * Counts the library's steps: wraps the counted methods of the `splaytree` polygon-clipping loads — resolved from the
+ * library's own folder, so the very instance its sweep uses — once, then checks that a small union moves the count
+ * and throws an `oracles: …` error (a test-kit fault, never a refusal) when it does not. It counts as armed only once
+ * the check has passed (N3, C-0415): a failed check throws again on every later call, never letting one run
+ * unbudgeted; `underTurns` arms before its first attempt, so the error is never set aside as an attempt's throw.
+ */
+function armSteps(): void {
+  if (steps.armed) return;
+  const req = createRequire(import.meta.url);
+  const lib = createRequire(req.resolve('polygon-clipping'))('splaytree') as { prototype?: Record<string, unknown> } | undefined;
+  const proto = lib?.prototype;
+  if (proto === undefined) throw new Error("oracles: polygon-clipping's splaytree could not be loaded to count its steps");
+  if (!steps.wrapped) {
+    for (const name of COUNTED) {
+      if (typeof proto[name] !== 'function') throw new Error(`oracles: polygon-clipping's splaytree has no ${name} to count`);
+    }
+    for (const name of COUNTED) {
+      const orig = proto[name] as (...a: unknown[]) => unknown;
+      proto[name] = function counted(this: unknown, ...args: unknown[]): unknown {
+        steps.taken += 1;
+        if (steps.taken > steps.limit) throw new Spent();
+        return orig.apply(this, args);
+      };
+    }
+    steps.wrapped = true;
+  }
+  const before = steps.taken;
+  polygonClipping.union([[[0, 0], [1, 0], [1, 1], [0, 1]]], [[[2, 0], [3, 0], [3, 1], [2, 1]]]);
+  if (!(steps.taken > before)) throw new Error("oracles: the step budget does not reach polygon-clipping (its splaytree is another instance)");
+  steps.armed = true;
+}
+
+/** The number of points in a library geometry (any nesting of [x, y] pairs). */
+function vertexCount(g: unknown): number {
+  if (!Array.isArray(g)) return 0;
+  if (typeof g[0] === 'number') return 1;
+  let n = 0;
+  for (const x of g) n += vertexCount(x);
+  return n;
+}
+
+/**
+ * One library call under the step budget: base + perVertex × n steps for n input vertices (`STEP_BUDGET_BASE` and
+ * `STEP_BUDGET_PER_VERTEX`, or the budget `withStepBudget` put in force). Throws a `StepBudgetOverrun` when the call
+ * would take more; any other throw is the library's own.
+ */
+function budgeted<T>(geoms: readonly unknown[], call: () => T): T {
+  armSteps();
+  const n = vertexCount(geoms);
+  const limit = budgetInForce.base + budgetInForce.perVertex * n;
+  steps.taken = 0;
+  steps.limit = limit;
+  try {
+    return call();
+  } catch (e) {
+    if (e instanceof Spent) {
+      steps.overruns += 1;
+      throw new StepBudgetOverrun(steps.taken, limit, n);
+    }
+    throw e;
+  } finally {
+    steps.limit = Number.POSITIVE_INFINITY;
+  }
+}
+
+/**
+ * Runs `fn` with another step budget in force — a test seam, as `CompareOptions.measure` is one (every harness runs
+ * under the default); the budget before is restored after, whatever `fn` does.
+ */
+export function withStepBudget<T>(budget: StepBudget, fn: () => T): T {
+  if (!(budget.base >= 0 && budget.perVertex >= 0)) throw new RangeError('oracles: a step budget is non-negative');
+  const before = budgetInForce;
+  budgetInForce = { base: budget.base, perVertex: budget.perVertex };
+  try {
+    return fn();
+  } finally {
+    budgetInForce = before;
+  }
+}
+
+/** The steps the last library call took and the overruns since the module loaded (read by the tests). */
+export function stepCounts(): { lastTaken: number; overruns: number } {
+  return { lastTaken: steps.taken, overruns: steps.overruns };
+}
+
 /**
  * Runs `run` under each quarter turn in order, turns each result back and returns the first one the region check
- * accepts; throws an `OracleRefusal` naming every attempt's outcome when none is accepted (C-0150).
+ * accepts; throws an `OracleRefusal` naming every attempt's outcome when none is accepted (C-0150) — marked `overran`
+ * when an attempt ran past its step budget (KI-6, C-0414).
  */
 export function underTurns(run: (k: Turn) => PcMultiPolygon, accept: (mp: PcMultiPolygon) => string | null): PcMultiPolygon {
+  armSteps(); // a counter that does not reach the library is the kit's fault: thrown here, never an attempt's (N3)
   const outcomes: string[] = [];
+  let overran = false;
   for (const k of TURNS) {
     let mp: PcMultiPolygon;
     try {
       mp = turnMulti(run(k), inverse(k));
     } catch (e) {
-      outcomes.push(attemptLine(k, `threw (${e instanceof Error ? e.message : String(e)})`));
+      if (e instanceof StepBudgetOverrun) {
+        overran = true;
+        outcomes.push(attemptLine(k, e.message));
+      } else outcomes.push(attemptLine(k, `threw (${e instanceof Error ? e.message : String(e)})`));
       continue;
     }
     const wrong = accept(mp);
     if (wrong === null) return mp;
     outcomes.push(attemptLine(k, wrong));
   }
-  throw new OracleRefusal('polygon-clipping', `no quarter turn gave the operands' region — ${outcomes.join('; ')}`);
+  throw new OracleRefusal('polygon-clipping', `no quarter turn gave the operands' region — ${outcomes.join('; ')}`, { overran });
 }
 
 /** A MultiPolygon's rings as the region check reads them. */
@@ -121,7 +269,7 @@ function operandGeometry(rings: readonly Ring[], fill: FillRule, k: Turn): PcMul
   if (pieces.length === 0) return [];
   if (pieces.length === 1) return [pieces[0]];
   const [first, ...rest] = pieces;
-  return polygonClipping.xor(first, ...rest);
+  return budgeted(pieces, () => polygonClipping.xor(first, ...rest));
 }
 
 /** A polygon-clipping MultiPolygon into our rings, every point snapped (§3.2 (7)); null when a point is refused. */
@@ -138,16 +286,18 @@ export function readMultiPolygon(mp: PcMultiPolygon): Ring[] | null {
 }
 
 function apply(op: BooleanOp, ga: PcMultiPolygon, gb: PcMultiPolygon): PcMultiPolygon {
-  switch (op) {
-    case 'union':
-      return polygonClipping.union(ga, gb);
-    case 'intersection':
-      return polygonClipping.intersection(ga, gb);
-    case 'difference':
-      return polygonClipping.difference(ga, gb);
-    case 'xor':
-      return polygonClipping.xor(ga, gb);
-  }
+  return budgeted([ga, gb], () => {
+    switch (op) {
+      case 'union':
+        return polygonClipping.union(ga, gb);
+      case 'intersection':
+        return polygonClipping.intersection(ga, gb);
+      case 'difference':
+        return polygonClipping.difference(ga, gb);
+      case 'xor':
+        return polygonClipping.xor(ga, gb);
+    }
+  });
 }
 
 /**
@@ -185,7 +335,7 @@ export function polygonClippingUnionPieces(pieces: readonly (readonly [number, n
     (k) => {
       const polys: PcPolygon[] = kept.map((piece) => [piece.map(([x, y]) => turned(x, y, k))]);
       const [first, ...rest] = polys;
-      return polygonClipping.union(first, ...rest);
+      return budgeted(polys, () => polygonClipping.union(first, ...rest));
     },
     checker('union', { rings: kept, fill: 'nonzero' }, { rings: [], fill: 'nonzero' }),
   );
