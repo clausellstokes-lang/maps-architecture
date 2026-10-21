@@ -87,3 +87,52 @@ tightening of a comment, not a behaviour.
 |---|---|---|---|
 | N-c2-1 | `lineage.ts:14–15` says `isU32`, `isU16`, `isObject` and `copyLineage` are file-level exports "the identity and matching modules share". Today only `address.ts` and `mint.ts` import the predicates, and nothing outside the tests imports `copyLineage`: the `match/` adoption is R5's (plan §1.5 X-2). The sentence is the plan's own wording and becomes exact when R5 lands. | R5's seat (M0-d-05b) keeps the line true when it imports them; if R5 drops the adoption, the line names the identity module alone | M0 (R5) |
 | N-c2-2 | `mint.ts:96–99`'s new doc comment names `compareLanes` the canonical order's tie-break (C-0179 (4)). `compareLanes` has a second use: `mint.ts:212` uses it to refuse two records with one lineage key (equal lanes). The comment is right but incomplete. | add "and the test for two records carrying one key" to the comment at the next edit of `mint.ts` | M4 |
+
+## Hardening round S1 (lane `build/M0-d-05a-fix-s1`, 2026-10-20) — the builder's row-by-row outcome
+
+The session's hardening round S1 (J237 (2), J186, J192; the inventory's FIX-NOW rows `M0-d-04:159` N-c1-4,
+`M0-d-05a:15` N-1, `:16` N-2, `:89` N-c2-2; the re-triage of 2026-10-19, J423 batch B2, leaves N-2's residue to the
+owner). Merged round M1: M0-d-05b's round S1 ran first (closed PASS, `checks/M0-d-05b-s1.md`), this item second, on the
+same branch. Inside the owns (`model/src/identity/`, `model/test/identity/`) only: two source files change in comments
+only (`lineage.ts`, `mint.ts`; esbuild's transpile of each is sha-equal before and after: `bb4ed636d99c7149`,
+`0315ba4f0b2c9686`), and one test gains a pin inside an existing `it` (every title kept, 48 before and 48 after). No
+export, message text or behaviour changes; the round's choices row is C-0410.
+
+| row | outcome | what changed | evidence (mutant) |
+|---|---|---|---|
+| N-c1-4 (`M0-d-04:159`) | **fixed — comment** | `lineage.ts:14–15` now reads "file-level exports the identity, matching and digest modules share" — the note's own words. The importers by path, read in the tree: `match/match.ts` (`copyLineage`, `isU32`), `match/carry.ts` (`copyLineage`), `digest/records.ts` and `digest/leaf.ts` (`isU32`). | comment-only: the text is the deliverable |
+| N-1 (`:15`) | **fixed — pinned** | `mint.test.ts` "checks a handed-on record's kind by the kind rule and refuses an address of another kind or another arena" gains the note's case, both ways: a record of kind `Plot` handed a `plot:` address throws `mint: the handed-on address plot:… is of kind plot, the record's kind is Plot`, and a `plot` record handed a `Plot:` address (a retired live entry's) throws `… is of kind Plot, the record's kind is plot` — each message pinned verbatim (C-0179 (3)'s kind rule makes `Plot` and `plot` two kinds). The code was already right. | Q2 (the note's mutant: both kinds lower-cased), Q2b (the record's kind lower-cased only), Q2c (the address's kind only): red on the new pin, green on the pre-round tests |
+| N-2 (`:16`) | **done half stands — residue REPORTED** | Nothing built. The note's second alternative is on the tree and pinned on the builder's side: M0-d-05b's `liveSetOf` lists each address once and refuses a repeat (C-0188 (11); `match/carry.test.ts` "resolveRef reads each outcome; liveSetOf lists each address once and refuses a repeat (M0-d-05a note N-2)", `/given twice/`). The residue — whether `mint` itself should refuse a `live` that repeats an id (`mint.ts:183–187` adds every entry) — is the owner's question (the re-triage of 2026-10-19, J423), pending. Reported for the owner's ruling. | — (the probe's input stays accepted by `mint`; it is unlawful input, malformed by §6.3's never-reused rule, and no M0 caller builds it: `liveSetOf` is the one builder of a live set and refuses it) |
+| N-c2-2 (`:89`) | **fixed — comment** | `mint.ts:96–100`'s doc of `compareLanes` now names both uses: "the canonical order's tie-break for two keys whose lineage hashes are equal (a 64-bit collision), and the test for two records carrying one key (equal lanes, refused)". | comment-only: the text is the deliverable |
+
+**The round's mutants** (one scratch mirror at `/home/user/maps-scratch/waves/selfcheck-build-M0-d-05a-fix-s1/plat`,
+isolation proved — no link into the tree, `@plat/kernel`'s realpath inside the mirror; each run `vitest run
+--maxWorkers=1 --bail=1 packages/model/test/identity/`; each mutated file restored by copy and `cmp`; the mirror and its
+`node_modules` deleted): the unmutated mirror 48/48; Q2, Q2b, Q2c — 3 of 3 red on the round's test (`AssertionError:
+expected [Function] to throw an error`), 3 of 3 green (48/48) on the pre-round `mint.test.ts` (the before copy, sha256
+`4b4f4f4f…` = `landed/M0-d-05a.json`), so the pin is new. No equivalent survivor.
+
+**Refusals (J264, N-58).** The registered families — `city.test.ts`'s 101 643 minted entities and the fast-check
+families of the four files at the PR size, where any throw fails the property — **0 refused before, 0 after** (every
+test green; the sources' transpiled code byte-identical, so no refusal class moved). The round's new cases are UNLAWFUL
+input (a handed-on address of another kind) and stay REFUSE, a typed RangeError: succession (`match`) hands an address
+only to a fresh entity of the same kind (§6.3 *Carry-over*), so no user reaches the class through §11.4's doors. N-2's
+input (a live set repeating an id) is UNLAWFUL too; `mint` accepts it today, `liveSetOf` refuses it (the owner's
+question above).
+
+**The round's gates** (W=1 throughout; this machine is not §12.1's timing reference, so no timing is read): install
+`--frozen-lockfile` 0; lint 0 (eslint 1156 files, probe-red ok, 9 whole-tree checks); build 0; NEAR
+`packages/model/test/identity/` at the PR size 4/4 files, 48/48 tests; RELATED `PLAT_FUZZ_RUNS=1000 vitest related --run`
+over the round's two changed sources (`lineage.ts`, `mint.ts`), started 2026-10-20 21:06 after the last source edit,
+exit 0 — 273/273 files, 3414/3414 tests (no red, foreign or the item's). The NEAR run and lint were repeated after this paragraph's append on the session's resume of 2026-10-21.
+
+## Closing check of hardening round S1 (lane `check/M0-d-05a-close-s1`, 2026-10-21)
+
+The verdict and its evidence are in `checks/M0-d-05a-s1.md` (PASS). Every row of the round is confirmed there. N-c1-4
+and N-c2-2 are fixed as comments. N-1 is fixed and pinned: 11 own mutants K1 – K11 are red, and 10 of them are green on
+the pre-round test. N-2's done half is pinned (mutant L1 red), and its residue is REPORTED for the owner (J423). The row
+below is not a blocker.
+
+| id | observation | suggested handling | milestone |
+|---|---|---|---|
+| N-cs1-1 | **This seat's disclosures.** (a) The seat ran one `git -v` (a version query) in its own scratch mirror. That breaks the working rule "run NO git command". It read no repository state and wrote nothing, and no evidence depends on it. (b) The seat's first read of this file took in the author's "Hardening round S1" section, together with the source notes and before the seat wrote its mutants. The case-folding family follows from N-1's own note (its Q2 is K1 here). K2 – K11, L1 and the probes are the seat's own, and every verdict line is re-run with the seat's own evidence. | the session (a working-rule disclosure; nothing to build) | — |
