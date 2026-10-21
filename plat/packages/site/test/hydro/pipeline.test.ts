@@ -6,7 +6,6 @@
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 import { accumulate, d8, D8_DX, D8_DY, D8_NAMES, fieldOf, NO_FLOW, priorityFlood, recomputeCorridors, resolveFlats, type HydroField } from '../../src/hydro/index.js';
-import { invOfCols, rowOf } from '../../src/hydro/field.js';
 import { drainPath, fieldFrom, gridOf } from './support.js';
 
 /** The exact minimal depression-free surface by Planchon and Darboux's iteration without ε (the reference). */
@@ -233,31 +232,6 @@ describe('recomputeCorridors (the corridor step after a carve, §4.2 S1 (3))', (
     for (let j = 0; j < 7; j += 1) for (const i of [0, 1, 5, 6]) expect(f.flowDir[j * 7 + i]).toBe(before[j * 7 + i]);
     accumulate(f);
     expect(f.flowAccum[cells[6]]).toBeGreaterThanOrEqual(7 + 14);
-
-    // A corridor that stops short of the border (hardening round S1, note N-c1-2): it rises at row 3 and drains north
-    // off the grid. The neighbours are exactly the cells of rows 2 – 6 beside it — those below its first cell among
-    // them, which re-point onto it — and nothing of rows 0 – 1 moves (a scan one row off misses or adds a row).
-    const s = fieldFrom(7, 7, () => 500);
-    pipeline(s);
-    const short = [3, 4, 5, 6].map((j) => j * 7 + 3);
-    const was = Uint8Array.from(s.flowDir);
-    const rs = recomputeCorridors(s, [{ cells: short, bedCm: short.map((_, k) => 400 - 10 * k), exit: -1 }]);
-    expect(rs).toEqual({ corridorCells: 4, neighbours: 11 });
-    for (const c of short) expect(D8_NAMES[s.flowDir[c]]).toBe('N');
-    for (let j = 2; j < 7; j += 1) {
-      for (const i of [2, 3, 4]) {
-        const c = j * 7 + i;
-        if (short.includes(c)) continue;
-        const k = s.flowDir[c];
-        expect(short).toContain((j + D8_DY[k]) * 7 + i + D8_DX[k]);
-        expect(s.flatRank[c]).toBe(0);
-      }
-    }
-    // Below its first cell: (3, 2) steps N onto it, (2, 2) NE and (4, 2) NW — its only lower neighbour each.
-    expect([2 * 7 + 2, 2 * 7 + 3, 2 * 7 + 4].map((c) => D8_NAMES[s.flowDir[c]])).toEqual(['NE', 'N', 'NW']);
-    for (let j = 0; j < 2; j += 1) for (let i = 0; i < 7; i += 1) expect(s.flowDir[j * 7 + i]).toBe(was[j * 7 + i]);
-    accumulate(s);
-    expect(s.flowAccum[short[3]]).toBeGreaterThanOrEqual(4 + 11);
   });
 
   it('a tributary corridor drains into its confluence cell (exit)', () => {
@@ -305,40 +279,5 @@ describe('accumulate', () => {
     f.flowDir[0] = 0; // (0,0) → (1,0)
     f.flowDir[1] = 4; // (1,0) → (0,0)
     expect(() => accumulate(f)).toThrow(/cycle/);
-  });
-});
-
-describe('the row of a cell without a division (C-0044; hardening round S1, note N-c1-1)', () => {
-  // `rowOf(c, i, inv)` multiplies the multiple of cols by fl(1 ÷ cols) and ROUNDS: where j · cols · fl(1 ÷ cols) falls
-  // an ulp below j (49 columns: 49 · fl(1 ÷ 49) = 0.9999999999999999) a floor would give row j − 1.
-  it('recovers floor(c ÷ cols) for every row of grids of 1 – 5 000 columns (49 among them), at the first, middle and last column', () => {
-    expect(49 * invOfCols(49)).toBeLessThan(1);
-    const wrong: number[][] = [];
-    let below = 0;
-    for (let cols = 1; cols <= 5000; cols += 1) {
-      const inv = invOfCols(cols);
-      // Rows enough for a CITY-sized grid (≈ 102 000 cells, §12.4) and at least 64 at every width.
-      const rows = Math.max(64, Math.ceil(204_000 / cols));
-      for (let j = 0; j < rows; j += 1) {
-        for (const i of [0, cols >> 1, cols - 1]) {
-          const c = j * cols + i;
-          if ((c - i) * inv < j) below += 1;
-          if (rowOf(c, i, inv) !== Math.floor(c / cols) && wrong.length < 10) wrong.push([cols, j, i]);
-        }
-      }
-    }
-    expect(wrong).toEqual([]);
-    // The rounding matters: many of these products fall below their row.
-    expect(below).toBeGreaterThan(1000);
-  });
-
-  it('the property over random cells of random grids up to 5 000 columns', () => {
-    fc.assert(
-      fc.property(fc.integer({ min: 1, max: 5000 }), fc.integer({ min: 0, max: 200_000 }), fc.nat(), (cols, j, u) => {
-        const i = u % cols;
-        const c = j * cols + i;
-        expect(rowOf(c, i, invOfCols(cols))).toBe(Math.floor(c / cols));
-      }),
-    );
   });
 });

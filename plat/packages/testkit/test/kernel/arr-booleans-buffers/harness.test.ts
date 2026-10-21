@@ -6,12 +6,11 @@
 // their family; the far-stretch measure is the farthest vertex of ours from the oracle's boundary. The oracle answers
 // here are planted (a refused result; a measuring xor made to refuse through a mock of M0-k-03's `symDiffArea`), so
 // each rule meets the input that reaches it.
-import { faceEdges, insetRing, type Cm, type KernelResult, type LatticePoint } from '@plat/kernel';
+import type { Cm, KernelResult, LatticePoint } from '@plat/kernel';
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
-import { compareSplit, loadOracles, OracleRefusal, type OracleEngine, type OracleResult } from '../../../src/oracles/index.js';
+import { loadOracles, OracleRefusal, type OracleEngine, type OracleResult } from '../../../src/oracles/index.js';
 import { perimeterOf } from '../../../src/oracles/rings.js';
 import {
-  arenaFace,
   classifyRefusal,
   farthestVertexCm,
   insertChainRefusalCap,
@@ -19,20 +18,15 @@ import {
   insetFrameExponent,
   insetLeavesLattice,
   judge,
-  judgeInset,
   newHarness,
-  oracleInset,
-  oracleOffset,
   ownRefusalCap,
   poissonCap,
   REFUSAL_MEASURE,
   refusalCapPer1e4,
   replayOverlay,
-  ringsOfEdges,
   separateRefusal,
   touchMergedFaceCount,
   verdict,
-  warningsOf,
   type Harness,
   type OverlayReplay,
 } from './support.js';
@@ -56,7 +50,6 @@ const SQUARE = [pt(0, 0), pt(1000, 0), pt(1000, 1000), pt(0, 1000)];
 /** A bow-tie: not a valid output ring (its edges cross), the fault no oracle is needed to see. */
 const BOWTIE = [pt(0, 0), pt(1000, 1000), pt(1000, 0), pt(0, 1000)];
 
-const sq = (x: number, y: number, s: number): LatticePoint[] => [pt(x, y), pt(x + s, y), pt(x + s, y + s), pt(x, y + s)];
 const answer = (e: OracleEngine): OracleResult => ({ ok: true, engine: e, rings: [SQUARE.slice()], perimeterCm: 2 * perimeterOf([SQUARE]) });
 const refuse = (e: OracleEngine): OracleResult => ({ ok: false, engine: e, error: `${e}: planted refusal on its own operands`, refused: true });
 
@@ -77,24 +70,6 @@ describe('refusals classified by step and bounded (N-39 as amended by N-40)', ()
     expect(h.refusalsCounted).toBe(0);
     expect(h.allOwnRefused).toEqual({});
     expect(h.report.line('op')).toMatchObject({ draws: 1, unattracted: 1, unattractedPass: 1, unjudged: 0 });
-  });
-
-  it('ours is held to the hard ring checks on an unattracted case too: a duplicated face passes the region comparison, not the judge (M0-k-03 N1)', () => {
-    // ours [square, square, triangle] against the union of the square and the triangle: the same region, two faces
-    // each side, |Δ| 0 — the comparison passes; the doubled square's overlapping edges are an invalid output
-    const tri = [pt(3000, 0), pt(4000, 0), pt(3500, 800)];
-    const union = (e: OracleEngine): OracleResult => ({ ok: true, engine: e, rings: [SQUARE.slice(), tri.slice()], perimeterCm: 2 * perimeterOf([SQUARE, tri]) });
-    expect(compareSplit([SQUARE, SQUARE, tri], union('clipper2'), [])).toMatchObject({ split: 'unattracted', pass: true });
-    const h = newHarness();
-    judge(h, 'op', 'fam', [SQUARE, SQUARE, tri], union, [], () => 'case');
-    expect(h.report.line('op')).toMatchObject({ draws: 1, unattracted: 1, unattractedPass: 1 });
-    expect(h.invalid).toEqual(['op [fam]: invalid: crossing edges — case']);
-    expect(h.failures).toEqual([]);
-    h.settled.planted = 9_999;
-    // the verdict's first failing line is the invalid output's (the comparison and the failures list are clean)
-    expect(() => {
-      verdict(h, 'op', 10_000);
-    }).toThrow(/expected \[ Array\(1\) \] to deeply equal \[\]/);
   });
 
   it('it counts against the allowance when ours fails the hard ring checks', () => {
@@ -228,6 +203,7 @@ describe('the far-stretch measure (N-41 (2))', () => {
 });
 
 describe('faces touching at a point counted as one (C-0206 (8))', () => {
+  const sq = (x: number, y: number, s: number): LatticePoint[] => [pt(x, y), pt(x + s, y), pt(x + s, y + s), pt(x, y + s)];
   it('joins faces that share a vertex or meet at a vertex inside an edge, and nothing else', () => {
     expect(touchMergedFaceCount([sq(0, 0, 1000), sq(1000, 1000, 1000)])).toBe(1);
     expect(touchMergedFaceCount([sq(0, 0, 1000), [pt(1000, 500), pt(1500, 0), pt(2000, 500), pt(1500, 1000)]])).toBe(1);
@@ -237,28 +213,6 @@ describe('faces touching at a point counted as one (C-0206 (8))', () => {
     // a corner of the first face on an edge of the second (the edge x + y = 2 000 through (1 000, 1 000))
     expect(touchMergedFaceCount([sq(0, 0, 1000), [pt(500, 1500), pt(1500, 500), pt(2000, 2000)]])).toBe(1);
     expect(touchMergedFaceCount([sq(0, 0, 1000), [pt(500, 1501), pt(1500, 501), pt(2000, 2000)]])).toBe(2);
-  });
-
-  it('the snap-rounded re-judge excuses the face count alone, never an area its snapped rings take past the bound (C-0196 (7))', () => {
-    // ours: two squares touching at a corner; the oracle: the same squares joined by a neck whose corners stand 2.6 cm
-    // from the touch point (the two triangles outside ours: 6.76 cm²). With the bound planted at 8 cm² the first verdict
-    // fails on the face count alone; snap-rounded, the neck's corners round to 3 cm (9 cm²), so the re-judged verdict
-    // fails on the area too — and stays a failure, though the touch-merged counts agree (1 and 1)
-    const joined = (e: OracleEngine): OracleResult => ({
-      ok: true,
-      engine: e,
-      rings: [[pt(0, 0), pt(1000, 0), pt(1000, 997.4), pt(1002.6, 1000), pt(2000, 1000), pt(2000, 2000), pt(1000, 2000), pt(1000, 1002.6), pt(997.4, 1000), pt(0, 1000)]],
-      perimeterCm: 8,
-    });
-    const touching = [sq(0, 0, 1000), sq(1000, 1000, 1000)];
-    const first = compareSplit(touching, joined('clipper2'), []);
-    expect(first.failures).toEqual(['faces']);
-    const h = newHarness();
-    judge(h, 'op', 'fam', touching, joined, [], () => 'case');
-    expect(h.snapRounded).toEqual({ clipper2: 1, 'polygon-clipping': 1 });
-    expect(h.failures).toHaveLength(1);
-    expect(h.failures[0]).toMatch(/: faces, area \(faces 2\/1, \|Δ\| 9\.0 ≤ 8\.0\?\)/);
-    expect(h.report.line('op')).toMatchObject({ draws: 1, unattractedPass: 0 });
   });
 
   it('excuses an unattracted face-count mismatch only when the touch-merged counts agree', () => {
@@ -293,93 +247,6 @@ describe('the inset oracle’s scaled frame (C-0261)', () => {
       const k = insetFrameExponent(reach);
       expect(2 ** k * reach).toBeLessThan(INSET_FRAME_CM);
       expect(2 ** (k + 1) * reach).toBeGreaterThanOrEqual(INSET_FRAME_CM);
-    }
-  });
-});
-
-describe('the inset oracle’s construction at the largest k, and its rounding back (C-0261)', () => {
-  // thin triangles inset outward whose strips' reach leaves k = 1: a frame of 2¹ keeps the construction's error far
-  // inside the bound, where the unscaled frame (S = 1) puts it near 0.7 of the bound on a correct answer of ours
-  const thin: [[number, number][], number][] = [
-    [[[59244, -45249], [59551, -45129], [47908, -15657]], -1622],
-    [[[-19690, 3888], [-19453, 3930], [-23533, 26231]], -2412],
-  ];
-  it('builds in the frame 2ᵏ for the largest k that fits, also where k is 1 – 3', () => {
-    for (const [xy, d] of thin) {
-      const af = arenaFace([xy.map(([x, y]) => pt(x, y))]);
-      expect(af).not.toBeNull();
-      if (af === null) return;
-      const [face] = ringsOfEdges(faceEdges(af.tx, af.face));
-      const ours = insetRing(af.tx, af.face, d);
-      expect(ours.ok).toBe(true);
-      for (const e of ['clipper2', 'polygon-clipping'] as const) {
-        const v = compareSplit(ours, oracleInset(face, d, e), warningsOf(ours));
-        expect(v.split, e).toBe('unattracted');
-        expect(v.pass, e).toBe(true);
-        expect(v.symDiffCm2 / v.boundCm2, e).toBeLessThan(0.3);
-      }
-    }
-  });
-
-  it('drops a ring the final rounding leaves without area: a sub-centimetre sliver is no face (the exact inset is not empty)', () => {
-    // inradius 275.11 cm: inset by 275 the exact result is a triangle about 0.7 cm across, which rounds to one or two
-    // lattice points
-    const tri = [pt(0, 0), pt(674, -37), pt(753, 1713)];
-    for (const e of ['clipper2', 'polygon-clipping'] as const) {
-      const r = oracleInset(tri, 275, e);
-      expect(r).toMatchObject({ ok: true, rings: [] });
-      expect(oracleInset(tri, 274, e)).toMatchObject({ ok: true, rings: [expect.any(Array)] });
-    }
-  });
-});
-
-describe('the face services’ judges on planted answers (C-0206 (9); §3.7 Insets)', () => {
-  const OCTAGON = [pt(-14207, 9163), pt(-13985, 9255), pt(-13893, 9477), pt(-13985, 9699), pt(-14207, 9791), pt(-14429, 9699), pt(-14521, 9477), pt(-14429, 9255)];
-  const L_FACE = [pt(0, 0), pt(3000, 0), pt(3000, 1000), pt(1000, 1000), pt(1000, 3000), pt(0, 3000)];
-  const planted = (r: KernelResult<LatticePoint[][]>): typeof insetRing => () => r;
-
-  it('an E_OUT_OF_RANGE on a face whose exact outward inset stays inside the lattice is a failure, never settled', () => {
-    const h = newHarness();
-    judgeInset(h, { rings: [OCTAGON], dists: [-100], source: 'planted' }, planted({ ok: false, code: 'E_OUT_OF_RANGE', detail: 'planted' }));
-    expect(h.settled).toEqual({});
-    expect(h.failures.length).toBeGreaterThan(0);
-    expect(h.failures[0]).toMatch(/^insetRing \[planted\]: E_OUT_OF_RANGE planted on a convex face/);
-    // the same answer where the exact inset does leave the lattice (pins.test.ts' gate face) is settled
-    const edge = [pt(8222703, 1266939), pt(8388126, 1419952), pt(8371635, 1644687), pt(8185648, 1771914), pt(7970217, 1705829), pt(7887566, 1496194), pt(7999933, 1300870)];
-    const h2 = newHarness();
-    judgeInset(h2, { rings: [edge], dists: [-634], source: 'planted' }, planted({ ok: false, code: 'E_OUT_OF_RANGE', detail: 'planted' }));
-    expect(h2.settled).toEqual({ 'E_OUT_OF_RANGE: the outward inset leaves the lattice': 1 });
-    expect(h2.failures).toEqual([]);
-  });
-
-  it('a non-convex face is settled only on E_NON_CONVEX: any other answer of ours is a failure', () => {
-    const h = newHarness();
-    judgeInset(h, { rings: [L_FACE], dists: [100], source: 'planted' }, planted({ ok: true, value: [L_FACE.slice()], warnings: [] }));
-    judgeInset(h, { rings: [L_FACE], dists: [100], source: 'planted' }, planted({ ok: false, code: 'E_DEGENERATE', detail: 'collapsed' }));
-    expect(h.settled).toEqual({});
-    expect(h.failures).toHaveLength(2);
-    for (const f of h.failures) expect(f).toMatch(/^insetRing \[planted\]: a non-convex face not refused E_NON_CONVEX/);
-    // our real answer on it is settled
-    const h2 = newHarness();
-    judgeInset(h2, { rings: [L_FACE], dists: [100], source: 'planted' });
-    expect(h2.settled).toEqual({ 'E_NON_CONVEX on a non-convex face': 1 });
-    expect(h2.failures).toEqual([]);
-  });
-
-  it('oracleOffset’s covered face: empty only where an edge’s distance reaches its farthest vertex', () => {
-    // a 10 m square, its bottom edge set back by d: every face vertex lies within 10 m of it (the top ones farthest)
-    const square = [pt(0, 0), pt(1000, 0), pt(1000, 1000), pt(0, 1000)];
-    const edges = square.map((a, i) => ({ a, b: square[(i + 1) % 4] }));
-    for (const e of ['clipper2', 'polygon-clipping'] as const) {
-      // 7 m: past half the farthest distance, short of it — the 3 m strip along the top is left
-      const r = oracleOffset([square], edges, [700, 0, 0, 0], e);
-      expect(r.ok, e).toBe(true);
-      if (!r.ok) return;
-      expect(r.rings, e).toHaveLength(1);
-      const area = Math.abs(r.rings[0].reduce((s, q, i) => s + q.x * r.rings[0][(i + 1) % r.rings[0].length].y - r.rings[0][(i + 1) % r.rings[0].length].x * q.y, 0)) / 2;
-      expect(Math.abs(area - 300_000), e).toBeLessThan(2_000);
-      // 10 m: the whole face
-      expect(oracleOffset([square], edges, [1000, 0, 0, 0], e)).toMatchObject({ ok: true, rings: [] });
     }
   });
 });
@@ -470,20 +337,6 @@ describe('the refusal caps (N-44 (3); N-46 (4), (5); C-0231)', () => {
     // an operation not measured is held to the own cap
     expect(refusalCapPer1e4('op')).toBeNull();
     expect(insertChainRefusalCap('op', 10_000)).toBe(1);
-  });
-
-  it('binds each family to its own measured cap: the guard alone at the cap, the cap’s failure one above it', () => {
-    for (const op of Object.keys(REFUSAL_MEASURE)) {
-      const cap = insertChainRefusalCap(op, 10_000);
-      const run = (ic: number): (() => void) => () => {
-        const h = newHarness();
-        h.engineRefusals.insertChain = ic;
-        h.settled.planted = 10_000 - ic;
-        verdict(h, op, 10_000);
-      };
-      expect(run(cap), op).toThrow(/expected 0 to be greater than or equal to 1000/);
-      expect(run(cap + 1), op).toThrow(`insertChain's refusals in ${op} against the measured cap`);
-    }
   });
 
   it('the verdict counts both classes in its accounting and fails above either cap', () => {

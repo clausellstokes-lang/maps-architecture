@@ -26,10 +26,14 @@ import {
   edgeLevel,
   freeEdgePair,
   freeVertex,
+  handleOf,
   idOf,
   isVertexLive,
   removeRoleRow,
   roleIdOf,
+  roleInfo,
+  rowElement,
+  rowsOfKey,
   rowsOn,
   outgoing,
   pointOf,
@@ -59,7 +63,7 @@ import {
 } from '../index/index.js';
 import { dmath } from '../dmath/index.js';
 import { BOX_RANGE } from '../num/exact.js';
-import { dist2, err, LATTICE, ok, orient2d, ratio, type KernelResult, type Warning } from '../num/index.js';
+import { err, LATTICE, ok, orient2d, ratio, type KernelResult, type Warning } from '../num/index.js';
 import type { Cm, LatticePoint, Level } from '../types/index.js';
 import { charge, check, foldWarnings, INSERT_ATTRACT_QUERIES, passOn, warn, workLimitHit, type ChainClass, type InsertTx } from './classes.js';
 import { placePoint, type Crossing } from './placement.js';
@@ -145,6 +149,12 @@ export interface ChainCtx {
    */
   strict: boolean;
   /**
+   * The strict route's second reading (C-0177 (13) read exactly, C-0361): set beside `strict`, step 3 also passes over a
+   * vertex that is a neighbour of the segment's own end — it lies in the new edge's one-ring, which §3.10's clearance
+   * exempts. Tried after the strict route without it, so a segment that route keeps routes as before (N-37).
+   */
+  strictEnds?: boolean;
+  /**
    * The endpoint route (C-0202 (1)): every crossing lands on the placement rule's endpoint fallback — the crossed
    * sub-edge's nearer end, or its other end when that one is already on the chain's path (C-0177 (7)) — and is never
    * split (W_PLACED). Unset: crossings are placed as §3.6 states.
@@ -182,10 +192,154 @@ export interface ChainCtx {
    */
   strip?: { readonly variant: 0 | 1; readonly a: LatticePoint | null; readonly b: LatticePoint | null } | null;
   /**
+   * The route of the segment being routed, as far as it has come (§3.6 step 4, item 130 (d)): the vertices it has
+   * reached in order, each with the op's mark taken when the route first stood there, and the means to return the op to
+   * such a mark. Set by insertChain's `routeOne` for each reading; null outside one (the router then reads no path).
+   */
+  path?: SegmentPath | null;
+  /**
+   * Where the run being inserted starts in the two journals (`journal.newPairs`, `journal.sharedPairs`): the edges at or
+   * after these marks are the run's committed route so far — the CHAIN's path, which a later segment's route never
+   * re-enters (§3.6 step 4, item 130 (d); `runRoute`). Set by insertChain at each run's start; null outside a run.
+   */
+  runFrom?: { readonly newPairs: number; readonly shared: number } | null;
+  /**
+   * The run the chain's own key already carries (§3.6 *Roles on shared stretches*, item 130 (e)): the vertices of level
+   * ≤ n on edges of level ≤ n carrying one of the chain's rows before the op, and those rows' keys. A chain given again
+   * under such a key is that run — its points land on these vertices within √2 · `attractCm`, its segments follow the
+   * run between two landings. Null when the key carries nothing yet (every chain the families draw under a new key).
+   */
+  own?: OwnRun | null;
+  /**
+   * How the router came to each vertex of the segment's route (§13.1's refusal cause, "the provenance of the failing
+   * route's farthest vertex"): set fresh by insertChain's `routeOne` for each reading, the first reason a vertex was
+   * routed through kept. Null outside a reading.
+   */
+  provenance?: Map<VertexId, Provenance> | null;
+  /**
    * The inverse of every arena write the chain made, in order: a refused chain runs them backwards so the op writes
    * nothing (C-0177 (8)).
    */
   readonly undo: (() => void)[];
+}
+
+/**
+ * A segment's route so far (item 130 (d)): `order` the vertices reached, first to last; `marks` the op's mark at each,
+ * taken when the route first stood there; `mark` takes one now; `back` returns the op to one (every write since undone,
+ * the journals, the index and the warnings as they were then).
+ */
+export interface SegmentPath {
+  readonly order: VertexId[];
+  readonly marks: Map<VertexId, unknown>;
+  readonly mark: () => unknown;
+  readonly back: (m: unknown) => void;
+  /**
+   * Whether the segment's route created or promoted v before the mark m — so going back to m would leave v, which the
+   * route placed only to reach it, off the route (a dissolvable vertex, N-55 (2)).
+   */
+  readonly placedBefore: (v: VertexId, m: unknown) => boolean;
+  /** The segment's own end: a cut routes on from the vertex it went back to, to here. */
+  readonly end: VertexId;
+  /**
+   * The vertices of the run's route before this segment (`runRoute`: the chain's path, the segment's two ends left out):
+   * step 3 starts with them excluded, and a landing or corner that would lead the route back through one refuses the
+   * reading (`RETRACE_DETAIL`) — a cut back to it would cross the segment's start, a landed point of the chain, and leave
+   * it off the route, so the route goes on from where it stands with the vertex left out of step 3 (item 130 (d)).
+   */
+  readonly prior: ReadonlySet<VertexId>;
+  /** How many cuts the route has made: a route call whose nested call cut stops there, returning to `snapRound`. */
+  cuts: number;
+  /**
+   * Set by a cut: where `snapRound` routes on from (the vertex the route went back to), with the pass and the vertices
+   * excluded from step 3; null otherwise.
+   */
+  restart: { readonly from: VertexId; readonly pass: number; readonly exclude: ReadonlySet<VertexId> } | null;
+}
+
+/**
+ * The run's committed route so far (item 130 (d): the chain's path, `ChainCtx.runFrom`): the live ends of every edge the
+ * run has written or shared since its start, as the journals stand (a rolled-back route has left them), except a and b
+ * — the segment being routed's own ends. Empty outside a run.
+ */
+export function runRoute(ctx: ChainCtx, a: VertexId, b: VertexId): Set<VertexId> {
+  const out = new Set<VertexId>();
+  const rf = ctx.runFrom ?? null;
+  if (rf === null) return out;
+  const p = ctx.p;
+  const O = p.halfEdges.origin;
+  for (const e of [...ctx.journal.newPairs.slice(rf.newPairs), ...ctx.journal.sharedPairs.slice(rf.shared)]) {
+    for (const v of [O[2 * e], O[2 * e + 1]]) if (v !== a && v !== b && isVertexLive(p, v)) out.add(v);
+  }
+  return out;
+}
+
+/**
+ * Why the router routed a segment through a vertex: a step-3 contact (a vertex the segment passes, a contact point, a
+ * shared stretch's join or leave), a wedge corner, a crossing placed by the placement rule, a crossing on an edge's end
+ * within `attractCm`, a crossing on the placement rule's endpoint fallback (no point of the crossed run near it keeps
+ * clearance), or a corner's exit along an existing edge.
+ */
+export type Provenance = 'contact' | 'stretch' | 'corner' | 'placed' | 'endpoint' | 'fallback' | 'exit';
+
+/** Records the first reason the route came to v (`ChainCtx.provenance`). */
+export function tag(ctx: ChainCtx, v: VertexId, why: Provenance): void {
+  const m = ctx.provenance ?? null;
+  if (m !== null && !m.has(v)) m.set(v, why);
+}
+
+/** The run a chain's key already carries (`ChainCtx.own`): its vertices and its keys as `role/entity/ordinal` (ids, handles). */
+export interface OwnRun {
+  readonly vertices: ReadonlySet<VertexId>;
+  readonly keys: ReadonlySet<string>;
+}
+
+/**
+ * The registry ids (§2.2 rule 7: never changed, never reused) of the roles whose key is one chain per entity — §3.10's
+ * role consistency, tx/tx.ts `LINEAR_PARTS`' roles of one part (a way, a wall trace, a tunnel, a gallery, a rim, a
+ * chamber outline, a deck span). Held by id, not imported: the transaction imports this folder, and importing it back
+ * changes the folder's load order (round S9 measured 84 red tests in the step3-5 folder); insertChain.test.ts holds the
+ * set equal to `LINEAR_PARTS`' rows of one part.
+ */
+const ONE_CHAIN_ROLE_IDS: ReadonlySet<number> = new Set([0, 4, 20, 24, 25, 26, 27]);
+
+/**
+ * Is the role one whose key is one chain per entity? Only under such a key is a chain given again the same chain (item
+ * 130 (e)); a shore, a bank, a kerb or a district's split line may carry many chains per key.
+ */
+export function oneChainRole(role: string): boolean {
+  return ONE_CHAIN_ROLE_IDS.has(roleIdOf(role as RoleRow['role']));
+}
+
+/**
+ * The run the rows' keys already carry at level ≤ n (item 130 (e)), for the roles of one chain per entity: every live vertex of level ≤ n at an edge of level
+ * ≤ n carrying a row of one of the keys at level ≤ n; null when none does. Reads the rows' key chains (`rowsOfKey`), no
+ * index query.
+ */
+export function ownRunOf(p: Plat, rows: readonly RoleRow[], n: Level): OwnRun | null {
+  const O = p.halfEdges.origin;
+  const vertices = new Set<VertexId>();
+  const keys = new Set<string>();
+  for (const r of rows) {
+    if (!oneChainRole(r.role)) continue;
+    const role = roleIdOf(r.role);
+    const h = handleOf(p, r.entity);
+    if (role < 0 || h < 0) continue;
+    const ordinal = r.ordinal ?? 0;
+    keys.add(`${role}/${h}/${ordinal}`);
+    for (const row of rowsOfKey(p, role, h, ordinal)) {
+      if (p.roles.level[row] > n || roleInfo(role).kind !== 'edge') continue;
+      const e = rowElement(p, row);
+      if (p.halfEdges.level[e] > n) continue;
+      for (const v of [O[2 * e], O[2 * e + 1]]) if (p.vertices.level[v] <= n) vertices.add(v);
+    }
+  }
+  return vertices.size === 0 ? null : { vertices, keys };
+}
+
+/** Does the edge pair of `h` carry a row of one of the run's keys? */
+export function carriesOwnKey(p: Plat, own: OwnRun, h: HalfEdgeId): boolean {
+  for (const r of rowsOn(p, 'edge', h)) if (own.keys.has(`${p.roles.kind[r]}/${p.roles.entity[r]}/${p.roles.ordinal[r]}`)) return true;
+  return false;
 }
 
 // ---- small exact helpers -----------------------------------------------------------------------------------------------
@@ -609,7 +763,7 @@ export function bandInterval(ax: number, ay: number, bx: number, by: number, ux:
  * finer and on a route of level ≤ n), a shared stretch along a level-n route piece it runs within `attractCm` of at less
  * than `minFaceAngle` (join and leave points at least `minEdge` apart), or that stretch's contact point when they are
  * closer; ties to the vertex, then by lattice position. `exclude` holds vertices the router has already put on the
- * chain around this segment (C-0177 (2)), and `skip` pieces whose contact the router has found would land the chain
+ * chain around this segment (C-0177 (2)) and the run's route before it (item 130 (d)), and `skip` pieces whose contact the router has found would land the chain
  * back on its own path. Refuses E_KEPT for a finer vertex off every route of level ≤ n within `attractCm` (kept content, §3.3),
  * E_WORK_LIMIT. Nothing written; two index queries charged to `insert.attractQueries`.
  */
@@ -639,9 +793,14 @@ export function attractStretch(ctx: ChainCtx, a: VertexId, b: VertexId, exclude:
   // The anchored reading (C-0215): a contact also lies within attractCm of the chain's input segment.
   const anchor = ctx.anchor ?? null;
   const nearInput = (x: number, y: number): boolean => anchor === null || withinSegment(x, y, anchor.a.x, anchor.a.y, anchor.b.x, anchor.b.y, anchor.reach);
+  // The strict route's second reading routes through a vertex only where clearance needs it (C-0177 (13), C-0361): a
+  // neighbour of the segment's own end lies in the new edge's one-ring, which §3.10's clearance exempts, so it is no
+  // contact there.
+  const ends = ctx.strict && ctx.strictEnds === true ? new Set<VertexId>([...outgoing(p, a), ...outgoing(p, b)].map((h) => p.halfEdges.origin[h ^ 1])) : null;
   for (const v of query(p, tx.key, 4, box, { vertices: true }).vertices) {
     if (v === a || v === b || exclude.has(v)) continue;
     if (!passesWithin(X[v], Y[v], ax, ay, bx, by, reach)) continue;
+    if (ends !== null && ends.has(v) && L[v] <= n) continue;
     if (L[v] > n && !onRouteOfLevel(p, v, n)) {
       return err('E_KEPT', `the chain passes within attractCm of a finer vertex at (${X[v]}, ${Y[v]}) off every route of level ≤ L${n} (kept content)`);
     }
@@ -706,11 +865,6 @@ export function nearestVertexWithin(ctx: ChainCtx, pt: { readonly x: number; rea
     }
   }
   return ok(best);
-}
-
-/** The squared distance between two vertices (num/direction.ts's `dist2` over their slots). */
-export function vertexDist2(p: Plat, a: VertexId, b: VertexId): number {
-  return dist2(p.vertices.x[a], p.vertices.y[a], p.vertices.x[b], p.vertices.y[b]);
 }
 
 /**

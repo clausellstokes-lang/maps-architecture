@@ -193,3 +193,26 @@ describe('the placement\'s fallback onto the nearer end of the sub-edge, on a ru
     }
   });
 });
+
+// N-c2-1 (the hardening round S9): step 3's own promotion — a finer vertex the segment is routed THROUGH (not one a chain
+// point lands on). On the neighbour step, an L2 mandatory chain (1 000, 1 950) → (3 000, 1 990) passes the plot line's
+// end (2 000, 2 000) 20 cm off (its line runs 50 cm below the street at x = 1 000 and 10 cm at x = 3 000), so step 3
+// routes it through that L3 vertex and promotes it to L2 (W_PROMOTED). Mutant RT1 (the promotion in
+// step 3 dropped) leaves an L3 vertex on L2 edges: the op refuses E_INVARIANT 'index: vertex … (L3) lies on edges of two
+// levels coarser than it' — a lawful input refused.
+describe('N-c2-1: a finer vertex step 3 routes a segment through is promoted (§3.6 candidate (b), §2.2 rule 3)', () => {
+  it('an L2 mandatory chain passing the plot line\'s end 20 cm off commits through it, W_PROMOTED, the vertex at L2 with its split flag', () => {
+    const p = neighbourStep();
+    const s = vertexAtPoint(p, 2000, 2000);
+    const t = tx(p, 2);
+    const r = ins(t, [[1000, 1950], [3000, 1990]], [{ role: 'corridor_split', entity: 'way:n' }]);
+    expect(r.ok, r.ok ? '' : `${r.code} ${r.detail}`).toBe(true);
+    if (!r.ok) return;
+    expect(r.warnings.map((w) => w.code)).toContain('W_PROMOTED');
+    expect(chainJournal(t).promoted).toContain(s);
+    expect(p.vertices.level[s]).toBe(2);
+    expect(p.vertices.flags[s] & VERTEX_SPLIT).toBe(VERTEX_SPLIT);
+    expect(allProblems(p)).toEqual([]);
+    expect(checkIndexState(p)).toEqual([]);
+  });
+});

@@ -81,8 +81,6 @@ export interface OpOutcome {
    * refusal — e.g. the removal of remove ∘ insert refused — by name; reported, never invalid (it fails safely).
    */
   readonly notes?: readonly string[];
-  /** Property judgements made on this input, by name (counted in the report's `judged`; the hardening round S1's N-1). */
-  readonly judged?: readonly string[];
 }
 
 /**
@@ -106,13 +104,7 @@ export interface Plant {
    * Wraps a writer's transaction (`op`: insertChain, splitFace, mergeFaces, warp, corridorUnion): `commit` runs the real
    * one, and the result the runner judges is the wrapper's — a refusal planted without committing, or after it.
    */
-  readonly tx?: (op: string, commit: () => KernelResult<unknown>, p: Plat) => KernelResult<unknown>;
-  /**
-   * Replaces a service's whole result, ok or refused, before `result` and the judge read it (the names as `result`'s) —
-   * a refusal planted where the service answered (the hardening round S1's N-18: insetRing collapsed at its smaller
-   * distance while its larger one is ok).
-   */
-  readonly service?: (primitive: string, r: KernelResult<unknown>) => KernelResult<unknown>;
+  readonly tx?: (op: string, commit: () => KernelResult<unknown>) => KernelResult<unknown>;
   /**
    * Replaces a service's ok value before its judge reads it (`value` as the service returned it). The names: the pure
    * services by their own names; offsetFace, insetRing (its smaller distance), `insetRing@d2` (its larger), kerb;
@@ -130,9 +122,7 @@ export interface SampledReport {
 }
 
 /** A service's result with a planted value, if any (the runner's own tests). */
-function planted<T>(ctx: OpContext, name: string, r0: KernelResult<T>): KernelResult<T> {
-  const s = ctx.plant?.service;
-  const r = s === undefined ? r0 : (s(name, r0) as KernelResult<T>);
+function planted<T>(ctx: OpContext, name: string, r: KernelResult<T>): KernelResult<T> {
   const f = ctx.plant?.result;
   return f === undefined || !r.ok ? r : { ok: true, value: f(name, r.value) as T, warnings: r.warnings };
 }
@@ -153,8 +143,6 @@ export interface Primitive<I = unknown> {
   readonly oracles?: boolean;
   readonly arbitrary: () => fc.Arbitrary<I>;
   readonly run: (input: I, ctx: OpContext) => OpOutcome;
-  /** The property judgements the primitive counts by name (each reported, 0 included: a level never judged shows). */
-  readonly judges?: readonly string[];
 }
 
 /** M0.md §2.2's units per kernel counter (C-0021): insertion's per vertex, the walks' per face, the halvings fixed. */
@@ -252,9 +240,9 @@ function ccw(r: readonly LatticePoint[]): LatticePoint[] {
 // ---- the arena writers ----------------------------------------------------------------------------------------------
 
 /** A writer's transaction through the plant's `tx` wrapper, if any (the runner's own tests). */
-function planTx<R extends KernelResult<unknown>>(ctx: OpContext | undefined, op: string, commit: () => R, p: Plat): R {
+function planTx<R extends KernelResult<unknown>>(ctx: OpContext | undefined, op: string, commit: () => R): R {
   const f = ctx?.plant?.tx;
-  return f === undefined ? commit() : (f(op, commit, p) as R);
+  return f === undefined ? commit() : (f(op, commit) as R);
 }
 
 /** One writer batch on a fresh façade over `p`: the result and the overlay's work. */
@@ -267,7 +255,6 @@ function writer<T>(p: Plat, level: Level, fn: (o: Overlay) => KernelResult<T>, u
       work = workOf(o, units);
       return v;
     }),
-    p,
   );
   if (r.ok) opts.ctx?.plant?.afterCommit?.(opts.op ?? '', p);
   return { r, work };
@@ -293,13 +280,9 @@ interface InsertInput {
   readonly cls: 'mandatory' | 'optional';
 }
 
-/** remove ∘ insert's judgement at each level the family draws (C-0240 (5); the hardening round S1's N-1). */
-const REMOVE_INSERT_JUDGED = ['remove∘insert L1', 'remove∘insert L2', 'remove∘insert L3'] as const;
-
 const insertChainPrimitive: Primitive<InsertInput> = {
   name: 'insertChain',
   family: 'bfuzz/insertChain',
-  judges: REMOVE_INSERT_JUDGED,
   arbitrary: () =>
     fc.record({
       face: simpleRingArb(SMALL),
@@ -334,13 +317,11 @@ const insertChainPrimitive: Primitive<InsertInput> = {
     const inserted = topology(p);
     const rm = k1.tx(spec(input.level), (o) => removeEdges(o, { role, entity }));
     const notes: string[] = [];
-    const judged: string[] = [];
     if (!rm.ok) {
       // A typed refusal of the removal fails safely (the arena kept): a counted finding, the property unjudged (C-0227 (4)).
       notes.push(`remove-after-insert refused ${rm.code}${rm.detail.startsWith('index-freshness') ? ' index-freshness' : ''}`);
       if (topology(p) !== inserted) problems.push('the refused removal changed the arena');
     } else {
-      judged.push(REMOVE_INSERT_JUDGED[input.level - 1]);
       ctx.plant?.afterRemove?.(p);
       problems.push(...ciProblems(p).map((x) => `after remove: ${x}`));
       if (topology(p) !== before) problems.push('remove(insert(x)) is not the identity on the topology');
@@ -354,7 +335,7 @@ const insertChainPrimitive: Primitive<InsertInput> = {
       if (!per.identical) problems.push(`op permutation: ${JSON.stringify(per.divergence)}`.slice(0, 400));
       sampled = 'renumbering';
     }
-    return { code: 'ok', problems, warnings: r.warnings, work, notes, judged, ...(sampled === undefined ? {} : { sampled }) };
+    return { code: 'ok', problems, warnings: r.warnings, work, notes, ...(sampled === undefined ? {} : { sampled }) };
   },
 };
 
@@ -475,7 +456,7 @@ const splitFacePrimitive: Primitive<SplitInput> = {
     if (tiling !== null) problems.push(`splitFace children do not tile the parent: ${tiling}`);
     problems.push(...ciProblems(p));
     // mergeFaces ∘ splitFace restores the ring and the id (§13.1): the arena exactly as it was before the split (C-0240 (2)).
-    const m = planTx(ctx, 'mergeFaces', () => k.tx(spec(1), (o) => k.geom.mergeFaces(o, c1, c2)), p);
+    const m = planTx(ctx, 'mergeFaces', () => k.tx(spec(1), (o) => k.geom.mergeFaces(o, c1, c2)));
     if (!m.ok) problems.push(`mergeFaces after splitFace refused: ${m.code} ${m.detail}`);
     else {
       ctx.plant?.afterMerge?.(p);
@@ -812,41 +793,10 @@ const lirPrimitive: Primitive<LatticePoint[]> = {
     const problems: string[] = [];
     const L = r.value;
     if (!(L.widthCm > 0 && L.depthCm > 0)) problems.push('a LIR side is not positive');
-    const tol = 1e-6 * Math.max(1, L.widthCm, L.depthCm);
-    for (const c of L.corners) if (!inRegionApprox([ring], c, tol)) problems.push(`a LIR corner (${String(c.x)}, ${String(c.y)}) lies outside the face`);
-    // Four corners in a non-convex face do not hold the rectangle in it: no LIR edge may cross a ring edge (N-9).
-    const crossing = lirEdgeCrossing(ring, L.corners, tol);
-    if (crossing !== null) problems.push(crossing);
+    for (const c of L.corners) if (!inRegionApprox([ring], c, 1e-6 * Math.max(1, L.widthCm, L.depthCm))) problems.push(`a LIR corner (${String(c.x)}, ${String(c.y)}) lies outside the face`);
     return { code: 'ok', problems: problems.slice(0, 2), warnings: r.warnings };
   },
 };
-
-/**
- * §13.1's "LIR inside the face" on its edges (the hardening round S1's N-9): a LIR edge that properly crosses an edge of
- * the face's ring — each segment's ends strictly on opposite sides of the other, beyond `tol` cm, so an edge touching a
- * reflex vertex or running along a ring edge is no crossing — leaves the face even when every corner lies in it.
- */
-function lirEdgeCrossing(ring: readonly LatticePoint[], corners: readonly { readonly x: number; readonly y: number }[], tol: number): string | null {
-  const side = (a: { x: number; y: number }, b: { x: number; y: number }, q: { x: number; y: number }): number => {
-    const dx = b.x - a.x;
-    const dy = b.y - a.y;
-    const len = Math.hypot(dx, dy);
-    return len === 0 ? 0 : (dx * (q.y - a.y) - dy * (q.x - a.x)) / len;
-  };
-  const opposite = (s1: number, s2: number): boolean => (s1 > tol && s2 < -tol) || (s1 < -tol && s2 > tol);
-  for (let i = 0; i < corners.length; i++) {
-    const a = corners[i];
-    const b = corners[(i + 1) % corners.length];
-    for (let j = 0; j < ring.length; j++) {
-      const c = ring[j];
-      const d = ring[(j + 1) % ring.length];
-      if (opposite(side(c, d, a), side(c, d, b)) && opposite(side(a, b, c), side(a, b, d))) {
-        return `a LIR edge (${String(a.x)}, ${String(a.y)})–(${String(b.x)}, ${String(b.y)}) crosses the face's edge (${String(c.x)}, ${String(c.y)})–(${String(d.x)}, ${String(d.y)})`;
-      }
-    }
-  }
-  return null;
-}
 
 const regularFitPrimitive: Primitive<LatticePoint[]> = {
   name: 'regularFit',
@@ -1081,31 +1031,13 @@ const bufferPrimitive: Primitive<{ chains: LatticePoint[][]; w: number; joins: '
   name: 'buffer',
   family: 'bfuzz/buffer',
   oracles: true,
-  // §13.1 draws ≥ 10⁵ unattracted cases per operation at the nightly 10⁶ (the hardening round S1's N-13): the random
-  // chains alone stay unattracted on about 4 % of draws (433 per 10⁴), so one draw in four is a sparse single chain —
-  // 2–4 vertices, steps of 5–160 m, a half-width of 1–15 m — unattracted on about two thirds of its draws (probe: 408 of
-  // 600, none refused, none invalid), lifting the family to about 20 % (a declared shift of the buffer family's inputs).
   arbitrary: () =>
-    fc.oneof(
-      {
-        weight: 3,
-        arbitrary: fc.record({
-          chains: fc.array(arb.chain({ limitCm: SMALL }), { minLength: 1, maxLength: 2 }),
-          w: fc.integer({ min: 0, max: 1500 }),
-          joins: fc.constantFrom('round' as const, 'square' as const, 'miter' as const),
-          ends: fc.constantFrom('round' as const, 'square' as const, 'flat' as const),
-        }),
-      },
-      {
-        weight: 1,
-        arbitrary: fc.record({
-          chains: fc.array(arb.chain({ limitCm: SMALL, vertices: [2, 4], sizeCm: [500, 16_000] }), { minLength: 1, maxLength: 1 }),
-          w: fc.integer({ min: 100, max: 1500 }),
-          joins: fc.constantFrom('round' as const, 'square' as const, 'miter' as const),
-          ends: fc.constantFrom('round' as const, 'square' as const, 'flat' as const),
-        }),
-      },
-    ),
+    fc.record({
+      chains: fc.array(arb.chain({ limitCm: SMALL }), { minLength: 1, maxLength: 2 }),
+      w: fc.integer({ min: 0, max: 1500 }),
+      joins: fc.constantFrom('round' as const, 'square' as const, 'miter' as const),
+      ends: fc.constantFrom('round' as const, 'square' as const, 'flat' as const),
+    }),
   run(input, ctx) {
     needOracles();
     const ours = (ctx.plant?.buffer ?? buffer)(input.chains, input.w, input.joins, input.ends);

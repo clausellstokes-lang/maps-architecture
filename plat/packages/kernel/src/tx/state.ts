@@ -66,11 +66,9 @@ export interface OpenTx extends Overlay {
    */
   closed: boolean;
   /**
-   * Names the running op in a rethrown error's prefix (C-0287): `open` until the batch runs; `order` while a declared
-   * batch sorts its ops (`canonicalOrder`), `<kind> (prepare)` while a declared op reads the arena before any applies, then
-   * that op's kind while it applies; `fn` while a callback runs (one of this module's writers names itself while it runs:
-   * `removeEdges`, `clearFiner`, `retypeEdges`, `setOwner`); `commit` for the expectations, the kernel rows and the commit
-   * (a throw from the digest listener after the commit is prefixed `…/commit:` and leaves the commit standing).
+   * Names the running op in a rethrown error's prefix (C-0287): a declared op's kind, `fn` while a callback runs (one of
+   * this module's writers names itself while it runs: `removeEdges`, `clearFiner`, `retypeEdges`, `setOwner`), `commit`
+   * for the expectations, the kernel rows and the commit.
    */
   op: string;
 }
@@ -80,16 +78,6 @@ const open = new WeakSet<object>();
 /** Marks an object as an open transaction (the one place an OpenTx is minted). */
 export function markOpen(t: OpenTx): void {
   open.add(t);
-}
-
-/**
- * Is `o` an open transaction: an overlay `tx` minted (the open set) and not yet closed (committed, rejected or rolled
- * back)? False for anything else — a closed overlay, a fabricated shell carrying `open: true`, any other object. The
- * predicate a writer outside this module checks before it writes (rulings-hardening-1.md RQ4; N-61 (4)); file-level,
- * imported by path.
- */
-export function isOpenTx(o: object): boolean {
-  return open.has(o) && !(o as OpenTx).closed;
 }
 
 /** The open transaction behind an overlay; a writer handed anything else (or a closed one) is a programming error. */

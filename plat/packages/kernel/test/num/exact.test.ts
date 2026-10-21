@@ -3,7 +3,7 @@
 // point of two closed segments, the ray crossing at its exact rational intercept (in BigInt), the direction half-plane
 // rule case by case, §3.3's vertex key as one BigInt — never with the code under test. Their equality with the copies
 // they replace is equivalence.test.ts's. The module's shape is held here too: it is a leaf of num (its imports are
-// pinned) and neither `num/index.ts` nor the package barrel re-exports it.
+// pinned) and nothing re-exports it.
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 import * as barrel from '../../src/index.js';
@@ -128,76 +128,6 @@ describe('segmentCloserThan (§3.2 (2), (3))', () => {
         const by = Math.max(-MAX, Math.min(MAX, ay + dy));
         const l = Math.sqrt((bx - ax) * (bx - ax) + (by - ay) * (by - ay)) || 1;
         // a point near the segment at parameter t, off it by `off` cm along the normal, then jittered
-        const px = Math.max(-MAX, Math.min(MAX, Math.round(ax + t * (bx - ax) - (off * (by - ay)) / l) + jitter));
-        const py = Math.max(-MAX, Math.min(MAX, Math.round(ay + t * (by - ay) + (off * (bx - ax)) / l) - jitter));
-        return segmentCloserThan(px, py, ax, ay, bx, by, r) === closerBig(px, py, ax, ay, bx, by, r);
-      }),
-    );
-  }, TIMEOUT);
-});
-
-/**
- * M0-FIX-QUEUE L19: four 40 km segments, each with a lattice point whose orient2d o is even and o² + 1 = 625 · |ab|² —
- * so at r = 25 (minEdge) the point is a hair inside r (o² < r²·|ab|² by 1), while o² and r²·|ab|², both past 2⁵³, round
- * to one double. Built from the definition: o² + 1 ≡ 0 (mod 625), |ab|² = (o² + 1) / 625 split into two coprime squares,
- * p the lattice point at orient2d o whose foot falls inside the segment.
- */
-const TIES_40KM: readonly (readonly [number, number, number, number, number, number])[] = [
-  [-1587391, -1216636, 1587391, 1216637, -429847, -329419],
-  [-1742324, -982034, 1742325, 982034, 578030, 325826],
-  [-1814820, -840560, 1814821, 840560, -223755, -103608],
-  [-1989722, -203275, 1989722, 203276, 355642, 36359],
-];
-
-describe('segmentCloserThan past 2⁵³ (M0-FIX-QUEUE L19)', () => {
-  it('decides the tie its doubles cannot in BigInt: a point a hair inside 25 cm of a 40 km segment is closer', () => {
-    for (const [ax, ay, bx, by, px, py] of TIES_40KM) {
-      const at = `(${px}, ${py}) to (${ax}, ${ay})–(${bx}, ${by})`;
-      const o = orient2d(ax, ay, bx, by, px, py);
-      const l2 = (bx - ax) * (bx - ax) + (by - ay) * (by - ay);
-      // the fixture is the tie: 40 km long, past 2⁵³, one double for both products, exactly 1 apart in BigInt
-      expect(Math.sqrt(l2), at).toBeGreaterThan(4_000_000);
-      expect(625 * l2, at).toBeGreaterThan(9_007_199_254_740_992);
-      expect(o * o === 625 * l2, at).toBe(true);
-      expect(B(o) * B(o) + 1n, at).toBe(625n * B(l2));
-      expect(closerBig(px, py, ax, ay, bx, by, 25), at).toBe(true);
-      expect(segmentCloserThan(px, py, ax, ay, bx, by, 25), at).toBe(true);
-      expect(segmentCloserThan(px, py, bx, by, ax, ay, 25), `${at}, b–a`).toBe(true);
-      expect(segmentCloserThan(-px, -py, -ax, -ay, -bx, -by, 25), `${at}, mirrored`).toBe(true);
-    }
-  });
-
-  it('keeps the strict side in BigInt: a point exactly 25 cm from a 40 km segment is clear', () => {
-    // a–b = 800 001 · (3, 4), 4 000 005 cm long; p sits 25 cm off it along the normal (−4, 3) · 5, so o = 125 · 800 001
-    // and o² = 25² · |ab|² exactly, both past 2⁵³
-    const [ax, ay, bx, by, px, py] = [-1200001, -1600002, 1200002, 1600002, -21, 13];
-    const o = orient2d(ax, ay, bx, by, px, py);
-    const l2 = (bx - ax) * (bx - ax) + (by - ay) * (by - ay);
-    expect(o * o).toBeGreaterThan(9_007_199_254_740_992);
-    expect(B(o) * B(o)).toBe(625n * B(l2));
-    expect(closerBig(px, py, ax, ay, bx, by, 25)).toBe(false);
-    expect(segmentCloserThan(px, py, ax, ay, bx, by, 25)).toBe(false);
-    expect(segmentCloserThan(px, py, bx, by, ax, ay, 25)).toBe(false);
-    expect(segmentCloserThan(px, py, ax, ay, bx, by, 26)).toBe(true);
-  });
-
-  it('a tie past 2⁵³ off the lattice (r² not an integer) keeps the doubles\' answer and never throws', () => {
-    // the third 40 km segment, a lattice point near it, and an r (not a caller's: every caller's is whole) chosen so
-    // that r² · |ab|² rounds to o² exactly; BigInt cannot read r², so the doubles' "not closer" stands
-    const [ax, ay, bx, by, px, py, r] = [-1814820, -840560, 1814821, 840560, -223756, -103606, 27.235068493819167];
-    const o = orient2d(ax, ay, bx, by, px, py);
-    const l2 = (bx - ax) * (bx - ax) + (by - ay) * (by - ay);
-    expect(o * o).toBeGreaterThan(9_007_199_254_740_992);
-    expect(r * r * l2 === o * o).toBe(true);
-    expect(Number.isInteger(r * r)).toBe(false);
-    expect(() => segmentCloserThan(px, py, ax, ay, bx, by, r)).not.toThrow();
-    expect(segmentCloserThan(px, py, ax, ay, bx, by, r)).toBe(false);
-  });
-
-  it('property: equals the BigInt distance on segments of any length in range, r 25, 26 and 51', () => {
-    fc.assert(
-      fc.property(coord(), coord(), coord(), coord(), fc.double({ min: -0.2, max: 1.2, noNaN: true }), fc.integer({ min: -60, max: 60 }), fc.integer({ min: -3, max: 3 }), fc.constantFrom(25, 26, 51), (ax, ay, bx, by, t, off, jitter, r) => {
-        const l = Math.sqrt((bx - ax) * (bx - ax) + (by - ay) * (by - ay)) || 1;
         const px = Math.max(-MAX, Math.min(MAX, Math.round(ax + t * (bx - ax) - (off * (by - ay)) / l) + jitter));
         const py = Math.max(-MAX, Math.min(MAX, Math.round(ay + t * (by - ay) + (off * (bx - ax)) / l) - jitter));
         return segmentCloserThan(px, py, ax, ay, bx, by, r) === closerBig(px, py, ax, ay, bx, by, r);

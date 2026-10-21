@@ -4,8 +4,10 @@
 import { splitThrough, pointLocate, STAGES, type KernelTx, type LatticePoint } from '@plat/kernel';
 import type { Portal } from '@plat/model';
 import { describe, expect, it } from 'vitest';
-import { chainRuns, portalInvariant, removeLane, vertexPoints } from '../../../src/index.js';
-import { CELLS, crossingDeg, fixture, GROUND, P, runFixture, twoDistricts, waySegments } from './support.js';
+import { chainRuns, cutCells, portalInvariant, removeLane, vertexPoints } from '../../../src/index.js';
+import { crossingDeg, fixture, GROUND, P, runFixture, twoDistricts, waySegments } from './support.js';
+
+const CELLS = cutCells();
 
 function spinePoints(f: ReturnType<typeof twoDistricts>, id: string): string[] {
   return chainRuns(f.plat, GROUND, { role: 'way', entity: id }).flat().map((q) => `${q.x},${q.y}`);

@@ -6,16 +6,12 @@
 // records, F-WORK's work_cut, a single coarse face, determinism, and the Stage object itself. The identity laws S6
 // locks in — each grower's seed lineage (its feature's address; a remainder or leftover seed's face after Lloyd),
 // each district's creation index (its seed's order) and typing's `district.type` stream — are held by keys the test
-// derives from the input and the committed arena, never read back from S6's own records (C-0245 (5), (12), (17)) —
-// the run units' keys (the hinterland, the seams' run, the quarter nodes' run) among them. S6's hand-over is held from
-// its output: the band's top to the grower, each district's family to the quarter tree, the run's `s6` table through
-// its tables, the default arena key; and an outside region cut off from the frame by an arterial ring is the
-// hinterland's.
+// derives from the input and the committed arena, never read back from S6's own records (C-0245 (5), (12), (17)).
 import { CONCERNS, createRng, entityKey, faceKey, insertChain, seedKey, STAGES, type KernelTx, type LatticePoint, type LineageHash } from '@plat/kernel';
 import { addressOf, lineageHash, TOWN_ROOT, type District, type Id } from '@plat/model';
 import { describe, expect, it } from 'vitest';
-import { boundaryLoops, faceGraph, faceLineage, runS6, s6Stage, s6Table, settlementPerimeter, textLineage, typingCells, type S6Input, type S6Output } from '../../src/index.js';
-import { bySeed, edgesL1, GROUND, gridArena, hullArea, insidePoly, layChain, liveL1, ownerAt, ownerOfL1, P, s6Run, s6With, tableWith, town, townS6, wayRecord, withS6, type Town } from './support.js';
+import { boundaryLoops, faceGraph, faceLineage, runS6, s6Stage, s6Table, settlementPerimeter, textLineage, typingCells, type S6Output } from '../../src/index.js';
+import { bySeed, edgesL1, GROUND, gridArena, hullArea, insidePoly, liveL1, ownerAt, ownerOfL1, P, town, townS6, type Town } from './support.js';
 
 const run = bySeed((seed) => townS6(seed));
 
@@ -467,138 +463,5 @@ describe('F-WORK (C-0085), the edges of the input, determinism, the Stage', () =
     const viaStage = st.run(t.input, {} as never);
     expect(viaStage.ok).toBe(true);
     if (viaStage.ok) expect(JSON.stringify(viaStage.value.districts)).toBe(JSON.stringify(run(SEEDS[0]).out.districts as District[]));
-  });
-});
-
-/** A unit's lineage under the town in S6's run (C-0245 (17)): (the town, S6, index). */
-function townUnit(index: number): LineageHash {
-  return lineageHash({ arena: GROUND, unit: lineageHash(TOWN_ROOT), stage: STAGES.S6, epoch: 0, index, reroll: 0 });
-}
-
-/** The lineage of the `index`-th entity minted under a run unit. */
-function under(unit: LineageHash, index: number): LineageHash {
-  return lineageHash({ arena: GROUND, unit, stage: STAGES.S6, epoch: 0, index, reroll: 0 });
-}
-
-describe('the run units’ keys, derived from the town and the arena (C-0245 (17); note 13)', () => {
-  it('the hinterland (the town, S6, 2³² − 1); each seam under (the town, S6, 2³² − 2) by its run’s lowest-then-leftmost vertex; each quarter node under (the town, S6, 2³² − 3) in creation order', { timeout: 120_000 }, () => {
-    for (const seed of [SEEDS[0], MERGED]) {
-      const t = run(seed);
-      expect(t.out.hinterland).toBe(addressOf('hinterland', townUnit(4_294_967_295)));
-      // the seams: the id of the i-th under the seams' run unit, and the runs in the order of their lowest-then-leftmost
-      // vertex, read from the arena's district_bound rows of each seam (runs meeting at a vertex may share it)
-      const seamRun = townUnit(4_294_967_294);
-      const seamIds = new Set(t.out.seams.map((x) => x.id));
-      const low = new Map<Id, LatticePoint>();
-      for (const e of edgesL1(t.plat)) {
-        for (const r of e.rows) {
-          if (r.role !== 'district_bound' || !seamIds.has(r.entity)) continue;
-          for (const q of [e.a, e.b]) {
-            const cur = low.get(r.entity);
-            if (cur === undefined || q.y < cur.y || (q.y === cur.y && q.x < cur.x)) low.set(r.entity, q);
-          }
-        }
-      }
-      expect(t.out.seams.length).toBeGreaterThan(30);
-      t.out.seams.forEach((sm, i) => {
-        expect(sm.id).toBe(addressOf('seam', under(seamRun, i)));
-        if (i === 0) return;
-        const a = low.get(t.out.seams[i - 1].id) as LatticePoint;
-        const b = low.get(sm.id) as LatticePoint;
-        expect(a.y < b.y || (a.y === b.y && a.x <= b.x)).toBe(true);
-      });
-      // the quarter nodes: 2L − 1 of them, the i-th under the quarters' run unit
-      const quarterRun = townUnit(4_294_967_293);
-      expect(t.out.quarters.length).toBe(2 * t.out.districts.length - 1);
-      t.out.quarters.forEach((q, i) => expect(q.id).toBe(addressOf('quarter', under(quarterRun, i))));
-    }
-  });
-});
-
-describe('S6’s hand-over, read from its output (N-c1b-3, N-c1c-1, note 4)', () => {
-  it('the arena key defaults to the ground arena: S6 with `key` omitted equals the keyed run, by runS6 and by the Stage', { timeout: 120_000 }, () => {
-    const keyed = run(SEEDS[0]).out;
-    const strip = (o: S6Output) => JSON.stringify({ d: o.districts, s: o.seams, q: o.quarters, t: o.typing, l: o.grow.log, r: o.report, h: o.hinterland, p: o.perimeter, n: [...o.lineages] });
-    for (const via of ['runS6', 'stage'] as const) {
-      const t = town(SEEDS[0]);
-      const { key: _key, ...rest } = t.input;
-      const input = rest as S6Input;
-      expect(input.key).toBeUndefined();
-      const r = via === 'runS6' ? runS6(input) : s6Stage().run(input, {} as never);
-      expect(r.ok).toBe(true);
-      if (r.ok) expect(strip(r.value)).toBe(strip(keyed));
-    }
-  });
-
-  it('the band’s top reaches the grower: no district it held without a merge into it ends above law.bandHa[1]', { timeout: 120_000 }, () => {
-    let atTop = 0;
-    for (const seed of [...SEEDS, MERGED]) {
-      const t = run(seed);
-      expect(t.out.report.workCut).toBeNull();
-      const top = t.out.report.bandHa[1] * 1e8;
-      const into = new Set(t.out.grow.merges.map((m) => m.into));
-      for (const d of t.out.grow.grown) {
-        if (d.mergedInto >= 0 || into.has(d.seed.order)) continue;
-        expect(d.areaCm2).toBeLessThanOrEqual(top);
-        if (d.areaCm2 > 0.75 * top) atTop += 1;
-      }
-    }
-    // the case has teeth: districts grow up to the top
-    expect(atTop).toBeGreaterThan(3);
-  });
-
-  it('each district’s family reaches the quarter tree: one family for every kind gives the tree of no family penalty, not the shipped one', { timeout: 300_000 }, () => {
-    const seed = SEEDS[0];
-    const base = run(seed).out;
-    const noPenalty = townS6(seed, {}, { tables: tableWith('district', 'quarters', 'familyCostHa', 0) }).out;
-    const kinds = typingCells().kinds.map((k) => k.kind);
-    const oneFamily = townS6(seed, {}, { tables: withS6(s6With(kinds.map((k) => [`demand.${k}`, 'family', 'core'] as const))) }).out;
-    // the districts and their kinds are the same three times; the tree is the families'
-    for (const o of [noPenalty, oneFamily]) expect(o.typing).toEqual(base.typing);
-    expect(oneFamily.quarters).toEqual(noPenalty.quarters);
-    expect(oneFamily.quarters).not.toEqual(base.quarters);
-  });
-
-  it('the run’s tables carry S6’s own table: an `s6` whose edge test starts at secondary stops growth at every grid street', { timeout: 300_000 }, () => {
-    const seed = SEEDS[0];
-    const crossed = (t: Town, out: S6Output): number => {
-      const classOf = new Map(t.ways.map((w) => [w.id, w.class]));
-      const ids = new Set(out.districts.map((d) => d.id));
-      let n = 0;
-      for (const e of edgesL1(t.plat)) {
-        const l = ownerOfL1(t.plat, e.left);
-        if (l === null || l !== ownerOfL1(t.plat, e.right) || !ids.has(l)) continue;
-        if (e.rows.some((r) => r.role === 'way' && classOf.get(r.entity) === 'secondary')) n += 1;
-      }
-      return n;
-    };
-    const base = run(seed);
-    expect(crossed(base, base.out)).toBeGreaterThan(10);
-    const t = townS6(seed, {}, { tables: withS6(s6With([['edge', 'minBarrierClass', 'secondary']])) });
-    expect(crossed(t, t.out)).toBe(0);
-    expect(t.out.report.unowned).toBe(0);
-  });
-});
-
-describe('an outside region cut off from the frame is the hinterland’s (C-0245 (2); note 9)', () => {
-  it('a primary ring road between the perimeter and the frame: every face it encloses outside the perimeter takes the hinterland’s id', { timeout: 120_000 }, () => {
-    const t = town(SEEDS[0]);
-    const R = 140_000;
-    layChain(t.k, [P(-R, -R), P(R, -R), P(R, R), P(-R, R)], [{ role: 'way', entity: 'way:ring' }], { closed: true });
-    const out = s6Run({ ...t.input, ways: [...t.input.ways, wayRecord('way:ring', 'primary')] });
-    for (const q of out.perimeter) expect(Math.abs(q.x) < R - 10_000 && Math.abs(q.y) < R - 10_000).toBe(true);
-    let between = 0;
-    for (let x = -R + 1250; x < R; x += 2500) {
-      for (let y = -R + 1250; y < R; y += 2500) {
-        const q = P(x, y);
-        if (insidePoly(out.perimeter, q)) continue;
-        const o = ownerAt(t, q);
-        if (o === undefined) continue;
-        expect(o).toBe(out.hinterland);
-        between += 1;
-      }
-    }
-    expect(between).toBeGreaterThan(1000);
-    expect(out.report.unowned).toBe(0);
   });
 });

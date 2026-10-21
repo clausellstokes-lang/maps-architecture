@@ -27,10 +27,10 @@ export interface SkeletonArc {
 }
 
 /**
- * An input edge of the cleaned rings (§3.8's pre-clean merges collinear vertices and drops spurs — exact zero-width
- * ones, C-0276, and inexact ones within `attractCm`, the hardening round S3): `ring` is the caller's ring index, `from`
- * and `to` the caller's vertex indices of its two ends in that ring (a merged run, or a dropped spur, spans the vertices
- * between; an exact spur's root keeps its first visit in walk order, read cyclically from the tip, C-0283 (2)).
+ * An input edge of the cleaned rings (§3.8's pre-clean merges collinear vertices and drops exact zero-width spurs,
+ * C-0276): `ring` is the caller's ring index, `from` and `to` the caller's vertex indices of its two ends in that ring
+ * (a merged run, or a dropped spur, spans the vertices between; a spur's root keeps its first visit in walk order, read
+ * cyclically from the tip, C-0283 (2)).
  */
 export interface SkeletonEdge {
   ring: number;
@@ -46,7 +46,7 @@ export interface SkeletonEdge {
 export interface SkeletonGraph {
   kind: 'skeleton';
   use: SkeletonUse;
-  /** The rings as the engine read them: collinear vertices merged and spurs dropped (a hole that is all spur dropped whole), the outer ring counter-clockwise first, every hole clockwise, each started at its lowest-leftmost vertex (world lattice points). */
+  /** The rings as the engine read them: collinear vertices merged and exact zero-width spurs dropped, the outer ring counter-clockwise first, every hole clockwise, each started at its lowest-leftmost vertex (world lattice points). */
   rings: Polygon[];
   edges: SkeletonEdge[];
   nodes: SkeletonNode[];

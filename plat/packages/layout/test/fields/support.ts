@@ -1,7 +1,6 @@
 // M0-e-05's test support: the fields over M0-e-04's district fixture (`town`, `townS6` — a synthetic town on an indexed
 // ground arena, S6 run on it) and over the real S3 slice and S4 on the flat CITY fixture (`cityRun`), plus a hand-built
-// terrain for the elevation and low-and-damp kernels, and the readings the folder's files share: the shipped tables'
-// cells (`CELLS`) and the three fields of a pass (`all`). Readers of the committed arena are the fields module's own
+// terrain for the elevation and low-and-damp kernels. Readers of the committed arena are the fields module's own
 // (`fieldDriverSources`, `fieldFaces`); the fixtures are M0-e-04's (read, never edited).
 import { seedKey, type Cm, type LatticePoint } from '@plat/kernel';
 import type { Terrain } from '@plat/model';
@@ -10,29 +9,18 @@ import {
   fieldChanceStream,
   fieldDriverSources,
   fieldFaces,
-  fieldsCells,
   fieldsOwnTable,
   fieldsPass1,
   runS6,
   type FieldDistricts,
-  type FieldsCells,
   type FieldSite,
   type FieldsOptions,
   type FieldsPass1,
   type S6Output,
-  type ScalarField,
 } from '../../src/index.js';
 import { cityRun, townS6, type CityRun, type Town, type TownOptions } from '../districts/support.js';
 
 export const TABLES: TableView = tableView();
-
-/** The shipped tables' fields cells: the weights, the band set and its default shares, σ per rung. */
-export const CELLS: FieldsCells = fieldsCells(TABLES);
-
-/** The three fields of a pass, in their order. */
-export function all(r: FieldsPass1): ScalarField[] {
-  return [r.prosperity, r.density, r.greenery];
-}
 
 /** The main-street classes of the shipped own table. */
 export function mainClasses(): readonly string[] {
