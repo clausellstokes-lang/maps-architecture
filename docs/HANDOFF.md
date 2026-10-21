@@ -1,6 +1,8 @@
 # HANDOFF — town-generator research program
 
-## RUNNING NOW — 2026-10-20 15:35Z (ACCOUNT 2: session_01F1FyLSKVBzYwVs2sNL8bcS, Fable 5.1 at max, the managing seat; branch `claude/great-galileo-b4mzbq`, PR #9 MERGED into main 2026-10-21 02:16Z as 8d384f04 (J460); the branch continues from main and its next push opens draft PR #10; J444)
+## RUNNING NOW — 2026-10-20 15:35Z (ACCOUNT 2: session_01F1FyLSKVBzYwVs2sNL8bcS, Fable 5.1 at max, the managing seat; branch `claude/great-galileo-b4mzbq`, PR #9 MERGED 2026-10-21 02:16Z as 8d384f04 (J460) and PR #10 MERGED 02:19Z as 58041e54 (J461); the branch continues from main and its next push opens draft PR #11; J444)
+
+**02:19Z (J461; THE OWNER'S WORD).** "Feel free to merge it" → PR #10 MERGED into main as merge commit 58041e54. Draft PR #11 opens with the next push and stays a draft until the owner's word (each merge on an explicit word; no standing auto-merge unless the owner gives one).
 
 **02:16Z (J460; THE OWNER'S WORD).** "Merge 9 when you're able" → PR #9 marked ready and MERGED into main as merge commit 8d384f04 (head dcd138dd; a merge commit so the landing hashes stay valid). The design branch continues from main under the same name; the next landing's push opens draft PR #10, a draft until the owner's next word. Six children in flight; check-in 10 at 03:05Z; the resume 06:17Z.
 
