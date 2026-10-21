@@ -1,6 +1,8 @@
 # HANDOFF — town-generator research program
 
-## RUNNING NOW — 2026-10-20 15:35Z (ACCOUNT 2: session_01F1FyLSKVBzYwVs2sNL8bcS, Fable 5.1 at max, the managing seat; branch `claude/great-galileo-b4mzbq`, PR #9 MERGED 2026-10-21 02:16Z as 8d384f04 (J460) and PR #10 MERGED 02:19Z as 58041e54 (J461); the branch continues from main and its next push opens draft PR #11; J444)
+## RUNNING NOW — 2026-10-20 15:35Z (ACCOUNT 2: session_01F1FyLSKVBzYwVs2sNL8bcS, Fable 5.1 at max, the managing seat; branch `claude/great-galileo-b4mzbq`, PRs #9, #10, #11 MERGED 2026-10-21 02:16–02:44Z (J460–J462); THE OWNER'S STANDING WORD (J462): every subsequent PR is merged by a merge commit as soon as it is ready (a landing with green gates and its bookkeeping, or any record at a check-in; the merge's own record rides the next PR); the branch continues from main under the same name; draft PR #12 is the live one; J444)
+
+**02:45Z (J462; THE OWNER'S STANDING WORD).** "Just merge all of the subsequent ones that are ready to be merged" → PR #11 MERGED as c271afa3; from now on each PR is merged by a merge commit when ready (after a landing's bookkeeping push, or at a check-in with unmerged commits), the branch restarted from main, the next draft PR opened and watched; the merge's own J-row rides the next PR. Draft PR #12 opens with this push.
 
 **02:19Z (J461; THE OWNER'S WORD).** "Feel free to merge it" → PR #10 MERGED into main as merge commit 58041e54. Draft PR #11 opens with the next push and stays a draft until the owner's word (each merge on an explicit word; no standing auto-merge unless the owner gives one).
 
