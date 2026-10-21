@@ -5,6 +5,7 @@
 // tests share (C-0150).
 import fc from 'fast-check';
 import { snap, type LatticePoint } from '@plat/kernel';
+import { fuzzParams } from '../../src/fuzz/index.js';
 import { symDiffArea } from '../../src/oracles/oracles.js';
 import { faceCount } from '../../src/oracles/faces.js';
 import { isOracleRefusal } from '../../src/oracles/refusal.js';
@@ -201,4 +202,38 @@ export function oraclesAgree(c: OracleResult, p: OracleResult, tally: AgreementT
   const share = perimeter > 0 ? Math.max(...measured) / perimeter : 0;
   if (share > tally.worstShare) tally.worstShare = share;
   return measured.every((d) => d <= perimeter);
+}
+
+// ── the agreement runs' seed, cap and report line (L18; C-0414) ──
+
+/** The agreement test's size per family: its own 10⁴, not PLAT_FUZZ_RUNS (C-0144 (7)). */
+export const AGREEMENT_CASES = 10_000;
+
+/**
+ * Refused answers and measurements allowed per case (C-0150): 0.1 % — the share a check that refused correct answers
+ * wholesale would exceed at once, while none was measured in 1.2 × 10⁵ boolean and 2 × 10⁴ buffer cases.
+ */
+export const AGREEMENT_REFUSAL_SHARE = 0.001;
+
+/**
+ * The cap on a run's refusals at its size (L18): ⌈0.001 × cases⌉, at least 1 — 10 at the test's 10⁴, 1 at 10³. The
+ * test runs at its own size (C-0144 (7)), never PLAT_FUZZ_RUNS, so a RELATED run at PLAT_FUZZ_RUNS = 1 000 runs it at
+ * 10⁴ too and its cap stays 10.
+ */
+export function agreementRefusalCap(cases: number): number {
+  return Math.max(1, Math.ceil(AGREEMENT_REFUSAL_SHARE * cases));
+}
+
+/**
+ * A family's fast-check parameters: the test's size and the family's seed — PLAT_FUZZ_SEED's when set (the replay
+ * of a failure, C-0057), else the fixed H32 seed of `oracles/agreement/<family>` (M0-k-01's `fuzzParams`), so a run
+ * draws the same cases every time and every line it prints names the seed that replays it (L18).
+ */
+export function agreementParams(family: 'booleans' | 'buffers'): { numRuns: number; seed: number } {
+  return { numRuns: AGREEMENT_CASES, seed: fuzzParams(`oracles/agreement/${family}`).seed };
+}
+
+/** The run's report line: the family, its seed, the cases compared, the refusals (each the seed replays) and the worst share. */
+export function agreementLine(family: string, seed: number, tally: AgreementTally): string {
+  return `oracles/${family}: seed ${String(seed)} — ${String(tally.compared)} of ${String(tally.cases)} cases compared and agree; refusals ${JSON.stringify(tally.refusals)} (cap ${String(agreementRefusalCap(tally.cases))}; replay with PLAT_FUZZ_SEED=${String(seed)}); face counts equal on ${String(tally.faceAgree)}; worst |Δ| ÷ perimeter ${tally.worstShare.toFixed(4)} cm`;
 }

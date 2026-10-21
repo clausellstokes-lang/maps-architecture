@@ -1,0 +1,29 @@
+{
+  "schema": "plat-landed-record/1",
+  "item": "build-M0-k-03-notes",
+  "lane": "build/M0-k-03-fix-s2",
+  "lanes": ["build/M0-k-03-fix-s1", "build/M0-k-03-fix-s2"],
+  "wave": "flow-7",
+  "snapshotTaken": "2026-10-04T20:46:52.985Z",
+  "date": "2026-10-21T06:43:55.725Z",
+  "ownsSource": "declared",
+  "owns": ["plat/docs/build/checks/M0-k-03-notes.md"],
+  "counts": { "created": 0, "changed": 1, "unchanged": 0, "deleted": 0 },
+  "files": [
+    { "path": "plat/docs/build/checks/M0-k-03-notes.md", "status": "changed", "sha256": "7439bb48bfdf03a894eff63e037455f8cb52d0f360dbc154857eec679e5727d1", "size": 23201 }
+  ],
+  "appends": [
+    {
+      "file": "plat/CLEAN-ROOM.md",
+      "ids": ["L-0635", "L-0637"],
+      "lines": ["2a00905febec1a92", "2b3eebf0788aba51"],
+      "removed": []
+    },
+    {
+      "file": "plat/docs/build/choices.md",
+      "ids": ["C-0414", "C-0415"],
+      "lines": ["cef00ea0f4017bb6", "bf285f36da104567"],
+      "removed": []
+    }
+  ]
+}
