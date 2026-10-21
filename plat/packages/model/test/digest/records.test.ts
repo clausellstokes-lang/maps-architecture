@@ -2,6 +2,9 @@
 // workload of the digest bars (C-0015): ≈ 10 900 derivation and 3 500 naming records — it exists and runs; the maintained
 // roots equal the recomputed ones; a move between partitions re-hashes both nodes; the bars' harness emits its record,
 // stamped contended (the bars are the timing phase's, never this run's).
+import { readFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import {
   buildDigests,
@@ -18,6 +21,8 @@ import {
   type RecordsEntry,
 } from '../../src/index.js';
 import { hex } from './support.js';
+
+const HERE = dirname(fileURLToPath(import.meta.url));
 
 const CITY = syntheticCity(1);
 
@@ -137,5 +142,51 @@ describe('the bars\' harness and record shape (timing phase only)', () => {
     expect(rec.maintenance.sharePct).toEqual([100]); // the fake clock: 2 ms each span
     expect(rec.oracle).toBe(true);
     expect(() => timeDigest(CITY, clock, 0)).toThrow(RangeError);
+  }, 120_000);
+});
+
+// A naming record's fields, and the persisted roots (C-0412).
+describe('naming records and the persisted roots', () => {
+  it('a naming record: its salt, its epoch and each cited slice move its leaf, its node and the records root (N-5)', () => {
+    const n = CITY.records.find((x) => x.kind === 'naming' && x.record.slices.length > 1) as Extract<RecordsEntry, { kind: 'naming' }>;
+    const tree = new RecordsDigest();
+    tree.batch(() => CITY.records.slice(0, 600).forEach((e) => tree.put(e)));
+    tree.put(n);
+    const leaf = hex(recordsLeaf(n));
+    const node = hex(tree.node(n.partition));
+    const root = hex(tree.finaliseRoot());
+    const s0 = n.record.slices[0];
+    const variants: Extract<RecordsEntry, { kind: 'naming' }>[] = [
+      { ...n, record: { ...n.record, salt: (n.record.salt + 1) >>> 0 } },
+      { ...n, record: { ...n.record, epoch: n.record.epoch + 1 } },
+      { ...n, record: { ...n.record, slices: [{ ...s0, hash: [s0.hash[0], (s0.hash[1] ^ 1) >>> 0] }, ...n.record.slices.slice(1)] } },
+      { ...n, record: { ...n.record, slices: [{ ...s0, key: `${s0.key}x` }, ...n.record.slices.slice(1)] } },
+      { ...n, record: { ...n.record, slices: n.record.slices.slice(1) } },
+    ];
+    const leaves = new Set([leaf]);
+    for (const v of variants) {
+      leaves.add(hex(recordsLeaf(v)));
+      tree.put(v);
+      expect(hex(tree.node(n.partition))).not.toBe(node);
+      expect(hex(tree.finaliseRoot())).not.toBe(root);
+      expect(hex(tree.finaliseRoot())).toBe(hex(tree.recomputeRoot()));
+    }
+    expect(leaves.size).toBe(variants.length + 1);
+    tree.put(n);
+    expect(hex(tree.finaliseRoot())).toBe(root);
+  });
+
+  it('the persisted roots of syntheticCity(1) are the golden\'s: the model root and layers, the records root and nodes (N-c1-3)', () => {
+    const golden = JSON.parse(readFileSync(join(HERE, 'roots-golden.json'), 'utf8')) as {
+      city1: { model: { root: string; layers: Record<string, string> }; records: { root: string; nodes: Record<string, string> } };
+    };
+    const { model, records } = buildDigests(CITY);
+    const layers = Object.fromEntries(Object.keys(golden.city1.model.layers).map((l) => [l, hex(model.layer(l as never))]));
+    const nodes = Object.fromEntries(Object.keys(golden.city1.records.nodes).map((k) => [k, hex(records.node(k))]));
+    expect({ model: { root: hex(model.finaliseRoot()), layers }, records: { root: hex(records.finaliseRoot()), nodes } }).toEqual(golden.city1);
+    expect(Object.keys(golden.city1.model.layers)).toHaveLength(11);
+    expect(Object.keys(golden.city1.records.nodes)).toEqual([RECORDS_TOWN, RECORDS_OUTSIDE, CITY.districts[0], CITY.districts[25]]);
+    expect(hex(records.recomputeRoot())).toBe(golden.city1.records.root);
+    expect(hex(model.recomputeRoot())).toBe(golden.city1.model.root);
   }, 120_000);
 });
