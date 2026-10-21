@@ -11024,3 +11024,4 @@
 2026-10-21T11:29:43Z session/merge MERGED PR #25 into main as 795f60ef (J462's standing word; post-reset resume 4, J483; a merge commit, head ccb9cbe1; draft PR #26 next)
 2026-10-21T12:28:10Z session/ruling J484: M0-a-09 S13 stands (the S12 check LANDED FAIL on the pre-existing fixed-seed B-FUZZ red B-CLOSE alone, both S12 lines FIXED and CONFIRMED; the workflow opened S13 on bandUnion.ts offRead); S9+S10+S12+S13 land together when the S13 check LANDS PASS
 2026-10-21T12:28:42Z session/merge MERGED PR #26 into main as c126f790 (J462's standing word; check-in 19, J484; a merge commit, head 076a100e; draft PR #27 next)
+2026-10-21T13:28:21Z session/merge MERGED PR #27 into main as 81d7dbd7 (J462's standing word; check-in 20, J485; a merge commit, head 0e0e2333; draft PR #28 next)
