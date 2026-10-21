@@ -7,7 +7,8 @@
 // load of the shared machine. The scan of the real vendor/ tree is taken once (beforeAll) and read by the tests of the
 // audit record.
 import { createHash } from 'node:crypto';
-import { cpSync, readFileSync, writeFileSync } from 'node:fs';
+import { spawnSync } from 'node:child_process';
+import { cpSync, mkdirSync, readFileSync, symlinkSync, unlinkSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
@@ -131,6 +132,17 @@ describe('scanLibrary', () => {
     expect(r.result).toBe('pass');
   }, SCAN_TIMEOUT);
 
+  // Hardening round S1 (L14, note N10): the scan reads `.cjs` code (SCANNED_EXTENSIONS); no vendored library and no
+  // registry copy ships one, so this fixture library does.
+  it('scans a library\'s .cjs code: its Math census and its findings count', () => {
+    const dir = tempTree('plat-vendor-scan-', { 'package.json': '{ "name": "zz-cjs", "version": "1.0.0" }\n', 'index.cjs': 'module.exports = Math.sin(1);\n' });
+    const r = scanLibrary(dir, 'zz-cjs@1.0.0');
+    expect(r.files.map((f) => [f.path, f.fatal])).toEqual([['index.cjs', null]]);
+    expect(r.math).toEqual({ sin: 1 });
+    expect(r.findings.map((f) => `${f.file}:${f.line} ${f.rule}`)).toEqual(['index.cjs:1 plat/math-allowlist']);
+    expect(r.result).toBe('fail');
+  }, SCAN_TIMEOUT);
+
   it('holds no open reviewed exception (C-0152 closed C-0126 (5)), and would pin any to the vendored file it was judged on', () => {
     expect(REVIEWED).toEqual([]);
     for (const e of REVIEWED) {
@@ -185,5 +197,45 @@ describe('the audit record', () => {
     const stale = checkVendorScan(root);
     expect(stale.problems.some((p) => p.startsWith(`${AUDIT_FILE}: differs`))).toBe(true);
     expect(stale.ok).toBe(false);
+  }, SCAN_TIMEOUT);
+
+  // Hardening round S1 (L14 MT, the r2 check's N3): the runsFrom report, on a one-library fixture tree whose
+  // dependent's node_modules link is missing, then resolves to another folder, then to the scanned one.
+  it('fails the check when a dependent\'s node_modules link does not resolve to the scanned folder (runsFrom)', () => {
+    const root = tempTree('plat-vendor-links-', {
+      'vendor/vendor.lock.json': '{ "libraries": {} }\n',
+      'vendor/zz-lib@1.0.0/package.json': '{ "name": "zz-lib", "version": "1.0.0" }\n',
+      'vendor/zz-lib@1.0.0/index.js': 'export const one = 1;\n',
+      'elsewhere/zz-lib/package.json': '{ "name": "zz-lib", "version": "1.0.0" }\n',
+      'elsewhere/zz-lib/index.js': 'export const one = Math.sin(1);\n',
+      'packages/kernel/package.json': '{ "name": "@plat/kernel", "dependencies": { "zz-lib": "workspace:*" } }\n',
+    }, { real: true });
+    const link = join(root, 'packages', 'kernel', 'node_modules', 'zz-lib');
+    const linkProblems = () => checkVendorScan(root).problems.filter((p) => p.startsWith('packages/kernel/node_modules/zz-lib: '));
+    const tail = '— the scanned bytes are not the bytes that run';
+    expect(linkProblems()).toEqual([`packages/kernel/node_modules/zz-lib: does not resolve to vendor/zz-lib@1.0.0 (resolves to nothing) ${tail}`]);
+    mkdirSync(join(link, '..'), { recursive: true });
+    symlinkSync(join(root, 'elsewhere', 'zz-lib'), link, 'dir');
+    expect(linkProblems()).toEqual([`packages/kernel/node_modules/zz-lib: does not resolve to vendor/zz-lib@1.0.0 (resolves to ${join(root, 'elsewhere', 'zz-lib')}) ${tail}`]);
+    expect(checkVendorScan(root).ok).toBe(false);
+    unlinkSync(link);
+    symlinkSync(join(root, 'vendor', 'zz-lib@1.0.0'), link, 'dir');
+    expect(linkProblems()).toEqual([]);
+    expect(checkVendorScan(root).audit.libraries[0].runsFrom).toEqual([{ link: 'packages/kernel/node_modules/zz-lib', resolves: 'vendor/zz-lib@1.0.0' }]);
+  }, SCAN_TIMEOUT);
+});
+
+// Hardening round S1 (L14, tools-plan.md S-3's lint half): the command-line entry compares real paths (isMain), so the
+// scan named through a symbolic link runs; before the round it silently did nothing.
+describe('the command line', () => {
+  it('runs the scan when the script is named through a symbolic link', () => {
+    const link = join(tempTree('plat-vendor-scan-cli-'), 'vendor-scan-link.mjs');
+    symlinkSync(join(PLAT_ROOT, 'tools', 'lint', 'vendor-scan.mjs'), link);
+    const r = spawnSync(process.execPath, [link], { cwd: PLAT_ROOT, encoding: 'utf8' });
+    expect(r.stderr.split('\n').filter((l) => l.startsWith('vendor-scan'))).toEqual([]);
+    expect(r.status).toBe(0);
+    expect(r.stdout.split('\n').filter(Boolean).map((l) => l.slice(0, l.indexOf(':')))).toEqual(
+      ['delaunator@5.1.0', 'flatbush@4.6.2', 'flatqueue@3.1.0', 'robust-predicates@3.0.3', 'simplex-noise@4.0.3'],
+    );
   }, SCAN_TIMEOUT);
 });

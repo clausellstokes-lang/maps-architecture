@@ -244,3 +244,62 @@ along the run.
       (8)'s KI). Examples are seed 1012 cases 231, 2898, 4372, 5761 and 6189.
 
     Suggested handling: the session's hardening census (KI-1, note 28). Milestone: M0 hardening phase.
+
+## Closing check of session fix round S6 (lane `check/M0-a-09-close-s6`, 2026-10-14)
+
+The mutant ids (Z1 – Z15) and the probes (`zz-c6census`, `zz-c6fusion`, `zz-c6tee`, `zz-c6refused`, `zz-c6z3cu`) are
+defined in `checks/M0-a-09-s6.md`. This check's two blockers are there: Z3 (C-0380 (2)'s "where the edge spines' kerb
+refuses, the read refuses as before" not pinned) and Z5 (the reach test's larger end half-width not pinned for a
+profile band). These rows do not fail the item (N-45).
+
+35. **Z9: the staged read's post-condition is not pinned in `readKerb`.** `clearOf` itself is pinned by its unit test,
+    but the mutant that drops the `st.through.every(clearOf)` guard (the builder's S3) survives the NEAR set at 1000. On
+    the 87 faces this seat's census saw refused (register, B-FUZZ 1012 and 20261011, 10⁴ each) it gives the same outcome
+    as the tree: the guard never fires on the families. By §3.7's attraction bound the staged region (F − E) − V moves a
+    boundary point at most √2 · attractCm, so the guard is a defensive assertion of that bound (20261011 network 2182
+    stands 32.8 cm in, the bound 38.8 cm).
+
+    Suggested handling: a planted staged result (a seam, as `pieces` / `pinFirst` are) deeper than the move bound,
+    expected refused with the one overlay's refusal. Milestone: M4 (hardening).
+36. **The tree's kerb keeps thin slivers inside a vertex-only band, along F's boundary.** This seat's census found kerb
+    vertices more than 39 cm into a vertex-only band on 1 register face, 14 B-FUZZ-1012 faces and 8 B-FUZZ-20261011
+    faces; every one lies within 27 cm of F's own boundary (none farther). Examples: refusals.json row 116 face 2, a
+    ring `(0,1760) (14,1781) (0,2383)` 14 cm wide along the frame ending on the contact vertex `(0, 2383)`, way:0's
+    centreline (578 cm deep; before J318 the whole face was its kerb); B-FUZZ 1012 draw 6317 face 2, an 8 cm sliver 276
+    cm deep; draw 2862 face 2, a 27 cm sliver 227 cm into way:2's profile band. These are C-0212 (8)'s class (a strip
+    thinner than attractCm the overlay's attraction folds onto F's boundary), which S9's folding (C-0218 (7)) handles;
+    J318 shrank them (the pre-J318 kerb there was the face). Not a corridor overlap beyond the attraction envelope.
+
+    Suggested handling: the hardening census reads kerb slivers inside any band (edge or vertex-only) with their width
+    and depth; a sliver wider than attractCm would be a defect. Milestone: M4.
+37. **Z6: the vertex census over a hole's route vertices is not pinned.** The mutant that reads the outer ring's
+    route vertices only survives the NEAR set at 1000 and is outcome-identical on fusion seed 33 (every kerb read and
+    all 1 026 blocks byte-equal: no face with a hole was read) and on B-FUZZ (chords across the frame make no holes).
+    The design's census is every route vertex of F's rings (C-0380 (1)).
+
+    Suggested handling: a hand-built face with a hole whose ring meets a wide way at one vertex (a road entering the
+    island at its corner), kerb(F) clear of that way's band. Milestone: M4.
+38. **C-0380's self-check label for V6 (= this check's Z3) rests on a false premise.** It reads "a refusal path the
+    families never reach with a vertex-only contact". The census reaches it on refusals.json rows 142 / 143 (face 1) and
+    B-FUZZ seed 20261011 draws 1000 (face 1) and 4776 (face 0), where V6 / Z3 commits the face as all band. Blocker 1 of
+    `checks/M0-a-09-s6.md` carries the required change; this row only corrects the record.
+
+    Suggested handling: C-0380's self-check sentence restated with the blocker's test. Milestone: the next round on the
+    item.
+39. **C-0381 (5)'s corridorUnion change count differs from this seat's on the same draws.** C-0381 (5): corridorUnion's
+    outputs changed on 260 / 243 / 26 networks (1012 / 20261011 / register). This seat, comparing the committed blocks'
+    normal forms and the band-face count, counts 496 / 491 / 40; the kerb counts agree (512 / 504 / 47). Whatever the
+    measure, every changed corridorUnion network has a changed kerb with a reaching vertex-only chain (0 exceptions),
+    so line 2's claim holds; only the reported figure is in question.
+
+    Suggested handling: C-0381 (5) names its measure. Milestone: the next round on the item.
+
+## Closing check of fix round S7 (lane `check/M0-a-09-close-s7`, 2026-10-14)
+
+40. **Z5c: the reach test's "larger end" is pinned in one direction only.** The S7 pin (B-FUZZ seed 1012 draw 4102
+    face 0) has way:0's wider end (479 cm) at the segment's END point, so a mutant that reads only the segment's end
+    half-width (`line.hw[(k + 1) % n]` for `Math.max(...)`, kerb.ts's `reaches`) survives `vertexcontact.test.ts`
+    (16/16 in this seat's mirror), while the start-only (Z5b) and smaller-end (Z5) mutants are killed. Not judged
+    against the families (outside this re-check's confirm-only scope); PLAUSIBLY non-equivalent by symmetry (a profile
+    band wider at its start). Suggested handling: the same case with the chord reversed (wider end first), or a
+    hand-built profile spine in each direction. Milestone: M4 (hardening), unless the next round on the item takes it.

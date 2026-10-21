@@ -1,17 +1,22 @@
 // Test support for M0-d-08's harness: the kernel fixtures the bars run over, each as a DeterminismSequence —
 // M0-a-06's batch fixtures (packages/kernel/test/tx/fixtures/sequences.json, read here: the file's `$comment` names this
 // harness as its reader), crowded declared batches as M0-a-06's order test builds them, declared batches of M0-a-07's
-// partitioners, and the constructive arenas of M0-k-02's set (C-0199).
+// partitioners, claim, hole and sliver fixtures, batches whose commit record lists several items of a kind, and the
+// constructive arenas of M0-k-02's set in both op forms (C-0199; hardening round S1, N-2, N-3, N-6, N-7).
 import { readFileSync } from 'node:fs';
 import {
   insertChain,
+  opAbsorbSliver,
   opClaimSubFace,
+  opConnectHole,
   opInsertChain,
   opMergeFaces,
+  opPinVertices,
   opRadialSplit,
   opRingBand,
   opSplitFace,
   pointLocate,
+  removeEdges,
   setOwner,
   type KernelResult,
   type Level,
@@ -154,6 +159,177 @@ export function partitionerSequence(): DeterminismSequence {
   };
 }
 
+/** A 4000 cm frame cut in two by an L1 way at y = 2000 (M0-a-07's `halves()`, kernel/test/faces/support.ts). */
+function halves(): DeterminismBatch {
+  return cb('L1 way:1 across', 1, (o) => insertChain(o, [lp(0, 2000), lp(4000, 2000)], [{ role: 'way', entity: 'way:1' }], 'mandatory'));
+}
+
+const DB = [{ role: 'district_bound', entity: 'd:1' }];
+
+/**
+ * M0-a-07's inline declared fixture (kernel/test/faces/claim.test.ts, "a declared batch of a split and a pin commits"):
+ * the halves, a second way carrying a junction knot, then one declared batch pinning the junction and splitting the
+ * lower-left face (hardening round S1, N-6).
+ */
+export function claimSequence(): DeterminismSequence {
+  return {
+    name: 'M0-a-07 claim.test: declared pinVertices + splitFace',
+    arena: () => framedArena(0, 0, 4000, 4000),
+    batches: [
+      halves(),
+      cb('L1 way:2 with a junction knot', 1, (o) =>
+        insertChain(o, [lp(0, 1000), lp(2000, 1000), lp(4000, 1000)], [{ role: 'way', entity: 'way:2' }], 'mandatory', { knots: [{ index: 1, role: 'junction', ordinal: 0 }] }),
+      ),
+      {
+        name: 'declared L1 pinVertices + splitFace',
+        build: (p) => ({
+          spec: fixtureSpec(1, {
+            ops: [opPinVertices([2, 0], 0, [{ role: 'junction', entity: 'way:2' }]), opSplitFace([1, 0], 0, faceOn(p, 1, 100, 100), [lp(1000, 0), lp(1000, 1000)], { rows: DB })],
+          }),
+        }),
+      },
+    ],
+  };
+}
+
+/** M0-a-07's connectHole (kernel/test/faces/hole.test.ts's first fixture) beside a split, as one declared batch (N-6). */
+export function holeSequence(): DeterminismSequence {
+  return {
+    name: 'M0-a-07 hole.test: declared connectHole + splitFace',
+    arena: () => framedArena(0, 0, 4000, 4000),
+    batches: [
+      halves(),
+      cb('L1 two holes in the lower half', 1, (o) => {
+        const a = insertChain(o, [lp(1500, 500), lp(2000, 500), lp(2000, 1000), lp(1500, 1000)], [{ role: 'district_bound', entity: 'hole:1' }], 'mandatory', { closed: true });
+        if (!a.ok) return a;
+        return insertChain(o, [lp(2500, 500), lp(3000, 500), lp(3000, 1000), lp(2500, 1000)], [{ role: 'district_bound', entity: 'hole:2' }], 'mandatory', { closed: true });
+      }),
+      {
+        name: 'declared L1 connectHole + splitFace',
+        build: (p) => ({
+          spec: fixtureSpec(1, {
+            ops: [opConnectHole([31, 0], 0, faceOn(p, 1, 500, 500), [lp(1000, 0), lp(1500, 500)], { rows: DB }), opSplitFace([32, 0], 0, faceOn(p, 1, 1000, 3000), [lp(1000, 2000), lp(1000, 4000)], { rows: DB })],
+          }),
+        }),
+      },
+    ],
+  };
+}
+
+/**
+ * absorbSliver on a 60 cm strip between two L1 partition lines whose two neighbours share equal lengths with it (4000 cm
+ * each): its merge partner is decided by the tie-break (§3.3: the canonical face key, never a slot) — declared beside a
+ * split of a third face (N-6; N-3's equal-length merge, K08).
+ */
+export function sliverSequence(): DeterminismSequence {
+  return {
+    name: 'M0-a-07 absorbSliver: an equal-length tie, declared with splitFace',
+    arena: () => framedArena(0, 0, 4000, 4000),
+    batches: [
+      cb('L1 three partition lines, the lower two 60 cm apart', 1, (o) => {
+        for (const [y, e] of [[2000, 'd:a'], [2060, 'd:b'], [3000, 'd:c']] as const) {
+          const r = insertChain(o, [lp(0, y), lp(4000, y)], [{ role: 'district_bound', entity: e }], 'mandatory');
+          if (!r.ok) return r;
+        }
+        return { ok: true, value: null, warnings: [] };
+      }),
+      {
+        // The split cuts the top face, so the strip's two neighbours (below y = 2000, between 2060 and 3000) keep their
+        // equal 4000 cm boundaries with it whichever op applies first.
+        name: 'declared L1 absorbSliver + splitFace',
+        build: (p) => ({
+          spec: fixtureSpec(1, {
+            ops: [opAbsorbSliver([41, 0], 0, faceOn(p, 1, 2000, 2030), { minWidthCm: 100, minAreaCm2: 1 }), opSplitFace([42, 0], 0, faceOn(p, 1, 2000, 3500), [lp(2000, 3000), lp(2000, 4000)], { rows: DB })],
+          }),
+        }),
+      },
+    ],
+  };
+}
+
+/** Every M0-a-07 declared fixture the permutation bar runs: the partitioners, the claim, the hole and the sliver. */
+export function a07Sequences(): DeterminismSequence[] {
+  return [partitionerSequence(), claimSequence(), holeSequence(), sliverSequence()];
+}
+
+/**
+ * Batches whose commit record lists two or more items of one kind (hardening round S1, N-2 and N-3): the record's
+ * orders are canonical (§3.3; C-0185 (17)), and a list kept in slot order would read differently on a renumbered arena.
+ * Each sequence's last batch is the one; its record's list is asserted by the test that uses it.
+ */
+export function recordOrderSequences(): { name: string; seq: DeterminismSequence; list: 'promoted' | 'demoted.edges' | 'roles' }[] {
+  return [
+    {
+      // An L1 way, two L3 plot lines ending on it, then two L2 chains each ending 10 cm from a plot line's end in one
+      // batch: both L3 vertices promoted (§3.6 candidate (b), as promote.test's neighbour step).
+      name: 'two promotions in one batch',
+      list: 'promoted',
+      seq: {
+        name: 'record order: two promotions',
+        arena: () => framedArena(0, 0, 4000, 4000),
+        batches: [
+          halves(),
+          cb('L3 two plot lines ending on the way', 3, (o) => {
+            const a = insertChain(o, [lp(1000, 3500), lp(1000, 2000)], [{ role: 'plot_line', entity: 'plot:1' }], 'mandatory');
+            if (!a.ok) return a;
+            return insertChain(o, [lp(3000, 3500), lp(3000, 2000)], [{ role: 'plot_line', entity: 'plot:2' }], 'mandatory');
+          }),
+          cb('L2 two chains promoting the plot lines\' ends', 2, (o) => {
+            const a = insertChain(o, [lp(1010, 1000), lp(1010, 1990)], [{ role: 'corridor_split', entity: 'way:n1' }], 'mandatory');
+            if (!a.ok) return a;
+            return insertChain(o, [lp(3010, 1000), lp(3010, 1990)], [{ role: 'corridor_split', entity: 'way:n2' }], 'mandatory');
+          }),
+        ],
+      },
+    },
+    {
+      // An L0 lake and two L1 quays on its south and north sides; removing the shore demotes both sides' edges to L1
+      // in one batch (§2.2 rule 3 (a), as removals.test's quay).
+      name: 'two demoted edges in one batch',
+      list: 'demoted.edges',
+      seq: {
+        name: 'record order: two demotions',
+        arena: () => framedArena(0, 0, 4000, 4000),
+        batches: [
+          cb('L0 lake', 0, (o) => insertChain(o, [lp(1000, 1000), lp(3000, 1000), lp(3000, 3000), lp(1000, 3000)], [{ role: 'shore', entity: 'water:1' }], 'mandatory', { closed: true })),
+          cb('L1 two quays', 1, (o) => {
+            const a = insertChain(o, [lp(1000, 1000), lp(3000, 1000)], [{ role: 'way', entity: 'quay:1' }], 'mandatory');
+            if (!a.ok) return a;
+            return insertChain(o, [lp(3000, 3000), lp(1000, 3000)], [{ role: 'way', entity: 'quay:2' }], 'mandatory');
+          }),
+          cb('L0 the shore removed', 0, (o) => removeEdges(o, { role: 'shore', entity: 'water:1' })),
+        ],
+      },
+    },
+    {
+      // A batch writing rows of several roles and entities whose issue order is not rule 7's (a plot line, then a kerb,
+      // then a district line, then a second kerb, each crossing an earlier way that carries knots).
+      name: 'a multi-role batch',
+      list: 'roles',
+      seq: {
+        name: 'record order: several role keys',
+        arena: () => framedArena(0, 0, 4000, 4000),
+        batches: [
+          cb('L1 way:k with three width knots', 1, (o) =>
+            insertChain(o, [lp(0, 2000), lp(1000, 2000), lp(2000, 2000), lp(3000, 2000), lp(4000, 2000)], [{ role: 'way', entity: 'way:k' }], 'mandatory', {
+              knots: [{ index: 1, role: 'width_knot', ordinal: 0 }, { index: 2, role: 'width_knot', ordinal: 1 }, { index: 3, role: 'width_knot', ordinal: 2 }],
+            }),
+          ),
+          cb('L2 a plot line, a kerb and a district line, issued against rule 7', 2, (o) => {
+            for (const [x, role, entity] of [[3500, 'plot_line', 'plot:z'], [2500, 'kerb', 'kerb:y'], [1500, 'district_bound', 'd:x'], [500, 'kerb', 'kerb:a']] as const) {
+              const r = insertChain(o, [lp(x, 500), lp(x, 3500)], [{ role, entity }], 'mandatory');
+              if (!r.ok) return r;
+            }
+            return { ok: true, value: null, warnings: [] };
+          }),
+          // Its removal strips the way's row and its three knot keys, met along the way's rows.
+          cb('L1 way:k removed', 1, (o) => removeEdges(o, { role: 'way', entity: 'way:k' })),
+        ],
+      },
+    },
+  ];
+}
+
 /** The crowded fixtures the bars run over (six, as M0-a-06's order test). */
 export const CROWDED: readonly DeterminismSequence[] = [
   crowdedSequence(1, 6),
@@ -164,11 +340,11 @@ export const CROWDED: readonly DeterminismSequence[] = [
   crowdedSequence(6, 16),
 ];
 
-/** Every M0 constructive case that yields a sequence, drawn at `seed`. */
-export function constructiveSequences(seed: number): DeterminismSequence[] {
+/** Every M0 constructive case that yields a sequence, drawn at `seed` (the callback form, or the declared form, N-7). */
+export function constructiveSequences(seed: number, form: 'callback' | 'declared' = 'callback'): DeterminismSequence[] {
   const out: DeterminismSequence[] = [];
   for (const c of casesAt('M0')) {
-    const s = constructiveSequence(c, seed);
+    const s = constructiveSequence(c, seed, { form });
     if (s !== null) out.push(s);
   }
   return out;

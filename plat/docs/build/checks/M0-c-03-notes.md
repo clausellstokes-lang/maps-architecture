@@ -229,3 +229,307 @@ Each case records the arenas' `bits` / `contentPrint`, S4's output and report, a
 | N-c1c-1 | **The fold's nearness measure is unpinned.** Mutant R04 survives NEAR (88 / 88) on the consolidated sources and, as `footDist` → the same, on the pre-round ones. It replaces `graph.ts` `foldParallel`'s `distToSegment(p.at, a, b)` with the distance to the segment's first vertex, `a`. Under it the 55 probe runs are byte-identical. C-0236 (16) reads "within the class separation … of an earlier part", which is the distance to the part's segments. Only the fold's outcome on the CITY seeds is pinned (X23 is red), not its measure. The round did not create the gap: its change on this line is bit-identical over 400 000 cases. CONFIRMED (survival, both images; probe identity). | Add a `graph.test.ts` fold fixture whose later part runs parallel to the middle of an earlier part's long segment. The later part should be within the separation of the segment but beyond it from both of the segment's vertices, and the test asserts the fold. | M4 |
 | N-c1c-2 | **`routeGraph`'s own 30° cone is redundant with the lattice's** (confirms N-c1b-2 with this seat's evidence). Mutant X38 at `route.ts:78` (`< 0.5 *`) survives NEAR before and after the round, and under it the 55 probe runs are byte-identical. A wet edge is passable only along a deck within 30° (siting `alongDeck`, the same `COS30`), and `routeGraph` skips impassable edges. So the backbone's cone matters only where two decks within one spacing of an edge lie more than 30° apart. The plan's oracle "X38 (60° deck cone) killed" names a mutant that no c-03 check record defines. In the form this round created (the shared siting `COS30` = 0.5, X38s), it is red on the new 30° assertion in `route.test.ts`. CONFIRMED (survival, probe identity); PLAUSIBLE (the two-deck case). | A synthetic lattice with two decks less than one spacing apart at more than 30° to each other. Assert `deckOf` names the deck each edge runs along. | M4 |
 | N-c1c-3 | **For the session.** (a) J264 / N-58: the base chain on M0-x-06's small river frame (CITY, 30 ha, 6 ha walled, the river from the west, S5 idle) refuses at S3 at seed 27, identically before and after this round. The refusal is `E_INVARIANT` "trace: gate gate:1 is not on the committed trace at its point (§4.2 S3 (9))". The input is LAWFUL and the verdict MAKE-IT-SUCCEED, owned by S3 (M0-c-01's slice, M0-c-02's `commitS3Slice`). This independently confirms N-c1b-3. (b) The builder's L-0482 discloses one grep of `docs/PROGRESS.md` for the ruling ids J260 – J302, whose output was cut to a preview. `docs/PROGRESS.md` is on neither of rule 1's lists, and nothing from rule 2's list was read. Following `checks/M0-a-01-notes.md` N-c3c-4, this seat does not judge it a breach of the item. CONFIRMED (a: probe); PLAUSIBLE (b: the classification). | (a) a fix round for S3's owners with the seed; (b) the session decides whether ruling-log lookups are added to rule 1's read list. | session |
+
+## Hardening round S3 (lane `build/M0-c-03-fix-s3`, 2026-10-14 and 2026-10-18): the builder's row-by-row outcome
+
+The session's hardening round S3 of M0-c-03 (J237 (2)): the refusal census's line Q52 A / R-35 first, then the
+fourteen FIX-NOW rows the inventory (`checks/hardening-inventory.md`, J355) assigns to the item. Choices row C-0403,
+ledger row L-0613. The seat ran in two parts in Claude Code cloud containers: 2026-10-14 06:13 – 11:04 (the
+reproduction, the fixes, the pins, the mutants, the census before and after, the NO-SHIFT probe and RELATED) and, after
+its container was replaced, 2026-10-18 (the gates, the mutant table re-run, an instrumented attribution probe, e-06's
+seeds, an edge sweep, RELATED again, these notes). The first part's mirror and drafts went with its container; its
+numbers are quoted from its lane-events lines and marked (L 10-14). No before-image of the sources exists in the
+second part (no git), so its probes ran on the round's code with each behaviour-changing branch instrumented in the
+mirror (a counter where it fires); a case where none fires runs as before the round, and the first part's
+byte-for-byte NO-SHIFT comparison names the same shifted cases.
+
+**Q52 A / R-35 — FIXED (make it succeed).** All seven census seeds reproduced (L 10-14), each through the base chain
+(M0-x-04's registration, S5 idle) on its fixture's frame at the fixture seed. The input is lawful, and the branching
+geometry is OUR OWN INTERMEDIATE (S4's route parts), so the verdict is MAKE-IT-SUCCEED. There are two causes, both
+inside c-03's owns:
+* **A1, the attach end** (EP-01/S4/self-touching 4078456246, EP-01/S5a/zero-area 1104735897, EP-01/S6/zero-length
+  2787492733, EP-05/S5d 1625622056; the small flat frame). The inward part leaves the plaza's attach point for a
+  lattice node beyond it, and its next segment passes the attach point within `attractCm` (≤ 22 cm). §3.6 step 3's
+  attraction routes that segment through the attach point, so the way meets itself there (`(way, way:n) branches`).
+  The fix: `commitRoutes` cuts each spur before the graph (`withoutSpurs`). A free point is dropped when one of its
+  neighbours lies within `attractCm` of its segment to the other, unless the shortcut would meet the plaza's, the
+  wall's or the water's sides off its ends.
+* **A2, the gate end** (EP-20/M0 1334794515, 3068986432, 3296267945; and e-06's relief-3000 seed 8 in both
+  configurations, whose inward parts held 4 nodes beyond the trace). The inward part's corridor node next to its gate
+  lies beyond the wall S3 committed, so its last edges ran along the wall's and the setback's lines and folded onto
+  them. The fix: `routesFromSlice` holds each gate part to its side of the committed wall at its gate (`onGateSide`).
+  The points next to the gate that lie on the wrong side, or on the wall, are dropped. The gate is joined to the first
+  point on its side, where that segment meets the wall at the gate only.
+
+The design text taken: §4.3 *One graph, then one smoothing* (each chain inserted once "as a spine — a mandatory chain
+carrying the way role"), §3.10's role consistency (a linear role forms simple chains or rings), §4.3 *Routes* and
+C-0236 (1), (9) (each gate route split at its gate into the street in and the road out). Of the brief's options the
+round takes **route around**. The part is cleaned deterministically before the graph, so each way stays one simple
+chain. No way is split or merged, and the Way and Junction records and the batch's form are unchanged.
+
+The pins:
+* `spines.test.ts` (new): the seven seeds through the base chain. Each asserts that S4 commits with no bug, that every
+  way walks as one simple open path (`wayLine`), and that the class's precondition holds (A1: a spur at an attach point
+  in S4's routes, its node absent from the graph's course; A2: a gate route's corridor node beyond the trace, no inward
+  point keeping it).
+* `commit.test.ts` 'a route part's spur is cut before the graph': the smallest synthetic. The attach point sits on the
+  plaza's side, the first node 9 m beyond it, and the edge back passes 23 cm below it.
+
+Both are red under QA1 / QA2 (the table below) and green after.
+
+The census (J264, N-58):
+* x-06's five class-A fixtures at 1 000 seeds each, before and after (L 10-14, mirror, W=1): class A **7 → 0**
+  (EP-01/S4/self-touching 1 → 0, EP-01/S5a/zero-area 1 → 0, EP-01/S6/zero-length 1 → 0, EP-05/S5d 1 → 0, EP-20/M0
+  3 → 0). Class B (M0-c-02's `layStrips`) is 2 = 2, and every other outcome of the 5 000 runs is unchanged.
+* Two S4-only 300-seed sweeps (L 10-14; the line names their frames 'mid' and 'river'): S4 refusals 0 = 0, S3's 4 = 4
+  on the river frame. The seeds with `offGate` > 0 went 2 → 0 ('mid') and 109 → 32 ('river').
+* This part: every built edge fixture (72) at the PR size, 10 seeds each, after the round with the branches
+  instrumented. Of the 720 runs, refused-lawful 0, problems 0, throws 0 (refused-safe 140, laddered 213, absorbed 257,
+  left-out 20, defined 90). A branch fires on 73 of them: the report-only count (`stretchShared`) on 47, the fallback's
+  kind re-read on 20, the gate-side hold on 7 and the spur cut on 1 (EP-04/S5b 3264554892); two runs fire two.
+* e-06's relief-3000 fixture (bench `spikeRegistry`, S5 idle, S6 dropped; CITY seeds 1 – 8 × default and coarse): S4
+  refused seed 8 before, in both configurations (L 10-14; the census's 1 of 8), and **0 of 16 after**. S3 refuses seeds 1 (`E_INVARIANT`) and
+  4 (`E_SELF_INTERSECT`) in both configurations, upstream of S4. These are e-06 finding 6's S3 refusals, S3's owners'
+  (M0-c-01 / M0-c-02), and are unchanged by this round. The e-06 instance is this class (A2), fixed here.
+
+No count rose. The full x-06 bar (72 fixtures × 1 000 seeds, about 78 worker-hours at fix round 2's rate) was not run
+on this 4-core machine. The scope taken is the class's five fixtures at 1 000, every fixture at 10, and RELATED's edge
+suite. The whole bar is the milestone seat's (N-s3-5).
+
+**The declared shift (rule (3)).**
+* The seven census seeds now commit, where before they were refused. Their S4 output on the small flat frame
+  (4078456246, 1104735897, 2787492733, 1625622056) is 4 ways each; on EP-20 (1334794515, 3068986432, 3296267945) it is
+  14 ways each. Every one has `offGate` 0, `stretchShared` 0, `unsmoothed` 0 and no part unserved; the probe prints
+  (SHA-256 of the way edges, the network and the report, 16 hex) are 828c24f4f2a05e30, 6f44f1e071845952,
+  bd4016e0b6954544, a7d6567f277ab925, e427e9b67ddb68fe, a77ddf6ea2584941 and 4fb32e1fd08abb2a.
+* Elsewhere, the first part's NO-SHIFT probe (L 10-14, before against after, 125 cases) found 101 cases byte-identical
+  and 2 report-only (`stretchShared` 1 → 0 on small:5 and smallFlat:7). It found 22 arena shifts: the 7 census seeds,
+  smallFlat:26 (a spur cut) and 14 gate-side repairs.
+* This part's attribution probe ran on 122 cases: CITY 1 – 12, `smallSite` 1 – 6, the hand-built river 1 – 3, the
+  small river frame 1 – 30 and its 4 registered seeds, the small flat frame 1 – 30 and the 4 census seeds, and EP-20
+  1 – 30 and its 3. An arena-changing branch fires on exactly 22 of them: the 7 census seeds, smallFlat:26 (the spur,
+  `gate:0/in`), and the gate-side hold on small river 8, 9, 14, 16, 19, 20, 21, 24, 29 and 3207739920, small flat 6, and
+  EP-20 4, 12 and 29. Report-only: small:5 (1 → 0), smallFlat:7 (1 → 0) and EP-20:23 (2 → 0). The fold's loop cut, the
+  per-crossing band and the fallback's kind re-read fire on none of the 122.
+* On the brief's NO-SHIFT set (CITY 1 – 12, small 1 – 6, river 1 – 3, small river 1 – 30): CITY, small and river are
+  identical except small:5's report count. On the small river frame, 9 seeds move by the gate-side hold (8, 9, 14, 16,
+  19, 20, 21, 24, 29). Each is a seed that committed before with a part meeting the wall off its gate, now held to its
+  side: the defect fixed, not a seed refused before. Seed 27 refuses at S3 before and after (N-c1b-3's).
+* No golden or digest in the owns records S4's output (the backbone's tests assert properties), so none is re-recorded.
+
+**The fourteen rows.**
+
+| row (source note) | outcome | evidence |
+|---|---|---|
+| 1 (note 1) `report.offGate` positive control | PINNED | `stage.test.ts` 'counts each outward part … and each inward one': S3's committed wall scaled about its centre by 1.02 (every gate inside it: every outward part's first segment meets it off its gate) and 0.98 (every inward part's), `wallCrossings` = every main gate's `/out`, then `/in`; 0 on the wall as committed. X29 (the outward count removed) and X29i (the inward one) red. |
+| 2 (note 2) `stretchShared` mixes shares with a non-way ring | FIXED | The first alternative, the count of way–way shares: the report now counts the way edges two or more ways share, read from the arena after the batch (`k.resolve` of each way's runs). The second alternative (keeping the chain's second vertex `attractCm` off the plaza ring) would move geometry §3.6's attraction lays by design. §4.3's "never braided near-duplicates" is a way–way measure. Pins: `commit.test.ts` 'counts only the shares between ways … (smallSite 5)' (precondition: an edge carries a way row and the plaza's reserved row; no edge two ways' rows; the count 0) and the positive control now asserting the count equals the shared edges. S2 (the old warning count) red. The field's meaning narrows as the row asks; its name and type are unchanged (J263 Q1). |
+| 4 (note 4) the fold's splice can make a loop | FIXED | `foldParallel` cuts a loop its splice makes (the merge's `cutLoops`, when the spliced course revisits a point not in place). Pin: `graph.test.ts` 'cuts a loop the splice makes …'. F4 (no cut) red. Live on e-06's relief-3000 (seeds 2, 3, 5, 6, 7), on none of the 122 probe cases. |
+| 6 (note 6) §4.3 *Test*: every deck's way within ± 10° of the channel normal | PINNED | `frame.test.ts` '<seed>: every deck's way — its span — within ± 10° of the channel normal' on x-06's small river frame (the base chain's S1 river from the west) at 22 and 3418200249. The normal is that of S1's course chord at the vertex nearest the span's midpoint, and each span is its way's one edge between the deck ends, its bridge built with that way. Not on M0-e-06's fixture, as the inventory reads: that fixture is bench code, and a layout test reads only its own package (C-0114, C-0122). The clause is the same, on the same S1 river law, at plain relief. D6 (the span's far end moved to the dry node after the run) and D6b (its near end to the node before) red there and in `span.test.ts`. |
+| 8 (note 8) §13.2's walk follows arena edge order | FIXED (test) | `backbone.test.ts` `worstParallelRun` walks each way's `wayLine(...)`. Pin: 'a run is summed along the way, whatever order the arena lists its edges in' (two 10 m near runs split by a far middle, listed first, last, middle). W8b (the walk over the edge list in its order) red. W8, a flattened point-list walk, survives: its doubled-back stretch ends at the other way's end, which the measure excludes (N-s3-3). |
+| 9 (note 9) the T band's edges | PINNED | `commit.test.ts` 'a branch 74° or 106° … is a Y; 76° or 104° a T': [Y, T, T, Y]. N04 (70° – 110°) red. |
+| 10 (note 10) class from the first chain; knot on the run's first chain | PINNED | `commit.test.ts` 'a primary run of two chains, then a through chain …': three inward parts, the first way's chains primary, primary, through. The way is through, its profile [primary, through], and its two knots on the vertex (100 m, 0) where the class changes. N08 (the class from the first chain) and N09 (the knot pair on the run's first chain) red. The fixture shares its gate end (r1, r2) as the inventory asks, and a third part (r3) crossing r1 makes the two-chain run. |
+| 12 (note 12) junction kinds from the smoothed courses after a fallback | FIXED | After the kernel refuses the smoothed batch and the lattice courses commit, the kinds are re-read from the lattice courses (`junctionsOn(raw)`). Pin: `commit.test.ts` 'junction kinds after the fallback …': a 45° branch the Y → T rule bends is a T when the smoothed batch commits, and a Y when a planted refusal of the first S4 `tx` sends it to the lattice courses (two `tx` calls). K12 (no re-read) red. Live in the edge sweep: EP-01/S4/zero-length and self-touching, 20 of 20 runs (S4's home plants a degenerate chain the smoothed batch refuses), every outcome within its home's allowed handlings. |
+| 14 (note 14) the band measured once from the first deck given up | FIXED | §5.2 read per crossing: every crossing of the course whose approach cannot meet the radius is given up at once. A deck is impassable beyond the band of each deck given up so far, except the decks the course crossed with a usable approach (`route.ts` `routeLadder`). Pin: `route.test.ts` 'two rivers, both crossings failing their approach …'. The second river's usable site lies in its own crossing's band and beyond the first's; the course takes the usable site on each river, the rung `another_site` held. ZB (the band from the first deck only, Z10's form) red. It fires on none of the 122 probe cases or the 720 sweep runs. |
+| 15 (note 15) Z09, Z11, Z16 | PINNED (Z11, Z16); Z09 EQUIVALENT | `route.test.ts` 'the band's edge is inclusive …' (a site exactly the band away is taken; Z11 `>=` red) and 'the band is measured between the decks' midpoints …' (Z16, the distance to the deck's end `a`, red on both). Z09 ('keep every crossing of the course passable') survives and is equivalent under the per-crossing rule. Every crossing whose approach fails is given up after the kept set is filled, so the kept set is the same on every input. No test is needed. |
+| 16 (note 16) the slope rung after a failed band search | PINNED | `route.test.ts` 'after a failed band search the slope rung runs …'. The river stops short of the frame's north edge, the ground beyond its end stands 1 m higher (too steep for through at 0.01, not for primary), and the only other site lies beyond the band. The rungs are exactly another_site (held: false, 'no other site in the band'), extra_bridge (notBuilt(M1)), slope through → primary (held). Z17 (the slope rung skipped once a deck is given up) and Z18 (the given-up deck kept, so the rung is reported again) red. |
+| N-c1b-1 `directionCdeg`'s scale | PINNED | `junctions.test.ts` 'is counter-clockwise from +x in cdeg …': 0, 9 000, 18 000, 27 000 on the axes, 31 500 on (1, −1). A01 (× 0.99) red. |
+| N-c1b-2 / N-c1c-2 `routeGraph`'s own 30° cone | PINNED | `route.test.ts` 'two decks 10 m apart at their west ends, 45° to each other: every carried edge within 30° of its own deck', each deck carrying ≥ 2 edges. A04 (the cone 60°) red. |
+| N-c1c-1 the fold's nearness measure | PINNED | `graph.test.ts` 'measures the run's nearness to the earlier part's segments, not its vertices …': a part 20 m off the middle of a 200 m segment, beyond the 40 m separation from both its ends, folds. R04 (the distance to the segment's first vertex) red. |
+
+**Mutants** (targeted, re-run in this part in the lane's one mirror
+`scratchpad/waves/selfcheck-build-M0-c-03-fix-s3`, isolation proved, each run over the backbone folder with
+`--maxWorkers=1`, without `--bail` so that every red test is named, then each file restored and `cmp`-checked; the
+unmutated folder 113/113). The first part's line (L 10-14) records the same kills.
+
+| id | where | the fault | result (passed / 113, the reds) |
+|---|---|---|---|
+| QA1 | commit `commitRoutes` | no spur cut | 108: `spines` 4 attach-end seeds, `commit` spur synthetic |
+| QA2 | stage `onGateSide` | returns the part as given | 110: `spines` 3 gate-end seeds |
+| X29 | stage `routesFromSlice` | the outward part's off-gate count removed | 112: `stage` off-gate count |
+| X29i | stage `routesFromSlice` | the inward part's removed | 112: same |
+| S2 | commit report | `stretchShared` = the kernel's `W_STRETCH_SHARED` count | 112: `commit` smallSite 5 |
+| F4 | graph `foldParallel` | no loop cut after the splice | 112: `graph` note 4 |
+| D6 | stage `pointsOf` | the span's far end at the dry node after the run | 108: `frame` 22, 3418200249; `span` 1 – 3 |
+| D6b | stage `pointsOf` | the span's near end at the node before | 109: `frame` 22; `span` 1 – 3 |
+| W8b | test `worstParallelRun` | the walk over the arena's edge list in its order | 112: `backbone` note 8 |
+| W8 | test `worstParallelRun` | the walk over the flattened edge list | survives (N-s3-3) |
+| N04 | commit `junctionKind` | the T band 70° – 110° | 112: `commit` note 9 |
+| N08 | commit way record | the class from the first chain | 112: `commit` note 10 |
+| N09 | commit way record | the knot pair on the run's first chain | 112: same |
+| K12 | commit fallback | the kinds not re-read | 112: `commit` note 12 |
+| ZB | route `routeLadder` | the band from the first deck given up only | 112: `route` note 14 |
+| Z09 | route `routeLadder` | every crossing kept passable | survives, equivalent (row 15) |
+| Z11 | route `routeLadder` | the band's edge strict | 112: `route` note 15 (Z11) |
+| Z16 | route `routeLadder` | the band to the deck's end `a` | 111: `route` note 15 (Z11, Z16) |
+| Z17 | route `routeLadder` | the slope rung skipped once a deck is given up | 112: `route` note 16 |
+| Z18 | route `routeLadder` | the given-up deck kept after the failed band search | 112: same |
+| A01 | junctions `directionCdeg` | × 0.99 | 112: `junctions` N-c1b-1 |
+| A04 | route `routeGraph` | its cone 60° | 112: `route` N-c1b-2 |
+| R04 | graph `foldParallel` | the distance to the segment's first vertex | 112: `graph` N-c1c-1 |
+
+**API (J263 Q1, Q6).** No export of `src/backbone/index.ts` or `src/index.ts` was added, removed or renamed. Both files
+are byte-identical to the C1 landed record (`7d48495b…` for the folder index). `S4Report.offGate` and `stretchShared`
+keep their names and types; their doc comments now say what they count. No row asks for a message change, and none
+was made for one.
+
+**Gates** (the tree, this round's final files; 2026-10-18): `install --frozen-lockfile` 0; `lint` 0 (eslint 1 162
+files, 0 errors, probe-red ok, 9 whole-tree checks); `build` 0; NEAR `packages/layout/test/backbone/` 12 files 113/113 at
+full strength (W=1); RELATED@1000 over `commit.ts`, `graph.ts`, `route.ts`, `stage.ts`, `types.ts` (the tree, W=1, 2026-10-18 22:49 –
+2026-10-19 00:25, 5 757 s; a first attempt from 22:11 was killed by a container restart and gave no verdict): exit 0,
+219 test files / 2 662 tests passed, no red (none of the J176 bench files or the known foreign reds failed), on the
+final sources (SHA-256 of the nine backbone sources checked unchanged before and after the run).
+
+**Notes for the session and M4.**
+* **N-s3-1** (for S3's owners; fails safe) `offGate` stays above 0 after the gate-side hold where the committed trace
+  lies far from the lattice route at the gate: 32 of 300 small-river seeds (L 10-14), small river 21 (1), and e-06's
+  relief-3000 seeds 2 – 8 (4 – 6 parts each). The parts commit valid and are counted, and none is refused. The shape is
+  S3's trace and S3's gate route split at different places. One fix shape is the trace's gate vertex and the route's
+  split agreeing (M0-c-01 / M0-c-02); another is S4 re-solving a part's stretch beyond the corridor against the
+  committed wall (a later hardening of c-03). CONFIRMED (the counts), PLAUSIBLE (the cause beyond the A2 seeds).
+* **N-s3-2** (for the session) e-06's recorded summary (`summaries/M0-e-06.json`, e-06's file) is stale for S4's
+  output on relief-3000. Seed 8 now commits, and seeds 2, 3, 5, 6 and 7 shift (the gate-side hold, and on 2, 3, 5, 6, 7
+  the fold's loop cut). It is not edited here, and e-06's next run re-records it. Likewise x-06's EP-01/S4 outcomes
+  (`testkit/src/edge/ep01.ts`) quote `stretchShared` in their rung text, which now reads the way–way count: 0 where the
+  kernel's warning count read 1 – 11 (zero-area, collinear, coincident). Their handling is unchanged (absorbed), and
+  x-06's summary does not record the count.
+* **N-s3-3** (M4) W8 survives row 8's pin. A walk over the flattened edge list doubles back over a way's end stretch,
+  and in the pin's fixture that stretch ends at the other way's end, which the measure excludes. The code walks
+  `wayLine`. The note's fault (W8b) is red. A second fixture with the other way's ends far from the runs would kill W8.
+  CONFIRMED (survival).
+* **N-s3-4** (for the session; disclosure) In this seat's second part the seat ran four read-only git commands before
+  it re-read the working rules: `git status --short`, `git log --oneline | head`, and a `git log` and `git diff --stat`
+  against `23d13d5` (both refused: bad revision). The rules forbid any git command. Nothing was written, and their output
+  (the tree's modified-file list and main's last five subjects) shaped no change. It is recorded in L-0613.
+* **N-s3-5** (for the milestone seat) the x-06 edge bar at 1 000 seeds over all 72 fixtures was not run (scope above).
+
+## Closing check of S3 (lane `check/M0-c-03-close-s3`, 2026-10-19), for M4 and the session
+
+The verdict is `checks/M0-c-03-s3.md`: FAIL, on two blockers in the gate-side hold, B-N1 and B-N2, which go back to the
+fix round. The rows below are this seat's non-blocking findings (ledger L-0614).
+
+| id | observation | suggested handling | milestone |
+|---|---|---|---|
+| N-c3-1 | **The spur cut's side guard is unpinned (QA1g survives).** QA1g drops `withoutSpurs`'s `if (!avoid.some((side) => meetsOff(a, b, side, [a, b])))`, so a spur is cut even when the shortcut meets the plaza's, the wall's or the water's sides. NEAR stays 113 / 113. It is byte-identical to the tree on NO-SHIFT's 122 cases and on e-06 relief-3000 seeds 2, 3 and 8, and no honest probe reaches it. It fails safe: a lattice course that crosses one of those sides after the fallbacks is refused `E_INVARIANT` (`commit.ts` header, `:446`). CONFIRMED (survival, the probes); PLAUSIBLE (fail-safe, by reading). | A synthetic `commitRoutes` part whose spur's shortcut would cut the plaza's corner, asserting that the point is kept | M4 |
+| N-c3-2 | **`partLeavesWall` excuses every segment that meets the wall on the gate's own wall edge.** That covers a segment running along that edge, or within cm of it, from the gate. So neither the gate-side hold's guard nor `offGate` sees a gate street laid along the wall. The function predates S3 (main's text is the same). The round's hold made it live on honest seeds (B-N1: small river 9, EP-20 3068986432). CONFIRMED (the committed edges); PLAUSIBLE (the mechanism). | Close it with B-N1's fix: count a segment that overlaps, or runs within `attractCm` of, the gate's wall edge beyond the gate. If the fix round closes B-N1 another way, this row stays for M4 | with B-N1; else M4 |
+
+## Hardening round S4 (lane `build/M0-c-03-fix-s4`, 2026-10-19 and 2026-10-20): the builder's outcome on B-N1 and B-N2
+
+The fix round of the closing check of S3 (`checks/M0-c-03-s3.md`: FAIL on B-N1 and B-N2, both in the gate-side hold
+`stage.ts` `onGateSide`). Choices row C-0404, ledger row L-0615. The seat ran in two parts. The first part ran on
+2026-10-19 from 12:11 until the account's five-hour window stopped it at about 15:05 (its CHECKPOINT lines; marked
+(L 10-19)): the reproduction, the fix, the pins, red-before, NO-SHIFT, the census, the sweep and e-06. Its mirror and
+logs went with it. The second part ran on 2026-10-20 from 15:27 in a fresh child (J408 (3) (b)) under the CONTINUE
+RULE: it read the tree's `stage.ts`, `stage.test.ts` and `spines.test.ts` whole, kept them, rebuilt the mirror, re-ran
+the self-check mutants and the red-before, added one pin (below), ran the gates and RELATED, and wrote these notes. No
+source file was edited in the second part. The first part's lines record no source edit after 12:24, so the census,
+sweep and e-06 figures below are quoted from them (L 10-19); their logs are gone, and that identity rests on the lines
+(PLAUSIBLE), while the pins below were re-run in the second part (CONFIRMED).
+
+**B-N1 — FIXED (the hold made it; the count missed it).** Two changes, both in `stage.ts`:
+* *The hold's guard.* `onGateSide` joins the gate to the first point on its side only where that segment meets the
+  wall at the gate alone (`partLeavesWall`, as in S3) **and** keeps `attractCm` clear of it beyond the gate
+  (`joinNearWall`, new): the far point not within `attractCm` (`TOUCH_CM` = `LATTICE.attractCm`, 26 cm) of any wall
+  side, and no wall vertex farther than `attractCm` from the gate within `attractCm` of the segment. §3.6's insertion
+  lands a point that near on the wall and routes a segment through every wall vertex it passes that near, so such a
+  join would be laid along the wall. Otherwise the part is kept as given (the brief's second alternative: detect and
+  keep, not make a new course). On small river 9 the join from the gate (15278, 2087) to the first node inside passed
+  the wall vertex (11522, 1159) 15 cm off (L 10-19); it is refused now, and `gate:1/in` keeps its nodes beyond the
+  wall next to the gate (… 9693,-175 → 12749,386 → 13861,2083 → 15278,2087), crossing the wall off its gate and
+  counted, `offGate` 1, as before S3.
+* *The count.* `report.offGate` is now the number of parts that meet the wall off their gate (`partLeavesWall` on the
+  course, as before) **or** whose committed way runs along the wall: a way edge that carries the wall's row too, read
+  from the arena after the batch (`partsAlongWall`; the edge matched by its id, `⌊h / 2⌋`, whichever way the way and
+  the wall run it), the part being the way's first route. EP-20 3068986432's `gate:0/out` is of the second kind and
+  not the hold's: its first corridor node lies 16 cm outside the wall's side, and the insertion lays the outward way
+  along it (L 10-19). It commits as before and is counted now (`offGate` 0 → 1).
+* N-c3-2 (the gate-edge loophole of `partLeavesWall`) is closed for both uses where it bit: the hold's join is judged
+  by `joinNearWall` too, and the committed result by the arena read. `partLeavesWall` itself is unchanged.
+
+**B-N2 — PINNED.** QA2g (the hold's `partLeavesWall` guard deleted) is red on two tests: `spines.test.ts` 'small river
+1192931101: a join crossing the wall elsewhere is refused, the part kept as given and counted' (its `gate:0/in` ends
+… -7669,4665 → -9873,4587 → -11202,6534 → -12082,7651, no way edge on the wall, `offGate` 1) and `stage.test.ts`
+'keeps the part as given when the join meets the wall elsewhere (a dent between the gate and the point)', the
+synthetic the brief offers, which `joinNearWall` does not catch (the dent's vertices lie 164 cm and more from the
+join), so it holds the `partLeavesWall` guard alone.
+
+**The pins** (`stage.test.ts` "onGateSide's hold and its guard (c-03 S3, S4)": the hold on a square wall, the dent,
+a wall vertex 5.6 cm from the join against 30 cm, the far end within `attractCm` of a side; `spines.test.ts` "the gate
+end's hold never lays a way along the wall uncounted": small river 9, small river 1192931101, EP-20 3068986432, and —
+added in the second part — small river 36 and EP-20 121). Red before the fix: mutant G12 (the S3 code's behaviour:
+no `joinNearWall` guard and `offGate` the course count only) gives 6 reds over the two files without `--bail`: small
+river 9, EP-20 3068986432, small river 36, EP-20 121, the vertex-near and the end-near synthetics; green on the fix
+(21 / 21 in the two files, 122 / 122 in the folder).
+
+*Why small river 36 and EP-20 121.* Mutant A-halfedge (the arena read matching half-edges, not edges) survived the
+folder: on every seed the pins named, the way runs the wall's edges in the wall's own direction. A probe in the mirror
+(small river 1 – 60, small flat 1 – 60, EP-20 1 – 150; `partsAlongWall` instrumented) found ways laid along the wall at
+EP-20 65 and 121 and small river 32, 36, 43 and 52, every one counted (`offGate` 1), small flat none; on small river
+36 and EP-20 121 the way runs against the wall's direction and no point or segment of its course meets the wall off
+its gate, so only the arena read counts it. Both are pinned; A-halfedge is red on both. Small river 27 stops at S3
+(N-c1b-3's, unchanged).
+
+**The declared shift (restated, rule (3)).**
+* NO-SHIFT, the 122 cases of the S3 checker's set (L 10-19, mirror, byte-for-byte against the S3 tree): 120
+  byte-identical. Small river 9 changes the arena: the hold's join is refused and `gate:1/in` is kept as given,
+  crossing the wall at its gate's spike, `offGate` 0 → 1 — **not** "the defect fixed", as S3's notes called it: S3's
+  hold had laid that part on the wall uncounted (B-N1), and this round returns it to the course the slice gave,
+  counted. That course still crossing the wall is N-s3-1's class (S3's trace and its gate route split apart; S3's
+  owners'). EP-20 3068986432 is report-only: the arena is unchanged and `offGate` 0 → 1 (the outward way on the wall,
+  now counted).
+* Beyond that set: the along-wall parts the probe found (EP-20 65, 121; small river 32, 36, 43, 52) are counted now;
+  under G12 small river 36 and EP-20 121 report `offGate` 0 (their red above), so the S3 code left them uncounted.
+* No golden or digest in the owns records S4's output, so none is re-recorded. e-06's relief-3000 S4 digests are
+  unchanged against S3's (below), so N-s3-2's note on e-06's summary stands as it was.
+
+**Refusals (J264, N-58), before (the S3 tree) → after.** Every figure is S4's lawful refusals on lawful input; no count
+rose.
+* x-06's five class-A fixtures × 1 000 seeds (L 10-19, mirror, W=1, 12:29 – 13:47): identical to S3's after on 5 000 /
+  5 000 (handling, rung, lawful list): class A 0 = 0; class B 2 = 2 (S5 `layStrips` `E_INVARIANT` 35167633 and
+  1908460072: M0-c-02's, routed, LAWFUL, MAKE-IT-SUCCEED at its owner).
+* Every built edge fixture (72) × seeds 10 – 19 (L 10-19, mirror, W=1): 720 runs identical to S3's after (handling,
+  rung, judge, lawful refusals 0 = 0, problems).
+* e-06 relief-3000 × seeds 1 – 8 × default / coarse (L 10-19, mirror, W=1): S4 digests identical to S3's after on
+  16 / 16; S4 refused 0 = 0; S3 refuses seeds 1 and 4 in both configurations, upstream, unchanged (e-06 finding 6's,
+  S3's owners').
+* NO-SHIFT 122: S4 refusals 0 = 0. The second part's probe (270 runs): S4 refusals 0; one S3 stop (small river 27).
+
+**Mutants** (the second part, the lane's one mirror `/home/user/maps-scratch/waves/selfcheck-build-M0-c-03-fix-s4`,
+isolation proved, W=1, `--bail=1` over the backbone folder, each `stage.ts` restored and `cmp`-checked; the
+unmutated folder green). The first part's 8 mutants (L 10-19) went with its mirror and were re-run.
+
+| id | the fault (`stage.ts`) | result |
+|---|---|---|
+| G1 | `joinNearWall` guard deleted from `onGateSide` | red: `spines` small river 9 |
+| G2 | `offGate` = the course count only (no arena read) | red: `spines` EP-20 3068986432 |
+| G12 | both (the S3 code's behaviour) | red: 6 without bail (above) |
+| QA2g | `onGateSide`'s `partLeavesWall` guard deleted (B-N2) | red: `spines` small river 1192931101; `stage` the dent (both, without bail) |
+| QA2g+G1 | both guards deleted | red: `spines` small river 9 |
+| J-vertex | `joinNearWall` without its wall-vertex clause | red: `spines` small river 9 |
+| J-end | `joinNearWall` without its far-end clause | red: `stage` far end within `attractCm` |
+| J-r1 | `joinNearWall`'s radius 1 cm | red: `stage` vertex within `attractCm` |
+| J-gate | the vertex clause without the gate's own `attractCm` excluded | red: `stage` vertex within `attractCm` |
+| A-halfedge | `partsAlongWall` by half-edge | survived the folder; after the pins red: `spines` small river 36, EP-20 121 |
+| QA2 | `onGateSide` returns the part as given | red: `spines` EP-20 1334794515 |
+
+**API (J263 Q1).** `src/backbone/index.ts` and `src/index.ts` unchanged. `S4Report.offGate` keeps its name and type;
+its meaning widens as C-0236 (9) reads it (a part laid along the wall is a part meeting it off its gate).
+`joinNearWall` and `partsAlongWall` are module-private.
+
+**Gates** (the tree, the final files, 2026-10-20): `install --frozen-lockfile` 0; `lint` 0 (eslint 1 162 files, 0
+errors, probe-red ok, 9 whole-tree checks); `build` 0 (`tsc -b` ok); NEAR `packages/layout/test/backbone/` 12 files
+122 / 122 at full strength (W=1); RELATED@1000 over `commit.ts`, `graph.ts`, `route.ts`, `stage.ts`, `types.ts` (the
+tree, W=1, 2026-10-20 15:54 – 17:38, 6 240 s): exit 0, 219 test files / 2 671 tests passed, no red (none of the J176
+bench files or the known foreign reds failed), on the final sources (SHA-256 of the nine backbone sources checked
+unchanged before and after the run).
+
+**Notes for the session and M4.**
+* **N-s4-1** (M4; fails safe) A part laid along the wall by the insertion is counted, not re-routed. C-0236 (9) reads
+  "counted … and its chains fall back as in (12)", and (12)'s fallback runs before the batch on the course, which
+  meets the wall at the gate only; the attraction lays it on the wall inside the batch, so no check of the course
+  sees it, and a fallback after the batch would be a second batch (new machinery). The probe's rate: 6 of 270 runs
+  (EP-20 2 / 150, small river 4 / 60, small flat 0 / 60). Each commits valid, every way one simple path, and counted.
+  A fix shape: the validation of (12) judging a course within `attractCm` of the wall off the gate, then the
+  lattice course, then the count. CONFIRMED (the counts), PLAUSIBLE (the mechanism beyond EP-20 3068986432).
+* **N-s4-2** (for the session) The census, sweep and e-06 figures are quoted from the first part's CHECKPOINT lines
+  (their logs went with the stopped container); no source edit is recorded after 12:24 and none was made in the
+  second part. A closing checker re-measures them under its own CONFIRM.

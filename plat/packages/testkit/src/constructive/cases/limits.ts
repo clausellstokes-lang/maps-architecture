@@ -216,12 +216,17 @@ function buildSnapPasses(d: Draw): ConstructiveInput {
 }
 
 function buildHalvings(d: Draw): ConstructiveInput {
-  // p stands exactly minEdge from q; the drag pulls p toward q by δ ≥ 512 cm, so even δ / 2⁸ shortens the edge.
-  const delta = d.int(512, 2048);
-  const r = { x: MIN_EDGE, y: d.log(300, 1 << 16) };
+  // p stands D cm from q, D in (attractCm, 32] — beyond attractCm, so insertion keeps p as its own vertex (M0-k-04's
+  // N-2, KI-2: at D = minEdge it sat inside attractCm and was attracted onto q, leaving the warp nothing to halve) — and
+  // the drag pulls p toward q by δ ≥ 2⁸ · (D − minEdge + 1) cm, so even the eighth halving's step δ / 2⁸ ≥ D − 24 cm puts
+  // p at most 24 cm from q: every strength shortens the edge below minEdge or carries p through q (§3.6's whole-step
+  // validation), and the step is a no-op after 8 halvings (§3.11 the caps).
+  const D = d.int(ATTRACT + 1, 32);
+  const delta = d.int(256 * (D - MIN_EDGE + 1), 2048);
+  const r = { x: D, y: d.log(300, 1 << 16) };
   const placed = place(d, {
-    chains: { chain: [{ x: 0, y: 0 }, { x: MIN_EDGE, y: 0 }, r] },
-    rings: { region: rect(MIN_EDGE - 10, -10, 20, 20) },
+    chains: { chain: [{ x: 0, y: 0 }, { x: D, y: 0 }, r] },
+    rings: { region: rect(D - 10, -10, 20, 20) },
     points: { origin: { x: 0, y: 0 }, drag: { x: -delta, y: 0 } },
   });
   const o = placed.points.origin;
@@ -705,9 +710,17 @@ export const LIMIT_CASES: readonly ConstructiveCase[] = Object.freeze([
     expect: { outcome: 'ok', holds: ['step-halved', 'hard-invariants'], clause: '≤ 8 halvings of a move step, then a reported no-op (§3.6)' },
     build: buildHalvings,
     witness: (input) => {
+      // Exact integers: q → p and the drag lie on one lattice axis (a symmetry of the square keeps them so).
       const [q, p] = input.chains.chain;
-      const drag = (input.params.dragX as number) ** 2 + (input.params.dragY as number) ** 2;
-      return d2(q, p) === MIN_EDGE * MIN_EDGE && drag >= 512 * 512 ? null : 'the edge is not exactly minEdge or the drag is below 2⁹ cm';
+      const dx = input.params.dragX as number;
+      const dy = input.params.dragY as number;
+      const ux = p.x - q.x;
+      const uy = p.y - q.y;
+      const D = Math.abs(ux) + Math.abs(uy);
+      const delta = Math.abs(dx) + Math.abs(dy);
+      if ((ux !== 0 && uy !== 0) || (dx !== 0 && dy !== 0) || ux * dx + uy * dy >= 0) return 'the drag does not pull p straight toward q';
+      if (!(D > ATTRACT)) return `p stands ${String(D)} cm from q, within attractCm (insertion attracts it onto q)`;
+      return delta >= 256 * (D - MIN_EDGE + 1) ? null : 'the eighth halving would leave the edge at least minEdge long';
     },
   }),
   m0Case({
@@ -906,6 +919,9 @@ export const LIMIT_CASES: readonly ConstructiveCase[] = Object.freeze([
     expect: {
       outcome: 'ok',
       holds: ['same-code-every-rung', 'in-range', 'children-tile-parent'],
+      // same-code-every-rung reads the two lattice constants every rung reads: a static reading that no draw's code path
+      // can fail (M0-k-04's N-11); in-range and children-tile-parent judge the rungs' code paths on every draw.
+      staticHolds: ['same-code-every-rung'],
       clause: 'one kernel with no rung-specific number: the lattice constants fixed, the range invariant at the largest frame, the bands, the skeleton and the booleans the same code at every size',
     },
     build: buildEveryRung,

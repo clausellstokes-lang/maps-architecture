@@ -31,25 +31,55 @@ function renumbered(face: KerbFace, starts: readonly number[], reverse: readonly
   return { rings: [rings[0], ...order.map((i) => holes[i])] as LatticePoint[][], spines: face.spines };
 }
 
+/** One renumbering case per this many of the global fast-check size (PLAT_FUZZ_RUNS): 200 a face at the PR size 10⁴. */
+const RUNS_PER_CASE = 50;
+
+/** The renumbering property's cases per face: the global size ÷ 50, at least 1 — so the nightly size scales it. */
+function renumberRuns(): number {
+  const n = fc.readConfigureGlobal().numRuns ?? 100;
+  return Math.max(1, Math.ceil(n / RUNS_PER_CASE));
+}
+
+/** The renumbering property on one face, at `numRuns` cases; returns how many cases ran. */
+function renumberProperty(face: KerbFace, numRuns: number): number {
+  let ran = 0;
+  fc.assert(
+    fc.property(
+      fc.array(fc.nat(400), { minLength: 1, maxLength: 3 }),
+      fc.array(fc.boolean(), { minLength: 1, maxLength: 3 }),
+      fc.integer({ min: 1, max: 1000 }),
+      (starts, reverse, seed) => {
+        ran += 1;
+        const want = snapshot(planCut(face, CTX, streamsFor(seed)));
+        const got = snapshot(planCut(renumbered(face, starts, reverse, []), CTX, streamsFor(seed)));
+        expect(got).toBe(want);
+      },
+    ),
+    { numRuns },
+  );
+  return ran;
+}
+
 describe('the planner is deterministic under slot renumbering', () => {
   for (const name of FACE_NAMES) {
     it(`${name}: any first vertex, either orientation, any hole order → the same plan`, () => {
-      const face = FACES[name];
-      fc.assert(
-        fc.property(
-          fc.array(fc.nat(400), { minLength: 1, maxLength: 3 }),
-          fc.array(fc.boolean(), { minLength: 1, maxLength: 3 }),
-          fc.integer({ min: 1, max: 1000 }),
-          (starts, reverse, seed) => {
-            const want = snapshot(planCut(face, CTX, streamsFor(seed)));
-            const got = snapshot(planCut(renumbered(face, starts, reverse, []), CTX, streamsFor(seed)));
-            expect(got).toBe(want);
-          },
-        ),
-        { numRuns: 200 },
-      );
+      expect(renumberProperty(FACES[name], renumberRuns())).toBe(renumberRuns());
     });
   }
+
+  it('sizes the renumbering property by the global fast-check size: ⌈PLAT_FUZZ_RUNS ÷ 50⌉ cases a face', () => {
+    const saved = fc.readConfigureGlobal();
+    try {
+      for (const [global, want] of [[10_000, 200], [1_000, 20], [1_000_000, 20_000], [30, 1]] as const) {
+        fc.configureGlobal({ ...saved, numRuns: global });
+        expect(renumberRuns()).toBe(want);
+      }
+      fc.configureGlobal({ ...saved, numRuns: 1_000 });
+      expect(renumberProperty(FACES.triangle, renumberRuns())).toBe(20);
+    } finally {
+      fc.configureGlobal(saved);
+    }
+  });
 
   it('a holed face with two holes in either order plans the same cut', () => {
     const outer = FACES.holed.rings[0];

@@ -1,9 +1,11 @@
-// Plane helpers of the S3 slice (M0-c-01), the package's one home of exact plane geometry: the checked quotient,
+// Plane helpers of the S3 slice (M0-c-01), the package's shared home of exact plane geometry: the checked quotient,
 // compass bearings, angular gaps, point-in-ring and segment tests and distances on values in cm, and the shared
 // constants (π, centidegrees per radian, cm² per hectare). The package's other folders import them by path; the siting
-// index lists five of them. Every real function other than + − × ÷ and √ goes through the kernel's dmath (§6.5 (2));
-// every division by a variable through `ratio` (§3.2 (8), C-0044). Bearings follow M0-e-01's convention: compass
-// centidegrees clockwise from north (+y), the direction (sin θ, cos θ), in [0, 36 000).
+// index lists five of them. It is not the only home: after the consolidation rounds (R1 – R11) some folders keep
+// predicates of their own (enceinte/plane.ts's, infill/bentCutFabric.ts's private even–odd `insideRing`), so a
+// change here does not reach them (N-c1c-6). Every real function other than + − × ÷ and √ goes through the kernel's
+// dmath (§6.5 (2)); every division by a variable through `ratio` (§3.2 (8), C-0044). Bearings follow M0-e-01's
+// convention: compass centidegrees clockwise from north (+y), the direction (sin θ, cos θ), in [0, 36 000).
 import { dmath, orient2d, ratio, snap, type LatticePoint, type RatioKind } from '@plat/kernel';
 
 /** A point in cm (values, not arena slots). */

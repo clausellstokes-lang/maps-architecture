@@ -91,6 +91,15 @@ describe('the whole-tree check inline-directives', () => {
     expect(checkInlineDirectives(root)).toEqual({ ok: false, problems: [r.fatal], counts: { files: 1, directives: 0 } });
   }, LINT_TIMEOUT);
 
+  // Hardening round S1 (L14, note N7): a `.cjs` closure file is read as CommonJS (standalone.mjs), as ESLint's default
+  // and the tree's plat/parse-cjs entry read it, so sloppy-mode code in it parses; as module code `with` would not.
+  it('reads a .cjs closure file as CommonJS: a sloppy-mode construct parses and its directives are read (N7)', () => {
+    const root = tree({ 'packages/kernel/src/legacy.cjs': 'var o = {}; with (o) {}\n// eslint-disable-next-line plat/ratio-division -- vetted\nmodule.exports = o;\n' });
+    const r = directivesOf(new Linter({ cwd: root }), root, 'packages/kernel/src/legacy.cjs');
+    expect(r).toEqual({ directives: [{ line: 2, text: '// eslint-disable-next-line plat/ratio-division -- vetted', allowed: true }] });
+    expect(checkInlineDirectives(root)).toEqual({ ok: true, problems: [], counts: { files: 1, directives: 1 } });
+  }, LINT_TIMEOUT);
+
   it('reads no JSON data the closure reaches: C-0005\'s registries are data, not model code (the checker\'s B1, C-0131)', () => {
     const root = tree({
       'packages/kernel/src/arena/roles.json': '{ "version": 1, "roles": [{ "id": 0, "name": "zz-wall" }] }\n',

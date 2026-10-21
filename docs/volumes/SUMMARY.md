@@ -12,8 +12,8 @@ rules of 16 October, the world a town stands in, the persistent sites and battle
 and 14, added on 17 October). The volumes were
 checked against each other in seven rounds; the last round's fourteen serious problems were fixed in this final pass.
 What remains are small wording and bookkeeping items, listed below, which do not change how anything would be built.
-There are thirty-four decisions that are yours by rule (twenty-five from the first twelve volumes, nine from the two
-new ones: seven you deferred to the session on 16 October; one — whether the world's canon stays outside the
+There are thirty-five decisions that are yours by rule (twenty-five from the first twelve volumes, ten from the two
+new ones: seven you deferred to the session on 16 October; one put to you on 18 October by the map's answer to your host's request for hidden ways — its price and its place in your host's plans — that you answered on 19 October by following the recommendations (the price accepted and the routes milestone named, your host's stand-in from the roads' ground stretches meanwhile, and the hidden ways' record as proposed); one — whether the world's canon stays outside the
 closed door that keeps your host's simulator from reading the map — that you answered yourself on 18 October: yes; and one
 put to you on 18 October with your word on sites and their roads — what "the catalogue" meant — that you answered the
 same day: yes, the list of site kinds you pick from); each of the
@@ -72,6 +72,12 @@ closed door.
     verbs — "this happened" (dated, the old state kept as a trace you can see or delete) and "this was always so" — and
     you see the whole consequence on a side copy before you commit. Maps made with the old world generator can be brought
     in once as data and written back out in the shapes its tools expect; nothing the campaign already has is lost.
+    Off the roads, in rough country — woods, hills, marsh and mountain — the world also lays **trods**: the hidden
+    footways brigands, smugglers and beasts travel, each joining two roads at junctions the game master can name, never
+    across open plain, unknown to every town until the campaign says one has learned it and forgotten again when it fades, every one a
+    candidate the campaign brings to life or lets go wild, and never drawn for the players until you reveal one (the
+    host's hidden-ways request of 18 October). Roads may now end where they meet another road, joining or forking as
+    you asked on 19 October.
 14. **Sites, encounters and the 2.5D view (volume 14).** **Click anywhere** — a street corner, a tavern, a sewer junction,
     a field outside the walls, a spot on the world map — and say "a fight breaks out here": the map cuts out a battle
     map sized to the place, finishes the floor plans of the buildings in it so the fight can go indoors, and tells you
@@ -121,13 +127,13 @@ Estimated in expert **person-weeks** (one skilled builder for one week), each vo
   it — mainly the neighbourhoods at full depth, the app's screens and the calibration rig).
 - **Every later stage together:** about **171–239 person-weeks** (the largest: the underground 28–39, the village 27–37,
   the evolution engine 25–36, the buildings 21–30).
-- **The world (volume 13):** about **37–45 person-weeks** (the water system at the town's scale, about 4 of them,
+- **The world (volume 13):** about **39–47 person-weeks** (the trods, and the roads that join or fork, about 2 of them, with the routes; the water system at the town's scale, about 4 of them,
   comes first and on its own; the map lenses over your host's simulated systems — plague, territory and patrols,
   trade, populations, religion, prosperity and alignment — about 7 of them, come after the world's routes and
   borders).
 - **Sites, encounters and the 2.5D view (volume 14):** about **25.75–36.25 person-weeks** (the battle map 4.25–5.75,
   the sites 13–18.5, the 2.5D view 7.75–11, their content under 1).
-- **The whole program with the two new volumes:** about **455–620 person-weeks** (the earlier 392–539 plus the two
+- **The whole program with the two new volumes:** about **457–622 person-weeks** (455–620 before the hidden ways' two weeks; the earlier 392–539 plus the two
   lines above). With several builder pairs working in parallel, the calendar
   time is much shorter than that; the order above lets up to four lanes run at once after the parity milestone.
 
@@ -163,7 +169,12 @@ world, and the map lenses over its systems (files m to q). On 18 October your wo
 applied (file t), and with it file u: your patrols decision (patrols stay on the map only for now — your host is not
 asked to give them a meaning, and the door stays open), two sentences on how the encounter crop's scratch arena is
 built, a fallback for the water model on a small crop frame, and one more M0 gate check (K14: moving a site's arena
-into a town's document keeps every name).
+into a town's document keeps every name). Later that day your host side asked for hidden ways — the paths brigands use
+between the roads; the answer (file w, which you accepted on 19 October by following its recommendations — the price, your host's stand-in meanwhile and the record as proposed) adds them to the world as *trods*: the map lays them through
+rough country and never across open plain, shows none to the players until you reveal one, and sends your host their
+ground, length and junctions as a record its simulation reads between turns; your host gives each one its life — lit,
+worn, forgotten or lost — and the map draws what it says; the word "way" stays the town's street. On 19 October you
+asked for roads that join, fork or diverge: a road may now end where it meets another.
 
 ## What was left for later, and why it does not matter now
 
@@ -204,11 +215,17 @@ Twenty-five questions, each with a recommendation the work follows until you rul
   map module's after-launch plan; a town's
   share code carries its world charter so it replays alone; the battle map ships right after the first viewable town,
   interiors following; a site record in the SettlementForge dossier, scheduled with the host's other changes; accept
-  the two volumes' cost (37–45 and 25.75–36.25 person-weeks); and the tabletop export may carry each room's reason in
+  the two volumes' cost (37–45 and 25.75–36.25 person-weeks; the world's 39–47 since you accepted the hidden ways' two weeks on 19 October); and the tabletop export may carry each room's reason in
   an optional block that is off unless you turn it on.
 - **The sites and their roads** (one question, put to you on 18 October with your word on sites and roads, and answered
   by you the same day): whether "the catalogue" in that word means the list of site kinds you pick from, each of which
   now says whether it needs a road and whether it moves itself to fit. You said yes on 18 October; the design reads it so.
+- **The hidden ways** (one question, put to you on 18 October by the map's answer to your host's request, and answered by you on 19 October): the price
+  (about two more weeks on the routes milestone: one for the hidden ways, one for the roads that join or fork you asked
+  for on 19 October), whether your host's work on the brigands waits for it or builds its own
+  stand-in from the roads' ground stretches meanwhile, and whether the hidden ways reach your host as a record its
+  simulation asks for between turns rather than as part of the world canon. The recommendation: accept the price, let the
+  host build its stand-in meanwhile, and the record as proposed. You followed the recommendations on 19 October: the price accepted with the routes milestone named, your host's stand-in meanwhile, and the record as proposed; the design reads it so.
 - **One you answered yourself, as the design reserves it to you:** whether the world's canon — the travel, water and
   site facts your host's simulation reads, never a town's geometry — stays outside the closed door that keeps your
   host's simulator from reading the map. You said yes on 18 October: the canon may reach your host's simulation —
@@ -220,8 +237,8 @@ section 11.
 
 ## What the two new volumes ask of you
 
-Nothing you have not already been asked for the other twelve: the nine decisions above (seven proceed on their recommendation until you
-say otherwise; two you answered on 18 October), two short review sittings when the builds land (six sites and six battle
+Nothing you have not already been asked for the other twelve: the ten decisions above (seven proceed on their recommendation until you
+say otherwise; two you answered on 18 October and one on 19 October), two short review sittings when the builds land (six sites and six battle
 maps rated for legibility, realism and playability; the 2.5D view beside the flat one), and, on the SettlementForge
 side, the host's own changes to send the world its seats, borders and events and to carry a site record — on your
 schedule. Before any of this is built, the M0 gate (item 140: twenty-seven "do not foreclose" checks on the kernel and

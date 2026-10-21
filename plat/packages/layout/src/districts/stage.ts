@@ -73,7 +73,7 @@ import { settlementPerimeter } from './perimeter.js';
 import { quarterTree, type QuarterAdjacency } from './quarters.js';
 import { seamEdges, seamRuns } from './seams.js';
 import { faceInRing, placeSeeds } from './seeds.js';
-import { districtCells, minBarrierClass, rosterBuildings, s6Table, typingCells } from './table.js';
+import { districtCells, minBarrierClass, rosterBuildings, s6TableIn, typingCells } from './table.js';
 import { typeDistricts, type TypingDistrict } from './typing.js';
 import type { S6Output, S6Report, SeedFeature, WallLine, XY } from './types.js';
 
@@ -125,6 +125,7 @@ export interface S6Input {
   readonly live?: readonly LiveEntry[];
   /** B for N_q (default the synthetic roster's, C-0035). */
   readonly buildings?: number;
+  /** The run's tables: `district`'s cells, and `s6`'s when the view carries the table (else this folder's, `s6TableIn`). */
   readonly tables?: TableView;
   readonly workLimits?: WorkLimitsTable;
   /** grower.turns' limit in place of the law's (F-WORK's test). */
@@ -189,6 +190,8 @@ export function siteFeatures(
     readonly water?: WaterSet;
     readonly wall?: readonly LatticePoint[];
     readonly walls?: readonly WallLine[];
+    /** The run's tables: the edge test's class is read from their `s6` when they carry one (`s6TableIn`). */
+    readonly tables?: TableView;
   },
 ): SeedFeature[] {
   const out: SeedFeature[] = [];
@@ -200,7 +203,7 @@ export function siteFeatures(
     const side = sides.get(g.id);
     if (at !== null) out.push({ id: g.id, kind: 'gate', anchor: { kind: 'point', at, touching: true, ...(side === undefined ? {} : { within: side.within, outside: side.outside }) } });
   }
-  const top = minBarrierClass();
+  const top = minBarrierClass(s6TableIn(from.tables));
   const order = ['through', 'primary', 'secondary'];
   const classOf = new Map((from.ways ?? []).map((w) => [w.id, w.class]));
   for (const b of from.bridges ?? []) {
@@ -250,6 +253,8 @@ export function s6Batch(p: Plat, input: Omit<S6Input, 'kernel'>, perimeter: read
   const tables = input.tables ?? tableView();
   const wl = input.workLimits ?? loadWorkLimits();
   const cells = districtCells(tables);
+  // the synthetic demand table, the edge test's class and the roster's B: the run's `s6` when its tables carry one
+  const s6t = s6TableIn(tables);
   const turnLimit = input.turnLimit ?? growerTurnLimit(p, wl);
   const spec: KernelTx = {
     key,
@@ -278,7 +283,7 @@ export function s6Batch(p: Plat, input: Omit<S6Input, 'kernel'>, perimeter: read
     const ways = new Map(input.ways.map((w) => [w.id, w]));
     let g: FaceGraph;
     try {
-      g = faceGraph(o.plat, { ways: new Map(input.ways.map((w) => [w.id, w.class])), minBarrierClass: minBarrierClass(), perimeter: hinterland, water: new Set((input.water?.bodies ?? []).map((b) => b.id)) });
+      g = faceGraph(o.plat, { ways: new Map(input.ways.map((w) => [w.id, w.class])), minBarrierClass: minBarrierClass(s6t), perimeter: hinterland, water: new Set((input.water?.bodies ?? []).map((b) => b.id)) });
     } catch (e) {
       return err('E_INVARIANT', (e as Error).message);
     }
@@ -359,7 +364,7 @@ export function s6Batch(p: Plat, input: Omit<S6Input, 'kernel'>, perimeter: read
     });
     // the synthetic demand table's cells, read once: the typing and the quarter families read the same rows (neither
     // writes them)
-    const demand = typingCells(s6Table());
+    const demand = typingCells(s6t);
     const typing = typeDistricts(typingInput, demand, (id) => {
       const lin = [...ids.values()].find((x) => x.id === id) as { lineage: LineageHash };
       return rng.stream(entityKey(input.seedKey, lin.lineage, key), S6, CONCERNS['district.type'], { reroll, attempt: 0, epoch, salt: 0 });
@@ -390,7 +395,7 @@ export function s6Batch(p: Plat, input: Omit<S6Input, 'kernel'>, perimeter: read
       for (let x = 0; x < around.length; x += 1) for (let y = x + 1; y < around.length; y += 1) addAdj(around[x], around[y], sep);
     });
     const L = alive.length;
-    const nq = quarterCount(input.buildings ?? rosterBuildings(input.rung), cells);
+    const nq = quarterCount(input.buildings ?? rosterBuildings(input.rung, s6t), cells);
     const quarterRun = townLineage(key, epoch, QUARTER_RUN_INDEX, reroll);
     const nodeIds: Id[] = [];
     for (let i = 0; i < Math.max(0, 2 * L - 1); i += 1) nodeIds.push(mintOne('quarter', quarterRun, i).id);

@@ -1,0 +1,658 @@
+[
+ {
+  "id": "955 (a)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 374,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "  a host-placed site is read and reported, never re-sited (V14 §3.4 (a)).",
+  "new": "  a host-placed site is read and reported, never re-sited (V14 §3.4 (a)).\n* **The owner's rule on the brigands' ways (2026-10-18; the host's request of that date; file w item 955).** \"these are all brigands, they don't travel the overt roads... roads are used for military, caravans, and groups of people because they ease travel and logistics. These are public enemies to most and as such should have a different means of traveling, maybe hidden roads that connect between roads, and multiple of them.\" Obeyed by W7 (13)'s **trods** (V13 §3.8: the map's own hidden ways laid between the roads of every rough country — several per country, none across open plain, each ending at a junction on a route, at a seat's margin or on another trod, never a seat of W7's pair selection), the canon's trods slot (V13 §3.11.6: the host's bodies read them as geography; who knows a trod, who rides it and what happens on it are the host's, sent through the events window and its presentation overlay), the trod's secret state (V13 §2.2: `dmOnly` until the DM or the host reveals it) and the trods lens (V13 §5.9 (9): drawn only as known or revealed, the legend never counting them); a trod is never promoted to a route and no trod is born where a road dies."
+ },
+ {
+  "id": "955 (b)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 493,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "| `WorldRoute` (a graph edge: ends, mode, class or the host's grade, polyline, time stations, lay version, origin; bound: the host's edge key; an **approach road** — the map's own road to a world site, origin `approach`, its junction in `join`, V13 §3.8 (12)) | W7 — on a standalone world by its own selection; on a host-bound world laying exactly the host's genesis edges and lived changes (V13 §3.8); on either world W7 (12)'s approach roads, never a host edge | the charter's `roads`, the port's `routes`, `routeFacts` and `mapFeed` (an approach road only in the DM's `mapFeed`, keyless), W6's economic stage (never an approach road), W9's labels, the view, the exports; V14's E1 (the world-map case reads the route at the point) | V13 §2.2 |",
+  "new": "| `WorldRoute` (a graph edge: ends, mode, class or the host's grade, polyline, time stations, lay version, origin; bound: the host's edge key; an **approach road** — the map's own road to a world site, origin `approach`, its junction in `join`, V13 §3.8 (12)) | W7 — on a standalone world by its own selection; on a host-bound world laying exactly the host's genesis edges and lived changes (V13 §3.8); on either world W7 (12)'s approach roads, never a host edge | the charter's `roads`, the port's `routes`, `routeFacts` and `mapFeed` (an approach road only in the DM's `mapFeed`, keyless), W6's economic stage (never an approach road), W9's labels, the view, the exports; V14's E1 (the world-map case reads the route at the point) | V13 §2.2 |\n| `Trod` and `TrodJunction` (a hidden way of rough country, file w item 955: two junction ends — on a route at a fraction of its land effort, on a seat's margin, or on another trod —, its form word, polyline, time stations and per-segment ground class, its secret state) and the `trods` layer | W7 (13) on both worlds, after the approaches; re-laid by a route's re-lay or removal under its junction (V13 §3.8 (13)) | the canon's trods slot and `mapFeed` (in the audience its secret state admits), `placeOf` (the `trod` and `junction` places), the `trods` layer and the trods lens (V13 §5.9 (9)), V14's E1 (an admitted trod in the crop), the exports under the admission, `derivedTime`; never `existingRoute`, W6b's `connectivity`, V14's siting plug-ins, the site coherence tests, the charters' `roads`, `roadsAt`, W8b's continuity, patrols or border posts | V13 §2.2 |"
+ },
+ {
+  "id": "955 (c)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 547,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "→ `WorldCanon`, with the optional `routeFacts` and `patrolOffer`;",
+  "new": "→ `WorldCanon` (its travel, water, sites and trods slots), with the optional `routeFacts` (its ordered ground runs among its fields, file w item 956) and `patrolOffer`;"
+ },
+ {
+  "id": "955 (d)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 601,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "| `WorldRoute` | by class or the host's grade (a hidden host road a DM-only ghost) | none (a route takes its ends' names) | GeoJSON LineString, the ecosystem-shaped JSON's routes, CSV | entities block |",
+  "new": "| `WorldRoute` | by class or the host's grade (a hidden host road a DM-only ghost) | none (a route takes its ends' names) | GeoJSON LineString, the ecosystem-shaped JSON's routes, CSV | entities block |\n| `Trod` (file w item 955) | the `trods` layer in its form's style (narrow dotted, drove dash-dot, broad dashed, the secret colour role) with its junction ticks on the route; for the DM every trod with V14 §2.3's second cue (`dmOnly` an eye-slash at its junctions, `revealed` open ticks, `discovered` filled); for a party only a trod its places admit | none (a trod is unnamed; the lens captions it by the country it crosses and the routes it joins) | GeoJSON LineString (kind `trod`), CSV — under the export's admission | entities block |"
+ },
+ {
+  "id": "955 (e)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 712,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "  routes: Map<number /* fine cell */, Id[]> /* the route ids crossing a cell (W7); sparse */;",
+  "new": "  routes: Map<number /* fine cell */, Id[]> /* the route ids crossing a cell (W7); sparse */;\n  trods: Map<number /* fine cell */, Id[]> /* the trod ids crossing a cell (W7 (13); file w item 955); sparse; never read by W7 (2)'s existingRoute */;"
+ },
+ {
+  "id": "955 (f)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 793,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "  costTotal: number /* the undiscounted cost along the laid course: the clerk's \"why this road\", presentation only, never a time and never sent to the host's simulation */; landmass: number; reason: Id }",
+  "new": "  costTotal: number /* the undiscounted cost along the laid course: the clerk's \"why this road\", presentation only, never a time and never sent to the host's simulation */; landmass: number; reason: Id }\ninterface Trod {                             // file w item 955: a hidden way of rough country (W7 (13)) — the map's own geography, never a route, never a host edge\n  id: Id; ends: [Id, Id] /* its two TrodJunctions, sorted by lineage key: a trod starts and ends off a settlement */; form: 'narrow'|'drove'|'broad' /* world.trods' form rows: the width hint the host turns into its own size band (a goat path or game trail; a drover's trod; a trod worn cart-wide) */;\n  polyline: WorldPointCm[]; stations: Int32Array /* per vertex: cumulative land effort-metres under the cost law's time terms, as WorldRoute's; no trod factor of the map's — the host prices a trod under its own law, slower than a road */; vertexClass: Uint8Array /* per segment: the host's terrain class through the adapter folder's table */;\n  lengthM: number; landEffortM: number; byClassM: Record<string, number>; coverShare: number /* hundredths: the share of its length on rough cells (W7 (13)) */; country: number /* the rough country it serves: the component's lowest-then-leftmost fine cell */;\n  seasonal?: WorldRoute['seasonal'] /* snow weeks on its highest segment, high water at a ford: a slowing, never a cut */; layVersion: number /* bumped by every re-lay (a re-join after a route's re-lay or removal) */; landmass: number;\n  knownTo: 'public'|'local'|'secret' /* `secret` at birth */; secret: SecretState /* V14 §2.3's record on the trod: dmOnly at birth; revealed by the DM's `setAttr` (`trod/secret/state`) or the host's reveal; discovered by the host's event — the party's `places` the same key as a site's */;\n  costTotal: number /* presentation only, as a route's */; reason: Id /* the rough country's W7c reason; a trod's own why computed on demand (`whyTrod`), as a cell's is */ }\ninterface TrodJunction { id: Id; at: WorldPointCm; trods: Id[] /* the trods ending here */;\n  on: { kind: 'route'; route: Id; hostKey?: string /* bound: the route's host edge key */; layVersion: number /* the lay the point lies on */; fraction: { num: number; den: number } /* the station's share of the route's land effort from its `a` end (WorldWhere's form) */ }\n    | { kind: 'seat'; placement: Id; hostKey?: string /* the trod's end on the placed frame's margin ring, outside its extent + margin: the seat's \"gate\" at world scale, the frame's own gate station never read (door 1) */ }\n    | { kind: 'trod'; trod: Id; vertex: number /* another trod's vertex */ };\n  reason: Id }   // on the world a junction is a position along a route, never an end of a host route (W7 (11)); the approach road (W7 (12)) and the trods (W7 (13)) end at one"
+ },
+ {
+  "id": "955 (g)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 837,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "cause?: string /* the host's cause word — a patron fall's — by the adapter folder's vocabulary table, when sent */",
+  "new": "cause?: string /* the host's cause word — a patron fall's; a trod-knowledge event's how-word (W7 (13); file w item 955) — by the adapter folder's vocabulary table, when sent */"
+ },
+ {
+  "id": "955 (h)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 846,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "sites: Hash128 };",
+  "new": "sites: Hash128; trods: Hash128 /* the trods slot's input hash: the physical layers, the cost law, the member seats and the routes' lays in force (W7 (13); file w item 955) */ };"
+ },
+ {
+  "id": "955 (i)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 848,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "/* frozen candidate ground inside the seat's orbit */ }[] }",
+  "new": "/* frozen candidate ground inside the seat's orbit */ }[];\n  trods: { trods: CanonTrod[]; junctions: CanonJunction[] } /* the trods slot (W7 (13); file w item 955): the hidden ways as geography — who knows one is never here (law (3)) */ }"
+ },
+ {
+  "id": "955 (j)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 849,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "interface CanonSeat { hostKey: string; at: WorldPointCm; landmass: number; terrainClass: string /* the adapter folder's class table */; climateBand: string; elevationM: number }",
+  "new": "interface CanonSeat { hostKey: string; at: WorldPointCm; landmass: number; terrainClass: string /* the adapter folder's class table */; climateBand: string; elevationM: number }\ninterface CanonTrod { key: string /* the trod's lineage key, opaque to the host: the id its knowledge events and watches name */; form: string /* world.trods' form word (narrow, drove, broad): the width hint the host registers and turns into its own band */; ends: [string, string] /* junction keys */; course: WorldPointCm[];\n  runs: { to: number /* the vertex index the run ends at; the first run starts at vertex 0 */; terrainClass: string /* the adapter folder's class table */; effortM: number /* integer land effort-metres over the run under the host's cost law's time terms — no trod factor: the host prices it */ }[] /* the ordered ground runs: consecutive segments of one class collapsed */;\n  lengthM: number; effortM: number; landmass: number; snowWeeks?: number[] /* the 52-week set keyed to the host's week of year: a slowing under its law, never a cut */ }   // file w item 955\ninterface CanonJunction { key: string; at: WorldPointCm; on: { edge: string; fraction: { num: number; den: number } /* the host's edge key and the share of its land effort from the key's first seat */ } | { seat: string /* a host key: the trod's end on the seat's margin */ } | { trod: string /* a junction on another trod */ } }   // the hearing card's `trod` and `junction` places name these keys (WorldWhere)"
+ },
+ {
+  "id": "955 (k)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 866,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "roadWatch: { edge: string; power: string; kind: 'closed'|'warden'; since: Week }[];",
+  "new": "roadWatch: { edge?: string /* a host edge key */; trod?: string /* or a trod's key from the canon's trods slot (file w item 955): exactly one of the two */; power: string; kind: 'closed'|'warden'; since: Week }[];"
+ },
+ {
+  "id": "955 (l)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 887,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "kind: 'settlement'|'wall'|'road'|'border'|'supplyLine'|'region'|'point'|'offStage'; seat?: string; edge?: string;",
+  "new": "kind: 'settlement'|'wall'|'road'|'border'|'supplyLine'|'region'|'point'|'offStage'|'trod'|'junction' /* a trod (with its `fraction`) or a trod's junction, by the canon's keys (W7 (13); file w item 955) */; seat?: string; edge?: string; trod?: string; junction?: string;"
+ },
+ {
+  "id": "955 (m)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 891,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "type LensId = 'plague'|'sway'|'patrols'|'trade'|'populations'|'religion'|'prosperity'|'alignment';   // `world.lens`'s order (J384 (8)): plague first, then the sway (the owner's territory) and patrols, trade and populations, religion, prosperity and alignment",
+  "new": "type LensId = 'plague'|'sway'|'patrols'|'trade'|'populations'|'religion'|'prosperity'|'alignment'|'trods';   // `world.lens`'s order (J384 (8)): plague first, then the sway (the owner's territory) and patrols, trade and populations, religion, prosperity and alignment; the trods lens last, outside J384 (8)'s eight (file w item 955)"
+ },
+ {
+  "id": "955 (n)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 958,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "the road to a DM-only site DM-only (J393); V14's",
+  "new": "the road to a DM-only site DM-only (J393), a trod (W7 (13); file w item 955) `secret` at birth — its `SecretState` V14 §2.3's, `dmOnly` by default, the party's `places` the same key, so a party view neither draws, lists, counts, names nor exports a trod no reveal admits; V14's"
+ },
+ {
+  "id": "955 (o)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 1010,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "  sea: { trunk: boolean /* every well-ported landmass gets one sea trunk to the largest landmass */; gapFixRatio: number /* a port pair whose sea cost ≤ ratio × its land cost gets the sea leg too */ }; exitRunM: number /* a placed frame's road run through the margin to its gate station */ }   // world.routeLay — the map's own network formation (W7); never the host's, never a time",
+  "new": "  sea: { trunk: boolean /* every well-ported landmass gets one sea trunk to the largest landmass */; gapFixRatio: number /* a port pair whose sea cost ≤ ratio × its land cost gets the sea leg too */ }; exitRunM: number /* a placed frame's road run through the margin to its gate station */ }   // world.routeLay — the map's own network formation (W7); never the host's, never a time\ninterface TrodRule {                                                                                         // world.trods — W7 (13) the hidden ways (file w item 955); the map's own, never the host's, never a time\n  cover: Record<BiomeRow['landUse'], 0|1> /* which land-use classes are rough country */; roughSlopePct: number /* a cell steeper than this is rough whatever grows on it: the owner's \"hills\" */; minRoughKm2: number /* a rough component smaller than this carries no trod */;\n  edgeBandM: number /* a route vertex within this of the country is a junction candidate; a junction re-joins within it */; junctionSpacingM: number /* candidates thinned to one per this of station along a route */; seatReachM: number /* a seat's margin within this of the country is a candidate end */;\n  perKm2: Record<WorldSizeRung, number> /* the target trods per km² of rough country, per rung */; minPerCountry: number; maxPerCountry: number; minSpanM: number /* two candidates on one route must be this far apart by station */;\n  openFactor: number /* the trod cost surface's multiplier on an open cell */; maxCostFactor: number /* the trod's own ellipse and drop rule */; coverShare: number /* a laid path below this share of rough cells is dropped */; openRunMaxM: number /* a laid path with an open run longer than this is dropped: none across open plain */; spacingM: number /* a path within this of a laid trod, save at a junction, is dropped */;\n  forms: { form: 'narrow'|'drove'|'broad'; widthM: number }[] /* the width hint per form: the host registers the word and derives its band */; formRule: { narrowSlopePct: number; broadSlopePct: number; narrowClasses: BiomeRow['landUse'][]; broadClasses: BiomeRow['landUse'][] } }"
+ },
+ {
+  "id": "955 (p)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 1137,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "| `exitRunM` | 400 (a placed frame's road runs through the margin this far to its gate station) |",
+  "new": "| `exitRunM` | 400 (a placed frame's road runs through the margin this far to its gate station) |\n\n| `TrodRule` (`world.trods`: the map's own hidden ways, W7 (13); every cell own, PLAUSIBLE until the B-WORLD sweep measures the counts against the owner's \"several per rough country\"; file w item 955) | default |\n|---|---|\n| `cover` | forest 1 · wetland 1 · alpine 1 · ice 0 · tundra 0 · grass 0 · scrub 0 · desert 0 (the owner's forest, marsh and mountain; hills by slope) |\n| `roughSlopePct` / `minRoughKm2` | 8 / 25 (a cell at 8 % or steeper is rough whatever grows on it; a rough component under 25 km² carries no trod) |\n| `edgeBandM` / `junctionSpacingM` / `seatReachM` | 1 000 / 3 000 / 3 000 |\n| `perKm2` province / realm / continent | 1 ÷ 80 / 1 ÷ 320 / 1 ÷ 1 280 (a province two-fifths rough carries about 320 trods, one wholly rough about 800; a continent two-fifths rough about 2 900; `WORLD-18`) |\n| `minPerCountry` / `maxPerCountry` / `minSpanM` | 2 / 12 / 4 000 |\n| `openFactor` / `maxCostFactor` | 4 / 3 (a trod hugs cover: an open cell costs four times; a path over 3 × the straight cost is dropped) |\n| `coverShare` / `openRunMaxM` / `spacingM` | 0.7 / 1 500 / 500 (seven tenths of a trod on rough cells; no open run over 1.5 km — none across open plain; no two trods within 500 m save at a junction) |\n| `forms` | narrow 1 m · drove 3 m · broad 5 m (the width hint; the host's band its own) |\n| `formRule` | `narrow` where the trod's mean slope ≥ `narrowSlopePct` 6 % or its dominant class is alpine, ice or wetland; `broad` where its mean slope < `broadSlopePct` 3 % and its dominant class is forest, grass or scrub; else `drove` |"
+ },
+ {
+  "id": "955 (q)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 1163,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "track −1 (hidden: none)",
+  "new": "track −1 (hidden: none; a trod no segment, J396)"
+ },
+ {
+  "id": "955 (r)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 1170,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "religion 4 · prosperity 5 · alignment 5 |",
+  "new": "religion 4 · prosperity 5 · alignment 5 · trods 6 (the ninth, outside J384 (8)'s eight; file w item 955) |"
+ },
+ {
+  "id": "955 (s)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 1174,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "monster threat · gate · toll · besieged · prosperity · temperament · alignment (V13 §5.8 (6))",
+  "new": "monster threat · gate · toll · besieged · prosperity · temperament · alignment · hidden · trod · junction (V13 §5.8 (6))"
+ },
+ {
+  "id": "955 (t)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 1260,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "| an approach road (a `WorldRoute` of origin `approach`, V13 §3.8 (12)) | the world root | (`route`, the site placement's lineage, `approach`) — so a re-lay keeps its id and a moved site keeps its road's address |",
+  "new": "| an approach road (a `WorldRoute` of origin `approach`, V13 §3.8 (12)) | the world root | (`route`, the site placement's lineage, `approach`) — so a re-lay keeps its id and a moved site keeps its road's address |\n| a `Trod` (W7 (13); file w item 955) | the world root | (`trod`, its two junctions' keys sorted) — so a re-lay keeps its id and the host's knowledge of its key survives a re-join |\n| a `TrodJunction` | the world root | (`junction`, the joined route's lineage and its station rounded to `junctionSpacingM`; or the seat placement's lineage and `seat`; or the joined trod's lineage and its vertex's station so rounded) — a re-join on the same route within `edgeBandM` keeps the key by the anchor below |"
+ },
+ {
+  "id": "955 (u)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 1276,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "an approach road by its site; a sway by its seat.",
+  "new": "an approach road by its site; a trod by overlap ≥ 50 % of its course within one fine cell's width, a junction by its trod and which end it is; a sway by its seat."
+ },
+ {
+  "id": "955 (v)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 1306,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "| an approach road (`WorldRoute` of origin `approach`; J393) | W7 (12) for a site placement whose road access is `required` or `preferred` (V13 §3.8 (12)) | the `route` layer, `roadsAt`, the charters' `roads`, the view, the exports, `derivedTime`; on a host-bound world the DM's `mapFeed` keyless — never `existingRoute`, W6b's `connectivity`, V14's siting plug-ins, the site coherence tests or the patrols, and never the canon, `routeFacts`, `patrolOffer` or `routes(world)`'s host list | entities block, each re-lay that changes its course bumping `layVersion` | re-derived by W7 (12) (a re-lay yielding the same course writes nothing); tombstoned when its site is unplaced or adopted, its road access becomes `none` or `avoided`, or a public route laid later meets the site's frame | with its site's placement edit (a derived product) | absent: W7 (12) at load; **veil:** its `knownTo` its site card's — a DM-only site's road DM-only |",
+  "new": "| an approach road (`WorldRoute` of origin `approach`; J393) | W7 (12) for a site placement whose road access is `required` or `preferred` (V13 §3.8 (12)) | the `route` layer, `roadsAt`, the charters' `roads`, the view, the exports, `derivedTime`; on a host-bound world the DM's `mapFeed` keyless — never `existingRoute`, W6b's `connectivity`, V14's siting plug-ins, the site coherence tests or the patrols, and never the canon, `routeFacts`, `patrolOffer` or `routes(world)`'s host list | entities block, each re-lay that changes its course bumping `layVersion` | re-derived by W7 (12) (a re-lay yielding the same course writes nothing); tombstoned when its site is unplaced or adopted, its road access becomes `none` or `avoided`, or a public route laid later meets the site's frame | with its site's placement edit (a derived product) | absent: W7 (12) at load; **veil:** its `knownTo` its site card's — a DM-only site's road DM-only |\n| a `Trod` with its `TrodJunction`s (W7 (13); file w item 955) | W7 (13) on both worlds after the approaches; re-joined by a route's re-lay or removal under a junction, split by a route laid across it | the `trods` layer, the canon's trods slot, `mapFeed` (in the audience its secret state admits), `placeOf`, the trods lens, V14's E1, the exports under the admission, `derivedTime`; never `existingRoute`, `connectivity`, the siting plug-ins, the coherence tests, the charters' `roads`, `roadsAt`, continuity, the patrols or the border posts | entities block, each re-lay that changes its course bumping `layVersion`; its `secret` state an edited attribute (§7.2) | re-derived by W7 (13) (a re-lay yielding the same course writes nothing); its `secret` state survives every re-derivation; tombstoned where no route lies within `edgeBandM` of a junction after a removal | the replaced scope; a `setAttr` on its secret state with its edit | absent: W7 (13) at load (the `WORLD-18` fallback); **import:** none (an imported world's trods are laid as its own); **dark-after-lit:** a host that stops reading canons keeps its last trods slot; **death:** a seat's death moves no trod (its junction on the seat's margin stays); **veil:** `secret` at birth — absent from every party picture, listing, count, name and export until revealed or discovered; a knowledge event the host resolves DM-only draws its mark for the DM alone |"
+ },
+ {
+  "id": "955 (w)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 1325,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "and the water and sites slots' input hashes; a slot whose",
+  "new": "and the water, sites and trods slots' input hashes (the trods slot's over the routes' lays in force as well, W7 (13)); a slot whose"
+ },
+ {
+  "id": "955 (x)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 1353,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "routes, proposals, placements, resources, springs and the chunks:",
+  "new": "routes, trods (one per rough country's W7c run, a trod's own why computed on demand as a cell's is; file w item 955), proposals, placements, resources, springs and the chunks:"
+ },
+ {
+  "id": "955 (y)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 1360,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "plus ≤ 2 MB of records), a `realm` ≤ 11 MB",
+  "new": "plus ≤ 2 MB of records, the trods ≤ 0.5 MB of them, `WORLD-18`), a `realm` ≤ 11 MB"
+ },
+ {
+  "id": "955 (z)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 1362,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "the distance fields) are dropped from the file and rebuilt on load inside V13 §6's load budget.",
+  "new": "the distance fields) and, past `WORLD-18`, the trods (W7 (13) is deterministic over the persisted rasters and routes; their secret states are edits the log replays) are dropped from the file and rebuilt on load inside V13 §6's load budget."
+ },
+ {
+  "id": "955 (aa)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 1445,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "| W7b Routes | `W7b` | the final seats (proposals, placements, host seats), the site placements with road access and their cards' kind rows (W7 (12); J393), the surfaces, `dem`, `biome`, the reaches, the cost law | `WorldRoute`s (the approach roads among them), the `routes` layer | none | the world root | F-WORLD (no path) | \" |",
+  "new": "| W7b Routes | `W7b` | the final seats (proposals, placements, host seats), the site placements with road access and their cards' kind rows (W7 (12); J393), the surfaces, `dem`, `biome`, the reaches, the cost law | `WorldRoute`s (the approach roads among them), the `routes` layer | none | the world root | F-WORLD (no path) | \" |\n| W7c Trods | `W7c` | the public routes with their lay in force (never an approach road or a water leg), `landUse`, `dem`, the placed frames' extents and margins, the cost law (W7 (13); file w item 955) | `Trod`s and `TrodJunction`s, the `trods` layer | none (`world.trods` reserved; the pairs ranked and the ties broken by sorted lineage keys and cell index) | the world root | F-WORLD (sparse trods) | \" |"
+ },
+ {
+  "id": "955 (ab)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 1873,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "   the DM's `mapFeed` keyless (V13 §3.11.6; J-V13.110).",
+  "new": "   the DM's `mapFeed` keyless (V13 §3.11.6; J-V13.110).\n13. **Trods (the hidden ways; the owner's rule of 2026-10-18, file w item 955).** The brigands' roads: \"hidden roads\n   that connect between roads, and multiple of them\". Run after (12) on both worlds — after W7b's trails and approaches on a\n   standalone world; after the genesis and after each `network` window that lays, re-lays or removes a route on a host-bound\n   world — and as a local operator of a route's re-lay or removal under a junction (its dirty box). It reads the `landUse`\n   and `dem` rasters, the public routes with their lay in force (never an approach road, never a water leg; on a host-bound\n   world only a route with a host key), the placed frames' extents and margins and the cost law, and draws nothing\n   (`world.trods` reserved, V13 §3.17). (a) **Rough country.** A fine cell is *rough* where its `landUse` is a cover class\n   of `world.trods.cover` (forest, wetland, alpine) or its slope % ≥ `roughSlopePct` (the owner's hills); the rough cells'\n   8-connected components (one flood, cell-index order) of area ≥ `minRoughKm2` are the *rough countries*; every other land\n   cell is open plain. (b) **Junction candidates** per country: on every public route, the polyline vertices within\n   `edgeBandM` of the country's cells, thinned to one per `junctionSpacingM` of station along the route (the lowest station\n   kept); for every seat whose placed frame's margin ring, or seat cell, lies within `seatReachM` of the country, the ring's\n   point nearest the country — outside the extent + margin, so a trod never enters a placed frame and no charter changes\n   (the seat's \"gate\" at world scale; its gate station is frame geometry behind door 1). (c) **The target** is `perKm2`\n   (the rung's cell) × the country's area, clamped to [`minPerCountry`, `maxPerCountry`]. (d) **The lay.** Candidate pairs\n   in four tiers — two candidates on different routes; a route's and a seat's; two on one route ≥ `minSpanM` apart by\n   station; a candidate and a laid trod's vertex (a junction of kind `trod`) — each tier ranked by the pair's straight cost\n   ascending, ties by the sorted lineage keys; each pair in turn one A\\* as (4)'s (the lifted bucket queue, the heuristic,\n   the tie rule) over the **trod cost surface**: (2)'s step cost under the cost law's time terms, × `openFactor` on an open\n   cell, a route cell impassable save the pair's own junction cells, every placed frame's extent + margin impassable, a\n   water cell impassable on land (a reach ≥ `riverMinM3s` crossed at `riverCrossing` as a route's), within the ellipse at\n   the trod's own `maxCostFactor`; a path is dropped where it exceeds that factor, where its rough share < `coverShare`,\n   where any open run exceeds `openRunMaxM` (none across open plain), or where it comes within `spacingM` of a laid trod's\n   cells save at a junction; a laid path takes the country's next pair until the target is met or the candidates are\n   spent, and a country left under `minPerCountry` is reported `W_TROD_SPARSE` (the country and its count; never a trod\n   across open plain to make the count). (e) **The record.** A `Trod` with its two `TrodJunction`s (on a route: the route,\n   its lay version and the fraction of its land effort from its `a` end; on a seat: the placement; on a trod: the trod and\n   the vertex), the polyline the cell centres simplified at `routeToleranceM` and never crossing a water cell, its integer\n   fields evaluated as (7) says (the stations and `vertexClass` under the host's class table and time terms; no trod factor\n   of the map's — the host prices a trod under its own law, slower than a road; its snow weeks the 52-week set, a slowing\n   and never a cut), its `form` by `world.trods`' form rule over its mean slope and dominant class, `secret` `dmOnly` and\n   `knownTo` `secret` at birth, its cells entering the `trods` layer and never the `route` layer, and one reason per\n   country in (6)'s form (the country's area and cover, the target, each pair's tier and the three largest cost\n   contributions of each path; `whyTrod` answers per trod on demand, as `whyCell` does per cell). A re-lay yielding the\n   same course writes nothing. (f) **A trod is no route and no road.** It is read by the `trods` layer, the canon's trods\n   slot (V13 §3.11.6), `mapFeed` in the audience its secret state admits, `placeOf` (the `trod` and `junction` places), the\n   view, the exports under the admission, V14's E1 crop and `derivedTime`; never by (2)'s `existingRoute`, W6b's\n   `connectivity`, V14's siting plug-ins, the site coherence tests, the charters' `roads`, `roadsAt`, W8b (9)'s continuity,\n   (14)'s patrols (no cadence, no `patrolOffer` row; J396) or (16)'s border posts. (g) **Lifecycle.** On a host-bound world\n   a trod is the map's own geography over the host network's laid courses: never a host edge, never promoted to a route by\n   the map, never born where a road dies — a host route the host demotes to `hidden` or abandons keeps its `WorldRoute`,\n   its DM-only ghost and its junctions, and nothing turns it into a trod (J-V13.123). A route re-laid under a junction (a\n   `bypass` or a `chartered` course, (9)) or removed re-joins the trod at the nearest point of the lay in force within\n   `edgeBandM` (its id kept by the anchor, V13 §2.5), else tombstones it; a route laid across a trod splits it at the\n   crossing into two trods ending at a new junction; on a host-bound world each takes effect in the canon at the canonize\n   that adopts the lay (V13 §3.11.6). The DM edits a trod's secret state only (`setAttr trod/secret/state`, V14 §4.2's\n   form); its course moves only as (10) says. Knowledge of a trod is the host's: a town knows a trod by the host's dated\n   event (the knowing seat, the trod's key, the host's how-word as `cause`, the week, its resolved audience) through the\n   events window, retracted by the windowed replace; the party by the trod's secret state; the map draws and never decides\n   (V13 §5.9 (9))."
+ },
+ {
+  "id": "955 (ac)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 1875,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "*Output:* `WorldRoute`s (the approach roads among them) and the `route` layer;",
+  "new": "*Output:* `WorldRoute`s (the approach roads among them) and the `route` layer, (13)'s `Trod`s and `TrodJunction`s and the `trods` layer;"
+ },
+ {
+  "id": "955 (ad)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 2065,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "a road the host grades hidden: none). Elsewhere",
+  "new": "a road the host grades hidden: none; a trod, W7 (13), is no segment and carries none, J396 — a watch the host asserts on a trod is the trods lens's to draw, V13 §5.9 (9)). Elsewhere"
+ },
+ {
+  "id": "955 (ae)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 2089,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "every route crossing of an allegiance border or a debatable band yields a",
+  "new": "every route crossing (never a trod's, W7 (13)) of an allegiance border or a debatable band yields a"
+ },
+ {
+  "id": "955 (af)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 2444,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "(V13 §3.9 (1)–(4)); the **water slot** —",
+  "new": "(V13 §3.9 (1)–(4)); the **trods slot** — the hidden ways W7 (13) lays over the physical layers and the routes' lays in force (file w item 955): per trod its key, its form word, its two junction keys, its course, its ordered ground runs (the host's terrain class through the adapter folder's table and integer effort-metres per run under its cost law's time terms), its length, effort and snow weeks; per junction its point and what it lies on — a host edge with the fraction of its land effort from the key's first seat, a seat, or another trod — the map's geography alone, who knows a trod never here (law (3)); the **water slot** —"
+ },
+ {
+  "id": "955 (ag)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 2461,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "and costs of the seat territories W8a re-derives over the landmass they dirty, and the water slot's candidates on",
+  "new": "and costs of the seat territories W8a re-derives over the landmass they dirty, the trods slot's rows the added seats' new edges touch (a trod a new edge crosses split at the crossing, one it joins re-joined, every other trod byte-identical; W7 (13)), and the water slot's candidates on"
+ },
+ {
+  "id": "955 (ah)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 2503,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "approach roads to world sites keyless, each in the audience its site card's knowledge admits (V13 §3.8 (12); drawn by the host's map surface only by its own choice, H31),",
+  "new": "approach roads to world sites keyless, each in the audience its site card's knowledge admits (V13 §3.8 (12); drawn by the host's map surface only by its own choice, H31), the trods with their junctions by their canon keys, each in the audience its secret state admits — never a trod the audience does not know (W7 (13)) —,"
+ },
+ {
+  "id": "955 (ai)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 2519,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "  words for a `WorldWhere`.",
+  "new": "  words for a `WorldWhere` (a `trod` or `junction` place named as such for the DM and for an audience whose places admit the trod, else by the country it crosses — its rough country, the nearest route and seat —, so a hearing on a trod the party does not know names no trod; W7 (13))."
+ },
+ {
+  "id": "955 (aj)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 2558,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "(movers on host edges by fraction and embattlement phases, projected by the host",
+  "new": "(movers on host edges, or on trods by their canon keys (W7 (13)), by fraction and embattlement phases, projected by the host"
+ },
+ {
+  "id": "955 (ak)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 2577,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "of the physical layers, the host's cost law and the member seats, and no lived host fact enters them;",
+  "new": "of the physical layers, the host's cost law and the member seats — the trods slot reading the routes' laid courses in force as well, their geometry alone, never a grade, a closure or a knowledge (W7 (13); file w item 955) — and no lived host fact enters them;"
+ },
+ {
+  "id": "955 (al)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 2592,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "the water-passage class of a path (V13 §3.13's `routeClass`) is never sent",
+  "new": "a hidden way is a **trod** (never a *way*, the frame's street skeleton, nor a *path*, *track* or *trail*, way and route classes), its ends **junctions** (on the world: where a trod or the map's approach road meets a route, a seat's margin or a trod), its width hint its **form** word, and *hidden* stays the host's road grade only (file w item 955); the water-passage class of a path (V13 §3.13's `routeClass`) is never sent"
+ },
+ {
+  "id": "955 (am)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 2822,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "W7 (12)'s approach roads that joined the route (J393) |",
+  "new": "W7 (12)'s approach roads that joined the route (J393), W7 (13)'s trods whose junction lies on it |"
+ },
+ {
+  "id": "955 (an)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 2822,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "re-joins the nearest qualifying public route or its site's approach reads none (`noRoadAccess` where its road access is `required`) |",
+  "new": "re-joins the nearest qualifying public route or its site's approach reads none (`noRoadAccess` where its road access is `required`); every trod whose junction lay on a removed or re-laid route re-joins the lay in force within `edgeBandM` or is tombstoned, its secret state kept where it survives (W7 (13)) |"
+ },
+ {
+  "id": "955 (ao)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 2914,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "**seat:** a W8a seed on water or ice |",
+  "new": "**seat:** a W8a seed on water or ice; **sparse trods:** W7c meets fewer than `minPerCountry` pairs for a rough country, or every path fails `coverShare` or `openRunMaxM` (W7 (13)) |"
+ },
+ {
+  "id": "955 (ap)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 2914,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "seat: the seed moved to its nearest land cell (`W_POLITY_SEAT_MOVED`) |",
+  "new": "seat: the seed moved to its nearest land cell (`W_POLITY_SEAT_MOVED`); sparse trods: the country keeps what was laid, reported `W_TROD_SPARSE` — never a trod across open plain to make the count |"
+ },
+ {
+  "id": "955 (aq)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 2914,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "T-V13-14 (siting none, no path, seat) over the corpus of V13 §7 |",
+  "new": "T-V13-14 (siting none, no path, seat), T-V13-59 (sparse trods) over the corpus of V13 §7 |"
+ },
+ {
+  "id": "955 (ar)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 2929,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "(reserved: siting draws nothing, its tie-break deterministic, V13 §3.7 (6); SW-03), the base's `water.delta` (W4's distributary shares, keyed by",
+  "new": "(reserved: siting draws nothing, its tie-break deterministic, V13 §3.7 (6); SW-03), `world.trods` (reserved: W7c draws nothing, its pairs ranked and its ties broken by sorted lineage keys and cell index, W7 (13)), the base's `water.delta` (W4's distributary shares, keyed by"
+ },
+ {
+  "id": "955 (as)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 2944,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "W7a, W7b ≤ Σ over edges of the search ellipse's cells; W8a ≤",
+  "new": "W7a, W7b ≤ Σ over edges of the search ellipse's cells; W7c ≤ 2 × fine cells (the rough flood) + Σ over the pairs tried of the search ellipse's cells at `world.trods.maxCostFactor`; W8a ≤"
+ },
+ {
+  "id": "955 (at)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 2947,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "W7 drops the remaining lowest-rank edges, W8 stops",
+  "new": "W7 drops the remaining lowest-rank edges (W7c the remaining pairs of the smallest countries, each reported `W_TROD_SPARSE`), W8 stops"
+ },
+ {
+  "id": "955 (au)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 3148,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "| `patrols` (a toggle) | vector | `PatrolCadence` per route segment at the revision in force at the view's `lensWeek`: tinted by cadence (weekly, monthly, seasonal), both colours striped on a debatable segment, no arrows or headings; a covert power's DM-only | the powers' colours |",
+  "new": "| `patrols` (a toggle) | vector | `PatrolCadence` per route segment at the revision in force at the view's `lensWeek`: tinted by cadence (weekly, monthly, seasonal), both colours striped on a debatable segment, no arrows or headings; a covert power's DM-only | the powers' colours |\n| `trods` | vector | every `Trod` the view's audience admits (V14 §2.3's admission over its `knownTo` and the party's `places`: the DM every trod, a party only a revealed or discovered one) in its form's style, its junction ticks on the route; for the DM the second cue beside colour — `dmOnly` an eye-slash at the junctions, `revealed` open ticks, `discovered` filled; no km label (a trod's length is its card's); the trods lens's marks over it (V13 §5.9 (9); file w item 955) | narrow 0.4 px dotted, drove 0.6 px dash-dot, broad 0.8 px dashed, in the secret colour role; the ticks 3 px |"
+ },
+ {
+  "id": "955 (av)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 3209,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "routes (LineString with class or grade), springs (Point), traces (kind `trace`)",
+  "new": "routes (LineString with class or grade), trods (LineString, kind `trod`, with its form and its junctions' keys — under the export's admission: a party export carries none its places do not admit; file w item 955), springs (Point), traces (kind `trace`)"
+ },
+ {
+  "id": "955 (aw)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 3211,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "sways (id, seat, allegiance, status, revision), routes, settlements",
+  "new": "sways (id, seat, allegiance, status, revision), routes, trods and junctions (under the export's admission), settlements"
+ },
+ {
+  "id": "955 (ax)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 3317,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "the host's monster-threat word for a place and its colour are never the plague lens's; *gate* is",
+  "new": "the host's monster-threat word for a place and its colour are never the plague lens's; *hidden* is the host's road grade only (a lens is *still*, a site's or a trod's secret *DM-only*), a hidden way a *trod* (never a *way*, the frame's, nor a *path*), its end a *junction*; *gate* is"
+ },
+ {
+  "id": "955 (ay)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 3324,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "the host sends with no resolved audience is folded DM-only; covert links, columns and patrols fail closed — omitted,",
+  "new": "the host sends with no resolved audience is folded DM-only; covert links, columns, patrols, the movers on trods and a trod no reveal admits (the admission function over its secret state, W7 (13)) fail closed — omitted,"
+ },
+ {
+  "id": "955 (az)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 3358,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "Three further lenses — culture, danger and calamity — are recorded, not built:",
+  "new": "A ninth lens, the trods lens (9), is built on the owner's rule of 2026-10-18, outside J384 (8)'s eight and last in order (file w item 955). Three further lenses — culture, danger and calamity — are recorded, not built:"
+ },
+ {
+  "id": "955 (ba)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 3571,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "route's intermediary settlements (as the patrols lens's: no verdict per settlement is sent); the town grain (a\ntown-map row: the settlement frame's).",
+  "new": "route's intermediary settlements (as the patrols lens's: no verdict per settlement is sent); the town grain (a\ntown-map row: the settlement frame's).\n\n**9. Trods** (the owner's rule of 2026-10-18 on the brigands' ways; file w item 955; the ninth, outside J384 (8)'s eight, last in order). Its layer is V13 §5.1's `trods`; it draws the host's facts over the map's own hidden ways (W7 (13)): which town knows a trod, who watches it, who is on it and what happened there. *Regimes:* **known** (the host's bodies lane lit and its trod-knowledge events sent: \"towns know trods by the host's ledger\"), **revealed** (no knowledge sent — the lane dark, or a standalone world: \"no town's knowledge is sent: a trod shows to the party only as the DM reveals it\"), **still** (no route laid, or no seed: \"no road is laid, so no trod meets one\"). The regime never reads how many trods are laid, known or revealed: a word computed from a count would tell a player whether any exist. *Notes (each a `world.lens` row under its gate):* \"patrols ride no trod; a trod is watched only where the host says so\" (every regime; J396); \"the host chooses who takes a trod by its stance; the map draws a mover only where the host places it\" (the bodies lane lit); \"a closure stops the road, not the trod: the host's law\" (the host's closure sent as a stored fact — a gate that never holds until the host's quarantine verb exists, V13 §5.9 (1)'s refusal standing).\n\n| element | reads | drawn | class | regime | audience | scrub |\n|---|---|---|---|---|---|---|\n| trod | `Trod` (the layer's line), `TrodJunction` | the line in its form's style with its junction ticks; the DM every trod with V14 §2.3's second cue | P (the map's geometry; the canon's trods slot) | every | the DM; a party only a revealed or discovered trod (the admission over its secret state and the party's `places`) | lay versions |\n| known to | the trod-knowledge events (the knowing seat in `seats`, the trod in `where`, the host's how-word in `cause`, the week) | the knowing seat's pip in its allegiance colour at the trod's midpoint, captioned \"known to ⟨seat⟩ since week n\" with the how-word | S, placed | known | DM; a row the host resolves public draws the mark — and with it the trod's line — for the party | host-dated |\n| watched | `roadWatch` rows naming a trod (`closed`, `warden`) | the watcher's colour on the trod, legend \"watched: the host's word\" | S | when sent | DM | host-dated |\n| on the trod | `hostOverlay` movers on a trod by fraction | a moving marker at the host's fraction along the trod's laid line (the named traveller's grammar, V13 §5.9 (5)) | S, placed | when sent | DM-only by default; a covert mover omitted, never greyed | the view's week (a presentation input) |\n| at the junction, on the trod | `WorldEvent`s whose `where` is a `trod` or `junction` place | the `events` layer's pin, tagged with this lens | S | every | the host's resolution; a party that does not know the trod reads the pin at its point by the country it crosses, never the trod (`placeOf`) | host-dated |\n| width hint | `Trod.form` and its `widthM` | the form word on the trod's card (\"a drover's trod, about 3 m\") | P | every | follows its trod | — |\n\n*Legend:* the banner; then one fixed sentence in every regime and for every audience — \"Trods show where a town is known to use one or the DM has revealed one; others may exist.\" — true whatever the count; the notes above under their gates. *Refusals:* an unknown trod drawn, listed, counted, named or exported for a party; a count of trods — laid, known or revealed — on any party-facing surface, the regime words, the picker and the screen-reader summary included; a mover's course guessed (motion without a host clock) or a mover drawn on a trod the host did not name; an ambush, a sortie, a choke point or a danger at a junction the host did not send (the host's ambush rule is topological; the map draws the junction, never the verdict); a line of sight presented as the host's; a patrol cadence on a trod or a `patrolOffer` row for one; a trod drawn carrying, slowing or bypassing a plague, or a quarantine line (the plague lens's refusal stands until the host sends a closure as a stored fact); the host's capacity band drawn from the map's width hint (the host derives it); a trod drawn as a road promoted, or a decayed road drawn as a trod. Its why: `lensWhy` per mark gives the host row (its kind, how-word, week and audience) and the rule; for a party a revealed trod answers \"revealed by the DM, week n\" and nothing of its neighbours."
+ },
+ {
+  "id": "955 (bb)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 3591,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "| W7a + W7b | Σ over edges of the search ellipse's cells (A\\*, V13 §3.8; C13-36) | 60 ms | 200 ms | 520 ms | ≤ 8 ns × Σ ellipse cells over edges (an edge's ellipse ≈ 2.4 × the pair's straight cost² ÷ the cell area at `maxCostFactor` 6; 300 edges at the continent rung ≈ 6 × 10⁷ cells) |",
+  "new": "| W7a + W7b | Σ over edges of the search ellipse's cells (A\\*, V13 §3.8; C13-36) | 60 ms | 200 ms | 520 ms | ≤ 8 ns × Σ ellipse cells over edges (an edge's ellipse ≈ 2.4 × the pair's straight cost² ÷ the cell area at `maxCostFactor` 6; 300 edges at the continent rung ≈ 6 × 10⁷ cells) |\n| W7c | fine cells (the rough flood) + Σ over the pairs tried of the search ellipse's cells (W7 (13); file w item 955) | 25 ms | 50 ms | 100 ms | ≤ 10 ns × fine cells + 8 ns × Σ ellipse cells over pairs (a trod's ellipse ≈ 2.4 × its pair's straight cost² ÷ the cell area at `world.trods.maxCostFactor` 3 — a quarter of a route's; 2 000 trods of 10 km at the province rung ≈ 2 × 10⁶ cells) |"
+ },
+ {
+  "id": "955 (bc)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 3594,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "| **total** | | **730 ms** (budget 600: **over** — the province row's budget is re-declared at 900 ms, V13 §2.3's cell is data) | **2 900 ms** (budget 1 800: **over** — re-declared at 3 000 ms) | **6 700 ms** (budget 4 500: **over** — re-declared at 7 000 ms) | |",
+  "new": "| **total** | | **755 ms** (budget 600: **over** — the province row's budget is re-declared at 900 ms, V13 §2.3's cell is data; 730 before W7c, file w item 955) | **2 950 ms** (budget 1 800: **over** — re-declared at 3 000 ms; 2 900 before W7c) | **6 800 ms** (budget 4 500: **over** — re-declared at 7 000 ms; 6 700 before W7c) | |"
+ },
+ {
+  "id": "955 (bd)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 3656,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "a whole landmass's approaches ≤ 0.1 × the W7a + W7b row (V13 §3.8 (12)). Each",
+  "new": "a whole landmass's approaches ≤ 0.1 × the W7a + W7b row (V13 §3.8 (12)); `WORLD-18` W7c inside its row above per rung, and the trods' records ≤ 0.5 MB gzipped at the continent rung inside the 2 MB records block (V13 §2.7; the rebuild-on-load fallback pre-decided; file w item 955). Each"
+ },
+ {
+  "id": "955 (be)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 3720,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "| T-V13-58 | a site's coherence (V13 §3.11.1; J393): every shipped kind row's coherence rows evaluated at a fixture point per row, met and unmet (each of V14's ten tests at its tolerance ± 1 cell, or ± 1 m on a line; a route-borne test counts no approach road); a tollhouse dropped 600 m off a road is unlawful, the dry run preselects the road point with `bend.site.placement` naming the row and the distance, `keep` places it at the asked point unlawful with `siteIncoherent`, `takeOffer` on the road; a hideout dropped 150 m from a road is bent beyond 300 m; a tollhouse 4 km from every road (beyond its 1 000 m `bendM`) is kept unlawful with the nearest lawful within 20 km offered and none preselected; a camp off every road and water is lawful at cost 1 with no anomaly; a fort with no height, pass or crossing is lawful at cost 4; a host-locked tollhouse off every road is neither bent nor offered and reads `siteIncoherent` DM-only; a road the mock host demotes to hidden under a placed tollhouse raises `siteIncoherent` at the next window and moves nothing; no bend or offer candidate lies on water or inside a placed frame's extent + margin; a drop with no point never lands on a point failing a row of cost 5; a kept unlawful drop replays from its event (`requestCharter`'s `accept: ['unlawful']`); the derived site anomalies, one fixture per cause — a `rerouteReach` moving the reach off a bridge fort's crossing, a host window hiding a tollhouse's road, a route chartered past a hideout, a W5 re-thinning taking a mine's ore — each read at the next read with nothing moved, the stored `coherenceCost` and the world's model digest byte-equal (T-V13-11's form); every bend, offer, approach road and anomaly writes its reason record (T-V13-10's chain); every search is bit-identical across two runs | the placement fixtures |",
+  "new": "| T-V13-58 | a site's coherence (V13 §3.11.1; J393): every shipped kind row's coherence rows evaluated at a fixture point per row, met and unmet (each of V14's ten tests at its tolerance ± 1 cell, or ± 1 m on a line; a route-borne test counts no approach road); a tollhouse dropped 600 m off a road is unlawful, the dry run preselects the road point with `bend.site.placement` naming the row and the distance, `keep` places it at the asked point unlawful with `siteIncoherent`, `takeOffer` on the road; a hideout dropped 150 m from a road is bent beyond 300 m; a tollhouse 4 km from every road (beyond its 1 000 m `bendM`) is kept unlawful with the nearest lawful within 20 km offered and none preselected; a camp off every road and water is lawful at cost 1 with no anomaly; a fort with no height, pass or crossing is lawful at cost 4; a host-locked tollhouse off every road is neither bent nor offered and reads `siteIncoherent` DM-only; a road the mock host demotes to hidden under a placed tollhouse raises `siteIncoherent` at the next window and moves nothing; no bend or offer candidate lies on water or inside a placed frame's extent + margin; a drop with no point never lands on a point failing a row of cost 5; a kept unlawful drop replays from its event (`requestCharter`'s `accept: ['unlawful']`); the derived site anomalies, one fixture per cause — a `rerouteReach` moving the reach off a bridge fort's crossing, a host window hiding a tollhouse's road, a route chartered past a hideout, a W5 re-thinning taking a mine's ore — each read at the next read with nothing moved, the stored `coherenceCost` and the world's model digest byte-equal (T-V13-11's form); every bend, offer, approach road and anomaly writes its reason record (T-V13-10's chain); every search is bit-identical across two runs | the placement fixtures |\n| T-V13-59 | trods (W7 (13); file w item 955): on B-WORLD-lite two runs are byte-identical and permuted route and seat inputs give the same trods (ties by sorted lineage keys); every trod ends at two junctions — on a public route at a point of its lay in force, on a seat's margin ring outside its extent + margin, or on another trod's vertex — and none at a seat cell, inside a placed frame, on an approach road or on a water leg; no trod crosses a water cell on land, crosses a route except at its junctions, has an open run over `openRunMaxM` or a rough share under `coverShare`, or lies within `spacingM` of another save at a junction; a province template with no rough country lays none and reports nothing, one with a country under `minPerCountry` reports `W_TROD_SPARSE` once per country; the count per country lies in [`minPerCountry`, `maxPerCountry`] and the province total within the `perKm2` arithmetic; a trod's `form` follows the form rule; its stations and `vertexClass` carry no trod factor; its cells are absent from the `route` layer, it earns no `existingRoute` discount for a later route, enters no W6b `connectivity` term, no siting plug-in, coherence test, charter `roads` row, `roadsAt` row, continuity, `PatrolCadence` or `patrolOffer` row, and yields no border-post proposal where it crosses a border; on the host-bound fixture the canon's trods slot is byte-identical across every sway revision, polity window, death and knowledge event, every row names the trod's key and integer runs in the host's class words with no float, prose or raster index, a junction on a host route names its edge key and fraction, a mock-host demotion of the route to `hidden` moves no trod and mints none, a `bypass` under a junction leaves the slot byte-identical until the mock host's `canonized` for that lay and then re-joins the trod with its key kept (`W_HOST_CANON_BEHIND` meanwhile), a route chartered across a trod splits it at the adopting canonize, the additive canon changes only the trods a new seat's edges touch, and `routeFacts`' ground runs for every host edge collapse exactly to the route's `vertexClass` and `stations` (item 956) and sum to its per-class effort; a world with the trods dropped from the file rebuilds them byte-identically on load with every revealed trod's state kept | the world fixtures; a mock host |"
+ },
+ {
+  "id": "955 (bf)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 3737,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "a hidden road has none;",
+  "new": "a hidden road has none, a trod has none and no `patrolOffer` row (W7 (13));"
+ },
+ {
+  "id": "955 (bg)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 3751,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "| T-V13-56 | the trade lens's production and need (J380): every economy row's goods are keyed by the host's catalog key as its supply links key them — two labels the host keys alike draw as one good, each label kept on its card, a loosely read key marked — with the category and shippable flag the host sends, no flag derived from a category (a custom good the host sends shippable draws shippable); production, needs, exports, imports, services and food coverage draw under every regime, loads, arrivals, relations and still alike; a food good and a catalog service never draw moving (on a route, a mover or a shipment-styled link), while a service export the host ships as a good draws as a shippable good; a food coverage ring is filled to the share the host sent, kept at its surveyed share while a cut is in force, the cut marked by the stressor's word and never by the war's siege mark; a supply arrival captions the good its link names where the host sent one and guesses none where it did not; no criminal channel and none of the host's criminal income reaches a player picture; stocks, throughput (its inbound and outbound words) and the entrepôt heat draw in the loads regime only; relief and credit draw no link where the host names no giver | the trade fixtures |",
+  "new": "| T-V13-56 | the trade lens's production and need (J380): every economy row's goods are keyed by the host's catalog key as its supply links key them — two labels the host keys alike draw as one good, each label kept on its card, a loosely read key marked — with the category and shippable flag the host sends, no flag derived from a category (a custom good the host sends shippable draws shippable); production, needs, exports, imports, services and food coverage draw under every regime, loads, arrivals, relations and still alike; a food good and a catalog service never draw moving (on a route, a mover or a shipment-styled link), while a service export the host ships as a good draws as a shippable good; a food coverage ring is filled to the share the host sent, kept at its surveyed share while a cut is in force, the cut marked by the stressor's word and never by the war's siege mark; a supply arrival captions the good its link names where the host sent one and guesses none where it did not; no criminal channel and none of the host's criminal income reaches a player picture; stocks, throughput (its inbound and outbound words) and the entrepôt heat draw in the loads regime only; relief and credit draw no link where the host names no giver | the trade fixtures |\n| T-V13-60 | the trods' audience and lens (file w item 955): a trod at birth is absent from every party picture, listing, count, name, label, screen-reader summary, `mapFeed` party audience and player-audience export, and from `placeOf`'s words for a party (its hearing place reads as the country it crosses); the DM's picture draws every trod with its cue; two worlds that differ only in their unrevealed trods give byte-identical party pictures, legends, picker rows, still reasons, `lensWhy` answers, summaries and exports; a knowledge event draws the knowing seat's mark for the DM from its week and the trod's line for the party only where the host resolved it public, a retraction removes it, and an unresolved row is DM-only; the DM's `setAttr` to `revealed` draws the line for the party and `discovered` raises its `knownTo` to `local`; a mover the host places on a trod sits at its fraction, a covert one is omitted; a `roadWatch` row naming a trod draws the watch and no cadence; the regime reads known, revealed or still and never from a count; the legend sentence is identical whatever the count; every refusal of V13 §5.9 (9) asked as a draw returns `refuse.lens.invented` | the audience fixtures; a mock host |"
+ },
+ {
+  "id": "955 (bh)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 3766,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "| `W_SITE_NO_ROAD_ACCESS` | warning | W7 (12) (J393) | the site, the nearest route of its kind's class and its distance |",
+  "new": "| `W_SITE_NO_ROAD_ACCESS` | warning | W7 (12) (J393) | the site, the nearest route of its kind's class and its distance |\n| `W_TROD_SPARSE` | warning | W7 (13) (file w item 955) | the rough country (its lowest-then-leftmost cell and area) and the trods laid, under `minPerCountry` |"
+ },
+ {
+  "id": "955 (bi)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 3814,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "W7 (12)'s approaches to world sites and P1's site form with its bend (J393); W8a and W8b",
+  "new": "W7 (12)'s approaches to world sites and P1's site form with its bend (J393); W7 (13)'s trods with their junctions, the `trods` layer, the canon's trods slot, the trod-knowledge event kind, the DM's reveal and the `roadWatch` trod rows (file w item 955; the milestone the host's bodies chain names); `routeFacts`' ground runs (item 956); W8a and W8b"
+ },
+ {
+  "id": "955 (bj)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 3814,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "T-V13-14, 16, 17, 38, 39, 41 – 43, 46, 57, 58; the B-WORLD statistics bars | 8 pw (J393's site form,",
+  "new": "T-V13-14, 16, 17, 38, 39, 41 – 43, 46, 57, 58, 59; the B-WORLD statistics bars | 9 pw (the trods, their slot and the ground runs ≈ 1 pw, file w items 955 and 956; J393's site form,"
+ },
+ {
+  "id": "955 (bk)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 3816,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "prosperity and alignment (V13 §5.9) | T-V13-47 – T-V13-56 | 7 pw |",
+  "new": "prosperity and alignment; the trods lens, the ninth, last (V13 §5.9 (9); file w item 955) | T-V13-47 – T-V13-56, 60 | 7 pw (the trods lens step ≈ 0.5 pw: below the row's whole-week resolution, so the row holds) |"
+ },
+ {
+  "id": "955 (bl)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 3906,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "| H31 | after M-W3, after H19 (optional; J393) | its map surfaces draw the map feed's approach roads — the map's own roads to world sites, keyless — as presentation labelled \"map road\", read by no step of its simulation | M-W2; H19 |",
+  "new": "| H31 | after M-W3, after H19 (optional; J393) | its map surfaces draw the map feed's approach roads — the map's own roads to world sites, keyless — as presentation labelled \"map road\", read by no step of its simulation | M-W2; H19 |\n| H32 | with M-W2 (its slot reading and the events); with M-W5's trods step (its marks) | the trod asks (file w item 955; the row's number, never the kernel's `H32` hash): its builder over the canon reading the **trods slot** beside the travel, water and sites slots (an H5 sibling: each trod's key, form word, two junctions, course, ordered ground runs with integer effort, length and snow weeks; each junction's point and the host edge and fraction, seat or trod it lies on) and pricing a trod under its own law, slower than a road, its size band from the form word it registers — the map's words, one meaning each: *trod*, *junction*, *narrow*, *drove*, *broad*; never *way*, the settlement frame's, and never *hidden*, its own road grade —; its **trod-knowledge event** in the events window (H9): the knowing seat, the trod's key, its how-word (through the adapter folder's vocabulary table), the week and the resolved audience, retracted by the windowed replace; every engagement on a trod or at a junction with its `where` naming the trod (with the fraction) or the junction by their keys, or the country it crosses; its watches on a trod in the polity window's road-watch rows (H13); its movers on a trod in the presentation overlay (H17) by the trod's key and fraction; its reveal to the party writing the shared `party` key as a site's does (V14 §2.3); the ordered ground runs of `routeFacts` read for its army pace and, until this row's slot lands, for its own stand-in cover graph (item 956); nothing of the map's: no patrol coverage on a trod (J396), no capacity, no ambush verdict, no line of sight | M-W2; H5; H9; H12; H13; H17; M-W5 for the marks |"
+ },
+ {
+  "id": "955 (bm)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 4028,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "| J-V13.113 | **(J393.)** chose the approach road as **a road to the map's readers of roads and no road to its pricing and siting** — read by `roadsAt`, the charters, the crop, the view, the exports and `derivedTime`; never by `existingRoute`, W6b's `connectivity`, V14's siting plug-ins, the site coherence tests or the patrols — and **its `knownTo` its site card's**, over a road every reader counts, because a site's coherence and siting would otherwise turn on the order other sites were dropped (another site's track could make a placed hideout incoherent or zero a hermitage's `solitude`), a road to a site draws no settlement and carries no patrol, and the road to a DM-only site would draw for the players (item 133 (e)) (vetoable) |",
+  "new": "| J-V13.113 | **(J393.)** chose the approach road as **a road to the map's readers of roads and no road to its pricing and siting** — read by `roadsAt`, the charters, the crop, the view, the exports and `derivedTime`; never by `existingRoute`, W6b's `connectivity`, V14's siting plug-ins, the site coherence tests or the patrols — and **its `knownTo` its site card's**, over a road every reader counts, because a site's coherence and siting would otherwise turn on the order other sites were dropped (another site's track could make a placed hideout incoherent or zero a hermitage's `solitude`), a road to a site draws no settlement and carries no patrol, and the road to a DM-only site would draw for the players (item 133 (e)) (vetoable) |\n| J-V13.114 | **(file w item 955.)** chose **`trod`** for the owner's hidden way, with **`junction`** for its end and **`form`** (narrow, drove, broad) for its width hint, over the host's proposed *way* (the base's `WayClass` and `Way`, V13's glyph mark `way`, V14's way bands and J393's way to the gate: one token, two meanings at every ring a trod would meet), *trace* (the edit traces), *path*, *track* and *trail* (way and route classes), *byway* (free in the volumes but the sites-roads design B's rejected name for the approach road, and a minor public road in plain English) and *holloway* or *droveway* (physical forms, kept as the form words' senses), because *trod* has no use in the volumes, the base or the host's notes and names in plain English exactly a foot-worn path a body walks in file; *hidden* stays the host's grade of a demoted road, never the new layer's class (vetoable) |\n| J-V13.115 | **(file w item 955.)** chose a **record of its own** (`Trod` with two `TrodJunction`s) beside `WorldRoute`, over a seventh route class, an origin `trod` or a `WorldRoute` with two `join`s, because a trod has no host key, no seat end and no leg, every reader of routes (the discount, connectivity, siting, coherence, charters, `roadsAt`, continuity, patrols, border posts) must not count it, and W7 (11)'s law that a host route ends at two settlements stands untouched (vetoable) |\n| J-V13.116 | **(file w item 955.)** chose the trods as a **fourth canon slot** with its own input hash and version, law (1) widened by one clause (the slot reads the routes' laid courses in force, their geometry alone), over an optional simulator product beside `routeFacts` (the host asked for canon truth its builder reads, and knowledge, watches and movers ride the windows, never the slot) or junctions on the seat-territory crossings alone (pure functions already, but not on a road: the owner's \"hidden roads that connect between roads\") (vetoable) |\n| J-V13.117 | **(file w item 955.)** chose **junctions on the lay in force**, re-joined at the canonize that adopts a re-lay and tombstoned where no route lies within `edgeBandM`, over junctions on the genesis lay alone (a bypassed road's trods would ambush a course nobody travels) or live re-joins at each window (a lived host fact moving an adopted canon, against law (7)) (vetoable) |\n| J-V13.118 | **(file w item 955.)** chose the **density rule from the map's own rasters** — rough countries from `landUse` and slope, a target per km² of rough country per rung, candidate pairs across two routes first, a cover share and an open-run cap — over the host's cover graph between route junctions (the host never invents geography; its stand-in is its own until the slot lands), a count per route (the owner's \"several per rough country, none across open plain\" is per country) or a draw (W7c draws nothing) (vetoable) |\n| J-V13.119 | **(file w item 955.)** chose the **form word as the width hint** (three forms with nominal widths, own and calibratable; the host registers the words and derives its band) over a capacity on the record (no route carries one; the host asked for a derivable hint and keeps its band its own) or ground class alone (a goat path and a cart-wide hollow cross the same forest) (vetoable) |\n| J-V13.120 | **(file w item 956.)** chose the overt routes' **per-stretch ground classes as `routeFacts`' ordered runs**, a derived transient collapsed from the record's `stations` and `vertexClass`, over a new persisted field (the record has held the per-segment class since item 689; a second copy would be a cache) or leaving them to the map feed (which no step of the host's simulation reads), because the host's army pace and its stand-in cover graph read the simulator feed (vetoable) |\n| J-V13.121 | **(file w item 955.)** chose **knowledge the host's** — a dated trod-knowledge event in the events window with its resolved audience, drawn and never decided by the map, retracted by the windowed replace — and **the party's reveal V14 §2.3's `SecretState` unchanged** (`dmOnly` at birth; the DM seeing every trod with its cue, as a DM-only site), over a known flag on the record the host writes (the map storing a host state as its own fact), a map rule for who knows (an invented fact), a fourth knowledge tier (J-V14.12's reason) or a default-off DM view key (the DM cannot reveal what it cannot see; a still lens is never hidden, J-V13.88) (vetoable) |\n| J-V13.122 | **(file w item 955.)** chose a **ninth lens, `trods`**, with one fixed count-free legend sentence and regime words never read from a count, **no patrol cadence on any trod and no `patrolOffer` row** (a watch drawn only as the host sends it; J396), and **no border post, continuity, siting or coherence through a trod**, over rows of the patrols lens (J378's road watching is another host system), a legend row shown only when some trod is known (its presence would itself tell a player one exists), a map cadence on a known trod (the map guessing the host's watching, patrol pieces in the crop where the host sets none) or a trod read as a route of the lowest class (a border post or a site on a trod would publish a secret way) (vetoable) |\n| J-V13.123 | **(file w item 955.)** chose **no trod born where a road dies** — a host route the host demotes to `hidden` or abandons stays a `WorldRoute`, a DM-only ghost, never a trod, and the map never promotes a trod — and **the quarantine refusal kept** until the host sends a closure as a stored fact (then a gated note of its law, the trod drawn unchanged across it), **junctions carrying nothing of sight**, over minting a trod from a decayed course (a lived host fact entering the canon; the host's own law prices its hidden rung on that road already) or drawing a quarantine line the host has no verb for (vetoable) |\n| J-V13.124 | **(file w item 955.)** chose **the layer in M-W2 and the lens in M-W5**, M-W2 the milestone the host's bodies chain names, with one new host row H32, over M-W5 alone (the host's stand-in would wait on the whole lens mechanism), a milestone of its own (M-W2 already holds every reader a trod must be kept from) or amending H9, H13 and H17 (generic carriers; each lens step has its own asks row) (vetoable) |"
+ },
+ {
+  "id": "955 (bn)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 4432,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "(V13 §8.5's H1–H31)",
+  "new": "(V13 §8.5's H1–H32)"
+ },
+ {
+  "id": "955 (bo)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 4437,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "H12–H17 and H22 with M-W2, H23–H30 with M-W5, H18–H20 after M-W3",
+  "new": "H12–H17, H22 and H32's slot reading with M-W2, H23–H30 and H32's marks with M-W5, H18–H20 after M-W3"
+ },
+ {
+  "id": "955 (bp)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 4461,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "(Q2).",
+  "new": "(Q2).\n\n**Q5 — The hidden ways' price and their place in the host's bodies chain (file w item 955).** The owner's rule of\n2026-10-18 asked for the brigands' hidden roads; the host's request of that date asks the map for the layer, the reveal\nand the ordered ground classes, and will name the map's milestone as a prerequisite of its bodies chain. The design\nputs the layer, the canon slot, the reveal and the ground runs in M-W2 (≈ 1 pw more: 8 → 9 pw) and the trods lens in\nM-W5 (≈ 0.5 pw, inside its row), and gives the host one new row, H32. What is the owner's: the money, and whether the\nbodies chain may wait on M-W2 (after M-SF and M-W1) or the host builds its stand-in cover graph first from the ground\nruns (item 956), retiring it when the slot lands. *Recommendation:* accept the price and name M-W2; let the host build\nits stand-in from the ground runs meanwhile, since those land with the same milestone's `routeFacts` and change no\nsimulated byte until the host reads them."
+ },
+ {
+  "id": "955 (bq)",
+  "file": "docs/volumes/V14-sites.md",
+  "line": 766,
+  "md5": "f5dd37a7e9b739da7f29095d47a17a87",
+  "old": "  // function (§9.2) reads knownTo and the key's `places` as for any place; the state adds the second cue (V14 §5.1) and the clerk's words only.",
+  "new": "  // function (§9.2) reads knownTo and the key's `places` as for any place; the state adds the second cue (V14 §5.1) and the clerk's words only.\n  // A trod (V13 §2.2, W7 (13); file w item 955) carries this same record and goes through the same admission and the same `party` key: `dmOnly` at birth, `revealed` by the DM's `setAttr` on `trod/secret/state` or the host's reveal, `discovered` by the host's event; a party view neither draws, lists, counts, names nor exports a trod it does not admit."
+ },
+ {
+  "id": "955 (br)",
+  "file": "docs/volumes/V14-sites.md",
+  "line": 2091,
+  "md5": "f5dd37a7e9b739da7f29095d47a17a87",
+  "old": "class, biome, the route or river within the rectangle, the seat territory",
+  "new": "class, biome, the route or river within the rectangle (and a trod the crop's audience admits, V13 W7 (13): its line a `path` band at its form's width, no patrol passing on it), the seat territory"
+ },
+ {
+  "id": "955 (bs)",
+  "file": "docs/volumes/V14-sites.md",
+  "line": 3177,
+  "md5": "f5dd37a7e9b739da7f29095d47a17a87",
+  "old": "border posts' `at` on the route's polyline | V14 §2.2, §2.5,",
+  "new": "border posts' `at` on the route's polyline; (19) file w item 955: the `Trod` record carrying this volume's `SecretState` and the party's `places` as its reveal (`dmOnly` at birth, the DM's `setAttr` on `trod/secret/state`, the host's reveal and discovery events), the E1 world case reading an admitted trod as a `path` band at its form's width with no patrol passing on it, and `placeOf`'s audience for a `trod` or `junction` place | V14 §2.2, §2.5,"
+ },
+ {
+  "id": "956 (a)",
+  "file": "docs/volumes/V13-world.md",
+  "line": 2485,
+  "md5": "e68af748638dd3c8474d21b37005c7ac",
+  "old": "  effort, the crossings and the 52-week seasonal sets — never `costTotal` —",
+  "new": "  effort, the ordered ground runs (file w item 956: from the route's `stations` and `vertexClass`, consecutive segments of one class collapsed to runs of (to-station, class, effort-metres) — a derived transient of the record, never a second field), the crossings and the 52-week seasonal sets — never `costTotal` —"
+ },
+ {
+  "id": "957 (a)",
+  "file": "docs/HOST-REQUIREMENTS-2026-10-18.md",
+  "line": 606,
+  "md5": "7db37cc1a4e03fc8db665c1be9d55211",
+  "old": "gives each route a line, a total cost and a reason, but no per-stretch breakdown. If the host stops building its own frozen digest it loses these receipts unless the map adds them; army pace along a route (T9) depends on them. (ENC-HS-06)",
+  "new": "gives each route a line, a total cost and a reason, and — since amendments m (item 689) — the per-segment terrain class and the effort stations on each route's record (`WorldRoute.vertexClass`, `stations`, `byClassM`; V13 §2.2) with the per-class effort in the simulator feed; the ordered stretches reach the simulator feed as `routeFacts`' ground runs (file w item 956). Army pace along a route (T9) reads them. (ENC-HS-06)"
+ },
+ {
+  "id": "957 (b)",
+  "file": "docs/HOST-REQUIREMENTS-2026-10-18.md",
+  "line": 606,
+  "md5": "7db37cc1a4e03fc8db665c1be9d55211",
+  "old": "Ledger row T2, verdict MISSING (`WorldRoute` has no per-segment terrain class). Ledger I/O: ONE-SHOT at canonize. |",
+  "new": "Ledger row T2, verdict SUPPLIED since amendments m (item 689) and file w item 956 — was MISSING: the research note read V13 at 2,988 lines, before `vertexClass` landed. Ledger I/O: ONE-SHOT at canonize. |"
+ },
+ {
+  "id": "957 (c)",
+  "file": "docs/HOST-REQUIREMENTS-2026-10-18.md",
+  "line": 625,
+  "md5": "7db37cc1a4e03fc8db665c1be9d55211",
+  "old": "It needs the per-stretch terrain classes the map does not return (\"needs T2\").",
+  "new": "It needs the per-stretch terrain classes, which the map's record has held per segment since amendments m (item 689) and `routeFacts` returns as ordered ground runs (file w item 956; \"needs T2\" answered)."
+ },
+ {
+  "id": "957 (d)",
+  "file": "docs/HOST-REQUIREMENTS-2026-10-18.md",
+  "line": 653,
+  "md5": "7db37cc1a4e03fc8db665c1be9d55211",
+  "old": "but did not build it; the map offers no detour either. (ENC-HL-10) | An encounter on a worn bypass has no geometry to sit on until one side builds it. |",
+  "new": "but did not build it; the map mirrors a host `bypass` as a dated re-lay of the route round the avoided seat (V13 §3.8 (9); T-V13-41 (u)) and offers no detour of its own. (ENC-HL-10) | An encounter on a worn bypass sits on the re-laid route once the host sends the bypass; a hidden way (a trod, file w item 955) whose junction lay on the former course re-joins the lay in force at the canonize that adopts it. |"
+ },
+ {
+  "id": "957 (e)",
+  "file": "docs/HOST-REQUIREMENTS-2026-10-18.md",
+  "line": 654,
+  "md5": "7db37cc1a4e03fc8db665c1be9d55211",
+  "old": "that is map geometry, and the map must not present it as host truth. |",
+  "new": "that is map geometry, and the map must not present it as host truth. The hidden ways' junctions are topological — which trod meets which road where — never a line of sight (file w item 955). |"
+ },
+ {
+  "id": "957 (f)",
+  "file": "docs/HOST-REQUIREMENTS-2026-10-18.md",
+  "line": 655,
+  "md5": "7db37cc1a4e03fc8db665c1be9d55211",
+  "old": "| Smuggler and wanderer encounters would sit on these paths. | Ledger row M4: STUB; verdict MISSING. |",
+  "new": "| Smuggler and wanderer encounters would sit on these paths. Answered from the map's side (file w item 955): the hidden ways are **trods** — the map's own geography, laid by W7 (13) between the roads of every rough country (several per country, none across open plain), a fourth canon slot the host's builder reads (each trod's key, form word, two junctions, course, ordered ground runs with integer effort); never a seventh route class and never the host's `hidden` grade, which stays the demoted road's rung (a hidden host road is a `WorldRoute`, a DM-only ghost; no trod is born where a road dies). Who knows a trod is the host's, sent as a dated event with its audience (H32); the map draws a trod only as known, revealed or discovered, and its legend never counts them. The host's word *way* collides with the map's settlement-frame ways; the map's word is *trod*. | Ledger row M4: STUB; map side SUPPLIED by file w item 955 at M-W2 (was MISSING). |"
+ },
+ {
+  "id": "957 (g)",
+  "file": "docs/HOST-REQUIREMENTS-2026-10-18.md",
+  "line": 656,
+  "md5": "7db37cc1a4e03fc8db665c1be9d55211",
+  "old": "so the host's engagement registry is where the map's typed places and border segments will be read. |",
+  "new": "so the host's engagement registry is where the map's typed places and border segments will be read. A trod and a trod's junction are typed places (`WorldWhere` kinds `trod` and `junction`, by the canon's keys; file w item 955), named for the party only where its places admit the trod, else as the country it crosses. |"
+ },
+ {
+  "id": "957 (h)",
+  "file": "docs/HOST-REQUIREMENTS-2026-10-18.md",
+  "line": 109,
+  "md5": "7db37cc1a4e03fc8db665c1be9d55211",
+  "old": "| H30 | Export: a per-advance alignment reading in the lens window (both axes and their bands by its own law, the aggression chip word, the top causes), published as its faith projection is; a week on each tolerance offset's causes. Offer: fix the moral drift's compounding decay and its freeze outside belief worlds, a defect the alignment read found. Host: its alignment, its moral drift. V13 §8.5 H30 (line 3768). | The alignment lens draws per-advance readings; lenses scrub stored plates and replay nothing (V13 §5.8 (8)). | H23. | Export plus one offer (lines 3724–3728, 3768) |",
+  "new": "| H30 | Export: a per-advance alignment reading in the lens window (both axes and their bands by its own law, the aggression chip word, the top causes), published as its faith projection is; a week on each tolerance offset's causes. Offer: fix the moral drift's compounding decay and its freeze outside belief worlds, a defect the alignment read found. Host: its alignment, its moral drift. V13 §8.5 H30 (line 3768). | The alignment lens draws per-advance readings; lenses scrub stored plates and replay nothing (V13 §5.8 (8)). | H23. | Export plus one offer (lines 3724–3728, 3768) |\n| H32 | The trod asks (file w item 955; V13 §8.5 H32 — the row's number, never the kernel's `H32` hash; H31, the optional map-road row of file t, lies between). With M-W2: its builder reads the canon's fourth slot, the trods (each hidden way's key, form word, two junctions, course, ordered ground runs with integer effort, length and snow weeks; each junction's point and the host edge and fraction, seat or trod it lies on), prices a trod under its own law, slower than a road, and derives its size band from the form word it registers; it sends a trod-knowledge event (the knowing seat, the trod's key, its how-word, the week, the resolved audience) through the events window (H9), names a trod or junction as an engagement's \"where\", watches a trod through the road-watch rows (H13) and places its movers on a trod through the presentation overlay (H17); its reveal to the party writes the shared party key as a site's does. With M-W5: the trods lens draws those facts. The map's own words: *trod*, *junction*, *narrow*, *drove*, *broad*; its *hidden* stays its road grade. | The hidden ways the host's bodies travel are the map's geography; who knows them, who rides them and what happens on them are the host's. Until the slot lands the host's stand-in cover graph reads `routeFacts`' ground runs (item 956). | M-W2; H5; H9; H12; H13; H17; M-W5 for the marks. | Required for the bodies chain (V13 §8.5 H32) |"
+ },
+ {
+  "id": "955 (bt)",
+  "file": "docs/volumes/INDEX.md",
+  "line": 39,
+  "md5": "10a72c97f86a88533292971629c56539",
+  "old": "suitability, routes, polity, labels and the settlement glyph);",
+  "new": "suitability, routes with the trods — the hidden ways of rough country the campaign's bodies travel, a fourth canon slot, drawn only as known or revealed (W7 (13); file w item 955) —, polity, labels and the settlement glyph);"
+ },
+ {
+  "id": "955 (bu)",
+  "file": "docs/volumes/SUMMARY.md",
+  "line": 74,
+  "md5": "1c0ada295f24b9e22909ce86eaec2cd8",
+  "old": "    in once as data and written back out in the shapes its tools expect; nothing the campaign already has is lost.",
+  "new": "    in once as data and written back out in the shapes its tools expect; nothing the campaign already has is lost.\n    Rough country — forest, hills, marsh and mountain — also carries **hidden ways** the campaign's brigands travel\n    instead of the roads: the map lays several through every such country, each running from road to road and never\n    across open plain; the campaign decides which towns know of one; and the players' map shows a hidden way only when a\n    town is known to use it or you reveal it, and never says how many there are."
+ }
+]

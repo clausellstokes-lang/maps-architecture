@@ -5,9 +5,9 @@
 // canonical rings, the line and ray tests.
 import { LATTICE } from '@plat/kernel';
 import { describe, expect, it } from 'vitest';
-import { planCut, TOUCH_CM } from '../../../src/infill/planner.js';
+import { cornerScale, planCut, TOUCH_CM } from '../../../src/infill/planner.js';
 import { canonicalRings, faceSides, insideFace, lineCrossings, rayHit, runAt, sideDir } from '../../../src/infill/sides.js';
-import { asCut, CTX, dot, FACES, ring, streamsFor } from './support.js';
+import { arc, asCut, CTX, dot, FACES, ring, spineBeside, streamsFor } from './support.js';
 
 describe('the runs the planner reads', () => {
   it('passes the kerb\'s corner scale: a round-joined kerb reads as four runs meeting at virtual corners', () => {
@@ -28,6 +28,38 @@ describe('the runs the planner reads', () => {
     // The default scale is the face's widest spine half-width; an explicit one overrides it.
     const wide = asCut(planCut(FACES.roundJoined, { ...CTX, cornerScaleCm: 300 }, streamsFor(1)));
     expect(wide.sides.runs).toHaveLength(4);
+  });
+
+  it('the default corner scale is the face\'s widest spine half-width, not its narrowest (C-0222 (3))', () => {
+    // A 120 × 70 m block with round joins of radius 8 m (10° pieces, chords ≈ 139 cm) and spines of 600 cm (south) and
+    // 100 cm (the rest): at the widest, 600, every arc piece collapses into a virtual corner; at the narrowest, 100,
+    // none does — so the default plan is the plan at 600 and not the plan at 100.
+    const r = 800;
+    const pts: [number, number][] = [];
+    pts.push(...arc(12000 - r, r, r, -90, 0, 9));
+    pts.push(...arc(12000 - r, 7000 - r, r, 0, 90, 9));
+    pts.push(...arc(r, 7000 - r, r, 90, 180, 9));
+    pts.push(...arc(r, r, r, 180, 270, 9));
+    const face = {
+      rings: [ring(pts.map(([x, y]) => [Math.round(x), Math.round(y)] as [number, number]))],
+      spines: [
+        spineBeside([0, 0], [12000, 0], 600, 300),
+        spineBeside([12000, 0], [12000, 7000], 100, 300),
+        spineBeside([12000, 7000], [0, 7000], 100, 300),
+        spineBeside([0, 7000], [0, 0], 100, 300),
+      ],
+    };
+    expect(cornerScale(face)).toBe(600);
+    expect(cornerScale({ rings: face.rings, spines: [...face.spines].reverse() })).toBe(600);
+    expect(cornerScale({ rings: face.rings })).toBe(0);
+    const snap = (x: unknown): string => JSON.stringify(x);
+    let differ = 0;
+    for (let seed = 1; seed <= 10; seed += 1) {
+      const dflt = planCut(face, CTX, streamsFor(seed));
+      expect(snap(dflt)).toBe(snap(planCut(face, { ...CTX, cornerScaleCm: 600 }, streamsFor(seed))));
+      if (snap(dflt) !== snap(planCut(face, { ...CTX, cornerScaleCm: 100 }, streamsFor(seed)))) differ += 1;
+    }
+    expect(differ).toBe(10);
   });
 
   it('on a round-joined kerb the start and the far end lie on long runs, square to their chords', () => {

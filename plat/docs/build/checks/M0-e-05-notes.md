@@ -153,3 +153,101 @@ the grid, every raster, the faces, the bands, the ε scales, the land and the re
 | N-c1c-2 | **The wealth ramp's angle and the content of `kindsWithoutOffset` are pinned only by the NO-SHIFT probe, more widely than N-c1-1 says.** N-c1-1 names π one ulp low and the reversed order. In this seat's mirror, R2 (π → 3.14159 in `wealthRamp`) and R6 (`kindsWithoutOffset` never filled: the report lists no kind even when kinds lack an offset) also pass the folder (51/51), before and after the round. The probe moves 77 runs under R2 and 19 under R6. R5 (the ramp's sin and cos swapped) is killed by `relief.test.ts`. CONFIRMED (executed). | With N-c1-1's pins, add: the ramp term at one cell for a bearing of 4 500 cdeg, compared with its closed form to 1e-12; and an own-table variant whose report lists the kinds without an offset, sorted. | M4 |
 | N-c1c-3 | **ε's placement on the grid is unpinned for density and greenery.** Mutant X3 reverses the ε raster of density and greenery after it is drawn (the stream's draws, the normalisation and the share are unchanged). It passes the folder before and after the round, and it moves all 133 probe runs. The tests pin ε's share (0.15), its being a function of the stream and the drivers-sum identity, which reads the stored ε back, so a permuted ε passes all three. CONFIRMED (executed). | Pin ε at a few cells against `fbmRow` of the stream's samplers, read independently, or pin a registered seed's `fieldsDigest`. | M4 |
 | N-c1c-4 | **One equivalent survivor, recorded so a later checker does not report it again.** E1 (`edt.ts`, the lower envelope's tie `sn * zd[k] <= zn[k] * sd` → `<`) passes the folder and leaves all 133 probe runs byte-identical. At an exact tie the two parabolas give the same value at the intersection, so the envelope's values do not change. CONFIRMED that it survives (executed); equivalence PLAUSIBLE (reasoned). | None. | — |
+
+## Hardening round S1 (lane `build/M0-e-05-fix-s1`, 2026-10-19 – 2026-10-20) — the builder's row-by-row outcome
+
+The session's hardening round of M0-e-05 (J237 (2), J186, J192; re-triage J423, plan entry 38, batch B6) on the
+inventory's FIX-NOW rows M0-e-05:11 N-1, :12 N-2, :13 N-3, :14 N-4, :15 N-5, :17 N-7, :18 N-8, :21 N-11 and the
+re-triage's rider N-c1c-1. Row :16 N-6 is **DEFERRED to M4 by the re-triage of 2026-10-19 (J423)**; this round built
+nothing for it. Each source note above was read whole before its fix. Edits stay inside the item's owns:
+`src/fields/pass1.ts` (N-7 only) and the tests `test/fields/pass1.test.ts`, `sources.test.ts`, `relief.test.ts`
+and `support.ts`. No index or barrel export was added, removed or renamed (J263 Q1): `fields/index.ts` and
+`src/index.ts` were not edited, and their hashes equal the landed record's. No message text changed. The round started
+on 2026-10-19 and resumed on 2026-10-20 under the CONTINUE RULE in a fresh container. Its edits stood in the tree, and
+the earlier mirror and outputs were gone, so the mutants and the census below were re-run first-hand in a rebuilt
+mirror.
+
+`support.ts` gains the wet site (`WET_TERRAIN`, `WET_RIVER`, `wetResources`, `wetSite`, moved from `relief.test.ts`
+so that `pass1.test.ts` can share it) and `s1River(seed)`. `s1River` is M0-e-03's water fixture
+as its `stage.test.ts` builds it: a 100 ha CITY frame on rolling ground, a river with a tributary and the estuary,
+traced by M0-e-02's `runRivers` and laid by S1's L0 batch (`runS1`) on an indexed ground arena. It reads `@plat/site`
+through its index only. `relief.test.ts` reads the wet site from `support.ts`, and its 6 tests pass, unchanged in number.
+The folder goes from 51 to 59 tests. The 8 new `it`s are the six in `pass1.test.ts` and the two in `sources.test.ts`
+named below.
+
+| row | outcome | what changed | pin (test title) | mutant killed |
+|---|---|---|---|---|
+| N-1 | **pinned** | test only, on M0-e-03's water fixture (`s1River(2)`, the note's shape). The water rings equal the bodies' L0 faces: every ring, body by body, in canonical face order, read by the test's own walk over level 0's live faces. No body owns an L1 face. Every cell whose centre lies in a body has distance 0, and the water kernel's best value inside the bodies is in (0.9, 1] of its weight. | `sources.test.ts` 'the water rings are the bodies' L0 faces, every ring, body by body in canonical face order; the shore and bank edges are the water lines' and 'every cell whose centre lies in a body is a water source (distance 0), and the water kernel is ≈ its weight there' | K28 (`sources.ts:89` `ownedRings(p, 0, …)` → `ownedRings(p, 1, …)`): "expected [] to deeply equal [ …(3) ]" |
+| N-2 | **pinned** | test only. One stored raster cell is changed in each field: the grid's first cell (a margin cell: no district face holds its centre, and `land` is 0 there) and the first land cell. Each change moves `fieldsDigest`, and an unchanged copy keeps it. | `pass1.test.ts` 'changing one stored raster cell moves the digest, the faces' means held: a land cell, and a margin cell outside every district, in each field' | K32 (the per-cell `b.f64(f.values[i])` loop removed from `fieldsDigest`): "expected [ 3846653032, … ] to not deeply equal [ 3846653032, … ]" |
+| N-3 | **pinned** (the note's first alternative: compare against the unsubtracted mean; C-0255 (3)'s claim kept) | test only. ε's raster is read at every 7th cell of seeds 2 and 5, all three fields, and compared with the test's own oracle. The oracle draws the field's sampler from the stream (`noiseStream`, in field order), takes `fbmRow` at every cell centre, subtracts the grid mean, divides by the spread, applies `blur3` with the reported box and multiplies by `chanceScale`, to within 1e-9 of the scale. The test asserts that the grid mean is not 0 before the subtraction (\|m ÷ sd\| > 1e-4), and that more than half the cells sit away from the unsubtracted oracle. | `pass1.test.ts` 'its raster is the blur of the stream's fBm normalised over the grid (its own mean subtracted), scaled once: read independently at every cell' | K19 (`chanceRaster`'s `(out[i] − m.mean) * inv` → `out[i] * inv`): "expected 0.0003249697744978075 to be less than 6.536053086567926e-11" |
+| N-4 | **pinned** (the note's second alternative: ε's raster against `blur3` of the stream's normalised fBm) | the same test. The stored ε equals the blurred oracle, and more than half the cells sit away from the unblurred one. | as N-3 | K20 (`blur3(chance, …)` removed): "expected 0.014671962793081722 to be less than 5.455166829887621e-11" |
+| N-5 | **pinned** | test only, on P3's wet site: the river strip, the terrain and the wells raster, seeds 1 and 2. The digest with the daylight and water rows at weight 0 equals the digest with the rows removed. On the same site, q(x) is not 0: ÷ 0.2, it is > 0.9 by the river and 0.5 on the wells. A non-zero weight moves the digest. | `pass1.test.ts` 'byte-identical on a wet site too (a river strip, the terrain and a wells raster, where q(x) is not 0): rows at weight 0 equal rows removed' | K15 (the water term added at 0.2 when its weight is 0): "expected [ 2911486836, … ] to deeply equal [ 139053814, … ]" |
+| N-7 | **fixed** (the note's second alternative: pass the terrain's own cell) | `heightsOf` passes `terrain.cellCm` as `terrainSampler`'s slope-query step, and its comment says that `heightAt` never reads it. Naming a 250 cm constant, or reading terrain.json's `slopeQueryM`, would give the fields a table dependency for a value they never use. The fields query no slope. | — (no value depends on the step; the NO-SHIFT probe below holds the outputs) | N7E (step 1 cm) survives the folder (59/59): equivalent, as the note says |
+| N-8 | **pinned**, and the case stated in this round's choices row (the note's first alternative), which refines C-0255 (3) | test only. With every driver weight 0 and every character offset 0, the kernels are the base level alone and constant over the land. So `vk` is 0, or rounding, and ε has no variance to take its share of. ε's scale is finite and < 1e-12. Every unclamped value is finite and equals the base level within 1e-12, with no NaN. ε reads < 1e-12 at the land points. A floor variance (the note's other alternative) would add a design constant and give a flat field a pattern that §4.5 does not ask for. | `pass1.test.ts` 'kernels with no variance over the land carry no share to scale against: ε vanishes, the field is the kernels' constant, no NaN' | N8F (`vk` floored at 1e-4): "expected 0.005037876636395508 to be less than 1e-12" |
+| N-11 | **pinned** (the note's first alternative) | test only. The drivers-sum identity runs at 48 m on `fieldTown(4)`, under `fieldsCoarsen: true` and under a 5 000 `field.cells` limit (F-WORK's rung). Each run's `report.cellCm` is 4 800. At every 23rd land point (more than 20 of them), in all three fields, \|sum − unclamped\| < 1e-12. | `pass1.test.ts` 'at 48 m too (the fieldsCoarsen switch, and F-WORK's rung under a 5 000 field.cells limit): the terms sum to the stored value before the clamp' | C05 (the driver blur `blur3(k, …, boxFor(sigmaCm / cells.cellCm))`; `report.blur` kept): "expected 0.005607250075658876 to be less than 1e-12" (the checker's own message on its probe) |
+| N-c1c-1 | **pinned**, and N-c1-2's reason corrected (below) | test only. Every face of `fieldTown` seeds 1 – 8, all three fields: the face's cell count equals the cells whose centre lies in its rings. Those cells are found by the test's own even–odd test, searched over the face's bounding box. Its value equals the mean of the stored (clamped) values over those cells, to 1e-12. The test asserts that some cell inside a face is clamped on these fixtures, so the mean of the stored values differs from the mean of the unclamped ones. | `pass1.test.ts` 'every face of the district fixture, seeds 1 – 8, all three fields: its value is the mean of the stored (clamped) values over its cells, read independently' | F1 (`sums[fi] += values[i]` → `+= unclamped[i]`, = K30): "expected 0.19904647659698813 to be close to 0.19904657659959885, received difference is 1.0000261072007355e-7" |
+| N-6 | **DEFERRED** (M4; the re-triage of 2026-10-19, J423) | nothing built | — | — |
+
+**N-c1-2, corrected (N-c1c-1's second clause).** N-c1-2's reason, "no cell of a face is clamped", is wrong. Read
+instead: **no clamped cell lies in the one face that the test 'a face's value is the mean of the stored values over
+its cells …' reads.** On the registered fixtures, district faces do hold clamped cells: the new every-face test
+counts them and asserts more than 0. The row above is left as committed, and this paragraph is the correction.
+
+**Mutant table** (J183: the faults the rows name, re-introduced in the lane's one scratch mirror
+`/home/user/maps-scratch/waves/selfcheck-build-M0-e-05-fix-s1/plat`, a `cp -a` copy of `plat/`). The mirror was
+isolated: `find … -type l -lname '/home/user/maps-architecture*'` printed nothing, and the realpaths of
+`layout/node_modules/@plat/site` and `@plat/kernel` were inside the mirror. Each mutant ran
+`vitest run --maxWorkers=1 --bail=1 test/fields/` from `packages/layout`, and then the pin's file alone under `-t`
+with the pin's title. Each file was restored by copy and checked with `cmp -s`, and the mirror was deleted afterwards.
+
+| id | mutant | folder (`--bail=1`) | the pin alone |
+|---|---|---|---|
+| K28 | `sources.ts` the bodies' rings read at L1 | red: 1 failed (sources.test.ts, the N-1 pin) | red |
+| K32 | `fieldsDigest` without the per-cell values | red: the N-2 pin | red |
+| K19 | `chanceRaster` without the mean subtraction | red: the N-3 / N-4 pin | red |
+| K20 | ε not blurred | red: the N-3 / N-4 pin | red |
+| K15 | the water term at 0.2 when its weight is 0 | red: the N-5 pin | red |
+| N8F | `vk` floored at 1e-4 (ε scaled against a floor variance) | red: the N-8 pin | red |
+| C05 | the driver blur with a box other than the reported one | red: the N-11 pin | red |
+| F1 | a face's mean read from `unclamped` (K30) | red: the N-c1c-1 pin | red |
+| X3 | ε of density and greenery reversed on the grid (N-c1c-3's mutant, not a row of this round) | red: the N-3 / N-4 pin | red |
+| N7E | `heightsOf`'s slope step 1 cm | green, 59/59: equivalent (`heightAt` never reads the step) | — |
+
+**10 mutants: 9 killed**, each by the pin named in its row; N7E is equivalent. On the pre-round tests, K28, K32, K19,
+K20, C05 and F1 (= K30) survived (the source notes' executed results, `checks/M0-e-05.md` and the closing checks), and
+K15 was killed only by 'the digest sees a change …'. X3 also passed the pre-round folder (N-c1c-3), and the ε raster pin
+now kills it, so N-c1c-3's first alternative is met as a side effect. N-c1c-3 is not this round's row, and its
+outcome stays with M4.
+
+**NO-SHIFT and refusals (J264 (5), N-58).** The round's one source change is N-7's argument. A probe in the mirror
+(a vitest file there, never in the tree) recorded `fieldsDigest`, the full `FieldsReport` and the three ε scales of
+21 `fieldsPass1` runs. Before: the mirror's `pass1.ts` with the pre-round literal 250 restored. After: the round's
+`pass1.ts`. The runs:
+* `fieldTown` seeds 1 – 8;
+* seed 1 with the switch, with `fieldCellsLimit` 1, and with both;
+* seed 3 at epoch 2;
+* seed 1 with five prosperity kinds' offsets removed;
+* the wet site with wells at seeds 1 and 3, each plain, under the switch, and with a 4 500 cdeg bearing;
+* the CITY fixture through S3, S4 and S6 at seed 1;
+* `s1River(2)`, S1's committed river and terrain.
+
+The two JSON files are byte-identical (SHA-256 bbd2a92fddbd4d3f3173a6fe1e5fb68fce2fccb0f14e8e8722ff4c921605c2d4), and
+`town:1`'s digest is 3913845964,…, which is C1's. **Refusals: 0 of 21 before, 0 of 21 after**, and the folder's own
+fixtures refuse nothing. There is no refusal to class. **Behaviour:** no declared shift, and no digest or golden
+re-recorded.
+
+**Gates** (in the tree, W = 1; this machine is not §12.1's timing reference, so no timing is judged): `install
+--frozen-lockfile` 0 ("Already up to date"); `lint` 0 ("eslint 1156 files, 0 errors, 0 warnings", "lint: probe-red ok",
+9 whole-tree checks); `build` 0; NEAR `vitest run --maxWorkers=1 test/fields/` "Test Files 8 passed (8) · Tests 59
+passed (59)". RELATED@1000 over the nine `src/fields/*.ts` files: its result is in the LANDED line.
+
+## The closing checker's notes, hardening round S1 (lane `check/M0-e-05-close-s1`, 2026-10-20), for the session and M1 / M4
+
+The verdict is in `checks/M0-e-05-s1.md`. The mutants and probes ran in this seat's own mirror
+`/home/user/maps-scratch/waves/check-M0-e-05/close-s1/plat` (a `cp -a` copy of `plat/`, isolated). Each mutant ran
+`vitest run --maxWorkers=1 test/fields/` from `packages/layout`, and each file was restored by copy and checked with `cmp`.
+
+| id | observation | suggested handling | milestone |
+|---|---|---|---|
+| N-s1c-1 | **A water body's face with a hole (an island) is read as water: the island's cells become water sources.** `fieldDriverSources` pushes every ring of a body's L0 face, holes included, into `sources.water`. `sourceMask` then fills each ring on its own: its comment says the rings are "never holes of one another". A hole ring is therefore filled as water. Mutant K28o (only each face's outer ring kept) passes the folder (59/59), because no fixture holds a hole. This seat's probe laid the site's own island fixture through `outerRingBatch` and `waterFaces` (`site/test/water/faces.test.ts` 'a channel round an island': a body face of two rings, the island `land:1`) and read it with `fieldsDrivers`. All 18 of the 18 island cells have water distance 0, though their true distance to the shore is up to 50 m. Greenery's unclamped driver value at the island's centre is 0.99996. CONFIRMED (executed). **Not reached by honest S1 output at M0:** none of 1 020 layouts had a body face with a hole. The layouts were S1 through `runRivers` and `runS1`, over 4 reliefs × 100 / 400 ha × estuary / no mouth × seeds 1 – 60, plus `s1River` seeds 1 – 60. River islands are M1's (§4b, `hydro/strategy.ts:473`). A meander pocket (`water/offset.ts` `eraseLoops`) is the one way S1 makes a hole at M0, and none of those runs made one. So this is not a wrong result on an input M0 produces. PLAUSIBLE (reasoned, from the hunt). | Fill each water face's rings together, even–odd, so a hole stays land. One way is a per-face ring set in `FieldSources.water`. That is an exported type, so it is a contract change and needs the session's ruling. The other way keeps the type: fill the outer rings, then clear the holes. Pin it on the site's island fixture (the island's cells at their distance to the shore). Correct `sourceMask`'s comment. | M1 (before river islands); routed to the session |
+| N-s1c-2 | **N-1's pin holds "≈ its weight inside a body" through the best cell only.** The test 'every cell whose centre lies in a body is a water source …' asserts d² = 0 at every body cell. For the kernel, though, it asserts only that the greatest value over the body's cells is in (0.9, 1] of the weight. A blur that drops the kernel low in most of the body would still pass, if one cell stayed high. CONFIRMED (read); no mutant run. | Assert the bound at every body cell farther than three extended boxes from the shore, or at the body's median cell. | M4 |

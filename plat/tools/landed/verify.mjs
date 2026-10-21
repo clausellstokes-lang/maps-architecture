@@ -5,8 +5,9 @@
 // Without --item, the wave's close: (a) and (b) on every record of the wave, then (c) every file that differs from the
 // wave's snapshot — and every line added to or removed from an append file, a §2 ledger row among them — that no
 // record of the wave claims is named (C-0306 (3)). A removed line is claimed when a record of the wave lists it as
-// removed and it is a placeholder row, or it is a line of a package index (`packages/<p>/src/index.ts`) that the
-// record's item owns (the owner's per-line edit, C-0318); any other removed or edited line is named. A crossing file (M-1's baselines.json, ng-faces.json,
+// removed and it is a placeholder row, or it is a line of a package index (`packages/<p>/src/index.ts`): a module
+// folder's C-0064 line by a record whose item owns that folder at the label (N-25), any other line by a record whose
+// item owns the index (the owner's per-line edit, C-0318); any other removed or edited line is named. A crossing file (M-1's baselines.json, ng-faces.json,
 // denylist.json, a digest file) is attributed instead by a CrossingRecord appended to crossings.json in the same wave,
 // claimed by its countersigning seat's record, whose sha256 equals the file now; a crossing file is never deleted and
 // never claimed by a record (C-0120 (4)).
@@ -35,12 +36,16 @@ import {
   anyOwners,
   appendDiff,
   crossingFile,
+  folderLines,
   isRecordRel,
+  labelPosition,
   loadWork,
+  ownersAt,
   ownsMatch,
   parseRecordUnit,
   sameEntry,
   statusOf,
+  wavePosition,
 } from './landed.mjs';
 
 /** Every landed record under docs/build/landed/ (direct children), with the problems of the unreadable ones. */
@@ -82,6 +87,8 @@ export function verifyWave(root, label, opts = {}) {
     return { ok: false, code: 2, problems: [`no snapshot ${label} under docs/build/landed/snapshots/`], notes, summary: null };
   }
   const work = loadWork(root);
+  // The open waves as landed reads them: a wave label the waves up to it, a label naming no wave every wave (C-0318).
+  const W = labelPosition(work, label) ?? Number.POSITIVE_INFINITY;
   const now = new Map([...listTree(root)].map(([rel, e]) => [toPlat(rel), e]));
   const read = readRecords(root);
   problems.push(...read.problems);
@@ -160,13 +167,24 @@ export function verifyWave(root, label, opts = {}) {
         const removedClaims = new Set();
         const ownerRemoved = new Set();
         const packageIndex = /^packages\/[^/]+\/src\/index\.ts$/.test(rel);
+        const pkg = rel.split('/')[1];
+        const byLine = packageIndex ? folderLines(pkg, paths) : new Map();
         for (const { record } of ofWave) {
           const item = record.ownsSource === 'declared' ? null : ((work.items ?? []).find((it) => it.id === record.item) ?? null);
           const owner = packageIndex && item !== null && ownsMatch(item.owns ?? [], path);
+          // A module folder's C-0064 line removed: vouched for by the folder's owner at the label (an item landing
+          // before its own wave as at its own, C-0121), never by the index's owner for another's folder (N-25).
+          const own = item !== null ? wavePosition(work, item.wave) : null;
+          const at = own !== null && own > W ? own : W;
+          const folderOwner = (h) => item !== null && ownersAt(work, `plat/packages/${pkg}/src/${byLine.get(h)}/index.ts`, at).includes(item.id);
           for (const a of record.appends ?? []) {
             if (a.file !== path) continue;
             a.lines.forEach((h) => lineClaims.add(h));
-            (a.removed ?? []).forEach((h) => (owner ? ownerRemoved : removedClaims).add(h));
+            for (const h of a.removed ?? []) {
+              if (packageIndex && byLine.has(h)) {
+                if (folderOwner(h)) ownerRemoved.add(h);
+              } else (owner ? ownerRemoved : removedClaims).add(h);
+            }
           }
         }
         const issues = [];

@@ -250,3 +250,108 @@ says otherwise.
 | N-c1-2 | J302 Q8's "the two radians-per-centidegree doubles are never swapped" is held only by `legality.ts` importing `heading.ts`'s `RAD_PER_CDEG`. Z25 (`collinearCdeg * (PI / 18000)`) survives the folder, yet the two limits differ: `600 * RAD_PER_CDEG` = `0.10471975511965978`, `600 * (PI / 18000)` = `0.10471975511965977`. | A boundary pin in `legality.test.ts`: `crossingMatrix('organic').act('secondary', 'secondary', 600 * RAD_PER_CDEG)` is `'cross'`; the next double up is `'T'`. | M4 |
 | N-c1-3 | Two comparator mutants are equivalent. Z22 reverses the enceinte feature order (`proposals.ts:373`), but an M0 town has one enceinte, so the sort has one element. Z23 reverses `sofar`'s key tiebreak (`capacity.ts:221`), but that reorders only equal `value`s, and the cut point read is the value itself; at most the float sum `total` moves in its last bit, and only on a tie. | None. Z22 becomes reachable when a site has two enceintes (M1's presets), and the order is then fixed by `compareKeys` already. | — |
 | N-c1-4 | Refusals met (J264, J290, N-58). M0-c-05's 44 registered runs refuse 0 runs, before and after the round. Inside them: `W_END_UNMARKED` ×1 on plain seeds 9, 17, 20, 23 and F-NUM `reject: E_BELOW_MIN_EDGE` ×1 on plain seeds 20, 23 (`flatFixture(seed)`, defaults, via `fixtureRun`). Class: our own intermediate. Verdict: MAKE-IT-SUCCEED. The count did not rise. Separately, RELATED's bench output printed `site: relief-60 (default): 2 runs, S6 ok 1; refused S5 E_SELF_INTERSECT ×1` (the `site` harness, seeds 1 – 2, test size), outside c-05's families. | For the session: a fix round for the six inner refusals, the builder's R10-1. Triage the relief-60 S5 refusal by its owner (which S5 step refuses, and whether the input is lawful). | session (fix queue) |
+
+## Hardening round S2 (lane `build/M0-c-05-fix-s2`, 2026-10-14): R-36 / Q55, N-c1-1, N-c1-2, queue L29
+
+The session opened this round as M0-c-05's hardening round (J237 (2)) on the inventory's two FIX-NOW rows (N-c1-1,
+N-c1-2), the refusal census's line R-36 (queue Q55) first, and the queue row L29. Every edit lies inside the item's
+owns: `src/growth/proposals.ts` and `src/growth/index.ts`; the tests `test/growth/s5cd/{legality,growth,prune}.test.ts`
+and the new `testkit/test/layout/growth-s5cd/intermediates.test.ts`. `legality.ts`, `prune.ts`, `heading.ts` and
+`capacity.ts` are unchanged. Choices row C-0384; CLEAN-ROOM row L-0575. No git.
+
+| row | outcome | change | pin (test) | mutant → result |
+|---|---|---|---|---|
+| R-36 / Q55 | **FIXED (the reporting) and PINNED; Q55 DONE by the pin** | `proposals.ts`: a dead end the kernel will not mark (`W_END_UNMARKED`) is counted under the S5c record's new key `intermediates`, no longer in `refused`; `refused`'s doc says what it holds (kernel refusals of a step's insert other than F-NUM's precision codes). The walk is unchanged. | testkit `intermediates.test.ts` *S5c absorbs its own intermediates on the registered plain seeds (census R-36)*: plain 9, 17, 20, 23 each run whole; every S5c and rim record's `refused` is `{}`, no batch and no prune refused; one unmarked end per seed under `intermediates`, its street standing (`ends` `dead`, `to` a bearing); at 20 and 23 F-NUM's `re_propose` then `reject` (`E_BELOW_MIN_EDGE`) on that street's proposal; over the four, 4 unmarked and 2 rejects | R1 (the count back in `refused`, the line's mutant) red; R0 (the round-start `proposals.ts`) red, both at *plain seed 9 … stage 1's refused: expected { W_END_UNMARKED: 1 } to deeply equal {}* |
+| N-c1-1 | **PINNED at `joinState` (Z20) and `pruneAndTrim` (Z21); `snapArm` (Z19) EQUIVALENT by unreachability, its premise PINNED** | none to the code | growth.test.ts *joinState: the arms of the junction snapped to are sorted by compareKeys (`way:10` before `way:5`), its kind X at four arms*; prune.test.ts *a short dangling secondary pruned from a junction of three arms leaves its two others sorted by compareKeys (`way:10` before `way:7`)*; legality.test.ts *a junction a way runs through is never snapped to: the step meets the way there in a T* | Z20 (reversed) red, Z20b (left unsorted) red, Z21 (reversed) red, P1 (a snap taken before the hit at t = 1) red on the premise test; Z19 (snapArm reversed) survives the folder, 100 / 100 |
+| N-c1-2 | **PINNED** | none to the code | legality.test.ts *the 6° limit to the bit: a turn of 600 · RAD_PER_CDEG crosses, the next double up stops in a T (heading.ts's constant, never π ÷ 18 000)*: both signs, on `crossingMatrix('organic', 600)` and on the regime rules' matrix; the test also asserts `600 · (π ÷ 18 000)` lies below the limit, so it reads which double was taken | Z25 (`collinearCdeg * (π ÷ 18 000)`) red; N2b (`≤` → `<` at the limit) red |
+| L29 | **FIXED** (the row's own API-surface change: the index lists names; none added, removed or renamed) | `growth/index.ts`: the seven `export *` lines → one `export { … }` and one `export type { … }` per module, the names the `export *` lines gave | growth.test.ts *its values are the 68 its modules gave through `export *` before it listed them*; the types by the TypeScript checker's census below | L29a (`wrapAngle` dropped from the list) red |
+
+**R-36 in detail.** Before the round `deadEnd` counted `W_END_UNMARKED` in the record's `refused`, the key whose doc read
+"Kernel refusals other than F-NUM's codes, by code (each step left out)": the report read as a refusal, though nothing
+was refused — the step stands, the street stands with a bearing for its `to`, and the run succeeds (census R-36: our own
+intermediate, verdict (a)). No other report carries it: S5c writes no warning for it and calls no `report.bug`; a
+pipeline `bugs` row is written only for a refused stage run (`report.ts` `stageRefused`) or a stage's own `bug` call, and
+S5c returns ok. F-NUM's `reject` is §5.2's own report line in `rungs`, the ladder's key, and stays there. The record gains
+one required key, `intermediates: Record<string, number>` (an additive field of `S5cRecord`; no export added, removed or
+renamed; the record is in memory only — the model digest covers the arenas, so no digest, golden or register moves). Its
+readers in the tree: none read S5c's `refused` but `growth.test.ts`'s planted `E_INVARIANT` (unchanged, green). This is a
+vetoable call: if the session reads the new key as a record-format change (rule (3)), the fallback keeps the count in
+`refused` and the pin asserts `refused` holds `W_END_UNMARKED` alone — the walk and the census are the same either way.
+
+**Census (J264 (5), N-58), before = after, measured.** The 44 registered runs (`fixtureRun` = `flatFixture(seed)` → S3 →
+S4 → `runS5`: plain 1 – 24, 900 ha 1 – 10, small 1 – 10), each run on the round-start `proposals.ts` and on the round's,
+in the lane's mirror:
+
+| | before | after |
+|---|---|---|
+| runs refused (S3, S4 or S5) | 0 / 44 | 0 / 44 |
+| S5c / rim `refused` | `W_END_UNMARKED` 4 (plain 9, 17, 20, 23) | none |
+| S5c / rim `intermediates` | (no key) | `W_END_UNMARKED` 4 (plain 9, 17, 20, 23) |
+| F-NUM `reject` (`rungs`) | 2: plain 20 proposal 35, plain 23 proposal 20, `E_BELOW_MIN_EDGE` | the same 2 |
+| batch refused / prune refused | 0 / 0 | 0 / 0 |
+| streets ending `snap` | 0 | 0 |
+
+Lawful-input refusals 0 → 0; the reported refusals of the family 4 → 0 (the four were never refusals: reporting fixed);
+the intermediates 6 → 6, each now under its own key. NO-SHIFT: every run's S5 output hashed with `refused` and
+`intermediates` folded into one unmarked count (the S5c and rim records' other fields, the prune and S5d records, the
+state's ways and junctions, the arena's way lines) — aggregate `58802231b599ab93` before and after, 44 of 44 run digests
+equal.
+
+**N-c1-1 in detail: why `snapArm` is unreachable.** `legal` takes a snap only when no hit ended the step first
+(`ends === null && snapped !== null`), and the snap moves the step's end exactly onto the junction. Every junction S5c
+makes is an exact end of one of its own streets' segments — the origin T is the street's first point, an X a vertex the
+street lays at the crossing, an end T its last point — and every standing junction `growthArea` hands it is an arena
+vertex of a way whose segments end there. On lattice (integer) coordinates the hit parameter of such a segment is exactly
+t = 1, so the hit loop meets that way in a T before the snap is read. A segment escapes the hit only when `ignored` — it
+passes through the step's start (then it is collinear with the step, and the snap's square test refuses the junction) —
+or when it is the street's own (the own-street test refuses it) or parallel to the step (the square test again). So a
+snap happens only onto a junction with no way within 1 cm: a hand-built area's free point (legality.test.ts's
+`junction:5`), never one S5c made. `snapArm` (it looks the snapped id up among the record's own junctions) and
+`joinState`'s snap branch run only on hand-built input; the 44 registered runs end 0 streets by a snap. `joinState` is
+exported, so its own contract is pinned directly; `snapArm` is private and no lawful input reaches it, so Z19 is
+equivalent on every lawful input. The premise is pinned instead: if a later change lets a snap reach a junction on a way
+(P1), the premise test turns red first, and `snapArm` then needs its hand case (M1, when squares or free junction points
+enter S5c's area).
+
+**L29: the export census (TypeScript checker, `getExportsOfModule`, names with value / type kind).** Before and after
+byte-identical (sha256 `e4e7d99c…`): `growth/index.ts` 137 (boundary 28, mainRoads 26, heading 11, legality 21, proposals
+30, prune 4, capacity 18; `GrowthStage` is mainRoads' and re-exported by proposals, listed once), the package barrel 692.
+Values 68, types 69.
+
+**Self-check (J183), in the lane's one mirror** (`waves/selfcheck-build-M0-c-05-fix-s2`, isolated: no link into the
+tree, `@plat/*` realpaths inside it), each mutant `vitest run --maxWorkers=1 --bail=1` on `packages/layout/test/growth/s5cd/`
+(R0, R1: `packages/testkit/test/layout/growth-s5cd/intermediates.test.ts`), the file restored from the tree and
+`cmp`-clean after each. The clean folder: 6 files, 100 / 100.
+
+| id | mutation | promise | result |
+|---|---|---|---|
+| R0 | the round-start `proposals.ts` (the count in `refused`) | R-36: an intermediate is never a refusal | red: *plain seed 9 … stage 1's refused* |
+| R1 | `rec.intermediates[…]` → `rec.refused['W_END_UNMARKED']` (the unmarked end promoted to a refusal) | R-36 (the line's mutant) | red: the same |
+| Z25 | `crossingMatrix`'s limit `collinearCdeg * (π ÷ 18 000)` | N-c1-2 | red: *the 6° limit to the bit …* |
+| N2b | `Math.abs(turnRad) <= limit` → `<` | N-c1-2 (the boundary) | red: the same |
+| Z20 | `joinState`'s arms sorted in reverse | N-c1-1 | red: *joinState: the arms of the junction snapped to …* |
+| Z20b | `joinState`'s arms left in append order | N-c1-1 | red: the same |
+| Z21 | `pruneAndTrim`'s `setJunction` arms sorted in reverse | N-c1-1 | red: *a short dangling secondary pruned from a junction of three arms …* |
+| P1 | the hit loop skips a hit at t ≥ 1 when a junction was snapped (the snap reaching a junction on a way) | N-c1-1 (Z19's premise) | red: *a junction a way runs through is never snapped to …* |
+| Z19 | `snapArm`'s arms sorted in reverse | N-c1-1 | survives (100 / 100): equivalent, unreachable (above) |
+| L29a | `wrapAngle` dropped from the index's list | L29 | red: *its values are the 68 …* |
+
+10 mutants: 9 red, Z19 equivalent (unreachable; its premise P1 red).
+
+**Gates (J193 relative locality, W = 1).** `install --frozen-lockfile` 0; `lint` 0 (eslint 1142 files, 0 errors; the
+`probe-red` check reports every planted line of `zz-probe.ts`); `build` 0 (`tsc -b` and the bundles); NEAR (the item's
+own test files, full strength): 15 files, 146 / 146, exit 0 (re-run 2026-10-18 on the relaunched container, the owned
+files as above); RELATED@1000 over `src/growth/proposals.ts` and `src/growth/index.ts`: 210 files, 2573 / 2573, exit 0
+(2026-10-14, W = 1, the sources unchanged since). The lane's mirror is deleted.
+
+## Closing check S2 (lane `check/M0-c-05-close-s2`, 2026-10-18 – 19): hardening round S2
+
+Verdict PASS (`checks/M0-c-05-s2.md`). Q55 is DONE by the R-36 pin. None of these rows is a blocker; each goes to the
+hardening pass (M4) unless it says otherwise. The mutant names are the verdict file's.
+
+| id | observation | suggested handling | milestone |
+|---|---|---|---|
+| N-s2c-1 | Z21b (`pruneAndTrim`'s `setJunction` arms left as filtered, no sort) survives `test/growth/s5cd/` 100 / 100. The seat judges it equivalent: every arm list reaching the prune is already sorted (`newJunction`, `snapArm`, `joinState` and the prune each sort), and a filter keeps the order. Z21 (the comparator reversed) is red on the round's prune pin, so the sort's direction is held. | None while every writer of a junction's arms sorts. If a later stage hands the prune a junction it did not sort, add a hand case with unsorted entry arms. | M4 |
+| N-s2c-2 | Z19 (`snapArm`'s arms reversed) survives the folder 100 / 100, and Z19t (`snapArm` throws on entry) passes NEAR's 15 files 146 / 146; the 44 registered runs end 0 streets by a snap. Judged by this seat (not from the builder's label): equivalent by unreachability on M0's lawful inputs, because every junction S5c meets is an exact end of an indexed way segment, `crossParams` accepts t = 1, and the step meets that way in a T before a snap is read (the verdict file's §(2)). The premise is pinned: P2 (a snap taken before the hit at t = 1) is red on *a junction a way runs through is never snapped to …*. | When squares or free junction points enter S5c's area (M1's presets), `snapArm` becomes reachable: add N-c1-1's hand case for it then (a street snapping onto an S5c junction whose existing arm sorts after the new way). | M1 |
+| N-s2c-3 | NO-SHIFT was not re-measured byte for byte by this seat: no pre-round image of `proposals.ts` exists in the tree without git. The seat's after-image aggregate over the state's ways, lines and junctions, the streets and the prune of the 44 runs is `9030605526592793` (its own field set, not comparable with the builder's `58802231b599ab93`, which folds `refused` and `intermediates` into one count). Every count and proposal id equals the C1 check's recorded before-figures, RELATED's goldens are green, and the round's code change is one counter's key, so the claim is PLAUSIBLE. | Optional for the session: re-run the census probe on main's `proposals.ts` (fetched read-only) at the round's commit to make it CONFIRMED. | session (optional) |
+| N-s2c-4 | Refusals met (J264, J290, N-58). M0-c-05's 44 registered runs (plain 1 – 24, 900 ha 1 – 10, small 1 – 10, `fixtureRun`) refuse 0 runs after the round, as before. The six inner events (`W_END_UNMARKED` ×1 at plain 9, 17, 20, 23 under `intermediates`; F-NUM `re_propose` + `reject E_BELOW_MIN_EDGE` at plain 20 proposal 35 and 23 proposal 20, in `rungs`) are lawful input, class OUR OWN INTERMEDIATE, absorbed inside S5c (verdict (a)); reported refusals 4 → 0, runs refused 0 → 0, the census did not rise. Separately, RELATED's bench output printed `site: relief-60 (default): 2 runs, S6 ok 1; refused S5 E_SELF_INTERSECT ×1` (the `site` harness, relief-60 × default, seeds 1 – 2, test size), outside c-05's families. | For the session: the relief-60 S5 refusal stays with its owner (Q46's class, M0-c-02), replayable by the `site` harness at relief-60 default seeds 1 – 2. Nothing for c-05. | session (fix queue) |

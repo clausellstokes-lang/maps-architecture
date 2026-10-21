@@ -7,8 +7,8 @@
 // reads its slots from the overlay; a declared batch's ops are made from the arena just before it runs), so one
 // sequence runs unchanged on any slot assignment. `runTwiceCompare(seq)` runs it four ways — fresh, fresh again, with
 // the arena's slots reversed before every batch, and with them randomly permuted before every batch (seeded) — and
-// compares every batch's slot-free outcome (outcomePrint: the refusal code, or the commit record, the arena and the
-// five level digests). The pool-size clause (sizes 0–3) is M1's: the pool and its overlays are M1's (§4b).
+// compares every batch's slot-free outcome (outcomePrint: the refusal code and the arena, `nothing` and the arena, or
+// the commit record, the arena and the five level digests). The pool-size clause (sizes 0–3) is M1's: the pool and its overlays are M1's (§4b).
 import { tx, type Committed, type KernelResult, type KernelTx, type Overlay, type Plat, type TxEnv } from '@plat/kernel';
 import { arenaPrint, digestText, firstDifference, outcomePrint } from './print.js';
 import { renumberSlots, type RenumberMode } from './renumber.js';

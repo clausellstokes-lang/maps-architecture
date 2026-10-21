@@ -8,13 +8,13 @@
     "hangs": 0,
     "invalid": 0,
     "warnings": {
-      "W_ACUTE_CORNER": 16515,
-      "W_ATTRACTED": 1203659,
+      "W_ACUTE_CORNER": 14716,
+      "W_ATTRACTED": 1056935,
       "W_DOWNGRADE": 3695,
-      "W_PLACED": 7385,
+      "W_PLACED": 7125,
       "W_SNAP_PASSES": 1,
-      "W_STRETCH_SHARED": 433092,
-      "W_WEDGE_ROUTED": 12184
+      "W_STRETCH_SHARED": 384016,
+      "W_WEDGE_ROUTED": 11537
     },
     "downgrades": 3695,
     "workLimitHits": 0,
@@ -42,6 +42,11 @@
         "W_WEDGE_ROUTED": 1
       },
       "notes": {},
+      "judged": {
+        "remove∘insert L1": 2338,
+        "remove∘insert L2": 2730,
+        "remove∘insert L3": 2820
+      },
       "downgrades": 0,
       "workLimitHits": 0,
       "oracle": null,
@@ -92,8 +97,8 @@
           "n": 8201,
           "p50": 0.46153846153846156,
           "p99": 2.5,
-          "p999": 4.25,
-          "max": 6.75,
+          "p999": 4.75,
+          "max": 7.25,
           "units": 90962
         }
       }
@@ -113,6 +118,7 @@
         "W_PLACED": 1
       },
       "notes": {},
+      "judged": {},
       "downgrades": 0,
       "workLimitHits": 0,
       "oracle": null,
@@ -170,6 +176,7 @@
       "refused": {},
       "warnings": {},
       "notes": {},
+      "judged": {},
       "downgrades": 0,
       "workLimitHits": 0,
       "oracle": null,
@@ -202,10 +209,11 @@
       },
       "warnings": {
         "W_ACUTE_CORNER": 5,
-        "W_ATTRACTED": 173,
-        "W_STRETCH_SHARED": 34
+        "W_ATTRACTED": 174,
+        "W_STRETCH_SHARED": 35
       },
       "notes": {},
+      "judged": {},
       "downgrades": 0,
       "workLimitHits": 0,
       "oracle": null,
@@ -256,8 +264,8 @@
           "n": 10000,
           "p50": 5,
           "p99": 14,
-          "p999": 16,
-          "max": 23.5,
+          "p999": 17,
+          "max": 25.5,
           "units": 20011
         }
       }
@@ -282,6 +290,7 @@
         "W_WEDGE_ROUTED": 1107
       },
       "notes": {},
+      "judged": {},
       "downgrades": 0,
       "workLimitHits": 0,
       "oracle": null,
@@ -308,6 +317,7 @@
         "W_ATTRACTED": 8
       },
       "notes": {},
+      "judged": {},
       "downgrades": 0,
       "workLimitHits": 0,
       "oracle": null,
@@ -336,6 +346,7 @@
         "W_WEDGE_ROUTED": 8442
       },
       "notes": {},
+      "judged": {},
       "downgrades": 0,
       "workLimitHits": 0,
       "oracle": null,
@@ -356,6 +367,7 @@
       "refused": {},
       "warnings": {},
       "notes": {},
+      "judged": {},
       "downgrades": 0,
       "workLimitHits": 0,
       "oracle": null,
@@ -376,6 +388,7 @@
       "refused": {},
       "warnings": {},
       "notes": {},
+      "judged": {},
       "downgrades": 0,
       "workLimitHits": 0,
       "oracle": null,
@@ -398,6 +411,7 @@
       },
       "warnings": {},
       "notes": {},
+      "judged": {},
       "downgrades": 0,
       "workLimitHits": 0,
       "oracle": null,
@@ -418,6 +432,7 @@
       "refused": {},
       "warnings": {},
       "notes": {},
+      "judged": {},
       "downgrades": 0,
       "workLimitHits": 0,
       "oracle": null,
@@ -438,6 +453,7 @@
       "refused": {},
       "warnings": {},
       "notes": {},
+      "judged": {},
       "downgrades": 0,
       "workLimitHits": 0,
       "oracle": null,
@@ -460,6 +476,7 @@
       },
       "warnings": {},
       "notes": {},
+      "judged": {},
       "downgrades": 0,
       "workLimitHits": 0,
       "oracle": null,
@@ -482,6 +499,7 @@
       },
       "warnings": {},
       "notes": {},
+      "judged": {},
       "downgrades": 0,
       "workLimitHits": 0,
       "oracle": null,
@@ -502,6 +520,7 @@
       "refused": {},
       "warnings": {},
       "notes": {},
+      "judged": {},
       "downgrades": 0,
       "workLimitHits": 0,
       "oracle": null,
@@ -524,6 +543,7 @@
       },
       "warnings": {},
       "notes": {},
+      "judged": {},
       "downgrades": 0,
       "workLimitHits": 0,
       "oracle": null,
@@ -546,6 +566,7 @@
         "W_DOWNGRADE": 3695
       },
       "notes": {},
+      "judged": {},
       "downgrades": 3695,
       "workLimitHits": 0,
       "oracle": null,
@@ -576,6 +597,7 @@
       "refused": {},
       "warnings": {},
       "notes": {},
+      "judged": {},
       "downgrades": 0,
       "workLimitHits": 0,
       "oracle": null,
@@ -596,6 +618,7 @@
       "refused": {},
       "warnings": {},
       "notes": {},
+      "judged": {},
       "downgrades": 0,
       "workLimitHits": 0,
       "oracle": null,
@@ -616,6 +639,7 @@
       "refused": {},
       "warnings": {},
       "notes": {},
+      "judged": {},
       "downgrades": 0,
       "workLimitHits": 0,
       "oracle": null,
@@ -636,6 +660,7 @@
       "refused": {},
       "warnings": {},
       "notes": {},
+      "judged": {},
       "downgrades": 0,
       "workLimitHits": 0,
       "oracle": null,
@@ -664,12 +689,18 @@
         "W_WEDGE_ROUTED": 4
       },
       "notes": {},
+      "judged": {},
       "downgrades": 0,
       "workLimitHits": 0,
       "oracle": {
         "unattracted": 5257,
         "attracted": 4743,
-        "refused": 0
+        "refused": 0,
+        "guard": {
+          "min": 100000,
+          "met": false,
+          "projectedNightly": 525700
+        }
       },
       "sampled": {
         "renumbering": 0,
@@ -683,26 +714,32 @@
       "crashes": 0,
       "hangs": 0,
       "invalid": 0,
-      "ok": 8173,
+      "ok": 8621,
       "skipped": 0,
       "refused": {
-        "E_DEGENERATE": 1820,
-        "E_INVARIANT": 7
+        "E_DEGENERATE": 1376,
+        "E_INVARIANT": 3
       },
       "warnings": {
-        "W_ACUTE_CORNER": 8764,
-        "W_ATTRACTED": 592712,
-        "W_PLACED": 1179,
-        "W_STRETCH_SHARED": 198488,
-        "W_WEDGE_ROUTED": 2622
+        "W_ACUTE_CORNER": 6965,
+        "W_ATTRACTED": 445987,
+        "W_PLACED": 919,
+        "W_STRETCH_SHARED": 149411,
+        "W_WEDGE_ROUTED": 1975
       },
       "notes": {},
+      "judged": {},
       "downgrades": 0,
       "workLimitHits": 0,
       "oracle": {
-        "unattracted": 433,
-        "attracted": 9560,
-        "refused": 0
+        "unattracted": 2019,
+        "attracted": 7978,
+        "refused": 0,
+        "guard": {
+          "min": 100000,
+          "met": false,
+          "projectedNightly": 201900
+        }
       },
       "sampled": {
         "renumbering": 0,
@@ -729,12 +766,18 @@
         "W_WEDGE_ROUTED": 8
       },
       "notes": {},
+      "judged": {},
       "downgrades": 0,
       "workLimitHits": 0,
       "oracle": {
         "unattracted": 4065,
         "attracted": 4804,
-        "refused": 0
+        "refused": 0,
+        "guard": {
+          "min": 100000,
+          "met": false,
+          "projectedNightly": 406500
+        }
       },
       "sampled": {
         "renumbering": 0,
@@ -822,7 +865,7 @@
       {
         "failureClass": "F-SKELETON",
         "code": "W_DOWNGRADE reflexPreCut",
-        "fixture": "F-PLOT,",
+        "fixture": "F-PLOT, S10",
         "status": {
           "deferredTo": "M1"
         },
