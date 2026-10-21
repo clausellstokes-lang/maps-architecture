@@ -12,11 +12,15 @@ import { TABLE_SOURCES, isTableId } from './registry.js';
 /** A row: its cells by key, in key order. */
 export type Row = ReadonlyMap<string, Cell>;
 
-/** A refusal to load: the first issue in its message, every issue in `issues`. */
+/**
+ * A refusal to load: the first issue in its message, every issue in `issues`. `row` and `cell` are declared, never
+ * defined as class fields, so an error that names no row or cell carries no such own key (not one holding undefined) —
+ * the "absent, never undefined" rule of `issueAt`, held by the error object too.
+ */
 export class TableError extends Error {
   readonly table: string;
-  readonly row?: string;
-  readonly cell?: string;
+  declare readonly row?: string;
+  declare readonly cell?: string;
   readonly reason: string;
   readonly issues: readonly TableIssue[];
 

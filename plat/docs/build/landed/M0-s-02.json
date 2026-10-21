@@ -1,14 +1,14 @@
 {
   "schema": "plat-landed-record/1",
   "item": "M0-s-02",
-  "lane": "build/M0-s-02-consolidate-1",
-  "lanes": ["build/M0-s-02-consolidate-1"],
+  "lane": "build/M0-s-02-fix-s1",
+  "lanes": ["build/M0-s-02-consolidate-1", "build/M0-s-02-fix-s1"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-11T21:03:49.038Z",
+  "date": "2026-10-21T08:38:57.875Z",
   "ownsSource": "docs/build/M0-work.json",
   "owns": ["plat/packages/tables/src/loader/", "plat/packages/tables/src/cell/", "plat/packages/tables/data/ladder.json", "plat/packages/tables/data/granularity.json", "plat/packages/tables/data/faces.json", "plat/packages/tables/data/regimes.json", "plat/packages/tables/data/ways.json", "plat/packages/tables/data/cut.json", "plat/packages/tables/data/walls.json", "plat/packages/tables/data/lattice.json", "plat/packages/tables/data/district.json", "plat/packages/tables/data/fields.json", "plat/packages/tables/data/bands.json", "plat/packages/tables/data/terrain.json", "plat/packages/tables/data/interior.json", "plat/packages/tables/test/loader/", "plat/packages/tables/test/cell/", "plat/packages/tables/test/data/"],
-  "counts": { "created": 1, "changed": 15, "unchanged": 15, "deleted": 0 },
+  "counts": { "created": 3, "changed": 15, "unchanged": 15, "deleted": 0 },
   "files": [
     { "path": "plat/packages/tables/data/district.json", "status": "unchanged", "sha256": "4c66c2136c66e8cf48f7d1900c441476e5f94bed308b70d5856b59ee60e91868", "size": 2003 },
     { "path": "plat/packages/tables/data/faces.json", "status": "unchanged", "sha256": "f2c85c5dcfcaed730c345d5d86850f02d67b872f9db3f20f4524e983b846d9d8", "size": 344 },
@@ -27,32 +27,34 @@
     { "path": "plat/packages/tables/src/loader/index.ts", "status": "unchanged", "sha256": "76ce07d5cd9624a6d30f15d37c18f59f0dbe94ca100256cc1cd925f0befb498e", "size": 990 },
     { "path": "plat/packages/tables/src/loader/ladder.ts", "status": "changed", "sha256": "b281074b4888cc431696ce923ebdbe8d39a673c4bf50e113b49d3e35855b4368", "size": 9011 },
     { "path": "plat/packages/tables/src/loader/registry.ts", "status": "changed", "sha256": "416c1dfd3f25112358e4343ef4d580dde6cb960d3df9075dd36325c5a6e6be49", "size": 2061 },
-    { "path": "plat/packages/tables/src/loader/table.ts", "status": "changed", "sha256": "37aa3e4b2a9af1b235b311f86c6e893c6d22559225396ae7760cc15d6e17e917", "size": 10898 },
-    { "path": "plat/packages/tables/src/loader/view.ts", "status": "changed", "sha256": "156e1fad4defd4e0f2765861bb540cbf6d533d163695de9fe36a40e2771b3f1e", "size": 3157 },
+    { "path": "plat/packages/tables/src/loader/table.ts", "status": "changed", "sha256": "75823a9f9d22e70f9cd8c33dc7370ba2f16f17d419c402d81855f4145d4afcff", "size": 11159 },
+    { "path": "plat/packages/tables/src/loader/view.ts", "status": "changed", "sha256": "ee852a9930683d574ccc3a35896c1fdceaaa1d0c2cae9503e54c797222689de8", "size": 4467 },
     { "path": "plat/packages/tables/test/cell/cell.test.ts", "status": "changed", "sha256": "4ba6b6b6ed12c20a96caa3628bd2fc2efb78b62c6ec4c0731d53f5e191429140", "size": 12999 },
     { "path": "plat/packages/tables/test/data/calibratable-census.json", "status": "unchanged", "sha256": "363a20875b4332e556edaf975aef108aac3ee817a2780e7b5594da7a714f88c4", "size": 6809 },
-    { "path": "plat/packages/tables/test/data/census.test.ts", "status": "changed", "sha256": "7698610fce9dfe31bf230cc48db8796515b463e9094ddbbe47811307ab0d6392", "size": 2915 },
+    { "path": "plat/packages/tables/test/data/census.test.ts", "status": "changed", "sha256": "c00a448ae6bd8dcf505605e598edb8e93d42c953c5fa158b42d52c5f36175c2e", "size": 5471 },
     { "path": "plat/packages/tables/test/data/extension-cells.json", "status": "unchanged", "sha256": "7eab7ff477047094c681ca8e60446f1a99e19772dccfd903059451325f2eeed3", "size": 2312 },
     { "path": "plat/packages/tables/test/data/golden.json", "status": "unchanged", "sha256": "90d94f1b6d494697d2524802d45448db5c9c762331356e1c51df60f5fd2aadf0", "size": 1606 },
     { "path": "plat/packages/tables/test/data/golden.test.ts", "status": "changed", "sha256": "528e45e8c9e7d34c88ef18894c4f519b0636a0fdaab0e41a63d048c06f5cccd7", "size": 1650 },
+    { "path": "plat/packages/tables/test/data/handover-v1.json", "status": "created", "sha256": "4f6febed54c3001be78462c3a5103786e0ed281df27f90113cf6532f63e18ede", "size": 26779 },
+    { "path": "plat/packages/tables/test/data/handover.ts", "status": "created", "sha256": "75c5fa9ab265956dc8121af8f155191f7074ac38e80380522c32ff33b03b53e8", "size": 6281 },
     { "path": "plat/packages/tables/test/data/string-values.json", "status": "unchanged", "sha256": "ceb47a73e1339fa8129c698ebe91b1af6e4a517ff9f46377be821a4443d9fb08", "size": 394 },
-    { "path": "plat/packages/tables/test/data/tables.test.ts", "status": "changed", "sha256": "ac3908955e183640338eb96a1d3cfadfc94b136ad163495d9ac26f39dcc636ad", "size": 24520 },
+    { "path": "plat/packages/tables/test/data/tables.test.ts", "status": "changed", "sha256": "365a163cbe14abec6599255f0d935f4c944835b22ce3956761903542b0329487", "size": 36034 },
     { "path": "plat/packages/tables/test/loader/bands.test.ts", "status": "changed", "sha256": "4e0da0f742aa87579c0ccfce692012da342d15d368ea66787db1b6747392c74c", "size": 10444 },
     { "path": "plat/packages/tables/test/loader/ladder.test.ts", "status": "changed", "sha256": "4b730192f8c2267ef145d1c586d63ffce37237e56ef6c6e7247177569b5b91f7", "size": 9360 },
-    { "path": "plat/packages/tables/test/loader/loader.test.ts", "status": "changed", "sha256": "b27014ca022c42555f19293b13c6485b809ad69c8ea18e28b037ea3a644a19eb", "size": 12396 },
+    { "path": "plat/packages/tables/test/loader/loader.test.ts", "status": "changed", "sha256": "60fc4e39931d0926a0ae693d2c08dacbd9bfedf2ff402acd9c4898466021b182", "size": 18033 },
     { "path": "plat/packages/tables/test/loader/support.ts", "status": "created", "sha256": "d5c637e3f07c7e4294a2f4b739449b530a9c40a7865b606d330d86516e97d0df", "size": 2972 }
   ],
   "appends": [
     {
       "file": "plat/CLEAN-ROOM.md",
-      "ids": ["L-0441"],
-      "lines": ["33429f0136956752"],
+      "ids": ["L-0441", "L-0605"],
+      "lines": ["33429f0136956752", "bd2da88c8c330713"],
       "removed": []
     },
     {
       "file": "plat/docs/build/choices.md",
-      "ids": ["C-0323"],
-      "lines": ["893e4e7e42b34cb1"],
+      "ids": ["C-0323", "C-0399"],
+      "lines": ["893e4e7e42b34cb1", "1a637fc78990e9cc"],
       "removed": []
     }
   ]

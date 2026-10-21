@@ -11,13 +11,18 @@
 // `--fallback` applies §13.8's pre-decided fallback (fuzz 5 × 10³, seeds 25, the constructive set never cut). Exit 0
 // when the tier passes (or its budget is unjudged or not gating), 1 when a built job fails or a gating budget is over,
 // 64 on a bad argument. A tier run outside the timing phase is CONTENDED: its figures are reported, never gating.
+// The dispatcher passes `ctx.out` only. The other `ctx` fields are seams for a vitest test, which drives this entry over
+// a FIXTURE tree and manifest (C-0105: never a real tier) so the arguments and the exit codes are held by tests
+// (M0-f-02a's N-1; C-0398): `root` (the tree, default plat/), `manifest` (default the tier's real list), `options` (the
+// runner's executor, probe and timing readings) and `runTier` (default this folder's runner).
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { manifest } from '../tier-jobs/index.js';
 import { outDir, say, summariseReasons, writeJson } from '../timing/output.js';
 import { runTier } from './runner.js';
 import { deriveStatus } from './status.js';
-import type { TierMode, TierName } from './types.js';
+import type { RunTierOptions } from './runner.js';
+import type { TierManifest, TierMode, TierName } from './types.js';
 
 export { CLEARED_ENV, OUTPUT_TAIL_BYTES, parseTimes, spawnExecutor, unitEnv } from './exec.js';
 export { FALLBACK_SIZES, OVER_BUDGET_TOLERANCE, PROJECTION_CORES, applyFallback, budgetGates, judgeBudget, logName, manifestProblems, nestedTierCall, runTier } from './runner.js';
@@ -36,7 +41,16 @@ const MODES: readonly TierMode[] = ['plain', 'whole', 'batched'];
 const s = (ms: number): string => `${(ms / 1000).toFixed(1)} s`;
 
 /** The dispatcher's entry: `bench -- tier:<tier> [--mode M] [--fallback] [--list]` (the tier is the entry's own argument). */
-export async function run(args: string[], ctx: { out: string }): Promise<number> {
+export async function run(
+  args: string[],
+  ctx: {
+    out: string;
+    root?: string;
+    manifest?: (tier: TierName, root: string) => TierManifest;
+    options?: Partial<Omit<RunTierOptions, 'root' | 'out' | 'mode' | 'fallback' | 'log'>>;
+    runTier?: typeof runTier;
+  },
+): Promise<number> {
   const [tier, ...rest] = args;
   if (!TIERS.includes(tier as TierName)) {
     say(`tiers: unknown tier ${JSON.stringify(tier)}; ${USAGE}`);
@@ -55,13 +69,14 @@ export async function run(args: string[], ctx: { out: string }): Promise<number>
       return 64;
     }
   }
-  const m = manifest(tier as TierName, PLAT_ROOT);
+  const root = ctx.root ?? PLAT_ROOT;
+  const m = (ctx.manifest ?? manifest)(tier as TierName, root);
   if (list) {
-    for (const j of m.jobs) say(`tier ${m.tier}: ${j.name} — ${(await deriveStatus(j, PLAT_ROOT)).status} (${j.item}; ${j.kind} ${j.source})`);
+    for (const j of m.jobs) say(`tier ${m.tier}: ${j.name} — ${(await deriveStatus(j, root, ctx.options?.probe)).status} (${j.item}; ${j.kind} ${j.source})`);
     return 0;
   }
   const out = join(outDir(ctx.out), 'tiers', m.tier);
-  const report = await runTier(m, { root: PLAT_ROOT, out, mode, fallback, log: say });
+  const report = await (ctx.runTier ?? runTier)(m, { ...ctx.options, root, out, mode, fallback, log: say });
   for (const j of report.jobs) {
     say(`tier ${report.tier}: ${j.name} — ${j.status}: ${j.outcome}${j.outcome === 'not run' ? '' : `, ${s(j.wallMs)} wall, ${s(j.cpuMs)} CPU`}${j.reason === null || j.outcome === 'not run' ? '' : ` (${j.reason})`}`);
   }

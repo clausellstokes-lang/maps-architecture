@@ -71,3 +71,46 @@ rows are a further hardening test and a tightening of a comment's claim, for the
 |---|---|---|---|
 | N-8 | **The key shape of `checkWorkLimits`' row-only issues is not pinned.** (CONFIRMED by mutant and probe) The checker's mutant A2 replaced the `issue` closure's `issueAt({ table: t.id, row, cell, reason })` with the raw literal `{ table: t.id, row, cell, reason }`, so a row-only issue (`missing counter: …`, `the counter list names '…' twice`) carries an own key `cell` whose value is `undefined`. The tables project stayed green (254 / 254): those issues are compared with `toEqual`, which ignores keys whose value is `undefined`, and the round's `Object.keys` pins cover only issues that have both a row and a cell, plus the text-path issues. The mutant leaves every message, every `JSON.stringify` of an issue and every `table`/`row`/`cell`/`reason` getter unchanged. Only `Object.keys` differs, on 36 of the probe's 1 428 refusals. The shipped code keeps the absent-key rule: the checker's probe recorded the key order of all 1 428 refusals, and it was identical before and after the round. | Add `expect(Object.keys(e.issues[0])).toEqual(['table', 'row', 'reason'])` (or switch to `toStrictEqual`) in "a missing counter fails the loader, naming it" and "a counter list naming a counter twice is refused". Two lines inside existing `it`s, with the titles unchanged. | M4 (hardening pass) |
 | N-9 | **The header of `workLimits/table.ts` says "every refusal names the table, the row and the cell".** (CONFIRMED by read) That holds for the law-form refusals. A not-JSON text and a duplicate top-level key name the table only, and a missing counter, a counter the list names twice and `law('…')` name the table and the row. The wording is older than this round, which only extended the sentence. The code is correct, and each issue names as much of the place as exists. | Tighten the sentence to "names the table and, where the fault lies in one, the row and the cell". This is a comment-only change. | M4 (hardening pass) |
+
+## Hardening round S4 (lane `build/M0-f-03a-fix-s4`, 2026-10-20; J237 (2), J186, J192, J264, J290 / N-58)
+
+The session's hardening round on the four FIX-NOW rows the inventory (`checks/hardening-inventory.md`, J355) gives this
+item: M0-f-03a:17 N-2, :22 N-7, :72 N-8, :73 N-9. Each source note above was read whole and its fix shape taken as
+written (one placement noted under N-2). Choices row C-0397. Inside the owns only: `test/workLimits/table.test.ts`
+(N-2, N-7, N-8) and `src/workLimits/table.ts` (N-9, header comment only; the code outside the `//` header is
+byte-identical). No export, index, data file, message text or `describe`/`it` title changed (58 titles before and
+after, the same list). No output moved: no digest or golden is re-recorded.
+
+| row | outcome | what changed | pin and its mutant (run in the lane's scratch mirror, `vitest run --maxWorkers=1 --bail=1 packages/tables/test/workLimits/`) |
+|---|---|---|---|
+| N-2 | **PINNED** | `fixedRow(t)` (run at every version through `invariants()`, and by "skeleton.events never undercuts … warp.halvings is the fixed 8 of §3.6") also asserts `t.law('warp.halvings').floor` equals `MAX_HALVINGS` imported from `@plat/kernel`. The literal-8 pin stays beside it. The note suggested a one-line `expect` against `loadWorkLimits()`. Putting it in `fixedRow` keeps that line and also applies it to every simulated hand-over. | M12 (`kernel/src/warp/types.ts` `MAX_HALVINGS = 9`, table unchanged): the old tests are GREEN 58 / 58 (the note reproduced), the new tests RED ("at any version: … the fixed row is pinned"). M01 (table floor 7) and M01 + M12 (both 9) are RED too. |
+| N-7 | **PINNED** | `placeholderGate(t)` returns `'applied'` (it runs `placeholderPins`, so a failing pin throws) at the PIN's version and `'skipped'` past it. The shipped-file test goes through it (`if (placeholderGate(t) === 'skipped') console.info(…)`, the same line as before). Each of the three simulated hand-overs expects `'skipped'`, the version-2 control expects `'applied'`, and each version-2 off-placeholder cell expects the gate to throw. | T1 in the old form (the shipped test's `if (atPin(t))` removed) stays GREEN 58 / 58 (the note reproduced). T1 in the new form (`placeholderGate` without its `atPin` line) is RED on the first simulation. G2 (the gate always `'skipped'`) is RED on the version-2 control. G3 (the gate inverted) is RED. G4 (the shipped-file call bypasses the gate and calls `placeholderPins`) is **equivalent on the version-2 file**: it is the call site, and at version 2 the gate applies the pins anyway. G4 is RED with a version-3 hand-over data file (D5: every counting coefficient stamped `M0 spike`, version 3). D5 alone is GREEN 58 / 58 on the new tests. |
+| N-8 | **PINNED** | `expect(Object.keys(e.issues[0])).toEqual(['table', 'row', 'reason'])` in "a missing counter fails the loader, naming it" (for every counter) and the same check on the issue of "a counter list naming a counter twice is refused". The titles are unchanged. | A2 (`checkWorkLimits`' closure pushing the raw literal `{ table: t.id, row, cell, reason }` instead of `issueAt(…)`): the old tests are GREEN 58 / 58 (the note reproduced), and the new tests are RED on both its (with `-t` and no bail, 2 failed). |
+| N-9 | **FIXED** (comment only, so the text is the deliverable) | The header of `workLimits/table.ts` now reads "Every refusal names the table and, where the fault lies in one, the row and the cell (a text that is not JSON and a key twice that is neither a counter nor a cell name the table only, the key's path in the reason; a missing counter, a counter the list names twice and `law('…')` name the table and the row), through the package's one issue builder `issueAt` …". It was read against the code: `parseWorkLimitsText` (not-JSON, top or deep duplicate key: table only; duplicate counter: table and row; duplicate cell: table, row and cell), `checkWorkLimits` and `Laws.law`. | none (comment). `diff` of the before and after files with `//` lines dropped is empty. |
+
+Evidence. The new tests are GREEN on the before sources (mirror, 58 / 58), so every pin holds on the shipped code. In
+the tree, `test/workLimits` has 3 files and 58 / 58, and the tables project has 11 files and 254 / 254. The gates:
+install --frozen-lockfile 0, lint 0 (eslint 1158 files, probe-red ok, 9 whole-tree checks), build 0, and RELATED@1000
+over `src/workLimits/table.ts` (see the lane's LANDED line).
+
+Refusal census (J264, N-58). The item's registered families are the shipped table, the version-2 pin form, the three
+simulated M0-f-03b hand-overs, the counter-beyond-the-list table and the law-form, duplicate-key and not-JSON corpora.
+Lawful-input refusals: 0 before, 0 after. The loader's refusal sites and texts are unchanged, because the code is
+byte-identical outside comments. The new pins plant no new input; they read the keys of refusals that already
+existed. Every refusal met is UNLAWFUL input (a planted malformed law, a missing or duplicate counter, a text that is
+not JSON) and is kept at REFUSE. The alternative for the user is the hand-over writer's own `corepack pnpm` test run,
+which names the table, the row and the cell. No user reaches this class through §11.4's doors: the file is a shipped
+table.
+
+Disclosure. Early in the seat, before the mirror was built, one read-only `git status --short` ran, piped to
+`head -0`. Its output was discarded unread. It was a slip against the working rule "no git command" and changed
+nothing. It is disclosed in L-0601.
+
+## Closing check of hardening round S4 — notes (lane `check/M0-f-03a-close-s4`, 2026-10-20 – 21)
+
+Not failing lines: the closing check of round S4 (verdict `checks/M0-f-03a-s4.md`, PASS) found no blocker. This row is
+a further hardening test of the same class as N-8, for the hardening pass.
+
+| id | observation | suggested handling | milestone |
+|---|---|---|---|
+| N-10 | **The key shape of `Laws.law`'s `no such counter` issue is not pinned; N-8's pins cover only `checkWorkLimits`' row-only issues.** (CONFIRMED by mutant and probe) The checker's mutant A3 replaced `issueAt({ table: this.table.id, row: counter, reason: 'no such counter' })` in `workLimits/table.ts` `Laws.law` with the raw literal `{ table, row: counter, cell: undefined, reason }`. The item folder stayed green (3 files, 58 / 58): "law(counter) refuses …" (`table.test.ts:480`) compares only the message. The shipped code keeps the absent-key rule: the checker's census probe records the issue keys of `law('nope')` as `["table","row","reason"]`, the same on the before and after sources. Message, `JSON.stringify` and getters are unchanged under the mutant; only `Object.keys` differs. Not a wrong result: the issue names the table and the row as N-9's header says. | Add `expect(Object.keys(refusal(() => t.law('nope')).issues[0])).toEqual(['table', 'row', 'reason'])` beside `table.test.ts:480`, one line inside the existing `it`, its title unchanged. | M4 (hardening pass) |
