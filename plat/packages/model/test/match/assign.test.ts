@@ -161,7 +161,8 @@ describe('the greedy one-to-one assignment (§6.3)', () => {
         },
       ),
     );
-  });
+    // An explicit bound, as the item's whole-set tests carry (C-0195; N-3): it only catches a hang.
+  }, 120_000);
 });
 
 describe('the outcomes (§6.3 Carry-over)', () => {
@@ -192,6 +193,12 @@ describe('the outcomes (§6.3 Carry-over)', () => {
     const r = match(old, fresh, TABLE);
     expect(r.counts.succeed).toBe(2);
     expect(r.carry).toEqual([{ id: 'cell:b', entityKind: 'cell', fresh: 'cell:y', lineageFrom: [7, 8], lineageTo: [7, 9] }]);
+    // The event's two lineages are frozen copies, never the entities' own arrays (N-cc1-2).
+    const ev = r.carry[0];
+    expect(Object.isFrozen(ev.lineageFrom)).toBe(true);
+    expect(Object.isFrozen(ev.lineageTo)).toBe(true);
+    expect(ev.lineageFrom).not.toBe(old[1].lineage);
+    expect(ev.lineageTo).not.toBe(fresh[1].lineage);
     // The carry list is in old-id order (UTF-16 code units) across kinds, not in the table's kind order: the junction is
     // matched before the cell, but 'cell:b' sorts before 'junction:z'.
     const two = match(
@@ -200,6 +207,16 @@ describe('the outcomes (§6.3 Carry-over)', () => {
       TABLE,
     );
     expect(two.carry.map((c) => c.id)).toEqual(['cell:b', 'junction:z']);
+    // By the address, not by the successor's provisional id: the fresh ids sort opposite to the addresses (N-cc1-1).
+    const crossed = match(
+      [pointEntity('cell', 'cell:a', 0, 0, { lineage: L(1, 1) }), pointEntity('cell', 'cell:b', 9000, 0, { lineage: L(2, 2) })],
+      [pointEntity('cell', 'cell:z', 10, 0, { lineage: L(1, 3) }), pointEntity('cell', 'cell:y', 9010, 0, { lineage: L(2, 4) })],
+      TABLE,
+    );
+    expect(crossed.carry.map((c) => [c.id, c.fresh])).toEqual([
+      ['cell:a', 'cell:z'],
+      ['cell:b', 'cell:y'],
+    ]);
   });
 
   it('a tombstone is superseded by the fresh entity whose region covers its anchor point (the supersedes table), the successor\'s address when it is one', () => {
@@ -215,6 +232,13 @@ describe('the outcomes (§6.3 Carry-over)', () => {
     expect(r.old.get('block:a')).toMatchObject({ outcome: 'tombstone', supersededBy: 'block:b' });
     expect(r.old.get('block:c')).toEqual({ outcome: 'tombstone', kind: 'block', id: 'block:c', lineage: old[2].lineage });
     expect(r.supersedes).toEqual(new Map([['block:a', 'block:b']]));
+    // A tombstone's lineage is a frozen copy of the old entity's, superseded or not (N-cc1-2).
+    for (const [id, i] of [['block:a', 0], ['block:c', 2]] as const) {
+      const t = r.old.get(id) as { readonly lineage: unknown };
+      expect(Object.isFrozen(t.lineage)).toBe(true);
+      expect(t.lineage).not.toBe(old[i].lineage);
+      expect(t.lineage).toEqual(old[i].lineage);
+    }
   });
 
   it('a bridge matches only on the same river: the water body\'s address or its successor', () => {

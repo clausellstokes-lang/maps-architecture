@@ -4,9 +4,11 @@
 // model package reads no clock, §6.5 (3)). Every millisecond of a call counts (C-0190): a kind's time is its probed span
 // plus a share of the call's unprobed time (the checks, the preparation of both sides, the splits, the result) in
 // proportion to its re-derived old entities; per repeat, the per-entity time of each anchor class is the class's summed
-// kind times over its re-derived old entities, so the classes' times add up to the whole call; the record holds every
-// repeat's value and their medians. The bar is the timing phase's (M0-t-00's
-// script, run alone by M0-t-01): a record taken anywhere else is stamped `contended` and never gates.
+// kind times over its re-derived old entities, so the classes' times add up to the whole call when each class has a
+// re-derived entity (a class with none has no per-entity figure, 0, and its kinds' spans are in no figure — the
+// exception hardening round S1's choices row states); the record holds every repeat's value and their medians. The
+// bar is the timing phase's (M0-t-00's script, run alone by M0-t-01): a record taken anywhere else is stamped
+// `contended` and never gates.
 import { ratio } from '@plat/kernel';
 import type { EntityKind } from '../types/index.js';
 import { checkAnchors, type CheckedSpec } from './anchors.js';
@@ -53,7 +55,7 @@ export interface MatchTimingRecord {
   readonly point: ClassTiming;
   readonly overlap: ClassTiming;
   readonly perKind: readonly KindTiming[];
-  /** Per repeat, the whole call's time in milliseconds (the classes' times add up to it). */
+  /** Per repeat, the whole call's time in milliseconds (the classes' times add up to it when each class has a re-derived entity). */
   readonly callMs: readonly number[];
   /** The routine's outcome counts (the same on every repeat). */
   readonly counts: Readonly<MatchCounts>;

@@ -1,11 +1,11 @@
 {
   "schema": "plat-landed-record/1",
   "item": "M0-d-05b",
-  "lane": "build/M0-d-05b-consolidate-1",
-  "lanes": ["build/M0-d-05b", "build/M0-d-05b-fix1", "build/M0-d-05b-consolidate-1"],
+  "lane": "build/M0-d-05b-fix-s1",
+  "lanes": ["build/M0-d-05b", "build/M0-d-05b-fix1", "build/M0-d-05b-consolidate-1", "build/M0-d-05b-fix-s1"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-12T12:17:56.750Z",
+  "date": "2026-10-20T18:57:13.962Z",
   "ownsSource": "docs/build/M0-work.json",
   "owns": ["plat/packages/model/src/match/", "plat/packages/model/test/match/"],
   "counts": { "created": 17, "changed": 1, "unchanged": 0, "deleted": 0 },
@@ -19,27 +19,27 @@
     { "path": "plat/packages/model/src/match/source.ts", "status": "created", "sha256": "d13e2e9aef9ad2648f2188a90de9987582dd601687c3025a1a85533121d178fd", "size": 2093 },
     { "path": "plat/packages/model/src/match/split.ts", "status": "created", "sha256": "c47efa172fe51143ab44060d7afe0564eef8b57ddab5d71fab45d4e4e1ffc730", "size": 1863 },
     { "path": "plat/packages/model/src/match/synthetic.ts", "status": "created", "sha256": "057a7a5a9baa7ae2601212d7fcccc85ec80a041ad2aead40dfe100811b8c6746", "size": 7353 },
-    { "path": "plat/packages/model/src/match/timing.ts", "status": "created", "sha256": "8b8c072a6ace51d31499159464c673160118eb146b8bf925270d8f7e12fc09f5", "size": 8299 },
+    { "path": "plat/packages/model/src/match/timing.ts", "status": "created", "sha256": "3fc76dffd2f048575b231d030bf0ddb005bc905a50ca5900bdd5c04541d0c5a2", "size": 8530 },
     { "path": "plat/packages/model/src/match/types.ts", "status": "created", "sha256": "25ae924649fab51887472a15de71de95aadb48ec281cd3c98b69a1cc09db7087", "size": 8913 },
-    { "path": "plat/packages/model/test/match/assign.test.ts", "status": "created", "sha256": "ca969d48a5795dd908e6a5b592c8166ef558aadf2565f89b541ffd3edb3391b3", "size": 24108 },
+    { "path": "plat/packages/model/test/match/assign.test.ts", "status": "created", "sha256": "ba3d7cd11bc03712f8ed02e66ea60b90de7d0dd037080b859cac42ca4036447b", "size": 25495 },
     { "path": "plat/packages/model/test/match/carry.test.ts", "status": "created", "sha256": "cfe7bf24e34b488f33c9de260e25c5621e6e4ae44a28ba16461956d4ea043690", "size": 8956 },
     { "path": "plat/packages/model/test/match/source.test.ts", "status": "created", "sha256": "a14a46e9f096980115e2b4b40fdc21334aa1a7f6d6ea9defb7842de8a6bd1afc", "size": 8577 },
     { "path": "plat/packages/model/test/match/split.test.ts", "status": "created", "sha256": "a45f7cb933c85ab5c32a9884b30552c79e2205844c91aa9203919c3f6021fefc", "size": 4928 },
     { "path": "plat/packages/model/test/match/support.ts", "status": "created", "sha256": "cd74b029eb97ed27442ae4cce5af45cdf333c500f5e90a012e78ef2563316f08", "size": 2698 },
-    { "path": "plat/packages/model/test/match/synthetic.test.ts", "status": "created", "sha256": "25c3cf1cf1bdc113bd46dd32c65b15a9186c9cd6fdfd1f3a1a6f9e13e0be9ff7", "size": 8916 },
+    { "path": "plat/packages/model/test/match/synthetic.test.ts", "status": "created", "sha256": "34a7d36e738770421288c5fc527834352869ee5c9d38d5fd8dd5801f53da1509", "size": 11366 },
     { "path": "plat/packages/model/test/match/way.test.ts", "status": "created", "sha256": "7c0fddc5be2830cc002de0b9cf6a801374d963e4dcd2656e1f0290a06eca04d2", "size": 10645 }
   ],
   "appends": [
     {
       "file": "plat/CLEAN-ROOM.md",
-      "ids": ["L-0136", "L-0139", "L-0150", "L-0469"],
-      "lines": ["3a88e60c71143b41", "8c2ce707cdd16989", "b43b1343d91c9422", "4c1a51a606c4f4e2"],
+      "ids": ["L-0136", "L-0139", "L-0150", "L-0469", "L-0595"],
+      "lines": ["3a88e60c71143b41", "8c2ce707cdd16989", "b43b1343d91c9422", "4c1a51a606c4f4e2", "adff615284e41887"],
       "removed": []
     },
     {
       "file": "plat/docs/build/choices.md",
-      "ids": ["C-0188", "C-0190", "C-0195", "C-0336"],
-      "lines": ["15935cee08d74265", "86fe1ca46fe8ad5f", "1f5ff4f64c4e368b", "87927e17064256bd"],
+      "ids": ["C-0188", "C-0190", "C-0195", "C-0336", "C-0394"],
+      "lines": ["15935cee08d74265", "86fe1ca46fe8ad5f", "1f5ff4f64c4e368b", "87927e17064256bd", "055afd0dc8f655de"],
       "removed": []
     }
   ]
