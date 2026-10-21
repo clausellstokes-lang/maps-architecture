@@ -14,3 +14,82 @@ stated promises, or is held by a receipt where C-0105 puts it. Each row names it
 | N-6 | **No real PR job declares `suites`**, so §13.8's empty-suite edge is exercised by the runner only over fixtures. For the M0 jobs the edge is held inside the jobs (fuzz-bar's `judged > 0`, vitest's `passWithNoTests: false`). | M0-f-02b declares the spikes' seed families as `suites` when it fills them. | M4 |
 | N-7 | The batched-mode test title "the idle wait precedes every batch (30 s by default; the fixture passes 0)" claims what the test does not check. It checks only the 60 s cap. The fix for blocker B-1 covers this. Without that fix, the title should be reworded. | Covered by B-1's fix. | — |
 | N-8 | **The batched idle default on the measured path is held by a probe, not a test** (closing check `check/M0-f-02a-close-r1`). The fix round's fake-timer test injects a stub sampler and calibrate, so it runs with `readings: 'built'`. Mutant R19e (`idleMs: opts.idleMs ?? (readingsBuilt ? undefined : 0)`) skips the idle only when no reading is injected, and it survives the near set (61/61). Every other idle and period mutant is killed (R19, R19b, R19c, R19d, R19f, R20, R20b, R20c). The landed code idles on the measured path. The closing checker's probe, a real `licence check` batched with no option, took 3 attempts in 92.7 s (CONTENDED, never gating). Only a writer who branches on the test seam on purpose reaches this. | M0-t-00's receipt records the batched run's elapsed time against 30 s × attempts, or `RunTierOptions` gains a `sleep` seam that leaves `readings` measured, so a test can hold the idle on that path. | M4 |
+
+## Hardening round S1 (lane `build/M0-f-02a-fix-s1`, 2026-10-21; J237 (2), J186, J192, J264, J290 / N-58; merged round M3, second part)
+
+The session's hardening round on the rows the inventory (`checks/hardening-inventory.md`, J355) and its re-triage of
+2026-10-19 (J423, plan entry 49, batch B11) give this item: M0-f-02a:9 N-1, :10 N-2, :11 N-3, :12 N-4, the tier argv half
+of N-5 (reported to this item by M0-k-04's round S1, C-0387), and :16 N-8, which the re-triage DEFERRED to M4. Each
+source note above was read whole and its fix shape taken as written, except where N-5's file proved to be another item's
+(below). Choices row C-0411. Inside the owns only: `bench/src/tiers/index.ts`, `bench/src/tiers/runner.ts`,
+`bench/src/tiers/types.ts` (comment only), `bench/test/tiers/exec.test.ts` and `bench/test/tiers/runner.test.ts`. No
+export of the folder index was added, removed or renamed. `run()` keeps its name and its first argument; its `ctx` gains
+optional fields only, and the dispatcher still passes `{ out }`. No existing test title or message text changed. Five
+tests were added: 61 before, 66 after.
+
+**The ownership finding (N-5, and N-4's comment).** The brief calls `bench/src/tier-jobs/index.ts` this item's file, and
+the item's landed record of 2026-10-09 listed it. But `M0-work.json` gives `plat/bench/src/tier-jobs/` to M0-f-02b
+("handed over from M0-f-02a", wave 18). Under C-0318 a handed-over path is its latest owner's when the label names no
+wave (`flow-7`). `corepack pnpm landed -- M0-f-02a --lane build/M0-f-02a-fix-s1 --wave flow-7` therefore refused the
+edited file: "plat/bench/src/tier-jobs/index.ts: outside M0-f-02a's owns and the permitted appends (owned by M0-f-02b at
+flow-7)". By the round's rule (1), a row that needs another item's file is REPORTED, not built. The file and
+`manifest.test.ts`, which held its argv, are restored byte for byte to their landed state (sha256 `6046ed85…` and
+`81656b2d…`). The re-landed record no longer lists `tier-jobs/index.ts`, because the tool resolves it to M0-f-02b, which
+has not landed. This is CONFIRMED: `corepack pnpm landed:verify -- flow-7` now prints "landed:verify FAIL
+plat/bench/src/tier-jobs/index.ts: created since flow-7, claimed by no landed record of the wave". The file's bytes are
+the item's own landed bytes (`6046ed85…`); only the claim moved. That needs the session's ruling: a choices row handing
+`tier-jobs/` back to M0-f-02a until M0-f-02b builds, or the session's attribution at the close. The same run shows one
+other unattributed path, `packages/tables/data/workLimits.json`, which is not this item's. The fix itself is built and tested in the lane's mirror (below), ready for the file's owner or for a session
+ruling that hands the file back.
+
+| row | outcome | what changed | pin and its mutant (scratch mirror, `vitest run --maxWorkers=1 --bail=1 bench/test/tiers`) |
+|---|---|---|---|
+| N-1 | **FIXED and PINNED** | `run(args, ctx)` takes optional seams: `root` (the tree, default plat/), `manifest` (default the tier's real list), `options` (the runner's executor, probe and timing readings; never `root`, `out`, `mode`, `fallback` or `log`, which the entry sets) and `runTier` (default this folder's runner). `--list` derives over the injected root. Four tests in `exec.test.ts`, under 'the command entry over a FIXTURE manifest (N-1; C-0105: never a real tier)', drive the entry in-process over a fixture tree and manifest with a planted executor. Nothing is spawned and no real tier runs. They hold exit 0 on a pass and 1 on a failing unit (the report written, verdict `fail`); `--list` over the injected tree, running nothing; `--fallback` (fuzz 10 000 → 5 000, the constructive size kept, the printed fallback line); `--mode` (plain by default with no calibrate call; whole with one run and two scores; batched with one batch per unit and two scores each); and the budget exit. A built-readings run over budget exits 0 because it never gates (C-0047). The same verdict made gating, through an injected `runTier` that sets `budget.gating`, exits 1. A gating pass exits 0. This closes the note's PLAUSIBLE gating exit-1 path with a test. | The note reproduced on the before sources and before tests (61 / 61): A-C01 (`return 0`), A-C02 (`--fallback` ignored), A-C03 (`mode: 'plain'` passed) and A-C04 (`&& report.budget.gating` dropped) all SURVIVE. On the new tests, all are KILLED: C01, C02, C03, C04, C05 (the over-budget clause dropped), C06 (`--list` derives over PLAT_ROOT), C07 (`options` not passed), C08 (the injected manifest ignored), C09 (the `fail` clause dropped) and C10 (`--mode` always whole). |
+| N-2 | **FIXED and PINNED** | `runTier` awaits `job.units(size)` inside a `try`. A throw or a rejection becomes the job's `failBefore`, so the job fails with the reason `the job's units failed: <message>` (verbatim, pinned). The other jobs still run and `runTier` resolves. This is the fail-safe C-0241 (3) gives a harness that fails to load. A declared entry unstaged before its units are filled now fails naming the declared-units message, and no longer rejects the run. | 'a job whose units() throws or rejects fails naming the error, …' (`runner.test.ts`). It is RED on the before `runner.ts`: the run rejects. R01 (`throw e` in the catch), R02 (`failBefore = null`), R03 (the message dropped) and R04 (`units()` not awaited) are each KILLED. |
+| N-3 | **FIXED** (wording; the text is the deliverable) | C-0411 (3) records that C-0027's "normalisation 1 once M0-t-01's reference score exists" is read as the measured ratio, §12.1's runner score ÷ reference score. For a whole run that is its mean calibrate score ÷ the reference score. For the batched mode it is the summed figure ÷ the sum of the batches, each batch normalised by its own two scores. The ratio is ≈ 1 on the reference machine, within the 5 % drift, and null without a reference score. The `TierReport.normalisation` doc comment in `types.ts` says the same. The code is unchanged. | none (wording) |
+| N-4 | **FIXED** (wording; the text is the deliverable) | C-0411 (4) rewords C-0241 (8) to "no tier job writes anything tracked into plat/ (`--no-summary`)". The type-check units emit the gitignored declarations under `packages/*/dist/types/` and `bench/dist/types/`, as `corepack pnpm build` does, and no `.tsbuildinfo`. The type-check job's comment lives in `tier-jobs/index.ts`, M0-f-02b's file under C-0318. It was not edited: the choices row is the text. | none (wording) |
+| N-5 (tier argv half) | **REPORTED** (the file is M0-f-02b's under C-0318; see the ownership finding) | The fix needed: in `bench/src/tier-jobs/index.ts`, `fuzzUnits` appends `'--no-ladders', '--no-s11'` to each of the 24 `--primitive` units' argv, after `'--no-summary'`. These are M0-k-04's flags (C-0387). The `constructive set` unit is a whole run, and fuzz-bar refuses the flags there (exit 64). It keeps the kernel ladders' coverage and the S11 workload, so the job's units together still run that work, once. The pin: in `bench/test/tiers/manifest.test.ts`, the exact argv of "B-FUZZ: one unit per kernel primitive …" gains the two flags. A new test, "B-FUZZ's partition units leave the per-process work to the whole-set unit: every --primitive unit passes --no-ladders and --no-s11, the constructive set neither (N-5; M0-k-04's flags)", checks every `--primitive` unit carries both, at 10⁴ and under the fallback, and the whole-set unit carries neither. | Built and run in the mirror only, before the restore. The two tests are RED on the landed job list (2 failed of 67). F01 (`--no-ladders` dropped), F02 (`--no-s11` dropped), F03 (the flags on the whole-set unit too) and F04 (both dropped) are each KILLED by the near set, and each also by the new test alone (`-t "partition units"`). |
+| N-8 | **DEFERRED** (M4, by the re-triage of 2026-10-19, J423) | Nothing built, as the brief says. The batched idle default on the measured path is still held by the closing check's probe, not by a test. | none |
+
+**N-5's re-measure, with the reported argv (informative, CONTENDED, never a gate).** The B-FUZZ job alone ran through
+the new entry seam (`ctx.manifest`) in `--mode batched` with the real readings: 30 s idle, calibrate before and after,
+the detector, no reference score (so unjudged and contended). It ran from the lane's mirror, which held the reported
+argv. A first run measured 23 units and was stopped by its own 3 600 s timeout after `buffer`. A second run measured
+`tileRings` and the `constructive set`. Each batch is independent (its own idle and its own scores), so the two runs
+sum. The batched sum over the 25 units is **2 841.0 s wall and 3 004.5 s CPU**. The `insertChain` and `hexLattice`
+batches were each re-run once on a drift; the figure kept is the last attempt's. Six partition units exceed 60 s and are
+flagged `long-batch`: insertChain 77.0 s, corridorUnion 577.1 s, offsetFace 601.4 s, kerb 479.1 s, hexLattice 63.1 s,
+buffer 344.4 s. The whole-set `constructive set` unit is also flagged `long-batch` at 300.0 s; it carries the ladders and
+S11 once. The small primitives take 3.0 – 5.5 s a unit with the flags. For example `snap` took 3.0 s, against 11.5 s in
+the first check's receipt and M0-k-04's 10.6 s → 2.7 s. So the flags would take out a per-process floor of roughly 8 s
+a unit, about 190 s over the 24 primitive units. A note for the session, not this item's gate: this machine is not
+§12.1's reference machine. Even so, the B-FUZZ job alone sums to about 47 min here at 10⁴, against the PR tier's 15 min
+budget. M0-t-01's timing phase on the reference machine judges that, and §13.8's fallback (5 × 10³) and C-0097's
+"partition finer" rule answer a miss.
+
+**Refusal census (J264, N-58).** The item's registered families are the three real manifests and the test folder's
+fixture manifests; the item registers no fuzz family, edge state or seed sweep. A probe ran each real manifest through
+`runTier` with a no-op executor, so nothing was spawned. It ran on the before sources (in the mirror) and on the final
+tree. Before and after are identical. PR: 0 manifest problems; 7 built jobs run, 52 units; 0 jobs failed before a unit;
+1 pending (`after-M-1: denylist.json`); 2 not built (the spike stand-ins, M0-f-02b). Nightly and milestone: 0 problems,
+0 run, 1 pending (`baselines.json`), 9 not built. So lawful-input refusals are 0 before and 0 after. N-2 turns a crash of
+the whole run into a typed job failure, not a refusal of lawful input. A job whose own unit list cannot be built (an
+unreadable `tsconfig.json`, a failed import) is a broken environment of our own. It now fails visibly, naming the error,
+and the other jobs still run. The CLI's exit 64 on a bad argument and the malformed-manifest throw are UNLAWFUL input.
+They stay at REFUSE, typed and unchanged; the usage line and the problem list they print are the user's alternative.
+
+Gates (W = 1, after the last source edit, the restore): install --frozen-lockfile 0; build 0; lint 0 (eslint 1 158
+files, 0 errors, probe-red ok, 9 whole-tree checks); NEAR `bench/test/tiers` plus `tools/scaffold/workspace.test.mjs`, 6
+files 105 / 105 (the item's folder 5 files 66 / 66); RELATED@1000 over `bench/src/tiers/{index,runner,types}.ts`, exit 0,
+5 files 66 / 66. An earlier RELATED@1000, run before the restore over the same files plus `tier-jobs/index.ts`, gave 6
+files 75 / 75 (with `bench/test/scan/scan.test.ts`), and a second listing run with the verbose reporter gave the same.
+
+## Closing check S1 (lane `check/M0-f-02a-close-s1`, 2026-10-21; verdict PASS in `checks/M0-f-02a-s1.md`)
+
+The closing checker's new findings. None is a blocker. Its 24 targeted mutants (K01 – K12, K14 – K16, KBEFORE, K21 – K28) ran in its own mirror over `bench/test/tiers` at W = 1, and 22 were killed.
+
+| id | observation | suggested handling | milestone |
+|---|---|---|---|
+| N-9 | **`--list` ignores the injected probe and nobody notices.** Mutant K15 has the `--list` branch of `run()` call `deriveStatus(j, root)`, dropping `ctx.options?.probe`. It SURVIVES the near set (66 / 66), because the N-1 `--list` test lists only `command` jobs, which never consult the harness probe. The real command passes `{ out }` only, so its listing does not change. This is a fidelity gap in the test seam, not a wrong result. | Add a `harness` job with a stub probe returning `false` to the fixture `--list` test. Its line should read the load-failure status. | M4 |
+| N-10 | **A non-Error throw from `units()` is held by no test.** Mutant K27 reads `(e as Error).message` in the N-2 catch. It SURVIVES, because every pinned case throws or rejects with an `Error`. Such a job still fails, so the result is safe, but its reason would read "the job's units failed: undefined" rather than naming the value. | Add `units: () => Promise.reject('plain string')` to the N-2 test, with its reason pinned verbatim. | M4 |
+| N-11 | **Session attribution: the whole-wave `landed:verify -- flow-7` exits 1 after this round's re-landing.** The output reads "landed:verify FAIL plat/bench/src/tier-jobs/index.ts: created since flow-7, claimed by no landed record of the wave". The file's bytes are its committed bytes (git index blob `49c90d0c…`, sha256 `6046ed85…`). Under C-0318 the claim moved to M0-f-02b (`ownersAt(…, Infinity)` returns `["M0-f-02b"]`), which has not landed. The same run also FAILs `plat/packages/tables/data/workLimits.json`, which is not this item's. N-5's tier argv half is still open with the same owner (C-0411 (5)). | The session rules before the flow's close. Either a choices row hands `tier-jobs/` back to M0-f-02a until M0-f-02b builds, or the session attributes the file at the close. The N-5 argv fix and its pin go to whichever item then owns the file. | session (flow-7 close) |
