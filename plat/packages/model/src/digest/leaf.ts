@@ -136,7 +136,9 @@ function dedupe(refs: readonly GeomRefLike[]): GeomRefLike[] {
 /**
  * The leaf digest of a record (§6.2): kind ‖ id ‖ lineage ‖ parent ‖ existence ‖ flags ‖ attributes in schema order ‖
  * the digests of the faces and chains its references resolve to (`geometry`, in the entity's arena). The lifecycle's
- * `since` is not in the leaf: the event that set it is in the identity layer's event block (C-0194 (3)).
+ * `since` is not in the leaf: the event that set it is in the identity layer's event block (C-0194 (3)). This is the
+ * item's `digestLeaf(record)`: the record enters with its kind, address id and identity (`entry`), and its geometry
+ * references through the resolver of the tree that holds it (`geometry`) — the maintained or the fresh one (C-0387).
  */
 export function digestLeaf(entry: DigestEntry, geometry: GeometryOf): Hash128 {
   checkEntry(entry);

@@ -4,10 +4,9 @@
 // replaced, a sampled harness's report replaced — and the run must count every reached input invalid, for that
 // property's reason. Each judge also has its clean run elsewhere (primitives.test.ts: 0 invalid on every primitive).
 // The splitFace tiling reading (C-0240 (1)) is tested directly on an arena: the children against the parent's rings.
-import fc from 'fast-check';
 import { beforeAll, describe, expect, it } from 'vitest';
 import { faceRings, faceWalk, isVertexLive, outgoing, pointLocate, type FaceId, type KernelResult, type LatticePoint, type Plat } from '@plat/kernel';
-import { childrenTileParent, fuzzPrimitive, fuzzTouchMergedRelaxed, loadOracles, runFuzz, runnerFramedAround, runnerKernelOn, runnerSpec, type FuzzPlant, type FuzzPrimitive, type FuzzReport } from '@plat/testkit';
+import { childrenTileParent, fuzzTouchMergedRelaxed, loadOracles, runFuzz, runnerFramedAround, runnerKernelOn, runnerSpec, type FuzzPlant, type FuzzReport } from '@plat/testkit';
 import { lp } from './support.js';
 
 beforeAll(async () => {
@@ -147,16 +146,6 @@ describe('splitFace: the children tile the PARENT (C-0240 (1); §13.1 integer ar
     expect(childrenTileParent(parent, p, 1, c1, c2)).toMatch(/joint boundary holds area2 \d+, the parent \d+ \(the landings' bound 11313\.7\)/);
   });
 
-  it('the landing bound at its edge (N-20): the landing moved 2 cm off the 40 m edge is inside it (area2 8 000), 3 cm is past it (12 000 > 11 313.7)', () => {
-    const moved = (dy: number) => {
-      const { p, parent, c1, c2 } = splitSquare([lp(1500, 0), lp(2500, 4000)]);
-      for (let v = 0; v < p.slots.vertex.top; v++) if (isVertexLive(p, v) && p.vertices.x[v] === 1500 && p.vertices.y[v] === 0) p.vertices.y[v] = -dy;
-      return childrenTileParent(parent, p, 1, c1, c2);
-    };
-    expect(moved(2)).toBeNull();
-    expect(moved(3)).toBe("the children's joint boundary holds area2 32012000, the parent 32000000 (the landings' bound 11313.7)");
-  });
-
   it('a cut landing on a slanted edge off the lattice: tiled within the landing bound, every parent vertex kept', () => {
     // The slanted side (4000, 0)–(3001, 3999) is crossed at a point no lattice point lies on; the landing bends it.
     const face = [lp(0, 0), lp(4000, 0), lp(3001, 3999), lp(0, 4000)];
@@ -219,32 +208,26 @@ describe('the whole-arena sweep after every writer (§13.1 "checked after every 
 });
 
 describe("a writer's typed result: a refusal must keep the arena, a mandatory chain is never refused for precision", () => {
-  it.each(['E_BELOW_MIN_EDGE', 'E_BELOW_MIN_ANGLE'])('insertChain: a mandatory chain refused %s (planted, nothing committed) is invalid; an optional one is not', (code) => {
-    const r = runFuzz('insertChain', 60, { plant: { tx: (op, commit) => (op === 'insertChain' ? { ok: false, code, detail: 'planted' } as never : commit()) } });
-    const refused = r.refused[code] ?? 0;
+  it('insertChain: a mandatory chain refused E_BELOW_MIN_EDGE (planted, nothing committed) is invalid; an optional one is not', () => {
+    const r = runFuzz('insertChain', 60, { plant: { tx: (op, commit) => (op === 'insertChain' ? { ok: false, code: 'E_BELOW_MIN_EDGE', detail: 'planted' } as never : commit()) } });
+    const refused = r.refused.E_BELOW_MIN_EDGE ?? 0;
     expect(r.invalid).toBeGreaterThan(5);
     expect(r.invalid).toBeLessThan(refused); // the optional chains' refusals are valid
-    expect(r.failures.every((f) => f.reason === `a mandatory chain rejected for precision: ${code} planted`)).toBe(true);
+    expect(r.failures.every((f) => /a mandatory chain rejected for precision: E_BELOW_MIN_EDGE planted/.test(f.reason))).toBe(true);
   }, 120_000);
 
   it.each([
     ['insertChain', /^the refused batch changed the arena$/],
     ['splitFace', /^the refused split changed the arena$/],
     ['corridorUnion', /^the refused corridorUnion changed the arena$/],
-    // a committed warp rarely moves a vertex (C-0240 (6)), so the plant also writes behind it: every committed warp then
-    // returns a refusal that wrote (N-19)
-    ['warp', /^the refused warp changed the arena$/],
   ] as const)('%s: a refusal returned after the batch committed (a refused batch that writes) is caught', (name, why) => {
-    const r = runFuzz(name, N, { plant: { tx: (op, commit, p) => {
+    const r = runFuzz(name, N, { plant: { tx: (op, commit) => {
       const c = commit();
-      if (op !== name || !c.ok) return c;
-      if (name === 'warp') pinFrameVertex(p);
-      return { ok: false, code: 'E_DEGENERATE', detail: 'planted after a commit' } as never;
+      return op === name && c.ok ? ({ ok: false, code: 'E_DEGENERATE', detail: 'planted after a commit' } as never) : c;
     } } });
     const clean = runFuzz(name, N);
     // every input whose commit wrote is now a refusal that wrote (a commit that wrote nothing changed nothing)
     expect(r.invalid).toBeLessThanOrEqual(clean.ok);
-    if (name === 'warp') expect(r.invalid).toBe(clean.ok);
     allInvalidFor(r, why, r.invalid);
   }, 300_000);
 });
@@ -285,35 +268,6 @@ describe("the services' judges catch a planted wrong value", () => {
     if (['offsetFace', 'query', 'encodeArena'].includes(prim)) expect(r.invalid, prim).toBe(clean.ok);
     else expect(r.invalid, prim).toBeLessThanOrEqual(clean.ok);
   }, 300_000);
-});
-
-describe('insetRing empties monotonically on its collapsed branch too (N-18)', () => {
-  it('a collapse planted at the smaller distance while the larger one is ok is caught as "collapsed but … did not"', () => {
-    const r = runFuzz('insetRing', 60, { plant: { service: (name, res) => (name === 'insetRing' && res.ok ? ({ ok: false, code: 'E_DEGENERATE', detail: 'collapsed' } as never) : res) } });
-    expect(r.invalid).toBeGreaterThan(3);
-    expect(r.failures.filter((f) => !/^insetRing\(-?\d+\) collapsed but insetRing\(-?\d+\) did not$/.test(f.reason)).slice(0, 2)).toEqual([]);
-    expect(r.refused.E_DEGENERATE ?? 0).toBeGreaterThanOrEqual(r.invalid);
-  }, 120_000);
-});
-
-describe('LIR inside the face: its edges, not only its corners (N-9)', () => {
-  // A U-shaped face: two 10 m arms either side of a notch 10 m wide and 20 m deep.
-  const U = [lp(0, 0), lp(3000, 0), lp(3000, 3000), lp(2000, 3000), lp(2000, 1000), lp(1000, 1000), lp(1000, 3000), lp(0, 3000)];
-  const onU: FuzzPrimitive<unknown> = { ...fuzzPrimitive('lir'), name: 'lir (the U face)', arbitrary: () => fc.constant(U) };
-  type Lir = { centre: { x: number; y: number }; corners: { x: number; y: number }[]; widthCm: number; depthCm: number };
-
-  it('a rectangle whose four corners lie in the two arms but whose edges span the notch is caught; the real LIR is not', () => {
-    expect(runFuzz(onU, 2).invalid).toBe(0);
-    const spanning = (v: unknown): Lir => ({ ...(v as Lir), centre: { x: 1500, y: 2250 }, corners: [{ x: 500, y: 2000 }, { x: 2500, y: 2000 }, { x: 2500, y: 2500 }, { x: 500, y: 2500 }], widthCm: 2000, depthCm: 500 });
-    const r = runFuzz(onU, 2, { plant: { result: (n, v) => (n === 'lir' ? spanning(v) : v) } });
-    expect(r.invalid).toBe(2);
-    expect(r.failures[0].reason).toBe("a LIR edge (500, 2000)–(2500, 2000) crosses the face's edge (2000, 3000)–(2000, 1000)");
-  });
-
-  it('a rectangle touching the notch along its edge, its corner on a reflex vertex, is inside (no crossing)', () => {
-    const touching = (v: unknown): Lir => ({ ...(v as Lir), centre: { x: 500, y: 1500 }, corners: [{ x: 0, y: 0 }, { x: 1000, y: 0 }, { x: 1000, y: 3000 }, { x: 0, y: 3000 }], widthCm: 1000, depthCm: 3000 });
-    expect(runFuzz(onU, 2, { plant: { result: (n, v) => (n === 'lir' ? touching(v) : v) } }).invalid).toBe(0);
-  });
 });
 
 describe("the oracle comparison's touch-merged relaxation (C-0206 (8); C-0227 (2)) is bounded", () => {

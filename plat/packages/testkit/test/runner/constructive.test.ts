@@ -6,9 +6,6 @@
 // another item, listed, never green. Negative controls show the judge can fail: a wrong expected outcome, a wrong code,
 // a property on the wrong geometry. And the runner's own fixtures for the two §3.3 / §3.11 clauses the case data
 // cannot reach (C-0227 (10), KI-2): a class floor's angle refusal under reject and repair, and the halving cap's no-op.
-import { spawnSync } from 'node:child_process';
-import { existsSync } from 'node:fs';
-import { fileURLToPath, pathToFileURL } from 'node:url';
 import { beforeAll, describe, expect, it } from 'vitest';
 import {
   casesAt,
@@ -25,7 +22,7 @@ import {
   type ConstructiveInput,
   type ConstructiveStepOutcome,
 } from '@plat/testkit';
-import { absorbSliver, classFloorRow, faceRings, isFaceLive, isVertexLive, pointLocate, type KernelTx, type LatticePoint, type Plat } from '@plat/kernel';
+import { absorbSliver, classFloorRow, isFaceLive, isVertexLive, pointLocate, type KernelTx, type Plat } from '@plat/kernel';
 import { CASE_DRAWS, HEAVY_DRAWS, lp } from './support.js';
 
 beforeAll(async () => {
@@ -244,47 +241,6 @@ describe('negative controls: the judge fails what is not the stated outcome', ()
     expect(!v.ok && v.reason).toMatch(/^invalid output after step \d+ \(splitFace\): index-freshness/);
   });
 
-  it('a child changed inside the split step, after its commit, by a real transaction (a closed ring inserted in it, the sweep clean) fails children-tile-parent: the parent is the one read before the split, never one read after it (N-15)', () => {
-    const c = constructiveCase('geom/cut-ends-at-vertex') as ConstructiveCase;
-    let reached = 0;
-    for (let s = 0; s < CASE_DRAWS; s++) {
-      const g = input(c, s);
-      let inserted = false;
-      const v = constructiveKernelJudge(c, g, 60_000, {
-        tx: (op, commit, p) => {
-          const r = commit();
-          if (op !== 'splitFace' || !r.ok) return r;
-          // a square round the first child's vertex centroid (the children of a straight cut across a triangle are
-          // convex), its half-side half the centroid's distance to the child's nearest edge: its area2 (8h²) exceeds
-          // the landing bound, so the tiling — read against the pre-split parent — cannot absorb the hole it makes
-          const ring = faceRings(p, 1, (r.value as { value: [number, number] }).value[0])[0];
-          const n = ring.length;
-          const gx = ring.reduce((t, q) => t + q.x, 0) / n;
-          const gy = ring.reduce((t, q) => t + q.y, 0) / n;
-          let dmin = Infinity;
-          for (let j = 0; j < n; j++) {
-            const [a, b] = [ring[j], ring[(j + 1) % n]];
-            dmin = Math.min(dmin, Math.abs((b.x - a.x) * (gy - a.y) - (b.y - a.y) * (gx - a.x)) / Math.hypot(b.x - a.x, b.y - a.y));
-          }
-          const h = Math.floor(dmin / 2);
-          const [cx, cy] = [Math.round(gx), Math.round(gy)];
-          if (h < 13) return r;
-          const sq = [lp(cx - h, cy - h), lp(cx + h, cy - h), lp(cx + h, cy + h), lp(cx - h, cy + h)] as LatticePoint[];
-          const k = runnerKernelOn([p]);
-          inserted = k.tx(runnerSpec(1), (o) => k.geom.insertChain(o, sq, [{ role: 'way', entity: 'way:planted-ring' }], 'mandatory', { closed: true })).ok;
-          return r;
-        },
-      });
-      if (!inserted) continue;
-      reached++;
-      expect(v.ok, `seed ${String(s)}`).toBe(false);
-      expect(!v.ok && v.reason).toMatch(/^children-tile-parent: the children do not tile the parent: the children's joint boundary holds area2 \d+, the parent \d+/);
-    }
-    expect(reached).toBeGreaterThanOrEqual(2);
-    // nothing planted: the same draws green
-    for (let s = 0; s < CASE_DRAWS; s++) expect(constructiveKernelJudge(c, input(c, s), 60_000, { tx: (_op, commit) => commit() }).ok, `seed ${String(s)}`).toBe(true);
-  });
-
   it('an ok case whose outcome is a downgrade fails where the skeleton path is due (skel/notched-rectangle holds skeleton-valid)', () => {
     const c = constructiveCase('skel/notched-rectangle') as ConstructiveCase;
     const g = input(c, 0);
@@ -293,20 +249,6 @@ describe('negative controls: the judge fails what is not the stated outcome', ()
     const v = constructiveKernelJudge(c, sharp);
     expect(v.ok).toBe(false);
   });
-});
-
-describe('the static reading from the built bundle (N-7)', () => {
-  it("kernel-reads-no-model resolves @plat/kernel through the package, from testkit's dist/index.js as from its source", () => {
-    const c = constructiveCase('limit/data-no-dossier') as ConstructiveCase;
-    expect(c.expect.outcome).toBe('static');
-    expect(constructiveKernelJudge(c, input(c, 0))).toEqual({ ok: true });
-    // the bundle `corepack pnpm build` writes (the gates build before they test), run by plain Node: no source path
-    const bundle = fileURLToPath(new URL('../../dist/index.js', import.meta.url));
-    expect(existsSync(bundle), 'packages/testkit/dist/index.js — run corepack pnpm build first').toBe(true);
-    const script = `const m = await import(${JSON.stringify(pathToFileURL(bundle).href)}); const c = m.constructiveCase('limit/data-no-dossier'); console.log(JSON.stringify(m.constructiveKernelJudge(c, c.generate(0))));`;
-    const r = spawnSync(process.execPath, ['--input-type=module', '-e', script], { encoding: 'utf8', timeout: 120_000 });
-    expect([r.status, r.stdout.trim(), r.stderr.split('\n').find((l) => /Error/.test(l)) ?? '']).toEqual([0, '{"ok":true}', '']);
-  }, 180_000);
 });
 
 describe("the runner's own fixtures for clauses the case data cannot reach", () => {

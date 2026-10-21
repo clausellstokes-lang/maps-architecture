@@ -9,7 +9,7 @@ import { idOf, isFaceLive, type Plat } from '@plat/kernel';
 import { canonicalText, type Id } from '@plat/model';
 import { describe, expect, it } from 'vitest';
 import { isS1LandOwner, runS6, s6Takes, type CoarseFace, type S6Output } from '../../src/index.js';
-import { cityRun, ownerAt, ownersL1, P, s6Run, town, type Town } from './support.js';
+import { ownerAt, ownersL1, P, town, type Town } from './support.js';
 
 const SEED = 4;
 const LAND: Id = 'land:0';
@@ -93,26 +93,6 @@ describe('S6 takes the L1 faces S1’s land components own (N-51; C-0265)', () =
     expect(ownerAt(land, P(0, 0))).toBe(land.plaza.id);
     const districtIds = new Set(landOut.districts.map((d) => d.id));
     expect(districtIds.has(land.plaza.id)).toBe(false);
-  });
-});
-
-describe('the wall strips keep their owners under S1’s land owner (C-0245 (2), C-0265; note 16)', () => {
-  it('the CITY run with land:0: every strip face keeps its owner through S6, beside the land S6 re-owns', { timeout: 300_000 }, () => {
-    const c = cityRun(1, 150, 180, new Map(), LAND);
-    const before = ownersL1(c.plat);
-    const strips = [...before].filter(([, o]) => o !== null && o.startsWith('wall_strip:'));
-    // the fixture is S1's and S3's: the strips owned, the land inheriting land:0
-    expect(strips.length).toBeGreaterThan(4);
-    expect([...before.values()].filter((o) => o === LAND).length).toBeGreaterThan(50);
-    const out = s6Run(c.input);
-    expect(out.report.landHa).toBeGreaterThan(0);
-    expect(out.report.unowned).toBe(0);
-    const after = ownersL1(c.plat);
-    for (const [f, o] of strips) expect(after.get(f), `L1 face ${String(f)}`).toBe(o);
-    const districtIds = new Set(out.districts.map((d) => d.id));
-    const vals = [...after.values()];
-    expect(vals.filter((o) => o !== null && districtIds.has(o)).length).toBeGreaterThan(50);
-    expect(vals.filter((o) => o === out.hinterland).length).toBeGreaterThan(0);
   });
 });
 

@@ -15,16 +15,11 @@
 //     same turns to its end before the next unclaimed face seeds (C-0245 (8));
 //   * the merge rule: a district whose area ends below the band's floor merges into the neighbour with the longest
 //     shared edge — among the neighbours across edges that pass the edge test, so no merge carries a district across
-//     a barrier, and whose union with it encloses no hole the two did not hold (the patch test's hole check, applied to
-//     the merge too); one with no such neighbour stays and is reported — smallest first; a district grown from a seed of
+//     a barrier; one with no such neighbour stays and is reported — smallest first; a district grown from a seed of
 //     rate < 1 is never merged away, so it keeps its seed face and the rates set its size (C-0245 (9));
 //   * F-WORK (C-0085): when grower.turns reaches its limit, growth stops and the leftover rule assigns every face still
-//     unowned without turns — each connected run of them one district, a face joining a run only when every edge it
-//     shares with the run's faces passes the edge test (the grower's own rule), so no run holds a barrier between two of
-//     its faces; a face a barrier keeps out of a run starts a run of its own — and the result reports work_cut with the
-//     count (C-0245 (10));
-//   * a degenerate face (area ≤ 0) joins the district across its longest shared edge among the districts every edge it
-//     shares with passes the edge test (the same rule); with none it stays unowned and counted (C-0245 (21)).
+//     unowned without turns — each connected run of them (across edges that pass the edge test) one district — and the
+//     result reports work_cut with the count (C-0245 (10)).
 import type { Stream } from '@plat/kernel';
 import { boundaryLoops, EDGE_TEST_BARRIERS, faceLineage, hullCompactness, type FaceGraph, type FaceLink } from './faces.js';
 import type { GrowResult, GrowSeed, Grown, MergeRecord, SeedKind, TurnRecord } from './types.js';
@@ -79,11 +74,6 @@ export function grow(seeds: readonly GrowSeed[], faces: GrowFaces, stream: TurnS
   let workCut = false;
   const blocked = (kind: SeedKind): number => EDGE_TEST_BARRIERS & ~(opts.allows?.(kind) ?? 0);
   const passes = (l: FaceLink, kind: SeedKind): boolean => (l.barriers & blocked(kind)) === 0;
-  /** Does every edge face j shares with the faces of grower `order` pass the edge test for `kind`? */
-  const passesAll = (j: number, order: number, kind: SeedKind): boolean => {
-    for (const [m, l] of g.links[j]) if (owner[m] === order && !passes(l, kind)) return false;
-    return true;
-  };
 
   const start = (seed: GrowSeed): Grown => {
     const f = g.faces[seed.face];
@@ -143,17 +133,6 @@ export function grow(seeds: readonly GrowSeed[], faces: GrowFaces, stream: TurnS
     owner[j] = d.seed.order;
   };
 
-  /** The boundary loops of a district's faces (one for a patch without a hole). */
-  const loopsOf = (members: readonly number[], orders: readonly number[]): number => boundaryLoops(g, members, (i) => orders.includes(owner[i]));
-  /**
-   * Would merging `d` into `t` enclose a hole neither held? Two patches meeting along k disjoint boundary pieces unite
-   * into one with k − 1 more holes, so the union has more loops than the two less one exactly when they meet twice or more.
-   */
-  const enclosesHole = (d: Grown, t: Grown): boolean => {
-    const both = [d.seed.order, t.seed.order];
-    return loopsOf([...t.faces, ...d.faces], both) > loopsOf(d.faces, [d.seed.order]) + loopsOf(t.faces, [t.seed.order]) - 1;
-  };
-
   /** One turn of `d`: false when the grower is finished. */
   const turn = (d: Grown): boolean => {
     const t = d.turns;
@@ -206,8 +185,7 @@ export function grow(seeds: readonly GrowSeed[], faces: GrowFaces, stream: TurnS
       if (workCut) break;
     }
   }
-  // F-WORK: every face still unowned joins one district per connected run of them, without turns; a face joins a run
-  // only when every edge it shares with the run passes (a face a barrier keeps out starts its own run, in face order).
+  // F-WORK: every face still unowned joins one district per connected run of them, without turns.
   if (workCut) {
     for (let i = 0; i < n; i += 1) {
       if (!faces.claimable[i] || owner[i] >= 0 || degenerate(g, i)) continue;
@@ -219,7 +197,7 @@ export function grow(seeds: readonly GrowSeed[], faces: GrowFaces, stream: TurnS
         const m = queue.shift() as number;
         const nb = [...g.links[m].entries()].sort((a, b) => a[0] - b[0]);
         for (const [j, l] of nb) {
-          if (!faces.claimable[j] || owner[j] >= 0 || degenerate(g, j) || !passes(l, 'leftover') || !passesAll(j, d.seed.order, 'leftover')) continue;
+          if (!faces.claimable[j] || owner[j] >= 0 || degenerate(g, j) || !passes(l, 'leftover')) continue;
           absorb(d, j);
           queue.push(j);
         }
@@ -227,14 +205,13 @@ export function grow(seeds: readonly GrowSeed[], faces: GrowFaces, stream: TurnS
     }
   }
 
-  // Degenerate faces join the district across their longest shared edge among the districts every edge they share
-  // with passes the edge test.
+  // Degenerate faces join the district across their longest shared edge that passes the edge test.
   for (let i = 0; i < n; i += 1) {
     if (!faces.claimable[i] || owner[i] >= 0) continue;
     let best = -1;
     let bestLen = -1;
     for (const [j, l] of [...g.links[i].entries()].sort((a, b) => a[0] - b[0])) {
-      if (owner[j] < 0 || !passes(l, 'leftover') || !passesAll(i, owner[j], 'leftover')) continue;
+      if (owner[j] < 0 || !passes(l, 'leftover')) continue;
       if (l.lengthCm > bestLen) {
         bestLen = l.lengthCm;
         best = owner[j];
@@ -258,15 +235,15 @@ export function grow(seeds: readonly GrowSeed[], faces: GrowFaces, stream: TurnS
           shared.set(o, (shared.get(o) ?? 0) + l.lengthCm);
         }
       }
-      // the longest shared edge first (ties by seed order), passed over where the union would enclose a hole
       let into = -1;
       let len = -1;
-      const order = [...shared.keys()].filter((o) => !bad.has(o)).sort((a, b) => (shared.get(b) as number) - (shared.get(a) as number) || a - b);
-      for (const o of order) {
-        if (enclosesHole(d, byOrder.get(o) as Grown)) continue;
-        into = o;
-        len = shared.get(o) as number;
-        break;
+      for (const o of [...shared.keys()].sort((a, b) => a - b)) {
+        if (bad.has(o)) continue;
+        const s = shared.get(o) as number;
+        if (s > len) {
+          len = s;
+          into = o;
+        }
       }
       if (into < 0) continue;
       const target = byOrder.get(into) as Grown;
