@@ -2,12 +2,15 @@
 // presets, user and document overrides and log events arrive with the document at M1 (§4b; C-0012) — so it resolves
 // every row to the shipped table's own, and its hash is H128 of the pinned table hashes alone (C-0157). A slice is a
 // row (`key`) or one field of a row (`'<row>/<cell>'`, §7.6), its hash the H128 of the row's pinning content or of the
-// field's key and the cell's pinning content (table.ts, C-0157 (1)), cut to the model's Hash64.
+// field's key and the cell's pinning content (table.ts, C-0157 (1)), cut to the model's Hash64. A package that keeps a
+// table of its own beside its code (layout's `s6`, which @plat/tables cannot import: the dependency runs
+// tables ← layout) registers it in a view by handing the checked Table to `tableView`, after the shipped ids, so the
+// view carries it and its hash covers it like any table of the view (C-0416).
 import { H128, utf8Bytes, type Hash128 } from '@plat/kernel';
 import type { SliceRef, TableId } from '@plat/model';
 import { issueAt } from '../cell/cell.js';
-import { TABLE_IDS } from './registry.js';
-import { cellSliceHash, loadTable, TableError, type Row, type Table } from './table.js';
+import { isTableId, TABLE_IDS } from './registry.js';
+import { cellSliceHash, loadTable, Table, TableError, type Row } from './table.js';
 
 /** §7.6's TableView, with M0's `table(id)` beside it for the typed readers. */
 export interface TableView {
@@ -64,9 +67,24 @@ class View implements TableView {
   }
 }
 
-/** A view over M0's tables (all of them by default), each checked on load. */
-export function tableView(ids: readonly string[] = TABLE_IDS): TableView {
+/**
+ * A view over M0's tables (all of them by default), each checked on load, and the `registered` tables after them in
+ * their order: tables a package keeps of its own (layout's `s6`), each a `Table` that `parseTable` checked. The view's
+ * hash covers every table it carries. A registered table is refused, naming it, when it is not a checked `Table`, when
+ * its id is one of M0's shipped tables (those are loaded by id, never handed in: a variant of one is §7.6's override
+ * chain, M1's), or when the view already carries its id.
+ */
+export function tableView(ids: readonly string[] = TABLE_IDS, registered: readonly Table[] = []): TableView {
   const tables = new Map<string, Table>();
   for (const id of ids) tables.set(id, loadTable(id));
+  registered.forEach((t, i) => {
+    const refuse = (table: string, reason: string): never => {
+      throw new TableError([issueAt({ table, reason })]);
+    };
+    if (!(t instanceof Table)) refuse(`registered[${i}]`, 'a registered table must be a Table that parseTable checked');
+    if (isTableId(t.id)) refuse(t.id, 'a shipped table is loaded by id, never registered');
+    if (tables.has(t.id)) refuse(t.id, 'registered twice in this view');
+    tables.set(t.id, t);
+  });
   return new View(tables);
 }
