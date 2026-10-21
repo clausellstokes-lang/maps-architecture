@@ -1,6 +1,8 @@
 # HANDOFF — town-generator research program
 
-## RUNNING NOW — 2026-10-20 15:35Z (ACCOUNT 2: session_01F1FyLSKVBzYwVs2sNL8bcS, Fable 5.1 at max, the managing seat; branch `claude/great-galileo-b4mzbq`, draft PR #9 into main; J444)
+## RUNNING NOW — 2026-10-20 15:35Z (ACCOUNT 2: session_01F1FyLSKVBzYwVs2sNL8bcS, Fable 5.1 at max, the managing seat; branch `claude/great-galileo-b4mzbq`, PR #9 MERGED into main 2026-10-21 02:16Z as 8d384f04 (J460); the branch continues from main and its next push opens draft PR #10; J444)
+
+**02:16Z (J460; THE OWNER'S WORD).** "Merge 9 when you're able" → PR #9 marked ready and MERGED into main as merge commit 8d384f04 (head dcd138dd; a merge commit so the landing hashes stay valid). The design branch continues from main under the same name; the next landing's push opens draft PR #10, a draft until the owner's next word. Six children in flight; check-in 10 at 03:05Z; the resume 06:17Z.
 
 **02:25Z (J459; check-in 9).** All six relaunched after the J458 resume and progressing (snapshots 01:54–02:06Z). f-03a S4 PASS (01:20Z) → LANDED as d5211eb7 from AU's branch ahead of the hand-back (f-02a s1 building; the busy list − M0-f-03a). a-09 S9's Fable check CONFIRMED blocker B-ME (mutant ME changes 485/10^4 draws): FAIL ahead, the run's further fix round follows — the critical path lengthens by a round. k-03 s1's check FAIL 01:32Z (Kc, the unbudgeted even-odd xor; L18's test half REPORTED for a-08); its fix round S2 at its gates. a-05 s9's census 25/31; d-04 S3 and d-05a s1 at RELATED. Thirteen landings. Check-in 10 at 03:05Z; the kill expected ~04:00Z; the resume 06:17Z. No fresh launch.
 

@@ -10851,3 +10851,4 @@
 2026-10-21 01:44 build/M0-f-02a-fix-s1 CHECKPOINT comment edits N-3 (types.ts normalisation) and N-4 (tier-jobs type-check units) done; B-FUZZ batched re-measure running from the mirror (background, done-file; 3 units in, CONTENDED, informative); next: wait, refusal census, notes/choices/CLEAN-ROOM, RELATED@1000
 2026-10-21 02:04 build/M0-f-02a-fix-s1 CHECKPOINT B-FUZZ batched re-measure still running (mirror, background; corridorUnion unit 577 s, long-batch); next: wait, census, records, RELATED@1000
 2026-10-21T02:13:25Z session/landing LANDED M0-f-03a s4 as d5211eb7 from wip/child-f03as4 (J459; the host of merged round M3, landed from the branch ahead of AU's hand-back at check-in 9; f-02a s1 and s-02 s1 continue in AU)
+2026-10-21T02:16:16Z session/merge MERGED PR #9 into main as 8d384f04 (J460; the owner's word "Merge 9 when you're able" 02:14Z; a merge commit, head dcd138dd; the design branch continues from main, its next push opens draft PR #10)
