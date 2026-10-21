@@ -11028,3 +11028,4 @@
 2026-10-21T14:27:56Z session/merge MERGED PR #28 into main as a3d4250b (J462's standing word; check-in 21, J486; a merge commit, head f08f2567; draft PR #29 next)
 2026-10-21T15:27:41Z session/merge MERGED PR #29 into main as 7c4e8186 (J462's standing word; check-in 22, J487; a merge commit, head c57203ec; draft PR #30 next)
 2026-10-21T16:27:02Z session/resume POST-RESET RESUME 5: the window reset ~16:20Z with both children running through (AH M0-a-09 S13 RELATED running; AI M0-a-05 S10 census 17 of 31); nothing killed, nothing landable (J488)
+2026-10-21T16:27:35Z session/merge MERGED PR #30 into main as d56ef355 (J462's standing word; post-reset resume 5, J488; a merge commit, head 09f1eed3; draft PR #31 next)
