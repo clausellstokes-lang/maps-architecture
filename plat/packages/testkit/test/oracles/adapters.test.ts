@@ -8,7 +8,7 @@ import { loadOracles, oracleBoolean, oracleBuffer, symDiffArea } from '../../src
 import { resultOfThrow } from '../../src/oracles/oracles.js';
 import { polygonClippingUnionPieces, underTurns, type PcMultiPolygon } from '../../src/oracles/polygon-clipping.js';
 import { clipper2BooleanRaw, clipper2UnionPieces } from '../../src/oracles/clipper2.js';
-import { OracleRefusal, isOracleRefusal } from '../../src/oracles/refusal.js';
+import { OracleRefusal, isOracleRefusal, replaySeed } from '../../src/oracles/refusal.js';
 import { arcSteps, bufferParts, maxArcStep, SAGITTA_CM } from '../../src/oracles/buffer-parts.js';
 import { clipper2Inflate } from '../../src/oracles/clipper2.js';
 import { faceCount } from '../../src/oracles/faces.js';
@@ -284,7 +284,9 @@ describe('every library answer passes the region check, or the library refuses (
 
   it('turns a refusal into a refused result; a usage error is rethrown; anything else is a failed result', () => {
     for (const engine of ORACLE_ENGINES) {
-      expect(resultOfThrow(engine, new OracleRefusal(engine, 'planted'))).toEqual({ ok: false, engine, error: `${engine}: planted`, refused: true });
+      // a refused result carries the refusal's replay seed and its overrun mark (KI-6, L18; C-0399)
+      expect(resultOfThrow(engine, new OracleRefusal(engine, 'planted'))).toEqual({ ok: false, engine, error: `${engine}: planted`, refused: true, seed: replaySeed(), overran: false });
+      expect(resultOfThrow(engine, new OracleRefusal(engine, 'planted', { overran: true }))).toEqual({ ok: false, engine, error: `${engine}: planted`, refused: true, seed: replaySeed(), overran: true });
       expect(resultOfThrow(engine, new Error('planted'))).toEqual({ ok: false, engine, error: `${engine}: planted` });
     }
     expect(() => resultOfThrow('clipper2', new Error('oracles: await loadOracles() first'))).toThrow(/^oracles:/);

@@ -41,10 +41,12 @@ export type RingLike = readonly PointLike[];
  * for a buffer the boundary length of the oracle's own result (C-0144 (5)). A failure with `refused` true is the
  * library's refusal — no attempt gave a region the check accepts (an `OracleRefusal`) — and means only that this
  * oracle cannot judge the case; any other failure (an input off the lattice, a point out of range) is a failure.
+ * A refused result also carries the refusal's replay seed and whether an attempt ran past its step budget (KI-6, L18;
+ * C-0399) — `seed` null for an unseeded run.
  */
 export type OracleResult =
   | { ok: true; engine: OracleEngine; rings: Ring[]; perimeterCm: number }
-  | { ok: false; engine: OracleEngine; error: string; refused?: boolean };
+  | { ok: false; engine: OracleEngine; error: string; refused?: boolean; seed?: number | null; overran?: boolean };
 
 /** §3.7's split: what our engine reported decides which comparison applies. */
 export type SplitClass = 'unattracted' | 'attracted';
