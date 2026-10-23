@@ -17,8 +17,8 @@ critiques; Opus reads, surveys and applies; a Fable seat that hits the Fable lim
 | seam | volumes/seam-world-growth (Fable, max) | docs/volumes/critique/seam-world-growth-r0.md + in-place edits to V15 and items appended to file r | LANDED da28c04 (SW-01–SW-19; file r now items 926–1028, 235 fragments; V15 2,122 lines; dry-run script scratchpad world-growth/seam/dryrun_seam.py with the README target) |
 | review | review/world-growth-science-host (Opus, high) → docs/volumes/critique/world-growth-r-science-host.md | LANDED f810186 (34 findings; 1 blocking); the manager's rulings on it are J393 | — |
 | review | volumes/critique-V15-and-r (Fable, max) → docs/volumes/critique/V15.md | LANDED (28 findings; 2 blockers; 235/235 quotes verified); the manager's ruling on C15-04 is J394 | — |
-| revise | volumes/revise-world-growth (Fable, max) | r and V15 revised; review records; the V15 critique's notice line corrected | running (brief: scratchpad world-growth/brief-revise.md) |
-| apply | amendments/world-growth-r-apply (Opus) | targets; docs/validation/coherence/world-growth-r.md; bundle | after revise |
+| revise | volumes/revise-world-growth (Fable, max) | r and V15 revised; review records; the V15 critique's notice line corrected | LANDED 367a46c (62 findings: 60 accepted, 2 in part under J393/J394; items 1029–1032 added; 97 items, 241 fragments dry-run clean; scripts in scratchpad world-growth/revise/) |
+| apply | amendments/world-growth-r-apply (Opus, medium) | targets; docs/validation/coherence/world-growth-r.md; bundle | running (brief: scratchpad world-growth/brief-apply.md; never apply file r by hand) |
 | critic | the critic (Fable) | gap list | after apply |
 
 If this session dies: re-run the stage whose output is missing or lacks its final section, with the same brief (the
