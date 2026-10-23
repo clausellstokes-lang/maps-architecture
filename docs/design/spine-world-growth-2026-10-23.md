@@ -443,6 +443,8 @@ view and lens facts.
 ---
 
 ## 16 What stays the owner's
+> **Ruled 2026-10-23 (J396):** the owner delegated all four ("I leave all judgement to you"); the session ruled them and amendments u carried the rulings into V13, the base, V09, V15, INDEX, SUMMARY, the brief and the handoff. Nothing below waits on the owner; the list stands as the record of what was asked.
+
 Account gating of the surface's levels; the atlas's product name; atlas sharing and privacy across campaigns; V13 §11 Q4
 (door 1 and the world canon) — unchanged and still open; the art budget for the relational style.
 
