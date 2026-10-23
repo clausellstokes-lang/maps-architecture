@@ -1,5 +1,28 @@
 # HANDOFF — town-generator research program
 
+## RESUME HERE — THE WORLD-GROWTH INTEGRATION PASS (2026-10-23; Fable managing, J392)
+
+The owner's rules F1–F16 (J390–J392) are being integrated under the spine docs/design/spine-world-growth-2026-10-23.md.
+Seats are Agent-tool lanes (not Workflow runs); each writes incrementally with a PROGRESS ledger so a dead seat can be
+re-run from its partial file. Model ruling: Fable manages, designs, seams, reviews the map architecture, revises and
+critiques; Opus reads, surveys and applies; a Fable seat that hits the Fable limit is re-run on Opus with the J375 notice.
+
+| stage | seat (model) | output | state |
+|---|---|---|---|
+| research | research/world-growth-science (Opus) | research/world/formation-ecology-science.md | running |
+| research | research/world-growth-state (Opus) | research/world/formation-ecology-state.md | running |
+| spine | the manager (Fable) | docs/design/spine-world-growth-2026-10-23.md | LANDED |
+| design A | amendments/world-growth-r (Fable) | docs/AMENDMENTS-2026-10-23r.md (V13, the base, V09/V14 BCRs, proposal, brief, INDEX, SUMMARY) | after research |
+| design B | volumes/architect-V15 (Fable) | docs/volumes/V15-atlas.md | after research |
+| seam | volumes/seam-world-growth (Fable) | docs/volumes/critique/seam-world-growth-r0.md + in-place edits | after A and B |
+| review | review:science-host (Opus), review:map (Fable) | findings | after seam |
+| revise | the reviser (Fable) | r and V15 revised; review record | after review |
+| apply | amendments/world-growth-r-apply (Opus) | targets; docs/validation/coherence/world-growth-r.md; bundle | after revise |
+| critic | the critic (Fable) | gap list | after apply |
+
+If this session dies: re-run the stage whose output is missing or lacks its final section, with the same brief (the
+briefs are in the session transcript and summarised in the spine §13); never apply file r by hand.
+
 ## RESUME HERE — THE HOST SIMULATOR REVIEW AND THE SYSTEM READS (2026-10-17; updated 08:45Z after the limit reset)
 
 Everything since J375 runs on Opus 5.5 and carries the J375 retrovalidation notice (J377–J382). The window closed at
