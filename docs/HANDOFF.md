@@ -9,11 +9,11 @@ critiques; Opus reads, surveys and applies; a Fable seat that hits the Fable lim
 
 | stage | seat (model) | output | state |
 |---|---|---|---|
-| research | research/world-growth-science (Opus) | research/world/formation-ecology-science.md | running |
-| research | research/world-growth-state (Opus) | research/world/formation-ecology-state.md | running |
+| research | research/world-growth-science (Opus) | research/world/formation-ecology-science.md | LANDED (1,393 lines; 229 CONFIRMED marks) |
+| research | research/world-growth-state (Opus) | research/world/formation-ecology-state.md | LANDED (1,332 lines; Part E the gaps; next free ids item 926, J-V13.107, T-V13-57, D-V13.9, BCR-V13-41, H31, WORLD-16, SP-W9) |
 | spine | the manager (Fable) | docs/design/spine-world-growth-2026-10-23.md | LANDED |
-| design A | amendments/world-growth-r (Fable) | docs/AMENDMENTS-2026-10-23r.md (V13, the base, V09/V14 BCRs, proposal, brief, INDEX, SUMMARY) | after research |
-| design B | volumes/architect-V15 (Fable) | docs/volumes/V15-atlas.md | after research |
+| design A | amendments/world-growth-r (Fable, max) | docs/AMENDMENTS-2026-10-23r.md (V13, the base, V09/V14 BCRs, proposal, brief, INDEX, SUMMARY) | running (brief: scratchpad world-growth/brief-A.md) |
+| design B | volumes/architect-V15 (Fable, max) | docs/volumes/V15-atlas.md | running (brief: scratchpad world-growth/brief-B.md) |
 | seam | volumes/seam-world-growth (Fable) | docs/volumes/critique/seam-world-growth-r0.md + in-place edits | after A and B |
 | review | review:science-host (Opus), review:map (Fable) | findings | after seam |
 | revise | the reviser (Fable) | r and V15 revised; review record | after review |
