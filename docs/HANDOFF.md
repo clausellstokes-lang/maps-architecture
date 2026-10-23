@@ -18,8 +18,8 @@ critiques; Opus reads, surveys and applies; a Fable seat that hits the Fable lim
 | review | review/world-growth-science-host (Opus, high) → docs/volumes/critique/world-growth-r-science-host.md | LANDED f810186 (34 findings; 1 blocking); the manager's rulings on it are J393 | — |
 | review | volumes/critique-V15-and-r (Fable, max) → docs/volumes/critique/V15.md | LANDED (28 findings; 2 blockers; 235/235 quotes verified); the manager's ruling on C15-04 is J394 | — |
 | revise | volumes/revise-world-growth (Fable, max) | r and V15 revised; review records; the V15 critique's notice line corrected | LANDED 367a46c (62 findings: 60 accepted, 2 in part under J393/J394; items 1029–1032 added; 97 items, 241 fragments dry-run clean; scripts in scratchpad world-growth/revise/) |
-| apply | amendments/world-growth-r-apply (Opus, medium) | targets; docs/validation/coherence/world-growth-r.md; bundle | running (brief: scratchpad world-growth/brief-apply.md; never apply file r by hand) |
-| critic | the critic (Fable) | gap list | after apply |
+| apply | amendments/world-growth-r-apply (Opus, medium) | targets; docs/validation/coherence/world-growth-r.md; bundle | LANDED 7a936e8 (97/97 items, 241/241 fragments; V13 4,438 → 5,827 lines; bundle 84,801 lines with V15, up to date) |
+| critic | check/world-growth-critic (Fable, max) | docs/validation/coherence/world-growth-r-critic.md | running (brief: scratchpad world-growth/brief-critic.md) |
 
 If this session dies: re-run the stage whose output is missing or lacks its final section, with the same brief (the
 briefs are in the session transcript and summarised in the spine §13); never apply file r by hand.
