@@ -1,5 +1,21 @@
 # HANDOFF — town-generator research program
 
+## RESUME HERE — THE SUBSTANCE-AND-EXPERIENCE REREAD (2026-10-23; Fable managing, J392)
+
+The owner asked for thoughts on the paired product's substance and experience (the map module beside the host's FP),
+"not implementation time or debt". Five Opus readers (effort high) each walked one campaign slice through our volumes
+and the host's FP programs at host `81f1cd96` and wrote `research/experience/01–05` (2,609 lines; Opus provenance
+lines; nothing in base or volumes changed; nothing ruled). The manager's synthesis went to the owner in chat. Nothing
+waits on the owner; no design pass was started. The notes' findings that a later pass should weigh (none ruled):
+
+| note | slice | the findings a pass should weigh |
+|---|---|---|
+| 01 birth and the first month | the instant world, the world dialog, Generate, the birth canon, the first advances | the first month is still on almost every lens; week-one artifacts (fields and borders from the first report, not an event); the host's free drag at t=0 against the birth canon (H22); two clocks (km on the map, normalized weeks in the host) with no bridge; the instant world's knobs (map kind, tone) have no home in the world dialog; the cause walk and the reason records never cross the seam; no H-row names its felt sentence |
+| 02 politics and war | drift, raids, pacts, war, siege, occupation, razing, sale, vassal, spy, the scrub | a NAP under a hostile label still draws a contested march; the razer's colour can advance over razed cells (RD R "AND THEY LEAVE"); `relieved` vs `lifted`; raids move lines indirectly through the strength band; a vassal's force could count three times once WC lands; the gate keeper's toll vs the sway's colour; pacts draw nothing; the default preset has no war |
+| 03 trade, faith, plague, people | the six lenses over a few years | no FP wave of the four substances is lit on the default world; three lenses open greyed on day one; plague "active" on the lens, nothing in the dossier (H24); "fallow" for decades with no dated event; two seas (the month slider vs the host's symmetric leg); WY §3b's ambiguity law vs approach rings and columns "toward their arrival"; the cover reads raw population though sf/population §9.1 said tier band; seat-area fills read as the "god's region" the lens refuses |
+| 04 the physical world and the DM's hand | formation, climate, water, cover, editing, the two verbs, the pass, the charter, placement, sites, the crop | the world floods and the town does not (only `worldWins` or a second edit); "Update the dossier" on a draft re-rolls (H32) vs the host's "NEVER re-rolls" (EDIT_MODE §14); a small ridge raises far-off dossier pop-ups; the placement card has no DM-facing words in V09; the crypt is unstocked; "Random all" never forms; "let time pass" is geological only; mundane resource and disturbance rows |
+| 05 players, audiences, atlas, style | the party's map, belief, the looted map, the Herald, the atlas, sharing | the party has no belief source (the host records belief per court); no believed border; K3 never cited and the default-preset party is current on every public fact; infoMode's four rungs collapse to one bit; no age or confidence on believed marks; the Herald and chronicle are named zero times in V13–V15; V15 §3.11's devils and whales need cross-member reads §4.7 (1) forbids; the sacred preset has no holy city on a born world; date cartouches not withheld from players |
+
 ## RESUME HERE — THE WORLD-GROWTH INTEGRATION PASS (2026-10-23; Fable managing, J392)
 
 The owner's rules F1–F16 (J390–J392) are being integrated under the spine docs/design/spine-world-growth-2026-10-23.md.
