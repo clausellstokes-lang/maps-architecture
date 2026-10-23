@@ -1758,7 +1758,14 @@ the entity registry (§2.8) on every build.
 | `setSeats` (M-W2) | T6 `place`'s seat pins | a pin drop | — | V13 §4.1 |
 | `deleteTrace`, the world `setAttr`s, `addEvent` (M-W1) | T9 `shape` | the inspector | — | V13 §4.1 |
 | `fork`, `commitFork`, `discardFork`, the world `regenerate` (M-W0h) | T10 `hold` | the fork controls | — | V13 §4.5 |
-| `adjust` of the world keys (M-W1) | T1 `intend`'s world dialog | the dialog | — | V13 §4.1 |
+| `adjust` of the world keys (M-W1), of `world.context` (the monsoon and ocean knobs) and `world.scenario` (M-W7) | T1 `intend`'s world dialog (V09 §4.22: the layered panel; a scenario or context change re-runs from its stage on the fork, its coarse preview first) | the dialog | — | V13 §4.1 |
+| `setRequirements` (M-W6) | T1 `intend`'s world dialog: the inclusion chips and the **Include my settlements** toggle (V09 §4.22 (e)) | a chip set, locked or cleared; the toggle | the clerk (an inclusion in words: "a desert the size of a province") | V13 §4.1, §3.1 (5) |
+| `decide` (M-W6) | the conflict list (V09 §4.22 (f)) | a choice on a row | a preset's pre-decision (map-side rows only, V09 §4.14) | V13 §4.1, §3.11.5 (1) |
+| `placeFrame` in its best form (M-W6) | T6 `place`'s **Best placement** (V09 §4.22 (g): the three offers, the correction's preview) | a click on the settlement's card; an offer chosen | the host's one-button placer through the port (V13 §8.5's H31) | V13 §4.1, §3.11.4 |
+| `paintLayer`, `disturb` (M-W8) | T2 `ground`'s layer brushes under the verb toggle — `alwaysSo` paints an override, `happened` records a disturbance (V09 §4.22 (h)) | a stroke on a layer | the conflict list's `paintAround` | V13 §4.1, §3.14.1 |
+| `physicsPass` (M-W8; the `weather` depth after) | T10 `hold`'s physics toolbar (the DM's toolbar beside the layers, V09 §4.22 (h)) — *re-run physics* (**Re-derive**, **Release**) and *let time pass* (**Weather**), the DM's three verbs with *reroll* (the row below; V13 §4.2 T10), each on the fork with its dry run and its band crossings | a scope, then a depth | — | V13 §4.1, §4.5 |
+| `requestDossierUpdate` (M-W6) | the conflict list's **Update the dossier** choice (`landChanged` / `alwaysSo`), pending until the host's `dossierUpdated` (V09 §4.22 (f)) | a choice | — | V13 §4.1, §3.11.6 |
+| the world `regenerate` on any stage over a box or a region (M-W7) | T10 `hold`; the world dialog's targeted rerolls (V09 §4.22 (d)) | a reroll button on an option, or a box or region drawn and a stage chosen | — | V13 §4.1 |
 | the `verb` toggle (`happened` / `alwaysSo`; M-W0h) | T2 `ground`'s options strip | a toggle | — | V13 §4.1 (item 137) |
 | the water class overlay (M-W0h) | T9 `shape`'s inspector | a switch | — | V13 §5.1 |
 | `dropSite` (V14 §4.2; file k item 644, V14 §10.2's V09 row; M-SITE-A) | T6 `place`'s **Drop a site**: a one-click drop with the panel after (the dialog the long form; C14-45) | a click | the clerk | V14 §4.2 |
@@ -2638,7 +2645,12 @@ focus (§14); a text field's focus suspends them; a user's rebinding is an `AppP
   the user's value side by side (§7.6), with Keep mine / Take new. **Export overrides** writes the row operations as JSON.
 * **Presets dialog** — pick a preset (the parity presets `MFCG` and `FTG` among them, §7.6); the adopted and selectable
   historical packs are listed as "historical ({era}, {region})", offered only to documents of that era and region
-  (V12 §2.6); **Save these settings as a preset** is `editPreset`.
+  (V12 §2.6); **Save these settings as a preset** is `editPreset`. **On a world document** the presets are
+  `world.presets`' rows (V13 §2.3): a preset pre-sets the dialog's options (each `random`, `set` or `locked`) and
+  pre-decides map-side conflict choices only — fit always, keep flagged, move unlocked — never a dossier update, which
+  stays the user's own act on the host's record (J-V13.122); **Save these settings as a preset** writes a row with
+  `by: 'user'` through `editPreset`, and the world dialog's gallery (V09 §4.22 (i)) shows each preset's thumbnail from
+  its coarse run on the current seed.
 * **"Apply my current preferences"** (settings, §7.6) sends one `adjust` per changed parameter, grouped, with the fates
   sheet.
 
@@ -3819,6 +3831,90 @@ V09 §3.3's pipeline, and every view setting is view state that never changes th
 6. **Exports** never draw the animated effects; the season's cover still applies (item 124 (h)).
 7. **Lifecycle, edges and bar.** V09 §2.12's `AppPrefs.weatherEffects` and spell rows; V09 §3.16's row 93; T-V9-87. It
    lands at M3b with item 117's season looks it reads (§16's milestone rows).
+
+### 4.22 The world dialog (F5–F8; V13 §3.1, §3.11, §4.2 T1)
+
+Every behaviour here is V13's — what an option is, what a run does, what a conflict asks, what a gate holds; V09
+hosts and draws it, as §4.19 hosts the lens controls (BCR-V13-39). The dialog is T1 `intend`'s world sheet, the one
+place the world's request is edited; it is the same dialog at every rung and for every account kind.
+
+1. **Generated first.** A new world document opens already generated (§5.13's **New world**: a random request at the
+   realm rung, W0–W9 run, the map drawn), the dialog open beside the map with every option reading **random** and its
+   rolled value shown greyed beneath it ("random — rolled: temperate, 42° N"). There is no wizard and no empty state:
+   the user edits a world, never a form. Closing the dialog keeps the world; reopening it shows the same choices.
+2. **The layered panel — the owner's words (F5; J393).** **Random all** (the one button, the seed shown beside it),
+   **Generate**, and the layers as labelled groups — exactly `world.presets`' groups (V13 §2.3's
+   `PresetRule.options[].group`), each a disclosure open by default at its level: **Basic**, always visible (the size
+   rung; shape — the templates and the scenario card; the climate band; land and sea; ruggedness; wetness; settlement
+   density on a standalone world; the include toggle); **Advanced**, collapsible groups each with random and reset
+   (terrain; formation — every scenario knob with its unit and range; climate — the poles, the winds, the monsoon and
+   ocean knobs where the rung allows them, the calendar; water — the sea level, the lake and river thresholds; biomes —
+   the inclusion chips with their amounts; resources; routes and sites — the vessel kinds; politics on a standalone
+   world; names); **Deep constraints** (sketch landmasses or mountain lines, pin a feature, import a heightmap or a
+   legacy map, lock regions and regenerate the rest, with the recipe's ops as a list the recipe editor opens, §4.3's
+   `worldRecipe`); and, beside the layers, **the DM's physics toolbar** (the two verbs' brushes and `physicsPass`'s
+   three verbs, (h) below), drawn for every account kind and disabled with its reason where the account may not use it. Each option's row: label, its state chip (**random** · **set** · **locked**), the
+   value or the rolled value, its reroll button, its "why" (the requirement it serves, if any).
+3. **Random, set, locked.** A click on the state chip cycles it; a value typed or chosen sets it; the lock keeps a
+   set value through **Random all**. The choices are stored apart from the rolled facts (`Recipe.world.choices`,
+   V13 §2.2; J-V13.123): regeneration re-reads the choices and never what was rolled, so a rolled latitude box does
+   not pin the next run, and a locked one does. **Random all** rolls every unlocked option and runs; with the include
+   toggle on it is the same run under the settlements' rows, and it always fits them (V13 §3.1 (5); J-V13.118).
+4. **Targeted rerolls and the preview.** The reroll button on an option re-runs from that option's stage and no
+   earlier (the log shows the stages run); a box or a region drawn on the map with a stage chosen rerolls that
+   stage's draws there (`regenerate` with a world `scope`, §4.3), asking first when it would overwrite a lock or an
+   override. Every change previews as the coarse run (V13 §3.1 (7): a thumbnail within 300 ms at the realm rung when no scenario
+   knob changed — a scenario knob's change takes the bake's time, with a progress strip and the last thumbnail
+   meanwhile —, the fine run on **Generate**), and the preview is the run — the same stages on the coarse grid, never a cheaper
+   proxy; the thumbnail carries the verification report's summary ("3 of 3 inclusions met").
+5. **The inclusion chips and the include toggle.** The Advanced layer's biomes group holds the inclusion chips
+   (a desert, a great river, an inland sea, a mountain range, a monsoon coast, a cold coast — each with its amount
+   chip, "the size of a province", and its state; `PresetRule` files them under `advanced`, V13 §2.3), each a `biome`,
+   `landform` or `water` row of the request (`setRequirements`, V13 §4.1). The Basic layer's **Include my
+   settlements** toggle (on a host-bound world, or one with placed frames)
+   turns every included settlement's dossier words into derived chips — "Kessar: desert, river, caravan route" —
+   shown read-only with their source and their status after the run (met · corrected · unmet with its offer); a
+   derived chip is never edited here (its facts are the dossier's) and never locked (it is always a rank-1 row).
+6. **The conflict list.** Where a request, a reroll, a paint, a pass or a placement would contradict a placed or
+   included settlement's facts, the list opens before the run commits (V13 §3.11.5 (1); `W_EDIT_DOSSIER`): one row
+   per affected settlement with the fact, what the change would make of it, and the choices — **Cancel**, **Fit the
+   world** (the solver corrects around the settlement), **Paint around** (an override at the settlement's extent),
+   **Keep the mismatch** (flagged on the DM view), **Update the dossier** (a request to the host, with its kind:
+   "this happened" / "it was always so"), and where the ladder allows them **Move the settlement** and **Change my
+   request**. A choice is a `decide`; a dossier update shows as pending (`W_DOSSIER_PENDING`) until the host confirms
+   it, and the dossier reads unchanged until then. Decisions are remembered and reused until the facts they rest on
+   move; a preset's pre-decisions apply to map-side rows only (§4.14).
+7. **Best placement.** On a settlement's card (T6 `place`, with a host-bound settlement's card too) **Best
+   placement** runs `placeFrame`'s best form (V13 §3.11.4): the least-change placement under the settlement's rows,
+   three offers on the map ordered by cost then distance with their reasons, a hover showing each; when no cell is
+   lawful, the correction the solver proposes is drawn as a preview (its extent, its graded band, the rows it serves)
+   and the list of (6) opens for any settlement it would touch; painting is the last resort and is labelled so. The
+   host's own one-button placer reaches the same form through the port (V13 §8.5's H31), never a second scorer.
+8. **Nothing hidden; the gate at the one generate action.** Every control of every layer is drawn for every account
+   kind; a control the account may not use is disabled with its reason in place ("a scenario needs …"), never
+   removed, and the whole dialog can be read, set and previewed by anyone. The gate is checked once, at **Generate**
+   (and at **Best placement** and a `physicsPass`'s commit, the acts that run the same stages), as data beside the
+   host's `hostRequires` (V13 §11 Q5) — never in the panel, never per control. **The DM's physics toolbar** stands
+   beside the layers: the layer picker (biome, soil, land cover, current; terrain and water as T2 has them), the verb
+   toggle (`alwaysSo` → `paintLayer`, an override the physics derives against; `happened` → `disturb`, a dated
+   disturbance that recovers), the brush with its radius, and `physicsPass`'s scope (whole world, a region, a
+   watershed) and depth under the DM's three verbs (V13 §4.2 T10): *re-run physics* — **Re-derive**, or **Release**
+   with its keep-history switch; *let time pass* — **Weather** with its years; *reroll* — the targeted rerolls of (4)
+   — each pass on the fork with its dry run, its band crossings and the conflict list before **Commit**.
+9. **Presets and the gallery.** The panel's presets row, beneath the layers, opens §4.14's presets dialog in its world form; the
+   gallery beside it shows each preset's thumbnail from its coarse run on the current seed, a click applying it as
+   choices (not as rolled facts) and previewing.
+10. **Lifecycle, edges and bar.** T-V9-12 checks the world rows of §4.3 against V13 §4.1's union as it checks the
+   base's; the dialog's semantics are T-V13-69's (random / set / locked, the choices apart from the rolled facts,
+   targeted rerolls, the inclusion chips, nothing hidden, the report), the conflict list's T-V13-65's, the best
+   form's T-V13-64's. It lands at M-W6 (V13 §8.2) for the panel, the chips, the include toggle, the conflict list and
+   Best placement; the scenario card and the monsoon knob at M-W7; the physics toolbar at M-W8. Edges: a world
+   without settlements shows the include toggle disabled with "no settlements to include"; a rung below the
+   continent shows the monsoon knob as a world-context switch with its explanation (`W_MONSOON_CONTEXT`); an
+   account that may not generate with a scenario sees the scenario card, its gallery and its preview, and the
+   reason at **Generate**; a child derived from a parent (V15 §3.5 (a)) shows the scenario card disabled with "the
+   ground is the parent's" (no formation op on a derived child, V13 §3.1 (1)).
+
 ## 5 Rendering, labels, exports — the screens and the dialogs
 
 The map itself is drawn by §8 in the tile worker; the application composes its tiles in the map region and draws, on the
@@ -4181,7 +4277,9 @@ them."
 **Open a town…** (ctrl / cmd+O): a grid of the recent towns (thumbnail, title, tier word, last opened, size), sorted by last
 opened; **Open a file…** (the OS picker, `.plat`, `.cbor`, skeletons); **Paste a link**. Drag-and-drop of a file anywhere on
 the window opens it (an image offers "Trace over this image?" as an underlay). **New town** opens the empty state in a new
-document. A town opened from a file is added to the local store on its first edit (so opening a file to look at it writes
+document; **New world** (M-W1; from M-W6 in the generated-first form) opens a new world document already generated —
+a random request at the realm rung, W0–W9 run — with the world dialog (V09 §4.22) open beside it and every option
+reading random: never an empty state and never a wizard (F5). A town opened from a file is added to the local store on its first edit (so opening a file to look at it writes
 nothing).
 
 ### 5.14 Labels in the application

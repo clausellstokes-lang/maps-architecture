@@ -251,7 +251,7 @@ placeholder direction phrase, SettlementForge's own district names never matched
 | 110 four authoring gaps; a second known-city fixture | §2.7 (`RetainingWall`, raised ways, deck plots), §3.4, §4.3, §4.6, §4.7 S10–S11, §5.3; T110-1 – T110-8 and T101-6 | §2.7 |
 | 111 water in dry country | §4.2 S0–S1 (the oasis and spring), §4.2 S3 and §4.4 (the water pull), §4.5 (the water term, item 102's climate cell), §4.7 S10b; T111-1 – T111-5 | §4.2 S1 |
 | 112 colour-blind-safe maps; a game-master trial before launch | §8, §9 (second cues, checked variants); §13.4's style check T112-1 and the release gate T112-2 (§16) | §8.2 |
-| 113 history shapes the map at generation | §4.2 S0 (the history option), §4.11 and §7.7 (the replay; DR36 onward), II.7.6 (the buried former settlement); T113-1 – T113-7; volumes 6, 4 and 8 | §4.11 |
+| 113 history shapes the map at generation | §4.2 S0 (the history option), §4.11 and §7.7 (the replay; DR36 onward), II.7.6 (the buried former settlement and, file r item 996, the age strata); T113-1 – T113-8; volumes 6, 4 and 8 | §4.11 |
 | 114 walls decay into gaps and patchwork, and recover | §2.7 (`Enceinte.condition`, each run's material and the epoch of its last change), §5.3 (the wall-crossing row), §7.1 and §7.4 (`repairWall`'s material, `wearWall`), §7.7 (DR41), §8.2 (the state rows, the legend), §11 (exports); T114-1 – T114-10; volumes 6, 7, 8 and 11 | §2.7 |
 | 115 a ceiling on grandeur by tier | §4.7 S10b (the rung ceiling on the class mix), §10.2 (the ceiling table's shape); T115-1 – T115-4; volumes 2, 7 and 11 | §4.7 S10b |
 | 116 a zoom-out limit | §8.8 (the per-map limit on the pyramid), §9.5 (framing), §12.5 (fewer stops); T116-1 – T116-4; volumes 7 and 9 | §8.8 |
@@ -2474,7 +2474,7 @@ interface HistoryHint {   // Recipe.history (§2.9): the dossier's history up to
   lifecycle?: { died: boolean; resettled: boolean; yearsAgo?: number /* the resettlement's tick, else the current settlement's founding */ } /* DR38 */;
   ancientFall?: { name: string; yearsAgo: number /* the founding's yearsAgo + its years before the founding */ } /* DR38's ancient "Fall of" event on the site */;
   peak?: { tier: string; population?: number; symbolic: boolean; evidence: string[] /* the evidence kinds present, strongest first */ } /* DR36's input (V08 §3.15 (3)), or the standalone option's declared peak (above) */ }
-  // readers: S2's growth-stage count (`ageYears`, `scars`; §4.2 S2), II.7.6's catacomb age (`ageYears`) and, for a `fire` or `flood` scar, its buried old town (J-A88.42);
+  // readers: S2's growth-stage count (`ageYears`, `scars`; §4.2 S2), II.7.6's catacomb age (`ageYears`) and, for a `fire` or `flood` scar, its buried old town (J-A88.42); II.7.6's age strata at generation (`founding.yearsAgo`, else `ageYears`; `lifecycle` for the continuity regime; file r item 996, F3);
   // item 113's fields by §7.7's DR36–DR39, §4.11's history-first generation (V06 §3.20's replay) and II.7.6's buried former settlement. Declared here, V08 §3.15 (2) cites it;
   // an absent list reads as []: a recipe written before item 113 holds neither the lists nor `peak`, so no replay runs; the standalone form's declared peak
   // alone drives DR36 and the replay
@@ -6134,7 +6134,9 @@ count becomes K′ = min(K, max(1, ⌈`ageYears` ÷ `yearsPerStage`⌉)) — a y
 to K′ − 1 keep their rows, every later walled stage's share folds into stage K′ − 1 and the ribbon stage stays last (at
 K′ = 1 the one stage takes every share) — and only the rules that name a scar's type read it: a `fire` or `flood` scar (a
 `RaiseGrade.cause`) by II.7.6's buried old town, any other type by none, the creation week showing a finished town
-(J-A67.47). Empty, K is the rung row's. With the evolution engine (M6-E) a history with a peak is generated history-first
+(J-A67.47); and the settlement's age — `founding.yearsAgo`, else `ageYears` — by II.7.6's **age strata** (file r item
+996, F3), which lie under a bounded share of the stage-1 districts S2 lays, nearest the nucleus, so an old town's
+earlier levels are its oldest fabric's and never the ribbon's. Empty, K is the rung row's. With the evolution engine (M6-E) a history with a peak is generated history-first
 instead (§4.11 *History-first generation*), and the stage count is the peak's.
 **Output:** `Roster` (demand by class with area / frontage requirement classes, district affinities, wealth bands) and
 `StageQuotas[]` (plot counts per class × band, land area and regime per stage: dense core → gapped rings → ribbon, plus
@@ -12895,7 +12897,7 @@ doesn't provide, the rest of the map code must compensate. it is one directional
 immutable truth while the rest can be constructed at whim. better if the rest of the map code coherently derives things
 from the dossier and in accordance with our rules").
 
-The **world port** (`@plat/port/world`, one adapter folder per host line, V13 §3.11.6) is the port's second door and §11.4's fifth: it replaces the host's capture of the reference generator, never the host's own frozen spatial record; outbound the simulator feed `canon(world, request)` (integer, versioned per slot, adopted only by the host's receipted canonize: a new campaign's birth canon, V13 §8.5's H22, or a re-canonize; file q item 916, BCR-V13-40) and the map feed (`derivedFacts(world, placement) → SettlementMapRecord`, `mapFeed`, `routes`, `pathGeometry`, `borderSegment`, `placeOf`), `charter(world, campaign) → FrameCharter`, `proposals(world, demand) → SitingProposal[]`; inbound recorded inputs, the windowed ones as windowed replaces (`bindSeat`, `unbindSeat`, `importSeats`, `costLaw`, `travelLaw`, `hostRequires`, `genesis`, `network`, `polity`, `events`, `canonized`, `consumed`), and presentation inputs never logged (`clock`, `hostOverlay`, `beliefView`, `audienceKnowledge`, and `lensWindow`, kept only as plates in the world document's plate cache, V13 §5.8 (8)); outbound, the map feed also carries the DM-placed site offers (V13 §3.11.6); nothing the host simulates calls it inside an advance (file m item 778). The host reads derived facts and never an arena; the map writes no dossier fact except through this door as a derived fact (V13 Part E bar 9). V08's host client carries the messages V13 §3.11.6 lists, each with the canon envelope's version vector, the presentation inputs never logged. Built M-W1 for `canon`, `derivedFacts`, `charter`, `proposals`, `costLaw`, `travelLaw`, `bindSeat`, `unbindSeat`, `importSeats`, `hostRequires`, the `events` windows, `canonized`, `consumed` and the `physicalChange` offer; M-W2 for the rest but `lensWindow` and the DM-placed site offers, M-W5's (V13 §8.2).
+The **world port** (`@plat/port/world`, one adapter folder per host line, V13 §3.11.6) is the port's second door and §11.4's fifth: it replaces the host's capture of the reference generator, never the host's own frozen spatial record; outbound the simulator feed `canon(world, request)` (integer, versioned per slot, adopted only by the host's receipted canonize: a new campaign's birth canon, V13 §8.5's H22, or a re-canonize; file q item 916, BCR-V13-40) and the map feed (`derivedFacts(world, placement) → SettlementMapRecord`, `mapFeed`, `routes`, `pathGeometry`, `borderSegment`, `placeOf`), `charter(world, campaign) → FrameCharter`, `proposals(world, demand) → SitingProposal[]`; inbound recorded inputs, the windowed ones as windowed replaces (`bindSeat`, `unbindSeat`, `importSeats`, `costLaw`, `travelLaw`, `hostRequires`, `genesis`, `network`, `polity`, `events`, `canonized`, `consumed`), and presentation inputs never logged (`clock`, `hostOverlay`, `beliefView`, `audienceKnowledge`, and `lensWindow`, kept only as plates in the world document's plate cache, V13 §5.8 (8)); outbound, the map feed also carries the DM-placed site offers (V13 §3.11.6); nothing the host simulates calls it inside an advance (file m item 778). The host reads derived facts and never an arena; the map writes no dossier fact except through this door as a derived fact (V13 Part E bar 9), and asks for a dossier change only as a request the host executes — outbound `requestDossierUpdate` (the user's approval of a conflict-list choice, V13 §3.11.5 (1): the settlement, the field, the kind `landChanged` or `alwaysSo`, the proposed value), inbound `dossierUpdated` (the host's confirmation with `applied` and its sequence), the map showing the change only on the confirmation (file r item 998; BCR-V13-45). V08's host client carries the messages V13 §3.11.6 lists, each with the canon envelope's version vector, the presentation inputs never logged. Built M-W1 for `canon`, `derivedFacts`, `charter`, `proposals`, `costLaw`, `travelLaw`, `bindSeat`, `unbindSeat`, `importSeats`, `hostRequires`, the `events` windows, `canonized`, `consumed` and the `physicalChange` offer; M-W2 for the rest but `lensWindow` and the DM-placed site offers, M-W5's (V13 §8.2).
 
 9. *Two tiers of fact* (item 20 (h) (i)). Every fact the map holds is either a **dossier fact** — a record or value the
    dossier supplies, carried by the map under its binding key (§7.7 item 12), immutable on the map and changed only by a
@@ -17681,7 +17683,13 @@ check and the record. (5) **For a world document only, the world port** (§7.7's
 recorded inputs — seat bindings and placements, the host's cost and travel laws, its route genesis and changes, its
 political facts and dated events, each a windowed replace keyed by host keys — are logged with provenance `host`, so a
 world replays without its host; its presentation inputs (the week drawn, movers, the DM's believed view, an audience's
-known events, the lens facts kept as plates) are never logged and read by nothing replayable. Item 125 (a) still holds for every settlement frame,
+known events, the lens facts kept as plates) are never logged and read by nothing replayable. A dossier change the
+map's conflict list asks for (V13 §3.11.5 (1); F8) leaves through this door as a request and never as a write:
+`requestDossierUpdate` is logged with provenance `user` (the approval it records is the user's act on the map), the
+host's own command changes the dossier under the host's guards — a dated event for `landChanged`, its retcon path for
+`alwaysSo` —, and `dossierUpdated` returns as a windowed replace with provenance `host` carrying `applied` and the
+host's sequence; until it arrives the map shows the dossier unchanged (`W_DOSSIER_PENDING`), and a request the host
+declines re-opens the conflict. The module never writes to the dossier (file r item 998; BCR-V13-45; V13 §8.5's H32). Item 125 (a) still holds for every settlement frame,
 which reads only its dossier and its charter, and T125-3w scans `@plat/port/world` (file m item 779).
 
 **A dossier comes through the port (items 73–87; §14).** For a dossier, door (1)'s blueprint and the log's creation
@@ -19938,7 +19946,13 @@ interface DossierFixtureRow { file: string; sfLine: string; commit: string; gene
     and reopening restores it, its dwellings emptied by the vacancy rules and returning with access; (T113-6) a symbolic
     peak only with evidence of a higher tier, sized inside that tier (by default at its range's lower quartile) and
     marked `symbolic`, and no peak without evidence; (T113-7) with history replay off, byte-identical to the base (a
-    `NoOpPin`). Volume 6 runs them on its replay engine (T-V6-71), volume 4 T113-4 and T113-5 on the underground's output
+    `NoOpPin`); (T113-8) the age strata (II.7.6, file r item 996): a 1 200-year-old fixture of masonry core lays one
+    `buried` system under a share of its stage-1 districts nearest the nucleus, s = 0.44 of their area at TOWN, its floors
+    at min(900, 60 × 0.5 × 12 × f) cm; a 200-year-old fixture lays none; a mud-brick fixture of the same age lays floors
+    three times deeper, capped at 900; a died-and-resettled fixture at 0.4 of the chance; a scar burial over the same
+    region takes the deeper floor per element and the system stays one, no element laid twice; the draw is byte-stable
+    per town root on the five engines and moves with the town's reroll, never alone; an advance of 500 years, a razing
+    and a refounding add no stratum; the parity presets lay none. Volume 6 runs them on its replay engine (T-V6-71), volume 4 T113-4 and T113-5 on the underground's output
     (T-V4-77, T-V4-76), volume 7 the village halves of T113-1 and T113-3 (T-V7-59), volume 8 the dossier's history
     (T-V8-51), volume 11 T113-7's registration (T-V11-39), volume 12 their register lines, T113-7's pin and the
     replay's budget (T-V12-46).
@@ -23155,7 +23169,41 @@ says so.
   of the region), fresh records of the `buried` part (the system's lineage children, §6.3), its floors at `scarBaseCm +
   scarGainCm × severity` (200 + 200 × severity) cm below the present grade — the town above generated on the present grade as
   it stands, no `raiseGrade` event recorded and nothing cleared, the rule drawing nothing (our own rows, calibratable,
-  `extension`, off in the parity presets); with the hint empty, none. **The buried former settlement (item 113 (c)):** under
+  `extension`, off in the parity presets); with the hint empty, none. **At generation from age (F3; file r item 996; J-V13.126):** a settlement old enough has
+earlier levels of its own beneath its oldest fabric, whatever its scars — the owner's rule F3 (2026-10-17;
+`docs/AMENDMENTS-2026-10-23r.md` item 928). Its age A is `HistoryHint.founding.yearsAgo`,
+else `ageYears` (the tier's midpoint when both are absent, as `founding`'s comment says). **Whether:** A ≥ the `buried`
+row's `ageMinYears` (300) and one uniform u < p, p = clamp((A − `ageMinYears`) ÷ `ageFullYears` (900), 0, 1) × `agePMax` (0.8) × (the
+continuity factor: 1, or `ageResetFactor` (0.4) where `lifecycle.died` and `resettled` — a reset regime leaves less of
+a continuous mound; the anchors 0.6–0.8 for a continuous region, 0.2–0.4 after a collapse); the uniform the `sewer` stream's (§6.1: the layer's other systems' draws, keyed by the system's
+lineage, which the town root fixes), at ordinal 0 of the `buried` kind, so the draw is byte-stable per town root and
+rerolls with the town, never alone. **How large:** the region is the stage-1 districts (`growthStage` 1, the scar
+rule's region) taken nearest the nucleus first — S2's first-stage centre: the ford, the harbour, the hill — until
+their area reaches share s of the stage-1 area, s = clamp(`ageShareBase` (0.2) + `ageShareGain` (0.2) × (A ÷ 1 000)
++ `ageTierBonus` (THORP, HAMLET, VILLAGE and TOWN 0, CITY 0.1, METROPOLIS 0.2), 0, `ageShareMax` (0.6)) — older layers are smaller and centred
+on the founding point, the inverse of the growth S2 models. **How deep:** V04's depth law and no other — the floor at
+`min(formerRiseMaxCm, formerRiseCmPerCentury × m × A ÷ 100 × f)` cm below the present grade (V04 §3.5.5 (b): 60 cm
+per century, capped at 900; `f` the burial-speed factor `burialYears ÷ T`, V11 §3.25.2, so floods, silt and
+rebuilding deepen it and bare rock keeps it shallow), `m` the material factor `ageMaterial` by the stage-1 core's
+dominant wall class in V11 §3.19.3's `materials` row for stage 1 (the wall shares summed by class: masonry — rubble,
+brick, ashlar — `stoneBrick` 0.5; timber — `timber_frame`, timber — `timber` 0.4; earth — `wattle_daub`, `cob` —
+`mudBrick` 1.5; the science note's anchors: 0.2–0.5 m per century for stone-and-brick towns, 0.5–2 m for mud
+brick), the full depth within the districts nearest the nucleus that make the first half of s and two-thirds of it in
+the rest (a low dome; a mound for mud brick). **What:** the same one `buried` system (created at the first, §2.9) —
+its galleries the region's way centrelines, its chambers their buildings' ground storeys and its squares, fresh
+records of the `buried` part keyed (`age`, the stratum's ordinal, the district's lineage), laid as the scar burial
+lays its own and reached as the `buried` kind already is (item 109 (j); V14's sites and encounters as that kind) —
+**composed** with the scar burial and the buried former settlement by union of extents, the deepest floor winning
+per element and no element laid twice; where the ruin of an older civilisation (V04 §3.5.0a's `RuinRecord`, DR30)
+lies under the same nucleus, the age strata lie above it, composed the same way. Under the host's default founding
+ages by tier (a thorp 15–300 years, a hamlet 30–120, a village 30–250, a town 50–300, a city 100–500, a metropolis
+200–800) only a metropolis reaches `ageMinYears` on most draws and a city at most p ≈ 0.2: F3's strata appear under
+default ages chiefly beneath metropolises, and an older town is the DM's `founding.yearsAgo` or a lower `ageMinYears`
+(a table cell). **Only at generation:** the strata are never grown, deepened or added during
+the campaign — an advance of any length, a razing or a refounding changes nothing beneath (a later burial is the
+replay's, item 113 (c)) —, the town above generated on the present grade as it stands, no `raiseGrade` event
+recorded and nothing cleared; our own rows, calibratable, `extension`, off in the parity presets (T113-8).
+**The buried former settlement (item 113 (c)):** under
   history-first generation (§4.11) a destroyed or shrunken former settlement older than `history.burialYears` is buried the same
   way from the replay's own former geometry — its streets, walls and major buildings at their old ground level — as fresh
   `buried` records minted from the replay epoch that buried them; it is this settlement's past, distinct from a ruin's older
@@ -23254,7 +23302,7 @@ lineage. The bars are §13.2's T66 group.
 interface UndergroundSystemRow {   // one per system kind; II.7.6's rules as data (§7.6); our own values, extension (every chance 0 in the parity presets)
   kind: 'ruin'|'catacomb'|'cavern'|'quarry'|'vaults'|'buried'|'dug'; chance: Partial<Record<Rung, Record<string /* source kind */, number>>> /* absent: none (the buried row's generation-time town reads scarSeverity instead); below TOWN only the ruin and cavern rows */;
   depthM: [number, number]; coverM: number; gallery: { widthCm: Cm; wallCm: Cm; headroomCm: Cm } /* the kerb reads widthCm ÷ 2 + wallCm (§3.7) */; chamber: { minM2: number; ceilingCm: Cm };
-  params: Record<string, number> /* the kind's own values named above: minAgeYears, burialRate, ossuaryShare, m2PerBurial, gridM, reachM; mineBoost, fissureChance, breachM, maxRockShare, miningCellShare (§4.2 S1 (10)'s mining test); wasteFactor, roomM, pillarShare, minCoverM; vaultSlope, cisternDistM; scarSeverity, scarBaseCm, scarGainCm; digReachM, foundationClearM — the catacomb and ruin rows' own cells being V11's CatacombRule and ruin rows */;
+  params: Record<string, number> /* the kind's own values named above: minAgeYears, burialRate, ossuaryShare, m2PerBurial, gridM, reachM; mineBoost, fissureChance, breachM, maxRockShare, miningCellShare (§4.2 S1 (10)'s mining test); wasteFactor, roomM, pillarShare, minCoverM; vaultSlope, cisternDistM; scarSeverity, scarBaseCm, scarGainCm, ageMinYears, ageFullYears, agePMax, ageResetFactor, ageShareBase, ageShareGain, ageShareMax (the age strata, file r item 996; `ageTierBonus` and `ageMaterial` their keyed sub-rows); digReachM, foundationClearM — the catacomb and ruin rows' own cells being V11's CatacombRule and ruin rows */;
   outlets?: { use: 'default'|'concealed'; order: ('cellar'|'void'|'riverbank'|'shore'|'beyondWalls')[] }[] /* dug only: the outlet rows of item 66's step 4 */ }
 interface LinkRule { linkReachM: number /* 10 */; linkDepthM: number /* 8 */; linkSpacingM: number /* 60 */; chance: Record<string /* the sorted pair of system kinds, 'catacomb|sewer' … */, number>;
   kinds: Record<UndergroundLink['kind'], number> /* the kind weights */ }

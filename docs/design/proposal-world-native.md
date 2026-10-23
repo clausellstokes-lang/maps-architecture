@@ -88,7 +88,12 @@ with extra resolution near coasts and rivers supplied by the settlement frame's 
 repack. Terrain is authored by a declarative recipe: a resolution-independent operation set in metres (hill, pit,
 range, trough, strait, mask, invert, add, multiply, smooth, noise, image import with an explicit tone curve), each
 operation seeded, previewed before commit, stored as the world's authoring history. FMG's template idea survives;
-its cell-count-dependent decay and its exponent-as-unit do not.
+its cell-count-dependent decay and its exponent-as-unit do not. *Added 2026-10-23 (the owner's rule F1; file r;
+V13 §3.2.1):* a world may begin with a **formation op** — a scenario row (a young collision range, a rifting
+interior, an island arc, an old shield, a rifted coast) run once on its own grid: crust blocks and uplift, a
+steady-state stream-power erosion to a fixed point, talus, glacial carve, two sea-level stands and soils — whose
+results are baked as content-hashed fields the recipe's later operations edit like any other; the block model is
+deleted at the bake and the op is never re-run, under any later version. The templates stay as the authored path.
 
 ### 3.3 Water surfaces as records
 The sea is the datum. Lakes are records with a spill-height surface, an open or closed flag from inflow against
@@ -106,8 +111,10 @@ minus evaporation over area; the river threshold is a discharge; width per verte
 typed by archetype (delta, estuary) from slope and discharge; off-map exits carry an explicit downstream head; lake
 inlets and outlets are graph edges; navigability is a discharge threshold. Groundwater is a derived field: the
 table rises inland from the nearest surface by a recharge-and-permeability rule, capped by terrain, with perched
-tables where geology says so; springs are where it meets the ground. No erosion model; a single deterministic
-stream-power pass is optional later. A seasonal pair of surfaces (dry, wet) comes from the climate seasonality
+tables where geology says so; springs are where it meets the ground. Erosion is the formation op's steady-state
+stream-power fixed point over this same flood-and-D8 core, once at generation and baked (2026-10-23, F1; superseding
+"no erosion model; a single deterministic stream-power pass is optional later"); a later `weather` op runs a bounded
+number of implicit steps once, on a side copy, and is carried by its commit. A seasonal pair of surfaces (dry, wet) comes from the climate seasonality
 curve.
 
 ### 3.5 Climate and biomes
@@ -117,7 +124,23 @@ contract, since the host's calendar and the brief's seasonal water states both r
 moisture march along an arbitrary wind vector with orographic drop, coastal bonus and evaporation from water, in
 millimetres per year, seeded and clamped. Biomes from a configurable moisture-by-temperature matrix with overrides,
 as a typed land-use class carrying habitability and movement cost as editable attributes. Vegetation and relief
-decoration are render-time derivations from slope, altitude and biome, never data.
+decoration are render-time derivations from slope, altitude and biome, never data. *Added 2026-10-23 (F2, F4; file
+r; V13 §3.4–§3.6):* the climate is **monthly** — twelve values per coarse cell from the belts' seasonal shift, a
+thermal term over large land (a monsoon; a world-context knob below the continent rung), the maritime fraction by
+upwind fetch, the march run once per month, and the ocean currents by a gyre solve per basin with the coastal
+anomaly they bring; a relief edit re-runs the whole march, so a raised range dries its lee however far. The biome
+is a published climate-class scheme mapped to **potential natural vegetation** (the matrix kept for annual
+imports); what grows at a week — fields, pasture, coppice, fallow, regrowth, a burn scar — is **land cover**, a
+derived layer folded from potential vegetation and the campaign's dated facts (populations, razings, plagues,
+abandonments, the DM's disturbances) into a cover cache outside every digest, read by no stage. Sea legs are priced
+by direction, month and vessel from the winds and currents, the host offered them and their mean behind its own
+switch, its lanes unchanged until it adopts them. The DM's two verbs reach every physical layer: an always-so paint is an override the physics derives against;
+a this-happened disturbance recovers; a physics pass re-derives, releases or weathers a region on a side copy. Every
+run is one requirement solver — the pipeline itself, each stage meeting the rows it can and verifying as it goes,
+one bounded back-step — so a request "a desert the size of a province", or a campaign's own settlements included,
+is met by causes, never painted first; the generation surface is a world generated first with every option random,
+set or locked; a change that would contradict a placed settlement's dossier asks before it commits, and a dossier
+changes only by the host's own command on the map's request.
 
 ### 3.6 Distance fields, suitability, resources
 True distance transforms to shore and to river in metres. A pluggable suitability score (habitability, discharge,
@@ -248,6 +271,7 @@ from the start; relief by rules at render time. Budgets per regime as the design
 | Coastline fractalisation as geometry | a view-time displacement of a canonical outline; kept as a renderer detail layer with position-keyed seeds, never as canonical geometry |
 | Authored rivers accepted unchecked | validated against heights at authoring time with a receipt |
 | Depopulating port-less islands as a siting rule | a 2017 expedient; islands get routes or stay sparse by the suitability score, not by fiat |
+| A heightmap template as the only way a world's ground arises | kept for authored control; joined (2026-10-23, F1) by the formation op's scenarios — tectonics and erosion run once and baked, never re-run (V13 §3.2.1); the one-click world draws a scenario, the authored path stays |
 
 ## 11 Phasing
 
@@ -256,6 +280,10 @@ from the start; relief by rules at render time. Budgets per regime as the design
 3. Build W1: terrain, water surfaces, hydrology, climate, biomes, suitability, the charter output; the port.
    Build W2: routes and siting with the host's cost law; political materialization. Build W3: labels, exports,
    the import adapter, retirement of the fork. World-scale editing and history ride on the existing edit model.
+4. (2026-10-23; the owner's rules F1–F9; V13 §8.2's M-W6 – M-W9.) Build W6: the requirement solver, the
+   generated-first dialog, the conflict list and the dossier request. Build W7: the formation op and the monthly
+   climate with its currents, gated by their spikes. Build W8: land cover and the physics pass, the weather depth
+   last. Build W9: sail routing. Ruins by settlement age are the base's own, at generation only.
 
 ## 12 Owner questions
 

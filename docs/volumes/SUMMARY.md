@@ -2,18 +2,22 @@
 
 > PENDING FABLE REVIEW — written by opus standing in for the Fable seat volumes/_finalize; covered by the whole-design retrovalidation (J84).
 > PENDING FABLE REVIEW — the parts on volumes 13 and 14 written by the session's integration seat volumes/_integrate-world-sites under the owner's delegation (J339; 2026-10-17); covered by the whole-design retrovalidation (J84).
+> PENDING FABLE REVIEW — the parts on volume 15 written by the session's seam seat volumes/seam-world-growth under the owner's delegation (J392; 2026-10-23; file r items 1026–1027); covered by the whole-design retrovalidation (J84).
 
 **In one paragraph.** You asked for every part of the system to be designed out in full now, so that later work is
 building, not deciding. That is done. The base design (`docs/ARCHITECTURE.md`) already described the town and city
-generator in full; fourteen design volumes now describe, to the same depth, every later stage of your roadmap — from
+generator in full; fifteen design volumes now describe, to the same depth, every later stage of your roadmap — from
 neighbourhoods and buildings to floor plans, the underground, floating islands, towns changing over time, villages, the
 SettlementForge connection, the app, the built-in assistant, the content tables and the calibration — and, since your
 rules of 16 October, the world a town stands in, the persistent sites and battle maps, and a 2.5D view (volumes 13
-and 14, added on 17 October). The volumes were
+and 14, added on 17 October) — and, since your rules of 22–23 October, the world map that lays your finished maps on one
+table and the mapmaker's eye (volume 15, added on 23 October). The volumes were
 checked against each other in seven rounds; the last round's fourteen serious problems were fixed in this final pass.
 What remains are small wording and bookkeeping items, listed below, which do not change how anything would be built.
-There are thirty-three decisions that are yours by rule (twenty-five from the first twelve volumes, eight from the two
-new ones: seven you deferred to the session on 16 October, and one — whether the world's canon stays outside the
+There are thirty-eight decisions that are yours by rule (twenty-five from the first twelve volumes, four from the
+world map — its name, its sharing across campaigns, the art for the mapmaker's eye and its cost —, nine from the two
+new ones: eight you deferred to the session — seven on 16 October and one on 23 October, who may generate with
+what —, and one — whether the world's canon stays outside the
 closed door that keeps your host's simulator from reading the map — that waits on your own word); each already has
 a recommendation, and the work proceeds on the recommendation until you say otherwise, save that one: until you
 answer it, no campaign's simulation reads the new world's canon, not even a new campaign's at its birth.
@@ -68,6 +72,22 @@ answer it, no campaign's simulation reads the new world's canon, not even a new 
     verbs — "this happened" (dated, the old state kept as a trace you can see or delete) and "this was always so" — and
     you see the whole consequence on a side copy before you commit. Maps made with the old world generator can be brought
     in once as data and written back out in the shapes its tools expect; nothing the campaign already has is lost.
+    **The world grows (your rules of 17–23 October).** A world can be *formed*, not only drawn: pick a scenario — a
+    young mountain range, a rifting interior, an island arc, an old worn shield, a rifted coast — and the ground is
+    made once by the drift of crust blocks and long erosion, then baked, so it never changes under you and never costs again.
+    Weather comes by the month: the trade winds and westerlies shift with the seasons, a monsoon turns over a big
+    land mass, the ocean currents circle each basin and make one coast a desert and another mild, and raising a range
+    dries everything in its lee, however far. What the climate would grow is the world's; what the land looks like
+    *this week* — fields around a town, pasture, coppice, a burn scar, the forest coming back over a razed village —
+    follows the campaign's own dated facts and is never rolled. Say "based off of my settlements" and the world is
+    generated to fit them — a desert town gets a real desert with a cause, never a painted dot —, or place one town
+    and the map finds its best lawful site anywhere, offering three; where a change would contradict a town's record
+    the map asks first and, if you choose to update the record, your host does it on your request and the map shows
+    it done only when the host confirms. The dialog opens on a world already made, every option random, set or
+    locked, nothing hidden; you can paint any layer as "always so" and the physics builds around it, mark "this
+    happened" and watch it recover, or let physics pass again over a region on a side copy. Sea legs cost by the
+    wind, the current, the month and the ship, each way; and an old town has older levels beneath its oldest streets,
+    by its age, at the depth the underground already knows.
 14. **Sites, encounters and the 2.5D view (volume 14).** **Click anywhere** — a street corner, a tavern, a sewer junction,
     a field outside the walls, a spot on the world map — and say "a fight breaks out here": the map cuts out a battle
     map sized to the place, finishes the floor plans of the buildings in it so the fight can go indoors, and tells you
@@ -85,6 +105,23 @@ answer it, no campaign's simulation reads the new world's canon, not even a new 
     its heights, buildings extruded to their roofs, floors as stacked slabs you can cut through, the underground as
     cut-away slabs, islands at their altitude — with nothing added to the document, so a click in the 2.5D view lands on
     exactly what the flat view would select.
+15. **The world map, and the mapmaker's eye (volume 15).** Lay the maps you have made on one table: your realm, the
+    province beside it, a continent from another campaign. Drag each to where it belongs, or say it — "Varn lies east of
+    Ashmark across a narrow sea" — and the table arranges them, warning (never refusing) where a cold north meets a hot
+    south; where two maps share an edge the pictures are softened into one another, where a finer map lies inside a coarser
+    one it sits in a thin frame like an inset in a printed atlas, and between maps there is sea, mist, mountains or honest
+    blank parchment. Each map stays its own world on its own calendar: nothing you change in one ever changes another,
+    each shows its own date, and if two drift apart at an edge the table says so to the game master and corrects nothing.
+    Click the empty space beside a map and say "make a map here", and the new map is born meeting its neighbours — their
+    coasts, heights, rivers, winds, rock and climate continue across the edge, and nothing that merely happened to them
+    does. Click any map to open it, then a town, a house, a dungeon. A player's table shows only what the party knows.
+    And turn on the mapmaker's eye: the world as a medieval scribe of one of your cultures would have drawn it — the holy
+    city huge at the centre, east at the top, the lands that matter swollen and the rest squeezed to the rim, serpents in
+    the deep seas, dragons where knowledge ends, monsters in the lands that culture fears or hates, a skull where the
+    plague struck — with a slider back to the true map and the true distance and travel time under your cursor at every
+    moment. Every monster comes from your invented cultures' facts and never from any real people; you may add, move or
+    remove any of them. Three looks ship: the sacred map, the sea chart with its compass roses, and the pilgrim's strip
+    with the days between towns.
 
 ## The order they would be built in
 
@@ -103,6 +140,8 @@ volume 1). Then, as recommended (each step is yours to order):
    same point; sites under and inside the town after the underground; the world itself after the SettlementForge
    connection (its port rides on it), with your host's own changes on a parallel track; free-standing sites in the
    country once the world exists.
+7. **The world map (volume 15)** slots in after the world's requirement solver (which also brings the picture reading and
+   the edge charter the world map needs), its continuation and fitting beside it, and the mapmaker's eye after the map lenses.
 
 ## How big the whole program is
 
@@ -112,14 +151,22 @@ Estimated in expert **person-weeks** (one skilled builder for one week), each vo
   it — mainly the neighbourhoods at full depth, the app's screens and the calibration rig).
 - **Every later stage together:** about **171–239 person-weeks** (the largest: the underground 28–39, the village 27–37,
   the evolution engine 25–36, the buildings 21–30).
-- **The world (volume 13):** about **37–45 person-weeks** (the water system at the town's scale, about 4 of them,
+- **The world (volume 13):** about **51–66 person-weeks** (the water system at the town's scale, about 4 of them,
   comes first and on its own; the map lenses over your host's simulated systems — plague, territory and patrols,
   trade, populations, religion, prosperity and alignment — about 7 of them, come after the world's routes and
-  borders).
+  borders; the world's growth — the solver and the settlement-first dialog, the formed ground and the monthly
+  weather, the living land cover and the physics pass, the sea legs — about 14–21 of them, after the routes and
+  borders too, the formed ground gated by two spikes).
 - **Sites, encounters and the 2.5D view (volume 14):** about **25.75–36.25 person-weeks** (the battle map 4.25–5.75,
   the sites 13–18.5, the 2.5D view 7.75–11, their content under 1).
-- **The whole program with the two new volumes:** about **455–620 person-weeks** (the earlier 392–539 plus the two
-  lines above). With several builder pairs working in parallel, the calendar
+- **The world map and the mapmaker's eye (volume 15):** about **7–10 person-weeks** (the image-only world map with
+  arrangement and drill-down 2.5–3.75, continuation and fitting 2–3, the mapmaker's eye 2–3, content under 1), plus the
+  art for the mapmaker's eye — monsters, vignettes, cartouches, lettering — on your own budget, which the design does not
+  price.
+- **The whole program with the three new volumes:** about **476–651 person-weeks** (the earlier 392–539 plus the three
+  lines above: the world's 51–66, the sites' 25.75–36.25, the world map's 7–10 — plus about 1 for the old levels beneath
+  a town, in the town generator's own line, and the art for the mapmaker's eye, on your own budget, which the design
+  does not price). With several builder pairs working in parallel, the calendar
   time is much shorter than that; the order above lets up to four lanes run at once after the parity milestone.
 
 These are estimates until the milestones run; the final figures are computed once when the design's pending changes are
@@ -191,8 +238,9 @@ Twenty-five questions, each with a recommendation the work follows until you rul
   map module's after-launch plan; a town's
   share code carries its world charter so it replays alone; the battle map ships right after the first viewable town,
   interiors following; a site record in the SettlementForge dossier, scheduled with the host's other changes; accept
-  the two volumes' cost (37–45 and 25.75–36.25 person-weeks); and the tabletop export may carry each room's reason in
+  the two volumes' cost (51–66 and 25.75–36.25 person-weeks, the world's widened from 37–45 by your rules of 17–23 October); and the tabletop export may carry each room's reason in
   an optional block that is off unless you turn it on.
+- **The world map** (four questions; your rules of 22–23 October, each decision vetoable): the product's name for it ("World map" is fine; the design calls it an atlas inside); whether and how a world map may show or share a map from another campaign (recommended: only where that map's own sharing allows, under your host's gallery rule once it has one); the art for the mapmaker's eye (recommended: fund it after you have seen the plain line-art version); and its cost, about 7–10 person-weeks.
 - **One waits on your own word, which the design reserves to you:** whether the world's canon — the travel, water and
   site facts your host's simulation reads, never a town's geometry — stays outside the closed door that keeps your
   host's simulator from reading the map (recommended: confirm); until you answer, no campaign gets the canon, not even

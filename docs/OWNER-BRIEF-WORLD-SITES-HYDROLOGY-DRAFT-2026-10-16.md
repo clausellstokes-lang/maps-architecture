@@ -97,8 +97,9 @@ view-only transient (item 122); the frozen-fixture and budget-tier discipline (�
 
 Ruled (vetoable): the boundary option (a) — the host owns political facts, the map module owns the world regime, the
 host's capture of the reference generator is replaced by the world port, the host's frozen spatial digest staying its
-engine state, built from the port's canon at its receipted canonize — every new campaign's birth canon, or a re-canonize — (refined 2026-10-17, `docs/AMENDMENTS-2026-10-17m.md`); planar bounded worlds in metres now; tectonics, erosion over time,
-fluid dynamics and a sphere not built; no second FMG fork and no embedding of its code; FMG maps imported once as
+engine state, built from the port's canon at its receipted canonize — every new campaign's birth canon, or a re-canonize — (refined 2026-10-17, `docs/AMENDMENTS-2026-10-17m.md`); planar bounded worlds in metres now; tectonics and erosion over time built once at generation as the formation op
+and baked, never re-run (the owner's rule F1, 2026-10-17, superseding this ruling's first two clauses;
+`docs/AMENDMENTS-2026-10-23r.md` item 926; V13 §3.2.1), fluid dynamics and a sphere not built; no second FMG fork and no embedding of its code; FMG maps imported once as
 data; Watabou's boundary kept as the boundary between the world regime and the settlement map; time of day not a
 parameter; transient encounters derived, never random; who keeps a gate under the sway — the host's intermediary
 settlement until the sway has passed its soak, the crossing holder then offered as a per-gate policy the host may adopt
@@ -205,4 +206,6 @@ fact; complexity as a count; a site required to pass through every state; featur
 
 The original §32's rejections stand. Added: no second architecture document; no second vocabulary; no proprietary
 generator code read; no kernel change in M0 beyond a fix the hardening rounds admit; no FMG fork or embedding;
-tectonics, erosion over time, fluid dynamics, a sphere, an economy or military simulation in the map module.
+fluid dynamics, a sphere, an economy or military simulation in the map module (tectonics and erosion over time,
+excluded here on 2026-10-16, are admitted by the owner's rule F1 of 2026-10-17 as the formation op — run once at
+generation and baked, never a simulation that runs on; `docs/AMENDMENTS-2026-10-23r.md` items 926 and 962).

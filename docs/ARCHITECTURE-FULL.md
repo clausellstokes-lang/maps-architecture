@@ -6,8 +6,8 @@
 
 | file | sha256 (16) | lines |
 |---|---|---|
-| `docs/ARCHITECTURE.md` | 58b155e3586c4d19 | 24462 |
-| `docs/volumes/INDEX.md` | a5a94bf04dc58830 | 258 |
+| `docs/ARCHITECTURE.md` | 6e4ffc05ec12ca87 | 24510 |
+| `docs/volumes/INDEX.md` | ff7eb21f89e69aab | 273 |
 | `docs/volumes/V01-neighbourhoods.md` | a59cfac9b27a8886 | 3765 |
 | `docs/volumes/V02-buildings.md` | 574577038e1de304 | 4232 |
 | `docs/volumes/V03-interiors.md` | 3cb0d96c7ef309ea | 3307 |
@@ -16,12 +16,13 @@
 | `docs/volumes/V06-evolution.md` | 9ccc6e8d24373f0d | 4670 |
 | `docs/volumes/V07-village.md` | 3976873133489cfc | 4137 |
 | `docs/volumes/V08-settlementforge.md` | 07cc895a585328b1 | 3744 |
-| `docs/volumes/V09-application.md` | c5b3bcb79f1df100 | 5072 |
+| `docs/volumes/V09-application.md` | 4054939c90db3b77 | 5170 |
 | `docs/volumes/V10-clerk.md` | 1717fa2eb3dd375a | 3583 |
 | `docs/volumes/V11-content.md` | c698b45421163a1f | 5504 |
 | `docs/volumes/V12-calibration.md` | 1bcb54970016f797 | 3590 |
-| `docs/volumes/V13-world.md` | 73cfd0aa1c1a14cf | 4439 |
+| `docs/volumes/V13-world.md` | 75905a21129fae59 | 5828 |
 | `docs/volumes/V14-sites.md` | b8297571faed84c6 | 3209 |
+| `docs/volumes/V15-atlas.md` | 0b55c430357b31d9 | 2186 |
 
 ## Contents
 
@@ -306,6 +307,24 @@
     - [13 Fix list](#13-fix-list)
     - [Integration notes](#integration-notes)
     - [Integration notes (2026-10-17)](#integration-notes-2026-10-17)
+  - [Design volume 15 — The atlas: world maps as saves, arrangement, continuation, microcosms and the relational historical style](#design-volume-15-the-atlas-world-maps-as-saves-arrangement-continuation-microcosms-and-the-relational-historical-style)
+    - [0 In plain words](#0-in-plain-words)
+    - [1 Scope, the base hooks consumed, the owner's rules obeyed, and what is out of scope](#1-scope-the-base-hooks-consumed-the-owners-rules-obeyed-and-what-is-out-of-scope)
+    - [1b Wiring table — every new piece, what feeds it and what it feeds](#1b-wiring-table-every-new-piece-what-feeds-it-and-what-it-feeds)
+    - [2 Data model](#2-data-model)
+    - [3 Generation](#3-generation)
+    - [4 Editing](#4-editing)
+    - [5 Rendering, labels and exports](#5-rendering-labels-and-exports)
+    - [6 Performance budgets (§12's form)](#6-performance-budgets-§12s-form)
+    - [7 Tests and acceptance bars](#7-tests-and-acceptance-bars)
+    - [8 Build plan](#8-build-plan)
+    - [9 Decisions (each "chose X over Y because Z"; vetoable)](#9-decisions-each-chose-x-over-y-because-z-vetoable)
+    - [10 Base change requests, and requests to volumes 13 and 9](#10-base-change-requests-and-requests-to-volumes-13-and-9)
+    - [11 Owner questions](#11-owner-questions)
+    - [12 CONFIRMED versus PLAUSIBLE](#12-confirmed-versus-plausible)
+    - [13 Fix list](#13-fix-list)
+    - [Integration notes (for the seam seat and the world-growth coherence pass)](#integration-notes-for-the-seam-seat-and-the-world-growth-coherence-pass)
+    - [14 Review record (the reviser seat volumes/revise-world-growth, 2026-10-23; J393, J394)](#14-review-record-the-reviser-seat-volumesrevise-world-growth-2026-10-23-j393-j394)
 
 <!-- source: docs/ARCHITECTURE.md -->
 # ARCHITECTURE — PLAT, the fused town/city generator (base), neighbourhood composition (stage 2), and the hooks the village product (volume 7) builds on
@@ -561,7 +580,7 @@ placeholder direction phrase, SettlementForge's own district names never matched
 | 110 four authoring gaps; a second known-city fixture | §2.7 (`RetainingWall`, raised ways, deck plots), §3.4, §4.3, §4.6, §4.7 S10–S11, §5.3; T110-1 – T110-8 and T101-6 | §2.7 |
 | 111 water in dry country | §4.2 S0–S1 (the oasis and spring), §4.2 S3 and §4.4 (the water pull), §4.5 (the water term, item 102's climate cell), §4.7 S10b; T111-1 – T111-5 | §4.2 S1 |
 | 112 colour-blind-safe maps; a game-master trial before launch | §8, §9 (second cues, checked variants); §13.4's style check T112-1 and the release gate T112-2 (§16) | §8.2 |
-| 113 history shapes the map at generation | §4.2 S0 (the history option), §4.11 and §7.7 (the replay; DR36 onward), II.7.6 (the buried former settlement); T113-1 – T113-7; volumes 6, 4 and 8 | §4.11 |
+| 113 history shapes the map at generation | §4.2 S0 (the history option), §4.11 and §7.7 (the replay; DR36 onward), II.7.6 (the buried former settlement and, file r item 996, the age strata); T113-1 – T113-8; volumes 6, 4 and 8 | §4.11 |
 | 114 walls decay into gaps and patchwork, and recover | §2.7 (`Enceinte.condition`, each run's material and the epoch of its last change), §5.3 (the wall-crossing row), §7.1 and §7.4 (`repairWall`'s material, `wearWall`), §7.7 (DR41), §8.2 (the state rows, the legend), §11 (exports); T114-1 – T114-10; volumes 6, 7, 8 and 11 | §2.7 |
 | 115 a ceiling on grandeur by tier | §4.7 S10b (the rung ceiling on the class mix), §10.2 (the ceiling table's shape); T115-1 – T115-4; volumes 2, 7 and 11 | §4.7 S10b |
 | 116 a zoom-out limit | §8.8 (the per-map limit on the pyramid), §9.5 (framing), §12.5 (fewer stops); T116-1 – T116-4; volumes 7 and 9 | §8.8 |
@@ -2784,7 +2803,7 @@ interface HistoryHint {   // Recipe.history (§2.9): the dossier's history up to
   lifecycle?: { died: boolean; resettled: boolean; yearsAgo?: number /* the resettlement's tick, else the current settlement's founding */ } /* DR38 */;
   ancientFall?: { name: string; yearsAgo: number /* the founding's yearsAgo + its years before the founding */ } /* DR38's ancient "Fall of" event on the site */;
   peak?: { tier: string; population?: number; symbolic: boolean; evidence: string[] /* the evidence kinds present, strongest first */ } /* DR36's input (V08 §3.15 (3)), or the standalone option's declared peak (above) */ }
-  // readers: S2's growth-stage count (`ageYears`, `scars`; §4.2 S2), II.7.6's catacomb age (`ageYears`) and, for a `fire` or `flood` scar, its buried old town (J-A88.42);
+  // readers: S2's growth-stage count (`ageYears`, `scars`; §4.2 S2), II.7.6's catacomb age (`ageYears`) and, for a `fire` or `flood` scar, its buried old town (J-A88.42); II.7.6's age strata at generation (`founding.yearsAgo`, else `ageYears`; `lifecycle` for the continuity regime; file r item 996, F3);
   // item 113's fields by §7.7's DR36–DR39, §4.11's history-first generation (V06 §3.20's replay) and II.7.6's buried former settlement. Declared here, V08 §3.15 (2) cites it;
   // an absent list reads as []: a recipe written before item 113 holds neither the lists nor `peak`, so no replay runs; the standalone form's declared peak
   // alone drives DR36 and the replay
@@ -6444,7 +6463,9 @@ count becomes K′ = min(K, max(1, ⌈`ageYears` ÷ `yearsPerStage`⌉)) — a y
 to K′ − 1 keep their rows, every later walled stage's share folds into stage K′ − 1 and the ribbon stage stays last (at
 K′ = 1 the one stage takes every share) — and only the rules that name a scar's type read it: a `fire` or `flood` scar (a
 `RaiseGrade.cause`) by II.7.6's buried old town, any other type by none, the creation week showing a finished town
-(J-A67.47). Empty, K is the rung row's. With the evolution engine (M6-E) a history with a peak is generated history-first
+(J-A67.47); and the settlement's age — `founding.yearsAgo`, else `ageYears` — by II.7.6's **age strata** (file r item
+996, F3), which lie under a bounded share of the stage-1 districts S2 lays, nearest the nucleus, so an old town's
+earlier levels are its oldest fabric's and never the ribbon's. Empty, K is the rung row's. With the evolution engine (M6-E) a history with a peak is generated history-first
 instead (§4.11 *History-first generation*), and the stage count is the peak's.
 **Output:** `Roster` (demand by class with area / frontage requirement classes, district affinities, wealth bands) and
 `StageQuotas[]` (plot counts per class × band, land area and regime per stage: dense core → gapped rings → ribbon, plus
@@ -13205,7 +13226,7 @@ doesn't provide, the rest of the map code must compensate. it is one directional
 immutable truth while the rest can be constructed at whim. better if the rest of the map code coherently derives things
 from the dossier and in accordance with our rules").
 
-The **world port** (`@plat/port/world`, one adapter folder per host line, V13 §3.11.6) is the port's second door and §11.4's fifth: it replaces the host's capture of the reference generator, never the host's own frozen spatial record; outbound the simulator feed `canon(world, request)` (integer, versioned per slot, adopted only by the host's receipted canonize: a new campaign's birth canon, V13 §8.5's H22, or a re-canonize; file q item 916, BCR-V13-40) and the map feed (`derivedFacts(world, placement) → SettlementMapRecord`, `mapFeed`, `routes`, `pathGeometry`, `borderSegment`, `placeOf`), `charter(world, campaign) → FrameCharter`, `proposals(world, demand) → SitingProposal[]`; inbound recorded inputs, the windowed ones as windowed replaces (`bindSeat`, `unbindSeat`, `importSeats`, `costLaw`, `travelLaw`, `hostRequires`, `genesis`, `network`, `polity`, `events`, `canonized`, `consumed`), and presentation inputs never logged (`clock`, `hostOverlay`, `beliefView`, `audienceKnowledge`, and `lensWindow`, kept only as plates in the world document's plate cache, V13 §5.8 (8)); outbound, the map feed also carries the DM-placed site offers (V13 §3.11.6); nothing the host simulates calls it inside an advance (file m item 778). The host reads derived facts and never an arena; the map writes no dossier fact except through this door as a derived fact (V13 Part E bar 9). V08's host client carries the messages V13 §3.11.6 lists, each with the canon envelope's version vector, the presentation inputs never logged. Built M-W1 for `canon`, `derivedFacts`, `charter`, `proposals`, `costLaw`, `travelLaw`, `bindSeat`, `unbindSeat`, `importSeats`, `hostRequires`, the `events` windows, `canonized`, `consumed` and the `physicalChange` offer; M-W2 for the rest but `lensWindow` and the DM-placed site offers, M-W5's (V13 §8.2).
+The **world port** (`@plat/port/world`, one adapter folder per host line, V13 §3.11.6) is the port's second door and §11.4's fifth: it replaces the host's capture of the reference generator, never the host's own frozen spatial record; outbound the simulator feed `canon(world, request)` (integer, versioned per slot, adopted only by the host's receipted canonize: a new campaign's birth canon, V13 §8.5's H22, or a re-canonize; file q item 916, BCR-V13-40) and the map feed (`derivedFacts(world, placement) → SettlementMapRecord`, `mapFeed`, `routes`, `pathGeometry`, `borderSegment`, `placeOf`), `charter(world, campaign) → FrameCharter`, `proposals(world, demand) → SitingProposal[]`; inbound recorded inputs, the windowed ones as windowed replaces (`bindSeat`, `unbindSeat`, `importSeats`, `costLaw`, `travelLaw`, `hostRequires`, `genesis`, `network`, `polity`, `events`, `canonized`, `consumed`), and presentation inputs never logged (`clock`, `hostOverlay`, `beliefView`, `audienceKnowledge`, and `lensWindow`, kept only as plates in the world document's plate cache, V13 §5.8 (8)); outbound, the map feed also carries the DM-placed site offers (V13 §3.11.6); nothing the host simulates calls it inside an advance (file m item 778). The host reads derived facts and never an arena; the map writes no dossier fact except through this door as a derived fact (V13 Part E bar 9), and asks for a dossier change only as a request the host executes — outbound `requestDossierUpdate` (the user's approval of a conflict-list choice, V13 §3.11.5 (1): the settlement, the field, the kind `landChanged` or `alwaysSo`, the proposed value), inbound `dossierUpdated` (the host's confirmation with `applied` and its sequence), the map showing the change only on the confirmation (file r item 998; BCR-V13-45). V08's host client carries the messages V13 §3.11.6 lists, each with the canon envelope's version vector, the presentation inputs never logged. Built M-W1 for `canon`, `derivedFacts`, `charter`, `proposals`, `costLaw`, `travelLaw`, `bindSeat`, `unbindSeat`, `importSeats`, `hostRequires`, the `events` windows, `canonized`, `consumed` and the `physicalChange` offer; M-W2 for the rest but `lensWindow` and the DM-placed site offers, M-W5's (V13 §8.2).
 
 9. *Two tiers of fact* (item 20 (h) (i)). Every fact the map holds is either a **dossier fact** — a record or value the
    dossier supplies, carried by the map under its binding key (§7.7 item 12), immutable on the map and changed only by a
@@ -17991,7 +18012,13 @@ check and the record. (5) **For a world document only, the world port** (§7.7's
 recorded inputs — seat bindings and placements, the host's cost and travel laws, its route genesis and changes, its
 political facts and dated events, each a windowed replace keyed by host keys — are logged with provenance `host`, so a
 world replays without its host; its presentation inputs (the week drawn, movers, the DM's believed view, an audience's
-known events, the lens facts kept as plates) are never logged and read by nothing replayable. Item 125 (a) still holds for every settlement frame,
+known events, the lens facts kept as plates) are never logged and read by nothing replayable. A dossier change the
+map's conflict list asks for (V13 §3.11.5 (1); F8) leaves through this door as a request and never as a write:
+`requestDossierUpdate` is logged with provenance `user` (the approval it records is the user's act on the map), the
+host's own command changes the dossier under the host's guards — a dated event for `landChanged`, its retcon path for
+`alwaysSo` —, and `dossierUpdated` returns as a windowed replace with provenance `host` carrying `applied` and the
+host's sequence; until it arrives the map shows the dossier unchanged (`W_DOSSIER_PENDING`), and a request the host
+declines re-opens the conflict. The module never writes to the dossier (file r item 998; BCR-V13-45; V13 §8.5's H32). Item 125 (a) still holds for every settlement frame,
 which reads only its dossier and its charter, and T125-3w scans `@plat/port/world` (file m item 779).
 
 **A dossier comes through the port (items 73–87; §14).** For a dossier, door (1)'s blueprint and the log's creation
@@ -20248,7 +20275,13 @@ interface DossierFixtureRow { file: string; sfLine: string; commit: string; gene
     and reopening restores it, its dwellings emptied by the vacancy rules and returning with access; (T113-6) a symbolic
     peak only with evidence of a higher tier, sized inside that tier (by default at its range's lower quartile) and
     marked `symbolic`, and no peak without evidence; (T113-7) with history replay off, byte-identical to the base (a
-    `NoOpPin`). Volume 6 runs them on its replay engine (T-V6-71), volume 4 T113-4 and T113-5 on the underground's output
+    `NoOpPin`); (T113-8) the age strata (II.7.6, file r item 996): a 1 200-year-old fixture of masonry core lays one
+    `buried` system under a share of its stage-1 districts nearest the nucleus, s = 0.44 of their area at TOWN, its floors
+    at min(900, 60 × 0.5 × 12 × f) cm; a 200-year-old fixture lays none; a mud-brick fixture of the same age lays floors
+    three times deeper, capped at 900; a died-and-resettled fixture at 0.4 of the chance; a scar burial over the same
+    region takes the deeper floor per element and the system stays one, no element laid twice; the draw is byte-stable
+    per town root on the five engines and moves with the town's reroll, never alone; an advance of 500 years, a razing
+    and a refounding add no stratum; the parity presets lay none. Volume 6 runs them on its replay engine (T-V6-71), volume 4 T113-4 and T113-5 on the underground's output
     (T-V4-77, T-V4-76), volume 7 the village halves of T113-1 and T113-3 (T-V7-59), volume 8 the dossier's history
     (T-V8-51), volume 11 T113-7's registration (T-V11-39), volume 12 their register lines, T113-7's pin and the
     replay's budget (T-V12-46).
@@ -23465,7 +23498,41 @@ says so.
   of the region), fresh records of the `buried` part (the system's lineage children, §6.3), its floors at `scarBaseCm +
   scarGainCm × severity` (200 + 200 × severity) cm below the present grade — the town above generated on the present grade as
   it stands, no `raiseGrade` event recorded and nothing cleared, the rule drawing nothing (our own rows, calibratable,
-  `extension`, off in the parity presets); with the hint empty, none. **The buried former settlement (item 113 (c)):** under
+  `extension`, off in the parity presets); with the hint empty, none. **At generation from age (F3; file r item 996; J-V13.126):** a settlement old enough has
+earlier levels of its own beneath its oldest fabric, whatever its scars — the owner's rule F3 (2026-10-17;
+`docs/AMENDMENTS-2026-10-23r.md` item 928). Its age A is `HistoryHint.founding.yearsAgo`,
+else `ageYears` (the tier's midpoint when both are absent, as `founding`'s comment says). **Whether:** A ≥ the `buried`
+row's `ageMinYears` (300) and one uniform u < p, p = clamp((A − `ageMinYears`) ÷ `ageFullYears` (900), 0, 1) × `agePMax` (0.8) × (the
+continuity factor: 1, or `ageResetFactor` (0.4) where `lifecycle.died` and `resettled` — a reset regime leaves less of
+a continuous mound; the anchors 0.6–0.8 for a continuous region, 0.2–0.4 after a collapse); the uniform the `sewer` stream's (§6.1: the layer's other systems' draws, keyed by the system's
+lineage, which the town root fixes), at ordinal 0 of the `buried` kind, so the draw is byte-stable per town root and
+rerolls with the town, never alone. **How large:** the region is the stage-1 districts (`growthStage` 1, the scar
+rule's region) taken nearest the nucleus first — S2's first-stage centre: the ford, the harbour, the hill — until
+their area reaches share s of the stage-1 area, s = clamp(`ageShareBase` (0.2) + `ageShareGain` (0.2) × (A ÷ 1 000)
++ `ageTierBonus` (THORP, HAMLET, VILLAGE and TOWN 0, CITY 0.1, METROPOLIS 0.2), 0, `ageShareMax` (0.6)) — older layers are smaller and centred
+on the founding point, the inverse of the growth S2 models. **How deep:** V04's depth law and no other — the floor at
+`min(formerRiseMaxCm, formerRiseCmPerCentury × m × A ÷ 100 × f)` cm below the present grade (V04 §3.5.5 (b): 60 cm
+per century, capped at 900; `f` the burial-speed factor `burialYears ÷ T`, V11 §3.25.2, so floods, silt and
+rebuilding deepen it and bare rock keeps it shallow), `m` the material factor `ageMaterial` by the stage-1 core's
+dominant wall class in V11 §3.19.3's `materials` row for stage 1 (the wall shares summed by class: masonry — rubble,
+brick, ashlar — `stoneBrick` 0.5; timber — `timber_frame`, timber — `timber` 0.4; earth — `wattle_daub`, `cob` —
+`mudBrick` 1.5; the science note's anchors: 0.2–0.5 m per century for stone-and-brick towns, 0.5–2 m for mud
+brick), the full depth within the districts nearest the nucleus that make the first half of s and two-thirds of it in
+the rest (a low dome; a mound for mud brick). **What:** the same one `buried` system (created at the first, §2.9) —
+its galleries the region's way centrelines, its chambers their buildings' ground storeys and its squares, fresh
+records of the `buried` part keyed (`age`, the stratum's ordinal, the district's lineage), laid as the scar burial
+lays its own and reached as the `buried` kind already is (item 109 (j); V14's sites and encounters as that kind) —
+**composed** with the scar burial and the buried former settlement by union of extents, the deepest floor winning
+per element and no element laid twice; where the ruin of an older civilisation (V04 §3.5.0a's `RuinRecord`, DR30)
+lies under the same nucleus, the age strata lie above it, composed the same way. Under the host's default founding
+ages by tier (a thorp 15–300 years, a hamlet 30–120, a village 30–250, a town 50–300, a city 100–500, a metropolis
+200–800) only a metropolis reaches `ageMinYears` on most draws and a city at most p ≈ 0.2: F3's strata appear under
+default ages chiefly beneath metropolises, and an older town is the DM's `founding.yearsAgo` or a lower `ageMinYears`
+(a table cell). **Only at generation:** the strata are never grown, deepened or added during
+the campaign — an advance of any length, a razing or a refounding changes nothing beneath (a later burial is the
+replay's, item 113 (c)) —, the town above generated on the present grade as it stands, no `raiseGrade` event
+recorded and nothing cleared; our own rows, calibratable, `extension`, off in the parity presets (T113-8).
+**The buried former settlement (item 113 (c)):** under
   history-first generation (§4.11) a destroyed or shrunken former settlement older than `history.burialYears` is buried the same
   way from the replay's own former geometry — its streets, walls and major buildings at their old ground level — as fresh
   `buried` records minted from the replay epoch that buried them; it is this settlement's past, distinct from a ruin's older
@@ -23564,7 +23631,7 @@ lineage. The bars are §13.2's T66 group.
 interface UndergroundSystemRow {   // one per system kind; II.7.6's rules as data (§7.6); our own values, extension (every chance 0 in the parity presets)
   kind: 'ruin'|'catacomb'|'cavern'|'quarry'|'vaults'|'buried'|'dug'; chance: Partial<Record<Rung, Record<string /* source kind */, number>>> /* absent: none (the buried row's generation-time town reads scarSeverity instead); below TOWN only the ruin and cavern rows */;
   depthM: [number, number]; coverM: number; gallery: { widthCm: Cm; wallCm: Cm; headroomCm: Cm } /* the kerb reads widthCm ÷ 2 + wallCm (§3.7) */; chamber: { minM2: number; ceilingCm: Cm };
-  params: Record<string, number> /* the kind's own values named above: minAgeYears, burialRate, ossuaryShare, m2PerBurial, gridM, reachM; mineBoost, fissureChance, breachM, maxRockShare, miningCellShare (§4.2 S1 (10)'s mining test); wasteFactor, roomM, pillarShare, minCoverM; vaultSlope, cisternDistM; scarSeverity, scarBaseCm, scarGainCm; digReachM, foundationClearM — the catacomb and ruin rows' own cells being V11's CatacombRule and ruin rows */;
+  params: Record<string, number> /* the kind's own values named above: minAgeYears, burialRate, ossuaryShare, m2PerBurial, gridM, reachM; mineBoost, fissureChance, breachM, maxRockShare, miningCellShare (§4.2 S1 (10)'s mining test); wasteFactor, roomM, pillarShare, minCoverM; vaultSlope, cisternDistM; scarSeverity, scarBaseCm, scarGainCm, ageMinYears, ageFullYears, agePMax, ageResetFactor, ageShareBase, ageShareGain, ageShareMax (the age strata, file r item 996; `ageTierBonus` and `ageMaterial` their keyed sub-rows); digReachM, foundationClearM — the catacomb and ruin rows' own cells being V11's CatacombRule and ruin rows */;
   outlets?: { use: 'default'|'concealed'; order: ('cellar'|'void'|'riverbank'|'shore'|'beyondWalls')[] }[] /* dug only: the outlet rows of item 66's step 4 */ }
 interface LinkRule { linkReachM: number /* 10 */; linkDepthM: number /* 8 */; linkSpacingM: number /* 60 */; chance: Record<string /* the sorted pair of system kinds, 'catacomb|sewer' … */, number>;
   kinds: Record<UndergroundLink['kind'], number> /* the kind weights */ }
@@ -24779,9 +24846,10 @@ INDEX.md` §8 does so for the set's prices and order.
 
 > PENDING FABLE REVIEW — written by opus standing in for the Fable seat volumes/_finalize; covered by the whole-design retrovalidation (J84).
 > PENDING FABLE REVIEW — the rows for volumes 13 and 14 written by the session's integration seat volumes/_integrate-world-sites under the owner's delegation (J339; 2026-10-17); covered by the whole-design retrovalidation (J84).
+> PENDING FABLE REVIEW — the rows for volume 15 written by the session's seam seat volumes/seam-world-growth under the owner's delegation (J392; 2026-10-23; file r items 1018–1025); covered by the whole-design retrovalidation (J84).
 
-**What this file is.** The one map of the whole design: the base (`docs/ARCHITECTURE.md`) and the fourteen design volumes
-(`docs/volumes/V01`–`V14`) that take every subject the base carries at hook depth to build depth. It states no mechanism
+**What this file is.** The one map of the whole design: the base (`docs/ARCHITECTURE.md`) and the fifteen design volumes
+(`docs/volumes/V01`–`V15`) that take every subject the base carries at hook depth to build depth. It states no mechanism
 of its own — every fact below points at its home (single source) — and it is the second source of the generated bundle
 `docs/ARCHITECTURE-FULL.md` (`tools/bundle_architecture.py`; J89), read after the base and before the volumes. The base
 carries files f (`docs/AMENDMENTS-2026-09-28f.md`, items 200–585, the volumes' base change requests) and g
@@ -24813,8 +24881,9 @@ dossier port's creation and absorb halves, and the verification rig; its milesto
 | V10 | `V10-clerk.md` | the clerk — the oracle at depth and the built-in assistant: tools, proposals, bends and refusals, explanations ("why is this here"), critique, transcripts, the host seam | §11.2, §7.1, item 101 | C1 inside **M3a**; **M3c** (C0, C2–C5) beside M3b, C4's Find content (the find form and read) at M5's exit | 14.75–20.25 (15.25–20.75 with the command-line clerk) |
 | V11 | `V11-content.md` | the content — the registry, the class rows and profiles, the siting rulebook (item 103), custom-content rows (104), goods and orientation (105), wall rows (106), balance (107), ladders (108), caverns, ruins and catacombs (109), item 110's rows, naming | §10.2, §7.6, §14 | C0–C3b, C4a (the wall rows) and C5–C7 inside M0–M4b, C4a at M2b; C8 at M6-U; C9 beside each owner item's base milestone; C4b (the dossier rows) with the SettlementForge stage (V11 §8) | 13.6–19.1 |
 | V12 | `V12-calibration.md` | calibration — the capture plan, parity, the owner's panels, tuning runs, the register of every provisional number, the corpus reconciliation | §13 (all), §7.6, §17.1 | base side M-1 – M4, W6 at M6-U's U3 – U5, W7 with each owner item's milestone (V12 §8.2); **M-CAL** staged | 7.25–11 base side; M-CAL 4.75–8; each later corpus run 0.25–0.75 |
-| V13 | `V13-world.md` | the world regime, placement and hydrology — a world document of its own (W0–W9: the terrain recipe, features and surfaces, climate, hydrology with groundwater and springs, biomes and resources, suitability, routes, polity, labels and the settlement glyph); the placement of settlements both ways (P1–P5, the frame charter as S1's one input, the coherence cost, the blend band, the precedence stamp); water as a consequence system at both scales (surfaces as dated records, the one water class test, the two verbs and the cascade, the counterfactual fork); reason records; the world port; the sway and patrols (the owner's territory rules, V13 §3.9); the lenses over the host's simulated systems (V13 §5.8, §5.9); the map-import adapter and the ecosystem-shaped exports | §2.3, §2.6 *Basements*, §2.8–§2.9, §4.2 S1, §4.12, §6.1, §6.3, §7.1, §7.3, §7.7, §8.4, §9.5, §11.1, §14 | **M-W0h** (the water state at the frame: after M4 beside M5, exiting before M6-U's U3b); **M-W0 – M-W5** after M-SF (M-W5 the lenses, after M-W2), the host's own changes a parallel track (V13 §8) | 37–45 as one staged row (M-W0h ≈ 4 inside it; BCR-V13-37, file o item 877) |
+| V13 | `V13-world.md` | the world regime, placement and hydrology — a world document of its own (W0–W9: the terrain recipe, features and surfaces, climate, hydrology with groundwater and springs, biomes and resources, suitability, routes, polity, labels and the settlement glyph); the placement of settlements both ways (P1–P5, the frame charter as S1's one input, the coherence cost, the blend band, the precedence stamp); water as a consequence system at both scales (surfaces as dated records, the one water class test, the two verbs and the cascade, the counterfactual fork); reason records; the world port; the sway and patrols (the owner's territory rules, V13 §3.9); the lenses over the host's simulated systems (V13 §5.8, §5.9); the world's growth (file r, the owner's rules F1–F9: the formation op — tectonics and erosion once, baked —, the monthly climate with its currents, potential vegetation and the derived land cover, the requirement solver with the generated-first dialog, the conflict list and the dossier request, the two verbs on every layer and the physics pass, sail routing by direction and month, the seams owed to V15; V13 §3.0–§3.2.1, §3.4–§3.6, §3.11, §3.14.1, §4.1–§4.2, §5.8 (9)); the map-import adapter and the ecosystem-shaped exports | §2.3, §2.6 *Basements*, §2.8–§2.9, §4.2 S1, §4.12, §6.1, §6.3, §7.1, §7.3, §7.7, §8.4, §9.5, §11.1, §14 | **M-W0h** (the water state at the frame: after M4 beside M5, exiting before M6-U's U3b); **M-W0 – M-W9** after M-SF (M-W5 the lenses, after M-W2; M-W6 – M-W9 the growth milestones after M-W2, M-W7 gated by SP-W9 and SP-W10), the host's own changes a parallel track (V13 §8) | 51–66 as one staged row (M-W0h ≈ 4 inside it; 37–45 by BCR-V13-37, file o item 877; 14–21 added by BCR-V13-46, file r item 985) |
 | V14 | `V14-sites.md` | world sites, encounter crops and the 2.5D view — the site card, its request, programme and complexity vector; admissibility by context; topology-first unit graphs embedded on the kernel (natural caves, rock-cut rooms, mines, built levels, the ground by the hinterland unit); water classes per unit; condition as a transform over a persisted plan; the anchor, the one access record and the three secret states; adoption into a settlement; the encounter crop (extent by table, completion by the plan rung, the occupancy abstraction, the transient layer, promotion, the VTT crop scope and stable grid origin); the 2.5D projection family with z-completeness, hit testing back to the 2D address and the raise-or-lower edit | §2.1–§2.2, §2.5, §2.7–§2.9, §3.4, §4.12, §6.1, §7.1, §7.6–§7.7, §8.1–§8.2, §8.4, §8.8, §9.2, §9.5, §11.1–§11.2, §14, II.7.4, II.7.6 | **M-ENC** after M1 (its interiors with M6-P's P1); **M-SITE-A** after M6-U; **M-SITE-F** after M-W1; **M-25D** after M4 beside M5 (V14 §8) | 25.75–36.25 (M-ENC 4.25–5.75; M-SITE 13–18.5; M-25D 7.75–11; content 0.75–1) |
+| V15 | `V15-atlas.md` | the atlas — the owner's "world map" (F11–F15): an individual save of finished world maps held by reference, arranged by the user (direct placement and described relations solved by the requirement engine at atlas scale, layout presets, warnings never refusals), rendered at one pixel resolution per level with seams softened along shared stretches, detail steps eased or framed as insets, continued into its voids at the next map's generation through V13's world edge charters (the neighbour's present ground, never a record; locked), a child fitted into a parent through V13's rung-general placement or derived from it through the world subject of `requestCharter`, each member a microcosm at its own present with its date, drift read and never corrected, deletion leaving a marked gap, sharing imagery only for shareable members, drill-down to the live member; and the relational historical style (F10): a view over an atlas or one world — an adjacency-preserving flow-based cartogram with a centre magnification and an orientation, a slider to the true map, true distance and travel time on hover, the distortion from facts (centre, importance, orientation, knowledge) read through V13's `viewFacts`, embellishments derived from the fictional cultures' facts and never real-world peoples, viewpoints (an audience plus a culture), three presets (mappa mundi, portolan, itinerary strip) | §2.9 (`Recipe.product` `'atlas'`, `Recipe.atlas`, `atlasImagery`, the atlas's view keys), §4.12, §5.2, §5.4, §6.1, §7.1, §7.6, §8.4, §9.5, §11.1, §11.2, §11.5, §12.8, §12.10, §13.2, §14, §16 (BCR-V15-1 – BCR-V15-15, pending the coherence pass) | **M-ATLAS-A** after M-W6 (`renderAt`, `edgeCharter`, `solve`; file r item 1015) beside M-W7 – M-W9; **M-ATLAS-B** after M-W6 and M-ATLAS-A; **M-ATLAS-C** after M-W5 and M-ATLAS-A (V15 §8) | 7–10 (M-ATLAS-A 2.5–3.75; M-ATLAS-B 2–3; M-ATLAS-C 2–3; content 0.5–0.75; the art library the owner's own line) |
 
 **Base change requests.** 407 requests in volumes 1–12's `## 10` sections are carried by the 386 items of file f (200–585;
 137 BASE — built inside the base's milestones — and 249 STAGED — applied to the design now, built with the named staged
@@ -24822,7 +24891,7 @@ milestone); 0 uncarried, 0 duplicated, no gap. Volumes 13 and 14's 54 requests (
 carried by the 48 items of file k (600–647; 38 base items, 10 cross-volume items; the gate's rows K1, K5, K6, K9 and
 M1–M11 reserved BASE at M1's API pass, the mechanisms STAGED with their milestones); 0 uncarried, 0 duplicated, no
 gap, 0 conflicts; one mechanism question open for reconciliation round 1 (`docs/volumes/_integrate-world-sites.md`
-§1.4). In all: 461 requests, 434 items. Files m–q since added eleven requests to V13 §10, outside those totals (BCR-V13-30 – BCR-V13-40): BCR-V13-37 is carried by file o item 877, BCR-V13-38 by file p item 890 and BCR-V13-40 by file q items 916 and 917; BCR-V13-30 – BCR-V13-36 (the base) and BCR-V13-39 (V09) stand with no admission item, each for the coherence pass to admit by an item of its own (J387's and J388's pending ledger).
+§1.4). In all: 461 requests, 434 items. Files m–r since added seventeen requests to V13 §10, outside those totals (BCR-V13-30 – BCR-V13-46): BCR-V13-37 is carried by file o item 877, BCR-V13-38 by file p item 890, BCR-V13-40 by file q items 916 and 917, BCR-V13-44 (V09) by file r items 990–993 and BCR-V13-45 by file r item 998; BCR-V13-30 – BCR-V13-36, BCR-V13-41 – BCR-V13-43 and BCR-V13-46 (the base) and BCR-V13-39 (V09) stand with no admission item, each for the coherence pass to admit by an item of its own (J387's and J388's pending ledger). Volume 15 (2026-10-23) adds fifteen requests to the base (BCR-V15-1 – BCR-V15-15) and eleven to the siblings (RQ-V15-1 – RQ-V15-11, the first six V13's spine §14 seams, each defined by file r items 1006–1017 as V13's own; an H-row, H35, appended to V13 §8.5 by file r item 1015), each base request for the world-growth coherence pass to admit by an item from 1033; none is applied yet.
 
 ## 2 The wiring — base hooks and what each volume feeds
 
@@ -24847,11 +24916,12 @@ Every dossier fact reaches a volume through volume 8's digest and derivation row
 | V12 | §13 (benches, goldens, parity, the D-5 panel, CI tiers, the corpus interface), §7.6 | every volume's bars and calibratable cells (their register lines) | every volume's provisional numbers (confirmed, tuned, or `not-achieved`) |
 | V13 | §2.3 `Terrain` (the carve delta, the surfaces, the groundwater field; `datumOf`, `windOf`), §2.6's basement gate (`waterTableAt`), §2.8's reason record and registry rows, §2.9 (`Document.worldRef`, `Recipe.charter`, `namespace`, the `world` product, the world's view keys), §4.2 S1 (the charter as its one input), §4.12 `StrategyRegistry.products`, §6.1's concerns and stage ids, §6.3's namespace segment, §7.1's `verb` and edit kinds, §7.3's cascade rows, §7.7's world port, §8.4's layers and `sunAt`, §9.5's compass, §11.1's exports, §14 `@plat/world` (the lifted hydro core) | V04 (its elements as water units), V06 (`terrainWater` ops at an epoch, the history frames), V08 (the host's seats, cost law and events; DR1/DR29 facts as placement constraints), V10 (`why` queries), V11 (the climate rows, naming, the registry), V12 (the register), V14 (`WorldSite.attraction` and `routed`, the site's glyph marks, its `placementRef`) | the frame's S0/S1 (through the charter; `datumOf`, `windOf`, `sunAt`), V04 (`waterTableAt`, `classifyWater`, `routeClass`, the connected-set walk), V06 (dated surfaces, the waterlogged decay), V08 (`SettlementMapRecord`, the per-campaign charter, proposals, routes), V09 (the world view, the placement tool, the water overlays), V10 (reason records, the four readers), V14 (`FrameCharter`, `Placement`, the suitability slot, `worldFactsAt` and `WorldEvent`, the transient `charterFor`, the `site` `WaterSurface`, `world.placed`), V02 (the per-storey water class), V12 (B-WORLD, the drift tests) |
 | V14 | §2.1–§2.2 (the `site` layer, the `passage` role), §2.5's `worldSite` reservation, §2.7's staged records (`SiteAnchor`, `WorldSite`, `verticalEnds`), §2.8's `ZDecl` column, §2.9 (`nextSitePart`; the `projection`, `encounter`, `siteOpen` and `party` keys), §3.4's owner-less transient arena, §4.12's `site` product and `worldSite` destination, §6.1's `site` concern, §7.1's site edit kinds and `raiseLower`, §7.6's site tables, §7.7's `Assignment.site`, §8.1–§8.2 and §8.8 (the projected tiles and style family), §9.2 (the secret states), §11.1 (the VTT crop scope and grid origin), §11.2 (`PlatApi.encounter.*`), §14 `@plat/sites`, II.7.4 (`AccessPoint.under` as `SiteReach`), II.7.6 | V13 (the charter, the placement, the suitability score and context, the water class test, `ReasonRecord`, the verbs and the cascade, `worldFactsAt`), V01 (local places; a close-up's context), V02 (massing; the storey ranges), V03 (plans, storeys, the `secret` stair core, the programme override), V04 (records, programs, dig generators, the figure-ground, the overlap test), V05 (islands), V06 (`decayLevel`, the ops, robbing), V07 (the village's siting), V08 (the site record, reveal and reach), V09 (tools, panels, the switch), V10 (sections), V11 (rows), V12 (fixtures, panel, pins) | V13 (the seventeen purpose-term plug-ins, `attraction` and `routed`, the site's glyph marks, `adoptSite` on `world.placed`), V04 (`siteEnvelopes`, breach links, `site` parts in the connection graph), V06 (G7's transforms under an epoch, the material rate), V07 (the `worldSite` reservation), V08 (a site's derived capacity), V09 (the icon, the crop, the 2.5D view, the hit stack), V10 (the `site` and `encounter` sections), V11 (the rows, the naming slice), V12 (B-SITE, B-CROP, B-25D, V14-P, the no-op pins), the DM (the crop at the table, the VTT scenes) |
+| V15 | §2.9 (`Recipe.product` `'atlas'` and `Recipe.atlas`; `Document.atlasImagery`; the atlas's view keys), §4.12's `atlas` product, §5.2 F-ATLAS, §5.4's `W_ATLAS_*`, §6.1's `atlas` concern and stage ids `A1`–`A7`, §7.1's atlas edit kinds and conflict actions, §7.6's `atlas.*` tables, §8.4's atlas layers, §9.5 (the legend's note, the true scale bar, the compass under a viewpoint), §11.1's atlas exports and the refusal of the world shapes, §11.2 `PlatApi.atlas.*`, §11.5's member resolution and the shared atlas, §12.8's atlas line, §12.10's `ATLAS-n`, §13.2's T-V15 rows, §14 `@plat/atlas` and `@plat/render/atlas`, §16's M-ATLAS rows | V13 (`WorldHeader`, the rungs and size rows, `edgeCharter` and `WorldEdgeCharter`, `renderAt` with the placed labels and the known sets, the rung-general placement, the world subject of `requestCharter` and the transient world-rung charter, `viewFacts` over the lens plates, `solve` with its registered evaluators, `derivedTime`, `worldFactsAt`, the conflict list and the fork preview), V09 (the atlas page, Open / recent / new, the share sheet, the catalogue), V10 (the parse of a described relation; the `atlas` why section), V11 (the `atlas.*` rows, the figure glyphs, the blocklist, the lettering faces), V12 (B-ATLAS, V15-P, the pin, the register), V14 (the drill's last rungs; the `ZDecl` reason `imagery`) | the user (the atlas page, the pictures, the shared atlas); V13 (a continuation's `WorldRequest` with locked edge charters; a fit's placement request on a parent; a re-match's regenerate under a charter — each the user's act on the member's page); V09 (the page's rows and keys); V10 (the section); V12 (the fixtures and measures) |
 
 **How dense the wiring is** (citations of other volumes in each volume's text, counted by script;
 row cites column): the heaviest seams are V09–V10 (685/738), V03–V02 (522), V07–V11 (420), V08–V09 (407), V12–V11
 (400), V05–V01 (396), V06–V07 (253) and V04–V01 (329); the six seam checks of §7 were drawn along exactly these pairs.
-Volumes 13 and 14 (counted 2026-10-17): V14–V13 386, V13–V14 151 — the `seam-world-sites` check's pair.
+Volumes 13 and 14 (counted 2026-10-17): V14–V13 386, V13–V14 151 — the `seam-world-sites` check's pair. Volume 15 (2026-10-23) cites V13 in every section and V13 cites V15 only in the readings file r's items 942 and 1006–1017 define for it (the one-way seam the spine §14 names: V13 supplies, V15 consumes); the `seam-world-growth` check's pair (`critique/seam-world-growth-r0.md`).
 
 ## 3 The dependency graph
 
@@ -24883,13 +24953,16 @@ flowchart LR
   VM --> VH["VH village hand-off (V08)"]
   M4 --> MW0H["M-W0h water state at the frame (V13), after M4 beside M5"]
   MW0H --> MU
-  MSF --> MW["M-W0 … M-W5 the world (V13), after M-SF (M-W5 the lenses after M-W2)"]
+  MSF --> MW["M-W0 … M-W9 the world (V13), after M-SF (M-W5 the lenses after M-W2; M-W6 … M-W9 the growth milestones after M-W2, M-W7 gated by SP-W9 and SP-W10)"]
   MA --> MENC["M-ENC encounter crop (V14), after M1"]
   MP0 -.-> MENC
   MU --> MSA["M-SITE-A attached sites (V14), after M6-U"]
   MW --> MSFree["M-SITE-F free sites (V14), after M-W1"]
   M4 --> M25["M-25D the 2.5D renderer (V14), after M4 beside M5"]
   MW -.-> M25
+  MW --> MATA["M-ATLAS-A image-only atlas, arrangement, drill-down (V15), after M-W6 (its readings) beside M-W7 … M-W9"]
+  MATA --> MATB["M-ATLAS-B continuation at generation, the fit across rungs (V15), after M-W6 and M-ATLAS-A"]
+  MATA --> MATC["M-ATLAS-C the relational style (V15), after M-W5 and M-ATLAS-A"]
 ```
 
 | milestone | may start after | runs beside | its hard dependencies inside (the volume's own §8) |
@@ -24907,11 +24980,14 @@ flowchart LR
 | M-CAL (V12) | M6-sky; its inputs M4, M5, M6 and V-M4 | — | the corpus interface (§13.9) |
 | M-SF (V08) | M-CAL (SF0–SF3 may start earlier; VH when the village lands) | — | SettlementForge's own side (SettlementForge's program) |
 | M-W0h (V13) | M4 | M5, the village, M6-E, M-25D | exits before M6-U's U3b; its only new dependency M4's render tier (the overlays); V04's water readers and V14's G6 switch to the one classifier at its landing (provisional readings before it) |
-| M-W0 – M-W5 (V13) | M-SF (the host client); M-W0's spikes once M0 closes; M-W5 the lenses after M-W2 | the host's parallel track (V13 §8.5; Q2); M-W5 beside M-W3 | M-W1 before M-SITE-F; M-W3's adapter and exports before the host's reference fork retires; M-W5 before M-W4, whose gate covers it |
+| M-W0 – M-W9 (V13) | M-SF (the host client); M-W0's spikes once M0 closes; M-W5 the lenses after M-W2; M-W6 the solver, the surface and the dossier seam after M-W2; M-W7 formation and the living physics after M-W6, gated by SP-W9 and SP-W10; M-W8 ecology and the physics pass after M-W7; M-W9 sail routing after M-W7 | the host's parallel track (V13 §8.5; Q2); M-W5 beside M-W3; M-W6 beside M-W3; M-W9 beside M-W8; V15's M-ATLAS-A and -B after M-W6's seams | M-W1 before M-SITE-F; M-W3's adapter and exports before the host's reference fork retires; M-W5 – M-W9 before M-W4, whose gate covers them |
 | M-ENC (V14) | M1 | M2a – M4 | the interiors with M6-P's P1 and the occupancy with M4b (registry lookups: shells and `W_CROP_INCOMPLETE` until then); the world click after M-W1 |
 | M-SITE-A (V14) | M6-U's U3b and V01's W15 (M5) | M6-P, M-W1 | G6 reads the classifier from M-W0h (provisional classes before it); the surface exception's programme override from M6-P |
 | M-SITE-F (V14) | M-W1 | M-W2 | a free-standing drop takes a point only until M-W1; adoption through `adoptSite` on V13's `placed` outcome |
 | M-25D (V14) | M4 | M5 | its world rows after M-W1 and the islands' slabs after M6-sky (registry lookups) |
+| M-ATLAS-A (V15) | M-W6 (`renderAt` with its label boxes and `atlas` layer set, `edgeCharter`, `solve` with the registered evaluators; file r item 1015) and V09's world page | M-W7 – M-W9; M-SITE-F | the atlas in host mode a file until H35 |
+| M-ATLAS-B (V15) | M-W6 (the solver, the edge charter, the rung-general placement and the world subject of `requestCharter`) and M-ATLAS-A | M-W7 – M-W9 | the charter carries formation's bedrock and soils once M-W7 lands; a continuation owned by a campaign in host mode waits on H35 |
+| M-ATLAS-C (V15) | M-W5 (the lenses, read through `viewFacts` from M-W6) and M-ATLAS-A | M-ATLAS-B | the art library lands on the owner's budget, replacing the line-art figures row by row (content only) |
 
 ## 4 The combined build order after M5, with estimates
 
@@ -24921,7 +24997,7 @@ village V-M1 – V-M4 (V07), M6-E (V06) and the plan rung's P0, P1 and P3 on the
 and M6-U (V04) after M5, M6-U beside M5 where a second pair is free; then M6-P's rest and M6-sky (V05); then M-CAL
 (V12); then M-SF (V08; VH with the village). Volumes 13 and 14 (2026-10-17; the owner deferred their decisions to
 the session, each vetoable) add, as their §8 states and file k item 635 writes into §16: M-ENC right after M1; M-W0h
-and M-25D after M4 beside M5; M-SITE-A after M6-U; M-W0 – M-W5 after M-SF (M-W5 the lenses after M-W2, beside M-W3; file o item 877); M-SITE-F after M-W1. Every milestone's
+and M-25D after M4 beside M5; M-SITE-A after M6-U; M-W0 – M-W9 after M-SF (M-W5 the lenses after M-W2, beside M-W3; file o item 877; M-W6 – M-W9 the world's growth after M-W2, file r item 985); M-SITE-F after M-W1. Volume 15 (2026-10-23; the owner's rules F10–F15 under the spine, each decision vetoable) adds, as its §8 states and BCR-V15-11 asks of §16: M-ATLAS-A after M-W6 beside M-W7 – M-W9; M-ATLAS-B after M-W6 and M-ATLAS-A; M-ATLAS-C after M-W5 and M-ATLAS-A. Every milestone's
 price is its volume's own §8 estimate, and §16 computes
 the two totals once (file f item 568) — the base with stage 2, and the whole program — with the lines outside both
 (later corpus runs, the command-line clerk, SettlementForge's own side). Staffing per the owner: architecture and
@@ -24946,6 +25022,7 @@ Every volume's §8 lists its risks in order, each with a spike or a measurement 
 | 10 | the default map's look changing at M5 (V01 risk 6) | the M5 panel | the parity presets do not move; the change is declared once (Q-V1-1) |
 | 11 | the new regimes' budgets — W4 and W1 at the continent rung (V13 §8.4), the crop's completion where twelve plans are absent (V14 risk 1), the 2.5D frame at the metropolis cap (V14 risk 4) | SP-W1, SP-W6, SP-W7 (M-W0); SE0 (M-ENC); V0 (M-25D) | the continent's cell to 1 250 m or the noise capped at four octaves; `maxBuildings` 8; the city band's trees off and the terrain's cell doubled (each a table value with a declared shift) |
 | 12 | a reader landing before V13 — V04's water readers and V14's G6 (provisional classes until M-W0h), the world click (refused), a free-standing drop (a point only until M-W1), the host's track (Q2) | none needed: each order is written out | the named fallbacks (BCR-V13-21's order clause; V14 §1b.6's rows; T-V13-37's mock host) |
+| 13 | the atlas's readings landing late — `renderAt`, `edgeCharter`, `solve` with its evaluator registration, the rung-general placement and the world subject of `requestCharter` (all M-W6; file r item 1015), the lens readings (`viewFacts` over M-W5's lenses); the host's atlas store (H35) | none needed: each order is written out (V15 §8) | nothing of the atlas ships before M-W6; image-only nesting with the mismatch warning until the fit lands; the relational terms neutral with the legend saying so; the atlas a file in host mode (V15 §8's risks 3–5) |
 
 **Spikes, in the order they run** (each as its volume's §8 states it): V12's S-V12-1 and S-V12-2 (M-1); V07's V-M0 (the
 tracker spike, right after M0); V09's S-A1 and S-A2 (M2a); V12's S-V12-3 and S-V12-4 and V11's family-weight spike at C2
@@ -24953,14 +25030,14 @@ tracker spike, right after M0); V09's S-A1 and S-A2 (M2a); V12's S-V12-3 and S-V
 (M5's first weeks), V03's P0 and V06's E0; V05's P0 (beside M5); V04's U0, then its risk spikes at U3's and U3b's starts
 (M6-U); V02's SP-V2-1 (before M6a), SP-V2-2 (in M6a), SP-V2-4 (before M6c) and SP-V2-3 (in M6c); V08's SF0 (M-SF, or
 earlier on the frozen fixtures); V14's SE0 (M-ENC's start, after M1) and V0 (M-25D's start, after M4); V13's
-SP-W1 – SP-W7 (M-W0, once M0 closes; before M-W1). The first-five-minutes sessions (§13.4) measure the tools at M2a, M3a and M3c.
+SP-W1 – SP-W7 (M-W0, once M0 closes; before M-W1), SP-W9 and SP-W10 (M-W7's gate; file r item 985); V15's SA0 (M-ATLAS-A's start), SA3 (M-ATLAS-C's start) and its fit spike (c) at M-ATLAS-B's start. The first-five-minutes sessions (§13.4) measure the tools at M2a, M3a and M3c.
 
 ## 6 Owner questions with recommendations
 
 Every question the volumes put to the owner is answered but one: those that belong to SettlementForge follow its own
 decisions (J121: the map is a SettlementForge module), and every other is decided under the owner's delegation (J122:
 `docs/OWNER-DECISIONS-DELEGATED-2026-09-29.md`), each vetoable. Each volume's §11 marks its questions answered and its
-body reads the decision. Volumes 13 and 14's eight questions carry the session's recommendation: the owner deferred
+body reads the decision. Volumes 13 and 14's nine questions (V13's Q5 from file r) and volume 15's four carry the session's recommendation: the owner deferred
 every decision on them to the session (2026-10-16: "i defer all decisiosn to you"), so each stands as **recommended;
 vetoable** until the owner rules — save V13 Q4, which waits on the owner's own word, the one decision the delegation
 cannot reach: J86's door 1 opens only on the owner's explicit word (base §11.4; J388), and until Q4 is answered the
@@ -24994,13 +25071,18 @@ host's builder over the canon (V13 §8.5's H5) and every new campaign's birth ca
 | V12 | Q-V12-2 — the owner's sittings | only at M1 (the look check), M2b, M4 and M5, batched, about an hour each; a staged milestone's panel joins the next of them when its build has landed, else stays *provisional — not rated* (J122; §13.6 (1)) |
 | V12 | Q-V12-3 — historical layers as defaults | only where the owner's sitting passes them (J122) |
 | V13 | Q1 — existing campaigns: whether a living campaign is offered the elective rebase onto a world from this module (the transition otherwise ruled: every frozen record kept, the import on request, a legacy world view with no write; J-V13.81) | offer it per campaign, premium, default keep, the full forecast diff shown before confirmation; never automatic (recommended; vetoable) |
-| V13 | Q2 — the host's schedule (V13 §8.5's H1–H30) against M-W1 – M-W3 and M-W5, and whether the realm map's replacement is part of the map module's post-launch disposition | class it with the post-launch disposition; H1–H3 before the host's launch, H4–H11 with M-W1, H12–H17 and H22 with M-W2, H23–H30 with M-W5, H18–H20 after M-W3; the standalone world ships either way (recommended; vetoable) |
-| V13 | Q3 — a placed settlement's share code: embed the charter or name the world | embed the charter, so a settlement replays from its own code (recommended; vetoable) |
+| V13 | Q2 — the host's schedule (V13 §8.5's H1–H34) against M-W1 – M-W3 and M-W5 – M-W9, and whether the realm map's replacement is part of the map module's post-launch disposition | class it with the post-launch disposition; H1–H3 before the host's launch, H4–H11 with M-W1, H12–H17 and H22 with M-W2, H23–H30 with M-W5, H18–H20 after M-W3, H31 and H32 with M-W6, H34 with M-W8, H33 with M-W9; the standalone world ships either way (recommended; vetoable) |
+| V13 | Q3 — a placed settlement's share code: embed the charter or name the world (refined by file r: a formed world's code carries its baked payload's hashes, re-fetched never re-run, so the world code stays a line plus its hashes under either answer) | embed the charter, so a settlement replays from its own code (recommended; vetoable) |
 | V13 | Q4 — J86's door 1 and the world canon: is the canon (reaching the host's simulation only through its receipted canonize — H22's birth canon or a re-canonize, the additive one included) outside door 1? | confirm — the owner's own word, which base §11.4 reserves to the owner (J388): until it is answered the host's builder over the canon (H5) and every new campaign's birth canon (H22) stay dark (recommended; awaiting the owner) |
+| V13 | Q5 — who may generate with what (file r item 988): the world dialog is layered and hides nothing, the gate checked once at the generate action; which account kinds may generate with a scenario, with an included campaign, with the Advanced or Deep layers set or with a `weather` pass, and who may share a preset, is the owner's | every layer free to read, set and preview; one-click generation free at every rung; a scenario and an included campaign gated as the host gates its own premium acts, the weather depth the DM's; presets saved by anyone, shared by the DM (recommended; vetoable) |
 | V14 | Q1 — the in-town encounter crop ships after M1 or waits whole for M6-P | ship after M1 with shells and the VTT crop; the interiors arrive with V03's P1 by a registry lookup (recommended; vetoable) |
 | V14 | Q2 — a host record for world sites in the dossier (a capability across the SettlementForge boundary) | yes, scheduled with V13's host changes; until it lands every site is map-tier and nothing of the map is lost (recommended; vetoable) |
 | V14 | Q3 — the cost, 25.75–36.25 person-weeks across three milestones | accept (recommended; vetoable) |
 | V14 | Q4 — a vendor block in the VTT export carrying each unit's reason and the anchor's knowledge state | yes, as an optional namespaced block off by default; the common fields unchanged (recommended; vetoable) |
+| V15 | Q1 — the product label for the atlas ("World map" is admitted; the architecture's word stays "atlas") | "World map" in every user-facing string, "atlas" in every record and test (recommended; the owner's word) |
+| V15 | Q2 — sharing and privacy across campaigns: may an atlas show, share or publish a member world of another campaign, and under which gallery rule (a capability across the host's boundary; H35) | a member's imagery travels only where that world's own sharing allows it; across campaigns the host's gallery rule once H35 lands, until then the user's own worlds only (recommended; vetoable) |
+| V15 | Q3 — money: the art library for the relational style (monsters, vignettes, cartouches, lettering), outside the volume's line | fund it after the owner's sitting on the line-art presets at M-ATLAS-C; the mechanism ships without it (recommended; vetoable) |
+| V15 | Q4 — money: the cost, 7–10 person-weeks across three milestones (V15 §8) | accept; M-ATLAS-A's 2.5–3.75 pw buys F11, F12 and F15 in hand, M-ATLAS-B's 2–3 pw F13 narrowed by F14, M-ATLAS-C's 2–3 pw F10 (recommended; vetoable) |
 
 ## 7 How the volumes were reconciled, and the fix list
 
@@ -25016,7 +25098,7 @@ question open for reconciliation round 1 — the import's markers, R1-1); their 
 `docs/validation/coherence/world-sites-k.md`, 48 of 48 items), the M0 gate (`docs/build/checks/M0-world-sites-gate.md`,
 item 140) ran as a separate lane and holds (J376), and files m–q carried the realm review and the lens design into
 them, each applied by its record (`docs/validation/coherence/realm-m.md`, `lens-n.md`, `lens-o.md`, `lens-p.md` and
-`lens-q.md`, each named by its file's status line).
+`lens-q.md`, each named by its file's status line). Volume 15 (2026-10-23) was written under the spine `docs/design/spine-world-growth-2026-10-23.md` beside amendments r (`docs/AMENDMENTS-2026-10-23r.md`, pending application) and reconciled with it by the world-growth seam check (`critique/seam-world-growth-r0.md`: every finding fixed in place in V15 or carried as an item of file r, 1006–1028); its critique round (`critique/V15.md`, `critique/world-growth-r-science-host.md`) is carried by the reviser (file r items 1029–1032 and its edits; V15 §14).
 
 ## 8 CONFIRMED versus PLAUSIBLE
 
@@ -25028,7 +25110,7 @@ counts, its clean-room and document checks — stands in the archived index
 (`docs/archive/volumes-pre-coherence-2026-09-28/INDEX.md`) and the lane log.
 
 **PLAUSIBLE (reasoned, not executed):** every price of §1 (each volume's own §8 estimate; volumes 13 and 14's
-37–45 and 25.75–36.25 pw among them, PLAUSIBLE until their spikes report) and the two totals §16
+51–66 and 25.75–36.25 pw among them, PLAUSIBLE until their spikes report; the world's 51–66 is 37–45 by file o plus 14–21 by file r; volume 15's 7–10 likewise, PLAUSIBLE until SA0 and SA3 report) and the two totals §16
 computes once from them (file f item 568) — expert estimates until the milestones run; that the pairs no seam read
 together hold no semantic conflict sharing no name (J-VI.29). The order of §3 and §4 is a decision under the owner's
 delegation (J122), not a measurement.
@@ -57401,7 +57483,14 @@ the entity registry (§2.8) on every build.
 | `setSeats` (M-W2) | T6 `place`'s seat pins | a pin drop | — | V13 §4.1 |
 | `deleteTrace`, the world `setAttr`s, `addEvent` (M-W1) | T9 `shape` | the inspector | — | V13 §4.1 |
 | `fork`, `commitFork`, `discardFork`, the world `regenerate` (M-W0h) | T10 `hold` | the fork controls | — | V13 §4.5 |
-| `adjust` of the world keys (M-W1) | T1 `intend`'s world dialog | the dialog | — | V13 §4.1 |
+| `adjust` of the world keys (M-W1), of `world.context` (the monsoon and ocean knobs) and `world.scenario` (M-W7) | T1 `intend`'s world dialog (V09 §4.22: the layered panel; a scenario or context change re-runs from its stage on the fork, its coarse preview first) | the dialog | — | V13 §4.1 |
+| `setRequirements` (M-W6) | T1 `intend`'s world dialog: the inclusion chips and the **Include my settlements** toggle (V09 §4.22 (e)) | a chip set, locked or cleared; the toggle | the clerk (an inclusion in words: "a desert the size of a province") | V13 §4.1, §3.1 (5) |
+| `decide` (M-W6) | the conflict list (V09 §4.22 (f)) | a choice on a row | a preset's pre-decision (map-side rows only, V09 §4.14) | V13 §4.1, §3.11.5 (1) |
+| `placeFrame` in its best form (M-W6) | T6 `place`'s **Best placement** (V09 §4.22 (g): the three offers, the correction's preview) | a click on the settlement's card; an offer chosen | the host's one-button placer through the port (V13 §8.5's H31) | V13 §4.1, §3.11.4 |
+| `paintLayer`, `disturb` (M-W8) | T2 `ground`'s layer brushes under the verb toggle — `alwaysSo` paints an override, `happened` records a disturbance (V09 §4.22 (h)) | a stroke on a layer | the conflict list's `paintAround` | V13 §4.1, §3.14.1 |
+| `physicsPass` (M-W8; the `weather` depth after) | T10 `hold`'s physics toolbar (the DM's toolbar beside the layers, V09 §4.22 (h)) — *re-run physics* (**Re-derive**, **Release**) and *let time pass* (**Weather**), the DM's three verbs with *reroll* (the row below; V13 §4.2 T10), each on the fork with its dry run and its band crossings | a scope, then a depth | — | V13 §4.1, §4.5 |
+| `requestDossierUpdate` (M-W6) | the conflict list's **Update the dossier** choice (`landChanged` / `alwaysSo`), pending until the host's `dossierUpdated` (V09 §4.22 (f)) | a choice | — | V13 §4.1, §3.11.6 |
+| the world `regenerate` on any stage over a box or a region (M-W7) | T10 `hold`; the world dialog's targeted rerolls (V09 §4.22 (d)) | a reroll button on an option, or a box or region drawn and a stage chosen | — | V13 §4.1 |
 | the `verb` toggle (`happened` / `alwaysSo`; M-W0h) | T2 `ground`'s options strip | a toggle | — | V13 §4.1 (item 137) |
 | the water class overlay (M-W0h) | T9 `shape`'s inspector | a switch | — | V13 §5.1 |
 | `dropSite` (V14 §4.2; file k item 644, V14 §10.2's V09 row; M-SITE-A) | T6 `place`'s **Drop a site**: a one-click drop with the panel after (the dialog the long form; C14-45) | a click | the clerk | V14 §4.2 |
@@ -58281,7 +58370,12 @@ focus (§14); a text field's focus suspends them; a user's rebinding is an `AppP
   the user's value side by side (§7.6), with Keep mine / Take new. **Export overrides** writes the row operations as JSON.
 * **Presets dialog** — pick a preset (the parity presets `MFCG` and `FTG` among them, §7.6); the adopted and selectable
   historical packs are listed as "historical ({era}, {region})", offered only to documents of that era and region
-  (V12 §2.6); **Save these settings as a preset** is `editPreset`.
+  (V12 §2.6); **Save these settings as a preset** is `editPreset`. **On a world document** the presets are
+  `world.presets`' rows (V13 §2.3): a preset pre-sets the dialog's options (each `random`, `set` or `locked`) and
+  pre-decides map-side conflict choices only — fit always, keep flagged, move unlocked — never a dossier update, which
+  stays the user's own act on the host's record (J-V13.122); **Save these settings as a preset** writes a row with
+  `by: 'user'` through `editPreset`, and the world dialog's gallery (V09 §4.22 (i)) shows each preset's thumbnail from
+  its coarse run on the current seed.
 * **"Apply my current preferences"** (settings, §7.6) sends one `adjust` per changed parameter, grouped, with the fates
   sheet.
 
@@ -59462,6 +59556,90 @@ V09 §3.3's pipeline, and every view setting is view state that never changes th
 6. **Exports** never draw the animated effects; the season's cover still applies (item 124 (h)).
 7. **Lifecycle, edges and bar.** V09 §2.12's `AppPrefs.weatherEffects` and spell rows; V09 §3.16's row 93; T-V9-87. It
    lands at M3b with item 117's season looks it reads (§16's milestone rows).
+
+### 4.22 The world dialog (F5–F8; V13 §3.1, §3.11, §4.2 T1)
+
+Every behaviour here is V13's — what an option is, what a run does, what a conflict asks, what a gate holds; V09
+hosts and draws it, as §4.19 hosts the lens controls (BCR-V13-39). The dialog is T1 `intend`'s world sheet, the one
+place the world's request is edited; it is the same dialog at every rung and for every account kind.
+
+1. **Generated first.** A new world document opens already generated (§5.13's **New world**: a random request at the
+   realm rung, W0–W9 run, the map drawn), the dialog open beside the map with every option reading **random** and its
+   rolled value shown greyed beneath it ("random — rolled: temperate, 42° N"). There is no wizard and no empty state:
+   the user edits a world, never a form. Closing the dialog keeps the world; reopening it shows the same choices.
+2. **The layered panel — the owner's words (F5; J393).** **Random all** (the one button, the seed shown beside it),
+   **Generate**, and the layers as labelled groups — exactly `world.presets`' groups (V13 §2.3's
+   `PresetRule.options[].group`), each a disclosure open by default at its level: **Basic**, always visible (the size
+   rung; shape — the templates and the scenario card; the climate band; land and sea; ruggedness; wetness; settlement
+   density on a standalone world; the include toggle); **Advanced**, collapsible groups each with random and reset
+   (terrain; formation — every scenario knob with its unit and range; climate — the poles, the winds, the monsoon and
+   ocean knobs where the rung allows them, the calendar; water — the sea level, the lake and river thresholds; biomes —
+   the inclusion chips with their amounts; resources; routes and sites — the vessel kinds; politics on a standalone
+   world; names); **Deep constraints** (sketch landmasses or mountain lines, pin a feature, import a heightmap or a
+   legacy map, lock regions and regenerate the rest, with the recipe's ops as a list the recipe editor opens, §4.3's
+   `worldRecipe`); and, beside the layers, **the DM's physics toolbar** (the two verbs' brushes and `physicsPass`'s
+   three verbs, (h) below), drawn for every account kind and disabled with its reason where the account may not use it. Each option's row: label, its state chip (**random** · **set** · **locked**), the
+   value or the rolled value, its reroll button, its "why" (the requirement it serves, if any).
+3. **Random, set, locked.** A click on the state chip cycles it; a value typed or chosen sets it; the lock keeps a
+   set value through **Random all**. The choices are stored apart from the rolled facts (`Recipe.world.choices`,
+   V13 §2.2; J-V13.123): regeneration re-reads the choices and never what was rolled, so a rolled latitude box does
+   not pin the next run, and a locked one does. **Random all** rolls every unlocked option and runs; with the include
+   toggle on it is the same run under the settlements' rows, and it always fits them (V13 §3.1 (5); J-V13.118).
+4. **Targeted rerolls and the preview.** The reroll button on an option re-runs from that option's stage and no
+   earlier (the log shows the stages run); a box or a region drawn on the map with a stage chosen rerolls that
+   stage's draws there (`regenerate` with a world `scope`, §4.3), asking first when it would overwrite a lock or an
+   override. Every change previews as the coarse run (V13 §3.1 (7): a thumbnail within 300 ms at the realm rung when no scenario
+   knob changed — a scenario knob's change takes the bake's time, with a progress strip and the last thumbnail
+   meanwhile —, the fine run on **Generate**), and the preview is the run — the same stages on the coarse grid, never a cheaper
+   proxy; the thumbnail carries the verification report's summary ("3 of 3 inclusions met").
+5. **The inclusion chips and the include toggle.** The Advanced layer's biomes group holds the inclusion chips
+   (a desert, a great river, an inland sea, a mountain range, a monsoon coast, a cold coast — each with its amount
+   chip, "the size of a province", and its state; `PresetRule` files them under `advanced`, V13 §2.3), each a `biome`,
+   `landform` or `water` row of the request (`setRequirements`, V13 §4.1). The Basic layer's **Include my
+   settlements** toggle (on a host-bound world, or one with placed frames)
+   turns every included settlement's dossier words into derived chips — "Kessar: desert, river, caravan route" —
+   shown read-only with their source and their status after the run (met · corrected · unmet with its offer); a
+   derived chip is never edited here (its facts are the dossier's) and never locked (it is always a rank-1 row).
+6. **The conflict list.** Where a request, a reroll, a paint, a pass or a placement would contradict a placed or
+   included settlement's facts, the list opens before the run commits (V13 §3.11.5 (1); `W_EDIT_DOSSIER`): one row
+   per affected settlement with the fact, what the change would make of it, and the choices — **Cancel**, **Fit the
+   world** (the solver corrects around the settlement), **Paint around** (an override at the settlement's extent),
+   **Keep the mismatch** (flagged on the DM view), **Update the dossier** (a request to the host, with its kind:
+   "this happened" / "it was always so"), and where the ladder allows them **Move the settlement** and **Change my
+   request**. A choice is a `decide`; a dossier update shows as pending (`W_DOSSIER_PENDING`) until the host confirms
+   it, and the dossier reads unchanged until then. Decisions are remembered and reused until the facts they rest on
+   move; a preset's pre-decisions apply to map-side rows only (§4.14).
+7. **Best placement.** On a settlement's card (T6 `place`, with a host-bound settlement's card too) **Best
+   placement** runs `placeFrame`'s best form (V13 §3.11.4): the least-change placement under the settlement's rows,
+   three offers on the map ordered by cost then distance with their reasons, a hover showing each; when no cell is
+   lawful, the correction the solver proposes is drawn as a preview (its extent, its graded band, the rows it serves)
+   and the list of (6) opens for any settlement it would touch; painting is the last resort and is labelled so. The
+   host's own one-button placer reaches the same form through the port (V13 §8.5's H31), never a second scorer.
+8. **Nothing hidden; the gate at the one generate action.** Every control of every layer is drawn for every account
+   kind; a control the account may not use is disabled with its reason in place ("a scenario needs …"), never
+   removed, and the whole dialog can be read, set and previewed by anyone. The gate is checked once, at **Generate**
+   (and at **Best placement** and a `physicsPass`'s commit, the acts that run the same stages), as data beside the
+   host's `hostRequires` (V13 §11 Q5) — never in the panel, never per control. **The DM's physics toolbar** stands
+   beside the layers: the layer picker (biome, soil, land cover, current; terrain and water as T2 has them), the verb
+   toggle (`alwaysSo` → `paintLayer`, an override the physics derives against; `happened` → `disturb`, a dated
+   disturbance that recovers), the brush with its radius, and `physicsPass`'s scope (whole world, a region, a
+   watershed) and depth under the DM's three verbs (V13 §4.2 T10): *re-run physics* — **Re-derive**, or **Release**
+   with its keep-history switch; *let time pass* — **Weather** with its years; *reroll* — the targeted rerolls of (4)
+   — each pass on the fork with its dry run, its band crossings and the conflict list before **Commit**.
+9. **Presets and the gallery.** The panel's presets row, beneath the layers, opens §4.14's presets dialog in its world form; the
+   gallery beside it shows each preset's thumbnail from its coarse run on the current seed, a click applying it as
+   choices (not as rolled facts) and previewing.
+10. **Lifecycle, edges and bar.** T-V9-12 checks the world rows of §4.3 against V13 §4.1's union as it checks the
+   base's; the dialog's semantics are T-V13-69's (random / set / locked, the choices apart from the rolled facts,
+   targeted rerolls, the inclusion chips, nothing hidden, the report), the conflict list's T-V13-65's, the best
+   form's T-V13-64's. It lands at M-W6 (V13 §8.2) for the panel, the chips, the include toggle, the conflict list and
+   Best placement; the scenario card and the monsoon knob at M-W7; the physics toolbar at M-W8. Edges: a world
+   without settlements shows the include toggle disabled with "no settlements to include"; a rung below the
+   continent shows the monsoon knob as a world-context switch with its explanation (`W_MONSOON_CONTEXT`); an
+   account that may not generate with a scenario sees the scenario card, its gallery and its preview, and the
+   reason at **Generate**; a child derived from a parent (V15 §3.5 (a)) shows the scenario card disabled with "the
+   ground is the parent's" (no formation op on a derived child, V13 §3.1 (1)).
+
 ## 5 Rendering, labels, exports — the screens and the dialogs
 
 The map itself is drawn by §8 in the tile worker; the application composes its tiles in the map region and draws, on the
@@ -59824,7 +60002,9 @@ them."
 **Open a town…** (ctrl / cmd+O): a grid of the recent towns (thumbnail, title, tier word, last opened, size), sorted by last
 opened; **Open a file…** (the OS picker, `.plat`, `.cbor`, skeletons); **Paste a link**. Drag-and-drop of a file anywhere on
 the window opens it (an image offers "Trace over this image?" as an underlay). **New town** opens the empty state in a new
-document. A town opened from a file is added to the local store on its first edit (so opening a file to look at it writes
+document; **New world** (M-W1; from M-W6 in the generated-first form) opens a new world document already generated —
+a random request at the realm rung, W0–W9 run — with the world dialog (V09 §4.22) open beside it and every option
+reading random: never an empty state and never a wizard (F5). A town opened from a file is added to the local store on its first edit (so opening a file to look at it writes
 nothing).
 
 ### 5.14 Labels in the application
@@ -73493,6 +73673,38 @@ The integration lane's rulings for this volume (`docs/volumes/_integrate.md`) ar
 > `CanonRequest` and `WorldCanon`, §2.6's canon row, §3.11.6, §4.1, §7.5's two rows, §8.5's preamble, H4 and H22,
 > J-V13.100, §11's ruling; J388) — J-V13.106 records the construction; T-V13-37 (c) tests the additive canon.
 
+> **World growth r — 2026-10-23** (`docs/AMENDMENTS-2026-10-23r.md`, items 926–1032; the owner's world-growth rules
+> F1–F9 and F16 of J390–J392 under the session's delegation, revised under the manager's rulings J393 and J394; the spine `docs/design/spine-world-growth-2026-10-23.md` and the
+> research notes `research/world/formation-ecology-science.md` and `formation-ecology-state.md` cited as evidence
+> only). Changed: every physical layer has one of three lifetimes — **formation** (a `formation` op first in the
+> recipe, run once over the formation grid: crust blocks, uplift, the steady-state stream-power relief, hillslope and
+> glacial terms, sea-level stands and soils, its results baked into the op as content-hashed chunks — the
+> formation-grid DEM, `bedrock`, `soil` and the `Landform` entities — and its state deleted; J-V13.41 and J-V13.42
+> reversed by J-V13.107 and J-V13.108; §2.2, §2.3, §3.1, §3.2.1), **living physics** (W3 monthly: twelve values per
+> coarse cell, the wind belts' seasonal shift, the monsoon as a world-context knob below the continent rung, the ocean
+> currents per basin with their coastal effect; W5 a threshold classification of the monthly climate with soil and
+> water overrides into potential natural vegetation, the matrix kept for the import; the relief-edit dirty set the
+> whole monthly march on the coarse grid; §3.4, §3.6, §3.14) and **campaign-time ecology** (land cover as a cover
+> plate per host advance and per dated disturbance in a cache of its own, `Document.coverPlates`, a pure function of
+> dated facts, read by no stage, never the dossier's biome; `WORLD_COVER`; §3.0, §3.6 (5), §5.1, §5.8 (9)); **one
+> requirement solver, one process** (`Requirement`, `Conflict`, `Decision` in the recipe; `WorldRequest.requirements`;
+> each stage's satisfy and verify duties with one bounded back-step from W3 to W1 and corrections as recipe ops of
+> `origin: 'solver'`; W0's planned sites from the included settlements' relationships through `CampaignFacts`; the
+> preview the coarse run; the resumed process at `placeFrame` with the whole-map search and the three offers; organic
+> self-correction at a minimum extent with graded edges; `solve(requirements, state, goal)`; §2.2, §3.0, §3.1, §3.7,
+> §3.11, §3.17); **the ladder and the conflict list** (`W_EDIT_DOSSIER` generalised with its seven choices — five offered everywhere, two where the ladder admits them —, the dossier
+> updated only on the user's approval through the host's own command, `requestDossierUpdate` / `dossierUpdated`;
+> presets pre-deciding map-side choices only; decisions remembered; §3.11.5, §3.11.6, §4.1); **the surface** (V13 owns
+> the semantics — random / set / locked, the choices stored apart from the rolled facts, targeted rerolls, derived
+> chips, live conflicts — V09 the layered panel; §3.1, §4.2; V09 §4.22); **the DM always wins** (the two verbs on every
+> physical layer: `Override`, `Disturbance`, `paintLayer`, `disturb`; `physicsPass` at three depths on the fork with its
+> invariants; `regenerate` on any stage; §3.14.1, §4.1, §4.3, §4.5); **sail routing** (`world.sailing`; every sea leg
+> priced by direction, month and vessel kind; `WorldRoute.sailing`; the host offered directional seasonal efforts and
+> their mean in `routeFacts` behind its switch, the canon's water metres unchanged; §3.8 (12), §3.11.6); **the seams owed to V15** (`WorldEdgeCharter` and `edgeCharter`;
+> `renderAt`; `placeFrame`'s rung-general form; the lens facts the relational style reads; `solve`; §2.2, §3.1 (6),
+> §3.11, §5.4, §5.8); M-W6 – M-W9, SP-W9 and SP-W10, H31 – H35, `WORLD-16` – `WORLD-20`; T-V13-57 – T-V13-72; J-V13.107 –
+> J-V13.135 (J-V13.131 – J-V13.134, H35, `WORLD-20` and the readings owed to V15 as the seam seat's items 1006–1017 define them; J-V13.135 and the `Placement` world subject the reviser's items 1030–1032); D-V13.9, D-V13.10; BCR-V13-41 – BCR-V13-46; Q3 refined and Q5.
+
 **How to read this volume.** It builds, to implementation depth, the subject the base (`docs/ARCHITECTURE.md`, with files
 f and g applied, and file j's items 131–141 as the owner's rules of 2026-10-16: `docs/AMENDMENTS-2026-10-16j.md`) carries
 nowhere yet: a world regime of its own, the placement of settlement frames in it, and water as a consequence system at
@@ -73502,6 +73714,7 @@ only, never as an implementer's reference. Every fact the base or another volume
 new fact is stated once, here. **Citations:** a bare `§n` or `II.n` is the base's; `Vnn §n` is a design volume's
 section, this one included (`V13 §3.4`); `item n` is an amendment item — items below 200 the owner's rules (items
 131–141 file j's), items 659–662 likewise the owner's rules (file m's head: the territory rules (T1)–(T3) and J382),
+items 926–934 and 1029 likewise (file r's head: the world-growth rules F1–F9 of J390–J392 and the integration rule F16),
 and every other item 200 and above an amendment file's change item (file f's onward); `J-VI.n` is a volumes-integration decision
 (`docs/volumes/_integrate.md`). Decisions are `J-V13.n` (V13 §9), tests `T-V13-n` (V13 §7), base change requests
 `BCR-V13-n` (V13 §10). The stage names are the spine's — `W0` … `W9` the world pipeline, `P1` … `P5` the placement
@@ -73552,10 +73765,37 @@ and with the wet-season level what it is in spring. Every terrain or water chang
 the old state kept as a trace you can see or delete) and *this was always so* (the past rewritten). You see the whole
 consequence of a change on a side copy before you commit it.
 
-**What the world is not.** It does not move continents, erode valleys over ages, simulate currents or wrap round a
-globe; it does not run the campaign's wars, trade or religions — the host does that and the world only draws where
-those facts fall. Maps made with the old generator can be brought in once as data, and the world can be written out in
-the shapes that generator's tools expect, so nothing the campaign already has is lost.
+**What the world is, and is not, over time.** Its continents moved and its valleys were cut once, at its birth: a
+formation step raises ranges where crust blocks meet, cuts rivers into them over imagined ages, lets ice carve the
+cold valleys and the sea stand high and low, and lays soils on the result — then it bakes what it made (the ground,
+the rock beneath, the soils, the named ranges, rifts, volcanoes and fjords) as ordinary data and forgets how: no crust block
+ever moves again, nothing of the simulation is kept, and everything it made is the game master's to reshape. Its
+weather, its currents, its rivers and the vegetation its climate would grow are **living physics**, re-derived
+whenever the ground changes — raise a range and the land behind it dries, open a strait and the currents turn. What
+the land looks like *today* — the fields around a town, a forest regrowing on a razed village's land, a burn scar —
+follows from dated facts alone: the campaign's settlements and what happened to them, never from a clock of the
+map's own and never from dice. It does not wrap round a globe; it does not run the campaign's wars, trade or
+religions — the host does that and the world only draws where those facts fall. Maps made with the old generator can
+be brought in once as data, and the world can be written out in the shapes that generator's tools expect, so nothing
+the campaign already has is lost.
+
+**The world grows around its towns.** Ask for a world "based off of my settlements" and the campaign's towns are
+not dropped onto a map that happens to exist: their facts — a port on a south coast, a river town, a desert city, a
+mountain hold, who trades with whom and who is at war — are the requirements the world is grown to meet, the ranges
+rising where rain shadows are needed and the coast forming where ports need it, so every town lands where its own
+dossier says it belongs. Place a town later and the same machinery resumes: it searches the whole map for the best
+lawful spot and offers three; only when none exists does it change the land — by the smallest cause that explains the
+change, at a plausible size, with graded edges, every other town's facts protected — never by painting a desert
+around a town. Every option on the generation panel is one more such requirement, random unless you set it, locked
+if you say so; a live preview runs the same stages at a coarse scale as you choose.
+
+**The game master always wins.** Paint a biome, a soil or a current and it is *always so*: the physics respects it
+and derives its neighbours against it. Paint a fire, a flood, a clearing or an eruption and *this happened*: the land
+recovers from it at the pace its biome recovers. Let physics pass again over the whole world or a chosen area —
+re-deriving around your overrides, releasing them, or weathering the ground for an imagined span of years — and see
+the whole consequence on a side copy before you commit. Where a change would contradict what a campaign's town says
+about itself, the map asks, listing every town it touches and the choices; the town's own record changes only on your
+approval, and only through the host that keeps it.
 
 ## 1 Scope, the base hooks consumed, the owner rules obeyed, and what is out of scope
 
@@ -73566,12 +73806,12 @@ world regime, the placement step and the water-state machinery, and the base cha
 
 | engine | the base's slot | what it makes | V13 § |
 |---|---|---|---|
-| **W-BLUEPRINT** W0 | a `ProductDecl` of its own, `world` (§4.12's `products`; BCR-V13-7) | the `WorldDocument`'s recipe: seed, extent, units, the terrain recipe, the frozen option snapshot, the version table | 3.1 |
-| **W-TERRAIN** W1 | `TerrainStrategy`'s world form (`WorldTerrainStrategy`) | the fine `WorldRaster.dem` in integer cm against the world datum, the carve delta, the coarse climate raster and the fine→coarse index map; image import with a tone curve | 3.2 |
+| **W-BLUEPRINT** W0 | a `ProductDecl` of its own, `world` (§4.12's `products`; BCR-V13-7) | the `WorldDocument`'s recipe: seed, extent, units, the terrain recipe (the formation op first where a scenario is asked), the request's requirements with the planned sites of the included settlements, the atlas neighbours' edge charters as locked requirements, the frozen option snapshot, the version table; the verification report at the run's end | 3.1 |
+| **W-TERRAIN** W1 | `TerrainStrategy`'s world form (`WorldTerrainStrategy`) | the fine `WorldRaster.dem` in integer cm against the world datum, the carve delta, the coarse climate raster and the fine→coarse and fine→formation index maps; the formation op's baked results (the formation-grid DEM, `bedrock`, `soil`, the `Landform` entities) read and refined, never re-run; image import with a tone curve | 3.2 |
 | **W-FEATURES** W2 | — (new) | ocean and lake features by flood fill, `WaterSurface` records (sea, lakes with spill height, open/closed, subtype, outlet), the coast outline | 3.3 |
-| **W-CLIMATE** W3 | — (new) | temperature (annual mean, seasonal curve), precipitation, evaporation, wind on the coarse raster | 3.4 |
+| **W-CLIMATE** W3 | — (new) | monthly temperature and precipitation (twelve values per coarse cell, the seasonal curve fitted from them), evaporation, the monthly wind belts with their seasonal shift and the monsoon term, the ocean currents per connected basin with their coastal effect, on the coarse raster | 3.4 |
 | **W-HYDRO** W4 | the site package's priority flood, flats and D8, lifted into `@plat/world/hydro` (BCR-V13-1) | watersheds, `Reach` records with discharge in m³/s, width and depth profiles, mouths, off-map exits, lake inlets and outlets, navigability; the `GroundwaterField` and its springs | 3.5 |
-| **W-BIOME** W5 | — (new) | the biome raster from the moisture × temperature matrix, the land-use class per cell, resource sites by distribution expressions | 3.6 |
+| **W-BIOME** W5 | — (new) | the potential natural vegetation (`biome`) by a threshold classification of the monthly climate with soil and water overrides (the moisture × temperature matrix kept as the import's derive-only path), the land-use class per cell, resource sites by distribution expressions; never land cover | 3.6 |
 | **W-SUIT** W6 | — (new) | the pluggable suitability score, two-stage scoring, `SitingProposal` records for the host | 3.7 |
 | **W-ROUTES** W7 | `@plat/kernel`'s `delaunay` and path search (§3.1) | `WorldRoute` records: on a standalone world the Urquhart neighbourhood graph per landmass under the cost law, ports as the final reachable water body, sea routes; on a host-bound world exactly the host's genesis edges and lived changes laid as geometry, with time stations | 3.8 |
 | **W-POLITY** W8 | — (new) | W8a the seat territory (`Territory`: the host's total nearest-seat partition with its crossings, frozen, in the canon) and W8b the sway (`Sway`, `Allegiance`, `MarchHold`, `PatrolCadence`, `SwayRevision`: the host's political facts projected over the terrain, revisioned only on dated host facts), normalized borders, poles of inaccessibility; provinces on a standalone world | 3.9 |
@@ -73583,6 +73823,12 @@ world regime, the placement step and the water-state machinery, and the base cha
 | **W-PORT** the world port | §7.7's port, §11.4's fifth door, V08's host client (BCR-V13-11; 779) | `WorldPort`: the simulator feed (`canon`: the travel, water and sites slots, integer, versioned per slot) the host builds its own frozen record from at its receipted canonize (H22's birth canon or a re-canonize, the additive one included; V13 §8.5); the map feed (the settlement map record, the drawn products, paths, places) for the host's map surfaces; recorded host inputs as windowed replaces; presentation inputs; the charter per campaign | 3.11.6, 5.4 |
 | **W-VIEW** view, labels, exports | §8.1, §8.2, §8.4, §9, §11.1 (BCR-V13-12, BCR-V13-13) | the world map's styles and the glyph levels; the ecosystem-shaped full JSON, GeoJSON with the ecosystem's property names, the 16-bit heightmap image, CSV; the existing picture exports over the world | 5 |
 | **W-LENS** the lenses | §8.4's layers (BCR-V13-13) and the base's live-layer registry; the world port's lens window (V13 §3.11.6) | one `LensLayer` per lens over the facts the host sends of its simulated systems — plague, the sway, patrols, trade, populations, religion, prosperity, alignment — each with its regime banner, legend, audience filter and time scrub; the plates in the world document's plate cache (BCR-V13-38) | 5.8, 5.9 |
+| **W-FORM** the formation op | the recipe's first op, run by W1; `@plat/world/formation` over the lifted hydro core (BCR-V13-1) | crust blocks, uplift and subsidence, the steady-state stream-power relief, hillslope relaxation, glacial carving, the sea-level stands and the soil classes on the formation grid — run once at the world's birth, its results baked into the op as content-hashed chunks (the formation-grid DEM, `bedrock`, `soil`, the `Landform` entities), its state deleted; the `weather` op of the physics pass runs its slow processes again over the current ground and bakes again | 3.2.1, 4.1 |
+| **W-SOLVE** the requirement solver | the pipeline itself — no separate program; `@plat/world/solve` its one entry (`solve`) | `Requirement`, `Conflict` and `Decision` records in the recipe; each stage's satisfy and verify duties with one bounded back-step from W3 to W1; corrections as recipe ops with `origin: 'solver'`; the verification report; the resumed process at placement (the whole-map search, the three offers, organic self-correction); the conflict list and the dossier update request | 3.0, 3.1, 3.7, 3.11, 3.14 |
+| **W-COVER** the land-cover fold | a fold step with its own stage id, `WORLD_COVER` — not a stage of the W-order; the plate cache's sibling (`Document.coverPlates`, BCR-V13-41) | `CoverPlate`s: land cover per host advance and per dated disturbance = potential vegetation × human use × disturbance × succession, a pure function of dated facts, never stepped, never random; drawn as the `landCover` layer, read by `worldFactsAt` and the `physicalChange` offer, by no stage | 3.0, 3.6 (5), 5.1, 5.8 (9) |
+| **W-PHYSICS** the physics pass | the counterfactual fork (V13 §4.5) and the cascade | `physicsPass` over a scope at three depths — rederive, release, weather — with its invariants (never a placed frame's interior nor a free-standing site's footprint; host-bound facts offered; this-happened kept; dossier conflicts raise the list) | 3.14, 4.1, 4.3, 4.5 |
+| **W-SAIL** sail routing | W7's water legs over the climate's monthly winds and currents | every sea leg priced by direction, month and vessel kind (`world.sailing`); `WorldRoute.sailing`; the directional, seasonal efforts and their symmetric mean offered to the host in `routeFacts` behind its switch (H33); `TravelEdge` and the canon's water metres unchanged (J393) | 3.8 (12), 3.11.6 |
+| **W-SEAM** the seams owed to V15 | `FrameCharter`'s pattern one rung up; the placement machinery; the view | `WorldEdgeCharter` and `edgeCharter(world, side, span)`, consumed by W0 as locked requirements; `renderAt(world, week, audience)`; `placeFrame`'s rung-general form (a world document as the frame); the lens facts the relational style reads; `solve` — defined here, consumed by V15 | 2.2, 3.1 (6), 3.11, 5.4, 5.8 |
 
 ### 1.2 The base hooks this volume consumes (cited, never restated)
 
@@ -73691,7 +73937,11 @@ the words.
   (V13 §2.2 `knownTo` on world facts); preview-and-commit editing (V13 §4.5); a world that explains its towns (V13 §4.7);
   sites as world facts (V14); water as a consequence system (V13 §3.12–§3.14); siting that answers the host's demand
   (V13 §3.7); level of detail by the hierarchy (V13 §5.2). (d) "NOT BUILT: tectonics, erosion over time, fluid dynamics, a
-  sphere in the first version, an economy or military simulation in the map module": J-V13.40 – J-V13.45. (e) the host
+  sphere in the first version, an economy or military simulation in the map module": J-V13.40 – J-V13.45 as ruled on
+  2026-10-16 — the owner's own later word, F1 (2026-10-17; file r item 926), supersedes the first two clauses:
+  tectonics and erosion now run once, in the formation op, and are deleted (J-V13.107 and J-V13.108 reversing
+  J-V13.41 and J-V13.42, their reasons kept as the authored path and the gating spike); fluid dynamics, a sphere and
+  an economy or military simulation stay not built. (e) the host
   changes: V13 §3.11.6 and V13 §11 Q2.
 * **Item 139 (fold these in).** This volume is the fold of items 131, 135, 137, 138 and 140's model rows M2–M6; the
   base change requests of V13 §10 are the record the coherence pass applies (139 (d)).
@@ -73754,6 +74004,56 @@ the words.
   exports, imports and services and its food coverage, as the host's dossier judges them (V13 §5.9 (4)) — and the
   religion lens draws the host's local and global rankings and its piety: each settlement's mixture with each deity's
   local standing, the realm's rank of its deities by tier and seats, and its realm piety (V13 §5.9 (6)).
+* **The owner's world-growth rules (2026-10-17 to 2026-10-23; file r items 926–934 and 1029).** (F1) "I want to ask you. I
+  know that we are currently not going tectonic plates mostly for budget reasons, but since we are likely not limiting
+  ourselves to 300 ms like watabou, why not? Abd then, the whole idea as that tectonics are only used in the formation
+  of the world and anything else to help build biomes emulating real world. After which it's deleted for full
+  customization for the user. What are your thoughts?" (F2) "What about how all of this relates to biome formation?
+  We would want that to be simulated as well then the u deeming simulation deleted but have dynamism." (F3) "Okay then
+  with this add a let physics pass again option as well for the whole world of select areas: The DM always wins. A
+  painted biome is a "this was always so" override that the physics respects and builds around. A painted fire is a
+  "this happened" event that the land recovers from. Also, settlement age (generation only) also determines if and how
+  large an underlying ruins would be." (F4) "Oh what about ocean currents for sail routes and speed?" (F5) "With this,
+  like the Settlementforge map generation, a world map should already be generated then made edit able by a player.
+  But there should be preconfiguration options (random all, basic, advanced) for all user types. What are your
+  thoughts and how should that be filled out?" (F6) "Or the inclusions of biomes so that when and how they're
+  simulated is organic." (F7) "Or a simple configuration called "based off of my settlements" as in they make a
+  campaign and have settlements saved so to match and to create dynamic scenarios, just matches a world map to
+  appropriately include everything that is necessary for those settlements, that and an optional button that says
+  allows a user to automatically place a settlement into a preexisting map in a best placement. Also as it comes to
+  biomes, if we place a settlement with dossier arid biome into a map that doesn't have an arid biome, the map has to
+  self correct but that shouldn't just be a random arid dot in the middle. What are your thoughts or how would you
+  refine?" (F8) "Now, we also have to consider that the DM may author a different biome one day. In this case, a
+  warning or pop up, and/ir it changes the dossier fact only after user approval from the warning." (F9) "Now I threw
+  a lot of pieces at you. This should be all coherent and refined, tell me your thoughts." … "The one generation
+  surface feature needs to also cohere with the one authority and approval model. Both options should apply to the
+  same situation or in sequence." … "That was wrong I meant One requirement solver not the one authority." … "But they
+  should also be one process where appropriate." (F16) "Ok now using the best combinations of models and effort for
+  efficiency and efficacy please integrate these designs cohesively and coherently into the architecture." — the
+  integration rule, obeyed by the spine `docs/design/spine-world-growth-2026-10-23.md` and the J392 model ruling (file r
+  item 1029), by no one mechanism here. Obeyed by **three lifetimes** (V13 §3.0's table, §3.2.1, §3.4, §3.6):
+  formation as the recipe's first op — crust blocks, uplift, erosion, glaciation, sea-level stands and soils run once on
+  the formation grid, their results baked into the op as content-hashed chunks and every intermediate deleted, so a
+  formation code change moves no stored world (F1; T-V13-57); the living physics — monthly climate with its wind belts,
+  monsoon term and ocean currents, hydrology and potential natural vegetation — re-derived on every edit, the whole
+  monthly march re-run on a relief or water edit (F2's dynamism; §3.14); and campaign-time ecology as cover plates, a
+  pure function of dated host facts and dated DM events, never a clock of the map's own, never the dossier's biome
+  (F2, F3; `WORLD_COVER`, §3.6 (5)); by **the two verbs on every physical layer** — `paintLayer` under *always so* an
+  `Override` the physics builds around, `disturb` under *this happened* a `Disturbance` the land recovers from — and
+  **the physics pass** at three depths on the counterfactual fork, never touching a placed frame's interior (F3; §3.14.1,
+  §4.1, §4.5); by **ruins by settlement age** on the base's side at generation only (F3; §4.2 S2, II.7.6); by **sail
+  routing** over the living currents and winds, every sea leg priced by direction, month and vessel kind, the host's
+  lane symmetric until it adopts direction (F4; §3.8 (12), §3.11.6); by **one requirement solver that is the pipeline**
+  — every option, inclusion, included settlement, lock, edge charter and host verdict a `Requirement` of one run, each
+  stage satisfying and verifying, one bounded back-step, corrections as recipe ops, the verification report, the same
+  process resumed at placement with the whole-map search, the three offers and organic self-correction at a minimum
+  extent with graded edges, never an arid dot (F6, F7, F9; §3.0, §3.1, §3.11); by **the generation surface** whose
+  semantics this volume owns — a world generated first, every option random / set / locked, the choices stored apart
+  from the rolled facts, nothing hidden, the gate at the one generate action (F5; §3.1, §4.2; V09 §4.22); and by **the
+  ladder and the conflict list** — dossier facts above the DM's overrides and locks above the user's requests above
+  plausibility above randomness, the list asking exactly at a rank crossing with its seven choices (five offered everywhere, `moveTown` and `changeRequest` where the ladder admits them), the dossier changed
+  only on the user's approval and only through the host's own command, shown done on its confirmation (F8; §3.11.5,
+  §3.11.6, §4.1).
 
 ### 1.4 Out of scope, with the reason
 
@@ -73774,10 +74074,14 @@ the words.
   settlements' alignment, beside the political facts above — are the host's: this volume simulates none of them and
   draws them only as lenses over the facts the host sends each advance (V13 §5.8, §5.9), inventing none — no field over
   land, no motion without a host clock, no effect the host does not apply, no meaning it does not compute (J-V13.89).
-* **Tectonics, erosion over time, fluid dynamics, a sphere, an economy or military simulation** (item 138 (d)): not
-  built (J-V13.40 – J-V13.45); a tectonic pass may later be one recipe operation emitting ranges and troughs
-  (J-V13.41), and one optional deterministic stream-power pass at world scale is reserved as a recipe operation
-  (`erode`, V13 §3.2) and shipped absent.
+* **Fluid dynamics, a sphere, an economy or military simulation** (item 138 (d)): not built (J-V13.43 – J-V13.45).
+  **Tectonics and erosion over time** (item 138 (d)'s first two clauses, superseded by the owner's F1, file r item
+  926): built once, at the world's birth, inside the formation op (V13 §3.2.1) and again only under the physics pass's
+  `weather` depth (V13 §4.1) — baked and deleted, never live, never a simulation the campaign runs (J-V13.107,
+  J-V13.108); no `erode` op exists (the `weather` op is its one spelling). **A live simulation of anything after
+  birth** is out of scope: the living physics is law re-derived from data (V13 §3.4–§3.6), the ecology a pure
+  function of dated facts (V13 §3.6 (5)) — no crust block moves, no clock steps a forest, no roll strikes a fire; what
+  happens, happened in the host or by the DM's hand.
 * **FMG embedding or a second fork** (item 138 (b); the brief's Part C): no code of the reference generator is run,
   ported or read for identifiers; the adapter reads its full JSON export as data by a version-pinned schema held in one
   adapter folder (V13 §3.15), and the exports write its ecosystem's shapes from a schema file in the same folder, the
@@ -73822,14 +74126,14 @@ listed without a consumer.
 | piece | fed by (producer) | feeds (consumers) | home |
 |---|---|---|---|
 | `WorldDocument` (a `Document` of product `world`; V13 §2.2) | W0 at creation; every world edit's fold | every world stage; the placement step; the port; the world view; the adapter writes one | §2.9 (BCR-V13-5); `Recipe.product: 'world'` (BCR-V13-7) |
-| `WorldRecipe` (extent, units, the terrain recipe's op list, the options snapshot, the version table) | W0 from the request; `worldRecipe` edits (V13 §4.1) | W1 (the op list), W3 (the pole inputs, the wind), W5 (the matrix choice), every stage (the snapshot); the report's recipe line | V13 §2.2 |
-| `WorldRaster` — `dem` (Int32 cm against the world datum), `carveDeltaCm` (sparse), `flowDir`, `flatRank`, `flowAccum`, `watershed`, `biome`, `landUse`, `geology`, the climate raster (`tempDeciC`, `seasonAmpDeciC`, `seasonPhaseWeek`, `precipMm`, `evapMm`, `windCdeg`, `windStrength`) and the fine→coarse index map | W1 (dem, carve delta, the index map), W4 (flow, accumulation, watershed), W3 (the climate raster), W5 (biome, land use), W1's geology op (`geology`); `culture` from the host's seats or the recipe, spread by W8 (SW-09) | W2, W4, W5, W6, W7 (the cost surface), W8, W9; P1–P4; the charter; the port; the view; the exports; V14's G3 siting and E1's `worldFactsAt` | V13 §2.2 |
+| `WorldRecipe` (extent, units, the terrain recipe's op list — the formation op first where a scenario was asked —, the request's choices with their random sentinels, its requirements with their decisions, the world context, the edge charters it was generated from, the options snapshot, the version table) | W0 from the request; `worldRecipe` edits (V13 §4.1); the solver's corrections (`origin: 'solver'`); `setRequirements`, `decide`; the physics pass's `weather` op | W1 (the op list), W3 (the pole inputs, the wind, the world context), W5 (the matrix choice on an import), every stage (the snapshot; the requirements it satisfies and verifies), the conflict list, the world dialog's chips; the report's recipe line and the verification report | V13 §2.2 |
+| `WorldRaster` — `dem` (Int32 cm against the world datum), `carveDeltaCm` (sparse), `flowDir`, `flatRank`, `flowAccum`, `watershed`, `biome` (the potential natural vegetation), `landUse`, `geology`, `bedrock` and `soil` (on the formation grid), the climate raster (the annual summaries `tempDeciC`, `seasonAmpDeciC`, `seasonPhaseWeek`, `precipMm`, `evapMm`, `windCdeg`, `windStrength`; the monthly arrays `tempMonthDeciC`, `precipMonthMm`, `windMonthCdeg`, `windMonthStrength`; the ocean's `currentMonth` and `sstAnomalyDeciC`; `maritime`) and the fine→coarse and fine→formation index maps | W1 (dem, carve delta, the index maps; the formation op's baked `bedrock` and `soil` and the formation-grid DEM it refines), W4 (flow, accumulation, watershed), W3 (the climate raster, monthly, and the currents), W5 (biome, land use), W1's geology op (`geology`; derived from `bedrock` where no op wrote it); `culture` from the host's seats or the recipe, spread by W8 (SW-09) | W2, W4, W5, W6, W7 (the cost surface; the sea legs' winds and currents), W8, W9; P1–P4; the charter; the port; the view; the exports; the cover fold (`WORLD_COVER`: `biome`, `soil`); V14's G3 siting and E1's `worldFactsAt` | V13 §2.2 |
 | `WaterSurface` (sea · lake · reach; `elevationCm`; `date`; `open`; `subtype`; `outlet`; `body`) | W2 (sea, lakes), W4 (reaches' stage), `setSurface` edits (dated), V06's `terrainWater` ops at an epoch, the adapter | the water class test; W4 (lake levels as spill heights); the frame's surfaces (the charter's `waterEdges`); the view (water at its level); the exports; V04's `flood` reading; V14's G6 | V13 §2.2; the frame's `Terrain.surfaces` (BCR-V13-2) |
 | `Reach` (a world river reach: course, discharge, width and depth profiles, stage, basin, navigability, mouth kind, exit head) | W4 | W6 (discharge term), W7 (navigable reaches, river crossings' cost), W9 (river labels), the charter's `riverCrossings`, the port, the exports, V14's E3 | V13 §2.2 |
 | `Watershed` (basin id, outlet, area, the off-map `exitHeadCm`) | W4 | the charter's `downstreamHeadCm`; the cascade's dirty set (V13 §3.14.2); W6; the clerk | V13 §2.2 |
 | `GroundwaterField` (the table per hydro cell, the springs, the recharge gradient) | W4's groundwater step at world scale; the frame's groundwater step (V13 §3.12.3) at frame scale | `waterTableAt` (BCR-V13-3: the basement gate, V04's floors, V14's G6), the water class test, W6's spring term, S12a's well yield (§4.2 S1 (10) reads the ground class; the yield's table reads the depth), the view's spring pins, the exports | V13 §2.2; the frame's `Terrain.groundwater` (BCR-V13-2) |
 | `FrameCharter` (frame in cm, datum, edge elevation profiles, water edges, river crossings, downstream head, roads, climate scalars, water table, biome, resources, territory, sites, `source`) | P4 (both directions): from the world at a world-first placement, from the frame and the blend at a settlement-first one; `WorldPort` writes the host's copy | S0 and S1 as the one input record (BCR-V13-4); the frame's `Recipe.charter` (BCR-V13-5); V14's G3 and E1; the port's per-campaign charter; the clerk | V13 §2.2 |
-| `Placement` (subject, origin, bearing, `mirrored`, `precedenceStamp`, `coherenceCost`, `since`) | P1 (proposed), the `placeFrame` / `setPlacement` / `mirrorFrame` / `worldWins` edits (V13 §4.1); V14's G8 adoption moves a site's placement into its settlement's | the world↔frame transform (`toWorld`, `toFrame`, V13 §2.2); P2–P5; the glyph (W9); DR29's latitude and the orientation-dependent terms (V13 §3.11.5); the compass (§9.5, BCR-V13-16); the port; V14's free-standing site (its card's `placementRef`, V14 §2.2; SW-11) | V13 §2.2 (item 140 M6) |
+| `Placement` (subject — a frame, a site or a world, file r item 1030 —, origin, bearing, `mirrored`, `precedenceStamp`, `coherenceCost`, `since`) | P1 (proposed), the `placeFrame` / `setPlacement` / `mirrorFrame` / `worldWins` edits (V13 §4.1); `requestCharter`'s world subject (V13 §3.11.4, P4 only) and `placeFrame`'s rung-general form (the fitted child, item 975); V14's G8 adoption moves a site's placement into its settlement's | the world↔frame transform (`toWorld`, `toFrame`, V13 §2.2); P2–P5; the glyph (W9); DR29's latitude and the orientation-dependent terms (V13 §3.11.5); the compass (§9.5, BCR-V13-16); the port; V14's free-standing site (its card's `placementRef`, V14 §2.2; SW-11) | V13 §2.2 (item 140 M6) |
 | `PlacementAnomaly` (a reported impossibility under a lock) | P5 and the cascade | the clerk, the report, V09's panel | V13 §2.2 |
 | `WorldRoute` (a graph edge: ends, mode, class or the host's grade, polyline, time stations, lay version, origin; bound: the host's edge key) | W7 — on a standalone world by its own selection; on a host-bound world laying exactly the host's genesis edges and lived changes (V13 §3.8) | the charter's `roads`, the port's `routes`, `routeFacts` and `mapFeed`, W6's economic stage, W9's labels, the view, the exports; V14's E1 (the world-map case reads the route at the point) | V13 §2.2 |
 | `Territory` (the seat territory, W8a: seat, coarse cells, refined crossings, border, pole, neighbours; provinces on a standalone world) | W8a from the bound seats, or the recipe's seats standalone | the canon's travel slot; the charter's `territory`; W8b (the culture term's home seat); W9's labels; the diagnostic `seatTerritory` layer; the exports | V13 §2.2 |
@@ -73859,12 +74163,20 @@ listed without a consumer.
 | `waterTableAt(doc, p, when?)` (one function) | the frame's `GroundwaterField` | §2.6's basement gate, V04's wet tests (`hallDryCm`, `flood` admission), V14's G6, the water class test, S12a's well yield | §2.6 *Basements* (BCR-V13-3) |
 | the address namespace segment (item 140 M1) | the document's `namespace` at creation (V13 §2.5) | every address of a world, a frame or a site document; the merge rule (bar 7); V14's `SiteReach` (an access record's reach into a site document, V14 §2.3; SW-21) | §6.3 (BCR-V13-6) |
 | `EditBase.verb` (`happened` · `alwaysSo`) | every terrain and water edit (V13 §4.1) | the fold (traces kept or the base rewritten), undo, the clerk | §7.1 (BCR-V13-9) |
-| the tables `world.sizes`, `world.recipeOps`, `world.climate`, `world.hydro`, `world.groundwater`, `world.biomes`, `world.suitability`, `world.routes` (the host's cost law: a host slice and the default row), `world.routeLay` (the map's lay rules), `world.travel` (the host's travel law: a host slice and the default row), `world.polity`, `world.lens` (the lenses' rule), `world.labels`, `world.glyph`, `place.coherence`, `water.class`, `water.flood` (V13 §2.3) | shipped defaults; `editTable` (§7.6) | the stages named per table in V13 §2.3; V12's register | §7.6; V11's registry (new rows, V13 §2.3) |
-| the stage warnings `W_WORLD_RECIPE_CLAMPED`, `W_WORLD_SINK_UNRESOLVED`, `W_WORLD_LAKE_BREACHED`, `W_PLACE_BENT`, `W_PLACE_NO_LAWFUL`, `W_PLACE_ANOMALY`, `W_BLEND_CLIPPED`, `W_SURFACE_NO_BODY`, `W_GW_PERCHED_IGNORED`, `W_IMPORT_LOSS`, `W_IMPORT_REPAIRED`, `W_CASCADE_TRUNCATED`, `W_TRAVEL_BAND_CROSSED`, `W_HOST_CANON_BEHIND`, `W_EDIT_DOSSIER`, `W_WORLD_HEMISPHERE`, `W_POLITY_CYCLE`, `W_POLITY_TWO_LIEGES`, `W_POLITY_CULTURE_ABSENT`, `W_POLITY_STRENGTH_ABSENT`, `W_POLITY_SATELLITE_UNPLACED`, `W_SWAY_LOCK_CONTRADICTED`, `W_IMPORT_SCALE_ASSUMED`, `W_IMPORT_LEGACY_BURG`, `W_IMPORT_PLACEMENT_UNVERIFIED` | the stages and steps named in V13 §3.16 and §7.5 | the report's `stages[].warnings` (§5.4), V10 | §5.4 (BCR-V13-18) |
+| the tables `world.sizes`, `world.recipeOps`, `world.formation` (the scenarios and the formation laws), `world.soil`, `world.climate`, `world.koppen` and `world.pnv` (the classification and the potential vegetation), `world.cover` (human use, succession and recovery), `world.hydro`, `world.groundwater`, `world.biomes`, `world.suitability`, `world.routes` (the host's cost law: a host slice and the default row), `world.routeLay` (the map's lay rules), `world.sailing` (the vessel polars, the current coupling, the month sets), `world.travel` (the host's travel law: a host slice and the default row), `world.solver` (the back-step bound, the minimum extents, the graded-edge widths), `world.presets` (the surface's named presets), `world.polity`, `world.lens` (the lenses' rule), `world.labels`, `world.glyph`, `place.coherence`, `water.class`, `water.flood` (V13 §2.3) | shipped defaults; `editTable` (§7.6) | the stages named per table in V13 §2.3; V12's register | §7.6; V11's registry (new rows, V13 §2.3) |
+| the stage warnings `W_WORLD_RECIPE_CLAMPED`, `W_WORLD_SINK_UNRESOLVED`, `W_WORLD_LAKE_BREACHED`, `W_PLACE_BENT`, `W_PLACE_NO_LAWFUL`, `W_PLACE_ANOMALY`, `W_BLEND_CLIPPED`, `W_SURFACE_NO_BODY`, `W_GW_PERCHED_IGNORED`, `W_IMPORT_LOSS`, `W_IMPORT_REPAIRED`, `W_CASCADE_TRUNCATED`, `W_TRAVEL_BAND_CROSSED`, `W_HOST_CANON_BEHIND`, `W_EDIT_DOSSIER` (the conflict list, V13 §3.11.5 (1)), `W_WORLD_HEMISPHERE`, `W_POLITY_CYCLE`, `W_POLITY_TWO_LIEGES`, `W_POLITY_CULTURE_ABSENT`, `W_POLITY_STRENGTH_ABSENT`, `W_POLITY_SATELLITE_UNPLACED`, `W_SWAY_LOCK_CONTRADICTED`, `W_IMPORT_SCALE_ASSUMED`, `W_IMPORT_LEGACY_BURG`, `W_IMPORT_PLACEMENT_UNVERIFIED`, `W_FORMATION_VERSION`, `W_FORMATION_RELICT`, `W_REQUIREMENT_UNMET`, `W_SOLVER_BACKSTEP`, `W_SOLVER_PAINTED`, `W_MONSOON_CONTEXT`, `W_PHYSICS_CLIPPED`, `W_SAIL_LEG_CHANGED`, `W_DOSSIER_PENDING`, `W_WEATHER_STALE` | the stages and steps named in V13 §3.16 and §7.5 | the report's `stages[].warnings` (§5.4), V10; the verification report (`W_REQUIREMENT_UNMET`) | §5.4 (BCR-V13-18) |
 | the lens warnings `W_LENS_REGIME_ABSENT`, `W_LENS_PLATE_GAP` | the lens fold and the scrub (V13 §5.8) | the lens legend, V10 — never the report's `stages[].warnings` (a lens is never a stage) | V13 §7.5 |
-| the concerns `world.recipe`, `world.climate`, `world.resources`, `world.siting`, `world.polity` (reserved: W8a and W8b draw nothing), `world.patrol` (the patrol phase hash keyed by (segment, power), V13 §3.9 (14); no stream of draws; its row appended to the kernel's concern registry, BCR-V13-8), `world.labels`, `place.search`; the stage ids `W0` … `W9`, `P1` … `P5`, `WORLD_CASCADE` | the registry (BCR-V13-8) | every draw of V13 §3.17 | §6.1 |
-| the view keys `worldZoom`, `worldLayer`, `showTraces`, `surfaceDate`, `worldUnits` (the display unit of the scale bar and the distance labels; per viewer), `worldLens` (the lenses open and the picker's collapsed rows) and `lensWeek` (the week the lenses draw) | V09's controls | the world view's level (V13 §5.2), the trace projection, the dated surface drawn (V13 §5.1), the lenses at their week (V13 §5.8 (8)) | §2.9 (BCR-V13-5) |
+| the concerns `world.recipe` (the template and scenario draws; W1's noise; the solver's back-step candidates by ordinal), `world.formation` (the formation op's draws: the block seeds, the crust blobs, the relict sutures, keyed by the op's `seedIx` and the draw's ordinal or position), `world.climate`, `world.resources`, `world.siting`, `world.solve` and `world.cover` (reserved ids, not streams: the verification report and the cover fold draw nothing), `world.polity` (reserved: W8a and W8b draw nothing), `world.patrol` (the patrol phase hash keyed by (segment, power), V13 §3.9 (14); no stream of draws; its row appended to the kernel's concern registry, BCR-V13-8), `world.labels`, `place.search`; the stage ids `W0` … `W9`, `P1` … `P5`, `WORLD_CASCADE`, `WORLD_SOLVE`, `WORLD_COVER`, `WORLD_PHYSICS` (the three appended after M0 under K6, BCR-V13-43) | the registry (BCR-V13-8, BCR-V13-43) | every draw of V13 §3.17 | §6.1 |
+| the view keys `worldZoom`, `worldLayer` (now admitting the values `landCover`, `soil`, `bedrock`, `landforms`, `currents` and `monthly` with a month sub-key — V13 §5.1's rows; no new key), `showTraces` (the override hatch among the traces), `surfaceDate`, `worldUnits` (the display unit of the scale bar and the distance labels; per viewer), `worldLens` (the lenses open and the picker's collapsed rows) and `lensWeek` (the week the lenses and the land-cover layer draw) | V09's controls | the world view's level (V13 §5.2), the trace projection, the dated surface drawn (V13 §5.1), the lenses and the cover plate at their week (V13 §5.8 (8), (9)) | §2.9 (BCR-V13-5) |
 | the register entries of this volume's calibratable columns (V12 §2.6's `CalibrationEntry`) | the seat landing each step of V13 §8 | V12's lint at each step's exit; the corpus stage at `M-CAL/world` (V12 §3.10.5) | §13.7, §13.9 |
+| `Requirement`, `Conflict`, `Decision`, `VerificationReport` (the solver's records, V13 §2.2) | W0 from the request, the included settlements' facts (`CampaignFacts`), the DM's locks and overrides, the edge charters and `hostRequires`; every stage's verify duty; `decide` | every stage's satisfy duty; the back-step; the conflict list; the world dialog's chips and live conflicts; `placeFrame`'s resumed process; V15's `solve` call | `Recipe.world.requirements`, `.decisions` (V13 §2.2); the report in `derived` |
+| `Override` (an always-so paint of a physical layer) and `Disturbance` (a this-happened dated physical event) | `paintLayer` and `disturb` (V13 §4.1); a host event the DM attributes | every re-derivation of the painted layer (an override is a boundary condition of the dirty set); the cover fold (a disturbance resets a cell's clock); the view; the clerk | the world's entities block (V13 §2.2) |
+| `CoverPlate` (land cover per host advance or dated disturbance: a Uint8 class per fine cell, the cells' last event week, delta-coded) | the cover fold `WORLD_COVER` at each lens window's fold and at each `disturb` | the `landCover` layer at `lensWeek`, `worldFactsAt.landCover` (V14's E1 crop; the frame's surroundings at view time), `landCoverAt`, the `physicalChange` offer, the settlement map record's `landCoverShare`; no stage | the cover cache (`Document.coverPlates`, BCR-V13-41), outside every digest |
+| `Landform` (a range, volcano, caldera, rift, fault, hotspot chain, glacial lake, fjord, plateau, basin, trench, arc, ria, raised beach or suture made by formation) | the formation op's bake (W1); `setAttr` (its name, `active`) | W9's names and label candidates (the `range` kind's producer), the `landforms` layer, the exports, the charter's `landforms`, `worldFactsAt`, the clerk | the world's entities block |
+| `WorldEdgeCharter` (the present physical ground along one edge of a world, never a record: `FrameCharter`'s sibling one rung up) | `edgeCharter(world, side, span)` on a finished world | W0 of a world generated into a void beside it, as locked requirements (a continuation); V15 carries it, never reads it for drawing | the recipe of the world generated from it, with each neighbour's version (provenance; `WorldRecipe.edgeCharters`) |
+| `RenderedWorld` (`renderAt`'s reading: tiles, extent, datum, latitude box, rung, present week, date label, known sets per audience) | `renderAt(world, week, audience)` | V15's atlas (the only reading of a member it takes) | never (a view read) |
+| `SailingLeg` (one sea leg's effort by vessel, month and direction, with its laid polyline where it differs) | W7's sail routing over the climate's winds and currents (V13 §3.8 (12)) | `WorldRoute.sailing`, the `routes` layer's month slider, `routeFacts`' offer (H33: the directional efforts and their symmetric mean, behind the host's switch; the canon's water metres unchanged, J393) | derived per (lane, geometry version, climate version), cached in `derived`, never a digest |
+| the formation op's baked chunks (the formation-grid DEM, `bedrock`, `soil`; the landform ids) and the `weather` op's baked delta | the formation op run once at W1's first run; the physics pass's `weather` depth | W1 on every later run (read, never re-run), the share code (the payload hash, re-fetched) | the world's `fields` chunks referenced by content hash from the op (V13 §2.7) |
 
 ### 1b.2 Stage outputs and interfaces
 
@@ -73900,10 +74212,22 @@ listed without a consumer.
 | `lensAt(world, lens, week, audience)` → the lens's marks at a week: its regime banner, each element's marks with their class labels, its legend, its declared gaps (V13 §5.8) | `@plat/world/lens` | the world view's lens layers, the picture exports of a lens view, T-V13-47 – T-V13-56 |
 | `lensWhy(world, lens, mark, week)` → the host facts a mark reads and the rule that drew it (the sway's `whyCell` generalised) | `@plat/world/lens` | V09's hover and card on a lens mark |
 | `foldLensWindow(world, sets)` → one `LensPlate` in the plate cache (`Document.lensPlates`); `pinPlate(world, seq, pinned)` (a DM's cache command, never an edit) | `@plat/world/lens` | the port's `lensWindow`; V09's scrub bar |
+| `solve(requirements, state, goal)` → `SolveResult { ops; placements?; report; conflicts }` (V13 §3.0, §3.11: the pipeline's one entry — `goal: 'generate'` runs W0 → W9 with the satisfy and verify duties, `'leastChange'` resumes at placement over an existing world, `'arrange'` runs over placements only, no world stage) | `@plat/world/solve` (a driver over the stages, never a second engine) | `generate` with a `WorldRequest`; `placeFrame` (the best form and the dry run); `setRequirements`; the world dialog's preview (the coarse run); V15's atlas arrangement (`'arrange'`) |
+| `edgeCharter(world, side, span)` → `WorldEdgeCharter` (V13 §2.2: the neighbour's PRESENT physical ground along one edge at the moment it is read — never a record) | `@plat/world/place` | V15's continuation request; W0 of the next world (locked requirements, V13 §3.1 (6)); T-V13-68's present-ground test (J393) |
+| `renderAt(world, week, audience, opts?: { layers?: ('settlements'|'labels')[] })` → `RenderedWorld` (the world's tiles at a week for an audience over the `atlas` layer set — or, with `opts.layers`, over the named rows of the set alone (V15 §3.5 (a)'s towns kept on the parent, drawn over the child; C15-28) — with the placed label boxes per stop, its extent, datum, latitude box, rung, present week, date label and the audience's known sets; V13 §5.4) | `@plat/world` over §8.1's tiles | V15's atlas (the only reading of a member); the picture exports |
+| `foldCover(world, at: { window } \| { disturbance })` → one `CoverPlate` in the cover cache (`Document.coverPlates`); `landCoverAt(world, wCm, week)` → the class and the weeks since its last event | `@plat/world/ecology` (`WORLD_COVER`) | the lens window's fold (beside `foldLensWindow`); `disturb`'s fold; the `landCover` layer; `worldFactsAt`; the `physicalChange` offer; the settlement map record |
+| the physics pass's operators `rederive(world, scope)`, `release(world, scope, keepHistory)`, `weather(world, scope, years)` (V13 §4.1's `physicsPass`; each folds on the fork and `commitFork` carries it) | `@plat/world` over the cascade (`WORLD_PHYSICS`) | `physicsPass`; T10 `hold`'s physics toolbar (V09 §4.22) |
+| `sailLeg(world, a, b, vessel, month, direction)` → `SailingLeg` (V13 §3.8 (12)) | `@plat/world/routes` over the climate's monthly winds and currents | W7 (the water legs per direction and season); `routeFacts`' offer; the `routes` layer's month slider; V14's E1 (a sea route at the point in its month) |
+| `placeFrame`'s rung-general form — `PlaceContext.frame` a world document (`subject: { kind: 'world'; doc }`): P1's terms over the child's edge profile at its own cell size, P2's band in the parent scaled by the parent's cell ratio (`place.coherence.blendBandM` × the parent's fine cell ÷ the frame cell of 250 m: 4 000 m under a 500 m realm, 8 000 m under a 1 000 m continent, widened as §3.11.2 widens it; the one statement of the band — V15 keeps no cell for it), P3–P5 as for a frame, the child never changed (V13 §3.11) | `@plat/world/place` | V15's fit of a member into a parent member (the spine's §14.3); never a world's own stage |
+| `formation.run(scenario, knobs, grid, stream)` → the baked payload (the formation-grid DEM, `bedrock`, `soil`, the `Landform`s) — once, at W1's first run of the op; `formation.version` the pin every payload carries | `@plat/world/formation` over the lifted hydro core (`priorityFlood`, `d8`, `accumulate`) and its own `stack` and Flint integral | W1 (the first run only); the `weather` op (its slow processes over the current ground); SP-W9's gallery |
+| `requestCharter` with a world subject → `WorldCharter` (V13 §2.2, §3.11.4: the parent's four edge charters along the extent's sides, its rasters over the extent as the child's coarse ground, its placed frames inside the extent as planned sites) | `@plat/world/place` (P4 only: the world-first order one rung up) | V15's derived-from-parent fit (the spine's §10.6; V15 §3.5 (a)); the child's W0 (`WorldRequest.parentCharter`) and W1 (the coarse ground upsampled as a baked formation-grid DEM is, V13 §3.2) |
+| `charterFor(world, TransientPlacement)` at a world-rung extent → `WorldCharter` (the transient, record-less form of V13 §3.11.4; `WORLD-20`) | `@plat/world/place` | V15's mismatch reading of an image-only child (V15 §3.5 (b)); never persisted |
+| `solve.registerEvaluator(e: ArrangeEvaluator)` (V13 §2.2): the `'arrange'` goal's cost terms over placements, registered by a caller once before its first `solve` | `@plat/world/solve` | V15's atlas-scale kinds (V15 §2.3's words; the spine's §14 (5)); the engine, the ladder, the least-change search and the report stay here |
+| `viewFacts(world, week, audience)` → `ViewFacts` (V13 §2.2, §5.8 (10): the relational style's facts at a week from the plates and the event index, each with its fact class and resolved audience) | `@plat/world/lens` | V15's A6 (the spine's §14 (4)); the clerk's "why this centre" |
 
 Each stage's output is consumed: W1's rasters by W2–W9 and the charter; W2's surfaces by W4, the water class test and the
 view; W3's climate by W4, W5, W6 and the charter; W4's reaches, watersheds and groundwater by W6, W7, the charter, the
-port and V04; W5's biomes by W6, W7's cost, the charter and the view; W6's proposals by the host and V14; W7's routes by
+port and V04; W5's potential vegetation by W6, W7's cost, the charter, the view and the cover fold; the formation op's baked rasters and landforms by W1 (the refinement), W4 (permeability through `geology`), W5 (the soil overrides and the resource rules), W9 (the landform labels), the charter and the view; W3's monthly winds and currents by W7's sea legs; the cover plates by the view, `worldFactsAt` and the `physicalChange` offer, by no stage; the solver's report by the world dialog and the clerk; W6's proposals by the host and V14; W7's routes by
 the charter, the port and W6's second stage; W8a's seat territories by the canon, the charter, W8b and W9; W8b's sway by `worldFactsAt`, the map feed, the view and V14; W9's labels and glyphs by
 the view and the exports; P1–P5's placement and charter by the frame's S0–S1, the glyph, the port and V14.
 
@@ -73923,7 +74247,15 @@ the view and the exports; P1–P5's placement and charter by the frame's S0–S1
 | `setSwayLock` (cells or a sway held by a named holder or kept unclaimed against later revisions: the DM's word is canon on a standalone world; on a host-bound world a presentation lock the view and the clerk read and the map feed's crossing holders and `patrolOffer` never do) and `divide` (invented provinces on a standalone world) | T9 `shape` | V13 §2.6's sway row | the former lock; the replaced W8b scope |
 | `adjust` of `world.size`, the pole inputs, the matrix choice (a Re-derive from Wk; the physical extent changes only through `world.size`, its travel delta reported) | T1 `intend` | §7.4's adjust row | the replaced scope |
 | `fork` / `discardFork` / `commitFork` (the counterfactual fork) | T10 `hold` (Preview-on-a-copy) | V13 §2.6's fork row | a fork is never in the canonical log until committed (V13 §4.5) |
-| `regenerate` on a world stage's scope (`EditScope { kind: 'world'; stage; box? }`, V13 §4.1: New random on W1's noise, W5's thinning, W6a's or W6b's tie-breaks) | T10 `hold` | §7.4's regenerate row | the replaced scope |
+| `regenerate` on a world stage's scope (`EditScope { kind: 'world'; stage; box?; region? }`, V13 §4.1: New random on any stage over a box or a region — the formation op re-drawn and re-baked under a new scenario draw (`stage: 'formation'`), W1's noise, W3's start jitter, W5's thinning, W6a's or W6b's tie-breaks, W9's names — the recipe's other ops kept; it asks when it would overwrite a lock or an override, V13 §3.14.1) | T10 `hold`; the world dialog's targeted rerolls (V09 §4.22) | §7.4's regenerate row | the replaced scope |
+| `setRequirements` (the request's requirements and choices replaced; a Re-derive from the earliest stage a changed requirement affects, the decisions that rested on the changed ones re-asked) | T1 `intend`'s world dialog (V09 §4.22) | V13 §2.6's requirements row | the former set and the replaced scope |
+| `decide` (a conflict's decision, remembered with its requirement and what it rested on) | the conflict list (V09 §4.22) | V13 §2.6's decisions row | the former decision |
+| `paintLayer` (`biome`, `soil`, `landCover` or `current` painted under `alwaysSo` only: an `Override`, a boundary condition of every later dirty set) | T2 `ground`'s layer brush | V13 §2.6's overrides row | the override removed; the scope re-derived |
+| `disturb` (a fire, flood, clearing or eruption stamped under `happened` only: a dated `Disturbance` the cover fold recovers from) | T2 `ground`'s disturbance stamp; a host event the DM attributes (T9 `shape`'s "this happened here") | V13 §2.6's disturbances row | the disturbance removed with its event; the cover plates after it re-folded |
+| `physicsPass` (a scope × a depth — rederive, release with `keepHistory`, weather with `years`; always on the fork, committed by `commitFork`) | T10 `hold`'s physics toolbar (V09 §4.22) | V13 §2.6's fork row; a `weather` op the recipe row; a release the overrides row | the fork discarded before commit; a committed pass undone as its group (a `weather` op removed; released overrides restored) |
+| `placeFrame` with `best: true` (the resumed process: the whole-map search under the least-change goal, the three offers with their reasons, the back-step only when none is lawful) | T6 `place`'s **Best placement** button (V09 §4.22); the host's one-button placer through the port (H31) | V13 §2.6's placement row | the former placement; a correction op removed with it |
+| `requestDossierUpdate` (the conflict list's "update the dossier", in its kind — the land changed, or it was always so: a request the host carries out after the user's approval and answers with `dossierUpdated`) | the conflict list | V13 §2.6's dossier-request row | the map's own undo withdraws an unconfirmed request (`W_DOSSIER_PENDING` cleared); a confirmed one is sealed — the host's own undo retracts it with a later `dossierUpdated` |
+| `fit` (`placeFrame`'s rung-general form: a world document as the frame; V15's call, V13 §3.11) | V15's atlas page | V13 §2.6's placement row | the former placement |
 
 `worldZoom`, `worldLayer`, `showTraces`, `surfaceDate`, `worldLens` (the lenses open and the picker's collapsed rows)
 and `lensWeek` (the week the lenses draw; default the document's week) are view keys (§2.9), set by V09's per-viewer
@@ -73934,7 +74266,7 @@ controls, never edits and never undone; `pinPlate` is the DM's command on the wo
 
 | entity | rendered (V13 §5.1) | labelled (V13 §5.3) | exported (V13 §5.4) | persisted |
 |---|---|---|---|---|
-| the world raster (`dem`, `biome`, `landUse`, the climate) | the relief, biome and climate layers | none | the heightmap image, the ecosystem-shaped JSON's cell arrays, GeoJSON cells, CSV | the world's `fields` chunks |
+| the world raster (`dem`, `biome`, `landUse`, `bedrock`, `soil`, the climate with its monthly arrays and the currents) | the relief, biome, soil, bedrock, climate, monthly and currents layers | none | the heightmap image, the ecosystem-shaped JSON's cell arrays, GeoJSON cells (soil and bedrock as properties), CSV | the world's `fields` chunks (the formation op's baked chunks among them, referenced by content hash) |
 | `WaterSurface` | the water at its level (sea, lakes), a reach's stage as its width | lakes and seas by name | GeoJSON features, the ecosystem-shaped JSON's lake features | entities block |
 | `Reach` | the river by width class | named rivers | GeoJSON LineString, the ecosystem-shaped JSON's river entities, CSV | entities block |
 | `Watershed` | the basin overlay (thematic) | none | GeoJSON (on request) | entities block |
@@ -73950,6 +74282,14 @@ controls, never edits and never undone; `pinPlate` is the DM's command on the wo
 | `TerrainTrace`, `SurfaceTrace` | the trace projection (dashed old shore, the dry bed hatch) under `showTraces` | none | GeoJSON (kind `trace`) | entities block |
 | `ReasonRecord` | never | never | the JSON schema's `why` block (on request) | entities block (outside the model digest, inside the records digest; V13 §2.7) |
 | `PlacementAnomaly` | a notice pin | its line | none | derived; never persisted (V13 §2.4) |
+| `Landform` | the `landforms` layer: the outline, the crest line, an active volcano's mark | its name along its crest or at its centre (the `range` label kind's producer, V13 §3.10 (2)) | GeoJSON (kind, name, `heightM`, `active`), CSV | entities block (baked by the formation op; `name` and `active` edited attributes kept, §7.2) |
+| the cover plate (`CoverPlate`) | the `landCover` layer at `lensWeek`, audience-filtered as a lens's marks are and labelled "derived land cover" (V13 §5.8 (9)) | none | the picture exports as drawn; a CSV of cover shares per settlement on request; never the ecosystem-shaped exports (the import has no such layer) | the cover cache (`Document.coverPlates`, BCR-V13-41), outside every digest |
+| `Override` | the painted layer's cells with an override hatch under `showTraces` | none | GeoJSON (kind `override`, the layer, the value) | entities block |
+| `Disturbance` | the `events` layer at its week; the scar through the cover plate's succession stage | its kind and week on hover | GeoJSON (kind `disturbance`) | entities block |
+| `Requirement`, `Conflict`, `Decision`, `VerificationReport` | the world dialog's chips (derived chips read-only), the live conflicts and the conflict list; the report panel | never | the report as JSON on request | the recipe (`Recipe.world.requirements`, `.decisions`); a conflict and the report derived, in `derived` |
+| `WorldEdgeCharter` | never (V15 draws nothing of it) | never | V15's continuation request; the schema on request | the recipe of the world generated from it, with each neighbour's version (`WorldRecipe.edgeCharters`); never the neighbour's |
+| `RenderedWorld` (`renderAt`'s reading) | V15's atlas tiles | the date label it carries | the picture exports' source | never (a view read) |
+| `SailingLeg` | the `routes` layer's sea legs per month and direction (a month slider; the out and back courses where they differ) | none | CSV (per leg, vessel, month, direction), `routeFacts` | derived per (lane, geometry version, climate version), cached in `derived`, never a digest |
 
 ## 2 Data model
 
@@ -73974,8 +74314,11 @@ inside a discarded window is unsealed), and `WorldPort.clock(world, week)` is a 
 week }` form for the week drawn, never a model input; V13 §3.12.5). **Edits on a host-bound world follow the host's
 decree law** (V13 §4.1; J-V13.80): held while the host advances or is parked; a *this happened* edit dated at the
 host's next tick head and offered as `physicalChange`, which the host acknowledges (`consumed`, sealing the edit
-against undo); a retcon, a regenerate, a size or climate `adjust` only as a geometry shift the host adopts by its own
-receipted re-canonize; political and military event kinds are refused (`refuse.world.hostPolitical`), the world
+against undo); a retcon, a regenerate, a physics pass (a release of an override or a `weather` op among them), a size or climate
+`adjust` only as a geometry shift the host adopts by its own receipted re-canonize; a dossier update is never a map
+write — the conflict list's `requestDossierUpdate` rides the port and the host's own world-fact command carries it out
+after the user's approval, the map showing it done only on the host's `dossierUpdated` (V13 §3.11.5 (1), §3.11.6);
+political and military event kinds are refused (`refuse.world.hostPolitical`), the world
 editor opening the host's own command for them as for routes (V13 §3.8 (9)); no message proposes one.
 
 **The two coordinate regimes (item 131 (a), (b); J-V13.2).** The **world regime** is a planar, bounded, axis-aligned
@@ -74018,7 +74361,14 @@ interface WorldRecipe {                      // Recipe.world, present exactly wh
   latBox?: { southDeg: number; northDeg: number } /* climate only (V13 §3.4); absent: the size row's default box */;
   poles: { equatorDeciC: DeciC; poleDeciC: DeciC } /* explicit boundary inputs (V13 §3.4) */;
   wind: { bands: { fromDeg: number; toDeg: number; bearingCdeg: Cdeg; strength: number }[] } /* the prevailing winds by latitude band (V13 §3.4); default the climate table's */;
-  recipe: RecipeOp[] /* the terrain recipe, W1 (V13 §3.2): the world's authoring history, every op seeded and stored */;
+  recipe: RecipeOp[] /* the terrain recipe, W1 (V13 §3.2): the world's authoring history, every op seeded and stored; a `formation` op first where a scenario was asked (V13 §3.2.1); the solver's corrections (`origin: 'solver'`) and the physics pass's `weather` ops appended in their turn (V13 §3.1 (5), §4.1) */;
+  choices: OptionChoice[] /* the world dialog's options with their strengths — every option the panel shows, `random` unless set or locked — stored APART from what was rolled: a regeneration re-reads the choices, never the rolled facts (V13 §3.1 (1); J-V13.123) */;
+  requirements: Requirement[] /* the run's requirements (V13 §3.1 (5)): the choices resolved, the biome inclusions, the included settlements' facts and relationships, the DM's locks and overrides, the edge charters, the host's water verdicts; the solver's input and the verification report's rows */;
+  decisions: Decision[] /* the conflicts decided, each with its requirement and what it rested on (V13 §3.11.5 (1)); reused by rerolls and physics passes, re-asked only when what it rested on changed */;
+  include?: { campaign: string; settlements: string[] /* host keys */; version: number /* the `CampaignFacts` window the facts were read at */ } /* "based off of my settlements" (V13 §3.1 (5)): the campaign whose settlements' facts entered as rank-1 requirements; absent on a standalone world */;
+  worldContext?: { monsoon?: { side: 'N'|'E'|'S'|'W'; sizeKm: number; latDeg: number }; ocean?: { side: 'N'|'E'|'S'|'W'; basinSide: 'east'|'west'|'none' /* which boundary of a basin beyond the edge the map's coast is: an east coast is a basin's western boundary */; latSpanDeg: [number, number] }[] } /* the world beyond the map that the living physics reads but never makes below the continent rung (V13 §3.4 (5), (6b)): a continent beyond the edge whose summer heating pulls the monsoon in; the ocean beyond an open edge, its side and latitude span (default: the map's coast is the eastern boundary of a basin to its west in the westerlies' latitudes and of none in the trades'); `set` or `locked` requirements of kind `context`, never emergent at the realm or province rung */;
+  edgeCharters?: { side: 'N'|'E'|'S'|'W'; neighbour: { doc: Uuid; version: string }; charter: WorldEdgeCharter }[] /* a continuation (V13 §3.1 (6)): the atlas neighbours' edge charters this world was generated from, stored whole for provenance as a frame stores its charter (≤ a few hundred KB per edge, V13 §2.7); never re-read after generation but by a re-match on request (V13 §3.1 (6)), which appends the neighbour's live charter with its version — nothing dated crosses a seam */;
+  parentCharter?: WorldCharter /* a child world derived from its parent (V13 §3.11.4's world subject; file r item 1007): the parent's four edge charters, its ground over the extent and its frames as planned sites, stored whole for provenance; never re-read after generation */;
   biomeMatrix: string /* a world.biomes matrix row key */;
   calendarSouth?: boolean /* the calendar hemisphere is the south (V13 §2.3's phase rows swap); absent: the north; on a host-bound world the hemisphere the host's seasons name */;
   seats?: RecipeSeat[] /* standalone: the recipe's seats (W8); on a host-bound world the host's seats arrive through the port (`bindSeat`, `importSeats`) and this is empty */;
@@ -74033,14 +74383,23 @@ type RecipeOp =                                // resolution-independent, in met
   | { op: 'noise'; octaves: number; baseWavelengthM: number; amplitudeM: number; seedIx: number }
   | { op: 'image'; ref: string /* a document asset's content hash (§2.9's packs rule: carried in `packs`) */; toneCurve: [number, number][] /* input 0–1 → metres */; fitTo: 'extent' }
   | { op: 'geology'; shape: 'disc'|'band'; at: WorldPointCm; radiusM: number; kind: 'ordinary'|'soluble'|'volcanic'|'impermeable' }
-  | { op: 'erode'; passes: number /* reserved, shipped absent from every template (J-V13.42) */ };
+  | { op: 'formation'; scenario: string /* a `world.formation` scenario row key (V13 §2.3) */; knobs: FormationKnobs /* the row's knobs as drawn or set (V13 §3.2.1) */; seedIx: number;
+      baked: { version: string /* `formation.version`: the solver's pin — a payload is read under the version it was baked with and never re-run under another (J-V13.111; `W_FORMATION_VERSION` when the library's is newer, informative) */; grid: { cellCm: Cm; cols: number; rows: number } /* the formation grid: `fineCellCm` × the size row's `formationRatio` */;
+               dem: ChunkRef[] /* the formation-grid DEM, Int32 cm, content-hashed `fields` chunks (V13 §2.7) */; bedrock: ChunkRef; soil: ChunkRef; surfaceAge: ChunkRef /* Uint16, log-years: the soil law's time input, kept for the `weather` op */; landforms: Id[] /* the `Landform` entities minted at the bake */;
+               stats: { landShare: number; hackH: number; bifurcation: number; crestM: number; meanLandM: number } /* the bake's own report (T-V13-58) */ } /* the op's RESULT, baked at W1's first run of it; the block set, the velocities, the boundaries, the distance fields, the erosion solver's state and every intermediate are deleted at the bake and exist in no digest (T-V13-57) */ }
+  | { op: 'weather'; years: number; scope: { kind: 'world' } | { kind: 'region'; box: { c0: number; r0: number; c1: number; r1: number } }; seedIx: number;
+      baked: { version: string; inputHash: Hash128 /* the working raster at the op's position when it was baked: W1 reports `W_WEATHER_STALE` when the raster there no longer hashes so */; dem: ChunkRef[] /* the formation-grid delta the slow processes made over the ground as it stood, applied by W1 after the ops before it */; soil: ChunkRef; landforms: Id[] } };   // the physics pass's `weather` depth (V13 §4.1): formation's erosion, hillslope and soil processes with uplift 0 over the current terrain for `years`, baked once on the fork and carried by `commitFork`; never a live process
+  // every op may carry `origin?: 'template'|'user'|'solver'|'physicsPass'|'import'` (absent: as the event's author says) and `requirement?: Id` (the requirement a solver's correction serves, V13 §3.1 (5)) — provenance read by the clerk and the verification report, never by W1; no `erode` op exists (J-V13.108: erosion runs only inside `formation` and `weather`, both baked, never live)
 
 interface WorldRaster {                      // the world's `fields` chunks (§2.9's ChunkRef block 'fields'); every array row-major from the south-west
   fine: { cellCm: Cm; cols: number; rows: number } /* the DEM grid */;
   coarse: { cellCm: Cm; cols: number; rows: number; fineToCoarse: Uint32Array /* per fine cell its coarse cell's index (the index map) */ };
   dem: Int32Array /* fine; cm against the world datum; bathymetry negative; clamped to ±reliefLimitCm (V13 §2.3) */;
   carveDeltaCm: Map<number /* fine cell */, number /* cm lowered by W4's carve; the pre-carve height is dem + delta */> /* item 140 M2; stored sparse (V13 §2.7) */;
-  geology: Uint8Array /* fine; 0 ordinary, 1 soluble, 2 volcanic, 3 impermeable — written by the recipe's geology ops, default 0 */;
+  geology: Uint8Array /* fine; 0 ordinary, 1 soluble, 2 volcanic, 3 impermeable — derived from `bedrock` by `world.formation`'s bedrock→geology row where a formation op ran (V13 §3.2.1 (8)), overwritten inside a `geology` op's disc or band, default 0 on a world with neither */;
+  formation?: { cellCm: Cm; cols: number; rows: number; fineToFormation: Uint32Array /* per fine cell its formation cell (the index map) */ } /* the formation grid: fine × `formationRatio` (4); present exactly when the recipe holds a `formation` or `weather` op or a `parentCharter` (its ground the charter's, V13 §3.11.4) */;
+  bedrock: Uint8Array /* FORMATION grid; `world.formation`'s bedrock classes (0 ordinary sedimentary, 1 shield, 2 folded belt, 3 arc volcanics, 4 flood basalt, 5 limestone, 6 evaporite, 7 alluvium, 8 till, 9 ash, 10 young lava): the formation op's bake; read by the resource rules, the soil law, the charter's `bedrock` and the view; `geology` is its four-class reading; all 0 on a world with neither a formation op nor a parent charter */;
+  soil: Uint8Array /* FORMATION grid; `world.soil`'s classes (V13 §2.3): the formation op's bake, re-baked by a `weather` op; read by W5's overrides and resource rules, W6's habitability, the cover fold's fertility and drainage, the charter's `soil`; a fine cell's class is its formation cell's with the fine-scale overrides of V13 §3.2.1 (9) applied at read time (a slope above 30 %, an active floodplain), so no fine soil raster is ever resident */;
   flowDir: Uint8Array; flatRank: Uint32Array; flowAccum: Uint32Array /* fine; §2.3's three arrays at the world cell size (W4) */;
   watershed: Uint32Array /* fine; the Watershed id per land cell (W4) */;
   landmass: Uint32Array /* fine; W2's land component per land cell (0 on water), read by W6–W8 (C13-32) */;
@@ -74053,7 +74412,12 @@ interface WorldRaster {                      // the world's `fields` chunks (§2
   routes: Map<number /* fine cell */, Id[]> /* the route ids crossing a cell (W7); sparse */;
   biome: Uint8Array; landUse: Uint8Array /* fine; W5's rows (world.biomes) */;
   climate: { tempDeciC: Int16Array; seasonAmpDeciC: Int16Array; seasonPhaseWeek: Uint8Array; precipMm: Uint16Array; evapMm: Uint16Array;
-             windCdeg: Uint16Array; windStrength: Uint8Array /* 0–255 → 0–1 */; continentality: Uint8Array /* 0–255 → 0–1 */ } /* coarse; W3 */;
+             windCdeg: Uint16Array; windStrength: Uint8Array /* 0–255 → 0–1 */; continentality: Uint8Array /* 0–255 → 0–1 */ /* the annual summaries every existing reader keeps reading: the mean and the first-harmonic fit of the twelve months (V13 §3.4 (4)), the annual sum, the annual-mean wind, the maritime fraction's complement */;
+             tempMonthDeciC: Int16Array[] /* twelve arrays, coarse: the month's mean temperature, month 0 the host calendar's first month (V13 §2.3's phase rows) */; precipMonthMm: Uint16Array[] /* twelve: the month's precipitation, Σ = `precipMm` */;
+             windMonthCdeg: Uint16Array[]; windMonthStrength: Uint8Array[] /* twelve each: the month's wind after the belts' seasonal shift and the thermal term (V13 §3.4 (5)) */;
+             maritime: Uint8Array /* 0–255 → 0–1: the air's maritime fraction by upwind fetch over water (V13 §3.4 (3)); `continentality` = 1 − it */;
+             currentMonth: Int8Array[] /* twelve arrays × two lanes (u east, v north), coarse ocean cells, in cm/s ÷ 2 (±127 ≈ ±2.5 m/s): the basin gyre solve (V13 §3.4 (6b)); 0 on land */; sstAnomalyDeciC: Int8Array /* coarse ocean cells: the sea-surface temperature anomaly the currents and the upwelling make against the latitude's mean (V13 §3.4 (2)) */;
+             basin: Uint16Array /* coarse ocean cells: the connected ocean basin id the current solve runs per and a strait edit re-solves per (V13 §3.14.2) */ } /* coarse; W3 */;
   distToShoreM: Float32Array; distToRiverM: Float32Array /* fine; true distance transforms (W4); computed on demand per query on the low tier (V13 §6) */ }
 // companion records in the entities block: `coast: { landmass: number; rings: WorldPointCm[][] }[]` (W2's coast polylines, the view's and the charter's outlines source)
 
@@ -74103,23 +74467,27 @@ interface FrameCharter {                     // the boundary record a frame rece
   roads: { route: Id; hostKey?: string /* the host's edge key when bound */; side: 'N'|'E'|'S'|'W'; atCm: Cm; bearingCdeg: Cdeg; class: WayClass /* a world class mapped to §2.4's: highway → through, road → primary, track → track, trail → path; capped in class and count by the dossier's access word */;
     toward: Id | null /* the next host settlement along the route, never a site, a proposal or a junction */; towardKey?: string /* its host key */; towardEffortM?: number /* the land effort from the edge station to it, for the leaf's walking-time annotation */;
     forced: boolean /* a highway or road crossing: a forced gate pick of S3 (4), routed through the margin to its station (BCR-V13-30) */; hidden?: boolean /* a road the host grades hidden: no public road, drawn DM-only */ }[];
-  climate: { tempDeciC: DeciC; seasonAmpDeciC: DeciC; seasonPhaseWeek: number; precipMm: MmYr; evapMm: MmYr; windCdeg: Cdeg /* the bearing the prevailing wind blows FROM, in frame terms (the raster's `windCdeg` is the same from-bearing in world terms) */; windStrength: number; latitudeDeg: number; continentality: number };
+  climate: { tempDeciC: DeciC; seasonAmpDeciC: DeciC; seasonPhaseWeek: number; precipMm: MmYr; evapMm: MmYr; windCdeg: Cdeg /* the bearing the prevailing wind blows FROM, in frame terms (the raster's `windCdeg` is the same from-bearing in world terms) */; windStrength: number; latitudeDeg: number; continentality: number;
+    monthly: { tempDeciC: Int16Array; precipMm: Uint16Array; windCdeg: Uint16Array; windStrength: Uint8Array } /* twelve each, sampled at the origin and turned into frame terms (V13 §3.4): S0's climate row picks on the annual scalars as today; V11's season and weather rows may read the months (a later V11 request); the frame's seasonal curve stays the first-harmonic fit, so every reader of V13 §3.12.4's formula is unchanged */ };
   waterTable: { grid: { cellCm: Cm; cols: number; rows: number }; tableCm: Int32Array /* the world's groundwater sampled over the frame + margin, against the frame's datum */ };
-  biome: { row: string /* a world.biomes row key */; climateRow: string /* V11's ClimateTable row the biome maps to (V13 §3.11.4) */; landUseShare: Record<string, number> };
+  biome: { row: string /* a world.biomes row key: the POTENTIAL natural vegetation's mode over the extent (W5) — never the land cover, which the frame's surroundings read at view time through `worldFactsAt` (V13 §3.6 (5)) */; climateRow: string /* V11's ClimateTable row the biome maps to (V13 §3.11.4) */; landUseShare: Record<string, number> };
   resources: { kind: string; at: PointCm; amount: number }[] /* W5's resource sites inside the frame + margin, in frame cm */;
   territory: { id: Id; name?: NameRef; seat: Id | null; seatKey?: string /* the host's settlement key */; province?: Id /* a standalone world only */ } | null /* the seat territory (W8a): changes only at a membership re-canonize */;
   polityAtCharter: { swayRevision: number; culture?: string } | null /* the culture id at the placement's origin and the sway revision in force, read ONCE by the placement edit that emitted this charter (S0 reads its culture); the holder, allegiance and status are never charter fields — the frame's live political context is the derived reading `polityOf` (V13 §1b.2) —, and a sway revision never re-emits it */;
   sites: { site: Id; at: PointCm; kind: string; footprint?: PolygonCm }[] /* V14's world sites inside the frame + margin (item 134 (c)) */;
   geology: 'ordinary'|'soluble'|'volcanic' /* the mode over the frame of the world's geology, 'impermeable' read as 'ordinary' for §2.3's flag */;
+  bedrock: string /* the mode over the frame of `WorldRaster.bedrock` (a `world.formation` bedrock class; `ordinary sedimentary` on a world with no formation op): the local building stone, offered to the frame's material rows as a reading (V11's rows may adopt it by a later request; until then provenance the clerk names) */;
+  soil: { mode: string /* a `world.soil` class */; fertility: number /* 0–1, the class row's use attribute */; drainage: 'free'|'moderate'|'poor' } /* the mode over the frame; S0's arable reading (§4.2 S0's demand) may read `fertility` through the charter where the base's rows admit it — a `map`-tier input, never a dossier fact */;
+  landforms: { id: Id; kind: string; name?: NameRef; crestInFrame?: PointCm[] }[] /* the `Landform`s the frame + margin touches, in frame cm: the clerk's "under the Greyspine"; never a constraint */;
   reason: Id }
 
 interface Placement {                        // item 140 M6: one per placed arena set, in the WORLD document
-  id: Id; subject: { kind: 'frame'; doc: Uuid } | { kind: 'site'; site: Id /* V14's WorldSite: a free-standing site before adoption */ };
+  id: Id; subject: { kind: 'frame'; doc: Uuid } | { kind: 'site'; site: Id /* V14's WorldSite: a free-standing site before adoption */ } | { kind: 'world'; doc?: Uuid /* the child world once generated (`bindPlacement`, author `world`); absent while the `WorldCharter` stands unanswered */; rung: WorldSizeRung /* the child's, finer than this world's */; extentCm: { w: WorldCm; h: WorldCm } } /* the world subject (file r item 1030; V13 §3.11.4; J-V13.131): a child world's placement on its parent — `requestCharter`'s world subject (derived from the parent: P4 only, no blend) or `placeFrame`'s rung-general form (the fitted child: the parent bends, V15 §3.5 (c)); `bearingCdeg` 0 and `mirrored` false always (`refuse.place.worldBearing`) */;
   originCm: WorldPointCm /* where the frame's (0, 0) lies */; bearingCdeg: Cdeg /* the frame's north turned clockwise to the world's */; mirrored: boolean;
   precedenceStamp: 'settlement'|'world' /* which regime's facts won the last placement (V13 §3.11.5) */;
   coherenceCost: CoherenceCost /* as computed at the last placement edit (V13 §3.11.1) */;
-  charter: Id /* the FrameCharter emitted at this placement (the world's copy) */;
-  blend: { bandM: number; cells: number } | null /* P2's record: the band width used and the world cells it wrote (settlement-first only) */;
+  charter: Id /* the FrameCharter emitted at this placement (the world's copy); for a world subject the `WorldCharter` (V13 §3.11.4; file r item 1030) */;
+  blend: { bandM: number; cells: number } | null /* P2's record: the band width used and the world cells it wrote (settlement-first only; for a world subject the fitted form's band in the parent — `blendBandM` × the parent's cell ratio, V13 §1b.2 — and null for the derived form, which bends nothing; file r item 1030) */;
   hostKey?: string /* the host's settlement key, written by `bindSeat` and cleared by `unbindSeat` (V13 §4.1); every port row names it */; hostLocked?: boolean /* the host's move-lock: an origin edit is refused (`refuse.place.hostLocked`) while it is set; the map additionally refuses a DM's unplacement of a host seat in the world editor (a map rule, not the host's: the host's own removal arrives as `unbindSeat`); bearing and mirror admitted */;
   since: { seq: number; week: Week } }
 interface CoherenceCost { total: number; terms: { term: 'coastSide'|'riverCrossing'|'edgeElevation'|'relief'|'biome'|'territory'|'dossier'; cost: number; detail: string }[]; lawful: boolean /* total ≤ place.coherence.lawfulMax */; detail?: 'world-first' /* no P1 ran (V13 §3.11) */ }
@@ -74131,6 +74499,8 @@ interface WorldRoute { id: Id; a: Id; b: Id /* seat ids (the glyphs' settlements
   polyline: WorldPointCm[]; stations: Int32Array /* per vertex: cumulative land effort-metres under the cost law's time terms; water vertices carry water metres in their own lane */; vertexClass: Uint8Array /* per segment: the host's terrain class through the adapter folder's table */;
   landEffortM: number; lengthM: number; coastalM: number; openSeaM: number; riverM: number; downstreamM: number; byClassM: Record<string, number>; crossings: Id[] /* integers, order-free: evaluated on the final polyline */;
   seasonal?: { iceWeeks?: number[]; highWaterWeeks?: number[]; snowWeeks?: number[] /* 52-week sets keyed to the host's week of year: ice on a water run, high water on a ford, snow on the route's highest segment */ };
+  sailing?: { vessel: 'sail'|'oared'|'coastal'; byMonth: { out: number; back: number /* integer sea effort-metres a → b and b → a (V13 §3.8 (12)): the laid course's length ÷ its ground-speed share, so a leg with the wind and the current costs fewer metres than the same leg against them */;
+    outCourse?: WorldPointCm[]; backCourse?: WorldPointCm[] /* the laid course where it differs from `polyline` (a return by another way: the coast-hugging route home) */; closed?: boolean /* a standalone world only: the month set's risk at its cap, a sea closed in this month (a cost, never a ban); never on an effort offered to the host, whose storm season is its own (J393) */ }[] /* twelve */ }[] /* a water route only: one row per vessel kind of `world.sailing`; `stations`, `openSeaM`, `coastalM`, the canon's water metres and `TravelEdge` stay GEOMETRIC water metres, byte-identical before and after sail routing (J393; T-V13-67); the symmetric mean over the twelve months and both directions (the mean of the twelve monthly efforts both ways) rides `routeFacts` beside the directional efforts, behind the host's own switch (H33) */;
   costTotal: number /* the undiscounted cost along the laid course: the clerk's "why this road", presentation only, never a time and never sent to the host's simulation */; landmass: number; reason: Id }
 interface RecipeSeat { at: WorldPointCm; key: string /* a standalone name */; tier: Rung; culture?: string }   // a standalone world's seats (`WorldRecipe.seats`); budgets and cost vectors are retired (J-V13.63)
 interface Territory { id: Id; key: string /* the seat's host key, or a standalone name */; seat: Id; cells: Uint32Array /* COARSE cell ids, sorted (W8a) */;
@@ -74187,7 +74557,10 @@ interface CanonSeat { hostKey: string; at: WorldPointCm; landmass: number; terra
 interface TravelEdge { a: string; b: string /* host keys, codepoint-sorted */; cost: number /* integer, the host's cost units under its law */; crossStep: number; classA: string; classB: string /* the two crossing cells' classes: the host's receipt inputs */; crossingCm: WorldPointCm; sideA: WorldPointCm; sideB: WorldPointCm; landmass: number }
 interface WaterCandidate { a: string; b: string; via: 'sea'|'lake'|'river'; body: Id; aCm: WorldPointCm; bCm: WorldPointCm; waterM: number }   // geography only: the host prices and adopts lanes under its own law
 interface WaterAccess { cls: 'coast'|'lakeShore'|'navigableRiver'|'none'; eligible: boolean /* within the host's reach and band thresholds, in true metres */; fronts?: Id /* the sea or lake */; riverBand?: 0|1|2|3; body?: Id /* the sailing body */ }   // the geography half of the host's port rule; the host's verdict returns only as a view attribute
-interface SettlementPhysical { elevationM: number; slopePct: number; terrainClass: string; climateBand: string; tempDeciC: DeciC; seasonAmpDeciC: DeciC; precipMm: MmYr; lake?: 'fresh'|'brackish'|'salt'|'dry'; floodSummary?: { wetSeasonShare: number } }   // sampled from the world after the blend
+interface SettlementPhysical { elevationM: number; slopePct: number; terrainClass: string; climateBand: string; tempDeciC: DeciC; seasonAmpDeciC: DeciC; precipMm: MmYr; lake?: 'fresh'|'brackish'|'salt'|'dry'; floodSummary?: { wetSeasonShare: number };
+  soil?: { class: string; fertility: number; drainage: string } /* the seat's soil, a `world.soil` class: a derived reading the host's agriculture may read (H34) */; bedrock?: string /* the local stone */;
+  landCoverShare?: Record<string, number> /* the cover classes' shares within the seat's catchment (`cover.catchmentHours`) at the record's week, from the cover plate — a DERIVED reading the host may show beside its own dossier, never a genesis fact and never its biome (H34; V13 §3.6 (5)) */;
+  hazards?: { kind: 'volcano'|'fault'|'flood'|'glacier'; distanceM: number; landform?: Id }[] /* the active landforms within `cover.catchmentHours` of the seat and the wet-season flood share, offered to the host's calamity exposure as readings (H34); never a strike, never a roll */ }   // sampled from the world after the blend
 interface TravelLaw { version: number; baseMode: 'foot'; daysPerWeek: 7 /* a day is a week ÷ 7, never a clock of its own */; kmPerWeek: Record<'foot'|'cart'|'river'|'coastal'|'sea', number>; modesRead: string[];
   water: { costPerDistRatio: number; stormFactor: number[] /* per quarter */ }; leg: { floorWeeks: number; capWeeks: number; rounding: 'nearest' }; gradeLeg: Record<string, number>;
   army: { factor: number; readinessGain: number; neutralReadiness: number; rounding: 'ceil' }; news: { factor: number; rounding: 'floor' };
@@ -74271,6 +74644,72 @@ interface LensFacts {                         // one set of the lens window (`Wo
   alignment?: { seat: string; law: 0|1|2; malice: 0|1|2 /* the host's own bands of its own reading, normalised by the polarity table */; aggression?: string /* its chip word; absent in the host's neutral band */; causes?: string[] }[] /* the DM's set only (J384 (7)) */ }
 interface LensPlate { seq: number /* the window's */; week: Week /* its toWeek */; sets: LensFacts[] /* the DM's and the party's */; rungs: { seat: string; rung: number }[] /* the window's polity rungs */;
   key: boolean /* a whole plate; else a delta on the previous kept plate */; pinned: boolean }   // the world document's plate cache (`Document.lensPlates`, BCR-V13-38), outside every digest (V13 §2.7, §5.8 (8))
+// @plat/world/solve — the requirement solver's records (V13 §3.0, §3.1, §3.11; the spine's §4 and §5; J-V13.117 – J-V13.123): the pipeline IS the solver; these are its inputs, its conflicts and its answers
+type Rank = 1|2|3|4|5;   // the precedence ladder (V13 §3.11.5 (1)): 1 a placed or included settlement's dossier facts; 2 the DM's overrides and locks; 3 the user's requests; 4 physical plausibility; 5 randomness
+type Strength = 'random'|'set'|'locked';   // every option's three states (V13 §3.1 (1)); `random` the default of every option
+interface OptionChoice { option: string /* a `world.presets` option key: size, template, scenario, latBox, poles, wind, biomeMatrix, seats, density, ruggedness, wetness, landShare, climateBand, … */; strength: Strength; value?: unknown /* absent under `random`: the sentinel is the absence */; region?: { box: { c0: number; r0: number; c1: number; r1: number } } /* a choice scoped to a region (a locked region, a regional reroll) */ }
+interface Requirement { id: Id; source: 'option'|'inclusion'|'settlement'|'relation'|'lock'|'override'|'edgeCharter'|'hostRequires'|'frame'|'context';
+  rank: Rank; kind: 'extent'|'latBox'|'poles'|'wind'|'template'|'scenario'|'landShare'|'ruggedness'|'wetness'|'biome'|'resource'|'site'|'relation'|'coast'|'river'|'lake'|'climateRow'|'latitude'|'terrain'|'route'|'edge'|'lockRegion'|'overrideLayer'|'water'|'landform'|'context'|'density'|'polity'|'names';
+  // `landform` (file r item 1007): a feature asked for by kind — `target: { feature: 'range'|'rift'|'escarpment'|'sea'|'strait'|'basin'|'volcanicField'; extentKm2?: number; at?: { box } | { side: 'N'|'E'|'S'|'W' } | { corner: 'NE'|'NW'|'SE'|'SW' }; bearingCdeg?: Cdeg }` — the world dialog's landform and water chips (V09 §4.22 (5)) and a continuation's accepted reconciling feature (V15 §3.4 (5)); satisfied by the formation op where a scenario runs (its regional feature or a profile laid at the place asked), else by W1's `range`, `trough` or `strait` ops with `origin: 'solver'`, verified by W1 at the asked extent and reported `W_REQUIREMENT_UNMET` with the offer `moreRelief` when it cannot
+  target: unknown /* the kind's value: a biome id with an amount in km² (`inclusion`), a settlement's facts (`SettlementFacts`), a relation (`{ a; b; word; travelDaysMax? }`), an edge charter's station set, a region's cells, an option's value … */;
+  strength: Strength; scope?: { box: { c0: number; r0: number; c1: number; r1: number } } | { landmass: number } | { seat: string }; settlement?: string /* the host key the requirement belongs to (sources `settlement`, `relation`, `frame`) */;
+  status: 'met'|'partly'|'unmet'|'pending' /* the verification report's row (V13 §3.1 (7)); `pending` before its verifying stage ran */; verifiedBy?: StageId; reason?: Id /* the reason record of the verification (`whyCell`'s form: "arid at 180 mm/yr in the Greyspine's shadow") */ }
+interface SettlementFacts { hostKey: string; tier: Rung; population?: number; terrain: string /* the host's terrain word through the adapter folder's terrain table → a relief class, a coast flag and side, a river flag (DR1's row) */; access: string /* its route word through the adapter folder's route table → coast, river, road, crossroads, isolation */;
+  climateRow: string /* V11's `ClimateRow`, from the terrain word by DR42's rule (the dossier carries no climate field of its own) */; latitudeBand?: [number, number] /* from `site.culture` (DR29) where the host sends a culture */; resources: string[]; phase?: 'draft'|'canonized' /* the host's phase: what an `updateDossier` will do there (H32) */; lake?: boolean; coastSide?: 'N'|'E'|'S'|'W'; riverInflow?: boolean /* the three read from the settlement's OWN base document where one exists — its DR1 site's coast and side, lake and river inflow — never asked of the host, which holds no coast side, lake or latitude on a settlement (J393); absent, the row reads `random` */ }   // the included settlements' facts (`CampaignFacts`, V13 §3.11.6; H31), each fact a rank-1 requirement of kind `terrain`, `coast`, `river`, `lake`, `climateRow`, `latitude`, `resource` or `route`
+interface CampaignFacts { campaign: string; version: number; settlements: SettlementFacts[]; relations: { a: string; b: string; word: string /* the host's relation word through the adapter folder's relation table: partner, rival, overlord, vassal, ally, hostile, isolated */ }[] }   // the port's recorded input for "based off of my settlements" (V13 §3.11.6): a windowed replace keyed by host keys
+interface Conflict { id: Id; requirement: Id; action: EditRef | 'generate' | 'placeFrame' | 'physicsPass' | 'reroll'; rankOfAction: Rank; rankCrossed: Rank /* the higher rank the action would change: 1 a dossier fact, 2 an override or a lock (V13 §3.11.5 (1)) */;
+  settlements: string[] /* every affected settlement — one stroke may touch several */; what: { field: string; from: unknown; to: unknown }[] /* the facts that would change: a dossier's climate row, a locked region's cells, an override's value */;
+  choices: ConflictChoice[] /* the choices this conflict admits: `moveTown` never under `hostLocked`; `changeRequest` at generation only; `updateDossier` only where a dossier fact is crossed */;
+  preview: { dossierFields: string[]; hostEconomyFelt: boolean | 'unknown' /* whether the host's economy or food would feel it, read from the host's own exposure words when sent (H32), else unknown */; hostEffect: 'reroll'|'decreeAtNextAdvance'|'unknown' /* what the host will do with an `updateDossier` (H32): on a draft settlement a regeneration under its same-seed law — its people, trades and history drawn again, the host's own warning shown as the host sends it; on a canonized one a decree applied at the next advance; from `SettlementFacts.phase`, else unknown */; settlementMap: 'nothing' /* the settlement map does nothing by itself: its surroundings read the new land cover at view time; regenerating the town's own ground is a separate, explicit act (`worldWins`) */ } }
+type ConflictChoice = 'cancel'|'fitWorld'|'paintAround'|'keepMismatch'|'updateDossier'|'moveTown'|'changeRequest';
+interface Decision { id: Id; conflict: Id; requirement: Id; choice: ConflictChoice; kind?: 'landChanged'|'alwaysSo' /* `updateDossier`'s two kinds, offered by the settlement's phase: on a canonized settlement a dated host event at the advance it lands on (the default; the old biome kept in the host's history) or the host's retcon path under its own guards; on a draft `alwaysSo` alone (every edit there re-rolls the settlement) */;
+  by: 'user'|'preset' /* a preset pre-decides map-side choices only: `updateDossier` is never `by: 'preset'` (J-V13.122) */; week: Week; restsOn: Hash64 /* the hash of what the decision rested on — the settlement's facts, the dossier's version, the area's lock state, the requirement's target — re-asked when it moves (V13 §3.11.5 (1)) */; hostSeq?: number /* an `updateDossier` carried out: the host's confirmation (`dossierUpdated`); absent while `W_DOSSIER_PENDING` stands */ }
+interface VerificationReport { run: { seq: number; goal: 'generate'|'leastChange'|'arrange'; rung: 'coarse'|'fine' }; rows: { requirement: Id; status: 'met'|'partly'|'unmet'; by: StageId; reason: Id }[]; backSteps: { from: StageId; to: StageId; cause: Id /* the requirement */; op: number /* the correction's op index */ }[];
+  unmet: { requirement: Id; offer: 'largerWorld'|'widerLatBox'|'moreRelief'|'paint'|'none' }[] /* a requirement that cannot be met at the asked size says so and offers the fix; the run never fakes the result (V13 §3.1 (7)) */; conflicts: Id[] }   // written to `derived` at every run's end: the world dialog's "what was done" and the clerk's "why this desert"
+interface SolveResult { ops: RecipeOp[] /* the corrections, `origin: 'solver'`, each naming its requirement */; placements?: Placement[] /* `leastChange`: the three offers; `arrange`: the member placements */; report: VerificationReport; conflicts: Conflict[] /* shown before the run commits: the run pauses at an approval point and continues after `decide` */ }
+interface ArrangeMember { placement: Placement /* subject kind `world` (file r item 1030) */; extentCm: { w: WorldCm; h: WorldCm }; rung: WorldSizeRung; coarseCellCm: Cm /* the member's coarse cell: the search's lattice step */; locked: boolean }   // the `'arrange'` goal's state (file r item 1007; C15-05): a placement carries no extent, rung or lock of its own
+declare function solve(requirements: Requirement[], state: WorldDocument | { members: ArrangeMember[] } | null, goal: 'generate'|'leastChange'|'arrange', opts?: { rung?: 'coarse'|'fine' /* absent under `'arrange'`, which runs no world stage */; decisions?: Decision[]; seed?: Seed; maxIterations?: number /* `'arrange'`: the least-change search's bound, the caller's cell (V15's `atlas.arrange.leastChange.maxIterations`) */ }): SolveResult;   // @plat/world/solve: the pipeline's one entry (V13 §3.0) — never a second engine; V15 calls it with `'arrange'` over map placements (the spine's §14.5), each member's extent, rung, coarse cell and lock beside its placement; a locked placement is a rank-2 `Requirement { source: 'lock'; kind: 'lockRegion'; target: { placement: Id }; strength: 'locked' }`; an atlas requirement carries no `scope` (the state is the whole atlas)
+interface ArrangeEvaluator { kind: Requirement['kind']; word?: string /* a `relation` kind's word (V15 §2.3's table: `eastOf`, `acrossSea`, `inside`, `farFrom`, `adjacent`, `beyondUnknown`) */; cost(req: Requirement, members: ArrangeMember[]): { cost: number /* 0 when met; the measure's error otherwise */; detail: string /* `whyCell`'s form, the report's reason */ } }
+declare namespace solve { function registerEvaluator(e: ArrangeEvaluator): void }   // the `'arrange'` goal's one registration path (file r item 1007; J-V13.132): a caller registers its kinds' evaluators once, before its first `solve`, as V14 registers its siting terms through `terms.register` (V13 §3.7); under `'arrange'` the engine runs a deterministic least-change search over the placements — each step moves the one unlocked member whose move lowers the summed evaluator cost most, by the smallest step on a lattice of the members' own coarse cells (`ArrangeMember.coarseCellCm`), ties by the lowest member ordinal, until no move lowers the cost or `opts.maxIterations` is reached — under the ladder (rank 2 locks held; rank 3 relations before rank 4 compatibility before rank 5 the caller's packing, V13 §3.11.5 (1)), writes the verification report and the conflicts, and runs no world stage (T-V13-68 (f)); a kind with no evaluator is `unmet` with the reason `noEvaluator`; V15 registers its atlas-scale kinds (V15 §2.3)
+
+// the DM's two verbs on every physical layer (V13 §3.14.1; the spine's §7.1; J-V13.129)
+interface Override { id: Id; layer: 'biome'|'soil'|'landCover'|'current'|'terrain' /* `terrain`: an `alwaysSo` `setField` stroke is already the base's — listed so one record form names every always-so paint */; cells: Uint32Array /* fine (biome, soil, landCover), coarse (current) */; value: number | { u: number; v: number } /* the class id, or the current vector in the raster's unit */;
+  since: { seq: number; week: Week }; released?: { seq: number; week: Week; keptAsHistory: boolean } /* a physics pass's `release`: the override no longer binds; kept as a visual trace or removed, the DM's choice */; reason: Id }   // an always-so override: a boundary condition of every dirty set that touches its cells, never overwritten by a re-derivation (V13 §3.14.2); rank 2 of the ladder
+interface Disturbance { id: Id; kind: 'fire'|'flood'|'clearing'|'eruption'|'ashfall'|'lavaFlow'|'razing'|'plague' /* the cover law's event kinds (`world.cover`); `razing` and `plague` arrive as host events the DM attributes */; cells: Uint32Array /* fine */; week: Week; severity: number /* 0–1 */;
+  source: 'user'|'host' /* a DM's stamp, or a host `WorldEvent` the DM attributed — never by itself, as a host flood raises no surface by itself (V13 §3.11.6) */; event?: Id /* the `WorldEvent` */; reason: Id }   // a this-happened disturbance: dated, the land recovers by the succession table from its week (V13 §3.6 (5)); never undone by physics, never erased by a reroll
+interface CoverPlate { seq: number /* the lens window's, or the disturbance's event seq */; week: Week; cover: Uint8Array /* fine; `world.cover`'s class per land cell: the potential vegetation's own class where unused and undisturbed, else field, pasture, coppice, fallow, scrub, regrowth, young forest, burn scar, flood silt, ash, lava, bare */;
+  eventWeek: Uint16Array /* fine, sparse-coded: the cell's last dated event's week (0 none) */; eventKind: Uint8Array /* fine, sparse-coded */; key: boolean /* a whole plate; else a delta on the previous kept plate */; pinned: boolean }   // the cover cache (`Document.coverPlates`, BCR-V13-41): one per host advance and per dated disturbance, outside every digest, re-derivable from the recipe and the event log, read by no stage (V13 §3.6 (5), §5.8 (9))
+
+// formation's entities and knobs (V13 §3.2.1; J-V13.107 – J-V13.111)
+interface Landform { id: Id; kind: 'range'|'volcano'|'caldera'|'rift'|'fault'|'hotspotChain'|'glacialLake'|'fjord'|'cirque'|'plateau'|'basin'|'trench'|'arc'|'ria'|'raisedBeach'|'suture'|'escarpment'; outline: WorldPointCm[][] /* rings in world cm (the formation grid's cells traced) */; crest?: WorldPointCm[] /* a range's, rift's, arc's or escarpment's spine */;
+  heightM?: number /* the peak, or the depth */; formed: { scenario: string; feature: 'boundary'|'hotspot'|'relict'|'glacial'|'seaLevel' } /* the bake's provenance in words, so the clerk can say "a collision range of the young-range scenario"; no block state */; active?: boolean /* a volcano or a fault the DM marks active: a hazard reading the host may read (`SettlementPhysical.hazards`); an eruption is a `Disturbance` the DM stamps, never a roll */;
+  name?: NameRef /* W9's `range` kind, now with a producer */; reason: Id }
+interface FormationKnobs { blocks: number /* the crust blocks on the formation grid (the continent rung's model; 1–2 at the realm rung as a regional context; 0 at the province rung, which takes one regional feature) */; continentalShare: number /* 0–1 */; speedMmYr: [number, number] /* the blocks' relative speeds, drawn in the range */; ageMyr: number /* the orogeny's age: a young range stands high and sharp, an old one worn */;
+  relictSutures: number; iceExtent: number /* 0–1: the glacial maximum's reach, an ELA depression scaled */; seaLevel: { glacialM: number; stands: number } /* the sea-level history: the glacial low and how many stands */; drama: number /* a multiplier on the boundary density, 1 Earth's */; hotspots: number }   // the five shipped scenarios' knob ranges are `world.formation`'s rows (V13 §2.3); W0 draws each on `world.recipe` unless the dialog set or locked it
+
+// the seams owed to V15 (the spine's §14; J-V13.127)
+interface WorldEdgeCharter { version: string; world: Uuid; side: 'N'|'E'|'S'|'W'; span: { fromCm: WorldCm; toCm: WorldCm } /* the stretch of the edge shared */; stationCm: Cm /* one station per coarse cell along the span */;
+  stations: { atCm: WorldCm; demCm: Cm /* the fine DEM's mean at the station */; bedrock: number; soil: number; biome: number /* the potential natural vegetation, graded by the neighbour's own ecotone */; water: 'land'|'sea'|'lake'; tableCm: Cm;
+    monthly: { tempDeciC: Int16Array; precipMm: Uint16Array; windCdeg: Uint16Array; windStrength: Uint8Array; moisture: Uint16Array /* the march's moisture arriving at the station per month — how a rain shadow continues */; maritime: Uint8Array } }[];
+  riverCrossings: { reach: Id; atCm: WorldCm; direction: 'in'|'out'; dischargeM3s: M3s; bedCm: Cm }[]; landforms: { kind: Landform['kind']; crest: WorldPointCm[]; heightM?: number }[] /* those that run off the edge */;
+  currents?: { psiMonth: Float32Array[] /* twelve: the stream function along an open-sea span per month, so each month's net transport is continuous */ }; overrides: { layer: Override['layer']; atCm: [WorldCm, WorldCm]; value: Override['value'] }[] /* the neighbour's always-so overrides along the edge — their cells are already the present ground; carried so the continuation holds them as boundary conditions */;
+  latBox: { southDeg: number; northDeg: number }; datum: 'sea0'; world: { poles: { equatorDeciC: DeciC; poleDeciC: DeciC }; calendarSouth: boolean } /* the neighbour's present climate inputs at world level (a pole `adjust` moves the present climate, which the charter reads): a continuation's W0 pre-fills them as `set` choices (C15-03) */; neighbourVersion: string /* the neighbour's model digest at emission */; reason: Id }   // `FrameCharter`'s sibling one rung up: the neighbour's PRESENT PHYSICAL GROUND along the edge at the moment of emission, never a record — the test is J393's, "is this a present physical fact (terrain, bedrock, soils, landforms, water bodies at their present level, river crossings at their present flow, climate, currents, groundwater), however it came to be?" (T-V13-68): an always-so override and a this-happened disturbance that have shaped the ground are both in it, since both are the ground; it NEVER carries a dated record — an event, a land-cover class, a plate, a political fact, simulation state — nor any change made after it was read (F14); produced by `edgeCharter(world, side, span)`, consumed by W0 as locked requirements (V13 §3.1 (6)); V15 only carries it (the spine's §14.1)
+interface RenderedWorld { doc: Uuid; week: Week /* the week drawn: the world's present unless asked otherwise */; presentWeek: Week; dateLabel: string /* the host's calendar words where bound, else the season control's */; rung: WorldSizeRung; extentCm: { w: WorldCm; h: WorldCm }; datum: 'sea0'; latBox: { southDeg: number; northDeg: number };
+  tiles: { stop: 0|1|2|3; set: Id /* the §8.1 tile set at that stop for the audience, drawn over the `atlas` layer set (V13 §5.4) */; labels: { box: [number, number, number, number] /* px */; text: string; kind: string; priority: number }[] /* the label boxes §9.2's placer placed at that stop, in the member's pixel frame at the stop (file r item 1007; V15 §3.3 (5)): the picture's own metadata, so a seam can drop a yielding member's labels whole */ }[]; known: { audience: 'dm'|'public'|`party:${string}`; cells: Uint32Array /* coarse: the cells the audience's places have reached (V14's layers through the world's `knownTo`) */ }[] }   // `renderAt(world, week, audience)`'s reading — tiles over the `atlas` layer set with their label boxes, extent, datum, latitude box, rung, present week, date label and the known sets per audience — and nothing else (the spine's §14.2); a view read, never persisted
+interface WorldCharter { version: string; parent: { doc: Uuid; version: string }; extentCm: { x0: WorldCm; y0: WorldCm; w: WorldCm; h: WorldCm } /* the child's extent in the parent's frame, axis-aligned, bearing 0 */; rung: WorldSizeRung /* the child's, finer than the parent's */;
+  edges: WorldEdgeCharter[] /* four: the parent's present ground along each side of the extent (`edgeCharter` on the parent over the side's span), `side` the child's side */; ground: { cellCm: Cm; cols: number; rows: number; dem: ChunkRef[]; bedrock: ChunkRef; soil: ChunkRef /* no `biome`: the child's W5 re-classifies from its own months, and the edge grading reads `edges[].stations[].biome` (C15-17) */ } /* the parent's rasters over the extent at the parent's fine cell, read once at emission: the child's COARSE ground, which its W1 upsamples bilinearly as a baked formation-grid DEM is (V13 §3.2) and refines by the position-keyed lattice and its own ops */;
+  plannedSites: Requirement[] /* the parent's placed frames inside the extent as rank-1 `site` rows of source `frame` (origin, bearing and the charter's facts): the child's W0 lays them as planned sites (V13 §3.1 (5)); a frame belongs to one world (V13 §3.18 (7)), so the frames stay the parent's until the user moves them (V15 §3.5 (a)) */;
+  reason: Id }   // the world-first order one rung up (V13 §3.11.4; the spine's §10.6 "derived from the parent"): emitted by `requestCharter` with a world subject (a `Placement` of subject kind `world` on the parent, `precedenceStamp: 'world'`, P4 only, no blend) and, record-less, by `charterFor` at a world-rung `TransientPlacement`; the parent's PRESENT physical ground as it stands at emission (V13 §2.2's test, J393) — never an event, a cover class, a plate, a route or a political fact, nor any later change; stored in the child's recipe as `WorldRecipe.parentCharter` (provenance, never re-read); produced by V13, consumed by the child's W0–W1 and by V15's fit (file r items 1007, 1009)
+interface ViewFacts { doc: Uuid; week: Week; audience: 'dm'|'public'|`party:${string}`;
+  faith: { hierarchy: LensFacts['hierarchy']; faithPlaces: LensFacts['faithPlaces']; patrons: { seat: string; patron?: string; contested?: boolean }[]; realmRank: LensFacts['realmRank'] } /* V13 §5.9 (6)'s rows */;
+  polity: { allegiances: Allegiance[]; sways: { id: Id; seat: string; allegiance: Id; neighbours: Sway['neighbours']; poleCm: WorldPointCm; areaKm2: number; border: WorldPointCm[][] /* the sway's outer ring(s) at the coarse grid's tolerance; its `cells` only on request */ }[]; seats: { seat: string; at: WorldPointCm /* the placement's origin, or the glyph's point on a standalone world */; tier: Rung; sizeThird: 0|1|2; prosperity: number; population?: number }[]; medianRung: number; relations: PolityRelation[]; culture: PolityFacts['culture']; cultures: { id: number; label?: NameRef /* the DM's christening; absent on a host-bound world unless the host sent one */ }[] } /* V13 §3.9, §5.9 (2), (5), (7); the positions, extents and the culture table a drawing reader needs (C15-02, C15-03) */;
+  trade: { seat: string; entrepot?: { centrality: number }; exports: number }[]; channels: LensLink[] /* V13 §5.9 (4): the trade lens's channels */;
+  events: WorldEvent[] /* the kinds the caller names, within the window it names, each with its resolved audience and its `at` or `seats` (V13 §2.2) */; water: { routes: WorldRoute[] /* mode `water` */; stormFactor: number[] /* per quarter, the law in force */; bathymetry?: { cellCm: Cm; cols: number; rows: number; depthM: Int16Array } /* on request: the coarse `dem` below the datum over the ocean cells, 0 on land — one reading per member for V15's sea rules, never a reading per cell (C15-03) */ };
+  absent: string[] /* the facts the host never sent, by field name, so the caller's legend can say so (V13 §5.8 (3)) */; reason: Id }   // `viewFacts(world, week, audience)` (V13 §5.8 (10); file r items 1007, 1012): one reading from the plates at `week` (V13 §5.8 (8)) and the event index, filtered by audience as V13 §5.8 (7) filters a lens — never the alignment lens, a suppressed creed, a covert link or a criminal channel; a row the host resolved DM-only never returned for a player audience; fact class 4 at its reader (an owner-ruled projection, labelled); a view read, never persisted; the relational style's one reading beside `renderAt` (the spine's §14 (4))
+
+// sail routing (V13 §3.8 (12); J-V13.125)
+interface SailingLeg { route: Id; vessel: 'sail'|'oared'|'coastal'; month: number; direction: 'out'|'back'; effortM: number /* integer sea effort-metres: Σ over the laid course of the segment's length ÷ its ground-speed share (the polar at the wind angle, + the current's along-track share, − leeway, + the tacking penalty) */;
+  course: WorldPointCm[]; tacks: number; closed: boolean /* a standalone world only: the month set's risk at its cap (V13 §3.8 (12)); never on an offered effort */; reason: Id }   // a pure function of the live wind and current fields and the coast; no random weather (storms stay the host's storm season, applied once by the host; an offered effort carries wind and current only, J393); cached in `derived` per (lane, geometry version, climate version), never a digest
 ```
 
 **The frame's side** (BCR-V13-2, BCR-V13-3, BCR-V13-5): `Terrain` gains `carveDeltaCm: Map<number, number>` (per hydro
@@ -74310,14 +74749,19 @@ section as evidence, never as a source of the number; every number is this volum
 new rows (`world.*`, `place.*`, `water.*`; V11 §3.1's next free row numbers, assigned at W1's landing, V13 §8).
 
 ```ts
-interface WorldSizeRow { rung: WorldSizeRung; widthKm: number; heightKm: number; fineCellM: number; coarseRatio: number;
+interface WorldSizeRow { rung: WorldSizeRung; widthKm: number; heightKm: number; fineCellM: number; coarseRatio: number; formationRatio: number /* the formation grid's fine cells per side, 4 (V13 §3.2.1) */; formationMs: number /* the formation op's own budget beside `budgetMs` (V13 §6) */;
   defaultLatBox: [number, number]; budgetMs: number /* V13 §6 */; reliefLimitM: number; docMb: number /* the gzipped document budget, V13 §2.7 */; exportStride: number /* the ecosystem export's cells per fine cell, V13 §5.4 */ }   // world.sizes
 interface RecipeOpRow { op: RecipeOp['op']; params: Record<string, [number, number] /* the admitted range, metres or a share */>; cost: number | 'octaves×2' | 'passes×3' /* work units per touched fine cell (V13 §6): hill, pit, strait, mask, invert, add, multiply, image, geology 1; range, trough 2; noise octaves × 2; smooth 3 × passes */ }   // world.recipeOps
 interface ClimateWorldRule {                                                                                   // world.climate — W3
   tropicsDeg: number; lapseDeciCPerKm: number; seasonAmpMaxDeciC: number; seasonContinentalShare: number; continentalityReachKm: number;
   phaseWeekNorth: number; phaseWeekSouth: number;
-  winds: { fromDeg: number; toDeg: number; bearingCdeg: Cdeg; strength: number }[];
-  moisture: { pickupPerCellOverWater: number; dropShare: number; orographicPerM: number; coastalBonus: number; barrierM: number; rainCapMm: MmYr };
+  winds: { fromDeg: number; toDeg: number; bearingCdeg: Cdeg; strength: number }[] /* the annual-mean belts (a world's recipe may override); the twelve monthly belt sets are these shifted by `belts` (V13 §3.4 (5)) */;
+  belts: { itczDeg: number; itczSwingOceanDeg: number; itczSwingLandDeg: number; subtropicalOffsetDeg: number; polarFrontDeg: number; lagMonths: number; landFetchKm: number } /* the three-cell system and its seasonal shift per column by its land fraction (V13 §3.4 (5)) */;
+  thermal: { onshorePerDeciC: number; monsoonReversalDeg: number; wetHalfShare: number } /* the land–sea thermal term and the monsoon test (V13 §3.4 (5), (6)) */;
+  maritime: { efoldKm: number } /* the maritime fraction's e-folding length over land (V13 §3.4 (3)) */;
+  cascade: { livePreviewBand: boolean } /* every relief or water edit re-runs the whole monthly march and every basin (V13 §3.14.2; J393: no threshold); true lets a live brush preview a local re-march of the edited band during the drag, the commit running the whole */;
+  currents: { betaEqPerM: number; viscosityM2s: number; drag: number; cycles: number; sstWarmDeciC: number; sstColdDeciC: number; upwellingDeciC: number; coastalReachKm: number; pickupPerDeciC: number } /* the basin gyre solve and its coastal effect (V13 §3.4 (6b)) */;
+  moisture: { pickupPerCellOverWater: number; dropShare: number; orographicPerM: number; coastalBonus: number; barrierM: number; rainCapMm: MmYr; convergenceMmPerMonth: number; frontalMmPerMonth: number; convectiveMmPerMonth: number; recycleShare: number } /* the march per month (V13 §3.4 (6)): the first six as before, the annual values read per month ÷ 12; the belt rains and the recycling added */;
   evap: { baseMm: MmYr; zeroAtDeciC: DeciC; fullAtDeciC: DeciC } }
 interface HydroWorldRule {                                                                                      // world.hydro — W4
   lakeMinDepthCm: Cm; breachToleranceCm: Cm; runoffShare: number; riverMinM3s: M3s; navigableM3s: M3s;
@@ -74367,6 +74811,31 @@ interface LensRule {                                                            
   plates: { fullWeeks: number; compactWeeks: number; keyEvery: number; storeMbGz: number };
   collisions: { word: string; meanings: string[]; written: string }[]; polarity: { axis: string; high: string }[] /* the convention; the adapter folder's table names each host axis's own sign */;
   draw: { linksPerSeat: number; markersPerView: number } /* beyond a cap: the strongest by the host's own weight or the latest by week, ties by the lower seat key, then the lower id */ }
+interface FormationRule {                                                                                   // world.formation — the formation op (V13 §3.2.1); every cell {value, unit, provenance, calibratable}
+  scenarios: { id: string; label: string; rungs: WorldSizeRung[] /* the rungs it may run at */; knobs: Record<keyof FormationKnobs, [number, number] | number> /* each knob's admitted range (W0 draws uniformly) or fixed value */; regional?: 'mountainFront'|'rift'|'volcanicField'|'coastalPlain'|'shield' /* the province rung's one feature; the realm rung's context */; template: string /* the `world.templates` row whose later ops follow the formation op (the noise, the edge mask) */ }[];
+  blocks: { seedSpacingShare: number; growthJitter: number; closingMmYr: number; shearMmYr: number; maxSpeedMmYr: number; phantomMarginShare: number } /* the crust-block model: blue-noise seeds, the randomized flood growth, the boundary classification thresholds, the phantom-plate margin (V13 §3.2.1 (1)–(4)) */;
+  crust: { continentalKm: number; oceanicKm: number; densityContinental: number; densityOceanic: number; densityMantle: number; ridgeDepthM: number; depthAgeCoefM: number; shelfBreakM: number } /* isostasy (the rest height from the thicknesses and the density contrasts) and the ocean floor's depth by age */;
+  profiles: { boundary: 'oceanContinent'|'oceanOcean'|'continentContinent'|'ridge'|'rift'|'transform'|'hotspot'|'relict'; widthKm: [number, number]; heightM: [number, number]; depthM?: [number, number]; arcGapKm?: [number, number]; plateauKm?: number; forelandKm?: number; upliftMmYr: number; closingRefMmYr: number; ageDecayMyr: number }[] /* the uplift profiles per boundary class (V13 §3.2.1 (5)): the shape, the height band the crest is scaled into, and the uplift RATE the steady state is solved at (× closing ÷ `closingRefMmYr`; decayed past `ageDecayMyr` for an old orogeny) */;
+  erosion: { m: number; n: number; kByBedrock: Record<string, number>; iterations: number; channelInitCells: number; talusDegByBedrock: Record<string, number>; talusPasses: number; precipWeighted: boolean } /* the steady-state stream-power fixed point and the talus relaxation (V13 §3.2.1 (6)) */;
+  glacial: { lgmOffsetDeciC: number; elaByLatDeg: [number, number][]; elaWetDepressionM: number; erosionExponent: number; troughWidthExponent: number; cirqueAspect: 'polar' } /* the glacial carve (V13 §3.2.1 (7)) */;
+  seaLevel: { glacialLowM: number; reboundShare: number; reboundTauYr: number; riaBandKm: number; lowstandSteps: number; lowstandYr: number; reboundMaxM: number } /* the sea-level stands (V13 §3.2.1 (7)): the lowstand's bounded transient and the former ice's stand-in thickness */;
+  bedrockToGeology: Record<string, 'ordinary'|'soluble'|'volcanic'|'impermeable'>; surfaceAgeByLandform: Record<string, number> /* log-years */; version: string /* `formation.version`: bumped by any change to the formation code or these laws' meaning; a stored payload is never re-run (J-V13.111) */ }
+interface SoilRule { rows: { id: string; label: string; order: number; rule: string /* the first-match decision list's row in the volume's expression form: thresholds on MAT, MAP, the aridity index, slope, the wetland flag, groundwater depth, permafrost, the parent class and the surface age (V13 §3.2.1 (9)) */; fertility: number; tillage: 'easy'|'hard'; drainage: 'free'|'moderate'|'poor'; colour: Color }[];
+  aridity: { hyperArid: number; arid: number; semiArid: number; drySubHumid: number } /* the aridity index bands (MAP ÷ PET) */; deposits: { loessDownwindKm: number; ashRadiusKm: number } }   // world.soil — the formation op's soil step; twelve classes
+interface KoppenRule { cdBoundaryDeciC: number /* the temperate/cold boundary: 0 (the published variant this volume takes) */; thresholds: { tropicalColdMonthDeciC: number; polarHotMonthDeciC: number; tundraHotMonthDeciC: number; hotSummerDeciC: number; warmSummerMonths: number; coldSummerMonths: number; veryColdWinterDeciC: number; drySummerMm: number; drySummerRatio: number; dryWinterRatio: number; rainforestDryMm: number; monsoonBase: number; monsoonDivisor: number; aridFactorWinter: number; aridFactorSummer: number; aridFactorEven: number; aridMultiplier: number; desertMultiplier: number; hotAridDeciC: number } /* every threshold of the three-letter classification as data (V13 §3.6 (1)) */ }   // world.koppen — W5
+interface PnvRule { rows: { koppen: string /* a class pattern: `Af`, `Am`, `Aw`, `BWh`, `BWk`, `BSh`, `BSk`, `Cs*`, `Cw*` (`Cwa`, `Cwb`, `Cwc`), `Cfa`, `Cfb`, `Cfc`, `Dfa`, `Dfb`, `Dwa`, `Dwb`, `Dsa`, `Dsb`, `Dfc`, `Dfd`, `Dwc`, `Dwd`, `Dsc`, `Dsd`, `ET`, `EF` — every one of the classifier's thirty outputs has a row; a table that leaves one out is refused at registration (a lint over `world.pnv` against the classifier's outputs) */; biome: string /* a `world.biomes` row id */; dryMargin?: string /* the biome at the class's dry margin (a forest-steppe) */ }[];
+  overrides: { treelineGrowingSeasonDeciC: number; growingSeasonMonths: number; wetlandAccumCells: number; wetlandSlopeMax: number; riparianCells: number; riparianAridClasses: string[]; edaphic: { soil: string; biome: string }[] } }   // world.pnv — W5's potential natural vegetation (V13 §3.6 (1))
+interface CoverRule { use: { landPerPersonHaByTier: Record<Rung, number>; cropShare: number; fallowShare: number; pastureShare: number; woodlandShare: number; catchmentHours: number /* half the pasture and coppice limit */; fieldHoursMax: number /* the hour past which a fields shortfall is reported; the fields themselves have no cap */; fieldSlopeMaxPct: number; fertilityMin: number; walkKmH: number; slopeFactor: number } /* human use: the area demand per seat from its population and tier, assigned by travel time (V13 §3.6 (5) (a)) */;
+  succession: { biome: string; stages: { cover: string; fromYears: number }[] }[] /* the regrowth sequence after abandonment per biome (V13 §3.6 (5) (b)) */;
+  recovery: { kind: Disturbance['kind']; biome: string; stages: { cover: string; fromYears: number }[]; soilReset?: string /* the cover class's fertility reading inside the cover plate alone (read by the fold's eligibility and `SettlementPhysical.soil`'s dated note), never written to `WorldRaster.soil`, which stays the formation op's bake */ }[] /* the recovery sequence per disturbance kind and biome (V13 §3.6 (5) (c)) */;
+  plates: { fullWeeks: number; compactWeeks: number; keyEvery: number; storeMbGz: number } /* the cover cache's horizon, as the lens plates' */ }   // world.cover — the cover fold (`WORLD_COVER`)
+interface SailingRule { vessels: { kind: 'sail'|'oared'|'coastal'; polar: number[] /* the speed share by true-wind angle off the bow at 0°, 45°, 60°, 70°, 90°, 120°, 150°, 180° (interpolated); 0 a course the rig cannot hold */; fairKn: number /* the fair-wind speed */; oarKn?: number; leewayDeg: number; tackPenaltyMin: number; wearPenaltyMin: number; maxDaysFromShore?: number; nightStop: boolean; coastalFactor: number /* the coastal average against open water */ }[];
+  currentCoupling: number /* the share of the current's vector added to the water velocity, 1 (the ground speed solves the heading whose water velocity plus the current tracks the step) */; minGroundShare: number /* a step whose best ground-speed share is below it is impassable that month, 0.1 */; routingGridKm: number; headings: number; months: { closedRisk: number[] /* per month of the local hemisphere's year, over the westerlies' band only: the risk multiplier of a closed sea at its cap on a STANDALONE world (a cost, never a ban); never applied to an effort offered to the host, whose storm season is its own (J393) */; windowRisk: number[] } }   // world.sailing — W7's sea legs (V13 §3.8 (12))
+interface SolverRule { maxBackSteps: number /* the bounded back-step from W3 to W1 (V13 §3.0) */; backStepRung: 'coarse'; causes: ('rangeUpwind'|'basinNoOutlet'|'coldCurrentCoast'|'narrowedSea'|'latBoxWiden'|'wetnessShift'|'landShareShift')[] /* the smallest-cause candidates, scored in this order (V13 §3.1 (5)) */;
+  minExtentCells: Record<WorldSizeRung, number> /* the smallest coarse extent an organic correction makes at the rung — no arid dot (V13 §3.11.1) */; gradeBandCells: Record<WorldSizeRung, number> /* the graded edge's width in coarse cells (steppe and scrub between desert and green) */;
+  protectRadiusKm: number /* every other settlement's facts protected within it: a correction never changes a cell whose change would contradict another placed or included settlement's requirement */; offers: number /* the best form's offers, 3 */; previewRung: 'coarse'; edgeBlendCells: number /* a continuation's blend band inward from a shared edge, in coarse cells (V13 §3.1 (6)) */; paintLastResort: boolean /* painting only when the DM forbids terrain change, labelled `W_SOLVER_PAINTED` */ }   // world.solver
+interface PresetRule { options: { key: string; group: 'basic'|'advanced'|'deep'; stage: StageId /* the earliest stage the option affects: a change re-runs from it */; kind: Requirement['kind']; default: 'random'; rerollable: boolean }[] /* the surface's options with their groups and stages (V13 §3.1 (1); V09 §4.22) */;
+  presets: { id: string; label: string; choices: OptionChoice[]; decisions: { choice: ConflictChoice; when: 'fitAlways'|'keepFlagged'|'moveUnlocked' }[] /* map-side pre-decisions only: never `updateDossier` (J-V13.122) */ }[] }   // world.presets — the named presets; a user's preset is an `editPreset` row (§7.6)
 ```
 
 | `WorldSizeRow` | `widthKm × heightKm` | `fineCellM` | `coarseRatio` | `defaultLatBox` | `budgetMs` (V13 §6) | `reliefLimitM` | `docMb` | `exportStride` |
@@ -74381,7 +74850,11 @@ imported map's width is its pixel width × its scale × its unit's metres (a 1 9
 UNMEASURED across the host's estate), and the import keeps the declared size, coarsening or cropping only with the DM's
 consent (V13 §3.15 (2));
 the cell sizes give 1.02 M, 4.1 M and 9.2 M fine cells and 16 k, 64 k and 144 k coarse cells. A request may give its own
-extent inside [0.5, 2] × the row's.
+extent inside [0.5, 2] × the row's. The rows gain `formationRatio` 4 at every rung — the formation grid of 64 k,
+256 k and 576 k cells at 1, 2 and 4 km, half the coarse cell (V13 §3.2.1; file r choice (a)) — and `formationMs`
+400 / 1 300 / 2 800 ms, the formation op's own budget beside `budgetMs` (V13 §6). **The owner's "region map" is the
+`province` rung** (file r item 930; the spine's §12): no fourth size row exists, and a world asked for as a region is
+a province.
 
 | `ClimateWorldRule` | default | note |
 |---|---|---|
@@ -74391,7 +74864,14 @@ extent inside [0.5, 2] × the row's.
 | `phaseWeekNorth` / `phaseWeekSouth` | 23 / 49 | the hottest week of the year (0–51 from spring, §4.11's calendar) in the calendar hemisphere and in the other: midsummer at week 19 plus four weeks of land lag (the coldest week 49 falls inside the host's winter quarter, 39–51); a southern-calendar world (`WorldRecipe.calendarSouth`) swaps the two; on a host-bound world the calendar hemisphere is the one the host's seasons name, and a seat across the equator keeps its physical truth and is reported `W_WORLD_HEMISPHERE` |
 | `winds` | [0, 30) 7 000 cdeg (from the ENE), 0.6 · [30, 60) 25 000 (from the WSW), 0.8 · [60, 90] 9 000 (from the E), 0.5; the same mirrored south | the three public wind belts; a world's recipe may override |
 | `moisture.pickupPerCellOverWater` / `dropShare` / `orographicPerM` / `coastalBonus` / `barrierM` / `rainCapMm` | 12 / 0.08 / 0.012 / 60 / 2 500 / 4 000 | per coarse cell: the moisture a parcel gains over water, the share it drops over land, the extra share per metre of rise, the bonus at the first land cell, the rise that dumps the parcel, the clamp |
-| `evap.baseMm` / `zeroAtDeciC` / `fullAtDeciC` | 1 400 / −100 / 300 | potential evaporation, linear in the mean temperature between −10 °C (none) and 30 °C (full) |
+| `evap.baseMm` / `zeroAtDeciC` / `fullAtDeciC` | 1 400 / −100 / 300 | potential evaporation, linear in the mean temperature between −10 °C (none) and 30 °C (full); per month on the month's temperature (V13 §3.4 (7)) |
+| `belts.itczDeg` / `itczSwingOceanDeg` / `itczSwingLandDeg` / `subtropicalOffsetDeg` / `polarFrontDeg` / `lagMonths` / `landFetchKm` | 6 / 7 / 22 / 30 / 60 / 1 / 3 000 | the annual-mean convergence zone sits north of the equator; it swings 5–10° over ocean and to 20–25° over a large continent, a month behind the sun; the belt edges follow it; the swing a column takes grows with its land fraction within `landFetchKm` of it (V13 §3.4 (5)) — anchors PLAUSIBLE, the swing orders CONFIRMED |
+| `thermal.onshorePerDeciC` / `monsoonReversalDeg` / `wetHalfShare` | 0.004 / 120 / 0.7 | the land–sea thermal term: an onshore component per deci-degree of land–sea contrast in the warm half-year, offshore in the cold; a cell reads monsoon where its wind reverses by more than 120° between the two solstice months and the wet half-year holds more than 70 % of its rain — at the continent rung emergent, below it only through `worldContext.monsoon` (V13 §3.4 (5); `W_MONSOON_CONTEXT`) |
+| `cascade.livePreviewBand` | true | every relief or water edit, however small, re-runs the twelve marches whole and every basin's solve (V13 §3.14.2; file r choice (c); J393: no threshold, so a sequence of small edits can never diverge from one large one); a live brush may preview a local re-march of the edited band during the drag, the commit running the whole (SP-W10's fallback) — never a strip at the commit |
+| `maritime.efoldKm` | 400 | the maritime fraction relaxes toward 0 over land with this e-folding length and resets to 1 over water; the west coast in the westerlies keeps a maritime share far inland (0.29 at 500 km), the east coast is continental at once (V13 §3.4 (3)) |
+| `currents.betaEqPerM` / `viscosityM2s` / `drag` / `cycles` | 2.3 × 10⁻¹¹ / 3 000 / 10⁻⁶ / 10 | physics (β at the equator, from the planet's rotation and radius — a temperate planet of the Earth's size, as `poles` already assumes) / own: the lateral viscosity sets the western boundary width ≈ (viscosity ÷ β)^⅓ ≈ 50 km, which the coarse grid resolves at every rung / the multigrid cycles per monthly solve (V13 §3.4 (6b)) |
+| `currents.sstWarmDeciC` / `sstColdDeciC` / `upwellingDeciC` / `coastalReachKm` / `pickupPerDeciC` | 30 / −30 / −60 / 300 / 0.07 | a warm western boundary current warms its coast by up to 3 °C, a cold eastern one cools it by 3, an upwelling coast by a further 6, each fading over 300 km inland; the march's pickup over water rises 7 % per deci-degree-ten of sea-surface anomaly (the vapour law) — so a cold-upwelling coast is a desert coast (V13 §3.4 (2), (6)) |
+| `moisture.convergenceMmPerMonth` / `frontalMmPerMonth` / `convectiveMmPerMonth` / `recycleShare` | 200 / 60 / 40 / 0.4 | the belt rains the march adds beside the orographic drop: in the convergence zone's band, in the westerlies' frontal band, over warm land in its warm half-year; the share of a land cell's own evaporation returned to the parcel (V13 §3.4 (6)) |
 
 | `HydroWorldRule` | default | note |
 |---|---|---|
@@ -74551,6 +75031,78 @@ dot from stop 1 and an outline from stop 2, a TOWN everything (C13-52).
 | `barrierKinds` | `enceinte`, `retaining`, `quay`, `dyke`, `seaWall` (the entity kinds whose top blocks the spread) |
 | `spreadMaxCells` | the height raster's cell count (a flood never leaves the grid; the spread runs on the height raster, V13 §3.12.4) |
 
+| `FormationRule` (own cells PLAUSIBLE, each with its anchor; measured by SP-W9's gallery and T-V13-58) | default | anchor |
+|---|---|---|
+| `scenarios` | five rows, each with its rungs, its knob ranges, its regional feature and its template: **`collision`** a young collision range (realm, continent; `blocks` 3–6 / 2, `continentalShare` 0.5–0.7, `ageMyr` 5–30, `relictSutures` 0–1; regional `mountainFront`; template `highland`) · **`rifting`** a splitting supercontinent (realm, continent; `blocks` 2–4 / 2, `continentalShare` 0.6–0.8, `ageMyr` 10–60, `seaLevel.stands` 2; regional `rift`; template `continent`) · **`islandArc`** an island-arc archipelago (realm, continent; `blocks` 3–5 / 2, `continentalShare` 0.1–0.3, `hotspots` 1–3; regional `volcanicField`; template `archipelago`) · **`shield`** an old worn shield (realm, continent; `blocks` 1–2 / 1, `ageMyr` 300–1 000, `relictSutures` 1–3, `iceExtent` 0.2–0.8; regional `shield`; template `riverlands`) · **`riftCoast`** a rift coast (province, realm, continent; `blocks` 2 / 1, `continentalShare` 0.4–0.6, `ageMyr` 20–100; regional `coastalPlain`; template `coast`); the province rung runs the row's `regional` feature only, the realm rung one or two boundaries as a regional context, the continent rung the block model whole (V13 §3.2.1) | the five tectonic settings a realm reads as: a young range, a splitting continent, an arc, a shield, a passive margin; the boundary density on a realm (≈ 1.0 M km²) is 300–500 km of active boundary — one boundary or none (science §1.1) |
+| `blocks.seedSpacingShare` / `growthJitter` / `closingMmYr` / `shearMmYr` / `maxSpeedMmYr` / `phantomMarginShare` | 0.35 / 0.3 / 5 / 5 / 150 / 0.5 | blue-noise seeds a third of the extent apart; the randomized flood's jitter (irregular, non-convex blocks); convergent above 5 mm/yr closing, transform above 5 mm/yr shear; no point faster than 150 mm/yr; a phantom margin half a block diameter wide, so a boundary crossing the edge classifies right (deleted at the bake; a later neighbour continues the landforms alone) | plate speeds 10–100 mm/yr, the fastest spreading ≈ 150 |
+| `crust.continentalKm` / `oceanicKm` / `densityContinental` / `densityOceanic` / `densityMantle` / `ridgeDepthM` / `depthAgeCoefM` / `shelfBreakM` | 38 / 7 / 2.75 / 2.95 / 3.3 / 2 500 / 350 / 150 | continental 35–40 km at 2.7–2.8 g/cm³, oceanic 6–7 km at 2.9–3.0, over a mantle of 3.3; the ridge crest at ≈ 2 500 m, the floor sinking by 350 √t m (t in Myr up to ≈ 70); the shelf break at 130–200 m — isostasy gives the bimodal surface (land high, floor low) with no hand-tuning | physics |
+| `profiles` | `oceanContinent` width 300–700 km, trench −6 000 to −8 000 m, arc 3 000–7 000 m at `arcGapKm` 150–300 · `oceanOcean` width 200–300, trench −6 000 to −11 000, arc islands 500–3 000 at 100–200 · `continentContinent` width 300–1 000+, range 4 000–8 800, `plateauKm` 1 000 at 3 000–5 000 m, `forelandKm` 100–300 at −500 · `ridge` the depth-age law with an axial valley at slow ridges · `rift` graben −500 to −1 500 between shoulders 1 000–2 000 over 30–100 km · `transform` ±100–500 m over 5–20 km · `hotspot` a swell 1 000–1 500 m over 500–1 200 km with an edifice to 4 000 m above the floor and a decaying, subsiding chain along −v · `relict` the collision profile at 10–30 % height and 1.5 × width; `upliftMmYr` continent–continent 5, ocean–continent arc 2, ocean–ocean arc 1.5, rift shoulder 0.5, hotspot 0.3, relict 0.05, ridge and transform 0, at `closingRefMmYr` 30; `ageDecayMyr` 30 (an orogen older takes U × e^(−(age − 30) ÷ 60 Myr)) | the arc–trench gap, trench depth, the highest peak and plateau, the rift and hotspot figures are the Earth's; the profile shapes own; the uplift rates 1–3 mm/yr on active margins, 5–10 in the great collisions, under 0.1 on cratons (science §2.1); the decay's anchors a 300 Myr belt at ≈ 2.0 km and a 250 Myr one at ≈ 1.9 km (PLAUSIBLE) |
+| `erosion.m` / `n` / `kByBedrock` / `iterations` / `channelInitCells` / `talusDegByBedrock` / `talusPasses` / `precipWeighted` | 0.45 / 1 / shield 10⁻⁶, folded belt 3 × 10⁻⁶, arc volcanics 5 × 10⁻⁶, sedimentary 10⁻⁵, limestone 2 × 10⁻⁵, basalt 3 × 10⁻⁶, alluvium 5 × 10⁻⁵ yr⁻¹ / 10 / 1 / crystalline 37°, sedimentary 32°, loose 28° / 20 / true | the concavity 0.35–0.6 (typical 0.45), n ≈ 1; K spans 10⁻⁷–10⁻⁴ yr⁻¹ with rock strength; the steady-state fixed point converges in 5–15 iterations; the talus angle 30–40° — the transient run of 100–1 000 steps is never taken (science §2.1: over budget above the province rung) |
+| `glacial.lgmOffsetDeciC` / `elaByLatDeg` / `elaWetDepressionM` / `erosionExponent` / `troughWidthExponent` | −70 / [0, 5 000], [30, 3 500], [45, 2 800], [60, 1 200], [75, 300], [90, 0] / 600 / 2 / 0.45 | the glacial maximum 6–8 °C colder in mid latitudes with the equilibrium line 800–1 200 m lower; the line ≈ 4 800–5 200 m in the tropics, ≈ 2 700–3 000 in the Alps' latitudes, ≈ 1 000–1 500 on a wet maritime coast, near the sea in the high Arctic, lower on wet flanks; the erosion rate ∝ sliding speed²; U-valleys with a parabolic section whose width grows with the ice flux | science §2.3 |
+| `seaLevel.glacialLowM` / `reboundShare` / `reboundTauYr` / `riaBandKm` / `lowstandSteps` / `lowstandYr` / `reboundMaxM` | −120 / 0.3 / 4 500 / 60 / 10 / 20 000 / 300 | the last glacial low −120 to −134 m; the rebound ≈ 0.3 of the former ice thickness with a 4 000–5 000 yr time constant, the thickness read as 300 m under the mask (a procedural stand-in); the lowstand's valleys cut by a bounded transient over the last cycle's span (science §2.4's method), then drowned within the coastal band as rias (branching inlets), glacial troughs fjords | science §2.4 |
+| `bedrockToGeology` | sedimentary ordinary · shield ordinary · folded belt ordinary · arc volcanics volcanic · flood basalt volcanic · limestone soluble · evaporite soluble · alluvium ordinary · till impermeable · ash volcanic · young lava volcanic | the four classes W4's permeability and W5's resource rules read stay as they are |
+| `surfaceAgeByLandform` | floodplain 10²–10³ yr · till 10⁴ · lava 10¹–10³ · ash 10² · shield 10⁸ · elsewhere the orogeny's `ageMyr` | the soil law's time factor (science §3.1, §3.4) |
+| `version` | `formation/1` | bumped by any change to the formation code or to these rows' meaning; a stored payload is read under its own pin and never re-run (J-V13.111; `W_FORMATION_VERSION`) |
+
+| `SoilRule` (twelve classes, a first-match decision list — own thresholds PLAUSIBLE, the causes CONFIRMED) | rule (first match wins) | fertility · tillage · drainage |
+|---|---|---|
+| 1 `gelisol` | permafrost within 1 m: MAT ≤ −20 deci-°C, or the permafrost override | 0.05 · hard · poor |
+| 2 `histosol` | waterlogged (the wetland flag, or the groundwater table within 30 cm) and MAT < 250 | 0.3 · hard · poor |
+| 3 `entisol` | slope > 30 %, or surface age < 10³ yr, or an active floodplain, or dune sand | 0.5 (alluvial 0.9) · easy · free |
+| 4 `andisol` | parent ash or young lava and age < 10⁵ yr | 0.9 · easy · free |
+| 5 `aridisol` | aridity index < 0.2 | 0.2 · easy · free |
+| 6 `vertisol` | a clay parent (basalt, shale, lake clay), slope < 5 %, a marked wet–dry season | 0.7 · hard · poor |
+| 7 `mollisol` | a grassland potential vegetation and 0.2 ≤ aridity < 0.8 | 1.0 · easy · moderate |
+| 8 `spodosol` | MAT 0–80, aridity ≥ 1, a coniferous or heath potential vegetation, a sandy or granitic parent | 0.25 · easy · free |
+| 9 `oxisol` | MAT ≥ 200, aridity ≥ 1, age ≥ 10⁶ yr, slope < 8 % | 0.2 · easy · free |
+| 10 `ultisol` | MAT ≥ 120, aridity ≥ 0.8, age ≥ 10⁵ yr | 0.4 · easy · moderate |
+| 11 `alfisol` | a forest potential vegetation, aridity ≥ 0.5, age ≥ 10⁴ yr | 0.8 · easy · moderate |
+| 12 `inceptisol` | otherwise | 0.6 · easy · moderate |
+| `aridity.hyperArid` / `arid` / `semiArid` / `drySubHumid`; `deposits.loessDownwindKm` / `ashRadiusKm` | 0.05 / 0.2 / 0.5 / 0.65; 300 / 80 | the published aridity classes; loess downwind of glacial outwash, ash within a volcano's fall radius (science §3.2, §3.4) |
+
+| `KoppenRule` (the three-letter classification as data; every threshold CONFIRMED from the published table this volume restates in its own units; `cdBoundaryDeciC` the 0 °C variant) | default |
+|---|---|
+| `tropicalColdMonthDeciC` / `polarHotMonthDeciC` / `tundraHotMonthDeciC` | 180 / 100 / 0 (A: the coldest month ≥ 18 °C; E: the hottest < 10; ET: the hottest > 0, else EF) |
+| `aridFactorWinter` / `aridFactorSummer` / `aridFactorEven` / `aridMultiplier` / `desertMultiplier` / `hotAridDeciC` | 0 / 28 / 14 / 10 / 5 / 180 (the threshold 2 × MAT + the factor by which half-year holds ≥ 70 % of the rain, MAT in °C — `tempDeciC` ÷ 10, never the deci-degree value, which would set the threshold ten times too high; B where MAP < 10 × it; W where < 5 ×; h/k by MAT 18 °C) |
+| `cdBoundaryDeciC` / `hotSummerDeciC` / `warmSummerMonths` / `coldSummerMonths` / `veryColdWinterDeciC` | 0 / 220 / 4 / 1 / −380 (C where the coldest month is above 0 and the hottest > 10; D where the coldest ≤ 0; a: the hottest ≥ 22; b: ≥ 4 months above 10; c: 1–3; d: the coldest < −38) |
+| `drySummerMm` / `drySummerRatio` / `dryWinterRatio` / `rainforestDryMm` / `monsoonBase` / `monsoonDivisor` | 40 / 3 / 10 / 60 / 100 / 25 (s: the driest summer month < 40 mm and < a third of the wettest winter month; w: the driest winter month < a tenth of the wettest summer month; f otherwise; Af: the driest month ≥ 60; Am: ≥ 100 − MAP ÷ 25; Aw below) |
+| the order of tests; summer | E first, then B, then A, C, D; summer is the warmer six-month half; where s and w both pass, the half-year with more rain decides |
+
+| `PnvRule` (the class → potential vegetation table; own mapping onto the thirteen `BiomeRow`s, PLAUSIBLE) | rows |
+|---|---|
+| `rows` | `Af` → `rainforest` · `Am` → `tropicalSeasonal` · `Aw` → `savanna` (`dryMargin` `temperateGrass`) · `BWh` → `hotDesert` · `BWk` → `coldDesert` · `BSh` → `savanna` (steppe) · `BSk` → `temperateGrass` (steppe) · `Cs*` → `mediterranean` · `Cwa`, `Cwb` → `tropicalSeasonal` (a dry-winter forest) · `Cwc` → `tropicalSeasonal` (highland) · `Cfa` → `temperateForest` · `Cfb`, `Cfc` → `temperateForest` · `Dfa`, `Dfb`, `Dwa`, `Dwb`, `Dsa`, `Dsb` → `temperateForest` (`dryMargin` `temperateGrass`) · `Dfc`, `Dfd`, `Dwc`, `Dwd`, `Dsc`, `Dsd` → `boreal` · `ET` → `tundra` · `EF` → `ice` (thirty classes, thirty rows) |
+| `overrides.treelineGrowingSeasonDeciC` / `growingSeasonMonths` / `wetlandAccumCells` / `wetlandSlopeMax` / `riparianCells` / `riparianAridClasses` / `edaphic` | 64 / 3 / 400 / 0.5 % / 2 / `BW*`, `BS*` / spodosol → `boreal` (heath), vertisol → `temperateGrass` | the treeline at a growing-season mean of ≈ 6.4 °C (alpine above it); the base's wetland override kept; a gallery forest within two fine cells of a reach through an arid class; the edaphic overrides from the soil |
+
+| `CoverRule` (own cells PLAUSIBLE, anchored; measured by the B-COVER fixture, T-V13-62) | default | anchor |
+|---|---|---|
+| `use.landPerPersonHaByTier` THORP … METROPOLIS | 1.2 / 1.0 / 0.9 / 0.75 / 0.6 / 0.5 ha arable per person | pre-industrial mixed farming 0.5–1 ha arable per person (≈ 0.75 under three fields), falling with intensity; the distant past mostly under 1 ha |
+| `use.cropShare` / `fallowShare` / `pastureShare` / `woodlandShare` | 0.67 / 0.33 / 1.0 / 1.0 (× the arable) | three fields; pasture, meadow and coppice at least as much again (fuel ≈ 1–2 t of wood per person a year) |
+| `use.catchmentHours` / `fieldHoursMax` / `fieldSlopeMaxPct` / `fertilityMin` / `walkKmH` / `slopeFactor` | 1 / 2 / 18 / 0.25 / 5 / 3.5 | a farmer's catchment about an hour's walk (≈ 5 km), returns falling beyond ≈ 1 km and a daily limit of 3–4 km — the fields by ascending travel time until met, a shortfall reported past two hours, pasture and coppice out to two hours (a town of 10 000 at 30–50 % arable fills a disc of 7–9 km); the hiking law's flat speed ≈ 5 km/h with its slope term; no field above ≈ 15–20 % unless terraced; the soil's fertility floor |
+| `succession` | temperate forest: weeds 0 · grass 2 · shrub 5 · young forest 20 · forest 50 · old growth 200 yr · tropical: regrowth 0 · young forest 10 · forest 40 · old growth 120 · boreal: broadleaf 0 · conifer 50 · mature 100 · mediterranean: scrub 0 · maquis 10 · oak woodland 50 · grassland: grass 1 · steppe 5 · arid: bare 0 · scrub 30 · shrubland 100 · tundra: bare 0 · tundra 100 | the old-field sequence (closed young forest 20–40 yr, hardwoods 50–150, old growth 200+); the wet tropics at ≈ 78 % of old-growth attributes after 20 yr; boreal, maritime, steppe and arid orders |
+| `recovery` | `fire`: grassland regrowth within 1 yr; maquis 5–15; temperate forest shrub 5, canopy 30–60, mature 100; boreal canopy 50–100 · `flood`: herbs 1, thicket 3–10, the silt raising fertility (`soilReset` alluvial) · `clearing`: as the biome's succession from 0 · `eruption`, `ashfall`: re-establishment 1–3 yr, forest decades (thick ash buries: `soilReset` ash) · `lavaFlow`: bare, ferns within years in the wet tropics, forest centuries, bare for millennia in the arid (`soilReset` young lava) · `razing`, `plague`: the seat's use withdrawn, its fields on the biome's succession from the event's week | science §6.4 |
+| `plates.fullWeeks` / `compactWeeks` / `keyEvery` / `storeMbGz` | 520 / 13 / 13 / 6 at the realm rung after 300 years (`WORLD-17`) | the lens plates' horizon, shared |
+
+| `SailingRule` (own cells PLAUSIBLE, anchored on the passage-time record; measured by T-V13-67) | default | anchor |
+|---|---|---|
+| `vessels` `sail` (a square rig) | polar 0, 0, 0, 0.35, 0.65, 0.90, 1.00, 0.90; `fairKn` 5; `leewayDeg` 10; `tackPenaltyMin` 15; `wearPenaltyMin` 20; `nightStop` false; `coastalFactor` 0.7 | six to seven points off the wind at best; 4–6 knots open water with a fair wind, 3–4 along coasts; dead to windward about a tenth of the fair speed, in practice waited out |
+| `vessels` `oared` (a galley) | polar 1.0 × its oars at every angle (0.8 with the wind dead ahead), sail only off the wind at 0.6; `oarKn` 3; `fairKn` 4; `leewayDeg` 4; `maxDaysFromShore` 3; `nightStop` true; `coastalFactor` 0.9 | rowed in shifts about 2–3 knots sustained; water every few days; beached at night |
+| `vessels` `coastal` (a fore-and-aft coaster) | polar 0, 0.45, 0.70, 0.80, 1.00, 0.95, 0.85, 0.70; `fairKn` 4; `leewayDeg` 5; `tackPenaltyMin` 4; `maxDaysFromShore` 1; `nightStop` true; `coastalFactor` 0.8 | four points off the wind; the coaster's shorter legs and anchorages |
+| `currentCoupling` / `minGroundShare` / `routingGridKm` / `headings` | 1 / 0.1 / 16 / 16 | a current of 1–2 knots against a 4–5 knot ship is a 25–50 % loss, with it the same gain — first-order, not cosmetic; the current enters as a vector (the heading solved so the water velocity plus the current makes good the step; a boundary current of 2–2.5 m/s against a 3–4 knot hull leaves no heading, and the step is closed that month); a 16 km routing grid refined within a few cells of the ports |
+| `months.closedRisk` / `windowRisk` | the local hemisphere's winter quarter 2.0, its shoulders 1.3, else 1.0, over the westerlies' band (30°–60°) alone — the trades and a monsoon belt 1.0, their windows emerging from the winds / per month | a standalone world's closed winter sea as a cost multiplier (the historical closed season of a mid-latitude westerlies' sea), never a ban, and never on a host-bound world's offered efforts: the host's storm season is the host's and is never multiplied twice (J393) |
+
+| `SolverRule` (own cells PLAUSIBLE; measured by T-V13-64) | default | anchor |
+|---|---|---|
+| `maxBackSteps` / `backStepRung` / `causes` | 3 / coarse / rangeUpwind, basinNoOutlet, coldCurrentCoast, narrowedSea, latBoxWiden, wetnessShift, landShareShift | the spine's §4.2: one bounded back-step, the smallest cause first; the causes ranked by the land they change, least first |
+| `minExtentCells` province / realm / continent | 40 / 60 / 90 coarse cells (≈ 160 / 960 / 5 760 km²) | no arid dot: an enclave belongs in a rain shadow, a basin floor or a substrate, 10–100 km across (an ecotone's own width) |
+| `gradeBandCells` province / realm / continent | 4 / 4 / 3 coarse cells | the ecotone 10–100 km wide: steppe and scrub between desert and green |
+| `protectRadiusKm` / `offers` / `previewRung` / `paintLastResort` | 25 / 3 / coarse / true | every other settlement's facts protected; the three offers with reasons; the preview the coarse run; painting only when terrain change is forbidden, labelled |
+| `edgeBlendCells` | 8 coarse cells | a continuation's edge band: a few coarse cells, 8–16 (science §10.2) |
+
+| `PresetRule` | default |
+|---|---|
+| `options` | **basic** (stage): `size` (W0) · `template` and `scenario` (W0) · `climateBand` (W0: the latitude box's centre) · `landShare` (W0 → W1's mask) · `ruggedness` (W1's noise amplitude and the scenario's drama) · `wetness` (W3's moisture) · `density` (W6, a standalone world); **advanced**, collapsible groups each with random and reset: terrain (`extent`, `latBox`, the templates' op ranges), formation (every `FormationKnobs` key), climate (`poles`, `wind`, `worldContext.monsoon`, `worldContext.ocean`, `calendarSouth`), water (`seaLevelM`, `lakeMinDepthCm`, `navigableM3s`), biomes (`biomeMatrix` on an import; the inclusion chips with amounts, each an `inclusion` requirement), resources (the rule rows' densities), routes and sites (`routeLay`, `sailing` vessels), politics on a standalone world (`seats`, `provinces`), names (the culture); **deep**: sketch landmasses or mountain lines (a `lockRegion` of drawn ops), pin a feature (a `locked` op), import a heightmap or a legacy map (the `image` op; V13 §3.15), lock regions and regenerate the rest; every option `default: 'random'` and `rerollable` |
+| `presets` | `randomAll` (every option random; no decision) · `fitMySettlements` (every option random; `fitAlways`) · `keepTheWorld` (`keepFlagged`) · `freeHand` (`moveUnlocked`); a user's own presets by `editPreset`; none pre-decides `updateDossier` |
+
 ### 2.4 Derived transients (never persisted)
 
 ```ts
@@ -74558,7 +75110,9 @@ interface Blend { box: { c0: number; r0: number; c1: number; r1: number }; weigh
 interface FloodSpread { surface: Id; stageCm: Cm; cells: Uint32Array /* the HEIGHT-raster cells the stage reaches by the barrier-aware flood (V13 §3.12.4; C13-12) */; blockedBy: Id[] /* the barrier entities that stopped it */; overtopped: Id[] /* the barriers lower than the stage */ }
 interface WaterClassResult { unit: Id; class: 'dry'|'damp'|'wading'|'swimming'|'submerged'; depthCm: Cm; share?: number /* a floor range's flooded share */; governing: { surface: Id; via?: Id /* the passage the body reached through */; kind: 'table'|'open'|'stage' }; thresholds: Hash64 /* the water.class slice */; reason: Id }
 interface RouteClassResult { path: Id[]; class: 'walkable'|'wading'|'swimming'|'diving'|'none'; worst: Id }
-interface WorldFacts { at: WorldPointCm; week: Week /* `atWeek`, default the world's present */; demCm: Cm; surfaces: WaterSurface[]; reach?: Id; biome: string; landUse: string; route?: Id; territory?: Id /* the seat territory */; sites: Id[] /* the site Placements at the cell */;
+interface WorldFacts { at: WorldPointCm; week: Week /* `atWeek`, default the world's present */; demCm: Cm; surfaces: WaterSurface[]; reach?: Id; biome: string /* the potential natural vegetation (W5) */; landUse: string;
+  landCover: { class: string; sinceWeek?: Week; event?: Id } /* the cover plate's class at the cell at `week` (`landCoverAt`, V13 §3.6 (5)): what V14's E1 world crop and a placed frame's surroundings draw — a derived reading, never written back, never a stage's input */;
+  soil: string; bedrock: string; landforms: Id[] /* the `Landform`s whose outline holds the cell */; route?: Id; sailing?: { vessel: string; month: number; out: number; back: number } /* a water route at the cell: the month's efforts both ways (V13 §3.8 (12)) */; territory?: Id /* the seat territory */; sites: Id[] /* the site Placements at the cell */;
   polity: { swayRevision: number; sway?: Id; holder?: string; allegiance?: Id; status: 'held'|'heldByForce'|'debatable'|'unclaimed'; sides?: [string, string]; occupation?: { by: string | null; rung: number }; patrols: { power: string; everyWeeks: 1|4|13; present: boolean }[]; fighting?: { kind: string; since: Week } } /* the revision in force at `week` (past weeks from the keyframes and traces) */;
   recent: { kind: string; week: Week; event?: Id /* a WorldEvent within its radiusM */; reason: Id }[] /* every WorldEvent within its radius of the point and every dated surface or trace in the cell with week ≥ sinceWeek (SW-07) */ }   // worldFactsAt(world, wCm, sinceWeek?)'s answer (V14's E1)
 ```
@@ -74600,12 +75154,20 @@ segment existed reads `namespace` from its `docId` at load and writes it at the 
 | a `SwayRevision`, `SwayTrace` | the world root | (`swayRev`, the revision number) |
 | a `MarchHold` | the world root | (`march`, the pair sorted, the segment, the side) |
 | a `PatrolCadence` | its route | (`patrol`, the route's lineage, the station span, the power) |
-| a `Placement` | the world root | (`placement`, the subject's docId or site lineage) — so re-placing a frame keeps its placement's address |
+| a `Placement` | the world root | (`placement`, the subject's docId or site lineage) — so re-placing a frame keeps its placement's address; a world subject (file r item 1030): (`placement`, `world`, the extent's south-west corner and the rung), minted at `requestCharter` before the child exists, `bindPlacement` writing `subject.doc` and leaving the address |
 | a `WorldEvent` | the world root | (`event`, the host's event key, or the writing event's `seq` for a user's) |
 | a `SettlementGlyph` | its placement | (`glyph`, the placement's lineage) |
 | a `FrameCharter` | its placement | (`charter`, the placement's lineage, the emitting event's `seq`) — a new charter per re-placement, the old one a tombstone the frame's recipe may still cite |
 | a `TerrainTrace`, `SurfaceTrace` | the event | (the event's `seq`, its ordinal) — user-created entities of their event (§6.3) |
 | a `ReasonRecord` | the fact it explains | (`reason`, the fact's lineage, the path or `''`, the writing event's `seq`) |
+| a `Landform` | the world root | (`landform`, its kind, the formation cell of its outline's lowest-then-leftmost vertex) — so a re-bake under a new scenario draw mints new landforms and a `weather` op finds the old ones again where they stand |
+| an `Override` | the event | (the event's `seq`, its ordinal) — user-created entities of their event (§6.3), as traces are |
+| a `Disturbance` | the event | (the event's `seq`, its ordinal); a host-attributed one also names the `WorldEvent`'s key in its reason |
+| a `Requirement` | the world root | (`requirement`, its source, its kind, the hash of its target and scope) — so the same settlement's same fact is one requirement across runs, and a decision keyed to it survives a reroll |
+| a `Conflict` | the world root | (`conflict`, the requirement's lineage, the action's `seq` or the run's) — derived, re-minted per run |
+| a `Decision` | the world root | (`decision`, the requirement's lineage, the `restsOn` hash) — a decision whose basis moved is a new entity, the old one kept as history |
+| a `CoverPlate` | — (a cache, never an entity: keyed by its window's `seq` or its disturbance's event `seq`, as a `LensPlate` is) | — |
+| a `SailingLeg` | — (derived, never an entity: keyed by (route, vessel, month, direction) in `derived`) | — |
 
 Two entities whose keys collide take §6.3's ordinal suffix; a key whose source is gone keeps the entity by §6.3's anchor
 carry-over. Anchors for §6.3's matching table: a reach by overlap ≥ 50 % of its course within one fine cell's width; a
@@ -74643,7 +75205,18 @@ T-V13-30 (b).
 | `ReasonRecord` | every stage; the cascade; V14 | the clerk's four readers | entities block (records digest only) | re-written by every derivation that re-derives its fact (`supersedes` the old) | the former record | absent on an older document: the generic provider answers from provenance (V10 §2.13) and the clerk says the chain is incomplete |
 | `TerrainTrace`, `SurfaceTrace` | a `happened` edit; V06's water ops | the view, the clerk | entities block | kept | removed with the event; `deleteTrace` removes one alone, its own undo restoring it | kept |
 | `EditBase.verb` | every terrain and water edit (`happened` by default) | the fold (V13 §3.14) | the event | — | — | an older event reads `alwaysSo` (no trace was ever kept) |
-| the view keys `worldZoom`, `worldLayer`, `showTraces`, `surfaceDate`, `worldLens`, `lensWeek` | V09's controls | the world view; the lenses | the viewer's view state, never a digest | view only | not an event | absent: stop 1, `relief`, `false`, the document's week, no lens open, the document's week |
+| the view keys `worldZoom`, `worldLayer`, `showTraces`, `surfaceDate`, `worldLens`, `lensWeek` | V09's controls | the world view; the lenses; the land-cover layer | the viewer's view state, never a digest | view only | not an event | absent: stop 1, `relief`, `false`, the document's week, no lens open, the document's week |
+| the `formation` op's `baked` payload (the formation-grid DEM chunks, `bedrock`, `soil`, `surfaceAge`, the landform ids) and a `weather` op's | the op's first run inside W1 (once, at the world's generation or at a `regenerate` of `stage: 'formation'`); a `weather` op's at its `physicsPass` on the fork | W1 on every later run (read under its own pin, never re-run); W4 through `geology`; W5; the charter; the view; the share code (the payload's hashes) | the world's `fields` chunks referenced by content hash from the op (V13 §2.7); in the model digest as every raster is | never: a re-derivation reads the payload; a new scenario draw is a new op with a new bake | the op removed with its edit (the chunks unreferenced, dropped at the next compaction) | the pin: a payload baked under an older `formation.version` loads unchanged and is reported `W_FORMATION_VERSION` (informative); a world whose chunks cannot be fetched refuses to open its recipe's first op (`refuse.world.formationPayload`), never re-runs |
+| `WorldRaster.bedrock`, `soil`, `formation` (the grid) | W1 from the formation op's payload (the fine refinement of V13 §3.2.1 (10) never writes them: they live on the formation grid) | W4 (`geology`), W5, W6 (habitability), the cover fold, the charter, the view, the exports | `fields` chunks (run-length) | re-derived from the payload on load if dropped; a `paintLayer` of `soil` an `Override` held through every re-derivation | the override removed | absent on a world with no formation op: `bedrock` all 0, `soil` by the soil law over the climate alone at W5's run (reported) |
+| the climate raster's monthly arrays, `maritime`, `currentMonth`, `sstAnomalyDeciC`, `basin` | W3 | W4 (the annual summaries), W5 (the classification), W7 (the sea legs), the charter's `monthly`, the view's `monthly` and `currents` layers, the edge charter | `fields` chunks (the monthly arrays delta-coded month to month) | re-derived from W3 on any relief or water edit (the whole monthly march and every basin, V13 §3.14.2; J393), a pole, wind, latitude-box or world-context adjust | the replaced scope | absent on an older world: re-derived on load |
+| `Landform` | the formation op's bake; a `weather` op (a new fjord, a lake) | W9 (names, labels), the view, the exports, the charter's `landforms`, `worldFactsAt`, the clerk, `SettlementPhysical.hazards` | entities block | kept through every re-derivation (its outline is the bake's; a `setField` that levels a range leaves the record with a `levelled` reason until the DM deletes it); `name` and `active` edited attributes held (§7.2) | with the op that baked it; `setAttr`'s inverse | absent: a world with no formation op has none |
+| `Recipe.world.choices`, `requirements` | W0 from the request (`WorldRequest`), `setRequirements`; the included campaign's facts through `CampaignFacts`; `paintLayer` and a lock add rank-2 rows; an edge charter rank-1 rows | every stage's satisfy and verify duty; the back-step; the conflict list; the world dialog | the recipe | a changed requirement is a Re-derive from the earliest stage it affects (`PresetRule.options[].stage`); the rolled facts are never re-read | the former set and the replaced scope | the record schema's chain; a world before this item reads every option `random` and no requirement, its template a `set` option |
+| `Recipe.world.decisions` | `decide` (the conflict list; a preset's map-side pre-decision) | the solver at every later run and physics pass; the conflict list (a decision whose `restsOn` still holds is not re-asked) | the recipe | re-asked only when `restsOn` moved | the former decision | — |
+| `Override` | `paintLayer` (verb `alwaysSo` only); a physics pass's `release` marks it released | every re-derivation of its layer over its cells (held); the view's hatch; the clerk | entities block | held: a boundary condition of the dirty set; released, a trace or gone | the override removed; a release undone restores it | kept |
+| `Disturbance` | `disturb` (verb `happened` only); a host event the DM attributes | the cover fold from its week; the view; the clerk; V14's E1 through `worldFactsAt.landCover` | entities block | kept through every re-derivation and every reroll (a dated fact); the cover plates after it re-folded | removed with its event, the plates after it re-folded | kept |
+| `CoverPlate` (one per host advance and per dated disturbance; V13 §3.6 (5)) | the cover fold (`WORLD_COVER`) at each lens window's fold and at each `disturb` | the `landCover` layer at `lensWeek`; `landCoverAt`; `worldFactsAt`; `SettlementPhysical.landCoverShare`; the `physicalChange` offer; no stage | the cover cache (`Document.coverPlates`, BCR-V13-41): kept across loads and saves, outside the model and records digests, delta-coded with a whole plate every `cover.plates.keyEvery` | re-derivable (unlike a lens plate): a pure function of the potential vegetation, the dated host facts and the disturbances, so a dropped cache is rebuilt at the next view (`W_COVER_PLATE_GAP` only while rebuilding); a host rewind drops the plates after it; past `cover.plates.fullWeeks` compacted as the lens plates are | not an event (a cache) | absent: rebuilt |
+| the dossier update request (`requestDossierUpdate` → `dossierUpdated`) | the conflict list's `updateDossier` choice | the host (its own world-fact command after the user's approval); the conflict list's state (`W_DOSSIER_PENDING` until confirmed) | the world's log (the request); the host's confirmation as a recorded input | — | withdrawn while pending; sealed when confirmed (the host's own undo retracts it) | — |
+| `SailingLeg` (per route, vessel, month, direction) | W7's sail routing on demand per lane (V13 §3.8 (12)) | `WorldRoute.sailing`, the `routes` layer's month slider, `routeFacts`' offer, `worldFactsAt.sailing` | `derived`, keyed by (lane, geometry version, climate version); never a digest | re-derived when a strait edit, a relief edit or a climate adjust moves the geometry or climate version; the efforts re-offered in `routeFacts`, band crossings reported | not an event | absent: derived at the next read |
 
 ### 2.7 The version table, the digests and the storage of the world
 
@@ -74696,6 +75269,29 @@ measured at W1 (V13 §8); *pre-decided fallback:* the recomputable rasters (`flo
 `watershed`, the distance fields) are dropped from the file and rebuilt on load inside V13 §6's load budget. A frame's
 document grows by its `groundwater` chunk (≤ 160 KB at CITY: 102 400 hydro cells × an Int16 delta stream) and its
 surfaces (a few records), inside §2.9's size budget.
+
+**The formation payload** (J-V13.111). A `formation` op's `baked` results are `fields` chunks of the world — the
+formation-grid DEM as a second-order delta-coded Int32 stream (≈ 0.6 B per formation cell: ≤ 350 KB at the continent
+rung), `bedrock`, `soil` and `surfaceAge` run-length coded (≤ 200 KB together) — referenced from the op by content
+hash, as the `image` op references its asset through `packs`; the `Landform` records sit in the entities block (≤ 200
+at the continent rung). They are model data and sit in the model digest as every raster does (two worlds baked alike
+hash alike; a world re-derived from its recipe reads them and never re-runs the op, so its digest never moves when
+the formation code moves — T-V13-57). A `weather` op's delta is stored the same way. **The share code** (V13 §11 Q3)
+replays W0–W9 from `Recipe.world` as before; where the recipe's first op is `formation` the code carries the
+payload's chunk hashes, and the chunks are re-fetched from the store the code names — the host's per-campaign world
+record, the gallery's stored snapshot or the user's file — never re-run: a code whose chunks cannot be fetched refuses
+with the hash named (`refuse.world.formationPayload`), since a re-run under a later `formation.version` could differ
+and a share code must replay byte-identically or not at all. The world document's budget grows by the payload (≤
+0.6 MB gzipped at the continent rung, inside `docMb`).
+
+**The cover cache** (`Document.coverPlates`, BCR-V13-41) is the plate cache's sibling: outside the model digest, the
+records digest, the canon and every export's model; kept across loads and saves; delta-coded with a whole plate every
+`cover.plates.keyEvery`; compacted past `cover.plates.fullWeeks` as the lens plates are; budgeted apart (`WORLD-17`).
+Unlike a lens plate it is **re-derivable** — a pure function of the potential vegetation, the dated host facts the
+windows carry and the disturbances in the entities block — so a dropped cache rebuilds at the next view and no
+reading of it is ever the only copy of a fact. **The solver's records** — `Recipe.world.choices`, `requirements` and
+`decisions` — are inputs and sit in the recipe (the model digest, as every model-affecting input does); the
+`VerificationReport`, the `Conflict`s and the `SailingLeg`s are derived and sit in `derived`, outside both digests.
 
 ### 2.8 The `MapImport` mapping (as data, from the ecosystem's full JSON export, version-pinned)
 
@@ -74760,19 +75356,42 @@ declares its world-fact inputs (the data keys it reads), takes one context recor
 for the placement operators, V13 §3.11) and returns outputs as rasters, records (arenas, for a frame) and derived facts,
 writing one `ReasonRecord` per record it creates or changes and one per raster chunk it writes (V13 §2.2; C13-07) — a
 stage that writes a record or a chunk without a reason fails T-V13-10's chain test. Every stage declares its failure ladder (V13 §3.16) and its work
-limits as laws over the extent's cell counts (§5.1 (5): the unit `frameCells` reads the fine or coarse grid). The world
+limits as laws over the extent's cell counts (§5.1 (5): the unit `frameCells` reads the fine or coarse grid). **Every
+stage is a step of the one requirement solver** (J-V13.117; the spine's §4.2 — there is no separate solver program:
+the pipeline IS the solver, `solve` of `@plat/world/solve` its driver): beside its outputs each stage declares the
+requirement kinds it can SATISFY (the facts it may set as it builds) and those it must VERIFY (the facts it checks as
+it produces), and writes each requirement's `status` with a reason (`Requirement`, V13 §2.2). The duties: **W0**
+satisfies extent, latitude box, poles, wind, land share, template and scenario, the world context, the included
+settlements' planned sites (from their relationships) and an edge charter's stations, and verifies nothing yet; **the
+formation op** (inside W1) satisfies relief where mountain seats and needed rain shadows are and coasts where ports
+need them — the scenario's knobs are requirements too; **W1** satisfies each planned site's relief and coast side by
+local ops (`origin: 'solver'`); **W2** satisfies a lake seat's lake and a strait between rival ports, and verifies
+coast and lake rows; **W3** verifies every planned site's climate row and every biome inclusion, and sends the one
+bounded back-step (below) for any it cannot; **W4** satisfies a riverside seat's river from a real source (a `trough`
+op where the drainage would give none) and verifies river and inflow rows; **W5** verifies biome inclusions by extent
+and resource rows; **W6** satisfies a site row; **W7** verifies trade-access and relation rows (a partner within its
+travel bound under the law in force); **W8** verifies polity rows on a standalone world; **W9** satisfies name rows;
+**P1–P5** satisfy a frame's rows at placement. **The back-step** (`world.solver`'s `maxBackSteps` 3, each on the
+coarse rung): an unmet row at W3 names its smallest cause from `solver.causes` — a range upwind of a dry seat, a basin
+without outlet, a cold current's coast, a narrowed sea, a widened latitude box, a wetness shift, a land-share shift —,
+W1 appends the correction as an op with `origin: 'solver'` and the row's id, and W1–W3 re-run over the coarse rung;
+the candidate causes are ranked by a deterministic score (the land they change, least first; ties by the cause's
+ordinal in the table) and any draw among equals is taken on `world.recipe` with ordinal keys, so the back-step is as
+deterministic as the run (T-V13-64); past the bound the row stays `unmet` in the report with its offer (a larger
+world, a wider latitude box, more relief), reported `W_REQUIREMENT_UNMET`, never faked. The run ends with the
+**verification report** (`VerificationReport`, V13 §2.2) in `derived`. The world
 runs on the generation worker as a settlement does (§4.1), its stages serial; it runs **before** any settlement frame
 of its campaign is generated from a charter and **after** every settlement generated standalone that is later placed;
 the two orders meet at P1–P5.
 
 | stage | id | reads (data keys) | writes | streams (§6.1) | lineage unit | ladder (V13 §3.16) | budget (V13 §6) |
 |---|---|---|---|---|---|---|---|
-| W0 Blueprint | `W0` | the request; the tables | `Recipe.world` (the snapshot, the resolved extent, cells, poles, winds, matrix, the recipe op list with seed indices) | `world.recipe` (the template draw) | the world root | F-WORLD (recipe) | ≤ 2 ms |
-| W1 Terrain | `W1` | `world.recipe` | `WorldRaster.dem`, `geology`, the coarse grid and index map | `world.recipe` keyed by op index | the world root | F-WORLD (clamp) | the size row's |
+| W0 Blueprint | `W0` | the request (its choices and requirements); the included campaign's facts (`CampaignFacts`); the edge charters; the tables | `Recipe.world` (the snapshot, the resolved extent, cells, poles, winds, the world context, the matrix on an import, the recipe op list with seed indices — the formation op first where a scenario was drawn or set —, the requirements with the planned sites) | `world.recipe` (the template and scenario draws, the knobs, the planned sites) | the world root | F-WORLD (recipe), F-SOLVE | ≤ 2 ms (the planned sites ≤ 20 ms more) |
+| W1 Terrain | `W1` | `world.recipe` (the op list; a `formation` or `weather` op's baked payload read, never re-run) | `WorldRaster.dem`, `geology`, `bedrock`, `soil`, the `Landform`s (the formation op's bake at its first run only), the coarse and formation grids and their index maps | `world.recipe` keyed by op index; `world.formation` at a formation or weather op's first run only | the world root | F-WORLD (clamp), F-FORM | the size row's (+ `formationMs` at the bake) |
 | W2 Features | `W2` | `dem` | the features, `WaterSurface` (sea, lakes), the coast outline | none | the world root | F-WORLD (lake) | " |
-| W3 Climate | `W3` | `dem`, the coarse grid, `latBox`, `poles`, `wind`; the features (water cells) | the climate raster | `world.climate` (the moisture start jitter) | the world root | F-WORLD (clamp) | " |
+| W3 Climate | `W3` | `dem`, the coarse grid, `latBox`, `poles`, `wind`, the world context; the features (water cells, the basins); the `current` and `biome` overrides as boundary conditions | the climate raster: the twelve monthly arrays, the annual summaries, `maritime`, the currents per basin, `sstAnomalyDeciC`, `basin` | `world.climate` (the moisture start jitter per row and month) | the world root | F-WORLD (clamp), F-SOLVE (the back-step) | " |
 | W4 Hydrology | `W4` | `dem`, `geology`, the features, the surfaces, the climate | `flowDir`, `flatRank`, `flowAccum`, `watershed`, `discharge`, `carveDeltaCm`, `Reach`, `Watershed`, the reaches' surfaces, lake outlets and `open`, `GroundwaterField`, the distance fields | the base's `water.delta` (the distributary shares, keyed by the reach; C13-46) | the world root | F-WORLD (sink), F-GW | " |
-| W5 Biomes | `W5` | the climate, `flowAccum`, `dem`, the surfaces | `biome`, `landUse`, the resource sites | `world.resources` (thinning) | the world root | F-WORLD (matrix) | " |
+| W5 Biomes | `W5` | the monthly climate, `soil`, `bedrock`, `flowAccum`, `dem`, the surfaces; the `biome` and `soil` overrides | `biome` (the potential natural vegetation), `landUse`, the resource sites — never land cover | `world.resources` (thinning) | the world root | F-WORLD (matrix) | " |
 | W6a Suitability, stage 1 | `W6a` | everything above; V14's sites | `proposals.stage1`, the score raster (transient) | none (`world.siting` reserved; the tie-break is deterministic, V13 §3.7 (6)) | the world root | F-WORLD (none placed) | " |
 | W7a Routes over the candidates | `W7a` | `proposals.stage1`, the placements and host seats, the surfaces, `dem`, `biome`, the reaches, the cost law | `routes.stage1` | none | the world root | F-WORLD (no path) | " |
 | W6b Suitability, stage 2 | `W6b` | `proposals.stage1`, `routes.stage1` | `SitingProposal`s (the final) | none | the world root | F-WORLD (none placed) | " |
@@ -74780,9 +75399,15 @@ the two orders meet at P1–P5.
 | W8a Seat territory | `W8a` | the member seats, the coarse cost surface under the cost law's time terms, the landmasses | `Territory`s (coarse cells, crossings), the coarse `territory` raster, the canon's travel slot | none | each seat | F-WORLD (seat) | " |
 | W8b Sway | `W8b` | W8a, the latest `PolityFacts` window, the travel law, the network at the week, the held sites | `Sway`, `Allegiance`, `MarchHold`, `PatrolCadence`, `SwayRevision`, `SwayTrace`, the `sway`, `swayStatus` and `debatableSides` rasters | none (`world.polity` reserved; `world.patrol` a fixed-key phase, never a stream) | each seat | F-WORLD (seat) | " |
 | W9 Labels and glyphs | `W9` | every named record; the placements and their frames | the world's `LabelEntity` candidates (§9.1), `SettlementGlyph`s | `naming` (world names) | the world root; a glyph its placement | §9.6's naming ladder | " |
-| the placement operators P1–P5 (not a stage: §7.3 local operators of the placement edits, one stage id `WORLD_PLACE`) | `WORLD_PLACE` | the world; the frame document (settlement-first) or the frame size (world-first); the edit | `Placement`, the blend, the charter, the frame's `charter` event, anomalies | none (`place.search` reserved, no draw) | the placement | F-PLACE | V13 §6's placement row |
+| the placement operators P1–P5 (not a stage: §7.3 local operators of the placement edits, one stage id `WORLD_PLACE`) | `WORLD_PLACE` | the world; the frame document (settlement-first) or the frame size (world-first); the edit; the frame's requirements (the best form) | `Placement`, the blend, the charter, the frame's `charter` event, anomalies; the best form's three offers | none (`place.search` reserved, no draw) | the placement | F-PLACE | V13 §6's placement row |
+| the land-cover fold (not a stage of the W-order: a fold step run at each lens window's fold and at each `disturb`, one stage id) | `WORLD_COVER` | `biome` (the potential vegetation), `soil`, the fine cost surface under the cost law's time terms, the placements and seats with the window's populations and tiers (`PolitySeat`, `LensFacts.sizes`), the `Disturbance`s, the `landCover` overrides, the previous plate | one `CoverPlate` in the cover cache (`Document.coverPlates`); never a `WorldRaster` field | none (`world.cover` reserved: the fold draws nothing) | the world root | F-COVER | V13 §6's cover row |
+| the solver's bookkeeping (not a stage: the verification at each stage's end, the back-step's scheduling, the report; one stage id for its reason records) | `WORLD_SOLVE` | every stage's requirement rows | `Requirement.status`, the `VerificationReport`, the `Conflict`s | none (`world.solve` reserved; the back-step's candidates draw on `world.recipe`) | the world root | F-SOLVE | inside the stages' rows |
+| the physics pass's operators (not a stage: §7.3 local operators of `physicsPass`, run on the fork) | `WORLD_PHYSICS` | the scope, the depth, the overrides in scope, the formation laws (a `weather` depth) | the cascade's outputs over the scope; released overrides' traces; a `weather` op with its bake | `world.formation` (a `weather` op's draws, keyed by its `seedIx`) | the world root | F-PHYSICS | V13 §6's physics rows |
 
-**Where the stages run and what they may touch.** W0–W9 write the world document only. P1–P5 write the world document
+**Where the stages run and what they may touch.** W0–W9 write the world document only; the land-cover fold writes the
+cover cache only (`Document.coverPlates`), never a `WorldRaster` field and never a frame; the physics pass writes the
+fork and reaches the canonical log through `commitFork` alone, and never a placed frame's interior nor a free-standing
+site's footprint (V13 §4.1). P1–P5 write the world document
 (the placement, the blend's cells with their trace, the charter's world copy) and, in the frame document, exactly one
 thing: the frame's own `charter` event (author `world`, V13 §4.1, §4.4 — C13-40), whose fold sets `Document.worldRef`
 and, when the charter is world-sourced, `Recipe.charter` — both outside the model digest. **Nothing else in the frame
@@ -74794,10 +75419,24 @@ strip naming the stage (item 119).
 
 ### 3.1 W0 Blueprint
 
-1. **The request.** `WorldRequest { seed; size: WorldSizeRung | { widthKm; heightKm }; template?: string; latBox?;
-   poles?; wind?; biomeMatrix?; seats?; options? }` — V09's world dialog, the API (`generate` with a world blueprint)
-   or the clerk. Absent fields take the size row's defaults (V13 §2.3); `poles` default equator 270 deci-°C, pole −300
-   (own; a temperate planet); `template` default `'continent'`.
+1. **The request.** `WorldRequest { seed; size: WorldSizeRung | { widthKm; heightKm }; choices?: OptionChoice[]
+   /* every option of the world dialog with its strength — random, set or locked (V13 §2.2); an option absent is
+   `random` */; requirements?: Requirement[] /* the inclusion chips with their amounts, the DM's locks, the frame
+   facts of a placement being asked for, the host's water verdicts */; include?: { campaign: string } /* "based off
+   of my settlements": the campaign whose settlements' facts and relationships enter through `CampaignFacts` (V13
+   §3.11.6; H31) */; edgeCharters?: WorldEdgeCharter[] /* a continuation into a void beside atlas members (step 6): the carried charters unchanged, W0 writing each as a `WorldRecipe.edgeCharters` entry from the charter's own `world`, `side` and `neighbourVersion` */; parentCharter?: WorldCharter /* a child world derived from its parent (V13 §3.11.4's world subject): its four edges as rank-1 `locked` `edge` rows, its planned sites as rank-1 `site` rows, its ground W1's start (file r item 1008); a request with `parentCharter` admits no `formation` op — `scenario` reads `'none'`, and a set or locked scenario is refused at W0 (`refuse.world.requirements`, the pair named): the parent's ground is the child's formed ground, its `bedrock` and `soil` the charter's (C15-06) */;
+   preset?: string /* a `world.presets` row: its choices and map-side pre-decisions folded in first, provenance only
+   after */; preview?: true /* the coarse run (step 7) */; template?: string; scenario?: string; latBox?; poles?;
+   wind?; biomeMatrix?; seats?; worldContext? }` — V09's world dialog (V09 §4.22), the API (`generate` with a world
+   blueprint) or the clerk. The named fields after `preview` are sugar for one `set` choice each (`template` →
+   `choices: [{ option: 'template', strength: 'set', value }]`); the former untyped `options?` is retired. Absent
+   fields are `random` and take the size row's defaults or a draw (V13 §2.3); `poles` default equator 270 deci-°C,
+   pole −300 (own; a temperate planet); `template` default `'continent'`; `scenario` default `'none'` — the authored
+   path, no formation op — unless the preset or a requirement asks for one. **Every option has three states** (J-V13.123):
+   `random` (the stage draws it and records the rolled value with the draw as its reason), `set` (the user's value,
+   pursued) and `locked` (held through every reroll and physics pass; a run that would overwrite it asks, V13 §3.11.5
+   (1)); the user's choices with their `random` sentinels are stored in `Recipe.world.choices` APART from what was
+   rolled, and a regeneration re-reads the choices, never the rolled facts.
 2. **The extent and cells.** The size row's `widthKm × heightKm` unless given (clamped to [0.5, 2] × the row's, reported
    `W_WORLD_RECIPE_CLAMPED`); `fineCellCm` = the row's `fineCellM` × 100; `coarseCellCm` = fine × `coarseRatio`; the
    grid counts follow (cols = ⌈width ÷ cell⌉).
@@ -74808,12 +75447,91 @@ strip naming the stage (item 119).
    and writes the resolved `RecipeOp` list, each op with its `seedIx` (the ordinal), into `Recipe.world.recipe`. The
    template idea is the reference's (`research/fmg/FMG-survey.md` §"The physical pipeline", *Heightmap templates*, as
    evidence); the resolved ops are the world's authoring history and the one input W1 reads (J-V13.6), so a world is
-   re-derived from its recipe, never from its template name, and an edit appends ops.
+   re-derived from its recipe, never from its template name, and an edit appends ops. **The scenario draw** (J-V13.107):
+   a scenario (`world.formation`'s rows, V13 §2.3) is drawn or set the same way — W0 draws each knob of
+   `FormationKnobs` uniformly in the row's range on `world.recipe` (keyed by the world root and the knob's ordinal)
+   where the choice is `random`, takes the set value otherwise, and writes a `formation` op FIRST in the recipe with
+   its `baked` empty until W1's first run bakes it (V13 §3.2.1); the scenario's `template` names the ops that follow
+   it (the noise, the edge mask; their ranges the template's); a request whose scenario is `'none'` (the authored
+   path, the default) writes no formation op and the template's ops alone — J-V13.41's reason kept as that path. A
+   scenario a rung does not admit (`scenarios[].rungs`) is refused at W0 naming the rung (`refuse.world.scenarioRung`).
 4. **The snapshot.** `Recipe.world.snapshot` is written with every table version the product's stages will read (the
    registry's pinned versions, §7.6), the generator's output version and the schema; W0 refuses a request whose pinned
    table is missing (F-WORLD recipe rung: the table's default version is taken and reported).
+5. **The requirements and the planned sites** (the spine's §4.1–§4.2; J-V13.117, J-V13.120). W0 resolves the request
+   into `Recipe.world.requirements`: each choice a row of its kind and strength (a `random` row carries no target —
+   its stage draws and records); each inclusion chip a `biome` row with its amount in km² and `strength: 'set'`; each
+   DM lock a rank-2 `lockRegion` or `overrideLayer` row; each edge charter's stations a rank-1 `locked` `edge` row (step
+   6); the host's `hostRequires` rows rank-1 `water` rows; and, with `include` set, every included settlement's facts
+   (`CampaignFacts.settlements`, V13 §3.11.6) as rank-1 rows — its terrain word through the adapter folder's terrain
+   table (a relief class, a coast flag, a river flag), its coast side, river inflow and lake from its own settlement
+   document's site where one exists (DR1; else `random`), its route word (coast, river, road, crossroads,
+   isolation), its climate row (DR42's rule over the terrain word, since the dossier carries no climate field of its
+   own), its latitude band (DR29's culture), its resources, its tier — and every relation of `CampaignFacts.relations`
+   a `relation` row. **The planned sites:** W0 lays one planned site per included settlement — a site plan, not a
+   placement: capitals and overlords first by tier, each on a coarse cell drawn on `world.recipe` (keyed by the host
+   key) inside the latitude band its culture allows and on the coast where its facts say coast; then partners within
+   `relation.travelDaysMax` of each other under the default travel law's foot pace over the straight line (plausible
+   travel, refined by W7), rivals across a planned boundary (the midline between their sites a planned crossing or
+   strait), vassals within their overlord's tier reach (V13 §2.3's `reach.reachTierDays`), isolated seats at the far
+   side of the extent from the rest; a site that cannot satisfy its relations at the asked extent is laid as well as
+   it can be and its relation row verified `partly` by W7. The planned sites are the targets every later stage builds
+   toward (V13 §3.0's duties): the formation op raises its ranges where mountain seats and needed rain shadows are and
+   forms coasts where ports need them, W1 adds local ops so each site matches its seat's relief and coast side
+   (`origin: 'solver'`), W2 forms the lake seat's lake and the strait between rival ports, W3 verifies each site's
+   climate row and each inclusion and sends the one bounded back-step, W4 routes a river to the riverside seat from a
+   real source, W5–W8 verify, and P1–P5 drop the settlements onto the sites the world was grown around (the blend
+   minimal by construction). Where meeting a row widens a `random` option — two settlements needing arid and tundra
+   land widen a random latitude box; a port and an inland capital raise a random land share's sea — the widening is
+   recorded as the option's rolled value with the row as its reason. A "random all" request with settlements included
+   is the same run with every option random: it always fits the campaign in one click (J-V13.118). A request whose
+   rows contradict each other at rank 1 or 2 (two locked options that cannot both hold; a settlement needing a coast
+   on a world locked to no sea) is refused at W0 naming the pair (`refuse.world.requirements`), never half-met.
+6. **A continuation: the edge charters** (the spine's §10.4, §14.1; J-V13.127; the charter's test J393's — the
+   neighbour's present physical ground at the moment it is read, never a record: an edit made in the neighbour before
+   this generation is in it because it is the ground, one made after it never is, F14). A request generated into a void
+   beside or between atlas members carries their `WorldEdgeCharter`s (V13 §2.2; `edgeCharter(world, side, span)` on
+   each neighbour, V13 §1b.2): W0 writes each as rank-1 `locked` rows of kind `edge` — per station the elevation, the
+   water, the bedrock, the soil, the potential vegetation, the monthly climate and the moisture arriving, the river
+   crossings with their flow, the currents' stream function, the neighbour's overrides — which W1 meets by blending
+   its ground to the neighbour's edge profile over `solver.edgeBlendCells` (8 coarse cells) inward (V13 §3.11.2's
+   smoothstep; a `formation` op takes the landforms that run off the edge as fixed profiles), W3 by starting its march
+   at that edge with the arriving moisture, maritime fraction and wind (never the upwind edge's jitter) and seeding each
+   month's stream function on the open-sea span, W4 by seeding an `in` crossing's discharge and holding an `out` crossing's bed, and W5 by grading
+   the potential vegetation from the edge's class over `solver.gradeBandCells`. The basic options are pre-filled from
+   the neighbours (the climate band, wetness, ruggedness) and stay changeable where not locked; a void between several
+   members has several locked edges; two edges that contradict each other (a sea on one, a plateau on the other at one
+   latitude) are reported before the run with a reconciling feature proposed (a strait, a mountain belt) as a row the
+   user may accept; the neighbours are never changed by this run — a request that would change one shows the
+   neighbour's change in the conflict list and nothing changes without approval, and then only in that neighbour's own
+   document by its own edits. The charters are stored with the recipe (`WorldRecipe.edgeCharters`) and never re-read
+   after generation: nothing dated crosses a seam (the spine's §10.5). **Re-matching on request** (the
+   spine's §10.5; V15 §4.7 (3); file r item 1008): the DM may re-match one border strip of ONE world to its neighbour's
+   live edge — `setRequirements` replaces that side's `edge` rows by the neighbour's live charter (`edgeCharter` at the
+   neighbour's current version, appended to `WorldRecipe.edgeCharters` with that version, the former entry kept as
+   provenance) and `regenerate` over the strip's box (`EditScope { kind: 'world'; stage: 'W1'; box }`, V13 §4.1) re-runs
+   W1 and its downstream closure there under the recipe's rows as a continuation's stages do, previewed on the fork and
+   committed by the DM; the neighbour is never touched, nothing dated crosses (the charter reads the neighbour's present ground, never a
+   record) and nothing re-matches unasked (T-V13-68 (c), (i)).
+7. **The preview is the coarse run; the report** (the spine's §4.3, §4.5; J-V13.118). `solve(requirements, null,
+   'generate', { rung: 'coarse' })` runs W0–W5 on the coarse grid alone (W1's ops at the coarse cell; no W6–W9) inside
+   the preview budget (V13 §6, `WORLD-16`: ≤ 120 / 300 / 700 ms when no formation knob changed — the formation op's
+   bake is cached by (scenario, knobs, seed) and shared with Generate; a formation knob's change costs `formationMs`
+   more, with a progress strip and the last bake's thumbnail shown meanwhile) and renders the thumbnail
+   the dialog shows while an option is hovered; Generate runs the same stages at the fine rung with the same seed,
+   requirements and decisions and gives the same report and the same coarse classes within T-V13-64's tolerance (W1's
+   `mask`, `smooth` and the flood do not commute with the block mean, so cell-for-cell equality is not claimed). An option change
+   re-runs from the earliest stage it affects (`PresetRule.options[].stage`); an approval point (a conflict shown
+   before the run commits, V13 §3.11.5 (1)) pauses the run and it continues after `decide`; hand placement by the DM
+   is checked by the same stages in a dry run and never authored for them. The run's end writes the **verification
+   report** (`VerificationReport`, V13 §2.2): every row met, partly met or unmet with its reason (`whyCell`'s form:
+   "arid at 180 mm/yr in the Greyspine's shadow"), the back-steps taken with their ops, and the offers for the unmet
+   (a larger world, a wider latitude box, more relief) — the dialog's "what was done" and the clerk's "why this
+   desert"; never faked.
 
-*Output:* `Recipe.world`. *Edges (V13 §3.18):* an empty op list is a flat world at 0 cm — the sea everywhere — which W2
+*Output:* `Recipe.world` (its choices, requirements and planned sites; the formation op unbaked until W1). *Edges (V13
+§3.18):* a request with no choices and no requirements is the random-all run; an included campaign with no settlements
+is the standalone run and is reported; an empty op list is a flat world at 0 cm — the sea everywhere — which W2
 types one ocean and every later stage runs over (no land: no reach, no seat, no route; reported); one op is a world of
 one hill.
 
@@ -74837,11 +75555,152 @@ cell count (J-V13.7 — the reference's two cell-count-dependent decays are what
 | `noise` | fBm of `octaves` octaves from `baseWavelengthM` with amplitude `amplitudeM`, each octave's lattice position-keyed on `world.recipe` by `seedIx` and the octave index, through the kernel's `noise` (§14) at the cell's world position in metres, so a cell's noise is a function of where it is | 2–8 octaves, wavelength 20–2 000 km, amplitude 10–1 500 m |
 | `image` | a greyscale image asset (carried in `packs`, §2.9) resampled to the extent by bilinear interpolation (never by a browser's canvas: the decoder is `@plat/world`'s own PNG and 16-bit reader under §6.5's lint, so an import is byte-stable), its sample mapped through the explicit `toneCurve` (input 0–1 → metres, piecewise linear) — the reference's soft curve is one row of the curve table, not a hidden step (`fmg-physical-pipeline.md` §3.2 as evidence) | the curve's metres inside ± the relief limit |
 | `geology` | writes `WorldRaster.geology` inside its disc or band | radius 10–400 km |
-| `erode` | reserved (J-V13.42): shipped absent from every template; when present, refused at W0 with `refuse.world.op` until the pass lands | — |
+| `formation` | the recipe's first op where a scenario was asked: V13 §3.2.1 below — run ONCE and baked at W1's first run of it; on every later run its baked formation-grid DEM is read, upsampled bilinearly to the fine grid as the working raster's start and refined by the ops that follow it (the template's position-keyed `noise` adds the detail the formation grid cannot hold; the `mask`, `smooth` and the user's ops as they stand), its `bedrock`, `soil`, `surfaceAge` and landforms written as they were baked | the scenario's knob ranges (`world.formation`) |
+| `weather` | the physics pass's `weather` depth (V13 §4.1): the formation op's erosion, hillslope and soil processes with uplift 0 over the ground as it stood at the op's position in the recipe, for `years`, baked once on the fork (V13 §3.2.1 (11)); on every later run its baked formation-grid delta is added to the working raster after the ops before it | years 100–10⁶ (the dialog states the span's effect computed from E = K A^m S over the scope before the commit: about 1 m per 10 kyr on an old shield's channels, 10–50 m on a young range's, where E is still the uplift the relief was solved at; valleys deepen at 10⁵–10⁶ years); a `weather` op whose input ground moved (the hash of the raster at its position differs from the one it was baked over) is reported `W_WEATHER_STALE` and offered a re-bake on the fork (`rebake`), its delta kept until the DM chooses |
+| an op the registry does not know | refused at W0 with `refuse.world.recipeOp` — the one spelling (V13 §4.1, §7.5); no `erode` op exists (J-V13.108) | — |
 
-The coarse grid is the fine grid's 8 × 8 block mean (`coarseRatio`), `fineToCoarse` the block index. **Preview before
-commit:** a `worldRecipe` edit runs W1 over the op's touched cells on the fork (V13 §4.5) and shows the relief before
-the commit; the op list is the world's history, so undoing an op is removing it (V13 §4.1).
+The coarse grid is the fine grid's 8 × 8 block mean (`coarseRatio`), `fineToCoarse` the block index; the **formation
+grid** is the fine grid's 4 × 4 block (`formationRatio`; 64 k, 256 k and 576 k cells at the three rungs),
+`fineToFormation` its index — the climate lives on the coarse grid, formation on the formation grid, every fine op on
+the fine grid (file r choice (a)). **Preview before commit:** a `worldRecipe` edit runs W1 over the op's touched cells
+on the fork (V13 §4.5) and shows the relief before the commit; the op list is the world's history, so undoing an op is
+removing it (V13 §4.1); a `formation` or `weather` op is never re-run by a preview or a re-derivation — its bake is
+read (a `regenerate` of `stage: 'formation'` is a NEW op with a new scenario draw and a new bake, V13 §4.1).
+
+**3.2.1 The formation op** (F1, F2; the spine's §3; J-V13.107 – J-V13.111). The op runs on the **formation grid**
+inside `formationMs` (V13 §6), draws only on `world.formation` (keyed by its `seedIx` and the draw's ordinal or
+position), and ends by baking its results into the op and deleting its state. Its steps, each on the formation grid
+unless said otherwise:
+
+1. **The grid and the scenario.** The formation grid is minted; the scenario row (`world.formation.scenarios`) gives
+   the model by rung: at the **continent** rung the crust-block model whole (steps 2–5); at the **realm** rung a
+   regional tectonic context — one or two boundaries drawn across the extent as segments with their classes and
+   closing speeds (the knobs' `blocks` 1–2), plus `relictSutures` inherited dead belts, since a realm-sized map holds on
+   average 300–500 km of active boundary, one boundary or none (file r choice (b)); at the **province** rung the row's
+   one `regional` feature as a profile across the extent (a mountain front, a rift, a volcanic field, a coastal plain, a
+   shield) and no block model. The relief a realm reads as believable is relict structure more than live crust blocks, so
+   every rung lays its relict belts (step 5).
+2. **The crust blocks** (the continent rung). N = `blocks` seeds by blue noise (a draw per seed on
+   `world.formation`, rejected within `blocks.seedSpacingShare` × the extent's shorter side of an accepted one) in a
+   **phantom margin** `blocks.phantomMarginShare` × a block diameter wide beyond the extent, so a boundary that
+   crosses the edge classifies right (deleted with the block set at the bake; a neighbour generated later continues
+   only the landforms that reach the edge, as fixed profiles in its edge charter, V13 §3.1 (6) — a departure from the
+   science note's kept margin, J-V13.107); the blocks grow by a randomized multi-source flood (each frontier cell's priority its distance × (1 +
+   `growthJitter` × a draw), the lifted bucket queue with integer keys), which gives irregular, non-convex blocks — a
+   plain partition reads as artificial. Each block gets a continental fraction from `continentalShare` (one or more
+   continental blobs inside chosen blocks; a continent may straddle a boundary, which is how a suture or an inland rift
+   arises); the crust type per cell (`crust.continentalKm` thick and light, `oceanicKm` thin and dense) sets its
+   isostatic rest height (land high, the floor low: the bimodal surface with no hand-tuning); oceanic crust age = the
+   distance to the nearest divergent boundary ÷ the half-spreading rate, and its floor depth `ridgeDepthM` +
+   `depthAgeCoefM` × √age (the depth–age law), the shelf break at `shelfBreakM`. Each block's rigid motion on a flat
+   map is a translation plus a rotation, v(p) = v₀ + ω ẑ × (p − c), the speeds drawn in `speedMmYr` and the rotations
+   sized so no point exceeds `blocks.maxSpeedMmYr`.
+3. **The boundaries.** For each boundary cell pair (a, b) with the unit normal n from a to b: the closing speed c =
+   (v_a − v_b) · n and the shear s = |(v_a − v_b) · t|; **convergent** where c > `closingMmYr`, **divergent** where c
+   < −`closingMmYr`, **transform** where |c| ≤ `closingMmYr` and s > `shearMmYr`; a convergent boundary sub-classed by
+   its two crust types (ocean–ocean, ocean–continent, continent–continent) and, under subduction, by which side sinks
+   (the older, denser oceanic side; the oceanic side against a continent). `drama` multiplies the boundary density
+   (more boundaries than a planet's own 0.3–0.5 km per 1 000 km² where the scenario wants drama).
+4. **The distance fields.** The lifted two-pass Euclidean distance transform (V13 §3.5.5's function) from each
+   boundary class, signed by side, so each cell knows "212 km on the overriding side of a subduction front"; from each
+   hotspot (`hotspots` draws) its distance along −v (the chain).
+5. **Uplift and subsidence by profile.** The **uplift-rate field** U (mm/yr) is the sum over boundaries of the row's
+   `upliftMmYr` × the profile's shape (a function of the signed distance, 1 at the crest) × (the closing speed ÷ the
+   row's `closingRefMmYr`) — a rate in mm/yr, which the steady state of step 6 is solved at: ocean–continent —
+   a trench at 0, a forearc high at 50–100 km, the arc's peak at `arcGapKm`, a back-arc plateau or basin beyond;
+   ocean–ocean — a trench and an island arc; continent–continent — the range centred 50–150 km on the overriding side,
+   the plateau behind to `plateauKm`, the foreland basin in front over `forelandKm`; a ridge the depth–age law with an
+   axial valley at a slow ridge; a rift a graben between uplifted shoulders; a transform a narrow linear valley with
+   the features offset; a hotspot a swell with an edifice at the plume and a decaying, subsiding chain along −v;
+   **relict** sutures (two continental blobs joined in an earlier, unsimulated cycle — `relictSutures` draws of a
+   boundary segment inside a continent) the collision profile at 10–30 % of its height and 1.5 × its width, worn
+   mountains that last. `ageMyr` decays the rate: an orogen older than `ageDecayMyr` (30) takes U × e^(−(`ageMyr` −
+   30) ÷ 60 Myr) — a decaying transient standing in for the age a steady state does not have —, so an old orogeny
+   stands worn. The initial surface z₀ is the isostatic rest height of step 2 plus the row's `heightM` where the
+   profile's shape is 1 (never U integrated over the age, which would stand tens of kilometres high).
+6. **Fluvial erosion by the steady-state fixed point; hillslope relaxation** (J-V13.108). The stream-power law ∂z/∂t
+   = U − K A^m S^n (m = `erosion.m`, n = 1, K by bedrock class) is solved at its steady state, not stepped: along each
+   flow path the slope obeys S = (U/K) A^(−m) (Flint's law), so z is one integral from the outlet upstream, z_i = z_r +
+   Δx_ir (U_i/K_i) A_i^(−m). Because the drainage tree depends on z, the op iterates `erosion.iterations` times — build
+   the tree (the lifted priority flood with lakes kept as flats at their spill height, the two-gradient flats, D8 in the
+   fixed neighbour order, V13 §3.5.1), order it as a **stack** (an O(N) depth-first ordering from each base-level node
+   so every node follows its receiver — the one new routine beside the lifted core), accumulate A (one reverse walk;
+   **precipitation-weighted** when `erosion.precipWeighted`: a single annual wind march of V13 §3.4 (6) run once over
+   z₀ at the formation grid gives the weights, so the wet flank of a range erodes faster — the only climate read inside
+   formation, never the monthly march), integrate z up the stack — and converges in 5–15 iterations because the tree
+   changes only at divides (a fully dendritic relief obeying the Hack and bifurcation statistics, T-V13-58). After the
+   fixed point each boundary's relief is scaled about its base level so its crest lies in its row's `heightM` band (the
+   shape and the Hack statistics unchanged): at the table's K and U the steady relief of a 50–200 km catchment would
+   otherwise stand 5–39 km, an impossible height, and the band is what the scenario promises; the mean land height is
+   reported against 500–1 200 m (T-V13-58). Then the
+   **talus relaxation**: `erosion.talusPasses` eight-neighbour passes that move material from a cell to its lower
+   neighbours where the slope exceeds `talusDegByBedrock` (at the grid's cell hillslope diffusion is sub-grid; the
+   talus is the term that matters). The transient run of hundreds of steps is never taken: at the formation grid it
+   would cost 1.5–14 s, over budget above the province rung, and the fixed point gives the same steady relief.
+7. **Glacial carving and the sea-level stands.** (a) The glacial-maximum equilibrium-line surface from latitude
+   (`glacial.elaByLatDeg`, interpolated), the palaeo-offset `lgmOffsetDeciC` and the annual precipitation (a wet flank
+   lower by up to `elaWetDepressionM`), scaled by the knob `iceExtent`; the **ice mask** = the cells above the line
+   plus every downstream cell reached by ice flux (Σ accumulation above the line along the stack until ablation below
+   it exhausts it: one stack pass); the **carve** along glaciated thalwegs lowers the bed ∝ flux^(l/2) (l =
+   `erosionExponent`) and widens the cross-section to a parabola whose width ∝ flux^`troughWidthExponent`,
+   overdeepening allowed (no monotone-bed constraint: the bed may rise toward the snout), a cirque bowl cut at each
+   glacier head on the polar-facing slope; W2's lakes-by-spill-height later makes every overdeepening a **glacial
+   lake** — formation never fills them. (b) The sea-level history: a bounded transient — `seaLevel.lowstandSteps` (10) implicit steps of `lowstandYr` ÷ 10
+   (20 000 years in all) with U = 0 and the base level at `seaLevel.glacialLowM`, over the cells within `riaBandKm` of
+   the lowstand coast (a steady state has no span, and a lowered base level alone would drop the whole land by the
+   stand; O(N) per step, ≈ 0.2 s at the realm rung inside `formationMs`) — cuts the valleys across the exposed shelf
+   for the last stand, then the datum is set to 0 (V13 §2.1):
+   every valley segment now below 0 within `riaBandKm` of the coast is a **ria**, every glacial trough reaching the
+   coast a **fjord** with its sill at the former snout; the rebound field `reboundShare` × the former ice's thickness — read as `reboundMaxM` (300) under the ice mask,
+   since no thickness is computed — × (1 − e^(−t/`reboundTauYr`)) minus the eustatic rise, where positive, names **raised beaches** at the deglaciation's
+   shoreline. `seaLevel.stands` > 1 repeats (b) per stand at decreasing lows.
+8. **Bedrock.** Per formation cell by the boundary class and the profile that made it: arc volcanics along an arc,
+   a folded belt in a collision range, shield on an old continental interior, flood basalt in a rift, limestone and
+   evaporite in a shallow basin (a foreland or a closed rift basin below the datum at its stand), alluvium on a
+   floodplain (a cell within one formation cell of a channel whose A exceeds `channelInitCells` × 50 and whose slope is
+   under 0.5 %), till under the ice mask, ash within `deposits.ashRadiusKm` of a volcano, young lava on a hotspot's
+   edifice, ordinary sedimentary elsewhere → `WorldRaster.bedrock`; `geology` is derived by `bedrockToGeology` (the
+   four classes W4's permeability and W5's resource rules keep reading).
+9. **Soils.** The soil-forming factors per formation cell — the formation-time annual climate of step 6 (MAT, MAP,
+   the aridity index MAP ÷ PET with PET by V13 §3.4 (7)'s law), the slope, the wetland flag (A over
+   `wetlandAccumCells` ÷ `formationRatio`² on a flat), the groundwater depth (a first table by V13 §3.5.4's rule at the
+   formation grid), the permafrost flag, the parent class (step 8) and the surface age (`surfaceAgeByLandform`: zero on
+   fresh lava and an active floodplain, the deglaciation's age on till, the orogeny's `ageMyr` elsewhere, the shield's
+   10⁸ yr) — through `world.soil`'s first-match list (V13 §2.3's twelve rows) → `WorldRaster.soil`, with `surfaceAge`
+   kept for a later `weather` op. The **fine-scale overrides** are applied by every reader at read time, never stored
+   (a fine cell whose slope exceeds 30 % reads `entisol`; one on an active floodplain reads alluvial `entisol`), so
+   soil costs one formation-grid byte per cell.
+10. **The landforms, the bake and the deletion.** The op traces its landforms as outlines on the formation grid, each a
+   `Landform` entity (V13 §2.2) with its `formed` provenance in words: a **range** (the connected cells above a crest
+   threshold along a convergent boundary; its crest the ridge line), a **volcano** or **caldera** (an arc or hotspot
+   edifice; a collapsed one), a **rift**, a **fault** (a transform), a **hotspot chain**, each **glacial lake**,
+   **fjord** and **cirque**, a **plateau**, a **basin**, a **trench**, an **arc**, each **ria**, a **raised beach**, a
+   **suture**, an **escarpment** (a rift shoulder's edge); each named by W9 (V13 §3.10). Then the **bake**: the op's
+   `baked` is written — the formation-grid DEM as content-hashed `fields` chunks, `bedrock`, `soil`, `surfaceAge`, the
+   landform ids, `formation.version` and the stats (the land share, the Hack exponent and the bifurcation ratio of the
+   relief, T-V13-58) — and the block set, the velocities, the boundaries, the distance fields, the stack, the ice mask
+   and every intermediate are **deleted**: none exists in any digest (T-V13-57), none is ever read again, no crust block
+   moves after this line. W1 then continues with the ops after it over the fine grid, the baked DEM upsampled
+   bilinearly as the working raster's start.
+11. **The `weather` op** (the physics pass's `weather` depth, V13 §4.1). Over the ground as it stands at the op's
+   position in the recipe, downsampled to the formation grid over the scope: ⌈`years` ÷ 10⁵⌉ implicit steps (at most
+   ten) of the stream-power law with U = 0 — the stack update z_i = (z_i + F_i z_r) ÷ (1 + F_i), F_i = K Δt A_i^m ÷
+   Δx_ir, receivers first, unconditionally stable for n = 1, where an explicit step is stable only below Δt ≈ Δx ÷
+   (K A^m), about 1 300 years on an alluvial trunk —, `years` of hillslope diffusion (D × years, explicit, its length scale under one cell at campaign spans),
+   the talus relaxation, the soil re-aged by `years` through the soil law (an old field's `entisol` becomes
+   `inceptisol`, an `alfisol` at 10⁴ years), a lake silted where its inflow carries sediment for the span; the delta,
+   the soil and any new landform (a new ria after a sea-level `setSurface`; a filled glacial lake) baked as the op's
+   payload; the span's effect computed from E = K A^m S over the scope and stated to the DM before the commit ("over
+   10 000 years the valley floors of this shield lower by about 1 m; the soils age one class").
+
+*Determinism:* every draw on `world.formation`; the flood and the stack in row-major order with cell-index ties; the
+fixed point's iterations fixed in count; every float through `dmath` — byte-identical at generation across platforms
+(T-V13-58) and never re-run thereafter (T-V13-57). *Budget:* `formationMs` (V13 §6: ≈ 0.27 / 1.0 / 2.3 s on the
+formation grid; the memory 32 B per formation cell ≈ 18 MB at the continent rung, freed at the bake). *Edges:* a
+scenario at a rung it does not admit is refused at W0 (`refuse.world.scenarioRung`); `blocks` 0 at the continent rung
+reads the regional context; a world whose requirements lock it to no sea with an island-arc scenario is refused at W0
+(`refuse.world.requirements`); a relict belt that the erosion of step 6 wears below 200 m is kept as a `suture`
+landform with no range label and reported `W_FORMATION_RELICT`; an orogeny older than 1 000 Myr reads as `shield`.
 
 ### 3.3 W2 Features and surfaces
 
@@ -74879,37 +75738,119 @@ On the coarse raster; every value integer (deci-°C, mm/yr, cdeg), every transce
 
 1. **Latitude.** Row r's latitude is `latBox.south + (latBox.north − south) × (r + 0.5) ÷ rows` (an equirectangular
    box; the only use of degrees).
-2. **Temperature** (annual mean at sea level, then the lapse): T_sea(lat) = `equatorDeciC` for |lat| ≤ `tropicsDeg`;
-   beyond it linear in |lat| from `equatorDeciC` at the tropic to `poleDeciC` at 90° (the explicit pole input, item
-   138 (c)); on land T = T_sea − `lapseDeciCPerKm` × (dem ÷ 1 000 m); on water T = T_sea. Stored `tempDeciC`.
-3. **Continentality:** `continentality` = clamp(distance to the nearest ocean cell ÷ `continentalityReachKm`, 0, 1)
-   (the coarse grid's true distance transform, V13 §3.5.5).
-4. **The seasonal curve** (per cell: mean, amplitude, phase): amplitude A = `seasonAmpMaxDeciC` × sin(|lat|) ×
-   ((1 − `seasonContinentalShare`) + `seasonContinentalShare` × continentality); phase = `phaseWeekNorth` in the calendar
-   hemisphere and `phaseWeekSouth` in the other (the calendar hemisphere is the north unless `WorldRecipe.calendarSouth`;
-   on a host-bound world it is the one the host's seasons name, V13 §2.3). The temperature at week w is T + A × cos(2π (w − phase) ÷ 52) — the formula every reader of a
-   seasonal state uses (V13 §3.12.4; the host's calendar reads `week` as §4.11's). Stored `seasonAmpDeciC`,
-   `seasonPhaseWeek`.
-5. **Winds.** Each coarse row takes the wind band holding its latitude (`winds`; a world's recipe may override):
-   `windCdeg` the band's bearing (the bearing the wind blows from), `windStrength` its strength. The frame's `Terrain.wind` on a placed frame is this wind
-   rotated into frame terms (V13 §3.11.5).
-6. **Precipitation by the wind march.** For each band, parcels march along the wind's direction across the coarse
-   raster: a parcel starts at the upwind edge with moisture m = 0 plus a jitter drawn once per start row on
-   `world.climate` (keyed by the row; ± 10 %); at each water cell m += `pickupPerCellOverWater`; at each land cell the
+1b. **The order (one fixed pass, no iteration; V13 §3.17's determinism):** (i) a first temperature with
+   `continentality` by the distance rule (`continentalityReachKm`) and no coastal anomaly; (ii) the winds of every
+   month from (i) (step 5); (iii) the currents and `sstAnomalyDeciC` from (ii) (step 6b); (iv) the twelve marches with
+   the maritime fraction (steps 3, 6); (v) the final temperature from `maritime` and (iii) (step 2), the fitted curve
+   (step 4) and the evaporation (step 7) — the winds are never recomputed from (v), so two implementations agree byte
+   for byte (T-V13-59).
+2. **Temperature, per month** (J-V13.112): the annual mean at sea level T_sea(lat) as before — `equatorDeciC` for
+   |lat| ≤ `tropicsDeg`, beyond it linear in |lat| to `poleDeciC` at 90° (the explicit pole input, item 138 (c)); the
+   month's sea-level temperature T_sea,m = T_sea + A_sea × cos(2π (m − m_hot) ÷ 12), the sea-level amplitude A_sea =
+   `seasonAmpMaxDeciC` × sin(|lat|) × ((1 − `seasonContinentalShare`) + `seasonContinentalShare` × (1 − `maritime`))
+   (step 3) and m_hot the calendar hemisphere's hottest month (V13 §2.3's phase rows read in months); on land T_m =
+   T_sea,m − `lapseDeciCPerKm` × (dem ÷ 1 000 m); on water T_m = T_sea,m + the month's `sstAnomalyDeciC` (step 6b: a
+   warm current's coast reads warmer, a cold or upwelling coast colder, the anomaly fading inland over
+   `currents.coastalReachKm` on land cells too). Stored `tempMonthDeciC[m]`; `tempDeciC` their mean.
+3. **The maritime fraction** (continentality by upwind fetch; J-V13.112): the march of step 6 carries, beside its
+   moisture, a maritime fraction that resets to 1 over water and relaxes toward 0 over land with the e-folding length
+   `maritime.efoldKm` — so a cell 50 km inland on an east coast in the westerlies is continental and a cell 500 km
+   inland on the west coast still a third maritime (e^(−500 ÷ 400) ≈ 0.29); `maritime` is the annual mean over the twelve monthly marches (the first
+   month's march runs with the last month's winds as its start); `continentality` = 1 − `maritime`, the field every
+   existing reader keeps. The former distance-to-ocean rule (`continentalityReachKm`) serves only the import's
+   derive-only mode, where no march runs.
+4. **The seasonal curve, fitted** (per cell: mean, amplitude, phase): the first harmonic of the twelve monthly
+   temperatures — T their mean, A and the phase from the cosine and sine sums over the months (through `dmath`), the
+   phase rounded to the week; on a cell with no coastal anomaly the fit returns `phaseWeekNorth` in the calendar
+   hemisphere and `phaseWeekSouth` in the other within a week (the calendar hemisphere is the north unless
+   `WorldRecipe.calendarSouth`; on a host-bound world it is the one the host's seasons name, V13 §2.3). The
+   temperature at week w is T + A × cos(2π (w − phase) ÷ 52) — the formula every reader of a seasonal state uses (V13
+   §3.12.4; the host's calendar reads `week` as §4.11's), unchanged; a reader that wants the month itself reads
+   `tempMonthDeciC`. Stored `seasonAmpDeciC`, `seasonPhaseWeek`.
+5. **Winds, per month** (J-V13.112). For each month m and each coarse column x the convergence zone's latitude is
+   φ_I(x, m) = `belts.itczDeg` + A_I(x) × cos(2π (m − m_hot − `belts.lagMonths`) ÷ 12), A_I(x) between
+   `itczSwingOceanDeg` and `itczSwingLandDeg` by the column's land fraction within `belts.landFetchKm` of the zone
+   (the land fraction beyond the map's edge is the world context's — `worldContext.ocean` reads no land beyond an open
+   edge, `worldContext.monsoon` its continent's — never the map's own land extrapolated, so a land-heavy realm does not
+   swing its own zone); the belt edges follow it (the subtropical highs at φ_I ± `subtropicalOffsetDeg`, the polar fronts at ±
+   `polarFrontDeg`), and each cell takes its month's band from `winds` shifted by the zone's displacement — the trades
+   with their equatorward component, the westerlies with their poleward one, the polar easterlies (a world's recipe may
+   override the belts as before). **The thermal term:** over land a component `thermal.onshorePerDeciC` × (the month's
+   land–sea temperature contrast within `landFetchKm`) blows onshore in the warm half-year and offshore in the cold;
+   where it reverses a cell's wind by more than `monsoonReversalDeg` between the two solstice months and the wet
+   half-year (step 6) holds more than `wetHalfShare` of its rain, the cell reads **monsoon** in its reason — at the
+   continent rung emergent where the land mass straddles 10–30° of latitude; **at the realm and province rungs never
+   emergent** (a 1 280 km map cannot make one; it can only receive one from a continent larger than itself): there
+   the term reads `WorldRecipe.worldContext.monsoon` — the continent beyond the map by its side, size and latitude —
+   as the land fraction beyond that edge, a `set` or `locked` requirement of kind `context` the dialog offers, and a
+   monsoon inclusion asked for at those rungs without it is reported `W_MONSOON_CONTEXT` with the knob offered (file r
+   choice (d)). Stored `windMonthCdeg[m]`, `windMonthStrength[m]`; `windCdeg` and `windStrength` the annual vector
+   mean. The frame's `Terrain.wind` on a placed frame is the annual wind rotated into frame terms (V13 §3.11.5); the
+   charter's `monthly` carries the months.
+6. **Precipitation by the wind march, per month** (J-V13.112, J-V13.114). The march runs TWELVE times, once per
+   month with that month's wind field (step 5), each run writing `precipMonthMm[m]`, the annual `precipMm` their sum.
+   For each month, parcels march along each cell's wind direction across the coarse raster (a band is now the set of
+   cells sharing the month's bearing; a curved field is marched cell by cell along its local direction, the nearer
+   axis first, alternating, so every cell is visited once per month): a parcel starts at the upwind edge with
+   moisture m = 0 plus a jitter drawn once per start row and month on `world.climate` (keyed by the row and the month;
+   ± 10 %) — on a continuation (V13 §3.1 (6)) with the moisture and the maritime fraction the edge charter's station
+   carries instead; at each water cell m += `pickupPerCellOverWater` ÷ 12 × (1 + `currents.pickupPerDeciC` × the
+   cell's `sstAnomalyDeciC` ÷ 10) (warm water evaporates more, cold less: the coastal effect of step 6b); at each
+   land cell the
    drop is d = `dropShare` × m + `orographicPerM` × max(0, rise) × m (rise the dem gain from the previous cell, in m),
-   plus `coastalBonus` at the first land cell after water; a rise of `barrierM` or more in one step dumps the whole
-   parcel; a cell with `tempDeciC` below the permafrost threshold (V13 §2.3's matrix override) receives half its drop; the
-   cell's `precipMm` += d; m −= d. A diagonal wind marches along the nearer axis then the other, alternating, so every
-   cell is visited once per band. Results clamped to `rainCapMm`. The march with an orographic drop and a rain shadow is
+   plus `coastalBonus` ÷ 12 at the first land cell after water; a rise of `barrierM` or more in one step dumps the
+   whole parcel; a cell whose month's temperature is below the permafrost threshold receives half its drop; the cell's
+   `precipMonthMm[m]` += d; m −= d; m += `recycleShare` × the cell's own month evaporation (step 7: moisture
+   recycling, the part of a land cell's rain that falls again downwind). The **belt rains** are added per month beside
+   the march, each scaled by the cell's maritime fraction: `convergenceMmPerMonth` within 8° of the month's φ_I,
+   `frontalMmPerMonth` in the month's westerlies band, `convectiveMmPerMonth` over land in its warm half-year. A
+   diagonal wind marches along the nearer axis then the other, alternating, so every cell is visited once per month.
+   Results clamped per month to 3 × `rainCapMm` ÷ 12 and per year to `rainCapMm`. The march with an orographic drop and a rain shadow is
    the reference's mechanism in its own words (`research/fmg/FMG-survey.md` §"The physical pipeline", *Climate*, as
    evidence; its axis-aligned winds and unspecified 0–255 scale are what the arbitrary bearing and the mm/yr unit
    replace).
-7. **Evaporation:** `evapMm` = `evap.baseMm` × clamp((T − `zeroAtDeciC`) ÷ (`fullAtDeciC` − `zeroAtDeciC`), 0, 1).
+6b. **The ocean currents, per basin and month** (F4; J-V13.113; the spine's §8). Over each connected ocean basin
+   (`basin`: the ocean feature's cells, split where a strait narrower than one coarse cell closes it) W3 solves the
+   barotropic stream function ψ on the coarse grid for each month — β ∂ψ/∂x = curl(τ_m) ÷ (ρ H) − r ∇²ψ + A ∇⁴ψ, with
+   τ_m the month's wind stress (∝ `windMonthStrength`² along `windMonthCdeg`), β = `currents.betaEqPerM` × cos(lat),
+   A = `viscosityM2s`, r = `drag`; ψ = 0 on the mainland coast and a constant per island fixed by its circulation
+   condition — at the **continent** rung; at the **realm and province rungs** (a realm spans ≈ 7° of latitude and
+   cannot make a gyre that spans 15°–45°: it receives one from an ocean larger than the map, exactly as the monsoon)
+   the solve runs only over enclosed seas wholly inside the map, while an open ocean beyond an edge is
+   `WorldRecipe.worldContext.ocean` — the basin side the map's coast faces and its latitude span — whose coast anomaly
+   and along-shore current come from the rule-based coast-facing table (an east coast of a basin: a warm poleward
+   current; a west coast between 15° and 35°: a cold equatorward current with upwelling; else neutral — the science
+   note's §4.4, its first method), and at an open edge ψ takes the context's value as a fixed row, never a wall;
+   `cycles` multigrid V-cycles in row-major order through `dmath` — and reads u = −∂ψ/∂y, v = ∂ψ/∂x into
+   `currentMonth[m]`: in every basin bounded east and west a subtropical gyre with a narrow, fast western boundary
+   current and a broad, slow eastern one, an opposite subpolar gyre poleward of it, the equatorial currents under the
+   trades with their countercurrent, a circumpolar current where a latitude band is unbroken by land (the western
+   boundary's width ≈ (A ÷ β)^⅓ ≈ 50 km, which the coarse grid resolves at every rung). **The coastal effect:** a
+   coast cell's `sstAnomalyDeciC` is `sstWarmDeciC` × the share of an along-shore poleward current on a western
+   boundary (an east coast), `sstColdDeciC` × the share of an equatorward one on an eastern boundary (a west coast),
+   plus `upwellingDeciC` where the along-shore wind drives the surface offshore (the trades on a west coast between
+   15° and 35°), fading over `coastalReachKm` inland and seaward; step 2 reads it into the month's temperature and
+   step 6 into the pickup — so a cold-upwelling coast is a desert coast and a warm-current coast a humid one. The
+   solve is global over a basin (an elliptic problem has no local dirty set), and a land↔water change moves the thermal
+   term's land–sea contrast and the convergence zone's swing, hence every month's wind stress over every basin: a relief
+   or water edit re-solves every basin (V13 §3.14.2, §3.8 (12); J393); a `paintLayer` of `current` holds its cells' vectors through every solve (an always-so
+   override, V13 §3.14.1). On a continuation the stream function along an open-sea edge is the edge charter's (V13
+   §3.1 (6)). *Budget:* ≈ 30 / 120 / 260 ms per world at the three rungs for the twelve solves (V13 §6).
+7. **Evaporation, per month:** `evapMonthMm[m]` = `evap.baseMm` ÷ 12 × clamp((T_m − `zeroAtDeciC`) ÷ (`fullAtDeciC`
+   − `zeroAtDeciC`), 0, 1); `evapMm` their sum (the monthly values are transient: W4 reads the annual, step 6's
+   recycling and the cover fold re-evaluate the month they need from `tempMonthDeciC`).
 
-*Derive-only mode* (the import): with `tempDeciC` and `precipMm` given, W3 runs steps 1, 3, 4, 5 and 7 only. *Output:*
+*Derive-only mode* (the import): with `tempDeciC` and `precipMm` given and no months, W3 runs steps 1, 3 (the former
+distance-to-ocean continentality), 4 (the annual sinusoid at V13 §2.3's phases), 5 and 7 only, writes the twelve
+months as the annual split by the sinusoid (temperature) and evenly (precipitation), solves no current, and W5 reads
+the matrix path (V13 §3.6 (1)). *Output:*
 the climate raster with one `ReasonRecord` per chunk (the rule, the slices, the winds read); a cell's reason — the band and the parcel's moisture at arrival — is `whyCell`'s on-demand re-evaluation (V13 §2.2). *Edges:* a world with no
 water cell receives only the start jitter's moisture — a desert — and is reported; a `latBox` crossing the equator gives
-both hemispheres' phases.
+both hemispheres' phases; a continent-rung world with one ocean basin and no strait solves one gyre; a realm- or
+province-rung world's open sea reads its context's coast current and no gyre of its own; a basin of fewer than four
+coarse cells carries no current (0) and no anomaly; a `worldContext.monsoon` on a continent-rung world is read beside the
+emergent term and reported as redundant; a month whose wind field has no upwind edge for a row (a closed island
+climate) starts that row's parcel at the first water cell.
 
 ### 3.5 W4 Regional hydrology
 
@@ -74980,25 +75921,46 @@ do; the ladders are V13 §3.16's.
 
 ### 3.6 W5 Biomes and resources
 
-1. **The biome per fine cell.** For every land cell: the matrix row `Recipe.world.biomeMatrix` (V13 §2.3) is read with the
-   cell's mean temperature (`tempDeciC`, bilinearly sampled from the coarse climate raster) as the row index (the first
-   `tempBands` bound the value is under) and its precipitation (`precipMm`, sampled the same way) as the column index; the
-   cell's biome is `cells[row][col]`. The overrides run after, in this order and each final: a water cell takes
-   `overrides.water` (the empty biome: no habitability, no land use); a cell above `alpineAboveM` (dem ÷ 100 against the
-   world datum) is `alpine`; a cell whose temperature is under `permafrostBelowDeciC` is `ice` unless the matrix already
-   says `tundra`; a cell whose `flowAccum` ≥ `wetlandAccumCells`, whose dem slope (the max over the eight neighbours of
-   |Δdem| ÷ distance) is under 0.5 % and whose biome is not a desert is `wetland`. Ties never arise: the bands are strict
-   upper bounds. `landUse` is the biome row's. No stream is drawn: W5's biome is a pure function of W3 and W4.
+1. **The potential natural vegetation per fine cell** (J-V13.115). `biome` is the vegetation the climate would grow
+   without people — the potential natural vegetation, the climate-level class the dossier's climate row names; never
+   the land cover (step 5). **The classification path** (every generated world: a monthly climate present): for every
+   land cell the twelve monthly temperatures and precipitations (bilinearly sampled from the coarse climate raster, the
+   temperatures then moved to the fine cell's height: T_m,fine = T_m,sampled − `lapseDeciCPerKm` × (dem_fine −
+   dem_coarse,sampled) ÷ 1 000 m, the coarse heights sampled with the temperatures they were lapsed at — so a peak
+   inside a coarse cell reads its own climate, never its valley's)
+   are classified by `world.koppen`'s thresholds (V13 §2.3) into a three-letter class — E first (the hottest month
+   under 10 °C: ET where it is above 0, else EF), then B (the annual total under 10 × (2 × MAT in °C + the factor by which
+   half-year holds ≥ 70 % of the rain): W under 5 ×, S above; h or k by MAT 18 °C), then A (the coldest month ≥ 18 °C:
+   f, m or w by the driest month against 60 mm and 100 − MAP ÷ 25), C (the coldest month above `cdBoundaryDeciC`) and
+   D (at or below it) with s, w or f by the dry season's month ratios and a, b, c or d by the summer's months — and
+   the class is mapped by `world.pnv`'s rows to a `world.biomes` row (`Af` rainforest … `EF` ice; the row's `dryMargin`
+   where the class sits within 10 % of its own arid threshold: a forest-steppe). The overrides run after, in this order
+   and each final: a water cell takes `overrides.water` (the empty biome); a cell whose growing season — the months
+   above `treelineGrowingSeasonDeciC` — is shorter than `growingSeasonMonths` is `alpine` (the treeline; the matrix
+   path's `alpineAboveM` serves the import only); a cell whose `flowAccum` ≥ `wetlandAccumCells`, whose dem slope
+   (the max over the eight neighbours of |Δdem| ÷ distance) is under `wetlandSlopeMax` and whose biome is not a desert
+   is `wetland`; a cell within `riparianCells` of a reach through an arid class takes its nearest humid class's row (a
+   gallery forest); a cell whose `soil` is in `overrides.edaphic` takes that row (a spodosol heath, a vertisol
+   grassland); an `Override` of layer `biome` over the cell takes the painted row (always so, V13 §3.14.1). **The
+   matrix path** (the import's derive-only mode, V13 §3.4, and a world older than this item): the matrix row
+   `Recipe.world.biomeMatrix` (V13 §2.3) is read with the cell's mean temperature as the row index (the first
+   `tempBands` bound the value is under) and its precipitation as the column index, the cell's biome `cells[row][col]`,
+   the matrix's overrides (`alpineAboveM`, `permafrostBelowDeciC` unless the matrix already says `tundra`,
+   `wetlandAccumCells`) as before — kept so an imported map with annual climate arrays classifies as it did, never
+   taken for a generated world. Ties never arise: every threshold is strict. `landUse` is the biome row's — the
+   potential cover's class, not a human use (step 5). No stream is drawn: W5's biome is a pure function of W3, W4 and
+   the soil.
 2. **Vegetation and habitability rasters** are the biome row's cells copied per fine cell (`vegetation`, `habitability`),
    kept as Uint8 (× 255) for the view and W6. A cell adjacent (8-neighbour) to a sea or lake cell raises habitability by
    `coastalHabitabilityBonus` (V13 §2.3; clamped to 1) — the shore is where people live.
 3. **Resource sites.** A resource is a `ResourceSite` record (V13 §2.2)
-   placed by rule rows of `world.resources` (TS block: `ResourceRule { kind: 'timber'|'stone'|'ore'|'salt'|'clay'|'fish'|'peat'|'pasture'; where: { biome?: string[]; geology?: RecipeOp['geology']['kind'][]; landUse?: string[]; coastal?: boolean; minSlopePct?: number; maxSlopePct?: number; minAccum?: number }; density: number /* sites per 1 000 km² of eligible cells */; spacingKm: number }`).
-   Default rows (own; calibratable): `timber` — forest land use, density 6, spacing 8 km; `stone` — slope ≥ 8 %, density
-   3, spacing 12; `ore` — geology `volcanic` or slope ≥ 15 %, density 1.2, spacing 25; `salt` — coastal or a `saltLake`
-   shore, density 1, spacing 30; `clay` — slope ≤ 1 % and `flowAccum` ≥ 50, density 2, spacing 10; `fish` — coastal or a
-   lake shore with `open`, density 4, spacing 6; `peat` — `wetland`, density 2, spacing 10; `pasture` — grass land use,
-   density 4, spacing 8. For each rule: the eligible cells are listed, the expected count is density × eligible area ÷
+   placed by rule rows of `world.resources` (TS block: `ResourceRule { kind: 'timber'|'stone'|'ore'|'salt'|'clay'|'fish'|'peat'|'pasture'; where: { biome?: string[]; geology?: RecipeOp['geology']['kind'][]; bedrock?: string[] /* `world.formation`'s bedrock classes; read where a formation op ran, else the rule's `geology` */; soil?: string[] /* `world.soil`'s classes */; landUse?: string[]; coastal?: boolean; minSlopePct?: number; maxSlopePct?: number; minAccum?: number }; density: number /* sites per 1 000 km² of eligible cells */; spacingKm: number }`).
+   Default rows (own; calibratable): `timber` — forest land use, density 6, spacing 8 km; `stone` — slope ≥ 8 %, or
+   bedrock limestone, shield or folded belt, density 3, spacing 12; `ore` — bedrock arc volcanics, folded belt or
+   shield (geology `volcanic` where no formation op ran), or slope ≥ 15 %, density 1.2, spacing 25; `salt` — coastal, a
+   `saltLake` shore or bedrock evaporite, density 1, spacing 30; `clay` — slope ≤ 1 % and `flowAccum` ≥ 50, or soil
+   vertisol, density 2, spacing 10; `fish` — coastal or a lake shore with `open`, density 4, spacing 6; `peat` —
+   `wetland` or soil histosol, density 2, spacing 10; `pasture` — grass land use, density 4, spacing 8. For each rule: the eligible cells are listed, the expected count is density × eligible area ÷
    1 000 km², candidates are drawn on `world.resources` (keyed by the world root and the rule's ordinal: a position-keyed
    draw per eligible cell, the lowest `count` draws kept, V13 §3.17) and thinned to one per `spacingKm` in draw order;
    `amount` is a second draw in [0.3, 1]. A resource's reason names the rule row, the eligibility terms that held and the
@@ -75007,7 +75969,47 @@ do; the ladders are V13 §3.16's.
    frame cm (V13 §3.11.4); the base's own siting term for resources (§4.2 S0's demand reading) reads them through the
    charter, never through the raster.
 
-*Output:* `biome`, `landUse`, `vegetation`, `habitability` rasters; the resource sites. *Edges:* a world with one biome
+5. **Land cover — the campaign-time ecology, by the cover fold, never by W5** (F2, F3; the spine's §3; J-V13.116,
+   J-V13.128). What the land looks like at a week — fields, pasture, coppice, fallow, scrub, regrowth, a burn scar,
+   a flood's silt, ash — is not W5's and not a `WorldRaster` field: it is a **cover plate** (`CoverPlate`, V13 §2.2)
+   folded by `WORLD_COVER` into the cover cache (`Document.coverPlates`, BCR-V13-41) at every lens window's fold (one
+   plate per host advance, beside the lens plate) and at every `disturb`, and read at view time by the `landCover`
+   layer (V13 §5.1), `worldFactsAt` (V14's E1 crop; a placed frame's surroundings), `landCoverAt`, the settlement map
+   record's `landCoverShare` and the `physicalChange` offer — by no stage of W0–W9, no sway revision, no encounter's
+   generation and no canon (a lint, T-V13-62). **The law is a pure function, never a simulation:** cover(cell, week) =
+   stage(the cell's potential vegetation, the cell's last dated event and its kind, week − that event's week, the use
+   the dated host facts assign now), with no stepping, no stored trajectory and no draw — so a plate at week t equals
+   its re-derivation, a dropped cache rebuilds, and the scrub reads any week (J384 (9)'s plates). Its inputs, all
+   dated: **(a) human use** from the window's host facts — each bound seat's population and tier (`PolitySeat`,
+   `LensFacts.sizes`; a standalone seat its tier band's median) gives an area demand population ×
+   `use.landPerPersonHaByTier` × (`cropShare` + `fallowShare`) for fields, × `pastureShare` for pasture and ×
+   `woodlandShare` for coppice; the demand is met by cost-distance from the seat over the fine cost surface under the
+   cost law's time terms at `use.walkKmH` with its slope term (roads and rivers cheaper), fields assigned to eligible
+   cells in ascending travel time until the demand is met, with no time cap (a shortfall past `use.fieldHoursMax` (2) is
+   reported in the seat's reason: at an eligible share of 30–50 % a seat of 10 000 fills a disc of 7–10 km) — a cell
+   eligible when its soil's `fertility` ≥ `fertilityMin`, its slope ≤ `fieldSlopeMaxPct`, not water, wetland or ice,
+   and not inside a placed frame's extent (the town's own ground is the frame's) —, pasture and coppice next, out to
+   2 × `catchmentHours` (a shortfall reported), overlapping catchments split by nearest travel time (the partition W8a
+   already computes); a seat's use is withdrawn only by a dated host event — a razing, a plague's depopulation, an
+   abandonment, sent with the seat's population after it (H34): the cells beyond the new demand take the event's week
+   and kind; a population change between events moves the use's extent and dates nothing — a cell that leaves use that
+   way reads `fallow` (an undated use class) until a dated event or a later demand takes it, so the function stays pure
+   in (the potential vegetation, the last dated event, the weeks since, the use the facts assign now) and a dropped
+   cache rebuilds in one fill per dated event (`WORLD-17`); **(b) disturbances** — every `Disturbance` (a DM's stamp, or a host
+   event the DM attributed) sets its cells' event kind and week; **(c) succession and recovery** — a cell with an event
+   reads `world.cover`'s `recovery` sequence for (kind, biome) at week − event week, a cell whose use was withdrawn the
+   `succession` sequence for its biome, a cell in use its use class, any other cell its potential vegetation's own
+   class; an `Override` of layer `landCover` holds its cells' class through every fold (always so). **Land cover is
+   never the dossier's biome:** the dossier holds the climate-level class (W5's `biome` → V11's `ClimateRow`);
+   clearing and regrowth never raise the conflict list (V13 §3.11.5 (1)) and only a change of `biome` can (T-V13-62).
+   The fold's budget is V13 §6's cover row; its reason records are per plate chunk. *Edges:* a standalone world with no
+   seats folds a plate equal to the potential vegetation; a seat with no population sent uses its tier's median; a
+   disturbance before the first window dates from its own week; a cell both in use and disturbed reads the disturbance
+   until its recovery reaches the use's class, then the use; a seat's catchment on an island smaller than its demand
+   takes the island and reports the shortfall in the seat's reason.
+
+*Output:* `biome` (the potential natural vegetation), `landUse`, `vegetation`, `habitability` rasters; the resource
+sites; the cover plates (the fold's, V13 §2.6). *Edges:* a world with one biome
 (a matrix row of one cell) places every resource whose rule it satisfies; a rule with no eligible cell places none and is
 not reported (an absence is a fact). The biome idea — a climate matrix with overrides — is the reference's as evidence
 (V13 §2.3); the resource rule is own (the reference has no resources, `FMG-survey.md` §"The physical pipeline").
@@ -75034,7 +76036,9 @@ to siting; SW-03; J-V13.53).
 
 1. **The score raster, stage 1 (W6a).** For every land cell `c`: `score1(c) = Σ_t w_t · term_t(c)` over the
    `SuitabilityRule.weights` terms except `connectivity`; every term in [0, 1]:
-   - `habitability`: the biome row's.
+   - `habitability`: the biome row's × (0.5 + 0.5 × the cell's soil class's `fertility`, `world.soil`) — the soil
+     enters the existing term, never a ninth generic term (J-V13.51's eight stand; file r choice (l)); a world with
+     no formation op reads fertility 0.6 everywhere (the `inceptisol` row), so its scores are the former ones scaled.
    - `discharge`: min(1, Q ÷ `discharge.refM3s`) where Q is the largest reach discharge within one fine cell (0 off
      a reach); a cell *on* a navigable reach adds `navigableBonus` before the clamp.
    - `lowland`: 1 − min(1, (dem − the nearest surface's level) ÷ (`lowland.refM` × 100)) — low ground near water
@@ -75069,11 +76073,23 @@ to siting; SW-03; J-V13.53).
    w_connectivity · connectivity`; candidates are re-ranked by `score2` and the spacing passes re-applied over the
    ranked list (never adding, only dropping a candidate now out-ranked within spacing); W7b then routes over the final
    list. One iteration only (J-V13.10: a second changes under 2 % of seats in the spike's trial, V13 §8.3).
-5. **The host's demand.** `proposals(world, demand)` (the port, V13 §3.11.6) takes `{ kind: 'capital'|'town'|'port'|
-   'site'; count; near?: WorldPointCm; withinKm?; weights?: Partial<SuitabilityRule['weights']>; exclude?: Id[] }`; it
-   re-scores with the merged weights, restricts to the disc, drops `exclude` and the cells within the current placements'
-   spacing, and returns the top `count` as proposals with `demand` set to the host's key. The default weights are the
-   table's; a host's weights never persist (an input to one call, recorded in each proposal's reason).
+5. **The host's demand, and the included settlements' requirements.** `proposals(world, demand)` (the port, V13
+   §3.11.6) takes `{ kind: 'capital'|'town'|'port'|'site'; count; near?: WorldPointCm; withinKm?; weights?:
+   Partial<SuitabilityRule['weights']>; exclude?: Id[]; requirements?: Requirement[] /* the settlement's facts as hard
+   terms: a `coast` row refuses a cell whose coast type is `none`, a `river` row a cell with no reach within one fine
+   cell, a `lake` row a cell off a lake shore, a `climateRow` row a cell whose potential vegetation's climate row lies
+   more than one band from it, a `latitude` row a cell outside the band, a `terrain` row a cell outside the relief
+   class (the `dossier` term's readings, V13 §3.11.1) */ }`; it re-scores with the merged weights, applies the
+   requirements as hard terms (a refused cell scores 0), restricts to the disc or, with no `near`, to the whole map,
+   drops `exclude` and the cells within the current placements' spacing, and returns the top `count` as proposals with
+   `demand` set to the host's key and each proposal's requirement readings in its reason. The default weights are the
+   table's; a host's weights never persist (an input to one call, recorded in each proposal's reason). W6 never reads
+   a dossier itself: the facts arrive as requirements (`CampaignFacts`, V13 §3.11.6), and a run with `include` set
+   scores every planned site of V13 §3.1 (5) under its settlement's rows, so the standalone world's own seats and the
+   included settlements' sites are one scoring. **The host's one-button placer** — the host's one-button placement of its
+   settlements with its mismatch popup — becomes a caller of `placeFrame`'s best form (V13 §3.11.1: the whole-map
+   search under the settlement's requirements, the three offers, organic correction only when none is lawful) through
+   the port, never a second scorer (H31; J-V13.120).
 6. **The proposal record.** Each `SitingProposal` carries its terms as `terms` (each term's value), its `score`, `port`,
    its `cell` and `at` (the cell centre) and a reason naming the pass, the spacing in force and the rule slice's digest.
    **The one tie-break of siting, stated once for every caller** (SW-03; V14 cites it): two candidates of equal
@@ -75162,7 +76178,49 @@ it in **integer metres** (`originCm ÷ 100`, rounded; the continent rung's far c
    the town at its gate station after `exitRunM` through the margin, and `requestCharter` lays the town's own links
    before the charter is emitted.
 
-*Output:* `WorldRoute`s and the `route` layer. *Edges:* one seat: no route; two seats on separate landmasses, neither a
+12. **Sail routing: every sea leg priced by direction, month and vessel kind** (F4; the spine's §8; J-V13.125). A
+   water leg's cost in (2) — `seaPerM` over water cells — is the host's symmetric law and stays the canon's; beside it
+   W7 prices each water route's **sailing legs** (`SailingLeg`, V13 §2.2; `WorldRoute.sailing`) over the climate's
+   monthly winds and currents (V13 §3.4 (5), (6b)): for each vessel kind of `world.sailing`, each month and each
+   direction, a time-dependent shortest path over a **sea routing grid** of `routingGridKm` cells (16 km: the coarse
+   ocean cells aggregated, refined to the coarse cell within three cells of each port and in a strait narrower than two
+   routing cells) with `headings` headings per cell, where a step's cost is its length ÷ its ground-speed share — the
+   vessel's polar at the angle between the heading and the month's true wind (0 where the rig cannot hold the course)
+   less the leeway's drift, the ground speed solving the heading whose water velocity plus `currentCoupling` × the
+   current's vector makes good the step's track (the vector sum, the cross-track part crabbed out) — a step no heading
+   can make good at `minGroundShare` is impassable that month —, + `tackPenaltyMin`
+   per heading change against the wind (a beat is a zig-zag of close-hauled headings the graph admits, each paying its
+   penalty — so a square rig dead to windward makes about a tenth of its fair speed, often nothing, and the search
+   prefers a longer course with the wind abeam, as sailors did) and `wearPenaltyMin` per gybe; an oared vessel's
+   `oarKn` is its floor at every angle; a `coastal` vessel, or one with `nightStop`, steps only within
+   `maxDaysFromShore` of a coast and pays `coastalFactor`; on a standalone world the month's `closedRisk` multiplies the
+   whole leg (never an effort offered to the host, J393). A\* with
+   the straight line ÷ the fair speed as the admissible heuristic, the lifted bucket queue with integer costs (cost ×
+   1 000) and (f, cell index) ties: deterministic, no random weather (storms stay the host's storm season, multiplied
+   in the host's own arithmetic). The result per (leg, vessel, month, direction) is an integer **sea effort-metre**
+   count (the leg's length ÷ its mean ground-speed share) and the laid course where it differs from `polyline` — so
+   outbound and return may differ in course and in cost (the same pair of ports differs by a factor of 3–7 with and
+   against the prevailing system, the historical record this volume's cells are anchored on, T-V13-67), and sailing
+   windows emerge from the months (a monsoon route out in summer and home in winter; a sea closed in winter).
+   **What the host gets (J393):** `TravelEdge`, the canon's water metres and `WorldRoute.stations`, `openSeaM` and
+   `coastalM` stay GEOMETRIC water metres, byte-identical before and after this item lands (T-V13-67) — the host prices
+   them by its own sea speed as before, and no host time moves the day M-W9 lands; `routeFacts` offers, per host water
+   edge and behind the host's own switch, the directional seasonal efforts by vessel and their **symmetric mean** (the
+   mean of the twelve monthly efforts both ways; H33), each carrying wind and current only (never this volume's
+   closed-season multiplier: storms stay the host's storm season, applied once in the host's arithmetic), and the host
+   adopts them by its own law and its own re-canonize; until then every time the host shows is its own. **Laziness and
+   budget:** a sailing leg is derived on demand per lane and cached in `derived` per (lane, geometry version, climate
+   version) — the one-click path computes no sailing leg (the canon's water metres are geometric); the full twelve ×
+   three × two set, and the symmetric mean from it, runs when the month slider, a lens's sea link or `routeFacts` asks
+   (`WORLD-18`). **A strait edit** (a `strait` op, a `setField` that opens or closes a passage, a sea-level
+   `setSurface`) re-solves every basin's currents (V13 §3.4 (6b)) and re-derives every sailing leg whose course crosses the changed cells, each changed
+   leg's efforts before and after in the dry run's `timeDelta` with its band crossings (`W_TRAVEL_BAND_CROSSED`;
+   `W_SAIL_LEG_CHANGED` names the legs) — never silently. **The lens rule:** a lens drawing a sea link (a sea column,
+   a shipment, a plague's crossing) draws it along the host's own lane and prices it by the host's own leg unless the
+   host adopted the directional efforts (V13 §5.8 (5)); the map never shows a traveller faster or slower than the
+   host's clock says.
+
+*Output:* `WorldRoute`s (with `sailing` on water routes) and the `route` layer. *Edges:* one seat: no route; two seats on separate landmasses, neither a
 port: no route (reported); a seat on an island of one cell: a trail of length 0 is not made (the seat is its own route
 end). W7 at the continent rung is the stage's cost driver (V13 §6).
 
@@ -75393,14 +76451,14 @@ the middle prosperity rung until the host's first window.
 
 ### 3.10 W9 Labels and the settlement glyph
 
-1. **Names.** Every named record (sea, lake, river ≥ `riverMinKm`, mountain range, territory, province, settlement
+1. **Names.** Every named record (sea, lake, river ≥ `riverMinKm`, landform — a range, volcano, caldera, rift, fjord, glacial lake, plateau or basin of the formation op, V13 §3.2.1 (10) —, territory, province, settlement
    without a name, site) draws a name on the `naming` stream through V11's naming service with the world's culture
    context (V11 §3's `NameRequest`, kind by record kind; the territory's culture when known, else the world's default
    culture — V11's table rows). A placed frame keeps its own name (the frame's `Document.name`); a glyph's name is the
    frame's. The name is stored as a `NameRef` on the record; a `setAttr` rename is an edited attribute (§7.2).
 2. **Label candidates.** W9 writes the world's `LabelEntity` candidates in §9.1's form, one per named record, with the
    anchor: a sea or lake at its pole of inaccessibility; a river along its course (a path label over the longest reach's
-   smoothed polyline, letters spaced by §9's placer); a range along its ridge line (the W2 feature's spine); a territory
+   smoothed polyline, letters spaced by §9's placer); a range, a rift, an arc or an escarpment along its `Landform.crest`, and a volcano, caldera, glacial lake, fjord, plateau or basin at its outline's pole of inaccessibility (the `Landform` entities of the formation op are the `range` label kind's producer, V13 §2.2 — a world with no formation op has no landform label); a territory
    at `poleCm`; a province at its pole; a settlement at its glyph's dot; a site at its placement's origin. Priority and zoom extent
    are `world.labels`'s rows; the settlement's priority is `settlement × tier` (THORP 1 … CITY 5 in the rung's order).
    V13 §5.3 runs §9's placer over them per stop; W9 only writes the candidates.
@@ -75460,8 +76518,15 @@ table reading, S0's size step made callable without a document; BCR-V13-4), carr
 `Recipe.charter` then creates the frame, whose creation prefix carries the frame's `charter` event, and the world's
 `bindPlacement` (author `world`) sets `Placement.subject.doc` to the new `docId`; the glyph follows. **The
 settlement-first order**: `placeFrame` runs P1, P2, P3, P4 (the settlement-sourced charter, stored on the `Placement`
-only) and P5. Every later `setPlacement`, `mirrorFrame`, `worldWins` and `unplaceFrame` runs the operators V13 §4.3's
-rows name.
+only) and P5. **The best form** (`placeFrame` with `best: true` and no origin — V09's **Best placement** button —, or
+the host's one-button placer through the port, H31; F7; J-V13.120): the same process RESUMED at the placement stage —
+`solve(the frame's requirements, world, 'leastChange')` — with the frame's facts as rank-1 rows (a dossier-bound
+frame's DR1 and DR29 facts and the climate row DR42 derives from its terrain word; a standalone frame's its
+blueprint's site, water and climate row) under the **least-change goal**: change nothing that exists; search the
+whole map for a lawful site (§3.11.1's whole-map search); show the three best with their reasons; only when no site
+is lawful, step back for the smallest causal change (§3.11.1's organic correction). The DM's hand placement
+(`placeFrame` with an origin) is checked by the same stages in a dry run and never authored for them. Every later
+`setPlacement`, `mirrorFrame`, `worldWins` and `unplaceFrame` runs the operators V13 §4.3's rows name.
 
 **3.11.1 P1 — coherence and the bearing search.** `coherence(world, frame, origin, bearing)` returns the
 `CoherenceCost` whose six terms are, each ≥ 0 before its weight:
@@ -75472,7 +76537,7 @@ rows name.
 | `riverCrossing` | each frame reach that reaches the frame's edge against the world's reaches at the mapped edge stations | per frame reach: 0 when a world reach crosses the same side within `riverMatchM` 1 500 (own) with the same direction (in/out), 0.5 when the side matches but not the station, 1 when absent; a world reach ≥ `navigableM3s` entering the frame's extent with no frame reach: 1 |
 | `edgeElevation` | the RMS difference between the frame's edge profile (its outer ring, against its datum) and the world DEM along the mapped ring (against the world DEM at the origin), both at `stationCm` | RMS ÷ `edgeRmsRefCm` |
 | `relief` | the frame's relief (its dem range) against the world's over the mapped extent | |Δ range| ÷ `edgeRmsRefCm` |
-| `biome` | the frame's climate row (its blueprint's `circumstances.biome` resolved to V11's `ClimateRow`, §4.2 S0; C13-15) against the world's mode over the extent | 0 when the rows agree; 0.5 when adjacent in the matrix (one band apart); 1 otherwise |
+| `biome` | the frame's climate row (its blueprint's `circumstances.biome` resolved to V11's `ClimateRow`, §4.2 S0; C13-15; on a dossier-bound frame the row DR42 derives from the dossier's terrain word) against the world's potential vegetation's mode over the extent (V13 §3.6 (1)) — never the land cover | 0 when the rows agree; 0.5 when adjacent (one class apart); 1 otherwise — and, under the best form or any run that carries the frame's requirements, a `climateRow` row still unmet after the search (every lawful site scoring 1 here) is the back-step's cause (§3.11.1's organic correction), never a cell painted around the town (F7; J-V13.120) |
 | `territory` | the frame's host allegiance (from the polity facts) against the sway's holder at the origin, at the revision in force at the placement edit, computed **without** the frame's own seat | 0 when the land is unclaimed or of the same allegiance; 0.5 when debatable; 1 otherwise — evaluated once, stored in `Placement.coherenceCost`, never re-scored by a later sway revision (politics never re-opens a placement) |
 | `dossier` (weight ∞) | on a dossier-bound frame (V08), every DR1 and DR29 site fact — `site.terrain`'s relief class, `site.access`'s coast and its side, river and inflow, the water deposits, `site.culture`'s latitude — against what the charter at this placement would say | 0 when every dossier fact holds at the placement; ∞ when any would be contradicted (an inland placement of a `coastal` site, a river side the charter cannot give, a latitude outside the culture's band): **the placement is unlawful whatever the other terms** — item 20's one-way rule applied: the dossier is the truth, a placement is a map fact (C13-08; J-V13.50) |
 
@@ -75480,14 +76545,32 @@ rows name.
 river: the owner's correction (3), V13 §1.3 — a coast mismatch is resolved by the bearing first). The bearing search for a given origin
 tries every bearing from 0 in steps of `bearingStepCdeg` (360 bearings) and, when `mirrorAllowed` (never by default:
 the DM's explicit `mirrorFrame` only, V13 §3.11.5), the mirrored set too; the best is the least `total`, ties by the
-smaller bearing, then unmirrored. `nearestLawful(world, frame, origin)` searches origins on a spiral over the fine
-grid out to `originSearchM` in steps of `originStepCells` cells **in two tiers** (C13-37): the coarse pass, at 10 × the
+smaller bearing, then unmirrored. `nearestLawful(world, frame, origin | 'anywhere')` searches origins on a spiral over the fine
+grid out to `originSearchM` in steps of `originStepCells` cells around an asked origin, or — under the best form —
+**the whole map** (J-V13.120): every coarse land cell a candidate origin, scored by W6's `score` under the frame's
+requirements as hard terms (V13 §3.7 (5)) and the coherence terms' cheap readings, the best `coarse.keep` × 10 of
+them taken to the spiral's two tiers around each (`WORLD-3`'s best-form bar, V13 §6), **in two tiers** (C13-37): the coarse pass, at 10 × the
 step, evaluates 36 bearings (10°) with the two cheap, decisive terms only — `coastSide` from W2's coast index and
 `riverCrossing` from the reach index — over 100 stations of the frame's ring (the frame's edge profile sampled once
 per search, the world's ring samples cached per origin), and under the `dossier` term where one applies; only the three
 best (origin, bearing) pairs take the full six terms at `bearingStepCdeg` (1°) over 400 stations with the fine step
-around them; it returns up to three lawful placements by ascending `total`, ties by distance from the asked origin; none found → `F-PLACE` rung "no lawful placement within
-reach" (the asked placement is kept, flagged unlawful, and the three least-cost unlawful ones are offered). The dry
+around them; it returns up to three lawful placements by ascending `total`, ties by distance from the asked origin; none found → under an asked origin `F-PLACE` rung "no lawful placement within reach" (the asked placement is kept,
+flagged unlawful, and the three least-cost unlawful ones are offered); under the best form, **organic
+self-correction** (F7; the spine's §4.3; J-V13.120): the solver steps back into W3 or W1 for the smallest causal
+change that makes the frame's unmet row lawful — one of `solver.causes` (for an arid row a range upwind of the chosen
+site, a basin without outlet, a cold current's coast, a narrowed sea; a wetness, land-share or latitude shift never
+once a world exists) — at a plausible extent for the rung (`solver.minExtentCells`: an enclave 10–100 km across,
+sited where the physics explains it — the lee of the highest relief, the lowest-aridity basin, a substrate), with
+**graded edges** over `solver.gradeBandCells` (steppe and scrub between desert and green), **every other
+settlement's rows protected** (a correction never changes a cell whose change would contradict another placed or
+included settlement's rows within `solver.protectRadiusKm`; one that cannot avoid it raises the conflict list
+instead, §3.11.5 (1)), and the new country explaining itself in its reason ("the rain shadow of the Greyspine"); the
+correction is an op with `origin: 'solver'` and the row's id appended to the recipe, previewed on the fork with its
+change list before the placement commits (V13 §4.5), each counted against `solver.maxBackSteps`. **Painting is the
+last resort**, only when the DM forbids terrain change (a `lockRegion` over the correction's cells, or the dialog's
+"never reshape the land"), and then at the same plausible extent with the same graded edges as an `Override` of
+layer `biome`, labelled in the DM view "not explained by physics" (`W_SOLVER_PAINTED`) — never a random arid dot in
+the middle (T-V13-64). The dry
 run (`placeFrame` with `preview`) returns the cost and the offers without writing; V09's placement tool shows the cost
 by term as the frame is dragged (V13 §4.2).
 
@@ -75563,19 +76646,42 @@ river and inflow, its water deposits (`site.terrain`, `site.access`), its latitu
 constraint on the placement**, the `dossier` term of V13 §3.11.1: a placement whose charter would contradict one is
 unlawful, `nearestLawful` searches under the constraint, and `requestCharter` (the host's `charter(world, campaign)`)
 is **refused** with `refuse.charter.dossier` naming the fact and the nearest lawful origin — the host then moves its
-placement or amends its dossier (J-V13.50: the map never silently amends a dossier fact; no owner question is needed,
-since item 20's one-way rule decides it). The charter never rewrites a dossier-tier value: every `factTier: 'dossier'`
+placement, amends its dossier, or takes the third path F8 opens: the conflict list's `updateDossier`, a request the
+host carries out by its own world-fact command after the user's approval (§3.11.5 (1); §3.11.6's
+`requestDossierUpdate`; J-V13.121 refining J-V13.50: the map never silently amends a dossier fact and never writes
+one — it asks, and the host writes; no owner question is needed, since item 20's one-way rule decides it). The charter never rewrites a dossier-tier value: every `factTier: 'dossier'`
 path (V08 §2.5) stays the dossier's, the charter fills `map`-tier inputs only (the edge profile, the water levels, the
 crossings' discharge, the roads, the table, the biome's land-use shares, the resources, the territory). The sun's
 latitude on a dossier-bound frame is DR29's; the placement's latitude is a reported difference (`sunDiffers`, V13
 §3.11.5), never an input.
 
 **The transient form** (SW-05; J-V13.54): `charterFor(world, pl: Placement | TransientPlacement)` with
-`TransientPlacement { originCm: WorldPointCm; bearingCdeg: 0; mirrored: false; frame: { widthCm; heightCm; marginCm } }`
+`TransientPlacement { originCm: WorldPointCm; bearingCdeg: 0; mirrored: false; frame: { widthCm; heightCm; marginCm }; subject?: { kind: 'world'; rung: WorldSizeRung } /* file r item 1030: a world-rung transient, so `charterFor` emits a `WorldCharter` and never a `FrameCharter` from the size alone (C15-13) */ }`
 builds the `FrameCharter` of (1)–(11) from the world as it stands, with `placement` the transient value and `source:
 'world'`, and **writes nothing** — no record, no event, no blend, no glyph, no reason record: a view read, as
 `worldFactsAt` is. It is the form V14's E1 (4) calls for a world crop frame (100 m; the click as `originCm`), budgeted
 at `WORLD-9` (V13 §6).
+
+**The world subject — a child world's charter from its parent** (the spine's §10.6 "derived from the parent"; V15 §3.5
+(a); file r item 1009; J-V13.131). `requestCharter` with `subject: { kind: 'world'; rung; extentCm }` is the world-first
+order one rung up: it creates a `Placement` of subject kind `world` on the parent with `precedenceStamp: 'world'` and
+`coherenceCost.detail: 'world-first'` — P1 is not run, there is no child yet — and runs P4 only, emitting a
+`WorldCharter` (V13 §2.2): the parent's four edge charters along the extent's sides (`edgeCharter` on the parent over
+each side's span, the child's sides), the parent's rasters over the extent as the child's coarse ground, and the
+parent's placed frames inside the extent as planned sites. No blend and no change to the parent's ground: the parent's
+model digest moves by the placement record alone (T-V13-2's bar; T-V13-68 (h)). `generate` with
+`WorldRequest.parentCharter` then makes the child: W0 takes the four edge charters as rank-1 `locked` `edge` rows
+(V13 §3.1 (6)) and the planned sites as rank-1 `site` rows (V13 §3.1 (5)), W1 starts from the coarse ground upsampled
+bilinearly (as a baked formation-grid DEM is, V13 §3.2) before the request's own ops — the child's formation grid minted
+from the charter's ground and its `bedrock` and `soil` resampled to it; no formation op runs on a derived child, whose
+`scenario` is `'none'` (V13 §3.1 (1); C15-06) —, and the parent's `bindPlacement`
+(author `world`) sets `Placement.subject.doc` to the child's `docId` — the child coherent with its parent by
+construction. The frames inside the extent stay the parent's (V13 §3.18 (7)): moving one into the child is the user's
+`unplaceFrame` on the parent and `placeFrame` on the child, each previewed on its own page (V15 §3.5 (a)). **The
+transient world-rung form:** `charterFor(world, TransientPlacement)` with `frame` a world-rung extent builds the same
+`WorldCharter` and writes nothing (the mismatch reading of an image-only child, V15 §3.5 (b); `WORLD-20`). Only a rung
+finer than the parent's is admitted (`refuse.place.worldRung`); the extent must lie inside the parent's, and a bearing
+other than 0 or a mirror is refused (`refuse.place.worldBearing`) — a world is never turned.
 
 **How S0 and S1 read the charter** (the base's hooks, consumed here; the exact base-text changes are BCR-V13-3 and
 BCR-V13-4):
@@ -75632,11 +76738,43 @@ BCR-V13-4):
    governs re-derivation: a world terrain re-derivation under a `settlement`-stamped placement re-blends after it (the
    frame wins again); under a `world`-stamped placement the frame's charter is marked stale and the DM is offered
    `worldWins` (V13 §4.3) — and a world edit whose cascade would contradict a dossier fact of a world-stamped frame
-   raises `W_EDIT_DOSSIER` with three choices: `keepDossier` (the stamp becomes `settlement`, `Recipe.charter` kept as a
-   recorded input, the mode keyed on the stamp from then on, the dossier's facts met bearing first and the world's
-   blend second, as P1–P3 meet them), `moveTown` (the nearest lawful origin; not offered when `Placement.hostLocked`),
-   `cancel`. No lawful origin leaves an unlocked frame standalone; on a `hostLocked` placement the edit is refused
-   (`refuse.place.hostLocked`) unless the DM takes `keepDossier`. A dossier event that changes a DR1 or DR29 site fact
+   raises `W_EDIT_DOSSIER` — **the conflict list** (F8; the spine's §5; J-V13.121): one `Conflict` record (V13 §2.2)
+   per crossing, the pop-up this list with one item, raised by every action alike — a generation run's option, a
+   brush stroke, a physics pass, a placement, the host's own change, V15's arrangement. **The ladder** (strongest
+   first): 1 the dossier facts of a placed or included settlement (the `dossier` term's ∞ weight); 2 the DM's
+   overrides and locks (always-so overrides, locked regions, locked options, pinned features); 3 the user's generation
+   requests (`set` options, inclusions, described relations); 4 physical plausibility (the living physics); 5
+   randomness — the map-side counterpart of the host's forced-fact precedence (J-V13.75's reading). **When it asks:**
+   exactly when an action would change something owned by a HIGHER rank than the action's own — a settlement's dossier
+   facts (always), the DM's overrides or locks (when a reroll, a release or a request would overwrite them) — and
+   never about ranks 4 and 5, so "Random all" keeps its one-click promise: conflicts there resolve to the safe
+   defaults (`fitWorld`; `keepMismatch` flagged) and the run's summary says what was done. **The choices**, the same
+   everywhere (`ConflictChoice`): `cancel`; `fitWorld` or `paintAround` — the action applies except in a
+   natural-looking zone around the settlement with graded edges (`solver.gradeBandCells`), so the dossier stays true,
+   the solver's least-change correction (the former `keepDossier`: the stamp becomes `settlement`, `Recipe.charter`
+   kept as a recorded input, the mode keyed on the stamp from then on, the dossier's facts met bearing first and the
+   world's blend second, as P1–P3 meet them); `keepMismatch` — the action applies, the dossier stays, the DM view flags
+   the contradiction (`keepResidual`'s family); `updateDossier` — the only choice that changes the settlement, and only
+   on the user's approval here: it asks the kind as the settlement's phase admits — on a canonized settlement *"the
+   land changed"* (the default: a dated host event, applied at the advance it lands on, the old biome kept in the
+   host's history) or *"it was always so"* (the host's retcon path under its own guards); on a draft *"it was always
+   so"* alone (a plain edit, which re-rolls the settlement) —, then sends `requestDossierUpdate` through the port (§3.11.6) and shows the change done only on the host's
+   `dossierUpdated` (`consumed`'s form; `W_DOSSIER_PENDING` until then), each side keeping its own undo; `moveTown`
+   (the nearest lawful origin; never under `Placement.hostLocked`); `changeRequest` (at generation only). The pop-up
+   previews the consequences (`Conflict.preview`): the dossier fields that would change, whether the host's economy
+   or food would feel it (from the host's own exposure words where sent, H32; else "unknown"), what the host will do
+   (`hostEffect`: on a draft settlement a regeneration under its same-seed law — its people, trades and history drawn
+   again, the host's own warning shown as the host sends it; on a canonized settlement a decree applied at the next
+   advance, not this week), and what the settlement map does — nothing by itself: its surroundings read the new land cover at view time, and regenerating
+   the town's own ground is a separate, explicit act (`worldWins`). One stroke that touches several settlements lists
+   them all. **The reverse direction** — the DM changing a settlement's biome inside the host — arrives as a dossier
+   event (below) and runs the same organic correction with the same preview before the land reshapes. **Presets and
+   memory** (J-V13.122): a `world.presets` row may pre-decide map-side choices ("always fit the world to my
+   settlements", "keep mismatches and flag them", "move unlocked towns when better") — never `updateDossier`:
+   updating a dossier always asks; every `Decision` is stored with its requirement and what it rested on (`restsOn`)
+   and reused by later rerolls and physics passes, asked anew only when what it rested on changed (a new settlement, a
+   dossier edited in the host, an area unlocked). No lawful origin leaves an unlocked frame standalone; on a
+   `hostLocked` placement the edit is refused (`refuse.place.hostLocked`) unless the DM takes `fitWorld`. A dossier event that changes a DR1 or DR29 site fact
    of a placed frame — the host's labelled re-terrain or its world-fact card changing the frame's relief, coast or river
    — re-runs P1's bearing search at the fixed origin, then P2–P3, under the new fact (bearing first, the blend second;
    the origin never moved under `hostLocked`), logged as a dated re-blend whose cause is the dossier event; where no
@@ -75774,7 +76912,10 @@ the host's map surfaces, is never written into the host's world state and is nev
   host derives its access word from the charter's road and water facts, and its terrain word from the charter's relief,
   biome and water facts by the inverse of DR1's relief-class row (the table the `dossier` term reads), before
   generation.
-- `proposals(world, demand)` → V13 §3.7 (5), each proposal with its `WaterAccess`.
+- `proposals(world, demand)` → V13 §3.7 (5), each proposal with its `WaterAccess`; `place(world, { hostKey; best:
+  true })` → `placeFrame`'s best form through the port (V13 §3.11.1: the whole-map search under the settlement's
+  requirements, the three offers with their reasons; the placement on the host's choice by `bindSeat` as today) — the
+  host's one-button placer's one call (H31; the host's mismatch popup becomes the conflict list).
 
 *Inbound — recorded inputs* (logged and replayable without the host; each a dossier-tier fact keyed by host keys; the
 port's manifest names each message's closed key list, the base's never-read list binding the dossier door, §7.7 item 1;
@@ -75792,6 +76933,16 @@ event, never an undo target, and caused facts retract as groups; J-V13.69):
 - `hostRequires(world, rows: { hostKey: string; requires: ('coast'|'river'|'navigable'|'lake')[] }[])` (the host's frozen
   per-settlement water verdicts): a world edit whose cascade would strand one is refused (`refuse.world.hostRequires`)
   unless the DM keeps the residual as a reported anomaly (`keepResidual`).
+- `campaignFacts(world, facts: CampaignFacts)` (H31; V13 §2.2): the campaign's settlements' facts — each one's tier,
+  population, terrain word, route word, culture, resources and phase through the adapter folder's terrain, route and
+  relation tables (its coast side, lake and river inflow are its own settlement document's, V13 §2.2's
+  `SettlementFacts`, never the host's) — and its regional graph's relations, for "based off of my settlements" (V13 §3.1 (5)) and
+  the best form; a windowed replace keyed by host keys, re-sent when a settlement's dossier changes (the decisions that
+  rested on the changed facts are re-asked, V13 §3.11.5 (1)); nothing of it is a map fact.
+- `dossierUpdated(world, { request: Id; applied: boolean; hostSeq; kind })` (H32): the host's confirmation that it
+  carried out a `requestDossierUpdate` by its own command (`applied: true`: the conflict's decision gains `hostSeq`
+  and the map shows the change done; `applied: false`: the host declined or its own undo retracted it, the conflict
+  re-opened with its choices); a recorded input, so a world replays the request's outcome without its host.
 - `genesis(world, RouteGenesis)` (once, at world birth; V13 §3.8 (8)) and `network(world, window, changes)` (V13 §3.8 (9)).
 - `polity(world, window, facts: PolityFacts)` (folded into dated events and at most one sway revision per week, V13 §3.9
   (13)).
@@ -75819,7 +76970,20 @@ only).
 with the DM's attribution and its durability: `event` (a dated live overlay the host may read at the hop), `permanent`
 or `retcon` (reaching the host's simulation only through its receipted re-canonize, as a geometry shift). No message
 proposes a political or military fact: those kinds are refused on a host-bound world (`refuse.world.hostPolitical`),
-the world editor opening the host's own command for them as for routes (V13 §3.8 (9)).
+the world editor opening the host's own command for them as for routes (V13 §3.8 (9)). `physicalChange` also carries
+a land-cover change the cover fold makes inside a seat's catchment (`SettlementPhysical.landCoverShare`: the cover
+classes' shares, a dated reading the host may show beside its dossier — never its biome and never a genesis fact,
+H34) and an active landform's hazard reading (`SettlementPhysical.hazards`). **`requestDossierUpdate(world, {
+settlement: hostKey; field; from; to; kind: 'landChanged'|'alwaysSo'; conflict: Id; approvedBy: 'user'; week })`**
+— the conflict list's `updateDossier` (V13 §3.11.5 (1)): a REQUEST the host carries out by its own world-fact command
+— a dated event under `landChanged`, its retcon path under `alwaysSo`, each under the host's own guards — after the
+user's approval here; the map writes no dossier fact (the base's one-way rule and its "the module never writes to the
+dossier", §11.3, §11.4; BCR-V13-45) and shows the change only on the host's `dossierUpdated`, until which
+`W_DOSSIER_PENDING` stands and a second request on the same settlement is refused (`refuse.dossier.pending`); the
+host's own undo retracts it with a later `dossierUpdated { applied: false }`, which the fold reads as the conflict
+re-opened (H32). **`routeFacts`** carries, per host water edge and behind the host's own switch, the directional seasonal sea
+efforts by vessel and their symmetric mean (`WorldRoute.sailing`; H33; V13 §3.8 (12)), wind and current only; the
+canon's water metres stay geometric and unchanged (J393).
 
 **The port's laws** (one statement; T-V13-7 extended): (1) genesis to lived only — a world edit reaches the host's simulation only through the canon's input hashes and
 the host's own adoption; the canon's slots are pure functions
@@ -75839,7 +77003,11 @@ base's document snapshot, nor *frame*, the settlement frame); the lens over the 
 *territory lens* (the host's own territory lens stays on the seat territory, V13 §8.5's H19); the political boundary on a route is
 a border crossing, never a *gate*, and a site posted there a **border post**; a sway retention snapshot a *keyframe*
 and a cross-water hold a *lodgement*, never *checkpoint* or *foothold*; the advance's nonce is `advanceNonce`; the water-passage class of a path (V13 §3.13's `routeClass`) is never sent
-as a route's class. **Scale:** the host stamps its own map unit's kilometres from the world header (V13 §2.1), never a default; the
+as a route's class; **biome** is the climate-level class (W5's potential natural vegetation, the dossier's climate
+row) and **land cover** the campaign-time layer (the cover plate), never each other; **crust block** is formation's
+moving unit and **plate** a lens's or the cover's per-advance record, never each other; a **scenario** is a formation
+row, never the host's campaign scenario; a **continuation** is a world generated with edge charters, never an ongoing
+coupling (the spine's §12). **Scale:** the host stamps its own map unit's kilometres from the world header (V13 §2.1), never a default; the
 reference generator's scale and unit are read only inside the import adapter (V13 §3.15). **Retention:** the host's
 horizon governs host facts; the map's own horizons cover user events and the polity supersession chain only (V13 §2.6).
 Messages carry the canon envelope's version vector; a host that speaks none of them reads the ecosystem-shaped export
@@ -76015,9 +77183,18 @@ never an invariant failure (C13-29).
 
 ### 3.14 Two verbs and the cascade
 
-**3.14.1 The verbs.** Every terrain and water edit at both scales carries `EditBase.verb: 'happened' | 'alwaysSo'`
-(BCR-V13-9; default `happened`): `setField(terrain)`, `terrace`, `warp` at level 0, `drawWater`, `moveCourseKnot`,
-`rerouteReach`, `setSurface` and V06's `terrainWater` op (a placement is always `happened`, C13-55). **`happened`** writes a dated record:
+**3.14.1 The verbs — on every physical layer** (F3; the spine's §7.1; J-V13.129). Every terrain and water edit at
+both scales carries `EditBase.verb: 'happened' | 'alwaysSo'` (BCR-V13-9; default `happened`): `setField(terrain)`,
+`terrace`, `warp` at level 0, `drawWater`, `moveCourseKnot`, `rerouteReach`, `setSurface` and V06's `terrainWater` op
+(a placement is always `happened`, C13-55); and the two verbs extend to every physical layer of the world: a painted
+biome, soil, land cover or current is `paintLayer` under `alwaysSo` only — an **`Override`** (V13 §2.2), a boundary
+condition of every dirty set that touches its cells, which the living physics respects and derives its neighbours
+against and no re-derivation ever overwrites (item 137 (c)'s lock law on a painted fact; rank 2 of the ladder, V13
+§3.11.5 (1)) — and a painted fire, flood, clearing or eruption is `disturb` under `happened` only — a
+**`Disturbance`**, dated, which the land recovers from by the cover fold's succession tables (V13 §3.6 (5)), never
+undone by physics and never erased by a reroll. (`paintLayer` under `happened` and `disturb` under `alwaysSo` are
+refused, `refuse.world.verb`: a biome that "happened" is a disturbance's business, an eruption that "was always so" a
+landform's.) **`happened`** writes a dated record:
 the new surface and the traces dated at the event's `date` where given, else the document's week (SW-27), a `TerrainTrace` of the former ground or bed and a `SurfaceTrace` of
 the superseded surface; descendants are re-derived by the cascade but every dated fact older than the edit is kept
 (the old ford stays as a `trace` the clerk can name: "the ford is gone because the river was re-routed in year 412,
@@ -76028,16 +77205,26 @@ the frame; the world never rewrites a frame's log, the frame never the world's).
 
 **3.14.2 The cascade order.** `cascade(doc, dirty, verb)` runs after the edit's own batch, in the dry run first (§7.1),
 over the dirty set only — at frame scale the hydro cells the edit's stroke or surface touched, grown to the frame
-watersheds (the D8 basins) they drain to and from; at world scale the same over `Watershed`s — and in this order,
-each step reading the previous's output:
+watersheds (the D8 basins) they drain to and from; at world scale the same over `Watershed`s **and, for every relief or
+water edit at world scale, however small, the whole monthly march on the coarse grid and every basin's solve** (step
+1b; J-V13.114; J393: no threshold): a rain shadow is not local — a raised range dries the land 200–700 km downwind, across most of a realm —
+so the correct dirty set is every cell the wind sweeps past the edit in every month whose wind crosses it, and the
+cheapest correct rule is to re-run the twelve marches whole (≈ 0.2–0.4 s on the coarse grid, inside `WORLD-19`),
+which satisfies the downwind rule exactly ("until the march's moisture is spent or the edge is reached"; file r
+choice (c)); the currents re-solve over every basin (a land↔water change moves the thermal term's land–sea contrast
+within `landFetchKm` and the convergence zone's swing, hence every basin's wind stress); W4's discharge, the endorheic
+lakes' balance and the table re-derive over every cell whose P − E moved, the classification (W5) re-reads every cell
+whose month values moved, and the dirty set of the later steps is the union of the watersheds and those cells
+— and in this order, each step reading the previous's output:
 
 | step | at the frame | at the world | reads | writes |
 |---|---|---|---|---|
-| 1 terrain or surface | the edit's own batch (S1's terrain or water operator, §7.3) | `setField`, `rerouteReach`, `setSurface`, the blend | — | the heightfield or the surface list, the trace |
+| 1 terrain or surface | the edit's own batch (S1's terrain or water operator, §7.3) | `setField`, `rerouteReach`, `setSurface`, the blend; `paintLayer`'s override written; `disturb`'s record written | — | the heightfield or the surface list, the trace; the override or the disturbance |
+| 1b climate (world only) | — | the whole monthly march (V13 §3.4 (5)–(6)) over the coarse grid on every relief or water change of step 1 (J393: no threshold); the basin gyre solve (V13 §3.4 (6b)) over every basin; every `Override` of `biome`, `current` or `landCover` held as a boundary condition | 1 | the climate raster's monthly arrays, summaries, `maritime`, currents and anomalies |
 | 2 flow, flats, accumulation | the lifted `hydro.*` over the dirty cells with the border fixed | V13 §3.5.1–3.5.2 over the dirty watersheds | 1 | `flowDir`, `flatRank`, `flowAccum`; the reaches re-traced inside (ids by anchor); the carve delta |
 | 3 surfaces re-derived | lake spill heights, reach stages, `open` | the same, plus lake outlets | 2 | the generation-time surfaces (a dated or edited surface kept) |
 | 4 the table | `groundwater.derive` over the dirty cells with the margin fixed | V13 §3.5.4 over the dirty set | 3 | `Terrain.groundwater` / `GroundwaterField` |
-| 5 the consumers | water classes of every unit in the dirty set; flood classes (the seasonal pair); outfalls (V04's sewer network, its stage re-run where an outfall moved); fords and spans (S1's crossing sites, §4.3's decks: a deck no longer over water is F-REDERIVE's row); wells (V04's yields); the damp-ground term (§4.5's prosperity); the siting score; the open `Encounter`'s memo at every address whose rectangle the dirty set reaches (invalidated; V14 §3.10) and the `waterStamp` of every scene exported over it (V14 §2.4; SW-17); every site document whose anchor or placement lies in the dirty set (V14's G6 and the site's lifecycle); V05's fallen islands' decoration faces under a raised sea (V05 §3.16) | W5's biomes, W6's proposals, the charter's facts of every placement in the set (marked stale when changed), the glyphs' `water` marks, W7's crossings (a route crossing a moved reach re-costs its edge), W8a (a river border moved: re-run for the seat territories touching it — on a host-bound world an offer to the host's re-canonize), W8b at the next revision | 4 | each consumer's records, each with a reason naming the edit |
+| 5 the consumers | water classes of every unit in the dirty set; flood classes (the seasonal pair); outfalls (V04's sewer network, its stage re-run where an outfall moved); fords and spans (S1's crossing sites, §4.3's decks: a deck no longer over water is F-REDERIVE's row); wells (V04's yields); the damp-ground term (§4.5's prosperity); the siting score; the open `Encounter`'s memo at every address whose rectangle the dirty set reaches (invalidated; V14 §3.10) and the `waterStamp` of every scene exported over it (V14 §2.4; SW-17); every site document whose anchor or placement lies in the dirty set (V14's G6 and the site's lifecycle); V05's fallen islands' decoration faces under a raised sea (V05 §3.16) | W5's potential vegetation over every cell whose climate or soil reading moved (the classification re-read, V13 §3.6 (1); a `biome` override held), W6's proposals, the charter's facts of every placement in the set (marked stale when changed), the glyphs' `water` marks, W7's crossings (a route crossing a moved reach re-costs its edge) and every sailing leg whose course crosses a changed water cell or whose basin re-solved (V13 §3.8 (12); `W_SAIL_LEG_CHANGED`), W8a (a river border moved: re-run for the seat territories touching it — on a host-bound world an offer to the host's re-canonize), W8b at the next revision; the next cover plate re-folds over the changed cells at its own window (the fold is never this step's writer) | 4 | each consumer's records, each with a reason naming the edit |
 | 6 one level up | the frame posts `charter.stale` to its world when its edge facts changed (a reach now leaving at another station; a sea level changed by a world edit) | the world marks every placement whose charter facts moved (`Placement.charter` stale) and offers `worldWins` per frame; it never writes a frame | 5 | the stale flags, the clerk's notice |
 
 Every step is a local operator in §7.3's sense with its boundary pinned (the dirty set's border cells and their
@@ -76055,7 +77242,7 @@ says so (C13-02).
 
 | # | the reference's drift (as evidence) | the equivalent edit here | what recomputes | T-V13-21's assertion |
 |---|---|---|---|---|
-| 1 | a terrain edit in "keep" mode leaves rivers, biomes, features and polities on the old ground | `setField(terrain)` on the world raster (either verb) | the cascade: flow, accumulation, surfaces, the table, then W5 biomes, W6a/W6b proposals, W7 crossings, W8a seat territories over the dirty watersheds (W8b at the next revision) | every reach, lake, biome cell and territory cell in the dirty set is re-derived; none outside it changes; the reasons name the edit |
+| 1 | a terrain edit in "keep" mode leaves rivers, biomes, features and polities on the old ground | `setField(terrain)` on the world raster (either verb) | the cascade: flow, accumulation, surfaces, the table, then the whole monthly march and every basin (step 1b), then W4's discharge where P − E moved, then W5's classification over every cell whose climate moved, W6a/W6b proposals, W7 crossings and the sailing legs, W8a seat territories over the dirty watersheds (W8b at the next revision) | every reach, lake, biome cell and territory cell in the dirty set is re-derived; a raised range dries the cells downwind of it and nothing but the climate-derived layers changes there (T-V13-60); nothing outside the dirty set and the climate's changed cells changes; the reasons name the edit |
 | 2 | a terrain edit in "risk" mode re-derives physical layers but not territories, and moves seats by nearest land | the same `setField(terrain)` where a seat's cell becomes water | W8 re-runs over the landmass (the seat moved to its nearest land cell with `W_POLITY_SEAT_MOVED`), W7 re-routes it | the territory raster and the seat's routes change together; the seat's new cell is land |
 | 3 | the wrap tool moves vertices only; settlements, rivers, routes and labels stay | a `setPlacement` of a placed frame (origin or bearing) | P1 → (P2, P3 settlement-first) → P4 → P5 → the glyph → W7 and W8 over the landmass → W9's label candidate | the glyph, the routes to the seat, the territory and the label anchor follow the placement; the frame's model digest is unchanged (T-V13-2) |
 | 4 | river control-point edits update the river cells partially, never flux, basins or lakes | `rerouteReach` / `moveCourseKnot` (either verb) | the cascade from step 2: accumulation, the reach's discharge downstream (scalar propagation), the basin, the lakes' `open` and outlets | the downstream discharges, the `Watershed`, every lake the reach feeds and the old-bed trace are consistent with the new course |
@@ -76069,9 +77256,9 @@ says so (C13-02).
 | 12 | manual goods placement does not affect production until regenerated (no equivalent) | nearest equivalent: a `regenerate` on W5's resource thinning (`EditScope { kind: 'world', stage: 'W5' }`) | W5's resources → W6a/W6b's `resource` term → the charters' `resources` | every proposal's `resource` term and every placement's charter `resources` read the new sites |
 | 13 | removing or editing a route does not re-route journeys or trade | `setAttr(class)` on a `WorldRoute`, or a seat removed by `setSeats` | W7b over the landmass (the discount changes), the charter's `roads` of every placement the route crossed, W6b's `connectivity` term | the charters' `roads` and the proposals' `connectivity` terms change; no route touches a removed seat |
 | 14 | a state's or culture's type and expansionism propagate only with a checkbox | a polity window changing a seat's prosperity rung or a culture band (held for its dwell), or a standalone `setSeats` | W8b at the revision, always (no option) | the sway changes without any flag once the dwell is met, and not before (T-V13-41 (c)) |
-| 15 | regenerate commands redraw fixed layer lists (rivers without biomes or labels) | `regenerate` on W1's noise (`EditScope { kind: 'world', stage: 'W1', box }`) | the declared I/O: W2 → W3 → W4 → W5 → W6a → W7a → W6b → W7b → W8 → W9 over the dirty set — every downstream stage, never a hand-listed subset | every stage's output inside the box changes consistently; the stage set run equals the topological closure of W1's writers (a log assertion) |
+| 15 | regenerate commands redraw fixed layer lists (rivers without biomes or labels) | `regenerate` on W1's noise (`EditScope { kind: 'world', stage: 'W1', box }`), and on any other stage or on the formation op (`stage: 'formation'`: a new scenario draw and a new bake) | the declared I/O: W2 → W3 (the whole monthly march on the coarse grid and the basins touched, since W3 reads `dem`) → W4 → W5 → W6a → W7a → W6b → W7b → W8 → W9 over the dirty set — every downstream stage, never a hand-listed subset; every `Override` held; every `Disturbance` kept | every stage's output inside the box changes consistently; the stage set run equals the topological closure of the regenerated stage's writers (a log assertion); a painted biome and a dated fire survive the reroll (T-V13-63) |
 | 16 | relocating a settlement does not re-route its roads | `setPlacement` of a seat's frame, or a standalone seat moved through `setSeats` (a host seat's origin is the host's, refused under its move-lock) | W7a/W7b over the landmass; the charter's `roads` of the moved frame | every route whose end is the seat ends at its new cell; the old polyline is gone |
-| 17 | the height exponent regenerates temperature but not biomes; the world configurator regenerates biomes but not population or states | `adjust` of `world.poles`, `world.wind` or `world.latBox` (`fromStage: 'W3'`) | W3 → the cascade (discharge changes) → W5 → W6a → W7a → W6b → W7b → W8 → W9 | biomes, proposals and territories change with the climate; no stage is skipped (the log assertion of row 15) |
+| 17 | the height exponent regenerates temperature but not biomes; the world configurator regenerates biomes but not population or states | `adjust` of `world.poles`, `world.wind`, `world.latBox` or `world.context` (`fromStage: 'W3'`) | W3 (every month; every basin) → the cascade (discharge changes) → W5 → W6a → W7a → W6b → W7b → W8 → W9; every `Override` of `biome`, `current` or `landCover` held | biomes, proposals, sailing legs and territories change with the climate; a painted biome does not; no stage is skipped (the log assertion of row 15) |
 | 18 | relief icons are regenerated wholesale by a style effect, discarding manual edits | a view-key change (`worldLayer`, a style preset) | nothing in the model: the view re-renders from the model; an edited attribute (a renamed reach, a user's `setSurface`) survives every re-derivation (§7.2) | the model digest is byte-equal across the view change; every edited attribute survives a `regenerate` of its stage |
 
 **The cascade's own consumer list** (T-V13-21b, the water readers of this design, one test each): (1) V04's cellar
@@ -76081,7 +77268,9 @@ lifeline (V04 §3.6), (6) §4.5's damp-ground prosperity term, (7) S3's site flo
 (13) the world's charter facts per placement, (14) the glyph's water marks, (15) W7's river crossings, (16) W8's river
 borders, (17) the flood overlay's spread cache, (18) the exports' `waterClass` property, (19) V14's G6 over every site
 document whose anchor or placement lies in the dirty set, (20) V05's fallen islands' decoration faces under a raised
-sea. Each test edits a surface, runs the cascade and asserts the reader's value changed as the law says.
+sea, (21) the next cover plate's fold over the changed cells (the `landCover` layer's class there at the next view,
+V13 §3.6 (5)), (22) every sailing leg whose course crosses a changed water cell or whose basin re-solved (V13 §3.8
+(12)). Each test edits a surface, runs the cascade and asserts the reader's value changed as the law says.
 
 ### 3.15 The map-import adapter (the one statement; §2.8's table points here)
 
@@ -76162,6 +77351,10 @@ river courses, lake sets or routes, which the stages re-derive (J-V13.48).
 | F-WORLD† the world pipeline cannot produce a stage's output as asked [V13 §3.1–3.10] | W0–W9 | **recipe:** a pinned table missing, an unknown op, a parameter outside its row's range; **clamp:** a DEM value outside ±`reliefLimitM`, a climate value outside its band; **lake:** a filled depression's spill cell ambiguous (two equal saddles); **sink:** the priority flood leaves a land cell with no descent (a bug: the flood is exact) or a reach's trace exceeds `maxReachCellsFactor` × the grid's longer side (V13 §2.3); **matrix:** a biome lookup outside the bands; **none placed:** W6 places no candidate; **no path:** W7's Dijkstra reaches no end or exceeds `maxCostFactor`; **seat:** a W8a seed on water or ice | recipe: take the table's default version / drop the op / clamp the parameter, each reported `W_WORLD_RECIPE_*`; clamp: clamp and report; lake: the saddle with the lower cell index spills (deterministic), reported; sink: `E_WORLD_SINK` is a bug abort (§5.1 (8)) — a reach over the cap is cut at the cap and reported `work_cut`; matrix: the nearest band, reported; none placed: lower every spacing by `shrink` once more → place the single best cell → report `W_SITING_NONE` and run W7–W9 empty; no path: the pair unjoined, reported; seat: the seed moved to its nearest land cell (`W_POLITY_SEAT_MOVED`) | T-V13-3 (the recipe ladder), T-V13-5 (clamp and sink: a flat world, a one-cell world, a world all water), T-V13-14 (siting none, no path, seat) over the corpus of V13 §7 |
 | F-GW† the groundwater field cannot be derived [V13 §3.5.4, §3.12.3] | W4; the frame's groundwater step | no surface cell in the set (a frame with no water and no charter; a world with no sea and no lake); a charter's `waterTable` grid that does not cover the margin; a cell whose table exceeds the dem (a bug: the cap is applied) | no source: the table is `dem − deepTableCm` (V13 §2.3: a deep dry table) everywhere, reported `W_GW_NO_SOURCE`; a short grid: the missing margin reads the nearest covered cell, reported; a table above dem: `E_GW_CAP` is a bug abort | T-V13-22 (a dry frame; a charter with a short grid) |
 | F-PLACE† a placement cannot be made as asked [V13 §3.11] | the placement operators P1–P5 | **does not fit:** the frame's extent + margin exceeds the world's at any bearing; **no lawful placement within reach:** `nearestLawful` returns none; **blend over band:** the edge RMS after `blendBandMaxM` exceeds `edgeRmsRefCm`; **overlap:** another placement's extent + margin intersects; **charter miss:** S1 reports `W_CHARTER_RIVER_MISSED` on a world-first frame; **anomaly:** V13 §3.11.5's locked-term anomalies | does not fit: refused (`refuse.place.fit`, the smallest fitting rung named); no lawful: the asked placement kept, flagged unlawful, the three least-cost offered (`W_PLACE_NO_LAWFUL`); blend over band: the residual accepted and reported `W_PLACE_BENT` as the cost's `edgeElevation` detail; overlap: refused unless accepted (`W_PLACEMENT_OVERLAP`, V13 §3.11's edges); charter miss: a coherence fact in the placement card, never a failure; anomaly: reported with the DM's two choices (keep, or the scoped `worldWins`; C13-25) | T-V13-23 (fit, unlawful, overlap), T-V13-24 (blend residual), T-V13-13 (charter honoured) |
+| F-FORM† the formation op cannot bake as asked [V13 §3.2.1] | W1 (the op's first run); a `weather` op | **scenario:** a scenario at a rung it does not admit, a knob outside its range; **fixed point:** the erosion's tree still changing after `erosion.iterations` (a divide oscillating); **relict:** a relict belt worn below 200 m; **payload:** a stored payload's chunks unfetchable, or baked under a version the library cannot read | scenario: refused at W0 (`refuse.world.scenarioRung`) / the knob clamped and reported `W_WORLD_RECIPE_CLAMPED`; fixed point: the last iteration's relief taken and the oscillating divides reported in the op's reason (never a further iteration: the count is fixed, T-V13-58); relict: the belt kept as a `suture` landform without a range label, `W_FORMATION_RELICT`; payload: `refuse.world.formationPayload` — the world opens read-only on its stored rasters, the op never re-run (J-V13.111); an older version read under its own pin, `W_FORMATION_VERSION` informative | T-V13-57 (the pin and the payload), T-V13-58 (the fixed point and the stats) |
+| F-SOLVE† a requirement cannot be met [V13 §3.0, §3.1, §3.11.1] | every stage's verify duty; the back-step; the best form | **contradiction:** two rank-1 or rank-2 rows that cannot both hold; **bound:** `solver.maxBackSteps` reached with a row still unmet; **protected:** a correction that cannot avoid another settlement's rows; **no land:** the best form on a world with no lawful cell anywhere | contradiction: refused at W0 naming the pair (`refuse.world.requirements`); bound: the row `unmet` in the report with its offer (a larger world, a wider latitude box, more relief), `W_REQUIREMENT_UNMET`, every back-step taken reported `W_SOLVER_BACKSTEP` with its op; protected: the conflict list (V13 §3.11.5 (1)) with `fitWorld` and `paintAround` offered, painting labelled `W_SOLVER_PAINTED`; no land: the offers empty, `W_PLACE_NO_LAWFUL` with no correction | T-V13-64, T-V13-65 |
+| F-COVER† the cover fold cannot derive a plate [V13 §3.6 (5)] | `WORLD_COVER` | **inputs:** a window with no seat populations (a standalone world; a host that sends none); **cache:** a dropped or truncated cover cache; **catchment:** a seat whose catchment holds fewer eligible cells than its demand | inputs: the tier's band median taken and reported in the plate's reason; cache: rebuilt at the next view from the recipe and the event log (a pure function), `W_COVER_PLATE_GAP` only while rebuilding; catchment: the eligible cells taken whole and the shortfall reported in the seat's reason | T-V13-62 |
+| F-PHYSICS† a physics pass cannot run as asked [V13 §4.1] | `WORLD_PHYSICS` on the fork | **scope:** a scope covering a placed frame's interior or a free-standing site's footprint; **release:** a release whose scope holds no override; **weather:** a span of 0 years, or one whose effect at the scope is under one cell's quantum; **crossing:** a pass whose cascade would contradict a dossier fact | scope: clipped to the frame's extent + margin + band (the blend band holds) and reported `W_PHYSICS_CLIPPED`, never refused; release: a no-op reported; weather: refused (`refuse.world.recipeOp`) / run and reported as "no visible change over this span" before the commit; crossing: the conflict list before the commit (V13 §3.11.5 (1)) | T-V13-66 |
 
 The report codes are §5.4's form (`W_*` warnings with their arguments; the `E_*` bug aborts), listed in V13 §7.5's code table; refusals are §7.1 outcome keys (`refuse.*`), never report codes (C13-53).
 
@@ -76172,11 +77365,16 @@ The world's streams are concerns of §6.1's `Stream` with the stage ids W0–W9 
 noise op keyed by op index and **position**: the noise value at a fine cell is the low 64 bits of `H128` over the
 structured components (the op's seed, the cell's world x and y) through the one mixer — never a string, §6.1; C13-43
 — folded into the octave sum, so a changed extent changes only the new cells — position-keyed noise, V13 §3.2),
-`world.climate` (W3's moisture start jitter per coarse row), `world.resources` (W5's per-cell draws), `world.siting`
+`world.climate` (W3's moisture start jitter per coarse row and month), `world.formation` (the formation op's draws —
+the block seeds, the crust blobs, the relict sutures, the hotspots, a `weather` op's — keyed by the op's `seedIx`
+and the draw's ordinal or position; drawn once at the bake and never again, since the bake is read thereafter),
+`world.resources` (W5's per-cell draws), `world.siting`
 (reserved: siting draws nothing, its tie-break deterministic, V13 §3.7 (6); SW-03), the base's `water.delta` (W4's distributary shares, keyed by
 the reach's lineage — the base concern's registry row gains W4, BCR-V13-8; C13-46) and the base's `naming` (W9's names
-through V11's service). `world.polity` and `place.search` are **reserved ids only**, not streams (W8 and P1 draw
-nothing); `world.patrol` keys the patrol phase by (segment, power) through the one mixer — the entity key from the
+through V11's service). `world.polity`, `place.search`, `world.solve` and `world.cover` are **reserved ids only**, not streams (W8, P1, the
+solver's bookkeeping and the cover fold draw nothing: the back-step's candidate causes are ranked by a deterministic
+score and any tie among them drawn on `world.recipe` with ordinal keys, the cover plate is a pure function of dated
+facts, a sailing leg a pure function of the fields); `world.patrol` keys the patrol phase by (segment, power) through the one mixer — the entity key from the
 segment's lineage, the power's host key hashed into the salt, epoch 0, attempt 0; the week never enters the key — a
 fixed-key reading and never a stream (V13 §3.9 (14)); its row is appended to the kernel's concern registry
 (BCR-V13-8). The comparator lint (no randomness in a comparator: every sort key is a value or an index, never a draw) runs
@@ -76185,10 +77383,19 @@ operation goes through the kernel's `dmath` (§6.5: the transcendental functions
 raster pass runs in row-major order, every queue is the lifted bucket queue of `@plat/world/hydro` with integer keys and cell-index
 tie-breaks, every Dijkstra and flood keyed on (cost × 1 000 rounded, cell index). A world generated twice from one
 `Recipe.world` on every §13.2 platform is byte-identical per stage (T-V13-1); a frame generated from one charter and
-seed likewise (T-V13-13); the cascade at the same log position in session and replay gives the same digest (T-V13-25).
+seed likewise (T-V13-13); the cascade at the same log position in session and replay gives the same digest (T-V13-25);
+a formation op baked twice from one request on every platform is byte-identical (T-V13-58), and a world re-derived
+from a recipe whose first op is baked reads the bake and never re-runs it, so its digest is independent of the
+formation code's version (T-V13-57); the same requirements, decisions and seed give the same verification report by the
+preview's coarse run and Generate's fine run (their coarse classes agreeing within T-V13-64's tolerance) and by the
+at-once and in-sequence paths, each path byte-deterministic (T-V13-64).
 Work limits are laws over `frameCells` (fine or coarse by stage): W1 ≤ Σ (op cost × touched cells) over the recipe
-(the op costs V13 §2.3's); W3 ≤ 8 passes × coarse cells; W4 ≤ 12 × fine cells (the flood, the accumulation, the
-Dijkstra); W6a, W6b ≤ 4 spacing retries × candidates; W7a, W7b ≤ Σ over edges of the search ellipse's cells; W8a ≤
+(the op costs V13 §2.3's); the formation op, at its bake only, ≤ `erosion.iterations` × 6 passes × formation cells +
+`talusPasses` × formation cells + 3 passes × formation cells (the glacial and sea-level terms) + 2 passes (the soils and
+the landforms); W3 ≤ 12 months × (8 passes × coarse cells + `currents.cycles` × the basins' cells); W4 ≤ 12 × fine
+cells (the flood, the accumulation, the Dijkstra); W5 ≤ 2 passes × fine cells (the classification and its overrides);
+the cover fold ≤ Σ over seats of their catchments' cells × 2 + 1 pass × fine cells; a sailing leg ≤ `headings` × the
+routing grid's sea cells × (1 + log₂ cells ÷ 20); W6a, W6b ≤ 4 spacing retries × candidates; W7a, W7b ≤ Σ over edges of the search ellipse's cells; W8a ≤
 3 × coarse cells (the flood, the crossings); W8b ≤ Σ over the revision's seats of their cap discs' fine cells +
 `smoothPasses` passes over the dirty box; a limit reached is F-WORK's `work_cut` (never a timeout; reported
 `W_CASCADE_TRUNCATED` when the cascade's step is the one cut): W7 drops the remaining lowest-rank edges, W8 stops
@@ -76206,7 +77413,19 @@ refused. (5) A placement whose frame document is later deleted — the placement
 the extent clamped and reported. (7) Two worlds open at once — a frame belongs to one (`worldRef`); placing it in a
 second refuses (`refuse.place.worldRef`) unless `unplaceFrame` ran first. (8) A dated surface in the future — refused
 (`refuse.surface.date`). (9) A `setSurface` on a reach that lowers the stage under the bed — clamped to the bed, reported.
-(10) A `happened` edit at the creation week — allowed; its trace is empty (nothing older exists) and reported.
+(10) A `happened` edit at the creation week — allowed; its trace is empty (nothing older exists) and reported. (11) A
+formation op whose payload cannot be fetched — the world opens read-only on its stored rasters, the op refused
+(`refuse.world.formationPayload`), never re-run. (12) A physics pass whose scope covers a placed frame's interior or a
+free-standing site's footprint — clipped to the frame's extent + margin + band, `W_PHYSICS_CLIPPED`, never refused.
+(13) A `disturb` over water — its water cells dropped and reported; one over a placed frame's extent — refused there
+(the frame's own ground is the frame's). (14) A `paintLayer` of `current` on land, or of `biome` on water — refused
+(`refuse.world.layerCells`). (15) An included campaign whose settlements all lack a terrain word — every row `random`,
+reported; one whose settlement is already placed on this world — its placement's facts are its rows, never a second
+planned site. (16) A best-form placement on a world with no lawful cell anywhere (an all-water world) — the offers
+empty, `W_PLACE_NO_LAWFUL` with no correction (no land to correct). (17) A `weather` op of 0 years — refused
+(`refuse.world.recipeOp`). (18) An edge charter whose neighbour's version moved after emission — the continuation
+proceeds on the charter as emitted and reports the drift (the charter is the ground as it stood when read; nothing crosses
+after, F14; the atlas softens it).
 
 ## 4 Editing
 
@@ -76220,9 +77439,9 @@ type EditEvent = EditBase & (
   | { t: 'setSurface'; surface: Id | { kind: 'site'; body: Id; level: number } /* the body's present surface, a reach, or a site level's surface (V14's floodSite / drainSite fold to it; SW-06) */; levelCm?: Cm; stage?: { knot: number; stageCm: Cm }[] /* a reach's stage profile */; date?: Week /* absent: the document's week under 'happened'; forbidden under 'alwaysSo' */; cause?: string /* a calamity kind, an epoch's op, or free text */ }
   | { t: 'setField'; field: 'terrain'; key: PlatKey | 'world' /* the base's shape: one stroke; 'world' names the world raster (BCR-V13-9) */; stroke: FieldStroke; date?: Week /* ≤ the document's week; absent: the document's week; forbidden under 'alwaysSo' (refuse.surface.date); SW-27 */ }   // `verb` read
   | { t: 'rerouteReach'; reach: Id; fromKnot: number; toKnot: number; via?: WorldPointCm[] /* waypoints the re-trace must pass within one hydro cell of; absent: steepest descent on the pre-carve ground */; date?: Week /* as setField's */ }   // the frame's form is the base's moveCourseKnot with `verb` and `date?`
-  | { t: 'requestCharter'; subject: { kind: 'frame'; pending: Uuid } | { kind: 'site'; site: Id }; originCm: WorldPointCm; bearingCdeg: Cdeg; frame: { widthCm: Cm; heightCm: Cm; marginCm: Cm } /* frameOf(size, aspect), V13 §3.11 */ }   // world-first (C13-04): creates the Placement (stamp 'world', cost 'world-first') and runs P4; author 'host' through WorldPort.charter, else 'user'
+  | { t: 'requestCharter'; subject: { kind: 'frame'; pending: Uuid } | { kind: 'site'; site: Id } | { kind: 'world'; rung: WorldSizeRung; extentCm: { x0: WorldCm; y0: WorldCm; w: WorldCm; h: WorldCm } } /* a child world's charter on this world as the parent — V13 §3.11.4's world subject (file r item 1010): P4 only, a `WorldCharter` emitted, `frame` ignored; `refuse.place.worldRung`, `refuse.place.worldBearing` */; originCm: WorldPointCm; bearingCdeg: Cdeg; frame: { widthCm: Cm; heightCm: Cm; marginCm: Cm } /* frameOf(size, aspect), V13 §3.11 */ }   // world-first (C13-04): creates the Placement (stamp 'world', cost 'world-first') and runs P4; author 'host' through WorldPort.charter, else 'user'
   | { t: 'bindPlacement'; placement: Id; doc: Uuid }   // author 'world': the frame generated from the charter now exists; emitted by `generate` with Recipe.charter (C13-04, C13-40)
-  | { t: 'placeFrame'; frame: Uuid; originCm: WorldPointCm; bearingCdeg: Cdeg; preview?: true /* the dry run: the cost and the offers, no write */; accept?: ('overlap'|'unlawful')[] /* the warnings the DM accepted */ }   // settlement-first; always `happened` (`verb` ignored, C13-55)
+  | { t: 'placeFrame'; frame: Uuid | { kind: 'world'; doc: Uuid } /* a world document as the frame: the rung-general form V15 calls (V13 §3.11; the spine's §14.3) */; originCm?: WorldPointCm; bearingCdeg?: Cdeg; best?: true /* the best form (V13 §3.11.1): no origin — the whole-map search under the frame's requirements, the three offers with their reasons, organic correction only when none is lawful; with an origin the DM's hand placement checked by the same stages */; requirements?: Requirement[] /* the frame's rows (absent: derived from its dossier or its blueprint) */; preview?: true /* the dry run: the cost, the offers and any correction's change list, no write */; accept?: ('overlap'|'unlawful'|'correction'|'paint')[] /* the warnings the DM accepted; `correction` the organic correction's op, `paint` the labelled last resort */ }   // settlement-first; always `happened` (`verb` ignored, C13-55)
   | { t: 'setPlacement'; placement: Id; originCm?: WorldPointCm; bearingCdeg?: Cdeg; accept?: ('overlap'|'unlawful')[] }
   | { t: 'mirrorFrame'; placement: Id; mirrored: boolean; confirmed: true /* the warning of V13 §3.11.5 (2) was shown */ }
   | { t: 'worldWins'; placement: Id; ids?: Id[] /* absent: the whole frame from S1; present: the named entities only (the scoped form, V13 §3.11.5 (4); C13-25) */; confirmed: true /* the §6.3 change count was shown */ }
@@ -76238,11 +77457,19 @@ type EditEvent = EditBase & (
   | { t: 'deleteTrace'; trace: Id }
   | { t: 'addEvent'; event: Omit<WorldEvent, 'id' | 'reason' | 'source' | 'factTier'> }   // a user's dated world event (T9 `shape`; source 'user', factTier 'map'); the host's arrive through WorldPort.events as author 'host' (SW-07)
   | { t: 'fork'; name: string } | { t: 'discardFork'; fork: Id } | { t: 'commitFork'; fork: Id; verb: WaterVerb }   // V13 §4.5
-  | { t: 'adjust'; param: 'world.size'|'world.poles'|'world.wind'|'world.latBox'|'world.biomeMatrix'; value: unknown; fromStage: 'W0'|'W3'|'W5'; fates: EditFate[] }   // the base's shape (§7.1) with the world params (BCR-V13-9; C13-34)
+  | { t: 'adjust'; param: 'world.size'|'world.poles'|'world.wind'|'world.latBox'|'world.context'|'world.biomeMatrix'|'world.scenario'; value: unknown; fromStage: 'W0'|'W3'|'W5'; fates: EditFate[] }   // the base's shape (§7.1) with the world params (BCR-V13-9, BCR-V13-42; C13-34): `world.context` the monsoon and ocean knobs (fromStage 'W3'); `world.scenario` replaces the formation op by a new one with a new bake (fromStage 'W0')
+  | { t: 'setRequirements'; choices: OptionChoice[]; requirements: Requirement[]; include?: WorldRecipe['include'] }   // the world dialog's apply (V13 §3.1 (1), (5)): a Re-derive from the earliest stage a changed row affects (`PresetRule.options[].stage`); the decisions whose `restsOn` moved are re-asked
+  | { t: 'decide'; conflict: Id; choice: ConflictChoice; kind?: 'landChanged'|'alwaysSo' }   // the conflict list (V13 §3.11.5 (1)); `updateDossier` emits `requestDossierUpdate` through the port; a preset's pre-decision folds as `by: 'preset'` and never `updateDossier`
+  | { t: 'paintLayer'; layer: 'biome'|'soil'|'landCover'|'current'; stroke: FieldStroke; value: number | { u: number; v: number } }   // verb `alwaysSo` only (`refuse.world.verb` otherwise): an `Override` (V13 §3.14.1), a boundary condition of every dirty set; the cascade re-derives the layer's neighbours against it
+  | { t: 'disturb'; kind: Disturbance['kind']; stroke: FieldStroke; severity: number; date?: Week /* ≤ the document's week; absent: the document's week */; event?: Id /* a host `WorldEvent` the DM attributes */ }   // verb `happened` only: a `Disturbance` the cover fold recovers from (V13 §3.6 (5)); never a terrain or water change by itself (an eruption's lava is a `setField` the DM makes beside it, if any)
+  | { t: 'physicsPass'; scope: { kind: 'world' } | { kind: 'region'; box?: { c0: number; r0: number; c1: number; r1: number }; cells?: Uint32Array } | { kind: 'layer'; layer: 'climate'|'hydrology'|'vegetation'|'soil'|'currents'; box?: { c0: number; r0: number; c1: number; r1: number } };
+      depth: { kind: 'rederive' } | { kind: 'release'; keepHistory: boolean } | { kind: 'weather'; years: number }; preview?: true }   // F3's "let physics pass again" (the spine's §7.3; J-V13.124): always on the fork (V13 §4.5) — `rederive` runs the living physics over the scope with every override held (the cascade from step 1b, W5's classification, the next cover fold); `release` marks every `Override` in scope released (kept as a visual trace under `keepHistory`, else removed) and then re-derives; `weather` appends a `weather` op (V13 §3.2.1 (11)) baked once on the fork and carried by `commitFork`; the invariants: never a placed frame's interior nor a free-standing site's footprint (clipped, `W_PHYSICS_CLIPPED`), host-bound facts offered as `physicalChange`, every `Disturbance` kept, a dossier contradiction the conflict list before the commit; band crossings and conflicts reported with the preview
+  | { t: 'requestDossierUpdate'; settlement: string; field: string; from: unknown; to: unknown; kind: 'landChanged'|'alwaysSo'; conflict: Id }   // emitted by `decide` with `updateDossier` after the user's approval; the port carries it (V13 §3.11.6); the host's `dossierUpdated` closes it; a second on the same settlement while one is pending is refused (`refuse.dossier.pending`)
+  | { t: 'dossierUpdated'; request: Id; applied: boolean; hostSeq: number; kind: 'landChanged'|'alwaysSo' }   // author 'host' (WorldPort.dossierUpdated): the confirmation or the retraction; a recorded input
   // in the FRAME's log (C13-40):
   | { t: 'charter'; worldRef: { world: Uuid; placement: Id } | null; charter?: FrameCharter /* source 'world' only (C13-03) */ }   // author 'world', the reserved session 'world:place' with no group (as 'host:port'); emitted by the world's requestCharter / bindPlacement / worldWins / unplaceFrame folds; undone only by the world's undo of that edit
 );
-type EditScope = /* the base's forms */ | { kind: 'world'; stage: 'W1'|'W5'|'W6a'|'W6b'; box?: { c0: number; r0: number; c1: number; r1: number } };   // `regenerate` on a world stage's scope (BCR-V13-9; C13-34)
+type EditScope = /* the base's forms */ | { kind: 'world'; stage: 'formation'|'W0'|'W1'|'W2'|'W3'|'W4'|'W5'|'W6a'|'W6b'|'W7a'|'W7b'|'W8a'|'W8b'|'W9'; box?: { c0: number; r0: number; c1: number; r1: number }; region?: Uint32Array /* coarse cells: a drawn region */ };   // `regenerate` on any world stage's scope (BCR-V13-9, BCR-V13-42; C13-34): New random for the stage's draws over the box or region, the recipe's other ops, every `Override` and every `Disturbance` kept; `stage: 'formation'` replaces the formation op by a new scenario draw and a new bake; it asks when it would overwrite a lock or an override (V13 §3.11.5 (1))
 ```
 
 `setAttr` (the base's) admits the targets of V13 §1b.3's row (a surface's `subtype`, `open`, `date`; a reach's
@@ -76255,29 +77482,43 @@ table's new rows (§7.1's catalogue; BCR-V13-9; the refusals are §7.1 outcome k
 `refuse.surface.date`, `refuse.world.recipeOp`, `refuse.world.tier`, `refuse.import.version`, `refuse.import.key`,
 `refuse.import.extent`, `refuse.import.unit`, `refuse.place.hostLocked`, `refuse.world.hostSeats`, `refuse.world.hostRoute`,
 `refuse.world.advancing` (a host-bound world's edit while the host advances or is parked), `refuse.world.hostRequires`
-(`keepResidual`), `refuse.world.hostPolitical` (a political or military event kind on a host-bound world); the
+(`keepResidual`), `refuse.world.hostPolitical` (a political or military event kind on a host-bound world),
+`refuse.world.requirements` (rank-1 or rank-2 rows that contradict each other at W0, the pair named),
+`refuse.world.scenarioRung` (a scenario at a rung it does not admit), `refuse.world.formationPayload` (a baked payload
+that cannot be fetched: the world opens read-only, the op never re-run), `refuse.world.verb` (`paintLayer` under
+`happened`, `disturb` under `alwaysSo`), `refuse.world.layerCells` (a current painted on land, a biome on water),
+`refuse.dossier.pending` (a second dossier request on a settlement whose request awaits the host); the
 warnings with their `ConflictAction`s — `W_TRAVEL_BAND_CROSSED` (`keep`, `cancel`: every dry run, route-class edit
 and fork preview of a host-bound world carries `timeDelta` — each changed leg's foot and army weeks against the adopted
 canon's baseline under the host's travel law, its band crossings and its fragility — and the committed edit's reason
 keeps it for the next canon's `TimeDeltaReceipt`; an additive canon's crossings take `keep` alone, raised at the fold of the host's `canonized` for it, V13 §3.11.6), `W_HOST_CANON_BEHIND` (`keep`), `W_SWAY_LOCK_CONTRADICTED` (`keep`, `release`), `W_EDIT_DOSSIER`
-(`keepDossier`, `moveTown` where the placement is not host-locked, `cancel`; V13 §3.11.5 (1)), `W_PLACE_NO_LAWFUL` (`keep`, `takeOffer` with `offer: n`, `cancel`),
+(the conflict list, V13 §3.11.5 (1): `cancel`, `fitWorld`, `paintAround`, `keepMismatch`, `updateDossier` with its
+`kind`, `moveTown` where the placement is not host-locked, `changeRequest` at generation; one item per affected
+settlement, every one listed), `W_REQUIREMENT_UNMET` (`acceptOffer` with the offer, `keep`), `W_SOLVER_BACKSTEP`
+(`keep`, `cancel`: the correction's op and its change list), `W_SOLVER_PAINTED` (`accept`, `cancel`),
+`W_PHYSICS_CLIPPED` (`keep`), `W_SAIL_LEG_CHANGED` (`keep`, `cancel`), `W_MONSOON_CONTEXT` (`setContext`, `keep`), `W_WEATHER_STALE` (`rebake`, `keep`),
+`W_DOSSIER_PENDING` (`wait`, `withdraw`), `W_FORMATION_VERSION`, `W_FORMATION_RELICT`, `W_COVER_PLATE_GAP` (V13
+§7.5), `W_PLACE_NO_LAWFUL` (`keep`, `takeOffer` with `offer: n`, `cancel`),
 `W_PLACEMENT_OVERLAP` (`accept`, `cancel`), `W_CHARTER_RIVER_MISSED`, `W_SURFACE_BELOW_BED`, `W_PLACE_ANOMALY` (`keep`,
 `worldWins` with `ids`) — `ConflictAction.kind` gaining `'keep'|'takeOffer'|'accept'|'cancel'` and `offer?: number`
-(BCR-V13-9). The author of a port-driven `requestCharter` is `host`; of `bindPlacement` and the frame's `charter`
+(BCR-V13-9) and the conflict list's `ConflictChoice`s with `kind?`, `acceptOffer`, `setContext`, `wait`,
+`withdraw` and `rebake` (BCR-V13-42). The author of a port-driven `requestCharter` is `host`; of `dossierUpdated` and
+`campaignFacts` `host`; of `bindPlacement` and the frame's `charter`
 event `world` (`EditBase.author` gains `'world'`, BCR-V13-9); of an epoch's dated surface `epoch`; of an import's seeded
 attributes `user` or `host` (whoever ran the import: a creation-prefix event, `creation: true`, never `migration` —
 C13-34). A placement edit is always `happened` (`verb` ignored on it; its `oldGround` trace covers the extent + margin
-+ band, C13-55).
++ band, C13-55); a `paintLayer` is always `alwaysSo` and a `disturb` always `happened` (the other verb refused,
+`refuse.world.verb`); a `physicsPass` commits under the verb its depth implies (V13 §4.5).
 
 ### 4.2 The authoring tools (V09's binding table, BCR-V13-25)
 
 | tool | mode on the world document | what it shows while the user works |
 |---|---|---|
-| T1 `intend` | the world dialog: size rung or extent, template, poles, winds, latitude box, matrix; the `adjust` keys | the extent's cell counts and V13 §6's budget for the rung |
-| T2 `ground` | the terrain-recipe editor (an op list with an `append` brush: a hill, pit, range, trough, strait or noise at the pointer's extent, resolution-independent); `setField` strokes on the DEM; `setSurface` on a body (a level slider with the seasonal pair marked); `rerouteReach` by dragging a reach between two knots | the op's preview on the fork (W1–W4 re-run over the touched cells, ≤ V13 §6's edit budget); the cascade's change list (reaches moved, lakes opened or closed, placements whose charter goes stale) |
-| T6 `place` | **Place a settlement**: a *Charter here* action (`requestCharter`: the frame size from the request's `size` and `aspect`, the outline shown before any generation; C13-04) and, for an existing frame, the frame's outline dragged over the world, the bearing by a rotation handle (steps of `bearingStepCdeg`), the coherence cost by term beside the pointer (V13 §3.11.1; green at lawful), the three offers as ghost outlines on request (`nearestLawful`), the mirror toggle (warned), the `worldWins` button on a stale charter; `setSeats` by dragging seat pins with a tier picker (a standalone world only; a host-bound world's seats are the host's) | the dry run's cost, offers, overlap warning, the blend band's outline (settlement-first) and the anomaly list |
+| T1 `intend` | the world dialog (V09 §4.22 draws it; this volume owns its semantics, V13 §3.1 (1)): the layered panel — *Random all* (one button, the seed shown); *Basic*, always visible (size; shape — the templates and the formation scenarios; climate band; land and sea; ruggedness; wetness; settlement density on a standalone world); *Advanced*, collapsible groups each with random and reset (terrain; formation; climate with the world context; water; biomes with the inclusion chips and their amounts; resources; routes and sites with the vessel kinds; politics on a standalone world; names); *Deep constraints* (sketched landmasses and mountain lines, pinned features, a heightmap or legacy import, locked regions regenerated around) — every option random / set / locked; the "include my campaign's settlements" toggle; the derived chips (the included settlements' rows, read-only) and the live conflicts; the targeted rerolls by stage and region; named presets; the `adjust` and `setRequirements` keys | each option's coarse thumbnail (the preview run, V13 §3.1 (7)); the extent's cell counts and V13 §6's budget for the rung; the verification report after a run ("what was done"; "why this desert") |
+| T2 `ground` | the terrain-recipe editor (an op list with an `append` brush: a hill, pit, range, trough, strait or noise at the pointer's extent, resolution-independent; the formation op's scenario card at its head, a new draw a `regenerate` of `stage: 'formation'`); `setField` strokes on the DEM; the **layer brush** (`paintLayer`: biome, soil, land cover or current — *always so*, an override) and the **disturbance stamp** (`disturb`: fire, flood, clearing, eruption — *this happened*, dated, with a severity); `setSurface` on a body (a level slider with the seasonal pair marked); `rerouteReach` by dragging a reach between two knots | the op's preview on the fork (W1–W4 re-run over the touched cells, ≤ V13 §6's edit budget); the cascade's change list (reaches moved, lakes opened or closed, placements whose charter goes stale; the precipitation diff downwind where the whole march re-ran, V13 §3.14.2); a disturbance's recovery stages on a year slider; the conflict list where a stroke crosses a settlement's rows |
+| T6 `place` | **Place a settlement**: a *Charter here* action (`requestCharter`: the frame size from the request's `size` and `aspect`, the outline shown before any generation; C13-04) and, for an existing frame, the frame's outline dragged over the world, the bearing by a rotation handle (steps of `bearingStepCdeg`), the coherence cost by term beside the pointer (V13 §3.11.1; green at lawful), the three offers as ghost outlines on request (`nearestLawful`), the **Best placement** button (`placeFrame` with `best`: the whole-map search, the three offers with their reasons, and — when none is lawful — the organic correction's change list on the fork before anything commits, V13 §3.11.1), the mirror toggle (warned), the `worldWins` button on a stale charter; `setSeats` by dragging seat pins with a tier picker (a standalone world only; a host-bound world's seats are the host's) | the dry run's cost, offers, overlap warning, the blend band's outline (settlement-first) and the anomaly list |
 | T9 `shape` | `setAttr` on a surface, reach, territory, route or placement; `deleteTrace` on a trace | the inverse |
-| T10 `hold` | `fork` / `commitFork` / `discardFork` (the Preview-on-a-copy toolbar: "What if the sea rose 2 m?"); `regenerate` on W1's noise, W5's thinning, W6's tie-breaks | the fork's name in the title; the diff count against the canonical document |
+| T10 `hold` | `fork` / `commitFork` / `discardFork` (the Preview-on-a-copy toolbar: "What if the sea rose 2 m?"); `regenerate` on any stage over a box or a drawn region (the formation op, W1's noise, W3's start jitter, W5's thinning, W6's tie-breaks, W9's names); the **physics toolbar** (the DM's three verbs, the spine's §7.3) — *reroll* (the `regenerate` above), *re-run physics* (`physicsPass` with `rederive`, or `release` with "keep as history" or "remove") and *let time pass* (`physicsPass` with `weather` and a year slider), over the whole world, a box or a drawn region | the fork's name in the title; the diff count against the canonical document; a pass's change list (the cells by layer, the overrides released, the sailing legs and band crossings moved, the conflicts) and, for `weather`, the span's expected effect in words before the commit |
 
 On the frame document the base's tools gain the `verb` toggle on T2 (a two-state control, *this happened* default,
 *this was always so*) and the water class overlay on T9's inspector (the unit's class, depth, governing surface and
@@ -76288,8 +77529,8 @@ rotates.
 
 | edit reaches | local operator | pinned | beyond it (declared, never presented as local) |
 |---|---|---|---|
-| a `worldRecipe` op (W1) | W1 over the op's touched cells (its footprint + `smooth` radius, grown by one coarse cell), then the cascade (V13 §3.14.2) over the watersheds the touched cells belong to, then W5–W9 over the dirty set | every cell outside the dirty set; every placement (its blend re-applied after W1 under a `settlement` stamp; its charter marked stale under a `world` stamp, V13 §3.11.5 (1)); every dated surface; every edited attribute | an `image` op or a `mask`/`invert`/`add`/`multiply` op touches the whole extent: Re-derive from W1 (declared whole-world, with V13 §6's full budget) |
-| `setField(terrain)` on the world | the cascade over the stroke's watersheds | as above | — |
+| a `worldRecipe` op (W1) | W1 over the op's touched cells (its footprint + `smooth` radius, grown by one coarse cell), then the cascade (V13 §3.14.2) over the watersheds the touched cells belong to — with step 1b's whole monthly march and every basin's solve on any relief or water change (J393; W3 reads `dem`: the stage order is honoured, never a hand-listed subset) —, then W5–W9 over the dirty set and the climate's changed cells | every cell outside the dirty set; every placement (its blend re-applied after W1 under a `settlement` stamp; its charter marked stale under a `world` stamp, V13 §3.11.5 (1)); every dated surface; every edited attribute; every `Override` (held) and `Disturbance` | an `image` op or a `mask`/`invert`/`add`/`multiply` op touches the whole extent: Re-derive from W1 (declared whole-world, with V13 §6's full budget); a `formation` or `weather` op is read, never re-run (a `regenerate` of `stage: 'formation'` is a new op: Re-derive from W1 whole-world, declared, + `formationMs`) |
+| `setField(terrain)` on the world | the cascade over the stroke's watersheds, with step 1b's whole monthly march and every basin's solve on any relief or water change, however small (J393) | as above | the whole monthly march on the coarse grid is declared (≈ 0.2–0.4 s, `WORLD-19`): a rain shadow is never local |
 | `setSurface` (world or frame) | the cascade from step 3 (surfaces) over the body's watershed | the body's identity; every other body; locks | a sea-level change touches every coastal watershed: declared as such; at the frame it is S1's water operator (§7.3) with the cascade |
 | `rerouteReach` / `moveCourseKnot` with `verb` | the base's river operator (§7.3's S1 water row) at the frame; at the world the re-trace between the knots on the pre-carve ground, the old bed's cells un-carved (the delta restored), the new bed carved, then the cascade over the reach's basin | the knots outside [fromKnot, toKnot]; downstream reach ids (discharge re-propagated as scalars) | — |
 | `placeFrame` / `setPlacement` (settlement-first) | P1 → P2 → P3 → P4 → P5 → W9 (the glyph) → W7–W8 over the landmass when the frame is a new seat | the frame's arenas, plots, buildings, locks (bar 3); every other placement's blend (an overlap is refused or accepted) | W7–W8 re-run over the landmass is declared |
@@ -76302,9 +77543,15 @@ rotates.
 | `setSeats` (standalone) | W8a over the seats that changed (their former and new cells' bounding watersheds) → W8b over their caps → W9 names | territories and sways of unchanged seats outside the touched cells | a tier change on every seat is Re-derive from W8 (declared) |
 | `polityRevision` (host-bound) | W8b over the revision's dirty box (the closure of the seats whose τ, M, reinforcement, strength band or continuity changed — every continuous member of an allegiance whose root's B, links or tier changed —, the two seats of a pair whose `MarchHold` band crossed while M is dark, their cap discs and every cap disc meeting them, grown to whole normalization components) | W8a; every charter; every frame; every cell outside the box | never W8a, never a charter (T-V13-41 (b), (i)) |
 | `bindSeat`, `unbindSeat`, `importSeats`, `genesis`, `network` (host-bound) | the placement's key; W7 over the named edges only | every route the host did not name | a new seat territory is offered to the host's re-canonize (`W_HOST_CANON_BEHIND`) |
-| `adjust` of a pole, wind or latitude box | W3 → the cascade (the climate changes discharge) → W5–W9 over the whole extent | the DEM; placements; dated surfaces | whole-world by nature: declared |
+| `adjust` of a pole, wind, latitude box or the world context | W3 (every month; every basin) → the cascade (the climate changes discharge) → W5–W9 over the whole extent | the DEM; placements; dated surfaces; every `Override`; every `Disturbance` | whole-world by nature: declared |
 | `adjust` of `world.size` | Re-derive from W0 (the extent changes; position-keyed noise keeps the old cells' values, V13 §3.17) | placements inside the new extent; one outside is kept and reported | declared whole-world |
 | `deleteTrace`, `setAttr` | the record alone; a `setAttr(open)` or `(navigable)` runs the consumers' step 5 for the body | everything else | — |
+| `paintLayer` (always so) | the `Override` written; the cascade from step 1b over the stroke's cells grown as the layer's dirty set — a `biome` or `current` paint a boundary condition of the march and the basin solve; a `soil` paint W5's overrides over its cells and the next cover fold; a `landCover` paint the next cover fold alone | every other override; every placement's interior; every dated surface | a `current` paint re-solves every basin: declared |
+| `disturb` (this happened) | the `Disturbance` written; the next cover fold over its cells | everything else (no terrain, water or climate changes) | — |
+| `physicsPass` | on the fork: `rederive` — the cascade from step 1b over the scope with every override held; `release` — the overrides in scope marked released (a trace under `keepHistory`), then the same; `weather` — a `weather` op appended and baked over the scope, then W1 over the scope, then the cascade | every placed frame's extent + margin + band (clipped, `W_PHYSICS_CLIPPED`); every free-standing site's footprint; every `Disturbance`; every override outside the scope | a whole-world scope is declared whole-world with V13 §6's physics rows |
+| `placeFrame` with `best` | the whole-map search (V13 §3.11.1) → the chosen offer's P1 → P2 → P3 → P4 → P5 → W9 → W7–W8 over the landmass; when none is lawful, the correction op (W1 over its footprint, then the cascade with step 1b, then W5) before the placement | as `placeFrame`'s row; every other settlement's rows within `solver.protectRadiusKm` | the correction's climate re-derivation is declared (the whole march); the search's cost is `WORLD-3`'s best-form bar |
+| `setRequirements`, `decide` | a Re-derive from the earliest stage a changed row affects (`PresetRule.options[].stage`), over the whole extent or the row's region | every lock; every override; every placement; every disturbance | declared from that stage |
+| `regenerate` of `stage: 'formation'` | a new scenario draw, a new bake, Re-derive from W1 | every override and disturbance (held, kept); placements (re-blended or marked stale as a `worldRecipe` op's row says) | declared whole-world (+ `formationMs`) |
 
 **Edit fates** (§7.3's `EditFate`) on a world re-derivation: a placement is `kept`; a proposal inside a changed
 watershed `discarded`; a reach `carried` by its anchor or `orphaned` (its name kept on the tombstone for V11's reuse); a
@@ -76340,6 +77587,15 @@ fork's `seq` is F-EDIT's outcome per event); `discardFork` drops it. Forks never
 (a reload drops them; V13 §2.6's row). `forkAt(h, seq)` (§11.2) is the clerk's `whatIf` entry (V13 §4.7), the week mapped to the `seq` of the last event at
 or before that week: a fork whose surfaces are those in force at `week` and whose cascade runs from there. A fork of a
 host-bound world neither sends nor receives a port message; its preview shows `timeDelta` against the adopted canon.
+**A baked step on a fork** (J-V13.111): a `physicsPass` of depth `weather` bakes its `weather` op once on the fork (the
+op's payload chunks written to the fork's `fields`), and `commitFork` carries the op WITH its bake onto the canonical
+log — the one kind of event whose fold reads a recorded result instead of re-running (as W1 reads every baked op), so
+"the fork's results are never copied" holds for every re-derivable step, and the bake, which is never re-derivable
+by design, rides the event as the `image` op's asset rides its op. **Every physics pass** runs through this
+preview-and-commit: the diff layer shows the cells changed by layer, the overrides released, the sailing legs and
+band crossings moved and the conflicts raised (V13 §3.11.5 (1)); the DM commits under the verb the depth implies —
+`rederive` and `release` as `alwaysSo` (the physics was always so), `weather` as `happened` at the fork's week (a
+span of time passed, its former ground a `TerrainTrace`) — or discards.
 
 ### 4.6 Loading older documents
 
@@ -76381,18 +77637,24 @@ rows of the `world` product (C13-60 (e)) (the view's `worldLayer` key picks the 
 | layer | kind | draws | style row (§8.3's style table, the world's rows in `@plat/tables` `style.world`) |
 |---|---|---|---|
 | `relief` (default thematic) | raster | the DEM as hypsometric tint × hillshade (the sun from §8.4's path sun at the world's default week and hour; the shade is the base's light pass at the vector rung — no light tiles at world scale, §8.4) | eight tint bands by elevation (our own ramp: shore green → upland ochre → alpine grey → ice white; the bands' bounds in metres as cells of the row) |
-| `biome` | raster | `biome` per fine cell | one fill per `BiomeRow` (the row's `colour` cell, own palette) |
+| `biome` | raster | `biome` per fine cell — the potential natural vegetation (W5), named so in the legend; never the land cover | one fill per `BiomeRow` (the row's `colour` cell, own palette) |
 | `climate` | raster | `tempDeciC` or `precipMm` (a sub-key) | two diverging ramps |
+| `monthly` | raster | `tempMonthDeciC[m]`, `precipMonthMm[m]` or the month's wind (a month sub-key on a month slider) | the climate ramps; the wind as a sparse arrow field |
+| `currents` | vector | `currentMonth[m]` on ocean cells as a sparse arrow field, `sstAnomalyDeciC` as a warm–cold tint along the coasts (a month sub-key) | the sea's blue family; a warm red and a cold blue tint |
+| `soil` | raster | `soil` per formation cell with the fine-scale overrides applied at draw (V13 §3.2.1 (9)) | one fill per `SoilRule` row (the row's `colour`) |
+| `bedrock` | raster | `bedrock` per formation cell | a categorical palette (own) |
+| `landforms` | vector | every `Landform`'s outline and crest; an `active` volcano's mark | 0.8 px outline, the crest 1.2 px; the volcano glyph |
+| `landCover` | raster | the cover plate's class per fine cell at `lensWeek` (V13 §3.6 (5)) — a derived world layer, NOT a lens: audience-filtered as a lens's marks are (V13 §5.8 (9)), its legend's first row "derived land cover: the map's own derivation from the campaign's dated facts; the host's dossier holds the biome", a cell's hover naming its class, its last event and the weeks since; drawn in two forms — as the thematic fill under `worldLayer: 'landCover'` (every class filled), and, in the DEFAULT picture under `relief`, as an **overlay** of the used and disturbed classes alone over the relief (fields, pasture, coppice, fallow, scrub, regrowth and scars at the plate's week; a cell at its potential vegetation's own class left to the relief), so the world page shows its fields and scars by default (J394; the `atlas` layer set of V13 §5.4 reads this form) | one fill per `world.cover` class (own palette: fields ochre, pasture pale green, coppice dark green, fallow buff, scars grey, silt brown, ash pale grey, lava black); the overlay at 70 % alpha |
 | `watershed` | raster | `watershed` by id | a hashed categorical palette (`H32` of the id, no table; C13-44) |
 | `waterTable` | raster | `tableCm − dem` depth bands | a six-band ramp (0–0.5, 0.5–1, 1–2, 2–5, 5–10, > 10 m) |
 | `water` | vector | seas and lakes as polygons at their surface (the coast outline from W2 at the stop's tolerance); reaches as polylines with the width from the stage profile, drawn only when ≥ `style.world`'s `riverDrawM3s[stop]` cells (stop 0: 60, 1: 20, 2: 5, 3: 2 m³/s; own, calibratable, registered in the style table — C13-31) | the base's water style rows (the same blue family; §8.3) |
-| `traces` (under `showTraces`) | vector | `oldShore` as a dashed line, `oldBed` as a hatched band, `oldGround` as a stippled fill; a `SurfaceTrace` as a dotted level line | the base's "former" style (the dashed grey of V06's history frames) |
+| `traces` (under `showTraces`) | vector | `oldShore` as a dashed line, `oldBed` as a hatched band, `oldGround` as a stippled fill; a `SurfaceTrace` as a dotted level line; an `Override`'s cells as a hatch in its layer's colour (a released one dotted); a released override kept as history by its former value's outline | the base's "former" style (the dashed grey of V06's history frames) |
 | `routes` | vector | `WorldRoute` by class, or by the host's grade on a host-bound world, at the network in force at the view's week; a hidden host road a DM-only ghost, a hidden water lane a quiet-quay mark; lengths labelled in km (never a travel time on the world view: times are the host's, or `derivedTime` labelled with the law and "on foot") | highway 2 px solid, road 1.2 px, track 0.8 px dashed, trail 0.5 px dotted, sea 1 px dashed blue, river (navigable) a darker water line |
 | `seatTerritory` (thematic, diagnostic) | vector | W8a's seat territories, borders 0.6 px, and the crossings as small ticks | hashed categorical palette |
 | `sway` (with `allegianceBorder`, `memberBorder`) | vector | W8b at the revision in force at the view's `lensWeek` (the document's week unless the scrub sets it): fills at 18 % alpha in the allegiance's colour (`H32` of the root's key, or the host's colour when sent; stable while the root holds), unclaimed land unfilled; allegiance borders 2 px solid; member borders 0.8 px between member sways (stop ≥ 1); an exclave its own outer border with a 1 px dotted halo; satellites dots only, at their frozen site points; a tributary its own fill with its border doubled by an inner 1.5 px band in its overlord's colour; lineage claims — a sale's, and the host's own while its lineage lane is lit — DM-only as a dashed outline; standalone provinces at stop ≥ 2 as 0.6 px dashed | the allegiance palette |
 | `occupation`, `debatable`, `fighting` | vector | occupation: a diagonal hatch in the occupier's colour over the occupied sway, dense to light by the host's rung (neutral ink when the occupier is unrecorded); debatable: a cross-hatch in the two sides' colours, no fill; held by force: the holder's fill with a single hatch in the other side's colour; fighting: a crossed-blades mark at each open engagement and a 2 px edge on its segment — no arrows, no animation | the sides' colours |
 | `patrols` (a toggle) | vector | `PatrolCadence` per route segment at the revision in force at the view's `lensWeek`: tinted by cadence (weekly, monthly, seasonal), both colours striped on a debatable segment, no arrows or headings; a covert power's DM-only | the powers' colours |
-| `events` (with a "this advance" filter) | pins | `WorldEvent`s by kind at their place up to the view's `lensWeek`, a glyph's lifecycle mark at once (razed, besieged, occupied), DM-only docket pins; a pending sway trigger as a planting line until it takes effect or lapses (V13 §3.9 (13)) | the notice style |
+| `events` (with a "this advance" filter) | pins | `WorldEvent`s by kind at their place up to the view's `lensWeek`, a glyph's lifecycle mark at once (razed, besieged, occupied), DM-only docket pins; a pending sway trigger as a planting line until it takes effect or lapses (V13 §3.9 (13)); every `Disturbance` at its week by its kind's glyph over its cells | the notice style |
 | `lens:<id>` (under `worldLens`, one per open lens) | vector and pins | V13 §5.9's elements at `lensWeek`, the regime banner first in the legend | `style.world`'s lens rows, one per element key (V11 writes them) |
 | `settlements` | vector | every `Glyph` at the stop's level (V13 §5.2): a frame's `SettlementGlyph`; a site's drawn at level 0 by its `glyph` mark's `class` icon at the pin size (SW-08) | the glyph style rows (dot by tier size: 3–9 px; ring 1 px; outline fill at 60 % of the built colour; water, wall and way in the base's colours at world weight) |
 | `resources`, `springs`, `proposals` | pins | W5's resources, W4's springs, W6's proposals (while shown) | the base's pin style, one icon kind per resource (own glyphs) |
@@ -76442,7 +77704,9 @@ population, the stamp, the coherence cost by term, anomalies, `open`, `worldWins
 W9's candidates (V13 §3.10 (2)) run through §9's placer per stop with `world.labels`'s rows: priority by kind (the
 settlement's × tier), the zoom extent per kind, `spreadPx` 12 as the collision margin, a river label along its course
 only when the reach's length ≥ `riverMinKm` 30 (shorter rivers unlabelled at every stop), a sea's label at its pole of
-inaccessibility at the stop's largest size, an allegiance's at its root sway's `poleCm` in small capitals (the DM's christening, else a descriptive label from its root's name; never a W9 name on a host-bound world), a standalone province's at stop ≥ 2.
+inaccessibility at the stop's largest size, a landform's along its crest (a range, a rift, an arc) or at its outline's
+pole (a volcano, a fjord, a glacial lake, a plateau) under the `range` kind's priority and zoom extent (V13 §3.10
+(2)), an allegiance's at its root sway's `poleCm` in small capitals (the DM's christening, else a descriptive label from its root's name; never a W9 name on a host-bound world), a standalone province's at stop ≥ 2.
 The placer's ladder is §9.4's (F-LABEL: view data, never a model change); label positions are cached per (document
 digest, stop). A settlement's label is its name beside the dot (stop 0–1) or under the outline (stop 2–3), the tier
 by the base's type scale.
@@ -76452,9 +77716,9 @@ by the base's type scale.
 | export | shape | contents | source of the shape |
 |---|---|---|---|
 | `ecosystemJson` | the reference ecosystem's full-map JSON (version-pinned to the adapter folder) | the cell graph re-expressed from the fine raster (one cell per `exportStride` fine cells, the size row's: 10 at the continent rung, 7 at the realm, 4 at the province — ≤ 100 k cells, the range the ecosystem's tools were built for; the dialog shows the count and admits another stride; C13-57), heights on the reference's scale by the schema's inverse law, biomes by the schema's mapping, rivers from the reaches, lakes, settlements from the settlement map records (name, population, tier as the schema's size, port, capital), states from the allegiances (the schema file's neutral state for the unclaimed and debatable land), provinces from the member sways, zones for the debatable bands (the schema file's disputed kind) and the occupations, a diplomacy matrix only from the host's relations when sent (never invented), routes, cultures where the world has them, and the settings block's scale from the extent with the unit km and the scale in km per exported pixel (the inverse of the import's transform; the key names in the adapter folder's schema file) | `adapters/<ecosystem>/<version>/schema.json` (the key list and value laws; J-V13.46) — the exporter is written against the schema file, never against the reference's source |
-| `ecosystemGeoJson` | GeoJSON FeatureCollection with the reference ecosystem's property names | cells (Polygon, on request), rivers (LineString with discharge, width, name), lakes (Polygon), settlements (Point with name, population, port, capital, `tier`, and `placement` properties: origin, bearing, mirrored, stamp), allegiances and member sways (MultiPolygon with `status`, `allegiance` and `swayRevision`), routes (LineString with class or grade), springs (Point), traces (kind `trace`) | the same schema file's `geojson` block |
+| `ecosystemGeoJson` | GeoJSON FeatureCollection with the reference ecosystem's property names | cells (Polygon, on request, with `soil` and `bedrock` as properties), rivers (LineString with discharge, width, name), lakes (Polygon), settlements (Point with name, population, port, capital, `tier`, and `placement` properties: origin, bearing, mirrored, stamp), allegiances and member sways (MultiPolygon with `status`, `allegiance` and `swayRevision`), routes (LineString with class or grade; a water route's `sailing` efforts per vessel, month and direction as properties, its differing courses as further LineStrings on request), landforms (LineString crest and Polygon outline with `kind`, `name`, `heightM`, `active`), springs (Point), traces (kind `trace`), overrides and disturbances (kind `override` with its layer and value; kind `disturbance` with its kind, week and severity); never a cover plate (a derived layer at a week, not a model fact) | the same schema file's `geojson` block |
 | `heightmap16` | a 16-bit PNG (and raw `.r16` on request) | the fine DEM mapped linearly from `minCm` to `maxCm` (both in the sidecar JSON with the extent, the cell size and the datum) — a standard-looking image for terrain tools | own |
-| `worldCsv` | CSV, one file per kind in a zip | reaches (id, name, discharge, length, navigable, mouth), lakes, territories (the seat territories: id, name, area, seat), sways (id, seat, allegiance, status, revision), routes, settlements (the map record's scalars), proposals, resources, springs | own |
+| `worldCsv` | CSV, one file per kind in a zip | reaches (id, name, discharge, length, navigable, mouth), lakes, territories (the seat territories: id, name, area, seat), sways (id, seat, allegiance, status, revision), routes, sailing legs (route, vessel, month, direction, effort), landforms (id, kind, name, height), settlements (the map record's scalars, the cover shares at the export's week), proposals, resources, springs, the verification report's rows (requirement, status, by, reason) | own |
 | the picture exports | the base's (§11.1: PNG/SVG/PDF of the view at a stop, the A2 300-dpi still) | the world view with its layers and labels | §11.1 unchanged; the world is one more document kind |
 
 Every export's provenance block (§11.1) names the world's digests, the snapshot's versions and the export's schema
@@ -76462,6 +77726,28 @@ version; `ecosystemJson` export → the adapter's import → export is byte-iden
 the shared keys (T-V13-26 (b): the round trip over the fixture, the keys V13 §3.15 names); the heightmap's round trip through the `image` op
 reproduces the DEM within one cm per `minCm..maxCm` ÷ 65 535 (T-V13-28). The frame's exports gain `waterClass` on
 every unit's record and the surfaces list (the base's JSON schema version bumps, §11.1's rule).
+
+**The rendered reading** (`renderAt(world, week, audience)` → `RenderedWorld`, V13 §2.2; the spine's §14.2;
+J-V13.127; file r item 1011; J-V13.134): the world's tiles at a week for an audience — the §8.1 tile sets at the four
+stops over the **`atlas` layer set** — the member's DEFAULT PICTURE for that audience at the week (J394): V13 §5.1's
+`relief` row with the cover plate's used and disturbed classes over it (the `landCover` row's overlay form at the
+plate's week: fields, pasture, coppice, fallow, scrub, regrowth and scars; a cell at its potential vegetation's own
+class left to the relief), `water`, `routes` (the network in force at the week), `settlements` with their glyphs at the
+stop, `labels`, `sway` with its `allegianceBorder` and `memberBorder` at the revision in force, `occupation`,
+`debatable`, `fighting`, and the `events` pins up to the week — each under the audience's admission (the player
+picture of V13 §5.1 for a party, the cover layer's filter of V13 §5.8 (9); a DM-only mark never drawn for a player
+audience) — and nothing else: no lens layer (an instrument a user toggles), no diagnostic layer (`placements`,
+`anomalies`, `proposals`, `traces`, the `resources` and `springs` pins), no thematic fill other than `relief` (`biome`,
+`climate`, `monthly`, `currents`, `soil`, `bedrock`), whatever the member's own view keys hold: a lens is a legended
+instrument of a world page (V13 §5.8 (2)) and an atlas's picture carries no legend for it, while the sway, the events
+and the land cover are the member's own dated facts at its present, which the picture already is (`opts.layers`
+restricts the tiles to the `settlements` and `labels` rows alone, for V15 §3.5 (a); no other subset) — with the placed
+label boxes per stop
+(`RenderedWorld.tiles[].labels`, the placer's boxes at that stop in the member's pixel frame) — with the extent, the
+datum, the latitude box, the rung, the present week, the date label and the known
+sets per audience, and nothing else; a view read, cached per (digest, week, audience) as the tiles are. V15's atlas
+reads a member through it alone — never the document, never a raster, never a record — and the picture exports share
+its path. It is never a model input and never persisted.
 
 ### 5.5 The settlement's picture exports from the world
 
@@ -76556,7 +77842,10 @@ nothing at random, and sends the host nothing but the DM-placed site offers (V13
    migrants carrying a faith); a meaning the host does not compute (a plague as a punishment, a god's region).
 5. **Two grammars for movement.** Transfers the host nets within one week draw as **dated links** between the two
    settlements along the host's own links, never along a road; movers the host clocks draw as **moving markers** placed
-   by that clock along a placed path; never one grammar for the other.
+   by that clock along a placed path; never one grammar for the other. A sea link (a sea column, a shipment, a plague's
+   crossing) draws along the host's own lane and is placed by the host's own leg time; it reads this volume's
+   directional seasonal efforts (V13 §3.8 (12)) only once the host has adopted them (H33) — the map never shows a
+   mover faster or slower than the host's clock says.
 6. **The legend's words.** **Host vocabulary as data:** the host's band, phase and chip words travel in the adapter
    folder's vocabulary tables, one per lens, drawn as sent; this volume's own strings are its derivation labels, its
    still reasons and its notes. **One word, one meaning** (`world.lens`'s collision rows, as V13 §3.11.6's law (9) is
@@ -76593,6 +77882,35 @@ nothing at random, and sends the host nothing but the DM-placed site offers (V13
    the pulse records hold; the interior weeks of a multi-week advance the host did not send; a store the host's quota dropped
    (`W_LENS_PLATE_GAP`) — and replays a decaying quantity only by the host's arithmetic as sent, never by a designed
    curve. A cache: dropping it loses only the scrub's past.
+9. **A derived world layer beside the lenses: land cover** (F2; J-V13.116). The cover plate (V13 §3.6 (5)) is NOT a
+   lens — a lens is never a field over land and is read by no stage, and land cover is a field — but it shares three
+   of this mechanism's rules. Its **audience filter** is (7)'s, under fact class (4) (d) **owner-ruled map derivation**:
+   the map's own projection from dated host facts, labelled "derived land cover", reaching the host only as a
+   `physicalChange` offer, never its truth; the DM by default; a player sees it only where the host's public facts and
+   the party's known places admit the seats it derives from, the cells of an unknown seat's catchment drawn as their
+   potential vegetation. Its **scrub** is (8)'s: one cover plate per host advance in the cover cache beside the lens
+   plates (`Document.coverPlates`, BCR-V13-41), a disturbance's plate at its week, read at `lensWeek`, the same horizon
+   and compaction — and, unlike a lens plate, re-derivable: a dropped cache rebuilds, since the plate is a pure
+   function. Its **honesty rule** is (3)'s: a window with no seat populations draws the tier medians and says so in the
+   legend; a campaign with no host draws the potential vegetation alone, labelled. Its legend's first row names it the
+   map's own derivation, never a host fact: "the fields, pastures and regrowth the map derives from the campaign's
+   dated facts; the host's dossier holds the biome". It is registered in the view's layer registry as `landCover` (V13
+   §5.1): its overlay form draws in the default picture under `relief` (J394), its thematic form under `worldLayer:
+   'landCover'`, never under `worldLens`; nothing of it is read by a stage, a sway revision, an
+   encounter's generation or the clerk's placement proposal (T-V13-62's lint).
+10. **The view reading** (`viewFacts(world, week, audience)` → `ViewFacts`, V13 §2.2; the spine's §14 (4); file r item
+   1012; J-V13.133). The relational style (V15 §3.6) reads a world's host facts through ONE reading: the religion lens's
+   hierarchy, faith places, patrons, contested seats and realm rank ((6)'s rows of V13 §5.9), the sway's allegiances with
+   their roots and members, each seat's tier, size third and prosperity rung with the realm's held median, the relations
+   with their `atWar` and the culture bands ((2), (5) and (7)'s rows; V13 §3.9), the trade lens's entrepôt centrality,
+   exports and channels ((4)'s rows), the dated events of the kinds the caller names with their resolved audience (V13
+   §2.2's `WorldEvent`), the water routes and the law's storm factors — each from the plates at `week` ((8)'s scrub,
+   never later than the present) and the event index, filtered by audience as (7) filters a lens: the DM everything; a
+   party or the public only the rows the host resolved so, a DM-only row never returned; never the alignment lens (J384
+   (7)), a suppressed creed, a covert link or a criminal channel. What the host never sent is returned as absent by field
+   name, never a default, so the reader's legend says so ((3)'s honesty rule). It is fact class (4) at its reader — an
+   owner-ruled projection, labelled "projection" — and a view read, never persisted and read by no stage; it is the only
+   reading of a world the relational style takes beside `renderAt` (T-V13-68 (j)).
 
 ### 5.9 The lenses (J384 (8)'s order; each a row set of V13 §5.8's mechanism)
 
@@ -76827,23 +78145,33 @@ per rung, nightly, with the work-limit laws of V13 §3.17 as the fitted measures
 
 | stage | work measure | province (1.02 M fine, 16 k coarse) | realm (4.1 M / 64 k) | continent (9.2 M / 144 k) | law (p95) |
 |---|---|---|---|---|---|
-| W0 | ops | 1 ms | 1 ms | 2 ms | ≤ 2 ms |
+| W0 | ops; the planned sites | 1 ms (+ 10 with an included campaign) | 1 ms (+ 15) | 2 ms (+ 20) | ≤ 2 ms + 2 ms × included settlements |
+| the formation op (at its bake only, inside W1's first run; `formationMs`) | formation cells × the fixed point's passes | 270 ms | 1 000 ms | 2 300 ms | ≤ `formationMs` (400 / 1 300 / 2 800): the blocks ≈ 100 ns × formation cells, the fixed point ≈ 1 500 ns × formation cells (10 iterations × tree + integral), the talus ≈ 500 ns, the glacial ≈ 300 ns, the second stand ≈ 1 500 ns, the soils ≈ 10 ns × formation cells — never on a later run (the bake is read) |
 | W1 | Σ (op cost × touched cells), the costs V13 §2.3's (`continent` template: one 6-octave `noise` = 12 units, two `range` = 4, three `hill` = 3, one `smooth` of one pass = 3, one `mask` = 1 — 23 units over the extent; C13-10) | 350 ms | 1 400 ms | 3 170 ms | ≤ 15 ns × Σ (op cost × touched cells) |
 | W2 | fine cells | 25 ms | 100 ms | 230 ms | ≤ 25 ns × cells |
-| W3 | passes × coarse cells | 4 ms | 16 ms | 36 ms | ≤ 30 ns × 8 × cells |
+| W3 | 12 months × passes × coarse cells; the basin solves | 75 ms | 300 ms | 680 ms | ≤ 12 × 30 ns × 8 × coarse cells + 12 × `currents.cycles` × 30 ns × the basins' cells (the march 46 / 180 / 420 ms; the currents 29 / 120 / 260 ms at half ocean) |
 | W4 | fine cells × log | 180 ms | 760 ms | 1 800 ms | ≤ 10 ns × 12 × cells × (1 + log₂ cells ÷ 24) |
-| W5 | fine cells | 20 ms | 80 ms | 180 ms | ≤ 20 ns × cells |
+| W5 | fine cells (the classification over the 24 monthly values sampled, the overrides) | 60 ms | 250 ms | 560 ms | ≤ 60 ns × cells (the matrix path 20 ns × cells as before) |
 | W6a + W6b | fine cells + candidates × retries | 30 ms | 120 ms | 270 ms | ≤ 25 ns × cells + 2 µs × candidates |
 | W7a + W7b | Σ over edges of the search ellipse's cells (A\*, V13 §3.8; C13-36) | 60 ms | 200 ms | 520 ms | ≤ 8 ns × Σ ellipse cells over edges (an edge's ellipse ≈ 2.4 × the pair's straight cost² ÷ the cell area at `maxCostFactor` 6; 300 edges at the continent rung ≈ 6 × 10⁷ cells) |
 | W8a + W8b | coarse cells (W8a); Σ cap-disc fine cells (W8b) | 50 ms | 200 ms | 450 ms | W8a ≤ 30 ns × coarse cells × log; W8b ≤ 12 ns × 4 × the cap discs' cells — the row replaces W8's, not added to it |
 | W9 | names + glyphs | 10 ms | 20 ms | 40 ms | ≤ 0.2 ms × names + 2 ms × glyphs |
-| **total** | | **730 ms** (budget 600: **over** — the province row's budget is re-declared at 900 ms, V13 §2.3's cell is data) | **2 900 ms** (budget 1 800: **over** — re-declared at 3 000 ms) | **6 700 ms** (budget 4 500: **over** — re-declared at 7 000 ms) | |
+| **total, the authored path (no scenario)** | | **840 ms** (the province row's `budgetMs` re-declared at 1 000 ms, V13 §2.3's cell is data) | **3 350 ms** (re-declared at 3 500 ms) | **7 700 ms** (re-declared at 8 000 ms) | the monthly W3 and the classification add ≈ 110 / 450 / 1 000 ms to the former totals of 730 / 2 900 / 6 700 ms |
+| **total with a scenario** | | **1 110 ms** (≤ `budgetMs` + `formationMs` = 1 400) | **4 350 ms** (≤ 4 800) | **10 000 ms** (≤ 10 800, at the base's ten-second comfort level, §12; the pre-decided caps below bring it to ≈ 8 000) | the formation op at its bake only; a later run of the same world pays the authored row |
 
-The honest re-costing (C13-10) puts every rung over its first budget by W1's noise alone: the size rows' `budgetMs`
-are re-declared at 900 / 3 000 / 7 000 ms (PLAUSIBLE until SP-W1 and SP-W6 measure), the realm rung the declared
-target (`realm` is the campaign's default); the pre-decided fallback is the noise op's cap — the `continent` template's
-noise at 4 octaves (8 units: −1 100 ms at the continent rung), the finer octaves added only inside a placed frame's
-margin by S1's position-keyed lattice (V13 §3.11.4) — which brings the continent to ≈ 5 600 ms. A world past one
+The honest re-costing (C13-10) puts every rung over its first budget by W1's noise alone, and the monthly climate and
+the classification add to it: the size rows' `budgetMs` are re-declared at 1 000 / 3 500 / 8 000 ms on the authored
+path (PLAUSIBLE until SP-W1, SP-W6 and SP-W10 measure) and, with a scenario, `budgetMs` + `formationMs` (1 400 /
+4 800 / 10 800 ms — the continent rung at the base's ten-second comfort level, §12), the realm rung the declared
+target (`realm` is the campaign's default); the pre-decided fallbacks are the noise op's cap — the `continent`
+template's noise at 4 octaves (8 units: −1 100 ms at the continent rung), the finer octaves added only inside a placed
+frame's margin by S1's position-keyed lattice (V13 §3.11.4) — and, at the continent rung with a scenario, the fixed
+point's `erosion.iterations` at 5 (−400 ms) and the classification run on the coarse grid and expanded bilinearly
+(−500 ms) — which brings the authored continent to ≈ 6 600 ms and the scenario continent to ≈ 8 000 ms. **The
+preview run** (V13 §3.1 (7): W0–W5 on the coarse grid) is ≤ 120 / 300 / 700 ms (`WORLD-16`) when no formation knob
+changed — the bake cached by (scenario, knobs, seed) and shared with Generate — so an option's thumbnail follows a
+hover; a formation knob's change costs `formationMs` more, with a progress strip and the last bake's thumbnail
+meanwhile. A world past one
 second shows §12.1's progress strip per stage. **Memory** (§12.8's counting; C13-11): the fine rasters at the
 continent rung — dem Int32 37 MB, flowAccum Uint32 37 MB, flowDir Uint8 9 MB, flatRank Uint32 37 MB, watershed Uint32
 37 MB, landmass Uint32 37 MB, discharge Float32 37 MB, biome/landUse/vegetation/habitability Uint8 37 MB, territory
@@ -76852,8 +78180,13 @@ stated line (METROPOLIS ≤ 260 MB) and has no world line of its own; so (1) BCR
 §12.8 (a `world` document's working set ≤ 300 MB on the high tier; the continent rung refused below it, J-V13.12 kept),
 and (2) the two distance fields are computed on demand per query (never resident, −74 MB), `landmass` and `territory`
 drop to Uint16 with a per-world id table (−37 MB), `discharge` is kept only on reach course cells as a sparse map
-(−35 MB), and `flatRank` is dropped after W4 (−37 MB): **≈ 285 MB resident during W4, ≈ 180 MB after** — inside the
-requested line; `WORLD-5` reads 285 MB. The document on disk: ≤ the size row's `docMb` (24 MB gzipped at the
+(−35 MB), and `flatRank` is dropped after W4 (−37 MB): **≈ 302 MB resident during W4 before the fallbacks, ≈ 295 MB with them, ≈ 197 MB after** — the
+monthly climate's arrays (twelve × two Int16, the winds, the currents, the anomaly, the maritime fraction and the
+basins: 112 B per coarse cell ≈ 16 MB) and the formation-grid `bedrock`, `soil` and `surfaceAge` (≈ 2.3 MB) added; the
+formation op's own working set (32 B × 576 k ≈ 18 MB) freed at its bake before W2; the cover plate (9.2 MB) resident
+only at view time, outside the pipeline; `WORLD-5` reads 302 MB — over the line by the arithmetic until its
+pre-decided fallbacks, taken in order: the monthly precipitation stored as Uint8 shares of the annual total (−1.7 MB)
+and the monthly winds as a per-band table (−5.2 MB), which bring it to ≈ 295 MB. The document on disk: ≤ the size row's `docMb` (24 MB gzipped at the
 continent rung, V13 §2.7).
 
 **Edits** (§12.6's form: cost as a function of scope, flat across rungs): a `worldRecipe` op over a 50 km disc at any
@@ -76866,7 +78199,18 @@ shown as a progress strip), P2 ≤ 30 ms, P3 ≤ 120 ms (one watershed), P4 ≤ 
 `requestCharter` ≤ 30 ms; `worldWins` is the frame's Re-derive from S1 (§12.6's budget) + 150 ms; a flood spread on the
 height raster ≤ 25 ns × the raster's cells (≤ 60 ms at METROPOLIS, C13-12); **a transient `charterFor`** for a 100 m
 crop frame ≤ 10 ms (P4's cost; `WORLD-9`, SW-05); **a caller's score pass** (V14's G3, the host's `proposals`) ≤ W6a's
-law over the disc asked — ≤ 230 ms over a continent, ≤ 30 ms over a 100 km disc (`WORLD-10`, SW-32).
+law over the disc asked — ≤ 230 ms over a continent, ≤ 30 ms over a 100 km disc (`WORLD-10`, SW-32); a `paintLayer` ≤
+the cascade from step 1b over its dirty set (a `biome` paint over a 50 km disc ≤ 0.5 s at the realm rung: the whole
+march); a `disturb` ≤ 10 ms (the record) plus the next cover fold; **the cover fold** ≤ 40 / 100 / 250 ms per plate
+(`WORLD-17`); a `physicsPass` of depth `rederive` over the whole world ≤ W3 + the cascade over every watershed + W5
+(≈ 1.5 / 4 / 8 s, declared whole-world with a progress strip), over a region ≤ the same over its dirty set;
+`release` the same plus the overrides' traces; `weather` ≤ `formationMs` over the whole world (up to ten implicit steps,
+no fixed point) plus the cascade; **a sailing leg** ≤ 2 ms per (vessel, month, direction) over the routing grid's (cell, heading) states (the
+tack penalty needs the heading in the state, sixteen per cell), a lane's full set ≤ 150 ms, derived lazily
+(`WORLD-18`); **the whole monthly march** on any relief or water edit ≤ 0.2 /
+0.3 / 0.5 s and every basin's re-solve ≤ the W3 currents row (29 / 120 / 260 ms) (`WORLD-19`); **`nearestLawful`'s best form** ≤ 1.5 s at
+the realm rung (the coarse whole-map pass over 64 k cells with the hard terms, then thirty origins' two tiers; a
+progress strip) — `WORLD-3`'s second bar.
 
 **The frame's additions on the one-click path** (§12.3's laws unchanged — C13-09: the constants are **not** raised):
 the surface step ≤ 3 ms and the groundwater step ≤ 30 ms at the METROPOLIS hydro grid (C13-54: the base measured the
@@ -76897,7 +78241,23 @@ PLAUSIBLE until SP-W8); `WORLD-13` the sway's store (a Uint16 raster with an id 
 B-POLITY (V13 §7); `WORLD-14` the lens plate store ≤ `plates.storeMbGz` (4 MB gzipped at the realm rung) after a
 300-year run of B-WORLD-lite under B-POLITY with a lens window per advance — outside `docMb`, a cache the host's quota
 may drop — and a plate's fold ≤ 20 ms; `WORLD-15` a lens drawn at a scrub week ≤ 60 ms at the realm rung (the nearest
-whole plate and its deltas decoded, the marks laid) and one scrub step ≤ 120 ms. Each has its T-V13 row in §7.
+whole plate and its deltas decoded, the marks laid) and one scrub step ≤ 120 ms; `WORLD-16` the formation op at its
+bake ≤ `formationMs` (400 / 1 300 / 2 800 ms) and the preview run ≤ 120 / 300 / 700 ms when no formation knob changed,
+≤ `formationMs` + that after one (T-V13-70 measures both); `WORLD-17` the cover fold ≤
+40 / 100 / 250 ms per plate, a dropped cache rebuilding in ≤ 2 s at the realm rung (one fill per dated event), and the
+cover cache ≤ `cover.plates.storeMbGz` (6 MB gzipped at the realm rung after 300 years of B-POLITY with B-COVER's
+events) — outside `docMb`, re-derivable; `WORLD-18` a sailing leg ≤ 2 ms per
+(vessel, month, direction) over (cell, heading) states and a lane's full set ≤ 150 ms, lazily; `WORLD-19` the whole monthly march on any relief or water
+edit ≤ 0.2 / 0.3 / 0.5 s and every basin's re-solve ≤ the W3 currents row (29 / 120 / 260 ms); and `WORLD-3` gains its best-form bar,
+`nearestLawful` over the whole map ≤ 1.5 s at the realm rung; and `WORLD-20` the readings owed to V15 (file r item
+1013; V15 §6's `ATLAS-1`, `ATLAS-2`, `ATLAS-4`, `ATLAS-5` read these): `edgeCharter` over a whole side ≤ 60 / 120 / 200
+ms at the three rungs (one station per coarse cell, the monthly arrays sampled), `renderAt` ≤ `WORLD-8`'s tile law × the
+tiles asked + 2 ms per stop for the label boxes, a world-subject `requestCharter` or a world-rung transient `charterFor`
+≤ 4 × `edgeCharter` over the child's sides (each shorter than a whole side) + the ground's chunk references, ≤ 300 ms
+in all at the continent rung, `viewFacts` ≤ 50 ms per (week,
+audience) from a decoded plate with the sways' borders traced at the coarse grid and the seats' points, + 20 ms with
+the bathymetry asked, and `solve(…, 'arrange')` ≤ 200 ms at 32 placements and 64 relations (the evaluators'
+cost the caller's, V15's `ATLAS-1`). Each has its T-V13 row in §7.
 
 ## 7 Tests and acceptance bars
 
@@ -76912,7 +78272,15 @@ versioned with the fixtures; the polity cells of V13 §2.3, `WORLD-13` and T-V13
 B-WORLD-lite under B-POLITY. B-POLITY is extended with a lens window per advance (plague, faith, realm-rank,
 economy, columns, journeys and alignment rows at declared rates; a birth-defaults regime and a canon regime), and the
 lens fixtures T-V13-47 – T-V13-56 name (the lens, all-dark, birth-defaults, audience, polarity, plague, movement, faith
-and trade fixtures) are our own,
+and trade fixtures) and the world-growth fixtures T-V13-57 – T-V13-72 name — **B-FORM** (the five scenarios × the
+three rungs × five seeds, with a golden stats row per bake), **B-CLIM** (an analytic coast-and-range fixture with a
+known rain shadow — a 2 km ridge across the westerlies, the lee's depletion 1 − e^(−H ÷ H_w) with H_w 2.25 km (a
+saturated column loses 55–60 %), the windward-to-lee ratio in 4–10 —, a known upwelling coast under 250 mm/yr and a
+one-basin ocean), the **dossier-set** fixture (a campaign of twelve
+settlements with their terrain, route, culture and relation words, two of them arid and one tundra), **B-COVER**
+(B-POLITY's scripted host extended with populations, razings, plagues and abandonments at declared rates, plus a DM's
+fires and clearings), the **sailing** fixture (two ports across a basin with a known gyre and a seasonal wind
+reversal) and the **seam** fixture (two worlds sharing one edge) — are our own,
 in `fixtures/world/`.
 
 ### 7.1 Determinism, identity, ladders
@@ -76929,6 +78297,9 @@ in `fixtures/world/`.
 | T-V13-30 | (a) the namespace segment: two worlds with one placed frame each merged into one package have no address collision; (b) every record of V13 §2.5 keeps its address across a Regenerate (keep settings) and a `worldRecipe` op outside its watershed (bar 7's world half; the site half is V14's) | the merge fixture; the address diff |
 | T-V13-31 | V13 §3.18's ten edge cases, each one test | fixtures |
 | T-V13-32 | the clean-room lint: no file under `@plat/world`, `@plat/port/world` (outside the adapter folder's `schema.json`, V13 §3.15) or `@plat/export` contains a string from the reference's identifier list (§17.1's lint list, extended with the world's reserved words) | §14's lint, CI |
+| T-V13-57 | **baked-formation invariance** (F1; J-V13.111): a world generated with a scenario, saved and reopened under a library whose `formation.version` is newer, has a byte-identical model digest and runs no formation code (a call-count assertion; `W_FORMATION_VERSION` raised, informative); a `worldRecipe` op appended, a `regenerate` of W5 and a `physicsPass` of depth `rederive` each read the bake and re-run nothing of it; **formation deleted:** after the bake no block id, velocity, boundary, distance field, stack or ice mask exists in the model digest, the records digest, the document's chunks or any export (a schema lint over the baked payload's fields and a grep over the document); a share code of the world carries the payload's chunk hashes and replays byte-identically from the store; one whose chunks are withheld refuses (`refuse.world.formationPayload`) and never re-runs | B-FORM; a library built with a bumped version; the schema lint; the share-code fixture |
+| T-V13-58 | **formation deterministic and plausible:** the same request bakes byte-identically on every §13.2 platform; the fixed point's iteration count is fixed (a run with an oscillating divide takes the last iteration and reports it, never iterates further); every bake's stats lie in their bands — the land share within the template's band ± 0.1, the Hack exponent 0.5–0.6, the bifurcation ratio 3–5 — and every landform kind the scenario names appears at least once per seed on four of five seeds; the realm rung bakes one or two boundaries and the relict belts, never the block model; the province rung the regional feature alone; every scenario's highest crest lies inside its profile's `heightM` band and its mean land height in 500–1 200 m; a `weather` op of 10⁴ years over the shield fixture (U ≤ 0.2 mm/yr) lowers a channel cell by ≤ 2 m and of 10⁶ years deepens the collision fixture's valley by ≥ 50 m | B-FORM over the three rungs; the stats goldens; the weather fixtures (the shield and the collision scenario) |
+| T-V13-59 | **the monthly climate:** W3 runs its five steps (i)–(v) once, in order (a log assertion); on B-CLIM the first-harmonic fit returns the sea-level amplitude and phase within one week and 10 deci-°C on an interior cell; the maritime fraction 500 km inland on the west coast reads e^(−500 ÷ `efoldKm`) ± 0.02 (0.29) and at least 3 × the value 50 km inland on the east coast of a fixture whose upwind land fetch there is ≥ 1 000 km (≤ 0.10); the trades and westerlies shift with the convergence zone by the belt cells; the thermal term reverses the wind by > 120° over the continent-rung fixture's land mass and nowhere on the realm-rung fixture without `worldContext.monsoon` (`W_MONSOON_CONTEXT` raised there when a monsoon inclusion is asked), and with the knob set the realm fixture's wet half-year holds > 70 % of the rain; the realm-rung fixture's convergence zone swings by its context's land fraction, never its own; the gyre solve on the continent-rung fixture gives a western boundary current ≥ 3 × the eastern one's speed and a circumpolar current on the unbroken-band fixture, while the realm-rung fixture's open sea carries its context's coast current and no closed-box gyre (its solve runs only over its enclosed sea); the upwelling coast reads a negative anomaly and under 250 mm/yr, the warm coast a positive one and over 800; every value identical across platforms | B-CLIM; the realm and continent monsoon fixtures |
 
 ### 7.2 Hydrology and water state
 
@@ -76939,17 +78310,19 @@ in `fixtures/world/`.
 | T-V13-8 (bar 12's classifier clause; bar 12's owner is V14's T-V14-12) | one `classifyWater` over a crypt (underground: the table, a passage to the river), a site level under a `site` surface reached through a vertical link (SW-06), a drowned ruin (storeys with the damage layer's height), a flooded street (route class) and a plot (share): the classes follow V13 §3.13.2's table at every threshold boundary (±1 cm), and change under a dated surface with no identity changing | a V04 fixture with four units; the surfaces stepped through every class |
 | T-V13-13 | the charter honoured, in the world-first order `requestCharter` → `generate` → `bindPlacement` → the glyph (C13-04): a frame generated from a charter meets the edge profile within `edgeRmsRefCm`, every `in` crossing enters at its station ± `riverMatchM` with its width within 10 % of the charter's and the accumulation at the inlet equal to the seed (C13-14), every `out` crossing leaves, the sea sits at its level, the frame's shore lies within one hydro cell of the world's inside the extent (the Hausdorff bar, C13-13), the table at the margin equals the charter's; the same charter and seed twice give the same frame (the deterministic refinement rule); two neighbouring frames with overlapping margins agree within 1 cm in the shared margin (C13-05; marked expected-fail until BCR-V13-29 lands); a changed charter (`worldWins`) gives a Re-derive from S1 whose locks and drawn constraints are kept; **on a settlement-first placed frame, Regenerate (keep settings) is byte-identical to the same action before the placement** (C13-03); a dossier-bound frame's `requestCharter` at a contradicting origin is refused with `refuse.charter.dossier` (C13-08) | the world-first fixture; the two-frame fixture; the settlement-first fixture; the dossier fixture |
 | T-V13-21 (bar 13) | the eighteen model-drift rows of V13 §3.14.3's table: for each, the equivalent edit is made and the row's assertion holds (the recomputing stages ran, the values changed as the law says, nothing outside the dirty set moved) | one test per row, in the PR tier (BCR-V13-15); a row whose assertion fails names the drift it reproduces |
-| T-V13-21b | the cascade's twenty consumers (V13 §3.14.3's second list): each re-reads after a surface edit's cascade and its value changes as the law says | one test per consumer; a reader whose value is unchanged after a change that must move it fails |
+| T-V13-21b | the cascade's twenty-two consumers (V13 §3.14.3's second list): each re-reads after a surface edit's cascade and its value changes as the law says — rows 21 and 22 after a relief edit that re-runs the march and a strait edit that re-solves a basin | one test per consumer; a reader whose value is unchanged after a change that must move it fails |
 | T-V13-22 | F-GW: a frame with no water and no charter takes the deep dry table and reports; a charter with a short `waterTable` grid reads the nearest covered cell and reports; the perched table on `impermeable` stands at `perchDepthCm` | three fixtures |
 | T-V13-33 | the flood spread with barriers on the height raster: a dyke **lying inside one hydro cell** and higher than the stage stops the spread (C13-12); one lower is overtopped and named in `overtopped`; the seasonal pair derives from the bankfull depth; an event stage is a dated surface | the frame fixture with a dyke and a quay |
 | T-V13-34 | the groundwater field's law: the table at a cell equals the nearest source's elevation plus the gradient × distance within one cm on a fixture with uniform geology and precipitation; the permeability factors scale it; springs appear where the table meets the ground and are thinned to `springSpacingM` | an analytic fixture |
 | T-V13-35 | the hydraulic geometry and discharge: a reach of known upstream area and precipitation carries `runoffShare` × (P − E) × area within 1 %; its width and depth follow the law's cells | an analytic fixture |
+| T-V13-60 | **the downwind dirty set** (F2; J-V13.114): a `range` op or a `setField` stroke raising 1 500 m across the wind on B-CLIM dries every cell downwind of it by the march's law — the precipitation falling by ≥ 50 % within 100 km in the lee and the shadow persisting to the edge — and changes nothing but the climate-derived layers there (the DEM and the surfaces byte-identical; every reach's course outside the stroke's watersheds byte-identical, its discharge re-derived where its P − E moved); a stroke of one metre re-runs the march whole and gives the same world as the same stroke made as ten strokes of ten centimetres (J393: no threshold); the whole march and every basin's solve run within `WORLD-19`; a strait op closing B-CLIM's basin's one outlet re-solves every basin (the far basin's currents within 2 % of their former values) and the sailing legs crossing it change with `W_SAIL_LEG_CHANGED`; the stage order holds (W3 before W4 before W5 in the cascade's log) | B-CLIM; the drift fixture of row 1 |
+| T-V13-61 | **the classification and the potential vegetation:** a fixture cell whose months are the published worked example (a dry-winter subtropical station: MAP 1 146 mm, the arid threshold 678 mm) classifies `Cw` and maps to its `world.pnv` row; every one of the classifier's thirty classes has a row of the table (the registration lint) and every row is reached by at least one cell over B-WORLD-lite; a 3 000 m peak inside a 1 000 m-mean coarse cell reads alpine or E; the treeline override holds above its growing-season isotherm; the gallery forest appears within `riparianCells` of a reach through `BW*`; a `biome` override holds its row through a regenerate of W5; the import fixture (annual arrays, no months) classifies by the matrix path byte-identically to its former golden | the classification fixture; B-WORLD-lite; the import fixture |
 
 ### 7.3 Placement, glyphs, ports, orientation
 
 | id | what it asserts | how |
 |---|---|---|
-| T-V13-7 (bar 9) | every dependency arrow has one owner: `@plat/world` imports nothing from `@plat/site`, `@plat/layout`, `@plat/plots` or `@plat/content` (the glyph's marks are the frame's, C13-35); `@plat/site` imports `@plat/world/hydro`, `@plat/world/groundwater` and `@plat/world/water` only; the port is one-way per message (no `WorldPort` method takes a host fact as a write into the map except the recorded inputs of V13 §3.11.6 — `bindSeat`, `unbindSeat`, `importSeats`, `costLaw`, `travelLaw`, `hostRequires`, `genesis`, `network`, `polity`, `events`, `canonized`, `consumed` — each under its manifest's key list; the presentation inputs write nothing; no political, overlay, lived-route or belief input reaches a `canon` slot); no map-side write reaches a dossier fact except through the port as a derived fact; no stage (W0–W9, P1–P5), the sway's revision, V14's encounter crop or the clerk imports `@plat/world/lens` (J-V13.90) | §14's dependency lint; a test that greps the port's surface |
+| T-V13-7 (bar 9) | every dependency arrow has one owner: `@plat/world` imports nothing from `@plat/site`, `@plat/layout`, `@plat/plots` or `@plat/content` (the glyph's marks are the frame's, C13-35); `@plat/site` imports `@plat/world/hydro`, `@plat/world/groundwater` and `@plat/world/water` only; the port is one-way per message (no `WorldPort` method takes a host fact as a write into the map except the recorded inputs of V13 §3.11.6 — `bindSeat`, `unbindSeat`, `importSeats`, `costLaw`, `travelLaw`, `hostRequires`, `genesis`, `network`, `polity`, `events`, `canonized`, `consumed`, `campaignFacts`, `dossierUpdated` — each under its manifest's key list; the presentation inputs write nothing; no political, overlay, lived-route, belief or cover input reaches a `canon` slot); no map-side write reaches a dossier fact — a dossier update is a request (`requestDossierUpdate`) the host executes, never a write (J-V13.121) —; no stage of W0–W9, the sway's revision, V14's encounter crop, the canon or the clerk's placement proposal imports `@plat/world/ecology` or reads a cover plate (J-V13.116); no stage (W0–W9, P1–P5), the sway's revision, V14's encounter crop or the clerk imports `@plat/world/lens` (J-V13.90) | §14's dependency lint; a test that greps the port's surface |
 | T-V13-11 | the glyph: each level's marks are the frame's `glyphOf` marks through `toWorld` within the row's tolerance; a click on a glyph opens the frame as another page and the world keeps its stop and centre; a stale glyph is re-made on the frame's commit hook when a wall, way, district or water body of the glyph's kinds changes and not otherwise; **a re-make leaves the world's model digest byte-equal** (C13-21) | the placed frame; a commit that moves a plot (no re-make) and one that adds a gate (re-make); the digest before and after |
 | T-V13-12 | the orientation-dependent terms: after a bearing change the sun's azimuth in frame terms, the wind bearing, the sea side and the river directions equal the world's turned by the bearing (mirrored: reflected); the compass rose turns; the arenas are unchanged (T-V13-2); each locked anomaly kind is reported on its fixture | four fixtures, one per anomaly kind |
 | T-V13-14 | F-WORLD's siting, path and seat rungs: a world where no candidate scores places the best cell and reports; two seats on separate landmasses without ports stay unjoined; a seat on water moves to land | three fixtures |
@@ -76959,6 +78332,9 @@ in `fixtures/world/`.
 | T-V13-37 | the port: `canon` is whole or refused, its travel slot byte-identical across every sway revision, death, resettlement and satellite founding and across permuted inputs, with no float, prose, raster index or echo of a host fact (a schema lint); its version vector moves only the slot whose inputs moved; two builders of the host's record agree on one fixture in two forms (ids, crossings, costs, all-pairs costs, tiers); every row names a host key; a land road and a water leg between one pair keep two ids and a re-grade keeps the id; a phantom key is skipped, never a seat; `derivedFacts` returns the settlement map record with no arena field; `charter(world, campaign)` is a `requestCharter` whose charter equals `charterFor` at the recorded placement; `proposals` honours `count`, `withinKm`, `exclude` and merged weights and persists nothing (C13-22); (b) `score` called as V14's G3 calls it (purpose weights, hard terms over V14-registered plug-ins) refuses a cell whose hard term is 0 and is bit-identical across two calls (no draw, SW-03); `clock(world, week)` sets the world's week as a view command (C13-23); the messages carry the format version; (c) the additive canon (J388): on a campaign born canonized, after a canon is adopted (`canonized`), with two seats then added (one bound, one a graduated satellite) and a lay version, a permanent edit, a seat's removal and an imported row pending, a canon requested `additive` differs from the adopted canon only in the two seats' own rows, the crossings and costs of the seat territories W8a re-derives over the landmass they dirty and the water candidates on the sailing bodies they reach — every other row byte-identical to the adopted canon's, the lay version, the edit, the removal and the imported row outside it (`W_HOST_CANON_BEHIND` still raised for each after the mock host's `canonized` for it), its causes the two additions alone, its envelope marked `additive` —; its version vector steps only the slots it moved, the header's geometry version unchanged; under the normalized arm, with the fixture's added seats moving the median tier-1 hop, every leg whose weeks moved is in its time delta, legs outside the re-derived territories included, and a band crossing raises `W_TRAVEL_BAND_CROSSED` with `keep` alone at the fold of the `canonized` for it; requested twice it is byte-identical, and requested with no canon adopted, or naming a cost law newer than the adopted canon's, it is refused whole | a mock host |
 | T-V13-38 | W6's spacing passes: no two capitals within `capitalKm`, no two towns within `townKm` after the passes; the shrink rule triggers on the sparse fixture; ports are promoted on coasts only; stage 2 drops, never adds | B-WORLD-lite statistics |
 | T-V13-39 | W7 and W8: every coordinate passed to `delaunay` is an integer metre inside §3.2 (1)'s range invariant (a lint on the call; SW-16); no land leg crosses water; the `existingRoute` discount makes later roads share earlier cells (the shared-cell share ≥ 20 % on B-WORLD-lite, own bar); every member sway is one connected component after normalization or is flagged an exclave (enclaves ≤ `enclaveMaxCells` removed); every seat territory is one component; standalone provinces partition their seat territory | statistics and invariants |
+| T-V13-64 | **the solver** (F6, F7, F9; J-V13.117 – J-V13.120): (a) **the two paths agree** — the dossier-set fixture generated at once with `include` set and the same fixture generated standalone and then its twelve settlements placed one by one by the best form, under the same requirements, decisions and seed, meet the same requirement set with identical verification statuses (every row met, partly or unmet alike) and identical reports, each path byte-deterministic on every platform (the worlds themselves differ: the at-once run widens a random box and lays planned sites, the sequence runs under least change); the preview's coarse run agrees with Generate's fine run on ≥ 95 % of coarse cells by block-majority class and gives the identical report; (b) **every inclusion met by causes** — a desert inclusion of 20 000 km² on a `random` world yields a contiguous arid region of ≥ 20 000 km² whose cells lie in a rain shadow, a basin or a cold-current coast (its reason naming the cause) and never an `Override`; (c) **no arid dot** — the two arid settlements placed by the best form on a world with no arid class get a correction of ≥ `solver.minExtentCells` with a graded band of ≥ `gradeBandCells` of steppe or scrub, no other settlement's row changed (the ten others' charters byte-identical), the correction an op with `origin: 'solver'` naming the row, previewed before the commit; with terrain change forbidden the correction is an `Override` labelled `W_SOLVER_PAINTED` at the same extent; (d) **least change** — a best-form placement on a world with a lawful site changes no cell (the model digest moves only by the placement); the offers are three, ordered by cost then distance, each with its reason; (e) **the back-step bounded and deterministic** — a fixture whose row cannot be met in three steps ends `unmet` with its offer and `W_REQUIREMENT_UNMET`, never a fourth step and never a painted fix; the same fixture back-steps identically on every platform; (f) **the report** — every row of the run has a status and a reason; a `random` option widened to meet a row records the row as its reason; (g) contradicting locked rows are refused at W0 naming the pair; (h) the planned sites: partners within their travel bound under the default law, rivals across a boundary, vassals within their overlord's reach, the isolated seat farthest; (i) **the `landform` kind** (J-V13.135) — a `landform` row of feature `range` at a side (`at: { side }`) yields a `Landform` of kind `range` there within the asked extent, by the formation op where a scenario runs and else by a `range` op with `origin: 'solver'` naming the row; a `strait` row a strait; an unmet one reports `moreRelief` | the dossier-set fixture; B-WORLD-lite |
+| T-V13-65 | **the conflict list and the dossier seam** (F8; J-V13.121, J-V13.122): a biome paint over a placed dossier-bound frame raises `W_EDIT_DOSSIER` with every affected settlement listed and the five choices offered everywhere (`moveTown` where the placement is not host-locked, `changeRequest` at generation), and a stroke over three frames lists three; a paint that crosses only rank 4 (open land) asks nothing; "Random all" with settlements included asks nothing and summarises its `fitWorld` defaults; `updateDossier` emits `requestDossierUpdate` and the dossier shows unchanged with `W_DOSSIER_PENDING` until the mock host's `dossierUpdated { applied: true }`, after which the placement's facts read the new row and the conflict closes; `applied: false` re-opens it; a second request on the settlement while one is pending is refused; the map's own undo of a pending request withdraws it and a confirmed one is sealed; no code path of `@plat/world` or `@plat/port/world` writes a dossier field (a lint); a preset's pre-decision never yields `updateDossier` (a lint over `world.presets` and a fixture with every preset); a decision is reused by a later reroll and re-asked when its settlement's `campaignFacts` row changes; `keepMismatch` flags the DM view and changes no dossier | the dossier-set fixture; the mock host extended with `campaignFacts` and `dossierUpdated` |
+| T-V13-68 | **the seams owed to V15** (J-V13.127): (a) **the edge charter is the present ground, never a record** (J393) — `edgeCharter` on a world at week w and at week w + 520 after B-POLITY's advances, a razing, a sway revision, a plague window and a cover change returns byte-identical charters (no record crosses); after a `happened` `setField` raising the edge 300 m, a `happened` `rerouteReach` crossing the edge, a dated flood surface in force at the edge or an always-so `paintLayer` along it, the charter differs and reads the present ground (the new height, the new crossing, the present level, the painted class); a lint over `WorldEdgeCharter` finds no `week`, no event, no cover class, no plate, no political field; (b) **continuation** — a world generated beside the seam fixture's member meets its edge profile within `edgeRmsRefCm`, continues its rain shadow (the lee's precipitation within 15 % of the neighbour's at the seam), its rivers cross with their discharge, its potential vegetation grades over `gradeBandCells`; two contradicting edges are reported with a proposed feature before the run; (c) **isolation after generation** — an edit in the member changes nothing in the continuation (its digest byte-identical) and the reverse; (d) **`renderAt`** returns tiles at the four stops, the extent, datum, latitude box, rung, present week, date label and the known sets, nothing else (a schema lint), and a party audience's tiles hold only the player picture's layers; (e) **the fit across rungs** — `placeFrame` with a world document as the frame bends the parent's ground in its band and leaves the child's model digest byte-identical; (f) `solve(..., 'arrange')` over member placements runs no world stage (a call-count assertion), takes its cost terms only from registered evaluators (a kind with none ends `unmet` with `noEvaluator`) and gives the same arrangement over permuted placements and relations; (g) **the rendered reading** — `renderAt`'s tiles draw the `atlas` layer set alone (a pixel compare against the world view drawing exactly the set's rows — `relief` with the cover overlay, `water`, `routes`, `settlements`, `labels`, `sway` with its borders, `occupation`, `debatable`, `fighting`, `events` — and no other, for the DM and for a party; J394) and every stop's label boxes equal the placer's boxes at that stop; with `opts.layers` the `settlements` and `labels` rows alone; (h) **the world subject** — `requestCharter` with a world subject on the seam fixture's realm moves the parent's model digest by the placement record alone and no raster cell; the child generated from its `WorldCharter` meets the parent's four edges within `edgeRmsRefCm`, its coarse ground equals the parent's rasters over the extent at the parent's cell, and the parent's frames inside the extent are its planned sites and never its frames; the transient world-rung `charterFor` writes nothing and equals the recorded one byte for byte; the child's request carries `scenario: 'none'`, and a request with `parentCharter` and a set scenario is refused at W0 naming the pair; the parent's `Placement.subject` reads `world` with the child's `docId` after `bindPlacement` (file r item 1030); (i) **re-matching** — `setRequirements` with a neighbour's live charter and `regenerate` of W1 over a 20 km strip changes no cell outside the strip's closure and nothing in the neighbour; (j) **`viewFacts`** returns, for a party audience, no row the host resolved DM-only and never an alignment, suppressed-creed, covert or criminal row (a schema and a fixture assertion), names its absent fields, equals the plates' facts at the week asked, and carries every seat's point and every sway's pole, area and border (the ring enclosing the sway's cells; a schema assertion) | the seam fixture; a two-member arrangement fixture; the nested fixture (a province extent inside the realm); B-POLITY's plates |
 
 ### 7.4 Editing, view, exports, budgets
 
@@ -76990,7 +78366,15 @@ in `fixtures/world/`.
 | T-V13-54 | the religion lens: the host's hierarchy draws before every other mark; a mixture ring sums 100; with spread dark the lens reads seated and draws no spread pressure, a seated patron's prescription still drawn where the host's institution lane is lit; no faith link crosses water as a carrier (J382 (c)); a conversion draws a source link only when the host sent one; a card with a `devotion` draws labelled "DM-placed" and DM-only until revealed; no holy place is generated (J384 (10)); the global rank legend lists the deities in the host's tier order, highest first, then by patron seats, most first, ties by the deity key ascending, and changes only at a plate; a suppressed creed draws on the DM's view and is absent from every party set (dropped at fold) and every player picture; a patron fall draws at its week with the host's cause word; a pilgrim catchment draws only the set the host sent, in a deity's colour only where the rite has one, and none where it sent none; the mixture's standing words are the host's; a rank arc is a dated caption and an outline on its deity's patron seats, never a region; a rite adoption or imposed rite draws its link only from a sent origin, captioned with the host's year and never a week it did not send | the faith fixtures; V14's devotion card |
 | T-V13-55 | the prosperity and alignment lenses: the rung fills its seat area uniformly with no gradient across a border; booms and busts draw at their weeks; the upward-drift and born-world bias notes stand where their gates hold; the alignment lens is DM-only and still until the host sends its reading; a party set's alignment rows never draw; a quadrant posture links only two seats that both hold a patron, in three classes with the no-schism note | the lens fixtures |
 | T-V13-56 | the trade lens's production and need (J380): every economy row's goods are keyed by the host's catalog key as its supply links key them — two labels the host keys alike draw as one good, each label kept on its card, a loosely read key marked — with the category and shippable flag the host sends, no flag derived from a category (a custom good the host sends shippable draws shippable); production, needs, exports, imports, services and food coverage draw under every regime, loads, arrivals, relations and still alike; a food good and a catalog service never draw moving (on a route, a mover or a shipment-styled link), while a service export the host ships as a good draws as a shippable good; a food coverage ring is filled to the share the host sent, kept at its surveyed share while a cut is in force, the cut marked by the stressor's word and never by the war's siege mark; a supply arrival captions the good its link names where the host sent one and guesses none where it did not; no criminal channel and none of the host's criminal income reaches a player picture; stocks, throughput (its inbound and outbound words) and the entrepôt heat draw in the loads regime only; relief and credit draw no link where the host names no giver | the trade fixtures |
-| T-V13-40 | the view: each layer renders at each stop on the vector rung; the water class overlay reads by pattern without colour; the world's first frame ≤ 400 ms at the continent rung | §13.4's render tests |
+| T-V13-40 | the view: each layer renders at each stop on the vector rung (the `monthly`, `currents`, `soil`, `bedrock`, `landforms` and `landCover` layers among them); the water class overlay reads by pattern without colour; the world's first frame ≤ 400 ms at the continent rung | §13.4's render tests |
+| T-V13-62 | **land cover** (F2; J-V13.116, J-V13.128): (a) **a pure function** — a cover plate at week t equals its re-derivation from the recipe, the windows and the disturbances; the cover cache dropped and rebuilt is byte-identical; no fold reads the previous plate's classes (a call-graph lint: only its delta coding does); (b) **dated facts only** — on B-COVER a seat of 10 000 people clears ≈ 75 km² of fields inside a radius of 7–10 km at the fixture's eligible share, a razed seat's fields regrow by its biome's succession from the razing's week (young forest at 20 years on the temperate fixture, ≈ 78 % of the closed class at 20 years on the tropical), a plague's depopulation withdraws the outer fields, a DM's fire scars and recovers by the recovery row, a `landCover` override holds; nothing moves between windows (a plate re-folded at the same window is byte-identical) and nothing is drawn at random; (c) **never the dossier's biome** — a cover change from forest to fields over a dossier-bound frame's catchment raises no `W_EDIT_DOSSIER` and changes no charter, while a `biome` paint there does; (d) **read by no stage** — the lint of T-V13-7; W6's proposals and the canon are byte-identical with the cover cache full, empty or dropped; (e) the layer is audience-filtered (a party sees an unknown seat's catchment as potential vegetation) and labelled "derived land cover"; `worldFactsAt.landCover` at the frame's edge equals the plate's class | B-COVER; the audience fixtures |
+| T-V13-63 | **the DM always wins** (F3; J-V13.129): a `biome`, `soil`, `landCover` or `current` override survives a `regenerate` of every stage, a `physicsPass` of depth `rederive`, a relief edit's re-march and a sea-level change, and its neighbours derive against it (the march's parcel reads the painted current's coast; W5's classification stops at the painted biome's edge); a `paintLayer` under `happened` and a `disturb` under `alwaysSo` are refused; a disturbance survives every reroll and physics pass, its cells recovering by the recovery row at every later week; a release with `keepHistory` leaves a trace the view draws and re-derives the cells, without it removes the override; a `regenerate` on any stage over a box changes nothing outside the box and the stage set run equals the closure | the override fixtures; B-COVER |
+| T-V13-66 | **the physics pass** (F3; J-V13.124): on a fork, `rederive` over a region re-derives exactly the cascade's steps from 1b over the region with every override held and the canonical document byte-identical until `commitFork`; `release` re-derives the released overrides' cells; `weather` appends one `weather` op baked once, whose bake `commitFork` carries (the op's chunks present in the canonical document after the commit and no formation code run at the commit — a call-count assertion); a scope covering a placed frame's interior is clipped with `W_PHYSICS_CLIPPED` and the frame's model digest and its extent + margin + band are byte-identical after the commit; a free-standing site's footprint likewise; every `Disturbance` survives; a pass whose cascade would contradict a dossier fact raises the conflict list before the commit; on a host-bound world the pass's changes arrive as `physicalChange` offers and never as writes; the pass's dry run reports its band crossings | the physics fixtures; the mock host |
+| T-V13-67 | **sail routing** (F4; J-V13.125): on the sailing fixture the `sail` leg's effort with the prevailing wind and current is 3–7 × smaller than against them (the historical ratio), the return course differs from the outbound where the fixture's coast admits it, the oared leg's ratio is under 1.5 and it never steps beyond `maxDaysFromShore`; on a standalone world the month set's closed quarter multiplies by its risk, never severs, and no effort offered to the mock host carries it; every effort is byte-identical across runs and platforms (no weather draw: a lint over `@plat/world/routes` finds no stream); the canon's water metres and `TravelEdge` are byte-identical before and after sail routing lands (the directional efforts and their mean sent in `routeFacts` alone, behind the mock host's switch; J393); a strait op re-derives the legs crossing it with `W_SAIL_LEG_CHANGED` and the dry run's `timeDelta`; a lens's sea column draws along the host's lane at the host's leg time before adoption and at the adopted direction's after (the mock host adopting) | the sailing fixture; the mock host |
+| T-V13-69 | **the surface's semantics** (F5, F6): every option of `world.presets` has a `random`, `set` and `locked` state; `Recipe.world.choices` holds the user's choices with their `random` sentinels and never a rolled value (a schema lint); a regeneration with one choice changed re-runs from the option's stage and no earlier (the log assertion) and re-reads the choices, never the rolled facts (a rolled latitude box does not pin the next run); a locked option survives "Random all"; a targeted reroll of W5 over a region changes no cell outside it; an inclusion chip becomes a `biome` row with its amount; the derived chips equal the included settlements' rows; a conflict shows before the run commits; the nothing-hidden rule is V09's (T-V9-12's world rows); the verification report lists every row | the dialog fixtures; the dossier-set fixture |
+| T-V13-70 | **the budgets `WORLD-16` – `WORLD-20` and `WORLD-3`'s best-form bar** at p95 over five seeds per rung, nightly (`WORLD-16`'s preview measured both without and with a formation knob's change; `WORLD-18`'s legs over (cell, heading) states), with the formation op's log-log slope ≤ 1.15 over the formation grid and the march's ≤ 1.15 over the coarse grid; `WORLD-5` at the line with the fallback declared | §12.1's timing phase |
+| T-V13-71 | **the cover cache's horizon and the plate's rebuild:** after 600 weekly advances on B-COVER the plates older than 520 weeks are one per 13 weeks, a pinned one survives, a rewind drops the later ones, a dropped cache rebuilds to byte-identical plates with `W_COVER_PLATE_GAP` raised only during the rebuild, the store stays within `WORLD-17`, the model and records digests are byte-identical with the cache full, empty or dropped | B-COVER |
+| T-V13-72 | **the vocabulary and the single spellings:** a lint over the volumes' new texts and `@plat/world` finds `biome` never used for a cover class and `land cover` never for a climate class, `plate` never for a crust block, no `erode` op, the recipe-op refusal spelled `refuse.world.recipeOp` alone, and every `Landform.kind`, `Disturbance.kind`, `Override.layer` and `ConflictChoice` in its one list | a lint over the texts and the packages |
 
 ### 7.5 The report codes (§5.4's form; BCR-V13-18)
 
@@ -77022,7 +78406,18 @@ in `fixtures/world/`.
 | `W_CASCADE_TRUNCATED` | warning | the cascade (a work cut) | the step, the count |
 | `W_IMPORT_LOSS`, `W_IMPORT_REPAIRED` | warning | the adapter | the key or record, what was done |
 | `W_MIGRATE_NO_CARVE` | warning | load | the document |
-| `refuse.world.recipeOp`, `refuse.world.tier`, `refuse.place.fit`, `refuse.place.worldRef`, `refuse.charter.dossier`, `refuse.surface.date`, `refuse.import.version`, `refuse.import.key`, `refuse.import.extent`, `refuse.import.unit`, `refuse.place.hostLocked`, `refuse.world.hostSeats`, `refuse.world.hostRoute`, `refuse.world.advancing`, `refuse.world.hostRequires`, `refuse.world.hostPolitical` | refusal: a §7.1 outcome key rendered by V09's catalogue, never a `ReportCode` (C13-53) | the dry run, the adapter | the op, the rung, the frame and world, the dossier fact and the nearest lawful origin, the date, the version, the key |
+| `W_FORMATION_VERSION` | warning (informative) | load of a world whose formation payload was baked under an older `formation.version` | the baked and the library's versions; the payload is read, never re-run |
+| `W_FORMATION_RELICT` | warning | the formation op's bake | a relict belt worn below 200 m, kept as a `suture` without a range label |
+| `W_REQUIREMENT_UNMET` | warning | the verification report (`WORLD_SOLVE`) | the requirement, its status and the offer (a larger world, a wider latitude box, more relief, paint, none) |
+| `W_SOLVER_BACKSTEP` | warning | W3's back-step (`WORLD_SOLVE`) | the requirement, the cause chosen, the correction's op index and its change list |
+| `W_SOLVER_PAINTED` | warning (the DM view's "not explained by physics") | the best form's last resort | the override, its extent and the row it serves |
+| `W_MONSOON_CONTEXT` | warning | W3 on a realm- or province-rung world asked for a monsoon with no `worldContext.monsoon` | the inclusion; the knob offered |
+| `W_PHYSICS_CLIPPED` | warning | `physicsPass` | the placed frames and sites whose interiors the scope was clipped around |
+| `W_SAIL_LEG_CHANGED` | warning | a strait or relief edit's dry run, a climate adjust | the sailing legs whose efforts moved, before and after, by vessel, month and direction |
+| `W_DOSSIER_PENDING` | warning | `decide` with `updateDossier`, until the host's `dossierUpdated` | the settlement, the field, the kind, the request |
+| `W_COVER_PLATE_GAP` | warning | the cover fold's scrub, while a dropped cache rebuilds | the weeks being rebuilt |
+| `W_WEATHER_STALE` | warning | W1 at a `weather` op whose input ground moved (an earlier op rerolled or edited) | the op, the hash it was baked over, the re-bake offered (`rebake`) |
+| `refuse.world.recipeOp` (the one spelling: an unknown op, a `weather` op of 0 years), `refuse.world.tier`, `refuse.place.fit`, `refuse.place.worldRef`, `refuse.charter.dossier`, `refuse.surface.date`, `refuse.import.version`, `refuse.import.key`, `refuse.import.extent`, `refuse.import.unit`, `refuse.place.hostLocked`, `refuse.world.hostSeats`, `refuse.world.hostRoute`, `refuse.world.advancing`, `refuse.world.hostRequires`, `refuse.world.hostPolitical`, `refuse.world.requirements`, `refuse.world.scenarioRung`, `refuse.world.formationPayload`, `refuse.world.verb`, `refuse.world.layerCells`, `refuse.dossier.pending`, `refuse.place.worldRung`, `refuse.place.worldBearing` | refusal: a §7.1 outcome key rendered by V09's catalogue, never a `ReportCode` (C13-53) | the dry run, the adapter, W0, load | the op, the rung, the frame and world, the dossier fact and the nearest lawful origin, the date, the version, the key, the contradicting pair, the scenario and rung, the payload's hash, the verb, the layer, the pending request |
 | `refuse.lens.invented`, `refuse.lens.audience` | refusal: a query outcome rendered by V09's catalogue, never a `ReportCode` | `lensAt`, the lens picker | the lens, the element, the reason |
 | `E_WORLD_SINK`, `E_GW_CAP` | bug abort (§5.1 (8)) | W4, the groundwater step | the cell |
 
@@ -77041,7 +78436,7 @@ campaign and the host's seats are the host-facing half of this volume and M-SF l
 (BCR-V13-19). The frame-side water state (surfaces, the groundwater step, the water class test, the two verbs and the
 cascade) has no host dependency and is its own milestone **M-W0h**, starting after M4 beside M5 and exiting before
 M6-U's U3b, so V04 and V14 read one function from their first milestone (SW-14; J-V13.62); until it lands V04's readers
-keep the base's nearest-body rule (BCR-V13-21). Order inside each milestone is the spine's: W0 → W9, then P1 → P5. Effort is in person-weeks (pw) on §16's
+keep the base's nearest-body rule (BCR-V13-21). Order inside each milestone is the spine's: W0 → W9 (the formation op inside W1's first run; the cover fold at the lens fold), then P1 → P5; the solver's duties ride each stage (V13 §3.0). Effort is in person-weeks (pw) on §16's
 scale (one engineer, the reference hardware); estimates are PLAUSIBLE until the spikes report.
 
 ### 8.2 Milestones
@@ -77055,12 +78450,23 @@ scale (one engineer, the reference hardware); estimates are PLAUSIBLE until the 
 | **M-W3 labels, exports, the adapter** (the brief's W3) | W9 Labels; the world's label placement; the four exporters and the frame's export additions (BCR-V13-12); the map-import adapter with its schema file; the picture exports' world rows; the retirement of the host's reference fork (the host's track, V13 §8.5) | T-V13-11, 18, 19, 26, 28, 40, 45; bar 7's world half | 6 pw |
 | **M-W5 the lenses** (after M-W2, beside M-W3; before M-W4, whose gate covers it) | the lens mechanism (`LensLayer`, the regime banner, the four classes and the refusals, the vocabulary, collision and polarity tables, the audience filter, `lensAt`, `lensWhy`, the plate store and the scrub; V13 §5.8); the port's `lensWindow` and the events' lens tags; the lenses in the ruled order, each a step — plague; the sway (territory) and patrols (M-W2's layers reconciled to the record); trade and populations; religion (with V14's devotion cards and their offers on the DM's map feed, V13 §3.11.6); prosperity and alignment (V13 §5.9) | T-V13-47 – T-V13-56 | 7 pw |
 | **M-W4 hardening** | the budgets' register rows measured (T-V13-17, 20), the memory test, the low-tier refusal, the migration of older frames at scale, the clean-room lint over the three packages | every T-V13 row green in the nightly tier | 3 pw |
+| **M-W6 the requirement solver, the surface and the dossier seam** (after M-W2, beside M-W3; before M-W4, whose gate covers it; F5–F9) | `Requirement`, `Conflict`, `Decision`, `VerificationReport`, `SolveResult` and `solve` (`@plat/world/solve`); every stage's satisfy and verify duties and the one bounded back-step (V13 §3.0); W0's choices, requirements and planned sites from `CampaignFacts`, the edge charters as locked rows; the preview as the coarse run; `placeFrame`'s best form with the whole-map search and organic correction; the conflict list generalising `W_EDIT_DOSSIER` with its seven choices, `requestDossierUpdate` / `dossierUpdated`, presets and remembered decisions; `setRequirements`, `decide`; the world dialog's semantics (V13 §4.2 T1; V09 §4.22) and T6's **Best placement**; the port's `campaignFacts`, `dossierUpdated` and `place` (H31, H32); `edgeCharter`, `renderAt` with its `atlas` layer set and label boxes, `placeFrame`'s rung-general form, `requestCharter`'s world subject with `WorldCharter`, `solve.registerEvaluator` and `viewFacts` (the readings owed to V15, file r items 1006–1012, so V15's M-ATLAS-A, -B and -C can start — M-ATLAS-C's facts those of the lenses M-W5 has landed) | T-V13-64, 65, 68, 69; T-V13-7's and T-V13-37's new clauses | 5 pw |
+| **M-W7 formation and the living-physics upgrade** (after M-W6; gated by SP-W9 and SP-W10; F1, F2) | the formation op (V13 §3.2.1) with `world.formation` and `world.soil`, `bedrock`, `soil`, `surfaceAge`, the `Landform`s and their names and labels, the baked payload and the share code's hash; W3 monthly with the belts' shift, the thermal term and the world context, the maritime fraction, the currents per basin and the coastal effect; W5's classification (`world.koppen`, `world.pnv`) with the matrix kept for the import; the climate dirty set (step 1b) and `WORLD-19`; the `monthly`, `currents`, `soil`, `bedrock` and `landforms` layers; `regenerate` on any stage and of the formation op; J-V13.41 and J-V13.42 reversed in the registry (BCR-V13-43's rows) | T-V13-57, 58, 59, 60, 61, 70, 72 | 5 pw |
+| **M-W8 ecology and the physics pass** (after M-W7; F2, F3) | `WORLD_COVER`, `CoverPlate`, the cover cache (BCR-V13-41), `world.cover`, `foldCover`, `landCoverAt`, the `landCover` layer with its audience filter and scrub (V13 §5.8 (9)), `worldFactsAt.landCover`, the `physicalChange` land-cover offer (H34); `paintLayer`, `disturb`, `Override`, `Disturbance`; `physicsPass` at the depths `rederive` and `release` on the fork; then, as its own last step, the `weather` depth with the `weather` op (V13 §3.2.1 (11)) | T-V13-62, 63, 66, 71 | 5 pw |
+| **M-W9 sail routing** (after M-W7, beside M-W8; F4) | `world.sailing`, `SailingLeg`, W7's sail routing (V13 §3.8 (12)), `WorldRoute.sailing`, the `routes` layer's month slider, `routeFacts`' directional offer and the symmetric mean (H33), the strait edit's re-derivation with its crossings, the lens rule (V13 §5.8 (5)) | T-V13-67 | 2.5 pw |
+| **ruins by settlement age** (F3) | the base's own milestone that holds II.7.6's buried old town: the age strata at generation (file r items 994–998; T113-8) — no world milestone | T113-8 | ≈ 1 pw, the base's |
 
-The volume states no total of its own (§16's rule; C13-45): M-W0 – M-W5 is priced as one staged-milestone row in §16
-with the estimate range 37–45 pw, each mechanism widening a named §16 line (BCR-V13-19) — O1 terrain and hydrology:
-the lift, the groundwater step, the surfaces, the position-keyed lattice; O9: the verbs, the cascade, the fork, the
-placement edits; O11: the four exporters, the adapter, the port's second door; O12: the world layers, the glyph and the lenses;
-the rig: B-WORLD and the eighteen drift tests; V11's content line: the fourteen tables' rows and the two climate rows.
+The volume states no total of its own (§16's rule; C13-45): M-W0 – M-W9 is priced as one staged-milestone row in §16
+with the estimate range 51–66 pw — 37–45 for M-W0 – M-W5 as before, 14–21 for M-W6 – M-W9 (the solver, the surface
+and the conflict list 4–6; formation and the living-physics upgrade 4–6; ecology and the physics pass 4–6; sail
+routing 2–3; BCR-V13-46) —, each mechanism widening a named §16 line (BCR-V13-19) — O1 terrain and hydrology: the
+lift, the groundwater step, the surfaces, the position-keyed lattice, the formation op and the monthly climate; O9:
+the verbs, the cascade, the fork, the placement edits, the solver, the conflict list and the physics pass; O11: the
+four exporters, the adapter, the port's second door, the dossier request and the sailing offer; O12: the world
+layers, the glyph, the lenses and the cover layer; the rig: B-WORLD, B-FORM, B-CLIM, B-COVER and the drift tests;
+V11's content line: the twenty-two tables' rows (the eight new tables among them) and the two climate rows. The order
+by value (the spine's §15): ruins by age and the rain-shadow fix first; the surface, the solver and the conflict list;
+the climate upgrade; formation and erosion; ecology and the physics pass; sail routing; the weather depth last.
 The frame-side water state alone (the part V04 and V14 wait on) is its own milestone M-W0h (≈ 4 pw) after M4, built before M-W1 (SW-14).
 
 ### 8.3 Order inside M-W0h and M-W1 (steps 1–4 are M-W0h's, SW-14)
@@ -77088,6 +78494,8 @@ The frame-side water state alone (the part V04 and V14 wait on) is its own miles
 | the blend band cannot meet a frame whose edge relief exceeds the world's | — (a design fact: `blendBandMaxM`) | — | the residual is reported as cost; the DM takes an offer or `worldWins` |
 | the host's schedule slips past M-W1 | — | — | the port's host side is mocked (T-V13-37's mock host); the standalone world ships without the host's seats |
 | the canon over budget at the continent rung | SP-W8: the coarse flood, the refined crossings and the water and sites slots on B-WORLD-lite, five seeds | ≤ 2 s p95 (`WORLD-12`) | the crossings refined only for pairs the host asks; the water slot's K reduced to the host's minimum |
+| the formation op over budget, or its relief unconvincing, at the continent rung (M-W7's gate) | **SP-W9 (SP-FORM):** the five scenarios × five seeds on the formation grid at the three rungs — the bake's time and working set; the stats row (the land share within the template's band, the Hack exponent 0.5–0.6, the bifurcation ratio 3–5, the highest crest per scenario inside its profile's `heightM` band, the mean land height 500–1 200 m); a visual gallery of the baked reliefs, hillshaded with their landform outlines, judged by eye against each scenario's intent by the session and shown to the owner | ≤ `formationMs` p95 (400 / 1 300 / 2 800 ms); ≤ 18 MB working set at the continent rung; the stats inside their bands on every seed; the gallery judged "reads as its scenario" on four of five seeds per scenario | `erosion.iterations` 5 at the continent rung (−400 ms); the formation grid at 8 × 8 (the coarse grid: −75 % of the cost, the noise op carrying the detail); a scenario that fails its gallery kept as a row marked experimental, off the dialog's basic layer |
+| the monthly climate and the currents over budget, or the whole march too slow for a live brush (M-W7's gate) | **SP-W10 (SP-CLIM):** W3 monthly with the twelve basin solves over B-WORLD-lite at the three rungs; the whole march re-run on a relief edit; B-CLIM's rain shadow and desert coast against their analytic answers | W3 ≤ 75 / 300 / 680 ms p95; the re-march ≤ 0.2 / 0.3 / 0.5 s (`WORLD-19`); the rain shadow within 20 % of its analytic depletion (1 − e^(−H ÷ H_w), H_w 2.25 km; the windward-to-lee ratio in 4–10) and the upwelling coast under 250 mm/yr | the currents solved annually (one solve, −90 %) with the monthly wind stress read as a scale; the re-march deferred to the brush's release (the live drag re-marches the edited band only, the whole at release) |
 
 ### 8.5 The host's parallel track (stated, not designed here)
 
@@ -77142,6 +78550,11 @@ simulated state):
 | H28 | with M-W5's religion step | the faith asks: the deity key and the strongest carrier's source on each faith-front mint and each conversion receipt, and a mint retired when its carrier ends; a share history, or a dated share-change receipt, per settlement pantheon; its faith prescription's rows (presser, target, weight) and its moral institutions' abolition and founding news with the presser named; its own command adopting a DM-placed holy or hidden cult site (V14 §2.2's `devotion`; J384 (10)) | H23; V14 §11 Q2 (its site record) |
 | H29 | with M-W5's prosperity and alignment step | the prosperity asks: a band-change receipt (settlement, from, to, writer, week), a boom's sustained rungs included; a distance term in its resettlement donor pool, or the honest word "the realm's richest" in its own text; the founding band frozen for town drawing (its town layout and district wealth word re-read the live band) | H23 |
 | H30 | with M-W5's prosperity and alignment step | the alignment asks: a per-advance alignment reading in the lens window (both axes and their bands by its own law, the aggression chip word, the top constituent causes), published as its faith projection is; its moral drift's compounding decay, and its freeze outside belief worlds, fixed if the host so chooses (a defect its alignment read found; the lenses replay nothing, they scrub plates, V13 §5.8 (8)); a week on each tolerance offset's causes | H23 |
+| H31 | with M-W6 | **"based off of my settlements" and the best placement** (F7): `campaignFacts` sent per campaign — each settlement's tier, population, terrain word, route word, culture, resources and phase (draft or canonized, with its re-roll warning), and its regional graph's relations in the host's own words (V13 §3.11.6; a coast's side, a lake and a river's inflow are never asked: the settlement's own document holds them) — as a windowed replace re-sent on a dossier change; its one-button placer re-pointed at `place(world, { hostKey; best: true })`, its mismatch popup's three classes becoming the conflict list's choices (its move-or-place `moveTown` or an offer; its rebuild-for-the-ground `updateDossier` under `alwaysSo`; its paint-the-realm, reported unavailable today, `fitWorld`), never a second scorer; its instant world's terrain-blind scatter replaced by a run with `include` set, so a generated campaign's seats land where their words say | M-W6; H4; H13 |
+| H32 | with M-W6 | **the dossier update as the host's own act** (F8): `requestDossierUpdate` received as a guard-and-override entry on its world-fact card — the user's approval given in the map recorded on the entry, the change applied by the host's own command in the kind asked (a draft's plain edit under `alwaysSo` — the re-roll under its same-seed law that its own warning names; a canonized settlement's decree at the next advance under `landChanged`, or its retcon path under `alwaysSo` where it admits one) — its settlement's phase and its re-roll warning sent in `campaignFacts`, so the conflict list's preview says what the host will do — and `dossierUpdated` sent with `applied` and its sequence; its own undo retracting with `applied: false`; its exposure words (whether its economy or food feels the change) sent with the confirmation for the conflict list's preview | M-W6; H4; H15 |
+| H33 | with M-W9 | **directional, seasonal sea legs** (F4): `routeFacts`' per-edge sailing efforts by vessel, month and direction read behind its own switch into its sea-lane law — a lane's cost per direction and month where it adopts them, its own lanes, unchanged, where it does not (the canon's water metres never move, J393) — the offered efforts carrying wind and current only, its storm season its own and applied once, in its own arithmetic; its lane pair keyed by direction where adopted; the lenses' sea links then reading the adopted leg (V13 §5.8 (5)) | M-W9; H4; H11 |
+| H34 | with M-W8 | **land cover and hazards as readings** (F2, F3): `physicalChange`'s land-cover share per seat catchment and `SettlementPhysical`'s soil, stone, cover shares and hazard readings shown beside its dossier as the map's derivation (labelled so), never written into its biome, terrain word or genesis facts; its agriculture or calamity exposure may read the fertility and the hazard behind its own switches (a declared shift); a razing, a plague's depopulation or an abandonment sent as a dated event with the seat's population after it, so the cover fold withdraws the fields; a volcano the DM marks active and an eruption the DM stamps arriving as dated events it may read, never as strikes it must roll | M-W8; H4; H9; H13 |
+| H35 | with M-ATLAS-A (the record and the resolver), M-ATLAS-B (the owner of a continued world), the gallery (the owner's, V15 §11 Q2) | **the atlas as a per-user record** (F15; V15 §2.11, §3.4 (7), §5.5; the row V15 §10.2 asks, appended by file r item 1015): a per-user atlas record beside the campaign's world records (snapshot, backups, quota, lifecycle) and a resolver reference for a world document of any campaign the user may read, read-only; which campaign owns a world generated from an atlas's continuation request (the dialog's generate in host mode); its share and access rules for an atlas and for a member's imagery across campaigns — each optional, dark by default, with its tier line and degraded arm (absent ⇒ the atlas a file through the share sheet's Download; a continuation in host mode refused, `refuse.atlas.hostWorld`) | M-ATLAS-A; H4; H10 |
 
 Phases 2–3 are the map's (the import on request, never on load; a legacy campaign's world view with no write to its
 simulated state, its overlays converted through its stored capture and the import's transform). Its schedule is the
@@ -77206,8 +78619,8 @@ owner's question (V13 §11 Q2).
 | J-V13.62 (SW-14) | chose a milestone M-W0h for the frame-side water state after M4 beside M5 and before M6-U, over keeping it inside M-W1 after M-SF, because V04 and V14 read the classifier from their first milestone |
 | J-V13.50 | chose dossier facts as hard placement constraints (the `dossier` term at weight ∞; `refuse.charter.dossier`) over a precedence rule that lets the world amend a dossier fact because item 20 (h) makes the dossier the one source of truth and a placement a map fact; the host moves its placement or amends its dossier — vetoable, no owner question needed (C13-08) |
 | J-V13.40 | rejected a re-sampled cell graph for the world (the reference's two-graph mesh) in favour of rasters and a graph because every stage's law is then linear in cells and the raster is what the heightmap and the DEM edits need (C13-50) |
-| J-V13.41 | rejected tectonics because the recipe's ranges and troughs give the authored control the owner asked for; a tectonic pass may later be one op emitting them |
-| J-V13.42 | rejected erosion over time (the `erode` op reserved, shipped absent) because causal necessity is not shown and a non-deterministic-looking valley would need its own tests |
+| J-V13.41 | rejected tectonics because the recipe's ranges and troughs give the authored control the owner asked for; a tectonic pass may later be one op emitting them — **reversed by F1** (file r item 926; J-V13.107): the formation op is that one op, run once at the recipe's head and baked (V13 §3.2.1); the authored path stays, as the reason said, the templates' |
+| J-V13.42 | rejected erosion over time (the `erode` op reserved, shipped absent) because causal necessity is not shown and a non-deterministic-looking valley would need its own tests — **reversed by F1** (file r item 926; J-V13.108): the owner's rule shows the necessity, the valleys are the steady-state fixed point's and deterministic, their tests T-V13-58's bands; the `erode` op is retired, erosion running in the formation op and the `weather` op alone |
 | J-V13.43 | rejected fluid dynamics because every reader (flood, class, route) is served by a level set with barriers |
 | J-V13.44 | rejected a sphere now because the campaign's extent is a bounded region and the latitude box gives climate its one spherical input |
 | J-V13.45 | rejected an economy or military simulation in the map module because they are the host's (item 131 (b)); the map materializes their spatial footprint only |
@@ -77257,11 +78670,42 @@ owner's question (V13 §11 Q2).
 | J-V13.104 | chose **the host's vocabulary as data and one polarity** (V13 §5.8 (6)) — the host's band, phase, chip, tier, standing, goods, class, cause, arc and act words in the adapter folder's tables, one per lens, drawn as sent, this volume's own strings only its derivation labels, still reasons and notes; every host axis turned by the polarity table to one convention, lawful, malicious and lenient high, the table naming each host axis's own sign — over this volume's own words for the host's bands (a second vocabulary drifting from the host's, and the host's words entering the volumes) or each axis in its host polarity (the host's own axes disagree in sign, so one fill would mean opposite things on two lenses) |
 | J-V13.105 | chose **every host fact the lens design read either drawn or listed under its lens as not drawn, with its reason** — drawn: the pilgrim catchment as the host's own set in the catchment grammar, rite adoption and the imposed rite, relief and credit, the finite stocks, throughput and entrepôt records and the patrons' quadrant posture, each only as the host sends it; not drawn in this pass: town-map rows (the settlement frame's), a verdict per intermediary settlement or per traveller the host does not send, a fact another lens already draws (drawn once), population pressure, the founding ground and the settlement bound (values the host does not hold while its demographics lane is dark), the income mix (a card's rows, not a mark), the war lane's plans (not yet asked of the host) and the seizures awaiting their host rows (H26) (V13 §5.9) — over silent omission (an omission cannot be told from an oversight) or each recomputed on the map side (the four classes forbid it, V13 §5.8 (4)) |
 | J-V13.106 | chose **the additive canon built over the adopted canon's inputs** (J388; V13 §3.11.6) — on a campaign born canonized, the adopted canon with only the seats added since on a founding event (a placement or a satellite's graduation, never an imported row), their seat territories and the water candidates they move re-derived, every other row as that canon has it, its causes the additions alone and what the host adopted read from those causes, never from its log head; the host carrying its own versions, slots, sub-records and the prior seats' ports and circles forward (H22); each travel-band crossing it causes reported with `keep` alone because the founding is the host's — over the canon at the request's log head (it would carry every unadopted geometry shift, lay version, cost law and removal onto the path the entitlement never gates, the DM's premium act made free) and over refusing the additive canon while any other change is pending (one pending lay version would then leave every later founding unmapped until the DM's premium re-canonize, the outcome J388 rules out) |
+| J-V13.107 | chose **the formation op — tectonics run once as the recipe's first op and baked** (F1; file r item 926; the spine's §2; reversing J-V13.41, whose reason stays as the authored path) — `scenario` a row of `world.formation` chosen like a template, the op emitting crust blocks, uplift profiles and the relict belts on its own grid and baking the formation-grid DEM, `bedrock`, `soil`, `surfaceAge` and the `Landform`s as content-hashed chunks that the recipe's later ops, the DM's brushes and the two verbs edit as any other field — over a tectonic pass run on every regeneration (its cost would land on every reroll and its output drift with every code change, breaking T-V13-1's byte-identity across versions) and over the authored path alone (the owner's rule names tectonics and erosion as what makes a world read as a world; the templates stay for authored control, the scenarios join them as rows); the phantom margin's seeds, velocities and classes are deleted with the block set and a later neighbour continues the landforms that reach the edge as fixed profiles (file r item 961 step 2) — the science note's §1.3 keeps the margin for neighbours, a departure taken so that no formation state survives the bake (F1) |
+| J-V13.108 | chose **erosion inside the formation op's steady-state fixed point and the `weather` op, no `erode` op** (F1; reversing J-V13.42: the necessity shown by the owner's rule, the valleys deterministic and tested by T-V13-58's bands) — the fixed point solving the stream-power balance over the lifted hydro core with its stack at the formation grid, every valley a function of the uplift and the base level and never of a time step; the `weather` op the one later erosion, a bounded number of implicit steps baked once on the fork and carried by `commitFork` — over a time-stepped erosion model (its result depends on the step and the order; the fixed point is what time-stepping converges to, at a tenth of the cost — the science note's shortcut) and over an `erode` brush (a brush that re-runs a law over a region is the physics pass, V13 §3.14.1) |
+| J-V13.109 | chose **the formation grid at `formationRatio` 4 (1 / 2 / 4 km: 64 k / 256 k / 576 k cells), its own grid between the fine and the coarse** — the fixed point, the talus, the glacial carve and the soils solved there and expanded to the fine grid under the position-keyed lattice's detail, the climate staying on the 8 × 8 coarse grid — and **the realm rung a regional tectonic context** (one or two boundaries and the inherited belts; the province rung one regional feature; the block model at the continent rung alone; the science note's first finding) — over the fine grid (the fixed point over 3.7 M cells breaks `formationMs` and the memory line at the continent rung) or the coarse grid (ranges and valleys at 4 km read as blobs at the realm rung; SP-W9's gallery judges), and over a block model at every rung (a 320 km province holds no block boundary; its relief is one feature's) |
+| J-V13.110 | chose **the steady-state stream-power fixed point** (the science note's second finding) as the formation op's one erosion solve — the lifted hydro core's flood, D8 and accumulation with a new `stack` giving the drainage, the balance uplift = erosion solved by `erosion.iterations` sweeps up the stack, converged or taken at the last iteration and never iterated further (T-V13-58), the talus relaxation, the glacial carve above the equilibrium line and the sea-level stands as later terms — over a transient history (D-V13.10 if B-FORM's gallery asks for one), because the steady state is what the owner's "erosion over time" produces once the time is long, and its determinism is the hydro core's |
+| J-V13.111 | chose **the baked payload riding the op** (the state note's finding (ii)) — the formation op's outputs stored as content-hashed `fields` chunks the op references, the recipe replaying W1–W9 over the bake; `formation.version` pinning the bake so a newer library reads it and never re-runs it (`W_FORMATION_VERSION`, informative); the share code carrying the chunk hashes and a receiver re-fetching, never re-running (`refuse.world.formationPayload` when withheld); the block model's state deleted at the bake — over re-running the op on load or replay (every code change would move every world's digest, and a share code would need the formation code's version to replay) and over keeping the block state (nothing reads it after the bake; T-V13-57 proves it absent) |
+| J-V13.112 | chose **the monthly march** (F2; the science note's §4) — twelve values per coarse cell of temperature and precipitation from the belts' seasonal shift with the convergence zone, the thermal term over large land, the maritime fraction by upwind fetch and the wind march run once per month, the first harmonic's amplitude and phase stored beside the twelve — and **the monsoon a world-context knob** (`worldContext.monsoon`; the science note's fourth finding) below the continent rung, where no land mass inside the box can raise one (`W_MONSOON_CONTEXT`) — over the annual two-value climate (a rain shadow, a dry-summer coast, a monsoon and a growing season are seasonal facts, and the classification needs the months) and over deriving a monsoon from a realm's own land (the thermal term needs a continent) |
+| J-V13.113 | chose **the currents by a basin gyre solve** — over each connected ocean basin (`basin`) the wind-stress curl's streamfunction solved by `currents.cycles` multigrid cycles per month, the western intensification the solve's own, the coastal anomaly (`sstAnomalyDeciC`) from the current's direction along the coast feeding the march's pickup and the classification's coast term, every basin re-solved on a relief or water edit (J393) — over a table of currents by latitude band (an enclosed sea and a continent's western coast would read alike; the owner's "desert coast" needs the solve) and over an ocean model (the gyre's shape is what every reader needs; the science note's §4.4) |
+| J-V13.114 | chose **the relief-edit dirty set as the whole monthly march on the coarse grid** (the science note's third finding; the state note's finding (iii)) — every relief or water edit, however small, re-running the twelve marches over the whole coarse grid and every basin's solve, then W4 and W5 over the climate-changed cells in the stage order, within `WORLD-19` (J393: no threshold) — over a local dirty disc (a rain shadow is not local: a raised range dries the land hundreds of kilometres downwind; the local disc left the lee wet, the rain-shadow bug the spine names first) and over a size threshold below which the march would not re-run (a sequence of small edits would then diverge from one large one, and replay determinism with it; the whole march is cheap, the science note's §11) |
+| J-V13.115 | chose **the classification into a published climate-class scheme and a potential-vegetation table** (`world.koppen`, `world.pnv`) as W5's biome, the two-axis matrix kept as the annual import's path — over the matrix for every world (it cannot tell a dry-winter subtropical from a dry-summer one, the difference between a monsoon forest and a maquis) and over a vegetation model (the table is data; a model would be a second law for a reader the lenses already serve) |
+| J-V13.116 | chose **land cover as its own derived layer in a cover cache outside every digest, read by no stage** (the state note's finding (i)) — `CoverPlate`s folded by `WORLD_COVER` into `Document.coverPlates` (BCR-V13-41) beside the lens plates, filtered by audience, dropped and rebuilt at will; never a lens row (a lens draws what the host sent; the cover is what the map derives) and never a world stage (W5's biome is potential and timeless, read by siting and the dossier seam; the cover is dated, read by the view, `worldFactsAt` and the `physicalChange` offer) — over a lens (the host sends no land cover and would have to be asked for one) and over a W-stage (every seat territory, route cost and charter would then move with a razing) |
+| J-V13.117 | chose **the pipeline as the one requirement solver** (F9; the spine's §4.2) — `Requirement`, `Conflict`, `Decision` and `VerificationReport` in `Recipe.world`; each stage satisfying the rows it is best placed to satisfy as it builds (W0 the box and the extent, W1 the relief and the coasts, W3 the climate's causes, W5 the classes, W6–W8 the settlement rows) and verifying as it produces; `solve(requirements, state, goal)` in `@plat/world/solve` the driver over the same stages, never a stage itself — over a separate solver program before the pipeline (two engines deciding the same facts drift, and a solver that does not run the physics cannot promise the physics will agree) |
+| J-V13.118 | chose **"Random all" with settlements included as the same run** — every option random, the included settlements' rows the only constraints, so one click always fits the campaign —, **the preview as the coarse run** (`solve(…, { rung: 'coarse' })`: W0–W5 on the coarse grid, ≤ 300 ms at the realm rung when no formation knob changed, the bake cached and shared with Generate) and **the verification report listing every row** with its status and reason — over a preview by a cheaper proxy (a thumbnail that differs from the world it promises is the "preview lied" bug) and over a report of the unmet rows alone (the met rows' reasons are what the DM reads to trust the world) |
+| J-V13.119 | chose **one bounded back-step, W3 → W1, at the coarse rung** (`solver.maxBackSteps` 3) — its candidate causes ranked by a deterministic score in `solver.causes`'s order (a range upwind, a basin without outlet, a cold-current coast, a narrowed sea, a wider latitude box, a wetness shift, a land-share shift), every correction **an ordinary recipe op with `origin: 'solver'`** naming the row it serves and previewed before the commit, the ladder's ranks deciding what may move — over an unbounded loop (it never terminates on a contradiction) and over corrections as hidden state (an op is undoable, inspectable and replayed; a hidden correction is the "world changed under me" bug) |
+| J-V13.120 | chose **the planned sites from `campaignFacts` and `placeFrame`'s best form** (F7; the spine's §5; the state note's finding (iv)) — W0 turning each included settlement's words into rows and a planned site, W6 scoring the planned sites under their rows; the best form resuming the placement with the least-change rule, `nearestLawful` widened to the whole map under the settlement's requirements, three offers ordered by cost then distance, an organic correction (`solver.minExtentCells`, `gradeBandCells`, `protectRadiusKm`) only when no cell is lawful and painting (`W_SOLVER_PAINTED`) only when terrain change is forbidden; the host's one-button placer re-pointed at `place(world, { hostKey; best: true })` (H31) — over a second scorer in the host (two scorers disagree, and the host's own, terrain-blind, is the "instant campaign, seats in the wrong biome" bug) and over the 100 km search as it stood (a desert seat 400 km from the nearest desert was unplaceable) |
+| J-V13.121 | chose **the dossier update as a request the host carries out** (F8; the state note's finding (v)) — `requestDossierUpdate` through the port with the kind the user chose (`landChanged` a dated event; `alwaysSo` the host's retcon path under its own guards), the host's own command applying it and `dossierUpdated { applied }` closing the conflict, until which the map shows the dossier unchanged with `W_DOSSIER_PENDING`; the module never writing a dossier field (the base's one-way rule; BCR-V13-45; T-V13-65's lint) — over a map-side write (item 20 (h): the dossier is the one source of truth, and the host's guards, its canonization and its own undo would be bypassed) and over refusing the conflict outright (the owner's rule names "update the dossier" as a choice the user must have) |
+| J-V13.122 | chose **the conflict list generalising `W_EDIT_DOSSIER`** — one warning for every edit, paint, pass or request that would contradict a placed or included settlement's dossier facts, listing every affected settlement with the choices `cancel`, `fitWorld`, `paintAround`, `keepMismatch` and `updateDossier` (and `moveTown` and `changeRequest` where the ladder allows them), the `Decision` recorded with `restsOn` (the hash of the facts it rests on) and reused until those move — and **presets pre-deciding map-side choices only**, never `updateDossier`, which is a user's act on the host's record — over a modal per settlement (a stroke over three frames would ask three times) and over presets that may update a dossier (a preset is applied by anyone; a dossier update is the DM's) |
+| J-V13.123 | chose **the choices stored apart from the rolled facts** (F5; the spine's §6) — `Recipe.world.choices` holding every option of the dialog as `random`, `set` or `locked` with its value where set, the rolled facts living in the ops and the rasters; a regeneration re-reading the choices and never the rolled facts, so a rolled latitude box does not pin the next run; the world generated first (the dialog opens on a world, every option random), every control drawn for every account kind and disabled with its reason, the gate enforced at the one generate action (V13 §11 Q5) — over a wizard before the world (the owner's rule: generated first) and over rolled values written back as choices (the "random stuck" bug: a reroll that keeps yesterday's latitude) |
+| J-V13.124 | chose **the physics pass on the fork with three depths** (F3; the spine's §7.3) — `physicsPass { scope, depth }`: `rederive` re-running the cascade from step 1b with every override held, `release` dropping the named overrides (a trace kept under `keepHistory`), `weather` appending one `weather` op baked once on the fork and carried by `commitFork`; a scope clipped around placed frames and free-standing sites (`W_PHYSICS_CLIPPED`); the dry run reporting the band crossings and the conflict list before the commit; on a host-bound world the changes as `physicalChange` offers — over an in-place pass (a pass that cannot be previewed and abandoned is the "let physics run and lost my town" bug; V13 §4.5's fork is the base's own mechanism) and over an `erode` brush |
+| J-V13.125 | chose **sail routing by direction, month and vessel** (F4; the spine's §8; taking D-V13.3) — `world.sailing`'s polars per vessel kind, the current coupling and the month sets; a `SailingLeg` per (route, vessel, month, direction) derived lazily on the 16 km routing grid from the monthly winds and currents, `WorldRoute.sailing` holding them; the canon's water metres and `TravelEdge` unchanged, the host receiving the directional efforts and their symmetric mean in `routeFacts` behind its own switch (H33; J393); no weather draw — over changing `TravelEdge` (the host's travel law and every lens's sea link read it; V13 §3.11.6's one text) and over a stochastic weather model (an effort that differs between runs breaks T-V13-1 and the host's determinism; a month set's risk multiplies, never severs) |
+| J-V13.126 | chose **ruins by settlement age under V04's depth law, in the base** (F3; the state note's finding (vi)) — II.7.6's buried former settlement gaining an age stratum at generation: a chance by the settlement's age and continuity, a share of the growth-stage-1 districts, a floor at V04's `formerRiseCmPerCentury` × a material factor × the stratum's centuries, capped by `formerRiseMaxCm`, one draw keyed by the town root, the union with the scar burial taking the deepest floor (file r items 994–998; T113-8) — over a second depth law in this volume (one law per fact: V04's `buried` kind already carries the depth and the cellar readers) and over a world-side mechanism (a town's age is the dossier's; the world knows no stratum) |
+| J-V13.127 | chose **the seams owed to V15** (the spine's §14) — `WorldEdgeCharter` the neighbour's present physical ground, never a record (a profile, a rain shadow's lee, the rivers' crossings with their present discharge, the potential vegetation's grade; never a week, an event, a cover class, a plate or a political fact; J393's test), `edgeCharter` emitting it and W0 reading a neighbour's as locked rows; `renderAt(world, week, audience) → RenderedWorld` (tiles at the four stops and the known sets, nothing else); `placeFrame` in its rung-general form (a world document as the frame, bending its parent's ground in a band); `solve(…, 'arrange')` over member placements running no world stage; the lens facts as the atlas reads them — over leaving V15 to read the rasters (an atlas that reads a member's dated facts across a seam makes every member's week every other's) |
+| J-V13.128 | chose **the cover fold from dated host facts** (F2; the state note's finding (i)) — potential vegetation × the included and bound settlements' population, tier and catchment hour, the host's dated events (a razing, a plague's depopulation, an abandonment) and the DM's disturbances × `world.cover`'s succession and recovery rows, folded per host advance and per disturbance into a plate, nothing drawn at random and nothing moving between windows — over the dossier's biome word (a dossier says what a place is called; the cover says what grows there this week) and over a stochastic succession (the plate must re-derive byte-identically from the facts, T-V13-62) |
+| J-V13.129 | chose **the two verbs on every physical layer, and the DM always wins** (F3; the spine's §7.1) — `paintLayer` under `alwaysSo` writing an `Override` (biome, soil, land cover, current; the terrain and water verbs as they stood) that survives every regenerate, physics pass, re-march and sea-level change and that its neighbours derive against; `disturb` under `happened` writing a `Disturbance` that recovers by the recovery row; a release leaving a trace under `keepHistory` — over a per-layer verb set (the base's `verb` is the one grammar at both scales, C13-55) and over overrides the physics may overrule (the owner's rule) |
+| J-V13.130 | chose **the unifications this pass makes** — `WorldRequest.options?` replaced by `requirements` (the state note's finding (ix)); the owner's "region map" read as the province rung, no new size row (finding (viii)); soil fertility inside the `habitability` term, J-V13.51's eight terms kept; `refuse.world.recipeOp` the one spelling of the recipe-op refusal; the `erode` op retired for the `weather` op; `plate` reserved for the lens and cover caches, the crust's unit a `block` — over a second option record, a `region` rung, a ninth siting term, two refusal spellings and two erosion verbs, each a drift T-V13-72's lint now catches |
+| J-V13.131 | chose **the world subject of `requestCharter` and the `WorldCharter`** (the spine's §10.6's preferred path; V15 §3.5 (a); file r items 1007, 1009, 1010) — the world-first order one rung up: P4 only on the parent, the four edge charters, the parent's rasters as the child's coarse ground upsampled as a bake is, the parent's frames as planned sites, the parent's digest moved by the placement alone — over a child generated blind inside its parent and fitted after (the fit bends the parent; the preferred path bends nothing and is coherent by construction) and over copying the parent's fine rasters into the child (a coarse ground refined by the lattice is the one principle every rung already obeys, V13 §3.11.4, §3.2) |
+| J-V13.132 | chose **one registration path for the arrangement's evaluators** (`solve.registerEvaluator`; the spine's §14 (5); V15 §13's F15-5; file r item 1007) — V15 owns its atlas-scale kinds' costs as V14 owns its siting terms (`terms.register`, V13 §3.7), V13 the engine, the ladder, the least-change search and the report — over housing V15's words in V13's tables (V13 would then state what a relation between atlases asks, which is V15's single statement) and over a second solver in V15 (two engines deciding one arrangement drift) |
+| J-V13.133 | chose **`viewFacts` as the relational style's one reading** (the spine's §14 (4); file r items 1007, 1012) — from the plates and the event index at a week, audience-filtered as a lens, absent facts named, class 4 at the reader — over V15 reading `lensAt` per lens (eight readings, each a drawn layer, none a fact set) and over the raw plates (a plate is the mechanism's cache; a reading is its contract) |
+| J-V13.135 | chose **the `landform` requirement kind, and re-matching as `setRequirements` + `regenerate`** (file r items 1007 (a), 1008 (b); C15-16) — a feature asked for by kind, place and extent as one more row the formation op or W1 satisfies with `origin: 'solver'` (the world dialog's landform and water chips; a continuation's accepted reconciling feature, V15 §3.4 (5)), tested by T-V13-64 (i), over a free-text sketch (a row is verified and reported; a sketch is not); and a re-match of a border strip as the existing `setRequirements` and `regenerate` over a box, the former charter kept as provenance, over a field on `regenerate` (two existing edits compose; a new field would be a second re-derive path for T-V13-72's lint to watch) |
+| J-V13.134 | chose **`renderAt` over the `atlas` layer set with the label boxes, landing at M-W6** (the spine's §14 (2), §15's order; file r items 1007, 1011, 1015; J394) — the member's default picture: relief with the land cover's used and disturbed classes over it, water, routes, settlements and labels, the sway's fills and borders, the occupation, debatable and fighting overlays and the event pins, each under the audience's admission; no lens, no diagnostic layer, no DM-only mark for a player audience; the placed boxes beside the tiles; the reading in M-W6 beside `edgeCharter` and `solve`, so V15's M-ATLAS-A follows M-W6 — over the five-layer set of relief, water, routes, settlements and labels alone (the owner's "world map" of F11 must show realms and borders, and a member's picture at its own time includes its fields and scars — J394), over the member's full layer set (a lens is a legended instrument of a world page) and over `renderAt` in M-W3 (the spine orders the atlas after the growth milestones, and one milestone then lands every reading V15 takes) |
 
 **Deferred decisions** (recorded, not taken): D-V13.1 a second resolution rung for the frame's hydro grid under a
 charter (finer than §2.3's) if T-V13-13's edge RMS bar fails on steep charters; D-V13.2 a world-scale `erode` op if
-M-W2's statistics show valleys too shallow for the riverlands template; D-V13.3 a sea-route cost by wind (the climate's
-belts) if the host asks for sailing times; D-V13.4 the sphere, if a campaign ever exceeds the continent rung's extent.
+M-W2's statistics show valleys too shallow for the riverlands template — **taken** by F1 (file r; J-V13.108): there is
+no `erode` op; erosion is the formation op's fixed point and the `weather` op; D-V13.3 a sea-route cost by wind (the
+climate's belts) if the host asks for sailing times — **taken** by F4 (file r; J-V13.125): W7's sail routing, V13 §3.8
+(12); D-V13.4 the sphere, if a campaign ever exceeds the continent rung's extent.
 (D-V13.5 – D-V13.7 are §12's.) D-V13.8 **the culture, danger and calamity lenses**, each a later row set of V13 §5.8's
 mechanism with its host facts and its gate, taken once the host sends those facts in the lens window and the eight of
 J384 (8) have landed: **culture** — the pair's culture band as H13 sends it, shaded on the link between two seats within
@@ -77271,13 +78715,21 @@ host computes and sends it, labelled with the mover, and the party's believed da
 gated on H17's presentation messages and the lens window (never a border's or a march's danger); **calamity** — strike
 pins at their weeks and the host's relative exposure as shading, never a forecast and never merged with plague. Outside
 J384 (8)'s order because J379's proposal named culture and danger as later lenses (trade since taken by J380), no one
-asked for calamity, and J384 (8) ruled the order of the eight asked for.
+asked for calamity, and J384 (8) ruled the order of the eight asked for. D-V13.9 **a frame-scale orographic
+refinement** — the world's march runs on the coarse grid (2 / 4 / 8 km), so a placed frame reads its coarse cell's
+months and the charter's climate is the cell's; a local term over the charter's own relief (the frame's windward and
+lee slopes at the fine grid) if T-V13-59's bars pass at the world and a frame at a range's foot reads wrong against its
+dossier's word (the science note: the orographic effect is resolved at the coarse grid; the slope term below it is
+second order). D-V13.10 **a transient erosion history** — the formation op solves the steady state (J-V13.110), the
+relict belts and the second stand standing in for what time left unfinished; an uplift schedule with stops and several
+stands, the fixed point re-run per epoch, if SP-W9's gallery shows the steady-state relief reads as one age everywhere
+or a scenario asks for an inherited drainage the steady state cannot give.
 
 ## 10 Base change requests (BCR-V13-n)
 
 Each request names the base's (or the volume's) exact heading, quotes the current text once, and gives the new text in
 full; the volume is designed as if every request were applied. Requests to the base are the coherence pass's to admit
-(the brief's Part D); requests to a volume (BCR-V13-21 – BCR-V13-25) are that volume's architect's to apply.
+(the brief's Part D); requests to a volume (BCR-V13-21 – BCR-V13-25; BCR-V13-39 and BCR-V13-44 to V09) are that volume's architect's to apply.
 
 **BCR-V13-1 — §14 Package layout: `@plat/world` enters the chain; the hydro core is lifted.**
 *Current text* (the package list):
@@ -77629,6 +79081,82 @@ as a new campaign on a world from this module is created, the additive re-canoni
 later, or the DM-confirmed re-canonize (V13 §8.5's H22; J386 – J388; file q item 917, BCR-V13-40) —, replacing", so
 that the door V13 §11 Q4 asks the owner to confirm names every route by which the canon enters the host's simulation.
 
+**BCR-V13-41 — §2.9 `Document`: the world document's cover cache.** (F2; J-V13.116; file r.) `Document` gains, beside
+`lensPlates?` (BCR-V13-38), `coverPlates?: CoverPlate[] /* a world document only (V13 §3.6 (5), §5.8 (9)): the derived
+land-cover plates, each a pure function of the recipe, the port's windowed facts and the disturbances at its week —
+never canonical, outside every digest, read by no stage of W0–W9, by the canon or by any proposal; dropped at will
+and rebuilt by the cover fold (`W_COVER_PLATE_GAP` while it rebuilds); its horizon, compaction and store cap
+`world.cover.plates`'s; pinned plates kept by compaction */`. §2.9's cache sentence, "a world document's host-fed
+plate cache (`lensPlates`, kept as the host sent it, never verified or rebuilt)", reads "a world document's host-fed
+plate cache (`lensPlates`, kept as the host sent it, never verified or rebuilt) and its derived cover cache
+(`coverPlates`, rebuilt at will from the log and the port's facts; file r item 987, BCR-V13-41)"; the `derived`
+comment ("caches rebuilt from base + log") stays true of `derived`, and no loader moves a plate of either cache into
+it.
+
+**BCR-V13-42 — §7.1 the edit kinds and §11.2's `ConflictAction`: the world's new verbs, params and choices.** (F3, F5,
+F6, F8; J-V13.122, J-V13.124, J-V13.129.) The event union of §7.1 gains the world kinds of V13 §4.1 as it gained the
+placement kinds (BCR-V13-9): `paintLayer`, `disturb`, `physicsPass`, `setRequirements`, `decide` and
+`requestDossierUpdate`, each with its locality row (V13 §4.3) and its dry-run outcome rows; `adjust`'s world params
+gain `world.context` (the monsoon knob, `fromStage` `W3`) and `world.scenario` (`fromStage` `W0`, the formation op
+re-baked on the fork); `regenerate`'s `scope` accepts any world stage and a drawn `region` (V13 §4.1's `EditScope`).
+The line "`ConflictAction.kind` gains `'keep'|'takeOffer'|'accept'|'cancel'` with `offer?: number` (§11.2); the
+dry-run outcome table gains V13 §4.1's and V14 §4.9's rows (the refusals as `refuse.*` keys, the bends as `bend.*`)"
+reads "`ConflictAction.kind` gains `'keep'|'takeOffer'|'accept'|'cancel'` with `offer?: number` (§11.2) and, for the
+world's conflict list (V13 §3.11.5 (1), §4.1; file r item 987, BCR-V13-42), `'acceptOffer'|'setContext'|'wait'|'withdraw'|'rebake'`
+with `kind?: 'landChanged'|'alwaysSo'` on an `updateDossier` choice and `offer?` on `acceptOffer`; the dry-run
+outcome table gains V13 §4.1's and V14 §4.9's rows (the refusals as `refuse.*` keys, the bends as `bend.*`), the
+world's new refusals of V13 §7.5 among them"; §7.1's *The returned kinds* names the five with their rows (a conflict
+list's offer — `acceptOffer`, its `offer` the offer's index; a monsoon inclusion below the continent rung —
+`setContext`; a pending dossier request — `wait`, its `target` the request; a withdrawn request — `withdraw`; a
+`weather` op whose ground moved — `rebake`, its `target` the op).
+
+**BCR-V13-43 — §6.1 the stream registry and the stage ids; §2.5's world tables.** (F1, F2, F9; J-V13.107, J-V13.116,
+J-V13.117; file r item 973.) The stage-id sentence "the world's `W0` … `W9` (with `W6a`, `W6b`, `W7a`, `W7b`),
+`WORLD_PLACE` and `WORLD_CASCADE` (V13 §3.17; …)" gains `WORLD_SOLVE`, `WORLD_COVER` and `WORLD_PHYSICS` (V13 §3.0, §3.6
+(5), §3.14.1), **appended** after the existing ids under K6 as the others were, no existing key moved; the streams
+table gains the row `world.formation` | default | V13: the formation op's draws — the block seeds, the crust blobs,
+the relict sutures, the hotspots, a `weather` op's — keyed by the op's `seedIx` and the draw's ordinal or position,
+drawn once at the bake and never again (from M-W7); the row "`world.siting`, `world.polity`, `place.search` | — |
+reserved ids, not streams …" gains `world.solve` and `world.cover` (the solver's bookkeeping and the cover fold draw
+nothing; the back-step's ties are drawn on `world.recipe` with ordinal keys, V13 §3.17); and §2.5's "V13 §2.3's fourteen
+world tables (`world.sizes`, … `water.flood`; the style rows `style.world`)" reads "V13 §2.3's twenty-two world
+tables (`world.sizes`, `world.recipeOps` with `world.templates`, `world.climate`, `world.hydro`, `world.groundwater`,
+`world.biomes`, `world.resources`, `world.suitability`, `world.routes`, `world.polity`, `world.labels`, `world.glyph`,
+`place.coherence`, `water.class`, `water.flood`, and from file r (BCR-V13-43) `world.formation`, `world.soil`,
+`world.koppen`, `world.pnv`, `world.cover`, `world.sailing`, `world.solver` and `world.presets`; the style rows
+`style.world`)", each new table with its first reader's milestone (M-W6 – M-W9) and V11 writing its rows as it writes
+the fourteen's. J-V13.41's and J-V13.42's reversal reaches the base only through these rows: the base names no
+tectonic or erosion mechanism of its own.
+
+**BCR-V13-44 — V09 §4.3, §4.14, §4.22 (new) and §5.13: the world dialog and the world's tool rows.** (F5–F8;
+J-V13.123; applied by file r items 990–993.) V09's tool-row table gains the rows for `physicsPass`, `paintLayer` and
+`disturb`, the best-form placement, `decide` and `setRequirements`, each naming its dialog and its V13 section; §4.14
+gains the world presets (`world.presets`, map-side pre-decisions only); a new §4.22 **the world dialog** carries the
+generated-first state, the layered panel (Random all, Basic, Advanced, Deep constraints — the owner's words, J393 —
+and the DM's physics toolbar beside them), every option's random / set / locked state, the include toggle and the
+derived chips, **Best placement**, the live conflict list and its seven choices (five offered everywhere), the gate at
+the one generate action with nothing hidden, the presets and the gallery, the two verbs' brushes and the three verbs'
+toolbar — every behaviour V13 §3.1, §3.11, §3.14.1 and §4.2's; V09 hosts and draws them; §5.13's "New world"
+opens on a generated world. V09 §4.9's catalogue gains V13 §7.5's new refusals and warnings in V13's words.
+
+**BCR-V13-45 — §11.4 Host inputs (5) and §7.7's world port paragraph: the dossier update as a request.** (F8;
+J-V13.121; applied by file r item 998.) §11.4 (5)'s "the map writes no dossier fact except through this door as a
+derived fact (V13 Part E bar 9)" in §7.7's paragraph, and §11.4 (5)'s recorded-input list, gain the request pair:
+outbound `requestDossierUpdate` (a map-side approval of a conflict-list choice, recorded with provenance `user`,
+carrying the settlement, the field, the kind and the proposed value — a request, never a write) and inbound
+`dossierUpdated` (the host's confirmation with `applied` and its sequence, a windowed replace with provenance
+`host`), so that a dossier changes only by the host's own command and the map shows the change only on the
+confirmation (V13 §3.11.6, §4.1; `W_DOSSIER_PENDING`); the one-way rule's words stay: the module never writes to
+the dossier.
+
+**BCR-V13-46 — §16: the world's estimate, widened by the growth milestones.** (F1–F9; V13 §8.2.) The staged-milestone
+row for M-W0h and M-W0 – M-W5 (37–45 pw; BCR-V13-37) reads M-W0h and M-W0 – M-W9 at 51–66 pw — the 14–21 added for
+M-W6 the solver, the surface and the dossier seam (4–6), M-W7 formation and the living-physics upgrade (4–6), M-W8
+ecology and the physics pass (4–6) and M-W9 sail routing (2–3) —, and the staged milestones' total moves by 14 pw at
+the low end and 21 at the high; wherever BCR-V13-19's sentence, BCR-V13-20's row and BCR-V13-37 name M-W0 – M-W5,
+they read M-W0 – M-W9 (M-W6 – M-W9 after M-W2, M-W7 gated by SP-W9 and SP-W10); the base's ruins-by-age milestone
+(file r items 994–998; T113-8) is the base's own ≈ 1 pw inside II.7.6's line, not the world row's.
+
 ### 10.2 Requests to V14 (what V14 must supply; single source: these stay V14's facts)
 
 | request | what V13 needs | where V13 reads it |
@@ -77646,6 +79174,15 @@ that the door V13 §11 Q4 asks the owner to confirm names every route by which t
 | R-V14-11 | a site subject goes through every placement edit as the frame does (`setPlacement`, `worldWins` as G5 (f)'s re-materialization, `unplaceFrame`); the site document holds only its `placementRef` (SW-11, SW-19) | V13 §2.7, §3.11, §4.3 |
 | R-V14-12 | adoption is V14's own hook on the `world.placed` message (the `placed` outcome row of P4/P5); V13 calls nothing of V14 (SW-10) | V13 §3.11, §1b.2 |
 | R-V14-13 | the card's `devotion` (V14 §2.2: a DM-placed holy or hidden cult site's deity key and role; stated only, never generated; DM-only by default) — read by the religion lens and offered in the DM's map feed (J384 (10)) | V13 §3.11.6, §5.9 |
+
+### 10.3 Requests to V15 (what V15 must supply; single source: these stay V15's facts)
+
+| request | what V13 needs | where V13 reads it |
+|---|---|---|
+| R-V15-1 | no reverse seam: `@plat/atlas` imports no writer of a world document's log and holds no writable member handle (V15's T-V15-19); V13's `edit` entry points refuse a caller whose package is `@plat/atlas` (V15's RQ-V15-6) | V13 §1b.2, §4.1 |
+| R-V15-2 | the atlas-scale evaluators of V15 §2.3's words registered once through `solve.registerEvaluator` before V15's first `solve(…, 'arrange')` (V15 §3.1 (2)); the search's bound `opts.maxIterations` V15's cell | V13 §2.2 (`ArrangeEvaluator`), §1b.2 |
+| R-V15-3 | a continuation's request as a `WorldRequest` whose `edgeCharters` are the carried `WorldEdgeCharter`s unchanged, its pre-fill as `set` `OptionChoice` rows and its accepted reconciling features as `set` `landform` rows (V15 §3.4 (4), (5), (7)); a derived child's request as a `WorldRequest` with `parentCharter` (V15 §3.5 (a)); a re-match as `setRequirements` and `regenerate` on the member's own page (V15 §4.7 (3)) | V13 §3.1 (5), (6), §3.11.4 |
+| R-V15-4 | every reading of a member taken through `renderAt`, `edgeCharter`, `viewFacts`, `charterFor`, `worldFactsAt` and `derivedTime`, and through the base's reader of §11.2 for the member's `WorldHeader` and its version digests alone (V15's `Member.header`, `MemberVersion`), at the member's version, through a read-only handle (V15 §1b.6) — never a raster, a record or a plate | V13 §1b.2, §5.4, §5.8 (10); §11.2 |
 
 ## 11 Owner questions (true owner decisions only, each with a recommendation)
 
@@ -77671,6 +79208,26 @@ a placed settlement's share code must carry its charter (a recorded input) to re
 code a few kilobytes rather than a line. The owner decides whether a placed settlement's share code **embeds the
 charter** (replays alone) or **names the world** (replays only beside the world's code). *Recommendation:* embed the
 charter; a settlement that cannot be replayed from its own code breaks V12's one-line rule in a way users will meet.
+*Refined by file r* (F1; J-V13.111): a world whose recipe begins with a baked `formation` op replays W1–W9 over the
+bake, so its share code carries the payload's chunk hashes (a content address of a few hundred bytes beside the
+line) and a receiver fetches the chunks from the store or the sender — re-fetched, never re-run; a code whose chunks
+cannot be fetched opens nothing (`refuse.world.formationPayload`). The world code therefore stays a line plus its
+hashes under either answer; only the placed settlement's question is open, and the charter a settlement embeds is
+the same charter whether its world was authored or formed.
+
+**Q5 — Who may generate with what.** The world dialog is layered (Random all, Basic, Advanced, Deep constraints and
+the DM's physics toolbar; V09 §4.22) and nothing in it is hidden: every control is drawn for every account kind and disabled with its reason,
+the gate enforced at the one generate action (F5; V13 §3.1, §4.2 T1; J-V13.123). What the gate holds is the owner's:
+which account kinds may generate with a scenario (the formation op, the costliest act), with an included campaign
+(the solver's planned sites), with the Advanced or Deep layers' options set, with a `physicsPass` of depth `weather`, and
+which may save a preset others see. The module carries the answer as data — the gate's rows beside the host's
+`hostRequires` (V13 §3.11.6), read at the generate action and nowhere else — and the dialog's semantics do not
+change with it. The host's own precedent for settlements: an anonymous visitor generates the three smallest tiers
+with everything on random, enforced at its one generate action; the world's analogue would be Random all at the
+province and realm rungs for a visitor, every control drawn and disabled. *Recommendation:* every layer free to read
+and set and every one-click generation free at every rung; a scenario and an included campaign gated as the host gates its own premium acts (J388's entitlement, which
+never gates a birth canon and never a placement), the `weather` depth the DM's; presets saved by anyone, shared by
+the DM.
 
 **Q4 — J86's door 1 and the world canon.** The base keeps J86's door 1 — the host's simulator reading the map's
 geometry — closed until the owner's explicit word (§11.4). The world canon (V13 §3.11.6) replaces the capture of the
@@ -77726,9 +79283,21 @@ class thresholds, the flood shares and barrier kinds, the resource rules) — me
 M-W1 and M-W2 and re-cellled by `editTable`; the budgets of V13 §6 — measured by T-V13-17 and T-V13-20 at M-W4 with
 V13 §8.4's fallbacks; the spikes' outcomes (V13 §8.4); the estimates of V13 §8.2; the deferred decisions; the glyph
 tolerances; the export stride; the import's matching rules (T-V13-26 on the synthetic fixture only — a real
-ecosystem file is the owner's to supply, never captured by this lane). The volume carries 2 CONFIRMED mechanisms
-re-used (the flood and D8; the base's edit machinery) for every 1 PLAUSIBLE one it adds; the PLAUSIBLE ones are data
-or measured.
+ecosystem file is the owner's to supply, never captured by this lane); and, from file r (F1–F9): the formation rule's
+five scenarios, their knob ranges, the fixed point's exponents and coefficients, the talus angles, the glacial and
+sea-level terms and the soil classes (`world.formation`, `world.soil`; measured by SP-W9's gallery and stats and
+T-V13-58, the published forms re-used as data and their constants calibratable); the monthly climate's belt shift,
+thermal term, fetch e-folding and the gyre solve (`world.climate`'s monthly rows; measured by SP-W10 and T-V13-59
+against the analytic fixture); the classification's thresholds (published, re-used as data) and the
+potential-vegetation table (`world.koppen`, `world.pnv`; T-V13-61); the cover rule's clearing, succession and
+recovery rates (`world.cover`; T-V13-62); the sailing polars and month sets (`world.sailing`; T-V13-67); the
+solver's cells — the back-step bound, the causes' order, the extents, the grade band and the protect radius
+(`world.solver`; T-V13-64); the presets (`world.presets`); the ruins-by-age material factors (the base's II.7.6;
+T113-8); the budgets `WORLD-16` – `WORLD-19` and the re-declared `budgetMs` and `formationMs` (T-V13-70). The volume
+carries 2 CONFIRMED mechanisms re-used (the flood and D8; the base's edit machinery — the fork, the cascade, the
+verbs' grammar and the plate cache, which the growth pass re-uses for the formation op's hydro core, the physics
+pass, the two verbs on every layer and the cover cache) for every 1 PLAUSIBLE one it adds; the PLAUSIBLE ones are
+data or measured.
 
 **The owner-rule deviation this volume's design carries** (C13-05; the host's track carries one bounded deferral, below): item 135 (c) — "resolution is added deterministically
 from the coarse fact, position and seed, so neighbouring frames agree at a shared edge unseen" — is met in the design
@@ -81042,3 +82611,2190 @@ of V14 §10.2 against V13's revision; a mismatch found there is the next entry h
   the `dropSite` of item 133 (h), in the DM's order, with the proposal's kind, position and name as the request's
   stated fields and everything else derived. T-V14-5's import clause, J-V14.50 (amended: one producer per record kind,
   the digest moves only on the DM's act) and §10.2 (13) say the same.
+
+<!-- source: docs/volumes/V15-atlas.md -->
+# Design volume 15 — The atlas: world maps as saves, arrangement, continuation, microcosms and the relational historical style
+
+> **Revision 0 — 2026-10-23 (lane volumes/architect-V15, the design seat B of the world-growth pass; written on Fable 5.1
+> under the J392 model ruling and the owner's delegation).** This volume builds, to implementation depth, the owner's
+> rules **F10–F15** (docs/PROGRESS.md J392, verbatim there) as the spine `docs/design/spine-world-growth-2026-10-23.md`
+> decided them: its §2 (the scale ladder and its one rule), §10 (the atlas: the document, isolation, arrangement,
+> continuation at generation, microcosms, seams between sizes, drill-down), §11 (the relational historical style), §12
+> (the vocabulary) and §14 (the five seams V13 owes this volume and the one it owes nothing to). Nothing the spine
+> decided is re-decided here; every one of its rulings is designed to depth and cited by its section. The lens rulings
+> of J384 (the four fact classes, the audience filter, no player view of alignment, the plates and their horizon) bind
+> every fact the relational style reads. The two research notes of the pass — `research/world/formation-ecology-science.md`
+> §9 (historical cartography and the warping algorithms) and §10 (tiled growth, multi-resolution seams, insets) and
+> `research/world/formation-ecology-state.md` (what V13, the base, V09 and the host hold today; Part E's gaps 10–15) —
+> are read evidence, cited by section, never restated and never a source of a mechanism. Findings of the state note
+> that bind this volume: there are three size rungs (`province`, `realm`, `continent`) and no "region" rung — the
+> owner's "region map" is the province rung; `Recipe.product` has no atlas kind (requested here, V15 §10.1); each
+> settlement frame belongs to one world and the design stores one world document per campaign — membership of a world
+> in an atlas, by reference, changes neither; the world view today draws under one affine transform with no relational
+> distortion, no embellishment layer and no true-scale toggle — V15 §3.6's view is new; the host keeps one map per
+> campaign and names no atlas, so the atlas is map-side only and its sharing follows the host's gallery model only as
+> a host-change request (V15 §10.2's H-row), never an assumption. Ids: decisions `J-V15.n` (V15 §9), tests `T-V15-n`
+> (V15 §7), base change requests `BCR-V15-n` (V15 §10.1), budget rows `ATLAS-n` (V15 §6), requests to the sibling
+> volumes `RQ-V15-n` (V15 §10.2–§10.3). The state note's next free ids (item 926, J-V13.107, T-V13-57, D-V13.9,
+> BCR-V13-41, H31, `WORLD-16`, SP-W9) were consumed the same day by amendments r (`docs/AMENDMENTS-2026-10-23r.md`,
+> seat A: items 926–1005, J-V13.107–130, T-V13-57–72, BCR-V13-41–46, H31–H34, `WORLD-16`–`WORLD-19`, SP-W9–SP-W10,
+> D-V13.9–10), so the next free ids after it were item 1006, J-V13.131, T-V13-73, BCR-V13-47, H35, `WORLD-20`, SP-W11 and
+> D-V13.11 — this volume mints none of them and names H35 only as the row it asks the seam seat to add to V13 §8.5;
+> where amendments r defines a seam this volume consumes (`solve`, `WorldEdgeCharter` and `edgeCharter`, `renderAt`
+> and `RenderedWorld`, the rung-general `placeFrame` and the `fit` edit, `Requirement`, `WorldRequest.edgeCharters`),
+> this volume reads r's text (its items 942, 943, 954, 975 and its §2.2 records) and aligns to it, naming its own
+> additions as such (V15 §10.2, §13). **Reconciled 2026-10-23** by the world-growth seam seat
+> (`docs/volumes/critique/seam-world-growth-r0.md`): file r's items 1006–1017 define every reading this volume takes of V13
+> (the label boxes and the `atlas` layer set of `renderAt`, the world subject of `requestCharter` with `WorldCharter`,
+> `solve.registerEvaluator`, `viewFacts`, the `landform` requirement kind, re-matching on request, `WORLD-20`, H35,
+> J-V13.131 – J-V13.134), its items 1018–1028 carry this volume's INDEX, SUMMARY and README rows, and this volume was
+> edited in place to match (its §13 rows closed; M-ATLAS-A after M-W6). **Revised 2026-10-23** by the reviser seat
+> volumes/revise-world-growth under the manager's rulings J393 (the edge charter's test: a present physical fact, never a
+> record; F10–F15 quoted whole in §1.3 and F16 the manager's rule; no stacking on the host's storm multiplier) and J394
+> (the atlas picture is the member's default picture) on the two reviews — `docs/volumes/critique/V15.md` (the
+> map-architecture lens) and `docs/volumes/critique/world-growth-r-science-host.md` (the science-and-host lens); every
+> finding against this volume is recorded in §14 with what changed.
+
+<!-- PROGRESS (the architect seat's ledger; removed at revision)
+0 In plain words ................................ done
+1 Scope, hooks, owner rules, out of scope ....... done
+1b Wiring table ................................. done
+2 Data model .................................... done
+3 Generation (A1–A7) ............................ done
+4 Editing ....................................... done
+5 Rendering, labels, exports .................... done
+6 Performance budgets ........................... done
+7 Tests and acceptance bars ..................... done
+8 Build plan .................................... done
+9 Decisions ..................................... done
+10 Base change requests and requests ............ done
+11 Owner questions .............................. done
+12 CONFIRMED versus PLAUSIBLE ................... done
+13 Fix list ..................................... done
+-->
+
+**How to read this volume.** It builds the fourth layer of the owner's ladder — the **atlas**, the owner's "world map"
+of F11–F15: an individual save made of finished world maps stitched together by their pictures, arranged by the user,
+continued into its voids at the next map's generation, each member a microcosm on its own clock — and the **relational
+historical style** of F10, a view over an atlas (or one world) that swells what its mapmaker cared about and shrinks what
+it did not, keeps every true measurement one hover away, and fills the edges of knowledge with the creatures its
+fictional cultures feared. The implementer holds the base (`docs/ARCHITECTURE.md` with files f–q applied), volume 13
+(`V13-world.md`, the world regime, placement, the port and the lenses, as amendments r will extend it), volume 9
+(`V09-application.md`, the application that hosts the atlas page), volume 14 where a drill-down reaches a site, and this
+volume, and nothing else. Every fact the base, volume 13, volume 9 or another volume states is cited, never restated;
+every new fact is stated once, here. The spine is this volume's source of every shape, name, precedence, lifetime and
+seam and is cited as `spine §n`; it is a design document, never an implementer's reference, and every mechanism this
+volume adopts from it is stated here in full. **Citations:** a bare `§n` or `II.n` is the base's; `Vnn §n` is a design
+volume's section, this one included (`V15 §3.6`); `spine §n` the spine's; `item n` is an amendment item; `J384`–`J392`
+are docs/PROGRESS.md rows; `F10`–`F15` the owner's rules by number. **Naming (spine §12, one word, one meaning):**
+**world** is V13's simulated document and its page, never the stitched layer; **atlas** is the stitched, image-only
+save of this volume (the product label — "World map" is allowed — is the owner's, V15 §11 Q1); a **member** is a world
+document the atlas holds by reference; a **seam** is a shared edge between two members (the base's and the critique
+lane's "seam" between volumes is a document-review word confined to `docs/volumes/critique` — admitted in this volume and in V13 only
+inside the fixed phrases that cite the spine's §14, "the seams owed to V15", "no reverse seam" and "the dossier seam";
+the seam seat's ruling, seam-world-growth-r0 SW-08); **continuation** is a
+world generated with its atlas neighbours' edge charters as locked requirements, at its generation and never after;
+**fit** is V13's placement machinery used across rungs; a **viewpoint** is an audience plus a culture; **plate** is the
+lens cache's snapshot per host advance (V13 §5.8), never a tectonic plate. The owner's "region map" is the **province**
+rung (`WorldSizeRung`, V13 §2.2): no fourth rung and no "region" word is introduced. In records this volume's prefix is
+`Atlas`; the bare word `atlas` names only the `Recipe.product` value `'atlas'`, the `atlas` concern, the `atlas.*`
+tables and the stage ids `A1`–`A7`.
+
+## 0 In plain words
+
+**A map of maps.** A game master who has made a realm map and, beside it, a province map of the borderlands, and
+somewhere else a continent they drew for another campaign, can now lay them on one table. That table is the **atlas**:
+a save of its own, with its own name, that holds nothing of those maps but a picture of each and the knowledge of where
+each one lies. Drag a map to where it belongs, turn it, snap its edge to its neighbour's, lock it; or say it in words —
+"Varn lies east of Ashmark across a narrow sea", "Thornwood sits inside Ashmark", "Kesh lies far to the south beyond
+unknown lands" — and the atlas arranges them for you, warning (never refusing) when two maps overlap, when a cold north
+sits beside a hot south, when a desert shore meets a rainforest shore. Between maps that do not touch there is sea, or
+mist, or mountains, or honest blank parchment marked *terra incognita*, as you choose. Along an edge two maps share,
+the pictures are softened into one another so no step shows; where a finer map lies inside a coarser one, the finer wins
+on its own ground and, zoomed in, either eases into the coarser over a band or sits inside a thin frame like an inset in
+a printed atlas. The same place is never drawn twice at two sizes: every map is metric and every one measures its heights
+from the same sea, so laying them side by side at true scale needs no fitting at all.
+
+**Each map is its own world.** Nothing crosses a seam after a map is made. A river you move in Ashmark does not move in
+Varn; a plague in Varn does not reach Ashmark; each map runs on its own calendar and is shown at its own present with
+its own date in a small cartouche — "Year 412, early spring" beside "Year 1 071, deep winter" — and only if you ask does
+the atlas try to show them all at one week, drawing honestly "at its own present" on any map whose present lies earlier.
+If the two maps drift apart at their shared edge, the atlas softens the picture and, for the game master only, can show
+a small marker saying how far; it never pulls either map back. Delete a map and every atlas that held it keeps a
+marked gap where it was, never a silent hole.
+
+**Continuation.** The one time a map reads its neighbours is at its own birth. Click the void beside or between maps and
+say "make a map here": the atlas asks each neighbour for a **world edge charter** — the present facts of the ground along the shared
+edge: the land's height and the ranges that run off the edge, the coast and the sea, the rivers crossing with their
+flow, the ground water, the monthly temperature, which way the wind blows and how much rain it still carries, the
+currents, the rock, the soil, the natural vegetation, the latitude the neighbour sits at, the sea level — the ground as
+it stands that day, however it came to be — and never anything that merely happened (no fire, no clearing, no plague)
+nor any edit made after the new map was born: an edit made in the neighbour before that is the ground. Those charters go
+to the world generator as locked requirements, the new map's basic choices come pre-filled from its neighbours' basics
+(climate band, wetness, ruggedness), and the map that is born meets its neighbours at their edges. When two neighbours
+contradict each other at a corner the atlas says so and proposes a reconciling feature — a sea, a strait, a mountain
+belt — for you to take or change. The neighbours themselves do not change; a request that would need one to change
+shows that change in the usual conflict list, and nothing moves without your approval. The new map keeps the charters
+it was born from, with each neighbour's version, as a settlement keeps its charter; the atlas carries only their names.
+
+**Deeper and deeper.** Zoomed out, the atlas is pictures. Click a map, or zoom past where its picture has no more to
+give, and the live world opens as its own page, where you click a town to open the town, a house to open its floors, a
+site to open the site — the owner's "click deeper", run from the top. A player's atlas shows only what their party
+knows, drawn, if the relational style is on, the way their culture would draw it; the game master's arrangement is the
+true layout underneath.
+
+**Somebody's map.** The **relational style** is how a medieval mapmaker would have drawn this world: the holy city or the
+capital at the centre and huge; the lands that matter swollen, the lands that do not squeezed into the rim; east at the
+top if the faith says so; the roads drawn as strips with the days between towns written on them; and, where knowledge
+ends, serpents in the deep and little-sailed seas, dragons where the known world stops, monstrous peoples and devils in
+the lands the mapmaker's culture fears or hates or holds to be of an enemy faith, a skull where the Wasting struck,
+banners where a war was fought, the cathedral of the holy city drawn as large as a province. A slider morphs between the
+true map and the relational one, and wherever you hover the true distance and the true travel time show, because the true
+map never goes away: every measurement, every export, every scale bar reads it. All of this is derived from facts the
+world already holds — who is holy, who is a capital, who trades, who hates whom, who knows what — and from the
+**fictional** cultures' beliefs only, never from any real-world people; the game master may add, move or remove any
+figure, and may make a map as another culture saw it, or as the party knows it today, or as it was found, centuries old,
+in a dungeon. Three presets come shipped — the sacred *mappa mundi*, the practical *portolan* with its compass roses and
+rhumb lines, the *itinerary strip* with roads straightened and distances in days — and the art they need (monsters,
+vignettes, cartouches, lettering) is content, on the owner's budget.
+
+**What the atlas never does.** It runs no physics and no simulation; it holds no copy of any map and no host data; it
+writes nothing into a map after that map is born; it never exports a stitched world in the shape the ecosystem's tools
+read, because a stitched world is not a world; and it shares a picture of a map only where that map may be shared.
+
+## 1 Scope, the base hooks consumed, the owner's rules obeyed, and what is out of scope
+
+### 1.1 What this volume builds
+
+Seven operations, one page and one view, in one package `@plat/atlas` registered in `@plat/layout`'s registry as
+`@plat/sites` is (V14 §1.1's pattern; J-V15.1), with the atlas page in `@plat/app` (V09 hosts it) and the tile
+composition, the seam softening and the warp in `@plat/render/atlas` (the base's §8 render tier; §14):
+
+| engine | the base's slot | what it makes | V15 § |
+|---|---|---|---|
+| **A-ARRANGE** A1 | a product-like stage set (`ProductDecl.stages`, §4.12) on an **atlas document** of its own, never inside a world's stage graph | `AtlasRecipe` (the members by reference, their `Arrangement`, the `Relation`s, the `GapStyle`s, the `Viewpoint`s, the style and conflict settings); the described relations as requirements solved through V13's `solve` interface at atlas scale; the layout presets; the warnings | 3.1 |
+| **A-RENDER** A2 + A3 | the base's tile pipeline (§8.1, §8.8) with the world's `renderAt` reading (V13's; RQ-V15-2) | the imagery cache per member at the member's own present week (the tile pyramid at one pixel resolution per level, symbols by one shared zoom rule), the seams (softening along shared stretches only, unknown space, eased detail steps or insets with a frame, precedence), one label pass over every member's placed labels | 3.2, 3.3 |
+| **A-CONTINUE** A4 | an edit's fold that **drafts a request** for V13's generator; V13's `edgeCharter` reading (RQ-V15-1) | `ContinuationRequest`: the void, one `WorldEdgeCharter` per shared edge (the neighbour's present ground, never a record; locked), the pre-filled basics, the contradictions with a proposed reconciling feature, the neighbour-change conflicts; the new member's provenance | 3.4 |
+| **A-FIT** A5 | V13's placement machinery in its rung-general form (RQ-V15-3) with the fork preview and the conflict list | a child member inside a parent: derived from the parent (preferred), separate image-only with a mismatch warning, or separate-then-fitted (the parent bends, the child never changes) — a `FitRecord` on the atlas, the edit on the parent's own log | 3.5 |
+| **A-VIEW** A6 | a view (V13 §5.8's fact class 4: an owner-ruled projection, labelled, never host truth) in the render tier | the relational view: the adjacency-preserving warp (a flow-based area cartogram composed with a centre magnification and an orientation), the slider, the true readout on hover, the distortion from facts (centre, size, orientation, detail by knowledge), the derived embellishments and the DM's own, the viewpoints, the style presets, determinism | 3.6 |
+| **A-DRILL** A7 | V09's document pages (V13 §5.2's pattern: a member opens as another page) | the thresholds, the handoff to the live member at the true point, then settlement, interior, site | 3.7 |
+| **the atlas page** | V09's shell (V09 §5.1), its binding table (V09 §4.3) and its Open / recent / new (V09 §5.13) | the canvas, the member list, the arrangement tools, the relations box, the gap brush, Continue here, the fit sheet, the viewpoint picker, the style cards, the slider, the embellishment tray, the common-week toggle, the drift markers, the export tab and the share sheet's member list — a request to V09 (RQ-V15-7) | 5.1 |
+
+Package rule (J-V15.1): `@plat/atlas` depends on `@plat/kernel` (`dmath`, `rng`, `index` and nothing geometric: the
+atlas is no plat arena), `@plat/model`, `@plat/tables` and `@plat/world` (V13: the world document's reader, `edgeCharter`,
+`renderAt`, the placement edits, `solve`, the lens readings), never on `@plat/render`, `@plat/export` or `@plat/app`; the
+renderer, the exporters and the app read its records through the registry and §11.2's reader, as they read V14's. It
+imports no writer of a world document's log (spine §14 (6); RQ-V15-6; the lint T-V15-19): the only world edits an atlas action
+causes are the user's own on a member's own page (the fit's placement on the parent, a neighbour's change before a
+continuation), committed there under that document's verbs and undo.
+
+### 1.2 The base hooks this volume consumes (cited, never restated)
+
+| hook | where | how this volume uses it |
+|---|---|---|
+| `Document`, `Recipe` with `product` and its per-product block, the canonical form, the four digests, the caches outside them (`derived`, `elaborations`, `lensPlates`) | §2.9, §6.2 | the atlas document (a `Document` of product `atlas`, `Recipe.atlas` its block; BCR-V15-1); the imagery cache as a document cache outside every digest beside `lensPlates` (BCR-V15-2); what is in which digest (V15 §2.11) |
+| `Identity`, `Lifecycle`, `LifecycleEvent` with `cause`, `Tombstone`, `DerivationRecord`, `Provenance`; the namespace segment | §2.8, §6.3, V13 §2.5 | every record of V15 §2 carries them; a member is named by its world's `docId` and namespace, never by an address inside it |
+| view state and its keys, per viewer and shared | §2.9 | the atlas's keys `atlasZoom`, `atlasCentre`, `relational`, `viewpoint`, `commonWeek`, `showDrift`, `showRelations`, `atlasPreset` (V15 §2.7; BCR-V15-3) |
+| the edit events, the dry run, the outcome table, the closure rule, locality, undo, the per-document sessions | §7.1, §7.3, §7.4 | V15 §4's edit kinds (BCR-V15-4), each with its lifecycle row and undo; one undo stack per atlas, separate from every member's |
+| migration and older documents | §7.5 | V15 §4.9 |
+| the override layer and editable tables | §7.6 | the four tables `atlas.arrange`, `atlas.seams`, `atlas.style`, `atlas.embellish` (V15 §2.4; BCR-V15-5) |
+| the display list and the tile worker; the tile key; zoom stops; print and the canvas budget | §8.1, §8.8, §8.9 | the atlas's tile pyramid as tile sets of the render tier keyed by (member, version, week, audience, level); the warp as a per-viewer mesh transform on the drawn tiles; the picture exports' bands |
+| the style sheets, roles, programs, layer order, presets | §8.2, §8.4 | the atlas's own layer specs (V15 §5.2), the style presets' rows (V15 §2.5), the viewer's `stylePreset` never writing `setStyle` |
+| the label placer and the admission function `admit(knownTo, key, band)` | §9.2 | one placer run over every member's placed label boxes at the atlas stop (collisions across seams resolved; V15 §5.3); the player view's admission (V15 §5.4) |
+| furniture: the scale bar, the compass, the grid, the title, the legend's second cue, view pins and notes | §9.5 | the atlas's scale bar and ruler on the true plane; the viewpoint's compass under its orientation; the date cartouches; the legend's note "drawn as X saw the world" and the member marks' cues (BCR-V15-14); a drift marker drawn as a DM-only view mark |
+| formats; the picture exports; the provenance block; the VTT and ecosystem rows | §11.1 | the atlas's picture exports and tile export (BCR-V15-6); the refusal of an ecosystem-shaped export of a stitched world |
+| the embedding API and the worker boundary; the reader | §11.2 | `PlatApi.atlas.*` (BCR-V15-7); the render tier reads the atlas's records as any document's |
+| the host bridge | §11.3 | an atlas in host mode: its document through the bridge, its members through the resolver (V15 §2.2 `Member.ref`) |
+| sharing and multi-client use without a hosted service; `DocResolver` | §11.5 | members resolved by reference; a shared atlas carries imagery only for shareable members (V15 §5.5); the host's store an H-row (V15 §10.2) |
+| budgets, the comfort level, memory, the register | §12, §12.8, §12.10 | V15 §6's `ATLAS-n` rows (BCR-V15-8) |
+| the test families, fixtures, goldens, the declared-shift protocol | §13.2–§13.4, §13.8 | V15 §7's bars; the fixtures `B-ATLAS` (BCR-V15-9) |
+| the package and registry rules; the staged milestones | §14, §16 | `@plat/atlas`, `@plat/render/atlas`; M-ATLAS-A/B/C (BCR-V15-10, -11) |
+| the stream key, concern and stage registries, fixed-key draws | §6.1, §6.3 | the `atlas` concern and the stage ids `A1`–`A7` (BCR-V15-12); the draws V15 §3.9 lists |
+| the failure classes, the report and its codes | §5.2, §5.4 | F-ATLAS and the `W_ATLAS_*` codes (BCR-V15-13) |
+| **V13:** the two coordinate regimes, `WorldCm`, `WorldPointCm`, the world datum (sea level, 0), `WorldHeader` (unit cm, x east, y north, the extent, a geometry version), the latitude box as a climate device only, the world's week and date | V13 §2.1, §2.2 | the atlas plane is the same unit and datum, so every member lies at true scale by construction; a member's version carries the header's `geometryVersion`; the week and its label are read, never set |
+| **V13:** `WorldRecipe` and `WorldRequest` (W0; amendments r's requirements, options and strengths), the size rows, the templates and formation scenarios | V13 §2.2, §2.3, §3.1; spine §4, §6 | a continuation's request is a `WorldRequest` pre-filled and carrying locked edge requirements (V15 §3.4); the rungs are V13's three |
+| **V13:** the pipeline's registration and materializer contract; determinism and streams; the work laws | V13 §3.0, §3.17 | A1–A7 declare inputs, a context record and reason records as W0–W9 do; the `atlas.*` streams (V15 §3.9) |
+| **V13:** placement P1–P5, `PlaceContext`, `placeFrame` with `preview`, the blend band, the conflict list `W_EDIT_DOSSIER` and its choices, the forced-fact precedence, `hostLocked`; the counterfactual fork | V13 §3.11, §3.11.5, §4.5; spine §5 | the fit across rungs (V15 §3.5) calls the rung-general form (RQ-V15-3) and shows V13's own preview and conflict list, never a second one |
+| **V13:** the edit events and their outcome rows, the authoring tools, locality, undo, the sealed host-consumed edit | V13 §4.1–§4.4 | the parent's fit edit and a neighbour's pre-continuation change are V13 edits on those documents |
+| **V13:** the world view's layers and the player picture; the zoom stops and opening a settlement as another page; labels; exports and picture exports | V13 §5.1–§5.5 | `renderAt` renders the member's `atlas` layer set at a stop for an audience (RQ-V15-2); drill-down follows V13 §5.2's page pattern; a member's labels come placed; the ecosystem-shaped export stays a world's |
+| **V13:** the lens mechanism — the four fact classes and the refusals, the honesty rule and the bias notes, the audience filter, the plates and the scrub; the lenses' rows (religion, sway, trade, populations, prosperity, plague) | V13 §5.8, §5.9; J384 | the relational style's facts (RQ-V15-4) read through `lensAt`/the plates as class 4, labelled "projection"; no DM-only row reaches a player viewpoint; alignment never read |
+| **V13:** budgets and the `WORLD-n` register; milestones M-W0h – M-W5 and amendments r's M-W6 – M-W9; the host-change list H1–H34 (H35 this volume's, appended by file r item 1015) | V13 §6, §8.2, §8.5; spine §15 | `ATLAS-n` rows beside them; M-ATLAS-A/B/C placed after the milestones they read (V15 §8); H35 requested (V15 §10.2) |
+| **V13:** the port's presentation inputs `audienceKnowledge`, the party key, the player picture's whitelist; `worldFactsAt`; `derivedTime` and the travel law's rule that times are labelled | V13 §3.11.6, §2.4, §1b.2, §5.1 | the known-world sets per audience (RQ-V15-2's last item); the true readout's travel time labelled with its law and "on foot" standalone (V15 §3.6 (3)) |
+| **V13 (amendments r):** the requirement record `{ id; source; rank; kind; target; strength; scope }`, the precedence ladder, the conflict list, decisions remembered; the solver interface `solve(requirements, state, goal)`; the world edge charter `WorldEdgeCharter` and `edgeCharter(world, side, span)`; the three lifetimes of world state | spine §3, §4.1, §5, §10.4, §14 (1), (5) | the arrangement's requirements and strengths (V15 §3.1); the continuation's charters (V15 §3.4); the test "a present physical fact, never a record" (J393; T-V15-2) |
+| **V09:** the shell, the binding table, the view bar's keys, the share sheet, Open / recent / new, autosave and the local store, the message catalogue, the fates sheet | V09 §4.3, §4.19, §5.11, §5.13, §3.8, §2.11, §4.9, §5.5 | the atlas page and its rows (RQ-V15-7); "New world map" and "Open a world map…"; the share sheet's member list; the catalogue keys of V15 §4.8 |
+| **V14:** the drill-down's last rungs (a site document opened from a world); the 2.5D renderer's `ZDecl` rule | V14 §3.9, §5.1; V14 §5.4 | A7's last handoff; every atlas drawable declares `{ flat: true; reason: 'imagery' }` — the atlas has no 2.5D view (V15 §5.6) |
+| **V10:** the why providers and sections; the clerk's proposals | V10 §3.9, §3.9a | the `atlas` why section (V15 §4.8); a described relation typed in words parsed by the clerk's `propose` route |
+| **V11:** the registry, the symbol catalogue, naming slices | V11 §2.1, §3.6 | the four tables' rows and the figure library's rows (V15 §2.4–§2.5; RQ-V15-9) |
+| **V12:** the register, bars, panels, no-op pins | V12 §2.6, §3.6b, §3.7.8, §3.11 | every calibratable cell's entry; the pin `item.atlas.none` (no atlas open: the world view byte-identical) |
+
+### 1.3 The owner's rules this volume obeys (quoted by number; each a design in V15 §3–§5)
+
+The owner's words are the authority (docs/PROGRESS.md J392, verbatim there; typos kept); the spine's reading of each
+is cited, never restated; where this volume lands the rule is the third column.
+
+| rule | the owner's words (J392) | the spine's reading (cited) | where it lands |
+|---|---|---|---|
+| F10 | "Regarding the realm map style, I would like a mix of historical relational mixed with realistic scale and I’m curious to your thoughts. The relational scale predominant in medieval and renaissance in some ways disregard north south west etc, and center it on a primary location (in many cases Jerusalem or capital cities) drawing areas of import wildly out of proportion in comparison to other places. Which if we could get something of that for immersion but also keep absolute scale true for practical purposes, and not to mention other embellishments such as mythical creatures like a dragon in the sea or pagan savages and devils because if barabarous areas. I just wanted to confirm if what I thought was right and your thoughts on the whole idea." | spine §11: a view (fact class 4) over an atlas or one world; the true map keeps every measurement; the relational map an adjacency-preserving warp; a slider; hover shows true distance and travel time; the distortion from facts (centre, size, orientation, detail by knowledge); embellishments derived from the fictional cultures' facts, never real-world peoples; the DM adds, moves, removes; viewpoints; three presets; deterministic | V15 §3.6 (A6), §2.2 (`Viewpoint`, `Embellishment`), §2.5 (the presets), §5.2, §5.4; J-V15.14 – J-V15.19, J-V15.30, J-V15.31; T-V15-5, T-V15-6 |
+| F11 | "What are your thoughts on a fourth layer map called the world map which is only derived from completed region, realm maps stitched together. Isolated in everything but image. Similar to how we can click deeper into settlement map for more detail but in reverse order? What are your thoughts?" then "But how woykd this work for seems between different sizes?" | spine §2 (rung 1 of the ladder: imagery, arrangement and viewpoints, no clock of its own), §10.1–§10.2 (the document; isolation with the one coupling), §10.6 (seams between sizes: the more detailed member wins; side by side softened on the shared stretch; a member inside another by three paths; one pixel resolution and one zoom rule; eased or inset; equal rungs the DM's, newer by default), §10.7 (drill-down) | V15 §2.2 (`AtlasRecipe`, `Member`), §3.2–§3.3 (A2, A3), §3.5 (A5), §3.7 (A7); J-V15.2 – J-V15.9; T-V15-1, T-V15-4, T-V15-12, T-V15-13 |
+| F12 | "Oh letters users choose the configurations of where maps are in relation to each other" | spine §10.3: direct placement and described relations solved by the requirement engine at atlas scale; layout presets; warnings never refusals; undo for every change; true-scale alignment automatic | V15 §3.1 (A1), §2.2 (`Arrangement`, `Relation`), §2.3 (the relation vocabulary), §4.1; J-V15.10 – J-V15.12; T-V15-10 |
+| F13 | "And where there is a void between two or more or on the side of a generated map, the next map would have basic configurations to be a continuation of it including the simulation for ongoing effects. What are your thoughts?" | spine §10.4 (narrowed by F14): the world edge charter per shared edge — the neighbour's present ground, never a record (J393) —, locked requirements of the new world; the basics pre-filled; contradictions reported with a reconciling feature; neighbours unchanged by default; provenance in the new world; the "ongoing effects" level withdrawn (spine §10.2) | V15 §3.4 (A4), §2.2 (`ContinuationRequest`, `Member.continuedFrom`); J-V15.13, J-V15.28, J-V15.29; T-V15-2, T-V15-11, T-V15-23 |
+| F14 | "Edits after generation should not carry over, every map is effectively its own microcosm on different literal times." | spine §10.5: after generation nothing crosses a seam; each member its own clock and history; seams drift and the atlas softens; a DM-only drift marker; re-matching only on request, one member's border strip, previewed; each member at its own present with its date label; a common-week display an option | V15 §4.7 (microcosms), §4.5–§4.6 (deletion; version changes), §3.3 (3) (drift), §5.2 (date labels); J-V15.3, J-V15.5, J-V15.25; T-V15-1, T-V15-3, T-V15-22 |
+| F15 | "So what do you think about all of our latest additions? Also to clarify, world maps are individual saves. So a user could have multiple world maps." | spine §10.1: an individual save; many per user; one world may belong to several atlases; references, never copies; deleting a member leaves a marked gap; sharing shares imagery only for shareable members | V15 §2.2 (the document), §2.11 (storage), §4.5, §5.5; J-V15.2, J-V15.4, J-V15.26, J-V15.27; T-V15-7, T-V15-8 |
+
+The rules F1–F9 are seat A's (amendments r: V13, the base and the volumes; spine §13); F16 — the integration itself —
+is the manager's rule, quoted in amendments r item 1029 and assigned to no seat (J393 (5)); this volume reads seat A's
+results — the requirement record, the solver, the conflict list, the edge charter, formation's baked landforms,
+bedrock and soils, the living physics' monthly climate and currents — as V13's facts and names each as a dependency
+(V15 §1b.6). Amendments r (`docs/AMENDMENTS-2026-10-23r.md`) was written the same day and read for its seam definitions; where
+this volume names a dependency by the spine's section and r's item, the seam seat reconciles the names (V15 §13).
+
+### 1.4 Out of scope, with the reason
+
+* **Physics and simulation of any kind** — the atlas runs no stage of V13's W0–W9, no formation, no living physics, no
+  ecology, no sail routing; it holds no raster and no record of a member beyond the member's reference, its version and
+  a picture. The one place a world's physics meets the atlas is a continuation at that world's generation (V15 §3.4),
+  and there the atlas only carries V13's edge charters to V13's generator. (spine §2's rung 1: "no — imagery,
+  arrangement and viewpoints"; §10.1 "It holds no physics, no simulation and no host data, and feeds nothing back".)
+* **Host data** — the atlas has no port of its own and no door of the base's §11.4; it is never a host-bound document.
+  Every host fact the relational style reads reaches it through a member's own V13 readings (the lens facts, the
+  player picture, the known sets per audience) at that member's version, and the atlas stores none of them (V15 §1b.5).
+  The host's storage of atlases across campaigns and its gallery and share rules are the host's own, asked for as a
+  host-change row (V15 §10.2, H35) and the owner's (V15 §11 Q2).
+* **Writing into a member after its generation (F14)** — no atlas action writes a member's log. The fit of a child into
+  a parent (V15 §3.5 (c)) and a neighbour's change before a continuation (V15 §3.4 (6)) are the user's explicit,
+  previewed edits on that world's own page, under its own verbs and undo (V13 §4.1, §4.4); the atlas records only that
+  they happened (`FitRecord`, `ContinuationRequest.conflicts`). Nothing ever re-fits, re-matches or re-blends a member
+  because another member changed; re-matching a border strip is only on request (V15 §4.1's `rematchStrip`), always
+  one member's, always previewed.
+* **The requirement solver, the edge charter's production, the rung-general placement, the lens readings and
+  `renderAt`** are V13's (spine §14's seams 1–5): this volume consumes them as declared in V15 §1b.6 and requests each
+  of V13 in V15 §10.2, and restates none. Formation's baked landforms, bedrock and soils and the living physics'
+  monthly climate and currents are amendments r's (spine §3, §13): the charter carries what the member holds.
+* **The relational style's art** — the library of monsters, vignettes, cartouches and lettering is content (V11's
+  symbol catalogue, RQ-V15-9), on the owner's art budget (spine §16; V15 §11 Q3); this volume states the rows, the
+  rules and the lint, and ships a minimal figure set per preset (V15 §2.5) so the mechanism runs before the art lands.
+* **The F13 "ongoing effects" level** is withdrawn by F14 (spine §10.2): no level of coupling exists between members
+  after generation, and none is designed, reserved or named here.
+* **An ecosystem-shaped export of a stitched world** (V13 §5.4's `ecosystemJson`, `ecosystemGeoJson`, `heightmap16`,
+  `worldCsv`) — never: a stitched picture is not a world, its members disagree at their seams by right (F14), and the
+  shapes those tools read carry one cell graph with one scale. The atlas exports pictures and tiles of the view as drawn
+  (V15 §5.5) and each member exports itself through V13 §5.4 from its own page; a request for the world shapes on an
+  atlas is refused (`refuse.atlas.export`, V15 §4.1).
+* **A sphere or a globe** — J-V13.44 stands (a bounded planar region with a latitude box for climate); the atlas is the
+  same plane, bounded by its integer-centimetre lane (V15 §2.2's `AtlasCm`: ±21 474 km of its origin, a planet's
+  width), and no projection of a sphere is drawn. The relational style's "orientation" is a rotation of the plane.
+* **A fourth size rung or a "region" rung** — the owner's region map is the province rung (the state note's finding;
+  V13 §2.3's three rows); the atlas adds no rung and no extent of its own beyond its members' union.
+* **The encounter crop, world sites and the 2.5D view on an atlas** — a crop opens on a member (V14 §3.10's `world`
+  context) after the drill-down (V15 §3.7); a site is a member's; the atlas has no 2.5D view (its drawables are
+  imagery, flat with a reason; V15 §5.6).
+* **The world page's own style** — V13 §5.1's layers and `style.world` are unchanged; the relational view lives here
+  (spine §11: "It lives in V15"), and a single world is viewed relationally as the one member of an unsaved atlas opened
+  from the world page (J-V15.14), never by a toggle inside V13's view.
+* **Nothing else is out of scope.** An atlas holds members of every rung, from every campaign the user may read, in any
+  number; its page opens standalone and in host mode; every arrangement, relation, gap, viewpoint and embellishment is
+  editable with undo; every one of its pictures exports.
+
+## 1b Wiring table — every new piece, what feeds it and what it feeds
+
+Every record, field, table, stage output, interface, edit kind and entity kind this volume adds, with its producer and
+its consumer. A piece the base carries names its base home and the request that put it there (V15 §10.1); the base
+declares it and this volume states only its own producers and consumers. No piece is listed without a consumer; a piece
+V13 supplies is marked **V13** and listed again in V15 §1b.6, a piece V09 draws marked **V09** and listed in V15 §10.3.
+
+### 1b.1 Records, fields and tables
+
+| piece | fed by (producer) | feeds (consumers) | home |
+|---|---|---|---|
+| `AtlasRecipe` (`Recipe.atlas`; V15 §2.2): the seed, `members`, `relations`, `gaps`, `viewpoints`, `style`, `conflicts`, `layoutPreset`, `snapshot` | the atlas's creation (`generate` with an `AtlasRecipe` of one member, or none); every edit of V15 §4.1 | A1–A7; the view; the exports; the clerk; V12's measures | `Recipe.atlas`, present exactly when `Recipe.product` is `'atlas'` (BCR-V15-1); in the model digest |
+| `Member` (V15 §2.2): the world by reference (`world: { doc; namespace; ref? }`), its `version`, `rung`, `header`, `latBox`, `presentWeek`, `dateLabel`, `arrangement`, `origin`, `continuedFrom`, `fit`, `parent`, `shareable`, `state`, `name` | `addMember`; a continuation's generated world (`origin: 'continued'`); a derived child (`'derived'`); `fitChild` (`'fitted'`); the open-time version check (`state`, `version` compared, imagery marked stale) | A1 (its extent and lock), A2 (what to render and at which week), A3 (its seams), A4 (its edges), A5, A7 (what to open), the member list (V09), the share sheet, the exports, the clerk | the atlas's entities block; the model digest holds everything but `state` (a derived reading of the session; V15 §2.11) |
+| `Arrangement` (V15 §2.2): `originCm`, `bearingCdeg`, `locked`, `z`, `by`, `since` | `arrangeMember`, `lockMember`, A1's solve, a layout preset | A2 (where tiles land), A3 (which edges touch), A4 (the void's neighbours), A6 (the true plane), the ruler, the exports | on the member |
+| `Relation` (V15 §2.2–§2.3): `kind`, `a`, `b`, `widthKm?`, `side?`, `strength`, `text` | `relate`, `unrelate` (a tombstone); the clerk's parse of a typed sentence (V10's `propose`) | A1 (a requirement each), the relations box (V09), the DM-only relation lines, the clerk | the entities block; the model digest |
+| `GapStyle` (V15 §2.2): `kind`, `region`, `label?` | `setGapStyle`; a layout preset's defaults; a removed or missing member's gap (V15 §4.5) | A3's unknown-space fill, A6's terra incognita, the legend, the exports | the entities block; the model digest |
+| `Viewpoint` (V15 §2.2): `audience`, `culture`, `centre`, `orientation`, `stylePreset`, `knowledge`, `asOfWeek?` | `setViewpoint`; the shipped defaults "the game master's" (true map) and "the party's" | A6 (the warp's centre, orientation, importance and known region), A2's audience, the embellishments, the legend's note, the player view (V15 §5.4) | the entities block; the model digest |
+| `AtlasStyleState`, `ConflictSettings` (V15 §2.2) | `setAtlasStyle`, `setConflictSettings` | A1's warnings and asks, A3's precedence and treatments, A6's rest position and figures, the common-week display | `Recipe.atlas`; the model digest |
+| `Embellishment` (V15 §2.2): `kind`, `at`, `sizeCm`, `facing`, `source`, `derivedFrom?`, `hidden?`, `viewpoint`, `week` | A6's derivation (`source: 'derived'`, a derived cache, never stored); `setEmbellishment` (`source: 'dm'` records and the `hidden` marks, stored) | the embellishment layer, the legend, the exports, the clerk ("why a serpent here") | the DM's records and hidden marks in the entities block (the model digest); the derived set in `derived` (no digest) |
+| `ContinuationRequest` (V15 §2.2): the void, `edges[]` (side, neighbour, charter, locked), `prefill`, `contradictions[]`, `conflicts[]`, `status`, `member?` | `requestContinuation` (drafted → sent → generated or cancelled) over **V13**'s `edgeCharter` | V09's world dialog (the pre-fill and the locked edge chips), V13's W0 (the locked requirements, through the request), the new member's `continuedFrom`, the clerk | the entities block; the carried `WorldEdgeCharter`s in the records digest as recorded inputs (V15 §2.11) |
+| `FitRecord` (V15 §2.2): `child`, `parent`, `mode`, `placement?`, `conflicts`, `parentVersionBefore/After`, `since` | `fitChild` after **V13**'s `placeFrame` (rung-general) commits on the parent, or the `derivedFromParent` generation, or the `imageOnly` choice | A3 (the nested seam's treatment), A5's re-render of the parent, the member list, the clerk | the entities block; the model digest |
+| `MemberImagery` (V15 §2.2; a cache): per member and audience the tile pyramid at the member's present (or the common week), its `version`, `week`, `stops`, `labels` (the placed label boxes), `stale` | A2 over **V13**'s `renderAt`; `refreshImagery` (a cache command, never an edit) | A3, A6, the view, the picture and tile exports, the shared atlas (shareable members only) | `Document.atlasImagery` beside `lensPlates`: outside every digest, kept across loads and saves, dropped and rebuilt when the member is openable (BCR-V15-2) |
+| `SeamRecord`, `DriftReading`, `InsetLayout` (V15 §2.6; derived) | A3 over the members' arrangements, rungs and versions; the drift over **V13**'s `edgeCharter` at two versions | the seam compositor, the drift markers (DM-only), the inset frames and locator boxes, the clerk | `derived` (never persisted; rebuilt on open) |
+| `WarpField`, `KnownRegion`, `TrueReadout` (V15 §2.6; derived) | A6 over the viewpoint, the week, the imagery, **V13**'s lens facts and known sets | the mesh warp of the drawn tiles, the hover readout, the drill-down's unwarp, the embellishment placement | `derived` (the warp cached per (atlas version, viewpoint, week, preset, grid); never in a digest or an export's model) |
+| the tables `ArrangeRule` (`atlas.arrange`), `SeamRule` (`atlas.seams`), `AtlasStyleRule` and `StylePresetRow` (`atlas.style`), `EmbellishRule` and `FigureRow` (`atlas.embellish`) (V15 §2.4–§2.5) | shipped defaults (provenance `own`, calibratable unless marked); `editTable` (§7.6) | A1, A3, A6, the presets' cards (V09), V12's register | §7.6's registry (BCR-V15-5; V11's rows RQ-V15-9) |
+| the view keys `atlasZoom`, `atlasCentre`, `relational`, `viewpoint`, `commonWeek`, `showDrift`, `showRelations`, `atlasPreset` (V15 §2.7) | V09's controls | the view, the readout, the exports' request | §2.9 (BCR-V15-3) |
+| the warnings `W_ATLAS_OVERLAP`, `W_ATLAS_LATITUDE`, `W_ATLAS_CLIMATE`, `W_ATLAS_NORTH_DIFFERS`, `W_ATLAS_RELATION_UNMET`, `W_ATLAS_LOCKED_MOVE`, `W_ATLAS_MEMBER_STALE`, `W_ATLAS_MEMBER_MISSING`, `W_ATLAS_MEMBER_UNOPENABLE`, `W_ATLAS_MISMATCH`, `W_ATLAS_EDGE_CONTRADICTS`, `W_ATLAS_EDGE_UNLOCKED`, `W_ATLAS_NEIGHBOUR_CHANGE`, `W_ATLAS_DRIFT`, `W_ATLAS_WARP_FALLBACK`, `W_ATLAS_DETAIL_UNAVAILABLE`, `W_ATLAS_NOT_SHARED`, `W_ATLAS_BEHIND_WEEK` | the stages and the view | the report (§5.4), V09's catalogue, V10 | §5.4 (BCR-V15-13) |
+| the register entries of this volume's calibratable columns (V12 §2.6) | the seat landing each step of V15 §8 | V12's lint and the corpus stage | §13.7, §13.9 |
+
+### 1b.2 Stage outputs and interfaces
+
+| output or interface | implementer | caller or consumer |
+|---|---|---|
+| `AtlasStrategy.generate(recipe, ctx)` → the atlas's stage set A1 (arrange), A2 (render), A3 (seams) with A6 on demand (V15 §3.0) | `@plat/atlas` (the `atlas` product's stages, each a `StageDecl` with `phase: 'main'`, `txForm: 'records'`, `lineageUnit: 'atlas'`) | `generate` with an `AtlasRecipe` (§11.2); every edit's fold over its dirty set (V15 §4.3) |
+| `arrange(doc, requirements, goal): { arrangements: Arrangement[]; unmet: Requirement[]; warnings; reasons }` (A1) | `@plat/atlas/arrange` over **V13**'s `solve(requirements, state, goal)` with the atlas-scale requirement kinds of V15 §3.1 | A1; the relations box's live preview; a layout preset |
+| `requirementsOf(relation): Requirement[]` (V15 §2.3) | `@plat/atlas/arrange` | `arrange`; the clerk ("what this relation asks") |
+| `renderMember(doc, member, { audience; week?; stops }): MemberImagery` (A2) | `@plat/atlas/render` over **V13**'s `renderAt` (RQ-V15-2) in the tile worker | A2; `refreshImagery`; the common-week display; the share writer |
+| `composeSeams(doc): SeamRecord[]` and `blendSeam(tileA, tileB, seam, level)` (A3) | `@plat/atlas/seams` (the records); `@plat/render/atlas` (the pixel blend: a band-limited multiresolution blend over the shared stretch, V15 §3.3) | the atlas tile set's composition per level; the drift markers; the inset frames |
+| `labelsAcrossSeams(doc, stop): LabelBox[]` (A3 (5)) | `@plat/atlas/seams` over the base's placer (§9.2) and the members' placed label boxes | the tile set's label layer; the exports |
+| `draftContinuation(doc, void: { region; rung }): ContinuationRequest` (A4) | `@plat/atlas/continue` over **V13**'s `edgeCharter(world, side, span)` (RQ-V15-1) and V15 §3.4's prefill and contradiction rules | `requestContinuation`'s dry run and fold; V09's Continue here; the world dialog (V09) that opens on it |
+| `fitChild(doc, child, parent, mode, opts): FitRecord` (A5) | `@plat/atlas/fit` over **V13**'s rung-general `placeFrame` / `requestCharter` (RQ-V15-3), its `preview` and its conflict list | the fit sheet (V09); `fitChild`'s fold after the parent's edit commits |
+| `knownRegion(doc, viewpoint, week): KnownRegion` (A6 (4)) | `@plat/atlas/view` over **V13**'s known sets per audience (RQ-V15-2) and the lens facts (RQ-V15-4) | the warp's detail-by-knowledge, the player view's admission, the embellishments at knowledge's edge |
+| `importanceField(doc, viewpoint, week): Float32Array` over the warp grid (A6 (2)) | `@plat/atlas/view` over **V13**'s lens facts (RQ-V15-4), labelled "projection" | `bakeWarp` |
+| `bakeWarp(doc, viewpoint, week, preset): WarpField` (A6 (1)) — a cache command, on request or on the first move of the slider | `@plat/atlas/view` (the flow-based area cartogram on the grid, the centre magnification, the orientation; `dmath` only; V15 §3.6) | the mesh warp of the drawn tiles (`@plat/render/atlas`), `trueReadout`, `drillTarget`, the embellishment placement |
+| `warp(field, s, p: AtlasPointCm): ScreenPt` and `unwarp(field, s, q): AtlasPointCm` | `@plat/atlas/view` | `@plat/render/atlas` (per tile-mesh vertex), the hover readout, the drill-down, hit testing of embellishments |
+| `trueReadout(doc, q): TrueReadout` (A6 (3)) — the true point, the distance to the viewpoint's centre or to a pinned point, the travel time along a route under its member's law when both points lie in one member | `@plat/atlas/view` over `unwarp` and **V13**'s `derivedTime` and route stations | V09's hover card; the ruler |
+| `embellish(doc, viewpoint, week): Embellishment[]` (A6 (5)) | `@plat/atlas/view` over the `atlas.embellish` rules and `viewFacts` (the seats' points, the sways' poles, areas and borders, the routes, the bathymetry on request, the events), keyed draws on the `atlas.embellish` stream | the embellishment layer; `setEmbellishment`'s baseline; the clerk |
+| `drillTarget(doc, q, zoom): { member; worldPoint: WorldPointCm; stop } | null` (A7) | `@plat/atlas/view` over `unwarp` and the arrangements | V09's click and zoom threshold; the document router's open of the member (V13 §5.2's pattern) |
+| `PlatApi.atlas.open(h)`, `.members(h)`, `.readout(h, q)`, `.drill(h, q)`, `.continuation(h, void)`, `.fit(h, child, parent, mode)`, `.refresh(h, member)`, `.bake(h, viewpoint)` and the `query` kind `atlas` (BCR-V15-7) | the generation worker (`@plat/atlas`) behind §11.2's boundary; the render tier for the composition | V09's atlas page, the clerk's `useTool`, the export dialog |
+| the messages `atlas.memberStale { atlas; member; version }`, `atlas.memberMissing { atlas; member }` (posted by the open-time check) | `@plat/api` | V09's member list and toasts; the gap mark |
+| the `atlas` `WhySectionProvider` and the `Member`, `Relation`, `Embellishment`, `SeamRecord` `WhyProvider`s | `@plat/atlas` (V15 §4.8) | V10's `why`, V09's cards and panels |
+
+Each output is consumed: A1's arrangements by A2 (tile placement), A3 (seams), A4 (voids), A6 (the true plane) and the
+exports; A2's imagery by A3, A6, the view, the exports and the share writer; A3's seams by the compositor, the drift
+markers and the clerk; A4's request by V09's world dialog and V13's W0; A5's record by A3 and the member list; A6's warp
+by the render tier, the readout and A7; A7's target by V09's router.
+
+### 1b.3 Edit kinds (each with its tool, lifecycle row and undo)
+
+| edit | the authoring tool (§7.1's binding table; V09 §4.3; RQ-V15-7) | lifecycle row | undo |
+|---|---|---|---|
+| `addMember` (V15 §4.1) | the member list's **Add a world map…** (the recent list, a file, a link; a drag of a world's card onto the atlas) | V15 §2.10's member row | the member tombstoned, its imagery cache dropped, its relations tombstoned; a gap left as `blank` |
+| `removeMember` | the member list's delete gesture → the fates sheet (V09 §5.5) with **Remove from this atlas** (the world untouched) | V15 §2.10 | the member, its relations and its imagery restored |
+| `arrangeMember` (`originCm`, `bearingCdeg`) | T6 `place` on the atlas (a drag; a rotation handle snapping to right angles; edge snapping; the ruler) | V15 §2.10's arrangement row | the former arrangement |
+| `lockMember` | the member card's lock | V15 §2.10 | the inverse |
+| `relate` / `unrelate` | the relations box (structured chips: member, relation, member, width or side) or a typed sentence parsed by the clerk's `propose` route (V10 §3.5) | V15 §2.10's relation row | the relation tombstoned or restored; the arrangements it solved kept (an explicit `arrange` re-solve undoes them) |
+| `setLayoutPreset` | the layout cards (clustered continent · archipelago · scattered realms) | V15 §2.10 | the former arrangements and gaps |
+| `setGapStyle` | T2 `ground` on the atlas: the gap brush (a region, or "between these two", or "around this side") and the kind picker | V15 §2.10's gap row | the former gap |
+| `setConflictSettings`, `setAtlasStyle` | the atlas's settings sheet; the style cards | V15 §2.10 | the inverse |
+| `requestContinuation` (`action: 'draft'\|'send'\|'cancel'`) | **Continue here** on a void (a click in empty space beside or between members, or a member's edge handle) → the world dialog (V09) pre-filled with locked edge chips | V15 §2.10's continuation row | a drafted or cancelled request tombstoned; a sent one whose world was generated is kept (the world exists; removing it is `removeMember`) |
+| `fitChild` (`mode: 'derivedFromParent'\|'imageOnly'\|'fitted'`) | the fit sheet on a nested member (three cards; the fitted card opens V13's placement preview on the parent's page) | V15 §2.10's fit row | the atlas's record only (the parent's edit is undone on the parent, V13 §4.4; the two are not one group — J-V15.9) |
+| `rematchStrip` | the seam's context action **Re-match this edge…** (a request: which member, which strip; V13's edit on that member, previewed there) | V15 §2.10 | the atlas's request record; the member's edit on its own page |
+| `setViewpoint` (`action: 'add'\|'update'\|'remove'`) | the viewpoint picker's **New viewpoint…** sheet (audience, culture, centre rule, orientation, preset, as-of week) | V15 §2.10's viewpoint row | the inverse |
+| `setEmbellishment` (`action: 'add'\|'move'\|'remove'\|'restore'`) | T6 `place` with the embellishment tray (the DM): a drag from the tray, a drag of a figure, delete | V15 §2.10's embellishment row | the inverse (a removed derived figure's `hidden` mark cleared) |
+| `setAttr` on a member's `name`, a gap's `label`, a viewpoint's `name` | T9 `shape` | §7.4's setAttr row | the inverse |
+| `refreshImagery(member?)`, `bakeWarp(viewpoint)`, `pinImagery(member, keepStops)` | the member list's refresh; the slider's first move; the member card's **Keep detail** | cache commands, never events (as `pinPlate`, V13 §5.8 (8)) | — |
+
+The view keys of V15 §2.7 are view state (§2.9): never events, never undone, never in any digest.
+
+### 1b.4 Entity kinds (each rendered, labelled, exported, persisted)
+
+| entity | rendered | labelled | exported | persisted |
+|---|---|---|---|---|
+| a member's imagery | the member's tiles composited at the level, under the seams, in the viewpoint's warp | the member's placed labels (its own, through `renderAt`), its date cartouche, its name on hover | the picture exports as drawn; the tile export; the shared atlas (shareable only) | the imagery cache (`Document.atlasImagery`), outside every digest |
+| a gap (`GapStyle`) | the kind's fill: sea tint with the style's wave hatching, a strait's double shore, a mountain-belt hachure, mist, terra incognita's blank parchment and lettering, blank | its `label` in the style's lettering | the picture exports; GeoJSON of the atlas (a Polygon of kind `gap`) | the entities block |
+| a seam (`SeamRecord`) | the softened band (nothing of its own); under `showDrift` a DM-only tick at the stretch's midpoint with the drift's figures; an inset's thin frame and the locator box on the coarser member | the drift figures ("coast 2.1 km apart · 1 river unmatched") | the frame line in a picture; never the drift figures below the DM's key | derived, never |
+| a relation (DM-only diagnostic) | under `showRelations`: a dashed line a → b with the kind's glyph, red where unmet | the kind word and width | never | the entities block |
+| an embellishment | the figure at its point, facing, sized by the preset's rows; a vignette at its seat; a cartouche at its corner | a figure's caption in the preset's lettering ("here be serpents"); a vignette's event word | the picture exports as drawn; GeoJSON a Point of kind `embellishment` with `source` and `derivedFrom` | the DM's records; the derived ones never |
+| the relational furniture (rhumb lines, compass roses, the itinerary strip's stations and day counts, the T-O rim) | by the preset's rows | the day counts in the preset's numerals | the picture exports | never (derived) |
+| a missing-member mark | the last imagery ghosted at `atlas.seams.missingGhostAlpha` (or blank) under a hatched frame with "missing map: {name} (last seen {version})" | the mark's words | the picture exports draw it as drawn; the shared atlas writes the gap | the member's `state` is derived; the gap persists as a `GapStyle` only if the user converts it |
+| the true-distance readout and the ruler | the hover card; a dashed ruler line on the true plane unwarped through the view | km (the `worldUnits` view key's unit, V13 §2.1) and, within one member, the travel time labelled with its law | never | never |
+
+### 1b.5 Host facts, traced to their field and derivation row
+
+The atlas holds no host fact (V15 §1.4). The relational style reads host facts of a **member** through V13's lens
+readings at that member's version and week, as V13 §5.8's fact classes mark them, and derives from them two map-side
+values it labels "projection" (class 4): an **importance** per seat and a **known region** per viewpoint. Nothing is
+stored; every reading is re-made from the plates and the events when the view is drawn (the embellishments a derived
+cache). The alignment lens is never read (DM-only, J384 (7)); suppressed creeds, covert links and criminal channels are
+never read (V13 §5.8 (7)); a row the host resolved DM-only never reaches a player viewpoint (fail closed).
+
+| fact the view uses | V13's port field (the host's fact, through V13's plates and events) | V13's row | reader here |
+|---|---|---|---|
+| the holy city of a culture | `LensFacts.hierarchy[]` (superior → member), `LensFacts.faithPlaces[]` (the host's pilgrimage-centre, religious-superior and holy-site labels), `LensFacts.faith[].patron`, `LensFacts.realmRank[]` | V13 §5.9 (6) | A6 (2)'s centre rule `holyCity` and the holiness term; the city vignette's tier |
+| the capital of a realm | `Allegiance.root` and `members` (the sway's root seat), `PolitySeat.tier` | V13 §3.9, §5.9 (2) | A6 (2)'s centre rule `capital` |
+| a seat's tier and population | `PolitySeat.tier`, `LensFacts.sizes[]` | V13 §5.9 (5) | the importance's size term |
+| trade importance | `LensFacts.economy[].entrepot.centrality`, `.exports` (count), `LensFacts.links` of the trade lens (channels) | V13 §5.9 (4) | the importance's trade term; a port drawn red in the portolan preset |
+| prosperity | `PolitySeat.prosperity` (the host's rung) | V13 §5.9 (7) | the importance's prosperity term (the host's rung relative to the realm's median, as the sway reads it, V13 §3.9 (7)) |
+| hostility and distance between cultures | `PolityRelation.word` mapped to respect / neutral / adversarial, `.atWar`; `PolityFacts.culture[].band` (the host's culture distance in fifths); `Sway.neighbours[].class` | V13 §3.9, §5.9 (2) | A6 (5)'s monstrous peoples and devils rules; the "far lands" term |
+| an enemy faith | `LensFacts.faith[].patron` of the land's holder against the viewpoint culture's patron; the religion lens's `contested` and `historic front` links | V13 §5.9 (6) | A6 (5)'s devils rule (never the alignment lens's posture link) |
+| knowledge per audience | `RenderedWorld.known[].cells` per audience (amendments r: the coarse cells the audience's places have reached through the world's `knownTo` — V13's reading of the party key `party: { tier; places }` (§2.9), `audienceKnowledge` and the player picture's whitelist, V13 §5.1) | V13 §3.11.6, §5.1, §5.4, §5.8 (7) | A6 (4)'s known region per audience; the player view (V15 §5.4) |
+| dated realm events | `WorldEvent` (kind, week, `at` or `seats`, audience): plague arrivals and realm arcs, battles, sieges, raids, razings, booms and busts, patron falls | V13 §2.2, §5.8 (1), (8) | A6 (5)'s vignettes (a skull, banners, a siege mark, a ruin, a fallen idol) within `atlas.embellish.vignetteWeeks` of the viewpoint's week |
+| sailed and storm-feared waters | `WorldRoute` (mode `water`, its `waterRuns`), `TravelLaw.water.stormFactor` per quarter (the host's law when bound, the default row standalone) | V13 §2.2, §3.8 | A6 (5)'s sea-serpent rule |
+| a seat's position and a sway's extent; a culture's label; the sea's depth | `ViewFacts.polity.seats[].at`, `.sways[].poleCm`, `.areaKm2`, `.border`; `ViewFacts.polity.cultures[]`; `ViewFacts.water.bathymetry` on request (file r item 1007 as the reviser widened it, C15-02, C15-03) | V13 §5.8 (10) | A6 (1) (b), (2), (5), (8) |
+| the member's present week and date label; its known sets | `renderAt`'s result (RQ-V15-2) | V13 §2.1 | the date cartouche; the common-week display; the known region |
+
+Every value above is read as the host resolved its audience; a gap in the host's facts (no hierarchy sent, no culture
+band, no events) leaves the corresponding term at its neutral value and the legend says so ("no faith seated: the
+centre is the capital"; "no culture distance sent: far lands by distance alone") — V13 §5.8 (3)'s honesty rule, never a
+guess.
+
+### 1b.6 Volume 13's dependencies (named, never restated; spine §14's five seams and their readings)
+
+| what V15 needs | V13's piece (spine §14) | V15's reader | until it lands |
+|---|---|---|---|
+| **the world edge charter** `WorldEdgeCharter` as amendments r defines it (V13 §2.2, file r item 953: every field, cited and never restated — the neighbour's PRESENT physical ground along the edge at the moment it is read, however that ground came to be, and **never** a record: no event, no land cover, no plate, no political fact, no simulation state, nor any change made after the reading; J393's test, which V13 states once), produced by `edgeCharter(world, side, span)` as a read and consumed by W0's step 6 as `locked` `Requirement`s of source `edgeCharter` carried in `WorldRequest.edgeCharters[]`, stored whole in the new world's `WorldRecipe.edgeCharters`; T-V13-68 the present-ground bar | spine §14 (1), §10.4; amendments r items 942, 953; RQ-V15-1 | A4 (one per shared edge); A1's edge summaries (the full side's span); the drift reading (two versions compared); T-V15-2 | a continuation is refused with `refuse.atlas.noCharter` naming the member's version (the void can still be filled by an ordinary new world, un-continued) |
+| **the rendered member**: `renderAt(world, week, audience)` → `RenderedWorld` as amendments r defines it — the §8.1 tile sets at the four stops over the `atlas` layer set — the member's default picture for the audience (J394): relief with the land cover's used and disturbed classes over it, water, routes, settlements, labels, the sway's fills and borders, the occupation, debatable and fighting overlays and the event pins, each under the audience's admission (the player picture for a party); no lens, no diagnostic, no DM-only mark for a player —, the extent, the datum, the latitude box, the rung, the present week, the date label and the known sets per audience as coarse cells; a view read cached per (digest, week, audience) — with the placed label boxes per stop (`tiles[].labels`), both V13's by file r items 1007 and 1011, `opts.layers` for the parent's towns over a derived child (item 1006), and `week` below the present for the common-week display | spine §14 (2); amendments r item 942 and its V13 §5.4 text; RQ-V15-2 | A2; the common-week display; A6's known region; the drill-down's stop | no atlas: M-ATLAS-A waits on M-W6, which lands `renderAt` over M-W3's labels and picture rows (file r item 1015) |
+| **the fit across rungs**: `placeFrame` with `frame: { kind: 'world'; doc }` (amendments r item 975; the `fit` edit row of item 943: P1's terms over the child's edge profile at its own cell size, P2's band in the parent scaled by the parent's cell ratio (item 942), P3–P5 as for a frame, the child never changed; `Placement`'s world subject, item 1030), with `preview` and the conflict list; this volume's asked additions: `requestCharter` with a world subject for the derived-from-parent path (the parent's rasters as the child's coarse ground, its frames as planned sites) and the transient `charterFor` at a world-rung extent for the mismatch reading | spine §14 (3), §10.6; amendments r items 943, 975, 1030; RQ-V15-3 | A5 | a nested member is image-only with its mismatch warning (`W_ATLAS_MISMATCH`); the fitted and derived paths wait on M-ATLAS-B |
+| **the relational style's facts**: `viewFacts(world, week, audience)` → `ViewFacts` (V13's: V13 §2.2 and §5.8 (10) by file r items 1007 and 1012; J-V13.133; RQ-V15-4) → the religious hierarchy and faith places, the realm rank, the sway's roots and members, tiers, sizes, prosperity rungs, the trade entrepôts and exports, the relations and culture bands, the dated events — each with its fact class and its resolved audience, read from the plates at `week` (V13 §5.8 (8)); with every seat's point, every sway's pole, area and border, the culture table and the bathymetry on request (C15-02, C15-03) | spine §14 (4); RQ-V15-4 | A6's importance field, centre rules, hostility terms and vignettes | the relational view runs on the recipe's seats and the sway's recipe regime alone (a standalone world: V13 §3.9 (5)); on a host-bound member the terms read neutral and the legend says "the host's facts not sent" |
+| **the arrangement solver**: `solve(requirements, state, goal, opts)` as amendments r defines it (items 942 and 1007: `state` `{ members: ArrangeMember[] }` — each member's `Placement` of subject kind `world` with its extent, rung, coarse cell and lock —, `goal: 'arrange'` over placements only, `SolveResult { ops; placements?; report; conflicts }`; r names V15 as the caller) — the relations as r's `Requirement` records of kind `relation` with V15 §2.3's words as the target's `word`, the compatibility checks of kinds `latBox` and `climateRow` at rank 4, the atlas-scale evaluators registered through V13's `solve.registerEvaluator` (file r item 1007; J-V13.132) | spine §14 (5), §4; amendments r items 942, 1007; RQ-V15-5 | A1 | — (M-ATLAS-A follows M-W6, which lands `solve`; V15 §8) |
+| **no reverse seam** — V15 writes nothing into a world document after its generation | spine §14 (6) | the lint T-V15-19 over `@plat/atlas` | — (this volume's own promise) |
+| the world's week and date label, `WorldHeader` and the member's version digests (through the base's reader of §11.2, the one reading beside the six — R-V15-4, file r item 1017), `WorldSizeRung`, the size rows, `WorldPointCm`; `worldFactsAt`; `derivedTime` and the travel-law labelling rule | V13 §2.1, §2.2, §2.3, §2.4, §1b.2, §5.1; §11.2 | A2, A6 (3), A7 | — |
+| the lens mechanism's fact classes, refusals, honesty rule, audience filter; the plates' horizon; the lenses' rows named in V15 §1b.5 | V13 §5.8, §5.9 | A6 | M-ATLAS-C after M-W5 |
+| the placement edits' conflict list (`W_EDIT_DOSSIER` and the choices the spine generalises) and the fork preview | V13 §3.11.5, §4.5; spine §5.3 | A5 (c); a neighbour's pre-continuation change | — |
+| the four stops and the glyph levels; opening a document as another page; the picture exports' rows | V13 §5.2, §5.4 | A2's shared zoom rule; A7; the exports | — |
+
+## 2 Data model
+
+### 2.1 What the base, volume 13 and volume 9 already declare (read as declared)
+
+`Document`, `Recipe` and its per-product blocks, `Base`, `Snapshot`, `ChunkRef`, `ViewState` and the view keys (§2.9);
+the four digests and what each hashes (§6.2, §2.9); `Identity`, `Lifecycle`, `LifecycleEvent`, `DerivationRecord`,
+`Provenance` (§2.8); `EditBase`, `EditEvent`, `EditScope`, `EditFate`, `ConflictAction` (§7.1); `StageDecl`,
+`StageContext`, `ProductDecl`, `StrategyRegistry` (§4.12, §14); `PlatApi`, `ExportOpts`, `Query`, `Admission`, the
+reader (§11.2); `DocResolver` (§11.5); `LayerSpec`, `StyleSheet` and the style presets (§8.2, §8.4); the tile key and
+the zoom stops (§8.8); `LabelEntity` and the placer (§9); the knowledge tiers `'public'|'local'|'secret'` and the party
+key (§2.9, §9.2). From V13: `WorldCm`, `WorldPointCm`, the world datum, `WorldHeader`, `WorldSizeRung`, the size rows,
+`WorldRecipe` and `WorldRequest`, `FrameCharter`, `Placement`, `PlaceContext`, `CoherenceCost`, `WorldRoute`,
+`Territory`, `Sway`, `Allegiance`, `PolityFacts` and its rows, `WorldEvent`, `TravelLaw`, `ReasonRecord`, `LensId`,
+`FactClass`, `LensFacts`, `LensPlate`, `Aud`, `WorldFacts` (V13 §2.2, §2.4); amendments r's `Requirement` and the
+`WorldEdgeCharter` (spine §4.1, §10.4). From V09: `AppPrefs.recent`, `LocalDocRecord`, the share sheet's options, the
+document pages (V09 §2.11, §5.11, §5.13).
+
+**Units.** Every length is an integer centimetre (`Cm`, `AtlasCm`) or a field named `…M` / `…Km`; a bearing is
+centidegrees clockwise from north (`Cdeg`); a week is §4.11's `Week`; a pixel measure is `Px`; a share is a number in
+[0, 1]. **The atlas plane** (J-V15.2) is a planar, bounded, axis-aligned plane in **integer atlas centimetres**
+(`AtlasCm`, an int32 lane as `WorldCm` is: x east, y north) whose origin is the south-west corner of the atlas's first
+member at the atlas's creation (an atlas with no member has its origin at (0, 0) and takes the first member's corner
+when one is added); it is the same unit as every member's `WorldCm` and the same datum (sea level, 0 cm), so a member's
+point `w` lies on the atlas at `toAtlas(m, w) = m.arrangement.originCm + R(m.arrangement.bearingCdeg) · (w − c) + c'`,
+where `c` is the member's extent centre in its own frame and `c'` that centre's atlas position (a rotation about the
+member's centre, through `dmath`'s sine and cosine, rounded to the centimetre; bearing 0 — the default and the only
+bearing a continuation or a fit admits — reduces it to a translation), and `toMember` is its inverse. The lane bounds
+the atlas: every member's corners must lie within ±2 147 483 647 cm (±21 474 km) of the origin — a planet's width —
+and an `addMember` or `arrangeMember` that would exceed it is refused (`refuse.atlas.extent`, V15 §4.1). The atlas
+has no latitude of its own (J-V15.11): a member's latitude box is V13's climate device (V13 §2.1: "no coordinate is
+ever a degree") and the atlas reads it only to check neighbours' continuity (V15 §3.1 (4)) and to pre-fill a
+continuation's box (V15 §3.4 (4)). **The atlas's week** does not exist (spine §2's rung 1: "none of its own"): every
+member is drawn at its own present, and the common-week display is a view option over the members' own histories
+(V15 §4.7).
+
+### 2.2 New records
+
+```ts
+// @plat/atlas — the atlas document (a Document of product 'atlas', §2.9; BCR-V15-1)
+type AtlasCm = WorldCm; type AtlasPointCm = { x: AtlasCm; y: AtlasCm };   // the atlas plane (V15 §2.1): integer cm, x east, y north, the world datum
+type MemberOrigin = 'placed'|'continued'|'derived'|'fitted';
+type MemberState = 'present'|'missing'|'unopenable';   // derived at open: never in a digest
+interface AtlasRecipe {                        // Recipe.atlas, present exactly when Recipe.product is 'atlas'; Recipe.rung reads 'atlas' (the one rung the product registers)
+  seed: Seed /* the atlas's own seed: keys the embellishment draws and the solver's tie-breaks on the `atlas.*` streams (V15 §3.9); never a member's */;
+  members: Member[]; relations: Relation[]; gaps: GapStyle[]; viewpoints: Viewpoint[];
+  style: AtlasStyleState; conflicts: ConflictSettings; layoutPreset?: 'clustered'|'archipelago'|'scattered' /* the last preset applied; provenance only */;
+  snapshot: { tables: Record<TableId, string> /* every atlas.* table version read */; generator: string; format: string; renderer: string /* the member renderer's output version the imagery was made under (V15 §2.11) */ } }
+interface Member {
+  id: Id; world: { doc: Uuid; namespace: string /* V13 §2.5's segment, read once at add */; ref?: string /* a DocResolver reference (§11.5) when the world lives outside the local store: the host's or a file's; absent for a local document */ } /* BY REFERENCE: never a copy of any raster or record (F15; J-V15.4) */;
+  version: MemberVersion /* the version the imagery, the seams and every carried charter were taken at; a differing live version marks the imagery stale (V15 §4.6) and never re-fits */;
+  rung: WorldSizeRung; header: WorldHeader /* the scale declaration only (unit, axes, origin, extent, geometryVersion), copied at add and at every refresh through the base's reader of §11.2 (R-V15-4) */;
+  latBox?: { southDeg: number; northDeg: number } /* the member's climate box (V13 §2.2), read for continuity checks and a continuation's pre-fill only */;
+  presentWeek: Week; dateLabel: string /* the member's present and its date label as renderAt returned them at the last refresh (V15 §4.7) */;
+  arrangement: Arrangement;
+  origin: MemberOrigin; continuedFrom?: { request: Id; charters: { neighbour: Id; side: 'N'|'E'|'S'|'W'; charter: Id /* the carried WorldEdgeCharter's id in this atlas's records */; neighbourVersion: MemberVersion }[] } /* the atlas's side of a continuation's provenance; the world stores its own copy (spine §10.4) */;
+  parent?: Id /* the member whose extent wholly contains this one (a nested member; V15 §3.5) */; fit?: FitRecord;
+  shareable: boolean /* this member's imagery may travel in a shared atlas or picture (V15 §5.5): the default follows the world's own sharing (its resolver access, §11.5), the user may narrow it, never widen it beyond the world's; the host's rule across campaigns the owner's (V15 §11 Q2) */;
+  name?: NameRef /* the member's title: the world's own name by default */; lifecycle: Lifecycle; reason: Id }
+interface MemberVersion { modelDigest: Hash128; recordsDigest: Hash128; logHead: number; geometryVersion: number; outputVersion: string }
+interface Arrangement {
+  originCm: AtlasPointCm /* where the member's south-west corner lies (bearing 0), or its centre's anchor under a bearing (V15 §2.1) */;
+  bearingCdeg: Cdeg /* the member's north turned clockwise on the atlas plane; 0 by default; snapped to right angles by the tool (`atlas.arrange.rotateSnapCdeg`); presentation on the atlas plane only — the member's own north stays its +y (J-V15.12) */;
+  locked: boolean /* held by every solve and preset; a solve that would move it asks (`W_ATLAS_LOCKED_MOVE`: unlock · cancel) */;
+  z: number /* the draw order among overlapping members of equal rung: the higher draws over; by default the newer member's add ordinal (`ConflictSettings.seamPrecedence`) */;
+  by: 'direct'|'solved'|'preset'|'continuation' /* the last writer */; since: { seq: number } }
+type RelationKind = 'eastOf'|'westOf'|'northOf'|'southOf'|'acrossSea'|'inside'|'farFrom'|'adjacent'|'beyondUnknown';   // V15 §2.3
+interface Relation { id: Id; kind: RelationKind; a: Id; b: Id /* members: "a <kind> b" */;
+  widthKm?: number /* acrossSea: the sea's width between the facing edges; farFrom: the least distance between the extents; absent: the kind's default cell */;
+  side?: 'N'|'E'|'S'|'W' /* adjacent: the side of `a` that `b` touches; eastOf and its kin imply it */;
+  strength: 'set'|'locked' /* the requirement's strength (spine §4.1): a relation is never 'random'; 'locked' holds against every later solve and preset */;
+  text: string /* the relation as the user wrote or chose it, kept for the clerk and the relations box */; lifecycle: Lifecycle; reason: Id }
+interface GapStyle { id: Id; kind: 'sea'|'strait'|'mountains'|'mist'|'terraIncognita'|'blank';
+  region: { ring: AtlasPointCm[] } | { between: [Id, Id] } | { around: Id; side: 'N'|'E'|'S'|'W'; depthKm: number } | { everywhereElse: true } /* at most one `everywhereElse` gap: the atlas's background kind (default `terraIncognita`) */;
+  label?: NameRef /* a sea's or land's name in the style's lettering */; lifecycle: Lifecycle; reason: Id }
+interface Viewpoint {                          // "every map is somebody's map" (spine §11): an audience + a culture
+  id: Id; name: NameRef;
+  audience: 'dm'|'party'|'public' /* the knowledge key the view admits by (§9.2): the DM everything, the party its places and pictures, the public tier `public` */;
+  culture: { member: Id; cultureId: number /* a culture id of that member (V13 §2.2 WorldRaster.culture's table) */ } | 'none' /* no mapmaker: the true map's conventions */;
+  centre: { rule: 'holyCity'|'capital'|'mapmakerSeat'|'point'; at?: AtlasPointCm /* rule 'point': the DM's choice */; resolved?: { member: Id; seat: string | Id; at: AtlasPointCm } /* derived at draw (never stored): what the rule found (V15 §3.6 (2)), `at` the seat's `ViewFacts.polity.seats[].at` through `toAtlas` */ };
+  orientation: 'northUp'|'eastUp'|'southUp'|'westUp'|'towardCentre' /* the preset's default; the DM's override */;
+  stylePreset: string /* an atlas.style preset row key: 'true', 'mappaMundi', 'portolan', 'itinerary' */;
+  knowledge: { source: 'audience'|'culture'|'everything'; heardOfBands: number /* the bands of "heard of" beyond the known edge (`atlas.style.heardOfBands` default) */ } /* how the known region is derived (V15 §3.6 (4)) */;
+  asOfWeek?: Week /* a map as it was at a past week (a map found in a dungeon): the plates at that week on every member (never later than a member's present) */;
+  route?: { member: Id; routes: Id[] } /* the itinerary preset's spine: a chain of one member's WorldRoutes */;
+  lifecycle: Lifecycle; reason: Id }
+interface AtlasStyleState { preset: string /* the atlas-wide default preset for a viewpoint that names none */; relational: number /* 0–1: the slider's rest position saved with the atlas; the per-viewer `relational` key overrides it */;
+  embellish: boolean /* the derived embellishments drawn at all (the DM's own always) */; insets: boolean /* detail steps as insets where the seam rule says so, else always eased */; dateCartouches: boolean /* default true */ }
+interface ConflictSettings { overlap: 'warn'|'allow' /* two extents overlapping: warned (default) or admitted silently as an inset */; latitudeClash: 'warn'|'ignore'; climateClash: 'warn'|'ignore'; northDiffers: 'warn'|'ignore';
+  seamPrecedence: 'newer'|'older'|'dm' /* equal rungs: which wins on a shared stretch (the newer by default; 'dm' reads each member's `z`) */;
+  commonWeek: boolean /* the common-week display on (default false: each member at its own present, F14) */; missing: 'ghost'|'blank' /* how a missing member's gap is drawn (V15 §4.5) */ }
+type EmbellishmentKind = 'seaSerpent'|'whale'|'dragon'|'monstrousPeople'|'devils'|'ruinVignette'|'skull'|'banners'|'siege'|'idolFallen'|'cityVignette'|'cathedral'|'cartouche'|'compassRose'|'ship';
+interface Embellishment {
+  id: Id; kind: EmbellishmentKind; at: AtlasPointCm /* on the TRUE plane: drawn through the viewpoint's warp */; sizeCm: Cm /* its drawn size on the true plane; the preset's rows scale it */; facing: Cdeg;
+  source: 'derived'|'dm'; derivedFrom?: { rule: RuleRef; facts: { field: string; value: number | string }[] /* the port fields and the member readings the rule read, by V13's field names — never a culture's or a people's name (V15 §3.6 (5)) */ };
+  hidden?: boolean /* a derived figure the DM removed: kept so the derivation does not re-add it */; viewpoint: Id; week: Week; member?: Id /* the member whose facts placed it */;
+  caption?: NameRef /* the preset's lettering, e.g. "here be serpents"; a vignette's event word */; lifecycle: Lifecycle; reason: Id }
+interface ContinuationRequest {
+  id: Id; void: { region: AtlasPointCm[] /* the void's rectangle on the atlas plane */; rung: WorldSizeRung; extentCm: { w: AtlasCm; h: AtlasCm } /* the rung's extent, or the void's where it is smaller (clamped to V13's band, W_WORLD_RECIPE_CLAMPED) */ };
+  edges: { side: 'N'|'E'|'S'|'W' /* the void's side */; neighbour: Id; neighbourSide: 'N'|'E'|'S'|'W'; span: { fromCm: AtlasCm; toCm: AtlasCm } /* the shared stretch along the side */; charter: Id /* the carried WorldEdgeCharter */; neighbourVersion: MemberVersion; locked: boolean /* true unless the neighbour could give no charter (W_ATLAS_EDGE_UNLOCKED) */ }[];
+  prefill: { climateBand?: string; wetness?: number; ruggedness?: number; seaShare?: number; latBox?: { southDeg; northDeg }; poles?: { equatorDeciC: DeciC; poleDeciC: DeciC }; calendarSouth?: boolean; scenario?: string } /* the world dialog's basics pre-filled from the neighbours' charters (V15 §3.4 (4)); never a recipe's template (a record, not ground); each still `random` / `set` / `locked` in the dialog as the user leaves it */;
+  contradictions: { a: Id; b: Id; fact: 'sea'|'elevation'|'climate'|'latitude'|'river'|'bedrock' /* the field that disagrees at the void's corner or across it */; detail: string; proposal: 'sea'|'strait'|'range'|'rift'|'escarpment' /* the reconciling feature offered as an extra requirement — V13's `landform` feature words (file r item 1007 (a)); the chip's label may say "a mountain belt" */; accepted?: boolean }[];
+  conflicts: { neighbour: Id; change: string /* the neighbour's change a requirement would need; shown in V13's conflict list on that neighbour's page */; decided?: 'dropped'|'neighbourEdited' }[];
+  status: 'drafted'|'sent'|'generated'|'cancelled'; member?: Id /* the member the generated world became */; lifecycle: Lifecycle; reason: Id }
+interface FitRecord { child: Id; parent: Id; mode: 'derivedFromParent'|'imageOnly'|'fitted';
+  placement?: Id /* mode 'fitted': the parent world's Placement of the child (V13's rung-general form, RQ-V15-3), by its id in the parent */;
+  conflicts: { list: Id /* the parent's conflict-list record (V13's), by id */; decided: string[] }[] /* what the user chose on the parent's page */;
+  parentVersionBefore: MemberVersion; parentVersionAfter?: MemberVersion /* the geometry version step the fit caused; the parent re-rendered */;
+  mismatch?: DriftReading /* mode 'imageOnly': where the two disagree, computed once at the fit (W_ATLAS_MISMATCH) */; since: { seq: number } }
+interface MemberImagery {                      // Document.atlasImagery[]: a cache per (member, audience), OUTSIDE every digest (BCR-V15-2)
+  member: Id; audience: 'dm'|'party'|'public'; version: MemberVersion; week: Week /* the member's present, or the common week where below it */;
+  header: WorldHeader; stops: { stop: 0|1|2 /* the V13 stop cached: 0 and 1 always, 2 on `pinImagery` (J-V15.7) */; pxPerCell: number; cols: number; rows: number; tiles: ChunkRef[] /* 256 px tiles, lossy-coded (V15 §2.11), row-major */; labels: { box: [Px, Px, Px, Px]; text: string; kind: string; priority: number }[] /* the placed label boxes at the stop, in the member's pixel frame */ }[];
+  known?: { audience: 'dm'|'public'|`party:${string}`; cells: Uint32Array /* the member's COARSE cells this audience's places have reached, as `RenderedWorld.known` returned them (amendments r) */ }[];
+  stale: boolean /* the member's live version differs: shown with the stale mark until refreshed (V15 §4.6) */; renderer: string }
+```
+
+The frame's side and the world's side of the base are untouched by an atlas: a world document carries no reference to
+any atlas (J-V15.4; no back-reference exists, so membership moves no world digest — T-V15-1 (c)); an atlas opened in a
+session resolves each member by `world.doc` through the local store (V09 §2.11) or `world.ref` through the embedding
+app's `DocResolver` (§11.5), opens it **read-only** in the generation worker for `renderAt`, `edgeCharter` and the lens
+readings, and never holds a write handle to it. **Knowledge on atlas records:** every record above carries `knownTo` as
+§9.2 reads it, default `public` for an arrangement, a gap, a viewpoint's existence and a DM-placed embellishment the DM
+marks shown, `secret` for a relation (a DM diagnostic), a drift reading, a hidden embellishment and the DM's viewpoints
+not marked shared; a member's imagery is admitted per audience by its own picture (V15 §5.4).
+
+### 2.3 The described relations (the vocabulary F12 asks for, as requirements)
+
+A relation is "a *kind* b" with at most one measure. Each becomes one or more **requirements** for V13's `solve`
+(amendments r's `Requirement` record: `source: 'relation'`, `rank` 3 — the user's generation requests on the
+precedence ladder, spine §5.1 —, the relation's `strength`, `kind: 'relation'` with the atlas-scale word of this table
+as the target's `word` (`atlas.arrange.kinds` lists the words), the member ids and the measure in `target`, no `scope`
+(the arrangement state is the whole atlas, file r item 1007); the compatibility checks of V15 §3.1 (4) are kinds `latBox` and `climateRow` at rank 4). The
+solver holds every `locked` requirement and every locked arrangement, pursues every `set` one, changes the existing
+arrangement as little as possible (least-change: the sum of members' displacements in km, weighted by their extent),
+keeps physical plausibility (the compatibility requirements of V15 §3.1 (4), rank 4) and lets the layout preset's
+packing fill the rest (rank 5).
+
+| kind | the sentence (the relations box's chips; the clerk's parse) | the requirement(s) it becomes | default measure (`atlas.arrange`) |
+|---|---|---|---|
+| `eastOf` (and `westOf`, `northOf`, `southOf`) | "Varn lies east of Ashmark" | `relPosition`: b's extent centre lies within ±`sectorHalfDeg` (30°) of the compass direction from a's centre; `noOverlap`: the extents do not overlap (soft: a warning when they must) | — |
+| `acrossSea` | "Varn lies east of Ashmark across a narrow sea" (always with a direction; the width word maps narrow · wide · open to a cell) | `relPosition` as above; `gapBetween`: the facing edges `widthKm` apart (`seaNarrowKm` 60, `seaWideKm` 250, `seaOpenKm` 800 by the word); `gapKind`: the space between them a `sea` gap style (written as a `GapStyle { between }` when the user accepts the solve) | the word's cell |
+| `inside` | "Thornwood sits inside Ashmark" | `contains`: b's extent wholly inside a's (b the finer rung: a province in a realm, a realm in a continent); `parent` written on b; the nested seam's treatment follows (V15 §3.3 (4)); a coarser b inside a finer a is unmet, warned | — |
+| `farFrom` | "Kesh lies far from Ashmark" | `minDistance`: the least distance between the extents ≥ `widthKm` (`farKm` 600); no direction | `farKm` |
+| `adjacent` | "Varn borders Ashmark on the east" | `touch`: b's facing edge coincides with a's named side over a shared stretch ≥ `adjacentMinShareKm` (40); `northAgrees`: both bearings 0 (else `W_ATLAS_NORTH_DIFFERS`); the compatibility requirements of V15 §3.1 (4) evaluated on the stretch; the seam softened; a continuation between them later reads this stretch | — |
+| `beyondUnknown` | "Kesh lies far to the south beyond unknown lands" (a direction plus the unknown) | `relPosition`; `minDistance` ≥ `beyondKm` (900); `gapKind` `terraIncognita` between (the gap written on accept) | `beyondKm` |
+
+A relation never names a settlement, a river or a coast — those are a member's own facts, isolated by F14; a user who
+wants "the river of Varn to flow into Ashmark" is asking for a continuation (V15 §3.4) or a fit (V15 §3.5), and the
+relations box says so (`info.atlas.relation.insideOnly`). Two relations that contradict ("Varn east of Ashmark", "Varn
+west of Ashmark") are both kept and both reported unmet; the solver takes the later one as `set` and the earlier as a
+warning, never a refusal (spine §10.3). The clerk's parse of a typed sentence (V10's `propose` route, RQ-V15-8) yields
+the chips the user confirms; the sentence is kept in `text`.
+
+### 2.4 New rule tables (data, editable by `editTable`, §7.6; every cell `{value, unit, provenance, calibratable}`)
+
+Every value below is **our own** (provenance `own`, `extension`), PLAUSIBLE until measured (V15 §12), calibratable
+against the owner's sittings and V12's register when its milestone comes (§13.9; V15 §8), save the cells marked
+*fixed* (a tile size, a grid order), which are not calibratable. Where a value leans on the science note's figures the
+note names its section as evidence (research/world/formation-ecology-science.md §9–§10), never as a source of the
+number; every number is this volume's. The tables join V11's registry as new rows (`atlas.*`; V11 §3.1's next free row
+numbers, assigned at M-ATLAS-A's landing; RQ-V15-9).
+
+```ts
+interface ArrangeRule {                                                                              // atlas.arrange — A1
+  kinds: string[] /* the atlas-scale requirement kinds registered with V13's solver as data: relPosition, noOverlap, gapBetween, gapKind, contains, minDistance, touch, northAgrees, latitudeContinuous, climateCompatible (V15 §2.3, §3.1) */;
+  sectorHalfDeg: number /* 30 */; seaNarrowKm: number /* 60 */; seaWideKm: number /* 250 */; seaOpenKm: number /* 800 */; farKm: number /* 600 */; beyondKm: number /* 900 */; adjacentMinShareKm: number /* 40 */;
+  snapEdgeKm: number /* 8: a dragged edge snaps to a neighbour's edge within it */; rotateSnapCdeg: Cdeg /* 9 000: the rotation handle snaps to right angles; free rotation on the modifier */;
+  latitudeToleranceDeg: number /* 2: neighbours' latitude boxes continue within it (V15 §3.1 (4)) */; climateBandTolerance: number /* 1: `world.biomes` rows apart at a shared stretch before W_ATLAS_CLIMATE — adjacency as V13 §3.11's `biome` term reads it (one class apart) */;
+  contradictions: ContradictionRow[] /* V15 §3.4 (5)'s table: a fact pair at a void's corner or across it → the reconciling feature and its placement rule */;
+  leastChange: { weightByExtent: boolean /* true: a continent moves last */; maxIterations: number /* 200 */ }; maxMembers: number /* 64 */;
+  presets: { clustered: { gapKm: number /* 0 */; order: 'rungDesc' }; archipelago: { gapKm: number /* 120 */; gapKind: 'sea' }; scattered: { gapKm: number /* 400 */; gapKind: 'terraIncognita' } } }
+interface ContradictionRow { facts: ['sea'|'elevation'|'climate'|'latitude'|'river'|'bedrock', 'sea'|'elevation'|'climate'|'latitude'|'river'|'bedrock']; threshold: number /* the step that counts: metres, classes (V13 §3.11's `biome` term's adjacency), degrees, m³/s, a bedrock class */;
+  proposal: 'sea'|'strait'|'range'|'rift'|'escarpment' /* V13's `landform` feature words */; place: 'corner'|'acrossWind'|'between'|'alongStep' /* where the feature's sketch requirement is laid in the void */ }   // atlas.arrange.contradictions (V15 §3.4 (5))
+interface SeamRule {                                                                                 // atlas.seams — A2, A3, A5, A7
+  tilePx: number /* 256; fixed */; pyramidBaseKm: number /* 4 194.304 (2^22 m): the level-0 tile's side; fixed */; maxLevel: number /* 11: 8 m per pixel, finer than any member's stop 3 (a province's 250 m cell at 16 px is 15.6 m per pixel) */;
+  cacheStops: (0|1|2)[] /* [0, 1]: the V13 stops cached per member; 2 on pinImagery only (J-V15.7) */; lossyQuality: number /* 85: the cached tiles' codec quality */;
+  bandPx: number /* 24: the softening band's width in pixels at every level, along the shared stretch only */; bandMaxShareOfStretch: number /* 0.5 */;
+  easeAboveStep: number /* 1: a detail step of one rung is eased over the band */; insetAboveStep: number /* 2: two rungs or more becomes an inset with a frame (AtlasStyleState.insets) */; insetFramePx: number /* 1.5 */; locatorBoxPx: number /* 1 */;
+  gapFills: Record<GapStyle['kind'], string /* a style row key: the sea tint and wave hatching, the strait's double shore, the mountain hachure, the mist gradient, the terra incognita parchment and lettering, blank */>; missingGhostAlpha: number /* 0.4 */;
+  fit: { marginCells: number /* 8 parent coarse cells around the child's extent */ } /* the blend band is V13's and no cell of this volume's: `place.coherence.blendBandM` scaled by the parent's cell ratio (4 000 m under a 500 m realm, 8 000 m under a continent; file r item 942) */;
+  drift: { coastShiftM: number /* 1 000 */; riverMissed: number /* 1 */; elevationRmsCm: number /* 5 000 */; biomeDisagreePct: number /* 20 */ } /* a marker shows above any threshold (V15 §3.3 (3)) */;
+  labelSpreadPx: number /* 12 (the base's §9 margin) */; drill: { pastStop: number /* 3: zooming finer than the member's stop 3 opens it */; shareOfView: number /* 0.5: a member filling this share of the view at its stop 3 opens on the next zoom step */ } }
+interface AtlasStyleRule {                                                                           // atlas.style — A6
+  warpGrid: number /* 512: the cartogram grid's side (cells over the known world's bounding square); fixed per bake */; flowSteps: number /* 64: the integration steps from the true map to the full warp */; warpMaxMs: number /* 8 000: the bake's work cut, then W_ATLAS_WARP_FALLBACK */;
+  magnifyMax: number /* 2.5: the centre magnification at the slider's end */; unknownBlurPx: [number, number] /* [2, 12]: the blur's radius from the known edge outward at level 6 */; heardOfBands: number /* 1 */;
+  known: { travelWeeks: number /* 4: a culture knows what lies within this many weeks on foot of its seats, along routes */; heardOfWeeks: number /* 8 */; tradeKnows: boolean /* true: a trade channel's far end is known */ };
+  itinerary: { sideKm: number /* 120: a point farther from the route than this fades to the strip's margin */; stationMinKm: number /* 20: stations closer than this merge on the spine */ };
+  importance: { tier: Record<Rung, number> /* thorp 1, hamlet 1.3, village 1.8, town 3, city 6, metropolis 10 */; tradeExp: number /* 0.5: (1 + centrality + exports/4)^tradeExp */; holiness: number /* 3: a faith place's or the patron seat's multiplier */; prosperityPerRung: number /* 0.15 per rung above the realm's median */; capital: number /* 2 */; centreMass: number /* 4: the centre's own multiplier */ };
+  density: { land: number /* 1 */; sea: number /* 0.35 */; sailedSea: number /* 0.8 */; unknown: number /* 0.25 */; heardOf: number /* 0.6 */; floor: number /* 0.1 */ } /* the target density's base per cell class before the seats' mass */;
+  presets: StylePresetRow[] /* V15 §2.5 */ }
+interface StylePresetRow { id: string; label: MsgRef; orientation: Viewpoint['orientation']; centreRule: Viewpoint['centre']['rule'];
+  relationalDefault: number /* the slider's rest position the preset proposes */; areaScaling: number /* 0–1: how much of the cartogram's warp applies at the slider's end */; magnify: number /* the centre magnification at the end, ≤ magnifyMax */;
+  coasts: 'true'|'warped'; interiors: 'drawn'|'blank' /* the portolan's blank interior beyond the coast */; unknown: 'blank'|'legend'|'monsters';
+  figures: string[] /* the FigureRow ids the preset admits */; lettering: { face: string /* a bundled label face (§8.2, §17.2) */; smallCaps: boolean; numerals: 'arabic'|'roman'|'oldStyle' };
+  furniture: { rhumbLines?: { roses: number /* 16 on a circle plus the centre */; directions: number /* 32 */ }; toRim?: boolean; compassRose: boolean; scaleBar: boolean /* always true: the true scale bar is never hidden (J-V15.15) */; itinerary?: { unit: 'days'; straighten: boolean; vignettes: boolean } };
+  ports: { red: boolean }; labels: { perpendicularToCoast: boolean }; vignettes: { byTier: boolean; minTier: Rung } }
+interface EmbellishRule {                                                                            // atlas.embellish — A6 (5)
+  seaSerpent: { minDepthM: number /* 1 000 */; farFromRouteKm: number /* 150 */; stormFactorMin: number /* 2.0: the quarter's storm factor at or above it marks a sea storm-feared */; per1000Km2: number /* 0.3 */; maxPerBody: number /* 3 */ };
+  whale: { minDepthM: number /* 400 */; per1000Km2: number /* 0.2 */; maxPerBody: number /* 2 */ };
+  dragon: { bandKm: [number, number] /* [50, 150] beyond the known edge */; perBandSegmentKm: number /* 1 per 600 km of edge */ };
+  monstrousPeople: { cultureBandMin: 0|1|2|3|4|5 /* 4 */; farKm: number /* 800 from the culture's nearest seat */; minLandKm2: number /* 20 000 */; perRegion: number /* 1 */ };
+  devils: { enemyFaith: 'patronDiffersAndContested' /* the holder's patron differs from the mapmaker's and the religion lens marks the seat contested or on a historic front */; atWar: boolean /* true: a land at war with the mapmaker's allegiance */; perRegion: number /* 1 */ };
+  vignetteWeeks: number /* 104: a dated event within it of the viewpoint's week draws its vignette */; events: Record<'plague'|'battle'|'siege'|'raid'|'razing'|'patronFall'|'boom'|'bust', EmbellishmentKind | null> /* plague → skull, battle and raid → banners, siege → siege, razing → ruinVignette, patronFall → idolFallen, boom and bust → null */;
+  city: { minTier: Rung /* town */; sizeExp: number /* 0.5: the vignette's size ∝ importance^sizeExp */; cathedralAtHolyCity: boolean /* true */ };
+  blocklist: string /* the shipped list of real-world ethnonyms, demonyms, faith names and region names the lint T-V15-6 reads: no FigureRow, caption or catalogue string of this volume may match it */;
+  figures: FigureRow[] }
+interface FigureRow { id: string; kind: EmbellishmentKind; preset: string | '*'; trait: 'deepWater'|'storm'|'unsailed'|'knowledgeEdge'|'hostile'|'far'|'enemyFaith'|'event'|'city'|'holyCity'|'furniture' /* the ONLY key a figure is chosen by, beside the preset: never a culture's, a people's or a faith's name */;
+  asset: string /* the symbol catalogue's glyph id (V11; the shipped minimal set is line art, the art library the owner's, V15 §11 Q3) */; sizeCm: Cm /* on the true plane at level 6 */; caption?: MsgRef /* "here be serpents" in the preset's lettering; the catalogue's text, lint-checked */ }
+```
+
+**Shipped cells** (the values in the comments above; V12's register holds one line per calibratable cell at
+M-ATLAS-A's exit): the relation measures of V15 §2.3; the softening band 24 px (the science note §10.2: a Laplacian
+pyramid blend hides a seam at every scale; the width is ours); the inset rule at two rungs (a province inside a
+continent is 4 × finer per axis: eased, it would smear 16 cells of the parent per child cell; framed, it reads as an
+inset — the printed-atlas convention, the science note §10.2); the cached stops 0 and 1 (J-V15.7; V15 §6); the fit's
+margin (the band itself is V13's: `blendBandM` × the parent's cell ratio, file r item 942 — 8 cells of a 500 m parent are
+4 000 m); the drift thresholds; the warp grid 512 (the science note §9.2: seconds at 512–1 024); the importance
+exponents and the density classes (the mappa mundi's swollen Holy Land and squeezed rim are the effect to reach, the
+science note §9.1; the numbers ours); the embellishment thresholds (deep, unsailed, storm-feared water — Van Duzer's
+functions of sea monsters as the science note §9.1 cites them: danger and the open sea; the numbers ours); the contradiction rows (a sea edge meeting an edge above 1 000 m at a corner → a strait at the corner; a wet edge facing a dry one within 400 km → a `range` (a mountain belt) across the wind; two inflowing rivers and no outlet → a sea between them; a bedrock class step → a rift along it; a plateau meeting a plain with 800 m or more between → an escarpment along the step).
+
+### 2.5 The style presets (rows of `atlas.style.presets`; each a `StylePresetRow`)
+
+| id | orientation | centre | areaScaling · magnify · rest | coasts · interiors · unknown | figures admitted (by trait) | lettering and furniture | what it is for |
+|---|---|---|---|---|---|---|---|
+| `true` | northUp | — (no centre: the warp is the identity) | 0 · 1 · 0 | true · drawn · blank | none (the DM's own only) | the base's label faces; the scale bar, the compass, the grid | the game master's working map; every player view's default; every export's measurement (J-V15.15) |
+| `mappaMundi` | eastUp (the preset's default; a viewpoint may override) | holyCity, else capital | 1 · 2.5 · 0.8 | warped · drawn · monsters | deepWater, storm, unsailed, knowledgeEdge, hostile, far, enemyFaith, event, city, holyCity | small capitals in the bundled uncial-like face, roman numerals; a T-O rim when the known world is one landmass round one sea (`toRim`), no rhumb lines, the holy city's cathedral vignette, unknown lands filled with figures and legend ("here are monsters"), the scale bar kept small in a corner | the sacred map (the science note §9.1's Hereford and Ebstorf conventions as evidence: east up, the centre, importance scaling, monstrous races along the rim) |
+| `portolan` | northUp | mapmakerSeat (a home port) | 0.15 · 1.2 · 0.5 | true · blank · blank | deepWater (ships, not serpents), storm, furniture (roses) | names perpendicular to the coast, important ports in red, a network of rhumb lines from 16 roses on a circle in 32 directions, a scale bar; interiors blank beyond the known coast | the practical sea chart: true coasts, decorated seas, empty interiors (the science note §9.1's portolan conventions) |
+| `itinerary` | towardCentre (the strip's start at the bottom) | mapmakerSeat (the journey's start) | 1 (along the route only) · 1 · 1 | warped · drawn · blank | event, city | the chosen route straightened into a vertical strip, towns as vignettes graded by tier, the days between stations written in the preset's numerals, side roads as stubs, seas as strips; a distance cartogram along the route (V15 §3.6 (1) (c)) | the pilgrim's strip (the science note §9.1's Paris and Peutinger conventions: sequence and labelled distances true, shape not) |
+
+A preset is data: a fourth row (a "sea-people's chart", a "cosmological wheel") is added by `editTable` with its
+figures and furniture, no code. The `true` preset is the one every atlas opens in and the one every measurement reads;
+the relational presets are presentation over it.
+
+### 2.6 Derived transients (never persisted)
+
+```ts
+interface SeamRecord { a: Id; b: Id; kind: 'sideBySide'|'nested'|'overlap'; stretch: { from: AtlasPointCm; to: AtlasPointCm } /* the shared edge's overlap, or the overlap polygon's boundary for 'overlap' */; sideA: 'N'|'E'|'S'|'W'; sideB: 'N'|'E'|'S'|'W';
+  detailStep: number /* |rung(a) − rung(b)| in rungs */; wins: Id /* the more detailed member; equal rungs by ConflictSettings.seamPrecedence */; treatment: 'soften'|'ease'|'inset'|'unknownBetween'; bandPx: number; drift?: DriftReading; reason: Id }
+interface DriftReading { seam: [Id, Id]; versions: [MemberVersion, MemberVersion]; coastShiftM: number /* the greatest distance between the two charters' coast crossings on the stretch */; riversMissed: number /* crossings on one side with no match on the other within riverMatchM */;
+  elevationRmsCm: number /* the two edge profiles' RMS difference */; biomeDisagreePct: number /* the stretch's length share where the potential-vegetation classes differ by more than one class (V13 §3.11's `biome` term's adjacency) */; above: boolean /* any threshold crossed */ }
+interface InsetLayout { member: Id; frame: AtlasPointCm[] /* the thin frame on the true plane */; locator: { onMember: Id; box: AtlasPointCm[] } }
+interface WarpField { key: Hash128 /* H128(atlas model digest ‖ viewpoint ‖ week ‖ preset ‖ grid) */; grid: { origin: AtlasPointCm; cellCm: Cm; n: number }; displacement: Int32Array /* per grid vertex (dx, dy) in cm at the full warp (t = 1); the slider's fraction integrates the flow to t = s, cached per step of 1/flowSteps */;
+  centre: AtlasPointCm; magnify: number; orientationCdeg: Cdeg; jacobianMin: number /* the smallest determinant over the grid at t = 1: > 0 or the bake failed (T-V15-5) */; bakedMs: number }
+interface KnownRegion { viewpoint: Id; week: Week; cells: Uint8Array /* over the warp grid: 0 unknown, 1 heard of, 2 known */; knownSeats: string[]; source: 'audience'|'culture'|'everything' }
+interface TrueReadout { at: AtlasPointCm; member?: Id; worldPoint?: WorldPointCm; distanceKm?: { to: 'centre'|'pin'; km: number }; travel?: { weeks: number; days: number; law: string /* the law's version and basis, labelled */; mode: 'foot'; note: 'on foot' | 'the host's leg' } /* only when both points lie in one member and a route joins them (V15 §3.6 (3)) */ }
+interface DrillTarget { member: Id; worldPoint: WorldPointCm; stop: 0|1|2|3 }
+```
+
+Each is total over its inputs: a seam with no shared stretch is not a record; a drift over a member that gives no
+charter reads `above: false` with every figure 0 and the reason `noCharter`; a warp whose bake was cut reads the
+fisheye-only field (`W_ATLAS_WARP_FALLBACK`); a known region of audience `dm` is all 2; a readout off every member
+carries the true point and the distance alone. Tested by T-V15-17 (a).
+
+### 2.7 View state (never in any digest)
+
+Per viewer (§2.9; BCR-V15-3): `atlasZoom` (metres per pixel, continuous; default the zoom that fits every member),
+`atlasCentre` (an `AtlasPointCm`), `relational` (0–1, default the atlas's `style.relational`; the slider), `viewpoint`
+(a `Viewpoint` id; default the atlas's "the game master's" for the DM, "the party's" for a player), `commonWeek` (a
+`Week` or null; null is each member at its own present; the toggle writes the newest member's present), `showDrift`
+(DM-only, default false), `showRelations` (DM-only, default false), `atlasPreset` (a preset override; default the
+viewpoint's), `pinnedPoint` (the ruler's first end, or null). The base's `knowledge`, `viewAs`, `worldUnits`,
+`rotation` (the map's own rotation about the view centre), `compass`, the grid, legend and emblem keys apply unchanged.
+The atlas's week does not exist; a member's `week`, `lensWeek` and `surfaceDate` are never written by the atlas
+(`renderAt` takes a week argument, V15 §1b.6).
+
+### 2.8 Reason records (V13's; this volume's writers)
+
+Every record and every derived set carries V13 §2.2's `ReasonRecord`, declared there once and cited here: A1 writes one
+per arrangement a solve changed (the requirements it served, the displacement, the rule); A3 one per seam (the
+stretch, the step, the winner, the treatment, the rule) and one per drift reading; A4 one per edge (the neighbour, the
+side, the span, the charter's version) and one per contradiction (the two facts, the proposal); A5 one per fit (the
+mode, the parent's placement id, the conflicts decided); A6 one per warp bake (the viewpoint, the centre resolved and
+why, the importance's top ten seats with their terms, the known region's source) and one per derived embellishment
+(the rule, the facts by field name); A7 none (a view action). Each is persisted in the entities block outside the model
+digest and inside the records digest (V13 §2.7's rule); a derived set's records live in `derived` with it and are
+rebuilt with it. The clerk's `why` over an embellishment answers "a serpent here because the sea is 1 400 m deep, no
+route within 180 km, the autumn storm factor 2.5 — the mapmaker's fear, not the realm's fact" (V15 §4.8).
+
+### 2.9 Identity: lineage units and creation keys (item 140 M1's pattern; V13 §2.5's table extended)
+
+The atlas's namespace segment is its own (`Document.namespace`, V13 §2.5): a member's addresses are never rewritten,
+and a reference from an atlas record into a member (a charter's neighbour, a fit's placement, an embellishment's
+`member`) is written whole with the member's namespace. Two atlases holding one world collide on nothing: each holds
+the world's `docId` and namespace, never an address of its own inside it.
+
+| entity | parent | creation key |
+|---|---|---|
+| the atlas root | — | (`atlas`, the recipe's seed) — the atlas's town-root equivalent; the `atlas.*` streams key from it |
+| a `Member` | the atlas root | (`member`, the world's `docId`) — a world is a member of an atlas once (`refuse.atlas.duplicate`); re-adding a removed world finds its tombstone and revives it |
+| an `Arrangement` | its member | (the member's lineage) — one per member, an attribute set, never a record of its own |
+| a `Relation` | the atlas root | (`relation`, the kind, a's lineage, b's lineage) — a second relation of one kind between one pair replaces the first (a tombstone with `supersedes`) |
+| a `GapStyle` | the atlas root | (`gap`, `between` the two lineages sorted, or `around` the lineage and side, or the ring's first vertex, or `everywhereElse`) |
+| a `Viewpoint` | the atlas root | (`viewpoint`, the audience, the culture's member lineage and id or `none`, its ordinal) |
+| an `Embellishment` (the DM's, and a hidden mark) | its viewpoint | (`embellish`, the viewpoint's lineage, the kind, the true point's warp-grid cell) — a derived figure's identity is the same key, so the DM's hidden mark finds it across bakes |
+| a `ContinuationRequest` | the atlas root | (`continuation`, the void's south-west corner, the rung) |
+| a carried `WorldEdgeCharter` | its request | (`edgeCharter`, the neighbour's lineage, the side, the neighbour's `geometryVersion`) — a new charter per neighbour version |
+| a `FitRecord` | the child member | (`fit`, the child's lineage, the parent's lineage) |
+| a `SeamRecord`, `DriftReading` (derived) | the atlas root | (`seam`, the two lineages sorted) |
+| a `WarpField` (derived) | its viewpoint | (`warp`, the field's key hash) |
+| a `ReasonRecord` | the fact it explains | V13 §2.5's rule |
+
+Two entities whose keys collide take §6.3's ordinal suffix; anchors for §6.3's matching table: a member by its world's
+`docId`; a relation by its kind and pair; a gap by its `between` pair or its ring's centroid within one tile; a
+viewpoint by audience and culture. Tested by T-V15-17 (b).
+
+### 2.10 The lifecycle of every state field this volume adds or gives a producer
+
+| field | create | read | persist | regenerate | undo | migrate |
+|---|---|---|---|---|---|---|
+| `Recipe.atlas` (seed, style, conflicts, layoutPreset, snapshot) | the atlas's creation; `setAtlasStyle`, `setConflictSettings`, `setLayoutPreset` | every stage; the view | the recipe | a re-run of A1–A3 reads it | the inverse | the schema versioned; an unknown preset reads `true` and is reported |
+| `Member` (the reference, `version`, `rung`, `header`, `latBox`, `presentWeek`, `dateLabel`, `origin`, `continuedFrom`, `parent`, `fit`, `shareable`, `name`) | `addMember` (the reference and the readings at add); a continuation's generation (`origin: 'continued'`, `continuedFrom`); `fitChild` (`fit`, `parent`); `refreshImagery` writes `version`, `header`, `presentWeek`, `dateLabel` as **recorded readings** (a cache command's write of a derived reading: outside the model digest, V15 §2.11) | A1–A7; the member list; the exports | the entities block | the reference is an input: kept by every re-run; the readings re-read at every refresh | `removeMember`'s tombstone and its restore | a member whose world's `outputVersion` lies outside the retention window (§7.5) keeps its imagery and reads `unopenable` (V15 §4.9) |
+| `Member.state` (derived) | the open-time check (resolve → compare the version → `present` / `missing` / `unopenable`) | the member list, the gap mark, A7 | never (re-derived at every open) | — | — | — |
+| `Arrangement` | `addMember` (the drop point, or the preset's slot), `arrangeMember`, `lockMember`, A1's solve, `setLayoutPreset`, a continuation (the void's position, locked) | A2, A3, A4, A6, A7, the exports | on the member | an input: kept; a solve rewrites the unlocked ones (`by: 'solved'`) | the former arrangement; a solve's undo restores every arrangement it moved as one group | — |
+| `Relation` | `relate`; the clerk's parse confirmed | A1; the relations box; the DM diagnostic lines | the entities block | an input: kept; re-solved on request | `unrelate`'s tombstone and its restore | — |
+| `GapStyle` | `setGapStyle`; a preset; a solve's accepted `gapKind`; a removed member's gap (`blank`, V15 §4.5) | A3, A6, the legend, the exports | the entities block | kept | the inverse | — |
+| `Viewpoint` | `setViewpoint`; the two shipped defaults at creation | A2's audience, A6, the player view, the exports' request | the entities block | kept | the inverse | an older atlas without viewpoints gains the two defaults at load, reported |
+| `Embellishment` (`source: 'dm'`) and the `hidden` marks | `setEmbellishment` | the embellishment layer, the exports, the clerk | the entities block | kept through every bake (the DM's word over the derivation) | the inverse | — |
+| `Embellishment` (`source: 'derived'`) | A6's `embellish` at draw, keyed draws | the layer, the clerk | `derived` (never canonical) | re-derived at every bake | not an event | — |
+| `ContinuationRequest` and its carried `WorldEdgeCharter`s | `requestContinuation` (`draft` writes the request and the charters as recorded inputs; `send` hands the request to V13's generator through V09's dialog; the generated world's add writes `member` and `status: 'generated'`) | A4, the dialog, the clerk, the new member's provenance | the entities block; the charters in the records digest (V15 §2.11) | an input: kept; a re-draft after a neighbour's refresh writes a new request with new charters, the old superseded | a draft's or a cancellation's tombstone; a generated one kept | the charter schema's version (V13's); an older charter version reads through V13's migration chain |
+| `FitRecord` | `fitChild` after the parent's edit committed (or the derived child's generation, or the image-only choice) | A3, A5, the member list, the clerk | the entities block | kept | the atlas's record alone (the parent's own undo is the parent's) | — |
+| `MemberImagery` | A2 (`renderMember`); `refreshImagery`; `pinImagery` (a third stop) | A3, A6, the view, the exports, the share writer | `Document.atlasImagery` (BCR-V15-2): outside every digest, kept across loads and saves, dropped by `pinImagery(keepStops: [])`, by a quota or by the user; rebuilt when the member is openable | re-rendered when stale (V15 §4.6) or on the common-week change; never re-fitted | not an event (a cache) | absent: rendered on open; a member unopenable and uncached draws its gap with `W_ATLAS_DETAIL_UNAVAILABLE` |
+| `SeamRecord`, `DriftReading`, `InsetLayout`, `KnownRegion`, `WarpField` | A3, A6 | the compositor, the markers, the readout, the drill | `derived` (the warp's field kept across a session as `elaborations` is, never canonical) | re-derived when their inputs' digests change | not events | — |
+| the view keys of V15 §2.7 | V09's controls | the view, the exports' request | the viewer's view state, never a digest | view only | not events | absent: the defaults |
+
+### 2.11 The version table, the digests and the storage of the atlas
+
+**The version table** is `AtlasRecipe.snapshot`: the atlas generator's output version (§6.4's axis), the file schema,
+the four `atlas.*` table versions read, and `renderer` — the member renderer's output version (V13's) the imagery was
+made under, so a renderer change marks every cached picture stale without touching the atlas's digests. Every member's
+`version` names the member's own versions (V13 §2.7's table through its digests, `logHead`, `geometryVersion` and
+`outputVersion`), so an atlas names every version it depends on (item 140 K10) and a diff at load says exactly which
+member moved. The carried `WorldEdgeCharter`s carry V13's charter schema version and migrate by V13's chain.
+
+**The model digest** (§6.2) of an atlas hashes `Recipe.atlas` — the seed, the members' declared fields (the reference,
+`rung`, `latBox`, `arrangement`, `origin`, `continuedFrom`, `parent`, `fit`, `shareable`, `name`; **not** `version`,
+`header`, `presentWeek`, `dateLabel`, which are recorded readings of a cache command, and not `state`), the relations,
+the gaps, the viewpoints, the style and conflict settings, and the DM's embellishments with the hidden marks — in schema
+order. **The records digest** holds the reason records, the continuation requests with their carried charters (recorded
+inputs, as a frame's charter is, V13 §2.7) and the fit records. **In no digest:** the imagery cache, the seams, the
+drift readings, the inset layouts, the known regions, the warp fields, the derived embellishments, every view key.
+Consequences: a refresh of a member's imagery moves no atlas digest (T-V15-9 (c)); a member's own edit moves no atlas
+digest and no other member's (T-V15-1); a bake moves nothing; only the user's atlas edits move the model digest. **A
+member's digests never move because of an atlas** (T-V15-1 (c)): no field of any world document names an atlas.
+
+**Storage.** An atlas is a `.plat` container (§2.9) of product `atlas` whose `entities` block holds the records (a
+64-member atlas ≤ 1 MB with its reason records and charters) and whose `atlasImagery` cache holds the tiles — 256 px,
+lossy-coded at `lossyQuality` 85 (a relief-and-water picture at stops 0 and 1; PLAUSIBLE ≈ 0.4–0.6 B per pixel): a
+province member ≤ 1 MB, a realm ≤ 4 MB, a continent ≤ 10 MB per audience, a pinned stop 2 sixteen times its stop 1 (4 × per axis)
+(`ATLAS-6`). An atlas of sixteen realm members with a party picture on half of them ≈ 64 + 32 MB of cache beside 1 MB
+of records; *pre-decided fallback:* the cache is dropped from the file by a quota (the host's or the local store's)
+and rebuilt on open from the members that are openable, the others drawing their gap until a refresh succeeds —
+losing only pictures (V15 §4.9). **Where an atlas is stored:** in the standalone application the local store (V09
+§2.11's `LocalDocRecord`, its `rung` `atlas`), listed under "Open a world map…" (RQ-V15-7); in host mode the host's
+own store beside its per-campaign world records — an atlas spans campaigns, so it is a **per-user** record, which the
+host does not have (the state note's Part D: one map per campaign, no atlas) and is asked for as H35 (V15 §10.2); until
+it lands an atlas in host mode is saved as a file through the share sheet's **Download** (V09 §5.11) and reopened from
+it. **A shared atlas** (V15 §5.5) is the same container written by the share writer with every unshareable member's
+`world.ref` and imagery removed (its `state` reads `unopenable`, its gap marked "not shared") and every shareable
+member's imagery embedded at the stops cached, flagged read-only (`shared: true` in the header): the recipient sees
+pictures, arrangement and viewpoints and can drill into no member it cannot resolve.
+
+## 3 Generation
+
+### 3.0 The atlas pipeline: registration, order, the materializer contract
+
+The atlas is a product (`ProductDecl` `atlas`, registered by `@plat/atlas` into `StrategyRegistry.products`;
+BCR-V15-1; J-V15.1) whose stage set is **A1 Arrange → A2 Render → A3 Seams**, with **A6 View** a stage run on demand
+(the first move of the slider, or `bakeWarp`) and never on the one-click path, each a `StageDecl` (§4.12) with
+`phase: 'main'`, `txForm: 'records'` (the atlas runs no kernel transaction: it is no plat arena, V15 §2.1) and
+`lineageUnit: 'atlas'` (the atlas root). **A4 Continue, A5 Fit and A7 Drill are not stages**: A4 and A5 are the
+folds of the edits `requestContinuation` and `fitChild` (V15 §4.1) and A7 a view action, each declared with its
+inputs and outputs below so the contract holds for every piece (item 131 (c)'s materializer contract as V13 §3.0
+states it: declared inputs, one `StageContext`, one `ReasonRecord` per record it writes). Every stage and operation
+declares its ladder (V15 §3.8) and its work limits over the member count and the visible tiles (V15 §6).
+
+| stage / operation | reads | writes | streams | ladder | budget row |
+|---|---|---|---|---|---|
+| A1 Arrange | `Recipe.atlas` (members, relations, gaps, conflicts, the preset); each member's `header`, `latBox` and its four edge summaries (`edgeCharter` over the whole side, cached per member version; **V13**) | every unlocked `Arrangement` a solve moves; the warnings; the accepted `GapStyle`s of a solve | none (no draw: the solver's tie-break is deterministic, V15 §3.9) | F-ATLAS `arrange` | `ATLAS-1` |
+| A2 Render | the members (reference, version, arrangement, `shareable`), the viewpoint's audience, the common week; `renderAt` (**V13**) | `MemberImagery` per (member, audience); the member's recorded readings (`version`, `header`, `presentWeek`, `dateLabel`, `known`) | none | F-ATLAS `render` | `ATLAS-2`, `ATLAS-6` |
+| A3 Seams | the arrangements, rungs and versions; the imagery; the gaps; the conflict settings; the edge charters at two versions for the drift (**V13**) | `SeamRecord[]`, `DriftReading[]`, `InsetLayout[]` (derived); the composed atlas tile set per level in the render tier; the labels across seams | none | F-ATLAS `seams` | `ATLAS-3` |
+| A4 Continue (`requestContinuation`'s fold) | the void; its neighbours' arrangements and versions; `edgeCharter` per shared edge (**V13**); the neighbours' basics through their charters | a `ContinuationRequest` with its carried charters; on `send`, V09's world dialog opened with the request; on the world's generation, a `Member` with `origin: 'continued'` and its arrangement locked at the void | none | F-ATLAS `continue` | `ATLAS-4` |
+| A5 Fit (`fitChild`'s fold) | the child and parent members; V13's rung-general `placeFrame` / `requestCharter` on the parent (**V13**); the parent's conflict list | a `FitRecord`; the child's `parent`; after the parent's commit, the parent's `version` refreshed and its imagery re-rendered | none | F-ATLAS `fit` | `ATLAS-5` |
+| A6 View (on demand) | the viewpoint, the week, the known sets and lens facts of every member (**V13**), the imagery's extents, the rules | `WarpField`, `KnownRegion`, the derived `Embellishment[]` (derived caches) | `atlas.embellish` (the figures' jitter within their admitted region, keyed) | F-ATLAS `view` | `ATLAS-7`, `ATLAS-8` |
+| A7 Drill (a view action) | the pointer, the zoom, the warp field, the arrangements | nothing (an `open` of the member through V09's router) | none | — | `ATLAS-9` |
+
+**Where stages may write.** A1–A6 write the atlas document only — its records, its caches — and **never a member**
+(spine §14 (6); the lint T-V15-19): the parent's placement in a fit and a neighbour's pre-continuation change are V13
+edits the user commits on those documents' pages, and the generated continuation is V13's `generate` run by V09's
+dialog. **Scheduling.** `generate` with an `AtlasRecipe` runs A1 → A2 → A3 once (an atlas created from one world, or
+empty); every edit of V15 §4.1 re-runs A1–A3 over its dirty set (V15 §4.3) after its own batch; A2 runs in the tile
+worker in the background, the view drawing the stale picture (marked) until each member's tiles land, so an atlas page
+never waits on a render (V15 §6). **Order against members:** an atlas reads a member only through a read-only handle
+opened by the resolver; a member open for editing in another page of the same session is read at its current log
+head (its version then marks the imagery stale on the next check); a member's own stages never read an atlas.
+
+### 3.1 A1 — Arrangement (F12; spine §10.3)
+
+1. **Direct placement.** `addMember` drops the member at the pointer (its south-west corner, bearing 0, `by:
+   'direct'`), or at the layout preset's next slot when no point is given; `arrangeMember` moves it (a drag), turns it
+   (the rotation handle, snapped to right angles by `rotateSnapCdeg`, free under the modifier — a bearing other than a
+   right angle is admitted and warned where it touches a neighbour, `W_ATLAS_NORTH_DIFFERS`, J-V15.12) and snaps a
+   dragged edge to a neighbour's edge within `snapEdgeKm` (the snap writes an `adjacent` relation on release only if
+   the user confirms the chip the tool shows; a silent snap writes position alone). The ruler (`pinnedPoint`) measures
+   true distance across the whole plane. Every placement is one event with its undo (V15 §4.4).
+2. **Described relations.** Each `Relation` becomes its requirements by V15 §2.3's table (`requirementsOf`); each
+   locked arrangement and every `locked` relation is a `locked` requirement; the compatibility requirements of (4) are
+   added for every touching or adjacent pair at rank 4. The set is handed to V13's `solve(requirements, { members }, 'arrange', { decisions, seed, maxIterations })`
+   (amendments r items 942 and 1007's signature; RQ-V15-5; spine §14 (5)) with `members` the arrangements expressed as
+   `ArrangeMember`s — each member's `Placement` of subject kind `world` (file r item 1030) with its extent, rung,
+   coarse cell and lock —, the locked ones as rank-2 `lockRegion` requirements (`{ source: 'lock'; kind:
+   'lockRegion'; target: { placement } }`, item 1007), and the atlas-scale evaluators of V15 §2.3's words registered by `@plat/atlas` through V13's `solve.registerEvaluator` (file r item 1007; J-V13.132): each an `ArrangeEvaluator` whose cost over the arrangement is its measure's error — the sector's angular error, the gap's width
+   error, containment, distance, the shared stretch's length, each 0 when met. The engine and its search are V13's (the least-change search over the
+   placements on a coarse lattice, bounded by `leastChange.maxIterations` passed as `opts.maxIterations`), with the precedence ladder of spine
+   §5.1 — rank 2 the locks, rank 3 the relations, rank 4 compatibility, rank 5 the preset's packing — and the
+   least-change goal (the extent-weighted sum of displacements), run on the DM's command (**Arrange** in the relations
+   box) and in the box's live preview (a dry run, the ghost outlines shown; V15 §5.1). The solve ends with the
+   verification list (`SolveResult.report`): every relation met / partly met / unmet with its reason (`whyCell`'s form), the unmet ones
+   `W_ATLAS_RELATION_UNMET` with the actions `keep` (the relation kept, marked unmet), `drop`, `unlock` (where a lock
+   blocked it). A requirement that cannot be met says so and never fakes the result (spine §4.5): "Varn cannot lie both
+   east and west of Ashmark".
+3. **Layout presets.** `setLayoutPreset` writes an initial arrangement for every unlocked member and the preset's gap
+   style, then solves: *clustered continent* packs the members edge to edge in descending rung (the largest first at the
+   origin, each next member against the longest free edge, `gapKm` 0) with `adjacent` chips offered for every touching
+   pair; *archipelago of known lands* the same packing with `gapKm` 120 between every pair and a `sea` gap written
+   `everywhereElse`; *scattered realms in the unknown* a spiral of slots `gapKm` 400 apart with `terraIncognita`
+   written `everywhereElse`. A preset never moves a locked member and never deletes a relation; it is one event.
+4. **Compatibility requirements (rank 4; warnings, never refusals).** For every pair whose extents touch, overlap or
+   stand `adjacent`: **`latitudeContinuous`** — where both carry a latitude box, along an N–S shared edge the northern
+   member's `southDeg` must lie within `latitudeToleranceDeg` of the southern member's `northDeg`, along an E–W edge
+   the two boxes must agree within the tolerance; a member without a box is compatible with anything; the error is the
+   cost, the warning `W_ATLAS_LATITUDE` ("Ashmark's north edge sits at 55°, Varn's south edge at 31°: a 24° step across
+   the seam") with the actions `keep` and `setBox` (which opens the member's own world dialog on its page — the atlas
+   never writes it). **`climateCompatible`** — along the shared stretch the two edge charters' potential-vegetation
+   classes at matching stations must lie within `climateBandTolerance` classes of each other — adjacency as V13 §3.11's
+   `biome` term reads it (one `world.biomes` row apart) — for at
+   least `(1 − bandMaxShareOfStretch)` of the stretch; else `W_ATLAS_CLIMATE` ("a rainforest shore meets a tundra
+   shore along 60 km"), `keep` or `drop` the relation. **`northAgrees`** — both bearings equal (`W_ATLAS_NORTH_DIFFERS`:
+   `snap`, `keep`). **`noOverlap`** — two extents overlapping is `W_ATLAS_OVERLAP` under `overlap: 'warn'` with
+   `keep` (the overlap drawn by A3's precedence), `inset` (the finer framed), `move` (a re-solve with `noOverlap` at
+   rank 3); under `'allow'` an inset silently. Where the solver cannot meet a compatibility requirement without
+   breaking a relation, the relation wins (rank 3 over rank 4) and the warning stands — the owner's "warnings, never
+   refusals" (spine §10.3). Both checks read `edgeCharter`, which M-W6 lands before any atlas exists (V15 §8): no proxy.
+5. **Locks and asks.** A solve or a preset that would move a locked member asks (`W_ATLAS_LOCKED_MOVE`: `unlock`,
+   `cancel`) — spine §5.2's rule: it asks exactly when an action would change something a higher rank owns; it never
+   asks about ranks 4 and 5. A continuation's member is locked at its void when added (`by: 'continuation'`), a fitted
+   child locked at its parent's placement.
+6. **Output.** Every arrangement a solve moved carries `by: 'solved'` and a reason naming the requirements it served and
+   its displacement; a solve's accepted `gapKind`s become `GapStyle { between }` records; the warnings and the
+   verification list are the edit's outcome rows (V15 §4.1). The ruler and the scale bar read the true plane throughout.
+*Edges:* an atlas of one member — nothing to solve; a relation naming a removed member — unmet, reported, kept with
+the tombstone; more than `maxMembers` members — `refuse.atlas.members`; a solve that oscillates — cut at
+`leastChange.maxIterations` with the best state kept and `W_ATLAS_RELATION_UNMET` on the rest.
+
+### 3.2 A2 — Member rendering (spine §10.6: one pixel resolution, one shared zoom rule)
+
+1. **The pyramid.** The atlas plane is tiled by one fixed scheme (J-V15.6): level 0's tile is `pyramidBaseKm` square at
+   `tilePx` pixels (16.4 km per pixel), level L's tile a quarter of level L − 1's area (level 4: 1 024 m per pixel —
+   the continent's fine cell; level 6: 256 m — the province's; level 11: 8 m), the tile grid anchored at the atlas
+   origin, so adding, moving or removing a member re-tiles no other member. Tiles exist only where a member lies.
+2. **One pixel resolution per level.** At level L every member is drawn at the level's metres per pixel: a member
+   whose fine cell is finer than the level is downsampled by the tile pipeline (the base's §8.8 band composition);
+   one whose cell is coarser is magnified from its nearest coarser stop (bilinear; its glyphs and labels are drawn by
+   V13 at that stop's size, so a continent's dots stay dots and never swell). The rule that maps a level to a
+   member's V13 stop (V13 §5.2's four): with `p` the level's metres per pixel and `c` the member's fine cell in
+   metres, `stop = clamp(floor(log4(c ÷ p)) + 1, 0, 3)` — a realm at 500 m is stop 0 through level 4, stop 1 at levels 5–7,
+   stop 2 at levels 8–9, stop 3 from level 10; so **one shared zoom rule** governs every member's symbols: at one atlas
+   level two members of one rung show the same glyph level, and a finer member shows at most one more level of detail
+   than a coarser one, never a different symbol size for the same thing. The levels and the stops (the rung's fine
+   cell from V13 §2.3's size rows; each cell is the formula's value — C15-08):
+
+   | level | m per px | province (250 m) | realm (500 m) | continent (1 000 m) |
+   |---|---|---|---|---|
+   | 2 | 4 096 | 0 | 0 | 0 (stop 0 one to one) |
+   | 3 | 2 048 | 0 | 0 (stop 0 one to one) | 0 |
+   | 4 | 1 024 | 0 (stop 0 one to one) | 0 | 1 (native) |
+   | 5 | 512 | 0 | 1 (native) | 1 |
+   | 6 | 256 | 1 (native) | 1 | 1 |
+   | 7 | 128 | 1 | 1 | 2 (on demand) |
+   | 8 | 64 | 1 | 2 (on demand) | 2 (on demand) |
+   | 9 | 32 | 2 (on demand) | 2 (on demand) | 3 (on demand), magnified |
+   | 10 | 16 | 2 (on demand) | 3 (on demand), magnified | 3, magnified |
+   | 11 | 8 | 3 (on demand), magnified | 3, magnified | 3, magnified |
+
+   "native" is the level at which the member's stop 1 picture (1 px per fine cell, the finer of the two cached stops,
+   J-V15.7) is sampled one to one — the cache's one-to-one level; its stop 0 picture (0.25 px per fine cell) is one to
+   one two levels coarser, and below that a member's stop-0 tiles are drawn reduced by the tile pipeline; "on demand"
+   is V15 §3.2 (3)'s per-tile render of a stop the cache does not hold; "magnified" (c ÷ p above 16, the stop-3
+   picture's own density) the stop-3 picture scaled up with `W_ATLAS_DETAIL_UNAVAILABLE` only when the member cannot
+   render (an openable member opens instead, V15 §3.7).
+3. **The request.** For each member and each audience the view needs (the DM's always; the party's when a party key
+   or a host audience exists on the member), A2 calls V13's `renderAt(world, week, audience)` (amendments r's `RenderedWorld` with its label boxes and `atlas` layer set, file r items 1007 and 1011; RQ-V15-2) with `week` the member's present (or the common week where below it) and the viewpoint's `audience`, and pulls the returned tile sets' tiles through the member's read-only
+   handle for the stops in `cacheStops` (0 and 1 — J-V15.7: stop 2 is 16 × stop 1's pixels and stop 3 is 256 ×; they
+   are rendered **on demand per visible tile** for a member that is openable, cached for the session and dropped, and
+   a member pinned with `pinImagery` keeps its stop 2 in the document) and stores the tiles, the placed label boxes,
+   the header, the datum, the latitude box, the rung, the present week, the date label and the known set as
+   `MemberImagery` and the member's recorded readings. The `atlas` layer set is V13's — the member's default picture for the audience at the week
+   (J394): relief with the land cover's used and disturbed classes over it, water, routes, settlements with their
+   glyphs at the stop, labels, the sway's fills and borders, the occupation, debatable and fighting overlays and the
+   event pins, each under the audience's admission — no lens, no diagnostic layer, no placement outline, no DM-only
+   mark for a player audience (V13 §5.4's `atlas` layer set over V13 §5.1's rows; file r item 1011); the page's one
+   legend line for the cover overlay, "derived land cover", is the atlas's (V15 §5.2).
+4. **At the member's own time (F14).** The default week is the member's present (V13 §2.1: its greatest folded week,
+   or on a host-bound world the end of its latest window); the date label is V13's string for that week on that
+   member's calendar. Under the common-week display (V15 §4.7) the week is `min(commonWeek, presentWeek)`: a member
+   whose present lies before the common week is drawn at its own present and marked `W_ATLAS_BEHIND_WEEK` on its
+   cartouche ("at its own present, Year 412") — never extrapolated (V13 §5.8 (3)'s honesty rule).
+5. **Staleness and refresh.** A member's live version (its digests, `logHead`, `geometryVersion`) compared at every
+   open and at every `refreshImagery`: a difference marks every stop stale (`W_ATLAS_MEMBER_STALE`, the stale mark on
+   the member and its cartouche); A2 re-renders in the background and replaces the tiles; nothing else happens (never a
+   re-fit, never a re-solve, V15 §4.6). A member that cannot be opened keeps its cached tiles and reads `unopenable`
+   (`W_ATLAS_MEMBER_UNOPENABLE`); beyond its cached stops it is magnified with `W_ATLAS_DETAIL_UNAVAILABLE`.
+6. **Audiences.** The DM's imagery is V13's DM picture; a party's is V13 §5.1's player picture at that member (covert
+   links, DM-only events and unrevealed sites absent, never greyed), rendered by V13, never filtered here; a public
+   audience is the player picture under the `public` tier. The atlas never widens an audience: a viewpoint's audience
+   selects which imagery is drawn and the admission function (§9.2) withholds every atlas record below the viewer's
+   key.
+*Edges:* a member larger than a level-0 tile (a continent 3 840 km wide spans one level-0 tile; fine); a member rotated
+— its tiles are drawn rotated (the tile quads turned, the labels with them, V15 §5.3); a member of another output
+version — `renderAt` refused by the retention window (§7.5): the cached tiles kept, stale, `unopenable`; a member
+whose `renderAt` is cut by a work limit — its tiles arrive per stop as they land.
+
+### 3.3 A3 — Seams (F11b; spine §10.6: the more detailed member wins; softened along the shared stretch only)
+
+1. **Detection.** For every pair of members A3 finds the shared geometry on the true plane: `sideBySide` when two
+   extents touch along a stretch (or lie within `bandPx` at the drawn level), `nested` when one extent wholly contains
+   another (`Member.parent` set by a relation `inside`, a fit, or detection), `overlap` when the extents intersect
+   otherwise. The stretch is the overlap of the two facing edges (a segment on the true plane); for an overlap the
+   intersection polygon's boundary. No record is written for pairs that share nothing.
+2. **Precedence on the shared stretch.** The more detailed member wins (the finer rung; equal rungs by
+   `ConflictSettings.seamPrecedence`: the newer's `z` by default, the DM's `z` under `'dm'`): inside the overlap its
+   pixels are the base; the yielding member's pixels enter only through the softening band. **Softening along the
+   shared stretch only:** at every level the band of width `bandPx` (never more than `bandMaxShareOfStretch` of the
+   stretch's length) astride the stretch is blended by a band-limited multiresolution blend — each tile pair's band
+   decomposed into a three-level Laplacian pyramid, the two members' coefficients mixed by a smoothstep across the
+   band at each level, so the seam disappears at every scale without ghosting (the science note §10.2's cited
+   principle; the band width and levels ours) — and nothing outside the band changes: a member's picture away from its
+   edges is byte-identical to its own `renderAt` tiles (T-V15-13 (b)). The softening is pixels only: **nothing of
+   either member's data changes** (F14; T-V15-1).
+3. **Unknown space and drift.** Between members that do not touch, the gap styles draw (`GapStyle` regions first,
+   then `everywhereElse`'s kind, default terra incognita); a sea gap between `acrossSea` members draws the sea tint to
+   both shores with the shores' own coast lines kept from their tiles. Where two members that were matched at
+   generation (a continuation) or merely abut have since changed, A3 computes a `DriftReading` — the carried charter
+   against the neighbour's live `edgeCharter` for a continued seam, the two live charters against each other for any
+   other, over the shared stretch: the coast crossings' greatest shift, the river crossings unmatched within V13's
+   `riverMatchM`, the edge profiles' RMS difference, the vegetation classes' disagreement — and, where any
+   `atlas.seams.drift` threshold is crossed, a DM-only marker at the stretch's midpoint under `showDrift`
+   (`W_ATLAS_DRIFT`, information only: "the coast has moved 2.1 km apart since Varn was continued; 1 river unmatched").
+   The atlas softens the picture whatever the drift and never pulls either member back; re-matching is only on request
+   (V15 §4.1's `rematchStrip`).
+4. **Detail steps.** When the two members' native stops differ at the drawn level (a province inside or beside a realm
+   is one rung finer: `detailStep` 1; inside a continent, 2): a step of `easeAboveStep` rungs is **eased** — the finer
+   member's tiles are drawn with their high-frequency detail attenuated toward the coarser member's level across the
+   band (the same pyramid blend, the finer member's upper levels faded over the band's width), so the eye reads one
+   map that grows sharper inward; a step of `insetAboveStep` or more (and any step when `AtlasStyleState.insets` is on
+   and the DM chooses it per seam) is **embraced as an inset**: the finer member drawn at its own detail inside a thin
+   frame (`insetFramePx`) with no easing, and, at levels where the coarser member's stop is 0 or 1, a locator box
+   (`locatorBoxPx`) drawn on the coarser member at the child's extent — the printed-atlas convention (the science
+   note §10.2). The treatment is a seam setting (`treatment` on the record, the DM's choice kept as an attribute of
+   the pair in `ConflictSettings`-style per-seam overrides written by `setAttr`).
+5. **Labels across seams.** A member's placed label boxes come with its tiles (V13 places them per stop). A3 runs the
+   base's placer (§9.2's global greedy) once over every visible member's boxes at the atlas level — the boxes as fixed
+   candidates with their priorities, the seam bands as obstacles — and drops the yielding member's labels whose boxes
+   cross a band or collide with the winning member's, so no label is cut by a seam and none collides across one; the
+   members' label images are drawn through their boxes' admission (a dropped box's pixels masked). Positions are
+   cached per (atlas model digest, imagery versions, level).
+6. **Nested members.** A child inside a parent (V15 §3.5) is a seam of kind `nested` with the child winning on its
+   footprint whatever the fit mode; `imageOnly` adds the mismatch warning's marker; `fitted` and `derivedFromParent`
+   seams show no drift at the fit's versions by construction (the parent's edge meets the child's, V13 §3.11.2's
+   blend) and a drift reading thereafter like any seam.
+7. **Overlaps.** Two overlapping extents of different rungs: the finer wins inside the overlap with the band inside it;
+   equal rungs: the precedence setting, the loser blended out over the band inside the overlap; `W_ATLAS_OVERLAP`
+   stands until the DM chooses `keep`, `inset` or `move` (V15 §3.1 (4)).
+*Edges:* a stretch shorter than the band — the band shrinks to half the stretch; three members meeting at a corner —
+each pair's band computed, the corner's pixels the finest member's with the two bands' smoothstep products; a member
+rotated against its neighbour — the stretch is the segment of their boundaries within `bandPx`, the blend run along
+it, `W_ATLAS_NORTH_DIFFERS` standing; a missing member — its gap drawn by `ConflictSettings.missing`, its seams keep
+their last drift reading, marked.
+
+### 3.4 A4 — Continuation requests (F13 narrowed by F14; spine §10.4)
+
+The one coupling between members, at the new member's generation only, by the user's choice.
+
+1. **The void.** **Continue here** on a click in empty atlas space, or on a member's edge handle, with a rung chosen
+   (the province by default beside a province, the neighbour's rung otherwise): the void is the largest axis-aligned
+   rectangle of that rung's extent (V13 §2.3's size row; a smaller void clamps the extent to the space, inside V13's
+   band, reported `W_WORLD_RECIPE_CLAMPED` by W0) that fits the empty space anchored to the member edges it touches —
+   beside one member (one shared edge), between two (two facing edges), in a corner (two edges meeting), among three or
+   four — its shared edges aligned exactly with the neighbours' edges. Only a neighbour at **bearing 0 relative to the
+   void** shares an edge (J-V15.12): a rotated neighbour is reported (`W_ATLAS_NORTH_DIFFERS` with `snap`, which turns
+   it to a right angle on its own arrangement) and, unsnapped, does not constrain the void. A void that touches no
+   member is an ordinary new world (no continuation, `info.atlas.continue.none`).
+2. **One world edge charter per shared edge.** For each shared edge the fold calls V13's `edgeCharter(neighbour,
+   neighbourSide, span)` (RQ-V15-1) — the span the shared stretch in the neighbour's own frame — and carries the
+   `WorldEdgeCharter` it returns as a recorded input of the request (V15 §2.11) with the neighbour's version; the edge
+   is `locked`. A neighbour that cannot give one (an older schema the chain cannot migrate; an unopenable member)
+   leaves its edge `locked: false` with `W_ATLAS_EDGE_UNLOCKED` ("Varn's edge could not be read; the new map is free
+   on that side") — the continuation proceeds on the other edges.
+3. **The present ground, never a record.** The charter carries exactly V13 §2.2's `WorldEdgeCharter`, every field
+   (file r item 953; cited, never restated): the neighbour's PRESENT physical ground along the edge at the moment it is
+   read — its terrain, bedrock, soils and the landforms that run off the edge, its water bodies at their present level
+   and its river crossings at their present flow, its climate, currents and groundwater, its potential vegetation
+   graded, its latitude box, datum and world-level climate inputs, its always-so overrides along the edge — however
+   that ground came to be (an override and a disturbance that have shaped it are both in it, since both are the
+   ground), and **never** a record: no this-happened event, no land cover, no simulation state, no placed frame, no
+   route (J-V15.13: a road is a lay version on a standalone world and the host's lived network on a bound one — a
+   record either way; the new world lays its own, and a road ending at a seam is the DM's to continue by the new
+   world's own tools), no sway, no lens plate, no political fact, nor any change made after the reading (F14: an edit
+   in the neighbour before the continuation's generation is in the charter because it is the ground; one after it
+   never is). The test is J393's, stated once in V13 §2.2: *is this a present physical fact, never a record?* —
+   T-V15-2 asserts the charter unchanged under a razing, a sway revision and a land-cover change and changed by a
+   happened terrain stroke at the edge, and a lint over the charter's declared fields that none names a dated record
+   kind.
+4. **Pre-filled basics.** The request's `prefill` is derived from the neighbours' charters (present facts), each a `set`
+   option the user may change in the dialog and never a lock: the **latitude box** continued from the neighbour across
+   the void (the neighbour's degrees per kilometre along y extrapolated; two N–S neighbours average), the **poles**
+   and the calendar hemisphere from the charter's `world` (V13 §2.2: the neighbour's present climate inputs at world
+   level), the **climate band** the box implies, **wetness** the
+   mean annual precipitation along the shared edges mapped to the dialog's dial, **ruggedness** the edge profiles'
+   relief and the landforms running off (a range running off the edge proposes the `collision` scenario, whose regional
+   feature is a mountain front at the province rung, V13 §2.3's `world.formation` rows — the range's profile fixed by the
+   charter's landforms running off the edge, V13 §3.1 (6)), the **sea share** the coast fraction along the edges and whether a sea
+   touches the void. Every other option — the template among them: a recipe's template is a record, not ground —
+   stays `random` (spine §6's three states); the pre-fill rides as `OptionChoice { strength: 'set' }` rows of the
+   request (amendments r's record).
+5. **Contradicting edges.** Where two charters disagree in a way no world can honour — at a corner (one neighbour's
+   edge ends in sea where the other's ends on a 2 000 m plateau), across the void (a desert edge faces a rainforest
+   edge 300 km apart; two latitude boxes that cannot both continue; two rivers entering with no exit), or in the rock
+   (bedrock classes that cannot meet) — A4 reports each `W_ATLAS_EDGE_CONTRADICTS` with a **reconciling feature
+   proposed** as an extra `set` requirement the user accepts, moves or drops: a *sea* (between facing coasts), a
+   *strait* (a sea opening between two land edges), a *mountain belt* — V13's `range` feature, its `bearingCdeg` set across the wind — (between a wet and a dry edge),
+   a *rift* or an *escarpment* (between bedrock classes or a plateau and a plain). The proposals are rows of
+   `atlas.arrange`'s contradiction table (data: the fact pair → the feature kind and its placement rule), and the
+   solver (spine §4) takes the accepted feature as a `set` requirement of kind `landform` (file r item 1007) at rank 3.
+6. **Neighbours unchanged by default.** A request that can be met only by changing a neighbour (the user asks that a
+   river flow from Varn into the void where Varn's edge carries none; that the void's coast continue where Varn's edge
+   is inland) is reported `W_ATLAS_NEIGHBOUR_CHANGE` naming the neighbour's change: `drop` drops the requirement;
+   `editNeighbour` opens the neighbour's own page at that edge with V13's fork preview and conflict list (V13 §4.5;
+   spine §5.3) for an edit the user commits **there**, under Varn's own verbs and undo, after which the request is
+   re-drafted from the neighbour's new version. Nothing changes without approval, and nothing is changed by the atlas.
+7. **Send.** `requestContinuation { action: 'send' }` opens V09's world dialog (the layered panel of spine §6) with the
+   request: the locked edge chips (each naming its neighbour and side, un-removable but showing its charter's facts),
+   the pre-filled basics, the accepted features, and Generate; V13's W0 takes each charter as a `locked` `Requirement` of source `edgeCharter` and kind `edge` from the
+   request's `edgeCharters[]` (amendments r's W0 step 6; spine §10.4), the coarse live preview shows the edges meeting, and Generate creates the new world document (in the
+   standalone application a new document; in host mode the host decides which campaign owns a world made from an
+   atlas — H35; until it lands a continuation in host mode is refused `refuse.atlas.hostWorld` and the user makes the
+   world standalone). The new world **stores the charters it was generated from with each neighbour's version**
+   (provenance, V13's side as a settlement stores its charter; RQ-V15-1); the atlas adds it as a member with `origin:
+   'continued'`, its arrangement at the void, locked, `by: 'continuation'`, and `continuedFrom` naming the carried
+   charters — the atlas carries only the charters (spine §10.4's last sentence).
+8. **After generation: nothing crosses.** The neighbours' versions are unchanged by the generation (T-V15-11); the new
+   member's drift readings start at zero and grow only as either side is edited; no later edit on either side is ever
+   carried over (F14; V15 §4.7).
+*Edges:* a void among four members (a hole) — four edges, four charters; a void whose rung's extent exceeds the hole —
+clamped, reported; two voids drafted at once — independent requests; a neighbour refreshed between draft and send —
+the draft marked stale (`W_ATLAS_MEMBER_STALE`) and re-drafted on send; a continuation of a continuation — the same
+rules, the chain recorded in each member's own charters.
+
+### 3.5 A5 — Fit across rungs (spine §10.6: a member inside another)
+
+A child member whose extent lies wholly inside a parent's (a province in a realm, a realm in a continent; detected, or
+declared by `inside`) takes one of three paths on the fit sheet (V09; RQ-V15-7), in this order of preference:
+
+(a) **Derived from the parent — the preferred path (J-V15.8).** The child does not exist yet: the fit sheet's first card
+   is **Make a finer map here**, which asks V13 for a world-rung charter of the chosen extent on the parent —
+   `requestCharter` with a world subject (RQ-V15-3; V13 §3.11.4's world subject, file r item 1009, emitting a `WorldCharter`: a `Placement` of
+   subject kind `world` (item 1030) in the parent with `precedenceStamp: 'world'`, P1 not run, no blend, P4 only) — and opens V09's
+   world dialog with it: the child's recipe carries the parent's charter (`WorldRequest.parentCharter`) as its one boundary record (the four sides'
+   profiles, water edges and river crossings; the climate at the stations; the parent's rasters over the extent as the
+   child's **coarse ground**, which the child's W1 refines by the position-keyed lattice at its finer cell — V13
+   §3.11.4's principle and spine §3's "the fine DEM is the coarse result refined by the existing position-keyed
+   detail"; the parent's placed frames inside the extent as the child's **planned sites**, spine §4.2's W0; no
+   formation op, the child's `scenario` `'none'` and its card disabled with "the ground is the parent's", V13 §3.1 (1)),
+   so the child is coherent by construction. The parent gains the placement record only (its geometry untouched; its model
+   digest moves by that record alone, as a world's does for any placement, V13 §2.7), committed on the parent's page
+   by the sheet's one confirmation; the child is added with `origin: 'derived'`, `parent`, locked at its extent. The
+   parent's frames inside the extent stay the parent's (a frame belongs to one world, V13 §3.18 (7)) and the sheet
+   offers **Move the towns into the finer map** — V13's `unplaceFrame` on the parent and `placeFrame` on the child,
+   settlement-first, each previewed on its own page in one guided sequence — or **Keep them on the parent**, in which
+   case the atlas draws the parent's towns over the child inside its footprint through `renderAt(parent, week,
+   audience, { layers: ['settlements', 'labels'] })` (file r item 1006: the set's two rows alone), labelled "from the
+   parent" (V15 §3.3 (6)).
+(b) **Separate, image only.** An existing world dropped inside a parent: no write to either; the child wins on its
+   footprint (V15 §3.3 (6)) and the fold computes the **mismatch** once — V13's transient `charterFor` on the parent
+   at the child's extent (a world-rung transient placement, no record, `WORLD-9`'s form; RQ-V15-3) against the
+   child's own four `edgeCharter`s — as a `DriftReading` on the `FitRecord`, and warns `W_ATLAS_MISMATCH` where any
+   threshold is crossed ("the coast of Thornwood lies 3 km from Ashmark's here; its river enters where Ashmark has
+   none"). The warning stands on the seam until the DM fits (c) or accepts it.
+(c) **Separate, then fitted.** The parent bends around the child through V13's placement machinery (RQ-V15-3; spine
+   §14 (3)): `placeFrame { frame: { kind: 'world'; doc } }` — amendments r's rung-general form, its edit row `fit` — with the
+   child world document as the frame and the parent as the world, settlement-first —
+   P1's coherence over the six terms with the child's own sea side, river crossings, edge profile, relief and climate
+   rows (no dossier term unless a host-bound seat of the parent lies in the child's extent, where it is V13's ∞ term),
+   the bearing search admitted only at 0 (a world is never turned or mirrored: `W_ATLAS_NORTH_DIFFERS` refuses the fit
+   until the child's bearing is 0); P2's blend band in the parent scaled by the parent's cell ratio (V13's rule, file r item 942: `blendBandM` ×
+   the parent's fine cell ÷ the frame cell — 4 000 m under a 500 m realm, 8 000 m under a continent, widened as V13
+   §3.11.2 widens it); P3's local drainage in the parent over
+   the extent + margin + band; P4's charter both ways; P5's stamp `settlement` — **the child never changes** (T-V15-4;
+   the owner's rule at world scale). The sheet opens V13's own preview on the parent's page (the counterfactual fork,
+   V13 §4.5): the cost by term, the blend band's outline, the anomaly list, and the **conflict list** for every parent
+   settlement whose dossier facts the blend would contradict (V13 §2.2's `ConflictChoice`s, as the ladder admits them
+   there) and for every parent frame
+   the child's extent covers (V13's `W_PLACEMENT_OVERLAP`, accepted or not, with (a)'s two offers); the user commits
+   **there**, always `happened` (V13 §3.11's rule for a placement, with its `oldGround` trace), a geometry version step
+   on the parent (on a host-bound parent a geometry shift the host adopts by its re-canonize, `W_HOST_CANON_BEHIND`
+   until then). The atlas then writes the `FitRecord` (`mode: 'fitted'`, the parent's placement id, the conflicts
+   decided, the parent's versions before and after), refreshes the parent's imagery (its version moved) and locks the
+   child at its placement. Thereafter nothing crosses: the parent is never re-bent when the child changes and the child
+   never re-fitted when the parent changes (V15 §4.6).
+The three paths are the spine's three; a fourth — the child bending to the parent — does not exist (the more detailed
+rung wins on its footprint, spine §2). *Edges:* a child straddling the parent's edge — not nested; a side-by-side seam
+on the inside part, and the fit refused (`refuse.atlas.fit.straddles`); a child of the same rung as the parent — an
+overlap, not a fit; a child covering the whole parent — the parent is the child's parent in name only, the fit refused
+(`refuse.atlas.fit.covers`); a parent that is itself a child — allowed, the chain's innermost wins.
+
+### 3.6 A6 — The relational view (F10; spine §11)
+
+A **view** — V13 §5.8's fact class 4: an owner-ruled projection, labelled, never host truth — over the atlas (or over a
+single world as the one member of an unsaved atlas, J-V15.14). The true map keeps absolute scale and every measurement;
+the relational map is a warp of it drawn on the same tiles; a slider morphs between them.
+
+**(1) The warp.** (a) *The family and why* (J-V15.16). The warp is a **flow-based area cartogram** (the science note
+§9.2's third row: a flow whose density interpolates linearly from the importance density to uniform, the velocity
+field integrated once; topology-preserving by construction; seconds on a 512-grid) composed with a **radial
+magnification about the centre** (the fisheye of §9.2's fourth row: a closed-form, invertible, real-time map) and an
+**orientation rotation**. Chosen over the rubber-sheet method because that one can fold and break adjacency at the
+distortion the mappa mundi needs; over the classic diffusion cartogram because the flow method's single integration
+bakes in seconds where diffusion takes tens; over a fisheye alone because a fisheye cannot swell many places at once
+by their importance; and over a hand-drawn deformation because the distortion must be derived from facts and
+re-derived when they change (F10's "based on facts", spine §11). (b) *Construction.* Over the known world's bounding
+square (the viewpoint's known region plus every drawn member, V15 §3.6 (4)) a grid of `warpGrid` cells; each cell's
+**importance density** ρ = the class base (`atlas.style.density`: land 1, sea 0.35, a sailed sea 0.8, heard-of 0.6,
+unknown 0.25, never below `floor`) plus every seat's mass spread uniformly over its sway's extent (`ViewFacts.polity.sways[].border` and `areaKm2`,
+or a disc of the tier's reach about the seat's `at` where no sway holds it) — importance (V15 §3.6 (2)) × the cell's share — plus the centre's
+`centreMass`; the target is areas proportional to ρ. With ρ̄ the mean, the density at flow time t is ρ_t = ρ + t (ρ̄ −
+ρ); one Poisson solve ∇²φ = ρ̄ − ρ on the grid (a multigrid relaxation in fixed row-major order, `dmath` only; no
+transform library) gives the potential; the velocity at t is v = −∇φ ÷ ρ_t; every grid vertex is integrated from
+t = 0 to t = 1 in `flowSteps` steps (a fourth-order step, the field read bilinearly), and the displacement at each
+step is kept, so the slider's position s ∈ [0, 1] is **the flow at time s** — an invertible map at every s, not a
+linear blend of two maps (J-V15.17). The preset's `areaScaling` scales ρ's departure from uniform before the solve
+(0: identity; 1: the full cartogram). Then the **magnification** about the centre: with r the normalised distance
+from the warped centre over the known world's half-diagonal and d = (`magnify` − 1) × s the distortion, r′ = (d + 1)
+r ÷ (d r + 1) — the holy city huge, the rim squeezed; then the **orientation** rotation about the centre (east up:
+90° anticlockwise), free. The composed map W_s = R ∘ F_s ∘ D_s is applied in the render tier as a **mesh warp**: each
+drawn tile's quad is subdivided into an n × n mesh (n by the tile's displacement variation, 2–8) whose vertices are
+mapped through W_s on the true plane, the tile's texture drawn through the mesh — every pixel of every member's
+picture stays a pixel of that member, moved; nothing is re-rendered for the warp. *Numerics:* the grid is the known world's bounding square padded by a quarter on every side, its border vertices fixed (zero displacement: the unknown rim holds the frame, as a printed map's edge does), the Poisson solve under ∂φ/∂n = 0 on the padded border (no flux through the frame), solvable because ρ̄ is the mean over the whole padded grid; the Poisson relaxation a four-level multigrid V-cycle with Gauss–Seidel sweeps in fixed row-major order (eight sweeps per level, the residual's norm reported in the bake's reason record); the velocity read bilinearly between vertices; the time step 1 ÷ `flowSteps` with a fourth-order step; a vertex whose step would cross a neighbour clamped to half the cell (the fold guard that, if it trips, fails the Jacobian check and takes the fallback); the displacement at each step quantised to integer centimetres before the next, so the cached step fields are exact and hash alike; the magnification's radius normalised by the known world's half-diagonal in true centimetres. (c) *The itinerary strip.* The
+`itinerary` preset replaces D_s by a **distance cartogram along the viewpoint's route** (the science note §9.2's fifth
+row's idea): the route chain's stations (V13's `WorldRoute.stations`, land effort-metres) laid on a straight vertical
+spine at a y proportional to the travel time between them under the member's law (`derivedTime`), every other point
+placed at its angle and true distance from the nearest station's true point, folded about the spine; a point off the
+route by more than `atlas.style.itinerary.sideKm` fades to the margin. The spine's day counts are the preset's
+labelled distances (Peutinger's convention, the science note §9.1): true, as every readout is. (d) *Invertibility.* F_s
+is a flow of a smooth field (no fold while the integration stays stable), the magnification monotone in r, the
+rotation rigid: the composition has a positive Jacobian everywhere, checked on the grid after the bake
+(`WarpField.jacobianMin` > 0, T-V15-5 (a)); a bake that fails the check or the work cut falls back to the
+magnification-and-rotation alone with `W_ATLAS_WARP_FALLBACK` ("the relational warp could not be built for this
+viewpoint; the centre is drawn large, the areas true"). The inverse `unwarp` is a fixed-point iteration on the cached
+forward field (three steps from the bilinear inverse), used by the readout, the drill and the embellishments' hit
+test. (e) *Determinism and cost.* Every number through `dmath`, every pass in fixed order, the displacement quantised
+to integer centimetres and hashed: the same atlas version, viewpoint, week, preset and grid give a byte-identical
+field on every §13.2 platform (T-V15-9); the bake ≤ `ATLAS-7` (V15 §6), cached per key, re-made only when its inputs'
+digests change; the slider is free (the step fields are cached) and the mesh warp runs per frame at `ATLAS-8`.
+
+**(2) The distortion from facts — never from whim.** Every input is a reading of a member's facts at the viewpoint's
+week through V13's lens facts and polity rows (RQ-V15-4; V15 §1b.5), labelled "projection" in the legend:
+- **The centre.** By the viewpoint's rule: `holyCity` — the seat the religion lens's hierarchy and faith places name as
+  the religious superior or pilgrimage centre of the deity the mapmaker's culture holds as patron (the mode of
+  `faith[].patron` over the culture's seats; ties by `realmRank`), else the top-ranked deity's highest-tier patron
+  seat; `capital` — the root seat of the allegiance (`Allegiance.root`) the mapmaker's seat belongs to; `mapmakerSeat`
+  — the highest-tier seat of the viewpoint's culture; `point` — the DM's. Resolved at draw (its point `ViewFacts.polity.seats[].at` carried onto the atlas plane by
+  `toAtlas`), recorded on the viewpoint as a derived reading and in the bake's reason ("the centre is Sarn, the pilgrimage centre of the Ember Faith");
+  where the facts are absent the next rule down applies and the legend says so (V15 §1b.5).
+- **Size.** A seat's importance = `tier[rung]` × (1 + centrality + exports ÷ 4)^`tradeExp` × (1 + `holiness` where
+  the seat carries a faith-place label or is the patron seat of the mapmaker's deity) × (1 + `prosperityPerRung` ×
+  its rung above the realm's held median, clamped ±3 as the sway reads it) × (`capital` where it is an allegiance's
+  root) — the mappa mundi's "areas of import wildly out of proportion" from the host's own tiers, trade and faith
+  through V13's rows; a standalone world's seats take the recipe's tiers and W8b's recipe sways, no trade or faith.
+- **Orientation.** The preset's (east up for the sacred style; north up for the portolan; the route's start at the
+  bottom for the itinerary), the viewpoint's override.
+- **Detail by knowledge.** Over the known region (4): cells known are drawn as they are; heard-of cells are drawn with
+  their imagery blurred by `unknownBlurPx`'s lower bound and their labels dropped but for seats; unknown cells blur
+  further with distance from the known edge, their members' imagery fading into the preset's `unknown` treatment —
+  blank parchment, a legend ("beyond here the maps fail"), or the figures of (5) — and their labels gone; an unknown
+  member is a vague outline or nothing. The warp's density treats them by class, so the unknown shrinks.
+
+**(3) The true readout.** Hover anywhere: `trueReadout` unwarps the pointer to the true plane and the hover card shows
+the true point (the member and its world point), the **true distance** to the viewpoint's centre, or to the pinned
+point when the ruler is set (the `worldUnits` unit; as the crow flies, across seams as well since the plane is metric),
+and, when both points lie in **one member** and a route chain joins them, the **travel time** along it under that
+member's law — V13's `derivedTime` over the route's stations, labelled with the law's version and basis and "on foot"
+on a standalone member, and on a host-bound member the host's own leg (V13 §5.1's rule that times are the host's) —
+never a time across a seam ("no road crosses a map's edge", the card says so). On the warped map, route labels in the
+`mappaMundi` and `itinerary` presets print the true distance in the preset's numerals (Peutinger's labelled distances,
+spine §11): the shape lies, the number never does. The scale bar is drawn on the true plane and never hidden
+(J-V15.15); the ruler's line is drawn unwarped through the view.
+
+**(4) Knowledge: the known region.** `knownRegion(viewpoint, week)` over the warp grid: by the viewpoint's
+`knowledge.source` — `everything` (the DM's: all known); `audience` (the party or the public: the member's known cells as `renderAt` returned them for that audience — the coarse cells the audience's places have reached, amendments r's `RenderedWorld.known` — mapped onto the warp grid; one `heardOfBands` band beyond, within `heardOfWeeks` along routes); `culture` (the mapmaker's culture: its seats' territories and sways, the cells within `travelWeeks`
+along routes, the far ends of its trade channels (`tradeKnows`), the seats of its allies and vassals, one heard-of
+band beyond; the plates at `asOfWeek` where set, so a map "found in a dungeon" knows what its culture knew then). A
+projection (class 4), labelled; the DM may widen or narrow it only by choosing another source or audience, never by
+painting (knowledge is a fact of the audience, V14 §2.3's reading of §9.2; the party learns through the host's reveal
+and reach).
+
+**(5) Embellishments — derived, and the DM's.** `embellish(viewpoint, week)` places figures by the rows of
+`atlas.embellish`, each a pure function of the facts named and a keyed draw for its jitter within the region the rule
+admits (the `atlas.embellish` stream, keyed by the viewpoint's lineage, the kind and the grid cell: deterministic,
+T-V15-9); every figure carries its rule and the facts it read by V13's field names (`derivedFrom`), answered by the
+clerk; the DM adds, moves or removes any (`setEmbellishment`; a removed derived figure's `hidden` mark survives every
+bake; a moved one becomes `source: 'dm'` keeping `derivedFrom`).
+
+| figure | the rule (the facts, by V13's names; the thresholds `atlas.embellish`'s) | where it draws | audience |
+|---|---|---|---|
+| **sea serpent** | a sea cell whose bathymetry (`ViewFacts.water.bathymetry`: the member's coarse `dem` below the datum, read once per member on request) is deeper than `minDepthM`, farther than `farFromRouteKm` from any `WorldRoute` of mode `water`, or in a body whose quarter's `TravelLaw.water.stormFactor` ≥ `stormFactorMin` at the viewpoint's season — deep, little-sailed or storm-feared water | one per `per1000Km2` of such water, at most `maxPerBody`, at the admitted cells' centroid jittered | every |
+| **whale** | deep water sailed (a route within reach): the Carta Marina's real animals, the science note §9.1 | as above | every |
+| **dragon** | the band `bandKm` beyond the known region's edge (4): where knowledge ends | one per `perBandSegmentKm` of the edge, on the band's midline | every (the edge is the audience's own) |
+| **monstrous peoples** | land held by a seat whose culture distance band from the mapmaker's culture (`PolityFacts.culture[].band`) ≥ `cultureBandMin`, or whose allegiance stands adversarial to the mapmaker's (`PolityRelation` mapped adversarial; `Sway.neighbours[].class`), or farther than `farKm` from the culture's nearest seat and of another culture — the lands the mapmaker's culture is hostile to or far from | one per such sway or culture region of at least `minLandKm2` (`ViewFacts.polity.sways[].areaKm2`), at its pole (`.poleCm`) | every, from public rows; a DM-only relation never draws for a player viewpoint |
+| **devils** | land held by a seat whose patron deity differs from the mapmaker's and whom the religion lens marks contested or joined to the mapmaker's seats by a historic-front link, or whose allegiance is `atWar` with the mapmaker's — an enemy faith or an enemy at war (never the alignment lens, DM-only, J384 (7)) | one per such region, beside the seat (`ViewFacts.polity.seats[].at`) | every, from public rows |
+| **skull** | a `WorldEvent` of the plague kinds (an arrival, a realm arc naming the seat) within `vignetteWeeks` of the week | at the seat | the event's resolved audience |
+| **banners**, **siege**, **ruin**, **fallen idol** | a battle or raid, a siege, a razing, a patron fall, within `vignetteWeeks` | at the seat or the border segment V13 placed the event at | the event's resolved audience |
+| **city vignette**, **cathedral** | a seat of at least `city.minTier`: its vignette's size ∝ importance^`sizeExp`; the holy city's a cathedral when `cathedralAtHolyCity` | at the seat, under the preset's `vignettes.byTier` | every |
+| **cartouche**, **compass rose**, **ship** | furniture by the preset's rows: the title and the viewpoint's cartouche; roses on the rhumb circle; a ship on a sailed route | by the preset | every |
+
+**The rule that binds every figure (J-V15.18), and its test.** A figure is chosen by its **trait** alone — deep water,
+storm, unsailed, the edge of knowledge, hostility, distance, an enemy faith, an event, a tier — and by the preset; it
+reads culture **ids**, relation **classes**, culture-distance **bands**, deity **keys** and event **kinds**, and never
+a culture's, a people's, a deity's or a region's **name** or label; the figure library (`FigureRow`) keys no row by
+any name; its captions and the catalogue's strings for this volume are linted against a shipped blocklist of
+real-world ethnonyms, demonyms, faith names and region names (`atlas.embellish.blocklist`) and against any culture or
+deity label of the member (a build-time and a per-document check); and the legend carries the note "the mapmaker's
+fear, not the realm's fact: its enemies drawn as monsters" whenever a monstrous-peoples or devils figure is drawn — the
+honesty rule of V13 §5.8 (3) applied to a culture's prejudice. T-V15-6 asserts: renaming every culture, deity and
+seat of the fixture changes no figure; changing one relation to adversarial moves exactly the figures its rule names;
+no string of the volume or of a derived caption matches the blocklist; no figure reads an alignment, suppressed-creed,
+covert or DM-only row for a player viewpoint.
+
+**(6) Viewpoints.** Every map is somebody's map (spine §11). Two ship with every atlas: *the game master's* (audience
+`dm`, culture `none`, preset `true`) and *the party's* (audience `party`, culture `none`, preset `true`, knowledge by
+audience). A DM adds a culture's map (a culture of one member, its centre by the preset's rule, its knowledge by
+culture), a party's relational map (audience `party`, a culture of the party's choosing, preset `mappaMundi`: "the
+world as the Ember priests draw it, as far as the party has seen"), or **a map found in a dungeon** (a culture's
+viewpoint with `asOfWeek` centuries before the present, every member read at its plates and events up to that week,
+`W_ATLAS_BEHIND_WEEK` where a member's history does not reach so far back): each a `Viewpoint` record, switchable in
+the picker, each with its own warp bake, known region and figures. A party's map **improves as they learn**: its known
+region is re-derived from the member's known sets at every refresh, so a revealed place or a reached site widens it.
+
+**(7) Presets applied.** The viewpoint's preset (V15 §2.5) sets the orientation, the centre rule, the warp's
+`areaScaling` and `magnify`, whether coasts stay true (the portolan's: `areaScaling` 0.15 keeps them to the eye),
+whether interiors beyond the known coast are blank, the unknown's treatment, the figures admitted, the lettering (a
+bundled face, small capitals, roman or old-style numerals, §9.2's font paths), the furniture (16 roses on a circle
+with 32 rhumb directions; the T-O rim when the known world is one landmass round one sea; the itinerary's strip), red
+ports, coast-perpendicular labels (the member's labels re-laid by A3 (5)'s placer run with the preset's angle rule)
+and tiered vignettes. A `true` viewpoint draws no warp, no figure of the derivation's and only the DM's own.
+
+**(8) The legend's honesty.** The relational view's legend begins with "drawn as {culture} saw the world at {week}:
+{centre} at the centre, {orientation} up, its enemies as monsters, the unknown as legend — a projection; every
+distance and time shown is true" and lists the absent facts that fell to defaults (V15 §1b.5), as V13 §5.8 (2)–(3)'s
+banner does for a lens; {culture} is the DM's christening of the culture id (`ViewFacts.polity.cultures[].label`), else
+"culture {id}".
+
+**(9) Over a single world (J-V15.14).** The world page's **View relationally…** makes an unsaved atlas of that one
+member (a scratch `AtlasDocument` in the session, V15 §4.9's unsaved form) and opens it on the atlas page with the
+party's and the DM's viewpoints; **Save as a world map** keeps it. V13's own view gains no toggle, no warp and no
+figure (spine §11: the atlas is the style's home).
+
+### 3.7 A7 — Drill-down (spine §10.7)
+
+Zoomed out, the atlas is image tiles. A **click** on a member at any zoom, or a **zoom past the threshold** — the
+member under the view centre at its stop 3 with `drill.pastStop` reached and the member filling `drill.shareOfView`
+of the view — hands over to the **live member**: `drillTarget` unwarps the point through the viewpoint's field to the
+true plane and through `toMember` to the member's `WorldPointCm`, and V09's document router opens the world document
+as another page at that point and the equivalent world stop (V13 §5.2's pattern: the atlas page kept in its tab; the
+back action returns to the atlas at the same centre and zoom), where V13's own drill opens a settlement (V13 §5.2),
+V03's plan rung an interior, V14's icon a site — the owner's "click deeper", run from the top. A player's drill-down
+opens the member's player view only when the member is `shareable` and the audience knows a place inside it, else the
+click answers `refuse.atlas.drill.audience`; a `missing` member refuses with its gap's words, an `unopenable` one
+with `refuse.atlas.drill.unopenable` naming the reason (the version, the resolver). The relational view's drill lands
+on the **true** point (T-V15-12): a warped click opens the place that is really there.
+
+### 3.8 Failure handling (the ladders, in §5.2's form: F-ATLAS)
+
+| stage | rung 1 (soft) | rung 2 (reported, degraded) | rung 3 (refused) | never |
+|---|---|---|---|---|
+| A1 arrange | an unmet relation: kept, marked, `W_ATLAS_RELATION_UNMET` | an oscillating solve cut at `maxIterations`, the best state kept | `refuse.atlas.members` (over `maxMembers`), `refuse.atlas.extent` (the lane), `refuse.atlas.duplicate` | a refusal for any overlap, latitude or climate clash (spine §10.3) |
+| A2 render | a stale member drawn stale until refreshed | a work-cut render: the stops that landed, the rest magnified, `W_ATLAS_DETAIL_UNAVAILABLE` | — | an atlas page waiting on a render; a member written |
+| A3 seams | a drift above threshold: a marker | no charter for a drift: the reading `noCharter`, no marker | — | a member pulled back |
+| A4 continue | an edge with no charter: unlocked, `W_ATLAS_EDGE_UNLOCKED` | contradictions reported with proposals; a neighbour change reported with `editNeighbour` | `refuse.atlas.noCharter` (no edge at all can be read and the user asked for a matched continuation), `refuse.atlas.hostWorld` (host mode before H35) | a neighbour changed by the atlas |
+| A5 fit | a mismatch warning (image only) | V13's `F-PLACE` offers (no lawful fit: the asked placement kept unlawful, the least-cost ones offered — V13 §3.11.1) | `refuse.atlas.fit.straddles`, `refuse.atlas.fit.covers`; V13's own refusals on the parent | the child changed; the parent re-bent later |
+| A6 view | absent facts: neutral terms, the legend says so | a bake cut or folded: the magnification-only fallback, `W_ATLAS_WARP_FALLBACK` | — | a figure from a name; a DM-only row on a player viewpoint |
+| A7 drill | — | — | `refuse.atlas.drill.unopenable`, `refuse.atlas.drill.audience` | an in-place zoom into a member's arena |
+
+No member problem aborts an atlas: a missing, unopenable, stale or refused member is drawn as its state says and
+reported; the only bug aborts (§5.1 (8)) are a tile pyramid index out of range (`E_ATLAS_TILE`) and a warp field whose
+grid does not match its key (`E_ATLAS_WARP`).
+
+### 3.9 Determinism (§6's form)
+
+The atlas draws on one stream: `atlas.embellish` (a figure's jitter within its admitted region, keyed by the
+viewpoint's lineage, the figure kind and the warp-grid cell on the atlas root's `atlas` concern, BCR-V15-12). A1 draws
+nothing (the solver's tie-break: the lowest member ordinal, then the lexicographic id); A2 is V13's rendering (its own
+determinism, T-V13-1); A3's blend is arithmetic in fixed order; A6's solve and integration run in fixed row-major
+passes with every transcendental through `dmath` and the result quantised to integer centimetres; A4's charters are
+V13's. Work limits: A1 ≤ `leastChange.maxIterations` × members²; A3 ≤ the visible tiles × the band's pixels × 3
+levels; A6 ≤ `warpMaxMs` as a work count over grid cells × passes (never a timeout — F-WORK's `work_cut`, V13 §3.17's
+rule); a limit reached is reported. T-V15-9 asserts byte identity of every record, tile and field across §13.2's
+platforms, workers on and off.
+
+### 3.10 Edges
+
+(1) An atlas with no member — the empty state (V15 §5.1): the origin at (0, 0), nothing to render, **Add a world
+map…** and **Make a world map** (V09's world dialog, the result added as the first member). (2) One member — no seam,
+no solve; the relational view runs over it (J-V15.14). (3) Two copies of one world (a clone with a new `docId`, V13
+§2.5) — two members; the same picture twice, each its own clock; no refusal (only the same `docId` is refused). (4) A
+member of every rung at once — the pyramid's levels cover all; a province inside a continent is an inset by default.
+(5) A member rotated by 37° — drawn turned, its labels with it; every seam it touches `W_ATLAS_NORTH_DIFFERS`; no
+continuation or fit admits it until snapped. (6) A member deleted on disk — `missing`, its gap marked, its relations
+and seams kept and marked (V15 §4.5). (7) A member of an older output version — `unopenable` with its cached picture;
+drill-down opens the frozen view the base offers (§7.5). (8) An atlas opened on a machine without the local store that
+holds its members — every member `unopenable`, the cached pictures drawn, every refresh reported; nothing lost. (9) A
+viewpoint whose culture's member is removed — the viewpoint reads culture `none` and is reported. (10) The slider at 1
+on the `true` preset — the identity. (11) A warp over a known region of one cell — the identity with the
+magnification. (12) A continuation whose void is narrower than the neighbour's edge — the span is the void's side; the
+rest of the neighbour's edge faces unknown space. (13) The lane's edge — a member that would cross ±21 474 km is
+refused (`refuse.atlas.extent`). (14) A shared atlas opened by its recipient — read-only members, pictures only,
+drill-down refused for the unresolvable (V15 §5.5). Each is one test of T-V15-17 (c).
+
+### 3.11 A worked example (Ashmark, Varn, Thornwood, the Marches, Kesh)
+
+**Ashmark** is a realm (1 280 × 800 km, 500 m cells, latitude box [30°, 55°]) on which a campaign stands at Year 412;
+**Varn** a realm the same user made for another campaign, at Year 1 071; **Thornwood** the province the user wants
+inside Ashmark's north-east; **the Marches** and **Kesh** do not exist yet.
+
+1. **New world map** opens empty. **Add a world map…** → Ashmark drops at the origin (`addMember`, `by: 'direct'`); A2
+   renders its stops 0 and 1 in the background (`ATLAS-2`: ≤ 1.5 s), its cartouche reads "Year 412, early spring".
+2. Varn is added; the relations box takes "Varn lies east of Ashmark across a narrow sea" (the clerk's parse → the
+   chips eastOf · acrossSea · narrow); **Arrange** solves: Varn's centre within 30° of east of Ashmark's, the facing
+   edges 60 km apart (`seaNarrowKm`), a `sea` gap written between them; the compatibility check reads both members'
+   east and west edge summaries: the latitude boxes equal, the vegetation classes within one — no warning. Had Varn's
+   box been [5°, 30°], `W_ATLAS_LATITUDE` ("a 25° step across the sea") with `keep` and `setBox` (Varn's own dialog).
+3. Thornwood does not exist: the fit sheet on a dragged rectangle inside Ashmark's north-east offers **Make a finer
+   map here** (V15 §3.5 (a)): `requestCharter` with a world subject on Ashmark (a placement record on Ashmark, no
+   geometry change), the world dialog pre-filled from the charter, Generate; Thornwood joins with `origin: 'derived'`,
+   `parent` Ashmark, locked; the nested seam is a one-rung step, eased; Ashmark's two towns inside the extent: **Move
+   the towns into the finer map** runs V13's `unplaceFrame` on Ashmark and `placeFrame` on Thornwood, each previewed on
+   its page. Had the user already made Thornwood standalone and dropped it inside, the seam would read image-only with
+   `W_ATLAS_MISMATCH` ("the coast lies 3 km from Ashmark's; a river enters where Ashmark has none"), and **Fit** would
+   open V13's preview on Ashmark's page — the cost by term, a 4 km band, the conflict list for Ashmark's riverside town
+   whose river the blend would move (the `ConflictChoice`s the ladder admits there) — committed there, the `FitRecord` written, Ashmark re-rendered, Thornwood untouched (T-V15-4).
+4. **Continue here** on the void south of Ashmark at the realm rung: the void's north edge is Ashmark's south edge
+   (1 280 km shared), one charter from `edgeCharter(Ashmark, 'S', { fromCm: 0, toCm: 128 000 000 })` (the full side), locked; the pre-fill: the latitude box
+   continued to [5°, 30°] (Ashmark's 25° over 800 km, run on), a warmer climate band, wetness from the south edge's
+   precipitation, ruggedness from the Greyspine running off the edge (the `collision` scenario, its mountain front where the charter's landform runs off at bearing 95°),
+   sea share 0.1 (the edge is inland), the poles Ashmark's; the template left random (a record, not ground). The user also drags Varn south until its west edge
+   meets the void's north-east corner; now two charters, and a contradiction: Ashmark's edge ends on an 1 800 m
+   plateau at that corner where Varn's ends in sea — `W_ATLAS_EDGE_CONTRADICTS` proposes **a strait** at the corner;
+   accepted. Send → the world dialog with two locked edge chips; Generate; **the Marches** joins with `origin:
+   'continued'`, locked at the void, its recipe storing the two charters with Ashmark's and Varn's versions; Ashmark's
+   and Varn's digests unchanged (T-V15-11). Its cartouche reads "Year 1, spring".
+5. "Kesh lies far to the south beyond unknown lands": Kesh is made as an ordinary world (no shared edge), dropped
+   beyond the Marches, the relation `beyondUnknown` solved (≥ 900 km, `terraIncognita` between) — no charter, no
+   continuation: the user chose the unknown, not a seam.
+6. **A year later** Ashmark's campaign advances 52 weeks, a flood raises a lake, the DM paints a clearing: Ashmark's
+   version moves; the atlas re-renders Ashmark alone (`W_ATLAS_MEMBER_STALE`, then fresh), the Marches and Thornwood
+   byte-equal (T-V15-1); the Ashmark–Marches drift reading: the coast unchanged, no river unmatched, the profile's RMS
+   0 — no marker (the flood is inland and does not reach the edge; the clearing is land cover, a record: neither moves
+   the charter, T-V15-2).
+   Later the DM re-routes a river to leave Ashmark's south edge elsewhere: one river unmatched → the DM-only marker
+   under Show drift; the Marches still reads "Year 1, spring"; **Re-match this edge…** on the Marches' side would run
+   V13's regenerate over a 20 km strip of the Marches under Ashmark's live charter, previewed on the Marches' page —
+   only if asked.
+7. **The Ember Church's map** — a viewpoint (audience `party`, culture Ashmark's culture 2, preset `mappaMundi`): the
+   centre resolves to Sarn (the religion lens's pilgrimage centre of the Church's patron), east up; Varn's lands (its
+   allegiance at war with Ashmark's) take devils, the far southern sways of another culture at band 5 monstrous
+   peoples; the sea between Ashmark and Varn is sailed → whales; the deep southern sea with no route → serpents; the
+   Marches are known as far as the Church's missions reach in four weeks, then one heard-of band, then dragons; "The
+   Wasting" (a plague realm arc 60 weeks ago at two seats) → two skulls; the legend reads "drawn as the Ember Church
+   saw the world at Year 413: Sarn at the centre, east up, its enemies as monsters …". The slider at 0.6 swells Sarn's
+   province to a third of the sheet; hovering the Sarn–Ashby road reads "312 km · 2 weeks 3 days on foot (the default
+   law, absolute)"; a click on Varn's warped coast opens Varn's page at the true point (T-V15-12). **The party's map**
+   (audience `party`, culture `none`, `true`): Varn, which the party has never heard of, is parchment.
+8. **Sharing:** Varn is another user's shared world the user may not re-share → the share sheet excludes it (its
+   extent "not shared"); the file carries Ashmark, Thornwood, the Marches and Kesh as pictures (T-V15-8).
+
+## 4 Editing
+
+Every edit of an atlas is one of §7.1's ordered events on the atlas's own log, with the dry run, the outcome table,
+the closure rule, locality and undo the base gives every document (§7.1, §7.3, §7.4); the atlas's log is separate from
+every member's, and no event below writes a member (V15 §1.1's package rule; T-V15-19). The base's `delete` and
+`setAttr` serve the atlas's records as any; the atlas adds the kinds below (BCR-V15-4).
+
+### 4.1 The edit events (declared in §7.1's form)
+
+```ts
+type EditEvent = EditBase & (
+  // … the base's and V13's variants …
+  | { t: 'addMember'; world: { doc: Uuid; namespace: string; ref?: string }; at?: AtlasPointCm /* the drop point; absent: the layout preset's next slot */; name?: NameRef; shareable?: boolean }   // the fold reads the world's header, rung, latBox, present and date through the resolver (read-only) and writes the Member with its first readings; refuses `refuse.atlas.duplicate`, `refuse.atlas.extent`, `refuse.atlas.members`, `refuse.atlas.unresolved` (the reference cannot be opened: a member may still be added from a shared atlas's embedded picture, state 'unopenable')
+  | { t: 'removeMember'; member: Id; gap?: GapStyle['kind'] /* the gap left where it was; default 'blank' */ }
+  | { t: 'arrangeMember'; member: Id; originCm?: AtlasPointCm; bearingCdeg?: Cdeg; snapTo?: { member: Id; side: 'N'|'E'|'S'|'W' } /* the edge the drag snapped to, so the fold can offer the `adjacent` chip */; accept?: ('overlap'|'latitude'|'climate'|'north')[] /* the warnings the DM accepted */ }
+  | { t: 'lockMember'; member: Id; locked: boolean }
+  | { t: 'relate'; relation: Omit<Relation, 'id' | 'lifecycle' | 'reason'>; solve?: boolean /* true: the fold runs A1's solve at once; false: stored, the box shows it unmet until Arrange */ }
+  | { t: 'unrelate'; relation: Id }
+  | { t: 'arrange'; scope?: Id[] /* the members the solve may move; absent: every unlocked one */; accept?: string[] /* warnings accepted */ }   // the relations box's Arrange: A1's solve over the stored relations; the dry run returns the ghost arrangements, the verification list and the warnings
+  | { t: 'setLayoutPreset'; preset: 'clustered'|'archipelago'|'scattered' }
+  | { t: 'setGapStyle'; gap: Omit<GapStyle, 'id' | 'lifecycle' | 'reason'> } | { t: 'removeGap'; gap: Id }
+  | { t: 'setConflictSettings'; settings: Partial<ConflictSettings> } | { t: 'setAtlasStyle'; style: Partial<AtlasStyleState> }
+  | { t: 'requestContinuation'; action: 'draft'; void: { at: AtlasPointCm; rung: WorldSizeRung } }   // A4's fold: the void, the charters, the prefill, the contradictions; the dry run shows the void's outline and the edge chips
+  | { t: 'requestContinuation'; action: 'send'; request: Id; accepted: { contradiction: number; proposal?: ContinuationRequest['contradictions'][number]['proposal'] }[]; dropped: Id[] /* the requirements dropped at W_ATLAS_NEIGHBOUR_CHANGE */ }   // opens V09's world dialog with the request; the member is added by the dialog's generate through `addMember` with origin 'continued'
+  | { t: 'requestContinuation'; action: 'cancel'; request: Id }
+  | { t: 'fitChild'; child: Id | { extent: AtlasPointCm[]; rung: WorldSizeRung } /* a derived child names its extent, not yet a member */; parent: Id; mode: 'derivedFromParent'|'imageOnly'|'fitted'; parentEdit?: { placement: Id; seq: number } /* mode 'fitted' or 'derivedFromParent': the parent's committed V13 event the atlas records (never performs) */ }
+  | { t: 'rematchStrip'; seam: [Id, Id]; member: Id /* the ONE member whose border strip is re-matched */; stripKm: number }   // a request record: the fold opens the member's own page with V13 §3.1 (6)'s re-matching (file r item 1008): `setRequirements` replacing that side's `edge` rows by the neighbour's live charter, then V13's regenerate over the strip's box (EditScope { kind: 'world'; stage: 'W1'; box }) under the recipe's rows, previewed there; nothing happens in the atlas but the record and, on the member's commit, a refresh
+  | { t: 'setViewpoint'; action: 'add'; viewpoint: Omit<Viewpoint, 'id' | 'lifecycle' | 'reason'> } | { t: 'setViewpoint'; action: 'update'; viewpoint: Id; patch: Partial<Viewpoint> } | { t: 'setViewpoint'; action: 'remove'; viewpoint: Id }
+  | { t: 'setEmbellishment'; action: 'add'; embellishment: Omit<Embellishment, 'id' | 'source' | 'lifecycle' | 'reason'> } | { t: 'setEmbellishment'; action: 'move'; embellishment: Id; at: AtlasPointCm; facing?: Cdeg; sizeCm?: Cm } | { t: 'setEmbellishment'; action: 'remove'; embellishment: Id } | { t: 'setEmbellishment'; action: 'restore'; embellishment: Id }
+);
+```
+
+`setAttr` admits a member's `name` and `shareable` (narrowing only: a value wider than the world's own sharing is
+refused `refuse.atlas.share`), a gap's `label`, a viewpoint's `name`, a seam's `treatment` (`ease` | `inset`, keyed by
+the pair). Every event's dry run (§7.1) runs the fold on the scratch overlay: `arrangeMember`'s and `arrange`'s with
+the ghost outlines, the compatibility warnings and the verification list; `requestContinuation`'s with the void's
+outline, the edge chips and the contradictions; `fitChild`'s with V13's own preview on the parent (mode `fitted`,
+`derivedFromParent`) or the mismatch reading (`imageOnly`). **The outcome table's new rows** (§7.1's catalogue;
+BCR-V15-4; the refusals §7.1 outcome keys rendered by V09's catalogue, never `ReportCode`s — V13 §4.1's rule):
+`refuse.atlas.duplicate`, `refuse.atlas.extent`, `refuse.atlas.members`, `refuse.atlas.unresolved`,
+`refuse.atlas.share`, `refuse.atlas.noCharter`, `refuse.atlas.hostWorld`, `refuse.atlas.fit.straddles`,
+`refuse.atlas.fit.covers`, `refuse.atlas.drill.unopenable`, `refuse.atlas.drill.audience`, `refuse.atlas.export` (a
+world-shaped export asked of an atlas, V15 §5.5); the warnings with their `ConflictAction`s — `W_ATLAS_OVERLAP`
+(`keep`, `inset`, `move`), `W_ATLAS_LATITUDE` (`keep`, `setBox`), `W_ATLAS_CLIMATE` (`keep`, `drop`),
+`W_ATLAS_NORTH_DIFFERS` (`snap`, `keep`), `W_ATLAS_RELATION_UNMET` (`keep`, `drop`, `unlock`), `W_ATLAS_LOCKED_MOVE`
+(`unlock`, `cancel`), `W_ATLAS_EDGE_CONTRADICTS` (`accept` with `proposal`, `move`, `drop`),
+`W_ATLAS_NEIGHBOUR_CHANGE` (`drop`, `editNeighbour`), `W_ATLAS_MISMATCH` (`fit`, `keep`), `W_ATLAS_MEMBER_STALE`
+(`refresh`, `keep`), `W_ATLAS_MEMBER_MISSING` (`remove`, `keep`), `W_ATLAS_NOT_SHARED` (`keep`, `include` where the
+world's own sharing allows) — `ConflictAction.kind` gaining `'inset'|'move'|'setBox'|'drop'|'unlock'|'snap'|'accept'|
+'editNeighbour'|'fit'|'refresh'|'remove'|'include'` and `proposal?: string` (BCR-V15-4). The author of every atlas
+event is the user (`EditBase.author` `user`), of the continuation's generated member's `addMember` the dialog
+(`user`); no event of an atlas carries `author: 'host'` or `'world'`, and the atlas's log has no reserved session.
+
+### 4.2 The authoring tools (V09's binding table; RQ-V15-7)
+
+| tool | mode on the atlas document | what it shows while the user works |
+|---|---|---|
+| T1 `intend` | the atlas's settings sheet: the conflict settings, the style state, the layout presets, the common-week toggle | the member count, the plane's extent, the imagery cache's size |
+| T2 `ground` | the **gap brush** (a region, "between these two", "around this side"; the kind picker) | the gap's fill previewed |
+| T6 `place` | **Arrange**: a drag of a member (edge snapping with the `adjacent` chip; the ruler), the rotation handle (right-angle snaps), the lock; **Add a world map…** (the recent list, a file, a link; a drag of a world's card); **Continue here** on a void; the **embellishment tray** (the DM) | the ghost outline, the snap chip, the compatibility warnings beside the pointer; the void's outline with its edge chips; a figure's ghost |
+| T7 `roster` | the **relations box**: chips (member · relation · member · width or side), or a typed sentence sent to the clerk's parse (V10), each relation's met/unmet mark, **Arrange** | the solve's dry run as ghost outlines with the verification list |
+| T9 `shape` | `setAttr` on a member, a gap, a viewpoint, a seam's treatment; the **fit sheet** on a nested member (three cards; the fitted card opens V13's preview on the parent's page); **Re-match this edge…** on a seam; the **viewpoint picker** and its New viewpoint sheet; the **style cards** | the fit's preview on the parent's page (V13's own); the viewpoint's resolved centre and known region outlined |
+| T10 `hold` | **Refresh** a member's picture; **Keep detail** (`pinImagery`); **Bake** the relational warp; the slider's rest position | the stale marks; the bake's progress strip |
+
+The view bar gains the **relational slider**, the **viewpoint picker**, the **common-week toggle**, **Show drift** and
+**Show relations** (the DM), and the date cartouches' switch (V15 §2.7's keys). The compass rose turns with the
+viewpoint's orientation (derived presentation, §9.5's rule as V13 §3.11.5 turns it for a placement).
+
+### 4.3 Locality (§7.3's form): effective scope, local operators, what is pinned
+
+| edit reaches | local operator | pinned | beyond it (declared, never presented as local) |
+|---|---|---|---|
+| `addMember` | A2 for the member (its stops rendered in the background); A3 over the seams it creates; A1's compatibility check over its neighbours | every other member's arrangement and imagery; every relation | — |
+| `removeMember` | the member tombstoned, its imagery dropped, its relations and fit tombstoned, its gap written; A3 over the seams it had | everything else | — |
+| `arrangeMember`, `lockMember` | A3 over the seams the member leaves and enters; the compatibility check over its new neighbours; the inset layouts it touches | every other member; every relation (a relation it now breaks is marked unmet, never re-solved unasked) | — |
+| `relate`, `unrelate` (with `solve: false`) | the record alone; the box's marks | every arrangement | — |
+| `arrange`, `relate` with `solve`, `setLayoutPreset` | A1's solve over the unlocked members in scope; A3 over every seam that changed | locked members; every relation outside scope; every member's imagery | a preset re-places every unlocked member: declared whole-atlas |
+| `setGapStyle`, `removeGap` | A3's fill over the gap's region | everything else | — |
+| `setConflictSettings` (`seamPrecedence`, `missing`, `commonWeek`), `setAtlasStyle` | A3's precedence over equal-rung seams; A2 for every member when the common week changes (the week argument) | the arrangements | the common week re-renders every member whose present differs from it: declared whole-atlas (background) |
+| `requestContinuation` | the request's records; the void's outline | every member (the neighbours are read, never written) | the generated world is V13's `generate`, on its own document |
+| `fitChild` | the record; A2 for the parent (its version moved) and the child; A3 over the nested seam | every other member | the parent's placement is V13's edit on the parent: declared there, with V13's budget |
+| `rematchStrip` | the request record; on the member's commit, A2 for that member and A3 over the seam | the neighbour (never touched) | the member's regenerate over the strip is V13's edit on that member, previewed there |
+| `setViewpoint`, `setEmbellishment` | the viewpoint's warp field, known region and derived figures invalidated (re-baked on request) | every member's imagery; every other viewpoint | — |
+| `refreshImagery`, `pinImagery`, `bakeWarp` (cache commands) | the member's imagery; the viewpoint's field | every record | — |
+
+**Edit fates** (§7.3's `EditFate`) on an atlas re-run: a member `kept`; an arrangement a solve moved `reshaped` with its
+displacement; a relation it could not meet `kept` and marked; a gap written by a solve `created`; a seam's treatment
+override `carried` by its pair; a derived embellishment `discarded` and re-derived. **Recorded inputs** of the atlas are
+its members' references, its relations, its gaps, its viewpoints, the DM's embellishments and the carried charters.
+
+### 4.4 Undo
+
+Every event's undo is V15 §1b.3's row: the replaced scope (a solve, a preset — one group restoring every arrangement
+it moved) or the inverse (an attribute, a lock, a relation). A `removeMember`'s undo restores the member, its
+arrangement, its relations, its fit and its gap's absence, and its imagery from the cache if still held (else
+re-rendered). The atlas and every member have **separate logs and separate undo stacks** (§7.4's per-document
+sessions; V13 §4.4's pattern): the parent's placement in a fit and a member's re-matched strip are undone on **that
+document's** page by its own undo, and the atlas's `FitRecord` or `rematchStrip` record is undone on the atlas — the
+two are not one group (J-V15.9: the atlas never holds a member's event, so it cannot undo one; a parent's placement
+undone there leaves the atlas's fit record stale, reported `W_ATLAS_MEMBER_STALE` with `refresh`, which re-reads the
+parent's version and marks the fit `mode: 'imageOnly'` with its mismatch recomputed). A continuation's generated world
+is a document of its own: undoing the `addMember` that admitted it removes it from the atlas and never deletes it.
+Cache commands are not events and have no undo. T-V15-17 (d) replays every edit kind forward and back.
+
+### 4.5 When a member is deleted (F15: a marked gap, never a silent hole)
+
+A world document deleted outside the atlas — in the local store, in the host, on disk — is found at the atlas's next
+open or refresh: the resolver answers nothing, the member's `state` reads `missing`, `W_ATLAS_MEMBER_MISSING` is
+raised with `keep` (the default) and `remove`. **Kept**, the member stays in the atlas with every relation, seam and
+fit it had, its last imagery drawn by `ConflictSettings.missing` — `ghost`: the picture at `missingGhostAlpha` under a
+hatched frame with the words "missing map: {name} (last seen {version}, {dateLabel})"; `blank`: the hatched frame and
+the words alone — in every atlas that held it; its relations are marked unmet, its seams keep their last drift,
+drill-down refuses with the gap's words; a world restored later (the same `docId`) is found again at the next open and
+the member reads `present`, its imagery refreshed. **Removed** (`removeMember`), the gap becomes a `GapStyle` of the
+kind chosen (`blank` by default) where the member lay, its relations tombstoned; the removal is one undoable event. A
+member removed from one atlas is untouched in every other (an atlas holds only references). T-V15-7.
+
+### 4.6 When a member's version changes (re-render; never re-fit)
+
+A member's live version — its model and records digests, `logHead`, `geometryVersion`, `outputVersion` — is compared
+with the atlas's recorded one at every open, at every `refreshImagery` and whenever the session's bridge reports the
+member's log head moved (§11.3's `logHead`). A difference: marks every cached stop stale (`W_ATLAS_MEMBER_STALE`, the
+stale mark on the member card and its cartouche; the stale picture still drawn), re-renders the member in the
+background (A2) and replaces its tiles stop by stop, re-reads the member's present week, date label and known sets,
+re-computes the seams' drift readings and the viewpoints' known regions, invalidates the warp fields that read it, and
+**does nothing else**: no re-solve of the arrangement (a member that grew by a world `adjust` keeps its origin; its new
+extent may now overlap a neighbour — `W_ATLAS_OVERLAP` on the next check, the DM's to resolve), no re-fit of a child
+or a parent (the fit record stands with its versions; the nested seam's drift reading says how far they have drifted),
+no re-match of any seam, no re-draft of a continuation request already sent. The one write of a version change is the
+member's recorded readings and its cache — outside every digest (V15 §2.11). T-V15-22.
+
+### 4.7 Microcosms (F14; spine §10.5)
+
+1. **Nothing crosses a seam after generation.** No event of an atlas and no refresh of a member reads one member to
+   change another; the only reads across members are the seams' drift readings (information), the continuation's
+   charters (at the new member's generation, before it exists) and the fit's mismatch and placement (at the fit, the
+   user's explicit act on the parent). T-V15-1 asserts: an edit of any kind on one member leaves every other member's
+   model and records digests byte-equal and the atlas's model digest byte-equal.
+2. **Each member runs its own clock.** The imagery is at the member's present (V15 §3.2 (4)); the **date cartouche**
+   on each member (under `AtlasStyleState.dateCartouches`) prints V13's date label for that member — "Year 412, early
+   spring" — in the viewpoint's lettering; two members' cartouches may differ by centuries, and the atlas says nothing
+   of it (there is no atlas clock to disagree with). A member advanced by its host moves its own present and its own
+   picture; its neighbours do not move.
+3. **Seams drift; the atlas softens.** V15 §3.3 (3): the drift readings, the DM-only markers under `showDrift`,
+   information only; re-matching only on request through `rematchStrip` — one member, one strip (`stripKm` wide along
+   the seam), V13 §3.1 (6)'s re-matching on request (file r item 1008): `setRequirements` replacing that side's `edge`
+   rows by the neighbour's live charter, then V13's regenerate over that box (`EditScope { kind: 'world'; stage: 'W1';
+   box }`, V13 §4.1) under the recipe's rows, previewed on the member's page and committed there; the neighbour
+   untouched.
+4. **The common-week display is an option, not the default.** `ConflictSettings.commonWeek` and the view's
+   `commonWeek` key: every member whose present reaches the chosen week is rendered at it (`renderAt` with `week` —
+   V13's own history for the `atlas` set's layers that keep one: the dated surfaces, the routes in force, the sway's
+   revisions, the events up to the week and the cover plate at the week; the physical layers as they stand); a member whose present lies before it is drawn at its own present with
+   `W_ATLAS_BEHIND_WEEK` on its cartouche ("at its own present, Year 412 — this map has not reached Year 1 071"); never
+   extrapolated (V13 §5.8 (3)). Off (the default), each member is at its own present. T-V15-3.
+
+### 4.8 The clerk's view and the catalogue (V10 §3.9, §3.9a; V09 §4.9)
+
+The `atlas` `WhySectionProvider` answers `why` for a member ("here because you placed it; locked; continued from Varn's
+east edge at version 12"), a relation ("Varn east of Ashmark: met — Varn's centre lies 14° north of east; the sea
+between is 80 km, asked narrow (60)"), a seam ("softened over 24 px; Thornwood wins, two rungs finer, drawn as an inset;
+drift: the coast 2.1 km apart since version 9"), an embellishment (V15 §2.8's sentence), the warp ("the centre is Sarn
+by the holy-city rule; the ten largest: …"), a continuation ("edge N from Varn, locked, 212 km shared; contradiction
+at the NE corner: Varn's sea meets Kesh's plateau — a strait proposed"); `whatChanged` over the atlas's log and
+`whatIf` over a solve's dry run; `propose` parses a typed relation (RQ-V15-8: "Varn lies east of Ashmark across a narrow
+sea" → the chips, confirmed by the user). The catalogue's new keys (V09 §4.9's families; RQ-V15-7): `info.atlas.*`
+(the member added, the solve's summary, the continuation drafted, the fit recorded, the stale mark, the missing mark,
+the behind-week mark), `bend.atlas.*` (an unmet relation kept, an overlap kept, an inset chosen), the `refuse.atlas.*`
+rows of V15 §4.1 each with at least one button (T-V9-13's rule), `share.atlas.*` (the share sheet's member lines), the
+legend's notes (V15 §3.6 (8)) — English, our own words, lint-checked (V15 §3.6 (5)).
+
+### 4.9 Loading older documents, and the unsaved form (§7.5)
+
+An atlas has no older form before this volume; its schema chain starts here. A member whose world's `outputVersion`
+lies outside the retention window reads `unopenable` with its cached picture (the base's frozen view for the member
+when drilled, §7.5); a member whose charter version is older than V13's current one migrates through V13's chain when
+re-read. An atlas file without `atlasImagery` (dropped by a quota, V15 §2.11) opens with every member stale and
+renders what it can. **The unsaved form** (J-V15.14's one-member atlas from the world page; a fresh "New world map"
+before its first save) is a session document as V09 §3.2's empty-state town is: held in the local store's draft mirror,
+added to the recent list on its first edit or save, never written to the host before **Save as a world map**.
+
+## 5 Rendering, labels and exports
+
+### 5.1 The atlas page (V09 hosts it; RQ-V15-7)
+
+The atlas is a document page of V09's shell (V09 §5.1's frame: the canvas, the rail, the view bar, the context panel,
+the drawers), opened from **Open a world map…** / **New world map** (V09 §5.13's rows gain them; the labels follow the
+owner's product word, V15 §11 Q1), from a world page's **View relationally…** (J-V15.14) or from a shared atlas file.
+**What a person sees when they open it:** the members' pictures laid on parchment at the zoom that fits them all, the
+seams softened, the gaps in their styles, each member's date cartouche in a corner of its extent, the scale bar and the
+compass; the member list in the context panel (a card per member: its thumbnail, name, rung, date, version, the stale
+or missing mark, the lock, the shareable flag, Refresh, Keep detail, Remove); the relations box (T7's) with its chips
+and Arrange; the view bar's slider, viewpoint picker, common-week toggle, Show drift and Show relations. **The empty
+state** (no member): the parchment, **Add a world map…** and **Make a world map** (V09's world dialog; its result the
+first member), nothing else. **The controls' semantics are this volume's** (V15 §3–§4); V09 draws them and decides
+none of their rules, as it draws V13's lens controls (BCR-V13-39's pattern). The page is standalone and host-mode alike
+(V09 §2.2); in host mode its members resolve through the host's resolver (§11.5) and the page is read-only for a viewer
+role. **The page's frame** (V09 §5.1's regions, unchanged): the canvas fills the frame; the rail holds T1, T2, T6, T7,
+T9 and T10 as V15 §4.2 binds them; the view bar's **Atlas** group holds the relational slider (0–1, the preset's name
+beside it), the viewpoint picker (the atlas's viewpoints and **New viewpoint…**), the common-week toggle with its week
+field, **Show drift** and **Show relations** (the DM), **Cartouches**; the context panel opens on the **Members** tab
+(the cards), the **Relations** tab (the box), the **Seams** tab (every seam with its treatment, its precedence and its
+drift) and the **Viewpoints** tab (the picker's long form: audience, culture, centre rule, orientation, preset, as-of
+week, knowledge source); the hover card shows the true readout; the status strip shows the stale count and a bake's
+progress. Below 600 × 480 CSS px the medium layout holds and the page scrolls (V09's J-V9.9).
+
+### 5.2 The atlas view: layers and styles (§8's pipeline; BCR-V15-6)
+
+The atlas renders through the base's tile pipeline (§8.1) with its own layer set, declared as `LayerSpec` rows of the
+`atlas` product (the structural layers always draw; the view keys choose the rest):
+
+| layer | kind | draws | style row |
+|---|---|---|---|
+| `parchment` | fill | the atlas's background: the `everywhereElse` gap's kind (terra incognita's parchment by default) | `style.atlas`'s gap rows (`atlas.seams.gapFills`) |
+| `gaps` | fill | every `GapStyle` region by its kind | the gap rows |
+| `members` | raster | every member's composed tiles at the level, the seams softened, insets framed, missing members by `ConflictSettings.missing`; under a relational viewpoint drawn through the mesh warp | — (the members' own pictures) |
+| `insets` | vector | the inset frames and locator boxes (`InsetLayout`) | `insetFramePx`, `locatorBoxPx` |
+| `labels` | the base's label layer | the members' placed labels after A3 (5)'s cross-seam placer run; the gaps' labels; under a preset, the preset's lettering and angle rule | the preset's `lettering` |
+| `cartouches` | vector | each member's date cartouche ("Year 412, early spring"; stale and behind-week marks), the viewpoint's cartouche and the title | the preset's lettering |
+| `furniture` | vector | the preset's furniture: rhumb lines and roses, the T-O rim, the itinerary strip's spine and day counts, ships; the base's scale bar (true, always), the compass under the orientation, the grid, the legend with its honesty note and, where a member's picture carries the cover overlay, the one line "derived land cover" (V13 §5.8 (9); J394) | the preset's `furniture` rows |
+| `embellishments` | pins | the derived and the DM's figures at their warped points, sized by the preset | the figure rows' assets |
+| `drift` (DM-only, `showDrift`) | pins | a tick at each seam's midpoint above threshold with its figures | the notice style |
+| `relations` (DM-only, `showRelations`) | vector | dashed lines a → b with the kind's glyph, red where unmet | the notice style |
+| `ruler` | vector | the pinned point and the pointer's line on the true plane, unwarped through the view, with the distance | the base's ruler |
+
+The view's transform is the base's integer-cm viewport (§8.1) on the atlas plane, as V13's world view is on the
+world's, plus the **mesh warp** of V15 §3.6 (1) under a relational viewpoint: the tile quads subdivided and their
+vertices mapped through W_s on the GPU path, the canvas backend drawing each sub-quad affinely (a declared
+approximation: ≤ 1 px error at n = 8, T-V15-13 (c)). The tile cache is keyed by (member, version, audience, week,
+stop) for the members' tiles and by (atlas model digest, imagery versions, level, viewpoint, s, preset) for the
+composed tiles. **The player picture** is V15 §5.4's.
+
+### 5.3 Labels
+
+A member's labels are its own, placed by V13 at the stop and shipped as pixels with their boxes (V15 §3.2 (3)); the
+atlas never re-places a label inside a member — it drops a yielding member's labels across seams (A3 (5)), drops every
+label of a heard-of or unknown region but seats' (V15 §3.6 (2)), and re-lays, under a preset with an angle rule
+(coast-perpendicular names in the portolan), only the labels the preset names, from their text and anchor through the
+base's placer with the preset's face (§9.2's metrics). The gaps' labels, the cartouches, the figure captions and the
+itinerary's day counts are the atlas's own label candidates (§9.1's `LabelEntity` form) placed by the base's placer at
+the atlas stop with `labelSpreadPx`; positions cached per (atlas model digest, imagery versions, level, viewpoint).
+A rotated member's labels turn with its tiles (they are pixels); under a map rotation (`rotation`) everything turns.
+
+### 5.4 Player views (spine §10.7)
+
+A player sees only what their party knows, drawn in their culture's style if the relational style is on; the DM's
+arrangement is the true layout. Concretely: the viewpoint's audience (`party` or `public`) selects, per member, the
+imagery V13 rendered for that audience (the player picture, V13 §5.1 — never re-filtered here) and the known sets it
+returned; a member the audience knows nothing of (no seat, place or event in its known set) is drawn only as the
+preset's unknown treatment (blank, legend or figures) — not at all under `true`; the known region (V15 §3.6 (4))
+governs blur and labels; every atlas record below the viewer's key is withheld by the admission function (§9.2): the
+relations and drift readings (`secret`), the DM's viewpoints not marked shared, a hidden embellishment, a member's
+version and state words; the member list shows a player the members they know by name only; drill-down follows V15
+§3.7's audience rule; a figure derived from a DM-only row never draws (V15 §3.6 (5)). **The player's style:** a party
+viewpoint's preset is the DM's choice for the party (the default `true`); "as their culture would draw it" is a party
+viewpoint with a culture and a relational preset. A picture export under a player viewpoint carries the same
+admission (§11.1's knowledge rule); a `.dd2vtt` export does not exist for an atlas (V15 §5.5).
+
+### 5.5 Exports and sharing (§11.1's pipeline; BCR-V15-6)
+
+| export | shape | contents | rule |
+|---|---|---|---|
+| the picture exports | the base's (§11.1: PNG at any DPI, the print presets, SVG, PDF of the view at a level) | the atlas view **as drawn**: the composed tiles, the seams softened, the gaps, the cartouches, the furniture, the embellishments, under the request's viewpoint, slider position and preset; the warp applied as the mesh warp (SVG: the tiles as warped images, the vector furniture through W_s); the legend with its honesty note; the provenance block names the atlas's digests, every member's version and the renderer version | §11.1 unchanged; the atlas is one more document kind; the knowledge key admits as V15 §5.4 |
+| `atlasTiles` | a zip of the composed tile pyramid (PNG tiles per level over the members' extent) with a manifest (the levels, the tile scheme, the atlas origin, the metres per pixel per level, the members' extents, versions and shareability) | the true plane only (no warp: a tile set is a map, not a picture of one); the audience's imagery; unshareable members' tiles omitted and their extents listed as "not shared" | own; for a VTT's world map or a web page; `ExportOpts.atlas.tiles { levels; audience }` |
+| `atlasGeoJson` | a FeatureCollection in the atlas plane's metric coordinates (the metric variant of §11.1's GeoJSON; no geographic anchor) | every member's extent as a Polygon with `rung`, `version`, `origin`, `shareable`; every gap, inset frame and (DM key) relation and drift reading; every embellishment as a Point with `kind`, `source`, `derivedFrom`; no member content | own |
+| **the world shapes** (`ecosystemJson`, `ecosystemGeoJson`, `heightmap16`, `worldCsv`) | — | **refused** on an atlas (`refuse.atlas.export`: "a world map is pictures of maps; export each map from its own page") | V15 §1.4; J-V15.20 |
+| the `.plat` atlas and the shared atlas | §2.9's container; the share writer's form (V15 §2.11) | the records; the imagery cache embedded for shareable members only | the share sheet (below) |
+
+**Sharing** (F15; spine §10.1's last sentence). The share sheet (V09 §5.11) on an atlas offers: (1) **Link** — a
+permalink when §6.4 allows one (an atlas with no imagery is a short recipe: its members by reference, which the
+recipient must be able to resolve; the sheet says which members the recipient will see as pictures and which not at
+all), else the atlas file; (2) **Picture** — one PNG of the current view, "What it shows" defaulting to what anyone
+knows (V09's J-V9.13); (3) **World map file** — the shared atlas: the sheet lists every member with its shareable
+state — a member whose world the user may share (its own sharing allows it: a published world, the user's own
+standalone world; in host mode the host's gallery rule once H35 lands, until then the user's own worlds only) is
+included with its imagery; a member the user may not share is **excluded** — no reference, no picture, its extent a
+gap marked "not shared" (`W_ATLAS_NOT_SHARED`, `include` only where the world's sharing allows) — so **sharing shares
+imagery only for members the user may share**, never a member's data (the atlas holds none) and never an unshareable
+member's picture (T-V15-8); a host that configures a publishing resolver adds (4) **Publish a link** (§11.5), under
+the host's own access levels and, across campaigns, the owner's rule (V15 §11 Q2). A recipient's atlas is read-only
+(`shared: true`): pictures, arrangement, viewpoints; drill-down only into members the recipient can resolve.
+
+### 5.6 Accessibility, the clerk's rendering, and no 2.5D
+
+Every layer has the base's high-contrast variant (§8.3); the gap kinds carry a pattern beside their colour (waves,
+hachure, stipple, blank) and the member marks (stale, missing, behind-week, not shared) a glyph beside their tint so
+each reads without colour (g item 112's second cue); the relational view's legend and every readout are text; the
+screen-reader summary (V09's) lists the members by name, rung and date, the relations, and the viewpoint drawn. The
+atlas has **no 2.5D view**: its drawables are imagery and furniture, each registered with `ZDecl { flat: true;
+reason: 'imagery' }` (V14 §5.4's rule; BCR-V14-5's lint passes), and the `projection` key is ignored on an atlas page
+with `info.atlas.flat` ("a world map is pictures: open a map to see it in 2.5D"); the drill-down's member page has
+V14's view.
+
+## 6 Performance budgets (§12's form)
+
+**Reference hardware and method** are §12.1's; the measure is the tile worker's and the generation worker's wall clock
+at p95 over five atlases of the fixture set (V15 §7), nightly; the laws are declared over the member count `m`, the
+visible tiles `v` (≤ 48 at a 2 560 × 1 440 view), the band's pixels and the warp grid's cells.
+
+| row | what | budget (p95) | law | pre-decided fallback |
+|---|---|---|---|---|
+| `ATLAS-1` | A1's solve over `m` members with `r` relations | ≤ 200 ms at `m` 32, `r` 64; the live preview ≤ 60 ms | ≤ `maxIterations` × m² × 10 ns + r × 2 µs | the live preview evaluates rank 3 only, the full ladder on Arrange |
+| `ATLAS-2` | A2's `renderMember` at stops 0 and 1, per member, in the background | province ≤ 0.6 s, realm ≤ 1.5 s, continent ≤ 3.5 s (V13's `renderAt` over 1.0625 × stop 1's pixels — stop 1 plus stop 0 at a sixteenth: `WORLD-8`'s first frame ≤ 400 ms for 16 tiles at stop 0, scaled by the tile count at stop 1 — PLAUSIBLE until SA0) | ≤ V13's tile law × the tiles | stop 1 rendered as the view asks for its tiles (per visible tile) and cached as it lands |
+| `ATLAS-3` | A3's seam blend per composed tile at a level | ≤ 2 ms per tile pair with a band; a frame's composition ≤ 16 ms at `v` 48 with ≤ 12 banded tiles | ≤ 25 ns × the band's pixels × 3 levels | the band's pyramid at two levels on the low tier |
+| `ATLAS-4` | A4's draft: the void, up to four `edgeCharter` reads, the prefill, the contradictions | ≤ 100 ms + 4 × V13's `edgeCharter` (requested ≤ 200 ms per edge, RQ-V15-1) ≈ ≤ 0.9 s | — | the charters read in the background, the edge chips landing one by one |
+| `ATLAS-5` | A5's fit: V13's rung-general `placeFrame` dry run on the parent for a province child in a realm parent | ≤ 3 s preview (P1 over the child's ring at the parent's cells + P2 over an 8-cell band + P3 over the dirty watersheds — V13 §6's placement laws scaled by the child's ring stations ×  the band's cells; PLAUSIBLE until SA1); the commit ≤ 5 s | V13's | the preview on the coarse rung (V13 §4.5's fork at the parent's coarse raster), the fine run at commit |
+| `ATLAS-6` | the imagery cache on disk | province ≤ 1 MB, realm ≤ 4 MB, continent ≤ 10 MB per audience at stops 0–1 (lossy 85); a pinned stop 2 ≤ 16 × its stop 1 (4 × per axis); the records ≤ 1 MB at 64 members | ≤ 0.6 B × the cached pixels | `lossyQuality` 75 on the low tier; the cache dropped by quota (V15 §2.11) |
+| `ATLAS-7` | A6's bake: the Poisson solve, the flow integration, the Jacobian check at `warpGrid` 512 | ≤ 1.5 s (the multigrid solve ≈ 10 × 30 ns × 262 k cells ≈ 80 ms; the integration 64 steps × 262 k vertices × 12 bilinear reads — four velocity evaluations of three reads each — ≈ 0.6–0.9 s; PLAUSIBLE until SA3); the progress strip past 1 s | ≤ 12 ns × cells × (passes + 12 × steps) | `warpGrid` 256 on the low tier; `flowSteps` 32; the magnification-only fallback at the work cut |
+| `ATLAS-8` | the per-frame mesh warp and composition under a relational viewpoint | ≤ 6 ms per frame at `v` 48, n ≤ 8 (the slider free at 60 Hz); `unwarp` for the readout ≤ 0.2 ms | ≤ v × n² × 0.5 µs | n capped at 4 on the canvas backend |
+| `ATLAS-9` | the atlas page's first frame with cached imagery; the drill-down's handoff | ≤ 600 ms at 16 realm members (the composed tiles at the fit-all level from the cache); the handoff ≤ V13's page open + 50 ms | — | the first frame draws stop 0 only, stop 1 following |
+| `ATLAS-10` | memory, all threads, excluding canvases: the decoded visible tiles (an LRU of ≤ 256 tiles ≈ 64 MB), the warp fields (≤ 8 MB each, ≤ 3 resident), the records (≤ 2 MB), the read-only member handles' working sets (V13's `WORLD-5` per **open** member: at most one member's rasters resident at a time for a render, released after) | ≤ 96 MB beside one open member's line (§12.8's world line unchanged: a member rendered counts under it, in turn; BCR-V15-8) | — | the LRU halved on the low tier; one member handle at a time (already the rule) |
+
+**Edits** (§12.6's form, flat across member counts): `addMember` ≤ 50 ms + its render (background); `arrangeMember` ≤
+20 ms + the seams it touches (≤ 2 ms each); `setGapStyle` ≤ 10 ms; `setViewpoint` ≤ 5 ms (the bake on request);
+`setEmbellishment` ≤ 5 ms; `removeMember` ≤ 30 ms. **The view:** pan and zoom at §12.5's frame budget over cached
+tiles; a stop-2 tile rendered on demand for an openable member ≤ V13's tile law per tile, drawn as it lands.
+**Exports:** a picture at A2 300 dpi ≤ §11.1's print budget + the warp's mesh (≤ 1 s); `atlasTiles` at 16 realm
+members, levels 0–6 ≤ 10 s on the export worker. **The comfort level** (§12): opening an atlas, adding a member, a
+solve, a bake and an export each finish inside ten seconds from the click, the renders excepted (background, the
+stale picture shown meanwhile). Each row has its T-V15 clause (T-V15-15); the register holds `ATLAS-1` – `ATLAS-10`
+(BCR-V15-8).
+
+## 7 Tests and acceptance bars
+
+Every test is a `T-V15-n` row of §13's suites (BCR-V15-9 adds them to §13.2's families); the fixtures are our own
+(`fixtures/atlas/*.json`; RQ-V15-10), never a captured map. **B-ATLAS** is the fixture set: three worlds of B-WORLD-lite (V13
+§7) — a province **P**, a realm **R**, a continent **C** — plus **R2**, a realm continued from R's east edge (V15 §3.4;
+built once at M-ATLAS-B and frozen with its carried charters), **P-in-R**, a province derived from R (V15 §3.5 (a)),
+**P2**, a separate province dropped inside R (image-only, then fitted), and for R a scripted lens window set of
+B-POLITY's kind (V13 §7): two cultures (ids only, their labels deliberately set to real-looking words the lint must
+ignore), two allegiances at war, culture bands 1–5 between seats, a faith hierarchy with a pilgrimage centre, an
+entrepôt, a plague realm arc and a razing, a party key with three places. The atlases: **B-ATLAS-1** (R and P side by
+side, `adjacent`), **B-ATLAS-2** (C with R and P-in-R nested), **B-ATLAS-3** (R and R2, continued), **B-ATLAS-16**
+(sixteen realm clones for the budgets), **B-ATLAS-SHARE** (R shareable, P not, C missing), **B-ATLAS-VIEW** (R alone
+with the lens set, four viewpoints: the DM's, the party's, a culture's mappa mundi, the same culture as of a past week).
+
+### 7.1 Isolation, time, the charter, the fit (F11, F13, F14)
+
+| id | what it asserts | how |
+|---|---|---|
+| T-V15-1 (isolation after generation) | (a) on B-ATLAS-1 and B-ATLAS-3, every edit kind of V13 §4.1 applied to R (a terrain stroke at the seam, a sea-level change, a placement, a polity window, a plague window, a host advance of 52 weeks) leaves P's and R2's model and records digests byte-equal and the atlas's model digest byte-equal; the atlas re-renders R alone (its imagery version moves; P's and R2's do not); (b) every atlas edit of V15 §4.1 leaves every member's model and records digests byte-equal; (c) adding R to a second atlas, removing it, and deleting the first atlas leave R's digests byte-equal — no world field names an atlas; (d) the lint T-V15-19 | the digests before and after each edit; the second-atlas fixture |
+| T-V15-2 (the charter is the present ground, never a record — J393) | `edgeCharter(R, 'E', span)` is byte-identical at R's week w and at w + 520 after a dated clearing (ecology) over the edge's cells, a razing event, a plague window and a sway revision — all within the span (records: none crosses) — and differs, reading the present ground, after a this-happened flood raising the sea 2 m at the edge in the window (the present level), a happened terrain stroke raising the edge, an always-so override along the edge (a painted biome) and a recipe op on the edge; a lint over `WorldEdgeCharter`'s declared fields finds no field whose type is a dated record kind (V13's own bar on the charter is T-V13-68, amendments r; this row bars the atlas's use of it) (`WorldEvent`, land cover, a plate, a route, a placement, a political fact) | the R fixture at two weeks with the scripted edits; the schema lint in CI |
+| T-V15-3 (each member at its own time) | on B-ATLAS-3 with R at week 412·13 and R2 at week 40, each cartouche prints its own member's date label as V13's `dateLabel` gives it; the common-week toggle at R's week renders R2 at its own present with `W_ATLAS_BEHIND_WEEK` and R at the week; at R2's week renders R at that week through `renderAt(week)` and the picture equals V13's own view of R at that week drawing exactly the `atlas` layer set (T-V13-68 (g); `lensWeek` and `surfaceDate` set there) pixel for pixel; no member is ever rendered at a week past its present | the two fixtures' presents; the pixel compare against V13's view |
+| T-V15-4 (the fit never changes the child) | on B-ATLAS-2, fitting P2 into R (mode `fitted`): P2's model and records digests byte-equal before and after; R's `dem` differs only inside P2's extent + margin + the band (every other cell byte-equal), R's `oldGround` trace covers exactly that set, R's `geometryVersion` stepped once; the atlas's `FitRecord` names the parent's placement and both versions; a later edit of P2 moves nothing in R and a later edit of R moves nothing in P2 (T-V15-1's clauses re-run on the fitted pair); mode `derivedFromParent` on P-in-R: R gains one placement record and no raster change; mode `imageOnly`: neither moves and the mismatch reading matches the drift thresholds' crossings on the fixture | the digests and the cell diff; the trace's cell set |
+
+### 7.2 The relational view (F10)
+
+| id | what it asserts | how |
+|---|---|---|
+| T-V15-5 (the warp preserves adjacency and reports true distance) | (a) on B-ATLAS-VIEW under the mappa mundi viewpoint at s = 1 and at s = 0.5, the baked field's Jacobian determinant is > 0 at every grid vertex, every member's boundary ring warped is simple (no self-intersection), and the adjacency graph of R's sways (which touch which) is unchanged under the warp; (b) `unwarp(warp(p)) = p` within 1 cm for 10 000 random points; (c) the hover readout at 200 random screen points equals the true planar distance to the centre within 0.5 % and the travel time between two route-joined points equals V13's `derivedTime` over the same stations, labelled with the law; across a seam no time is given; (d) the itinerary strip's day counts equal `derivedTime` between consecutive stations; (e) the scale bar's length under every preset and slider position equals the true plane's within 0.5 % (§9.5's O6 c) | the fixture's bake; the inverse test; the readouts against V13's function |
+| T-V15-6 (embellishments from facts only, never real-world peoples) | (a) renaming every culture, deity, seat, allegiance and region label of the R fixture (including to real-world ethnonyms and faith names) gives a byte-identical derived embellishment set; (b) changing one `PolityRelation` to adversarial adds exactly the monstrous-peoples figure the rule names for that sway and nothing else; changing a seat's patron to the mapmaker's deity removes the devils figure beside it; a plague arc within `vignetteWeeks` adds a skull at each named seat and none beyond the window; (c) no `FigureRow`, caption, catalogue string or legend note of this volume matches the blocklist (CI); a document whose culture labels match the blocklist draws the same figures and never prints the label in a caption; (d) a party viewpoint draws no figure whose `derivedFrom` names an alignment row, a suppressed creed, a covert link or a row resolved DM-only — the fixture's DM-only war relation draws a devils figure for the DM's viewpoint and none for the party's; (e) the legend carries the prejudice note exactly when a monstrous-peoples or devils figure is drawn | the renamed fixture's set compared; the relation and patron edits; the blocklist lint; the two audiences' sets |
+| T-V15-25 (viewpoints) | the culture viewpoint as of a past week reads the plates at that week (the centre, the importance and the known region equal those computed from the plate's facts alone; a seat founded after that week is unknown); the party's known region grows when the party key gains a place and when a `reveal` event arrives (V08 §3.14 through the member), and never otherwise; "View relationally…" on R's page makes an unsaved one-member atlas whose true viewpoint draws R pixel-identical to V13's view drawing the `atlas` layer set | the plate fixture; the party key edits |
+
+### 7.3 Saves, arrangement, seams, continuation, drill-down (F11, F12, F15)
+
+| id | what it asserts | how |
+|---|---|---|
+| T-V15-7 (deletion leaves a marked gap) | deleting C on disk under B-ATLAS-SHARE: at the next open C reads `missing`, `W_ATLAS_MEMBER_MISSING` raised with `keep` and `remove`, the gap drawn ghosted (and blank under `missing: 'blank'`) with the words naming C's last version and date, in every atlas that held C (a second atlas fixture holding C too); C's relations marked unmet, its seams keep their drift; restoring the file finds C again; `removeMember` writes the gap style chosen, tombstones the relations, and its undo restores all | two atlases; the file deleted and restored |
+| T-V15-8 (sharing excludes unshareable members) | the shared atlas written from B-ATLAS-SHARE holds R's imagery at the cached stops, no reference and no tile of P (its extent a gap "not shared"), C's gap as missing; the recipient opens it read-only, drills into nothing it cannot resolve (`refuse.atlas.drill.unopenable`), sees P's gap and C's; `setAttr(shareable)` wider than a world's own sharing is refused `refuse.atlas.share`; the picture export under the party viewpoint withholds every `secret` record and every figure T-V15-6 (d) withholds; the permalink lists the members a recipient will see | the share writer's file re-read; the recipient harness |
+| T-V15-9 (determinism) | (a) an atlas generated twice from one `AtlasRecipe` over resolvable members is byte-identical per record, per composed tile at every level and per warp field on every §13.2 platform, workers on and off; (b) the solver over permuted relations and members gives the same arrangements; a preset applied twice from the same state is idempotent; (c) a refresh of a member whose version did not change moves no atlas digest and no tile; (d) the embellishment set for a viewpoint is byte-identical across bakes and platforms; the comparator lint finds no draw inside a sort key in `@plat/atlas` | per-record and per-tile digests over B-ATLAS; the lint in CI |
+| T-V15-10 (arrangement) | (a) every relation kind of V15 §2.3 on B-ATLAS-1 and B-ATLAS-16 produces exactly its requirements and, solved, is met within its measure (the sector, the width, containment, the distance, the stretch) with the verification list saying so; (b) every compatibility clash (a 24° latitude step, a rainforest shore against tundra, a rotated member, an overlap) is a warning with its actions and never a refusal; (c) least change: a solve over sixteen members with one new relation moves at most the two members it names, the others byte-equal; (d) a solve that would move a locked member asks `W_ATLAS_LOCKED_MOVE` and moves nothing on `cancel`; (e) two contradicting relations are both kept, the later met, the earlier unmet and reported; (f) the lane bound refuses `refuse.atlas.extent` at 21 475 km and admits 21 473 | the relation fixtures; the solver over B-ATLAS-16 |
+| T-V15-11 (continuation) | on B-ATLAS-3's making: the request carries one charter per shared edge, each `locked`, each naming R's version; the prefill equals the values V15 §3.4 (4) derives from R's edge facts; V13's W0 on the sent request reports every edge requirement met and the generated R2's west edge profile meets R's east edge within V13's `edgeRmsRefCm` (V13's T-V13-13 at world rung, as RQ-V15-1 requests); R's digests are byte-equal before and after the generation; R2's recipe stores the charters with R's version (read back through V13); the atlas's member R2 carries `origin: 'continued'`, `continuedFrom` naming the charters, its arrangement at the void, locked; an unopenable neighbour leaves its edge unlocked with `W_ATLAS_EDGE_UNLOCKED`; a request needing a neighbour change is reported `W_ATLAS_NEIGHBOUR_CHANGE` and `editNeighbour` opens R's page with V13's fork preview, nothing changing in R until committed there | the R fixture; V13's generator on the request |
+| T-V15-23 (contradicting edges) | a void between R and a fixture realm whose facing edge ends in a 2 000 m plateau where R's ends in sea: `W_ATLAS_EDGE_CONTRADICTS` names the fact pair and proposes a strait; between a desert edge and a rainforest edge 300 km apart: a mountain belt proposed across the wind; two rivers entering with no exit: a sea proposed; each accepted proposal enters the request as a `set` requirement and the generated world holds the feature (V13's verification report) | the contradiction fixtures |
+| T-V15-12 (drill-down lands on the true point) | a click at 200 random screen points under the mappa mundi viewpoint at s = 1 opens the member really under the unwarped point at the world point within one fine cell, at the stop V15 §3.2 (2)'s rule gives; the zoom threshold opens the member at its stop 3 with `drill.shareOfView` met and not before; the back action returns to the same centre and zoom; a player's drill into a member they know nothing of is refused with the reason | the fixture's clicks against `toMember` of the true point |
+| T-V15-13 (one pixel resolution, one zoom rule, the band only) | (a) at every atlas level each member's tiles are drawn at the level's metres per pixel: a 1 km-cell continent and a 250 m-cell province at level 6 sample 4 and 1 cells per pixel respectively; the glyph level drawn for a seat equals V13's rule for the member's stop at that level, so two town-tier seats on R and R2 draw at one glyph level and size; (b) outside the seam bands every composed pixel equals the member's own `renderAt` pixel; inside a band the blend's weights sum to 1 and the band is never wider than `bandMaxShareOfStretch`; (c) the mesh warp's maximum pixel error against the exact W_s at n = 8 is ≤ 1 px (canvas) and 0 px on the GPU path; (d) the inset rule: P-in-R inside C draws as an inset with a frame and a locator box at C's stops 0–1 and in place at levels where C's stop is ≥ 2; P beside R is eased | the pixel compares; the band's weights; the inset fixture |
+| T-V15-14 (labels across seams) | over B-ATLAS-1 and B-ATLAS-2 at every level no two drawn labels' boxes intersect, no drawn label's box crosses a band, every dropped label belongs to the yielding member, and every label of a member away from its seams is drawn as V13 placed it | the label boxes at each level |
+| T-V15-21 (gaps, missing members, insets) | every gap kind draws its fill and pattern; the `everywhereElse` gap is at most one; a solve's accepted `gapKind` writes a `between` gap; a missing member's ghost alpha and words as V15 §4.5; a seam's treatment override by `setAttr` holds across refreshes | fixtures per kind |
+| T-V15-22 (a version change re-renders, never re-fits) | editing R under B-ATLAS-2 (a terrain stroke inside P2's fitted extent's band; a world `adjust` of R's size): P2's placement in R and the atlas's `FitRecord` are unchanged, P2's arrangement unchanged, R's imagery re-rendered with its new version, the nested seam's drift reading moved, every other member's imagery version unchanged; no solve ran (every arrangement's `since` unchanged) | the fixture's edits; the records compared |
+
+### 7.4 Editing, view, exports, budgets, platform
+
+| id | what it asserts | how |
+|---|---|---|
+| T-V15-15 (budgets) | every `ATLAS-n` row of V15 §6 measured on B-ATLAS-16 (and B-ATLAS-2 for `ATLAS-5`) at p95 over five runs on the reference hardware, inside its budget or its pre-decided fallback applied and named in the register | the nightly tier |
+| T-V15-16 (the clean-room lint) | no file under `@plat/atlas` or `@plat/render/atlas` contains a string from §17.1's identifier lists (the base's references and V13's reserved words extended with the host's world and gallery words the state note names) | §14's lint, CI |
+| T-V15-17 (totality, identity, edges, undo) | (a) every derived transient of V15 §2.6 is total over empty, missing and refused inputs; (b) every record of V15 §2.9 keeps its address across a refresh, a solve and a preset; two atlases holding one world collide on no address; (c) V15 §3.10's fourteen edge cases, each one test; (d) every edit kind of V15 §4.1 replayed forward and back gives the same digests in session and in replay; a fit's parent edit undone on the parent leaves the atlas's record stale and reported as V15 §4.4 states | fixtures; B-EDIT-style sequences over B-ATLAS-1 |
+| T-V15-18 (player views) | under the party viewpoint on B-ATLAS-VIEW: the imagery drawn is V13's player picture pixel for pixel; a member with nothing in its known set draws only the unknown treatment; relations, drift readings, hidden figures and the DM's unshared viewpoints are absent from the view, the member list, every answer and every export at the party's key; the picture export equals the view | the admission harness |
+| T-V15-19 (no reverse seam) | a build-time lint over `@plat/atlas` and `@plat/render/atlas` finds no import of a world document's edit entry points (V13's `edit`, the placement folds, `regenerate`, the port's inbound messages) and no call that obtains a writable handle on a member; the runtime harness asserts that every member handle an atlas opens is read-only and that no event appears on any member's log during an atlas session's edits (T-V15-1 (b) re-asserted at the log level) | the lint in CI; the log watch |
+| T-V15-20 (older documents, the unsaved form) | an atlas file without its imagery cache opens with every member stale and renders what it can; a member outside the retention window reads `unopenable`, its cached picture drawn, its drill-down the frozen view; the unsaved one-member atlas from a world page is not in the recent list until its first edit or save and never reaches the host before Save | fixtures |
+| T-V15-24 (the report codes and the catalogue) | every warning of V15 §7.5 is raised by its stated stage on a fixture that provokes it, carries its arguments and at least one action; every `refuse.atlas.*` row renders its catalogue line with at least one button (T-V9-13's rule); `W_ATLAS_*` never a refusal | the provoking fixtures; the catalogue test |
+
+### 7.5 The report codes (§5.4's form; BCR-V15-13)
+
+| code | kind | emitted by | arguments |
+|---|---|---|---|
+| `W_ATLAS_OVERLAP`, `W_ATLAS_LATITUDE`, `W_ATLAS_CLIMATE`, `W_ATLAS_NORTH_DIFFERS` | warning | A1 (a placement, a solve, a check) | the pair, the measure (the overlap's area, the latitude step, the stretch share, the bearing) |
+| `W_ATLAS_RELATION_UNMET`, `W_ATLAS_LOCKED_MOVE` | warning | A1 | the relation and its reason; the locked member and the displacement asked |
+| `W_ATLAS_MEMBER_STALE`, `W_ATLAS_MEMBER_MISSING`, `W_ATLAS_MEMBER_UNOPENABLE`, `W_ATLAS_DETAIL_UNAVAILABLE`, `W_ATLAS_BEHIND_WEEK` | warning | the open-time check; A2 | the member, the versions, the reason, the stop, the week |
+| `W_ATLAS_DRIFT`, `W_ATLAS_MISMATCH` | warning (DM-only) | A3; A5 (`imageOnly`) | the seam, the reading's figures |
+| `W_ATLAS_EDGE_UNLOCKED`, `W_ATLAS_EDGE_CONTRADICTS`, `W_ATLAS_NEIGHBOUR_CHANGE` | warning | A4 | the edge and the neighbour; the fact pair and the proposal; the change named |
+| `W_ATLAS_WARP_FALLBACK` | warning | A6 | the viewpoint, the cause (the work cut; the Jacobian) |
+| `W_ATLAS_NOT_SHARED` | warning | the share writer | the member |
+| `refuse.atlas.duplicate`, `refuse.atlas.extent`, `refuse.atlas.members`, `refuse.atlas.unresolved`, `refuse.atlas.share`, `refuse.atlas.noCharter`, `refuse.atlas.hostWorld`, `refuse.atlas.fit.straddles`, `refuse.atlas.fit.covers`, `refuse.atlas.drill.unopenable`, `refuse.atlas.drill.audience`, `refuse.atlas.export` | refusal: a §7.1 outcome key rendered by V09's catalogue, never a `ReportCode` | the dry run; the view; the export dialog | the member, the distance, the count, the reference, the world's sharing, the version, the mode, the audience, the format |
+| `E_ATLAS_TILE`, `E_ATLAS_WARP` | bug abort (§5.1 (8)) | the compositor; the bake | the tile index; the field key |
+
+**Bars carried as rows:** the spine §17's atlas families — members isolated after generation → T-V15-1; the edge
+charter carries no dated fact → T-V15-2; each member at its own time → T-V15-3; fit across rungs never changes the
+child → T-V15-4; the relational warp preserves adjacency and reports true distance → T-V15-5; embellishments derived
+from facts and never from real-world peoples → T-V15-6. The seam seat places the rows in §13.2 as BCR-V13-15's merged
+text places V13's and V14's (one T- row per bar; V14's J-V14.54 pattern).
+
+## 8 Build plan
+
+**Where it slots (J-V15.21; §16's staged-milestones table gains three rows, BCR-V15-11).** Three milestones in the
+spine's order (spine §15): **M-ATLAS-A — the image-only atlas with arrangement and drill-down**, after V13's **M-W6**
+(which lands `renderAt` with its label boxes and `atlas` layer set, `edgeCharter` and `solve` with the evaluators'
+registration — V13 §8.2's M-W6 row as file r item 1015 amends it — over M-W3's labels and picture rows and M-W1's view
+and glyphs) and beside M-W7 – M-W9: the seam seat's ruling (seam-world-growth-r0 SW-15; V13 owns where its readings
+land, and the spine's §15 orders the atlas after the growth milestones), so no registry lookup is needed and the solved
+arrangement and the drift readings run from the first day; **M-ATLAS-B — continuation at
+generation and the fit across rungs**, after M-W6 (the solver, the edge charter, the rung-general placement and the
+world subject of `requestCharter`, RQ-V15-1, -3 and -5; formation's bedrock and soils reach the charter when M-W7
+lands, the charter carrying what the world holds before it) and after M-ATLAS-A; **M-ATLAS-C — the relational style**,
+after M-W5 (the lenses, whose facts `viewFacts` reads) and M-ATLAS-A. Staffing per the owner: rulings on the Fable seat,
+building and verification on Opus seats. Prices are expert estimates (PLAUSIBLE; the spine's guesses 2–4, 2–3 and 2–3
+plus art, refined by step); the total is this volume's own line, outside §16's first total, computed once by the
+coherence pass (item 568's rule); the art library is the owner's budget line (V15 §11 Q3), outside it.
+
+| step | content | exit (executed, not asserted) | est. (pw) |
+|---|---|---|---|
+| **SA0 — spike** (risk retirement, at M-ATLAS-A's start) | the pyramid and the seam blend over B-ATLAS-16 (sixteen realm clones): `renderAt` at stops 0 and 1 per member timed; the cache's size at `lossyQuality` 85; the composed frame at the fit-all level and at level 7 with twelve banded tiles; a stop-2 tile on demand | `ATLAS-2`, `ATLAS-3`, `ATLAS-6`, `ATLAS-9` inside their rows or their fallbacks chosen; the band's look judged by eye on three seams (the owner's sitting, V12 §3.6b) | 0.5 |
+| **SA1 — the document, arrangement, rendering, seams, drill-down (M-ATLAS-A)** | `Recipe.atlas` and the `atlas` product (BCR-V15-1), the records of V15 §2.2, the imagery cache (BCR-V15-2), the view keys (BCR-V15-3), the edit kinds and their rows (BCR-V15-4), the tables `atlas.arrange` and `atlas.seams` (BCR-V15-5); A1 whole over V13's `solve` (the evaluators registered, RQ-V15-5), snapping, locks, presets, the relations box; A2 whole with `renderAt` (RQ-V15-2); A3 whole with the drift readings over `edgeCharter` (insets, easing, precedence, labels across seams); A7; the atlas page (RQ-V15-7) with Open / recent / new; the missing-member gap; the exports (BCR-V15-6) and the share writer; the clerk's section; the `atlas.none` pin | T-V15-1 (a)–(c), T-V15-3, T-V15-7, T-V15-8, T-V15-9 (a)–(c), T-V15-10, T-V15-12, T-V15-13, T-V15-14, T-V15-16, T-V15-17, T-V15-18 (the `true` viewpoint), T-V15-19, T-V15-20, T-V15-21, T-V15-24; the register check | 2–3.25 |
+| **SA2 — continuation and the fit (M-ATLAS-B)** | A4 whole over `edgeCharter` (RQ-V15-1) and the solver (RQ-V15-5): the void, the charters carried, the prefill, the contradiction table and its proposals, the neighbour-change conflicts, the send to V09's world dialog with locked edge chips, the generated member's provenance; A5's three paths over V13's rung-general placement, the world subject of `requestCharter` and the transient world-rung charter (RQ-V15-3); `rematchStrip` | T-V15-2, T-V15-4, T-V15-11, T-V15-22, T-V15-23; `ATLAS-1`, `ATLAS-4`, `ATLAS-5` measured; the register check | 2–3 |
+| **SA3 — spike** (at M-ATLAS-C's start) | the warp bake at `warpGrid` 512 on B-ATLAS-VIEW: the time, the Jacobian check, byte identity across §13.2's platforms; the mesh warp's frame at `v` 48 | `ATLAS-7`, `ATLAS-8` inside their rows or the fallbacks chosen; T-V15-9 (d)'s platform clause green | 0.25–0.5 |
+| **SA4 — the relational view (M-ATLAS-C)** | A6 whole: the bake, the slider, the readout and the ruler, the centre rules, the importance field, the known region per audience and culture, the three relational presets' rows and furniture (rhumb lines, roses, the T-O rim, the itinerary strip), the embellishment rules with the minimal line-art figure set, the DM's tray, the hidden marks, the lint and the blocklist, the legend's note, the viewpoints (the defaults, a culture's, as-of, the party's), **View relationally…** on the world page; the tables `atlas.style` and `atlas.embellish` | T-V15-5, T-V15-6, T-V15-25, T-V15-18 (the relational viewpoints); the owner's sitting on the three presets (V12 §3.6b, legibility and immersion rated, the sitting's rows offered); the register check | 1.75–2.5 |
+| content | the four tables' rows, the preset rows, the minimal figure set (line art, one glyph per trait per preset), the catalogue's `info.atlas.*`, `bend.atlas.*`, `refuse.atlas.*`, `share.atlas.*` lines and the legend notes (English, own, lint-checked), the blocklist | reviewed by the clean-room scanner (§17.1); every cell with provenance; the register check | 0.5–0.75 |
+| **total** | | | **7–10** (M-ATLAS-A 2.5–3.75 with SA0; M-ATLAS-B 2–3; M-ATLAS-C 2–3 with SA3; content 0.5–0.75); the art library outside it (V15 §11 Q3) |
+
+**Dependencies.** SA1 waits on M-W6 (`renderAt`, `edgeCharter` and `solve` land there, file r item 1015, over M-W3's
+labels and picture rows) and on V09's world page (the document router's open of a member); SA2 waits on M-W6 (the
+solver interface, the edge charter, the rung-general placement and the world subject of `requestCharter`, file r items
+1009 and 1015), and in host mode on H35 for a continuation
+owned by a campaign (until then standalone only, reported); SA4 waits on M-W5 (the lenses' facts through
+`viewFacts`, RQ-V15-4) and on nothing of amendments r beyond M-W5; the art library lands when the owner funds it and
+replaces the line-art set row by row (a content change, no mechanism). The research notes are read evidence, not
+dependencies.
+
+**The register at each exit** (X-V12-16; V04 §8's pattern): every step that lands a registry table of this volume, or a
+calibratable column of one, exits with `plat calibrate register --check` green over the cells it lands — their entries
+from V12 §3.11's default line (`--defaults --milestone <the step's id>`), this volume writing no register line of its
+own (J-V15.22): SA1 lands `atlas.arrange` and `atlas.seams`; SA4 `atlas.style` and `atlas.embellish`. No reference owns
+the subject; the owner's sittings rate the presets and the default line's corpus stage closes `fixed` with "no
+admissible frame" at M-CAL (or `M-CAL/atlas` when a step lands after it).
+
+**Risks, in order.** (1) The imagery cache's size and the render time at sixteen members (SA0 measures; fallbacks:
+`lossyQuality` 75, stop 1 per visible tile). (2) The warp's byte identity across platforms and its time (SA3;
+fallbacks: `warpGrid` 256, `flowSteps` 32, the magnification-only field with a declared shift). (3) M-W6 landing late or in parts: nothing of the atlas ships before its readings land (INDEX's risk 13; no fallback
+can stand in for them); within M-W6, the rung-general placement and the world subject landing after `renderAt` and
+`edgeCharter` (fallback: nested members image-only with the mismatch warning, `fitted` and `derivedFromParent` greyed
+with their reason until they land — nothing of the atlas is lost). (4) The solver's `'arrange'` goal landing after
+`renderAt` within M-W6 (fallback: direct placement and presets, relations stored and marked unmet). (5) The host's atlas store (H35) landing
+late or in another shape (fallback: the atlas a file in host mode through the share sheet's Download; continuation in
+host mode refused with its reason). (6) Legibility and immersion of the relational presets before the art lands (the
+minimal line-art set; the owner's sitting at SA4; a preset rated poorly stays shipped with its figures off by default
+— a table cell). (7) Label collisions across seams the placer run cannot resolve (fallback: the yielding member's
+labels dropped within twice the band). (8) A member's `renderAt` at stop 1 over budget for a continent (fallback:
+stop 1 per visible tile for continents, stop 0 cached whole).
+
+**Risk spikes.** (a) At SA1's start, SA0 above. (b) At SA4's start, SA3 above. (c) At SA2's start: the fit's preview
+on B-ATLAS-2 (a province in a realm) timed against `ATLAS-5` with V13's fork at the coarse rung; fallback: the preview
+over the coarse raster only, the fine run at commit.
+
+**Evidence that ends each step** is the step's bars executed and quoted, the declared shifts recorded (§13.3), the
+register check green over the cells it lands, and `docs/lane-events.log`'s LANDED line.
+
+## 9 Decisions (each "chose X over Y because Z"; vetoable)
+
+A decision another later one replaced or changed carries one mark: *superseded by* or *amended by* the governing row,
+which keeps the reason. The owner delegated every decision of this pass to the session (J392's F16 and the delegation
+the spine records); each row below is vetoable, and none re-decides a spine ruling — where a row restates a spine
+ruling it names the spine section and adds only the depth this volume designed.
+
+| id | decision |
+|---|---|
+| J-V15.1 | chose one package `@plat/atlas` for the records, the arrangement, the seams' records, the continuation drafts, the fit's call, the warp's solver and the embellishment derivation, with the tile composition, the pixel blend and the mesh warp in `@plat/render/atlas` and the atlas page in `@plat/app`, over spreading them through V13 or the render tier, because each lands and versions as one unit, §14's dependency rule keeps the renderer and the app readers of records they never own, and the one promise that matters (no writer of a member's log, spine §14 (6)) is a lint over one package |
+| J-V15.2 | chose the atlas plane as integer atlas centimetres on the same unit and datum as every member (`WorldCm`, sea level 0), bounded by the int32 lane (±21 474 km of its origin, the first member's corner), planar, over a plane of its own unit or scale, a sphere, or a floating-point plane, because every member is metric and shares the datum (spine §10.3: true-scale alignment automatic), J-V13.44's bounded plane stands, and a planet's width fits the lane |
+| J-V15.3 | chose an atlas that holds imagery, arrangement and viewpoints and nothing of a member's rasters or records (spine §2's rung 1), with every read of a member through a read-only handle, over a merged world raster or a cached copy of members' records, because F11's "isolated in everything but image" is literal: a picture cannot carry an edit across a seam, and a copy would |
+| J-V15.4 | chose members by reference (`docId`, namespace, an optional resolver reference) with no back-reference in any world document, so one world belongs to many atlases and no atlas moves a world's digest, over a world naming its atlases, because F15 wants many saves over the same maps and the base's one-`worldRef`-per-frame rule (V13 §3.18 (7)) must not be mirrored upward |
+| J-V15.5 | chose every member drawn at its own present with its own date cartouche, the common-week display an option that renders a member at an earlier week through V13's own history and never past its present (`W_ATLAS_BEHIND_WEEK`), over an atlas clock or an extrapolated picture, because F14 says each map is on its own literal time and V13 §5.8 (3)'s honesty rule forbids a drawn guess |
+| J-V15.6 | chose one fixed tile scheme anchored at the atlas origin (level 0 a 4 194 km tile, each level a quarter of the last, to 8 m per pixel), every member drawn at the level's metres per pixel and its V13 stop by `clamp(floor(log4(cell ÷ p)) + 1, 0, 3)`, over a pyramid re-tiled to the members' union or per-member tilings, because adding or moving a member must re-tile nothing else, and one metres-per-pixel per level is what "one pixel resolution" and "one shared zoom rule" mean (spine §10.6) |
+| J-V15.7 | chose to cache V13's stops 0 and 1 per member (lossy, `ATLAS-6`), render stop 2 on demand per visible tile for an openable member (pinnable into the document) and never cache stop 3, over caching every stop, because stop 2 is 16 × and stop 3 256 × stop 1's pixels (a continent's stop 3 is 2.4 gigapixels) and an openable member renders its own detail, while an unopenable one keeps a usable picture at stops 0–1 |
+| J-V15.8 | chose the spine's three fit paths with **derived from the parent** preferred — a world-first `requestCharter` with a world subject on the parent, the parent's rasters as the child's coarse ground refined by the position-keyed lattice, the parent's frames inside the extent as the child's planned sites, offered **Move the towns into the finer map** (V13's `unplaceFrame` then `placeFrame`, each on its own page) or **Keep them on the parent** (drawn over the child from the parent's picture, labelled) — over a child generated blind inside a parent, because coherence by construction is the spine's preference (§10.6) and a frame belongs to one world (V13 §3.18 (7)), so the towns are moved explicitly or left where they are, never duplicated |
+| J-V15.9 | chose separate logs and undo stacks for the atlas and every member, the atlas holding a `FitRecord` or a `rematchStrip` request and never a member's event, the two not one undo group (a parent's placement undone there leaves the atlas's fit record stale, reported, and re-read as image-only), over a cross-document undo group as V13's placement pair is, because V13 §4.4's pair exists only because the world's fold writes the frame's `charter` event, and the atlas writes no member's event by F14 |
+| J-V15.10 | chose described relations as requirements of V13's solver at rank 3 of the precedence ladder (spine §5.1), the compatibility checks at rank 4, warnings never refusals, two contradicting relations both kept with the later met, over an atlas-side solver or refusals, because the spine names one requirement engine for every scale (§4, §14 (5)) and F12 gives the user the configuration whatever the physics says |
+| J-V15.11 | chose no latitude on the atlas plane — a member's latitude box stays V13's climate device, checked pairwise for continuity across a seam within a tolerance and extrapolated to pre-fill a continuation — over a global latitude law on y, because V13's boxes are not geodetic (a realm 800 km tall spans a 25° default box) and a law on y would contradict every member at once |
+| J-V15.12 | chose a member's rotation as presentation on the atlas plane (its own north stays its +y), snapped to right angles by default and warned where a turned member touches another, with a continuation or a fit admitting only bearing 0 between the two, over forbidding rotation or admitting it everywhere, because F12 lets users arrange freely while a world's climate and a charter's sides are axis-aligned facts no rotation can honour |
+| J-V15.13 | chose the edge charter's content exactly as the spine lists it (§10.4) with routes excluded beside events, land cover and simulation state — a road is a lay version on a standalone world and the host's lived network on a bound one, dated either way — over carrying a road's crossing as a present physical fact, because the test is J393's — a present physical fact, never a record — and a road is a record; the new world lays its own, and a road ending at a seam is the DM's to continue |
+| J-V15.14 | chose the relational view's home in this volume with a single world viewed through an unsaved one-member atlas opened from the world page (**View relationally…**), over a toggle in V13's world view, because the spine places the style in V15 (§11) and V13's view keeps one affine transform, no embellishment layer and no true-scale toggle (the state note's finding), which the atlas page already has |
+| J-V15.15 | chose the true plane as the home of every measurement — the scale bar always drawn and never warped, the ruler and the readout unwarped, the route labels of the relational presets printing true distances, every export's coordinates true — over a warped scale bar or hidden measurements, because F10 asks that absolute scale stay true for practical purposes and the Peutinger convention (the science note §9.1) shows a warped shape with true numbers is a map people used |
+| J-V15.16 | chose the flow-based area cartogram composed with a radial magnification about the centre and an orientation rotation as the warp family, over the rubber-sheet method (folds at the needed distortion), the diffusion cartogram (tens of seconds), a fisheye alone (one centre, no areas by importance) and a hand deformation (not derived from facts), because adjacency must survive (T-V15-5), the bake must take seconds (`ATLAS-7`) and F10's distortion is by importance and by centre at once (the science note §9.2 as evidence; the construction ours) |
+| J-V15.17 | chose the slider as the flow's time (the field integrated to t = s, every intermediate map invertible) over a linear blend of the identity and the full warp, because a blend of two invertible maps can fold and the readout and the drill need an inverse at every slider position |
+| J-V15.18 | chose embellishments chosen by trait alone — deep, storm-feared or unsailed water, the edge of knowledge, hostility, distance, an enemy faith, an event, a tier — reading ids, classes, bands, keys and kinds and never a name, the figure library keyed by trait, a blocklist lint over every string, no DM-only row for a player viewpoint, and the legend's prejudice note, over figures keyed by culture or placed by the DM alone, because F10's "pagan savages and devils" must be the fictional mapmaker's prejudice toward fictional neighbours and nothing a real-world people could be read into (spine §11), and only a rule with a test keeps it so as the facts and the art change |
+| J-V15.19 | chose the known region per viewpoint as a class-4 projection derived from the member's known sets per audience or from a culture's seats, travel reach and trade, never painted by the DM, over a painted knowledge mask, because knowledge is a fact of the audience (V14 §2.3's reading of §9.2; the party learns through the host's reveal and reach) and a painted mask would be a second truth |
+| J-V15.20 | chose to refuse the world shapes (`ecosystemJson`, `ecosystemGeoJson`, `heightmap16`, `worldCsv`) on an atlas and to export pictures as drawn, a composed tile pyramid and a GeoJSON of the atlas's own records, over a stitched world export, because a stitched picture is not a world, its members disagree at their seams by right (F14), and the ecosystem's shapes carry one cell graph with one scale (V13 §5.4) |
+| J-V15.21 | chose three milestones in the spine's order — M-ATLAS-A after M-W6 beside M-W7 – M-W9, M-ATLAS-B after M-W6 and M-ATLAS-A, M-ATLAS-C after M-W5 and M-ATLAS-A — over one milestone after amendments r lands whole, because the image-only atlas with arrangement and drill-down works on the readings M-W6 lands (`renderAt`, `edgeCharter`, `solve`) and is the owner's F11 in hand, while continuation and the style wait on the rung-general placement and the lenses by their nature; *amended by* the seam seat (seam-world-growth-r0 SW-15): revision 0 placed M-ATLAS-A after M-W3 with the solve switched on at M-W6 by a registry lookup, which file r's M-W6 row (where V13 lands `renderAt`) and the spine's §15 order overrule |
+| J-V15.22 | chose to bind every calibratable column this volume lands to V12 §3.11's default line and to write no register line of its own, with the register check at every exit, over lines of this volume's, because no reference owns the subject, the owner's sittings rate the presets, and a second line for one column fails the lint (V14's J-V14.35, the same reason) |
+| J-V15.23 | chose seam precedence by rung (the more detailed wins on its footprint; equal rungs by the DM's `z`, the newer by default), softening along the shared stretch only by a band-limited multiresolution blend, a one-rung step eased and a two-rung step framed as an inset with a locator box, over blending whole overlaps or resampling members to one resolution, because the spine's one rule (§2, §10.6) makes the finer member the truth on its ground and the printed atlas's inset is the honest way to show a step of 16 cells per cell |
+| J-V15.24 | chose labels across seams resolved by one run of the base's placer over every member's placed label boxes (the yielding member's dropped where they cross a band or collide), the labels inside a member never re-placed but for a preset's angle rule, over re-placing every label on the atlas, because a member's labels are its own picture (F11) and the placer's global greedy already arbitrates fixed candidates |
+| J-V15.25 | chose the drift reading from V13's edge charters at two versions (the carried charter against the live one for a continued seam; the two live charters otherwise), DM-only, information only, and re-matching only on request as V13's regenerate over one member's border strip with the neighbour's live charter as a locked requirement, previewed on that member's page, over any automatic re-match or a drift computed from pixels, because F14 forbids anything crossing a seam after generation and the charter is the one present-ground reading both sides already give |
+| J-V15.26 | chose a missing member kept with a marked, ghosted gap (`missing: 'ghost'` by default) in every atlas that held it until the user removes it, over its silent removal, because F15 and the spine (§10.1) say a deleted member leaves a marked gap, never a silent hole, and a world restored later must find its place again |
+| J-V15.27 | chose sharing as a share writer that embeds imagery for shareable members only, removes every reference and picture of an unshareable one and marks its extent "not shared", `shareable` narrowing a world's own sharing and never widening it, the host's rule across campaigns an H-row and the owner's question, over sharing every member's picture or a permission model of the atlas's own, because the spine (§10.1) shares imagery only for members the user may share and the base has no hosted service of its own (§11.5) |
+| J-V15.28 | chose a continuation's neighbour-change conflicts reported with `editNeighbour` opening the neighbour's own page under V13's fork preview and conflict list, the request re-drafted from the neighbour's new version, over the atlas applying the change or the request silently dropping it, because the spine (§10.4) says a neighbour's change is shown in the conflict list and nothing changes without approval, and the one place that approval lives is the neighbour's own verbs |
+| J-V15.29 | chose the continuation's basics pre-filled from the neighbours' charters (their edge facts and world-level climate inputs; never a recipe's template, which is a record) as `set` options (never locks) with the edges alone `locked`, over pre-filling as locks or not at all, because F13 asks for "basic configurations to be a continuation" and the spine (§10.4) keeps them changeable where not locked |
+| J-V15.30 | chose viewpoints as records with two shipped defaults (the game master's true map; the party's), a culture's map as a viewpoint with a culture and a preset, and a map found in a dungeon as a culture viewpoint at an as-of week read from the plates, over a style switch alone, because the spine's "every map is somebody's map" (§11) is an audience plus a culture plus a time, each of which changes the centre, the known region and the figures |
+| J-V15.31 | chose the itinerary preset as a distance cartogram along one member's route chain (true days on a straightened spine; nothing across a seam), over a strip spanning members, because travel times are a member's own law (V13 §5.1) and no road crosses a map's edge (F14) |
+| J-V15.32 | chose the architecture's word **atlas** for the document and the layer, with **"World map"** admitted as the product label and left to the owner (V15 §11 Q1), over calling the document a world map in the design, because V13's "world" is taken (spine §12) and one word must mean one thing in every record, test and message of this volume |
+| J-V15.33 | chose no 2.5D view for the atlas (every drawable `ZDecl { flat: true; reason: 'imagery' }`; the `projection` key ignored with a reason; the member's page has V14's view), over projecting the members' pictures, because the atlas has no heights — its members' heights are theirs, one drill-down away |
+| J-V15.34 | chose the atlas in host mode as a document through the bridge whose members resolve through the host's resolver, stored per user (H35) and, until that lands, saved as a file through the share sheet, over an atlas inside a campaign's world record, because an atlas spans campaigns by F15's nature and the host keeps one map per campaign (the state note's Part D) |
+| J-V15.35 | chose to read `renderAt` over V13's `atlas` layer set — the member's default picture for the audience (J394): relief with the land cover's used and disturbed classes over it, water, routes, settlements with glyphs, labels, the sway's fills and borders, the occupation, debatable and fighting overlays and the event pins; no lens, no diagnostic, no placement outline, no DM-only mark for a player — with the placed label boxes returned beside the tiles as part of the rendered member (both V13's definitions, file r items 1007 and 1011; J-V13.134), over the five-layer set of the land alone (the owner's "world map" must show realms and borders, and a member's picture at its own time includes its fields and scars — J394), over the world's full layer set (a lens is an instrument a user toggles on a world page, V13 §5.8) and over tiles without their boxes (a label the atlas cannot see cannot be kept from a seam) |
+| J-V15.36 | chose the arrangement's compatibility checks to read the members' edge summaries through V13's `edgeCharter` (cached per member version), over a second edge reading of the atlas's own, because one present-ground edge reading serves the checks, the drift and the continuation alike |
+
+## 10 Base change requests, and requests to volumes 13 and 9
+
+Every request names the exact base heading, quotes the current text once where this volume read it, and gives the new
+text or mechanism; the base is **not** edited here — the coherence pass applies them with amendments r's (spine §13),
+numbered into the amendments series from item 1033 (amendments r, with the seam seat's and the reviser's items, ends at 1032) in the order the seam seat sets,
+and this volume is designed as if each were applied. Requests to a volume (V15 §10.2–§10.3) are that volume's
+architect's to apply, reconciled by the seam seat.
+
+### 10.1 Requests to the base (BCR-V15-n)
+
+| request | base heading | the current text (quoted once) | the new text or mechanism |
+|---|---|---|---|
+| **BCR-V15-1** the atlas document kind | §2.9 `Recipe`; §4.12 `StrategyRegistry.products`; §1.1's rung type | `product?: 'town'\|'hood'\|'world'\|'site' /* absent reads 'town'; 'hood' a standalone neighbourhood document (V01 §3.10.1); 'world' a world document (V13); 'site' a world-site document (V14 §3.1) */` | `product?: 'town'\|'hood'\|'world'\|'site'\|'atlas'` with `atlas?: AtlasRecipe /* present exactly when product is 'atlas' (V15 §2.2; its snapshot names every version, K10) */`; `Recipe.rung` admits `'atlas'` (the one rung the `atlas` product registers, as V07 widened the type); the §4.12 union gains `'atlas'` as BCR-V13-7's merged text places it (V13 writes the one union text; V14's SW-13 pattern); a document of product `atlas` has no arena, no part counters in use (each stays 1) and its `base` holds its records in the entities block |
+| **BCR-V15-2** the imagery cache | §2.9 `Document` | `lensPlates?: LensPlate[];    // file p item 890 (BCR-V13-38): a world document only — the host-fed lens plates …` | after it: `atlasImagery?: MemberImagery[];    // V15 §2.2: an atlas document only — the members' rendered tiles at the cached stops per audience (V15 §3.2); never canonical, outside every digest, kept across loads and saves as `lensPlates` is, dropped by a quota, by `pinImagery(keepStops: [])` or by the user and rebuilt from the members that are openable (V15 §2.11); never read by a stage of any world`; the canonical-form sentence lists it with `lensPlates` among the non-canonical sets |
+| **BCR-V15-3** the atlas's view keys | §2.9 *View state*, "**The world's and the site's keys**" | "**The world's and the site's keys** (file k item 608): per viewer `worldZoom` (0–3, default 1), `worldLayer` (default `relief`), …" | a sentence after it: "**The atlas's keys** (V15 §2.7): per viewer `atlasZoom` (metres per pixel, default fit-all), `atlasCentre`, `relational` (0–1, default the atlas's `style.relational`), `viewpoint` (a `Viewpoint` id), `commonWeek` (a `Week` or null), `showDrift` and `showRelations` (DM-only, default false), `atlasPreset` and `pinnedPoint` — never in a digest, an export's model or the log; the atlas has no `week` key of its own (V15 §2.1)" |
+| **BCR-V15-4** the atlas's edit kinds, their outcome rows and conflict actions | §7.1 `EditEvent`; §7.1's outcome table; `ConflictAction` | the union and the table as they stand (V13's and V14's variants appended by files k and o) | V15 §4.1's variants (`addMember`, `removeMember`, `arrangeMember`, `lockMember`, `relate`, `unrelate`, `arrange`, `setLayoutPreset`, `setGapStyle`, `removeGap`, `setConflictSettings`, `setAtlasStyle`, `requestContinuation`, `fitChild`, `rematchStrip`, `setViewpoint`, `setEmbellishment`) with their lifecycle rows (V15 §2.10) and undo (V15 §4.4); the `refuse.atlas.*` keys and the `W_ATLAS_*` warnings with their actions; `ConflictAction.kind` gaining `'inset'\|'move'\|'setBox'\|'drop'\|'unlock'\|'snap'\|'accept'\|'editNeighbour'\|'fit'\|'refresh'\|'remove'\|'include'` and `proposal?: string`; `setAttr` admitting V15 §4.1's targets |
+| **BCR-V15-5** the four tables' home | §7.6 *editable tables*; V11 §3.1's registry (by RQ-V15-9) | the registry's rows are V11's; no atlas table exists | the registry gains `tables/atlas/*` (`arrange`, `seams`, `style`, `embellish`; V15 §2.4–§2.5) editable by `editTable` with §7.6's validation, the preset rows and figure rows by their schemas, the blocklist read-only (shipped) |
+| **BCR-V15-6** the atlas's layers and exports | §8.4 *Layers* (`LayerSpec` rows per product); §11.1 *Formats* | the world's rows: "a world document exports one FeatureCollection per world layer, V13 §5.4 (file k item 628)"; the formats table's world rows (`ecosystem-shaped JSON (world)`, `GeoJSON (world)`, `16-bit heightmap (world)`, `world CSV`) | the `atlas` product's `LayerSpec` rows (V15 §5.2); three rows after the world's: **the picture exports (atlas)** — the view as drawn under the request's viewpoint, slider and preset, the warp as a mesh warp, the provenance naming every member's version (V15 §5.5); **`atlasTiles`** — the composed pyramid with its manifest, the true plane, unshareable members omitted; **`atlasGeoJson`** — the atlas's records in the metric variant; and the sentence "the world shapes are refused on an atlas document (`refuse.atlas.export`; V15 §5.5)" |
+| **BCR-V15-7** the atlas's door through `PlatApi` | §11.2 `PlatApi` and the `query` kinds | the API's members and kinds as they stand (`encounter.*` added by file k) | `atlas.open(h)`, `atlas.members(h)`, `atlas.readout(h, q)`, `atlas.drill(h, q)`, `atlas.continuation(h, void)`, `atlas.fit(h, child, parent, mode)`, `atlas.refresh(h, member)`, `atlas.bake(h, viewpoint)` and the `query` kind `atlas` (V15 §1b.2); the bridge's vocabulary gains them (§11.3); a member handle an atlas opens is read-only by the API's contract |
+| **BCR-V15-8** the budget rows and the memory line | §12.10 *The budget register*; §12.8 *Memory* | "**World document, all threads, excluding canvases:** ≤ 300 MB on the high tier …" | the register's rows `ATLAS-1` – `ATLAS-10` (V15 §6) with their homes, measurement, pass bars and pre-decided changes; a sentence after the world line: "**Atlas document:** ≤ 96 MB beside one open member's line (the decoded visible tiles' LRU, the warp fields, the records; V15 §6 `ATLAS-10`); a member rendered for an atlas counts under the world line, one at a time (M-ATLAS-A)" |
+| **BCR-V15-9** the bars of V15 §7 | §13.2 | the volumes' take-over rows (V13's and V14's placed by BCR-V13-15's merged text) | the T-V15 rows and the fixture set `B-ATLAS`; the no-op pin `atlas.none` on V12 §3.7.8's engine (no atlas open: the world view byte-identical); one T- row per spine §17 atlas family (V15 §7.5's map) |
+| **BCR-V15-10** the package | §14 | the package list with `@plat/world` (BCR-V13-1) and `@plat/sites` (BCR-V14-18) | `@plat/atlas` after `@plat/sites` with V15 §1.1's dependency rule (depends on `@plat/kernel`'s `dmath`, `rng`, `index`, `@plat/model`, `@plat/tables`, `@plat/world`; never on `@plat/render`, `@plat/export`, `@plat/app`; imports no writer of a world document's log); `@plat/render/atlas` (the composition, the blend, the mesh warp); the atlas page in `@plat/app` |
+| **BCR-V15-11** the milestones | §16 *The staged milestones, in the owner's order* | the staged rows as BCR-V13-19's and BCR-V14-20's merged texts place them | the rows M-ATLAS-A, M-ATLAS-B and M-ATLAS-C with V15 §8's starts, companions, exits and prices (7–10 pw in all; the art library outside), placed after M-W3 / M-W6 / M-W5 as V15 §8 states |
+| **BCR-V15-12** the `atlas` concern and the stage ids | §6.1 *RNG and stream design*, the concern registry and the stage ids | the concerns and stage ids listed (the world's `W0`…`W9`, `WORLD_PLACE`; the site's `G1`…`G8`, `E1`…`E4`) | the concern `atlas` (the stream `atlas.embellish`, V15 §3.9) and the stage ids `A1`…`A7`, appended after M0 under K6 (no existing key moves; bar 1) |
+| **BCR-V15-13** F-ATLAS, the warnings, the refusals | §5.2 *Failure classes*; §5.4's `stages[].warnings`; §7.1's outcome keys | the classes and codes as they stand (F-WORLD, F-PLACE, F-SITE among them) | F-ATLAS with V15 §3.8's ladder; the codes `W_ATLAS_*` and the aborts `E_ATLAS_TILE`, `E_ATLAS_WARP` (V15 §7.5); the `refuse.atlas.*` outcome keys |
+| **BCR-V15-14** furniture and the legend | §9.5 *Furniture, framing and tools* (the legend's second cue; the scale bar) | "the secret cue of each state listed while one is drawn ("DM only · revealed to the party · discovered by the party"; V14 §5.1 …)" | after it: "on an atlas the legend's first line under a relational viewpoint is V15 §3.6 (8)'s note and its last the member marks' cues (stale · missing · at its own present · not shared, each with a glyph beside its tint; V15 §5.6); the scale bar on an atlas reads the true plane under every warp (V15 §3.6 (3); J-V15.15); the compass turns with the viewpoint's orientation as it turns with a placement's bearing" |
+| **BCR-V15-15** sharing | §11.5 | "`&doc=<ref>` links are produced only when a resolver with `publish` is configured; otherwise the app offers the `.plat` file …" | after it: "an atlas document's members are resolved through the same `DocResolver.resolve(ref)` by their `Member.world.ref` (V15 §2.2), read-only; a shared atlas embeds imagery for shareable members only and removes every unshareable member's reference (V15 §5.5); the host's access levels across campaigns are the host's (V13 §8.5's H35; V15 §11 Q2)" |
+
+### 10.2 Requests to volume 13 (exactly the spine §14 seams; single source: these stay V13's facts)
+
+| request | what V15 needs (designed here as if granted) | V15's reader |
+|---|---|---|
+| **RQ-V15-1** the world edge charter (spine §14 (1)) | **as amendments r defines it** (its §2.2 records and items 942, 953: `WorldEdgeCharter { version; world; side; span; stationCm; stations[] { atCm; demCm; bedrock; soil; biome /* graded */; water; tableCm; monthly { tempDeciC; precipMm; windCdeg; windStrength; moisture; maritime } }; riverCrossings[]; landforms[]; currents? /* twelve monthly stream functions */; overrides[]; latBox; datum: 'sea0'; world { poles; calendarSouth }; neighbourVersion; reason }`, produced by `edgeCharter(world, side, span)` as a read, consumed by W0's step 6 as `Requirement { source: 'edgeCharter'; kind: 'edge'; strength: 'locked' }` rows from `WorldRequest.edgeCharters: WorldEdgeCharter[]` — W0 writes each as a `WorldRecipe.edgeCharters` entry `{ side; neighbour: { doc; version }; charter }` from the charter's own `world`, `side` and `neighbourVersion` —, stored whole in `WorldRecipe.edgeCharters` for provenance and never re-read but by a re-match; its present-ground test (J393) barred by T-V13-68) — this volume consumes it as designed, under the seam seat's rulings (seam-world-growth-r0 SW-02): (a) a whole side is asked as the full side's span `{ fromCm: 0, toCm: the side's length }` (no `'whole'` sentinel: V13's signature stands) for A1's edge summaries and the drift read (V15 §3.1 (4), §3.3 (3)); (b) the budget is V13's `WORLD-20` (file r item 1013: ≤ 60 / 120 / 200 ms per side at the three rungs, inside `ATLAS-4`); (c) the re-match (V15 §4.7 (3)) is V13 §3.1 (6)'s re-matching on request (file r item 1008): `setRequirements` replacing that side's `edge` rows by the neighbour's live charter, then `regenerate` of W1 over the strip's box under the recipe's rows — no field is added to `regenerate`; (d) the charter's `latBox` is the neighbour's own and the void's box is the request's pre-fill (V15 §3.4 (4)) | V15 §3.1 (4), §3.3 (3), §3.4, §3.5 (b), §4.7 (3) |
+| **RQ-V15-2** the rendered member (spine §14 (2)) | **as amendments r defines it** (`renderAt(world, week, audience)` → `RenderedWorld { doc; week; presentWeek; dateLabel; rung; extentCm; datum: 'sea0'; latBox; tiles: { stop: 0\|1\|2\|3; set: Id /* §8.1's tile sets, rendered by the tile worker on demand */ }[]; known: { audience: 'dm'\|'public'\|`party:${string}`; cells: Uint32Array /* coarse */ }[] }`, a view read cached per (digest, week, audience), the player picture for a party; r item 942 and its V13 §5.4 text) — this volume consumes it as designed (A2 pulls every tile of stops 0 and 1 from the sets into its cache and stop-2 tiles as the view asks, V15 §3.2 (3); the known cells feed the known region, V15 §3.6 (4)) and reads two pieces V13 now defines (file r items 1007 and 1011; F15-3 closed by the seam seat, SW-03): (a) the **placed label boxes** per stop beside the tile set (`RenderedWorld.tiles[].labels: { box; text; kind; priority }[]`), so a seam can drop a yielding member's labels whole (V15 §3.3 (5)); (b) the **`atlas` layer set** `renderAt` draws (V13 §5.4; J394): the member's default picture — relief with the land cover's used and disturbed classes over it, water, routes, settlements with their glyphs at the stop, labels, the sway's fills and borders, the occupation, debatable and fighting overlays and the event pins, each under the audience's admission — **no lens layer, no diagnostic layer** (placement outlines, anomalies, proposals, traces, the resource and spring pins) **and no DM-only mark for a player audience**, whatever the member's own view keys hold — `renderAt`'s one layer set, with `opts.layers` for the parent's towns over a derived child (item 1006); and reads `week` below the present as r's "at a week" admits (the common-week display, V15 §4.7 (4)) | V15 §3.2, §3.3 (5), §3.6 (4), §4.7 (4), §5.4 |
+| **RQ-V15-3** the fit across rungs (spine §14 (3)) | **as amendments r defines it** (item 975: `placeFrame { frame: Uuid \| { kind: 'world'; doc: Uuid }; originCm?; bearingCdeg?; best?; requirements?; preview?; accept? }` — the rung-general form: P1's terms over the child's edge profile at its own cell size, P2's band in the parent scaled by the parent's cell ratio (item 942), P3–P5 as for a frame, the child never changed; the edit row `fit` of item 943; `Placement.subject` `{ kind: 'world'; doc?; rung; extentCm }`, item 1030) — this volume calls it with `preview` and the conflict list as V15 §3.5 (c) states (bearing 0 only, no mirror; the band is V13's rule — `blendBandM` × the parent's fine cell ÷ the frame cell (file r item 942 as the seam seat amended it) — and this volume keeps no cell for it) and reads two pieces V13 now defines (file r items 1007, 1009, 1010; J-V13.131; F15-6 closed): (b) `requestCharter` with a world subject (V13 §3.11.4: a `Placement` of subject kind `world` with `precedenceStamp: 'world'`, P4 only) emitting a `WorldCharter` — the parent's four edge charters, the parent's rasters over the extent as the child's **coarse ground** and the parent's placed frames inside the extent as **planned sites** (`Requirement`s of source `frame`), read by the child's W0–W1 through `WorldRequest.parentCharter` (the coarse result refined by the position-keyed lattice, spine §3's principle) — the derived-from-parent path, V15 §3.5 (a); (c) the transient `charterFor(world, TransientPlacement)` at a world-rung extent (a read, `WORLD-9`'s form; `WORLD-20`) for the mismatch reading, V15 §3.5 (b); budgeted as `ATLAS-5` asks | V15 §3.5, §4.6 |
+| **RQ-V15-4** the relational style's facts (spine §14 (4)) | **granted** (file r items 1007 and 1012; J-V13.133; widened by the reviser with every seat's point, every sway's pole, area and border, the culture table and the bathymetry on request — C15-02, C15-03): `viewFacts(world, week, audience)` → `ViewFacts`, one reading per member, from the plates and events at `week` through V13 §5.8's mechanism, each row with its fact class and resolved audience: the religion lens's hierarchy, faith places, patrons and realm rank (V13 §5.9 (6)); the sway's allegiances with roots and members, each seat's tier, size third and prosperity rung with the realm's held median (V13 §3.9, §5.9 (2), (5), (7)); the trade lens's entrepôt centrality, exports count and channels (V13 §5.9 (4)); the relations (respect / neutral / adversarial, `atWar`) and the culture bands (V13 §3.9 (6)); the `WorldEvent`s of the kinds V15 §2.4's `events` names with their resolved audience; the water routes and the travel law's storm factors; the bathymetry as one coarse grid per member on request (`ViewFacts.water.bathymetry`) — **never** the alignment lens (DM-only, J384 (7)), suppressed creeds, covert links or criminal channels; a row the host resolved DM-only never returned for a player audience; absent facts returned as absent (never a default), so the legend can say so | V15 §1b.5, §3.6 (2), (4), (5) |
+| **RQ-V15-5** the arrangement solver (spine §14 (5)) | **as amendments r defines it** (items 942 and 1007: `solve(requirements: Requirement[], state: WorldDocument \| { members: ArrangeMember[] } \| null, goal: 'generate'\|'leastChange'\|'arrange', opts?: { rung?; decisions?; seed?; maxIterations? }): SolveResult { ops; placements?; report; conflicts }` — `'arrange'` runs over placements only, no world stage, and r names V15 as its caller) — this volume calls `solve(reqs, { members }, 'arrange', { decisions, seed, maxIterations })` with `members` the arrangements as `ArrangeMember`s (each member's `Placement` of subject kind `world`, item 1030, with its extent, rung, coarse cell and lock) and `reqs` r's `Requirement` records: a described relation `{ source: 'relation'; kind: 'relation'; target: { a; b; word: RelationKind; widthKm?; side? }; strength: 'set'\|'locked' }` (V15 §2.3's words as the `word`), a locked arrangement a rank-2 `{ source: 'lock'; kind: 'lockRegion'; target: { placement }; strength: 'locked' }`, the compatibility checks `{ source: 'context'; kind: 'latBox' \| 'climateRow'; rank: 4 }`; granted (file r item 1007; J-V13.132): (a) the **evaluators** of these kinds over an arrangement state (V15 §2.3's table; the costs of V15 §3.1 (2)) are registered by `@plat/atlas` through `solve.registerEvaluator` (`ArrangeEvaluator`), V13's one path, the search V13's and bounded by `opts.maxIterations`; (b) the verification list in `SolveResult.report` with V15 §3.1 (2)'s unmet actions; (c) `placements` returned as the moved members' arrangements with their reasons; budgeted ≤ `ATLAS-1` | V15 §3.1 |
+| **RQ-V15-6** no reverse seam (spine §14 (6)) | nothing of V13: this volume's promise that `@plat/atlas` writes nothing into a world document after its generation (T-V15-19), stated here so V13 §10.2's request list may cite it; V13 may assert it in its own lint over its edit entry points (a caller whose package is `@plat/atlas` refused at the API) | V15 §1.1, §7.4 |
+| **H35** (a host-change row for V13 §8.5's one list; the seam seat appends it with the next free H id) | *with M-ATLAS-A:* a **per-user atlas record** beside the campaign's world records (snapshot, backups, quota, lifecycle) and a resolver reference for a world document of any campaign the user may read, read-only; *with M-ATLAS-B:* which campaign owns a world generated from an atlas's continuation request (the dialog's generate in host mode); *the gallery:* the host's share and access rules for an atlas and for a member's imagery across campaigns (the owner's, V15 §11 Q2) — each optional, dark by default, with its tier line and degraded arm (absent ⇒ the atlas a file; a continuation refused in host mode) | V15 §2.11, §3.4 (7), §5.5 |
+
+### 10.3 Requests to the other volumes (not base changes)
+
+| to | request | V15's reader |
+|---|---|---|
+| **V09** (**RQ-V15-7**) | the **atlas page** as V15 §5.1 lays it out: the canvas over the atlas plane with the member list in the context panel (a card per member with its marks and commands), T6's arrange mode (drag, snap chip, rotation handle, lock, ruler), **Add a world map…** (the recent list, a file, a link, a drag of a world's card), **Continue here** on a void opening the world dialog with locked edge chips and the pre-fill, T7's relations box (chips and a typed sentence to the clerk, met/unmet marks, Arrange with the ghost preview), T2's gap brush, T9's fit sheet (three cards; the fitted card opening V13's placement preview on the parent's page), **Re-match this edge…**, the viewpoint picker and New viewpoint sheet, the style cards, T10's Refresh / Keep detail / Bake; the view bar's relational slider, common-week toggle, Show drift, Show relations, the cartouche switch; **Open a world map…** and **New world map** in Open / recent / new (V09 §5.13; the words the owner's, V15 §11 Q1); the world page's **View relationally…** and **Save as a world map**; the share sheet's member list with shareable states and the **World map file** option (V15 §5.5); the export dialog's Atlas tab (the picture, `atlasTiles`, `atlasGeoJson`; the world shapes greyed with `refuse.atlas.export`); the fates sheet for **Remove from this atlas**; the catalogue keys of V15 §4.8 (`info.atlas.*`, `bend.atlas.*`, `refuse.atlas.*`, `share.atlas.*`, the legend notes); the binding rows of V15 §4.2 in V09 §4.3's table, checked by T-V9-12's rule; the `projection` switch disabled on an atlas with `info.atlas.flat` | V15 §4.2, §5.1, §5.5 |
+| **V10** (**RQ-V15-8**) | the `atlas` why section's rows and the chain test; the `propose` route's parse of a described relation into V15 §2.3's chips (the sentence kept in `text`), confirmed by the user before `relate` | V15 §4.8 |
+| **V11** (**RQ-V15-9**) | the registry rows for `tables/atlas/*` (BCR-V15-5) with V15 §2.4–§2.5's schema and shipped values; the symbol catalogue's glyphs for the minimal figure set (one line-art glyph per trait per preset; the art library replacing them row by row under the owner's budget); the blocklist as a shipped, read-only table; the naming slice `atlas` (a gap's or a sea's name; never a people's); the bundled lettering faces the presets name (§8.2's and §17.2's licence rule) | V15 §2.4, §2.5, §3.6 (5) |
+| **V12** (**RQ-V15-10**) | the fixture set `B-ATLAS` (V15 §7) and the scripted lens set for R; the panel **V15-P** (`PanelSpec`: the three presets rated for legibility and immersion, three seams for the band's look, by the owner's sitting at SA4 and SA0); the no-op pin `atlas.none` with its off form; the measures `atlas.bakeMs`, `atlas.cacheMb`, `atlas.solveMs`; the register's default-line entries at each exit | V15 §7, §8 |
+| **V14** (**RQ-V15-11**) | the drill-down's last rungs (a site opened from the member's page, V14 §3.9; the encounter crop on a member's point after the drill, V14 §3.10); the `ZDecl` reason `'imagery'` admitted by the gap lint (T-V14-16) for the atlas's drawables | V15 §3.7, §5.6 |
+
+### 10.4 The INDEX.md and SUMMARY.md rows for V15 (the exact texts the seam seat folded into file r as items 1018–1028; one source: file r's items)
+
+**INDEX.md §1, the product-map table, a row after V14's (file r item 1019):**
+
+`| V15 | `V15-atlas.md` | the atlas — the owner's "world map" (F11–F15): an individual save of finished world maps held by reference, arranged by the user (direct placement and described relations solved by the requirement engine at atlas scale, layout presets, warnings never refusals), rendered at one pixel resolution per level with seams softened along shared stretches, detail steps eased or framed as insets, continued into its voids at the next map's generation through V13's world edge charters (the neighbour's present ground, never a record; locked), a child fitted into a parent through V13's rung-general placement or derived from it through the world subject of `requestCharter`, each member a microcosm at its own present with its date, drift read and never corrected, deletion leaving a marked gap, sharing imagery only for shareable members, drill-down to the live member; and the relational historical style (F10): a view over an atlas or one world — an adjacency-preserving flow-based cartogram with a centre magnification and an orientation, a slider to the true map, true distance and travel time on hover, the distortion from facts (centre, importance, orientation, knowledge) read through V13's `viewFacts`, embellishments derived from the fictional cultures' facts and never real-world peoples, viewpoints (an audience plus a culture), three presets (mappa mundi, portolan, itinerary strip) | §2.9 (`Recipe.product` `'atlas'`, `Recipe.atlas`, `atlasImagery`, the atlas's view keys), §4.12, §5.2, §5.4, §6.1, §7.1, §7.6, §8.4, §9.5, §11.1, §11.2, §11.5, §12.8, §12.10, §13.2, §14, §16 (BCR-V15-1 – BCR-V15-15, pending the coherence pass) | **M-ATLAS-A** after M-W6 (`renderAt`, `edgeCharter`, `solve`; file r item 1015) beside M-W7 – M-W9; **M-ATLAS-B** after M-W6 and M-ATLAS-A; **M-ATLAS-C** after M-W5 and M-ATLAS-A (V15 §8) | 7–10 (M-ATLAS-A 2.5–3.75; M-ATLAS-B 2–3; M-ATLAS-C 2–3; content 0.5–0.75; the art library the owner's own line) |`
+
+**INDEX.md §1, the request census paragraph, a sentence after "Files m–r since added seventeen requests …" (item 1020):** "Volume 15 (2026-10-23) adds fifteen requests to the base (BCR-V15-1 – BCR-V15-15) and eleven to the siblings (RQ-V15-1 – RQ-V15-11, the first six V13's spine §14 seams, each defined by file r items 1006–1017 as V13's own; an H-row, H35, appended to V13 §8.5 by file r item 1015), each base request for the world-growth coherence pass to admit by an item from 1033; none is applied yet."
+
+**INDEX.md §2, the wiring table, a row after V14's (item 1021):**
+
+`| V15 | §2.9 (`Recipe.product` `'atlas'` and `Recipe.atlas`; `Document.atlasImagery`; the atlas's view keys), §4.12's `atlas` product, §5.2 F-ATLAS, §5.4's `W_ATLAS_*`, §6.1's `atlas` concern and stage ids `A1`–`A7`, §7.1's atlas edit kinds and conflict actions, §7.6's `atlas.*` tables, §8.4's atlas layers, §9.5 (the legend's note, the true scale bar, the compass under a viewpoint), §11.1's atlas exports and the refusal of the world shapes, §11.2 `PlatApi.atlas.*`, §11.5's member resolution and the shared atlas, §12.8's atlas line, §12.10's `ATLAS-n`, §13.2's T-V15 rows, §14 `@plat/atlas` and `@plat/render/atlas`, §16's M-ATLAS rows | V13 (`WorldHeader`, the rungs and size rows, `edgeCharter` and `WorldEdgeCharter`, `renderAt` with the placed labels and the known sets, the rung-general placement, the world subject of `requestCharter` and the transient world-rung charter, `viewFacts` over the lens plates, `solve` with its registered evaluators, `derivedTime`, `worldFactsAt`, the conflict list and the fork preview), V09 (the atlas page, Open / recent / new, the share sheet, the catalogue), V10 (the parse of a described relation; the `atlas` why section), V11 (the `atlas.*` rows, the figure glyphs, the blocklist, the lettering faces), V12 (B-ATLAS, V15-P, the pin, the register), V14 (the drill's last rungs; the `ZDecl` reason `imagery`) | the user (the atlas page, the pictures, the shared atlas); V13 (a continuation's `WorldRequest` with locked edge charters; a fit's placement request on a parent; a re-match's regenerate under a charter — each the user's act on the member's page); V09 (the page's rows and keys); V10 (the section); V12 (the fixtures and measures) |`
+
+**INDEX.md §2, the wiring-density sentence, after "Volumes 13 and 14 (counted 2026-10-17) …" (item 1021):** "Volume 15 (2026-10-23) cites V13 in every section and V13 cites V15 only in the readings file r's items 942 and 1006–1017 define for it (the one-way seam the spine §14 names: V13 supplies, V15 consumes); the `seam-world-growth` check's pair (`critique/seam-world-growth-r0.md`)."
+
+**INDEX.md §3, the mermaid graph, three lines after `MW -.-> M25` (item 1022):**
+
+```
+  MW --> MATA["M-ATLAS-A image-only atlas, arrangement, drill-down (V15), after M-W6 (its readings) beside M-W7 … M-W9"]
+  MATA --> MATB["M-ATLAS-B continuation at generation, the fit across rungs (V15), after M-W6 and M-ATLAS-A"]
+  MATA --> MATC["M-ATLAS-C the relational style (V15), after M-W5 and M-ATLAS-A"]
+```
+
+**INDEX.md §3, the milestone table, three rows after M-25D's (item 1022):**
+
+`| M-ATLAS-A (V15) | M-W6 (`renderAt` with its label boxes and `atlas` layer set, `edgeCharter`, `solve` with the registered evaluators; file r item 1015) and V09's world page | M-W7 – M-W9; M-SITE-F | the atlas in host mode a file until H35 |`
+`| M-ATLAS-B (V15) | M-W6 (the solver, the edge charter, the rung-general placement and the world subject of `requestCharter`) and M-ATLAS-A | M-W7 – M-W9 | the charter carries formation's bedrock and soils once M-W7 lands; a continuation owned by a campaign in host mode waits on H35 |`
+`| M-ATLAS-C (V15) | M-W5 (the lenses, read through `viewFacts` from M-W6) and M-ATLAS-A | M-ATLAS-B | the art library lands on the owner's budget, replacing the line-art figures row by row (content only) |`
+
+**INDEX.md §4, after the sentence on volumes 13 and 14 (item 1022):** "Volume 15 (2026-10-23; the owner's rules F10–F15 under the spine, each decision vetoable) adds, as its §8 states and BCR-V15-11 asks of §16: M-ATLAS-A after M-W6 beside M-W7 – M-W9; M-ATLAS-B after M-W6 and M-ATLAS-A; M-ATLAS-C after M-W5 and M-ATLAS-A."
+
+**INDEX.md §5, the cross-volume risks table, a row 13 (item 1023):**
+
+`| 13 | the atlas's readings landing late — `renderAt`, `edgeCharter`, `solve` with its evaluator registration, the rung-general placement and the world subject of `requestCharter` (all M-W6; file r item 1015), the lens readings (`viewFacts` over M-W5's lenses); the host's atlas store (H35) | none needed: each order is written out (V15 §8) | nothing of the atlas ships before M-W6; image-only nesting with the mismatch warning until the fit lands; the relational terms neutral with the legend saying so; the atlas a file in host mode (V15 §8's risks 3–5) |`
+
+**INDEX.md §5, the spikes sentence (item 1023):** "SP-W1 – SP-W7 (M-W0, once M0 closes; before M-W1), SP-W9 and SP-W10 (M-W7's gate; file r item 985); V15's SA0 (M-ATLAS-A's start), SA3 (M-ATLAS-C's start) and its fit spike (c) at M-ATLAS-B's start. The first-five-minutes sessions …"
+
+**INDEX.md §6, the owner-questions table, four rows after V14's (item 1024):**
+
+`| V15 | Q1 — the product label for the atlas ("World map" is admitted; the architecture's word stays "atlas") | "World map" in every user-facing string, "atlas" in every record and test (recommended; the owner's word) |`
+`| V15 | Q2 — sharing and privacy across campaigns: may an atlas show, share or publish a member world of another campaign, and under which gallery rule (a capability across the host's boundary; H35) | a member's imagery travels only where that world's own sharing allows it; across campaigns the host's gallery rule once H35 lands, until then the user's own worlds only (recommended; vetoable) |`
+`| V15 | Q3 — money: the art library for the relational style (monsters, vignettes, cartouches, lettering), outside the volume's line | fund it after the owner's sitting on the line-art presets at M-ATLAS-C; the mechanism ships without it (recommended; vetoable) |`
+`| V15 | Q4 — money: the cost, 7–10 person-weeks across three milestones (V15 §8) | accept; M-ATLAS-A's 2.5–3.75 pw buys F11, F12 and F15 in hand, M-ATLAS-B's 2–3 pw F13 narrowed by F14, M-ATLAS-C's 2–3 pw F10 (recommended; vetoable) |`
+
+**INDEX.md's opening paragraph (item 1018):** "the fourteen design volumes (`docs/volumes/V01`–`V14`)" reads "the fifteen design
+volumes (`docs/volumes/V01`–`V15`)"; INDEX.md §7's paragraph gains (item 1025): "Volume 15 (2026-10-23) was written under the spine `docs/design/spine-world-growth-2026-10-23.md` beside amendments r (`docs/AMENDMENTS-2026-10-23r.md`, pending application) and reconciled with it by the world-growth seam check (`critique/seam-world-growth-r0.md`: every finding fixed in place in V15 or carried as an item of file r, 1006–1028); its own critique round is pending."
+
+**SUMMARY.md, "What each volume makes possible", an item 15 (item 1027):**
+
+"15. **The world map, and the mapmaker's eye (volume 15).** Lay the maps you have made on one table: your realm, the
+province beside it, a continent from another campaign. Drag each to where it belongs, or say it — "Varn lies east of
+Ashmark across a narrow sea" — and the table arranges them, warning (never refusing) where a cold north meets a hot
+south; where two maps share an edge the pictures are softened into one another, where a finer map lies inside a coarser
+one it sits in a thin frame like an inset in a printed atlas, and between maps there is sea, mist, mountains or honest
+blank parchment. Each map stays its own world on its own calendar: nothing you change in one ever changes another,
+each shows its own date, and if two drift apart at an edge the table says so to the game master and corrects nothing.
+Click the empty space beside a map and say "make a map here", and the new map is born meeting its neighbours — their
+coasts, heights, rivers, winds, rock and climate continue across the edge, and nothing that merely happened to them
+does. Click any map to open it, then a town, a house, a dungeon. A player's table shows only what the party knows.
+And turn on the mapmaker's eye: the world as a medieval scribe of one of your cultures would have drawn it — the holy
+city huge at the centre, east at the top, the lands that matter swollen and the rest squeezed to the rim, serpents in
+the deep seas, dragons where knowledge ends, monsters in the lands that culture fears or hates, a skull where the
+plague struck — with a slider back to the true map and the true distance and travel time under your cursor at every
+moment. Every monster comes from your invented cultures' facts and never from any real people; you may add, move or
+remove any of them. Three looks ship: the sacred map, the sea chart with its compass roses, and the pilgrim's strip
+with the days between towns."
+
+**SUMMARY.md, "The order they would be built in", a bullet 7 (item 1027):** "7. **The world map (volume 15)** slots in after the world's requirement solver (which also brings the picture reading and the edge charter the world map needs), its continuation and fitting beside it, and the mapmaker's eye after the map lenses."
+
+**SUMMARY.md, "How big the whole program is", a bullet after volume 14's (item 1027):** "- **The world map and the mapmaker's eye (volume 15):** about **7–10 person-weeks** (the image-only world map with arrangement and drill-down 2.5–3.75, continuation and fitting 2–3, the mapmaker's eye 2–3, content under 1), plus the art for the mapmaker's eye — monsters, vignettes, cartouches, lettering — on your own budget, which the design does not price."; and the whole-program bullet re-summed (the earlier 392–539 plus the three new volumes' lines: 476–651).
+
+**SUMMARY.md, "Decisions that are yours", a bullet (item 1027):** "- **The world map** (four questions; your rules of 22–23 October, each decision vetoable): the product's name for it ("World map" is fine; the design calls it an atlas inside); whether and how a world map may show or share a map from another campaign (recommended: only where that map's own sharing allows, under your host's gallery rule once it has one); the art for the mapmaker's eye (recommended: fund it after you have seen the plain line-art version); and its cost, about 7–10 person-weeks."
+
+**README.md (item 1028):** the volume count ("fourteen volumes" reads "fifteen volumes"), a row naming this volume and the seam check, and file r among the pending amendment files.
+
+## 11 Owner questions
+
+Only true owner decisions — a name, money, a capability across the host's boundary — each with the session's
+recommendation under the delegation (J122's form; spine §16 names the first three as the owner's); nothing the owner
+already ruled (F10–F15) is re-asked, and every other choice is a J-V15 row.
+
+| # | question | recommendation |
+|---|---|---|
+| Q1 | **The product label.** The architecture's word is *atlas* (spine §12; J-V15.32); the owner's own word was "world map". Which word do users see — "World map", "Atlas", or another? | "World map" in every user-facing string (the page, Open / recent / new, the share sheet, the catalogue), "atlas" in every record, key, test and message id — one product word, one architecture word, never mixed; the owner's word |
+| Q2 | **Sharing and privacy across campaigns** (a capability across the host's boundary; spine §16; H35): may an atlas show, share or publish a member world that belongs to another campaign of the same user, or to another user who shared it, and under which gallery and access rule? | a member's imagery travels only where that world's own sharing allows it (V15 §5.5; J-V15.27); across campaigns the host's gallery rule once H35 lands — the host already keeps per-map publication state and share kinds, the state note's Part D, so the rule is the host's to extend to an atlas — and, until then, the user's own worlds only; never a world the user may not open |
+| Q3 | **Money: the art library** for the relational style — monsters, vignettes, cartouches, lettering per preset (spine §16: "the art budget for the relational style") — outside this volume's line | fund it after the owner's sitting on the line-art presets at M-ATLAS-C (V15 §8's SA4): the mechanism ships with one line-art glyph per trait per preset and the library replaces them row by row as content, so nothing waits on the art |
+| Q4 | **Money:** the cost, 7–10 person-weeks across three milestones (V15 §8) | accept; M-ATLAS-A's 2.5–3.75 pw buys F11, F12 and F15 in hand on the world's picture rows, M-ATLAS-B's 2–3 pw F13 narrowed by F14, M-ATLAS-C's 2–3 pw F10 |
+
+## 12 CONFIRMED versus PLAUSIBLE
+
+**CONFIRMED** (executed evidence this volume was written from):
+* The owner's words F10–F15 are docs/PROGRESS.md J392, read whole with J384–J391; the spine
+  `docs/design/spine-world-growth-2026-10-23.md` read whole, its §2, §10, §11, §12, §14 the rulings designed here,
+  its §13 the landing table, its §15 the milestones and budget guesses, its §16 the owner's reservations, its §17
+  the test families; nothing of it re-decided.
+* The two research notes read for the sections named: the science note's §9 (the historical conventions and the
+  warp algorithms' properties and costs as the literature states them; cited as evidence for the family chosen, J-V15.16)
+  and §10 (one-way coupling, halos, multi-resolution blends, insets); the state note whole, its findings in this
+  volume's revision notes (three rungs, no atlas product kind, one world per campaign, one affine world view, no host
+  atlas) and its Part E gaps 10–15 each answered by a section here.
+* Amendments r (`docs/AMENDMENTS-2026-10-23r.md`, seat A; read after this volume's first draft for its seam
+  definitions — its §2.2 records `Requirement`, `WorldEdgeCharter`, `RenderedWorld`, `SolveResult`, its items 942, 943,
+  953, 975 and its revision notes' id ledger): this volume's RQ rows name r's shapes and mark the additions this volume
+  asks beyond them; r's "Not items" leaves the atlas, the relational style and the INDEX/SUMMARY V15 rows to this
+  volume and the seam seat.
+* V13 as it stands (its revision notes to file q): §2.1 (the regimes, `WorldHeader`, the week and its source), §2.2
+  (the records, the lens records), §2.3 (the size rows), §2.4–§2.7 (the transients, identity, the lifecycle, the
+  digests and storage), §3.0 (registration), §3.1 (`WorldRequest`), §3.11 (P1–P5, the transient charter, the port's
+  laws), §3.17, §3.18, §4.1–§4.5, §5.1–§5.4, §5.8–§5.9, §6, §7's forms, §8.2, §8.5's row form, §9's and §10's forms,
+  §11 — read in the text; the base's §2.9 `Document` and `Recipe` (the `product` union, `lensPlates`, the view keys'
+  paragraph), §6.2, §9.2's admission, §9.5, §11.1's formats table, §11.5, §12.8 — read in the text; V09's §2.11,
+  §3.11, §4.3's world rows, §4.19, §5.11, §5.13 — read in the text; V14's §0–§1b and §8–§13 as the template of this
+  volume's form.
+* That the base's §9.2 admission and the party key serve a player viewpoint without a new admission rule (V14's
+  J-V14.12's reasoning, read); that V13's `renderAt` does not exist today and the world view draws under one affine
+  transform with no embellishment layer (the state note A.15; the request RQ-V15-2 is new); that V13's placement
+  admitted a frame subject and a site subject only (V13 §2.2 `Placement.subject`; the world subject is file r item
+  1030's, added by the reviser on the map-architecture review's C15-01); that no table, record or message of V13 or the base carries an atlas, an arrangement or a relation.
+
+**PLAUSIBLE** (reasoned, not measured):
+* Every default constant of V15 §2.4–§2.5 (own, calibratable): the relation measures, the snap distances, the
+  tolerances, the band width and levels, the inset rule's step, the cache stops and quality, the fit's bands, the
+  drift thresholds, the warp grid and steps, the magnification, the blur, the knowledge reaches, the importance
+  exponents and density classes, the embellishment thresholds and densities, the vignette window; the historical
+  anchors (a mappa mundi's centre and swollen Holy Land; a portolan's rhumb network; a strip's day counts) are
+  conventions the science note confirms, never numbers.
+* That the flow-based cartogram at a 512 grid bakes in ≤ 1.5 s with a positive Jacobian on every fixture (SA3), that
+  the multigrid solve and the integration are byte-identical across §13.2's platforms through `dmath` with
+  quantisation (T-V15-9 (d); the fallback declared), and that the mesh warp at n ≤ 8 draws within 1 px on the canvas
+  path.
+* That the band-limited blend at 24 px hides a seam between members of one rung to the eye, that easing hides a
+  one-rung step and that a two-rung step reads better framed (the owner's sitting at SA0 decides; the cells are data).
+* The budgets of V15 §6 (SA0, SA3 and spike (c) measure them; the fallbacks are pre-decided) and the estimates of
+  V15 §8; that the imagery cache at `lossyQuality` 85 is ≈ 0.4–0.6 B per pixel on relief-and-water pictures.
+* That the compatibility checks' latitude and climate tolerances flag the clashes a user would call clashes and no
+  more; that the contradiction table's five proposals cover the corner cases a continuation meets (the generator's
+  verification report is the check).
+* That the known region's reach rules (four weeks on foot along routes; one heard-of band) and the importance's
+  exponents give the mappa mundi's look the owner asked for (the sitting at SA4); that the culture-band threshold of 4
+  and the enemy-faith rule place monsters where a mapmaker's prejudice would, and nowhere a player would read a real
+  people into (T-V15-6 bars the mechanism; the look is the sitting's).
+* That V13's rung-general placement scales as V13 §6's laws predict for a world frame (`ATLAS-5`; spike (c)); that
+  `edgeCharter` costs ≤ 200 ms per edge; that `renderAt` at stop 1 costs the tile law over 1.0625 × stop 1's pixels.
+* That the two shipped viewpoints and the three presets are the right minimum; that "World map" is the owner's
+  preferred label (Q1); that the host will want a per-user atlas record (H35; Q2).
+* Revision 0's mechanisms, reasoned and not yet measured: the on-demand stop-2 render per visible tile keeping pan
+  and zoom inside §12.5's frame budget; the label placer's one run over sixteen members' boxes ≤ 3 ms per level; the
+  solver's atlas-scale evaluators inside `ATLAS-1`; the drift reading's cost inside A3's row.
+
+## 13 Fix list
+
+Revision 0 (2026-10-23): no critique has yet been written against this volume, so the list holds the items the
+author leaves for the seam seat and the next revision, each with its reason and guard:
+
+| id | finding | why it is left | guard |
+|---|---|---|---|
+| F15-1 | the H-row is named **H35**: amendments r consumed H31–H34 (its revision notes' ledger) after the state note named H31 free; the seam seat numbers the world-growth pass's H-rows once | V13 §8.5 is the one list; this volume names the row by its content wherever the number might move | **closed** — H35 confirmed free and appended to V13 §8.5 by file r item 1015 (seam-world-growth-r0 SW-12) |
+| F15-2 | `RQ-V15-n` is this volume's own prefix for requests to the siblings (V14 used plain numbered lists in its §10.2 and V13 `R-V14-n` for requests the other way); the seam seat may fold them into V13 §10.2's and V09's forms under their own ids | one request list per supplier is the program's rule; this volume's ids are stable handles until folded | **closed** — V13 §10.3's R-V15-1 – R-V15-4 (file r item 1017) state what V13 asks back; the RQ ids stay this volume's handles (seam-world-growth-r0 SW-13) |
+| F15-3 | amendments r's `renderAt(world, week, audience)` → `RenderedWorld` carries the tile sets at the four stops over the layers the audience may see and the known sets as coarse cells; this volume asks two additions — the placed label boxes per stop (a seam needs them whole, V15 §3.3 (5)) and an `atlas` layer set without lens or diagnostic layers (V15 §3.2 (3)) — and reads `week` below the present for the common-week display (r's "at a week") | the additions are small and inside the seam's spirit (spine §14 (2)); r's text is the single source | RQ-V15-2 names both; **closed** — V13 defines both (file r items 1007 and 1011; the set J394's — the member's default picture, the cover overlay included; seam-world-growth-r0 SW-03, C15-04) |
+| F15-4 | `Recipe.rung` for an atlas reads `'atlas'` (BCR-V15-1) — a rung that is not a size; the base's `Rung` type is widened as V07 widened it, which the coherence pass may prefer to express as a product-specific exemption | the base requires a rung per recipe for replay; one value keeps the replay rule | BCR-V15-1's text offers both forms; **ruled** by the seam seat (seam-world-growth-r0 SW-14): `'atlas'` is the one rung the `atlas` product registers, which the base's own `Recipe.rung` comment admits; the coherence pass may write it as the product-specific exemption, the replay rule unchanged |
+| F15-5 | amendments r's `Requirement.kind` is a closed union (`relation`, `latBox`, `climateRow` among its kinds) and `solve`'s `'arrange'` goal runs over `{ members: Placement[] }` — this volume maps its atlas-scale kinds onto r's (V15 §2.3's words as a `relation` target's `word`; the compatibility checks as `latBox` and `climateRow` at rank 4) and leaves the evaluators' home open: registered by `@plat/atlas` through one path of `@plat/world/solve`, or housed in V13 as rows of V15 §2.3's table | one engine, one registration path, is the spine's rule (§4, §14 (5)); the evaluators are small and may live in either package | **closed** — registered by `@plat/atlas` through V13's `solve.registerEvaluator` (file r item 1007; J-V13.132; seam-world-growth-r0 SW-05); V15 §2.3's table stays the single statement of what each kind asks |
+| F15-6 | the derived-from-parent path (V15 §3.5 (a)) asks V13 for a world-rung charter that carries the parent's rasters as the child's coarse ground and the parent's frames as planned sites — a mechanism V13 must design (RQ-V15-3 (b)); until it exists the path is greyed with its reason | the spine names the path and its principle (§10.6, §3); the design is V13's one rung up | **closed** — V13 defines the world subject of `requestCharter` and the `WorldCharter` (file r items 1007, 1009, 1010; J-V13.131; seam-world-growth-r0 SW-06); V15 §8's risk 3 and its fallback stand until M-W6 lands it |
+
+## Integration notes (for the seam seat and the world-growth coherence pass)
+
+* **What this volume reads from V13, by name** (V15 §1b.6): `WorldHeader`, `WorldSizeRung` and the size rows,
+  `WorldPointCm` and the datum, the world's week and date label, `edgeCharter` and `WorldEdgeCharter` (amendments r),
+  `renderAt` (amendments r items 942, 1007, 1011; RQ-V15-2), the rung-general `placeFrame` / `requestCharter` / transient `charterFor` (amendments r items 975, 1009, 1010;
+  RQ-V15-3), `viewFacts` over the lens plates (amendments r items 1007, 1012; RQ-V15-4), `solve` (amendments r item 942 with 1007's evaluator registration; RQ-V15-5), `derivedTime`,
+  `worldFactsAt`, the conflict list and the fork preview, V13 §5.2's page pattern, V13 §5.4's export rows (refused on
+  an atlas). Nothing of V13 is restated; every spine §14 seam is one RQ row.
+* **The spine's shared rules** are obeyed: the ladder's one rule at the atlas ⇄ world seam (the more detailed wins on
+  its footprint; a rung reads the rung above only at its own generation through a boundary record — the edge charter —
+  and nothing dated crosses); the three lifetimes untouched (the atlas holds none); one requirement engine (the
+  arrangement's kinds registered with it); the precedence ladder and the approval rule (the fit's and the
+  continuation's conflicts are V13's lists on the member's page); the vocabulary (atlas, member, seam, continuation,
+  fit, viewpoint, plate); the ids minted only from this volume's own ranges.
+* **M0:** nothing here touches `plat/packages/kernel`; the `atlas` concern and the stage ids `A1`–`A7` are registry rows
+  appended after M0 under K6 (BCR-V15-12), listed in the BCR ledger.
+* **The coherence pass** applies BCR-V15-1 – BCR-V15-15 after amendments r's items 926–1032, numbered from 1033, adds the three milestones
+  to §16 and INDEX.md's tables with the row texts of V15 §10.4, folds RQ-V15-1 – RQ-V15-11 into V13 §10.2's, V09's,
+  V10's, V11's, V12's and V14's fix lists, appends H35 (or its renumbered id) to V13 §8.5's list, and reads the
+  review record of V15 §14 (the two critiques' findings against this volume, and what changed) beside V15 §13's list.
+
+## 14 Review record (the reviser seat volumes/revise-world-growth, 2026-10-23; J393, J394)
+
+PROGRESS: the two reviews read whole; every finding against this volume verified at its source and ruled below; the
+edits made in place (§0, §1.2, §1.3, §1b.2, §1b.5, §1b.6, §2.2, §2.3, §2.4, §2.11, §3.1, §3.2, §3.4, §3.5, §3.6, §3.11,
+§4.7, §5.2, §6, §7, §8, §9, §10, §11, §12, §13, the integration notes, the revision note); the findings against
+amendments r are recorded in that file's own review record. The map-architecture review's ids are `C15-nn`; the
+science-and-host review's are its numbered findings, written `S-nn`.
+
+| id | severity | verdict | what changed, or why not |
+|---|---|---|---|
+| C15-02 | blocker | accepted | file r item 1007's `ViewFacts` widened (every seat's `at`, every sway's `poleCm`, `areaKm2` and `border`, the `cultures` table, the events' `at`); here §1b.5 gains the row, §1b.6 and RQ-V15-4 name the widening, §3.6 (1) (b), (2), (5) and (8) read the fields by name |
+| C15-03 | major | accepted | (a) the template pre-fill dropped (a recipe's template is a record); the poles and the calendar asked of r as `WorldEdgeCharter.world` (item 953), read in §3.4 (4) and `ContinuationRequest.prefill`; (b) the bathymetry asked of r as `ViewFacts.water.bathymetry`, one coarse grid per member on request (item 1007), read in §3.6 (5) — not `worldFactsAt` per cell; (c) the base's reader of §11.2 added to R-V15-4 (item 1017) for the header and the digests, named in §1b.6 and `Member.header`; (d) the culture label from `ViewFacts.polity.cultures[]`, §3.6 (8) |
+| C15-04 | major | accepted as J394 rules | the `atlas` layer set is the member's default picture — relief with the cover's used and disturbed classes over it, water, routes, settlements, labels, the sway's fills and borders, the occupation, debatable and fighting overlays, the event pins; lenses, diagnostics and DM-only marks for a player excluded (file r items 979, 1007, 1011, 1014, 1016; here §1.2, §1b.6, §3.2 (3), §4.7 (4), §5.2's legend line, RQ-V15-2, J-V15.35, §13's F15-3) |
+| C15-05 | major | accepted | the state `{ members: ArrangeMember[] }`, `opts` optional, no `scope` on an atlas requirement, a lock a rank-2 `lockRegion` row, `maxIterations` in the call (file r item 1007 (c); here §1b.6, §2.3, §3.1 (2), RQ-V15-5) |
+| C15-07 | major | accepted | `'range'` is the one word: `ContinuationRequest.contradictions[].proposal` and `ContradictionRow.proposal` take V13's `landform` feature words; §3.4 (5) names the chip's label "a mountain belt" and sets `bearingCdeg` across the wind; §2.4's shipped cells follow |
+| C15-08 | major | accepted | the level–stop table recomputed from the formula (every cell its value); "native" defined as the level where stop 1 is one to one, stop 0 two levels coarser; `maxLevel` 11 is 8 m per pixel (the comment and J-V15.6 corrected); `ATLAS-2`'s law 1.0625 × stop 1's pixels (and §12); `ATLAS-6`'s pinned stop 2 at 16 × stop 1 (and §2.11) |
+| C15-10 | minor | accepted | §3.5 (c) and §3.11 (3) cite V13 §2.2's `ConflictChoice` and list nothing (the counts are file r's to state once: its items 935, 939, 984, 985, 987 now say seven, five offered everywhere) |
+| C15-19 | minor | accepted | "the host's boundary" in §10.4's Q2 row and §11 (twice); file r item 1024 (b) likewise |
+| C15-20 | minor | accepted as J393 (5) rules | §1.3's last paragraph: F1–F9 are seat A's; F16 is the manager's rule, quoted in file r item 1029 and assigned to no seat |
+| C15-21 | minor | accepted | the records' item is 953 in the revision note's reading (§12), §1b.6 and RQ-V15-1 (item 954 is the rule tables) |
+| C15-22 | minor | accepted | the restatement deleted in §1b.6 and RQ-V15-3; both cite item 942's rule (the parent's cell ratio) |
+| C15-23 | minor | accepted | `ContradictionRow.threshold`: "classes (V13 §3.11's `biome` term's adjacency)", "a bedrock class" |
+| C15-24 | minor | accepted | the proxy sentence of §3.1 (4) deleted ("both checks read `edgeCharter`, which M-W6 lands before any atlas exists"); §8's risks (3) and (4) rewritten as the M-W6-order risks they are, their fallbacks kept where they still mean something; J-V15.36's proxy clause deleted; §1b.6's "until it lands" cell for `solve` emptied |
+| C15-25 | minor | accepted | §4.7 (4) lists the set's layers that keep a history (the dated surfaces, the routes in force, the sway's revisions, the events, the cover plate); T-V15-3 and T-V15-25 name the `atlas` layer set and T-V13-68 (g) |
+| C15-26 | minor | accepted | `MemberImagery.audience` admits `'public'` |
+| C15-27 | minor | accepted | §3.4 (3) cites V13 §2.2's `WorldEdgeCharter`, every field, and restates none; §1b.6's first row likewise |
+| C15-28 | minor | accepted | `renderAt(world, week, audience, { layers })` asked of r (item 1006; the `settlements` and `labels` rows alone) and read in §3.5 (a) |
+| S-1 | major | accepted in part, as J393 (1) rules | the test is "a present physical fact, never a record" (the neighbour's present ground at the moment of reading, however it came to be; never a dated record nor any later change), stated once in V13 §2.2 and cited here: §0, §1.2, §1b.6, §3.4 (3), §3.11 (4), (6), T-V15-2, J-V15.13, J-V15.25, J-V15.29, RQ-V15-1; the review's "timeless state with the traces' former values" is rejected (a `happened` edit made before the continuation is the ground, J393), and no J-V15 row is added (the ruling is the manager's, recorded in file r's choice (q)) |
+| S-17 | major | accepted in part, as J393 (5) rules | F10, F11, F13 and F15 quoted whole in §1.3 from J392 (the orientation clause of F10 restored; typos kept); F16 is file r item 1029, the manager's rule, not seat A's (§1.3's last paragraph) — the review's items 1029–1035 for F10–F16 in file r are not taken |
+| S-29 | minor | accepted | §3.6 (1) (b)'s numerics state ∂φ/∂n = 0 on the padded border and ρ̄ the mean over the whole padded grid; `ATLAS-7`'s law reads 12 reads per step (four velocity evaluations of three), its estimate 0.6–0.9 s inside the same ≤ 1.5 s, re-checked by SA3 |
+| S-32 (open issue 1) | minor | accepted as J394 rules | the land-cover layer's overlay is in the picture (above, C15-04); the one legend line "derived land cover" is the atlas page's (§5.2) |
+| S-33 (open issues 4, 6) | minor | accepted | `WorldCharter.ground.biome` dropped in file r item 1007; the proxy sentence and the vacuous guards deleted here (C15-24) |
+
+The map-architecture review's C15-01 (the `world` placement kind), C15-06 (the parent charter and a scenario), C15-09,
+C15-11 – C15-18 and the science-and-host review's findings 2–16, 18–28, 30, 31 and 34 are findings against amendments r
+and are ruled in its review record; where this volume reads what they changed (`Placement`'s world subject, item 1030;
+the `range` feature; `WorldEdgeCharter.world`; the derived child's `scenario` `'none'`), the sections above cite the item.
+The seam seat's open issues 2, 3, 5 and 8 stand as both reviews judged them (no change). **Counts against this volume:**
+22 findings — 20 accepted, 2 accepted in part (S-1, S-17: their findings real, their fixes replaced by the manager's
+rulings), 0 rejected.

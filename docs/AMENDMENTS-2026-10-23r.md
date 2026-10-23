@@ -15,13 +15,7 @@ items 1029–1032 added, earlier items' new texts edited where a finding was acc
 
 Numbered from **926** (file q ended at 925).
 
-**PENDING APPLICATION** — no item below is applied; the application seat applies every fragment in order to its
-target, as files l–q were applied, and records the application in `docs/validation/coherence/world-growth-r.md`. A
-dry run of every fragment in order over copies of the targets passed on 2026-10-23 — 71 change items, 188 fragments,
-9 owner-rule items before them — by the seat's own script (`world-growth/dryrun-A/dryrun.py` in the seat's scratchpad,
-outside the repository; its two modes: `verify`, every quote matched exactly once in the target as it now stands, and
-`apply`, every fragment applied in order to a copy of each target, every quote matched exactly once at its turn and
-every new text exactly once after). The seam seat's items **1006–1028** (23 items, 47 fragments; `docs/volumes/critique/seam-world-growth-r0.md`) follow item 1005 under the heading *The seam seat's items* and passed the same dry run, extended with README.md as a target, on 2026-10-23 (their census in the tail). The reviser's items **1030–1032** (3 items, 6 fragments; `docs/volumes/critique/V15.md` C15-01, C15-13 under J394) follow item 1028 under the heading *The reviser's items*, and its edits to earlier items' new texts (the review record at the tail) passed the same dry run on 2026-10-23 — **97 change items, 241 fragments** in all, every quote of items 935–1005 and 1030–1032 matched exactly once in the targets as they stand, every fragment matched exactly once at its turn in `apply` mode and every new text exactly once after; the owner-rule items 926–934 and 1029 stand before them.
+**APPLIED** by amendments/world-growth-r-apply on 2026-10-23 (record: docs/validation/coherence/world-growth-r.md) — all 97 change items (935–1028, 1030–1032) applied, all 241 fragments matched exactly once at their turn; no item not applied (items 926–934 and 1029 are the owner's rules and carry no current or new text).
 
 ## PROGRESS ledger (this file was written incrementally; a dead seat resumes at the first unticked group)
 
