@@ -1,5 +1,12 @@
 # Spine — world growth: formation, living physics, ecology, the requirement solver, the generation surface, the dossier seam, sail routing, ruins by age, the atlas and the relational style (owner rules F1–F16)
 
+> **Revised 2026-10-23 by the manager** (recorded by the closing seat amendments/world-growth-s; the critic's G-15,
+> `docs/validation/coherence/world-growth-r-critic.md`): §14 (1)'s test is J393 (1)'s — "a present physical fact,
+> never a record" — not "identical at every week" (file r's head, choice (q)); §14 (2)'s readings are V13 §10.3
+> R-V15-4's (the six readings, and the base's reader for the header and the digests), not "nothing else"; §14 (3) rests
+> on `Placement`'s world subject (file r item 1030). The text below stands as written at 13:23; the applied V13 and V15
+> are the rulings in force.
+
 Written by the session's Fable manager seat (design/spine-world-growth) on 2026-10-23 under the owner's delegation and
 the J392 model ruling. This file is the ONE integrating statement the design seats build from: it decides the shape,
 the names, the precedence, the lifetimes and the seams, so that the two design seats (amendments r for V13, the base

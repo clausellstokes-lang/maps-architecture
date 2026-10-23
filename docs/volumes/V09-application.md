@@ -1759,13 +1759,13 @@ the entity registry (§2.8) on every build.
 | `deleteTrace`, the world `setAttr`s, `addEvent` (M-W1) | T9 `shape` | the inspector | — | V13 §4.1 |
 | `fork`, `commitFork`, `discardFork`, the world `regenerate` (M-W0h) | T10 `hold` | the fork controls | — | V13 §4.5 |
 | `adjust` of the world keys (M-W1), of `world.context` (the monsoon and ocean knobs) and `world.scenario` (M-W7) | T1 `intend`'s world dialog (V09 §4.22: the layered panel; a scenario or context change re-runs from its stage on the fork, its coarse preview first) | the dialog | — | V13 §4.1 |
-| `setRequirements` (M-W6) | T1 `intend`'s world dialog: the inclusion chips and the **Include my settlements** toggle (V09 §4.22 (e)) | a chip set, locked or cleared; the toggle | the clerk (an inclusion in words: "a desert the size of a province") | V13 §4.1, §3.1 (5) |
-| `decide` (M-W6) | the conflict list (V09 §4.22 (f)) | a choice on a row | a preset's pre-decision (map-side rows only, V09 §4.14) | V13 §4.1, §3.11.5 (1) |
-| `placeFrame` in its best form (M-W6) | T6 `place`'s **Best placement** (V09 §4.22 (g): the three offers, the correction's preview) | a click on the settlement's card; an offer chosen | the host's one-button placer through the port (V13 §8.5's H31) | V13 §4.1, §3.11.4 |
-| `paintLayer`, `disturb` (M-W8) | T2 `ground`'s layer brushes under the verb toggle — `alwaysSo` paints an override, `happened` records a disturbance (V09 §4.22 (h)) | a stroke on a layer | the conflict list's `paintAround` | V13 §4.1, §3.14.1 |
-| `physicsPass` (M-W8; the `weather` depth after) | T10 `hold`'s physics toolbar (the DM's toolbar beside the layers, V09 §4.22 (h)) — *re-run physics* (**Re-derive**, **Release**) and *let time pass* (**Weather**), the DM's three verbs with *reroll* (the row below; V13 §4.2 T10), each on the fork with its dry run and its band crossings | a scope, then a depth | — | V13 §4.1, §4.5 |
-| `requestDossierUpdate` (M-W6) | the conflict list's **Update the dossier** choice (`landChanged` / `alwaysSo`), pending until the host's `dossierUpdated` (V09 §4.22 (f)) | a choice | — | V13 §4.1, §3.11.6 |
-| the world `regenerate` on any stage over a box or a region (M-W7) | T10 `hold`; the world dialog's targeted rerolls (V09 §4.22 (d)) | a reroll button on an option, or a box or region drawn and a stage chosen | — | V13 §4.1 |
+| `setRequirements` (M-W6) | T1 `intend`'s world dialog: the inclusion chips and the **Include my settlements** toggle (V09 §4.22 (5)) | a chip set, locked or cleared; the toggle | the clerk (an inclusion in words: "a desert the size of a province") | V13 §4.1, §3.1 (5) |
+| `decide` (M-W6) | the conflict list (V09 §4.22 (6)) | a choice on a row | a preset's pre-decision (map-side rows only, V09 §4.14) | V13 §4.1, §3.11.5 (1) |
+| `placeFrame` in its best form (M-W6) | T6 `place`'s **Best placement** (V09 §4.22 (7): the three offers, the correction's preview) | a click on the settlement's card; an offer chosen | the host's one-button placer through the port (V13 §8.5's H31) | V13 §4.1, §3.11.4 |
+| `paintLayer`, `disturb` (M-W8) | T2 `ground`'s layer brushes under the verb toggle — `alwaysSo` paints an override, `happened` records a disturbance (V09 §4.22 (8)) | a stroke on a layer | the conflict list's `paintAround` | V13 §4.1, §3.14.1 |
+| `physicsPass` (M-W8; the `weather` depth after) | T10 `hold`'s physics toolbar (the DM's toolbar beside the layers, V09 §4.22 (8)) — *re-run physics* (**Re-derive**, **Release**) and *let time pass* (**Weather**), the DM's three verbs with *reroll* (the row below; V13 §4.2 T10), each on the fork with its dry run and its band crossings | a scope, then a depth | — | V13 §4.1, §4.5 |
+| `requestDossierUpdate` (M-W6) | the conflict list's **Update the dossier** choice (`landChanged` / `alwaysSo`), pending until the host's `dossierUpdated` (V09 §4.22 (6)) | a choice | — | V13 §4.1, §3.11.6 |
+| the world `regenerate` on any stage over a box or a region (M-W7) | T10 `hold`; the world dialog's targeted rerolls (V09 §4.22 (4)) | a reroll button on an option, or a box or region drawn and a stage chosen | — | V13 §4.1 |
 | the `verb` toggle (`happened` / `alwaysSo`; M-W0h) | T2 `ground`'s options strip | a toggle | — | V13 §4.1 (item 137) |
 | the water class overlay (M-W0h) | T9 `shape`'s inspector | a switch | — | V13 §5.1 |
 | `dropSite` (V14 §4.2; file k item 644, V14 §10.2's V09 row; M-SITE-A) | T6 `place`'s **Drop a site**: a one-click drop with the panel after (the dialog the long form; C14-45) | a click | the clerk | V14 §4.2 |
@@ -2649,7 +2649,7 @@ focus (§14); a text field's focus suspends them; a user's rebinding is an `AppP
   `world.presets`' rows (V13 §2.3): a preset pre-sets the dialog's options (each `random`, `set` or `locked`) and
   pre-decides map-side conflict choices only — fit always, keep flagged, move unlocked — never a dossier update, which
   stays the user's own act on the host's record (J-V13.122); **Save these settings as a preset** writes a row with
-  `by: 'user'` through `editPreset`, and the world dialog's gallery (V09 §4.22 (i)) shows each preset's thumbnail from
+  `by: 'user'` through `editPreset`, and the world dialog's gallery (V09 §4.22 (9)) shows each preset's thumbnail from
   its coarse run on the current seed.
 * **"Apply my current preferences"** (settings, §7.6) sends one `adjust` per changed parameter, grouped, with the fates
   sheet.

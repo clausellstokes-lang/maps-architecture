@@ -271,7 +271,7 @@ from the start; relief by rules at render time. Budgets per regime as the design
 | Coastline fractalisation as geometry | a view-time displacement of a canonical outline; kept as a renderer detail layer with position-keyed seeds, never as canonical geometry |
 | Authored rivers accepted unchecked | validated against heights at authoring time with a receipt |
 | Depopulating port-less islands as a siting rule | a 2017 expedient; islands get routes or stay sparse by the suitability score, not by fiat |
-| A heightmap template as the only way a world's ground arises | kept for authored control; joined (2026-10-23, F1) by the formation op's scenarios — tectonics and erosion run once and baked, never re-run (V13 §3.2.1); the one-click world draws a scenario, the authored path stays |
+| A heightmap template as the only way a world's ground arises | kept for authored control; joined (2026-10-23, F1) by the formation op's scenarios — a scenario is an option of the world dialog, `none` by default (the authored path, which the one-click world takes); when asked, tectonics and erosion run once and are baked, never re-run (V13 §3.2.1, §3.1 (1)) |
 
 ## 11 Phasing
 
