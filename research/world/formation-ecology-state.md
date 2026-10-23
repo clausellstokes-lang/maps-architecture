@@ -8,10 +8,10 @@
 |---|---|---|
 | 0 | how to read; the rows J384–J392 read whole | done |
 | A | V13 as it stands (pipeline, W0–W6, placement, the port, cascade, editing, lenses, rendering, budgets, records, milestones, host list, decisions, owner questions, BCR ids) | done |
-| B | the base: HistoryHint, S1/S2, II.7.6 buried town, DR rows, §4.11, §2.9, §7.1, §11.1, §11.3–§11.4, V04's buried kind | pending |
-| C | V09 (world dialog, placement tool, generate flow, presets, view keys, saves) and V14 (section ids) | pending |
-| D | the host at 81f1cd96 | pending |
-| E | gaps the owner's rules F1–F16 must fill | pending |
+| B | the base: HistoryHint, S1/S2, II.7.6 buried town, DR rows, §4.11, §2.9, §7.1, §11.1, §11.3–§11.4, V04's buried kind | done |
+| C | V09 (world dialog, placement tool, generate flow, presets, view keys, saves) and V14 (section ids) | done |
+| D | the host at 81f1cd96 | done |
+| E | gaps the owner's rules F1–F16 must fill | done |
 
 ## 0 How to read this file, and the rows it serves
 
@@ -45,8 +45,12 @@ them); where a quotation is long I quote the clause a designer would replace and
   individual saves"). The session's reading names "the full statement is docs/design/spine-world-growth-2026-10-23.md".
 
 **State of the in-flight work** [OBSERVED in the repository]:
-- `docs/design/spine-world-growth-2026-10-23.md` **does not exist** at this head (`find . -name "*spine*"` returns
-  nothing). J392's "full statement" is therefore not on disk; the design seats have only J392's row.
+- `docs/design/spine-world-growth-2026-10-23.md` did not exist when this survey began (head `5a627a9`); it was committed
+  **during** the survey (`8cb5422`, 455 lines, "the ONE integrating statement the design seats build from"). This file
+  surveys the texts the spine amends and does not restate the spine; where the spine names a landing (its §13 table,
+  `spine-world-growth-2026-10-23.md:388–400`: seat A for V13, the base and the volumes; seat B for **a new volume V15**,
+  the atlas and the relational style), Part E points to it. The WIP of this file was committed by the manager as
+  `691648a` at Part A's end; the final text supersedes it.
 - `docs/AMENDMENTS-2026-10-22r.md` (amendments r, F1–F4) **does not exist**; the last file is
   `docs/AMENDMENTS-2026-10-17q.md`. The git log reads `fb89309 handoff: formation and ecology run stopped on the owner's
   word; nothing written`. `workflows/44-formation-ecology.js` is present (its research targets
@@ -680,4 +684,649 @@ noise) · -30 (§4.2 S3 (4) roads at the gates) · -31 (§9.5 furniture) · -32 
 reroll mints entropy, recorded in its event", `:4188`)** · -36 (§4.2 S3/S4 two small world readings) · -37 (§16 the
 world's estimate) · -38 (§2.9 the plate cache) · -39 (V09 §4.19 the lens controls) · -40 (§7.7, §11.4 door 1 and the
 fifth door). Pending per J389: BCR-V13-30 – -36 and -39 (no admission item yet). **Next free: BCR-V13-41.**
+
+## B The base (`docs/ARCHITECTURE.md`, 24 461 lines) and V04's buried kind
+
+### B.1 The `HistoryHint` record, whole (`ARCHITECTURE.md:2464–2480`) [STATED]
+
+Header `:2464`: "`interface HistoryHint {   // Recipe.history (§2.9): the dossier's history up to and including the
+present at creation (§4.11 *The clock* (1)), written once by the port's creation (V08 §3.15); standalone, the
+blueprint's history option (§4.2 S0; V09 §4.21.3 (1), V10 §4.1's T1 row) writes `ageYears`, `scars: []` and `peak: {
+tier: <the picked rung>, symbolic: false, evidence: [] }` — a declared peak, as a recorded `peakTier` is; no population:
+DR36 sizes the peak by its tier — the item-113 lists absent`". Fields:
+- `:2465` "`ageYears: number /* the settlement's age at the present at creation (§4.11 *The clock* (1)) — never advanced
+  by §4.11's clock */;`"
+- `:2466` "`scars: { type: string /* fire, flood, siege, plague … data */; yearsAgo: number; severity: number /* 0–1 */ }[]
+  /* one per history event, by V08's `historyScars` row */;`"
+- `:2468` exact (the search key): "`founding?: { yearsAgo: number } /* history.founding.age, else history.age; absent
+  both: the midpoint of the tier's AGE_BY_TIER range by V08's `tiers` row, noted history_gap */;`"
+- `:2469–2470` `events?` (key, type, yearsAgo, severity "minor 0.3, major 0.6, catastrophic 0.9, else 0.5", name);
+  `:2471` `tiers?` (tierHistory); `:2472` `population?`; `:2473` `calamities?` (`{ yearsAgo; type; deaths; exodus;
+  severity: 'minor'|'moderate'|'major'|'catastrophic' }`); `:2474` `lifecycle?` (`{ died; resettled; yearsAgo? }`, DR38);
+  `:2475` `ancientFall?` (`{ name; yearsAgo }`); `:2476` `peak?` (`{ tier; population?; symbolic; evidence }`).
+- Readers, exact `:2477–2480`: "// readers: S2's growth-stage count (`ageYears`, `scars`; §4.2 S2), II.7.6's catacomb age
+  (`ageYears`) and, for a `fire` or `flood` scar, its buried old town (J-A88.42); // item 113's fields by §7.7's
+  DR36–DR39, §4.11's history-first generation (V06 §3.20's replay) and II.7.6's buried former settlement. … // an absent
+  list reads as []: a recipe written before item 113 holds neither the lists nor `peak`, so no replay runs; the
+  standalone form's declared peak // alone drives DR36 and the replay".
+- `HistoryRecord` `:2481–2485` (the replay's record; `buried?: Id[]` "the `buried` systems derived from the former
+  settlement's own geometry (II.7.6)").
+- `AGE_BY_TIER` is V08's (`V08-settlementforge.md:819–822`): "thorp 15–300 years, hamlet 30–120, village 30–250, town
+  50–300, city 100–500, metropolis 200–800) and its midpoint, the founding's age when a dossier carries none". The
+  scar map (`V08:1018–1022`): `disaster` → `fire`/`flood` by its name words, else `disaster`; `occupation_infiltration`
+  → `siege`; others no scar.
+
+### B.2 §4.2 S1 and S2 — how age and scars drive growth stages
+
+- **S1 Site** (`:5915–5924`): 5-octave fBm plus authored primitives; with a world charter, "the charter is S1's one input
+  record beside the seed and the tables" (`:5920`). Age plays no part in S1 [OBSERVED].
+- **S0 circumstances** (`:5873–5882`): `biome /* its climate row: aridity, the arid water chances, the water pull and the
+  sunlight cell …, and the season columns … read only by §8.2's season rows, §11's exports and §7.7's DR42, never by a
+  stage */`; `geology: 'auto'|'ordinary'|'soluble'|'volcanic'`; `history?: HistoryHint`. "Water in dry country (item 111
+  (a))" (`:5898`): an arid climate row changes S0's water chances. [INFERRED] the settlement side already keys several
+  generation rules off the biome's climate row — so an arid dossier town carries its aridity in its *frame* whatever the
+  world says.
+- **S2 stage count from age**, exact `:6130–6138`: "Each growth stage stands for `yearsPerStage` years of the town's age
+  (50, a stage-row column; our own, calibratable), the age II.7.6's catacomb rule reads. **A known history (item 88;
+  J-A88.42).** When `HistoryHint` is filled (the dossier port's `Recipe.history`, or the blueprint's `history`), the stage
+  count becomes K′ = min(K, max(1, ⌈`ageYears` ÷ `yearsPerStage`⌉)) — a young settlement is grown in fewer stages: stages 1
+  to K′ − 1 keep their rows, every later walled stage's share folds into stage K′ − 1 and the ribbon stage stays last (at
+  K′ = 1 the one stage takes every share) — and only the rules that name a scar's type read it: a `fire` or `flood` scar (a
+  `RaiseGrade.cause`) by II.7.6's buried old town, any other type by none, the creation week showing a finished town
+  (J-A67.47). Empty, K is the rung row's. With the evolution engine (M6-E) a history with a peak is generated history-first
+  instead (§4.11 *History-first generation*), and the stage count is the peak's."
+
+### B.3 II.7.6 — the buried old town, the buried former settlement, the ruin system (`:23018–23166`)
+
+- **Heading** `:23018`: "### II.7.6 Catacombs, caverns and quarries; depth bands and the connection graph (item 65)".
+  The systems (`:23020–23030`): `ruin`, `catacomb`, `cavern`, `quarry`, `vaults`, **`buried` ("a buried old town or former
+  settlement")**, `dug`; "one system per kind"; `UndergroundSystem.kind` union at `:2426`.
+- **Depth bands** `:23042–23047`: "catacombs 3–10 m, vaults 3–8 m …, quarries 10–30 m, caverns 5–60 m following the rock,
+  ruins 4–30 m by their age (V04 §3.5.0a), a buried town or former settlement at its old grade, dug passages 2.5–6 m".
+- **Ruins** `:23060–23077` (item 109 (b)–(i)): "An older, different civilisation's remains — distinct from `buried`, this
+  settlement's own earlier level. **Existence**, from what explains it, strongest first: the dossier's `ancient_ruins`
+  resource or a ruined-landmark record …; a `magical_node` …; a `magical` history event or an ancient founding ("The Fall
+  of …"); … without a dossier, a blueprint chance by rung and relief under the fantasy toggle (D-3 …); 0 in the parity
+  presets".
+- **Catacombs** `:23078–23097`: the age gate, exact `:23088–23091`: "its **age** reaches `minAgeYears` (100): a source's
+  age is its own — at generation `(K − k + 1) × yearsPerStage` for a source built in growth stage k of K (§4.4 …; with a
+  known history K and the stage years are §4.2 S2's history-scaled ones, so a stage-1 source is as old as the settlement's
+  `ageYears`)".
+- **A buried old town**, whole (`:23140–23162`) [STATED], the generation clause exact: "**At generation from a scar:** where
+  `HistoryHint` carries a `fire` or `flood` scar (the `RaiseGrade.cause` types §4.2 S2 routes here) of `severity` ≥ the
+  `buried` row's `scarSeverity` (0.5), the most severe such scar (ties: the oldest, by `yearsAgo`) makes one `buried`
+  system — its region the districts whose `growthStage` is 1 (its `sources`, §2.7), its galleries that region's way
+  centrelines, its chambers their buildings' ground storeys and its squares …, fresh records of the `buried` part …, its
+  floors at `scarBaseCm + scarGainCm × severity` (200 + 200 × severity) cm below the present grade — the town above
+  generated on the present grade as it stands, no `raiseGrade` event recorded and nothing cleared, the rule drawing
+  nothing (our own rows, calibratable, `extension`, off in the parity presets); with the hint empty, none." The
+  epoch/hand path (`:23140–23150`): `raiseGrade` raises the region by `raiseCm` ≥ 200 cm, clears the old grade's
+  records and mints `buried` elements.
+- **The buried former settlement**, exact `:23158–23162`: "**The buried former settlement (item 113 (c)):** under
+  history-first generation (§4.11) a destroyed or shrunken former settlement older than `history.burialYears` is buried
+  the same way from the replay's own former geometry — its streets, walls and major buildings at their old ground level —
+  as fresh `buried` records minted from the replay epoch that buried them; it is this settlement's past, distinct from a
+  ruin's older civilisation, and access to it follows item 109 (j) below."
+- **What age alone does today** [OBSERVED from the texts above, INFERRED as a summary]: (1) caps S2's stage count; (2)
+  ages the catacomb sources (a ≥ 100-year gate); (3) gates a ruin's `chance.history` when `ageYears ≥ ancientYears`
+  (V04 `:1373`) and sets the ruin's `burialCm = burialByAge(ageYears)` (V04 `:1393`); (4) nothing else. **Age alone never
+  makes a `buried` system**: the buried old town needs a `fire`/`flood` scar ≥ 0.5; the buried former settlement needs a
+  replay with a peak (history-first generation, M6-E) and a former fabric older than `burialYears`. A long-lived town with
+  no scar and no peak evidence has no buried strata at all — the gap F3's "settlement age … determines if and how large an
+  underlying ruins would be" fills.
+
+### B.4 §7.7's DR rows (`:12940–12981`)
+
+- DR1 `:12940` the site (relief, coast and side, river, lake, marsh) — "a later site change is reported, never
+  re-derived (V08 §3.5)"; DR29 `:12968` the site latitude from `site.culture` — "a later `site.culture` change is reported
+  (`frozen_fact_changed`, V08 §3.5), never re-derived"; **DR42** `:12981` the default view season, exact fragment: "the
+  climate: the `climates` row's terrain column for `site.terrain` (item 125 (b)), else the blueprint's choice; … the
+  biome's climate row is the climate's first source present, set at creation (§4.2 S0)". [INFERRED] **The dossier has no
+  climate or biome field of its own: a settlement's biome is derived from its terrain word** (`site.terrain` →
+  `climates` row) — so F7's "dossier arid biome" is today the host's terrain word (e.g. `desert`), read through DR42 and
+  S0's `circumstances.biome`.
+- **DR30** `:12969` exact: "| DR30 | the ruin system's existence, source, age and centre (item 109 (b)) |
+  `site.ruinEvidence`; `history.ageYears`; the `ancient_ruins` and `magical_node` deposit sites | V04 §3.5.0a (1)–(3) |
+  `sewer` (keyed by the source's lineage) | a dossier with `ancient_ruins` or a `ruined-landmark` record has a ruin system,
+  else a stated reason (T-V8-32) |".
+- **DR36** `:12975` the peak (effective peak, symbolic); **DR37** `:12976` the replay's epochs ("`history.ageYears` (the
+  founding); `history.events` …; `tierHistory`, `populationHistory`, `calamityHistory`"); **DR38** `:12977` destruction
+  and refounding; **DR39** `:12978` exact: "| DR39 | burial: when the former settlement's ruins lie underground (item 113
+  (c)) | the ruins' ages from the replay; floods, river silt and rebuilding on top; bare rock (`site.terrain`) | II.7.6's
+  buried former settlement, derived from the former geometry at its old ground level, past V11's burial threshold (a
+  century by default, shortened by floods, silt and rebuilding, lengthened on bare rock); distinct from DR30's older
+  civilisation | none | buried ruins only past the threshold, matching the former geometry |".
+
+### B.5 §4.11 History-first generation (the replay) (`:9171–9222`)
+
+Exact `:9171–9173`: "**History-first generation (item 113; with V06's replay engine, V08's history reading, V04's buried
+ruins and lost access, V07 at village rungs, V11's rows; built with M6-E).** A settlement with a known history is
+generated as its past and aged to the present." (1) the peak (`:9174–9186`; "With no evidence of a higher tier there is
+no peak, and the history's events are soft hints only — §4.2 S2's stage count, the catacomb age, the buried old town — as
+without replay"); (2) the replay (`:9187–9202`: generation at the peak, then coarse epochs of `history.epochYears` "the
+owner's default a decade", events mapped by V11's rows, "a great flood raises the grade, II.7.6"; "The replay's epochs
+enter the log as the creation prefix (flagged `creation`, never undo targets …)"); (3) the result carries its past
+(`:9203–9205`); (4) destruction and refounding (`:9206–9212`); **(5) surface or underground**, exact `:9213–9217`: "Ruins
+younger than `history.burialYears` (V11; default a century, shortened by floods, river silt and rebuilding on top,
+lengthened on bare rock — the table's factors) stand on the surface; older ones are buried and become II.7.6's **buried
+former settlement** …"; (6) sewers reopen; (7) edges and bars (`:9220–9222`: "With the replay off (`history.replay`
+false, the parity presets) generation is byte-identical to the base").
+**Conversions** `:8983–8990`: `ConversionOp` union including "the buried old town's `RaiseGrade`"; carried by §7.1's
+`convert` event.
+
+### B.6 §2.9's `Document`, `Recipe` and the view keys (`:3844–4200`)
+
+- `Document` `:3853–3884`: `docId`, `schemaVersion`, `outputVersion`, `base`, `log`, …, **`worldRef?: { world: Uuid;
+  placement: Id }`** (`:3861`, "absent on a standalone frame"), `namespace`, part counters, `packs`, `hostContent`,
+  `dossier?`, `style: StyleState`, `model?`, `view?`, `derived?`, **`lensPlates?`** (`:3881`), `undo?`, `elaborations?`.
+  **One `worldRef` per frame** [OBSERVED] — a frame belongs to one world (V13 §3.18 (7) `:2810–2811`: "Two worlds open
+  at once — a frame belongs to one (`worldRef`); placing it in a second refuses (`refuse.place.worldRef`)"). [INFERRED]
+  F11's atlas holding a world by reference does not touch `worldRef` (a world in an atlas is not a frame in a world), but
+  F7's "the same settlement in several world maps" would collide with it.
+- `Recipe` `:3891–3903`: `seed`, `rung`, `tablePins`, **`product?: 'town'|'hood'|'world'|'site'`** (`:3894`; no `atlas`),
+  `world?: WorldRecipe`, `charter?: FrameCharter` (`:3895`), `packs`, `params: ParamDelta` ("the full effective delta over
+  the pinned shipped defaults — pack, preset, user-global and document overrides folded in at creation (§7.6)"),
+  **`presetId?: string` ("provenance only: the delta already holds the preset's values")**, `intent`, `districtIntent`,
+  `history?: HistoryHint`, `circumstances?`, `entryMode`, `salts`. [INFERRED] F5's "random all / basic / advanced" would
+  resolve into `params`/`WorldRecipe` with the tier as provenance, as `presetId` is for a town.
+- View keys, exact `:4200`: "**The world's and the site's keys** (file k item 608): per viewer `worldZoom` (0–3, default
+  1), `worldLayer` (default `relief`), `showTraces` (default false), `surfaceDate` (…), `worldLens` (…) and `lensWeek`
+  (…), the world document's `week` set by the season control or `view.set { week }` (V13 §2.1); per viewer `projection`
+  (V14 §2.6; default `{ family: 'flat' }` …) and `siteOpen`; **shared** `encounter` … and `party` …". `stylePreset`
+  (`:4165`) "a per-viewer preset that never writes `setStyle`". [OBSERVED] No key for a map style family (F10's relational
+  presentation), an atlas arrangement, or an atlas zoom.
+
+### B.7 §7.1 editing and `convert`; §11.1 exports; §11.3–§11.4 the doors; §12 comfort; §12.8 memory
+
+- `convert` (`:11151`): "`{ t: 'convert'; op: ConversionOp /* §4.11, V06's EvolveOp and V05's island ops among them */ }`".
+- **§11.1 formats** (`:16845–`): native `.plat`, JSON schema, the picture exports; V13 §5.4 adds the world's four.
+- **§11.4 the host doors** (`:17664–17728`): (1) blueprint fields; (2) edit events (`author: 'host'`, the module "never
+  writes to the dossier (§11.3's *One way*)", `:17669–17670`); (3) tables, presets and styles; (4) a `ContentProvider`
+  with the double-run check; (5) "**For a world document only, the world port**" (`:17680–17685`). **J86's door 1**,
+  exact `:17714–17722`: "**No door opens the other way (owner, J86 Q2; J-A73.81):** the host's simulator never reads the
+  map's geometry — the module writes no geometry, layout or district read for the host (J86's door 1 stays closed); …
+  it opens only on the owner's explicit word. The world port's canon (door 5) carries no frame or arena geometry … the
+  session reads it as outside J86's door 1, and the owner confirms (V13 §11 Q4) before the host lights its builder over
+  the canon." [INFERRED] F8's "changes the dossier fact … after user approval" is a write toward the host's dossier: the
+  base's "the module never writes to the dossier" (`:17670`) and item 20's one-way rule stand against the map writing
+  it; the approval must be a request the host executes (a host-side dossier edit), never a map write.
+- **§11.5 sharing** `:17730–17738`: "the product contains no hosted service. For multi-client use a host … is the store
+  (§11.3) and owns accounts and access …; SettlementForge's accounts, plans, save limits and backups follow its own
+  decisions"; `DocResolver { resolve; publish?(bytes, access: 'private'|'link'|'public') }`. [INFERRED] F15's world saves
+  live in the host's store, not the module.
+- **§12 the comfort level** `:17756–17758`: "What a user sits through once — generating, regenerating, opening a map from
+  SettlementForge, a dossier change, advancing time, an export, a migration — has a **comfort level** of ten seconds in
+  all, from the click to the finished result; past it a wait fails." [INFERRED] the formation step's budget ceiling.
+- **§12.8 memory** `:18259–18264`: "Model working set … TOWN ≤ 40 MB, CITY ≤ 110 MB, METROPOLIS ≤ 260 MB. **World
+  document, all threads, excluding canvases:** ≤ 300 MB on the high tier (the `continent` rung refused below it, V13 §6:
+  ≈ 285 MB resident during W4 …)" — BCR-V13-14's line is applied.
+- **V09's world page / generate dialog in the base:** the base never names a "world dialog" or "world page" [OBSERVED:
+  `grep -n "world dialog\|world page\|generate dialog"` returns nothing]; the world's view keys (`:4200`) and §11.4's
+  door (5) are the base's whole world UI surface. The generate dialog is V09's (Part C).
+
+### B.8 V04 — where the `buried` kind and the ruin systems live (`docs/volumes/V04-underground.md`)
+
+- §3.5 U-SYS — the void systems `:1276`; **3.5.0** existence, order and what every system shares `:1278` ("In the order
+  ruin, catacomb, cavern, quarry, vaults, buried —"); **3.5.0a Ruins** `:1366` (existence `:1368–1378`: (c) "a `magical`
+  history event, or `history.ageYears ≥ ancientYears` (an ancient founding): `chance.history`"; depth `:1392–1394`:
+  "`burialCm` = `burialByAge(ageYears)` interpolated and clamped to `depthM` (item 563); `ageYears` is the source's …
+  else drawn on [`ancientYears`, 3 000]"; survival `:1456`); **3.5.1 Catacombs** `:1486`; **3.5.2 Caverns** `:1594`;
+  **3.5.3 Quarries** `:1622`; **3.5.4 Vaults** `:1668`; **3.5.5 The buried town and the buried former settlement**
+  `:1745` — **(a) A buried old town (J-V4.20)** `:1747–1766` ("Floors at `scarBaseCm + scarGainCm × severity` below the
+  present grade", `:1750`); **(b) The buried former settlement (g item 113 (c) …; J-V4.122)** `:1767–` (the call
+  `BuriedFormer.lay(doc, epoch, former: Id[])` `:1769`; "A former settlement that stood below TOWN at its peak is not
+  laid (`lay` returns null)" `:1776–1777`; **its depth** exact `:1779–1783`: "`depthCm(r) = min(formerRiseMaxCm,
+  formerRiseCmPerCentury × years(r) ÷ 100 × f)` below `levelledGroundCm` … `f` the burial-speed factor `burialYears ÷ T`
+  … It is fixed when laid: later epochs never re-lay it."). The `buried` table cells `:626–633`: `formerStoreyMinM2` 120,
+  `formerWallCm` 150, `formerGateM2` 40, `formerMinGalleryM` 12, **`formerRiseCmPerCentury` 60** ("a Roman-to-medieval
+  town street rose on the order of 1–2 m per few centuries"), **`formerRiseMaxCm` 900**, `formerMinHeadroomCm` 190.
+  V04 wiring row `:418` ("the former settlement buried beneath"); J-V4.122 `:3429`. V06's `J-V6.130` (`V06:4546`): "chose
+  that only the history replay buries". V07's village burial `V07:2722`, `:2756`.
+- [INFERRED] F3's ruins-by-age has an existing depth law (`formerRiseCmPerCentury` × years ÷ 100, capped 900 cm) and
+  an existing builder (`BuriedFormer.lay` and the scar builder); what is missing is an *age-only* existence and extent
+  rule at generation, with no replay and no scar, and its composition with the two existing paths.
+
+## C V09 (the application) and V14 (sites)
+
+### C.1 V09 — what it holds for the world, the generate flow, presets, saves and sharing
+
+- **The world in V09 is binding rows only** [OBSERVED: every "world" hit in `V09-application.md` is in §4.3's table or
+  the catalogue]. §4.3 the tool binding table (`:1689–1772`), world rows `:1753–1763`, exact: "| `worldRecipe` (the
+  world; V13 §4.1; file k item 644, BCR-V13-25; M-W1) | T2 `ground`'s recipe editor | the world dialog's apply | the clerk
+  | V13 §4.1 |"; `setSurface`, `setField(terrain)` on the world, `rerouteReach`; "| `placeFrame`, `setPlacement`,
+  `mirrorFrame`, `worldWins`, `unplaceFrame` (M-W1) | T6 `place`'s Place-a-settlement mode (with *Charter here* for
+  `requestCharter`) | a drag of the frame; the mirror and the wins toggles | the clerk's `placeAt` on the world as
+  `nearestLawful` rendered (V13 §4.7) | V13 §4.1, §3.11 |"; `setSeats`; `deleteTrace`/`setAttr`/`addEvent`; "| `fork`,
+  `commitFork`, `discardFork`, the world `regenerate` (M-W0h) | T10 `hold` | …"; "| `adjust` of the world keys (M-W1) |
+  T1 `intend`'s world dialog | the dialog | — | V13 §4.1 |"; the verb toggle `:1762`; `dropSite` `:1764`; `adoptSite`
+  `:1769`. T-V9-12 checks them (`:1772`). Catalogue rows `:2121–2122` (`refuse.place.*`, `refuse.charter.dossier`,
+  `refuse.world.*`, the `W_PLACE_*` actions).
+- **The "world dialog" is named, never designed**: V13 §4.2's T1 row (`V13:2880`) lists its contents ("size rung or
+  extent, template, poles, winds, latitude box, matrix; the `adjust` keys"); V09 has no section, no layout, no
+  basic/advanced split, no presets for it [OBSERVED]. **The world page** is V13 §5.2's "another page (V09's document
+  router …)" (`V13:3036–3040`); V09 has no world page section.
+- **The generate flow for a town** — §3.2 the empty state and a new town (`:1045–1067`): "the app calls `generate({ seed
+  })` with a fresh seed … with the user's `generation` preferences folded in"; "three buttons — **Surprise me** (the dice;
+  `intent.surprise`, §7.7), **Choose a kind of place** (opens T1 `intend`'s cards …) and **Open a town…**"; the **Try
+  another** strip of six proxy thumbnails; "**The empty state lasts until the first declaration.**" T1 `intend`'s row in
+  §4.5 (`:1834`): "the **Kind of place** sheet: product chips (Town & city; Village when that product is registered, V07;
+  Neighbourhood, V01's `product: 'hood'`), site cards …, size chips (seven …), wealth slider, walls chip …, style card, the
+  **History** chip (item 113; V09 §4.21.3); Surprise me; V06's time card | site, size, wealth, walls, style | exact
+  population, seed, gates, castle, the features strip, planned ↔ organic, greenery, labels (the rest of §7.8's basic
+  panel); "Advanced…" opens the advanced panel". **No World product chip** [OBSERVED] — the Kind of place sheet offers
+  town, village, neighbourhood only.
+- **The layered control surface (the base's, which V09 draws)**: base §7.8 `:13205–13212`, exact head: "**The control
+  surface is a budget** (R15): the front door is one action; the basic panel holds ≤ 12 controls — seed (with the
+  "Surprise me" dice as its button), size rung, water setting and side, walls, castle, gates, **features** …, planned ↔
+  organic, wealth level, greenery, style preset, labels. … Everything else sits behind an advanced panel". V09's tool
+  parameter record has `basic: boolean /* shown at once; else behind "more" (R4) */` (`:507`); "the parameters marked
+  `basic`; "More" reveals the rest (R4)" (`:1648`). **So the town side already has three layers — one action (Surprise
+  me / Enter), a ≤ 12-control basic panel, an advanced panel — the shape F5's "random all, basic, advanced" names**
+  [INFERRED]; the world has none of it.
+- **The history option** §4.21.3 (`:3359–3370`): "**History**: "None" · "Once a {tier}" … with, behind More, an **Age**
+  stepper (years, default `history.defaultAgeYears` = 300 …)"; maps to `adjust('history', { peak, ageYears, scars: [] })`;
+  "With a dossier history (DR36–DR39) the chip reads `info.history.fromRecord` … and is locked". [INFERRED] the standalone
+  Age stepper is the control F3's ruins-by-age reads on a town without a dossier.
+- **§4.14 the advanced panel, the tables editor and the presets dialog** (`:2614–2644`); `editTable`, `editPreset` rows
+  `:1747`; the report's recipe line names the preset (`:332`).
+- **Saves, gallery, sharing**: §3.8 autosave, compaction and crash recovery (`:1276`); §2.11 machine preferences and the
+  local store (`:913`, `generation: { stylePreset?; packs?; rung?; labels? }` `:934`); §3.11 Share (`:1390–1396`: "The
+  standalone app configures no publishing resolver, so it never produces `&doc=` references"); §5.11 the share sheet
+  (`:4134–4142`: Link, Picture, Skeleton, and a host's "Publish a link"); §5.13 Open, recent and new (`:4179–4186`:
+  "**Open a town…** … a grid of the recent towns … **New town** opens the empty state"). [OBSERVED] **No gallery, no
+  world list, no atlas, no "my worlds"** — saves are local documents and the host is the store (base §11.5).
+- **§4.19** the base's view keys on screen (`:2917`; BCR-V13-39 adds the lens controls).
+
+### C.2 V14 — where sites sit under settlements and encounters read the polity (section ids only)
+
+§1.3 the owner's rules (`V14-sites.md:265`); §2.2 the card (`:517`; `holder?` "the host settlement whose power holds the
+site" `:560`); §3.1 the site pipeline (`:1198`); **§3.2 G1 admissibility — the context, the edge of town** (`:1271`);
+§3.3 G2 request resolution (`:1326`); **§3.4 G3 siting a free-standing site … a site as a destination** (`:1397`); §3.6
+G5 (`:1581`); §3.7 G6 water (`:1736`); §3.8 G7 condition and lifecycle (`:1757`); **§3.9 G8 attachment … adopt**
+(`:1839`); **§3.10 E1 resolve the address** (`:1951`; reads "the seat territory and the polity at the point and the
+encounter's week (`WorldFacts.polity` …)" `:1976–1977`); §3.12 E3 the crop (`:2027`); §3.13 E4 (`:2069`; a `world`
+context's polity gives `patrol` `:2093`); §4.2 edit events (`:2251`); §4.5 adoption by hand (`:2331`). [INFERRED] Under
+F14 ("every map is effectively its own microcosm"), a site and its encounter read only their own world's polity; nothing
+in V14 reads across a seam.
+
+## D The host (`settlement-engine` at `81f1cd96`, read-only)
+
+Paths are relative to `/home/user/clausellstokes-lang/settlement-engine`. Everything here is [OBSERVED] unless tagged.
+
+### D.1 The generate surface: from Quick/Advanced/Custom to one layered panel
+
+- `src/components/GenerateWizard.jsx:1–13` still carries the historic header: "Replaces the old GenerateView with three
+  modes: Quick — minimal config, one-click generation · Advanced — full config … · Custom — full workshop for manual
+  entry (premium)". The live text below it says otherwise: "the Create fork (Basic/Advanced ModeSelector + the linear
+  step wizard) collapses into ONE layered ConfigurationPanel" (`:18–20`); "Custom Generate was removed entirely"
+  (`:338`). Empty state (`:323–339`): anonymous visitors get only the instant-generation hero ("Anon users never see the
+  Basic/Advanced mode picker — they go from hero → dossier in one click", `:325–327`); `showModePicker = !wizardMode &&
+  !settlement && authTier !== 'anon'` (`:339`). The selected mode renders the one panel with
+  `mode={wizardMode === 'advanced' ? 'advanced' : 'basic'}` (`:435`).
+- `src/components/generate/LayeredConfigurationPanel.jsx:1–35` — the header names the tiers: "Character (Tier-1 card) —
+  the 17 archetypes … · Foundations (always-on) — size up to metropolis + the essentials. · Fine-tune (collapsible) —
+  sliders, culture, age, presets (inside the panel). · Deep constraints — Institutions / Services / Trade, each a
+  collapsible that ABSORBS the old per-step wizard panels." It states "The controls and their config→generator mapping
+  are UNCHANGED — this is a UI reshuffle of the same inputs, so a given config produces the byte-identical settlement".
+  **The anonymous lock**, exact `:23–33`: "⛔ THE PRE-GENERATION OPTIONS ARE LOCKED FOR AN ANONYMOUS VISITOR (the owner,
+  §934.34: "only hamlet, village, and town can be accessed without signing in and only with everything on random").
+  NOTHING IS HIDDEN — the owner's law. Every control is drawn exactly as an account sees it and DISABLED, with the reason
+  written above them through the estate's one refusal notice … ⚠ A DISABLED CONTROL IS A COURTESY, NEVER THE GATE.
+  `config` is persisted, so a stored or hand-edited config can still reach a forge; the RULE is enforced at the one point
+  every generation funnels through (store/settlementGenerateAction.js), which forces the random configuration."
+  Body: the `mode` prop doc (`:195–204`: "'basic' renders Character + Foundations only (the simulator rolls priorities,
+  resources, stress, institutions, services, and trade from working defaults). 'advanced' (default) additionally exposes
+  Fine-tune, the Deep-constraints sections, and Place in Region"); one `<fieldset disabled={!canCustomize}>` (`:246`);
+  `{advanced && <SeedField />}` (`:253`, the exact-seed input); `<CharacterPresetCard advanced={advancedOnDesktop} />`
+  (`:261`); "1 · Foundations" (`:270`) over `<ConfigurationPanel showFineTune={advancedOnDesktop} />` (`:278`); "2 ·
+  Institutions, services & trade" (`:284–292`, desktop advanced only); `PlaceInRegionCard` (premium).
+- **The controls and their random sentinels** (`src/components/ConfigurationPanel.jsx`): Size `settType` — "Random", the
+  tier ladder with `isTierAllowed` disabling rows "· sign in", "Custom…" (`:308–319`); Trade Route `tradeRouteAccess` —
+  `random_trade`, road, river, port, crossroads, isolated, mountain_pass (`:321–332`); **Terrain `terrainOverride`** —
+  "Auto (from route)", plains, forest, hills, riverside, coastal, mountain, "Desert / Arid" (`:346–356`); Culture
+  `random_culture` + the catalog (`:362–363`); content profile (`:373–`); **Age `settlementAgeMode`** — "Auto", "Newly
+  founded", "Custom years" with `settlementAgeYears` 0–5000 (`:434–449`); Regional Threat `random_threat` (`:454–455`);
+  Magic yes/no (`:464–`); `NearbyResourcesPanel` with `nearbyResourcesRandom` ("Random ON", `:96–170`); `StressPanel`
+  with `selectedStressesRandom` (`:69–90`). `DEFAULT_CONFIG` (`src/store/configSlice.js:13–43`): `settType: 'random'`,
+  `tradeRouteAccess: 'random_trade'`, `culture: 'random_culture'`, `settlementAgeMode: 'auto'`, `monsterThreat:
+  'random_threat'`, priorities 50, `nearbyResourcesRandom: true`, `selectedStressesRandom: true` — "DEFAULT_CONFIG already
+  IS that shape" (everything on random; `settlementGenerateAction.js:241–245`).
+- **The enforcement point** `src/store/settlementGenerateAction.js:228–311`, exact head: "⛔ AN ANONYMOUS GENERATION IS
+  EVERYTHING ON RANDOM (the owner, §934.34 …). The SIZE is theirs; every other dial rolls. ⭐ THE FORCING IS HERE, NOT IN
+  THE WIZARD, AND THAT IS THE WHOLE POINT." `const canCustomize = isSampleFork || (… state.canCustomizePreGeneration() ===
+  true : false)` (`:263–265`, fail-closed); `const baseConfig = canCustomize ? storedConfig : { ...DEFAULT_CONFIG,
+  settType: storedConfig?.settType ?? DEFAULT_CONFIG.settType }` (`:287–289`); the four constraint bags emptied for an
+  anonymous forge (`:311–314`); **a phantom's promotion forges its three traits**, exact `:291–304`: "The three rolled
+  traits ARE the generation's three world dials — the tier, the culture, the terrain" → `settType: phantom.traits.size,
+  culture: phantom.traits.culture, terrainOverride: phantom.traits.terrain`. [INFERRED] The host already treats (tier,
+  culture, terrain) as a settlement's world-facing dials — the natural input set of F7's requirement solver.
+- **The config/_config split and the resolver** `src/generators/steps/resolveConfig.js`: provides `tier`, `population`,
+  `tradeRoute`, `terrainType`, `resolvedTerrain`, `culture`, … `effectiveConfig` (`:53–58`); random priorities only under
+  `_randomizePriorities` ("The rolls are NEVER written back into the stored UI config: persisting resolved randoms is
+  exactly the bug that pinned 'random' enum settings to their first roll", `:62–68`); `settType === 'random' ?
+  rng.pick(TIER_ORDER)` (`:93`); **terrain**: "Random terrain … `randomTerrain = !config.terrainOverride ||
+  config.terrainOverride === 'auto'; doRandomTerrain = randomTerrain && config.tradeRouteAccess === 'random_trade'`"
+  (`:109–118`, a weighted pick over `TERRAIN_WEIGHTS`); with an explicit route and terrain on auto, terrain is derived
+  from the route (`:252–264`); `terrainType = getTerrainType(tradeRoute, resolvedTerrain || config.terrainOverride ||
+  null)` (`:183`); `TERRAIN_ROUTE_POOLS` (`:39–46`). Terrain weights (`src/data/worldFactOptions.js:39–42`):
+  plains 22, hills 18, forest 13, riverside 16, coastal 16, mountain 9, desert 6 — "ORDER IS A GENERATION INPUT"
+  (`:21–24`). **`DERIVED_CONFIG_KEYS`** (`src/store/settlementLifecycleHelpers.js:62–68`): `'stressType', 'stressTypes',
+  'intendedStressTypes', '_magicTradeOnly', '_neighbourEconBias', '_neighbourEconMode', '_isolationInfraType',
+  '_population', 'tier', 'magicLevel', 'terrainType', 'neighborRelationship'` — stripped from a stored config so a
+  regenerate re-derives them; re-exported by `settlementSlice.js:143`.
+- **`AGE_BY_TIER`** (`src/data/historyData.js:1111–1118`): thorp {15, 300}, hamlet {30, 120}, village {30, 250}, town {50,
+  300}, city {100, 500}, metropolis {200, 800} (matches V08 `:821`). Read by `historyGenerator.js:38–52`:
+  `getSettlementAge` = `randInt(range.min, range.max)`; `resolveSettlementAge` — `'new'` → 0, `'custom'` → clamp(0,
+  5000), else the tier roll. (A second, unrelated table `AGE_BY_TIER = [8, 20, 45, 90, 170, 280, 380]` lives in
+  `src/domain/traditions/genesis.js:127` for traditions.) **Ancient ruins at generation** (`historyGenerator.js:872–897`):
+  opt-in `config.ancientRuinsEnabled === true`, `ANCIENT_RUIN_CHANCE = 0.15` (`:786`), "The Fall of {name}" at `age +
+  randInt(120, 400)` years ago, `ancientRuin: { name, yearsAgo }` — "Flavor + map feature only, no live state". The host
+  draws no buried strata by age [OBSERVED: no depth or extent field].
+
+### D.2 The Instant World composer (`src/lib/instantWorld/composeInstantWorld.js`, `src/domain/instantWorld/worldPlan.js`)
+
+- Header `composeInstantWorld.js:1–50`: "given a seed + the three basic knobs it returns a plain, fully-staged world
+  BUNDLE … seed → deriveWorldPlan (config from the knobs) → mint the tier-mixed settlements at the planned sites … → wrap
+  each as a CANON save … → place them on the map (mapState.placements at the planned sites) → compute the staged
+  connections … → assemble the campaign (tone preset applied to worldState.simulationRules)"; "places everything,
+  canonizes nothing"; "The FMG geography itself is iframe-bound and seed-deterministic; the bundle carries the map PLAN
+  and the geometry materializes downstream from that seed when the realm map opens"; "TIER-BLIND … The premium gate
+  wraps the button that CALLS this". Args `basicConfig: { realmSize?, tone?, mapKind?, magic? }` (`:201`) — **four**
+  knobs today (magic was added as "THE FOURTH KNOB", `worldPlan.js:113–116`). Steps include `placeMembers` (`:308`,
+  `:395–410`); the tone preset (`:414–435`); the map state "geography PLAN (seed + template), placements, no snapshot"
+  (`:441–456`); `instantWorldFingerprint` (`:518–`).
+- **The plan** `worldPlan.js`: `PLAN_LAW_VERSION = 2`, `PLAN_LAW_LEGACY = 1` (`:39–42`; "A share code is a world … Law 1
+  is frozen for life; every improvement lands as a new law"); `REALM_SIZES` small 5 / medium 9 / large 14 settlements
+  as tier pyramids (`:54–77`); `TONES` quiet_local / realistic_regional / dramatic_campaign (`:87–91`); **`MAP_KINDS`**
+  '' (Random island), highIsland, lowIsland, volcano, peninsula, pangea, atoll, sfArchipelago (`:100–109`, "the exact
+  curated island-shape set the manual World-Map toolbar exposes … FMG template"); `MAGIC_CHOICES` (`:127–138`);
+  **placement is a seeded scatter, terrain-blind**, exact `:144–147`: "Placement sites are scattered in a central box of
+  this space so the staged settlements sit on-screen over the generated geography; every site is freely draggable at
+  t=0, so exact coordinates are COSMETIC IN PLAY"; `MAP_W = 1000; MAP_H = 600` (`:157–160`); the scatter (`:261–281`:
+  slot 0 at the centre, the rest `posRng.randFloat` in the box; per-member seed `${outerSeed}::iw${slot}`).
+  [INFERRED] The host's instant world is the inverse of F7: it mints settlements first and drops them on a geography it
+  never reads, then the user may run autoplacement (D.4).
+- **Share codes** `src/lib/worldCode.js:1–50`: "A world in this engine IS its seed + a tiny config preset (the three
+  Instant World knobs …)"; format `w1.<base64url(payload)>.<fnv1a32-hex>`, payload `{ v, s: <seed>, c: { realmSize?,
+  tone?, mapKind? } }`; `WORLD_CODE_PAYLOAD_VERSION = 2`, legacy 1 "Frozen for life". The `/world/<code>` page
+  (`src/components/WorldPage.jsx:1–12`: "regenerates the BYTE-IDENTICAL world client-side (no server state)").
+
+### D.3 The world-map UI
+
+- `src/components/WorldMap.jsx` — **template** `handleTemplateChange` → `bridge.setTemplate(templateId)` (`:585–594`);
+  **the regenerate-the-world control** `handleRegenerate` (`:602–618`, exact: "'Regenerate the world? All unsaved
+  placements will be lost.'" and, under `mapAutosave`, "You'll lose {n} placement(s) … This cannot be undone.") and
+  `performRegenerate` → `bridge.resetMap(); resetMapState(); bumpGeometryVersion(); showToast('success', 'New world
+  generated')` (`:620–631`). Regeneration is whole-world and loses placements; there is no partial regenerate, no
+  preview and no keep-my-settlements path.
+- **The FMG iframe** `src/components/map/WorldMapStage.jsx:250–262` (`<iframe key={mapReloadKey} … src={mapFrameUrl}
+  title="Fantasy Map"`); `src/components/MapOverlay.jsx:1–18` ("React-owned SVG layer positioned over the FMG iframe …
+  mirrors FMG's d3 zoom transform"; renders relationship, chain, causality, war/faith, travellers, travel rings,
+  territory, timelapse, roads, labels, markers, forests, hit layers, `:21–40`).
+- **The territory render** `src/components/map/TerritoryLayer.jsx:1–30`: "the partition drawn is `digest.territory`
+  VERBATIM … IMPRESSIONISTIC BY DECLARATION … a SAMPLED DOT FIELD"; it needs the live pack's centroids and "a pack whose
+  cellCount disagrees with the digest's draws NOTHING".
+- **The iframe's command surface** (`src/domain/realm/autoplacement.js:19–24`): "placeSettlement, removePlacement,
+  clearAllPlacements, restorePlacements, getViewport, setViewport, fitMap, getSpatialPack, exportThumb, saveSnapshot,
+  loadSnapshot, resetMap, activateTool, deactivateTool, terrainUndo, terrainRedo, setTemplate, getTemplates,
+  requestBurgList, setEmbeddedMode, computeRoadNetwork, setFmgLayer): there is NO programmatic terrain write."
+- Toolbars: `src/components/map/TerrainToolbar.jsx`, `WorldMapToolbar.jsx`, `LayersPanel.jsx`, `SettlementPalette.jsx`
+  (drag a card onto the map; "Settlements are placed by dragging a card from the palette onto the map", `WorldMapStage
+  .jsx:247`).
+
+### D.4 Placement and autoplacement (J-D1)
+
+- `src/domain/realm/autoplacement.js:1–60`: "Directive 1: "one button places all settlements on the realm map balancing
+  sim dynamism and a connected visual web, matching terrain/resources; mismatches trigger an OPTIONAL 'bare minimum
+  adjustments' popup."" The three classes (`:14–31`): "(a) MOVE / PLACE — position only. Safe, default-selected … (b)
+  PAINT MAP TERRAIN — reshaping the realm under a settlement's feet. REPORTED UNAVAILABLE, with the reason, and never
+  fabricated … (c) RE-TERRAIN AS REGEN — offered ONLY on a mismatch, NEVER pre-selected, and always labelled as what it
+  is: changing generation input re-rolls the settlement under the same-seed law. This module only ever OFFERS it."
+  "DETERMINISM: NO RNG AT ALL" (`:33–40`); the dynamism band — a tier-scaled separation FLOOR and a REACH reward to the
+  3rd-nearest placed settlement (`:42–54`); `TIER_SEPARATION_BANDS` (`:70–72`); `AUTOPLACEMENT_TUNING` (`:75–`).
+- **The mismatch row**, exact `:536–553`: when `census[entry.terrain]` is 0, "`${entry.name} was built for ${ground}, and
+  this realm has none.`", `bestAvailable: proposal` ("takes the closest ground the realm has to {ground}"), and
+  `options.reterrain: { offered: true, preselected: false, label: 'Rebuild {name} for the ground it stands on', warning:
+  'This regenerates {name}. Its terrain is a generation input …' }`. [INFERRED] **This is today's whole answer to F7's
+  "arid settlement in a map with no arid biome"**: the map cannot change (paint unavailable), so either the town moves
+  to the closest ground or the town is rebuilt; nothing makes the map grow a desert.
+- The consent popup `src/components/map/AutoplacementConsent.jsx:1–40` ("PLACEMENT-FIRST, THEN CONSENT … nothing
+  whatsoever is written until Confirm"; "(c) … DELIBERATELY NOT WIRED IN THIS WAVE"; "MISMATCHES ARE OPT-IN, NOT
+  OPT-OUT"). The fit predicate `src/domain/realm/placementRaster.js`: `GENESIS_TERRAINS` = plains, hills, forest,
+  riverside, coastal, mountain, desert (`:55–57`); `HILL_HEIGHT = 40` (`:69`); `terrainFitsCell` (`:196–216`: desert ⇔
+  class `desert`; plains ⇔ grassland or tundra under 40; riverside ⇔ river or wetland; coastal ⇔ coast); it is "a
+  PRE-CANONIZE world-building act. After canonize the realm is frozen and the button refuses out loud" (`:20–23`). The
+  cell classes come from FMG's biome ids (`src/domain/spatial/spatialCost.js:241–254`: 1–2 desert, 3–4 grassland, 5–9
+  forest, 10 tundra, 11 glacier, 12 wetland; height > 60 mountain; < 20 water).
+- **`PlaceInRegionCard`** (`src/components/generate/PlaceInRegionCard.jsx:1–18`): a premium birth-time intent
+  (`config.targetCampaignId`, `config.primaryDeityRef`) — assignment to a campaign, not a map position.
+
+### D.5 Campaigns, saves, gallery, sharing — what a "save" is
+
+- **Settlement saves**: Supabase `public.settlements` (`supabase/migrations/001_initial_schema.sql:28–40`: `id, user_id,
+  name, tier, data jsonb /* full settlement JSON */, config jsonb /* generation config for replay */, toggles, seed,
+  neighbour_links, …`), + `campaign_state jsonb` (`013_settlements_campaign_state.sql:16–20`: "phase (draft / preplay /
+  canon), event timeline …"), + gallery columns `is_public, public_slug, published_at, view_count`
+  (`008_public_gallery.sql:38–42`).
+- **Map/campaign saves**: `public.saved_maps` (`002_developer_role_maps_config.sql:10–21`: `id, user_id, name, map_seed,
+  map_data jsonb, burg_settlement_map jsonb, supply_chain_config jsonb, …`), + gallery `is_public, public_slug,
+  published_at, view_count, share_kind ('map'|'map_with_campaign'), gallery_share_campaign, gallery_description,
+  gallery_tags` (`045_gallery_maps.sql:15–24`), + `gallery_image_url, gallery_share_world, gallery_world_sections, …`
+  (`088_share_gallery_maps_campaigns.sql:57–`; "a pre-sanitized STORED snapshot, never a live read of private
+  map_data", `:3–4`). [INFERRED] A user can already hold **many** `saved_maps` rows — F15's "multiple world maps" has a
+  storage shape today, as map+campaign rows.
+- **The campaign** (`src/store/campaignSlice.js:1–29`): "Campaigns are named folders that group settlements and
+  optionally store a map state. Settlements stay in the flat saves array; campaigns hold ordered ID references";
+  `campaign.mapState = { schemaVersion: 2, fmgSnapshot, seed, placements: { burgId: {settlementId, x, y, cellId,
+  placedAt} }, labels, markers, forests, layers, viewport, savedAt }`; "Persistence: localStorage cache (sf_campaigns) +
+  saved_maps cloud sync". **One map per campaign; a settlement in one campaign at a time**: `addToCampaign`
+  (`:731–775`) removes the settlement from every other active campaign before adding it ("re-homing a settlement",
+  `:746–756`). [INFERRED] F7's "they make a campaign and have settlements saved" reads a campaign's `settlementIds`; F15's
+  many world maps over the same settlements collides with the one-campaign membership rule unless a world map holds
+  settlements by reference outside campaign membership.
+- Other slices: `instantWorldSlice.js` ("TIER-BLIND by design: the premium gate wraps the interface entry (the Instant
+  World card)", `:8–9`), `mapSlice.js`, `neighbourSlice.js` (`importedNeighbour: null, // settlement JSON to feed into
+  next generation`, `:59`), `campaignWorldPulseSlice.js`, `campaignRegionalSlice.js`.
+
+### D.6 The canonize action
+
+`src/store/campaignWorldPulseSlice.js:350–400` (`canonizeCampaignWorldSpatial`), exact: "the ENTITLED spatial opt-in at
+the canonize seam … freezes an immutable spatial digest (territory / gates / neighbour tiers / distance matrix / route
+receipts) …"; "Re-canonize (a later placement/forced-road after opt-in) simply calls this again: it re-captures,
+re-derives, and BUMPS spatialCanonVersion. The digest is NEVER re-derived on load or per tick — only by this explicit
+action"; gates: `advance_in_flight`, `advance_paused`, `if (state.auth?.tier !== 'premium') return { ok: false, reason:
+'not_entitled' }` (`:391`), `not_generated_map` for a custom backdrop (`:394`). The body
+`src/store/campaignSpatialCanonize.js:1–60`: "Capture pack.cells ONCE, build the frozen digest in the pure module, and
+persist it … Re-canonize BUMPS spatialCanonVersion"; `SPATIAL_DIGEST_MAX_BYTES = 400_000` (`:36`). The digest records
+`terrainDisagreements` (`src/domain/spatial/spatialDigest.js:485–500`, `:872–889`): "every seeded settlement whose OWN
+declared terrain (`config.terrainType` …) contradicts the geography of the cell it sits on. It never rewrites
+terrainType … The receipt is the honest middle: the DM can see the two truths disagree and decide." The agreement table
+(`spatialCost.js:256–330`): plains↔grassland, forest↔forest, desert↔desert, mountain↔mountain; hills, riverside, coastal
+by other tests; "It NEVER rewrites terrainType".
+
+### D.7 The host's world-fact edit path and its guards
+
+- **The world-fact card** (`src/domain/edit/fieldDeclarations.js:159–165`): five pooled facts — `terrain` (outputKey
+  `config.terrainType`, inputKey `terrainOverride`, `tier1: { step: 'resolveConfig', key: 'terrainType' }`), `culture`,
+  `monsterThreat`, `stressors`, `resources` — "kind is always 'pool'; `tier1` names the Tier-1 (step, key) pair"
+  (`:18–19`). Card label `edit.shell.card.worldFact` (`src/components/edit/EditModeShell.jsx:292`).
+- **The two paths** (`src/store/editSlice.js`): a DRAFT's edit is a plain edit re-derived through the layer
+  (`regenerateWithLayer`, `:1101–1121`); a CANON save refuses plain edits (`canon_locked`, `:342`) and "a CANONIZED
+  settlement turns every edit into an EVENT applied at the next advance, and the registry is where that event waits"
+  (`:512–515`, the decree registry). **Guards and the DM's override**, exact `:1236–1240`: "⭐ PROCEED, AND KEEP BOTH:
+  the DM's word is RECORDED on the entry and the finding STANDS. EM-C2 reads `overrode` and marks the guard `overridden`
+  rather than suppressing it … so proceeding never loses the warning and never blocks the act." [INFERRED] This is the
+  host's existing warn-then-approve pattern F8 can reuse: a world-originated warning ("the map says forest here; your
+  dossier says desert") offered as a guard whose acceptance stages a world-fact edit on the host side.
+- **The labelled re-terrain J-D1 (c)**: offered on an autoplacement mismatch only, never pre-selected, **not wired**
+  (`AutoplacementConsent.jsx:23–29`; `autoplacement.js:544–551`). There is no "retcon" or "always so" vocabulary in the
+  host's edit model [OBSERVED: no match for `alwaysSo`/`always so` in `src/store` or `src/domain/edit`]; the host's
+  equivalents are draft-regenerate versus canon-decree.
+
+### D.8 The dossier fields "based off of my settlements" would read
+
+Per settlement (the generated record and its `_config`): **tier/size** (`tier`, `population`; `settType`); **terrainType**
+(seven words, `resolveConfig.js:183`; the host's only biome-like fact — there is **no climate, latitude or biome field**:
+`grep latitude` in `src/generators`/`src/domain` finds none); **tradeRouteAccess** (road, river, port, crossroads,
+isolated, mountain_pass); **culture** (eleven, `worldFactOptions.js:44–47`); **nearbyResources** and their states;
+**monsterThreat**; **magicExists/priorityMagic**; **history** (`age`, `founding`, `historicalEvents`, optional
+`ancientRuin`, `historyGenerator.js:899–905`); **neighborRelationship** (`assembleSettlement.js:131`, from
+`importedNeighbour`; `generatePower.js:58–62` "`{ neighborName, relationshipType }`"); per campaign the **regional
+graph** edges with `relationshipType` (`src/domain/region/graph.js:19–20`, `:204`; words seen: patron, vassal,
+allied/ally, trade_partner, hostile, `:673–703`), the canon phase (`campaign_state.phase`), and the map placements
+(`mapState.placements`). The host's calamity default by terrain (`src/domain/spatial/calamity.js:87–96`: riverside
+flood, coastal storm, mountain/hills quake, forest/plains fire, desert storm) is the only terrain-to-hazard law.
+
+### D.9 Calendar and seasons; sea travel
+
+`src/domain/worldPulse/worldState.js:40–57`: `MONTHS_PER_YEAR = 12`, `WEEKS_PER_YEAR = 52`, `WEEKS_PER_SEASON = 13`, the
+4-4-5 month grid `MONTH_END_WEEKS`, "The year opens in SPRING", `SEASONS = ['spring', 'summer', 'autumn', 'winter']`;
+`calendarFromWeeks` (`:718–731`) and `seasonForTick` (`:742–751`). The host has **no hemisphere and no latitude** — one
+season for the whole realm. Sea: `MODE_SPEED_TUNING` (`src/domain/spatial/modeSpeeds.js:50–63`: foot 150, cart 110,
+river 280, coastal 450, sea 900 km/week); the storm-season sea multiplier (`seaLanes.js:112–119`: "spring: 1.3, summer:
+1.0, autumn: 1.5, winter: 2.5"; "never SEVERS it"); lanes are codepoint-sorted pairs (`seaLanes.js:237`) — symmetric.
+
+### D.10 Does the host name a multi-world or atlas concept?
+
+No [OBSERVED]. "atlas" appears only as an internal work-queue label ("Wave R-2 (atlas queue #19 / gap 13)",
+`src/components/map/WizardNewsPanel.jsx:15`; "atlas A20", `src/components/SettlementDetail.jsx:37`). No module joins two
+maps, arranges maps, or stitches seams; each campaign has one `mapState` and one FMG seed; a share code names one world.
+The closest concept is the gallery's list of `saved_maps` rows.
+
+## E Gaps the owner's rules F1–F16 must fill
+
+One numbered line per rule: what exists (with its address above), what is missing, where the amendment would land. Every
+"missing" is [OBSERVED] as an absence in the texts and code read; every "lands" is [INFERRED].
+
+1. **F1 (tectonic formation, then deleted).** *Exists:* the recipe op list as the one input (V13 `:1412–1415`, J-V13.6
+   `:3763`); the `geology` op's four classes (`:1443`, `:639`); W4's capped reach carve (`:1534–1539`); the reserved
+   `erode` op refused at W0 (`:1444`, `:640`); J-V13.41/.42 (`:3813–3814`) and owner item 138 (d)
+   (`AMENDMENTS-2026-10-16j.md:187–190`) rejecting tectonics and erosion, with the hinge "a tectonic pass may later be
+   one recipe operation" (V13 `:381–385`). *Missing:* a formation op or payload (plates, uplift, fluvial/thermal/glacial
+   erosion, sea-level legacy, soils) baked into `Recipe.world.recipe` and never re-run on load; a bedrock and a soil
+   raster; named landform entities; a stream id and a work law (§3.17 `:2774–2799`); a budget row inside base §12's ten-
+   second comfort (`ARCHITECTURE.md:17756–17758`) and the 15 MB memory headroom (V13 `:3459`); the `refuse.world.op` /
+   `refuse.world.recipeOp` naming fixed. *Lands:* V13 §1.3–§1.4, §2.2 `WorldRecipe`/`RecipeOp`/`WorldRaster`, §2.3 a
+   formation table, §3.1–§3.2, §3.17, §6 (`WORLD-16`), §8 (SP-W9), §9 (J-V13.107+ superseding .41/.42), BCR-V13-8's
+   registry row by BCR-V13-41+.
+2. **F2 (biomes simulated, simulation deleted, but dynamism).** *Exists:* W3's annual climate with one sinusoid of
+   temperature and one wind per band (`:1486–1499`); W5's 5 × 5 matrix with four overrides, a pure function of W3 and W4
+   (`:1587–1595`, `:1043–1052`); the cascade without W3 (`:2633–2645`). *Missing:* monthly climate, seasonal wind shift,
+   monsoon, ocean currents; a soil input to W5; potential vegetation versus land cover (`landUse` is the biome's, `:929`);
+   a campaign-time land-cover layer driven by dated host facts (population, abandonment, razing — D.8; host calamities
+   by terrain, D.8) — which cannot be a lens (`:3101–3110`: "never a surface … read by no stage"). *Lands:* V13 §3.4,
+   §3.6, a new stage or layer after W5 with its own store and scrub, §2.2/§2.3, §3.14 (consumers), §5.1 (a layer), §6.
+3. **F3 (the DM always wins; let physics pass again; ruins by age).** *Exists:* the two verbs on terrain and water only
+   (`:2622–2631`); the fork (`:2936–2946`); `regenerate` per stage and box (`:2849`, `:2884`); the buried old town from a
+   fire/flood scar ≥ 0.5 (`ARCHITECTURE.md:23150–23158`), the buried former settlement under a replay older than
+   `burialYears` (`:23158–23162`, `:9213–9217`), V04's depth law `formerRiseCmPerCentury` 60, max 900 cm (V04 `:630–632`,
+   `:1779–1783`); S2's stage cap by age (`:6130–6138`). *Missing:* a painted biome or land cover as an always-so override
+   W5 builds around; a painted fire/clearing/flood-as-cover as a dated `happened` disturbance with recovery; the
+   physics-pass command (scope: whole world or areas; depths re-derive / release / weather; preview through the fork; the
+   blend band and frames untouched); an age-only rule (no scar, no replay) for whether, how large and how deep the
+   underlying strata are, composed with the two existing paths. *Lands:* V13 §3.14.1 (verbs on biome/cover), §4.1 (new
+   events), §4.2 (T2/T10 rows), §4.3, §4.5; base §2.7 `HistoryHint` readers note, II.7.6 (a third generation clause),
+   §4.2 S2; V04 §3.5.5 (c); V09 §4.3 binding rows.
+4. **F4 (currents and winds price sail routes).** *Exists:* `TravelLaw.kmPerWeek` coastal/sea and `water.stormFactor` per
+   quarter (V13 `:795–797`); `routeFacts`' 52-week seasonal sets (`:2338–2339`); `TravelEdge` codepoint-sorted and
+   symmetric (`:791`); the host's symmetric lanes and storm multipliers (`seaLanes.js:112–119`, `:237`; `modeSpeeds.js
+   :50–63`). *Missing:* ocean currents in W3; a directional, seasonal sea-leg effort by vessel kind; W7 sea routes per
+   direction and season; a host-change row (H31+) offering directional legs; the symmetric-mean fallback. *Lands:* V13
+   §3.4, §3.8, §2.2 (`TravelEdge` or a water-leg record), §2.3 (polar and current tables), §3.11.6 (`routeFacts`), §8.5.
+5. **F5 (a world generated first, then editable; random all / basic / advanced for all user types).** *Exists:* W0's
+   `WorldRequest` with an untyped `options?` (`:1401–1404`); the template draw (`:1408–1412`); T1's "world dialog" named
+   but undesigned (`:2880`; V09 `:1761`); the town side's three layers (base §7.8 `:13205–13212`; V09 §3.2 `:1045–1067`,
+   §4.5 T1 `:1834`, `basic: boolean` `:507`); `Recipe.presetId?` provenance (`ARCHITECTURE.md:3898`); BCR-V13-35's
+   entropy rule (`:4188`); the host's one layered panel, `mode: 'basic'|'advanced'`, random sentinels and the anonymous
+   "everything on random" enforced at the generate action (D.1). *Missing:* the world's preset tiers and their controls;
+   which W0 fields each tier exposes; how "random all" maps to sentinels in `WorldRequest`; the anonymous/free/premium
+   lines for a world (the host gates instant worlds and canonize to premium, D.2, D.6). *Lands:* V13 §3.1 (a typed
+   options record), §2.3 (a presets table), §4.2 T1; V09 a new world-dialog section and §4.3 rows; §8.5 an H-row for
+   the host's tier lines.
+6. **F6 (biome inclusions; when and how they are simulated is organic).** *Exists:* `adjust('world.biomeMatrix')` only
+   (`:2845`); the matrix is the sole biome control; resources by rule rows (`:1599–1609`). *Missing:* a requirement such
+   as "this world includes a desert / a glacier / a rainforest" that the generator meets by moving the climate drivers
+   (latitude box, winds, ranges, sea placement) rather than by painting; a test that every requested biome exists, is
+   contiguous and is physically explained (no "random arid dot"). *Lands:* V13 §3.1 (requirements in the request), the
+   requirement solver (item 7 below) running before or inside W1–W5, §7 tests, §2.3.
+7. **F7 (based off of my settlements; best placement; organic self-correction).** *Exists:* W6's `proposals(world,
+   demand)` scoring generic terms only (`:1676–1680`); `nearestLawful` within 20 km of a given origin with the
+   `dossier` term at ∞ but **no biome in the dossier term** (`:2081`, `:2087–2093`; biome weight 0.3, `:1138`); world-first
+   `requestCharter` at a caller-named origin (`:2056–2065`); the host's autoplacer — fit by seven terrain words,
+   no-RNG, dynamism band, and on a missing terrain "this realm has none" with re-terrain-as-regen offered and paint
+   unavailable (D.4); the instant world's terrain-blind scatter (D.2); the dossier carries terrain, route, culture,
+   resources, tier, neighbour links but no climate or latitude (D.8; base DR42 `:12981`). *Missing:* a world generated
+   FROM a campaign's settlement set (each settlement's terrain word, coast/river/route, culture band, resources, tier,
+   and the regional graph's adjacency as requirements); a whole-map best-placement search (not a 20 km spiral) that
+   reads every dossier fact including terrain-as-biome; self-correction that grows the needed biome where the physics
+   can explain it (a rain shadow, a latitude band, a cold current) instead of a dot, previewed. *Lands:* V13 §3.7 (a
+   dossier-aware demand), §3.11.1 (`nearestLawful` scope; the `dossier` term gaining the terrain word), §3.1 (the
+   request's settlement set), a new requirement-solver section in §3, §3.11.6 (an inbound message carrying the
+   campaign's settlement facts), §8.5 an H-row.
+8. **F8 (the DM may author a different biome; warn, then change the dossier only after approval).** *Exists:*
+   J-V13.50's "the map never silently amends a dossier fact; … the host moves its placement or amends its dossier"
+   (`:3811`, `:2167–2171`); `W_EDIT_DOSSIER` with `keepDossier`/`moveTown`/`cancel` — none changes the dossier
+   (`:2238–2243`); base "the module never writes to the dossier" (`ARCHITECTURE.md:17669–17670`) and J86's door 1
+   (`:17714–17722`); the host's guard-and-override pattern (D.7) and its world-fact card with `terrain` (D.7). *Missing:*
+   a fourth `W_EDIT_DOSSIER` choice ("ask the host to change the dossier's terrain") carried as an outbound offer the
+   host executes on approval (a new port message beside `physicalChange`, `:2422–2426`), its fold when the host's
+   changed dossier returns (`:2243–2247`'s re-blend), and the wording of the warning. *Lands:* V13 §3.11.5 (1), §4.1
+   outcome rows, §3.11.6 (a dossier-change offer), §9 a decision refining J-V13.50; base §11.3/§11.4 (the module asks,
+   the host writes); §8.5 an H-row on the host's world-fact card.
+9. **F9 (one requirement solver, one process where appropriate).** *Exists:* three separate mechanisms answer parts of
+   the question — W6's scoring (`:1619–1690`), P1's coherence search (`:2070–2096`), the host's autoplacer (D.4) — plus
+   the town-side "derive before invent" (V14 §3.3) and S0's dossier precedence (`:2164–2175`). *Missing:* one solver
+   whose inputs are requirements (biome inclusions, settlement facts, arrangement and seam facts) and whose outputs are
+   generation drivers and placements, run as one process at generation and as the same process for a later "place
+   this settlement" or "self-correct"; its precedence against the dossier and the DM's always-so overrides. *Lands:* a new
+   V13 §3 section and §2.2 record, with W6 and P1 re-stated as its callers; §9 decisions; V09 one entry point.
+10. **F10 (the historical relational style, with embellishments, absolute scale kept).** *Exists:* §5.1's layers and
+    `style.world` (`:2985–3005`, `:943`); one affine view transform (`:3020–3021`); §5.3 labels; the base's style presets
+    and `stylePreset` view key (`ARCHITECTURE.md:4165`); a `projection` view key reserved for V14's 2.5D (`:4200`).
+    *Missing:* a presentation family that distorts position around a chosen centre and inflates places of import while a
+    true-scale view stays one toggle away; marginal embellishments (sea creatures, "here be" cartouches, barbarous-land
+    figures) placed from facts (open sea, unclaimed land, danger) and never in a digest; the rule that scale bars,
+    exports and every measurement read the true geometry. *Lands:* V15 (the view, per the spine's §11 and §13) with BCRs
+    to V13 §5.1/§5.3/§5.4 for the facts it reads, base §2.9 view keys, V11 style rows, V09.
+11. **F11 (a fourth layer, the world map, derived only from completed region and realm maps, image-only; seams
+    between sizes).** *Exists:* three world rungs province/realm/continent (`:976–980`) — no "region" rung name and no
+    rung above; `Recipe.product` without an atlas kind (`ARCHITECTURE.md:3894`); opening a lower layer as another page
+    (V13 `:3036–3040`); one `worldRef` per frame (`ARCHITECTURE.md:3861`; V13 `:2810–2811`); the host's one map per
+    campaign (D.5). *Missing:* an atlas document (members by reference, each member's picture, its arrangement), its
+    image-only rendering and exports, the seam treatment between members of different rungs and cell sizes (scale
+    normalisation, edge blending in the picture only), opening a member from the atlas. *Lands:* V15 whole (the spine's
+    §10, §13), with BCRs to base §2.9 (`product` gains a kind), to V13 (the edge charter, the picture at a week, the fit
+    across rungs) and to V09 (open/new/recent, the atlas page); §8.5 (host storage of atlases).
+12. **F12 (users choose where maps are in relation to each other).** *Exists:* nothing [OBSERVED: no arrangement record
+    in V13, the base or the host]. *Missing:* the arrangement record (direct placement by offset and rotation, and
+    described relations such as "north of, across the sea"), its validation (overlap, scale), and its edit events.
+    *Lands:* the atlas record (item 11), its edits in base §7.1's union via a BCR, V09 tool rows.
+13. **F13 (a void beside a map is filled by a continuation with basic configuration and the simulation's ongoing
+    effects — narrowed by F14).** *Exists:* the request's extent and template only (`:1401–1412`); position-keyed noise
+    keeping old cells on an extent change (`:2910`, `:2776–2778`); charters meeting neighbours at an edge
+    (`:2193–2224`) — within one world. *Missing:* a "continue from a neighbour" request carrying the neighbour's timeless
+    edge facts (coast, ranges, rivers entering, climate band, biome at the edge) as boundary conditions of W0–W5; the rule
+    that no lived fact, edit or campaign state crosses. *Lands:* V13 §3.1 (a seam context in `WorldRequest`), §3.2–§3.6
+    (edge conditions), §3.17 (determinism across maps), the atlas section.
+14. **F14 (edits after generation do not carry over; each map a microcosm on its own clock).** *Exists:* per-document
+    logs and undo (`:2925–2930`); the world's week from its own events or its host's windows (`:572–579`); the host's
+    one campaign clock per campaign (D.9). *Missing:* the explicit rule that an atlas reads members' pictures only, that
+    a continuation reads its neighbour's generation-time facts only (never its log), and that members' weeks are
+    independent; tests that a member's edit never moves another member. *Lands:* the atlas section, V13 §3.17, §7 tests.
+15. **F15 (world maps are individual saves; a user may have many).** *Exists:* the `.plat` world document (`:1293–1300`);
+    "On a host-bound world the host stores the world document per campaign" (`:1265–1266`; H10 `:3728`); the module has
+    no hosted service (`ARCHITECTURE.md:17730–17738`); V09's local store and "Open a town…" only (V09 `:4179–4186`); the
+    host's many `saved_maps` rows and one map per campaign, a settlement in one campaign at a time (D.5); share codes for
+    one world (D.2; V13 §11 Q3 `:4275–4280`). *Missing:* world maps (and atlases) as first-class saves independent of a
+    campaign, listed, opened, shared and galleried; how one settlement may appear in several world maps without breaking
+    the one-`worldRef` and one-campaign rules; a world share code that carries a baked formation payload. *Lands:* V13
+    §2.7, §3.18 (7), §11 Q3, V09 §5.13/§5.11, base §11.5, §8.5 (H10 widened).
+16. **F16 (integrate cohesively).** *Exists:* the program's machinery — the amendment files l–q, the BCR ledger (pending
+    -30 – -36, -39; next -41), the host list (next H31), decisions (next J-V13.107), tests (next T-V13-57), deferred
+    rows (next D-V13.9), budgets (next `WORLD-16`), spikes (next SP-W9). *Missing:* amendments r for F1–F4 were never
+    written (git `fb89309`); so F1–F16 enter as one design (the spine, `8cb5422`) over a V13 that still says "NOT BUILT:
+    tectonics, erosion over time" in four places (§1.3 `:297–299`, §1.4 `:381–385`, J-V13.41/.42 `:3813–3814`) and an
+    index with no V15. *Lands:* per the spine's §13 (`:388–400`), one amendment file numbered from item 926 for V13, the
+    base and the volumes (seat A) and a new volume V15 for the atlas and the relational style (seat B), reconciled by the
+    seam seat; INDEX and SUMMARY gain V15.
 
