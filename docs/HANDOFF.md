@@ -15,7 +15,8 @@ critiques; Opus reads, surveys and applies; a Fable seat that hits the Fable lim
 | design A | amendments/world-growth-r (Fable, max) | docs/AMENDMENTS-2026-10-23r.md (V13, the base, V09/V14 BCRs, proposal, brief, INDEX, SUMMARY) | LANDED 0410c95 (3,176 lines; items 926–1005; 188 fragments dry-run clean) |
 | design B | volumes/architect-V15 (Fable, max) | docs/volumes/V15-atlas.md | LANDED 0dbdead (2,128 lines; J-V15.1–36; T-V15-1–25; RQ-V15-1–11; BCR-V15-1–15) |
 | seam | volumes/seam-world-growth (Fable, max) | docs/volumes/critique/seam-world-growth-r0.md + in-place edits to V15 and items appended to file r | LANDED da28c04 (SW-01–SW-19; file r now items 926–1028, 235 fragments; V15 2,122 lines; dry-run script scratchpad world-growth/seam/dryrun_seam.py with the README target) |
-| review | review/world-growth-science-host (Opus, high) → docs/volumes/critique/world-growth-r-science-host.md; volumes/critique-V15-and-r (Fable, max) → docs/volumes/critique/V15.md | findings | running |
+| review | review/world-growth-science-host (Opus, high) → docs/volumes/critique/world-growth-r-science-host.md | LANDED f810186 (34 findings; 1 blocking); the manager's rulings on it are J393 | — |
+| review | volumes/critique-V15-and-r (Fable, max) → docs/volumes/critique/V15.md | findings | running |
 | revise | the reviser (Fable) | r and V15 revised; review record | after review |
 | apply | amendments/world-growth-r-apply (Opus) | targets; docs/validation/coherence/world-growth-r.md; bundle | after revise |
 | critic | the critic (Fable) | gap list | after apply |
