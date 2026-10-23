@@ -17,7 +17,7 @@ dry run of every fragment in order over copies of the targets passed on 2026-10-
 9 owner-rule items before them — by the seat's own script (`world-growth/dryrun-A/dryrun.py` in the seat's scratchpad,
 outside the repository; its two modes: `verify`, every quote matched exactly once in the target as it now stands, and
 `apply`, every fragment applied in order to a copy of each target, every quote matched exactly once at its turn and
-every new text exactly once after).
+every new text exactly once after). The seam seat's items **1006–1028** (23 items, 47 fragments; `docs/volumes/critique/seam-world-growth-r0.md`) follow item 1005 under the heading *The seam seat's items* and passed the same dry run, extended with README.md as a target, on 2026-10-23 (their census in the tail).
 
 ## PROGRESS ledger (this file was written incrementally; a dead seat resumes at the first unticked group)
 
@@ -35,6 +35,7 @@ every new text exactly once after).
 | 9 | the base: ruins by age (`HistoryHint`, §4.2 S2, II.7.6, T113-8), the dossier update as a request (§11.4) | 994–998 | done |
 | 10 | the proposal, the brief, INDEX, SUMMARY | 999–1005 | done |
 | 11 | the census, the five choices to test first (the file's tail) | — | done |
+| 12 | the seam seat's items (volumes/seam-world-growth, 2026-10-23): V13's readings owed to V15 (§1b.2, §2.2, §3.1, §3.11, §4.1, §5.4, §5.8, §6, §7, §8, §9, §10.3), INDEX, SUMMARY and README's V15 rows | 1006–1028 | done |
 
 **How to read an item.** As files l and m's: each item names its target file's section (the heading above it), its
 title in bold, the owner rule and the spine section it serves (*Requests*), the current text quoted **once** (every
@@ -301,7 +302,7 @@ process where appropriate."
 *New text:*
 > > J-V13.100, §11's ruling; J388) — J-V13.106 records the construction; T-V13-37 (c) tests the additive canon.
 >
-> > **World growth r — 2026-10-23** (`docs/AMENDMENTS-2026-10-23r.md`, items 926–1005; the owner's world-growth rules
+> > **World growth r — 2026-10-23** (`docs/AMENDMENTS-2026-10-23r.md`, items 926–1028; the owner's world-growth rules
 > > F1–F9 of J390–J392 under the session's delegation; the spine `docs/design/spine-world-growth-2026-10-23.md` and the
 > > research notes `research/world/formation-ecology-science.md` and `formation-ecology-state.md` cited as evidence
 > > only). Changed: every physical layer has one of three lifetimes — **formation** (a `formation` op first in the
@@ -330,8 +331,8 @@ process where appropriate."
 > > priced by direction, month and vessel kind; `WorldRoute.sailing`; the host offered directional seasonal efforts, the
 > > symmetric mean until adopted; §3.8 (12), §3.11.6); **the seams owed to V15** (`WorldEdgeCharter` and `edgeCharter`;
 > > `renderAt`; `placeFrame`'s rung-general form; the lens facts the relational style reads; `solve`; §2.2, §3.1 (6),
-> > §3.11, §5.4, §5.8); M-W6 – M-W9, SP-W9 and SP-W10, H31 – H34, `WORLD-16` – `WORLD-19`; T-V13-57 – T-V13-72; J-V13.107 –
-> > J-V13.130; D-V13.9, D-V13.10; BCR-V13-41 – BCR-V13-46; Q3 refined and Q5.
+> > §3.11, §5.4, §5.8); M-W6 – M-W9, SP-W9 and SP-W10, H31 – H35, `WORLD-16` – `WORLD-20`; T-V13-57 – T-V13-72; J-V13.107 –
+> > J-V13.134 (J-V13.131 – J-V13.134, H35, `WORLD-20` and the readings owed to V15 as the seam seat's items 1006–1017 define them); D-V13.9, D-V13.10; BCR-V13-41 – BCR-V13-46; Q3 refined and Q5.
 *Evidence:* the form of the revision notes above; the spine's §1 table and §13 (what lands in V13); `docs/PROGRESS.md` J390–J392.
 
 
@@ -357,7 +358,7 @@ process where appropriate."
 > **What the world is, and is not, over time.** Its continents moved and its valleys were cut once, at its birth: a
 > formation step raises ranges where crust blocks meet, cuts rivers into them over imagined ages, lets ice carve the
 > cold valleys and the sea stand high and low, and lays soils on the result — then it bakes what it made (the ground,
-> the rock beneath, the soils, the named ranges, rifts, volcanoes and fjords) as ordinary data and forgets how: no plate
+> the rock beneath, the soils, the named ranges, rifts, volcanoes and fjords) as ordinary data and forgets how: no crust block
 > ever moves again, nothing of the simulation is kept, and everything it made is the game master's to reshape. Its
 > weather, its currents, its rivers and the vegetation its climate would grow are **living physics**, re-derived
 > whenever the ground changes — raise a range and the land behind it dries, open a strait and the currents turn. What
@@ -501,7 +502,7 @@ process where appropriate."
 >   `weather` depth (V13 §4.1) — baked and deleted, never live, never a simulation the campaign runs (J-V13.107,
 >   J-V13.108); no `erode` op exists (the `weather` op is its one spelling). **A live simulation of anything after
 >   birth** is out of scope: the living physics is law re-derived from data (V13 §3.4–§3.6), the ecology a pure
->   function of dated facts (V13 §3.6 (5)) — no plate moves, no clock steps a forest, no roll strikes a fire; what
+>   function of dated facts (V13 §3.6 (5)) — no crust block moves, no clock steps a forest, no roll strikes a fire; what
 >   happens, happened in the host or by the DM's hand.
 *Evidence:* the spine's §3 (the lifetime table: formation "YES — deleted"; living physics "never — it is law"; ecology "never — but it is a cache"); the science note's §1.7, §2.1 (*Bake or live*), §6.3; the state note's A.19 (the hinge sentence).
 
@@ -563,7 +564,7 @@ process where appropriate."
 > | `foldCover(world, at: { window } \| { disturbance })` → one `CoverPlate` in the cover cache (`Document.coverPlates`); `landCoverAt(world, wCm, week)` → the class and the weeks since its last event | `@plat/world/ecology` (`WORLD_COVER`) | the lens window's fold (beside `foldLensWindow`); `disturb`'s fold; the `landCover` layer; `worldFactsAt`; the `physicalChange` offer; the settlement map record |
 > | the physics pass's operators `rederive(world, scope)`, `release(world, scope, keepHistory)`, `weather(world, scope, years)` (V13 §4.1's `physicsPass`; each folds on the fork and `commitFork` carries it) | `@plat/world` over the cascade (`WORLD_PHYSICS`) | `physicsPass`; T10 `hold`'s physics toolbar (V09 §4.22) |
 > | `sailLeg(world, a, b, vessel, month, direction)` → `SailingLeg` (V13 §3.8 (12)) | `@plat/world/routes` over the climate's monthly winds and currents | W7 (the water legs per direction and season); `routeFacts`' offer; the `routes` layer's month slider; V14's E1 (a sea route at the point in its month) |
-> | `placeFrame`'s rung-general form — `PlaceContext.frame` a world document (`subject: { kind: 'world'; doc }`): P1's terms over the child's edge profile at its own cell size, P2's band scaled by the child's rung, P3–P5 as for a frame, the child never changed (V13 §3.11) | `@plat/world/place` | V15's fit of a member into a parent member (the spine's §14.3); never a world's own stage |
+> | `placeFrame`'s rung-general form — `PlaceContext.frame` a world document (`subject: { kind: 'world'; doc }`): P1's terms over the child's edge profile at its own cell size, P2's band in the parent scaled by the parent's cell ratio (`place.coherence.blendBandM` × the parent's fine cell ÷ the frame cell of 250 m: 4 000 m under a 500 m realm, 8 000 m under a 1 000 m continent, widened as §3.11.2 widens it; the one statement of the band — V15 keeps no cell for it), P3–P5 as for a frame, the child never changed (V13 §3.11) | `@plat/world/place` | V15's fit of a member into a parent member (the spine's §14.3); never a world's own stage |
 > | `formation.run(scenario, knobs, grid, stream)` → the baked payload (the formation-grid DEM, `bedrock`, `soil`, the `Landform`s) — once, at W1's first run of the op; `formation.version` the pin every payload carries | `@plat/world/formation` over the lifted hydro core (`priorityFlood`, `d8`, `accumulate`) and its own `stack` and Flint integral | W1 (the first run only); the `weather` op (its slow processes over the current ground); SP-W9's gallery |
 *Current text* (b):
 > W5's biomes by W6, W7's cost, the charter and the view; W6's proposals by the host and V14;
@@ -1222,7 +1223,7 @@ process where appropriate."
 >    closing speeds (the knobs' `blocks` 1–2), plus `relictSutures` inherited dead belts, since a realm-sized map holds on
 >    average 300–500 km of active boundary, one boundary or none (file r choice (b)); at the **province** rung the row's
 >    one `regional` feature as a profile across the extent (a mountain front, a rift, a volcanic field, a coastal plain, a
->    shield) and no block model. The relief a realm reads as believable is relict structure more than live plates, so
+>    shield) and no block model. The relief a realm reads as believable is relict structure more than live crust blocks, so
 >    every rung lays its relict belts (step 5).
 > 2. **The crust blocks** (the continent rung). N = `blocks` seeds by blue noise (a draw per seed on
 >    `world.formation`, rejected within `blocks.seedSpacingShare` × the extent's shorter side of an accepted one) in a
@@ -1313,7 +1314,7 @@ process where appropriate."
 >    `baked` is written — the formation-grid DEM as content-hashed `fields` chunks, `bedrock`, `soil`, `surfaceAge`, the
 >    landform ids, `formation.version` and the stats (the land share, the Hack exponent and the bifurcation ratio of the
 >    relief, T-V13-58) — and the block set, the velocities, the boundaries, the distance fields, the stack, the ice mask
->    and every intermediate are **deleted**: none exists in any digest (T-V13-57), none is ever read again, no plate
+>    and every intermediate are **deleted**: none exists in any digest (T-V13-57), none is ever read again, no crust block
 >    moves after this line. W1 then continues with the ops after it over the fine grid, the baked DEM upsampled
 >    bilinearly as the working raster's start.
 > 11. **The `weather` op** (the physics pass's `weather` depth, V13 §4.1). Over the ground as it stands at the op's
@@ -2999,7 +3000,7 @@ process where appropriate."
 > in once as data and written back out in the shapes its tools expect; nothing the campaign already has is lost.
 >     **The world grows (your rules of 17–23 October).** A world can be *formed*, not only drawn: pick a scenario — a
 >     young mountain range, a rifting interior, an island arc, an old worn shield, a rifted coast — and the ground is
->     made once by plate motion and long erosion, then baked, so it never changes under you and never costs again.
+>     made once by the drift of crust blocks and long erosion, then baked, so it never changes under you and never costs again.
 >     Weather comes by the month: the trade winds and westerlies shift with the seasons, a monsoon turns over a big
 >     land mass, the ocean currents circle each basin and make one coast a desert and another mild, and raising a range
 >     dries everything in its lee, however far. What the climate would grow is the world's; what the land looks like
@@ -3030,6 +3031,497 @@ process where appropriate."
 
 ---
 
+## The seam seat's items (1006–1028; volumes/seam-world-growth, 2026-10-23)
+
+Written by the world-growth seam seat after reading this file whole against `docs/volumes/V15-atlas.md` and the spine; the
+record is `docs/volumes/critique/seam-world-growth-r0.md` (its §1 the findings SW-01 – SW-19 — these items carry SW-01 – SW-07, SW-11 – SW-13 and SW-15 – SW-17 —, its §2 the
+in-place edits this seat made to this file's earlier items — the vocabulary of the spine's §12 and item 942's blend band —
+and to V15). The items follow item 1005 in the file's order and are applied after it: every quote below is the target's
+text as it stands AFTER items 935–1005 would leave it (V13's rows of item 942, 953, 960, 981, 984, 985, 986 among them),
+verified by the dry run in its `apply` mode over the amended copies (its `verify` mode, which reads each target as it now stands, reports the 19 quotes of this group that are written on text items 935–1005 introduce — expected, not a failure); README.md is a target this group adds (the dry-run script's targets
+gain `README: README.md`). The clean-room rule of the head holds for every new text here.
+
+### Volume 13 — §1b.2 Stage outputs and interfaces (the seam seat)
+
+**1006.** **The readings owed to V15 as interfaces: `renderAt` with the `atlas` layer set and the label boxes; the world subject of `requestCharter`; the transient world-rung `charterFor`; `solve.registerEvaluator`; `viewFacts`.**
+*Requests:* the spine's §14 (2)–(5), §10.6; V15 §1b.6, §3.2 (3), §3.5 (a)–(b), §3.1 (2), §3.6 (2); seam-world-growth-r0 SW-03, SW-05, SW-06, SW-07.
+*Current text* (a):
+> | `renderAt(world, week, audience)` → `RenderedWorld` (the world's tiles at a week for an audience, its extent, datum, latitude box, rung, present week, date label and the audience's known sets; V13 §5.4) | `@plat/world` over §8.1's tiles | V15's atlas (the only reading of a member); the picture exports |
+*New text* (a):
+> | `renderAt(world, week, audience)` → `RenderedWorld` (the world's tiles at a week for an audience over the `atlas` layer set with the placed label boxes per stop, its extent, datum, latitude box, rung, present week, date label and the audience's known sets; V13 §5.4) | `@plat/world` over §8.1's tiles | V15's atlas (the only reading of a member); the picture exports |
+*Current text* (b):
+> | `formation.run(scenario, knobs, grid, stream)` → the baked payload (the formation-grid DEM, `bedrock`, `soil`, the `Landform`s) — once, at W1's first run of the op; `formation.version` the pin every payload carries | `@plat/world/formation` over the lifted hydro core (`priorityFlood`, `d8`, `accumulate`) and its own `stack` and Flint integral | W1 (the first run only); the `weather` op (its slow processes over the current ground); SP-W9's gallery |
+*New text* (b):
+> | `formation.run(scenario, knobs, grid, stream)` → the baked payload (the formation-grid DEM, `bedrock`, `soil`, the `Landform`s) — once, at W1's first run of the op; `formation.version` the pin every payload carries | `@plat/world/formation` over the lifted hydro core (`priorityFlood`, `d8`, `accumulate`) and its own `stack` and Flint integral | W1 (the first run only); the `weather` op (its slow processes over the current ground); SP-W9's gallery |
+> | `requestCharter` with a world subject → `WorldCharter` (V13 §2.2, §3.11.4: the parent's four edge charters along the extent's sides, its rasters over the extent as the child's coarse ground, its placed frames inside the extent as planned sites) | `@plat/world/place` (P4 only: the world-first order one rung up) | V15's derived-from-parent fit (the spine's §10.6; V15 §3.5 (a)); the child's W0 (`WorldRequest.parentCharter`) and W1 (the coarse ground upsampled as a baked formation-grid DEM is, V13 §3.2) |
+> | `charterFor(world, TransientPlacement)` at a world-rung extent → `WorldCharter` (the transient, record-less form of V13 §3.11.4; `WORLD-20`) | `@plat/world/place` | V15's mismatch reading of an image-only child (V15 §3.5 (b)); never persisted |
+> | `solve.registerEvaluator(e: ArrangeEvaluator)` (V13 §2.2): the `'arrange'` goal's cost terms over placements, registered by a caller once before its first `solve` | `@plat/world/solve` | V15's atlas-scale kinds (V15 §2.3's words; the spine's §14 (5)); the engine, the ladder, the least-change search and the report stay here |
+> | `viewFacts(world, week, audience)` → `ViewFacts` (V13 §2.2, §5.8 (10): the relational style's facts at a week from the plates and the event index, each with its fact class and resolved audience) | `@plat/world/lens` | V15's A6 (the spine's §14 (4)); the clerk's "why this centre" |
+*Evidence:* item 942's rows (the form); the spine's §14 (the five seams) and §10.6 ("derived from the parent … the preferred path"); V15 §1b.6's dependency rows and §10.2's RQ-V15-2 – RQ-V15-5.
+
+
+### Volume 13 — §2.2 New records (the seam seat)
+
+**1007.** **The `landform` requirement kind; `RenderedWorld.tiles[].labels` and the `atlas` layer set; the records `WorldCharter` and `ViewFacts`; `ArrangeEvaluator` and `solve.registerEvaluator`; `WorldRecipe.parentCharter`.**
+*Requests:* the spine's §14 (2), (4), (5), §10.4, §10.6; V15 §2.3, §3.1 (2), §3.2 (3), §3.3 (5), §3.4 (5), §3.5, §3.6 (2)–(5), §10.2; V09 §4.22 (5) (file r item 992's `landform` chip); seam-world-growth-r0 SW-03 – SW-07, SW-09.
+*Current text* (a):
+>   rank: Rank; kind: 'extent'|'latBox'|'poles'|'wind'|'template'|'scenario'|'landShare'|'ruggedness'|'wetness'|'biome'|'resource'|'site'|'relation'|'coast'|'river'|'lake'|'climateRow'|'latitude'|'terrain'|'route'|'edge'|'lockRegion'|'overrideLayer'|'water'|'context'|'density'|'polity'|'names';
+*New text* (a):
+>   rank: Rank; kind: 'extent'|'latBox'|'poles'|'wind'|'template'|'scenario'|'landShare'|'ruggedness'|'wetness'|'biome'|'resource'|'site'|'relation'|'coast'|'river'|'lake'|'climateRow'|'latitude'|'terrain'|'route'|'edge'|'lockRegion'|'overrideLayer'|'water'|'landform'|'context'|'density'|'polity'|'names';
+>   // `landform` (file r item 1007): a feature asked for by kind — `target: { feature: 'range'|'rift'|'escarpment'|'sea'|'strait'|'basin'|'volcanicField'; extentKm2?: number; at?: { box } | { side: 'N'|'E'|'S'|'W' } | { corner: 'NE'|'NW'|'SE'|'SW' }; bearingCdeg?: Cdeg }` — the world dialog's landform and water chips (V09 §4.22 (5)) and a continuation's accepted reconciling feature (V15 §3.4 (5)); satisfied by the formation op where a scenario runs (its regional feature or a profile laid at the place asked), else by W1's `range`, `trough` or `strait` ops with `origin: 'solver'`, verified by W1 at the asked extent and reported `W_REQUIREMENT_UNMET` with the offer `moreRelief` when it cannot
+*Current text* (b):
+>   tiles: { stop: 0|1|2|3; set: Id /* the §8.1 tile set at that stop for the audience */ }[]; known: { audience: 'dm'|'public'|`party:${string}`; cells: Uint32Array /* coarse: the cells the audience's places have reached (V14's layers through the world's `knownTo`) */ }[] }   // `renderAt(world, week, audience)`'s reading — tiles, extent, datum, latitude box, rung, present week, date label and the known sets per audience — and nothing else (the spine's §14.2); a view read, never persisted
+*New text* (b):
+>   tiles: { stop: 0|1|2|3; set: Id /* the §8.1 tile set at that stop for the audience, drawn over the `atlas` layer set (V13 §5.4) */; labels: { box: [Px, Px, Px, Px]; text: string; kind: string; priority: number }[] /* the label boxes §9.2's placer placed at that stop, in the member's pixel frame at the stop (file r item 1007; V15 §3.3 (5)): the picture's own metadata, so a seam can drop a yielding member's labels whole */ }[]; known: { audience: 'dm'|'public'|`party:${string}`; cells: Uint32Array /* coarse: the cells the audience's places have reached (V14's layers through the world's `knownTo`) */ }[] }   // `renderAt(world, week, audience)`'s reading — tiles over the `atlas` layer set with their label boxes, extent, datum, latitude box, rung, present week, date label and the known sets per audience — and nothing else (the spine's §14.2); a view read, never persisted
+> interface WorldCharter { version: string; parent: { doc: Uuid; version: string }; extentCm: { x0: WorldCm; y0: WorldCm; w: WorldCm; h: WorldCm } /* the child's extent in the parent's frame, axis-aligned, bearing 0 */; rung: WorldSizeRung /* the child's, finer than the parent's */;
+>   edges: WorldEdgeCharter[] /* four: the parent's timeless facts along each side of the extent (`edgeCharter` on the parent over the side's span), `side` the child's side */; ground: { cellCm: Cm; cols: number; rows: number; dem: ChunkRef[]; bedrock: ChunkRef; soil: ChunkRef; biome: ChunkRef } /* the parent's rasters over the extent at the parent's fine cell, read once at emission: the child's COARSE ground, which its W1 upsamples bilinearly as a baked formation-grid DEM is (V13 §3.2) and refines by the position-keyed lattice and its own ops */;
+>   plannedSites: Requirement[] /* the parent's placed frames inside the extent as rank-1 `site` rows of source `frame` (origin, bearing and the charter's facts): the child's W0 lays them as planned sites (V13 §3.1 (5)); a frame belongs to one world (V13 §3.18 (7)), so the frames stay the parent's until the user moves them (V15 §3.5 (a)) */;
+>   reason: Id }   // the world-first order one rung up (V13 §3.11.4; the spine's §10.6 "derived from the parent"): emitted by `requestCharter` with a world subject (a `Placement` of subject kind `world` on the parent, `precedenceStamp: 'world'`, P4 only, no blend) and, record-less, by `charterFor` at a world-rung `TransientPlacement`; TIMELESS facts and the parent's ground as it stands at emission — never an event, a cover class, a plate or a route; stored in the child's recipe as `WorldRecipe.parentCharter` (provenance, never re-read); produced by V13, consumed by the child's W0–W1 and by V15's fit (file r items 1007, 1009)
+> interface ViewFacts { doc: Uuid; week: Week; audience: 'dm'|'public'|`party:${string}`;
+>   faith: { hierarchy: LensFacts['hierarchy']; faithPlaces: LensFacts['faithPlaces']; patrons: { seat: string; patron?: string; contested?: boolean }[]; realmRank: LensFacts['realmRank'] } /* V13 §5.9 (6)'s rows */;
+>   polity: { allegiances: Allegiance[]; sways: { id: Id; seat: string; allegiance: Id; neighbours: Sway['neighbours'] }[]; seats: { seat: string; tier: Rung; sizeThird: 0|1|2; prosperity: number; population?: number }[]; medianRung: number; relations: PolityRelation[]; culture: PolityFacts['culture'] } /* V13 §3.9, §5.9 (2), (5), (7) */;
+>   trade: { seat: string; entrepot?: { centrality: number }; exports: number }[]; channels: LensLink[] /* V13 §5.9 (4): the trade lens's channels */;
+>   events: WorldEvent[] /* the kinds the caller names, within the window it names, each with its resolved audience */; water: { routes: WorldRoute[] /* mode `water` */; stormFactor: number[] /* per quarter, the law in force */ };
+>   absent: string[] /* the facts the host never sent, by field name, so the caller's legend can say so (V13 §5.8 (3)) */; reason: Id }   // `viewFacts(world, week, audience)` (V13 §5.8 (10); file r items 1007, 1012): one reading from the plates at `week` (V13 §5.8 (8)) and the event index, filtered by audience as V13 §5.8 (7) filters a lens — never the alignment lens, a suppressed creed, a covert link or a criminal channel; a row the host resolved DM-only never returned for a player audience; fact class 4 at its reader (an owner-ruled projection, labelled); a view read, never persisted; the relational style's one reading beside `renderAt` (the spine's §14 (4))
+*Current text* (c):
+> declare function solve(requirements: Requirement[], state: WorldDocument | { members: Placement[] } | null, goal: 'generate'|'leastChange'|'arrange', opts?: { rung: 'coarse'|'fine'; decisions: Decision[]; seed: Seed }): SolveResult;   // @plat/world/solve: the pipeline's one entry (V13 §3.0) — never a second engine; V15 calls it with `'arrange'` over map placements (the spine's §14.5)
+*New text* (c):
+> declare function solve(requirements: Requirement[], state: WorldDocument | { members: Placement[] } | null, goal: 'generate'|'leastChange'|'arrange', opts?: { rung: 'coarse'|'fine'; decisions: Decision[]; seed: Seed; maxIterations?: number /* `'arrange'`: the least-change search's bound, the caller's cell (V15's `atlas.arrange.leastChange.maxIterations`) */ }): SolveResult;   // @plat/world/solve: the pipeline's one entry (V13 §3.0) — never a second engine; V15 calls it with `'arrange'` over map placements (the spine's §14.5)
+> interface ArrangeEvaluator { kind: Requirement['kind']; word?: string /* a `relation` kind's word (V15 §2.3's table: `eastOf`, `acrossSea`, `inside`, `farFrom`, `adjacent`, `beyondUnknown`) */; cost(req: Requirement, members: Placement[]): { cost: number /* 0 when met; the measure's error otherwise */; detail: string /* `whyCell`'s form, the report's reason */ } }
+> declare namespace solve { function registerEvaluator(e: ArrangeEvaluator): void }   // the `'arrange'` goal's one registration path (file r item 1007; J-V13.132): a caller registers its kinds' evaluators once, before its first `solve`, as V14 registers its siting terms through `terms.register` (V13 §3.7); under `'arrange'` the engine runs a deterministic least-change search over the placements — each step moves the one unlocked placement whose move lowers the summed evaluator cost most, by the smallest step on a lattice of the placements' own coarse cells, ties by the lowest placement ordinal, until no move lowers the cost or `opts.maxIterations` is reached — under the ladder (rank 2 locks held; rank 3 relations before rank 4 compatibility before rank 5 the caller's packing, V13 §3.11.5 (1)), writes the verification report and the conflicts, and runs no world stage (T-V13-68 (f)); a kind with no evaluator is `unmet` with the reason `noEvaluator`; V15 registers its atlas-scale kinds (V15 §2.3)
+*Current text* (d):
+>   edgeCharters?: { side: 'N'|'E'|'S'|'W'; neighbour: { doc: Uuid; version: string }; charter: WorldEdgeCharter }[] /* a continuation (V13 §3.1 (6)): the atlas neighbours' edge charters this world was generated from, stored whole for provenance as a frame stores its charter (≤ a few hundred KB per edge, V13 §2.7); never re-read after generation — nothing dated crosses a seam */;
+*New text* (d):
+>   edgeCharters?: { side: 'N'|'E'|'S'|'W'; neighbour: { doc: Uuid; version: string }; charter: WorldEdgeCharter }[] /* a continuation (V13 §3.1 (6)): the atlas neighbours' edge charters this world was generated from, stored whole for provenance as a frame stores its charter (≤ a few hundred KB per edge, V13 §2.7); never re-read after generation but by a re-match on request (V13 §3.1 (6)), which appends the neighbour's live charter with its version — nothing dated crosses a seam */;
+>   parentCharter?: WorldCharter /* a child world derived from its parent (V13 §3.11.4's world subject; file r item 1007): the parent's four edge charters, its ground over the extent and its frames as planned sites, stored whole for provenance; never re-read after generation */;
+*Evidence:* item 953's records (the form; `WorldEdgeCharter` and `RenderedWorld` as the siblings of these); V13 §5.9 (2), (4)–(7)'s rows and V13 §2.2's `LensFacts`, `PolityFacts`, `Sway`, `Allegiance`, `WorldEvent`, `WorldRoute`, `TravelLaw` (every field `ViewFacts` names exists there — verified by the seam seat); V13 §3.7's `terms.register` (the registration precedent, SW-01 of seam-world-sites-r0); V15 §2.2's `MemberImagery.stops[].labels` (the same shape); the state note's finding that no record carried a label box, a world subject or a view reading.
+
+
+### Volume 13 — §3.1 W0 Blueprint (the seam seat)
+
+**1008.** **W0: a continuation's request carries the charters unchanged; a derived child's request carries its parent charter; re-matching on request.**
+*Requests:* the spine's §10.4–§10.6, §14 (1); V15 §3.4 (7), §3.5 (a), §4.7 (3); seam-world-growth-r0 SW-02, SW-06, SW-10.
+*Current text* (a):
+> edgeCharters?: WorldEdgeCharter[] /* a continuation into a void beside atlas members (step 6) */;
+*New text* (a):
+> edgeCharters?: WorldEdgeCharter[] /* a continuation into a void beside atlas members (step 6): the carried charters unchanged, W0 writing each as a `WorldRecipe.edgeCharters` entry from the charter's own `world`, `side` and `neighbourVersion` */; parentCharter?: WorldCharter /* a child world derived from its parent (V13 §3.11.4's world subject): its four edges as rank-1 `locked` `edge` rows, its planned sites as rank-1 `site` rows, its ground W1's start (file r item 1008) */;
+*Current text* (b):
+>    document by its own edits. The charters are stored with the recipe (`WorldRecipe.edgeCharters`) and never re-read⏎   after generation: nothing dated crosses a seam (the spine's §10.5).
+*New text* (b):
+>    document by its own edits. The charters are stored with the recipe (`WorldRecipe.edgeCharters`) and never re-read
+>    after generation: nothing dated crosses a seam (the spine's §10.5). **Re-matching on request** (the
+>    spine's §10.5; V15 §4.7 (3); file r item 1008): the DM may re-match one border strip of ONE world to its neighbour's
+>    live edge — `setRequirements` replaces that side's `edge` rows by the neighbour's live charter (`edgeCharter` at the
+>    neighbour's current version, appended to `WorldRecipe.edgeCharters` with that version, the former entry kept as
+>    provenance) and `regenerate` over the strip's box (`EditScope { kind: 'world'; stage: 'W1'; box }`, V13 §4.1) re-runs
+>    W1 and its downstream closure there under the recipe's rows as a continuation's stages do, previewed on the fork and
+>    committed by the DM; the neighbour is never touched, nothing dated crosses (the charter is timeless) and nothing
+>    re-matches unasked (T-V13-68 (c), (i)).
+*Evidence:* item 960's steps 1 and 6 (the request and the continuation); item 946's `WorldRecipe.edgeCharters` (the recipe's entry shape, which V15's RQ-V15-1 had taken for the request's); the spine's §10.5 ("re-matching is only on request — regenerating or refitting a border strip of ONE member, previewed").
+
+
+### Volume 13 — §3.11 P1–P5 Placement (the seam seat)
+
+**1009.** **§3.11.4: the world subject of `requestCharter` (a child world's charter from its parent) and the transient world-rung `charterFor`.**
+*Requests:* the spine's §10.6 (the preferred path), §2 (the ladder's rule), §14 (3); V15 §3.5 (a)–(b); seam-world-growth-r0 SW-06.
+*Current text:*
+> at `WORLD-9` (V13 §6).
+*New text:*
+> at `WORLD-9` (V13 §6).
+>
+> **The world subject — a child world's charter from its parent** (the spine's §10.6 "derived from the parent"; V15 §3.5
+> (a); file r item 1009; J-V13.131). `requestCharter` with `subject: { kind: 'world'; rung; extentCm }` is the world-first
+> order one rung up: it creates a `Placement` of subject kind `world` on the parent with `precedenceStamp: 'world'` and
+> `coherenceCost.detail: 'world-first'` — P1 is not run, there is no child yet — and runs P4 only, emitting a
+> `WorldCharter` (V13 §2.2): the parent's four edge charters along the extent's sides (`edgeCharter` on the parent over
+> each side's span, the child's sides), the parent's rasters over the extent as the child's coarse ground, and the
+> parent's placed frames inside the extent as planned sites. No blend and no change to the parent's ground: the parent's
+> model digest moves by the placement record alone (T-V13-2's bar; T-V13-68 (h)). `generate` with
+> `WorldRequest.parentCharter` then makes the child: W0 takes the four edge charters as rank-1 `locked` `edge` rows
+> (V13 §3.1 (6)) and the planned sites as rank-1 `site` rows (V13 §3.1 (5)), W1 starts from the coarse ground upsampled
+> bilinearly (as a baked formation-grid DEM is, V13 §3.2) before the request's own ops, and the parent's `bindPlacement`
+> (author `world`) sets `Placement.subject.doc` to the child's `docId` — the child coherent with its parent by
+> construction. The frames inside the extent stay the parent's (V13 §3.18 (7)): moving one into the child is the user's
+> `unplaceFrame` on the parent and `placeFrame` on the child, each previewed on its own page (V15 §3.5 (a)). **The
+> transient world-rung form:** `charterFor(world, TransientPlacement)` with `frame` a world-rung extent builds the same
+> `WorldCharter` and writes nothing (the mismatch reading of an image-only child, V15 §3.5 (b); `WORLD-20`). Only a rung
+> finer than the parent's is admitted (`refuse.place.worldRung`); the extent must lie inside the parent's, and a bearing
+> other than 0 or a mirror is refused (`refuse.place.worldBearing`) — a world is never turned.
+*Evidence:* V13 §3.11's world-first order (C13-04: `requestCharter` → `generate` → `bindPlacement`, P4 only) and its transient form (SW-05 of seam-world-sites-r0; J-V13.54), both applied one rung up; the spine's §3 ("the fine DEM is the coarse result refined by the existing position-keyed detail"); item 961's upsampling of a baked DEM (the one principle re-used).
+
+
+### Volume 13 — §4.1 The edit events (the seam seat)
+
+**1010.** **`requestCharter.subject` gains the world form.**
+*Requests:* the spine's §10.6, §14 (3); V15 §3.5 (a); seam-world-growth-r0 SW-06.
+*Current text:*
+> | { t: 'requestCharter'; subject: { kind: 'frame'; pending: Uuid } | { kind: 'site'; site: Id };
+*New text:*
+> | { t: 'requestCharter'; subject: { kind: 'frame'; pending: Uuid } | { kind: 'site'; site: Id } | { kind: 'world'; rung: WorldSizeRung; extentCm: { x0: WorldCm; y0: WorldCm; w: WorldCm; h: WorldCm } } /* a child world's charter on this world as the parent — V13 §3.11.4's world subject (file r item 1010): P4 only, a `WorldCharter` emitted, `frame` ignored; `refuse.place.worldRung`, `refuse.place.worldBearing` */;
+*Evidence:* V13 §4.1's `requestCharter` event (the frame and site subjects, SW-19 of seam-world-sites-r0); item 975's `placeFrame` world form (the sibling subject for the fit).
+
+
+### Volume 13 — §5.4 Exports (the seam seat)
+
+**1011.** **The rendered reading draws the `atlas` layer set and carries the label boxes.**
+*Requests:* the spine's §14 (2); V15 §3.2 (3), §3.3 (5); seam-world-growth-r0 SW-03.
+*Current text:*
+> J-V13.127): the world's tiles at a week for an audience — the §8.1 tile sets at the four stops over the layers that⏎audience may see (the player picture of V13 §5.1 for a party; the lens and cover layers filtered as V13 §5.8 (7) and⏎(9) say) — with the extent, the datum, the latitude box, the rung, the present week, the date label and the known
+*New text:*
+> J-V13.127; file r item 1011; J-V13.134): the world's tiles at a week for an audience — the §8.1 tile sets at the four
+> stops over the **`atlas` layer set**: relief, water, routes, settlements with their glyphs at the stop and labels (V13
+> §5.1's `relief`, `water`, `routes`, `settlements` and `labels` rows, under the player picture's admission for a party)
+> and nothing else — no lens layer, no `landCover` layer, no diagnostic layer (placement outlines, anomalies, proposals,
+> traces), whatever the member's own view keys hold: a lens and the cover layer are labelled, legended instruments of a
+> world page (V13 §5.8 (2), (9)) and an atlas's picture carries no legend for them — with the placed label boxes per stop
+> (`RenderedWorld.tiles[].labels`, the placer's boxes at that stop in the member's pixel frame) — with the extent, the
+> datum, the latitude box, the rung, the present week, the date label and the known
+*Evidence:* item 981's rendered-reading paragraph (as it stands after item 981); V13 §5.1's layer rows; V13 §5.8 (2)–(3), (9) (a lens and the cover layer draw with a banner and a legend row an atlas cannot carry); V15 §3.2 (3) and J-V15.35 (the set V15 reads).
+
+
+### Volume 13 — §5.8 The lens mechanism (the seam seat)
+
+**1012.** **(10) The view reading `viewFacts`: the relational style's one reading of the plates.**
+*Requests:* the spine's §11, §14 (4); V15 §1b.5, §3.6 (2), (4), (5); seam-world-growth-r0 SW-07.
+*Current text:*
+>    encounter's generation or the clerk's placement proposal (T-V13-62's lint).
+*New text:*
+>    encounter's generation or the clerk's placement proposal (T-V13-62's lint).
+> 10. **The view reading** (`viewFacts(world, week, audience)` → `ViewFacts`, V13 §2.2; the spine's §14 (4); file r item
+>    1012; J-V13.133). The relational style (V15 §3.6) reads a world's host facts through ONE reading: the religion lens's
+>    hierarchy, faith places, patrons, contested seats and realm rank ((6)'s rows of V13 §5.9), the sway's allegiances with
+>    their roots and members, each seat's tier, size third and prosperity rung with the realm's held median, the relations
+>    with their `atWar` and the culture bands ((2), (5) and (7)'s rows; V13 §3.9), the trade lens's entrepôt centrality,
+>    exports and channels ((4)'s rows), the dated events of the kinds the caller names with their resolved audience (V13
+>    §2.2's `WorldEvent`), the water routes and the law's storm factors — each from the plates at `week` ((8)'s scrub,
+>    never later than the present) and the event index, filtered by audience as (7) filters a lens: the DM everything; a
+>    party or the public only the rows the host resolved so, a DM-only row never returned; never the alignment lens (J384
+>    (7)), a suppressed creed, a covert link or a criminal channel. What the host never sent is returned as absent by field
+>    name, never a default, so the reader's legend says so ((3)'s honesty rule). It is fact class (4) at its reader — an
+>    owner-ruled projection, labelled "projection" — and a view read, never persisted and read by no stage; it is the only
+>    reading of a world the relational style takes beside `renderAt` (T-V13-68 (j)).
+*Evidence:* V13 §5.8 (3), (7), (8) (the honesty rule, the audience filter, the plates); V13 §5.9's rows (2), (4)–(7) (every field V15 §1b.5 names exists in `LensFacts`, `PolitySeat`, `PolityRelation`, `PolityFacts.culture`, `Sway.neighbours`, `Allegiance`, `WorldEvent`, `WorldRoute.waterRuns`, `TravelLaw.water.stormFactor` — verified by the seam seat); item 982's (9) (the form of a numbered point).
+
+
+### Volume 13 — §6 Performance budgets (the seam seat)
+
+**1013.** **`WORLD-20`: the budgets of the readings owed to V15.**
+*Requests:* V15 §6 (`ATLAS-1`, `ATLAS-2`, `ATLAS-4`, `ATLAS-5`: the V13 costs they assume); seam-world-growth-r0 SW-11.
+*Current text:*
+> `nearestLawful` over the whole map ≤ 1.5 s at the realm rung. Each has its T-V13 row in §7.
+*New text:*
+> `nearestLawful` over the whole map ≤ 1.5 s at the realm rung; and `WORLD-20` the readings owed to V15 (file r item
+> 1013; V15 §6's `ATLAS-1`, `ATLAS-2`, `ATLAS-4`, `ATLAS-5` read these): `edgeCharter` over a whole side ≤ 60 / 120 / 200
+> ms at the three rungs (one station per coarse cell, the monthly arrays sampled), `renderAt` ≤ `WORLD-8`'s tile law × the
+> tiles asked + 2 ms per stop for the label boxes, a world-subject `requestCharter` or a world-rung transient `charterFor`
+> ≤ 4 × `edgeCharter` + the ground's chunk references (≤ 300 ms at the continent rung), `viewFacts` ≤ 50 ms per (week,
+> audience) from a decoded plate, and `solve(…, 'arrange')` ≤ 200 ms at 32 placements and 64 relations (the evaluators'
+> cost the caller's, V15's `ATLAS-1`). Each has its T-V13 row in §7.
+*Evidence:* item 983 (h)'s register sentence (the form; `WORLD-16` – `WORLD-19`); V15 §6's rows ("requested ≤ 200 ms per edge, RQ-V15-1"; "V13's `renderAt` over 1.33 × the native pixels"); the science note's §10 (an edge reading is one row of the coarse grid).
+
+
+### Volume 13 — §7 Tests and acceptance bars (the seam seat)
+
+**1014.** **T-V13-68 (g)–(j): the rendered reading, the world subject, re-matching and `viewFacts`; T-V13-70 measures `WORLD-20`; the two refusals of the world subject.**
+*Requests:* the spine's §17 (the atlas families); V15 §7 (T-V15-2, -4, -11, -13); seam-world-growth-r0 SW-03, SW-05 – SW-07, SW-10, SW-11.
+*Current text* (a):
+> (f) `solve(..., 'arrange')` over member placements runs no world stage (a call-count assertion) | the seam fixture; a two-member arrangement fixture |
+*New text* (a):
+> (f) `solve(..., 'arrange')` over member placements runs no world stage (a call-count assertion), takes its cost terms only from registered evaluators (a kind with none ends `unmet` with `noEvaluator`) and gives the same arrangement over permuted placements and relations; (g) **the rendered reading** — `renderAt`'s tiles draw the `atlas` layer set alone (a pixel compare against the world view with the lens, cover and diagnostic layers off) and every stop's label boxes equal the placer's boxes at that stop; (h) **the world subject** — `requestCharter` with a world subject on the seam fixture's realm moves the parent's model digest by the placement record alone and no raster cell; the child generated from its `WorldCharter` meets the parent's four edges within `edgeRmsRefCm`, its coarse ground equals the parent's rasters over the extent at the parent's cell, and the parent's frames inside the extent are its planned sites and never its frames; the transient world-rung `charterFor` writes nothing and equals the recorded one byte for byte; (i) **re-matching** — `setRequirements` with a neighbour's live charter and `regenerate` of W1 over a 20 km strip changes no cell outside the strip's closure and nothing in the neighbour; (j) **`viewFacts`** returns, for a party audience, no row the host resolved DM-only and never an alignment, suppressed-creed, covert or criminal row (a schema and a fixture assertion), names its absent fields, and equals the plates' facts at the week asked | the seam fixture; a two-member arrangement fixture; the nested fixture (a province extent inside the realm); B-POLITY's plates |
+*Current text* (b):
+> | T-V13-70 | **the budgets `WORLD-16` – `WORLD-19` and `WORLD-3`'s best-form bar**
+*New text* (b):
+> | T-V13-70 | **the budgets `WORLD-16` – `WORLD-20` and `WORLD-3`'s best-form bar**
+*Current text* (c):
+> `refuse.world.layerCells`, `refuse.dossier.pending` | refusal:
+*New text* (c):
+> `refuse.world.layerCells`, `refuse.dossier.pending`, `refuse.place.worldRung`, `refuse.place.worldBearing` | refusal:
+*Evidence:* item 984's T-V13-68 and T-V13-70 (the rows as they stand after item 984) and its refusal row; V15 §7's rows that read these clauses.
+
+
+### Volume 13 — §8 Build plan (the seam seat)
+
+**1015.** **M-W6 lands every reading owed to V15; H35 the atlas as a per-user record.**
+*Requests:* the spine's §15 (the milestones and the order by value), §16 (atlas sharing the owner's); V15 §8, §10.2 (H35), §11 Q2; seam-world-growth-r0 SW-12, SW-15.
+*Current text* (a):
+> `edgeCharter` and `renderAt` (the seams, so V15's M-ATLAS-A and -B can start)
+*New text* (a):
+> `edgeCharter`, `renderAt` with its `atlas` layer set and label boxes, `placeFrame`'s rung-general form, `requestCharter`'s world subject with `WorldCharter`, `solve.registerEvaluator` and `viewFacts` (the readings owed to V15, file r items 1006–1012, so V15's M-ATLAS-A, -B and -C can start — M-ATLAS-C's facts those of the lenses M-W5 has landed)
+*Current text* (b):
+> after it, so the cover fold withdraws the fields; a volcano the DM marks active and an eruption the DM stamps arriving as dated events it may read, never as strikes it must roll | M-W8; H4; H9; H13 |
+*New text* (b):
+> after it, so the cover fold withdraws the fields; a volcano the DM marks active and an eruption the DM stamps arriving as dated events it may read, never as strikes it must roll | M-W8; H4; H9; H13 |
+> | H35 | with M-ATLAS-A (the record and the resolver), M-ATLAS-B (the owner of a continued world), the gallery (the owner's, V15 §11 Q2) | **the atlas as a per-user record** (F15; V15 §2.11, §3.4 (7), §5.5; the row V15 §10.2 asks, appended by file r item 1015): a per-user atlas record beside the campaign's world records (snapshot, backups, quota, lifecycle) and a resolver reference for a world document of any campaign the user may read, read-only; which campaign owns a world generated from an atlas's continuation request (the dialog's generate in host mode); its share and access rules for an atlas and for a member's imagery across campaigns — each optional, dark by default, with its tier line and degraded arm (absent ⇒ the atlas a file through the share sheet's Download; a continuation in host mode refused, `refuse.atlas.hostWorld`) | M-ATLAS-A; H4; H10 |
+*Evidence:* item 985's M-W6 row and H31 – H34 (the forms); V15 §10.2's H35 row (its text taken whole); the state note's Part D (one map per campaign, no atlas); the spine's §15 ("Order by value: … sail routing; M-ATLAS-A; M-ATLAS-B and -C").
+
+
+### Volume 13 — §9 Decisions (the seam seat)
+
+**1016.** **J-V13.131 – J-V13.134: the world subject, the evaluators' registration, `viewFacts`, the `atlas` layer set and M-W6.**
+*Requests:* the spine's §16 (a decision row per choice); seam-world-growth-r0 SW-03, SW-05 – SW-07, SW-15.
+*Current text:*
+> each a drift T-V13-72's lint now catches |
+*New text:*
+> each a drift T-V13-72's lint now catches |
+> | J-V13.131 | chose **the world subject of `requestCharter` and the `WorldCharter`** (the spine's §10.6's preferred path; V15 §3.5 (a); file r items 1007, 1009, 1010) — the world-first order one rung up: P4 only on the parent, the four edge charters, the parent's rasters as the child's coarse ground upsampled as a bake is, the parent's frames as planned sites, the parent's digest moved by the placement alone — over a child generated blind inside its parent and fitted after (the fit bends the parent; the preferred path bends nothing and is coherent by construction) and over copying the parent's fine rasters into the child (a coarse ground refined by the lattice is the one principle every rung already obeys, V13 §3.11.4, §3.2) |
+> | J-V13.132 | chose **one registration path for the arrangement's evaluators** (`solve.registerEvaluator`; the spine's §14 (5); V15 §13's F15-5; file r item 1007) — V15 owns its atlas-scale kinds' costs as V14 owns its siting terms (`terms.register`, V13 §3.7), V13 the engine, the ladder, the least-change search and the report — over housing V15's words in V13's tables (V13 would then state what a relation between atlases asks, which is V15's single statement) and over a second solver in V15 (two engines deciding one arrangement drift) |
+> | J-V13.133 | chose **`viewFacts` as the relational style's one reading** (the spine's §14 (4); file r items 1007, 1012) — from the plates and the event index at a week, audience-filtered as a lens, absent facts named, class 4 at the reader — over V15 reading `lensAt` per lens (eight readings, each a drawn layer, none a fact set) and over the raw plates (a plate is the mechanism's cache; a reading is its contract) |
+> | J-V13.134 | chose **`renderAt` over the `atlas` layer set with the label boxes, landing at M-W6** (the spine's §14 (2), §15's order; file r items 1007, 1011, 1015) — relief, water, routes, settlements and labels, no lens, cover or diagnostic layer; the placed boxes beside the tiles; the reading in M-W6 beside `edgeCharter` and `solve`, so V15's M-ATLAS-A follows M-W6 — over the member's full layer set (a lens and the cover layer are legended instruments of a world page) and over `renderAt` in M-W3 (the spine orders the atlas after the growth milestones, and one milestone then lands every reading V15 takes) |
+*Evidence:* item 986's rows J-V13.107 – J-V13.130 (the form); V15 §9's J-V15.8, J-V15.10, J-V15.21, J-V15.35 (the V15 decisions these rows meet).
+
+
+### Volume 13 — §10 Base change requests: §10.3 (the seam seat)
+
+**1017.** **§10.3 Requests to V15 (R-V15-1 – R-V15-4).**
+*Requests:* the spine's §14 (6); V15 §1b.6, §10.2 (RQ-V15-1 – RQ-V15-6), §13's F15-2; seam-world-growth-r0 SW-13.
+*Current text:*
+> offered in the DM's map feed (J384 (10)) | V13 §3.11.6, §5.9 |
+*New text:*
+> offered in the DM's map feed (J384 (10)) | V13 §3.11.6, §5.9 |
+>
+> ### 10.3 Requests to V15 (what V15 must supply; single source: these stay V15's facts)
+>
+> | request | what V13 needs | where V13 reads it |
+> |---|---|---|
+> | R-V15-1 | no reverse seam: `@plat/atlas` imports no writer of a world document's log and holds no writable member handle (V15's T-V15-19); V13's `edit` entry points refuse a caller whose package is `@plat/atlas` (V15's RQ-V15-6) | V13 §1b.2, §4.1 |
+> | R-V15-2 | the atlas-scale evaluators of V15 §2.3's words registered once through `solve.registerEvaluator` before V15's first `solve(…, 'arrange')` (V15 §3.1 (2)); the search's bound `opts.maxIterations` V15's cell | V13 §2.2 (`ArrangeEvaluator`), §1b.2 |
+> | R-V15-3 | a continuation's request as a `WorldRequest` whose `edgeCharters` are the carried `WorldEdgeCharter`s unchanged, its pre-fill as `set` `OptionChoice` rows and its accepted reconciling features as `set` `landform` rows (V15 §3.4 (4), (5), (7)); a derived child's request as a `WorldRequest` with `parentCharter` (V15 §3.5 (a)); a re-match as `setRequirements` and `regenerate` on the member's own page (V15 §4.7 (3)) | V13 §3.1 (5), (6), §3.11.4 |
+> | R-V15-4 | every reading of a member taken through `renderAt`, `edgeCharter`, `viewFacts`, `charterFor`, `worldFactsAt` and `derivedTime` alone, at the member's version, through a read-only handle (V15 §1b.6) — never a raster, a record or a plate | V13 §1b.2, §5.4, §5.8 (10) |
+*Evidence:* V13 §10.2's R-V14-n rows (the form); V15 §1.1's package rule and T-V15-19 (what V15 promises).
+
+
+### INDEX — the status lines and §1 (the seam seat)
+
+**1018.** **INDEX's status lines and its count of the volumes: fifteen.**
+*Requests:* V15 §10.4; seam-world-growth-r0 SW-16.
+*Current text* (a):
+> > PENDING FABLE REVIEW — the rows for volumes 13 and 14 written by the session's integration seat volumes/_integrate-world-sites under the owner's delegation (J339; 2026-10-17); covered by the whole-design retrovalidation (J84).
+*New text* (a):
+> > PENDING FABLE REVIEW — the rows for volumes 13 and 14 written by the session's integration seat volumes/_integrate-world-sites under the owner's delegation (J339; 2026-10-17); covered by the whole-design retrovalidation (J84).
+> > PENDING FABLE REVIEW — the rows for volume 15 written by the session's seam seat volumes/seam-world-growth under the owner's delegation (J392; 2026-10-23; file r items 1018–1025); covered by the whole-design retrovalidation (J84).
+*Current text* (b):
+> **What this file is.** The one map of the whole design: the base (`docs/ARCHITECTURE.md`) and the fourteen design volumes⏎(`docs/volumes/V01`–`V14`) that take every subject the base carries at hook depth to build depth.
+*New text* (b):
+> **What this file is.** The one map of the whole design: the base (`docs/ARCHITECTURE.md`) and the fifteen design volumes
+> (`docs/volumes/V01`–`V15`) that take every subject the base carries at hook depth to build depth.
+*Evidence:* INDEX's own status-line and opening-paragraph forms; `docs/volumes/V15-atlas.md` landed 2026-10-23 (`docs/lane-events.log`).
+
+**1019.** **INDEX §1: the product-map row for V15.**
+*Requests:* V15 §10.4 (the row text as the seam seat reconciled it: M-ATLAS-A after M-W6; the world subject; `viewFacts`); seam-world-growth-r0 SW-15, SW-16.
+*Current text:*
+> | **M-ENC** after M1 (its interiors with M6-P's P1); **M-SITE-A** after M6-U; **M-SITE-F** after M-W1; **M-25D** after M4 beside M5 (V14 §8) | 25.75–36.25 (M-ENC 4.25–5.75; M-SITE 13–18.5; M-25D 7.75–11; content 0.75–1) |
+*New text:*
+> | **M-ENC** after M1 (its interiors with M6-P's P1); **M-SITE-A** after M6-U; **M-SITE-F** after M-W1; **M-25D** after M4 beside M5 (V14 §8) | 25.75–36.25 (M-ENC 4.25–5.75; M-SITE 13–18.5; M-25D 7.75–11; content 0.75–1) |
+> | V15 | `V15-atlas.md` | the atlas — the owner's "world map" (F11–F15): an individual save of finished world maps held by reference, arranged by the user (direct placement and described relations solved by the requirement engine at atlas scale, layout presets, warnings never refusals), rendered at one pixel resolution per level with seams softened along shared stretches, detail steps eased or framed as insets, continued into its voids at the next map's generation through V13's world edge charters (timeless facts only, locked), a child fitted into a parent through V13's rung-general placement or derived from it through the world subject of `requestCharter`, each member a microcosm at its own present with its date, drift read and never corrected, deletion leaving a marked gap, sharing imagery only for shareable members, drill-down to the live member; and the relational historical style (F10): a view over an atlas or one world — an adjacency-preserving flow-based cartogram with a centre magnification and an orientation, a slider to the true map, true distance and travel time on hover, the distortion from facts (centre, importance, orientation, knowledge) read through V13's `viewFacts`, embellishments derived from the fictional cultures' facts and never real-world peoples, viewpoints (an audience plus a culture), three presets (mappa mundi, portolan, itinerary strip) | §2.9 (`Recipe.product` `'atlas'`, `Recipe.atlas`, `atlasImagery`, the atlas's view keys), §4.12, §5.2, §5.4, §6.1, §7.1, §7.6, §8.4, §9.5, §11.1, §11.2, §11.5, §12.8, §12.10, §13.2, §14, §16 (BCR-V15-1 – BCR-V15-15, pending the coherence pass) | **M-ATLAS-A** after M-W6 (`renderAt`, `edgeCharter`, `solve`; file r item 1015) beside M-W7 – M-W9; **M-ATLAS-B** after M-W6 and M-ATLAS-A; **M-ATLAS-C** after M-W5 and M-ATLAS-A (V15 §8) | 7–10 (M-ATLAS-A 2.5–3.75; M-ATLAS-B 2–3; M-ATLAS-C 2–3; content 0.5–0.75; the art library the owner's own line) |
+*Evidence:* INDEX §1's row form (V13's and V14's rows); V15 §1.1, §8, §10.1 (the sections the row summarises).
+
+**1020.** **INDEX §1: the request census gains V15's requests.**
+*Requests:* V15 §10.4; seam-world-growth-r0 SW-16.
+*Current text:*
+> and BCR-V13-39 (V09) stand with no admission item, each for the coherence pass to admit by an item of its own (J387's and J388's pending ledger).
+*New text:*
+> and BCR-V13-39 (V09) stand with no admission item, each for the coherence pass to admit by an item of its own (J387's and J388's pending ledger). Volume 15 (2026-10-23) adds fifteen requests to the base (BCR-V15-1 – BCR-V15-15) and eleven to the siblings (RQ-V15-1 – RQ-V15-11, the first six V13's spine §14 seams, each defined by file r items 1006–1017 as V13's own; an H-row, H35, appended to V13 §8.5 by file r item 1015), each base request for the world-growth coherence pass to admit by an item from 1029; none is applied yet.
+*Evidence:* INDEX §1's census sentence as item 1002 leaves it; V15 §10.1–§10.3 (fifteen base requests, eleven sibling requests, one H-row).
+
+
+### INDEX — §2 (the seam seat)
+
+**1021.** **INDEX §2: the wiring row for V15 and the wiring-density sentence.**
+*Requests:* V15 §10.4; seam-world-growth-r0 SW-16.
+*Current text* (a):
+> V12 (B-SITE, B-CROP, B-25D, V14-P, the no-op pins), the DM (the crop at the table, the VTT scenes) |
+*New text* (a):
+> V12 (B-SITE, B-CROP, B-25D, V14-P, the no-op pins), the DM (the crop at the table, the VTT scenes) |
+> | V15 | §2.9 (`Recipe.product` `'atlas'` and `Recipe.atlas`; `Document.atlasImagery`; the atlas's view keys), §4.12's `atlas` product, §5.2 F-ATLAS, §5.4's `W_ATLAS_*`, §6.1's `atlas` concern and stage ids `A1`–`A7`, §7.1's atlas edit kinds and conflict actions, §7.6's `atlas.*` tables, §8.4's atlas layers, §9.5 (the legend's note, the true scale bar, the compass under a viewpoint), §11.1's atlas exports and the refusal of the world shapes, §11.2 `PlatApi.atlas.*`, §11.5's member resolution and the shared atlas, §12.8's atlas line, §12.10's `ATLAS-n`, §13.2's T-V15 rows, §14 `@plat/atlas` and `@plat/render/atlas`, §16's M-ATLAS rows | V13 (`WorldHeader`, the rungs and size rows, `edgeCharter` and `WorldEdgeCharter`, `renderAt` with the placed labels and the known sets, the rung-general placement, the world subject of `requestCharter` and the transient world-rung charter, `viewFacts` over the lens plates, `solve` with its registered evaluators, `derivedTime`, `worldFactsAt`, the conflict list and the fork preview), V09 (the atlas page, Open / recent / new, the share sheet, the catalogue), V10 (the parse of a described relation; the `atlas` why section), V11 (the `atlas.*` rows, the figure glyphs, the blocklist, the lettering faces), V12 (B-ATLAS, V15-P, the pin, the register), V14 (the drill's last rungs; the `ZDecl` reason `imagery`) | the user (the atlas page, the pictures, the shared atlas); V13 (a continuation's `WorldRequest` with locked edge charters; a fit's placement request on a parent; a re-match's regenerate under a charter — each the user's act on the member's page); V09 (the page's rows and keys); V10 (the section); V12 (the fixtures and measures) |
+*Current text* (b):
+> Volumes 13 and 14 (counted 2026-10-17): V14–V13 386, V13–V14 151 — the `seam-world-sites` check's pair.
+*New text* (b):
+> Volumes 13 and 14 (counted 2026-10-17): V14–V13 386, V13–V14 151 — the `seam-world-sites` check's pair. Volume 15 (2026-10-23) cites V13 in every section and V13 cites V15 only in the readings file r's items 942 and 1006–1017 define for it (the one-way seam the spine §14 names: V13 supplies, V15 consumes); the `seam-world-growth` check's pair (`critique/seam-world-growth-r0.md`).
+*Evidence:* INDEX §2's row and sentence forms; V15 §1b (the wiring table the row indexes).
+
+
+### INDEX — §3 and §4 (the seam seat)
+
+**1022.** **INDEX §3 and §4: M-ATLAS-A – M-ATLAS-C in the graph, the table and the order paragraph.**
+*Requests:* V15 §8, §10.4; seam-world-growth-r0 SW-15, SW-16.
+*Current text* (a):
+>   MW -.-> M25⏎
+*New text* (a):
+>   MW -.-> M25
+>   MW --> MATA["M-ATLAS-A image-only atlas, arrangement, drill-down (V15), after M-W6 (its readings) beside M-W7 … M-W9"]
+>   MATA --> MATB["M-ATLAS-B continuation at generation, the fit across rungs (V15), after M-W6 and M-ATLAS-A"]
+>   MATA --> MATC["M-ATLAS-C the relational style (V15), after M-W5 and M-ATLAS-A"]
+>
+*Current text* (b):
+> | M-25D (V14) | M4 | M5 | its world rows after M-W1 and the islands' slabs after M6-sky (registry lookups) |
+*New text* (b):
+> | M-25D (V14) | M4 | M5 | its world rows after M-W1 and the islands' slabs after M6-sky (registry lookups) |
+> | M-ATLAS-A (V15) | M-W6 (`renderAt` with its label boxes and `atlas` layer set, `edgeCharter`, `solve` with the registered evaluators; file r item 1015) and V09's world page | M-W7 – M-W9; M-SITE-F | the atlas in host mode a file until H35 |
+> | M-ATLAS-B (V15) | M-W6 (the solver, the edge charter, the rung-general placement and the world subject of `requestCharter`) and M-ATLAS-A | M-W7 – M-W9 | the charter carries formation's bedrock and soils once M-W7 lands; a continuation owned by a campaign in host mode waits on H35 |
+> | M-ATLAS-C (V15) | M-W5 (the lenses, read through `viewFacts` from M-W6) and M-ATLAS-A | M-ATLAS-B | the art library lands on the owner's budget, replacing the line-art figures row by row (content only) |
+*Current text* (c):
+> M-W6 – M-W9 the world's growth after M-W2, file r item 985); M-SITE-F after M-W1. Every milestone's
+*New text* (c):
+> M-W6 – M-W9 the world's growth after M-W2, file r item 985); M-SITE-F after M-W1. Volume 15 (2026-10-23; the owner's rules F10–F15 under the spine, each decision vetoable) adds, as its §8 states and BCR-V15-11 asks of §16: M-ATLAS-A after M-W6 beside M-W7 – M-W9; M-ATLAS-B after M-W6 and M-ATLAS-A; M-ATLAS-C after M-W5 and M-ATLAS-A. Every milestone's
+*Evidence:* INDEX §3's graph and table forms, §4's paragraph form (item 1003's rows as they stand); V15 §8's table and J-V15.21 as the seam seat amended it.
+
+
+### INDEX — §5 (the seam seat)
+
+**1023.** **INDEX §5: the cross-volume risk 13 and the spikes sentence (V13's SP-W9 and SP-W10; V15's SA0, SA3 and its fit spike).**
+*Requests:* V15 §8 (the risks and spikes), §10.4; file r item 985 (SP-W9, SP-W10); seam-world-growth-r0 SW-16.
+*Current text* (a):
+> | the named fallbacks (BCR-V13-21's order clause; V14 §1b.6's rows; T-V13-37's mock host) |
+*New text* (a):
+> | the named fallbacks (BCR-V13-21's order clause; V14 §1b.6's rows; T-V13-37's mock host) |
+> | 13 | the atlas's readings landing late — `renderAt`, `edgeCharter`, `solve` with its evaluator registration, the rung-general placement and the world subject of `requestCharter` (all M-W6; file r item 1015), the lens readings (`viewFacts` over M-W5's lenses); the host's atlas store (H35) | none needed: each order is written out (V15 §8) | nothing of the atlas ships before M-W6; image-only nesting with the mismatch warning until the fit lands; the relational terms neutral with the legend saying so; the atlas a file in host mode (V15 §8's risks 3–5) |
+*Current text* (b):
+> SP-W1 – SP-W7 (M-W0, once M0 closes; before M-W1). The first-five-minutes sessions
+*New text* (b):
+> SP-W1 – SP-W7 (M-W0, once M0 closes; before M-W1), SP-W9 and SP-W10 (M-W7's gate; file r item 985); V15's SA0 (M-ATLAS-A's start), SA3 (M-ATLAS-C's start) and its fit spike (c) at M-ATLAS-B's start. The first-five-minutes sessions
+*Evidence:* INDEX §5's row and sentence forms; V15 §8's risks 3–5 and spikes; item 985's SP-W9 and SP-W10 (absent from the spikes sentence after item 1003 — a file r omission the seam seat carries).
+
+
+### INDEX — §6 (the seam seat)
+
+**1024.** **INDEX §6: V15's four owner questions.**
+*Requests:* V15 §11, §10.4; seam-world-growth-r0 SW-16.
+*Current text* (a):
+> Volumes 13 and 14's eight questions carry the session's recommendation
+*New text* (a):
+> Volumes 13 and 14's nine questions (V13's Q5 from file r) and volume 15's four carry the session's recommendation
+*Current text* (b):
+> | V14 | Q4 — a vendor block in the VTT export carrying each unit's reason and the anchor's knowledge state | yes, as an optional namespaced block off by default; the common fields unchanged (recommended; vetoable) |
+*New text* (b):
+> | V14 | Q4 — a vendor block in the VTT export carrying each unit's reason and the anchor's knowledge state | yes, as an optional namespaced block off by default; the common fields unchanged (recommended; vetoable) |
+> | V15 | Q1 — the product label for the atlas ("World map" is admitted; the architecture's word stays "atlas") | "World map" in every user-facing string, "atlas" in every record and test (recommended; the owner's word) |
+> | V15 | Q2 — sharing and privacy across campaigns: may an atlas show, share or publish a member world of another campaign, and under which gallery rule (a capability across the SettlementForge boundary; H35) | a member's imagery travels only where that world's own sharing allows it; across campaigns the host's gallery rule once H35 lands, until then the user's own worlds only (recommended; vetoable) |
+> | V15 | Q3 — money: the art library for the relational style (monsters, vignettes, cartouches, lettering), outside the volume's line | fund it after the owner's sitting on the line-art presets at M-ATLAS-C; the mechanism ships without it (recommended; vetoable) |
+> | V15 | Q4 — money: the cost, 7–10 person-weeks across three milestones (V15 §8) | accept; M-ATLAS-A's 2.5–3.75 pw buys F11, F12 and F15 in hand, M-ATLAS-B's 2–3 pw F13 narrowed by F14, M-ATLAS-C's 2–3 pw F10 (recommended; vetoable) |
+*Evidence:* INDEX §6's row form; V15 §11's Q1–Q4 (the rows taken whole from V15 §10.4).
+
+
+### INDEX — §7 and §8 (the seam seat)
+
+**1025.** **INDEX §7 and §8: how V15 was reconciled; its price among the PLAUSIBLE ones.**
+*Requests:* V15 §8, §10.4, §12; seam-world-growth-r0 SW-16.
+*Current text* (a):
+> `lens-q.md`, each named by its file's status line).
+*New text* (a):
+> `lens-q.md`, each named by its file's status line). Volume 15 (2026-10-23) was written under the spine `docs/design/spine-world-growth-2026-10-23.md` beside amendments r (`docs/AMENDMENTS-2026-10-23r.md`, pending application) and reconciled with it by the world-growth seam check (`critique/seam-world-growth-r0.md`: every finding fixed in place in V15 or carried as an item of file r, 1006–1028); its own critique round is pending.
+*Current text* (b):
+> the world's 51–66 is 37–45 by file o plus 14–21 by file r) and the two totals §16
+*New text* (b):
+> the world's 51–66 is 37–45 by file o plus 14–21 by file r; volume 15's 7–10 likewise, PLAUSIBLE until SA0 and SA3 report) and the two totals §16
+*Evidence:* INDEX §7's paragraph and §8's PLAUSIBLE line (the forms); V15 §8's total 7–10 and its spikes.
+
+
+### SUMMARY — the status line and the opening paragraph (the seam seat)
+
+**1026.** **SUMMARY's status line, its count of the volumes, the volumes added and the decisions that are the owner's.**
+*Requests:* V15 §10.4, §11; seam-world-growth-r0 SW-16.
+*Current text* (a):
+> > PENDING FABLE REVIEW — the parts on volumes 13 and 14 written by the session's integration seat volumes/_integrate-world-sites under the owner's delegation (J339; 2026-10-17); covered by the whole-design retrovalidation (J84).
+*New text* (a):
+> > PENDING FABLE REVIEW — the parts on volumes 13 and 14 written by the session's integration seat volumes/_integrate-world-sites under the owner's delegation (J339; 2026-10-17); covered by the whole-design retrovalidation (J84).
+> > PENDING FABLE REVIEW — the parts on volume 15 written by the session's seam seat volumes/seam-world-growth under the owner's delegation (J392; 2026-10-23; file r items 1026–1027); covered by the whole-design retrovalidation (J84).
+*Current text* (b):
+> generator in full; fourteen design volumes now describe, to the same depth, every later stage of your roadmap
+*New text* (b):
+> generator in full; fifteen design volumes now describe, to the same depth, every later stage of your roadmap
+*Current text* (c):
+> rules of 16 October, the world a town stands in, the persistent sites and battle maps, and a 2.5D view (volumes 13⏎and 14, added on 17 October). The volumes were
+*New text* (c):
+> rules of 16 October, the world a town stands in, the persistent sites and battle maps, and a 2.5D view (volumes 13
+> and 14, added on 17 October) — and, since your rules of 22–23 October, the world map that lays your finished maps on one
+> table and the mapmaker's eye (volume 15, added on 23 October). The volumes were
+*Current text* (d):
+> There are thirty-three decisions that are yours by rule (twenty-five from the first twelve volumes, eight from the two⏎new ones: seven you deferred to the session on 16 October, and one
+*New text* (d):
+> There are thirty-seven decisions that are yours by rule (twenty-five from the first twelve volumes, four from the
+> world map — its name, its sharing across campaigns, the art for the mapmaker's eye and its cost —, eight from the two
+> new ones: seven you deferred to the session on 16 October, and one
+*Evidence:* SUMMARY's own voice and forms; V15 §11's four questions (the count).
+
+
+### SUMMARY — item 15, the order, the costs, the decisions (the seam seat)
+
+**1027.** **SUMMARY: the world map and the mapmaker's eye (item 15), its place in the order, its price, the whole program re-summed, the decisions that are the owner's.**
+*Requests:* V15 §0, §8, §11, §10.4; seam-world-growth-r0 SW-16.
+*Current text* (a):
+>     exactly what the flat view would select.⏎
+*New text* (a):
+>     exactly what the flat view would select.
+> 15. **The world map, and the mapmaker's eye (volume 15).** Lay the maps you have made on one table: your realm, the
+>     province beside it, a continent from another campaign. Drag each to where it belongs, or say it — "Varn lies east of
+>     Ashmark across a narrow sea" — and the table arranges them, warning (never refusing) where a cold north meets a hot
+>     south; where two maps share an edge the pictures are softened into one another, where a finer map lies inside a coarser
+>     one it sits in a thin frame like an inset in a printed atlas, and between maps there is sea, mist, mountains or honest
+>     blank parchment. Each map stays its own world on its own calendar: nothing you change in one ever changes another,
+>     each shows its own date, and if two drift apart at an edge the table says so to the game master and corrects nothing.
+>     Click the empty space beside a map and say "make a map here", and the new map is born meeting its neighbours — their
+>     coasts, heights, rivers, winds, rock and climate continue across the edge, and nothing that merely happened to them
+>     does. Click any map to open it, then a town, a house, a dungeon. A player's table shows only what the party knows.
+>     And turn on the mapmaker's eye: the world as a medieval scribe of one of your cultures would have drawn it — the holy
+>     city huge at the centre, east at the top, the lands that matter swollen and the rest squeezed to the rim, serpents in
+>     the deep seas, dragons where knowledge ends, monsters in the lands that culture fears or hates, a skull where the
+>     plague struck — with a slider back to the true map and the true distance and travel time under your cursor at every
+>     moment. Every monster comes from your invented cultures' facts and never from any real people; you may add, move or
+>     remove any of them. Three looks ship: the sacred map, the sea chart with its compass roses, and the pilgrim's strip
+>     with the days between towns.
+>
+*Current text* (b):
+>    country once the world exists.⏎
+*New text* (b):
+>    country once the world exists.
+> 7. **The world map (volume 15)** slots in after the world's requirement solver (which also brings the picture reading and
+>    the edge charter the world map needs), its continuation and fitting beside it, and the mapmaker's eye after the map lenses.
+>
+*Current text* (c):
+>   the sites 13–18.5, the 2.5D view 7.75–11, their content under 1).⏎
+*New text* (c):
+>   the sites 13–18.5, the 2.5D view 7.75–11, their content under 1).
+> - **The world map and the mapmaker's eye (volume 15):** about **7–10 person-weeks** (the image-only world map with
+>   arrangement and drill-down 2.5–3.75, continuation and fitting 2–3, the mapmaker's eye 2–3, content under 1), plus the
+>   art for the mapmaker's eye — monsters, vignettes, cartouches, lettering — on your own budget, which the design does not
+>   price.
+>
+*Current text* (d):
+> - **The whole program with the two new volumes:** about **455–620 person-weeks** (the earlier 392–539 plus the two⏎  lines above).
+*New text* (d):
+> - **The whole program with the three new volumes:** about **476–651 person-weeks** (the earlier 392–539 plus the three
+>   lines above: the world's 51–66, the sites' 25.75–36.25, the world map's 7–10).
+*Current text* (e):
+>   an optional block that is off unless you turn it on.⏎
+*New text* (e):
+>   an optional block that is off unless you turn it on.
+> - **The world map** (four questions; your rules of 22–23 October, each decision vetoable): the product's name for it ("World map" is fine; the design calls it an atlas inside); whether and how a world map may show or share a map from another campaign (recommended: only where that map's own sharing allows, under your host's gallery rule once it has one); the art for the mapmaker's eye (recommended: fund it after you have seen the plain line-art version); and its cost, about 7–10 person-weeks.
+>
+*Evidence:* SUMMARY's own voice (item 13's and item 14's form; the owner's words of J392 as the paragraph echoes them); V15 §0 (the plain words the item condenses), §8 (7–10 pw), §11; the whole-program bullet re-summed from the lines above it (item 1005 widened the world's line without re-summing it — a file r omission the seam seat carries): 392–539 + 51–66 + 25.75–36.25 + 7–10 = 475.75–651.25.
+
+
+### README — the table of what is where (the seam seat)
+
+**1028.** **README: fifteen volumes; the atlas volume's row; file r among the pending amendment files.**
+*Requests:* V15 §10.4; the brief to the seam seat (6b); seam-world-growth-r0 SW-16.
+*Current text* (a):
+> (core + index + fourteen volumes; regenerated by `tools/bundle_architecture.py`)
+*New text* (a):
+> (core + index + fifteen volumes; regenerated by `tools/bundle_architecture.py`)
+*Current text* (b):
+> `critique/V14.md`, `critique/seam-world-sites-r0.md`, `docs/volumes/_integrate-world-sites.md` |⏎
+*New text* (b):
+> `critique/V14.md`, `critique/seam-world-sites-r0.md`, `docs/volumes/_integrate-world-sites.md` |
+> | The atlas volume (the owner's "world map": finished world maps as saves, arranged by the user, continued at the next map's generation, each a microcosm on its own clock; and the relational historical style), with the world-growth seam check that reconciles it with amendments r (the volume's own critique round is pending) | `docs/volumes/V15-atlas.md`, `docs/volumes/critique/seam-world-growth-r0.md` |
+>
+*Current text* (c):
+> `docs/AMENDMENTS-2026-10-16k.md` (items 600–647: volumes 13 and 14's requests, superseding file j's forecast table) |
+*New text* (c):
+> `docs/AMENDMENTS-2026-10-16k.md` (items 600–647: volumes 13 and 14's requests, superseding file j's forecast table); `docs/AMENDMENTS-2026-10-23r.md` (items 926–1028: the owner's world-growth rules F1–F9 into volume 13, the base, volume 9, the proposal, the brief, the index, the summary and this file, with the seam seat's items reconciling volume 15; pending application) |
+*Evidence:* README's own table form (the V13/V14 row, the pending-changes row); `docs/volumes/V15-atlas.md` and `docs/AMENDMENTS-2026-10-23r.md` landed 2026-10-23 (`docs/lane-events.log`).
+
+---
+
 ## Census (the file's tail; group 11)
 
 **Items.** 926–934 the owner's rules F1–F9 (nine items, quoted verbatim from PROGRESS.md J390–J392 with the
@@ -3037,7 +3529,7 @@ session's readings; carried into V13 §1.3 by item 939); 935–1005 the change i
 quote verified twice (by exact search in the target as it now stands, and by the dry run that applies every fragment in
 order to copies of the targets: 188 of 188 matched exactly once at their turn, 188 new texts exactly once after).
 **Quotes that could not be verified: none.** By target: V13 935–989 (55 items), V09 990–993 (4), the base 994–998 (5),
-the proposal 999, the brief 1000, INDEX 1001–1004 (4), SUMMARY 1005.
+the proposal 999, the brief 1000, INDEX 1001–1004 (4), SUMMARY 1005. **The seam seat's items 1006–1028** (23 items, 47 fragments; `docs/volumes/critique/seam-world-growth-r0.md`): V13 1006–1017 (12), INDEX 1018–1025 (8), SUMMARY 1026–1027 (2), README 1028 (1) — every quote verified by the same dry run with README.md added to its targets, each matched exactly once at its turn and each new text exactly once after.
 
 | item | target | section |
 |---|---|---|
@@ -3112,6 +3604,29 @@ the proposal 999, the brief 1000, INDEX 1001–1004 (4), SUMMARY 1005.
 | 1003 | INDEX | §2 the milestone graph, §3 the milestone table and the order paragraph, §4's cost line |
 | 1004 | INDEX | §5 the owner questions |
 | 1005 | SUMMARY | item 13 and the cost lines |
+| 1006 | V13 | §1b.2 Stage outputs and interfaces |
+| 1007 | V13 | §2.2 New records |
+| 1008 | V13 | §3.1 W0 Blueprint |
+| 1009 | V13 | §3.11 P1–P5 Placement |
+| 1010 | V13 | §4.1 The edit events |
+| 1011 | V13 | §5.4 Exports |
+| 1012 | V13 | §5.8 The lens mechanism |
+| 1013 | V13 | §6 Performance budgets |
+| 1014 | V13 | §7 Tests and acceptance bars |
+| 1015 | V13 | §8 Build plan |
+| 1016 | V13 | §9 Decisions |
+| 1017 | V13 | §10.3 Requests to V15 (new) |
+| 1018 | INDEX | the status lines; the opening paragraph |
+| 1019 | INDEX | §1 the V15 row |
+| 1020 | INDEX | §1 the request census |
+| 1021 | INDEX | §2 the wiring row and the density sentence |
+| 1022 | INDEX | §3 the graph and the table; §4 the order paragraph |
+| 1023 | INDEX | §5 the risks table and the spikes sentence |
+| 1024 | INDEX | §6 the owner questions |
+| 1025 | INDEX | §7 the reconciliation; §8 the PLAUSIBLE line |
+| 1026 | SUMMARY | the status line; the opening paragraph |
+| 1027 | SUMMARY | item 15, the order, the costs, the decisions |
+| 1028 | README | the table of what is where |
 
 **The new identifiers.** Tests **T-V13-57 – T-V13-72** (sixteen rows: 57 baked-formation invariance, 58 formation
 determinism and plausibility, 59 the monthly climate, 60 the downwind dirty set, 61 the classification and potential
@@ -3133,8 +3648,8 @@ in all); codes `W_FORMATION_VERSION`, `W_FORMATION_RELICT`, `W_REQUIREMENT_UNMET
 `W_SOLVER_PAINTED`, `W_MONSOON_CONTEXT`, `W_PHYSICS_CLIPPED`, `W_SAIL_LEG_CHANGED`, `W_DOSSIER_PENDING`,
 `W_COVER_PLATE_GAP` and the refusals `refuse.world.requirements`, `refuse.world.scenarioRung`,
 `refuse.world.formationPayload`, `refuse.world.verb`, `refuse.world.layerCells`, `refuse.dossier.pending`
-(`refuse.world.recipeOp` the one recipe-op spelling); owner question **Q5** and Q3 refined. Next free ids after this
-file: item 1006; J-V13.131; T-V13-73; D-V13.11; BCR-V13-47; H35; `WORLD-20`; SP-W11.
+(`refuse.world.recipeOp` the one recipe-op spelling); owner question **Q5** and Q3 refined. The seam seat's items add J-V13.131 – J-V13.134, H35, `WORLD-20`, the clauses T-V13-68 (g)–(j), the refusals `refuse.place.worldRung` and `refuse.place.worldBearing`, the records `WorldCharter`, `ViewFacts` and `ArrangeEvaluator`, the requirement kind `landform`, `WorldRequest.parentCharter` and `WorldRecipe.parentCharter`, `solve.registerEvaluator`, `viewFacts`, `RenderedWorld.tiles[].labels`, the `atlas` layer set and V13 §10.3's R-V15-1 – R-V15-4. Next free ids after this
+file: item 1029; J-V13.135; T-V13-73; D-V13.11; BCR-V13-47; H36; `WORLD-21`; SP-W11.
 
 **The clean-room lint** over every new text bound for the base and the volumes (host identifiers, product names,
 ruling ids, host document names): no hit — the owner's own words quoted verbatim in V13 §1.3 (item 939) keep the
