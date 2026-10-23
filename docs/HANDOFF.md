@@ -20,8 +20,8 @@ critiques; Opus reads, surveys and applies; a Fable seat that hits the Fable lim
 | revise | volumes/revise-world-growth (Fable, max) | r and V15 revised; review records; the V15 critique's notice line corrected | LANDED 367a46c (62 findings: 60 accepted, 2 in part under J393/J394; items 1029–1032 added; 97 items, 241 fragments dry-run clean; scripts in scratchpad world-growth/revise/) |
 | apply | amendments/world-growth-r-apply (Opus, medium) | targets; docs/validation/coherence/world-growth-r.md; bundle | LANDED 7a936e8 (97/97 items, 241/241 fragments; V13 4,438 → 5,827 lines; bundle 84,801 lines with V15, up to date) |
 | critic | check/world-growth-critic (Fable, max) | docs/validation/coherence/world-growth-r-critic.md | LANDED e0062db (19 gaps: 0 blockers, 5 major, 14 minor; F1–F16 carried; six seams defined; research spot-check 10/10; verdict: coherent as a whole) |
-| close | amendments/world-growth-s (Fable, high) | docs/AMENDMENTS-2026-10-23s.md applied; docs/validation/coherence/world-growth-s.md; V15 and spine in-place edits; the missing lane lines | running |
-| re-check | check/world-growth-s (Opus) | each of the 19 closed on disk; quotes; bundle | after close |
+| close | amendments/world-growth-s (Fable, high) | docs/AMENDMENTS-2026-10-23s.md applied; docs/validation/coherence/world-growth-s.md; V15 and spine in-place edits; the missing lane lines | LANDED 356aa90 (19/19 closed; bundle 84,816 up to date) |
+| re-check | check/world-growth-s (Opus, medium) | docs/validation/coherence/world-growth-s-check.md | running |
 
 If this session dies: re-run the stage whose output is missing or lacks its final section, with the same brief (the
 briefs are in the session transcript and summarised in the spine §13); never apply file r by hand.
@@ -42,6 +42,8 @@ journal.jsonl into scratch files) to the next stage, with guards that stop befor
 | wf_2ecc9c4d-61b lens final (amendments p) | workflows/42-lens-final.js | LANDED and APPLIED (J388): file p 878–896; critic gaps in docs/validation/coherence/lens-p-critic.md | — |
 | wf_3cef978c-75a lens q (amendments q) | workflows/43-lens-q.js | LANDED and APPLIED (J389): file q 897–925; critic: nothing material missing | — |
 | wf_c7eb47b5-274 formation and ecology (amendments r; owner rules F1–F4, J390–J391) | workflows/44-formation-ecology.js | STOPPED by the owner on 2026-10-22 ("Stop working on this now") before any result; nothing written; relaunch only on the owner's word | the research stage is parallel, so a plain resume may re-run it; if it dies after research, write a continuation that feeds research/world/*.md forward |
+
+**THE PASS IS RECORDED AS J395.** Open after it: V13 §11 Q4; the surface's account gating; the atlas's product label and sharing; the relational style's art budget; the whole-design retrovalidation of everything Opus-managed between J375 and J392 (this pass itself was Fable-managed and validated).
 
 **WAITING ON THE OWNER (not delegable by the base's own text, §11.4):** V13 §11 Q4 — does the world canon (per-settlement travel effort, water access and site facts; never a town's geometry) stay outside J86's door 1? Recommendation: confirm. Until answered, H5 and every new campaign's birth canon stay dark.
 | wf_a7c82671-f52 systems read continuation | — | LANDED (J383) | — |
