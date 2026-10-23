@@ -17,10 +17,11 @@ What remains are small wording and bookkeeping items, listed below, which do not
 There are thirty-eight decisions that are yours by rule (twenty-five from the first twelve volumes, four from the
 world map — its name, its sharing across campaigns, the art for the mapmaker's eye and its cost —, nine from the two
 new ones: eight you deferred to the session — seven on 16 October and one on 23 October, who may generate with
-what —, and one — whether the world's canon stays outside the
-closed door that keeps your host's simulator from reading the map — that waits on your own word); each already has
-a recommendation, and the work proceeds on the recommendation until you say otherwise, save that one: until you
-answer it, no campaign's simulation reads the new world's canon, not even a new campaign's at its birth.
+what —, and one — whether the world's canon stays outside the closed door that keeps your host's simulator from
+reading the map — that waited on your own word until, on 23 October, you left it too, with the four world-map
+questions, to the session ("I leave all judgement to you"), and the session ruled them that day); each has a recommendation
+or a ruling, every one vetoable, and the work proceeds on it until you say otherwise — the canon stays outside the
+closed door, which stays closed to your towns' geometry, so a new campaign reads its world's canon from its birth.
 
 ## What each volume makes possible, and what it will feel like
 
@@ -240,11 +241,12 @@ Twenty-five questions, each with a recommendation the work follows until you rul
   interiors following; a site record in the SettlementForge dossier, scheduled with the host's other changes; accept
   the two volumes' cost (51–66 and 25.75–36.25 person-weeks, the world's widened from 37–45 by your rules of 17–23 October); and the tabletop export may carry each room's reason in
   an optional block that is off unless you turn it on.
-- **The world map** (four questions; your rules of 22–23 October, each decision vetoable): the product's name for it ("World map" is fine; the design calls it an atlas inside); whether and how a world map may show or share a map from another campaign (recommended: only where that map's own sharing allows, under your host's gallery rule once it has one); the art for the mapmaker's eye (recommended: fund it after you have seen the plain line-art version); and its cost, about 7–10 person-weeks.
-- **One waits on your own word, which the design reserves to you:** whether the world's canon — the travel, water and
-  site facts your host's simulation reads, never a town's geometry — stays outside the closed door that keeps your
-  host's simulator from reading the map (recommended: confirm); until you answer, no campaign gets the canon, not even
-  a new one at its birth.
+- **The world map** (four questions; your rules of 22–23 October; ruled on 23 October under your "I leave all judgement to you", each ruling vetoable): its name is **World map** everywhere you see it (the design calls it an atlas inside); a world map shares pictures only, each map's picture travelling only where that map itself may under your host's gallery rules — a map that may not be shared shows as a marked gap in the shared copy —, one world map may hold maps from several of your own campaigns, another user's shared world may sit in it at the version they published, and publishing a world map follows your host's gallery entitlement; the art for the mapmaker's eye ships first as plain line art, and a first library (twelve sea creatures, eight land figures, six event scenes, four cartouche styles and three lettering faces per style, about 2–3 person-weeks of illustration) is funded after your first sitting, with your own uploaded figures admitted through the symbol catalogue; and its cost, about 7–10 person-weeks, accepted.
+- **The one the design reserved to your own word — given on 23 October by your delegation:** the world's canon — the
+  travel, water and site facts your host's simulation reads, never a town's geometry — stays outside the closed door
+  that keeps your host's simulator from reading the map, and the door stays closed to your towns' geometry; so every
+  new campaign gets its world's canon at its birth, and nothing waits on this question any more (vetoable: say the word
+  and the canon goes back behind the door).
 
 Every recommendation with its reason is in `docs/volumes/INDEX.md` §6, and each question's full text is in its volume's
 section 11.
@@ -252,7 +254,7 @@ section 11.
 ## What the two new volumes ask of you
 
 Nothing you have not already been asked for the other twelve: the eight decisions above (each proceeds on its recommendation until you
-say otherwise, save the one that waits on your word), two short review sittings when the builds land (six sites and six battle
+say otherwise; the ninth, the canon, ruled under your delegation of 23 October), two short review sittings when the builds land (six sites and six battle
 maps rated for legibility, realism and playability; the 2.5D view beside the flat one), and, on the SettlementForge
 side, the host's own changes to send the world its seats, borders and events and to carry a site record — on your
 schedule. Before any of this is built, the M0 gate (item 140: fourteen "do not foreclose" checks on the kernel and

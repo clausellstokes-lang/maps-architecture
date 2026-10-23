@@ -17726,8 +17726,11 @@ read for the host (J86's door 1 stays closed); because the map follows purely fr
 canon (door 5) carries no frame or arena geometry and reaches the host's simulation only through the
 host's receipted canonize — the birth canon adopted as a new campaign on a world from this module is created, the
 additive re-canonize that adds a seat the host binds later, or the DM-confirmed re-canonize (V13 §8.5's H22;
-J386 – J388; file q item 917, BCR-V13-40) —, replacing the capture the host already reads; the session reads it as outside J86's door 1, and
-the owner confirms (V13 §11 Q4) before the host lights its builder over the canon. **The export bundle
+J386 – J388; file q item 917, BCR-V13-40) —, replacing the capture the host already reads; it is outside J86's door 1 —
+the owner's explicit word on it given by delegation on 2026-10-23 (V13 §11 Q4, ruled J396 (1): the owner's "I leave all judgement to you",
+the session ruling the canon outside the door; BCR-V13-47; file u item 1070) —, so the host's builder over the canon
+(V13 §8.5's H5) and every new campaign's birth canon (H22) wait on no question; door 1 itself stays closed for frame
+geometry and opens only on the owner's explicit word, as above. **The export bundle
 (V08 Q3: J122).** From M-SF the host client gains one call returning the user's chosen scene exports
 (§11.1's `.dd2vtt` and Foundry scenes, rendered at the export's knowledge tier and admitted by the calling key) as
 opaque byte blobs for SettlementForge's export bundle, which SettlementForge packages unread; before M-SF maps export on

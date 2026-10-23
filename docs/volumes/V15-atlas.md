@@ -44,6 +44,11 @@
 > (`docs/validation/coherence/world-growth-r-critic.md` G-01, G-02, G-06, G-13, G-14, G-17, G-18) — the level–stop table
 > over the pyramid cell (256 / 512 / 1 024 m), the four-argument `edgeCharter`, the applied-r line, the six terms' world
 > readings cited from V13 §1b.2, the cover overlay's milestone, three loose *override*s, and the route facts row.
+> **Ruled 2026-10-23** by the session under the owner's delegation of that day ("I leave all judgement to you"; J396;
+> carried by amendments/world-growth-u, `docs/AMENDMENTS-2026-10-23u.md`, its §"V15 in-place edits"; record
+> `docs/validation/coherence/world-growth-u.md`): §11's four questions are rulings (J-V15.37 – J-V15.40) — the label
+> "World map" (Q1), the sharing rules (Q2; T-V15-26), the art library (Q3), the cost accepted (Q4) — read into §1.0,
+> §1.4, §2.4, §5.1, §5.5, §8, §10.3 and §12.
 
 <!-- PROGRESS (the architect seat's ledger; removed at revision)
 0 In plain words ................................ done
@@ -78,7 +83,7 @@ volume adopts from it is stated here in full. **Citations:** a bare `§n` or `II
 volume's section, this one included (`V15 §3.6`); `spine §n` the spine's; `item n` is an amendment item; `J384`–`J392`
 are docs/PROGRESS.md rows; `F10`–`F15` the owner's rules by number. **Naming (spine §12, one word, one meaning):**
 **world** is V13's simulated document and its page, never the stitched layer; **atlas** is the stitched, image-only
-save of this volume (the product label — "World map" is allowed — is the owner's, V15 §11 Q1); a **member** is a world
+save of this volume (the product label is "World map" in every user-facing string — the owner's word, ruled J396 (3), V15 §11 Q1); a **member** is a world
 document the atlas holds by reference; a **seam** is a shared edge between two members (the base's and the critique
 lane's "seam" between volumes is a document-review word confined to `docs/volumes/critique` — admitted in this volume and in V13 only
 inside the fixed phrases that cite the spine's §14, "the seams owed to V15", "no reverse seam" and "the dossier seam";
@@ -261,8 +266,11 @@ this volume names a dependency by the spine's section and r's item, the seam sea
   of V13 in V15 §10.2, and restates none. Formation's baked landforms, bedrock and soils and the living physics'
   monthly climate and currents are amendments r's (spine §3, §13): the charter carries what the member holds.
 * **The relational style's art** — the library of monsters, vignettes, cartouches and lettering is content (V11's
-  symbol catalogue, RQ-V15-9), on the owner's art budget (spine §16; V15 §11 Q3); this volume states the rows, the
-  rules and the lint, and ships a minimal figure set per preset (V15 §2.5) so the mechanism runs before the art lands.
+  symbol catalogue, RQ-V15-9), on the owner's art budget (spine §16; V15 §11 Q3, ruled J396 (4): the minimal line-art set
+  ships with the mechanism at M-ATLAS-C; a bounded first library — twelve sea creatures, eight land figures, six event vignettes, four cartouche styles and three lettering faces per preset family, about 2–3 person-weeks of illustration — is
+  funded after the owner's first sitting on the line-art presets; a DM's own glyphs enter through the symbol catalogue's
+  custom path, V11 §3.13's custom-content rows, under the blocklist lint); this volume states the rows, the rules and the
+  lint, and ships the minimal figure set per preset (V15 §2.5) so the mechanism runs before the art lands.
 * **The F13 "ongoing effects" level** is withdrawn by F14 (spine §10.2): no level of coupling exists between members
   after generation, and none is designed, reserved or named here.
 * **An ecosystem-shaped export of a stitched world** (V13 §5.4's `ecosystemJson`, `ecosystemGeoJson`, `heightmap16`,
@@ -628,7 +636,7 @@ interface EmbellishRule {                                                       
   blocklist: string /* the shipped list of real-world ethnonyms, demonyms, faith names and region names the lint T-V15-6 reads: no FigureRow, caption or catalogue string of this volume may match it */;
   figures: FigureRow[] }
 interface FigureRow { id: string; kind: EmbellishmentKind; preset: string | '*'; trait: 'deepWater'|'storm'|'unsailed'|'knowledgeEdge'|'hostile'|'far'|'enemyFaith'|'event'|'city'|'holyCity'|'furniture' /* the ONLY key a figure is chosen by, beside the preset: never a culture's, a people's or a faith's name */;
-  asset: string /* the symbol catalogue's glyph id (V11; the shipped minimal set is line art, the art library the owner's, V15 §11 Q3) */; sizeCm: Cm /* on the true plane at level 6 */; caption?: MsgRef /* "here be serpents" in the preset's lettering; the catalogue's text, lint-checked */ }
+  asset: string /* the symbol catalogue's glyph id (V11): the shipped minimal set is line art, one glyph per trait, at M-ATLAS-C; the funded first library replaces it row by row after the owner's first sitting; a DM-uploaded glyph is a catalogue id from the catalogue's custom path (V11 §3.13's custom-content rows), admitted under the blocklist lint (T-V15-6) like a shipped one — V15 §11 Q3, ruled J396 (4) */; sizeCm: Cm /* on the true plane at level 6 */; caption?: MsgRef /* "here be serpents" in the preset's lettering; the catalogue's text, lint-checked */ }
 ```
 
 **Shipped cells** (the values in the comments above; V12's register holds one line per calibratable cell at
@@ -1594,8 +1602,8 @@ added to the recent list on its first edit or save, never written to the host be
 ### 5.1 The atlas page (V09 hosts it; RQ-V15-7)
 
 The atlas is a document page of V09's shell (V09 §5.1's frame: the canvas, the rail, the view bar, the context panel,
-the drawers), opened from **Open a world map…** / **New world map** (V09 §5.13's rows gain them; the labels follow the
-owner's product word, V15 §11 Q1), from a world page's **View relationally…** (J-V15.14) or from a shared atlas file.
+the drawers), opened from **Open a world map…** / **New world map** (V09 §5.13's rows, file u item 1069; the labels are the owner's
+product word "World map", ruled J396 (3), V15 §11 Q1), from a world page's **View relationally…** (J-V15.14) or from a shared atlas file.
 **What a person sees when they open it:** the members' pictures laid on parchment at the zoom that fits them all, the
 seams softened, the gaps in their styles, each member's date cartouche in a corner of its extent, the scale bar and the
 compass; the member list in the context panel (a card per member: its thumbnail, name, rung, date, version, the stale
@@ -1682,12 +1690,17 @@ recipient must be able to resolve; the sheet says which members the recipient wi
 all), else the atlas file; (2) **Picture** — one PNG of the current view, "What it shows" defaulting to what anyone
 knows (V09's J-V9.13); (3) **World map file** — the shared atlas: the sheet lists every member with its shareable
 state — a member whose world the user may share (its own sharing allows it: a published world, the user's own
-standalone world; in host mode the host's gallery rule once H35 lands, until then the user's own worlds only) is
-included with its imagery; a member the user may not share is **excluded** — no reference, no picture, its extent a
-gap marked "not shared" (`W_ATLAS_NOT_SHARED`, `include` only where the world's sharing allows) — so **sharing shares
-imagery only for members the user may share**, never a member's data (the atlas holds none) and never an unshareable
-member's picture (T-V15-8); a host that configures a publishing resolver adds (4) **Publish a link** (§11.5), under
-the host's own access levels and, across campaigns, the owner's rule (V15 §11 Q2). A recipient's atlas is read-only
+standalone world; in host mode a member travels exactly where that member itself may travel under the host's gallery
+rules, H35) is included with its imagery; a member the user may not share is **excluded** — no reference, no picture,
+its extent a gap marked "not shared" (`W_ATLAS_NOT_SHARED`, `include` only where the world's sharing allows) — so
+**sharing shares imagery only for members the user may share**, never a member's data (the atlas holds none) and never
+an unshareable member's picture (T-V15-8). **The rules across campaigns and users** (V15 §11 Q2, ruled J396 (3);
+J-V15.38; T-V15-26): an atlas is shared as imagery only; one user's atlas may hold members of several of their own
+campaigns (the microcosm rule, V15 §4.7, makes it safe: no member reads another); another user's shared world may be a
+member by reference, shown at the version the sharer published and never a later one; a member the user may not share
+is a marked gap in the shared copy, never a silent hole; a host that configures a publishing resolver adds (4)
+**Publish a link** (§11.5), under the host's own access levels — publishing an atlas to the gallery follows the host's
+gallery entitlement, never a map-side one. A recipient's atlas is read-only
 (`shared: true`): pictures, arrangement, viewpoints; drill-down only into members the recipient can resolve.
 
 ### 5.6 Accessibility, the clerk's rendering, and no 2.5D
@@ -1767,6 +1780,7 @@ with the lens set, four viewpoints: the DM's, the party's, a culture's mappa mun
 |---|---|---|
 | T-V15-7 (deletion leaves a marked gap) | deleting C on disk under B-ATLAS-SHARE: at the next open C reads `missing`, `W_ATLAS_MEMBER_MISSING` raised with `keep` and `remove`, the gap drawn ghosted (and blank under `missing: 'blank'`) with the words naming C's last version and date, in every atlas that held C (a second atlas fixture holding C too); C's relations marked unmet, its seams keep their drift; restoring the file finds C again; `removeMember` writes the gap style chosen, tombstones the relations, and its undo restores all | two atlases; the file deleted and restored |
 | T-V15-8 (sharing excludes unshareable members) | the shared atlas written from B-ATLAS-SHARE holds R's imagery at the cached stops, no reference and no tile of P (its extent a gap "not shared"), C's gap as missing; the recipient opens it read-only, drills into nothing it cannot resolve (`refuse.atlas.drill.unopenable`), sees P's gap and C's; `setAttr(shareable)` wider than a world's own sharing is refused `refuse.atlas.share`; the picture export under the party viewpoint withholds every `secret` record and every figure T-V15-6 (d) withholds; the permalink lists the members a recipient will see | the share writer's file re-read; the recipient harness |
+| T-V15-26 (the sharing rules across campaigns and users, J396 (3)) | on a fixture atlas holding R (the user's own published world), P2 (a world of a second campaign of the same user, shareable under the mock host's gallery rules), X (another user's world shared at its published version 4, held by reference) and U (a world of the user's that the mock host's gallery rules forbid sharing): the shared copy holds R's and P2's imagery, X's imagery at version 4 although X's owner has since saved version 5, and U as a gap marked "not shared" with no reference, no tile and no name beyond the mark; the recipient sees the three pictures and the marked gap and drills into none it cannot resolve; a publish to the gallery under a mock host without the gallery entitlement is refused with the host's reason and the map adds no second check; under a mock host with it the published atlas is imagery only (no member data; `atlasGeoJson`'s extents carry `shareable` alone) | the share writer over the four-member fixture; the mock host's gallery rules; the recipient harness |
 | T-V15-9 (determinism) | (a) an atlas generated twice from one `AtlasRecipe` over resolvable members is byte-identical per record, per composed tile at every level and per warp field on every §13.2 platform, workers on and off; (b) the solver over permuted relations and members gives the same arrangements; a preset applied twice from the same state is idempotent; (c) a refresh of a member whose version did not change moves no atlas digest and no tile; (d) the embellishment set for a viewpoint is byte-identical across bakes and platforms; the comparator lint finds no draw inside a sort key in `@plat/atlas` | per-record and per-tile digests over B-ATLAS; the lint in CI |
 | T-V15-10 (arrangement) | (a) every relation kind of V15 §2.3 on B-ATLAS-1 and B-ATLAS-16 produces exactly its requirements and, solved, is met within its measure (the sector, the width, containment, the distance, the stretch) with the verification list saying so; (b) every compatibility clash (a 24° latitude step, a rainforest shore against tundra, a rotated member, an overlap) is a warning with its actions and never a refusal; (c) least change: a solve over sixteen members with one new relation moves at most the two members it names, the others byte-equal; (d) a solve that would move a locked member asks `W_ATLAS_LOCKED_MOVE` and moves nothing on `cancel`; (e) two contradicting relations are both kept, the later met, the earlier unmet and reported; (f) the lane bound refuses `refuse.atlas.extent` at 21 475 km and admits 21 473 | the relation fixtures; the solver over B-ATLAS-16 |
 | T-V15-11 (continuation) | on B-ATLAS-3's making: the request carries one charter per shared edge, each `locked`, each naming R's version; the prefill equals the values V15 §3.4 (4) derives from R's edge facts; V13's W0 on the sent request reports every edge requirement met and the generated R2's west edge profile meets R's east edge within V13's `edgeRmsRefCm` (V13's T-V13-13 at world rung, as RQ-V15-1 requests); R's digests are byte-equal before and after the generation; R2's recipe stores the charters with R's version (read back through V13); the atlas's member R2 carries `origin: 'continued'`, `continuedFrom` naming the charters, its arrangement at the void, locked; an unopenable neighbour leaves its edge unlocked with `W_ATLAS_EDGE_UNLOCKED`; a request needing a neighbour change is reported `W_ATLAS_NEIGHBOUR_CHANGE` and `editNeighbour` opens R's page with V13's fork preview, nothing changing in R until committed there | the R fixture; V13's generator on the request |
@@ -1824,7 +1838,8 @@ lands, the charter carrying what the world holds before it) and after M-ATLAS-A;
 after M-W5 (the lenses, whose facts `viewFacts` reads) and M-ATLAS-A. Staffing per the owner: rulings on the Fable seat,
 building and verification on Opus seats. Prices are expert estimates (PLAUSIBLE; the spine's guesses 2–4, 2–3 and 2–3
 plus art, refined by step); the total is this volume's own line, outside §16's first total, computed once by the
-coherence pass (item 568's rule); the art library is the owner's budget line (V15 §11 Q3), outside it.
+coherence pass (item 568's rule); the art library is the owner's budget line (V15 §11 Q3, ruled J396 (4): the minimal
+line-art set at M-ATLAS-C; a bounded first library — twelve sea creatures, eight land figures, six event vignettes, four cartouche styles and three lettering faces per preset family, about 2–3 person-weeks of illustration — funded after the owner's first sitting), outside it.
 
 | step | content | exit (executed, not asserted) | est. (pw) |
 |---|---|---|---|
@@ -1834,7 +1849,7 @@ coherence pass (item 568's rule); the art library is the owner's budget line (V1
 | **SA3 — spike** (at M-ATLAS-C's start) | the warp bake at `warpGrid` 512 on B-ATLAS-VIEW: the time, the Jacobian check, byte identity across §13.2's platforms; the mesh warp's frame at `v` 48 | `ATLAS-7`, `ATLAS-8` inside their rows or the fallbacks chosen; T-V15-9 (d)'s platform clause green | 0.25–0.5 |
 | **SA4 — the relational view (M-ATLAS-C)** | A6 whole: the bake, the slider, the readout and the ruler, the centre rules, the importance field, the known region per audience and culture, the three relational presets' rows and furniture (rhumb lines, roses, the T-O rim, the itinerary strip), the embellishment rules with the minimal line-art figure set, the DM's tray, the hidden marks, the lint and the blocklist, the legend's note, the viewpoints (the defaults, a culture's, as-of, the party's), **View relationally…** on the world page; the tables `atlas.style` and `atlas.embellish` | T-V15-5, T-V15-6, T-V15-25, T-V15-18 (the relational viewpoints); the owner's sitting on the three presets (V12 §3.6b, legibility and immersion rated, the sitting's rows offered); the register check | 1.75–2.5 |
 | content | the four tables' rows, the preset rows, the minimal figure set (line art, one glyph per trait per preset), the catalogue's `info.atlas.*`, `bend.atlas.*`, `refuse.atlas.*`, `share.atlas.*` lines and the legend notes (English, own, lint-checked), the blocklist | reviewed by the clean-room scanner (§17.1); every cell with provenance; the register check | 0.5–0.75 |
-| **total** | | | **7–10** (M-ATLAS-A 2.5–3.75 with SA0; M-ATLAS-B 2–3; M-ATLAS-C 2–3 with SA3; content 0.5–0.75); the art library outside it (V15 §11 Q3) |
+| **total** | | | **7–10** (M-ATLAS-A 2.5–3.75 with SA0; M-ATLAS-B 2–3; M-ATLAS-C 2–3 with SA3; content 0.5–0.75); the art library outside it (about 2–3 pw of illustration after the first sitting, J396 (4); V15 §11 Q3) |
 
 **Dependencies.** SA1 waits on M-W6 (`renderAt`, `edgeCharter` and `solve` land there, file r item 1015, over M-W3's
 labels and picture rows; the `atlas` set's cover overlay — a member's fields and scars — lands at M-W8, so a picture
@@ -1842,8 +1857,10 @@ rendered before it draws relief without them, V13 §8.2) and on V09's world page
 solver interface, the edge charter, the rung-general placement and the world subject of `requestCharter`, file r items
 1009 and 1015), and in host mode on H35 for a continuation
 owned by a campaign (until then standalone only, reported); SA4 waits on M-W5 (the lenses' facts through
-`viewFacts`, RQ-V15-4) and on nothing of amendments r beyond M-W5; the art library lands when the owner funds it and
-replaces the line-art set row by row (a content change, no mechanism). The research notes are read evidence, not
+`viewFacts`, RQ-V15-4) and on nothing of amendments r beyond M-W5; the art library lands after the owner's first
+sitting on the line-art presets (J396 (4): the bounded first library funded then) and replaces the line-art set row by row
+(a content change, no mechanism); a DM's uploaded glyphs enter through the symbol catalogue's custom path (V11 §3.13) under
+the blocklist lint from M-ATLAS-C, waiting on no library. The research notes are read evidence, not
 dependencies.
 
 **The register at each exit** (X-V12-16; V04 §8's pattern): every step that lands a registry table of this volume, or a
@@ -1919,6 +1936,10 @@ ruling it names the spine section and adds only the depth this volume designed.
 | J-V15.34 | chose the atlas in host mode as a document through the bridge whose members resolve through the host's resolver, stored per user (H35) and, until that lands, saved as a file through the share sheet, over an atlas inside a campaign's world record, because an atlas spans campaigns by F15's nature and the host keeps one map per campaign (the state note's Part D) |
 | J-V15.35 | chose to read `renderAt` over V13's `atlas` layer set — the member's default picture for the audience (J394): relief with the land cover's used and disturbed classes over it, water, routes, settlements with glyphs, labels, the sway's fills and borders, the occupation, debatable and fighting overlays and the event pins; no lens, no diagnostic, no placement outline, no DM-only mark for a player — with the placed label boxes returned beside the tiles as part of the rendered member (both V13's definitions, file r items 1007 and 1011; J-V13.134), over the five-layer set of the land alone (the owner's "world map" must show realms and borders, and a member's picture at its own time includes its fields and scars — J394), over the world's full layer set (a lens is an instrument a user toggles on a world page, V13 §5.8) and over tiles without their boxes (a label the atlas cannot see cannot be kept from a seam) |
 | J-V15.36 | chose the arrangement's compatibility checks to read the members' edge summaries through V13's `edgeCharter` (cached per member version), over a second edge reading of the atlas's own, because one present-ground edge reading serves the checks, the drift and the continuation alike |
+| J-V15.37 | chose **"World map"** as the user-facing label in every string (the page, Open / recent / new, the share sheet, the catalogue) with **atlas** in every record, key, test and message id (V15 §11 Q1, ruled by delegation on 2026-10-23 — the owner: "I leave all judgement to you" — J396 (3)), over "Atlas" to users or one word for both, because the owner's own word for the thing is "world map" (F15) and one product word beside one architecture word keeps every record and test unambiguous (J-V15.32) |
+| J-V15.38 | chose sharing as imagery only under the host's gallery rules — a member's imagery travels only where that member itself may travel (H35), an unshareable member a marked gap in the shared copy (T-V15-26), one user's atlas holding members of several of their own campaigns, another user's shared world a member by reference at the version the sharer published, publishing on the host's gallery entitlement and never a map-side one (V15 §11 Q2, ruled J396 (3)) —, over a permission model of the atlas's own and over the user's own worlds only, because the host already keeps per-map publication state and share kinds and the base has no hosted service (§11.5), and because the microcosm rule (F14; V15 §4.7) makes a cross-campaign member safe: no member reads another |
+| J-V15.39 | chose the minimal line-art set shipping with the mechanism at M-ATLAS-C and a bounded first library — twelve sea creatures, eight land figures, six event vignettes, four cartouche styles and three lettering faces per preset family, about 2–3 person-weeks of illustration — funded after the owner's first sitting on the line-art presets, with a DM's own glyphs admitted through the symbol catalogue's custom path (V11 §3.13) under the blocklist lint (V15 §11 Q3, ruled J396 (4)), over art before the mechanism or an open-ended library, because no art then gates the mechanism, the sitting tells which presets earn their art, and the catalogue's custom path already exists for every other custom record |
+| J-V15.40 | chose to accept the cost, 7–10 person-weeks across M-ATLAS-A, M-ATLAS-B and M-ATLAS-C (V15 §11 Q4, ruled J396 (3)), over trimming a milestone, because M-ATLAS-A's 2.5–3.75 pw buys F11, F12 and F15 in hand, M-ATLAS-B's 2–3 pw F13 narrowed by F14 and M-ATLAS-C's 2–3 pw F10, each an owner's rule with no cheaper form on the table |
 
 ## 10 Base change requests, and requests to volumes 13 and 9
 
@@ -1966,7 +1987,7 @@ architect's to apply, reconciled by the seam seat.
 |---|---|---|
 | **V09** (**RQ-V15-7**) | the **atlas page** as V15 §5.1 lays it out: the canvas over the atlas plane with the member list in the context panel (a card per member with its marks and commands), T6's arrange mode (drag, snap chip, rotation handle, lock, ruler), **Add a world map…** (the recent list, a file, a link, a drag of a world's card), **Continue here** on a void opening the world dialog with locked edge chips and the pre-fill, T7's relations box (chips and a typed sentence to the clerk, met/unmet marks, Arrange with the ghost preview), T2's gap brush, T9's fit sheet (three cards; the fitted card opening V13's placement preview on the parent's page), **Re-match this edge…**, the viewpoint picker and New viewpoint sheet, the style cards, T10's Refresh / Keep detail / Bake; the view bar's relational slider, common-week toggle, Show drift, Show relations, the cartouche switch; **Open a world map…** and **New world map** in Open / recent / new (V09 §5.13; the words the owner's, V15 §11 Q1); the world page's **View relationally…** and **Save as a world map**; the share sheet's member list with shareable states and the **World map file** option (V15 §5.5); the export dialog's Atlas tab (the picture, `atlasTiles`, `atlasGeoJson`; the world shapes greyed with `refuse.atlas.export`); the fates sheet for **Remove from this atlas**; the catalogue keys of V15 §4.8 (`info.atlas.*`, `bend.atlas.*`, `refuse.atlas.*`, `share.atlas.*`, the legend notes); the binding rows of V15 §4.2 in V09 §4.3's table, checked by T-V9-12's rule; the `projection` switch disabled on an atlas with `info.atlas.flat` | V15 §4.2, §5.1, §5.5 |
 | **V10** (**RQ-V15-8**) | the `atlas` why section's rows and the chain test; the `propose` route's parse of a described relation into V15 §2.3's chips (the sentence kept in `text`), confirmed by the user before `relate` | V15 §4.8 |
-| **V11** (**RQ-V15-9**) | the registry rows for `tables/atlas/*` (BCR-V15-5) with V15 §2.4–§2.5's schema and shipped values; the symbol catalogue's glyphs for the minimal figure set (one line-art glyph per trait per preset; the art library replacing them row by row under the owner's budget); the blocklist as a shipped, read-only table; the naming slice `atlas` (a gap's or a sea's name; never a people's); the bundled lettering faces the presets name (§8.2's and §17.2's licence rule) | V15 §2.4, §2.5, §3.6 (5) |
+| **V11** (**RQ-V15-9**) | the registry rows for `tables/atlas/*` (BCR-V15-5) with V15 §2.4–§2.5's schema and shipped values; the symbol catalogue's glyphs for the minimal figure set (one line-art glyph per trait per preset; the funded first library replacing them row by row after the owner's first sitting, J396 (4)); a DM's uploaded glyph admitted as a figure asset through the catalogue's custom path (V11 §3.13), the blocklist lint (T-V15-6) run over its name and caption; the blocklist as a shipped, read-only table; the naming slice `atlas` (a gap's or a sea's name; never a people's); the bundled lettering faces the presets name (§8.2's and §17.2's licence rule) | V15 §2.4, §2.5, §3.6 (5) |
 | **V12** (**RQ-V15-10**) | the fixture set `B-ATLAS` (V15 §7) and the scripted lens set for R; the panel **V15-P** (`PanelSpec`: the three presets rated for legibility and immersion, three seams for the band's look, by the owner's sitting at SA4 and SA0); the no-op pin `atlas.none` with its off form; the measures `atlas.bakeMs`, `atlas.cacheMb`, `atlas.solveMs`; the register's default-line entries at each exit | V15 §7, §8 |
 | **V14** (**RQ-V15-11**) | the drill-down's last rungs (a site opened from the member's page, V14 §3.9; the encounter crop on a member's point after the drill, V14 §3.10); the `ZDecl` reason `'imagery'` admitted by the gap lint (T-V14-16) for the atlas's drawables | V15 §3.7, §5.6 |
 
@@ -2048,14 +2069,16 @@ with the days between towns."
 
 Only true owner decisions — a name, money, a capability across the host's boundary — each with the session's
 recommendation under the delegation (J122's form; spine §16 names the first three as the owner's); nothing the owner
-already ruled (F10–F15) is re-asked, and every other choice is a J-V15 row.
+already ruled (F10–F15) is re-asked, and every other choice is a J-V15 row. **All four are ruled** (2026-10-23; the
+owner, delegating the four items left open after the world-growth pass: "I leave all judgement to you"; J396 (3) and
+(4); J-V15.37 – J-V15.40; carried by amendments u), each vetoable: the last column reads the ruling.
 
-| # | question | recommendation |
+| # | question | ruling (vetoable) |
 |---|---|---|
-| Q1 | **The product label.** The architecture's word is *atlas* (spine §12; J-V15.32); the owner's own word was "world map". Which word do users see — "World map", "Atlas", or another? | "World map" in every user-facing string (the page, Open / recent / new, the share sheet, the catalogue), "atlas" in every record, key, test and message id — one product word, one architecture word, never mixed; the owner's word |
-| Q2 | **Sharing and privacy across campaigns** (a capability across the host's boundary; spine §16; H35): may an atlas show, share or publish a member world that belongs to another campaign of the same user, or to another user who shared it, and under which gallery and access rule? | a member's imagery travels only where that world's own sharing allows it (V15 §5.5; J-V15.27); across campaigns the host's gallery rule once H35 lands — the host already keeps per-map publication state and share kinds, the state note's Part D, so the rule is the host's to extend to an atlas — and, until then, the user's own worlds only; never a world the user may not open |
-| Q3 | **Money: the art library** for the relational style — monsters, vignettes, cartouches, lettering per preset (spine §16: "the art budget for the relational style") — outside this volume's line | fund it after the owner's sitting on the line-art presets at M-ATLAS-C (V15 §8's SA4): the mechanism ships with one line-art glyph per trait per preset and the library replaces them row by row as content, so nothing waits on the art |
-| Q4 | **Money:** the cost, 7–10 person-weeks across three milestones (V15 §8) | accept; M-ATLAS-A's 2.5–3.75 pw buys F11, F12 and F15 in hand on the world's picture rows, M-ATLAS-B's 2–3 pw F13 narrowed by F14, M-ATLAS-C's 2–3 pw F10 |
+| Q1 | **The product label.** The architecture's word is *atlas* (spine §12; J-V15.32); the owner's own word was "world map". Which word do users see — "World map", "Atlas", or another? | **Ruled (J396 (3); J-V15.37):** "World map" in every user-facing string (the page, Open / recent / new, the share sheet, the catalogue), "atlas" in every record, key, test and message id — one product word, one architecture word, never mixed; the owner's word |
+| Q2 | **Sharing and privacy across campaigns** (a capability across the host's boundary; spine §16; H35): may an atlas show, share or publish a member world that belongs to another campaign of the same user, or to another user who shared it, and under which gallery and access rule? | **Ruled (J396 (3); J-V15.38; T-V15-26):** an atlas is shared as imagery only; a member's imagery travels only where that member itself may travel under the host's gallery rules (H35) — a member the user may not share appears as a marked gap in the shared copy; one user's atlas may hold members of several of their own campaigns (the microcosm rule makes it safe); another user's shared world may be a member by reference, shown at the version the sharer published; publishing an atlas to the gallery follows the host's gallery entitlement, never a map-side one; never a world the user may not open |
+| Q3 | **Money: the art library** for the relational style — monsters, vignettes, cartouches, lettering per preset (spine §16: "the art budget for the relational style") — outside this volume's line | **Ruled (J396 (4); J-V15.39):** the mechanism ships at M-ATLAS-C (V15 §8's SA4) with one line-art glyph per trait per preset, so no art gates it; a bounded first library — twelve sea creatures, eight land figures, six event vignettes, four cartouche styles and three lettering faces per preset family, about 2–3 person-weeks of illustration — is funded after the owner's first sitting on the line-art presets and replaces the set row by row as content; DM-uploaded glyphs are admitted through the symbol catalogue's custom path (V11 §3.13) under the blocklist lint |
+| Q4 | **Money:** the cost, 7–10 person-weeks across three milestones (V15 §8) | **Ruled (J396 (3); J-V15.40):** accepted; M-ATLAS-A's 2.5–3.75 pw buys F11, F12 and F15 in hand on the world's picture rows, M-ATLAS-B's 2–3 pw F13 narrowed by F14, M-ATLAS-C's 2–3 pw F10 |
 
 ## 12 CONFIRMED versus PLAUSIBLE
 
@@ -2112,8 +2135,8 @@ already ruled (F10–F15) is re-asked, and every other choice is a J-V15 row.
   people into (T-V15-6 bars the mechanism; the look is the sitting's).
 * That V13's rung-general placement scales as V13 §6's laws predict for a world frame (`ATLAS-5`; spike (c)); that
   `edgeCharter` costs ≤ 200 ms per edge; that `renderAt` at stop 1 costs the tile law over 1.0625 × stop 1's pixels.
-* That the two shipped viewpoints and the three presets are the right minimum; that "World map" is the owner's
-  preferred label (Q1); that the host will want a per-user atlas record (H35; Q2).
+* That the two shipped viewpoints and the three presets are the right minimum; that the host will want a per-user
+  atlas record (H35; §11 Q2's ruling, J396 (3)). The label "World map" is no longer plausible but ruled (§11 Q1; J396 (3)).
 * Revision 0's mechanisms, reasoned and not yet measured: the on-demand stop-2 render per visible tile keeping pan
   and zoom inside §12.5's frame budget; the label placer's one run over sixteen members' boxes ≤ 3 ms per level; the
   solver's atlas-scale evaluators inside `ATLAS-1`; the drift reading's cost inside A3's row.

@@ -6,8 +6,8 @@
 
 | file | sha256 (16) | lines |
 |---|---|---|
-| `docs/ARCHITECTURE.md` | fda575f1a440c007 | 24510 |
-| `docs/volumes/INDEX.md` | f2a18cc75853c933 | 273 |
+| `docs/ARCHITECTURE.md` | 6bc1f4515c67f90d | 24513 |
+| `docs/volumes/INDEX.md` | 54bed03dfaed5b7f | 275 |
 | `docs/volumes/V01-neighbourhoods.md` | a59cfac9b27a8886 | 3765 |
 | `docs/volumes/V02-buildings.md` | 574577038e1de304 | 4232 |
 | `docs/volumes/V03-interiors.md` | 3cb0d96c7ef309ea | 3307 |
@@ -16,13 +16,13 @@
 | `docs/volumes/V06-evolution.md` | 9ccc6e8d24373f0d | 4670 |
 | `docs/volumes/V07-village.md` | 3976873133489cfc | 4137 |
 | `docs/volumes/V08-settlementforge.md` | 07cc895a585328b1 | 3744 |
-| `docs/volumes/V09-application.md` | c493adcbaf544773 | 5170 |
+| `docs/volumes/V09-application.md` | d34ba8ede21998d6 | 5184 |
 | `docs/volumes/V10-clerk.md` | 1717fa2eb3dd375a | 3583 |
 | `docs/volumes/V11-content.md` | c698b45421163a1f | 5504 |
 | `docs/volumes/V12-calibration.md` | 1bcb54970016f797 | 3590 |
-| `docs/volumes/V13-world.md` | 340f885be8706604 | 5833 |
+| `docs/volumes/V13-world.md` | e08e6fbf4bd7afbb | 5852 |
 | `docs/volumes/V14-sites.md` | b8297571faed84c6 | 3209 |
-| `docs/volumes/V15-atlas.md` | f2dfd527ab63f76b | 2196 |
+| `docs/volumes/V15-atlas.md` | 0472d1a28a59c617 | 2219 |
 
 ## Contents
 
@@ -18055,8 +18055,11 @@ read for the host (J86's door 1 stays closed); because the map follows purely fr
 canon (door 5) carries no frame or arena geometry and reaches the host's simulation only through the
 host's receipted canonize — the birth canon adopted as a new campaign on a world from this module is created, the
 additive re-canonize that adds a seat the host binds later, or the DM-confirmed re-canonize (V13 §8.5's H22;
-J386 – J388; file q item 917, BCR-V13-40) —, replacing the capture the host already reads; the session reads it as outside J86's door 1, and
-the owner confirms (V13 §11 Q4) before the host lights its builder over the canon. **The export bundle
+J386 – J388; file q item 917, BCR-V13-40) —, replacing the capture the host already reads; it is outside J86's door 1 —
+the owner's explicit word on it given by delegation on 2026-10-23 (V13 §11 Q4, ruled J396 (1): the owner's "I leave all judgement to you",
+the session ruling the canon outside the door; BCR-V13-47; file u item 1070) —, so the host's builder over the canon
+(V13 §8.5's H5) and every new campaign's birth canon (H22) wait on no question; door 1 itself stays closed for frame
+geometry and opens only on the owner's explicit word, as above. **The export bundle
 (V08 Q3: J122).** From M-SF the host client gains one call returning the user's chosen scene exports
 (§11.1's `.dd2vtt` and Foundry scenes, rendered at the export's knowledge tier and admitted by the calling key) as
 opaque byte blobs for SettlementForge's export bundle, which SettlementForge packages unread; before M-SF maps export on
@@ -24987,7 +24990,7 @@ flowchart LR
 | M-25D (V14) | M4 | M5 | its world rows after M-W1 and the islands' slabs after M6-sky (registry lookups) |
 | M-ATLAS-A (V15) | M-W6 (`renderAt` with its label boxes and `atlas` layer set, `edgeCharter`, `solve` with the registered evaluators; file r item 1015) and V09's world page | M-W7 – M-W9; M-SITE-F | the atlas in host mode a file until H35; the members' fields and scars join the picture at M-W8 (the `atlas` set's cover overlay, V13 §8.2) |
 | M-ATLAS-B (V15) | M-W6 (the solver, the edge charter, the rung-general placement and the world subject of `requestCharter`) and M-ATLAS-A | M-W7 – M-W9 | the charter carries formation's bedrock and soils once M-W7 lands; a continuation owned by a campaign in host mode waits on H35 |
-| M-ATLAS-C (V15) | M-W5 (the lenses, read through `viewFacts` from M-W6) and M-ATLAS-A | M-ATLAS-B | the art library lands on the owner's budget, replacing the line-art figures row by row (content only) |
+| M-ATLAS-C (V15) | M-W5 (the lenses, read through `viewFacts` from M-W6) and M-ATLAS-A | M-ATLAS-B | the minimal line-art set ships with it; the first art library (J396 (4): about 2–3 pw of illustration, funded after the owner's first sitting) replaces the line-art figures row by row (content only); DM uploads through the symbol catalogue's custom path |
 
 ## 4 The combined build order after M5, with estimates
 
@@ -25034,14 +25037,16 @@ SP-W1 – SP-W7 (M-W0, once M0 closes; before M-W1), SP-W9 and SP-W10 (M-W7's ga
 
 ## 6 Owner questions with recommendations
 
-Every question the volumes put to the owner is answered but one: those that belong to SettlementForge follow its own
+Every question the volumes put to the owner is answered: those that belong to SettlementForge follow its own
 decisions (J121: the map is a SettlementForge module), and every other is decided under the owner's delegation (J122:
 `docs/OWNER-DECISIONS-DELEGATED-2026-09-29.md`), each vetoable. Each volume's §11 marks its questions answered and its
-body reads the decision. Volumes 13 and 14's nine questions (V13's Q5 from file r) and volume 15's four carry the session's recommendation: the owner deferred
-every decision on them to the session (2026-10-16: "i defer all decisiosn to you"), so each stands as **recommended;
-vetoable** until the owner rules — save V13 Q4, which waits on the owner's own word, the one decision the delegation
-cannot reach: J86's door 1 opens only on the owner's explicit word (base §11.4; J388), and until Q4 is answered the
-host's builder over the canon (V13 §8.5's H5) and every new campaign's birth canon (H22) stay dark.
+body reads the decision. Volumes 13 and 14's nine questions (V13's Q5 from file r) and volume 15's four carry the session's recommendation or ruling: the owner deferred
+every decision on them to the session (2026-10-16: "i defer all decisiosn to you"; 2026-10-23, on the four items left open
+after the world-growth pass: "I leave all judgement to you", J396), so each stands as **recommended; vetoable** or **ruled;
+vetoable** until the owner rules otherwise — V13 Q4 included: the one decision the base's §11.4 reserves to the owner's
+explicit word (J86's door 1) was given by that delegation and ruled on 2026-10-23 (J396 (1); amendments u): the world
+canon is outside door 1, which stays closed for frame geometry, so the host's builder over the canon (V13 §8.5's H5) and
+every new campaign's birth canon (H22) wait on no question.
 
 | volume | question | answer |
 |---|---|---|
@@ -25073,16 +25078,16 @@ host's builder over the canon (V13 §8.5's H5) and every new campaign's birth ca
 | V13 | Q1 — existing campaigns: whether a living campaign is offered the elective rebase onto a world from this module (the transition otherwise ruled: every frozen record kept, the import on request, a legacy world view with no write; J-V13.81) | offer it per campaign, premium, default keep, the full forecast diff shown before confirmation; never automatic (recommended; vetoable) |
 | V13 | Q2 — the host's schedule (V13 §8.5's H1–H34) against M-W1 – M-W3 and M-W5 – M-W9, and whether the realm map's replacement is part of the map module's post-launch disposition | class it with the post-launch disposition; H1–H3 before the host's launch, H4–H11 with M-W1, H12–H17 and H22 with M-W2, H23–H30 with M-W5, H18–H20 after M-W3, H31 and H32 with M-W6, H34 with M-W8, H33 with M-W9; the standalone world ships either way (recommended; vetoable) |
 | V13 | Q3 — a placed settlement's share code: embed the charter or name the world (refined by file r: a formed world's code carries its baked payload's hashes, re-fetched never re-run, so the world code stays a line plus its hashes under either answer) | embed the charter, so a settlement replays from its own code (recommended; vetoable) |
-| V13 | Q4 — J86's door 1 and the world canon: is the canon (reaching the host's simulation only through its receipted canonize — H22's birth canon or a re-canonize, the additive one included) outside door 1? | confirm — the owner's own word, which base §11.4 reserves to the owner (J388): until it is answered the host's builder over the canon (H5) and every new campaign's birth canon (H22) stay dark (recommended; awaiting the owner) |
-| V13 | Q5 — who may generate with what (file r item 988): the world dialog is layered and hides nothing, the gate checked once at the generate action; which account kinds may generate with a scenario, with an included campaign, with the Advanced or Deep layers set or with a `weather` pass, and who may share a preset, is the owner's | every layer free to read, set and preview; one-click generation free at every rung; a scenario and an included campaign gated as the host gates its own premium acts, the weather depth the DM's; presets saved by anyone, shared by the DM (recommended; vetoable) |
+| V13 | Q4 — J86's door 1 and the world canon: is the canon (reaching the host's simulation only through its receipted canonize — H22's birth canon or a re-canonize, the additive one included) outside door 1? | yes — ruled by delegation on 2026-10-23 (J396 (1); the owner: "I leave all judgement to you"): the canon, realm-scale derived facts per settlement and never a frame's geometry, is outside door 1, which stays closed for frame geometry; the owner's explicit word base §11.4 reserves is recorded there as given by the delegation; H5 and H22 wait on no question (ruled; vetoable) |
+| V13 | Q5 — who may generate with what (file r item 988): the world dialog is layered and hides nothing, the gate checked once at the generate action; which account kinds may generate with a scenario, with an included campaign, with the Advanced or Deep layers set or with a `weather` pass, and who may share a preset, is the owner's | ruled by delegation (J396 (2)), mirroring the host's own rule — nothing hidden, every control drawn and disabled with its reason, one check at the generate action: an anonymous visitor Random all only at the province rung, everything random; a free account Basic and Advanced at every rung, targeted rerolls, the re-derive pass, the image-only world map; a premium account Deep constraints, the release and weather passes, the world map's continuation and fit; the include toggle and Best placement follow the host's campaign entitlement; presets saved by anyone, shared by the DM (ruled; vetoable) |
 | V14 | Q1 — the in-town encounter crop ships after M1 or waits whole for M6-P | ship after M1 with shells and the VTT crop; the interiors arrive with V03's P1 by a registry lookup (recommended; vetoable) |
 | V14 | Q2 — a host record for world sites in the dossier (a capability across the SettlementForge boundary) | yes, scheduled with V13's host changes; until it lands every site is map-tier and nothing of the map is lost (recommended; vetoable) |
 | V14 | Q3 — the cost, 25.75–36.25 person-weeks across three milestones | accept (recommended; vetoable) |
 | V14 | Q4 — a vendor block in the VTT export carrying each unit's reason and the anchor's knowledge state | yes, as an optional namespaced block off by default; the common fields unchanged (recommended; vetoable) |
-| V15 | Q1 — the product label for the atlas ("World map" is admitted; the architecture's word stays "atlas") | "World map" in every user-facing string, "atlas" in every record and test (recommended; the owner's word) |
-| V15 | Q2 — sharing and privacy across campaigns: may an atlas show, share or publish a member world of another campaign, and under which gallery rule (a capability across the host's boundary; H35) | a member's imagery travels only where that world's own sharing allows it; across campaigns the host's gallery rule once H35 lands, until then the user's own worlds only (recommended; vetoable) |
-| V15 | Q3 — money: the art library for the relational style (monsters, vignettes, cartouches, lettering), outside the volume's line | fund it after the owner's sitting on the line-art presets at M-ATLAS-C; the mechanism ships without it (recommended; vetoable) |
-| V15 | Q4 — money: the cost, 7–10 person-weeks across three milestones (V15 §8) | accept; M-ATLAS-A's 2.5–3.75 pw buys F11, F12 and F15 in hand, M-ATLAS-B's 2–3 pw F13 narrowed by F14, M-ATLAS-C's 2–3 pw F10 (recommended; vetoable) |
+| V15 | Q1 — the product label for the atlas ("World map" is admitted; the architecture's word stays "atlas") | "World map" in every user-facing string, "atlas" in every record, key and test (ruled by delegation, J396 (3); the owner's word) |
+| V15 | Q2 — sharing and privacy across campaigns: may an atlas show, share or publish a member world of another campaign, and under which gallery rule (a capability across the host's boundary; H35) | ruled by delegation (J396 (3)): an atlas is shared as imagery only; a member's imagery travels only where that member itself may under the host's gallery rules (H35), an unshareable member a marked gap in the shared copy; one user's atlas may hold members of several of their own campaigns; another user's shared world may be a member by reference at the version the sharer published; publishing an atlas follows the host's gallery entitlement, never a map-side one (ruled; vetoable) |
+| V15 | Q3 — money: the art library for the relational style (monsters, vignettes, cartouches, lettering), outside the volume's line | ruled by delegation (J396 (4)): the mechanism ships at M-ATLAS-C with the minimal line-art set (one glyph per trait); a bounded first library — twelve sea creatures, eight land figures, six event vignettes, four cartouche styles and three lettering faces per preset family, about 2–3 person-weeks of illustration — is funded after the owner's first sitting on the line-art presets; DM-uploaded glyphs enter through the symbol catalogue's custom path under the blocklist lint (ruled; vetoable) |
+| V15 | Q4 — money: the cost, 7–10 person-weeks across three milestones (V15 §8) | accepted by delegation (J396 (3)); M-ATLAS-A's 2.5–3.75 pw buys F11, F12 and F15 in hand, M-ATLAS-B's 2–3 pw F13 narrowed by F14, M-ATLAS-C's 2–3 pw F10 (ruled; vetoable) |
 
 ## 7 How the volumes were reconciled, and the fix list
 
@@ -59619,7 +59624,17 @@ place the world's request is edited; it is the same dialog at every rung and for
    kind; a control the account may not use is disabled with its reason in place ("a scenario needs …"), never
    removed, and the whole dialog can be read, set and previewed by anyone. The gate is checked once, at **Generate**
    (and at **Best placement** and a `physicsPass`'s commit, the acts that run the same stages), as data beside the
-   host's `hostRequires` (V13 §11 Q5) — never in the panel, never per control. **The DM's physics toolbar** stands
+   host's `hostRequires` (V13 §2.3's `PresetRule.gate`; V13 §11's ruling on who may generate with what, J396 (2)) —
+   never in the panel, never per control; a refused act names its row and control (`refuse.surface.gate`). **The rows
+   per account kind** (J396 (2); V13 owns them, V09 draws their reasons): an **anonymous visitor** — **Random all**
+   only, at the province rung, every option random (the layers drawn, each control disabled with "sign in to set
+   this"); a **signed-in free account** — **Basic** and **Advanced** at every rung the machine allows, the targeted
+   rerolls of (4), the toolbar's **Re-derive** depth, and the world map as an image-only save with arrangement and
+   drill-down (V15 §5.1); a **premium account** — **Deep constraints** (sketch, pin, import, lock and regenerate), the
+   toolbar's **Release** and **Weather** depths, and the world map's continuation and fit (V15 §3.4, §3.5). **Include
+   my settlements** and **Best placement** follow the host's campaign entitlement wherever it applies — the dialog adds
+   no gate of its own above the host's and shows the host's reason. The gate mirrors the host's own rule for its
+   settlements: nothing hidden, everything drawn, one check at the act. **The DM's physics toolbar** stands
    beside the layers: the layer picker (biome, soil, land cover, current; terrain and water as T2 has them), the verb
    toggle (`alwaysSo` → `paintLayer`, an override the physics derives against; `happened` → `disturb`, a dated
    disturbance that recovers), the brush with its radius, and `physicsPass`'s scope (whole world, a region, a
@@ -60004,7 +60019,11 @@ opened; **Open a file…** (the OS picker, `.plat`, `.cbor`, skeletons); **Paste
 the window opens it (an image offers "Trace over this image?" as an underlay). **New town** opens the empty state in a new
 document; **New world** (M-W1; from M-W6 in the generated-first form) opens a new world document already generated —
 a random request at the realm rung, W0–W9 run — with the world dialog (V09 §4.22) open beside it and every option
-reading random: never an empty state and never a wizard (F5). A town opened from a file is added to the local store on its first edit (so opening a file to look at it writes
+reading random: never an empty state and never a wizard (F5). **Open a world map…** and **New world map** (M-ATLAS-A;
+V15 §5.1, RQ-V15-7) open the atlas page — "World map" is the user-facing word in every string of the page, the file
+menu, the share sheet and the catalogue, "atlas" the word of every record, key, test and message id (J396 (3); V15 §11
+Q1) —: **New world map** the empty parchment with **Add a world map…** and **Make a world map**, **Open a world map…**
+the recent atlases beside the recent towns. A town opened from a file is added to the local store on its first edit (so opening a file to look at it writes
 nothing).
 
 ### 5.14 Labels in the application
@@ -74095,8 +74114,8 @@ the words.
   field (its water is V05's, §2.3's oasis paragraph); the world knows an island only through its settlement's glyph.
 * **The host's own changes** (item 138 (e); the proposal's §6, superseded) are the host's program: this volume states
   the contract the host implements (`WorldPort`, the charter per campaign, the settlement map record), the ordered list
-  of what the host changes, each with the milestone it waits on (V13 §8.5), and the owner's questions (V13 §11 Q1, Q2,
-  Q4); nothing of the host's code is designed here.
+  of what the host changes, each with the milestone it waits on (V13 §8.5), and the owner's questions (V13 §11 Q1, Q2;
+  Q4 ruled by delegation on 2026-10-23, J396 (1), file u item 1066); nothing of the host's code is designed here.
 * **Label placement** (S13b), the font metrics and the knowledge filter are §9's; this volume adds the world's label
   candidates and the glyph (V13 §5.3).
 * **The host's simulator and its program rules.** This volume is a map-family volume outside the host's own program
@@ -74838,7 +74857,8 @@ interface SolverRule { maxBackSteps: number /* the bounded back-step from W3 to 
   minExtentCells: Record<WorldSizeRung, number> /* the smallest coarse extent an organic correction makes at the rung — no arid dot (V13 §3.11.1) */; gradeBandCells: Record<WorldSizeRung, number> /* the graded edge's width in coarse cells (steppe and scrub between desert and green) */;
   protectRadiusKm: number /* every other settlement's facts protected within it: a correction never changes a cell whose change would contradict another placed or included settlement's requirement */; offers: number /* the best form's offers, 3 */; previewRung: 'coarse'; edgeBlendCells: number /* a continuation's blend band inward from a shared edge, in coarse cells (V13 §3.1 (6)) */; paintLastResort: boolean /* painting only when the DM forbids terrain change, labelled `W_SOLVER_PAINTED` */ }   // world.solver
 interface PresetRule { options: { key: string; group: 'basic'|'advanced'|'deep'; stage: StageId /* the earliest stage the option affects: a change re-runs from it */; kind: Requirement['kind']; default: 'random'; rerollable: boolean }[] /* the surface's options with their groups and stages (V13 §3.1 (1); V09 §4.22) */;
-  presets: { id: string; label: string; choices: OptionChoice[]; decisions: { choice: ConflictChoice; when: 'fitAlways'|'keepFlagged'|'moveUnlocked' }[] /* map-side pre-decisions only: never `updateDossier` (J-V13.122) */ }[] }   // world.presets — the named presets; a user's preset is an `editPreset` row (§7.6)
+  presets: { id: string; label: string; choices: OptionChoice[]; decisions: { choice: ConflictChoice; when: 'fitAlways'|'keepFlagged'|'moveUnlocked' }[] /* map-side pre-decisions only: never `updateDossier` (J-V13.122) */ }[];
+  gate: { account: 'anonymous'|'free'|'premium'; rungs: WorldSizeRung[]; randomAllOnly: boolean; groups: ('basic'|'advanced'|'deep')[]; targetedRerolls: boolean; passDepths: ('rederive'|'release'|'weather')[]; atlas: ('imageOnly'|'continuation'|'fit')[] }[] /* the generate action's rows per account kind, read there — and at Best placement and a pass's commit — and nowhere else (§11's ruling on who may generate with what, J396 (2); V09 §4.22 (8); T-V13-73); the include toggle and Best placement read the host's campaign entitlement through the port, never a row here */ }   // world.presets — the named presets and the gate's rows; a user's preset is an `editPreset` row (§7.6)
 ```
 
 | `WorldSizeRow` | `widthKm × heightKm` | `fineCellM` | `coarseRatio` | `formationRatio` | `defaultLatBox` | `budgetMs` (V13 §6) | `formationMs` (V13 §6) | `reliefLimitM` | `docMb` | `exportStride` |
@@ -75104,6 +75124,7 @@ dot from stop 1 and an outline from stop 2, a TOWN everything (C13-52).
 | `PresetRule` | default |
 |---|---|
 | `options` | **basic** (stage): `size` (W0) · `template` and `scenario` (W0) · `climateBand` (W0: the latitude box's centre) · `landShare` (W0 → W1's mask) · `ruggedness` (W1's noise amplitude and the scenario's drama) · `wetness` (W3's moisture) · `density` (W6, a standalone world); **advanced**, collapsible groups each with random and reset: terrain (`extent`, `latBox`, the templates' op ranges), formation (every `FormationKnobs` key), climate (`poles`, `wind`, `worldContext.monsoon`, `worldContext.ocean`, `calendarSouth`), water (`seaLevelM`, `lakeMinDepthCm`, `navigableM3s`), biomes (`biomeMatrix` on an import; the inclusion chips with amounts, each a `biome` requirement of source `inclusion`), resources (the rule rows' densities), routes and sites (`routeLay`, `sailing` vessels), politics on a standalone world (`seats`, `provinces`), names (the culture); **deep**: sketch landmasses or mountain lines (a `lockRegion` of drawn ops), pin a feature (a `locked` op), import a heightmap or a legacy map (the `image` op; V13 §3.15), lock regions and regenerate the rest; every option `default: 'random'` and `rerollable` |
+| `gate` | the rows J396 (2) rules, mirroring the host's own rule for its settlements (nothing hidden: every control drawn for every account kind and disabled with its reason; one check at the generate action): **anonymous** (a visitor) — `rungs` [`province`]; `randomAllOnly` true (the one button, every option random); `groups` none; no targeted reroll; `passDepths` none; `atlas` none · **free** (a signed-in account) — every rung the machine allows (§2.3's size rows within V13 §6's budgets on the device); `groups` [`basic`, `advanced`]; targeted rerolls; `passDepths` [`rederive`]; `atlas` [`imageOnly`] (the arrangement and the drill-down, V15 §8's M-ATLAS-A) · **premium** — the free row and `groups` + `deep` (sketch, pin, import, lock-and-regenerate); `passDepths` + `release`, `weather`; `atlas` + `continuation`, `fit` (M-ATLAS-B). "Include my campaign's settlements" and Best placement follow the host's campaign entitlement wherever it applies — the map adds no gate of its own above the host's (J388's entitlement never gates a birth canon and never a placement) |
 | `presets` | `randomAll` (every option random; no decision) · `fitMySettlements` (every option random; `fitAlways`) · `keepTheWorld` (`keepFlagged`) · `freeHand` (`moveUnlocked`); a user's own presets by `editPreset`; none pre-decides `updateDossier` |
 
 ### 2.4 Derived transients (never persisted)
@@ -77484,7 +77505,7 @@ a placement's operators with the cost and anomalies as its outcome; a water edit
 `worldRecipe`'s W1 re-run over the touched cells with the downstream dirty set as its effective scope. The outcome
 table's new rows (§7.1's catalogue; BCR-V13-9; the refusals are §7.1 outcome keys rendered by V09's catalogue, never
 §5.4 `ReportCode`s — C13-53): `refuse.place.fit`, `refuse.place.worldRef`, `refuse.charter.dossier`,
-`refuse.surface.date`, `refuse.world.recipeOp`, `refuse.world.tier`, `refuse.import.version`, `refuse.import.key`,
+`refuse.surface.date`, `refuse.surface.gate` (the generate action, Best placement or a pass's commit outside the account's gate row, §2.3's `PresetRule.gate`: the row and the control named; J396 (2)), `refuse.world.recipeOp`, `refuse.world.tier`, `refuse.import.version`, `refuse.import.key`,
 `refuse.import.extent`, `refuse.import.unit`, `refuse.place.hostLocked`, `refuse.world.hostSeats`, `refuse.world.hostRoute`,
 `refuse.world.advancing` (a host-bound world's edit while the host advances or is parked), `refuse.world.hostRequires`
 (`keepResidual`), `refuse.world.hostPolitical` (a political or military event kind on a host-bound world),
@@ -78380,6 +78401,7 @@ in `fixtures/world/`.
 | T-V13-70 | **the budgets `WORLD-16` – `WORLD-20` and `WORLD-3`'s best-form bar** at p95 over five seeds per rung, nightly (`WORLD-16`'s preview measured both without and with a formation knob's change; `WORLD-18`'s legs over (cell, heading) states), with the formation op's log-log slope ≤ 1.15 over the formation grid and the march's ≤ 1.15 over the coarse grid; `WORLD-5` at the line with the fallback declared | §12.1's timing phase |
 | T-V13-71 | **the cover cache's horizon and the plate's rebuild:** after 600 weekly advances on B-COVER the plates older than 520 weeks are one per 13 weeks, a pinned one survives, a rewind drops the later ones, a dropped cache rebuilds to byte-identical plates with `W_COVER_PLATE_GAP` raised only during the rebuild, the store stays within `WORLD-17`, the model and records digests are byte-identical with the cache full, empty or dropped | B-COVER |
 | T-V13-72 | **the vocabulary and the single spellings:** a lint over the volumes' new texts and `@plat/world` finds `biome` never used for a cover class and `land cover` never for a climate class, `plate` never for a crust block, no `erode` op, the recipe-op refusal spelled `refuse.world.recipeOp` alone, and every `Landform.kind`, `Disturbance.kind`, `Override.layer` and `ConflictChoice` in its one list | a lint over the texts and the packages |
+| T-V13-73 | **the gate's rows at the generate action** (J396 (2); §2.3's `PresetRule.gate`; V09 §4.22 (8)): under each account kind of the dialog harness (anonymous, free, premium) every control of every layer is present in the dialog's model, a control outside the account's row disabled with its reason and never absent; an anonymous request is accepted only at the province rung with every choice `random` — a `set` choice, a targeted reroll, a pass or a realm rung refused `refuse.surface.gate` with its row and control named — and the generated world is byte-identical to the same seed's Random all; a free account's `set` and `locked` choices in `basic` and `advanced`, its targeted rerolls and a `rederive` pass are accepted at every rung and a `deep` op, a `release` or `weather` pass and an atlas continuation refused with the reason; a premium account's are all accepted; the include toggle and Best placement are refused or accepted exactly as the mock host's campaign entitlement answers (T-V13-37's mock), the map reading no row of its own for them; the gate is evaluated once per generate, placement or commit and never on a control's change (a counter on the gate) | the three account fixtures over the dialog harness; the mock host |
 
 ### 7.5 The report codes (§5.4's form; BCR-V13-18)
 
@@ -78422,7 +78444,7 @@ in `fixtures/world/`.
 | `W_DOSSIER_PENDING` | warning | `decide` with `updateDossier`, until the host's `dossierUpdated` | the settlement, the field, the kind, the request |
 | `W_COVER_PLATE_GAP` | warning | the cover fold's scrub, while a dropped cache rebuilds | the weeks being rebuilt |
 | `W_WEATHER_STALE` | warning | W1 at a `weather` op whose input ground moved (an earlier op rerolled or edited) | the op, the hash it was baked over, the re-bake offered (`rebake`) |
-| `refuse.world.recipeOp` (the one spelling: an unknown op, a `weather` op of 0 years), `refuse.world.tier`, `refuse.place.fit`, `refuse.place.worldRef`, `refuse.charter.dossier`, `refuse.surface.date`, `refuse.import.version`, `refuse.import.key`, `refuse.import.extent`, `refuse.import.unit`, `refuse.place.hostLocked`, `refuse.world.hostSeats`, `refuse.world.hostRoute`, `refuse.world.advancing`, `refuse.world.hostRequires`, `refuse.world.hostPolitical`, `refuse.world.requirements`, `refuse.world.scenarioRung`, `refuse.world.formationPayload`, `refuse.world.verb`, `refuse.world.layerCells`, `refuse.dossier.pending`, `refuse.place.worldRung`, `refuse.place.worldBearing` | refusal: a §7.1 outcome key rendered by V09's catalogue, never a `ReportCode` (C13-53) | the dry run, the adapter, W0, load | the op, the rung, the frame and world, the dossier fact and the nearest lawful origin, the date, the version, the key, the contradicting pair, the scenario and rung, the payload's hash, the verb, the layer, the pending request |
+| `refuse.world.recipeOp` (the one spelling: an unknown op, a `weather` op of 0 years), `refuse.world.tier`, `refuse.place.fit`, `refuse.place.worldRef`, `refuse.charter.dossier`, `refuse.surface.date`, `refuse.surface.gate`, `refuse.import.version`, `refuse.import.key`, `refuse.import.extent`, `refuse.import.unit`, `refuse.place.hostLocked`, `refuse.world.hostSeats`, `refuse.world.hostRoute`, `refuse.world.advancing`, `refuse.world.hostRequires`, `refuse.world.hostPolitical`, `refuse.world.requirements`, `refuse.world.scenarioRung`, `refuse.world.formationPayload`, `refuse.world.verb`, `refuse.world.layerCells`, `refuse.dossier.pending`, `refuse.place.worldRung`, `refuse.place.worldBearing` | refusal: a §7.1 outcome key rendered by V09's catalogue, never a `ReportCode` (C13-53) | the dry run, the adapter, W0, load | the op, the rung, the frame and world, the dossier fact and the nearest lawful origin, the date, the version, the key, the contradicting pair, the scenario and rung, the payload's hash, the verb, the layer, the pending request |
 | `refuse.lens.invented`, `refuse.lens.audience` | refusal: a query outcome rendered by V09's catalogue, never a `ReportCode` | `lensAt`, the lens picker | the lens, the element, the reason |
 | `E_WORLD_SINK`, `E_GW_CAP` | bug abort (§5.1 (8)) | W4, the groundwater step | the cell |
 
@@ -78518,7 +78540,8 @@ the further column dispatches, the donor distance term, the town drawing's froze
 offers the host may decline, each a declared shift for new campaigns or behind its own rules flag, and no lens waits on
 any of them; H22's birth canon (a declared shift for new campaigns only) is no offer but the product ruling the host
 implements (J386; J387) — its premium canonize entitlement never gating it; it waits only on its row's own
-prerequisites (H5, H7, H8, H12) and V13 §11 Q4, and lands on the owner's schedule for this track (V13 §11 Q2) — and no
+prerequisites (H5, H7, H8, H12) — V13 §11 Q4 ruled by delegation on 2026-10-23 (J396 (1), file u item 1066): the canon is
+outside door 1, so it gates neither H5 nor H22 —, and lands on the owner's schedule for this track (V13 §11 Q2) — and no
 lens waits on it either (until it lands, a lens opens in its uncanonized regime, V13 §5.8 (2)); the transition for
 existing campaigns in phases 0–5, of which phases 0–3 change no byte of a campaign's
 simulated state):
@@ -78529,7 +78552,7 @@ simulated state):
 | H2 | now | every mover band derived from the realm's measured spectrum or justified, the reinforcement band first | — |
 | H3 | now (documents) | the register rows mirroring this volume's words (V13 §3.11.6 (9)); the world scale's source dated: a world from the map module declares it, the reference generator's scale and unit read only by the import; and, a dated bracket on its own ruling, the absolute distance that ruling lights for new worlds waits, for a world from the map module, on the per-map band census (H2), by its own dead-band law | — |
 | H4 | with M-W1 | the world port's messages in the host client (a seat's removal sent as `unbindSeat`, offered to its premium re-canonize, never its additive one, V13 §3.11.6); the port consumption law in code (no port call inside a tick; answers baked with their stamps; the client inside the host's own import scan for courts) | M-SF; M-W1 |
-| H5 | with M-W1 | a second builder of its frozen record over the canon, the reader-facing shape unchanged, every sub-record sourced or declared absent; the conformance fixture; its cell-level readers moved to the canon's per-seat queries and points; a satellite's site a world point; its satellite-ground reader and that reader's certification row reading each ground point's terrain class and step cost from the sites slot | M-W1; V13 §11 Q4 (lit only after its answer) |
+| H5 | with M-W1 | a second builder of its frozen record over the canon, the reader-facing shape unchanged, every sub-record sourced or declared absent; the conformance fixture; its cell-level readers moved to the canon's per-seat queries and points; a satellite's site a world point; its satellite-ground reader and that reader's certification row reading each ground point's terrain class and step cost from the sites slot | M-W1 (V13 §11 Q4 ruled J396 (1): the canon outside door 1; the builder lit with M-W1, gated by no question) |
 | H6 | with M-W1 | its cost law 2 in this volume's schema; its cost-units row; an explicit cost-law stamp on every native record; the scale stamped from the header (carried only within one geometry version); one coordinate adapter between this frame and its render frame | M-W1; H4; H5 |
 | H7 | after H2 | a native world's seed minted at its store layer and kept with the campaign's; the first canonize stamps the scale only after H2 (until then the normalized arm over the canon's tier-1 adjacency, its calibration sent with the travel law, H8) | H2; M-W1; H4; H5 |
 | H8 | with M-W1 | the travel law sent as data with its calibration (weeks per cost unit) at every canon it adopts — H22's birth canon and every re-canonize, the additive one included —, normalized or absolute; `canonized` per canon adopted; the time-delta receipt stored; a migrated campaign's frozen leg weeks | M-W1; H4 |
@@ -78546,7 +78569,7 @@ simulated state):
 | H19 | after M-W3 | phase 4: an elective, premium, receipted rebase per campaign with its forecast diff (V13 §11 Q1); share codes gain a geography-source axis; custom-backdrop campaigns an elective trace-a-world path; its map surfaces re-pointed (the territory lens stays on the seat territory, H5, and the sway is drawn by a new lens under its own registered name — the allegiance lens, its owner's choice; roads → the map feed's paths; travel rings → its own bands; travellers → the overlay; the charter road card → its edge's path) | M-W3; H5; H6; H18 |
 | H20 | at H18's deadline | phase 5: the fork, its content-security policy, origin, hash manifests and validation gate retired; blobs and exports kept read-only for a stated retention; every geometry-1 record kept forever | H18 |
 | H21 | any | the audit's unknowns: the modified upstream source, the missing design documents (among them its reference-map weave volume, its map program's generation specification and fabric charter, and its open-decisions register, none read by the map's reviews), the production frame size, other snapshot versions | — |
-| H22 | with M-W2, for new campaigns only (after H7 and H12) | a world from this module **canonized at the campaign's birth** (J384 (6); J386): the first canon adopted as the campaign is created, its scale stamped by H7's rule and its genesis network laid at birth (H12), so the canon-gated lanes its rules light run from its first week — on the host's birth defaults the crisis columns, the plague front and the routed supply links; rite adoption, pilgrim catchments and booms only where its rules carry them (an applied preset, never the birth defaults alone); beliefs only where it records belief — and every lens's regime starts on the canon; **every** new campaign on a world from this module is so born, whatever its tier — the product ruling the host implements, never an offer it may decline (J386; J387), its premium canonize entitlement never gating the birth canon — while a re-canonize that shifts other geometry and a retcon stay the premium DM's act; a seat the host binds after the birth canon stays outside it (the host's canon covers only the seats it froze; `W_HOST_CANON_BEHIND`) until the host's **additive re-canonize** adds it: a receipted re-canonize the host runs itself at the first point between advances after the seat's founding, over the additive canon (V13 §3.11.6: the seats added to its membership since the last canon, a graduated satellite included, the seat territories their binding re-derives over the landmass they dirty and the water candidates on the sailing bodies they reach, nothing else; a seat's removal is no addition), a version step of its canon with its receipt, every travel-band crossing it causes reported (on the normalized arm any leg's, the calibration moving with the added seats; `W_TRAVEL_BAND_CROSSED`), never silent — a host change, its canonize today running only as the DM's explicit premium act, rebuilding its whole record, a seat founded since staying out until the DM re-canonizes; the host builds its record over the additive canon carrying forward, from the record it replaces, its own geometry, cost-law and overlay versions, the slots and sub-records that record holds and its institution-derived port and teleport sets for the seats that record held, as it already carries its scale forward, so the additive re-canonize adopts no host law, overlay, slot or other seat's port or circle newer than that record (those stay its premium re-canonize), while its own derivations that the added territories feed (all-pairs costs, tiers, gates, its calibration) re-run under the law carried forward and are reported in the time delta (its conformance fixture, H5, holding a record so built to the prior record's version stamps and the prior seats' port and teleport sets); like the birth canon, its premium canonize entitlement never gates the additive re-canonize (J388), so a seat founded after the birth canon is mapped in the canon-gated lanes and the lenses from its additive re-canonize on, whether or not the DM re-canonizes (the host today opens campaigns only to the accounts that hold that entitlement, its own staff aside, and asks the DM to re-canonize a seat founded since; the rule holds too should it ever open campaigns below premium); every existing campaign untouched (its genesis kept; its own canonize stays the DM's act); until V13 §11 Q4 is answered, new campaigns are born uncanonized | H5; H7; H8; H12; V13 §11 Q4 |
+| H22 | with M-W2, for new campaigns only (after H7 and H12) | a world from this module **canonized at the campaign's birth** (J384 (6); J386): the first canon adopted as the campaign is created, its scale stamped by H7's rule and its genesis network laid at birth (H12), so the canon-gated lanes its rules light run from its first week — on the host's birth defaults the crisis columns, the plague front and the routed supply links; rite adoption, pilgrim catchments and booms only where its rules carry them (an applied preset, never the birth defaults alone); beliefs only where it records belief — and every lens's regime starts on the canon; **every** new campaign on a world from this module is so born, whatever its tier — the product ruling the host implements, never an offer it may decline (J386; J387), its premium canonize entitlement never gating the birth canon — while a re-canonize that shifts other geometry and a retcon stay the premium DM's act; a seat the host binds after the birth canon stays outside it (the host's canon covers only the seats it froze; `W_HOST_CANON_BEHIND`) until the host's **additive re-canonize** adds it: a receipted re-canonize the host runs itself at the first point between advances after the seat's founding, over the additive canon (V13 §3.11.6: the seats added to its membership since the last canon, a graduated satellite included, the seat territories their binding re-derives over the landmass they dirty and the water candidates on the sailing bodies they reach, nothing else; a seat's removal is no addition), a version step of its canon with its receipt, every travel-band crossing it causes reported (on the normalized arm any leg's, the calibration moving with the added seats; `W_TRAVEL_BAND_CROSSED`), never silent — a host change, its canonize today running only as the DM's explicit premium act, rebuilding its whole record, a seat founded since staying out until the DM re-canonizes; the host builds its record over the additive canon carrying forward, from the record it replaces, its own geometry, cost-law and overlay versions, the slots and sub-records that record holds and its institution-derived port and teleport sets for the seats that record held, as it already carries its scale forward, so the additive re-canonize adopts no host law, overlay, slot or other seat's port or circle newer than that record (those stay its premium re-canonize), while its own derivations that the added territories feed (all-pairs costs, tiers, gates, its calibration) re-run under the law carried forward and are reported in the time delta (its conformance fixture, H5, holding a record so built to the prior record's version stamps and the prior seats' port and teleport sets); like the birth canon, its premium canonize entitlement never gates the additive re-canonize (J388), so a seat founded after the birth canon is mapped in the canon-gated lanes and the lenses from its additive re-canonize on, whether or not the DM re-canonizes (the host today opens campaigns only to the accounts that hold that entitlement, its own staff aside, and asks the DM to re-canonize a seat founded since; the rule holds too should it ever open campaigns below premium); every existing campaign untouched (its genesis kept; its own canonize stays the DM's act); V13 §11 Q4 ruled by delegation (J396 (1)): the canon is outside door 1, so new campaigns are born canonized as J386 and J388 rule once H5, H7, H8 and H12 land, no question gating it | H5; H7; H8; H12 |
 | H23 | with M-W5 (its first step) | the **lens window** after every advance, undo and resume (`lensWindow`, V13 §3.11.6), beside the events window: per advance, for each lens, the ledger rows it already keeps — its plague records, faith mixtures with each deity's local standing, each settlement's suppressed creeds (DM only), carriers, places and hierarchy, its realm piety, its realm ranking of its deities (tier, seats, wins, losses) and its conversion-fracture footprint, each settlement's economy as its dossier judges it (production, needs, exports, imports and services — each good by its catalog key as its supply links key it, with its own label and whether the key was read loosely, its category, its shippable flag and any transit flag — and its food import coverage (its import coverage over its raw deficit, as a percent it computes) with any stressor's cut in force; J380), each settlement's adopted and imposed rites with their origin and year, channels, supply arrivals with each link's input good, its finite stocks' bands, inbound and outbound throughput and entrepôt records where they run, named travellers' journeys, netted transfers, columns and its seats' head counts, and its alignment reading (H30) — and, where it chooses, the values its own laws compute on the window for the lenses' host-derived marks (each live plague node's next-hop chance per carrier link with the destination's onset chance; each carrier link's faith pressure per deity and each prescription's pressure; each settlement's population trend sign, ruler-and-people tension and crisis disorder; each grand rite's pilgrim draw (the seats it reads, which it computes and drops today); each pair of patrons' quadrant class), each labelled with the law that computed it; each row with its resolved audience (a row without one is folded DM-only), and a party set of believed rows where it records belief; its **resolved regime** with every window (born or applied, the canon marker, its frozen record's sea-lane, teleport and seasonal slots, each lane lit, a deity seated, a plague live, belief recorded, its intensity), so no lens reads a regime from a preset's name; the interior weeks of a multi-week advance, or a compact per-week delta log; once, at first bind, its kept per-advance pulse records (their population deltas and outcome severities); and, in the events window (H9), the dated events each lens reads — plague arrivals and realm arcs, conversions, booms and busts, stopped festivals, purchases and ransoms, resettlement donors, moral reckonings, column departures and arrivals, patron falls with the fallen deity and the cause, its deities' rank arcs, rite adoptions and imposed rites with their origin and the week each took effect (the host keeps the year only), relief and credit with their giver | M-W5; H4; H9 |
 | H24 | with M-W5's plague step | the plague asks: the source seat's key on each materialized plague record and on its arrival event; a bounded front history (a receipt per hop: source, carrier, weeks, onset outcome); the road season read in its display's weeks-away; an arrived plague writing its condition where it lands (the condition gap closed), with its condition loop capped as its famine loop is; a settlement missing from its frozen record read as "no spatial delay known", never one week; its ledger's plague obligation mapped to its one plague type; each crisis served as netted transfers or as columns, never both | H23 |
 | H25 | with M-W5's sway and patrols step | the sway and patrol asks: its strength order in the polity window (H13) and, where it chooses, per adversarial pair its stronger side or tie by its own comparator; a raid's outcome word and, where known, its place (or its pair, placed by `borderSegment`) — the word that makes a raid a verdict (V13 §3.9 (11)); tier changes as dated facts, and whether a promotion writes the settlement's tier label; patrol coverage given a host meaning (a producer for its road-warden and road-predation pair kinds, or coverage as its embattlement's security input, H16); a DM-cut road's closer named, and its caravans reading the cut or the cut labelled propagation-only in its own interface; whether a DM-confirmed war-front channel can embattle a settlement with its war layer dark; its sea-lanes switch's copy corrected (it governs fleets and blockades, while its caravans, its refugee pricing and its plague latency use the frozen record's lanes whatever the switch says); what its culture distance's "same governing name" term means — a government label or a real overlord — with its header corrected | H13; H16; H23 |
@@ -78559,7 +78582,7 @@ simulated state):
 | H32 | with M-W6 | **the dossier update as the host's own act** (F8): `requestDossierUpdate` received as a guard-and-override entry on its world-fact card — the user's approval given in the map recorded on the entry, the change applied by the host's own command in the kind asked (a draft's plain edit under `alwaysSo` — the re-roll under its same-seed law that its own warning names; a canonized settlement's decree at the next advance under `landChanged`, or its retcon path under `alwaysSo` where it admits one) — its settlement's phase and its re-roll warning sent in `campaignFacts`, so the conflict list's preview says what the host will do — and `dossierUpdated` sent with `applied` and its sequence; its own undo retracting with `applied: false`; its exposure words (whether its economy or food feels the change) sent with the confirmation for the conflict list's preview | M-W6; H4; H15 |
 | H33 | with M-W9 | **directional, seasonal sea legs** (F4): `routeFacts`' per-edge sailing efforts by vessel, month and direction read behind its own switch into its sea-lane law — a lane's cost per direction and month where it adopts them, its own lanes, unchanged, where it does not (the canon's water metres never move, J393) — the offered efforts carrying wind and current only, its storm season its own and applied once, in its own arithmetic; its lane pair keyed by direction where adopted; the lenses' sea links then reading the adopted leg (V13 §5.8 (5)) | M-W9; H4; H11 |
 | H34 | with M-W8 | **land cover and hazards as readings** (F2, F3): `physicalChange`'s land-cover share per seat catchment and `SettlementPhysical`'s soil, stone, cover shares and hazard readings shown beside its dossier as the map's derivation (labelled so), never written into its biome, terrain word or genesis facts; its agriculture or calamity exposure may read the fertility and the hazard behind its own switches (a declared shift); a razing, a plague's depopulation or an abandonment sent as a dated event with the seat's population after it, so the cover fold withdraws the fields; a volcano the DM marks active and an eruption the DM stamps arriving as dated events it may read, never as strikes it must roll | M-W8; H4; H9; H13 |
-| H35 | with M-ATLAS-A (the record and the resolver), M-ATLAS-B (the owner of a continued world), the gallery (the owner's, V15 §11 Q2) | **the atlas as a per-user record** (F15; V15 §2.11, §3.4 (7), §5.5; the row V15 §10.2 asks, appended by file r item 1015): a per-user atlas record beside the campaign's world records (snapshot, backups, quota, lifecycle) and a resolver reference for a world document of any campaign the user may read, read-only; which campaign owns a world generated from an atlas's continuation request (the dialog's generate in host mode); its share and access rules for an atlas and for a member's imagery across campaigns — each optional, dark by default, with its tier line and degraded arm (absent ⇒ the atlas a file through the share sheet's Download; a continuation in host mode refused, `refuse.atlas.hostWorld`) | M-ATLAS-A; H4; H10 |
+| H35 | with M-ATLAS-A (the record and the resolver), M-ATLAS-B (the owner of a continued world), the gallery (V15 §11 Q2 ruled J396 (3): publishing an atlas follows the host's gallery entitlement, never a map-side one; a member's imagery travels only where that member itself may under the host's gallery rules) | **the atlas as a per-user record** (F15; V15 §2.11, §3.4 (7), §5.5; the row V15 §10.2 asks, appended by file r item 1015): a per-user atlas record beside the campaign's world records (snapshot, backups, quota, lifecycle) and a resolver reference for a world document of any campaign the user may read, read-only; which campaign owns a world generated from an atlas's continuation request (the dialog's generate in host mode); its share and access rules for an atlas and for a member's imagery across campaigns — each optional, dark by default, with its tier line and degraded arm (absent ⇒ the atlas a file through the share sheet's Download; a continuation in host mode refused, `refuse.atlas.hostWorld`) | M-ATLAS-A; H4; H10 |
 
 Phases 2–3 are the map's (the import on request, never on load; a legacy campaign's world view with no write to its
 simulated state, its overlays converted through its stored capture and the import's transform). Its schedule is the
@@ -78704,6 +78727,7 @@ owner's question (V13 §11 Q2).
 | J-V13.133 | chose **`viewFacts` as the relational style's one reading** (the spine's §14 (4); file r items 1007, 1012) — from the plates and the event index at a week, audience-filtered as a lens, absent facts named, class 4 at the reader — over V15 reading `lensAt` per lens (eight readings, each a drawn layer, none a fact set) and over the raw plates (a plate is the mechanism's cache; a reading is its contract) |
 | J-V13.134 | chose **`renderAt` over the `atlas` layer set with the label boxes, landing at M-W6** (the spine's §14 (2), §15's order; file r items 1007, 1011, 1015; J394) — the member's default picture: relief with the land cover's used and disturbed classes over it, water, routes, settlements and labels, the sway's fills and borders, the occupation, debatable and fighting overlays and the event pins, each under the audience's admission; no lens, no diagnostic layer, no DM-only mark for a player audience; the placed boxes beside the tiles; the reading in M-W6 beside `edgeCharter` and `solve`, so V15's M-ATLAS-A follows M-W6 — over the five-layer set of relief, water, routes, settlements and labels alone (the owner's "world map" of F11 must show realms and borders, and a member's picture at its own time includes its fields and scars — J394), over the member's full layer set (a lens is a legended instrument of a world page) and over `renderAt` in M-W3 (the spine orders the atlas after the growth milestones, and one milestone then lands every reading V15 takes) |
 | J-V13.135 | chose **the `landform` requirement kind, and re-matching as `setRequirements` + `regenerate`** (file r items 1007 (a), 1008 (b); C15-16) — a feature asked for by kind, place and extent as one more row the formation op or W1 satisfies with `origin: 'solver'` (the world dialog's landform and water chips; a continuation's accepted reconciling feature, V15 §3.4 (5)), tested by T-V13-64 (i), over a free-text sketch (a row is verified and reported; a sketch is not); and a re-match of a border strip as the existing `setRequirements` and `regenerate` over a box, the former charter kept as provenance, over a field on `regenerate` (two existing edits compose; a new field would be a second re-derive path for T-V13-72's lint to watch) |
+| J-V13.136 | chose **the world canon outside J86's door 1, door 1 itself staying closed for frame geometry** (V13 §11 Q4, ruled by delegation on 2026-10-23 — the owner: "I leave all judgement to you" — J396 (1); file u item 1066) — the canon carries realm-scale derived facts per settlement (travel effort, water access, the site ground points), never a frame's or an arena's geometry, and replaces the capture the host already reads —, over opening door 1 for world-scale derived facts only and over leaving the question open, because door 1 was ruled for the settlement map's geometry (J86 Q2) and the canon holds none of it, and because an open question kept the host's builder over the canon (H5) and every new campaign's birth canon (H22) dark for no design reason; the base's §11.4 records the delegation as the owner's explicit word (BCR-V13-47) |
 
 **Deferred decisions** (recorded, not taken): D-V13.1 a second resolution rung for the frame's hydro grid under a
 charter (finer than §2.3's) if T-V13-13's edge RMS bar fails on steep charters; D-V13.2 a world-scale `erode` op if
@@ -79162,6 +79186,15 @@ the low end and 21 at the high; wherever BCR-V13-19's sentence, BCR-V13-20's row
 they read M-W0 – M-W9 (M-W6 – M-W9 after M-W2, M-W7 gated by SP-W9 and SP-W10); the base's ruins-by-age milestone
 (file r items 994–998; T113-8) is the base's own ≈ 1 pw inside II.7.6's line, not the world row's.
 
+**BCR-V13-47 — §11.4 Host inputs (the closed door 1 and the fifth door): the owner's explicit word on the canon, given
+by delegation.** (J396 (1); J-V13.136; file u item 1070.) In §11.4, the clause that read "the session reads it as outside
+J86's door 1, and the owner confirms (V13 §11 Q4) before the host lights its builder over the canon" states that the
+canon is outside J86's door 1 — the owner's explicit word on it given by delegation on 2026-10-23 (V13 §11 Q4, ruled
+J396 (1): the owner's "I leave all judgement to you", the session ruling the canon outside the door) —, so the host's builder
+over the canon (V13 §8.5's H5) and every new campaign's birth canon (H22) wait on no question, while door 1 itself
+stays closed for frame geometry and opens only on the owner's explicit word; so that the base's one reserved decision
+is recorded as taken and the door it reserves stays reserved.
+
 ### 10.2 Requests to V14 (what V14 must supply; single source: these stay V14's facts)
 
 | request | what V13 needs | where V13 reads it |
@@ -79220,31 +79253,36 @@ cannot be fetched opens nothing (`refuse.world.formationPayload`). The world cod
 hashes under either answer; only the placed settlement's question is open, and the charter a settlement embeds is
 the same charter whether its world was authored or formed.
 
-**Q5 — Who may generate with what.** The world dialog is layered (Random all, Basic, Advanced, Deep constraints and
-the DM's physics toolbar; V09 §4.22) and nothing in it is hidden: every control is drawn for every account kind and disabled with its reason,
-the gate enforced at the one generate action (F5; V13 §3.1, §4.2 T1; J-V13.123). What the gate holds is the owner's:
-which account kinds may generate with a scenario (the formation op, the costliest act), with an included campaign
-(the solver's planned sites), with the Advanced or Deep layers' options set, with a `physicsPass` of depth `weather`, and
-which may save a preset others see. The module carries the answer as data — the gate's rows beside the host's
-`hostRequires` (V13 §3.11.6), read at the generate action and nowhere else — and the dialog's semantics do not
-change with it. The host's own precedent for settlements: an anonymous visitor generates the three smallest tiers
-with everything on random, enforced at its one generate action; the world's analogue would be Random all at the
-province and realm rungs for a visitor, every control drawn and disabled. *Recommendation:* every layer free to read
-and set and every one-click generation free at every rung; a scenario and an included campaign gated as the host gates its own premium acts (J388's entitlement, which
-never gates a birth canon and never a placement), the `weather` depth the DM's; presets saved by anyone, shared by
-the DM.
+**Ruled — who may generate with what** (J396 (2); the owner's delegation of 2026-10-23, "I leave all judgement to you"; recorded
+here as a ruling, not an open question; the data rows are §2.3's `PresetRule.gate`, the refusal `refuse.surface.gate`,
+the test T-V13-73). The world dialog is layered (Random all, Basic, Advanced, Deep constraints and the DM's physics
+toolbar; V09 §4.22) and nothing in it is hidden: every control is drawn for every account kind and disabled with its
+reason, the gate enforced at the one generate action (F5; V13 §3.1, §4.2 T1; J-V13.123) — the host's own rule for its
+settlements, mirrored. The rows: an **anonymous visitor** — Random all only, at the province rung, every option
+random; a **signed-in free account** — Basic and Advanced at every rung the machine allows, the targeted rerolls, the
+physics pass's `rederive` depth, the atlas as an image-only save with its arrangement and drill-down (V15 §8's
+M-ATLAS-A); a **premium account** — Deep constraints (sketch, pin, import, lock-and-regenerate), the pass's `release`
+and `weather` depths, the atlas's continuation and fit (M-ATLAS-B). "Include my campaign's settlements" and the
+best-placement button follow the host's campaign entitlement wherever it applies: the map adds no gate of its own
+above the host's (J388's entitlement never gates a birth canon and never a placement). The module carries the rows as
+data beside the host's `hostRequires` (V13 §3.11.6), read at the generate action — and at Best placement and a pass's
+commit, the acts that run the same stages — and nowhere else; the dialog's semantics do not change with them. Presets
+saved by anyone and shared by the DM stand as recommended (the ruling names them not). Vetoable.
 
-**Q4 — J86's door 1 and the world canon.** The base keeps J86's door 1 — the host's simulator reading the map's
-geometry — closed until the owner's explicit word (§11.4). The world canon (V13 §3.11.6) replaces the capture of the
-reference generator that the host's simulator already reads; it carries no frame or arena geometry and reaches the
-simulation only through the host's receipted canonize — H22's birth canon as a new campaign on a world from this module
-is created, the additive re-canonize that adds a seat the host binds later (H22; J388), or the DM-confirmed
-re-canonize. The session reads it as outside door 1, which was ruled
-for the settlement map's geometry, and the base's fifth door says so; the owner confirms, or opens door 1 for
-world-scale derived facts only. Until the answer the host's builder over the canon (V13 §8.5's H5) stays dark,
-and with it H22's birth canon (J384 (6); J386): until Q4 is answered, new campaigns are born uncanonized, their
-lenses opening in their uncanonized regimes (V13 §5.8 (2), §5.9).
-*Recommendation:* confirm; the settlement frame's geometry stays behind the closed door.
+**Ruled — the world canon and door 1** (J396 (1); the owner's delegation of 2026-10-23, "I leave all judgement to you"; recorded
+here as a ruling, not an open question; J-V13.136, BCR-V13-47). The base keeps J86's door 1 — the host's simulator
+reading the map's geometry — closed, opening only on the owner's explicit word (§11.4). The world canon (V13 §3.11.6)
+replaces the capture of the reference generator that the host's simulator already reads; it carries realm-scale
+derived facts per settlement — travel effort, water access, the site ground points — and no frame or arena geometry,
+and reaches the simulation only through the host's receipted canonize — H22's birth canon as a new campaign on a
+world from this module is created, the additive re-canonize that adds a seat the host binds later (H22; J388), or the
+DM-confirmed re-canonize. The canon is therefore OUTSIDE door 1, which was ruled for the settlement map's geometry, as
+the base's fifth door says; door 1 itself stays closed for frame geometry. The explicit word the base's §11.4 asks for
+is given as this delegation and recorded there (BCR-V13-47). Consequences: the host's builder over the canon (V13 §8.5's
+H5) and H22's birth canon (J384 (6); J386) are gated by no question — each waits on its row's own prerequisites only —
+and new campaigns are born canonized as J386 and J388 rule (a lens on a campaign whose canon has not yet landed still
+opens in its uncanonized regime, V13 §5.8 (2), §5.9, until it does). Vetoable: the owner may re-close the canon behind
+door 1, which returns H5 and H22 to waiting.
 
 **Ruled — who keeps a gate under the sway** (J385; J-V13.96; recorded here as a ruling, not an open question). The
 host's crossings stay on the seat territory; the choice between the host's intermediary settlement — the one whose
@@ -79263,7 +79301,7 @@ itself at the first point between advances after its founding — the seats adde
 territories their binding re-derives and the water candidates on the sailing bodies they reach, nothing else, every
 travel-band crossing it causes reported (on the normalized arm any leg's, the calibration moving with the added
 seats; V13 §3.11.6's additive canon) —, which that entitlement never gates either (J388); a re-canonize that shifts
-other geometry and a retcon stay the premium DM's act (V13 §8.5's H22, which Q4 above still gates).
+other geometry and a retcon stay the premium DM's act (V13 §8.5's H22; Q4 above ruled J396 (1), gating nothing).
 And while the host sends no force band, a host fight verdict's hold band alone breaks a debatable tie (V13 §3.9
 (11)), so only a host verdict moves a march line in the civil regime (every preset's until force bands are sent) as
 in the enforced one (J384 (5)). Vetoable.
@@ -82664,6 +82702,11 @@ of V14 §10.2 against V13's revision; a mismatch found there is the next entry h
 > (`docs/validation/coherence/world-growth-r-critic.md` G-01, G-02, G-06, G-13, G-14, G-17, G-18) — the level–stop table
 > over the pyramid cell (256 / 512 / 1 024 m), the four-argument `edgeCharter`, the applied-r line, the six terms' world
 > readings cited from V13 §1b.2, the cover overlay's milestone, three loose *override*s, and the route facts row.
+> **Ruled 2026-10-23** by the session under the owner's delegation of that day ("I leave all judgement to you"; J396;
+> carried by amendments/world-growth-u, `docs/AMENDMENTS-2026-10-23u.md`, its §"V15 in-place edits"; record
+> `docs/validation/coherence/world-growth-u.md`): §11's four questions are rulings (J-V15.37 – J-V15.40) — the label
+> "World map" (Q1), the sharing rules (Q2; T-V15-26), the art library (Q3), the cost accepted (Q4) — read into §1.0,
+> §1.4, §2.4, §5.1, §5.5, §8, §10.3 and §12.
 
 <!-- PROGRESS (the architect seat's ledger; removed at revision)
 0 In plain words ................................ done
@@ -82698,7 +82741,7 @@ volume adopts from it is stated here in full. **Citations:** a bare `§n` or `II
 volume's section, this one included (`V15 §3.6`); `spine §n` the spine's; `item n` is an amendment item; `J384`–`J392`
 are docs/PROGRESS.md rows; `F10`–`F15` the owner's rules by number. **Naming (spine §12, one word, one meaning):**
 **world** is V13's simulated document and its page, never the stitched layer; **atlas** is the stitched, image-only
-save of this volume (the product label — "World map" is allowed — is the owner's, V15 §11 Q1); a **member** is a world
+save of this volume (the product label is "World map" in every user-facing string — the owner's word, ruled J396 (3), V15 §11 Q1); a **member** is a world
 document the atlas holds by reference; a **seam** is a shared edge between two members (the base's and the critique
 lane's "seam" between volumes is a document-review word confined to `docs/volumes/critique` — admitted in this volume and in V13 only
 inside the fixed phrases that cite the spine's §14, "the seams owed to V15", "no reverse seam" and "the dossier seam";
@@ -82881,8 +82924,11 @@ this volume names a dependency by the spine's section and r's item, the seam sea
   of V13 in V15 §10.2, and restates none. Formation's baked landforms, bedrock and soils and the living physics'
   monthly climate and currents are amendments r's (spine §3, §13): the charter carries what the member holds.
 * **The relational style's art** — the library of monsters, vignettes, cartouches and lettering is content (V11's
-  symbol catalogue, RQ-V15-9), on the owner's art budget (spine §16; V15 §11 Q3); this volume states the rows, the
-  rules and the lint, and ships a minimal figure set per preset (V15 §2.5) so the mechanism runs before the art lands.
+  symbol catalogue, RQ-V15-9), on the owner's art budget (spine §16; V15 §11 Q3, ruled J396 (4): the minimal line-art set
+  ships with the mechanism at M-ATLAS-C; a bounded first library — twelve sea creatures, eight land figures, six event vignettes, four cartouche styles and three lettering faces per preset family, about 2–3 person-weeks of illustration — is
+  funded after the owner's first sitting on the line-art presets; a DM's own glyphs enter through the symbol catalogue's
+  custom path, V11 §3.13's custom-content rows, under the blocklist lint); this volume states the rows, the rules and the
+  lint, and ships the minimal figure set per preset (V15 §2.5) so the mechanism runs before the art lands.
 * **The F13 "ongoing effects" level** is withdrawn by F14 (spine §10.2): no level of coupling exists between members
   after generation, and none is designed, reserved or named here.
 * **An ecosystem-shaped export of a stitched world** (V13 §5.4's `ecosystemJson`, `ecosystemGeoJson`, `heightmap16`,
@@ -83248,7 +83294,7 @@ interface EmbellishRule {                                                       
   blocklist: string /* the shipped list of real-world ethnonyms, demonyms, faith names and region names the lint T-V15-6 reads: no FigureRow, caption or catalogue string of this volume may match it */;
   figures: FigureRow[] }
 interface FigureRow { id: string; kind: EmbellishmentKind; preset: string | '*'; trait: 'deepWater'|'storm'|'unsailed'|'knowledgeEdge'|'hostile'|'far'|'enemyFaith'|'event'|'city'|'holyCity'|'furniture' /* the ONLY key a figure is chosen by, beside the preset: never a culture's, a people's or a faith's name */;
-  asset: string /* the symbol catalogue's glyph id (V11; the shipped minimal set is line art, the art library the owner's, V15 §11 Q3) */; sizeCm: Cm /* on the true plane at level 6 */; caption?: MsgRef /* "here be serpents" in the preset's lettering; the catalogue's text, lint-checked */ }
+  asset: string /* the symbol catalogue's glyph id (V11): the shipped minimal set is line art, one glyph per trait, at M-ATLAS-C; the funded first library replaces it row by row after the owner's first sitting; a DM-uploaded glyph is a catalogue id from the catalogue's custom path (V11 §3.13's custom-content rows), admitted under the blocklist lint (T-V15-6) like a shipped one — V15 §11 Q3, ruled J396 (4) */; sizeCm: Cm /* on the true plane at level 6 */; caption?: MsgRef /* "here be serpents" in the preset's lettering; the catalogue's text, lint-checked */ }
 ```
 
 **Shipped cells** (the values in the comments above; V12's register holds one line per calibratable cell at
@@ -84214,8 +84260,8 @@ added to the recent list on its first edit or save, never written to the host be
 ### 5.1 The atlas page (V09 hosts it; RQ-V15-7)
 
 The atlas is a document page of V09's shell (V09 §5.1's frame: the canvas, the rail, the view bar, the context panel,
-the drawers), opened from **Open a world map…** / **New world map** (V09 §5.13's rows gain them; the labels follow the
-owner's product word, V15 §11 Q1), from a world page's **View relationally…** (J-V15.14) or from a shared atlas file.
+the drawers), opened from **Open a world map…** / **New world map** (V09 §5.13's rows, file u item 1069; the labels are the owner's
+product word "World map", ruled J396 (3), V15 §11 Q1), from a world page's **View relationally…** (J-V15.14) or from a shared atlas file.
 **What a person sees when they open it:** the members' pictures laid on parchment at the zoom that fits them all, the
 seams softened, the gaps in their styles, each member's date cartouche in a corner of its extent, the scale bar and the
 compass; the member list in the context panel (a card per member: its thumbnail, name, rung, date, version, the stale
@@ -84302,12 +84348,17 @@ recipient must be able to resolve; the sheet says which members the recipient wi
 all), else the atlas file; (2) **Picture** — one PNG of the current view, "What it shows" defaulting to what anyone
 knows (V09's J-V9.13); (3) **World map file** — the shared atlas: the sheet lists every member with its shareable
 state — a member whose world the user may share (its own sharing allows it: a published world, the user's own
-standalone world; in host mode the host's gallery rule once H35 lands, until then the user's own worlds only) is
-included with its imagery; a member the user may not share is **excluded** — no reference, no picture, its extent a
-gap marked "not shared" (`W_ATLAS_NOT_SHARED`, `include` only where the world's sharing allows) — so **sharing shares
-imagery only for members the user may share**, never a member's data (the atlas holds none) and never an unshareable
-member's picture (T-V15-8); a host that configures a publishing resolver adds (4) **Publish a link** (§11.5), under
-the host's own access levels and, across campaigns, the owner's rule (V15 §11 Q2). A recipient's atlas is read-only
+standalone world; in host mode a member travels exactly where that member itself may travel under the host's gallery
+rules, H35) is included with its imagery; a member the user may not share is **excluded** — no reference, no picture,
+its extent a gap marked "not shared" (`W_ATLAS_NOT_SHARED`, `include` only where the world's sharing allows) — so
+**sharing shares imagery only for members the user may share**, never a member's data (the atlas holds none) and never
+an unshareable member's picture (T-V15-8). **The rules across campaigns and users** (V15 §11 Q2, ruled J396 (3);
+J-V15.38; T-V15-26): an atlas is shared as imagery only; one user's atlas may hold members of several of their own
+campaigns (the microcosm rule, V15 §4.7, makes it safe: no member reads another); another user's shared world may be a
+member by reference, shown at the version the sharer published and never a later one; a member the user may not share
+is a marked gap in the shared copy, never a silent hole; a host that configures a publishing resolver adds (4)
+**Publish a link** (§11.5), under the host's own access levels — publishing an atlas to the gallery follows the host's
+gallery entitlement, never a map-side one. A recipient's atlas is read-only
 (`shared: true`): pictures, arrangement, viewpoints; drill-down only into members the recipient can resolve.
 
 ### 5.6 Accessibility, the clerk's rendering, and no 2.5D
@@ -84387,6 +84438,7 @@ with the lens set, four viewpoints: the DM's, the party's, a culture's mappa mun
 |---|---|---|
 | T-V15-7 (deletion leaves a marked gap) | deleting C on disk under B-ATLAS-SHARE: at the next open C reads `missing`, `W_ATLAS_MEMBER_MISSING` raised with `keep` and `remove`, the gap drawn ghosted (and blank under `missing: 'blank'`) with the words naming C's last version and date, in every atlas that held C (a second atlas fixture holding C too); C's relations marked unmet, its seams keep their drift; restoring the file finds C again; `removeMember` writes the gap style chosen, tombstones the relations, and its undo restores all | two atlases; the file deleted and restored |
 | T-V15-8 (sharing excludes unshareable members) | the shared atlas written from B-ATLAS-SHARE holds R's imagery at the cached stops, no reference and no tile of P (its extent a gap "not shared"), C's gap as missing; the recipient opens it read-only, drills into nothing it cannot resolve (`refuse.atlas.drill.unopenable`), sees P's gap and C's; `setAttr(shareable)` wider than a world's own sharing is refused `refuse.atlas.share`; the picture export under the party viewpoint withholds every `secret` record and every figure T-V15-6 (d) withholds; the permalink lists the members a recipient will see | the share writer's file re-read; the recipient harness |
+| T-V15-26 (the sharing rules across campaigns and users, J396 (3)) | on a fixture atlas holding R (the user's own published world), P2 (a world of a second campaign of the same user, shareable under the mock host's gallery rules), X (another user's world shared at its published version 4, held by reference) and U (a world of the user's that the mock host's gallery rules forbid sharing): the shared copy holds R's and P2's imagery, X's imagery at version 4 although X's owner has since saved version 5, and U as a gap marked "not shared" with no reference, no tile and no name beyond the mark; the recipient sees the three pictures and the marked gap and drills into none it cannot resolve; a publish to the gallery under a mock host without the gallery entitlement is refused with the host's reason and the map adds no second check; under a mock host with it the published atlas is imagery only (no member data; `atlasGeoJson`'s extents carry `shareable` alone) | the share writer over the four-member fixture; the mock host's gallery rules; the recipient harness |
 | T-V15-9 (determinism) | (a) an atlas generated twice from one `AtlasRecipe` over resolvable members is byte-identical per record, per composed tile at every level and per warp field on every §13.2 platform, workers on and off; (b) the solver over permuted relations and members gives the same arrangements; a preset applied twice from the same state is idempotent; (c) a refresh of a member whose version did not change moves no atlas digest and no tile; (d) the embellishment set for a viewpoint is byte-identical across bakes and platforms; the comparator lint finds no draw inside a sort key in `@plat/atlas` | per-record and per-tile digests over B-ATLAS; the lint in CI |
 | T-V15-10 (arrangement) | (a) every relation kind of V15 §2.3 on B-ATLAS-1 and B-ATLAS-16 produces exactly its requirements and, solved, is met within its measure (the sector, the width, containment, the distance, the stretch) with the verification list saying so; (b) every compatibility clash (a 24° latitude step, a rainforest shore against tundra, a rotated member, an overlap) is a warning with its actions and never a refusal; (c) least change: a solve over sixteen members with one new relation moves at most the two members it names, the others byte-equal; (d) a solve that would move a locked member asks `W_ATLAS_LOCKED_MOVE` and moves nothing on `cancel`; (e) two contradicting relations are both kept, the later met, the earlier unmet and reported; (f) the lane bound refuses `refuse.atlas.extent` at 21 475 km and admits 21 473 | the relation fixtures; the solver over B-ATLAS-16 |
 | T-V15-11 (continuation) | on B-ATLAS-3's making: the request carries one charter per shared edge, each `locked`, each naming R's version; the prefill equals the values V15 §3.4 (4) derives from R's edge facts; V13's W0 on the sent request reports every edge requirement met and the generated R2's west edge profile meets R's east edge within V13's `edgeRmsRefCm` (V13's T-V13-13 at world rung, as RQ-V15-1 requests); R's digests are byte-equal before and after the generation; R2's recipe stores the charters with R's version (read back through V13); the atlas's member R2 carries `origin: 'continued'`, `continuedFrom` naming the charters, its arrangement at the void, locked; an unopenable neighbour leaves its edge unlocked with `W_ATLAS_EDGE_UNLOCKED`; a request needing a neighbour change is reported `W_ATLAS_NEIGHBOUR_CHANGE` and `editNeighbour` opens R's page with V13's fork preview, nothing changing in R until committed there | the R fixture; V13's generator on the request |
@@ -84444,7 +84496,8 @@ lands, the charter carrying what the world holds before it) and after M-ATLAS-A;
 after M-W5 (the lenses, whose facts `viewFacts` reads) and M-ATLAS-A. Staffing per the owner: rulings on the Fable seat,
 building and verification on Opus seats. Prices are expert estimates (PLAUSIBLE; the spine's guesses 2–4, 2–3 and 2–3
 plus art, refined by step); the total is this volume's own line, outside §16's first total, computed once by the
-coherence pass (item 568's rule); the art library is the owner's budget line (V15 §11 Q3), outside it.
+coherence pass (item 568's rule); the art library is the owner's budget line (V15 §11 Q3, ruled J396 (4): the minimal
+line-art set at M-ATLAS-C; a bounded first library — twelve sea creatures, eight land figures, six event vignettes, four cartouche styles and three lettering faces per preset family, about 2–3 person-weeks of illustration — funded after the owner's first sitting), outside it.
 
 | step | content | exit (executed, not asserted) | est. (pw) |
 |---|---|---|---|
@@ -84454,7 +84507,7 @@ coherence pass (item 568's rule); the art library is the owner's budget line (V1
 | **SA3 — spike** (at M-ATLAS-C's start) | the warp bake at `warpGrid` 512 on B-ATLAS-VIEW: the time, the Jacobian check, byte identity across §13.2's platforms; the mesh warp's frame at `v` 48 | `ATLAS-7`, `ATLAS-8` inside their rows or the fallbacks chosen; T-V15-9 (d)'s platform clause green | 0.25–0.5 |
 | **SA4 — the relational view (M-ATLAS-C)** | A6 whole: the bake, the slider, the readout and the ruler, the centre rules, the importance field, the known region per audience and culture, the three relational presets' rows and furniture (rhumb lines, roses, the T-O rim, the itinerary strip), the embellishment rules with the minimal line-art figure set, the DM's tray, the hidden marks, the lint and the blocklist, the legend's note, the viewpoints (the defaults, a culture's, as-of, the party's), **View relationally…** on the world page; the tables `atlas.style` and `atlas.embellish` | T-V15-5, T-V15-6, T-V15-25, T-V15-18 (the relational viewpoints); the owner's sitting on the three presets (V12 §3.6b, legibility and immersion rated, the sitting's rows offered); the register check | 1.75–2.5 |
 | content | the four tables' rows, the preset rows, the minimal figure set (line art, one glyph per trait per preset), the catalogue's `info.atlas.*`, `bend.atlas.*`, `refuse.atlas.*`, `share.atlas.*` lines and the legend notes (English, own, lint-checked), the blocklist | reviewed by the clean-room scanner (§17.1); every cell with provenance; the register check | 0.5–0.75 |
-| **total** | | | **7–10** (M-ATLAS-A 2.5–3.75 with SA0; M-ATLAS-B 2–3; M-ATLAS-C 2–3 with SA3; content 0.5–0.75); the art library outside it (V15 §11 Q3) |
+| **total** | | | **7–10** (M-ATLAS-A 2.5–3.75 with SA0; M-ATLAS-B 2–3; M-ATLAS-C 2–3 with SA3; content 0.5–0.75); the art library outside it (about 2–3 pw of illustration after the first sitting, J396 (4); V15 §11 Q3) |
 
 **Dependencies.** SA1 waits on M-W6 (`renderAt`, `edgeCharter` and `solve` land there, file r item 1015, over M-W3's
 labels and picture rows; the `atlas` set's cover overlay — a member's fields and scars — lands at M-W8, so a picture
@@ -84462,8 +84515,10 @@ rendered before it draws relief without them, V13 §8.2) and on V09's world page
 solver interface, the edge charter, the rung-general placement and the world subject of `requestCharter`, file r items
 1009 and 1015), and in host mode on H35 for a continuation
 owned by a campaign (until then standalone only, reported); SA4 waits on M-W5 (the lenses' facts through
-`viewFacts`, RQ-V15-4) and on nothing of amendments r beyond M-W5; the art library lands when the owner funds it and
-replaces the line-art set row by row (a content change, no mechanism). The research notes are read evidence, not
+`viewFacts`, RQ-V15-4) and on nothing of amendments r beyond M-W5; the art library lands after the owner's first
+sitting on the line-art presets (J396 (4): the bounded first library funded then) and replaces the line-art set row by row
+(a content change, no mechanism); a DM's uploaded glyphs enter through the symbol catalogue's custom path (V11 §3.13) under
+the blocklist lint from M-ATLAS-C, waiting on no library. The research notes are read evidence, not
 dependencies.
 
 **The register at each exit** (X-V12-16; V04 §8's pattern): every step that lands a registry table of this volume, or a
@@ -84539,6 +84594,10 @@ ruling it names the spine section and adds only the depth this volume designed.
 | J-V15.34 | chose the atlas in host mode as a document through the bridge whose members resolve through the host's resolver, stored per user (H35) and, until that lands, saved as a file through the share sheet, over an atlas inside a campaign's world record, because an atlas spans campaigns by F15's nature and the host keeps one map per campaign (the state note's Part D) |
 | J-V15.35 | chose to read `renderAt` over V13's `atlas` layer set — the member's default picture for the audience (J394): relief with the land cover's used and disturbed classes over it, water, routes, settlements with glyphs, labels, the sway's fills and borders, the occupation, debatable and fighting overlays and the event pins; no lens, no diagnostic, no placement outline, no DM-only mark for a player — with the placed label boxes returned beside the tiles as part of the rendered member (both V13's definitions, file r items 1007 and 1011; J-V13.134), over the five-layer set of the land alone (the owner's "world map" must show realms and borders, and a member's picture at its own time includes its fields and scars — J394), over the world's full layer set (a lens is an instrument a user toggles on a world page, V13 §5.8) and over tiles without their boxes (a label the atlas cannot see cannot be kept from a seam) |
 | J-V15.36 | chose the arrangement's compatibility checks to read the members' edge summaries through V13's `edgeCharter` (cached per member version), over a second edge reading of the atlas's own, because one present-ground edge reading serves the checks, the drift and the continuation alike |
+| J-V15.37 | chose **"World map"** as the user-facing label in every string (the page, Open / recent / new, the share sheet, the catalogue) with **atlas** in every record, key, test and message id (V15 §11 Q1, ruled by delegation on 2026-10-23 — the owner: "I leave all judgement to you" — J396 (3)), over "Atlas" to users or one word for both, because the owner's own word for the thing is "world map" (F15) and one product word beside one architecture word keeps every record and test unambiguous (J-V15.32) |
+| J-V15.38 | chose sharing as imagery only under the host's gallery rules — a member's imagery travels only where that member itself may travel (H35), an unshareable member a marked gap in the shared copy (T-V15-26), one user's atlas holding members of several of their own campaigns, another user's shared world a member by reference at the version the sharer published, publishing on the host's gallery entitlement and never a map-side one (V15 §11 Q2, ruled J396 (3)) —, over a permission model of the atlas's own and over the user's own worlds only, because the host already keeps per-map publication state and share kinds and the base has no hosted service (§11.5), and because the microcosm rule (F14; V15 §4.7) makes a cross-campaign member safe: no member reads another |
+| J-V15.39 | chose the minimal line-art set shipping with the mechanism at M-ATLAS-C and a bounded first library — twelve sea creatures, eight land figures, six event vignettes, four cartouche styles and three lettering faces per preset family, about 2–3 person-weeks of illustration — funded after the owner's first sitting on the line-art presets, with a DM's own glyphs admitted through the symbol catalogue's custom path (V11 §3.13) under the blocklist lint (V15 §11 Q3, ruled J396 (4)), over art before the mechanism or an open-ended library, because no art then gates the mechanism, the sitting tells which presets earn their art, and the catalogue's custom path already exists for every other custom record |
+| J-V15.40 | chose to accept the cost, 7–10 person-weeks across M-ATLAS-A, M-ATLAS-B and M-ATLAS-C (V15 §11 Q4, ruled J396 (3)), over trimming a milestone, because M-ATLAS-A's 2.5–3.75 pw buys F11, F12 and F15 in hand, M-ATLAS-B's 2–3 pw F13 narrowed by F14 and M-ATLAS-C's 2–3 pw F10, each an owner's rule with no cheaper form on the table |
 
 ## 10 Base change requests, and requests to volumes 13 and 9
 
@@ -84586,7 +84645,7 @@ architect's to apply, reconciled by the seam seat.
 |---|---|---|
 | **V09** (**RQ-V15-7**) | the **atlas page** as V15 §5.1 lays it out: the canvas over the atlas plane with the member list in the context panel (a card per member with its marks and commands), T6's arrange mode (drag, snap chip, rotation handle, lock, ruler), **Add a world map…** (the recent list, a file, a link, a drag of a world's card), **Continue here** on a void opening the world dialog with locked edge chips and the pre-fill, T7's relations box (chips and a typed sentence to the clerk, met/unmet marks, Arrange with the ghost preview), T2's gap brush, T9's fit sheet (three cards; the fitted card opening V13's placement preview on the parent's page), **Re-match this edge…**, the viewpoint picker and New viewpoint sheet, the style cards, T10's Refresh / Keep detail / Bake; the view bar's relational slider, common-week toggle, Show drift, Show relations, the cartouche switch; **Open a world map…** and **New world map** in Open / recent / new (V09 §5.13; the words the owner's, V15 §11 Q1); the world page's **View relationally…** and **Save as a world map**; the share sheet's member list with shareable states and the **World map file** option (V15 §5.5); the export dialog's Atlas tab (the picture, `atlasTiles`, `atlasGeoJson`; the world shapes greyed with `refuse.atlas.export`); the fates sheet for **Remove from this atlas**; the catalogue keys of V15 §4.8 (`info.atlas.*`, `bend.atlas.*`, `refuse.atlas.*`, `share.atlas.*`, the legend notes); the binding rows of V15 §4.2 in V09 §4.3's table, checked by T-V9-12's rule; the `projection` switch disabled on an atlas with `info.atlas.flat` | V15 §4.2, §5.1, §5.5 |
 | **V10** (**RQ-V15-8**) | the `atlas` why section's rows and the chain test; the `propose` route's parse of a described relation into V15 §2.3's chips (the sentence kept in `text`), confirmed by the user before `relate` | V15 §4.8 |
-| **V11** (**RQ-V15-9**) | the registry rows for `tables/atlas/*` (BCR-V15-5) with V15 §2.4–§2.5's schema and shipped values; the symbol catalogue's glyphs for the minimal figure set (one line-art glyph per trait per preset; the art library replacing them row by row under the owner's budget); the blocklist as a shipped, read-only table; the naming slice `atlas` (a gap's or a sea's name; never a people's); the bundled lettering faces the presets name (§8.2's and §17.2's licence rule) | V15 §2.4, §2.5, §3.6 (5) |
+| **V11** (**RQ-V15-9**) | the registry rows for `tables/atlas/*` (BCR-V15-5) with V15 §2.4–§2.5's schema and shipped values; the symbol catalogue's glyphs for the minimal figure set (one line-art glyph per trait per preset; the funded first library replacing them row by row after the owner's first sitting, J396 (4)); a DM's uploaded glyph admitted as a figure asset through the catalogue's custom path (V11 §3.13), the blocklist lint (T-V15-6) run over its name and caption; the blocklist as a shipped, read-only table; the naming slice `atlas` (a gap's or a sea's name; never a people's); the bundled lettering faces the presets name (§8.2's and §17.2's licence rule) | V15 §2.4, §2.5, §3.6 (5) |
 | **V12** (**RQ-V15-10**) | the fixture set `B-ATLAS` (V15 §7) and the scripted lens set for R; the panel **V15-P** (`PanelSpec`: the three presets rated for legibility and immersion, three seams for the band's look, by the owner's sitting at SA4 and SA0); the no-op pin `atlas.none` with its off form; the measures `atlas.bakeMs`, `atlas.cacheMb`, `atlas.solveMs`; the register's default-line entries at each exit | V15 §7, §8 |
 | **V14** (**RQ-V15-11**) | the drill-down's last rungs (a site opened from the member's page, V14 §3.9; the encounter crop on a member's point after the drill, V14 §3.10); the `ZDecl` reason `'imagery'` admitted by the gap lint (T-V14-16) for the atlas's drawables | V15 §3.7, §5.6 |
 
@@ -84668,14 +84727,16 @@ with the days between towns."
 
 Only true owner decisions — a name, money, a capability across the host's boundary — each with the session's
 recommendation under the delegation (J122's form; spine §16 names the first three as the owner's); nothing the owner
-already ruled (F10–F15) is re-asked, and every other choice is a J-V15 row.
+already ruled (F10–F15) is re-asked, and every other choice is a J-V15 row. **All four are ruled** (2026-10-23; the
+owner, delegating the four items left open after the world-growth pass: "I leave all judgement to you"; J396 (3) and
+(4); J-V15.37 – J-V15.40; carried by amendments u), each vetoable: the last column reads the ruling.
 
-| # | question | recommendation |
+| # | question | ruling (vetoable) |
 |---|---|---|
-| Q1 | **The product label.** The architecture's word is *atlas* (spine §12; J-V15.32); the owner's own word was "world map". Which word do users see — "World map", "Atlas", or another? | "World map" in every user-facing string (the page, Open / recent / new, the share sheet, the catalogue), "atlas" in every record, key, test and message id — one product word, one architecture word, never mixed; the owner's word |
-| Q2 | **Sharing and privacy across campaigns** (a capability across the host's boundary; spine §16; H35): may an atlas show, share or publish a member world that belongs to another campaign of the same user, or to another user who shared it, and under which gallery and access rule? | a member's imagery travels only where that world's own sharing allows it (V15 §5.5; J-V15.27); across campaigns the host's gallery rule once H35 lands — the host already keeps per-map publication state and share kinds, the state note's Part D, so the rule is the host's to extend to an atlas — and, until then, the user's own worlds only; never a world the user may not open |
-| Q3 | **Money: the art library** for the relational style — monsters, vignettes, cartouches, lettering per preset (spine §16: "the art budget for the relational style") — outside this volume's line | fund it after the owner's sitting on the line-art presets at M-ATLAS-C (V15 §8's SA4): the mechanism ships with one line-art glyph per trait per preset and the library replaces them row by row as content, so nothing waits on the art |
-| Q4 | **Money:** the cost, 7–10 person-weeks across three milestones (V15 §8) | accept; M-ATLAS-A's 2.5–3.75 pw buys F11, F12 and F15 in hand on the world's picture rows, M-ATLAS-B's 2–3 pw F13 narrowed by F14, M-ATLAS-C's 2–3 pw F10 |
+| Q1 | **The product label.** The architecture's word is *atlas* (spine §12; J-V15.32); the owner's own word was "world map". Which word do users see — "World map", "Atlas", or another? | **Ruled (J396 (3); J-V15.37):** "World map" in every user-facing string (the page, Open / recent / new, the share sheet, the catalogue), "atlas" in every record, key, test and message id — one product word, one architecture word, never mixed; the owner's word |
+| Q2 | **Sharing and privacy across campaigns** (a capability across the host's boundary; spine §16; H35): may an atlas show, share or publish a member world that belongs to another campaign of the same user, or to another user who shared it, and under which gallery and access rule? | **Ruled (J396 (3); J-V15.38; T-V15-26):** an atlas is shared as imagery only; a member's imagery travels only where that member itself may travel under the host's gallery rules (H35) — a member the user may not share appears as a marked gap in the shared copy; one user's atlas may hold members of several of their own campaigns (the microcosm rule makes it safe); another user's shared world may be a member by reference, shown at the version the sharer published; publishing an atlas to the gallery follows the host's gallery entitlement, never a map-side one; never a world the user may not open |
+| Q3 | **Money: the art library** for the relational style — monsters, vignettes, cartouches, lettering per preset (spine §16: "the art budget for the relational style") — outside this volume's line | **Ruled (J396 (4); J-V15.39):** the mechanism ships at M-ATLAS-C (V15 §8's SA4) with one line-art glyph per trait per preset, so no art gates it; a bounded first library — twelve sea creatures, eight land figures, six event vignettes, four cartouche styles and three lettering faces per preset family, about 2–3 person-weeks of illustration — is funded after the owner's first sitting on the line-art presets and replaces the set row by row as content; DM-uploaded glyphs are admitted through the symbol catalogue's custom path (V11 §3.13) under the blocklist lint |
+| Q4 | **Money:** the cost, 7–10 person-weeks across three milestones (V15 §8) | **Ruled (J396 (3); J-V15.40):** accepted; M-ATLAS-A's 2.5–3.75 pw buys F11, F12 and F15 in hand on the world's picture rows, M-ATLAS-B's 2–3 pw F13 narrowed by F14, M-ATLAS-C's 2–3 pw F10 |
 
 ## 12 CONFIRMED versus PLAUSIBLE
 
@@ -84732,8 +84793,8 @@ already ruled (F10–F15) is re-asked, and every other choice is a J-V15 row.
   people into (T-V15-6 bars the mechanism; the look is the sitting's).
 * That V13's rung-general placement scales as V13 §6's laws predict for a world frame (`ATLAS-5`; spike (c)); that
   `edgeCharter` costs ≤ 200 ms per edge; that `renderAt` at stop 1 costs the tile law over 1.0625 × stop 1's pixels.
-* That the two shipped viewpoints and the three presets are the right minimum; that "World map" is the owner's
-  preferred label (Q1); that the host will want a per-user atlas record (H35; Q2).
+* That the two shipped viewpoints and the three presets are the right minimum; that the host will want a per-user
+  atlas record (H35; §11 Q2's ruling, J396 (3)). The label "World map" is no longer plausible but ruled (§11 Q1; J396 (3)).
 * Revision 0's mechanisms, reasoned and not yet measured: the on-demand stop-2 render per visible tile keeping pan
   and zoom inside §12.5's frame budget; the label placer's one run over sixteen members' boxes ≤ 3 ms per level; the
   solver's atlas-scale evaluators inside `ATLAS-1`; the drift reading's cost inside A3's row.

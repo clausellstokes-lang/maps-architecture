@@ -3894,7 +3894,17 @@ place the world's request is edited; it is the same dialog at every rung and for
    kind; a control the account may not use is disabled with its reason in place ("a scenario needs …"), never
    removed, and the whole dialog can be read, set and previewed by anyone. The gate is checked once, at **Generate**
    (and at **Best placement** and a `physicsPass`'s commit, the acts that run the same stages), as data beside the
-   host's `hostRequires` (V13 §11 Q5) — never in the panel, never per control. **The DM's physics toolbar** stands
+   host's `hostRequires` (V13 §2.3's `PresetRule.gate`; V13 §11's ruling on who may generate with what, J396 (2)) —
+   never in the panel, never per control; a refused act names its row and control (`refuse.surface.gate`). **The rows
+   per account kind** (J396 (2); V13 owns them, V09 draws their reasons): an **anonymous visitor** — **Random all**
+   only, at the province rung, every option random (the layers drawn, each control disabled with "sign in to set
+   this"); a **signed-in free account** — **Basic** and **Advanced** at every rung the machine allows, the targeted
+   rerolls of (4), the toolbar's **Re-derive** depth, and the world map as an image-only save with arrangement and
+   drill-down (V15 §5.1); a **premium account** — **Deep constraints** (sketch, pin, import, lock and regenerate), the
+   toolbar's **Release** and **Weather** depths, and the world map's continuation and fit (V15 §3.4, §3.5). **Include
+   my settlements** and **Best placement** follow the host's campaign entitlement wherever it applies — the dialog adds
+   no gate of its own above the host's and shows the host's reason. The gate mirrors the host's own rule for its
+   settlements: nothing hidden, everything drawn, one check at the act. **The DM's physics toolbar** stands
    beside the layers: the layer picker (biome, soil, land cover, current; terrain and water as T2 has them), the verb
    toggle (`alwaysSo` → `paintLayer`, an override the physics derives against; `happened` → `disturb`, a dated
    disturbance that recovers), the brush with its radius, and `physicsPass`'s scope (whole world, a region, a
@@ -4279,7 +4289,11 @@ opened; **Open a file…** (the OS picker, `.plat`, `.cbor`, skeletons); **Paste
 the window opens it (an image offers "Trace over this image?" as an underlay). **New town** opens the empty state in a new
 document; **New world** (M-W1; from M-W6 in the generated-first form) opens a new world document already generated —
 a random request at the realm rung, W0–W9 run — with the world dialog (V09 §4.22) open beside it and every option
-reading random: never an empty state and never a wizard (F5). A town opened from a file is added to the local store on its first edit (so opening a file to look at it writes
+reading random: never an empty state and never a wizard (F5). **Open a world map…** and **New world map** (M-ATLAS-A;
+V15 §5.1, RQ-V15-7) open the atlas page — "World map" is the user-facing word in every string of the page, the file
+menu, the share sheet and the catalogue, "atlas" the word of every record, key, test and message id (J396 (3); V15 §11
+Q1) —: **New world map** the empty parchment with **Add a world map…** and **Make a world map**, **Open a world map…**
+the recent atlases beside the recent towns. A town opened from a file is added to the local store on its first edit (so opening a file to look at it writes
 nothing).
 
 ### 5.14 Labels in the application
