@@ -18270,7 +18270,7 @@ Counted: the JS heap, typed arrays and WebAssembly memory of every thread (gener
 with canvas backing stores budgeted separately by §8.8's canvas budget, which depends on the viewport, not the rung.
 **Model working set, all threads, excluding canvases:** TOWN ≤ 40 MB, CITY ≤ 110 MB, METROPOLIS ≤ 260 MB.
 
-**World document, all threads, excluding canvases:** ≤ 300 MB on the high tier (the `continent` rung refused below it, V13 §6: ≈ 285 MB resident during W4 by the distance fields on demand, `landmass` and `territory` as Uint16, `discharge` sparse, `flatRank` dropped after W4; M-W1; file k item 631). The 2.5D tile set's memory is V14 §6's rule under the existing per-rung cap (the two sets together ≤ the line + 0.3 × the flat view's city-and-district bands; C14-42; M-25D), no new line.
+**World document, all threads, excluding canvases:** ≤ 300 MB on the high tier (the `continent` rung refused below it, V13 §6: ≈ 295 MB resident during W4 by the distance fields on demand, `landmass` and `territory` as Uint16, `discharge` sparse, `flatRank` dropped after W4; M-W1; file k item 631). The 2.5D tile set's memory is V14 §6's rule under the existing per-rung cap (the two sets together ≤ the line + 0.3 × the flat view's city-and-district bands; C14-42; M-25D), no new line.
 
 What each thread holds is §8.9's (the tile worker holds no model) and §8.1 item 6's (the display list in the tile worker,
 its 24-B index in the generation worker); the tile worker also holds the
@@ -18437,7 +18437,7 @@ target miss — which inside the comfort level is no veto question (g item 119 (
 | WORLD-2 | the placement edit (V13 §6) | M-W1 | ≤ 250 ms | V13 §6's | no |
 | WORLD-3 | `nearestLawful` (V13 §6) | M-W1 | ≤ 600 ms | V13 §6's | no |
 | WORLD-4 | the frame's additions inside S1's row (§12.4; V13 §6) | M-W0h, measured at M-W4 | inside S1's p95 | the pooled-law amendment pre-decided should S1's row miss at M-W4 | no |
-| WORLD-5 | memory at the continent rung (§12.8; V13 §6) | M-W1 | ≤ 285 MB resident | V13 §6's | no |
+| WORLD-5 | memory at the continent rung (§12.8; V13 §6) | M-W1 | ≤ 300 MB resident (≈ 295 MB expected after V13 §6's two pre-decided fallbacks) | V13 §6's | no |
 | WORLD-6 | the world document's size (V13 §6) | M-W1 | ≤ the size row's `docMb` | V13 §6's | no |
 | WORLD-7 | the cascade at a frame (V13 §6) | M-W0h | ≤ 1.5 × S1's water operator's budget | V13 §6's | no |
 | WORLD-8 | the world's first frame (V13 §6) | M-W1 | ≤ 400 ms | V13 §6's | no |

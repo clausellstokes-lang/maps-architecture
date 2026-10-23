@@ -21,7 +21,8 @@ critiques; Opus reads, surveys and applies; a Fable seat that hits the Fable lim
 | apply | amendments/world-growth-r-apply (Opus, medium) | targets; docs/validation/coherence/world-growth-r.md; bundle | LANDED 7a936e8 (97/97 items, 241/241 fragments; V13 4,438 → 5,827 lines; bundle 84,801 lines with V15, up to date) |
 | critic | check/world-growth-critic (Fable, max) | docs/validation/coherence/world-growth-r-critic.md | LANDED e0062db (19 gaps: 0 blockers, 5 major, 14 minor; F1–F16 carried; six seams defined; research spot-check 10/10; verdict: coherent as a whole) |
 | close | amendments/world-growth-s (Fable, high) | docs/AMENDMENTS-2026-10-23s.md applied; docs/validation/coherence/world-growth-s.md; V15 and spine in-place edits; the missing lane lines | LANDED 356aa90 (19/19 closed; bundle 84,816 up to date) |
-| re-check | check/world-growth-s (Opus, medium) | docs/validation/coherence/world-growth-s-check.md | running |
+| re-check | check/world-growth-s (Opus, medium) | docs/validation/coherence/world-growth-s-check.md | LANDED (19/19 closed; six checks pass; two residues → amendments t) |
+| residues | the manager (Fable) | docs/AMENDMENTS-2026-10-23t.md applied; docs/validation/coherence/world-growth-t.md | LANDED |
 
 If this session dies: re-run the stage whose output is missing or lacks its final section, with the same brief (the
 briefs are in the session transcript and summarised in the spine §13); never apply file r by hand.

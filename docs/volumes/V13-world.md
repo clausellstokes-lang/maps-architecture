@@ -4333,7 +4333,7 @@ nothing at random, and sends the host nothing but the DM-placed site offers (V13
    their roots and members, each seat's tier, size third and prosperity rung with the realm's held median, the relations
    with their `atWar` and the culture bands ((2), (5) and (7)'s rows; V13 §3.9), the trade lens's entrepôt centrality,
    exports and channels ((4)'s rows), the dated events of the kinds the caller names with their resolved audience (V13
-   §2.2's `WorldEvent`), the water routes and the law's storm factors — each from the plates at `week` ((8)'s scrub,
+   §2.2's `WorldEvent`), every route in force at `week` with its polyline, stations and sailing (`ViewFacts.routes`, both modes) and the law's storm factors — each from the plates at `week` ((8)'s scrub,
    never later than the present) and the event index, filtered by audience as (7) filters a lens: the DM everything; a
    party or the public only the rows the host resolved so, a DM-only row never returned; never the alignment lens (J384
    (7)), a suppressed creed, a covert link or a criminal channel. What the host never sent is returned as absent by field
