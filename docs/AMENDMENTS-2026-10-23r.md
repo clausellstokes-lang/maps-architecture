@@ -13,17 +13,19 @@ Numbered from **926** (file q ended at 925).
 
 **PENDING APPLICATION** — no item below is applied; the application seat applies every fragment in order to its
 target, as files l–q were applied, and records the application in `docs/validation/coherence/world-growth-r.md`. A
-dry run of every fragment in order over copies of the targets passed on 2026-10-23 (the script
-`scratchpad/world-growth/dryrun-A/dryrun.py`: every quote matched exactly once at its turn, every new text exactly once
-after).
+dry run of every fragment in order over copies of the targets passed on 2026-10-23 — 71 change items, 188 fragments,
+9 owner-rule items before them — by the seat's own script (`world-growth/dryrun-A/dryrun.py` in the seat's scratchpad,
+outside the repository; its two modes: `verify`, every quote matched exactly once in the target as it now stands, and
+`apply`, every fragment applied in order to a copy of each target, every quote matched exactly once at its turn and
+every new text exactly once after).
 
 ## PROGRESS ledger (this file was written incrementally; a dead seat resumes at the first unticked group)
 
 | group | subject | items | state |
 |---|---|---|---|
 | 0 | the head, the owner-rule items F1–F9 | 926–934 | done |
-| 1 | V13: the revision note, §0, §1, §1b (the three lifetimes, the solver, the surface, the seams wired) | 935–945 | done |
-| 2 | V13 §2.2–§2.7: records, rule tables, lifecycles, storage (formation, bedrock, soil, landforms, monthly climate, currents, requirements, conflicts, decisions, overrides, disturbances, the cover plate, the edge charter, the rendered reading, sailing) | 946–958 | done |
+| 1 | V13: the revision note, §0, §1, §1b (the three lifetimes, the solver, the surface, the seams wired) | 935–944 | done |
+| 2 | V13 §2.2–§2.7: records, rule tables, lifecycles, storage (formation, bedrock, soil, landforms, monthly climate, currents, requirements, conflicts, decisions, overrides, disturbances, the cover plate, the edge charter, the rendered reading, sailing) | 945–958 | done |
 | 3 | V13 §3.0–§3.8: the stage contract, W0 (the request, the scenario, the planned sites, the edge charters, the preview), W1 (the formation op), W3 (monthly, winds, monsoon, currents), W5 (the classification, potential vegetation), W6, W7 (sail routing) | 959–966 | done |
 | 4 | V13 §3.11, §3.14, §3.16–§3.18: the resumed process, the whole-map search, organic correction, the conflict list, the dossier update, the verbs on every layer, the climate dirty set, failure rungs, streams and work laws, edges | 967–974 | done |
 | 5 | V13 §4–§5: events (`physicsPass`, `paintLayer`, `disturb`, the best form, `decide`), tools, locality, the fork, layers, labels, exports, the lens seam | 975–982 | done |
@@ -32,7 +34,7 @@ after).
 | 8 | V09: the world dialog (the layered panel, the toggle, the best-placement button, the gate, presets), the tool rows | 990–993 | done |
 | 9 | the base: ruins by age (`HistoryHint`, §4.2 S2, II.7.6, T113-8), the dossier update as a request (§11.4) | 994–998 | done |
 | 10 | the proposal, the brief, INDEX, SUMMARY | 999–1005 | done |
-| 11 | the census, the five choices to test first | — | done |
+| 11 | the census, the five choices to test first (the file's tail) | — | done |
 
 **How to read an item.** As files l and m's: each item names its target file's section (the heading above it), its
 title in bold, the owner rule and the spine section it serves (*Requests*), the current text quoted **once** (every
@@ -54,7 +56,7 @@ names (`PolityFacts`, `TravelLaw`, `CampaignFacts`, `SettlementFacts`) and the a
 words, route words and relation words travel as data through the host-line adapter folder's tables); the science's
 published laws are stated as this volume's own rows with their anchors, the sources staying in this file's *Evidence*
 lines. The host's document names, ruling ids, product names and code citations stay in each item's *Evidence* line. The
-owner's own words, quoted verbatim in V13 §1.3 (item 940), keep the product name the owner wrote. The proposal and the
+owner's own words, quoted verbatim in V13 §1.3 (item 939), keep the product name the owner wrote. The proposal and the
 brief are research-side and owner-facing documents and may name the products. Checked by a lint over every new text
 bound for the base and the volumes (host identifiers, product names, ruling ids, host document names: no hit).
 
@@ -242,7 +244,7 @@ shouldn't just be a random arid dot in the middle. What are your thoughts or how
   edges, every other settlement's facts protected, the new country explaining itself ("the rain shadow of the Greyspine")
   — and painting is the labelled last resort, only when the DM forbids terrain change (item 967; T-V13-64). **(b) THE
   THREE MECHANISMS ARE ONE.** W6's scoring and P1's coherence are subsumed by the solver (W6 reads the included
-  settlements' requirements, `nearestLawful` searches the whole map); the host's autoplacer becomes a host row that
+  settlements' requirements, `nearestLawful` searches the whole map); the host's one-button placer becomes a host row that
   calls `placeFrame`'s best form (H31; the state note's Part E (iv)). **(c) THE DOSSIER'S ARID IS A REQUIREMENT, NOT A
   DOT.** The dossier's terrain word resolves to a climate row (DR42) and enters as a `biome` requirement; an unmet one
   after the search is the back-step's cause, never a cell painted around the town.
@@ -583,7 +585,7 @@ process where appropriate."
 > | `paintLayer` (`biome`, `soil`, `landCover` or `current` painted under `alwaysSo` only: an `Override`, a boundary condition of every later dirty set) | T2 `ground`'s layer brush | V13 §2.6's overrides row | the override removed; the scope re-derived |
 > | `disturb` (a fire, flood, clearing or eruption stamped under `happened` only: a dated `Disturbance` the cover fold recovers from) | T2 `ground`'s disturbance stamp; a host event the DM attributes (T9 `shape`'s "this happened here") | V13 §2.6's disturbances row | the disturbance removed with its event; the cover plates after it re-folded |
 > | `physicsPass` (a scope × a depth — rederive, release with `keepHistory`, weather with `years`; always on the fork, committed by `commitFork`) | T10 `hold`'s physics toolbar (V09 §4.22) | V13 §2.6's fork row; a `weather` op the recipe row; a release the overrides row | the fork discarded before commit; a committed pass undone as its group (a `weather` op removed; released overrides restored) |
-> | `placeFrame` with `best: true` (the resumed process: the whole-map search under the least-change goal, the three offers with their reasons, the back-step only when none is lawful) | T6 `place`'s **Best placement** button (V09 §4.22); the host's autoplacer through the port (H31) | V13 §2.6's placement row | the former placement; a correction op removed with it |
+> | `placeFrame` with `best: true` (the resumed process: the whole-map search under the least-change goal, the three offers with their reasons, the back-step only when none is lawful) | T6 `place`'s **Best placement** button (V09 §4.22); the host's one-button placer through the port (H31) | V13 §2.6's placement row | the former placement; a correction op removed with it |
 > | `requestDossierUpdate` (the conflict list's "update the dossier", in its kind — the land changed, or it was always so: a request the host carries out after the user's approval and answers with `dossierUpdated`) | the conflict list | V13 §2.6's dossier-request row | the map's own undo withdraws an unconfirmed request (`W_DOSSIER_PENDING` cleared); a confirmed one is sealed — the host's own undo retracts it with a later `dossierUpdated` |
 > | `fit` (`placeFrame`'s rung-general form: a world document as the frame; V15's call, V13 §3.11) | V15's atlas page | V13 §2.6's placement row | the former placement |
 *Evidence:* the spine's §5.3 (the five choices), §6 (targeted rerolls), §7.1–§7.3 (the verbs, the pass, the three verbs' table); the state note's A.11 (the absent edit kinds).
@@ -1549,7 +1551,7 @@ process where appropriate."
 
 ### Volume 13 — §3.7 W6 Suitability and siting proposals
 
-**964.** **Soil fertility inside the habitability term; the host's demand and the included settlements' requirements; the host's autoplacer as a caller of the best form.**
+**964.** **Soil fertility inside the habitability term; the host's demand and the included settlements' requirements; the host's one-button placer as a caller of the best form.**
 *Requests:* F7 (the spine's §4.2–§4.3); the state note's A.8, E (iv).
 *Current text* (a):
 >    - `habitability`: the biome row's.
@@ -1573,7 +1575,7 @@ process where appropriate."
 >    table's; a host's weights never persist (an input to one call, recorded in each proposal's reason). W6 never reads
 >    a dossier itself: the facts arrive as requirements (`CampaignFacts`, V13 §3.11.6), and a run with `include` set
 >    scores every planned site of V13 §3.1 (5) under its settlement's rows, so the standalone world's own seats and the
->    included settlements' sites are one scoring. **The host's autoplacer** — the host's one-button placement of its
+>    included settlements' sites are one scoring. **The host's one-button placer** — the host's one-button placement of its
 >    settlements with its mismatch popup — becomes a caller of `placeFrame`'s best form (V13 §3.11.1: the whole-map
 >    search under the settlement's requirements, the three offers, organic correction only when none is lawful) through
 >    the port, never a second scorer (H31; J-V13.120).
@@ -1652,7 +1654,7 @@ process where appropriate."
 *New text* (a):
 > settlement-first order**: `placeFrame` runs P1, P2, P3, P4 (the settlement-sourced charter, stored on the `Placement`
 > only) and P5. **The best form** (`placeFrame` with `best: true` and no origin — V09's **Best placement** button —, or
-> the host's autoplacer through the port, H31; F7; J-V13.120): the same process RESUMED at the placement stage —
+> the host's one-button placer through the port, H31; F7; J-V13.120): the same process RESUMED at the placement stage —
 > `solve(the frame's requirements, world, 'leastChange')` — with the frame's facts as rank-1 rows (a dossier-bound
 > frame's DR1 and DR29 facts and the climate row DR42 derives from its terrain word; a standalone frame's its
 > blueprint's site, water and climate row) under the **least-change goal**: change nothing that exists; search the
@@ -1756,7 +1758,7 @@ process where appropriate."
 > - `proposals(world, demand)` → V13 §3.7 (5), each proposal with its `WaterAccess`; `place(world, { hostKey; best:
 >   true })` → `placeFrame`'s best form through the port (V13 §3.11.1: the whole-map search under the settlement's
 >   requirements, the three offers with their reasons; the placement on the host's choice by `bindSeat` as today) — the
->   host's autoplacer's one call (H31; the host's mismatch popup becomes the conflict list).
+>   host's one-button placer's one call (H31; the host's mismatch popup becomes the conflict list).
 *Current text* (b):
 >   unless the DM keeps the residual as a reported anomaly (`keepResidual`).
 *New text* (b):
@@ -2372,3 +2374,803 @@ process where appropriate."
 > | H34 | with M-W8 | **land cover and hazards as readings** (F2, F3): `physicalChange`'s land-cover share per seat catchment and `SettlementPhysical`'s soil, stone, cover shares and hazard readings shown beside its dossier as the map's derivation (labelled so), never written into its biome, terrain word or genesis facts; its agriculture or calamity exposure may read the fertility and the hazard behind its own switches (a declared shift); a razing, a plague's depopulation or an abandonment sent as a dated event with the seat's population after it, so the cover fold withdraws the fields; a volcano the DM marks active and an eruption the DM stamps arriving as dated events it may read, never as strikes it must roll | M-W8; H4; H9; H13 |
 *Evidence:* the spine's §15 (M-W6 – M-W9 and their gates; the spikes SP-FORM and SP-CLIM; the order by value; the budgets 4–6 / 4–6 / 4–6 / 2–3 / ~1), §16; the state note's A.18 (the next free H31; no row asks the host for the settlement set, a dossier change from a map warning, directional legs or land-cover facts), D.1–D.4, D.7, D.9 (the host's surfaces each row names).
 
+
+### Volume 13 — §9 Decisions
+
+**986.** **J-V13.41 and J-V13.42 marked reversed; the decisions J-V13.107 – J-V13.130; D-V13.2 and D-V13.3 taken; D-V13.9 and D-V13.10 recorded.**
+*Requests:* F1–F9 (the spine's §16; the four science-note findings and the nine state-note findings as the rows cite them).
+*Current text* (a):
+> | J-V13.41 | rejected tectonics because the recipe's ranges and troughs give the authored control the owner asked for; a tectonic pass may later be one op emitting them |
+*New text* (a):
+> | J-V13.41 | rejected tectonics because the recipe's ranges and troughs give the authored control the owner asked for; a tectonic pass may later be one op emitting them — **reversed by F1** (file r item 926; J-V13.107): the formation op is that one op, run once at the recipe's head and baked (V13 §3.2.1); the authored path stays, as the reason said, the templates' |
+*Current text* (b):
+> | J-V13.42 | rejected erosion over time (the `erode` op reserved, shipped absent) because causal necessity is not shown and a non-deterministic-looking valley would need its own tests |
+*New text* (b):
+> | J-V13.42 | rejected erosion over time (the `erode` op reserved, shipped absent) because causal necessity is not shown and a non-deterministic-looking valley would need its own tests — **reversed by F1** (file r item 926; J-V13.108): the owner's rule shows the necessity, the valleys are the steady-state fixed point's and deterministic, their tests T-V13-58's bands; the `erode` op is retired, erosion running in the formation op and the `weather` op alone |
+*Current text* (c):
+> the outcome J388 rules out) |⏎⏎**Deferred decisions** (recorded, not taken): D-V13.1 a second resolution rung for the frame's hydro grid under a⏎charter (finer than §2.3's) if T-V13-13's edge RMS bar fails on steep charters; D-V13.2 a world-scale `erode` op if⏎M-W2's statistics show valleys too shallow for the riverlands template; D-V13.3 a sea-route cost by wind (the climate's⏎belts) if the host asks for sailing times; D-V13.4 the sphere, if a campaign ever exceeds the continent rung's extent.⏎(D-V13.5 – D-V13.7 are §12's.)
+*New text* (c):
+> the outcome J388 rules out) |
+> | J-V13.107 | chose **the formation op — tectonics run once as the recipe's first op and baked** (F1; file r item 926; the spine's §2; reversing J-V13.41, whose reason stays as the authored path) — `scenario` a row of `world.formation` chosen like a template, the op emitting crust blocks, uplift profiles and the relict belts on its own grid and baking the formation-grid DEM, `bedrock`, `soil`, `surfaceAge` and the `Landform`s as content-hashed chunks that the recipe's later ops, the DM's brushes and the two verbs edit as any other field — over a tectonic pass run on every regeneration (its cost would land on every reroll and its output drift with every code change, breaking T-V13-1's byte-identity across versions) and over the authored path alone (the owner's rule names tectonics and erosion as what makes a world read as a world; the templates stay for authored control, the scenarios join them as rows) |
+> | J-V13.108 | chose **erosion inside the formation op's steady-state fixed point and the `weather` op, no `erode` op** (F1; reversing J-V13.42: the necessity shown by the owner's rule, the valleys deterministic and tested by T-V13-58's bands) — the fixed point solving the stream-power balance over the lifted hydro core with its stack at the formation grid, every valley a function of the uplift and the base level and never of a time step; the `weather` op the one later erosion, a bounded number of explicit years baked once on the fork and carried by `commitFork` — over a time-stepped erosion model (its result depends on the step and the order; the fixed point is what time-stepping converges to, at a tenth of the cost — the science note's shortcut) and over an `erode` brush (a brush that re-runs a law over a region is the physics pass, V13 §3.14.1) |
+> | J-V13.109 | chose **the formation grid at `formationRatio` 4 (1 / 2 / 4 km: 64 k / 256 k / 576 k cells), its own grid between the fine and the coarse** — the fixed point, the talus, the glacial carve and the soils solved there and expanded to the fine grid under the position-keyed lattice's detail, the climate staying on the 8 × 8 coarse grid — and **the realm rung a regional tectonic context** (one or two boundaries and the inherited belts; the province rung one regional feature; the block model at the continent rung alone; the science note's first finding) — over the fine grid (the fixed point over 3.7 M cells breaks `formationMs` and the memory line at the continent rung) or the coarse grid (ranges and valleys at 4 km read as blobs at the realm rung; SP-W9's gallery judges), and over a block model at every rung (a 320 km province holds no block boundary; its relief is one feature's) |
+> | J-V13.110 | chose **the steady-state stream-power fixed point** (the science note's second finding) as the formation op's one erosion solve — the lifted hydro core's flood, D8 and accumulation with a new `stack` giving the drainage, the balance uplift = erosion solved by `erosion.iterations` sweeps up the stack, converged or taken at the last iteration and never iterated further (T-V13-58), the talus relaxation, the glacial carve above the equilibrium line and the sea-level stands as later terms — over a transient history (D-V13.10 if B-FORM's gallery asks for one), because the steady state is what the owner's "erosion over time" produces once the time is long, and its determinism is the hydro core's |
+> | J-V13.111 | chose **the baked payload riding the op** (the state note's finding (ii)) — the formation op's outputs stored as content-hashed `fields` chunks the op references, the recipe replaying W1–W9 over the bake; `formation.version` pinning the bake so a newer library reads it and never re-runs it (`W_FORMATION_VERSION`, informative); the share code carrying the chunk hashes and a receiver re-fetching, never re-running (`refuse.world.formationPayload` when withheld); the block model's state deleted at the bake — over re-running the op on load or replay (every code change would move every world's digest, and a share code would need the formation code's version to replay) and over keeping the block state (nothing reads it after the bake; T-V13-57 proves it absent) |
+> | J-V13.112 | chose **the monthly march** (F2; the science note's §4) — twelve values per coarse cell of temperature and precipitation from the belts' seasonal shift with the convergence zone, the thermal term over large land, the maritime fraction by upwind fetch and the wind march run once per month, the first harmonic's amplitude and phase stored beside the twelve — and **the monsoon a world-context knob** (`worldContext.monsoon`; the science note's fourth finding) below the continent rung, where no land mass inside the box can raise one (`W_MONSOON_CONTEXT`) — over the annual two-value climate (a rain shadow, a dry-summer coast, a monsoon and a growing season are seasonal facts, and the classification needs the months) and over deriving a monsoon from a realm's own land (the thermal term needs a continent) |
+> | J-V13.113 | chose **the currents by a basin gyre solve** — over each connected ocean basin (`basin`) the wind-stress curl's streamfunction solved by `currents.cycles` multigrid cycles per month, the western intensification the solve's own, the coastal anomaly (`sstAnomalyDeciC`) from the current's direction along the coast feeding the march's pickup and the classification's coast term, a basin re-solved alone on a strait edit — over a table of currents by latitude band (an enclosed sea and a continent's western coast would read alike; the owner's "desert coast" needs the solve) and over an ocean model (the gyre's shape is what every reader needs; the science note's §4.4) |
+> | J-V13.114 | chose **the relief-edit dirty set as the whole monthly march on the coarse grid** (the science note's third finding; the state note's finding (iii)) — a rise or fall over `climate.cascade.dirtyRiseM` in a coarse cell's mean, or any coast moved, re-running the twelve marches over the whole coarse grid and the affected basins' solves, then W4 and W5 over the climate-changed cells in the stage order, within `WORLD-19` — over a local dirty disc (a rain shadow is not local: a raised range dries the land hundreds of kilometres downwind; the local disc left the lee wet, the rain-shadow bug the spine names first) and over re-marching on every stroke (a stroke under the threshold moves no month by a metre's worth) |
+> | J-V13.115 | chose **the classification into a published climate-class scheme and a potential-vegetation table** (`world.koppen`, `world.pnv`) as W5's biome, the two-axis matrix kept as the annual import's path — over the matrix for every world (it cannot tell a dry-winter subtropical from a dry-summer one, the difference between a monsoon forest and a maquis) and over a vegetation model (the table is data; a model would be a second law for a reader the lenses already serve) |
+> | J-V13.116 | chose **land cover as its own derived layer in a cover cache outside every digest, read by no stage** (the state note's finding (i)) — `CoverPlate`s folded by `WORLD_COVER` into `Document.coverPlates` (BCR-V13-41) beside the lens plates, filtered by audience, dropped and rebuilt at will; never a lens row (a lens draws what the host sent; the cover is what the map derives) and never a world stage (W5's biome is potential and timeless, read by siting and the dossier seam; the cover is dated, read by the view, `worldFactsAt` and the `physicalChange` offer) — over a lens (the host sends no land cover and would have to be asked for one) and over a W-stage (every seat territory, route cost and charter would then move with a razing) |
+> | J-V13.117 | chose **the pipeline as the one requirement solver** (F9; the spine's §4.2) — `Requirement`, `Conflict`, `Decision` and `VerificationReport` in `Recipe.world`; each stage satisfying the rows it is best placed to satisfy as it builds (W0 the box and the extent, W1 the relief and the coasts, W3 the climate's causes, W5 the classes, W6–W8 the settlement rows) and verifying as it produces; `solve(requirements, state, goal)` in `@plat/world/solve` the driver over the same stages, never a stage itself — over a separate solver program before the pipeline (two engines deciding the same facts drift, and a solver that does not run the physics cannot promise the physics will agree) |
+> | J-V13.118 | chose **"Random all" with settlements included as the same run** — every option random, the included settlements' rows the only constraints, so one click always fits the campaign —, **the preview as the coarse run** (`solve(…, { rung: 'coarse' })`: W0–W5 on the coarse grid, the formation op on its own grid, ≤ 300 ms at the realm rung) and **the verification report listing every row** with its status and reason — over a preview by a cheaper proxy (a thumbnail that differs from the world it promises is the "preview lied" bug) and over a report of the unmet rows alone (the met rows' reasons are what the DM reads to trust the world) |
+> | J-V13.119 | chose **one bounded back-step, W3 → W1, at the coarse rung** (`solver.maxBackSteps` 3) — its candidate causes ranked by a deterministic score in `solver.causes`'s order (a range upwind, a basin without outlet, a cold-current coast, a narrowed sea, a wider latitude box, a wetness shift, a land-share shift), every correction **an ordinary recipe op with `origin: 'solver'`** naming the row it serves and previewed before the commit, the ladder's ranks deciding what may move — over an unbounded loop (it never terminates on a contradiction) and over corrections as hidden state (an op is undoable, inspectable and replayed; a hidden correction is the "world changed under me" bug) |
+> | J-V13.120 | chose **the planned sites from `campaignFacts` and `placeFrame`'s best form** (F7; the spine's §5; the state note's finding (iv)) — W0 turning each included settlement's words into rows and a planned site, W6 scoring the planned sites under their rows; the best form resuming the placement with the least-change rule, `nearestLawful` widened to the whole map under the settlement's requirements, three offers ordered by cost then distance, an organic correction (`solver.minExtentCells`, `gradeBandCells`, `protectRadiusKm`) only when no cell is lawful and painting (`W_SOLVER_PAINTED`) only when terrain change is forbidden; the host's one-button placer re-pointed at `place(world, { hostKey; best: true })` (H31) — over a second scorer in the host (two scorers disagree, and the host's own, terrain-blind, is the "instant campaign, seats in the wrong biome" bug) and over the 100 km search as it stood (a desert seat 400 km from the nearest desert was unplaceable) |
+> | J-V13.121 | chose **the dossier update as a request the host carries out** (F8; the state note's finding (v)) — `requestDossierUpdate` through the port with the kind the user chose (`landChanged` a dated event; `alwaysSo` the host's retcon path under its own guards), the host's own command applying it and `dossierUpdated { applied }` closing the conflict, until which the map shows the dossier unchanged with `W_DOSSIER_PENDING`; the module never writing a dossier field (the base's one-way rule; BCR-V13-45; T-V13-65's lint) — over a map-side write (item 20 (h): the dossier is the one source of truth, and the host's guards, its canonization and its own undo would be bypassed) and over refusing the conflict outright (the owner's rule names "update the dossier" as a choice the user must have) |
+> | J-V13.122 | chose **the conflict list generalising `W_EDIT_DOSSIER`** — one warning for every edit, paint, pass or request that would contradict a placed or included settlement's dossier facts, listing every affected settlement with the choices `cancel`, `fitWorld`, `paintAround`, `keepMismatch` and `updateDossier` (and `moveTown` and `changeRequest` where the ladder allows them), the `Decision` recorded with `restsOn` (the hash of the facts it rests on) and reused until those move — and **presets pre-deciding map-side choices only**, never `updateDossier`, which is a user's act on the host's record — over a modal per settlement (a stroke over three frames would ask three times) and over presets that may update a dossier (a preset is applied by anyone; a dossier update is the DM's) |
+> | J-V13.123 | chose **the choices stored apart from the rolled facts** (F5; the spine's §6) — `Recipe.world.choices` holding every option of the dialog as `random`, `set` or `locked` with its value where set, the rolled facts living in the ops and the rasters; a regeneration re-reading the choices and never the rolled facts, so a rolled latitude box does not pin the next run; the world generated first (the dialog opens on a world, every option random), every control drawn for every account kind and disabled with its reason, the gate enforced at the one generate action (V13 §11 Q5) — over a wizard before the world (the owner's rule: generated first) and over rolled values written back as choices (the "random stuck" bug: a reroll that keeps yesterday's latitude) |
+> | J-V13.124 | chose **the physics pass on the fork with three depths** (F3; the spine's §7.3) — `physicsPass { scope, depth }`: `rederive` re-running the cascade from step 1b with every override held, `release` dropping the named overrides (a trace kept under `keepHistory`), `weather` appending one `weather` op baked once on the fork and carried by `commitFork`; a scope clipped around placed frames and free-standing sites (`W_PHYSICS_CLIPPED`); the dry run reporting the band crossings and the conflict list before the commit; on a host-bound world the changes as `physicalChange` offers — over an in-place pass (a pass that cannot be previewed and abandoned is the "let physics run and lost my town" bug; V13 §4.5's fork is the base's own mechanism) and over an `erode` brush |
+> | J-V13.125 | chose **sail routing by direction, month and vessel** (F4; the spine's §8; taking D-V13.3) — `world.sailing`'s polars per vessel kind, the current coupling and the month sets; a `SailingLeg` per (route, vessel, month, direction) derived lazily on the 16 km routing grid from the monthly winds and currents, `WorldRoute.sailing` holding them; the canon's water metres and `TravelEdge` unchanged, the host receiving the directional efforts in `routeFacts` and the symmetric mean until it adopts them (H33); no weather draw — over changing `TravelEdge` (the host's travel law and every lens's sea link read it; V13 §3.11.6's one text) and over a stochastic weather model (an effort that differs between runs breaks T-V13-1 and the host's determinism; a month set's risk multiplies, never severs) |
+> | J-V13.126 | chose **ruins by settlement age under V04's depth law, in the base** (F3; the state note's finding (vi)) — II.7.6's buried former settlement gaining an age stratum at generation: a chance by the settlement's age and continuity, a share of the growth-stage-1 districts, a floor at V04's `formerRiseCmPerCentury` × a material factor × the stratum's centuries, capped by `formerRiseMaxCm`, one draw keyed by the town root, the union with the scar burial taking the deepest floor (file r items 994–998; T113-8) — over a second depth law in this volume (one law per fact: V04's `buried` kind already carries the depth and the cellar readers) and over a world-side mechanism (a town's age is the dossier's; the world knows no stratum) |
+> | J-V13.127 | chose **the seams owed to V15** (the spine's §14) — `WorldEdgeCharter` timeless (a profile, a rain shadow's lee, the rivers' crossings with their discharge, the potential vegetation's grade; never a week, an event, a cover class or a plate), `edgeCharter` emitting it and W0 reading a neighbour's as locked rows; `renderAt(world, week, audience) → RenderedWorld` (tiles at the four stops and the known sets, nothing else); `placeFrame` in its rung-general form (a world document as the frame, bending its parent's ground in a band); `solve(…, 'arrange')` over member placements running no world stage; the lens facts as the atlas reads them — over leaving V15 to read the rasters (an atlas that reads a member's dated facts across a seam makes every member's week every other's) |
+> | J-V13.128 | chose **the cover fold from dated host facts** (F2; the state note's finding (i)) — potential vegetation × the included and bound settlements' population, tier and catchment hour, the host's dated events (a razing, a plague's depopulation, an abandonment) and the DM's disturbances × `world.cover`'s succession and recovery rows, folded per host advance and per disturbance into a plate, nothing drawn at random and nothing moving between windows — over the dossier's biome word (a dossier says what a place is called; the cover says what grows there this week) and over a stochastic succession (the plate must re-derive byte-identically from the facts, T-V13-62) |
+> | J-V13.129 | chose **the two verbs on every physical layer, and the DM always wins** (F3; the spine's §7.1) — `paintLayer` under `alwaysSo` writing an `Override` (biome, soil, land cover, current; the terrain and water verbs as they stood) that survives every regenerate, physics pass, re-march and sea-level change and that its neighbours derive against; `disturb` under `happened` writing a `Disturbance` that recovers by the recovery row; a release leaving a trace under `keepHistory` — over a per-layer verb set (the base's `verb` is the one grammar at both scales, C13-55) and over overrides the physics may overrule (the owner's rule) |
+> | J-V13.130 | chose **the unifications this pass makes** — `WorldRequest.options?` replaced by `requirements` (the state note's finding (ix)); the owner's "region map" read as the province rung, no new size row (finding (viii)); soil fertility inside the `habitability` term, J-V13.51's eight terms kept; `refuse.world.recipeOp` the one spelling of the recipe-op refusal; the `erode` op retired for the `weather` op; `plate` reserved for the lens and cover caches, the crust's unit a `block` — over a second option record, a `region` rung, a ninth siting term, two refusal spellings and two erosion verbs, each a drift T-V13-72's lint now catches |
+>
+> **Deferred decisions** (recorded, not taken): D-V13.1 a second resolution rung for the frame's hydro grid under a
+> charter (finer than §2.3's) if T-V13-13's edge RMS bar fails on steep charters; D-V13.2 a world-scale `erode` op if
+> M-W2's statistics show valleys too shallow for the riverlands template — **taken** by F1 (file r; J-V13.108): there is
+> no `erode` op; erosion is the formation op's fixed point and the `weather` op; D-V13.3 a sea-route cost by wind (the
+> climate's belts) if the host asks for sailing times — **taken** by F4 (file r; J-V13.125): W7's sail routing, V13 §3.8
+> (12); D-V13.4 the sphere, if a campaign ever exceeds the continent rung's extent.
+> (D-V13.5 – D-V13.7 are §12's.)
+*Current text* (d):
+> asked for calamity, and J384 (8) ruled the order of the eight asked for.
+*New text* (d):
+> asked for calamity, and J384 (8) ruled the order of the eight asked for. D-V13.9 **a frame-scale orographic
+> refinement** — the world's march runs on the coarse grid (2 / 4 / 8 km), so a placed frame reads its coarse cell's
+> months and the charter's climate is the cell's; a local term over the charter's own relief (the frame's windward and
+> lee slopes at the fine grid) if T-V13-59's bars pass at the world and a frame at a range's foot reads wrong against its
+> dossier's word (the science note: the orographic effect is resolved at the coarse grid; the slope term below it is
+> second order). D-V13.10 **a transient erosion history** — the formation op solves the steady state (J-V13.110), the
+> relict belts and the second stand standing in for what time left unfinished; an uplift schedule with stops and several
+> stands, the fixed point re-run per epoch, if SP-W9's gallery shows the steady-state relief reads as one age everywhere
+> or a scenario asks for an inherited drainage the steady state cannot give.
+*Evidence:* the spine's §16 (the decisions it asks this pass to record, one per section: the three lifetimes, the one solver, the ladder, the surface, the verbs and the pass, sail routing, ruins by age, the seams); the science note's four findings (§1.4, §2.1, §4.5, §6.1) and the state note's nine (its Part E) as each row cites them; V13 §9's own form (chose … over … because …).
+
+
+### Volume 13 — §10 Base change requests
+
+**987.** **The head's volume-request sentence; BCR-V13-41 – BCR-V13-46.**
+*Requests:* F1–F9 (the base's `Document`, §7.1's edit kinds and `ConflictAction`, §6.1's registry and §2.5's tables, V09's dialog, §11.4 (5) and §7.7's dossier request, §16's estimate).
+*Current text* (a):
+> requests to a volume (BCR-V13-21 – BCR-V13-25) are that volume's architect's to apply.
+*New text* (a):
+> requests to a volume (BCR-V13-21 – BCR-V13-25; BCR-V13-39 and BCR-V13-44 to V09) are that volume's architect's to apply.
+*Current text* (b):
+> that the door V13 §11 Q4 asks the owner to confirm names every route by which the canon enters the host's simulation.⏎⏎### 10.2 Requests to V14 (what V14 must supply; single source: these stay V14's facts)
+*New text* (b):
+> that the door V13 §11 Q4 asks the owner to confirm names every route by which the canon enters the host's simulation.
+>
+> **BCR-V13-41 — §2.9 `Document`: the world document's cover cache.** (F2; J-V13.116; file r.) `Document` gains, beside
+> `lensPlates?` (BCR-V13-38), `coverPlates?: CoverPlate[] /* a world document only (V13 §3.6 (5), §5.8 (9)): the derived
+> land-cover plates, each a pure function of the recipe, the port's windowed facts and the disturbances at its week —
+> never canonical, outside every digest, read by no stage of W0–W9, by the canon or by any proposal; dropped at will
+> and rebuilt by the cover fold (`W_COVER_PLATE_GAP` while it rebuilds); its horizon, compaction and store cap
+> `world.cover.plates`'s; pinned plates kept by compaction */`. §2.9's cache sentence, "a world document's host-fed
+> plate cache (`lensPlates`, kept as the host sent it, never verified or rebuilt)", reads "a world document's host-fed
+> plate cache (`lensPlates`, kept as the host sent it, never verified or rebuilt) and its derived cover cache
+> (`coverPlates`, rebuilt at will from the log and the port's facts; file r item 987, BCR-V13-41)"; the `derived`
+> comment ("caches rebuilt from base + log") stays true of `derived`, and no loader moves a plate of either cache into
+> it.
+>
+> **BCR-V13-42 — §7.1 the edit kinds and §11.2's `ConflictAction`: the world's new verbs, params and choices.** (F3, F5,
+> F6, F8; J-V13.122, J-V13.124, J-V13.129.) The event union of §7.1 gains the world kinds of V13 §4.1 as it gained the
+> placement kinds (BCR-V13-9): `paintLayer`, `disturb`, `physicsPass`, `setRequirements`, `decide` and
+> `requestDossierUpdate`, each with its locality row (V13 §4.3) and its dry-run outcome rows; `adjust`'s world params
+> gain `world.context` (the monsoon knob, `fromStage` `W3`) and `world.scenario` (`fromStage` `W0`, the formation op
+> re-baked on the fork); `regenerate`'s `scope` accepts any world stage and a drawn `region` (V13 §4.1's `EditScope`).
+> The line "`ConflictAction.kind` gains `'keep'|'takeOffer'|'accept'|'cancel'` with `offer?: number` (§11.2); the
+> dry-run outcome table gains V13 §4.1's and V14 §4.9's rows (the refusals as `refuse.*` keys, the bends as `bend.*`)"
+> reads "`ConflictAction.kind` gains `'keep'|'takeOffer'|'accept'|'cancel'` with `offer?: number` (§11.2) and, for the
+> world's conflict list (V13 §3.11.5 (1), §4.1; file r item 987, BCR-V13-42), `'acceptOffer'|'setContext'|'wait'|'withdraw'`
+> with `kind?: 'landChanged'|'alwaysSo'` on an `updateDossier` choice and `offer?` on `acceptOffer`; the dry-run
+> outcome table gains V13 §4.1's and V14 §4.9's rows (the refusals as `refuse.*` keys, the bends as `bend.*`), the
+> world's new refusals of V13 §7.5 among them"; §7.1's *The returned kinds* names the four with their rows (a conflict
+> list's offer — `acceptOffer`, its `offer` the offer's index; a monsoon inclusion below the continent rung —
+> `setContext`; a pending dossier request — `wait`, its `target` the request; a withdrawn request — `withdraw`).
+>
+> **BCR-V13-43 — §6.1 the stream registry and the stage ids; §2.5's world tables.** (F1, F2, F9; J-V13.107, J-V13.116,
+> J-V13.117; file r item 973.) The stage-id sentence "the world's `W0` … `W9` (with `W6a`, `W6b`, `W7a`, `W7b`),
+> `WORLD_PLACE` and `WORLD_CASCADE` (V13 §3.17; …)" gains `WORLD_SOLVE`, `WORLD_COVER` and `WORLD_PHYSICS` (V13 §3.0, §3.6
+> (5), §3.14.1), **appended** after the existing ids under K6 as the others were, no existing key moved; the streams
+> table gains the row `world.formation` | default | V13: the formation op's draws — the block seeds, the crust blobs,
+> the relict sutures, the hotspots, a `weather` op's — keyed by the op's `seedIx` and the draw's ordinal or position,
+> drawn once at the bake and never again (from M-W7); the row "`world.siting`, `world.polity`, `place.search` | — |
+> reserved ids, not streams …" gains `world.solve` and `world.cover` (the solver's bookkeeping and the cover fold draw
+> nothing; the back-step's ties are drawn on `world.recipe` with ordinal keys, V13 §3.17); and §2.5's "V13 §2.3's fourteen
+> world tables (`world.sizes`, … `water.flood`; the style rows `style.world`)" reads "V13 §2.3's twenty-two world
+> tables (`world.sizes`, `world.recipeOps` with `world.templates`, `world.climate`, `world.hydro`, `world.groundwater`,
+> `world.biomes`, `world.resources`, `world.suitability`, `world.routes`, `world.polity`, `world.labels`, `world.glyph`,
+> `place.coherence`, `water.class`, `water.flood`, and from file r (BCR-V13-43) `world.formation`, `world.soil`,
+> `world.koppen`, `world.pnv`, `world.cover`, `world.sailing`, `world.solver` and `world.presets`; the style rows
+> `style.world`)", each new table with its first reader's milestone (M-W6 – M-W9) and V11 writing its rows as it writes
+> the fourteen's. J-V13.41's and J-V13.42's reversal reaches the base only through these rows: the base names no
+> tectonic or erosion mechanism of its own.
+>
+> **BCR-V13-44 — V09 §4.3, §4.14, §4.22 (new) and §5.13: the world dialog and the world's tool rows.** (F5–F8;
+> J-V13.123; applied by file r items 990–993.) V09's tool-row table gains the rows for `physicsPass`, `paintLayer` and
+> `disturb`, the best-form placement, `decide` and `setRequirements`, each naming its dialog and its V13 section; §4.14
+> gains the world presets (`world.presets`, map-side pre-decisions only); a new §4.22 **the world dialog** carries the
+> generated-first state, the layered panel (basic, detailed, expert, the DM's physics toolbar), every option's random /
+> set / locked state, the include toggle and the derived chips, **Best placement**, the live conflict list and its
+> five choices, the gate at the one generate action with nothing hidden, the presets and the gallery, and the three
+> verbs' brushes — every behaviour V13 §3.1, §3.11, §3.14.1 and §4.2's; V09 hosts and draws them; §5.13's "New world"
+> opens on a generated world. V09 §4.9's catalogue gains V13 §7.5's new refusals and warnings in V13's words.
+>
+> **BCR-V13-45 — §11.4 Host inputs (5) and §7.7's world port paragraph: the dossier update as a request.** (F8;
+> J-V13.121; applied by file r item 998.) §11.4 (5)'s "the map writes no dossier fact except through this door as a
+> derived fact (V13 Part E bar 9)" in §7.7's paragraph, and §11.4 (5)'s recorded-input list, gain the request pair:
+> outbound `requestDossierUpdate` (a map-side approval of a conflict-list choice, recorded with provenance `user`,
+> carrying the settlement, the field, the kind and the proposed value — a request, never a write) and inbound
+> `dossierUpdated` (the host's confirmation with `applied` and its sequence, a windowed replace with provenance
+> `host`), so that a dossier changes only by the host's own command and the map shows the change only on the
+> confirmation (V13 §3.11.6, §4.1; `W_DOSSIER_PENDING`); the one-way rule's words stay: the module never writes to
+> the dossier.
+>
+> **BCR-V13-46 — §16: the world's estimate, widened by the growth milestones.** (F1–F9; V13 §8.2.) The staged-milestone
+> row for M-W0h and M-W0 – M-W5 (37–45 pw; BCR-V13-37) reads M-W0h and M-W0 – M-W9 at 51–66 pw — the 14–21 added for
+> M-W6 the solver, the surface and the dossier seam (4–6), M-W7 formation and the living-physics upgrade (4–6), M-W8
+> ecology and the physics pass (4–6) and M-W9 sail routing (2–3) —, and the staged milestones' total moves by 14 pw at
+> the low end and 21 at the high; wherever BCR-V13-19's sentence, BCR-V13-20's row and BCR-V13-37 name M-W0 – M-W5,
+> they read M-W0 – M-W9 (M-W6 – M-W9 after M-W2, M-W7 gated by SP-W9 and SP-W10); the base's ruins-by-age milestone
+> (file r items 994–998; T113-8) is the base's own ≈ 1 pw inside II.7.6's line, not the world row's.
+>
+> ### 10.2 Requests to V14 (what V14 must supply; single source: these stay V14's facts)
+*Evidence:* the base's `Document` (its `lensPlates?` field, file p item 890) and its cache sentence; §7.1's event union, its `ConflictAction` line and *The returned kinds*; §6.1's stage-id sentence (K6; file k item 615) and the streams rows `world.recipe` … `place.search`; §2.5's fourteen world tables; §7.7's world port paragraph and §11.4 (5); §16's staged row (BCR-V13-37: 37–45 pw); V13 §10's form (BCR-V13-37 – BCR-V13-40); the state note's A.17, A.18, Part E.
+
+
+### Volume 13 — §11 Owner questions
+
+**988.** **Q3 refined: the baked payload's hash in the share code; Q5 — who may generate with what.**
+*Requests:* F1, F5 (the spine's §4.5, §6; the state note's finding (ii)).
+*Current text* (a):
+> **Q3 — Share codes and replay.** A world's share code (V12's replay of a recipe) replays W0–W9 from `Recipe.world`;⏎a placed settlement's share code must carry its charter (a recorded input) to replay identically, which makes the⏎code a few kilobytes rather than a line. The owner decides whether a placed settlement's share code **embeds the⏎charter** (replays alone) or **names the world** (replays only beside the world's code). *Recommendation:* embed the⏎charter; a settlement that cannot be replayed from its own code breaks V12's one-line rule in a way users will meet.
+*New text* (a):
+> **Q3 — Share codes and replay.** A world's share code (V12's replay of a recipe) replays W0–W9 from `Recipe.world`;
+> a placed settlement's share code must carry its charter (a recorded input) to replay identically, which makes the
+> code a few kilobytes rather than a line. The owner decides whether a placed settlement's share code **embeds the
+> charter** (replays alone) or **names the world** (replays only beside the world's code). *Recommendation:* embed the
+> charter; a settlement that cannot be replayed from its own code breaks V12's one-line rule in a way users will meet.
+> *Refined by file r* (F1; J-V13.111): a world whose recipe begins with a baked `formation` op replays W1–W9 over the
+> bake, so its share code carries the payload's chunk hashes (a content address of a few hundred bytes beside the
+> line) and a receiver fetches the chunks from the store or the sender — re-fetched, never re-run; a code whose chunks
+> cannot be fetched opens nothing (`refuse.world.formationPayload`). The world code therefore stays a line plus its
+> hashes under either answer; only the placed settlement's question is open, and the charter a settlement embeds is
+> the same charter whether its world was authored or formed.
+>
+> **Q5 — Who may generate with what.** The world dialog is layered (basic, detailed, expert, the DM's physics toolbar;
+> V09 §4.22) and nothing in it is hidden: every control is drawn for every account kind and disabled with its reason,
+> the gate enforced at the one generate action (F5; V13 §3.1, §4.2 T1; J-V13.123). What the gate holds is the owner's:
+> which account kinds may generate with a scenario (the formation op, the costliest act), with an included campaign
+> (the solver's planned sites), with the expert layer's options set, with a `physicsPass` of depth `weather`, and
+> which may save a preset others see. The module carries the answer as data — the gate's rows beside the host's
+> `hostRequires` (V13 §3.11.6), read at the generate action and nowhere else — and the dialog's semantics do not
+> change with it. *Recommendation:* every layer free to read and set and every one-click generation free at every
+> rung; a scenario and an included campaign gated as the host gates its own premium acts (J388's entitlement, which
+> never gates a birth canon and never a placement), the `weather` depth the DM's; presets saved by anyone, shared by
+> the DM.
+*Evidence:* V13 §11's own form; the spine's §4.5 (the share code "carries the payload's hash, re-fetched never re-run") and §6 (nothing hidden; the gate at the generate action); the state note's finding (ii) and B.7; V13 §8.5's H22 and J-V13.106 (the entitlement that never gates the birth canon).
+
+
+### Volume 13 — §12 CONFIRMED versus PLAUSIBLE
+
+**989.** **The PLAUSIBLE rows of the growth pass, each with its measurement.**
+*Requests:* F1–F9.
+*Current text:*
+> the resource rules) — measured by T-V13-16's statistics bars at⏎M-W1 and M-W2 and re-cellled by `editTable`; the budgets of V13 §6 — measured by T-V13-17 and T-V13-20 at M-W4 with⏎V13 §8.4's fallbacks; the spikes' outcomes (V13 §8.4); the estimates of V13 §8.2; the deferred decisions; the glyph⏎tolerances; the export stride; the import's matching rules (T-V13-26 on the synthetic fixture only — a real⏎ecosystem file is the owner's to supply, never captured by this lane). The volume carries 2 CONFIRMED mechanisms⏎re-used (the flood and D8; the base's edit machinery) for every 1 PLAUSIBLE one it adds; the PLAUSIBLE ones are data⏎or measured.
+*New text:*
+> the resource rules) — measured by T-V13-16's statistics bars at
+> M-W1 and M-W2 and re-cellled by `editTable`; the budgets of V13 §6 — measured by T-V13-17 and T-V13-20 at M-W4 with
+> V13 §8.4's fallbacks; the spikes' outcomes (V13 §8.4); the estimates of V13 §8.2; the deferred decisions; the glyph
+> tolerances; the export stride; the import's matching rules (T-V13-26 on the synthetic fixture only — a real
+> ecosystem file is the owner's to supply, never captured by this lane); and, from file r (F1–F9): the formation rule's
+> five scenarios, their knob ranges, the fixed point's exponents and coefficients, the talus angles, the glacial and
+> sea-level terms and the soil classes (`world.formation`, `world.soil`; measured by SP-W9's gallery and stats and
+> T-V13-58, the published forms re-used as data and their constants calibratable); the monthly climate's belt shift,
+> thermal term, fetch e-folding and the gyre solve (`world.climate`'s monthly rows; measured by SP-W10 and T-V13-59
+> against the analytic fixture); the classification's thresholds (published, re-used as data) and the
+> potential-vegetation table (`world.koppen`, `world.pnv`; T-V13-61); the cover rule's clearing, succession and
+> recovery rates (`world.cover`; T-V13-62); the sailing polars and month sets (`world.sailing`; T-V13-67); the
+> solver's cells — the back-step bound, the causes' order, the extents, the grade band and the protect radius
+> (`world.solver`; T-V13-64); the presets (`world.presets`); the ruins-by-age material factors (the base's II.7.6;
+> T113-8); the budgets `WORLD-16` – `WORLD-19` and the re-declared `budgetMs` and `formationMs` (T-V13-70). The volume
+> carries 2 CONFIRMED mechanisms re-used (the flood and D8; the base's edit machinery — the fork, the cascade, the
+> verbs' grammar and the plate cache, which the growth pass re-uses for the formation op's hydro core, the physics
+> pass, the two verbs on every layer and the cover cache) for every 1 PLAUSIBLE one it adds; the PLAUSIBLE ones are
+> data or measured.
+*Evidence:* V13 §12's own form; the spine's §16 (what is data, what is measured); the science note's §11 (every constant's source and band).
+
+
+### Volume 9 — §4.3 The tool binding table
+
+**990.** **The world's tool rows: `adjust`'s world params, `setRequirements`, `decide`, the best form, the two verbs, `physicsPass`, `requestDossierUpdate`, the targeted reroll.**
+*Requests:* F3, F5–F8 (V13 §4.1 as file r items 975–977 amend it; BCR-V13-44).
+*Current text:*
+> | `adjust` of the world keys (M-W1) | T1 `intend`'s world dialog | the dialog | — | V13 §4.1 |
+*New text:*
+> | `adjust` of the world keys (M-W1), of `world.context` (the monsoon knob) and `world.scenario` (M-W7) | T1 `intend`'s world dialog (V09 §4.22: the layered panel; a scenario or context change re-runs from its stage on the fork, its coarse preview first) | the dialog | — | V13 §4.1 |
+> | `setRequirements` (M-W6) | T1 `intend`'s world dialog: the inclusion chips and the **Include my settlements** toggle (V09 §4.22 (e)) | a chip set, locked or cleared; the toggle | the clerk (an inclusion in words: "a desert the size of a province") | V13 §4.1, §3.1 (5) |
+> | `decide` (M-W6) | the conflict list (V09 §4.22 (f)) | a choice on a row | a preset's pre-decision (map-side rows only, V09 §4.14) | V13 §4.1, §3.11.5 (1) |
+> | `placeFrame` in its best form (M-W6) | T6 `place`'s **Best placement** (V09 §4.22 (g): the three offers, the correction's preview) | a click on the settlement's card; an offer chosen | the host's one-button placer through the port (V13 §8.5's H31) | V13 §4.1, §3.11.4 |
+> | `paintLayer`, `disturb` (M-W8) | T2 `ground`'s layer brushes under the verb toggle — `alwaysSo` paints an override, `happened` records a disturbance (V09 §4.22 (h)) | a stroke on a layer | the conflict list's `paintAround` | V13 §4.1, §3.14.1 |
+> | `physicsPass` (M-W8; the `weather` depth after) | T10 `hold`'s physics toolbar (the DM's layer of V09 §4.22 (h)) — **Re-derive**, **Release**, **Weather**, each on the fork with its dry run and its band crossings | a scope, then a depth | — | V13 §4.1, §4.5 |
+> | `requestDossierUpdate` (M-W6) | the conflict list's **Update the dossier** choice (`landChanged` / `alwaysSo`), pending until the host's `dossierUpdated` (V09 §4.22 (f)) | a choice | — | V13 §4.1, §3.11.6 |
+> | the world `regenerate` on any stage over a box or a region (M-W7) | T10 `hold`; the world dialog's targeted rerolls (V09 §4.22 (d)) | a reroll button on an option, or a box or region drawn and a stage chosen | — | V13 §4.1 |
+*Evidence:* V13 §4.1 (file r items 975–977); the spine's §6 and §7; V09 §4.3's own form (the world rows file k item 644 added); BCR-V13-44.
+
+
+### Volume 9 — §4.14 The advanced panel, the tables editor and the presets dialog
+
+**991.** **The world presets.**
+*Requests:* F5, F8 (J-V13.122).
+*Current text:*
+> * **Presets dialog** — pick a preset (the parity presets `MFCG` and `FTG` among them, §7.6); the adopted and selectable⏎  historical packs are listed as "historical ({era}, {region})", offered only to documents of that era and region⏎  (V12 §2.6); **Save these settings as a preset** is `editPreset`.
+*New text:*
+> * **Presets dialog** — pick a preset (the parity presets `MFCG` and `FTG` among them, §7.6); the adopted and selectable
+>   historical packs are listed as "historical ({era}, {region})", offered only to documents of that era and region
+>   (V12 §2.6); **Save these settings as a preset** is `editPreset`. **On a world document** the presets are
+>   `world.presets`' rows (V13 §2.3): a preset pre-sets the dialog's options (each `random`, `set` or `locked`) and
+>   pre-decides map-side conflict choices only — fit always, keep flagged, move unlocked — never a dossier update, which
+>   stays the user's own act on the host's record (J-V13.122); **Save these settings as a preset** writes a row with
+>   `by: 'user'` through `editPreset`, and the world dialog's gallery (V09 §4.22 (i)) shows each preset's thumbnail from
+>   its coarse run on the current seed.
+*Evidence:* V13 §2.3's `PresetRule` (file r item 955) and §4.2 T1 (item 978); the spine's §6.4.
+
+
+### Volume 9 — §4.21 Items 111–126 on screen (the tail) and §4.22 (new)
+
+**992.** **§4.22 The world dialog — generated first, layered, nothing hidden; the inclusion chips, the include toggle, Best placement, the conflict list, the presets and the gallery, the verbs' brushes and the physics toolbar.**
+*Requests:* F3, F5–F8 (the spine's §5, §6, §7; V13 §3.1, §3.11, §3.14.1, §4.2 T1; BCR-V13-44).
+*Current text:*
+>    lands at M3b with item 117's season looks it reads (§16's milestone rows).⏎## 5 Rendering, labels, exports — the screens and the dialogs
+*New text:*
+>    lands at M3b with item 117's season looks it reads (§16's milestone rows).
+>
+> ### 4.22 The world dialog (F5–F8; V13 §3.1, §3.11, §4.2 T1)
+>
+> Every behaviour here is V13's — what an option is, what a run does, what a conflict asks, what a gate holds; V09
+> hosts and draws it, as §4.19 hosts the lens controls (BCR-V13-39). The dialog is T1 `intend`'s world sheet, the one
+> place the world's request is edited; it is the same dialog at every rung and for every account kind.
+>
+> 1. **Generated first.** A new world document opens already generated (§5.13's **New world**: a random request at the
+>    realm rung, W0–W9 run, the map drawn), the dialog open beside the map with every option reading **random** and its
+>    rolled value shown greyed beneath it ("random — rolled: temperate, 42° N"). There is no wizard and no empty state:
+>    the user edits a world, never a form. Closing the dialog keeps the world; reopening it shows the same choices.
+> 2. **The layered panel.** Four layers as labelled groups, each a disclosure open by default at its level: **Basic**
+>    (the size rung, the latitude box as a climate word, the land share, the inclusion chips, the include toggle, the
+>    scenario card, **Random all**, **Generate**); **Detailed** (every template and scenario knob with its unit and
+>    range, the sea level, the relief limit, the monsoon knob where the rung allows it, the resource and culture
+>    rows, the presets); **Expert** (every `WorldRecipe` option the schema exposes, by stage, with the recipe's ops
+>    as a list the recipe editor opens, §4.3's `worldRecipe`); and **the DM's physics toolbar** (the three verbs'
+>    brushes and `physicsPass`'s controls, (h) below), drawn for every account kind and disabled with its reason where
+>    the account may not use it. Each option's row: label, its state chip (**random** · **set** · **locked**), the
+>    value or the rolled value, its reroll button, its "why" (the requirement it serves, if any).
+> 3. **Random, set, locked.** A click on the state chip cycles it; a value typed or chosen sets it; the lock keeps a
+>    set value through **Random all**. The choices are stored apart from the rolled facts (`Recipe.world.choices`,
+>    V13 §2.2; J-V13.123): regeneration re-reads the choices and never what was rolled, so a rolled latitude box does
+>    not pin the next run, and a locked one does. **Random all** rolls every unlocked option and runs; with the include
+>    toggle on it is the same run under the settlements' rows, and it always fits them (V13 §3.1 (5); J-V13.118).
+> 4. **Targeted rerolls and the preview.** The reroll button on an option re-runs from that option's stage and no
+>    earlier (the log shows the stages run); a box or a region drawn on the map with a stage chosen rerolls that
+>    stage's draws there (`regenerate` with a world `scope`, §4.3), asking first when it would overwrite a lock or an
+>    override. Every change previews as the coarse run (V13 §3.1 (7): a thumbnail within 300 ms at the realm rung,
+>    the fine run on **Generate**), and the preview is the run — the same stages on the coarse grid, never a cheaper
+>    proxy; the thumbnail carries the verification report's summary ("3 of 3 inclusions met").
+> 5. **The inclusion chips and the include toggle.** The Basic layer's **Include** strip holds the inclusion chips
+>    (a desert, a great river, an inland sea, a mountain range, a monsoon coast, a cold coast — each with its amount
+>    chip, "the size of a province", and its state), each a `biome`, `landform` or `water` row of the request
+>    (`setRequirements`, V13 §4.1). **Include my settlements** (on a host-bound world, or one with placed frames)
+>    turns every included settlement's dossier words into derived chips — "Kessar: desert, river, caravan route" —
+>    shown read-only with their source and their status after the run (met · corrected · unmet with its offer); a
+>    derived chip is never edited here (its facts are the dossier's) and never locked (it is always a rank-1 row).
+> 6. **The conflict list.** Where a request, a reroll, a paint, a pass or a placement would contradict a placed or
+>    included settlement's facts, the list opens before the run commits (V13 §3.11.5 (1); `W_EDIT_DOSSIER`): one row
+>    per affected settlement with the fact, what the change would make of it, and the choices — **Cancel**, **Fit the
+>    world** (the solver corrects around the settlement), **Paint around** (an override at the settlement's extent),
+>    **Keep the mismatch** (flagged on the DM view), **Update the dossier** (a request to the host, with its kind:
+>    "this happened" / "it was always so"), and where the ladder allows them **Move the settlement** and **Change my
+>    request**. A choice is a `decide`; a dossier update shows as pending (`W_DOSSIER_PENDING`) until the host confirms
+>    it, and the dossier reads unchanged until then. Decisions are remembered and reused until the facts they rest on
+>    move; a preset's pre-decisions apply to map-side rows only (§4.14).
+> 7. **Best placement.** On a settlement's card (T6 `place`, with a host-bound settlement's card too) **Best
+>    placement** runs `placeFrame`'s best form (V13 §3.11.4): the least-change placement under the settlement's rows,
+>    three offers on the map ordered by cost then distance with their reasons, a hover showing each; when no cell is
+>    lawful, the correction the solver proposes is drawn as a preview (its extent, its graded band, the rows it serves)
+>    and the list of (6) opens for any settlement it would touch; painting is the last resort and is labelled so. The
+>    host's own one-button placer reaches the same form through the port (V13 §8.5's H31), never a second scorer.
+> 8. **Nothing hidden; the gate at the one generate action.** Every control of every layer is drawn for every account
+>    kind; a control the account may not use is disabled with its reason in place ("a scenario needs …"), never
+>    removed, and the whole dialog can be read, set and previewed by anyone. The gate is checked once, at **Generate**
+>    (and at **Best placement** and a `physicsPass`'s commit, the acts that run the same stages), as data beside the
+>    host's `hostRequires` (V13 §11 Q5) — never in the panel, never per control. **The DM's physics toolbar** is the
+>    fourth layer: the layer picker (biome, soil, land cover, current; terrain and water as T2 has them), the verb
+>    toggle (`alwaysSo` → `paintLayer`, an override the physics derives against; `happened` → `disturb`, a dated
+>    disturbance that recovers), the brush with its radius, and `physicsPass`'s scope (whole world, a region, a
+>    watershed) and depth (**Re-derive**, **Release** with its keep-history switch, **Weather** with its years) —
+>    each pass on the fork with its dry run, its band crossings and the conflict list before **Commit**.
+> 9. **Presets and the gallery.** The Detailed layer's presets row opens §4.14's presets dialog in its world form; the
+>    gallery beside it shows each preset's thumbnail from its coarse run on the current seed, a click applying it as
+>    choices (not as rolled facts) and previewing.
+> 10. **Lifecycle, edges and bar.** T-V9-12 checks the world rows of §4.3 against V13 §4.1's union as it checks the
+>    base's; the dialog's semantics are T-V13-69's (random / set / locked, the choices apart from the rolled facts,
+>    targeted rerolls, the inclusion chips, nothing hidden, the report), the conflict list's T-V13-65's, the best
+>    form's T-V13-64's. It lands at M-W6 (V13 §8.2) for the panel, the chips, the include toggle, the conflict list and
+>    Best placement; the scenario card and the monsoon knob at M-W7; the physics toolbar at M-W8. Edges: a world
+>    without settlements shows the include toggle disabled with "no settlements to include"; a rung below the
+>    continent shows the monsoon knob as a world-context switch with its explanation (`W_MONSOON_CONTEXT`); an
+>    account that may not generate with a scenario sees the scenario card, its gallery and its preview, and the
+>    reason at **Generate**.
+>
+> ## 5 Rendering, labels, exports — the screens and the dialogs
+*Evidence:* the spine's §6 (generated-first; the layers; random / set / locked; nothing hidden; the gate at the generate action; "the preview is the run"), §5 (the derived chips, the best form, the three offers), §7 (the verbs and the pass); V13 §3.1 (file r items 960, 961), §3.11.4 – §3.11.6 (items 967–970), §3.14.1 (item 971), §4.2 T1 (item 978); V09 §4.21's own form (numbered points with a lifecycle row) and §4.19's lens controls (BCR-V13-39).
+
+
+### Volume 9 — §5.13 Open, recent and new
+
+**993.** **New world.**
+*Requests:* F5.
+*Current text:*
+> **New town** opens the empty state in a new⏎document.
+*New text:*
+> **New town** opens the empty state in a new
+> document; **New world** (M-W1; from M-W6 in the generated-first form) opens a new world document already generated —
+> a random request at the realm rung, W0–W9 run — with the world dialog (V09 §4.22) open beside it and every option
+> reading random: never an empty state and never a wizard (F5).
+*Evidence:* the spine's §6.1 ("generated first"); V13 §3.1 (file r item 960); V09 §5.13's own form.
+
+
+### The base — §2.x `HistoryHint` (the readers comment)
+
+**994.** **`HistoryHint`'s readers: II.7.6's age strata.**
+*Requests:* F3 (the spine's §9; J-V13.126).
+*Current text:*
+> its buried old town (J-A88.42);
+*New text:*
+> its buried old town (J-A88.42); II.7.6's age strata at generation (`founding.yearsAgo`, else `ageYears`; `lifecycle` for the continuity regime; file r item 996, F3);
+*Evidence:* the spine's §9 ("`HistoryHint.founding.yearsAgo`, else the tier's fallback"); the base's `founding?` comment (absent both, the tier's midpoint, noted `history_gap`); the base's comment form.
+
+
+### The base — §4.2 S2 Growth stages
+
+**995.** **S2's age reading: the strata's region is the first stage's.**
+*Requests:* F3 (the spine's §9).
+*Current text:*
+> `RaiseGrade.cause`) by II.7.6's buried old town, any other type by none, the creation week showing a finished town⏎(J-A67.47). Empty, K is the rung row's.
+*New text:*
+> `RaiseGrade.cause`) by II.7.6's buried old town, any other type by none, the creation week showing a finished town
+> (J-A67.47); and the settlement's age — `founding.yearsAgo`, else `ageYears` — by II.7.6's **age strata** (file r item
+> 996, F3), which lie under a bounded share of the stage-1 districts S2 lays, nearest the nucleus, so an old town's
+> earlier levels are its oldest fabric's and never the ribbon's. Empty, K is the rung row's.
+*Evidence:* the spine's §9 ("a share of the oldest growth stages' area, growing with age and tier, bounded"); the science note's §7 (the founding-phase footprint 10–30 % of the maximum, centred on the nucleus); §4.2 S2's own sentence form.
+
+
+### The base — II.7.6 The underground's other systems: the buried old town
+
+**996.** **At generation from age: the earlier strata beneath an old settlement (F3), composed with the scar burial and the buried former settlement under V04's depth law.**
+*Requests:* F3 (the spine's §9; the state note's finding (vi); the science note's §7; J-V13.126).
+*Current text* (a):
+> with the hint empty, none. **The buried former settlement (item 113 (c)):**
+*New text* (a):
+> with the hint empty, none. **At generation from age (F3; file r item 996; J-V13.126):** a settlement old enough has
+> earlier levels of its own beneath its oldest fabric, whatever its scars — the owner's rule (2026-10-17: "settlement age
+> (generation only) also determines if and how large an underlying ruins would be"). Its age A is `HistoryHint.founding.yearsAgo`,
+> else `ageYears` (the tier's midpoint when both are absent, as `founding`'s comment says). **Whether:** A ≥ the `buried`
+> row's `ageMinYears` (300) and one uniform u < p, p = clamp((A − `ageMinYears`) ÷ `ageFullYears` (900), 0, 1) × (the
+> continuity factor: 1, or `ageResetFactor` (0.5) where `lifecycle.died` and `resettled` — a reset regime leaves less of
+> a continuous mound); the uniform the `sewer` stream's (§6.1: the layer's other systems' draws, keyed by the system's
+> lineage, which the town root fixes), at ordinal 0 of the `buried` kind, so the draw is byte-stable per town root and
+> rerolls with the town, never alone. **How large:** the region is the stage-1 districts (`growthStage` 1, the scar
+> rule's region) taken nearest the nucleus first — S2's first-stage centre: the ford, the harbour, the hill — until
+> their area reaches share s of the stage-1 area, s = clamp(`ageShareBase` (0.2) + `ageShareGain` (0.2) × (A ÷ 1 000)
+> + `ageTierBonus` (TOWN 0, CITY 0.1, METROPOLIS 0.2), 0, `ageShareMax` (0.6)) — older layers are smaller and centred
+> on the founding point, the inverse of the growth S2 models. **How deep:** V04's depth law and no other — the floor at
+> `min(formerRiseMaxCm, formerRiseCmPerCentury × m × A ÷ 100 × f)` cm below the present grade (V04 §3.5.5 (b): 60 cm
+> per century, capped at 900; `f` the burial-speed factor `burialYears ÷ T`, V11 §3.25.2, so floods, silt and
+> rebuilding deepen it and bare rock keeps it shallow), `m` the material factor `ageMaterial` by the stage-1 core's
+> dominant wall class in V11 §3.19.3's `materials` row for stage 1 (the wall shares summed by class: masonry — rubble,
+> brick, ashlar — `stoneBrick` 0.5; timber — `timber_frame`, timber — `timber` 0.4; earth — `wattle_daub`, `cob` —
+> `mudBrick` 1.5; the science note's anchors: 0.2–0.5 m per century for stone-and-brick towns, 0.5–2 m for mud
+> brick), the full depth within the districts nearest the nucleus that make the first half of s and two-thirds of it in
+> the rest (a low dome; a mound for mud brick). **What:** the same one `buried` system (created at the first, §2.9) —
+> its galleries the region's way centrelines, its chambers their buildings' ground storeys and its squares, fresh
+> records of the `buried` part keyed (`age`, the stratum's ordinal, the district's lineage), laid as the scar burial
+> lays its own and reached as the `buried` kind already is (item 109 (j); V14's sites and encounters as that kind) —
+> **composed** with the scar burial and the buried former settlement by union of extents, the deepest floor winning
+> per element and no element laid twice. **Only at generation:** the strata are never grown, deepened or added during
+> the campaign — an advance of any length, a razing or a refounding changes nothing beneath (a later burial is the
+> replay's, item 113 (c)) —, the town above generated on the present grade as it stands, no `raiseGrade` event
+> recorded and nothing cleared; our own rows, calibratable, `extension`, off in the parity presets (T113-8).
+> **The buried former settlement (item 113 (c)):**
+*Current text* (b):
+> scarSeverity, scarBaseCm, scarGainCm; digReachM, foundationClearM
+*New text* (b):
+> scarSeverity, scarBaseCm, scarGainCm, ageMinYears, ageFullYears, ageResetFactor, ageShareBase, ageShareGain, ageShareMax (the age strata, file r item 996; `ageTierBonus` and `ageMaterial` their keyed sub-rows); digReachM, foundationClearM
+*Evidence:* the spine's §9 (whether, how large, how deep; composed with the scar burial and the former settlement, union of extents, the deepest floor wins; a deterministic draw keyed by the settlement's root; the existing `buried` kind; never grown during the campaign; a base change); the state note's finding (vi) ("compose ruins by age with V04's depth law … no second law") and its reading of II.7.6 and §4.11 (5); the science note's §7 (the synthesis: 0.3 m/century for stone-and-brick, mud brick doubles to quadruples; the founding footprint 10–30 % centred on the nucleus; the dome and the mound; material class, nucleus, founding share, continuity regime as the parameters; "at generation only"); V04 §3.5.5 (b) (the law quoted) and its `buried` cells; V11 §3.19.3's material rows (stage 1: rubble 0.4, timber_frame 0.5, brick 0.1 — a timber factor on the default row, masonry under `c15`); the base's `sewer` stream row (§6.1); II.7.6's own sentence form.
+
+
+### The base — §13.2 and the item ledger: T113-8
+
+**997.** **T113-8: the age strata.**
+*Requests:* F3.
+*Current text* (a):
+> (T113-7) with history replay off, byte-identical to the base (a⏎    `NoOpPin`).
+*New text* (a):
+> (T113-7) with history replay off, byte-identical to the base (a
+>     `NoOpPin`); (T113-8) the age strata (II.7.6, file r item 996): a 1 200-year-old fixture of masonry core lays one
+>     `buried` system under a share of its stage-1 districts nearest the nucleus, s = 0.44 of their area at TOWN, its floors
+>     at min(900, 60 × 0.5 × 12 × f) cm; a 200-year-old fixture lays none; a mud-brick fixture of the same age lays floors
+>     three times deeper, capped at 900; a died-and-resettled fixture at half the chance; a scar burial over the same
+>     region takes the deeper floor per element and the system stays one, no element laid twice; the draw is byte-stable
+>     per town root on the five engines and moves with the town's reroll, never alone; an advance of 500 years, a razing
+>     and a refounding add no stratum; the parity presets lay none.
+*Current text* (b):
+> II.7.6 (the buried former settlement); T113-1 – T113-7; volumes 6, 4 and 8
+*New text* (b):
+> II.7.6 (the buried former settlement and, file r item 996, the age strata); T113-1 – T113-8; volumes 6, 4 and 8
+*Evidence:* the spine's §9 and §17 ("ruins by age deterministic, bounded, generation-only"); the base's T113 bullet's form; the item ledger's row 113.
+
+
+### The base — §7.7 and §11.4 (5): the dossier update as a request
+
+**998.** **The one-way rule kept whole: a dossier changes only by the host's own command on the map's request (BCR-V13-45 applied).**
+*Requests:* F8 (the spine's §5.4; the state note's finding (v); J-V13.121).
+*Current text* (a):
+> the map writes no dossier fact except through this door as a derived fact (V13 Part E bar 9).
+*New text* (a):
+> the map writes no dossier fact except through this door as a derived fact (V13 Part E bar 9), and asks for a dossier change only as a request the host executes — outbound `requestDossierUpdate` (the user's approval of a conflict-list choice, V13 §3.11.5 (1): the settlement, the field, the kind `landChanged` or `alwaysSo`, the proposed value), inbound `dossierUpdated` (the host's confirmation with `applied` and its sequence), the map showing the change only on the confirmation (file r item 998; BCR-V13-45).
+*Current text* (b):
+> known events, the lens facts kept as plates) are never logged and read by nothing replayable.
+*New text* (b):
+> known events, the lens facts kept as plates) are never logged and read by nothing replayable. A dossier change the
+> map's conflict list asks for (V13 §3.11.5 (1); F8) leaves through this door as a request and never as a write:
+> `requestDossierUpdate` is logged with provenance `user` (the approval it records is the user's act on the map), the
+> host's own command changes the dossier under the host's guards — a dated event for `landChanged`, its retcon path for
+> `alwaysSo` —, and `dossierUpdated` returns as a windowed replace with provenance `host` carrying `applied` and the
+> host's sequence; until it arrives the map shows the dossier unchanged (`W_DOSSIER_PENDING`), and a request the host
+> declines re-opens the conflict. The module never writes to the dossier (file r item 998; BCR-V13-45; V13 §8.5's H32).
+*Evidence:* the spine's §5.4 (the dossier update "a request the host carries out"); the state note's finding (v) and D.7 (the host's guard-and-override entry); the base's one-way rule as §11.3 and §11.4 state it; §7.7's world port paragraph and §11.4 (5)'s form.
+
+
+### The proposal — §3.2, §3.4, §3.5, §10, §11
+
+**999.** **The proposal's terrain, hydrology and climate paragraphs carry the growth pass; the rejection table's authored-path row; the phasing's fourth line.**
+*Requests:* F1, F2, F4, F5–F9 (the spine's §13).
+*Current text* (a):
+> its cell-count-dependent decay and its exponent-as-unit do not.
+*New text* (a):
+> its cell-count-dependent decay and its exponent-as-unit do not. *Added 2026-10-23 (the owner's rule F1; file r;
+> V13 §3.2.1):* a world may begin with a **formation op** — a scenario row (a young collision range, a rifting
+> interior, an island arc, an old shield, a rifted coast) run once on its own grid: crust blocks and uplift, a
+> steady-state stream-power erosion to a fixed point, talus, glacial carve, two sea-level stands and soils — whose
+> results are baked as content-hashed fields the recipe's later operations edit like any other; the block model is
+> deleted at the bake and the op is never re-run, under any later version. The templates stay as the authored path.
+*Current text* (b):
+> No erosion model; a single deterministic⏎stream-power pass is optional later.
+*New text* (b):
+> Erosion is the formation op's steady-state
+> stream-power fixed point over this same flood-and-D8 core, once at generation and baked (2026-10-23, F1; superseding
+> "no erosion model; a single deterministic stream-power pass is optional later"); a later `weather` op runs a bounded
+> number of explicit years once, on a side copy, and is carried by its commit.
+*Current text* (c):
+> Precipitation by a⏎moisture march along an arbitrary wind vector with orographic drop, coastal bonus and evaporation from water, in⏎millimetres per year, seeded and clamped. Biomes from a configurable moisture-by-temperature matrix with overrides,⏎as a typed land-use class carrying habitability and movement cost as editable attributes. Vegetation and relief⏎decoration are render-time derivations from slope, altitude and biome, never data.
+*New text* (c):
+> Precipitation by a
+> moisture march along an arbitrary wind vector with orographic drop, coastal bonus and evaporation from water, in
+> millimetres per year, seeded and clamped. Biomes from a configurable moisture-by-temperature matrix with overrides,
+> as a typed land-use class carrying habitability and movement cost as editable attributes. Vegetation and relief
+> decoration are render-time derivations from slope, altitude and biome, never data. *Added 2026-10-23 (F2, F4; file
+> r; V13 §3.4–§3.6):* the climate is **monthly** — twelve values per coarse cell from the belts' seasonal shift, a
+> thermal term over large land (a monsoon; a world-context knob below the continent rung), the maritime fraction by
+> upwind fetch, the march run once per month, and the ocean currents by a gyre solve per basin with the coastal
+> anomaly they bring; a relief edit re-runs the whole march, so a raised range dries its lee however far. The biome
+> is a published climate-class scheme mapped to **potential natural vegetation** (the matrix kept for annual
+> imports); what grows at a week — fields, pasture, coppice, fallow, regrowth, a burn scar — is **land cover**, a
+> derived layer folded from potential vegetation and the campaign's dated facts (populations, razings, plagues,
+> abandonments, the DM's disturbances) into a cover cache outside every digest, read by no stage. Sea legs are priced
+> by direction, month and vessel from the winds and currents, the host receiving the symmetric mean until it adopts
+> them. The DM's two verbs reach every physical layer: an always-so paint is an override the physics derives against;
+> a this-happened disturbance recovers; a physics pass re-derives, releases or weathers a region on a side copy. Every
+> run is one requirement solver — the pipeline itself, each stage meeting the rows it can and verifying as it goes,
+> one bounded back-step — so a request "a desert the size of a province", or a campaign's own settlements included,
+> is met by causes, never painted first; the generation surface is a world generated first with every option random,
+> set or locked; a change that would contradict a placed settlement's dossier asks before it commits, and a dossier
+> changes only by the host's own command on the map's request.
+*Current text* (d):
+> | Depopulating port-less islands as a siting rule | a 2017 expedient; islands get routes or stay sparse by the suitability score, not by fiat |
+*New text* (d):
+> | Depopulating port-less islands as a siting rule | a 2017 expedient; islands get routes or stay sparse by the suitability score, not by fiat |
+> | A heightmap template as the only way a world's ground arises | kept for authored control; joined (2026-10-23, F1) by the formation op's scenarios — tectonics and erosion run once and baked, never re-run (V13 §3.2.1); the one-click world draws a scenario, the authored path stays |
+*Current text* (e):
+> the import adapter, retirement of the fork. World-scale editing and history ride on the existing edit model.
+*New text* (e):
+> the import adapter, retirement of the fork. World-scale editing and history ride on the existing edit model.
+> 4. (2026-10-23; the owner's rules F1–F9; V13 §8.2's M-W6 – M-W9.) Build W6: the requirement solver, the
+>    generated-first dialog, the conflict list and the dossier request. Build W7: the formation op and the monthly
+>    climate with its currents, gated by their spikes. Build W8: land cover and the physics pass, the weather depth
+>    last. Build W9: sail routing. Ruins by settlement age are the base's own, at generation only.
+*Evidence:* the spine's §13 (the proposal "carries the shape in its own words; the volume the depth"); V13 §3.2.1, §3.4–§3.6, §3.8 (12), §3.11, §3.14.1 (file r items 959–974); the proposal's own paragraph and table forms; §6's "superseded" convention for a dated change.
+
+
+### The brief — Part C and §10
+
+**1000.** **The brief's "tectonics, erosion over time … not built" reads with the owner's rule F1.**
+*Requests:* F1 (file r item 926).
+*Current text* (a):
+> planar bounded worlds in metres now; tectonics, erosion over time,⏎fluid dynamics and a sphere not built;
+*New text* (a):
+> planar bounded worlds in metres now; tectonics and erosion over time built once at generation as the formation op
+> and baked, never re-run (the owner's rule F1, 2026-10-17, superseding this ruling's first two clauses;
+> `docs/AMENDMENTS-2026-10-23r.md` item 926; V13 §3.2.1), fluid dynamics and a sphere not built;
+*Current text* (b):
+> tectonics, erosion over time, fluid dynamics, a sphere, an economy or military simulation in the map module.
+*New text* (b):
+> fluid dynamics, a sphere, an economy or military simulation in the map module (tectonics and erosion over time,
+> excluded here on 2026-10-16, are admitted by the owner's rule F1 of 2026-10-17 as the formation op — run once at
+> generation and baked, never a simulation that runs on; `docs/AMENDMENTS-2026-10-23r.md` items 926 and 962).
+*Evidence:* PROGRESS.md J390 (F1 verbatim, file r item 926); the brief's Part C form (a refined ruling cites its amendment file) and §10's form.
+
+
+### INDEX — §1 the V13 row
+
+**1001.** **The V13 row: the growth pass in the description, the milestones and the cost.**
+*Requests:* F1–F9.
+*Current text* (a):
+> the lenses over the host's simulated systems (V13 §5.8, §5.9); the map-import adapter and the ecosystem-shaped exports |
+*New text* (a):
+> the lenses over the host's simulated systems (V13 §5.8, §5.9); the world's growth (file r, the owner's rules F1–F9: the formation op — tectonics and erosion once, baked —, the monthly climate with its currents, potential vegetation and the derived land cover, the requirement solver with the generated-first dialog, the conflict list and the dossier request, the two verbs on every layer and the physics pass, sail routing by direction and month, the seams owed to V15; V13 §3.0–§3.2.1, §3.4–§3.6, §3.11, §3.14.1, §4.1–§4.2, §5.8 (9)); the map-import adapter and the ecosystem-shaped exports |
+*Current text* (b):
+> **M-W0 – M-W5** after M-SF (M-W5 the lenses, after M-W2), the host's own changes a parallel track (V13 §8) | 37–45 as one staged row (M-W0h ≈ 4 inside it; BCR-V13-37, file o item 877) |
+*New text* (b):
+> **M-W0 – M-W9** after M-SF (M-W5 the lenses, after M-W2; M-W6 – M-W9 the growth milestones after M-W2, M-W7 gated by SP-W9 and SP-W10), the host's own changes a parallel track (V13 §8) | 51–66 as one staged row (M-W0h ≈ 4 inside it; 37–45 by BCR-V13-37, file o item 877; 14–21 added by BCR-V13-46, file r item 985) |
+*Evidence:* V13 §8.2 (file r item 985); BCR-V13-46 (item 987); INDEX's row form.
+
+
+### INDEX — §1 the BCR ledger sentence
+
+**1002.** **The BCR ledger: files m–r, seventeen requests, the admission items.**
+*Requests:* the coherence pass's ledger (J387, J388).
+*Current text:*
+> Files m–q since added eleven requests to V13 §10, outside those totals (BCR-V13-30 – BCR-V13-40): BCR-V13-37 is carried by file o item 877, BCR-V13-38 by file p item 890 and BCR-V13-40 by file q items 916 and 917; BCR-V13-30 – BCR-V13-36 (the base) and BCR-V13-39 (V09) stand with no admission item, each for the coherence pass to admit by an item of its own (J387's and J388's pending ledger).
+*New text:*
+> Files m–r since added seventeen requests to V13 §10, outside those totals (BCR-V13-30 – BCR-V13-46): BCR-V13-37 is carried by file o item 877, BCR-V13-38 by file p item 890, BCR-V13-40 by file q items 916 and 917, BCR-V13-44 (V09) by file r items 990–993 and BCR-V13-45 by file r item 998; BCR-V13-30 – BCR-V13-36, BCR-V13-41 – BCR-V13-43 and BCR-V13-46 (the base) and BCR-V13-39 (V09) stand with no admission item, each for the coherence pass to admit by an item of its own (J387's and J388's pending ledger).
+*Evidence:* V13 §10 (file r item 987); INDEX's own sentence.
+
+
+### INDEX — §2 the milestone graph, §3 the milestone table and the order paragraph, §4's cost line
+
+**1003.** **M-W0 – M-W9 in the graph, the table, the order paragraph and the PLAUSIBLE cost line.**
+*Requests:* F1–F9 (V13 §8.2; BCR-V13-46).
+*Current text* (a):
+>   MSF --> MW["M-W0 … M-W5 the world (V13), after M-SF (M-W5 the lenses after M-W2)"]
+*New text* (a):
+>   MSF --> MW["M-W0 … M-W9 the world (V13), after M-SF (M-W5 the lenses after M-W2; M-W6 … M-W9 the growth milestones after M-W2, M-W7 gated by SP-W9 and SP-W10)"]
+*Current text* (b):
+> | M-W0 – M-W5 (V13) | M-SF (the host client); M-W0's spikes once M0 closes; M-W5 the lenses after M-W2 | the host's parallel track (V13 §8.5; Q2); M-W5 beside M-W3 | M-W1 before M-SITE-F; M-W3's adapter and exports before the host's reference fork retires; M-W5 before M-W4, whose gate covers it |
+*New text* (b):
+> | M-W0 – M-W9 (V13) | M-SF (the host client); M-W0's spikes once M0 closes; M-W5 the lenses after M-W2; M-W6 the solver, the surface and the dossier seam after M-W2; M-W7 formation and the living physics after M-W6, gated by SP-W9 and SP-W10; M-W8 ecology and the physics pass after M-W7; M-W9 sail routing after M-W7 | the host's parallel track (V13 §8.5; Q2); M-W5 beside M-W3; M-W6 beside M-W3; M-W9 beside M-W8; V15's M-ATLAS-A and -B after M-W6's seams | M-W1 before M-SITE-F; M-W3's adapter and exports before the host's reference fork retires; M-W5 – M-W9 before M-W4, whose gate covers them |
+*Current text* (c):
+> M-W0 – M-W5 after M-SF (M-W5 the lenses after M-W2, beside M-W3; file o item 877); M-SITE-F after M-W1.
+*New text* (c):
+> M-W0 – M-W9 after M-SF (M-W5 the lenses after M-W2, beside M-W3; file o item 877; M-W6 – M-W9 the world's growth after M-W2, file r item 985); M-SITE-F after M-W1.
+*Current text* (d):
+> 37–45 and 25.75–36.25 pw among them, PLAUSIBLE until their spikes report)
+*New text* (d):
+> 51–66 and 25.75–36.25 pw among them, PLAUSIBLE until their spikes report; the world's 51–66 is 37–45 by file o plus 14–21 by file r)
+*Evidence:* V13 §8.2 and §8.4 (file r item 985); BCR-V13-46; INDEX's graph, table and paragraph forms.
+
+
+### INDEX — §5 the owner questions
+
+**1004.** **Q2's H-rows, Q3's payload note, Q5.**
+*Requests:* F1, F5 (V13 §11, file r item 988; §8.5, item 985).
+*Current text* (a):
+> | V13 | Q2 — the host's schedule (V13 §8.5's H1–H30) against M-W1 – M-W3 and M-W5, and whether the realm map's replacement is part of the map module's post-launch disposition | class it with the post-launch disposition; H1–H3 before the host's launch, H4–H11 with M-W1, H12–H17 and H22 with M-W2, H23–H30 with M-W5, H18–H20 after M-W3; the standalone world ships either way (recommended; vetoable) |
+*New text* (a):
+> | V13 | Q2 — the host's schedule (V13 §8.5's H1–H34) against M-W1 – M-W3 and M-W5 – M-W9, and whether the realm map's replacement is part of the map module's post-launch disposition | class it with the post-launch disposition; H1–H3 before the host's launch, H4–H11 with M-W1, H12–H17 and H22 with M-W2, H23–H30 with M-W5, H18–H20 after M-W3, H31 and H32 with M-W6, H34 with M-W8, H33 with M-W9; the standalone world ships either way (recommended; vetoable) |
+*Current text* (b):
+> | V13 | Q3 — a placed settlement's share code: embed the charter or name the world | embed the charter, so a settlement replays from its own code (recommended; vetoable) |
+*New text* (b):
+> | V13 | Q3 — a placed settlement's share code: embed the charter or name the world (refined by file r: a formed world's code carries its baked payload's hashes, re-fetched never re-run, so the world code stays a line plus its hashes under either answer) | embed the charter, so a settlement replays from its own code (recommended; vetoable) |
+*Current text* (c):
+> | V14 | Q1 — the in-town encounter crop ships after M1 or waits whole for M6-P | ship after M1 with shells and the VTT crop; the interiors arrive with V03's P1 by a registry lookup (recommended; vetoable) |
+*New text* (c):
+> | V13 | Q5 — who may generate with what (file r item 988): the world dialog is layered and hides nothing, the gate checked once at the generate action; which account kinds may generate with a scenario, with an included campaign, with the expert layer set or with a `weather` pass, and who may share a preset, is the owner's | every layer free to read, set and preview; one-click generation free at every rung; a scenario and an included campaign gated as the host gates its own premium acts, the weather depth the DM's; presets saved by anyone, shared by the DM (recommended; vetoable) |
+> | V14 | Q1 — the in-town encounter crop ships after M1 or waits whole for M6-P | ship after M1 with shells and the VTT crop; the interiors arrive with V03's P1 by a registry lookup (recommended; vetoable) |
+*Evidence:* V13 §11 (file r item 988) and §8.5 (item 985); INDEX's question-row form.
+
+
+### SUMMARY — item 13 and the cost lines
+
+**1005.** **The world's growth in the owner's summary; the cost lines.**
+*Requests:* F1–F9.
+*Current text* (a):
+> in once as data and written back out in the shapes its tools expect; nothing the campaign already has is lost.
+*New text* (a):
+> in once as data and written back out in the shapes its tools expect; nothing the campaign already has is lost.
+>     **The world grows (your rules of 17–23 October).** A world can be *formed*, not only drawn: pick a scenario — a
+>     young mountain range, a rifting interior, an island arc, an old worn shield, a rifted coast — and the ground is
+>     made once by plate motion and long erosion, then baked, so it never changes under you and never costs again.
+>     Weather comes by the month: the trade winds and westerlies shift with the seasons, a monsoon turns over a big
+>     land mass, the ocean currents circle each basin and make one coast a desert and another mild, and raising a range
+>     dries everything in its lee, however far. What the climate would grow is the world's; what the land looks like
+>     *this week* — fields around a town, pasture, coppice, a burn scar, the forest coming back over a razed village —
+>     follows the campaign's own dated facts and is never rolled. Say "based off of my settlements" and the world is
+>     generated to fit them — a desert town gets a real desert with a cause, never a painted dot —, or place one town
+>     and the map finds its best lawful site anywhere, offering three; where a change would contradict a town's record
+>     the map asks first and, if you choose to update the record, your host does it on your request and the map shows
+>     it done only when the host confirms. The dialog opens on a world already made, every option random, set or
+>     locked, nothing hidden; you can paint any layer as "always so" and the physics builds around it, mark "this
+>     happened" and watch it recover, or let physics pass again over a region on a side copy. Sea legs cost by the
+>     wind, the current, the month and the ship, each way; and an old town has older levels beneath its oldest streets,
+>     by its age, at the depth the underground already knows.
+*Current text* (b):
+> - **The world (volume 13):** about **37–45 person-weeks** (the water system at the town's scale, about 4 of them,⏎  comes first and on its own; the map lenses over your host's simulated systems — plague, territory and patrols,⏎  trade, populations, religion, prosperity and alignment — about 7 of them, come after the world's routes and⏎  borders).
+*New text* (b):
+> - **The world (volume 13):** about **51–66 person-weeks** (the water system at the town's scale, about 4 of them,
+>   comes first and on its own; the map lenses over your host's simulated systems — plague, territory and patrols,
+>   trade, populations, religion, prosperity and alignment — about 7 of them, come after the world's routes and
+>   borders; the world's growth — the solver and the settlement-first dialog, the formed ground and the monthly
+>   weather, the living land cover and the physics pass, the sea legs — about 14–21 of them, after the routes and
+>   borders too, the formed ground gated by two spikes).
+*Current text* (c):
+> the two volumes' cost (37–45 and 25.75–36.25 person-weeks);
+*New text* (c):
+> the two volumes' cost (51–66 and 25.75–36.25 person-weeks, the world's widened from 37–45 by your rules of 17–23 October);
+*Evidence:* SUMMARY's own voice (item 13 and the cost lines; the owner's words of J390 as the paragraph echoes them); V13 §8.2 (file r item 985); BCR-V13-46.
+
+---
+
+## Census (the file's tail; group 11)
+
+**Items.** 926–934 the owner's rules F1–F9 (nine items, quoted verbatim from PROGRESS.md J390–J392 with the
+session's readings; carried into V13 §1.3 by item 939); 935–1005 the change items — **71 items, 188 fragments**, every
+quote verified twice (by exact search in the target as it now stands, and by the dry run that applies every fragment in
+order to copies of the targets: 188 of 188 matched exactly once at their turn, 188 new texts exactly once after).
+**Quotes that could not be verified: none.** By target: V13 935–989 (55 items), V09 990–993 (4), the base 994–998 (5),
+the proposal 999, the brief 1000, INDEX 1001–1004 (4), SUMMARY 1005.
+
+| item | target | section |
+|---|---|---|
+| 935 | V13 | the revision notes under the title |
+| 936 | V13 | "How to read this volume" |
+| 937 | V13 | §0 In plain words |
+| 938 | V13 | §1.1 What this volume builds |
+| 939 | V13 | §1.3 The owner rules obeyed (file j; quoted by item) |
+| 940 | V13 | §1.4 Out of scope, with the reason |
+| 941 | V13 | §1b.1 Records, fields and tables |
+| 942 | V13 | §1b.2 Stage outputs and interfaces |
+| 943 | V13 | §1b.3 Edit kinds (each with its tool, lifecycle row and undo) |
+| 944 | V13 | §1b.4 Entity kinds (each rendered, labelled, exported, persisted) |
+| 945 | V13 | §2.1 What the base already declares, and the two regimes |
+| 946 | V13 | §2.2 New records |
+| 947 | V13 | §2.2 New records |
+| 948 | V13 | §2.2 New records |
+| 949 | V13 | §2.2 New records |
+| 950 | V13 | §2.2 New records |
+| 951 | V13 | §2.2 New records |
+| 952 | V13 | §2.2 New records |
+| 953 | V13 | §2.2 New records |
+| 954 | V13 | §2.3 New rule tables |
+| 955 | V13 | §2.3 New rule tables |
+| 956 | V13 | §2.5 Identity: lineage units, creation keys and the namespace segment |
+| 957 | V13 | §2.6 The lifecycle of every state field this volume adds or gives a producer |
+| 958 | V13 | §2.7 The version table, the digests and the storage of the world |
+| 959 | V13 | §3.0 The world pipeline: registration, order, the materializer contract |
+| 960 | V13 | §3.1 W0 Blueprint |
+| 961 | V13 | §3.2 W1 Terrain recipe |
+| 962 | V13 | §3.4 W3 Climate |
+| 963 | V13 | §3.6 W5 Biomes and resources |
+| 964 | V13 | §3.7 W6 Suitability and siting proposals |
+| 965 | V13 | §3.8 W7 Routes |
+| 966 | V13 | §3.10 W9 Labels and the settlement glyph |
+| 967 | V13 | §3.11 P1–P5 Placement |
+| 968 | V13 | §3.11 P1–P5 Placement |
+| 969 | V13 | §3.11 P1–P5 Placement |
+| 970 | V13 | §3.11 P1–P5 Placement |
+| 971 | V13 | §3.14 Two verbs and the cascade |
+| 972 | V13 | §3.16 Failure handling |
+| 973 | V13 | §3.17 Determinism |
+| 974 | V13 | §3.18 Edges |
+| 975 | V13 | §4.1 The edit events |
+| 976 | V13 | §4.2 The authoring tools |
+| 977 | V13 | §4.3 Locality |
+| 978 | V13 | §4.5 The counterfactual fork |
+| 979 | V13 | §5.1 The world map: layers and styles |
+| 980 | V13 | §5.3 Labels |
+| 981 | V13 | §5.4 Exports |
+| 982 | V13 | §5.8 The lens mechanism |
+| 983 | V13 | §6 Performance budgets |
+| 984 | V13 | §7 Tests and acceptance bars |
+| 985 | V13 | §8 Build plan |
+| 986 | V13 | §9 Decisions |
+| 987 | V13 | §10 Base change requests |
+| 988 | V13 | §11 Owner questions |
+| 989 | V13 | §12 CONFIRMED versus PLAUSIBLE |
+| 990 | V09 | §4.3 The tool binding table |
+| 991 | V09 | §4.14 The advanced panel, the tables editor and the presets dialog |
+| 992 | V09 | §4.21 Items 111–126 on screen (the tail) and §4.22 (new) |
+| 993 | V09 | §5.13 Open, recent and new |
+| 994 | the base | §2.x `HistoryHint` (the readers comment) |
+| 995 | the base | §4.2 S2 Growth stages |
+| 996 | the base | II.7.6 The underground's other systems: the buried old town |
+| 997 | the base | §13.2 and the item ledger: T113-8 |
+| 998 | the base | §7.7 and §11.4 (5): the dossier update as a request |
+| 999 | the proposal | §3.2, §3.4, §3.5, §10, §11 |
+| 1000 | the brief | Part C and §10 |
+| 1001 | INDEX | §1 the V13 row |
+| 1002 | INDEX | §1 the BCR ledger sentence |
+| 1003 | INDEX | §2 the milestone graph, §3 the milestone table and the order paragraph, §4's cost line |
+| 1004 | INDEX | §5 the owner questions |
+| 1005 | SUMMARY | item 13 and the cost lines |
+
+**The new identifiers.** Tests **T-V13-57 – T-V13-72** (sixteen rows: 57 baked-formation invariance, 58 formation
+determinism and plausibility, 59 the monthly climate, 60 the downwind dirty set, 61 the classification and potential
+vegetation, 62 land cover, 63 the DM always wins, 64 the solver, 65 the conflict list and the dossier seam, 66 the
+physics pass, 67 sail routing, 68 the seams owed to V15, 69 the surface's semantics, 70 the budgets `WORLD-16` –
+`WORLD-19`, 71 the cover cache's horizon, 72 the vocabulary and the single spellings; T-V13-7, T-V13-21b, T-V13-32,
+T-V13-35, T-V13-39 and T-V13-40 amended; the base's **T113-8**). Decisions **J-V13.107 – J-V13.130** (twenty-four rows;
+J-V13.41 and J-V13.42 marked reversed; D-V13.2 and D-V13.3 taken; **D-V13.9** the frame-scale orographic refinement and
+**D-V13.10** the transient erosion history recorded). Host rows **H31 – H34** (H31 "based off of my settlements" and the
+best placement, with M-W6; H32 the dossier update as the host's own act, with M-W6; H33 directional, seasonal sea legs,
+with M-W9; H34 land cover and hazards as readings, with M-W8). Base change requests **BCR-V13-41 – BCR-V13-46** (41
+`Document.coverPlates`; 42 §7.1's edit kinds and `ConflictAction`; 43 §6.1's registry and §2.5's tables; 44 V09's
+dialog and tool rows, applied by items 990–993; 45 §11.4 (5) and §7.7's dossier request, applied by item 998; 46 §16's
+estimate, 51–66 pw). Milestones **M-W6 – M-W9**; spikes **SP-W9 (SP-FORM)** and **SP-W10 (SP-CLIM)**; budgets
+**`WORLD-16` – `WORLD-19`** and `WORLD-3`'s best-form bar; stage ids `WORLD_SOLVE`, `WORLD_COVER`, `WORLD_PHYSICS`;
+streams `world.formation` (and the reserved `world.solve`, `world.cover`); tables `world.formation`, `world.soil`,
+`world.koppen`, `world.pnv`, `world.cover`, `world.sailing`, `world.solver`, `world.presets` (twenty-two world tables
+in all); codes `W_FORMATION_VERSION`, `W_FORMATION_RELICT`, `W_REQUIREMENT_UNMET`, `W_SOLVER_BACKSTEP`,
+`W_SOLVER_PAINTED`, `W_MONSOON_CONTEXT`, `W_PHYSICS_CLIPPED`, `W_SAIL_LEG_CHANGED`, `W_DOSSIER_PENDING`,
+`W_COVER_PLATE_GAP` and the refusals `refuse.world.requirements`, `refuse.world.scenarioRung`,
+`refuse.world.formationPayload`, `refuse.world.verb`, `refuse.world.layerCells`, `refuse.dossier.pending`
+(`refuse.world.recipeOp` the one recipe-op spelling); owner question **Q5** and Q3 refined. Next free ids after this
+file: item 1006; J-V13.131; T-V13-73; D-V13.11; BCR-V13-47; H35; `WORLD-20`; SP-W11.
+
+**The clean-room lint** over every new text bound for the base and the volumes (host identifiers, product names,
+ruling ids, host document names): no hit — the owner's own words quoted verbatim in V13 §1.3 (item 939) keep the
+product name the owner wrote, as the head allows, and the host's one-button placer is named by that description, never
+by its name.
+
+## The five design choices a reviewer should test first
+
+1. **Baked formation is independent of the formation code** (items 949, 958, 962, 973; T-V13-57). The claim: a world
+   generated with a scenario, saved and reopened under a newer `formation.version`, has a byte-identical model digest
+   and runs no formation code; its share code carries the payload's chunk hashes and replays from the store; no block
+   id, velocity, boundary or stack survives the bake. If this fails, every later code change moves every formed world
+   and the share code's one-line rule breaks — the whole first lifetime rests on it.
+2. **The whole monthly march is the relief edit's dirty set** (items 957, 963, 971; `climate.cascade.dirtyRiseM`;
+   T-V13-60; `WORLD-19`). The claim: a range raised across the wind dries every cell in its lee by the march's law,
+   however far, and nothing but the climate-derived layers changes; a stroke under the threshold re-marches nothing;
+   the re-march fits ≤ 0.2 / 0.3 / 0.5 s. This is the rain-shadow bug the spine names first; if the budget fails,
+   SP-W10's fallback (the re-march at the brush's release) must still give the same result at the release.
+3. **The two paths agree, and no arid dot** (items 960, 964, 967, 968; T-V13-64 (a)–(c)). The claim: a campaign
+   generated at once with `include` set equals, at every coarse cell, the same campaign generated standalone and its
+   settlements placed one by one by the best form under the same rows, decisions and seed; a desert inclusion yields a
+   contiguous arid region with a cause and never an `Override`; a desert settlement on a world with no arid class gets
+   a correction of at least `solver.minExtentCells` with a graded band. If the paths disagree, "based off of my
+   settlements" and "place one town" are two products; if a dot appears, the solver has painted.
+4. **The dossier update is a request the host executes, shown done only on confirmation** (items 969, 970, 977, 998;
+   BCR-V13-45; H32; T-V13-65). The claim: no code path of `@plat/world` or `@plat/port/world` writes a dossier field;
+   `updateDossier` emits `requestDossierUpdate` and the dossier reads unchanged with `W_DOSSIER_PENDING` until the
+   host's `dossierUpdated { applied: true }`; a declined request re-opens the conflict; a preset never yields
+   `updateDossier`. If any of this fails, the base's one-way rule is broken and the owner's rule F8 is met only in the
+   dialog's words.
+5. **Land cover is a pure function of dated facts, read by no stage** (items 941, 950, 954, 965, 982; BCR-V13-41;
+   T-V13-62). The claim: a cover plate re-derived from the recipe, the port's windows and the disturbances is
+   byte-identical to the stored one; W6's proposals and the canon are byte-identical with the cover cache full, empty
+   or dropped; a cover change raises no `W_EDIT_DOSSIER` while a `biome` paint does. If a stage reads the cover, every
+   seat territory and route moves with a razing; if the fold draws, the plate cannot be rebuilt — either breaks the
+   state note's finding (i) and the spine's §3.
+
+Sixth, when these five hold: **the DM always wins** (T-V13-63) — an override surviving every regenerate, pass,
+re-march and sea-level change with its neighbours deriving against it.
