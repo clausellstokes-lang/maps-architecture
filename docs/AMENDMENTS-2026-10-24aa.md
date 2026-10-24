@@ -11,7 +11,7 @@ designs nothing.
 
 Numbered from **1301** (file z's block ended at 1300).
 
-**APPLIED** — the apply seat fills this line at application (record: docs/validation/coherence/campaigns-aa.md).
+**APPLIED** by amendments/host-answer-apply on 2026-10-24, after file z and before file ab (record: docs/validation/coherence/campaigns-aa.md) — all 5 change items (1301–1305) applied, all 5 fragments matched exactly once at their turn and every new text exactly once after; no item not applied (this file carries no owner-rule item). Items 1303–1305's new texts were since replaced by file ab's items 1355, 1357, 1358 (b).
 
 ## Closure table
 

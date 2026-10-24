@@ -35,7 +35,7 @@ seat has checked them.
 
 Numbered from **1306** (file aa ended at 1305).
 
-**APPLIED** — (left for the apply seat: the record docs/validation/coherence/host-answer-ab.md; the count of items and fragments applied; any item not applied.)
+**APPLIED** by amendments/host-answer-apply on 2026-10-24, after files z and aa (record: docs/validation/coherence/host-answer-ab.md) — all 52 change items (1307–1358) applied, all 147 fragments matched exactly once at their turn and every new text exactly once after; no item not applied (the owner-rule item 1306 carries no current text).
 
 **Ids minted:** items 1306–1358 (1306 the owner-rule item; 1307–1358 fifty-two change items over eight targets);
 H48; J-V13.201 – J-V13.214; T-V13-129 – T-V13-139; BCR-V13-58, BCR-V13-59; J-V15.52; T-V15-38; J-V14.60; T-V14-37;
