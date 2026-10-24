@@ -1756,7 +1756,7 @@ the entity registry (§2.8) on every build.
 | `rerouteReach` (M-W0h) | T2 `ground`'s reach drag | a drag on the course | — | V13 §4.1 |
 | `placeFrame`, `setPlacement`, `mirrorFrame`, `worldWins`, `unplaceFrame` (M-W1) | T6 `place`'s Place-a-settlement mode (with *Charter here* for `requestCharter`) | a drag of the frame; the mirror and the wins toggles | the clerk's `placeAt` on the world as `nearestLawful` rendered (V13 §4.7) | V13 §4.1, §3.11 |
 | `setSeats` (M-W2) | T6 `place`'s seat pins | a pin drop | — | V13 §4.1 |
-| `deleteTrace`, the world `setAttr`s, `addEvent` (M-W1) | T9 `shape` | the inspector | — | V13 §4.1 |
+| `deleteTrace`, the world `setAttr`s, `addEvent` (M-W1), `setPartyPin` (**The party is here**; M-W5; J399 (R4)) | T9 `shape` | the inspector; for the pin a click on the map and the pin's card | — | V13 §4.1 |
 | `fork`, `commitFork`, `discardFork`, the world `regenerate` (M-W0h) | T10 `hold` | the fork controls | — | V13 §4.5 |
 | `adjust` of the world keys (M-W1), of `world.context` (the monsoon and ocean knobs) and `world.scenario` (M-W7) | T1 `intend`'s world dialog (V09 §4.22: the layered panel; a scenario or context change re-runs from its stage on the fork, its coarse preview first) | the dialog | — | V13 §4.1 |
 | `setRequirements` (M-W6) | T1 `intend`'s world dialog: the inclusion chips and the **Include my settlements** toggle (V09 §4.22 (5)) | a chip set, locked or cleared; the toggle | the clerk (an inclusion in words: "a desert the size of a province") | V13 §4.1, §3.1 (5) |
@@ -3882,7 +3882,12 @@ place the world's request is edited; it is the same dialog at every rung and for
    (a desert, a great river, an inland sea, a mountain range, a monsoon coast, a cold coast — each with its amount
    chip, "the size of a province", and its state; `PresetRule` files them under `advanced`, V13 §2.3), each a `biome`,
    `landform` or `water` row of the request (`setRequirements`, V13 §4.1). The Basic layer's **Include my
-   settlements** toggle (on a host-bound world, or one with placed frames)
+   settlements** toggle (on a host-bound world, or one with placed frames; in host mode the toggle lists the account's
+   campaigns, one chip each, and admits SEVERAL — each its region of the one world to be grown, the result cut at
+   generation into one world map member per campaign, each bound to its own (J399 (R2); V13 §3.1 (5), (8); V15 §3.4,
+   §4.1's `carve`), the preview showing the regions' outlines, the host's campaign entitlement gating each chip as it
+   gates one, (8); a world already bound shows one chip, its own campaign, and the words "a next campaign on this world
+   is **Next campaign here**, (11)")
    turns every included settlement's dossier words into derived chips — "Kessar: desert, river, caravan route" —
    shown read-only with their source and their status after the run (met · corrected · unmet with its offer); a
    derived chip is never edited here (its facts are the dossier's) and never locked (it is always a rank-1 row).
@@ -3974,10 +3979,46 @@ place the world's request is edited; it is the same dialog at every rung and for
    land drains it lower)" — the first the default, each previewed. **Campaign history** (J397 (M39); V13 §4.4, §5.2): a
    view of the world page listing the world's and its towns' dated events on one timeline, each entry "week n — {the
    world or the town}: {what happened}" opening its document at that entry; the page says "undo stays with each
-   document". **The lens picker's keys** (file v's ask; the strings themselves V13 §5.1's and §5.9's): per lens the
-   **area fill** switch (religion, prosperity, alignment; off by default), the court viewpoint's court picker with its
+   document". **The realm's past** (J400 (21); V13 §5.2, §5.8 (8); V13 §2.2's `PastFacts`): where the host sends its
+   history of the realm, the scrub's strip before week 0 is headed **The realm's past** (on a sequel world **The realm's
+   past, as {name} began**) and counts **{n} years before the campaign**; the campaign history view heads its timeline
+   with the same title, each entry "{n} years before the campaign — {town}: {the host's sentence}" ("{town} and {town}"
+   for a pair), opening nothing; a pencilled fact carries the word **pencilled** and the hover "the realm's past as the
+   host offers it; the first advance inks it", an inked one **inked**; a pact of the past reads "sworn {n} years before
+   the campaign"; the patrols lens's first legend row reads "the map's patrols: a picture of who could watch these
+   roads — the host gives it no meaning" and a host patrol's pin "the host's patrol, week n" (V13's strings, J400
+   (18)). No identifier of V13's appears in these strings (T-V9-91). **The lens picker's keys** (file v's ask; the strings themselves V13 §5.1's and §5.9's): per lens the
+   **area fill** switch (religion, prosperity, alignment; off by default), the court viewpoint's court picker (drawn only where the host sends a court's beliefs: none until the host's information program rules, J400 (10)) with its
    **show to players** switch, and the events pin card's action **open the headline** where the host registers a
-   reader.
+   reader. **Next campaign here** (J399 (R1); V13 §3.11.6's `bindCampaign`; V13 §8.5's H47): on a host-bound world
+   page the action (host mode only; drawn disabled with "the host does not yet offer a next campaign on this world"
+   until H47 lands) opens the host's own campaign maker with this world chosen, with one control of ours on the
+   sheet — **Years between** (a number of years, default none: "the land will have had this long to recover; nothing
+   geological happens") — passed to the host as the gap; the page then reads **before this campaign: {name}, its year
+   n** on the scrub, on the campaign history view and on every pin of the events layer whose week lies before the live
+   campaign's first, a gap's weeks **between {A} and {B}: {n} years after {A}**, an earlier campaign's entry or pin
+   opening read-only ("this belongs to {name}; nothing of it can be changed"), and, between the binding and the new
+   campaign's first window, the legend "awaiting this campaign's first window". **The party is here** (J399 (R4); V13
+   §4.2's T9; V13 §2.2's `PartyPlacement`): a click with the pin tool places the party at the pointer, a drag moves it
+   — each a dated placement on the pin's card ("week 12 — at Kessar", "week 13 — in the wild, 40 km east of Kessar:
+   teleported from the Rift"), the card's **Between this and…** (after a click on a town, a click on a second town makes
+   it "between Kessar and Aldmere"), its **Show the players** switch (on; off makes that placement the DM's alone) and
+   its DM-only **Show earlier placements** switch, which draws the earlier ones as dated dots and never a line, arrow or
+   road between any two; the card says, where a DM looks for a journey, "the map never plots the party's road: the
+   travel times on the routes are information"; a placement dated after the world's week is refused with "the party
+   cannot be placed in a week that has not come" (`refuse.world.pinDate`), and a viewer's click places nothing
+   (`refuse.viewer`: "players see the map; the game master moves the party"). **On a host-bound world the host keeps
+   where the party is** (J400 (9); V13 §3.11.6's `requestPartyPresent`): the pin draws the host's word — "the party is
+   at Kessar" where the game master set it in the host, "last heard at Kessar, week 8" where the host last heard —; a
+   click on a town, or between two, is sent to the host as the game master's own word that the party is there, the
+   card reading "week 12 — at Thornhold: sent to the host; the players see it after the next advance" with a hollow
+   pin until the next advance carries it, then "week 12 — at Thornhold (the host has them here)", or, where the next
+   advance places them elsewhere, "the host has the party at {town}" with the pin moved there; a click away from every
+   town reads "week 13 — in the wild: your picture; the host is not told", drawn beside the host's pin as a mark of its
+   own, never moving it, and a town pin dated in an earlier week reads "your picture: only this week's place is sent
+   to the host"; where the host does not yet follow the
+   party, every placement reads "your picture" and nothing is sent. No identifier of V13's appears in a card string
+   (T-V9-91).
 
 ## 5 Rendering, labels, exports — the screens and the dialogs
 
@@ -4276,6 +4317,19 @@ image only (§11.1). **Export** runs V09 §3.10.
 | **Map data** | GeoJSON (default), GeoJSON in metres | where on Earth: "No real place" (0°, 0°, the default) · latitude, longitude and the turn of north (§11.1's geo anchor, remembered per town in `exportAnchor`); trees: one group per wood (default) · one per tree · none; layers: checkboxes by model layer, with "Raised ways" and "Retaining walls" (both on; file f item 447 (a)); include supply links (on when the link view is on) | `{town}.geojson` · `{town}.metric.geojson` + its sidecar |
 | **3-D** | glTF binary (default), OBJ, CityJSON | scope: whole town · a district · the selection; terrain, trees and lights on · off; for CityJSON the geo anchor; raised ways, their supports and vaults, and retaining walls as file f item 447 (d) writes them | `{town}.glb` · `.obj` · `.city.json` |
 | **Files** | the town (`.plat`), a skeleton, statistics CSV (statistics, people, buildings), with history `chronicle.csv` and `uses-history.csv` (V06 §5.3), the full JSON, the compact twin, **Assistant conversation (JSON)** (V10 §5.3's transcript, with or without the user's messages; offered when a clerk session exists) | — (the full JSON, the `.plat` and the compact twin are offered only at the `secret` tier, §11.1) | `{town}.plat` · `{town}.skeleton.plat` · `{town}-{table}.csv` · `{town}-chronicle.csv` · `{town}-uses-history.csv` · `{town}.json` · `{town}.cbor` · `{town}.plat-clerk.json` |
+
+**The world and the world map as scenes** (J399 (R3); V13 §5.4; V15 §5.5; written by V14 §5.3's shared writer). On a
+world page the **Tabletop** tab writes the page as ONE scene (a grid of scenes past the size cap, shown in the preview
+as the town's is): the zoom stop (the current stop by default), **What it shows** as every tab has it (the DM's
+picture, or what the party knows — the players' scene, with nothing of the game master's in it), the **Grid** —
+squares or hexes at a size in **kilometres per cell** (the values the stop's scale divides evenly, the one nearest
+100 px first) or **none** —, labelled "a grid for your tabletop; it carries no travel time: the routes' labels do"
+(J399 (R5)), and **Notes** (on): the towns and the sites as the scene's notes, by name, the game master's scene with
+each one's why-sentence beside it. On a world map page the tab writes the composed view at its level the same way —
+on the true plane, never warped, "a scene is a map" —, one note per world map member and the gaps left empty.
+Neither scene carries walls, lights or a layer a player may write (J399 (R6)); the party's pin, where the game master
+shows it, is a note. File names `{world}-{stop}-{cols}x{rows}.dd2vtt` and `{worldmap}-{level}-{cols}x{rows}.dd2vtt`,
+the Foundry scene beside each as for a town.
 
 **The tabletop details (R18; `research/ux/tool-survey.md` E4).** The scene exporter writes windows as open portals
 (`closed: false`) and doors as closed ones, light colours as eight-digit colours with the alpha first, the grid before the
@@ -4658,7 +4712,10 @@ script at 600 × 480 (T-V9-22).
 | T-V9-93 | the two time controls (V09 §4.22 (8); J397 (M36), (M40)) | the toolbar's weather control is labelled "Weather (geological years)" with its slider from 100 years; the Campaign time control beside it scrubs `lensWeek` and moves the cover plates and a disturbance's recovery preview, the weather slider moving neither; a pass's preview shows its band crossings as one summary line and the warning appears at Commit alone | M-W8 |
 | T-V9-94 | campaign history (V09 §4.22 (11); J397 (M39)) | the view lists the world's and two towns' entries in week order in the "week n — …" form, each opening its document at the entry; the page states that undo stays with each document, and an undo on a town's page changes that town's entries only | M-W6 |
 | T-V9-95 | the instant world's chips and Random all at the continent rung (V09 §4.22 (1), (4); J397 (M4), (M31)) | on a world the mock host's instant world asked for, the tone chip is read-only and no option, and the size, shape and ruggedness rows show the host's words as rolled values; at the continent rung Random all shows the bake's progress strip over the last thumbnail and the scenario card's drawn row greyed; at the realm rung Random all shows no bake | M-W6; M-W7 |
-| T-V9-96 | the lens picker's keys (V09 §4.22 (11); file v's ask) | per lens the area-fill switch reads off by default and draws the fill labelled as V13 §5.9 says; the court viewpoint's court picker and its show-to-players switch; "open the headline" on a pin card only where the mock host registers a reader | M-W5 |
+| T-V9-96 | the lens picker's keys (V09 §4.22 (11); file v's ask) | per lens the area-fill switch reads off by default and draws the fill labelled as V13 §5.9 says; the court viewpoint's court picker and its show-to-players switch, drawn only where the mock host sends a court's beliefs and absent under a mock host that holds them (J400 (10)); "open the headline" on a pin card only where the mock host registers a reader | M-W5 |
+| T-V9-97 | the campaigns pass's words (V09 §4.3, §4.22 (5), (11), §5.10; J399 (R1)–(R6)) | on a host-bound world of the mock host: **Next campaign here** reads disabled with its reason until the mock host offers the binding, then opens the host's maker with **Years between** at none; after a binding with two years the scrub, the history view and an earlier pin read "before this campaign: {name}, its year n", a gap week "between {A} and {B}: 2 years after {A}", and an earlier entry opens read-only with its sentence; the include toggle lists the mock host's campaigns, admits two with their regions previewed and refuses a third chip exactly as the mock host's entitlement answers; **The party is here** places and drags a dated placement, its card lists each with its words, **Show the players** off hides it from the party picture, **Show earlier placements** draws dots and no line (a pixel search over the layer finds no stroke between two dots), a placement in a future week and a viewer's click answer with their sentences; the Tabletop tab on a world page offers the stop, the audience, the grid in kilometres with its "carries no travel time" label and Notes, and on a world map page the level and the gaps empty; no identifier of V13's or V15's in any of these strings (T-V9-91's lint) | M-W5; M-W6; M-ATLAS-A |
+| T-V9-98 | the party's place on a host-bound world (V09 §4.22 (11); J400 (9)) | on a world bound to the mock host following the party: the pin reads "last heard at Kessar, week 8"; a click on Thornhold draws the hollow pin and "sent to the host; the players see it after the next advance", and the mock host's next advance carrying it reads "(the host has them here)", while a next advance naming Kessar reads "the host has the party at Kessar" with the pin moved there; **Between this and…** then a click on Aldmere reads "between Thornhold and Aldmere"; a click in the wild reads "your picture; the host is not told", draws beside the host's pin and the mock host receives nothing; a town pin back-dated a week reads "your picture: only this week's place is sent to the host" and sends nothing; under a mock host not following the party every placement reads "your picture"; no identifier of V13's in any of these strings (T-V9-91's lint) | M-W5 |
+| T-V9-99 | the realm's past's words (V09 §4.22 (11); J400 (21)) | on a world bound to the mock host sending a realm past (a war 60 years before between Kessar and Aldmere, pencilled): the scrub's strip before week 0 is headed "The realm's past" and reads "60 years before the campaign"; the history view's head entry reads "60 years before the campaign — Kessar and Aldmere: {the host's sentence}" with **pencilled** and its hover, and **inked** after the mock host inks the past; on T-V9-97's sequel world the strip reads "The realm's past, as {name} began"; the patrols lens's first legend row reads as V09 §4.22 (11) gives it; no identifier of V13's in any of these strings (T-V9-91's lint) | M-W5 |
 
 ### 7.2 The known-city fixture, authored through the canvas
 
@@ -5096,6 +5153,11 @@ the damage lines 0.25 and the weather switch 0.25.
 | J-V9.162 | chose **Campaign history** as a view of the world page with "undo stays with each document" said on it (J397 (M39); experience read 04 §4 Q10; file w item 1194) over a merged undo, because the design keeps two documents on two clocks and the DM lacks one place to read the year, not one button to unmake it |
 | J-V9.163 | chose the host's tone as a read-only chip **the rules this realm runs** and the host's size and kind words as rolled values, with Random all at the continent rung showing the bake's strip and its drawn scenario greyed (J397 (M4), (M31); experience read 01 Moment 2; experience read 04 Act 0; file w item 1191), over a tone option and a silent bake, because the tone decides which lenses will ever move and the DM must see it, and because a one-click that takes the bake's time must show it |
 | J-V9.164 | chose the lake verb's three meanings named by consequence — hold it, change the basin, cut the outlet — the first the default (J397 (M35); experience read 04 Act 5; file w item 1194), over three tools the DM must already know, because the consequence is the only thing that tells them apart |
+| J-V9.165 | chose **The party is here** as T9's one-click pin with a dated card, two switches and no road (J399 (R4); V13 §2.2's `PartyPlacement`; file z item 1290), over a journey tool that plots a route and an arrival, because the owner's party "can teleport fly etc outside if the road or circumvent it" and a plotted road would be wrong whenever the table needed it, while a dated list of where they were is what the history view and the party's known map need |
+| J-V9.166 | chose the Tabletop tab's world rows with the grid in **kilometres per cell** labelled "a grid for your tabletop; it carries no travel time: the routes' labels do", and the world map's scene on the true plane (J399 (R3), (R5); file z item 1291), over a travel grid priced in weeks per cell, because the world's clock is the host's week and the routes already carry the only travel times the map states (V13 §5.1); a priced cell would be a journey tool by another name |
+| J-V9.167 | chose **Next campaign here** as a world-page action that opens the host's own campaign maker with this world chosen and one control of ours, **Years between** (J399 (R1); V13 §8.5's H47; file z item 1290), over a binding sheet of the map's own, because the campaign is the host's record and its maker already asks everything but the world and the gap; the map's words are the history labels, which are its |
+| J-V9.168 | chose the pin card's two kinds of words on a host-bound world — "sent to the host; the players see it after the next advance" for a town or a pair, "your picture; the host is not told" away from every town — with the host's own words for where the party is ("the party is at", "last heard at", "the host has the party at") (J400 (9); V13 §3.11.6; file z item 1290 (c)), over one pin that reads the same wherever it is dropped, because on a host-bound world the host keeps where the party is, and a game master who drops the pin must see whether the host was told and when the players will see it |
+| J-V9.170 | chose **The realm's past** as the scrub's and the history view's title for the host's history before week 0, counted in years, with **pencilled** and **inked** said in words (J400 (21); V13 §5.2, §5.8 (8); file ab item 1349) over a date on the campaign's own calendar and over the past drawn unlabelled, because the host dates its past in years before the campaign and never in weeks, and a game master must see which of it the host still only offers and which the first advance has made history |
 
 ## 10 Base change requests
 

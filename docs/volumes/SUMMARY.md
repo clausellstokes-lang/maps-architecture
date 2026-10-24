@@ -249,14 +249,38 @@ Twenty-five questions, each with a recommendation the work follows until you rul
   and the canon goes back behind the door).
 - **The experience pass** (24 October; your "So do the prompts and integrate them that can be done on maps and give me
   the prompts for settlement engine"): fifty rulings on the map's side, each vetoable — among them a world born with your
-  realistic rules applied and its realms named, a first screen with fields and banners instead of "not sent", towns free
+  realistic rules applied and its realms named by your own confirm of the names SettlementForge offers, a first screen with fields and banners instead of "not sent", towns free
   to drag until the first advance, a party's map that believes what the town it stands in believes and gets far news at
-  a rider's pace, a looted map that shows what the enemy court believes, borders that read a sworn peace as peace, fields
+  a rider's pace, a looted map that shows what the enemy court believes (once SettlementForge's information program sends a court's beliefs; until then the court's reach over the public record), borders that read a sworn peace as peace, fields
   that can never flood a continent, a world sea-rise you can carry into a town with one confirmation, a dossier edit that
   never re-rolls a town's people, and a numbered room key for every dungeon. The fifteen things SettlementForge must do
-  for them are written as prompts you can paste into a SettlementForge session (`research/sf/host-prompts-2026-10-24.md`);
-  two of those hold decisions that are yours there, not here: a god seated at a campaign's birth, and whether patrols on
-  the map feed the spy's capture roll.
+  for them went to it as prompts (`research/sf/host-prompts-2026-10-24.md`, now superseded): it answered each with its own ruling, nothing is pasted as written, and you dispatch each SettlementForge unit there in chat;
+  the two decisions they held for you there were already settled in SettlementForge: the god at a campaign's birth is an
+  offer you confirm, and patrols were closed there on 18 October — the map's patrols are the map's own picture, and
+  SettlementForge's own riders, when it lights them, show on the map as dated facts.
+- **The campaigns pass** (24 October; your five clarifications: a campaign is a region of the map, several at once or
+  one after another; the world runs in weeks and anything finer is yours; the world map is also a VTT scene; players
+  only look; the party teleports and flies): six rulings, each vetoable. A world now keeps every campaign that was
+  played on it — the next campaign binds to the same world, with the earlier ones kept as its history under their own
+  names and years and the gap you declare between them; one generation can grow a continent for several campaigns'
+  settlements and carve it into one map per campaign at birth, each its own microcosm from then on; every world page
+  and the world map export as a VTT scene with your settlements and sites as notes and an optional grid that carries no
+  travel time; the party is a pin you place anywhere and move at will — on a world SettlementForge runs, a pin at a
+  town tells SettlementForge the party is there, and the map shows SettlementForge's answer —, never a route the map
+  walks; and two laws stand written: the week is the world's clock, and players never write.
+- **SettlementForge's answer** (24 October; your "Do it" to the session's recommendation to accept it whole):
+  SettlementForge accepted all fifteen asks — its changes H31–H45 join H1–H30 as accepted work, none of it scheduled,
+  each built inside the SettlementForge unit that owns it, in your own release order there. The session adopted its
+  rulings: a new campaign is born with SettlementForge's own default rules by its own door, and the map adds none; a
+  realm's name is yours — SettlementForge's history of the realm may offer one, and your confirm names it; the god is
+  an offer you confirm; the map draws kingdoms from SettlementForge's own list of who serves whom; every version of
+  the world generator is kept for life, so a SettlementForge share code always gets back the world it named, or a refusal, never another world; the
+  enemy court's own map waits on SettlementForge's information program; nothing in SettlementForge reads the map's
+  borders or tolls until it decides to; the map's patrols are its own picture and SettlementForge's riders, when it
+  lights them, show as dated facts; and the realm's history before week 0 shows on the map in years, pencilled until
+  the first week inks it. The reply that goes back to SettlementForge at this pass's close
+  (`research/sf/reply-to-host-2026-10-24.md`) carries the texts of H35–H48, and every SettlementForge ruling that
+  binds the map is kept in one mirror (`research/sf/host-rulings-mirror.md`), read before any new ask.
 
 Every recommendation with its reason is in `docs/volumes/INDEX.md` §6, and each question's full text is in its volume's
 section 11.
