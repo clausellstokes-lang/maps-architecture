@@ -1,5 +1,14 @@
 # HANDOFF — town-generator research program
 
+## RESUME HERE — THE HOST'S SECOND ANSWER CARRIED (2026-10-24; Opus managing, J402) — LANDED
+
+The host answered the map program's reply (research/sf/host-reply-2026-10-24b.md): it ruled the present-at for one
+settlement, accepted H46–H48, recorded H47 as accepted by the owner as host work, and added four readings (the realm's
+past DM-only; the next campaign's past open; the population fix recorded, not scheduled; the additive re-canonize's
+character). Carried by docs/AMENDMENTS-2026-10-24ac.md (the manager, Opus; 25 items, 36 fragments; applied; record
+docs/validation/coherence/host-answer-ac.md); the mirror's §3 appended; an acknowledgment for the host with the eight
+rows that changed again: research/sf/reply-to-host-2026-10-24b.md. Nothing waits on the owner on the map side.
+
 ## RESUME HERE — THE HOST'S ANSWER ADOPTED (2026-10-24; Opus managing under the J375 addendum, J400) — LANDED (J401)
 
 The host answered the fifteen prompts (research/sf/host-reply-2026-10-24.md): it accepts the asks (H31–H45 accepted,
