@@ -37,7 +37,7 @@ text exactly once after.
 | J397 (M42) | atlas relations: `AtlasRelation` (DM-authored, between two members or a member and a gap; `enemy`, `ally`, `faithReached`, `sailed`, `traded`; dated optional; a record of the atlas, never read by a member) feeding the figures and the known regions only; the figure rules read them; §3.11's example authors the relations it needs; §4.7 (1) restated | items 1203 (b), 1205, 1208, 1209, 1210 (a), (b), 1212, 1213, 1217 (b), (c), 1218 (a), (c), (d), 1219 (a), (c), 1220 (a), 1221, 1222 (a), 1223 (c), 1226 (T-V15-28), 1229, 1230, 1231 (J-V15.42), 1232 (BCR-V15-18), 1233 (RQ-V15-14), 1234 |
 | J397 (M43) | date cartouches withheld from a player viewpoint unless the member carries a DM-set in-world calendar label (`Member.calendarLabel`) | items 1202 (b), 1203 (a), 1206, 1210 (c), 1217 (a), (b), 1218 (c), 1219 (b), 1220 (b), 1222 (b), 1223 (a), 1224, 1228 (T-V15-32), 1231 (J-V15.43), 1232 (BCR-V15-18), 1233 (RQ-V15-14) |
 | J397 (M44) | the shared file and the gallery copy carry the public audience only: the share writer embeds `public` tiles alone, the DM's, every party's and every court's tiles stripped, every secret record removed, not withheld; the share sheet says so | items 1202 (c), 1211, 1217 (c), 1221 (b), 1225 (b)–(d), 1227 (T-V15-30), 1230, 1231 (J-V15.44), 1232 (BCR-V15-16), 1234 |
-| J397 (M45) | the honesty note on every screen and in the clerk's answer; the export dialog's "as an in-world artefact" switch leaves it off the image; the file's record keeps the projection | items 1215, 1217 (b), 1221, 1223 (b), 1225 (a), 1228 (T-V15-33), 1230, 1231 (J-V15.45), 1232 (BCR-V15-17), 1233 (RQ-V15-14) |
+| J397 (M45), as the manager refined it on 2026-10-24 | the honesty note drawn for the DM always and in the clerk's answer always; for a party or public audience unless the viewpoint's "as an in-world artefact" switch (`Viewpoint.inWorld`) is set — one switch for the screen and the export alike; the file's record keeps the projection | items 1201, 1203 (c), 1207, 1210 (d), 1215, 1217 (b), 1219 (b), 1221, 1222 (c), 1223 (b), 1225 (a), 1228 (T-V15-33), 1230, 1231 (J-V15.45), 1232 (BCR-V15-17), 1233 (RQ-V15-14) |
 | J397 (M46) | "an old map": the as-of viewpoint renamed; it reads the plates each member has and says from which week (`W_ATLAS_BEHIND_WEEK` kept); the as-was copy — a scratch copy of the member with a sway lock, read by the prop alone (`Viewpoint.asWas`; `refuse.atlas.asWas`) | items 1202 (a), 1203 (c), 1207, 1210 (d), 1212, 1214, 1218 (d), 1219 (b), 1222 (c), 1226 (T-V15-29), 1229, 1230, 1231 (J-V15.46), 1232 (BCR-V15-18) |
 | J397 (M47) | the party's reach across a seam: when a host-bound party enters a continued standalone member the DM is offered "Mark the party's places here" from the crossing point — the member's party key seeded with the crossing's cell and the route the party took (`markPartyReach`; V14 §2.3's seeded form) | items 1216, 1218 (b), (d), 1219 (b), (c), 1220 (a), 1221 (b), 1227 (T-V15-31), 1229, 1230, 1231 (J-V15.47), 1232 (BCR-V15-18), 1233 (RQ-V15-14, RQ-V15-15); V14: 1236, 1239 (T-V14-35, J-V14.58), 1240 (the V09 and V15 rows) |
 | J397 (M48) | the relational style is presentation and open to every account kind; continuation and fit stay premium (J396 (2) otherwise unchanged); the RQ row that asks V13's gate row and V09's dialog to say so | items 1224, 1228 (T-V15-34), 1230, 1231 (J-V15.48), 1233 (RQ-V15-12) |
@@ -50,7 +50,7 @@ Items 1201–1240 are forty items over two targets: V15 (1201–1234, in section
 T-V15-27 – T-V15-34; BCR-V15-16 – BCR-V15-18; RQ-V15-12 – RQ-V15-15; J-V14.57, J-V14.58; T-V14-34, T-V14-35; BCR-V14-26;
 the records `AtlasRelation` (with `AtlasRelationKind`), `SiteKey`, `SiteKeyRow`; the fields `Viewpoint.court`,
 `Viewpoint.asWas`, `Member.calendarLabel`, `EmbellishRule.atlasRelations`, the `court` knowledge source, the audience
-`court:<seat>`, the figure kind and trait `missionRoad`, `ExportOpts.atlas.inWorld`, `ExportOpts.siteKey`,
+`court:<seat>`, the figure kind and trait `missionRoad`, `Viewpoint.inWorld`, `ExportOpts.siteKey`,
 `ExportOpts.vtt.key`, `StyleSheet.groups.siteKey`; the edit kinds `setAtlasRelation`, `markPartyReach`; the keys
 `refuse.atlas.relation.self`, `refuse.atlas.relation.gap`, `refuse.atlas.asWas`, `refuse.atlas.reach.notContinued`,
 `refuse.atlas.reach.noParty`, `W_ATLAS_COURT_UNSENT`; the catalogue keys `info.atlas.courtUnsent`,
@@ -107,7 +107,7 @@ file (the preamble's token list; `scratchpad/experience-pass/x/dryrun_x.py lint`
 > > relations that feed the figures and nothing else (M42; `AtlasRelation`, §2.2 – §2.4, §3.6 (4), (5), §3.11, §4.7 (1);
 > > T-V15-28), the date cartouches withheld from a player unless a calendar label is set (M43; §2.2, §4.7 (2), §5.2, §5.4;
 > > T-V15-32), the shared file and the gallery copy as the public audience only (M44; §2.11, §5.5; T-V15-30), the honesty
-> > note on every screen and the in-world artefact export (M45; §3.6 (8), §5.5; T-V15-33), "an old map" and the as-was
+> > note for the DM always and the viewpoint's in-world artefact switch for a player (M45; §2.2, §3.6 (8), §5.5; T-V15-33), "an old map" and the as-was
 > > copy (M46; §2.2, §3.6 (6); T-V15-29), the party's reach across a seam (M47; §3.7; T-V15-31), the relational style for
 > > every account kind (M48; §5.4; T-V15-34); J-V15.41 – J-V15.48, BCR-V15-16 – BCR-V15-18, RQ-V15-12 – RQ-V15-15.
 *Evidence:* docs/PROGRESS.md J397 (the rulings M9, M41–M48, M50 and the seat's id blocks); file u's E-1 (the form of a revision line); research/experience/05 §1–§4 (the read this volume's part of the pass answers).
@@ -153,7 +153,7 @@ file (the preamble's token list; `scratchpad/experience-pass/x/dryrun_x.py lint`
 *Current text* (c):
 > | `Viewpoint` (V15 §2.2): `audience`, `culture`, `centre`, `orientation`, `stylePreset`, `knowledge`, `asOfWeek?` |
 *New text* (c):
-> | `Viewpoint` (V15 §2.2): `audience` (`dm`, `party`, `public`, or `court:<seat>` with `court: { member; seat }` — the court viewpoint, M9), `culture`, `centre`, `orientation`, `stylePreset`, `knowledge` (its `source` gaining `court`), `asOfWeek?` (an old map, M46), `asWas?` (its as-was copies) |
+> | `Viewpoint` (V15 §2.2): `audience` (`dm`, `party`, `public`, or `court:<seat>` with `court: { member; seat }` — the court viewpoint, M9), `culture`, `centre`, `orientation`, `stylePreset`, `knowledge` (its `source` gaining `court`), `asOfWeek?` (an old map, M46), `asWas?` (its as-was copies), `inWorld?` (the in-world artefact switch, M45) |
 *Current text* (d):
 > `W_ATLAS_NOT_SHARED`, `W_ATLAS_BEHIND_WEEK` | the stages and the view |
 *New text* (d):
@@ -238,15 +238,16 @@ file (the preamble's token list; `scratchpad/experience-pass/x/dryrun_x.py lint`
 *Evidence:* docs/PROGRESS.md J397 (M43) ("DATE CARTOUCHES are withheld from a player viewpoint unless the DM sets an in-world calendar label per member"); V15 §2.2 `Member` and `AtlasStyleState` as they stand; V15 §4.7 (2) (the cartouche prints V13's date label; "the atlas says nothing of it"); V15 §5.4 (what a player's admission withholds: "a member's version and state words" — not the date); research/experience/05 §1.6 (1) ("Year 412" beside "Year 1" beside "Year 1 071": "a game master's bookkeeping printed on the players' map"), §2.5 C3, §4 Q8.
 
 
-### Volume 15 — §2.2 New records (`Viewpoint.asOfWeek` as "an old map"; `Viewpoint.asWas`)
+### Volume 15 — §2.2 New records (`Viewpoint.asOfWeek` as "an old map"; `Viewpoint.asWas`; `Viewpoint.inWorld`)
 
-**1207.** **The as-of viewpoint is "an old map": it reads the plates each member has and says from which week; the DM's authored past rides an as-was copy the prop alone reads.**
-*Requests:* J397 (M46).
+**1207.** **The as-of viewpoint is "an old map": it reads the plates each member has and says from which week; the DM's authored past rides an as-was copy the prop alone reads; the viewpoint's in-world artefact switch is the one control over the honesty note for a player.**
+*Requests:* J397 (M46), (M45).
 *Current text:*
 >   asOfWeek?: Week /* a map as it was at a past week (a map found in a dungeon): the plates at that week on every member (never later than a member's present) */;
 *New text:*
 >   asOfWeek?: Week /* AN OLD MAP (M46): a map as it was at a past week — every member read at the plates and events it HAS up to that week, never later than its present and never earlier than its record reaches: a member whose first plate lies after the week is drawn from its first plate with `W_ATLAS_BEHIND_WEEK` on its cartouche naming that week (V15 §3.6 (6)); the physical ground is the member's present (no physical past is kept) — the feature promises no more */;
 >   asWas?: { member: Id; copy: { doc: Uuid; namespace: string } }[] /* M46: an AS-WAS COPY per member — a scratch copy of the member (V13 §2.5's clone, a new `docId`; held in the local store's draft mirror as V15 §4.9's unsaved form) on which the DM authored the past's political picture with V13's `setSwayLock` (and any other DM edit), read by THIS viewpoint in the member's place and arrangement: never a member, never shared, never read by another viewpoint or by A1–A5, never written by the atlas; refused `refuse.atlas.asWas` when the copy's lineage is not the member's */;
+>   inWorld?: boolean /* M45: the viewpoint's AS-AN-IN-WORLD-ARTEFACT switch (default false): set, the legend's honesty note is drawn for no party or public audience of this viewpoint — on a player's screen, on a shared file's recipient's screen and in a picture export alike — while the DM audience and the clerk's answer carry it always; one control for the screen and the export (V15 §3.6 (8), §5.5); the export's record keeps the projection whatever this holds */;
 *Evidence:* docs/PROGRESS.md J397 (M46) ("the found-in-a-dungeon prop reads the plates it has and says from which week; a DM may author an as-was sway on a scratch copy for it; the feature is named 'an old map' and promises no more"); V15 §2.2 `Viewpoint.asOfWeek` and §3.6 (6) as they stand; V13 §5.8 (8) (the plates start at the first advance the map observes); V13 §4.1's `setSwayLock` (the DM's word on a sway, canon on a standalone world); V13 §2.5 (a clone takes a new `docId` and keeps its namespace); research/experience/05 §2.2 (4) ("mostly cannot remember"), §2.5 C5, §4 Q12 (an authored "as-was" sway on a scratch copy, or rename the feature).
 
 
@@ -311,7 +312,7 @@ file (the preamble's token list; `scratchpad/experience-pass/x/dryrun_x.py lint`
 *Current text* (d):
 > | `Viewpoint` | `setViewpoint`; the two shipped defaults at creation | A2's audience, A6, the player view, the exports' request | the entities block | kept | the inverse | an older atlas without viewpoints gains the two defaults at load, reported |
 *New text* (d):
-> | `Viewpoint` (with `court`, M9, and `asWas`, M46) | `setViewpoint`; the two shipped defaults at creation; `setAttr` on `knownTo` (the shared mark: a court viewpoint so marked is the looted map) | A2's audience (a court's picture through RQ-V15-13), A6, the player view, the exports' request | the entities block (an as-was copy is a document of its own, outside the atlas) | kept | the inverse | an older atlas without viewpoints gains the two defaults at load, reported; a viewpoint whose as-was copy cannot be opened reads the member itself with `W_ATLAS_MEMBER_UNOPENABLE` on the copy |
+> | `Viewpoint` (with `court`, M9, `asWas`, M46, and `inWorld`, M45) | `setViewpoint`; the two shipped defaults at creation; `setAttr` on `knownTo` (the shared mark: a court viewpoint so marked is the looted map) | A2's audience (a court's picture through RQ-V15-13), A6, the player view, the exports' request | the entities block (an as-was copy is a document of its own, outside the atlas) | kept | the inverse | an older atlas without viewpoints gains the two defaults at load, reported; a viewpoint whose as-was copy cannot be opened reads the member itself with `W_ATLAS_MEMBER_UNOPENABLE` on the copy |
 *Evidence:* docs/PROGRESS.md J397 (M42), (M43), (M9), (M46); V15 §2.9's and §2.10's tables as they stand; V15 §2.2's records as items 1204–1207 leave them.
 
 
@@ -431,7 +432,7 @@ file (the preamble's token list; `scratchpad/experience-pass/x/dryrun_x.py lint`
 
 ### Volume 15 — §3.6 A6 — The relational view ((8) the legend's honesty: the court's line; where the note lives)
 
-**1215.** **The legend's line under a court viewpoint; the honesty note lives on every screen and in the clerk's answer, and an in-world artefact export may leave it off the image while the record keeps the projection.**
+**1215.** **The legend's line under a court viewpoint; the honesty note for the DM always and in the clerk's answer always, for a party or public audience unless the viewpoint's in-world artefact switch is set — one switch for the screen and the export —, the record keeping the projection.**
 *Requests:* J397 (M9), (M45).
 *Current text:*
 > **(8) The legend's honesty.** The relational view's legend begins with "drawn as {culture} saw the world at {week}:⏎{centre} at the centre, {orientation} up, its enemies as monsters, the unknown as legend — a projection; every⏎distance and time shown is true" and lists the absent facts that fell to defaults (V15 §1b.5), as V13 §5.8 (2)–(3)'s⏎banner does for a lens; {culture} is the DM's christening of the culture id (`ViewFacts.polity.cultures[].label`), else⏎"culture {id}".
@@ -443,13 +444,14 @@ file (the preamble's token list; `scratchpad/experience-pass/x/dryrun_x.py lint`
 > for this court: the public record as far as its reach" under `W_ATLAS_COURT_UNSENT` — and lists the absent facts that
 > fell to defaults (V15 §1b.5), as V13 §5.8 (2)–(3)'s banner does for a lens; {culture} is the DM's christening of the
 > culture id (`ViewFacts.polity.cultures[].label`), else "culture {id}". **Where the note lives** (M45; J-V15.45): the
-> note is the tool's honesty, not the artefact's — it prints on every screen under a relational viewpoint (the DM's and a
-> player's alike: the screen is the instrument, and the true readout stands beside it) and in the clerk's answer for the
-> view ("a projection; the shape lies, the number never does"); a picture export may leave it off the image under the
-> export dialog's **as an in-world artefact** switch (off by default; V15 §5.5) — the handout the party holds in play
-> carries no line that breaks its fiction —, while the export's record (its provenance block, §11.1) keeps the projection's
-> facts: the viewpoint, the preset, the slider's position, "a projection; distances true"; so the file never lies, only
-> its face is silent. `atlasTiles` and `atlasGeoJson` are the true plane and carry no note.
+> note is drawn for the DM audience always and in the clerk's answer for the view always ("a projection; the shape lies,
+> the number never does"); for a party or public audience — a player's screen, a shared file's recipient's screen, a
+> picture export under that viewpoint — it is drawn unless the viewpoint's **as an in-world artefact** switch is set
+> (`Viewpoint.inWorld`, off by default; V15 §2.2, §5.5): one switch governing the screen and the export alike, so the DM
+> has one control, because the player's screen is the handout at a virtual table and a handout the party holds in play
+> carries no line that breaks its fiction; whatever the switch holds, the DM's screen keeps the note and the export's
+> record (its provenance block, §11.1) keeps the projection's facts — the viewpoint, the preset, the slider's position,
+> "a projection; distances true" — so the file never lies, only its face is silent. `atlasTiles` and `atlasGeoJson` are the true plane and carry no note.
 *Evidence:* docs/PROGRESS.md J397 (M9), (M45) ("THE HONESTY NOTE stays on the DM's screen and in the clerk's answer; an in-fiction export may omit it (the export dialog's 'as an in-world artefact' switch; the file's record keeps the projection)"); V15 §3.6 (8) and §5.5 as they stand; V13 §5.8 (2)–(3); research/experience/05 §2.2 (5) ("For a DM handing over a looted sheet, that line breaks the fiction. No rule says the note can be left off a player handout"), §4 Q10.
 
 
@@ -510,8 +512,9 @@ file (the preamble's token list; `scratchpad/experience-pass/x/dryrun_x.py lint`
 >    and four weeks along the Marches' own roads beyond it (the `faithReached` relation; a shrine glyph at the road's
 >    end), then one heard-of band, then dragons; "The Wasting" (a plague realm arc 60 weeks ago at two seats of
 >    Ashmark) → two skulls; the legend reads "drawn as the Ember Church saw the world at Year 413: Sarn at the centre,
->    east up, its enemies as monsters …" — on the screen; the DM's handout export under **as an in-world artefact**
->    leaves the line off the image and keeps the projection in the file's record (M45). The slider at 0.6 swells Sarn's
+>    east up, its enemies as monsters …" — on the DM's screen always; with the viewpoint's **as an in-world artefact**
+>    switch set, the party's screen and the handout export alike carry no such line, the file's record keeping the
+>    projection (M45). The slider at 0.6 swells Sarn's
 >    province to a third of the sheet; hovering the Sarn–Ashby road reads "312 km · 2 weeks 3 days on foot (the default
 >    law, absolute)"; a click on Varn's warped coast opens Varn's page at the true point (T-V15-12). Every figure above
 >    is derivable by a DM who repeats the three relations (T-V15-6, T-V15-28). **The party's map** (audience `party`,
@@ -583,7 +586,7 @@ file (the preamble's token list; `scratchpad/experience-pass/x/dryrun_x.py lint`
 *Current text* (b):
 > the **viewpoint picker** and its New viewpoint sheet; the **style cards** | the fit's preview on the parent's page (V13's own); the viewpoint's resolved centre and known region outlined |
 *New text* (b):
-> the **viewpoint picker** and its New viewpoint sheet (an audience of `dm`, `party`, `public` or **a court** — a host-bound member and its seat, M9; the as-of week of **an old map** and its as-was copies, M46; the shared mark); a member card's **calendar label** (M43); **Mark the party's places here** on a continued seam (M47); the **style cards** | the fit's preview on the parent's page (V13's own); the viewpoint's resolved centre and known region outlined; a court viewpoint's picture with its register words (the DM) |
+> the **viewpoint picker** and its New viewpoint sheet (an audience of `dm`, `party`, `public` or **a court** — a host-bound member and its seat, M9; the as-of week of **an old map** and its as-was copies, M46; the shared mark; the **as an in-world artefact** switch, M45 — one control for a player's screen and the export); a member card's **calendar label** (M43); **Mark the party's places here** on a continued seam (M47); the **style cards** | the fit's preview on the parent's page (V13's own); the viewpoint's resolved centre and known region outlined; a court viewpoint's picture with its register words (the DM) |
 *Current text* (c):
 > | `relate`, `unrelate` (with `solve: false`) | the record alone; the box's marks | every arrangement | — |
 *New text* (c):
@@ -639,14 +642,15 @@ file (the preamble's token list; `scratchpad/experience-pass/x/dryrun_x.py lint`
 > the DM's word, undated; feeds the devils beside Varn's three seats and nothing else" — M42), a court viewpoint ("drawn
 > as the court of Varn believes it, as of week 40: the strength band of Ashby a believed row, `worn`" — the
 > DM's answer; a player's answer carries the belief and no register word, M9) and the view itself (the honesty note's
-> words — "a projection; the shape lies, the number never does" — whatever the export switch did to the image, M45);
+> words — "a projection; the shape lies, the number never does" — whatever the viewpoint's in-world artefact switch did to
+> a player's screen and the image, M45);
 > `whatChanged` over the atlas's log and
 *Current text* (b):
 > the⏎legend's notes (V15 §3.6 (8)) — English, our own words, lint-checked (V15 §3.6 (5)).
 *New text* (b):
 > the
 > legend's notes (V15 §3.6 (8)), `info.atlas.courtUnsent` (the no-belief arm's line, M9), `share.atlas.publicOnly` (the
-> share sheet's line "this file carries what anyone knows", M44), `info.atlas.inWorld` (the export switch's words, M45)
+> share sheet's line "this file carries what anyone knows", M44), `info.atlas.inWorld` (the viewpoint's in-world artefact switch's words, M45)
 > and `info.atlas.reach` (the offer "Mark the party's places here", M47) — English, our own words, lint-checked (V15 §3.6
 > (5)).
 *Evidence:* docs/PROGRESS.md J397 (M42), (M9), (M45) ("in the clerk's answer"), (M44), (M47); V15 §4.8 as it stands; V10 §3.9, §3.9a (the why providers); V09 §4.9 (the catalogue's families).
@@ -673,13 +677,13 @@ file (the preamble's token list; `scratchpad/experience-pass/x/dryrun_x.py lint`
 *New text* (c):
 > the **Viewpoints** tab (the picker's long form: audience — the DM's, the party's, anyone's, or a court's seat on a
 > host-bound member (M9) —, culture, centre rule, orientation, preset, as-of week with its as-was copies (an old map,
-> M46), knowledge source, the shared mark)
+> M46), knowledge source, the shared mark, the in-world artefact switch)
 *Evidence:* docs/PROGRESS.md J397 (M42), (M43), (M9), (M46); V15 §5.1 as it stands; V15 §4.2 as item 1219 leaves it; RQ-V15-14 (item 1233: V09 draws them).
 
 
 ### Volume 15 — §5.2 The atlas view: layers and styles (the cartouches, the legend's note, the relations layer)
 
-**1223.** **A player's cartouche prints the calendar label or nothing; the legend's note is on every screen; the DM-only relations layer draws the atlas relations too.**
+**1223.** **A player's cartouche prints the calendar label or nothing; the legend's note follows the DM-always and player-unless-switched rule; the DM-only relations layer draws the atlas relations too.**
 *Requests:* J397 (M43), (M45), (M42).
 *Current text* (a):
 > | `cartouches` | vector | each member's date cartouche ("Year 412, early spring"; stale and behind-week marks), the viewpoint's cartouche and the title | the preset's lettering |
@@ -688,7 +692,7 @@ file (the preamble's token list; `scratchpad/experience-pass/x/dryrun_x.py lint`
 *Current text* (b):
 > the legend with its honesty note and, where a member's picture carries the cover overlay, the one line "derived land cover" (V13 §5.8 (9); J394) |
 *New text* (b):
-> the legend with its honesty note (on every screen; left off an in-world artefact export's image alone, M45) and, where a member's picture carries the cover overlay, the one line "derived land cover" (V13 §5.8 (9); J394) |
+> the legend with its honesty note (for the DM always; for a party or public audience unless the viewpoint's in-world artefact switch is set, M45) and, where a member's picture carries the cover overlay, the one line "derived land cover" (V13 §5.8 (9); J394) |
 *Current text* (c):
 > | `relations` (DM-only, `showRelations`) | vector | dashed lines a → b with the kind's glyph, red where unmet | the notice style |
 *New text* (c):
@@ -732,12 +736,12 @@ file (the preamble's token list; `scratchpad/experience-pass/x/dryrun_x.py lint`
 
 ### Volume 15 — §5.5 Exports and sharing (the in-world artefact switch; the shared file as the public audience; the sheet's line; the gallery copy)
 
-**1225.** **A picture export's "as an in-world artefact" switch leaves the honesty note off the image and keeps the projection in the record; the shared file and the published copy carry the public audience only, and the sheet says so.**
+**1225.** **The viewpoint's "as an in-world artefact" switch governs the honesty note on a player's screen and in the export alike, the record keeping the projection; the shared file and the published copy carry the public audience only, and the sheet says so.**
 *Requests:* J397 (M45), (M44).
 *Current text* (a):
 > the legend with its honesty note; the provenance block names the atlas's digests, every member's version and the renderer version | §11.1 unchanged; the atlas is one more document kind; the knowledge key admits as V15 §5.4 |
 *New text* (a):
-> the legend with its honesty note — left off the image under the export dialog's **as an in-world artefact** switch (M45; `ExportOpts.atlas.inWorld`, default false; BCR-V15-17), the record then carrying the projection in its place; the provenance block names the atlas's digests, every member's version, the renderer version and the projection (the viewpoint, the preset, the slider's position, "a projection; distances true"), whether or not the note is drawn | §11.1 unchanged; the atlas is one more document kind; the knowledge key admits as V15 §5.4; an in-world artefact is silent on its face and honest in its record (T-V15-33) |
+> the legend with its honesty note — drawn for the DM audience always, and for a party or public audience unless the viewpoint's **as an in-world artefact** switch is set (M45; `Viewpoint.inWorld`: the one control for a player's screen and the export, no switch of the dialog's own; BCR-V15-17), the record carrying the projection in either case; the provenance block names the atlas's digests, every member's version, the renderer version and the projection (the viewpoint, the preset, the slider's position, "a projection; distances true"), whether or not the note is drawn | §11.1 unchanged; the atlas is one more document kind; the knowledge key admits as V15 §5.4; an in-world artefact is silent on its face and honest in its record (T-V15-33) |
 *Current text* (b):
 > | the `.plat` atlas and the shared atlas | §2.9's container; the share writer's form (V15 §2.11) | the records; the imagery cache embedded for shareable members only | the share sheet (below) |
 *New text* (b):
@@ -797,7 +801,7 @@ file (the preamble's token list; `scratchpad/experience-pass/x/dryrun_x.py lint`
 *New text:*
 > every `refuse.atlas.*` row renders its catalogue line with at least one button (T-V9-13's rule); `W_ATLAS_*` never a refusal | the provoking fixtures; the catalogue test |
 > | T-V15-32 (no date reaches a player, M43) | on B-ATLAS-VIEW under the party viewpoint and the public viewpoint with R's `calendarLabel` unset: no cartouche, member-list entry, `why` answer, hover card or export at the player's key contains R's date label, its week number, its version words or the behind-week mark (T30-5's enumeration over the strings), whatever `dateCartouches` holds; with the label set to "the Year of the Strait" exactly that string prints on R's cartouche for the player and nothing else of the date; the DM's viewpoint prints V13's date label throughout; a shared court viewpoint follows the player rule | the admission harness; the string enumeration |
-> | T-V15-33 (the honesty note and the in-world artefact, M45) | the picture export of B-ATLAS-VIEW's mappa mundi viewpoint with `inWorld` false carries the legend's note on the image; with `inWorld` true the image carries no note (the legend layer's draw list holds no note entity; the legend's region pixel-equal to the viewpoint drawn without it) while its provenance block names the viewpoint, the preset, the slider's position and the words "a projection; distances true"; the screen under the same viewpoint draws the note at the DM's and the party's keys alike; the clerk's answer for the view carries the note's words under either export; `atlasTiles` and `atlasGeoJson` carry no note and no `inWorld` field | the export harness; the draw list; the provenance block |
+> | T-V15-33 (the honesty note and the in-world artefact, M45) | on B-ATLAS-VIEW's mappa mundi viewpoint under the party audience with `inWorld` false, the legend's note is drawn on the party's screen and on the picture export's image; with `inWorld` true neither carries a note (the legend layer's draw list holds no note entity at the party's key; the legend's region pixel-equal to the view drawn without it) while the export's provenance block names the viewpoint, the preset, the slider's position and the words "a projection; distances true"; the DM's screen and the DM's picture export draw the note under either setting, as does the clerk's answer for the view; the switch is the one control — the export dialog offers no second one and the image follows the viewpoint; `atlasTiles` and `atlasGeoJson` carry no note and no `inWorld` field | the admission harness at the two keys; the draw list; the provenance block |
 > | T-V15-34 (the relational style for every account, M48) | under the dialog harness's three account fixtures (V13's T-V13-73's), a free account on an image-only atlas bakes a warp, moves the slider, switches viewpoints and presets, places a figure and exports the picture — every control present and enabled, no `refuse.surface.gate` raised by any act of A6 —, while its continuation and fit are refused `refuse.surface.gate` with the row named; a premium account's acts are all accepted; a shared file's recipient toggles the sharer's shared viewpoints and bakes nothing new; the anonymous fixture has no atlas to open (its gate row) and the style is asked of it nowhere | the three account fixtures over the atlas page; the mock host |
 *Evidence:* docs/PROGRESS.md J397 (M43), (M45), (M48); J396 (2) and V13 §2.3's `PresetRule.gate` and T-V13-73 (file u items 1057, 1058); V15 §7.4 as it stands (T-V15-18's admission harness); research/experience/05 §4 Q8, Q10, Q13.
 
@@ -833,7 +837,7 @@ file (the preamble's token list; `scratchpad/experience-pass/x/dryrun_x.py lint`
 *Current text* (c):
 > the viewpoints (the defaults, a culture's, as-of, the party's), **View relationally…** on the world page; the tables `atlas.style` and `atlas.embellish` |
 *New text* (c):
-> the viewpoints (the defaults, a culture's, an old map with its as-was copies — M46 —, the party's, a court's — M9: its picture and facts through RQ-V15-13 where the host sends belief, else `W_ATLAS_COURT_UNSENT`), the atlas relations' figure rules and known-region widenings (M42), the in-world artefact export switch (M45), the style for every account kind (M48), **View relationally…** on the world page; the tables `atlas.style` and `atlas.embellish` |
+> the viewpoints (the defaults, a culture's, an old map with its as-was copies — M46 —, the party's, a court's — M9: its picture and facts through RQ-V15-13 where the host sends belief, else `W_ATLAS_COURT_UNSENT`), the atlas relations' figure rules and known-region widenings (M42), the viewpoint's in-world artefact switch (M45), the style for every account kind (M48), **View relationally…** on the world page; the tables `atlas.style` and `atlas.embellish` |
 *Current text* (d):
 > | T-V15-5, T-V15-6, T-V15-25, T-V15-18 (the relational viewpoints); the owner's sitting on the three presets (V12 §3.6b, legibility and immersion rated, the sitting's rows offered); the register check | 1.75–2.5 |
 *New text* (d):
@@ -862,7 +866,7 @@ file (the preamble's token list; `scratchpad/experience-pass/x/dryrun_x.py lint`
 > | J-V15.42 | **(J397 (M42).)** chose **atlas relations** — DM-authored records of the atlas between two members or a member and a gap, five kinds, optionally dated on the viewpoint's week, `public` by default — that feed the figure rules and the known regions only, under the rule that a figure never reads one member's facts against another's, over cutting the worked example's cross-member figures and over reading one member's `atWar` or culture bands against another's, because F14 forbids any fact crossing a seam and no campaign's war or culture band can name a member of another campaign (research/experience/05 §2.5 C1), while the owner's devils "because if barabarous areas" (F10) need an enemy a mapmaker can have in another map — which only the DM's own word can give; chose a second tab of the relations box over a new box because both are sentences between members, told apart by their verbs; research/experience/05 §2.2 (1), §4 Q7 (vetoable) |
 > | J-V15.43 | **(J397 (M43).)** chose a player's cartouche to print the member's **calendar label** or nothing — V13's date label, the week, the version and the behind-week mark withheld by admission at every player key — over printing the DM's date labels to players or a per-viewpoint switch, because "Year 412" beside "Year 1" is the DM's bookkeeping and the atlas has no clock to reconcile them (V15 §4.7 (2)), while an in-world calendar name is a fact of the fiction the DM chose to give; research/experience/05 §1.6 (1), §2.5 C3, §4 Q8 (vetoable) |
 > | J-V15.44 | **(J397 (M44).)** chose the shared file and the gallery copy to carry the **`public` audience's imagery only**, every record below the public key REMOVED by the writer rather than withheld by the reader, the gallery copy the same file by rule, over embedding every audience's tiles under a viewer-side admission or a per-sheet audience choice, because a file travels beyond any admission function and a stripped file cannot leak what it does not hold, and because a DM who means to hand over a DM picture has the Picture option under its own admission; research/experience/05 §1.7, §4 Q9 (vetoable) |
-> | J-V15.45 | **(J397 (M45).)** chose the **honesty note on every screen and in the clerk's answer**, with a picture export's **as an in-world artefact** switch that leaves the note off the image while the export's record keeps the projection, over printing the note on every handout or dropping it from the screen, because the screen is the tool and its honesty is V13 §5.8 (3)'s rule, while a handout the party holds in play is an artefact of the fiction, and a file whose record names the projection never lies even when its face is silent; research/experience/05 §2.2 (5), §4 Q10 (vetoable) |
+> | J-V15.45 | **(J397 (M45), as the manager refined it on 2026-10-24.)** chose the **honesty note drawn for the DM always and in the clerk's answer always, and for a party or public audience unless the viewpoint's as-an-in-world-artefact switch is set — one switch for the screen and the export alike** (`Viewpoint.inWorld`), the export's record keeping the projection whatever the switch holds, over a screen note the player always sees with an export-only switch, over printing the note on every handout, and over dropping it from the DM's screen, because the player's screen is the handout at a virtual table, the DM's screen is the tool whose honesty is V13 §5.8 (3)'s rule, and a file whose record names the projection never lies even when its face is silent; research/experience/05 §2.2 (5), §4 Q10 (vetoable) |
 > | J-V15.46 | **(J397 (M46).)** chose to name the as-of viewpoint **"an old map"** — drawn from the plates each member has up to the week and no earlier than its record reaches, saying from which week, the physical ground the present — with an **as-was copy** (a scratch clone of the member carrying a DM-set sway lock, read by that viewpoint alone in the member's place) as the DM's route to a vanished kingdom's borders, over promising a map "centuries old" the plates cannot reach (the plates start at the first advance the map observes, V13 §5.8 (8); research/experience/05 §2.5 C5) and over a painted past on the member itself (which would move a member's record for a picture), because the honest feature says what it has, and the DM's authored past belongs on a copy no member, viewpoint or share reads but the prop; research/experience/05 §2.2 (4), §4 Q12 (vetoable) |
 > | J-V15.47 | **(J397 (M47).)** chose the offer **Mark the party's places here** at a continued seam — a request record whose seeding (the crossing's cell and the continued member's route to its first seat) is written as that member's own `party` view key on its own page by the DM's confirmation — over carrying party knowledge across seams automatically or leaving the blank map, because the party key is per document by design (V14 §2.3) and a view key written on the member's page by the DM crosses no seam in F14's sense (no event, no digest, nothing read from one member into another), while the DM's refusal of the offer keeps the blank map as the felt edge of the known world where that is wanted; research/experience/05 §1.6 (2), §2.3, §4 Q11 (vetoable) |
 > | J-V15.48 | **(J397 (M48).)** chose the **relational style ungated** — presentation over the image-only atlas, open to every account kind that may open an atlas and to a shared file's recipient — with continuation and fit premium as J396 (2) rules, over gating the style at premium, because the style reads nothing a free account's atlas does not already hold, and the one delight a free account can show costs the host nothing; the owner-facing gating list is unchanged (the style was never a gate's value) and RQ-V15-12 asks V13's gate row and V09's dialog to say so in one line; research/experience/05 §2.4, §4 Q13 (vetoable) |
@@ -871,14 +875,14 @@ file (the preamble's token list; `scratchpad/experience-pass/x/dryrun_x.py lint`
 
 ### Volume 15 — §10.1 Requests to the base (BCR-V15-16 – BCR-V15-18, after BCR-V15-15)
 
-**1232.** **Three base requests: the shared atlas's audience in §11.5, the in-world artefact switch and the projection in the provenance block in §11.1 and §11.2, the new edit kinds, keys and attributes in §7.1.**
+**1232.** **Three base requests: the shared atlas's audience in §11.5, the in-world artefact's picture and the projection in the provenance block in §11.1, the new edit kinds, keys and attributes in §7.1.**
 *Requests:* J397 (M44), (M45), (M42), (M47), (M43), (M46), (M9).
 *Current text:*
 > the host's access levels across campaigns are the host's (V13 §8.5's H35; V15 §11 Q2)" |
 *New text:*
 > the host's access levels across campaigns are the host's (V13 §8.5's H35; V15 §11 Q2)" |
 > | **BCR-V15-16** the shared atlas's audience (M44; J-V15.44) | §11.5 (BCR-V15-15's sentence) | BCR-V15-15's "a shared atlas embeds imagery for shareable members only and removes every unshareable member's reference (V15 §5.5)" | after it: "— and embeds the `public` audience's imagery only, the DM's, every party's and every court's tiles stripped, with every record below the `public` key removed by the writer and never left to a viewer's admission (V15 §2.11, §5.5); a gallery copy is this file by rule" |
-> | **BCR-V15-17** the in-world artefact export (M45; J-V15.45) | §11.1 *the picture exports* and the provenance block; §11.2 `ExportOpts` | the picture exports draw the legend as the view does; the provenance block names digests and versions; `ExportOpts` carries no artefact switch | `ExportOpts.atlas.inWorld?: boolean` (default false): a picture export of an atlas under a relational viewpoint leaves the legend's honesty note off the image; the provenance block gains, for every atlas picture, the projection's facts — the viewpoint, the preset, the slider's position and the words "a projection; distances true" — present whether or not the note is drawn (V15 §3.6 (8), §5.5) |
+> | **BCR-V15-17** the in-world artefact and the projection in the provenance block (M45; J-V15.45) | §11.1 *the picture exports* and the provenance block | the picture exports draw the legend as the view does; the provenance block names digests and versions | the legend's honesty note on an atlas picture follows the viewpoint's `inWorld` switch and the export's audience (V15 §3.6 (8): the DM audience always; a party or public audience unless the switch is set) — the picture draws the legend as the view does for that audience, and the export dialog adds no switch of its own; the provenance block gains, for every atlas picture, the projection's facts — the viewpoint, the preset, the slider's position and the words "a projection; distances true" — present whether or not the note is drawn (V15 §5.5) |
 > | **BCR-V15-18** the atlas's new edit kinds, keys and attributes (M42, M47, M43, M46, M9) | §7.1 `EditEvent`; §7.1's outcome table (BCR-V15-4's rows) | BCR-V15-4's variants, keys and `setAttr` targets | `setAtlasRelation` and `markPartyReach` (V15 §4.1) with their lifecycle rows (V15 §2.10) and undo (V15 §4.4); the keys `refuse.atlas.relation.self`, `refuse.atlas.relation.gap`, `refuse.atlas.asWas`, `refuse.atlas.reach.notContinued`, `refuse.atlas.reach.noParty` and the warning `W_ATLAS_COURT_UNSENT` (`keep`, `remove`); `setAttr` admitting a member's `calendarLabel`, a viewpoint's `knownTo` and an atlas relation's `knownTo` (V15 §4.1) |
 *Evidence:* docs/PROGRESS.md J397 (M44), (M45), (M42), (M47), (M43), (M46), (M9); V15 §10.1 as it stands (BCR-V15-4, BCR-V15-6, BCR-V15-13, BCR-V15-15 the rows these extend); the base's §7.1, §11.1, §11.2, §11.5 as V15 cites them.
 
@@ -893,8 +897,8 @@ file (the preamble's token list; `scratchpad/experience-pass/x/dryrun_x.py lint`
 > | **V14** (**RQ-V15-11**) | the drill-down's last rungs (a site opened from the member's page, V14 §3.9; the encounter crop on a member's point after the drill, V14 §3.10); the `ZDecl` reason `'imagery'` admitted by the gap lint (T-V14-16) for the atlas's drawables | V15 §3.7, §5.6 |
 > | **V13 §2.3's `PresetRule.gate` row and V09 §4.22 (8)** (**RQ-V15-12**; M48, J-V15.48) | one sentence in each: the relational style (V15 §3.6) is presentation over the image-only atlas and is gated by no row — open to every account kind whose row admits an atlas (`atlas` [`imageOnly`] and above) and to a shared file's recipient; `continuation` and `fit` stay the premium row's as J396 (2) rules; the owner-facing gating list (V13 §11's ruling, INDEX) is unchanged, the style having never been a gate's value | V15 §5.4, §8 |
 > | **V13** (**RQ-V15-13**; M9, M50, J-V15.41; outside spine §14's five seams — a reading of the `CourtViewpoint` transient amendments v define) | `renderAt(world, week, audience)` and `viewFacts(world, week, audience)` admitting the audience `court:<seat>` on a host-bound world whose host sends that court's `LensFacts.courts[]` rows (file v item 1087; V13 §8.5's H40): the picture and the facts as that court believes them — the sway lens's derived `CourtViewpoint` transient (V13 §5.9 (2)) drawn as the sway "as {court} believes it, as of week n", nothing of it persisted or fed back —, the known cells `RenderedWorld.known[]` for that audience as V15 §3.6 (4)'s `court` rule and the rows' `subject`s give them, every row the court does not hold absent at every key, `believed.integrity` returned for the `dm` key alone; where the host sends no rows for that court the reading says so and the atlas draws the public record within the court's reach (`W_ATLAS_COURT_UNSENT`); through the port's presentation inputs only (V13 §3.11.6's law (3)) | V15 §3.2 (3), §3.6 (4), (6), §5.4 |
-> | **V09** (**RQ-V15-14**; M9, M42, M43, M45, M47) | the relations box's second tab **Between the peoples** (the atlas relations' chips, the typed sentence, the dates, the shared mark); the New viewpoint sheet's **court** audience (a host-bound member and its seat) and the **as-was copies** field of an old map; the member card's **calendar label** field; the export dialog's **as an in-world artefact** switch under the Atlas tab's picture export; **Mark the party's places here** on a continued seam's context menu and the member page's seeding preview; the catalogue keys of V15 §4.8 (`info.atlas.courtUnsent`, `share.atlas.publicOnly`, `info.atlas.inWorld`, `info.atlas.reach`) and the share sheet's one line | V15 §4.2, §5.1, §5.5 |
-> | **V14** (**RQ-V15-15**; M47, J-V15.47) | the seeded form of the shared `party` view key (V14 §2.3; amendments x's V14 items): an atlas's `markPartyReach` request opens the continued member's own page with the seeding previewed — the crossing's cell and the member's route from it to its first seat — and the DM's confirmation writes the key there, a view key, never an event or a digest, never the host's | V15 §3.7, §4.1 |
+> | **V09** (**RQ-V15-14**; M9, M42, M43, M45, M47) | the relations box's second tab **Between the peoples** (the atlas relations' chips, the typed sentence, the dates, the shared mark); the New viewpoint sheet's **court** audience (a host-bound member and its seat) and the **as-was copies** field of an old map; the member card's **calendar label** field; the New viewpoint sheet's **as an in-world artefact** switch (M45: one control for a player's screen and the export; no switch in the export dialog); **Mark the party's places here** on a continued seam's context menu and the member page's seeding preview; the catalogue keys of V15 §4.8 (`info.atlas.courtUnsent`, `share.atlas.publicOnly`, `info.atlas.inWorld`, `info.atlas.reach`) and the share sheet's one line | V15 §4.2, §5.1, §5.5 |
+> | **V14** (**RQ-V15-15**; M47, J-V15.47) | the seeded form of the shared `party` view key (V14 §2.3; amendments x's V14 items): an atlas's `markPartyReach` request opens the continued member's own page with the seeding previewed — the crossing's cell and the member's route from it to its first seat — and the DM's confirmation writes the key there — a view key of the continued member's own document, never an event or a digest, never the host's, and not a log writer: T-V15-19's "no reverse seam" lint is over log writers and is untouched by it | V15 §3.7, §4.1 |
 *Evidence:* docs/PROGRESS.md J397 (M48), (M9), (M50), (M42), (M43), (M45), (M47); V15 §10.3 as file u's E-12 left it; V13 §2.3's `PresetRule.gate` and V09 §4.22 (8) (file u items 1057, 1068); V13 §3.11.6 (law (3)); V14 §2.3 (the party key).
 
 
