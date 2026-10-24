@@ -1,5 +1,24 @@
 # HANDOFF — town-generator research program
 
+## RESUME HERE — THE HOST'S ANSWER ADOPTED (2026-10-24; Opus managing under the J375 addendum, J400)
+
+The host answered the fifteen prompts (research/sf/host-reply-2026-10-24.md): it accepts the asks (H31–H45 accepted,
+not scheduled), answers each prompt with the ruling that binds it, and asks back five things. The owner: "Do it" (J400:
+the answer accepted whole; rulings (1)–(22); the mirror research/sf/host-rulings-mirror.md, read before any host prompt).
+The Fable limit was reached: every seat of this pass is Opus with the J375 notice. The campaigns pass (J399) is folded in:
+its file z is revised for the party's place before its review, and one review covers z, aa and ab.
+
+| stage | seat (model) | output | state |
+|---|---|---|---|
+| rulings, record, mirror | the manager (Opus) | J400; host-reply-2026-10-24.md; host-rulings-mirror.md; the prompts marked superseded | LANDED 0aaca6c |
+| revise z | amendments/campaigns-z-revise (Opus, high) | docs/AMENDMENTS-2026-10-24z.md (the party's place under the host's party program; items 1294–1300) | RUNNING |
+| design ab | amendments/host-answer-ab (Opus, high) | docs/AMENDMENTS-2026-10-24ab.md (items 1306–1380; H48; quotes the targets as z and aa leave them) | WAITS ON revise z |
+| review | critique/host-answer (Opus, high) | docs/volumes/critique/host-answer-z-aa-ab.md | WAITS ON ab |
+| apply | amendments/host-answer-apply (Opus, medium) | z, aa, ab applied in order; records; bundle | — |
+| close | the manager (Opus) | research/sf/reply-to-host-2026-10-24.md (the dispositions, the routes, `partySeats`, the version promise, H35–H48 as applied); J401 | — |
+
+Briefs: scratchpad `experience-pass/briefs/I-revise-z.md`, `J-file-ab.md` (+ 00-preamble, H-review-z, F-apply adapted).
+
 ## RESUME HERE — THE CAMPAIGNS PASS (2026-10-24; Fable managing, J392/J399)
 
 The owner's five clarifications (J399, verbatim there): a campaign is a region of the map, several at once or one after
@@ -13,8 +32,8 @@ a review seat, an Opus apply seat, the manager's close. Briefs in the scratchpad
 | stage | seat (model) | output | state |
 |---|---|---|---|
 | rulings | the manager (Fable) | docs/PROGRESS.md J399 | LANDED 5d27fe6 |
-| design z | amendments/campaigns-z (Fable, max) | docs/AMENDMENTS-2026-10-24z.md (items 1256–1293; 89 fragments; H47; J-V13.191–.197; T-V13-120–125; BCR-V13-56–57; WORLD-24; J-V15.49–.51; T-V15-35–37; BCR-V15-19; RQ-V15-16–17; ATLAS-17; J-V14.59; T-V14-36; BCR-V14-27; J-V9.165–.167; T-V9-97) | LANDED (dry run clean; lint clean) |
-| review | critique/campaigns-z (Fable, high) | docs/volumes/critique/campaigns-z.md | RUNNING |
+| design z | amendments/campaigns-z (Fable, max; revised by Opus under J400) | docs/AMENDMENTS-2026-10-24z.md (items 1256–1293; 89 fragments; H47; J-V13.191–.197; T-V13-120–125; BCR-V13-56–57; WORLD-24; J-V15.49–.51; T-V15-35–37; BCR-V15-19; RQ-V15-16–17; ATLAS-17; J-V14.59; T-V14-36; BCR-V14-27; J-V9.165–.167; T-V9-97) | LANDED (dry run clean; lint clean) |
+| review | critique/campaigns-z (Fable, high) | — | DIED on the Fable limit; folded into the host-answer review (J400) |
 | apply | amendments/campaigns-apply (Opus, medium) | docs/validation/coherence/campaigns-z.md; bundle | WAITS ON review |
 | close | the manager (Fable) | INDEX/SUMMARY/brief items (file aa or in z's record); J400; lane-events | — |
 
