@@ -1,5 +1,28 @@
 # HANDOFF — town-generator research program
 
+## RESUME HERE — THE EXPERIENCE PASS (2026-10-24; Fable managing, J392/J397)
+
+The owner: "So do the prompts and integrate them that can be done on maps and give me the prompts for settlement
+engine" / "Try again" (J397). The map-side rulings M1–M50 and the host-side asks S1–S15 are in J397; the seat briefs are
+in the scratchpad `experience-pass/briefs/` (00-preamble, A1-file-v, A2-file-w, B-file-x, D-host-prompts, plus the
+review and apply briefs written while the seats ran). Seats are Agent-tool lanes (Fable designs, Opus applies; a Fable
+seat that hits the limit is re-run on Opus with the J375 notice). Each design seat writes incrementally with a
+`PROGRESS:` ledger line at the end of its file and ends with a `COMPLETE:` line; a dead seat is re-run from its partial
+file with the same brief. Apply order: v → w → x → y. File w is launched only after file v lands (both edit V13; w quotes
+the targets as v leaves them).
+
+| stage | seat (model) | output | state |
+|---|---|---|---|
+| rulings | the manager (Fable) | docs/PROGRESS.md J397 | LANDED 696015a |
+| design v | amendments/experience-v (Fable, max) | docs/AMENDMENTS-2026-10-24v.md (items 1083–1140; H36–H44) | RUNNING |
+| design x | amendments/experience-x (Fable, max) | docs/AMENDMENTS-2026-10-24x.md (items 1201–1240; V15, V14) | RUNNING |
+| prompts | research/host-prompts (Fable, max) | research/sf/host-prompts-2026-10-24.md (S1–S15) | RUNNING |
+| design w | amendments/experience-w (Fable, max) | docs/AMENDMENTS-2026-10-24w.md (items 1141–1200; H45–H46; H24/H31/H32 revised) | WAITS ON v |
+| review | critique/experience-vwx (Fable, max) | docs/volumes/critique/experience-vwx.md | WAITS ON v, w, x, prompts |
+| revise | the design seats via SendMessage, or the manager | the three files and the prompts revised | — |
+| apply | amendments/experience-apply (Opus, medium) | docs/validation/coherence/experience-{v,w,x}.md; bundle | — |
+| close | the manager (Fable) | docs/AMENDMENTS-2026-10-24y.md (INDEX, SUMMARY, the brief, HANDOFF); J398; lane-events | — |
+
 ## RESUME HERE — THE SUBSTANCE-AND-EXPERIENCE REREAD (2026-10-23; Fable managing, J392)
 
 The owner asked for thoughts on the paired product's substance and experience (the map module beside the host's FP),
