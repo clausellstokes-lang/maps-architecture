@@ -22,11 +22,14 @@ and `PACKET_TEMPLATE.md` (manifest, scope budget, acceptance denominator, verifi
 READY on the owner's word in the prompt, and only then code. Line numbers below are dated measurements at `81f1cd96`;
 the host's standing law is to navigate by symbol, and a prompt whose line has rotted names the symbol beside it.
 
-**Two prompts contain an OWNER DECISION** the owner makes before or while running them: **S1** (the deity at birth —
-the owner's open word FPQ-62) and **S14** (whether the capture roll reads patrol coverage). Each opens with a decision
-box: the options, the session's recommendation, and the prompt conditioned on the answer. Three other prompts contain
-a choice J397 left open, marked "(chosen here; the map side accepts either)": S1's preset door, S4's rung mapping,
-S5's confidence bands.
+**One prompt contains an OWNER DECISION** the owner makes before or while running it: **S14** (whether the capture
+roll reads patrol coverage); it opens with a decision box: the options, the session's recommendation, and the prompt
+conditioned on the answer. **S1**'s deity at birth (the owner's open word FPQ-62) is RULED by the manager (2026-10-24):
+option B — the account's top-ranked custom deity seated as the capital's patron, none when the account holds none —
+with option A as the owner's veto; its box keeps the options and the ruling. Three other prompts contain a choice J397
+left open, marked "(chosen here; the map side accepts either)": S1's preset door, S3's re-sent `bindSeat` before the
+first canon, S4's rung mapping. The port names below are the map side's as file v fixed them
+(`docs/AMENDMENTS-2026-10-24v.md`, items 1085–1088) and file w is being told the same; the prompts use them exactly.
 
 **The host's own method, which every prompt respects** (so the host session works in its own idiom):
 
@@ -65,7 +68,7 @@ names it implemented, so the map side can seam them.
 
 | S | Title | H row(s) served | Depends on | Owner decision | Size |
 |---|---|---|---|---|---|
-| S1 | Born applied and born peopled | H22, H23 (the regime); M1, M6, M22, M49 | — | **yes** (the deity, FPQ-62) | M |
+| S1 | Born applied and born peopled | H22, H23 (the regime); M1, M6, M22, M49 | — | ruled B (the deity, FPQ-62); A is the owner's veto | M |
 | S2 | The birth window | H23, H13, H9 (a window at creation) | S1 (the regime it sends) | no | M |
 | S3 | The grace rule | H22, H12, H15 | S2 | no | M |
 | S4 | The instant world, world-first | H31, H14, H12 | S1 (the applied preset), S3 | no | L |
@@ -97,20 +100,20 @@ deity question to the owner in the host's own terms.
 
 **Map-side counterpart:** M1, M6, M22, M49; V13 §2.2 (`PolityFacts`, `HostRegime`), §5.8 (2)–(3), §5.9 (6), §8.5 H22–H23.
 
-> **OWNER DECISION (FPQ-62) — a deity seated at birth?** J397 recommends yes: "the top-ranked generated local deity as
-> the capital's patron". At `81f1cd96` **generation mints no deity**: the premade pool and the `seedStartingPantheon`
+> **OWNER DECISION (FPQ-62) — a deity seated at birth? RULED 2026-10-24: B, with A as the owner's veto.** J397
+> recommends yes: "the top-ranked generated local deity as the capital's patron". That phrase was corrected by this
+> seat's verification: at `81f1cd96` **generation mints no deity** — the premade pool and the `seedStartingPantheon`
 > step were deleted by the deity doctrine (`src/domain/worldPulse/latentPantheon.js:6–12`, "no premade deities — custom
 > content only"); every deity is a premium custom-content record the DM seats (`src/store/settlementDeityHelpers.js:62–67`
-> refuses with `custom_content_required`). So the literal ask has no object. The options:
-> - **A — No.** FPQ-62 stays open; born worlds pray to no named god; the map's religion lens reads `none` ("no creed
+> refuses with `custom_content_required`). The options, and the manager's ruling:
+> - **A — No (the owner's veto).** Born worlds pray to no named god; the map's religion lens reads `none` ("no creed
 >   seated: the dossiers' temples pray to no named god", M6). Zero host change.
-> - **B — Yes, from the account's own Compendium (recommended).** At a module-world birth, if the account holds at least
->   one custom deity, seat the top-ranked one (by `rankAxis`, ties by codepoint name) as the CAPITAL's patron through the
->   existing writer (`setPrimaryDeityImpl`, `settlementDeityHelpers.js:146` → `commitDeityEmbed`,
->   `src/domain/deityCommitEmbed.js:129`); with no custom deity, A. Nothing is generated; the doctrine stands.
-> - **C — Yes, from a reinstated generated pool.** Reverses the owner's deity doctrine; not recommended here.
-> The session's recommendation is **B**. The manager must rule whether B satisfies J397's wording; the prompt below is
-> conditioned on the owner's letter.
+> - **B — Yes, from the account's own Compendium (RULED; the prompt below builds it).** At a module-world birth, if the
+>   account holds at least one custom deity, seat the top-ranked one (by `rankAxis`, ties by codepoint name) as the
+>   CAPITAL's patron through the existing writer (`setPrimaryDeityImpl`, `settlementDeityHelpers.js:146` →
+>   `commitDeityEmbed`, `src/domain/deityCommitEmbed.js:129`); when the account holds no custom deity the born world
+>   holds none and the lens reads "no creed seated" (M6). Nothing is generated; the doctrine stands.
+> - **C — Yes, from a reinstated generated pool. REJECTED** (it reverses the owner's deity doctrine).
 
 ```text
 This prompt is the owner's authority for the change it describes. You are in the SettlementForge repository at
@@ -119,8 +122,8 @@ authority, then build. Navigate by symbol: the line numbers here were measured a
 
 GOAL (one sentence): a campaign born on a world from the map module is born with the Realistic Regional preset
 APPLIED (its virtual keys materialized), with every overlord chain of its genesis diplomacy carrying a name the
-polity facts send, with its preset label telling the truth about a plainly born campaign, and — on the owner's
-answer [A | B] — with a deity seated at birth.
+polity facts send, with its preset label telling the truth about a plainly born campaign, and with the account's
+top-ranked custom deity seated at birth as the capital's patron (option B, ruled; option A is the owner's veto).
 
 THE H ROW SERVED: V13 §8.5 H22 (a world from the module is canonized at the campaign's birth; "on the host's birth
 defaults the crisis columns, the plague front and the routed supply links; rite adoption, pilgrim catchments and
@@ -178,18 +181,20 @@ BUILD
    DEFAULT_SIMULATION_RULES is present and equal in `rules`; 'birthDefaults' when none is; null for a preset with no
    virtual keys. SimulationRulesDialog.jsx:387 renders "Realistic Regional (birth defaults)" for 'birthDefaults'
    and the bare label otherwise. presetIdForRules and every installed save's presetId are untouched.
-4. THE DEITY (owner's answer B only). At a module-world birth, after the members are minted and before the campaign
+4. THE DEITY (option B, ruled — this prompt builds it; option A is the owner's veto and skips this step; J397's
+   "generated local deity" is corrected here: the host mints none at generation, so the account's own deities are
+   the only candidates). At a module-world birth, after the members are minted and before the campaign
    is committed, if the account's custom content holds ≥ 1 deity: pick the top-ranked (rankAxis order as
    deityRankStrength ranks it, ties by codepoint name), and seat it as the primary deity of the CAPITAL (slot 0,
    the realm's dominant centre) through setPrimaryDeityImpl — the same event the panel dispatches, so the embed,
-   the receipt and the undo are the panel's. No custom deity ⇒ nothing is written. Answer A ⇒ skip this step.
+   the receipt and the undo are the panel's. No custom deity ⇒ nothing is written and the born world holds none.
 
 THE DATA CONTRACT THE MAP EXPECTS (quote it in the packet)
 - The lens window's regime (S2 sends it): `HostRegime.born: boolean` — "the campaign runs its birth defaults, no
   preset applied"; a module-world campaign born under step 1 sends born: false. `HostRegime.deitySeated: boolean`.
-- The polity facts: `PolityFacts.allegianceName` rows `{ root: <host key of the root seat>; name: string }` — "the
-  sway's label reads it when sent, else the root's name as now" (M22). Its final typing is the map side's (seats v/w);
-  implement the row shape and report it.
+- The polity facts: `PolityFacts.names?: { root: string /* the root seat's host key */; name: string }[]` (file v's
+  name, item 1085; M22) — the sway's label order is the DM's christening (`christened`) first, else `names`, else the
+  descriptive label (the root's name as now). Implement the row shape and report it.
 - The map never reads a preset id; it never infers a regime from one.
 
 ACCEPTANCE TESTS (name them so)
@@ -201,7 +206,7 @@ ACCEPTANCE TESTS (name them so)
   write no key and fingerprint byte-identically to before; same seed ⇒ same names.
 - tests/ui/simulationRulesPresetLabel.test.jsx: a plainly born campaign's dialog reads "(birth defaults)"; an
   instant-world campaign's reads the bare label; an installed campaign's presetId is unchanged by the read.
-- tests/store/instantWorldBinding.test.js (answer B): with one custom deity the capital's config.primaryDeitySnapshot
+- tests/store/instantWorldBinding.test.js (option B): with one custom deity the capital's config.primaryDeitySnapshot
   equals deitySnapshotFrom(thatDeity) and hasActivePantheon is true; with none, the bundle is byte-identical; a
   free account's birth writes no deity (the write gate's refusal is honoured, never bypassed).
 
@@ -213,9 +218,10 @@ WHAT NOT TO DO
 
 RECORD: the packet row in docs/implementation/INDEX.md and PACKET_MANIFEST.json; a shift record under
 docs/shift-records/ for the module-world birth (a declared shift for NEW module-world campaigns only); the ODQ row
-on the ledger branch (review-fixes-2026-07-08: docs/OWNER_DECISION_QUEUE.md) recording the owner's FPQ-62 answer and
+on the ledger branch (review-fixes-2026-07-08: docs/OWNER_DECISION_QUEUE.md) recording the FPQ-62 ruling (B) or the
+owner's veto (A) and
 docs/HANDOFF_CURRENT.md; the fold's §2 FAITH row if the deity arm lands. REPORT BACK the port names you implemented:
-HostRegime.born, HostRegime.deitySeated, the PolityFacts.allegianceName row shape, presetAppliedFor.
+HostRegime.born, HostRegime.deitySeated, the PolityFacts.names row shape, presetAppliedFor.
 ```
 
 ---
@@ -292,7 +298,7 @@ BUILD
    absent until S8), links (the vassal plane's labels and hegemony's subordinating terms; a genesis overlord_of tie
    is a link with word 'overlord' since week 0), relations (pairwise relationship-state labels with atWar), claims
    [], satellites, culture (absent now — the map reads W_POLITY_CULTURE_ABSENT), waterLanes { lit, lanes },
-   roadWatch, christened, and S1's allegianceName rows.
+   roadWatch, christened, and S1's `names` rows.
 4. THE BIRTH CALL: after a module-world campaign is created (the instant-world body after persistCampaignState; the
    hand-assembled and imported creations likewise), build the three windows for
    `{ fromWeek: 0, toWeek: 0, hostSeq: 0, seq: 0 }` and hand them to the world-port client seam
@@ -304,14 +310,15 @@ BUILD
 
 THE DATA CONTRACT THE MAP EXPECTS
 - `LensFacts { window: AdvanceWindow; audience: 'dm'|'party'; regime?: HostRegime; plague?; faith?; economy?;
-  arrivals?; transfers?; columns?; sizes?; trend?; prosperity?; alignment?; pulses? }` — each row with its
+  arrivals?; transfers?; columns?; sizes?; trend?; prosperity?; alignment?; pulses?; partySeat?; observer?;
+  courts? (S5) }` — each row with its
   `audience: 'public'|'dmOnly'`; a window with no regime raises the map's W_LENS_REGIME_ABSENT.
 - `HostRegime { born; canon; slots: { seaLanes; teleport; seasonal }; lanes: Record<string, boolean>;
   deitySeated; plagueLive; beliefs; intensity? }`.
 - `AdvanceWindow { fromWeek; toWeek; advanceNonce?; hostSeq; seq }` — a windowed replace: the map adds,
   supersedes and retracts against the previous window; a retraction is a forward event, never an undo target.
 - `PolityFacts { window; seats: PolitySeat[]; links: PolityLink[]; relations: PolityRelation[]; sites; satellites;
-  claims; culture; waterLanes; roadWatch; christened; allegianceName }`.
+  claims; culture; waterLanes; roadWatch; christened; names? }`.
 - The map treats every window as presentation (the lens window) or a recorded input (polity, events); it persists
   the lens window only as plates in its own cache, never a byte of it in your world state.
 
@@ -341,11 +348,13 @@ row for H23's first step. REPORT BACK: the HostRegime lane names you resolved, e
 ## Prompt S3 — The grace rule
 
 **Why.** The host promises "every site is freely draggable at t=0, so exact coordinates are COSMETIC IN PLAY"
-(`worldPlan.js:144–147`); H22 rules a world from the module canonized at the campaign's birth, after which a move is a
-premium re-canonize — two promises that collide in the first ten minutes (`research/experience/01` §2.3 item 1, §4 Q5).
-M2 rules the grace rule: the birth canon is taken at the FIRST ADVANCE over the seats as they then stand; until then every
-seat drags free, each drag re-placing it on the map side; the lanes the canon gates run from the first advance, which is
-the first time anything runs; after it a move is the premium re-canonize H22 rules.
+(`worldPlan.js:144–147`); H22 as first written canonized a module world at the campaign's birth, after which a move
+was a premium re-canonize — two promises that collided in the first ten minutes (`research/experience/01` §2.3 item 1,
+§4 Q5). M2 rules the grace rule, and file v has amended V13 §8.5 H22, §3.11.6 and `Placement.hostLocked` to it: the
+genesis network's edges are named at creation and laid over the seats as they stand, re-laid at each drag; their costs
+enter the canon at the first advance; the birth canon is taken at the FIRST ADVANCE over the seats as they then stand;
+before it every seat drags free (a drag a re-sent `bindSeat`); the lanes the canon gates run from the first advance,
+which is the first time anything runs; after it a move is the premium re-canonize H22 rules.
 
 **Map-side counterpart:** M2; V13 §2.2 (`Placement.hostLocked` holds only from the first advance), §3.11.6 (`canon`,
 `bindSeat`, `canonized`, the port consumption law), §8.5 H12, H15, H22.
@@ -359,8 +368,11 @@ campaign's FIRST advance over the seats as they then stand — not at creation �
 may be dragged freely, each drag re-sent to the module; from the first advance on, a move is the premium
 re-canonize and the canon-gated lanes run.
 
-THE H ROWS SERVED: H22 ("a world from this module canonized at the campaign's birth … so the canon-gated lanes its
-rules light run from its first week"), read with M2's correction: "birth" is the first advance, not creation. H12
+THE H ROWS SERVED: H22 as file v amended it (V13 §8.5 H22, §3.11.6 and `Placement.hostLocked` now say the first
+advance): the genesis network's edges are named at creation and laid over the seats as they stand, re-laid at each
+drag; their costs enter the canon at the first advance; the birth canon is taken at the first advance over the seats
+as they then stand; before it every seat drags free, and "the canon-gated lanes its rules light run from its first
+week". H12
 ("the move-lock's release named per seat"); H15 ("world edits held while an advance runs or is parked").
 In your terms: runSpatialCanonize's first run on such a campaign is the engine's own act at the first advance head,
 unasked, entitlement-blind; the DM's explicit canonize stays the DM's for everything after.
@@ -395,6 +407,8 @@ BUILD
 2. THE GRACE DRAG. While spatialCanonVersion is 0 on such a campaign, a placement drag writes mapState.placements as
    today and re-sends the seat's placement to the module (`bindSeat(world, { hostKey; placement })` re-sent for the
    same key before the first canon — chosen here; the map re-places the seat with its blend and re-lays its roads).
+   THE GENESIS NETWORK (H12): `genesis(world, RouteGenesis)` is sent at creation — its edges named over the seats as
+   they then stand — and the map re-lays them at each drag; their costs enter the canon only at the first advance.
    The first advance adopts the canon over the dragged positions.
 3. THE LOCK AFTER. From spatialCanonVersion ≥ 1, a drag on a seat the canon froze is refused with the host's own
    move-lock sentence naming the seat and offering the premium re-canonize (today's DM act), exactly as H12's "the
@@ -411,7 +425,8 @@ THE DATA CONTRACT THE MAP EXPECTS
 - `canonized(world, { worldVersion; canonVersion; lawVersion })` after adoption; `travelLaw(world, law)` with
   `basis: 'normalized'|'absolute'` and `calibration { weeks; perCost }` at every canon adopted (H8).
 - `Placement.hostLocked` holds on the map only from the first advance; before it, a re-sent `bindSeat` for a key
-  is accepted as a re-placement.
+  is accepted as a re-placement; `genesis(world, RouteGenesis)` at creation names the edges, re-laid at each drag,
+  their costs entering the canon at the first advance (file v's H22).
 - The lanes the canon gates (the plague front, the columns, the routed supply links) run from the first advance,
   which is the first time anything runs: no week-one artifact of a canon adopted at creation.
 
@@ -615,42 +630,49 @@ BUILD
 1. THE PARTY'S PLACE: a campaign record `campaign.party = { seatId: string|null, homeSeatId: string|null }`, set
    by the DM from the realm dashboard ("the party is at …", "the party's home is …"); persisted like the other
    campaign fields (lifecycle paths per req 22a); never read by an engine stage.
-2. THE OBSERVER: partyObserverOf(campaign, worldState) → { seat, basis: 'at' | 'home' | 'none' }: the governing
+2. THE OBSERVER: partyObserverOf(campaign, worldState) → the court's seat id, or null: the governing
    seat slot (GOVERNING_SEAT_KEY) of campaign.party.seatId when beliefsActive and that court holds a belief map;
-   else of homeSeatId; else none (the map then shows the public truth or nothing). Pure; total.
+   else of homeSeatId; else null (the map then shows the public truth or nothing; the basis is implied by this
+   rule and never sent). Pure; total.
 3. THE PARTY SET: in exportLensWindow (S2) for audience 'party', when beliefsActive and the observer resolves: for
    each subject with a belief record in the observer's slot, believed rows — `prosperity` (the believed band word
    where the belief axes carry one), `trend` (populationTrendBand → sign), the believed faith label, the believed
-   strength band and alliance label, `scarcity`/`conditions` bands where lit — each row with
-   `asOfWeek: lastUpdateTick` and `confidence: 'firm' | 'likely' | 'doubtful' | 'faint'` (chosen here, the map
-   side accepts either: ≥ 0.75, ≥ 0.5, ≥ 0.25, else); plus "heard of plague" rows from the observer's rumor
+   strength band and alliance label, `scarcity`/`conditions` bands where lit — each row carrying
+   `believed: { asOfWeek: lastUpdateTick; confidence: 0|1|2|3 }`, the confidence01 banded in QUARTERS (3 at
+   ≥ 0.75, 2 at ≥ 0.5, 1 at ≥ 0.25, else 0 — file v's ruling), with `believed.integrity: 'clean'|'worn'|'planted'`
+   where S6's register classifies the row's source; plus "heard of plague" rows from the observer's rumor
    ledger through settlementRumors' PLAYER projection (never the truth block). A subject with no record yields no
    row ('unknown' is never guessed as a value). Under perfect_delayed the rows are true but late: asOfWeek carries
    the lateness.
-4. THE PARTY SEAT EACH ADVANCE: `LensFacts.partySeat: string|null` and `LensFacts.observer: { seat; basis }` on
-   both sets, whatever the infoMode.
+4. THE PARTY SEAT EACH ADVANCE: `LensFacts.partySeat?: string` and `LensFacts.observer?: string` (the court's
+   seat; ABSENT when none resolved) on both sets, whatever the infoMode; the home seat travels as
+   `CampaignFacts.homeSeat?: string` in the campaign facts (H31's windowed replace).
 5. THE COURT VIEWPOINT (on request, DM-only): courtBeliefView(worldState, courtSeat) → the court's believed
-   political facts over its subjects: believed `strengthBand` (0..4), believed relation word (`allianceLabel`),
-   believed faith label, each with asOfWeek and confidence — returned in PolityFacts' row shapes (PolitySeat,
-   PolityRelation) with `believed: true`, never mixed into the recorded polity window. The map draws it as "as
+   political facts over its subjects as `LensFacts.courts` rows `{ court; subject; allegiance?; strengthBand?:
+   0|1|2|3|4; readiness?; faith?; believed: Believed; audience: 'dmOnly' }` (file v's shape), never mixed into the
+   recorded polity window. The map draws it as "as
    {court} believes it, as of week n", DM-only unless the DM opens it; it never enters the map's canon.
 
 THE DATA CONTRACT THE MAP EXPECTS
-- `LensFacts.audience: 'party'` rows: `{ seat; <believed value>; asOfWeek: Week; confidence: 'firm'|'likely'|
-  'doubtful'|'faint'; audience: 'public' }` — believed marks draw "as of week n" and fade by band (M8).
-- `LensFacts.partySeat`, `LensFacts.observer` as above; `beliefView(world, view)` for the DM (H17) and the court
+- `type Believed = { asOfWeek: Week; confidence: 0|1|2|3; integrity?: 'clean'|'worn'|'planted' }`; a party-set
+  row: `{ seat; <believed value>; believed: Believed; audience: 'public' }` — believed marks draw "as of week n" and
+  fade by band (M8); a believed row with no `asOfWeek` is refused at the map's fold.
+- `LensFacts.partySeat?: string`, `LensFacts.observer?: string`, `CampaignFacts.homeSeat?: string`,
+  `LensFacts.courts?: { court; subject; allegiance?; strengthBand?; readiness?; faith?; believed: Believed;
+  audience }[]`; `beliefView(world, view)` for the DM (H17) and the court
   viewpoint's facts "through the port's presentation inputs only" (M50): never a recorded input.
 - Nothing believed ever enters `PolityFacts` as recorded; a court viewpoint's rows are presentation.
 
 ACCEPTANCE TESTS
-- tests/domain/partyObserver.test.js: no party ⇒ basis 'none' and no party set; a party seat whose court holds no
+- tests/domain/partyObserver.test.js: no party ⇒ observer absent and no party set; a party seat whose court holds no
   map ⇒ falls to home; omniscient ⇒ no believed rows and partySeat still present; totality on garbage.
 - tests/domain/lensWindowExport.party.test.js (fixture tests/fixtures/belief-map-golden.json): every believed row's
-  asOfWeek ≤ toWeek; the confidence band is monotone in confidence01; a subject absent from the observer's slot
+  believed.asOfWeek is present and ≤ toWeek; believed.confidence is the quarter band of confidence01 (monotone); a
+  subject absent from the observer's slot
   yields no row; the party set never contains a value the observer's record does not hold (a diff against the DM
   set proves no truth leaks); heard-of-plague rows come only from the player projection.
-- tests/domain/courtBeliefView.test.js: a court with no belief map returns an empty view, never the truth; rows
-  carry believed: true.
+- tests/domain/courtBeliefView.test.js: a court with no belief map returns no courts rows, never the truth; every
+  row carries believed with its asOfWeek.
 
 WHAT NOT TO DO
 - Never write a truth into a believed record (the cold start is the engine's own; this prompt adds no seeding).
@@ -659,8 +681,8 @@ WHAT NOT TO DO
 - Never send a believed row to the 'public' audience of the DM set; never send the truth block to the party.
 
 RECORD: the packet rows; docs/CURRENT_STATE.md; the fold's §2 INFORMATION row (a consumer of the belief map on a
-new surface). REPORT BACK: partySeat, partyHomeSeat (the campaign field's names), observer, asOfWeek, confidence
-and its four words, believed: true, courtBeliefView.
+new surface). REPORT BACK: LensFacts.partySeat, LensFacts.observer, CampaignFacts.homeSeat, Believed (asOfWeek,
+confidence 0–3, integrity), LensFacts.courts, courtBeliefView.
 ```
 
 ---
@@ -720,12 +742,14 @@ BUILD
    its receipt (req 20: populate at mint where a producer does not — a census of producers that mint without
    parents is the packet's first measurement), `sourceSeat`, `deity`, `cause`, `verdict` where the entry carries
    them, `detail`: the SUBHEADER sentence (plain, no voice), never the headline's gesture.
-2. headlineOf(receiptId): resolve a receipt id (a wizardNews id, a sourceEventId or a pulse record id) to its
-   Herald entry and open CausalityPopup over the current surface (the world-port client calls it from the map
-   pin's action; the popup renders over the map exactly as over the dossier — zero navigation). An unresolvable id
+2. headlineOf: a READER the host registers with the map through the client (the map calls it with an event's
+   `causedBy` receipt ids): resolve a receipt id (a wizardNews id, a sourceEventId or a pulse record id) to its
+   Herald entry and open CausalityPopup over the current surface (the popup renders over the map exactly as over
+   the dossier — zero navigation). An unresolvable id
    returns the honest line, never a dead link (the rumor-mill rule: "truthfully unlinked, never dead-linked").
-3. THE INTEGRITY REGISTER: for every event in the DM set, `integrity: one of INTEGRITY_STATES` from
-   classifyLinkIntegrity over the event's own chain link (the root link's state; a mutated plant 'planted_worn');
+3. THE INTEGRITY REGISTER: for every event in the DM set, `integrity: 'clean'|'worn'|'planted'` from
+   classifyLinkIntegrity over the event's own chain link (the root link's state; your 'planted_worn' is sent as
+   'planted' — your own popup shows both halves; your 'unknown' is the field ABSENT, never a word);
    never on a public row; never computed for a player audience (disclosureFor's null is the rule).
 4. THE KNOWLEDGE DESK'S EVENTS: the five knowledge kinds reach the events window as `WorldEvent { kind; week;
    where: the seat where the plant took / the lure sprang / the sweep ran; audience: 'dmOnly'; causedBy }` — DM-only
@@ -734,9 +758,9 @@ BUILD
 THE DATA CONTRACT THE MAP EXPECTS
 - `WorldEvent { id; kind; at? | where?; pair?; verdict?; sourceSeat?; deity?; cause?; seats?; radiusM; week;
   window?; audience: 'public'|'dmOnly'|'local'; source: 'host'; factTier: 'dossier'; causedBy?: string[];
-  integrity?: 'clean'|'worn'|'planted'|'planted_worn'|'unknown'; detail?: string }` — integrity DM-only.
-- `headlineOf(event)`: the pin's action calls it with `event.causedBy[0]` (the event's own receipt) — a port
-  function the host client implements; the map never composes prose from it.
+  integrity?: 'clean'|'worn'|'planted'; detail?: string }` — integrity DM-only; unknown is the field absent.
+- `headlineOf(event)`: a reader the HOST registers with the map; the map's pin action calls it with the event's
+  `causedBy` receipt ids; the map never composes prose from it.
 - The map's `whatCaused` descends into `causedBy` naming the hops as the host's; its own reason chain is S9's.
 
 ACCEPTANCE TESTS
@@ -755,8 +779,8 @@ WHAT NOT TO DO
 - Never send a forecast or a proposal as an event (committed facts only, H9).
 
 RECORD: the packet rows; the fold's §2 COUPLINGS row (causedBy adoption now has a consumer) and INFORMATION row.
-REPORT BACK: WorldEvent.integrity (its five words), headlineOf, the causedBy sources you populate, the knowledge
-kinds you route.
+REPORT BACK: WorldEvent.integrity (its three words; absent for unknown), headlineOf, the causedBy sources you
+populate, the knowledge kinds you route.
 ```
 
 ---
@@ -990,7 +1014,8 @@ BUILD
    provenance line "follows from the world — open the world's reason" that opens the same hop.
 
 THE DATA CONTRACT THE MAP EXPECTS
-- `reasonOf(world, fact | where)` → `{ chain: { week: Week; sentence: string; audience: 'dm'|'public';
+- `reasonOf(world, fact | where)` (the MAP's feed function; the host's cause walk calls it) → `{ chain: { week:
+  Week; sentence: string; audience: 'dm'|'public';
   reason: Id }[] }` — the map's reason records in the clerk's words (V13 §4.7), e.g. "arid at 180 mm/yr in the
   Greyspine's shadow"; `fact` is `{ kind: 'charter'|'edit'|'reading'|'route'; ref }` and `where` a world point or a
   host key. The map composes no Herald prose and the host prints the sentence as sent, in the TABLE register only.
@@ -1138,6 +1163,9 @@ THE DATA CONTRACT THE MAP EXPECTS
 - `LensFacts.columns[].departWeek / arriveWeek`, `LensFacts.plague[].arrivedWeek / onsetWeek / clearWeek`,
   `WorldEvent.week`: dated facts the map captions as the host's; "a column draws at its leg's fraction with no
   destination drawn and its arrival captioned only as the host's dated fact" (M23).
+- `LensFacts.columns[].cargo?: { faith?: string; plague?: boolean }` — a column's cargo the host sends (WY-4's faith
+  cargo; pg-1's `plagueTouched`) is drawn as the host's fact; the map's refusal "migrants drawn carrying a faith or
+  a plague" is gated "where the host's lane is dark" (M24).
 
 ACCEPTANCE: a documents change — the brackets present; the register rows present; no code moves (a byte-identical
 tree outside docs/). WHAT NOT TO DO: never delete the law's text; never admit an ETA on a marker's tooltip.
@@ -1211,8 +1239,9 @@ BUILD
    delta card shows the readings that moved; on a CANONIZED town, `landChanged` lands a decree applied at the next
    advance's tick (the §2.6 canon rule; a chronicle line in the herald's voice), `alwaysSo` the retcon path where the
    card admits one, else refused with the reason. A field the fifth card does not declare is refused. Then send
-   `dossierUpdated { request; applied; hostSeq; kind; hostEffect: 'rederive'|'decree'|'retcon'|'reroll' }` — 'reroll'
-   is never sent by this handler (the word exists so an older path can say what it did). The host's own undo of
+   `dossierUpdated { request; applied; hostSeq; kind; hostEffect: 'rederive'|'decreeAtNextAdvance'|'retcon'|
+   'reroll'|'unknown' }` (the map's enumeration) — 'reroll' is the legacy word an older path sends only while it
+   still re-rolls, never this handler; 'unknown' when the host cannot say. The host's own undo of
    the edit sends `dossierUpdated { applied: false }`.
 2. THE PREVIEW WORDS (H32's exposure): `campaignFacts.settlements[].phase` and a `warning` string per phase: draft —
    "its computed facts re-derived with every chosen fact pinned; its people, trades and history kept"; canonized —
@@ -1229,7 +1258,8 @@ BUILD
    deaths = departures) holds per dispatch; a declared shift for lit worlds, byte-identical dark.
 
 THE DATA CONTRACT THE MAP EXPECTS
-- `dossierUpdated { request: Id; applied: boolean; hostSeq; kind; hostEffect }` — "`hostEffect` gains `rederive`,
+- `dossierUpdated { request: Id; applied: boolean; hostSeq; kind; hostEffect: 'rederive'|'decreeAtNextAdvance'|
+  'retcon'|'reroll'|'unknown' }` — "`hostEffect` gains `rederive`,
   the host's effect word shown as sent; the preview reads 'its computed facts re-derived; its people, trades and
   history kept'" (M33); until it arrives the map holds W_DOSSIER_PENDING and refuses a second request on the seat.
 - `SettlementFacts.phase: 'draft'|'canonized'` with the warning and exposure words above (H32).
@@ -1239,7 +1269,8 @@ THE DATA CONTRACT THE MAP EXPECTS
 
 ACCEPTANCE TESTS
 - tests/domain/dossierUpdateHandler.test.js: the 63-row corpus — no-edit identity 63/63; terrain → desert on a
-  draft runs with no throw, the roster held, hostEffect 'rederive'; a canonized town's request lands a decree at
+  draft runs with no throw, the roster held, hostEffect 'rederive'; a canonized town's request answers
+  'decreeAtNextAdvance' and lands the decree at
   the next tick and nothing this week; an undeclared field is refused; applied:false on undo.
 - tests/domain/pestilenceKernel.test.js: a materialization writes the plague condition in the same tick with its
   cap; the arrival event carries sourceSeat and the two weeks.
@@ -1253,7 +1284,8 @@ WHAT NOT TO DO
 - Never serve a crisis twice on the canon; never drop the aspatial lane off the canon.
 
 RECORD: the packet rows (a train); shift records for packets 2 and 3; the fold's §2 POPULATIONS and PG rows.
-REPORT BACK: hostEffect's four words, the phase warning strings, the exposure fields, the arrival event's fields.
+REPORT BACK: hostEffect's five words as sent, the phase warning strings, the exposure fields, the arrival event's
+fields.
 ```
 
 ---
@@ -1545,7 +1577,7 @@ three event kinds and the two DM-stamped kinds.
 
 Tick each as it lands in the host; the map side lights the lens or layer named in 16.2.
 
-- [ ] S1 born applied; allegiances named; the label honest; FPQ-62 answered (A | B) and recorded in the ODQ
+- [ ] S1 born applied; allegiances named (`names`); the label honest; FPQ-62 ruled B (A the owner's veto), in the ODQ
 - [ ] S2 the birth window (lens, polity, events at seq 0); the regime resolver
 - [ ] S3 the first-advance canon; the grace drag; the move-lock sentence
 - [ ] S4 the adapter tables; the awaited world; the charter-born member; plan law 3
@@ -1567,7 +1599,8 @@ Tick each as it lands in the host; the map side lights the lens or layer named i
   the host's allegiance names (M22); every banner's `born` reads false on a module world (M1).
 - **S2** → every lens banner resolves at birth, the sway projects from genesis facts instead of "before the host's
   first polity window", and the cover fold runs at birth from the populations sent (M1).
-- **S3** → `Placement.hostLocked` holds from the first advance; the canon-gated lanes run from it (M2).
+- **S3** → the genesis network named at creation and re-laid at each drag; `Placement.hostLocked` holds from the
+  first advance; the canon-gated lanes run from it (M2).
 - **S4** → the instant world grows the world first (M4): template or scenario from the adapter table, planned
   sites from the genesis ties, a charter per site; the world dialog shows the tone's regime read-only.
 - **S5** → the party's believed rows draw "as of week n" and fade by band (M8); the believed sway as a court
@@ -1593,5 +1626,7 @@ Tick each as it lands in the host; the map side lights the lens or layer named i
   withdraws the fields from the depopulation week and the forest returns by the succession table (M24, M26); the
   physical readings appear beside the dossier as the map's derivation.
 
-COMPLETE: head, S1–S15 and the closing written; every host citation verified at 81f1cd96 by symbol and line; two
-owner decisions (S1, S14) boxed; three "(chosen here)" choices marked (S1's door, S4's rung, S5's bands).
+COMPLETE: head, S1–S15 and the closing written; every host citation verified at 81f1cd96 by symbol and line; one
+owner decision (S14) boxed and S1's deity ruled B with A as the owner's veto; three "(chosen here)" choices marked
+(S1's door, S3's re-sent bindSeat, S4's rung); port names aligned to files v/w on 2026-10-24 (names, partySeat,
+observer, homeSeat, Believed, courts, integrity, hostEffect's enumeration, cargo).
