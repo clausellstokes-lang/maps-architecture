@@ -29,7 +29,9 @@ option B — the account's top-ranked custom deity seated as the capital's patro
 with option A as the owner's veto; its box keeps the options and the ruling. Three other prompts contain a choice J397
 left open, marked "(chosen here; the map side accepts either)": S1's preset door, S3's re-sent `bindSeat` before the
 first canon, S4's rung mapping. The port names below are the map side's as file v fixed them
-(`docs/AMENDMENTS-2026-10-24v.md`, items 1085–1088) and file w is being told the same; the prompts use them exactly.
+(`docs/AMENDMENTS-2026-10-24v.md`, items 1085–1091 — `names` is item 1086) and file w's (`PolityRelation.terms`,
+`SettlementFacts.editLaw`, `TravelLaw.calibration.basisWord`, `PolitySeat.military.netForce`/`.basis`, the claims' fields,
+`hostEffect`'s enumeration); the prompts use them exactly, as revised for the review `docs/volumes/critique/experience-vwx.md`.
 
 **The host's own method, which every prompt respects** (so the host session works in its own idiom):
 
@@ -77,7 +79,7 @@ names it implemented, so the map side can seam them.
 | S7 | K3 at the map feed | H16, H4 | — (lands before H4's client) | no | S |
 | S8 | Net force bands once WC lands | H13, H25 | H13's window; WC-1/WC-4 for the net arm | no | S |
 | S9 | The cause walk crosses the seam | H16, H14, H34 | H4's client; S6 | no | M |
-| S10 | Grievances and licences in the claims lane | H13 | H13's window | no | S |
+| S10 | Grievances, licences and treaty terms | H13, H45 | H13's window | no | S |
 | S11 | The ambiguity law amended | H17, H23 (movers and dated facts) | — (documents) | no | S |
 | S12 | The draft's dossier update; H24's two asks | H32, H24 | H31/H32's seam; EM's re-derivation | no | L |
 | S13 | The raid's outcome word and the hearing week | H25; SP-9 | SP-9 for the hearing arm | no | M |
@@ -193,7 +195,7 @@ THE DATA CONTRACT THE MAP EXPECTS (quote it in the packet)
 - The lens window's regime (S2 sends it): `HostRegime.born: boolean` — "the campaign runs its birth defaults, no
   preset applied"; a module-world campaign born under step 1 sends born: false. `HostRegime.deitySeated: boolean`.
 - The polity facts: `PolityFacts.names?: { root: string /* the root seat's host key */; name: string }[]` (file v's
-  name, item 1085; M22) — the sway's label order is the DM's christening (`christened`) first, else `names`, else the
+  name, item 1086; M22) — the sway's label order is the DM's christening (`christened`) first, else `names`, else the
   descriptive label (the root's name as now). Implement the row shape and report it.
 - The map never reads a preset id; it never infers a regime from one.
 
@@ -296,7 +298,8 @@ BUILD
    the third of the tier's population band the seat's OWN people fall in, satellites never counted; prosperity
    rung; strengthBand from settlementStrength banded on STRENGTH_BANDS where you choose to send it now; military
    absent until S8), links (the vassal plane's labels and hegemony's subordinating terms; a genesis overlord_of tie
-   is a link with word 'overlord' since week 0), relations (pairwise relationship-state labels with atWar), claims
+   is a link with word 'overlord' since week 0), relations (pairwise relationship-state labels with atWar; S10 adds
+   their `terms`), claims
    [], satellites, culture (absent now — the map reads W_POLITY_CULTURE_ABSENT), waterLanes { lit, lanes },
    roadWatch, christened, and S1's `names` rows.
 4. THE BIRTH CALL: after a module-world campaign is created (the instant-world body after persistCampaignState; the
@@ -423,7 +426,10 @@ THE DATA CONTRACT THE MAP EXPECTS
   (the travel, water and sites slots, integer costs under your cost law, the envelope's version vector and
   causes); whole or refused, never partial; a pure function of the inputs its hashes name.
 - `canonized(world, { worldVersion; canonVersion; lawVersion })` after adoption; `travelLaw(world, law)` with
-  `basis: 'normalized'|'absolute'` and `calibration { weeks; perCost }` at every canon adopted (H8).
+  `basis: 'normalized'|'absolute'` and `calibration { weeks; perCost; basisWord? }` at every canon adopted (H8) —
+  `basisWord` your own words for the basis, printed on the map's route label beside your weeks ("normalized:
+  relative to this realm's nearest-neighbour hop", or your metric word; M5; file w item 1144); absent, the label
+  names the `basis` field's word.
 - `Placement.hostLocked` holds on the map only from the first advance; before it, a re-sent `bindSeat` for a key
   is accepted as a re-placement; `genesis(world, RouteGenesis)` at creation names the edges, re-laid at each drag,
   their costs entering the canon at the first advance (file v's H22).
@@ -448,7 +454,8 @@ WHAT NOT TO DO
 
 RECORD: the packet rows; docs/CURRENT_STATE.md; a shift record (new module-world campaigns only); the fold's §2
 row for POPULATIONS ("nothing writes ensureGenesisRouteNetwork") once H12's genesis lands with the canon.
-REPORT BACK: the canon request fields you send, the receipt's parents, and the move-lock sentence.
+REPORT BACK: the canon request fields you send, the receipt's parents, the move-lock sentence, and your
+`calibration.basisWord` (your own words for the basis, printed on the map's route label, M5).
 ```
 
 ---
@@ -518,20 +525,25 @@ BUILD
    the banners will read (the module shows it read-only on its world dialog).
 2. THE AWAITED WORLD. In instantWorldBody.js, after loadGenerationLawPayloads and before composeInstantWorld: build
    the world request from the plan's knobs (deriveWorldPlan runs first for the seed, tiers and relations as today),
-   the tier ladder and genesis relations as inclusion requirements (each site a `site` requirement with its tier;
-   each tie a `relation` requirement with its word), await the module's generate through the world-port client, and
+   the tier ladder and genesis relations as requirements at RANK 1 (each member a `site` row with its tier as its
+   one fact — a plan member lands at its tier as a saved town must at its facts; each tie a `relation` row with its
+   word), await the module's generate through the world-port client, and
    receive `{ sites: [{ slot, at (world point), charter }], genesis }`. Pass them into composeInstantWorld as a new
    `plannedSites` argument under plan law 3; the composer stays SYNCHRONOUS and pure (the awaited world is an
    input like contentRuntime). Share codes: law 3 codes carry the world's seed; law 1 and 2 codes replay the
    scatter exactly as today (fail closed: a code without a world seed is law ≤ 2).
-3. THE CHARTER-BORN MEMBER. memberConfigFor(site, plan) reads site.charter where present: terrainType = the
-   inverse of DR1's relief-class row (a table in the adapter: the charter's relief class, coast flag, river flag and
-   biome → one of TERRAINS; e.g. coast → 'coastal', a river crossing with low relief → 'riverside', rugged relief
-   → 'mountain', hilly → 'hills', dry biome → 'desert', wooded → 'forest', else 'plains'); tradeRouteAccess = the
-   access word from the charter's road and water facts (a port where the charter's water access is eligible;
-   crossroads where ≥ 3 charter roads meet; road otherwise); culture and monsterThreat stay on their sentinels; the
-   charter's climate row and latitude band ride as explicit config fields the pipeline already accepts (census
-   them). A member without a charter (law ≤ 2) is minted exactly as today.
+3. THE CHARTER-BORN MEMBER. memberConfigFor(site, plan) reads site.charter where present, each word derived as V13
+   §3.11.4 (file w item 1167) gives it: terrainType = the inverse of DR1's relief-class row over the charter's
+   `edges[].profileCm` (the relief), `outlines.coast` (a coast), `riverCrossings[]` (a river) and `biome.row` (a
+   table in the adapter → one of TERRAINS: a coast → 'coastal', a river crossing with low relief → 'riverside',
+   rugged relief → 'mountain', hilly → 'hills', a dry biome → 'desert', a wooded one → 'forest', else 'plains'); the
+   coast flag and side from `waterEdges[]` (kind 'sea', its `side`); the river and its inflow from
+   `riverCrossings[]` (`direction: 'in'`); the climate row from `biome.climateRow`; the latitude band from
+   `climate.latitudeDeg`; tradeRouteAccess = the access word from `roads[]` and the canon's water access
+   (`derivedFacts`' `SettlementMapRecord.waterAccess`: eligible ⇒ a port; ≥ 3 charter roads ⇒ crossroads; else
+   road); culture and monsterThreat stay on their sentinels; the climate row and latitude band ride as explicit
+   config fields the pipeline already accepts (census them). A member without a charter (law ≤ 2) is minted exactly
+   as today.
 4. PLACEMENT AND MAP STATE. placeMembers writes x,y from site.at through the one coordinate adapter (H6: y-north
    cm → the host's y-down frame); buildMapState sets no pendingMapGen and no FMG seed on a module world (the
    world record is the geography; useInstantWorldMaterialize stays inert by its own guard).
@@ -541,17 +553,29 @@ BUILD
    packet says so.
 
 THE DATA CONTRACT THE MAP EXPECTS
-- The request: `{ rung; extent?; template|scenario; latBox?; regime: HostRegime (S1/S2's); inclusions:
-  Requirement[] }` where a site requirement is `{ kind: 'site'; rank: 3; target: { tier; hostKey } }` and a
-  relation requirement `{ kind: 'relation'; target: { a; b; word; travelDaysMax? } }` (the adapter folder's
-  relation table maps your words overlord_of/vassal_of/patron_of/client_of/allied/trade_partner/rival).
-- The answer per site: `FrameCharter` (V13 §2.2): `terrain: { reliefClass; coast?: { side } ; river?: { inflow };
-  lake?; biome: { row; climateRow; landUseShare }; latitudeBand; roads: [...]; waterAccess: WaterAccess }` plus
-  the site's world point; and `RouteGenesis { lawVersion; edges: { hostKey; a; b; mode: 'land'|'water'; grade }[];
-  week: 0 }`.
+- The request (V13 §3.1 (1), as file w leaves it): `WorldRequest { seed; size: WorldSizeRung | { widthKm; heightKm };
+  choices?: OptionChoice[]; requirements?: Requirement[]; regime?: HostRegime }` — the `hostKnobs` mapping of V13
+  §2.3 (file w item 1152 (b)) gives `size` (small → the province rung at its row's extent; medium → the realm rung;
+  large → the realm rung at twice its row's extent) and the `set` `OptionChoice`s (a mountainous island → the
+  `island` template with ruggedness set high; a low island → `island`, ruggedness low; a volcanic island → the
+  `islandArc` scenario; a peninsula → `peninsula`; a supercontinent → `continent` with the land share set high; an
+  atoll → `atoll`; an island chain → `archipelago`; the random island → the module's own Random all); `regime` is
+  S1/S2's `HostRegime`, read-only on the world dialog; a knob word with no row is refused (`refuse.world.hostKind`).
+- The requirements, both at RANK 1 (file w item 1156; the review's EX-19): a member `{ kind: 'site'; source:
+  'inclusion'; rank: 1; target: { tier; hostKey } }`; a tie `{ kind: 'relation'; source: 'relation'; rank: 1;
+  target: { a; b; word; travelDaysMax? } }` as V13 §2.2 types `Requirement.target` (the adapter folder's relation
+  table maps your words overlord_of/vassal_of/patron_of/client_of/allied/trade_partner/rival).
+- The answer per site: `FrameCharter` (V13 §2.2) with the fields you read — `edges[].profileCm`, `waterEdges[]:
+  { side; kind: 'sea'|'lake'; … }`, `riverCrossings[]: { side; direction: 'in'|'out'; … }`, `outlines.coast`,
+  `roads[]`, `climate.latitudeDeg`, `biome: { row; climateRow; landUseShare }`, `soil`, `bedrock`, `landforms[]` —
+  plus the site's world point; the access word's water half from `derivedFacts`' `SettlementMapRecord.waterAccess`
+  (V13 §3.11.6), never a charter field; and `RouteGenesis { lawVersion; edges: { hostKey; a; b; mode: 'land'|'water';
+  grade }[]; week: 0 }`.
 - `SettlementFacts` (what the module reads back for "based off of my settlements", H31): `{ hostKey; tier;
-  population?; terrain; access; culture?; resources; phase: 'draft'|'canonized' }` — the coast side, lake and
-  river inflow are never asked of you (the frame's own geometry supplies them, J393 (13)).
+  population?; terrain; access; climateRow /* the adapter's, by DR42 from the terrain word — never yours */;
+  latitudeBand? /* from your culture by the adapter's DR29 row: your culture reaches the port as this, never as a
+  `culture` field */; resources; phase: 'draft'|'canonized'; editLaw? (S12) }` — the coast side, lake and river
+  inflow are never asked of you (the frame's own geometry supplies them, J393 (13)).
 
 ACCEPTANCE TESTS
 - tests/lib/instantWorld/composeInstantWorld.test.js: a law-1 and a law-2 code compose byte-identically to
@@ -1004,7 +1028,8 @@ BUILD
    the member's generation receipt), `world:edit:<editId>` for a consumed physicalChange (the `consumed` message
    names the edit ids; H15), `world:reading:<hostKey>:<field>` for an adopted reading (H34), `world:route:<hostKey>`
    for a laid route. These are parents in `causedBy`, never prose.
-2. THE HOP: buildCauseWalk, on reaching a `world:` parent, calls the port's `reasonOf(world, { kind, ref })` through
+2. THE HOP: buildCauseWalk, on reaching a `world:` parent, calls the map's `reasonOf(world, { kind, ref }, audience)`
+   (audience 'dm' when seesSecrets, else 'public') through
    the client and appends the returned chain as hops `{ receiptId: 'world:…', headline: the map's sentence AS SENT,
    tick: its week, parents: [], source: 'world', redacted: false }`; the panel labels them "the world's reason"; a
    DM-only reason (the map marks its own) is redacted for seesSecrets false exactly as a covert hop is. The call is
@@ -1014,11 +1039,14 @@ BUILD
    provenance line "follows from the world — open the world's reason" that opens the same hop.
 
 THE DATA CONTRACT THE MAP EXPECTS
-- `reasonOf(world, fact | where)` (the MAP's feed function; the host's cause walk calls it) → `{ chain: { week:
-  Week; sentence: string; audience: 'dm'|'public';
-  reason: Id }[] }` — the map's reason records in the clerk's words (V13 §4.7), e.g. "arid at 180 mm/yr in the
-  Greyspine's shadow"; `fact` is `{ kind: 'charter'|'edit'|'reading'|'route'; ref }` and `where` a world point or a
-  host key. The map composes no Herald prose and the host prints the sentence as sent, in the TABLE register only.
+- `reasonOf(world, subject: { kind: 'charter'|'edit'|'reading'|'route'; ref: string /* the member's host key; a
+  consumed edit's id; a host key and a field (`hostKey:field`); a route's host key */ } | WorldWhere, audience:
+  'dm'|'public')` → `{ chain: { week: Week; sentence: string /* whatCaused's tree flattened in walk order, each hop
+  rendered for `audience` — a withheld input "something you cannot see" */; audience: 'dm'|'public'; reason: Id }[] }`
+  (file v item 1091 as the manager ruled it: the flat chain, the MAP's feed function the host's cause walk calls),
+  one level into a host event (its receipts named as the host's, not rendered); e.g. "arid at 180 mm/yr in the
+  Greyspine's shadow". A host key is a `subject`, never a `where`; `where` is a `WorldWhere`. The map composes no
+  Herald prose and the host prints the sentence as sent, in the TABLE register only.
 - `consumed(world, editIds)` (H15) is what makes a world edit's id a lawful parent.
 
 ACCEPTANCE TESTS
@@ -1039,14 +1067,16 @@ the `world:` parent forms you mint, reasonOf's argument shapes, the hop fields.
 
 ---
 
-## Prompt S10 — Grievances and licences in the claims lane
+## Prompt S10 — Grievances and licences in the claims lane; the pairs' treaty terms
 
 **Why.** The claim outline already draws the host's lineage claims as DM-only outlines; R2's vengeance licence and S's
 sold-town grievance are durable, dated, pairwise host facts of exactly that class, and drawing them costs no new host
 fact (`research/experience/02` §4 Q9). M20 rules that vengeance licences and sold-town grievances draw as DM-only
 claim outlines in the claims lane where the host sends them as dated pairwise facts.
 
-**Map-side counterpart:** M20; V13 §2.2 (`PolityFacts.claims`), §3.9 (12) (a claim outline moves no cell); §8.5 H13.
+**Map-side counterpart:** M20, M13; V13 §2.2 (`PolityFacts.claims`, `PolityRelation.terms`), §3.9 (8) (the class table
+reads a live non-aggression term as neutral and a live mutual-defence term as respect), (12) (a claim outline moves no
+cell); §8.5 H13, H45.
 
 ```text
 This prompt is the owner's authority for the change it describes. You are in the SettlementForge repository at
@@ -1054,23 +1084,34 @@ This prompt is the owner's authority for the change it describes. You are in the
 
 GOAL: the polity window's `claims` rows carry three kinds of dated pairwise standing — a lineage claim, a vengeance
 licence and a sold-town grievance — each with its since-week and, where it has one, its expiry, DM-only, retracted
-when the host's record is consumed, extinguished, pruned or decayed.
+when the host's record is consumed, extinguished, pruned or decayed; and each pair's live peacetime treaty terms
+travel on its relation row (`PolityRelation.terms`, H45).
 
-THE H ROW SERVED: H13 ("its standing claims of one seat on another (its lineage claims, while that lane is lit)").
-In your terms: three existing ledgers projected into one row shape; no new state.
+THE H ROWS SERVED: H13 ("its standing claims of one seat on another (its lineage claims, while that lane is lit)") and
+H45 (file w: "each pair's live non-aggression and mutual-defence terms with their since-weeks and whether its
+simulation enforces them (`PolityRelation.terms`), so the class table reads a sworn peace as neutral and a sworn
+defence as respect"). In your terms: four existing ledgers projected into two row shapes; no new state.
 
 FELT SENTENCE: "a dashed line from Thornhold to the city that burned it, until the debt is paid or the heir gives it
 up." FIRST-VISIBLE: the window after a razing or a sale (one advance). TIER: each lane's own — `conquestDoctrineEnabled`
 (the licence; the full WR-8 conjunction in conquestDoctrineStage), `sovereigntyTradeEnabled` (the grievance),
-`lineageClaimEnabled` (the claim) — all dark at 81f1cd96. DEGRADED ARM: no rows.
+`lineageClaimEnabled` (the claim) — all dark at 81f1cd96; the terms ride `pactFormationEnabled` (lit in four
+presets, the default included). DEGRADED ARM: no rows.
 
 READ FIRST
 - src/domain/worldPulse/vengeanceLicense.js:1–70 (the licence: holder, razer, victim, heldSince; the five lifecycle
   paths; the closed loop), :88–96 (EXPIRY_YEARS 60), :134 (vengeanceLicensesActive), :220 (readVengeanceLicenses —
   validating), :345 (mintVengeanceLicenses), :413 (consume), :440 (extinguish), :471 (prune).
-- src/domain/worldPulse/sovereigntyTransfer.js:133, :284, :309 (the `sold_settlement_grievance` the sold town holds
-  against the seller, on its relationship edge; decays by the ordinary grievance decay) and
-  src/domain/worldPulse/grievanceRead.js:101 (grievanceLean).
+- src/domain/worldPulse/sovereigntyTransfer.js:129–137 and :283–288 ("THE GRIEVANCE IS FUEL, NOT A RECORD": the
+  sale's resentment rides the sold town's edge to its seller and the reasons layer's grievance scorer reads it
+  directly), :160 (accrueSaleGrievance), :309–313 (the `sold_settlement_grievance` news SEED — `assetId`, `fromId`,
+  `toId`, `tick` — the receipt the row is derived from) and src/domain/worldPulse/grievanceRead.js:27–37, :56, :101
+  (GRIEVANCE_READ_TUNING with REVANCHISM_RESENTMENT_FLOOR 0.2, scoreGrievanceLean, grievanceLean — the scorer).
+- src/domain/worldPulse/pactFormation.js:203–204 (the security terms a pact may carry: `non_aggression`,
+  `mutual_defense`), src/domain/worldPulse/pactAmendment.js:90 (COMPOSABLE_SECURITY_PAIR),
+  src/domain/worldPulse/peaceTermsCatalog.js:193 (`non_aggression`'s row: family security, executor war_block) and
+  src/domain/worldPulse/treatyEnforcement.js:57 (treatyLedgerOf — the ledger the terms are read from; by symbol);
+  the fold's §2 GRAMMAR row (`mutual_defense` owed: `mutualDefenseFor` has no caller at 81f1cd96).
 - src/domain/worldPulse/lineageClaim.js:442 (lineageClaimActive), :387 (scoreLineageClaim), :124 (parentRefOf).
 - docs/DESIGN_REALM_DIRECTIVES.md R2 (:1155–1180: "a license held by every settlement whose relationship to the
   VICTIM stands at or above the adequacy band … executed ONCE") and S (:1227–1260: the sovereignty market).
@@ -1079,27 +1120,42 @@ BUILD
 1. In the polity window exporter (S2): `claims: { by; target; kind: 'lineage'|'vengeance'|'grievance'; since: Week;
    expires?: Week; audience: 'dmOnly' }[]` — lineage: parent → child or the reverse where lineageClaimActive, since
    the claim's standing tick; vengeance: for each live licence from readVengeanceLicenses, `by: holder, target:
-   razer, since: heldSince, expires: heldSince + EXPIRY_TICKS`; grievance: for each edge carrying
-   `sold_settlement_grievance`, `by: the sold town, target: the seller, since: the sale tick`, dropped when the
-   relationship's grievance record is gone.
+   razer, since: heldSince, expires: heldSince + EXPIRY_TICKS`; grievance: derived from the SALE'S RECEIPT (the
+   `sold_settlement_grievance` seed's `tick`, `assetId`, `fromId` — there is no grievance record: the wound is fuel
+   on the edge), `by: assetId (the sold town), target: fromId (the seller), since: the seed's tick`, and DROPPED
+   when the edge's resentment falls below the grievance scorer's floor (grievanceRead.js:101's read; the
+   REVANCHISM_RESENTMENT_FLOOR of :33) — a windowed replace, never a stored countdown.
 2. Retraction is the windowed replace: a licence consumed, extinguished or pruned simply leaves the next window.
+3. THE TERMS (H45): for each pair holding a live pact of the peacetime families (the security terms
+   `non_aggression` and `mutual_defense` in the pact ledger, treatyLedgerOf by symbol; `mutualDefenseFor` has no
+   caller at 81f1cd96 — the fold's §2.1 "the allies came"), a `PolityRelation.terms[]` row `{ kind:
+   'nonAggression'|'mutualDefence'|string; since: Week /* the signing tick */; enforced?: boolean /* false while no
+   engine stage reads the term */ }` on the pair's relation row of the polity window; a lapsed or broken pact leaves
+   the next window.
 
 THE DATA CONTRACT THE MAP EXPECTS
 - `PolityFacts.claims` rows as above — "DM-only claim outlines in the claims lane where the host sends them as dated
   pairwise facts" (M20); a claim outline "moves no cell" (V13 §3.9 (12)); the map draws `expires` as the outline's
   fade week.
+- `PolityRelation.terms?: { kind: 'nonAggression'|'mutualDefence'|string; since: Week; enforced?: boolean }[]` (file w
+  item 1145 (c)): the class table reads a live non-aggression term as neutral and a live mutual-defence term as
+  respect (M13); "a pair at war under a non-aggression term is at war" (item 1160); `enforced` absent or false ⇒ the
+  legend notes the treaty is drawn as sworn.
 
 ACCEPTANCE TESTS
 - tests/domain/polityWindowExport.claims.test.js: a minted licence ⇒ one row with its expiry; consumed ⇒ absent in
-  the next window; a forged licence (fails validateVengeanceLicense) ⇒ no row; a sale ⇒ a grievance row that leaves
-  when the edge's record decays; every row audience 'dmOnly'; all three lanes dark ⇒ `claims: []` and the window
-  byte-identical to S2's.
+  the next window; a forged licence (fails validateVengeanceLicense) ⇒ no row; a sale ⇒ a grievance row derived
+  from the seed that leaves when the edge's resentment falls below the scorer's floor; every row audience 'dmOnly';
+  all three lanes dark ⇒ `claims: []` and the window byte-identical to S2's.
+- tests/domain/polityWindowExport.terms.test.js: a signed non-aggression pact ⇒ one `terms` row with `enforced`
+  false; its lapse ⇒ absent; a pair at war keeps its row and `atWar` true.
 
 WHAT NOT TO DO
 - Never mint, consume or re-derive a licence here (the module's own ceiling, vengeanceLicense.js:24–30).
 - Never send a claim public; never send a claim as a link or a relation.
 
-RECORD: the packet row. REPORT BACK: the three kind words, since, expires, audience.
+RECORD: the packet row. REPORT BACK: the three claim kind words, since, expires, audience; PolityRelation.terms'
+kind words and `enforced`.
 ```
 
 ---
@@ -1243,10 +1299,13 @@ BUILD
    'reroll'|'unknown' }` (the map's enumeration) — 'reroll' is the legacy word an older path sends only while it
    still re-rolls, never this handler; 'unknown' when the host cannot say. The host's own undo of
    the edit sends `dossierUpdated { applied: false }`.
-2. THE PREVIEW WORDS (H32's exposure): `campaignFacts.settlements[].phase` and a `warning` string per phase: draft —
-   "its computed facts re-derived with every chosen fact pinned; its people, trades and history kept"; canonized —
-   "a decree at the next advance"; plus `exposure: { economy: boolean; food: boolean }` from a dry run of R1 (the
-   readings that would move), so the map's preview says whether the economy or the food feel it.
+2. THE PREVIEW WORDS (H32's exposure): per settlement in `campaignFacts`, beside `phase`, `editLaw: { effect:
+   'rederive'|'reroll' /* what an updateDossier does there under your law in force: 'rederive' once packet 1 lands,
+   'reroll' only while an older path still re-rolls */; warning?: string /* your own warning for that path, as
+   written here: draft — "its computed facts re-derived with every chosen fact pinned; its people, trades and
+   history kept"; canonized — "a decree at the next advance" */; exposure?: { economy: boolean; food: boolean } /*
+   from a dry run of R1: the readings that would move */ }` (file w's `SettlementFacts.editLaw`), so the map's
+   preview reads the effect word before the request and says whether the economy or the food feel it.
 3. THE ARRIVED PLAGUE (packet 2): at the front's materialization (pestilenceKernel :233–258), promote the minted
    stressor to its `plague` condition in the same tick through conditionPromotion (the archetype rule at :29),
    capped as the famine condition loop is; emit the arrival event with `sourceSeat` (mat.sourceId), `arrivedWeek`
@@ -1262,7 +1321,9 @@ THE DATA CONTRACT THE MAP EXPECTS
   'retcon'|'reroll'|'unknown' }` — "`hostEffect` gains `rederive`,
   the host's effect word shown as sent; the preview reads 'its computed facts re-derived; its people, trades and
   history kept'" (M33); until it arrives the map holds W_DOSSIER_PENDING and refuses a second request on the seat.
-- `SettlementFacts.phase: 'draft'|'canonized'` with the warning and exposure words above (H32).
+- `SettlementFacts.phase: 'draft'|'canonized'` and `SettlementFacts.editLaw?: { effect: 'rederive'|'reroll';
+  warning?: string; exposure?: { economy: boolean; food: boolean } }` (H32; file w): the preview's `hostEffect`
+  reads `phase` and `editLaw.effect`, and its "would the economy or food feel it" reads `editLaw.exposure`.
 - `LensFacts.plague[]` rows with `source`, `arrivedWeek`, `onsetWeek`; the map captions an arrived, unresolved
   plague "arrived; the town's record follows at resolution" (M29) until packet 2 lands, then drops the caption.
 - `LensFacts.transfers` and `LensFacts.columns` never describe one shed twice.
@@ -1284,8 +1345,8 @@ WHAT NOT TO DO
 - Never serve a crisis twice on the canon; never drop the aspatial lane off the canon.
 
 RECORD: the packet rows (a train); shift records for packets 2 and 3; the fold's §2 POPULATIONS and PG rows.
-REPORT BACK: hostEffect's five words as sent, the phase warning strings, the exposure fields, the arrival event's
-fields.
+REPORT BACK: hostEffect's five words as sent, SettlementFacts.editLaw (effect, warning, exposure), the arrival
+event's fields.
 ```
 
 ---
@@ -1340,7 +1401,8 @@ BUILD
    payer buys the raider off) — a closed three-word vocabulary, banded, UNMEASURED until the soak signs it (req
    18). Write it to the candidate's metadata (`outcome`), the news entry's `reasons` and the Herald headline (the
    HEADLINE register: one gesture), and send it as `WorldEvent.verdict` with `where: { kind: 'settlement', seat:
-   victim }`, `pair: [aggressor, victim]`. A `bought_off` raid moves no band on the map (M15's stand-off rule).
+   victim }`, `pair: [aggressor, victim]`. The map's verdict table (file w item 1162) reads the aggressor as the
+   winner for `succeeds`, the victim for `repelled`, and nobody — no band moved — for `bought_off`.
 2. THE STRENGTH ORDER (the same packet): `PolitySeat.strengthBand` = settlementStrength banded on STRENGTH_BANDS in
    every window (H13/H25: "the comparator its relationship drift reads to choose a raider and an overlord"), and
    tier changes as dated `changes` rows (`field: 'tier'`); say whether a promotion writes the save's tier label.
@@ -1353,7 +1415,8 @@ BUILD
 THE DATA CONTRACT THE MAP EXPECTS
 - `WorldEvent { kind: 'raid'; verdict: 'repelled'|'succeeds'|'bought_off'; where: the victim; pair; week; causedBy;
   audience }` — the map marks the victim's facing segments fighting and, with the word, credits the winner +1
-  (`succeeds` the aggressor, `repelled` the victim, `bought_off` nobody); "whyCell names the strength-band change,
+  by its verdict table (file w item 1162: the aggressor for `succeeds`, the victim for `repelled`, nobody and no
+  band for `bought_off`); "whyCell names the strength-band change,
   never the raids, when a season of raids has moved the band" (M16) — so send the band's own dated change too.
 - `PolitySeat.strengthBand: 0..4` every window; `PolitySeat.changes[]` with `field: 'tier'|'strength'`.
 
@@ -1521,9 +1584,10 @@ READ FIRST
 
 BUILD
 1. THE SEA LANES (packet 1, behind `seaLaneDirectionEnabled`, virtual): accept `routeFacts` per water edge the
-   canon's candidate matches (by host key) with `sailing: { vessel: 'sail'|'oared'|'coastal'; month: 1..12; ab:
-   number; ba: number; mean: number }[]` (integer effort-metres; wind and current only); where lit, the sea-lane
-   read keys the lane by direction and month (an edge `{ between, costAB, costBA }` per month, the slot's version
+   canon's candidate matches (by host key) with `sailing?: { vessel: 'sail'|'oared'|'coastal'; byMonth: { out:
+   number; back: number; mean: number }[] /* twelve */ }[]` (file y's typing on `routeFacts`, matching
+   `WorldRoute.sailing`; integer effort-metres a → b and b → a; wind and current only); where lit, the sea-lane
+   read keys the lane by direction and month (an edge `{ between, costOut, costBack }` per month, the slot's version
    stepped) and the storm multiplier `stormSeasonCost[season]` applies ONCE on top; dark, the symmetric `mean` is
    not even read and the slot is byte-identical. The canon's water metres (the candidates' `waterM`) never move.
    Caravans, refugee pricing and plague latency read the lit lane; the naval layer reads the same read.
@@ -1542,7 +1606,9 @@ BUILD
 
 THE DATA CONTRACT THE MAP EXPECTS
 - `routeFacts(world, request?)` per host water edge: the host key, integer water metres by kind, the per-class
-  effort, the 52-week seasonal sets and `sailing[]` as above — "behind the host's own switch … the canon's water
+  effort, the 52-week seasonal sets and, per water edge, `sailing?: { vessel; byMonth: { out; back; mean }[] }[]`
+  (H33: the directional efforts and their symmetric mean, wind and current only) — "behind the host's own switch …
+  the canon's water
   metres stay geometric and unchanged" (J393); until adopted the map captions every sea link "the host's movers do
   not yet read the season" (M27) and drops the caption on the host's switch.
 - `SettlementPhysical` as above (a derived reading; the map "never a genesis fact and never its biome").
@@ -1550,8 +1616,9 @@ THE DATA CONTRACT THE MAP EXPECTS
   (M26); `WorldEvent { kind: 'eruption'|'volcanoActive' }` from the DM, read never rolled.
 
 ACCEPTANCE TESTS
-- tests/domain/seaLanesDirection.test.js: dark ⇒ the digest and every hopWeeks read byte-identical; lit, ab ≠ ba on
-  a fixture edge, the storm multiplier applies exactly once (a seeded month in storm season equals mean × storm,
+- tests/domain/seaLanesDirection.test.js: dark ⇒ the digest and every hopWeeks read byte-identical; lit, `out` ≠
+  `back` on a fixture edge in a windy month, the storm multiplier applies exactly once (a seeded month in storm
+  season equals mean × storm,
   never × storm²), the candidates' waterM unchanged; the naval layer's EV reads the directional cost.
 - tests/domain/physicalReadings.test.js: a reading never writes any config key (a byte-diff of config before and
   after display); the switch dark ⇒ agriculture and calamity byte-identical.
@@ -1565,7 +1632,8 @@ WHAT NOT TO DO
 - Never emit a depopulation event for a transfer or a column (they are movers, not deaths).
 
 RECORD: the packet rows; shift records for the switches; the fold's §2 WAYFARE row (the sea read) and POPULATIONS
-row. REPORT BACK: seaLaneDirectionEnabled, physicalReadingsEnabled, the sailing row shape, populationAfter, the
+row. REPORT BACK: seaLaneDirectionEnabled, physicalReadingsEnabled, the `sailing[].byMonth` row shape as adopted,
+populationAfter, the
 three event kinds and the two DM-stamped kinds.
 ```
 
@@ -1586,7 +1654,7 @@ Tick each as it lands in the host; the map side lights the lens or layer named i
 - [ ] S7 MAP_FEED_READERS; the K3 bracket; the fence test
 - [ ] S8 the force band with its basis (gross now; net with WC-4)
 - [ ] S9 the world root in the cause walk; reasonOf hops
-- [ ] S10 claims: lineage, vengeance, grievance with since and expires
+- [ ] S10 claims: lineage, vengeance, grievance with since and expires; the pairs' live treaty terms (`terms`)
 - [ ] S11 WY §3b's bracket; the register's marker/dated-fact split
 - [ ] S12 the dossier-update handler (hostEffect); the arrived plague's condition; the one-service fence
 - [ ] S13 the raid's three words; strengthBand each window; the registry row with SP-9
@@ -1611,14 +1679,16 @@ Tick each as it lands in the host; the map side lights the lens or layer named i
 - **S7** → the §3.11.6 law line holds with the host's reader list named (M12); the feed stays a reading.
 - **S8** → `memberForce` reads `netForce` where sent, else the band labelled gross (M17).
 - **S9** → the clerk's `reasonOf` answers the host's cause walk; one "why" crosses the seam (M7).
-- **S10** → the claims lane draws vengeance licences and sold-town grievances as DM-only outlines (M20).
+- **S10** → the claims lane draws vengeance licences and sold-town grievances as DM-only outlines (M20); a live
+  non-aggression term reads neutral and a live mutual-defence term respect for the sway's class (M13).
 - **S11** → §5.8 (5)'s split stands in both documents: mover markers under the host's law; dated facts captioned;
   the approach ring a dated fact; "likely road" DM-only (M23); the cargo refusal gated "where the host's lane is
   dark" (M24).
 - **S12** → the conflict list's preview reads "its computed facts re-derived; its people, trades and history kept"
   and shows the effect word as sent (M33); the plague lens drops "arrived; the town's record follows at resolution"
   (M29); the populations lens draws one crisis once.
-- **S13** → a raid with a word is a verdict (+1 to the winner, `bought_off` none); `whyCell` names the strength-band
+- **S13** → a raid with a word is a verdict by the verdict table (the aggressor for `succeeds`, the victim for
+  `repelled`, nobody and no band for `bought_off`); `whyCell` names the strength-band
   change, never the raids (M15, M16).
 - **S14** → the patrols lens's tints gain a host meaning (B) or a legend line saying they have none (A); nothing on
   the map changes either way — the lens never claimed an effect the host does not apply.
@@ -1629,4 +1699,5 @@ Tick each as it lands in the host; the map side lights the lens or layer named i
 COMPLETE: head, S1–S15 and the closing written; every host citation verified at 81f1cd96 by symbol and line; one
 owner decision (S14) boxed and S1's deity ruled B with A as the owner's veto; three "(chosen here)" choices marked
 (S1's door, S3's re-sent bindSeat, S4's rung); port names aligned to files v/w on 2026-10-24 (names, partySeat,
-observer, homeSeat, Believed, courts, integrity, hostEffect's enumeration, cargo).
+observer, homeSeat, Believed, courts, integrity, hostEffect's enumeration, cargo); revised for the review
+docs/volumes/critique/experience-vwx.md (EX-01, -02, -03, -05, -11, -12, -13, -14, -15, -19) on 2026-10-24.
