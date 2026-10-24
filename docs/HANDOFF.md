@@ -19,8 +19,8 @@ the targets as v leaves them).
 | prompts | research/host-prompts (Fable, max) | research/sf/host-prompts-2026-10-24.md (S1–S15; 1,597 lines; ~120 host citations verified at 81f1cd96) | LANDED 70694b3 (1,632 lines; port names aligned to v; S1 ruled B with A as the veto) |
 | design w | amendments/experience-w (Fable, max) | docs/AMENDMENTS-2026-10-24w.md (items 1141–1199; 110 fragments; J-V13.166–.189; T-V13-96–118; BCR-V13-53–55; H45–H46; H24/H31/H32 revised; D-V13.16; WORLD-21–22; SP-W11; J-V9.156–.164; T-V9-91–96) | LANDED (dry run clean on top of v; lint clean) |
 | review | critique/experience-vwx (Fable, max) | docs/volumes/critique/experience-vwx.md | LANDED f2d62c9 (EX-01–EX-19: 0 blockers, 6 majors, 13 minors; 262 fragments dry-run clean end to end; 174 host citations hold; verdict: ready to apply after the fixes) |
-| revise | the design seats via SendMessage (v, x, prompts in parallel; w after v) | the three files and the prompts revised per EX-01–EX-19; file y takes EX-13's routeFacts typing and EX-09's §5.9 (2) cite | RUNNING |
-| apply | amendments/experience-apply (Opus, medium) | docs/validation/coherence/experience-{v,w,x}.md; bundle | — |
+| revise | the design seats via SendMessage (v, x, prompts in parallel; w after v) | the three files and the prompts revised per EX-01–EX-19 (v 64 fragments; w 114; x 91; prompts 1,703 lines); file y takes EX-13's routeFacts typing and EX-09's §5.9 (2) cite | LANDED |
+| apply | amendments/experience-apply (Opus, medium) | docs/validation/coherence/experience-{v,w,x}.md; bundle | RUNNING |
 | close | the manager (Fable) | docs/AMENDMENTS-2026-10-24y.md (INDEX, SUMMARY, the brief, HANDOFF); J398; lane-events | — |
 
 ## RESUME HERE — THE SUBSTANCE-AND-EXPERIENCE REREAD (2026-10-23; Fable managing, J392)
