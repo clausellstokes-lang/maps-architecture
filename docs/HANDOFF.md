@@ -13,8 +13,8 @@ a review seat, an Opus apply seat, the manager's close. Briefs in the scratchpad
 | stage | seat (model) | output | state |
 |---|---|---|---|
 | rulings | the manager (Fable) | docs/PROGRESS.md J399 | LANDED 5d27fe6 |
-| design z | amendments/campaigns-z (Fable, max) | docs/AMENDMENTS-2026-10-24z.md (items 1256–1300; H47; V13, V15, V14, V09, the base) | RUNNING |
-| review | critique/campaigns-z (Fable, high) | docs/volumes/critique/campaigns-z.md | WAITS ON z |
+| design z | amendments/campaigns-z (Fable, max) | docs/AMENDMENTS-2026-10-24z.md (items 1256–1293; 89 fragments; H47; J-V13.191–.197; T-V13-120–125; BCR-V13-56–57; WORLD-24; J-V15.49–.51; T-V15-35–37; BCR-V15-19; RQ-V15-16–17; ATLAS-17; J-V14.59; T-V14-36; BCR-V14-27; J-V9.165–.167; T-V9-97) | LANDED (dry run clean; lint clean) |
+| review | critique/campaigns-z (Fable, high) | docs/volumes/critique/campaigns-z.md | RUNNING |
 | apply | amendments/campaigns-apply (Opus, medium) | docs/validation/coherence/campaigns-z.md; bundle | WAITS ON review |
 | close | the manager (Fable) | INDEX/SUMMARY/brief items (file aa or in z's record); J400; lane-events | — |
 
