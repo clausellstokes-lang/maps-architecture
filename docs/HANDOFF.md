@@ -15,8 +15,8 @@ the targets as v leaves them).
 |---|---|---|---|
 | rulings | the manager (Fable) | docs/PROGRESS.md J397 | LANDED 696015a |
 | design v | amendments/experience-v (Fable, max) | docs/AMENDMENTS-2026-10-24v.md (items 1083–1119; 36 change items, 61 fragments; H36–H44; J-V13.137–.153; T-V13-74–86; D-V13.11–.12) | LANDED 1f4630d (dry run clean; lint clean) |
-| design x | amendments/experience-x (Fable, max) | docs/AMENDMENTS-2026-10-24x.md (items 1201–1240; V15, V14) | RUNNING |
-| prompts | research/host-prompts (Fable, max) | research/sf/host-prompts-2026-10-24.md (S1–S15; 1,597 lines; ~120 host citations verified at 81f1cd96) | LANDED (alignment to v's port names in progress) |
+| design x | amendments/experience-x (Fable, max) | docs/AMENDMENTS-2026-10-24x.md (items 1201–1240; 91 fragments; J-V15.41–.48; T-V15-27–34; BCR-V15-16–18; RQ-V15-12–15; J-V14.57–.58; T-V14-34–35; BCR-V14-26) | LANDED (dry run clean; lint clean; RQ-V15-12/13 go to file y) |
+| prompts | research/host-prompts (Fable, max) | research/sf/host-prompts-2026-10-24.md (S1–S15; 1,597 lines; ~120 host citations verified at 81f1cd96) | LANDED 70694b3 (1,632 lines; port names aligned to v; S1 ruled B with A as the veto) |
 | design w | amendments/experience-w (Fable, max) | docs/AMENDMENTS-2026-10-24w.md (items 1141–1200; H45–H46; H24/H31/H32 revised) | RUNNING (quotes the targets as v leaves them) |
 | review | critique/experience-vwx (Fable, max) | docs/volumes/critique/experience-vwx.md | WAITS ON v, w, x, prompts |
 | revise | the design seats via SendMessage, or the manager | the three files and the prompts revised | — |
