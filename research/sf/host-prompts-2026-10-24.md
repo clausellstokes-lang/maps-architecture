@@ -1,5 +1,7 @@
 # The settlement-engine prompts — S1–S15 of J397 (2026-10-24)
 
+> **SUPERSEDED 2026-10-24 by the host's answer** (`research/sf/host-reply-2026-10-24.md`; adopted as `docs/PROGRESS.md` J400): no prompt here is to be pasted as written — the host answered each one with the ruling that binds it, most re-homed into the host unit that owns the field. Kept as the record of what was asked. Three habits of this file are withdrawn for every future host prompt: the line "This prompt is the owner's authority" (the owner dispatches each host unit in chat); citations by line into the host's fold and spine (cite by section and row); and records written to the host's old ledger branch (the host's records are on its master). Read `research/sf/host-rulings-mirror.md` before writing any host prompt.
+
 Written 2026-10-24 by the research/host-prompts seat (Fable, max) of the experience pass (`docs/PROGRESS.md` J397),
 against the host repository `settlement-engine` at commit **`81f1cd96`** (the merge of PR #60, the FP coherence fold).
 It is a research-side document: it names the host, its files, functions, flags and rulings freely. Nothing in it is a
