@@ -1,27 +1,28 @@
 # HANDOFF — town-generator research program
 
-## RESUME HERE — THE EXPERIENCE PASS (2026-10-24; Fable managing, J392/J397)
+## RESUME HERE — THE EXPERIENCE PASS (2026-10-24; Fable managing, J392/J397) — LANDED (J398)
 
 The owner: "So do the prompts and integrate them that can be done on maps and give me the prompts for settlement
-engine" / "Try again" (J397). The map-side rulings M1–M50 and the host-side asks S1–S15 are in J397; the seat briefs are
-in the scratchpad `experience-pass/briefs/` (00-preamble, A1-file-v, A2-file-w, B-file-x, D-host-prompts, plus the
-review and apply briefs written while the seats ran). Seats are Agent-tool lanes (Fable designs, Opus applies; a Fable
-seat that hits the limit is re-run on Opus with the J375 notice). Each design seat writes incrementally with a
-`PROGRESS:` ledger line at the end of its file and ends with a `COMPLETE:` line; a dead seat is re-run from its partial
-file with the same brief. Apply order: v → w → x → y. File w is launched only after file v lands (both edit V13; w quotes
-the targets as v leaves them).
+engine" / "Try again" (J397). The map-side rulings M1–M50 are applied (amendments v, w, x, y; records
+docs/validation/coherence/experience-{v,w,x,y}.md; bundle 85,704 lines, up to date); the host-side asks S1–S15 are the
+prompts in research/sf/host-prompts-2026-10-24.md, written for a settlement-engine session (paste one per turn, in the
+file's order; S1 and S14 carry the owner's decisions there). Nothing on the map side waits on the owner; every ruling is
+vetoable (J398). The seat briefs are in the scratchpad `experience-pass/briefs/`.
 
 | stage | seat (model) | output | state |
 |---|---|---|---|
 | rulings | the manager (Fable) | docs/PROGRESS.md J397 | LANDED 696015a |
-| design v | amendments/experience-v (Fable, max) | docs/AMENDMENTS-2026-10-24v.md (items 1083–1119; 36 change items, 61 fragments; H36–H44; J-V13.137–.153; T-V13-74–86; D-V13.11–.12) | LANDED 1f4630d (dry run clean; lint clean) |
-| design x | amendments/experience-x (Fable, max) | docs/AMENDMENTS-2026-10-24x.md (items 1201–1240; 91 fragments; J-V15.41–.48; T-V15-27–34; BCR-V15-16–18; RQ-V15-12–15; J-V14.57–.58; T-V14-34–35; BCR-V14-26) | LANDED (dry run clean; lint clean; RQ-V15-12/13 go to file y) |
-| prompts | research/host-prompts (Fable, max) | research/sf/host-prompts-2026-10-24.md (S1–S15; 1,597 lines; ~120 host citations verified at 81f1cd96) | LANDED 70694b3 (1,632 lines; port names aligned to v; S1 ruled B with A as the veto) |
-| design w | amendments/experience-w (Fable, max) | docs/AMENDMENTS-2026-10-24w.md (items 1141–1199; 110 fragments; J-V13.166–.189; T-V13-96–118; BCR-V13-53–55; H45–H46; H24/H31/H32 revised; D-V13.16; WORLD-21–22; SP-W11; J-V9.156–.164; T-V9-91–96) | LANDED (dry run clean on top of v; lint clean) |
-| review | critique/experience-vwx (Fable, max) | docs/volumes/critique/experience-vwx.md | LANDED f2d62c9 (EX-01–EX-19: 0 blockers, 6 majors, 13 minors; 262 fragments dry-run clean end to end; 174 host citations hold; verdict: ready to apply after the fixes) |
-| revise | the design seats via SendMessage (v, x, prompts in parallel; w after v) | the three files and the prompts revised per EX-01–EX-19 (v 64 fragments; w 114; x 91; prompts 1,703 lines); file y takes EX-13's routeFacts typing and EX-09's §5.9 (2) cite | LANDED |
-| apply | amendments/experience-apply (Opus, medium) | docs/validation/coherence/experience-{v,w,x}.md; bundle | RUNNING |
-| close | the manager (Fable) | docs/AMENDMENTS-2026-10-24y.md (INDEX, SUMMARY, the brief, HANDOFF); J398; lane-events | — |
+| design v | amendments/experience-v (Fable, max) | docs/AMENDMENTS-2026-10-24v.md (items 1083–1119; 64 fragments; H36–H44) | LANDED, revised c1695cb, APPLIED |
+| design w | amendments/experience-w (Fable, max) | docs/AMENDMENTS-2026-10-24w.md (items 1141–1199; 114 fragments; H45–H46; H24/H31/H32 revised) | LANDED, revised 6a98276, APPLIED |
+| design x | amendments/experience-x (Fable, max) | docs/AMENDMENTS-2026-10-24x.md (items 1201–1240; 91 fragments; V15, V14) | LANDED, revised de04901, APPLIED |
+| prompts | research/host-prompts (Fable, max) | research/sf/host-prompts-2026-10-24.md (S1–S15; 1,703 lines) | LANDED, revised e07abf7 |
+| review | critique/experience-vwx (Fable, max) | docs/volumes/critique/experience-vwx.md (EX-01–EX-19; 0 blockers) | LANDED f2d62c9; every fix carried |
+| apply | amendments/experience-apply (Opus, medium) | docs/validation/coherence/experience-{v,w,x}.md; bundle | LANDED 126810b (135 items, 269 fragments, none unapplied) |
+| close | the manager (Fable) | docs/AMENDMENTS-2026-10-24y.md (items 1241–1255) applied; experience-y.md; J398; lane-events | LANDED |
+
+If a later session resumes: the next coherence pass owes the pending ledger (BCR-V13-54, BCR-V13-55, BCR-V15-16–18,
+BCR-V14-26, with the earlier pending rows); the whole-design retrovalidation of the Opus-managed work (J375–J392) is
+still open; the prompts are the owner's to run in the host, and each H row they serve says what the map does once it lands.
 
 ## RESUME HERE — THE SUBSTANCE-AND-EXPERIENCE REREAD (2026-10-23; Fable managing, J392)
 

@@ -3374,7 +3374,11 @@ V09 §3.3's pipeline, and every view setting is view state that never changes th
    `history.defaultAgeYears` = 300, our own, calibratable; confirmed by T-V9-73's fixture replaying within item 119's
    ten-second comfort level in total, item 119 (a2)). A pick maps to
    `adjust('history', { peak: { tier: rung, symbolic: false, evidence: [] }, ageYears, scars: [] })` — §2.7's standalone
-   form of `HistoryHint` — the blueprint's `history` (§4.2 S0), and "None" to `adjust('history', undefined)`. In the
+   form of `HistoryHint` — the blueprint's `history` (§4.2 S0), and "None" to `adjust('history', undefined)`; behind More
+   beside **Age**, the switch **An old town under this one** — "By age" · "Always" · "Never" — maps to
+   `HistoryHint.strata.request` (`byAge` · `always` · `never`; J397 (M38); BCR-V13-53; the base's §4.2 S2 and II.7.6),
+   its share by age unless the DM sets one behind More (`strata.share`); the switch stays open with a dossier history,
+   because the strata are the frame's own request and never the dossier's (file w item 1197; file y item 1248). In the
    empty state it is part of the new town's recipe; after a declaration it is a Re-derive from S0 (§7.1), previewed as
    the whole-town ghost with its fates (V09 §3.3), the replay's wait shown by the progress view (4.21.9). With a dossier
    history (DR36–DR39) the chip reads `info.history.fromRecord` ("From SettlementForge's record") and is locked; the
@@ -3925,7 +3929,9 @@ place the world's request is edited; it is the same dialog at every rung and for
    toolbar's **Release** and **Weather** depths, and the world map's continuation and fit (V15 §3.4, §3.5). **Include
    my settlements** and **Best placement** follow the host's campaign entitlement wherever it applies — the dialog adds
    no gate of its own above the host's and shows the host's reason. The gate mirrors the host's own rule for its
-   settlements: nothing hidden, everything drawn, one check at the act. **The DM's physics toolbar** stands
+   settlements: nothing hidden, everything drawn, one check at the act. The world map's relational styles are
+   presentation and open to every account kind (J397 (M48); V13 §2.3's `gate`, the `imageOnly` row); its continuation
+   and fit alone stay premium (V15 §3.4, §3.5). **The DM's physics toolbar** stands
    beside the layers: the layer picker (biome, soil, land cover, current; terrain and water as T2 has them), the verb
    toggle (`alwaysSo` → `paintLayer`, an override the physics derives against; `happened` → `disturb`, a dated
    disturbance that recovers), the brush with its radius, and `physicsPass`'s scope (whole world, a region, a

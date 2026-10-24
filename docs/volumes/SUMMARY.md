@@ -247,6 +247,16 @@ Twenty-five questions, each with a recommendation the work follows until you rul
   that keeps your host's simulator from reading the map, and the door stays closed to your towns' geometry; so every
   new campaign gets its world's canon at its birth, and nothing waits on this question any more (vetoable: say the word
   and the canon goes back behind the door).
+- **The experience pass** (24 October; your "So do the prompts and integrate them that can be done on maps and give me
+  the prompts for settlement engine"): fifty rulings on the map's side, each vetoable — among them a world born with your
+  realistic rules applied and its realms named, a first screen with fields and banners instead of "not sent", towns free
+  to drag until the first advance, a party's map that believes what the town it stands in believes and gets far news at
+  a rider's pace, a looted map that shows what the enemy court believes, borders that read a sworn peace as peace, fields
+  that can never flood a continent, a world sea-rise you can carry into a town with one confirmation, a dossier edit that
+  never re-rolls a town's people, and a numbered room key for every dungeon. The fifteen things SettlementForge must do
+  for them are written as prompts you can paste into a SettlementForge session (`research/sf/host-prompts-2026-10-24.md`);
+  two of those hold decisions that are yours there, not here: a god seated at a campaign's birth, and whether patrols on
+  the map feed the spy's capture roll.
 
 Every recommendation with its reason is in `docs/volumes/INDEX.md` §6, and each question's full text is in its volume's
 section 11.
