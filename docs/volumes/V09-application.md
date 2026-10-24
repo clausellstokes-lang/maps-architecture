@@ -3841,7 +3841,11 @@ place the world's request is edited; it is the same dialog at every rung and for
 1. **Generated first.** A new world document opens already generated (§5.13's **New world**: a random request at the
    realm rung, W0–W9 run, the map drawn), the dialog open beside the map with every option reading **random** and its
    rolled value shown greyed beneath it ("random — rolled: temperate, 42° N"). There is no wizard and no empty state:
-   the user edits a world, never a form. Closing the dialog keeps the world; reopening it shows the same choices.
+   the user edits a world, never a form. Closing the dialog keeps the world; reopening it shows the same choices. On a
+   world the host's instant world asked for, the host's tone chip is shown read-only beside the layers as **the rules
+   this realm runs** — the regime the lenses' banners will read (V13 §3.1 (1)'s `regime`; J397 (M4)) — never an option
+   of the dialog; the host's size and kind words appear as the rolled values of the size, shape and ruggedness rows
+   they set through V13 §2.3's adapter table, each row editable as any other after the run.
 2. **The layered panel — the owner's words (F5; J393).** **Random all** (the one button, the seed shown beside it),
    **Generate**, and the layers as labelled groups — exactly `world.presets`' groups (V13 §2.3's
    `PresetRule.options[].group`), each a disclosure open by default at its level: **Basic**, always visible (the size
@@ -3865,7 +3869,10 @@ place the world's request is edited; it is the same dialog at every rung and for
    stage's draws there (`regenerate` with a world `scope`, §4.3), asking first when it would overwrite a lock or an
    override. Every change previews as the coarse run (V13 §3.1 (7): a thumbnail within 300 ms at the realm rung when no scenario
    knob changed — a scenario knob's change takes the bake's time, with a progress strip and the last thumbnail
-   meanwhile —, the fine run on **Generate**), and the preview is the run — the same stages on the coarse grid, never a cheaper
+   meanwhile; so does **Random all** at the continent rung, which draws a formation scenario by default (J397 (M31);
+   V13 §3.1 (1)) and shows the bake's strip over the last thumbnail, the scenario card reading its drawn row greyed as
+   every rolled value is; at the realm and province rungs Random all stays the authored path unless the card is set —,
+   the fine run on **Generate**), and the preview is the run — the same stages on the coarse grid, never a cheaper
    proxy; the thumbnail carries the verification report's summary ("3 of 3 inclusions met").
 5. **The inclusion chips and the include toggle.** The Advanced layer's biomes group holds the inclusion chips
    (a desert, a great river, an inland sea, a mountain range, a monsoon coast, a cold coast — each with its amount
@@ -3879,11 +3886,25 @@ place the world's request is edited; it is the same dialog at every rung and for
    included settlement's facts, the list opens before the run commits (V13 §3.11.5 (1); `W_EDIT_DOSSIER`): one row
    per affected settlement with the fact, what the change would make of it, and the choices — **Cancel**, **Fit the
    world** (the solver corrects around the settlement), **Paint around** (an override at the settlement's extent),
-   **Keep the mismatch** (flagged on the DM view), **Update the dossier** (a request to the host, with its kind:
-   "this happened" / "it was always so"), and where the ladder allows them **Move the settlement** and **Change my
+   **Keep the mismatch** (flagged on the DM view), **Update the dossier** (a request to the host, with its kind
+   as the settlement's phase admits — on a canonized settlement "the land changed" (the default) or "it was always
+   so", on a draft "it was always so" alone — and, beneath it, what the host will do in the host's own sentence as
+   sent (V13 §2.2's `hostEffect`; J397 (M33)): on a draft "its computed facts re-derived; its people, trades and
+   history kept", on a canonized settlement "a decree at the next advance" or "the host's own retcon", and the host's
+   own warning where an older path of its still re-rolls; never "re-rolled" in the dialog's own voice), and where the
+   ladder allows them **Move the settlement** and **Change my
    request**. A choice is a `decide`; a dossier update shows as pending (`W_DOSSIER_PENDING`) until the host confirms
    it, and the dossier reads unchanged until then. Decisions are remembered and reused until the facts they rest on
-   move; a preset's pre-decisions apply to map-side rows only (§4.14).
+   move; a preset's pre-decisions apply to map-side rows only (§4.14). **At realm scale** (J397 (M30); V13 §3.11.5 (1))
+   the rows of one kind from one stroke draw as one row — "for all 3 settlements" with the three listed beneath it —
+   over the same choices, a choice taken there deciding each (a settlement may still be opened and decided alone); a
+   row the whole-march re-run raised far from the stroke carries each settlement's rain diff beside it ("Kessar: 80 mm
+   less a year, 400 km downwind"), so the DM sees why a ridge in the west asks about a town in the east. **A stale
+   town's water** (J397 (M32); V13 §3.11.5 (3)): where a world water change marks a town's charter stale, the town's
+   row offers three in the user's words — **Keep** ("the land under this town has changed; the town is unchanged"),
+   **Carry the water** ("the new water level is written into the town as something that happened; nothing else
+   changes") and **Re-make the town from the land** (the re-derive, with its change count) — the second previewed as
+   the town's own flood before the one confirmation.
 7. **Best placement.** On a settlement's card (T6 `place`, with a host-bound settlement's card too) **Best
    placement** runs `placeFrame`'s best form (V13 §3.11.4): the least-change placement under the settlement's rows,
    three offers on the map ordered by cost then distance with their reasons, a hover showing each; when no cell is
@@ -3909,8 +3930,13 @@ place the world's request is edited; it is the same dialog at every rung and for
    toggle (`alwaysSo` → `paintLayer`, an override the physics derives against; `happened` → `disturb`, a dated
    disturbance that recovers), the brush with its radius, and `physicsPass`'s scope (whole world, a region, a
    watershed) and depth under the DM's three verbs (V13 §4.2 T10): *re-run physics* — **Re-derive**, or **Release**
-   with its keep-history switch; *let time pass* — **Weather** with its years; *reroll* — the targeted rerolls of (4)
-   — each pass on the fork with its dry run, its band crossings and the conflict list before **Commit**.
+   with its keep-history switch; *let time pass* — **Weather (geological years)** with its years from 100 (the land's slow processes, never the
+   campaign's time; J397 (M36)); *reroll* — the targeted rerolls of (4)
+   — each pass on the fork with its dry run, its band crossings as one line of the diff summary (the warning itself at
+   **Commit**, J397 (M40)) and the conflict list before **Commit**; and beside the toolbar the **Campaign time**
+   control — the scrub of V13 §5.8 (8) in the campaign's weeks, which moves the land cover's plates, a disturbance's
+   recovery stages and the lenses with them: the control a DM reaches for "a century later" in play, the weather the
+   one for "ten thousand years of rain".
 9. **Presets and the gallery.** The panel's presets row, beneath the layers, opens §4.14's presets dialog in its world form; the
    gallery beside it shows each preset's thumbnail from its coarse run on the current seed, a click applying it as
    choices (not as rolled facts) and previewing.
@@ -3924,6 +3950,28 @@ place the world's request is edited; it is the same dialog at every rung and for
    account that may not generate with a scenario sees the scenario card, its gallery and its preview, and the
    reason at **Generate**; a child derived from a parent (V15 §3.5 (a)) shows the scenario card disabled with "the
    ground is the parent's" (no formation op on a derived child, V13 §3.1 (1)).
+11. **The placement card, the lake verb, the campaign history and the lens keys — the words** (V13 owns the facts,
+   this section the words; drawn under BCR-V13-39's rule as the lens-mark card is). **The placement card** (J397
+   (M34); V13 §5.2): its cost by term reads as **how it fits the land** — one sentence per term, "the sea lies on the
+   wrong side" or "on an adjacent side" (the coast), "the river misses its crossing", "the ground steps at the town's
+   edge", "the land is rougher than the town's" or "smoother", "the climate differs", "another realm's land", "the
+   dossier contradicts this place" — and "it fits" when lawful; its stamp reads **the land yields to the town**
+   (settlement-first) or **the town was placed on the land** (world-first); each anomaly is a sentence — "the wind now
+   blows from the far side of the tannery", "the quay faces land", "the river would run uphill", "the locked cellar
+   lies below the water table", "a locked building stands in water", "a road of the land meets no gate", "a gate's
+   road meets no road of the land", "the sun stands where the town's own latitude says, not the land's" —, each with
+   **Keep** and **Re-make this from the land** (the scoped re-derive, its change count shown); the whole-town verb is
+   **Re-make the town from the land** (V13's `worldWins`, with its change count), and a stale charter reads **the land
+   under this town has changed** with (6)'s three offers. No identifier of V13's appears in a card string (T-V9-91).
+   **The lake verb** (J397 (M35); V13 §4.2 T2): **Lower or raise this lake** offers its three meanings by consequence —
+   "Hold it at this level (this happened)", "Change the basin under it (the ground is remade)", "Cut the outlet (the
+   land drains it lower)" — the first the default, each previewed. **Campaign history** (J397 (M39); V13 §4.4, §5.2): a
+   view of the world page listing the world's and its towns' dated events on one timeline, each entry "week n — {the
+   world or the town}: {what happened}" opening its document at that entry; the page says "undo stays with each
+   document". **The lens picker's keys** (file v's ask; the strings themselves V13 §5.1's and §5.9's): per lens the
+   **area fill** switch (religion, prosperity, alignment; off by default), the court viewpoint's court picker with its
+   **show to players** switch, and the events pin card's action **open the headline** where the host registers a
+   reader.
 
 ## 5 Rendering, labels, exports — the screens and the dialogs
 
@@ -4599,6 +4647,12 @@ script at 600 × 480 (T-V9-22).
 | T-V9-86 | a ruined building's damage lines (V09 §4.21.13; item 123) | on V03's damage fixtures — an `abandoned`, a `decayed` and a `ruined` building, a restored one with patches, a never-decayed one and a ruined church with its crypt: the plan panel and the why card's `plan` section show one line per damaged line kind present at the building's level by §6.3 *Plan damage*'s comparison, in `info.damage.*`'s order, three rooms and then "and {n} more"; a never-decayed building shows none, with a kind's range edited to start at 0 as well; a higher level's lines are a superset of a lower's; a restored building's lines leave in reverse threshold order under `info.damage.head.restored`, with `info.damage.patched`; a building a disaster look stands over shows the look's lines under `info.crisis.ruinedFor` in the plan panel, the why card's `plan` section the own level's rows only, its ids and digests unchanged; on T-V3-40's fixture with a rebuild begun on one building of the disaster's units, that building under its `reconstruction` Works shows its own level's lines and no `info.crisis.ruinedFor` on the panel or the card, and under a `disaster` preview the look under `info.crisis.ruinedForPreview`; a `ruined` building at level 1 shows no `storeyGone` line for its ground storey; under View as on a ruined building the key withholds, the lines naming rooms (`roofBay`, `floor`, `partition`, `furniture`, `unsafe`) and the `crypt` line are not drawn while the head line, `storeyGone`, `outerWall`, `door`, `window`, `stair` and `cellar` are, and no room the key does not admit is named; volume 10's explanation of each fixture building renders the same `info.damage.*` rows at the building's own level, and for a building the disaster look stands over names the look by `info.crisis.*` (V10 §3.23 C10); at a scrubbed week (V06 §3.15.2) the why card's `plan` section shows that week's own-level lines and head years, as the plan panel does; with the card left open while the timeline is scrubbed, its `plan` section follows each drawn week | the later of V03's damaged-plan step and M3b; the disaster look's clauses on T-V3-40's fixture at the later of that and M5 (V01's districts); the decay levels at M6-E; the scrubbed-week clause at the later of those and V06's E6 (V06 §3.15.2's frames) (§16) |
 | T-V9-87 | weather effects (V09 §4.21.14; item 124; takes T124-5, with V12 §3.15.14's fixtures on this harness) | on a fresh device fixture the switch reads on at the mid, high and ultra tiers and off on the low tier and under reduced motion (T124-5); a user's choice holds over the default and Reset restores it; **Start a shower now** starts a spell of the commonest kind live at that moment for the climate row — heat shimmer in an arid row's dry weeks at midday, and dust haze there at midnight under `light: 'time'`, rain and never snow where winter does not freeze — and at a moment with no live kind the button is disabled with `settings.weather.noneNow` and starts none (V11 §3.25.11; T-V11-48); a press while a spell is in force fades that spell out before the pressed one starts, and the button disabled with `settings.weather.coming` until the pressed spell starts (§6.1 *The weather stream*); the timeline replays from its session seed, clock and presses with the climate row, year position, sites, light mode and view hour in force (§6.1; T124-9); the Light group's **Weather** offers no `snow` on an arid row and a carried `snow` draws `clear`; the document's hash and every tile are unchanged by the switch, a spell and the button; a picture export draws no effect | M3b (§16) |
 | T-V9-82 | a canvas-declared subset round trip (takes T101-4 on the canvas) | the documents of the known-city canvas scripts (V09 §7.2) and the declared subset of a scripted B-CITY-lite session, each exported by Export skeleton (V09 §3.12) and re-imported under its seed, reproduce the document's model digest — an author's removals kept (file f item 455) | M3a |
+| T-V9-91 | the placement card's words (V09 §4.22 (11); J397 (M34)) | on the dossier-set fixture a hover shows every cost term as its sentence and "it fits" when lawful, the stamp's sentence by `precedenceStamp`, each anomaly kind as its sentence with Keep and Re-make this from the land, Re-make the town from the land only when the charter is stale and with its change count; no identifier of V13's (`worldWins`, `windSide`, `coastInland`, `riverUphill`, `lockedBelowTable`, `keepMismatch`, …) appears in any card string (a lint over the catalogue) | M-W6 |
+| T-V9-92 | the conflict list's words (V09 §4.22 (6); J397 (M30), (M32), (M33)) | the dossier update's kinds read "the land changed" / "it was always so" by phase, a draft offering the second alone; the host's effect sentence per `hostEffect` word as sent and never "re-rolled" in the dialog's own voice; three far-field towns draw as one "for all 3 settlements" row with each town's rain diff, a choice there deciding three; a stale town's water offers Keep, Carry the water and Re-make the town from the land in those words, the carry previewed as the town's flood | M-W6; M-W8 |
+| T-V9-93 | the two time controls (V09 §4.22 (8); J397 (M36), (M40)) | the toolbar's weather control is labelled "Weather (geological years)" with its slider from 100 years; the Campaign time control beside it scrubs `lensWeek` and moves the cover plates and a disturbance's recovery preview, the weather slider moving neither; a pass's preview shows its band crossings as one summary line and the warning appears at Commit alone | M-W8 |
+| T-V9-94 | campaign history (V09 §4.22 (11); J397 (M39)) | the view lists the world's and two towns' entries in week order in the "week n — …" form, each opening its document at the entry; the page states that undo stays with each document, and an undo on a town's page changes that town's entries only | M-W6 |
+| T-V9-95 | the instant world's chips and Random all at the continent rung (V09 §4.22 (1), (4); J397 (M4), (M31)) | on a world the mock host's instant world asked for, the tone chip is read-only and no option, and the size, shape and ruggedness rows show the host's words as rolled values; at the continent rung Random all shows the bake's progress strip over the last thumbnail and the scenario card's drawn row greyed; at the realm rung Random all shows no bake | M-W6; M-W7 |
+| T-V9-96 | the lens picker's keys (V09 §4.22 (11); file v's ask) | per lens the area-fill switch reads off by default and draws the fill labelled as V13 §5.9 says; the court viewpoint's court picker and its show-to-players switch; "open the headline" on a pin card only where the mock host registers a reader | M-W5 |
 
 ### 7.2 The known-city fixture, authored through the canvas
 
@@ -5027,6 +5081,15 @@ the damage lines 0.25 and the weather switch 0.25.
 | J-V9.147 | chose to offer **Re-derive people** on the People panel for the households its rows name and on a person's card for that one household, previewed with its fates, over a control in the advanced panel, because §10.3's re-derive people acts on households and the People panel is where they are chosen (R2-22; VAH-r1-03) |
 | J-V9.148 | chose, on a dossier with no stamped tick, to keep the season control's own week (midsummer by default) with the follow switch on and a line saying the week is the map's, the first tick an absorb brings moving it, over refusing to follow or snapping to week 0, because item 125 (a)–(c) makes the dossier the only data input and the season control its fallback |
 | J-V9.149 | chose to re-issue an advance that Stop ended with `advance`'s `stopAfter` (its journalled count; §11.2, R2-42) over a timed `cancelAdvance` on the job's progress, because no progress message reports the first epoch running and a cancel crossing threads may land after the next epoch starts, so only a count reproduces the journalled `logHeadAfter` (VV910-r1-02) |
+| J-V9.156 | chose one plain sentence per cost term and per anomaly on the placement card, "it fits" when lawful, over V13's identifiers on the card (J397 (M34); experience read 04 §3 worst 4; file w item 1194), because the card spoke implementation to a DM who thinks in land and town |
+| J-V9.157 | chose **Re-make the town from the land** for the whole-town re-derive and **Re-make this from the land** for the scoped one, with **the land under this town has changed** for a stale charter (J397 (M34); file w item 1194), over a button named for the verb, because the DM must know what is unmade before pressing it |
+| J-V9.158 | chose the three offers' words for a stale town's water — Keep, Carry the water, Re-make the town from the land — each saying what moves and what does not (J397 (M32); experience read 04 §3 worst 1; file w item 1192), over "stale" and a re-derive alone, because the middle offer is the one a flooded DM wants and it must say that nothing else changes |
+| J-V9.159 | chose "the land changed" / "it was always so" as the kinds' words, offered by phase, with the host's effect sentence beneath as sent and never "re-rolled" in the dialog's own voice (J397 (M33); experience read 04 §3 worst 2; file w item 1192), over "this happened" and the map's own promise of a re-roll, because the words are V13's and the effect is the host's to say |
+| J-V9.160 | chose **Weather (geological years)** and a separate **Campaign time** control beside the toolbar (J397 (M36); experience read 04 §2.2 (2); file w item 1193) over one slider, because the name of the one the DM reaches for must say which clock it moves |
+| J-V9.161 | chose the "for all n settlements" row with each town's rain diff (J397 (M30); experience read 04 §3 worst 3; file w item 1192) over one row per town, because one ridge asks one question and the diff is the answer's reason |
+| J-V9.162 | chose **Campaign history** as a view of the world page with "undo stays with each document" said on it (J397 (M39); experience read 04 §4 Q10; file w item 1194) over a merged undo, because the design keeps two documents on two clocks and the DM lacks one place to read the year, not one button to unmake it |
+| J-V9.163 | chose the host's tone as a read-only chip **the rules this realm runs** and the host's size and kind words as rolled values, with Random all at the continent rung showing the bake's strip and its drawn scenario greyed (J397 (M4), (M31); experience read 01 Moment 2; experience read 04 Act 0; file w item 1191), over a tone option and a silent bake, because the tone decides which lenses will ever move and the DM must see it, and because a one-click that takes the bake's time must show it |
+| J-V9.164 | chose the lake verb's three meanings named by consequence — hold it, change the basin, cut the outlet — the first the default (J397 (M35); experience read 04 Act 5; file w item 1194), over three tools the DM must already know, because the consequence is the only thing that tells them apart |
 
 ## 10 Base change requests
 

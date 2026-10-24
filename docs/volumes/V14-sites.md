@@ -324,7 +324,12 @@ the site's widths as it reads the sewer's (C14-29).
   volume places is stated from first principles over the kernel's own services (V14 §3.5–V14 §3.6), and the survey's
   technique sorting (its §4.6–§4.12) is cited as corroboration, never as the mechanism.
 * **Tokens, initiative and combat rules** are the virtual tabletop's; the crop exports walls, portals, lights and
-  objects only (V14 §5.3).
+  objects only (V14 §5.3). **Stocking** — the monsters, the traps beyond the hazards G5 lays, the treasure, the names
+  of who is there — is the DM's and, where the host sends a site's people or holder, the host's (the host owns people:
+  J-V14.4's "never individuals"; `WorldSiteHost`); the map owns the shape, the roles and the reasons, and hands them to
+  the DM as **the numbered key** (M41; V14 §2.4's `SiteKey`, §5.2, §5.3): every unit in walk order from the entrance
+  with its role, name, reason, water class and condition, on the site's page and in every export, its sheet saying
+  where the map's half ends ("the rooms and why they are; who and what is in them is yours").
 * **A live shared party map** is J122's decision (V08 Q5): pictures and player views now; the encounter crop is the
   DM's view, exported to the table.
 * **Volume 11's rows** for the new tables this volume registers (V14 §2.5) — the kind rows, grammars, size presets,
@@ -767,7 +772,14 @@ icon's glyph (V14 §5.1). The DM toggles the state by one `setAttr` on `anchor/s
 'public'|'local'; places: Id[] }` (V14 §2.6; BCR-V14-19; last-writer-wins by Lamport and session, written by the owner
 and editor roles only): the document's own party key when no host is bound and a mirror of `MapRecord.party` when one
 is (V08's reveal writes both). `revealed` writes the anchor's address there; View as (V09 §4.8) and the party picture
-read it through `ViewOpts.viewAs`'s key form; the admission function is unchanged.
+read it through `ViewOpts.viewAs`'s key form; the admission function is unchanged. **Seeded across a seam** (M47;
+J-V14.58; V15 §3.7; RQ-V15-15): on a standalone world that is a continuation of a host-bound member of the same atlas
+(V15 §3.4), the atlas's offer **Mark the party's places here** opens this document's page with one write of its own
+`party` key previewed — the crossing's coarse cell on the shared edge and the stations of this document's route that
+begins within the atlas's snap distance of the crossing, as far as its first seat (`tier` kept; `places` extended by
+those addresses) —, written by the DM's one confirmation as the key is written by any DM mark: a view key, never an
+event, never a digest, never the host's (this document has no host); the DM reveals further by the reveal path above.
+T-V14-35.
 
 ### 2.4 Derived transients (never persisted)
 
@@ -810,13 +822,25 @@ type UnitWaterClass = WaterClassResult;                          // V13 §2.4's 
 interface AdoptResult { parts: { from: PlatKey; to: PlatKey }[]; addresses: { from: Id; to: Id }[]; reservation: Id; kept: { locks: number; pins: number; edits: number } }
 interface EmbedResult { units: Id[]; links: Id[]; parts: number[]; measured: ComplexityVector; warnings: string[]; attempts: number }
 interface ConditionResult { closed: Id[] /* units made impassable */; opened: UnitEdge[] /* breaches that joined units */; robbed: Id[] /* elements robbed for stone (V06's ledger) */; level: number /* the decay level applied */ }
+interface SiteKey {                                             // M41: THE NUMBERED KEY — the units in WALK ORDER from the entrance; a reading of the graph, the reasons, the water and the condition at the drawn week; never persisted, rebuilt on open
+  site: Id; week: number; from: Id /* the entrance unit the walk starts at: `UnitGraph.entrances[0]` — the approach-side entrance (G4's `side: 'approach'`), else the entrances by their access records' ordinals */;
+  rows: SiteKeyRow[];                                           // in walk order: a depth-first walk of `UnitGraph` from `from` over EVERY edge (passable or not: a collapsed or flooded unit is numbered and marked), the neighbours of a unit taken in the order of their edges in `UnitGraph.edges`, a `vertical` edge last on its level (a level is numbered whole before the walk descends), a `secretDoor` edge last of all on its level; so the numbering is a pure function of the graph — stable across weeks, sessions, engines and the viewer's key (a room revealed later keeps its number; a party's key shows gaps)
+  note: MsgRef }                                                // the boundary note printed on the sheet and at the panel's foot: the rooms and their reasons are the map's; who and what is in them is the DM's and the host's (V14 §1.4)
+interface SiteKeyRow {
+  n: number /* 1 the entrance; a unit's number */; unit: Id; level: number; storey?: number;
+  role: UnitRole; name: string /* the unit's own name where one is given (the core, the entrances, a level's name; V14 §5.2's labels), else the role word with the unit's kind ("a carved chokepoint", "a natural hall") — the naming slice `site`'s words, never a creature's */;
+  reason: string /* the reason record's sentence (V13's `ReasonRecord` through V10's `why`): the history layer with its event and age, the grammar rule that laid it — "laid by the temple's second expansion, 140 years ago, as the crypt's antechamber" */;
+  water: UnitWaterClass['class'] | 'dry' /* V13's per-unit class at the week (G6) */;
+  condition: 'sound'|'damaged'|'collapsed'|'flooded' /* the unit's elements against their damage thresholds at the week (V03 §5.6's comparison; V14 §3.8) and its edges' passability */;
+  hazards: NonNullable<Unit['hazard']>; exits: { to: number; kind: UnitEdge['kind'] }[] /* the numbered neighbours — "to 4 (door), to 7 (secret door)" at an admitting key */;
+  knownTo: Unit['knownTo'] }                                     // admitted by the viewer's key as the unit is: a `secret` unit's row absent from a party's key, its number kept
 ```
 
 Each transient is total over its inputs: an `Encounter` at a point with nothing resolvable (open water of the world,
 the frame's margin) still returns a crop with its profile `open` and no completions (E3's `open` row); an
 `OccupancySummary` with no households, use or capacity is `{ band: 'empty', headcount: [0, 0], parts: [] }`; a
 `TacticalReport` over no unit is all zeros; a `WaterClassReport` before V13 lands is V14 §1b.6's provisional form; an
-`AdoptResult` over a site with no part lists none. Tested by T-V14-26 (a).
+`AdoptResult` over a site with no part lists none; a `SiteKey` over a candidate card (no graph yet) holds no row and the note alone, and over a graph with no entrance unit starts at the lowest-numbered unit and says so in its note. Tested by T-V14-26 (a); the key by T-V14-34.
 
 ### 2.5 New rule tables (data, editable by `editTable`, §7.6; every cell `{value, unit, provenance, calibratable}`)
 
@@ -2493,6 +2517,13 @@ every shipped sheet by V04 §5.2's per-family rule):
   ring for `loop`, a bar for `deadEnd`, a key for `secret` (at an admitting key only), a stair or shaft glyph for
   `verticalLink` (its kind's), a crown for `core`, a wave for `sump`; switched by `StyleSheet.groups.siteRoles`
   (default on in the site view, off in a crop's picture).
+* **The numbers** (M41; V14 §2.4's `SiteKey`): each unit's key number draws as a small numeral in the `label` role at
+  its pole of inaccessibility beside the role glyph, at the building band, switched by `StyleSheet.groups.siteKey`
+  (default on in the site view, off in a crop's picture; a crop over a site level draws them under the same switch);
+  the site panel (V09; V14 §10.2) gains a **Key** tab listing the rows — number, role, name, reason, water, condition,
+  hazards, exits — level by level in walk order, a row's click centring its unit, the boundary note at its foot;
+  admitted at the viewer's key as the units are (a party's key shows the revealed rooms with their numbers, the gaps
+  between them the DM's).
 * **The history layers** tint the voids one step apart on the sheet's `void` role per layer ordinal (at most four
   steps; later layers lighter), so a built room in an old cave reads as later — a sheet with `mono` keeps the steps
   in value.
@@ -2559,9 +2590,17 @@ exported twice gives byte-identical files but a changed `waterStamp` after a cas
 storey keeps the world grid, so a token placed on the ground scene stands on the same cell of the storey scene above
 it.
 
-**A site's exports.** A site document exports as any document: GeoJSON (its units as features, V14 §1b.4), SVG and
+**A site's exports.** A site document exports as any document: GeoJSON (its units as features, V14 §1b.4, each
+feature carrying its key number `key: n`), SVG and
 PNG, glTF and CityJSON (its levels as V04 §5.5's inward-facing void solids), VTT one scene per ground, storey and
-level through the per-storey and per-band paths, each at the export's key.
+level through the per-storey and per-band paths, each at the export's key — **and every export carries the numbered
+key** (M41; J-V14.57; T-V14-34; BCR-V14-26): the VTT `plat` object's `plat.sites.key` block (the rows of V14 §2.4's
+`SiteKey` at the export's key, on by default — a DM's reading sheet, not an importer's input; the common fields and
+J-V14.47's off-by-default vendor block unchanged), the picture exports' legend listing the numbers against their
+names, and the **key sheet** — a printable page (§11.1's print presets, PDF or PNG; `ExportOpts.siteKey`) under the
+site's name listing the rows level by level in walk order with the boundary note at its foot, offered beside every
+picture export of a site and of a crop over a site level. No row of the key names a creature, a trap beyond the
+hazards or a treasure: stocking is the DM's and the host's (V14 §1.4).
 
 ### 5.4 R1 — Z-completeness: every drawable record declares its vertical extent (item 141 (c) M9, M10; J-V14.31)
 
@@ -2856,6 +2895,8 @@ owner row; its site clause T-V14-23); 10 → T-V13-10 (the owner row; its site a
 | T-V14-31 | lifecycle / determinism (C14-03) | opening and closing every `B-SITE` card — the icon's click, the clerk's `open`, an export naming the site, a host event that needs its geometry — in two orders and on two machines changes no host model digest, records digest, document digest, log entry or arena; the derived block alone grows, and after a reload it is rebuilt byte-identically; `dropSite`, `setSiteRequest`, `moveAnchor`, each conversion and the secret toggle are the only events that move the host's digest; **a site document's digest never moves with its placement (SW-11):** V13's `setPlacement`, `placeFrame`, `unplaceFrame` and `worldWins` on a `B-SITE` free-standing site leave the site document's model digest byte-equal (T-V13-2's bar read here), the card's `placementRef` and the document's `worldRef` changing outside every digest | PR |
 | T-V14-32 | **Part E bar 1** (the owner row; K1, K5, K6; SW-33) | this volume's additions to the base's registries — the `Layer` value `site`, `Document.nextSitePart`, the edge role `passage`, the `site` concern, the stage ids `G1`–`G8`, `E1`–`E4` and `R1`–`R4` — are appended, never inserted or renamed (K1's append-only test on `types/ids.ts` and the stage table), and with no card dropped, no encounter open and `projection` `flat` every golden of the base's and the volumes' fixtures hashes byte-identically before and after the additions (K5's golden set, K6's canonical form) | PR |
 | T-V14-33 | the DM-placed devotion site (J384 (10)) | a `devotion` is admitted only as `stated` (a G2 run, a preset and every generator leave it absent); a `cult` devotion derives `secrecy` `secret` while a `holy` one keeps its kind's default, and every devotion card starts unrevealed to the party, a `cult` site staying so until the DM reveals it; a `setSiteRequest` touching only `devotion` re-lays an entrance edge only when the derived `hiddenEntrance` flips and re-lays no other unit; the card appears in the DM's map feed as an offer and in no player feed while DM-only; V13's religion lens draws it labelled "DM-placed" (T-V13-54) | PR |
+| T-V14-34 | the numbered key (M41) | on every `B-SITE` card at every preset: the key's numbers are a bijection over the units, 1 the approach-side entrance, the order a pure function of the graph — byte-identical across two sessions, the five engines, a reload, every week of the fixture and the party's and the DM's keys (a `damageSite`, a `floodSite` and a `collapseUnit` change the `condition` and `water` cells of their units alone; a unit revealed later keeps its number) —; every row's reason names its history layer, its event and its grammar rule, its water class equals V13's per-unit class at the week and its exits the graph's edges; at the party's key every `secret` unit's row is absent and the numbering has gaps; the panel's rows, the sheet's rows, the GeoJSON features' `key` and `plat.sites.key` are one list; the VTT's common fields are byte-identical with and without the block; a lint over `SiteKeyRow` finds no field for a creature, a trap or a treasure; a candidate card's key holds the note alone | PR |
+| T-V14-35 | the party key seeded across a seam (M47) | on a continued standalone world of the atlas fixture B-ATLAS-3 (V15 §7) bearing a site: the atlas's `markPartyReach` request opens this document's page with the seeding previewed — the crossing's cell and the route's stations to the first seat —, the DM's confirmation writes exactly those places into the shared `party` key (`tier` unchanged), the document's log, model digest and records digest byte-equal before and after, no event on any log, nothing sent to any host; a cancelled preview writes nothing; the party picture then admits the seeded places as V08's reveal would, the site's anchor among them only where the seeded route reaches it | PR |
 
 **The owner's panel** (§13.6 without a reference; V12 §3.9.1's `PanelSpec` V14-P, stated here once): at SE6's exit
 the owner rates, blind to which is which, SOLO 24 — six sites (a fort, a temple with its crypt, a cave, a mine, a
@@ -3003,6 +3044,8 @@ you"); each row below is vetoable.
 | J-V14.54 | **(SW-13, SW-29, SW-33.)** chose to request the §4.12 `StrategyRegistry.products` union and the §16 and §13.2 rows explicitly as V13's merged texts place them, and one T- row per Part E bar with the other volume's half a cited clause (T-V14-32 for bar 1), over two volumes each writing the union or the row, because the coherence pass writes one union text and one row (vetoable) |
 | J-V14.55 | **(SW-14, SW-19, SW-26, SW-30, SW-36, SW-37.)** chose to cite V13's milestones by their M-W ids and M-W0h for the classifier and the verbs, to make a `worldWins` on a site a re-materialization (G3 (c), G5 (f)), to fold the water edits to V13's `setSurface`, to add the waterlogged lifecycle row, and to request the `secret` stair core of V03 rather than cite it as a V03 fact, over the earlier readings, because each names a dependency where this volume had restated or mis-cited one (vetoable) |
 | J-V14.56 | **(J384 (10).)** chose holy places and hidden cult sites to be ordinary world-site cards of the existing kinds carrying a DM-stated `devotion` (a deity key and a role), DM-only by default, a cult site secret, drawn by V13's religion lens labelled "DM-placed" and offered to the host for adoption by its own command, over a new site kind (the temple, shrine, crypt, cave and hideout rows already lay them), generated holy sites (the host holds no positioned faith place) or a deity read from a site's name (a guess) (vetoable) |
+| J-V14.57 | **(J397 (M41); 2026-10-24.)** chose **the numbered key** as a derived reading of the site — every unit in a depth-first walk order from the approach-side entrance, with its role, name, reason, water class, condition, hazards and exits, numbered as a pure function of the graph so a room revealed later keeps its number, drawn as numerals in the site view, listed in a Key tab and carried by every export as a `plat.sites.key` block (on by default), a GeoJSON field and a printable key sheet with the boundary note — over a stored key (a number is a reading, never a fact to migrate), over numbering rooms alone (a corridor the DM must name is a row too) and over stocking the rooms (the host owns people, J-V14.4; the DM owns the fiction), because the first thing a DM wants from a generated dungeon is a page that says "1. the porch, 2. the nave …" with why each room is there, and the one thing this map must not pretend to give is who waits in them (research/experience/04 §2.4, §3 worst 5, §4 Q6) (vetoable) |
+| J-V14.58 | **(J397 (M47).)** chose the party key's **seeded form** — an atlas's `markPartyReach` request opening this document's page with the crossing's cell and the route to the first seat previewed, written as the shared `party` view key by the DM's one confirmation — over a party key carried across a seam automatically or a host write, because the key is per document by C14-17's design and a view key written on the document's own page by the DM is neither an event nor a read of one member by another (F14; V15 §4.7 (1)), while a continued member has no host to write it (research/experience/05 §1.6 (2), §4 Q11) (vetoable) |
 
 ## 10 Base change requests
 
@@ -3040,6 +3083,7 @@ designed as if each were applied. File j's BCR-j5, -j6, -j9, -j10, -j11 and -j15
 | **BCR-V14-23** no hour in the VTT lights (item 136 (a); C14-19) | §11.1 *The `.dd2vtt` profile*, the `lights` clause | "every `LightSource` lit at the export's drawn week and every lit window at the export's hour (§10.3)" | for every scene export: "every `LightSource` lit at the drawn week and every room whose `lit` holds by its role or an edit (V03 §5.6) — no hour"; the `light` key's `time` value read as `day` by a battle-map export, the bend named; the lights set a pure function of the week (T-V14-3) |
 | **BCR-V14-24** the `passage` edge role (C14-29; Part E bar 1's new role) | §2.2 rule 7's role table | the roles listed (`tunnel`, `gallery`, `chamber_wall`, `access_point`, `link_end`, `invert_knot`, `margin`, …) | the edge role `passage`: structural, non-indexed, on `site` parts, the tunnel role's twin, its half-width answered by the site kernel's `SpineWidths` (V14 §1.1); `chamber_wall`, `access_point`, `link_end` and `margin` reused on `site` parts; appended without digest change (K5) |
 | **BCR-V14-25** the encounter's door through `PlatApi` (C14-07) | §11.2 `PlatApi` and the `query` kinds | the API's members (`generate`, `edit`, `query`, `export`, `scratch`, …) | `encounter.open(h, address): Promise<Encounter>`, `encounter.items(h, key, ops: ItemOp[])`, `encounter.crop(h, key): Promise<EncounterCrop>`, `encounter.close(h, key)` and the `query` kind `encounter` — the resolve, the completion, the crop, the transient arena and its items in the generation worker behind the boundary; `EncounterService` in `@plat/app` their client; the bridge's vocabulary gains them (§11.3) |
+| **BCR-V14-26** the numbered key in every site export (M41; J-V14.57) | §11.1 *The `.dd2vtt` profile* (the `plat` object; BCR-V14-8's rows), *GeoJSON*, *the picture exports* and the print presets; §11.2 `ExportOpts` | the `plat` object carries `level`/`storey`, `waterStamp`, `difficultTerrain` and the optional `sites` vendor block; a site's GeoJSON features carry no key number; no key sheet exists | `plat.sites.key` — the rows of V14 §2.4's `SiteKey` at the export's key, written in every scene of a site's or a site-level crop's VTT export, on by default (`ExportOpts.vtt.key`, default true; the common fields unchanged; J-V14.47's `vendorBlock` stays off by default and separate); a site's GeoJSON features gain `key: n`; the picture exports of a site list the numbers in the legend; the **key sheet** as a print preset (`ExportOpts.siteKey: { levels?: number[] }`: the site's name, the rows level by level in walk order, the boundary note) beside the picture export; every row admitted by the export's key as its unit is |
 
 ### 10.2 Cross-volume requests (to the siblings; not base changes)
 
@@ -3052,10 +3096,11 @@ designed as if each were applied. File j's BCR-j5, -j6, -j9, -j10, -j11 and -j15
 | V06 | **`decayLevel(doc, lineage: card, week)`** over the card's `WorldSiteLifecycle` events (`condition.since` the run's `A`), Works-less (V06 §3.23 (3)'s no-Works branch), `r` the unit's material rate (`SiteDamageRow.ratePerYear`) in place of V11's walls rate, and `decayPeak` per element with `since` the element's layer's age (C14-13); the robbing relation over an adopted or near ruin; the epoch's call of G7 with cause `epoch` over an adopted or `inFrame` site, and the host building's lifecycle events reaching the cards anchored in it (cause `rule:host`, C14-32); a `siteState` op's place in the hand forms | V14 §3.8, §4.3 |
 | V07 | the reservation of kind `worldSite` read by the village's siting; the hand-offs carrying cards and anchors | V14 §3.9 (f), §3.1 |
 | V08 | a site's host record (`WorldSiteRecord`) in the dossier row sets with DR-V14-1; the party's reach as a host event; the reveal of an anchor through the party's `places`; a site's derived capacity as a derived fact; the status words' normalisation | V14 §1b.5, §2.3, §3.8 |
-| V09 | T6 **Drop a site** as a one-click drop with the panel after (the dialog the long form; C14-45), **Encounter here** and the crop's palette, the `projection` switch (flat the default), the Site working layer and the level chip, the site panel, the icon's hit entry, `siteOpen`'s document switch, **the delete gesture on a card opening a fates sheet (V09 §5.5) with Remove and Destroy (C14-46)**, the catalogue keys of V14 §4.9 | V14 §4.1, §4.3, §5.1, §5.3, §5.5 |
+| V09 | T6 **Drop a site** as a one-click drop with the panel after (the dialog the long form; C14-45), **Encounter here** and the crop's palette, the `projection` switch (flat the default), the Site working layer and the level chip, the site panel, the icon's hit entry, `siteOpen`'s document switch, **the delete gesture on a card opening a fates sheet (V09 §5.5) with Remove and Destroy (C14-46)**, the catalogue keys of V14 §4.9, the site panel's **Key** tab and the key sheet's print action (M41; V14 §5.2, §5.3), the seeding preview of the `party` key on a continued world's page from an atlas's `markPartyReach` request (M47; V14 §2.3; RQ-V15-15) | V14 §2.3, §4.1, §4.3, §5.1, §5.3, §5.5 |
 | V10 | the `site` and `encounter` sections' rows and the chain test (bar 10) | V14 §4.9 |
 | V11 | the registry rows for `tables/sites/*` (BCR-V14-10) with V14 §2.5's schema and shipped values; the naming slice `site`; the decay ranges and material rates of `SiteDamageRow` adopted beside its `states` rows (a `rock` material row; C14-13); the kind rows' `icon` glyphs in the symbol catalogue; **two switch-table rows (V11 §3.24.0's form) for V12's no-op pins (C14-57):** `sites.none` (no card dropped, no encounter open) and `view.projection` (`flat`), with their off forms | V14 §2.5, §5.1, §5.2, §7 |
 | V12 | the fixtures `B-SITE`, `B-CROP`, `B-25D`; the panel V14-P's `PanelSpec`; the no-op pins `item132.none` and `item141.flat` with their off-state sets per rung read from V11's two switch rows (C14-57); the measures `site.vector.*`, `crop.firstFrameMs`; the register's default-line entries at each exit | V14 §7, §8 |
+| V15 | the `markPartyReach` request (V15 §4.1, §3.7) as the one caller of the `party` key's seeded form (M47), naming the continued member, the crossing's cell and the route; nothing of V15 writes this document — the key is written on its own page by the DM | V14 §2.3 |
 
 ## 11 Owner questions
 

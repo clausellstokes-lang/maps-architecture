@@ -49,6 +49,16 @@
 > `docs/validation/coherence/world-growth-u.md`): §11's four questions are rulings (J-V15.37 – J-V15.40) — the label
 > "World map" (Q1), the sharing rules (Q2; T-V15-26), the art library (Q3), the cost accepted (Q4) — read into §1.0,
 > §1.4, §2.4, §5.1, §5.5, §8, §10.3 and §12.
+> **Amended 2026-10-24** by the session's Fable seat amendments/experience-x (`docs/AMENDMENTS-2026-10-24x.md`, items
+> 1201–1234; record `docs/validation/coherence/experience-x.md`) under the owner's delegation of that day (J397: the
+> experience pass, the map-side rulings M1–M50, each vetoable; the research `research/experience/05` behind this
+> volume's part): the court viewpoint (M9; `court:<seat>`, §2.2, §3.6 (4), (6), (8), §5.4; T-V15-27), the atlas
+> relations that feed the figures and nothing else (M42; `AtlasRelation`, §2.2 – §2.4, §3.6 (4), (5), §3.11, §4.7 (1);
+> T-V15-28), the date cartouches withheld from a player unless a calendar label is set (M43; §2.2, §4.7 (2), §5.2, §5.4;
+> T-V15-32), the shared file and the gallery copy as the public audience only (M44; §2.11, §5.5; T-V15-30), the honesty
+> note for the DM always and the viewpoint's in-world artefact switch for a player (M45; §2.2, §3.6 (8), §5.5; T-V15-33), "an old map" and the as-was
+> copy (M46; §2.2, §3.6 (6); T-V15-29), the party's reach across a seam (M47; §3.7; T-V15-31), the relational style for
+> every account kind (M48; §5.4; T-V15-34); J-V15.41 – J-V15.48, BCR-V15-16 – BCR-V15-18, RQ-V15-12 – RQ-V15-15.
 
 <!-- PROGRESS (the architect seat's ledger; removed at revision)
 0 In plain words ................................ done
@@ -135,8 +145,8 @@ it was born from, with each neighbour's version, as a settlement keeps its chart
 **Deeper and deeper.** Zoomed out, the atlas is pictures. Click a map, or zoom past where its picture has no more to
 give, and the live world opens as its own page, where you click a town to open the town, a house to open its floors, a
 site to open the site — the owner's "click deeper", run from the top. A player's atlas shows only what their party
-knows, drawn, if the relational style is on, the way their culture would draw it; the game master's arrangement is the
-true layout underneath.
+knows, drawn, if the relational style is on, the way their culture would draw it, and with no date on any map unless the
+game master has given that map an in-world calendar name; the game master's arrangement is the true layout underneath.
 
 **Somebody's map.** The **relational style** is how a medieval mapmaker would have drawn this world: the holy city or the
 capital at the centre and huge; the lands that matter swollen, the lands that do not squeezed into the rim; east at the
@@ -148,14 +158,17 @@ true map and the relational one, and wherever you hover the true distance and th
 map never goes away: every measurement, every export, every scale bar reads it. All of this is derived from facts the
 world already holds — who is holy, who is a capital, who trades, who hates whom, who knows what — and from the
 **fictional** cultures' beliefs only, never from any real-world people; the game master may add, move or remove any
-figure, and may make a map as another culture saw it, or as the party knows it today, or as it was found, centuries old,
-in a dungeon. Three presets come shipped — the sacred *mappa mundi*, the practical *portolan* with its compass roses and
+figure, and may make a map as another culture saw it, or as the party knows it today, or as another court believes the
+world to be — a looted map: that court's reach and its beliefs, a planted lie included, and never a truth it does not
+hold —, or as an old map, drawn from what each map remembers of an earlier week and saying from which week it
+remembers. Three presets come shipped — the sacred *mappa mundi*, the practical *portolan* with its compass roses and
 rhumb lines, the *itinerary strip* with roads straightened and distances in days — and the art they need (monsters,
 vignettes, cartouches, lettering) is content, on the owner's budget.
 
 **What the atlas never does.** It runs no physics and no simulation; it holds no copy of any map and no host data; it
 writes nothing into a map after that map is born; it never exports a stitched world in the shape the ecosystem's tools
-read, because a stitched world is not a world; and it shares a picture of a map only where that map may be shared.
+read, because a stitched world is not a world; and it shares a picture of a map only where that map may be shared, and
+only the picture anyone may see — never the game master's or the party's picture, never a secret record.
 
 ## 1 Scope, the base hooks consumed, the owner's rules obeyed, and what is out of scope
 
@@ -305,11 +318,12 @@ V13 supplies is marked **V13** and listed again in V15 §1b.6, a piece V09 draws
 | piece | fed by (producer) | feeds (consumers) | home |
 |---|---|---|---|
 | `AtlasRecipe` (`Recipe.atlas`; V15 §2.2): the seed, `members`, `relations`, `gaps`, `viewpoints`, `style`, `conflicts`, `layoutPreset`, `snapshot` | the atlas's creation (`generate` with an `AtlasRecipe` of one member, or none); every edit of V15 §4.1 | A1–A7; the view; the exports; the clerk; V12's measures | `Recipe.atlas`, present exactly when `Recipe.product` is `'atlas'` (BCR-V15-1); in the model digest |
-| `Member` (V15 §2.2): the world by reference (`world: { doc; namespace; ref? }`), its `version`, `rung`, `header`, `latBox`, `presentWeek`, `dateLabel`, `arrangement`, `origin`, `continuedFrom`, `fit`, `parent`, `shareable`, `state`, `name` | `addMember`; a continuation's generated world (`origin: 'continued'`); a derived child (`'derived'`); `fitChild` (`'fitted'`); the open-time version check (`state`, `version` compared, imagery marked stale) | A1 (its extent and lock), A2 (what to render and at which week), A3 (its seams), A4 (its edges), A5, A7 (what to open), the member list (V09), the share sheet, the exports, the clerk | the atlas's entities block; the model digest holds everything but `state` (a derived reading of the session; V15 §2.11) |
+| `Member` (V15 §2.2): the world by reference (`world: { doc; namespace; ref? }`), its `version`, `rung`, `header`, `latBox`, `presentWeek`, `dateLabel`, `arrangement`, `origin`, `continuedFrom`, `fit`, `parent`, `shareable`, `state`, `name`, `calendarLabel` (M43: the DM's in-world calendar name, the one date word a player's cartouche may print) | `addMember`; a continuation's generated world (`origin: 'continued'`); a derived child (`'derived'`); `fitChild` (`'fitted'`); the open-time version check (`state`, `version` compared, imagery marked stale) | A1 (its extent and lock), A2 (what to render and at which week), A3 (its seams), A4 (its edges), A5, A7 (what to open), the member list (V09), the share sheet, the exports, the clerk | the atlas's entities block; the model digest holds everything but `state` (a derived reading of the session; V15 §2.11) |
 | `Arrangement` (V15 §2.2): `originCm`, `bearingCdeg`, `locked`, `z`, `by`, `since` | `arrangeMember`, `lockMember`, A1's solve, a layout preset | A2 (where tiles land), A3 (which edges touch), A4 (the void's neighbours), A6 (the true plane), the ruler, the exports | on the member |
 | `Relation` (V15 §2.2–§2.3): `kind`, `a`, `b`, `widthKm?`, `side?`, `strength`, `text` | `relate`, `unrelate` (a tombstone); the clerk's parse of a typed sentence (V10's `propose`) | A1 (a requirement each), the relations box (V09), the DM-only relation lines, the clerk | the entities block; the model digest |
+| `AtlasRelation` (V15 §2.2; M42): `kind` (`enemy`, `ally`, `faithReached`, `sailed`, `traded`), `a`, `b` (a member, or a gap), `weeks?`, `text`, `knownTo` | `setAtlasRelation`; the clerk's parse of a typed sentence | A6 (5)'s figure rules and A6 (4)'s known region ONLY — never A1 (it moves nothing), never a member (V15 §4.7 (1)); the relations box's second tab (V09); the DM-only relation lines; the clerk | the entities block; the model digest |
 | `GapStyle` (V15 §2.2): `kind`, `region`, `label?` | `setGapStyle`; a layout preset's defaults; a removed or missing member's gap (V15 §4.5) | A3's unknown-space fill, A6's terra incognita, the legend, the exports | the entities block; the model digest |
-| `Viewpoint` (V15 §2.2): `audience`, `culture`, `centre`, `orientation`, `stylePreset`, `knowledge`, `asOfWeek?` | `setViewpoint`; the shipped defaults "the game master's" (true map) and "the party's" | A6 (the warp's centre, orientation, importance and known region), A2's audience, the embellishments, the legend's note, the player view (V15 §5.4) | the entities block; the model digest |
+| `Viewpoint` (V15 §2.2): `audience` (`dm`, `party`, `public`, or `court:<seat>` with `court: { member; seat }` — the court viewpoint, M9), `culture`, `centre`, `orientation`, `stylePreset`, `knowledge` (its `source` gaining `court`), `asOfWeek?` (an old map, M46), `asWas?` (its as-was copies), `inWorld?` (the in-world artefact switch, M45) | `setViewpoint`; the shipped defaults "the game master's" (true map) and "the party's" | A6 (the warp's centre, orientation, importance and known region), A2's audience, the embellishments, the legend's note, the player view (V15 §5.4) | the entities block; the model digest |
 | `AtlasStyleState`, `ConflictSettings` (V15 §2.2) | `setAtlasStyle`, `setConflictSettings` | A1's warnings and asks, A3's precedence and treatments, A6's rest position and figures, the common-week display | `Recipe.atlas`; the model digest |
 | `Embellishment` (V15 §2.2): `kind`, `at`, `sizeCm`, `facing`, `source`, `derivedFrom?`, `hidden?`, `viewpoint`, `week` | A6's derivation (`source: 'derived'`, a derived cache, never stored); `setEmbellishment` (`source: 'dm'` records and the `hidden` marks, stored) | the embellishment layer, the legend, the exports, the clerk ("why a serpent here") | the DM's records and hidden marks in the entities block (the model digest); the derived set in `derived` (no digest) |
 | `ContinuationRequest` (V15 §2.2): the void, `edges[]` (side, neighbour, charter, locked), `prefill`, `contradictions[]`, `conflicts[]`, `status`, `member?` | `requestContinuation` (drafted → sent → generated or cancelled) over **V13**'s `edgeCharter` | V09's world dialog (the pre-fill and the locked edge chips), V13's W0 (the locked requirements, through the request), the new member's `continuedFrom`, the clerk | the entities block; the carried `WorldEdgeCharter`s in the records digest as recorded inputs (V15 §2.11) |
@@ -319,7 +333,7 @@ V13 supplies is marked **V13** and listed again in V15 §1b.6, a piece V09 draws
 | `WarpField`, `KnownRegion`, `TrueReadout` (V15 §2.6; derived) | A6 over the viewpoint, the week, the imagery, **V13**'s lens facts and known sets | the mesh warp of the drawn tiles, the hover readout, the drill-down's unwarp, the embellishment placement | `derived` (the warp cached per (atlas version, viewpoint, week, preset, grid); never in a digest or an export's model) |
 | the tables `ArrangeRule` (`atlas.arrange`), `SeamRule` (`atlas.seams`), `AtlasStyleRule` and `StylePresetRow` (`atlas.style`), `EmbellishRule` and `FigureRow` (`atlas.embellish`) (V15 §2.4–§2.5) | shipped defaults (provenance `own`, calibratable unless marked); `editTable` (§7.6) | A1, A3, A6, the presets' cards (V09), V12's register | §7.6's registry (BCR-V15-5; V11's rows RQ-V15-9) |
 | the view keys `atlasZoom`, `atlasCentre`, `relational`, `viewpoint`, `commonWeek`, `showDrift`, `showRelations`, `atlasPreset` (V15 §2.7) | V09's controls | the view, the readout, the exports' request | §2.9 (BCR-V15-3) |
-| the warnings `W_ATLAS_OVERLAP`, `W_ATLAS_LATITUDE`, `W_ATLAS_CLIMATE`, `W_ATLAS_NORTH_DIFFERS`, `W_ATLAS_RELATION_UNMET`, `W_ATLAS_LOCKED_MOVE`, `W_ATLAS_MEMBER_STALE`, `W_ATLAS_MEMBER_MISSING`, `W_ATLAS_MEMBER_UNOPENABLE`, `W_ATLAS_MISMATCH`, `W_ATLAS_EDGE_CONTRADICTS`, `W_ATLAS_EDGE_UNLOCKED`, `W_ATLAS_NEIGHBOUR_CHANGE`, `W_ATLAS_DRIFT`, `W_ATLAS_WARP_FALLBACK`, `W_ATLAS_DETAIL_UNAVAILABLE`, `W_ATLAS_NOT_SHARED`, `W_ATLAS_BEHIND_WEEK` | the stages and the view | the report (§5.4), V09's catalogue, V10 | §5.4 (BCR-V15-13) |
+| the warnings `W_ATLAS_OVERLAP`, `W_ATLAS_LATITUDE`, `W_ATLAS_CLIMATE`, `W_ATLAS_NORTH_DIFFERS`, `W_ATLAS_RELATION_UNMET`, `W_ATLAS_LOCKED_MOVE`, `W_ATLAS_MEMBER_STALE`, `W_ATLAS_MEMBER_MISSING`, `W_ATLAS_MEMBER_UNOPENABLE`, `W_ATLAS_MISMATCH`, `W_ATLAS_EDGE_CONTRADICTS`, `W_ATLAS_EDGE_UNLOCKED`, `W_ATLAS_NEIGHBOUR_CHANGE`, `W_ATLAS_DRIFT`, `W_ATLAS_WARP_FALLBACK`, `W_ATLAS_DETAIL_UNAVAILABLE`, `W_ATLAS_NOT_SHARED`, `W_ATLAS_BEHIND_WEEK`, `W_ATLAS_COURT_UNSENT` | the stages and the view | the report (§5.4), V09's catalogue, V10 | §5.4 (BCR-V15-13) |
 | the register entries of this volume's calibratable columns (V12 §2.6) | the seat landing each step of V15 §8 | V12's lint and the corpus stage | §13.7, §13.9 |
 
 ### 1b.2 Stage outputs and interfaces
@@ -404,6 +418,7 @@ never read (V13 §5.8 (7)); a row the host resolved DM-only never reaches a play
 | hostility and distance between cultures | `PolityRelation.word` mapped to respect / neutral / adversarial, `.atWar`; `PolityFacts.culture[].band` (the host's culture distance in fifths); `Sway.neighbours[].class` | V13 §3.9, §5.9 (2) | A6 (5)'s monstrous peoples and devils rules; the "far lands" term |
 | an enemy faith | `LensFacts.faith[].patron` of the land's holder against the viewpoint culture's patron; the religion lens's `contested` and `historic front` links | V13 §5.9 (6) | A6 (5)'s devils rule (never the alignment lens's posture link) |
 | knowledge per audience | `RenderedWorld.known[].cells` per audience (amendments r: the coarse cells the audience's places have reached through the world's `knownTo` — V13's reading of the party key `party: { tier; places }` (§2.9), `audienceKnowledge` and the player picture's whitelist, V13 §5.1) | V13 §3.11.6, §5.1, §5.4, §5.8 (7) | A6 (4)'s known region per audience; the player view (V15 §5.4) |
+| a court's believed political facts and its knowledge (M9) | `LensFacts.courts[]` (file v item 1087; V13 §8.5's H40): per court and subject the believed `allegiance?`, `strengthBand?`, `readiness?` and `faith?`, each with `believed: { asOfWeek; confidence; integrity? }` and the row's resolved `audience`, projected by the sway lens as the derived `CourtViewpoint` transient (V13 §2.4, §5.9 (2); never persisted, never in the map feed) — through the port's presentation inputs only (V13 §3.11.6's law (3); M50); `believed.integrity` (`clean`, `worn`, `planted`) read for the DM's key alone | V13 §5.9 (2) (as amendments v amend it) | A6 (4)'s `court` reach, A6 (6)'s court viewpoint, the player view (V15 §5.4) |
 | dated realm events | `WorldEvent` (kind, week, `at` or `seats`, audience): plague arrivals and realm arcs, battles, sieges, raids, razings, booms and busts, patron falls | V13 §2.2, §5.8 (1), (8) | A6 (5)'s vignettes (a skull, banners, a siege mark, a ruin, a fallen idol) within `atlas.embellish.vignetteWeeks` of the viewpoint's week |
 | sailed and storm-feared waters | `WorldRoute` (mode `water`, its `waterRuns`), `TravelLaw.water.stormFactor` per quarter (the host's law when bound, the default row standalone) | V13 §2.2, §3.8 | A6 (5)'s sea-serpent rule |
 | a seat's position and a sway's extent; a culture's label; the sea's depth | `ViewFacts.polity.seats[].at`, `.sways[].poleCm`, `.areaKm2`, `.border`; `ViewFacts.polity.cultures[]`; `ViewFacts.water.bathymetry` on request (file r item 1007 as the reviser widened it, C15-02, C15-03) | V13 §5.8 (10) | A6 (1) (b), (2), (5), (8) |
@@ -412,8 +427,8 @@ never read (V13 §5.8 (7)); a row the host resolved DM-only never reaches a play
 
 Every value above is read as the host resolved its audience; a gap in the host's facts (no hierarchy sent, no culture
 band, no events) leaves the corresponding term at its neutral value and the legend says so ("no faith seated: the
-centre is the capital"; "no culture distance sent: far lands by distance alone") — V13 §5.8 (3)'s honesty rule, never a
-guess.
+centre is the capital"; "no culture distance sent: far lands by distance alone"; "the host sends no belief for this
+court: the public record as far as its reach", `W_ATLAS_COURT_UNSENT`) — V13 §5.8 (3)'s honesty rule, never a guess.
 
 ### 1b.6 Volume 13's dependencies (named, never restated; spine §14's five seams and their readings)
 
@@ -487,6 +502,7 @@ interface Member {
   origin: MemberOrigin; continuedFrom?: { request: Id; charters: { neighbour: Id; side: 'N'|'E'|'S'|'W'; charter: Id /* the carried WorldEdgeCharter's id in this atlas's records */; neighbourVersion: MemberVersion }[] } /* the atlas's side of a continuation's provenance; the world stores its own copy (spine §10.4) */;
   parent?: Id /* the member whose extent wholly contains this one (a nested member; V15 §3.5) */; fit?: FitRecord;
   shareable: boolean /* this member's imagery may travel in a shared atlas or picture (V15 §5.5): the default follows the world's own sharing (its resolver access, §11.5), the user may narrow it, never widen it beyond the world's; the host's rule across campaigns the owner's (V15 §11 Q2) */;
+  calendarLabel?: NameRef /* the CALENDAR LABEL (M43): the DM's in-world calendar name for this member's present ("the Year of the Strait"), set by `setAttr`; the ONE date word a player viewpoint's cartouche may print — absent, a player's cartouche is blank and no date of this member reaches a player (V15 §4.7 (2), §5.4); the DM's cartouche prints V13's date label whatever this holds */;
   name?: NameRef /* the member's title: the world's own name by default */; lifecycle: Lifecycle; reason: Id }
 interface MemberVersion { modelDigest: Hash128; recordsDigest: Hash128; logHead: number; geometryVersion: number; outputVersion: string }
 interface Arrangement {
@@ -501,26 +517,38 @@ interface Relation { id: Id; kind: RelationKind; a: Id; b: Id /* members: "a <ki
   side?: 'N'|'E'|'S'|'W' /* adjacent: the side of `a` that `b` touches; eastOf and its kin imply it */;
   strength: 'set'|'locked' /* the requirement's strength (spine §4.1): a relation is never 'random'; 'locked' holds against every later solve and preset */;
   text: string /* the relation as the user wrote or chose it, kept for the clerk and the relations box */; lifecycle: Lifecycle; reason: Id }
+type AtlasRelationKind = 'enemy'|'ally'|'faithReached'|'sailed'|'traded';   // M42
+interface AtlasRelation {                      // an ATLAS RELATION (M42): what the atlas's fiction holds between two members, or a member and a gap — "Varn is Ashmark's enemy", "the sea between is sailed", "Ashmark's faith reached Varn"; DM-authored; a record of the atlas that feeds the relational style's figures and known regions (V15 §3.6 (4), (5)) and NOTHING else — never a member (no member reads it, F14), never an arrangement (a described `Relation` arranges; an atlas relation tells), never a requirement of A1
+  id: Id; kind: AtlasRelationKind;
+  a: Id /* a member: for `faithReached` the member whose faith reached `b`; for `sailed` a member whose shore the sailed water touches */;
+  b: Id | { gap: Id } /* a member, or a gap: `sailed` names the sea gap (a `GapStyle` of kind `sea` or `strait`) or the member across it, the sea gap between the two then read as sailed; `enemy`, `ally` and `traded` are symmetric between two members; a gap under any other kind is refused (`refuse.atlas.relation.gap`), as is `a` naming `b` (`refuse.atlas.relation.self`) */;
+  weeks?: { from?: Week; to?: Week } /* dated, optionally, on the one count a viewpoint applies to every member — its week (V15 §3.6 (6)): the relation holds for a viewpoint whose week lies in the range; absent, always */;
+  text: string /* the sentence as the DM wrote or chose it ("Varn is Ashmark's enemy") */;
+  knownTo: 'public'|'secret' /* `public` by default: the figures it feeds draw for every viewpoint whose mapmaker is `a` or `b`; `secret`: the DM's viewpoints alone (V15 §5.4) */;
+  lifecycle: Lifecycle; reason: Id }
 interface GapStyle { id: Id; kind: 'sea'|'strait'|'mountains'|'mist'|'terraIncognita'|'blank';
   region: { ring: AtlasPointCm[] } | { between: [Id, Id] } | { around: Id; side: 'N'|'E'|'S'|'W'; depthKm: number } | { everywhereElse: true } /* at most one `everywhereElse` gap: the atlas's background kind (default `terraIncognita`) */;
   label?: NameRef /* a sea's or land's name in the style's lettering */; lifecycle: Lifecycle; reason: Id }
 interface Viewpoint {                          // "every map is somebody's map" (spine §11): an audience + a culture
   id: Id; name: NameRef;
-  audience: 'dm'|'party'|'public' /* the knowledge key the view admits by (§9.2): the DM everything, the party its places and pictures, the public tier `public` */;
+  audience: 'dm'|'party'|'public'|`court:${string}` /* the knowledge key the view admits by (§9.2): the DM everything, the party its places and pictures, the public tier `public`; `court:<seat>` — a COURT VIEWPOINT (M9): the court of the seat named by its host key on `court.member`, admitting that court's own reach (V15 §3.6 (4)'s `court` source) and the political facts that court believes where the host sends them (`LensFacts.courts[]` through the sway lens's `CourtViewpoint` transient (V13 §2.4, §5.9 (2)), V15 §1b.5; V13 §8.5's H40), NEVER a truth it does not hold — no row of the member outside the court's beliefs and reach enters its picture at any key; `secret` by default (the DM's) until the DM marks it shared: the looted map handed to the party (V15 §3.6 (6), §5.4) */;
+  court?: { member: Id; seat: string /* the seat's host key on that member */ } /* present exactly when `audience` is `court:<seat>`; the member must be host-bound and its host must send that court's belief for the beliefs to draw, else the court's reach is drawn over the public record with `W_ATLAS_COURT_UNSENT` (V15 §3.6 (6)) */;
   culture: { member: Id; cultureId: number /* a culture id of that member (V13 §2.2 WorldRaster.culture's table) */ } | 'none' /* no mapmaker: the true map's conventions */;
   centre: { rule: 'holyCity'|'capital'|'mapmakerSeat'|'point'; at?: AtlasPointCm /* rule 'point': the DM's choice */; resolved?: { member: Id; seat: string | Id; at: AtlasPointCm } /* derived at draw (never stored): what the rule found (V15 §3.6 (2)), `at` the seat's `ViewFacts.polity.seats[].at` through `toAtlas` */ };
   orientation: 'northUp'|'eastUp'|'southUp'|'westUp'|'towardCentre' /* the preset's default; the DM's override */;
   stylePreset: string /* an atlas.style preset row key: 'true', 'mappaMundi', 'portolan', 'itinerary' */;
-  knowledge: { source: 'audience'|'culture'|'everything'; heardOfBands: number /* the bands of "heard of" beyond the known edge (`atlas.style.heardOfBands` default) */ } /* how the known region is derived (V15 §3.6 (4)) */;
-  asOfWeek?: Week /* a map as it was at a past week (a map found in a dungeon): the plates at that week on every member (never later than a member's present) */;
+  knowledge: { source: 'audience'|'culture'|'court'|'everything'; heardOfBands: number /* the bands of "heard of" beyond the known edge (`atlas.style.heardOfBands` default) */ } /* how the known region is derived (V15 §3.6 (4)); `court` — the court's own reach, the default for a `court:<seat>` audience (M9) */;
+  asOfWeek?: Week /* AN OLD MAP (M46): a map as it was at a past week — every member read at the plates and events it HAS up to that week, never later than its present and never earlier than its record reaches: a member whose first plate lies after the week is drawn from its first plate with `W_ATLAS_BEHIND_WEEK` on its cartouche naming that week (V15 §3.6 (6)); the physical ground is the member's present (no physical past is kept) — the feature promises no more */;
+  asWas?: { member: Id; copy: { doc: Uuid; namespace: string } }[] /* M46: an AS-WAS COPY per member — a scratch copy of the member (V13 §2.5's clone, a new `docId`; held in the local store's draft mirror as V15 §4.9's unsaved form) on which the DM authored the past's political picture with V13's `setSwayLock` (and any other DM edit), read by THIS viewpoint in the member's place and arrangement: never a member, never shared, never read by another viewpoint or by A1–A5, never written by the atlas; its cost is one member's document in the local store — at most one per member per viewpoint, never carried by the share writer or an export, a continent-rung copy the member's own size (V15 §2.11's storage; a copy deleted outside the atlas reads as a missing document by V15 §4.5's rule, the viewpoint then reading the member itself) —; refused `refuse.atlas.asWas` when the copy's lineage is not the member's */;
+  inWorld?: boolean /* M45: the viewpoint's AS-AN-IN-WORLD-ARTEFACT switch (default false): set, the legend's honesty note is drawn for no party or public audience of this viewpoint — on a player's screen, on a shared file's recipient's screen and in a picture export alike — while the DM audience and the clerk's answer carry it always; one control for the screen and the export (V15 §3.6 (8), §5.5); the export's record keeps the projection whatever this holds */;
   route?: { member: Id; routes: Id[] } /* the itinerary preset's spine: a chain of one member's WorldRoutes */;
   lifecycle: Lifecycle; reason: Id }
 interface AtlasStyleState { preset: string /* the atlas-wide default preset for a viewpoint that names none */; relational: number /* 0–1: the slider's rest position saved with the atlas; the per-viewer `relational` key overrides it */;
-  embellish: boolean /* the derived embellishments drawn at all (the DM's own always) */; insets: boolean /* detail steps as insets where the seam rule says so, else always eased */; dateCartouches: boolean /* default true */ }
+  embellish: boolean /* the derived embellishments drawn at all (the DM's own always) */; insets: boolean /* detail steps as insets where the seam rule says so, else always eased */; dateCartouches: boolean /* default true: the DM's cartouches drawn; a player viewpoint's cartouche prints `Member.calendarLabel` or nothing whatever this holds (M43; V15 §4.7 (2), §5.4) — this switch never shows a player a date */ }
 interface ConflictSettings { overlap: 'warn'|'allow' /* two extents overlapping: warned (default) or admitted silently as an inset */; latitudeClash: 'warn'|'ignore'; climateClash: 'warn'|'ignore'; northDiffers: 'warn'|'ignore';
   seamPrecedence: 'newer'|'older'|'dm' /* equal rungs: which wins on a shared stretch (the newer by default; 'dm' reads each member's `z`) */;
   commonWeek: boolean /* the common-week display on (default false: each member at its own present, F14) */; missing: 'ghost'|'blank' /* how a missing member's gap is drawn (V15 §4.5) */ }
-type EmbellishmentKind = 'seaSerpent'|'whale'|'dragon'|'monstrousPeople'|'devils'|'ruinVignette'|'skull'|'banners'|'siege'|'idolFallen'|'cityVignette'|'cathedral'|'cartouche'|'compassRose'|'ship';
+type EmbellishmentKind = 'seaSerpent'|'whale'|'dragon'|'monstrousPeople'|'devils'|'ruinVignette'|'skull'|'banners'|'siege'|'idolFallen'|'cityVignette'|'cathedral'|'cartouche'|'compassRose'|'ship'|'missionRoad' /* the last from a `faithReached` atlas relation (M42; V15 §3.6 (5)) */;
 interface Embellishment {
   id: Id; kind: EmbellishmentKind; at: AtlasPointCm /* on the TRUE plane: drawn through the viewpoint's warp */; sizeCm: Cm /* its drawn size on the true plane; the preset's rows scale it */; facing: Cdeg;
   source: 'derived'|'dm'; derivedFrom?: { rule: RuleRef; facts: { field: string; value: number | string }[] /* the port fields and the member readings the rule read, by V13's field names — never a culture's or a people's name (V15 §3.6 (5)) */ };
@@ -539,7 +567,7 @@ interface FitRecord { child: Id; parent: Id; mode: 'derivedFromParent'|'imageOnl
   parentVersionBefore: MemberVersion; parentVersionAfter?: MemberVersion /* the geometry version step the fit caused; the parent re-rendered */;
   mismatch?: DriftReading /* mode 'imageOnly': where the two disagree, computed once at the fit (W_ATLAS_MISMATCH) */; since: { seq: number } }
 interface MemberImagery {                      // Document.atlasImagery[]: a cache per (member, audience), OUTSIDE every digest (BCR-V15-2)
-  member: Id; audience: 'dm'|'party'|'public'; version: MemberVersion; week: Week /* the member's present, or the common week where below it */;
+  member: Id; audience: 'dm'|'party'|'public'|`court:${string}` /* a court viewpoint's picture: V13's picture over that court's believed facts where the host sends them (RQ-V15-13), cached like any; stripped, with the DM's and every party's, from every shared file (M44; V15 §2.11) */; version: MemberVersion; week: Week /* the member's present, or the common week where below it */;
   header: WorldHeader; stops: { stop: 0|1|2 /* the V13 stop cached: 0 and 1 always, 2 on `pinImagery` (J-V15.7) */; pxPerCell: number; cols: number; rows: number; tiles: ChunkRef[] /* 256 px tiles, lossy-coded (V15 §2.11), row-major */; labels: { box: [Px, Px, Px, Px]; text: string; kind: string; priority: number }[] /* the placed label boxes at the stop, in the member's pixel frame */ }[];
   known?: { audience: 'dm'|'public'|`party:${string}`; cells: Uint32Array /* the member's COARSE cells this audience's places have reached, as `RenderedWorld.known` returned them (amendments r) */ }[];
   stale: boolean /* the member's live version differs: shown with the stale mark until refreshed (V15 §4.6) */; renderer: string }
@@ -550,9 +578,10 @@ any atlas (J-V15.4; no back-reference exists, so membership moves no world diges
 session resolves each member by `world.doc` through the local store (V09 §2.11) or `world.ref` through the embedding
 app's `DocResolver` (§11.5), opens it **read-only** in the generation worker for `renderAt`, `edgeCharter` and the lens
 readings, and never holds a write handle to it. **Knowledge on atlas records:** every record above carries `knownTo` as
-§9.2 reads it, default `public` for an arrangement, a gap, a viewpoint's existence and a DM-placed embellishment the DM
-marks shown, `secret` for a relation (a DM diagnostic), a drift reading, a hidden embellishment and the DM's viewpoints
-not marked shared; a member's imagery is admitted per audience by its own picture (V15 §5.4).
+§9.2 reads it, default `public` for an arrangement, a gap, a viewpoint's existence, an atlas relation (M42; the DM may
+mark one `secret`) and a DM-placed embellishment the DM marks shown, `secret` for a relation (a DM diagnostic), a drift
+reading, a hidden embellishment, a court viewpoint (M9) until the DM marks it shared, and the DM's viewpoints not marked
+shared; a member's imagery is admitted per audience by its own picture (V15 §5.4).
 
 ### 2.3 The described relations (the vocabulary F12 asks for, as requirements)
 
@@ -581,6 +610,15 @@ relations box says so (`info.atlas.relation.insideOnly`). Two relations that con
 west of Ashmark") are both kept and both reported unmet; the solver takes the later one as `set` and the earlier as a
 warning, never a refusal (spine §10.3). The clerk's parse of a typed sentence (V10's `propose` route, RQ-V15-8) yields
 the chips the user confirms; the sentence is kept in `text`.
+
+**An atlas relation is not a described relation** (M42; V15 §2.2's `AtlasRelation`). "Varn is Ashmark's enemy", "the sea
+between Ashmark and Varn is sailed", "Ashmark's faith reached Varn", "Varn and Ashmark trade", "Kesh is Ashmark's ally"
+move no member, become no requirement and are never handed to V13's `solve`: they are the atlas's own record of what its
+fiction holds between members, read by the relational view's figure rules and known regions alone (V15 §3.6 (4), (5))
+and never by a member (F14; V15 §4.7 (1)). The relations box holds them on a second tab (**Between the peoples**; V15
+§4.2), typed or chosen as chips (member · kind · member or sea), the clerk's parse (RQ-V15-8) telling the two kinds apart
+by the sentence's verb (lies, sits, borders — a described relation; is, sailed, reached, trade — an atlas relation); a
+sentence that mixes them ("Varn lies east of its enemy Ashmark") yields two chips, one of each kind, confirmed apart.
 
 ### 2.4 New rule tables (data, editable by `editTable`, §7.6; every cell `{value, unit, provenance, calibratable}`)
 
@@ -631,11 +669,12 @@ interface EmbellishRule {                                                       
   dragon: { bandKm: [number, number] /* [50, 150] beyond the known edge */; perBandSegmentKm: number /* 1 per 600 km of edge */ };
   monstrousPeople: { cultureBandMin: 0|1|2|3|4|5 /* 4 */; farKm: number /* 800 from the culture's nearest seat */; minLandKm2: number /* 20 000 */; perRegion: number /* 1 */ };
   devils: { enemyFaith: 'patronDiffersAndContested' /* the holder's patron differs from the mapmaker's and the religion lens marks the seat contested or on a historic front */; atWar: boolean /* true: a land at war with the mapmaker's allegiance */; perRegion: number /* 1 */ };
+  atlasRelations: { enemy: { perSway: number /* 1: devils beside each sway's root seat of the enemy member */ }; sailed: { density: 'sailedSea' /* the gap's warp density class; whales and the portolan's ships in it, never serpents */ }; faithReached: { roadWidthPx: number /* 3: the mission road's strip at level 6 */; endGlyph: 'shrine' /* the figure at the road's far end */; knownAlongWeeks: number /* 4: the other member's own routes walked from the road's end, as the culture rule's `travelWeeks` */ }; ally: { knownSeats: 'all' /* the other member's seats, territories and sways known */ }; traded: { knownSeats: 'cityMinTier' /* the other member's seats of `city.minTier` or above known: the far ends of trade */ } } /* M42: how each atlas relation kind (V15 §2.2's `AtlasRelation`) feeds the figures and the known region (V15 §3.6 (4), (5)); a figure that crosses a seam comes from these rows and an authored relation alone — never from one member's facts read against another's */;
   vignetteWeeks: number /* 104: a dated event within it of the viewpoint's week draws its vignette */; events: Record<'plague'|'battle'|'siege'|'raid'|'razing'|'patronFall'|'boom'|'bust', EmbellishmentKind | null> /* plague → skull, battle and raid → banners, siege → siege, razing → ruinVignette, patronFall → idolFallen, boom and bust → null */;
   city: { minTier: Rung /* town */; sizeExp: number /* 0.5: the vignette's size ∝ importance^sizeExp */; cathedralAtHolyCity: boolean /* true */ };
   blocklist: string /* the shipped list of real-world ethnonyms, demonyms, faith names and region names the lint T-V15-6 reads: no FigureRow, caption or catalogue string of this volume may match it */;
   figures: FigureRow[] }
-interface FigureRow { id: string; kind: EmbellishmentKind; preset: string | '*'; trait: 'deepWater'|'storm'|'unsailed'|'knowledgeEdge'|'hostile'|'far'|'enemyFaith'|'event'|'city'|'holyCity'|'furniture' /* the ONLY key a figure is chosen by, beside the preset: never a culture's, a people's or a faith's name */;
+interface FigureRow { id: string; kind: EmbellishmentKind; preset: string | '*'; trait: 'deepWater'|'storm'|'unsailed'|'knowledgeEdge'|'hostile'|'far'|'enemyFaith'|'event'|'city'|'holyCity'|'furniture'|'missionRoad' /* the ONLY key a figure is chosen by, beside the preset: never a culture's, a people's or a faith's name */;
   asset: string /* the symbol catalogue's glyph id (V11): the shipped minimal set is line art, one glyph per trait, at M-ATLAS-C; the funded first library replaces it row by row after the owner's first sitting; a DM-uploaded glyph is a catalogue id from the catalogue's custom path (V11 §3.13's custom-content rows), admitted under the blocklist lint (T-V15-6) like a shipped one — V15 §11 Q3, ruled J396 (4) */; sizeCm: Cm /* on the true plane at level 6 */; caption?: MsgRef /* "here be serpents" in the preset's lettering; the catalogue's text, lint-checked */ }
 ```
 
@@ -655,7 +694,7 @@ functions of sea monsters as the science note §9.1 cites them: danger and the o
 | id | orientation | centre | areaScaling · magnify · rest | coasts · interiors · unknown | figures admitted (by trait) | lettering and furniture | what it is for |
 |---|---|---|---|---|---|---|---|
 | `true` | northUp | — (no centre: the warp is the identity) | 0 · 1 · 0 | true · drawn · blank | none (the DM's own only) | the base's label faces; the scale bar, the compass, the grid | the game master's working map; every player view's default; every export's measurement (J-V15.15) |
-| `mappaMundi` | eastUp (the preset's default; a viewpoint may override) | holyCity, else capital | 1 · 2.5 · 0.8 | warped · drawn · monsters | deepWater, storm, unsailed, knowledgeEdge, hostile, far, enemyFaith, event, city, holyCity | small capitals in the bundled uncial-like face, roman numerals; a T-O rim when the known world is one landmass round one sea (`toRim`), no rhumb lines, the holy city's cathedral vignette, unknown lands filled with figures and legend ("here are monsters"), the scale bar kept small in a corner | the sacred map (the science note §9.1's Hereford and Ebstorf conventions as evidence: east up, the centre, importance scaling, monstrous races along the rim) |
+| `mappaMundi` | eastUp (the preset's default; a viewpoint may override) | holyCity, else capital | 1 · 2.5 · 0.8 | warped · drawn · monsters | deepWater, storm, unsailed, knowledgeEdge, hostile, far, enemyFaith, event, city, holyCity, missionRoad | small capitals in the bundled uncial-like face, roman numerals; a T-O rim when the known world is one landmass round one sea (`toRim`), no rhumb lines, the holy city's cathedral vignette, unknown lands filled with figures and legend ("here are monsters"), the scale bar kept small in a corner | the sacred map (the science note §9.1's Hereford and Ebstorf conventions as evidence: east up, the centre, importance scaling, monstrous races along the rim) |
 | `portolan` | northUp | mapmakerSeat (a home port) | 0.15 · 1.2 · 0.5 | true · blank · blank | deepWater (ships, not serpents), storm, furniture (roses) | names perpendicular to the coast, important ports in red, a network of rhumb lines from 16 roses on a circle in 32 directions, a scale bar; interiors blank beyond the known coast | the practical sea chart: true coasts, decorated seas, empty interiors (the science note §9.1's portolan conventions) |
 | `itinerary` | towardCentre (the strip's start at the bottom) | mapmakerSeat (the journey's start) | 1 (along the route only) · 1 · 1 | warped · drawn · blank | event, city | the chosen route straightened into a vertical strip, towns as vignettes graded by tier, the days between stations written in the preset's numerals, side roads as stubs, seas as strips; a distance cartogram along the route (V15 §3.6 (1) (c)) | the pilgrim's strip (the science note §9.1's Paris and Peutinger conventions: sequence and labelled distances true, shape not) |
 
@@ -721,6 +760,7 @@ the world's `docId` and namespace, never an address of its own inside it.
 | a `Member` | the atlas root | (`member`, the world's `docId`) — a world is a member of an atlas once (`refuse.atlas.duplicate`); re-adding a removed world finds its tombstone and revives it |
 | an `Arrangement` | its member | (the member's lineage) — one per member, an attribute set, never a record of its own |
 | a `Relation` | the atlas root | (`relation`, the kind, a's lineage, b's lineage) — a second relation of one kind between one pair replaces the first (a tombstone with `supersedes`) |
+| an `AtlasRelation` (M42) | the atlas root | (`atlasRelation`, the kind, a's lineage, b's lineage or the gap's, `weeks.from` or 0) — a second of one kind and start between one pair replaces the first (a tombstone with `supersedes`) |
 | a `GapStyle` | the atlas root | (`gap`, `between` the two lineages sorted, or `around` the lineage and side, or the ring's first vertex, or `everywhereElse`) |
 | a `Viewpoint` | the atlas root | (`viewpoint`, the audience, the culture's member lineage and id or `none`, its ordinal) |
 | an `Embellishment` (the DM's, and a hidden mark) | its viewpoint | (`embellish`, the viewpoint's lineage, the kind, the true point's warp-grid cell) — a derived figure's identity is the same key, so the DM's hidden mark finds it across bakes |
@@ -740,12 +780,13 @@ viewpoint by audience and culture. Tested by T-V15-17 (b).
 | field | create | read | persist | regenerate | undo | migrate |
 |---|---|---|---|---|---|---|
 | `Recipe.atlas` (seed, style, conflicts, layoutPreset, snapshot) | the atlas's creation; `setAtlasStyle`, `setConflictSettings`, `setLayoutPreset` | every stage; the view | the recipe | a re-run of A1–A3 reads it | the inverse | the schema versioned; an unknown preset reads `true` and is reported |
-| `Member` (the reference, `version`, `rung`, `header`, `latBox`, `presentWeek`, `dateLabel`, `origin`, `continuedFrom`, `parent`, `fit`, `shareable`, `name`) | `addMember` (the reference and the readings at add); a continuation's generation (`origin: 'continued'`, `continuedFrom`); `fitChild` (`fit`, `parent`); `refreshImagery` writes `version`, `header`, `presentWeek`, `dateLabel` as **recorded readings** (a cache command's write of a derived reading: outside the model digest, V15 §2.11) | A1–A7; the member list; the exports | the entities block | the reference is an input: kept by every re-run; the readings re-read at every refresh | `removeMember`'s tombstone and its restore | a member whose world's `outputVersion` lies outside the retention window (§7.5) keeps its imagery and reads `unopenable` (V15 §4.9) |
+| `Member` (the reference, `version`, `rung`, `header`, `latBox`, `presentWeek`, `dateLabel`, `origin`, `continuedFrom`, `parent`, `fit`, `shareable`, `name`, `calendarLabel`) | `addMember` (the reference and the readings at add); `setAttr` on `calendarLabel` (M43: the DM's in-world calendar name, the one date word a player viewpoint's cartouche prints); a continuation's generation (`origin: 'continued'`, `continuedFrom`); `fitChild` (`fit`, `parent`); `refreshImagery` writes `version`, `header`, `presentWeek`, `dateLabel` as **recorded readings** (a cache command's write of a derived reading: outside the model digest, V15 §2.11) | A1–A7; the member list; the exports | the entities block | the reference is an input: kept by every re-run; the readings re-read at every refresh | `removeMember`'s tombstone and its restore | a member whose world's `outputVersion` lies outside the retention window (§7.5) keeps its imagery and reads `unopenable` (V15 §4.9) |
 | `Member.state` (derived) | the open-time check (resolve → compare the version → `present` / `missing` / `unopenable`) | the member list, the gap mark, A7 | never (re-derived at every open) | — | — | — |
 | `Arrangement` | `addMember` (the drop point, or the preset's slot), `arrangeMember`, `lockMember`, A1's solve, `setLayoutPreset`, a continuation (the void's position, locked) | A2, A3, A4, A6, A7, the exports | on the member | an input: kept; a solve rewrites the unlocked ones (`by: 'solved'`) | the former arrangement; a solve's undo restores every arrangement it moved as one group | — |
 | `Relation` | `relate`; the clerk's parse confirmed | A1; the relations box; the DM diagnostic lines | the entities block | an input: kept; re-solved on request | `unrelate`'s tombstone and its restore | — |
+| `AtlasRelation` (M42) | `setAtlasRelation`; the clerk's parse confirmed | A6 (4), (5); the relations box's second tab; the DM-only relation lines; the clerk | the entities block | an input: kept; every viewpoint's figures and known region re-derived at the next bake | the inverse (a tombstone and its restore) | — |
 | `GapStyle` | `setGapStyle`; a preset; a solve's accepted `gapKind`; a removed member's gap (`blank`, V15 §4.5) | A3, A6, the legend, the exports | the entities block | kept | the inverse | — |
-| `Viewpoint` | `setViewpoint`; the two shipped defaults at creation | A2's audience, A6, the player view, the exports' request | the entities block | kept | the inverse | an older atlas without viewpoints gains the two defaults at load, reported |
+| `Viewpoint` (with `court`, M9, `asWas`, M46, and `inWorld`, M45) | `setViewpoint`; the two shipped defaults at creation; `setAttr` on `knownTo` (the shared mark: a court viewpoint so marked is the looted map) | A2's audience (a court's picture through RQ-V15-13), A6, the player view, the exports' request | the entities block (an as-was copy is a document of its own, outside the atlas) | kept | the inverse | an older atlas without viewpoints gains the two defaults at load, reported; a viewpoint whose as-was copy cannot be opened reads the member itself with `W_ATLAS_MEMBER_UNOPENABLE` on the copy |
 | `Embellishment` (`source: 'dm'`) and the `hidden` marks | `setEmbellishment` | the embellishment layer, the exports, the clerk | the entities block | kept through every bake (the DM's word over the derivation) | the inverse | — |
 | `Embellishment` (`source: 'derived'`) | A6's `embellish` at draw, keyed draws | the layer, the clerk | `derived` (never canonical) | re-derived at every bake | not an event | — |
 | `ContinuationRequest` and its carried `WorldEdgeCharter`s | `requestContinuation` (`draft` writes the request and the charters as recorded inputs; `send` hands the request to V13's generator through V09's dialog; the generated world's add writes `member` and `status: 'generated'`) | A4, the dialog, the clerk, the new member's provenance | the entities block; the charters in the records digest (V15 §2.11) | an input: kept; a re-draft after a neighbour's refresh writes a new request with new charters, the old superseded | a draft's or a cancellation's tombstone; a generated one kept | the charter schema's version (V13's); an older charter version reads through V13's migration chain |
@@ -788,8 +829,15 @@ host does not have (the state note's Part D: one map per campaign, no atlas) and
 it lands an atlas in host mode is saved as a file through the share sheet's **Download** (V09 §5.11) and reopened from
 it. **A shared atlas** (V15 §5.5) is the same container written by the share writer with every unshareable member's
 `world.ref` and imagery removed (its `state` reads `unopenable`, its gap marked "not shared") and every shareable
-member's imagery embedded at the stops cached, flagged read-only (`shared: true` in the header): the recipient sees
-pictures, arrangement and viewpoints and can drill into no member it cannot resolve.
+member's imagery embedded at the stops cached — **the `public` audience's imagery only** (M44; J-V15.44): the DM's,
+every party's and every court's tiles are stripped, and every record below the `public` key is REMOVED from the file,
+never left to a viewer-side admission — the described relations, the atlas relations marked `secret`, the drift
+readings, the hidden embellishments, the DM's viewpoints not marked shared (a court viewpoint among them), every
+member's `version` words and every as-was copy reference (V15 §5.4's list); what remains is what anyone may see: the
+public pictures, the arrangement, the gaps, the shared viewpoints with their DM-placed figures marked shown, the public
+atlas relations — flagged read-only (`shared: true` in the header): the recipient sees pictures, arrangement and the
+shared viewpoints and can drill into no member it cannot resolve. **A gallery copy** (publishing through the host's
+resolver, V15 §5.5 (4)) is this same file: the public audience by rule, never a choice on the sheet (T-V15-30).
 
 ## 3 Generation
 
@@ -1232,8 +1280,19 @@ spine §11): the shape lies, the number never does. The scale bar is drawn on th
 **(4) Knowledge: the known region.** `knownRegion(viewpoint, week)` over the warp grid: by the viewpoint's
 `knowledge.source` — `everything` (the DM's: all known); `audience` (the party or the public: the member's known cells as `renderAt` returned them for that audience — the coarse cells the audience's places have reached, amendments r's `RenderedWorld.known` — mapped onto the warp grid; one `heardOfBands` band beyond, within `heardOfWeeks` along routes); `culture` (the mapmaker's culture: its seats' territories and sways, the cells within `travelWeeks`
 along routes, the far ends of its trade channels (`tradeKnows`), the seats of its allies and vassals, one heard-of
-band beyond; the plates at `asOfWeek` where set, so a map "found in a dungeon" knows what its culture knew then). A
-projection (class 4), labelled; the DM may widen or narrow it only by choosing another source or audience, never by
+band beyond; the plates at `asOfWeek` where set, so an old map (M46) knows what its culture knew then); `court` (M9; the
+default for a `court:<seat>` audience: that court's OWN reach — the territories and sways of its allegiance's seats, the
+cells within `travelWeeks` along routes from them, the far ends of its trade channels (`tradeKnows`), the seats of its
+allies and vassals, one heard-of band beyond — widened by the `subject`s its `LensFacts.courts[]` rows name where the
+host sends them (a seat the court holds a belief about is at least heard of; V15 §1b.5), never by a place the court has no word
+of). **Atlas relations widen a culture's or a court's region across a seam** (M42; `atlas.embellish.atlasRelations`):
+`ally` — the other member's seats, their territories and sways, as the allies' seats are known within a member;
+`traded` — the other member's seats of `city.minTier` or above (the far ends of trade); `faithReached` — the other
+member's seat the mission road ends at (V15 §3.6 (5)) and the cells within `knownAlongWeeks` along that member's own
+routes from it; each one heard-of band beyond; `enemy` and `sailed` widen nothing (an enemy is feared, not known; a sea
+sailed is a sea, not a land). A
+projection (class 4), labelled; the DM may widen or narrow it only by choosing another source or audience, or by
+authoring an atlas relation (M42), never by
 painting (knowledge is a fact of the audience, V14 §2.3's reading of §9.2; the party learns through the host's reveal
 and reach).
 
@@ -1246,15 +1305,16 @@ bake; a moved one becomes `source: 'dm'` keeping `derivedFrom`).
 
 | figure | the rule (the facts, by V13's names; the thresholds `atlas.embellish`'s) | where it draws | audience |
 |---|---|---|---|
-| **sea serpent** | a sea cell whose bathymetry (`ViewFacts.water.bathymetry`: the member's coarse `dem` below the datum, read once per member on request) is deeper than `minDepthM`, farther than `farFromRouteKm` from any `WorldRoute` of mode `water`, or in a body whose quarter's `TravelLaw.water.stormFactor` ≥ `stormFactorMin` at the viewpoint's season — deep, little-sailed or storm-feared water | one per `per1000Km2` of such water, at most `maxPerBody`, at the admitted cells' centroid jittered | every |
-| **whale** | deep water sailed (a route within reach): the Carta Marina's real animals, the science note §9.1 | as above | every |
+| **sea serpent** | a sea cell whose bathymetry (`ViewFacts.water.bathymetry`: the member's coarse `dem` below the datum, read once per member on request) is deeper than `minDepthM`, farther than `farFromRouteKm` from any `WorldRoute` of mode `water`, or in a body whose quarter's `TravelLaw.water.stormFactor` ≥ `stormFactorMin` at the viewpoint's season — deep, little-sailed or storm-feared water; a sea gap between members with no `sailed` atlas relation (M42: no route crosses a seam, so a gap is unsailed by construction; depth is not asked of a gap, which has no bathymetry) | one per `per1000Km2` of such water, at most `maxPerBody`, at the admitted cells' centroid jittered | every |
+| **whale** | deep water sailed (a route within reach), or a sea gap an atlas relation `sailed` names (M42: the relation alone makes a gap sailed — its density `sailedSea`, the portolan's ships on it, no serpent in it): the Carta Marina's real animals, the science note §9.1 | as above; in a sailed gap one per `per1000Km2` of the gap's area, at most `maxPerBody` | every |
 | **dragon** | the band `bandKm` beyond the known region's edge (4): where knowledge ends | one per `perBandSegmentKm` of the edge, on the band's midline | every (the edge is the audience's own) |
-| **monstrous peoples** | land held by a seat whose culture distance band from the mapmaker's culture (`PolityFacts.culture[].band`) ≥ `cultureBandMin`, or whose allegiance stands adversarial to the mapmaker's (`PolityRelation` mapped adversarial; `Sway.neighbours[].class`), or farther than `farKm` from the culture's nearest seat and of another culture — the lands the mapmaker's culture is hostile to or far from | one per such sway or culture region of at least `minLandKm2` (`ViewFacts.polity.sways[].areaKm2`), at its pole (`.poleCm`) | every, from public rows; a DM-only relation never draws for a player viewpoint |
-| **devils** | land held by a seat whose patron deity differs from the mapmaker's and whom the religion lens marks contested or joined to the mapmaker's seats by a historic-front link, or whose allegiance is `atWar` with the mapmaker's — an enemy faith or an enemy at war (never the alignment lens, DM-only, J384 (7)) | one per such region, beside the seat (`ViewFacts.polity.seats[].at`) | every, from public rows |
+| **monstrous peoples** | land held by a seat whose culture distance band from the mapmaker's culture (`PolityFacts.culture[].band`) ≥ `cultureBandMin`, or whose allegiance stands adversarial to the mapmaker's (`PolityRelation` mapped adversarial; `Sway.neighbours[].class`), or farther than `farKm` from the culture's nearest seat and of another culture — the lands the mapmaker's culture is hostile to or far from; across a seam another member's land is of another culture by construction (no culture id crosses a seam), so its far sways take the figure by the `far` clause alone — unless an `ally`, `traded` or `faithReached` atlas relation names that member (M42: a people reached is not monstrous) | one per such sway or culture region of at least `minLandKm2` (`ViewFacts.polity.sways[].areaKm2`), at its pole (`.poleCm`) | every, from public rows; a DM-only relation never draws for a player viewpoint |
+| **devils** | land held by a seat whose patron deity differs from the mapmaker's and whom the religion lens marks contested or joined to the mapmaker's seats by a historic-front link, or whose allegiance is `atWar` with the mapmaker's — an enemy faith or an enemy at war (never the alignment lens, DM-only, J384 (7)); across a seam, the lands of a member an `enemy` atlas relation sets against the mapmaker's member (M42: no `atWar` and no patron crosses a seam — the relation is the only enemy a mapmaker can have in another map) | one per such region, beside the seat (`ViewFacts.polity.seats[].at`); for an enemy member one per sway of it (`atlasRelations.enemy.perSway`), beside the sway's root seat | every, from public rows; an `enemy` relation marked `secret` feeds the DM's viewpoints alone |
 | **skull** | a `WorldEvent` of the plague kinds (an arrival, a realm arc naming the seat) within `vignetteWeeks` of the week | at the seat | the event's resolved audience |
 | **banners**, **siege**, **ruin**, **fallen idol** | a battle or raid, a siege, a razing, a patron fall, within `vignetteWeeks` | at the seat or the border segment V13 placed the event at | the event's resolved audience |
 | **city vignette**, **cathedral** | a seat of at least `city.minTier`: its vignette's size ∝ importance^`sizeExp`; the holy city's a cathedral when `cathedralAtHolyCity` | at the seat, under the preset's `vignettes.byTier` | every |
-| **cartouche**, **compass rose**, **ship** | furniture by the preset's rows: the title and the viewpoint's cartouche; roses on the rhumb circle; a ship on a sailed route | by the preset | every |
+| **cartouche**, **compass rose**, **ship** | furniture by the preset's rows: the title and the viewpoint's cartouche; roses on the rhumb circle; a ship on a sailed route, and on a gap a `sailed` atlas relation names | by the preset | every |
+| **mission road** | a `faithReached` atlas relation from the mapmaker's member (M42): a road strip from the mapmaker's holy city (else its centre) to the nearest seat of the other member across the shared edge or gap — the mapmaker's member's own route to its edge where one ends there, a straight strip across the gap, the other member's own route from the edge where one begins there — with a shrine glyph (`atlasRelations.faithReached.endGlyph`) at its far end | the strip in the preset's road style at `atlasRelations.faithReached.roadWidthPx`, the glyph at the far seat | every; the far seat enters the known region (V15 §3.6 (4)) |
 
 **The rule that binds every figure (J-V15.18), and its test.** A figure is chosen by its **trait** alone — deep water,
 storm, unsailed, the edge of knowledge, hostility, distance, an enemy faith, an event, a tier — and by the preset; it
@@ -1267,15 +1327,36 @@ fear, not the realm's fact: its enemies drawn as monsters" whenever a monstrous-
 honesty rule of V13 §5.8 (3) applied to a culture's prejudice. T-V15-6 asserts: renaming every culture, deity and
 seat of the fixture changes no figure; changing one relation to adversarial moves exactly the figures its rule names;
 no string of the volume or of a derived caption matches the blocklist; no figure reads an alignment, suppressed-creed,
-covert or DM-only row for a player viewpoint.
+covert or DM-only row for a player viewpoint. **A figure never reads one member's facts against another's** (M42; V15
+§4.7 (1)): each member's rows are read at that member's own version for the land they describe, and a figure that
+crosses a seam — devils in another map, whales on the sea between, a mission road — comes from an atlas relation alone;
+T-V15-28 asserts that adding or removing an atlas relation changes exactly the figures its rows name and no member's
+digest, and that T-V15-6's renaming clause holds with the relations present.
 
 **(6) Viewpoints.** Every map is somebody's map (spine §11). Two ship with every atlas: *the game master's* (audience
 `dm`, culture `none`, preset `true`) and *the party's* (audience `party`, culture `none`, preset `true`, knowledge by
 audience). A DM adds a culture's map (a culture of one member, its centre by the preset's rule, its knowledge by
 culture), a party's relational map (audience `party`, a culture of the party's choosing, preset `mappaMundi`: "the
-world as the Ember priests draw it, as far as the party has seen"), or **a map found in a dungeon** (a culture's
-viewpoint with `asOfWeek` centuries before the present, every member read at its plates and events up to that week,
-`W_ATLAS_BEHIND_WEEK` where a member's history does not reach so far back): each a `Viewpoint` record, switchable in
+world as the Ember priests draw it, as far as the party has seen"), **a court's map** (M9; J-V15.41; audience
+`court:<seat>`, `court: { member; seat }`, knowledge by `court`, a culture and a preset of the DM's choosing — the
+court's own culture by default): the member's picture and facts AS THAT COURT BELIEVES THEM where the host sends them
+— its `LensFacts.courts[]` rows (file v item 1087: the believed `allegiance?`, `strengthBand?`, `readiness?` and
+`faith?` per subject), projected by the sway lens as the derived `CourtViewpoint` transient (V13 §2.4, §5.9 (2)) and drawn
+as the sway "as {court} believes it, as of week n", each mark faded by its `believed.confidence` and captioned by its
+`believed.asOfWeek` (H40), read through the port's presentation inputs only (V13 §3.11.6's law (3); M50) — and never a truth the
+court does not hold: no row of the member outside the court's beliefs and reach enters its picture, whatever the
+viewer's key, so the DM's own secrets a court could never know are absent from it; where the host sends no belief for
+that court (a standalone member; a campaign that records none) the court's reach is drawn over the public record with
+`W_ATLAS_COURT_UNSENT` and the legend says so; on the DM's screen each believed mark carries its `believed.integrity`
+word where sent — `clean`, `worn`, `planted` — and on no other key (V15 §5.4); the record is `secret`
+until the DM marks it shared: **the looted map** — the DM hands the party the enemy's own map, and what the party reads
+is what that court believed, a planted lie included, with no word that it was planted —, or **an old map** (M46;
+J-V15.46; a culture's or a court's viewpoint with `asOfWeek` in the past: every member read at the plates and events it
+has up to that week and no earlier than its record reaches, `W_ATLAS_BEHIND_WEEK` on the cartouche of a member whose
+record begins later — "this map's record begins at week n; drawn from there" —, the physical ground the member's
+present; a DM who wants the borders of a vanished kingdom authors them on an **as-was copy** (`Viewpoint.asWas`: a
+scratch copy of the member with the past's sway set by `setSwayLock`, read by this viewpoint alone in the member's
+place and arrangement, V15 §2.2) — the feature promises no more): each a `Viewpoint` record, switchable in
 the picker, each with its own warp bake, known region and figures. A party's map **improves as they learn**: its known
 region is re-derived from the member's known sets at every refresh, so a revealed place or a reached site widens it.
 
@@ -1289,9 +1370,19 @@ and tiered vignettes. A `true` viewpoint draws no warp, no figure of the derivat
 
 **(8) The legend's honesty.** The relational view's legend begins with "drawn as {culture} saw the world at {week}:
 {centre} at the centre, {orientation} up, its enemies as monsters, the unknown as legend — a projection; every
-distance and time shown is true" and lists the absent facts that fell to defaults (V15 §1b.5), as V13 §5.8 (2)–(3)'s
-banner does for a lens; {culture} is the DM's christening of the culture id (`ViewFacts.polity.cultures[].label`), else
-"culture {id}".
+distance and time shown is true" — under a court viewpoint "drawn as the court of {seat} believed the world at {week}:
+… — a projection of that court's beliefs; every distance and time shown is true" (M9), with "the host sends no belief
+for this court: the public record as far as its reach" under `W_ATLAS_COURT_UNSENT` — and lists the absent facts that
+fell to defaults (V15 §1b.5), as V13 §5.8 (2)–(3)'s banner does for a lens; {culture} is the DM's christening of the
+culture id (`ViewFacts.polity.cultures[].label`), else "culture {id}". **Where the note lives** (M45; J-V15.45): the
+note is drawn for the DM audience always and in the clerk's answer for the view always ("a projection; the shape lies,
+the number never does"); for a party or public audience — a player's screen, a shared file's recipient's screen, a
+picture export under that viewpoint — it is drawn unless the viewpoint's **as an in-world artefact** switch is set
+(`Viewpoint.inWorld`, off by default; V15 §2.2, §5.5): one switch governing the screen and the export alike, so the DM
+has one control, because the player's screen is the handout at a virtual table and a handout the party holds in play
+carries no line that breaks its fiction; whatever the switch holds, the DM's screen keeps the note and the export's
+record (its provenance block, §11.1) keeps the projection's facts — the viewpoint, the preset, the slider's position,
+"a projection; distances true" — so the file never lies, only its face is silent. `atlasTiles` and `atlasGeoJson` are the true plane and carry no note.
 
 **(9) Over a single world (J-V15.14).** The world page's **View relationally…** makes an unsaved atlas of that one
 member (a scratch `AtlasDocument` in the session, V15 §4.9's unsaved form) and opens it on the atlas page with the
@@ -1311,6 +1402,24 @@ opens the member's player view only when the member is `shareable` and the audie
 click answers `refuse.atlas.drill.audience`; a `missing` member refuses with its gap's words, an `unopenable` one
 with `refuse.atlas.drill.unopenable` naming the reason (the version, the resolver). The relational view's drill lands
 on the **true** point (T-V15-12): a warped click opens the place that is really there.
+
+**The party's reach across a seam** (M47; J-V15.47; T-V15-31). Party knowledge is per document (V14 §2.3's `party` key:
+the host's mirror on a host-bound member, the document's own on a standalone one), so a party that crosses from a
+host-bound member into a continued standalone member would arrive on a blank map. When the party of a host-bound
+member stands within `snapEdgeKm` of a continued seam (the party's current seat the host sends, `LensFacts.partySeat` — V13 §8.5's
+H39 —, or the DM's drill from a point within that distance of the seam) and the DM drills across it into the
+continued standalone member, or chooses **Mark the party's places here** on the seam (its context action; V09), the
+atlas drafts a `markPartyReach` request (V15 §4.1): the **crossing point** — the drill point, or the crossing of the
+party's route nearest its seat, projected onto the shared stretch —, its coarse cell on the continued member, and
+**the route the party took**: the host-bound member's route to the crossing (already in that member's own key)
+continued by the continued member's own route that begins within `snapEdgeKm` of the crossing, as far as its first
+seat. The request opens the continued member's own page with the seeding previewed, and the member's shared `party`
+key is written there by the DM's one confirmation (V14 §2.3's seeded form, RQ-V15-15: a view key — never an event,
+never a digest, never the host's; the atlas records the request and writes nothing); the DM reveals further by the
+member's own tools. A party viewpoint's known region then grows across the seam as it grows within a member (V15 §3.6
+(6)). A member that is no continuation of the member the party stands on, or a drill from no party place, gets no
+offer (`refuse.atlas.reach.notContinued`, `refuse.atlas.reach.noParty` on a request made by hand): the blank map stays
+the felt edge of the known world where the DM wants one.
 
 ### 3.8 Failure handling (the ladders, in §5.2's form: F-ATLAS)
 
@@ -1390,7 +1499,9 @@ inside Ashmark's north-east; **the Marches** and **Kesh** do not exist yet.
    plateau at that corner where Varn's ends in sea — `W_ATLAS_EDGE_CONTRADICTS` proposes **a strait** at the corner;
    accepted. Send → the world dialog with two locked edge chips; Generate; **the Marches** joins with `origin:
    'continued'`, locked at the void, its recipe storing the two charters with Ashmark's and Varn's versions; Ashmark's
-   and Varn's digests unchanged (T-V15-11). Its cartouche reads "Year 1, spring".
+   and Varn's digests unchanged (T-V15-11). Its cartouche reads "Year 1, spring" on the DM's map; on the party's map the
+   Marches carry no date until the DM sets the member's calendar label — "the Year of the Strait" —, which is then the
+   one date word a player sees of it (M43; V15 §5.4).
 5. "Kesh lies far to the south beyond unknown lands": Kesh is made as an ordinary world (no shared edge), dropped
    beyond the Marches, the relation `beyondUnknown` solved (≥ 900 km, `terraIncognita` between) — no charter, no
    continuation: the user chose the unknown, not a seam.
@@ -1403,18 +1514,40 @@ inside Ashmark's north-east; **the Marches** and **Kesh** do not exist yet.
    under Show drift; the Marches still reads "Year 1, spring"; **Re-match this edge…** on the Marches' side would run
    V13's regenerate over a 20 km strip of the Marches under Ashmark's live charter, previewed on the Marches' page —
    only if asked.
-7. **The Ember Church's map** — a viewpoint (audience `party`, culture Ashmark's culture 2, preset `mappaMundi`): the
-   centre resolves to Sarn (the religion lens's pilgrimage centre of the Church's patron), east up; Varn's lands (its
-   allegiance at war with Ashmark's) take devils, the far southern sways of another culture at band 5 monstrous
-   peoples; the sea between Ashmark and Varn is sailed → whales; the deep southern sea with no route → serpents; the
-   Marches are known as far as the Church's missions reach in four weeks, then one heard-of band, then dragons; "The
-   Wasting" (a plague realm arc 60 weeks ago at two seats) → two skulls; the legend reads "drawn as the Ember Church
-   saw the world at Year 413: Sarn at the centre, east up, its enemies as monsters …". The slider at 0.6 swells Sarn's
+7. **The relations between the peoples** (M42): before the Church's map is drawn, the DM authors on the relations box's
+   second tab what the atlas's fiction holds and no member can know — "Varn is Ashmark's enemy" (`enemy`, Ashmark–Varn),
+   "the sea between Ashmark and Varn is sailed" (`sailed`, Ashmark – the sea gap the solve wrote in step 2) and "the
+   Church's faith reached the Marches" (`faithReached`, Ashmark → the Marches); nothing moves and no member's digest
+   changes (T-V15-28). **The Ember Church's map** — a viewpoint (audience `party`, culture Ashmark's culture 2, preset
+   `mappaMundi`): the centre resolves to Sarn (the religion lens's pilgrimage centre of the Church's patron), east up;
+   Varn's lands take devils by the `enemy` relation — one beside each of Varn's sways' root seats, since no war of
+   Varn's can be read against Ashmark's (two campaigns, two clocks: F14) —; Kesh's sways, 900 km beyond unknown lands
+   and of no culture of Ashmark's, monstrous peoples by the `far` clause (no culture band crosses a seam, and no
+   relation names Kesh); the sea between Ashmark and Varn → whales and the portolan's ships by the `sailed` relation
+   (without it: serpents, the gap being unsailed by construction); Ashmark's own deep southern sea with no route →
+   serpents (its bathymetry Ashmark's); the Marches known along the mission road from Sarn to the Marches' first town
+   and four weeks along the Marches' own roads beyond it (the `faithReached` relation; a shrine glyph at the road's
+   end), then one heard-of band, then dragons; "The Wasting" (a plague realm arc 60 weeks ago at two seats of
+   Ashmark) → two skulls; the legend reads "drawn as the Ember Church saw the world at Year 413: Sarn at the centre,
+   east up, its enemies as monsters …" — on the DM's screen always; with the viewpoint's **as an in-world artefact**
+   switch set, the party's screen and the handout export alike carry no such line, the file's record keeping the
+   projection (M45). The slider at 0.6 swells Sarn's
    province to a third of the sheet; hovering the Sarn–Ashby road reads "312 km · 2 weeks 3 days on foot (the default
-   law, absolute)"; a click on Varn's warped coast opens Varn's page at the true point (T-V15-12). **The party's map**
-   (audience `party`, culture `none`, `true`): Varn, which the party has never heard of, is parchment.
+   law, absolute)"; a click on Varn's warped coast opens Varn's page at the true point (T-V15-12). Every figure above
+   is derivable by a DM who repeats the three relations (T-V15-6, T-V15-28). **The party's map** (audience `party`,
+   culture `none`, `true`): Varn, which the party has never heard of, is parchment, and no member of the party's map
+   carries a date but the Marches, whose calendar label the DM set in step 4 (M43). **Varn's court's map** (M9): a
+   viewpoint `court:<Varn's capital>` on Varn — a host-bound member of a campaign that records belief —: the DM sees
+   Varn's court's picture of its own realm "as it believes it, as of week n", a believed strength band beside each
+   seat with its `believed.integrity` word (one `planted`: the lie the party's spies fed it), and of Ashmark nothing — Ashmark lies
+   in another map, of which Varn's court can hold no belief, and no `ally` or `traded` relation widens its reach; marked
+   shared, it is the looted map the party reads, the register words gone.
 8. **Sharing:** Varn is another user's shared world the user may not re-share → the share sheet excludes it (its
-   extent "not shared"); the file carries Ashmark, Thornwood, the Marches and Kesh as pictures (T-V15-8).
+   extent "not shared"); the file carries Ashmark, Thornwood, the Marches and Kesh as their PUBLIC pictures (T-V15-8;
+   M44, T-V15-30): the sheet says so — "this file carries what anyone knows" —, the DM's and the party's tiles are left
+   out, the Ember Church's viewpoint travels only if the DM marked it shared, Varn's court's viewpoint and the drift
+   readings never, and the `enemy` relation travels as a public atlas relation while a relation marked `secret` is
+   removed, not withheld.
 
 ## 4 Editing
 
@@ -1434,6 +1567,7 @@ type EditEvent = EditBase & (
   | { t: 'lockMember'; member: Id; locked: boolean }
   | { t: 'relate'; relation: Omit<Relation, 'id' | 'lifecycle' | 'reason'>; solve?: boolean /* true: the fold runs A1's solve at once; false: stored, the box shows it unmet until Arrange */ }
   | { t: 'unrelate'; relation: Id }
+  | { t: 'setAtlasRelation'; action: 'add'; relation: Omit<AtlasRelation, 'id' | 'lifecycle' | 'reason'> } | { t: 'setAtlasRelation'; action: 'remove'; relation: Id }   // M42: the atlas's own record of what its fiction holds between members (V15 §2.2); the fold writes the record and invalidates every viewpoint's derived figures and known region (re-derived at the next bake); no solve runs, no member is read or written; refuses `refuse.atlas.relation.self` (`a` and `b` one member) and `refuse.atlas.relation.gap` (a gap named under a kind other than `sailed`)
   | { t: 'arrange'; scope?: Id[] /* the members the solve may move; absent: every unlocked one */; accept?: string[] /* warnings accepted */ }   // the relations box's Arrange: A1's solve over the stored relations; the dry run returns the ghost arrangements, the verification list and the warnings
   | { t: 'setLayoutPreset'; preset: 'clustered'|'archipelago'|'scattered' }
   | { t: 'setGapStyle'; gap: Omit<GapStyle, 'id' | 'lifecycle' | 'reason'> } | { t: 'removeGap'; gap: Id }
@@ -1443,13 +1577,16 @@ type EditEvent = EditBase & (
   | { t: 'requestContinuation'; action: 'cancel'; request: Id }
   | { t: 'fitChild'; child: Id | { extent: AtlasPointCm[]; rung: WorldSizeRung } /* a derived child names its extent, not yet a member */; parent: Id; mode: 'derivedFromParent'|'imageOnly'|'fitted'; parentEdit?: { placement: Id; seq: number } /* mode 'fitted' or 'derivedFromParent': the parent's committed V13 event the atlas records (never performs) */ }
   | { t: 'rematchStrip'; seam: [Id, Id]; member: Id /* the ONE member whose border strip is re-matched */; stripKm: number }   // a request record: the fold opens the member's own page with V13 §3.1 (6)'s re-matching (file r item 1008): `setRequirements` replacing that side's `edge` rows by the neighbour's live charter, then V13's regenerate over the strip's box (EditScope { kind: 'world'; stage: 'W1'; box }) under the recipe's rows, previewed there; nothing happens in the atlas but the record and, on the member's commit, a refresh
+  | { t: 'markPartyReach'; seam: [Id, Id]; from: Id /* the host-bound member the party stands on */; to: Id /* the continued standalone member */; crossing: { at: AtlasPointCm; cell: number /* the crossing's coarse cell on `to` */ }; route?: { onFrom?: Id; onTo?: Id } /* the party's route to the crossing and the continued member's route from it */ }   // M47 (V15 §3.7): a request record: the fold opens `to`'s own page with the seeding of its shared `party` key previewed — the crossing's cell and `onTo`'s stations to its first seat — written there by the DM's confirmation as a view key (V14 §2.3's seeded form; RQ-V15-15): nothing happens in the atlas but the record; refuses `refuse.atlas.reach.notContinued` (`to` is no continuation of `from`) and `refuse.atlas.reach.noParty` (`from` sends no `LensFacts.partySeat` and the DM drilled from no party place)
   | { t: 'setViewpoint'; action: 'add'; viewpoint: Omit<Viewpoint, 'id' | 'lifecycle' | 'reason'> } | { t: 'setViewpoint'; action: 'update'; viewpoint: Id; patch: Partial<Viewpoint> } | { t: 'setViewpoint'; action: 'remove'; viewpoint: Id }
   | { t: 'setEmbellishment'; action: 'add'; embellishment: Omit<Embellishment, 'id' | 'source' | 'lifecycle' | 'reason'> } | { t: 'setEmbellishment'; action: 'move'; embellishment: Id; at: AtlasPointCm; facing?: Cdeg; sizeCm?: Cm } | { t: 'setEmbellishment'; action: 'remove'; embellishment: Id } | { t: 'setEmbellishment'; action: 'restore'; embellishment: Id }
 );
 ```
 
-`setAttr` admits a member's `name` and `shareable` (narrowing only: a value wider than the world's own sharing is
-refused `refuse.atlas.share`), a gap's `label`, a viewpoint's `name`, a seam's `treatment` (`ease` | `inset`, keyed by
+`setAttr` admits a member's `name`, `shareable` (narrowing only: a value wider than the world's own sharing is
+refused `refuse.atlas.share`) and `calendarLabel` (M43), a gap's `label`, a viewpoint's `name` and `knownTo` (`public`
+marks it shared — a court viewpoint so marked is the looted map handed to the party, M9), an atlas relation's `knownTo`
+(M42), a seam's `treatment` (`ease` | `inset`, keyed by
 the pair). Every event's dry run (§7.1) runs the fold on the scratch overlay: `arrangeMember`'s and `arrange`'s with
 the ghost outlines, the compatibility warnings and the verification list; `requestContinuation`'s with the void's
 outline, the edge chips and the contradictions; `fitChild`'s with V13's own preview on the parent (mode `fitted`,
@@ -1458,13 +1595,16 @@ BCR-V15-4; the refusals §7.1 outcome keys rendered by V09's catalogue, never `R
 `refuse.atlas.duplicate`, `refuse.atlas.extent`, `refuse.atlas.members`, `refuse.atlas.unresolved`,
 `refuse.atlas.share`, `refuse.atlas.noCharter`, `refuse.atlas.hostWorld`, `refuse.atlas.fit.straddles`,
 `refuse.atlas.fit.covers`, `refuse.atlas.drill.unopenable`, `refuse.atlas.drill.audience`, `refuse.atlas.export` (a
-world-shaped export asked of an atlas, V15 §5.5); the warnings with their `ConflictAction`s — `W_ATLAS_OVERLAP`
+world-shaped export asked of an atlas, V15 §5.5), `refuse.atlas.relation.self`, `refuse.atlas.relation.gap` (M42),
+`refuse.atlas.asWas` (an as-was copy whose lineage is not the member's, M46), `refuse.atlas.reach.notContinued`,
+`refuse.atlas.reach.noParty` (M47); the warnings with their `ConflictAction`s — `W_ATLAS_OVERLAP`
 (`keep`, `inset`, `move`), `W_ATLAS_LATITUDE` (`keep`, `setBox`), `W_ATLAS_CLIMATE` (`keep`, `drop`),
 `W_ATLAS_NORTH_DIFFERS` (`snap`, `keep`), `W_ATLAS_RELATION_UNMET` (`keep`, `drop`, `unlock`), `W_ATLAS_LOCKED_MOVE`
 (`unlock`, `cancel`), `W_ATLAS_EDGE_CONTRADICTS` (`accept` with `proposal`, `move`, `drop`),
 `W_ATLAS_NEIGHBOUR_CHANGE` (`drop`, `editNeighbour`), `W_ATLAS_MISMATCH` (`fit`, `keep`), `W_ATLAS_MEMBER_STALE`
 (`refresh`, `keep`), `W_ATLAS_MEMBER_MISSING` (`remove`, `keep`), `W_ATLAS_NOT_SHARED` (`keep`, `include` where the
-world's own sharing allows) — `ConflictAction.kind` gaining `'inset'|'move'|'setBox'|'drop'|'unlock'|'snap'|'accept'|
+world's own sharing allows), `W_ATLAS_COURT_UNSENT` (`keep`, `remove`; a court viewpoint whose member sends no belief,
+M9) — `ConflictAction.kind` gaining `'inset'|'move'|'setBox'|'drop'|'unlock'|'snap'|'accept'|
 'editNeighbour'|'fit'|'refresh'|'remove'|'include'` and `proposal?: string` (BCR-V15-4). The author of every atlas
 event is the user (`EditBase.author` `user`), of the continuation's generated member's `addMember` the dialog
 (`user`); no event of an atlas carries `author: 'host'` or `'world'`, and the atlas's log has no reserved session.
@@ -1476,8 +1616,8 @@ event is the user (`EditBase.author` `user`), of the continuation's generated me
 | T1 `intend` | the atlas's settings sheet: the conflict settings, the style state, the layout presets, the common-week toggle | the member count, the plane's extent, the imagery cache's size |
 | T2 `ground` | the **gap brush** (a region, "between these two", "around this side"; the kind picker) | the gap's fill previewed |
 | T6 `place` | **Arrange**: a drag of a member (edge snapping with the `adjacent` chip; the ruler), the rotation handle (right-angle snaps), the lock; **Add a world map…** (the recent list, a file, a link; a drag of a world's card); **Continue here** on a void; the **embellishment tray** (the DM) | the ghost outline, the snap chip, the compatibility warnings beside the pointer; the void's outline with its edge chips; a figure's ghost |
-| T7 `roster` | the **relations box**: chips (member · relation · member · width or side), or a typed sentence sent to the clerk's parse (V10), each relation's met/unmet mark, **Arrange** | the solve's dry run as ghost outlines with the verification list |
-| T9 `shape` | `setAttr` on a member, a gap, a viewpoint, a seam's treatment; the **fit sheet** on a nested member (three cards; the fitted card opens V13's preview on the parent's page); **Re-match this edge…** on a seam; the **viewpoint picker** and its New viewpoint sheet; the **style cards** | the fit's preview on the parent's page (V13's own); the viewpoint's resolved centre and known region outlined |
+| T7 `roster` | the **relations box**: chips (member · relation · member · width or side), or a typed sentence sent to the clerk's parse (V10), each relation's met/unmet mark, **Arrange**; its second tab **Between the peoples** (M42): the atlas relations as chips (member · enemy / ally / faith reached / sailed / traded · member or sea), a typed sentence parsed by the clerk, each with its dates and its shared mark | the solve's dry run as ghost outlines with the verification list; an atlas relation's figures previewed on the current viewpoint |
+| T9 `shape` | `setAttr` on a member, a gap, a viewpoint, a seam's treatment; the **fit sheet** on a nested member (three cards; the fitted card opens V13's preview on the parent's page); **Re-match this edge…** on a seam; the **viewpoint picker** and its New viewpoint sheet (an audience of `dm`, `party`, `public` or **a court** — a host-bound member and its seat, M9; the as-of week of **an old map** and its as-was copies, M46; the shared mark; the **as an in-world artefact** switch, M45 — one control for a player's screen and the export); a member card's **calendar label** (M43); **Mark the party's places here** on a continued seam (M47); the **style cards** | the fit's preview on the parent's page (V13's own); the viewpoint's resolved centre and known region outlined; a court viewpoint's picture with its register words (the DM) |
 | T10 `hold` | **Refresh** a member's picture; **Keep detail** (`pinImagery`); **Bake** the relational warp; the slider's rest position | the stale marks; the bake's progress strip |
 
 The view bar gains the **relational slider**, the **viewpoint picker**, the **common-week toggle**, **Show drift** and
@@ -1492,12 +1632,14 @@ viewpoint's orientation (derived presentation, §9.5's rule as V13 §3.11.5 turn
 | `removeMember` | the member tombstoned, its imagery dropped, its relations and fit tombstoned, its gap written; A3 over the seams it had | everything else | — |
 | `arrangeMember`, `lockMember` | A3 over the seams the member leaves and enters; the compatibility check over its new neighbours; the inset layouts it touches | every other member; every relation (a relation it now breaks is marked unmet, never re-solved unasked) | — |
 | `relate`, `unrelate` (with `solve: false`) | the record alone; the box's marks | every arrangement | — |
+| `setAtlasRelation` (M42) | the record; every viewpoint's derived figures and known region invalidated (re-baked on request) | every arrangement; every member's imagery; every member (never read, never written) | — |
 | `arrange`, `relate` with `solve`, `setLayoutPreset` | A1's solve over the unlocked members in scope; A3 over every seam that changed | locked members; every relation outside scope; every member's imagery | a preset re-places every unlocked member: declared whole-atlas |
 | `setGapStyle`, `removeGap` | A3's fill over the gap's region | everything else | — |
 | `setConflictSettings` (`seamPrecedence`, `missing`, `commonWeek`), `setAtlasStyle` | A3's precedence over equal-rung seams; A2 for every member when the common week changes (the week argument) | the arrangements | the common week re-renders every member whose present differs from it: declared whole-atlas (background) |
 | `requestContinuation` | the request's records; the void's outline | every member (the neighbours are read, never written) | the generated world is V13's `generate`, on its own document |
 | `fitChild` | the record; A2 for the parent (its version moved) and the child; A3 over the nested seam | every other member | the parent's placement is V13's edit on the parent: declared there, with V13's budget |
 | `rematchStrip` | the request record; on the member's commit, A2 for that member and A3 over the seam | the neighbour (never touched) | the member's regenerate over the strip is V13's edit on that member, previewed there |
+| `markPartyReach` (M47) | the request record | every member's log and digests (the seeding is a view key written on the member's own page by the DM) | the continued member's `party` key, written there under V14 §2.3 |
 | `setViewpoint`, `setEmbellishment` | the viewpoint's warp field, known region and derived figures invalidated (re-baked on request) | every member's imagery; every other viewpoint | — |
 | `refreshImagery`, `pinImagery`, `bakeWarp` (cache commands) | the member's imagery; the viewpoint's field | every record | — |
 
@@ -1551,13 +1693,22 @@ member's recorded readings and its cache — outside every digest (V15 §2.11). 
 
 1. **Nothing crosses a seam after generation.** No event of an atlas and no refresh of a member reads one member to
    change another; the only reads across members are the seams' drift readings (information), the continuation's
-   charters (at the new member's generation, before it exists) and the fit's mismatch and placement (at the fit, the
-   user's explicit act on the parent). T-V15-1 asserts: an edit of any kind on one member leaves every other member's
-   model and records digests byte-equal and the atlas's model digest byte-equal.
+   charters (at the new member's generation, before it exists), the fit's mismatch and placement (at the fit, the
+   user's explicit act on the parent) and **the atlas's own relation records** (M42; V15 §2.2's `AtlasRelation`), which
+   feed the relational view's figures and known regions only (V15 §3.6 (4), (5)) and are never read by a member; the
+   relational view reads each member's own facts at that member's own version for the land they describe and never
+   one member's facts against another's — a figure that crosses a seam comes from an atlas relation alone. The party's
+   reach across a continued seam (M47; V15 §3.7) is the DM's own write of the continued member's `party` view key on
+   that member's page, not a read of one member by another. T-V15-1 asserts: an edit of any kind on one member leaves
+   every other member's model and records digests byte-equal and the atlas's model digest byte-equal; T-V15-28 that an
+   atlas relation moves no member's digest.
 2. **Each member runs its own clock.** The imagery is at the member's present (V15 §3.2 (4)); the **date cartouche**
    on each member (under `AtlasStyleState.dateCartouches`) prints V13's date label for that member — "Year 412, early
-   spring" — in the viewpoint's lettering; two members' cartouches may differ by centuries, and the atlas says nothing
-   of it (there is no atlas clock to disagree with). A member advanced by its host moves its own present and its own
+   spring" — in the viewpoint's lettering for the DM; two members' cartouches may differ by centuries, and the atlas says
+   nothing of it (there is no atlas clock to disagree with). **A player's cartouche carries no bookkeeping** (M43;
+   J-V15.43): under a `party`, `public` or shared court viewpoint the cartouche prints the member's `calendarLabel` — the
+   DM's in-world calendar name for it ("the Year of the Strait") — or nothing; V13's date label, the week, the version
+   and the behind-week mark reach no player (V15 §5.4; T-V15-32). A member advanced by its host moves its own present and its own
    picture; its neighbours do not move.
 3. **Seams drift; the atlas softens.** V15 §3.3 (3): the drift readings, the DM-only markers under `showDrift`,
    information only; re-matching only on request through `rematchStrip` — one member, one strip (`stripKm` wide along
@@ -1579,13 +1730,22 @@ east edge at version 12"), a relation ("Varn east of Ashmark: met — Varn's cen
 between is 80 km, asked narrow (60)"), a seam ("softened over 24 px; Thornwood wins, two rungs finer, drawn as an inset;
 drift: the coast 2.1 km apart since version 9"), an embellishment (V15 §2.8's sentence), the warp ("the centre is Sarn
 by the holy-city rule; the ten largest: …"), a continuation ("edge N from Varn, locked, 212 km shared; contradiction
-at the NE corner: Varn's sea meets Kesh's plateau — a strait proposed"); `whatChanged` over the atlas's log and
+at the NE corner: Varn's sea meets Kesh's plateau — a strait proposed"), an atlas relation ("Varn is Ashmark's enemy:
+the DM's word, undated; feeds the devils beside Varn's three seats and nothing else" — M42), a court viewpoint ("drawn
+as the court of Varn believes it, as of week 40: the strength band of Ashby a believed row, `worn`" — the
+DM's answer; a player's answer carries the belief and no register word, M9) and the view itself (the honesty note's
+words — "a projection; the shape lies, the number never does" — whatever the viewpoint's in-world artefact switch did to
+a player's screen and the image, M45);
+`whatChanged` over the atlas's log and
 `whatIf` over a solve's dry run; `propose` parses a typed relation (RQ-V15-8: "Varn lies east of Ashmark across a narrow
 sea" → the chips, confirmed by the user). The catalogue's new keys (V09 §4.9's families; RQ-V15-7): `info.atlas.*`
 (the member added, the solve's summary, the continuation drafted, the fit recorded, the stale mark, the missing mark,
 the behind-week mark), `bend.atlas.*` (an unmet relation kept, an overlap kept, an inset chosen), the `refuse.atlas.*`
 rows of V15 §4.1 each with at least one button (T-V9-13's rule), `share.atlas.*` (the share sheet's member lines), the
-legend's notes (V15 §3.6 (8)) — English, our own words, lint-checked (V15 §3.6 (5)).
+legend's notes (V15 §3.6 (8)), `info.atlas.courtUnsent` (the no-belief arm's line, M9), `share.atlas.publicOnly` (the
+share sheet's line "this file carries what anyone knows", M44), `info.atlas.inWorld` (the viewpoint's in-world artefact switch's words, M45)
+and `info.atlas.reach` (the offer "Mark the party's places here", M47) — English, our own words, lint-checked (V15 §3.6
+(5)).
 
 ### 4.9 Loading older documents, and the unsaved form (§7.5)
 
@@ -1607,8 +1767,10 @@ product word "World map", ruled J396 (3), V15 §11 Q1), from a world page's **Vi
 **What a person sees when they open it:** the members' pictures laid on parchment at the zoom that fits them all, the
 seams softened, the gaps in their styles, each member's date cartouche in a corner of its extent, the scale bar and the
 compass; the member list in the context panel (a card per member: its thumbnail, name, rung, date, version, the stale
-or missing mark, the lock, the shareable flag, Refresh, Keep detail, Remove); the relations box (T7's) with its chips
-and Arrange; the view bar's slider, viewpoint picker, common-week toggle, Show drift and Show relations. **The empty
+or missing mark, the lock, the shareable flag, its calendar label (M43: the one date word a player will see of it,
+blank until set), Refresh, Keep detail, Remove); the relations box (T7's) with its chips
+and Arrange and its second tab for the atlas relations (M42); the view bar's slider, viewpoint picker, common-week
+toggle, Show drift and Show relations. **The empty
 state** (no member): the parchment, **Add a world map…** and **Make a world map** (V09's world dialog; its result the
 first member), nothing else. **The controls' semantics are this volume's** (V15 §3–§4); V09 draws them and decides
 none of their rules, as it draws V13's lens controls (BCR-V13-39's pattern). The page is standalone and host-mode alike
@@ -1618,8 +1780,9 @@ T9 and T10 as V15 §4.2 binds them; the view bar's **Atlas** group holds the rel
 beside it), the viewpoint picker (the atlas's viewpoints and **New viewpoint…**), the common-week toggle with its week
 field, **Show drift** and **Show relations** (the DM), **Cartouches**; the context panel opens on the **Members** tab
 (the cards), the **Relations** tab (the box), the **Seams** tab (every seam with its treatment, its precedence and its
-drift) and the **Viewpoints** tab (the picker's long form: audience, culture, centre rule, orientation, preset, as-of
-week, knowledge source); the hover card shows the true readout; the status strip shows the stale count and a bake's
+drift) and the **Viewpoints** tab (the picker's long form: audience — the DM's, the party's, anyone's, or a court's seat on a
+host-bound member (M9) —, culture, centre rule, orientation, preset, as-of week with its as-was copies (an old map,
+M46), knowledge source, the shared mark, the in-world artefact switch); the hover card shows the true readout; the status strip shows the stale count and a bake's
 progress. Below 600 × 480 CSS px the medium layout holds and the page scrolls (V09's J-V9.9).
 
 ### 5.2 The atlas view: layers and styles (§8's pipeline; BCR-V15-6)
@@ -1634,11 +1797,11 @@ The atlas renders through the base's tile pipeline (§8.1) with its own layer se
 | `members` | raster | every member's composed tiles at the level, the seams softened, insets framed, missing members by `ConflictSettings.missing`; under a relational viewpoint drawn through the mesh warp | — (the members' own pictures) |
 | `insets` | vector | the inset frames and locator boxes (`InsetLayout`) | `insetFramePx`, `locatorBoxPx` |
 | `labels` | the base's label layer | the members' placed labels after A3 (5)'s cross-seam placer run; the gaps' labels; under a preset, the preset's lettering and angle rule | the preset's `lettering` |
-| `cartouches` | vector | each member's date cartouche ("Year 412, early spring"; stale and behind-week marks), the viewpoint's cartouche and the title | the preset's lettering |
-| `furniture` | vector | the preset's furniture: rhumb lines and roses, the T-O rim, the itinerary strip's spine and day counts, ships; the base's scale bar (true, always), the compass under the orientation, the grid, the legend with its honesty note and, where a member's picture carries the cover overlay, the one line "derived land cover" (V13 §5.8 (9); J394) | the preset's `furniture` rows |
+| `cartouches` | vector | each member's date cartouche — for the DM V13's date label ("Year 412, early spring") with the stale and behind-week marks; for a player viewpoint the member's `calendarLabel` or nothing (M43; V15 §5.4) —, the viewpoint's cartouche and the title | the preset's lettering |
+| `furniture` | vector | the preset's furniture: rhumb lines and roses, the T-O rim, the itinerary strip's spine and day counts, ships; the base's scale bar (true, always), the compass under the orientation, the grid, the legend with its honesty note (for the DM always; for a party or public audience unless the viewpoint's in-world artefact switch is set, M45) and, where a member's picture carries the cover overlay, the one line "derived land cover" (V13 §5.8 (9); J394) | the preset's `furniture` rows |
 | `embellishments` | pins | the derived and the DM's figures at their warped points, sized by the preset | the figure rows' assets |
 | `drift` (DM-only, `showDrift`) | pins | a tick at each seam's midpoint above threshold with its figures | the notice style |
-| `relations` (DM-only, `showRelations`) | vector | dashed lines a → b with the kind's glyph, red where unmet | the notice style |
+| `relations` (DM-only, `showRelations`) | vector | dashed lines a → b with the kind's glyph, red where unmet; the atlas relations (M42) as dotted lines with their kind's glyph (a sword, a clasped hand, a shrine, a ship, a bale), a dated one with its weeks | the notice style |
 | `ruler` | vector | the pinned point and the pointer's line on the true plane, unwarped through the view, with the distance | the base's ruler |
 
 The view's transform is the base's integer-cm viewport (§8.1) on the atlas plane, as V13's world view is on the
@@ -1667,22 +1830,37 @@ imagery V13 rendered for that audience (the player picture, V13 §5.1 — never 
 returned; a member the audience knows nothing of (no seat, place or event in its known set) is drawn only as the
 preset's unknown treatment (blank, legend or figures) — not at all under `true`; the known region (V15 §3.6 (4))
 governs blur and labels; every atlas record below the viewer's key is withheld by the admission function (§9.2): the
-relations and drift readings (`secret`), the DM's viewpoints not marked shared, a hidden embellishment, a member's
-version and state words; the member list shows a player the members they know by name only; drill-down follows V15
+relations and drift readings (`secret`), the atlas relations marked `secret` (M42), the DM's viewpoints not marked shared
+(a court viewpoint among them until the DM shares it, M9), a hidden embellishment, a member's version and state words
+and — unless its `calendarLabel` stands in — its date label, week number and behind-week mark (M43); the member list shows a player the members they know by name only; drill-down follows V15
 §3.7's audience rule; a figure derived from a DM-only row never draws (V15 §3.6 (5)). **The player's style:** a party
 viewpoint's preset is the DM's choice for the party (the default `true`); "as their culture would draw it" is a party
-viewpoint with a culture and a relational preset. A picture export under a player viewpoint carries the same
+viewpoint with a culture and a relational preset. **No date reaches a player** (M43; J-V15.43; T-V15-32): under a
+`party`, `public` or shared court viewpoint a member's cartouche prints its `calendarLabel` or nothing — V13's date
+label, the week number, the version and state words and the behind-week mark are withheld by admission in the view,
+the member list, every answer and every export at the player's key; the `dateCartouches` switch shows a player no date.
+**A court viewpoint opened to the party** (M9; J-V15.41; T-V15-27): a `court:<seat>` viewpoint the DM marked shared is
+admitted at the party's key as the looted map — the court's reach and the facts that court believes as the host sent
+them, the DM's act of sharing being the reveal of that court's picture and nothing more: no row of the member outside
+the court's beliefs and reach enters it at any key, and the host's integrity register (`believed.integrity`: `clean`, `worn`,
+`planted`) is withheld from every key but the DM's, so a planted lie reads as the court's belief and nothing else; a
+court viewpoint not marked shared is absent from a player's picker, list, answers and exports. **The style is for every
+account** (M48; J-V15.48; T-V15-34): the relational style is presentation over the image-only atlas and carries no gate
+of its own — every account kind that may open an atlas (a free account's image-only atlas included; J396 (2)) bakes,
+slides, views and exports it, and a shared file's recipient reads the sharer's shared viewpoints read-only; continuation
+and fit stay premium (V13 §2.3's `PresetRule.gate`; J396 (2) otherwise unchanged; RQ-V15-12). A picture export under a
+player viewpoint carries the same
 admission (§11.1's knowledge rule); a `.dd2vtt` export does not exist for an atlas (V15 §5.5).
 
 ### 5.5 Exports and sharing (§11.1's pipeline; BCR-V15-6)
 
 | export | shape | contents | rule |
 |---|---|---|---|
-| the picture exports | the base's (§11.1: PNG at any DPI, the print presets, SVG, PDF of the view at a level) | the atlas view **as drawn**: the composed tiles, the seams softened, the gaps, the cartouches, the furniture, the embellishments, under the request's viewpoint, slider position and preset; the warp applied as the mesh warp (SVG: the tiles as warped images, the vector furniture through W_s); the legend with its honesty note; the provenance block names the atlas's digests, every member's version and the renderer version | §11.1 unchanged; the atlas is one more document kind; the knowledge key admits as V15 §5.4 |
+| the picture exports | the base's (§11.1: PNG at any DPI, the print presets, SVG, PDF of the view at a level) | the atlas view **as drawn**: the composed tiles, the seams softened, the gaps, the cartouches, the furniture, the embellishments, under the request's viewpoint, slider position and preset; the warp applied as the mesh warp (SVG: the tiles as warped images, the vector furniture through W_s); the legend with its honesty note — drawn for the DM audience always, and for a party or public audience unless the viewpoint's **as an in-world artefact** switch is set (M45; `Viewpoint.inWorld`: the one control for a player's screen and the export, no switch of the dialog's own; BCR-V15-17), the record carrying the projection in either case; the provenance block names the atlas's digests, every member's version, the renderer version and the projection (the viewpoint, the preset, the slider's position, "a projection; distances true"), whether or not the note is drawn | §11.1 unchanged; the atlas is one more document kind; the knowledge key admits as V15 §5.4; an in-world artefact is silent on its face and honest in its record (T-V15-33) |
 | `atlasTiles` | a zip of the composed tile pyramid (PNG tiles per level over the members' extent) with a manifest (the levels, the tile scheme, the atlas origin, the metres per pixel per level, the members' extents, versions and shareability) | the true plane only (no warp: a tile set is a map, not a picture of one); the audience's imagery; unshareable members' tiles omitted and their extents listed as "not shared" | own; for a VTT's world map or a web page; `ExportOpts.atlas.tiles { levels; audience }` |
 | `atlasGeoJson` | a FeatureCollection in the atlas plane's metric coordinates (the metric variant of §11.1's GeoJSON; no geographic anchor) | every member's extent as a Polygon with `rung`, `version`, `origin`, `shareable`; every gap, inset frame and (DM key) relation and drift reading; every embellishment as a Point with `kind`, `source`, `derivedFrom`; no member content | own |
 | **the world shapes** (`ecosystemJson`, `ecosystemGeoJson`, `heightmap16`, `worldCsv`) | — | **refused** on an atlas (`refuse.atlas.export`: "a world map is pictures of maps; export each map from its own page") | V15 §1.4; J-V15.20 |
-| the `.plat` atlas and the shared atlas | §2.9's container; the share writer's form (V15 §2.11) | the records; the imagery cache embedded for shareable members only | the share sheet (below) |
+| the `.plat` atlas and the shared atlas | §2.9's container; the share writer's form (V15 §2.11) | the records; the imagery cache embedded for shareable members only — in the shared atlas the `public` audience's imagery alone, every secret record removed (M44) | the share sheet (below) |
 
 **Sharing** (F15; spine §10.1's last sentence). The share sheet (V09 §5.11) on an atlas offers: (1) **Link** — a
 permalink when §6.4 allows one (an atlas with no imagery is a short recipe: its members by reference, which the
@@ -1694,14 +1872,20 @@ standalone world; in host mode a member travels exactly where that member itself
 rules, H35) is included with its imagery; a member the user may not share is **excluded** — no reference, no picture,
 its extent a gap marked "not shared" (`W_ATLAS_NOT_SHARED`, `include` only where the world's sharing allows) — so
 **sharing shares imagery only for members the user may share**, never a member's data (the atlas holds none) and never
-an unshareable member's picture (T-V15-8). **The rules across campaigns and users** (V15 §11 Q2, ruled J396 (3);
+an unshareable member's picture (T-V15-8) — **and only the public audience's picture** (M44; J-V15.44; T-V15-30): the
+sheet says so in one line, "this file carries what anyone knows: the public pictures of the maps you may share; your own
+and the party's pictures and every secret record are left out"; the writer strips the DM's, every party's and every
+court's tiles and removes the records below the `public` key (V15 §2.11's list) rather than leaving them to a viewer's
+admission (a DM who wants to hand over a DM picture exports a picture, (2), under its own admission). **The rules across campaigns and users** (V15 §11 Q2, ruled J396 (3);
 J-V15.38; T-V15-26): an atlas is shared as imagery only; one user's atlas may hold members of several of their own
 campaigns (the microcosm rule, V15 §4.7, makes it safe: no member reads another); another user's shared world may be a
 member by reference, shown at the version the sharer published and never a later one; a member the user may not share
 is a marked gap in the shared copy, never a silent hole; a host that configures a publishing resolver adds (4)
 **Publish a link** (§11.5), under the host's own access levels — publishing an atlas to the gallery follows the host's
-gallery entitlement, never a map-side one. A recipient's atlas is read-only
-(`shared: true`): pictures, arrangement, viewpoints; drill-down only into members the recipient can resolve.
+gallery entitlement, never a map-side one, and the published copy is the share writer's file — the public audience by
+rule, never a choice on the sheet (M44). A recipient's atlas is read-only
+(`shared: true`): the public pictures, the arrangement, the shared viewpoints; drill-down only into members the
+recipient can resolve.
 
 ### 5.6 Accessibility, the clerk's rendering, and no 2.5D
 
@@ -1773,6 +1957,9 @@ with the lens set, four viewpoints: the DM's, the party's, a culture's mappa mun
 | T-V15-5 (the warp preserves adjacency and reports true distance) | (a) on B-ATLAS-VIEW under the mappa mundi viewpoint at s = 1 and at s = 0.5, the baked field's Jacobian determinant is > 0 at every grid vertex, every member's boundary ring warped is simple (no self-intersection), and the adjacency graph of R's sways (which touch which) is unchanged under the warp; (b) `unwarp(warp(p)) = p` within 1 cm for 10 000 random points; (c) the hover readout at 200 random screen points equals the true planar distance to the centre within 0.5 % and the travel time between two route-joined points equals V13's `derivedTime` over the same stations, labelled with the law; across a seam no time is given; (d) the itinerary strip's day counts equal `derivedTime` between consecutive stations; (e) the scale bar's length under every preset and slider position equals the true plane's within 0.5 % (§9.5's O6 c) | the fixture's bake; the inverse test; the readouts against V13's function |
 | T-V15-6 (embellishments from facts only, never real-world peoples) | (a) renaming every culture, deity, seat, allegiance and region label of the R fixture (including to real-world ethnonyms and faith names) gives a byte-identical derived embellishment set; (b) changing one `PolityRelation` to adversarial adds exactly the monstrous-peoples figure the rule names for that sway and nothing else; changing a seat's patron to the mapmaker's deity removes the devils figure beside it; a plague arc within `vignetteWeeks` adds a skull at each named seat and none beyond the window; (c) no `FigureRow`, caption, catalogue string or legend note of this volume matches the blocklist (CI); a document whose culture labels match the blocklist draws the same figures and never prints the label in a caption; (d) a party viewpoint draws no figure whose `derivedFrom` names an alignment row, a suppressed creed, a covert link or a row resolved DM-only — the fixture's DM-only war relation draws a devils figure for the DM's viewpoint and none for the party's; (e) the legend carries the prejudice note exactly when a monstrous-peoples or devils figure is drawn | the renamed fixture's set compared; the relation and patron edits; the blocklist lint; the two audiences' sets |
 | T-V15-25 (viewpoints) | the culture viewpoint as of a past week reads the plates at that week (the centre, the importance and the known region equal those computed from the plate's facts alone; a seat founded after that week is unknown); the party's known region grows when the party key gains a place and when a `reveal` event arrives (V08 §3.14 through the member), and never otherwise; "View relationally…" on R's page makes an unsaved one-member atlas whose true viewpoint draws R pixel-identical to V13's view drawing the `atlas` layer set | the plate fixture; the party key edits |
+| T-V15-27 (the court viewpoint, M9) | on B-ATLAS-VIEW with R's scripted lens set extended by `LensFacts.courts[]` rows for the capital's court (file v item 1087) — a believed `strengthBand` of one seat two bands below the truth, a believed `allegiance` differing from the truth, one seat the court never heard of, one row whose `believed.integrity` is `planted`, and one DM-only row of R outside the court's belief —: the court viewpoint draws the believed band and label and not the true ones, the unheard seat absent, the DM-only row absent at EVERY key (the DM's included), the planted row's mark carrying `planted` at the DM's key and no register word at the party's; marked shared, the viewpoint appears in the party's picker and draws the same picture less the register words; not marked shared, it is absent from the party's picker, list, answers and exports; on a standalone member, and under a mock host sending no belief for the court, the court's reach is drawn over the public record with `W_ATLAS_COURT_UNSENT` and the legend's line; the known region equals the `court` rule's set widened by the rows' `subject`s; the viewpoint's facts arrive through the port's presentation inputs only — the mock port's recorded-input channel receives nothing (M50; the port's law (3), T-V13-7) | the extended lens set; the two keys' pictures compared; the mock port's channels |
+| T-V15-28 (atlas relations feed figures only, M42) | on B-ATLAS-3 (R and R2) under a culture viewpoint of R: adding `enemy` R–R2 adds exactly one devils figure per sway of R2 beside its root seat and nothing else; `sailed` on the sea-gap fixture's gap replaces its serpents with whales and ships and moves its density class to `sailedSea`; `faithReached` R → R2 adds one mission road ending at R2's nearest seat with a shrine glyph and widens the known region by that seat and the cells four weeks along R2's own routes from it; `ally` widens it by R2's seats; `traded` by R2's seats of `city.minTier` or above; a relation dated outside the viewpoint's week changes nothing; a relation marked `secret` draws its figures for the DM's viewpoint and none for the party's; every figure so added carries `derivedFrom` naming the relation; renaming every culture, deity, seat and member of the fixture changes no figure (T-V15-6 (a) re-run with the relations present); R's and R2's model and records digests are byte-equal before and after every relation added or removed, and the atlas's model digest moves exactly once per edit; removing a relation restores the figure set byte-identically; `refuse.atlas.relation.self` and `refuse.atlas.relation.gap` on their inputs | the relation edits over B-ATLAS-3; the digests; the figure sets compared |
+| T-V15-29 (an old map and the as-was copy, M46) | a culture viewpoint of R with `asOfWeek` 200 weeks before R's first plate draws R at its first plate with `W_ATLAS_BEHIND_WEEK` on its cartouche naming the first plate's week, its physical ground R's present, no sway or event later than the first plate; an as-was copy of R (a clone with a `setSwayLock` painting a vanished allegiance over R's north) named in `asWas` is drawn in R's place for that viewpoint alone — R's own picture under every other viewpoint byte-identical, R's digests unchanged, the copy absent from the member list, the share writer's file and every export's provenance but this viewpoint's picture export; an `asWas` naming a document whose lineage is not R's is refused `refuse.atlas.asWas` | the plate fixture; the cloned copy; the viewpoints' pictures |
 
 ### 7.3 Saves, arrangement, seams, continuation, drill-down (F11, F12, F15)
 
@@ -1790,6 +1977,8 @@ with the lens set, four viewpoints: the DM's, the party's, a culture's mappa mun
 | T-V15-14 (labels across seams) | over B-ATLAS-1 and B-ATLAS-2 at every level no two drawn labels' boxes intersect, no drawn label's box crosses a band, every dropped label belongs to the yielding member, and every label of a member away from its seams is drawn as V13 placed it | the label boxes at each level |
 | T-V15-21 (gaps, missing members, insets) | every gap kind draws its fill and pattern; the `everywhereElse` gap is at most one; a solve's accepted `gapKind` writes a `between` gap; a missing member's ghost alpha and words as V15 §4.5; a seam's treatment setting by `setAttr` holds across refreshes | fixtures per kind |
 | T-V15-22 (a version change re-renders, never re-fits) | editing R under B-ATLAS-2 (a terrain stroke inside P2's fitted extent's band; a world `adjust` of R's size): P2's placement in R and the atlas's `FitRecord` are unchanged, P2's arrangement unchanged, R's imagery re-rendered with its new version, the nested seam's drift reading moved, every other member's imagery version unchanged; no solve ran (every arrangement's `since` unchanged) | the fixture's edits; the records compared |
+| T-V15-30 (the shared file and the gallery copy carry the public audience only, M44) | the shared atlas written from B-ATLAS-SHARE with a party key on R, a court viewpoint on R marked shared, an `enemy` atlas relation marked `secret`, a drift reading above threshold and a hidden embellishment: the file re-read holds R's `public` tiles alone (no tile keyed `dm`, `party:*` or `court:*` — a byte scan of the container's cache), no `Relation`, no secret `AtlasRelation`, no `DriftReading`, no hidden embellishment, no member `version` word and no `asWas` reference (a byte scan of the entities block for each record kind), the shared court viewpoint present with its facts as the public key admits them (no register word); the sheet's line names the rule; the mock host's gallery copy is byte-identical to the share writer's file; the recipient's view, list, answers and exports equal the sharer's public viewpoint pixel for pixel | the share writer's file re-read; the byte scans; the mock gallery; the recipient harness |
+| T-V15-31 (the party's reach across a seam, M47) | on B-ATLAS-3 with R host-bound under a mock host sending `LensFacts.partySeat` within `snapEdgeKm` of the R–R2 seam and R2 a continued standalone member: the DM's drill across the seam offers **Mark the party's places here**; accepted, R2's page opens with the seeding previewed — the crossing's cell and R2's route from the crossing to its first seat — and the DM's confirmation writes R2's shared `party` key with exactly those places (a view key: R2's log, model digest and records digest byte-equal; the mock host receives nothing); the party viewpoint's known region on the atlas then covers those cells; with the party's seat elsewhere, no offer; a request by hand on a member that is no continuation of R is refused `refuse.atlas.reach.notContinued`; the atlas's log holds the request record alone | the mock host's party seat; R2's key and digests; the known region compared |
 
 ### 7.4 Editing, view, exports, budgets, platform
 
@@ -1802,6 +1991,9 @@ with the lens set, four viewpoints: the DM's, the party's, a culture's mappa mun
 | T-V15-19 (no reverse seam) | a build-time lint over `@plat/atlas` and `@plat/render/atlas` finds no import of a world document's edit entry points (V13's `edit`, the placement folds, `regenerate`, the port's inbound messages) and no call that obtains a writable handle on a member; the runtime harness asserts that every member handle an atlas opens is read-only and that no event appears on any member's log during an atlas session's edits (T-V15-1 (b) re-asserted at the log level) | the lint in CI; the log watch |
 | T-V15-20 (older documents, the unsaved form) | an atlas file without its imagery cache opens with every member stale and renders what it can; a member outside the retention window reads `unopenable`, its cached picture drawn, its drill-down the frozen view; the unsaved one-member atlas from a world page is not in the recent list until its first edit or save and never reaches the host before Save | fixtures |
 | T-V15-24 (the report codes and the catalogue) | every warning of V15 §7.5 is raised by its stated stage on a fixture that provokes it, carries its arguments and at least one action; every `refuse.atlas.*` row renders its catalogue line with at least one button (T-V9-13's rule); `W_ATLAS_*` never a refusal | the provoking fixtures; the catalogue test |
+| T-V15-32 (no date reaches a player, M43) | on B-ATLAS-VIEW under the party viewpoint and the public viewpoint with R's `calendarLabel` unset: no cartouche, member-list entry, `why` answer, hover card or export at the player's key contains R's date label, its week number, its version words or the behind-week mark (T30-5's enumeration over the strings), whatever `dateCartouches` holds; with the label set to "the Year of the Strait" exactly that string prints on R's cartouche for the player and nothing else of the date; the DM's viewpoint prints V13's date label throughout; a shared court viewpoint follows the player rule | the admission harness; the string enumeration |
+| T-V15-33 (the honesty note and the in-world artefact, M45) | on B-ATLAS-VIEW's mappa mundi viewpoint under the party audience with `inWorld` false, the legend's note is drawn on the party's screen and on the picture export's image; with `inWorld` true neither carries a note (the legend layer's draw list holds no note entity at the party's key; the legend's region pixel-equal to the view drawn without it) while the export's provenance block names the viewpoint, the preset, the slider's position and the words "a projection; distances true"; the DM's screen and the DM's picture export draw the note under either setting, as does the clerk's answer for the view; the switch is the one control — the export dialog offers no second one and the image follows the viewpoint; `atlasTiles` and `atlasGeoJson` carry no note and no `inWorld` field | the admission harness at the two keys; the draw list; the provenance block |
+| T-V15-34 (the relational style for every account, M48) | under the dialog harness's three account fixtures (V13's T-V13-73's), a free account on an image-only atlas bakes a warp, moves the slider, switches viewpoints and presets, places a figure and exports the picture — every control present and enabled, no `refuse.surface.gate` raised by any act of A6 —, while its continuation and fit are refused `refuse.surface.gate` with the row named; a premium account's acts are all accepted; a shared file's recipient toggles the sharer's shared viewpoints and bakes nothing new; the anonymous fixture has no atlas to open (its gate row) and the style is asked of it nowhere | the three account fixtures over the atlas page; the mock host |
 
 ### 7.5 The report codes (§5.4's form; BCR-V15-13)
 
@@ -1814,7 +2006,8 @@ with the lens set, four viewpoints: the DM's, the party's, a culture's mappa mun
 | `W_ATLAS_EDGE_UNLOCKED`, `W_ATLAS_EDGE_CONTRADICTS`, `W_ATLAS_NEIGHBOUR_CHANGE` | warning | A4 | the edge and the neighbour; the fact pair and the proposal; the change named |
 | `W_ATLAS_WARP_FALLBACK` | warning | A6 | the viewpoint, the cause (the work cut; the Jacobian) |
 | `W_ATLAS_NOT_SHARED` | warning | the share writer | the member |
-| `refuse.atlas.duplicate`, `refuse.atlas.extent`, `refuse.atlas.members`, `refuse.atlas.unresolved`, `refuse.atlas.share`, `refuse.atlas.noCharter`, `refuse.atlas.hostWorld`, `refuse.atlas.fit.straddles`, `refuse.atlas.fit.covers`, `refuse.atlas.drill.unopenable`, `refuse.atlas.drill.audience`, `refuse.atlas.export` | refusal: a §7.1 outcome key rendered by V09's catalogue, never a `ReportCode` | the dry run; the view; the export dialog | the member, the distance, the count, the reference, the world's sharing, the version, the mode, the audience, the format |
+| `W_ATLAS_COURT_UNSENT` | warning | A2, A6 (a court viewpoint whose member sends no belief for that court; M9) | the viewpoint, the court's seat, the member |
+| `refuse.atlas.duplicate`, `refuse.atlas.extent`, `refuse.atlas.members`, `refuse.atlas.unresolved`, `refuse.atlas.share`, `refuse.atlas.noCharter`, `refuse.atlas.hostWorld`, `refuse.atlas.fit.straddles`, `refuse.atlas.fit.covers`, `refuse.atlas.drill.unopenable`, `refuse.atlas.drill.audience`, `refuse.atlas.export`, `refuse.atlas.relation.self`, `refuse.atlas.relation.gap` (M42), `refuse.atlas.asWas` (M46), `refuse.atlas.reach.notContinued`, `refuse.atlas.reach.noParty` (M47) | refusal: a §7.1 outcome key rendered by V09's catalogue, never a `ReportCode` | the dry run; the view; the export dialog | the member, the distance, the count, the reference, the world's sharing, the version, the mode, the audience, the format; the relation's members or gap; the copy's lineage; the seam and the party's place |
 | `E_ATLAS_TILE`, `E_ATLAS_WARP` | bug abort (§5.1 (8)) | the compositor; the bake | the tile index; the field key |
 
 **Bars carried as rows:** the spine §17's atlas families — members isolated after generation → T-V15-1; the edge
@@ -1844,10 +2037,10 @@ line-art set at M-ATLAS-C; a bounded first library — twelve sea creatures, eig
 | step | content | exit (executed, not asserted) | est. (pw) |
 |---|---|---|---|
 | **SA0 — spike** (risk retirement, at M-ATLAS-A's start) | the pyramid and the seam blend over B-ATLAS-16 (sixteen realm clones): `renderAt` at stops 0 and 1 per member timed; the cache's size at `lossyQuality` 85; the composed frame at the fit-all level and at level 7 with twelve banded tiles; a stop-2 tile on demand | `ATLAS-2`, `ATLAS-3`, `ATLAS-6`, `ATLAS-9` inside their rows or their fallbacks chosen; the band's look judged by eye on three seams (the owner's sitting, V12 §3.6b) | 0.5 |
-| **SA1 — the document, arrangement, rendering, seams, drill-down (M-ATLAS-A)** | `Recipe.atlas` and the `atlas` product (BCR-V15-1), the records of V15 §2.2, the imagery cache (BCR-V15-2), the view keys (BCR-V15-3), the edit kinds and their rows (BCR-V15-4), the tables `atlas.arrange` and `atlas.seams` (BCR-V15-5); A1 whole over V13's `solve` (the evaluators registered, RQ-V15-5), snapping, locks, presets, the relations box; A2 whole with `renderAt` (RQ-V15-2); A3 whole with the drift readings over `edgeCharter` (insets, easing, precedence, labels across seams); A7; the atlas page (RQ-V15-7) with Open / recent / new; the missing-member gap; the exports (BCR-V15-6) and the share writer; the clerk's section; the `atlas.none` pin | T-V15-1 (a)–(c), T-V15-3, T-V15-7, T-V15-8, T-V15-9 (a)–(c), T-V15-10, T-V15-12, T-V15-13, T-V15-14, T-V15-16, T-V15-17, T-V15-18 (the `true` viewpoint), T-V15-19, T-V15-20, T-V15-21, T-V15-24; the register check | 2–3.25 |
+| **SA1 — the document, arrangement, rendering, seams, drill-down (M-ATLAS-A)** | `Recipe.atlas` and the `atlas` product (BCR-V15-1), the records of V15 §2.2, the imagery cache (BCR-V15-2), the view keys (BCR-V15-3), the edit kinds and their rows (BCR-V15-4), the tables `atlas.arrange` and `atlas.seams` (BCR-V15-5); A1 whole over V13's `solve` (the evaluators registered, RQ-V15-5), snapping, locks, presets, the relations box; A2 whole with `renderAt` (RQ-V15-2); A3 whole with the drift readings over `edgeCharter` (insets, easing, precedence, labels across seams); A7; the atlas page (RQ-V15-7) with Open / recent / new; the missing-member gap; the exports (BCR-V15-6) and the share writer (the public audience only, M44); the atlas relations' records and the relations box's second tab (M42), the calendar label (M43), `markPartyReach` and its offer (M47; `LensFacts.partySeat` read where H39 sends it); the clerk's section; the `atlas.none` pin | T-V15-1 (a)–(c), T-V15-3, T-V15-7, T-V15-8, T-V15-9 (a)–(c), T-V15-10, T-V15-12, T-V15-13, T-V15-14, T-V15-16, T-V15-17, T-V15-18 (the `true` viewpoint), T-V15-19, T-V15-20, T-V15-21, T-V15-24, T-V15-28 (its record and digest clauses), T-V15-30, T-V15-31 (under a mock host sending the party's seat; standalone, the refusal with its reason), T-V15-32; the register check | 2–3.25 |
 | **SA2 — continuation and the fit (M-ATLAS-B)** | A4 whole over `edgeCharter` (RQ-V15-1) and the solver (RQ-V15-5): the void, the charters carried, the prefill, the contradiction table and its proposals, the neighbour-change conflicts, the send to V09's world dialog with locked edge chips, the generated member's provenance; A5's three paths over V13's rung-general placement, the world subject of `requestCharter` and the transient world-rung charter (RQ-V15-3); `rematchStrip` | T-V15-2, T-V15-4, T-V15-11, T-V15-22, T-V15-23; `ATLAS-1`, `ATLAS-4`, `ATLAS-5` measured; the register check | 2–3 |
 | **SA3 — spike** (at M-ATLAS-C's start) | the warp bake at `warpGrid` 512 on B-ATLAS-VIEW: the time, the Jacobian check, byte identity across §13.2's platforms; the mesh warp's frame at `v` 48 | `ATLAS-7`, `ATLAS-8` inside their rows or the fallbacks chosen; T-V15-9 (d)'s platform clause green | 0.25–0.5 |
-| **SA4 — the relational view (M-ATLAS-C)** | A6 whole: the bake, the slider, the readout and the ruler, the centre rules, the importance field, the known region per audience and culture, the three relational presets' rows and furniture (rhumb lines, roses, the T-O rim, the itinerary strip), the embellishment rules with the minimal line-art figure set, the DM's tray, the hidden marks, the lint and the blocklist, the legend's note, the viewpoints (the defaults, a culture's, as-of, the party's), **View relationally…** on the world page; the tables `atlas.style` and `atlas.embellish` | T-V15-5, T-V15-6, T-V15-25, T-V15-18 (the relational viewpoints); the owner's sitting on the three presets (V12 §3.6b, legibility and immersion rated, the sitting's rows offered); the register check | 1.75–2.5 |
+| **SA4 — the relational view (M-ATLAS-C)** | A6 whole: the bake, the slider, the readout and the ruler, the centre rules, the importance field, the known region per audience and culture, the three relational presets' rows and furniture (rhumb lines, roses, the T-O rim, the itinerary strip), the embellishment rules with the minimal line-art figure set, the DM's tray, the hidden marks, the lint and the blocklist, the legend's note, the viewpoints (the defaults, a culture's, an old map with its as-was copies — M46 —, the party's, a court's — M9: its picture and facts through RQ-V15-13 where the host sends belief, else `W_ATLAS_COURT_UNSENT`), the atlas relations' figure rules and known-region widenings (M42), the viewpoint's in-world artefact switch (M45), the style for every account kind (M48), **View relationally…** on the world page; the tables `atlas.style` and `atlas.embellish` | T-V15-5, T-V15-6, T-V15-25, T-V15-18 (the relational viewpoints), T-V15-27, T-V15-28 (its figure clauses), T-V15-29, T-V15-33, T-V15-34; the owner's sitting on the three presets (V12 §3.6b, legibility and immersion rated, the sitting's rows offered; a court's looted map and the worked example's figures shown in it); the register check | 1.75–2.5 |
 | content | the four tables' rows, the preset rows, the minimal figure set (line art, one glyph per trait per preset), the catalogue's `info.atlas.*`, `bend.atlas.*`, `refuse.atlas.*`, `share.atlas.*` lines and the legend notes (English, own, lint-checked), the blocklist | reviewed by the clean-room scanner (§17.1); every cell with provenance; the register check | 0.5–0.75 |
 | **total** | | | **7–10** (M-ATLAS-A 2.5–3.75 with SA0; M-ATLAS-B 2–3; M-ATLAS-C 2–3 with SA3; content 0.5–0.75); the art library outside it (about 2–3 pw of illustration after the first sitting, J396 (4); V15 §11 Q3) |
 
@@ -1857,7 +2050,11 @@ rendered before it draws relief without them, V13 §8.2) and on V09's world page
 solver interface, the edge charter, the rung-general placement and the world subject of `requestCharter`, file r items
 1009 and 1015), and in host mode on H35 for a continuation
 owned by a campaign (until then standalone only, reported); SA4 waits on M-W5 (the lenses' facts through
-`viewFacts`, RQ-V15-4) and on nothing of amendments r beyond M-W5; the art library lands after the owner's first
+`viewFacts`, RQ-V15-4) and on nothing of amendments r beyond M-W5 — a court viewpoint's believed picture waits on the
+host's `LensFacts.courts[]` rows (V13 §8.5's H40, amendments v; dark, it draws the public record within the court's reach,
+`W_ATLAS_COURT_UNSENT`) and the party's reach across a seam on `LensFacts.partySeat` (H39; dark, no offer);
+the experience pass's additions (M9, M42–M48; amendments x) are about 0.5 pw across SA1 and SA4, carried inside the
+rows' ranges (PLAUSIBLE; V15 §12), the total unchanged; the art library lands after the owner's first
 sitting on the line-art presets (J396 (4): the bounded first library funded then) and replaces the line-art set row by row
 (a content change, no mechanism); a DM's uploaded glyphs enter through the symbol catalogue's custom path (V11 §3.13) under
 the blocklist lint from M-ATLAS-C, waiting on no library. The research notes are read evidence, not
@@ -1940,6 +2137,14 @@ ruling it names the spine section and adds only the depth this volume designed.
 | J-V15.38 | chose sharing as imagery only under the host's gallery rules — a member's imagery travels only where that member itself may travel (H35), an unshareable member a marked gap in the shared copy (T-V15-26), one user's atlas holding members of several of their own campaigns, another user's shared world a member by reference at the version the sharer published, publishing on the host's gallery entitlement and never a map-side one (V15 §11 Q2, ruled J396 (3)) —, over a permission model of the atlas's own and over the user's own worlds only, because the host already keeps per-map publication state and share kinds and the base has no hosted service (§11.5), and because the microcosm rule (F14; V15 §4.7) makes a cross-campaign member safe: no member reads another |
 | J-V15.39 | chose the minimal line-art set shipping with the mechanism at M-ATLAS-C and a bounded first library — twelve sea creatures, eight land figures, six event vignettes, four cartouche styles and three lettering faces per preset family, about 2–3 person-weeks of illustration — funded after the owner's first sitting on the line-art presets, with a DM's own glyphs admitted through the symbol catalogue's custom path (V11 §3.13) under the blocklist lint (V15 §11 Q3, ruled J396 (4)), over art before the mechanism or an open-ended library, because no art then gates the mechanism, the sitting tells which presets earn their art, and the catalogue's custom path already exists for every other custom record |
 | J-V15.40 | chose to accept the cost, 7–10 person-weeks across M-ATLAS-A, M-ATLAS-B and M-ATLAS-C (V15 §11 Q4, ruled J396 (3)), over trimming a milestone, because M-ATLAS-A's 2.5–3.75 pw buys F11, F12 and F15 in hand, M-ATLAS-B's 2–3 pw F13 narrowed by F14 and M-ATLAS-C's 2–3 pw F10, each an owner's rule with no cheaper form on the table |
+| J-V15.41 | **(J397 (M9), (M50); 2026-10-24.)** chose the **court viewpoint** as a fourth audience `court:<seat>` of the existing `Viewpoint` record — its known region the court's own reach, its facts the court's believed political facts and knowledge where the host sends them (`LensFacts.courts[]`, file v item 1087; H40) through the port's presentation inputs (law (3), M50), never a truth it does not hold at any key, `secret` until the DM marks it shared (the looted map), the integrity register for the DM's key alone, and the public record within its reach where the host sends no belief (`W_ATLAS_COURT_UNSENT`) — over a culture viewpoint under the DM's key (which draws every DM-only row inside the culture's region, the party's own secrets included, and none of the court's beliefs) and over a belief layer of the atlas's own, because the host already holds what each court believes and whether it was planted, and the one honest reading of it on a map is the court's own picture: what it believes, as far as it reaches, and nothing it could not know; chose the public record as the no-belief arm over refusing the viewpoint, because a court whose host records no belief still has a reach and the legend says which arm is drawn (V13 §5.8 (3)); research/experience/05 §1.3, §4 Q2 (vetoable) |
+| J-V15.42 | **(J397 (M42).)** chose **atlas relations** — DM-authored records of the atlas between two members or a member and a gap, five kinds, optionally dated on the viewpoint's week, `public` by default — that feed the figure rules and the known regions only, under the rule that a figure never reads one member's facts against another's, over cutting the worked example's cross-member figures and over reading one member's `atWar` or culture bands against another's, because F14 forbids any fact crossing a seam and no campaign's war or culture band can name a member of another campaign (research/experience/05 §2.5 C1), while the owner's devils "because if barabarous areas" (F10) need an enemy a mapmaker can have in another map — which only the DM's own word can give; chose a second tab of the relations box over a new box because both are sentences between members, told apart by their verbs; research/experience/05 §2.2 (1), §4 Q7 (vetoable) |
+| J-V15.43 | **(J397 (M43).)** chose a player's cartouche to print the member's **calendar label** or nothing — V13's date label, the week, the version and the behind-week mark withheld by admission at every player key — over printing the DM's date labels to players or a per-viewpoint switch, because "Year 412" beside "Year 1" is the DM's bookkeeping and the atlas has no clock to reconcile them (V15 §4.7 (2)), while an in-world calendar name is a fact of the fiction the DM chose to give; research/experience/05 §1.6 (1), §2.5 C3, §4 Q8 (vetoable) |
+| J-V15.44 | **(J397 (M44).)** chose the shared file and the gallery copy to carry the **`public` audience's imagery only**, every record below the public key REMOVED by the writer rather than withheld by the reader, the gallery copy the same file by rule, over embedding every audience's tiles under a viewer-side admission or a per-sheet audience choice, because a file travels beyond any admission function and a stripped file cannot leak what it does not hold, and because a DM who means to hand over a DM picture has the Picture option under its own admission; research/experience/05 §1.7, §4 Q9 (vetoable) |
+| J-V15.45 | **(J397 (M45), as the manager refined it on 2026-10-24.)** chose the **honesty note drawn for the DM always and in the clerk's answer always, and for a party or public audience unless the viewpoint's as-an-in-world-artefact switch is set — one switch for the screen and the export alike** (`Viewpoint.inWorld`), the export's record keeping the projection whatever the switch holds, over a screen note the player always sees with an export-only switch, over printing the note on every handout, and over dropping it from the DM's screen, because the player's screen is the handout at a virtual table, the DM's screen is the tool whose honesty is V13 §5.8 (3)'s rule, and a file whose record names the projection never lies even when its face is silent; research/experience/05 §2.2 (5), §4 Q10 (vetoable) |
+| J-V15.46 | **(J397 (M46).)** chose to name the as-of viewpoint **"an old map"** — drawn from the plates each member has up to the week and no earlier than its record reaches, saying from which week, the physical ground the present — with an **as-was copy** (a scratch clone of the member carrying a DM-set sway lock, read by that viewpoint alone in the member's place) as the DM's route to a vanished kingdom's borders, over promising a map "centuries old" the plates cannot reach (the plates start at the birth window where the host sends one, else at the first advance the map observes — V13 §5.8 (8) as file v leaves it; research/experience/05 §2.5 C5) and over a painted past on the member itself (which would move a member's record for a picture), because the honest feature says what it has, and the DM's authored past belongs on a copy no member, viewpoint or share reads but the prop; research/experience/05 §2.2 (4), §4 Q12 (vetoable) |
+| J-V15.47 | **(J397 (M47).)** chose the offer **Mark the party's places here** at a continued seam — a request record whose seeding (the crossing's cell and the continued member's route to its first seat) is written as that member's own `party` view key on its own page by the DM's confirmation — over carrying party knowledge across seams automatically or leaving the blank map, because the party key is per document by design (V14 §2.3) and a view key written on the member's page by the DM crosses no seam in F14's sense (no event, no digest, nothing read from one member into another), while the DM's refusal of the offer keeps the blank map as the felt edge of the known world where that is wanted; research/experience/05 §1.6 (2), §2.3, §4 Q11 (vetoable) |
+| J-V15.48 | **(J397 (M48).)** chose the **relational style ungated** — presentation over the image-only atlas, open to every account kind that may open an atlas and to a shared file's recipient — with continuation and fit premium as J396 (2) rules, over gating the style at premium, because the style reads nothing a free account's atlas does not already hold, and the one delight a free account can show costs the host nothing; the owner-facing gating list is unchanged (the style was never a gate's value) and RQ-V15-12 asks V13's gate row and V09's dialog to say so in one line; research/experience/05 §2.4, §4 Q13 (vetoable) |
 
 ## 10 Base change requests, and requests to volumes 13 and 9
 
@@ -1968,6 +2173,9 @@ architect's to apply, reconciled by the seam seat.
 | **BCR-V15-13** F-ATLAS, the warnings, the refusals | §5.2 *Failure classes*; §5.4's `stages[].warnings`; §7.1's outcome keys | the classes and codes as they stand (F-WORLD, F-PLACE, F-SITE among them) | F-ATLAS with V15 §3.8's ladder; the codes `W_ATLAS_*` and the aborts `E_ATLAS_TILE`, `E_ATLAS_WARP` (V15 §7.5); the `refuse.atlas.*` outcome keys |
 | **BCR-V15-14** furniture and the legend | §9.5 *Furniture, framing and tools* (the legend's second cue; the scale bar) | "the secret cue of each state listed while one is drawn ("DM only · revealed to the party · discovered by the party"; V14 §5.1 …)" | after it: "on an atlas the legend's first line under a relational viewpoint is V15 §3.6 (8)'s note and its last the member marks' cues (stale · missing · at its own present · not shared, each with a glyph beside its tint; V15 §5.6); the scale bar on an atlas reads the true plane under every warp (V15 §3.6 (3); J-V15.15); the compass turns with the viewpoint's orientation as it turns with a placement's bearing" |
 | **BCR-V15-15** sharing | §11.5 | "`&doc=<ref>` links are produced only when a resolver with `publish` is configured; otherwise the app offers the `.plat` file …" | after it: "an atlas document's members are resolved through the same `DocResolver.resolve(ref)` by their `Member.world.ref` (V15 §2.2), read-only; a shared atlas embeds imagery for shareable members only and removes every unshareable member's reference (V15 §5.5); the host's access levels across campaigns are the host's (V13 §8.5's H35; V15 §11 Q2)" |
+| **BCR-V15-16** the shared atlas's audience (M44; J-V15.44) | §11.5 (BCR-V15-15's sentence) | BCR-V15-15's "a shared atlas embeds imagery for shareable members only and removes every unshareable member's reference (V15 §5.5)" | after it: "— and embeds the `public` audience's imagery only, the DM's, every party's and every court's tiles stripped, with every record below the `public` key removed by the writer and never left to a viewer's admission (V15 §2.11, §5.5); a gallery copy is this file by rule" |
+| **BCR-V15-17** the in-world artefact and the projection in the provenance block (M45; J-V15.45) | §11.1 *the picture exports* and the provenance block | the picture exports draw the legend as the view does; the provenance block names digests and versions | the legend's honesty note on an atlas picture follows the viewpoint's `inWorld` switch and the export's audience (V15 §3.6 (8): the DM audience always; a party or public audience unless the switch is set) — the picture draws the legend as the view does for that audience, and the export dialog adds no switch of its own; the provenance block gains, for every atlas picture, the projection's facts — the viewpoint, the preset, the slider's position and the words "a projection; distances true" — present whether or not the note is drawn (V15 §5.5) |
+| **BCR-V15-18** the atlas's new edit kinds, keys and attributes (M42, M47, M43, M46, M9) | §7.1 `EditEvent`; §7.1's outcome table (BCR-V15-4's rows) | BCR-V15-4's variants, keys and `setAttr` targets | `setAtlasRelation` and `markPartyReach` (V15 §4.1) with their lifecycle rows (V15 §2.10) and undo (V15 §4.4); the keys `refuse.atlas.relation.self`, `refuse.atlas.relation.gap`, `refuse.atlas.asWas`, `refuse.atlas.reach.notContinued`, `refuse.atlas.reach.noParty` and the warning `W_ATLAS_COURT_UNSENT` (`keep`, `remove`); `setAttr` admitting a member's `calendarLabel`, a viewpoint's `knownTo` and an atlas relation's `knownTo` (V15 §4.1) |
 
 ### 10.2 Requests to volume 13 (exactly the spine §14 seams; single source: these stay V13's facts)
 
@@ -1990,6 +2198,10 @@ architect's to apply, reconciled by the seam seat.
 | **V11** (**RQ-V15-9**) | the registry rows for `tables/atlas/*` (BCR-V15-5) with V15 §2.4–§2.5's schema and shipped values; the symbol catalogue's glyphs for the minimal figure set (one line-art glyph per trait per preset; the funded first library replacing them row by row after the owner's first sitting, J396 (4)); a DM's uploaded glyph admitted as a figure asset through the catalogue's custom path (V11 §3.13), the blocklist lint (T-V15-6) run over its name and caption; the blocklist as a shipped, read-only table; the naming slice `atlas` (a gap's or a sea's name; never a people's); the bundled lettering faces the presets name (§8.2's and §17.2's licence rule) | V15 §2.4, §2.5, §3.6 (5) |
 | **V12** (**RQ-V15-10**) | the fixture set `B-ATLAS` (V15 §7) and the scripted lens set for R; the panel **V15-P** (`PanelSpec`: the three presets rated for legibility and immersion, three seams for the band's look, by the owner's sitting at SA4 and SA0); the no-op pin `atlas.none` with its off form; the measures `atlas.bakeMs`, `atlas.cacheMb`, `atlas.solveMs`; the register's default-line entries at each exit | V15 §7, §8 |
 | **V14** (**RQ-V15-11**) | the drill-down's last rungs (a site opened from the member's page, V14 §3.9; the encounter crop on a member's point after the drill, V14 §3.10); the `ZDecl` reason `'imagery'` admitted by the gap lint (T-V14-16) for the atlas's drawables | V15 §3.7, §5.6 |
+| **V13 §2.3's `PresetRule.gate` row and V09 §4.22 (8)** (**RQ-V15-12**; M48, J-V15.48) | one sentence in each: the relational style (V15 §3.6) is presentation over the image-only atlas and is gated by no row — open to every account kind whose row admits an atlas (`atlas` [`imageOnly`] and above) and to a shared file's recipient; `continuation` and `fit` stay the premium row's as J396 (2) rules; the owner-facing gating list (V13 §11's ruling, INDEX) is unchanged, the style having never been a gate's value | V15 §5.4, §8 |
+| **V13** (**RQ-V15-13**; M9, M50, J-V15.41; outside spine §14's five seams — a reading of the `CourtViewpoint` transient amendments v and w define — declared in V13 §2.4 by file w item 1153 (b), projected as V13 §5.9 (2) describes) | `renderAt(world, week, audience)` and `viewFacts(world, week, audience)` admitting the audience `court:<seat>` on a host-bound world whose host sends that court's `LensFacts.courts[]` rows (file v item 1087; V13 §8.5's H40): the picture and the facts as that court believes them — the sway lens's derived `CourtViewpoint` transient (V13 §2.4, §5.9 (2)) drawn as the sway "as {court} believes it, as of week n", nothing of it persisted or fed back —, the known cells `RenderedWorld.known[]` for that audience as V15 §3.6 (4)'s `court` rule and the rows' `subject`s give them, every row the court does not hold absent at every key, `believed.integrity` returned for the `dm` key alone; where the host sends no rows for that court the reading says so and the atlas draws the public record within the court's reach (`W_ATLAS_COURT_UNSENT`); through the port's presentation inputs only (V13 §3.11.6's law (3)) | V15 §3.2 (3), §3.6 (4), (6), §5.4 |
+| **V09** (**RQ-V15-14**; M9, M42, M43, M45, M47) | the relations box's second tab **Between the peoples** (the atlas relations' chips, the typed sentence, the dates, the shared mark); the New viewpoint sheet's **court** audience (a host-bound member and its seat) and the **as-was copies** field of an old map; the member card's **calendar label** field; the New viewpoint sheet's **as an in-world artefact** switch (M45: one control for a player's screen and the export; no switch in the export dialog); **Mark the party's places here** on a continued seam's context menu and the member page's seeding preview; the catalogue keys of V15 §4.8 (`info.atlas.courtUnsent`, `share.atlas.publicOnly`, `info.atlas.inWorld`, `info.atlas.reach`) and the share sheet's one line | V15 §4.2, §5.1, §5.5 |
+| **V14** (**RQ-V15-15**; M47, J-V15.47) | the seeded form of the shared `party` view key (V14 §2.3; amendments x's V14 items): an atlas's `markPartyReach` request opens the continued member's own page with the seeding previewed — the crossing's cell and the member's route from it to its first seat — and the DM's confirmation writes the key there — a view key of the continued member's own document, never an event or a digest, never the host's, and not a log writer: T-V15-19's "no reverse seam" lint is over log writers and is untouched by it | V15 §3.7, §4.1 |
 
 ### 10.4 The INDEX.md and SUMMARY.md rows for V15 (the exact texts the seam seat folded into file r as items 1018–1028; one source: file r's items)
 
@@ -2140,6 +2352,14 @@ owner, delegating the four items left open after the world-growth pass: "I leave
 * Revision 0's mechanisms, reasoned and not yet measured: the on-demand stop-2 render per visible tile keeping pan
   and zoom inside §12.5's frame budget; the label placer's one run over sixteen members' boxes ≤ 3 ms per level; the
   solver's atlas-scale evaluators inside `ATLAS-1`; the drift reading's cost inside A3's row.
+* The experience pass's additions (amendments x, 2026-10-24; J397), reasoned and not yet measured: that the `court`
+  reach rule and the believed rows give the looted map its drama at the table (the sitting at SA4 judges a court's map
+  beside the DM's); that the five atlas-relation kinds cover what a DM wants to say between maps (a sixth is a row of
+  `atlas.embellish.atlasRelations` and a value of `AtlasRelationKind`, no mechanism); that an in-world calendar name is
+  date enough for a player; that the public-only shared file loses nothing a sharer meant to share (a DM picture is
+  the Picture option's); that the ungated style costs the host nothing; that about 0.5 pw across SA1 and SA4 carries
+  M9 and M42–M48 inside the rows' ranges; that an as-was copy's cost — one member's document in the local store per
+  member per viewpoint, never shared or exported (V15 §2.2) — is one a DM takes on knowingly.
 
 ## 13 Fix list
 

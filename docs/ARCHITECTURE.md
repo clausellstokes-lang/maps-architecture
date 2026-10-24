@@ -2473,8 +2473,9 @@ interface HistoryHint {   // Recipe.history (§2.9): the dossier's history up to
   calamities?: { yearsAgo: number; type: string; deaths: number; exodus: number; severity: 'minor'|'moderate'|'major'|'catastrophic' }[] /* calamityHistory up to and including the present at creation (§4.11 *The clock* (1)) — every calamity the creation carries (DR36's losses; DR37's events) */;
   lifecycle?: { died: boolean; resettled: boolean; yearsAgo?: number /* the resettlement's tick, else the current settlement's founding */ } /* DR38 */;
   ancientFall?: { name: string; yearsAgo: number /* the founding's yearsAgo + its years before the founding */ } /* DR38's ancient "Fall of" event on the site */;
-  peak?: { tier: string; population?: number; symbolic: boolean; evidence: string[] /* the evidence kinds present, strongest first */ } /* DR36's input (V08 §3.15 (3)), or the standalone option's declared peak (above) */ }
-  // readers: S2's growth-stage count (`ageYears`, `scars`; §4.2 S2), II.7.6's catacomb age (`ageYears`) and, for a `fire` or `flood` scar, its buried old town (J-A88.42); II.7.6's age strata at generation (`founding.yearsAgo`, else `ageYears`; `lifecycle` for the continuity regime; file r item 996, F3);
+  peak?: { tier: string; population?: number; symbolic: boolean; evidence: string[] /* the evidence kinds present, strongest first */ } /* DR36's input (V08 §3.15 (3)), or the standalone option's declared peak (above) */;
+  strata?: { request: 'byAge'|'always'|'never' /* "an old town under this one" (J397 (M38); BCR-V13-53; file w item 1197): `always` takes II.7.6's age-strata draw as made (p taken as 1; the age law's region, depth and material factor kept, so bare rock keeps it shallow and never absent — the requested-mode ladder's form, §2.6 *Basements*); `never` lays none; `byAge`, the default and the absent value, the probability by age as II.7.6 states it */; share?: number /* the strata's share of the stage-1 area where the request names one, clamped to the `buried` row's `ageShareMax`; absent, by age */ } /* the frame's own request — standalone from the blueprint's history option (V09 §4.21.3 (1)), host-bound from the dossier port's history (V08 §3.15); never a charter field (V13 §3.11.4) */ }
+  // readers: S2's growth-stage count (`ageYears`, `scars`; §4.2 S2), II.7.6's catacomb age (`ageYears`) and, for a `fire` or `flood` scar, its buried old town (J-A88.42); II.7.6's age strata at generation (`founding.yearsAgo`, else `ageYears`; `lifecycle` for the continuity regime; `strata` for the request, J397 (M38), BCR-V13-53, file w item 1197; file r item 996, F3);
   // item 113's fields by §7.7's DR36–DR39, §4.11's history-first generation (V06 §3.20's replay) and II.7.6's buried former settlement. Declared here, V08 §3.15 (2) cites it;
   // an absent list reads as []: a recipe written before item 113 holds neither the lists nor `peak`, so no replay runs; the standalone form's declared peak
   // alone drives DR36 and the replay
@@ -6135,7 +6136,9 @@ to K′ − 1 keep their rows, every later walled stage's share folds into stage
 K′ = 1 the one stage takes every share) — and only the rules that name a scar's type read it: a `fire` or `flood` scar (a
 `RaiseGrade.cause`) by II.7.6's buried old town, any other type by none, the creation week showing a finished town
 (J-A67.47); and the settlement's age — `founding.yearsAgo`, else `ageYears` — by II.7.6's **age strata** (file r item
-996, F3), which lie under a bounded share of the stage-1 districts S2 lays, nearest the nucleus, so an old town's
+996, F3) — and by the frame's own request, `HistoryHint.strata`, which takes the age's draw as made or lays none and
+sizes the share where it names one (J397 (M38); BCR-V13-53; file w item 1198) —, which lie under a bounded share of the
+stage-1 districts S2 lays, nearest the nucleus, so an old town's
 earlier levels are its oldest fabric's and never the ribbon's. Empty, K is the rung row's. With the evolution engine (M6-E) a history with a peak is generated history-first
 instead (§4.11 *History-first generation*), and the stage count is the peak's.
 **Output:** `Roster` (demand by class with area / frontage requirement classes, district affinities, wealth bands) and
@@ -23175,14 +23178,14 @@ says so.
   `extension`, off in the parity presets); with the hint empty, none. **At generation from age (F3; file r item 996; J-V13.126):** a settlement old enough has
 earlier levels of its own beneath its oldest fabric, whatever its scars — the owner's rule F3 (2026-10-17;
 `docs/AMENDMENTS-2026-10-23r.md` item 928). Its age A is `HistoryHint.founding.yearsAgo`,
-else `ageYears` (the tier's midpoint when both are absent, as `founding`'s comment says). **Whether:** A ≥ the `buried`
+else `ageYears` (the tier's midpoint when both are absent, as `founding`'s comment says). **Whether:** by the frame's request where it makes one (`HistoryHint.strata.request`, J397 (M38), BCR-V13-53, file w item 1199: `always` — the draw taken as made, p taken as 1 and the depth law's terrain gate kept, so bare rock keeps the stratum shallow and never absent; `never` — none; `byAge`, the default — as follows), else A ≥ the `buried`
 row's `ageMinYears` (300) and one uniform u < p, p = clamp((A − `ageMinYears`) ÷ `ageFullYears` (900), 0, 1) × `agePMax` (0.8) × (the
 continuity factor: 1, or `ageResetFactor` (0.4) where `lifecycle.died` and `resettled` — a reset regime leaves less of
 a continuous mound; the anchors 0.6–0.8 for a continuous region, 0.2–0.4 after a collapse); the uniform the `sewer` stream's (§6.1: the layer's other systems' draws, keyed by the system's
 lineage, which the town root fixes), at ordinal 0 of the `buried` kind, so the draw is byte-stable per town root and
 rerolls with the town, never alone. **How large:** the region is the stage-1 districts (`growthStage` 1, the scar
 rule's region) taken nearest the nucleus first — S2's first-stage centre: the ford, the harbour, the hill — until
-their area reaches share s of the stage-1 area, s = clamp(`ageShareBase` (0.2) + `ageShareGain` (0.2) × (A ÷ 1 000)
+their area reaches share s of the stage-1 area, s = the request's `share` where `HistoryHint.strata` names one (clamped to `ageShareMax`), else clamp(`ageShareBase` (0.2) + `ageShareGain` (0.2) × (A ÷ 1 000)
 + `ageTierBonus` (THORP, HAMLET, VILLAGE and TOWN 0, CITY 0.1, METROPOLIS 0.2), 0, `ageShareMax` (0.6)) — older layers are smaller and centred
 on the founding point, the inverse of the growth S2 models. **How deep:** V04's depth law and no other — the floor at
 `min(formerRiseMaxCm, formerRiseCmPerCentury × m × A ÷ 100 × f)` cm below the present grade (V04 §3.5.5 (b): 60 cm

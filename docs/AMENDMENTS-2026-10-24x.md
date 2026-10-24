@@ -22,9 +22,7 @@ with its legend — until the host seats a deity at birth (J397 S1).
 
 Numbered from **1201** (file w's block ends at 1200).
 
-**APPLIED** — left for the apply seat (amendments/experience-apply, Opus, after files v and w; record
-`docs/validation/coherence/experience-x.md`): items, fragments, each quote matched exactly once at its turn and each new
-text exactly once after.
+**APPLIED** by amendments/experience-apply on 2026-10-24, after files v and w (record: docs/validation/coherence/experience-x.md) — all 40 change items (1201–1240) applied, all 91 fragments matched exactly once at their turn and every new text exactly once after; no item not applied (this file carries no owner-rule item).
 
 **Dry run and lint (this seat's).** Dry run (`scratchpad/experience-pass/x/dryrun_x.py apply`, over copies of V15 and V14 in that folder, never the targets): 40 change items, 91 fragments, every quote matched exactly once at its turn and every new text exactly once after, in order. Clean-room lint over all 91 new texts (the preamble's token list): no hit.
 
