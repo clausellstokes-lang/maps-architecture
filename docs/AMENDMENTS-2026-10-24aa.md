@@ -1,6 +1,8 @@
 # Amendments aa — the campaigns pass's closing file (J399): the owner-facing records
 
-Written and applied by the session's Fable manager on 2026-10-24 as the closing file of the campaigns pass
+> Revised 2026-10-24 by Opus 5.5 under the J375 addendum (the review docs/volumes/critique/host-answer-z-aa-ab.md, HA-20): the head's application line and item 1301's description of BCR-V13-57; PENDING FABLE REVIEW of those two edits.
+
+Written by the session's Fable manager on 2026-10-24 as the closing file of the campaigns pass, and applied by the apply seat of the host-answer pass (J400) after file z
 (`docs/PROGRESS.md` J399: the owner's five clarifications — a campaign is a region of the map, several at once or one
 after another; weeks not days; the world map as VTT; players view-only; the party teleports and flies). File z (applied
 before this one; record `docs/validation/coherence/campaigns-z.md`) carries the six rulings R1–R6 into V13, V15, V14,
@@ -9,7 +11,7 @@ designs nothing.
 
 Numbered from **1301** (file z's block ended at 1300).
 
-**APPLIED** — see the line the manager fills at application (record: docs/validation/coherence/campaigns-aa.md).
+**APPLIED** — the apply seat fills this line at application (record: docs/validation/coherence/campaigns-aa.md).
 
 ## Closure table
 
@@ -34,7 +36,7 @@ owner-facing and may name the products.
 *Current text:*
 > V13 §8.5 now runs H1–H46, each row from H36 on carrying its felt sentence and first-visible latency (J397 (M3)).
 *New text:*
-> V13 §8.5 now runs H1–H46, each row from H36 on carrying its felt sentence and first-visible latency (J397 (M3)). The campaigns pass (2026-10-24; J399; amendments z and aa, items 1256–1305) adds two requests to V13 §10 (BCR-V13-56, the base's VTT profile at the world rungs — applied to the base by file z's item 1293 —, and BCR-V13-57, the per-viewer DM-only view key, standing for the next coherence pass), one from volume 15 (BCR-V15-19) and one from volume 14 (BCR-V14-27), both carried by the same base item, and two sibling requests (RQ-V15-16, RQ-V15-17); V13 §8.5 runs H1–H47.
+> V13 §8.5 now runs H1–H46, each row from H36 on carrying its felt sentence and first-visible latency (J397 (M3)). The campaigns pass (2026-10-24; J399; amendments z and aa, items 1256–1305) adds two requests to V13 §10 (BCR-V13-56, the base's VTT profile at the world rungs — applied to the base by file z's item 1293 —, and BCR-V13-57, the edit kinds, keys and requests of the campaigns pass, standing for the next coherence pass), one from volume 15 (BCR-V15-19) and one from volume 14 (BCR-V14-27), both carried by the same base item, and two sibling requests (RQ-V15-16, RQ-V15-17); V13 §8.5 runs H1–H47.
 *Evidence:* docs/PROGRESS.md J399; file z's head ("Ids minted"; its base item 1293 and its BCR rows).
 
 
