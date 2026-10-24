@@ -1,5 +1,23 @@
 # HANDOFF — town-generator research program
 
+## RESUME HERE — THE CAMPAIGNS PASS (2026-10-24; Fable managing, J392/J399)
+
+The owner's five clarifications (J399, verbatim there): a campaign is a region of the map, several at once or one after
+another; the world runs in weeks, finer is the DM's; the world map is also a VTT scene; players are view-only; the party
+teleports and flies, so it is not on a road. Found: the architecture held several campaigns only as separate atlas
+members and none after another on one world. Ruled R1–R6 (the next campaign on the same world; the carve at generation;
+the world page and the atlas as VTT scenes; the party pin; weeks not days; players view-only). One design seat (file z),
+a review seat, an Opus apply seat, the manager's close. Briefs in the scratchpad `experience-pass/briefs/G-file-z.md`
+(+ the shared 00-preamble, E-review and F-apply adapted).
+
+| stage | seat (model) | output | state |
+|---|---|---|---|
+| rulings | the manager (Fable) | docs/PROGRESS.md J399 | LANDED 5d27fe6 |
+| design z | amendments/campaigns-z (Fable, max) | docs/AMENDMENTS-2026-10-24z.md (items 1256–1300; H47; V13, V15, V14, V09, the base) | RUNNING |
+| review | critique/campaigns-z (Fable, high) | docs/volumes/critique/campaigns-z.md | WAITS ON z |
+| apply | amendments/campaigns-apply (Opus, medium) | docs/validation/coherence/campaigns-z.md; bundle | WAITS ON review |
+| close | the manager (Fable) | INDEX/SUMMARY/brief items (file aa or in z's record); J400; lane-events | — |
+
 ## RESUME HERE — THE EXPERIENCE PASS (2026-10-24; Fable managing, J392/J397) — LANDED (J398)
 
 The owner: "So do the prompts and integrate them that can be done on maps and give me the prompts for settlement
