@@ -2,6 +2,26 @@
 
 > PENDING FABLE REVIEW — written by Opus 5.5 under the J375 addendum; to be retrovalidated by a Fable seat.
 
+> **Revised 2026-10-24 (Opus 5.5, J375 notice) under the review `docs/volumes/critique/host-answer-z-aa-ab.md`, every fix
+> taken as the review words it, re-quoted against the REVISED files z (41 change items, 109 fragments) and aa:** HA-03
+> (the walk's `covert`, items 1309 (a), 1314 (a), T-V13-132, H13); HA-04 (T-V13-7's closed list, item 1328 (i); the port
+> row's `bindCampaign`, `closeCampaign` and outbound requests, item 1307 (e), (g)); HA-05 (**the version archive**, new in
+> the base, items 1312, 1340 J-V13.207, 1341 BCR-V13-58, 1352 (a), T-V13-134); HA-06 (the brief's gate sentence, item 1358
+> (e); SUMMARY's prompts sentence, item 1356 (d)); HA-07 (V15 §0 and §3.11's step 7, item 1343 (c), (d) — "the host" in
+> place of the product's name in a volume —; V09's court picker and T-V9-96, items 1349 (b), 1350 (b)); HA-08 (the old
+> map reads the first campaign's past alone, item 1343 (b), T-V15-38; the strips ahead of the world clock in the
+> campaigns' order with the sequel legend, items 1310, 1324, 1325 (b), T-V13-139); HA-10 (`years` ≥ 0, item 1310); HA-11
+> (`CampaignTimeline.past`, item 1311 (c)); HA-12 (the replace IS the revocation, `revoked: true` confirms it folded with
+> it, items 1318 (c), 1340 J-V13.206, 1341 BCR-V13-59, T-V13-133); HA-13 (law (12)'s tick, item 1320 (d)); HA-14 (the
+> brief's two canon phrases, item 1358 (c), (d); INDEX's tense, item 1354 (b); H22's heading was z's); HA-16 (the walk's
+> `tier` a string; an omitted seat reads its raw links); HA-18 (H36's felt sentence); HA-19 (the religion banner and the
+> populations legend, items 1327 (d), (e), 1328 (b), T-V13-130); HA-20 (SUMMARY's campaigns bullet and "or a refusal,
+> never another world", item 1357); HA-23 (`refuse.world.outputVersion` in the base's §7.1 outcome table, item 1352 (b);
+> BCR-V13-59 drops it); HA-24 (law (9)'s **host road watch**, item 1320 (b); §5.9 (3)'s host patrol row, item 1327 (b));
+> HA-25 (the field `pastRef` renamed `pastFact?: PastRef` everywhere, the adapter mapping the host's own name); the
+> "party seat" survivors in live prose (§3.11.6 twice, law (3), §5.1's player picture, §5.8 (7), §11) read "the party's
+> whereabouts" (items 1319 (a), (b), 1320 (e), 1323 (c), 1325 (c), 1342 (b)). No id added; items 1359–1380 stay free.
+
 Written by the session's Opus seat amendments/host-answer-ab on 2026-10-24 under the owner's "Do it" of that day
 (`docs/PROGRESS.md` J400: the owner's answer to the session's recommendation on the host's answer to the program's
 fifteen host prompts, `research/sf/host-reply-2026-10-24.md`; the binding host rulings mirrored in
@@ -20,7 +40,7 @@ Numbered from **1306** (file aa ended at 1305).
 **Ids minted:** items 1306–1358 (1306 the owner-rule item; 1307–1358 fifty-two change items over eight targets);
 H48; J-V13.201 – J-V13.214; T-V13-129 – T-V13-139; BCR-V13-58, BCR-V13-59; J-V15.52; T-V15-38; J-V14.60; T-V14-37;
 J-V9.170; T-V9-99; the record `PastFacts` with `PastFact` and the type `PastRef`; the fields `PolityFacts.walk`,
-`PolityLink.sincePast`, `PolityRelation.sincePast`, `PolityRelation.terms[].pastRef` and `canonized`'s `revoked`; the
+`PolityLink.sincePast`, `PolityRelation.sincePast`, `PolityRelation.terms[].pastFact` (renamed from `pastRef` by the revision, HA-25), the walk's `covert`, `CampaignTimeline.past` and `canonized`'s `revoked`; the base's **version archive** (BCR-V13-58); the
 recorded input `pastWindow`; the port's law (12); the outcome keys `refuse.world.outputVersion` and
 `refuse.world.pastDate`. **Withdrawn:** the field `PolityFacts.names` (J400 (2)) and the port's offer `patrolOffer`
 (J400 (18)). **Ids left free in my blocks:** items 1359–1380; J-V13.215 onward; T-V13-140 onward; BCR-V13-60 onward;
@@ -28,7 +48,7 @@ D-V13.17 onward; WORLD-25 onward (no budget row was needed: the realm's past is 
 the events layer's budget); J-V15.53 onward; T-V15-39 onward; BCR-V15-20 onward; J-V9.171 onward; T-V9-100 onward;
 J-V14.61 onward; T-V14-38 onward.
 
-**Dry run:** 52 change items, 130 fragments; every current text matched exactly once at its turn and every new text exactly once after, on FRESH copies of the eight targets (V13, V15, V14, V09, the base, INDEX, SUMMARY, the brief) taken from disk and carried first through file z (39 change items, 97 fragments) and file aa (5 items, 5 fragments), both clean — the script `experience-pass/ab/dryrun_ab.py` in the session's scratchpad (the review seat's `dryrun_vwx.py` and z's `dryrun_zr.py` parser, eight targets, z then aa then ab; z's out-of-sequence notes for its items 1294 and 1295, placed by section, harmless); after z and aa → after ab: V13 6599 → 6712 lines, V15 2512 → 2514, V14 3264 → 3268, V09 5302 → 5312, the base 24517 → 24517 (one line lengthened), INDEX 274 → 274, SUMMARY 280 → 294, the brief 211 → 211; no `patrolOffer` left in V13 but the two sentences that record its retirement, no `PolityFacts.names`, no "until the sway soaks". **Clean-room lint: no hit** (the preamble's token list and the brief's additions over every new text bound for the volumes and the base, 130 fragments less the owner-facing ones; an advisory scan for the host's unit, design and ruling names besides: no hit but V14's own milestone column word).
+**Dry run (after the revision):** 52 change items, 147 fragments; every current text matched exactly once at its turn and every new text exactly once after, on FRESH copies of the eight targets (V13, V15, V14, V09, the base, INDEX, SUMMARY, the brief) taken from disk and carried first through the REVISED file z (41 change items, 109 fragments) and the revised file aa (5 items, 5 fragments), both clean — the script `experience-pass/ab/dryrun_ab.py` in the session's scratchpad (the review seat's `dryrun_vwx.py` and z's `dryrun_zr.py` parser, eight targets, z then aa then ab; z's out-of-sequence notes for its items placed by section harmless); after z and aa → after ab: V13 6602 → 6721 lines, V15 2512 → 2514, V14 3264 → 3268, V09 5304 → 5314, the base 24517 → 24517 (two lines lengthened), INDEX 274 → 274, SUMMARY 280 → 295, the brief 211 → 211; no `patrolOffer` left in V13 but the two sentences that record its retirement, no `PolityFacts.names`, no `pastRef`, no "until the sway soaks". **Clean-room lint: no hit** (the preamble's token list, the brief's additions and `pastRef` over every new text bound for the volumes and the base; an advisory scan for the host's unit, design and ruling names besides: no hit but V14's own milestone column word).
 
 ## Closure table (every J400 ruling this file carries → the items that carry it)
 
@@ -55,15 +75,15 @@ J-V14.61 onward; T-V14-38 onward.
 | (20) | a port value inside a host roll recorded with the advance; replay, undo and resume never depend on the module | items 1320 (d) (law (12)), 1329 (T-V13-138), 1340 (J-V13.213) |
 | (21) | the realm's past: `PastFacts` through the past window, in years, pencilled until inked; the scrub, the events layer and the campaign history view; law (9); H48; V15's old map; V09's strings | items 1307 (c), (e), 1310, 1311 (b), 1318 (b), 1320 (b), (d), 1323 (b), 1324, 1325 (b), 1329 (T-V13-139), 1330, 1331 (b), 1338 (H48), 1340 (J-V13.214), 1341 (BCR-V13-59), 1342 (d), 1343 (b), 1344, 1345 (V15), 1349–1351 (V09), 1358 (b) |
 | (22) | H1–H45 accepted by the host as work, none scheduled; the host's release order binds its side; the map's milestones assume no host date | items 1332, 1342 (d), 1353–1355, 1357, 1358 (a) |
+| the review's fixes (revision) | HA-03 walk `covert`; HA-04 the port's closed lists; HA-05 the version archive; HA-06, HA-07 survivors; HA-08 the past kept apart on a sequel world; HA-10, HA-11, HA-12, HA-13, HA-16, HA-18, HA-19, HA-20, HA-23, HA-24, HA-25; the party-seat survivors (J400 (9)'s wording) | HA-03: 1309 (a), 1314 (a), 1329 (T-V13-132), 1333 (c) · HA-04: 1307 (e), (g), 1328 (i) · HA-05: 1312, 1329 (T-V13-134), 1340 (J-V13.207), 1341, 1352 (a) · HA-06: 1356 (d), 1358 (e) · HA-07: 1343 (c), (d), 1349 (b), 1350 (b) · HA-08: 1310, 1324, 1325 (b), 1329 (T-V13-139), 1343 (b), 1344 · HA-10: 1310 · HA-11: 1311 (c) · HA-12: 1318 (c), 1329 (T-V13-133), 1340 (J-V13.206), 1341 · HA-13: 1320 (d) · HA-14: 1354 (b), 1358 (c), (d) · HA-16: 1309 (a), 1314 (a) · HA-18: 1336 (a) · HA-19: 1327 (d), (e), 1328 (b), 1329 (T-V13-130) · HA-20: 1357 · HA-23: 1341, 1352 (b) · HA-24: 1320 (b), 1327 (b) · HA-25: 1309 (c), 1322 (c), 1329 (T-V13-136), 1333 (c), 1337 (g), 1338 · party-seat survivors: 1319 (a), (b), 1320 (e), 1323 (c), 1325 (c), 1342 (b) |
 | owner-facing | SUMMARY's experience bullet corrected and the answer's bullet; INDEX's counts, preamble and Q2 row; the brief's host track | items 1353–1358 |
 
 Items 1307–1358 are fifty-two items over eight targets, in target order: volume 13 (1307–1342, in section order),
 volume 15 (1343–1345), volume 14 (1346–1348), volume 9 (1349–1351), the base (1352), INDEX (1353–1355), SUMMARY (1356,
 1357), the brief (1358); items 1359–1380 stay free in the block. **The party's place (J400 (9))** is file z's: where a
 text of this file touches the party it uses z's names (`partySeats`, `partySource`, `partyStamp`, `partyHome`,
-`requestPartyPresent`, `W_PARTY_PENDING`). SUMMARY's campaigns bullet is left as file aa writes it: its "the party is a
-pin you place anywhere and move at will, never a route the map walks" does not conflict with z's revision (on a
-host-bound world the pin at a settlement is the DM's own present-at word to the host, still placed and moved at will).
+`requestPartyPresent`, `W_PARTY_PENDING`). SUMMARY's campaigns bullet gains, by the revision (HA-20, item 1357), that on a world SettlementForge runs
+a pin at a town tells SettlementForge the party is there and the map shows SettlementForge's answer.
 
 **How to read an item.** As files u–z's: each item names its target file's section (the heading above it), its title in
 bold, the ruling it serves (*Requests*), the current text quoted **once** (every quote verified by exact search against
@@ -87,7 +107,7 @@ plain words — the host's party record, the host's war volume, the host's sea l
 information program, the host's realm past, its audit register, its plague unit, its population unit, its route-network
 mount, its birth door, its realm canonize, its membership walk, its past reader. The host's own design names reported
 in its answer (its unbuilt functions, ledgers and fact keys) are never written into a volume: the map's fields that
-carry those facts are named in the port's style (`walk`, `PastFacts`, `pastRef`, `sincePast`, `years`). The host's
+carry those facts are named in the port's style (`walk`, `PastFacts`, `pastFact`, `sincePast`, `years`). The host's
 document names, ruling ids and design names stay in each item's *Evidence* line. INDEX, SUMMARY and the brief are
 owner-facing and may name the products. Checked by a lint over every new text bound for the base and the volumes (the
 preamble's token list and the brief's additions: `PL3`, `PT`, `PA16`, `OD-FC`, the host's unbuilt design names, its
@@ -174,7 +194,7 @@ keep a mirror of the host rulings that bind the map.
 ### Volume 13 — §1b Wiring table (the sway's consumers, `PolityFacts`, `PastFacts`, `WorldPort`, `setSwayLock`)
 
 **1307.** **The wiring tables drop `patrolOffer`, read the host's membership walk and the past references, gain the realm's past and the revocation of `canonized`, and name no host allegiance name.**
-*Requests:* J400 (2), (6), (7), (14), (18), (21).
+*Requests:* J400 (2), (6), (7), (9), (14), (18), (21); J399 (R1); the review's HA-04.
 *Current text* (a):
 > the port's `mapFeed` and `patrolOffer`, V13 §3.9 (16)'s
 *New text* (a):
@@ -195,12 +215,16 @@ keep a mirror of the host rulings that bind the map.
 *Current text* (e):
 > `events`, `canonized`, `consumed`; inbound presentation
 *New text* (e):
-> `events`, `canonized` (and its revocation, J400 (7)), `consumed`, `pastWindow` (the realm's past, J400 (21)); inbound presentation
+> `events`, `canonized` (and its revocation, J400 (7)), `consumed`, `bindCampaign`, `closeCampaign` (J399 (R1)), `pastWindow` (the realm's past, J400 (21)); inbound presentation
 *Current text* (f):
 > the map feed's crossing holders and `patrolOffer` never do)
 *New text* (f):
 > the map feed's crossing holders never do)
-*Evidence:* docs/PROGRESS.md J400 (2), (6), (7), (14), (18), (21); the host's answer S1 (2) (`PolityFacts.names` stays absent), S2 (the walk offered beside the raw links; the past window), S3 (c) (`canonized` revoked by an undo of the first advance), S10 (the past reference on a past pact's terms), S14 (no coverage reader built); research/sf/host-rulings-mirror.md §2 (polity names; the windows; the grace rule; claims and terms; patrols and capture; the realm's past); V13 §1b.1–§1b.3 as files v–z leave them (the `Sway` row's consumers; the `PolityFacts` row as file w item 1141 left it; the `WorldPort` row; the `setSwayLock` row).
+*Current text* (g):
+> the outbound offers `physicalChange` and the DM-placed site offers of the DM's map feed (V13 §3.11.6)
+*New text* (g):
+> the outbound offers `physicalChange` and the DM-placed site offers of the DM's map feed (V13 §3.11.6); the DM's requests `requestDossierUpdate` and `requestPartyPresent` (J400 (9))
+*Evidence:* docs/PROGRESS.md J400 (2), (6), (7), (9), (14), (18), (21); the review's HA-04 (the port row's inbound and outbound lists); the host's answer S1 (2) (`PolityFacts.names` stays absent), S2 (the walk offered beside the raw links; the past window), S3 (c) (`canonized` revoked by an undo of the first advance), S10 (the past reference on a past pact's terms), S14 (no coverage reader built); research/sf/host-rulings-mirror.md §2 (polity names; the windows; the grace rule; claims and terms; patrols and capture; the realm's past); V13 §1b.1–§1b.3 as files v–z leave them (the `Sway` row's consumers; the `PolityFacts` row as file w item 1141 left it; the `WorldPort` row; the `setSwayLock` row).
 
 
 ### Volume 13 — §2.2 New records (`AdvanceWindow`'s key; `HostRegime.deitySeated`; `LensFacts.courts` held)
@@ -229,7 +253,7 @@ keep a mirror of the host rulings that bind the map.
 *Current text* (a):
 >   names?: { root: string; name: string }[] /* the host's own name for the allegiance rooted at `root` — named at the campaign's genesis where the host so rules (born peopled, V13 §8.5's H36; J397 (M22)) and re-sent with every window: the sway's label reads the DM's christening first (`christened`), else this name when sent, else the descriptive label from the root's name (V13 §3.9 (17); the legend rule of V13 §5.9 (2)); a name's change re-labels and mints no revision; never a map-side name on a host-bound world */ }
 *New text* (a):
->   walk?: { seat: string; root: string; liege?: string; tier: Rung; class: string; basis: string }[] /* THE HOST'S MEMBERSHIP WALK per seat (J400 (6); V13 §8.5's H13): the host's one membership read — the allegiance root the seat belongs to (`root`, a seat key), its immediate liege where it has one (`liege`), its tier, its polity class (`class`) and the basis of its membership (`basis`: vassalage, an occupation at its vassalized rung, a puppet seat, a tribute …), the two words through the adapter folder's link table, each field the host's; where sent, the sway's allegiance roots and member links read it (V13 §3.9 (9)) and the map derives no kingdom of its own beside it — the raw `links` stay, read for the DM's diagnostic (the clerk, `whyCell`) and as the arm where no walk is sent; a seat the walk names as its own root, or omits, roots its own allegiance */ }   // NO HOST NAME FOR AN ALLEGIANCE (J400 (2)): the host mints no polity name — a realm is named only by the DM's naming act, which reaches the map as a christening (`christened`); the host's realm past may OFFER a pencilled name, and the DM's confirm of it is that act, arriving as a christening like any other; the sway's label reads the christening, else the descriptive label from the root's name (V13 §3.9 (17), §5.9 (2)); the former optional host name (file v item 1086) is withdrawn and no field of this record carries one
+>   walk?: { seat: string; root: string; liege?: string; tier: string /* the host's own word through the adapter folder's link table */; class: string; basis: string; covert?: boolean /* the host's own: a membership it holds hidden — drawn as a covert link is, on the DM's picture alone; a player's or the public's picture treats the seat as rooting its own allegiance (V13 §3.9 (12); T-V13-41 (j)) */ }[] /* THE HOST'S MEMBERSHIP WALK per seat (J400 (6); V13 §8.5's H13): the host's one membership read — the allegiance root the seat belongs to (`root`, a seat key), its immediate liege where it has one (`liege`), its tier (`tier`), its polity class (`class`) and the basis of its membership (`basis`: vassalage, an occupation at its vassalized rung, a puppet seat, a tribute …), the class and the basis through the adapter folder's link table, each field the host's; where sent, the sway's allegiance roots and member links read it (V13 §3.9 (9)) and the map derives no kingdom of its own beside it — the raw `links` stay, read for the DM's diagnostic (the clerk, `whyCell`) and as the arm where no walk is sent; a walk row whose membership rests on a raw link sent `covert` is covert too; a seat the walk names as its own root roots its own allegiance, and a seat the walk omits reads its raw links (the arm), never rooting itself by omission */ }   // NO HOST NAME FOR AN ALLEGIANCE (J400 (2)): the host mints no polity name — a realm is named only by the DM's naming act, which reaches the map as a christening (`christened`); the host's realm past may OFFER a pencilled name, and the DM's confirm of it is that act, arriving as a christening like any other; the sway's label reads the christening, else the descriptive label from the root's name (V13 §3.9 (17), §5.9 (2)); the former optional host name (file v item 1086) is withdrawn and no field of this record carries one
 *Current text* (b):
 > covert?: boolean; since: Week }
 *New text* (b):
@@ -237,7 +261,7 @@ keep a mirror of the host rulings that bind the map.
 *Current text* (c):
 > since: Week; enforced?: boolean /* whether the host's simulation yet enforces the term; absent or false, the legend notes the treaty is drawn as sworn */ }[] /* the pair's live treaty terms of the host's peacetime families, where sent (H45) */; since: Week }
 *New text* (c):
-> since: Week; enforced?: boolean /* whether the host's simulation yet enforces the term; absent or false, the legend notes the treaty is drawn as sworn */; pastRef?: PastRef /* a pact of the realm's past still standing at week 0: it enters the host's treaties at week 0, so its `since` is week 0, and it carries its past reference so the legend says "sworn n years before the campaign", never "since week 0" (J400 (14); H45) */ }[] /* the pair's live treaty terms of the host's peacetime families, where sent (H45) */; since: Week; sincePast?: PastRef /* as `PolityLink.sincePast`: a relation standing at week 0 whose host record dates it before the campaign (J400 (14)) */ }
+> since: Week; enforced?: boolean /* whether the host's simulation yet enforces the term; absent or false, the legend notes the treaty is drawn as sworn */; pastFact?: PastRef /* a pact of the realm's past still standing at week 0: it enters the host's treaties at week 0, so its `since` is week 0, and it carries its past reference so the legend says "sworn n years before the campaign", never "since week 0" (J400 (14); H45); the adapter folder maps the host's own name for the reference onto this field */ }[] /* the pair's live treaty terms of the host's peacetime families, where sent (H45) */; since: Week; sincePast?: PastRef /* as `PolityLink.sincePast`: a relation standing at week 0 whose host record dates it before the campaign (J400 (14)) */ }
 *Evidence:* docs/PROGRESS.md J400 (2), (6), (14); the host's answer S1 (2) ("`PolityFacts.names` stays ABSENT. Your label order reads `christened` … first, else your descriptive label"; the realm's past offers a pencilled name and the DM's confirm is the naming act), S2 (the walk per seat `{ rootId, liegeId, tier, polityClass, basis }` offered beside the raw links, "AN ASK, NEVER A SUPERSESSION"; the session adopts it, J400 (6); H13's `since` for a tie whose oath predates week 0 read through the host's past reader), S10 (a past pact's terms row carries its past reference: "sworn n years before the campaign", never "since week 0"); research/sf/host-rulings-mirror.md §2 (polity names; the windows; claims and terms); V13 §2.2 as file v item 1086 (the `names` field) and file w items 1141–1143 (`PolityRelation.terms`) leave it; `PastRef` is item 1310's.
 
 
@@ -248,17 +272,17 @@ keep a mirror of the host rulings that bind the map.
 *Current text:*
 > interface TimeDeltaReceipt {
 *New text:*
-> type PastRef = { ref: string /* the host's fact reference: the key of one fact of its realm past (`PastFact.ref`) */; years: number /* whole years before the campaign's week 0, ≥ 1 */ };   // one shape for every past read (J400 (14)): a pact's past reference and a tie's or a relation's past `since`; drawn "n years before the campaign" and never converted to a week
-> interface PastFact { ref: string /* the host's fact reference, unique within the campaign's past */; kind: string /* the host's word through the adapter folder's event table: a founding, a war, a pact, a razing, a succession, a naming … */; years: number /* whole years before the campaign's week 0, ≥ 1 — never a week: a fact carrying a week, or no years, is refused at fold (`refuse.world.pastDate`) */; seat?: string /* the host key of the seat it happened at */; pair?: [string, string] /* or the two seats it bound */; pencilled: boolean /* true while the host's realm past holds it pencilled — at the campaign's birth every fact is —; false once the first advance inks it inside that advance's one commit, and true again where the host's undo of the first advance un-inks it */; text: string /* the host's own sentence for the fact, drawn as sent */; audience: Aud /* folded DM-only where absent */ }
-> interface PastFacts { campaign: string /* the `CampaignRecord` whose realm past this is */; facts: PastFact[] }   // THE REALM'S PAST (J400 (21); the host's offered route, accepted: V13 §8.5's H48): the host's history of the realm before a campaign, read READ-ONLY through the port's past window (`pastWindow`, V13 §3.11.6) — a recorded input, a windowed replace per campaign, sent with the birth window and again whenever the host inks or un-inks its past or the DM edits it in the host —; kept per `CampaignRecord` in the entities block (the records digest), outside the model digest and the canon; read by NO stage and never by the sway, the cover fold or a lens plate; drawn only as dated facts at seats and pairs — no geometry: no border, route, fill or line — in the scrub's and the campaign history view's **realm's past** before the campaign's week 0, in years, labelled pencilled or inked (V13 §5.1's `events` row, §5.2, §5.8 (8)), and read by the legend's past reads (`PastRef`) and V15's old map; a fact dated before week 0 has no channel in the other windows; never an earlier campaign (law (9) of V13 §3.11.6: an earlier campaign is a record of play on this world, the realm's past the host's history before a campaign)
+> type PastRef = { ref: string /* the host's fact reference: the key of one fact of its realm past (`PastFact.ref`) */; years: number /* whole years before the campaign's week 0, ≥ 0 (0: within the year before it) */ };   // one shape for every past read (J400 (14)): a pact's past reference and a tie's or a relation's past `since`; drawn "n years before the campaign" and never converted to a week
+> interface PastFact { ref: string /* the host's fact reference, unique within the campaign's past */; kind: string /* the host's word through the adapter folder's event table: a founding, a war, a pact, a razing, a succession, a naming … */; years: number /* whole years before the campaign's week 0, ≥ 0 (0: within the year before it) — never a week: a fact carrying a week, or no years, is refused at fold (`refuse.world.pastDate`) */; seat?: string /* the host key of the seat it happened at */; pair?: [string, string] /* or the two seats it bound */; pencilled: boolean /* true while the host's realm past holds it pencilled — at the campaign's birth every fact is —; false once the first advance inks it inside that advance's one commit, and true again where the host's undo of the first advance un-inks it */; text: string /* the host's own sentence for the fact, drawn as sent */; audience: Aud /* folded DM-only where absent */ }
+> interface PastFacts { campaign: string /* the `CampaignRecord` whose realm past this is */; facts: PastFact[] }   // THE REALM'S PAST (J400 (21); the host's offered route, accepted: V13 §8.5's H48): the host's history of the realm before a campaign, read READ-ONLY through the port's past window (`pastWindow`, V13 §3.11.6) — a recorded input, a windowed replace per campaign, sent with the birth window and again whenever the host inks or un-inks its past or the DM edits it in the host —; kept per `CampaignRecord` in the entities block (the records digest), outside the model digest and the canon; read by NO stage and never by the sway, the cover fold or a lens plate; drawn only as dated facts at seats and pairs — no geometry: no border, route, fill or line — in the scrub's and the campaign history view's **realm's past** — a strip of its own per campaign whose host sent a past, ahead of the world clock and claiming none of its weeks, counted back in years from that campaign's first week —, labelled pencilled or inked (V13 §5.1's `events` row, §5.2, §5.8 (8); `CampaignTimeline.past`, V13 §2.4), and read by the legend's past reads (`PastRef`) and V15's old map; a fact dated before week 0 has no channel in the other windows; never an earlier campaign (law (9) of V13 §3.11.6: an earlier campaign is a record of play on this world, the realm's past the host's history before a campaign)
 > interface TimeDeltaReceipt {
 *Evidence:* docs/PROGRESS.md J400 (14), (21); the host's answer S2 (THE REALM'S PAST, a route for the map to confirm: "A fact dated before week 0 has no channel in these windows"; the past window read-only, its facts keyed by the host's fact reference and dated in years before the campaign, never a tick), S3 (c) (the past pencilled at birth and inked inside the first advance's one commit; an undo of the first advance restores it pencilled), S10 (the past reference); research/sf/host-rulings-mirror.md §2 (the realm's past; claims and terms); V13 §2.2 as file z leaves it (`CampaignRecord`, whose records the past is kept beside; `Aud`); law (9) as item 1320 (b) extends it.
 
 
-### Volume 13 — §2.6 The lifecycle of every state field (`PatrolCadence`'s readers; `PastFacts`)
+### Volume 13 — §2.6 The lifecycle of every state field (`PatrolCadence`'s readers; `PastFacts`) and §2.4 Derived transients (`CampaignTimeline.past`)
 
-**1311.** **The lifecycle table reads no port patrol offer and gains the realm's past.**
-*Requests:* J400 (18), (21).
+**1311.** **The lifecycle table reads no port patrol offer and gains the realm's past; the campaign history view's timeline gains the realm's past as its head.**
+*Requests:* J400 (18), (21); the review's HA-11.
 *Current text* (a):
 > | the view, `worldFactsAt`, the port's `patrolOffer` |
 *New text* (a):
@@ -268,7 +292,11 @@ keep a mirror of the host rulings that bind the map.
 *New text* (b):
 > `fromWeek` 0, reported |
 > | `PastFacts` (J400 (21)) | `pastWindow` (the port, author `host`: with the birth window and at every inking, un-inking or edit of the host's past) | the scrub's, the events layer's and the campaign history view's realm's past; the legend's past reads; V15's old map | the entities block per `CampaignRecord` (the records digest; outside the model digest and the canon) | an input: kept through every re-derivation, never re-derived; a later replace supersedes it | a host input is never a user's undo target (the host's undo of the first advance arrives as a replace re-pencilling the facts) | absent on an older world: no realm's past drawn, the scrub beginning at week 0 as before |
-*Evidence:* docs/PROGRESS.md J400 (18), (21); V13 §2.6 as file z leaves it (the `Allegiance`, `MarchHold`, `PatrolCadence` row; the `CampaignRecord` row, the pattern of a host input kept per campaign); item 1310 (`PastFacts`).
+*Current text* (c):
+> audience: Aud }[] }   // the campaign history view's one timeline
+*New text* (c):
+> audience: Aud }[]; past?: { campaign: string; facts: { ref: string; years: number; pencilled: boolean }[] }[] /* the realm's past heading the timeline, one group per campaign whose host sent one (J400 (21)); opens nothing */ }   // the campaign history view's one timeline
+*Evidence:* the review's HA-11 (the history view's realm's-past head typed); V13 §2.4's `CampaignTimeline` as file z item 1260 (a) leaves it; docs/PROGRESS.md J400 (18), (21); V13 §2.6 as file z leaves it (the `Allegiance`, `MarchHold`, `PatrolCadence` row; the `CampaignRecord` row, the pattern of a host input kept per campaign); item 1310 (`PastFacts`).
 
 
 ### Volume 13 — §2.7 The version table (every world-generation output version served for life to a host composition)
@@ -278,7 +306,7 @@ keep a mirror of the host rulings that bind the map.
 *Current text:*
 > (item 140 K10), and §6.4's retention window applies to the output version.
 *New text:*
-> (item 140 K10), and §6.4's retention window applies to the output version — save that **every world-generation output version this module issues is served for life** to a host composition that names it (J400 (8); the host's instant world on its newest share-code law carries the module's output version, V13 §8.5's H31): the composition fetches exactly that version's model packages beyond the browser's window by their content hashes and is refused fail-closed when it cannot (`refuse.world.outputVersion`), never generated under another output version, and the bundle the host composed freezes the charters and planned sites it consumed, so its replay asks the module for nothing (the base §6.4 as BCR-V13-58 extends it; T-V13-134).
+> (item 140 K10), and §6.4's retention window applies to the output version — save that **every world-generation output version this module issues is served for life** to a host composition that names it (J400 (8); the host's instant world on its newest share-code law carries the module's output version, V13 §8.5's H31): the composition fetches exactly that version's model packages beyond the browser's window from the version archive by their content hashes (the base §6.4) and is refused fail-closed when it cannot (`refuse.world.outputVersion`), never generated under another output version, and the bundle the host composed freezes the charters and planned sites it consumed, so its replay asks the module for nothing (the base §6.4 as BCR-V13-58 extends it; T-V13-134).
 *Evidence:* docs/PROGRESS.md J400 (8); the host's answer S4 ("A law-3 code carries the MODULE'S WORLD-GENERATION VERSION"; "SERVE EVERY VERSION YOU HAVE ISSUED, FOR LIFE"; "refused, fail-closed … never silently generated under another version"; "The composed bundle freezes the charters and planned sites it consumed"); research/sf/host-rulings-mirror.md §1 (the promise) and §2 (the instant world); the base §6.4 *Retention of old output versions* (the browser window N, N−1, N−2; the CLI's exact-version install); V13 §2.7 as it stands.
 
 ### Volume 13 — §3.8 W7 Routes ((8) genesis at world birth: the roads presentation only until the host's mount lands)
@@ -295,11 +323,11 @@ keep a mirror of the host rulings that bind the map.
 ### Volume 13 — §3.9 W8 Polity ((9) the host's membership walk; (10) the four strength quantities; (11) the raid's word and its raider)
 
 **1314.** **The allegiance graph reads the host's membership walk where sent; the map reads two of the four strength quantities and equates neither; the raid's word is the host's war volume's, and a raider with no seat moves no band.**
-*Requests:* J400 (6), (13), (17).
+*Requests:* J400 (6), (13), (17); the review's HA-03, HA-16.
 *Current text* (a):
 > 9. **The continuous chain of vassals (T2).** The allegiance graph is built from the host's links: members are the seats
 *New text* (a):
-> 9. **The continuous chain of vassals (T2).** **The host's membership walk first** (J400 (6)): where the polity window carries the host's walk (`PolityFacts.walk`, V13 §2.2), the allegiance graph IS the walk — each seat's root, liege, tier and class as the host's one membership read gives them, its `basis` read through the adapter folder's link table as a link's word is, so a tributary, a compelled ally and an occupation short of vassalage are drawn as this rule and (12) draw them — and the map never derives a kingdom the host derives; the raw links stay, read for the DM's diagnostic (`whyCell` and the clerk name the links beside the walk) and as the arm where no walk is sent; every drawing rule below — the chain's depth, continuity in two passes, exclaves, the chain bonus and the reinforcement — applies over the walk's membership exactly as over the links'. Where no walk is sent, the allegiance graph is built from the host's links: members are the seats
+> 9. **The continuous chain of vassals (T2).** **The host's membership walk first** (J400 (6)): where the polity window carries the host's walk (`PolityFacts.walk`, V13 §2.2), the allegiance graph IS the walk — each seat's root, liege, tier and class as the host's one membership read gives them, its `basis` read through the adapter folder's link table as a link's word is, so a tributary, a compelled ally and an occupation short of vassalage are drawn as this rule and (12) draw them — and the map never derives a kingdom the host derives; a covert membership of the walk is drawn only on the DM's picture, as a covert link is (T-V13-41 (j)), and a seat the walk omits reads its raw links, never rooting itself by omission; the raw links stay, read for the DM's diagnostic (`whyCell` and the clerk name the links beside the walk) and as the arm where no walk is sent; every drawing rule below — the chain's depth, continuity in two passes, exclaves, the chain bonus and the reinforcement — applies over the walk's membership exactly as over the links'. Where no walk is sent, the allegiance graph is built from the host's links: members are the seats
 *Current text* (b):
 >    and a debatable cell stays debatable unless a host fight verdict's hold band alone decides it ((11); J386).
 *New text* (b):
@@ -399,7 +427,7 @@ keep a mirror of the host rulings that bind the map.
 ### Volume 13 — §3.11.6 The port (recorded inputs: the window key; `pastWindow`; `canonized` revoked)
 
 **1318.** **Every recorded window is keyed by the host's pulse sequence always and its nonce where lit; the past window carries the realm's past read-only; `canonized` may be revoked, and the map handles it as a revoked `consumed`.**
-*Requests:* J400 (5), (7), (21).
+*Requests:* J400 (5), (7), (21); the review's HA-12.
 *Current text* (a):
 > — keyed by the nonce while the host's advance epoch is lit,⏎else by its history sequence — and the fold adds
 *New text* (a):
@@ -423,7 +451,8 @@ keep a mirror of the host rulings that bind the map.
 *New text* (c):
 > - `canonized(world, { worldVersion; canonVersion; lawVersion; revoked?: true })` (the canon the host's record now reads: the baseline of
 >   `timeDelta`, V13 §4.1; **revoked** (J400 (7)): the host's undo of the first advance un-adopts the birth canon and
->   revokes `canonized` — sent with `revoked: true`, or read so from the window replace that discards that advance —, and
+>   revokes `canonized`: the window replace that discards the first advance IS the revocation (V13 §2.1's rule for a
+>   consumed edit), and a `canonized` with `revoked: true` confirms it, folded with that replace and never before it —, and
 >   the map handles the revocation as it handles a revoked `consumed` (a consumed edit inside a discarded window
 >   unsealed, V13 §2.1): the canon version leaves the live `CampaignRecord.canons`, the `timeDelta` baseline returns to
 >   the canon adopted before it (none, for a birth canon), `Placement.hostLocked` is cleared on every seat that canon set
@@ -434,19 +463,24 @@ keep a mirror of the host rulings that bind the map.
 
 ### Volume 13 — §3.11.6 The port (presentation inputs: a court's believed facts held)
 
-**1319.** **A court's believed political facts are held by the host until its information program rules a court's view.**
-*Requests:* J400 (10).
-*Current text:*
+**1319.** **A court's believed political facts are held by the host until its information program rules a court's view; the party observer reads the party's whereabouts, not a party seat.**
+*Requests:* J400 (9) (the wording), (10).
+*Current text* (a):
 > viewpoint, a court's believed political facts (`LensFacts.courts`; H40; J397 (M9)) — the party's seat, the observer's
-*New text:*
-> viewpoint, a court's believed political facts (`LensFacts.courts`; H40; J397 (M9)), held by the host and absent until its information program rules a court's view (J400 (10)) — the party's seat, the observer's
+*New text* (a):
+> viewpoint, a court's believed political facts (`LensFacts.courts`; H40; J397 (M9)), held by the host and absent until its information program rules a court's view (J400 (10)) — the party's whereabouts, the observer's
+*Current text* (b):
+> the court of the party's seat where the⏎host's whereabouts of the party name one
+*New text* (b):
+> the court of the seat where the
+> host's whereabouts of the party name one
 *Evidence:* docs/PROGRESS.md J400 (10); the host's answer S5 ("THE COURT VIEWPOINT IS HELD … `LensFacts.courts` stays absent until a fold row rules it"); research/sf/host-rulings-mirror.md §2 (the court viewpoint); V13 §3.11.6's presentation inputs as file z item 1294 leaves them.
 
 
 ### Volume 13 — §3.11.6 The port's laws ((3) without the patrol offer; (9) host patrol and patrol cadence, the realm's past and an earlier campaign; (10) no host reader until the host admits one; (11) the past never on the world clock; (12) a port value inside a host roll is frozen)
 
 **1320.** **The port's laws: law (9) gains two pairs of words; law (10) reads an empty reader list; law (12) freezes a port value inside a host roll with the advance.**
-*Requests:* J400 (12), (18), (20), (21).
+*Requests:* J400 (9) (the wording), (12), (18), (20), (21); the review's HA-13, HA-24.
 *Current text* (a):
 > never a `SwayRevision`, never in the map feed, never in `patrolOffer` and never a
 *New text* (a):
@@ -454,7 +488,7 @@ keep a mirror of the host rulings that bind the map.
 *Current text* (b):
 > (§5.4; never a settlement's crop or a site's scene) (J399 (R1)–(R4); file z item 1262).
 *New text* (b):
-> (§5.4; never a settlement's crop or a site's scene) (J399 (R1)–(R4); file z item 1262); a **host patrol** is a rider the host sends, reaching the map only as a dated fact (V13 §8.5's H9, H13, H23, H25), and the **patrol cadence** the map's own reading of the sway (`PatrolCadence`, V13 §3.9 (14)), a map-only picture the host gives no meaning — never each other (J400 (18)); and **the realm's past** is the host's history of the realm before a campaign, in years (`PastFacts`, through `pastWindow`; drawn before week 0, pencilled or inked), and **an earlier campaign** a campaign record of play on this world (`CampaignRecord`; J399 (R1)), in weeks on the world clock — never each other (J400 (21); file ab items 1315, 1318).
+> (§5.4; never a settlement's crop or a site's scene) (J399 (R1)–(R4); file z item 1262); a **host patrol** is a rider the host sends, reaching the map only as a dated fact (V13 §8.5's H9, H13, H23, H25), and the **patrol cadence** the map's own reading of the sway (`PatrolCadence`, V13 §3.9 (14)), a map-only picture the host gives no meaning — never each other (J400 (18)), and a **host road watch** (a closure or a warden's term the host asserts) is an input of the patrol cadence, never a host patrol (V13 §3.9 (14)); and **the realm's past** is the host's history of the realm before a campaign, in years (`PastFacts`, through `pastWindow`; drawn before week 0, pencilled or inked), and **an earlier campaign** a campaign record of play on this world (`CampaignRecord`; J399 (R1)), in weeks on the world clock — never each other (J400 (21); file ab items 1315, 1318).
 *Current text* (c):
 > door): the crossing holders `mapFeed` offers, the sway's borders and hatches, the glyphs, the patrol tints and every⏎other truth the map feed carries are for the host's outcome and cost readers only — an advance-head overlay sampled⏎at a hop, a price, a capture roll — and never for a negotiation-side reader (a term, a vote, an interceptor's⏎judgement, a feasibility read), which reads only what its court believes; the host names its readers and fences the⏎rest with a test of its own (H42), and the map feed carries no believed variant of any product to offer such a reader⏎instead (T-V13-83).
 *New text* (c):
@@ -469,8 +503,12 @@ keep a mirror of the host rulings that bind the map.
 *Current text* (d):
 > on a world of one campaign the translation is the identity (`fromWeek` 0). **Scale:**
 *New text* (d):
-> on a world of one campaign the translation is the identity (`fromWeek` 0); the realm's past is never translated — its years before a campaign never become world weeks (J400 (21)). (12) **a port value inside a host roll is frozen** (J400 (20); the host's own rule, kept at this door): any value of this port that enters a host roll or cost — a canon slot's row, a `routeFacts` effort, a site point, a reading — is recorded by the host with the advance that read it, so the host's replay, undo and resume never call the port and never depend on this module's presence or its version; the map's side is that every simulator-feed answer carries the version vector and the stamp the host records with it (law (7)'s baking, from a hop to every roll and cost), that no port answer is asked inside an advance (the consumption law above), and that nothing the map re-derives later reaches an advance already recorded (T-V13-138). **Scale:**
-*Evidence:* docs/PROGRESS.md J400 (12), (18), (20), (21); the host's answer, "Five rules every answer below rests on" (5): "Any value from the port that enters a host roll or cost is recorded with the advance … Replay, undo and resume must never depend on the module being present, or on its version" — not stated by laws (1)–(11) as they stand (law (7) bakes a value at a hop; the consumption law bakes answers with their stamps; neither names replay, undo and resume), so stated here as law (12); S7 (the reader list starts empty), S14 (the patrols a map-only picture; the host's own patrols its riders), S2 (the realm's past); research/sf/host-rulings-mirror.md §1 (a port value inside a host roll is frozen) and §2 (readers of the map feed; patrols and capture; the realm's past); V13 §3.11.6's laws as files v, y and z leave them (law (9) as file z item 1262 (d) extended it; law (10) as file v item 1093 wrote it; law (11) file z's).
+> on a world of one campaign the translation is the identity (`fromWeek` 0); the realm's past is never translated — its years before a campaign never become world weeks (J400 (21)). (12) **a port value inside a host roll is frozen** (J400 (20); the host's own rule, kept at this door): any value of this port that enters a host roll or cost — a canon slot's row, a `routeFacts` effort, a site point, a reading — is recorded by the host with the advance that read it, so the host's replay, undo and resume never call the port and never depend on this module's presence or its version; the map's side is that every simulator-feed answer carries the version vector and the stamp the host records with it (law (7)'s baking, from a hop to every roll and cost), that no port answer is asked inside a tick — the canon request at the first advance's head, inside its one commit (J400 (7)), being the consumption law's advance-head case —, and that nothing the map re-derives later reaches an advance already recorded (T-V13-138). **Scale:**
+*Current text* (e):
+> riding the presentation inputs — the party's believed set, the party's seat, a court's believed political facts and
+*New text* (e):
+> riding the presentation inputs — the party's believed set, the party's whereabouts, a court's believed political facts and
+*Evidence:* the review's HA-13 (law (12)'s tick), HA-24 (the host road watch) and the party-seat survivors of HA-15 (law (3)); docs/PROGRESS.md J400 (12), (18), (20), (21); the host's answer, "Five rules every answer below rests on" (5): "Any value from the port that enters a host roll or cost is recorded with the advance … Replay, undo and resume must never depend on the module being present, or on its version" — not stated by laws (1)–(11) as they stand (law (7) bakes a value at a hop; the consumption law bakes answers with their stamps; neither names replay, undo and resume), so stated here as law (12); S7 (the reader list starts empty), S14 (the patrols a map-only picture; the host's own patrols its riders), S2 (the realm's past); research/sf/host-rulings-mirror.md §1 (a port value inside a host roll is frozen) and §2 (readers of the map feed; patrols and capture; the realm's past); V13 §3.11.6's laws as files v, y and z leave them (law (9) as file z item 1262 (d) extended it; law (10) as file v item 1093 wrote it; law (11) file z's).
 
 ### Volume 13 — §4.1 The edit events (`setSwayLock`'s note: no patrol offer)
 
@@ -498,7 +536,7 @@ keep a mirror of the host rulings that bind the map.
 *Current text* (c):
 > a treaty the host does not yet enforce noted on its pair "sworn, not yet kept by the host's law" (J397 (M13))
 *New text* (c):
-> a treaty the host does not yet enforce noted on its pair "sworn, not yet kept by the host's law" (J397 (M13)); a pact of the realm's past standing at week 0 noted on its pair "sworn n years before the campaign" (`PolityRelation.terms[].pastRef`) and a tie or relation so standing "since n years before the campaign" (`sincePast`), never "since week 0" (J400 (14))
+> a treaty the host does not yet enforce noted on its pair "sworn, not yet kept by the host's law" (J397 (M13)); a pact of the realm's past standing at week 0 noted on its pair "sworn n years before the campaign" (`PolityRelation.terms[].pastFact`) and a tie or relation so standing "since n years before the campaign" (`sincePast`), never "since week 0" (J400 (14))
 *Evidence:* docs/PROGRESS.md J400 (2), (12), (14); the host's answer S1 (2), S7, S10 ("your legend can say 'sworn n years before the campaign', never 'since week 0'"); research/sf/host-rulings-mirror.md §2 (polity names; readers of the map feed; claims and terms); V13 §5.1's `routes` and `sway` rows as files v, w and z leave them; file z item 1264 (a)'s re-quote of the `routes` row, left for this file; items 1309, 1310 (`pastRef`, `sincePast`).
 
 
@@ -513,25 +551,29 @@ keep a mirror of the host rulings that bind the map.
 *Current text* (b):
 > opens read-only (J399 (R1); V13 §5.2) | the notice style |
 *New text* (b):
-> opens read-only (J399 (R1); V13 §5.2); at a scrub position inside **the realm's past** (the strip before week 0, V13 §5.8 (8)), the host's past facts (`PastFacts`) of that year as pins at their seats — a fact of a pair a pin at each of its two seats naming the other, never a line —, each "{n} years before the campaign" with the host's sentence, PENCILLED (a dashed pin; the legend "pencilled: the realm's past as the host offers it, inked at the first advance") until the first advance inks it, then inked, DM-only unless the host resolves a fact public; nothing else drawn live there — no sway, border, route or lens mark: the realm's past has no geometry, and the ground under it is the world as it is, the legend saying so (J400 (21)) | the notice style |
-*Evidence:* docs/PROGRESS.md J400 (18), (21); the host's answer S14 (the A arm's legend line stands; the host's own patrols on its window rows), S2 and S3 (c) (the realm's past in years, pencilled until the first advance inks it); research/sf/host-prompts-2026-10-24.md S14 ("a legend line saying they have none (A)"), superseded and kept as the record; research/sf/host-rulings-mirror.md §2 (patrols and capture; the realm's past); V13 §5.1's `patrols` and `events` rows as files v and z leave them.
+> opens read-only (J399 (R1); V13 §5.2); at a scrub position inside **the realm's past** (its strip ahead of the world clock, V13 §5.8 (8)), the host's past facts (`PastFacts`) of that year as pins at their seats — a fact of a pair a pin at each of its two seats naming the other, never a line —, each "{n} years before the campaign" with the host's sentence, PENCILLED (a dashed pin; the legend "pencilled: the realm's past as the host offers it, inked at the first advance") until the first advance inks it, then inked, DM-only unless the host resolves a fact public; nothing else drawn live there — no sway, border, route or lens mark: the realm's past has no geometry, and the ground under it is the world as it is, the legend saying so (J400 (21)) | the notice style |
+*Current text* (c):
+> the party's seat, over the public facts the party has heard of
+*New text* (c):
+> the party's whereabouts, over the public facts the party has heard of
+*Evidence:* the party-seat survivors of the review's HA-15 (§5.1's player picture); docs/PROGRESS.md J400 (18), (21); the host's answer S14 (the A arm's legend line stands; the host's own patrols on its window rows), S2 and S3 (c) (the realm's past in years, pencilled until the first advance inks it); research/sf/host-prompts-2026-10-24.md S14 ("a legend line saying they have none (A)"), superseded and kept as the record; research/sf/host-rulings-mirror.md §2 (patrols and capture; the realm's past); V13 §5.1's `patrols` and `events` rows as files v and z leave them.
 
 
 ### Volume 13 — §5.2 Zoom stops and opening a settlement (the campaign history view's realm's past)
 
 **1324.** **The campaign history view heads its timeline with the realm's past, in years, read-only, apart from every campaign's weeks.**
-*Requests:* J400 (21).
+*Requests:* J400 (21); the review's HA-08, HA-11.
 *Current text:*
 > "{n} years pass — between {A} and {B}", with nothing in it but the cover's recovery (V13 §5.8 (9)).
 *New text:*
-> "{n} years pass — between {A} and {B}", with nothing in it but the cover's recovery (V13 §5.8 (9)). **The realm's past** heads the timeline where the host sends it (J400 (21); V13 §2.2's `PastFacts`): one group per campaign whose host sent a past (on a sequel world labelled "the realm's past, as {name} began"), each fact an entry in years — "{n} years before the campaign — {seat, or the two seats}: {the host's sentence}" —, pencilled or inked as the host holds it, read-only and opening nothing (it has no document and no week), never interleaved with any campaign's weeks: an earlier campaign is play on this world, the realm's past the host's history before a campaign (law (9) of V13 §3.11.6).
+> "{n} years pass — between {A} and {B}", with nothing in it but the cover's recovery (V13 §5.8 (9)). **The realm's past** heads the timeline where the host sends it (J400 (21); V13 §2.2's `PastFacts`; `CampaignTimeline.past`, V13 §2.4): one group per campaign whose host sent a past, in the campaigns' order, each counted back from its campaign's first week (on a sequel world headed "the realm's past, as {name} began" and adding "the host's history as {name} began — it may tell of years when {earlier} was played here"), each fact an entry in years — "{n} years before the campaign — {seat, or the two seats}: {the host's sentence}" —, pencilled or inked as the host holds it, read-only and opening nothing (it has no document and no week), never interleaved with any campaign's weeks: an earlier campaign is play on this world, the realm's past the host's history before a campaign (law (9) of V13 §3.11.6).
 *Evidence:* docs/PROGRESS.md J400 (21) ("draws 'the realm's past' before week 0 in years, from the host's facts only, labelled pencilled or inked, kept distinct from an earlier campaign played on the same world (J399 R1)"); the host's answer S2; V13 §5.2 as file z item 1265 leaves it.
 
 
-### Volume 13 — §5.8 The lens mechanism ((4) (d) the owner-ruled derivations reach no host reader; (8) the scrub's realm's past)
+### Volume 13 — §5.8 The lens mechanism ((4) (d) the owner-ruled derivations reach no host reader; (8) the scrub's realm's past; (7) the observer's seat)
 
 **1325.** **The sway and the patrol cadence are read by no host reader; the scrub gains the realm's past as a strip of its own in years.**
-*Requests:* J400 (12), (18), (21).
+*Requests:* J400 (12), (18), (21); the review's HA-08 (b).
 *Current text* (a):
 > labelled "projection", reaching the host only as offers it may consume and never as its truth.
 *New text* (a):
@@ -539,15 +581,21 @@ keep a mirror of the host rulings that bind the map.
 *Current text* (b):
 > A cache: dropping it loses only the scrub's past.
 *New text* (b):
-> **The realm's past** (J400 (21); V13 §2.2's `PastFacts`): where the host sends it, the scrub runs back beyond the world
->    clock's week 0 into a strip of its own, in YEARS ("{n} years before the campaign") and never in weeks — one strip per
->    campaign whose host sent a past, on a sequel world labelled "the realm's past, as {name} began", never interleaved
->    with any campaign's weeks —: a position there draws that year's past facts at their seats and pairs (V13 §5.1's
+> **The realm's past** (J400 (21); V13 §2.2's `PastFacts`): where the host sends it, the scrub gains, AHEAD of the
+>    world clock and claiming none of its weeks, a strip of its own per campaign whose host sent a past, in YEARS ("{n}
+>    years before the campaign") and never in weeks; on a sequel world each strip is headed "the realm's past, as {name}
+>    began", counted back from that campaign's first week, its legend adding "the host's history as {name} began — it
+>    may tell of years when {earlier} was played here", and the strips stand in the campaigns' order, never interleaved
+>    with any campaign's weeks: a position on a strip draws that year's past facts at their seats and pairs (V13 §5.1's
 >    `events` row) and nothing else, no plate, sway or lens mark existing there, each fact labelled pencilled until the
->    first advance inks it, then inked; the strip is never an earlier campaign's weeks, which the scrub labels "before
+>    first advance inks it, then inked; a strip is never an earlier campaign's weeks, which the scrub labels "before
 >    this campaign: {name}, its year n" (law (9) of V13 §3.11.6); with no past sent the scrub begins at week 0 as before.
 >    A cache: dropping it loses only the scrub's past.
-*Evidence:* docs/PROGRESS.md J400 (12), (18), (21); the host's answer S2, S7, S14; research/sf/host-rulings-mirror.md §2; V13 §5.8 (4) as file o left it and (8) as files v and z leave it.
+*Current text* (c):
+> believed set is the believed record of the court of the party's seat where
+*New text* (c):
+> believed set is the believed record of the court of the seat where
+*Evidence:* the party-seat survivors of the review's HA-15 (§5.8 (7)); docs/PROGRESS.md J400 (12), (18), (21); the host's answer S2, S7, S14; research/sf/host-rulings-mirror.md §2; V13 §5.8 (4) as file o left it and (8) as files v and z leave it.
 
 
 ### Volume 13 — §5.9 The lenses ((2) Sway: the label; the court viewpoint held)
@@ -574,7 +622,7 @@ keep a mirror of the host rulings that bind the map.
 ### Volume 13 — §5.9 The lenses ((3) Patrols closed in the host; (5) Populations: the crisis served twice confirmed; (6) Religion: the deity an offer)
 
 **1327.** **The patrols lens says the host gives the cadence no meaning and draws the host's own patrols as facts; the populations lens's served-twice caveat names the host's confirmation; the religion lens's `none` banner waits on the DM's confirm of the host's offer.**
-*Requests:* J400 (4), (16), (18).
+*Requests:* J400 (4), (16), (18); the review's HA-19, HA-24.
 *Current text* (a):
 > the cadence tints at the first revision; the host's own⏎watches as sent) (J397 (M3)).
 *New text* (a):
@@ -589,7 +637,7 @@ keep a mirror of the host rulings that bind the map.
 > | a post's sight | `@plat/world/sight` | the post's viewshed on hover | P | — | DM | — |
 *New text* (b):
 > | a post's sight | `@plat/world/sight` | the post's viewshed on hover | P | — | DM | — |
-> | a host patrol | the `WorldEvent` kinds the adapter folder's event table tags as the host's patrols, and the patrol rows of its polity and lens windows where it sends them (V13 §8.5's H9, H13, H23, H25) | a dated pin at its place and week, "the host's patrol, week n", never a tint, a cadence or a path | S | when sent | the host's resolution | host-dated |
+> | a host patrol | the `WorldEvent` kinds the adapter folder's event table tags as the host's patrols, and the patrol rows of its polity and lens windows where it sends them (V13 §8.5's H9, H13, H23, H25) | a dated pin at its place and week, "the host's patrol, week n", never a tint, a cadence or a path — a host road watch (`roadWatch`, the rows above) is no host patrol but an input of the cadence (law (9)) | S | when sent | the host's resolution | host-dated |
 *Current text* (c):
 > a cadence sent to the host as a time.
 *New text* (c):
@@ -597,20 +645,20 @@ keep a mirror of the host rulings that bind the map.
 *Current text* (d):
 > | netted (and beside columns where the host serves both) | DM | host-dated |
 *New text* (d):
-> | netted (and beside columns where the host serves both: a crisis the host serves twice today — CONFIRMED by its own execution, one receipt shedding 972 people at a source of 10,000, 116 as columns and 856 moved at once — draws its shed once as columns and once as transfers, both the host's and each labelled so, the legend reading "the host serves this crisis twice; its population unit's first train cures it" until the cure lands, J400 (16); V13 §8.5's H24) | DM | host-dated |
+> | netted (and beside columns where the host serves both: a crisis the host serves twice today — CONFIRMED by its own execution, one receipt shedding 972 people at a source of 10,000, 116 as columns and 856 moved at once — draws its shed once as columns and once as transfers, both the host's and each labelled so, the legend reading "the host serves this crisis twice today; a fix in the host is coming" until the host's cure lands, J400 (16); V13 §8.5's H24) | DM | host-dated |
 *Current text* (e):
 > its banner reads "no creed seated: the dossiers' temples pray to no⏎named god", so the dossiers'
 *New text* (e):
 > its banner reads "no creed seated: the dossiers' temples pray to no
-> named god, until the DM confirms a patron the host offers at birth" (J400 (4): at a birth naming a capital the host
+> named god — a patron the host offers is seated only by the DM's confirm" (J400 (4): at a birth naming a capital the host
 > offers the account's top-ranked custom deity as the capital's patron and only the DM's confirm seats it,
 > `HostRegime.deitySeated` true from that confirm), so the dossiers'
 *Evidence:* docs/PROGRESS.md J400 (4), (16), (18); the host's answer S1 (4) ("Option A's lens line ('no creed seated') stands until then"), S12 packet 3 (the one-crisis-served-once claim measured by execution and CONFIRMED: "−972 at a source of 10,000, with 116 shed as columns and 856 teleported"; cured in its population unit's first train; "Until it lands, your caveat holds"), S14 (the A arm's legend line; the host's own patrols on H9, H13 / H23 and H25's rows); research/sf/host-rulings-mirror.md §2 (the deity at birth; one crisis, one service; patrols and capture); V13 §5.9 (3), (5), (6) as files v and w leave them; T-V13-77 as item 1328 (d) revises it.
 
-### Volume 13 — §7.4 Tests (the rows the answer revises: T-V13-42, T-V13-77, T-V13-80, T-V13-83, T-V13-84, T-V13-100, T-V13-103)
+### Volume 13 — §7 Tests (the rows the answer revises: T-V13-42, T-V13-77, T-V13-80, T-V13-83, T-V13-84, T-V13-100, T-V13-103; T-V13-7 of §7.3)
 
 **1328.** **The tests drop the patrol offer, wait the religion banner on the DM's confirm, hold the court viewpoint, read an empty reader list, label the allegiance without a host name, keep a seatless raider's fighting mark and read the gate keeper without a soak.**
-*Requests:* J400 (2), (4), (10), (12), (17), (18).
+*Requests:* J400 (2), (4), (10), (12), (17), (18), (21); J399 (R1); the review's HA-04, HA-19.
 *Current text* (a):
 > coverage moves only at revisions; `patrolOffer` carries no time;
 *New text* (a):
@@ -618,7 +666,7 @@ keep a mirror of the host rulings that bind the map.
 *Current text* (b):
 > the religion lens's banner reads "no creed seated: the dossiers' temples pray to no named god" and the alignment
 *New text* (b):
-> the religion lens's banner reads "no creed seated: the dossiers' temples pray to no named god, until the DM confirms a patron the host offers at birth" (J400 (4)) and the alignment
+> the religion lens's banner reads "no creed seated: the dossiers' temples pray to no named god — a patron the host offers is seated only by the DM's confirm" (J400 (4)) and the alignment
 *Current text* (c):
 > `mapFeed`'s crossing holders and `patrolOffer` are byte-identical
 *New text* (c):
@@ -643,28 +691,32 @@ keep a mirror of the host rulings that bind the map.
 > "tolls to {seat} until the sway soaks"; where the two agree no note;
 *New text* (h):
 > "tolls to {seat}", never "until the sway soaks" (J400 (12)); where the two agree no note;
-*Evidence:* docs/PROGRESS.md J400 (2), (4), (10), (12), (17), (18); the host's answer S1 (2), (4), S5, S7, S13, S14; V13 §7.4 as files v, w, y and z leave it (T-V13-42 file m's; T-V13-77, T-V13-80, T-V13-83, T-V13-84 file v item 1112's; T-V13-100, T-V13-103 file w's).
+*Current text* (i):
+> `campaignFacts`, `dossierUpdated` — each under its manifest's key list
+*New text* (i):
+> `campaignFacts`, `dossierUpdated`, `bindCampaign`, `closeCampaign` (J399 (R1)), `pastWindow` (J400 (21)) — each under its manifest's key list; the outbound `requestDossierUpdate` and `requestPartyPresent` the user's own acts, never a write of the module
+*Evidence:* the review's HA-04 (T-V13-7's closed list), HA-19 (T-V13-77's string); docs/PROGRESS.md J400 (2), (4), (10), (12), (17), (18); the host's answer S1 (2), (4), S5, S7, S13, S14; V13 §7.4 as files v, w, y and z leave it (T-V13-42 file m's; T-V13-77, T-V13-80, T-V13-83, T-V13-84 file v item 1112's; T-V13-100, T-V13-103 file w's).
 
 
 ### Volume 13 — §7.4 Tests (T-V13-129 – T-V13-139 after T-V13-127)
 
 **1329.** **The tests of the host's answer: the label without a host name, the deity offer, the window key, the membership walk, the grace rule's refusal and revocation, every output version served, no host reader, the past references, patrols closed, a port value frozen, the realm's past.**
-*Requests:* J400 (2), (4)–(8), (12), (14), (18), (20), (21).
+*Requests:* J400 (2), (4)–(8), (12), (14), (18), (20), (21); the review's HA-03, HA-05, HA-08, HA-12, HA-19, HA-25.
 *Current text:*
 > wherever the pin stands | the belief and omniscient fixtures; the mock host |
 *New text:*
 > wherever the pin stands | the belief and omniscient fixtures; the mock host |
 > | T-V13-129 | **no host name for an allegiance** (J400 (2); V13 §2.2, §3.9 (17), §5.9 (2)): a schema lint over `PolityFacts` finds no host-name field; on the polity fixture under the mock host the sway's legend label reads the descriptive label ("Thornwall and its vassals") until the DM's christening arrives in `christened`, then the christening; the mock host's realm past offering a pencilled name changes no label until the DM confirms it in the host and it arrives as a christening; a window carrying a name under any other key is folded with that key dropped (the manifest's closed key list), the label unchanged | the polity fixtures; the mock host; the manifest lint |
-> | T-V13-130 | **the deity an offer** (J400 (4); V13 §2.2's `HostRegime.deitySeated`, §5.9 (6)): on the birth-defaults fixture with a mock account holding two custom deities, the birth window's regime reads `deitySeated` false and the religion lens opens `none` with the banner "no creed seated: the dossiers' temples pray to no named god, until the DM confirms a patron the host offers at birth"; the window after the DM's confirm of the offered patron in the mock host reads `deitySeated` true and the lens `seated`; with the offer declined or left alone every later window reads `none`; no message of the port seats, names or ranks a deity | the birth-defaults fixture; the mock host |
+> | T-V13-130 | **the deity an offer** (J400 (4); V13 §2.2's `HostRegime.deitySeated`, §5.9 (6)): on the birth-defaults fixture with a mock account holding two custom deities, the birth window's regime reads `deitySeated` false and the religion lens opens `none` with the banner "no creed seated: the dossiers' temples pray to no named god — a patron the host offers is seated only by the DM's confirm", on an account offered nothing and after a decline alike; the window after the DM's confirm of the offered patron in the mock host reads `deitySeated` true and the lens `seated`; with the offer declined or left alone every later window reads `none`; no message of the port seats, names or ranks a deity | the birth-defaults fixture; the mock host |
 > | T-V13-131 | **the window key and its halves** (J400 (5); V13 §2.2's `AdvanceWindow`, §3.11.6): on the mock host a window keyed by `hostSeq` alone (the epoch dark) and the same window keyed by `hostSeq` with `advanceNonce` (the epoch lit) fold identically; a replace naming the same `hostSeq` with another nonce supersedes it; the birth window's polity, lens and events halves fold to the same plates whatever order they arrive in; the week-zero call with no host client answers the registered no-op and the world is unchanged | the mock host; B-POLITY with the birth window |
-> | T-V13-132 | **the host's membership walk** (J400 (6); V13 §3.9 (9)): on the politics fixture (a root, two vassals, a sub-vassal, a tributary) the allegiances, member links, depths, continuity and exclaves drawn from the walk equal those drawn from the same membership sent as raw links alone (the drawing rules over either); a walk that disagrees with the raw links (a vassal the walk roots elsewhere) draws the walk's membership, `whyCell` naming both; with no walk sent the links' derivation runs byte-identically to T-V13-41's sway fixtures | the politics fixture; T-V13-41's sway fixtures |
-> | T-V13-133 | **the grace rule as the host takes it** (J400 (7); V13 §3.11.6's birth canon and `canonized`): on the mock host a campaign whose realm canonize stands before its first advance has `hostLocked` unset on every seat and every seat drags free; at the first advance the canon is requested at the advance's head and its `canonized` sets `hostLocked`; this module refusing that request (a fixture whose canon is refused whole) leaves every seat unlocked, no canon adopted and the refusal's reason returned in one sentence; an undo of the first advance — the mock host's replace discarding it, and separately `canonized` with `revoked: true` — leaves `CampaignRecord.canons` without the birth canon, the `timeDelta` baseline none, `hostLocked` cleared on every seat, a drag accepted again and every banner back in its uncanonized regime; the re-advance takes the canon afresh over the seats as they then stand | the mock host; T-V13-75's fixture |
-> | T-V13-134 | **every output version served for life** (J400 (8); V13 §2.7; the base §6.4 as BCR-V13-58 extends it): a host composition naming the current output version and one naming N−3 (outside the browser's window) both generate byte-identically to their goldens, the latter after fetching exactly N−3's model packages by their content hashes; with the package store withholding N−3's chunks the composition is refused `refuse.world.outputVersion` and nothing is generated under another version; the composed bundle replays with no call to the module | the golden suite under N−3; the package-store fixture |
+> | T-V13-132 | **the host's membership walk** (J400 (6); V13 §3.9 (9)): on the politics fixture (a root, two vassals, a sub-vassal, a tributary) the allegiances, member links, depths, continuity and exclaves drawn from the walk equal those drawn from the same membership sent as raw links alone (the drawing rules over either); a walk that disagrees with the raw links (a vassal the walk roots elsewhere) draws the walk's membership, `whyCell` naming both; a vassal the walk sends covert stands in its root's allegiance on the DM's picture and roots its own on the party's and the public's; a seat the walk omits reads its raw links; with no walk sent the links' derivation runs byte-identically to T-V13-41's sway fixtures | the politics fixture; T-V13-41's sway fixtures |
+> | T-V13-133 | **the grace rule as the host takes it** (J400 (7); V13 §3.11.6's birth canon and `canonized`): on the mock host a campaign whose realm canonize stands before its first advance has `hostLocked` unset on every seat and every seat drags free; at the first advance the canon is requested at the advance's head and its `canonized` sets `hostLocked`; this module refusing that request (a fixture whose canon is refused whole) leaves every seat unlocked, no canon adopted and the refusal's reason returned in one sentence; an undo of the first advance — the mock host's replace discarding it, with and without a `canonized` with `revoked: true` beside it — leaves `CampaignRecord.canons` without the birth canon, the `timeDelta` baseline none, `hostLocked` cleared on every seat, a drag accepted again and every banner back in its uncanonized regime; a `revoked: true` arriving before its replace is held and folded with the replace, the canon still adopted and the plates unchanged until then, and a replace with no such message revokes alone; the re-advance takes the canon afresh over the seats as they then stand | the mock host; T-V13-75's fixture |
+> | T-V13-134 | **every output version served for life** (J400 (8); V13 §2.7; the base §6.4 as BCR-V13-58 extends it): a host composition naming the current output version and one naming N−3 (outside the browser's window) both generate byte-identically to their goldens, the latter after fetching exactly N−3's model packages from the version archive by their content hashes; with the archive withholding N−3's chunks the composition is refused `refuse.world.outputVersion` and nothing is generated under another version; the composed bundle replays with no call to the module | the golden suite under N−3; the version archive fixture |
 > | T-V13-135 | **no host reader of the map feed** (J400 (12); law (10) of V13 §3.11.6): the port's manifest lists no host reader of `mapFeed`; a reader entered without a switch, a tier and a degraded arm fails the manifest lint, as does one marked negotiation-side; the gate keeper's hover and legend strings contain no "soak" | the manifest lint; the strings lint |
-> | T-V13-136 | **the past references** (J400 (14); V13 §2.2's `PastRef`, §5.1): on the politics fixture under the mock host a non-aggression term with `pastRef` of 40 years draws "sworn 40 years before the campaign" on its pair and never "since week 0"; a vassal link with `sincePast` of 12 years draws "since 12 years before the campaign"; the class table and the sway read both exactly as the same term and link with no past reference (the past changes a legend, never a cell); a past reference whose fact the campaign's `PastFacts` does not hold draws its years alone | the politics fixture; the mock host |
+> | T-V13-136 | **the past references** (J400 (14); V13 §2.2's `PastRef`, §5.1): on the politics fixture under the mock host a non-aggression term with `pastFact` of 40 years draws "sworn 40 years before the campaign" on its pair and never "since week 0"; a vassal link with `sincePast` of 12 years draws "since 12 years before the campaign"; the class table and the sway read both exactly as the same term and link with no past reference (the past changes a legend, never a cell); a past reference whose fact the campaign's `PastFacts` does not hold draws its years alone | the politics fixture; the mock host |
 > | T-V13-137 | **patrols closed in the host** (J400 (18); V13 §3.9 (14), §3.11.6, §5.9 (3)): the port's manifest carries no patrol offer and no message of the port, in either direction, carries a `PatrolCadence` or a coverage (a schema lint); the cadence and `patrolAt` are byte-identical to T-V13-42's with a host bound or not; with the mock host sending dated patrol events its event table tags, the patrols lens draws each as a dated pin "the host's patrol, week n" and no tint, the cadence's tints unchanged by them; the lens's legend's first row reads "the map's patrols: a picture of who could watch these roads — the host gives it no meaning" | the manifest and schema lints; T-V13-42's fixtures; the mock host |
 > | T-V13-138 | **a port value inside a host roll is frozen** (J400 (20); law (12) of V13 §3.11.6): the mock host advances ten weeks reading the canon, a `routeFacts` effort and a site point, then replays, undoes and resumes those advances with the module absent (its port answering nothing) and again with a module of the next output version: every replay is byte-identical to the original and no port call is made during any of them; every simulator-feed answer carries its version vector and stamp | the mock host's record-and-replay harness |
-> | T-V13-139 | **the realm's past** (J400 (21); V13 §2.2's `PastFacts`, §3.11.6's `pastWindow`, §5.1, §5.2, §5.8 (8)): on B-POLITY with the mock host's past window (a founding 200 years before, a war 60 years before at a pair, a pact 40 years before, all pencilled) the scrub runs into a strip before week 0 in years, a position at 60 years drawing the war's pin at each of its two seats naming the other and no line, sway, border, route or lens mark; each pin dashed and "pencilled" until the first advance's replace inks it, then solid and "inked", and dashed again after the mock host's undo of that advance; a past fact carrying a week, or no years, is refused at fold (`refuse.world.pastDate`); the campaign history view heads its timeline with the three facts in years, read-only, opening nothing; on T-V13-120's sequel fixture the second campaign's past forms its own strip, "the realm's past, as B began", and no fact of it lies among A's weeks or carries A's label; the model digest, the canon, every plate and every sway revision are byte-identical with the past window sent or not | B-POLITY with the mock host's past window; T-V13-120's fixture |
+> | T-V13-139 | **the realm's past** (J400 (21); V13 §2.2's `PastFacts`, §3.11.6's `pastWindow`, §5.1, §5.2, §5.8 (8)): on B-POLITY with the mock host's past window (a founding 200 years before, a war 60 years before at a pair, a pact 40 years before, all pencilled) the scrub runs into a strip before week 0 in years, a position at 60 years drawing the war's pin at each of its two seats naming the other and no line, sway, border, route or lens mark; each pin dashed and "pencilled" until the first advance's replace inks it, then solid and "inked", and dashed again after the mock host's undo of that advance; a past fact carrying a week, or no years, is refused at fold (`refuse.world.pastDate`); the campaign history view heads its timeline with the three facts in years, read-only, opening nothing; on T-V13-120's sequel fixture the second campaign's past forms its own strip after A's, ahead of the world clock, headed "the realm's past, as B began" with the legend "the host's history as B began — it may tell of years when A was played here", and no fact of it lies among A's weeks or carries A's label; the model digest, the canon, every plate and every sway revision are byte-identical with the past window sent or not | B-POLITY with the mock host's past window; T-V13-120's fixture |
 *Evidence:* docs/PROGRESS.md J400 (2), (4)–(8), (12), (14), (18), (20), (21); the host's answer S1–S5, S7, S10, S14 and its five standing rules; research/sf/host-rulings-mirror.md §1, §2; V13 §7.4 as file z item 1270 leaves it (T-V13-127 the last row); items 1308–1327 (the rules tested).
 
 
@@ -673,9 +725,9 @@ keep a mirror of the host rulings that bind the map.
 **1330.** **Two outcome keys: a host composition whose output version cannot be served, and a past fact dated in weeks.**
 *Requests:* J400 (8), (21).
 *Current text:*
-> `refuse.world.hostKind`, `refuse.carry.surface` |
+> `refuse.world.campaignClosed`, `refuse.world.pinDate` (J399 (R1), (R4); file z items 1262, 1263) |
 *New text:*
-> `refuse.world.hostKind`, `refuse.carry.surface`, `refuse.world.outputVersion` (a host composition naming an output version this module cannot serve: refused fail-closed, never generated under another, J400 (8)), `refuse.world.pastDate` (a fact of the realm's past carrying a week, or no years, J400 (21)) |
+> `refuse.world.campaignClosed`, `refuse.world.pinDate` (J399 (R1), (R4); file z items 1262, 1263), `refuse.world.outputVersion` (a host composition naming an output version this module cannot serve: refused fail-closed, never generated under another, J400 (8)), `refuse.world.pastDate` (a fact of the realm's past carrying a week, or no years, J400 (21)) |
 *Evidence:* docs/PROGRESS.md J400 (8), (21); V13 §7.5's refusal row as it stands; items 1312, 1318 (b); BCR-V13-59 (item 1341) carries both keys to §7.1's outcome table.
 
 
@@ -707,7 +759,7 @@ keep a mirror of the host rulings that bind the map.
 ### Volume 13 — §8.5 The host's parallel track (H9, H12, H13, H16: the windows on their units; the genesis mount; the walk and the past references; no reader of the map feed and no patrol coverage)
 
 **1333.** **H9 is keyed by the pulse sequence always and built inside the host's docket units, carrying the stamps and the host's patrols; H12 is the host's route-network mount; H13 carries the walk, the past references and the host's patrols; H16 offers the crossing holder only, to no reader, and prices no patrol coverage.**
-*Requests:* J400 (5), (6), (7), (11), (12), (14), (18), (19).
+*Requests:* J400 (5), (6), (7), (11), (12), (14), (18), (19); the review's HA-03, HA-25.
 *Current text* (a):
 > | H9 | with M-W1 | the events window after every advance, undo and resume, committed facts only, keyed by the advance nonce when its advance epoch is lit, else by its pulse-history sequence, with the resolved audience (also applied to the conditions a frame draws) | M-W1; H4 |
 *New text* (a):
@@ -719,7 +771,7 @@ keep a mirror of the host rulings that bind the map.
 *Current text* (c):
 > so one window carries them (J397 (M13), (M20); file y item 1246) | M-W2; H4; H9 |
 *New text* (c):
-> so one window carries them (J397 (M13), (M20); file y item 1246); its membership walk per seat beside the raw links (`PolityFacts.walk`: each seat's root, liege, tier, class and basis — its one membership read, which the sway adopts where sent, the raw links kept for the DM's diagnostic and as the arm; J400 (6)); a pact of the realm's past still standing at week 0 with its past reference on its terms row, and a tie's or a relation's `since` before week 0 read through its past reader (`pastRef`, `sincePast`; J400 (14)); and, when it lights its own patrols, their rows as dated facts (J400 (18)) — every row of the window built by the unit that owns its field, on one exporter (J400 (5)) | M-W2; H4; H9 |
+> so one window carries them (J397 (M13), (M20); file y item 1246); its membership walk per seat beside the raw links (`PolityFacts.walk`: each seat's root, liege, tier, class and basis and whether the host holds the membership covert — its one membership read, which the sway adopts where sent, the raw links kept for the DM's diagnostic and as the arm; J400 (6)); a pact of the realm's past still standing at week 0 with its past reference on its terms row, and a tie's or a relation's `since` before week 0 read through its past reader (`pastFact`, `sincePast`; J400 (14)); and, when it lights its own patrols, their rows as dated facts (J400 (18)) — every row of the window built by the unit that owns its field, on one exporter (J400 (5)) | M-W2; H4; H9 |
 *Current text* (d):
 > who keeps a gate is ruled (J385; V13 §11): the intermediary settlement whose territory the path crosses keeps it until the sway has passed its soak (T-V13-41 (d)'s 300-year soak under B-POLITY, the polity cells measured), and the crossing holder is then offered as a per-gate policy the host may adopt gate by gate, each with its own register row — until adopted a map-feed reading only; patrol coverage re-priced through its one distance reader, read by outcome rolls only, any route choice reading it through its belief (the known world), and the crossing holder likewise; the sway as an advance-head overlay
 *New text* (d):
@@ -792,11 +844,11 @@ keep a mirror of the host rulings that bind the map.
 ### Volume 13 — §8.5 The host's parallel track (H36 rewritten in place; H37 and H38 gain the host's units and its grace rule)
 
 **1336.** **H36 is rewritten to the host's answer — born applied by the host's own birth door, no name minted, the deity an offer the DM confirms —, its first-visible line and felt sentence kept; H37 names each half's host unit; H38 takes the spatial canon as the host takes it.**
-*Requests:* J400 (1), (2), (3), (4), (5), (7).
+*Requests:* J400 (1), (2), (3), (4), (5), (7); the review's HA-18.
 *Current text* (a):
 > | H36 | with M-W2 (born peopled: with H13's polity facts; born applied: the host's own rules law; a deity at birth: the owner's open word) | **born applied and born peopled** (J397 (M1), (M22); the first row of the experience pass, each row from here carrying its first-visible line and felt sentence, M3): a campaign born on a world from this module is born with the host's realistic rules applied — the regime the banners read, so one rules label names one regime and never two —, its polities named at genesis (the overlord chains as named allegiances, the name on `PolityFacts.names`, read by the sway's label, V13 §5.9 (2)) and, where the host so rules (the owner's open word on a deity at birth), a deity seated at birth as the capital's patron, so the religion lens opens seated rather than none; a plainly born campaign's rules label reads its birth defaults, never a preset it does not run; **first visible:** at the birth window — the banners read applied, the legend names the allegiances; **felt:** "my realm has names and rules from the day it is born"; **spreads:** UNMEASURED | H13; H37 |
 *New text* (a):
-> | H36 | with M-W2 (born applied: the host's own birth door for every new campaign, with its own unit; the honest label with it; the names and the deity: the DM's confirms of the host's offers) | **born applied, named and seated by the DM's confirm** (J397 (M1); J400 (1)–(4); the host's answer of 2026-10-24: accepted; the first row of the experience pass, each row from here carrying its first-visible line and felt sentence, M3): **born applied** — every new campaign the host makes, on a world from this module or not, is born with its default rules' switches by the host's OWN birth door, a new-world shift of its own unit, and the module adds no door of its own (J400 (1)) — the regime the banners read, so one rules label names one regime and never two; the honest label as written, landed with that door: a plainly born campaign's rules label reads its birth defaults, never a preset it does not run (J400 (3)); **no name minted at birth** (J400 (2)): the host mints no polity name — a realm is named only by the DM's naming act, which reaches the map as a christening (`PolityFacts.christened`), the host's realm past OFFERING a pencilled name the DM may confirm (that confirm is the naming act) —, and the sway's label reads the christening, else the descriptive label from the root's name (V13 §3.9 (17), §5.9 (2)); the overlord chains reach the map as the host's membership walk (H13; J400 (6)); **the deity an offer** (J400 (4)): at a birth naming a capital, an account holding a custom deity is OFFERED its top-ranked one as the capital's patron, only the DM's confirm seats it, declined or left alone nothing is seated, an account without custom content is offered nothing — so `HostRegime.deitySeated` reads true only after that confirm, and the religion lens reads "no creed seated" until then (V13 §5.9 (6)); **first visible:** at the birth window — the banners read applied, the legend names each allegiance the DM has christened (an offered name once confirmed), else its descriptive label; **felt:** "my realm has names and rules from the day it is born"; **spreads:** UNMEASURED | H13; H37 |
+> | H36 | with M-W2 (born applied: the host's own birth door for every new campaign, with its own unit; the honest label with it; the names and the deity: the DM's confirms of the host's offers) | **born applied, named and seated by the DM's confirm** (J397 (M1); J400 (1)–(4); the host's answer of 2026-10-24: accepted; the first row of the experience pass, each row from here carrying its first-visible line and felt sentence, M3): **born applied** — every new campaign the host makes, on a world from this module or not, is born with its default rules' switches by the host's OWN birth door, a new-world shift of its own unit, and the module adds no door of its own (J400 (1)) — the regime the banners read, so one rules label names one regime and never two; the honest label as written, landed with that door: a plainly born campaign's rules label reads its birth defaults, never a preset it does not run (J400 (3)); **no name minted at birth** (J400 (2)): the host mints no polity name — a realm is named only by the DM's naming act, which reaches the map as a christening (`PolityFacts.christened`), the host's realm past OFFERING a pencilled name the DM may confirm (that confirm is the naming act) —, and the sway's label reads the christening, else the descriptive label from the root's name (V13 §3.9 (17), §5.9 (2)); the overlord chains reach the map as the host's membership walk (H13; J400 (6)); **the deity an offer** (J400 (4)): at a birth naming a capital, an account holding a custom deity is OFFERED its top-ranked one as the capital's patron, only the DM's confirm seats it, declined or left alone nothing is seated, an account without custom content is offered nothing — so `HostRegime.deitySeated` reads true only after that confirm, and the religion lens reads "no creed seated" until then (V13 §5.9 (6)); **first visible:** at the birth window — the banners read applied, the legend names each allegiance the DM has christened (an offered name once confirmed), else its descriptive label; **felt:** "my realm has its rules from the day it is born, and its names the moment I give them"; **spreads:** UNMEASURED | H13; H37 |
 *Current text* (b):
 > | H37 | with M-W5, with H23 | **the birth window** (J397 (M1)): a lens window
 *New text* (b):
@@ -809,7 +861,7 @@ keep a mirror of the host rulings that bind the map.
 > its move-lock set at the first advance and never at creation
 *New text* (d):
 > its move-lock re-keyed to the spatial canon and set at the first advance, never at creation
-*Evidence:* docs/PROGRESS.md J400 (1)–(5), (7) and (6) (the walk); the host's answer S1 (1) (the birth door SUPERSEDED by the host's own, for every new campaign: "A module world needs no door of its own"), (2) (names struck), (3) (the honest label accepted as written, on the birth door's unit), (4) (the deity an offer the owner decided in the host), S2 (each window on the unit that owns it; the resolver agreeing with the status of record; the week-zero call a no-op until H4's client), S3 (the grace rule taken); research/sf/host-rulings-mirror.md §2 (the birth door; polity names; the honest preset label; the deity at birth; the windows; the grace rule); V13 §8.5's H36–H38 as file v items 1113–1114 left them; J397 (M3)'s rule that every row from H36 on keeps its first-visible line and felt sentence — H36's kept word for word, its first-visible line narrowed to the christening.
+*Evidence:* docs/PROGRESS.md J400 (1)–(5), (7) and (6) (the walk); the host's answer S1 (1) (the birth door SUPERSEDED by the host's own, for every new campaign: "A module world needs no door of its own"), (2) (names struck), (3) (the honest label accepted as written, on the birth door's unit), (4) (the deity an offer the owner decided in the host), S2 (each window on the unit that owns it; the resolver agreeing with the status of record; the week-zero call a no-op until H4's client), S3 (the grace rule taken); research/sf/host-rulings-mirror.md §2 (the birth door; polity names; the honest preset label; the deity at birth; the windows; the grace rule); V13 §8.5's H36–H38 as file v items 1113–1114 left them; J397 (M3)'s rule that every row from H36 on keeps its first-visible line and felt sentence — H36's first-visible line narrowed to the christening and its felt sentence revised to the answer (the review's HA-18): the realm's names come at the DM's word, not at birth.
 
 
 ### Volume 13 — §8.5 The host's parallel track (H40–H46: the court half held; the docket units; no reader; the register's row; the past pact; net force's slot)
@@ -843,7 +895,7 @@ keep a mirror of the host rulings that bind the map.
 *Current text* (g):
 > so the class table reads a sworn peace as neutral and a sworn defence as respect (V13 §3.9 (8));
 *New text* (g):
-> so the class table reads a sworn peace as neutral and a sworn defence as respect (V13 §3.9 (8)); the terms read from the host's treaty ledger, and a pact of the realm's past still standing entering its treaties at week 0 with its past reference (`PolityRelation.terms[].pastRef`), so the legend says "sworn n years before the campaign", never "since week 0" (J400 (14));
+> so the class table reads a sworn peace as neutral and a sworn defence as respect (V13 §3.9 (8)); the terms read from the host's treaty ledger, and a pact of the realm's past still standing entering its treaties at week 0 with its past reference (`PolityRelation.terms[].pastFact`), so the legend says "sworn n years before the campaign", never "since week 0" (J400 (14));
 *Current text* (h):
 > **net force bands** (J397 (M17)):
 *New text* (h):
@@ -859,7 +911,7 @@ keep a mirror of the host rulings that bind the map.
 > **spreads:** UNMEASURED | H22; H31; H37 |
 *New text:*
 > **spreads:** UNMEASURED | H22; H31; H37 |
-> | H48 | with M-W5 (the scrub) and H37's birth window; inside the host's realm past and its polity window's unit | **the realm's past, read-only** (J400 (21); the host's offered route, accepted; V13 §2.2's `PastFacts`, §3.11.6's `pastWindow`): the host sends its realm past through the port's past window — its facts before the campaign's week 0, each keyed by its fact reference, dated in whole years before the campaign and never a week, with its kind, its seat or pair, its own sentence, its resolved audience and whether it is pencilled or inked — with the birth window and again whenever it inks the past inside the first advance's one commit, un-inks it at an undo of that advance, or the DM edits it; the map reads it read-only and writes nothing back (a pencilled name it offers reaches the map only as the DM's christening, once confirmed in the host); on the polity window (H13), the past reference of a pact of the realm's past still standing at week 0 on its terms row, and a tie's or a relation's `since` before week 0 read through its past reader (`pastRef`, `sincePast`; J400 (14)); the map draws the past before week 0 in years, pencilled or inked, at seats and pairs only, and never as an earlier campaign (law (9) of V13 §3.11.6); **first visible:** at the birth window — the scrub's realm's-past strip and the history view's head, pencilled; at the first advance, inked; **felt:** "before week one the map already knows the war of sixty years ago that drew these borders — pencilled until the first week inks it"; **spreads:** — (dated facts; no band minted) | H4; H13; H37 |
+> | H48 | with M-W5 (the scrub) and H37's birth window; inside the host's realm past and its polity window's unit | **the realm's past, read-only** (J400 (21); the host's offered route, accepted; V13 §2.2's `PastFacts`, §3.11.6's `pastWindow`): the host sends its realm past through the port's past window — its facts before the campaign's week 0, each keyed by its fact reference, dated in whole years before the campaign and never a week, with its kind, its seat or pair, its own sentence, its resolved audience and whether it is pencilled or inked — with the birth window and again whenever it inks the past inside the first advance's one commit, un-inks it at an undo of that advance, or the DM edits it; the map reads it read-only and writes nothing back (a pencilled name it offers reaches the map only as the DM's christening, once confirmed in the host); on the polity window (H13), the past reference of a pact of the realm's past still standing at week 0 on its terms row, and a tie's or a relation's `since` before week 0 read through its past reader (`pastFact`, `sincePast`; J400 (14)); the map draws the past before week 0 in years, pencilled or inked, at seats and pairs only, and never as an earlier campaign (law (9) of V13 §3.11.6); **first visible:** at the birth window — the scrub's realm's-past strip and the history view's head, pencilled; at the first advance, inked; **felt:** "before week one the map already knows the war of sixty years ago that drew these borders — pencilled until the first week inks it"; **spreads:** — (dated facts; no band minted) | H4; H13; H37 |
 *Evidence:* docs/PROGRESS.md J400 (14), (21) ("H48 records the route"); the host's answer S2 (THE REALM'S PAST, the route offered: the past window read-only, keyed by fact reference, in years, never a tick; H13's `since` through the past reader), S3 (c) (pencilled at birth, inked inside the first advance's commit, re-pencilled by its undo), S10 (the past pact's reference), "What the host asks back" (2) (confirm the routes); research/sf/host-rulings-mirror.md §2 (the realm's past); V13 §8.5 as file z item 1271 (d) leaves it (H47 the last row); J397 (M3) (the first-visible line and felt sentence on every row minted).
 
 ### Volume 13 — §9 Decisions (the rows the host's answer supersedes, each kept as the record of its choice with a note)
@@ -892,7 +944,7 @@ keep a mirror of the host rulings that bind the map.
 ### Volume 13 — §9 Decisions (J-V13.201 – J-V13.214 after J-V13.199)
 
 **1340.** **The decisions of the host's answer.**
-*Requests:* J400 (1), (2), (4)–(8), (10), (12), (14), (17), (18), (20), (21).
+*Requests:* J400 (1), (2), (4)–(8), (10), (12), (14), (17), (18), (20), (21); the review's HA-05, HA-12.
 *Current text:*
 > because a pair's observer is the host's to rule and the map's to wait for (vetoable) |
 *New text:*
@@ -902,8 +954,8 @@ keep a mirror of the host rulings that bind the map.
 > | J-V13.203 | chose **the deity an offer the DM confirms, `deitySeated` true only after it and the `none` banner waiting on it** (J400 (4); file ab items 1308, 1327, 1336) over a deity seated at birth by default (the session's earlier ruling on the host's ask, withdrawn), because the question was the owner's in the host and the owner decided it there — the host never changes a dossier on its own: where a born world could use a fact it OFFERS it and the DM's confirm writes it —, and a lens that drew a patron the DM never chose would draw the host's arithmetic as the DM's authoring (vetoable) |
 > | J-V13.204 | chose **each window from the host unit that owns its half, keyed by the pulse sequence always and the advance nonce where lit** (J400 (5); file ab items 1308, 1318, 1333, 1334, 1336) over one birth-window exporter for the map and over a key that switches from the sequence to the nonce, because the host builds every row inside the unit that owns its field (one unit, one writer) and its lens rows through its one projection, so a second reader of its ledgers would be a second truth; and because a key present in both regimes folds one window the same whether the host's advance epoch is lit or dark (T-V13-131) (vetoable) |
 > | J-V13.205 | chose **the host's membership walk as the sway's allegiance graph where sent, the raw links the DM's diagnostic and the arm, the drawing rules over either** (J400 (6); the host's offer, adopted by the session; file ab items 1309, 1314, 1333) over the map's own derivation of members from the raw links alone (V13 §3.9 (9) as it stood), because the walk is the host's one membership read — no reader of the host re-derives a kingdom — and a map deriving its own would draw a kingdom the host does not hold wherever the two disagree, while the sway's rules (depth, continuity, exclaves, the chain bonus) are the owner's territory rules and stay the map's over whatever membership the host gives (vetoable) |
-> | J-V13.206 | chose **the grace rule as the host takes it: the spatial canon alone, adopted in the first advance's one commit, a refusal refusing that advance, an undo revoking `canonized` and handled as a revoked `consumed`** (J400 (7); file ab items 1313, 1317, 1318, 1333, 1334, 1336) over a canon adopted beside the advance and over an undo read only from the window replace, because the host's realm canonize and its spatial canon are two acts, the host inks its realm's past inside that one commit, and a canon adopted outside it could survive a failed or undone advance; an explicit revocation, or the replace that discards the advance read the same way, gives the map one handling for both host retractions it knows (vetoable) |
-> | J-V13.207 | chose **every world-generation output version served for life to a host composition that names it, fetched by content hash or refused fail-closed** (J400 (8); file ab items 1312, 1330, 1335, 1341, 1352; BCR-V13-58) over the base's browser window alone (N, N−1, N−2) for a host's composed world, because the host keeps its share codes for life and an installed campaign is never re-decided, so a world its code names must come back byte for byte or not at all — never silently under another version —, and because the package store already holds every version's chunks by content hash and the CLI already installs any version (vetoable) |
+> | J-V13.206 | chose **the grace rule as the host takes it: the spatial canon alone, adopted in the first advance's one commit, a refusal refusing that advance, an undo revoking `canonized` and handled as a revoked `consumed`** (J400 (7); file ab items 1313, 1317, 1318, 1333, 1334, 1336) over a canon adopted beside the advance and over two channels of revocation with no order between them, because the host's realm canonize and its spatial canon are two acts, the host inks its realm's past inside that one commit, and a canon adopted outside it could survive a failed or undone advance; the window replace that discards the advance IS the revocation, as it is for a consumed edit, and an explicit `revoked: true` only confirms it, folded with that replace and never before, so the canon and the plates never disagree (vetoable) |
+> | J-V13.207 | chose **every world-generation output version served for life to a host composition that names it, fetched by content hash or refused fail-closed** (J400 (8); file ab items 1312, 1330, 1335, 1341, 1352; BCR-V13-58) over the base's browser window alone (N, N−1, N−2) for a host's composed world, because the host keeps its share codes for life and an installed campaign is never re-decided, so a world its code names must come back byte for byte or not at all — never silently under another version —, and because the CLI already installs any published version and the version archive (the base §6.4, new with BCR-V13-58) keeps the same packages fetchable by hash (vetoable) |
 > | J-V13.208 | chose **the court viewpoint held, its degraded arm drawn meanwhile** (J400 (10); file ab items 1308, 1319, 1326, 1337, 1343) over asking the host's projection for a court's view now, because that projection carries the DM's truth and the party's believed rows and never a court's view, a DM-only court view would amend it, and the ask belongs to the host's information program at its unit; the viewpoint and the court audience already hold their arm, the public record within the court's reach (vetoable) |
 > | J-V13.209 | chose **no host reader of the map feed until the host's own ruling admits one, and the gate keeper's legend without a soak** (J400 (12); file ab items 1315, 1317, 1320, 1322, 1325, 1328, 1333, 1337, 1339; superseding in part J-V13.96's later offer and J-V13.147's named readers) over the outcome and cost readers law (10) named and over a crossing holder offered after the sway's soak, because the host's list of readers starts empty, the gate stays the territory holder's, and a legend promising a soak no host reader will consume tells the DM the toll moves when it never will (vetoable) |
 > | J-V13.210 | chose **one past reference shape, `PastRef` (the host's fact reference and the years), on a pact's terms and on a tie's or a relation's `since`** (J400 (14); file ab items 1309, 1310, 1322, 1333, 1337) over a week-0 `since` alone and over a negative week, because a pact of the realm's past enters the host's treaties at week 0 yet was sworn years before, a negative week would put the realm's past on the world clock (law (11)), and one shape lets every legend say "sworn n years before the campaign" or "since n years before the campaign" from one reader (vetoable) |
@@ -917,7 +969,7 @@ keep a mirror of the host rulings that bind the map.
 ### Volume 13 — §10 Base change requests (BCR-V13-58, BCR-V13-59 after BCR-V13-57)
 
 **1341.** **BCR-V13-58 extends the base's retention rule to a host composition; BCR-V13-59 carries the realm's past, the revocation of `canonized`, the two refusals and the port without a patrol offer to the base's port paragraphs.**
-*Requests:* J400 (7), (8), (18), (21).
+*Requests:* J400 (7), (8), (18), (21); the review's HA-05, HA-12, HA-23.
 *Current text:*
 > and one generation may be cut into one member per campaign.
 *New text:*
@@ -925,19 +977,22 @@ keep a mirror of the host rulings that bind the map.
 >
 > **BCR-V13-58 — §6.4 *Retention of old output versions*: every world-generation output version a host composition
 > names served for life.** (J400 (8); J-V13.207; file ab items 1312, 1352.) The retention paragraph gains a host
-> composition: one that names a world-generation output version fetches exactly that version's model packages beyond the
-> browser's window by their content hashes and is refused fail-closed (`refuse.world.outputVersion`) when it cannot,
-> never generated under another version and never shown with the window's notice; the composed bundle freezes the
-> charters and planned sites it consumed; every output version the world generator issues stays served for life, the
-> package store keeping every version's chunks by content hash as the CLI keeps every version; so that a host's share
-> code that names a world comes back byte for byte or not at all (file ab item 1352 states the base's exact text).
+> composition, and the base gains **the version archive** — every published output version's model packages, immutable
+> and addressed by content hash, kept at the library's distribution origin for the library's life, growing by one
+> version's packages per release and measured at M3a beside the window's ≤ 150 KB: a composition that names a
+> world-generation output version fetches exactly that version's model packages beyond the browser's window from the
+> archive by their content hashes and is refused fail-closed (`refuse.world.outputVersion`, added to §7.1's outcome
+> table by the same item) when it cannot, never generated under another version and never shown with the window's
+> notice; the composed bundle freezes the charters and planned sites it consumed; so that a host's share code that
+> names a world comes back byte for byte or not at all (file ab item 1352 states the base's exact text).
 >
 > **BCR-V13-59 — §7.1's outcome table, §7.7's world port paragraph and §11.4 Host inputs: the realm's past, the
 > revocation of `canonized`, the port without a patrol offer.** (J400 (7), (18), (21); J-V13.206, J-V13.212,
 > J-V13.214; file ab items 1318, 1330.) §7.7's world port paragraph and §11.4 gain the inbound recorded
 > `pastWindow(world, PastFacts)` — the host's realm past, read-only, logged with provenance `host`, in years and never on
-> the world clock — and `canonized`'s revocation (`revoked: true`, or the window replace that discards the first advance,
-> handled as a revoked `consumed`); §7.1's outcome table gains `refuse.world.outputVersion` and `refuse.world.pastDate`;
+> the world clock — and `canonized`'s revocation (the window replace that discards the first advance, a `revoked: true`
+> confirming it folded with that replace and never before, handled as a revoked `consumed`); §7.1's outcome table gains
+> `refuse.world.pastDate` (`refuse.world.outputVersion` is named by §6.4 and the outcome table since file ab item 1352);
 > the port's manifest (BCR-V13-11) names no patrol offer; so that the base's list of the world port's messages reads as
 > V13 §3.11.6 does after the host's answer (standing for the next coherence pass).
 *Evidence:* docs/PROGRESS.md J400 (7), (8), (18), (21); the base §6.4 *Retention of old output versions*, §7.7's world port paragraph and §11.4's fifth door as they stand (neither names a patrol offer); V13 §10 as file z item 1273 leaves it (BCR-V13-57 the last request; its form for a request standing for the next coherence pass).
@@ -956,7 +1011,7 @@ keep a mirror of the host rulings that bind the map.
 *New text* (b):
 > as the host's answer of 2026-10-24 leaves them (J400) — the deity an offer the DM confirms (decided by the owner in the
 > host, H36), no reader of the map feed until the host admits one (H42), the ambiguity law accepted as written (H44),
-> the party's place the host's (H39, rewritten by amendments z). Vetoable.
+> the party's whereabouts the host's (H39, rewritten by amendments z). Vetoable.
 *Current text* (c):
 > the intermediary settlement keeps the gate until the sway has⏎passed its soak (T-V13-41 (d)'s 300-year soak under B-POLITY, with the polity cells measured); the crossing holder is⏎then offered to the host as a per-gate policy it may adopt gate by gate, each with its own register row (V13 §8.5's⏎H16). Vetoable.
 *New text* (c):
@@ -993,10 +1048,10 @@ keep a mirror of the host rulings that bind the map.
 > release order). Vetoable.
 *Evidence:* docs/PROGRESS.md J400 (the owner's "Do it"; rulings (1)–(22)); the host's answer (all sections; S4's note on the realm past informing genesis ties, the owner's open row in the host); research/sf/host-rulings-mirror.md §1, §2; V13 §11's ruled paragraphs as files n, v, w and z leave them (who keeps a gate, J385; the experience pass's two; the campaigns pass's).
 
-### Volume 15 — §3.6 A6 — The relational view ((6) a court's map held by the host; an old map's figures from the realm's past)
+### Volume 15 — §3.6 A6 — The relational view ((6) a court's map held by the host; an old map's figures from the realm's past), with §0 In plain words and §3.11's worked example (step 7)
 
-**1343.** **A court's map draws the public record within the court's reach while the host holds a court's view; an old map dated at or before a member's week 0 draws that member's realm past as its figures.**
-*Requests:* J400 (10), (21).
+**1343.** **A court's map draws the public record within the court's reach while the host holds a court's view — in §3.6 (6), in §0 and in the worked example; an old map dated at or before the world clock's week 0 draws the realm's past of the member's first campaign as its figures, and no later campaign's.**
+*Requests:* J400 (10), (21); the review's HA-07, HA-08 (a).
 *Current text* (a):
 > that court (a standalone member; a campaign that records none) the court's reach is drawn over the public record with
 *New text* (a):
@@ -1004,19 +1059,27 @@ keep a mirror of the host rulings that bind the map.
 *Current text* (b):
 > record begins later — "this map's record begins at week n; drawn from there" —, the physical ground the member's
 *New text* (b):
-> record begins later — "this map's record begins at week n; drawn from there" — save that an old map dated at or before a member's week 0 draws that member's realm past as its figures where the host sends it (V13 §2.2's `PastFacts`; J400 (21)): each dated fact at its seat or its pair, captioned "{n} years before the campaign" and pencilled or inked as the host holds it — never a border, a sway or a route, the realm's past having no geometry —, the physical ground the member's
-*Evidence:* docs/PROGRESS.md J400 (10) (V15's court viewpoint one clause), (21) ("V15's old map may read the realm's past for its figures where sent"); the host's answer S2 (the past window), S5 (the court viewpoint held); V15 §3.6 (6) as files x and z leave it (the court's map, M9; the old map, M46, J-V15.46); V13 §2.2's `PastFacts` (item 1310) and §5.9 (2) (item 1326 (b)).
+> record begins later — "this map's record begins at week n; drawn from there" — save that an old map dated at or before the world clock's week 0 draws the realm's past of the member's FIRST campaign (its `CampaignRecord` with `fromWeek` 0) as its figures where the host sends it (V13 §2.2's `PastFacts`; J400 (21)) — a later campaign's realm past is never an old map's figures, and an old map dated inside an earlier campaign's weeks draws that campaign's plates (above) —: each dated fact at its seat or its pair, captioned "{n} years before the campaign" and pencilled or inked as the host holds it — never a border, a sway or a route, the realm's past having no geometry —, the physical ground the member's
+*Current text* (c):
+> a looted map: that court's reach and its beliefs, a planted lie included,
+*New text* (c):
+> a looted map: that court's reach and its beliefs, a planted lie included (once the host's information program sends a court's beliefs; until then the court's reach over the public record),
+*Current text* (d):
+> a host-bound member of a campaign that records belief —: the DM sees
+*New text* (d):
+> a host-bound member of a campaign that records belief — once the host's information program sends a court's beliefs (V13 §5.9 (2); J400 (10)); until then Varn's court's map is its own reach over the public record under `W_ATLAS_COURT_UNSENT`, with no believed band or register word —: the DM sees
+*Evidence:* the review's HA-07 (V15 §0 and §3.11's step 7, as worded there with "the host" for the product in a volume) and HA-08 (a) (the old map's past the first campaign's alone); docs/PROGRESS.md J400 (10) (V15's court viewpoint one clause), (21) ("V15's old map may read the realm's past for its figures where sent"); the host's answer S2 (the past window), S5 (the court viewpoint held); V15 §3.6 (6) as files x and z leave it (the court's map, M9; the old map, M46, J-V15.46); V13 §2.2's `PastFacts` (item 1310) and §5.9 (2) (item 1326 (b)).
 
 
 ### Volume 15 — §7.4 Tests (T-V15-38 after T-V15-37)
 
 **1344.** **The old map's past and the held court viewpoint, tested.**
-*Requests:* J400 (10), (21).
+*Requests:* J400 (10), (21); the review's HA-08 (a).
 *Current text:*
 > | B-ATLAS-3; the mock host; the party-key harness |
 *New text:*
 > | B-ATLAS-3; the mock host; the party-key harness |
-> | T-V15-38 (the old map's past, J400 (21); the court viewpoint held, J400 (10)) | on B-ATLAS-VIEW with R host-bound under a mock host sending R's realm past (a war 60 years before at a pair of R's seats, a founding 200 years before, both pencilled): a culture viewpoint of R with `asOfWeek` 0 draws both facts as figures at their seats — the war a figure at each of its two seats naming the other — captioned "60 years before the campaign" and "200 years before the campaign" and "pencilled", with no border, sway or route drawn from them; after the mock host inks the past at R's first advance the same viewpoint reads "inked"; with no past sent the old map draws R from its first plate as T-V15-29 states; a court viewpoint of R under the mock host sending no court's facts (the host's hold) draws the court's own reach over the public record with `W_ATLAS_COURT_UNSENT`, and no believed mark | B-ATLAS-VIEW; the mock host |
+> | T-V15-38 (the old map's past, J400 (21); the court viewpoint held, J400 (10)) | on B-ATLAS-VIEW with R host-bound under a mock host sending R's realm past (a war 60 years before at a pair of R's seats, a founding 200 years before, both pencilled): a culture viewpoint of R with `asOfWeek` 0 draws both facts as figures at their seats — the war a figure at each of its two seats naming the other — captioned "60 years before the campaign" and "200 years before the campaign" and "pencilled", with no border, sway or route drawn from them; after the mock host inks the past at R's first advance the same viewpoint reads "inked"; with no past sent the old map draws R from its first plate as T-V15-29 states; on a sequel member (R re-bound to a second campaign whose host sent a past of its own) the old map at `asOfWeek` 0 draws only the first campaign's past, and one dated inside the first campaign's weeks draws that campaign's plates and no fact of either past; a court viewpoint of R under the mock host sending no court's facts (the host's hold) draws the court's own reach over the public record with `W_ATLAS_COURT_UNSENT`, and no believed mark | B-ATLAS-VIEW; the mock host |
 *Evidence:* docs/PROGRESS.md J400 (10), (21); V15 §7.4 as file z item 1284 leaves it (T-V15-37 the last row); T-V15-27 (the court viewpoint) and T-V15-29 (the old map); item 1343.
 
 
@@ -1079,10 +1142,10 @@ keep a mirror of the host rulings that bind the map.
 ### Volume 9 — §4.22 The world dialog ((11): the realm's past, the patrols' legend, a past pact)
 
 **1349.** **The world page's words for the realm's past, pencilled and inked, and the patrols lens's legend.**
-*Requests:* J400 (14), (18), (21).
-*Current text:*
+*Requests:* J400 (10), (14), (18), (21); the review's HA-07 (c).
+*Current text* (a):
 > "undo stays with each⏎   document".
-*New text:*
+*New text* (a):
 > "undo stays with each
 >    document". **The realm's past** (J400 (21); V13 §5.2, §5.8 (8); V13 §2.2's `PastFacts`): where the host sends its
 >    history of the realm, the scrub's strip before week 0 is headed **The realm's past** (on a sequel world **The realm's
@@ -1093,19 +1156,27 @@ keep a mirror of the host rulings that bind the map.
 >    the campaign"; the patrols lens's first legend row reads "the map's patrols: a picture of who could watch these
 >    roads — the host gives it no meaning" and a host patrol's pin "the host's patrol, week n" (V13's strings, J400
 >    (18)). No identifier of V13's appears in these strings (T-V9-91).
-*Evidence:* docs/PROGRESS.md J400 (14), (18), (21) ("V09 strings for the past view"); V09 §4.22 (11) as file z item 1290 leaves it; V13 §5.1, §5.2, §5.8 (8), §5.9 (3) as items 1322–1327 leave them.
+*Current text* (b):
+> the court viewpoint's court picker with its
+*New text* (b):
+> the court viewpoint's court picker (drawn only where the host sends a court's beliefs: none until the host's information program rules, J400 (10)) with its
+*Evidence:* the review's HA-07 (c); docs/PROGRESS.md J400 (14), (18), (21) ("V09 strings for the past view"); V09 §4.22 (11) as file z item 1290 leaves it; V13 §5.1, §5.2, §5.8 (8), §5.9 (3) as items 1322–1327 leave them.
 
 
 ### Volume 9 — §7.1 The bars (T-V9-99 after T-V9-98)
 
-**1350.** **The realm's past's words, tested.**
-*Requests:* J400 (21).
-*Current text:*
+**1350.** **The realm's past's words, tested; the court picker's test held with the court viewpoint.**
+*Requests:* J400 (10), (21); the review's HA-07 (c).
+*Current text* (a):
 > no identifier of V13's in any of these strings (T-V9-91's lint) | M-W5 |
-*New text:*
+*New text* (a):
 > no identifier of V13's in any of these strings (T-V9-91's lint) | M-W5 |
 > | T-V9-99 | the realm's past's words (V09 §4.22 (11); J400 (21)) | on a world bound to the mock host sending a realm past (a war 60 years before between Kessar and Aldmere, pencilled): the scrub's strip before week 0 is headed "The realm's past" and reads "60 years before the campaign"; the history view's head entry reads "60 years before the campaign — Kessar and Aldmere: {the host's sentence}" with **pencilled** and its hover, and **inked** after the mock host inks the past; on T-V9-97's sequel world the strip reads "The realm's past, as {name} began"; the patrols lens's first legend row reads as V09 §4.22 (11) gives it; no identifier of V13's in any of these strings (T-V9-91's lint) | M-W5 |
-*Evidence:* docs/PROGRESS.md J400 (18), (21); V09 §7.1 as file z item 1292 leaves it (T-V9-98 the last row); item 1349.
+*Current text* (b):
+> the court viewpoint's court picker and its show-to-players switch;
+*New text* (b):
+> the court viewpoint's court picker and its show-to-players switch, drawn only where the mock host sends a court's beliefs and absent under a mock host that holds them (J400 (10));
+*Evidence:* the review's HA-07 (c) (T-V9-96); docs/PROGRESS.md J400 (18), (21); V09 §7.1 as file z item 1292 leaves it (T-V9-98 the last row); item 1349.
 
 
 ### Volume 9 — §9 Decisions (J-V9.170 after J-V9.168)
@@ -1120,15 +1191,19 @@ keep a mirror of the host rulings that bind the map.
 *Evidence:* docs/PROGRESS.md J400 (21); V09 §9 as file z item 1292 leaves it (J-V9.168 the last row; J-V9.169 stays free in file z's block).
 
 
-### The base — §6.4 Permalinks, version axes, retention and goldens (*Retention of old output versions*: a host composition)
+### The base — §6.4 Permalinks, version axes, retention and goldens (*Retention of old output versions*: a host composition; the version archive) and §7.1's outcome table (`refuse.world.outputVersion`)
 
-**1352.** **A host composition that names a world-generation output version is served that version for life: fetched by its content hashes beyond the browser window, or refused fail-closed.**
-*Requests:* J400 (8); BCR-V13-58 (item 1341); V13 §2.7 (item 1312).
-*Current text:*
+**1352.** **The base gains the version archive; a host composition that names a world-generation output version is served that version for life — fetched from the archive by its content hashes beyond the browser window, or refused fail-closed —; the refusal joins §7.1's outcome table.**
+*Requests:* J400 (8); BCR-V13-58 (item 1341); V13 §2.7 (item 1312); the review's HA-05, HA-23.
+*Current text* (a):
 > o5, shown with o8; differences are expected") and the CLI command that replays it exactly. Nothing changes silently.
-*New text:*
-> o5, shown with o8; differences are expected") and the CLI command that replays it exactly. Nothing changes silently. **A host composition** (V13 §2.7; BCR-V13-58): a composition of the host's that names a world-generation output version — the host's share code of its world-first law carries one — is served that version for the life of the library: it fetches exactly that version's model packages beyond the browser window by their content hashes (from the library's package store, which keeps every version's chunks as the CLI keeps every version) and is refused fail-closed (`refuse.world.outputVersion`) when it cannot, never generated under another output version and never opened with the notice above; the bundle the host composed freezes the charters and planned sites it consumed. The window bounds what the browser carries eagerly, never what a host composition may fetch.
-*Evidence:* docs/PROGRESS.md J400 (8); the host's answer S4; research/sf/host-rulings-mirror.md §1 (the promise), §2 (the instant world); the base §6.4 *Retention of old output versions* as it stands (the window N, N−1, N−2; the CLI's exact-version install; "Nothing changes silently"); V13 §10's BCR-V13-58 (item 1341).
+*New text* (a):
+> o5, shown with o8; differences are expected") and the CLI command that replays it exactly. Nothing changes silently. **A host composition** (V13 §2.7; BCR-V13-58): a composition of the host's that names a world-generation output version — the host's share code of its world-first law carries one — is served that version for the life of the library: it fetches exactly that version's model packages beyond the browser window from **the version archive** — every published output version's model packages, immutable and addressed by content hash, kept at the library's distribution origin for the library's life (new with this paragraph; BCR-V13-58; it grows by one version's packages per release, measured at M3a beside the window's ≤ 150 KB) — by their content hashes and is refused fail-closed (`refuse.world.outputVersion`) when it cannot, never generated under another output version and never opened with the notice above; the bundle the host composed freezes the charters and planned sites it consumed. The window bounds what the browser carries eagerly, never what a host composition may fetch.
+*Current text* (b):
+> the import's — `refuse.world.*`, `refuse.place.*`,
+*New text* (b):
+> the import's — `refuse.world.*` (`refuse.world.outputVersion` among them: a host composition naming an output version the version archive cannot serve, §6.4; V13 §7.5; J400 (8)), `refuse.place.*`,
+*Evidence:* the review's HA-05 (the version archive defined as new, measured at M3a) and HA-23 (the key in §7.1's outcome table, the world's and the site's rows); docs/PROGRESS.md J400 (8); the host's answer S4; research/sf/host-rulings-mirror.md §1 (the promise), §2 (the instant world); the base §6.4 *Retention of old output versions* as it stands (the window N, N−1, N−2; the CLI's exact-version install; "Nothing changes silently"); V13 §10's BCR-V13-58 (item 1341).
 
 
 ### INDEX — §1 (the counts: the host's answer)
@@ -1144,13 +1219,17 @@ keep a mirror of the host rulings that bind the map.
 
 ### INDEX — §6 Owner questions with recommendations (the preamble: the host's answer)
 
-**1354.** **The preamble records that the two host decisions were decided in the host, and the mirror.**
-*Requests:* J400 (22); the owner-facing record.
-*Current text:*
+**1354.** **The preamble records that the two host decisions were decided in the host, and the mirror; the experience pass's sentence reads in the past.**
+*Requests:* J400 (22); the owner-facing record; the review's HA-14.
+*Current text* (a):
 > the laws of weeks and of view-only players; no question is added here.
-*New text:*
+*New text* (a):
 > the laws of weeks and of view-only players; no question is added here. SettlementForge's answer of the same day (J400: the owner's "Do it") accepted the fifteen asks, H31–H45 joining H1–H30 as accepted, not scheduled, work; the two decisions the experience pass named as the owner's in SettlementForge were decided there — the god at a campaign's birth is an offer the DM confirms, and patrols were already closed there (the owner's word of 18 October: the map's patrols are a picture of the map's own, read by nothing in SettlementForge) —; the session adopted the answer whole (amendments ab; the party's place in the revised file z), and every SettlementForge ruling that binds the map is mirrored in `research/sf/host-rulings-mirror.md`, read before any host prompt; no question is added here.
-*Evidence:* docs/PROGRESS.md J400 (4), (18), (22) and its THE MIRROR clause; research/sf/host-reply-2026-10-24.md; INDEX §6's preamble as file aa item 1302 leaves it.
+*Current text* (b):
+> two of those asks hold decisions that are the owner's in the host
+*New text* (b):
+> two of those asks held decisions that were the owner's in the host
+*Evidence:* the review's HA-14 (the tense); docs/PROGRESS.md J400 (4), (18), (22) and its THE MIRROR clause; research/sf/host-reply-2026-10-24.md; INDEX §6's preamble as file aa item 1302 leaves it.
 
 
 ### INDEX — §6 (the V13 Q2 row: H1–H48, accepted by the host)
@@ -1167,7 +1246,7 @@ keep a mirror of the host rulings that bind the map.
 ### SUMMARY — "Decisions that are yours" (the experience bullet corrected)
 
 **1356.** **The experience bullet reads the host's answer: realms named by your confirm, the god an offer you confirm, the looted map waiting on SettlementForge's information program, patrols closed there.**
-*Requests:* J400 (2), (4), (10), (18); the owner-facing record.
+*Requests:* J400 (2), (4), (10), (18), (22); the owner-facing record; the review's HA-06 (b).
 *Current text* (a):
 > a world born with your⏎  realistic rules applied and its realms named,
 *New text* (a):
@@ -1183,25 +1262,31 @@ keep a mirror of the host rulings that bind the map.
 > the two decisions they held for you there were already settled in SettlementForge: the god at a campaign's birth is an
 >   offer you confirm, and patrols were closed there on 18 October — the map's patrols are the map's own picture, and
 >   SettlementForge's own riders, when it lights them, show on the map as dated facts.
-*Evidence:* docs/PROGRESS.md J400 (2), (4), (10), (18); research/sf/host-reply-2026-10-24.md S1, S5, S14; SUMMARY as file aa leaves it (the experience bullet of file y; the campaigns bullet of file aa, whose party-pin sentence stands: it does not conflict with file z's revision).
+*Current text* (d):
+> The fifteen things SettlementForge must do⏎  for them are written as prompts you can paste into a SettlementForge session (`research/sf/host-prompts-2026-10-24.md`);
+*New text* (d):
+> The fifteen things SettlementForge must do
+>   for them went to it as prompts (`research/sf/host-prompts-2026-10-24.md`, now superseded): it answered each with its own ruling, nothing is pasted as written, and you dispatch each SettlementForge unit there in chat;
+*Evidence:* the review's HA-06 (b) (the prompts sentence); docs/PROGRESS.md J400 (2), (4), (10), (18); research/sf/host-reply-2026-10-24.md S1, S5, S14; SUMMARY as file aa leaves it (the experience bullet of file y; the campaigns bullet of file aa, whose party-pin sentence stands: it does not conflict with file z's revision).
 
 
 ### SUMMARY — "Decisions that are yours" (SettlementForge's answer: a new bullet)
 
-**1357.** **SUMMARY gains the answer's bullet: accepted, adopted, the reply and the mirror.**
-*Requests:* J400 (1)–(8), (10)–(22); the owner-facing record.
+**1357.** **SUMMARY's campaigns bullet says who keeps the party's place on a world SettlementForge runs; SUMMARY gains the answer's bullet: accepted, adopted, the reply and the mirror.**
+*Requests:* J400 (1)–(8), (9) (the campaigns bullet), (10)–(22); the owner-facing record; the review's HA-20.
 *Current text:*
 >   travel time; the party is a pin you place anywhere and move at will, never a route the map walks; and two laws stand⏎  written: the week is the world's clock, and players never write.
 *New text:*
->   travel time; the party is a pin you place anywhere and move at will, never a route the map walks; and two laws stand
->   written: the week is the world's clock, and players never write.
+>   travel time; the party is a pin you place anywhere and move at will — on a world SettlementForge runs, a pin at a
+>   town tells SettlementForge the party is there, and the map shows SettlementForge's answer —, never a route the map
+>   walks; and two laws stand written: the week is the world's clock, and players never write.
 > - **SettlementForge's answer** (24 October; your "Do it" to the session's recommendation to accept it whole):
 >   SettlementForge accepted all fifteen asks — its changes H31–H45 join H1–H30 as accepted work, none of it scheduled,
 >   each built inside the SettlementForge unit that owns it, in your own release order there. The session adopted its
 >   rulings: a new campaign is born with SettlementForge's own default rules by its own door, and the map adds none; a
 >   realm's name is yours — SettlementForge's history of the realm may offer one, and your confirm names it; the god is
 >   an offer you confirm; the map draws kingdoms from SettlementForge's own list of who serves whom; every version of
->   the world generator is kept for life, so a SettlementForge share code always gets back the world it named; the
+>   the world generator is kept for life, so a SettlementForge share code always gets back the world it named, or a refusal, never another world; the
 >   enemy court's own map waits on SettlementForge's information program; nothing in SettlementForge reads the map's
 >   borders or tolls until it decides to; the map's patrols are its own picture and SettlementForge's riders, when it
 >   lights them, show as dated facts; and the realm's history before week 0 shows on the map in years, pencilled until
@@ -1211,10 +1296,10 @@ keep a mirror of the host rulings that bind the map.
 *Evidence:* docs/PROGRESS.md J400 (the owner's "Do it"; rulings (1)–(22); THE MIRROR; THE REPLY); research/sf/host-reply-2026-10-24.md; SUMMARY as file aa item 1304 leaves it (the campaigns bullet the last).
 
 
-### The brief — §9 Order and timing (the host's track row: accepted, not scheduled; H48)
+### The brief — §9 Order and timing (the host's track row: accepted, not scheduled; H48), with §6 Part C's settled rulings (who keeps a gate; the canon at the first advance)
 
-**1358.** **The host's track row records the answer: H31–H45 accepted beside H1–H30, none scheduled; the prompts superseded; H48.**
-*Requests:* J400 (21), (22).
+**1358.** **The host's track row records the answer: H31–H45 accepted beside H1–H30, none scheduled; the prompts superseded; H48; the brief's canon is taken at the first advance and its gate kept by the intermediary with no soak.**
+*Requests:* J400 (7), (12), (21), (22); the review's HA-06 (a), HA-14.
 *Current text* (a):
 > each written as a prompt for a host session in research/sf/host-prompts-2026-10-24.md, with H24, H31 and H32 restated there;
 *New text* (a):
@@ -1223,6 +1308,21 @@ keep a mirror of the host rulings that bind the map.
 > sends the gap the DM declares) | Bar T (18) |
 *New text* (b):
 > sends the gap the DM declares); the host's answer's H48 (J400 (21): SettlementForge's history of the realm read-only through the past window, in years, pencilled until the first advance inks it) | Bar T (18) |
-*Evidence:* docs/PROGRESS.md J400 (21), (22); the brief §9 as file aa item 1305 leaves it; V13 §8.5 as items 1332 and 1338 leave it.
+*Current text* (c):
+> a native world canonized at birth for every new campaign
+*New text* (c):
+> a native world canonized at the first advance of every new campaign
+*Current text* (d):
+> a world from this module⏎canonized at the birth of every new campaign
+*New text* (d):
+> a world from this module
+> canonized at the first advance of every new campaign
+*Current text* (e):
+> who keeps a gate under the sway — the host's intermediary⏎settlement until the sway has passed its soak, the crossing holder then offered as a per-gate policy the host may adopt⏎(J385; V13 §11);
+*New text* (e):
+> who keeps a gate under the sway — the host's intermediary
+> settlement, the crossing holder offered to SettlementForge only and read by nothing there until its own ruling admits a reader
+> (J385; J400 (12); V13 §11);
+*Evidence:* docs/PROGRESS.md J400 (7), (12), (21), (22); the review's HA-06 (a) (the gate sentence) and HA-14 (the brief's two canon phrases); the brief §6 Part C and §9 as file aa item 1305 leaves them; V13 §8.5 as items 1332 and 1338 leave it.
 
-COMPLETE: items 1306–1358; fragments 130; dry-run: all quotes matched once in order (52 change items, 130 fragments, on fresh copies of V13, V15, V14, V09, the base, INDEX, SUMMARY and the brief after files z and aa); clean-room lint: no hit
+COMPLETE (revised under the review HA-03 – HA-25, PENDING FABLE REVIEW): items 1306–1358; fragments 147; dry-run: all quotes matched once in order (52 change items, 147 fragments, on fresh copies of V13, V15, V14, V09, the base, INDEX, SUMMARY and the brief after the revised files z and aa); clean-room lint: no hit
