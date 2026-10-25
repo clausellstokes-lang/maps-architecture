@@ -207,12 +207,7 @@ export interface TierReport {
   cpuMs: number;
   /** The tier's normalised figure (budget basis ÷ normalisation), or null. */
   normalised: number | null;
-  /**
-   * The figure's normalisation, a measured ratio (§12.1's runner score ÷ reference score): the whole run's mean calibrate
-   * score ÷ the reference score; in the batched mode the summed figure ÷ the sum of its batches, each normalised by its
-   * own two scores. It is ≈ 1 on the reference machine (within the 5 % drift): C-0027's "normalisation 1" is read as
-   * this ratio (N-3, C-0411). Null while there is no reference score (C-0075), and in a plain run.
-   */
+  /** The figure's normalisation (runner score ÷ reference score; 1 on the reference machine), or null (C-0075). */
   normalisation: number | null;
   budget: BudgetRecord;
   /**

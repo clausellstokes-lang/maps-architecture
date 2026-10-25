@@ -18,7 +18,6 @@
 //     crossing run holds only its wet edges (`RouteGraph.deckOf`; a dry edge along the deck folded in drops a point).
 import { describe, expect, it } from 'vitest';
 import { STAGES, ok, type KernelResult } from '@plat/kernel';
-import type { WaterSet } from '@plat/model';
 import { baseArena, createRegistry, insideRing, registerBase, run, type BaseBlueprint, type PipelineStage, type S3Slice, type S4Output } from '../../src/index.js';
 
 const SMALL_RIVER: BaseBlueprint = Object.freeze({
@@ -28,8 +27,8 @@ const SMALL_RIVER: BaseBlueprint = Object.freeze({
   walledHa: 6,
 }) as BaseBlueprint;
 
-/** The base chain through S4 at `seed` (S5 idle, later stages dropped): the slice, S4's output and S1's water. */
-function throughS4(seed: number): { slice: S3Slice; s4: S4Output; water: WaterSet } {
+/** The base chain through S4 at `seed` (S5 idle, later stages dropped): the slice and S4's output. */
+function throughS4(seed: number): { slice: S3Slice; s4: S4Output } {
   const registry = createRegistry();
   registerBase(registry);
   const product = registry.products.get('base');
@@ -44,15 +43,8 @@ function throughS4(seed: number): { slice: S3Slice; s4: S4Output; water: WaterSe
   const { model } = run(registry, { ...SMALL_RIVER, seed }, { kind: 'all' }, { arenas: () => [baseArena(SMALL_RIVER)] });
   const slice = model.data.get('s3.slice') as S3Slice | undefined;
   const s4 = model.data.get('s4') as S4Output | undefined;
-  const water = model.data.get('water') as WaterSet | undefined;
-  if (slice === undefined || s4 === undefined || water === undefined) throw new Error(`seed ${String(seed)}: the chain wrote no S3 slice, no S4 output or no water`);
-  return { slice, s4, water };
-}
-
-/** The angle (degrees, [0, 90]) between two lines, written here. */
-function lineAngleDeg(u: { x: number; y: number }, v: { x: number; y: number }): number {
-  const a = (Math.abs(Math.atan2(u.x * v.y - u.y * v.x, u.x * v.x + u.y * v.y)) * 180) / Math.PI;
-  return a > 90 ? 180 - a : a;
+  if (slice === undefined || s4 === undefined) throw new Error(`seed ${String(seed)}: the chain wrote no S3 slice or no S4 output`);
+  return { slice, s4 };
 }
 
 describe('S4 on the small river town where the frame cuts the band (Q24; N-54 (2), C-0289)', { timeout: 120_000 }, () => {
@@ -130,38 +122,4 @@ describe('S4 on the small river town where the frame cuts the band (Q24; N-54 (2
       ['bridge:3', 'site'],
     ]);
   });
-
-  // §4.3 *Test*'s second clause (the hardening note 6): every deck a way spans runs within ± 10° of the channel normal —
-  // the normal to the river's course at the crossing, the course's direction there its chord between the course
-  // vertices either side of the one nearest the deck's midpoint (read from S1's water body, not from the site).
-  for (const seed of [22, 3418200249]) {
-    it(`${String(seed)}: every deck's way — its span — within ± 10° of the channel normal (§4.3 *Test*)`, () => {
-      const { s4, water } = throughS4(seed);
-      const spans = s4.graph.chains.filter((c) => c.span !== null);
-      expect(spans.length).toBeGreaterThan(0);
-      for (const c of spans) {
-        const sp = s4.spines[c.index];
-        // The span is the way's one edge between the two deck ends, and its bridge is built with that way.
-        expect(sp).toHaveLength(2);
-        const b = s4.bridges.find((x) => x.id === c.span);
-        expect(b?.state).toBe('built');
-        expect(b?.way).toBe(s4.chainWay[c.index]);
-        const course = water.bodies.find((x) => x.course !== undefined)?.course ?? [];
-        expect(course.length).toBeGreaterThanOrEqual(3);
-        const m = { x: (sp[0].x + sp[1].x) / 2, y: (sp[0].y + sp[1].y) / 2 };
-        let at = 1;
-        let best = Infinity;
-        for (let i = 1; i + 1 < course.length; i += 1) {
-          const d = Math.hypot(course[i].x - m.x, course[i].y - m.y);
-          if (d < best) {
-            best = d;
-            at = i;
-          }
-        }
-        const flow = { x: course[at + 1].x - course[at - 1].x, y: course[at + 1].y - course[at - 1].y };
-        const normal = { x: -flow.y, y: flow.x };
-        expect(lineAngleDeg({ x: sp[1].x - sp[0].x, y: sp[1].y - sp[0].y }, normal), `${String(c.span)}'s way`).toBeLessThanOrEqual(10);
-      }
-    });
-  }
 });

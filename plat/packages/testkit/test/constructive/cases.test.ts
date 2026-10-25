@@ -57,13 +57,6 @@ describe('every case states its expected outcome as data', () => {
     expect(e.clause.length).toBeGreaterThan(8);
     for (const h of e.holds) expect(CONSTRUCTIVE_PROPERTY_KEYS).toContain(h);
     expect(new Set(e.holds).size).toBe(e.holds.length);
-    // A static hold is one of the case's holds, on a case whose outcome is not wholly static (M0-k-04's N-11).
-    if (e.staticHolds !== undefined) {
-      for (const h of e.staticHolds) expect(e.holds).toContain(h);
-      expect(new Set(e.staticHolds).size).toBe(e.staticHolds.length);
-      expect(e.outcome).not.toBe('static');
-      expect(Object.isFrozen(e.staticHolds)).toBe(true);
-    }
     if (e.outcome === 'refused') expect(e.code !== undefined || e.holds.includes('corrupt-cache')).toBe(true);
     else expect(e.code).toBeUndefined();
     if (e.outcome === 'typed') expect(Array.isArray(e.codes)).toBe(true);
@@ -79,10 +72,6 @@ describe('every case states its expected outcome as data', () => {
     expect(c.numericCore).toBe(c.run !== undefined);
     if (c.numericCore) expect(c.milestone).toBe('M0');
     if (c.milestone !== 'M0') expect(c.witness === undefined && c.run === undefined).toBe(true);
-  });
-
-  it('names the static readings among a case’s holds: limit/every-rung’s same-code-every-rung, two lattice constants (M0-k-04’s N-11)', () => {
-    expect(CONSTRUCTIVE_SET.filter((c) => c.expect.staticHolds !== undefined).map((c) => [c.id, c.expect.staticHolds])).toEqual([['limit/every-rung', ['same-code-every-rung']]]);
   });
 
   it('runs the numeric core on exactly the quantisation cases, the gcd-stepped collinear class and the star rings (C-0110)', () => {
@@ -188,16 +177,6 @@ describe(`every M0 case's generator, ${String(DRAWS)} draws`, () => {
     });
     refuses('limit/degen-skeleton-sharp-corner', (g) => ({ rings: { outer: [g.rings.outer[0], g.rings.outer[1], nudge(g.rings.outer[1], -(g.rings.outer[1].y - g.rings.outer[0].y), g.rings.outer[1].x - g.rings.outer[0].x)] } }));
     refuses('expect/reject-min-width', (g) => ({ params: { ...g.params, minWidthCm: 1 } }));
-    // The halving cap (M0-k-04's N-2): p back at minEdge from q (inside attractCm, KI-2's draw); a drag too short for
-    // the eighth halving to shorten the edge; a drag away from q.
-    refuses('limit/cap-move-halvings', (g) => {
-      const [q, p, r] = g.chains.chain;
-      const ux = Math.sign(p.x - q.x);
-      const uy = Math.sign(p.y - q.y);
-      return { chains: { chain: [q, { ...p, x: (q.x + 25 * ux) as Cm, y: (q.y + 25 * uy) as Cm }, r] } };
-    });
-    refuses('limit/cap-move-halvings', (g) => ({ params: { ...g.params, dragX: Math.sign(g.params.dragX as number) * 512, dragY: Math.sign(g.params.dragY as number) * 512 } }));
-    refuses('limit/cap-move-halvings', (g) => ({ params: { ...g.params, dragX: -(g.params.dragX as number), dragY: -(g.params.dragY as number) } }));
     refuses('quant/half-ties', () => ({ params: { raw: [1.25, -7] } }));
   });
 

@@ -1,41 +1,41 @@
 {
   "schema": "plat-landed-record/1",
   "item": "M0-b-02",
-  "lane": "build/M0-b-02-fix-s2",
-  "lanes": ["build/M0-b-02", "build/M0-b-02-fix1", "build/M0-b-02-consolidate-1", "build/M0-b-02-fix-s1", "build/M0-b-02-fix-s2"],
+  "lane": "build/M0-b-02-consolidate-1",
+  "lanes": ["build/M0-b-02", "build/M0-b-02-fix1", "build/M0-b-02-consolidate-1"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-20T21:19:09.868Z",
+  "date": "2026-10-14T03:19:59.250Z",
   "ownsSource": "docs/build/M0-work.json",
   "owns": ["plat/packages/layout/src/infill/planner.ts", "plat/packages/layout/src/infill/sides.ts", "plat/packages/layout/test/infill/planner/"],
   "counts": { "created": 14, "changed": 0, "unchanged": 0, "deleted": 0 },
   "files": [
-    { "path": "plat/packages/layout/src/infill/planner.ts", "status": "created", "sha256": "6e8ba8175d9c839e3c8d8051ac2c4b94b925d53fb1ae132f10bb69d397dec432", "size": 53608 },
+    { "path": "plat/packages/layout/src/infill/planner.ts", "status": "created", "sha256": "375e08d8b88f0af0a56c3824f84086a34324f4664ec8058d175d59839b0b928d", "size": 52081 },
     { "path": "plat/packages/layout/src/infill/sides.ts", "status": "created", "sha256": "5f3d133958ab6cd4063167711bf5d1ab384a4203531c4f5c241a4ad041981a89", "size": 13089 },
     { "path": "plat/packages/layout/test/infill/planner/corner.test.ts", "status": "created", "sha256": "3060964f86e9dbc09900f2da3b5ea349742d699421b5f2ee90eb5aabb0ef66e3", "size": 12882 },
-    { "path": "plat/packages/layout/test/infill/planner/determinism.test.ts", "status": "created", "sha256": "e58543ba64cd0dac18cf0d457588013c03ddbffb26c462efa9c0dfefccf45813", "size": 5392 },
-    { "path": "plat/packages/layout/test/infill/planner/ends.test.ts", "status": "created", "sha256": "4565393587e9830bd50f338a643f457e1ec8884443f4f7f01c2fdf3581b4bdf7", "size": 20889 },
+    { "path": "plat/packages/layout/test/infill/planner/determinism.test.ts", "status": "created", "sha256": "57aee716d0051a0890aa796bfb16598b87cb45ae2e7b762f20a02a84dec47e34", "size": 4197 },
+    { "path": "plat/packages/layout/test/infill/planner/ends.test.ts", "status": "created", "sha256": "611f37e378f2b93790de34bd71b2e3c232447016051ee0cab7c591e6af4d6f70", "size": 14998 },
     { "path": "plat/packages/layout/test/infill/planner/faces.ts", "status": "created", "sha256": "b56411bacd34169fa1897f25ab26818e265994d713432725230b6d8b594e3a8a", "size": 8623 },
     { "path": "plat/packages/layout/test/infill/planner/faceset.test.ts", "status": "created", "sha256": "53e2c62192ea7b69012e8261cf136a106ecfec10b9e75d3e807827728a1a7f25", "size": 2314 },
-    { "path": "plat/packages/layout/test/infill/planner/fillet.test.ts", "status": "created", "sha256": "303fb69334ce42f7498ab201799c38a034ccc402e21ca25a507a9b1f72572f29", "size": 8317 },
+    { "path": "plat/packages/layout/test/infill/planner/fillet.test.ts", "status": "created", "sha256": "e487e8c6a41be7baf3f4a72b69a7495c84bbdeb940cebc9f8d087bc24886348b", "size": 7320 },
     { "path": "plat/packages/layout/test/infill/planner/frame.test.ts", "status": "created", "sha256": "b21bbb9eae61b6ddb05505bf845ebbf45cf636f97001e65487645ee05000db34", "size": 6969 },
-    { "path": "plat/packages/layout/test/infill/planner/holed.test.ts", "status": "created", "sha256": "05f034f8da7cb1749e42047a3d531761b749008e75e434ce38ef6ae2282558fd", "size": 10835 },
-    { "path": "plat/packages/layout/test/infill/planner/sides.test.ts", "status": "created", "sha256": "330f548534ed6ef830ff4c56e892afb44bc4f76ae4d0e9591b23b25fd2ded170", "size": 8510 },
-    { "path": "plat/packages/layout/test/infill/planner/start.test.ts", "status": "created", "sha256": "175d745b86b03c087b4192a81373dea374820b6c839596567ebb25da64ed5d3c", "size": 8814 },
-    { "path": "plat/packages/layout/test/infill/planner/support.ts", "status": "created", "sha256": "880c7a3f110cb2270d6fead06a1901d4cabc64decb1b3d744673d56b6a26a3bd", "size": 4977 },
-    { "path": "plat/packages/layout/test/infill/planner/tau.test.ts", "status": "created", "sha256": "071a096472c3a91f6e96cbb714bfb7dcbad843bd126fad82a8ad681170337f44", "size": 12942 }
+    { "path": "plat/packages/layout/test/infill/planner/holed.test.ts", "status": "created", "sha256": "989328f0b973ad09f74d36729177808bea447e7528bdd0d292b85ef3fa8db4d5", "size": 4117 },
+    { "path": "plat/packages/layout/test/infill/planner/sides.test.ts", "status": "created", "sha256": "10745a038e7f11243e6d8241d07d02c36fc750fb5e2c656f8da038820881e671", "size": 6791 },
+    { "path": "plat/packages/layout/test/infill/planner/start.test.ts", "status": "created", "sha256": "79645a2014c608e8f103bcbba7ac340333ac2b6dd4f65c2c8dd03a20d55f07ab", "size": 8220 },
+    { "path": "plat/packages/layout/test/infill/planner/support.ts", "status": "created", "sha256": "1c70f8b505e9cc766e6f85de036cfef6420bbe0b29e3f6ff4097e4760a5a8398", "size": 4826 },
+    { "path": "plat/packages/layout/test/infill/planner/tau.test.ts", "status": "created", "sha256": "d43e4cf38b5dea02a804420fb6e38e008f3163bae3bdd7947d2f3899afeee996", "size": 11075 }
   ],
   "appends": [
     {
       "file": "plat/CLEAN-ROOM.md",
-      "ids": ["L-0206", "L-0208", "L-0533", "L-0619", "L-0621"],
-      "lines": ["561fb69b8a99dfca", "76bc389b35eee276", "5e8f23e5d9cb2913", "ece3bc60e7f782a9", "acd46e16e858b104"],
+      "ids": ["L-0206", "L-0208", "L-0533"],
+      "lines": ["561fb69b8a99dfca", "76bc389b35eee276", "5e8f23e5d9cb2913"],
       "removed": []
     },
     {
       "file": "plat/docs/build/choices.md",
-      "ids": ["C-0222", "C-0363", "C-0406", "C-0407"],
-      "lines": ["c453468ecd67fc83", "cce65b408d4eb1d8", "585a5fd26b83af72", "60c7f72fa455244e"],
+      "ids": ["C-0222", "C-0363"],
+      "lines": ["c453468ecd67fc83", "cce65b408d4eb1d8"],
       "removed": []
     }
   ]

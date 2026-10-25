@@ -149,7 +149,7 @@ interface Planned {
   derived: DerivedStatus;
   size: number | null;
   units: Unit[];
-  /** Set when the built job fails before any unit runs (an empty suite, a refused unit, a harness that fails to load, units() throwing). */
+  /** Set when the built job fails before any unit runs (an empty suite, a refused unit, a harness that fails to load). */
   failBefore: string | null;
 }
 
@@ -200,15 +200,7 @@ export async function runTier(manifest: TierManifest, opts: RunTierOptions): Pro
     }
     let units: Unit[] = [];
     if (failBefore === null) {
-      // a job whose units() throws (an unreadable tsconfig.json, a failed import, a declared entry unstaged unfilled)
-      // FAILS naming the error, as a harness that fails to load does; the other jobs still run (N-2, C-0411)
-      try {
-        units = await job.units(size);
-      } catch (e) {
-        failBefore = `the job's units failed: ${e instanceof Error ? e.message : String(e)}`;
-      }
-    }
-    if (failBefore === null) {
+      units = await job.units(size);
       if (units.length === 0) failBefore = 'empty suite: the job declares no unit (§13.8 Edges)';
       const nested = units.find(nestedTierCall);
       if (nested !== undefined) failBefore = `refused: unit ${nested.name} would run a tier or the timing phase inside a tier (C-0088, C-0105)`;

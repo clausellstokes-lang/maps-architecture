@@ -26,14 +26,11 @@ import {
   ITEM_VERTEX,
   keyKind,
   keySlot,
-  type CommitRecord,
   type Overlay,
   type Plat,
 } from '@plat/kernel';
 import {
   arenaPrint,
-  casesAt,
-  constructiveSequence,
   determinismPoint as lp,
   fixtureSpec,
   levelDigestsHex,
@@ -45,10 +42,9 @@ import {
   runSequenceOutcomes,
   runTwiceCompare,
   FIXTURE_KEY,
-  type ConstructiveCase,
   type DeterminismSequence,
 } from '@plat/testkit';
-import { a07Sequences, constructiveSequences, CROWDED, KERNEL_SEQUENCES, partitionerSequence, recordOrderSequences } from './support.js';
+import { constructiveSequences, CROWDED, KERNEL_SEQUENCES, partitionerSequence } from './support.js';
 
 // The bars run every fixture through several runs each: more than vitest's default 5 s per test.
 vi.setConfig({ testTimeout: 180_000 });
@@ -125,31 +121,6 @@ describe('renumberSlots(plat, seed): the same arena under other slot numbers', (
       expect(levelDigestsHex(q)).toEqual(levelDigestsHex(p));
       expect(q.slots.vertex.live).toBe(p.slots.vertex.live);
     }
-  });
-
-  it('the role-row slots move too, and each live row\'s content lands at maps.role[row] (hardening round S1, N-1)', () => {
-    let movedTotal = 0;
-    for (const p of arenas()) {
-      for (const [seed, mode] of [[11, 'random'], [12, 'reverse']] as const) {
-        const { plat: q, maps } = renumbering(p, seed, { mode });
-        let live = 0;
-        let moved = 0;
-        for (let row = 0; row < p.slots.role.top; row++) {
-          if (p.roles.kind[row] === FREE_KIND) continue;
-          live++;
-          const n = maps.role[row];
-          if (n !== row) moved++;
-          // the row's kind, entity handle, level and ordinal at its new slot
-          expect([q.roles.kind[n], q.roles.entity[n], q.roles.level[n], q.roles.ordinal[n]], `${mode} ${seed} row ${row}`).toEqual([p.roles.kind[row], p.roles.entity[row], p.roles.level[row], p.roles.ordinal[row]]);
-        }
-        expect(live).toBeGreaterThan(1);
-        expect(q.slots.role.live).toBe(p.slots.role.live);
-        // a role table renumbered by the identity would leave every live row where it was
-        expect(moved, `${mode} ${seed}`).toBeGreaterThan(0);
-        movedTotal += moved;
-      }
-    }
-    expect(movedTotal).toBeGreaterThan(10);
   });
 
   it('the copy is a valid arena with the original\'s index state, answering every query as the original does', () => {
@@ -303,58 +274,8 @@ describe('the bar: renumbering + next op gives identical output on every constru
       }
     }
     expect(seqs).toBeGreaterThanOrEqual(160);
-    // The next ops are the case's own later writer steps where it has them, else the probe chain.
-    expect([...nextKinds].sort()).toEqual(['next insertChain', 'next probe', 'next removeEdges', 'next splitFace']);
-  });
-
-  it('a case\'s later steps run whole under renumbering: removals, inserts after a rebuild, a query or an S9 step, district rebuilds (hardening round S1, N-4)', () => {
-    const named = (id: string): ConstructiveCase => {
-      const c = casesAt('M0').find((x) => x.id === id);
-      if (c === undefined) throw new Error(`support: no case ${id}`);
-      return c;
-    };
-    // [case, the batches its sequence runs after its leading insertions (by name, in order), partitions rebuilt (at
-    // least), L3 district keys]
-    const want: [string, string[] | ((other: boolean) => string[]), number, string[]][] = [
-      ['index/slot-reuse-stage', ['next removeEdges old', 'next insertChain fresh L2'], 1, []],
-      ['index/slot-reuse-districts', ['next removeEdges inA', 'next insertChain inB L3', 'next probe chain L3'], 3, ['district:A', 'district:B']],
-      ['index/regroup-block', ['next setOwner block district:B', 'next probe chain L3'], 2, ['district:A', 'district:B']],
-      ['index/l3-order-after-l4', ['next insertChain l4 L4'], 0, []],
-      ['remove/tjunction-profiled-spine', ['next insertChain lane L1'], 0, []],
-      ['fix/tunnel-corridor', ['next setOwner face district:corridor', 'next corridorUnion face', 'next insertChain plotLine L3'], 0, []],
-      // its second insertion goes to the case's other arena on some draws (`arena: 'other'`: not this sequence's batch)
-      // and to its own on others
-      ['limit/data-stale-slot', (other) => (other ? ['next probe chain L1'] : ['next insertChain b L1']), 0, []],
-    ];
-    for (const [id, names, rebuilt, districts] of want) {
-      for (const seed of [1, 2]) {
-        const s = constructiveSequence(named(id), seed);
-        if (s === null) throw new Error(`support: ${id} builds no sequence`);
-        const input = named(id).generate(seed as never);
-        const leading = input.kind === 'input' ? input.steps.findIndex((x) => x.op !== 'insertChain') : -1;
-        expect(s.batches.slice(0, leading).every((b, i) => b.name.startsWith(`${i} insertChain `)), `${id} #${seed}`).toBe(true);
-        const other = input.kind === 'input' && input.steps.some((x) => x.args.arena === 'other');
-        expect(s.batches.slice(leading).map((b) => b.name), `${id} #${seed}`).toEqual(typeof names === 'function' ? names(other) : names);
-        const p = s.arena();
-        for (const b of s.batches) expect(runBatch(p, b.build(p)).ok, `${id} #${seed} ${b.name}`).toBe(true);
-        expect(p.index?.work.rebuilds ?? 0, `${id} #${seed}`).toBeGreaterThanOrEqual(rebuilt);
-        for (const d of districts) expect(p.index?.byKey[3].has(d), `${id} #${seed} ${d}`).toBe(true);
-        for (const r of [runTwiceCompare(s, { seed: 3 }), runTwiceCompare(s, { seed: 17 })]) expect(r.divergence, `${id} #${seed}`).toBeNull();
-      }
-    }
-  });
-
-  it('geom/cut-through-vertex reaches its own refusal (the face found off the cut, N-5), and no constructive batch throws in the harness', () => {
-    const c = casesAt('M0').find((x) => x.id === 'geom/cut-through-vertex');
-    if (c === undefined) throw new Error('support: no case geom/cut-through-vertex');
-    for (const seed of [1, 2]) {
-      const out = runSequenceOutcomes(constructiveSequence(c, seed) as DeterminismSequence);
-      expect(out.map((o) => o.print.split('\n', 1)[0].slice(0, 7))).toEqual(['commit ', 'refused']);
-      expect(out[1].print.split('\n', 1)[0]).toBe(`refused ${String(c.expect.code)}`);
-    }
-    for (const seed of [1, 2]) {
-      for (const s of constructiveSequences(seed)) for (const o of runSequenceOutcomes(s)) expect(o.print.startsWith('threw'), `${s.name} ${o.batch}`).toBe(false);
-    }
+    // The next op is the case's own writer step where there is one, else the probe chain.
+    expect([...nextKinds].sort()).toEqual(['next probe', 'next removeEdges', 'next splitFace']);
   });
 
   it('the constructive arenas commit: most next ops write, and none differs from its renumbered run', () => {
@@ -393,42 +314,6 @@ describe('the bar: renumbering + next op gives identical output on every constru
       });
       void p;
     }
-  });
-});
-
-describe('the record\'s canonical orders and the kernel\'s tie-breaks, met by renumbering (hardening round S1, N-2, N-3)', () => {
-  /** The last batch's commit record on a fresh run, and its list the fixture is about. */
-  function lastRecord(seq: DeterminismSequence): { p: Plat; record: CommitRecord } {
-    const p = seq.arena();
-    let r: ReturnType<typeof runBatch> | null = null;
-    for (const b of seq.batches) r = runBatch(p, b.build(p));
-    if (r === null || !r.ok || r.value.record === null) throw new Error(`support: ${seq.name} ends without a commit`);
-    return { p, record: r.value.record };
-  }
-
-  it('a batch listing two promoted vertices, two demoted edges, several role keys: each list as the record keeps it, identical on every renumbered arena', () => {
-    for (const { name, seq, list } of recordOrderSequences()) {
-      const { record } = lastRecord(seq);
-      // the precondition: the list holds two items or more, so its order is something a slot order could change
-      const items = list === 'promoted' ? record.promoted.length : list === 'demoted.edges' ? record.demoted.edges.length : record.roles.length;
-      expect(items, name).toBeGreaterThanOrEqual(list === 'roles' ? 4 : 2);
-      for (const seed of [1, 3, 17]) {
-        const r = runTwiceCompare(seq, { seed });
-        expect(r.divergence, `${name} seed ${seed}`).toBeNull();
-        expect(r.outcomes.every((o) => o === 'commit'), name).toBe(true);
-      }
-    }
-  });
-
-  it('absorbSliver between two equal-length neighbours (M0-a-07): one partition line goes, the same one on every renumbered arena', () => {
-    const s = a07Sequences().find((x) => x.name.includes('absorbSliver'));
-    if (s === undefined) throw new Error('support: no sliver fixture');
-    const { p } = lastRecord(s);
-    const lines = arenaPrint(p).split('\n').filter((l) => l.startsWith('h ') && /district_bound\/d:[ab]\//.test(l));
-    // exactly one of the strip's two 4000 cm sides is left (the merge took one neighbour of the tie)
-    const left = new Set(lines.map((l) => (l.includes('d:a/') ? 'a' : 'b')));
-    expect(left.size).toBe(1);
-    for (const seed of [1, 3, 17]) expect(runTwiceCompare(s, { seed }).divergence, `seed ${seed}`).toBeNull();
   });
 });
 

@@ -8,8 +8,7 @@
 //   (ties: the lower, then leftmost point); two pinned junctions, or a gate and any junction, are kept apart and
 //   reported (a gate carries exactly its road out and its street in, §4.3 *Routes*);
 // * the routes are rewritten through the merge (a merged point becomes its keeper, a repeated point closes a loop that
-//   is cut out) and the graph rebuilt from them, so every chain is a run of whole route edges; a parallel fold's splice
-//   is cut the same way (c-03 S3), so every route part stays a simple path.
+//   is cut out) and the graph rebuilt from them, so every chain is a run of whole route edges.
 import type { LatticePoint } from '@plat/kernel';
 import { distToSegment, segmentsMeet } from '../siting/geom.js';
 import type { ArterialGraph, Chain, GraphEdge, GraphNode, JunctionKeptApart, JunctionMerge, RoutePoint, S4Route } from './types.js';
@@ -145,36 +144,6 @@ function mergePlan(nodes: readonly GraphNode[], mergeCm: number): { rep: Int32Ar
   return { rep, merges, keptApart };
 }
 
-/** Consecutive repeats, then loops: a point met again cuts out everything between its two visits (its first kept). */
-function cutLoops(points: readonly RoutePoint[]): RoutePoint[] {
-  const out: RoutePoint[] = [];
-  const seen = new Map<string, number>();
-  for (const p of points) {
-    const k = pointKey(p.at);
-    const at = seen.get(k);
-    if (at !== undefined) {
-      for (let q = at + 1; q < out.length; q += 1) seen.delete(pointKey(out[q].at));
-      out.length = at + 1;
-      continue;
-    }
-    seen.set(k, out.length);
-    out.push(p);
-  }
-  return out;
-}
-
-/** Does a course visit a point twice but in place (a loop, not a repeated point)? */
-function revisits(points: readonly RoutePoint[]): boolean {
-  const at = new Map<string, number>();
-  for (let i = 0; i < points.length; i += 1) {
-    const k = pointKey(points[i].at);
-    const was = at.get(k);
-    if (was !== undefined && was !== i - 1) return true;
-    at.set(k, i);
-  }
-  return false;
-}
-
 /** A route rewritten through the merge: points mapped to their keepers, repeats removed, loops cut out, spans re-found. */
 function rewrite(r: S4Route, nodes: readonly GraphNode[], byKey: ReadonlyMap<string, number>, rep: Int32Array): S4Route {
   const mapped: RoutePoint[] = r.points.map((p) => {
@@ -188,7 +157,20 @@ function rewrite(r: S4Route, nodes: readonly GraphNode[], byKey: ReadonlyMap<str
       ...(p.held === true || n.held ? { held: true } : {}),
     };
   });
-  const out = cutLoops(mapped);
+  // Consecutive repeats, then loops: a point met again cuts out everything between its two visits.
+  const out: RoutePoint[] = [];
+  const seen = new Map<string, number>();
+  for (const p of mapped) {
+    const k = pointKey(p.at);
+    const at = seen.get(k);
+    if (at !== undefined) {
+      for (let q = at + 1; q < out.length; q += 1) seen.delete(pointKey(out[q].at));
+      out.length = at + 1;
+      continue;
+    }
+    seen.set(k, out.length);
+    out.push(p);
+  }
   const spans: { at: number; bridge: string }[] = [];
   for (const s of r.spans) {
     const a = pointKey(r.points[s.at].at);
@@ -352,11 +334,7 @@ export function foldParallel(routes: readonly S4Route[], sepCm: (r: S4Route) => 
           const after = pts[k + 1].at;
           const ok = along.length > 0 && !avoid.some((s) => meets(before, along[0].at, s) || meets(along[along.length - 1].at, after, s));
           if (ok) {
-            // The splice can revisit a point (the earlier part doubling back toward this one's kept stretch): the
-            // loop is cut as the merge's rewrite cuts it, so the part stays a simple path (a splice that only repeats
-            // a point in place — its join on the earlier part's vertex — is kept as it is: no loop, no edge).
-            const spliced: RoutePoint[] = [...pts.slice(0, j), ...along.map((x) => ({ at: x.at, ...(x.pin === undefined ? {} : { pin: x.pin }), ...(x.pinId === undefined ? {} : { pinId: x.pinId }), ...(x.pinOrdinal === undefined ? {} : { pinOrdinal: x.pinOrdinal }) })), ...pts.slice(k + 1)];
-            const rewritten = revisits(spliced) ? cutLoops(spliced) : spliced;
+            const rewritten: RoutePoint[] = [...pts.slice(0, j), ...along.map((x) => ({ at: x.at, ...(x.pin === undefined ? {} : { pin: x.pin }), ...(x.pinId === undefined ? {} : { pinId: x.pinId }), ...(x.pinOrdinal === undefined ? {} : { pinOrdinal: x.pinOrdinal }) })), ...pts.slice(k + 1)];
             const spans: { at: number; bridge: string }[] = [];
             for (let m = 0; m + 1 < rewritten.length; m += 1) {
               const a = rewritten[m];

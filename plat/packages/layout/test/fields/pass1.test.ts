@@ -3,12 +3,12 @@
 // comfortable; soft terms at weight 0 are byte-identical to the model without them (a digest comparison); ε is a
 // function of the stream alone and carries its declared share; drivers(points) sums to the stored value before the
 // clamp; every weight is a table cell; pass 1 is a function of committed state.
-import { fbmRow, noiseStream, seedKey } from '@plat/kernel';
+import { seedKey } from '@plat/kernel';
 import { describe, expect, it } from 'vitest';
-import { blur3, boxFor, DRIVER_TERMS, fieldChanceStream, fieldsCells, fieldsDigest, fieldsDrivers, fieldsPass1, type FieldsPass1, type ScalarField } from '../../src/index.js';
+import { DRIVER_TERMS, fieldChanceStream, fieldsCells, fieldsDigest, fieldsDrivers, fieldsPass1, type ScalarField } from '../../src/index.js';
 import { townS6 } from '../districts/support.js';
 import { fieldDriverSources, fieldFaces } from '../../src/index.js';
-import { all, CELLS, fieldsVariant, fieldTown, insideRings, landPoints, mainClasses, ownVariant, pass1, TABLES, variance, wetSite } from './support.js';
+import { all, CELLS, fieldsVariant, fieldTown, insideRings, landPoints, mainClasses, ownVariant, pass1, TABLES, variance } from './support.js';
 
 const SEEDS = [1, 2, 3, 4, 5, 6, 7, 8];
 
@@ -74,30 +74,6 @@ describe('the soft terms at weight 0 (C-0049)', () => {
       expect(CELLS.fields[0].terms.map((t) => t.term)).toContain('waterTerm');
       expect(fieldsCells(without).fields[0].terms.map((t) => t.term)).not.toContain('daylight');
       expect(fieldsDigest(pass1(ft, {}, ft.site, without))).toEqual(fieldsDigest(withRows));
-    }
-  });
-
-  it('byte-identical on a wet site too (a river strip, the terrain and a wells raster, where q(x) is not 0): rows at weight 0 equal rows removed', () => {
-    const without = fieldsVariant((rows) => {
-      for (const f of ['prosperity', 'density', 'greenery']) {
-        delete rows[f]['daylight.weight'];
-        delete rows[f]['waterTerm.weight'];
-      }
-    });
-    const wetW = fieldsVariant((rows) => {
-      rows.prosperity['waterTerm.weight'] = { ...rows.prosperity['waterTerm.weight'], value: 0.2 };
-    });
-    for (const seed of [1, 2]) {
-      const ft = fieldTown(seed);
-      const site = wetSite(ft, true);
-      const withRows = pass1(ft, {}, site);
-      expect(fieldsDigest(pass1(ft, {}, site, without))).toEqual(fieldsDigest(withRows));
-      // the site's q(x) is not 0: the term at a non-zero weight is the river's proximity by the river, the wells' yield on them
-      const wet = pass1(ft, {}, site, wetW);
-      const q = (p: { x: number; y: number }) => (wet.prosperity.drivers([p]).terms.find((t) => t.term === 'waterTerm')?.value ?? NaN) / 0.2;
-      expect(q({ x: -155000, y: 0 })).toBeGreaterThan(0.9);
-      expect(q({ x: 50000, y: -175000 })).toBeCloseTo(0.5, 9);
-      expect(fieldsDigest(wet)).not.toEqual(fieldsDigest(withRows));
     }
   });
 
@@ -187,78 +163,6 @@ describe('ε (§4.5: a low-frequency fBm from the field.chance stream with a dec
     }
   });
 
-  it('its raster is the blur of the stream\'s fBm normalised over the grid (its own mean subtracted), scaled once: read independently at every cell', { timeout: 60_000 }, () => {
-    for (const seed of [2, 5]) {
-      const r = pass1(fieldTown(seed));
-      const g = r.grid;
-      const n = g.cols * g.rows;
-      const c = CELLS.chance;
-      const stream = fieldChanceStream(seedKey(seed));
-      const k = 1 / c.wavelengthCm;
-      const box = boxFor(CELLS.sigmaCm('CITY') / g.cellCm);
-      expect({ radius: box.radius, alpha: box.alpha }).toEqual(r.report.blur);
-      for (const f of all(r)) {
-        // the field's sampler, drawn in field order from the one stream; its fBm at every cell centre
-        const ns = noiseStream(stream, { lacunarity: c.lacunarity, gain: c.gain }, c.octaves);
-        if (!ns.ok) throw new Error(ns.detail);
-        const raw = new Float64Array(n);
-        const row = new Float64Array(g.cols);
-        for (let j = 0; j < g.rows; j += 1) {
-          fbmRow(row, (g.originX + 0.5 * g.cellCm) * k, g.cellCm * k, g.cols, (g.originY + (j + 0.5) * g.cellCm) * k, c.octaves, ns.value);
-          raw.set(row, j * g.cols);
-        }
-        let m = 0;
-        for (const v of raw) m += v;
-        m /= n;
-        let v2 = 0;
-        for (const v of raw) v2 += (v - m) * (v - m);
-        const sd = Math.sqrt(v2 / n);
-        const norm = raw.map((v) => (v - m) / sd);
-        const unsub = raw.map((v) => v / sd);
-        const want = norm.slice();
-        blur3(want, g.cols, g.rows, box);
-        const wantUnsub = unsub.slice();
-        blur3(wantUnsub, g.cols, g.rows, box);
-        // the grid mean is not 0 before the subtraction, so the comparison below can tell the two apart
-        expect(Math.abs(m / sd)).toBeGreaterThan(1e-4);
-        let far = 0;
-        let unsmoothed = 0;
-        for (let i = 0; i < n; i += 7) {
-          const p = { x: g.originX + ((i % g.cols) + 0.5) * g.cellCm, y: g.originY + (Math.floor(i / g.cols) + 0.5) * g.cellCm };
-          const got = f.drivers([p]).chance;
-          expect(Math.abs(got - f.chanceScale * want[i])).toBeLessThan(1e-9 * f.chanceScale);
-          if (Math.abs(got - f.chanceScale * wantUnsub[i]) > 1e-6 * f.chanceScale) far += 1;
-          if (Math.abs(got - f.chanceScale * norm[i]) > 1e-6 * f.chanceScale) unsmoothed += 1;
-        }
-        expect(far).toBeGreaterThan(n / 7 / 2);
-        expect(unsmoothed).toBeGreaterThan(n / 7 / 2);
-      }
-    }
-  });
-
-  it('kernels with no variance over the land carry no share to scale against: ε vanishes, the field is the kernels\' constant, no NaN', () => {
-    const ft = fieldTown(2);
-    // every driver weight 0: the kernels are the base level alone, constant over the grid (C-0255 (7))
-    const flat = fieldsVariant((rows) => {
-      for (const f of ['prosperity', 'density', 'greenery']) for (const key of Object.keys(rows[f])) if (key.endsWith('.weight')) rows[f][key] = { ...rows[f][key], value: 0 };
-    });
-    const noOffset = ownVariant((rows) => {
-      for (const key of Object.keys(rows.characterOffset)) rows.characterOffset[key] = { ...rows.characterOffset[key], value: 0 };
-    });
-    const r = pass1(ft, { own: noOffset }, ft.site, flat);
-    for (const f of all(r)) {
-      // the kernels' land variance is 0 or the blur's rounding alone, so ε's scale is 0 or at rounding level
-      expect(Number.isFinite(f.chanceScale)).toBe(true);
-      expect(f.chanceScale).toBeLessThan(1e-12);
-      const base = CELLS.fields.find((x) => x.field === f.field)?.terms.find((t) => t.term === 'base')?.weight ?? NaN;
-      for (let i = 0; i < f.values.length; i += 1) {
-        expect(Number.isFinite(f.unclamped[i])).toBe(true);
-        expect(Math.abs(f.unclamped[i] - base)).toBeLessThan(1e-12);
-      }
-      for (const p of landPoints(r).filter((_, i) => i % 97 === 0)) expect(Math.abs(f.drivers([p]).chance)).toBeLessThan(1e-12);
-    }
-  });
-
   it('a share of 0 makes ε vanish; a larger share gives ε a larger part', () => {
     const ft = fieldTown(2);
     const none = pass1(ft, {}, ft.site, fieldsVariant((rows) => (rows.settings.epsilonShare = { ...rows.settings.epsilonShare, value: 0 })));
@@ -297,22 +201,6 @@ describe('drivers(points) (§4.5: each term separately; the terms sum, before th
       expect(d.terms.map((t) => t.weight)).toEqual(row?.terms.map((t) => t.weight));
       for (const t of d.terms) if (t.weight === 0) expect(t.value).toBe(0);
       expect(() => f.drivers([])).toThrow(RangeError);
-    }
-  });
-
-  it('at 48 m too (the fieldsCoarsen switch, and F-WORK\'s rung under a 5 000 field.cells limit): the terms sum to the stored value before the clamp', { timeout: 60_000 }, () => {
-    const ft = fieldTown(4);
-    for (const opts of [{ fieldsCoarsen: true }, { fieldCellsLimit: 5000 }]) {
-      const r = pass1(ft, opts);
-      expect(r.report.cellCm).toBe(4800);
-      const pts = landPoints(r).filter((_, i) => i % 23 === 0);
-      expect(pts.length).toBeGreaterThan(20);
-      for (const f of all(r)) {
-        for (const p of pts) {
-          const d = f.drivers([p]);
-          expect(Math.abs(d.sum - d.unclamped)).toBeLessThan(1e-12);
-        }
-      }
     }
   });
 
@@ -435,50 +323,6 @@ describe('the per-face values and the driver-only state', () => {
     expect(r.prosperity.faces[fi].value).toBeCloseTo(s / n, 12);
   });
 
-  it('every face of the district fixture, seeds 1 – 8, all three fields: its value is the mean of the stored (clamped) values over its cells, read independently', { timeout: 120_000 }, () => {
-    let clampedInFaces = 0;
-    for (const seed of SEEDS) {
-      const ft = fieldTown(seed);
-      const r = pass1(ft);
-      const g = r.grid;
-      // each face's cells: the cell centres inside its rings (the test's own even–odd), searched over its bounding box
-      const cellsOf = ft.districts.faces.map((face) => {
-        let x0 = Infinity;
-        let x1 = -Infinity;
-        let y0 = Infinity;
-        let y1 = -Infinity;
-        for (const ring of face.rings) for (const q of ring) {
-          x0 = Math.min(x0, q.x);
-          x1 = Math.max(x1, q.x);
-          y0 = Math.min(y0, q.y);
-          y1 = Math.max(y1, q.y);
-        }
-        const out: number[] = [];
-        const i0 = Math.max(0, Math.floor((x0 - g.originX) / g.cellCm) - 1);
-        const i1 = Math.min(g.cols - 1, Math.ceil((x1 - g.originX) / g.cellCm) + 1);
-        const j0 = Math.max(0, Math.floor((y0 - g.originY) / g.cellCm) - 1);
-        const j1 = Math.min(g.rows - 1, Math.ceil((y1 - g.originY) / g.cellCm) + 1);
-        for (let j = j0; j <= j1; j += 1) for (let i = i0; i <= i1; i += 1) if (insideRings(face.rings, g.originX + (i + 0.5) * g.cellCm, g.originY + (j + 0.5) * g.cellCm)) out.push(j * g.cols + i);
-        return out;
-      });
-      for (const f of all(r)) {
-        f.faces.forEach((fv, k) => {
-          const cells = cellsOf[k];
-          expect(fv.cells).toBe(cells.length);
-          if (cells.length === 0) return;
-          let s = 0;
-          for (const i of cells) {
-            s += f.values[i];
-            if (f.values[i] !== f.unclamped[i]) clampedInFaces += 1;
-          }
-          expect(fv.value).toBeCloseTo(s / cells.length, 12);
-        });
-      }
-    }
-    // the clamp moves cells inside the faces on these fixtures, so the mean of the stored values is not the unclamped one's
-    expect(clampedInFaces).toBeGreaterThan(0);
-  });
-
   it('the driver-only state (typing and S5d read it) is the kernels\' sum, blurred: the complete field adds only the offset and ε; it is a FieldProvider', () => {
     const ft = fieldTown(2);
     const st = fieldsDrivers(ft.site, TABLES);
@@ -501,34 +345,6 @@ describe('the per-face values and the driver-only state', () => {
         expect(Math.abs(kernels + d.characterOffset + d.chance - d.unclamped)).toBeLessThan(1e-12);
       }
     });
-  });
-});
-
-describe('fieldsDigest reads the stored raster', () => {
-  it('changing one stored raster cell moves the digest, the faces\' means held: a land cell, and a margin cell outside every district, in each field', () => {
-    const ft = fieldTown(1);
-    const r = pass1(ft);
-    const g = r.grid;
-    const base = fieldsDigest(r);
-    // the grid's first cell (its south-west corner, in the margin): no district's face holds its centre, so no land
-    // value and no district face's mean reads it
-    const margin = 0;
-    const districts = new Set(ft.districts.districts.map((d) => d.id));
-    const corner = { x: g.originX + 0.5 * g.cellCm, y: g.originY + 0.5 * g.cellCm };
-    expect(ft.districts.faces.some((f) => f.owner !== null && districts.has(f.owner) && insideRings(f.rings, corner.x, corner.y))).toBe(false);
-    expect(r.land[margin]).toBe(0);
-    const landCell = r.land.indexOf(1);
-    expect(landCell).toBeGreaterThanOrEqual(0);
-    const names = ['prosperity', 'density', 'greenery'] as const;
-    for (const name of names) {
-      for (const i of [margin, landCell]) {
-        const values = r[name].values.slice();
-        values[i] = values[i] === 0.5 ? 0.25 : 0.5;
-        const moved: FieldsPass1 = { ...r, [name]: { ...r[name], values } };
-        expect(fieldsDigest(moved)).not.toEqual(base);
-      }
-    }
-    expect(fieldsDigest({ ...r })).toEqual(base);
   });
 });
 

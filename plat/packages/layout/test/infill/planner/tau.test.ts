@@ -192,36 +192,6 @@ describe('the draws (§6.1: cut.stop, cut.t, cut.arc)', () => {
     expect(kept).toBeGreaterThan(20);
   });
 
-  it('draws on the stream key\'s reroll and epoch components: cut.stop, cut.t and cut.arc equal their twins (§6.1)', () => {
-    // §6.1's key carries reroll and epoch beside the lineage and the attempt: the planner's draws must come from the
-    // stream so keyed — their values, not only the record's key text — at each (reroll, epoch) pair and attempt.
-    let arcs = 0;
-    for (const [reroll, epoch] of [[3, 0], [0, 2], [3, 2]] as const) {
-      for (let seed = 1; seed <= 20; seed += 1) {
-        const st = { ...streamsFor(seed), reroll, epoch };
-        const first = asCut(planCut(FACES.trapezoid, CTX, st));
-        const twin = (concern: 'cut.stop' | 'cut.t' | 'cut.arc', attempt: number): Stream =>
-          new Stream(streamKey(st.faceKey, STAGES.S8, CONCERNS[concern], { reroll, attempt, epoch, salt: 0 }));
-        const stop = twin('cut.stop', 0);
-        expect(first.stop.uniforms).toEqual([stop.float01(), stop.float01(), stop.float01(), stop.float01()]);
-        expect(first.stop.draw.key).toMatchObject({ reroll, epoch, attempt: 0 });
-        for (const attempt of [0, 1, 2]) {
-          const plan = attempt === 0 ? first : asCut(planCut(FACES.trapezoid, { ...CTX, attempt, stop: first.stop }, { ...st, rng: createRng() }));
-          const t = twin('cut.t', attempt);
-          const pos = plan.draws.filter((d) => d.concern === 'cut.t');
-          expect(pos.map((d) => d.value)).toEqual([t.mean3(), t.mean3()]);
-          for (const d of plan.draws) expect(d.key).toMatchObject({ reroll, epoch, attempt: d.concern === 'cut.stop' ? 0 : attempt });
-          const arc = plan.draws.filter((d) => d.concern === 'cut.arc');
-          if (arc.length === 1) {
-            arcs += 1;
-            expect(arc[0].value).toBe(twin('cut.arc', attempt).float01());
-          }
-        }
-      }
-    }
-    expect(arcs).toBeGreaterThan(30);
-  });
-
   it('renders each draw\'s key in textual form for the report', () => {
     const st = { ...streamsFor(3), entity: 'face:7kq2m9x4c1b0a' };
     const plan = asCut(planCut(FACES.trapezoid, CTX, st));

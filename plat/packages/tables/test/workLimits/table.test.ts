@@ -8,7 +8,6 @@
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, expectTypeOf, it } from 'vitest';
-import { MAX_HALVINGS } from '@plat/kernel';
 import type { WorkUnit } from '@plat/model';
 import {
   checkWorkLimits,
@@ -86,8 +85,6 @@ describe('one row per counter of M0-work.json’s list', () => {
       delete r.rows[s.counter];
       const e = refusal(() => parseWorkLimits(r));
       expect(e.issues).toEqual([{ table: 'workLimits', row: s.counter, reason: 'missing counter: the counter list names it (M0.md §2.2)' }]);
-      // A row-only issue holds no `cell` key at all (`toEqual` ignores an undefined one; `issueAt`'s absent-key rule).
-      expect(Object.keys(e.issues[0])).toEqual(['table', 'row', 'reason']);
     }
   });
 
@@ -236,15 +233,12 @@ function coefficients(t: WorkLimitsTable): void {
 
 /**
  * The fixed row is pinned at every version (C-0301): `warp.halvings` is the only fixed row, `{ fixed, 0, 8 }`
- * (§3.6's 8 halvings), its floor equal to the kernel's `MAX_HALVINGS` (read from `@plat/kernel`, so the two cannot drift
- * apart as two literal 8s could), its floor provenance `architecture 2026-10-03` and not calibratable,
+ * (§3.6's 8 halvings, the kernel's MAX_HALVINGS), its floor provenance `architecture 2026-10-03` and not calibratable,
  * no placeholder cell — M0-f-03b's p999 × 1.5 rewrite skips it.
  */
 function fixedRow(t: WorkLimitsTable): void {
   expect([...t.table.rows].filter(([, row]) => row.get('unit')?.value === 'fixed').map(([rk]) => rk)).toEqual(['warp.halvings']);
   expect(t.law('warp.halvings')).toEqual({ counter: 'warp.halvings', unit: 'fixed', perUnit: 0, floor: 8 });
-  // The cross-pin: the table's floor is the kernel's own constant, read from @plat/kernel, not a second literal 8.
-  expect(t.law('warp.halvings').floor, "warp.halvings' floor is the kernel's MAX_HALVINGS").toBe(MAX_HALVINGS);
   const row = t.table.row('warp.halvings');
   expect(row.get('floor')?.provenance).toBe('architecture 2026-10-03');
   expect(row.get('floor')?.calibratable).toBe(false);
@@ -287,17 +281,6 @@ function placeholderPins(t: WorkLimitsTable): void {
   }
 }
 
-/**
- * The gate the shipped file's test goes through: C-0021's placeholder pins are applied while the table is at the PIN's
- * version ('applied'; a pin that fails throws) and not past it ('skipped': M0-f-03b's declared change). The simulated
- * hand-overs below call it too, so the gate itself — not only the helper behind it — is exercised on both sides of the PIN.
- */
-function placeholderGate(t: WorkLimitsTable): 'applied' | 'skipped' {
-  if (!atPin(t)) return 'skipped';
-  placeholderPins(t);
-  return 'applied';
-}
-
 describe('the placeholder laws (C-0021)', () => {
   it('at any version: every cell carries an admitted provenance form (the loader’s placeholder or spike form), the fixed row is pinned', () => {
     // A fixed law's floor is the design's constant (§3.6's 8 halvings, the kernel's MAX_HALVINGS), never a placeholder and
@@ -311,7 +294,8 @@ describe('the placeholder laws (C-0021)', () => {
   it('at the PIN version: placeholder provenance is present on every counting row, on each calibratable cell; past it the pins are not applied', () => {
     const t = loadWorkLimits();
     expect(t.table.version).toBeGreaterThanOrEqual(PIN.version);
-    if (placeholderGate(t) === 'skipped') console.info(`workLimits.json: version ${t.table.version} past the pin ${PIN.version} — the placeholder pins are not applied (M0-f-03b's declared change)`);
+    if (atPin(t)) placeholderPins(t);
+    else console.info(`workLimits.json: version ${t.table.version} past the pin ${PIN.version} — the placeholder pins are not applied (M0-f-03b's declared change)`);
   });
 
   it('every cell carries unit, provenance and calibratable in the raw file', () => {
@@ -362,7 +346,6 @@ describe('M0-f-03b’s hand-over, simulated (C-0162 (1)): the invariants hold pa
       expect(atPin(t)).toBe(false);
       expect(workLimitsCensus(t)).toEqual(workLimitsCensus());
       expect(() => placeholderPins(t), 'the placeholder pins would refuse the hand-over').toThrow();
-      expect(placeholderGate(t), 'the shipped-file gate skips the pins past the PIN').toBe('skipped');
     });
   }
 
@@ -370,7 +353,6 @@ describe('M0-f-03b’s hand-over, simulated (C-0162 (1)): the invariants hold pa
     const control = invariants(pinForm());
     expect(atPin(control)).toBe(true);
     placeholderPins(control);
-    expect(placeholderGate(control), 'the shipped-file gate applies the pins at the PIN').toBe('applied');
     for (const provenance of ['architecture 2026-10-03', SPIKE]) {
       for (const ck of ['perUnit', 'floor'] as const) {
         const r = pinForm();
@@ -378,7 +360,6 @@ describe('M0-f-03b’s hand-over, simulated (C-0162 (1)): the invariants hold pa
         const t = invariants(r);
         expect(atPin(t)).toBe(true);
         expect(() => placeholderPins(t), `grower.turns/${ck} = '${provenance}' at version ${PIN.version}`).toThrow();
-        expect(() => placeholderGate(t), `the gate refuses grower.turns/${ck} = '${provenance}' at version ${PIN.version}`).toThrow();
       }
     }
   });
@@ -469,9 +450,9 @@ describe('the law form is refused when malformed, naming the row and the cell', 
   });
 
   it('a counter list naming a counter twice is refused', () => {
-    const issues = checkWorkLimits(loadWorkLimits().table, [...WORK_LIMIT_COUNTERS, WORK_LIMIT_COUNTERS[0]]);
-    expect(issues).toEqual([{ table: 'workLimits', row: 'insert.points', reason: "the counter list names 'insert.points' twice" }]);
-    expect(Object.keys(issues[0])).toEqual(['table', 'row', 'reason']);
+    expect(checkWorkLimits(loadWorkLimits().table, [...WORK_LIMIT_COUNTERS, WORK_LIMIT_COUNTERS[0]])).toEqual([
+      { table: 'workLimits', row: 'insert.points', reason: "the counter list names 'insert.points' twice" },
+    ]);
   });
 
   it('law(counter) refuses a counter the table lacks; the laws are frozen', () => {

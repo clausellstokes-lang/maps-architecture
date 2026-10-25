@@ -14,8 +14,7 @@
 //                     (b = mean3 on cut.t; o = e_lo, e_lo / 2 on a holed face), or λ / 2 when λ < 2o.
 //   5  far side       among the runs facing the first leg whose perpendicular foot from K lies on them and whose K–foot
 //                     crosses no boundary, the one meeting the first leg nearest a right angle (ties: earlier); none →
-//                     E_NOT_TWO_CROSSINGS. cut.bendMode: flatten drops K below max(cut.flattenM, 0.02 |A–foot|)
-//                     (E_NOT_TWO_CROSSINGS `flatten` when A → foot then crosses a ring);
+//                     E_NOT_TWO_CROSSINGS. cut.bendMode: flatten drops K below max(cut.flattenM, 0.02 |A–foot|);
 //                     straightFirst keeps the first leg straight when its arrival's squared cross product > 0.99.
 //   6  fillet         lane and street cuts only: sharp with chance s + (1 − s) · min(1, w_min / ℓ), s = (1 − cos δ) / 2,
 //                     one uniform on cut.arc per kept corner; else the kernel's fillet spanning the shorter leg,
@@ -800,12 +799,7 @@ export function arrivalDot2(cells: CutCells): number {
   return Math.max(a * a, b * b);
 }
 
-/**
- * The first spine the ray from an end crosses within reach (C-0222 (9)): 2 × its half-width + attractCm. The reach
- * rule's floor is ratio()'s on the denominator: a spine segment e with |cross(dir, e)| < 1 — a ray running near-parallel
- * to it — is no hit, so an end arriving that way reaches no spine there and stays a kerb end, square on the line
- * (C-0222 (9), C-0406 (1): this floor is the reach rule for the planner and the ladder alike).
- */
+/** The first spine the ray from an end crosses within reach (C-0222 (9)): 2 × its half-width + attractCm. */
 function spineHit(face: KerbFace, from: XY, dir: XY): { spine: number; t: number; point: XY; seg: number } | null {
   let best: { spine: number; t: number; point: XY; seg: number } | null = null;
   (face.spines ?? []).forEach((sp, si) => {
@@ -864,15 +858,13 @@ function slideEnd(face: KerbFace, sides: FaceSides, end: EndPlan, from: XY, cell
     s: lengthAt(line, p.at),
     gap: Math.max(cells.portalGapMinCm, cells.portalGapLaneFactor * Math.max(p.laneWidthCm, newLaneCm)),
   }));
-  // Inside a gap other than `own`: a gap's edge is never inside its own gap, although (g.s ± gap) − g.s can round a
-  // hair under gap, so a candidate edge is tested against the other portals' gaps only (C-0406 (3)).
-  const inGap = (s: number, own = -1): boolean => gaps.some((g, i) => i !== own && Math.abs(s - g.s) < g.gap);
+  const inGap = (s: number): boolean => gaps.some((g) => Math.abs(s - g.s) < g.gap);
   if (!inGap(sE)) return end;
   const bound = arrivalDot2(cells);
   const options: { s: number; slid: number }[] = [];
-  for (const [gi, g] of gaps.entries()) {
+  for (const g of gaps) {
     if (!(Math.abs(sE - g.s) < g.gap)) continue;
-    for (const s of [g.s - g.gap, g.s + g.gap]) if (s >= 0 && s <= total && !inGap(s, gi)) options.push({ s, slid: Math.abs(s - sE) });
+    for (const s of [g.s - g.gap, g.s + g.gap]) if (s >= 0 && s <= total && !inGap(s)) options.push({ s, slid: Math.abs(s - sE) });
   }
   options.sort((a, b) => a.slid - b.slid || a.s - b.s);
   for (const o of options) {
@@ -1031,12 +1023,7 @@ function finish(
   return { legs, bent: shape.bent, heightCm: shape.heightCm, flattenThresholdCm: shape.flattenThresholdCm, arrivalCross2: shape.arrivalCross2, fillet: fl, points, ends: [start, far], chain };
 }
 
-/**
- * The flatten plan A → K → foot, K dropped below max(cut.flattenM, 0.02 × |A–foot|) (§4.6 step 5). `crosses` when K is
- * dropped and A → foot crosses a ring: the legs A–K and K–foot are each clear by construction, the straight A → foot
- * is not — on a holed face it can pass through a hole — and a cut of more than two crossings is §3.6's
- * E_NOT_TWO_CROSSINGS, so the plan says so here rather than hand step 8 a cut it must refuse (C-0406 (2)).
- */
+/** The flatten plan A → K → foot, K dropped below max(cut.flattenM, 0.02 × |A–foot|) (§4.6 step 5). */
 function flattenPlan(
   face: KerbFace,
   sides: FaceSides,
@@ -1048,7 +1035,7 @@ function flattenPlan(
   K: XY,
   far: FarPlan,
   rings: [number, number],
-): CutGeometry | null | 'crosses' {
+): CutGeometry | null {
   const af = sub(far.foot, A);
   const base = len(af);
   const area2 = Math.abs(cross(af, sub(K, A)));
@@ -1057,7 +1044,6 @@ function flattenPlan(
   const height = h.ok ? h.value : 0;
   // K kept exactly when height ≥ thr, compared as area2 ≥ thr · base (no division in the test).
   const keep = area2 >= thr * base;
-  if (!keep && !segmentClear(sides.rings, A, far.foot, TOUCH_CM)) return 'crosses';
   const legs = keep ? [A, K, far.foot] : [A, far.foot];
   return finish(face, sides, ctx, cells, wMin, draws, legs, rings, { bent: keep, heightCm: height, flattenThresholdCm: thr, arrivalCross2: -1 });
 }
@@ -1065,8 +1051,7 @@ function flattenPlan(
 /**
  * Plans one cut on a face's kerb (§4.6 steps 1–7). Returns a `block` when the face stops (step 1), a `cut`, or
  * `nextRung` when an end is caught in a portal's gap; E_NOT_TWO_CROSSINGS (with the steps found so far as its
- * partial) when the start line misses the face, the first leg finds no boundary, no far run qualifies, or the
- * flattened cut A → foot crosses a ring (`flatten`); obb's E_DEGENERATE for a face with no area.
+ * partial) when no far run qualifies or the start line misses the face; obb's E_DEGENERATE for a face with no area.
  * Throws a RangeError on a malformed context (a programming error, never a geometric one).
  */
 export function planCut(face: KerbFace, ctx: PlanContext, streams: PlanStreams): KernelResult<CutPlan> {
@@ -1140,16 +1125,12 @@ export function planCut(face: KerbFace, ctx: PlanContext, streams: PlanStreams):
     if (c2 > cells.straightCross2 && segmentClear(sides.rings, start.A, hit.point, TOUCH_CM)) {
       cut = finish(face, sides, ctx, cells, wMin, draws, [start.A, hit.point], [start.ring, hit.ring], { bent: false, heightCm: 0, flattenThresholdCm: 0, arrivalCross2: c2 });
       if (cut === null) return ok({ kind: 'nextRung', reason: 'portalGap', ...base, draws: draws.used, frame, sides, start, corner, far });
-      // The alternate: the cut as under flatten, or none when that one crosses a ring or is caught in a portal's gap.
-      const alt = far === null ? null : flattenPlan(face, sides, ctx, cells, wMin, draws, start.A, K, far, [start.ring, sides.runs[far.run].ring]);
-      alternate = alt === 'crosses' ? null : alt;
+      if (far !== null) alternate = flattenPlan(face, sides, ctx, cells, wMin, draws, start.A, K, far, [start.ring, sides.runs[far.run].ring]);
       return ok({ kind: 'cut', ...base, draws: draws.used, frame, sides, start, corner, far, mode: cells.bendMode, cut, alternate });
     }
   }
   if (far === null) return failed(start, corner, 'far run');
-  const flat = flattenPlan(face, sides, ctx, cells, wMin, draws, start.A, K, far, [start.ring, sides.runs[far.run].ring]);
-  if (flat === 'crosses') return failed(start, corner, 'flatten');
-  cut = flat;
+  cut = flattenPlan(face, sides, ctx, cells, wMin, draws, start.A, K, far, [start.ring, sides.runs[far.run].ring]);
   if (cut === null) return ok({ kind: 'nextRung', reason: 'portalGap', ...base, draws: draws.used, frame, sides, start, corner, far });
   return ok({ kind: 'cut', ...base, draws: draws.used, frame, sides, start, corner, far, mode: cells.bendMode, cut, alternate });
 }

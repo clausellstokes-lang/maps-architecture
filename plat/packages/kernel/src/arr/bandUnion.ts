@@ -22,7 +22,8 @@
 // attractCm of J — a left turn whose strips' inner edges meet beyond it or nowhere (a width step between two nearly
 // collinear spines) is the straight-through case, a junction with no kerb point within reach draws no split, and a
 // split that would enter kerb(F)'s interior is never drawn, the junction's next target tried instead (kerb.ts, `junctionsOf` / `splitChain` /
-// `entersRegion`); (3) the faces of the batch's level inside F are read back: a face whose interior
+// `entersRegion`) — and one the insertion laid between two faces of F read outside the band is left out on the op's next
+// run (`cutSplits`, round S13, C-0392); (3) the faces of the batch's level inside F are read back: a face whose interior
 // point (the middle of its widest cross-section) lies inside kerb(F) is outside the band — corridorUnion's built blocks — and every other is
 // a band face: a junction wedge when two different spines bound it, a strip otherwise. A face with no record at the
 // batch's level is its own child there (§2.2 rule 2): one built block when its kerb is not empty — a spine-less face,
@@ -43,7 +44,10 @@
 //    the route piece's endpoint — the round S3 defect closed onto that endpoint whichever side it lay, chords of metres,
 //    blocks up to 343 cm beyond kerb(F)), the tip joined to the first vertex kerb(F)'s own run along F's boundary
 //    reaches from the contact (`runVertex`): the chord lies within the tip's distance of that run, so the outline errs
-//    by at most attractCm + 1 cm;
+//    by at most attractCm + 1 cm — kept only where that vertex is one kerb(F) still holds when read on the arena the
+//    run left (`offRead`, round S13, C-0391: an L1 read lays its parts at L2, kerb.ts `dryLevel`, so after an L2 op it
+//    meets the op's own tip and chord and may read F's outline there otherwise — the run's vertex then off kerb(F) as
+//    every later L1 read reads it, N-57 (2)'s bound broken on a committed result); off it, the end is pinned first;
 //  - PINNED FIRST: where neither goes in, the op is put back and run again with that end pinned before its piece —
 //    N-57 (2)'s own mechanism: the contact placed on F's boundary within attractCm (§3.6 step 2's endpoint rule), the
 //    piece's vertices beside it within attractCm dropped, the piece inserted onto it (`insertPinned`).
@@ -70,7 +74,7 @@ import { chargeTx, check, type OpenTx } from '../tx/state.js';
 import { kernelOp, setOwner, type KernelOp, type Overlay } from '../tx/index.js';
 import type { LineageHash } from '../hash/index.js';
 import type { ChainProfile, ChainRef, Cm, FaceRef, Id, LatticePoint, Level, PlatKey } from '../types/index.js';
-import { div, nearestOn, readKerb, spineKey, type KerbRead, type Spine, type SpineEnd, type SpineWidths, type XY } from './kerb.js';
+import { interiorPoint, nearestOn, readKerb, spineKey, type KerbRead, type Spine, type SpineEnd, type SpineWidths, type XY } from './kerb.js';
 import type { Ring } from './winding.js';
 
 /**
@@ -163,47 +167,6 @@ export function outlinePieces(read: KerbRead): { points: LatticePoint[]; closed:
 }
 
 /**
- * A point strictly inside the face (a record of level n), as far from its boundary across as the face allows: on each
- * horizontal line halfway between two consecutive distinct vertex heights (never through a vertex), the face's
- * crossings paired off (even-odd: outer ring and holes), and the midpoint of the widest interval over all those lines.
- * A point deep in the face's widest cross-section stays inside the region the face stands for when attraction bent its
- * outline by a few centimetres at one vertex — which an ear's centroid beside that vertex does not (C-0218 (10)). Null
- * where the face has no interval (never for a face of positive area).
- */
-function interiorPoint(p: Plat, level: Level, c: FaceId): XY | null {
-  const X = p.vertices.x;
-  const Y = p.vertices.y;
-  const O = p.halfEdges.origin;
-  const rings = faceWalk(p, level, c).map((r) => r.map((h) => ({ x: X[O[h]], y: Y[O[h]] })));
-  const ys = [...new Set(rings.flatMap((r) => r.map((q) => q.y)))].sort((a, b) => a - b);
-  let best: XY | null = null;
-  let bestW = 0;
-  for (let k = 0; k + 1 < ys.length; k += 1) {
-    const qy = (ys[k] + ys[k + 1]) * 0.5;
-    const xs: number[] = [];
-    for (const r of rings) {
-      for (let i = 0; i < r.length; i += 1) {
-        const a = r[i];
-        const b = r[(i + 1) % r.length];
-        if (a.y < qy === b.y < qy) continue;
-        const t = div(qy - a.y, b.y - a.y);
-        if (t === null) continue;
-        xs.push(a.x + t * (b.x - a.x));
-      }
-    }
-    xs.sort((a, b) => a - b);
-    for (let i = 0; i + 1 < xs.length; i += 2) {
-      const w = xs[i + 1] - xs[i];
-      if (w > bestW) {
-        bestW = w;
-        best = { x: (xs[i] + xs[i + 1]) * 0.5, y: qy };
-      }
-    }
-  }
-  return best;
-}
-
-/**
  * Is the face (a record of level n) inside the kerb? Read at its interior point (`interiorPoint`) by the non-zero
  * winding of the kerb rings there (orient2d is exact on doubles). Null where the face has no interior point.
  */
@@ -263,6 +226,7 @@ interface Along {
   readonly face: FaceId;
   readonly tip: VertexId;
   readonly far: VertexId;
+  readonly piece: number;
   readonly end: 0 | 1;
 }
 
@@ -412,7 +376,7 @@ function closeEnds(
         if (along.ok) {
           warnings.push(...along.warnings);
           log.push({ kind: 'along', face, piece: index, end: k, contact: c, pin: at, tip: tp });
-          alongs.push({ face, tip, far, end: k });
+          alongs.push({ face, tip, far, piece: index, end: k });
           ends[k] = far;
           continue;
         }
@@ -533,15 +497,50 @@ export function bandCore(t: OpenTx, faces: readonly FaceId[], spec: EngineSpec):
     const save = opSave(t);
     const run = writeOutlines(t, unique, spec, pinned);
     if (!run.ok) return rollback(t, save, run);
-    if (run.value.retry.length > 0) {
+    const retry = run.value.retry.length > 0 ? run.value.retry : offRead(t, spec, run.value.alongs);
+    if (retry.length > 0) {
       rollback(t, save, err('E_INVARIANT', 'outline: an end to pin first'));
-      for (const k of run.value.retry) pinned.add(k);
+      for (const k of retry) pinned.add(k);
       continue;
     }
-    const done = readBack(t, unique, spec, run.value.reads, run.value.alongs);
+    const cut: string[] = [];
+    const done = readBack(t, unique, spec, run.value.reads, run.value.alongs, pinned, cut);
+    if (cut.length > 0) {
+      rollback(t, save, err('E_INVARIANT', 'outline: a split to leave out'));
+      for (const k of cut) pinned.add(k);
+      continue;
+    }
     if (!done.ok) return rollback(t, save, done);
     return ok(done.value, [...run.warnings, ...done.warnings]);
   }
+}
+
+/** A face's reading on the open transaction, with the engine's widths and contacts (the one function, kerb.ts). */
+function readOn(t: OpenTx, f: FaceId, spec: EngineSpec, cache: Map<string, Spine | null> = new Map()): KernelResult<Read> {
+  return readKerb(t, f, spec.widths, cache, spec.vertexContacts);
+}
+
+/**
+ * The along-run closings whose run vertex an L1 read would not hold after the op (B-CLOSE, round S13): an L1 read lays
+ * its parts at L2 (kerb.ts `dryLevel`), so it meets what an L2 op wrote — the tip the insertion left off its contact and
+ * the chord from it — and may read F's outline there otherwise than the op's own read did. In an L2 batch each face
+ * with such a closing is read again on the arena the run left (the read a later L1 read makes), and an end whose run
+ * vertex stands off that outline (beyond the 1 cm boundary reading) is named to be PINNED FIRST on the next run.
+ */
+function offRead(t: OpenTx, spec: EngineSpec, alongs: readonly Along[]): string[] {
+  if (t.level !== 2 || alongs.length === 0) return [];
+  const p = t.plat;
+  const out: string[] = [];
+  const again = new Map<FaceId, readonly Ring[] | null>();
+  for (const a of alongs) {
+    if (!again.has(a.face)) {
+      const r = readOn(t, a.face, spec);
+      again.set(a.face, r.ok ? r.value.kerb : null);
+    }
+    const rings = again.get(a.face) ?? null;
+    if (rings === null || !onBoundary(rings, pointOf(p, a.far))) out.push(endKey(a.face, a.piece, a.end));
+  }
+  return out;
 }
 
 /**
@@ -562,7 +561,7 @@ function writeOutlines(t: OpenTx, unique: readonly FaceId[], spec: EngineSpec, p
   const cache = new Map<string, Spine | null>();
   const reads: Read[] = [];
   for (const f of unique) {
-    const r = readKerb(p, f, spec.widths, cache, spec.vertexContacts);
+    const r = readOn(t, f, spec, cache);
     if (!r.ok) return err(r.code, r.detail);
     reads.push(r.value);
   }
@@ -628,7 +627,10 @@ function writeOutlines(t: OpenTx, unique: readonly FaceId[], spec: EngineSpec, p
       }
     }
     const split: RoleRow[] = [{ role: 'corridor_split', entity: spec.entityOf(read.face) }];
-    for (const pts of read.splits) {
+    for (let si = 0; si < read.splits.length; si += 1) {
+      const pts = read.splits[si];
+      // a split the last run laid between two faces read outside the band is left out (N-52 (2), `cutSplits`)
+      if (pinned.has(splitKey(read.face, si))) continue;
       // the split ends on the kerb: where the kerb's insertion left no outline vertex at its kerb point (attraction
       // moved the kerb there), a split would dangle in the face — it is not drawn
       if (!onOutline(p, t.key, pts[1], outlineRole)) continue;
@@ -651,8 +653,55 @@ function writeOutlines(t: OpenTx, unique: readonly FaceId[], spec: EngineSpec, p
   return ok({ reads, retry: [], alongs }, warnings);
 }
 
-/** The engine's read-back (see the module comment): the faces of the batch's level inside each face, classed. */
-function readBack(t: OpenTx, unique: readonly FaceId[], spec: EngineSpec, reads: readonly Read[], alongs: readonly Along[]): KernelResult<BandResult> {
+/** A split of a face's reading to leave out on the op's next run: "face split-index split". */
+const splitKey = (face: FaceId, si: number): string => `${String(face)} ${String(si)} split`;
+
+/**
+ * The splits the run laid between two faces of one L1 face read outside the band (N-52 (2): a corridor_split never cuts a
+ * block; round S13, C-0392): an edge carrying this op's split row with such a face of F on each side names the split of
+ * F's reading nearest its midpoint (not yet left out). The split was guarded on its input chain (kerb.ts `entersRegion`),
+ * but the insertion may lay it otherwise — attracted onto a kerb vertex within attractCm of it and along the kerb's
+ * edges beyond (a kerb spur at a junction: the spur then a face of its own, the split between it and the rest) — so it
+ * is judged here on the faces the arena holds and left out on the next run, as a split the guard drops is (C-0281). Two
+ * such faces of two L1 faces meet on F's own boundary, where a split laid along it cuts no block.
+ */
+function cutSplits(p: Plat, n: Level, inner: ReadonlyMap<FaceId, Read>, splitRole: number, pinned: ReadonlySet<string>): string[] {
+  const side = new Map<number, FaceId>();
+  for (const c of [...inner.keys()].sort((a, b) => compareFaces(p, n, a, b))) for (const ring of faceWalk(p, n, c)) for (const h of ring) side.set(h, c);
+  const out = new Set<string>();
+  const O = p.halfEdges.origin;
+  for (const [h, c] of side) {
+    const o = side.get(h ^ 1);
+    if (o === undefined || o === c || (h & 1) === 1) continue;
+    if (!rowsOn(p, 'edge', h).some((r) => p.roles.kind[r] === splitRole && p.roles.level[r] === n)) continue;
+    const read = inner.get(c) as Read;
+    if (inner.get(o)?.face !== read.face) continue;
+    const a = pointOf(p, O[h]);
+    const b = pointOf(p, O[h ^ 1]);
+    const m: XY = { x: (a.x + b.x) * 0.5, y: (a.y + b.y) * 0.5 };
+    let best = -1;
+    let bestD = Infinity;
+    for (let si = 0; si < read.splits.length; si += 1) {
+      if (pinned.has(splitKey(read.face, si))) continue;
+      const pts = read.splits[si];
+      let d = Infinity;
+      for (let k = 0; k + 1 < pts.length; k += 1) d = Math.min(d, nearestOn(m, pts[k], pts[k + 1]).d2);
+      if (d < bestD) {
+        best = si;
+        bestD = d;
+      }
+    }
+    if (best >= 0) out.add(splitKey(read.face, best));
+  }
+  return [...out];
+}
+
+/**
+ * The engine's read-back (see the module comment): the faces of the batch's level inside each face, classed. Where a
+ * split of the run lies between two faces read outside the band (`cutSplits`), its key is put in `cut` and nothing is
+ * written: the caller runs the op again with it left out.
+ */
+function readBack(t: OpenTx, unique: readonly FaceId[], spec: EngineSpec, reads: readonly Read[], alongs: readonly Along[], pinned: ReadonlySet<string>, cut: string[]): KernelResult<BandResult> {
   const p = t.plat;
   const n = t.level;
   const outlineRole = roleIdOf(spec.edgeRole);
@@ -703,6 +752,7 @@ function readBack(t: OpenTx, unique: readonly FaceId[], spec: EngineSpec, reads:
   const blocks: FaceId[] = [];
   const R = p.roles;
   const splitRole = roleIdOf('corridor_split');
+  const inner = new Map<FaceId, Read>();
   for (const read of reads) {
     const kids = inFace.get(read.face) as FaceId[];
     const beyondChord = sideOf.get(read.face);
@@ -710,7 +760,8 @@ function readBack(t: OpenTx, unique: readonly FaceId[], spec: EngineSpec, reads:
       // no edge written inside it: a spine-less face, or one whose kerb is F itself, is one built block; an empty kerb
       // leaves it all band — and so does a kerb sliver thinner than attractCm that the commit folded onto F's boundary
       // (nothing of it left inside F): F is judged as its children are, at a point strictly inside it (C-0218 (7))
-      const inside = read.kerb.length === 0 ? false : insideKerb(p, 1, read.face, read.kerb);
+      const outline = read.kerb;
+      const inside = outline.length === 0 ? false : insideKerb(p, 1, read.face, outline);
       if (inside !== false) whole.push(read.face);
       else wholeBand.push(read.face);
       continue;
@@ -735,14 +786,18 @@ function readBack(t: OpenTx, unique: readonly FaceId[], spec: EngineSpec, reads:
       // a corridor_split edge lies inside the band, so a face it bounds is a band face even where no spine bounds it
       // inside kerb(F) or not, read at a point strictly inside the face; where it has none, by its bounds
       const inside = beyond ? false : insideKerb(p, n, c, read.kerb);
-      if (inside === null ? touched.size === 0 && !split : inside) blocks.push(c);
-      else {
+      if (inside === null ? touched.size === 0 && !split : inside) {
+        blocks.push(c);
+        inner.set(c, read);
+      } else {
         band.push(c);
         if (touched.size >= 2) wedges.push(c);
         else strips.push(c);
       }
     }
   }
+  cut.push(...cutSplits(p, n, inner, splitRole, pinned));
+  if (cut.length > 0) return err('E_INVARIANT', 'outline: a split to leave out');
   const byKey = (a: FaceId, b: FaceId): number => compareFaces(p, n, a, b);
   const result: BandResult = { band: band.sort(byKey), strips: strips.sort(byKey), wedges: wedges.sort(byKey), blocks: blocks.sort(byKey), whole, wholeBand };
   if (spec.owner !== null && result.band.length > 0) {

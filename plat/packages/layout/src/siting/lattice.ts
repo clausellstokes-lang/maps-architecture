@@ -259,27 +259,6 @@ export function buildLattice(site: Site, given: Costs, stream?: Stream): Lattice
   };
 }
 
-/**
- * Does the segment ab meet a water face of the lattice's stored costs (the same test `edgeCost` prices, C-0076)? A
- * passable lattice edge that meets water is an edge along a deck (C-0201 (4)): §4.2 S3 (7)'s deck rule excludes those
- * straddling the boundary (`resolveOffDecks`).
- */
-export function meetsWater(lattice: Lattice, a: XY, b: XY): boolean {
-  for (const face of lattice.costs.water.faces) {
-    if (boxMeets(boxOf(face), a, b) && segmentMeetsRing(face, a, b)) return true;
-  }
-  return false;
-}
-
-/** Does the point lie in a water face of the lattice's stored costs, its shore included (§4.2 S3 (7)'s deck rule)? */
-export function inWater(lattice: Lattice, p: XY): boolean {
-  for (const face of lattice.costs.water.faces) {
-    const box = boxOf(face);
-    if (p.x >= box[0] && p.x <= box[2] && p.y >= box[1] && p.y <= box[3] && insideRing(face, p, true)) return true;
-  }
-  return false;
-}
-
 /** The graph edge from i to j, or −1 when they are not lattice neighbours. */
 export function edgeBetween(lattice: Lattice, i: number, j: number): number {
   for (let d = 0; d < 6; d += 1) if (lattice.adjacency[6 * i + d] === j) return lattice.slot[6 * i + d];

@@ -170,19 +170,4 @@ describe('ringBand (§3.4): a band of one face per side and the core', () => {
     const h = withHoles([[[1500, 500], [2500, 500], [2500, 1500], [1500, 1500]]]);
     expect(refusal(h, (o) => ringBand(o, faceAt(h, 1, 100, 100), 200, { rows: DB }))).toBe('E_NON_CONVEX');
   });
-
-  it('the width refusal\'s boundary is attractCm, inclusive: 26 cm is E_BELOW_MIN_WIDTH, 27 cm makes the band (note N-4)', () => {
-    const q = halves();
-    const f = faceAt(q, 1, 100, 100);
-    const before = content(q);
-    const r = attempt(q, 1, (o) => ringBand(o, f, 26, { rows: DB }));
-    expect(r.ok ? 'ok' : `${r.code} ${r.detail}`).toBe('E_BELOW_MIN_WIDTH a band of 26 cm is within attractCm of the face\'s boundary');
-    expect(content(q)).toBe(before);
-    const area = faceArea2Big(q, 1, f);
-    const b = commit(q, 1, (o) => ringBand(o, f, 27, { rows: DB })).value as { band: FaceId[]; core: FaceId };
-    expect(b.band).toHaveLength(4);
-    expect(areaSum(q, [...b.band, b.core])).toBe(area);
-    expect(faceArea2Big(q, 1, b.core)).toBe(2n * (4000n - 54n) * (2000n - 54n));
-    content(q);
-  });
 });

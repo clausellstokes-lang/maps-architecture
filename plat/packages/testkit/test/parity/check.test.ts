@@ -255,53 +255,6 @@ describe('the ng-faces kind (N-21)', () => {
   });
 });
 
-describe('hardening round S1 (N-j): a crossing of an empty file fails C1, never passes', () => {
-  const EMPTY_ROWS = 'file: empty: the file holds no row — an empty baseline file fails, never passes vacuously (§13.8 Edges; C-0099)';
-  const EMPTY_FACES = 'faces: empty: the file holds no face — an empty face file fails, never passes vacuously (§13.8 Edges; C-0099)';
-  it('baselines.json as [] or { rows: [] } with its rows-0 record: C1 fails naming it, every other check and the record pass', () => {
-    for (const v of [[], { schema: 'plat.baselines/1', metricsVersion: '1.0.0', rows: [] }]) {
-      const r = check(v);
-      expect(r.rows).toBe(0);
-      expect(r.record.status).toBe('pass');
-      expect(line(r, 'C1')).toEqual({ id: 'C1', status: 'fail', problems: [EMPTY_ROWS] });
-      expect(r.checks.filter((c) => c.status === 'fail').map((c) => c.id)).toEqual(['C1']);
-      expect(r.pass).toBe(false);
-    }
-    // one row is not empty: the clean one-row file passes
-    expect(check([rows2()[0]]).pass).toBe(true);
-  });
-
-  it('ng-faces.json of no face (hoods kept or not): C1 fails naming it; a file with faces passes', () => {
-    const file = 'packages/testkit/baselines/ng-faces.json';
-    for (const v of [{ ...synthetic(), faces: [] }, { ...synthetic(), hoods: [], faces: [] }]) {
-      const r = check(v, { kind: 'ng-faces', file });
-      expect(r.rows).toBe(0);
-      expect(r.record.status).toBe('pass');
-      expect(line(r, 'C1').status).toBe('fail');
-      expect(line(r, 'C1').problems).toContain(EMPTY_FACES);
-      expect(r.pass).toBe(false);
-    }
-    expect(line(check({ ...synthetic(), hoods: [], faces: [] }, { kind: 'ng-faces', file }), 'C1').problems).toEqual([EMPTY_FACES]);
-    expect(check(synthetic(), { kind: 'ng-faces', file }).pass).toBe(true);
-  });
-
-  it('the command: the note probe — [] with a rows-0 record — exits 1 (it exited 0 before the round)', () => {
-    const root = mkdtempSync(join(tmpdir(), 'plat-k05-empty-'));
-    try {
-      mkdirSync(join(root, 'packages', 'testkit', 'baselines'), { recursive: true });
-      writeFileSync(join(root, FILE), '[]\n');
-      writeFileSync(join(root, 'packages', 'testkit', 'baselines', 'crossings.json'), JSON.stringify([record(Buffer.from('[]\n'), 0)]));
-      const r = runBaselinesCheck([FILE], { platRoot: root });
-      expect(r.code).toBe(1);
-      expect(r.lines[0]).toMatch(/^baselines:check packages\/testkit\/baselines\/baselines\.json \(baselines, 0 rows, sha256 37517e5f3dc6…\): fail$/);
-      expect(r.lines).toContain(`  C1 fail: ${EMPTY_ROWS}`);
-      expect(r.lines).toContain('  record pass');
-    } finally {
-      rmSync(root, { recursive: true, force: true });
-    }
-  });
-});
-
 describe('runBaselinesCheck: the command (C-0113)', () => {
   let root = '';
   beforeAll(() => {

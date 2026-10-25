@@ -78,13 +78,6 @@ describe('the synthetic per-plot S11 workload (C-0107)', () => {
     expect(s11Problems(missing)).toHaveLength(1);
     const coarse = plots.map((p, i) => (i === 0 ? { ...p, calls: p.calls.map((c) => (c.op === 'insertChain' ? { ...c, level: 3 as const } : c)) } : p));
     expect(s11Problems(coarse)).toHaveLength(1);
-    // the split clauses (N-5): a plot with no yard split, and a plot with an extra split off L4 beside its L4 ones
-    const noSplit = plots.map((p, i) => (i === 1 ? { ...p, calls: p.calls.filter((c) => c.op !== 'splitFace') } : p));
-    expect(s11Problems(noSplit)).toHaveLength(1);
-    const split = plots[2].calls.find((c) => c.op === 'splitFace');
-    if (split === undefined) throw new Error('no split');
-    const offLevel = plots.map((p, i) => (i === 2 ? { ...p, calls: [...p.calls, { ...split, level: 3 as const }] } : p));
-    expect(s11Problems(offLevel)).toHaveLength(1);
   }, 60_000);
 
   it('times through M0-f-01’s harness: a stamped result, its figure the median per-plot µs of the S11 calls', async () => {

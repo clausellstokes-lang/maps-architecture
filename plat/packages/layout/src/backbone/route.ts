@@ -284,25 +284,19 @@ function midpoint(d: DeckSegment): { x: number; y: number } {
  * one class at a time; then `unserved`. Every rung that ran is appended to `rungs`; route.nodes charged is added to
  * `work`.
  *
- * Giving a deck up (C-0236 (4), refined by C-0297 and c-03 S3): every crossing of the course whose approach cannot meet
- * the radius is given up at once, each for another site within its own band (§5.2: "another crossing site on the reach
- * within its search band", read per crossing). A deck given up is impassable to every later search of the ladder, and
- * so is every deck whose midpoint lies beyond the band of each deck given up so far — but those the courses crossed
- * with a usable approach — so a re-solve may take, as a new crossing, only another site within a given-up deck's band.
- * The part is re-solved whether or not such a site stands: a course that reaches its destination with no new crossing
- * (the deck given up was not needed) is served, `another_site` held with `to` null; with no course at all the rung did
- * not hold, the extra bridge is listed and the ladder goes on to the slope rung, then `unserved` — `why` 'approach'
- * when no other site stood in the first deck's band, else 'no path'.
+ * Giving a deck up (C-0236 (4), refined by C-0297): the deck is impassable to every later search of the ladder, and
+ * so is every deck whose midpoint lies beyond the band of the first deck given up — but those the course already
+ * crosses with a usable approach — so a re-solve may take, as a new crossing, only another site within the band. The
+ * part is re-solved whether or not such a site stands: a course that reaches its destination with no new crossing (the
+ * deck given up was not needed) is served, `another_site` held with `to` null; with no course at all the rung did not
+ * hold, the extra bridge is listed and the ladder goes on to the slope rung, then `unserved` — `why` 'approach' when no
+ * other site stood in the band, else 'no path'.
  */
 export function routeLadder(rg: RouteGraph, sources: readonly number[], targets: readonly number[], opts: LadderOptions, rungs: RouteRung[], work: { n: number }, given?: readonly number[]): KernelResult<Laddered | null> {
-  const callerExcluded = new Set<string>(opts.excludedDecks ?? []);
-  let excluded = new Set<string>(callerExcluded);
+  const excluded = new Set<string>(opts.excludedDecks ?? []);
   let cls = opts.class;
   let nodes: number[] | null = given === undefined ? null : given.slice();
   let firstGivenUp: DeckSegment | null = null;
-  // Every deck given up, and the decks the courses crossed with a usable approach (kept passable beyond the bands).
-  const givenUp: DeckSegment[] = [];
-  const kept = new Set<string>();
   // Whether another site stood in the band when the first deck was given up (the report's `why`).
   let bandEmpty = false;
   for (let guard = 0; guard < 64; guard += 1) {
@@ -333,8 +327,8 @@ export function routeLadder(rg: RouteGraph, sources: readonly number[], targets:
     }
     const cs = crossingsOf(rg, nodes);
     const r = opts.radiusCm(cls);
-    const bad = cs.filter((c) => !approachUsable(rg, nodes as number[], c, r));
-    if (bad.length === 0) {
+    const bad = cs.find((c) => !approachUsable(rg, nodes as number[], c, r));
+    if (bad === undefined) {
       if (firstGivenUp !== null) {
         const given = midpoint(firstGivenUp);
         const used = cs.find((c) => dist(midpoint(c.deck), given) <= opts.searchBandCm);
@@ -342,24 +336,18 @@ export function routeLadder(rg: RouteGraph, sources: readonly number[], targets:
       }
       return ok({ nodes, class: cls, crossings: cs });
     }
-    // The approaches that cannot meet the radius: each deck is given up, and a re-solve may take another site within
-    // a given-up deck's band.
-    for (const c of cs) if (!bad.includes(c)) kept.add(c.deck.id);
-    for (const c of bad) {
-      if (!givenUp.some((d) => d.id === c.deck.id)) givenUp.push(c.deck);
-      kept.delete(c.deck.id);
-    }
-    const isGivenUp = (id: string): boolean => givenUp.some((d) => d.id === id);
+    // The approach cannot meet the radius: the deck is given up, and a re-solve may take another site within the band.
+    excluded.add(bad.deck.id);
     if (firstGivenUp === null) {
-      firstGivenUp = bad[0].deck;
+      firstGivenUp = bad.deck;
       const gm = midpoint(firstGivenUp);
+      const kept = new Set(cs.filter((c) => c !== bad && approachUsable(rg, nodes as number[], c, r)).map((c) => c.deck.id));
       bandEmpty = true;
-      for (const d of rg.decks) if (!callerExcluded.has(d.id) && !isGivenUp(d.id) && !kept.has(d.id) && dist(midpoint(d), gm) <= opts.searchBandCm) bandEmpty = false;
-    }
-    excluded = new Set<string>(callerExcluded);
-    for (const d of rg.decks) {
-      if (isGivenUp(d.id)) excluded.add(d.id);
-      else if (!kept.has(d.id) && givenUp.every((g) => dist(midpoint(d), midpoint(g)) > opts.searchBandCm)) excluded.add(d.id);
+      for (const d of rg.decks) {
+        if (excluded.has(d.id) || kept.has(d.id)) continue;
+        if (dist(midpoint(d), gm) <= opts.searchBandCm) bandEmpty = false;
+        else excluded.add(d.id);
+      }
     }
     nodes = null;
   }

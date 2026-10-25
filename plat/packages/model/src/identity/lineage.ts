@@ -11,8 +11,8 @@
 // and a present dup is 1 … 2³² − 1, so each key has exactly one lane form. Integers only; every refusal is a
 // RangeError naming the field, nothing is coerced.
 //
-// `isU32`, `isU16`, `isObject` and `copyLineage` are file-level exports the identity, matching and digest modules
-// share, imported by path; they are not part of the package's API (the folder index does not export them).
+// `isU32`, `isU16`, `isObject` and `copyLineage` are file-level exports the identity and matching modules share,
+// imported by path; they are not part of the package's API (the folder index does not export them).
 import { LaneWriter, layerCode, STAGES, type Hash128, type LineageHash, type PlatKey, type StageId } from '@plat/kernel';
 
 /**

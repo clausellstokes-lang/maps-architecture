@@ -2,12 +2,23 @@
 // (−)"; the intent's wealth gradient; the water term's q(x), item 111 (b); C-0255 (2), (8)) on M0-e-04's district
 // fixture with a hand-built terrain — a plateau, ground rising away from a river strip — and S1 (10)-shaped resources.
 import { describe, expect, it } from 'vitest';
+import { coveringGrid, type SiteResources } from '@plat/site';
 import { type FieldSite, type ScalarField } from '../../src/index.js';
-import { CELLS, fieldsVariant, fieldTown, pass1, wetResources, wetSite } from './support.js';
+import { CELLS, fieldsVariant, fieldTown, pass1, rect, terrainOf } from './support.js';
 const ft = fieldTown(1);
-// the wet site (support.ts): a 25 m height raster over the arena (± 3 200 m), the river a 100 m strip at
-// x ∈ [−1 600, −1 500] m, ground 0 there, rising 1 m per 100 m eastward, and a 100 m plateau
-const site: FieldSite = wetSite(ft);
+// the arena reaches ± 3 200 m (4 km frame, 30 % margin); a 25 m height raster over it
+const T_CELL = 2500;
+const T_N = 256;
+const T_O = -320000;
+/** The river: a 100 m strip at x ∈ [−1 600, −1 500] m; ground 0 there, rising 1 m per 100 m eastward; a 100 m plateau. */
+function height(x: number, y: number): number {
+  const rise = x > -150000 ? (x + 150000) / 100 : 0;
+  const plateau = x > 100000 && x < 250000 && y > 100000 && y < 250000 ? 10000 : 0;
+  return rise + plateau;
+}
+const terrain = terrainOf(T_CELL, T_N, T_N, T_O, T_O, height);
+const river = rect(-160000, -320000, -150000, 320000);
+const site: FieldSite = { ...ft.site, terrain, sources: { ...ft.site.sources, water: [river] } };
 
 function term(f: ScalarField, p: { x: number; y: number }, name: string): number {
   return f.drivers([p]).terms.find((t) => t.term === name)?.value ?? NaN;
@@ -60,7 +71,15 @@ describe('elevation and low, damp ground', () => {
 
 describe('the water term (soft; weight 0 at M0, C-0049) and the wealth gradient', () => {
   it('q(x) at a non-zero weight: the river bank\'s proximity or the wells\' yield, whichever is higher', () => {
-    const res = wetResources();
+    const rg = coveringGrid({ cellCm: T_CELL, cols: T_N, rows: T_N, originX: T_O, originY: T_O }, 10000);
+    const wellYield = new Float32Array(rg.cols * rg.rows);
+    for (let j = 0; j < rg.rows; j += 1) for (let i = 0; i < rg.cols; i += 1) {
+      const x = rg.originX + (i + 0.5) * rg.cellCm;
+      const y = rg.originY + (j + 0.5) * rg.cellCm;
+      if (x > 0 && x < 100000 && y > -250000 && y < -100000) wellYield[j * rg.cols + i] = 0.5;
+    }
+    const z = new Float32Array(wellYield.length);
+    const res: SiteResources = { cellCm: 10000, ore: z, stone: z, timber: z, fish: z, clay: z, fertile: z, wellYield, slope: z };
     const wet = fieldsVariant((rows) => (rows.prosperity['waterTerm.weight'] = { ...rows.prosperity['waterTerm.weight'], value: 0.2 }));
     const r = pass1(ft, {}, { ...site, resources: res }, wet);
     expect(term(r.prosperity, { x: -155000, y: 0 }, 'waterTerm')).toBeGreaterThan(0.9 * 0.2);

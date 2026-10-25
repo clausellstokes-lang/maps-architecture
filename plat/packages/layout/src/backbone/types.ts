@@ -173,9 +173,9 @@ export interface S4Report {
   readonly belowRadius: number;
   /** Chains whose smoothing was given up for the simplified course (it would have crossed something). */
   readonly unsmoothed: number;
-  /** Route parts whose course meets the wall off their gate once held to their side at the gate (C-0236 (9), c-03 S3; 0 on the fixtures). */
+  /** Route parts whose lattice course meets the wall off their gate (C-0236 (9); 0 on the fixtures). */
   readonly offGate: number;
-  /** The way edges two or more ways share: 0 when the graph merged every shared run (§4.3; the item's test; c-03 S3). */
+  /** The commit's W_STRETCH_SHARED count: 0 when the graph merged every shared run (§4.3; the item's test). */
   readonly stretchShared: number;
   /** Route parts not committed (F-ROUTE's `unserved`), by id. */
   readonly unserved: readonly string[];

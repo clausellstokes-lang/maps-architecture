@@ -3,6 +3,7 @@
 // normalisation for the Hausdorff-0 comparison (a ring's point set: straight-through vertices dropped, started at its
 // lowest-leftmost vertex — two rings with one normal form bound one point set) and exact areas (BigInt shoelace),
 // written here from their definitions, never with the code under test.
+import { readFileSync } from 'node:fs';
 import { faceWalk, idOf, isFaceLive, rowsOn, roleInfo, type FaceId, type Plat } from '../../../src/arena/index.js';
 import { insertChain } from '../../../src/insert/index.js';
 import type { KernelResult } from '../../../src/num/index.js';
@@ -14,6 +15,7 @@ import { HOT_PIXEL_CM } from '../../../src/index/index.js';
 import { LATTICE } from '../../../src/num/index.js';
 import { commit, framed, healthy, pt, spec, state } from '../../tx/support.js';
 import { faceAt } from '../../faces/support.js';
+import { emptyArena, ins, tx as shell } from '../../insert/step3-5/support.js';
 
 export { commit, faceAt, framed, healthy, pt, spec, state };
 
@@ -468,4 +470,143 @@ export function hausdorffCm(a: readonly (readonly LatticePoint[])[], b: readonly
   for (const q of samples(a)) h = Math.max(h, to(q, b));
   for (const q of samples(b)) h = Math.max(h, to(q, a));
   return h;
+}
+
+/**
+ * A value read inside a batch of `level` that writes nothing — the read-only service on the open overlay (session round
+ * S9, C-0387: kerb(F) is read by a dry-run in the open transaction it is asked on, so every read sits in a batch). A
+ * refused batch is the test's failure. A batch of L2 or finer is S9's (`AT_S9`) unless `over` names another stage.
+ */
+export function readIn<T>(p: Plat, level: Level, fn: (o: Overlay) => T, over: Partial<KernelTx> = level >= 2 ? AT_S9 : {}): T {
+  let out: { v: T } | null = null;
+  const r = tx(p, spec(level, over), (o) => {
+    out = { v: fn(o) };
+    return { ok: true, value: null, warnings: [] };
+  });
+  if (!r.ok) throw new Error(`support: the read's batch was refused: ${r.code} ${r.detail}`);
+  return (out as unknown as { v: T }).v;
+}
+
+// ---- the fixtures read from M0-c-06's CITY smoke (vertexcontact-faces.json, deadend-faces.json) ----------------------
+
+/** A class-B face of the fusion fixture (vertexcontact-faces.json; vertexcontact.test.ts's module comment). */
+export interface ContactFixture {
+  readonly seed: number;
+  readonly face: number;
+  readonly block: string;
+  readonly owner: string;
+  /** A point inside the block (its seed). */
+  readonly at: [number, number];
+  /** The way F touches at one route vertex only, that vertex, and how deep the pre-J318 kerb reached into its band. */
+  readonly vertexOnly: { readonly role: string; readonly entity: string; readonly at: [number, number]; readonly depthBeforeCm: number };
+  /** F's L1 route ring as the derivation left it after S8. */
+  readonly ring: [number, number][];
+  /** Every L1 chain with an edge within 30 m of F's box: its route there and its declared half-width (null: none). */
+  readonly chains: { readonly role: string; readonly entity: string; readonly hw: number | null; readonly points: [number, number][] }[];
+  /** kerb(F) as the pre-J318 census read it there, and as J318's reads it. */
+  readonly kerbBefore: [number, number][][];
+  readonly kerbAfter: [number, number][][];
+}
+
+/** One run of a fixture chain as the rebuilt arena holds it: a chain's second and later runs (the route cut by the box) its own entity. */
+export interface ContactRun {
+  readonly role: string;
+  /** The entity the run was inserted as: the chain's, or `<entity>-<k>` for its k-th further run. */
+  readonly entity: string;
+  /** The chain's entity. */
+  readonly of: string;
+  readonly hw: number | null;
+  readonly points: { readonly x: number; readonly y: number }[];
+}
+
+/** The fusion fixture's faces. */
+export function contactFixtures(): ContactFixture[] {
+  return (JSON.parse(readFileSync(new URL('./vertexcontact-faces.json', import.meta.url), 'utf8')) as { faces: ContactFixture[] }).faces;
+}
+
+/** The arterials first (§4.1's order: S4's ways before S5's streets and S8's lanes), then every other chain in key order. */
+function contactOrder(fx: ContactFixture): ContactFixture['chains'] {
+  const rank = (c: ContactFixture['chains'][number]): number => (c.role !== 'way' ? 0 : c.entity.length <= 7 ? 1 : 2);
+  return fx.chains.slice().sort((a, b) => rank(a) - rank(b) || (a.entity < b.entity ? -1 : a.entity > b.entity ? 1 : 0));
+}
+
+/** A margin ring 30 m round the points at L0 (the fixtures' arena). */
+function marginRound(points: readonly (readonly [number, number])[]): Plat {
+  const x0 = Math.min(...points.map((q) => q[0])) - 3000;
+  const y0 = Math.min(...points.map((q) => q[1])) - 3000;
+  const x1 = Math.max(...points.map((q) => q[0])) + 3000;
+  const y1 = Math.max(...points.map((q) => q[1])) + 3000;
+  const p = emptyArena();
+  const m = ins(shell(p, 0), [[x0, y0], [x1, y0], [x1, y1], [x0, y1]], [{ role: 'margin', entity: 'terrain:1' }], 'mandatory', { closed: true });
+  if (!m.ok) throw new Error(`the margin ring was refused: ${m.code}`);
+  return p;
+}
+
+/** The fusion fixture's arena: a margin ring round it at L0, then its chains' runs at L1; F the face holding the block's seed. */
+export function buildContact(fx: ContactFixture): { p: Plat; face: number; runs: ContactRun[]; widths: SpineWidths; without: SpineWidths } {
+  const p = marginRound([...fx.ring, ...fx.chains.flatMap((c) => c.points)]);
+  const table: Record<string, number> = {};
+  const seen = new Map<string, number>();
+  const runs: ContactRun[] = [];
+  for (const c of contactOrder(fx)) {
+    const k = seen.get(`${c.role}:${c.entity}`) ?? 0;
+    seen.set(`${c.role}:${c.entity}`, k + 1);
+    const entity = k === 0 ? c.entity : `${c.entity}-${String(k)}`;
+    commit(p, 1, (o) => insertChain(o, c.points.map((q) => pt(q[0], q[1])), [{ role: c.role, entity }], 'mandatory'));
+    if (c.role === 'way' && c.hw !== null) table[entity] = c.hw;
+    runs.push({ role: c.role, entity, of: c.entity, hw: c.hw, points: c.points.map(([x, y]) => ({ x, y })) });
+  }
+  const [face] = own(p, fx.owner, [fx.at]);
+  const rest: Record<string, number> = {};
+  for (const r of runs) if (r.role === 'way' && r.hw !== null && r.of !== fx.vertexOnly.entity) rest[r.entity] = r.hw;
+  return { p, face, runs, widths: widthsOf(table), without: widthsOf(rest) };
+}
+
+/** An N-57 (2) face of the integrated smoke (deadend-faces.json; deadend.test.ts's module comment). */
+export interface DeadEndFixture {
+  seed: number;
+  face: number;
+  block: string;
+  lane: string;
+  owner: string;
+  at: [number, number];
+  ring: [number, number][];
+  boundary: [number, number][];
+  stubs: [[number, number], [number, number]][];
+  spines: { role: string; entity: string; hw: number; points: [number, number][] }[];
+  kerb: [number, number][][];
+}
+
+/** The dead-end fixture's faces. */
+export function deadEndFixtures(): DeadEndFixture[] {
+  return (JSON.parse(readFileSync(new URL('./deadend-faces.json', import.meta.url), 'utf8')) as { faces: DeadEndFixture[] }).faces;
+}
+
+/** The dead-end fixture's arena: a margin ring round it at L0, then at L1 its spines, the T-junction stubs and the spine-less edge. */
+export function buildDeadEnd(fx: DeadEndFixture): { p: Plat; face: FaceId; widths: SpineWidths } {
+  const p = marginRound([...fx.ring, ...fx.spines.flatMap((s) => s.points)]);
+  const table: Record<string, number> = {};
+  for (const s of fx.spines) {
+    commit(p, 1, (o) => insertChain(o, s.points.map((q) => pt(q[0], q[1])), [{ role: s.role, entity: s.entity }], 'mandatory'));
+    table[s.entity] = s.hw;
+  }
+  fx.stubs.forEach(([a, b], i) => commit(p, 1, (o) => insertChain(o, [pt(a[0], a[1]), pt(b[0], b[1])], [{ role: 'way', entity: `way:stub${String(i)}` }], 'mandatory')));
+  commit(p, 1, (o) => insertChain(o, fx.boundary.map((q) => pt(q[0], q[1])), [{ role: 'way', entity: 'way:edge' }], 'mandatory'));
+  const [face] = own(p, fx.owner, [fx.at]);
+  return { p, face, widths: widthsOf(table) };
+}
+
+/**
+ * A recorded ring set with round S9's declared shift applied (C-0387; the choices row lists each move with its
+ * attractor): every `from` vertex replaced by `to`, or dropped where `to` is null (a vertex the dry-run's region holds
+ * straight through). The pre-S9 record stays the fixture's; the test reads the shift beside it.
+ */
+export function shifted(rings: readonly (readonly (readonly [number, number])[])[], moves: readonly (readonly [readonly [number, number], readonly [number, number] | null])[]): [number, number][][] {
+  const key = (q: readonly [number, number]): string => `${String(q[0])},${String(q[1])}`;
+  const by = new Map(moves.map(([a, b]) => [key(a), b]));
+  for (const [a] of moves) if (!rings.some((r) => r.some((q) => key(q) === key(a)))) throw new Error(`shifted: ${key(a)} is no vertex of the record`);
+  return rings.map((r) => r.flatMap((q): [number, number][] => {
+    const to = by.get(key(q));
+    return to === undefined ? [[q[0], q[1]]] : to === null ? [] : [[to[0], to[1]]];
+  }));
 }

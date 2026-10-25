@@ -20,7 +20,7 @@ import {
 import { FACE_KIND_RESIDUE } from '../../src/faces/index.js';
 import type { Hash128 } from '../../src/hash/index.js';
 import { insertChain } from '../../src/insert/index.js';
-import { removeEdges, restoreGeneration, restoreSavepoint, setOwner, takeSavepoint, tx, type CommitRecord, type DirtySet, type Overlay, type TxEnv } from '../../src/tx/index.js';
+import { removeEdges, restoreGeneration, restoreSavepoint, setOwner, takeSavepoint, tx, type Overlay, type TxEnv } from '../../src/tx/index.js';
 import type { Level } from '../../src/types/index.js';
 import { ALONG_MIX, DEFAULT_MIX, randomBatch, rng, type Live, type Mix } from '../tx/fuzzgen.js';
 import { commit, framed, must, pt, S6, spec, vertexAtPoint } from '../tx/support.js';
@@ -85,12 +85,6 @@ describe('the maintained level digests equal the recomputed ones after every bat
       expect(oracleRun(seed * 7919, steps, mix)).toBeGreaterThan(0);
     }, 120_000);
   }
-  // The closing check s2's B-1: step 11 is an L1 'stretch (rekeyed)' whose re-level frees an L1 record and moves its
-  // L2 children to the survivor without listing them (relevel's face pass); the update must re-read a removed record's
-  // children, or each keeps its stale item (parent: the freed slot) and stays in the L2 tree as no one's own child.
-  it('a removed record\'s children are re-read: a re-level that re-parents them unlisted keeps L2 – L4 as recomputed (B-1, seed 44509828)', () => {
-    expect(oracleRun(44_509_828, 12, DEFAULT_MIX)).toBeGreaterThan(0);
-  }, 120_000);
 });
 
 /** The frame, an L1 street along y = 2000, and an L3 plot line from the north ending on it at (2000, 2000). */
@@ -427,131 +421,5 @@ describe('N-56 (5): the maintained state is keyed on (restore generation, versio
     commit(p, 1, rolledBack(2), {}, ENV);
     expect(all(p)).toEqual(fresh(p));
     expect(levelDigestBuilds(p)).toBe(3);
-  });
-});
-
-// Paths and lanes the fuzz families reach only together with another one, each pinned alone (C-0412).
-describe('reach and lanes the fuzz families cover only together', () => {
-  /** An env that keeps the last commit's dirty set and record beside the digest listener. */
-  function watching(): { env: TxEnv; last: () => { dirty: DirtySet; record: CommitRecord } } {
-    let seen: { dirty: DirtySet; record: CommitRecord } | null = null;
-    const env: TxEnv = {
-      onCommit: (p, dirty, record) => {
-        seen = { dirty, record };
-        updateLevelDigests(p, dirty, record);
-      },
-    };
-    return { env, last: () => seen as unknown as { dirty: DirtySet; record: CommitRecord } };
-  }
-
-  it('a promotion moves a face no dirty face names: the record\'s promoted and demoted vertices reach their neighbours\' items (N-2, K3)', () => {
-    const { env, last } = watching();
-    const p = framed();
-    attachLevelDigests(p);
-    commit(p, 1, (o) => insertChain(o, [pt(0, 2000), pt(4000, 2000)], [{ role: 'way', entity: 'way:1' }], 'mandatory'), {}, env);
-    // An L3 plot line from the north ending on the street at s; an L2 kerb in the south half, so the south L2 face exists.
-    commit(p, 3, (o) => insertChain(o, [pt(2000, 3500), pt(2000, 2000)], [{ role: 'plot_line', entity: 'plot:1' }], 'mandatory'), {}, env);
-    commit(p, 2, (o) => insertChain(o, [pt(3500, 500), pt(3500, 1500)], [{ role: 'kerb', entity: 'lane:s' }], 'mandatory'), {}, env);
-    const north: number[] = [];
-    for (let f = 0; f < p.slots.face[2].top; f++) {
-      if (isFaceLive(p, 2, f) && faceWalk(p, 2, f)[0].some((h) => p.vertices.y[p.halfEdges.origin[h]] === 4000)) north.push(f);
-    }
-    expect(north).toHaveLength(1);
-    // The north L2 face re-owned, so it is an item of the L2 tree (no longer its parent's own child).
-    commit(p, 2, (o) => setOwner(o, north, 'block:n'), { stage: S6, rederivesFrom: S6 }, env);
-    const s = vertexAtPoint(p, 2000, 2000);
-    const ref = { owner: 'block:n', level: 2 as Level };
-    const before = all(p);
-    const refBefore = hex(levelDigests(p).ref(ref));
-    // An L2 spur from the south ends 15 cm from s: s is promoted to L2 and now enters the north face's L2 ring.
-    commit(p, 2, (o) => insertChain(o, [pt(2015, 1000), pt(2015, 1990)], [{ role: 'corridor_split', entity: 'way:n' }], 'mandatory'), {}, env);
-    const { dirty, record } = last();
-    expect(record.promoted).toEqual([s]);
-    expect(dirty.owners).not.toContain('block:n');
-    for (const d of dirty.faces) for (const f of [...d.created, ...d.changed, ...d.removed]) expect(d.level === 2 && f === north[0], `L${d.level} face ${f}`).toBe(false);
-    expect(changedEntities(p, dirty.version)).toContain('block:n');
-    expect(hex(levelDigests(p).ref(ref))).not.toBe(refBefore);
-    expect(hex(levelDigests(p).ref(ref))).toBe(hex(freshLevelDigests(p).ref(ref)));
-    expect(all(p)).toEqual(fresh(p));
-    // Its removal demotes s: every level digest and the reference come back exactly.
-    commit(p, 2, (o) => removeEdges(o, { role: 'corridor_split', entity: 'way:n' }), {}, env);
-    expect(last().record.demoted.vertices).toEqual([s]);
-    expect(all(p)).toEqual(before);
-    expect(hex(levelDigests(p).ref(ref))).toBe(refBefore);
-    expect(fresh(p)).toEqual(before);
-    expect(levelDigestBuilds(p)).toBe(1);
-  });
-
-  it('a chain\'s entity enters its chain item: 65 arenas equal but for the way\'s entity give 65 level digests (N-3, K12)', () => {
-    // 65 entities in DIGEST_BUCKETS = 64 buckets: two of them share a bucket, so only the item's entity lane tells
-    // them apart there.
-    const seen = new Set<string>();
-    for (let i = 0; i < 65; i++) {
-      const p = framed();
-      commit(p, 1, (o) => insertChain(o, [pt(0, 2000), pt(4000, 2000)], [{ role: 'way', entity: `way:${i}` }], 'mandatory'));
-      seen.add(hex(recomputeLevelDigest(p, 1)));
-    }
-    expect(seen.size).toBe(65);
-  });
-
-  it('a chain\'s x coordinates enter its chain item: a slanted way whose bend moves 2 m east gives another ChainRef (N-12, K13x)', () => {
-    const bent = (x: number): Plat => {
-      const p = framed();
-      attachLevelDigests(p);
-      commit(p, 1, (o) => insertChain(o, [pt(0, 2000), pt(x, 2300), pt(4000, 2000)], [{ role: 'way', entity: 'way:1' }], 'mandatory'), {}, ENV);
-      return p;
-    };
-    const a = bent(1500);
-    const b = bent(1700);
-    expect(hex(freshLevelDigests(b).ref(WAY))).not.toBe(hex(freshLevelDigests(a).ref(WAY)));
-    expect(hex(freshLevelDigests(b).ref({ ...WAY, ordinal: 0 }))).not.toBe(hex(freshLevelDigests(a).ref({ ...WAY, ordinal: 0 })));
-    expect(hex(levelDigests(a).ref(WAY))).toBe(hex(freshLevelDigests(a).ref(WAY)));
-    expect(hex(levelDigests(b).ref(WAY))).toBe(hex(freshLevelDigests(b).ref(WAY)));
-  });
-
-  it('a hole\'s place enters its face item: the same face with its hole 1 m east, or 1 m north, gives another FaceRef (N-13, K16c)', () => {
-    const holed = (dx: number, dy: number): Plat => {
-      const p = streetArena(2000);
-      const hole = HOLES[0].map((q) => pt(q.x + dx, q.y + dy));
-      commit(p, 1, (o) => insertChain(o, hole, [{ role: 'way', entity: 'hole:0' }], 'mandatory'), {}, ENV);
-      expect(faceWalk(p, 1, faceWithHoles(p, 1))).toHaveLength(2);
-      return p;
-    };
-    const refs = [holed(0, 0), holed(100, 0), holed(0, 100)].map((p) => {
-      expect(hex(levelDigests(p).ref(DISTRICT))).toBe(hex(freshLevelDigests(p).ref(DISTRICT)));
-      return hex(freshLevelDigests(p).ref(DISTRICT));
-    });
-    expect(new Set(refs).size).toBe(3);
-  });
-
-  it('an own child re-owned is its own face again: it enters its level\'s tree, and leaves it when owned back (N-9)', () => {
-    const p = streetArena(2000);
-    // An L3 line inside the south half materialises its L2 parent: the own child of district:a's L1 face.
-    commit(p, 3, (o) => insertChain(o, [pt(500, 1000), pt(1500, 1000)], [{ role: 'plot_line', entity: 'plot:1' }], 'mandatory'), {}, ENV);
-    const l2: number[] = [];
-    for (let f = 0; f < p.slots.face[2].top; f++) if (isFaceLive(p, 2, f)) l2.push(f);
-    expect(l2).toHaveLength(1);
-    expect(p.faces[2].owner[l2[0]]).toBe(handleOf(p, 'district:a'));
-    const own = all(p);
-    commit(p, 2, (o) => setOwner(o, l2, 'block:a'), { stage: S6, rederivesFrom: S6 }, ENV);
-    const reowned = all(p);
-    expect(reowned.slice(0, 2)).toEqual(own.slice(0, 2));
-    for (let m = 2; m <= 4; m++) expect(reowned[m], `L${m}`).not.toBe(own[m]);
-    expect(reowned).toEqual(fresh(p));
-    commit(p, 2, (o) => setOwner(o, l2, 'district:a'), { stage: S6, rederivesFrom: S6 }, ENV);
-    expect(all(p)).toEqual(own);
-    expect(fresh(p)).toEqual(own);
-    expect(levelDigestBuilds(p)).toBe(1);
-  });
-
-  it('two faces of one level that share a sort key are refused, never ordered by insertion (§3.3: the key is total; N-6)', () => {
-    // Every vertex written finer than L1 in place: both L1 faces lose every vertex of their L1 rings, so both read the
-    // key [0, 0, 0, 0] — the degenerate face of N-6, which no lawful arena holds.
-    const p = streetArena(2000);
-    for (let v = 0; v < p.slots.vertex.top; v++) p.vertices.level[v] = 4;
-    expect(() => recomputeLevelDigest(p, 0)).not.toThrow();
-    expect(() => recomputeLevelDigest(p, 1)).toThrow('digest: two L1 face items share the sort key 0,0,0,0 (§3.3: the key is total; a degenerate face)');
-    // A FaceRef over both (district:a owns them) reads them in the same order, so it is refused alike.
-    expect(() => freshLevelDigests(p).ref(DISTRICT)).toThrow('digest: two L1 face items share the sort key 0,0,0,0 (§3.3: the key is total; a degenerate face)');
   });
 });

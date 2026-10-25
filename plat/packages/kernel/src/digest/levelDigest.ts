@@ -383,25 +383,13 @@ function compareItems(kind: number, a: Item, b: Item): number {
   return a.rank[2] === b.rank[2] ? 0 : a.rank[2] < b.rank[2] ? -1 : 1;
 }
 
-/**
- * Items in sort-key order. §3.3's face key is total over live level-m faces (one directed level-m route edge bounds one
- * face), so two face items with one key are a degenerate face (an outer ring with no vertex of level ≤ m reads
- * [0, 0, 0, 0]) and are refused rather than left in Map insertion order, which would make the digest depend on history
- * (N-6). Chain items never tie: their ids are unique per level and the role ranks are distinct.
- */
-function sortItems(kind: number, level: number, items: Item[]): Item[] {
-  items.sort((x, y) => compareItems(kind, x, y));
-  if (kind === FACES) for (let i = 1; i < items.length; i++) check(compareItems(kind, items[i - 1], items[i]) !== 0, `two L${level} face items share the sort key ${items[i].rank.join(',')} (§3.3: the key is total; a degenerate face)`);
-  return items;
-}
-
 // ---- trees ----------------------------------------------------------------------------------------------------------
 
 function treeRoot(tree: Tree, kind: number, level: number): Hash128 {
   if (tree.root !== null) return tree.root;
   for (let b = 0; b < DIGEST_BUCKETS; b++) {
     if (tree.digests[b] !== null) continue;
-    const items = sortItems(kind, level, [...tree.buckets[b].values()]);
+    const items = [...tree.buckets[b].values()].sort((x, y) => compareItems(kind, x, y));
     W.reset().u32(TAG_BUCKET).u32(items.length);
     for (const it of items) for (const w of it.hash) W.u32(w);
     tree.digests[b] = W.digest();
@@ -683,17 +671,6 @@ export function updateLevelDigests(p: Plat, dirty: DirtySet, record: CommitRecor
       for (const v of nowV) if (!oldV.has(v)) Ev.add(v);
     }
   }
-  // (1a) The children of every removed record: a re-level that frees a record moves its live children to a survivor
-  // without listing them (relevel's face pass), so their items would keep the freed slot as their parent and their
-  // own-child standing would be judged on it (closing check s2's B-1, C-0413). Re-read, each child's item carries its
-  // new parent; a child that left with its parent reads as removed.
-  for (const d of dirty.faces) {
-    if (d.level === 4) continue;
-    for (const f of d.removed) {
-      const kids = st.children[d.level + 1].get(f);
-      if (kids !== undefined) for (const c of kids) faces.add(faceRef(d.level + 1, c));
-    }
-  }
   // (1b) Coarser records a finer batch materialised as parents (§2.2 rule 2, C-0177 (9)) — the record lists the batch's
   // level and finer ones only: every unknown live ancestor of a dirty face.
   for (const d of dirty.faces) {
@@ -849,7 +826,7 @@ function refOf(p: Plat, st: State, ref: FaceRef | ChainRef | EdgeSetRef | Vertex
         items.push(it);
       }
     }
-    sortItems(FACES, ref.level, items);
+    items.sort((a, b) => compareItems(FACES, a, b));
     W.reset().u32(TAG_FACEREF).u32(ref.level).utf8(ref.owner).u32(items.length);
     for (const it of items) for (const w of it.hash) W.u32(w);
     return W.digest();

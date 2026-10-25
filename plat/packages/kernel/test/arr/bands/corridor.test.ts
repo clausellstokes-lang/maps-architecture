@@ -5,13 +5,13 @@
 // point set: Hausdorff 0).
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
-import { createPlat, idOf, roleInfo, rowsOn, type FaceId, type Plat } from '../../../src/arena/index.js';
+import { createPlat, idOf, isVertexLive, roleInfo, rowsOn, type FaceId, type Plat } from '../../../src/arena/index.js';
 import { attachIndex } from '../../../src/index/index.js';
-import { err, ok } from '../../../src/num/index.js';
+import { err, LATTICE, ok } from '../../../src/num/index.js';
 import { insertChain } from '../../../src/insert/index.js';
 import { setOwner, tx } from '../../../src/tx/index.js';
 import type { Cm, PlatKey, StageId } from '../../../src/types/index.js';
-import { kerb, kerbOf, readFace, readKerb } from '../../../src/arr/kerb.js';
+import { kerb, readKerb } from '../../../src/arr/kerb.js';
 import { corridorUnion, opCorridorUnion } from '../../../src/arr/corridorUnion.js';
 import { outlinePieces, type BandResult } from '../../../src/arr/bandUnion.js';
 import { CELLS } from '../../insert/step1-2/support.js';
@@ -24,12 +24,14 @@ import {
   edgesWithRole,
   faceAt,
   framed,
+  hausdorffCm,
   healthy,
   normalHot,
   normals,
   own,
   profile,
   pt,
+  readIn,
   ringsOf,
   spec,
   splitsBetweenBlocks,
@@ -44,6 +46,39 @@ import {
 const W = widthsOf({ 'way:1': 300, 'way:2': 300 });
 
 /** Each block's rings as normal forms, by its L1 face. */
+/**
+ * The outline of a union of rings that meet only along shared edges (blocks of one face): every directed edge whose
+ * reverse is another ring's dropped, the rest chained into rings (each edge's end to the edge leaving it).
+ */
+function unionOutline(rings: readonly (readonly ReturnType<typeof pt>[])[]): ReturnType<typeof pt>[][] {
+  const key = (q: { x: number; y: number }): string => `${String(q.x)},${String(q.y)}`;
+  const edges = new Map<string, [ReturnType<typeof pt>, ReturnType<typeof pt>]>();
+  for (const r of rings) for (let i = 0; i < r.length; i += 1) edges.set(`${key(r[i])}>${key(r[(i + 1) % r.length])}`, [r[i], r[(i + 1) % r.length]]);
+  for (const k of [...edges.keys()]) {
+    const [a, b] = k.split('>');
+    if (edges.has(`${b}>${a}`)) {
+      edges.delete(k);
+      edges.delete(`${b}>${a}`);
+    }
+  }
+  const from = new Map<string, [ReturnType<typeof pt>, ReturnType<typeof pt>]>();
+  for (const e of edges.values()) from.set(key(e[0]), e);
+  const out: ReturnType<typeof pt>[][] = [];
+  while (from.size > 0) {
+    const [start] = from.keys();
+    const ring: ReturnType<typeof pt>[] = [];
+    let at = start;
+    while (from.has(at)) {
+      const e = from.get(at) as [ReturnType<typeof pt>, ReturnType<typeof pt>];
+      from.delete(at);
+      ring.push(e[0]);
+      at = key(e[1]);
+    }
+    out.push(ring);
+  }
+  return out;
+}
+
 function blocksByFace(p: Plat, faces: readonly FaceId[], r: BandResult): Map<FaceId, string[]> {
   const out = new Map<FaceId, string[]>();
   for (const f of faces) out.set(f, []);
@@ -128,6 +163,51 @@ describe('corridorUnion (§3.4, §3.7)', () => {
     expect(tilesExactly(p, 2, kids)).toEqual([]);
   });
 
+  it('§13.2 across two faces (N-52 (5), round S9): F’s and G’s reads in one batch give one contact on their shared edge, and one S9 batch commits both exactly', () => {
+    // T = way:t along y = 2000 (half-width 300: its inner edge above at y = 2300); F and G the faces above it, either side
+    // of the spine-less edge e from v = (2000, 2000) slanting up to (2600, 4000), so T's strip corner (2000, 2300) lies in
+    // F and its inner edge meets e at the contact c = (2090, 2300); F holds a spine-less stub from e at (2180, 2600) down
+    // to u = (2050, 2318), 18 cm off T's inner edge, 40 cm beside c (not on e: 43 cm from it). The read of F and of G is a
+    // dry-run on the one arena, which holds u: both meet e at c. Before round S9 a scratch overlay of F's operands routed
+    // the inner edge through u and on to e at (2095, 2318), while G's (which never held u) met e at c — 19 cm apart, within
+    // attractCm — and the commit attracted G's kerb onto F's contact: G's block was no longer kerb(G) (the pin is red
+    // under the pre-S9 engine, the lane's self-check)
+    const p = framed();
+    way(p, 'way:t', [[0, 2000], [4000, 2000]]);
+    commit(p, 1, (o) => insertChain(o, [pt(2000, 2000), pt(2600, 4000)], [{ role: 'district_bound', entity: 'district:e' }], 'mandatory'));
+    commit(p, 1, (o) => insertChain(o, [pt(2180, 2600), pt(2050, 2318)], [{ role: 'district_bound', entity: 'district:u' }], 'mandatory'));
+    const [F, G] = own(p, 'district:1', [[1000, 3000], [3600, 3000]]);
+    const ws = widthsOf({ 'way:t': 300 });
+    const onLineE = (q: { x: number; y: number }): boolean => (q.x - 2000) * 2000 - (q.y - 2000) * 600 === 0 && q.y > 2000 && q.y < 2600;
+    const s8 = new Map<FaceId, string[]>();
+    const onE = new Map<FaceId, string[]>();
+    commit(p, 1, (o) => {
+      for (const f of [F, G]) {
+        const k = kerb(o, f, ws);
+        if (!k.ok) return err(k.code, k.detail);
+        s8.set(f, normals(k.value));
+        onE.set(f, k.value.flat().filter(onLineE).map((q) => `${String(q.x)},${String(q.y)}`));
+      }
+      return ok(null);
+    });
+    // the precondition: u is a vertex of F's boundary within attractCm of T's inner edge, not on e, not G's
+    expect(ringsOf(p, 1, F).flat().some((q) => q.x === 2050 && q.y === 2318)).toBe(true);
+    expect(ringsOf(p, 1, G).flat().some((q) => q.x === 2050 && q.y === 2318)).toBe(false);
+    // one contact on e, read alike from both faces
+    expect(onE.get(F)).toEqual(['2090,2300']);
+    expect(onE.get(G)).toEqual(onE.get(F));
+    // corridorUnion of both in one L2 batch commits both exactly (Hausdorff 0 by normal forms): F's blocks — the stub
+    // splits F's at L2 into two, the triangle u, (2180, 2600) and c — tile kerb(F) exactly, their outline its ring
+    const r = commit(p, 2, (o) => corridorUnion(o, [F, G], ws), AT_S9);
+    healthy(p);
+    const v = r.value as BandResult;
+    const outline = (f: FaceId): string[] => normals(unionOutline(v.blocks.filter((b) => p.faces[2].parent[b] === f).flatMap((b) => ringsOf(p, 2, b))));
+    expect(v.blocks.filter((b) => p.faces[2].parent[b] === F).length).toBe(2);
+    expect(outline(F)).toEqual(s8.get(F));
+    expect(outline(G)).toEqual(s8.get(G));
+    expect(tilesExactly(p, 2, [F, G])).toEqual([]);
+  });
+
   it('§13.2 at a junction where F turns away: the split end spliced into kerb(F) is in S8’s working block and in S9’s committed block', () => {
     // two ways meeting end to end at a bend J = (2100, 2050) on slanted lines; the face below and right of them wraps
     // round J (F turns away there, C-0212 (4)): its corridor_split runs from J to the nearest kerb point, which lies on
@@ -148,10 +228,10 @@ describe('corridorUnion (§3.4, §3.7)', () => {
         const k = kerb(o, f, ws);
         if (!k.ok) return err(k.code, k.detail);
         s8.set(`${String(x)},${String(y)}`, normals(k.value));
-        const read = readFace(p, f, ws);
-        const u = kerbOf(read.rings, read.spines);
+        // the region the read's dry-run traced, before the split's end was spliced into it
+        const u = readKerb(o, f, ws);
         if (!u.ok) return err(u.code, u.detail);
-        plain.set(`${String(x)},${String(y)}`, normals(u.value));
+        plain.set(`${String(x)},${String(y)}`, normals(u.value.region));
       }
       return ok(null);
     });
@@ -204,14 +284,19 @@ describe('corridorUnion (§3.4, §3.7)', () => {
         const k = kerb(o, f, ws);
         if (!k.ok) return err(k.code, k.detail);
         s8.set(`${String(x)},${String(y)}`, normals(k.value));
-        const rk = readKerb(p, f, ws);
+        const rk = readKerb(o, f, ws);
         if (!rk.ok) return err(rk.code, rk.detail);
         for (const q of outlinePieces(rk.value)) if (!q.closed) chords.push(Math.hypot(q.points[q.points.length - 1].x - q.points[q.points.length - 2].x, q.points[q.points.length - 1].y - q.points[q.points.length - 2].y));
       }
       return ok(null);
     });
-    // the precondition: a piece closes on the spine-less edge by a chord within attractCm, as its last point
-    expect(chords.some((c) => c > 25 && c <= 26)).toBe(true);
+    // the precondition before round S9: a piece closed on the spine-less edge by a 25.96 cm chord (≤ attractCm) as its
+    // last point. Round S9 (C-0387), the declared shift: the dry-run lays the cap on the real arena, where its clip point
+    // on the spine-less edge, (1965, 2134), stands 25.96 cm from the strip's corner (1940, 2127) the read laid first —
+    // within attractCm, so the insertion attracts it there and the piece closes at the lane's end E by the strip's end
+    // edge (157 cm). The cap's sector beside it (≤ attractCm wide along F's edge) stays in the block: an attracted case
+    // (the KI row of round S9). S8's working block and S9's committed block agree exactly all the same
+    expect(chords.some((c) => c > 157 && c < 158)).toBe(true);
     const kids = keys.map(([x, y]) => faceAt(p, 1, x, y));
     commit(p, 1, (o) => setOwner(o, kids, 'district:1'));
     const r = commit(p, 2, (o) => corridorUnion(o, kids, ws), AT_S9);
@@ -225,11 +310,17 @@ describe('corridorUnion (§3.4, §3.7)', () => {
     expect(tilesExactly(p, 2, kids)).toEqual([]);
   });
 
-  it('§13.1: corridorUnion faces disjoint and covering, every block kerb(F) exactly, on random street networks', { timeout: TIMEOUT }, () => {
-    const tally = { cases: 0, exact: 0, refused: 0 };
+  it('§13.1: corridorUnion faces disjoint and covering, every block kerb(F) exactly, on random street networks; S8’s kerb ≡ S9’s block over every face, at least the share measured before round S9 (N-52 (5))', { timeout: TIMEOUT }, () => {
+    // S8 reads every face's kerb in its L1 batch; S9 commits the network's faces in ONE batch, as the stage does
+    // (corridorUnion over the face set, every kerb read in the commit's own L2 transaction before it writes): so S9's
+    // reads see the arena S8's saw, and a block that is not S8's kerb is the commit's own attraction (N-52's class (b))
+    const tally = { cases: 0, exact: 0, unmoved: 0, unmovedExact: 0, refused: 0 };
+    const residuals: Residual[] = [];
+    let draw = 0;
     const chord = fc.record({ a: fc.integer({ min: 0, max: 15_999 }), b: fc.integer({ min: 0, max: 15_999 }), hw: fc.integer({ min: 0, max: 450 }), knots: fc.option(fc.tuple(fc.integer({ min: 40, max: 500 }), fc.integer({ min: 40, max: 500 }))) });
     fc.assert(
       fc.property(fc.array(chord, { minLength: 1, maxLength: 4 }), (chords) => {
+        draw += 1;
         const p = framed();
         const table: Record<string, number | ReturnType<typeof profile>> = {};
         chords.forEach((c, i) => {
@@ -247,52 +338,67 @@ describe('corridorUnion (§3.4, §3.7)', () => {
         for (const f of faces) {
           k.set(f, kerbRead(p, f, ws));
           // N-52 (2), C-0277 (1): every split chain within its junction's reach (none to a far kerb vertex)
-          const rk = readKerb(p, f, ws);
+          const rk = readIn(p, 1, (o) => readKerb(o, f, ws));
           if (rk.ok) expect(splitsBeyondReach(p, rk.value)).toEqual([]);
         }
-        // each face in a batch of its own, so each face's commit warnings are its own (§3.7's split per case)
+        const r = tx(p, spec(2, AT_S9), (o) => corridorUnion(o, faces, ws));
+        if (!r.ok) {
+          // the insertion's own refusal on a degenerate network (a kerb within attractCm of a far feature)
+          expect(['E_KEPT', 'E_INVARIANT']).toContain(r.code);
+          tally.refused += 1;
+          return;
+        }
+        const v = r.value.value as BandResult;
+        // N-52 (2): a corridor_split lies in the band — never between two built blocks, attracted or not
+        expect(splitsBetweenBlocks(p, 2, v.blocks)).toEqual([]);
+        const blocks = blocksByFace(p, faces, v);
         for (const f of faces) {
-          const r = tx(p, spec(2, AT_S9), (o) => corridorUnion(o, [f], ws));
-          if (!r.ok) {
-            // the insertion's own refusal on a degenerate network (a kerb within attractCm of a far feature)
-            expect(['E_KEPT', 'E_INVARIANT']).toContain(r.code);
-            tally.refused += 1;
-            continue;
-          }
-          const v = r.value.value as BandResult;
-          // N-52 (2): a corridor_split lies in the band — never between two built blocks, attracted or not
-          expect(splitsBetweenBlocks(p, 2, v.blocks)).toEqual([]);
-          const blocks = blocksByFace(p, [f], v);
           const read = k.get(f);
           expect(read).not.toBeNull();
           if (read === null || read === undefined) continue;
           const want = read.rings;
-          // §3.7's split: where neither the kerb's overlay nor the commit moved a vertex, the blocks are kerb(F)
-          // exactly; where either attracted one, they stay within √2 · attractCm × the perimeter of it
-          const moved = read.moved || attracted(r.value.record?.warnings ?? []);
+          // §3.7's split: where S8's read moved no vertex, the blocks are kerb(F) exactly; where it attracted one, they
+          // stay within √2 · attractCm × the perimeter of it
+          const moved = read.moved;
           tally.cases += 1;
-          if (!moved) tally.exact += 1;
+          if (!moved) tally.unmoved += 1;
           // the committed block: F itself where nothing was written inside it, else the L2 blocks
           const have = v.whole.includes(f) ? normals(ringsOf(p, 1, f)) : v.wholeBand.includes(f) ? [] : (blocks.get(f) ?? []);
-          // exact up to a same-level split a neighbouring face's batch placed on a boundary the two share (§2.2 rule 3)
-          if (!moved) expect(have.map((r) => normalHot(parseRing(r))).sort()).toEqual(want.map((r) => normalHot(parseRing(r))).sort());
-          else {
-            const got = have.map(parseRing);
-            const exp = want.map(parseRing);
+          // exact up to a same-level split a neighbouring face's pieces placed on a boundary the two share (§2.2 rule 3)
+          const got = have.map((q) => normalHot(parseRing(q))).sort();
+          const exp = want.map((q) => normalHot(parseRing(q))).sort();
+          const exact = JSON.stringify(got) === JSON.stringify(exp);
+          if (exact) tally.exact += 1;
+          else residuals.push(residualOf(p, draw, f, got, exp));
+          if (!moved) {
+            tally.unmovedExact += exact ? 1 : 0;
+            expect(got).toEqual(exp);
+          } else {
+            const g = have.map(parseRing);
+            const e = want.map(parseRing);
             // §3.7's attracted bound: perimeter × √2 · attractCm, the perimeter the operands' (F's) and both results'
-            const per = ringsOf(p, 1, f).reduce((t, q) => t + perimeter(q), 0) + exp.reduce((t, q) => t + perimeter(q), 0) + got.reduce((t, q) => t + perimeter(q), 0);
-            expect(Math.abs(Number(area2Of(got) - area2Of(exp))) / 2).toBeLessThanOrEqual(per * Math.SQRT2 * 26);
+            const per = ringsOf(p, 1, f).reduce((t, q) => t + perimeter(q), 0) + e.reduce((t, q) => t + perimeter(q), 0) + g.reduce((t, q) => t + perimeter(q), 0);
+            expect(Math.abs(Number(area2Of(g) - area2Of(e))) / 2).toBeLessThanOrEqual(per * Math.SQRT2 * 26);
           }
         }
         healthy(p);
         expect(tilesExactly(p, 2, faces)).toEqual([]);
       }),
-      { numRuns: 150 },
+      // the share's seed (N-52 (5)'s ratchet reads one seed: the share measured on it before round S9)
+      { numRuns: 150, seed: SHARE_SEED },
     );
     // the exact comparison is not vacuous: at least a tenth of the faces move nothing (a chord's round end cap crossing
     // the frame within attractCm attracts a chord vertex, so a face beside a chord's end is mostly an attracted case)
-    console.info(`corridorUnion networks: ${String(tally.cases)} faces, ${String(tally.exact)} compared exactly, ${String(tally.refused)} refused`);
-    expect(tally.exact).toBeGreaterThanOrEqual(Math.ceil(tally.cases / 10));
+    const share = tally.exact / tally.cases;
+    const classB = residuals.filter((x) => x.classB).length;
+    console.info(`corridorUnion networks (seed ${String(SHARE_SEED)}, S9 in one batch): ${String(tally.cases)} faces, ${String(tally.exact)} S8 ≡ S9 exactly (share ${share.toFixed(4)}; before round S9 ${String(SHARE_BEFORE.exact)}/${String(SHARE_BEFORE.cases)} = ${(SHARE_BEFORE.exact / SHARE_BEFORE.cases).toFixed(4)}; N-52 (5)'s target 0.95), ${String(tally.unmoved)} unattracted (${String(tally.unmovedExact)} exact), ${String(tally.refused)} networks refused; residuals ${String(residuals.length)} (class (b) ${String(classB)})`);
+    for (const x of residuals) console.info(`S8≢S9 RESIDUAL ${JSON.stringify(x)}`);
+    expect(tally.unmoved).toBeGreaterThanOrEqual(Math.ceil(tally.cases / 10));
+    expect(tally.refused).toBe(0);
+    // the HARD pin (the ratchet): the share over every face never below the share measured before the round
+    expect(share).toBeGreaterThanOrEqual(SHARE_BEFORE.exact / SHARE_BEFORE.cases);
+    // every residual N-52's class (b): the commit's attraction, within N-43's bound of kerb(F)
+    expect(residuals.filter((x) => !x.classB)).toEqual([]);
   });
 
   it('a kerb sliver thinner than attractCm that the commit folds onto F’s boundary leaves F all band, not one built block', () => {
@@ -344,18 +450,23 @@ describe('corridorUnion (§3.4, §3.7)', () => {
       k = r.value;
       return ok(null);
     });
-    // the precondition: one kerb ring, most of F
-    expect(k.length).toBe(1);
+    // the precondition: kerb(F) most of F — before round S9 one ring; round S9 (C-0387), the declared shift: the dry-run
+    // meets F's own L1 vertices and the L0 frame there, so the long ring is pinched at (3092, 3943) beside F's corner,
+    // leaving a small triangle at the frame (every ring a block all the same)
+    expect(k.length).toBe(2);
+    const areas = k.map((q) => Math.abs(Number(area2Of([q]))) / 2).sort((x, y) => y - x);
+    expect(areas[0]).toBeGreaterThan(100 * areas[1]);
     expect(all[0]).toBeLessThan(all[1]);
     commit(p, 2, (o) => corridorUnion(o, [all[0]], ws), AT_S9);
     const r = commit(p, 2, (o) => corridorUnion(o, faces, ws), AT_S9);
     healthy(p);
     const v = r.value as BandResult;
-    expect(v.blocks.length).toBe(1);
-    const got = Number(area2Of(ringsOf(p, 2, v.blocks[0]))) / 2;
+    // every kerb ring a built block: none read as band
+    expect(v.blocks.length).toBe(k.length);
+    const got = v.blocks.reduce((t, b) => t + Number(area2Of(ringsOf(p, 2, b))) / 2, 0);
     const want = Number(area2Of(k)) / 2;
     // §3.7's attracted bound, as the random property reads it
-    const per = [ringsOf(p, 1, faces[0])[0], k[0], ringsOf(p, 2, v.blocks[0])[0]].reduce((t, q) => t + perimeter(q), 0);
+    const per = [ringsOf(p, 1, faces[0])[0], ...k, ...v.blocks.map((b) => ringsOf(p, 2, b)[0])].reduce((t, q) => t + perimeter(q), 0);
     expect(Math.abs(got - want)).toBeLessThanOrEqual(per * Math.SQRT2 * 26);
   });
 
@@ -563,3 +674,62 @@ function kerbRead(p: Plat, f: FaceId, ws: ReturnType<typeof widthsOf>): { rings:
   }
   return out;
 }
+
+/** The random networks' share seed (N-52 (5)'s ratchet: the share is measured on one seed, before and after a round). */
+const SHARE_SEED = 20_261_019;
+
+/**
+ * The share measured on SHARE_SEED on the tree as round S9 found it (build/M0-a-09-fix-s9's CHECKPOINT of 2026-10-19
+ * 02:58, before any edit; the scratch-overlay kerb): of 453 faces committed, 444 S8 ≡ S9 exactly — with each face in a
+ * batch of its own, and alike with the network's faces in one S9 batch (the found code's kerb read no arena, so the
+ * protocol moved nothing; re-measured on the found sources in the lane's mirror, C-0387).
+ */
+const SHARE_BEFORE = { exact: 444, cases: 453 };
+
+/** N-43's bound (cm): how far a committed block may stand off kerb(F) — 2·√2·attractCm (≈ 73.5 cm). */
+const N43_CM = 2 * Math.SQRT2 * LATTICE.attractCm;
+
+/** One face whose committed block is not S8's kerb (N-52's residual): what the read had, what the commit laid, the attraction. */
+interface Residual {
+  readonly seed: number;
+  readonly draw: number;
+  readonly face: FaceId;
+  /** S8's kerb vertices the block does not hold (the contacts), and the block's vertices kerb(F) does not. */
+  readonly read: string[];
+  readonly commit: string[];
+  /** Per block-only vertex: its level in the arena (the commit's L2 vertex), and the S8 kerb vertex nearest it with the distance (cm). */
+  readonly attractors: { readonly at: string; readonly level: number; readonly from: string | null; readonly cm: number | null }[];
+  /** The Hausdorff distance (cm) of the block from kerb(F). */
+  readonly hausdorffCm: number;
+  /** N-52's class (b): every block-only vertex an L2 vertex the commit placed, the block within N-43's bound of kerb(F). */
+  readonly classB: boolean;
+}
+
+/** The residual of a face: its vertex differences, the commit's attraction points and the bound (the class (b) reading, N-52). */
+function residualOf(p: Plat, draw: number, face: FaceId, got: readonly string[], exp: readonly string[]): Residual {
+  const hv = new Set(got.flatMap((r) => r.split(' ')));
+  const wv = new Set(exp.flatMap((r) => r.split(' ')));
+  const commitOnly = [...hv].filter((q) => !wv.has(q));
+  const readOnly = [...wv].filter((q) => !hv.has(q));
+  const xy = (q: string): [number, number] => q.split(',').map(Number) as [number, number];
+  const levels = new Map<string, number>();
+  for (let v = 0; v < p.slots.vertex.top; v += 1) if (isVertexLive(p, v)) levels.set(`${String(p.vertices.x[v])},${String(p.vertices.y[v])}`, p.vertices.level[v]);
+  const attractors = commitOnly.map((at) => {
+    const [x, y] = xy(at);
+    let from: string | null = null;
+    let cm: number | null = null;
+    for (const q of readOnly.length > 0 ? readOnly : [...wv]) {
+      const [u, w] = xy(q);
+      const d = Math.hypot(u - x, w - y);
+      if (cm === null || d < cm) {
+        cm = Math.round(d * 100) / 100;
+        from = q;
+      }
+    }
+    return { at, level: levels.get(at) ?? -1, from, cm };
+  });
+  const hausdorff = Math.round(hausdorffCm(got.map(parseRing), exp.map(parseRing)) * 100) / 100;
+  const classB = hausdorff <= N43_CM && attractors.every((a) => a.level === 2);
+  return { seed: SHARE_SEED, draw, face, read: readOnly, commit: commitOnly, attractors, hausdorffCm: hausdorff, classB };
+}
+

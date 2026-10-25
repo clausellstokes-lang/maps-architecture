@@ -1,28 +1,21 @@
 // M0-k-03's test "the two oracles agree with each other on 10⁴ random cases within 1 cm × perimeter" (§3.7, §13.1):
 // Clipper2 in Node and polygon-clipping, each on the same random boolean and buffer cases, their results' symmetric
 // difference — measured through each oracle's own xor — at most the case's perimeter × 1 cm. Every answer has passed
-// the region check, and every polygon-clipping call ran under its step budget (KI-6); an answer or measurement a
-// library refuses (C-0150) compares nothing and is counted.
-//
-// Size, seed and cap (L18; C-0414): each family runs the test's own 10⁴ cases (`AGREEMENT_CASES`, C-0144 (7)), never
-// PLAT_FUZZ_RUNS, so a RELATED run at 1 000 runs it whole; the seed is the family's fixed H32 seed
-// (`oracles/agreement/booleans`, `…/buffers`) unless PLAT_FUZZ_SEED replays another (C-0057), passed to fast-check and
-// printed in the run's line and in every assertion's message, so a red always carries the seed that replays it; the
-// refusals are capped per size at ⌈0.001 × cases⌉ (`agreementRefusalCap`: 10 at 10⁴), C-0150's allowance — none was
-// measured in 1.2 × 10⁵ boolean and 2 × 10⁴ buffer cases, and a check refusing correct answers wholesale exceeds it at once.
+// the region check; an answer or measurement a library refuses (C-0150) compares nothing and is counted, at most
+// `MAX_REFUSALS` per family. The size is the test's own 10⁴ per family, not PLAT_FUZZ_RUNS (C-0144 (7)); the seed is
+// fast-check's, fresh on every run, and PLAT_FUZZ_SEED replays a failure (C-0057).
 import fc from 'fast-check';
 import { beforeAll, describe, expect, it } from 'vitest';
 import { loadOracles, oracleBoolean, oracleBuffer } from '../../src/oracles/index.js';
-import {
-  agreementLine,
-  agreementParams,
-  agreementRefusalCap,
-  booleanCase,
-  bufferCase,
-  newTally,
-  oraclesAgree,
-  refusalCount,
-} from './support.js';
+import { booleanCase, bufferCase, newTally, oraclesAgree, refusalCount } from './support.js';
+
+const CASES = 10_000;
+
+/**
+ * Refused answers and measurements allowed per 10⁴ cases (C-0150): 0.1 %. None was measured in 1.2 × 10⁵ boolean and
+ * 2 × 10⁴ buffer cases; a check that refused correct answers wholesale would exceed it at once.
+ */
+const MAX_REFUSALS = 10;
 
 beforeAll(async () => {
   await loadOracles();
@@ -30,7 +23,6 @@ beforeAll(async () => {
 
 describe('the two oracles agree with each other on 10⁴ random cases within 1 cm × perimeter', () => {
   it('booleans: union, intersection, difference, xor under both fill rules', { timeout: 600_000 }, () => {
-    const params = agreementParams('booleans');
     const tally = newTally();
     fc.assert(
       fc.property(booleanCase, ({ op, fill, a, b }) => {
@@ -38,17 +30,17 @@ describe('the two oracles agree with each other on 10⁴ random cases within 1 c
         const p = oracleBoolean(op, a, b, fill, 'polygon-clipping');
         return oraclesAgree(c, p, tally);
       }),
-      params,
+      { numRuns: CASES },
     );
-    const line = agreementLine('booleans', params.seed, tally);
-    console.info(line);
-    expect(tally.cases, line).toBe(params.numRuns);
-    expect(refusalCount(tally), line).toBeLessThanOrEqual(agreementRefusalCap(params.numRuns));
-    expect(tally.compared, line).toBeGreaterThanOrEqual(params.numRuns - agreementRefusalCap(params.numRuns));
+    expect(tally.cases).toBe(CASES);
+    expect(refusalCount(tally)).toBeLessThanOrEqual(MAX_REFUSALS);
+    expect(tally.compared).toBeGreaterThanOrEqual(CASES - MAX_REFUSALS);
+    console.info(
+      `oracles/booleans: ${tally.compared} of ${tally.cases} cases compared and agree; refusals ${JSON.stringify(tally.refusals)}; face counts equal on ${tally.faceAgree}; worst |Δ| ÷ perimeter ${tally.worstShare.toFixed(4)} cm`,
+    );
   });
 
   it('buffers: round, square and miter joins; round, square and flat ends; uniform and per-point half-widths', { timeout: 600_000 }, () => {
-    const params = agreementParams('buffers');
     const tally = newTally();
     fc.assert(
       fc.property(bufferCase, ({ chains, w, joins, ends }) => {
@@ -56,12 +48,13 @@ describe('the two oracles agree with each other on 10⁴ random cases within 1 c
         const p = oracleBuffer(chains, w, joins, ends, 'polygon-clipping');
         return oraclesAgree(c, p, tally);
       }),
-      params,
+      { numRuns: CASES },
     );
-    const line = agreementLine('buffers', params.seed, tally);
-    console.info(line);
-    expect(tally.cases, line).toBe(params.numRuns);
-    expect(refusalCount(tally), line).toBeLessThanOrEqual(agreementRefusalCap(params.numRuns));
-    expect(tally.compared, line).toBeGreaterThanOrEqual(params.numRuns - agreementRefusalCap(params.numRuns));
+    expect(tally.cases).toBe(CASES);
+    expect(refusalCount(tally)).toBeLessThanOrEqual(MAX_REFUSALS);
+    expect(tally.compared).toBeGreaterThanOrEqual(CASES - MAX_REFUSALS);
+    console.info(
+      `oracles/buffers: ${tally.compared} of ${tally.cases} cases compared and agree; refusals ${JSON.stringify(tally.refusals)}; face counts equal on ${tally.faceAgree}; worst |Δ| ÷ perimeter ${tally.worstShare.toFixed(4)} cm`,
+    );
   });
 });
