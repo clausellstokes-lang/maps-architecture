@@ -1,11 +1,11 @@
 {
   "schema": "plat-landed-record/1",
   "item": "M0-s-01",
-  "lane": "session/scope-2026-10-25",
-  "lanes": ["build/M0-s-01-fix-s1", "build/M0-s-01-fix-s2", "build/M0-s-01-consolidate-1", "build/M0-s-01-fix-s3", "build/M0-s-01-fix-s4", "build/M0-s-01-fix-s5", "session/scope-2026-10-25"],
+  "lane": "session/scope-kernel-2026-10-25",
+  "lanes": ["build/M0-s-01-fix-s1", "build/M0-s-01-fix-s2", "build/M0-s-01-consolidate-1", "build/M0-s-01-fix-s3", "build/M0-s-01-fix-s4", "build/M0-s-01-fix-s5", "session/scope-2026-10-25", "session/scope-kernel-2026-10-25"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-25T23:41:45.463Z",
+  "date": "2026-10-25T23:54:40.664Z",
   "ownsSource": "docs/build/M0-work.json",
   "owns": ["plat/package.json", "plat/pnpm-workspace.yaml", "plat/pnpm-lock.yaml", "plat/.npmrc", "plat/.gitignore", "plat/LICENSE", "plat/README.md", "plat/THIRD-PARTY-NOTICES.txt", "plat/tsconfig.base.json", "plat/tsconfig.json", "plat/eslint.config.js", "plat/vitest.config.ts", "plat/scripts/build.mjs", "plat/scripts/lint.mjs", "plat/scripts/bench.mjs", "plat/tools/scaffold/", "plat/tools/vitest/", "plat/tools/notices/", "plat/tools/vendor/", "plat/vendor/README.md", "plat/vendor/vendor.lock.json", "plat/vendor/patches/", "plat/vendor/robust-predicates@3.0.3/", "plat/vendor/flatbush@4.6.2/", "plat/vendor/flatqueue@3.1.0/", "plat/vendor/delaunator@5.1.0/", "plat/vendor/simplex-noise@4.0.3/", "plat/packages/{kernel,model,tables,site,layout,testkit}/package.json", "plat/packages/{kernel,model,tables,site,layout,testkit}/tsconfig.json", "plat/packages/{kernel,model,tables,site,layout,testkit}/test/tsconfig.json", "plat/packages/{kernel,model,tables,site,layout,testkit}/test/scaffold/", "plat/packages/{kernel,model,tables,site,layout,testkit}/src/index.ts", "plat/packages/*/src/<module>/index.ts (created empty; ownership passes to the folder's owner, C-0013)", "plat/bench/package.json", "plat/bench/tsconfig.json", "plat/bench/test/tsconfig.json", "plat/bench/test/scaffold/", "plat/bench/src/index.ts", "plat/bench/src/<harness>/index.ts (created empty; passes to the harness's owner, C-0059)", "plat/tools/lint/index.mjs (created as an empty plugin; passes to M0-d-07)", "plat/docs/build/checks/.gitkeep", "plat/docs/digest/README.md", "plat/tools/landed/ (snapshot.mjs, landed.mjs, verify.mjs, landed.test.mjs; the scaffold's third fix round, C-0104)"],
   "counts": { "created": 4, "changed": 18, "unchanged": 99, "deleted": 0 },
@@ -13,7 +13,7 @@
     { "path": "plat/.gitignore", "status": "unchanged", "sha256": "12f9d67a58acb9bdc3e5301481d8be6ed327e4d82215aa0025b86b5472d9ec90", "size": 436 },
     { "path": "plat/.npmrc", "status": "unchanged", "sha256": "bebd4db999869a383658fae0244253658d254edf4be1d7228842dd269bf56342", "size": 94 },
     { "path": "plat/LICENSE", "status": "unchanged", "sha256": "6250fdd7dbfabfa17650292c578ce1380e807e0a2a3418fed11159ece3fb53e2", "size": 45 },
-    { "path": "plat/README.md", "status": "changed", "sha256": "a532b575d897b6afd0d3f17624b27edfb14638e7565009473c0bb3a6b753cb3c", "size": 10278 },
+    { "path": "plat/README.md", "status": "changed", "sha256": "7e0dc199f7e305d40d5ab1b4c1db66f546f514cac70caf14e6ae14b0c9317162", "size": 10634 },
     { "path": "plat/bench/package.json", "status": "unchanged", "sha256": "2e976f30ac03e63c7fbdbb460a2f684cbba126f451838d171ad6d1f9cebad80a", "size": 674 },
     { "path": "plat/bench/src/index.ts", "status": "unchanged", "sha256": "2720f40851f6705ece7b09fb458453a530c61c001d30c1212b880255dbd2b4b7", "size": 298 },
     { "path": "plat/bench/test/scaffold/smoke.test.ts", "status": "unchanged", "sha256": "35668398a4105262751f1d2cad392b777f4e28628face664cc7f3f4489ad4493", "size": 1995 },
@@ -23,7 +23,7 @@
     { "path": "plat/docs/digest/README.md", "status": "unchanged", "sha256": "80b2e3cdd13aae6bfbf39b87825106efdd4de884637426631250b6529d0b12b9", "size": 529 },
     { "path": "plat/eslint.config.js", "status": "unchanged", "sha256": "40408451c63c07aece7d0e4d8cc14739d7b9d4c950d922f7202c1550483a8b03", "size": 1171 },
     { "path": "plat/package.json", "status": "changed", "sha256": "f54ca8574ada2e21b578b1af7aab7b9f827e3c96c4d0c901ab1574dd6bf997bc", "size": 1939 },
-    { "path": "plat/packages/kernel/package.json", "status": "changed", "sha256": "f7b6cbeba9e707439de91ccaa8badabd2106d9ddfc68079514e0fe4f0f3a8e5f", "size": 666 },
+    { "path": "plat/packages/kernel/package.json", "status": "changed", "sha256": "b7322d0cd348b6628818e396bd2bdb6d453b6b27c2374d7962de4d0632374aa8", "size": 745 },
     { "path": "plat/packages/kernel/test/scaffold/smoke.test.ts", "status": "unchanged", "sha256": "b9cad4ec6056cb93bd81c6fc7bea0e01ecf1add90a5b30a26365a8a5f1ca9b0c", "size": 950 },
     { "path": "plat/packages/kernel/test/tsconfig.json", "status": "unchanged", "sha256": "271e3f1346a022c6617a2fad1517345fc2773466a0c2856a9b5e4c356887734b", "size": 326 },
     { "path": "plat/packages/kernel/tsconfig.json", "status": "unchanged", "sha256": "b22a02c2fa7bb2c4b13002b10ac5f48e8baee57e7a034ee28561a015c365832d", "size": 201 },
@@ -147,8 +147,8 @@
     },
     {
       "file": "plat/packages/kernel/src/index.ts",
-      "ids": ["line 1", "line 2"],
-      "lines": ["c2d470b93d4f6dbc", "630a0c0802ca83bd"],
+      "ids": ["line 1", "line 2", "line 3", "line 4", "line 5", "line 6", "line 7", "line 8", "line 9", "line 10", "line 11"],
+      "lines": ["a5fb91db1b78d236", "71056757ffb9f261", "c23ee22dba0092f5", "9ec428cfac1cb18d", "7109e4ac8e8828e3", "06aaee2dfe19b5fe", "fd88025e71ba9a28", "d83763e795cbd535", "b72ba88a425ffa45", "c2d470b93d4f6dbc", "630a0c0802ca83bd"],
       "removed": ["3bc71e1f8aeb40f4", "d3ab9e03028eb4da"]
     },
     {

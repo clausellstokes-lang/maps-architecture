@@ -5,7 +5,10 @@ sites, drawn from a seed and a few choices and later edited by hand or by an ass
 levels (the owner, 2026-10-25; `docs/AMENDMENTS-2026-10-25y.md` item 983). Its design is `docs/ARCHITECTURE.md` (one folder up) and the design volumes
 listed in `docs/volumes/INDEX.md`. This folder, `plat/`, is the product's code. It is being built milestone by milestone;
 **right now it is at M0**, the "risk retirement" milestone: the geometry kernel, the determinism machinery and four
-spikes that prove the hardest parts work and are fast enough (§16). The plan for M0 is `docs/build/M0.md`; every choice
+spikes that prove the hardest parts work and are fast enough (§16). M0 is the foundation and core of everything built
+after it: the world, settlement and site levels all run on this kernel and these stages, and its guarantees — exactness,
+byte-identical determinism, refusal instead of a wrong map — are theirs; it is hardened before anything is built on it for
+that reason (`docs/AMENDMENTS-2026-10-25y.md`, item 984). The plan for M0 is `docs/build/M0.md`; every choice
 the builders make where the design leaves a case open is one row of `docs/build/choices.md`.
 
 ## What is in here
