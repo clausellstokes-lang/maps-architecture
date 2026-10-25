@@ -391,7 +391,6 @@ function freezeExpect(e: ConstructiveExpect): ConstructiveExpect {
   return Object.freeze({
     ...e,
     holds: Object.freeze([...e.holds]),
-    ...(e.staticHolds !== undefined ? { staticHolds: Object.freeze([...e.staticHolds]) } : {}),
     ...(e.codes !== undefined ? { codes: Object.freeze([...e.codes]) } : {}),
     ...(e.warnings !== undefined ? { warnings: Object.freeze([...e.warnings]) } : {}),
   });

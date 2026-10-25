@@ -6,8 +6,6 @@ import { describe, expect, it } from 'vitest';
 import { resolve, sortedKeys, type Plat } from '../../src/arena/index.js';
 import { booleans, buffer, tileRings } from '../../src/arr/index.js';
 import { ENGINE_ID, ENGINE_VERSION, isNotBuilt, STUB_TABLE, type ArenaKey, type CarryMap, type TransientKey } from '../../src/facade/index.js';
-// by path: the type is declared beside CarryMap, not exported by the folder index (the public API is frozen, J263 Q1)
-import type { ResolveVertexAt } from '../../src/facade/types.js';
 import * as facade from '../../src/facade/index.js';
 import { hexLattice, hull, lir, obb, regularFit } from '../../src/geom/index.js';
 import * as kernelIndex from '../../src/index.js';
@@ -15,10 +13,9 @@ import { area2, area2Big, orient } from '../../src/num/index.js';
 import { createRng } from '../../src/rng/index.js';
 import { skeleton } from '../../src/skeleton/index.js';
 import { OP_KINDS, type TxKey } from '../../src/tx/index.js';
-import type { VertexId } from '../../src/arena/index.js';
-import type { Id, LatticePoint, PlatKey, VertexSig } from '../../src/types/index.js';
+import type { Id, PlatKey } from '../../src/types/index.js';
 import { simplify } from '../../src/warp/index.js';
-import { framed, GROUND, KERNEL_MEMBERS, kernelOver, pt, SECTION_3_4, SERVICES, TRANSIENT, WRITERS } from './support.js';
+import { framed, GROUND, KERNEL_MEMBERS, kernelOver, SECTION_3_4, SERVICES, TRANSIENT, WRITERS } from './support.js';
 
 function kernel(): { p: Plat; k: ReturnType<typeof kernelOver> } {
   const p = framed();
@@ -137,33 +134,6 @@ describe('the keys and the carry map this item declares (C-0041, C-0089, C-0112 
     // @ts-expect-error a carry map is read-only
     expect(() => carry.set('a', 'b')).not.toThrow(); // a Map at run time; the type forbids the write
     expect(carry.get('plot:7')).toBe('plot:9');
-  });
-
-  it('ResolveVertexAt is §3.4\'s signature (key, at, sig, carry: CarryMap) → a vertex or orphaned (C-0089; the type test)', () => {
-    // §3.4: resolveVertexAt(key: PlatKey, at: LatticePoint, sig: VertexSig, carry: CarryMap): { vertex: VertexId } |
-    // { orphaned: true; nearest?: LatticePoint } — M2a's service compiles against it unchanged; tsc -b holds the lines.
-    const arity: Parameters<ResolveVertexAt>['length'] = 4;
-    const bind: ResolveVertexAt = (key: PlatKey, at: LatticePoint, sig: VertexSig, carry: CarryMap) =>
-      key.part === 0 && sig.v.length === 0 && carry.size === 0 ? { vertex: 7 } : { orphaned: true, nearest: at };
-    const first: Parameters<ResolveVertexAt>[0] = GROUND;
-    const fourth: Parameters<ResolveVertexAt>[3] = new Map<Id, Id>();
-    const r = bind(first, pt(10, 20), { v: [], e: [] }, fourth);
-    let bound: VertexId | null = null;
-    if ('vertex' in r) bound = r.vertex;
-    expect(arity).toBe(4);
-    expect(bound).toBe(7);
-    expect(bind(GROUND, pt(10, 20), { v: [], e: [] }, new Map([['plot:7', 'plot:9']]))).toEqual({ orphaned: true, nearest: pt(10, 20) });
-    // @ts-expect-error the carry map is the fourth parameter: a three-parameter signature is not §3.4's
-    const three: Parameters<ResolveVertexAt>['length'] = 3;
-    // @ts-expect-error the carry map is §6.3's supersedes table (old address → successor), ReadonlyMap<Id, Id>
-    const numeric: ResolveVertexAt = (_k: PlatKey, _a: LatticePoint, _s: VertexSig, _c: ReadonlyMap<number, number>) => ({ vertex: 0 });
-    // @ts-expect-error a log position binds to a vertex or is orphaned; never a bare id by distance alone
-    const bare: ResolveVertexAt = () => 0;
-    // @ts-expect-error orphaned is the literal true
-    const notOrphaned: ResolveVertexAt = () => ({ orphaned: false });
-    expect([three, typeof numeric, typeof bare, typeof notOrphaned]).toEqual([3, 'function', 'function', 'function']);
-    // the façade member stays the notBuilt('M2a') stub until M2a puts this function there
-    expect(isNotBuilt(kernel().k.geom.resolveVertexAt)).toBe(true);
   });
 
   it('the engine id of the report is plat-arrangement@<version> (§3.7, §5.4)', () => {

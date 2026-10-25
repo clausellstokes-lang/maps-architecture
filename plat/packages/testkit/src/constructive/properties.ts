@@ -48,8 +48,6 @@ export const CONSTRUCTIVE_PROPERTIES = Object.freeze({
   // Indexes and slots (§3.3).
   'query-returns-item': 'every index query whose box meets the vertex returns it (§3.3)',
   'query-returns-new-item': 'the query returns the slot’s new item, never its old one (§3.3, J-K34)',
-  'slot-reused':
-    'the removal frees its slots and the insertion after it takes them again: the vertex and pair tops after the insertion equal those after the removal, and both free lists are empty (§3.3, J-K34)',
   'query-equals-rebuild': 'every index query’s answer is identical before and after a rebuild of the partitions it reads (§3.3)',
   'query-each-once': 'every query over the block returns each item once, before and after the rebuild (§3.3)',
   'query-order-stable': 'the query returns its results in the same order before and after (§3.3 canonical keys)',
@@ -81,8 +79,7 @@ export const CONSTRUCTIVE_PROPERTIES = Object.freeze({
   'cross-host-identical': "the service's doubles are identical under §6.5 (10)'s cross-implementation test (M0-d-06)",
   // Every rung, every toggle (§3.11).
   'in-range': 'every coordinate lies inside the range invariant |x|, |y| < 2²³ (§3.2 (1))',
-  'same-code-every-rung':
-    'the operation runs the same code with the one `LatticeSpec` at every extent from THORP to the METROPOLIS cap (§3.11) — a STATIC reading: the two lattice constants every rung reads, true of every draw by construction, so no code path can fail it (the rungs’ code paths are judged by the case’s other holds)',
+  'same-code-every-rung': 'the operation runs the same code with the one `LatticeSpec` at every extent from THORP to the METROPOLIS cap (§3.11)',
   'kernel-reads-no-model': '`@plat/kernel` imports no dossier, table, toggle, preset or style module — it depends on no other workspace package (§3.11, §14)',
   // Expectations (§3.3).
   absorbed: 'the sliver below its floor is absorbed by `absorbSliver`, re-checked and the batch committed (§3.3 repair)',

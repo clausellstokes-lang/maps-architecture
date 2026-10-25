@@ -1,9 +1,8 @@
 // The kernel's shared types, re-exported by @plat/model under their design names (C-0112 (4); M0-m-01). Declared once,
 // in @plat/kernel — M0-a-01's kernel/src/types (the unit brands, ids, keys, points, the ref forms, the profile, the
-// invariant row, the two registry ids, the stream options), M0-d-02's kernel/src/hash (Hash64, Hash128,
-// LineageHash) and M0-a-16's kernel/src/facade (ArenaKey, TransientKey, CarryMap; C-0112 (3), C-0220 (11)) — and
-// never redeclared here, so every reader above the kernel imports them from @plat/model as §2.8, §2.9 and §14 place
-// them. Layer, RoleName, RoleKey and Order are the prerequisites C-0134 (9) declares beside them.
+// invariant row, the two registry ids, the stream options) and M0-d-02's kernel/src/hash (Hash64, Hash128,
+// LineageHash) — and never redeclared here, so every reader above the kernel imports them from @plat/model as §2.8,
+// §2.9 and §14 place them. Layer, RoleName, RoleKey and Order are the prerequisites C-0134 (9) declares beside them.
 export type {
   // units (§2.1, §2.8)
   Cm,
@@ -45,8 +44,4 @@ export type {
   Hash64,
   Hash128,
   LineageHash,
-  // the arena keys and the supersedes table's shape (§3.3, §3.4, §6.3)
-  ArenaKey,
-  TransientKey,
-  CarryMap,
 } from '@plat/kernel';

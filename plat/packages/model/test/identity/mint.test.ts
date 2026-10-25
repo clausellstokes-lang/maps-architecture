@@ -139,15 +139,6 @@ describe('§6.3 addresses: a fresh address equal to a live one takes ~1, the nex
     expect(() => mint([{ kind: 'pl ot', key: key(1), origin: { seq: 1, ordinal: 0 } }], [], [], SK)).toThrow(/not an entity kind: pl ot/);
     // A building handed a plot's address.
     expect(() => mint([{ kind: 'building', key: key(1), address: x }], [old], [], SK)).toThrow(/is of kind plot, the record's kind is building/);
-    // Kinds are compared exactly: C-0179 (3)'s kind rule [A-Za-z][A-Za-z0-9._-]* makes `Plot` and `plot` two kinds
-    // (note N-1): a record of kind Plot handed a plot: address is refused, and a plot record handed a Plot: address.
-    expect(() => mint([{ kind: 'Plot', key: key(1), address: x }], [old], [], SK)).toThrow(
-      `mint: the handed-on address ${x} is of kind plot, the record's kind is Plot`,
-    );
-    const upper = `Plot:${x.slice('plot:'.length)}`;
-    expect(() => mint([plot(1, { address: upper })], [{ id: upper, lineage: [4, 4], retired: true }], [], SK)).toThrow(
-      `mint: the handed-on address ${upper} is of kind Plot, the record's kind is plot`,
-    );
     // A sky-2 record handed a bare ground address.
     expect(() => mint([plot(1, { address: x }, { arena: { layer: 'sky', part: 2 } })], [old], [], SK)).toThrow(/does not name the record's arena/);
     // A handed-on string that is no address at all, even when a retired entry holds it.

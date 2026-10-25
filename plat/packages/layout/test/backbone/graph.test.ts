@@ -1,7 +1,7 @@
 // M0-c-03: the arterial graph (§4.3 *One graph*: the union of the routes' edges with their multiplicities, split into
 // chains at every node of degree ≠ 2 and at every pinned node, junctions closer than 8 m merged on the graph; C-0236
 // (3)) and the parallel fold (C-0236 (16): a later route's run within the class separation of an earlier one for more
-// than a step is laid along it — its nearness measured to the earlier part's segments, its splice cut of a loop).
+// than a step is laid along it).
 import { describe, expect, it } from 'vitest';
 import { arterialGraph, foldParallel, type RoutePoint, type S4Route } from '../../src/index.js';
 import { P } from './support.js';
@@ -127,39 +127,5 @@ describe('the parallel fold (C-0236 (16))', () => {
     const near = route('b', 1, [pin(0, 0), [2500, 2000], [5000, 2000], [7500, 2000], [10000, 2000], [12500, 8000], pin(15000, 15000, 'gate', 'gate:b')]);
     // A wall side across the join from (0, 0) to the run's first point on a.
     expect(foldParallel([a, near], sep, 2500, [[1000, -500, 1000, 3000], [1000, 3000, 1000, 6000]]).folds).toEqual([]);
-  });
-
-  it("measures the run's nearness to the earlier part's segments, not its vertices: a run beside the middle of a long segment folds (N-c1c-1)", () => {
-    // a's one long segment (1 000, 0) → (21 000, 0); b runs 20 m off its middle, more than the 40 m separation from
-    // both of its ends.
-    const a = route('a', 0, [pin(0, 0), [1000, 0], [21000, 0], pin(22000, 0, 'gate', 'gate:a')]);
-    const b = route('b', 1, [pin(0, 0), [6000, 8000], [8500, 2000], [11000, 2000], [13500, 2000], [16000, 8000], pin(22000, 15000, 'gate', 'gate:b')]);
-    for (const p of [P(8500, 2000), P(11000, 2000), P(13500, 2000)]) {
-      expect(Math.hypot(p.x - 1000, p.y)).toBeGreaterThan(sep());
-      expect(Math.hypot(p.x - 21000, p.y)).toBeGreaterThan(sep());
-    }
-    const f = foldParallel([a, b], sep, 2500, []);
-    expect(f.folds).toHaveLength(1);
-    expect(f.folds[0]).toMatchObject({ route: 'b', onto: 'a', from: P(8500, 2000), to: P(13500, 2000) });
-  });
-
-  it('cuts a loop the splice makes: a part that left the earlier one and folds back onto it stays a simple path (the hardening note 4)', () => {
-    // b runs along a to (5 000, 0), steps back north-west and runs 20 m off a from x = 2 500 to 7 500: the fold lays that
-    // run on a from (2 500, 0), so the spliced course would visit (5 000, 0) twice.
-    const a = route('a', 0, [pin(0, 0), [2500, 0], [5000, 0], [7500, 0], [10000, 0], [12500, 0], pin(15000, 0, 'gate', 'gate:a')]);
-    const b = route('b', 1, [pin(0, 0), [5000, 0], [2500, 2000], [5000, 2000], [7500, 2000], [10000, 8000], pin(15000, 15000, 'gate', 'gate:b')]);
-    const f = foldParallel([a, b], sep, 2500, []);
-    expect(f.folds).toHaveLength(1);
-    const pts = f.routes[1].points.map((p) => `${String(p.at.x)},${String(p.at.y)}`);
-    expect(new Set(pts).size, pts.join(' ')).toBe(pts.length);
-    expect(pts).toEqual(['0,0', '5000,0', '7500,0', '10000,8000', '15000,15000']);
-    // The graph of the folded routes holds no repeated node on b's course, so each of b's chains is walked once.
-    const g = arterialGraph(f.routes, MERGE);
-    const seen = new Set<string>();
-    for (const p of g.routes[1].points) {
-      const k = `${String(p.at.x)},${String(p.at.y)}`;
-      expect(seen.has(k)).toBe(false);
-      seen.add(k);
-    }
   });
 });

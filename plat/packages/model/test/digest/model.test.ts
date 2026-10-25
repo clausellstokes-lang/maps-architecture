@@ -3,21 +3,11 @@
 // layers, parent nodes, the identity and plats nodes; finalisation on read; the three fallbacks as switches, off by
 // default and root-neutral when on; the oracle catches a stale leaf. A savepoint put back across committed batches
 // (C-0299, C-0305) leaves neither the kernel's level digests nor this tree stale, re-attached or not.
-import { attachLevelDigests, changedEntities, FACE_KIND_RESIDUE, levelDigest, levelDigestBuilds, recomputeLevelDigest, removeEdges, restoreGeneration, restoreSavepoint, takeSavepoint, updateLevelDigests, type CommitRecord, type DirtySet, type Overlay, type Plat } from '@plat/kernel';
+import { attachLevelDigests, levelDigest, levelDigestBuilds, recomputeLevelDigest, restoreGeneration, restoreSavepoint, takeSavepoint, updateLevelDigests, type CommitRecord, type DirtySet, type Overlay, type Plat } from '@plat/kernel';
 import { describe, expect, it } from 'vitest';
-import { readFileSync } from 'node:fs';
-import { dirname, join } from 'node:path';
-import { fileURLToPath } from 'node:url';
 import { DIGEST_LAYERS, ModelDigest, type DigestEntry } from '../../src/digest/index.js';
 import { faceWalk, insertChain, isFaceLive, setOwner, tx, type StageId } from '@plat/kernel';
 import { blockEntry, commit, districtEntry, framed, hex, plotEntry, pt, randomBatch, rng, spec, wayEntry, type Live } from './support.js';
-
-/** The setup's records: four districts, a block and a plot in each. */
-function districts(): DigestEntry[] {
-  const out: DigestEntry[] = [];
-  for (let d = 0; d < 4; d++) out.push(districtEntry(`district:${d}`), blockEntry(`block:${d}`, `district:${d}`), plotEntry(`plot:${d}`, `block:${d}`, `district:${d}`));
-  return out;
-}
 
 /** A model over a framed arena: four districts, a block and a plot in each; ways registered as they are inserted. */
 function setup(switches = {}): { md: ModelDigest; p: Plat } {
@@ -25,7 +15,11 @@ function setup(switches = {}): { md: ModelDigest; p: Plat } {
   const p = framed(4000);
   md.addArena(p);
   md.batch(() => {
-    for (const e of districts()) md.put(e);
+    for (let d = 0; d < 4; d++) {
+      md.put(districtEntry(`district:${d}`));
+      md.put(blockEntry(`block:${d}`, `district:${d}`));
+      md.put(plotEntry(`plot:${d}`, `block:${d}`, `district:${d}`));
+    }
   });
   return { md, p };
 }
@@ -86,7 +80,7 @@ describe('the full recomputation equals the maintained root after every batch (t
     }
   });
 
-  it('the oracle catches a stale model leaf (the kernel half: the test above): a record changed in place without its write', () => {
+  it('the oracle catches a stale leaf: a record changed in place without its write', () => {
     const { md } = setup();
     expect(md.oracle().ok).toBe(true);
     const e = plotEntry('plot:x', 'block:0', 'district:0', 0.25);
@@ -157,7 +151,7 @@ describe('the tree', () => {
     expect(hex(md.finaliseRoot())).toBe(hex(md.recomputeRoot()));
   });
 
-  it('a record whose face an L2 Steiner vertex splits is re-hashed (its owner is in the batch\'s owners; the changed-entities path alone: the promotion test below)', () => {
+  it('a record whose face changed beside a batch that never named it is re-hashed (the kernel\'s changed entities)', () => {
     const md = new ModelDigest();
     const p = framed(4000);
     md.addArena(p);
@@ -292,7 +286,7 @@ describe('N-56 (5): a savepoint put back across committed batches (C-0299, C-030
   const replayed = (i: number) => (o: Overlay) => insertChain(o, [pt(2500 + 300 * i, 0), pt(2600 + 300 * i, 4000)], [{ role: 'way', entity: `new:${i}` }], 'mandatory');
 
   /** The model over a framed arena; n committed batches through its listener; the image put back with no re-attach. */
-  function restoredAcross(n: number, switches = {}): { md: ModelDigest; p: Plat; seen: string; seenLayers: Record<string, string> } {
+  function restoredAcross(n: number, switches = {}): { md: ModelDigest; p: Plat; seen: string } {
     const { md, p } = setup(switches);
     md.put(wayEntry('way:9'));
     md.put(wayEntry('way:10'));
@@ -301,30 +295,15 @@ describe('N-56 (5): a savepoint put back across committed batches (C-0299, C-030
     if (md.switches.deferLeaves) md.flush();
     expect(md.oracle(n).ok).toBe(true);
     const seen = hex(md.finaliseRoot());
-    const seenLayers = Object.fromEntries(DIGEST_LAYERS.map((l) => [l, hex(md.layer(l))]));
     restoreSavepoint(image);
     expect(restoreGeneration(p)).toBe(1);
-    return { md, p, seen, seenLayers };
+    return { md, p, seen };
   }
 
   for (const switches of [{}, { deferLeaves: true }, { subtreeOracle: true }]) {
     for (const n of [1, 3]) {
       it(`${JSON.stringify(switches)} n = ${n}: read at once, no commit and no re-attach — the tree reads the restored arena`, () => {
-        const { md, p, seen, seenLayers } = restoredAcross(n, switches);
-        // The layer nodes read first (N-15; C-0308 (2) names `layer` among the reads that follow a restore): each
-        // equals a model registered now over the restored arena, and the plats node is not the one seen before.
-        const read = Object.fromEntries(DIGEST_LAYERS.map((l) => [l, hex(md.layer(l))]));
-        const twin = new ModelDigest(switches);
-        twin.addArena(p);
-        twin.batch(() => {
-          for (const e of [...districts(), wayEntry('way:9'), wayEntry('way:10')]) twin.put(e);
-        });
-        const now = Object.fromEntries(DIGEST_LAYERS.map((l) => [l, hex(twin.layer(l))]));
-        // Under fallback (i) the leaves wait for the boundary (flush); the plats node is never deferred.
-        if (md.switches.deferLeaves) expect(read.plats).toBe(now.plats);
-        else expect(read).toEqual(now);
-        expect(read.plats).not.toBe(seenLayers.plats);
-        if (!md.switches.deferLeaves) expect(read.network).not.toBe(seenLayers.network);
+        const { md, seen } = restoredAcross(n, switches);
         const o = md.oracle(n);
         expect(o.ok, o.mismatches.join(', ')).toBe(true);
         expect(hex(md.finaliseRoot())).toBe(hex(md.recomputeRoot()));
@@ -366,143 +345,5 @@ describe('N-56 (5): a savepoint put back across committed batches (C-0299, C-030
       }
       expect(levelDigestBuilds(p), `n = ${n}`).toBe(1);
     }
-  });
-});
-
-// Paths, lanes and comparisons the fuzz runs reach only together with another one, each pinned alone (C-0412).
-describe('reach, lanes and the persisted roots the fuzz runs cover only together', () => {
-  const HERE = dirname(fileURLToPath(import.meta.url));
-  const GOLDEN = JSON.parse(readFileSync(join(HERE, 'roots-golden.json'), 'utf8')) as {
-    arena: { root: string; layers: Record<string, string>; levels: string[] };
-  };
-  const levels = (p: Plat): string[] => [0, 1, 2, 3, 4].map((l) => hex(levelDigest(p, l as 0 | 1 | 2 | 3 | 4)));
-  const layers = (md: ModelDigest): Record<string, string> => Object.fromEntries(DIGEST_LAYERS.map((l) => [l, hex(md.layer(l))]));
-
-  it('a record whose face a promotion changed, in a batch that names it nowhere (owners, roles), is re-hashed: the kernel\'s changed entities (N-2, M1)', () => {
-    const md = new ModelDigest();
-    const p = framed(4000);
-    md.addArena(p);
-    let last: DirtySet | null = null;
-    const env = {
-      onCommit: (plat: Plat, dirty: DirtySet, record: CommitRecord): void => {
-        last = dirty;
-        md.listener(plat, dirty, record);
-      },
-    };
-    commit(p, 1, (o) => insertChain(o, [pt(0, 2000), pt(4000, 2000)], [{ role: 'way', entity: 'way:1' }], 'mandatory'), env);
-    // An L3 plot line from the north ending on the street at (2000, 2000); an L2 kerb in the south half.
-    commit(p, 3, (o) => insertChain(o, [pt(2000, 3500), pt(2000, 2000)], [{ role: 'plot_line', entity: 'plot:9' }], 'mandatory'), env);
-    commit(p, 2, (o) => insertChain(o, [pt(3500, 500), pt(3500, 1500)], [{ role: 'kerb', entity: 'lane:s' }], 'mandatory'), env);
-    const north: number[] = [];
-    for (let f = 0; f < p.slots.face[2].top; f++) {
-      if (isFaceLive(p, 2, f) && faceWalk(p, 2, f)[0].some((h) => p.vertices.y[p.halfEdges.origin[h]] === 4000)) north.push(f);
-    }
-    expect(north).toHaveLength(1);
-    commit(p, 2, (o) => setOwner(o, north, 'block:n'), env, { stage: 8 as StageId, rederivesFrom: 8 as StageId });
-    md.put(blockEntry('block:n', 'district:x'));
-    const leaf = hex(md.leaf('block:n'));
-    // An L2 spur from the south ends 15 cm from the plot line's end and promotes it to L2: the north face's L2 ring
-    // gains that vertex, though no face of the north half is dirty and the batch names block:n nowhere.
-    commit(p, 2, (o) => insertChain(o, [pt(2015, 1000), pt(2015, 1990)], [{ role: 'corridor_split', entity: 'way:n' }], 'mandatory'), env);
-    const d = last as unknown as DirtySet;
-    expect(d.owners).not.toContain('block:n');
-    expect(d.roles.map((k) => k.entity)).not.toContain('block:n');
-    expect(changedEntities(p, d.version)).toContain('block:n');
-    expect(hex(md.leaf('block:n'))).not.toBe(leaf);
-    expect(md.oracle().ok).toBe(true);
-    commit(p, 2, (o) => removeEdges(o, { role: 'corridor_split', entity: 'way:n' }), env);
-    expect(hex(md.leaf('block:n'))).toBe(leaf);
-    expect(md.oracle().ok).toBe(true);
-  });
-
-  it('the model\'s own reach is the batch\'s owners and roles (§3.3): with the kernel half missed at a commit, the leaves the batch names are re-hashed (N-2, M19)', () => {
-    const { md, p } = setup();
-    md.put(wayEntry('way:9'));
-    // The model's half alone: the kernel's state misses each commit (rebuilt at the next read, and counted), so its
-    // changed entities answer [] and only the record's owners and roles reach the leaves.
-    const modelOnly = { onCommit: (_p: Plat, dirty: DirtySet): void => md.onDirty(dirty) };
-    const way = hex(md.leaf('way:9'));
-    commit(p, 1, (o) => insertChain(o, [pt(0, 1000), pt(4000, 1300)], [{ role: 'way', entity: 'way:9' }], 'mandatory'), modelOnly);
-    expect(hex(md.leaf('way:9'))).not.toBe(way);
-    expect(md.oracle().ok).toBe(true);
-    const owned: number[] = [];
-    for (let f = 0; f < p.slots.face[1].top; f++) if (isFaceLive(p, 1, f)) owned.push(f);
-    const district = hex(md.leaf('district:0'));
-    commit(p, 1, (o) => setOwner(o, owned, 'district:0'), modelOnly, { stage: 6 as StageId, rederivesFrom: 6 as StageId });
-    expect(hex(md.leaf('district:0'))).not.toBe(district);
-    expect(md.oracle().ok).toBe(true);
-    expect(levelDigestBuilds(p)).toBe(3);
-  });
-
-  it('a face\'s kind reaches its owner\'s leaf: two arenas equal but for one face\'s kind give the district another leaf and root (N-14, K11)', () => {
-    const district = (retype: boolean): { leaf: string; root: string } => {
-      const p = framed(4000);
-      commit(p, 1, (o) => insertChain(o, [pt(0, 2000), pt(4000, 2000)], [{ role: 'way', entity: 'way:1' }], 'mandatory'), {});
-      const owned: number[] = [];
-      for (let f = 0; f < p.slots.face[1].top; f++) if (isFaceLive(p, 1, f)) owned.push(f);
-      commit(p, 1, (o) => setOwner(o, owned, 'district:1'), {}, { stage: 6 as StageId, rederivesFrom: 6 as StageId });
-      expect(p.faces[1].kind[owned[0]]).not.toBe(FACE_KIND_RESIDUE);
-      // The kind written in place (absorbSliver's residue retype, without its geometry), before the model reads it.
-      if (retype) p.faces[1].kind[owned[0]] = FACE_KIND_RESIDUE;
-      const md = new ModelDigest();
-      md.addArena(p);
-      md.put(districtEntry('district:1'));
-      expect(md.oracle().ok).toBe(true);
-      return { leaf: hex(md.leaf('district:1')), root: hex(md.finaliseRoot()) };
-    };
-    const a = district(false);
-    const b = district(true);
-    expect(b.leaf).not.toBe(a.leaf);
-    expect(b.root).not.toBe(a.root);
-  });
-
-  it('an L4 commit moves the plats node and the root, and L0 – L3 stay (the plats node reads all five level digests; N-c1-6, X22)', () => {
-    const { md, p } = setup();
-    const env = { onCommit: md.listener };
-    commit(p, 1, (o) => insertChain(o, [pt(0, 2000), pt(4000, 2000)], [{ role: 'way', entity: 'way:1' }], 'mandatory'), env);
-    const before = levels(p);
-    const plats = hex(md.layer('plats'));
-    const root = hex(md.finaliseRoot());
-    commit(p, 4, (o) => insertChain(o, [pt(1000, 2500), pt(1000, 3000)], [{ role: 'yard_part', entity: 'plot:0' }], 'mandatory'), env);
-    const after = levels(p);
-    expect(after.slice(0, 4)).toEqual(before.slice(0, 4));
-    expect(after[4]).not.toBe(before[4]);
-    expect(hex(md.layer('plats'))).not.toBe(plats);
-    expect(hex(md.finaliseRoot())).not.toBe(root);
-    expect(md.oracle().ok).toBe(true);
-  });
-
-  it('the subtree oracle compares the identity node: a lifecycle event changed in place without its write is named \'identity\' (N-c1-7, X25)', () => {
-    for (const switches of [{ subtreeOracle: true }, {}]) {
-      const md = new ModelDigest(switches);
-      md.put(wayEntry('way:1'));
-      const event = { id: 'way:1', seq: 0, epoch: 0, kind: 'generated' as const, cause: 'generation' as const };
-      md.setEvents('way:1', [event]);
-      md.putTombstone({ id: 'plot:gone', supersededBy: 'plot:new' });
-      expect(md.oracle(3).ok).toBe(true);
-      (event as { epoch: number }).epoch = 4; // no setEvents: the maintained identity node is stale
-      const o = md.oracle(3);
-      expect(o).toEqual(md.switches.subtreeOracle ? { mode: 'subtrees', ok: false, mismatches: ['identity'] } : { mode: 'root', ok: false, mismatches: ['root'] });
-      md.setEvents('way:1', [event]);
-      expect(md.oracle(3).ok).toBe(true);
-    }
-  });
-
-  it('the persisted model root over an arena is the golden\'s: its layers, the plats node\'s lanes and the five level digests (N-c1-3)', () => {
-    const { md, p } = setup();
-    const env = { onCommit: md.listener };
-    md.put(wayEntry('way:9'));
-    commit(p, 1, (o) => insertChain(o, [pt(0, 1000), pt(4000, 1300)], [{ role: 'way', entity: 'way:9' }], 'mandatory'), env);
-    const owned: number[] = [];
-    for (let f = 0; f < p.slots.face[1].top; f++) if (isFaceLive(p, 1, f)) owned.push(f);
-    commit(p, 1, (o) => setOwner(o, owned, 'district:0'), env, { stage: 6 as StageId, rederivesFrom: 6 as StageId });
-    commit(p, 2, (o) => insertChain(o, [pt(2500, 1500), pt(2500, 3500)], [{ role: 'kerb', entity: 'lane:1' }], 'mandatory'), env);
-    commit(p, 3, (o) => insertChain(o, [pt(500, 2500), pt(2000, 2500)], [{ role: 'plot_line', entity: 'plot:0' }], 'mandatory'), env);
-    commit(p, 4, (o) => insertChain(o, [pt(1000, 2600), pt(1000, 3200)], [{ role: 'yard_part', entity: 'plot:0' }], 'mandatory'), env);
-    md.setEvents('way:9', [{ id: 'way:9', seq: 0, epoch: 0, kind: 'generated', cause: 'generation' }]);
-    md.putTombstone({ id: 'plot:gone', supersededBy: 'plot:0' });
-    expect(md.oracle().ok).toBe(true);
-    expect({ root: hex(md.finaliseRoot()), layers: layers(md), levels: levels(p) }).toEqual(GOLDEN.arena);
-    expect(hex(md.recomputeRoot())).toBe(GOLDEN.arena.root);
   });
 });

@@ -95,8 +95,7 @@ class HashSet {
 
 /**
  * The key's ten lanes in order: the canonical order's tie-break for two keys whose lineage hashes are equal (a 64-bit
- * collision), and the test for two records carrying one key (equal lanes, refused); `compareLineage` is the order
- * itself (C-0179 (4)).
+ * collision); `compareLineage` is the order itself (C-0179 (4)).
  */
 function compareLanes(a: Uint32Array, b: Uint32Array): number {
   for (let i = 0; i < LINEAGE_LANES; i += 1) if (a[i] !== b[i]) return a[i] < b[i] ? -1 : 1;

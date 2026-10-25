@@ -7,7 +7,7 @@ import { mkdtempSync, readdirSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { afterAll, describe, expect, it } from 'vitest';
-import { CROSSHOST_BROWSERS, crossHostCacheRoot, planCrossHostBrowserLeg, planCrossHostLeg, runCrossHost } from '@plat/testkit';
+import { CROSSHOST_BROWSERS, crossHostCacheRoot, planCrossHostBrowserLeg, runCrossHost } from '@plat/testkit';
 import { RUN_TIMEOUT_MS, runnableNodeLegs, smallKernelFixture } from './support.js';
 
 const empty = mkdtempSync(join(tmpdir(), 'plat-crosshost-empty-cache-'));
@@ -49,31 +49,6 @@ describe('a browser absent from the cache is blocked by the no-download rule, ne
     },
     RUN_TIMEOUT_MS,
   );
-
-  // Hardening round S1, row 8 (checks/M0-d-06-notes.md note 8): the reason ended "— a Mac step" even on the Mac.
-  it('the absent build\'s reason ends "— a Mac step" off the reference Mac, and on it names the cache to restore', async () => {
-    for (const m of [
-      { platform: 'linux', arch: 'x64', execPath: '/n' },
-      { platform: 'darwin', arch: 'x64', execPath: '/n' },
-      { platform: 'linux', arch: 'arm64', execPath: '/n' },
-    ]) {
-      const plan = await planCrossHostBrowserLeg('firefox', env, m);
-      expect(plan.runnable).toBe(false);
-      if (!plan.runnable) {
-        expect(plan.reason).toMatch(/^firefox's pinned build \(playwright-core 1\.60\.0, C-0051\) is not in the Playwright cache: no .+; never downloaded \(the no-download rule, C-0028\) — a Mac step$/);
-        expect(plan.reason).toContain(`no ${empty}`);
-      }
-    }
-    const mac = await planCrossHostBrowserLeg('webkit', env, { platform: 'darwin', arch: 'arm64', execPath: '/usr/local/bin/node' });
-    expect(mac.runnable).toBe(false);
-    if (!mac.runnable) {
-      expect(mac.reason).toContain('never downloaded (the no-download rule, C-0028) — on the reference Mac: restore the pinned build into the cache ');
-      expect(mac.reason.endsWith(`the cache ${empty} (corepack pnpm browsers:check launches the three)`)).toBe(true);
-      expect(mac.reason).not.toContain('a Mac step');
-    }
-    const viaLeg = await planCrossHostLeg('chromium', env, { platform: 'darwin', arch: 'arm64', execPath: '/usr/local/bin/node' });
-    if (!viaLeg.runnable) expect(viaLeg.reason).not.toContain('a Mac step');
-  });
 
   it('PLAYWRIGHT_BROWSERS_PATH=0 (a package-local folder) is not the cache: blocked', async () => {
     const plan = await planCrossHostBrowserLeg('chromium', { ...process.env, PLAYWRIGHT_BROWSERS_PATH: '0' });

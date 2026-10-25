@@ -10,22 +10,14 @@ import {
   buildLattice,
   fieldT,
   gatePicks,
-  gateRoutes,
-  gatesOnBoundary,
-  insideRing,
   levelSet,
   pickCandidates,
   plaza,
-  plazaTree,
   s3Slice,
   siteCosts,
-  stageA,
   stageThreshold,
   type LevelSet,
 } from '../../src/index.js';
-import { segmentMeetsRing } from '../../src/siting/geom.js';
-import { inWater, meetsWater } from '../../src/siting/lattice.js';
-import { resolveOffDecks } from '../../src/siting/routes.js';
 import { P, sliceOf, smallSite } from './support.js';
 
 /** The pick contour of a small site (a 30 ha walled area in a 4 km² frame). */
@@ -115,56 +107,12 @@ describe('nested picks (§4.2 S3 (4))', () => {
   });
 });
 
-describe("§4.2 S3 (7)'s deck rule excludes a straddling deck edge in both directions (C-0397)", () => {
-  it('a pick reached only across a deck that enters the selection from outside is unserved, never routed across it', () => {
-    // The river at x 200–240 m with its deck at y 0; the selection is the land east of the river, so the deck's east
-    // edges straddle it, entered from the water (unselected → selected). The plaza (west) reaches the east bank only so.
-    const x0 = 20_000;
-    const band = [P(x0, -100_000), P(x0 + 4_000, -100_000), P(x0 + 4_000, 100_000), P(x0, 100_000)];
-    const water = { faces: [band], decks: [{ id: 'bridge:0', a: P(x0, 0), b: P(x0 + 4_000, 0) }] };
-    const s = s3Slice(smallSite(25, { water }), { requestedN: 3 });
-    const L = s.lattice;
-    const selected = new Uint8Array(L.points.length);
-    for (let i = 0; i < L.points.length; i += 1) if (L.points[i].x > x0 + 4_000 && L.water[i] === 0) selected[i] = 1;
-    const east = L.points.findIndex((p, i) => L.interior[i] === 1 && p.x > x0 + 8_000 && Math.abs(p.y) < 3_000);
-    expect(east).toBeGreaterThanOrEqual(0);
-    const pick = { ordinal: 0, node: east, at: L.points[east], ranked: [east], forced: false };
-    // Without the exclusion the east bank is reached across the deck; with it, nothing reaches it.
-    expect(gateRoutes(plazaTree(L), [pick]).routes.length).toBe(1);
-    const r = resolveOffDecks(L, pick, selected);
-    expect(r.routes).toEqual([]);
-    expect(r.unserved).toEqual([{ ordinal: 0, code: 'unserved', count: 0, limit: Infinity }]);
-  });
-
-  it('a gate on a deck edge whose point is dry stands as (5) solved it: the rule re-solves a gate standing in the water only', () => {
-    // The river at x 250–290 m, its deck at y 50 m: seed 4's first route leaves the stage on the deck edge from the west
-    // bank's last node into the water, its gate (247.02 m, 65.45 m) on land, west of the shore. NO-SHIFT: such a gate
-    // was pinned by the trace before the rule, and stands (C-0397).
-    const x0 = 25_000;
-    const band = [P(x0, -100_000), P(x0 + 4_000, -100_000), P(x0 + 4_000, 100_000), P(x0, 100_000)];
-    const water = { faces: [band], decks: [{ id: 'bridge:0', a: P(x0, 5_000), b: P(x0 + 4_000, 5_000) }] };
-    const s = s3Slice(smallSite(4, { water }), { requestedN: 3 });
-    const L = s.lattice;
-    const solved = gateRoutes(plazaTree(L), s.picks, { nodeLimit: s.report.routeNodesLimit }).routes;
-    expect(s.routes).toEqual(solved);
-    const g = s.gates.find((q) => q.ordinal === 0);
-    expect(g?.at).toEqual(P(24_702, 6_545));
-    if (g === undefined) return;
-    expect(meetsWater(L, L.points[g.edge[0]], L.points[g.edge[1]])).toBe(true);
-    expect(inWater(L, g.at)).toBe(false);
-    expect([L.water[g.edge[0]], L.water[g.edge[1]]]).toEqual([0, 1]);
-    expect(Buffer.from(s.field.T.buffer).equals(Buffer.from(fieldT(L, solved, stageA(s.site)).T.buffer))).toBe(true);
-  });
-});
-
 describe('picks on a river site: land only (§4.2 S3 (4); C-0201 (8), C-0204)', () => {
   // A 40 m river band across the small site, its deck placed so the pick contour's selection reaches over the water.
   // Before C-0204 the inside ends of the contour's crossings over the water were candidates: a pick landed in the
   // river, the plaza tree never reached it, and the town got N − 1 gates (check M0-c-01 B-1, probes P5 and P7).
-  // The second layout's stage spans the river along its deck: as (5) solves it, one route leaves the stage at the far
-  // bridgehead, the midpoint of the deck's last water node and the east bank (C-0204 (2)) — a gate in the river, which
-  // the trace refused (`gate … is not on the committed trace`, R-28). §4.2 S3 (7)'s deck rule re-solves that route off
-  // the decks straddling the boundary, T and the boundary kept as (5) solved it (C-0397): every gate stands on ground.
+  // The second layout's stage spans the river along its deck: one route leaves the stage at the far bridgehead, the
+  // midpoint of the deck's last water node and the east bank (C-0204 (2)).
   const layouts: readonly { seed: number; x0: number; deckY: number; bridgehead: boolean }[] = [
     { seed: 21, x0: 10_000, deckY: 20_000, bridgehead: false },
     { seed: 25, x0: 20_000, deckY: 0, bridgehead: true },
@@ -190,57 +138,18 @@ describe('picks on a river site: land only (§4.2 S3 (4); C-0201 (8), C-0204)', 
         expect(L.water[p.node]).toBe(0);
         for (const r of p.ranked) expect(L.water[r]).toBe(0);
       }
-      // No gate on a deck edge on these layouts: neither end on water, the edge meeting no water face, the point dry.
+      let heads = 0;
       for (const g of s.gates) {
         const [u, v] = g.edge;
-        expect(L.water[u] + L.water[v]).toBe(0);
-        expect(meetsWater(L, L.points[u], L.points[v])).toBe(false);
-        expect(insideRing(band, g.at, true)).toBe(false);
-      }
-      // The routes as (5) solves them: T is their field (not re-derived for a re-solved route), and the bridgehead
-      // layout's (5) routes put one gate on a deck edge, its inside end on water along the deck.
-      const solved = gateRoutes(plazaTree(L), s.picks, { nodeLimit: s.report.routeNodesLimit }).routes;
-      const T5 = fieldT(L, solved, stageA(s.site));
-      expect(Buffer.from(s.field.T.buffer).equals(Buffer.from(T5.T.buffer))).toBe(true);
-      const gates5 = gatesOnBoundary(solved, s.threshold.t, s.levelSet);
-      let heads = 0;
-      for (const g of gates5) {
-        if (g === null || !meetsWater(L, L.points[g.edge[0]], L.points[g.edge[1]])) continue;
+        if (L.water[u] === 0) continue;
+        // A gate whose inside end is water stands at a bridgehead: along the deck (within one spacing), its outside
+        // end on land.
         heads += 1;
-        expect(inWater(L, g.at)).toBe(true);
-        const [u, v] = g.edge;
-        expect(L.water[u]).toBe(1);
         expect(L.water[v]).toBe(0);
         expect(Math.abs(L.points[u].y - deckY)).toBeLessThanOrEqual(L.spacingCm);
         expect(Math.abs(L.points[v].y - deckY)).toBeLessThanOrEqual(L.spacingCm);
       }
       expect(heads).toBe(bridgehead ? 1 : 0);
-      // The re-solved route keeps its pick and is a different route from (5)'s exactly where a gate stood on the deck.
-      expect(s.routes.map((r) => r.ordinal)).toEqual(solved.map((r) => r.ordinal));
-      expect(s.routes.filter((r, i) => r.nodes.join() !== solved[i].nodes.join()).length).toBe(bridgehead ? 1 : 0);
-      for (const r of s.routes) expect(r.nodes[r.pickAt]).toBe(s.picks.find((p) => p.ordinal === r.ordinal)?.node);
-      // route.nodes (C-0085): the re-solve is charged as a route is — its blocked graph's tree settled plus its A* (the
-      // blocked graph built here: every passable wet edge straddling the selection impassable).
-      const tree = plazaTree(L);
-      const first = gateRoutes(tree, s.picks, { nodeLimit: s.report.routeNodesLimit });
-      let work = tree.settled + first.charged;
-      const gr = L.graph;
-      const cut = Float64Array.from(gr.weights);
-      for (let u = 0; u < gr.n; u += 1) {
-        for (let e = gr.offsets[u]; e < gr.offsets[u + 1]; e += 1) {
-          const v = gr.targets[e];
-          if (s.levelSet.selected[u] !== s.levelSet.selected[v] && cut[e] < Infinity && segmentMeetsRing(band, L.points[u], L.points[v])) cut[e] = Infinity;
-        }
-      }
-      for (const g of gates5) {
-        if (g === null || !meetsWater(L, L.points[g.edge[0]], L.points[g.edge[1]])) continue;
-        const p = s.picks.find((q) => q.ordinal === g.ordinal);
-        if (p === undefined) continue;
-        const bt = plazaTree({ ...L, graph: { ...gr, weights: cut } });
-        work += bt.settled + gateRoutes(bt, [p], { nodeLimit: s.report.routeNodesLimit }).charged;
-      }
-      expect(s.report.gateRungs).toEqual([]);
-      expect(s.report.work['route.nodes']).toBe(work);
       expect(s.report.unserved).toEqual([]);
       expect(s.n).toBe(3);
       expect(s.gates.length).toBe(s.n);

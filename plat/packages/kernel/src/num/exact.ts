@@ -9,14 +9,13 @@
 // range invariant) every coordinate difference is below 2²⁴, every product of two below 2⁴⁸ and every `orient2d`
 // below 2⁴⁹, so each sign below is exact (§3.2 (1), (3)); the doubled convention (a half-lattice point such as an edge
 // midpoint, every coordinate times 2) keeps `orient2d` below 2⁵¹. `segmentCloserThan` compares o² with r²·|ab|²: both
-// are exact in doubles below 2⁵³ — for r = attractCm (26 cm) a segment up to about 36 km — and beyond it rounding is
-// monotone, so the doubles still decide every pair they hold apart; a pair they round to one value is decided again in
-// BigInt, so the answer is exact on every lattice input (M0-FIX-QUEUE L19). `halfPlaneOf` reads an integer direction
-// vector by comparing its two coordinates with 0, exact on every input; `comparePoints` orders two lattice points by
-// at most two comparisons per coordinate and no arithmetic, exact on every lattice input. The lattice-coordinate bound
-// is `isLatticeCoord`'s: an integer with |v| < 2²³ (`LATTICE.rangeCm`, snap's invariant), NaN and ±∞ outside it; `lp`
-// and `distinctRing` take points the caller already holds within it. Only + − × and `orient2d` are used (and BigInt's
-// + × for that one tie); no division, no `Math` member beyond `min`, `max` and `abs` (§6.5 (3)).
+// are exact while they stay at or below 2⁵³ — for r = attractCm (26 cm) a segment up to about 36 km — and beyond that a
+// rounding can only blur a near-tie, never a clear answer. `halfPlaneOf` reads an integer direction vector by comparing
+// its two coordinates with 0, exact on every input; `comparePoints` orders two lattice points by at most two
+// comparisons per coordinate and no arithmetic, exact on every lattice input. The lattice-coordinate bound is
+// `isLatticeCoord`'s: an integer with |v| < 2²³ (`LATTICE.rangeCm`, snap's invariant), NaN and ±∞ outside it; `lp`
+// and `distinctRing` take points the caller already holds within it. Only + − × and `orient2d` are used; no division,
+// no `Math` member beyond `min`, `max` and `abs` (§6.5 (3)).
 
 import type { Cm, LatticePoint } from '../types/index.js';
 import { LATTICE } from './lattice.js';
@@ -25,17 +24,11 @@ import { ratio, type RatioKind } from './ratio.js';
 
 // ---- the closed-segment tests -----------------------------------------------------------------------------------------
 
-/** 2⁵³: every integer below it is a double, so a product of integers that rounds below it was exact. */
-const EXACT_BELOW = 9_007_199_254_740_992;
-
 /**
  * Is p closer than r to the closed segment a–b? Strict: a point exactly r away is clear (§3.2 (2): an edge of exactly
  * `minEdge` is allowed). Where p's projection falls at or before a (dot ≤ 0) — or the segment is one point — the
  * distance is to a; at or past b (dot ≥ |ab|²), to b; between them, the perpendicular distance, compared squared as
  * `orient2d(a, b, p)² < r² · |ab|²`. r is a whole number of centimetres at every caller (`minEdgeCm`, `attractCm`).
- * Past 2⁵³ (a segment longer than about 36 km at r = 26 cm) the two products can round to one double while the exact
- * o² is the smaller — a point a hair inside r read as clear; that tie alone is decided again in BigInt, from the exact
- * integers o, r² and |ab|² of a lattice input (M0-FIX-QUEUE L19). A non-integer input keeps the doubles' answer.
  */
 export function segmentCloserThan(px: number, py: number, ax: number, ay: number, bx: number, by: number, r: number): boolean {
   const dx = bx - ax;
@@ -46,11 +39,7 @@ export function segmentCloserThan(px: number, py: number, ax: number, ay: number
   if (dot <= 0 || l2 === 0) return (px - ax) * (px - ax) + (py - ay) * (py - ay) < r2;
   if (dot >= l2) return (px - bx) * (px - bx) + (py - by) * (py - by) < r2;
   const o = orient2d(ax, ay, bx, by, px, py);
-  const o2 = o * o;
-  const bound = r2 * l2;
-  if (o2 !== bound || o2 < EXACT_BELOW) return o2 < bound;
-  if (!Number.isInteger(o) || !Number.isInteger(r2) || !Number.isInteger(l2)) return false;
-  return BigInt(o) * BigInt(o) < BigInt(r2) * BigInt(l2);
+  return o * o < r2 * l2;
 }
 
 /** Does q, already collinear with a–b, lie in the segment's closed bounding box (so on the closed segment)? */
@@ -213,9 +202,7 @@ export function distinctRing(ring: readonly LatticePoint[]): LatticePoint[] {
 
 /**
  * Two lattice points in §3.3's vertex key order: by y, then by x. −1 when a comes first, 1 when b does, 0 for one
- * position. The order every canonical sort of points uses (a face's key, a removed record's key, a ring's start); a
- * sort that has not yet adopted this function keeps its own copy of the order, held equal to it by
- * `test/num/equivalence.test.ts` (T-4).
+ * position. The comparator every canonical sort of points reads (a face's key, a removed record's key, a ring's start).
  */
 export function comparePoints(a: LatticePoint, b: LatticePoint): number {
   return a.y !== b.y ? (a.y < b.y ? -1 : 1) : a.x !== b.x ? (a.x < b.x ? -1 : 1) : 0;

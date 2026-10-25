@@ -1,40 +1,26 @@
 // M0-e-05's test support: the fields over M0-e-04's district fixture (`town`, `townS6` — a synthetic town on an indexed
 // ground arena, S6 run on it) and over the real S3 slice and S4 on the flat CITY fixture (`cityRun`), plus a hand-built
-// terrain for the elevation and low-and-damp kernels (the wet site: a river strip, the terrain, the wells), M0-e-03's
-// water fixture laid by S1 (`s1River`), and the readings the folder's files share: the shipped tables'
-// cells (`CELLS`) and the three fields of a pass (`all`). Readers of the committed arena are the fields module's own
+// terrain for the elevation and low-and-damp kernels. Readers of the committed arena are the fields module's own
 // (`fieldDriverSources`, `fieldFaces`); the fixtures are M0-e-04's (read, never edited).
-import { attachIndex, createKernel, createPlat, createRng, entityKey, seedKey, STAGES, streamFromKey, type Cm, type Frame, type LatticePoint, type Plat } from '@plat/kernel';
-import type { StageContext, Terrain, WaterSet } from '@plat/model';
-import { buildTerrain, coveringGrid, GROUND_KEY, runRivers, runS1, siteFrame, terrainParams, TOWN_ROOT, type SiteEnv, type SiteResources } from '@plat/site';
-import { parseTable, rungProfile, tableView, type Table, type TableView } from '@plat/tables';
+import { seedKey, type Cm, type LatticePoint } from '@plat/kernel';
+import type { Terrain } from '@plat/model';
+import { parseTable, tableView, type Table, type TableView } from '@plat/tables';
 import {
   fieldChanceStream,
   fieldDriverSources,
   fieldFaces,
-  fieldsCells,
   fieldsOwnTable,
   fieldsPass1,
   runS6,
   type FieldDistricts,
-  type FieldsCells,
   type FieldSite,
   type FieldsOptions,
   type FieldsPass1,
   type S6Output,
-  type ScalarField,
 } from '../../src/index.js';
 import { cityRun, townS6, type CityRun, type Town, type TownOptions } from '../districts/support.js';
 
 export const TABLES: TableView = tableView();
-
-/** The shipped tables' fields cells: the weights, the band set and its default shares, σ per rung. */
-export const CELLS: FieldsCells = fieldsCells(TABLES);
-
-/** The three fields of a pass, in their order. */
-export function all(r: FieldsPass1): ScalarField[] {
-  return [r.prosperity, r.density, r.greenery];
-}
 
 /** The main-street classes of the shipped own table. */
 export function mainClasses(): readonly string[] {
@@ -116,93 +102,6 @@ export function terrainOf(cellCm: number, cols: number, rows: number, originX: n
     features: [],
     lifecycle: { existence: 'generated', flags: { locked: false, pinned: false, edited: false, assigned: false }, since: { epoch: 0, seq: 0 } },
   } as unknown as Terrain;
-}
-
-// The wet site of `relief.test.ts` and `pass1.test.ts`: the arena reaches ± 3 200 m (4 km frame, 30 % margin); a 25 m
-// height raster over it; the river a 100 m strip at x ∈ [−1 600, −1 500] m, ground 0 there, rising 1 m per 100 m
-// eastward, with a 100 m plateau; the wells' yield 0.5 over a block east of the centre (S1 (10)-shaped resources).
-export const WET_T_CELL = 2500;
-export const WET_T_N = 256;
-export const WET_T_O = -320000;
-
-/** The wet site's ground height (cm) at (x, y). */
-export function wetHeight(x: number, y: number): number {
-  const rise = x > -150000 ? (x + 150000) / 100 : 0;
-  const plateau = x > 100000 && x < 250000 && y > 100000 && y < 250000 ? 10000 : 0;
-  return rise + plateau;
-}
-
-/** The wet site's terrain record. */
-export const WET_TERRAIN: Terrain = terrainOf(WET_T_CELL, WET_T_N, WET_T_N, WET_T_O, WET_T_O, wetHeight);
-
-/** The wet site's river strip. */
-export const WET_RIVER: LatticePoint[] = rect(-160000, -320000, -150000, 320000);
-
-/** The wet site's resources: the wells' yield 0.5 over x ∈ (0, 1 000) m, y ∈ (−2 500, −1 000) m, 0 elsewhere. */
-export function wetResources(): SiteResources {
-  const rg = coveringGrid({ cellCm: WET_T_CELL, cols: WET_T_N, rows: WET_T_N, originX: WET_T_O, originY: WET_T_O }, 10000);
-  const wellYield = new Float32Array(rg.cols * rg.rows);
-  for (let j = 0; j < rg.rows; j += 1) {
-    for (let i = 0; i < rg.cols; i += 1) {
-      const x = rg.originX + (i + 0.5) * rg.cellCm;
-      const y = rg.originY + (j + 0.5) * rg.cellCm;
-      if (x > 0 && x < 100000 && y > -250000 && y < -100000) wellYield[j * rg.cols + i] = 0.5;
-    }
-  }
-  const z = new Float32Array(wellYield.length);
-  return { cellCm: 10000, ore: z, stone: z, timber: z, fish: z, clay: z, fertile: z, wellYield, slope: z };
-}
-
-/** A field town's site on the wet ground: its own sources with the river strip, the terrain, and (optionally) the wells. */
-export function wetSite(ft: FieldTown, wells = false): FieldSite {
-  return { ...ft.site, terrain: WET_TERRAIN, ...(wells ? { resources: wetResources() } : {}), sources: { ...ft.site.sources, water: [WET_RIVER] } };
-}
-
-/** M0-e-03's water fixture as S1 lays it: the terrain, the water S1 (3) traced and S1's L0 batch on a ground arena. */
-export interface S1River {
-  readonly frame: Frame;
-  readonly terrain: Terrain;
-  /** S1's committed water (its bodies own L0 faces of `plat`). */
-  readonly water: WaterSet;
-  readonly plat: Plat;
-}
-
-/**
- * M0-e-03's water fixture (its `stage.test.ts`'s): a 100 ha CITY frame on rolling ground with a river, a tributary and
- * the basic estuary at `seed`, built by M0-e-01's terrain and M0-e-02's rivers and laid by S1's L0 batch (`runS1`) on an
- * indexed ground arena under a hand-built S1 context (the site tests' pattern, C-0123).
- */
-export function s1River(seed = 2): S1River {
-  const rung = rungProfile('CITY');
-  const frame = siteFrame({ areaHa: 100 }, rung, TABLES);
-  if (!frame.ok) throw new Error(frame.detail);
-  const t = buildTerrain({ id: 'terrain:ground', key: GROUND_KEY, frame: frame.value, params: terrainParams(TABLES, 'CITY'), epoch: 0 }, { relief: 'rolling' }, streamFromKey([seed, 7, 0, 0]));
-  if (!t.ok) throw new Error(t.detail);
-  const rng = createRng();
-  const town = entityKey(seedKey(seed), [0, 0], { layer: 'ground', part: 0 });
-  const ctx: StageContext<SiteEnv> = {
-    doc: undefined,
-    plats: {},
-    tables: TABLES,
-    rung,
-    report: undefined,
-    epoch: 0,
-    stream(concern, entity, opts) {
-      if (entity !== TOWN_ROOT) throw new Error(`no entity key for handle ${String(entity)}`);
-      return rng.stream(town, STAGES.S1, concern, opts);
-    },
-    streamOpts(_concern, _entity, attempt = 0) {
-      return { reroll: 0, attempt, epoch: 0, salt: 0 };
-    },
-  };
-  const rv = runRivers({ size: { areaHa: 100 }, site: { river: { tributaries: [{}], mouth: 'estuary' } } }, t.value, { bodies: [], bridges: [] }, ctx);
-  if (!rv.ok) throw new Error(rv.detail);
-  const plat = createPlat(GROUND_KEY, frame.value, { vertices: 4096, edgePairs: 4096, roleRows: 8192 });
-  attachIndex(plat, { gridCellCm: [10_000, 5_000, 2_500, 1_200, 600] });
-  const kernel = createKernel(new Map([[GROUND_KEY, plat]]));
-  const s1 = runS1({ terrain: t.value, water: rv.value.water, kernel, mouth: 'estuary' }, ctx);
-  if (!s1.ok) throw new Error(`S1 refused: ${s1.code} ${s1.detail}`);
-  return { frame: frame.value, terrain: s1.value.terrain, water: s1.value.water, plat };
 }
 
 /** A closed ring of a rectangle (counter-clockwise). */

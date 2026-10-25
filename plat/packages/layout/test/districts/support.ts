@@ -8,9 +8,7 @@
 // committed arena are written here from the arena's own tables, never through the code under test. The folder's tests
 // share their fixture helpers from here, one copy each: the seed-keyed run cache (`bySeed`), S6 on a run's input
 // (`s6Run`), a bare ground arena's kernel (`kernel`), the grid's face graph and cell index (`graphOf`, `cell`,
-// `claimableOf`), the hectare (`HA`), one more chain on a built arena (`layChain`: an arterial ring, a river bank) and
-// the run's tables carrying a variant of S6's own table (`withS6`, `s6With`); `cityRun` takes S1's land owner like
-// `town`.
+// `claimableOf`) and the hectare (`HA`).
 import {
   attachIndex,
   createKernel,
@@ -35,8 +33,8 @@ import {
   type StageId,
 } from '@plat/kernel';
 import type { Gate, Id, Reservation, Way } from '@plat/model';
-import { parseTable, tableView, type Table, type TableView } from '@plat/tables';
-import { commitOuterRing, commitS3Slice, faceGraph, flatFixture, runS4, runS5ab, runS6, s3Slice, s6Table, settlementPerimeter, siteFeatures, spineWidthsOf, type FaceGraph, type GrowthState, type S3Commit, type S3Slice, type S6Input, type S6Output, type WallLine } from '../../src/index.js';
+import { parseTable, tableView, type TableView } from '@plat/tables';
+import { commitS3Slice, faceGraph, flatFixture, runS4, runS5ab, runS6, s3Slice, settlementPerimeter, siteFeatures, spineWidthsOf, type FaceGraph, type GrowthState, type S3Commit, type S3Slice, type S6Input, type S6Output, type WallLine } from '../../src/index.js';
 
 export const GROUND: PlatKey = { layer: 'ground', part: 0 };
 
@@ -154,14 +152,6 @@ function lay(k: Kernel, level: 0 | 1, stage: number, pts: readonly LatticePoint[
     return ins;
   });
   if (!r.ok) throw new Error(`support: a chain was refused: ${r.code} ${r.detail}`);
-}
-
-/**
- * Lays one chain on a built arena in its own L1 (or, with `level` 0, L0) batch at `stage` (default S4); throws on a
- * refusal. The tests' way to add a line the fixture builders do not (an arterial ring, a river bank).
- */
-export function layChain(k: Kernel, pts: readonly LatticePoint[], rows: { role: string; entity: string }[], opts: { closed?: boolean; level?: 0 | 1; stage?: number } = {}): void {
-  lay(k, opts.level ?? 1, opts.stage ?? STAGES.S4, pts, rows, opts.closed === true ? { closed: true } : {});
 }
 
 function segPointDist(p: { x: number; y: number }, a: { x: number; y: number }, b: { x: number; y: number }): number {
@@ -345,25 +335,13 @@ export interface CityRun {
  * `secondary` ways (`gridM`) over the outline's land and its 50 m band, clear of the plaza, the wall strips and the
  * gates' corridors.
  */
-export function cityRun(seed: number, gridM = 150, ringM = 180, widths: Map<Id, number> = new Map(), landOwner?: Id): CityRun {
+export function cityRun(seed: number, gridM = 150, ringM = 180, widths: Map<Id, number> = new Map()): CityRun {
   const site = flatFixture(seed);
   const slice = s3Slice(site, {});
   const plat = createPlat(GROUND, site.frame);
   attachIndex(plat, { gridCellCm: 5000 });
   const k = createKernel(new Map([[GROUND, plat]]), { spineWidths: spineWidthsOf(widths) });
-  // S1's land component (C-0229 (3); N-51), as town's `landOwner`: the outer ring laid first and the L0 face inside it
-  // given the owner, so every L1 face S3, S4 and the grid lay inherits it (§2.2 rule 4)
-  if (landOwner !== undefined) {
-    const m = commitOuterRing(site, k);
-    if (!m.ok) throw new Error(`support: the outer ring was refused: ${m.code} ${m.detail}`);
-    const r = k.tx(spec(0, STAGES.S1), (o) => {
-      const loc = k.geom.pointLocate(GROUND, 0, P(0, 0));
-      if (loc.on !== 'face') return err('E_INVARIANT', 'support: no L0 face at the origin');
-      return k.geom.setOwner(o, [loc.face], landOwner);
-    });
-    if (!r.ok) throw new Error(`support: the land owner was refused: ${r.code} ${r.detail}`);
-  }
-  const c = commitS3Slice(slice, k, landOwner === undefined ? {} : { outerRing: 'present' });
+  const c = commitS3Slice(slice, k, {});
   if (!c.ok) throw new Error(`support: S3's commits were refused: ${c.code} ${c.detail}`);
   const r = runS4({ slice, commit: c.value, water: { bodies: [], bridges: [] }, kernel: k });
   if (!r.ok) throw new Error(`support: S4 was refused: ${r.code} ${r.detail}`);
@@ -803,36 +781,6 @@ export function tableWith(id: string, row: string, cell: string, value: unknown,
     slice: (x, kind, key) => base.slice(x, kind, key),
     table: (x) => (x === id ? changed : base.table(x)),
   };
-}
-
-/**
- * A TableView carrying S6's own table `s6` (which the registry's view does not list) as `variant`, every other table
- * `base`'s: how a calibration's or a test's `s6` reaches S6 through the run's tables.
- */
-export function withS6(variant: Table, base: TableView = tableView()): TableView {
-  return {
-    hash: base.hash,
-    version: (x) => (x === 's6' ? String(variant.version) : base.version(x)),
-    get: (x, key) => (x === 's6' ? variant.rows.get(key) : base.get(x, key)),
-    rows: (x) => (x === 's6' ? variant.rows : base.rows(x)),
-    slice: (x, kind, key) => base.slice(x, kind, key),
-    table: (x) => (x === 's6' ? variant : base.table(x)),
-  };
-}
-
-/** S6's table `s6` with the cells `edits` ([row, cell, value]) replaced, checked by `parseTable` like the shipped one. */
-export function s6With(edits: readonly (readonly [string, string, unknown])[]): Table {
-  const t = s6Table();
-  const rows: Record<string, Record<string, unknown>> = {};
-  for (const [rk, cells] of t.rows) {
-    const r: Record<string, unknown> = {};
-    for (const [ck, c] of cells) {
-      const e = edits.find(([row, cell]) => row === rk && cell === ck);
-      r[ck] = { ...c, ...(e === undefined ? {} : { value: e[2] }) };
-    }
-    rows[rk] = r;
-  }
-  return parseTable('s6', { table: 's6', version: t.version, section: t.section, rows });
 }
 
 /** Twice the signed area of a ring (counter-clockwise positive). */

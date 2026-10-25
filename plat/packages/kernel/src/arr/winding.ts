@@ -80,16 +80,10 @@ export interface WindingLabels {
 }
 
 /** One input segment: its two lattice points and its multiplicity per operand (signed: −1 for a reversed repeat). */
-export interface Segment {
+interface Segment {
   readonly a: LatticePoint;
   readonly b: LatticePoint;
   readonly mult: Int32Array;
-}
-
-/** One ring's walk on the overlay: its operand and its segments in order, each 1-based and signed (+ along a → b). */
-export interface Walk {
-  readonly operand: number;
-  steps: number[];
 }
 
 /** How far the scratch overlay's frame stands beyond the inputs' box, in cm (well beyond `attractCm`). */
@@ -114,7 +108,7 @@ export function buildOverlay(operands: readonly (readonly (readonly LatticePoint
   const segments: Segment[] = [];
   const byKey = new Map<string, number>();
   /** Every ring as it was given: its operand and its segments in order, each signed (+ along the segment's a → b). */
-  const walks: Walk[] = [];
+  const walks: { operand: number; steps: number[] }[] = [];
   let minX = Infinity;
   let minY = Infinity;
   let maxX = -Infinity;
@@ -205,13 +199,12 @@ export function buildOverlay(operands: readonly (readonly (readonly LatticePoint
  * Each such gap is closed by one more two-point chain from the vertex the walk left on to the vertex it re-enters on,
  * inserted through `insertChain` like every segment and spliced into the walk, so the ring stays one closed walk of
  * inserted edges; a gap shorter than `minEdge` is left to `glueWalks`' shortest path (a bridge would collapse). The
- * collapse already reported its move (W_ATTRACTED), so the case stays attracted under §3.7's split. Exported for its
- * pins (the overlay's stages are file-level exports only, never the arr index's).
+ * collapse already reported its move (W_ATTRACTED), so the case stays attracted under §3.7's split.
  */
-export function bridgeGaps(
+function bridgeGaps(
   tx: InsertTx,
   segments: Segment[],
-  walks: Walk[],
+  walks: { operand: number; steps: number[] }[],
   starts: VertexId[],
   ends: VertexId[],
   k: number,
@@ -263,9 +256,9 @@ export function bridgeGaps(
 /**
  * Each segment's net traversals: +1 or −1 on the edges of the one path its edges give from the vertex its first point
  * became to the vertex its last point became, 0 on any other edge it carries (C-0196 (1)); multiplied by the segment's
- * multiplicities and summed per pair. Exported for its pins: the net before `glueWalks` and `balanceFlow` run.
+ * multiplicities and summed per pair.
  */
-export function orientSegments(p: Plat, segments: readonly Segment[], starts: readonly VertexId[], ends: readonly VertexId[], k: number): Int32Array {
+function orientSegments(p: Plat, segments: readonly Segment[], starts: readonly VertexId[], ends: readonly VertexId[], k: number): Int32Array {
   const pairs = p.slots.pair.top;
   const net = new Int32Array(pairs * k);
   const role = roleIdOf(SCRATCH_ROLE);
@@ -431,11 +424,10 @@ export function shortestPath(p: Plat, u: VertexId, v: VertexId): number[] {
  * starting on different vertices — a segment shorter than `minEdge` collapsed to nothing, or two insertions of one
  * lattice point placed apart — the shortest overlay path between them carries the ring's operand, so every ring stays a
  * closed walk and the flow's divergence is 0 at every vertex: the winding walk is consistent by construction.
- * Exported for its pins: no drawn input has reached it (the defence in depth of §3.7's winding walk).
  */
-export function glueWalks(
+function glueWalks(
   p: Plat,
-  walks: readonly Walk[],
+  walks: readonly { operand: number; steps: readonly number[] }[],
   starts: readonly VertexId[],
   ends: readonly VertexId[],
   k: number,
@@ -465,9 +457,8 @@ export function glueWalks(
  * source and a sink in that piece. A closed walk leaves every piece as often as it enters it, so within each connected
  * piece of the overlay the residual divergence sums to 0; each sink is joined to a source of its piece by the shortest
  * path, both taken in lowest-leftmost vertex order (no slot order), so the divergence is 0 everywhere again.
- * Exported for its pins: no drawn input has reached it (the defence in depth of §3.7's winding walk).
  */
-export function balanceFlow(p: Plat, k: number, net: Int32Array): void {
+function balanceFlow(p: Plat, k: number, net: Int32Array): void {
   const pairs = p.slots.pair.top;
   const O = p.halfEdges.origin;
   const X = p.vertices.x;
@@ -624,16 +615,11 @@ export function dropStraight(loop: LatticePoint[], keep: (p: LatticePoint) => bo
   return pts;
 }
 
-/** The refusal detail of a kept boundary whose walk does not close (pinned verbatim). */
-export const UNCLOSED_BOUNDARY = 'arr: the kept boundary does not close';
-
 /**
  * The kept region's boundary as rings (see the module comment): `keep` reads a face's winding numbers. Outer rings
- * counter-clockwise, holes clockwise, each simple, canonical in start and order. A boundary walk that does not close —
- * never on a valid overlay, whose labels give every kept face's boundary as closed cycles — is E_INVARIANT
- * (`UNCLOSED_BOUNDARY`), a typed refusal and never a throw (§3.11).
+ * counter-clockwise, holes clockwise, each simple, canonical in start and order.
  */
-export function traceKept(overlay: ScratchOverlay, labels: WindingLabels, keep: (w: readonly number[]) => boolean): KernelResult<Ring[]> {
+export function traceKept(overlay: ScratchOverlay, labels: WindingLabels, keep: (w: readonly number[]) => boolean): Ring[] {
   const p = overlay.plat;
   const faceOf = labels.faceOf;
   const kept = new Map<FaceId, boolean>();
@@ -663,10 +649,10 @@ export function traceKept(overlay: ScratchOverlay, labels: WindingLabels, keep: 
       let g = next[h];
       while (!boundary(g)) {
         g = next[g ^ 1];
-        if (++guard > half * 4) return err('E_INVARIANT', UNCLOSED_BOUNDARY);
+        if (++guard > half * 4) throw new Error('arr: the kept boundary does not close');
       }
       h = g;
-      if (++guard > half * 4) return err('E_INVARIANT', UNCLOSED_BOUNDARY);
+      if (++guard > half * 4) throw new Error('arr: the kept boundary does not close');
     } while (h !== h0);
     for (const loop of simpleLoops(cycle)) {
       const pts = dropStraight(
@@ -677,7 +663,7 @@ export function traceKept(overlay: ScratchOverlay, labels: WindingLabels, keep: 
       rings.push(canonicalRing(pts));
     }
   }
-  return ok(rings.sort(compareRings), []);
+  return rings.sort(compareRings);
 }
 
 /**
@@ -711,9 +697,7 @@ export function overlayRegion(
   if (!ov.ok) return err(ov.code, ov.detail);
   const labels = windingLabels(ov.value);
   if (!labels.consistent) return { ...err<Ring[]>('E_INVARIANT', 'winding'), warnings: ov.value.warnings.map((w) => ({ ...w })) } as KernelResult<Ring[]>;
-  const traced = traceKept(ov.value, labels, keep);
-  if (!traced.ok) return { ...traced, warnings: ov.value.warnings.map((w) => ({ ...w })) } as KernelResult<Ring[]>;
-  return ok(traced.value, ov.value.warnings);
+  return ok(traceKept(ov.value, labels, keep), ov.value.warnings);
 }
 
 /**

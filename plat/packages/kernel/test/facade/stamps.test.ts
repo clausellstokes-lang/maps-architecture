@@ -7,21 +7,11 @@ import { assertStamp, setDebugAssertions, type Plat, type Stamp } from '../../sr
 import { stampOf, type Kernel } from '../../src/facade/index.js';
 import { stampWith } from '../../src/facade/stamp.js';
 import type { KernelResult } from '../../src/num/index.js';
-import { restoreGeneration, restoreSavepoint, takeSavepoint, tx } from '../../src/tx/index.js';
+import { restoreGeneration, restoreSavepoint, takeSavepoint } from '../../src/tx/index.js';
 import { crossing, emptyOn, framed, GROUND, kernelOver, pt, RAISED, spec } from './support.js';
 
 const WAY = [{ role: 'way', entity: 'way:1' }];
 const okv = <T>(value: T): KernelResult<T> => ({ ok: true, value, warnings: [] });
-
-/** The message `run` throws (the test fails when it throws nothing). */
-function messageOf(run: () => unknown): string {
-  try {
-    run();
-  } catch (e) {
-    return (e as Error).message;
-  }
-  throw new Error('expected a throw');
-}
 
 afterEach(() => setDebugAssertions(true));
 
@@ -350,38 +340,6 @@ describe('Q38: the façade\'s stamps carry the restore generation (the debug bui
     expect(() => k.assertCurrent(old, GROUND)).toThrow(/stale slot/);
   });
 
-  it('inside the next batch after a cross-commit restore, an op\'s result is current and carries generation 1 (M22)', () => {
-    const p = framed();
-    const k = kernelOver([p]);
-    restoreAcrossOne(k, p, 1);
-    const v = p.version;
-    let seen: Stamp | undefined;
-    const r = k.tx(spec(1), (o) => {
-      const ins = k.geom.insertChain(o, [pt(0, 2000), pt(4000, 2000)], way(2), 'mandatory');
-      k.assertCurrent(ins, GROUND);
-      seen = stampOf(ins);
-      return ins;
-    });
-    expect(r.ok).toBe(true);
-    expect(seen).toEqual({ key: GROUND, version: v, generation: 1 });
-  });
-
-  it('the generation message is the whole text, the arena\'s own after the prefix (X19)', () => {
-    const p = framed();
-    const k = kernelOver([p]);
-    const v0 = p.version;
-    const image = takeSavepoint(p);
-    commitChain(k, 1, [0, 2000], [4000, 2000]);
-    const res = k.resolve({ role: 'way', entity: 'way:1' }, GROUND);
-    restoreSavepoint(image);
-    commitChain(k, 2, [2000, 0], [2000, 4000]);
-    const facade = messageOf(() => k.assertCurrent(res, GROUND));
-    expect(facade).toBe(`kernel: ${genMsg(v0 + 1, 0, v0 + 1, 1)} (a savepoint was put back across committed batches since)`);
-    const arena = messageOf(() => assertStamp(p, res as Stamp));
-    expect(arena.startsWith('arena: ')).toBe(true);
-    expect(facade.slice('kernel: '.length)).toBe(arena.slice('arena: '.length));
-  });
-
   it('a production build: nothing is stamped in the side table and no shape gains a generation after a restore (ZERO SHIFT)', () => {
     setDebugAssertions(false);
     const p = framed();
@@ -400,81 +358,5 @@ describe('Q38: the façade\'s stamps carry the restore generation (the debug bui
     expect(stampOf(b)).toBeUndefined();
     expect(stampOf(view)).toEqual({ key: GROUND, version: p.version });
     expect(() => k.assertCurrent(stale, GROUND)).not.toThrow();
-  });
-});
-
-// Hardening round S3 (checks/M0-a-16-notes.md notes 4, 13 and 16): the side table is read before a value's inline
-// stamp; a value another kernel's writer returns inside a batch is re-stamped at that batch's commit (the batch's list is
-// the overlay's, RQ4); a stamp carries a copy of its arena's key.
-describe('the stamps\' own laws (the debug build)', () => {
-  const BOX = { minX: 0, minY: 0, maxX: 4000, maxY: 4000 };
-
-  it('the side-table stamp wins over a value\'s inline stamp: an inline-stamped value of a rejected batch is never current (S05)', () => {
-    const p = framed();
-    const k = kernelOver([p]);
-    const v0 = p.version;
-    let inside: object | null = null;
-    const r = k.tx(spec(1), (o) => {
-      const ins = k.geom.insertChain(o, [pt(0, 2000), pt(4000, 2000)], WAY, 'mandatory');
-      // the value carries an inline { key, version } of the arena as the batch found it (a writer or service that
-      // returns one)
-      inside = Object.assign(ins, { key: { layer: 'ground', part: 0 }, version: p.version });
-      return { ok: false, code: 'E_INVARIANT', detail: 'refused by the stage' };
-    });
-    expect(r.ok).toBe(false);
-    expect(p.version).toBe(v0);
-    // its inline stamp names the version the arena kept; the side table names the rejected batch
-    expect(inside).toMatchObject({ key: GROUND, version: v0 });
-    expect(stampOf(inside)).toEqual({ key: GROUND, version: -1 });
-    expect(() => k.assertCurrent(inside, GROUND)).toThrow(`a stale slot: stamped at version -1, arena ground/0 is at version ${String(v0)}`);
-    // stampWith over an inline-stamped value: the side table is read
-    const w = stampWith({ key: GROUND, version: -1 }, { key: GROUND, version: p.version });
-    expect(stampOf(w)).toEqual({ key: GROUND, version: -1 });
-  });
-
-  it('a value another kernel\'s writer returns inside a batch is re-stamped at that batch\'s commit, or never current when it is rejected (note 13)', () => {
-    const p = framed();
-    const opener = kernelOver([p]);
-    const other = kernelOver([p]);
-    const v0 = p.version;
-    let inside: unknown = null;
-    const a = opener.tx(spec(1), (o) => (inside = other.geom.insertChain(o, [pt(0, 2000), pt(4000, 2000)], WAY, 'mandatory')) as KernelResult<unknown>);
-    expect(a.ok && a.value.record !== null).toBe(true);
-    expect(p.version).toBe(v0 + 1);
-    expect(stampOf(inside)).toEqual({ key: GROUND, version: v0 + 1 });
-    other.assertCurrent(inside, GROUND);
-    opener.assertCurrent(inside);
-    let rejected: unknown = null;
-    const b = opener.tx(spec(1), (o) => {
-      rejected = other.geom.insertChain(o, [pt(2000, 0), pt(2000, 4000)], [{ role: 'way', entity: 'way:2' }], 'mandatory');
-      return { ok: false, code: 'E_INVARIANT', detail: 'refused by the stage' };
-    });
-    expect(b.ok).toBe(false);
-    expect(stampOf(rejected)).toEqual({ key: GROUND, version: -1 });
-    expect(() => other.assertCurrent(rejected, GROUND)).toThrow(/a stale slot: stamped at version -1/);
-  });
-
-  it('a value a kernel\'s writer returns inside the module\'s tx() keeps its in-batch stamp: stale after the commit, loud (the debug assertion)', () => {
-    const p = framed();
-    const k = kernelOver([p]);
-    const v0 = p.version;
-    let inside: unknown = null;
-    const r = tx(p, spec(1), (o) => (inside = k.geom.insertChain(o, [pt(0, 2000), pt(4000, 2000)], WAY, 'mandatory')) as KernelResult<unknown>);
-    expect(r.ok && r.value.record !== null).toBe(true);
-    expect(stampOf(inside)).toEqual({ key: GROUND, version: v0 });
-    expect(() => k.assertCurrent(inside, GROUND)).toThrow(`kernel: a stale slot: stamped at version ${String(v0)}, arena ground/0 is at version ${String(v0 + 1)} (§3.4)`);
-  });
-
-  it('a stamp carries a copy of its arena\'s key: writing to it re-keys no arena (X14)', () => {
-    const p = framed();
-    const k = kernelOver([p]);
-    const q = k.index.query(GROUND, 1, BOX);
-    const s = stampOf(q);
-    expect(s).toEqual({ key: GROUND, version: p.version });
-    expect(s?.key).not.toBe(p.key);
-    (s?.key as { part: number }).part = 9;
-    expect(p.key).toEqual(GROUND);
-    k.assertCurrent(k.index.query(GROUND, 1, BOX), GROUND);
-    expect(() => k.assertCurrent(q, GROUND)).toThrow('kernel: a slot stamped for arena ground/9 was passed to arena ground/0 (§3.4)');
   });
 });

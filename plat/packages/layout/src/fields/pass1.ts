@@ -21,12 +21,11 @@
 // F-WORK (C-0085): `field.cells` is charged cols × rows per field before any field is computed; at its limit the grid
 // takes R12-5's coarser step (48 m) and the report carries `work_cut` with the count. The `fieldsCoarsen` switch takes
 // the coarser step from the start (R12-5's fallback): it changes the cell size and nothing else.
-import { compareKeys, CONCERNS, createRng, dmath, fbmRow, H128, noiseStream, ratio, STAGES, type ConcernId, type Frame, type Hash128, type KernelResult, type StageId, type Stream } from '@plat/kernel';
+import { CONCERNS, createRng, dmath, fbmRow, H128, noiseStream, ratio, STAGES, type ConcernId, type Frame, type Hash128, type KernelResult, type StageId, type Stream } from '@plat/kernel';
 import { err, ok } from '@plat/kernel';
 import { mintTownRoot, type FieldBands, type Id, type Terrain } from '@plat/model';
 import { coveringGrid, terrainSampler, type SiteResources } from '@plat/site';
 import { loadWorkLimits, workLimitOf, type Table, type TableView, type WorkLimitsTable } from '@plat/tables';
-import { PI } from '../siting/geom.js';
 import { blur3, boxFor, type BoxSpec } from './blur.js';
 import { cutPoints, fieldBands } from './cuts.js';
 import { distanceTransform, type DistanceField } from './edt.js';
@@ -56,6 +55,9 @@ import {
 } from './types.js';
 
 const S6 = STAGES.S6 as StageId;
+
+/** π (no Math member outside §6.5 (3)'s list). */
+const PI = 3.141592653589793;
 
 /** What the driver kernels read of the site (§4.5). */
 export interface FieldSite {
@@ -271,14 +273,11 @@ function wealthRamp(g: FieldGrid, bearingCdeg: number): Float64Array {
   return out;
 }
 
-/**
- * The ground height at each cell centre (bilinear on S1's raster, whole cm; 0 on flat ground). The sampler's slope-query
- * step is the terrain's own cell: `heightAt` never reads it, so no value depends on it.
- */
+/** The ground height at each cell centre (bilinear on S1's raster, whole cm; 0 on flat ground). */
 function heightsOf(g: FieldGrid, terrain: Terrain | null | undefined): Float64Array {
   const out = new Float64Array(g.cols * g.rows);
   if (terrain === null || terrain === undefined) return out;
-  const s = terrainSampler(terrain, terrain.cellCm);
+  const s = terrainSampler(terrain, 250);
   for (let j = 0; j < g.rows; j += 1) for (let i = 0; i < g.cols; i += 1) out[j * g.cols + i] = s.heightAt({ x: cx(g, i), y: cy(g, j) } as Parameters<typeof s.heightAt>[0]);
   return out;
 }
@@ -587,7 +586,7 @@ export function fieldsPass1(site: FieldSite, districts: FieldDistricts, tables: 
     sigmaM: st.sigmaCm / 100,
     blur: { radius: box.radius, alpha: box.alpha },
     sourced: DISTANCE_CLASSES.filter((c) => st.distances.get(c) !== null),
-    kindsWithoutOffset: [...missing].sort(compareKeys),
+    kindsWithoutOffset: [...missing].sort((a, b) => (a < b ? -1 : a > b ? 1 : 0)),
     landCells,
   };
   return ok({

@@ -44,12 +44,10 @@ describe('the numeric contract refuses without running (§3.8)', () => {
     expect(validated([notch])).toBe(true);
   });
 
-  it('a spike (a fold-back sharper than 5°) is a sharp corner unless the pre-clean drops it as a spur', () => {
-    // back to a point 30 cm beside its root (a 3.4° tip wider than attractCm): refused at the tip
-    expect(refusal([[pt(0, 0), pt(1_000, 0), pt(1_000, 1_000), pt(530, 1_000), pt(500, 1_500), pt(500, 1_000), pt(0, 1_000)]])).toEqual({ refusal: 'sharpCorner', at: pt(500, 1_500) });
-    // back to a point 1 cm beside its root: an inexact spur within attractCm, which the pre-clean drops (RQ7 (A)), so the
-    // square runs; back to its root exactly: an exact zero-width spur, dropped likewise (C-0276)
-    expect(validated([[pt(0, 0), pt(1_000, 0), pt(1_000, 1_000), pt(501, 1_000), pt(500, 1_500), pt(500, 1_000), pt(0, 1_000)]])).toBe(true);
+  it('a spike (a 0° corner where the ring folds back on itself) is a sharp corner unless it is an exact zero-width spur', () => {
+    // back to a point 1 cm beside its root: refused at the tip
+    expect(refusal([[pt(0, 0), pt(1_000, 0), pt(1_000, 1_000), pt(501, 1_000), pt(500, 1_500), pt(500, 1_000), pt(0, 1_000)]])).toEqual({ refusal: 'sharpCorner', at: pt(500, 1_500) });
+    // back to its root exactly: an exact zero-width spur, which the pre-clean drops (C-0276), so the square runs
     expect(validated([[pt(0, 0), pt(1_000, 0), pt(1_000, 1_000), pt(500, 1_000), pt(500, 1_500), pt(500, 1_000), pt(0, 1_000)]])).toBe(true);
   });
 

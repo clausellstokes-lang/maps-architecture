@@ -264,3 +264,239 @@ the bands family (1 000 runs).
 | N-s8c-3 | **`coarserRegion` charges more work.** The differential measured the new lookup's `tx.facesWalked` at 20 800 against the pre-round midpoint lookup's 15 322 over the step3-5 families (+36 %), 3 978 against 3 414 on bands; at both work-limit checks of `rewalk` the verdict never changed (0 flips). A timing-phase observation for §12.4's "≤ 8 µs per insertion" bar, not a gate here (this machine is not §12.1's). | the timing phase (M0-t-01 / M0-t-02) reads it with the bar | timing-phase |
 | N-s8c-4 | **MK and ML survive at 1 000 runs, equivalent on lawful input.** MK (the level-n record query round the new edges back to + 1 cm): a record whose old ring bounds a cycle passes through one of the new edge's level-n endpoints, which lie on its level-n route, so the + 0 box already meets it; a floating new edge lies ≥ `minEdge` from the record's boundary by §3.10's clearance row, so the route-versus-walk strip (≤ 2.84 cm) never holds its box corner. ML (`recordHolding` back to 1 cm): a new level-n edge whose midpoint lies inside a finer record's strip passes within 2.84 cm of a finer edge, which `checkEdge`'s attractCm row refuses E_KEPT first. CONFIRMED on the families by the differential (`recordHolding` 0 differences at reach 3 / 1 / 0 over 470 794 insertions). Same handling as the builder's N-s8-3, for a stated reason. | a constructed arena (a Steiner vertex two levels finer inside a sliver, a cycle of new edges alone beside it) as the hardening pin | M4 |
 | N-s8c-5 | **The Q53 pin's two doors are not redundant** (mutant ME, no reach in `holderAt`): the chain alone refuses E_INVARIANT (the guard catches the miss) while the corridorUnion batch still commits healthy — its earlier chains leave a route vertex at the old half-edge's origin, so the point box meets the sliver's record (PLAUSIBLE, from the logged candidates). A third door — the sliver chain after one unrelated L2 chain in the same transaction — would pin the reach through the batch path too. | one more case in `sliver.test.ts` | M4 |
+
+
+## Hardening round S9 (lane `build/M0-a-05-fix-s9`, 2026-10-14 – 2026-10-20; J237 (2), J264, J290 / N-58, N-61 (1) – (3); census R-04 – R-06, R-42; queue rows L26, L8; C-0361)
+
+The session's hardening round for the router: the census's router classes and the rulings RQ1 – RQ3 first, then the
+inventory's FIX-NOW rows of this file (N-2 … N-s8c-5) and M0-a-15's note 1. Every change lies in `insert/` and
+`test/insert/step3-5/` (the item's owns). Source files changed against the S8 record: `insert/insertChain.ts`,
+`insert/snapRound.ts`, `insert/stretch.ts`; `crossings.ts`, `wedge.ts`, `rewalk.ts`, `index.ts` are hash-equal to it. No
+folder index or barrel export was added, removed or renamed (J263 Q1); `ChainCtx` gains optional fields only (`own`,
+`strictEnds`, `path`, `provenance`); `walkRun` became a file-level export of `snapRound.ts` for N-5's unit pin (not in
+the index). The round ran on four Claude Code cloud containers in turn (2026-10-14, -18, -19, -20; the scratch of each was
+lost at its restart, so the census rests on the tree's `caps.ts` table and the lane's CHECKPOINT lines, and the mutant
+table below was re-run on this container from a mutant set re-derived from the pins' own comments).
+
+**What the round changed.**
+
+1. **RQ1 / N-8 — a route never retraces an edge (item 130 (d), §3.6 step 4).** `snapRound.ts` keeps the segment's path
+   (`SegmentPath`: the vertices in order, a mark at each); where a landing or an attraction would lead the route back
+   through a vertex x already on it, the path is cut back to x (everything written since undone, `back`) and routed on
+   from x to the segment's end with the cut-off vertices left out of step 3. The cut unwinds to `snapRound`, which
+   restarts the route from x in a loop (`restart`; never deeper on the stack), capped at `MAX_CUTS` = 256 (past it the
+   reading is refused, `RETRACE_DETAIL`, a route keeping nothing, and insertChain tries its next reading). A cut whose
+   cut-off part holds a vertex the route placed before x's mark (`placedBefore`) would leave that vertex off the route:
+   the route goes on from where it stands with x excluded instead, and a second such re-entry refuses the reading. A
+   function of the arena and the input; it moves nothing. N-8's ring commits as a simple path under `invisible` and
+   under seven `way` keys in one L0 batch.
+2. **RQ3 / R-42 — a chain given again under its own key is that run (item 130 (e), §3.6 *Roles on shared stretches*).**
+   For the roles of one chain per entity (tx's `LINEAR_PARTS` = 1, held in `stretch.ts` by registry id, `oneChainRole`,
+   so the insert folder does not import `tx/`), `ChainCtx.own` is the run the key carries: step 2 lands a point on the
+   run's vertex nearest it within √2 · `attractCm` (`nearestOwn`), and a segment between two such landings follows the
+   run (reading r0, `ownWalk`: the shortest path along the key's pieces through vertices within the fidelity bound).
+   Copies at 0, 10, 19.2, 29.7 and 36.1 cm commit as the run, nothing written (the content print byte-identical); a
+   40.3 cm copy is another chain under the key, refused by role consistency at the commit.
+3. **R-04 / R-05 — the strict route's second reading (C-0361).** After the strict route as it stood (r2) and before the
+   route along existing edges, r2b: the strict route passing over the neighbours of the segment's own ends (they lie in
+   the new edge's one-ring, which §3.10's clearance exempts). r2 keeps its place, so a segment r2 kept routes as before
+   (N-37); r2b's refusal is never the segment's (r2's is). The order is the census's finding: with r2b in r2's place,
+   seed 7507's case 6 789 and the register's −5203 case were lost.
+4. **Every remaining refusal for the bound names its class (§13.1 (3); N-58).** `refusalClass` reads the design route
+   before it is undone and appends `class S | D | W | P | A | E | V | C (notBuilt #2, M4): …` to the detail (the
+   farthest vertex's provenance, `ChainCtx.provenance`, tagged as the route places it); the code and the detail's
+   prefix are unchanged. An optional chain's refusal keeps E_BELOW_MIN_EDGE and '(N-43)' and appends the in-bound
+   passes' precision stops (N-18).
+5. N-6: the last clearance check refuses E_INVARIANT (`insert: <problem>`), never a bare Error. N-12: B-FUZZ's
+   properties take `FUZZ_PARAMS` (`endOnFailure`). N-c1-4: `vertexDist2` dropped. N-c2-4: the module comment reworded.
+
+### The refusal census (J264 (4), N-58)
+
+The measure is C-0221's: the three step3-5 B-FUZZ properties and the fidelity property, 31 seeds × 10⁴ cases each at the
+PR size, counted by `countedRefusal` (E_INVARIANT, and an optional chain's E_BELOW_MIN_EDGE naming '(N-43)'), plus the
+census's own seed 20261013 (refusal-census.md §1.1). The after-run is the round's final sources (2026-10-19 02:23 –
+08:47, W = 1, exit 0; the lane's CHECKPOINT lines 10457 – 10469); its per-seed table is `caps.ts`'s, which this round
+lowered to it (J207's ratchet). **No cell rose, seed by seed and property by property.**
+
+| property | before (C-0221, S6's code) | after (S9) | change |
+|---|---|---|---|
+| random | 58 + 49 = 107 (max 9) | 55 + 48 = 103 (max 8) | −4 |
+| constructive | 31 + 15 = 46 | 31 + 14 = 45 | −1 |
+| mandatory-only | 47 + 2 = 49 | 47 + 2 = 49 | 0 |
+| fidelity | 3 | 3 | 0 |
+| seed 20261013 (census) | random 0 + 3, constructive 0 + 1, mandatory 2 + 0, fidelity 0 | random 0 + 2, constructive 0 + 1, mandatory 2 + 0, fidelity 0 | −1 |
+| registers | fix1-case1 s36, fix1-case2 s31 refused E_INVARIANT (R-04) | both commit within the bound, the arena valid | −2 |
+| bands family (M0-a-09's `arr/bands/bfuzz.test.ts`, run as a gate, seed 20261013, 10⁴) | kerb 6, corridorUnion 8, bandUnion 6 (R-06's 20), own 0, tileRings 0 | kerb 6, corridorUnion 8, bandUnion 6, own 0, tileRings 0 | 0 |
+
+The after-run's 205 counted refusals (31 seeds + 20261013) by class: **S 100, E 52, D 22, W 17, V 10, P 4, A 0, C 0**;
+the bands family's 20: S 10, E 8, D 2. Every one is LAWFUL input (R-04: a mandatory chain cannot fail for precision;
+R-05: the optional chain has a lawful place; R-06: OUR OWN INTERMEDIATE, the overlay's chains replay on insertChain
+alone). Verdict MAKE-IT-SUCCEED for every class; the round made it succeed where an in-bound route exists under the
+design as written (the retrace cut, the own-run landing, r2b: −8 counted, the two registers), and names the remainder
+**notBuilt #2, milestone M4**, class by class (N-s9-4 below has each class's geometric cause and what success needs). No
+refusal is capped silently: every counted refusal carries its class in its detail, and B-FUZZ fails above the lowered caps
+(12 / 8 / 8 / 3 at 10⁴).
+
+### Row-by-row outcome
+
+| row | outcome | evidence (the pin, its file; the mutant it kills, table below) |
+|---|---|---|
+| census R-04, R-05 (KI-1 / Q44) | **fixed** where an in-bound route exists (−8 counted, 2 registers rescued); the remainder **named notBuilt #2 (M4)** by class (N-s9-4); caps lowered 107 → 103, 46 → 45 (49, 3 held) | the census above; `register.test.ts` fix1-case1 / fix1-case2 commit (STRICT); `router.test.ts` S9 register strict-first (ORDER), `bfuzz.test.ts` seed 7507 case 6 789 (ORDER); the class text in every register detail (CLS); `router.test.ts` N-46 (4) caps at S9's measure |
+| census R-06 (bands overlays) | the same router class; **held** (20 = 20), every one classed; the overlay's own construction (M0-a-09's arr/) unchanged and not edited | the bands gate at seed 20261013 (above) |
+| RQ1 (N-61 (1); item 130 (d)) | **fixed** | `router.test.ts` 'RQ1 …': N-8's ring under `invisible` (s6 a simple path, the spur P–Q carrying s4 alone) and under `way` keys through M0-a-06's transaction (RQ1-cut); `bfuzz.test.ts` seed 5309 case 9 852 (DEEP), constructive 5309 case 9 765, the three second-re-entry cases (RETR); the S9 register's cut-to-end (CUTLOCAL); ORPH, ORPH2, MAXCUT; M0-a-08's booleans fixture PROPOSED (below) |
+| RQ2 (N-61 (2)) | **REPORTED** — the `(shape, chain)` vertex row needs the registry role `shape` (M0-a-01 / M0-a-02's `arena/roles.json`, a registry version raise: a persisted format) and tx's strip in `removeEdges` / `clearFiner` (M0-a-06's `tx/writers.ts`); neither is this item's file and the row cannot be written without them (the exact lines below). The pin waits for a-06's round | — |
+| RQ3 (N-61 (3); R-42, Q68) | **fixed** | `stretch.test.ts` 'RQ3 …': copies at 0, 10, 19.2, 29.7, 36.1 cm commit as the run (content print byte-identical; RQ3-own, RQ3-band), the same-batch copy through the transaction, the 50 cm zig-zag walk (RQ3-walk), the 40.3 cm copy refused by role consistency; `bfuzz.test.ts` the RQ3 constructive property; `insertChain.test.ts` oneChainRole = LINEAR_PARTS (RID); x-06's re-pin PROPOSED (below) |
+| N-2 | **pinned** | `crossings.test.ts` 'N-2: the wedge cap's equality' (K5) |
+| N-3 | **pinned** end to end | the S5 register's six cases each reach `readings`' final E_INVARIANT (every reading refused) and assert the code, the exact detail, nothing written, no throw (`router.test.ts` 'N-44 (4): S5's residual register'; K8). The census shows the branch is reached by lawful input (200 times in 31 × 4 × 10⁴), so no test-only hook was added |
+| N-4 | **pinned** | S9 register strict-refused (−6421 random case 7 448: the strict route refuses E_BELOW_MIN_ANGLE, the chain's outcome; K9) |
+| N-5 | **pinned** | `stretch.test.ts` 'N-5: the stretch walk from j takes the step to its leave point k' (K15) |
+| N-6 | **fixed** | `router.test.ts` 'the final clearance check: … refuses the op E_INVARIANT' (N6) |
+| N-7 | **pinned** | `bfuzz.test.ts` 'N-7: the golden digest of a fixed B-FUZZ slice' (`3e8ec437…`, first recorded here, C-0361; re-recorded only with a choices row; GOLD2) |
+| N-8 | **fixed** as RQ1 (the ruled form: the cut) | as RQ1 |
+| N-11 | **pinned** KR, KQ; KD obsolete (its subject, `clearSince`, is gone since R3: every reading is judged by one `kept()`); KI, KL equivalent (N-s9-2); KO survives, unreached (N-s9-1) | S9 register endpoint-refused (KR); KQ as the table says |
+| N-12 | **fixed** | `caps.ts` `FUZZ_PARAMS`; `router.test.ts` 'N-12: a failing B-FUZZ property reports its first failing case unshrunk' (N12) |
+| N-14 | **pinned** Q14; Q15 net-covered (N-s9-3) | S9 register passover-rescue (Q14) |
+| N-18 | **fixed** | the S6 register's details carry the stops (`router.test.ts` 'S6's register', exact detail; N18) |
+| N-19 | **pinned** | `lifecycle.test.ts` kind `pass3-free` (B-FUZZ constructive seed 5101; NOFREE shows the fixture takes the free spot); Q19 killed by `router.test.ts` 'reading 1 lands the point at a free spot' (the journal); the undo path restores by savepoint (N-s9-6) |
+| N-22 | **pinned** | `lifecycle.test.ts` 'N-22: ownShapeVertex on a second op of the chain's key' (M5, M10) |
+| N-23 | **REPORTED** as RQ2 | as RQ2 |
+| N-c1-4 | **fixed** (`vertexDist2` dropped; comment-only class) | the source |
+| N-c1-6 | **pinned** | `stretch.test.ts` SH1, OE1, EX1, PF1 (SH1, OE1, EX1, PF1) |
+| N-c2-1 | **pinned** | `promote.test.ts` 'N-c2-1: a finer vertex step 3 routes a segment through is promoted' (RT1) |
+| N-c2-3 | **pinned** | `crossings.test.ts` 'N-c2-3 PO1' (PO1); `stretch.test.ts` NP1 (NP1) |
+| N-c2-4 | **fixed** (comment) | insertChain.ts's module comment now reads as the code does: "The first pass's refusal other than E_INVARIANT, and the second pass's other than one for the bound, are final; otherwise only a later pass's commit replaces the refusal before it, so a chain the third and fourth passes refuse too keeps the second pass's code." |
+| N-s8-3 | **pinned** M9; M10 / M11 equivalent on lawful input (N-s8c-4's reading, unchanged) | `sliver.test.ts` 'N-s8-3: the midpoint fallback reads its holder within WALK_REACH_CM' (M9) |
+| N-s8c-5 | **pinned** (the third door added; ME is killed by the chain-alone door, not by the third, which commits under ME: N-s9-7 — the note's expectation shown wrong by the probe) | `sliver.test.ts` 'Q53 through insertChain after an unrelated L2 chain in the same transaction' (the batch path's outcome); ME killed by 'Q53 through insertChain alone' and lifecycle split-route |
+| M0-a-15 note 1 | **REPORTED** — making the re-walk's record and work independent of the stored outer start moves face slots that M0-a-09's dead-end tests pin (tried 2026-10-14 and reverted; the lane's CHECKPOINT 10431): a declared shift in another item's pins, or the session's reading that a load is outside §3.3's identical-next-edit list (C-0207 (5)). The session's ruling | — |
+| L8 (queue) | **judged and pinned**: split faces take the split face's stage rank (§2.2 rule 4: "a split face's parts both inherit its owner and stage rank until the stage re-owns one") — the code is right | `rewalk.test.ts` 'a split face's two parts both inherit its kind, owner and stage rank' — a test already in the folder, unchanged this round, which kills mutant L8 (the stage rank not inherited) |
+| L26 (queue) | **REPORTED** — the `(shore, <id>)` text the water stage reads is the commit's role-consistency message (`tx/tx.ts:442`, `invariants/batch.ts:571`), not insertChain's; a structured field on the refusal is a `KernelResult` change (`num/result.ts`, M0-a-01) written by tx (M0-a-06) and read by M0-e-03 — an exported API (J263 Q1), the session's ruling | — |
+
+### The round's mutant table (J169, J183)
+
+43 targeted mutants, each aimed at a row's promise or a pin's claim, run on this container (2026-10-20 19:15 – 20:20) in
+the lane's one mirror (`/home/user/maps-scratch/waves/selfcheck-build-M0-a-05-fix-s9/plat`, a `cp -a` copy: no link into
+the tree, testkit's `@plat/kernel` resolving inside it; every mutated file copied back from the tree and `cmp`-checked
+before the next). Each ran `vitest run --project kernel --maxWorkers=1 --bail=1` on its pin first and, where the pin
+survived, on the whole item folder `test/insert/step3-5/` (B-FUZZ included). The base run on the unmutated mirror (equal
+to the tree by `diff -rq`) had every pin green and running more than 0 tests. **39 of 43 killed; KI, KL (equivalent,
+N-s9-2), KO (unreached, N-s9-1) and Q15 (net-covered, N-s9-3) survive the folder (270 / 270 each).**
+
+| mutant | row | file | change | result | the test that kills it |
+|---|---|---|---|---|---|
+| RQ1-cut | RQ1 / N-8 | snapRound.ts | `const reenters = (x: VertexId): boolean => trail !== null && x !== a &…` → `const reenters = (x: VertexId): boolean => false && trail !== null && …` | killed (pin) | router.test.ts 'RQ1': N-8's ring under `invisible`: s6's rows form a simple path (its two ends of degree 1, every other vertex 2); t… |
+| ORPH | RQ1 | snapRound.ts | `t.back(t.marks.get(x));` → `(removed)` | killed (pin) | router.test.ts 'RQ1': N-8's ring under `invisible`: s6's rows form a simple path (its two ends of degree 1, every other vertex 2); t… |
+| ORPH2 | RQ1 | snapRound.ts | `t.restart = { from: x, pass, exclude: withAll(exclude, ...cut.filter((…` → `t.restart = { from: x, pass, exclude };` | killed (folder) | the folder: 400 random cases (seed 4242) and 200 constructive sequences (seeds 1 – 200): the digest of every outcome and a… |
+| MAXCUT | RQ1 | snapRound.ts | `const MAX_CUTS = 256;` → `const MAX_CUTS = 0;` | killed (pin) | router.test.ts 'RQ1': N-8's ring under `invisible`: s6's rows form a simple path (its two ends of degree 1, every other vertex 2); t… |
+| DEEP | RQ1 | snapRound.ts | `t.restart = { from: x, pass, exclude: withAll(exclude, ...cut.filter((…` → `return route(ctx, x, t.end, pass, withAll(exclude, ...cut.filter((v) =…` | killed (pin) | bfuzz.test.ts 'seed 5309, its 9 852nd case': the random family's seed 5309, its 9 852nd case replayed (round S9): the retrace cut unwinds, no crash, every … |
+| CUTLOCAL | RQ1 | snapRound.ts | `t.restart = { from: x, pass, exclude: withAll(exclude, ...cut.filter((…` → `return route(ctx, x, b, pass, withAll(exclude, ...cut.filter((v) => is…` | killed (pin) | router.test.ts 'cut-to-end': cut-to-end: constructive seed 6101 (5 chains) — commits 139ms |
+| RETR | RQ1 | snapRound.ts | `if (exclude.has(x)) return err('E_INVARIANT', `${RETRACE_DETAIL} at ($…` → `(removed)` | killed (pin) | bfuzz.test.ts 'a second re-entry refuses that reading': the census's seed −5801 case 21302 (round S9): a second re-entry refuses that reading, a later one commits, ev… |
+| RQ3-own | RQ3 | insertChain.ts | `if (ctx.own != null) { ⏎     const o = nearestOwn(ctx, pt);` → `if (false) { ⏎     const o = nearestOwn(ctx, pt);` | killed (pin) | stretch.test.ts 'RQ3': moved (22, 20), 29.7 cm, in a later batch: committed as the run — every point on the first copy's vertex, the … |
+| RQ3-band | RQ3 | insertChain.ts | `if (d > RELAND_SQ) continue; ⏎     if (d < bestD` → `if (d > ATTRACT_SQ) continue; ⏎     if (d < bestD` | killed (pin) | stretch.test.ts 'RQ3': moved (22, 20), 29.7 cm, in a later batch: committed as the run — every point on the first copy's vertex, the … |
+| RQ3-walk | RQ3 | insertChain.ts | `if (ctx.own != null && ctx.own.vertices.has(a) && ctx.own.vertices.has…` → `if (false) {` | killed (pin) | stretch.test.ts 'zig-zag': given again by every other point of a 50 cm zig-zag: each segment walks the run through the skipped vertex, no… |
+| RID | RQ3 | stretch.ts | `new Set([0, 4, 20, 24, 25, 26, 27])` → `new Set([0, 4, 20, 24, 25, 26])` | killed (pin) | insertChain.test.ts 'oneChainRole': equals LINEAR_PARTS' rows of one part over the whole registry 13ms |
+| STRICT | R-04 / R-05 | stretch.ts | `ctx.strict && ctx.strictEnds === true ?` → `false ?` | killed (pin) | register.test.ts 'fix1-case': fix1-case1 (M0-a-08 fix1, buffer case 1): s36 (−17146, 12375) → (−17837, 10679), refused E_INVARIANT through r… |
+| ORDER | R-04 / R-05 | insertChain.ts | `ctx.strict = true; ⏎   const r2 = routed(ctx, log, a, b); ⏎   ctx.stri…` → `ctx.strict = true; ⏎   ctx.strictEnds = true; ⏎   const r2 = routed(ct…` | killed (pin) | bfuzz.test.ts 'seed 7507, its 6 789th case': the random family's seed 7507, its 6 789th case replayed (round S9): the strict route before its second readin… |
+| CLS | R-04 / R-05 (class named) | insertChain.ts | `return `class ${k} (notBuilt #2, M4): the design route's farthest vert…` → `return `class ${k}: the design route's farthest vertex` | killed (pin) | router.test.ts 'register': oob:crossing-fallback: random seed 51961 case 6288 — insert: no route from (3475, 506) to (3374, 3459) keeps c… |
+| N18 | N-18 | insertChain.ts | `if (stops.length > 0) result = err(` → `if (false) result = err(` | killed (pin) | router.test.ts 'S6's register': random seed 5309 case 7977: every route from (2247, 2237) to (1769, 2634) keeping clearance leaves… 252ms |
+| K5 | N-2 | wedge.ts | `if (moveCm * moveCm > WEDGE_CAP_SQ) return ok(false);` → `if (moveCm * moveCm >= WEDGE_CAP_SQ) return ok(false);` | killed (pin) | crossings.test.ts 'N-2': mandatory: √5 408 (its square exactly 5 408) is routed, W_WEDGE_ROUTED at the corner; the next double above is… |
+| K8 | N-3 | insertChain.ts | `return err('E_INVARIANT', `insert: no route from` → `throw new Error(`insert: no route from` | killed (folder) | the folder: the random family's seed −1863295922, its 8 346th case replayed (N-42 (b)): 0 crashes, 0 invalid outputs 120ms |
+| K9 | N-4 | insertChain.ts | `if (!r2.ok && !retraced(r2)) return r2;` → `(removed)` | killed (pin) | router.test.ts 'strict-refused': strict-refused: random seed -6421 (2 chains) — refused E_BELOW_MIN_ANGLE 425ms |
+| K15 | N-5 | snapRound.ts | `if (dir * (tw - tu) <= 0 \|\| dir * (tw - tk) > 0) continue;` → `if (dir * (tw - tu) <= 0) continue;` | killed (pin) | stretch.test.ts 'N-5': N-5: the stretch walk from j takes the step to its leave point k, not the one nearer the line past k 27ms |
+| N6 | N-6 | insertChain.ts | `if (problem !== null) return refuse({ code: 'E_INVARIANT', detail: `in…` → `if (problem !== null) throw new Error(problem);` | killed (pin) | router.test.ts 'the final clearance check': the final clearance check: a breach round the chain's writes refuses the op E_INVARIANT with the check's messa… |
+| GOLD2 | N-7 | stretch.ts | `const reach = ctx.strict ? MIN_EDGE : ATTRACT;` → `const reach = ctx.strict ? MIN_EDGE : ATTRACT - 1;` | killed (pin) | bfuzz.test.ts 'N-7': 400 random cases (seed 4242) and 200 constructive sequences (seeds 1 – 200): the digest of every outcome and a… |
+| KR | N-11 | insertChain.ts | `if (!r4.ok && r4.code !== 'E_INVARIANT') return r4;` → `(removed)` | killed (pin) | router.test.ts 'endpoint-refused': endpoint-refused: random seed -5407 (2 chains) — refused E_BELOW_MIN_ANGLE 216ms |
+| KQ | N-11 | insertChain.ts | `const RELAND_MAX = 8;` → `const RELAND_MAX = 1;` | killed (pin) | router.test.ts: round (2 000, 2 000) at L0: (2 036, 2 000) at 36 cm and (2 030, 2 020) at 36.06 cm are candidates; (2 037, 2 0… |
+| KI | N-11 | snapRound.ts | `dot > 0 && dot < l2) return t;` → `dot > 0) return t;` | survives | — (pin 83 passed (83); folder 270 passed (270)) |
+| KL | N-11 | insertChain.ts | `if (other >= 0 && belowMinEdge(X[v], Y[v], X[other], Y[other]) && rout…` → `(removed)` | survives | — (pin 83 passed (83); folder 270 passed (270)) |
+| KO | N-11 | insertChain.ts | `if (r.code !== 'E_INVARIANT' \|\| !landedNow \|\| (mark === null && pr…` → `if (r.code !== 'E_INVARIANT' \|\| (mark === null && prevMark === null)…` | survives | — (pin 83 passed (83); folder 270 passed (270)) |
+| Q14 | N-14 | crossings.ts | `if (opts.passOver === true) continue; ⏎       return ok(null);` → `return ok(null);` | killed (pin) | router.test.ts 'passover-rescue': passover-rescue: constructive seed 5309 (4 chains) — commits 207ms |
+| Q15 | N-14 | snapRound.ts | `(u) => u === l.vertex \|\| onPath(u) \|\| !inInputBound(ia, ib, P.x[u]…` → `(u) => u === l.vertex \|\| onPath(u))` | survives | — (pin 83 passed (83); folder 270 passed (270)) |
+| Q19 | N-19 | insertChain.ts | `indexAdd(p, { kind: ITEM_VERTEX, level: n, slot: v }); ⏎       tx.jour…` → `indexAdd(p, { kind: ITEM_VERTEX, level: n, slot: v });` | killed (pin) | router.test.ts 'reading 1 lands': reading 1 lands the point at a free spot outside the strip, within the bound, keeping minEdge from both arms —… |
+| NOFREE | N-19 | insertChain.ts | `return ok(f.value === null ? null : { kind: 'free', at: f.value });` → `return ok(null);` | killed (pin) | lifecycle.test.ts 'pass3-free': pass3-free (constructive, pass 3, 4 chains): undo restores the arena exactly; remove restores it exactly (prin… |
+| M5 | N-22 | stretch.ts | `if (!ctx.journal.newPairs.slice(ctx.pairsFrom).includes(e) && !ctx.tx.…` → `(removed)` | killed (pin) | lifecycle.test.ts 'N-22': the pair clause: a second `base:0` op landing on the first op's edge at (2431, 2890) splits it with the flag k… |
+| M10 | N-22 | stretch.ts | `if (p.roles.level[r] !== ctx.n \|\| !own.has(` → `if (!own.has(` | killed (pin) | lifecycle.test.ts 'N-22': the level clause, west to east: an L2 `base:0` V crossing the key's L1 run twice keeps both crossings' split f… |
+| SH1 | N-c1-6 | stretch.ts | `<= tq) i += 1;` → `< tq) i += 1;` | killed (pin) | stretch.test.ts 'SH1': SH1: a position projecting exactly onto the run vertex M takes the sub-edge after it, M – B; one just before M… |
+| OE1 | N-c1-6 | snapRound.ts | `const j = tq > tv ? i + 1 : i - 1;` → `const j = tq >= tv ? i + 1 : i - 1;` | killed (pin) | stretch.test.ts 'OE1': OE1: from M, a position projecting exactly onto M takes the vertex before it (A); one beyond M takes B 21ms |
+| EX1 | N-c1-6 | snapRound.ts | `best = best < 0 ? w : nearerVertex(p, best, w, x, y);` → `best = w;` | killed (pin) | stretch.test.ts 'EX1': EX1: from a vertex with two route neighbours at different distances, the exit is the one nearer the target — e… |
+| PF1 | N-c1-6 | stretch.ts | `g = onward; ⏎     path.push(g);` → `g = onward; ⏎     path[1] = g;` | killed (pin) | stretch.test.ts 'PF1': PF1: an L1 chain along an L1 street through two L3 plot-line ends shares every sub-edge of the piece between i… |
+| RT1 | N-c2-1 | snapRound.ts | `if (L[ob.vertex] > n) promote(tx, ob.vertex, n, ctx.warnings, ctx.undo…` → `(removed)` | killed (pin) | promote.test.ts 'N-c2-1': an L2 mandatory chain passing the plot line's end 20 cm off commits through it, W_PROMOTED, the vertex at L2 w… |
+| PO1 | N-c2-3 | crossings.ts | `if (opts.passOver === true) continue; ⏎       return ok(null);` → `continue;` | killed (pin) | crossings.test.ts 'PO1': the nearest qualifying point (1 975, 2 000) lies on s – t: null; passing over, (2 025, 2 000) on t – u 33ms |
+| NP1 | N-c2-3 | insertChain.ts | `o * o * bestL2 < bestO2 * l2` → `o * o * bestL2 <= bestO2 * l2` | killed (pin) | stretch.test.ts 'NP1': NP1: of two L1 pieces equally near a point (20 cm above and below), nearestPiece names the first in the index … |
+| M9 | N-s8-3 | rewalk.ts | `{ minX: x0 - REACH, minY: y0 - REACH, maxX: x0 + 1 + REACH, maxY: y0 +…` → `{ minX: x0, minY: y0, maxX: x0 + 1, maxY: y0 + 1 }` | killed (pin) | sliver.test.ts 'N-s8-3': an L1 triangle of new edges alone inside the frame walk's 3 cm dip below its route: placed under the L0 face, … |
+| ME | N-s8c-5 | rewalk.ts | `{ minX: X[v] - REACH, minY: Y[v] - REACH, maxX: X[v] + REACH, maxY: Y[…` → `{ minX: X[v], minY: Y[v], maxX: X[v], maxY: Y[v] }` | killed (folder) | the folder: split-route (constructive, pass 2, 6 chains): undo restores the arena exactly; remove restores it exactly (pri… |
+| N12 | N-12 | caps.ts | `export const FUZZ_PARAMS = { endOnFailure: true } as const;` → `export const FUZZ_PARAMS = {} as const;` | killed (pin) | router.test.ts 'N-12': a property over 300-point walks failing at its third case stops there: no shrink step, the case and its seed r… |
+| L8 | L8 | rewalk.ts | `stage: r.base.stage, parent });` → `stage: 0, parent });` | killed (pin) | rewalk.test.ts 'stage rank': a split face's two parts both inherit its kind, owner and stage rank (§2.2 rule 4) 60ms |
+
+ME is killed by `sliver.test.ts`'s chain-alone door (S8's), confirmed separately in the mirror (`1 failed | 4 passed`), and
+in the folder first by `lifecycle.test.ts`'s split-route kind; N-s8c-5's third door commits under it (N-s9-7).
+
+### PROPOSED for other items' rounds (not edited)
+
+1. **M0-a-08 `packages/kernel/test/arr/booleans-buffers/booleans.test.ts:295 – 336` (Q74; RQ1's declared shift).** The
+   fixture pins C-0205 (3)'s spur, which RQ1 removes: s6 now commits A–P–R–B, a simple path, and P–Q carries s4 alone
+   (this item's `router.test.ts` 'RQ1 …' pins the same arena). Proposed: the describe reads "s6 commits without a spur
+   (item 130 (d): a route never retraces an edge); P–Q carries s4's flow alone"; in the loop (lines 318 – 327) the P–Q
+   test moves above the `if (!rows.includes(handleOf(p, 'arr:s6'))) continue;` line and gains
+   `expect(rows).not.toContain(handleOf(p, 'arr:s6'));` beside its `toContain(handleOf(p, 'arr:s4'))`; lines 328 – 331
+   become `// the ruled form (item 130 (d)): s6's edges form a simple path` · `expect(spur).toBeGreaterThanOrEqual(0);` ·
+   `expect(s6Degree.get(`${String(Q.x)},${String(Q.y)}`)).toBeUndefined();` ·
+   `expect(s6Degree.get(`${String(P.x)},${String(P.y)}`)).toBe(2);`; the net and label lines (332 – 335) unchanged (s4
+   runs P → Q once: `sgn * net[spur]` = 1). RELATED@1000 on this round's sources reds exactly this test (`booleans.test.ts:329`, `expected -1 to be greater
+   than or equal to 0`: no s6 row on P–Q).
+2. **M0-x-06 `packages/testkit/test/edge/repins.test.ts:40` and `src/edge/ep01.ts:110 – 113` (RQ3's declared shift).**
+   RELATED@1000 reds `repins.test.ts:77` for `EP-01/S5a/coincident` at seed 1658509524 (`expected 'absorbed' to be
+   'refused-safe'`): the doubled wall trace is now absorbed as its run (item 130 (e); R-42), as the rulings expect. A probe
+   in the lane's mirror ran the pin's five seeds (1658509524, 3650193777, 3114039644, 2262416935, 57196073) on the
+   round's sources: every one `absorbed`, 'S5a: the batch committed', tries 1, `lawful` []. Proposed for x-06's round:
+   `ep01.ts:374 – 381` (S5a's `coincident` pin) drops out of the pin table once x-06 re-measures the cell's share at
+   1 000 (these five are its only refusing seeds); `repins.test.ts:40` leaves `REFUSED`; the rare list at line 70 loses
+   'EP-01/S5a/coincident'; the absorbed test at lines 107 – 114 gains the five seeds ("absorbed on its first state —
+   M0-a-05 S9, item 130 (e)"). `lawfulPlant` (`ep01.ts:110 – 113`) needs no change in form: `kernelTook` is now true for a
+   coincident wall plant, so the plant reads lawful and the cell absorbed.
+3. **RQ2 (M0-a-01 / M0-a-02, M0-a-06).** (a) `packages/kernel/src/arena/roles.json`: append
+   `{ "id": 56, "name": "shape", "kind": "vertex", "rank": 56, "structural": false, "indexed": false, "knot": false, "since": 2 }`
+   and raise `version` to 2 (a registry append: §2.2 rule 7's versioned table, so `encodeArena` and the digests of arenas
+   holding such rows shift once — a persisted format, the session's). (b) `packages/kernel/src/tx/writers.ts:278 – 281`
+   (`removeEdges`, the whole-chain branch): beside the knot rows, `for (const r of rowsOn(p, 'vertex', v)) if (p.roles.kind[r] === roleIdOf('shape') && p.roles.entity[r] === h) strip.add(r);`
+   — and the same strip of the cleared key's `shape` rows in `clearFinerIn` (`writers.ts:589 – 597`, the vertex rows of
+   a cleared level). (c) Then this item writes `(shape, <chain key>)` at the landing (`stretch.ts` `ownShapeVertex`'s
+   caller, `applyLanding`: a landing that splits a run carrying another key's rows and is the chain's own input point
+   keeps VERTEX_SPLIT and adds the row with the transaction's row writer), registers kind `coincident-foldback` (N-23's P3: A, C
+   folding back, x attached at v and removed — print, chunk refs and level digests equal to before x; then C removed —
+   A restored exactly), and M0-a-14's `dissolvableProblems` gains "a flagged degree-2 vertex between identical rows of
+   two or more keys carrying no `shape` row".
+4. **L26 (M0-a-01, M0-a-06, M0-e-03).** On `KernelResult`'s refusal arm (`num/result.ts:45`, `{ ok: false; code; detail; partial? }`)
+   a field `rows?: readonly { role: string; entity: string }[]` (the refused key) set by `tx.ts`'s role-consistency refusal and `invariants/batch.ts:571`, read by `water/stage.ts:124` in
+   place of the regex; the message texts unchanged (J263 Q6).
+
+### Notes (not failing lines)
+
+| id | note | handling | where |
+|---|---|---|---|
+| N-s9-1 | **KO survives** (`!landedNow` dropped, so a refused segment whose end this chain landed earlier — a closed run's first vertex — may re-land): no family case or register reaches it (the folder green under it, table above); the re-landing still moves only a vertex the op placed free (`freeSince` on the marks), so the mutant can change only which refusal a rare chain gets, never a committed result's validity (PLAUSIBLE; not traced to an input). | none now; a constructed case at M4 if `reland` changes | insertChain.ts |
+| N-s9-2 | **KI and KL are equivalent on a valid arena** (N-11's readings, re-checked): `alongEdge`'s `dot < l2` bound only excludes a vertex beyond o on the line, which an arena keeping §3.10 cannot hold beside a level-≤ n edge to o; the re-landing filter excludes two unjoined vertices within `minEdge`, which §3.10 already forbids. | none (equivalent) | snapRound.ts, insertChain.ts |
+| N-s9-3 | **Q15 is net-covered**: `stripLanding`'s nearest-vertex search without its in-bound skip returns an out-of-bound vertex only to the post-check, which returns the fallback; the census's candidate (seed 20261013 case 7 982) does not kill it, so no pin was kept. | none (net-covered) | snapRound.ts |
+| N-s9-4 | **notBuilt #2 (M4) — the router's residual, by class** (KI-1). S (100 + 10): the crossing falls on the placement rule's endpoint fallback and no point of the crossed run near it keeps clearance — a sliver or fan of edges closer than `minEdge`, typically one an earlier chain's own acute corner made, its near-parallel incident piece never shared by step 3 (C-0177 (2)) and its sub-edge unsplittable (C-0284's split-ends rule): success needs step 3 to share a piece meeting the chain below `minFaceAngle`, or a rounding move of committed geometry, neither in the design as written. D (22 + 2): a step-3 contact carries the route beyond the bound along near-parallel geometry. W (17): a wedge corner or a corner's exit beyond the bound. P (4): a crossing placed on its run beyond the bound. E (52 + 8): the segment's own end, landed by step 2 off its input segment, so every route from it leaves the bound. V (10): every vertex within the bound, the segment not covered (the bound's segment-to-route half). A, C: 0. Each class's detail is pinned in the S5 / S6 registers. | M4 (notBuilt #2): the design's rounding moves on committed geometry and step 3 below `minFaceAngle` | insertChain.ts `refusalClass` |
+| N-s9-5 | **MAX_CUTS is met in the families, never as the cause of a refusal**: the 2026-10-14 census run met it 6 times, each chain committing on a later reading; in the final run seed 6703's random case 1 372 refuses a chain whose design route met it, class S — the same outcome at 256 and at 4 096 cuts (the lane's CHECKPOINT 10470). | none; a KI row if a family ever refuses for the cap | snapRound.ts |
+| N-s9-6 | **N-19's open question answered**: M0-a-06's transaction undoes a free-spot vertex by its savepoint, not by insert's journal, so Q19 (the vertex not journalled) is invisible to `lifecycle.test.ts`'s undo path; the journal's own assertion (`router.test.ts`) holds it. | none | insertChain.ts `landInBound` |
+| N-s9-7 | **N-s8c-5's third door does not reach `holderAt`'s reach.** The door is added as the row asks (the sliver chain after an unrelated L2 chain in one transaction: both commit, the sliver's L2 records under L1 f4), but under mutant ME (no reach) it still commits — the pinned door itself, and every first-chain position probed in the mirror (a 169-point 300 cm grid of 150 × 100 cm first chains over the square: without ME all 169 batches commit; under ME 167 commit and at (3800, 2900) and (3800, 3500) the first chain itself is refused, the sliver chain never reached). With an earlier L2 edge in the batch, the sliver cycle's first old half-edge of level ≤ 1 is another one, whose origin lies on the L1 route, so the box without reach already meets the record (PLAUSIBLE, not traced further). So the note's expectation ("would pin the reach through the batch path too") does not hold; the reach stays pinned by the chain-alone door (ME red there). | none; the door's comment states it | sliver.test.ts |
+| N-s9-8 | **The gates on this container's final sources (2026-10-20).** install --frozen-lockfile 0; lint 0 (eslint, probe-red ok); build 0; NEAR: the item folder with `kernel` and `kernel-tiny`, 24 files 540 / 540 at full strength (W = 1, 1 194 s); RELATED@1000 over `insert/insertChain.ts`, `insert/snapRound.ts`, `insert/stretch.ts` (W = 1): 434 files, 5 697 passed, 2 failed (11 776 s) — both reds the round's declared shifts in other items' pins, PROPOSED above: M0-a-08 `booleans.test.ts:329` (RQ1: no s6 row on P–Q) and M0-x-06 `repins.test.ts:77` (RQ3: EP-01/S5a/coincident at seed 1658509524 now `absorbed`, not `refused-safe`). No J176 bench red; neither foreign KI red (hausdorff, ladder-coverage) appeared in the selection. | the session: the two PROPOSED re-pins in a-08's and x-06's rounds | — |
+
+## Closing check of S9 (lane `check/M0-a-05-close-s9`, 2026-10-20 – 2026-10-21; verdict FAIL in `checks/M0-a-05-s9.md` — RQ1 still failing across a chain's segments; the other 25 lines confirmed)
+
+The one failing line is in the verdict (RQ1: a chain's next segment re-enters a vertex its earlier segment routed
+through — the chain's own corner V beside an existing vertex W — and the rows retrace V–W and branch at W; the per-segment
+cut does not see it). The rows below are NOT failing lines (the verdict says why for each). Mutant names are this check's
+(`checks/M0-a-05-s9.md`, "The mutants"); the probes are `waves/check-M0-a-05/s9/probe/` (the mirror only, deleted).
+
+| id | observation | suggested handling | milestone |
+|---|---|---|---|
+| N-s9c-1 | **The failing line's data (RQ1 across segments), for the fix round.** Probe `zzreenter.test.ts` (mirror): the framed 4 000 cm square, an L0 `way` from W east to (3 500, 2 000) or west / north as noted; the mandatory chain A → V → B with V 30 cm from W and both arms within `attractCm` of W. Four arrangements — W (2 030, 2 000) east of V (2 000, 2 000), arms to (2 500, 2 400) / (2 500, 1 600) (±38.7°) and to (2 400, 2 300) / (2 400, 1 700) (±36.9°); W (1 970, 2 000) west, arms to (1 500, 2 400) / (1 500, 1 600); W (2 000, 2 030) the dead end of a `way` from (2 000, 3 500), arms to (1 600, 2 500) / (2 400, 2 500). Under `invisible` each commits rows A–W, W–V, W–B (W degree 3, V degree 1), `W_ATTRACTED ×2` at W, `W_STRETCH_SHARED ×1` at V; under a `way` key through M0-a-06's transaction each is refused `(way, way:c1) branches`. In the constructive family at seed 20261013 (the class dump): `way:3` L2 mandatory (1237, 474) (286, 846) (1688, 3058) branches at (315, 855) (30.4 cm from the corner; edges 286,846–315,855 [way:3], 315,855–1107,553 [way:2; way:3], 315,855–1546,2829 [way:3]); `way:6` L4 mandatory (1554, 2783) (1708, 3030) (3513, 470) at (1705, 3001) (29.2 cm); `way:2` L4 optional (1796, 1447) (1712, 1533) (478, 258) at (1705, 1505) (28.9 cm). | the fix round: the cut over the chain's path; these seven as pins | the fix round (not M4) |
+| N-s9c-2 | **The ORDER pin's reach.** This seat's mutant C10-ORDER (r2b run in r2's place and r2 after it) is killed by `bfuzz.test.ts`'s seed 7507 case 6 789 replay and NOT by the s9 register's strict-first case (−5203), which commits under it too (`1 passed`). The register row says the chain is lost "with ORDER" — true of the author's form of the mutant (r2b replacing r2), not of the swap. The promise (r2 keeps its place, r2b after) is pinned by the 7507 replay. | reword the strict-first row's claim, or add the case the swap alone changes | M4 |
+| N-s9c-3 | **KO (`!landedNow` dropped) re-judged: fail-safe, not a stated promise's failure.** The clause differs only when the segment's end was landed by an EARLIER run of the same chain (a self-touching chain's shared vertex, `landed[idx] >= 0` on entry) and the segment's start is a free vertex this op placed: the mutant then re-lands that free start, which C-0209's rule ("a free end no route reaches with clearance") itself allows; every result is still judged by `wholeProblem` and `inFidelity`. Survives the pin and the folder@1000 (270 / 270); no family case reaches it (the author's N-s9-1 agrees). | none now; a constructed self-touching case at M4 if `reland` changes | M4 |
+| N-s9c-4 | **N-3's "no throw" is pinned against a bare Error.** insertChain.ts:1284 – 1289 catches a thrown `Error` matching `/^(insert\|arena\|index): /` and refuses it E_INVARIANT with the message (N-44 (1)); so a mutant that throws `readings`' final refusal WITH the `insert:` prefix is caught and is the same refusal (equivalent but for the path through `refuse`), while this seat's C14-K8 (no prefix) is killed by the S5 register (7 failed). The S5 register's seven cases reach the final line on lawful input, so the inventory's white-box hook was not needed. | none | — |
+| N-s9c-5 | **A chain whose next segment is attracted back through its own previous vertex commits as a re-ordered simple path.** At seed 20261013, 254 open simple well-separated chains (no two non-adjacent segments within 52 cm) whose first segment is 26 – 37 cm long and whose next segment passes within `attractCm` of the first vertex A commit as the path B–A–C: rows A–B and A–C, `W_STRETCH_SHARED ×1` (the second segment shares the chain's own edge A–B back to A). The row set is simple (A degree 2, B and C degree 1) and `placed` names A, B, C — the vertex order along the committed path differs from the input's. §3.6 and §3.10 say nothing of order; under a linear key the batch commits. Noted, not failed. Example: `way:x` L1 mandatory (2632, 2712) (2610, 2734) (2517, 2280): B (2610, 2734) is the path's end, A (2632, 2712) between it and C. | the session: whether "the connected simple chains the entity declares" means the input's order too (then the cut over the chain's path, N-s9c-1, gives A–B–C as drawn) | the session |
+| N-s9c-6 | **A simple-run oracle over B-FUZZ's commits needs a simple-input filter.** The probe's oracle (a degree-1 vertex other than the chain's ends, or a degree ≥ 3 vertex, in the chain's own row set) flagged 27 194 of ≈ 27 000 commits at seed 20261013: the random family's chains cross and touch themselves by construction (random 6-point polylines mostly self-cross; thin rings fold), step 1 splits them into runs, and the constructive family's acute `vee`s share a stretch from the apex (a 15.8° closed triangle (1344, 858) (3278, 960) (3424, 1567) branches at (1407, 861) where its arms part — §3.11's self-touching reading, lawful as the design stands). The rulings' RQ1 "dead-end interior vertex" oracle would have the same reach; the round's not adding it is right. Filtered to simple inputs with every corner ≥ 60°, every segment ≥ 60 cm and no two non-adjacent segments within 80 cm, it isolates N-s9c-1's class exactly (3 of 3, 0 at ≥ 90°). | an oracle with that filter in B-FUZZ when RQ1's fix lands (the constructive family then holds the class at 0) | the fix round / M4 |
+| N-s9c-7 | **The author's ledger row L-0530 names `packages/layout/src/water/stage.ts` as L26's reader; the reader is `packages/site/src/water/stage.ts:124`** (`/\(shore, ([^)]+)\)/`). A path slip in the row's text; the notes' PROPOSED (4) has the right file. | the steward corrects the row text with the author | — |
+| N-s9c-8 | **The chain's own acute V branches its row set** (from N-s9c-6's probe): a closed or open chain whose corner is sharper than about 20° has its arms within `attractCm` of each other out to several times `minEdge` from the apex; step 3 shares that stretch, so the rows meet at the stretch's far end X with degree 3 (apex–X, X–arm 1, X–arm 2). Under a linear key the batch is refused `branches`; the constructive class `vee` commits it under `way` entities in B-FUZZ's `ins` path (no role consistency there). Whether a wall or way may be drawn with a 15° corner is a design question (§3.6 *Chain classes*: a corner below `minFaceAngle` commits with `W_ACUTE_CORNER` on a mandatory chain) — lawful by that sentence, refused at the commit by §3.10. | the session: a reading (the arms' shared stretch is the corner's own geometry, one run) or a named class | the session / M4 |
+| N-s9c-9 | **Q15 (`stripLanding`'s nearest-vertex search without its in-bound skip) loses no rescue at the census seed.** Re-measured by this seat at the PR size: the three step3-5 properties at 10⁴, seed 20261013, under the mutant — random 0 + 2, constructive 0 + 1, mandatory 2 + 0, identical to the unmutated run (3 / 3 green, 287 s). The mutant is not equivalent in principle (an out-of-bound nearest vertex ends the search where the code would take the next in-bound one), only unreached by the registered seed; its effect, if reached, is a lost rescue counted by the census, never an invalid commit. | none now; a constructed case (a strip landing whose nearest vertex is out of bound and the next in bound) at M4 | M4 |

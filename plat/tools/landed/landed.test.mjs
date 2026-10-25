@@ -7,8 +7,6 @@
 // --owns — and a run item landing before its own wave. A ledger row outside §2's table is refused, and a re-landed
 // record keeps its earlier claims. A passed-ownership path is its receiver's under a wave label at or past the hand-over
 // and under a label that names no wave, and the package index's owner claims its own edits there line by line (C-0318).
-// The hardening round S4's pins: a folder owner claims its own barrel line's removal (N-25), a file created after the
-// snapshot and deleted since is listed as deleted (L24), and the pin gaps N-11 – N-14, N-17 and N-20.
 // Every case runs on a fixture tree in the OS temporary folder; the CLIs are spawned only on arguments that write
 // nothing.
 import { spawnSync } from 'node:child_process';
@@ -31,7 +29,6 @@ import { afterEach, describe, expect, it } from 'vitest';
 import { CROSSINGS_FILE, PLAT_ROOT, canonicalJson, isCrossingFile, isExcluded, lineHash, takeSnapshot, validLabel, writeSnapshot } from './snapshot.mjs';
 import {
   buildRecord,
-  isRecordRel,
   labelPosition,
   lcsDiff,
   LEDGER_RULE,
@@ -461,18 +458,6 @@ describe('the commands (C-0104 (5))', () => {
       const r = spawn(name, args);
       expect(r.status, `${name} ${args.join(' ')}`).toBe(64);
       expect(r.stderr).toContain('usage: corepack pnpm');
-    }
-  });
-
-  // L14 (S-3): the main-script test compares real paths, so a tool named through a symbolic link still runs.
-  it('run when named through a symbolic link (bad usage: exit 64, writing nothing)', () => {
-    const dir = mkdtempSync(join(tmpdir(), 'plat-landed-link-'));
-    roots.push(dir);
-    for (const name of ['snapshot.mjs', 'landed.mjs', 'verify.mjs']) {
-      symlinkSync(tool(name), join(dir, name));
-      const r = spawnSync(process.execPath, [join(dir, name)], { cwd: PLAT_ROOT, encoding: 'utf8' });
-      expect(r.status, name).toBe(64);
-      expect(r.stderr, name).toContain('usage: corepack pnpm');
     }
   });
 
@@ -1061,214 +1046,6 @@ describe('the package index\'s owner claims its own edits line by line (J273 Q2,
     const r2 = buildRecord(root2, { item: 'M0-s-01', lane: 'build/m0-scaffold-fixz' });
     expect(r2.record.appends).toEqual([{ file: 'plat/packages/kernel/src/index.ts', ids: [], lines: [], removed: [lineHash('// kernel index')] }]);
     expect(verifyWave(root2, 'wave-1').problems).toEqual([]);
-  });
-});
-
-// ---------------------------------------------------------------------------------------------------------------
-// The hardening round S4 (lane build/M0-s-01-fix-s4): a folder owner's own barrel line (N-25), a file created after the
-// snapshot and deleted since (L24), and the pin gaps of checks/M0-s-01-notes.md N-11 – N-14, N-17 and N-20
-
-const NUM_LINE = "export * from './num/index.js';";
-const recordOf = (root, id) => JSON.parse(read(root, `docs/build/landed/${id}.json`));
-const putRecord = (root, rec) => write(root, `docs/build/landed/${rec.item}.json`, `${JSON.stringify(rec)}\n`);
-
-describe('a folder owner claims the removal of its own folder\'s index line (N-25, C-0064)', () => {
-  it('in landed, never the index\'s owner; the wave\'s close accepts it from the folder\'s owner only', () => {
-    const root = fixture();
-    writeSnapshot(root, 'wave-1');
-    replaceIn(root, 'packages/kernel/src/index.ts', `${NUM_LINE}\n`, '');
-    const a01 = buildRecord(root, { item: 'M0-a-01', lane: 'build/m0-a-01' });
-    expect(a01.problems).toEqual([]);
-    expect(a01.record.appends).toEqual([{ file: 'plat/packages/kernel/src/index.ts', ids: [], lines: [], removed: [lineHash(NUM_LINE)] }]);
-    const s01 = buildRecord(root, { item: 'M0-s-01', lane: 'build/m0-scaffold-fixz' });
-    expect(s01.record.appends).toEqual([]);
-    expect(verifyWave(root, 'wave-1').problems).toEqual([]);
-    // The index's owner vouches for no other owner's folder line: the same removal in its record alone is named.
-    putRecord(root, { ...recordOf(root, 'M0-a-01'), appends: [] });
-    putRecord(root, { ...recordOf(root, 'M0-s-01'), appends: [{ file: 'plat/packages/kernel/src/index.ts', ids: [], lines: [], removed: [lineHash(NUM_LINE)] }] });
-    expect(verifyWave(root, 'wave-1').problems).toEqual(['plat/packages/kernel/src/index.ts: line 2 of the snapshot\'s file removed or edited']);
-  });
-
-  it('keeps a line that is not a folder\'s with the index\'s owner, and a folder the index\'s owner holds with it', () => {
-    const root = fixture();
-    writeSnapshot(root, 'wave-0');
-    replaceIn(root, 'packages/kernel/src/index.ts', `// kernel index\n${NUM_LINE}\n`, '');
-    // At wave 0 the scaffold holds num/'s index.ts too (M0-a-01's wave is 1), so it claims both removals.
-    const s01 = buildRecord(root, { item: 'M0-s-01', lane: 'build/m0-scaffold-fixz' });
-    expect(s01.record.appends).toEqual([
-      { file: 'plat/packages/kernel/src/index.ts', ids: [], lines: [], removed: [lineHash('// kernel index'), lineHash(NUM_LINE)] },
-    ]);
-    expect(verifyWave(root, 'wave-0').problems).toEqual([]);
-  });
-});
-
-describe('a file created after the snapshot and deleted since is listed as deleted (L24)', () => {
-  it('when an earlier landing of the record listed it; carried by the same lane, dropped by a later lane', () => {
-    const root = fixture();
-    writeSnapshot(root, 'flow-7');
-    const LATER = 'plat/packages/kernel/src/num/later.ts';
-    write(root, 'packages/kernel/src/num/later.ts', 'export const l = 1;\n');
-    const first = buildRecord(root, { item: 'M0-a-01', lane: 'build/m0-a-01' });
-    expect(first.record.files.find((f) => f.path === LATER)).toMatchObject({ status: 'created', sha256: sha('export const l = 1;\n') });
-    unlinkSync(join(root, 'packages', 'kernel', 'src', 'num', 'later.ts'));
-    const deleted = { path: LATER, status: 'deleted', sha256: null, was: sha('export const l = 1;\n') };
-    for (const lane of ['build/m0-a-01-fix1', 'build/m0-a-01-fix1']) {
-      const r = buildRecord(root, { item: 'M0-a-01', lane });
-      expect(r.problems).toEqual([]);
-      expect(r.record.files.find((f) => f.path === LATER)).toEqual(deleted);
-      expect(r.record.counts).toEqual({ created: 0, changed: 0, unchanged: 3, deleted: 1 });
-      expect(r.record.files.map((f) => f.path)).toEqual([...r.record.files.map((f) => f.path)].sort());
-    }
-    expect(verifyWave(root, 'flow-7', { item: 'M0-a-01' }).problems).toEqual([]);
-    expect(verifyWave(root, 'flow-7').problems).toEqual([]);
-    const next = buildRecord(root, { item: 'M0-a-01', lane: 'build/m0-a-01-fix2' });
-    expect(next.record.files.map((f) => f.path)).not.toContain(LATER);
-    expect(next.record.counts.deleted).toBe(0);
-  });
-});
-
-describe('the hardening round\'s pins on landed and landed:verify (N-11 – N-14, N-17, N-20)', () => {
-  it('a symbolic link retargeted after the snapshot is changed, and after the record a mismatch (N-17 A1-sym)', () => {
-    const root = fixture();
-    symlinkSync('old.ts', join(root, 'packages', 'kernel', 'src', 'num', 'link.ts'));
-    writeSnapshot(root, 'wave-1');
-    const retarget = (to) => {
-      unlinkSync(join(root, 'packages', 'kernel', 'src', 'num', 'link.ts'));
-      symlinkSync(to, join(root, 'packages', 'kernel', 'src', 'num', 'link.ts'));
-    };
-    retarget('gone.ts');
-    const r = buildRecord(root, { item: 'M0-a-01', lane: 'build/m0-a-01' });
-    expect(r.record.files.find((f) => f.path.endsWith('/link.ts'))).toEqual({ path: 'plat/packages/kernel/src/num/link.ts', status: 'changed', symlink: 'gone.ts' });
-    expect(verifyWave(root, 'wave-1', { item: 'M0-a-01' }).problems).toEqual([]);
-    retarget('index.ts');
-    expect(verifyWave(root, 'wave-1', { item: 'M0-a-01' }).problems).toEqual([
-      'plat/packages/kernel/src/num/link.ts: the tree no longer matches M0-a-01\'s record (changed at landing; changed since)',
-    ]);
-  });
-
-  it('a recorded file gone before landed:verify is a mismatch, never a throw (N-17 A1-undef)', () => {
-    const root = fixture();
-    writeSnapshot(root, 'wave-1');
-    seatA01(root);
-    expect(buildRecord(root, { item: 'M0-a-01', lane: 'build/m0-a-01' }).ok).toBe(true);
-    unlinkSync(join(root, 'packages', 'kernel', 'src', 'num', 'new.ts'));
-    let r;
-    expect(() => {
-      r = verifyWave(root, 'wave-1', { item: 'M0-a-01' });
-    }).not.toThrow();
-    expect(r.problems).toEqual(['plat/packages/kernel/src/num/new.ts: the tree no longer matches M0-a-01\'s record (created at landing; changed since)']);
-  });
-
-  it('a file re-created after its record listed it as deleted is a mismatch, and the close names it (N-20 A1-del-true)', () => {
-    const root = fixture();
-    writeSnapshot(root, 'wave-1');
-    seatA01(root);
-    expect(buildRecord(root, { item: 'M0-a-01', lane: 'build/m0-a-01' }).ok).toBe(true);
-    write(root, 'packages/kernel/src/num/gone.ts', 'export const g = 2;\n');
-    expect(verifyWave(root, 'wave-1', { item: 'M0-a-01' }).problems).toEqual([
-      'plat/packages/kernel/src/num/gone.ts: the tree no longer matches M0-a-01\'s record (deleted at landing; changed since)',
-    ]);
-    expect(verifyWave(root, 'wave-1').problems).toContain(
-      'plat/packages/kernel/src/num/gone.ts: changed since wave-1, claimed by no landed record of the wave (M0-a-01 recorded an earlier state)',
-    );
-  });
-
-  it('a file in a sub-folder of docs/build/landed/ is no record: a seat declares and claims it (N-17 A2-nested)', () => {
-    expect(isRecordRel('docs/build/landed/M0-a-01.json')).toBe(true);
-    expect(isRecordRel('docs/build/landed/extra/notes.json')).toBe(false);
-    const root = fixture();
-    writeSnapshot(root, 'wave-1');
-    write(root, 'docs/build/landed/extra/notes.json', '{}\n');
-    const r = buildRecord(root, { item: 'check-x', lane: 'check/x', owns: ['plat/docs/build/landed/extra/notes.json'] });
-    expect(r.problems).toEqual([]);
-    expect(r.record.files.map((f) => `${f.path} ${f.status}`)).toEqual(['plat/docs/build/landed/extra/notes.json created']);
-    expect(verifyWave(root, 'wave-1').problems).toEqual([]);
-  });
-
-  it('a landing beside another seat\'s record names no record as its unclaimed change (N-20 A2-false-landed)', () => {
-    const root = fixture();
-    writeSnapshot(root, 'wave-1');
-    seatA01(root);
-    seatA02(root);
-    expect(buildRecord(root, { item: 'M0-a-01', lane: 'build/m0-a-01' }).ok).toBe(true);
-    const r = buildRecord(root, { item: 'M0-a-02', lane: 'build/m0-a-02' });
-    expect(r.notes.join('\n')).toContain('plat/packages/kernel/src/num/new.ts');
-    expect(r.notes.join('\n')).not.toContain('docs/build/landed/');
-  });
-
-  it('a table without its separator row has no seat column: its rows are no seat\'s (N-17 A4-sep-true, N-20 A4-col-sep)', () => {
-    const root = fixture();
-    writeSnapshot(root, 'wave-1');
-    appendFileSync(join(root, 'docs', 'build', 'choices.md'), '| C-0002 | 2026-10-19 | build/m0-a-01 | §3 | x | y | z |\n');
-    appendFileSync(join(root, 'docs', 'build', 'choices.md'), '\n| id | seat |\n| C-0003 | build/m0-a-01 |\n');
-    const lines = read(root, 'docs/build/choices.md').split('\n');
-    expect(seatColumn(lines, lines.length - 2)).toBe(-1);
-    const r = buildRecord(root, { item: 'M0-a-01', lane: 'build/m0-a-01' });
-    expect(r.record.appends.map((a) => [a.file, a.ids])).toEqual([['plat/docs/build/choices.md', ['C-0002']]]);
-    expect(verifyWave(root, 'wave-1').problems).toEqual([
-      'plat/docs/build/choices.md:7 added, claimed by no record of wave-1: ',
-      'plat/docs/build/choices.md:8 added, claimed by no record of wave-1: | id | seat |',
-      'plat/docs/build/choices.md:9 added, claimed by no record of wave-1: | C-0003 | build/m0-a-01 |',
-    ]);
-  });
-
-  it('§2 holds no ledger table when its first table lacks the separator row, though a later one has it (N-17, N-20)', () => {
-    const ledger = CLEAN_ROOM.replace('## 2 Seat ledger\n\n', '## 2 Seat ledger\n\n| # | seat (lane key / model) |\n| L-0000 | check/x (Opus) |\n\n');
-    const lines = ledger.split('\n');
-    expect(ledgerTable(lines)).toBe(null);
-    const root = fixture({ 'CLEAN-ROOM.md': ledger });
-    writeSnapshot(root, 'wave-1');
-    inS2(root, rowOf('L-0002', 'check/x'));
-    const r = buildRecord(root, { item: 'check-x', lane: 'check/x', write: false });
-    expect(r.problems.map((p) => p.slice(0, 60))).toEqual(['plat/CLEAN-ROOM.md:6: ledger row L-0000 names lane check/x b', 'plat/CLEAN-ROOM.md:11: ledger row L-0002 names lane check/x ']);
-  });
-
-  it('reads the seat column as the first header cell starting with the word "seat", and §2 as "## 2 ", never "## 2a" (N-17)', () => {
-    const header = '| # | seats | reseat | seat (lane key / model) | date |';
-    const lines = ['# x', '', '## 2a Egress', '', '| # | seat (lane key / model) | host |', '|---|---|---|', '| E-0001 | check/y (Opus) | example.org |', '',
-      '## 2 Seat ledger', '', header, '|---|---|---|---|---|', '| L-0001 | build/a | check/x | build/b (Opus) | 2026-10-19 |', ''];
-    const t = ledgerTable(lines);
-    expect(t).toEqual({ header: 10, start: 12, end: 13, seat: 3 });
-    expect(seatColumn(lines, 12)).toBe(3);
-    expect(strayLedgerRows(lines, 'check/x')).toEqual([]);
-    expect(strayLedgerRows(lines, 'build/b')).toEqual([]);
-  });
-
-  it('accepts the lane\'s row as the first row of §2\'s table, and refuses an id-less row in no table as line <n> (N-11, N-12)', () => {
-    const first = CLEAN_ROOM.replace('| L-0001 | build/m0-spec (Opus) |', '| L-0001 | check/x (Opus) |');
-    const root = fixture({ 'CLEAN-ROOM.md': first });
-    writeSnapshot(root, 'wave-1');
-    write(root, 'docs/build/checks/x.md', '# x\n');
-    expect(strayLedgerRows(first.split('\n'), 'check/x')).toEqual([]);
-    expect(buildRecord(root, { item: 'check-x', lane: 'check/x', owns: ['plat/docs/build/checks/x.md'], write: false }).problems).toEqual([]);
-    const loose = `${first}\n| ?? | check/x (Opus) | 2026-10-19 | checker | — | — |\n`;
-    const n = loose.split('\n').length - 1;
-    expect(strayLedgerRows(loose.split('\n'), 'check/x')).toEqual([{ id: `line ${n}`, line: n }]);
-  });
-
-  it('carries an earlier landing only within its wave: a later label\'s record lists only its own lanes (N-13)', () => {
-    const root = fixture();
-    writeSnapshot(root, 'wave-1');
-    seatA01(root);
-    expect(buildRecord(root, { item: 'M0-a-01', lane: 'build/m0-a-01' }).ok).toBe(true);
-    writeSnapshot(root, 'wave-T');
-    appendFileSync(join(root, 'docs', 'build', 'choices.md'), '| C-0003 | 2026-10-19 | build/m0-a-01-fix1 | §3 | x | y | z |\n');
-    const r = buildRecord(root, { item: 'M0-a-01', lane: 'build/m0-a-01-fix1', wave: 'wave-T' });
-    expect(r.problems).toEqual([]);
-    expect(r.record.lanes).toEqual(['build/m0-a-01-fix1']);
-    expect(r.record.appends.map((a) => [a.file, a.ids])).toEqual([['plat/docs/build/choices.md', ['C-0003']]]);
-  });
-
-  it('counts only the wave\'s records as claimants at its close: an older wave\'s claim on a re-added row is no claim (N-14)', () => {
-    const root = fixture();
-    writeSnapshot(root, 'wave-1');
-    const row = '| C-0002 | 2026-10-19 | build/m0-a-01 | §3 | x | y | z |';
-    appendFileSync(join(root, 'docs', 'build', 'choices.md'), `${row}\n`);
-    expect(buildRecord(root, { item: 'M0-a-01', lane: 'build/m0-a-01' }).record.appends.map((a) => a.ids)).toEqual([['C-0002']]);
-    replaceIn(root, 'docs/build/choices.md', `${row}\n`, '');
-    writeSnapshot(root, 'wave-T');
-    appendFileSync(join(root, 'docs', 'build', 'choices.md'), `${row}\n`);
-    expect(verifyWave(root, 'wave-T').problems).toEqual([`plat/docs/build/choices.md:6 added, claimed by no record of wave-T: ${row}`]);
   });
 });
 

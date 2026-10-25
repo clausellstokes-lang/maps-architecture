@@ -12,6 +12,7 @@ import { describe, expect, it } from 'vitest';
 import {
   chainRuns,
   continuationBounds,
+  cutCells,
   kerbPortals,
   portalGap,
   portalGapBreach,
@@ -30,7 +31,9 @@ import {
   type KerbFace,
   type KerbSpine,
 } from '../../../src/index.js';
-import { CELLS, fixture, GROUND, kerbNow, P, type Fixture, type FixtureDistrict, type FixtureWay } from './support.js';
+import { fixture, GROUND, kerbNow, P, type Fixture, type FixtureDistrict, type FixtureWay } from './support.js';
+
+const CELLS = cutCells();
 /** The lane the planner slides for: the lane band's top (ladderOn's and the planner's default). */
 const NEW_LANE = widthCells('CITY').bands.lane[1];
 const REACH = (w: number): number => portalGap(CELLS, w, NEW_LANE);

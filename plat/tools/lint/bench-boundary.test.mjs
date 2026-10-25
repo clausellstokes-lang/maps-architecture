@@ -7,7 +7,7 @@ import { mkdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { afterAll, describe, expect, it } from 'vitest';
 import { TOWN, check, checkBenchBoundary } from './bench-boundary.mjs';
-import { CODE_EXTENSIONS, PLAT_ROOT as PLAT } from './rules/shared.mjs';
+import { PLAT_ROOT as PLAT } from './rules/shared.mjs';
 import { removeTempTrees, tempTree } from './test-support.mjs';
 
 afterAll(removeTempTrees);
@@ -72,15 +72,6 @@ describe('bench-boundary', () => {
       'bench/src/kk/rel.ts:1: a KERNEL bench (bench/src/kk) reaches @plat/site',
       'bench/src/shared/model.ts:2: a KERNEL bench (bench/test/kk) reaches @plat/tables',
     ]);
-  });
-
-  // Hardening round S1 (W-2 (d), queue row L15): the walk reads every code extension, `.jsx` among them; before the
-  // round a `.jsx` file in a KERNEL folder escaped it (a declared verdict change).
-  it('fails a KERNEL bench file of every code extension that reaches a town package, a .jsx file among them', () => {
-    const files = Object.fromEntries(CODE_EXTENSIONS.map((ext) => [`bench/src/kk/zz-leak.${ext}`, "import { growTown } from '@plat/layout';\nexport const x = growTown;\n"]));
-    const r = checkBenchBoundary(tree({ ...CLEAN, ...files }, MANIFEST));
-    expect(r.problems).toEqual([...CODE_EXTENSIONS].sort().map((ext) => `bench/src/kk/zz-leak.${ext}:1: a KERNEL bench (bench/src/kk) reaches @plat/layout`));
-    expect(r.problems).toContain('bench/src/kk/zz-leak.jsx:1: a KERNEL bench (bench/src/kk) reaches @plat/layout');
   });
 
   it('leaves a TOWN or INFRA folder free to import a town package', () => {

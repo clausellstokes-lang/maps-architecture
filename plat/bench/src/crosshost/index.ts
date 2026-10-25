@@ -8,9 +8,8 @@
 // each with workers off and on (default both), compares every run with the reference (Node arm64, workers off) and
 // names the first differing stage and seed. `--timing` adds the harness's per-stage wall-clock per seed to every cell
 // (C-0082: informative here; the timing phase stamps and judges it). Writes the full report to
-// $PLAT_BENCH_OUT/crosshost-<id>.json and, for the kernel fixture's FULL run only (all five legs, workers off and on,
-// timing off), the numbers-only summary to docs/build/summaries/M0-d-06.json (C-0067); a narrowed run leaves the
-// committed summary as it is and says so (C-0394 (4)). Exit 0 when every run asked for ran and agrees (pass), 1 on a difference
+// $PLAT_BENCH_OUT/crosshost-<id>.json and, for the kernel fixture, the numbers-only summary to
+// docs/build/summaries/M0-d-06.json (C-0067). Exit 0 when every run asked for ran and agrees (pass), 1 on a difference
 // or a failed run (fail), 3 when the runs that ran agree but a leg is blocked on this machine (incomplete — never a
 // pass), 64 on a bad argument. PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 is set before playwright-core loads; a browser is
 // launched only from the Playwright cache (C-0028).
@@ -100,11 +99,6 @@ export function fixturePath(arg: string): string {
   return /^[a-z0-9][a-z0-9.-]*$/.test(arg) && !arg.endsWith('.json') ? `${CROSSHOST_FIXTURES}/${arg}.json` : arg;
 }
 
-/** Is this the full run, the only one whose report the committed summary records: every leg, both workers settings, no timing? */
-function isFullRun(p: { legs: readonly CrossHostLegId[]; workers: readonly CrossHostWorkers[]; timing: boolean }): boolean {
-  return !p.timing && CROSSHOST_LEGS.every((l) => p.legs.includes(l)) && CROSSHOST_WORKERS.every((w) => p.workers.includes(w));
-}
-
 /** The report's numbers-only summary (C-0067): counts and statuses, no prose. */
 export function crossHostSummary(r: CrossHostReport): Record<string, unknown> {
   return {
@@ -158,15 +152,10 @@ export async function run(args: string[], ctx: CrossHostContext): Promise<number
   }
   if (fixture.source === KERNEL_FIXTURE) {
     const summaryPath = ctx.summary ?? SUMMARY_PATH;
+    mkdirSync(dirname(summaryPath), { recursive: true });
+    writeFileSync(summaryPath, `${JSON.stringify(crossHostSummary(report), null, 2)}\n`);
     const rel = relative(CROSSHOST_PLAT_ROOT, summaryPath);
-    const shown = rel.startsWith('..') || rel === '' ? summaryPath : rel;
-    if (isFullRun(p)) {
-      mkdirSync(dirname(summaryPath), { recursive: true });
-      writeFileSync(summaryPath, `${JSON.stringify(crossHostSummary(report), null, 2)}\n`);
-      say(`crosshost: summary ${shown}`);
-    } else {
-      say(`crosshost: summary ${shown} not written: a narrowed run (legs ${p.legs.join(',')}; workers ${p.workers.join(',')}; timing ${p.timing ? 'on' : 'off'}) — the summary records the full run only (all five legs, workers off and on, timing off)`);
-    }
+    say(`crosshost: summary ${rel.startsWith('..') || rel === '' ? summaryPath : rel}`);
   }
   say(`crosshost: full report ${full.path}${full.dropped > 0 ? ` (truncated: ${String(full.dropped)} bytes dropped)` : ''}`);
   return report.verdict === 'pass' ? 0 : report.verdict === 'fail' ? 1 : EXIT_INCOMPLETE;

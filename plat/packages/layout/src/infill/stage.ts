@@ -9,17 +9,16 @@
 // them, so a child's kerb reads the lane that made it), the seams (C-0046's minimal records) and the entities live
 // before it. A district whose transaction is refused stays uncut and is reported, never silently: the stage goes on
 // with the next (§5.1 (1): no restart above a district).
-import { compareKeys, STAGES, err, ok, type Hash128, type Invariant, type Kernel, type KernelResult, type LineageHash, type PlatKey } from '@plat/kernel';
+import { STAGES, err, ok, type Hash128, type Invariant, type Kernel, type KernelResult, type LineageHash, type PlatKey } from '@plat/kernel';
 import { compareLineage, type Block, type District, type Id, type Junction, type LiveEntry, type Rung, type Scope, type Seam, type Stage, type StageContext, type Way, type WorkLimitLaw } from '@plat/model';
-import { GROUND_KEY } from '@plat/site';
 import { loadTable, loadWorkLimits, rungProfile, type PresetId, type Row, type Table, type WorkLimitsTable } from '@plat/tables';
 import { BLOCK_FLOOR_ROW, BentCutFabric, BENT_CUT, S8_COUNTERS, type BlockFaces, type DistrictContext, type DistrictReport, type FabricStrategy, type PartitionResult } from './bentCutFabric.js';
 import { granularityBands, type GranularityBands } from './granularityBands.js';
 import { cutCells } from './planner.js';
 import { portalInvariant, type PortalProblem } from './portals.js';
 
-/** The ground arena (§2.2): `@plat/site`'s key, the value the kernel keys its arenas by (layer and part). */
-const GROUND: PlatKey = GROUND_KEY;
+/** The ground arena (§2.2). */
+const GROUND: PlatKey = { layer: 'ground', part: 0 };
 
 /** One district as S8 reads it. */
 export interface S8District {
@@ -84,7 +83,7 @@ export function runS8(input: S8Input, ctx: StageContext): KernelResult<S8Output>
   const live: LiveEntry[] = (input.live ?? []).slice();
   const ways = new Map<Id, Way>(input.ways.map((w) => [w.id, w]));
   let seams: Seam[] = input.seams.map((s) => ({ ...s, portals: s.portals.slice() }));
-  const order = input.districts.slice().sort((a, b) => compareLineage(a.lineage, b.lineage) || compareKeys(a.district.id, b.district.id));
+  const order = input.districts.slice().sort((a, b) => compareLineage(a.lineage, b.lineage) || (a.district.id < b.district.id ? -1 : a.district.id > b.district.id ? 1 : 0));
   const lanes: Way[] = [];
   const blocks: Block[] = [];
   const junctions: Junction[] = [];

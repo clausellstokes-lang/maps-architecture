@@ -1,16 +1,16 @@
 // The workspace tests: the engine range (C-0025), pnpm through corepack only (C-0030), exact pins (§17.4), the
 // dependency placement (C-0062, C-0065), the package indexes (C-0013, C-0064, C-0112), the bench dispatcher — its map
 // and owners (C-0059, C-0113, C-0115, C-0117), its shortcuts, its argument rule and its "not built" and unknown-name
-// exits on fixture harnesses (C-0095) — the TypeScript projects with what each test folder can import (C-0056,
-// C-0114, C-0122, C-0124), and the one form of the scaffold's "is this the main script" test (L14, S-3).
+// exits on fixture harnesses (C-0095) — and the TypeScript projects with what each test folder can import (C-0056,
+// C-0114, C-0122, C-0124).
 import { spawnSync } from 'node:child_process';
-import { existsSync, mkdtempSync, readFileSync, readdirSync, rmSync, symlinkSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { tmpdir } from 'node:os';
 import { dirname, join, relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
-import { FIXTURE_HARNESSES, HARNESSES, isMain, resolveHarness, splitArgs } from '../../scripts/bench.mjs';
+import { FIXTURE_HARNESSES, HARNESSES, resolveHarness, splitArgs } from '../../scripts/bench.mjs';
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
 const readJson = (p) => JSON.parse(readFileSync(join(root, p), 'utf8'));
@@ -371,59 +371,5 @@ describe('the TypeScript projects and what each test folder can import (C-0056, 
       .filter((d) => d.isDirectory())
       .map((d) => d.name);
     for (const p of SHIPPED) expect(modules).not.toContain(p);
-  });
-});
-
-// L14 (S-3): every CLI of the scaffold's tool families decides that it is the main script by one helper per family,
-// comparing real paths — tools/landed/snapshot.mjs's `isMain` (the landed tools), tools/vendor/common.mjs's (the vendor
-// and notices tools) and scripts/bench.mjs's (bench.mjs and build.mjs) — so a script named through a symbolic link
-// runs; the bare-equality and resolve() forms, which silently do nothing through a link, appear nowhere.
-describe('the main-script test of the scaffold\'s tools (L14, S-3)', () => {
-  const HELPERS = ['tools/landed/snapshot.mjs', 'tools/vendor/common.mjs', 'scripts/bench.mjs'];
-  const CLIS = {
-    'tools/landed/snapshot.mjs': null,
-    'tools/landed/landed.mjs': './snapshot.mjs',
-    'tools/landed/verify.mjs': './snapshot.mjs',
-    'tools/vendor/verify.mjs': './common.mjs',
-    'tools/notices/generate.mjs': '../vendor/common.mjs',
-    'scripts/bench.mjs': null,
-    'scripts/build.mjs': './bench.mjs',
-  };
-  const text = (rel) => readFileSync(join(root, rel), 'utf8');
-
-  it('is one realpath helper per family, and every CLI guards its main code with it', () => {
-    for (const rel of HELPERS) {
-      expect(text(rel), rel).toContain('export const isMain = (url) => {');
-      expect(text(rel), rel).toContain('return realpathSync(process.argv[1]) === realpathSync(fileURLToPath(url));');
-    }
-    for (const [rel, from] of Object.entries(CLIS)) {
-      const t = text(rel);
-      expect(t.match(/^if \(isMain\(import\.meta\.url\)\)/gm), rel).toHaveLength(1);
-      if (from !== null) expect(t, rel).toMatch(new RegExp(`^import \\{[^}]*\\bisMain\\b[^}]*\\} from '${from.replace(/[./]/g, '\\$&')}';$`, 'm'));
-      expect(t, rel).not.toMatch(/process\.argv\[1\] *===|=== *process\.argv\[1\]|resolve\(process\.argv\[1\]\)/);
-    }
-  });
-
-  it('runs the script named through a symbolic link: the helper, and the dispatcher spawned through one', () => {
-    const dir = mkdtempSync(join(tmpdir(), 'plat-ismain-'));
-    const argv1 = process.argv[1];
-    try {
-      const link = join(dir, 'bench.mjs');
-      symlinkSync(join(root, 'scripts', 'bench.mjs'), link);
-      process.argv[1] = link;
-      expect(isMain(new URL('../../scripts/bench.mjs', import.meta.url).href)).toBe(true);
-      expect(isMain(new URL('../../scripts/build.mjs', import.meta.url).href)).toBe(false);
-      process.argv[1] = join(dir, 'missing.mjs');
-      expect(isMain(new URL('../../scripts/bench.mjs', import.meta.url).href)).toBe(false);
-      process.argv[1] = argv1;
-      const env = { ...process.env };
-      delete env.PLAT_BENCH_FIXTURE_ROOT;
-      const r = spawnSync(process.execPath, [link, 'zz-no-such-harness'], { cwd: root, encoding: 'utf8', env });
-      expect(r.status).toBe(64);
-      expect(r.stderr).toContain('bench: unknown harness "zz-no-such-harness"');
-    } finally {
-      process.argv[1] = argv1;
-      rmSync(dir, { recursive: true, force: true });
-    }
   });
 });

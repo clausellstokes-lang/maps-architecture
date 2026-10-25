@@ -1,10 +1,10 @@
-// T36-1 (§4.6 steps 2–3; §13.2): the start A draws nothing — no draw falls between the position and the corner, and a
-// face planned with a different cut.t stream keeps its start run — and lies on the run whose chord
+// T36-1 (§4.6 steps 2–3; §13.2): the start A draws nothing — it is a pure function of the face, the frame and the
+// position f, and a face planned with a different cut.t stream keeps its start run — and lies on the run whose chord
 // is most nearly parallel to the working major axis (ties: the earlier run in boundary order); the first leg leaves
 // A exactly perpendicular to its run (its chord, or its tangent on a curved run). Step 2's position: f = (c + b) / 2
 // with c the area centroid's relative position, never more than 0.25 from (0.5 + c) / 2.
 import { describe, expect, it } from 'vitest';
-import { cornerScale, planCut, startOf, workingFrame, type StopRecord } from '../../../src/infill/planner.js';
+import { planCut, startOf, type StopRecord } from '../../../src/infill/planner.js';
 import { faceSides, sideDir } from '../../../src/infill/sides.js';
 import { asCut, cross, CTX, dot, FACE_NAMES, FACES, ring, streamsFor } from './support.js';
 
@@ -12,19 +12,12 @@ const SEEDS = 80;
 
 describe('T36-1: the start draws nothing', () => {
   for (const name of FACE_NAMES) {
-    it(`${name}: no draw falls between the position and the corner; A replays from the face's own frame and f`, () => {
-      // The draws are the promise here (the stop, the position, then the corner: nothing for the start). A's replay
-      // through startOf is a consistency check on the face's own frame and sides, rebuilt from the face — not the
-      // promise that A keeps its run under another cut.t stream, which the cross-stream test below holds.
+    it(`${name}: A is startOf(face, frame, f) — the position draw alone moves it`, () => {
       for (let seed = 1; seed <= SEEDS; seed += 1) {
         const r = planCut(FACES[name], CTX, streamsFor(seed));
         if (!r.ok || r.value.kind !== 'cut') continue;
         const p = r.value;
-        const frame = workingFrame(FACES[name], 0);
-        expect(frame.ok).toBe(true);
-        if (!frame.ok) continue;
-        const sides = faceSides(FACES[name].rings, 1000, cornerScale(FACES[name]), 500);
-        const again = startOf(sides, frame.value, p.start.f);
+        const again = startOf(p.sides, p.frame, p.start.f);
         expect(again).not.toBeNull();
         expect(again?.A).toEqual(p.start.A);
         expect(again?.run).toBe(p.start.run);

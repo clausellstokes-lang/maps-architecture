@@ -2,7 +2,7 @@
 // (C-0067) — on synthetic cross-host reports and seed results, so every bar's failure is seen without a derivation.
 import { describe, expect, it } from 'vitest';
 import { compareCrossHostRuns, type CrossHostCell, type CrossHostReport, type CrossHostRun } from '@plat/testkit';
-import { buildReport, defaultConfig, firstOf, reportLines, reportText, summaryOf, type DeterminismConfig, type SeedResult, type StampedTiming } from '../../src/determinism/index.js';
+import { buildReport, defaultConfig, firstOf, reportText, summaryOf, type DeterminismConfig, type SeedResult } from '../../src/determinism/index.js';
 
 const H = (n: number): string => n.toString(16).padStart(32, '0');
 const STAGES = ['a', 'b'];
@@ -136,64 +136,5 @@ describe('the summary', () => {
     expect(text).not.toMatch(/Intel|linux|node v|\/home|\/Users|contended because/);
     expect(reportText(r).endsWith('}\n')).toBe(true);
     expect(JSON.parse(reportText(r))).toEqual(JSON.parse(JSON.stringify(r)));
-  });
-  it('counts the timing stamps by their authority, one contended and one authoritative (hardening S1, check note 1)', () => {
-    const x = xreport([ran('node-x64-rosetta', 'off', [1, 2, 3])], [1, 2, 3]);
-    const stamp = (label: string, authority: StampedTiming['authority']): StampedTiming => ({
-      label,
-      value: 1.5,
-      unit: 'µs',
-      authority,
-      readings: 'measured',
-      reasons: authority === 'contended' ? 1 : 0,
-      firstReasons: authority === 'contended' ? ['load average 3.1'] : [],
-      host: 'a host',
-      perKindUs: { junction: 1.5 },
-      pointUs: 1.5,
-      overlapUs: 4,
-    });
-    const r = buildReport(cfg({ checks: 2 }), x, [seedResult(1, { timings: [stamp('matching spike-site-1', 'contended')] }), seedResult(2, { timings: [stamp('matching spike-fusion-2', 'authoritative')] })]);
-    expect(r.timings.taken).toBe(true);
-    expect(r.timings.contended).toBe(1);
-    expect(r.timings.authoritative).toBe(1);
-    // every stamp kept with the authority the harness measured, in label order
-    expect(r.timings.stamps.map((t) => [t.label, t.authority])).toEqual([
-      ['matching spike-fusion-2', 'authoritative'],
-      ['matching spike-site-1', 'contended'],
-    ]);
-    expect(summaryOf(r)['timings']).toEqual({ stamps: 2, contended: 1, authoritative: 1 });
-    // a stamp is reported, never a result: the verdict is the bars'
-    expect(r.verdict).toBe('pass');
-    const two = buildReport(cfg({ checks: 2 }), x, [seedResult(1, { timings: [stamp('a', 'contended'), stamp('b', 'contended')] }), seedResult(2)]);
-    expect(summaryOf(two)['timings']).toEqual({ stamps: 2, contended: 2, authoritative: 0 });
-  });
-  it('names the host each leg ran on: the x86-64 leg node-x64-rosetta on a native x86-64 host reads native-x64 (hardening S1, check note 7)', () => {
-    const host = (kind: 'native-x64' | 'rosetta') => ({ cpu: 'c', cores: 4, memoryBytes: 1, os: 'o', engine: { name: 'node', version: 'v24.12.0' }, arch: 'x64', kind });
-    const x = xreport([{ ...ran('node-x64-rosetta', 'off', [1, 2, 3]), host: host('native-x64') }, { ...ran('node-x64-rosetta', 'on', [1, 2, 3]), host: host('native-x64') }, { leg: 'chromium', workers: 'off', status: 'blocked', reason: 'not cached' }], [1, 2, 3]);
-    const r = buildReport(cfg({ legs: ['node-x64-rosetta', 'chromium'], workers: ['off', 'on'] }), x, [seedResult(1)]);
-    expect(r.crosshost.runs[0]).toMatchObject({ run: 'node-x64-rosetta/off', hostKind: 'native-x64' });
-    const s = summaryOf(r) as { crosshost: { runs: unknown[] } };
-    expect(s.crosshost.runs).toEqual([
-      { run: 'node-x64-rosetta/off', status: 'ran', hostKind: 'native-x64' },
-      { run: 'node-x64-rosetta/on', status: 'ran', hostKind: 'native-x64', agrees: true },
-      { run: 'chromium/off', status: 'blocked' },
-    ]);
-    expect(reportLines(r)[1]).toBe('cross-host incomplete: node-x64-rosetta/off ran on native-x64, node-x64-rosetta/on ran on native-x64, chromium/off blocked');
-    // under Rosetta it says so
-    const ro = buildReport(cfg(), xreport([{ ...ran('node-x64-rosetta', 'off', [1, 2, 3]), host: host('rosetta') }], [1, 2, 3]), [seedResult(1)]);
-    expect((summaryOf(ro) as { crosshost: { runs: unknown[] } }).crosshost.runs).toEqual([{ run: 'node-x64-rosetta/off', status: 'ran', hostKind: 'rosetta' }]);
-  });
-  it('says that the refused count covers the in-process seeds only (hardening S1, check note 8)', () => {
-    const x = xreport([ran('node-x64-rosetta', 'off', [1, 2, 3])], [1, 2, 3]);
-    const r = buildReport(cfg(), x, [seedResult(1, { bugs: ['site:S5:refused', 'fusion:S8:refused'] })]);
-    expect(r.bugs).toEqual({ runs: 2, refused: 2, list: ['1:site:S5:refused', '1:fusion:S8:refused'] });
-    const s = summaryOf(r);
-    expect(s['refused']).toBe(2);
-    expect(s['refusedScope']).toEqual({ inProcessSeeds: 1, crossHostOnlySeeds: 2 });
-    expect(reportLines(r)[6]).toMatch(/^refused stages: 2 \(the 1 in-process seeds only; 2 cross-host-only seeds compared, not counted\); /);
-    // a run with no in-process seed counts nothing, and says that every seed went uncounted
-    const none = summaryOf(buildReport(cfg({ checks: 0 }), x, []));
-    expect(none['refused']).toBe(0);
-    expect(none['refusedScope']).toEqual({ inProcessSeeds: 0, crossHostOnlySeeds: 3 });
   });
 });
