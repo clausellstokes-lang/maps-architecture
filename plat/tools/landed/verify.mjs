@@ -7,7 +7,10 @@
 // record of the wave claims is named (C-0306 (3)). A removed line is claimed when a record of the wave lists it as
 // removed and it is a placeholder row, or it is a line of a package index (`packages/<p>/src/index.ts`): a module
 // folder's C-0064 line by a record whose item owns that folder at the label (N-25), any other line by a record whose
-// item owns the index (the owner's per-line edit, C-0318); any other removed or edited line is named. A crossing file (M-1's baselines.json, ng-faces.json,
+// item owns the index (the owner's per-line edit, C-0318); any other removed or edited line is named. Ownership at a
+// label is landed's reading: under a label that names no wave a receiver owns a handed-over path only once it has a
+// record of the wave, else the giver does (N-24, J451); so a giver's entry for a path whose receiver has landed since,
+// and whose receiver's record matches the tree, has lapsed — a note, never a mismatch. A crossing file (M-1's baselines.json, ng-faces.json,
 // denylist.json, a digest file) is attributed instead by a CrossingRecord appended to crossings.json in the same wave,
 // claimed by its countersigning seat's record, whose sha256 equals the file now; a crossing file is never deleted and
 // never claimed by a record (C-0120 (4)).
@@ -35,12 +38,12 @@ import {
 import {
   anyOwners,
   appendDiff,
+  claimantsAt,
   crossingFile,
   folderLines,
   isRecordRel,
   labelPosition,
   loadWork,
-  ownersAt,
   ownsMatch,
   parseRecordUnit,
   sameEntry,
@@ -99,6 +102,22 @@ export function verifyWave(root, label, opts = {}) {
     if (scope.length === 0) problems.push(`no landed record of ${opts.item} against ${label} (${toPlat(`${LANDED_DIR}/${opts.item}.json`)})`);
   }
   const mismatch = (msg) => (opts.item !== undefined ? problems : notes).push(msg);
+  // Under a label that names no wave, the items with a record of it: a receiver claims a handed-over path only once
+  // it is among them (landed's reading, N-24, J451); null under a wave label (ownersAt's reading).
+  const landed = Number.isFinite(W) ? null : new Set(ofWave.filter(({ record }) => record.ownsSource !== 'declared').map(({ record }) => record.item));
+  const atOf = (item) => {
+    const own = item !== null ? wavePosition(work, item.wave) : null;
+    return own !== null && own > W ? own : W;
+  };
+  // The records of the wave other than `record` whose item claims `path` now and whose entry for it matches the tree.
+  const takenOverBy = (record, item, path) => {
+    if (landed === null || item === null) return [];
+    const claimants = claimantsAt(work, path, W, landed);
+    if (claimants.includes(item.id)) return [];
+    return ofWave
+      .filter(({ record: r }) => r !== record && claimants.includes(r.item) && (r.files ?? []).some((g) => g.path === path && sameNow(g, now.get(path))))
+      .map(({ record: r }) => r.item);
+  };
 
   // (a) and (b): each record against its owns and the tree.
   for (const { path, record } of scope) {
@@ -119,7 +138,12 @@ export function verifyWave(root, label, opts = {}) {
       if (!under) problems.push(`${path}: ${f.path} lies outside ${record.item}'s owns`);
       if (isCrossingFile(rel)) problems.push(`${path}: ${f.path} is a crossing file, attributed by its CrossingRecord, never by a record (C-0120)`);
       if (isAppendFile(rel) && record.ownsSource === 'declared') problems.push(`${path}: ${f.path} is an append file, claimed whole by a declared record`);
-      if (!sameNow(f, now.get(f.path))) mismatch(`${f.path}: the tree no longer matches ${record.item}'s record (${f.status} at landing; changed since)`);
+      if (!sameNow(f, now.get(f.path))) {
+        const takers = record.ownsSource === 'declared' ? [] : takenOverBy(record, item, f.path);
+        if (takers.length > 0) {
+          notes.push(`${f.path}: handed over to ${takers.join(', ')}, whose record claims it now; ${record.item}'s entry has lapsed (N-24)`);
+        } else mismatch(`${f.path}: the tree no longer matches ${record.item}'s record (${f.status} at landing; changed since)`);
+      }
     }
     for (const a of record.appends ?? []) {
       const rel = fromPlat(a.file);
@@ -173,10 +197,10 @@ export function verifyWave(root, label, opts = {}) {
           const item = record.ownsSource === 'declared' ? null : ((work.items ?? []).find((it) => it.id === record.item) ?? null);
           const owner = packageIndex && item !== null && ownsMatch(item.owns ?? [], path);
           // A module folder's C-0064 line removed: vouched for by the folder's owner at the label (an item landing
-          // before its own wave as at its own, C-0121), never by the index's owner for another's folder (N-25).
-          const own = item !== null ? wavePosition(work, item.wave) : null;
-          const at = own !== null && own > W ? own : W;
-          const folderOwner = (h) => item !== null && ownersAt(work, `plat/packages/${pkg}/src/${byLine.get(h)}/index.ts`, at).includes(item.id);
+          // before its own wave as at its own, C-0121; landed's reading of a hand-over, N-24), never by the index's
+          // owner for another's folder (N-25).
+          const at = atOf(item);
+          const folderOwner = (h) => item !== null && claimantsAt(work, `plat/packages/${pkg}/src/${byLine.get(h)}/index.ts`, at, landed).includes(item.id);
           for (const a of record.appends ?? []) {
             if (a.file !== path) continue;
             a.lines.forEach((h) => lineClaims.add(h));

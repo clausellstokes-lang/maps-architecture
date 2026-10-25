@@ -13,9 +13,11 @@
 // never declared here. An item landing in a wave before its own (a run item started early, C-0121) owns its files and
 // hand-overs as at its own wave. A passed-ownership path (a module folder's index.ts, C-0013, C-0064; a bench harness
 // index, C-0059; any owns entry a later item takes over) is resolved at its hand-over wave under any label: a wave
-// label reads the waves up to it as open, and a label that names no wave (flow-N, session-…) reads every wave as open,
-// so the latest owner — the hand-over's receiver — claims the path and its package-index line, never the giver
-// (C-0318). The owner of a package index (`packages/<p>/src/index.ts`, the scaffold's) claims its own edits there line
+// label reads the waves up to it as open, so the latest owner of an open wave claims the path and its package-index
+// line (C-0318); a label that names no wave (flow-N, session-…) reads every wave as open, but a receiver claims only
+// once it has a landed record of that label — the path is the latest owner's that has one (the landing item counts),
+// else the earliest owner's, and a receiver with no record never claims, so a giver's re-landing keeps its claim
+// until the receiver lands and takes it over (N-24, J451). The owner of a package index (`packages/<p>/src/index.ts`, the scaffold's) claims its own edits there line
 // by line — every added line that is not a module folder's line — with the snapshot's lines it removed that are not a
 // module folder's C-0064 line (C-0318); a folder's owner claims its folder's line, added or removed (C-0064, N-25).
 // A file an earlier landing of the record listed that is gone now and was never in the snapshot is listed as deleted
@@ -25,7 +27,7 @@
 // snapshot) · --touched <plat/path> (repeatable) · --whole <plat/path> (an append file the item owns, claimed whole for
 // an edit that is not an append) · --owns <plat/path> (repeatable; seats without an item only).
 // Exit 0 written, 1 refused, 2 no snapshot, 64 usage.
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import {
   CROSSINGS_FILE,
@@ -135,6 +137,47 @@ export function ownersAt(work, path, W) {
     } else if (p === best) owners.push(item.id);
   }
   return owners;
+}
+
+/**
+ * The items with a landed record of a label: every docs/build/landed/<id>.json whose `item` names its file and whose
+ * `wave` is the label (N-24, J451). An unreadable file is no record.
+ */
+export function landedItemsOf(root, label) {
+  const dir = join(root, ...LANDED_DIR.split('/'));
+  const out = new Set();
+  if (!existsSync(dir)) return out;
+  for (const name of readdirSync(dir)) {
+    if (!name.endsWith('.json')) continue;
+    try {
+      const r = JSON.parse(readFileSync(join(dir, name), 'utf8'));
+      if (r !== null && typeof r === 'object' && r.wave === label && `${r.item}.json` === name) out.add(r.item);
+    } catch {
+      // not a record
+    }
+  }
+  return out;
+}
+
+/**
+ * The item or items that claim a path while wave position W is open, given the items with a landed record of the
+ * label (N-24, J451). A wave label (W finite) reads as ownersAt. A label that names no wave (W infinite) reads every
+ * wave as open, but a hand-over's receiver claims only once it has a record: of the path's owners, grouped by wave, the
+ * latest group with a member in `landed` claims; when no group has one, the earliest group (the first giver, which
+ * received the path from no one). Without `landed` it is ownersAt (the reading before N-24).
+ */
+export function claimantsAt(work, path, W, landed) {
+  if (Number.isFinite(W) || landed === undefined || landed === null) return ownersAt(work, path, W);
+  const groups = new Map();
+  for (const item of work.items ?? []) {
+    if (!ownsMatch(item.owns ?? [], path)) continue;
+    const p = wavePosition(work, item.wave);
+    if (p === null) continue;
+    groups.set(p, [...(groups.get(p) ?? []), item.id]);
+  }
+  const order = [...groups.keys()].sort((a, b) => b - a);
+  for (const p of order) if (groups.get(p).some((id) => landed.has(id))) return groups.get(p);
+  return order.length > 0 ? groups.get(order[order.length - 1]) : [];
 }
 
 /** Every item whose owns match a path, at any wave. */
@@ -434,15 +477,19 @@ export function buildRecord(root, opts) {
   }
   if (problems.length) return fail(1);
 
-  // A label that names no wave (flow-N, session-…) reads every wave as open: a passed-ownership path is its latest
-  // owner's, the hand-over's receiver (C-0318; the reading of the session's staging, ownersAt at Infinity).
+  // A label that names no wave (flow-N, session-…) reads every wave as open: a passed-ownership path is the latest
+  // owner's that has a landed record of the label — this landing counts as one — else the earliest owner's; a receiver
+  // without a record never claims (N-24, J451; C-0318's reading for a receiver that has landed).
   let W = labelPosition(work, snapshot.label);
+  let landed = null;
   if (W === null) {
     W = Number.POSITIVE_INFINITY;
+    landed = landedItemsOf(root, snapshot.label);
     if (item !== null) {
+      landed.add(id);
       notes.push(
         `snapshot ${snapshot.label} names no wave of ${WORK_FILE}; ownership resolved with every wave open: a handed-over path is ` +
-          'its latest owner\'s (C-0318)',
+          `its latest owner's that has a landed record of ${snapshot.label} (this landing counts), else its earliest owner's (N-24)`,
       );
     }
   }
@@ -452,7 +499,7 @@ export function buildRecord(root, opts) {
   const own = item !== null ? wavePosition(work, item.wave) : null;
   const at = own !== null && W !== null && own > W ? own : W;
   if (at !== W) notes.push(`${id} is of wave ${item.wave}, landing in ${snapshot.label}: its owns resolved at its own wave (C-0121)`);
-  const mine = (path) => (item !== null ? ownersAt(work, path, at).includes(id) : declared.includes(path));
+  const mine = (path) => (item !== null ? claimantsAt(work, path, at, landed).includes(id) : declared.includes(path));
 
   // Files under the owns (append files are claimed by their lines; records are their own items'; crossing files by
   // their CrossingRecords, C-0120).
@@ -514,7 +561,7 @@ export function buildRecord(root, opts) {
     const isRecords = d.unit === 'record';
     const pkg = path.split('/')[2];
     // A module folder's line (well formed or not) is its folder owner's; the package index's owner claims the rest.
-    const folderMine = (folder) => item !== null && ownersAt(work, `plat/packages/${pkg}/src/${folder}/index.ts`, at).includes(id);
+    const folderMine = (folder) => item !== null && claimantsAt(work, `plat/packages/${pkg}/src/${folder}/index.ts`, at, landed).includes(id);
     const ownIndex = isIndex && item !== null && mine(path);
     if (!isIndex && !isRecords) {
       for (const c of collisions(d.lines, addedSet)) {
@@ -585,7 +632,7 @@ export function buildRecord(root, opts) {
     else if (isAppendFile(rel) || rel === `${LANDED_DIR}/${id}.json`) continue;
     else if (isCrossingFile(rel)) problems.push(`${p}: a crossing file, attributed by its CrossingRecord, never by a seat's record (C-0120)`);
     else if (!mine(p)) {
-      const others = item !== null ? ownersAt(work, p, W) : anyOwners(work, p);
+      const others = item !== null ? claimantsAt(work, p, W, landed) : anyOwners(work, p);
       problems.push(
         `${p}: outside ${id}'s owns and the permitted appends` + (others.length ? ` (owned by ${others.join(', ')} at ${snapshot.label})` : ''),
       );

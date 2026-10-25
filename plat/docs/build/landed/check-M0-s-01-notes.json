@@ -1,28 +1,28 @@
 {
   "schema": "plat-landed-record/1",
   "item": "check-M0-s-01-notes",
-  "lane": "check/M0-s-01-close-s5",
-  "lanes": ["check/M0-s-01-close-s1", "check/M0-s-01-close-s2", "build/M0-s-01-consolidate-1", "check/M0-s-01-consolidate-close-1", "check/M0-s-01-close-s3", "build/M0-s-01-fix-s4", "check/M0-s-01-close-s4", "build/M0-s-01-fix-s5", "check/M0-s-01-close-s5"],
+  "lane": "check/M0-s-01-close-s6",
+  "lanes": ["check/M0-s-01-close-s1", "check/M0-s-01-close-s2", "build/M0-s-01-consolidate-1", "check/M0-s-01-consolidate-close-1", "check/M0-s-01-close-s3", "build/M0-s-01-fix-s4", "check/M0-s-01-close-s4", "build/M0-s-01-fix-s5", "check/M0-s-01-close-s5", "build/M0-s-01-fix-s6", "check/M0-s-01-close-s6"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-19T12:52:11.063Z",
+  "date": "2026-10-25T00:22:48.134Z",
   "ownsSource": "declared",
   "owns": ["plat/docs/build/checks/M0-s-01-notes.md"],
   "counts": { "created": 1, "changed": 0, "unchanged": 0, "deleted": 0 },
   "files": [
-    { "path": "plat/docs/build/checks/M0-s-01-notes.md", "status": "created", "sha256": "9e2bc3a92536401c8b5d5faace31e8cf8a6bb3fbdc52079577bc0379e7233aee", "size": 42628 }
+    { "path": "plat/docs/build/checks/M0-s-01-notes.md", "status": "created", "sha256": "3a06608b2c9d61a8ab0b000a43598328ccd09c6036e5e72ffa0fb8cab42f1cf9", "size": 59917 }
   ],
   "appends": [
     {
       "file": "plat/CLEAN-ROOM.md",
-      "ids": ["L-0316", "L-0403", "L-0425", "L-0429", "L-0443", "L-0585", "L-0586", "L-0587", "L-0588"],
-      "lines": ["f2ac44afc0968448", "226781e74ac80f19", "90706e21c95815ed", "1401f7f844569b60", "b2aa517af6763fec", "33006a3c35d71da7", "92ec86d0cc3a12cf", "c9474d97da462ce1", "669b3146a1212a25"],
+      "ids": ["L-0316", "L-0403", "L-0425", "L-0429", "L-0443", "L-0585", "L-0586", "L-0587", "L-0588", "L-0641", "L-0642"],
+      "lines": ["f2ac44afc0968448", "226781e74ac80f19", "90706e21c95815ed", "1401f7f844569b60", "b2aa517af6763fec", "33006a3c35d71da7", "92ec86d0cc3a12cf", "c9474d97da462ce1", "669b3146a1212a25", "11c752cbed3c2706", "b0be89a0643ce7a6"],
       "removed": []
     },
     {
       "file": "plat/docs/build/choices.md",
-      "ids": ["C-0315", "C-0389", "C-0390"],
-      "lines": ["84ceb308a802cf33", "d71a83b4dfb49cbd", "bae2927dcf1ee54f"],
+      "ids": ["C-0315", "C-0389", "C-0390", "C-0417"],
+      "lines": ["84ceb308a802cf33", "d71a83b4dfb49cbd", "bae2927dcf1ee54f", "18755ee717a34b59"],
       "removed": []
     }
   ]
