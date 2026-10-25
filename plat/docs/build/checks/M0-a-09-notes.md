@@ -303,3 +303,448 @@ profile band). These rows do not fail the item (N-45).
     against the families (outside this re-check's confirm-only scope); PLAUSIBLY non-equivalent by symmetry (a profile
     band wider at its start). Suggested handling: the same case with the chord reversed (wider end first), or a
     hand-built profile spine in each direction. Milestone: M4 (hardening), unless the next round on the item takes it.
+
+## Builder of session fix round S9 (lane `build/M0-a-09-fix-s9`, 2026-10-19) — returned BLOCKED
+
+41. **BLOCKER: the dry-run's own refusals exceed N-44 (3)'s cap.** kerb(F) read on the real arena (C-0417) refuses
+    through the item's own post-conditions where the found tree refused only through insertChain ('insert: no route'):
+    census at 10⁴ (kerb / corridorUnion / bandUnion) 20261011 10/16/3 → 11/16/15, 1012 15/16/2 → 8/11/4; refusals.json
+    still refused 36/39/13 → 1/5/19 (bandUnion own 19). Classes: (a) `KEPT_DEEP` — a run end given on a window line (F's
+    own edge) placed off its point by the insertion (attracted onto other content within attractCm, or §3.6's placement
+    fallback), the part's face left unclosed and its interior read with the kept region (1012 draws 3070, 3186, 4722,
+    6167; 20261011 draws 348, 8563, 8859; bandUnion's L3 read beside S9's committed kerb, 20261011 draws 2542, 2810, 4132,
+    4241, 6059, 6816, 6826, 7033, 7448, 7779, 8162, 8898, 1012 draws 2029, 5696, 6219, 8006); (b) `CENSUS_DEEP` — a band's
+    cut across a neck of F narrower than minEdge, its run collapsed or merged (20261011 draws 1426, 4506, 8457, 8556,
+    9046, 9182, 9207; 1012 draws 3607, 3729, 9034, 9605: the pre-S9 scratch overlay was silently wrong on six of them,
+    depth 236–524 cm); (c) `UNLAID_DEEP` — a run no route laid crossing a face beyond N-43's move (20261011 draw 1525).
+    Without `keptClear` the counts drain (8/13/3, 4/7/0) but class (a) reads are silently wrong kerbs (N-45 (a)), and
+    (b)/(c) still exceed the cap. Every input is LAWFUL (B-FUZZ chords); verdict MAKE-IT-SUCCEED needs a construction the
+    round does not have (closing a displaced run end inside the read; a cut across a sub-minEdge neck). Needs the
+    session's ruling: (i) class these as insertChain's (the cause is the insertion's placement / attraction / minEdge),
+    counted against its measured cap; (ii) authorise the construction; (iii) revisit the dry-run. Milestone: this round.
+42. **bfuzz.test.ts judges bandUnion's closings against an L1 read.** `kerbOf(…, false)` reads in an L1 batch, while
+    bandUnion's own read is a dry-run in its L3 transaction beside S9's committed kerb, so a closing by that read can sit
+    off the L1 read's kerb (PLAT_FUZZ_SEED 1012: face 1 piece 0 end 1 contact (10, 1233) pin (29, 0) "the run's vertex
+    off kerb(F)"). The judge should read in an L3 batch before bandUnion commits. Milestone: the round that lifts 41.
+43. **The dead-end cap's sector beside a lane's end stays in the block (attracted).** The cap's clip point on the
+    spine-less edge stands 25.96 cm from the strip's corner the read laid first and is attracted onto it; the piece
+    closes at the lane's end E by the strip's end edge, and the sector (≤ attractCm wide along F's edge, to 157 cm long)
+    stays kerb — S8 ≡ S9 hold (corridor.test.ts's dead-end case, the deadend sweeps: 548/556 exact, the rest within N-43;
+    nearLast 0). A run-on construction (ends carried 2·attractCm past the window, fallback on refusal) and a window
+    offset 60 cm restored the chord but met neighbours' kept content (E_KEPT) and the L0 frame. Milestone: M4.
+44. **N-57 (2)'s closing mechanisms are rarely reached under the dry-run.** At 1012 over 10⁴ networks: 3 along
+    closings, no chord, pinned or folded; the old pins moved (3186 / 3140 no closing; 367 kerb(F) empty). Kept pinned:
+    the along closing on 1012 draw 2243, the pinFirst refusal on 20261011 draw 1110 (face 0, contact (15, 887)), the
+    pinned fallback and the lost chord on fixture 871. The folded kind has no reaching input (the `pieces` seam meets
+    kerb(F) = [] first). Milestone: M4.
+45. **replayKerb (replay.ts) does not replay `sharedPath`.** The replay lays each part's runs as clipped, so a refusal
+    of a run laid along an earlier part's held edges may replay differently. Milestone: the round that lifts 41.
+46. **DECLARED SHIFT (J260 (3)): the moved pins of this item, each with its attractor.** Measured over 3 455 changed
+    reads (the lane's mirror, the scratch overlay against the dry-run on the same faces): new kerb vertices on F's own L1
+    edge 3 447 (median 1.0 cm, p95 4.5 cm off the scratch's), within attractCm of an arena vertex 69, interior corners
+    beside those cuts 328 (median 1.4 cm, max 85 cm), near F's edge 21. Re-recorded: widthstep.test.ts four junction
+    pins (kerb corners 1–21 cm; the acute corner's (3979, 286) 21 cm from the L0 frame and its inner edge 17 cm from F's
+    vertex (4000, 314) → a corner wedge; the guard-drop case's tip gone → a wedge) with each rule held on its recorded
+    pre-S9 region; corridor.test.ts the dead-end chord (25.96 → 157 cm, row 43) and the bent block (one ring → two, a
+    triangle at the frame); deadend.test.ts fixture 871 ((50557, −47030) → (50556, −47032) on F's L1 edge), the sweeps
+    (nearLast ≥ 1 / ≥ 8 → 0), 3186 / 3140 (no closing; 3140's kerb holds the arena vertex (954, 3997)), 3070 (way:0's
+    6 cm band folded onto F's edge: kerb(F) = F, `whole`), 367 (kerb(F) empty), 4722 (KEPT_DEEP, row 41);
+    vertexcontact.test.ts the fusion fixtures (seed 3: (−1234, −76010) → (−1227, −76014), after (−1483, −76158) →
+    (−1482, −76158), (−1601, −75786) dropped, depth 289.95 → 294.07; seed 33: (83180, −23209) → (83184, −23204), depth
+    141 → 135.98; seed 44: (2339, 2855) → (2338, 2855), (2149, 2885) → (2148, 2885), after (2165, 3042) → (2164, 3042),
+    depth 233.95 → 232.96) and the C-0380 (2) promise moved from 20261011 draws 1000 / 4776 (now read: the drain) to
+    draw 1525. Another item's pins in the RELATED run were not measured (blocked first). Milestone: the closing check.
+47. **The bandUnion L3 read meets S9's committed kerb.** Most of row 41's bandUnion refusals are KEPT_DEEP at L3: a band
+    part's run end attracted onto an L2 kerb vertex within attractCm. Milestone: the round that lifts 41.
+48. **Not measured in this round (blocked first):** the wall times of the read loop and of
+    layout/test/infill/fabric/splitSeeds.test.ts (reported only), the memo's hit rate (repeated canonical inputs within
+    one transaction), the self-check mutants, the RELATED run at PLAT_FUZZ_RUNS=1000. Milestone: the round that lifts 41.
+
+### Continued under RULING J433 (the session, 2026-10-19 12:40; same lane) — the round lands
+
+49. **RULING J433 applied: the refusal class follows the cause (rows 41, 42, 45 lifted).** kerb.ts names the place a
+    post-condition refused at (`kerbCensus(p).refusedAt`: the part's index — its row `arr:dry:<i>` — and the point found
+    deep in it; KEPT_DEEP from `keptDeep`, CENSUS_DEEP from `deepIn` with the vertex-only part holding the vertex,
+    UNLAID_DEEP from the unlaid run), a diagnostic beside the arena as the census was; no read changes. replay.ts:
+    `replayKerb` lays the parts as the dry-run does — clipped to the window, `layRun` giving a segment an earlier part
+    laid through that part's held vertices (the dry-run's `sharedPath`, row 45), collapses and no-route runs recorded —
+    and reads the refusing part's hold (`holdOf`): (a) `displaced` — an open run's end (on a window line) held off its
+    input point, the distance and the level of the vertex it was held at (null: a vertex the dry-run made; a distance
+    over attractCm printed `(fallback)`); (b) `merged` — two given points held at one vertex, or the run collapsed; (c)
+    `no-route`; else `exact`. `classify`: insertChain's when insertChain alone meets the same code and detail (as before),
+    or when the refusal is one of `POST_CONDITIONS` (KEPT_DEEP, CENSUS_DEEP, UNLAID_DEEP) and the part's hold is not
+    exact, the part's input well formed; the item's own otherwise. The cause is printed in every REFUSAL / REGISTER line
+    (`causeOf`) and tallied per operation in B-FUZZ's summary. One unit test per reading, `cause.test.ts` (a displaced
+    end, a merge and a collapse, a no-route run, an exact hold that stays own; a non-post-condition and a malformed part
+    stay own; the pre-J433 reading beside it; `layRun`'s shared segment). keptDeep and the other post-conditions stay
+    (N-45 (a)). bfuzz.test.ts: bandUnion's closings judged against kerb(F) read in an L3 batch before it commits (row 42).
+50. **The census at 10⁴ per operation, class and cause (J433 (4); Q90's measured rate).** The lane's mirror, the tree's
+    code (labelPoint included, row 55), a probe of B-FUZZ's networks (`fc.array(chordArb, 1..3)`, draw numbers 1-based):
+    PLAT_FUZZ_SEED 20261011 — kerb 10 (insertChain: displaced 3, merged 6, no-route 1; own 0) over 22 924 reads;
+    corridorUnion 16 (insertChain: replays 6, displaced 3, merged 6, no-route 1; own 0) over 22 924 face reads; bandUnion
+    8 (insertChain: replays 3, displaced 5; own 0) over 22 860 band reads. PLAT_FUZZ_SEED 1012 — kerb 9 (displaced 6,
+    merged 3; own 0) over 23 092 reads; corridorUnion 12 (replays 3, displaced 6, merged 3; own 0); bandUnion 2
+    (displaced 2; own 0) over 23 047 band reads. Own ≤ 1 per 10⁴ per operation: met (0). The rate of insertChain's
+    refusals by the dry-run's post-conditions per 10⁴ band reads (bandUnion): 2.19 (20261011: 5 by displacement) and
+    0.87 (1012: 2 by displacement); per 10⁴ kerb reads: 4.36 (20261011: 3 displacement, 6 merge, 1 no route) and 3.90
+    (1012: 6 displacement, 3 merge). (Before labelPoint, the sitting's first census: 20261011 11/16/15, 1012 8/11/4 —
+    some bandUnion refusals were faces labelled at a point on their boundary.) The mechanism (row 41's classes, now
+    measured by cause): (a) a strip's run end given on F's L1 edge where that edge runs within minEdge of the L0 frame (a
+    near-frame chord) — no vertex can stand there minEdge clear of the frame, and §3.6's placement puts it 25 cm
+    (minEdge) into F, 26–91 cm where it falls back; at L3 the same along the frame; (b) a band's cut across a neck of F
+    narrower than minEdge (the run collapses, CENSUS_DEEP); (c) one run with no route (20261011 draw 1525). Input kind
+    LAWFUL (B-FUZZ chords; N-58): the verdict MAKE-IT-SUCCEED needs the construction J433 queues as Q90 (closing a
+    displaced run end inside the read), not authorised in this round; meanwhile every case is a typed refusal, nothing
+    written. Milestone: M4 (Q90).
+51. **J264 (5)'s refusal counts, before → after (kerb / corridorUnion / bandUnion): drains everywhere but bandUnion on
+    one seed (+5), every refused case insertChain's by cause under J433.** 20261011 10/16/3 → 10/16/8; 1012 15/16/2 →
+    9/12/2; the register (refusals.json, still refused) 36/39/13 → 1/6/7. Drained (refused before, read or committed
+    now): 20261011 kerb 1001, 4777, 5229, 6327, 6562, 6584, 7063, 7538, 7958, 8080; corridorUnion 1001, 4777, 5040, 5066,
+    5229, 6327, 6562, 6584, 7063, 7538, 7645, 7958, 8080, 8898, 9521; bandUnion 7283, 7559, 8576; 1012 kerb 121, 729,
+    2275, 2777, 2877, 3416, 3757, 3915, 4606, 5091, 5104, 5918, 6708, 9320, 9645; corridorUnion the same and 2243;
+    bandUnion 835, 2609 (the pre-round census of the found code, the lane's 08:28 logs). New: 20261011 kerb 348, 1426,
+    1525, 4506, 8457, 8556, 8859, 9046, 9182, 9207; corridorUnion 268, 348, 1426, 1525, 3119, 4506, 5395, 8457, 8556,
+    8894, 9046, 9126, 9182, 9207, 9496 (8859 refused in both); bandUnion 715, 1087, 2810, 4241, 4912, 6059, 7033, 9039;
+    1012 kerb 3070, 3186, 3341, 3607, 3729, 4722, 6167, 9034, 9605; corridorUnion 1947, 3070, 3186, 3341, 3607, 3729,
+    4722, 4963, 6167, 6951, 9034, 9605; bandUnion 2029, 6219. Six of the new kerb refusals were silently wrong reads
+    before the round (row 41: depth 236–524 cm). The one RISE, bandUnion on 20261011 (3 → 8): 715, 1087 and 4912 replay
+    insertChain's 'insert: no route' (a band commit's chain), 2810, 4241, 6059, 7033 and 9039 a band part's run end
+    displaced 25–91 cm (class (a)). J264 (5) reads "a rise fails"; J433 rules the dry-run with its post-conditions and
+    classes these refusals by cause, with row 41's larger counts in its evidence — reported for the session; no class or
+    tolerance widened. Milestone: the closing check (the session's ruling on the +5).
+52. **DECLARED SHIFT (J260 (3)), this sitting's additions, each with its attractor.** deadend.test.ts: case 3186 (face 1)
+    now refuses KEPT_DEEP — way:2's strip end (23, 397) on F's L1 edge (0, 1510)–(31, 0) (0.15 cm), the L0 frame
+    (0, 0)–(0, 1510) 23 cm away, placed at (62, 397), 39 cm (fallback); case 3070 (face 0) — (12, 1809) on F's edge
+    (4, 2293)–(41, 0) (0.19 cm), the frame (0, 0)–(0, 2318) 12 cm away, placed at (37, 1809), 25 cm; case 4722 (face 4,
+    row 41) — (11, 1490) on (7, 1814)–(27, 0) (0.43 cm), the frame 11 cm away, placed at (36, 1490), 25 cm: each pinned
+    as the refusal expectation, classed insertChain's (`refusedByDisplacement`); corridorUnion refuses with it, nothing
+    written. corridor.test.ts's "§13.2 across two faces" REBUILT: the case as first written (e vertical, u = (1900, 2318))
+    gave the same contacts and blocks under the pre-S9 engine (a mirror run of the found kerb.ts and bandUnion.ts), so it
+    pinned nothing; e now slants from (2000, 2000) to (2600, 4000), the stub runs from (2180, 2600) to u = (2050, 2318) —
+    under the pre-S9 engine F's scratch overlay routes T's inner edge through u to e at (2095, 2318), G's (never holding u)
+    meets e at (2090, 2300), and the commit attracts G's kerb onto F's contact (G's block off kerb(G)); under the dry-run
+    both read (2090, 2300) and both commit exactly (a scan of 310 positions of u: 310 off under the old engine, 0 under
+    the dry-run). refusals.json unchanged: its details are the 2026-10-05 runs' record and the register asserts each
+    case's code and the class of what it still meets; still met (all insertChain's): corridorUnion cases 10, 144 and 169
+    (replays 'insert: no route'), 67 (no-route), 204 and 283 (displaced 31 / 29 cm, fallback); kerb case 203 (displaced
+    31 cm, fallback); bandUnion cases 107, 132, 136, 236, 270, 291 (each a displaced run end, 25–26 cm) and 198 (no-route).
+    Milestone: the closing check.
+53. **Self-check (fix) of this round (J183), the lane's mirror (isolation proven; every mutated file restored and
+    cmp-equal), PLAT_FUZZ_RUNS=1000, base green (56/56 on the targets):** M1 the pre-S9 engine (the found kerb.ts and
+    bandUnion.ts) — killed: dryrun.test.ts 4 red (arenas built 2 / 1 / 1 per read; the bare read), corridor "§13.2 across
+    two faces" red (expected [] to equal ['2090,2300']); M2 the dry-run laid on the batch, not a shell — killed (dryrun
+    3 red: the batch touched); M3 the engine without `sharedPath` — killed (deadend fixture 871, its pinned fallback, the
+    slanted dead-end sweep); M4 own() on attracted cases only — killed (arr-bands harness.test.ts); M5 classify without
+    the cause reading — killed (cause 3, deadend 3186 / 3070 / 4722, register); M6 a displaced end unread — killed (cause
+    (a), deadend 3); M7 the replay without `sharedPath` — SURVIVED the first pass (no refused case of the census reads
+    differently: 65 of 65 alike), killed after `layRun` and its unit pin were added; M8 the refusing part off by one —
+    killed (deadend 3, register); M9 the post-condition list empty — killed (cause (b), (c), register); M10 the parts at
+    the batch's level (no L2 floor) — survives the share test, killed over the folder (deadend 1012 draw 2243's along
+    closing); M11 the labels read from the input ring (N-45 (a)) — killed over the folder (widthstep's corner wedge);
+    M12 the labels at `interiorPoint` (row 55) — killed (agreement-corridor's fixed polygon+chord case); M13 a
+    self-crossing oracle output judged as it is (row 56) — killed (agreement-corridor's needle-tip case); M14 a split
+    antenna in a band face judged invalid (row 57) — killed (the bridge case); M15 the antenna exemption in block faces
+    too — survives: no input of the families reaches a split dangling into a block (N-52 (2)'s `splitsInBlocks` and the
+    split's guard keep splits out of blocks), the restriction is defensive.
+54. **Reported, not gated (the MACHINE: never a timing gate; CONTENDED, this Linux container, the same build).** The
+    kerb read loop over the fixture faces (fusion 3 / 33 / 44, dead end 871 / 822; 20 reads each after one warm read, in
+    one L1 batch), the found engine → the dry-run: 98.77 / 84.96 → 25.25 / 19.87 ms per read (two passes; per face
+    106–156 → 16–41 ms, 33–60 → 9–33 ms), with createPlat 2 / 2 / 2 / 1 / 1 → 0 per read; layout
+    test/infill/fabric/splitSeeds.test.ts (city-split-seeds.json) 20.12 s → 9.54 s, 9 / 9 green under both. The memo's
+    hit rate (no memo built): 17 of 309 reads in splitSeeds.test.ts repeat their canonical inputs (the face's rings, its
+    spines and widths, the census's spines, the batch's level and the transaction's journal and work unchanged) within
+    one transaction (5.5 %); B-FUZZ at 1 000 networks 2 180 of 10 903 (20 %: the test's own second read of each face).
+    The remainder REPORTED, not built here: the O(arena) image per read (profile fix 5, a-06 / a-07) and the
+    insertion's constant factors (fix 2, a-03 / a-05).
+55. **The dry-run's labels at the deepest candidate (`labelPoint`), found by the NEAR run at PR size.** An unattracted
+    agreement case (triangle (41107, 58683), (35600, 55196), (45395, 51745), chord (28094, 55223) – (52901, 55205), hw 459:
+    the chord attracted through the triangle's corner) committed a 120 cm band sliver as a third block — the face
+    between the lower edge's strip (poking above the chord at the corner), the chord's arena edge and the left edge's
+    strip was labelled at `interiorPoint`'s widest interval, 0.5 cm above the chord's edge, where the chord strip's cycle
+    runs its window stretch as a straight chord between its unlaid points and the arena's edge runs through lattice
+    vertices a hot pixel off it: the label fell outside the strip (keptDeep measured the face 59 cm from the part's
+    outline — F's edge counted as outline — and let it pass). kerb.ts `labelPoint`: the candidate farthest from the face's
+    boundary (a label deeper than the hot pixel cannot change side); pinned by agreement-corridor.test.ts's fixed case
+    (red under M12). The census moved with it (row 50: fewer bandUnion refusals). Remaining risk (hardening): a face
+    thinner than ~1.5 cm whose every candidate lies within the hot pixel of such a chord; keptDeep reads depth from the
+    whole clipped outline, F's edge included. Milestone: M4 (hardening).
+56. **The arr-bands judge takes a self-crossing oracle output as that oracle's refusal.** The second NEAR-size red: an
+    unattracted ring way (hw 412) with a 9° tip at (11768, 34568), where polygon-clipping's band ends its outer ring
+    (31501, 37854) → (11770, 34568) → (11768, 34568) — its first edge crossing F's edge 0.012 cm short of the tip, an
+    output that crosses itself, which the face count reads as two faces; clipper2's band and ours are one face, |Δ|
+    within bound for both. Before round S9 the scratch overlay attracted near such a tip (W_ATTRACTED) and the case was
+    judged attracted (no face count); the dry-run lays nothing there (F's ring is the arena's), so the case is unattracted.
+    testkit support.ts `judge`: a failing verdict whose oracle output has crossing edges (`ringProblems`) is re-judged as
+    that oracle's refusal (`oracle-invalid`, settled and counted per engine; the other oracle judges the case; the
+    unjudged bound applies) — no change for ours (Q84's own() on every case kept). Pinned by agreement-corridor.test.ts's
+    needle-tip case (red under M13); the main property at 10⁴ green on PLAT_FUZZ_SEED 7 and 424242. Milestone: M0-k-03's
+    oracles (a polygon-clipping output check), reported.
+57. **A corridor_split antenna in a band face is legal (the arr-bands judge).** The third NEAR-size red: an unattracted
+    polygon+chord case (ring (-41862, 62959), (-43225, 65281), (-44364, 63116), (-45814, 61958), (-45290, 59985),
+    (-42130, 61136); chord (-50846, 62629) – (-36830, 62637); hw 448) whose face above the chord keeps one corner split, J =
+    (-41910, 62634) to the kerb corner (-42454, 63082); its other junction's kerb corner (-43877, 63081) stands 1 182 cm
+    away, beyond reach (2·448 + 26 cm; N-52 (2), C-0281), so the band face's ring runs the split twice (a bridge from F's
+    boundary to the block, cutting nothing) and the judge's ring check read it as "an edge dangling into the face". The
+    found engine commits the same arena (blocks within 9 cm) and the case passed only as attracted — the scratch
+    overlay's attraction 3 000 cm away at (-46192, 62198); under the dry-run it is unattracted. Q19 (d) asks the
+    agreement verdicts unchanged: testkit support.ts `judgeCorridor` takes a two-point loop of a BAND face that is a
+    committed corridor_split (`CorridorOurs.splitEdges`) as a legal antenna (§13.1), counted `split-antenna` in the notes;
+    a block face is held as before. Pinned by agreement-corridor.test.ts's bridge case (red under M14). The design
+    question left (for the hardening pass): whether a band piece with a single split should keep it (the split marks the
+    junction for M1's Corridor entities) or drop it. Milestone: M4 (hardening), reported.
+58. **The round's last sitting (2026-10-20, a relaunched container; the CONTINUE RULE): the gates, the agreement seeds,
+    NEAR and RELATED.** Gates in the tree: install --frozen-lockfile 0, lint 0 (eslint 1157 files 0/0, probe-red ok,
+    kernel-boundary ok), build 0. agreement-corridor.test.ts at 10⁴, W=1: green on PLAT_FUZZ_SEED 1012 (6/6, 574 s) and
+    20261011 (6/6, 568 s), beside 7 and 424242 (row 56). NEAR at the PR size (the item's 17 test files, B-FUZZ
+    included, unseeded): 101/101 green (1 290 s). RELATED at PLAT_FUZZ_RUNS=1000 over kerb.ts and bandUnion.ts (the
+    round's changed sources; W=1, 6 777 s): 340 files, 4 201 / 4 204 — three reds, none a test of this item, each
+    classed in the lane's mirror beside the pre-S9 item state (kerb.ts, bandUnion.ts and the bands support.ts read from
+    the repository branch whose files hash equal to the fix-s8 landed record; a probe compared every `kerb()` read of
+    the two engines on the same open overlay; probes kept in the session scratchpad, the mirror deleted):
+    (a) **M0-a-05's `kernel/test/insert/step3-5/sliver.test.ts:54` (Q53), kernel and kernel-tiny — foreign to this
+    round:** red under the pre-S9 item state as well (received band [4, 1, 3, 5, 2], blocks [0] against the recorded
+    [4, 1, 3, 5, 2, 7] / [0, 6]); under the dry-run the test's own claims hold when line 54 is set aside (`healthy`,
+    `checkIndexState` [], `tilesExactly` [], the L1 records [0 … 4] unchanged, the sliver's L2 records under L1 f4 with
+    its owner, stage 8 and kind, none under a freed L1); the classes moved again (band [0, 1, 3, 6, 4, 5], blocks [2],
+    the sliver's L2 records 0, 1, 4) with one kerb read changed, kerb(f0): (3996, 432) added 25.26 cm off the scratch's
+    ring, 0.38 cm from the sliver's L1 edge (the declared attractor: a neighbour's L1 edge within the hot pixel), and
+    the near-tangent corner beside it moved 2.8 cm ((3753, 3639) → (3756, 3636)). Reported to M0-a-05 (its line 54
+    re-recorded by its owner; never edited here).
+    (b) **M0-x-05's `testkit/test/ladders/rungs-s8.test.ts:102` (cut/antenna, the small flat town seed 6) — moved by
+    this round:** green under the pre-S9 engine, under the dry-run `{ 'S8 F-CUT antenna': 1 }` (the 'a@attempt>=1'
+    line gone: rung (a) cuts at attempt 0). Of S8's 37 kerb reads 28 are identical, 6 differ by ≤ 1 cm (the lattice), 3
+    move a vertex: read 24 (face 34, 3.16 cm, 0.4 cm from F's L1 edge — the attractor class) and reads 35 / 37 (faces
+    50 / 48, the antenna's children; Hausdorff 29.65 / 39.84 cm): there the pre-S9 kerb held four vertices each lying
+    6.5–39.6 cm DEEP inside a buffer part (on one part's outline, inside another's: a silently wrong kerb, N-45 (a)),
+    where the dry-run's vertices lie on a part's outline (≤ 0.5 cm) and inside none (≤ 0.28 cm, the lattice). The move
+    is a correction of a wrong read, not an attractor shift; reported to M0-x-05 with the count (1 pin, 1 face pair) and
+    the class, for its owner's re-record (J260 (3)); never edited here.
+    (c) c-06's drift red (Q60) was not met in this run. Milestone: the closing check.
+
+## Closing check of session fix round S9 (lane `check/M0-a-09-close-s9`, 2026-10-20 – 21) — hardening round S9
+
+The verdict is in `checks/M0-a-09-s9.md` (FAIL: one blocker, B-ME — the dry-run's labelling of its faces against the
+parts AS THE ARENA HOLDS them is a stated promise of Q18 / C-0417 that no test of the item pins; the engine itself is
+the ruled one). The rows below are the check's non-blocking findings, each for the hardening milestone M4 unless named
+earlier. Every figure is this seat's own (its mirror, its mutants, its probes); the outcome census is its
+`hash.probe` — per draw of bfuzz's chord arbitrary (seed 20261011, 10⁴ draws) the digest of every L1 kerb read, the
+arena's digest after corridorUnion (L2) and after bandUnion (L3) — run on the tree (bit-equal on three runs) and under
+each survivor, one clean `mut.py` run each with the file `cmp`-restored.
+
+59. **MD (the parts' indices NOT pinned against decimation, `pinned: []`) survives the item's tests at 1000 and 10⁴ and
+    is equivalent on every result; the pin's only effect is the attracted split.** The seat's `pin.probe` ran
+    `decimate` on every part of `kerbParts` over 1 000 B-FUZZ networks (seed 20261011; 12 822 parts): the kept points
+    are IDENTICAL with and without the pinning on every part (12 265 equal, 0 differ, 557 refused alike) — step 1 keeps
+    the FIRST point of a close pair either way (a pinned merge keeps `top`'s coordinates; unpinned decimation drops the
+    later point) — and 2 435 parts (19 %) hold a pair closer than minEdge (arc chords at SAGITTA_CM spacing on small
+    radii), where the pinning adds W_ATTRACTED (2 435 pinned, 0 unpinned). The clean outcome census under MD: 329 of
+    10⁴ draws differ from the tree, every one in the `attracted` count ONLY — 0 kerb-read digests, 0 corridorUnion
+    commits, 0 bandUnion commits differ. So kerb.ts's header sentence "no arc vertex at SAGITTA_CM spacing is dropped"
+    is not what the pin does (the point is merged away either way), and a part's OWN arc spacing reads as attraction in
+    19 % of parts, which inflates §3.7's attracted class and loosens the agreement harness's comparison on those cases.
+    Suggested handling: state the pin's effect truthfully in the header; decide whether a merge of a part's own arc
+    points is attraction (§3.7's split) or a quiet decimation (then no W_ATTRACTED, and the pin is unneeded), and pin
+    the decision by a part with an arc pair under minEdge. Milestone: M4 (hardening).
+60. **S4N7 (s4's deferred post-condition in bandUnion.ts :604–609, the tips left across F's boundary judged after
+    every outline is in) survives at 1000 and 10⁴ under S9, where the S4 check killed it by case 367.** Under the dry-run
+    case 367 folds (row 44), and the clean outcome census under S4N7 equals the tree's on every one of 10⁴ draws (0
+    kerb reads, 0 corridorUnion commits, 0 bandUnion commits differ): the guard's reaching input is gone from the
+    families at this size. The guard stays (fail-safe, N-45 (a)); the claim it holds is unpinned. Suggested handling:
+    a hand-built case whose band tip crosses F's boundary after the outlines are in (or the S4 case 367 geometry
+    re-posed on the real arena). Milestone: M4 (hardening).
+61. **The re-class probe's limit: the engine's window and laid runs are not reproducible from the choices row alone.**
+    The seat's own replay (`recls.probe`: the refusing part found geometrically, clipped by the seat to F's convex hull
+    within the L0 box by Sutherland–Hodgman, its runs cut at the window, the run nearest the item's refusing point
+    inserted ALONE on a shell at max(level, 2), every index pinned, under a savepoint put back — never through
+    `replay.ts`) matched the item's reading on 20 of 56 sampled refusal rows and found the insertion alone moving or
+    merging the run on 46; on the rest the seat's window reconstruction put the run's end 100–800 cm from the item's
+    refusing point, so `clipToWindow`, `runsOf` and `sharedPath` are not reproducible from C-0417's description.
+    Suggested handling: export the window and the laid runs of the last read in `kerbCensus` (beside `refusedAt`) so a
+    checker can replay by them and the J433 class can be re-derived without the engine. Milestone: M4 (hardening);
+    earlier if the session's Q90 ruling needs the per-cause counts re-derived.
+62. **For the session (J264 (5)): bandUnion's count on seed 20261011 rose 3 → 8; every other count drained.** The
+    seat's census at 10⁴ (its `census.probe`, every refusal classed by the item's `classify` and tallied by cause): seed
+    20261011 kerb 10 / corridorUnion 16 / bandUnion 8 (before the round 10 / 16 / 3), seed 1012 9 / 12 / 2 (before
+    15 / 16 / 2), refusals.json still refused 1 / 6 / 7 (before 36 / 39 / 13); own 0 on every operation and seed. The
+    five new bandUnion cases on 20261011: draws 715, 1087, 4912 replay insertChain's own 'no route'; 2810, 4241, 6059,
+    7033, 9039 a band run end displaced 25–91 cm (J433 class (a)). Under RULING J433 these are insertChain's by cause
+    and "never gated", with the construction that would close a displaced run end queued as Q90 (M4); this seat does not
+    fail the round on them and routes them to the session as the remaining LAWFUL-input refusals of the family with
+    their seeds and draws, as the ZERO REFUSALS rule asks, for the ruling J264 (5) literally requires on a rise. Input
+    kind LAWFUL; verdict MAKE-IT-SUCCEED at Q90 (a band run end placed off its point inside the read). Milestone: Q90 /
+    M4, the session's ruling.
+63. **The moved pins of other items (J260 (3)), each its owner's re-record, measured by this seat beside the pre-S9
+    engine.** (a) M0-a-05 `kernel/test/insert/step3-5/sliver.test.ts:54` (Q53), kernel and kernel-tiny: red under the
+    pre-S9 engine too (`band [4, 1, 3, 5, 2]`, `blocks [0]` against the recorded `[4, 1, 3, 5, 2, 7]` / `[0, 6]`), red
+    under S9 (`band [0, 1, 3, 6, 4, 5]`); stale before this round, a-05's. (b) M0-x-05 `testkit/test/ladders/
+    rungs-s8.test.ts:102` (cut/antenna, the small flat town seed 6): green under pre-S9, red under S9 (`{ 'S8 F-CUT
+    antenna': 1 }`, the 'a@attempt>=1' line gone); the seat's like-for-like probe (every `kerb()` read of that ladder
+    under S9, each also read by the pre-S9 `kerb.ts` on the same open overlay at the same moment): 37 reads, 28
+    identical, 7 within 3.16 cm, and faces 50 / 48 at Hausdorff 29.65 / 39.84 cm where the pre-S9 kerb held four
+    vertices each 6.51–39.55 cm INSIDE a buffer part (a silently wrong read, N-45 (a)) and the dry-run's lie on a
+    part's outline (≤ 0.52 cm): a corrected wrong read, x-05's re-record (1 pin, faces 50 / 48). Neither is this
+    round's blocker; neither file was edited. Milestone: the owners' next rounds.
+
+## Builder of fix round S10 (lane `build/M0-a-09-fix-s10`, 2026-10-21)
+
+64. **B-ME (the closing check of round S9, section (3)) pinned: the dry-run's labels are read against the parts as the
+    arena holds them.** No engine file changed. `kernel/test/arr/bands/dryrun.test.ts` gains the describe 'the dry-run
+    labels against the parts as the arena holds them, never the clipped input ring (C-0417; B-ME)': three B-FUZZ
+    networks of seed 20261011 written as chords — draw 532 (face 2's kerb `4000,3967 4000,4000 3825,4000`; the part's
+    input point (4000, 3980) merged into (4000, 3967), so at the face's interior point (3956.25, 3983.5) the clipped
+    input winds 1 and the held cycle 0), draw 275 (face 2's kerb `2534,3430 3045,4000 2948,4000`; part 1's input
+    `40,0 194,172 2967,3986 2948,4000` winds 1 at (2765.25, 3715), its held cycle `194,172 2534,3430 2948,4000 40,0`
+    0), each with corridorUnion's committed block of face 2 equal to the read, the tiling exact, the arena healthy; and
+    draw 71 (bandUnion's L3 read: the band's input `0,0 4000,4000 3980,4000 0,20` winds 1 at (9.9, 20), its held cycle
+    `4000,4000 3960,4000 0,0` 0; two blocks, the corner `0,0 3960,4000 0,40` among them). The winding numbers were read
+    by a probe in the lane mirror (the two labels side by side at every face of each read). Self-check: mutant ME (the
+    checker's replacement, `const cycles = d.clipped.map((r) => r.map((q) => ({ x: q.x as number, y: q.y as
+    number })));`) in the mirror — all three cases red (kerb read EMPTY on 532 and 275; bandUnion one block on 71),
+    and the item's 17 files with `--bail=1`: 1 failed (draw 532); green on the tree. Gates in the tree: install 0, lint
+    0 (eslint 1157 files 0 / 0, probe-red ok), build 0; NEAR at the PR size 17 files 104 / 104 (W=1, 972 s). RELATED:
+    no source file under `packages/*/src/` changed in this round (kerb.ts and bandUnion.ts sha256-equal to round S9's
+    record), so round S9's RELATED@1000 (340 files 4201 / 4204, the three reds of other items' pins, rows 58 / 63)
+    stands. The refusal census is unchanged by construction (20261011 10 / 16 / 8, 1012 9 / 12 / 2, register 1 / 6 / 7,
+    own 0). C-0418.
+
+## Builder of fix round S11 (lane `build/M0-a-09-fix-s11`, 2026-10-21)
+
+65. **B-ME2 (the closing check of round S10, section (3)) pinned: the held cycle runs along the part's row edges.** No
+    engine file changed. `kernel/test/arr/bands/dryrun.test.ts` gains the describe 'the held cycle runs along the
+    part’s row edges, never the chords between its placed vertices (C-0417; B-ME2)': four networks of B-FUZZ's chord
+    arbitrary, seed 20261011, written as chords (the checker's draws 1682, 3213, 389, 1109) — 1682: face 0's kerb
+    `2702,606 0,2188 0,1233 118,1222` + `3626,0 3697,0 3622,67`, both committed as blocks of face 0; 3213: face 0's kerb
+    `1386,0 1623,0 1624,54 1562,40` and its block; each with every face's read equal to the blocks committed in it; 389
+    / 1109: face 3 / face 1 read EMPTY, no block in it, committed whole to the band. Self-check in the lane mirror
+    (isolation proven; `cp -a`): under ME2 (`cyc.push(at(a)); void path;`) all three cases red, the 17 files --bail=1
+    1 failed (draw 1682); under ME five cases red (532, 275, 71, 1682, 3213), the 17 files --bail=1 1 failed (532);
+    restored equal; green on the tree. Gates in the tree: install 0, lint 0 (eslint 1157 files 0 / 0, probe-red ok),
+    build 0.
+    **NEAR at the PR size RED (BLOCKED for the session).** The item's 17 files at 10⁴ (W=1, random global seed, 1006 s):
+    16 / 17 files, 106 / 107 tests; `bfuzz.test.ts` 'kerb, corridorUnion and bandUnion on random street networks'
+    fails its own cap (`expected 2 to be less than or equal to 1`, :195): refusals per operation kerb insertChain 9 /
+    own 2, corridorUnion 12 / 2, bandUnion 7 / 0. The two own refusals are two lawful networks, each refused by kerb's
+    C-0381 census (`E_INVARIANT arr: a vertex of the region lies deeper in a vertex-only buffer than an insertion moves
+    a boundary point (C-0381)`, CAUSE `exact part 4`: the insertChain-alone replay holds the part exactly, so J433
+    classes it the item's own), corridorUnion refusing after it:
+    `[{a:15997,b:2390,hw:170,knots:[7,92],ends:'square'},{a:13944,b:51,hw:399,knots:null,ends:'round'},{a:67,b:7156,hw:429,knots:[168,495],ends:'square'}]`
+    (face 2) and
+    `[{a:15521,b:12686,hw:11,knots:[35,591],ends:'square'},{a:4099,b:8029,hw:28,knots:null,ends:'square'},{a:7473,b:8030,hw:20,knots:[157,520],ends:'round'}]`
+    (face 0). Both reproduce deterministically on the tree (a probe in the lane mirror read every face of each network in
+    one L1 batch: the other faces read). Not this round's change: every engine and support file is sha256-equal to round
+    S9's landed record (only `dryrun.test.ts` differs), so the refusals are round S9's engine's; the fixed-seed census
+    (own 0 on 20261011 and 1012) never met them, and the four earlier NEAR runs (S9 and S10, builder and checker) drew
+    ≤ 1 own. By ZERO REFUSALS (J264) and N-58 they are lawful-input refusals of the item's own code (MAKE-IT-SUCCEED),
+    and the own cap of N-44 (3) is the item's exit bar; making them succeed is an engine change to the C-0381 census that
+    this round (test-only, "no engine change") is not authorised to make. The session rules: a fix round on the census
+    with these two networks as pins, or a ruling on the cap. RELATED: no source file under `packages/*/src/` changed, so
+    round S9's RELATED@1000 stands. Logs (scratchpad of the session): `near.log`, `ME2-all.log`, `ME-dry.log`,
+    `ME-all.log`, `g-{install,lint,build}.log`. C-0419.
+
+## Fix round S12 — builder (lane `build/M0-a-09-fix-s12`, 2026-10-21)
+
+66. **B-ME2 (round S11's line) re-landed: the pin is round S11's work, kept as it stands.** No engine change for it:
+    `kernel/test/arr/bands/dryrun.test.ts`'s describe 'the held cycle runs along the part’s row edges, never the chords
+    between its placed vertices (C-0417; B-ME2)' (draws 1682, 3213, 389 + 1109 of seed 20261011, written by
+    `build/M0-a-09-fix-s11`, C-0419, row 65) is unchanged by this round; the round's one edit to that file is the
+    savepoint rule of row 67. Re-killed in this round's mirror: ME2 (`cyc.push(at(a)); void path;` in `cycleOf`) over
+    the item's 18 files at 1000 `--bail=1` — 1 failed (B-FUZZ's closings, the first file to meet it); alone on
+    `dryrun.test.ts` the three B-ME2 cases red (3 failed | 7 passed); restored equal (cmp).
+67. **B-FUZZ's own cap (`bfuzz.test.ts:195`, unchanged): the two lawful networks of row 65 made to succeed — the
+    restaged read (C-0420).** The probe (mirror; the dry-run's faces, labels, windings and every part's held edges):
+    N1 face 2 — the census laid way:1's end strip on the arena holding way:0's and way:2's held edges; its end edge was
+    routed through their meeting vertex (366, 12) and its corner (450, 10) placed at (463, 41), so the kept face ran
+    on to the tip (366, 12), 84 cm into way:1's round end (hw 399), by `deepIn` and by its distance to F − V alike;
+    N2 face 0 — way:2's strip run was laid along a join's held edges, a run so laid records none of its own segments,
+    so the cap's radius was laid apart from the strip's identical end edge and routed back along the frame; the cap's
+    held cycle bounds nothing, its sliver face was kept, its vertex (3943, 4000) 492 cm into way:2's end. The measure
+    and the bound are right (no bound changed); the census's read was wrong. The fix (kerb.ts `restagedRead`): only
+    where the census's post-condition refuses, a fresh dry-run lays the reaching vertex-only spines' parts first and the
+    edge spines' after them, accepted only where no vertex lies deeper than `DRY_MOVE_CM` in any of F's spines' bands;
+    refused too, the census's refusal and its place stand. Both networks now commit (restage.test.ts: the regions of
+    C-0420 (2), every vertex within √2 · attractCm + SAGITTA_CM of every band, corridorUnion's blocks equal to the
+    reads, bandUnion committed; red on round S9's kerb.ts). Refusal census (B-FUZZ's own draws, 10⁴ each; mirror;
+    before round S9's kerb.ts, after this tree): 20261011 10 / 16 / 8 → 10 / 16 / 8, 1012 9 / 12 / 2 → 9 / 12 / 2,
+    refusals.json's 317 network cases 4 / 7 / 7 → 4 / 7 / 7 (kerb / corridorUnion / bandUnion), own 0 → 0, 0 of
+    20 317 draws with any outcome changed (no declared shift). Refusal verdicts (J290 / N-58): the two networks LAWFUL,
+    MAKE-IT-SUCCEED — done; the fixed seeds' 11 `CENSUS_DEEP` reads (20261011 draws 1425, 4505, 8456, 8555, 9045, 9181,
+    9206; 1012 draws 3606, 3728, 9033, 9604), LAWFUL, J433 insertChain's (a part collapsed or displaced onto the frame),
+    restaged and refused again by the restaged post-condition at a frame vertex deep in the vertex-only band —
+    MAKE-IT-SUCCEED of insertChain's hold at the frame, for the session (unchanged by this round; draw 1425 pinned in
+    restage.test.ts as the guard's case). `dryrun.test.ts`'s savepoint rule: a second savepoint only on a read whose
+    census added vertex-only spines and which ended ok or `CENSUS_DEEP` (the 100-network sample of seed 20261019 green).
+    Self-check (mirror, 1000, `--bail=1`, 18 files, base 110 / 110): R1 (no restage), R2 (restaged in the census's
+    order), R3 (restaged without its post-condition), R5 (the census's place always cleared), R7 (the place kept on
+    success) killed; R4 survives (row 68).
+68. **KI for the hardening pass (N-45: these fail safe).** (a) The restaged read's guard on the EDGE spines (mutant R4:
+    the guard on the vertex-only spines only) survives the item's tests: no family case gives a restaged region deep in
+    an edge band; a hand-built case would pin it. (b) The census-order `sharedPath` gap of N2 (a run laid along an
+    earlier part's held edges records none of its own segments, so a later identical segment is laid apart) stays in
+    the census's read, where its sliver is within the bound or refused and restaged; recording those segments there
+    moves committed kerbs (a declared shift with digests), so it waits for the hardening pass.
+69. **Gates of round S12 (tree).** install --frozen-lockfile 0; lint 0 (eslint 1158 files 0 / 0, `probe-red ok`,
+    `kernel-boundary ok` — the restaged read takes the census's parts rather than calling `kerbParts` again, holding the
+    allowlist's cap of 20 'kerb' identifiers); build 0. NEAR at full strength (the PR size 10⁴, a random global seed,
+    W=1), twice: the item's 18 files 110 / 110 (1134 s), 110 / 110 (1153 s) — B-FUZZ's own cap held both times.
+    RELATED@1000 over `kerb.ts` (W=1, 7366 s): 341 files, 4210 / 4213; the three reds are round S9's classed foreign
+    pins (rows 58, 63) — kernel and kernel-tiny `insert/step3-5/sliver.test.ts` Q53 (a-05's) and testkit
+    `ladders/rungs-s8.test.ts` cut/antenna seed 6 (x-05's) — replayed in the lane mirror on this round's kerb.ts and on
+    round S9's, the same three assertions failing identically on both (not this round's). Logs (session scratchpad,
+    `s12/`): `g-{install,lint,build}.log`, `near1.log`, `near2.log`, `related.log`.
+
+## Fix round S13 — builder (lane `build/M0-a-09-fix-s13`, 2026-10-21)
+
+70. **B-CLOSE (`checks/M0-a-09-s12.md` (3)): an along-run closing commits only a run vertex kerb(F) holds after the op
+    (C-0421).** Why the L1 read moved: an L1 read lays its parts at L2 (kerb.ts `dryLevel`), so after corridorUnion's
+    L2 commit it meets the commit's own geometry; where the insertion left an open piece's end as a tip off its contact
+    and the along closing joined it to the run's vertex (`runVertex`), the tip and that chord are new L2 content beside
+    F's boundary — seed 20261011 draw 1263: the read's vertex at the contact (2362, 3977) attracted onto the tip
+    (2362, 3952), the part routed along the chord, the run vertex (1538, 3986) dropped (259.6 cm off); seed 1012 draw
+    3369: (2251, 3991) 34.8 cm off. The fix (bandUnion.ts `offRead`, L2 batches): before the read-back each face with an
+    along closing is read again on the arena the run left, and an end whose run vertex stands off that outline (1 cm) is
+    pinned first on the op's next run; on the four networks (the two draws and fast-check's two shrunk counterexamples)
+    the contact cannot be pinned within attractCm and the piece, a sliver 13.5 – 15.1 cm from F's boundary, is folded
+    (C-0218 (7)); draw 1263's every L1 read is the same before and after the commit. `closingsBeyond` unchanged.
+    B-FUZZ at 10⁴ in the tree: `PLAT_FUZZ_SEED=20261011` exit 0 (2 passed, 338 s), `PLAT_FUZZ_SEED=1012` exit 0
+    (2 passed, 340 s). Fixtures: `closing.test.ts`'s first describe, 4 tests, all red on round S9's bandUnion.ts.
+71. **B-SPLIT — found by this round's NEAR #2 at the PR size (random seed), pre-existing: a split laid between two faces
+    of one L1 face read outside the band is left out (C-0422).** testkit `agreement-corridor.test.ts` 'the built blocks
+    and the bands, by attraction' red once: `corridorUnion faceSet-concave+chord: corridor_split edges between two built
+    blocks 188175,-216383-188201,-216369` (its input in the new fixed case of that file), identical on round S9's
+    bandUnion.ts in the lane mirror. Face 0's kerb has a spur at the junction; the wedge split's leg passes 21 cm from the
+    spur's tip and the insertion laid it along the spur's far side, so the spur was committed as a block of its own with
+    the split between it and the rest of the block. The read-back now judges the op's splits on the faces the arena holds
+    (`cutSplits`) and the op runs again with such a split left out (C-0281's answer for a split that cannot stay in the
+    band). B-FUZZ's family met the same class unseen at seed 1012 draw 7964 (a sliver second block of face 1), pinned in
+    `closing.test.ts`'s second describe. Census (both rows; the lane mirror; bfuzz's arbitrary by `fc.sample`, 10⁴ per
+    seed; refusals classed by replay.ts): round S9's bandUnion.ts → this round's: refusals 20261011 10 / 16 / 8 → same,
+    1012 9 / 12 / 2 → same (kerb / corridorUnion / bandUnion), own 0 → 0, crashes 0; along closings off kerb(F) 1 / 1 →
+    0 / 0; splits cutting a block of their face 0 / 1 → 0 / 0; outcomes changed on exactly draws 1263 (20261011), 3369
+    and 7964 (1012) — no declared shift, no digest re-recorded. Refusal verdicts (J290 / N-58): B-CLOSE and B-SPLIT
+    involve no refusal (LAWFUL inputs, wrong committed results made right — MAKE-IT-SUCCEED, done).
+72. **KI for the hardening pass (N-45: these fail safe).** (a) Mutants surviving the item's tests, no family case
+    reaching them: M1 (`offRead` at L3 too), M2 (a refused re-read taken as holding the run vertex), M4 (the re-read
+    without vertex contacts), S3 (`cutSplits` widened to two L1 faces), S4 (the face's first split named, not the
+    nearest). (b) A split row laid along F's own L1 boundary between blocks of two L1 faces, where a narrow spine's
+    strips collapsed onto it (B-FUZZ census: 20261011 draws 589, 2721, 2964, 3424; 1012 draw 6956), cuts no block and
+    is left as it is; testkit's `splitsInBlocks` would flag it, but its corridor family (half-widths of metres) has not
+    drawn one. (c) An L1 read after the commit can still differ from the read before it where the commit folded a
+    sliver (seed 1012 draw 3369, the 20261011 shrunk case): S8 reads before S9, and B-FUZZ's judges hold on it.
+73. **For the session (J264: a lawful-input refusal routed with its input): NEAR #2's testkit corridor family met one
+    corridorUnion refusal of class own** — `E_INVARIANT` KEPT_DEEP, source faceSet-curved, hw 482, the ring of 31 points
+    beginning (194740, 242166) (`REFUSAL corridorUnion own …` in that run's log; within the harness's own cap of 1 per
+    10⁴). It is a kerb read refusing (kerb.ts is unchanged since round S12's record; neither C-0421 nor C-0422 runs
+    before that read): replayed in the lane mirror, refused identically on round S9's bandUnion.ts; not this round's
+    line.
+74. **Gates of round S13 (tree, the final engine).** install --frozen-lockfile 0; lint 0 (eslint 1159 files 0 / 0,
+    `probe-red ok`, `kernel-boundary ok` — bandUnion.ts's 14 'kerb' identifiers held: the one read call shared by
+    `readOn`, one read-back alias); build 0. B-FUZZ at 10⁴ with `PLAT_FUZZ_SEED=20261011` and `=1012` on the final engine:
+    exit 0 both (2 passed, 343 s; 2 passed, 355 s; on C-0421's engine alone too, 338 s / 340 s). NEAR at full strength (the PR size 10⁴, a random
+    global seed, W=1) on the final engine, twice: the item's 19 files 116 / 116 (1247 s), 116 / 116 (1167 s) —
+    `register.test.ts` (refusals.json) green in both. (On C-0421's engine alone: NEAR #1 114 / 114 green, NEAR #2 red on
+    B-SPLIT, row 71.) RELATED@1000 over `bandUnion.ts` (W=1, 6982 s): 341 files, 4191 / 4194; the three reds are
+    round S9's classed foreign pins (rows 58, 63) — kernel and kernel-tiny `insert/step3-5/sliver.test.ts` Q53 (a-05's)
+    and testkit `ladders/rungs-s8.test.ts` cut/antenna seed 6 (x-05's) — replayed in the lane mirror on this round's
+    bandUnion.ts and on round S9's, the same three assertions failing identically on both. Logs (session scratchpad,
+    `s13/`): `g-{install,lint,build}.log`, `fixed-{20261011,1012}.log`, `near1.log`, `near2.log`, `related.log`,
+    `replay-{tree,pre}.log`, `mut-*.log`, `mut2-*.log`.

@@ -12,7 +12,10 @@
 // a refusal is typed and writes nothing. Refusals are counted per operation and classed by
 // replay (replay.ts; N-44 as amended by J203/J207/J208, C-0212 (10) as amended): one that replays on insertChain alone
 // is insertChain's — counted, logged for the register (a REFUSAL line), never gated here; any other is the item's own
-// and is held to ⌈runs / 10⁴⌉ per operation (PR size 1, nightly 100). N-57 (2) (round S4): every closing a committed
+// and is held to ⌈runs / 10⁴⌉ per operation (PR size 1, nightly 100). RULING J433: a refusal of the dry-run's own
+// post-conditions (KEPT_DEEP, CENSUS_DEEP, UNLAID_DEEP) follows its cause — insertChain's where the replay of the same
+// parts through insertChain alone shows the insertion changed the part at the refusing place (a run end displaced, a
+// merge under minEdge, a run with no route; `classify`), its cause printed in the REFUSAL line and tallied per operation. N-57 (2) (round S4): every closing a committed
 // corridorUnion or bandUnion made (`bandClosings`) stays by kerb(F) — a closing chord at most attractCm + 1 cm, its
 // pin within the contact's 1 cm plus the hot pixel; a tip closed along the kerb's run on F's boundary within
 // 2·√2·attractCm of its contact (where the insertion left it), the run's vertex on kerb(F); a contact pinned first
@@ -27,9 +30,9 @@ import { kerb, readKerb } from '../../../src/arr/kerb.js';
 import { corridorUnion } from '../../../src/arr/corridorUnion.js';
 import { bandClosings, bandUnion, type Closing, type BandResult } from '../../../src/arr/bandUnion.js';
 import { tileRings } from '../../../src/arr/tileRings.js';
-import { area2, closingsBeyond, commit, firstBand, healthy, network, P, simpleRing, spec, splitsBeyondReach, state, tilesExactly, widthsOf, AT_S9, type Chord } from './support.js';
+import { area2, closingsBeyond, commit, firstBand, healthy, network, P, readIn, simpleRing, spec, splitsBeyondReach, state, tilesExactly, widthsOf, AT_S9, type Chord } from './support.js';
 import { tx } from '../../../src/tx/index.js';
-import { classify, replayCommit, replayKerb, replayTile, type RefusalClass } from './replay.js';
+import { causeOf, classify, replayCommit, replayKerb, replayTile, type RefusalClass, type Replay } from './replay.js';
 import { TIMEOUT } from '../../insert/step3-5/support.js';
 
 const RUNS = fc.readConfigureGlobal().numRuns ?? 10_000;
@@ -54,9 +57,17 @@ const OWN_CAP = Math.ceil(RUNS / 10_000);
 type Tally = Record<RefusalClass, number>;
 const tally = (): Tally => ({ insertChain: 0, own: 0 });
 
-/** A refused case's line for the refusal register (N-44 (4)): the operation, its class, code and detail, the input. */
-function registerLine(op: string, cls: RefusalClass, code: string, detail: string, input: unknown): void {
-  console.info(`REFUSAL ${op} ${cls} ${code} ${detail.slice(0, 120)} INPUT ${JSON.stringify(input)}`);
+/** A refused case's line for the refusal register (N-44 (4)): the operation, its class, code and detail, its cause (J433), the input. */
+function registerLine(op: string, cls: RefusalClass, code: string, detail: string, input: unknown, replay: Replay | null = null): void {
+  console.info(`REFUSAL ${op} ${cls} ${code} ${detail.slice(0, 120)} CAUSE ${causeOf(replay)} INPUT ${JSON.stringify(input)}`);
+}
+
+/** The cause tally of insertChain's refusals per operation (J433 (4)): the replay's reading, or 'replays' (the same refusal met). */
+const causes: Record<string, Record<string, number>> = {};
+function tallyCause(op: string, cls: RefusalClass, replay: Replay | null): void {
+  const k = cls === 'own' ? 'own' : replay?.held === undefined ? 'replays' : replay.held.reading;
+  causes[op] ??= {};
+  causes[op][k] = (causes[op][k] ?? 0) + 1;
 }
 
 describe('B-FUZZ (§13.1): the band operations on PLAT_FUZZ_RUNS random cases each', () => {
@@ -75,15 +86,23 @@ describe('B-FUZZ (§13.1): the band operations on PLAT_FUZZ_RUNS random cases ea
         const { p, faces, table } = network(chords);
         const ws = widthsOf(table);
         // kerb on every face, read on the open overlay: typed, and every ring simple with the kerb on its left
-        const read: { cls: RefusalClass | null } = { cls: null };
+        const read: { cls: RefusalClass | null; replay: Replay | null } = { cls: null, replay: null };
         const b0 = state(p);
         commit(p, 1, (o) => {
           for (const f of faces) {
+            // the read-only service writes nothing — the arena, and the batch's work, warnings and journals (C-0417:
+            // the dry-run lays its parts on a shell of the batch's arena and puts them back)
+            const before = { work: o.work.total, warnings: JSON.stringify(o.warnings), journal: JSON.stringify(o.journal) };
             const k = kerb(o, f, ws);
+            expect({ work: o.work.total, warnings: JSON.stringify(o.warnings), journal: JSON.stringify(o.journal) }).toEqual(before);
             if (!k.ok) {
-              // a typed refusal, never a crash (N-44 (1)); classed by replay, counted once per case
-              const cls = classify(k, replayKerb(p, f, ws));
-              if (read.cls === null) registerLine('kerb', cls, k.code, k.detail, chords);
+              // a typed refusal, never a crash (N-44 (1)); classed by replay on its dry-run, counted once per case
+              const rp = replayKerb(o, f, ws);
+              const cls = classify(k, rp);
+              if (read.cls === null) {
+                registerLine('kerb', cls, k.code, k.detail, chords, rp);
+                read.replay = rp;
+              }
               if (read.cls !== 'own') read.cls = cls;
               continue;
             }
@@ -91,21 +110,26 @@ describe('B-FUZZ (§13.1): the band operations on PLAT_FUZZ_RUNS random cases ea
             const outer = k.value.filter((r) => area2(r) > 0n);
             expect(outer.length > 0 || k.value.length === 0).toBe(true);
             // N-52 (2), C-0277 (1): every split chain the kerb reading draws lies within its junction's reach
-            const rk = readKerb(o.plat, f, ws);
+            const rk = readKerb(o, f, ws);
             if (rk.ok) expect(splitsBeyondReach(o.plat, rk.value)).toEqual([]);
           }
           return { ok: true, value: null, warnings: [] };
         });
         // the read-only service writes nothing
         expect(state(p)).toBe(b0);
-        if (read.cls !== null) refusals.kerb[read.cls] += 1;
+        if (read.cls !== null) {
+          refusals.kerb[read.cls] += 1;
+          tallyCause('kerb', read.cls, read.replay);
+        }
         const before = state(p);
         const r = tx(p, spec(2, AT_S9), (o) => corridorUnion(o, faces, ws));
         if (!r.ok) {
           expect(state(p)).toBe(before);
-          const cls = classify(r, replayCommit({ build: () => network(chords), level: 2, over: AT_S9, widths: ws, edgeRole: 'kerb', entityOf: (q, f) => idOf(q, q.faces[1].owner[f]) }));
+          const rp = replayCommit({ build: () => network(chords), level: 2, over: AT_S9, widths: ws, edgeRole: 'kerb', entityOf: (q, f) => idOf(q, q.faces[1].owner[f]) });
+          const cls = classify(r, rp);
           refusals.corridorUnion[cls] += 1;
-          registerLine('corridorUnion', cls, r.code, r.detail, chords);
+          tallyCause('corridorUnion', cls, rp);
+          registerLine('corridorUnion', cls, r.code, r.detail, chords, rp);
           return;
         }
         committed += 1;
@@ -113,8 +137,10 @@ describe('B-FUZZ (§13.1): the band operations on PLAT_FUZZ_RUNS random cases ea
         expect(tilesExactly(p, 2, faces)).toEqual([]);
         // N-57 (2): every closing by kerb(F) — no chord to a far vertex
         // bandUnion's kerb reads the chain's edge spines only (C-0380); corridorUnion's its vertex contacts too
+        // read after the commit in an L1 batch, as S8 reads it (the dry-run lays its parts at L2, kerb.ts `dryLevel`, so
+        // it meets the committed kerb: an along closing is committed only where this read holds its run vertex, C-0421)
         const kerbOf = (w: typeof ws, vertexContacts = true) => (f: number) => {
-          const k = readKerb(p, f, w, undefined, vertexContacts);
+          const k = readIn(p, 1, (o) => readKerb(o, f, w, undefined, vertexContacts));
           return k.ok ? k.value.kerb : null;
         };
         expect(closingsBeyond(bandClosings(p), kerbOf(ws)), JSON.stringify(chords)).toEqual([]);
@@ -124,14 +150,22 @@ describe('B-FUZZ (§13.1): the band operations on PLAT_FUZZ_RUNS random cases ea
         // a wall band along the first chain at L3, inside every L1 face
         const chain = firstBand(table);
         if (chain.length === 0) return;
+        const bw = widthsOf({ [chain[0].ref.entity]: { halfWidthCm: chain[0].halfWidthCm, ends: chain[0].ends } });
+        // bandUnion's closings are judged against its own reading: kerb(F) read in an L3 batch before it commits, beside
+        // S9's committed kerb (the dry-run's attractors are the content an L3 insertion meets; notes row 42)
+        const bandKerb = new Map<number, ReturnType<ReturnType<typeof kerbOf>>>();
+        readIn(p, 3, (o) => {
+          for (const f of faces) {
+            const k = readKerb(o, f, bw, undefined, false);
+            bandKerb.set(f, k.ok ? k.value.kerb : null);
+          }
+          return null;
+        });
         const b1 = state(p);
         const b = tx(p, spec(3, AT_S9), (o) => bandUnion(o, chain, faces, 'band', 'band:1'));
         if (!b.ok) {
           expect(state(p)).toBe(b1);
-          const bw = widthsOf({ [chain[0].ref.entity]: { halfWidthCm: chain[0].halfWidthCm, ends: chain[0].ends } });
-          const cls = classify(
-            b,
-            replayCommit({
+          const rp = replayCommit({
               build: () => {
                 const n = network(chords);
                 commit(n.p, 2, (o) => corridorUnion(o, n.faces, ws), AT_S9);
@@ -143,20 +177,21 @@ describe('B-FUZZ (§13.1): the band operations on PLAT_FUZZ_RUNS random cases ea
               edgeRole: 'band',
               vertexContacts: false,
               entityOf: () => 'band:1',
-            }),
-          );
+            });
+          const cls = classify(b, rp);
           refusals.bandUnion[cls] += 1;
-          registerLine('bandUnion', cls, b.code, b.detail, chords);
+          tallyCause('bandUnion', cls, rp);
+          registerLine('bandUnion', cls, b.code, b.detail, chords, rp);
           return;
         }
         healthy(p);
         expect(tilesExactly(p, 3, faces)).toEqual([]);
-        expect(closingsBeyond(bandClosings(p), kerbOf(widthsOf({ [chain[0].ref.entity]: { halfWidthCm: chain[0].halfWidthCm, ends: chain[0].ends } }), false)), JSON.stringify(chords)).toEqual([]);
+        expect(closingsBeyond(bandClosings(p), (f: number) => bandKerb.get(f) ?? null), JSON.stringify(chords)).toEqual([]);
         count(bandClosings(p));
       }),
       { numRuns: RUNS },
     );
-    console.info(`B-FUZZ bands: ${String(RUNS)} networks, ${String(committed)} committed; refusals per operation ${JSON.stringify(refusals)} (insertChain's counted against its measured cap; own capped at ${String(OWN_CAP)}); closings ${JSON.stringify(closings)}`);
+    console.info(`B-FUZZ bands: ${String(RUNS)} networks, ${String(committed)} committed; refusals per operation ${JSON.stringify(refusals)} (insertChain's counted against its measured cap; own capped at ${String(OWN_CAP)}); by cause ${JSON.stringify(causes)}; closings ${JSON.stringify(closings)}`);
     expect(refusals.kerb.own).toBeLessThanOrEqual(OWN_CAP);
     expect(refusals.corridorUnion.own).toBeLessThanOrEqual(OWN_CAP);
     expect(refusals.bandUnion.own).toBeLessThanOrEqual(OWN_CAP);
