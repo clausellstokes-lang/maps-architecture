@@ -1,7 +1,8 @@
 # PLAT
 
-PLAT is an original generator of settlement maps — villages, towns and cities drawn from a seed and a few choices, and
-later edited by hand or by an assistant. Its design is `docs/ARCHITECTURE.md` (one folder up) and the design volumes
+PLAT is an original map engine for SettlementForge — the world, its settlements (villages, towns and cities) and their
+sites, drawn from a seed and a few choices and later edited by hand or by an assistant; one engine tuned for all the
+levels (the owner, 2026-10-25; `docs/AMENDMENTS-2026-10-25y.md` item 983). Its design is `docs/ARCHITECTURE.md` (one folder up) and the design volumes
 listed in `docs/volumes/INDEX.md`. This folder, `plat/`, is the product's code. It is being built milestone by milestone;
 **right now it is at M0**, the "risk retirement" milestone: the geometry kernel, the determinism machinery and four
 spikes that prove the hardest parts work and are fast enough (§16). The plan for M0 is `docs/build/M0.md`; every choice

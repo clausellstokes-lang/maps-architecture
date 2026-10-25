@@ -1,8 +1,11 @@
-# Maps — PLAT, the settlement map generator for SettlementForge (design program)
+# Maps — PLAT, the map engine for SettlementForge's levels: world, settlement and site (design program)
 
-Private repository of the Maps design program: the architecture of a town, city and village map generator that becomes
-SettlementForge's map module. Nothing here is built code yet; it is the complete design, its research, its review records
-and the workflow scripts that produced them.
+Private repository of the Maps program: the architecture of the map engine that becomes SettlementForge's map module —
+one engine tuned for all of SettlementForge's levels: the world level (volume 13), the settlement level (towns, cities and
+villages; the base design) and the site level (volume 14) — with the design's research and review records, the workflow
+scripts that produced them, and the code under `plat/`, being built milestone by milestone (M0, the risk-retirement
+milestone, is in its hardening phase). The engine was first framed as "the settlement map layer"; the owner's word of
+2026-10-25 (`docs/AMENDMENTS-2026-10-25y.md`, item 983) widens the framing to every level.
 
 **Start here:** `docs/HANDOFF.md` — the "RESUME HERE" block says exactly where the program stands and how to continue.
 
