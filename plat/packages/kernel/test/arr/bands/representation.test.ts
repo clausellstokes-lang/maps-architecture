@@ -14,7 +14,7 @@ import { decodeArena, encodeArena } from '../../../src/io/index.js';
 import { readKerb, type KerbRead } from '../../../src/arr/kerb.js';
 import { corridorUnion } from '../../../src/arr/corridorUnion.js';
 import type { BandResult } from '../../../src/arr/bandUnion.js';
-import { AT_S9, commit, edgesWithRole, faceAt, framed, healthy, normal, own, pt, ringsOf, way, widthsOf } from './support.js';
+import { AT_S9, commit, edgesWithRole, faceAt, framed, healthy, normal, own, pt, ringsOf, way, widthsOf, readIn } from './support.js';
 
 const WS = widthsOf({ 'way:a': 300, 'way:b': 250, 'way:c': 200 });
 
@@ -57,7 +57,7 @@ function redrawStarts(p: Plat): void {
 
 /** A face read, slot- and handle-free; every list in the order the read gives it. */
 function readText(p: Plat, f: FaceId): string {
-  const r = readKerb(p, f, WS);
+  const r = readIn(p, 1, (o) => readKerb(o, f, WS));
   expect(r.ok).toBe(true);
   const read = (r as { value: KerbRead }).value;
   const q = (v: number): string => `${String(p.vertices.x[v])},${String(p.vertices.y[v])}`;

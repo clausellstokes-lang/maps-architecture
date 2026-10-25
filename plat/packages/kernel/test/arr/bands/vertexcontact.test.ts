@@ -27,7 +27,9 @@ import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import type { Plat } from '../../../src/arena/index.js';
 import { insertChain } from '../../../src/insert/index.js';
-import { clearOf, kerb, kerbOf, readFace, type Spine } from '../../../src/arr/kerb.js';
+import { clearOf, DRY_MOVE_CM, kerb, kerbParts, readFace, readKerb, UNLAID_DEEP, type KerbRead, type Spine } from '../../../src/arr/kerb.js';
+import { canonicalRing, compareRings, overlayRegion, type Ring } from '../../../src/arr/winding.js';
+import { ok, type KernelResult } from '../../../src/num/index.js';
 import { LATTICE } from '../../../src/num/index.js';
 import { corridorUnion } from '../../../src/arr/corridorUnion.js';
 import { bandUnion, type BandResult } from '../../../src/arr/bandUnion.js';
@@ -35,7 +37,7 @@ import { SAGITTA_CM } from '../../../src/arr/buffer.js';
 import type { LatticePoint } from '../../../src/types/index.js';
 import { ins, tx as shell, emptyArena } from '../../insert/step3-5/support.js';
 import { setOwner, tx as txn } from '../../../src/tx/index.js';
-import { AT_S9, commit, framed, hausdorffCm, healthy, network, normals, own, pt, ringsOf, spec, state, tilesExactly, way, widthsOf, type Chord } from './support.js';
+import { AT_S9, commit, framed, hausdorffCm, healthy, network, normals, own, pt, readIn, ringsOf, spec, state, tilesExactly, way, widthsOf, type Chord, shifted } from './support.js';
 
 type XY = { readonly x: number; readonly y: number };
 
@@ -84,6 +86,36 @@ function kerbIn(p: Plat, face: number, widths: ReturnType<typeof widthsOf>): Lat
 }
 
 /**
+ * kerb(F) as the scratch overlay read it before round S9 (F's route rings one operand, every part of `spines` the other,
+ * on a fresh arrangement: M0-a-08's `overlayRegion`, kept where F is inside and no part is) — the one overlay these pins
+ * name as history (C-0381); kerb.ts reads the dry-run on the real arena now (C-0417), so this is the test's own replay.
+ */
+function scratchKerb(rings: LatticePoint[][], spines: ReadonlyMap<string, Spine>): KernelResult<Ring[]> {
+  const own = (): KernelResult<Ring[]> => ok([canonicalRing(rings[0]), ...rings.slice(1).map(canonicalRing).sort(compareRings)]);
+  if (spines.size === 0) return own();
+  const pr = kerbParts(rings, spines);
+  if (!pr.ok) return pr;
+  if (pr.value.length === 0) return own();
+  return overlayRegion([rings, pr.value], (w) => w[0] !== 0 && w[1] === 0);
+}
+
+/** The read (in an L1 batch) and the census's staged parts: the edge spines' kerb (`base`) and the vertex-only spines it added. */
+function stagedRead(p: Plat, face: number, widths: ReturnType<typeof widthsOf>): { read: KerbRead; base: Ring[]; through: Spine[] } {
+  const f = readFace(p, face, widths);
+  const r = readIn(p, 1, (o) => readKerb(o, face, widths));
+  expect(r.ok).toBe(true);
+  const read = (r as { value: KerbRead }).value;
+  const reaching = new Set(read.census?.reaching ?? []);
+  const base = read.census?.base;
+  return { read, base: base !== undefined && base.ok ? base.value : [], through: f.through.filter((s) => reaching.has(s.key)) };
+}
+
+/** The spines F's read subtracts (the edge spines and the vertex-only spines its census added; read in an L1 batch). */
+function censusSpines(p: Plat, face: number, widths: ReturnType<typeof widthsOf>): ReadonlyMap<string, Spine> {
+  return stagedRead(p, face, widths).read.spines;
+}
+
+/**
  * The hand-built T: the wide way W straight along y = 1000 across the frame; two lanes leaving its vertex J = (2000,
  * 1000) on the same side — A to (4000, 3000), B to (0, 3000) — so the face F between them (above J, up to the frame's
  * top) touches W at J only. W's half-width 500 cm; the lanes' `lane` cm.
@@ -109,7 +141,7 @@ describe('J318: kerb(F) subtracts every spine incident to F, through a route ver
     // the census: W bounds no route edge of F, so it is no edge's spine — it is F's spine through J
     const read = readFace(p, f, all);
     expect(read.edges.flat().some((e) => e.spines.includes('way:way:w'))).toBe(false);
-    expect([...read.spines.keys()].sort()).toEqual(['way:way:a', 'way:way:b', 'way:way:w']);
+    expect([...censusSpines(p, f, all).keys()].sort()).toEqual(['way:way:a', 'way:way:b', 'way:way:w']);
     // before (the band set without the vertex-only contact): the lanes' inner edges meet at (2000, 1000 + 150·√2),
     // 212 cm from W's centreline — 288 cm inside its 500 cm band
     const before = kerbIn(p, f, lanesOnly);
@@ -148,7 +180,7 @@ describe('J318: kerb(F) subtracts every spine incident to F, through a route ver
       const without = kerbIn(p, f, lanesOnly);
       // (the kerb's corner a lattice point: within 2 cm of the meet)
       expect(Math.abs(-depthIn(without, W, 500) - short)).toBeLessThanOrEqual(2);
-      expect(readFace(p, f, all).spines.has('way:way:w')).toBe(false);
+      expect(censusSpines(p, f, all).has('way:way:w')).toBe(false);
       const withW = kerbIn(p, f, all);
       expect(normals(withW)).toEqual(normals(without));
       const r = commit(p, 2, (o) => corridorUnion(o, [f], all), AT_S9);
@@ -168,7 +200,7 @@ describe('J318: kerb(F) subtracts every spine incident to F, through a route ver
     const [f] = own(p, 'district:1', [[2000, 3000]]);
     const ws = widthsOf({ 'way:s': 300, 'way:w': { halfWidthCm: 250, ends: 'square' } });
     const sOnly = widthsOf({ 'way:s': 300 });
-    expect(readFace(p, f, ws).spines.has('way:way:w')).toBe(true);
+    expect(censusSpines(p, f, ws).has('way:way:w')).toBe(true);
     const inside = (rings: readonly (readonly XY[])[], q: XY): boolean => {
       let w = 0;
       for (const r of rings) {
@@ -302,6 +334,22 @@ function deepestOffF(runs: readonly Run[], bounding: ReadonlySet<string>, rings:
   return worst;
 }
 
+/**
+ * Round S9's declared shift of the fusion fixture's kerbs (C-0417; the choices row): kerb(F) read by the dry-run on the
+ * real arena, where the strips are cut at F's own L1 edges (the attractor: level 1, distance 0 — the vertices on F's edges
+ * below are placed on them by the insertion; the corners inside F the strips' meetings beside those cuts, 1–8 cm). The
+ * smoke's records (vertexcontact-faces.json) stay as read before the round; the depth before is the shifted kerb's.
+ */
+const S9_SHIFT: Record<number, { before: [[number, number], [number, number] | null][]; after: [[number, number], [number, number] | null][]; depthBeforeCm: number }> = {
+  // the corner where way:3's strip meets way:2's (8 cm); after: (−1483, −76158) on F's L1 edge (−970, −76050)–(−1405, −76295),
+  // and (−1601, −75786) held straight through by the dry-run's region (dropped)
+  3: { before: [[[-1234, -76010], [-1227, -76014]]], after: [[[-1483, -76158], [-1482, -76158]], [[-1601, -75786], null]], depthBeforeCm: 294.07 },
+  // the corner where two strips meet beside F's L1 edge (83013, −23567)–(83445, −23070) (6 cm)
+  33: { before: [[[83180, -23209], [83184, -23204]]], after: [], depthBeforeCm: 135.98 },
+  // (2339, 2855) and (2149, 2885) on F's L1 edge (2503, 2829)–(1986, 2910); after: the strips' corner beside it (1 cm)
+  44: { before: [[[2339, 2855], [2338, 2855]], [[2149, 2885], [2148, 2885]]], after: [[[2165, 3042], [2164, 3042]]], depthBeforeCm: 232.96 },
+};
+
 describe('J318 on the fusion fixture (CITY seeds 3, 33, 44 of M0-c-06’s smoke; class B): a block never overlaps a corridor', () => {
   for (const fx of FIXTURES) {
     it(`fusion ${String(fx.seed)} ${fx.block}: F touches ${fx.vertexOnly.entity} at (${String(fx.vertexOnly.at[0])}, ${String(fx.vertexOnly.at[1])}) only — inside its band before, kerb(F) and S9's block clear of every way's band after`, () => {
@@ -312,18 +360,20 @@ describe('J318 on the fusion fixture (CITY seeds 3, 33, 44 of M0-c-06’s smoke;
       const bounding = new Set(read.edges.flat().flatMap((e) => e.spines));
       const vo = `way:${fx.vertexOnly.entity}`;
       expect(bounding.has(vo)).toBe(false);
-      expect(read.spines.has(vo)).toBe(true);
+      expect(censusSpines(p, face, widths).has(vo)).toBe(true);
       const voRuns = runs.filter((r) => r.role === 'way' && r.of === fx.vertexOnly.entity);
       const depth = (rings: readonly (readonly XY[])[]): number => Math.max(...voRuns.map((r) => depthIn(rings, r.points, r.hw as number)));
       // before (the band set without the vertex-only contact — exactly the pre-J318 census, which never read it; F's
       // other vertex-only contacts reach no kerb and are left out, C-0380): the kerb's corner inside the way's band
+      // (round S9, C-0417: the smoke's record with the declared shift, `S9_SHIFT`)
+      const sh = S9_SHIFT[fx.seed];
       const before = kerbIn(p, face, without);
-      expect(pairsOf(before)).toEqual(fx.kerbBefore);
+      expect(pairsOf(before)).toEqual(shifted(fx.kerbBefore, sh.before));
       expect(depth(before)).toBeGreaterThan(100);
-      expect(Math.abs(depth(before) - fx.vertexOnly.depthBeforeCm)).toBeLessThan(0.01);
+      expect(Math.abs(depth(before) - sh.depthBeforeCm)).toBeLessThan(0.01);
       // after: kerb(F) clear of the band of every way that does not bound F, the vertex-only way's among them
       const after = kerbIn(p, face, widths);
-      expect(pairsOf(after)).toEqual(fx.kerbAfter);
+      expect(pairsOf(after)).toEqual(shifted(fx.kerbAfter, sh.after));
       expect(depth(after)).toBeLessThanOrEqual(ON_EDGE_CM);
       expect(deepestOffF(runs, bounding, after).depth).toBeLessThanOrEqual(ON_EDGE_CM);
       // S9 commits that kerb (S8 ≡ S9, §13.2), its block clear of every such band
@@ -397,13 +447,16 @@ describe('J264 (C-0381): where the one overlay finds no route, kerb(F) is read i
     let staged = 0;
     for (const f of faces) {
       const read = readFace(p, f, ws);
-      const one = kerbOf(read.rings, read.spines);
+      const st = stagedRead(p, f, ws);
+      // the scratch's one overlay of F's rings and every spine's parts (the edge spines' and the reaching vertex-only ones)
+      const one = scratchKerb(read.rings, new Map([...read.spines, ...st.through.map((s) => [s.key, s] as const)]));
       const k = kerbIn(p, f, ws);
       kerbs.push(...k);
+      // the one function: kerb(F) is the read's kerb
+      expect(normals(k)).toEqual(normals(st.read.kerb));
       if (one.ok) continue;
       // the staged path: the one overlay's refusal is insertChain's, the edge spines' kerb read, a vertex-only spine reaching it
       expect(one.ok ? '' : one.detail).toMatch(/^insert: no route from/);
-      const st = read.staged as NonNullable<typeof read.staged>;
       expect(st.through.map((s) => s.key)).toContain('way:way:2');
       staged += 1;
       // the region F − (E ∪ V) reached as (F − E) − V: within the edge spines' kerb (to the hot pixel), clear of the
@@ -433,12 +486,13 @@ describe('J264 (C-0381): where the one overlay finds no route, kerb(F) is read i
     let staged = 0;
     for (const f of faces) {
       const read = readFace(p, f, ws);
-      const one = kerbOf(read.rings, read.spines);
+      const st = stagedRead(p, f, ws);
+      const one = scratchKerb(read.rings, new Map([...read.spines, ...st.through.map((s) => [s.key, s] as const)]));
       const k = kerbIn(p, f, ws);
       kerbs.push(...k);
+      expect(normals(k)).toEqual(normals(st.read.kerb));
       if (one.ok) continue;
       expect(one.ok ? '' : one.detail).toMatch(/^insert: no route from/);
-      const st = read.staged as NonNullable<typeof read.staged>;
       expect(st.through.map((s) => s.key)).toEqual(['way:way:0']);
       staged += 1;
       // way:0's 37 cm band and way:1's 26 cm band leave the corner 0.29° apart: the overlays attract them together, so a
@@ -509,51 +563,62 @@ function clearSquareMetres(rings: readonly (readonly XY[])[], spines: Iterable<S
 }
 
 describe('C-0380 (2): the census’s two promises — a refused edge spines’ kerb stays refused; the reach test reads a profile band’s wider end', () => {
-  // B-FUZZ seed 20261011 draws 1000 (face 1) and 4776 (face 0), lawful: the edge spines' kerb itself finds no route
-  // (insertChain's class, N-58; queue rows of the hardening round), and a vertex-only chain of declared width passes
-  // through a route vertex of F. The census adds no vertex-only spine there and the read refuses as before — never the
-  // staged read on an empty base, which gives ok([]) (an empty kerb: F wholly band) and lets corridorUnion commit F as
-  // `wholeBand` while ≈ 1 200 / 500 m² of F lie outside every band (a built block silently erased, N-45 (a)). A later
-  // routing round that makes the edge spines' kerb succeed replaces this pin by the committed kerb's clearance.
-  for (const [draw, chords, face, vertexOnly, from, clearAtLeast] of [
-    [1000, [chord(13_701, 8004, 366, [71, 13]), chord(10_997, 7981, 27, [432, 490], 'square'), chord(7687, 8005, 419, null)], 1, 'way:way:1', '(3581, 4000) to (3581, 3687)', 1100],
-    [4776, [chord(15_998, 8039, 194, [6, 138], 'square'), chord(15_994, 7978, 1, [563, 528]), chord(14_167, 6, 8, [26, 170])], 0, 'way:way:1', '(170, 0) to (0, 1833)', 450],
+  // The promise: where the edge spines' kerb refuses, the census adds no vertex-only spine and the read refuses as before —
+  // never the staged read on an empty base, which gives ok([]) (an empty kerb: F wholly band) and lets corridorUnion
+  // commit F as `wholeBand` while much of F lies outside every band (a built block silently erased, N-45 (a)).
+  // Round S9 (C-0417), the declared shift: B-FUZZ seed 20261011 draws 1000 (face 1) and 4776 (face 0), which pinned it
+  // before the round (the edge spines' kerb found no route, insertChain's class), are read by the dry-run on the real
+  // arena and succeed (the drain): kerb(F) clear of the vertex-only band, corridorUnion commits. The promise is pinned on
+  // draw 1525 (face 1), whose edge spines' kerb the dry-run refuses (UNLAID_DEEP) with a vertex-only contact present.
+  for (const [draw, chords, face, vertexOnly] of [
+    [1000, [chord(13_701, 8004, 366, [71, 13]), chord(10_997, 7981, 27, [432, 490], 'square'), chord(7687, 8005, 419, null)], 1, 'way:way:1'],
+    [4776, [chord(15_998, 8039, 194, [6, 138], 'square'), chord(15_994, 7978, 1, [563, 528]), chord(14_167, 6, 8, [26, 170])], 0, 'way:way:1'],
   ] as const) {
-    it(`B-FUZZ seed 20261011 draw ${String(draw)} face ${String(face)}: the edge spines’ kerb refuses, so kerb(F) refuses with it (never ok([])) and corridorUnion refuses, nothing written (never F all band)`, () => {
+    it(`B-FUZZ seed 20261011 draw ${String(draw)} face ${String(face)} (pre-S9: the edge spines’ kerb refused 'no route'): read now, kerb(F) clear of the vertex-only band, corridorUnion commits`, () => {
       const { p, faces, table } = network(chords);
       const ws = widthsOf(table);
       expect(faces).toContain(face);
       const all = edgeSpines(p, faces, ws);
-      // the census meets a vertex-only contact of declared width: the chain bounds no route edge of F, and its route
-      // ends at a route vertex of F's ring
       const read = readFace(p, face, ws);
       const bounding = new Set(read.edges.flat().flatMap((e) => e.spines));
       expect(bounding.has(vertexOnly)).toBe(false);
       const vo = all.get(vertexOnly) as Spine;
-      const ends = vo.lines.flatMap((l) => [l.points[0], l.points[l.points.length - 1]]);
-      expect(read.rings[0].some((q) => ends.some((e) => e.x === q.x && e.y === q.y))).toBe(true);
-      // the edge spines' kerb refuses (insertChain's 'no route'); the census adds no vertex-only spine and stages nothing
-      const base = read.base as NonNullable<typeof read.base>;
-      expect(base).toBeDefined();
-      expect(base.ok).toBe(false);
-      const detail = base.ok ? '' : base.detail;
-      expect(detail).toContain(`insert: no route from ${from}`);
-      expect(read.staged).toBeUndefined();
-      expect(read.spines.has(vertexOnly)).toBe(false);
-      // F is no band through: a correct kerb(F) holds this much of it clear of every band
-      expect(clearSquareMetres(read.rings, all.values())).toBeGreaterThan(clearAtLeast);
-      // kerb(F) refuses with the edge spines' kerb's refusal — never an empty kerb
+      const base = readIn(p, 1, (o) => readKerb(o, face, ws, undefined, false));
+      expect(base.ok).toBe(true);
       const k = kerbRead(p, face, ws);
-      expect(k.ok).toBe(false);
-      expect(k.ok ? 'ok' : `${k.code} ${k.detail}`).toBe(`E_INVARIANT ${detail}`);
-      // corridorUnion (S9) refuses typed, the arena put back — never a commit of F as wholeBand
-      const before = state(p);
+      expect(k.ok).toBe(true);
+      if (!k.ok) return;
+      expect(depthInSpine(k.value, vo)).toBeLessThanOrEqual(DRY_MOVE_CM);
       const r = txn(p, spec(2, AT_S9), (o) => corridorUnion(o, faces, ws));
-      expect(r.ok ? `committed ${JSON.stringify(r.value.value)}` : r.code).toBe('E_INVARIANT');
-      expect(r.ok ? '' : r.detail).toMatch(/^insert: no route from/);
-      expect(state(p)).toBe(before);
+      expect(r.ok, r.ok ? '' : `${r.code} ${r.detail}`).toBe(true);
     });
   }
+
+  it('B-FUZZ seed 20261011 draw 1525 face 1: the edge spines’ kerb refuses, so kerb(F) refuses with it (never ok([])) and corridorUnion refuses, nothing written (never F all band)', () => {
+    const { p, faces, table } = network([chord(10_550, 7964, 3, [75, 14], 'square'), chord(9525, 7966, 595, [580, 270], 'square'), chord(14_872, 8030, 26, [549, 567], 'square')]);
+    const ws = widthsOf(table);
+    const face = 1;
+    expect(faces).toContain(face);
+    // the census meets a vertex-only contact of declared width (it bounds no route edge of F)
+    const read = readFace(p, face, ws);
+    expect(read.through.length).toBeGreaterThan(0);
+    const bounding = new Set(read.edges.flat().flatMap((e) => e.spines));
+    for (const s of read.through) expect(bounding.has(s.key)).toBe(false);
+    // the edge spines' kerb refuses (a run the insertion could not lay, deeper in a face than its move: UNLAID_DEEP)
+    const base = readIn(p, 1, (o) => readKerb(o, face, ws, undefined, false));
+    expect(base.ok).toBe(false);
+    const detail = base.ok ? '' : base.detail;
+    expect(detail).toBe(UNLAID_DEEP);
+    // kerb(F) refuses with the edge spines' kerb's refusal — never an empty kerb
+    const k = kerbRead(p, face, ws);
+    expect(k.ok).toBe(false);
+    expect(k.ok ? 'ok' : `${k.code} ${k.detail}`).toBe(`E_INVARIANT ${detail}`);
+    // corridorUnion (S9) refuses typed, the arena put back — never a commit of F as wholeBand
+    const before = state(p);
+    const r = txn(p, spec(2, AT_S9), (o) => corridorUnion(o, faces, ws));
+    expect(r.ok ? `committed ${JSON.stringify(r.value.value)}` : `${r.code} ${r.detail}`).toBe(`E_INVARIANT ${UNLAID_DEEP}`);
+    expect(state(p)).toBe(before);
+  });
 
   it('B-FUZZ seed 1012 draw 4102 face 0: a profile band (14 → 479 cm) through F’s vertex reaching kerb(F) only by its wider end is subtracted — kerb(F) and corridorUnion’s block clear of it', () => {
     // way:0 runs up the frame's west side from (0, 0) to (0, 1710), a route vertex of F (its half-width 14 cm at
@@ -569,14 +634,14 @@ describe('C-0380 (2): the census’s two promises — a refused edge spines’ k
     const edgeOnly = readFace(p, face, ws, undefined, false);
     expect(edgeOnly.spines.has('way:way:0')).toBe(false);
     expect(edgeOnly.rings[0].some((q) => q.x === 0 && q.y === 1710)).toBe(true);
-    const pre = kerbOf(edgeOnly.rings, edgeOnly.spines);
+    const pre = readIn(p, 1, (o) => readKerb(o, face, ws, undefined, false));
     expect(pre.ok).toBe(true);
-    const preRings = pre.ok ? pre.value : [];
+    const preRings = pre.ok ? pre.value.kerb : [];
     const narrow: Spine = { ...w0, lines: w0.lines.map((l) => ({ ...l, hw: l.hw.map(() => Math.min(...l.hw)) })) };
     expect(depthInSpine(preRings, narrow)).toBeLessThan(-150);
     expect(depthInSpine(preRings, w0)).toBeGreaterThan(250);
     // the census reads it as F's spine; kerb(F) clear of its band (on its edge within the lattice's rounding)
-    expect(readFace(p, face, ws).spines.has('way:way:0')).toBe(true);
+    expect(stagedRead(p, face, ws).read.spines.has('way:way:0')).toBe(true);
     const k = kerbIn(p, face, ws);
     expect(k.length).toBeGreaterThan(0);
     expect(depthInSpine(k, w0)).toBeLessThanOrEqual(ON_EDGE_CM);

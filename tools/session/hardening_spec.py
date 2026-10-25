@@ -10,7 +10,9 @@ shape; the source note's text quoted as the evidence); §3's queue rows for the 
 import argparse, json, re, sys
 
 R = '/home/user/maps-architecture'
-ROW = re.compile(r'^- (M0-[a-z]-\d\d[ab]?|M0-spec):(\d+) (\S+(?: \([^|]*\))?) \| FIX-NOW \| ([^|]+) \| (.*?) \| (.*)$')
+# The row id may carry a second token (a-09's "1 KI-1", "3 K34", d-04's "1 N-1"): one word, then an optional second word, then an
+# optional parenthesised note (J489: the one-token form silently dropped nine of a-09's twenty-one rows).
+ROW = re.compile(r'^- (M0-[a-z]-\d\d[ab]?|M0-spec):(\d+) (\S+(?: [A-Za-z0-9][A-Za-z0-9-]*)?(?: \([^|]*\))?) \| FIX-NOW \| ([^|]+) \| (.*?) \| (.*)$')
 
 
 def note_text(file, line_no):

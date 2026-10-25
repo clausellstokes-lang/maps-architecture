@@ -104,15 +104,18 @@ def main():
     ap.add_argument('--push', action='store_true')
     ap.add_argument('--apply-live', action='store_true', help='also replace the live tree\'s copies of the item with the seed\'s')
     ap.add_argument('--note', default='')
+    ap.add_argument('--base', default='origin/main', help='the ref the seed is built on (J489: the design branch while it carries landings main lacks)')
     a = ap.parse_args()
     item, b, W = a.item, a.branch, a.worktree
 
     git('fetch', '-q', '--force', 'origin', f'+refs/heads/{b}:refs/remotes/origin/{b}', '+refs/heads/main:refs/remotes/origin/main')
+    if a.base.startswith('origin/') and a.base != 'origin/main':
+        git('fetch', '-q', '--force', 'origin', f'+refs/heads/{a.base[7:]}:refs/remotes/{a.base}')
     bhash = git('rev-parse', '--short', f'origin/{b}').strip()
-    mhash = git('rev-parse', '--short', 'origin/main').strip()
+    mhash = git('rev-parse', '--short', a.base).strip()
     if os.path.exists(W):
         git('worktree', 'remove', '--force', W, check=False)
-    git('worktree', 'add', '-q', '--detach', W, 'origin/main')
+    git('worktree', 'add', '-q', '--detach', W, a.base)
 
     # 2. the item's files from the branch
     rec_path = f'plat/docs/build/landed/{item}.json'
