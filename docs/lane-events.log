@@ -11386,3 +11386,4 @@
 2026-10-26T09:39:00Z session/spec M0-a-05 S12 appended to specs.json (three lines: Q104 + Q58's draw 1524; notBuilt #3's forms (3)–(5); forms (1)–(2)); x-06 S1 += ROUTED ROW Q106; queue Q104 → S12, Q105, Q106 (J515)
 2026-10-26T09:39:00Z session/launch-list FOR ACCOUNT 2: rows 2 (c-02 S5) and 3 (e-03 S3) OPEN on dcf05e0c; row 7 = M0-a-05 S12 OPEN (check Fable) (J515)
 2026-10-26T09:40:00Z session/merge PR #40 MERGED as d5279d67 (the a-05 S9–S11 landing dcf05e0c, N-64, the S12 spec, J508–J515); draft PR #41 next; AX archived (J516)
+2026-10-26T09:41:00Z session/pr draft PR #41 opened from the design branch (head ab3e2d91) and subscribed; PR #40 unsubscribed (J516)
