@@ -1,5 +1,11 @@
 # What we are building — the settlement map layer, defined (2026-09-25, evening)
 
+> **Scope note (the owner, 2026-10-25; `docs/AMENDMENTS-2026-10-25y.md` item 983).** This definition of 2026-09-25 framed the
+> engine as *the settlement map layer*. The engine is now tuned for all of SettlementForge's levels — the world level
+> (volume 13), the settlement level defined below, and the site level (volume 14). Where this document says "settlement
+> map layer", read "the map engine at the settlement level"; the text below is kept as written, as the record of the
+> original framing.
+
 **In one sentence.** A settlement map layer for SettlementForge: a procedural engine that makes towns, cities and
 villages as living models rather than pictures — plots first, buildings on the plots, neighbourhoods made of plots,
 layers above and below — driven by population and prosperity, held to historical realism, editable in every part, and

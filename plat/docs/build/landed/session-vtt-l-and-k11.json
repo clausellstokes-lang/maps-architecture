@@ -1,16 +1,16 @@
 {
   "schema": "plat-landed-record/1",
   "item": "session-vtt-l-and-k11",
-  "lane": "coherence/vtt-l-and-k11",
-  "lanes": ["coherence/vtt-l-and-k11"],
+  "lane": "session/scope-kernel-2026-10-25",
+  "lanes": ["coherence/vtt-l-and-k11", "session/scope-kernel-2026-10-25"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-18T20:50:49.046Z",
+  "date": "2026-10-25T23:54:41.115Z",
   "ownsSource": "declared",
   "owns": ["plat/packages/kernel/API.md"],
   "counts": { "created": 1, "changed": 0, "unchanged": 0, "deleted": 0 },
   "files": [
-    { "path": "plat/packages/kernel/API.md", "status": "created", "sha256": "193cd9a8de6d27426ef7434a8f7a7ff71b89eb1bf95d91d16a16bfff4b306ee3", "size": 85875 }
+    { "path": "plat/packages/kernel/API.md", "status": "created", "sha256": "aec28dfe63c3a2072d933be1486c27b8fbe4faf4e9104c70b171276351aefec9", "size": 86661 }
   ],
   "appends": [
     {

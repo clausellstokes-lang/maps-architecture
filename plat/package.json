@@ -2,7 +2,7 @@
   "name": "plat-workspace",
   "version": "0.0.0",
   "private": true,
-  "description": "PLAT, the settlement map generator: the build workspace (milestone M0).",
+  "description": "PLAT, the map engine for SettlementForge's levels (world, settlement, site): the build workspace (milestone M0).",
   "license": "UNLICENSED",
   "type": "module",
   "packageManager": "pnpm@10.34.6",

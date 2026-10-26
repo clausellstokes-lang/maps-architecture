@@ -2,7 +2,7 @@
   "name": "@plat/kernel",
   "version": "0.0.0",
   "private": true,
-  "description": "the geometry kernel: lattice, exact predicates, the arena, transactions, booleans, skeleton, dmath, rng, hashing (§3, §14)",
+  "description": "the foundation of the whole map engine at every level — the exact, deterministic geometry kernel: lattice, exact predicates, the arena, transactions, booleans, skeleton, dmath, rng, hashing (§3, §14)",
   "license": "UNLICENSED",
   "type": "module",
   "sideEffects": false,

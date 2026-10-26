@@ -1,5 +1,13 @@
 # @plat/kernel — public API reference
 
+**What this package is.** The exact, deterministic planar-arrangement engine the whole map engine runs on, at every level —
+the world level (volume 13), the settlement level (the base design) and the site level (volume 14) are built on these
+operations and inherit its guarantees: a map held as an exact arrangement on a snap grid, the same to the byte on every
+machine; every operation a transaction with a work budget that refuses with a named code rather than produce a wrong map;
+an invariant suite after every step. It is the foundation and core of the programme, built in M0 and hardened before
+anything is built on it, and its code stays a town-free geometry library so it can be reused on its own (the owner's word
+of 2026-10-25: `docs/AMENDMENTS-2026-10-25y.md`, item 984).
+
 Version documented: `@plat/kernel` 0.0.0 (`package.json`), source tree as of 2026-10-07, milestone M0.
 All paths below are relative to `packages/kernel/`. Every signature is copied from the source; the HTML comment beside
 it gives the file and line it was copied from. Statements marked **UNVERIFIED** could not be confirmed from source or
