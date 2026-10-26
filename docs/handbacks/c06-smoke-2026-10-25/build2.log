@@ -1,0 +1,11 @@
+
+> plat-workspace@0.0.0 build /home/user/maps-architecture/plat
+> node scripts/build.mjs
+
+build: tsc -b ok
+build: esbuild @plat/kernel -> packages/kernel/dist/index.js (859067 bytes) + LICENSE, THIRD-PARTY-NOTICES.txt
+build: esbuild @plat/layout -> packages/layout/dist/index.js (599041 bytes) + LICENSE, THIRD-PARTY-NOTICES.txt
+build: esbuild @plat/model -> packages/model/dist/index.js (114172 bytes) + LICENSE, THIRD-PARTY-NOTICES.txt
+build: esbuild @plat/site -> packages/site/dist/index.js (148276 bytes) + LICENSE, THIRD-PARTY-NOTICES.txt
+build: esbuild @plat/tables -> packages/tables/dist/index.js (101953 bytes) + LICENSE, THIRD-PARTY-NOTICES.txt
+build: esbuild @plat/testkit -> packages/testkit/dist/index.js (811183 bytes) + LICENSE, THIRD-PARTY-NOTICES.txt

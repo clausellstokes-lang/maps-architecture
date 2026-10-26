@@ -1,0 +1,38 @@
+
+ RUN  v5.0.3 /home/user/maps-scratch/waves/selfcheck-build-M0-c-06/plat
+
+ ❯ |bench| test/fusion/drift.test.ts (17 tests | 1 failed) 425ms
+   ❯ the drift clause on the smoke’s drifted blocks (N-57 (4)) (6)
+     × river fusion 2 block:6as10njkpyf8c — the spine’s band cuts a 10 m crescent off the west child at a neck: the parts holding the seeds within, the seedless part counted, not drift (C-0423 (2)) 77ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |bench| test/fusion/drift.test.ts > the drift clause on the smoke’s drifted blocks (N-57 (4)) > river fusion 2 block:6as10njkpyf8c — the spine’s band cuts a 10 m crescent off the west child at a neck: the parts holding the seeds within, the seedless part counted, not drift (C-0423 (2))
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ test/fusion/drift.test.ts:136:26
+    134|     expect(d.seedless).toBe(1);
+    135|     for (const row of d.rows) {
+    136|       expect(row.within).toBe(true);
+       |                          ^
+    137|       expect(row.sliverCm).toBeLessThanOrEqual(R);
+    138|       expect(row.oneSidedCm).toBeLessThanOrEqual(R);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (3)
+      Tests  1 failed | 3 passed (17)
+   Start at  20:10:11
+   Duration  7.01s (transform 79%, import 14%, tests 6%, setup 1%)
+
+  Transform  |bench| transforming modules took 5.40s · 79% of tracked time, re-done on every run
+             persist transforms across runs with fsModuleCache: true
+             learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+

@@ -1,0 +1,69 @@
+
+ RUN  v5.0.3 /home/user/maps-architecture/plat
+
+ ❯ |bench| test/fusion/drift.test.ts (21 tests | 1 failed) 198446ms
+   ❯ S8 ≡ S9 on the river fixture (N-59’s routed finding; C-0423 (3), (4)) (1)
+     × base river seeds 2 and 4 (900 ha, 30 ha walled): no block beyond the bound — S9’s block read where L2 holds no record (the L1 face itself) and its faces’ pinched holes loop by loop 197523ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |bench| test/fusion/drift.test.ts > S8 ≡ S9 on the river fixture (N-59’s routed finding; C-0423 (3), (4)) > base river seeds 2 and 4 (900 ha, 30 ha walled): no block beyond the bound — S9’s block read where L2 holds no record (the L1 face itself) and its faces’ pinched holes loop by loop
+AssertionError: expected { Object (at, beyond, ...) } to deeply equal { Object (at, beyond, ...) }
+
+- Expected
++ Received
+
+  {
+    "at": "river seed 2",
+    "beyond": 0,
+-   "driftBeyond": 0,
+-   "firstBeyond": null,
++   "driftBeyond": 1,
++   "firstBeyond": {
++     "beyond": true,
++     "block": "block:223ebebtrn8m3",
++     "cm": 1.4142135623730951,
++     "why": "working → S9 1.41 cm; stop → working sliver 170.97 cm, one-sided 170.75 cm, Hausdorff 171.17 cm (needle 553 cm); loops working 1, S9 1; seed (29934, 4647)",
++   },
+    "kerbReads": 0,
+    "s9Refused": 0,
+  }
+
+ ❯ test/fusion/drift.test.ts:561:174
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |bench| test/fusion/drift.test.ts > S8 ≡ S9 on the river fixture (N-59’s routed finding; C-0423 (3), (4)) > base river seeds 2 and 4 (900 ha, 30 ha walled): no block beyond the bound — S9’s block read where L2 holds no record (the L1 face itself) and its faces’ pinched holes loop by loop
+AssertionError: expected { Object (at, beyond, ...) } to deeply equal { Object (at, beyond, ...) }
+
+- Expected
++ Received
+
+  {
+    "at": "river seed 4",
+    "beyond": 0,
+-   "driftBeyond": 0,
+-   "firstBeyond": null,
++   "driftBeyond": 3,
++   "firstBeyond": {
++     "beyond": true,
++     "block": "block:3mm9q3m58ebv6",
++     "cm": 4.996877076492689,
++     "why": "working → S9 5.00 cm; stop → working sliver 151.30 cm, one-sided 149.84 cm, Hausdorff 152.29 cm (needle 464 cm); loops working 1, S9 1; seed (802, -25153)",
++   },
+    "kerbReads": 0,
+    "s9Refused": 0,
+  }
+
+ ❯ test/fusion/drift.test.ts:561:174
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 20 passed (21)
+   Start at  22:31:07
+   Duration  206.01s (tests 96%, transform 3%)
+
