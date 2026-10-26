@@ -414,3 +414,81 @@ describe('an end on the junction of an interior way and a boundary arterial read
     expect(r.value.lanes.length).toBeGreaterThan(5);
   });
 });
+
+// ---- the S4 round's survivors pinned (checks/M0-b-03-notes.md N-23; queue row L25; C-0426) --------------------------------
+
+describe('the gap readings sized by both lanes, and the insertion read reached (N-23 (c), (d); queue row L25)', () => {
+  it('the insertion read: a new lane wider than the portal it meets widens the gap (K13) — 6.4 m from a 3 m portal is a breach for a 3.4 m lane', { timeout: 120_000 }, () => {
+    const { f, seams } = bend(640);
+    const narrow = seams.map((s) => ({ ...s, portals: s.portals.map((p) => (p.id === 'portal:g0' ? { ...p, widthCm: 300 as never } : p)) }));
+    const seam = narrow.find((s) => s.edges.some((e) => e.chain.entity === 'way:a')) as Seam;
+    const v = vertexAt(f.plat, GROUND, V);
+    expect(v).not.toBeNull();
+    if (v === null) return;
+    // The gap: max(6 m, 2 × max(300, 340)) = 6.8 m, less the row's 2 cm — 6.4 m lies inside it, not inside 2 × 300's.
+    expect(portalGap(CELLS, 300, 340)).toBe(680);
+    expect(portalGapBreach(f.plat, GROUND, narrow, seam.id, v, 340, CELLS)).toBe('gap');
+    expect(portalGapBreach(f.plat, GROUND, narrow, seam.id, v, 290, CELLS)).toBeNull();
+  });
+
+  it('the antenna’s tip: a gap is max(6 m, 2 × max(the portal’s width, the lane band’s top)) (K16) — 8 m from a 2 m portal is in it', { timeout: 120_000 }, () => {
+    const line = [P(0, 0), P(0, 10_000)];
+    const face = (at: number): KerbFace => ({ rings: [], spines: [{ points: line, halfWidthCm: 300, bounding: true, portals: [{ at: P(0, at), laneWidthCm: 200 }] }] });
+    expect(NEW_LANE).toBe(500);
+    // 2 × 200 = 4 m < 8 m < 2 × 500 = 10 m.
+    expect(tipInPortalGap(face(9_200), P(0, 10_000), CELLS, NEW_LANE)).toBe(true);
+    expect(tipInPortalGap(face(8_900), P(0, 10_000), CELLS, NEW_LANE)).toBe(false);
+  });
+
+  it('with the planner’s and the ladder’s portal readings switched off (a test seam), only the insertion read keeps the gap: the tip’s lane is taken out again, S8 commits and its row holds (K12, K22)', { timeout: 300_000 }, () => {
+    const { f, seams } = antenna(true);
+    const r = runS8({ ...f.input, seams, faults: { portalsUnread: true } }, { report: undefined } as never);
+    if (!r.ok) throw new Error(`S8 refused: ${r.code} ${r.detail}`);
+    expect(seamPortalProblems(f.input, GROUND, r.value.infill.seams, r.value.lanes)).toEqual([]);
+    const rungs = r.value.infill.report.districts.flatMap((d) => d.rungs);
+    expect(rungs.some((x) => x.rung === 'antenna' && x.outcome === 'refused' && x.why === 'portal-gap')).toBe(true);
+    for (const lane of r.value.lanes) {
+      for (const run of chainRuns(f.plat, GROUND, lane.spine)) {
+        for (const q of [run[0], run[run.length - 1]]) expect(q.x === TIP.x && q.y === TIP.y).toBe(false);
+      }
+    }
+  });
+});
+
+describe('a lane end on a vertex two seam chains of the district share goes under the planned spine’s seam (N-23 (b), K21)', () => {
+  /**
+   * The bend with one seam per chain (way:a south of V, way:b north of it) and an antenna in the west district along
+   * y = 150.1 m: the antenna split's far end hits way:b 10 cm north of V — the planned spine way:b, not way:a (the lower
+   * id) — and the insertion lands it on V, the vertex both chains share.
+   */
+  function antennaToV(): { f: Fixture; seams: Seam[] } {
+    const ways: FixtureWay[] = [
+      { id: 'way:ring', cls: 'secondary', widthCm: 600, points: [P(0, 0), P(W, 0), P(W, H), P(0, H)], closed: true },
+      { id: 'way:a', cls: 'primary', widthCm: 1000, points: [P(11_000, 0), V] },
+      { id: 'way:b', cls: 'primary', widthCm: 1000, points: [V, P(20_000, H)] },
+      { id: 'way:ant', cls: 'lane', widthCm: 400, points: [P(0, 15_010), P(5_000, 15_010)] },
+    ];
+    const districts: FixtureDistrict[] = [
+      { seeds: [P(5_000, 5_000)], prosperity: 0.3, density: 0.5 },
+      { seeds: [P(35_000, H / 2)], prosperity: 0.3, density: 0.5 },
+    ];
+    const f = fixture(60_000, ways, districts);
+    return { f, seams: f.seams.map((s) => ({ ...s, portals: s.portals.slice() })) };
+  }
+
+  it('the antenna’s lane ends on V and its portal is in way:b’s seam (the planned spine first), not way:a’s; the row holds', { timeout: 300_000 }, () => {
+    const { f, seams } = antennaToV();
+    expect(seams.map((s) => s.edges.map((e) => e.chain.entity).join()).sort()).toEqual(['way:a', 'way:b']);
+    const r = runS8({ ...f.input, seams }, { report: undefined } as never);
+    if (!r.ok) throw new Error(`S8 refused: ${r.code} ${r.detail}`);
+    expect(seamPortalProblems(f.input, GROUND, r.value.infill.seams, r.value.lanes)).toEqual([]);
+    const atV = r.value.infill.seams.flatMap((s) => s.portals.filter((p) => p.from === 'baseLane').map((p) => ({ s, p }))).filter(({ p }) => {
+      const q = vertexPoints(f.plat, GROUND, p.at)[0];
+      return q !== undefined && q.x === V.x && q.y === V.y;
+    });
+    expect(atV).toHaveLength(1);
+    expect(atV[0].s.edges.map((e) => e.chain.entity)).toEqual(['way:b']);
+    const ant = r.value.infill.report.districts.flatMap((d) => d.rungs.filter((x) => x.rung === 'antenna'));
+    expect(ant[0]).toMatchObject({ outcome: 'cut' });
+  });
+});

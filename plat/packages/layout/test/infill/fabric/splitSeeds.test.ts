@@ -405,3 +405,25 @@ describe('the CITY reproductions: integrated 4 and 7, fusion 3 (J318) — red be
     });
   }
 });
+
+describe('a split child whose kerb holds no part of the parent’s records no seed — fewer seeds than L1 faces, never a wrong one (notes N-26 C11; queue row L25)', () => {
+  // The test-side fault `noParentPart` reads every split child against a parent part far from the district, so no
+  // component of kerb(child) lies inside it: the case C-0338 (2) refuses (a point of another component would be a wrong
+  // seed), on the fixture's honest splits.
+  for (const seed of [4, 2]) {
+    it(`fixture seed ${String(seed)}: every back-lane / through-alley block records no seed, every other block its one; S8 commits`, { timeout: 300_000 }, () => {
+      const f = twoDistrictsWithDeadEnd(seed);
+      const out = runFixture(f, { faults: { noParentPart: true } });
+      expect(out.infill.report.refused).toEqual([]);
+      const split = out.blocks.filter((b) => b.interior === 'back_lane' || b.interior === 'through_alley');
+      expect(split.length).toBeGreaterThan(0);
+      for (const b of out.blocks) {
+        const bf = out.infill.blockFaces.find((x) => x.block === b.id);
+        expect(bf).toBeDefined();
+        if (bf === undefined) continue;
+        if (split.includes(b)) expect(bf.seeds).toEqual([]);
+        else if (bf.how !== 'empty') expect(bf.seeds.length).toBeLessThanOrEqual(1);
+      }
+    });
+  }
+});

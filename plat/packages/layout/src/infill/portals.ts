@@ -4,9 +4,9 @@
 // districts, the run's chains, its portals; the `SeamAmendment` and the full `SeamContract` are M1's). The portal's
 // vertex carries ('portal', portal id); a planned end inside the portal gap of an existing portal — max(6 m, 2 × the
 // wider lane's width), cut.settings' cells — slides out of it (§4.6 step 7). The planner and the ladder slide it with
-// one arrival band (the planner's `arrivalDot2`, `arrivesSquare`, imported by ladder.ts) and two kept differences: the
-// ladder's `spineHit` divides through the 2²⁰-scaled `div`, so it admits near-parallel rays the planner's refuses, and
-// its `slideEnd` re-derives the slid end's kerb point on the candidate's rings where the planner's reads its sides.
+// one arrival band (the planner's `arrivalDot2`, `arrivesSquare`, imported by ladder.ts), one reach rule with one
+// floor (the planner's: a near-parallel ray reaches no spine, J424) and one kept difference: the ladder's `slideEnd`
+// re-derives the slid end's kerb point on the candidate's rings where the planner's reads its sides.
 // When a lane is removed its portal leaves the Seam and its end vertex loses its role and dissolves, so the spine reads
 // exactly as it did before the lane (`removeLane`).
 // At a vertex several way chains share (a chain's end where another way continues it, a junction), every reading reads
