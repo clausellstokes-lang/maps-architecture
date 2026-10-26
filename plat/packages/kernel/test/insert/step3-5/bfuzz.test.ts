@@ -34,13 +34,14 @@
 // (`dissolvableProblems`, support.ts — a `split` vertex of degree 2 between identical rows, which a later removal would
 // dissolve): a chain's own point that folds back onto its own edge carries no flag, and every other split still has the
 // chain that made it.
+import { createHash } from 'node:crypto';
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 import { isVertexLive, type Plat } from '../../../src/arena/index.js';
 import type { InsertTx } from '../../../src/insert/classes.js';
 import type { Warning } from '../../../src/num/index.js';
 import type { Level } from '../../../src/types/index.js';
-import { countedRefusal, recordCounts, refusalCap } from './caps.js';
+import { countedRefusal, FUZZ_PARAMS, recordCounts, refusalCap } from './caps.js';
 import { genChain } from './gen.js';
 import { fidelityProblems } from './fidelity.js';
 import { allProblems, contentPrint, dissolvableProblems, framed, generator, ins, intIn, TIMEOUT, tx } from './support.js';
@@ -253,6 +254,7 @@ describe('B-FUZZ: insertChain (§13.1, the item\'s exit bar here)', () => {
           bound.add(o);
         },
       ),
+      FUZZ_PARAMS,
     );
     console.log(`B-FUZZ insertChain random: ${commits} committed, ${refusals} refused; bound-caused ${bound} (cap ${CAP.random}, N-44, N-46 (3), C-0221)`);
     recordCounts('random', RUNS, bound.invariant, bound.optional, CAP.random);
@@ -275,13 +277,96 @@ describe('B-FUZZ: insertChain (§13.1, the item\'s exit bar here)', () => {
 
   // The same class, found by fix round S3's own scan of 70 000 cases on the S1/S2 router (C-0209): at seed 13 the
   // random family's 7 265th case — an L1 chain, then an L4 mandatory random walk of 331 points — refused the walk
-  // E_INVARIANT; its free end is now re-landed (W_PLACED at (2953, 109)).
+  // E_INVARIANT; rounds S3 – S8 re-landed its free end (W_PLACED at (2953, 109)); from round S9 the strict route, which
+  // no longer routes through a neighbour of the segment's own end (C-0423), keeps the segment and nothing is re-landed.
   it('the random family\'s seed 13, its 7 265th case replayed (N-42 (b)): 0 crashes, 0 invalid outputs', () => {
     const seen: Outcome[] = [];
     fc.assert(randomFamily((o) => seen.push(o)), { seed: 13, path: '7264', numRuns: 1 });
     expect(seen.map((o) => o.ok)).toEqual([true]);
-    expect(seen[0].warnings?.filter((w) => w.code === 'W_PLACED')).toEqual([{ code: 'W_PLACED', count: 1, at: { x: 2953, y: 109 } }]);
+    expect(seen[0].warnings?.filter((w) => w.code === 'W_PLACED')).toEqual([]);
   });
+
+  // Round S9's own census (PLAT_FUZZ_SEED=5309): the random family's 9 852nd case — an L2 optional walk, then an L1
+  // mandatory walk of 300-odd points — overflowed the stack (RangeError) when a retrace cut (item 130 (d)) routed on to
+  // the segment's end from inside the call that met the re-entry, each later cut nesting deeper. The cut now unwinds to
+  // `snapRound`, which routes on from the cut-to vertex in a loop (mutant DEEP restores the nested form).
+  it('the random family\'s seed 5309, its 9 852nd case replayed (round S9): the retrace cut unwinds, no crash, every chain judged', () => {
+    const all: Outcome[] = [];
+    fc.assert(randomFamily(() => {}, (o) => all.push(o)), { seed: 5309, path: '9851', numRuns: 1 });
+    expect(all.map((o) => (o.ok ? o.warnings : `${o.code} ${o.detail}`))).toEqual([
+      [{ code: 'W_ACUTE_CORNER', count: 1, at: { x: 2894, y: 413 } }, { code: 'W_PLACED', count: 1, at: { x: 2820, y: 553 } }],
+      [{ code: 'W_PLACED', count: 2, at: { x: 2694, y: 833 } }],
+      'E_BELOW_MIN_EDGE fewer than two distinct points after decimation',
+      'E_KEPT a chain vertex inside a finer face at (1657, 748) (kept content)',
+    ]);
+  });
+
+  // Round S9's own census (PLAT_FUZZ_SEED=7507): the random family's 6 789th case — one random walk of 300-odd points
+  // folding back over itself — was refused E_INVARIANT (class C) while the strict route's second reading (C-0423: the
+  // neighbours of the segment's own ends passed over) stood in the strict route's place: one segment's strict route then
+  // went through (2624, 3148), and the next segment's start (2667, 3121) was left between (2649, 3141) and (2641, 3116),
+  // each within minEdge of the edge to the other; the route that kept clearance there before the round did so only by a
+  // spur out to (2649, 3141) and back, which the retrace cut (item 130 (d)) now removes. The strict route now comes
+  // first and its second reading after it (r2, r2b): the case commits as before the round, without the spur (mutant
+  // ORDER, the second reading first, refuses it).
+  it('the random family\'s seed 7507, its 6 789th case replayed (round S9): the strict route before its second reading — committed, every chain judged', () => {
+    const all: Outcome[] = [];
+    fc.assert(randomFamily(() => {}, (o) => all.push(o)), { seed: 7507, path: '6788', numRuns: 1 });
+    expect(all.map((o) => (o.ok ? o.warnings : `${o.code} ${o.detail}`))).toEqual([
+      [{ code: 'W_ATTRACTED', count: 248, at: { x: 2225, y: 3328 } }, { code: 'W_STRETCH_SHARED', count: 185, at: { x: 2279, y: 3308 } }, { code: 'W_PLACED', count: 1, at: { x: 2392, y: 3465 } }],
+    ]);
+  });
+
+  // Round S9's own census (PLAT_FUZZ_SEED=5309, the constructive family's 9 765th case, generator seed 1 536 331 735):
+  // the third chain, an L2 optional walk, routed its second segment to a vertex P it placed on the L1 walk's run, reaching
+  // it through (2504, 2818); from P the route re-entered (2504, 2818), and the retrace cut (item 130 (d)) going back to
+  // the mark at (2504, 2818) — taken after P was placed — left P a split vertex of degree 2 on the L1 run alone (a
+  // dissolvable vertex, N-55 (2)). The cut now goes on from P with (2504, 2818) left out of step 3 instead: the chain
+  // commits, the arena valid and no vertex dissolvable (insertJudged).
+  it('the constructive family\'s seed 5309 case 9 765 replayed (round S9): a retrace cut that would leave a vertex the route placed goes on from it instead', () => {
+    const rnd = generator(1536331735);
+    const p = framed(SIDE);
+    const steps = intIn(rnd, 1, 8);
+    let level = intIn(rnd, 0, 2) as Level;
+    const seen: Outcome[] = [];
+    for (let s = 0; s < steps; s++) {
+      if (rnd() < 0.3 && level < 4) level = (level + 1) as Level;
+      const lv = rnd() < 0.1 ? (intIn(rnd, 0, 4) as Level) : level;
+      const g = genChain(p, rnd, SIDE, lv);
+      seen.push(insertJudged(p, { level: lv, cls: g.cls, closed: g.closed, points: g.points, ...(g.pinned === undefined ? {} : { pinned: g.pinned }) }, `way:${s}`));
+    }
+    expect(seen.map((o) => o.ok)).toEqual([true, true, true, true, true, true]);
+    expect(seen[2].warnings).toEqual([{ code: 'W_ATTRACTED', count: 2, at: { x: 2504, y: 2818 } }, { code: 'W_STRETCH_SHARED', count: 2, at: { x: 2249, y: 3341 } }]);
+  });
+
+  // Round S9's own census (the retrace cut's second re-entry, item 130 (d)): in these three cases a route the cut had
+  // already gone on from (its cut-off vertex placed before the cut-to vertex's mark, `SegmentPath.placedBefore`) met
+  // a vertex it had left out of step 3 again. That reading is refused (RETRACE_DETAIL, read as a route keeping nothing)
+  // and a later reading commits each chain, the arena valid (insertJudged). Without the refusal (mutant RETR) the route
+  // goes on through the left-out vertex and the outcome differs. Each case: the census's chains in order (PLAT_FUZZ_SEED,
+  // the instrumented case number), the last chain's warnings as committed.
+  const RETRACED: readonly (readonly [string, number, readonly (Case & { readonly entity: string })[], readonly { readonly code: string; readonly count: number; readonly at: { readonly x: number; readonly y: number } }[]])[] = [
+    ['−5801', 21302, [
+      { level: 0, cls: 'optional', closed: true, entity: 'way:b0', points: [[842.25, 1060], [3638, 2461.5], [3055, 3360], [2558.499999, 630.25], [1443, 2990.25], [672, 954], [1041.25, 1712], [47.5, 2430], [3257, 2471.5], [3359, 1521]] },
+      { level: 2, cls: 'optional', closed: true, entity: 'way:b1', points: [[674.499999, 3005.5], [674.499999, 3005.5], [3137.499999, 1987], [3137.499999, 1987], [3711.25, 564.5], [3711.25, 564.5]] },
+      { level: 2, cls: 'mandatory', closed: true, entity: 'way:m', points: [[2913, 2560], [3851.5, 1862], [636.499999, 2198], [643.499999, 2191], [1398, 2727], [1398, 2727], [1712.499999, 3106.25], [1712.499999, 3106.25]] },
+    ], [{code:  'W_ATTRACTED', count:  3, at:  {x:  2913, y:  2560}}, {code:  'W_WEDGE_ROUTED', count:  1, at:  {x:  1892, y:  2040}}, {code:  'W_STRETCH_SHARED', count:  1, at:  {x:  1879, y:  2067}}]],
+    ['−6607', 20686, [
+      { level: 1, cls: 'optional', closed: true, entity: 'way:b0', points: [[586, 944.25], [586, 944.25], [42.25, 3833.5], [42.25, 3833.5], [208, 1085], [208, 1085], [544, 2028], [558, 2014]] },
+      { level: 2, cls: 'mandatory', closed: true, entity: 'way:b1', points: [[45.5, 3563.25], [3694, 44.499999], [46.5, 744.5], [3448, 46], [1390.25, 3955.25], [640.499999, 3187.499999], [3215, 2510.5], [1326.5, 3133], [386.25, 3798], [167.5, 455]] },
+    ], [{code:  'W_ATTRACTED', count:  2, at:  {x:  46, y:  3563}}, {code:  'W_ACUTE_CORNER', count:  6, at:  {x:  47, y:  745}}, {code:  'W_PLACED', count:  2, at:  {x:  209, y:  712}}]],
+    ['−6607', 29156, [
+      { level: 2, cls: 'mandatory', closed: false, entity: 'way:b0', points: [[1567, 1177.499999], [646, 2777], [2919, 2244], [966, 980.499999], [2900.5, 2354], [2214.5, 338], [689.5, 243], [2499.5, 2954.25], [3456.5, 627], [2272, 3956.499999]] },
+    ], [{code:  'W_ACUTE_CORNER', count:  2, at:  {x:  966, y:  980}}, {code:  'W_ATTRACTED', count:  2, at:  {x:  2789, y:  2274}}, {code:  'W_WEDGE_ROUTED', count:  1, at:  {x:  2848, y:  2198}}, {code:  'W_STRETCH_SHARED', count:  1, at:  {x:  2826, y:  2184}}]],
+  ];
+  for (const [seed, n, chains, warnings] of RETRACED) {
+    it(`the census's seed ${seed} case ${n} (round S9): a second re-entry refuses that reading, a later one commits, every chain judged`, () => {
+      const p = framed(SIDE);
+      const seen = chains.map((c) => insertJudged(p, c, c.entity));
+      expect(seen.map((o) => o.ok)).toEqual(chains.map(() => true));
+      expect(seen[seen.length - 1].warnings).toEqual(warnings);
+    });
+  }
 
   // N-43 A's class, found by the S3 closing check (M0-a-05-s3.md part 1): at PLAT_FUZZ_SEED=31337 this family's 3 624th
   // case threw "the chain's edge (2214, 3944)–(2229, 3922) stands within minEdge of the vertex (2197, 3925)" from
@@ -328,6 +413,7 @@ describe('B-FUZZ: insertChain (§13.1, the item\'s exit bar here)', () => {
           bound.add(insertJudged(p, { level: lv, cls: g.cls, closed: g.closed, points: g.points, ...(g.pinned === undefined ? {} : { pinned: g.pinned }) }, `way:${s}`));
         }
       }),
+      FUZZ_PARAMS,
     );
     console.log(`B-FUZZ insertChain constructive: ${[...kinds].sort().map(([k, n]) => `${k} ${n}`).join(', ')}; bound-caused ${bound} (cap ${CAP.constructive}, N-44, N-46 (3), C-0221)`);
     recordCounts('constructive', RUNS, bound.invariant, bound.optional, CAP.constructive);
@@ -352,6 +438,7 @@ describe('§13.1: mandatory chains never rejected for precision over 10⁶ rando
         if (!bound.add(o)) codes.set(k, (codes.get(k) ?? 0) + 1);
         expect(allProblems(p)).toEqual([]);
       }),
+      FUZZ_PARAMS,
     );
     console.log(`mandatory chains: ${[...codes].sort().map(([k, n]) => `${k} ${n}`).join(', ')}`);
     console.log(`chains refused for N-43 B's bound (no route in bound, N-37, N-43, N-44; its own line, N-40): ${bound} (cap ${CAP.mandatory}, N-46 (3), C-0221)`);
@@ -359,4 +446,80 @@ describe('§13.1: mandatory chains never rejected for precision over 10⁶ rando
     for (const k of PRECISION) expect(codes.get(k) ?? 0).toBe(0);
     expect(bound.total, 'chains refused for N-43 B\'s bound (N-44 (3), N-46 (3): the mandatory-only family\'s cap, caps.ts)').toBeLessThanOrEqual(CAP.mandatory);
   }, hardTimeout(15));
+});
+
+// N-7 (the hardening round S9): "nothing changes for chains that commit today" held by a test, not by receipts — a
+// golden digest of a fixed B-FUZZ slice under the insert code: 400 cases of the random family's draw and 200 constructive
+// sequences, at fixed seeds, each insertion's outcome (its code and detail, or its warnings and placed points) and the
+// arena's content print after it, hashed (sha-256). Any change of what insertChain commits or refuses on the slice moves
+// it; it is re-recorded only with a choices row naming the shift (the first record: round S9, C-0423).
+describe('N-7: the golden digest of a fixed B-FUZZ slice (re-recorded only with a choices row)', () => {
+  const GOLDEN = '3e8ec437c4c90c6596b03f429ace77b7a64fb2f1f8de0ddf906f2ede69345d7d';
+  it('400 random cases (seed 4242) and 200 constructive sequences (seeds 1 – 200): the digest of every outcome and arena', () => {
+    const h = createHash('sha256');
+    const one = (p: Plat, c: Case, entity: string): void => {
+      const r = ins(tx(p, c.level), c.points, [{ role: 'way', entity }], c.cls, { closed: c.closed, ...(c.pinned === undefined ? {} : { pinned: c.pinned }) });
+      h.update(r.ok ? `ok ${JSON.stringify(r.warnings)} ${r.value.placed.map((v) => `${p.vertices.x[v]},${p.vertices.y[v]}`).join(' ')}\n` : `${r.code} ${r.detail}\n`);
+      h.update(createHash('sha256').update(contentPrint(p)).digest('hex'));
+    };
+    for (const [base, c] of fc.sample(fc.tuple(fc.array(chainCase(coarseLevel), { maxLength: 3 }), chainCase(anyLevel)), { seed: 4242, numRuns: 400 })) {
+      const p = framed(SIDE);
+      [...base].sort((a, b) => a.level - b.level).forEach((b, i) => one(p, b, `way:b${i}`));
+      one(p, c, 'way:x');
+    }
+    for (let seed = 1; seed <= 200; seed++) {
+      const rnd = generator(seed);
+      const p = framed(SIDE);
+      const steps = intIn(rnd, 1, 8);
+      let level = intIn(rnd, 0, 2) as Level;
+      for (let s = 0; s < steps; s++) {
+        if (rnd() < 0.3 && level < 4) level = (level + 1) as Level;
+        const lv = rnd() < 0.1 ? (intIn(rnd, 0, 4) as Level) : level;
+        const g = genChain(p, rnd, SIDE, lv);
+        one(p, { level: lv, cls: g.cls, closed: g.closed, points: g.points, ...(g.pinned === undefined ? {} : { pinned: g.pinned }) }, `way:${s}`);
+      }
+    }
+    expect(h.digest('hex')).toBe(GOLDEN);
+  }, TIMEOUT);
+});
+
+// RQ3's constructive class (§13.1 as item 130 (e) amends it; round S9): "a chain given again under its own key,
+// identical and with every point moved up to √2 · attractCm, absorbed as its run". A mandatory `way` polyline (monotone
+// in x, so simple) is inserted, then given again under its key with each point at its placed vertex moved by up to
+// 36 cm (√2 · attractCm = 36.77): the second insertion commits, adds no vertex and no edge, and every edge's rows are as
+// they were. PLAT_FUZZ_RUNS / 10 cases (at least 100).
+describe('B-FUZZ constructive (item 130 (e)): a chain given again under its own key is absorbed as its run', () => {
+  it('a mandatory way polyline given again, each point moved up to 36 cm off its placed vertex: committed, nothing added', () => {
+    const runs = Math.max(100, Math.floor(RUNS / 10));
+    const poly = fc.record({
+      x0: fc.integer({ min: 200, max: 800 }),
+      steps: fc.array(fc.tuple(fc.integer({ min: 150, max: 600 }), fc.integer({ min: 200, max: 3800 })), { minLength: 1, maxLength: 5 }),
+      y0: fc.integer({ min: 200, max: 3800 }),
+      moves: fc.array(fc.tuple(fc.integer({ min: -36, max: 36 }), fc.integer({ min: -36, max: 36 })), { minLength: 6, maxLength: 6 }),
+    });
+    let absorbed = 0;
+    fc.assert(fc.property(poly, ({ x0, steps, y0, moves }) => {
+      const pts: [number, number][] = [[x0, y0]];
+      for (const [dx, y] of steps) pts.push([Math.min(SIDE - 200, pts[pts.length - 1][0] + dx), y]);
+      fc.pre(pts.every((q, i) => i === 0 || q[0] > pts[i - 1][0]));
+      const p = framed(SIDE);
+      const first = ins(tx(p, 1), pts, [{ role: 'way', entity: 'way:k' }], 'mandatory');
+      fc.pre(first.ok);
+      if (!first.ok) return;
+      const before = contentPrint(p);
+      const again = first.value.placed.map((v, i) => {
+        const [dx, dy] = moves[i % moves.length];
+        const s = dx * dx + dy * dy > 36 * 36 ? 0.7 : 1;
+        return [p.vertices.x[v] + Math.trunc(dx * s), p.vertices.y[v] + Math.trunc(dy * s)] as [number, number];
+      });
+      const r = ins(tx(p, 1), again, [{ role: 'way', entity: 'way:k' }], 'mandatory');
+      expect(r.ok, r.ok ? '' : `${r.code} ${r.detail}`).toBe(true);
+      if (!r.ok) return;
+      expect(r.value.placed).toEqual(first.value.placed);
+      expect(contentPrint(p)).toBe(before);
+      expect(allProblems(p)).toEqual([]);
+      absorbed += 1;
+    }), { ...FUZZ_PARAMS, numRuns: runs });
+    expect(absorbed).toBeGreaterThan(runs / 2);
+  }, hardTimeout(5));
 });

@@ -7,9 +7,9 @@
 // entries live beside the tests they came from: B-FUZZ's seed 777 case 421 (bfuzz.test.ts), the N-6 fallback chain
 // (promote.test.ts) and M0-a-08's buffer case 391's last chain (routerGap.test.ts), each refused E_INVARIANT.
 //
-//   fixture            found by                                         S2 / S3 outcome                      S4 outcome
-//   fix1-case1         M0-a-08 fix1 buffer agreement (PR size), case 1   s36 refused E_INVARIANT              s36 refused E_INVARIANT
-//   fix1-case2         M0-a-08 fix1 buffer agreement (PR size), case 2   s31 refused E_INVARIANT              s31 refused E_INVARIANT
+//   fixture            found by                                         S2 / S3 outcome                      S4 – S8 outcome / S9
+//   fix1-case1         M0-a-08 fix1 buffer agreement (PR size), case 1   s36 refused E_INVARIANT              s36 refused E_INVARIANT / commits
+//   fix1-case2         M0-a-08 fix1 buffer agreement (PR size), case 2   s31 refused E_INVARIANT              s31 refused E_INVARIANT / commits
 //   n43a-buffer        N-43 A (s3-inflight seed 770804368)               s157 left the arena invalid, s160    all 161 commit, valid
 //                                                                        threw at the final clearance check
 //   n43b-s60           N-43 B (offsetFace off-case.json)                 s60 committed 2 711 cm off           s60 commits in bound
@@ -68,13 +68,16 @@ function replay(fx: Fixture, refused: ReadonlyMap<number, string>): number[] {
   return out.filter((i) => refused.has(i));
 }
 
+// Round S9 (C-0423; census R-04): the strict route reads C-0177 (13)'s rule exactly — step 3 routes through a vertex only
+// where clearance needs it, and a neighbour of the segment's own end lies in the new edge's one-ring, which clearance
+// exempts — and both registered refusals commit within the bound, every chain of their groups with them.
 describe('N-44 (4): the insertChain refusal register — each case refuses cleanly, every other chain commits in bound', () => {
-  it('fix1-case1 (M0-a-08 fix1, buffer case 1): s36 (−17146, 12375) → (−17837, 10679) is refused E_INVARIANT and writes nothing', () => {
-    expect(replay(load('fix1-case1'), new Map([[36, 'E_INVARIANT']]))).toEqual([36]);
+  it('fix1-case1 (M0-a-08 fix1, buffer case 1): s36 (−17146, 12375) → (−17837, 10679), refused E_INVARIANT through round S8, commits within the bound (round S9), the arena valid', () => {
+    expect(replay(load('fix1-case1'), new Map())).toEqual([]);
   }, TIMEOUT);
 
-  it('fix1-case2 (M0-a-08 fix1, buffer case 2): s31 (−48618, −42484) → (−47975, −44198) is refused E_INVARIANT and writes nothing', () => {
-    expect(replay(load('fix1-case2'), new Map([[31, 'E_INVARIANT']]))).toEqual([31]);
+  it('fix1-case2 (M0-a-08 fix1, buffer case 2): s31 (−48618, −42484) → (−47975, −44198), refused E_INVARIANT through round S8, commits within the bound (round S9), the arena valid', () => {
+    expect(replay(load('fix1-case2'), new Map())).toEqual([]);
   }, TIMEOUT);
 });
 

@@ -1,16 +1,16 @@
 {
   "schema": "plat-landed-record/1",
   "item": "session-handoff-4",
-  "lane": "session/spec-notes-2026-10-25",
-  "lanes": ["session/handoff-4", "session/handoff-5", "session/handoff-6", "session/handoff-7", "session/handoff-8", "session/handoff-9", "session/handoff-10", "session/handoff-11", "session/handoff-12", "session/handoff-13", "session/handoff-14", "session/handoff-15", "session/handoff-16", "session/handoff-17", "session/handoff-18", "session/handoff-19", "session/handoff-20", "session/handoff-21", "session/handoff-22", "session/handoff-23", "session/handoff-24", "session/handoff-25", "session/handoff-26", "session/handoff-27", "session/handoff-28", "session/spec-notes-2026-10-25"],
+  "lane": "session/spec-notes-2026-10-26",
+  "lanes": ["session/handoff-4", "session/handoff-5", "session/handoff-6", "session/handoff-7", "session/handoff-8", "session/handoff-9", "session/handoff-10", "session/handoff-11", "session/handoff-12", "session/handoff-13", "session/handoff-14", "session/handoff-15", "session/handoff-16", "session/handoff-17", "session/handoff-18", "session/handoff-19", "session/handoff-20", "session/handoff-21", "session/handoff-22", "session/handoff-23", "session/handoff-24", "session/handoff-25", "session/handoff-26", "session/handoff-27", "session/handoff-28", "session/spec-notes-2026-10-25", "session/spec-notes-2026-10-26"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-25T23:42:41.943Z",
+  "date": "2026-10-26T09:39:42.996Z",
   "ownsSource": "declared",
   "owns": ["plat/docs/build/checks/M0-spec-notes.md"],
   "counts": { "created": 0, "changed": 1, "unchanged": 0, "deleted": 0 },
   "files": [
-    { "path": "plat/docs/build/checks/M0-spec-notes.md", "status": "changed", "sha256": "a71b779035145d678558d37f23471d562884d23b634c8924116541cff20dd8bd", "size": 113207 }
+    { "path": "plat/docs/build/checks/M0-spec-notes.md", "status": "changed", "sha256": "52fc6cdd3984c56dc9a294adc81ffa8e45650e18982bb55e5ce12fd25e809055", "size": 117834 }
   ],
   "appends": []
 }
