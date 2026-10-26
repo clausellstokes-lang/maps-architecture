@@ -78,6 +78,29 @@ describe('a first L2 edge inside an L1 face thinner than the hot pixel: its reco
     expect(kids.length).toBe(2);
     for (const k of kids) expect([k.parent, k.owner, k.stage]).toEqual([4, owner, 8]);
   });
+
+  // N-s8c-5 (the hardening round S9): the third door — the same chain after one unrelated L2 chain in the same
+  // transaction, so the batch's index log is open and an earlier L2 edge stands. It pins the batch path's outcome; it
+  // does not reach `holderAt`'s reach: under mutant ME (no reach) the chain alone above refuses, while this door
+  // commits, as did every batch whose first chain committed on a 169-point 300 cm grid of first chains the round
+  // probed — with an earlier L2 edge in the batch the cycle's first old half-edge is another one, whose origin lies on
+  // the L1 route (PLAUSIBLE). ME is killed by the door above (and lifecycle.test.ts's split-route kind).
+  it('Q53 through insertChain after an unrelated L2 chain in the same transaction: both commit, the sliver\'s L2 records under L1 f4', () => {
+    const { p } = network(CHORDS);
+    const owner = handleOf(p, 'district:1');
+    const pts = [pt(3970, 3641), pt(3753, 3639), pt(3774, 3954)];
+    const r = tx(p, spec(2, AT_S9), (o) => {
+      const first = insertChain(o, [pt(600, 300), pt(900, 700)], [{ role: 'corridor_split', entity: 'district:1' }], 'mandatory');
+      if (!first.ok) return first;
+      return insertChain(o, pts, [{ role: 'corridor_split', entity: 'district:1' }], 'mandatory');
+    });
+    expect(r.ok, r.ok ? '' : `${r.code} ${r.detail}`).toBe(true);
+    healthy(p);
+    expect(facesAt(p, 1 as Level)).toEqual([0, 1, 2, 3, 4]);
+    const kids = childrenOf(p, 4);
+    expect(kids.length).toBe(2);
+    for (const k of kids) expect([k.parent, k.owner, k.stage]).toEqual([4, owner, 8]);
+  });
 });
 
 describe('the premise of a region materialised from a coarser record is checked (C-0349 (2))', () => {
@@ -123,5 +146,40 @@ describe('the premise of a region materialised from a coarser record is checked 
     expect(chainJournal(t).materialised).toEqual([]);
     expect(chainJournal(t).faces[1].created).toEqual([]);
     expect(chainJournal(t).faces[2].created).toEqual([]);
+  });
+});
+
+// N-s8-3 (the hardening round S9): the reach of the midpoint fallback (`holderAt`, a cycle of new edges alone). A
+// hand-built arena no lawful input reaches — the frame's bottom edge split by an L1 vertex 3 cm below it, so the L0
+// face's walk leaves its route's box by 3 cm (§2.2 rule 3 allows one hot pixel per finer level) — and an L1 triangle of
+// new edges alone inside that dip, linked by the raw primitives and re-walked. Every new edge's midpoint lies inside the
+// L0 walk and 1.5 – 2 cm outside the L0 route, so only the box widened by `WALK_REACH_CM` meets the record: the triangle's
+// cycles hang from the frame face (its L1 own child and the triangle's face). Mutant M9 (the midpoint box unwidened)
+// finds no holder and refuses the batch E_LEVEL. (M10 and M11, the other two widened boxes, are equivalent on every
+// arena that reaches them, N-s8c-4: a new edge keeps minEdge from every old vertex before the re-walk runs.)
+describe('N-s8-3: the midpoint fallback reads its holder within WALK_REACH_CM (mutant M9)', () => {
+  it('an L1 triangle of new edges alone inside the frame walk\'s 3 cm dip below its route: placed under the L0 face, two L1 records', () => {
+    const b = indexed({
+      vertices: [
+        [0, 0, 0], [4000, 0, 0], [4000, 4000, 0], [0, 4000, 0],
+        [2000, -3, 1], [1900, -2, 1], [2100, -2, 1], [2000, -1, 1],
+      ],
+      edges: [[0, 4, 0], [4, 1, 0], [1, 2, 0], [2, 3, 0], [3, 0, 0]],
+    });
+    const p = b.plat;
+    expect(facesAt(p, 0 as Level)).toHaveLength(1);
+    expect(facesAt(p, 1 as Level)).toEqual([]);
+    const v = (x: number, y: number): number => vertexAtPoint(p, x, y);
+    const pairs = [[v(1900, -2), v(2100, -2)], [v(2100, -2), v(2000, -1)], [v(2000, -1), v(1900, -2)]].map(([a, c]) => {
+      const h = linkEdge(p, a, c, 1);
+      indexAdd(p, { kind: ITEM_EDGE, level: 1, slot: h >> 1 });
+      return h >> 1;
+    });
+    const t = insertTx(p, 1);
+    const r = rewalk(t, { pairs });
+    expect(r.ok, r.ok ? '' : `${r.code} ${r.detail}`).toBe(true);
+    const l1 = facesAt(p, 1 as Level);
+    expect(l1).toHaveLength(2);
+    for (const f of l1) expect(p.faces[1].parent[f]).toBe(facesAt(p, 0 as Level)[0]);
   });
 });

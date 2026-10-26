@@ -61,8 +61,12 @@ interface LifeCase {
 
 const CASES = (JSON.parse(readFileSync(new URL('./register/s6-lifecycle.json', import.meta.url), 'utf8')) as { cases: LifeCase[] }).cases;
 
-/** The kinds, in the register's order: the ordinary commit and its two N-13 controls first. */
-const KINDS = ['plain', 'control-faces', 'control-content', 'control-refused', 'stretch', 'placed-pass1', 'sliver-route', 'relanded', 'split-route', 'pass3', 'pass4', 'pass3-optional', 'pass2-optional'];
+/**
+ * The kinds, in the register's order: the ordinary commit and its two N-13 controls first. `pass3-free` (round S9, N-19):
+ * a commit through the third pass's free spot (`landInBound`'s free vertex, journalled, so the undo path frees it) —
+ * B-FUZZ constructive, seed 5101, found by the round's branch probe; the `pass4` case takes no free spot.
+ */
+const KINDS = ['plain', 'control-faces', 'control-content', 'control-refused', 'stretch', 'placed-pass1', 'sliver-route', 'relanded', 'split-route', 'pass3', 'pass4', 'pass3-optional', 'pass2-optional', 'pass3-free'];
 
 const ROLE = 'invisible';
 const optsOf = (c: Chain): { closed: boolean; pinned?: readonly number[] } => ({ closed: c.closed, ...(c.pinned === undefined ? {} : { pinned: c.pinned }) });
@@ -366,6 +370,41 @@ function onPE(p: Plat, P: VertexId, E: VertexId): VertexId[] {
   }
   return out;
 }
+
+// N-22 (the hardening round S9): `ownShapeVertex`'s pair and level clauses on a SECOND op of the same key — the inputs of
+// the closing check's probe (checks/M0-a-05-notes.md N-22). (1) The pair clause: `base:0`'s L2 kerb (3142, 2862) –
+// (499, 2966), then a second `base:0` L2 op (2430, 2874) → (2400, 1500) whose first point lands on the first op's edge at
+// (2431, 2890): the sub-edge's pair is one this op did not write, so the split keeps its flag (mutant M5 clears it). (2)
+// The level clause: `base:0`'s L1 kerb along y = 2 000, crossed twice by a `base:0` L2 V — each crossing splits a run whose
+// rows are the key's at another level (L1), so each keeps its flag, the second (on the pair the first crossing made)
+// too, either way round (mutant M10 clears the second in one direction). Both arenas valid, no dissolvable vertex.
+describe('N-22: ownShapeVertex on a second op of the chain\'s key — the pair and the level clauses keep the split flag (§2.2 rule 3; C-0302)', () => {
+  it('the pair clause: a second `base:0` op landing on the first op\'s edge at (2431, 2890) splits it with the flag kept', () => {
+    const p = framed();
+    insertKerb(p, 2, [[3142, 2862], [499, 2966]], 'base:0');
+    const second = insertKerb(p, 2, [[2430, 2874], [2400, 1500]], 'base:0');
+    const v = second.placed[0];
+    expect(v).toBe(vertexAtPoint(p, ...FOLD));
+    expect(isSplit(p, v)).toBe(true);
+    expect(neighbourPoints(p, v)).toEqual(['2400,1500', '3142,2862', '499,2966']);
+    expect(dissolvableProblems(p)).toEqual([]);
+    expect(allProblems(p)).toEqual([]);
+  });
+
+  for (const [label, vee] of [['east to west', [[1500, 1000], [1250, 3000], [1000, 1000]]], ['west to east', [[1000, 1000], [1250, 3000], [1500, 1000]]]] as const) {
+    it(`the level clause, ${label}: an L2 \`base:0\` V crossing the key's L1 run twice keeps both crossings' split flags`, () => {
+      const p = framed();
+      insertKerb(p, 1, [[0, 2000], [4000, 2000]], 'base:0');
+      insertKerb(p, 2, vee, 'base:0');
+      const crossings: VertexId[] = [];
+      for (let v = 0; v < p.slots.vertex.top; v++) if (p.vertices.out[v] !== -1 && p.vertices.y[v] === 2000 && p.vertices.level[v] === 2) crossings.push(v);
+      expect(crossings).toHaveLength(2);
+      for (const v of crossings) expect(isSplit(p, v), `(${p.vertices.x[v]}, 2000)`).toBe(true);
+      expect(dissolvableProblems(p)).toEqual([]);
+      expect(allProblems(p)).toEqual([]);
+    });
+  }
+});
 
 describe('C-0284 (3): a split\'s own-end breach is refused by the placement rule before insertChain\'s retired wrappers could see it (C-0302)', () => {
   it('splitBreaksClearance is the placement rule\'s (iii) at the split\'s ends: equal to splitEndsBreachClearance on every edge, both ways, of the shallow corner and its control', () => {

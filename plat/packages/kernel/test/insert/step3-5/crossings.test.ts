@@ -11,9 +11,10 @@
 // The wedge cap (C-0202 (3)) is step 4's wedge routing at its far end: its section follows.
 import { describe, expect, it } from 'vitest';
 import { outgoing, roleIdOf, rowsOn, type Plat } from '../../../src/arena/index.js';
-import { INSERT_CROSSINGS } from '../../../src/insert/crossings.js';
-import { wedgeBound } from '../../../src/insert/wedge.js';
-import { allProblems, buildArena, contentPrint, edgeRows, framed, indexed, ins, liveEdges, liveVertices, segDist, tx, vertexAtPoint } from './support.js';
+import { INSERT_CROSSINGS, placeOnRun } from '../../../src/insert/crossings.js';
+import { chainJournal, type ChainCtx } from '../../../src/insert/stretch.js';
+import { WEDGE_CAP_SQ, wedgeBound, wedgeOutcome } from '../../../src/insert/wedge.js';
+import { allProblems, buildArena, contentPrint, edgeRows, framed, halfEdgeBetween, indexed, ins, liveEdges, liveVertices, pt, segDist, tx, vertexAtPoint } from './support.js';
 
 const SQ = (x: number): number => x * x;
 
@@ -169,7 +170,10 @@ describe('wedge routing at the chain\'s own acute corner (two crossings along on
   // first arm crosses the street; the second then passes that crossing vertex — the part already inserted is existing
   // geometry (C-0177 (1)) — within attractCm up to about 26.6 cm apart (25.2 cm from it at s = 226), and is routed through
   // it by step 3 (W_ATTRACTED, one crossing vertex both arms share); farther apart the arms make two crossings with a (d)
-  // edge between them.
+  // edge between them. The 'through' V retraces its own edge (the crossing – tip edge, both arms' rows on it): item 130
+  // (d) on the chain's path would cut it back, but its tip's input point stands 61 cm from the crossing, beyond √2 ·
+  // attractCm, so no cut back routes and the chain is routed as before — notBuilt #3 (M4, C-0423 (1)): its crossing
+  // work counted by the three passes that route it (watched, cut back refused, as before).
   for (const [s, kind] of [[220, 'wedge'], [226, 'through'], [265, 'two'], [300, 'two']] as const) {
     const apart = (120 * s) / 1060;
     const title = kind === 'wedge' ? 'a wedge: its tip moves onto the street' : kind === 'through' ? 'no wedge: its tip free, the second arm routed through the first crossing (step 3)' : 'no wedge: two crossings, its tip free';
@@ -187,8 +191,9 @@ describe('wedge routing at the chain\'s own acute corner (two crossings along on
       const onStreet = liveVertices(p).filter((v) => Math.abs(p.vertices.y[v] - 2000) <= 0.71 && p.vertices.level[v] === 2);
       expect(onStreet).toHaveLength(kind === 'two' ? 2 : 1);
       if (kind === 'through') expect(codes).toContain('W_ATTRACTED');
-      // One crossing resolved: at the corner, or the first arm's (the second routed through its vertex); else one per arm.
-      expect(t.work.counts.get(INSERT_CROSSINGS)).toBe(kind === 'two' ? 2 : 1);
+      // One crossing resolved: at the corner, or the first arm's (the second routed through its vertex); else one per arm;
+      // the 'through' V's once per pass that routes it (notBuilt #3, above).
+      expect(t.work.counts.get(INSERT_CROSSINGS)).toBe(kind === 'two' ? 2 : kind === 'through' ? 3 : 1);
       if (kind === 'two') {
         const [u, w] = onStreet;
         expect(SQ(p.vertices.x[u] - p.vertices.x[w]) + SQ(p.vertices.y[u] - p.vertices.y[w])).toBeGreaterThanOrEqual(625);
@@ -431,5 +436,59 @@ describe('N-40 at the cap: a 73 cm wedge move keeps its route, a 74 cm move is p
     const X = p.vertices.x;
     const Y = p.vertices.y;
     for (const [a, b] of liveEdges(p)) expect((X[a] - X[b]) ** 2 + (Y[a] - Y[b]) ** 2).toBeGreaterThanOrEqual(625);
+  });
+});
+
+// N-2 (the hardening round S9): the cap's equality case. The wedge cap is compared squared, so a move of exactly
+// 2 · √2 · attractCm — √5 408, whose square is 5 408 in V8 — keeps its wedge route (W_WEDGE_ROUTED); the next double
+// above it does not. Mutant K5 (`>=` for `>`) wedge-routes neither.
+describe('N-2: the wedge cap\'s equality — a move of exactly √5 408 cm keeps its wedge route (C-0202 (3))', () => {
+  const ctxOf = (cls: 'mandatory' | 'optional'): ChainCtx => {
+    const p = framed();
+    const t = tx(p, 1);
+    return { tx: t, p, n: 1, cls, rows: [], warnings: [], journal: chainJournal(t), pairsFrom: 0, txPairsFrom: 0, maxPass: 0, strict: false, undo: [] };
+  };
+  it('mandatory: √5 408 (its square exactly 5 408) is routed, W_WEDGE_ROUTED at the corner; the next double above is placed in turn', () => {
+    const exact = Math.sqrt(WEDGE_CAP_SQ);
+    expect(exact * exact).toBe(5408);
+    const c = ctxOf('mandatory');
+    const at = pt(2000, 2000);
+    expect(wedgeOutcome(c, exact, at)).toEqual({ ok: true, value: true, warnings: [] });
+    expect(c.warnings).toEqual([{ code: 'W_WEDGE_ROUTED', count: 1, at: { x: 2000, y: 2000 } }]);
+    const d = ctxOf('mandatory');
+    const above = exact + 2 ** -46;
+    expect(above * above).toBeGreaterThan(5408);
+    expect(wedgeOutcome(d, above, at)).toEqual({ ok: true, value: false, warnings: [] });
+    expect(d.warnings).toEqual([]);
+  });
+  it('optional: beyond attractCm refused E_BELOW_MIN_EDGE at the cap as below it', () => {
+    const r = wedgeOutcome(ctxOf('optional'), Math.sqrt(WEDGE_CAP_SQ), pt(0, 0));
+    expect(r.ok).toBe(false);
+    if (!r.ok) expect(r.code).toBe('E_BELOW_MIN_EDGE');
+  });
+});
+
+// N-c2-3 PO1 (the hardening round S9): `placeOnRun`'s two answers to a qualifying point whose sub-edge cannot be split
+// with clearance kept at its ends (C-0284): `placeAcross` (no `passOver`) ends the search with null; the third pass
+// (`passOver`) passes over it to the next sub-edge. The run s (1 000, 2 000) – t (2 000, 2 000, L3) – u (3 000, 2 000) at
+// L1, an L3 edge t – w back past s to w (800, 2 010), 8.3 cm from s: any split of s – t leaves s within minEdge of t – w
+// with t no longer its neighbour, so s – t is unsplittable; t – u splits at (2 025, 2 000).
+describe('N-c2-3 PO1: placeOnRun at an unsplittable sub-edge — null without passOver, the next sub-edge with it', () => {
+  it('the nearest qualifying point (1 975, 2 000) lies on s – t: null; passing over, (2 025, 2 000) on t – u', () => {
+    const p = indexed({
+      vertices: [[0, 0, 0], [4000, 0, 0], [4000, 4000, 0], [0, 4000, 0], [1000, 2000, 1], [2000, 2000, 3], [3000, 2000, 1], [800, 2010, 3]],
+      edges: [[0, 1, 0], [1, 2, 0], [2, 3, 0], [3, 0, 0], [4, 5, 1], [5, 6, 1], [5, 7, 3]],
+    }).plat;
+    expect(allProblems(p)).toEqual([]);
+    const t = tx(p, 1);
+    const ctx: ChainCtx = { tx: t, p, n: 1, cls: 'mandatory', rows: [], warnings: [], journal: chainJournal(t), pairsFrom: 0, txPairsFrom: 0, maxPass: 0, strict: false, undo: [] };
+    const edge = halfEdgeBetween(p, [1000, 2000], [2000, 2000]);
+    const exact = { x: 1990, y: 2000 };
+    const none = placeOnRun(ctx, edge, exact, { a: -1, b: -1, partner: null, reach: 40 });
+    expect(none).toEqual({ ok: true, value: null, warnings: [] });
+    const over = placeOnRun(ctx, edge, exact, { a: -1, b: -1, partner: null, reach: 40, passOver: true });
+    expect(over.ok).toBe(true);
+    if (!over.ok || over.value === null || over.value.kind !== 'split') throw new Error('a split on t – u');
+    expect(over.value.plan.at).toEqual({ x: 2025, y: 2000 });
   });
 });
